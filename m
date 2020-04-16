@@ -2,1952 +2,2169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C2541AB440
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 01:34:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71CF81AB509
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 02:57:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389685AbgDOXeb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 15 Apr 2020 19:34:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38854 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389463AbgDOXeV (ORCPT
+        id S2405697AbgDPA4R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 15 Apr 2020 20:56:17 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:34783 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405193AbgDPA4A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 15 Apr 2020 19:34:21 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ED080C061A0C
-        for <linux-media@vger.kernel.org>; Wed, 15 Apr 2020 16:34:20 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id t199so11696340oif.7
-        for <linux-media@vger.kernel.org>; Wed, 15 Apr 2020 16:34:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DHlbWfCRECYOvxHqm857EEOYUd5VDKMfUFrf3DIgLlM=;
-        b=KRux6x5p5oYml6Z06u3KH3Nj7Pij007iu3Cc58KNieONZ2RlznIZ6PqBWbrX+e8B5W
-         X/W8AQJ1OPYjxjo/MY/KYKiXxTXM6g57TfYQgeUn0e8kizYLZA9/huYnr3KcGfXDY3CK
-         L2dVCBX3B3VFqW9tQWmECfzQxDTqDamVQqbOY2hMTv8kt6n/YFGWurMlttDBZ99U5Hl5
-         6qCkKvMExz+U3zfTw10ppvJtr6AY4A5XvWwhbIc8mBz+velzOsIfjmGL8a7JenRzckiw
-         BeR4UE4rG1H4ie+FyBsTlik+o6qb+5fLE4HadChYVyZoRuTeJbgI57vIbsiX/dP5coZJ
-         c9Dg==
+        Wed, 15 Apr 2020 20:56:00 -0400
+Received: by mail-oi1-f195.google.com with SMTP id x10so5820023oie.1;
+        Wed, 15 Apr 2020 17:55:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DHlbWfCRECYOvxHqm857EEOYUd5VDKMfUFrf3DIgLlM=;
-        b=LacTLaQzla0Kg+9ipiwR8RH2imk9ti5r44gBfg2jHDEgaCPNvblzx3Z8EyegLTwBqQ
-         X7B4vP9yDOO3hw+5h6y7T6KjtXy9+C7RNqfbHOQcWHM+ypYVRX4lgTGFUzqIlbXJMJfd
-         j3I1OeU793lqK1WRc4ULx8vottv+lAKHUXIV9iQjC96G6Qyw5aCEqkaNSyoXuuTbNIWZ
-         kkcB8pr6DPRb2ZAdxhqERTE8yMpcDRilma8VeDx1tayodPRxTVQlFATYhao2hCV9EmUR
-         DD/wtKuC5YA6vFhA7ceTJFdroPjYkQSStCtppHPwb73Am0nogobezsRwLZWRnK752wSS
-         9ftQ==
-X-Gm-Message-State: AGi0PuauvJ27C4ch2LwT/k7FuWScbX0Zru0vCUk+SNIvkYKVSx3tuPUb
-        9u1AZ6fVhKQv/47O51bHvFjNJ862gbWR8fm9c/o=
-X-Google-Smtp-Source: APiQypKAeump8vf5KHSMaw0TiqvRVP8I01Jj3QGHpYoK4NkWnorZ59wHj89ZwN2/itlLhIvXQWCkQ805RdEGjSEO1jE=
-X-Received: by 2002:aca:d68a:: with SMTP id n132mr1317088oig.40.1586993659830;
- Wed, 15 Apr 2020 16:34:19 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=eClXGZSWzJvd/DoV8OQnLad2ik2PHMQB1UFXcLxOlyI=;
+        b=a2x9dSgmdXQR6cKsQquTIZjfL9wl4qscHwQBfQ3ONbHGRol4qFIr2rYCPOgw57I2Bv
+         ewxdMKJ+67k3I7gSQrF0QI1zCGT78gDTKHvzBaxnRvobTpFx197sJcsYBE2PsPDatiM3
+         yNFeE82Ms+khOscQa8wt5bmlPIhSfx2e9ZU+wnXwhWLNqWdwN849NRVvVaVrJWnJyuwS
+         JUDYt66IJY5JlAVljZFGXlZ0GQMP/qeneZ2XKHa324fNRZdedT1Q9l6zD3AyNi9tr4C6
+         xhUeRHRK1Gl41DCf/reW+5Xr20N0AROaevIZARkC8C4M6q8ZSzfJdMqE3J3e1Wy5kymS
+         DSsA==
+X-Gm-Message-State: AGi0Pua9K7u3s0lW/uWQo1Wts//gfuFgkm2/+TZxVEdu+sMTlf/sapVv
+        sHFVhXOjK/ewaFHvberEmRg67cI=
+X-Google-Smtp-Source: APiQypJcmhkLoxiza+Hcqr+q/TETJrB0u/CR0IpN7QMM7LB3ELKlyz7AeJlLvikTUJNxY1wOGLGAkA==
+X-Received: by 2002:aca:6243:: with SMTP id w64mr1452526oib.28.1586998553596;
+        Wed, 15 Apr 2020 17:55:53 -0700 (PDT)
+Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.googlemail.com with ESMTPSA id s13sm7380326oov.28.2020.04.15.17.55.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2020 17:55:52 -0700 (PDT)
+From:   Rob Herring <robh@kernel.org>
+To:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>, Vinod Koul <vkoul@kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>, Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Amit Kucheria <amit.kucheria@linaro.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org
+Subject: [PATCH 1/2] dt-bindings: Clean-up schema indentation formatting
+Date:   Wed, 15 Apr 2020 19:55:48 -0500
+Message-Id: <20200416005549.9683-1-robh@kernel.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200408195611.55421-1-ariel@vanguardiasur.com.ar>
- <20200408195611.55421-2-ariel@vanguardiasur.com.ar> <CAKxU2N9CN6N3p5kfpzhkpX0PWD=5ogr14qcPQ_p5qprm0z98=A@mail.gmail.com>
-In-Reply-To: <CAKxU2N9CN6N3p5kfpzhkpX0PWD=5ogr14qcPQ_p5qprm0z98=A@mail.gmail.com>
-From:   Rosen Penev <rosenp@gmail.com>
-Date:   Wed, 15 Apr 2020 16:34:08 -0700
-Message-ID: <CAKxU2N_fTJ7gzLov3AsTPrCVB3xbXoJa6fuSqRvPxVa60V_+zQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 1/1] Add support for meson building
-To:     "Ariel D'Alessandro" <ariel@vanguardiasur.com.ar>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        Sean Young <sean@mess.org>, p.zabel@pengutronix.de,
-        laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
-        nicolas@ndufresne.ca, kieran.bingham@ideasonboard.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Apr 10, 2020 at 5:28 PM Rosen Penev <rosenp@gmail.com> wrote:
->
-> On Wed, Apr 8, 2020 at 1:42 PM Ariel D'Alessandro
-> <ariel@vanguardiasur.com.ar> wrote:
-> >
-> > Currently supports building libraries and tools found in lib/ and
-> > utils/ directories.
-> Excellent. This will make it easier to run the code against static
-> code analyzers.
-This is worse than I thought. v4l-utils fails to compile with clang
-(and by extension clang-tidy as it uses nested functions.
-> >
-> > Co-developed-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > Signed-off-by: Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
-> > ---
-> >  .gitignore                                    |   1 +
-> >  gen-version.sh                                |  36 +++++
-> >  lib/libdvbv5/meson.build                      | 142 +++++++++++++++++
-> >  lib/libv4l-mplane/meson.build                 |  16 ++
-> >  lib/libv4l1/meson.build                       |  53 +++++++
-> >  lib/libv4l2/meson.build                       |  65 ++++++++
-> >  lib/libv4l2rds/meson.build                    |  28 ++++
-> >  lib/libv4lconvert/meson.build                 | 105 +++++++++++++
-> >  lib/meson.build                               |  14 ++
-> >  meson.build                                   | 132 ++++++++++++++++
-> >  meson_options.txt                             |  39 +++++
-> >  utils/cec-compliance/meson.build              |  24 +++
-> >  utils/cec-ctl/meson.build                     |  18 +++
-> >  utils/cec-follower/meson.build                |  21 +++
-> >  utils/cx18-ctl/meson.build                    |   7 +
-> >  utils/dvb/meson.build                         |  69 ++++++++
-> >  utils/gen_media_bus_format_codes.sh           |   7 +
-> >  utils/gen_media_bus_format_names.sh           |   7 +
-> >  utils/ir-ctl/meson.build                      |  17 ++
-> >  utils/ivtv-ctl/meson.build                    |  13 ++
-> >  .../bpf_protocols/clang_sys_includes.sh       |   9 ++
-> >  utils/keytable/bpf_protocols/meson.build      |  31 ++++
-> >  utils/keytable/meson.build                    |  70 +++++++++
-> >  utils/keytable/rc_keymaps/meson.build         | 147 ++++++++++++++++++
-> >  utils/libcecutil/meson.build                  |  45 ++++++
-> >  utils/libmedia_dev/meson.build                |  14 ++
-> >  utils/libv4l2util/meson.build                 |  16 ++
-> >  utils/media-ctl/meson.build                   |  46 ++++++
-> >  utils/meson.build                             |  50 ++++++
-> >  utils/qv4l2/meson.build                       |  75 +++++++++
-> >  utils/qvidcap/meson.build                     |  75 +++++++++
-> >  utils/rds-ctl/meson.build                     |  13 ++
-> >  utils/v4l2-compliance/meson.build             |  60 +++++++
-> >  utils/v4l2-ctl/meson.build                    |  75 +++++++++
-> >  utils/v4l2-dbg/meson.build                    |  16 ++
-> >  utils/v4l2-sysfs-path/meson.build             |  13 ++
-> >  version.h.in                                  |   1 +
-> >  37 files changed, 1570 insertions(+)
-> >  create mode 100755 gen-version.sh
-> >  create mode 100644 lib/libdvbv5/meson.build
-> >  create mode 100644 lib/libv4l-mplane/meson.build
-> >  create mode 100644 lib/libv4l1/meson.build
-> >  create mode 100644 lib/libv4l2/meson.build
-> >  create mode 100644 lib/libv4l2rds/meson.build
-> >  create mode 100644 lib/libv4lconvert/meson.build
-> >  create mode 100644 lib/meson.build
-> >  create mode 100644 meson.build
-> >  create mode 100644 meson_options.txt
-> >  create mode 100644 utils/cec-compliance/meson.build
-> >  create mode 100644 utils/cec-ctl/meson.build
-> >  create mode 100644 utils/cec-follower/meson.build
-> >  create mode 100644 utils/cx18-ctl/meson.build
-> >  create mode 100644 utils/dvb/meson.build
-> >  create mode 100755 utils/gen_media_bus_format_codes.sh
-> >  create mode 100755 utils/gen_media_bus_format_names.sh
-> >  create mode 100644 utils/ir-ctl/meson.build
-> >  create mode 100644 utils/ivtv-ctl/meson.build
-> >  create mode 100755 utils/keytable/bpf_protocols/clang_sys_includes.sh
-> >  create mode 100644 utils/keytable/bpf_protocols/meson.build
-> >  create mode 100644 utils/keytable/meson.build
-> >  create mode 100644 utils/keytable/rc_keymaps/meson.build
-> >  create mode 100644 utils/libcecutil/meson.build
-> >  create mode 100644 utils/libmedia_dev/meson.build
-> >  create mode 100644 utils/libv4l2util/meson.build
-> >  create mode 100644 utils/media-ctl/meson.build
-> >  create mode 100644 utils/meson.build
-> >  create mode 100644 utils/qv4l2/meson.build
-> >  create mode 100644 utils/qvidcap/meson.build
-> >  create mode 100644 utils/rds-ctl/meson.build
-> >  create mode 100644 utils/v4l2-compliance/meson.build
-> >  create mode 100644 utils/v4l2-ctl/meson.build
-> >  create mode 100644 utils/v4l2-dbg/meson.build
-> >  create mode 100644 utils/v4l2-sysfs-path/meson.build
-> >  create mode 100644 version.h.in
-> >
-> > diff --git a/.gitignore b/.gitignore
-> > index f899ecfc..7c900fe5 100644
-> > --- a/.gitignore
-> > +++ b/.gitignore
-> > @@ -61,3 +61,4 @@ v4l-utils-po/en@quot.header
-> >  v4l-utils-po/insert-header.sin
-> >  v4l-utils-po/quot.sed
-> >  v4l-utils-po/remove-potcdate.sin
-> > +build/
-> > diff --git a/gen-version.sh b/gen-version.sh
-> > new file mode 100755
-> > index 00000000..9223ab7d
-> > --- /dev/null
-> > +++ b/gen-version.sh
-> > @@ -0,0 +1,36 @@
-> > +#!/bin/sh
-> > +# gen-version.sh script taken from the libcamera project.
-> > +# Generate a version string using git describe.
-> > +#
-> > +# SPDX-License-Identifier: GPL-2.0-or-later
-> > +
-> > +build_dir="$1"
-> > +
-> > +# Bail out if the directory isn't under git control
-> > +src_dir=$(git rev-parse --git-dir 2>&1) || exit 1
-> > +src_dir=$(readlink -f "$src_dir/..")
-> > +
-> > +# Get a short description from the tree.
-> > +version=$(git describe --abbrev=8 --match "v[0-9]*" 2>/dev/null)
-> > +
-> > +if [ -z "$version" ]
-> > +then
-> > +       # Handle an un-tagged repository
-> > +       sha=$(git describe --abbrev=8 --always 2>/dev/null)
-> > +       commits=$(git log --oneline | wc -l 2>/dev/null)
-> > +       version="v4l-utils-0.0.0-$commits-g$sha"
-> > +fi
-> > +
-> > +# Append a '-dirty' suffix if the working tree is dirty. Prevent false
-> > +# positives due to changed timestamps by running git update-index.
-> > +if [ -z "$build_dir" ] || (echo "$build_dir" | grep -q "$src_dir")
-> > +then
-> > +       git update-index --refresh > /dev/null 2>&1
-> > +fi
-> > +git diff-index --quiet HEAD || version="$version-dirty"
-> > +
-> > +# Replace first '-' with a '+' to denote build metadata, strip the 'g' in from
-> > +# of the git SHA1 and remove the initial 'v'.
-> > +version=$(echo "$version" | sed -e 's/-/+/' | sed -e 's/-g/-/' | cut -c 11-)
-> > +
-> > +echo "$version"
-> > diff --git a/lib/libdvbv5/meson.build b/lib/libdvbv5/meson.build
-> > new file mode 100644
-> > index 00000000..fe1852e2
-> > --- /dev/null
-> > +++ b/lib/libdvbv5/meson.build
-> > @@ -0,0 +1,142 @@
-> > +libdvbv5_sources = files(
-> > +    'compat-soname.c',
-> > +    'countries.c',
-> > +    'crc32.c',
-> > +    'descriptors.c',
-> > +    'descriptors/desc_atsc_service_location.c',
-> > +    'descriptors/desc_ca.c',
-> > +    'descriptors/desc_ca_identifier.c',
-> > +    'descriptors/desc_cable_delivery.c',
-> > +    'descriptors/desc_event_extended.c',
-> > +    'descriptors/desc_event_short.c',
-> > +    'descriptors/desc_extension.c',
-> > +    'descriptors/desc_frequency_list.c',
-> > +    'descriptors/desc_hierarchy.c',
-> > +    'descriptors/desc_isdbt_delivery.c',
-> > +    'descriptors/desc_language.c',
-> > +    'descriptors/desc_logical_channel.c',
-> > +    'descriptors/desc_network_name.c',
-> > +    'descriptors/desc_partial_reception.c',
-> > +    'descriptors/desc_sat.c',
-> > +    'descriptors/desc_service.c',
-> > +    'descriptors/desc_t2_delivery.c',
-> > +    'descriptors/desc_terrestrial_delivery.c',
-> > +    'descriptors/desc_ts_info.c',
-> > +    'dvb-demux.c',
-> > +    'dvb-dev-local.c',
-> > +    'dvb-dev-priv.h',
-> > +    'dvb-dev-remote.c',
-> > +    'dvb-dev.c',
-> > +    'dvb-fe-priv.h',
-> > +    'dvb-fe.c',
-> > +    'dvb-file.c',
-> > +    'dvb-legacy-channel-format.c',
-> > +    'dvb-log.c',
-> > +    'dvb-sat.c',
-> > +    'dvb-scan.c',
-> > +    'dvb-v5-std.c',
-> > +    'dvb-v5.c',
-> > +    'dvb-v5.h',
-> > +    'dvb-vdr-format.c',
-> > +    'dvb-zap-format.c',
-> > +    'parse_string.c',
-> > +    'parse_string.h',
-> > +    'tables/atsc_eit.c',
-> > +    'tables/cat.c',
-> > +    'tables/eit.c',
-> > +    'tables/header.c',
-> > +    'tables/mgt.c',
-> > +    'tables/mpeg_es.c',
-> > +    'tables/mpeg_pes.c',
-> > +    'tables/mpeg_ts.c',
-> > +    'tables/nit.c',
-> > +    'tables/pat.c',
-> > +    'tables/pmt.c',
-> > +    'tables/sdt.c',
-> > +    'tables/vct.c',
-> > +)
-> > +
-> > +configure_file(
-> > +    output : 'libdvb-version.h',
-> > +    input : '../include/libdvbv5/libdvb-version.h.in',
-> > +    configuration : conf,
-> > +    install: true,
-> > +    install_dir: 'include/libdvbv5',
-> > +)
-> > +
-> > +libdvbv5_api = files(
-> > +    '../include/libdvbv5/atsc_eit.h',
-> > +    '../include/libdvbv5/atsc_header.h',
-> > +    '../include/libdvbv5/cat.h',
-> > +    '../include/libdvbv5/countries.h',
-> > +    '../include/libdvbv5/crc32.h',
-> > +    '../include/libdvbv5/desc_atsc_service_location.h',
-> > +    '../include/libdvbv5/desc_ca.h',
-> > +    '../include/libdvbv5/desc_ca_identifier.h',
-> > +    '../include/libdvbv5/desc_cable_delivery.h',
-> > +    '../include/libdvbv5/desc_event_extended.h',
-> > +    '../include/libdvbv5/desc_event_short.h',
-> > +    '../include/libdvbv5/desc_extension.h',
-> > +    '../include/libdvbv5/desc_frequency_list.h',
-> > +    '../include/libdvbv5/desc_hierarchy.h',
-> > +    '../include/libdvbv5/desc_isdbt_delivery.h',
-> > +    '../include/libdvbv5/desc_language.h',
-> > +    '../include/libdvbv5/desc_logical_channel.h',
-> > +    '../include/libdvbv5/desc_network_name.h',
-> > +    '../include/libdvbv5/desc_partial_reception.h',
-> > +    '../include/libdvbv5/desc_sat.h',
-> > +    '../include/libdvbv5/desc_service.h',
-> > +    '../include/libdvbv5/desc_t2_delivery.h',
-> > +    '../include/libdvbv5/desc_terrestrial_delivery.h',
-> > +    '../include/libdvbv5/desc_ts_info.h',
-> > +    '../include/libdvbv5/descriptors.h',
-> > +    '../include/libdvbv5/dvb-demux.h',
-> > +    '../include/libdvbv5/dvb-dev.h',
-> > +    '../include/libdvbv5/dvb-fe.h',
-> > +    '../include/libdvbv5/dvb-file.h',
-> > +    '../include/libdvbv5/dvb-frontend.h',
-> > +    '../include/libdvbv5/dvb-log.h',
-> > +    '../include/libdvbv5/dvb-sat.h',
-> > +    '../include/libdvbv5/dvb-scan.h',
-> > +    '../include/libdvbv5/dvb-v5-std.h',
-> > +    '../include/libdvbv5/eit.h',
-> > +    '../include/libdvbv5/header.h',
-> > +    '../include/libdvbv5/mgt.h',
-> > +    '../include/libdvbv5/mpeg_es.h',
-> > +    '../include/libdvbv5/mpeg_pes.h',
-> > +    '../include/libdvbv5/mpeg_ts.h',
-> > +    '../include/libdvbv5/nit.h',
-> > +    '../include/libdvbv5/pat.h',
-> > +    '../include/libdvbv5/pmt.h',
-> > +    '../include/libdvbv5/sdt.h',
-> > +    '../include/libdvbv5/vct.h',
-> > +)
-> > +
-> > +install_headers(libdvbv5_api, subdir: 'libdvbv5')
-> > +
-> > +libdvbv5_deps = [
-> > +    dep_libm,
-> > +    dep_librt,
-> > +    dep_threads,
-> > +    dep_udev,
-> > +]
-> > +
-> > +libdvbv5_c_args = [
-> > +    '-DHAVE_DVBV5_REMOTE',
-> > +]
-> > +
-> > +libdvbv5 = shared_library('dvbv5',
-> > +                          libdvbv5_sources,
-> > +                          install : true,
-> > +                          dependencies : libdvbv5_deps,
-> > +                          c_args : libdvbv5_c_args,
-> > +                          include_directories : v4l2_utils_incdir)
-> > +
-> > +dep_libdvbv5 = declare_dependency(link_with : libdvbv5)
-> > +
-> > +pkg.generate(
-> > +    name : 'libdvbv5',
-> > +    libraries : libdvbv5,
-> > +    version : meson.project_version(),
-> > +    requires_private : 'libudev',
-> > +    description : 'DVBv5 utility library')
-> > diff --git a/lib/libv4l-mplane/meson.build b/lib/libv4l-mplane/meson.build
-> > new file mode 100644
-> > index 00000000..9e55dfb8
-> > --- /dev/null
-> > +++ b/lib/libv4l-mplane/meson.build
-> > @@ -0,0 +1,16 @@
-> > +libv4l_mplane_sources = files(
-> > +    'libv4l-mplane.c',
-> > +)
-> > +
-> > +libv4l_mplane_deps = [
-> > +    dep_threads,
-> > +]
-> > +
-> > +libv4l_mplane = shared_module('v4l-mplane',
-> > +                              libv4l_mplane_sources,
-> > +                              install : true,
-> > +                              install_dir : libv4l2plugindir,
-> > +                              dependencies : libv4l_mplane_deps,
-> > +                              include_directories : v4l2_utils_incdir)
-> > +
-> > +dep_libv4l_mplane = declare_dependency(link_with : libv4l_mplane)
-> > diff --git a/lib/libv4l1/meson.build b/lib/libv4l1/meson.build
-> > new file mode 100644
-> > index 00000000..3e485280
-> > --- /dev/null
-> > +++ b/lib/libv4l1/meson.build
-> > @@ -0,0 +1,53 @@
-> > +libv4l1_sources = files(
-> > +    'libv4l1-priv.h',
-> > +    'libv4l1.c',
-> > +    'log.c',
-> > +)
-> > +
-> > +libv4l1_api = files(
-> > +    '../include/libv4l1-videodev.h',
-> > +    '../include/libv4l1.h',
-> > +)
-> > +
-> > +install_headers(libv4l1_api)
-> > +
-> > +libv4l1_deps = [
-> > +    dep_libv4l2,
-> > +    dep_threads,
-> > +]
-> > +
-> > +libv4l1 = shared_library('v4l1',
-> > +                         libv4l1_sources,
-> > +                         install : true,
-> > +                         dependencies : libv4l1_deps,
-> > +                         include_directories : v4l2_utils_incdir)
-> > +
-> > +dep_libv4l1 = declare_dependency(link_with : libv4l1)
-> > +
-> > +pkg.generate(
-> > +    name : 'libv4l1',
-> > +    libraries : libv4l1,
-> > +    libraries_private : '-lpthread',
-> > +    version : meson.project_version(),
-> > +    requires_private : 'libv4l2',
-> > +    description : 'v4l1 compatibility library')
-> > +
-> > +v4l1compat_sources = files(
-> > +    'v4l1compat.c',
-> > +)
-> > +
-> > +v4l1compat_deps = [
-> > +    dep_libv4l1,
-> > +]
-> > +
-> > +libv4l1privdir = get_option('prefix') / get_option('libdir') / get_option('libv4l1subdir')
-> > +
-> > +v4l1compat = shared_module('v4l1compat',
-> > +                           v4l1compat_sources,
-> > +                           name_prefix : '',
-> > +                           install : true,
-> > +                           install_dir : libv4l1privdir,
-> > +                           dependencies : v4l1compat_deps,
-> > +                           include_directories : v4l2_utils_incdir)
-> > +
-> > +dep_v4l1compat = declare_dependency(link_with : v4l1compat)
-> > diff --git a/lib/libv4l2/meson.build b/lib/libv4l2/meson.build
-> > new file mode 100644
-> > index 00000000..3cb64fa0
-> > --- /dev/null
-> > +++ b/lib/libv4l2/meson.build
-> > @@ -0,0 +1,65 @@
-> > +libv4l2_sources = files(
-> > +    'libv4l2-priv.h',
-> > +    'libv4l2.c',
-> > +    'log.c',
-> > +)
-> > +
-> > +libv4l2_api = files(
-> > +    '../include/libv4l-plugin.h',
-> > +    '../include/libv4l2.h',
-> > +)
-> > +
-> > +install_headers(libv4l2_api)
-> > +
-> > +libv4l2_deps = [
-> > +    dep_libdl,
-> > +    dep_libv4lconvert,
-> > +    dep_threads,
-> > +]
-> > +
-> > +libv4l2_c_args = []
-> > +
-> > +if get_option('v4l-plugins')
-> > +    libv4l2_sources += files('v4l2-plugin.c')
-> > +    libv4l2_c_args += [
-> > +        '-DHAVE_V4L_PLUGINS',
-> > +        '-DLIBV4L2_PLUGIN_DIR="@0@"'.format(libv4l2plugindir)
-> > +    ]
-> > +endif
-> > +
-> > +libv4l2 = shared_library('v4l2',
-> > +                         libv4l2_sources,
-> > +                         install : true,
-> > +                         dependencies : libv4l2_deps,
-> > +                         c_args : libv4l2_c_args,
-> > +                         include_directories : v4l2_utils_incdir)
-> > +
-> > +dep_libv4l2 = declare_dependency(link_with : libv4l2)
-> > +
-> > +pkg.generate(
-> > +    name : 'libv4l2',
-> > +    libraries : libv4l2,
-> > +    libraries_private : '-lpthread',
-> > +    version : meson.project_version(),
-> > +    requires_private : 'libv4lconvert',
-> > +    description : 'v4l2 device access library')
-> > +
-> > +v4l2convert_sources = files(
-> > +    'v4l2convert.c',
-> > +)
-> > +
-> > +v4l2convert_deps = [
-> > +    dep_libv4l2,
-> > +]
-> > +
-> > +libv4l2privdir = get_option('prefix') / get_option('libdir') / get_option('libv4l2subdir')
-> > +
-> > +v4l2convert = shared_module('v4l2convert',
-> > +                            v4l2convert_sources,
-> > +                            name_prefix : '',
-> > +                            install : true,
-> > +                            install_dir : libv4l2privdir,
-> > +                            dependencies : v4l2convert_deps,
-> > +                            include_directories : v4l2_utils_incdir)
-> > +
-> > +dep_v4l2convert = declare_dependency(link_with : v4l2convert)
-> > diff --git a/lib/libv4l2rds/meson.build b/lib/libv4l2rds/meson.build
-> > new file mode 100644
-> > index 00000000..686170fc
-> > --- /dev/null
-> > +++ b/lib/libv4l2rds/meson.build
-> > @@ -0,0 +1,28 @@
-> > +libv4l2rds_sources = files(
-> > +    'libv4l2rds.c',
-> > +)
-> > +
-> > +libv4l2rds_api = files(
-> > +    '../include/libv4l2rds.h',
-> > +)
-> > +
-> > +install_headers(libv4l2rds_api)
-> > +
-> > +libv4l2rds_deps = [
-> > +    dep_threads,
-> > +]
-> > +
-> > +libv4l2rds = shared_library('v4l2rds',
-> > +                            libv4l2rds_sources,
-> > +                            install : true,
-> > +                            dependencies : libv4l2rds_deps,
-> > +                            include_directories : v4l2_utils_incdir)
-> > +
-> > +dep_libv4l2rds = declare_dependency(link_with : libv4l2rds)
-> > +
-> > +pkg.generate(
-> > +    name : 'libv4l2rds',
-> > +    libraries : libv4l2rds,
-> > +    libraries_private : '-lpthread',
-> > +    version : meson.project_version(),
-> > +    description : 'v4l2 RDS decode library')
-> > diff --git a/lib/libv4lconvert/meson.build b/lib/libv4lconvert/meson.build
-> > new file mode 100644
-> > index 00000000..2f3a8ddf
-> > --- /dev/null
-> > +++ b/lib/libv4lconvert/meson.build
-> > @@ -0,0 +1,105 @@
-> > +libv4lconvert_sources = files(
-> > +    'bayer.c',
-> > +    'control/libv4lcontrol-priv.h',
-> > +    'control/libv4lcontrol.c',
-> > +    'control/libv4lcontrol.h',
-> > +    'cpia1.c',
-> > +    'crop.c',
-> > +    'flip.c',
-> > +    'helper-funcs.h',
-> > +    'hm12.c',
-> > +    'jidctflt.c',
-> > +    'jl2005bcd.c',
-> > +    'jpeg.c',
-> > +    'jpgl.c',
-> > +    'libv4lconvert-priv.h',
-> > +    'libv4lconvert.c',
-> > +    'libv4lsyscall-priv.h',
-> > +    'mr97310a.c',
-> > +    'pac207.c',
-> > +    'processing/autogain.c',
-> > +    'processing/gamma.c',
-> > +    'processing/libv4lprocessing-priv.h',
-> > +    'processing/libv4lprocessing.c',
-> > +    'processing/libv4lprocessing.h',
-> > +    'processing/whitebalance.c',
-> > +    'rgbyuv.c',
-> > +    'se401.c',
-> > +    'sn9c10x.c',
-> > +    'sn9c2028-decomp.c',
-> > +    'sn9c20x.c',
-> > +    'spca501.c',
-> > +    'spca561-decompress.c',
-> > +    'sq905c.c',
-> > +    'stv0680.c',
-> > +    'tinyjpeg-internal.h',
-> > +    'tinyjpeg.c',
-> > +    'tinyjpeg.h',
-> > +)
-> > +
-> > +libv4lconvert_api = files(
-> > +    '../include/libv4lconvert.h',
-> > +)
-> > +
-> > +install_headers(libv4lconvert_api)
-> > +
-> > +libv4lconvert_deps = [
-> > +    dep_libm,
-> > +    dep_librt,
-> > +]
-> > +
-> > +libv4lconvert_priv_libs = [
-> > +    '-lm',
-> > +    '-lrt',
-> > +]
-> > +
-> > +libv4lconvert_c_args = []
-> > +
-> > +if dep_jpeg.found()
-> > +    libv4lconvert_deps += dep_jpeg
-> > +    libv4lconvert_priv_libs += dep_jpeg_priv_libs
-> > +    libv4lconvert_sources += files(
-> > +        'jpeg_memsrcdest.c',
-> > +        'jpeg_memsrcdest.h'
-> > +    )
-> > +    libv4lconvert_c_args += [
-> > +        '-DHAVE_JPEG',
-> > +    ]
-> > +endif
-> > +
-> > +if have_fork
-> > +    libv4lconvert_sources += files(
-> > +        'helper.c',
-> > +    )
-> > +    libv4lconvertprivdir = get_option('prefix') / get_option('libdir') / get_option('libv4lconvertsubdir')
-> > +    ov511_decomp_sources = files(
-> > +        'ov511-decomp.c',
-> > +    )
-> > +    ov511_decomp = executable('ov511-decomp',
-> > +                              ov511_decomp_sources,
-> > +                              install : true,
-> > +                              install_dir : libv4lconvertprivdir)
-> > +    ov518_decomp_sources = files(
-> > +        'ov518-decomp.c',
-> > +    )
-> > +    ov518_decomp = executable('ov518-decomp',
-> > +                              ov518_decomp_sources,
-> > +                              install : true,
-> > +                              install_dir : libv4lconvertprivdir)
-> > +endif
-> > +
-> > +libv4lconvert = shared_library('v4lconvert',
-> > +                               libv4lconvert_sources,
-> > +                               install : true,
-> > +                               dependencies : libv4lconvert_deps,
-> > +                               c_args : libv4lconvert_c_args,
-> > +                               include_directories : v4l2_utils_incdir)
-> > +
-> > +dep_libv4lconvert = declare_dependency(link_with : libv4lconvert)
-> > +
-> > +pkg.generate(
-> > +    name : 'libv4lconvert',
-> > +    libraries : libv4lconvert,
-> > +    libraries_private : libv4lconvert_priv_libs,
-> > +    version : meson.project_version(),
-> > +    description : 'v4l format conversion library')
-> > diff --git a/lib/meson.build b/lib/meson.build
-> > new file mode 100644
-> > index 00000000..be8a37b3
-> > --- /dev/null
-> > +++ b/lib/meson.build
-> > @@ -0,0 +1,14 @@
-> > +libv4l2plugindir = get_option('prefix') / get_option('libdir') / get_option('libv4l2subdir') / 'plugins'
-> > +
-> > +subdir('libv4lconvert')
-> > +subdir('libv4l2')
-> > +subdir('libv4l1')
-> > +subdir('libv4l2rds')
-> > +
-> > +if get_option('libdvbv5')
-> > +    subdir('libdvbv5')
-> > +endif
-> > +
-> > +if get_option('v4l-plugins')
-> > +    subdir('libv4l-mplane')
-> > +endif
-> > diff --git a/meson.build b/meson.build
-> > new file mode 100644
-> > index 00000000..428fd403
-> > --- /dev/null
-> > +++ b/meson.build
-> > @@ -0,0 +1,132 @@
-> > +project('v4l-utils', 'c', 'cpp',
-> > +    version: '1.19.0',
-> > +    default_options : [
-> > +        'warning_level=1',
-> > +    ],
-> > +    license : 'LGPL 2.1+')
-> > +
-> > +cc = meson.get_compiler('c')
-> > +have_m32 = cc.has_link_argument('-m32')
-> > +
-> > +pkg = import('pkgconfig')
-> > +qt5 = import('qt5')
-> > +
-> > +as_version = meson.project_version()
-> > +ver_arr = as_version.split('.')
-> > +as_major_version = ver_arr[0]
-> > +as_minor_version = ver_arr[1]
-> > +as_patch_version = ver_arr[2]
-> > +
-> > +conf = configuration_data()
-> > +conf.set_quoted('V4L_UTILS_VERSION', as_version)
-> > +conf.set('PACKAGE_VERSION', as_version)
-> > +conf.set('MAJOR', as_major_version)
-> > +conf.set('MINOR', as_minor_version)
-> > +conf.set('PATCH', as_patch_version)
-> > +
-> > +common_arguments = [
-> > +    '-Wpointer-arith',
-> > +    '-D_GNU_SOURCE',
-> > +    '-I.', # Needed for config.h
-> > +    '-DPROMOTED_MODE_T=int'
-> > +]
-> > +
-> > +v4l2_utils_incdir = include_directories(
-> > +    'include',
-> > +    'lib' / 'include'
-> > +)
-> > +
-> > +prog_bash = find_program('bash')
-> > +prog_clang = find_program('clang')
-> > +prog_grep = find_program('grep')
-> > +prog_perl = find_program('perl')
-> > +
-> > +dep_alsa = dependency('alsa', required : false)
-> > +dep_libdl = cc.find_library('dl')
-> > +dep_libelf = cc.find_library('elf', required : false)
-> > +dep_libm = cc.find_library('m')
-> > +dep_librt = cc.find_library('rt')
-> > +dep_opengl = dependency('OpenGL', required : false)
-> > +dep_qt5 = dependency('qt5', modules: ['Core', 'Gui', 'Widgets', 'OpenGL'], required : false)
-> > +dep_threads = dependency('threads')
-> > +dep_xmlrpc = dependency('xmlrpc', required : false)
-> > +
-> > +have_fork = cc.has_function('fork')
-> > +
-> > +if cc.has_function('iconv_open')
-> > +    dep_iconv = dependency('', required : false)
-> > +    have_iconv = true
-> > +else
-> > +    dep_iconv = cc.find_library('iconv', required : false)
-> > +    have_iconv = dep_iconv.found()
-> > +endif
-> > +
-> > +if have_iconv
-> > +    conf.set('HAVE_ICONV', 1)
-> > +    iconv_const_test = '''#include <iconv.h>
-> > +size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);
-> > +'''
-> > +    if cc.compiles(iconv_const_test, dependencies : dep_iconv)
-> > +        conf.set('ICONV_CONST', '')
-> > +    else
-> > +        conf.set('ICONV_CONST', 'const')
-> > +    endif
-> > +endif
-> > +
-> > +dep_jpeg = dependency('libjpeg', required : get_option('jpeg'))
-> > +if dep_jpeg.found()
-> > +    dep_jpeg_priv_libs = '-ljpeg'
-> > +endif
-> > +
-> > +systemd_systemdir = get_option('systemdsystemunitdir')
-> > +if systemd_systemdir == ''
-> > +    systemd_systemdir = dependency('systemd', required : false).get_pkgconfig_variable('systemdsystemunitdir')
-> > +endif
-> > +if systemd_systemdir == ''
-> > +    systemd_systemdir = '/lib/systemd/system'
-> > +endif
-> > +# Since systemd v239, udevd is not allowed to execute BPF systems calls;
-> > +# add an override to allow bpf(2) in that case. On earlier versions, the
-> > +# override will restrict udevd to bpf syscall only and will stop the system
-> > +# from booting. This is also true on current debian versions.
-> > +have_udevdsyscallfilter = run_command(prog_grep, '-s', 'SystemCallFilter', systemd_systemdir / 'systemd-udevd.service')
-> > +
-> > +dep_udev = dependency('libudev', required : get_option('udev'))
-> > +udevdir = get_option('udevdir')
-> > +if udevdir == ''
-> > +    udevdir = dependency('udev', required : false).get_pkgconfig_variable('udevdir')
-> > +endif
-> > +if udevdir == ''
-> > +    udevdir = '/lib/udev'
-> > +endif
-> > +
-> > +c_arguments = []
-> > +cpp_arguments = []
-> > +
-> > +c_arguments += common_arguments
-> > +cpp_arguments += common_arguments
-> > +
-> > +add_project_arguments(c_arguments, language : 'c')
-> > +add_project_arguments(cpp_arguments, language : 'cpp')
-> > +add_project_link_arguments(cpp_arguments, language : 'cpp')
-> > +
-> > +version_h = vcs_tag(command : ['gen-version.sh', meson.build_root()],
-> > +                    input : 'version.h.in',
-> > +                    output : 'version.h')
-> > +
-> > +man_pages = []
-> > +
-> > +subdir('lib')
-> > +
-> > +if get_option('v4l-utils')
-> > +    subdir('utils')
-> > +endif
-> > +
-> > +configure_file(output : 'config.h', configuration : conf)
-> > +
-> > +foreach m : man_pages
-> > +    configure_file(input : join_paths(m[0], '@0@.@1@.in'.format(m[1], m[2])),
-> > +                   output : '@0@.@1@'.format(m[1], m[2]),
-> > +                   install_dir : join_paths(get_option('mandir'), 'man@0@'.format(m[2])),
-> > +                   configuration : conf)
-> > +endforeach
-> > diff --git a/meson_options.txt b/meson_options.txt
-> > new file mode 100644
-> > index 00000000..c46eed32
-> > --- /dev/null
-> > +++ b/meson_options.txt
-> > @@ -0,0 +1,39 @@
-> > +# Features
-> > +option('jpeg', type : 'feature', value : 'auto')
-> > +option('udev', type : 'feature', value : 'auto')
-> > +
-> > +# Options
-> > +option('bpf', type : 'boolean',
-> > +       description : 'Enable IR BPF decoders')
-> > +option('libdvbv5', type : 'boolean',
-> > +       description : 'Enable libdvbv5 compilation')
-> > +option('qv4l2', type : 'boolean',
-> > +       description : 'Enable qv4l2 compilation')
-> > +option('qvidcap', type : 'boolean',
-> > +       description : 'Enable qvidcap compilation')
-> > +option('v4l-plugins', type : 'boolean',
-> > +       description : 'V4L plugin support')
-> > +option('v4l-utils', type : 'boolean',
-> > +       description : 'Enable v4l-utils compilation')
-> > +option('v4l2-compliance-32', type : 'boolean', value : false,
-> > +       description : 'Enable v4l2-compliance-32 compilation (for debugging purposes only)')
-> > +option('v4l2-compliance-libv4l', type : 'boolean',
-> > +       description : 'Enable use of libv4l in v4l2-compliance')
-> > +option('v4l2-ctl-32', type : 'boolean', value : false,
-> > +       description : 'Enable v4l2-ctl-32 compilation (for debugging purposes only)')
-> > +option('v4l2-ctl-libv4l', type : 'boolean',
-> > +       description : 'Enable use of libv4l in v4l2-ctl')
-> > +option('v4l2-ctl-stream-to', type : 'boolean',
-> > +       description : 'Enable use of --stream-to in v4l2-ctl')
-> > +
-> > +# Directories
-> > +option('libv4l1subdir', type : 'string', value : 'libv4l',
-> > +       description : 'Set libv4l1 library subdir')
-> > +option('libv4l2subdir', type : 'string', value : 'libv4l',
-> > +       description : 'Set libv4l2 library subdir')
-> > +option('libv4lconvertsubdir', type : 'string', value : 'libv4l',
-> > +       description : 'Set libv4lconvert library subdir')
-> > +option('systemdsystemunitdir', type : 'string',
-> > +       description : 'Set systemd system unit directory')
-> > +option('udevdir', type : 'string',
-> > +       description : 'Set udev directory')
-> > diff --git a/utils/cec-compliance/meson.build b/utils/cec-compliance/meson.build
-> > new file mode 100644
-> > index 00000000..e4fc68de
-> > --- /dev/null
-> > +++ b/utils/cec-compliance/meson.build
-> > @@ -0,0 +1,24 @@
-> > +cec_compliance_sources = files(
-> > +    'cec-compliance.cpp',
-> > +    'cec-compliance.h',
-> > +    'cec-test-adapter.cpp',
-> > +    'cec-test-audio.cpp',
-> > +    'cec-test-fuzzing.cpp',
-> > +    'cec-test-power.cpp',
-> > +    'cec-test.cpp',
-> > +)
-> > +
-> > +cec_compliance_sources += version_h
-> > +
-> > +cec_compliance_deps = [
-> > +    dep_libcecutil,
-> > +    dep_librt,
-> > +]
-> > +
-> > +cec_compliance = executable('cec-compliance',
-> > +                            cec_compliance_sources,
-> > +                            install : true,
-> > +                            dependencies : cec_compliance_deps,
-> > +                            include_directories : v4l2_utils_incdir)
-> > +
-> > +man_pages += [[ meson.current_source_dir(), 'cec-compliance', 1 ]]
-> > diff --git a/utils/cec-ctl/meson.build b/utils/cec-ctl/meson.build
-> > new file mode 100644
-> > index 00000000..059ca206
-> > --- /dev/null
-> > +++ b/utils/cec-ctl/meson.build
-> > @@ -0,0 +1,18 @@
-> > +cec_ctl_sources = files(
-> > +    'cec-ctl.cpp',
-> > +    'cec-ctl.h',
-> > +    'cec-pin.cpp',
-> > +)
-> > +
-> > +cec_ctl_deps = [
-> > +    dep_libcecutil,
-> > +    dep_librt,
-> > +]
-> > +
-> > +cec_ctl = executable('cec-ctl',
-> > +                     cec_ctl_sources,
-> > +                     install : true,
-> > +                     dependencies : cec_ctl_deps,
-> > +                     include_directories : v4l2_utils_incdir)
-> > +
-> > +man_pages += [[ meson.current_source_dir(), 'cec-ctl', 1 ]]
-> > diff --git a/utils/cec-follower/meson.build b/utils/cec-follower/meson.build
-> > new file mode 100644
-> > index 00000000..0ecaf7a4
-> > --- /dev/null
-> > +++ b/utils/cec-follower/meson.build
-> > @@ -0,0 +1,21 @@
-> > +cec_follower_sources = files(
-> > +    'cec-follower.cpp',
-> > +    'cec-follower.h',
-> > +    'cec-processing.cpp',
-> > +    'cec-tuner.cpp',
-> > +)
-> > +
-> > +cec_follower_sources += version_h
-> > +
-> > +cec_follower_deps = [
-> > +    dep_libcecutil,
-> > +    dep_librt,
-> > +]
-> > +
-> > +cec_follower = executable('cec-follower',
-> > +                          cec_follower_sources,
-> > +                          install : true,
-> > +                          dependencies : cec_follower_deps,
-> > +                          include_directories : v4l2_utils_incdir)
-> > +
-> > +man_pages += [[ meson.current_source_dir(), 'cec-follower', 1 ]]
-> > diff --git a/utils/cx18-ctl/meson.build b/utils/cx18-ctl/meson.build
-> > new file mode 100644
-> > index 00000000..648c7dd1
-> > --- /dev/null
-> > +++ b/utils/cx18-ctl/meson.build
-> > @@ -0,0 +1,7 @@
-> > +cx18_ctl_sources = files(
-> > +    'cx18-ctl.c',
-> > +)
-> > +
-> > +cx18_ctl = executable('cx18-ctl',
-> > +                      cx18_ctl_sources,
-> > +                      install : true)
-> > diff --git a/utils/dvb/meson.build b/utils/dvb/meson.build
-> > new file mode 100644
-> > index 00000000..19071a29
-> > --- /dev/null
-> > +++ b/utils/dvb/meson.build
-> > @@ -0,0 +1,69 @@
-> > +dvb_common_deps =  [
-> > +    dep_libdvbv5,
-> > +    dep_threads,
-> > +    dep_udev,
-> > +    dep_xmlrpc,
-> > +]
-> > +
-> > +dvb_fe_tool_sources = files(
-> > +    'dvb-fe-tool.c',
-> > +)
-> > +
-> > +dvb_fe_tool = executable('dvb-fe-tool',
-> > +                         dvb_fe_tool_sources,
-> > +                         install : true,
-> > +                         dependencies : dvb_common_deps,
-> > +                         include_directories : v4l2_utils_incdir)
-> > +
-> > +man_pages += [[ meson.current_source_dir(), 'dvb-fe-tool', 1 ]]
-> > +
-> > +dvbv5_zap_sources = files(
-> > +    'dvbv5-zap.c',
-> > +)
-> > +
-> > +dvbv5_zap = executable('dvbv5-zap',
-> > +                       dvbv5_zap_sources,
-> > +                       install : true,
-> > +                       dependencies : dvb_common_deps,
-> > +                       include_directories : v4l2_utils_incdir)
-> > +
-> > +man_pages += [[ meson.current_source_dir(), 'dvbv5-zap', 1 ]]
-> > +
-> > +dvbv5_scan_sources = files(
-> > +    'dvbv5-scan.c',
-> > +)
-> > +
-> > +dvbv5_scan = executable('dvbv5-scan',
-> > +                        dvbv5_scan_sources,
-> > +                        install : true,
-> > +                        dependencies : dvb_common_deps,
-> > +                        include_directories : v4l2_utils_incdir)
-> > +
-> > +man_pages += [[ meson.current_source_dir(), 'dvbv5-scan', 1 ]]
-> > +
-> > +dvb_format_convert_sources = files(
-> > +    'dvb-format-convert.c',
-> > +)
-> > +
-> > +dvb_format_convert = executable('dvb-format-convert',
-> > +                                dvb_format_convert_sources,
-> > +                                install : true,
-> > +                                dependencies : dvb_common_deps,
-> > +                                include_directories : v4l2_utils_incdir)
-> > +
-> > +man_pages += [[ meson.current_source_dir(), 'dvb-format-convert', 1 ]]
-> > +
-> > +dvbv5_daemon_sources = files(
-> > +    'dvbv5-daemon.c',
-> > +)
-> > +
-> > +dvbv5_daemon_c_args = [
-> > +    '-DHAVE_DVBV5_REMOTE',
-> > +]
-> > +
-> > +dvbv5_daemon = executable('dvbv5-daemon',
-> > +                          dvbv5_daemon_sources,
-> > +                          install : true,
-> > +                          dependencies : dvb_common_deps,
-> > +                          c_args : dvbv5_daemon_c_args,
-> > +                          include_directories : v4l2_utils_incdir)
-> > diff --git a/utils/gen_media_bus_format_codes.sh b/utils/gen_media_bus_format_codes.sh
-> > new file mode 100755
-> > index 00000000..4bdcc3b7
-> > --- /dev/null
-> > +++ b/utils/gen_media_bus_format_codes.sh
-> > @@ -0,0 +1,7 @@
-> > +#!/bin/bash
-> > +
-> > +src="$1"
-> > +
-> > +sed -e \
-> > +'/#define MEDIA_BUS_FMT/ ! d; s/.*#define //; /FIXED/ d; s/\t.*//; s/.*/ &,/;' \
-> > +${src}
-> > diff --git a/utils/gen_media_bus_format_names.sh b/utils/gen_media_bus_format_names.sh
-> > new file mode 100755
-> > index 00000000..3fdc830d
-> > --- /dev/null
-> > +++ b/utils/gen_media_bus_format_names.sh
-> > @@ -0,0 +1,7 @@
-> > +#!/bin/bash
-> > +
-> > +src="$1"
-> > +
-> > +sed -e \
-> > +'/#define MEDIA_BUS_FMT/ ! d; s/.*FMT_//; /FIXED/ d; s/\t.*//; s/.*/{ \"&\", MEDIA_BUS_FMT_& },/;' \
-> > +${src}
-> > diff --git a/utils/ir-ctl/meson.build b/utils/ir-ctl/meson.build
-> > new file mode 100644
-> > index 00000000..59a835c3
-> > --- /dev/null
-> > +++ b/utils/ir-ctl/meson.build
-> > @@ -0,0 +1,17 @@
-> > +ir_ctl_sources = files(
-> > +    'bpf_encoder.c',
-> > +    'bpf_encoder.h',
-> > +    'ir-ctl.c',
-> > +    'ir-encode.c',
-> > +    'ir-encode.h',
-> > +    'keymap.c',
-> > +    'keymap.h',
-> > +    'toml.c',
-> > +    'toml.h',
-> > +)
-> > +
-> > +ir_ctl = executable('ir-ctl',
-> > +                    ir_ctl_sources,
-> > +                    install : true)
-> > +
-> > +man_pages += [[ meson.current_source_dir(), 'ir-ctl', 1 ]]
-> > diff --git a/utils/ivtv-ctl/meson.build b/utils/ivtv-ctl/meson.build
-> > new file mode 100644
-> > index 00000000..410a8439
-> > --- /dev/null
-> > +++ b/utils/ivtv-ctl/meson.build
-> > @@ -0,0 +1,13 @@
-> > +ivtv_ctl_sources = files(
-> > +    'ivtv-ctl.c',
-> > +)
-> > +
-> > +ivtv_ctl_deps = [
-> > +    dep_libm,
-> > +]
-> > +
-> > +ivtv_ctl = executable('ivtv-ctl',
-> > +                      ivtv_ctl_sources,
-> > +                      install : true,
-> > +                      dependencies : ivtv_ctl_deps,
-> > +                      include_directories : v4l2_utils_incdir)
-> > diff --git a/utils/keytable/bpf_protocols/clang_sys_includes.sh b/utils/keytable/bpf_protocols/clang_sys_includes.sh
-> > new file mode 100755
-> > index 00000000..9dc4af12
-> > --- /dev/null
-> > +++ b/utils/keytable/bpf_protocols/clang_sys_includes.sh
-> > @@ -0,0 +1,9 @@
-> > +#!/bin/sh
-> > +# Get Clang's default includes on this system, as opposed to those seen by
-> > +# '-target bpf'. This fixes "missing" files on some architectures/distros,
-> > +# such as asm/byteorder.h, asm/socket.h, asm/sockios.h, sys/cdefs.h etc.
-> > +#
-> > +# Use '-idirafter': Don't interfere with include mechanics except where the
-> > +# build would have failed anyways.
-> > +$CLANG -v -E - </dev/null 2>&1 \
-> > +       | sed -n '/<...> search starts here:/,/End of search list./{ s| \(/.*\)|-idirafter \1|p }'
-> > diff --git a/utils/keytable/bpf_protocols/meson.build b/utils/keytable/bpf_protocols/meson.build
-> > new file mode 100644
-> > index 00000000..2f1ed072
-> > --- /dev/null
-> > +++ b/utils/keytable/bpf_protocols/meson.build
-> > @@ -0,0 +1,31 @@
-> > +bpf_protocols_files = [
-> > +    'grundig',
-> > +    'imon_rsc',
-> > +    'manchester',
-> > +    'pulse_distance',
-> > +    'pulse_length',
-> > +    'raw',
-> > +    'rc_mm',
-> > +    'samsung36',
-> > +    'xbox-dvd',
-> > +]
-> > +
-> > +clang_sys_includes = run_command('clang_sys_includes.sh',
-> > +                                 check : true,
-> > +                                 env : ['CLANG=' + prog_clang.path()])
-> > +
-> > +foreach file : bpf_protocols_files
-> > +    output = file + '.o'
-> > +    input = file + '.c'
-> > +    custom_target(output,
-> > +                  output : output,
-> > +                  input : input,
-> > +                  command : [
-> > +                      prog_clang.path(),
-> > +                      clang_sys_includes.stdout().strip(),
-> > +                      '-D__linux__', '-target', 'bpf', '-O2',
-> > +                      '-c', '@INPUT@', '-o', '@OUTPUT@',
-> > +                  ],
-> > +                  install : true,
-> > +                  install_dir : udevdir / 'rc_keymaps' / 'protocols')
-> > +endforeach
-> > diff --git a/utils/keytable/meson.build b/utils/keytable/meson.build
-> > new file mode 100644
-> > index 00000000..e1e5b385
-> > --- /dev/null
-> > +++ b/utils/keytable/meson.build
-> > @@ -0,0 +1,70 @@
-> > +ir_keytable_sources = files(
-> > +    'ir-encode.c',
-> > +    'ir-encode.h',
-> > +    'keymap.c',
-> > +    'keymap.h',
-> > +    'keytable.c',
-> > +    'parse.h',
-> > +    'toml.c',
-> > +    'toml.h',
-> > +)
-> > +
-> > +ir_keytable_deps = []
-> > +
-> > +if get_option('bpf')
-> > +    ir_keytable_sources += files(
-> > +        'bpf.c',
-> > +        'bpf.h',
-> > +        'bpf_load.c',
-> > +        'bpf_load.h',
-> > +    )
-> > +    ir_keytable_deps += [
-> > +        dep_libelf,
-> > +    ]
-> > +    subdir('bpf_protocols')
-> > +endif
-> > +
-> > +ir_keytable_system_dir = udevdir
-> > +ir_keytable_user_dir = get_option('sysconfdir') / 'rc_keymaps'
-> > +
-> > +ir_keytable_c_args = [
-> > +    '-DIR_KEYTABLE_SYSTEM_DIR="@0@"'.format(ir_keytable_system_dir),
-> > +    '-DIR_KEYTABLE_USER_DIR="@0@"'.format(ir_keytable_user_dir),
-> > +]
-> > +
-> > +ir_keytable_incdir = [
-> > +    utils_common_incdir,
-> > +    v4l2_utils_incdir,
-> > +]
-> > +
-> > +ir_keytable = executable('ir-keytable',
-> > +                         sources : ir_keytable_sources,
-> > +                         install : true,
-> > +                         dependencies : ir_keytable_deps,
-> > +                         c_args : ir_keytable_c_args,
-> > +                         include_directories : ir_keytable_incdir)
-> > +
-> > +man_pages += [[ meson.current_source_dir(), 'ir-keytable', 1 ]]
-> > +man_pages += [[ meson.current_source_dir(), 'rc_keymap', 5 ]]
-> > +
-> > +ir_keytable_sysconf_files = files(
-> > +    'rc_maps.cfg',
-> > +)
-> > +install_data(ir_keytable_sysconf_files,
-> > +             install_dir : get_option('sysconfdir'))
-> > +
-> > +subdir('rc_keymaps')
-> > +install_data(ir_keytable_rc_keymaps,
-> > +             install_dir : udevdir / 'rc_keymaps')
-> > +
-> > +ir_keytable_udev_rules = files(
-> > +    '70-infrared.rules',
-> > +)
-> > +install_data(ir_keytable_udev_rules,
-> > +             install_dir : udevdir / 'rules.d')
-> > +
-> > +ir_keytable_systemd_files = files(
-> > +    '50-rc_keymap.conf',
-> > +)
-> > +install_data(ir_keytable_systemd_files,
-> > +             install_dir : systemd_systemdir / 'systemd-udevd.service.d')
-> > diff --git a/utils/keytable/rc_keymaps/meson.build b/utils/keytable/rc_keymaps/meson.build
-> > new file mode 100644
-> > index 00000000..581bd895
-> > --- /dev/null
-> > +++ b/utils/keytable/rc_keymaps/meson.build
-> > @@ -0,0 +1,147 @@
-> > +ir_keytable_rc_keymaps = files(
-> > +    'adstech_dvb_t_pci.toml',
-> > +    'af9005.toml',
-> > +    'alink_dtu_m.toml',
-> > +    'allwinner_ba10_tv_box.toml',
-> > +    'allwinner_i12_a20_tv_box.toml',
-> > +    'anysee.toml',
-> > +    'apac_viewcomp.toml',
-> > +    'astrometa_t2hybrid.toml',
-> > +    'asus_pc39.toml',
-> > +    'asus_ps3_100.toml',
-> > +    'ati_tv_wonder_hd_600.toml',
-> > +    'ati_x10.toml',
-> > +    'avermedia.toml',
-> > +    'avermedia_a16d.toml',
-> > +    'avermedia_cardbus.toml',
-> > +    'avermedia_dvbt.toml',
-> > +    'avermedia_m135a.toml',
-> > +    'avermedia_m733a_rm_k6.toml',
-> > +    'avermedia_rm_ks.toml',
-> > +    'avertv_303.toml',
-> > +    'az6027.toml',
-> > +    'azurewave_ad_tu700.toml',
-> > +    'beelink_gs1.toml',
-> > +    'behold.toml',
-> > +    'behold_columbus.toml',
-> > +    'budget_ci_old.toml',
-> > +    'cec.toml',
-> > +    'cinergy.toml',
-> > +    'cinergy_1400.toml',
-> > +    'cinergyt2.toml',
-> > +    'd680_dmb.toml',
-> > +    'delock_61959.toml',
-> > +    'dib0700_nec.toml',
-> > +    'dib0700_rc5.toml',
-> > +    'dibusb.toml',
-> > +    'digitalnow_tinytwin.toml',
-> > +    'digittrade.toml',
-> > +    'digitv.toml',
-> > +    'dish_network.toml',
-> > +    'dm1105_nec.toml',
-> > +    'dntv_live_dvb_t.toml',
-> > +    'dntv_live_dvbt_pro.toml',
-> > +    'dtt200u.toml',
-> > +    'dvbsky.toml',
-> > +    'dvico_mce.toml',
-> > +    'dvico_portable.toml',
-> > +    'em_terratec.toml',
-> > +    'encore_enltv.toml',
-> > +    'encore_enltv2.toml',
-> > +    'encore_enltv_fm53.toml',
-> > +    'evga_indtube.toml',
-> > +    'eztv.toml',
-> > +    'flydvb.toml',
-> > +    'flyvideo.toml',
-> > +    'fusionhdtv_mce.toml',
-> > +    'gadmei_rm008z.toml',
-> > +    'geekbox.toml',
-> > +    'genius_tvgo_a11mce.toml',
-> > +    'gotview7135.toml',
-> > +    'haupp.toml',
-> > +    'hauppauge.toml',
-> > +    'hisi_poplar.toml',
-> > +    'hisi_tv_demo.toml',
-> > +    'imon_mce.toml',
-> > +    'imon_pad.toml',
-> > +    'imon_rsc.toml',
-> > +    'iodata_bctv7e.toml',
-> > +    'it913x_v1.toml',
-> > +    'it913x_v2.toml',
-> > +    'kaiomy.toml',
-> > +    'khadas.toml',
-> > +    'kii_pro.toml',
-> > +    'kworld_315u.toml',
-> > +    'kworld_pc150u.toml',
-> > +    'kworld_plus_tv_analog.toml',
-> > +    'leadtek_y04g0051.toml',
-> > +    'lme2510.toml',
-> > +    'manli.toml',
-> > +    'mce_keyboard.toml',
-> > +    'medion_x10.toml',
-> > +    'medion_x10_digitainer.toml',
-> > +    'medion_x10_or2x.toml',
-> > +    'megasky.toml',
-> > +    'msi_digivox_ii.toml',
-> > +    'msi_digivox_iii.toml',
-> > +    'msi_tvanywhere.toml',
-> > +    'msi_tvanywhere_plus.toml',
-> > +    'nebula.toml',
-> > +    'nec_terratec_cinergy_xs.toml',
-> > +    'norwood.toml',
-> > +    'npgtech.toml',
-> > +    'odroid.toml',
-> > +    'opera1.toml',
-> > +    'pctv_sedna.toml',
-> > +    'pinnacle310e.toml',
-> > +    'pinnacle_color.toml',
-> > +    'pinnacle_grey.toml',
-> > +    'pinnacle_pctv_hd.toml',
-> > +    'pixelview.toml',
-> > +    'pixelview_002t.toml',
-> > +    'pixelview_mk12.toml',
-> > +    'pixelview_new.toml',
-> > +    'powercolor_real_angel.toml',
-> > +    'proteus_2309.toml',
-> > +    'purpletv.toml',
-> > +    'pv951.toml',
-> > +    'rc6_mce.toml',
-> > +    'real_audio_220_32_keys.toml',
-> > +    'reddo.toml',
-> > +    'snapstream_firefly.toml',
-> > +    'streamzap.toml',
-> > +    'su3000.toml',
-> > +    'tango.toml',
-> > +    'tanix_tx3mini.toml',
-> > +    'tanix_tx5max.toml',
-> > +    'tbs_nec.toml',
-> > +    'technisat_ts35.toml',
-> > +    'technisat_usb2.toml',
-> > +    'terratec_cinergy_c_pci.toml',
-> > +    'terratec_cinergy_s2_hd.toml',
-> > +    'terratec_cinergy_xs.toml',
-> > +    'terratec_slim.toml',
-> > +    'terratec_slim_2.toml',
-> > +    'tevii_nec.toml',
-> > +    'tivo.toml',
-> > +    'total_media_in_hand.toml',
-> > +    'total_media_in_hand_02.toml',
-> > +    'trekstor.toml',
-> > +    'tt_1500.toml',
-> > +    'tvwalkertwin.toml',
-> > +    'twinhan_dtv_cab_ci.toml',
-> > +    'twinhan_vp1027_dvbs.toml',
-> > +    'vega_s9x.toml',
-> > +    'videomate_k100.toml',
-> > +    'videomate_s350.toml',
-> > +    'videomate_tv_pvr.toml',
-> > +    'vp702x.toml',
-> > +    'wetek_hub.toml',
-> > +    'wetek_play2.toml',
-> > +    'winfast.toml',
-> > +    'winfast_usbii_deluxe.toml',
-> > +    'wobo_i5.toml',
-> > +    'x96max.toml',
-> > +    'xbox_dvd.toml',
-> > +    'zx_irdec.toml',
-> > +)
-> > diff --git a/utils/libcecutil/meson.build b/utils/libcecutil/meson.build
-> > new file mode 100644
-> > index 00000000..ed3aa88c
-> > --- /dev/null
-> > +++ b/utils/libcecutil/meson.build
-> > @@ -0,0 +1,45 @@
-> > +libcecutil_sources = files(
-> > +    'cec-htng-funcs.h',
-> > +    'cec-htng.h',
-> > +    'cec-info.cpp',
-> > +    'cec-info.h',
-> > +    'cec-log.cpp',
-> > +    'cec-log.h',
-> > +    'cec-parse.cpp',
-> > +    'cec-parse.h',
-> > +)
-> > +
-> > +libcecutil_deps = [
-> > +    dep_libdl,
-> > +    dep_libv4lconvert,
-> > +    dep_threads,
-> > +]
-> > +
-> > +libcecutil_incdir = [
-> > +    utils_common_incdir,
-> > +    v4l2_utils_incdir,
-> > +]
-> > +
-> > +cec_gen_sources = files(
-> > +    '../../include/linux/cec.h',
-> > +    'cec-htng.h',
-> > +    '../../include/linux/cec-funcs.h',
-> > +    'cec-htng-funcs.h',
-> > +)
-> > +
-> > +configure_file(
-> > +    input : 'cec-gen.pl',
-> > +    output : 'cec-gen-dummy.stamp',
-> > +    command : [prog_perl, '@INPUT@', cec_gen_sources, 'utils/libcecutil'],
-> > +)
-> > +
-> > +libcecutil = static_library('cecutil',
-> > +                            libcecutil_sources,
-> > +                            install : false,
-> > +                            dependencies : libcecutil_deps,
-> > +                            include_directories : libcecutil_incdir)
-> > +
-> > +dep_libcecutil = declare_dependency(
-> > +    link_with : libcecutil,
-> > +    include_directories : '.',
-> > +)
-> > diff --git a/utils/libmedia_dev/meson.build b/utils/libmedia_dev/meson.build
-> > new file mode 100644
-> > index 00000000..f97238e6
-> > --- /dev/null
-> > +++ b/utils/libmedia_dev/meson.build
-> > @@ -0,0 +1,14 @@
-> > +libmedia_dev_sources = files(
-> > +    'get_media_devices.c',
-> > +    'get_media_devices.h',
-> > +)
-> > +
-> > +libmedia_dev = static_library('media_dev',
-> > +                              libmedia_dev_sources,
-> > +                              install : false,
-> > +                              include_directories : v4l2_utils_incdir)
-> > +
-> > +dep_libmedia_dev = declare_dependency(
-> > +    link_with : libmedia_dev,
-> > +    include_directories : '.',
-> > +)
-> > diff --git a/utils/libv4l2util/meson.build b/utils/libv4l2util/meson.build
-> > new file mode 100644
-> > index 00000000..9d1c6e12
-> > --- /dev/null
-> > +++ b/utils/libv4l2util/meson.build
-> > @@ -0,0 +1,16 @@
-> > +libv4l2util_sources = files(
-> > +    'frequencies.c',
-> > +    'libv4l2util.h',
-> > +    'v4l2_driver.c',
-> > +    'v4l2_driver.h',
-> > +)
-> > +
-> > +libv4l2util = static_library('v4l2util',
-> > +                             libv4l2util_sources,
-> > +                             install : false,
-> > +                             include_directories : v4l2_utils_incdir)
-> > +
-> > +dep_libv4l2util = declare_dependency(
-> > +    link_with : libv4l2util,
-> > +    include_directories : '.',
-> > +)
-> > diff --git a/utils/media-ctl/meson.build b/utils/media-ctl/meson.build
-> > new file mode 100644
-> > index 00000000..acaf2f5d
-> > --- /dev/null
-> > +++ b/utils/media-ctl/meson.build
-> > @@ -0,0 +1,46 @@
-> > +libmediactl_sources = files(
-> > +    'libmediactl.c',
-> > +    'mediactl-priv.h',
-> > +)
-> > +
-> > +libmediactl_deps = [
-> > +    dep_udev,
-> > +]
-> > +
-> > +libmediactl = static_library('mediactl',
-> > +                             libmediactl_sources,
-> > +                             dependencies : libmediactl_deps)
-> > +
-> > +dep_libmediactl = declare_dependency(link_with : libmediactl)
-> > +
-> > +pkg.generate(
-> > +    name : 'libmediactl',
-> > +    libraries : libmediactl,
-> > +    version : meson.project_version(),
-> > +    description : 'Media controller library')
-> > +
-> > +libv4l2subdev_sources = files('libv4l2subdev.c')
-> > +libv4l2subdev_sources += media_bus_format_names_h
-> > +libv4l2subdev_sources += media_bus_format_codes_h
-> > +
-> > +libv4l2subdev = static_library('v4l2subdev',
-> > +                               libv4l2subdev_sources)
-> > +
-> > +dep_libv4l2subdev = declare_dependency(link_with : libv4l2subdev)
-> > +
-> > +media_ctl_sources = files(
-> > +    'media-ctl.c',
-> > +    'options.c',
-> > +    'options.h',
-> > +    'tools.h',
-> > +)
-> > +
-> > +media_ctl_deps = [
-> > +    dep_libmediactl,
-> > +    dep_libv4l2subdev,
-> > +]
-> > +
-> > +media_ctl = executable('media-ctl',
-> > +                       media_ctl_sources,
-> > +                       dependencies : media_ctl_deps,
-> > +                       install : true)
-> > diff --git a/utils/meson.build b/utils/meson.build
-> > new file mode 100644
-> > index 00000000..5ca0247e
-> > --- /dev/null
-> > +++ b/utils/meson.build
-> > @@ -0,0 +1,50 @@
-> > +utils_common_incdir = include_directories('common')
-> > +
-> > +# Generate targets for media-bus-format-{names,codes}.h
-> > +foreach x: [ 'names', 'codes' ]
-> > +    output_file = 'media-bus-format-@0@.h'.format(x)
-> > +    input_file = 'gen_media_bus_format_@0@.sh'.format(x)
-> > +    target = custom_target(
-> > +        output_file,
-> > +        output : output_file,
-> > +        input : input_file,
-> > +        command : [
-> > +            prog_bash, '@INPUT@', files('..' / 'include' / 'linux' / 'media-bus-format.h'),
-> > +        ],
-> > +        capture : true,
-> > +    )
-> > +    set_variable(output_file.underscorify(), target)
-> > +endforeach
-> > +
-> > +# Libraries
-> > +subdir('libcecutil')
-> > +subdir('libmedia_dev')
-> > +subdir('libv4l2util')
-> > +
-> > +# Utils
-> > +subdir('cec-ctl')
-> > +subdir('cec-follower')
-> > +subdir('cx18-ctl')
-> > +if get_option('libdvbv5')
-> > +    subdir('dvb')
-> > +endif
-> > +subdir('ir-ctl')
-> > +subdir('ivtv-ctl')
-> > +subdir('keytable')
-> > +subdir('media-ctl')
-> > +if get_option('qv4l2')
-> > +    subdir('qv4l2')
-> > +endif
-> > +if get_option('qvidcap')
-> > +    subdir('qvidcap')
-> > +endif
-> > +subdir('rds-ctl')
-> > +subdir('v4l2-ctl')
-> > +subdir('v4l2-dbg')
-> > +subdir('v4l2-sysfs-path')
-> > +
-> > +# Compliance tools
-> > +subdir('cec-compliance')
-> > +if have_fork
-> > +    subdir('v4l2-compliance')
-> > +endif
-> > diff --git a/utils/qv4l2/meson.build b/utils/qv4l2/meson.build
-> > new file mode 100644
-> > index 00000000..ced75443
-> > --- /dev/null
-> > +++ b/utils/qv4l2/meson.build
-> > @@ -0,0 +1,75 @@
-> > +qv4l2_sources = files(
-> > +    'alsa_stream.c',
-> > +    'alsa_stream.h',
-> > +    'capture-win-gl.cpp',
-> > +    'capture-win-gl.h',
-> > +    'capture-win-qt.cpp',
-> > +    'capture-win-qt.h',
-> > +    'capture-win.cpp',
-> > +    'capture-win.h',
-> > +    'ctrl-tab.cpp',
-> > +    'general-tab.cpp',
-> > +    'general-tab.h',
-> > +    'qv4l2.cpp',
-> > +    'qv4l2.h',
-> > +    'raw2sliced.cpp',
-> > +    'raw2sliced.h',
-> > +    'tpg-tab.cpp',
-> > +    'v4l2-tpg-colors.c',
-> > +    'v4l2-tpg-core.c',
-> > +    'vbi-tab.cpp',
-> > +    'vbi-tab.h',
-> > +)
-> > +
-> > +qv4l2_deps = [
-> > +    dep_alsa,
-> > +    dep_libmedia_dev,
-> > +    dep_libv4l2,
-> > +    dep_libv4l2util,
-> > +    dep_libv4lconvert,
-> > +    dep_opengl,
-> > +    dep_qt5,
-> > +    dep_threads,
-> > +]
-> > +
-> > +qv4l2_incdir = [
-> > +    utils_common_incdir,
-> > +    v4l2_utils_incdir,
-> > +]
-> > +
-> > +qt5_files = qt5.preprocess(
-> > +    moc_headers : ['qv4l2.h', 'general-tab.h', 'vbi-tab.h', 'capture-win.h'],
-> > +    qresources : 'qv4l2.qrc',
-> > +)
-> > +qv4l2_sources += qt5_files
-> > +
-> > +qv4l2 = executable('qv4l2',
-> > +                   sources : qv4l2_sources,
-> > +                   install : true,
-> > +                   dependencies : qv4l2_deps,
-> > +                   include_directories : qv4l2_incdir)
-> > +
-> > +man_pages += [[ meson.current_source_dir(), 'qv4l2', 1 ]]
-> > +
-> > +qv4l2_applications_files = files(
-> > +    'qv4l2.desktop',
-> > +)
-> > +
-> > +install_data('qv4l2.desktop',
-> > +             install_dir : get_option('datadir') / 'applications')
-> > +
-> > +qv4l2_icons_dir = get_option('datadir') / 'icons' / 'hicolor'
-> > +
-> > +qv4l2_icons_files = [
-> > +    ['qv4l2_16x16.png', '16x16',    'qv4l2.png'],
-> > +    ['qv4l2_24x24.png', '24x24',    'qv4l2.png'],
-> > +    ['qv4l2_32x32.png', '32x32',    'qv4l2.png'],
-> > +    ['qv4l2_64x64.png', '64x64',    'qv4l2.png'],
-> > +    ['qv4l2.png',       'scalable', 'qv4l2.svg'],
-> > +]
-> > +
-> > +foreach f : qv4l2_icons_files
-> > +    install_data(f[0],
-> > +                 rename: f[1] / 'apps' / f[2],
-> > +                 install_dir : qv4l2_icons_dir)
-> > +endforeach
-> > diff --git a/utils/qvidcap/meson.build b/utils/qvidcap/meson.build
-> > new file mode 100644
-> > index 00000000..1c379318
-> > --- /dev/null
-> > +++ b/utils/qvidcap/meson.build
-> > @@ -0,0 +1,75 @@
-> > +qvidcap_sources = files(
-> > +    'capture.cpp',
-> > +    'capture.h',
-> > +    'codec-fwht.c',
-> > +    'codec-v4l2-fwht.c',
-> > +    'paint.cpp',
-> > +    'qvidcap.cpp',
-> > +    'qvidcap.h',
-> > +    'v4l-stream.c',
-> > +    'v4l2-info.cpp',
-> > +    'v4l2-tpg-colors.c',
-> > +    'v4l2-tpg-core.c',
-> > +)
-> > +
-> > +qvidcap_deps = [
-> > +    dep_libmedia_dev,
-> > +    dep_libv4l2,
-> > +    dep_libv4l2util,
-> > +    dep_libv4lconvert,
-> > +    dep_opengl,
-> > +    dep_qt5,
-> > +]
-> > +
-> > +qvidcap_incdir = [
-> > +    utils_common_incdir,
-> > +    v4l2_utils_incdir,
-> > +]
-> > +
-> > +qt5_files = qt5.preprocess(
-> > +    moc_headers : 'capture.h',
-> > +    qresources : 'qvidcap.qrc',
-> > +)
-> > +qvidcap_sources += qt5_files
-> > +
-> > +v4l2_convert_sources = files(
-> > +    'v4l2-convert.glsl',
-> > +)
-> > +
-> > +configure_file(
-> > +    input : 'v4l2-convert.pl',
-> > +    output : 'v4l2-convert.h',
-> > +    capture : true,
-> > +    command : [prog_perl, '@INPUT@', v4l2_convert_sources],
-> > +)
-> > +
-> > +qvidcap = executable('qvidcap',
-> > +                     sources : qvidcap_sources,
-> > +                     install : true,
-> > +                     dependencies : qvidcap_deps,
-> > +                     include_directories : qvidcap_incdir)
-> > +
-> > +man_pages += [[ meson.current_source_dir(), 'qvidcap', 1 ]]
-> > +
-> > +qvidcap_applications_files = files(
-> > +    'qvidcap.desktop',
-> > +)
-> > +
-> > +install_data('qvidcap.desktop',
-> > +             install_dir : get_option('datadir') / 'applications')
-> > +
-> > +qvidcap_icons_dir = get_option('datadir') / 'icons' / 'hicolor'
-> > +
-> > +qvidcap_icons_files = [
-> > +    ['qvidcap_16x16.png', '16x16',    'qvidcap.png'],
-> > +    ['qvidcap_24x24.png', '24x24',    'qvidcap.png'],
-> > +    ['qvidcap_32x32.png', '32x32',    'qvidcap.png'],
-> > +    ['qvidcap_64x64.png', '64x64',    'qvidcap.png'],
-> > +    ['qvidcap.png',       'scalable', 'qvidcap.svg'],
-> > +]
-> > +
-> > +foreach f : qvidcap_icons_files
-> > +    install_data(f[0],
-> > +                 rename: f[1] / 'apps' / f[2],
-> > +                 install_dir : qvidcap_icons_dir)
-> > +endforeach
-> > diff --git a/utils/rds-ctl/meson.build b/utils/rds-ctl/meson.build
-> > new file mode 100644
-> > index 00000000..be797035
-> > --- /dev/null
-> > +++ b/utils/rds-ctl/meson.build
-> > @@ -0,0 +1,13 @@
-> > +rds_ctl_sources = files(
-> > +    'rds-ctl.cpp',
-> > +)
-> > +
-> > +rds_ctl_deps = [
-> > +    dep_libv4l2rds,
-> > +]
-> > +
-> > +rds_ctl = executable('rds-ctl',
-> > +                     rds_ctl_sources,
-> > +                     install : true,
-> > +                     dependencies : rds_ctl_deps,
-> > +                     include_directories : v4l2_utils_incdir)
-> > diff --git a/utils/v4l2-compliance/meson.build b/utils/v4l2-compliance/meson.build
-> > new file mode 100644
-> > index 00000000..5b03b570
-> > --- /dev/null
-> > +++ b/utils/v4l2-compliance/meson.build
-> > @@ -0,0 +1,60 @@
-> > +v4l2_compliance_sources = files(
-> > +    'media-info.cpp',
-> > +    'v4l2-compliance.cpp',
-> > +    'v4l2-compliance.h',
-> > +    'v4l2-info.cpp',
-> > +    'v4l2-test-buffers.cpp',
-> > +    'v4l2-test-codecs.cpp',
-> > +    'v4l2-test-colors.cpp',
-> > +    'v4l2-test-controls.cpp',
-> > +    'v4l2-test-debug.cpp',
-> > +    'v4l2-test-formats.cpp',
-> > +    'v4l2-test-input-output.cpp',
-> > +    'v4l2-test-io-config.cpp',
-> > +    'v4l2-test-media.cpp',
-> > +    'v4l2-test-subdevs.cpp',
-> > +)
-> > +
-> > +v4l2_compliance_sources += version_h
-> > +
-> > +v4l2_compliance_deps = [
-> > +    dep_librt,
-> > +    dep_threads,
-> > +]
-> > +
-> > +v4l2_compliance_cpp_args = []
-> > +
-> > +if get_option('v4l2-compliance-libv4l')
-> > +    v4l2_compliance_deps += [
-> > +        dep_libv4lconvert,
-> > +        dep_libv4l2,
-> > +    ]
-> > +else
-> > +    v4l2_compliance_cpp_args += '-DNO_LIBV4L2'
-> > +endif
-> > +
-> > +v4l2_compliance_incdir = [
-> > +    utils_common_incdir,
-> > +    v4l2_utils_incdir,
-> > +]
-> > +
-> > +v4l2_compliance = executable('v4l2-compliance',
-> > +                             v4l2_compliance_sources,
-> > +                             install : true,
-> > +                             dependencies : v4l2_compliance_deps,
-> > +                             cpp_args : v4l2_compliance_cpp_args,
-> > +                             include_directories : v4l2_compliance_incdir)
-> > +
-> > +man_pages += [[ meson.current_source_dir(), 'v4l2-compliance', 1 ]]
-> > +
-> > +v4l2_compliance_32_cpp_args = ['-m32', '-DNO_LIBV4L2']
-> > +v4l2_compliance_32_link_args = ['-m32', '-static']
-> > +
-> > +if get_option('v4l2-compliance-32') and have_m32
-> > +    v4l2_compliance_32 = executable('v4l2-compliance-32',
-> > +                                    v4l2_compliance_sources,
-> > +                                    install : true,
-> > +                                    cpp_args : v4l2_compliance_32_cpp_args,
-> > +                                    link_args : v4l2_compliance_32_link_args,
-> > +                                    include_directories : v4l2_compliance_incdir)
-> > +endif
-> > diff --git a/utils/v4l2-ctl/meson.build b/utils/v4l2-ctl/meson.build
-> > new file mode 100644
-> > index 00000000..b7d83acc
-> > --- /dev/null
-> > +++ b/utils/v4l2-ctl/meson.build
-> > @@ -0,0 +1,75 @@
-> > +v4l2_ctl_sources = files(
-> > +    'codec-fwht.c',
-> > +    'codec-v4l2-fwht.c',
-> > +    'media-info.cpp',
-> > +    'v4l-stream.c',
-> > +    'v4l2-ctl-common.cpp',
-> > +    'v4l2-ctl-edid.cpp',
-> > +    'v4l2-ctl-io.cpp',
-> > +    'v4l2-ctl-meta.cpp',
-> > +    'v4l2-ctl-misc.cpp',
-> > +    'v4l2-ctl-modes.cpp',
-> > +    'v4l2-ctl-overlay.cpp',
-> > +    'v4l2-ctl-sdr.cpp',
-> > +    'v4l2-ctl-selection.cpp',
-> > +    'v4l2-ctl-stds.cpp',
-> > +    'v4l2-ctl-streaming.cpp',
-> > +    'v4l2-ctl-subdev.cpp',
-> > +    'v4l2-ctl-tuner.cpp',
-> > +    'v4l2-ctl-vbi.cpp',
-> > +    'v4l2-ctl-vidcap.cpp',
-> > +    'v4l2-ctl-vidout.cpp',
-> > +    'v4l2-ctl.cpp',
-> > +    'v4l2-ctl.h',
-> > +    'v4l2-info.cpp',
-> > +    'v4l2-tpg-colors.c',
-> > +    'v4l2-tpg-core.c',
-> > +)
-> > +v4l2_ctl_sources += media_bus_format_names_h
-> > +
-> > +v4l2_ctl_deps = [
-> > +    dep_librt,
-> > +    dep_threads,
-> > +]
-> > +
-> > +v4l2_ctl_cpp_args = []
-> > +
-> > +if get_option('v4l2-ctl-libv4l')
-> > +    v4l2_ctl_deps += [
-> > +        dep_libv4lconvert,
-> > +        dep_libv4l2,
-> > +    ]
-> > +else
-> > +    v4l2_ctl_cpp_args += '-DNO_LIBV4L2'
-> > +endif
-> > +
-> > +if not get_option('v4l2-ctl-stream-to')
-> > +    v4l2_ctl_cpp_args += '-DNO_STREAM_TO'
-> > +endif
-> > +
-> > +v4l2_ctl_incdir = [
-> > +    utils_common_incdir,
-> > +    v4l2_utils_incdir,
-> > +]
-> > +
-> > +v4l2_ctl = executable('v4l2-ctl',
-> > +                      v4l2_ctl_sources,
-> > +                      install : true,
-> > +                      dependencies : v4l2_ctl_deps,
-> > +                      cpp_args : v4l2_ctl_cpp_args,
-> > +                      include_directories : v4l2_ctl_incdir)
-> > +
-> > +man_pages += [[ meson.current_source_dir(), 'v4l2-ctl', 1 ]]
-> > +
-> > +v4l2_ctl_32_c_cpp_args = ['-m32', '-DNO_LIBV4L2']
-> > +v4l2_ctl_32_link_args = ['-m32', '-static']
-> > +
-> > +if get_option('v4l2-ctl-32') and have_m32
-> > +    v4l2_ctl_32 = executable('v4l2-ctl-32',
-> > +                             v4l2_ctl_sources,
-> > +                             install : true,
-> > +                             c_args : v4l2_ctl_32_c_cpp_args,
-> > +                             cpp_args : v4l2_ctl_32_c_cpp_args,
-> > +                             link_args : v4l2_ctl_32_link_args,
-> > +                             include_directories : v4l2_ctl_incdir)
-> > +endif
-> > diff --git a/utils/v4l2-dbg/meson.build b/utils/v4l2-dbg/meson.build
-> > new file mode 100644
-> > index 00000000..5c721592
-> > --- /dev/null
-> > +++ b/utils/v4l2-dbg/meson.build
-> > @@ -0,0 +1,16 @@
-> > +v4l2_dbg_sources = files(
-> > +    'v4l2-dbg-ac97.h',
-> > +    'v4l2-dbg-bttv.h',
-> > +    'v4l2-dbg-em28xx.h',
-> > +    'v4l2-dbg-micron.h',
-> > +    'v4l2-dbg-saa7134.h',
-> > +    'v4l2-dbg-tvp5150.h',
-> > +    'v4l2-dbg.cpp',
-> > +    'v4l2-dbg.h',
-> > +)
-> > +
-> > +v4l2_dbg = executable('v4l2-dbg',
-> > +                      v4l2_dbg_sources,
-> > +                      install : true,
-> > +                      install_dir : 'sbin',
-> > +                      include_directories : v4l2_utils_incdir)
-> > diff --git a/utils/v4l2-sysfs-path/meson.build b/utils/v4l2-sysfs-path/meson.build
-> > new file mode 100644
-> > index 00000000..b16d3a9c
-> > --- /dev/null
-> > +++ b/utils/v4l2-sysfs-path/meson.build
-> > @@ -0,0 +1,13 @@
-> > +v4l2_sysfs_path_sources = files(
-> > +    'v4l2-sysfs-path.c',
-> > +)
-> > +
-> > +v4l2_sysfs_path_deps = [
-> > +    dep_libmedia_dev,
-> > +]
-> > +
-> > +v4l2_sysfs_path = executable('v4l2-sysfs-path',
-> > +                             v4l2_sysfs_path_sources,
-> > +                             install : true,
-> > +                             dependencies : v4l2_sysfs_path_deps,
-> > +                             include_directories : v4l2_utils_incdir)
-> > diff --git a/version.h.in b/version.h.in
-> > new file mode 100644
-> > index 00000000..2506ed9b
-> > --- /dev/null
-> > +++ b/version.h.in
-> > @@ -0,0 +1 @@
-> > +#define SHA @VCS_TAG@
-> > --
-> > 2.25.1
-> >
+Fix various inconsistencies in schema indentation. Most of these are
+list indentation which should be 2 spaces more than the start of the
+enclosing keyword. This doesn't matter functionally, but affects running
+scripts which do transforms on the schema files.
+
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ .../devicetree/bindings/arm/altera.yaml       |  6 +-
+ .../amlogic/amlogic,meson-gx-ao-secure.yaml   |  2 +-
+ .../devicetree/bindings/arm/bitmain.yaml      |  2 +-
+ .../devicetree/bindings/arm/nxp/lpc32xx.yaml  |  9 ++-
+ .../bindings/arm/socionext/uniphier.yaml      | 26 ++++----
+ .../bindings/arm/stm32/st,mlahb.yaml          |  2 +-
+ .../bindings/arm/stm32/st,stm32-syscon.yaml   |  6 +-
+ .../bindings/ata/faraday,ftide010.yaml        |  4 +-
+ .../bindings/bus/allwinner,sun8i-a23-rsb.yaml |  4 +-
+ .../clock/allwinner,sun4i-a10-gates-clk.yaml  |  8 +--
+ .../devicetree/bindings/clock/fsl,plldig.yaml | 17 +++--
+ .../devicetree/bindings/clock/qcom,mmcc.yaml  | 16 ++---
+ .../bindings/connector/usb-connector.yaml     |  6 +-
+ .../crypto/allwinner,sun4i-a10-crypto.yaml    | 14 ++--
+ .../bindings/crypto/allwinner,sun8i-ce.yaml   | 16 ++---
+ .../bindings/crypto/amlogic,gxl-crypto.yaml   |  2 +-
+ .../display/allwinner,sun4i-a10-hdmi.yaml     | 40 ++++++------
+ .../display/allwinner,sun4i-a10-tcon.yaml     | 58 ++++++++---------
+ .../display/allwinner,sun6i-a31-mipi-dsi.yaml | 28 ++++----
+ .../display/allwinner,sun8i-a83t-dw-hdmi.yaml | 10 +--
+ .../bindings/display/bridge/lvds-codec.yaml   | 18 +++---
+ .../display/panel/sony,acx424akp.yaml         |  2 +-
+ .../display/panel/xinpeng,xpp055c272.yaml     |  4 +-
+ .../bindings/display/renesas,cmm.yaml         | 16 ++---
+ .../devicetree/bindings/dma/ti/k3-udma.yaml   |  8 +--
+ .../bindings/gpio/brcm,xgs-iproc-gpio.yaml    |  2 +-
+ .../bindings/gpu/arm,mali-midgard.yaml        | 18 +++---
+ .../devicetree/bindings/gpu/vivante,gc.yaml   |  2 +-
+ .../devicetree/bindings/i2c/i2c-rk3x.yaml     | 10 +--
+ .../bindings/iio/adc/adi,ad7124.yaml          |  4 +-
+ .../bindings/iio/adc/lltc,ltc2496.yaml        |  6 +-
+ .../input/allwinner,sun4i-a10-lradc-keys.yaml |  4 +-
+ .../bindings/input/touchscreen/goodix.yaml    |  2 +-
+ .../bindings/interconnect/qcom,msm8916.yaml   |  4 +-
+ .../bindings/interconnect/qcom,msm8974.yaml   |  4 +-
+ .../bindings/interconnect/qcom,qcs404.yaml    |  4 +-
+ .../allwinner,sun7i-a20-sc-nmi.yaml           | 12 ++--
+ .../intel,ixp4xx-interrupt.yaml               |  8 +--
+ .../interrupt-controller/st,stm32-exti.yaml   | 12 ++--
+ .../bindings/iommu/samsung,sysmmu.yaml        | 10 +--
+ .../bindings/mailbox/st,stm32-ipcc.yaml       |  2 +-
+ .../media/allwinner,sun4i-a10-csi.yaml        | 28 ++++----
+ .../bindings/media/amlogic,gx-vdec.yaml       | 14 ++--
+ .../bindings/media/renesas,ceu.yaml           | 28 ++++----
+ .../bindings/media/renesas,vin.yaml           |  8 +--
+ .../devicetree/bindings/media/ti,vpe.yaml     |  2 +-
+ .../memory-controllers/fsl/imx8m-ddrc.yaml    |  6 +-
+ .../bindings/mfd/st,stm32-lptimer.yaml        |  4 +-
+ .../bindings/mfd/st,stm32-timers.yaml         |  4 +-
+ .../devicetree/bindings/mfd/syscon.yaml       | 12 ++--
+ .../devicetree/bindings/mmc/cdns,sdhci.yaml   |  2 +-
+ .../bindings/mmc/rockchip-dw-mshc.yaml        | 16 ++---
+ .../bindings/mmc/socionext,uniphier-sd.yaml   | 14 ++--
+ .../devicetree/bindings/mtd/denali,nand.yaml  |  4 +-
+ .../net/allwinner,sun8i-a83t-emac.yaml        |  4 +-
+ .../bindings/net/can/bosch,m_can.yaml         | 52 +++++++--------
+ .../bindings/net/renesas,ether.yaml           |  4 +-
+ .../bindings/net/ti,cpsw-switch.yaml          | 12 ++--
+ .../bindings/net/ti,davinci-mdio.yaml         | 27 ++++----
+ .../bindings/phy/intel,lgm-emmc-phy.yaml      |  2 +-
+ .../devicetree/bindings/pwm/pwm-samsung.yaml  | 16 ++---
+ .../bindings/remoteproc/st,stm32-rproc.yaml   |  2 +-
+ .../reset/brcm,bcm7216-pcie-sata-rescal.yaml  |  4 +-
+ .../devicetree/bindings/rtc/st,stm32-rtc.yaml | 38 +++++------
+ .../bindings/serial/amlogic,meson-uart.yaml   | 16 ++---
+ .../devicetree/bindings/serial/rs485.yaml     | 17 ++---
+ .../bindings/soc/amlogic/amlogic,canvas.yaml  | 10 +--
+ .../bindings/sound/renesas,fsi.yaml           | 16 ++---
+ .../bindings/spi/qcom,spi-qcom-qspi.yaml      | 10 +--
+ .../devicetree/bindings/spi/renesas,hspi.yaml |  4 +-
+ .../devicetree/bindings/spi/spi-pl022.yaml    |  2 +-
+ .../bindings/spi/st,stm32-qspi.yaml           |  4 +-
+ .../allwinner,sun4i-a10-system-control.yaml   | 64 +++++++++----------
+ .../bindings/thermal/amlogic,thermal.yaml     | 10 +--
+ .../bindings/timer/arm,arch_timer.yaml        |  4 +-
+ .../bindings/timer/arm,arch_timer_mmio.yaml   |  4 +-
+ .../devicetree/bindings/usb/dwc2.yaml         |  8 +--
+ 77 files changed, 450 insertions(+), 450 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/arm/altera.yaml b/Documentation/devicetree/bindings/arm/altera.yaml
+index 49e0362ddc11..b388c5aa7984 100644
+--- a/Documentation/devicetree/bindings/arm/altera.yaml
++++ b/Documentation/devicetree/bindings/arm/altera.yaml
+@@ -13,8 +13,8 @@ properties:
+   compatible:
+     items:
+       - enum:
+-        - altr,socfpga-cyclone5
+-        - altr,socfpga-arria5
+-        - altr,socfpga-arria10
++          - altr,socfpga-cyclone5
++          - altr,socfpga-arria5
++          - altr,socfpga-arria10
+       - const: altr,socfpga
+ ...
+diff --git a/Documentation/devicetree/bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml b/Documentation/devicetree/bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml
+index 66213bd95e6e..6cc74523ebfd 100644
+--- a/Documentation/devicetree/bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml
++++ b/Documentation/devicetree/bindings/arm/amlogic/amlogic,meson-gx-ao-secure.yaml
+@@ -25,7 +25,7 @@ select:
+
+ properties:
+   compatible:
+-   items:
++    items:
+       - const: amlogic,meson-gx-ao-secure
+       - const: syscon
+
+diff --git a/Documentation/devicetree/bindings/arm/bitmain.yaml b/Documentation/devicetree/bindings/arm/bitmain.yaml
+index 0efdb4ac028e..5cd5b36cff2d 100644
+--- a/Documentation/devicetree/bindings/arm/bitmain.yaml
++++ b/Documentation/devicetree/bindings/arm/bitmain.yaml
+@@ -13,6 +13,6 @@ properties:
+   compatible:
+     items:
+       - enum:
+-        - bitmain,sophon-edge
++          - bitmain,sophon-edge
+       - const: bitmain,bm1880
+ ...
+diff --git a/Documentation/devicetree/bindings/arm/nxp/lpc32xx.yaml b/Documentation/devicetree/bindings/arm/nxp/lpc32xx.yaml
+index 07f39d3eee7e..f7f024910e71 100644
+--- a/Documentation/devicetree/bindings/arm/nxp/lpc32xx.yaml
++++ b/Documentation/devicetree/bindings/arm/nxp/lpc32xx.yaml
+@@ -17,9 +17,8 @@ properties:
+           - nxp,lpc3230
+           - nxp,lpc3240
+       - items:
+-        - enum:
+-            - ea,ea3250
+-            - phytec,phy3250
+-        - const: nxp,lpc3250
+-
++          - enum:
++              - ea,ea3250
++              - phytec,phy3250
++          - const: nxp,lpc3250
+ ...
+diff --git a/Documentation/devicetree/bindings/arm/socionext/uniphier.yaml b/Documentation/devicetree/bindings/arm/socionext/uniphier.yaml
+index 65ad6d8a3c99..113f93b9ae55 100644
+--- a/Documentation/devicetree/bindings/arm/socionext/uniphier.yaml
++++ b/Documentation/devicetree/bindings/arm/socionext/uniphier.yaml
+@@ -17,45 +17,45 @@ properties:
+       - description: LD4 SoC boards
+         items:
+           - enum:
+-            - socionext,uniphier-ld4-ref
++              - socionext,uniphier-ld4-ref
+           - const: socionext,uniphier-ld4
+       - description: Pro4 SoC boards
+         items:
+           - enum:
+-            - socionext,uniphier-pro4-ace
+-            - socionext,uniphier-pro4-ref
+-            - socionext,uniphier-pro4-sanji
++              - socionext,uniphier-pro4-ace
++              - socionext,uniphier-pro4-ref
++              - socionext,uniphier-pro4-sanji
+           - const: socionext,uniphier-pro4
+       - description: sLD8 SoC boards
+         items:
+           - enum:
+-            - socionext,uniphier-sld8-ref
++              - socionext,uniphier-sld8-ref
+           - const: socionext,uniphier-sld8
+       - description: PXs2 SoC boards
+         items:
+           - enum:
+-            - socionext,uniphier-pxs2-gentil
+-            - socionext,uniphier-pxs2-vodka
++              - socionext,uniphier-pxs2-gentil
++              - socionext,uniphier-pxs2-vodka
+           - const: socionext,uniphier-pxs2
+       - description: LD6b SoC boards
+         items:
+           - enum:
+-            - socionext,uniphier-ld6b-ref
++              - socionext,uniphier-ld6b-ref
+           - const: socionext,uniphier-ld6b
+       - description: LD11 SoC boards
+         items:
+           - enum:
+-            - socionext,uniphier-ld11-global
+-            - socionext,uniphier-ld11-ref
++              - socionext,uniphier-ld11-global
++              - socionext,uniphier-ld11-ref
+           - const: socionext,uniphier-ld11
+       - description: LD20 SoC boards
+         items:
+           - enum:
+-            - socionext,uniphier-ld20-global
+-            - socionext,uniphier-ld20-ref
++              - socionext,uniphier-ld20-global
++              - socionext,uniphier-ld20-ref
+           - const: socionext,uniphier-ld20
+       - description: PXs3 SoC boards
+         items:
+           - enum:
+-            - socionext,uniphier-pxs3-ref
++              - socionext,uniphier-pxs3-ref
+           - const: socionext,uniphier-pxs3
+diff --git a/Documentation/devicetree/bindings/arm/stm32/st,mlahb.yaml b/Documentation/devicetree/bindings/arm/stm32/st,mlahb.yaml
+index 55f7938c4826..9f276bc9efa0 100644
+--- a/Documentation/devicetree/bindings/arm/stm32/st,mlahb.yaml
++++ b/Documentation/devicetree/bindings/arm/stm32/st,mlahb.yaml
+@@ -20,7 +20,7 @@ description: |
+   [2]: https://wiki.st.com/stm32mpu/wiki/STM32MP15_RAM_mapping
+
+ allOf:
+- - $ref: /schemas/simple-bus.yaml#
++  - $ref: /schemas/simple-bus.yaml#
+
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml b/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml
+index baff80197d5a..cf5db5e273f3 100644
+--- a/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml
++++ b/Documentation/devicetree/bindings/arm/stm32/st,stm32-syscon.yaml
+@@ -14,9 +14,9 @@ properties:
+   compatible:
+     oneOf:
+       - items:
+-        - enum:
+-          - st,stm32mp157-syscfg
+-        - const: syscon
++          - enum:
++              - st,stm32mp157-syscfg
++          - const: syscon
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/ata/faraday,ftide010.yaml b/Documentation/devicetree/bindings/ata/faraday,ftide010.yaml
+index bfc6357476fd..6451928dd2ce 100644
+--- a/Documentation/devicetree/bindings/ata/faraday,ftide010.yaml
++++ b/Documentation/devicetree/bindings/ata/faraday,ftide010.yaml
+@@ -26,8 +26,8 @@ properties:
+     oneOf:
+       - const: faraday,ftide010
+       - items:
+-        - const: cortina,gemini-pata
+-        - const: faraday,ftide010
++          - const: cortina,gemini-pata
++          - const: faraday,ftide010
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/bus/allwinner,sun8i-a23-rsb.yaml b/Documentation/devicetree/bindings/bus/allwinner,sun8i-a23-rsb.yaml
+index 80973619342d..32d33b983d66 100644
+--- a/Documentation/devicetree/bindings/bus/allwinner,sun8i-a23-rsb.yaml
++++ b/Documentation/devicetree/bindings/bus/allwinner,sun8i-a23-rsb.yaml
+@@ -21,8 +21,8 @@ properties:
+     oneOf:
+       - const: allwinner,sun8i-a23-rsb
+       - items:
+-        - const: allwinner,sun8i-a83t-rsb
+-        - const: allwinner,sun8i-a23-rsb
++          - const: allwinner,sun8i-a83t-rsb
++          - const: allwinner,sun8i-a23-rsb
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-gates-clk.yaml b/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-gates-clk.yaml
+index ed1b2126a81b..9a37a357cb4e 100644
+--- a/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-gates-clk.yaml
++++ b/Documentation/devicetree/bindings/clock/allwinner,sun4i-a10-gates-clk.yaml
+@@ -52,12 +52,12 @@ properties:
+       - const: allwinner,sun4i-a10-dram-gates-clk
+
+       - items:
+-        - const: allwinner,sun5i-a13-dram-gates-clk
+-        - const: allwinner,sun4i-a10-gates-clk
++          - const: allwinner,sun5i-a13-dram-gates-clk
++          - const: allwinner,sun4i-a10-gates-clk
+
+       - items:
+-        - const: allwinner,sun8i-h3-apb0-gates-clk
+-        - const: allwinner,sun4i-a10-gates-clk
++          - const: allwinner,sun8i-h3-apb0-gates-clk
++          - const: allwinner,sun4i-a10-gates-clk
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/clock/fsl,plldig.yaml b/Documentation/devicetree/bindings/clock/fsl,plldig.yaml
+index a203d5d498db..8141f22410dd 100644
+--- a/Documentation/devicetree/bindings/clock/fsl,plldig.yaml
++++ b/Documentation/devicetree/bindings/clock/fsl,plldig.yaml
+@@ -28,15 +28,14 @@ properties:
+     const: 0
+
+   fsl,vco-hz:
+-     description: Optional for VCO frequency of the PLL in Hertz.
+-        The VCO frequency of this PLL cannot be changed during runtime
+-        only at startup. Therefore, the output frequencies are very
+-        limited and might not even closely match the requested frequency.
+-        To work around this restriction the user may specify its own
+-        desired VCO frequency for the PLL.
+-     minimum: 650000000
+-     maximum: 1300000000
+-     default: 1188000000
++    description: Optional for VCO frequency of the PLL in Hertz. The VCO frequency
++      of this PLL cannot be changed during runtime only at startup. Therefore,
++      the output frequencies are very limited and might not even closely match
++      the requested frequency. To work around this restriction the user may specify
++      its own desired VCO frequency for the PLL.
++    minimum: 650000000
++    maximum: 1300000000
++    default: 1188000000
+
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/clock/qcom,mmcc.yaml b/Documentation/devicetree/bindings/clock/qcom,mmcc.yaml
+index f684fe67db84..acc31b3991bd 100644
+--- a/Documentation/devicetree/bindings/clock/qcom,mmcc.yaml
++++ b/Documentation/devicetree/bindings/clock/qcom,mmcc.yaml
+@@ -15,15 +15,15 @@ description: |
+   power domains.
+
+ properties:
+-  compatible :
++  compatible:
+     enum:
+-       - qcom,mmcc-apq8064
+-       - qcom,mmcc-apq8084
+-       - qcom,mmcc-msm8660
+-       - qcom,mmcc-msm8960
+-       - qcom,mmcc-msm8974
+-       - qcom,mmcc-msm8996
+-       - qcom,mmcc-msm8998
++      - qcom,mmcc-apq8064
++      - qcom,mmcc-apq8084
++      - qcom,mmcc-msm8660
++      - qcom,mmcc-msm8960
++      - qcom,mmcc-msm8974
++      - qcom,mmcc-msm8996
++      - qcom,mmcc-msm8998
+
+   clocks:
+     items:
+diff --git a/Documentation/devicetree/bindings/connector/usb-connector.yaml b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+index 4638d7adb806..369c58e22a06 100644
+--- a/Documentation/devicetree/bindings/connector/usb-connector.yaml
++++ b/Documentation/devicetree/bindings/connector/usb-connector.yaml
+@@ -144,7 +144,7 @@ required:
+
+ examples:
+   # Micro-USB connector with HS lines routed via controller (MUIC).
+-  - |+
++  - |
+     muic-max77843 {
+       usb_con1: connector {
+         compatible = "usb-b-connector";
+@@ -156,7 +156,7 @@ examples:
+   # USB-C connector attached to CC controller (s2mm005), HS lines routed
+   # to companion PMIC (max77865), SS lines to USB3 PHY and SBU to DisplayPort.
+   # DisplayPort video lines are routed to the connector via SS mux in USB3 PHY.
+-  - |+
++  - |
+     ccic: s2mm005 {
+       usb_con2: connector {
+         compatible = "usb-c-connector";
+@@ -190,7 +190,7 @@ examples:
+
+   # USB-C connector attached to a typec port controller(ptn5110), which has
+   # power delivery support and enables drp.
+-  - |+
++  - |
+     #include <dt-bindings/usb/pd.h>
+     typec: ptn5110 {
+       usb_con3: connector {
+diff --git a/Documentation/devicetree/bindings/crypto/allwinner,sun4i-a10-crypto.yaml b/Documentation/devicetree/bindings/crypto/allwinner,sun4i-a10-crypto.yaml
+index 8b9a8f337f16..fc823572bcff 100644
+--- a/Documentation/devicetree/bindings/crypto/allwinner,sun4i-a10-crypto.yaml
++++ b/Documentation/devicetree/bindings/crypto/allwinner,sun4i-a10-crypto.yaml
+@@ -15,16 +15,16 @@ properties:
+     oneOf:
+       - const: allwinner,sun4i-a10-crypto
+       - items:
+-        - const: allwinner,sun5i-a13-crypto
+-        - const: allwinner,sun4i-a10-crypto
++          - const: allwinner,sun5i-a13-crypto
++          - const: allwinner,sun4i-a10-crypto
+       - items:
+-        - const: allwinner,sun6i-a31-crypto
+-        - const: allwinner,sun4i-a10-crypto
++          - const: allwinner,sun6i-a31-crypto
++          - const: allwinner,sun4i-a10-crypto
+       - items:
+-        - const: allwinner,sun7i-a20-crypto
+-        - const: allwinner,sun4i-a10-crypto
++          - const: allwinner,sun7i-a20-crypto
++          - const: allwinner,sun4i-a10-crypto
+       - items:
+-        - const: allwinner,sun8i-a33-crypto
++          - const: allwinner,sun8i-a33-crypto
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml b/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml
+index 2c459b8c76ff..7a60d84289cc 100644
+--- a/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml
++++ b/Documentation/devicetree/bindings/crypto/allwinner,sun8i-ce.yaml
+@@ -50,16 +50,16 @@ if:
+         const: allwinner,sun50i-h6-crypto
+ then:
+   properties:
+-      clocks:
+-        minItems: 3
+-      clock-names:
+-        minItems: 3
++    clocks:
++      minItems: 3
++    clock-names:
++      minItems: 3
+ else:
+   properties:
+-      clocks:
+-        maxItems: 2
+-      clock-names:
+-        maxItems: 2
++    clocks:
++      maxItems: 2
++    clock-names:
++      maxItems: 2
+
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/crypto/amlogic,gxl-crypto.yaml b/Documentation/devicetree/bindings/crypto/amlogic,gxl-crypto.yaml
+index 5becc60a0e28..385b23d255c3 100644
+--- a/Documentation/devicetree/bindings/crypto/amlogic,gxl-crypto.yaml
++++ b/Documentation/devicetree/bindings/crypto/amlogic,gxl-crypto.yaml
+@@ -12,7 +12,7 @@ maintainers:
+ properties:
+   compatible:
+     items:
+-    - const: amlogic,gxl-crypto
++      - const: amlogic,gxl-crypto
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-hdmi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-hdmi.yaml
+index 5d4915aed1e2..75e6479397a5 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-hdmi.yaml
+@@ -21,8 +21,8 @@ properties:
+       - const: allwinner,sun5i-a10s-hdmi
+       - const: allwinner,sun6i-a31-hdmi
+       - items:
+-        - const: allwinner,sun7i-a20-hdmi
+-        - const: allwinner,sun5i-a10s-hdmi
++          - const: allwinner,sun7i-a20-hdmi
++          - const: allwinner,sun5i-a10s-hdmi
+
+   reg:
+     maxItems: 1
+@@ -33,32 +33,32 @@ properties:
+   clocks:
+     oneOf:
+       - items:
+-        - description: The HDMI interface clock
+-        - description: The HDMI module clock
+-        - description: The first video PLL
+-        - description: The second video PLL
++          - description: The HDMI interface clock
++          - description: The HDMI module clock
++          - description: The first video PLL
++          - description: The second video PLL
+
+       - items:
+-        - description: The HDMI interface clock
+-        - description: The HDMI module clock
+-        - description: The HDMI DDC clock
+-        - description: The first video PLL
+-        - description: The second video PLL
++          - description: The HDMI interface clock
++          - description: The HDMI module clock
++          - description: The HDMI DDC clock
++          - description: The first video PLL
++          - description: The second video PLL
+
+   clock-names:
+     oneOf:
+       - items:
+-        - const: ahb
+-        - const: mod
+-        - const: pll-0
+-        - const: pll-1
++          - const: ahb
++          - const: mod
++          - const: pll-0
++          - const: pll-1
+
+       - items:
+-        - const: ahb
+-        - const: mod
+-        - const: ddc
+-        - const: pll-0
+-        - const: pll-1
++          - const: ahb
++          - const: mod
++          - const: ddc
++          - const: pll-0
++          - const: pll-1
+
+   resets:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+index e5344c4ae226..87cb77b32ee3 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun4i-a10-tcon.yaml
+@@ -35,26 +35,26 @@ properties:
+       - const: allwinner,sun9i-a80-tcon-tv
+
+       - items:
+-        - enum:
+-          - allwinner,sun7i-a20-tcon0
+-          - allwinner,sun7i-a20-tcon1
+-        - const: allwinner,sun7i-a20-tcon
++          - enum:
++              - allwinner,sun7i-a20-tcon0
++              - allwinner,sun7i-a20-tcon1
++          - const: allwinner,sun7i-a20-tcon
+
+       - items:
+-        - enum:
+-            - allwinner,sun50i-a64-tcon-lcd
+-        - const: allwinner,sun8i-a83t-tcon-lcd
++          - enum:
++              - allwinner,sun50i-a64-tcon-lcd
++          - const: allwinner,sun8i-a83t-tcon-lcd
+
+       - items:
+-        - enum:
+-          - allwinner,sun8i-h3-tcon-tv
+-          - allwinner,sun50i-a64-tcon-tv
+-        - const: allwinner,sun8i-a83t-tcon-tv
++          - enum:
++              - allwinner,sun8i-h3-tcon-tv
++              - allwinner,sun50i-a64-tcon-tv
++          - const: allwinner,sun8i-a83t-tcon-tv
+
+       - items:
+-        - enum:
+-          - allwinner,sun50i-h6-tcon-tv
+-        - const: allwinner,sun8i-r40-tcon-tv
++          - enum:
++              - allwinner,sun50i-h6-tcon-tv
++          - const: allwinner,sun8i-r40-tcon-tv
+
+   reg:
+     maxItems: 1
+@@ -83,37 +83,37 @@ properties:
+   resets:
+     anyOf:
+       - items:
+-        - description: TCON Reset Line
++          - description: TCON Reset Line
+
+       - items:
+-        - description: TCON Reset Line
+-        - description: TCON LVDS Reset Line
++          - description: TCON Reset Line
++          - description: TCON LVDS Reset Line
+
+       - items:
+-        - description: TCON Reset Line
+-        - description: TCON eDP Reset Line
++          - description: TCON Reset Line
++          - description: TCON eDP Reset Line
+
+       - items:
+-        - description: TCON Reset Line
+-        - description: TCON eDP Reset Line
+-        - description: TCON LVDS Reset Line
++          - description: TCON Reset Line
++          - description: TCON eDP Reset Line
++          - description: TCON LVDS Reset Line
+
+   reset-names:
+     oneOf:
+       - const: lcd
+
+       - items:
+-        - const: lcd
+-        - const: lvds
++          - const: lcd
++          - const: lvds
+
+       - items:
+-        - const: lcd
+-        - const: edp
++          - const: lcd
++          - const: edp
+
+       - items:
+-        - const: lcd
+-        - const: edp
+-        - const: lvds
++          - const: lcd
++          - const: edp
++          - const: lvds
+
+   ports:
+     type: object
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
+index 9e90c2b00960..eed05b26cdf3 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun6i-a31-mipi-dsi.yaml
+@@ -76,28 +76,28 @@ required:
+ allOf:
+   - if:
+       properties:
+-         compatible:
+-           contains:
+-             const: allwinner,sun6i-a31-mipi-dsi
++        compatible:
++          contains:
++            const: allwinner,sun6i-a31-mipi-dsi
+
+     then:
+-        properties:
+-          clocks:
+-            minItems: 2
++      properties:
++        clocks:
++          minItems: 2
+
+-        required:
+-          - clock-names
++      required:
++        - clock-names
+
+   - if:
+       properties:
+-         compatible:
+-           contains:
+-             const: allwinner,sun50i-a64-mipi-dsi
++        compatible:
++          contains:
++            const: allwinner,sun50i-a64-mipi-dsi
+
+     then:
+-        properties:
+-          clocks:
+-            minItems: 1
++      properties:
++        clocks:
++          minItems: 1
+
+ additionalProperties: false
+
+diff --git a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
+index 4d6795690ac3..fa4769a0b26e 100644
+--- a/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
++++ b/Documentation/devicetree/bindings/display/allwinner,sun8i-a83t-dw-hdmi.yaml
+@@ -29,11 +29,11 @@ properties:
+       - const: allwinner,sun50i-h6-dw-hdmi
+
+       - items:
+-        - enum:
+-          - allwinner,sun8i-h3-dw-hdmi
+-          - allwinner,sun8i-r40-dw-hdmi
+-          - allwinner,sun50i-a64-dw-hdmi
+-        - const: allwinner,sun8i-a83t-dw-hdmi
++          - enum:
++              - allwinner,sun8i-h3-dw-hdmi
++              - allwinner,sun8i-r40-dw-hdmi
++              - allwinner,sun50i-a64-dw-hdmi
++          - const: allwinner,sun8i-a83t-dw-hdmi
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+index 8f373029f5d2..e737951f5873 100644
+--- a/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
++++ b/Documentation/devicetree/bindings/display/bridge/lvds-codec.yaml
+@@ -32,17 +32,17 @@ properties:
+   compatible:
+     oneOf:
+       - items:
+-        - enum:
+-          - ti,ds90c185       # For the TI DS90C185 FPD-Link Serializer
+-          - ti,ds90c187       # For the TI DS90C187 FPD-Link Serializer
+-          - ti,sn75lvds83     # For the TI SN75LVDS83 FlatLink transmitter
+-        - const: lvds-encoder # Generic LVDS encoder compatible fallback
++          - enum:
++              - ti,ds90c185   # For the TI DS90C185 FPD-Link Serializer
++              - ti,ds90c187   # For the TI DS90C187 FPD-Link Serializer
++              - ti,sn75lvds83 # For the TI SN75LVDS83 FlatLink transmitter
++          - const: lvds-encoder # Generic LVDS encoder compatible fallback
+       - items:
+-        - enum:
+-          - ti,ds90cf384a     # For the DS90CF384A FPD-Link LVDS Receiver
+-        - const: lvds-decoder # Generic LVDS decoders compatible fallback
++          - enum:
++              - ti,ds90cf384a # For the DS90CF384A FPD-Link LVDS Receiver
++          - const: lvds-decoder # Generic LVDS decoders compatible fallback
+       - enum:
+-        - thine,thc63lvdm83d  # For the THC63LVDM83D LVDS serializer
++          - thine,thc63lvdm83d # For the THC63LVDM83D LVDS serializer
+
+   ports:
+     type: object
+diff --git a/Documentation/devicetree/bindings/display/panel/sony,acx424akp.yaml b/Documentation/devicetree/bindings/display/panel/sony,acx424akp.yaml
+index 185dcc8fd1f9..78d060097052 100644
+--- a/Documentation/devicetree/bindings/display/panel/sony,acx424akp.yaml
++++ b/Documentation/devicetree/bindings/display/panel/sony,acx424akp.yaml
+@@ -18,7 +18,7 @@ properties:
+   reg: true
+   reset-gpios: true
+   vddi-supply:
+-     description: regulator that supplies the vddi voltage
++    description: regulator that supplies the vddi voltage
+   enforce-video-mode: true
+
+ required:
+diff --git a/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml b/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
+index d9fdb58e06b4..891de2256d22 100644
+--- a/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
++++ b/Documentation/devicetree/bindings/display/panel/xinpeng,xpp055c272.yaml
+@@ -19,9 +19,9 @@ properties:
+   backlight: true
+   reset-gpios: true
+   iovcc-supply:
+-     description: regulator that supplies the iovcc voltage
++    description: regulator that supplies the iovcc voltage
+   vci-supply:
+-     description: regulator that supplies the vci voltage
++    description: regulator that supplies the vci voltage
+
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/display/renesas,cmm.yaml b/Documentation/devicetree/bindings/display/renesas,cmm.yaml
+index a57037b9e9ba..005406c89507 100644
+--- a/Documentation/devicetree/bindings/display/renesas,cmm.yaml
++++ b/Documentation/devicetree/bindings/display/renesas,cmm.yaml
+@@ -21,15 +21,15 @@ properties:
+   compatible:
+     oneOf:
+       - items:
+-        - enum:
+-          - renesas,r8a7795-cmm
+-          - renesas,r8a7796-cmm
+-          - renesas,r8a77965-cmm
+-          - renesas,r8a77990-cmm
+-          - renesas,r8a77995-cmm
+-        - const: renesas,rcar-gen3-cmm
++          - enum:
++              - renesas,r8a7795-cmm
++              - renesas,r8a7796-cmm
++              - renesas,r8a77965-cmm
++              - renesas,r8a77990-cmm
++              - renesas,r8a77995-cmm
++          - const: renesas,rcar-gen3-cmm
+       - items:
+-        - const: renesas,rcar-gen2-cmm
++          - const: renesas,rcar-gen2-cmm
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/dma/ti/k3-udma.yaml b/Documentation/devicetree/bindings/dma/ti/k3-udma.yaml
+index 39ea05e6e5ff..85056982a242 100644
+--- a/Documentation/devicetree/bindings/dma/ti/k3-udma.yaml
++++ b/Documentation/devicetree/bindings/dma/ti/k3-udma.yaml
+@@ -69,10 +69,10 @@ properties:
+     maxItems: 3
+
+   reg-names:
+-   items:
+-     - const: gcfg
+-     - const: rchanrt
+-     - const: tchanrt
++    items:
++      - const: gcfg
++      - const: rchanrt
++      - const: tchanrt
+
+   msi-parent: true
+
+diff --git a/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml b/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml
+index 5f1ed20e43ee..4f2cbd8307a7 100644
+--- a/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml
++++ b/Documentation/devicetree/bindings/gpio/brcm,xgs-iproc-gpio.yaml
+@@ -27,7 +27,7 @@ properties:
+   gpio-controller: true
+
+   '#gpio-cells':
+-      const: 2
++    const: 2
+
+   ngpios:
+     minimum: 0
+diff --git a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
+index 0407e45eb8c4..a7a67e0a42e5 100644
+--- a/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
++++ b/Documentation/devicetree/bindings/gpu/arm,mali-midgard.yaml
+@@ -16,33 +16,33 @@ properties:
+     oneOf:
+       - items:
+           - enum:
+-             - samsung,exynos5250-mali
++              - samsung,exynos5250-mali
+           - const: arm,mali-t604
+       - items:
+           - enum:
+-             - samsung,exynos5420-mali
++              - samsung,exynos5420-mali
+           - const: arm,mali-t628
+       - items:
+           - enum:
+-             - allwinner,sun50i-h6-mali
++              - allwinner,sun50i-h6-mali
+           - const: arm,mali-t720
+       - items:
+           - enum:
+-             - amlogic,meson-gxm-mali
+-             - realtek,rtd1295-mali
++              - amlogic,meson-gxm-mali
++              - realtek,rtd1295-mali
+           - const: arm,mali-t820
+       - items:
+           - enum:
+-             - arm,juno-mali
++              - arm,juno-mali
+           - const: arm,mali-t624
+       - items:
+           - enum:
+-             - rockchip,rk3288-mali
+-             - samsung,exynos5433-mali
++              - rockchip,rk3288-mali
++              - samsung,exynos5433-mali
+           - const: arm,mali-t760
+       - items:
+           - enum:
+-             - rockchip,rk3399-mali
++              - rockchip,rk3399-mali
+           - const: arm,mali-t860
+
+           # "arm,mali-t830"
+diff --git a/Documentation/devicetree/bindings/gpu/vivante,gc.yaml b/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
+index 0bc4b38d5cbb..e1ac6ff5a230 100644
+--- a/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
++++ b/Documentation/devicetree/bindings/gpu/vivante,gc.yaml
+@@ -9,7 +9,7 @@ title: Vivante GPU Bindings
+ description: Vivante GPU core devices
+
+ maintainers:
+-  -  Lucas Stach <l.stach@pengutronix.de>
++  - Lucas Stach <l.stach@pengutronix.de>
+
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml b/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
+index 61eac76c84c4..790aa7218ee0 100644
+--- a/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
++++ b/Documentation/devicetree/bindings/i2c/i2c-rk3x.yaml
+@@ -28,14 +28,14 @@ properties:
+       - const: rockchip,rk3399-i2c
+       - items:
+           - enum:
+-            - rockchip,rk3036-i2c
+-            - rockchip,rk3368-i2c
++              - rockchip,rk3036-i2c
++              - rockchip,rk3368-i2c
+           - const: rockchip,rk3288-i2c
+       - items:
+           - enum:
+-            - rockchip,px30-i2c
+-            - rockchip,rk3308-i2c
+-            - rockchip,rk3328-i2c
++              - rockchip,px30-i2c
++              - rockchip,rk3308-i2c
++              - rockchip,rk3328-i2c
+           - const: rockchip,rk3399-i2c
+
+   reg:
+diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
+index f0934b295edc..97087a45ce54 100644
+--- a/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml
+@@ -72,8 +72,8 @@ patternProperties:
+           The channel number. It can have up to 8 channels on ad7124-4
+           and 16 channels on ad7124-8, numbered from 0 to 15.
+         items:
+-         minimum: 0
+-         maximum: 15
++          minimum: 0
++          maximum: 15
+
+       adi,reference-select:
+         description: |
+diff --git a/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml b/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
+index 118809a03279..97f521d654ea 100644
+--- a/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/lltc,ltc2496.yaml
+@@ -7,9 +7,9 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ title: Linear Technology / Analog Devices LTC2496 ADC
+
+ maintainers:
+- - Lars-Peter Clausen <lars@metafoo.de>
+- - Michael Hennerich <Michael.Hennerich@analog.com>
+- - Stefan Popa <stefan.popa@analog.com>
++  - Lars-Peter Clausen <lars@metafoo.de>
++  - Michael Hennerich <Michael.Hennerich@analog.com>
++  - Stefan Popa <stefan.popa@analog.com>
+
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+index 5b3b71c9c018..512a6af5aa42 100644
+--- a/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
++++ b/Documentation/devicetree/bindings/input/allwinner,sun4i-a10-lradc-keys.yaml
+@@ -16,8 +16,8 @@ properties:
+       - const: allwinner,sun4i-a10-lradc-keys
+       - const: allwinner,sun8i-a83t-r-lradc
+       - items:
+-        - const: allwinner,sun50i-a64-lradc
+-        - const: allwinner,sun8i-a83t-r-lradc
++          - const: allwinner,sun50i-a64-lradc
++          - const: allwinner,sun8i-a83t-r-lradc
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+index c8ea9434c9cc..e81cfa56f25a 100644
+--- a/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
++++ b/Documentation/devicetree/bindings/input/touchscreen/goodix.yaml
+@@ -63,7 +63,7 @@ required:
+   - interrupts
+
+ examples:
+-- |
++  - |
+     i2c {
+       #address-cells = <1>;
+       #size-cells = <0>;
+diff --git a/Documentation/devicetree/bindings/interconnect/qcom,msm8916.yaml b/Documentation/devicetree/bindings/interconnect/qcom,msm8916.yaml
+index 4107e60cab12..e1009ae4e8f7 100644
+--- a/Documentation/devicetree/bindings/interconnect/qcom,msm8916.yaml
++++ b/Documentation/devicetree/bindings/interconnect/qcom,msm8916.yaml
+@@ -10,8 +10,8 @@ maintainers:
+   - Georgi Djakov <georgi.djakov@linaro.org>
+
+ description: |
+-   The Qualcomm MSM8916 interconnect providers support adjusting the
+-   bandwidth requirements between the various NoC fabrics.
++  The Qualcomm MSM8916 interconnect providers support adjusting the
++  bandwidth requirements between the various NoC fabrics.
+
+ properties:
+   compatible:
+diff --git a/Documentation/devicetree/bindings/interconnect/qcom,msm8974.yaml b/Documentation/devicetree/bindings/interconnect/qcom,msm8974.yaml
+index 9af3c6e59cff..8004c4baf397 100644
+--- a/Documentation/devicetree/bindings/interconnect/qcom,msm8974.yaml
++++ b/Documentation/devicetree/bindings/interconnect/qcom,msm8974.yaml
+@@ -10,8 +10,8 @@ maintainers:
+   - Brian Masney <masneyb@onstation.org>
+
+ description: |
+-   The Qualcomm MSM8974 interconnect providers support setting system
+-   bandwidth requirements between various network-on-chip fabrics.
++  The Qualcomm MSM8974 interconnect providers support setting system
++  bandwidth requirements between various network-on-chip fabrics.
+
+ properties:
+   reg:
+diff --git a/Documentation/devicetree/bindings/interconnect/qcom,qcs404.yaml b/Documentation/devicetree/bindings/interconnect/qcom,qcs404.yaml
+index 8d65c5f80679..3fbb8785fbc9 100644
+--- a/Documentation/devicetree/bindings/interconnect/qcom,qcs404.yaml
++++ b/Documentation/devicetree/bindings/interconnect/qcom,qcs404.yaml
+@@ -10,8 +10,8 @@ maintainers:
+   - Georgi Djakov <georgi.djakov@linaro.org>
+
+ description: |
+-   The Qualcomm QCS404 interconnect providers support adjusting the
+-   bandwidth requirements between the various NoC fabrics.
++  The Qualcomm QCS404 interconnect providers support adjusting the
++  bandwidth requirements between the various NoC fabrics.
+
+ properties:
+   reg:
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml b/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml
+index cf09055da78b..7cd6b8bacfa0 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml
+@@ -27,15 +27,15 @@ properties:
+         deprecated: true
+       - const: allwinner,sun7i-a20-sc-nmi
+       - items:
+-        - const: allwinner,sun8i-a83t-r-intc
+-        - const: allwinner,sun6i-a31-r-intc
++          - const: allwinner,sun8i-a83t-r-intc
++          - const: allwinner,sun6i-a31-r-intc
+       - const: allwinner,sun9i-a80-sc-nmi
+       - items:
+-        - const: allwinner,sun50i-a64-r-intc
+-        - const: allwinner,sun6i-a31-r-intc
++          - const: allwinner,sun50i-a64-r-intc
++          - const: allwinner,sun6i-a31-r-intc
+       - items:
+-        - const: allwinner,sun50i-h6-r-intc
+-        - const: allwinner,sun6i-a31-r-intc
++          - const: allwinner,sun50i-h6-r-intc
++          - const: allwinner,sun6i-a31-r-intc
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/intel,ixp4xx-interrupt.yaml b/Documentation/devicetree/bindings/interrupt-controller/intel,ixp4xx-interrupt.yaml
+index ccc507f384d2..14dced11877b 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/intel,ixp4xx-interrupt.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/intel,ixp4xx-interrupt.yaml
+@@ -25,10 +25,10 @@ properties:
+   compatible:
+     items:
+       - enum:
+-        - intel,ixp42x-interrupt
+-        - intel,ixp43x-interrupt
+-        - intel,ixp45x-interrupt
+-        - intel,ixp46x-interrupt
++          - intel,ixp42x-interrupt
++          - intel,ixp43x-interrupt
++          - intel,ixp45x-interrupt
++          - intel,ixp46x-interrupt
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/interrupt-controller/st,stm32-exti.yaml b/Documentation/devicetree/bindings/interrupt-controller/st,stm32-exti.yaml
+index 9e5c6608b4e3..2a5b29567926 100644
+--- a/Documentation/devicetree/bindings/interrupt-controller/st,stm32-exti.yaml
++++ b/Documentation/devicetree/bindings/interrupt-controller/st,stm32-exti.yaml
+@@ -14,13 +14,13 @@ properties:
+   compatible:
+     oneOf:
+       - items:
+-        - enum:
+-          - st,stm32-exti
+-          - st,stm32h7-exti
++          - enum:
++              - st,stm32-exti
++              - st,stm32h7-exti
+       - items:
+-        - enum:
+-          - st,stm32mp1-exti
+-        - const: syscon
++          - enum:
++              - st,stm32mp1-exti
++          - const: syscon
+
+   "#interrupt-cells":
+     const: 2
+diff --git a/Documentation/devicetree/bindings/iommu/samsung,sysmmu.yaml b/Documentation/devicetree/bindings/iommu/samsung,sysmmu.yaml
+index 0e33cd9e010e..af51b91c893e 100644
+--- a/Documentation/devicetree/bindings/iommu/samsung,sysmmu.yaml
++++ b/Documentation/devicetree/bindings/iommu/samsung,sysmmu.yaml
+@@ -54,13 +54,13 @@ properties:
+   clock-names:
+     oneOf:
+       - items:
+-        - const: sysmmu
++          - const: sysmmu
+       - items:
+-        - const: sysmmu
+-        - const: master
++          - const: sysmmu
++          - const: master
+       - items:
+-        - const: aclk
+-        - const: pclk
++          - const: aclk
++          - const: pclk
+
+   "#iommu-cells":
+     const: 0
+diff --git a/Documentation/devicetree/bindings/mailbox/st,stm32-ipcc.yaml b/Documentation/devicetree/bindings/mailbox/st,stm32-ipcc.yaml
+index 5b13d6672996..db851541d619 100644
+--- a/Documentation/devicetree/bindings/mailbox/st,stm32-ipcc.yaml
++++ b/Documentation/devicetree/bindings/mailbox/st,stm32-ipcc.yaml
+@@ -24,7 +24,7 @@ properties:
+     maxItems: 1
+
+   clocks:
+-     maxItems: 1
++    maxItems: 1
+
+   interrupts:
+     items:
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+index 8453ee340b9f..09318830db47 100644
+--- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
++++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml
+@@ -20,11 +20,11 @@ properties:
+       - const: allwinner,sun4i-a10-csi1
+       - const: allwinner,sun7i-a20-csi0
+       - items:
+-        - const: allwinner,sun7i-a20-csi1
+-        - const: allwinner,sun4i-a10-csi1
++          - const: allwinner,sun7i-a20-csi1
++          - const: allwinner,sun4i-a10-csi1
+       - items:
+-        - const: allwinner,sun8i-r40-csi0
+-        - const: allwinner,sun7i-a20-csi0
++          - const: allwinner,sun8i-r40-csi0
++          - const: allwinner,sun7i-a20-csi0
+
+   reg:
+     maxItems: 1
+@@ -35,24 +35,24 @@ properties:
+   clocks:
+     oneOf:
+       - items:
+-        - description: The CSI interface clock
+-        - description: The CSI DRAM clock
++          - description: The CSI interface clock
++          - description: The CSI DRAM clock
+
+       - items:
+-        - description: The CSI interface clock
+-        - description: The CSI ISP clock
+-        - description: The CSI DRAM clock
++          - description: The CSI interface clock
++          - description: The CSI ISP clock
++          - description: The CSI DRAM clock
+
+   clock-names:
+     oneOf:
+       - items:
+-        - const: bus
+-        - const: ram
++          - const: bus
++          - const: ram
+
+       - items:
+-        - const: bus
+-        - const: isp
+-        - const: ram
++          - const: bus
++          - const: isp
++          - const: ram
+
+   resets:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml b/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
+index 37d77e065491..5a1da4029c37 100644
+--- a/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
++++ b/Documentation/devicetree/bindings/media/amlogic,gx-vdec.yaml
+@@ -29,14 +29,14 @@ properties:
+   compatible:
+     oneOf:
+       - items:
+-        - enum:
+-          - amlogic,gxbb-vdec # GXBB (S905)
+-          - amlogic,gxl-vdec # GXL (S905X, S905D)
+-          - amlogic,gxm-vdec # GXM (S912)
+-        - const: amlogic,gx-vdec
++          - enum:
++              - amlogic,gxbb-vdec # GXBB (S905)
++              - amlogic,gxl-vdec # GXL (S905X, S905D)
++              - amlogic,gxm-vdec # GXM (S912)
++          - const: amlogic,gx-vdec
+       - enum:
+-        - amlogic,g12a-vdec # G12A (S905X2, S905D2)
+-        - amlogic,sm1-vdec # SM1 (S905X3, S905D3)
++          - amlogic,g12a-vdec # G12A (S905X2, S905D2)
++          - amlogic,sm1-vdec # SM1 (S905X3, S905D3)
+
+   interrupts:
+     minItems: 2
+diff --git a/Documentation/devicetree/bindings/media/renesas,ceu.yaml b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
+index fcb5f13704a5..f2393458814e 100644
+--- a/Documentation/devicetree/bindings/media/renesas,ceu.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
+@@ -32,23 +32,23 @@ properties:
+     additionalProperties: false
+
+     properties:
+-       endpoint:
+-         type: object
+-         additionalProperties: false
++      endpoint:
++        type: object
++        additionalProperties: false
+
+          # Properties described in
+          # Documentation/devicetree/bindings/media/video-interfaces.txt
+-         properties:
+-           remote-endpoint: true
+-           hsync-active: true
+-           vsync-active: true
+-           field-even-active: false
+-           bus-width:
+-             enum: [8, 16]
+-             default: 8
+-
+-         required:
+-           - remote-endpoint
++        properties:
++          remote-endpoint: true
++          hsync-active: true
++          vsync-active: true
++          field-even-active: false
++          bus-width:
++            enum: [8, 16]
++            default: 8
++
++        required:
++          - remote-endpoint
+
+     required:
+       - endpoint
+diff --git a/Documentation/devicetree/bindings/media/renesas,vin.yaml b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+index 1ec947b4781f..ecc09f1124d4 100644
+--- a/Documentation/devicetree/bindings/media/renesas,vin.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,vin.yaml
+@@ -261,13 +261,13 @@ properties:
+
+         anyOf:
+           - required:
+-            - endpoint@0
++              - endpoint@0
+           - required:
+-            - endpoint@1
++              - endpoint@1
+           - required:
+-            - endpoint@2
++              - endpoint@2
+           - required:
+-            - endpoint@3
++              - endpoint@3
+
+         additionalProperties: false
+
+diff --git a/Documentation/devicetree/bindings/media/ti,vpe.yaml b/Documentation/devicetree/bindings/media/ti,vpe.yaml
+index f3a8a350e85f..ef473f287399 100644
+--- a/Documentation/devicetree/bindings/media/ti,vpe.yaml
++++ b/Documentation/devicetree/bindings/media/ti,vpe.yaml
+@@ -17,7 +17,7 @@ description: |-
+
+ properties:
+   compatible:
+-      const: ti,dra7-vpe
++    const: ti,dra7-vpe
+
+   reg:
+     items:
+diff --git a/Documentation/devicetree/bindings/memory-controllers/fsl/imx8m-ddrc.yaml b/Documentation/devicetree/bindings/memory-controllers/fsl/imx8m-ddrc.yaml
+index c9e6c22cb5be..445e46feda69 100644
+--- a/Documentation/devicetree/bindings/memory-controllers/fsl/imx8m-ddrc.yaml
++++ b/Documentation/devicetree/bindings/memory-controllers/fsl/imx8m-ddrc.yaml
+@@ -25,9 +25,9 @@ properties:
+   compatible:
+     items:
+       - enum:
+-        - fsl,imx8mn-ddrc
+-        - fsl,imx8mm-ddrc
+-        - fsl,imx8mq-ddrc
++          - fsl,imx8mn-ddrc
++          - fsl,imx8mm-ddrc
++          - fsl,imx8mq-ddrc
+       - const: fsl,imx8m-ddrc
+
+   reg:
+diff --git a/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml b/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml
+index ddf190cb800b..e675611f80d0 100644
+--- a/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml
++++ b/Documentation/devicetree/bindings/mfd/st,stm32-lptimer.yaml
+@@ -66,8 +66,8 @@ patternProperties:
+       reg:
+         description: Identify trigger hardware block.
+         items:
+-         minimum: 0
+-         maximum: 2
++          minimum: 0
++          maximum: 2
+
+     required:
+       - compatible
+diff --git a/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml b/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
+index 590849ee9f32..4acda7ce3b44 100644
+--- a/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
++++ b/Documentation/devicetree/bindings/mfd/st,stm32-timers.yaml
+@@ -102,8 +102,8 @@ patternProperties:
+       reg:
+         description: Identify trigger hardware block.
+         items:
+-         minimum: 0
+-         maximum: 16
++          minimum: 0
++          maximum: 16
+
+     required:
+       - compatible
+diff --git a/Documentation/devicetree/bindings/mfd/syscon.yaml b/Documentation/devicetree/bindings/mfd/syscon.yaml
+index 39375e4313d2..7a39486b215a 100644
+--- a/Documentation/devicetree/bindings/mfd/syscon.yaml
++++ b/Documentation/devicetree/bindings/mfd/syscon.yaml
+@@ -33,13 +33,13 @@ properties:
+   compatible:
+     anyOf:
+       - items:
+-        - enum:
+-          - allwinner,sun8i-a83t-system-controller
+-          - allwinner,sun8i-h3-system-controller
+-          - allwinner,sun8i-v3s-system-controller
+-          - allwinner,sun50i-a64-system-controller
++          - enum:
++              - allwinner,sun8i-a83t-system-controller
++              - allwinner,sun8i-h3-system-controller
++              - allwinner,sun8i-v3s-system-controller
++              - allwinner,sun50i-a64-system-controller
+
+-        - const: syscon
++          - const: syscon
+
+       - contains:
+           const: syscon
+diff --git a/Documentation/devicetree/bindings/mmc/cdns,sdhci.yaml b/Documentation/devicetree/bindings/mmc/cdns,sdhci.yaml
+index 2f45dd0d04db..d43a0c557a44 100644
+--- a/Documentation/devicetree/bindings/mmc/cdns,sdhci.yaml
++++ b/Documentation/devicetree/bindings/mmc/cdns,sdhci.yaml
+@@ -17,7 +17,7 @@ properties:
+   compatible:
+     items:
+       - enum:
+-         - socionext,uniphier-sd4hc
++          - socionext,uniphier-sd4hc
+       - const: cdns,sd4hc
+
+   reg:
+diff --git a/Documentation/devicetree/bindings/mmc/rockchip-dw-mshc.yaml b/Documentation/devicetree/bindings/mmc/rockchip-dw-mshc.yaml
+index 89c3edd6a728..4ee3ed6efab4 100644
+--- a/Documentation/devicetree/bindings/mmc/rockchip-dw-mshc.yaml
++++ b/Documentation/devicetree/bindings/mmc/rockchip-dw-mshc.yaml
+@@ -30,21 +30,21 @@ properties:
+       - items:
+           - enum:
+             # for Rockchip PX30
+-            - rockchip,px30-dw-mshc
++              - rockchip,px30-dw-mshc
+             # for Rockchip RK3036
+-            - rockchip,rk3036-dw-mshc
++              - rockchip,rk3036-dw-mshc
+             # for Rockchip RK322x
+-            - rockchip,rk3228-dw-mshc
++              - rockchip,rk3228-dw-mshc
+             # for Rockchip RK3308
+-            - rockchip,rk3308-dw-mshc
++              - rockchip,rk3308-dw-mshc
+             # for Rockchip RK3328
+-            - rockchip,rk3328-dw-mshc
++              - rockchip,rk3328-dw-mshc
+             # for Rockchip RK3368
+-            - rockchip,rk3368-dw-mshc
++              - rockchip,rk3368-dw-mshc
+             # for Rockchip RK3399
+-            - rockchip,rk3399-dw-mshc
++              - rockchip,rk3399-dw-mshc
+             # for Rockchip RV1108
+-            - rockchip,rv1108-dw-mshc
++              - rockchip,rv1108-dw-mshc
+           - const: rockchip,rk3288-dw-mshc
+
+   reg:
+diff --git a/Documentation/devicetree/bindings/mmc/socionext,uniphier-sd.yaml b/Documentation/devicetree/bindings/mmc/socionext,uniphier-sd.yaml
+index cdfac9b4411b..8d6413f48823 100644
+--- a/Documentation/devicetree/bindings/mmc/socionext,uniphier-sd.yaml
++++ b/Documentation/devicetree/bindings/mmc/socionext,uniphier-sd.yaml
+@@ -35,15 +35,15 @@ properties:
+     oneOf:
+       - const: host
+       - items:
+-        - const: host
+-        - const: bridge
++          - const: host
++          - const: bridge
+       - items:
+-        - const: host
+-        - const: hw
++          - const: host
++          - const: hw
+       - items:
+-        - const: host
+-        - const: bridge
+-        - const: hw
++          - const: host
++          - const: bridge
++          - const: hw
+
+   resets:
+     minItems: 1
+diff --git a/Documentation/devicetree/bindings/mtd/denali,nand.yaml b/Documentation/devicetree/bindings/mtd/denali,nand.yaml
+index 46e6b6726bc0..c07b91592cbd 100644
+--- a/Documentation/devicetree/bindings/mtd/denali,nand.yaml
++++ b/Documentation/devicetree/bindings/mtd/denali,nand.yaml
+@@ -54,8 +54,8 @@ properties:
+         reg:  register reset
+     oneOf:
+       - items:
+-        - const: nand
+-        - const: reg
++          - const: nand
++          - const: reg
+       - const: nand
+       - const: reg
+
+diff --git a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+index db36b4d86484..c7c9ad4e3f9f 100644
+--- a/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
++++ b/Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml
+@@ -19,8 +19,8 @@ properties:
+       - const: allwinner,sun8i-v3s-emac
+       - const: allwinner,sun50i-a64-emac
+       - items:
+-        - const: allwinner,sun50i-h6-emac
+-        - const: allwinner,sun50i-a64-emac
++          - const: allwinner,sun50i-h6-emac
++          - const: allwinner,sun50i-a64-emac
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml b/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml
+index cccf8202c8f7..7a784dc4e513 100644
+--- a/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml
++++ b/Documentation/devicetree/bindings/net/can/bosch,m_can.yaml
+@@ -9,7 +9,7 @@ title: Bosch MCAN controller Bindings
+ description: Bosch MCAN controller for CAN bus
+
+ maintainers:
+-  -  Sriram Dash <sriram.dash@samsung.com>
++  - Sriram Dash <sriram.dash@samsung.com>
+
+ properties:
+   compatible:
+@@ -51,31 +51,31 @@ properties:
+
+   bosch,mram-cfg:
+     description: |
+-                 Message RAM configuration data.
+-                 Multiple M_CAN instances can share the same Message RAM
+-                 and each element(e.g Rx FIFO or Tx Buffer and etc) number
+-                 in Message RAM is also configurable, so this property is
+-                 telling driver how the shared or private Message RAM are
+-                 used by this M_CAN controller.
+-
+-                 The format should be as follows:
+-                 <offset sidf_elems xidf_elems rxf0_elems rxf1_elems rxb_elems txe_elems txb_elems>
+-                 The 'offset' is an address offset of the Message RAM where
+-                 the following elements start from. This is usually set to
+-                 0x0 if you're using a private Message RAM. The remain cells
+-                 are used to specify how many elements are used for each FIFO/Buffer.
+-
+-                 M_CAN includes the following elements according to user manual:
+-                 11-bit Filter	0-128 elements / 0-128 words
+-                 29-bit Filter	0-64 elements / 0-128 words
+-                 Rx FIFO 0	0-64 elements / 0-1152 words
+-                 Rx FIFO 1	0-64 elements / 0-1152 words
+-                 Rx Buffers	0-64 elements / 0-1152 words
+-                 Tx Event FIFO	0-32 elements / 0-64 words
+-                 Tx Buffers	0-32 elements / 0-576 words
+-
+-                 Please refer to 2.4.1 Message RAM Configuration in Bosch
+-                 M_CAN user manual for details.
++      Message RAM configuration data.
++      Multiple M_CAN instances can share the same Message RAM
++      and each element(e.g Rx FIFO or Tx Buffer and etc) number
++      in Message RAM is also configurable, so this property is
++      telling driver how the shared or private Message RAM are
++      used by this M_CAN controller.
++
++      The format should be as follows:
++      <offset sidf_elems xidf_elems rxf0_elems rxf1_elems rxb_elems txe_elems txb_elems>
++      The 'offset' is an address offset of the Message RAM where
++      the following elements start from. This is usually set to
++      0x0 if you're using a private Message RAM. The remain cells
++      are used to specify how many elements are used for each FIFO/Buffer.
++
++      M_CAN includes the following elements according to user manual:
++      11-bit Filter	0-128 elements / 0-128 words
++      29-bit Filter	0-64 elements / 0-128 words
++      Rx FIFO 0	0-64 elements / 0-1152 words
++      Rx FIFO 1	0-64 elements / 0-1152 words
++      Rx Buffers	0-64 elements / 0-1152 words
++      Tx Event FIFO	0-32 elements / 0-64 words
++      Tx Buffers	0-32 elements / 0-576 words
++
++      Please refer to 2.4.1 Message RAM Configuration in Bosch
++      M_CAN user manual for details.
+     allOf:
+       - $ref: /schemas/types.yaml#/definitions/int32-array
+       - items:
+diff --git a/Documentation/devicetree/bindings/net/renesas,ether.yaml b/Documentation/devicetree/bindings/net/renesas,ether.yaml
+index 7f84df9790e2..2eaa8799e002 100644
+--- a/Documentation/devicetree/bindings/net/renesas,ether.yaml
++++ b/Documentation/devicetree/bindings/net/renesas,ether.yaml
+@@ -40,8 +40,8 @@ properties:
+
+   reg:
+     items:
+-       - description: E-DMAC/feLic registers
+-       - description: TSU registers
++      - description: E-DMAC/feLic registers
++      - description: TSU registers
+     minItems: 1
+
+   interrupts:
+diff --git a/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml b/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml
+index 976f139bb66e..8fc8d3be303b 100644
+--- a/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml
++++ b/Documentation/devicetree/bindings/net/ti,cpsw-switch.yaml
+@@ -23,14 +23,14 @@ properties:
+     oneOf:
+       - const: ti,cpsw-switch
+       - items:
+-         - const: ti,am335x-cpsw-switch
+-         - const: ti,cpsw-switch
++          - const: ti,am335x-cpsw-switch
++          - const: ti,cpsw-switch
+       - items:
+-        - const: ti,am4372-cpsw-switch
+-        - const: ti,cpsw-switch
++          - const: ti,am4372-cpsw-switch
++          - const: ti,cpsw-switch
+       - items:
+-        - const: ti,dra7-cpsw-switch
+-        - const: ti,cpsw-switch
++          - const: ti,dra7-cpsw-switch
++          - const: ti,cpsw-switch
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml b/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml
+index 242ac4935a4b..2ea14ab29254 100644
+--- a/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml
++++ b/Documentation/devicetree/bindings/net/ti,davinci-mdio.yaml
+@@ -18,25 +18,24 @@ allOf:
+ properties:
+   compatible:
+     oneOf:
+-       - const: ti,davinci_mdio
+-       - items:
+-         - const: ti,keystone_mdio
+-         - const: ti,davinci_mdio
+-       - items:
+-         - const: ti,cpsw-mdio
+-         - const: ti,davinci_mdio
+-       - items:
+-         - const: ti,am4372-mdio
+-         - const: ti,cpsw-mdio
+-         - const: ti,davinci_mdio
++      - const: ti,davinci_mdio
++      - items:
++          - const: ti,keystone_mdio
++          - const: ti,davinci_mdio
++      - items:
++          - const: ti,cpsw-mdio
++          - const: ti,davinci_mdio
++      - items:
++          - const: ti,am4372-mdio
++          - const: ti,cpsw-mdio
++          - const: ti,davinci_mdio
+
+   reg:
+     maxItems: 1
+
+   bus_freq:
+-      maximum: 2500000
+-      description:
+-        MDIO Bus frequency
++    maximum: 2500000
++    description: MDIO Bus frequency
+
+   ti,hwmods:
+     description: TI hwmod name
+diff --git a/Documentation/devicetree/bindings/phy/intel,lgm-emmc-phy.yaml b/Documentation/devicetree/bindings/phy/intel,lgm-emmc-phy.yaml
+index 9a346d6290d9..77bb5309918e 100644
+--- a/Documentation/devicetree/bindings/phy/intel,lgm-emmc-phy.yaml
++++ b/Documentation/devicetree/bindings/phy/intel,lgm-emmc-phy.yaml
+@@ -23,7 +23,7 @@ description: |+
+
+ properties:
+   compatible:
+-      const: intel,lgm-emmc-phy
++    const: intel,lgm-emmc-phy
+
+   "#phy-cells":
+     const: 0
+diff --git a/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml b/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
+index ea7f32905172..4fe64f4dd594 100644
+--- a/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
++++ b/Documentation/devicetree/bindings/pwm/pwm-samsung.yaml
+@@ -49,17 +49,17 @@ properties:
+       are available.
+     oneOf:
+       - items:
+-        - const: timers
++          - const: timers
+       - items:
+-        - const: timers
+-        - const: pwm-tclk0
++          - const: timers
++          - const: pwm-tclk0
+       - items:
+-        - const: timers
+-        - const: pwm-tclk1
++          - const: timers
++          - const: pwm-tclk1
+       - items:
+-        - const: timers
+-        - const: pwm-tclk0
+-        - const: pwm-tclk1
++          - const: timers
++          - const: pwm-tclk0
++          - const: pwm-tclk1
+
+   interrupts:
+     description:
+diff --git a/Documentation/devicetree/bindings/remoteproc/st,stm32-rproc.yaml b/Documentation/devicetree/bindings/remoteproc/st,stm32-rproc.yaml
+index c0d83865e933..4ff4d3df0a06 100644
+--- a/Documentation/devicetree/bindings/remoteproc/st,stm32-rproc.yaml
++++ b/Documentation/devicetree/bindings/remoteproc/st,stm32-rproc.yaml
+@@ -25,7 +25,7 @@ properties:
+     maxItems: 3
+
+   resets:
+-     maxItems: 1
++    maxItems: 1
+
+   st,syscfg-holdboot:
+     allOf:
+diff --git a/Documentation/devicetree/bindings/reset/brcm,bcm7216-pcie-sata-rescal.yaml b/Documentation/devicetree/bindings/reset/brcm,bcm7216-pcie-sata-rescal.yaml
+index 512a33bdb208..dfce6738b033 100644
+--- a/Documentation/devicetree/bindings/reset/brcm,bcm7216-pcie-sata-rescal.yaml
++++ b/Documentation/devicetree/bindings/reset/brcm,bcm7216-pcie-sata-rescal.yaml
+@@ -7,7 +7,9 @@ $schema: "http://devicetree.org/meta-schemas/core.yaml#"
+
+ title: BCM7216 RESCAL reset controller
+
+-description: This document describes the BCM7216 RESCAL reset controller which is responsible for controlling the reset of the SATA and PCIe0/1 instances on BCM7216.
++description: This document describes the BCM7216 RESCAL reset controller
++  which is responsible for controlling the reset of the SATA and PCIe0/1
++  instances on BCM7216.
+
+ maintainers:
+   - Florian Fainelli <f.fainelli@gmail.com>
+diff --git a/Documentation/devicetree/bindings/rtc/st,stm32-rtc.yaml b/Documentation/devicetree/bindings/rtc/st,stm32-rtc.yaml
+index 48c6cafca90c..57b087574aa1 100644
+--- a/Documentation/devicetree/bindings/rtc/st,stm32-rtc.yaml
++++ b/Documentation/devicetree/bindings/rtc/st,stm32-rtc.yaml
+@@ -38,10 +38,10 @@ properties:
+           minItems: 3
+           maxItems: 3
+     description: |
+-       Phandle/offset/mask triplet. The phandle to pwrcfg used to
+-       access control register at offset, and change the dbp (Disable Backup
+-       Protection) bit represented by the mask, mandatory to disable/enable backup
+-       domain (RTC registers) write protection.
++      Phandle/offset/mask triplet. The phandle to pwrcfg used to
++      access control register at offset, and change the dbp (Disable Backup
++      Protection) bit represented by the mask, mandatory to disable/enable backup
++      domain (RTC registers) write protection.
+
+   assigned-clocks:
+     description: |
+@@ -78,14 +78,14 @@ allOf:
+             const: st,stm32h7-rtc
+
+     then:
+-       properties:
+-         clocks:
+-           minItems: 2
+-           maxItems: 2
++      properties:
++        clocks:
++          minItems: 2
++          maxItems: 2
+
+-       required:
+-         - clock-names
+-         - st,syscfg
++      required:
++        - clock-names
++        - st,syscfg
+
+   - if:
+       properties:
+@@ -94,16 +94,16 @@ allOf:
+             const: st,stm32mp1-rtc
+
+     then:
+-       properties:
+-         clocks:
+-           minItems: 2
+-           maxItems: 2
++      properties:
++        clocks:
++          minItems: 2
++          maxItems: 2
+
+-         assigned-clocks: false
+-         assigned-clock-parents: false
++        assigned-clocks: false
++        assigned-clock-parents: false
+
+-       required:
+-         - clock-names
++      required:
++        - clock-names
+
+ required:
+   - compatible
+diff --git a/Documentation/devicetree/bindings/serial/amlogic,meson-uart.yaml b/Documentation/devicetree/bindings/serial/amlogic,meson-uart.yaml
+index d4178ab0d675..75ebc9952a99 100644
+--- a/Documentation/devicetree/bindings/serial/amlogic,meson-uart.yaml
++++ b/Documentation/devicetree/bindings/serial/amlogic,meson-uart.yaml
+@@ -24,18 +24,18 @@ properties:
+     oneOf:
+       - description: Always-on power domain UART controller
+         items:
+-        - enum:
++          - enum:
++              - amlogic,meson6-uart
++              - amlogic,meson8-uart
++              - amlogic,meson8b-uart
++              - amlogic,meson-gx-uart
++          - const: amlogic,meson-ao-uart
++      - description: Everything-Else power domain UART controller
++        enum:
+           - amlogic,meson6-uart
+           - amlogic,meson8-uart
+           - amlogic,meson8b-uart
+           - amlogic,meson-gx-uart
+-        - const: amlogic,meson-ao-uart
+-      - description: Everything-Else power domain UART controller
+-        enum:
+-        - amlogic,meson6-uart
+-        - amlogic,meson8-uart
+-        - amlogic,meson8b-uart
+-        - amlogic,meson-gx-uart
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/serial/rs485.yaml b/Documentation/devicetree/bindings/serial/rs485.yaml
+index d4beaf11222d..2b8261ea6d9c 100644
+--- a/Documentation/devicetree/bindings/serial/rs485.yaml
++++ b/Documentation/devicetree/bindings/serial/rs485.yaml
+@@ -6,13 +6,12 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
+
+ title: RS485 serial communications Bindings
+
+-description: The RTS signal is capable of automatically controlling
+-             line direction for the built-in half-duplex mode.
+-             The properties described hereafter shall be given to a
+-             half-duplex capable UART node.
++description: The RTS signal is capable of automatically controlling line
++  direction for the built-in half-duplex mode. The properties described
++  hereafter shall be given to a half-duplex capable UART node.
+
+ maintainers:
+-  -  Rob Herring <robh@kernel.org>
++  - Rob Herring <robh@kernel.org>
+
+ properties:
+   rs485-rts-delay:
+@@ -37,9 +36,11 @@ properties:
+     $ref: /schemas/types.yaml#/definitions/flag
+
+   linux,rs485-enabled-at-boot-time:
+-    description: enables the rs485 feature at boot time. It can be disabled later with proper ioctl.
++    description: enables the rs485 feature at boot time. It can be disabled
++      later with proper ioctl.
+     $ref: /schemas/types.yaml#/definitions/flag
+
+   rs485-rx-during-tx:
+-   description: enables the receiving of data even while sending data.
+-   $ref: /schemas/types.yaml#/definitions/flag
++    description: enables the receiving of data even while sending data.
++    $ref: /schemas/types.yaml#/definitions/flag
++...
+diff --git a/Documentation/devicetree/bindings/soc/amlogic/amlogic,canvas.yaml b/Documentation/devicetree/bindings/soc/amlogic/amlogic,canvas.yaml
+index cb008fd188d8..02b2d5ba01d6 100644
+--- a/Documentation/devicetree/bindings/soc/amlogic/amlogic,canvas.yaml
++++ b/Documentation/devicetree/bindings/soc/amlogic/amlogic,canvas.yaml
+@@ -26,11 +26,11 @@ properties:
+   compatible:
+     oneOf:
+       - items:
+-        - enum:
+-          - amlogic,meson8-canvas
+-          - amlogic,meson8b-canvas
+-          - amlogic,meson8m2-canvas
+-        - const: amlogic,canvas
++          - enum:
++              - amlogic,meson8-canvas
++              - amlogic,meson8b-canvas
++              - amlogic,meson8m2-canvas
++          - const: amlogic,canvas
+       - const: amlogic,canvas # GXBB and newer SoCs
+
+   reg:
+diff --git a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
+index d1b65554e681..91cf4176abd5 100644
+--- a/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
++++ b/Documentation/devicetree/bindings/sound/renesas,fsi.yaml
+@@ -17,16 +17,16 @@ properties:
+     oneOf:
+       # for FSI2 SoC
+       - items:
+-        - enum:
+-          - renesas,fsi2-sh73a0
+-          - renesas,fsi2-r8a7740
+-        - enum:
+-          - renesas,sh_fsi2
++          - enum:
++              - renesas,fsi2-sh73a0
++              - renesas,fsi2-r8a7740
++          - enum:
++              - renesas,sh_fsi2
+       # for Generic
+       - items:
+-        - enum:
+-          - renesas,sh_fsi
+-          - renesas,sh_fsi2
++          - enum:
++              - renesas,sh_fsi
++              - renesas,sh_fsi2
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml b/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml
+index 0cf470eaf2a0..406286149a6b 100644
+--- a/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml
++++ b/Documentation/devicetree/bindings/spi/qcom,spi-qcom-qspi.yaml
+@@ -8,12 +8,12 @@ $schema: "http://devicetree.org/meta-schemas/core.yaml#"
+ title: Qualcomm Quad Serial Peripheral Interface (QSPI)
+
+ maintainers:
+- - Mukesh Savaliya <msavaliy@codeaurora.org>
+- - Akash Asthana <akashast@codeaurora.org>
++  - Mukesh Savaliya <msavaliy@codeaurora.org>
++  - Akash Asthana <akashast@codeaurora.org>
+
+-description:
+- The QSPI controller allows SPI protocol communication in single, dual, or quad
+- wire transmission modes for read/write access to slaves such as NOR flash.
++description: The QSPI controller allows SPI protocol communication in single,
++  dual, or quad wire transmission modes for read/write access to slaves such
++  as NOR flash.
+
+ allOf:
+   - $ref: /spi/spi-controller.yaml#
+diff --git a/Documentation/devicetree/bindings/spi/renesas,hspi.yaml b/Documentation/devicetree/bindings/spi/renesas,hspi.yaml
+index c429cf4bea5b..f492cb9fea12 100644
+--- a/Documentation/devicetree/bindings/spi/renesas,hspi.yaml
++++ b/Documentation/devicetree/bindings/spi/renesas,hspi.yaml
+@@ -16,8 +16,8 @@ properties:
+   compatible:
+     items:
+       - enum:
+-        - renesas,hspi-r8a7778 # R-Car M1A
+-        - renesas,hspi-r8a7779 # R-Car H1
++          - renesas,hspi-r8a7778 # R-Car M1A
++          - renesas,hspi-r8a7779 # R-Car H1
+       - const: renesas,hspi
+
+   reg:
+diff --git a/Documentation/devicetree/bindings/spi/spi-pl022.yaml b/Documentation/devicetree/bindings/spi/spi-pl022.yaml
+index dfb697c69341..22ba4e90655b 100644
+--- a/Documentation/devicetree/bindings/spi/spi-pl022.yaml
++++ b/Documentation/devicetree/bindings/spi/spi-pl022.yaml
+@@ -51,7 +51,7 @@ properties:
+
+   pl022,rt:
+     description: indicates the controller should run the message pump with realtime
+-               priority to minimise the transfer latency on the bus (boolean)
++      priority to minimise the transfer latency on the bus (boolean)
+     type: boolean
+
+   dmas:
+diff --git a/Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml b/Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml
+index 3665a5fe6b7f..1a342ce1f798 100644
+--- a/Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml
++++ b/Documentation/devicetree/bindings/spi/st,stm32-qspi.yaml
+@@ -24,8 +24,8 @@ properties:
+
+   reg-names:
+     items:
+-     - const: qspi
+-     - const: qspi_mm
++      - const: qspi
++      - const: qspi_mm
+
+   clocks:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
+index 4b5509436588..f5825935fd22 100644
+--- a/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
++++ b/Documentation/devicetree/bindings/sram/allwinner,sun4i-a10-system-control.yaml
+@@ -29,8 +29,8 @@ properties:
+       - const: allwinner,sun4i-a10-system-control
+       - const: allwinner,sun5i-a13-system-control
+       - items:
+-        - const: allwinner,sun7i-a20-system-control
+-        - const: allwinner,sun4i-a10-system-control
++          - const: allwinner,sun7i-a20-system-control
++          - const: allwinner,sun4i-a10-system-control
+       - const: allwinner,sun8i-a23-system-control
+       - const: allwinner,sun8i-h3-system-control
+       - const: allwinner,sun50i-a64-sram-controller
+@@ -38,11 +38,11 @@ properties:
+       - const: allwinner,sun50i-a64-system-control
+       - const: allwinner,sun50i-h5-system-control
+       - items:
+-        - const: allwinner,sun50i-h6-system-control
+-        - const: allwinner,sun50i-a64-system-control
++          - const: allwinner,sun50i-h6-system-control
++          - const: allwinner,sun50i-a64-system-control
+       - items:
+-        - const: allwinner,suniv-f1c100s-system-control
+-        - const: allwinner,sun4i-a10-system-control
++          - const: allwinner,suniv-f1c100s-system-control
++          - const: allwinner,sun4i-a10-system-control
+
+   reg:
+     maxItems: 1
+@@ -69,44 +69,44 @@ patternProperties:
+               - const: allwinner,sun4i-a10-sram-d
+               - const: allwinner,sun50i-a64-sram-c
+               - items:
+-                - const: allwinner,sun5i-a13-sram-a3-a4
+-                - const: allwinner,sun4i-a10-sram-a3-a4
++                  - const: allwinner,sun5i-a13-sram-a3-a4
++                  - const: allwinner,sun4i-a10-sram-a3-a4
+               - items:
+-                - const: allwinner,sun7i-a20-sram-a3-a4
+-                - const: allwinner,sun4i-a10-sram-a3-a4
++                  - const: allwinner,sun7i-a20-sram-a3-a4
++                  - const: allwinner,sun4i-a10-sram-a3-a4
+               - items:
+-                - const: allwinner,sun5i-a13-sram-c1
+-                - const: allwinner,sun4i-a10-sram-c1
++                  - const: allwinner,sun5i-a13-sram-c1
++                  - const: allwinner,sun4i-a10-sram-c1
+               - items:
+-                - const: allwinner,sun7i-a20-sram-c1
+-                - const: allwinner,sun4i-a10-sram-c1
++                  - const: allwinner,sun7i-a20-sram-c1
++                  - const: allwinner,sun4i-a10-sram-c1
+               - items:
+-                - const: allwinner,sun8i-a23-sram-c1
+-                - const: allwinner,sun4i-a10-sram-c1
++                  - const: allwinner,sun8i-a23-sram-c1
++                  - const: allwinner,sun4i-a10-sram-c1
+               - items:
+-                - const: allwinner,sun8i-h3-sram-c1
+-                - const: allwinner,sun4i-a10-sram-c1
++                  - const: allwinner,sun8i-h3-sram-c1
++                  - const: allwinner,sun4i-a10-sram-c1
+               - items:
+-                - const: allwinner,sun50i-a64-sram-c1
+-                - const: allwinner,sun4i-a10-sram-c1
++                  - const: allwinner,sun50i-a64-sram-c1
++                  - const: allwinner,sun4i-a10-sram-c1
+               - items:
+-                - const: allwinner,sun50i-h5-sram-c1
+-                - const: allwinner,sun4i-a10-sram-c1
++                  - const: allwinner,sun50i-h5-sram-c1
++                  - const: allwinner,sun4i-a10-sram-c1
+               - items:
+-                - const: allwinner,sun50i-h6-sram-c1
+-                - const: allwinner,sun4i-a10-sram-c1
++                  - const: allwinner,sun50i-h6-sram-c1
++                  - const: allwinner,sun4i-a10-sram-c1
+               - items:
+-                - const: allwinner,sun5i-a13-sram-d
+-                - const: allwinner,sun4i-a10-sram-d
++                  - const: allwinner,sun5i-a13-sram-d
++                  - const: allwinner,sun4i-a10-sram-d
+               - items:
+-                - const: allwinner,sun7i-a20-sram-d
+-                - const: allwinner,sun4i-a10-sram-d
++                  - const: allwinner,sun7i-a20-sram-d
++                  - const: allwinner,sun4i-a10-sram-d
+               - items:
+-                - const: allwinner,suniv-f1c100s-sram-d
+-                - const: allwinner,sun4i-a10-sram-d
++                  - const: allwinner,suniv-f1c100s-sram-d
++                  - const: allwinner,sun4i-a10-sram-d
+               - items:
+-                - const: allwinner,sun50i-h6-sram-c
+-                - const: allwinner,sun50i-a64-sram-c
++                  - const: allwinner,sun50i-h6-sram-c
++                  - const: allwinner,sun50i-a64-sram-c
+
+ required:
+   - "#address-cells"
+diff --git a/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml b/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml
+index e43ec50bda37..999c6b365f1d 100644
+--- a/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml
++++ b/Documentation/devicetree/bindings/thermal/amlogic,thermal.yaml
+@@ -13,11 +13,11 @@ description: Binding for Amlogic Thermal
+
+ properties:
+   compatible:
+-      items:
+-        - enum:
+-            - amlogic,g12a-cpu-thermal
+-            - amlogic,g12a-ddr-thermal
+-        - const: amlogic,g12a-thermal
++    items:
++      - enum:
++          - amlogic,g12a-cpu-thermal
++          - amlogic,g12a-ddr-thermal
++      - const: amlogic,g12a-thermal
+
+   reg:
+     maxItems: 1
+diff --git a/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml b/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml
+index fa255672e8e5..135186f83925 100644
+--- a/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml
++++ b/Documentation/devicetree/bindings/timer/arm,arch_timer.yaml
+@@ -28,10 +28,10 @@ properties:
+               - arm,armv7-timer
+       - items:
+           - enum:
+-            - arm,armv7-timer
++              - arm,armv7-timer
+       - items:
+           - enum:
+-            - arm,armv8-timer
++              - arm,armv8-timer
+
+   interrupts:
+     items:
+diff --git a/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml b/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml
+index 582bbef62b95..6ff718ede184 100644
+--- a/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml
++++ b/Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml
+@@ -20,7 +20,7 @@ properties:
+   compatible:
+     items:
+       - enum:
+-        - arm,armv7-timer-mem
++          - arm,armv7-timer-mem
+
+   reg:
+     maxItems: 1
+@@ -77,7 +77,7 @@ patternProperties:
+           - description: physical timer irq
+           - description: virtual timer irq
+
+-      reg :
++      reg:
+         minItems: 1
+         maxItems: 2
+         items:
+diff --git a/Documentation/devicetree/bindings/usb/dwc2.yaml b/Documentation/devicetree/bindings/usb/dwc2.yaml
+index 0d6d850a7f17..fb2f62aef5fa 100644
+--- a/Documentation/devicetree/bindings/usb/dwc2.yaml
++++ b/Documentation/devicetree/bindings/usb/dwc2.yaml
+@@ -62,14 +62,14 @@ properties:
+
+   resets:
+     items:
+-     - description: common reset
+-     - description: ecc reset
++      - description: common reset
++      - description: ecc reset
+     minItems: 1
+
+   reset-names:
+     items:
+-     - const: dwc2
+-     - const: dwc2-ecc
++      - const: dwc2
++      - const: dwc2-ecc
+     minItems: 1
+
+   phys:
+--
+2.20.1
