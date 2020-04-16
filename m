@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 890AD1ABAFA
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 10:19:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A680A1ABB45
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 10:32:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2441275AbgDPISd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 04:18:33 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:36563 "EHLO
+        id S2502291AbgDPIbe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 04:31:34 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:38703 "EHLO
         lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2440883AbgDPIST (ORCPT
+        by vger.kernel.org with ESMTP id S2501938AbgDPIbM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 04:18:19 -0400
+        Thu, 16 Apr 2020 04:31:12 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id Oziqjxd6hlKa1OzitjQrt7; Thu, 16 Apr 2020 10:18:11 +0200
+        id OzqRjxi4SlKa1OzqUjQwP0; Thu, 16 Apr 2020 10:26:02 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587025091; bh=LyhH8QH0QUK55JXvGwFeDRtEFbdhTpMjuKO6MAr0Eus=;
+        t=1587025562; bh=uNmkHU/Mhu6pUjRivQzmSxzCMVkiQvpslszsqKkx2KM=;
         h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=bG+hsXCF3bB2l9a3qsyvlq+smAYReCfesDPtiNmxaZMUyP+90OhPz2zwiHeC9c6Ww
-         kYoxz67u6BRQUONYuCEHsnqsCZU/hii96bKaWDOFu+e5zbMujZRGV9Z6C0FjR9eBLa
-         7Nk/eQdMG/vPMXwVaUozXBi4WxbmNeBPJ53oLxavKZwI95rH+9OzxrC+5OmECS2rG5
-         FmCbZ4ey0AYmdo6W2HUklkdS8EM/4qaRETt5eTrhh+xT9Gf9engktjaX+8VcLXzc33
-         njiUKO0Z83dtoQo3UJWr3lvOeBHZjMAvWgF1DKyhjNAwoBp88LQsC8goc7pXq7VBK6
-         i5kop9DW2RjgQ==
+        b=j2iXT4uD8fKKTk9TatONG829aQUexKojy2lO0FwMXU5QzD+atlV3d71gkKE6/e4WS
+         hf9PrHUujLVfe7gmYiILOHvCvFtx6/Xn6PiL2Yf/LXnz09pgZr87pjkD0pEoR6v/M2
+         dMzC5YDVIp7gBivjBSSYtOqAkCpuR1lnW1ONvKzlAqaSzJI7dKbGtHdMH49uyKuLIe
+         utTiTRtGJ80qqX4/yPPjsKZAd9Ez0NcGJBI6lzlBEGWminNnbxiR0qx5d6OT/L44Xp
+         y0UOTrHAA4Bl/tB9j4h9PBj+QEn4P6p2njWTMqcoNiin0YTYRUgAmUdpzFz85M8Rcx
+         7GK5twRPBUP3Q==
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] media/test_drivers: rename to test-drivers
-Message-ID: <93d308ce-1912-4d08-3156-e5bb5c577ded@xs4all.nl>
-Date:   Thu, 16 Apr 2020 10:18:08 +0200
+Subject: [PATCHv2] media/test_drivers: rename to test-drivers
+Message-ID: <7140388c-60d2-9532-0f58-1c96a12e8a8f@xs4all.nl>
+Date:   Thu, 16 Apr 2020 10:25:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFw4iKDjaVBMy3X+/Di7L3gYhClgstavrzhMYSNr7Fk/QSOWwFVUPBtBBuWlqtQZ4MReQl1SBFcRmuv4/mAspHw5+JF0ne/yVFTEhKrZyBo2Il+Z2tmf
- MxRUKQD2LEot0JPkGY4qJPY54RTI6AK5M9zc65yTAp0tUvgkGciTfpFAEQz8LG18eN76cDCsYQBosQ==
+X-CMAE-Envelope: MS4wfPAwS4545wxBx0GCwz8a7cn5EYMlFMwndgFuYu3+WqxJrpRLSIuAiJO5wvb8ERqr/J0nn4o5ONlEG0XSs6KoItrpfwIQjYw2kJ42cxpU6Ycqt0sjbAfU
+ h5wVumjhFZ0hFXdq/5jmd9OrFhGYHRSWO0jMNtQm8RXgtB7pBgAyx1lsB/UIPxvvWiKMd5JP4SNm5g==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -50,6 +50,9 @@ Also update MAINTAINERS with the new path.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
+Changes since v1: updated vimc-devel.rst as well.
+---
+ Documentation/driver-api/media/drivers/vimc-devel.rst       | 4 ++--
  MAINTAINERS                                                 | 6 +++---
  drivers/media/Kconfig                                       | 2 +-
  drivers/media/Makefile                                      | 2 +-
@@ -118,7 +121,7 @@ Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
  .../{test_drivers => test-drivers}/vivid/vivid-vid-common.h | 0
  .../{test_drivers => test-drivers}/vivid/vivid-vid-out.c    | 0
  .../{test_drivers => test-drivers}/vivid/vivid-vid-out.h    | 0
- 68 files changed, 8 insertions(+), 8 deletions(-)
+ 69 files changed, 10 insertions(+), 10 deletions(-)
  rename drivers/media/{test_drivers => test-drivers}/Kconfig (72%)
  rename drivers/media/{test_drivers => test-drivers}/Makefile (100%)
  rename drivers/media/{test_drivers => test-drivers}/vicodec/Kconfig (100%)
@@ -185,6 +188,20 @@ Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
  rename drivers/media/{test_drivers => test-drivers}/vivid/vivid-vid-out.c (100%)
  rename drivers/media/{test_drivers => test-drivers}/vivid/vivid-vid-out.h (100%)
 
+diff --git a/Documentation/driver-api/media/drivers/vimc-devel.rst b/Documentation/driver-api/media/drivers/vimc-devel.rst
+index 1584abba6ee0..9e984f914b13 100644
+--- a/Documentation/driver-api/media/drivers/vimc-devel.rst
++++ b/Documentation/driver-api/media/drivers/vimc-devel.rst
+@@ -9,7 +9,7 @@ Source code documentation
+ vimc-streamer
+ ~~~~~~~~~~~~~
+
+-.. kernel-doc:: drivers/media/test_drivers/vimc/vimc-streamer.h
++.. kernel-doc:: drivers/media/test-drivers/vimc/vimc-streamer.h
+    :internal:
+
+-.. kernel-doc:: drivers/media/test_drivers/vimc/vimc-streamer.c
++.. kernel-doc:: drivers/media/test-drivers/vimc/vimc-streamer.c
 diff --git a/MAINTAINERS b/MAINTAINERS
 index 3cb1b45a5624..297197b05562 100644
 --- a/MAINTAINERS
