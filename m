@@ -2,220 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D7741AB9BD
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 09:22:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AAEF1AB9EB
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 09:28:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439229AbgDPHVo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 03:21:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54880 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2439188AbgDPHVj (ORCPT
+        id S2439297AbgDPH2Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 03:28:25 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:60961 "EHLO
+        wout4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2439247AbgDPH2Y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 03:21:39 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE1D9C03C1AC
-        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2020 00:21:33 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id c195so1787312wme.1
-        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2020 00:21:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=PfcEIjHVOwJJoI3IG1yq+hLuJEPuCeMcpBtriOzJSVE=;
-        b=fWro629AKCHe7c1PY8qWNnc/MO1FUAtCQOwruVmdsj4Kyvr1SDGr9Xgc/VGuT4Ao08
-         aszgwv1hJNkmDxBtLtWK7K2S9mv6z5/c8TCmg4n+kwj4eAnnvC2Dt4pvdKuMnlfnbcGf
-         puxMyauwUmvCn/LNyQLnyjFrS1Kzkios1/MsF6m/I4GPnRVdRC2+tstnjmmO650ZwQzj
-         4aWRTSNgkZKvvDPkpZ/B7oqv4O1vvl2M0bRRRPUNQCjnZDrbzcP/JjjuClCaNvbDFuVJ
-         cZP/dedvaVFsRZKmIeGsiWSNvkLi9aAZR4c6U1deMU+GHzWLDixE4IBaBhe7BLuqYxXC
-         CRaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=PfcEIjHVOwJJoI3IG1yq+hLuJEPuCeMcpBtriOzJSVE=;
-        b=PGLJTXmThPd/lZxZGlLEtiC9Z4g0TmNeZCHl7vQ7K5JCVx5ObsOU0D0k/tudQAEz24
-         jqwe2ICuTohjK7nHFvTZ5t7Sr0t1uWNvDcPuzMiNDB1uDto0WdY8nTFwdJ8yS42p2D+Y
-         snxSoeS4xmdX8I1s6yG4L2tvIFFX8fi4Ug3KIFbId+80gRqROkWkxQiYcRThIhq48i6s
-         fEyt9ZUdephU4PdoZ7nN4+/uw2uONBTcA+lua38hXAyKF9r7pE32buK+/ElppcZphczy
-         MfWEZ3GFyqdQeeYVMbnSz2zf732v7QcDw6ZfC2aXE+DuPGQP9e1jdvaXWIQ1bD8z2wUF
-         jD4A==
-X-Gm-Message-State: AGi0PuZP0f5KgJQ9wAX/fcXMXrVwgHkEDWvCoFIIAsSE89wLmD0jxmfm
-        bzE3tWS+kxE0Vlt0ctKUXnZ6TA==
-X-Google-Smtp-Source: APiQypKxoroogYo0WPMcKERsdRMrzAoaU5nNn92qAMbIpRzZIzICMY0kveTYaemzAUSe6fR6V9LLBA==
-X-Received: by 2002:a1c:990d:: with SMTP id b13mr3217540wme.179.1587021691888;
-        Thu, 16 Apr 2020 00:21:31 -0700 (PDT)
-Received: from dell ([95.149.164.124])
-        by smtp.gmail.com with ESMTPSA id h188sm2608116wme.8.2020.04.16.00.21.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2020 00:21:31 -0700 (PDT)
-Date:   Thu, 16 Apr 2020 08:22:31 +0100
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>, Vinod Koul <vkoul@kernel.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>, Andrew Lunn <andrew@lunn.ch>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Thu, 16 Apr 2020 03:28:24 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id DB7856C8;
+        Thu, 16 Apr 2020 03:28:22 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Thu, 16 Apr 2020 03:28:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=oWvboizClBIQCLsIM+QeCQyJEOn
+        4qOWnj1Q+s++lsjs=; b=zSIcztlUz8NKqb7WKKpyAEkcZ1dTraBzvn03Zfzy9A5
+        B+h+d0EccRHd61F+h9HgZ048hy261vUnQJealj3ZWMpO1o7w3u2GAcfD63Nnxb/c
+        iNm6QbEE7TArhYYza3xaEYWi9FOSoi0f/c010l/YRe4+67Am1N59RC8ez1Lqeofo
+        3mzV1ofHkLPYSTAaK+OaUeunBnq0ol6rOLTCnIrqnaEeH0J/WfHjgvoZwJFwfzr/
+        i9KAwgA57QoR9r8uc0QCJ6okJlGk+ae9nJ1SMubPtNaFdiOTks1JoP/WZe0YdG3o
+        cLkh3Qkqy6bCcr4PptQFzgdmhyQu4YOzt/qFz0EbLdA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=oWvboi
+        zClBIQCLsIM+QeCQyJEOn4qOWnj1Q+s++lsjs=; b=G6Uw3TQHyi5VmNPG6Wn5Yb
+        7ey5AyRNaYPpvzgnX/alNu/CrDkMQLCs15YxG4wP9nJ5mVFJfLW5Cx8Zu5/aZGIg
+        7S/G4GDfhgH2/b8+pWmq/OWjAVYwDfggxiA12TY68Lutd6PnqgmCvwEID1NRfJo9
+        IxKlIMZ9YM16RStAhU5KfncdPMjWU6IYSMIftwhdEx3UTOlazk0KbRqD4ElztuLu
+        t9QA7T8rPdmcdr0aoSIT8YDnJP/mr2Co0jyKxLdQu1VdVs/QErPCcsBkXYGIcL7a
+        hZxWEGEGtoeL8yZ6Rolu/ha4SkmC1gl/g7kyquIAm/Faz4PaPGDUr3nGxrm4fkng
+        ==
+X-ME-Sender: <xms:FQmYXujE1KNDZjwwxcLHqAY3RKBJYZ_JObe5_MfOWQxtmrdnf8ZtVQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrfeeggdduvddtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuffhomhgrih
+    hnpeguvghvihgtvghtrhgvvgdrohhrghenucfkphepledtrdekledrieekrdejieenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvg
+    estggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:FQmYXrUzC2IVvL9NVt0jEwUx4KLQUB8fFxLkmCmcEqNFIXqVA80XZg>
+    <xmx:FQmYXo2rFH-LZClwK_K-LJO1UO466yvvJKvejb0g_tE84XrpQFEqWw>
+    <xmx:FQmYXpFYffKWDwhGT52n7INhew0EB4kuo4UDmyCvYWGNIgZjD6LeFA>
+    <xmx:FgmYXl4y38Nz2SXzyM9WNko6ZU3zss0377Fg-TIyiu3ToNx6GbcgPA>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 89FC9328005A;
+        Thu, 16 Apr 2020 03:28:21 -0400 (EDT)
+Date:   Thu, 16 Apr 2020 09:28:20 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     devicetree@vger.kernel.org,
         Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Amit Kucheria <amit.kucheria@linaro.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-can@vger.kernel.org,
-        netdev@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org
-Subject: Re: [PATCH 2/2] dt-bindings: Remove cases of 'allOf' containing a
- '$ref'
-Message-ID: <20200416072231.GT2167633@dell>
-References: <20200416005549.9683-1-robh@kernel.org>
- <20200416005549.9683-2-robh@kernel.org>
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v1 1/4] dt-bindings: display: convert atmel-hlcdc to DT
+ Schema
+Message-ID: <20200416072820.lizjyhk5dbvnujwv@gilmour.lan>
+References: <20200412182012.27515-1-sam@ravnborg.org>
+ <20200412182012.27515-2-sam@ravnborg.org>
+ <20200414082803.exblunwe7bufbiht@gilmour.lan>
+ <20200415163956.GB7965@ravnborg.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="lplp3n3i5fwlo3st"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200416005549.9683-2-robh@kernel.org>
+In-Reply-To: <20200415163956.GB7965@ravnborg.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 15 Apr 2020, Rob Herring wrote:
 
-> json-schema versions draft7 and earlier have a weird behavior in that
-> any keywords combined with a '$ref' are ignored (silently). The correct
-> form was to put a '$ref' under an 'allOf'. This behavior is now changed
-> in the 2019-09 json-schema spec and '$ref' can be mixed with other
-> keywords. The json-schema library doesn't yet support this, but the
-> tooling now does a fixup for this and either way works.
-> 
-> This has been a constant source of review comments, so let's change this
-> treewide so everyone copies the simpler syntax.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  .../devicetree/bindings/arm/cpus.yaml         |  81 +++---
->  .../devicetree/bindings/arm/l2c2x0.yaml       |  87 +++---
->  .../devicetree/bindings/arm/psci.yaml         |  15 +-
->  .../bindings/arm/samsung/exynos-chipid.yaml   |   5 +-
->  .../bus/allwinner,sun50i-a64-de2.yaml         |   5 +-
->  .../bindings/clock/fixed-factor-clock.yaml    |   5 +-
->  .../bindings/connector/usb-connector.yaml     |  28 +-
->  .../bindings/crypto/st,stm32-hash.yaml        |   9 +-
->  .../allwinner,sun4i-a10-display-engine.yaml   |   7 +-
->  .../display/allwinner,sun4i-a10-tcon.yaml     |   5 +-
->  .../bindings/display/panel/panel-common.yaml  |   5 +-
->  .../devicetree/bindings/dma/dma-common.yaml   |   3 +-
->  .../devicetree/bindings/dma/ti/k3-udma.yaml   |  18 +-
->  .../devicetree/bindings/eeprom/at24.yaml      |  11 +-
->  .../devicetree/bindings/example-schema.yaml   |  17 +-
->  .../bindings/hwmon/adi,ltc2947.yaml           |  32 +--
->  .../devicetree/bindings/hwmon/ti,tmp513.yaml  |  21 +-
->  .../devicetree/bindings/i2c/st,stm32-i2c.yaml |   9 +-
->  .../bindings/iio/adc/adi,ad7124.yaml          |   5 +-
->  .../bindings/iio/adc/lltc,ltc2496.yaml        |   3 +-
->  .../bindings/iio/adc/microchip,mcp3911.yaml   |   7 +-
->  .../bindings/iio/adc/st,stm32-dfsdm-adc.yaml  |  31 +-
->  .../bindings/iio/light/tsl2772.yaml           |  13 +-
->  .../bindings/iio/temperature/adi,ltc2983.yaml |  56 ++--
->  .../input/allwinner,sun4i-a10-lradc-keys.yaml |   5 +-
->  .../devicetree/bindings/input/input.yaml      |   9 +-
->  .../interrupt-controller/arm,gic-v3.yaml      |  39 ++-
->  .../devicetree/bindings/iommu/arm,smmu.yaml   |   3 +-
->  .../devicetree/bindings/leds/common.yaml      |  13 +-
->  .../devicetree/bindings/leds/leds-gpio.yaml   |   3 +-
->  .../bindings/leds/rohm,bd71828-leds.yaml      |  10 +-
->  .../bindings/mailbox/st,stm32-ipcc.yaml       |   5 +-
->  .../bindings/media/amlogic,gx-vdec.yaml       |   6 +-
->  .../media/amlogic,meson-gx-ao-cec.yaml        |   3 +-
->  .../devicetree/bindings/media/rc.yaml         | 265 +++++++++---------
->  .../bindings/media/renesas,vin.yaml           |   7 +-
->  .../memory-controllers/exynos-srom.yaml       |  14 +-
->  .../nvidia,tegra124-emc.yaml                  |   9 +-
->  .../nvidia,tegra124-mc.yaml                   |   3 +-
->  .../nvidia,tegra30-emc.yaml                   |   9 +-
->  .../memory-controllers/nvidia,tegra30-mc.yaml |   3 +-
+--lplp3n3i5fwlo3st
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
->  .../bindings/mfd/allwinner,sun4i-a10-ts.yaml  |  20 +-
->  .../bindings/mfd/st,stm32-timers.yaml         |  33 ++-
->  .../devicetree/bindings/mfd/st,stpmic1.yaml   |   9 +-
->  .../devicetree/bindings/mfd/syscon.yaml       |   5 +-
+On Wed, Apr 15, 2020 at 06:39:56PM +0200, Sam Ravnborg wrote:
+> Hi Maxime.
+>
+> On Tue, Apr 14, 2020 at 10:28:03AM +0200, Maxime Ripard wrote:
+> > Hi Sam,
+> >
+> > On Sun, Apr 12, 2020 at 08:20:09PM +0200, Sam Ravnborg wrote:
+> > > diff --git a/Documentation/devicetree/bindings/display/atmel/hlcdc-dc.yaml b/Documentation/devicetree/bindings/display/atmel/hlcdc-dc.yaml
+> > > new file mode 100644
+> > > index 000000000000..7eb6266a25a2
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/atmel/hlcdc-dc.yaml
+> > > @@ -0,0 +1,102 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/display/atmel/hlcdc-dc.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Atmel HLCDC (High LCD Controller) display controller
+> > > +
+> > > +maintainers:
+> > > +  - Sam Ravnborg <sam@ravnborg.org>
+> > > +  - Boris Brezillon <bbrezillon@kernel.org>
+> > > +
+> > > +description: |
+> > > +  The Atmel HLCDC Display Controller is subdevice of the HLCDC MFD device.
+> > > +  See ../../mfd/atmel-hlcdc.yaml for more details.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: atmel,hlcdc-display-controller
+> > > +
+> > > +  "#address-cells":
+> > > +    const: 1
+> > > +  "#size-cells":
+> > > +    const: 0
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - "#address-cells"
+> > > +  - "#size-cells"
+> > > +
+> > > +patternProperties:
+> > > +  "^port@[0-9]$":
+> > > +    type: object
+> > > +    description: |
+> > > +      A port node with endpoint definitions as defined in
+> > > +      ../../media/video-interfaces.txt
+> > > +
+> > > +    properties:
+> > > +      "#address-cells":
+> > > +        const: 1
+> > > +
+> > > +      "#size-cells":
+> > > +        const: 0
+> > > +
+> > > +      reg:
+> > > +        maxItems: 1
+> > > +        description: The virtual number of the port
+> > > +
+> > > +    patternProperties:
+> > > +      "^endpoint(@[0-9])$":
+> >
+> > I guess you meant ^endpoint(@[0-9])?$ instead?
+>
+> I think "^endpoint@[0-9]$" will do the trick.
+> No need for endpoints with numbers higher than 9.
 
-Acked-by: Lee Jones <lee.jones@linaro.org>
+If you want to stick to pedantic DT, then if there's a single
+endpoint, you should avoid reg and the unit-address, and this is
+something that dtc will complain about (even though it's silenced in
+Linux), so yeah, ? seems the way to go.
 
->  .../devicetree/bindings/mmc/aspeed,sdhci.yaml |   4 +-
->  .../devicetree/bindings/mmc/cdns,sdhci.yaml   |  77 +++--
->  .../bindings/mmc/mmc-controller.yaml          |  37 ++-
->  .../bindings/mmc/rockchip-dw-mshc.yaml        |   6 +-
->  .../bindings/mmc/synopsys-dw-mshc-common.yaml |  14 +-
->  .../mtd/allwinner,sun4i-a10-nand.yaml         |  13 +-
->  .../bindings/mtd/nand-controller.yaml         |  27 +-
->  .../bindings/net/can/bosch,m_can.yaml         |  59 ++--
->  .../bindings/net/ethernet-controller.yaml     |  34 +--
->  .../devicetree/bindings/net/qca,ar803x.yaml   |  17 +-
->  .../devicetree/bindings/net/snps,dwmac.yaml   |  22 +-
->  .../bindings/net/ti,cpsw-switch.yaml          |   3 +-
->  .../bindings/net/ti,davinci-mdio.yaml         |   7 +-
->  .../bindings/pci/intel-gw-pcie.yaml           |   7 +-
->  .../pinctrl/allwinner,sun4i-a10-pinctrl.yaml  |  12 +-
->  .../pinctrl/aspeed,ast2400-pinctrl.yaml       |  37 ++-
->  .../pinctrl/aspeed,ast2500-pinctrl.yaml       |  45 ++-
->  .../pinctrl/aspeed,ast2600-pinctrl.yaml       | 108 ++++---
->  .../bindings/pinctrl/fsl,imx8mp-pinctrl.yaml  |  31 +-
->  .../bindings/pinctrl/intel,lgm-io.yaml        |   4 +-
->  .../bindings/pinctrl/pinmux-node.yaml         |   3 +-
->  .../bindings/pinctrl/st,stm32-pinctrl.yaml    |  56 ++--
->  .../bindings/power/amlogic,meson-ee-pwrc.yaml |   3 +-
->  .../devicetree/bindings/pwm/pwm-samsung.yaml  |  11 +-
->  .../bindings/regulator/gpio-regulator.yaml    |  35 ++-
->  .../bindings/regulator/mps,mpq7920.yaml       |  31 +-
->  .../bindings/regulator/regulator.yaml         |   5 +-
->  .../regulator/rohm,bd71828-regulator.yaml     |  34 +--
->  .../bindings/regulator/st,stm32-booster.yaml  |   3 +-
->  .../regulator/st,stm32mp1-pwr-reg.yaml        |   3 +-
->  .../bindings/remoteproc/st,stm32-rproc.yaml   |   9 +-
->  .../bindings/reset/intel,rcu-gw.yaml          |   3 +-
->  .../devicetree/bindings/riscv/cpus.yaml       |  20 +-
->  .../devicetree/bindings/rtc/st,stm32-rtc.yaml |   9 +-
->  .../devicetree/bindings/serial/pl011.yaml     |  10 +-
->  .../devicetree/bindings/serial/rs485.yaml     |  26 +-
->  .../bindings/serial/samsung_uart.yaml         |   5 +-
->  .../bindings/sound/adi,adau7118.yaml          |  20 +-
->  .../sound/allwinner,sun4i-a10-codec.yaml      |  41 ++-
->  .../bindings/sound/qcom,wcd934x.yaml          |   3 +-
->  .../bindings/spi/renesas,sh-msiof.yaml        |  42 ++-
->  .../bindings/spi/spi-controller.yaml          |  14 +-
->  .../devicetree/bindings/spi/spi-pl022.yaml    |  55 ++--
->  .../devicetree/bindings/spi/spi-sifive.yaml   |  14 +-
->  .../bindings/thermal/qcom-tsens.yaml          |   7 +-
->  .../bindings/timer/arm,arch_timer_mmio.yaml   |   7 +-
->  91 files changed, 881 insertions(+), 1103 deletions(-)
+Maxime
 
--- 
-Lee Jones [李琼斯]
-Linaro Services Technical Lead
-Linaro.org │ Open source software for ARM SoCs
-Follow Linaro: Facebook | Twitter | Blog
+--lplp3n3i5fwlo3st
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXpgJFAAKCRDj7w1vZxhR
+xWxgAQCiEz5pDVYTAZAQHIEYCYsDFUgxa56uIAMS+stmFXHAbgD/RnKsMfVPjvNi
+ihHhyUqtRGFrbbr0ZK29Y5ZAVxRAVAI=
+=VL7j
+-----END PGP SIGNATURE-----
+
+--lplp3n3i5fwlo3st--
