@@ -2,215 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A36CF1AC1C3
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 14:48:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D1171AC1EB
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 14:59:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2636238AbgDPMsq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 08:48:46 -0400
-Received: from foss.arm.com ([217.140.110.172]:60258 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2635962AbgDPMsj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 08:48:39 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B0A39C14;
-        Thu, 16 Apr 2020 05:48:38 -0700 (PDT)
-Received: from [10.57.59.184] (unknown [10.57.59.184])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 940FD3F68F;
-        Thu, 16 Apr 2020 05:48:36 -0700 (PDT)
-Subject: Re: [PATCH 2/3] media: rockchip: Introduce driver for Rockhip's
- camera interface
-To:     Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-rockchip@lists.infradead.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20200403142122.297283-1-maxime.chevallier@bootlin.com>
- <20200403142122.297283-3-maxime.chevallier@bootlin.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <18d46e23-a7fa-ddaf-690f-f06580a536cb@arm.com>
-Date:   Thu, 16 Apr 2020 13:48:35 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S2894667AbgDPM71 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 08:59:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51252 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2894447AbgDPM7X (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Apr 2020 08:59:23 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A375FC061A0F
+        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2020 05:59:23 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id n17so1206267ejh.7
+        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2020 05:59:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Pqocv/eXd8agG6oQNiPQwe8tU9LueQq90txyZdBuL44=;
+        b=NmuMt05wm0nh5pDYjx6jFJ0hyrfOZRfh4rtC8/XsvZETXclm+D/BaNlRZO9BveAbGR
+         lXujA2tdsIMCv//33DS0v39tE/BzDr4ZuQktKV6XBouxm5jSWRR0MgXI5g0fLvBuM0kY
+         rL0gOwH+/35QQdDIXLEQ/WSZu7csyiz8qW56jw3APfWNuySnek1cPaq7Y3BVw8l48kLb
+         BSUDgOE0zeqFY3UBi6DU/xrARIijIXQTtneZdeRg3U1OSxDp+WUatnUACvILY5GawGPG
+         c1S9G8rt9VQaJGndxGxdtwhZ3i7RLa0UyrBd1u501/qqb8BCZNa/viQTVy9VHUq3Zz8M
+         P5xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Pqocv/eXd8agG6oQNiPQwe8tU9LueQq90txyZdBuL44=;
+        b=jBbgBngq3T3TODQ31RiqQn2EG1Yu9JxLYFKA+5KwFOQA67M63cFk8Nkcsovxrq5i3R
+         2r8uHyiWQ/cv2XR0tAXE901hUze4pn/k2/HmeMhKRa59FI+Degx33tM6ZjyYiuDd8XiO
+         A8bwHEOEhYPnn9HeFwPND+j/8b+MHsfZsI9dOgK/hNpi1R+orweM47QOYEUhV83AJ335
+         a8vNrt6UdzHgIVpzh3/l71JqtQoOA6VZfQamLY1ERTwo2R/Vjq0hGstbJk3ce2TBKTxw
+         UJnThuHk6MBZlKA4latjY/DNqdh2Ca/VTP2xcSWfQSz4dzRDWYOzM8QOYhicjWwIUucT
+         ZCYg==
+X-Gm-Message-State: AGi0PubT1FprG5eZYSHPBFKJdkygg5kgugBDM5+rwx80zJlv96stt5Q1
+        tcrf6Tlwc7FS6nj/x5FFG8oE2qvl3XDs+bYaxKV95g==
+X-Google-Smtp-Source: APiQypJZ8a9Xj0AcqhtwU+4h7TWpCu2z8o/G+gdZiRVW5tZY0fxY1YqboCEkjK1ptgUJPvQE71pdnqe4P0py81bICVY=
+X-Received: by 2002:a17:906:af6f:: with SMTP id os15mr9748919ejb.78.1587041962281;
+ Thu, 16 Apr 2020 05:59:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200403142122.297283-3-maxime.chevallier@bootlin.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20200410103501.1083-1-sergey.senozhatsky@gmail.com>
+In-Reply-To: <20200410103501.1083-1-sergey.senozhatsky@gmail.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Thu, 16 Apr 2020 09:59:10 -0300
+Message-ID: <CAAEAJfCyWpNy-Ckn+6fdzUTFiDr5RqYD4V5BgUviRRBxr=ggBQ@mail.gmail.com>
+Subject: Re: [RFC][PATCH] media: v4l2-ctrls: add more NULL pointer checks
+To:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Maxime,
+Hi Sergey,
 
-Just a handful of drive-by cleanup suggestions to help this smell less 
-like a BSP driver...
+Thanks for the patch!
 
-(one day I still hope to get round to playing with what appears to be 
-the DVP interface populated but unused inside my RK3288 box, and the 
-camera module I picked up to supposedly fit it, but alas not today)
+On Fri, 10 Apr 2020 at 07:35, Sergey Senozhatsky
+<sergey.senozhatsky@gmail.com> wrote:
+>
+> A number of v4l2-ctrls functions gracefully handle NULL ctrl pointers,
+> for instance, v4l2_g_ctrl(), v4l2_ctrl_activate(), __v4l2_ctrl_grab()
 
-On 2020-04-03 3:21 pm, Maxime Chevallier wrote:
-[...]
-> +static int rkcif_plat_probe(struct platform_device *pdev)
-> +{
-> +	const struct of_device_id *match;
-> +	struct device_node *node = pdev->dev.of_node;
-> +	struct device *dev = &pdev->dev;
-> +	struct v4l2_device *v4l2_dev;
-> +	struct rkcif_device *cif_dev;
-> +	const struct cif_match_data *data;
-> +	struct resource *res;
-> +	int i, ret, irq;
-> +
-> +	match = of_match_node(rkcif_plat_of_match, node);
-> +	if (IS_ERR(match))
-> +		return PTR_ERR(match);
+Please note that v4l2_g_ctrl doesn't really handle
+a NULL ctrl parameter, because it doesn't have a ctrl
+parameter :-)
 
-of_device_get_match_data()
+Checking the return of a function such as v4l2_ctrl_find,
+is not the same as defensive-style parameter checking.
 
-> +
-> +	cif_dev = devm_kzalloc(dev, sizeof(*cif_dev), GFP_KERNEL);
-> +	if (!cif_dev)
-> +		return -ENOMEM;
-> +
-> +	dev_set_drvdata(dev, cif_dev);
-> +	cif_dev->dev = dev;
-> +
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0)
-> +		return irq;
-> +
-> +	ret = devm_request_irq(dev, irq, rkcif_irq_handler, IRQF_SHARED,
-> +			       dev_driver_string(dev), dev);
-> +	if (ret < 0) {
-> +		dev_err(dev, "request irq failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	cif_dev->irq = irq;
-> +	data = match->data;
-> +	cif_dev->chip_id = data->chip_id;
+And the thing is, the kernel doesn't really do defensive checking
+like this on internal APIs, unless there are good reasons
+allowing a NULL parameter, such as kfree.
 
-It pretty much breaks even at the moment, but consider just holding a 
-pointer to data itself rather than copying multiple fields into cif_dev, 
-particularly if there's any likelihood of adding more in future. The 
-couple of places clk_size and chip_id are used here don't really look 
-like critical fast-paths where cache/TLB locality is super-important.
+Now, maybe this is the case, maybe it should be possible
+to add controls without checking the result, or to allow
+calling the control API with a NULL ctrl.
 
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	cif_dev->base_addr = devm_ioremap_resource(dev, res);
+Quite frankly, I'm not convinced of this being the case,
+or just a quirk of the vivid driver.
 
-devm_platform_ioremap_resource()
+In any case...
 
+> to name a few. But not all of them. It is relatively easy to crash the
+> kernel with the NULL pointer dereference:
+>
+>         # modprobe vivid node_types=0x60000
+>         $ v4l2-compliance
+>
+> BUG: kernel NULL pointer dereference, address: 0000000000000020
+> PF: supervisor read access in kernel mode
+> PF: error_code(0x0000) - not-present page
+> PGD 0 P4D 0
+> Oops: 0000 [#1] SMP PTI
+> RIP: 0010:v4l2_ctrl_s_ctrl.isra.0+0x4/0x30 [vivid]
+> Call Trace:
+>  vidioc_s_input.cold+0x1a8/0x38d [vivid]
+>  __video_do_ioctl+0x372/0x3a0 [videodev]
+>  ? v4l_enumstd+0x20/0x20 [videodev]
+>  ? v4l_enumstd+0x20/0x20 [videodev]
+>  video_usercopy+0x1cb/0x450 [videodev]
+>  v4l2_ioctl+0x3f/0x50 [videodev]
+>  ksys_ioctl+0x3f1/0x7e0
+>  ? vfs_write+0x1c4/0x1f0
+>  __x64_sys_ioctl+0x11/0x20
+>  do_syscall_64+0x49/0x2c0
+>  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+>
+> vivid driver crashes the kernel in various places, for instance,
+>
+>         v4l2_ctrl_modify_range(dev->brightness, ...);
+> or
+>         v4l2_ctrl_s_ctrl(dev->brightness, ...);
+>
+> because ->brightness (and quite likely some more controls) is NULL.
+> While we may fix the vivid driver, it would be safer to fix core
+> API. This patch adds more NULL pointer checks to ctrl API.
+>
+> Signed-off-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-ctrls.c | 22 ++++++++++++++++-
+>  include/media/v4l2-ctrls.h           | 37 ++++++++++++++++++++++++++--
+>  2 files changed, 56 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index 93d33d1db4e8..02a60f67c2ee 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -2869,6 +2869,9 @@ EXPORT_SYMBOL(v4l2_ctrl_add_handler);
+>
+>  bool v4l2_ctrl_radio_filter(const struct v4l2_ctrl *ctrl)
+>  {
+> +       if (WARN_ON(!ctrl))
+> +               return false;
 > +
-> +	if (IS_ERR(cif_dev->base_addr))
-> +		return PTR_ERR(cif_dev->base_addr);
-> +
-> +	if (data->clks_num > RKCIF_MAX_BUS_CLK ||
-> +		data->rsts_num > RKCIF_MAX_RESET) {
 
-It's silly to have runtime checks of constants - BUILD_BUG_ON() 
-somewhere if you really want to validate that the driver data is 
-self-consistent.
+.. don't think this is needed, as it's always called via v4l2_ctrl_add_handler
+which guarantess a non-NULL pointer.
 
-> +		dev_err(dev, "out of range: clks(%d %d) rsts(%d %d)\n",
-> +			data->clks_num, RKCIF_MAX_BUS_CLK,
-> +			data->rsts_num, RKCIF_MAX_RESET);
-> +		return -EINVAL;
-> +	}
-> +
-> +	for (i = 0; i < data->clks_num; i++) {
-> +		struct clk *clk = devm_clk_get(dev, data->clks[i]);
-> +
-> +		if (IS_ERR(clk)) {
-> +			dev_err(dev, "failed to get %s\n", data->clks[i]);
-> +			return PTR_ERR(clk);
-> +		}
-> +
-> +		cif_dev->clks[i] = clk;
-> +	}
-
-All of the clock handling looks like it could use the clk_bulk_* APIs.
-
-> +
-> +	cif_dev->clk_size = data->clks_num;
-> +
-> +	for (i = 0; i < data->rsts_num; i++) {
-> +		struct reset_control *rst =
-> +			devm_reset_control_get(dev, data->rsts[i]);
-> +		if (IS_ERR(rst)) {
-> +			dev_err(dev, "failed to get %s\n", data->rsts[i]);
-> +			return PTR_ERR(rst);
-> +		}
-> +		cif_dev->cif_rst[i] = rst;
-> +	}
-
-And possibly the reset_control_array_* APIs for resets? (assuming there 
-isn't a subtle ordering requirement implicit in data->rsts)
-
-> +
-> +	/* Initialize the stream */
-> +	rkcif_stream_init(cif_dev);
-> +
-> +	strlcpy(cif_dev->media_dev.model, "rkcif",
-> +		sizeof(cif_dev->media_dev.model));
-> +	cif_dev->media_dev.dev = &pdev->dev;
-> +	v4l2_dev = &cif_dev->v4l2_dev;
-> +	v4l2_dev->mdev = &cif_dev->media_dev;
-> +	strlcpy(v4l2_dev->name, "rkcif", sizeof(v4l2_dev->name));
-> +	v4l2_ctrl_handler_init(&cif_dev->ctrl_handler, 8);
-> +	v4l2_dev->ctrl_handler = &cif_dev->ctrl_handler;
-> +
-> +	ret = v4l2_device_register(cif_dev->dev, &cif_dev->v4l2_dev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	media_device_init(&cif_dev->media_dev);
-> +
-> +	ret = media_device_register(&cif_dev->media_dev);
-> +	if (ret < 0) {
-> +		v4l2_err(v4l2_dev, "Failed to register media device: %d\n",
-> +			 ret);
-> +		goto err_unreg_v4l2_dev;
-> +	}
-> +
-> +	/* create & register platefom subdev (from of_node) */
-> +	ret = rkcif_register_platform_subdevs(cif_dev);
-> +	if (ret < 0)
-> +		goto err_unreg_media_dev;
-> +
-> +	ret = of_reserved_mem_device_init(dev);
-> +	if (ret)
-> +		v4l2_warn(v4l2_dev, "No reserved memory region assign to CIF\n");
-
-It feels like that should probably happen earlier in the "resource 
-acquisition" part of probe, before any external init/register calls that 
-in principle could want to preallocate DMA buffers.
-
-Also, is the lack of reserved memory really a warn-level condition? The 
-DT binding doesn't even appear to treat a "memory-region" property as 
-legal, and with CMA or (as appears to be the case for at least RK3288) 
-an IOMMU, it should be largely moot anyway.
-
-Robin.
-
-> +
-> +	pm_runtime_enable(&pdev->dev);
-> +
-> +	return 0;
-> +
-> +err_unreg_media_dev:
-> +	media_device_unregister(&cif_dev->media_dev);
-> +err_unreg_v4l2_dev:
-> +	v4l2_device_unregister(&cif_dev->v4l2_dev);
-> +	return ret;
-> +}
+Thanks!
+Ezequiel
