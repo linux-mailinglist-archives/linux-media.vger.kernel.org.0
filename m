@@ -2,336 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AADF1ABBC7
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 10:55:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BACD41ABC0E
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 11:03:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2503017AbgDPIzM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 04:55:12 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:33739 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2502539AbgDPIxh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 04:53:37 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id P0H4jxyAClKa1P0H8jRAHU; Thu, 16 Apr 2020 10:53:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587027214; bh=9WOEBGbhNWTWcb5wWzuotRMRLjvovmKy5rtSmeTedTE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=SEl8P7G0mwLjPn9eWvjTiuFGw9iZ9bwnWPqwuuazeuv3r43hYnswxzm41g9wNxa+U
-         e4IUhAzkpkS66FA/oMPQLwd6ulJu0gQrVNuDwuKnXZpxKi6pKgQKLDVxdVlW5VRptK
-         GgjuG6WfoFAl+7fC0d8FkVoehar11oQ7rkKLj6oKFYJ+8UifmnS5vksGi76DjBCit6
-         cDsmB9DzHs9fsJCPsXEZgfzEblGtfIclWnliZuE4mylLk5Fa40aqW3vltCBLo1JOZB
-         EVMJc0P3GhX09ZY0eXIdLatoUJ8WbCLsmtHhtWZrriZckxav7p9OmZj8ZB9OmGJekx
-         k057i3p4wqpag==
-Subject: Re: [RFC][PATCH] media: v4l2-ctrls: add more NULL pointer checks
-To:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200410103501.1083-1-sergey.senozhatsky@gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <c83c137b-b801-a06b-e324-09dd3bbc9daf@xs4all.nl>
-Date:   Thu, 16 Apr 2020 10:53:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S2503094AbgDPJDM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 05:03:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34820 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2502790AbgDPJC4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Apr 2020 05:02:56 -0400
+Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9D05F206B9;
+        Thu, 16 Apr 2020 09:02:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587027775;
+        bh=lklmniicHQqU2dRj3nlOgj3Q5y6VhCBHRL82DuV/2+I=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Cp4ZSLl0UuqOf8aaiJlWo3FBbXr1XwlhXuxdRtdzm4EgweU52BBIf4DjCb8lRIfJR
+         +cF7JqvgzfJx3I0dv3veysGPLIXy+ZkWuB55dYnMgNzi8GZQP9Dlom5gYLiuodbQwG
+         fuvNO9mFhk2SpTFV3l3G4zPTDKEGr9C/JBN1p1S4=
+Date:   Thu, 16 Apr 2020 11:02:51 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: Script to build the media documentation as if it were a single
+ book
+Message-ID: <20200416110251.10b850e1@coco.lan>
+In-Reply-To: <a3236eb0-2328-266e-b5b2-167e37b56c7a@xs4all.nl>
+References: <20200414153739.30b58bdc@coco.lan>
+        <e83dbd40-2a34-3bad-be5f-e451c3a5d020@xs4all.nl>
+        <20200416092132.2cbfce7e@coco.lan>
+        <c55b5aae-ffb5-3ca0-b855-1df4a2da08f9@xs4all.nl>
+        <20200416095554.53566315@coco.lan>
+        <a3236eb0-2328-266e-b5b2-167e37b56c7a@xs4all.nl>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200410103501.1083-1-sergey.senozhatsky@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfItyTbJnDaB/ZbLYq9psKWKGdq8VZJMWZrpzkMWGM3MDByU7HQUSBJPT+xx9RsksERX5vxKaNk8MaySiZ4I25tEZPj+5I8bLyDs59SPC0tQPCc1MZMDc
- L8ZzLkp6GqUPRsqTPxhtL9doDwFst25nWB54a+CXavr2AqJXAknHGz/RxiP8lKdacuAx+zw54ZY3qMKXtmz4JLVav8CESRbZws/2pax5mNmF966wPIw7Nw/m
- mcuy54Gp82EgRhJLdd/mtfSeHSZ/wsw+Yez7T2zKWdnX8yrn8SSSmuGnoQ373i6VwCJjIsLUDNCLj+llpEqsTMwEalry8tqy1fJGiOmyAO8=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/04/2020 12:35, Sergey Senozhatsky wrote:
-> A number of v4l2-ctrls functions gracefully handle NULL ctrl pointers,
-> for instance, v4l2_g_ctrl(), v4l2_ctrl_activate(), __v4l2_ctrl_grab()
-> to name a few. But not all of them. It is relatively easy to crash the
-> kernel with the NULL pointer dereference:
+Em Thu, 16 Apr 2020 10:06:28 +0200
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+
+> On 16/04/2020 09:55, Mauro Carvalho Chehab wrote:
+> > Em Thu, 16 Apr 2020 09:29:45 +0200
+> > Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+> >   
+> >> On 16/04/2020 09:21, Mauro Carvalho Chehab wrote:  
+> >>> Em Thu, 16 Apr 2020 09:01:55 +0200
+> >>> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+> >>>     
+> >>>> On 14/04/2020 15:37, Mauro Carvalho Chehab wrote:    
+> >>>     
+> >>>>> ================================
+> >>>>> Linux Kernel Media Documentation
+> >>>>> ================================
+> >>>>>
+> >>>>> .. toctree::
+> >>>>> 	:maxdepth: 4
+> >>>>>
+> >>>>>         admin-guide/index
+> >>>>>         driver-api/index
+> >>>>>         userspace-api/index      
+> >>>>
+> >>>> Wouldn't it make more sense to have the userspace-api before the admin-guide?    
+> >>>
+> >>> There, I just placed them on alphabetic order.
+> >>>
+> >>> But answering your question, that depends on the audience ;-)
+> >>>
+> >>> -
+> >>>
+> >>> Yet, assuming that we are doing a good job, I would expect a lot more
+> >>> users than developers[1].    
+> >>
+> >> If you want to see what it looks like with userspace-api on top:
+> >>
+> >> https://hverkuil.home.xs4all.nl/spec/index.html
+> >>
+> >> I think it makes more sense that way.  
+> > 
+> > With the current content, I fully agree with you. However, take a look
+> > at the RFC patch I just sent. It is just the start of something
+> > (and it is not aligned yet with the latest Kconfig changes).
+> > 
+> > Anyway, my plan is to add something that a random media user could
+> > find some useful information, and point to our Wiki pages where
+> > it would make sense.  
 > 
-> 	# modprobe vivid node_types=0x60000
-> 	$ v4l2-compliance
+> But that's only useful for people who need to build their own kernel or do
+> other admin tasks. That's a small group and it is usually a one-off thing.
+
+Well, all Kernel developers need that. Also userspace developers that
+may want to build test drivers. So, the ones potentially interested
+on this chapter contains the group of people interested at the public
+API.
+
+Granted, once some Kernel developer gets familiar with the stuff 
+contained there, the uAPI guide becomes a lot more interesting, but
+this is true for any technical book:
+
+at the beginning, the introductory chapters (with don't have much
+details) are the more relevant ones, as they explain the basic concepts
+that will be present at the rest of the book. Once you pass that, the
+other chapters will be a lot more interesting, and those are the ones 
+that people re-visit more often.
+
 > 
-> BUG: kernel NULL pointer dereference, address: 0000000000000020
-> PF: supervisor read access in kernel mode
-> PF: error_code(0x0000) - not-present page
-> PGD 0 P4D 0
-> Oops: 0000 [#1] SMP PTI
-> RIP: 0010:v4l2_ctrl_s_ctrl.isra.0+0x4/0x30 [vivid]
-> Call Trace:
->  vidioc_s_input.cold+0x1a8/0x38d [vivid]
->  __video_do_ioctl+0x372/0x3a0 [videodev]
->  ? v4l_enumstd+0x20/0x20 [videodev]
->  ? v4l_enumstd+0x20/0x20 [videodev]
->  video_usercopy+0x1cb/0x450 [videodev]
->  v4l2_ioctl+0x3f/0x50 [videodev]
->  ksys_ioctl+0x3f1/0x7e0
->  ? vfs_write+0x1c4/0x1f0
->  __x64_sys_ioctl+0x11/0x20
->  do_syscall_64+0x49/0x2c0
->  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> The vast majority is interested in the public APIs.
 > 
-> vivid driver crashes the kernel in various places, for instance,
+> Regards,
 > 
-> 	v4l2_ctrl_modify_range(dev->brightness, ...);
-> or
-> 	v4l2_ctrl_s_ctrl(dev->brightness, ...);
+> 	Hans
 > 
-> because ->brightness (and quite likely some more controls) is NULL.
-> While we may fix the vivid driver, it would be safer to fix core
-> API. This patch adds more NULL pointer checks to ctrl API.
-> 
-> Signed-off-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-> ---
->  drivers/media/v4l2-core/v4l2-ctrls.c | 22 ++++++++++++++++-
->  include/media/v4l2-ctrls.h           | 37 ++++++++++++++++++++++++++--
->  2 files changed, 56 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index 93d33d1db4e8..02a60f67c2ee 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -2869,6 +2869,9 @@ EXPORT_SYMBOL(v4l2_ctrl_add_handler);
->  
->  bool v4l2_ctrl_radio_filter(const struct v4l2_ctrl *ctrl)
->  {
-> +	if (WARN_ON(!ctrl))
-> +		return false;
-> +
->  	if (V4L2_CTRL_ID2WHICH(ctrl->id) == V4L2_CTRL_CLASS_FM_TX)
->  		return true;
->  	if (V4L2_CTRL_ID2WHICH(ctrl->id) == V4L2_CTRL_CLASS_FM_RX)
-> @@ -3794,7 +3797,9 @@ s32 v4l2_ctrl_g_ctrl(struct v4l2_ctrl *ctrl)
->  	struct v4l2_ext_control c;
->  
->  	/* It's a driver bug if this happens. */
-> -	WARN_ON(!ctrl->is_int);
-> +	if (WARN_ON(!ctrl || !ctrl->is_int))
-> +		return -EINVAL;
-
-Just return 0 here. The return value is the control's value, not an error code.
-So all you can do here is return 0 in the absence of anything better.
-
-> +
->  	c.value = 0;
->  	get_ctrl(ctrl, &c);
->  	return c.value;
-> @@ -4212,6 +4217,9 @@ EXPORT_SYMBOL(v4l2_s_ctrl);
->  
->  int __v4l2_ctrl_s_ctrl(struct v4l2_ctrl *ctrl, s32 val)
->  {
-> +	if (!ctrl)
-
-Change this to 'if (WARN_ON(!ctrl))'
-
-I don't think NULL pointers should be silently ignored: it really
-indicates a driver bug. It it certainly a good idea to WARN instead.
-
-The same is true for the functions below.
-
-That means that vivid should be fixed as well, but at least it should
-just WARN instead of crashing, that's certainly a good improvement.
-
-Regards,
-
-	Hans
-
-> +		return -EINVAL;
-> +
->  	lockdep_assert_held(ctrl->handler->lock);
->  
->  	/* It's a driver bug if this happens. */
-> @@ -4223,6 +4231,9 @@ EXPORT_SYMBOL(__v4l2_ctrl_s_ctrl);
->  
->  int __v4l2_ctrl_s_ctrl_int64(struct v4l2_ctrl *ctrl, s64 val)
->  {
-> +	if (!ctrl)
-> +		return -EINVAL;
-> +
->  	lockdep_assert_held(ctrl->handler->lock);
->  
->  	/* It's a driver bug if this happens. */
-> @@ -4234,6 +4245,9 @@ EXPORT_SYMBOL(__v4l2_ctrl_s_ctrl_int64);
->  
->  int __v4l2_ctrl_s_ctrl_string(struct v4l2_ctrl *ctrl, const char *s)
->  {
-> +	if (!ctrl)
-> +		return -EINVAL;
-> +
->  	lockdep_assert_held(ctrl->handler->lock);
->  
->  	/* It's a driver bug if this happens. */
-> @@ -4246,6 +4260,9 @@ EXPORT_SYMBOL(__v4l2_ctrl_s_ctrl_string);
->  int __v4l2_ctrl_s_ctrl_area(struct v4l2_ctrl *ctrl,
->  			    const struct v4l2_area *area)
->  {
-> +	if (!ctrl)
-> +		return -EINVAL;
-> +
->  	lockdep_assert_held(ctrl->handler->lock);
->  
->  	/* It's a driver bug if this happens. */
-> @@ -4447,6 +4464,9 @@ int __v4l2_ctrl_modify_range(struct v4l2_ctrl *ctrl,
->  	bool range_changed = false;
->  	int ret;
->  
-> +	if (!ctrl)
-> +		return -EINVAL;
-> +
->  	lockdep_assert_held(ctrl->handler->lock);
->  
->  	switch (ctrl->type) {
-> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> index 7db9e719a583..22d7ea500f96 100644
-> --- a/include/media/v4l2-ctrls.h
-> +++ b/include/media/v4l2-ctrls.h
-> @@ -755,6 +755,8 @@ int v4l2_ctrl_add_handler(struct v4l2_ctrl_handler *hdl,
->   * transmitter class controls.
->   *
->   * This function is to be used with v4l2_ctrl_add_handler().
-> + *
-> + * Returns false if ctrl == NULL.
->   */
->  bool v4l2_ctrl_radio_filter(const struct v4l2_ctrl *ctrl);
->  
-> @@ -884,7 +886,7 @@ static inline void v4l2_ctrl_grab(struct v4l2_ctrl *ctrl, bool grabbed)
->   * @step value is interpreted as a menu_skip_mask.
->   *
->   * An error is returned if one of the range arguments is invalid for this
-> - * control type.
-> + * control type. Returns -EINVAL if ctrl == NULL.
->   *
->   * The caller is responsible for acquiring the control handler mutex on behalf
->   * of __v4l2_ctrl_modify_range().
-> @@ -906,7 +908,7 @@ int __v4l2_ctrl_modify_range(struct v4l2_ctrl *ctrl,
->   * @step value is interpreted as a menu_skip_mask.
->   *
->   * An error is returned if one of the range arguments is invalid for this
-> - * control type.
-> + * control type. Returns -EINVAL if ctrl == NULL.
->   *
->   * This function assumes that the control handler is not locked and will
->   * take the lock itself.
-> @@ -916,6 +918,9 @@ static inline int v4l2_ctrl_modify_range(struct v4l2_ctrl *ctrl,
->  {
->  	int rval;
->  
-> +	if (!ctrl)
-> +		return -EINVAL;
-> +
->  	v4l2_ctrl_lock(ctrl);
->  	rval = __v4l2_ctrl_modify_range(ctrl, min, max, step, def);
->  	v4l2_ctrl_unlock(ctrl);
-> @@ -982,6 +987,8 @@ const s64 *v4l2_ctrl_get_int_menu(u32 id, u32 *len);
->   * used from within the &v4l2_ctrl_ops functions.
->   *
->   * This function is for integer type controls only.
-> + *
-> + * Returns -EINVAL if ctrl == NULL.
->   */
->  s32 v4l2_ctrl_g_ctrl(struct v4l2_ctrl *ctrl);
->  
-> @@ -996,6 +1003,8 @@ s32 v4l2_ctrl_g_ctrl(struct v4l2_ctrl *ctrl);
->   * allowing it to be used from within the &v4l2_ctrl_ops functions.
->   *
->   * This function is for integer type controls only.
-> + *
-> + * Returns -EINVAL is ctrl == NULL.
->   */
->  int __v4l2_ctrl_s_ctrl(struct v4l2_ctrl *ctrl, s32 val);
->  
-> @@ -1010,11 +1019,16 @@ int __v4l2_ctrl_s_ctrl(struct v4l2_ctrl *ctrl, s32 val);
->   * used from within the &v4l2_ctrl_ops functions.
->   *
->   * This function is for integer type controls only.
-> + *
-> + * Return -EINVAL is ctrl == NULL.
->   */
->  static inline int v4l2_ctrl_s_ctrl(struct v4l2_ctrl *ctrl, s32 val)
->  {
->  	int rval;
->  
-> +	if (!ctrl)
-> +		return -EINVAL;
-> +
->  	v4l2_ctrl_lock(ctrl);
->  	rval = __v4l2_ctrl_s_ctrl(ctrl, val);
->  	v4l2_ctrl_unlock(ctrl);
-> @@ -1062,11 +1076,16 @@ int __v4l2_ctrl_s_ctrl_int64(struct v4l2_ctrl *ctrl, s64 val);
->   * used from within the &v4l2_ctrl_ops functions.
->   *
->   * This function is for 64-bit integer type controls only.
-> + *
-> + * Returns -EINVAL if ctrl == NULL.
->   */
->  static inline int v4l2_ctrl_s_ctrl_int64(struct v4l2_ctrl *ctrl, s64 val)
->  {
->  	int rval;
->  
-> +	if (!ctrl)
-> +		return -EINVAL;
-> +
->  	v4l2_ctrl_lock(ctrl);
->  	rval = __v4l2_ctrl_s_ctrl_int64(ctrl, val);
->  	v4l2_ctrl_unlock(ctrl);
-> @@ -1085,6 +1104,8 @@ static inline int v4l2_ctrl_s_ctrl_int64(struct v4l2_ctrl *ctrl, s64 val)
->   * allowing it to be used from within the &v4l2_ctrl_ops functions.
->   *
->   * This function is for string type controls only.
-> + *
-> + * Returns -EINVAL if ctrl == NULL.
->   */
->  int __v4l2_ctrl_s_ctrl_string(struct v4l2_ctrl *ctrl, const char *s);
->  
-> @@ -1100,11 +1121,16 @@ int __v4l2_ctrl_s_ctrl_string(struct v4l2_ctrl *ctrl, const char *s);
->   * used from within the &v4l2_ctrl_ops functions.
->   *
->   * This function is for string type controls only.
-> + *
-> + * Returns -EINVAL if ctrl == NULL.
->   */
->  static inline int v4l2_ctrl_s_ctrl_string(struct v4l2_ctrl *ctrl, const char *s)
->  {
->  	int rval;
->  
-> +	if (!ctrl)
-> +		return -EINVAL;
-> +
->  	v4l2_ctrl_lock(ctrl);
->  	rval = __v4l2_ctrl_s_ctrl_string(ctrl, s);
->  	v4l2_ctrl_unlock(ctrl);
-> @@ -1123,6 +1149,8 @@ static inline int v4l2_ctrl_s_ctrl_string(struct v4l2_ctrl *ctrl, const char *s)
->   * allowing it to be used from within the &v4l2_ctrl_ops functions.
->   *
->   * This function is for area type controls only.
-> + *
-> + * Returns -EINVAL if ctrl == NULL.
->   */
->  int __v4l2_ctrl_s_ctrl_area(struct v4l2_ctrl *ctrl,
->  			    const struct v4l2_area *area);
-> @@ -1139,12 +1167,17 @@ int __v4l2_ctrl_s_ctrl_area(struct v4l2_ctrl *ctrl,
->   * used from within the &v4l2_ctrl_ops functions.
->   *
->   * This function is for area type controls only.
-> + *
-> + * Returns -EINVAL if ctrl == NULL.
->   */
->  static inline int v4l2_ctrl_s_ctrl_area(struct v4l2_ctrl *ctrl,
->  					const struct v4l2_area *area)
->  {
->  	int rval;
->  
-> +	if (!ctrl)
-> +		return -EINVAL;
-> +
->  	v4l2_ctrl_lock(ctrl);
->  	rval = __v4l2_ctrl_s_ctrl_area(ctrl, area);
->  	v4l2_ctrl_unlock(ctrl);
+> >   
+> >>
+> >> Regards,
+> >>
+> >> 	Hans
+> >>  
+> >>>
+> >>> [1] Granted, there are lots of gaps there for it to be a generic guide
+> >>>     to media subsystem. I'm planning to improve the admin-guide in order
+> >>>     to make it more consistent and useful for media users.
+> >>>
+> >>> The order there, IMHO, doesn't matter much, as someone accessing it from
+> >>> LinuxTV.org would likely use this URL:
+> >>>
+> >>> 	https://linuxtv.org/docs.php
+> >>>
+> >>> Side note: I need to add a pointer to the admin guide there - and at the
+> >>> wiki pages.
+> >>>
+> >>> Thanks,
+> >>> Mauro
+> >>>     
+> >>  
+> > 
+> > 
+> > 
+> > Thanks,
+> > Mauro
+> >   
 > 
 
+
+
+Thanks,
+Mauro
