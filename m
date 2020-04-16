@@ -2,150 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26C1E1AC0BD
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 14:08:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 941671AC0D8
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 14:14:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2635023AbgDPMIL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 08:08:11 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:49244 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2635001AbgDPMIH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 08:08:07 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jP3GS-0041NJ-GR; Thu, 16 Apr 2020 12:05:04 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jP3L4-0005Vj-5p; Thu, 16 Apr 2020 12:09:50 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.8] Add rkvdec codec (#63129)
-Date:   Thu, 16 Apr 2020 12:09:50 +0000
-Message-Id: <20200416120950.21142-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <f77fa7ee-c9d2-d2ee-5db7-d15fee15c04f@xs4all.nl>
-References: 
+        id S2635180AbgDPMOA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 08:14:00 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:56865 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2635124AbgDPMN4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 16 Apr 2020 08:13:56 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id P3Oxjcid87xncP3P0j7bs5; Thu, 16 Apr 2020 14:13:54 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1587039234; bh=F+K4cdVq08HBBl8QpFts4+Tv330OztlyLas7ZcdXImo=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Akz6oJbUK8lsqel0fCMca2SivYxWjsbVpmwmSa1cqjyELPBi5Jc3BE/4sYODYjemX
+         izM+Vlm4lYVq+Mr7z8haBVZZQgbH5l/P8tbBQ893MTcXrWaBsdkqk6689JQ5vcjwUf
+         QH6II73vYVNWMF0UeiFor0SEuNxQkFM4bA/PqsGtTPvtaTlFbAxcDWKTIggghH2BwO
+         KEAlu36a1YG795jndFHLgYVyTnqNwHqnPNV2YBm12U5yyf+JWLGYlctx8BhXPgtHPK
+         B8otA9pt+8wrPleu6nGW1vvk29dQ+SodCa7zD2ngk8tfM3fYAY+aXkZIh3JVVn2xY1
+         rwWGRI+jvA6gg==
+Subject: Re: [RFC][PATCH] media: v4l2-ctrls: add more NULL pointer checks
+To:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200410103501.1083-1-sergey.senozhatsky@gmail.com>
+ <c83c137b-b801-a06b-e324-09dd3bbc9daf@xs4all.nl>
+ <20200416113249.GG30641@jagdpanzerIV.localdomain>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <f724e17d-51ae-ad20-6c78-4be21d39180b@xs4all.nl>
+Date:   Thu, 16 Apr 2020 14:13:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200416113249.GG30641@jagdpanzerIV.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfK0IWwIBm1UhD1bC7T6kfB06YpW1YWFKTqxtE0O3553vKk9goK75YTEKwbaXzlIw8G3xPast7YxL+D/x1nHDGEqyQTn4CPGNXSNQwxIAwh9TsNfJR4Wg
+ Zxk59URlOGRFprn+PaFVOQeIVi3LS5EsulEEM6DgZKZdygdb9xfDHz5VjvH9y8X+gNyw/8HaILe7yKe0NaFEmEJCmrXp2cMqdA+iyJEJ6kfkviT0LhGVBmwi
+ F6T+KsQKFpn2g8pofyZHWAPiFoGHvLh7b4koEjcZhPke/QEiRS7z3XONkE83q1Um/T6j954mmaabHAGNCLCDYSETZefODWa1SeEFsCVakhg=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On 16/04/2020 13:32, Sergey Senozhatsky wrote:
+> On (20/04/16 10:53), Hans Verkuil wrote:
+> [..]
+>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+>>> @@ -2869,6 +2869,9 @@ EXPORT_SYMBOL(v4l2_ctrl_add_handler);
+>>>  
+>>>  bool v4l2_ctrl_radio_filter(const struct v4l2_ctrl *ctrl)
+>>>  {
+>>> +	if (WARN_ON(!ctrl))
+>>> +		return false;
+>>> +
+>>>  	if (V4L2_CTRL_ID2WHICH(ctrl->id) == V4L2_CTRL_CLASS_FM_TX)
+>>>  		return true;
+>>>  	if (V4L2_CTRL_ID2WHICH(ctrl->id) == V4L2_CTRL_CLASS_FM_RX)
+>>> @@ -3794,7 +3797,9 @@ s32 v4l2_ctrl_g_ctrl(struct v4l2_ctrl *ctrl)
+>>>  	struct v4l2_ext_control c;
+>>>  
+>>>  	/* It's a driver bug if this happens. */
+>>> -	WARN_ON(!ctrl->is_int);
+>>> +	if (WARN_ON(!ctrl || !ctrl->is_int))
+>>> +		return -EINVAL;
+>>
+>> Just return 0 here. The return value is the control's value, not an error code.
+>> So all you can do here is return 0 in the absence of anything better.
+> 
+> OK.
+> 
+>>> +
+>>>  	c.value = 0;
+>>>  	get_ctrl(ctrl, &c);
+>>>  	return c.value;
+>>> @@ -4212,6 +4217,9 @@ EXPORT_SYMBOL(v4l2_s_ctrl);
+>>>  
+>>>  int __v4l2_ctrl_s_ctrl(struct v4l2_ctrl *ctrl, s32 val)
+>>>  {
+>>> +	if (!ctrl)
+>>
+>> Change this to 'if (WARN_ON(!ctrl))'
+>>
+>> I don't think NULL pointers should be silently ignored: it really
+>> indicates a driver bug. It it certainly a good idea to WARN instead.
+> 
+> Should WARN_ON() be only in unlocked versions of ctrl API? It probably
+> would make sense to add WARNs to both - e.g. to v4l2_ctrl_s_ctrl() and
 
-Pull request: https://patchwork.linuxtv.org/patch/63129/
-Build log: https://builder.linuxtv.org/job/patchwork/47007/
-Build time: 00:09:40
-Link: https://lore.kernel.org/linux-media/f77fa7ee-c9d2-d2ee-5db7-d15fee15c04f@xs4all.nl
+Yes, it should be done for both.
 
-gpg: Signature made Thu 16 Apr 2020 11:56:33 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+> to __v4l2_ctrl_s_ctrl(). By the way, why don't locked and unlocked
+> versions live together in v4l2-ctrls.c file? Any reason for, e.g.,
+> v4l2_ctrl_s_ctrl() to be in header and __v4l2_ctrl_s_ctrl() to be C-file?
 
-Summary: 9 patches and/or PDF generation with issues, being 4 at build time
+The v4l2_ctrl_s_ctrl() work fine as a static inline (only compiled if
+they are actually used). But with an additional 'if (WARN_ON(!ctrl))'
+it becomes a bit questionable. I would not be opposed if these static
+inlines are now moved into the source code.
 
-Error/warnings:
+Regards,
 
+	Hans
 
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-media-v4l2-core-Add-helpers-to-build-the-H264-P-B0-B.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0001-media-v4l2-core-Add-helpers-to-build-the-H264-P-B0-B.patch
-patches/0001-media-v4l2-core-Add-helpers-to-build-the-H264-P-B0-B.patch:56: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-patches/0001-media-v4l2-core-Add-helpers-to-build-the-H264-P-B0-B.patch:87: CHECK: Alignment should match open parenthesis
-patches/0001-media-v4l2-core-Add-helpers-to-build-the-H264-P-B0-B.patch:217: CHECK: Unnecessary parentheses around 'poca < builder->cur_pic_order_count'
-patches/0001-media-v4l2-core-Add-helpers-to-build-the-H264-P-B0-B.patch:217: CHECK: Unnecessary parentheses around 'pocb < builder->cur_pic_order_count'
-patches/0001-media-v4l2-core-Add-helpers-to-build-the-H264-P-B0-B.patch:262: CHECK: Unnecessary parentheses around 'poca < builder->cur_pic_order_count'
-patches/0001-media-v4l2-core-Add-helpers-to-build-the-H264-P-B0-B.patch:262: CHECK: Unnecessary parentheses around 'pocb < builder->cur_pic_order_count'
-patches/0001-media-v4l2-core-Add-helpers-to-build-the-H264-P-B0-B.patch:408: CHECK: Alignment should match open parenthesis
-patches/0001-media-v4l2-core-Add-helpers-to-build-the-H264-P-B0-B.patch:411: WARNING: line over 80 characters
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-media-dt-bindings-rockchip-Document-RK3399-Video-Dec.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0003-media-dt-bindings-rockchip-Document-RK3399-Video-Dec.patch
-patches/0003-media-dt-bindings-rockchip-Document-RK3399-Video-Dec.patch:18: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:186: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:187: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:189: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:190: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:195: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:210: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:211: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:212: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:213: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:247: CHECK: Macro argument reuse 'ctxidx' - possible side-effects?
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:273: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:288: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:306: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:322: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:330: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:342: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:379: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:442: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:505: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:556: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:619: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:682: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:766: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:797: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:799: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:800: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:813: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:825: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:856: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:857: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:935: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:1037: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:1125: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:1128: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:1412: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:1415: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:1846: WARNING: line over 80 characters
-patches/0004-media-rkvdec-Add-the-rkvdec-driver.patch:2410: WARNING: line over 80 characters
+> 
+>> The same is true for the functions below.
+> 
+> OK.
+> 
+> 	-ss
+> 
 
