@@ -2,105 +2,329 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 51F251AB9F5
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 09:29:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A1E21AB9FB
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 09:31:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439188AbgDPH3w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 03:29:52 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:53689 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2438921AbgDPH3v (ORCPT
+        id S2439180AbgDPHbi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 03:31:38 -0400
+Received: from wout4-smtp.messagingengine.com ([64.147.123.20]:50021 "EHLO
+        wout4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2438944AbgDPHbe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 03:29:51 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Oyy1jx9r5lKa1Oyy4jQQRk; Thu, 16 Apr 2020 09:29:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587022188; bh=DqdND6kuqgf4MP68rqbu4eVpo/IvPUThVX/E1b9qYWk=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=O28htVFB2g9VlKyjMpQaO4Qkw3hkSru6nelJM36LYDNa9BEeobSS1at17dB6Y0zjK
-         YISPjKIWGH9mS0/E/itkcRGu0Z8ZdV4EHuUNQYNm4ANvIKj9CykfWaDfPm2GOSxysC
-         0vLb5xB0tF+fVISetD2RxAqXxzTDq1x/UvVoIR0NP4ougU40ybOvJxiTlveLGTXaUp
-         5rFsGgQbcv2MF53R/hBlZjFFrkc2mnio16ak/7n1H5h9T0NHdJxK8QO2YqiV7pS+65
-         AynqPK2g23inc5ad+YgSOJz0OflSpaHS+gmCnjny7vDD2Wl0o3arcWwg69FEz0eL6X
-         xWqZzVOJ3+viQ==
-Subject: Re: Script to build the media documentation as if it were a single
- book
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linux-media@vger.kernel.org
-References: <20200414153739.30b58bdc@coco.lan>
- <e83dbd40-2a34-3bad-be5f-e451c3a5d020@xs4all.nl>
- <20200416092132.2cbfce7e@coco.lan>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <c55b5aae-ffb5-3ca0-b855-1df4a2da08f9@xs4all.nl>
-Date:   Thu, 16 Apr 2020 09:29:45 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Thu, 16 Apr 2020 03:31:34 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.west.internal (Postfix) with ESMTP id 55DAB681;
+        Thu, 16 Apr 2020 03:31:33 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Thu, 16 Apr 2020 03:31:33 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=W+EWBAvvjltFQn1vI0zsiOXRz1m
+        8NYYI47sCEw0ADk0=; b=QMV7/UVSapjFb+v+wA7XYXucYljXj4/Vb90QCRC3MQ+
+        /sYrI1O2dVTbW4cWCWoVAkMuplNy092cKAyIPgoWM2BdK+F8H7cKdPz0/nQBEZh4
+        Dcklqe38ltfVJx3VjRBUfNFe+TEAF0zOTNT5LeKIE31Aae29vVo4sJTzdJ736mp9
+        YiL0gXuBNvNjMjcvrjDUzzi6RXmXNeFZ/QQ2N6/+Y+B6H7NMA/TGbp8fH2Z5MUAB
+        akkRESEMTBHpgi6Bn4eRx86z66dv/68Rw/p+VrOgh/6XJP7l+qcqNFflDb3v9Peh
+        8wPJysw8lEgQtpvCEbPjIXgy9ObdfUG9ehDTIwoyQ3A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=W+EWBA
+        vvjltFQn1vI0zsiOXRz1m8NYYI47sCEw0ADk0=; b=3YS352+kYINH42g5b8bAVt
+        424+2AHW3aRTZZ+sISMBlH489+u3jCCZHVWpSLnxlU6ZWvwaXxwg9LNxcGygyULg
+        NnrEE9Vb9uXgRCgNfL+hM6qjBmX6SMuou65mqBGaiAybDWu480LIeZ6Vf6NdrYOd
+        3cZaGX4k/7zBmx0zfRVaUv09FVozVkO0Sqg1CuWNLRmVE791G99JJe8q1IvhjyAW
+        Tp3FuAjO/A/+x4k8PLykO6e6w6QNAirjF1qgFE5FXo7yfXKz2PW/az6IbM7lpzsi
+        tay7+Mwv1NujyQblzHZUnvgiZCfzDSgyBo2Pj9p1ZxyV47zqjREJmbkPYutztkjw
+        ==
+X-ME-Sender: <xms:1AmYXjb_vu5cqR6L9QuudHN1dwqYdJcy3yLkk9rN7xEf8gtFhAcGYw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrfeeggdduvdduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuffhomhgrih
+    hnpeguvghvihgtvghtrhgvvgdrohhrghenucfkphepledtrdekledrieekrdejieenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvg
+    estggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:1AmYXrM8wKqA1iz-Bo7pJ7pS2mCDQyj0tuKX-P5EzMYB5c2Ose8oHg>
+    <xmx:1AmYXsiXjSmCBFhlPKcYveHQxwaOw519QE29WPb2ZbnuKxayn-NNCQ>
+    <xmx:1AmYXnDlCjRpT_aSajm0fgpoIOrQ3b2t2q-6l3QwnkHQxbcpbf44YA>
+    <xmx:1AmYXicl53aCn78R3bXpkWyvOzfIcfwvcnobppaou8lC3DdjgvT1pg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id D87CD328005D;
+        Thu, 16 Apr 2020 03:31:31 -0400 (EDT)
+Date:   Thu, 16 Apr 2020 09:31:30 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     devicetree@vger.kernel.org,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>,
+        dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v1 2/4] dt-bindings: display: convert atmel lcdc to DT
+ Schema
+Message-ID: <20200416073130.uwv3nphqlczk6fqc@gilmour.lan>
+References: <20200412182012.27515-1-sam@ravnborg.org>
+ <20200412182012.27515-3-sam@ravnborg.org>
+ <20200414083010.qztgtj6v6b53qgjh@gilmour.lan>
+ <20200415164427.GC7965@ravnborg.org>
 MIME-Version: 1.0
-In-Reply-To: <20200416092132.2cbfce7e@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfEJxDXEvmPRMUaxgPzbrIU30tLVQ6SnwR+iWXGCMdvn7IZ4tQKHULJsiqKACxC9H+qhOvATWiLFiDOB0p9o9DygQdYTcyonWJMUJkLpWrpWj5LtYRyBx
- 87C0uNhhy7dUGgGap/g8eRU9PwXXuo5nsV1L6ojux5DCRBjDhZzOhamaqHuxaRniE3gLumnnafR+qzw/QKarLdQ1irjYxRBYL3k=
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="bi3t3lca2w6eed6j"
+Content-Disposition: inline
+In-Reply-To: <20200415164427.GC7965@ravnborg.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/04/2020 09:21, Mauro Carvalho Chehab wrote:
-> Em Thu, 16 Apr 2020 09:01:55 +0200
-> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-> 
->> On 14/04/2020 15:37, Mauro Carvalho Chehab wrote:
-> 
->>> ================================
->>> Linux Kernel Media Documentation
->>> ================================
->>>
->>> .. toctree::
->>> 	:maxdepth: 4
->>>
->>>         admin-guide/index
->>>         driver-api/index
->>>         userspace-api/index  
->>
->> Wouldn't it make more sense to have the userspace-api before the admin-guide?
-> 
-> There, I just placed them on alphabetic order.
-> 
-> But answering your question, that depends on the audience ;-)
-> 
-> -
-> 
-> Yet, assuming that we are doing a good job, I would expect a lot more
-> users than developers[1].
 
-If you want to see what it looks like with userspace-api on top:
+--bi3t3lca2w6eed6j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-https://hverkuil.home.xs4all.nl/spec/index.html
+On Wed, Apr 15, 2020 at 06:44:27PM +0200, Sam Ravnborg wrote:
+> Hi Maxime.
+>
+> On Tue, Apr 14, 2020 at 10:30:10AM +0200, Maxime Ripard wrote:
+> > On Sun, Apr 12, 2020 at 08:20:10PM +0200, Sam Ravnborg wrote:
+> > > Add a new binding file to describe the bindings
+> > > for the Atmel LCDC IP.
+> > > This replaces the old txt based binding.
+> > >
+> > > The binding file describes the current binding,
+> > > including properties to specify register values etc.
+> > > The binding will be updated in a follow-up patch,
+> > > the current binding describes the actual situation.
+> > >
+> > > This new binding file replaces the old .txt based
+> > > binding which is deleted.
+> > >
+> > > Signed-off-by: Sam Ravnborg <sam@ravnborg.org>
+> > > ---
+> > >  .../bindings/display/atmel,lcdc.txt           |  88 -----------
+> > >  .../bindings/display/atmel/lcdc.yaml          | 137 ++++++++++++++++++
+> > >  2 files changed, 137 insertions(+), 88 deletions(-)
+> > >  delete mode 100644 Documentation/devicetree/bindings/display/atmel,lcdc.txt
+> > >  create mode 100644 Documentation/devicetree/bindings/display/atmel/lcdc.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/atmel,lcdc.txt b/Documentation/devicetree/bindings/display/atmel,lcdc.txt
+> > > deleted file mode 100644
+> > > index acb5a0132127..000000000000
+> > > --- a/Documentation/devicetree/bindings/display/atmel,lcdc.txt
+> > > +++ /dev/null
+> > > @@ -1,88 +0,0 @@
+> > > -Atmel LCDC Framebuffer
+> > > ------------------------------------------------------
+> > > -
+> > > -Required properties:
+> > > -- compatible :
+> > > -	"atmel,at91sam9261-lcdc" ,
+> > > -	"atmel,at91sam9263-lcdc" ,
+> > > -	"atmel,at91sam9g10-lcdc" ,
+> > > -	"atmel,at91sam9g45-lcdc" ,
+> > > -	"atmel,at91sam9g45es-lcdc" ,
+> > > -	"atmel,at91sam9rl-lcdc" ,
+> > > -	"atmel,at32ap-lcdc"
+> > > -- reg : Should contain 1 register ranges(address and length).
+> > > -	Can contain an additional register range(address and length)
+> > > -	for fixed framebuffer memory. Useful for dedicated memories.
+> > > -- interrupts : framebuffer controller interrupt
+> > > -- display: a phandle pointing to the display node
+> > > -
+> > > -Required nodes:
+> > > -- display: a display node is required to initialize the lcd panel
+> > > -	This should be in the board dts.
+> > > -- default-mode: a videomode within the display with timing parameters
+> > > -	as specified below.
+> > > -
+> > > -Optional properties:
+> > > -- lcd-supply: Regulator for LCD supply voltage.
+> > > -
+> > > -Example:
+> > > -
+> > > -	fb0: fb@00500000 {
+> > > -		compatible = "atmel,at91sam9g45-lcdc";
+> > > -		reg = <0x00500000 0x1000>;
+> > > -		interrupts = <23 3 0>;
+> > > -		pinctrl-names = "default";
+> > > -		pinctrl-0 = <&pinctrl_fb>;
+> > > -		display = <&display0>;
+> > > -		#address-cells = <1>;
+> > > -		#size-cells = <1>;
+> > > -
+> > > -	};
+> > > -
+> > > -Example for fixed framebuffer memory:
+> > > -
+> > > -	fb0: fb@00500000 {
+> > > -		compatible = "atmel,at91sam9263-lcdc";
+> > > -		reg = <0x00700000 0x1000 0x70000000 0x200000>;
+> > > -		[...]
+> > > -	};
+> > > -
+> > > -Atmel LCDC Display
+> > > ------------------------------------------------------
+> > > -Required properties (as per of_videomode_helper):
+> > > -
+> > > - - atmel,dmacon: dma controller configuration
+> > > - - atmel,lcdcon2: lcd controller configuration
+> > > - - atmel,guard-time: lcd guard time (Delay in frame periods)
+> > > - - bits-per-pixel: lcd panel bit-depth.
+> > > -
+> > > -Optional properties (as per of_videomode_helper):
+> > > - - atmel,lcdcon-backlight: enable backlight
+> > > - - atmel,lcdcon-backlight-inverted: invert backlight PWM polarity
+> > > - - atmel,lcd-wiring-mode: lcd wiring mode "RGB" or "BRG"
+> > > - - atmel,power-control-gpio: gpio to power on or off the LCD (as many as needed)
+> > > -
+> > > -Example:
+> > > -	display0: display {
+> > > -		bits-per-pixel = <32>;
+> > > -		atmel,lcdcon-backlight;
+> > > -		atmel,dmacon = <0x1>;
+> > > -		atmel,lcdcon2 = <0x80008002>;
+> > > -		atmel,guard-time = <9>;
+> > > -		atmel,lcd-wiring-mode = <1>;
+> > > -
+> > > -		display-timings {
+> > > -			native-mode = <&timing0>;
+> > > -			timing0: timing0 {
+> > > -				clock-frequency = <9000000>;
+> > > -				hactive = <480>;
+> > > -				vactive = <272>;
+> > > -				hback-porch = <1>;
+> > > -				hfront-porch = <1>;
+> > > -				vback-porch = <40>;
+> > > -				vfront-porch = <1>;
+> > > -				hsync-len = <45>;
+> > > -				vsync-len = <1>;
+> > > -			};
+> > > -		};
+> > > -	};
+> > > diff --git a/Documentation/devicetree/bindings/display/atmel/lcdc.yaml b/Documentation/devicetree/bindings/display/atmel/lcdc.yaml
+> > > new file mode 100644
+> > > index 000000000000..7dcb9a4d5902
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/atmel/lcdc.yaml
+> > > @@ -0,0 +1,137 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/display/atmel/lcdc.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Atmel LCDC (LCD Controller) display controller with PWM
+> > > +
+> > > +maintainers:
+> > > +  - Sam Ravnborg <sam@ravnborg.org>
+> > > +
+> > > +description: |
+> > > +  The Atmel LCDC Display Controller is display controller that
+> > > +  includes a PWM for backlight/contrast.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - atmel,at91sam9261-lcdc
+> > > +      - atmel,at91sam9263-lcdc
+> > > +      - atmel,at91sam9g10-lcdc
+> > > +      - atmel,at91sam9g45-lcdc
+> > > +      - atmel,at91sam9g45es-lcdc
+> > > +      - atmel,at91sam9g46-lcdc
+> > > +      - atmel,at91sam9m10-lcdc
+> > > +      - atmel,at91sam9m11-lcdc
+> > > +      - atmel,at91sam9rl-lcdc
+> > > +
+> > > +  "#address-cells":
+> > > +    const: 1
+> > > +  "#size-cells":
+> > > +    const: 0
+> > > +
+> > > +  reg:
+> > > +    description: |
+> > > +      Contains 1 register range (address and length).
+> > > +      Can contain an additional register range (address and length)
+> > > +      for fixed framebuffer memory
+> >
+> > So, minItems: 1 , maxItems: 2?
+> The syntax is either:
+>
+>     reg = <0x00700000 0x1000>;
+>
+> or
+>
+>     reg = <0x00700000 0x1000 0x70000000 0x200000>;
+>
+> So always minItems: 1
 
-I think it makes more sense that way.
+Yeah, but <0x00700000 0x1000 0x70000000 0x200000 0x70000000 0x200000>;
+would be invalid, right?
 
-Regards,
+> >
+> > > +  interrupts:
+> > > +    maxItems: 1
+> > > +
+> > > +  lcd-supply:
+> > > +    description: Regulator for LCD supply voltage.
+> > > +
+> > > +  display:
+> > > +    $ref: /schemas/types.yaml#/definitions/phandle
+> > > +    description: phandle to display node
+> > > +
+> > > +patternProperties:
+> > > +  "^display[0-9]$":
+> > > +    type: object
+> > > +    description: |
+> > > +      Display node is required to initialize the lcd panel.
+> > > +      This should be in the board dts
+> > > +
+> > > +    properties:
+> > > +
+> > > +      atmel,dmacon:
+> > > +        $ref: /schemas/types.yaml#/definitions/uint32
+> > > +        description: DMA controller configuration
+> > > +
+> > > +      atmel,lcdcon2:
+> > > +        $ref: /schemas/types.yaml#/definitions/uint32
+> > > +        description: LCD controller configuration
+> > > +
+> > > +      atmel,guard-time:
+> > > +        $ref: /schemas/types.yaml#/definitions/uint32
+> > > +        description: LCD guard time (Delay in frame periods)
+> > > +
+> > > +      bits-per-pixel:
+> > > +        $ref: /schemas/types.yaml#/definitions/uint32
+> > > +        description: LCD panel bit-depth.
+> >
+> > Those properties aren't documented anywhere?
+>
+> Not more than this and then by their use in the driver(s).
+>
+> In the current patchset the node is deprecated in next patch.
+> I plan to do in two patches:
+>   - delete properites which is not used in kernel, barebox, u-boot)
+>   - Mark all the old properties deprecated
+>
+> And for the soon-to-be deprecated properties we need no detailed
+> description.
 
-	Hans
+Even if they are going to be deprecated, and it never was done, it
+seems to be a good occasion to document them properly.
 
-> 
-> [1] Granted, there are lots of gaps there for it to be a generic guide
->     to media subsystem. I'm planning to improve the admin-guide in order
->     to make it more consistent and useful for media users.
-> 
-> The order there, IMHO, doesn't matter much, as someone accessing it from
-> LinuxTV.org would likely use this URL:
-> 
-> 	https://linuxtv.org/docs.php
-> 
-> Side note: I need to add a pointer to the admin guide there - and at the
-> wiki pages.
-> 
-> Thanks,
-> Mauro
-> 
+Maxime
 
+--bi3t3lca2w6eed6j
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXpgJ0gAKCRDj7w1vZxhR
+xWBKAP4s9+x5BuHw/HL8XygQ35smR4G2Z3jON4UkrosWknQ/VAD9FxRLwKxRY86l
+bnqBuKSa7h7ecCDV7wX1bngdQUQRswY=
+=MbWq
+-----END PGP SIGNATURE-----
+
+--bi3t3lca2w6eed6j--
