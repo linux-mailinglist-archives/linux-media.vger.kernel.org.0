@@ -2,171 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D67B1AB998
-	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 09:19:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 394091AB9AE
+	for <lists+linux-media@lfdr.de>; Thu, 16 Apr 2020 09:21:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438654AbgDPHSr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 03:18:47 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:43937 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2438595AbgDPHSo (ORCPT
+        id S2439121AbgDPHTs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 03:19:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54462 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2438595AbgDPHTY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 03:18:44 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id OynJjx3ZtlKa1OynKjQKvR; Thu, 16 Apr 2020 09:18:42 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587021522; bh=99AKY2djymsZiTf/jqM/VJ34o0xKQpq9rFop7Pb1luQ=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=QGv0/ecFPsoeKJWaJFNhCoTwRq//Of2hlAqcfsl+Iv8PSWKkF1pitxhn3/fFv3/GE
-         anp3RkRLza9DZ3jSeLxpkfr8/3rfFw7YxuM6BuVRhtG3E1r2F0rRxrEhK29oNkaomU
-         E+r4ni/9D0Q3rzpBkXZ2bItXonlicL0HMyFBCGhwXDHNTxZ5tjak61ChvedK1Tn934
-         mk6jlOwWVHN7rIQnNM2wWrkW/ex/Xp+j+MdofZ4/JdsoEFIr9ziRAaLC60J8rc1IGx
-         j1b9dVFZnZXEuiFaUU8iUy2EkVHNGoZSk86ER7VuLwugJUDsH8IZbOIeirn7L2PAoZ
-         iD0z5mndOmKZg==
-Message-ID: <340351fbc36cdc8e721d89fe6e88ccc3@smtp-cloud8.xs4all.net>
-Date:   Thu, 16 Apr 2020 09:18:40 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfLvhlHDjA5iIuVYCFKg5o7B9Q++AmoKvROTG1A8U/F86tCtnJLMiSq9YA+fBh+KUpQhB8re8a42Y2lKGB0MaJM+F5ebJcVmVT2mjLOsWxrVFf2gzAUdw
- gCFq/T4R4+DQ1HY6butQf9HeHfcmeOxSqL9DhojsmVwz4XX2QN7YvVghS21AefQLuRFrqWIN3niUl9ygCk3W8aioej9GDGx+mK9+bn9HZmhNYgq2R7ee8kEG
+        Thu, 16 Apr 2020 03:19:24 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 352A2C03C1A6
+        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2020 00:19:20 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id a25so3603480wrd.0
+        for <linux-media@vger.kernel.org>; Thu, 16 Apr 2020 00:19:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=3AEaWn5XeJ7hcX74F4NzwZbogUqZr77xLF5d73BlBfw=;
+        b=x+7x1SRD1y/LTZJxHdO7NBoPBhyXEErUVgwIai9Txb2aqME7MbBYVN8PkA7MmFMlG/
+         +PTNeDQuJeOieuyql513BpDrE+TR0fX/mGtYOkCA4N6z7VRTvWgnydlKHHjdN1pHbDi6
+         FcrLT7q9Xm6W6XF2DKy+sVxRvrx2e8zXuCLbQfQ8d2nPd/iJ34SsziQVe8hgIZhAVDz1
+         X39oeCEgZoTyWJybNtbP4u4Ik4a22WiM6sS1Gf+7ektT/jxfmy4EaiaU+raISKCA976c
+         DL5uziLMISTg53DG/aGMYXA9DS9lwHatzi8LUvPjSHKrnZk+uf82Nr0GKjoaC8YAX62l
+         Ovyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=3AEaWn5XeJ7hcX74F4NzwZbogUqZr77xLF5d73BlBfw=;
+        b=bQg3rmqemqlixEc4jpNVaJTc0cYyJJ5B69mZi3BMugSy7SzkeDuX4ROBxA9LCuMWn7
+         rqT4lhaCs8wJe4E0M1eT8dNsVZHo7Sel1pjhm8LcSR5B6FIQpxyQ9f1R5JTJbXWCtMQA
+         zmlGA+8kN706yWhX42G6krAR5NAznGckFRmJVkMzwCQP6zkhAp7kYnn/BFUymTglHNPC
+         iBrOktCexJqyCdBULwiYkQ3oK/jGi0LIJcuR432MMEBMwSgm5fDX14hAJ4YSl1/eCUSW
+         KnsTg4D0VV3XWmNBjSvfZjS0fmeZ9K3DYKuOr7554Tj8YdcWzcxX8bgKbltUaJydNZFd
+         iuZQ==
+X-Gm-Message-State: AGi0PubuDKjuG6IY+lQqje7PhGhmVS09YPprdBdnJ6XQ6NHnJi2utwsU
+        awOL52/FZdYY8zRlxdtheiMgUw==
+X-Google-Smtp-Source: APiQypLCNVZBL4RMlNf7UZFX5oU2xDT6SF7MjxuD7BsWZie9pUbnFA9tcL+f+7W6lePE+UdiJ1fBjg==
+X-Received: by 2002:adf:e4cc:: with SMTP id v12mr8967305wrm.106.1587021558557;
+        Thu, 16 Apr 2020 00:19:18 -0700 (PDT)
+Received: from dell ([95.149.164.124])
+        by smtp.gmail.com with ESMTPSA id p16sm19943946wro.21.2020.04.16.00.19.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Apr 2020 00:19:17 -0700 (PDT)
+Date:   Thu, 16 Apr 2020 08:20:18 +0100
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>, Vinod Koul <vkoul@kernel.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>, Andrew Lunn <andrew@lunn.ch>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Fabio Estevam <festevam@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Amit Kucheria <amit.kucheria@linaro.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linux-i2c@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-can@vger.kernel.org,
+        netdev@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        alsa-devel@alsa-project.org, linux-spi@vger.kernel.org
+Subject: Re: [PATCH 1/2] dt-bindings: Clean-up schema indentation formatting
+Message-ID: <20200416072018.GS2167633@dell>
+References: <20200416005549.9683-1-robh@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200416005549.9683-1-robh@kernel.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Wed, 15 Apr 2020, Rob Herring wrote:
 
-Results of the daily build of media_tree:
+> Fix various inconsistencies in schema indentation. Most of these are
+> list indentation which should be 2 spaces more than the start of the
+> enclosing keyword. This doesn't matter functionally, but affects running
+> scripts which do transforms on the schema files.
+> 
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/arm/altera.yaml       |  6 +-
+>  .../amlogic/amlogic,meson-gx-ao-secure.yaml   |  2 +-
+>  .../devicetree/bindings/arm/bitmain.yaml      |  2 +-
+>  .../devicetree/bindings/arm/nxp/lpc32xx.yaml  |  9 ++-
+>  .../bindings/arm/socionext/uniphier.yaml      | 26 ++++----
+>  .../bindings/arm/stm32/st,mlahb.yaml          |  2 +-
+>  .../bindings/arm/stm32/st,stm32-syscon.yaml   |  6 +-
+>  .../bindings/ata/faraday,ftide010.yaml        |  4 +-
+>  .../bindings/bus/allwinner,sun8i-a23-rsb.yaml |  4 +-
+>  .../clock/allwinner,sun4i-a10-gates-clk.yaml  |  8 +--
+>  .../devicetree/bindings/clock/fsl,plldig.yaml | 17 +++--
+>  .../devicetree/bindings/clock/qcom,mmcc.yaml  | 16 ++---
+>  .../bindings/connector/usb-connector.yaml     |  6 +-
+>  .../crypto/allwinner,sun4i-a10-crypto.yaml    | 14 ++--
+>  .../bindings/crypto/allwinner,sun8i-ce.yaml   | 16 ++---
+>  .../bindings/crypto/amlogic,gxl-crypto.yaml   |  2 +-
+>  .../display/allwinner,sun4i-a10-hdmi.yaml     | 40 ++++++------
+>  .../display/allwinner,sun4i-a10-tcon.yaml     | 58 ++++++++---------
+>  .../display/allwinner,sun6i-a31-mipi-dsi.yaml | 28 ++++----
+>  .../display/allwinner,sun8i-a83t-dw-hdmi.yaml | 10 +--
+>  .../bindings/display/bridge/lvds-codec.yaml   | 18 +++---
+>  .../display/panel/sony,acx424akp.yaml         |  2 +-
+>  .../display/panel/xinpeng,xpp055c272.yaml     |  4 +-
+>  .../bindings/display/renesas,cmm.yaml         | 16 ++---
+>  .../devicetree/bindings/dma/ti/k3-udma.yaml   |  8 +--
+>  .../bindings/gpio/brcm,xgs-iproc-gpio.yaml    |  2 +-
+>  .../bindings/gpu/arm,mali-midgard.yaml        | 18 +++---
+>  .../devicetree/bindings/gpu/vivante,gc.yaml   |  2 +-
+>  .../devicetree/bindings/i2c/i2c-rk3x.yaml     | 10 +--
+>  .../bindings/iio/adc/adi,ad7124.yaml          |  4 +-
+>  .../bindings/iio/adc/lltc,ltc2496.yaml        |  6 +-
+>  .../input/allwinner,sun4i-a10-lradc-keys.yaml |  4 +-
+>  .../bindings/input/touchscreen/goodix.yaml    |  2 +-
+>  .../bindings/interconnect/qcom,msm8916.yaml   |  4 +-
+>  .../bindings/interconnect/qcom,msm8974.yaml   |  4 +-
+>  .../bindings/interconnect/qcom,qcs404.yaml    |  4 +-
+>  .../allwinner,sun7i-a20-sc-nmi.yaml           | 12 ++--
+>  .../intel,ixp4xx-interrupt.yaml               |  8 +--
+>  .../interrupt-controller/st,stm32-exti.yaml   | 12 ++--
+>  .../bindings/iommu/samsung,sysmmu.yaml        | 10 +--
+>  .../bindings/mailbox/st,stm32-ipcc.yaml       |  2 +-
+>  .../media/allwinner,sun4i-a10-csi.yaml        | 28 ++++----
+>  .../bindings/media/amlogic,gx-vdec.yaml       | 14 ++--
+>  .../bindings/media/renesas,ceu.yaml           | 28 ++++----
+>  .../bindings/media/renesas,vin.yaml           |  8 +--
+>  .../devicetree/bindings/media/ti,vpe.yaml     |  2 +-
+>  .../memory-controllers/fsl/imx8m-ddrc.yaml    |  6 +-
 
-date:			Thu Apr 16 08:46:47 CEST 2020
-media-tree git hash:	63735af86d645a47903f912ae89957507edd917b
-media_build git hash:	8ad929be3dcf0a78ca6688e2ddbeda602d5c474a
-v4l-utils git hash:	d59fa43a9b531f80ebdb971484da6ae80120e0ed
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: c66f09bba8d560141228fc2c8d78215906866773
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+>  .../bindings/mfd/st,stm32-lptimer.yaml        |  4 +-
+>  .../bindings/mfd/st,stm32-timers.yaml         |  4 +-
+>  .../devicetree/bindings/mfd/syscon.yaml       | 12 ++--
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: ERRORS
-linux-5.4.17-x86_64: ERRORS
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2863, Succeeded: 2863, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
+Acked-by: Lee Jones <lee.jones@linaro.org>
 
-Detailed results are available here:
+>  .../devicetree/bindings/mmc/cdns,sdhci.yaml   |  2 +-
+>  .../bindings/mmc/rockchip-dw-mshc.yaml        | 16 ++---
+>  .../bindings/mmc/socionext,uniphier-sd.yaml   | 14 ++--
+>  .../devicetree/bindings/mtd/denali,nand.yaml  |  4 +-
+>  .../net/allwinner,sun8i-a83t-emac.yaml        |  4 +-
+>  .../bindings/net/can/bosch,m_can.yaml         | 52 +++++++--------
+>  .../bindings/net/renesas,ether.yaml           |  4 +-
+>  .../bindings/net/ti,cpsw-switch.yaml          | 12 ++--
+>  .../bindings/net/ti,davinci-mdio.yaml         | 27 ++++----
+>  .../bindings/phy/intel,lgm-emmc-phy.yaml      |  2 +-
+>  .../devicetree/bindings/pwm/pwm-samsung.yaml  | 16 ++---
+>  .../bindings/remoteproc/st,stm32-rproc.yaml   |  2 +-
+>  .../reset/brcm,bcm7216-pcie-sata-rescal.yaml  |  4 +-
+>  .../devicetree/bindings/rtc/st,stm32-rtc.yaml | 38 +++++------
+>  .../bindings/serial/amlogic,meson-uart.yaml   | 16 ++---
+>  .../devicetree/bindings/serial/rs485.yaml     | 17 ++---
+>  .../bindings/soc/amlogic/amlogic,canvas.yaml  | 10 +--
+>  .../bindings/sound/renesas,fsi.yaml           | 16 ++---
+>  .../bindings/spi/qcom,spi-qcom-qspi.yaml      | 10 +--
+>  .../devicetree/bindings/spi/renesas,hspi.yaml |  4 +-
+>  .../devicetree/bindings/spi/spi-pl022.yaml    |  2 +-
+>  .../bindings/spi/st,stm32-qspi.yaml           |  4 +-
+>  .../allwinner,sun4i-a10-system-control.yaml   | 64 +++++++++----------
+>  .../bindings/thermal/amlogic,thermal.yaml     | 10 +--
+>  .../bindings/timer/arm,arch_timer.yaml        |  4 +-
+>  .../bindings/timer/arm,arch_timer_mmio.yaml   |  4 +-
+>  .../devicetree/bindings/usb/dwc2.yaml         |  8 +--
+>  77 files changed, 450 insertions(+), 450 deletions(-)
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+Lee Jones [李琼斯]
+Linaro Services Technical Lead
+Linaro.org │ Open source software for ARM SoCs
+Follow Linaro: Facebook | Twitter | Blog
