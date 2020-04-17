@@ -2,91 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E971B1AD803
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 09:52:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 685AB1AD84D
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 10:10:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729510AbgDQHwP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 03:52:15 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:45511 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729042AbgDQHwO (ORCPT
+        id S1729562AbgDQIJQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 04:09:16 -0400
+Received: from plasma4.jpberlin.de ([80.241.57.33]:59737 "EHLO
+        plasma4.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729176AbgDQIJQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 03:52:14 -0400
-Received: by mail-oi1-f194.google.com with SMTP id k133so1332972oih.12
-        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2020 00:52:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rNgbJ+QYBAgrmY9LHV20WrhJTLgcjx0oxTYGoyO/sTE=;
-        b=n9k3Z4EK8o9zp5kGP0uRZkU28BkBcaE3esXAFa/sFeIhUjM7pFpCz1JX13bBnO+A40
-         6bi1RjXj6Hs+oU0Tx6d5Vw0ZtmQaHVSPYlsWgU0wC4lv6PfFw6cAo5HnNmSXRbDVJ36l
-         00LtYQgqXLGAFLpSzLYAn2CG5tFNP6LYSuf7lUfTxtF2MEQDmBudQeQ6XwZUObSzSIqr
-         eRldBvS/Vx+Rlxt3HsiIzGWKhoZLlXmTKTlQ0RDOeVpOCkOjy3jd6lq1zSl/++3AGMWQ
-         Vc7ftnNV7q3OqSnULdIdRX7jtlXUfu9LxyHEnnWi4l5fl4p8X3TJ5jfJ5IVFhU0f02uN
-         4icw==
-X-Gm-Message-State: AGi0PuZEiNS9oVKvDiSN3N/1cD8ztnlYdkqr1+x127aJR6HsfCI6BtlK
-        6wmhqoZnyytTD3nRlK5FLdwLRMbH5AwDHCYHzuo=
-X-Google-Smtp-Source: APiQypJUW9u8k675l2XWxVDLTalv71gVTkdYb+etg7/3H42YAzqqqgEUyG0N50V8UNdnwVWEYUhczT7yitIpfnYZl8w=
-X-Received: by 2002:aca:f541:: with SMTP id t62mr1236990oih.148.1587109933608;
- Fri, 17 Apr 2020 00:52:13 -0700 (PDT)
+        Fri, 17 Apr 2020 04:09:16 -0400
+Received: from spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125])
+        by plasma.jpberlin.de (Postfix) with ESMTP id D8DD1B72E5;
+        Fri, 17 Apr 2020 10:09:01 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from plasma.jpberlin.de ([80.241.56.68])
+        by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de [80.241.56.125]) (amavisd-new, port 10030)
+        with ESMTP id 9OGyaBnwFwGX; Fri, 17 Apr 2020 10:08:57 +0200 (CEST)
+Received: from webmail.opensynergy.com (unknown [217.66.60.5])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
+        (Authenticated sender: opensynergy@jpberlin.de)
+        by plasma.jpberlin.de (Postfix) with ESMTPSA id 1EC1BBB09E;
+        Fri, 17 Apr 2020 10:08:57 +0200 (CEST)
+Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
+ (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 17 Apr
+ 2020 10:08:56 +0200
+From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
+To:     Keiichi Watanabe <keiichiw@chromium.org>
+CC:     Alexandre Courbot <acourbot@chromium.org>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        <virtio-dev@lists.oasis-open.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dylan Reid <dgreid@chromium.org>,
+        David Staessens <dstaessens@chromium.org>,
+        Enrico Granata <egranata@google.com>,
+        Frediano Ziglio <fziglio@redhat.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        <spice-devel@lists.freedesktop.org>,
+        David Stevens <stevensd@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>, <uril@redhat.com>,
+        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
+        Kiran Pawar <kiran.pawar@opensynergy.com>
+Subject: Re: [PATCH v3 1/2] virtio-video: Add virtio video device specification
+Date:   Fri, 17 Apr 2020 10:08:56 +0200
+Message-ID: <3536507.QJadu78ljV@os-lin-dmo>
+Organization: OpenSynergy
+In-Reply-To: <CAD90Vcb7UwWAqHOKb7rUV6q3TCSCCEpbbkv6oK0PnEL246TgJQ@mail.gmail.com>
+References: <20200206102058.247258-1-keiichiw@chromium.org> <5576106.alqRGMn8q6@os-lin-dmo> <CAD90Vcb7UwWAqHOKb7rUV6q3TCSCCEpbbkv6oK0PnEL246TgJQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <6af5797c76c11d8c08ae1f5a73c3711fcf89ab6f.1587107273.git.mchehab+huawei@kernel.org>
- <CAMuHMdV1DdmrtexvMqEn3SBjgyG8eYbbgLsYV-862mKLt08qdw@mail.gmail.com> <20200417093424.71ae0559@coco.lan>
-In-Reply-To: <20200417093424.71ae0559@coco.lan>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 17 Apr 2020 09:52:02 +0200
-Message-ID: <CAMuHMdXQ-ahP1MhL-NEHAyoA_CxT2EWfJRF55S7w3uuF8vkvDQ@mail.gmail.com>
-Subject: Re: [PATCH 1/3] media: cec: don't select PCI & DMI
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+X-Originating-IP: [10.25.255.1]
+X-Rspamd-Queue-Id: D8DD1B72E5
+X-Rspamd-Score: -5.75 / 15.00 / 200.00
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi,
 
-On Fri, Apr 17, 2020 at 9:34 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
-> Em Fri, 17 Apr 2020 09:30:51 +0200
-> Geert Uytterhoeven <geert@linux-m68k.org> escreveu:
-> > On Fri, Apr 17, 2020 at 9:08 AM Mauro Carvalho Chehab
-> > <mchehab+huawei@kernel.org> wrote:
-> > > While select would be a great idea for most archs, this
-> > > causes a breakage with s390:
-> > >
-> > >         "I don't think that's a good idea, as it suddenly enables selecting all PCI
-> > >          drivers on platforms that do not have PCI.
-> > >
-> > >             WARNING: unmet direct dependencies detected for PCI
-> > >               Depends on [n]: HAVE_PCI [=n]
-> > >               Selected by [m]:
-> > >               - CEC_SECO [=m] && MEDIA_CEC_SUPPORT [=y] && (X86 || IA64 || COMPILE_TEST [=y])
-> > >
-> > > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> >
-> > Thanks for your patch!
-> >
-> > Fixes: 4be5e8648b0c287a ("media: move CEC platform drivers to a
-> > separate directory")
-> > Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
->
-> Btw, I almost solved it on a different way, keeping the select and making
-> it depends on HAVE_PCI.
+On Donnerstag, 9. April 2020 12:46:27 CEST Keiichi Watanabe wrote:
+> Currently, we have three options of the design of per-stream properties:
+> 
+> 1. Have two structs for image format and bitstream format.
+> Pros:
+> Well structured. Easy to support uni-directional stream.
+> Cons:
+> Not all properties may not be classified well. For example, bitrate in
+> encoder is about "how we encode it" rather than "what we encode it
+> into". So, it may be a bit strange to have it in the bitstream
+> information.
+> 
+> 2. Have one struct that contains all properties.
+> Pros:
+> Well structured. Since updating one format affects the other format,
+> it may make more sense to have everything in one struct.
+> Also, we can have any per-stream properties there that may be tied to
+> neither image format nor bitstream format.
+> Cons:
+> If we want to support uni-directional streams in the virtio-video
+> protocol, we may be going to have many unused fields in that struct.
+> 
+> 3. Have every property as a separate subcommand like v3's controls
+> Pros:
+> Easy to add more properties in the future.
+> Cons:
+> Less structured. So, we need to be careful not to overlook mandatory
+> properties when we implement the driver and device.
+> 
+> 
+> IMHO, I'm relatively supportive of 2, but we might need to rethink
+> whether we really want to support uni-directional streams in
+> virtio-video.
 
-Like you did for the similar change to USB?
+Ok, let's assume we keep it is one struct. Anyway, we indeed can just ignore 
+some of the fields if we want so. We need to define some conventions for the 
+struct. Like whether we should fill all the fields all the time when sending 
+set_params() and so on.
 
-Gr{oetje,eeting}s,
+I want to ask you about the frame-level bitrate control here [1]. Is it 
+planned to support it? If yes, we also need a control to enable that and a way 
+to pass minimum and maximum value for the quantization parameter.
 
-                        Geert
+> I guess it's worthwhile to create a separate protocol like
+> virtio-camera even if it somehow overlaps with virtio-video.
+> Only for a simple video capture scenario, extending the virtio-video
+> protocol can be one of simple solutions. However, if we want to extend
+> it for more features like MIPI cameras, it's not hard to imagine the
+> protocol becoming very complicated.
+> I wonder if we can keep virtio protocols simple and clean rather than
+> making an all-in-one protocol for media devices like V4L2.
+> 
+> > I could be useful if it was possible to store the structure in the config
+> > space, but that won't fly as we have multiple streams with different
+> > settings. Also one device can support multiple formats, so we won't be
+> > able to handle the unions.
+> 
+> Yeah, this structure should be per-stream properties but virtio's
+> config is for per-device properties.
+> So, it doesn't work as you said.
+> 
+> > > > The idea being that depending on the value of "format", only the
+> > > > relevant member of the union becomes meaningful. This ensures that the
+> > > > device/driver does not need to check for every control whether it is
+> > > > valid in the current context ; it just needs to check what "format" is
+> > > > and take the values from the relevant members.
+> > > 
+> > > I like this idea to use union to make it more structured.
+> > 
+> > I don't really have any strong objections agains unions per se, but I deem
+> > we need to keep the structure flexible. At the very beginning of the
+> > development there was a discussion about stream priority. If I add a
+> > 'prio' field to this structure it will break the binary compatibility
+> > with older versions.
+> Hmm, I don't think unions can incur any extra binary compatibility
+> issues compared with designs using only structs.
+> Since alignment rules are well-defined for unions as well as structs,
+> it'd be okay.
+> We might want to have an explicit field to show the size of a union like:
+> 
+> union {
+>   struct {
+>     ...
+>   } h264;
+>   struct {
+>     ...
+>   } vp8;
+>   ...
+>   u8 _align[MAX_SIZE_OF_FIELDS_IN_THIS_UNION];
+> }
+> 
+> > > > I don't think we even need to have a different queue for both structs
+> > > > (which is what V4L2 does, but again for its own reasons). Just a
+> > > > single one per coding or decoding context could be enough AFAICT.
+> > > > 
+> > > > Depending on whether we are decoding or encoding, access to some
+> > > > members would be restricted to read/only for the device or driver. For
+> > > > instance, when encoding the driver can set "bitrate" to the desired
+> > > > encoding rate. When decoding, the decoder can report the video's
+> > > > bitrate there.
+> > > > 
+> > > > Now I'm not sure what would be the best way to share this structure.
+> > > > Either a memory area shared between the driver and device, with
+> > > > commands/messages sent to notify that something has changed, or
+> > > > sending the whole structure with each command/message.
+> > > 
+> > > I don't think the first idea is feasible in the virtio mechanism. So,
+> > > we can utilize the same way as the previous proposal; SET_PARAMS and
+> > > GET_PARAMS.
+> > 
+> > For similar thing the virtio config space exists, but as I mentioned
+> > above, it won't fit the current virtio-video design (or we probably can
+> > pre-define the max number of streams on the device side and have params
+> > for each stream in the config space, but this looks clumsy).
+> > 
+> > > We also need to think of how to advertise supported profiles and
+> > > levels. Probably, we might want to extend struct
+> > > virtio_video_format_desc to include supported profiles/levels in a
+> > > response of QUERY_CAPABLITY.
+> > 
+> > It would mean back to spec v1 AFAIR. We probably need to recall why we got
+> > rid of that.
+> 
+> Probably, this reply:
+> https://markmail.org/thread/zr3ycvxixnwi5agt
+> At that time, I assumed that we'll have profiles/levels/bitrates as
+> controls, aparting from other per-stream properties. In that
+> situation, it made sense to have a separate mechanism to get/set/query
+> these properties.
+> However, we are likely not to end up distinguishing these properties
+> from other properties. If so, we don't need any other querying
+> mechanism other than QUERY_CAPABILITY.
+> 
+> To support profiles, we can extend virtio_video_format_desc to
+> (a) add fields like "profiles" and "levels" that shows supported
+> values as bit mask, or
+> (b) add fields like "num_profiles" and "num_levels" that describes the
+> lengths of arrays that follows.
+> 
+> My personal preference is (a).
+> 
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Yes, this should be ok. We had arrays in the spec v1, but as we have now 
+bitmasks for formats, we can do so for profiles and levels.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+We currently have two problems with capabilities when it comes to the real 
+implementation:
+
+1. If we want to avoid calling stream_create in open(), we need to have 
+bitrates already on per-format basis in capabilities.
+2. We also need to know min input and output buffer count in advance, i.e. it 
+should not be in params, especially for encoder that won't report it after 
+metadata parsing like decoder, please see [2] (thanks Nicolas Dufresne for 
+helping with that issue).
+
+[1] https://github.com/chromium/chromium/blob/master/media/gpu/v4l2/
+v4l2_video_encode_accelerator.cc#L1579
+[2] https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues/672
+
+Best regards,
+Dmitry.
+
+> Best regards,
+> Keiichi
+> 
+> > > > Now the parameters I have listed above are not subject to changing a
+> > > > lot, but there are also parameters that we may want to specify/be
+> > > > notified on with each frame. For instance, whether we want a frame to
+> > > > be forcibly encoded as a keyframe. V4L2 uses a control for this, but
+> > > > we could probably do better if we can pass this information with each
+> > > > frame to be encoded. Maybe we can implement that by using different
+> > > > QUEUE commands for encoder and decoder, or again by using a union.
+> > > 
+> > > Ah, I haven't come up with such a kind of parameter. Perhaps, we can
+> > > extend struct virtio_video_resource_queue to have this flag.
+> > 
+> > This looks sane for me.
+> > 
+> > Best regards,
+> > Dmitry.
+
+
