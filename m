@@ -2,171 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C69DB1AD4DA
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 05:27:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 126321AD58C
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 07:14:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728036AbgDQD1y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 23:27:54 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:56511 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727123AbgDQD1y (ORCPT
+        id S1726677AbgDQFN7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 01:13:59 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:47440 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726026AbgDQFN6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 23:27:54 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id PHfSj5gDylKa1PHfTjWvZl; Fri, 17 Apr 2020 05:27:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587094071; bh=0ihJarkYm80Oj6SsMx8oPVtFSk0mZOSUZmKNKndSOV8=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=n7iYwxyqOTI7mC/cU79Aob6aQYO4F8mHCBzeeyTfNgdfoWARbI3nnKK+63xeWUWeg
-         81TSTo/Q8RnEzmRtfB9BGd6QUMIkYIq8zEctNsSDC9q1C6r4JVVeEqkoPCUgmPSRnH
-         tEKcPrFWD215cbLFHYs52Y5HLVwwUNIjPVub8o+vMIK3+lhc1u9O/W1tZIZO4mU2jg
-         qqC214mL853ZyAcfK93At2+lv0g7lpU3QkU/sPbJrFlmjXZSKY+QrS4KWVihDGW7F8
-         S2BXJkIr/bYPFT9Jk8tV5XbFdXqxMcxsO96QfpbtD3JFwaiid5Kw2se1DnMkc7zO3B
-         WQM+iLBhZolKA==
-Message-ID: <f355aca88d8068cb5341bebb24268f93@smtp-cloud8.xs4all.net>
-Date:   Fri, 17 Apr 2020 05:27:50 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfPgT6X4ML4aPi9fT86YUTdv0tvGXaPVbFxVvuWBk5+BTxi1y5ldKYDMqJXSktLw6Jg/77hXfdsw1ozrXZBJeBQuXVNA7dfsC+n4FO8ME0Wb9oiWY+jWc
- fuJEI3uJdX9C920VAt4JZYZL2Cc/xEnisD8X1bpRMj8VVF1Y3uG5+SpX2WuivvpqeZ8os59qObyHq3ujrphkAtNLiqe3zILe2p8sbbdnXOEiJaRkwdOfzpkO
+        Fri, 17 Apr 2020 01:13:58 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 69C2E2A009E
+Message-ID: <7faaec92dc9b5870b33c6dbb440de0698b5a70e7.camel@collabora.com>
+Subject: Re: linux-next: build warning after merge of the v4l-dvb tree
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Linux Next Mailing List <linux-next@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Date:   Fri, 17 Apr 2020 02:13:47 -0300
+In-Reply-To: <20200417102226.11d54815@canb.auug.org.au>
+References: <20200417102226.11d54815@canb.auug.org.au>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.0-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Stephen,
 
-Results of the daily build of media_tree:
+On Fri, 2020-04-17 at 10:22 +1000, Stephen Rothwell wrote:
+> Hi all,
+> 
+> After merging the v4l-dvb tree, today's linux-next build (arm
+> multi_v7_defconfig) produced this warning:
+> 
+> WARNING: unmet direct dependencies detected for MEDIA_CONTROLLER_REQUEST_API
+>   Depends on [n]: MEDIA_SUPPORT [=m] && MEDIA_CONTROLLER [=y] && STAGING_MEDIA [=n]
+>   Selected by [m]:
+>   - VIDEO_VIVID [=m] && MEDIA_SUPPORT [=m] && MEDIA_TEST_SUPPORT [=y] && V4L_TEST_DRIVERS [=y] && VIDEO_DEV [=m] && VIDEO_V4L2 [=m] && !SPARC32 &&
+> !SPARC64 && FB [=y] && HAS_DMA [=y]
+> 
 
-date:			Fri Apr 17 05:00:11 CEST 2020
-media-tree git hash:	dacca5f0fa69f04c2e70aad9847e8250b459971c
-media_build git hash:	7e30d7d726f1fcec3695f82deebf0c0c6cfe51e7
-v4l-utils git hash:	ae58f47a8dc31d046b151abc1a2346f53dd1ffc2
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: c66f09bba8d560141228fc2c8d78215906866773
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+Ugh, my bad. MEDIA_CONTROLLER_REQUEST_API can't
+depend on staging, after this recently merged commit:
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.212-i686: ERRORS
-linux-4.4.212-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.212-i686: ERRORS
-linux-4.9.212-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.169-i686: ERRORS
-linux-4.14.169-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.101-i686: ERRORS
-linux-4.19.101-x86_64: ERRORS
-linux-4.20.15-i686: ERRORS
-linux-4.20.15-x86_64: ERRORS
-linux-5.0.15-i686: ERRORS
-linux-5.0.15-x86_64: ERRORS
-linux-5.1.1-i686: ERRORS
-linux-5.1.1-x86_64: ERRORS
-linux-5.2.1-i686: ERRORS
-linux-5.2.1-x86_64: ERRORS
-linux-5.3.1-i686: ERRORS
-linux-5.3.1-x86_64: ERRORS
-linux-5.4.17-i686: ERRORS
-linux-5.4.17-x86_64: ERRORS
-linux-5.5.1-i686: ERRORS
-linux-5.5.1-x86_64: ERRORS
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 5
-virtme-32: OK: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+"media: Kconfig: Don't expose the Request API option"
 
-Detailed results are available here:
+So, we should fix that with:
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+diff --git a/drivers/media/mc/Kconfig b/drivers/media/mc/Kconfig
+index 7c9628f37196..4815b9dde9af 100644
+--- a/drivers/media/mc/Kconfig
++++ b/drivers/media/mc/Kconfig
+@@ -14,7 +14,7 @@ config MEDIA_CONTROLLER_DVB
+ 
+ config MEDIA_CONTROLLER_REQUEST_API
+        bool
+-       depends on MEDIA_CONTROLLER && STAGING_MEDIA
++       depends on MEDIA_CONTROLLER
+        help
+          DO NOT ENABLE THIS OPTION UNLESS YOU KNOW WHAT YOU'RE DOING.
+ 
+Mauro what do you think?
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
