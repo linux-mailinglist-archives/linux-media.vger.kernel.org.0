@@ -2,91 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A792A1AD74D
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 09:22:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC3BB1AD74F
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 09:22:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728710AbgDQHWN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 03:22:13 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33510 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728622AbgDQHWN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 03:22:13 -0400
-Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A4F872083E;
-        Fri, 17 Apr 2020 07:22:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587108132;
-        bh=ZA93l+zYHiQ7bZgsriObhVutzGbjKcNYI8EuplXFcGk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=Tzx+/hFbdWXdYbs5HHtweksGxGDtb4soIFSabyfcODQmItZuZkdlIU5sDAH2BqY4x
-         k7elVV1fRDBY5uWS6nrbWGMoPfPCM0nG8nm7QuGbwEjLOH2g+F5IhlAtLtJr/gWf5+
-         Tj/Sy56l6Pb53SQQgBfQLEKtJH/AyTLXD1P6OG+o=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jPLKE-007nuy-KJ; Fri, 17 Apr 2020 09:22:10 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Stefan Agner <stefan@agner.ch>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH] media: dvb-frontends: DUMMY_FE should depends on DVB_CORE
-Date:   Fri, 17 Apr 2020 09:22:09 +0200
-Message-Id: <ceab3ac1e60d70afb4e25147d60817c513f235f7.1587108125.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.25.2
+        id S1728814AbgDQHWj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 03:22:39 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:57399 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728419AbgDQHWj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 Apr 2020 03:22:39 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id PLKajhfaA7xncPLKdj9dH9; Fri, 17 Apr 2020 09:22:36 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1587108156; bh=gKELcOf/+NSQdPyFKJlRi9tih3uq9sDfR/dXJQq4/Sw=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=qQTYTJoo+ZvE45hV0SVOlP64r1lWAzgiuUWLOOHbsNUonZ7YhaaqPE0HVxClMGTOk
+         cjDsf/NpqifTdiiihWn8vCMX81OcPLfDKFEP6K4muXqvlFCOYCmSIgV6VcN+nYfP3L
+         sgC9UNCN4YRTnyMOtHgPo1SGI7N4/a+lXh8xAUv7VVxAjZZ1cDFI6DaQ7S9b+fsepx
+         W6PlSuNtJTh35xDVM2Lflms3a8W88VbufAARpuAHocivDZ63ZD4EOaHLPZnH7AArpP
+         9AfTB0mlGjk+xQzbM2k/Pd51KijkUI6fR5spxRdD6pch3ews0Vk09zurrGZG43n0/G
+         +aot1c6FsCV1A==
+Subject: Re: [PATCH v7 2/6] ivtv-ioctl.c: Do not initialize the reserved field
+ of struct v4l2_fmtdesc
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Helen Koike <helen.koike@collabora.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org,
+        kbuild test robot <lkp@intel.com>
+References: <20200413202351.1359754-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200413202351.1359754-3-niklas.soderlund+renesas@ragnatech.se>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <a9fcb4e1-f1b4-a269-9a5a-13fad372be31@xs4all.nl>
+Date:   Fri, 17 Apr 2020 09:22:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200413202351.1359754-3-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfPTHZOsIRal7m5QzjTQGGrNbeMWi5jvMx/lZh895wVNC63t7CAbt0sorl6/C2HELxZnEsPkOznqZpvEa0z6PxlnrxXe4E9O9UVDN4gLff+ivGjP9hr+9
+ hN3pcJFSboVsRe/XbBCfLTushCco9nnt70ESd5cis3Pk5SrgZPUieKXqMq5ZOKX7kJpyYNihS8dD5EYLPPVdYKQhJyNariBYJyAgaNi8BC+GyGIJpLuB90ac
+ TCdjEZl6TVTmjgWw/L5zQ/4xdyargelVbTGqEr7GZyXmqohuiyUpYWO3j+ja9RLTUOq6jMnaspc6UllOsIChnUm+Fx9DlQ9bE+vwWIW0RZVy3MQDh5O21F8j
+ C2tGgTvy/Az7H61NBvcH99ejvq+Rrd/MYRPsqIGDVivI0tv8A/XfIzfJtBZVm44zSaZG7LzQUG7U2eXLZuKqPxH9vWDBWQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Using select for DVB_CORE doesn't work, as reported by
-Randy:
+Hi Niklas,
 
-	CONFIG_I2C=m
-	CONFIG_DVB_CORE=y
+On 13/04/2020 22:23, Niklas Söderlund wrote:
+> One of the reserved fields are about to be used. Instead of updating the
+> driver to only initialize three instead of four reserved fields remove
+> the explicit assignment.  As if one field in a struct is assigned, the
+> memory is zeroed and explicit assignment is redundant.
+> 
+> Reported-by: kbuild test robot <lkp@intel.com>
+> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-	ld: drivers/media/dvb-core/dvbdev.o: in function `dvb_module_probe':
-	dvbdev.c:(.text+0xf92): undefined reference to `i2c_new_client_device'
-	ld: dvbdev.c:(.text+0xffb): undefined reference to `i2c_unregister_device'
-	ld: drivers/media/dvb-core/dvbdev.o: in function `dvb_module_release':
-	dvbdev.c:(.text+0x107d): undefined reference to `i2c_unregister_device'
+Can you replace this with this patch from Laurent when you post the v8?
 
-The problem is actually caused by the dummy frontend driver,
-which uses select, and it is missing an I2C dependency:
+https://patchwork.linuxtv.org/patch/62430/
 
-	WARNING: unmet direct dependencies detected for DVB_CORE
-	  Depends on [m]: MEDIA_SUPPORT [=y] && MEDIA_DIGITAL_TV_SUPPORT [=y] && (I2C [=m] || I2C [=m]=n)
-	  Selected by [y]:
-	  - DVB_DUMMY_FE [=y] && MEDIA_SUPPORT [=y] && MEDIA_TEST_SUPPORT [=y]
+I like that one better, and it fixes cx18 as well.
 
-As this is the only frontend driver using "select DVB_CORE",
-change it do depends on DVB_CORE.
+Regards,
 
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/media/dvb-frontends/Kconfig | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+	Hans
 
-diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
-index fbadba9b328e..643b851a6b60 100644
---- a/drivers/media/dvb-frontends/Kconfig
-+++ b/drivers/media/dvb-frontends/Kconfig
-@@ -956,7 +956,6 @@ comment "Tools to develop new frontends"
- 
- config DVB_DUMMY_FE
- 	tristate "Dummy frontend driver"
--	depends on MEDIA_TEST_SUPPORT
--	select DVB_CORE
-+	depends on MEDIA_TEST_SUPPORT && DVB_CORE
- 	help
- 	  Dummy skeleton frontend driver.
--- 
-2.25.2
+> ---
+>  drivers/media/pci/ivtv/ivtv-ioctl.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.c b/drivers/media/pci/ivtv/ivtv-ioctl.c
+> index 137853944e4619cb..8a45c50411c74831 100644
+> --- a/drivers/media/pci/ivtv/ivtv-ioctl.c
+> +++ b/drivers/media/pci/ivtv/ivtv-ioctl.c
+> @@ -922,12 +922,10 @@ static int ivtv_enum_fmt_vid_cap(struct file *file, void *fh, struct v4l2_fmtdes
+>  	static const struct v4l2_fmtdesc hm12 = {
+>  		0, V4L2_BUF_TYPE_VIDEO_CAPTURE, 0,
+>  		"HM12 (YUV 4:2:0)", V4L2_PIX_FMT_HM12,
+> -		{ 0, 0, 0, 0 }
+>  	};
+>  	static const struct v4l2_fmtdesc mpeg = {
+>  		0, V4L2_BUF_TYPE_VIDEO_CAPTURE, V4L2_FMT_FLAG_COMPRESSED,
+>  		"MPEG", V4L2_PIX_FMT_MPEG,
+> -		{ 0, 0, 0, 0 }
+>  	};
+>  	struct ivtv *itv = fh2id(fh)->itv;
+>  	struct ivtv_stream *s = &itv->streams[fh2id(fh)->type];
+> @@ -948,12 +946,10 @@ static int ivtv_enum_fmt_vid_out(struct file *file, void *fh, struct v4l2_fmtdes
+>  	static const struct v4l2_fmtdesc hm12 = {
+>  		0, V4L2_BUF_TYPE_VIDEO_OUTPUT, 0,
+>  		"HM12 (YUV 4:2:0)", V4L2_PIX_FMT_HM12,
+> -		{ 0, 0, 0, 0 }
+>  	};
+>  	static const struct v4l2_fmtdesc mpeg = {
+>  		0, V4L2_BUF_TYPE_VIDEO_OUTPUT, V4L2_FMT_FLAG_COMPRESSED,
+>  		"MPEG", V4L2_PIX_FMT_MPEG,
+> -		{ 0, 0, 0, 0 }
+>  	};
+>  	struct ivtv *itv = fh2id(fh)->itv;
+>  	struct ivtv_stream *s = &itv->streams[fh2id(fh)->type];
+> 
 
