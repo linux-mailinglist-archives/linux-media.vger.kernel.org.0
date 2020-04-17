@@ -2,115 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC3BB1AD74F
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 09:22:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A013F1AD755
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 09:24:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728814AbgDQHWj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 03:22:39 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:57399 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728419AbgDQHWj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 03:22:39 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id PLKajhfaA7xncPLKdj9dH9; Fri, 17 Apr 2020 09:22:36 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587108156; bh=gKELcOf/+NSQdPyFKJlRi9tih3uq9sDfR/dXJQq4/Sw=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=qQTYTJoo+ZvE45hV0SVOlP64r1lWAzgiuUWLOOHbsNUonZ7YhaaqPE0HVxClMGTOk
-         cjDsf/NpqifTdiiihWn8vCMX81OcPLfDKFEP6K4muXqvlFCOYCmSIgV6VcN+nYfP3L
-         sgC9UNCN4YRTnyMOtHgPo1SGI7N4/a+lXh8xAUv7VVxAjZZ1cDFI6DaQ7S9b+fsepx
-         W6PlSuNtJTh35xDVM2Lflms3a8W88VbufAARpuAHocivDZ63ZD4EOaHLPZnH7AArpP
-         9AfTB0mlGjk+xQzbM2k/Pd51KijkUI6fR5spxRdD6pch3ews0Vk09zurrGZG43n0/G
-         +aot1c6FsCV1A==
-Subject: Re: [PATCH v7 2/6] ivtv-ioctl.c: Do not initialize the reserved field
- of struct v4l2_fmtdesc
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Helen Koike <helen.koike@collabora.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        kbuild test robot <lkp@intel.com>
-References: <20200413202351.1359754-1-niklas.soderlund+renesas@ragnatech.se>
- <20200413202351.1359754-3-niklas.soderlund+renesas@ragnatech.se>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <a9fcb4e1-f1b4-a269-9a5a-13fad372be31@xs4all.nl>
-Date:   Fri, 17 Apr 2020 09:22:32 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1728930AbgDQHYH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 03:24:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34898 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728419AbgDQHYH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 Apr 2020 03:24:07 -0400
+Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4CB0E2054F;
+        Fri, 17 Apr 2020 07:24:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587108247;
+        bh=VVl6eQijGUYnBJboOjeT+LbLAwqwN9J8c1/DpsLE62o=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=GGtYUYFg/oe0o91C3yetUX8RyOViYWYJ/jfWLd9vExgJWm9MiA9cYb7NO6q0/V9cr
+         KeO1MY5X2OogGXs677cfMETU7OOwBiXaL4m6tnNII03oZ7UKrGoyD7tJ8/FAQZfJwE
+         Tq2gYkqeT2JX/3hFTlLy8IHrt2SS7RpRzRexwNfs=
+Date:   Fri, 17 Apr 2020 09:24:02 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     sy0816.kang@samsung.com
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: v4l2-compat-ioctl32.c: copy reserved2 field in
+ get_v4l2_buffer32
+Message-ID: <20200417092402.3322e2da@coco.lan>
+In-Reply-To: <20200417024543.66785-1-sy0816.kang@samsung.com>
+References: <CGME20200417025205epcas2p46d33e64f2de49041d2ca68ecc98fc83e@epcas2p4.samsung.com>
+        <20200417024543.66785-1-sy0816.kang@samsung.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200413202351.1359754-3-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfPTHZOsIRal7m5QzjTQGGrNbeMWi5jvMx/lZh895wVNC63t7CAbt0sorl6/C2HELxZnEsPkOznqZpvEa0z6PxlnrxXe4E9O9UVDN4gLff+ivGjP9hr+9
- hN3pcJFSboVsRe/XbBCfLTushCco9nnt70ESd5cis3Pk5SrgZPUieKXqMq5ZOKX7kJpyYNihS8dD5EYLPPVdYKQhJyNariBYJyAgaNi8BC+GyGIJpLuB90ac
- TCdjEZl6TVTmjgWw/L5zQ/4xdyargelVbTGqEr7GZyXmqohuiyUpYWO3j+ja9RLTUOq6jMnaspc6UllOsIChnUm+Fx9DlQ9bE+vwWIW0RZVy3MQDh5O21F8j
- C2tGgTvy/Az7H61NBvcH99ejvq+Rrd/MYRPsqIGDVivI0tv8A/XfIzfJtBZVm44zSaZG7LzQUG7U2eXLZuKqPxH9vWDBWQ==
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+Em Fri, 17 Apr 2020 11:45:23 +0900
+sy0816.kang@samsung.com escreveu:
 
-On 13/04/2020 22:23, Niklas Söderlund wrote:
-> One of the reserved fields are about to be used. Instead of updating the
-> driver to only initialize three instead of four reserved fields remove
-> the explicit assignment.  As if one field in a struct is assigned, the
-> memory is zeroed and explicit assignment is redundant.
+> From: Sunyoung Kang <sy0816.kang@samsung.com>
 > 
-> Reported-by: kbuild test robot <lkp@intel.com>
-> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> get_v4l2_buffer32() didn't copy reserved2 field from userspace to driver.
+> So the reserved2 value is not received through compat-ioctl32 in driver.
+> This patch copy reserved2 field of v4l2_buffer in get_v4l2_buffer32().
 
-Can you replace this with this patch from Laurent when you post the v8?
+Why should it copy reserved values? Those should not be used anywhere.
 
-https://patchwork.linuxtv.org/patch/62430/
-
-I like that one better, and it fixes cx18 as well.
-
-Regards,
-
-	Hans
-
+> 
+> Signed-off-by: Sunyoung Kang <sy0816.kang@samsung.com>
 > ---
->  drivers/media/pci/ivtv/ivtv-ioctl.c | 4 ----
->  1 file changed, 4 deletions(-)
+>  drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.c b/drivers/media/pci/ivtv/ivtv-ioctl.c
-> index 137853944e4619cb..8a45c50411c74831 100644
-> --- a/drivers/media/pci/ivtv/ivtv-ioctl.c
-> +++ b/drivers/media/pci/ivtv/ivtv-ioctl.c
-> @@ -922,12 +922,10 @@ static int ivtv_enum_fmt_vid_cap(struct file *file, void *fh, struct v4l2_fmtdes
->  	static const struct v4l2_fmtdesc hm12 = {
->  		0, V4L2_BUF_TYPE_VIDEO_CAPTURE, 0,
->  		"HM12 (YUV 4:2:0)", V4L2_PIX_FMT_HM12,
-> -		{ 0, 0, 0, 0 }
->  	};
->  	static const struct v4l2_fmtdesc mpeg = {
->  		0, V4L2_BUF_TYPE_VIDEO_CAPTURE, V4L2_FMT_FLAG_COMPRESSED,
->  		"MPEG", V4L2_PIX_FMT_MPEG,
-> -		{ 0, 0, 0, 0 }
->  	};
->  	struct ivtv *itv = fh2id(fh)->itv;
->  	struct ivtv_stream *s = &itv->streams[fh2id(fh)->type];
-> @@ -948,12 +946,10 @@ static int ivtv_enum_fmt_vid_out(struct file *file, void *fh, struct v4l2_fmtdes
->  	static const struct v4l2_fmtdesc hm12 = {
->  		0, V4L2_BUF_TYPE_VIDEO_OUTPUT, 0,
->  		"HM12 (YUV 4:2:0)", V4L2_PIX_FMT_HM12,
-> -		{ 0, 0, 0, 0 }
->  	};
->  	static const struct v4l2_fmtdesc mpeg = {
->  		0, V4L2_BUF_TYPE_VIDEO_OUTPUT, V4L2_FMT_FLAG_COMPRESSED,
->  		"MPEG", V4L2_PIX_FMT_MPEG,
-> -		{ 0, 0, 0, 0 }
->  	};
->  	struct ivtv *itv = fh2id(fh)->itv;
->  	struct ivtv_stream *s = &itv->streams[fh2id(fh)->type];
-> 
+> diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+> index a99e82ec9ab6..e9b2b9c0ec9a 100644
+> --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+> +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+> @@ -665,6 +665,7 @@ static int get_v4l2_buffer32(struct v4l2_buffer __user *p64,
+>  	if (V4L2_TYPE_IS_OUTPUT(type))
+>  		if (assign_in_user(&p64->bytesused, &p32->bytesused) ||
+>  		    assign_in_user(&p64->field, &p32->field) ||
+> +		    assign_in_user(&p64->reserved2, &p32->reserved2) ||
+>  		    assign_in_user(&p64->timestamp.tv_sec,
+>  				   &p32->timestamp.tv_sec) ||
+>  		    assign_in_user(&p64->timestamp.tv_usec,
 
+
+
+Thanks,
+Mauro
