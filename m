@@ -2,106 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C36851AD866
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 10:18:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 794CC1AD8AF
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 10:35:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729607AbgDQISv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 04:18:51 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:34435 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729176AbgDQISu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 04:18:50 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id PMCyjhz6n7xncPMD1j9nHt; Fri, 17 Apr 2020 10:18:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587111527; bh=OSua5WnWFDiV3TO7fjRTWjE0lX/MQBHo3qPLIHe6aaM=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=NWssYpZJ8DnBZmNzP3mnE2FP7jP5Oef/ud4nt7lv3dAXCqnqujJrd+DT/2RASyL0J
-         vd1FB2uAt50PBwukqFPpxbnCEMjfllU2EPHsdXjacXPe74eobTbS1Gc1lT+K7wYg6/
-         flsj1AZCRwtqF4BhVQdNT7e4xNzuOLNT8uJchEJAnOWQ8voaU9eBEU1f8cdEfzOdYW
-         AGDFVgIeBAPLRsieYGxfxyAOp3aRPBnRiN1MVOkGBCgVUoLIcOfClf6FC1rl/g47G0
-         AGE7R+horPJJc80s9eWECtvvCVPsoy2iplMUegzPMWhdNnwsYi4zOGxX5ahmn5CTUb
-         wHusuqs229eXA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.8] Various fixes/enhancements
-Message-ID: <6a56ccf7-4c26-b3ad-eb3a-0647944c2f95@xs4all.nl>
-Date:   Fri, 17 Apr 2020 10:18:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1729789AbgDQIfJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 04:35:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60670 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729747AbgDQIfJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 Apr 2020 04:35:09 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8E7F32137B;
+        Fri, 17 Apr 2020 08:35:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587112509;
+        bh=yusZIU8mnWR2xm+iXYWk1S59cU56InGPz/fLvOeZP2I=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=WGjscELBkH1BA17qa3XYHeYAu0h3Za6/uxMsCdQyZ5JB1TbOgYXei5YT+CiRmINN6
+         dEwsSG45FEIUgpNpva8absThIDUhh3sfHbpuq+1cgUj4/a5rl+Nd65DhIpthEpNaZ9
+         DR0yv6JsIa3O1ASJ1Bk9lya4MhrhjcT7ElIjvSe4=
+Date:   Fri, 17 Apr 2020 10:35:06 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     sy0816.kang@samsung.com
+Cc:     mchehab@kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: v4l2-compat-ioctl32.c: copy reserved2 field in
+ get_v4l2_buffer32
+Message-ID: <20200417083506.GB141762@kroah.com>
+References: <CGME20200417025205epcas2p46d33e64f2de49041d2ca68ecc98fc83e@epcas2p4.samsung.com>
+ <20200417024543.66785-1-sy0816.kang@samsung.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfMC4dWMPZNMsdTCvhE+iQwAojfeWKkR+G2t23mcme+VTMylt8noo9MJtPEYL1AjbG2QIbvSJ/RwvE5zSz54Nq1nwqr7F2SC6WvWZkCRbE6vlTPJLhTha
- H9u9ePN1+KeAXEOtj9d9laVhPwzxAWW4ndG3+3aoL4t9GJdnOdhei9dB66YqEWoXUq683imZrtJ1Qe/v4HmZmyICdAeIT1UQnhXhbPOCkvRol1ujv7Qaf9nP
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200417024543.66785-1-sy0816.kang@samsung.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit ceab3ac1e60d70afb4e25147d60817c513f235f7:
+On Fri, Apr 17, 2020 at 11:45:23AM +0900, sy0816.kang@samsung.com wrote:
+> From: Sunyoung Kang <sy0816.kang@samsung.com>
+> 
+> get_v4l2_buffer32() didn't copy reserved2 field from userspace to driver.
+> So the reserved2 value is not received through compat-ioctl32 in driver.
+> This patch copy reserved2 field of v4l2_buffer in get_v4l2_buffer32().
+> 
+> Signed-off-by: Sunyoung Kang <sy0816.kang@samsung.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 1 +
+>  1 file changed, 1 insertion(+)
 
-  media: dvb-frontends: DUMMY_FE should depends on DVB_CORE (2020-04-17 09:21:47 +0200)
+What driver is using the reserved fields?  They should be ignored as
+they are "reserved" for future use.
 
-are available in the Git repository at:
+thanks,
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.8c
-
-for you to fetch changes up to 0f72df4db95844184f49bbdfeaae013919c12c1b:
-
-  dt-bindings: media: rockchip-rga: add power-domains property (2020-04-17 10:05:10 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Dafna Hirschfeld (8):
-      media: staging: rkisp1: remove mbus field from rkisp1_sensor_async
-      media: staging: rkisp1: replace the call to v4l2_async_notifier_parse_fwnode_endpoints_by_port
-      media: staging: rkisp1: cap: cleanup in mainpath config for uv swap format
-      media: staging: rkisp1: cap: fix value written to uv swap register in selfpath
-      media: staging: rkisp1: cap: change the logic for writing to uv swap register
-      media: staging: rkisp1: cap: support uv swap only for semiplanar formats
-      media: staging: rkisp1: cap: support uv swapped planar formats
-      media: staging: rkisp1: cap: remove unsupported formats
-
-Hans Verkuil (2):
-      v4l2-ctrls: v4l2_ctrl_g/s_ctrl*(): don't continue when WARN_ON
-      v4l2-ctrls: add __v4l2_ctrl_s_ctrl_compound()
-
-Helen Koike (2):
-      media: staging: rkisp1: cap: fix return values from pm functions
-      media: staging: rkisp1: cap: serialize start/stop stream
-
-Johan Jonker (2):
-      dt-bindings: media: convert rockchip rga bindings to yaml
-      dt-bindings: media: rockchip-rga: add power-domains property
-
-Marco Felsch (1):
-      media: v4l2-image-sizes: add HD and Full-HD definitions
-
-Philipp Zabel (1):
-      media: coda: add RC enable controls
-
- Documentation/devicetree/bindings/media/rockchip-rga.txt  |  34 --------------
- Documentation/devicetree/bindings/media/rockchip-rga.yaml |  83 +++++++++++++++++++++++++++++++++
- MAINTAINERS                                               |   1 +
- drivers/media/platform/coda/coda-bit.c                    |   9 +++-
- drivers/media/platform/coda/coda-common.c                 |  10 ++++
- drivers/media/platform/coda/coda.h                        |   2 +
- drivers/media/v4l2-core/v4l2-ctrls.c                      |  26 +++++++----
- drivers/staging/media/rkisp1/TODO                         |   3 --
- drivers/staging/media/rkisp1/rkisp1-capture.c             |  67 ++++++++++++++-------------
- drivers/staging/media/rkisp1/rkisp1-common.h              |   5 +-
- drivers/staging/media/rkisp1/rkisp1-dev.c                 | 106 ++++++++++++++++++++++---------------------
- drivers/staging/media/rkisp1/rkisp1-isp.c                 |  52 +++++++--------------
- include/media/v4l2-ctrls.h                                |  49 ++++++++++++--------
- include/media/v4l2-image-sizes.h                          |   6 +++
- 14 files changed, 265 insertions(+), 188 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/rockchip-rga.txt
- create mode 100644 Documentation/devicetree/bindings/media/rockchip-rga.yaml
+greg k-h
