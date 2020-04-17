@@ -2,131 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C0141AD49E
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 04:52:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C69DB1AD4DA
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 05:27:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729377AbgDQCwN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 22:52:13 -0400
-Received: from mailout2.samsung.com ([203.254.224.25]:25105 "EHLO
-        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728715AbgDQCwM (ORCPT
+        id S1728036AbgDQD1y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 23:27:54 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:56511 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727123AbgDQD1y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 22:52:12 -0400
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20200417025208epoutp02531bf914e3137d3d08b94ad5c065d118~Ge7NQ1YJw1284312843epoutp02T
-        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2020 02:52:08 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20200417025208epoutp02531bf914e3137d3d08b94ad5c065d118~Ge7NQ1YJw1284312843epoutp02T
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1587091928;
-        bh=uHjnAsWICGbvd2UvAeIMZ3j2WHQsGzQDZG6azlJmziU=;
-        h=From:To:Cc:Subject:Date:References:From;
-        b=JhOQXdgurggunbQNvEQMf+Z9nurqXVNpY1/hTjRmxz6jxvb8SlkmNyyAnPgc3bBmq
-         qEqxMgaDZ4dwEIoa1+f0naKlf1qy5h+9fGuFqwoguYt38xB/trlTMFW06KZvqYhJqT
-         +Yw1HSvhzvUDg645/6m1+bz28rrHJiXjLSxIDLcM=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-        epcas2p3.samsung.com (KnoxPortal) with ESMTP id
-        20200417025208epcas2p38db948db38a6f7cdee1d09cf57c00699~Ge7MpVHTB3158331583epcas2p3i;
-        Fri, 17 Apr 2020 02:52:08 +0000 (GMT)
-Received: from epsmges2p3.samsung.com (unknown [182.195.40.188]) by
-        epsnrtp2.localdomain (Postfix) with ESMTP id 493LGY6rsgzMqYkc; Fri, 17 Apr
-        2020 02:52:05 +0000 (GMT)
-Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
-        epsmges2p3.samsung.com (Symantec Messaging Gateway) with SMTP id
-        5B.EA.04393.5D9199E5; Fri, 17 Apr 2020 11:52:05 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
-        20200417025205epcas2p46d33e64f2de49041d2ca68ecc98fc83e~Ge7J_VXhG3180931809epcas2p4L;
-        Fri, 17 Apr 2020 02:52:05 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200417025205epsmtrp11d28438d8dbd250622344386361fc7c6~Ge7J9d1lx3164331643epsmtrp1N;
-        Fri, 17 Apr 2020 02:52:05 +0000 (GMT)
-X-AuditID: b6c32a47-667ff70000001129-a4-5e9919d584f4
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        7D.32.04158.5D9199E5; Fri, 17 Apr 2020 11:52:05 +0900 (KST)
-Received: from coldbrew.dsn.sec.samsung.com (unknown [12.36.155.201]) by
-        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-        20200417025205epsmtip10f68d62d315bad4db18b60a74fc0217f~Ge7JytNNp0040800408epsmtip1i;
-        Fri, 17 Apr 2020 02:52:05 +0000 (GMT)
-From:   sy0816.kang@samsung.com
-To:     mchehab@kernel.org
-Cc:     sy0816.kang@samsung.com, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: v4l2-compat-ioctl32.c: copy reserved2 field in
- get_v4l2_buffer32
-Date:   Fri, 17 Apr 2020 11:45:23 +0900
-Message-Id: <20200417024543.66785-1-sy0816.kang@samsung.com>
-X-Mailer: git-send-email 2.26.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0hTYRjm2znbjpfFcZW9rZudkNLSttn0KNqFxIZZSPUjJFsHPThpN3a2
-        bhCZotXKtIumU2skiIxCWybLrMxC0R+rCLtBSHbBlKQ0o7xEZzuL/Pd8z/s83/O97/cSmNwp
-        URCFJhtrNTEGShKKtz+OoeMGFtfuVxZf0tCzF3ukdElji4R+XvsOp1901Evoc613xHSTZ0ZE
-        D31Kom97qrDNhHZ66iLSetxnJNoxn0+qfdhwQ6o93+ZG2gnPcm3/5IQ0W5pjSNWzTD5rjWJN
-        eeb8QlNBGrV9t26rTpOoVMWpkukkKsrEGNk0Kj0rOy6j0MA/ioo6xBjsPJXNcBy1fmOq1Wy3
-        sVF6M2dLo1hLvsGiUlniOcbI2U0F8XlmY4pKqVRreOUBg/7K4DPc8oo44nszKCpCXqkDhRBA
-        bgBn+W/cgUIJOelFcN3Rh4TDOIKqD3UBlZz8ieDV073/HPdqm0WC6D4Cb39j0D6FoL7nC+5X
-        SchlMN5VI/HjBWQkDLWPBEQYOY2g2dERKMwnc6CuqS6AcTIahia/if1YRqbCo/ZRkRC3AkpH
-        vEjgI6Cv9mMgAOP5kjt1mP9SIDsl8Pr12aAhHar7BpGA58NIb1uwUwV8qSgL4hNQPTEhFsyV
-        CIZdvWKhkADOz6d4M8EnxEBLx3o/BHIVPHkbzJ0Hpx/PSgVaBqfL5AKMhtZxtXDHEvj69QUS
-        aC1UVFLCDHPhwc16vBKtcM7pxTmnF+f/VBfC3CiStXDGApZTWxLm/qkHBfYydpsXtfuyuhFJ
-        ICpcdmBTzX65mDnEHTV2IyAwaoFsnoanZPnM0WOs1ayz2g0s1400/KgvYIqFeWZ+y002nUqj
-        TkxUJmtoTaKaphbJPGFv9snJAsbGHmRZC2v95xMRIYoihItxteJcWFpm15oMeu29q2PGl7u+
-        15SWVl0e2/GSqLp1Mo65W63bOrO5vHvUt2tlfbh+T3jnBleRO360Z2zd0iTX4aEGRj07nJnj
-        8f5pbA7t3/JdzD40ONsyrddGO/edcazeOfB+rfRXWHrXBdXwj5RvruI1Zbkn8hZWRFSuO17e
-        TOGcnlHFYlaO+QviXd1zrQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFLMWRmVeSWpSXmKPExsWy7bCSnO5VyZlxBi8/cln8nXSM3aJ58Xo2
-        i4sz77JYXN41h82iZ8NWVotlm/4wWTx6am6xedNUZgcOj9+/JjF6bFrVyebx7tw5do/9c9ew
-        e/RtWcXo8XmTnMepr5/ZA9ijuGxSUnMyy1KL9O0SuDKm37/AUnCdo+LczftMDYw72LsYOTkk
-        BEwkds9cwdTFyMUhJLCbUeLI3YUsXYwcQAlpif0bcyFqhCXutxxhhaj5wSjxZGkbI0iCTUBW
-        4tOBGWwgtoiAmMSjba9YQIqYBRqZJK5u+QCWEBaIkNjxag+YzSKgKvHo6wdWEJtXwEbi4LbX
-        TBAb5CVaX+1ghIgLSpyc+YQFxGYGijdvnc08gZFvFpLULCSpBYxMqxglUwuKc9Nziw0LjPJS
-        y/WKE3OLS/PS9ZLzczcxgkNYS2sH44kT8YcYBTgYlXh4E+xnxAmxJpYVV+YeYpTgYFYS4eUz
-        BQrxpiRWVqUW5ccXleakFh9ilOZgURLnlc8/FikkkJ5YkpqdmlqQWgSTZeLglGpg1LC9tLbS
-        pznbUHg30w8+z8tVLQYCpx5vmmjGXxA/3U7T/P69nzu8nNMPRjhcDGUonLB8Z9P539lhFa5S
-        t+sOP7t6v+YRYxxDoGD21bq4tATd9bcmvTRSEvea6s7x0fu/8KsdPY4TixOeWWut/L62fWt3
-        lOvkh+913+tcm+zsXbBXyMRMVLVdiaU4I9FQi7moOBEANh8L710CAAA=
-X-CMS-MailID: 20200417025205epcas2p46d33e64f2de49041d2ca68ecc98fc83e
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200417025205epcas2p46d33e64f2de49041d2ca68ecc98fc83e
-References: <CGME20200417025205epcas2p46d33e64f2de49041d2ca68ecc98fc83e@epcas2p4.samsung.com>
+        Thu, 16 Apr 2020 23:27:54 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id PHfSj5gDylKa1PHfTjWvZl; Fri, 17 Apr 2020 05:27:51 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1587094071; bh=0ihJarkYm80Oj6SsMx8oPVtFSk0mZOSUZmKNKndSOV8=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=n7iYwxyqOTI7mC/cU79Aob6aQYO4F8mHCBzeeyTfNgdfoWARbI3nnKK+63xeWUWeg
+         81TSTo/Q8RnEzmRtfB9BGd6QUMIkYIq8zEctNsSDC9q1C6r4JVVeEqkoPCUgmPSRnH
+         tEKcPrFWD215cbLFHYs52Y5HLVwwUNIjPVub8o+vMIK3+lhc1u9O/W1tZIZO4mU2jg
+         qqC214mL853ZyAcfK93At2+lv0g7lpU3QkU/sPbJrFlmjXZSKY+QrS4KWVihDGW7F8
+         S2BXJkIr/bYPFT9Jk8tV5XbFdXqxMcxsO96QfpbtD3JFwaiid5Kw2se1DnMkc7zO3B
+         WQM+iLBhZolKA==
+Message-ID: <f355aca88d8068cb5341bebb24268f93@smtp-cloud8.xs4all.net>
+Date:   Fri, 17 Apr 2020 05:27:50 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfPgT6X4ML4aPi9fT86YUTdv0tvGXaPVbFxVvuWBk5+BTxi1y5ldKYDMqJXSktLw6Jg/77hXfdsw1ozrXZBJeBQuXVNA7dfsC+n4FO8ME0Wb9oiWY+jWc
+ fuJEI3uJdX9C920VAt4JZYZL2Cc/xEnisD8X1bpRMj8VVF1Y3uG5+SpX2WuivvpqeZ8os59qObyHq3ujrphkAtNLiqe3zILe2p8sbbdnXOEiJaRkwdOfzpkO
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Sunyoung Kang <sy0816.kang@samsung.com>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-get_v4l2_buffer32() didn't copy reserved2 field from userspace to driver.
-So the reserved2 value is not received through compat-ioctl32 in driver.
-This patch copy reserved2 field of v4l2_buffer in get_v4l2_buffer32().
+Results of the daily build of media_tree:
 
-Signed-off-by: Sunyoung Kang <sy0816.kang@samsung.com>
----
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 1 +
- 1 file changed, 1 insertion(+)
+date:			Fri Apr 17 05:00:11 CEST 2020
+media-tree git hash:	dacca5f0fa69f04c2e70aad9847e8250b459971c
+media_build git hash:	7e30d7d726f1fcec3695f82deebf0c0c6cfe51e7
+v4l-utils git hash:	ae58f47a8dc31d046b151abc1a2346f53dd1ffc2
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: c66f09bba8d560141228fc2c8d78215906866773
+host hardware:		x86_64
+host os:		5.4.0-4-amd64
 
-diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-index a99e82ec9ab6..e9b2b9c0ec9a 100644
---- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-+++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-@@ -665,6 +665,7 @@ static int get_v4l2_buffer32(struct v4l2_buffer __user *p64,
- 	if (V4L2_TYPE_IS_OUTPUT(type))
- 		if (assign_in_user(&p64->bytesused, &p32->bytesused) ||
- 		    assign_in_user(&p64->field, &p32->field) ||
-+		    assign_in_user(&p64->reserved2, &p32->reserved2) ||
- 		    assign_in_user(&p64->timestamp.tv_sec,
- 				   &p32->timestamp.tv_sec) ||
- 		    assign_in_user(&p64->timestamp.tv_usec,
--- 
-2.20.1
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.212-i686: ERRORS
+linux-4.4.212-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.212-i686: ERRORS
+linux-4.9.212-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.169-i686: ERRORS
+linux-4.14.169-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.101-i686: ERRORS
+linux-4.19.101-x86_64: ERRORS
+linux-4.20.15-i686: ERRORS
+linux-4.20.15-x86_64: ERRORS
+linux-5.0.15-i686: ERRORS
+linux-5.0.15-x86_64: ERRORS
+linux-5.1.1-i686: ERRORS
+linux-5.1.1-x86_64: ERRORS
+linux-5.2.1-i686: ERRORS
+linux-5.2.1-x86_64: ERRORS
+linux-5.3.1-i686: ERRORS
+linux-5.3.1-x86_64: ERRORS
+linux-5.4.17-i686: ERRORS
+linux-5.4.17-x86_64: ERRORS
+linux-5.5.1-i686: ERRORS
+linux-5.5.1-x86_64: ERRORS
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7-rc1-i686: OK
+linux-5.7-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 5
+virtme-32: OK: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
