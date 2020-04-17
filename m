@@ -2,119 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 622181AD726
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 09:13:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 963D81AD742
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 09:18:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728784AbgDQHNL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 03:13:11 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:49429 "EHLO
+        id S1728892AbgDQHSQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 03:18:16 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:57975 "EHLO
         lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728338AbgDQHNL (ORCPT
+        by vger.kernel.org with ESMTP id S1728808AbgDQHSP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 03:13:11 -0400
+        Fri, 17 Apr 2020 03:18:15 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id PLBRjhcQ27xncPLBUj9bdc; Fri, 17 Apr 2020 09:13:08 +0200
+        id PLGLjhe6v7xncPLGOj9cXk; Fri, 17 Apr 2020 09:18:13 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587107588; bh=7A9nLcia1LTQQnCsS4rI0eQ9VqtTh9jnzZLLP/L7WgU=;
+        t=1587107893; bh=HSLs2JiZcy4OA1k/VMJ4MaHDQtFq2ylnKTJGakTcPR8=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=ixqsTta+Blg5whCW14hkBHjlaPTYNu62mQiiQMosMRuYg9rjklRv3pORM4lE0tHKh
-         PIxGCbTWx4kuj6v5HiqLT5CFqg1bD4mqpSh0+3eiuSFL4X/a0L9s4p1f3fcjhXmU/9
-         0NX3Io8FLqn8FN29A/pv1r9peVutAqiPhxBri1JHDeyJBhVu9u/jRSL/vFYAqHpslK
-         5nSQ6yAa/WmTfRKf3sV4wDw3BHG37MgFz3P5TRqGCrXttm1er3WGVfDaIZKqlrB0lh
-         LYrPKho11cBFOaYL7yNnRNkkKkloS0MgOUd9hC+AULSK4SAeyHnvdZK4alEQtuU59g
-         /KiR+B8lGdS7Q==
-Subject: Re: [PATCH] media: imx: utils: Default colorspace to SRGB
-To:     Steve Longerbeam <slongerbeam@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rui Miguel Silva <rmfrfs@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-References: <20200325173456.21455-1-slongerbeam@gmail.com>
- <9cea8cb9-b127-6ff0-a240-be338e081eaa@xs4all.nl>
- <11327092-e06c-a739-cbd2-ef44177fbc6a@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <cd3ec24e-30e3-cc4e-0175-f3417cb82a80@xs4all.nl>
-Date:   Fri, 17 Apr 2020 09:13:05 +0200
+        b=D0shEtuyA6wOYrboGofBaD6Hcvyue0LHWkhqvWKl4cAbtlR+789ibtP1go8+npAdS
+         D0GJUT2xnk5cC3X13WO8g/7Fa6+BWe0BnzvxtPX5sgfGvl1PBgDfCCXMTipyw0iy21
+         miXGRXji8uREA4AP3zoHfQGgMK23lJVpbmtJHMud3KbXoTDg7k/iJ1Vzi4FYKaGhOB
+         9RvGs9lDNxWItdMUUytQXVk1iZ8gYrv1+i8XHXUZcyHdh7+wVoayGIwBUZtwzcTgaN
+         M8JHq2lwj72RCeNFDeBABlrTxp8HjSoTKN6BrYVUtB8IXEcr3ZbO/UtFhRxYrhCZZX
+         RvVEV+D9R0kPA==
+Subject: Re: [PATCH v2 7/9] media: MAINTAINERS: rkisp1: add path to
+ dt-bindings
+To:     Helen Koike <helen.koike@collabora.com>,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org
+Cc:     linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        robh+dt@kernel.org, heiko@sntech.de, kernel@collabora.com,
+        dafna.hirschfeld@collabora.com, ezequiel@collabora.com,
+        mark.rutland@arm.com, karthik.poduval@gmail.com, jbx6244@gmail.com,
+        kishon@ti.com
+References: <20200403161538.1375908-1-helen.koike@collabora.com>
+ <20200403161538.1375908-8-helen.koike@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <9a95d227-9592-2c5c-fe6d-dff9b84f4292@xs4all.nl>
+Date:   Fri, 17 Apr 2020 09:18:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <11327092-e06c-a739-cbd2-ef44177fbc6a@gmail.com>
+In-Reply-To: <20200403161538.1375908-8-helen.koike@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfAnxTzfkgR4FKV+/n/m/voJfStwKiEL9lQ2x1AI59BFWHSFvjIcl+jJiIRrT5APdAhW5OYXeiONv6Dkdca/Sprbigh9iZTC4rxI6quqJUomKkaYp30OR
- ChrbqHsF2AqhGSHwzK5upQ7JdfvpBJ0GGSNiUXCxpRYRtRXga8gpozhReqDRM2NysvU59wUSchhBXua9uFQuyG786p82E2aM7Bh6U+rSXAEeUkKDOMPAsyKh
- yrDGCf4K+itFrT8ZnHMgrsUlEVl2RyHfbomAODe6RYn6hRYviu9PmNmUPWM+riw3ZxCEp14aMKHpDT/6YsCWhg==
+X-CMAE-Envelope: MS4wfN/6IaxCKZYDRmsDs68Ac7Ohz+Yi31l+n/3qIvjgojpcfRUtSJSc05kGL2CfXDapr3Rq4gYZgR4YeLxd10TX4h+NBJFBcEU+jLCtDcwIuTse6A59qRpJ
+ WiwqnAonGsAFeOerDoqNy1YmLjtUYSNLSY5LUmmSmKy0rm6DvctTMLL3W9KqFzXOfreLQuav06dYKKGgABldV/sXbi1MEA0/2ohTpssCluapKmoWm6umTG9e
+ HExIcM3ACV3iIWTi/FPC5szOfNda35Gg/qXqYmby1qh1kIs/HV8CftXHnN5/2d3NpCApcrT7MMY3/uVm+19nTEM/4gEtPEqIY9tyPN5whm6zo7Xe0SjvlqW3
+ IJCQMlQnO9vto6abRNvXyk95hQWSImEWy6sW2HSs/de9ytBnO5oQzOgIivkyTXpZwi/Fee2YnCZMiYP02i8q6QHktUWTEguBtgWDT5+tp9IJhrbyHhdZeUCv
+ 0f6v/H02P6xJWXY334V3m0VQ6GSTi8p3rJKXE/tJ4EuFT8fucFUXQTyG9nlsMApBPgbXguFq1nGWiDYo8XxIfY/JZOPhaeD78ELP20IXX39a21oQUFlNYEW8
+ Sv4OmjRKJehtX+CPvRbDgzx2v1cMFI1OQs1KvqsqqQdffVXGX/uoVqqqp+n2fnvsBb4D0CIuZgI89l2iB/T3/PoWTioEn1NwCWNUNnBSHspRLA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/04/2020 19:10, Steve Longerbeam wrote:
-> Hi Hans,
-> 
-> On 4/16/20 3:52 AM, Hans Verkuil wrote:
->> Hi Steve,
->>
->> On 25/03/2020 18:34, Steve Longerbeam wrote:
->>> The function init_mbus_colorimetry() is used to initialize the imx
->>> subdevice mbus colorimetry to some sane defaults when the subdevice is
->>> registered. Currently it guesses at a colorspace based on the passed
->>> mbus pixel format. If the format is RGB, it chooses colorspace
->>> V4L2_COLORSPACE_SRGB, and if the format is YUV, it chooses
->>> V4L2_COLORSPACE_SMPTE170M.
->>>
->>> While that might be a good guess, it's not necessarily true that a RGB
->>> pixel format encoding uses a SRGB colorspace, or that a YUV encoding
->>> uses a SMPTE170M colorspace. Instead of making this dubious guess,
->>> just default the colorspace to SRGB.
->>>
->>> Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
->>> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
->>> ---
->>>   drivers/staging/media/imx/imx-media-utils.c | 3 +--
->>>   1 file changed, 1 insertion(+), 2 deletions(-)
->>>
->>> diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
->>> index fae981698c49..8344675bfd05 100644
->>> --- a/drivers/staging/media/imx/imx-media-utils.c
->>> +++ b/drivers/staging/media/imx/imx-media-utils.c
->>> @@ -236,8 +236,7 @@ static const struct imx_media_pixfmt ipu_rgb_formats[] = {
->>>   static void init_mbus_colorimetry(struct v4l2_mbus_framefmt *mbus,
->>>   				  const struct imx_media_pixfmt *fmt)
->>>   {
->>> -	mbus->colorspace = (fmt->cs == IPUV3_COLORSPACE_RGB) ?
->>> -		V4L2_COLORSPACE_SRGB : V4L2_COLORSPACE_SMPTE170M;
->>> +	mbus->colorspace = V4L2_COLORSPACE_SRGB;
->>>   	mbus->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(mbus->colorspace);
->>>   	mbus->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(mbus->colorspace);
->>>   	mbus->quantization =
->> The quantization is probably wrong as well since it checks fmt->cs.
->> The first argument should just be 'true'.
-> 
-> I don't think so. The default quantization depends in part on whether 
-> the pixel format is RGB or YUV, which is the reason for passing boolean 
-> (fmt->cs == IPUV3_COLORSPACE_RGB) as the first argument.
+On 03/04/2020 18:15, Helen Koike wrote:
+> The Rockchip ISP bindings was moved out of staging.
+> Update MAINTAINERS file with the new path.
 
-Ah yes, that's true. Sorry for the noise.
+Shouldn't there be a reference to Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml
+as well in MAINTAINERS?
 
 Regards,
 
 	Hans
 
 > 
-> I realize "fmt->cs" is a misnomer, but it is borrowing from earlier 
-> misnomers, i.e. the 'enum ipu_color_space' enumerations. Fixing those 
-> names would touch lots of imx driver code.
+> Suggested-by: Johan Jonker <jbx6244@gmail.com>
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> ---
 > 
+> V2:
+> - This is a new patch in the series
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
 > 
->>
->> In any case, this patch no longer applies after the imx utils patch series.
-> 
-> Ok, I'll re-submit after the utils patch series is merged.
-> 
-> Steve
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d66ac41ef5872..726044b84cf23 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14303,6 +14303,7 @@ M:	Helen Koike <helen.koike@collabora.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  F:	drivers/staging/media/rkisp1/
+> +F:	Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+>  
+>  ROCKCHIP RASTER 2D GRAPHIC ACCELERATION UNIT DRIVER
+>  M:	Jacob Chen <jacob-chen@iotwrt.com>
 > 
 
