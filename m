@@ -2,129 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25A541AD781
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 09:35:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E971B1AD803
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 09:52:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729075AbgDQHfk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 03:35:40 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:48997 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728419AbgDQHfk (ORCPT
+        id S1729510AbgDQHwP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 03:52:15 -0400
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:45511 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729042AbgDQHwO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 03:35:40 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id PLXDjhjzf7xncPLXGj9fPQ; Fri, 17 Apr 2020 09:35:38 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587108938; bh=o8U3pXYZ0/e100B70V5S/22+PtbeEPaEMsEahcOXC8U=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=ckb5LeodlKbwCzVCi2urqUV6PxcXLm43HMrb98Wa2EUB8gFCx6HalGtpWJAz+tinU
-         26Xyxoq73+KeF8mBK0RFY6pfzCspPmRCY/4DBCQJ7BcZAVoB+EoLk62FiGvk1LQpag
-         0uRnUsy9h8fV4dUfFHNP1mkOGMWrVpjhOb4vCCLuD/bqmYh1Owa0N8u3Oo8+6Q4/DD
-         cW8u/3MBoDpHmPbXjMBz7LHml/SPDYqAVreo4z8zVFebNBkG2QgNao7fHFtf92EXO1
-         WmOTPYU21Rg3QIEHghAcYbw8j/ATWoLFwJXcqX86+5ukyG8Xb5Q5GE4Pmvs9wN2chj
-         cRNd/KVxcBDCg==
-Subject: Re: [PATCH] vimc: Report a colorspace
-To:     Helen Koike <helen.koike@collabora.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20200316221606.2648820-1-niklas.soderlund+renesas@ragnatech.se>
- <779b6314-31a6-76df-6dd3-1a24f577a5d3@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <60c2d33c-e999-d4e3-0bea-64574b08cade@xs4all.nl>
-Date:   Fri, 17 Apr 2020 09:35:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Fri, 17 Apr 2020 03:52:14 -0400
+Received: by mail-oi1-f194.google.com with SMTP id k133so1332972oih.12
+        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2020 00:52:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rNgbJ+QYBAgrmY9LHV20WrhJTLgcjx0oxTYGoyO/sTE=;
+        b=n9k3Z4EK8o9zp5kGP0uRZkU28BkBcaE3esXAFa/sFeIhUjM7pFpCz1JX13bBnO+A40
+         6bi1RjXj6Hs+oU0Tx6d5Vw0ZtmQaHVSPYlsWgU0wC4lv6PfFw6cAo5HnNmSXRbDVJ36l
+         00LtYQgqXLGAFLpSzLYAn2CG5tFNP6LYSuf7lUfTxtF2MEQDmBudQeQ6XwZUObSzSIqr
+         eRldBvS/Vx+Rlxt3HsiIzGWKhoZLlXmTKTlQ0RDOeVpOCkOjy3jd6lq1zSl/++3AGMWQ
+         Vc7ftnNV7q3OqSnULdIdRX7jtlXUfu9LxyHEnnWi4l5fl4p8X3TJ5jfJ5IVFhU0f02uN
+         4icw==
+X-Gm-Message-State: AGi0PuZEiNS9oVKvDiSN3N/1cD8ztnlYdkqr1+x127aJR6HsfCI6BtlK
+        6wmhqoZnyytTD3nRlK5FLdwLRMbH5AwDHCYHzuo=
+X-Google-Smtp-Source: APiQypJUW9u8k675l2XWxVDLTalv71gVTkdYb+etg7/3H42YAzqqqgEUyG0N50V8UNdnwVWEYUhczT7yitIpfnYZl8w=
+X-Received: by 2002:aca:f541:: with SMTP id t62mr1236990oih.148.1587109933608;
+ Fri, 17 Apr 2020 00:52:13 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <779b6314-31a6-76df-6dd3-1a24f577a5d3@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfPmNwipRnd8sVZFSXQyGKh0hEgcB1ctfCEHj1lwdqH+Y7ze0xoA6veGjGuMd98OzdE8JvMw758pWFiFYwtM+j+jdkvSM5d/dcMfaMJFqDMNn8OxzCqk6
- Z/4PAfI7HYNEVLSEojO2kOvdTZAW8hd9TQhVKCUJR+NKtwOsnDKAB+Qa98w+rr0mMeSXarT70F8uJ5jP89vZ+1KFjTaG3K7vWisqky0XeH4vb2ktvvx5ZRXM
- mm2AKFGlO3jEj6N3wRspRS3bqOROu3O7DtEMHS4FoqOQcJKGhDE3rp/rtlSmrNL4olWxMkU1TTP4FZVM/B5eVg==
+References: <6af5797c76c11d8c08ae1f5a73c3711fcf89ab6f.1587107273.git.mchehab+huawei@kernel.org>
+ <CAMuHMdV1DdmrtexvMqEn3SBjgyG8eYbbgLsYV-862mKLt08qdw@mail.gmail.com> <20200417093424.71ae0559@coco.lan>
+In-Reply-To: <20200417093424.71ae0559@coco.lan>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 17 Apr 2020 09:52:02 +0200
+Message-ID: <CAMuHMdXQ-ahP1MhL-NEHAyoA_CxT2EWfJRF55S7w3uuF8vkvDQ@mail.gmail.com>
+Subject: Re: [PATCH 1/3] media: cec: don't select PCI & DMI
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/03/2020 12:27, Helen Koike wrote:
-> Hi Niklas,
-> 
-> Thank you for the patch.
-> 
-> I would just change the title of the commit to start with the tags:
-> 
-> media: vimc: cap:
-> 
-> On 3/16/20 7:16 PM, Niklas Söderlund wrote:
->> The colorspace reported by a video nodes should not be
->> V4L2_COLORSPACE_DEFAULT. Instead a default colorspace should be picked
->> by the driver if V4L2_COLORSPACE_DEFAULT is given by userspace to
->> {G,S,TRY}_FMT.
->>
->> The colorspace V4L2_COLORSPACE_SRGB is arbitrary chosen as the vimc
->> default format to report as it's used for most webcams.
->>
->> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> 
-> Acked-by: Helen Koike <helen.koike@collabora.com>
-> 
-> Do the subdevices also need this change?
-> They also use V4L2_COLORSPACE_DEFAULT in their default format.
+Hi Mauro,
 
-The sensor specifically should report a non-default colorspace.
+On Fri, Apr 17, 2020 at 9:34 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+> Em Fri, 17 Apr 2020 09:30:51 +0200
+> Geert Uytterhoeven <geert@linux-m68k.org> escreveu:
+> > On Fri, Apr 17, 2020 at 9:08 AM Mauro Carvalho Chehab
+> > <mchehab+huawei@kernel.org> wrote:
+> > > While select would be a great idea for most archs, this
+> > > causes a breakage with s390:
+> > >
+> > >         "I don't think that's a good idea, as it suddenly enables selecting all PCI
+> > >          drivers on platforms that do not have PCI.
+> > >
+> > >             WARNING: unmet direct dependencies detected for PCI
+> > >               Depends on [n]: HAVE_PCI [=n]
+> > >               Selected by [m]:
+> > >               - CEC_SECO [=m] && MEDIA_CEC_SUPPORT [=y] && (X86 || IA64 || COMPILE_TEST [=y])
+> > >
+> > > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> >
+> > Thanks for your patch!
+> >
+> > Fixes: 4be5e8648b0c287a ("media: move CEC platform drivers to a
+> > separate directory")
+> > Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+>
+> Btw, I almost solved it on a different way, keeping the select and making
+> it depends on HAVE_PCI.
 
-Ideally the colorimetry information should propagate from the source (sensor)
-to the capture device. To be honest, I'm not sure how existing MC drivers
-handle this.
+Like you did for the similar change to USB?
 
-Regards,
+Gr{oetje,eeting}s,
 
-	Hans
+                        Geert
 
-> 
-> Regards,
-> Helen
-> 
->> ---
->>  drivers/media/platform/vimc/vimc-capture.c | 5 ++++-
->>  1 file changed, 4 insertions(+), 1 deletion(-)
->> ---
->> Hi,
->>
->> This was found while adding V4L2_CAP_IO_MC support to vimc and adding 
->> tests to v4l2-compliance. The issue will hence only show up in 
->> v4l2-compliance if V4L2_CAP_IO_MC series is enabled for vimc.
->>
->> Best regards,
->> Niklas Söderlund
->>
->> diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
->> index 23e740c1c5c00802..747ea9cc1bd7cb12 100644
->> --- a/drivers/media/platform/vimc/vimc-capture.c
->> +++ b/drivers/media/platform/vimc/vimc-capture.c
->> @@ -37,7 +37,7 @@ static const struct v4l2_pix_format fmt_default = {
->>  	.height = 480,
->>  	.pixelformat = V4L2_PIX_FMT_RGB24,
->>  	.field = V4L2_FIELD_NONE,
->> -	.colorspace = V4L2_COLORSPACE_DEFAULT,
->> +	.colorspace = V4L2_COLORSPACE_SRGB,
->>  };
->>  
->>  struct vimc_cap_buffer {
->> @@ -107,6 +107,9 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
->>  
->>  	vimc_colorimetry_clamp(format);
->>  
->> +	if (format->colorspace == V4L2_COLORSPACE_DEFAULT)
->> +		format->colorspace = fmt_default.colorspace;
->> +
->>  	return 0;
->>  }
->>  
->>
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
