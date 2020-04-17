@@ -2,36 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B1571ADD7B
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 14:39:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A1641ADDAD
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 14:58:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729621AbgDQMjA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 08:39:00 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:53775 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729603AbgDQMjA (ORCPT
+        id S1729990AbgDQM6U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 08:58:20 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:50296 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729034AbgDQM6U (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 08:39:00 -0400
-X-Originating-IP: 87.13.136.104
-Received: from uno.homenet.telecomitalia.it (unknown [87.13.136.104])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 3C64560009;
-        Fri, 17 Apr 2020 12:38:51 +0000 (UTC)
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tfiga@google.com, pavel@ucw.cz
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
-        (V4L/DVB)), libcamera-devel@lists.libcamera.org
-Subject: [PATCH v9 11/11] media: i2c: ov13858: Parse and register properties
-Date:   Fri, 17 Apr 2020 14:41:10 +0200
-Message-Id: <20200417124110.72313-12-jacopo@jmondi.org>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200417124110.72313-1-jacopo@jmondi.org>
-References: <20200417124110.72313-1-jacopo@jmondi.org>
+        Fri, 17 Apr 2020 08:58:20 -0400
+Received: from lanttu.localdomain (lanttu.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::c1:2])
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTP id 8FE3E634C8C;
+        Fri, 17 Apr 2020 15:58:07 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     Christoph Hellwig <hch@infradead.org>, bingbu.cao@intel.com,
+        tfiga@chromium.org, rajmohan.mani@intel.com
+Subject: [PATCH 1/1] staging: imgu: Use vmap() instead of __get_vm_area() and map_vm_area()
+Date:   Fri, 17 Apr 2020 15:54:31 +0300
+Message-Id: <20200417125431.25105-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -39,50 +30,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Parse device properties and register controls for them using the newly
-introduced helpers.
+Switch to vmap() instead of using both __get_vm_area() and map_vm_area().
 
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+While at it, also assign vm_struct.nr_pages field.
+
+Reported-by: Christoph Hellwig <hch@infradead.org>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/ov13858.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+This is just compile tested but reasonably trivial.
 
-diff --git a/drivers/media/i2c/ov13858.c b/drivers/media/i2c/ov13858.c
-index aac6f77afa0f..2ef5fb5cf519 100644
---- a/drivers/media/i2c/ov13858.c
-+++ b/drivers/media/i2c/ov13858.c
-@@ -7,6 +7,7 @@
- #include <linux/pm_runtime.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
- 
- #define OV13858_REG_VALUE_08BIT		1
- #define OV13858_REG_VALUE_16BIT		2
-@@ -1589,6 +1590,7 @@ static const struct v4l2_subdev_internal_ops ov13858_internal_ops = {
- static int ov13858_init_controls(struct ov13858 *ov13858)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(&ov13858->sd);
-+	struct v4l2_fwnode_device_properties props;
- 	struct v4l2_ctrl_handler *ctrl_hdlr;
- 	s64 exposure_max;
- 	s64 vblank_def;
-@@ -1666,6 +1668,15 @@ static int ov13858_init_controls(struct ov13858 *ov13858)
- 		goto error;
+ drivers/staging/media/ipu3/ipu3-dmamap.c | 11 ++---------
+ 1 file changed, 2 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/staging/media/ipu3/ipu3-dmamap.c b/drivers/staging/media/ipu3/ipu3-dmamap.c
+index 7431322379f6..58e6683e5770 100644
+--- a/drivers/staging/media/ipu3/ipu3-dmamap.c
++++ b/drivers/staging/media/ipu3/ipu3-dmamap.c
+@@ -123,16 +123,12 @@ void *imgu_dmamap_alloc(struct imgu_device *imgu, struct imgu_css_map *map,
+ 		iovaddr += PAGE_SIZE;
  	}
  
-+	ret = v4l2_fwnode_device_parse(&client->dev, &props);
-+	if (ret)
-+		return ret;
-+
-+	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ov13858_ctrl_ops,
-+					      &props);
-+	if (ret)
-+		return ret;
-+
- 	ov13858->sd.ctrl_handler = ctrl_hdlr;
+-	/* Now grab a virtual region */
+-	map->vma = __get_vm_area(size, VM_USERMAP, VMALLOC_START, VMALLOC_END);
++	map->vma = vmap(pages, size / PAGE_SIZE, VM_USERMAP, PAGE_KERNEL);
+ 	if (!map->vma)
+ 		goto out_unmap;
  
- 	return 0;
+ 	map->vma->pages = pages;
+-	/* And map it in KVA */
+-	if (map_vm_area(map->vma, PAGE_KERNEL, pages))
+-		goto out_vunmap;
+-
++	map->vma->nr_pages = size / PAGE_SIZE;
+ 	map->size = size;
+ 	map->daddr = iova_dma_addr(&imgu->iova_domain, iova);
+ 	map->vaddr = map->vma->addr;
+@@ -142,9 +138,6 @@ void *imgu_dmamap_alloc(struct imgu_device *imgu, struct imgu_css_map *map,
+ 
+ 	return map->vma->addr;
+ 
+-out_vunmap:
+-	vunmap(map->vma->addr);
+-
+ out_unmap:
+ 	imgu_dmamap_free_buffer(pages, size);
+ 	imgu_mmu_unmap(imgu->mmu, iova_dma_addr(&imgu->iova_domain, iova),
 -- 
-2.26.1
+2.20.1
 
