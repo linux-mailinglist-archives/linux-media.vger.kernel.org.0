@@ -2,48 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73C461AD453
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 04:08:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BCD01AD457
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 04:10:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729087AbgDQCIZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 16 Apr 2020 22:08:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33292 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729077AbgDQCIY (ORCPT
+        id S1729085AbgDQCJz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 16 Apr 2020 22:09:55 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46610 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728969AbgDQCJz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 16 Apr 2020 22:08:24 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F31AC061A0C;
-        Thu, 16 Apr 2020 19:08:24 -0700 (PDT)
+        Thu, 16 Apr 2020 22:09:55 -0400
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 58E8F97D;
-        Fri, 17 Apr 2020 04:08:21 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 074C697D;
+        Fri, 17 Apr 2020 04:09:51 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1587089301;
-        bh=jzWEttgHR/89r0VjZ0Sx7vvCG0ZiTTIdYjGjTNeQjTQ=;
+        s=mail; t=1587089392;
+        bh=aOJYR1rkQxzhPfNAEcrk20mLkVZECzCoRj7kVov3h0Y=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=A9wkRGk0hVAvFCOsWESmmkwMX+MJD7WfgKCGtI6R/Y4H1iMFjjMUpWV2crljtG7po
-         GNaW2yfC5fWJIfi60CL5FMljKDFE8hliMvxBQYK7i0evVjaqPJLOirXTQ/vWUp+/Cq
-         DBY93l3NaShTRpy6A4Y2jtAdAW7NSZ65K1SMm5HY=
-Date:   Fri, 17 Apr 2020 05:08:09 +0300
+        b=hd+9RLdO3EIQiOjyOzIy3SGshr4Ot8mh0XQvXBVdxQdblIrY9LocV6mgBMEsq7mQj
+         GFiH8t7FF/FgZp0G0wovnbPJEYSd0EyKD+0lmgVrWHcIQIloACo5iJSUXxmxL3c+/x
+         LKMnXLpw7eBR/F4/bxhB022k91DSsdwgwrqC2TCE=
+Date:   Fri, 17 Apr 2020 05:09:39 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v7 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support
- MC-centric devices
-Message-ID: <20200417020809.GH28162@pendragon.ideasonboard.com>
-References: <20200413202351.1359754-1-niklas.soderlund+renesas@ragnatech.se>
- <20200413202351.1359754-4-niklas.soderlund+renesas@ragnatech.se>
- <20200415143149.GF27762@paasikivi.fi.intel.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>,
+        Maxime Ripard <maxime@cerno.tech>
+Subject: Re: [PATCH v5 2/5] media: i2c: ov5645: Drop reading clock-frequency
+ dt-property
+Message-ID: <20200417020939.GI28162@pendragon.ideasonboard.com>
+References: <1586191361-16598-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1586191361-16598-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200406165108.GA7646@kekkonen.localdomain>
+ <20200406173234.GD16885@pendragon.ideasonboard.com>
+ <20200407062241.GA8883@kekkonen.localdomain>
+ <20200407122106.GD4751@pendragon.ideasonboard.com>
+ <20200407151401.GA5206@paasikivi.fi.intel.com>
+ <20200414205552.GN19819@pendragon.ideasonboard.com>
+ <20200415162722.GG27762@paasikivi.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200415143149.GF27762@paasikivi.fi.intel.com>
+In-Reply-To: <20200415162722.GG27762@paasikivi.fi.intel.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -51,167 +63,104 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Sakari,
 
-On Wed, Apr 15, 2020 at 05:31:49PM +0300, Sakari Ailus wrote:
-> On Mon, Apr 13, 2020 at 10:23:48PM +0200, Niklas Söderlund wrote:
-> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Wed, Apr 15, 2020 at 07:27:22PM +0300, Sakari Ailus wrote:
+> On Tue, Apr 14, 2020 at 11:55:52PM +0300, Laurent Pinchart wrote:
+> > On Tue, Apr 07, 2020 at 06:14:01PM +0300, Sakari Ailus wrote:
+> >> On Tue, Apr 07, 2020 at 03:21:06PM +0300, Laurent Pinchart wrote:
+> >>> On Tue, Apr 07, 2020 at 09:22:41AM +0300, Sakari Ailus wrote:
+> >>>> On Mon, Apr 06, 2020 at 08:32:34PM +0300, Laurent Pinchart wrote:
+> >>>>> On Mon, Apr 06, 2020 at 07:51:08PM +0300, Sakari Ailus wrote:
+> >>>>>> On Mon, Apr 06, 2020 at 05:42:38PM +0100, Lad Prabhakar wrote:
+> >>>>>>> Modes in the driver are based on xvclk frequency fixed to 24MHz, but where
+> >>>>>>> as the OV5645 sensor can support the xvclk frequency ranging from 6MHz to
+> >>>>>>> 24MHz. So instead making clock-frequency as dt-property just let the
+> >>>>>>> driver enforce the required clock frequency.
+> >>>>>> 
+> >>>>>> Even if some current systems where the driver is used are using 24 MHz
+> >>>>>> clock, that doesn't mean there wouldn't be systems using another frequency
+> >>>>>> that the driver does not support right now.
+> >>>>>> 
+> >>>>>> The driver really should not set the frequency unless it gets it from DT,
+> >>>>>> but I think the preferred means is to use assigned-clock-rates instead, and
+> >>>>>> not to involve the driver with setting the frequency.
+> >>>>>> 
+> >>>>>> Otherwise we'll make it impossible to support other frequencies, at least
+> >>>>>> without more or less random defaults.
+> >>>>> 
+> >>>>> We're running in circles here.
+> >>>>> 
+> >>>>> As the driver only supports 24MHz at the moment, the frequency should be
+> >>>>> set by the driver, as it's a driver limitation. We can then work on
+> >>>>> supporting additional frequencies, which will require DT to provide a
+> >>>>> list of supported frequencies for the system, but that can be done on
+> >>>>> top.
+> >>>> 
+> >>>> I guess it would be possible to use different external clock frequencies on
+> >>>> a sensor in a given system but that seems to be a bit far fetched, to the
+> >>>> extent I've never seen anyone doing that in practice.
+> >>>> 
+> >>>> Originally, the driver set the frequency based on the clock-frequency
+> >>>> property. If we're removing that but use a fixed frequency instead, then
+> >>>> how is that going to work going forward when someone adds support for other
+> >>>> frequencies in the driver and has a system requiring that, while there are
+> >>>> some other platforms relying on the driver setting a particular frequency?
+> >>> 
+> >>> The standard property for this is link-frequencies, not clock-frequency.
+> >>> Deprecating clock-frequency now paves the way to use the standard
+> >>> property later when/if someone implements support for additional
+> >>> frequencies.
+> >> 
+> >> The external clock frequency and link frequency are different indeed, but
+> >> they are related. The link frequency has been selected in a way that it is
+> >> possible to generate that exact frequency using the chosen external clock
+> >> frequency. If you change the external clock frequency, chances are good
+> >> there is no PLL configuration to generate that link frequency.
 > > 
-> > The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
-> > node. For MC-centric devices, its behaviour has always been ill-defined,
-> > with drivers implementing one of the following behaviours:
-> > 
-> > - No support for VIDIOC_ENUM_FMT at all
-> > - Enumerating all formats supported by the video node, regardless of the
-> >   configuration of the pipeline
-> > - Enumerating formats supported by the video node for the active
-> >   configuration of the connected subdevice
-> > 
-> > The first behaviour is obviously useless for applications. The second
-> > behaviour provides the most information, but doesn't offer a way to find
-> > what formats are compatible with a given pipeline configuration. The
-> > third behaviour fixes that, but with the drawback that applications
-> > can't enumerate all supported formats anymore, and have to modify the
-> > active configuration of the pipeline to enumerate formats.
-> > 
-> > The situation is messy as none of the implemented behaviours are ideal,
-> > and userspace can't predict what will happen as the behaviour is
-> > driver-specific.
-> > 
-> > To fix this, let's extend the VIDIOC_ENUM_FMT with a missing capability:
-> > enumerating pixel formats for a given media bus code. The media bus code
-> > is passed through the v4l2_fmtdesc structure in a new mbus_code field
-> > (repurposed from the reserved fields). With this capability in place,
-> > applications can enumerate pixel formats for a given media bus code
-> > without modifying the active configuration of the device.
-> > 
-> > The current behaviour of the ioctl is preserved when the new mbus_code
-> > field is set to 0, ensuring compatibility with existing userspace. The
-> > API extension is documented as mandatory for MC-centric devices (as
-> > advertised through the V4L2_CAP_IO_MC capability), allowing applications
-> > and compliance tools to easily determine the availability of the
-> > VIDIOC_ENUM_FMT extension.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > But aren't we supposed to pick the clock frequency based on the link
+> > frequency specified in DT ?
 > 
-> Din egen Sob linjen saknas här.
+> No. In a general case there is no reliable way to come up with an external
+> clock frequency based on another, different if related, frequency.
 > 
-> > ---
-> >  .../media/uapi/v4l/vidioc-enum-fmt.rst          | 17 ++++++++++++++---
-> >  drivers/media/v4l2-core/v4l2-ioctl.c            | 13 +++++++++++--
-> >  include/uapi/linux/videodev2.h                  |  3 ++-
-> >  3 files changed, 27 insertions(+), 6 deletions(-)
+> > In any case, this policy needs to be carefully documented.
+> 
+> I thought after ten or so years this would be already an established
+> practice. :-)
+> 
+> I agree it should be documented. We don't seem to have specific
+> documentation for camera sensor drivers at the moment. I can submit a
+> patch...
+> 
+> >>>> Although, if you're saying that this driver only needs to work with DT that
+> >>>> comes with the kernel and you don't care about DT binary compatibility,
+> >>>> this would be fine.
+> >>> 
+> >>> I believe this series to not break backward compatibility, as the driver
+> >>> only works with a 24MHz clock, so I expect all DTs to specify that.
+> >> 
+> >> What you're still doing here is defining the DT bindings based on the
+> >> current driver implementation, not the device properties.
 > > 
-> > diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > index 8ca6ab701e4ab99c..82792d8e910b2313 100644
-> > --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > @@ -48,10 +48,21 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
-> >  formats in preference order, where preferred formats are returned before
-> >  (that is, with lower ``index`` value) less-preferred formats.
-> >  
-> > -.. note::
-> > +If the driver doesn't advertise the ``V4L2_CAP_IO_MC``
-> > +:ref:`device-capabilities <capability>`, applications shall initialize the
-> > +``mbus_code`` field to zero. Drivers shall enumerate all image formats supported
-> > +by the device. The enumerated formats may depend on the active input or output
+> > Quite the contrary, the device doesn't require any particular input
+> > clock frequency, so we're removing that from DT :-) Specifying the clock
+> > frequency in DT is in my opinion a manual workaround for not computing
+> > it at runtime based on the desired link frequency, while the link
+> > frequency is a property of the system as it specifies the range of link
+> > frequencies that are safe to use from an EMC point of view.
 > 
-> s/ supported by the device//
+> The external clock frequency is significantly lower than the link frequency
+> (usually), but it still comes out of the SoC (or a PMIC chip). The clock
+> signal track on PCB as well as wiring may also be rather long, depending on
+> where the camera sensor is --- quite possibly tens of centimetres.
+> Therefore I wouldn't categorically rule out possible EMC issues with that
+> one either.
 
-OK.
+That's a valid point.
 
-> > +of the device.
-> 
-> How about
-> 
-> 	s/active input or output/current configuration/
+> The bottom line is: use a known-good, safe frequency.
 
-I went for "active input or output" to match the current text that
-states that the enumerated image formats may be different "after
-switching input or output". I would like to avoid extending this to
-cover any device configuration, as that's even more ill-defined (it
-doesn't specify what device configuration may influence the formats, and
-how).
-
-> Then,
-> 
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> > -   After switching input or output the list of enumerated image
-> > -   formats may be different.
-> > +If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`device-capabilities
-> > +<capability>`, applications may initialize the ``mbus_code`` to a valid
-> > +:ref:`v4l2_mbus_pixelcode <media bus format code>`. If the ``mbus_code` field
-> > +is not zero, drivers shall restrict enumeration to only the image formats that
-> > +can produce (for video output devices) or be produced from (for video capture
-> > +devices) that media bus code. Regardless of the value of the ``mbus_code``
-> > +field, the enumerated image formats shall not depend on the active
-> > +configuration of the video device or device pipeline. Enumeration shall
-> > +otherwise operate as previously described.
-> >  
-> >  
-> >  .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
-> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > index afd1f427df557f71..3e7b99fa415222c6 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > @@ -264,12 +264,13 @@ static void v4l_print_fmtdesc(const void *arg, bool write_only)
-> >  {
-> >  	const struct v4l2_fmtdesc *p = arg;
-> >  
-> > -	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, description='%.*s'\n",
-> > +	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, mbus_code=0x%04x, description='%.*s'\n",
-> >  		p->index, prt_names(p->type, v4l2_type_names),
-> >  		p->flags, (p->pixelformat & 0xff),
-> >  		(p->pixelformat >>  8) & 0xff,
-> >  		(p->pixelformat >> 16) & 0xff,
-> >  		(p->pixelformat >> 24) & 0xff,
-> > +		p->mbus_code,
-> >  		(int)sizeof(p->description), p->description);
-> >  }
-> >  
-> > @@ -1472,12 +1473,20 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
-> >  	struct video_device *vdev = video_devdata(file);
-> >  	struct v4l2_fmtdesc *p = arg;
-> >  	int ret = check_fmt(file, p->type);
-> > +	u32 mbus_code;
-> >  	u32 cap_mask;
-> >  
-> >  	if (ret)
-> >  		return ret;
-> >  	ret = -EINVAL;
-> >  
-> > +	if (p->mbus_code && !(vdev->device_caps & V4L2_CAP_IO_MC))
-> > +		return -EINVAL;
-> > +
-> > +	mbus_code = p->mbus_code;
-> > +	CLEAR_AFTER_FIELD(p, type);
-> > +	p->mbus_code = mbus_code;
-> > +
-> >  	switch (p->type) {
-> >  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
-> >  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> > @@ -2757,7 +2766,7 @@ DEFINE_V4L_STUB_FUNC(dv_timings_cap)
-> >  
-> >  static const struct v4l2_ioctl_info v4l2_ioctls[] = {
-> >  	IOCTL_INFO(VIDIOC_QUERYCAP, v4l_querycap, v4l_print_querycap, 0),
-> > -	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, INFO_FL_CLEAR(v4l2_fmtdesc, type)),
-> > +	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, 0),
-> >  	IOCTL_INFO(VIDIOC_G_FMT, v4l_g_fmt, v4l_print_format, 0),
-> >  	IOCTL_INFO(VIDIOC_S_FMT, v4l_s_fmt, v4l_print_format, INFO_FL_PRIO),
-> >  	IOCTL_INFO(VIDIOC_REQBUFS, v4l_reqbufs, v4l_print_requestbuffers, INFO_FL_PRIO | INFO_FL_QUEUE),
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > index b18f3f7cde31c2e4..c3a1cf1c507f5506 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -784,7 +784,8 @@ struct v4l2_fmtdesc {
-> >  	__u32               flags;
-> >  	__u8		    description[32];   /* Description string */
-> >  	__u32		    pixelformat;       /* Format fourcc      */
-> > -	__u32		    reserved[4];
-> > +	__u32		    mbus_code;		/* Media bus code    */
-> > +	__u32		    reserved[3];
-> >  };
-> >  
-> >  #define V4L2_FMT_FLAG_COMPRESSED		0x0001
+What if different input clock frequencies are needed to achieve
+different link frequencies ?
 
 -- 
 Regards,
