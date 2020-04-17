@@ -2,124 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D91C1AE0C4
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 17:14:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32E731AE0D9
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 17:16:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728393AbgDQPMB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 11:12:01 -0400
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:38828 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728365AbgDQPMB (ORCPT
+        id S1728520AbgDQPQj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 11:16:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42620 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728114AbgDQPQj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 11:12:01 -0400
-X-Halon-ID: b13033a5-80bd-11ea-89d0-0050569116f7
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (p4fca2392.dip0.t-ipconnect.de [79.202.35.146])
-        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id b13033a5-80bd-11ea-89d0-0050569116f7;
-        Fri, 17 Apr 2020 17:11:23 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2] vimc: cap: Report a colorspace
-Date:   Fri, 17 Apr 2020 17:09:29 +0200
-Message-Id: <20200417150929.2872477-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.26.0
+        Fri, 17 Apr 2020 11:16:39 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7B66C061A0C
+        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2020 08:16:38 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id ms17so1206082pjb.0
+        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2020 08:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:sender:from:date:message-id:subject:to;
+        bh=yWjSH2H1+WBal025wKvI61t1jVFcTOP5DDCuzNCykmQ=;
+        b=Jkcu8NcNm5+2I4w0SRn/uGJsDb500sUZmGIML9ShC4j4t5RPSUpu2y5LggJwR/ceTg
+         F/JIyQNry6IBYLVcff0JmzRZZKT5bRs0UoidPbzw/vDVZkfvWDrvwbbNKhr5U/NgHnS+
+         wFus/n3Yz3kc6NLt6AC/dHyPPOuRaRRFT/+eEpi0lkH4P2Lo8xsxNFSbYx2BHRlMW7ly
+         wPnPVegIQY/icqR8+IuaiN/eaTA6XbNQYNoKUsgFTopoGnAQHVRoj+22u6sLb1MWLMYZ
+         In6omCAGhuVKE29skIquq8psIRE/f1YQio3oH+8Qihld86kBp53BRA3PMfW9Y08LAIzk
+         NmxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
+         :to;
+        bh=yWjSH2H1+WBal025wKvI61t1jVFcTOP5DDCuzNCykmQ=;
+        b=OFxVYQfelf9FFsrEdBK9l+TnA38m2LqqjM0OYo6BKtcJ6m/XYclQXHA9mInhIHeQ9h
+         wZwp3vyHlbnH9vfSXoOIBFuFxXsy9BxyseOjgcs06yUN5BntglPlBaQdizsmBQFsLa/w
+         AKCkcTs6svNen2QiV0Y3atVjkcB688Zbfbxn9RDb3VBPLNPa1F3DEyuk6gTWod0TiCQS
+         oReFZ4GqEfcPJuKbHGAtasTU04W30Da0ObI32Y2zBGvqdt2o3GzLvQlI/O5R07HyykQa
+         1+aK/JmV+x94vvvhXfQ1jD5yT0smjOdEAGmUWpiEMrWBORyiXyYXCI5HSXbQoTpLV8sV
+         8Odw==
+X-Gm-Message-State: AGi0PubuvMKLE0T1QExeVxJt5SH2EYqQ1rAlgkglOQHRPWofXBlHue/Y
+        CBJYnplMFvL9Mc5EFTZmypAfVbXHPWImtdTlZdc=
+X-Google-Smtp-Source: APiQypI0IGW/JYNtvqU1TkZNlhWaSa+m/A2nBIurB+mN9L48CAS+pzqUwpC5I+QZnyNkP0fAeIyTGeFhrUve/1XqNcU=
+X-Received: by 2002:a17:902:6ac9:: with SMTP id i9mr4070609plt.35.1587136598443;
+ Fri, 17 Apr 2020 08:16:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a17:90a:17aa:0:0:0:0 with HTTP; Fri, 17 Apr 2020 08:16:37
+ -0700 (PDT)
+From:   Mrs Carlsen Monika <carlsen.monika@gmail.com>
+Date:   Fri, 17 Apr 2020 08:16:37 -0700
+X-Google-Sender-Auth: IeaE384yCiC3fmoe2la0vs0kga0
+Message-ID: <CAO5ptebZey1_DzmZMXF1QNje9D4za4XnDEy7BLyFMq-3zpzESw@mail.gmail.com>
+Subject: Greetings My Dear, Please I Need Your Help.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The colorspace reported by a video nodes should not be
-V4L2_COLORSPACE_DEFAULT. Instead a default colorspace should be picked
-by the driver if V4L2_COLORSPACE_DEFAULT is given by userspace to
-{G,S,TRY}_FMT.
+Greetings My Dear,
 
-The colorspace V4L2_COLORSPACE_SRGB is arbitrary chosen as the vimc
-default format to report as it's used for most webcams.
+    I sent this mail praying it will found you in a good condition of
+health, since I myself are in a very critical health
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Acked-by: Helen Koike <helen.koike@collabora.com>
----
-* Changes since v1
-- Set default colorspace for all subdevices.
-- Rebase to upstream vimc changes.
----
- drivers/media/test-drivers/vimc/vimc-capture.c | 5 ++++-
- drivers/media/test-drivers/vimc/vimc-debayer.c | 2 +-
- drivers/media/test-drivers/vimc/vimc-scaler.c  | 2 +-
- drivers/media/test-drivers/vimc/vimc-sensor.c  | 2 +-
- 4 files changed, 7 insertions(+), 4 deletions(-)
+condition in which I  sleep every night without knowing if I may be
+alive to see the next day. I am Mrs. Monika John
 
-diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-index 5315c201314c9cc4..20c2f5e281bc44ed 100644
---- a/drivers/media/test-drivers/vimc/vimc-capture.c
-+++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-@@ -37,7 +37,7 @@ static const struct v4l2_pix_format fmt_default = {
- 	.height = 480,
- 	.pixelformat = V4L2_PIX_FMT_RGB24,
- 	.field = V4L2_FIELD_NONE,
--	.colorspace = V4L2_COLORSPACE_DEFAULT,
-+	.colorspace = V4L2_COLORSPACE_SRGB,
- };
- 
- struct vimc_cap_buffer {
-@@ -107,6 +107,9 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
- 
- 	vimc_colorimetry_clamp(format);
- 
-+	if (format->colorspace == V4L2_COLORSPACE_DEFAULT)
-+		format->colorspace = fmt_default.colorspace;
-+
- 	return 0;
- }
- 
-diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
-index d10aee9f84c4459f..c4765ebaeec28e3d 100644
---- a/drivers/media/test-drivers/vimc/vimc-debayer.c
-+++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
-@@ -48,7 +48,7 @@ static const struct v4l2_mbus_framefmt sink_fmt_default = {
- 	.height = 480,
- 	.code = MEDIA_BUS_FMT_SRGGB8_1X8,
- 	.field = V4L2_FIELD_NONE,
--	.colorspace = V4L2_COLORSPACE_DEFAULT,
-+	.colorspace = V4L2_COLORSPACE_SRGB,
- };
- 
- static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] = {
-diff --git a/drivers/media/test-drivers/vimc/vimc-scaler.c b/drivers/media/test-drivers/vimc/vimc-scaler.c
-index 465b906b749771c8..2231e72b24e2e3c9 100644
---- a/drivers/media/test-drivers/vimc/vimc-scaler.c
-+++ b/drivers/media/test-drivers/vimc/vimc-scaler.c
-@@ -42,7 +42,7 @@ static const struct v4l2_mbus_framefmt sink_fmt_default = {
- 	.height = VIMC_SCA_FMT_HEIGHT_DEFAULT,
- 	.code = MEDIA_BUS_FMT_RGB888_1X24,
- 	.field = V4L2_FIELD_NONE,
--	.colorspace = V4L2_COLORSPACE_DEFAULT,
-+	.colorspace = V4L2_COLORSPACE_SRGB,
- };
- 
- static const struct v4l2_rect crop_rect_default = {
-diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
-index 228120b3a6ddca01..56e8ec14be464ca8 100644
---- a/drivers/media/test-drivers/vimc/vimc-sensor.c
-+++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
-@@ -30,7 +30,7 @@ static const struct v4l2_mbus_framefmt fmt_default = {
- 	.height = 480,
- 	.code = MEDIA_BUS_FMT_RGB888_1X24,
- 	.field = V4L2_FIELD_NONE,
--	.colorspace = V4L2_COLORSPACE_DEFAULT,
-+	.colorspace = V4L2_COLORSPACE_SRGB,
- };
- 
- static int vimc_sen_init_cfg(struct v4l2_subdev *sd,
--- 
-2.26.0
+ Carlsen from Denmark wife of late Mr John Carlsen, a widow suffering
+from long time illness. I have some funds I
 
+inherited from my late husband, the sum of (eleven million dollars) my
+Doctor told me recently that I have serious
+
+sickness which is cancer problem. What disturbs me most is my stroke
+sickness. Having known my condition, I
+
+decided to donate this fund to a good person that will utilize it the
+way i am going to instruct herein. I need a very
+
+honest and God fearing person who can claim this money and use it for
+Charity works, for orphanages, widows
+
+and also  build schools for less privileges that will be named after
+my late husband if possible and to promote the
+
+word of God and the effort that the house of God is maintained.
+
+I do not want a situation where this money will be used in an ungodly
+manner. That's why I'm taking this decision.
+
+I'm not afraid of death so I know where I'm going. I accept this
+decision because I do not have any child who will
+
+inherit this money after I die. Please I want your sincerely and
+urgent answer to know if you will be able to
+
+execute this project, and I will give you more information on how the
+fund will be transferred to your bank
+
+account. I am waiting for your reply.
+
+May God Bless you,
+Mrs. Monika John  Carlsen
