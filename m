@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A960B1AE2EC
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 18:59:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FC381AE2EE
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 18:59:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727945AbgDQQ7G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 12:59:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46170 "EHLO mail.kernel.org"
+        id S1727948AbgDQQ7H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 12:59:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46116 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727865AbgDQQ7C (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 12:59:02 -0400
+        id S1727806AbgDQQ7B (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 Apr 2020 12:59:01 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B8B3E22242;
+        by mail.kernel.org (Postfix) with ESMTPSA id B81C520771;
         Fri, 17 Apr 2020 16:58:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1587142740;
-        bh=QVuP9x6fyZzZTJLW5bCZ8fwV69Oa9Ns5ODFoWihRB9M=;
+        bh=LW0YChFmsMYi3A/jBnNiN8a7wkyl819k9zKt5G4Hj2s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Cq01AcOD4eqD5cdI6ZVkCicAFpfmkkBSXOvnpGp2HsH7xrPb0OgaifkURg3DpnDCe
-         F/QrFboB9tS9ABEsbkDqg7DQYrz4FTjKy1IQA18sjjk6DtCKRjB/coc14fIyl4PMy3
-         DNNYcIt0DHUS/QoHp2FyEWIOtm3tkhtUXsGqDxho=
+        b=B7D6Oe6BLyqXb8+Mxr8AuGEhZYOd3bPjp5gWCjaEL0D51Dh6rBSZUr/FkGBgcgjX4
+         OemzXkyQqZAHrqnPesRIiP6qpxxhzRyBFUxw4B3PAiMolqKpGPOkwJ/5rMO5xQ+JnM
+         ZHZ0aT9BL7tZN85v1tJW1iTPstIPLpFcMfG8CfWQ=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jPUKP-007wLh-7j; Fri, 17 Apr 2020 18:58:57 +0200
+        id 1jPUKP-007wLm-9Y; Fri, 17 Apr 2020 18:58:57 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 08/15] media: admin-guide: add a generic building guide
-Date:   Fri, 17 Apr 2020 18:58:49 +0200
-Message-Id: <40deeb259fd95af4615c9b4d1ac26afa8ecf2456.1587142382.git.mchehab+huawei@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: [PATCH 09/15] media: admin-guide: improve cardlist.rst documentation
+Date:   Fri, 17 Apr 2020 18:58:50 +0200
+Message-Id: <824bb8013d308e4bce9da454ca564883806e4fb5.1587142382.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1587142382.git.mchehab+huawei@kernel.org>
 References: <cover.1587142382.git.mchehab+huawei@kernel.org>
@@ -44,395 +43,131 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Several of the existing documents under the media admin-guide
-contain build procedures.
+The cardlist section is important for some boards, because they
+may require extra modprobe parameters.
 
-Add an specific chapter describing it. This document was
-partially inspired on the modifications I made to the bttv.rst
-file.
+Improve the docs to mention that.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/media/building.rst | 357 +++++++++++++++++++
- Documentation/admin-guide/media/index.rst    |   1 +
- 2 files changed, 358 insertions(+)
- create mode 100644 Documentation/admin-guide/media/building.rst
+ Documentation/admin-guide/media/cardlist.rst | 93 ++++++++++++++++++--
+ 1 file changed, 88 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/admin-guide/media/building.rst b/Documentation/admin-guide/media/building.rst
-new file mode 100644
-index 000000000000..c898e3a981c1
---- /dev/null
-+++ b/Documentation/admin-guide/media/building.rst
-@@ -0,0 +1,357 @@
-+.. SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/admin-guide/media/cardlist.rst b/Documentation/admin-guide/media/cardlist.rst
+index 527188ee9697..f469bd759bea 100644
+--- a/Documentation/admin-guide/media/cardlist.rst
++++ b/Documentation/admin-guide/media/cardlist.rst
+@@ -1,22 +1,105 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
++==========
+ Cards List
+ ==========
+ 
++The media subsystem provide support for lots of PCI and USB drivers, plus
++platform-specific drivers. It also contains several ancillary I²C drivers.
 +
-+===================================
-+Building support for a media device
-+===================================
++The platform-specific drivers are usually present on embedded systems,
++or are supported by the main board. Usually, setting them is done via
++OpenFirmware or ACPI.
 +
-+The first step is to download the Kernel's source code, either via a
-+distribution-specific source file or via the Kernel's main git tree\ [1]_.
++The PCI and USB drivers, however, are independent of the system's board,
++and may be added/removed by the user.
 +
-+Please notice, however, that, if:
++This section contains a list of supported PCI and USB boards.
 +
-+- you're a braveheart and want to experiment with new stuff;
-+- if you want to report a bug;
-+- if you're developing new patches
++Please notice that this list is not exaustive.
 +
-+you should use the main media development tree ``master`` branch:
++USB drivers
++===========
 +
-+    https://git.linuxtv.org/media_tree.git/
++The USB boards are identified by an identification called USB ID.
 +
-+In this case, you may find some useful information at the
-+`LinuxTv wiki pages <https://linuxtv.org/wiki>`_:
++The ``lsusb`` command allows identifying the USB IDs::
 +
-+    https://linuxtv.org/wiki/index.php/How_to_Obtain,_Build_and_Install_V4L-DVB_Device_Drivers
-+
-+.. [1] The upstream Linux Kernel development tree is located at
-+
-+       https://git.kernel.org/pub/scm/li  nux/kernel/git/torvalds/linux.git/
-+
-+Configuring the Linux Kernel
-+============================
-+
-+You can access a menu of Kernel building options with::
-+
-+    $ make menuconfig
-+
-+Then, select all desired options and exit it, saving the configuration.
-+
-+The changed configuration will be at the ``.config`` file. It would
-+look like::
-+
++    $ lsusb
 +    ...
-+    # CONFIG_RC_CORE is not set
-+    # CONFIG_CEC_CORE is not set
-+    CONFIG_MEDIA_SUPPORT=m
-+    CONFIG_MEDIA_SUPPORT_FILTER=y
++    Bus 001 Device 015: ID 046d:082d Logitech, Inc. HD Pro Webcam C920
++    Bus 001 Device 074: ID 2040:b131 Hauppauge
++    Bus 001 Device 075: ID 2013:024f PCTV Systems nanoStick T2 290e
 +    ...
 +
-+The media subsystem is controlled by those menu configuration options::
-+
-+    Device Drivers --->
-+	<M> Remote Controller support  --->
-+	[ ] HDMI CEC RC integration
-+	[ ] Enable CEC error injection support
-+	[*] HDMI CEC drivers  --->
-+	<*> Multimedia support  --->
-+
-+The ``Remote Controller support`` option enables the core support for
-+remote controllers\ [2]_.
-+
-+The ``HDMI CEC RC integration`` option enables integration of HDMI CEC
-+with Linux, allowing to receive data via HDMI CEC as if it were produced
-+by a remote controller directly connected to the machine.
-+
-+The ``HDMI CEC drivers`` option allow selecting platform and USB drivers
-+that receives and/or transmits CEC codes via HDMI interfaces\ [3]_.
-+
-+The last option (``Multimedia support``) enables support for cameras,
-+audio/video grabbers and TV.
-+
-+The media subsystem support can either be built together with the main
-+Kernel or as a module. For most use cases, it is preferred to have it
-+built as modules.
-+
-+.. note::
-+
-+   Instead of using a menu, the Kernel provides a script with allows
-+   enabling configuration options directly. To enable media support
-+   and remote controller support using Kernel modules, you could use::
-+
-+	$ scripts/config -m RC_CORE
-+	$ scripts/config -m MEDIA_SUPPORT
-+
-+.. [2] ``Remote Controller support`` should also be enabled if you
-+       want to use some TV card drivers that may depend on the remote
-+       controller core support.
-+
-+.. [3] Please notice that the DRM subsystem also have drivers for GPUs
-+       that use the media HDMI CEC support.
-+
-+       Those GPU-specific drivers are selected via the ``Graphics support``
-+       menu, under ``Device Drivers``.
-+
-+       When a GPU driver supports supports HDMI CEC, it will automatically
-+       enable the CEC core support at the media subsystem.
-+
-+Media dependencies
-+------------------
-+
-+It should be noticed that enabling the above from a clean config is
-+usually not enough. The media subsystem depends on several other Linux
-+core support in order to work.
-+
-+For example, most media devices use a serial communication bus in
-+order to talk with some peripherals. Such bus is called I²C
-+(Inter-Integrated Circuit). In order to be able to build support
-+for such hardware, the I²C bus support should be enabled, either via
-+menu or with::
-+
-+    ./scripts/config -m I2C
-+
-+Another example: the remote controller core requires support for
-+input devices, with can be enabled with::
-+
-+    ./scripts/config -m INPUT
-+
-+Other core functionality may also be needed (like PCI and/or USB support),
-+depending on the specific driver(s) you would like to enable.
-+
-+Enabling Remote Controller Support
-+----------------------------------
-+
-+The remote controller menu allows selecting drivers for specific devices.
-+It's menu looks like this::
-+
-+         --- Remote Controller support
-+         <M>   Compile Remote Controller keymap modules
-+         [*]   LIRC user interface
-+         [*]     Support for eBPF programs attached to lirc devices
-+         [*]   Remote controller decoders  --->
-+         [*]   Remote Controller devices  --->
-+
-+The ``Compile Remote Controller keymap modules`` option creates key maps for
-+several popular remote controllers.
-+
-+The ``LIRC user interface`` option adds enhanced functionality when using the
-+``lirc`` program, by enabling an API that allows userspace to receive raw data
-+from remote controllers.
-+
-+The ``Support for eBPF programs attached to lirc devices`` option allows
-+the usage of special programs (called eBPF) that would allow aplications
-+to add extra remote controller decoding functionality to the Linux Kernel.
-+
-+The ``Remote controller decoders`` option allows selecting the
-+protocols that will be recognized by the Linux Kernel. Except if you
-+want to disable some specific decoder, it is suggested to keep all
-+sub-options enabled.
-+
-+The ``Remote Controller devices`` allows you to select the drivers
-+that would be needed to support your device.
-+
-+The same configuration can also be set via the ``script/config``
-+script. So, for instance, in order to support the ITE remote controller
-+driver (found on Intel NUCs and on some ASUS x86 desktops), you could do::
-+
-+	$ scripts/config -e INPUT
-+	$ scripts/config -e ACPI
-+	$ scripts/config -e MODULES
-+	$ scripts/config -m RC_CORE
-+	$ scripts/config -e RC_DEVICES
-+	$ scripts/config -e RC_DECODERS
-+	$ scripts/config -m IR_RC5_DECODER
-+	$ scripts/config -m IR_ITE_CIR
-+
-+Enabling HDMI CEC Support
-+-------------------------
-+
-+The HDMI CEC support is set automatically when a driver requires it. So,
-+all you need to do is to enable support either for a graphics card
-+that needs it or by one of the existing HDMI drivers.
-+
-+The HDMI-specific drivers are available at the ``HDMI CEC drivers``
-+menu\ [4]_::
-+
-+	--- HDMI CEC drivers
-+	< >   ChromeOS EC CEC driver
-+	< >   Amlogic Meson AO CEC driver
-+	< >   Amlogic Meson G12A AO CEC driver
-+	< >   Generic GPIO-based CEC driver
-+	< >   Samsung S5P CEC driver
-+	< >   STMicroelectronics STiH4xx HDMI CEC driver
-+	< >   STMicroelectronics STM32 HDMI CEC driver
-+	< >   Tegra HDMI CEC driver
-+	< >   SECO Boards HDMI CEC driver
-+	[ ]     SECO Boards IR RC5 support
-+	< >   Pulse Eight HDMI CEC
-+	< >   RainShadow Tech HDMI CEC
-+
-+.. [4] The above contents is just an example. The actual options for
-+       HDMI devices depends on the system's architecture and may vary
-+       on new Kernels.
-+
-+Enabling Media Support
-+----------------------
-+
-+The Media menu has a lot more options than the remote controller menu.
-+Once selected, you should see the following options::
-+
-+	--- Media support
-+	[ ] Filter media drivers
-+	[*] Autoselect ancillary drivers
-+	    Media device types --->
-+	    Media core support --->
-+	    Video4Linux options --->
-+	    Media controller options --->
-+	    Digital TV options --->
-+	    HDMI CEC options --->
-+	    Media drivers --->
-+	    Media ancillary drivers --->
-+
-+Except if you know exactly what you're doing, or if you want to build
-+a driver for a SoC platform, it is strongly recommended to keep the
-+``Autoselect ancillary drivers`` option turned on, as it will auto-select
-+the needed I²C ancillary drivers.
-+
-+There are now two ways to select media device drivers, as described
-+below.
-+
-+``Filter media drivers`` menu
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+This menu is meant to easy setup for PC and Laptop hardware. It works
-+by letting the user to specify what kind of media drivers are desired,
-+with those options::
-+
-+	[ ] Cameras and video grabbers
-+	[ ] Analog TV
-+	[ ] Digital TV
-+	[ ] AM/FM radio receivers/transmitters
-+	[ ] Software defined radio
-+	[ ] Platform-specific devices
-+	[ ] Test drivers
-+
-+So, if you want to add support to a camera or video grabber only,
-+select just the first option. Multiple options are allowed.
-+
-+Once the options on this menu are selected, the building system will
-+auto-select the needed core drivers in order to support the selected
-+functionality.
-+
-+.. note::
-+
-+   Most TV cards are hybrid: they support both Analog TV and Digital TV.
-+
-+   If you have an hybrid card, you may need to enable both ``Analog TV``
-+   and ``Digital TV`` at the menu.
-+
-+When using this option, the defaults for the the media support core
-+functionality are usually good enough to provide the basic functionality
-+for the driver. Yet, you could manually enable some desired extra (optional)
-+functionality using the settings under each of the following
-+``Media support`` sub-menus::
-+
-+	    Media core support --->
-+	    Video4Linux options --->
-+	    Media controller options --->
-+	    Digital TV options --->
-+	    HDMI CEC options --->
-+
-+Once you select the desired filters, the drivers that matches the filtering
-+criteria will be available at the ``Media support->Media drivers`` sub-menu.
-+
-+``Media Core Support`` menu without filtering
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+If you disable the ``Filter media drivers`` menu, all drivers available
-+for your system whose dependencies are met should be shown at the
-+``Media drivers`` menu.
-+
-+Please notice, however, that you should first ensure that the
-+``Media Core Support`` menu has all the core functionality your drivers
-+would need, as otherwise the corresponding device drivers won't be shown.
-+
-+Example
-+-------
-+
-+In order to enable modular support for one of the boards listed on
-+:doc:`this table <cx231xx-cardlist>`, with modular media core modules, the
-+``.config`` file should contain those lines::
-+
-+    CONFIG_MODULES=y
-+    CONFIG_USB=y
-+    CONFIG_I2C=y
-+    CONFIG_INPUT=y
-+    CONFIG_RC_CORE=m
-+    CONFIG_MEDIA_SUPPORT=m
-+    CONFIG_MEDIA_SUPPORT_FILTER=y
-+    CONFIG_MEDIA_ANALOG_TV_SUPPORT=y
-+    CONFIG_MEDIA_DIGITAL_TV_SUPPORT=y
-+    CONFIG_MEDIA_USB_SUPPORT=y
-+    CONFIG_VIDEO_CX231XX=y
-+    CONFIG_VIDEO_CX231XX_DVB=y
-+
-+Building and installing a new Kernel
-+====================================
-+
-+Once the ``.config`` file has everything needed, all it takes to build
-+is to run the ``make`` command::
-+
-+    $ make
-+
-+And then install the new Kernel and its modules::
-+
-+    $ sudo make modules_install
-+    $ sudo make install
-+
-+Building just the new media drivers and core
-+============================================
-+
-+Running a new development Kernel from the development tree is usually risky,
-+because it may have experimental changes that may have bugs. So, there are
-+some ways to build just the new drivers, using alternative trees.
-+
-+There is the `Linux Kernel backports project
-+<https://backports.wiki.kernel.org/index.php/Main_Page>`_, with contains
-+newer drivers meant to be compiled against stable Kernels.
-+
-+The LinuxTV developers, with are responsible for maintaining the media
-+subsystem also maintains a backport tree, with just the media drivers
-+daily updated from the newest kernel. Such tree is available at:
-+
-+https://git.linuxtv.org/media_build.git/
-+
-+It should be noticed that, while it should be relatively safe to use the
-+``media_build`` tree for testing purposes, there are not warranties that
-+it would work (or even build) on a random Kernel. This tree is maintained
-+using a "best-efforts" principle, as time permits us to fix issues there.
-+
-+If you notice anything wrong on it, feel free to submit patches at the
-+Linux media subsystem's mailing list: media@vger.kernel.org. Please
-+add ``[PATCH media-build]`` at the e-mail's subject if you submit a new
-+patch for the media-build.
-+
-+Before using it, you should run::
-+
-+    $ ./build
-+
-+.. note::
-+
-+    1) you may need to run it twice if the ``media-build`` tree gets
-+       updated;
-+    2) you may need to do a ``make distclean`` if you had built it
-+       in the past for a different Kernel version than the one you're
-+       currently using;
-+    3) by default, it will use the same config options for media as
-+       the ones defined on the Kernel you're running.
-+
-+In order to select different drivers or different config options,
-+use::
-+
-+    $ make menuconfig
-+
-+Then, you can build and install the new drivers::
-+
-+    $ make && sudo make install
-+
-+This will override the previous media drivers that your Kernel were
-+using.
-diff --git a/Documentation/admin-guide/media/index.rst b/Documentation/admin-guide/media/index.rst
-index f79d4f1e05ba..ecaf28effa6a 100644
---- a/Documentation/admin-guide/media/index.rst
-+++ b/Documentation/admin-guide/media/index.rst
-@@ -35,6 +35,7 @@ Video4Linux (V4L)  driver-specific documentation
- 	:numbered:
++Newer camera devices use a standard way to expose themselves as such,
++via USB Video Class. Those cameras are automatically supported by the
++``uvc-driver``.
++
++Older cameras and TV USB devices uses USB Vendor Classes: each vendor
++defines its own way to access the device. This section contains
++card lists for such vendor-class devices.
++
++While this is not as common as on PCI, sometimes the same USB ID is used
++by different products. So, several media drivers allow passing a ``card=``
++parameter, in order to setup a card number that would match the correct
++settings for an specific product type.
++
+ .. toctree::
+ 	:maxdepth: 1
  
- 	intro
-+	building
- 
- 	cardlist
- 
+ 	au0828-cardlist
++	cx231xx-cardlist
++	em28xx-cardlist
++	tm6000-cardlist
++	usbvision-cardlist
++	gspca-cardlist
++
++PCI drivers
++===========
++
++The PCI boards are identified by an identification called PCI ID.
++
++The ``lspci`` command allows identifying the PCI IDs::
++
++    $ lspci -nn
++    ...
++    00:0b.0 Multimedia video controller: Brooktree Corporation Bt878 Video Capture [1822:0026] (rev 11)
++    ...
++
++Unfortunately, sometimes the same PCI ID is used by different products.
++So, several media drivers allow passing a ``card=`` parameter, in order
++to setup a card number that would match the correct settings for an
++specific board.
++
++.. toctree::
++	:maxdepth: 1
++
+ 	bttv-cardlist
+ 	cx18-cardlist
+-	cx231xx-cardlist
+ 	cx23885-cardlist
+ 	cx88-cardlist
+-	em28xx-cardlist
+ 	ivtv-cardlist
+ 	saa7134-cardlist
+ 	saa7164-cardlist
+-	tm6000-cardlist
++
++I²C drivers
++===========
++
++The I²C (Inter-Integrated Circuit) bus is a three-wires bus used internally
++at the media cards for communication between different chips. While the bus
++is not visible to the Linux Kernel, drivers need to send and receive
++commands via the bus. The Linux Kernel driver abstraction has support to
++implement different drivers for each component inside an I²C bus, as if
++the bus were visible to the main system board.
++
++One of the problems with I²C devices is that sometimes the same device may
++work with different I²C hardware. This is common, for example, on devices
++that comes with a tuner for North America market, and another one for
++Europe. Some drivers have a ``tuner=`` modprobe parameter to allow using a
++different tuner number in order to address such issue.
++
++.. toctree::
++	:maxdepth: 1
++
+ 	tuner-cardlist
+-	usbvision-cardlist
+-	gspca-cardlist
 -- 
 2.25.2
 
