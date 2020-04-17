@@ -2,58 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 581FC1ADCD1
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 14:02:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C86031ADD6D
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 14:39:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730547AbgDQMCV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 08:02:21 -0400
-Received: from turbocat.net ([88.99.82.50]:38278 "EHLO mail.turbocat.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730483AbgDQMCU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 08:02:20 -0400
-Received: from hps2020.home.selasky.org (unknown [62.141.129.235])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.turbocat.net (Postfix) with ESMTPSA id 88B44260072;
-        Fri, 17 Apr 2020 14:02:15 +0200 (CEST)
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-From:   Hans Petter Selasky <hps@selasky.org>
-Subject: [PATCH] [V4L-UTILS] Fix print formatting warning for clang.
-Message-ID: <540157d4-36af-0b3d-cf15-82c5f0853e92@selasky.org>
-Date:   Fri, 17 Apr 2020 14:01:19 +0200
-User-Agent: Mozilla/5.0 (X11; FreeBSD amd64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1729498AbgDQMiP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 08:38:15 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:34337 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727877AbgDQMiP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 Apr 2020 08:38:15 -0400
+X-Originating-IP: 87.13.136.104
+Received: from uno.homenet.telecomitalia.it (unknown [87.13.136.104])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 7FDBE60006;
+        Fri, 17 Apr 2020 12:38:10 +0000 (UTC)
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tfiga@google.com, pavel@ucw.cz
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
+        (V4L/DVB)), libcamera-devel@lists.libcamera.org
+Subject: [PATCH v9 00/11] media: report camera sensor properties
+Date:   Fri, 17 Apr 2020 14:40:59 +0200
+Message-Id: <20200417124110.72313-1-jacopo@jmondi.org>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-pixelclock is 64-bit and make sure the else case is also 64-bit.
+Rebased on latest media master as the documentation has moved since my
+last v8.
 
-Signed-off-by: Hans Petter Selasky <hps@selasky.org>
----
-  utils/media-ctl/media-ctl.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+Hans, is this ready to be collected in your opinion ?
 
-diff --git a/utils/media-ctl/media-ctl.c b/utils/media-ctl/media-ctl.c
-index 6661b487..455b92a3 100644
---- a/utils/media-ctl/media-ctl.c
-+++ b/utils/media-ctl/media-ctl.c
-@@ -213,7 +213,7 @@ static void v4l2_subdev_print_dv_timings(const 
-struct v4l2_dv_timings *timings,
+Jacopo Mondi (11):
+  dt-bindings: video-interfaces: Document 'location' property
+  media: v4l2-ctrl: Document V4L2_CID_CAMERA_SENSOR_LOCATION
+  dt-bindings: video-interface: Replace 'rotation' description
+  media: v4l2-ctrl: Document V4L2_CID_CAMERA_SENSOR_ROTATION
+  media: v4l2-ctrls: Add camera location and rotation
+  media: v4l2-fwnode: Add helper to parse device properties
+  include: v4l2-ctrl: Sort forward declarations
+  media: v4l2-ctrls: Sort includes alphabetically
+  media: v4l2-ctrls: Add helper to register properties
+  media: i2c: ov5670: Parse and register properties
+  media: i2c: ov13858: Parse and register properties
 
-  		printf(" %ux%u%s%llu (%ux%u)",
-  		       bt->width, bt->height, bt->interlaced ? "i" : "p",
--		       (htotal * vtotal) > 0 ? (bt->pixelclock / (htotal * vtotal)) : 0,
-+		       (htotal * vtotal) > 0 ? (bt->pixelclock / (htotal * vtotal)) : 
-0ULL,
-  		       htotal, vtotal);
+v8->v9:
+- Rebased on media master which has moved media documentation
 
-  		printf(" stds:");
--- 
-2.26.0
+v7->v8:
+- Add Rob's ack to 03/11
+- Address Hans typographical comments in 03/11
+
+ .../bindings/media/video-interfaces.txt       | 372 +++++++++++++++++-
+ .../media/v4l/ext-ctrls-camera.rst            | 153 +++++++
+ drivers/media/i2c/ov13858.c                   |  11 +
+ drivers/media/i2c/ov5670.c                    |  12 +
+ drivers/media/v4l2-core/v4l2-ctrls.c          |  52 ++-
+ drivers/media/v4l2-core/v4l2-fwnode.c         |  42 ++
+ include/media/v4l2-ctrls.h                    |  34 +-
+ include/media/v4l2-fwnode.h                   |  47 +++
+ include/uapi/linux/v4l2-controls.h            |   7 +
+ 9 files changed, 718 insertions(+), 12 deletions(-)
+
+--
+2.26.1
+
