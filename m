@@ -2,40 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C8041AE2E5
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 18:59:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5E0E1AE2F1
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 18:59:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727891AbgDQQ7C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 12:59:02 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46046 "EHLO mail.kernel.org"
+        id S1727988AbgDQQ7J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 12:59:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46018 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726775AbgDQQ7B (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 12:59:01 -0400
+        id S1726644AbgDQQ7A (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 Apr 2020 12:59:00 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B793222209;
+        by mail.kernel.org (Postfix) with ESMTPSA id B5AFB20776;
         Fri, 17 Apr 2020 16:58:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1587142740;
-        bh=czDFa9bZgTwIV1u4cjaNEAA8R4x8ahI3lqz1yrH0a8g=;
+        bh=jgEdbK8DASFi1sv+19D91lmZPgew0tzIufTfc/IJwEg=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uabGjHo2DmhRg5H119wvHRSxZG1/OMLKJXR/li9UBkky7Uj4AH+3CkAFZYv1qOjHp
-         kf1EInpheMXQY+QB7PuS52ODVxYeGK4EM2GdB22gZuMnu1TUP7YfvPoLf3/d+wsMAZ
-         TnkWJHOVOfw2ryV7E9j0XFbnKYLx1C7kmiAe/0Ec=
+        b=wHHyMyJxvRh+/EtUMd+cU2ZIW2sGty08lwWwWZtscdeeTccnUNF7v3clcHwZkfgAw
+         bSZOkRZoih7kHjdccJo6rIJ7AC9e6eiTqFHIKe/pz89K6JeS6CX3A/rJ0qmLOdlYBM
+         ERmTjMbczJfLGKNEBr82EChDOY6Jp+qdT7NTd5Ds=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jPUKP-007wLK-2v; Fri, 17 Apr 2020 18:58:57 +0200
+        id 1jPUKP-007wLQ-3j; Fri, 17 Apr 2020 18:58:57 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Richard Fontana <rfontana@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Allison Randal <allison@lohutok.net>
-Subject: [PATCH 04/15] media: pwc-if: place USB device list on numberical order
-Date:   Fri, 17 Apr 2020 18:58:45 +0200
-Message-Id: <a3408d69504dce9095da08b74bb5c71f6242e8f5.1587142382.git.mchehab+huawei@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Subject: [PATCH 05/15] media: admin-guide: add a card list for cx231xx boards
+Date:   Fri, 17 Apr 2020 18:58:46 +0200
+Message-Id: <9fce22d2a3b2cfdf4c47b864a07e7360fbf7792c.1587142382.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1587142382.git.mchehab+huawei@kernel.org>
 References: <cover.1587142382.git.mchehab+huawei@kernel.org>
@@ -46,72 +42,133 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It seems easier to maintain the list if the USB_DEVICE
-is ordered.
+It is interesting to have a card list also for cx231xx
+driver, as it currently supports 27 different boards.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/usb/pwc/pwc-if.c | 34 +++++++++++++++++++++-------------
- 1 file changed, 21 insertions(+), 13 deletions(-)
+ Documentation/admin-guide/media/cardlist.rst  |  1 +
+ .../admin-guide/media/cx231xx-cardlist.rst    | 99 +++++++++++++++++++
+ 2 files changed, 100 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/cx231xx-cardlist.rst
 
-diff --git a/drivers/media/usb/pwc/pwc-if.c b/drivers/media/usb/pwc/pwc-if.c
-index 8270fb061bd6..61869636ec61 100644
---- a/drivers/media/usb/pwc/pwc-if.c
-+++ b/drivers/media/usb/pwc/pwc-if.c
-@@ -71,6 +71,19 @@
- 
- /* hotplug device table support */
- static const struct usb_device_id pwc_device_table [] = {
-+	{ USB_DEVICE(0x041E, 0x400C) }, /* Creative Webcam 5 */
-+	{ USB_DEVICE(0x041E, 0x4011) }, /* Creative Webcam Pro Ex */
+diff --git a/Documentation/admin-guide/media/cardlist.rst b/Documentation/admin-guide/media/cardlist.rst
+index 5c9c3c97bcb2..527188ee9697 100644
+--- a/Documentation/admin-guide/media/cardlist.rst
++++ b/Documentation/admin-guide/media/cardlist.rst
+@@ -9,6 +9,7 @@ Cards List
+ 	au0828-cardlist
+ 	bttv-cardlist
+ 	cx18-cardlist
++	cx231xx-cardlist
+ 	cx23885-cardlist
+ 	cx88-cardlist
+ 	em28xx-cardlist
+diff --git a/Documentation/admin-guide/media/cx231xx-cardlist.rst b/Documentation/admin-guide/media/cx231xx-cardlist.rst
+new file mode 100644
+index 000000000000..d374101be047
+--- /dev/null
++++ b/Documentation/admin-guide/media/cx231xx-cardlist.rst
+@@ -0,0 +1,99 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+	{ USB_DEVICE(0x046D, 0x08B0) }, /* Logitech QuickCam 3000 Pro */
-+	{ USB_DEVICE(0x046D, 0x08B1) }, /* Logitech QuickCam Notebook Pro */
-+	{ USB_DEVICE(0x046D, 0x08B2) }, /* Logitech QuickCam 4000 Pro */
-+	{ USB_DEVICE(0x046D, 0x08B3) }, /* Logitech QuickCam Zoom (old model) */
-+	{ USB_DEVICE(0x046D, 0x08B4) }, /* Logitech QuickCam Zoom (new model) */
-+	{ USB_DEVICE(0x046D, 0x08B5) }, /* Logitech QuickCam Orbit/Sphere */
-+	{ USB_DEVICE(0x046D, 0x08B6) }, /* Logitech/Cisco VT Camera */
-+	{ USB_DEVICE(0x046D, 0x08B7) }, /* Logitech ViewPort AV 100 */
-+	{ USB_DEVICE(0x046D, 0x08B8) }, /* Logitech QuickCam */
++cx231xx cards list
++==================
 +
- 	{ USB_DEVICE(0x0471, 0x0302) }, /* Philips PCA645VC */
- 	{ USB_DEVICE(0x0471, 0x0303) }, /* Philips PCA646VC */
- 	{ USB_DEVICE(0x0471, 0x0304) }, /* Askey VC010 type 2 */
-@@ -83,25 +96,20 @@ static const struct usb_device_id pwc_device_table [] = {
- 	{ USB_DEVICE(0x0471, 0x0313) }, /* Philips PCVC720K/40 (ToUCam XS) */
- 	{ USB_DEVICE(0x0471, 0x0329) }, /* Philips SPC 900NC webcam */
- 	{ USB_DEVICE(0x0471, 0x032C) }, /* Philips SPC 880NC webcam */
--	{ USB_DEVICE(0x069A, 0x0001) }, /* Askey VC010 type 1 */
--	{ USB_DEVICE(0x046D, 0x08B0) }, /* Logitech QuickCam 3000 Pro */
--	{ USB_DEVICE(0x046D, 0x08B1) }, /* Logitech QuickCam Notebook Pro */
--	{ USB_DEVICE(0x046D, 0x08B2) }, /* Logitech QuickCam 4000 Pro */
--	{ USB_DEVICE(0x046D, 0x08B3) }, /* Logitech QuickCam Zoom (old model) */
--	{ USB_DEVICE(0x046D, 0x08B4) }, /* Logitech QuickCam Zoom (new model) */
--	{ USB_DEVICE(0x046D, 0x08B5) }, /* Logitech QuickCam Orbit/Sphere */
--	{ USB_DEVICE(0x046D, 0x08B6) }, /* Logitech/Cisco VT Camera */
--	{ USB_DEVICE(0x046D, 0x08B7) }, /* Logitech ViewPort AV 100 */
--	{ USB_DEVICE(0x046D, 0x08B8) }, /* Logitech QuickCam */
++.. tabularcolumns:: |p{1.4cm}|p{10.0cm}|p{6.5cm}|
 +
-+	{ USB_DEVICE(0x04CC, 0x8116) }, /* Sotec Afina Eye */
++.. flat-table::
++   :header-rows: 1
++   :widths: 2 12 19
++   :stub-columns: 0
 +
- 	{ USB_DEVICE(0x055D, 0x9000) }, /* Samsung MPC-C10 */
- 	{ USB_DEVICE(0x055D, 0x9001) }, /* Samsung MPC-C30 */
- 	{ USB_DEVICE(0x055D, 0x9002) },	/* Samsung SNC-35E (Ver3.0) */
--	{ USB_DEVICE(0x041E, 0x400C) }, /* Creative Webcam 5 */
--	{ USB_DEVICE(0x041E, 0x4011) }, /* Creative Webcam Pro Ex */
--	{ USB_DEVICE(0x04CC, 0x8116) }, /* Sotec Afina Eye */
-+
-+	{ USB_DEVICE(0x069A, 0x0001) }, /* Askey VC010 type 1 */
-+
- 	{ USB_DEVICE(0x06BE, 0x8116) }, /* AME Co. Afina Eye */
-+
- 	{ USB_DEVICE(0x0d81, 0x1900) }, /* Visionite VCS-UC300 */
- 	{ USB_DEVICE(0x0d81, 0x1910) }, /* Visionite VCS-UM100 */
-+
- 	{ }
- };
- MODULE_DEVICE_TABLE(usb, pwc_device_table);
++   * - Card number
++     - Card name
++     - USB IDs
++   * - 0
++     - Unknown CX231xx video grabber
++     - 0572:5A3C
++   * - 1
++     - Conexant Hybrid TV - CARRAERA
++     - 0572:58A2
++   * - 2
++     - Conexant Hybrid TV - SHELBY
++     - 0572:58A1
++   * - 3
++     - Conexant Hybrid TV - RDE253S
++     - 0572:58A4
++   * - 4
++     - Conexant Hybrid TV - RDU253S
++     - 0572:58A5
++   * - 5
++     - Conexant VIDEO GRABBER
++     - 0572:58A6, 07ca:c039
++   * - 6
++     - Conexant Hybrid TV - rde 250
++     - 0572:589E
++   * - 7
++     - Conexant Hybrid TV - RDU 250
++     - 0572:58A0
++   * - 8
++     - Hauppauge EXETER
++     - 2040:b120, 2040:b140
++   * - 9
++     - Hauppauge USB Live 2
++     - 2040:c200
++   * - 10
++     - Pixelview PlayTV USB Hybrid
++     - 4000:4001
++   * - 11
++     - Pixelview Xcapture USB
++     - 1D19:6109, 4000:4001
++   * - 12
++     - Kworld UB430 USB Hybrid
++     - 1b80:e424
++   * - 13
++     - Iconbit Analog Stick U100 FM
++     - 1f4d:0237
++   * - 14
++     - Hauppauge WinTV USB2 FM (PAL)
++     - 2040:b110
++   * - 15
++     - Hauppauge WinTV USB2 FM (NTSC)
++     - 2040:b111
++   * - 16
++     - Elgato Video Capture V2
++     - 0fd9:0037
++   * - 17
++     - Geniatech OTG102
++     - 1f4d:0102
++   * - 18
++     - Kworld UB445 USB Hybrid
++     - 1b80:e421
++   * - 19
++     - Hauppauge WinTV 930C-HD (1113xx) / HVR-900H (111xxx) / PCTV QuatroStick 521e
++     - 2040:b130, 2040:b138, 2013:0259
++   * - 20
++     - Hauppauge WinTV 930C-HD (1114xx) / HVR-901H (1114xx) / PCTV QuatroStick 522e
++     - 2040:b131, 2040:b139, 2013:025e
++   * - 21
++     - Hauppauge WinTV-HVR-955Q (111401)
++     - 2040:b123, 2040:b124
++   * - 22
++     - Terratec Grabby
++     - 1f4d:0102
++   * - 23
++     - Evromedia USB Full Hybrid Full HD
++     - 1b80:d3b2
++   * - 24
++     - Astrometa T2hybrid
++     - 15f4:0135
++   * - 25
++     - The Imaging Source DFG/USB2pro
++     - 199e:8002
++   * - 26
++     - Hauppauge WinTV-HVR-935C
++     - 2040:b151
++   * - 27
++     - Hauppauge WinTV-HVR-975
++     - 2040:b150
 -- 
 2.25.2
 
