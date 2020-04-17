@@ -2,74 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98F9B1AD778
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 09:33:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF91E1AD770
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 09:31:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728945AbgDQHdA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 03:33:00 -0400
-Received: from smtprelay0233.hostedemail.com ([216.40.44.233]:57740 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728419AbgDQHdA (ORCPT
+        id S1728845AbgDQHbD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 03:31:03 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:42726 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728419AbgDQHbD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 03:33:00 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay05.hostedemail.com (Postfix) with ESMTP id 2884B180284E9;
-        Fri, 17 Apr 2020 07:32:59 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1540:1593:1594:1711:1730:1747:1777:1792:2194:2198:2199:2200:2393:2559:2562:2731:2828:2895:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3870:4250:4321:5007:6742:10004:10400:10848:11232:11658:11914:12043:12048:12297:12555:12740:12760:12895:13069:13311:13357:13439:14181:14659:14721:21080:21451:21627:30054:30070:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:2,LUA_SUMMARY:none
-X-HE-Tag: food81_710b3da05d519
-X-Filterd-Recvd-Size: 2062
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf19.hostedemail.com (Postfix) with ESMTPA;
-        Fri, 17 Apr 2020 07:32:56 +0000 (UTC)
-Message-ID: <df23fe6083baad4781a2b79bcbd7d3db055eecd3.camel@perches.com>
-Subject: Re: [PATCH v2 7/9] media: MAINTAINERS: rkisp1: add path to
- dt-bindings
-From:   Joe Perches <joe@perches.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Helen Koike <helen.koike@collabora.com>,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
-        robh+dt@kernel.org, heiko@sntech.de, kernel@collabora.com,
-        dafna.hirschfeld@collabora.com, ezequiel@collabora.com,
-        mark.rutland@arm.com, karthik.poduval@gmail.com, jbx6244@gmail.com,
-        kishon@ti.com
-Date:   Fri, 17 Apr 2020 00:30:44 -0700
-In-Reply-To: <9a95d227-9592-2c5c-fe6d-dff9b84f4292@xs4all.nl>
-References: <20200403161538.1375908-1-helen.koike@collabora.com>
-         <20200403161538.1375908-8-helen.koike@collabora.com>
-         <9a95d227-9592-2c5c-fe6d-dff9b84f4292@xs4all.nl>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.34.1-2 
+        Fri, 17 Apr 2020 03:31:03 -0400
+Received: by mail-ot1-f65.google.com with SMTP id m18so687980otq.9
+        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2020 00:31:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=p0n2/0Se1UgFPAApTRflNIGSMlCM93NKuFmmWzXeY0c=;
+        b=mgsaD5D/mgDE0pRP51NiO2xDAyR3RzjG9IVSF/zVhs4MAFMzooLyvim031yZWobjUp
+         wXC7qqGWwTpWtOdsrSmIXO7xpAeuMGko8QJ8CS5TlZfyO87KPxpIf3aNEkHYkfOm7Mgc
+         r4IfoNTsT/yO6Ff4NfHTQC5sOH3iubTAepPwQFTKi63c30qqCG6CQcv02iXqtl9RRpff
+         6S/CNSFkzrR40VlSBWnPYZWrcK2ZUxnppXHsMuAGeMWOCLWLF3ggwwhGzWCe52oMEIXJ
+         sE7tcdX7uEpN/STBZiALCFpvFZTDyeRO4HKA1l6rsrDQu0j+g1PVwKZ13w7mPRuXKRxS
+         HSuQ==
+X-Gm-Message-State: AGi0PuaxkPcqCbtvInKx/LcB7O3n+5ScC2LhVArTCncul17OORsHdTVI
+        pC7171bBhgYr8JNusmD+iCrEN5KCkShHaPZHjAz6wSDT
+X-Google-Smtp-Source: APiQypJY92jRzuFeNHYcuRYx7CX8rXUsCkf2G6s4LkWD7qCBCfmUIpIxslICYrQ5oAhpry5YQ5uPX6LO/cns2ZZ2++w=
+X-Received: by 2002:a9d:6299:: with SMTP id x25mr1453973otk.107.1587108662698;
+ Fri, 17 Apr 2020 00:31:02 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <6af5797c76c11d8c08ae1f5a73c3711fcf89ab6f.1587107273.git.mchehab+huawei@kernel.org>
+In-Reply-To: <6af5797c76c11d8c08ae1f5a73c3711fcf89ab6f.1587107273.git.mchehab+huawei@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 17 Apr 2020 09:30:51 +0200
+Message-ID: <CAMuHMdV1DdmrtexvMqEn3SBjgyG8eYbbgLsYV-862mKLt08qdw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] media: cec: don't select PCI & DMI
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2020-04-17 at 09:18 +0200, Hans Verkuil wrote:
-> On 03/04/2020 18:15, Helen Koike wrote:
-> > The Rockchip ISP bindings was moved out of staging.
-> > Update MAINTAINERS file with the new path.
-> 
-> Shouldn't there be a reference to Documentation/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml
-> as well in MAINTAINERS?
+Hi Mauro,
 
-And please keep the file references F: fields in
-alphabetic order.
+On Fri, Apr 17, 2020 at 9:08 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+> While select would be a great idea for most archs, this
+> causes a breakage with s390:
+>
+>         "I don't think that's a good idea, as it suddenly enables selecting all PCI
+>          drivers on platforms that do not have PCI.
+>
+>             WARNING: unmet direct dependencies detected for PCI
+>               Depends on [n]: HAVE_PCI [=n]
+>               Selected by [m]:
+>               - CEC_SECO [=m] && MEDIA_CEC_SUPPORT [=y] && (X86 || IA64 || COMPILE_TEST [=y])
+>
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-[]
-> > @@ -14303,6 +14303,7 @@ M:	Helen Koike <helen.koike@collabora.com>
-> >  L:	linux-media@vger.kernel.org
-> >  S:	Maintained
-> >  F:	drivers/staging/media/rkisp1/
-> > +F:	Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-> >  
-> >  ROCKCHIP RASTER 2D GRAPHIC ACCELERATION UNIT DRIVER
-> >  M:	Jacob Chen <jacob-chen@iotwrt.com>
-> > 
+Thanks for your patch!
 
+Fixes: 4be5e8648b0c287a ("media: move CEC platform drivers to a
+separate directory")
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
