@@ -2,44 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BE431AE2E6
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 18:59:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7778C1AE2E3
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 18:59:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727896AbgDQQ7D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 12:59:03 -0400
-Received: from mail.kernel.org ([198.145.29.99]:46066 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727123AbgDQQ7B (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1727805AbgDQQ7B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 17 Apr 2020 12:59:01 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46032 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726694AbgDQQ7A (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 Apr 2020 12:59:00 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B7C602223C;
+        by mail.kernel.org (Postfix) with ESMTPSA id B82D32223D;
         Fri, 17 Apr 2020 16:58:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1587142740;
-        bh=Jg2IGMu1HKXMh3QjTb3oRhIBX3xmwmF4zz7Erzgo3oQ=;
-        h=From:To:Cc:Subject:Date:From;
-        b=EOFHV+JKhHrht4X8WLCdR1tf3HF1fA14EBKjpFLMzEripyRZd8blKseDtTbfGc1jp
-         wH2k84zxXKRosgbC5bNmItTuI5PtJKRJg9q8raxO1P5HNBlBZwJCHdZHtj1QHzGLRe
-         F/qRhwfq7vzSWx4yCRTEWxHbblBHHtfYLOd+FAs8=
+        bh=VcB9xbzv+uBAo7c79L0MV66hoASXpQZqOjpsNKV3hgY=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=eQoRLF4FHR5WuIyyU5aQWPEbDRffMVqzWgbJvadr/Cl+Ls5MlG4ybShZHDBbupJ/c
+         AbZtILkarQtgLCZd7l1T3wssd7DB0tzGGgtJW3ARoLxNmLSU1jGRImLRMom30fDfM6
+         TuXhs2ZXz6AzXBlSQCmI4if729ozOpSy5GWWkspg=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jPUKO-007wL5-Vo; Fri, 17 Apr 2020 18:58:56 +0200
+        id 1jPUKP-007wL8-0a; Fri, 17 Apr 2020 18:58:57 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Richard Fontana <rfontana@redhat.com>,
-        Antti Palosaari <crope@iki.fi>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Allison Randal <allison@lohutok.net>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: [PATCH 00/15] More media admin-guide documentation improvements
-Date:   Fri, 17 Apr 2020 18:58:41 +0200
-Message-Id: <cover.1587142382.git.mchehab+huawei@kernel.org>
+        Antti Palosaari <crope@iki.fi>
+Subject: [PATCH 01/15] media: dvb-usb-ids.h: fix an USB PID name
+Date:   Fri, 17 Apr 2020 18:58:42 +0200
+Message-Id: <5d4d41abb8f85819f0004ff2786d955fc4a023b7.1587142382.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
+In-Reply-To: <cover.1587142382.git.mchehab+huawei@kernel.org>
+References: <cover.1587142382.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -47,126 +43,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series contain several patches improving the media documentation.
+The USB_PID_ALINK_DTU is a Product ID, not a vendor ID.
 
-The last patches on this series are related to the (future) removal of the old
-incomplete "cards.rst" documentation, plus cleaning up reduntant info on
-other driver-specific places. With this series, all USB IDs supported by the
-media subsystem using USB vendor class will be documented.
+Fix that.
 
-I should be doing the same for the DVB PCI drivers, making it a complete
-reference for the PC devices that are supported by the media subsystem.
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/media/usb/dvb-usb-v2/gl861.c | 2 +-
+ include/media/dvb-usb-ids.h          | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Once finished, I should be removing the redundant data elsewhere within
-the docs.
-
-Mauro Carvalho Chehab (15):
-  media: dvb-usb-ids.h: fix an USB PID name
-  media: dvb-usb-v2: use DVB_USB_DEVICE() macro
-  media: pwc-if.c: Update comments about each pwc supported model
-  media: pwc-if: place USB device list on numberical order
-  media: admin-guide: add a card list for cx231xx boards
-  media: admin-guide: update em28xx cardlist
-  media: admin-guide: Add an introduction chapter
-  media: admin-guide: add a generic building guide
-  media: admin-guide: improve cardlist.rst documentation
-  media: admin-guide: add dvb-usb-v2 card lists
-  media: admin-guide: add cardlist for dib0700 driver
-  media: admin-guide: add dibusb-mb and dibusb-mc card lists
-  media: admin-guide: add support for the remaining dvb-usb boards
-  media: admin-guide: add a card list for the Siano driver
-  media: admin-guide: add a cardlist for all other USB cards
-
- Documentation/admin-guide/media/building.rst  | 357 ++++++++++++++++++
- Documentation/admin-guide/media/cardlist.rst  | 134 ++++++-
- .../admin-guide/media/cx231xx-cardlist.rst    |  99 +++++
- .../media/dvb-usb-a800-cardlist.rst           |  16 +
- .../media/dvb-usb-af9005-cardlist.rst         |  20 +
- .../media/dvb-usb-af9015-cardlist.rst         |  80 ++++
- .../media/dvb-usb-af9035-cardlist.rst         |  74 ++++
- .../media/dvb-usb-anysee-cardlist.rst         |  16 +
- .../media/dvb-usb-au6610-cardlist.rst         |  16 +
- .../media/dvb-usb-az6007-cardlist.rst         |  20 +
- .../media/dvb-usb-az6027-cardlist.rst         |  24 ++
- .../media/dvb-usb-ce6230-cardlist.rst         |  18 +
- .../media/dvb-usb-cinergyT2-cardlist.rst      |  16 +
- .../media/dvb-usb-cxusb-cardlist.rst          |  40 ++
- .../media/dvb-usb-dib0700-cardlist.rst        | 162 ++++++++
- .../media/dvb-usb-dibusb-mb-cardlist.rst      |  42 +++
- .../media/dvb-usb-dibusb-mc-cardlist.rst      |  30 ++
- .../media/dvb-usb-digitv-cardlist.rst         |  16 +
- .../media/dvb-usb-dtt200u-cardlist.rst        |  22 ++
- .../media/dvb-usb-dtv5100-cardlist.rst        |  16 +
- .../media/dvb-usb-dvbsky-cardlist.rst         |  42 +++
- .../media/dvb-usb-dw2102-cardlist.rst         |  52 +++
- .../media/dvb-usb-ec168-cardlist.rst          |  16 +
- .../media/dvb-usb-gl861-cardlist.rst          |  20 +
- .../media/dvb-usb-gp8psk-cardlist.rst         |  22 ++
- .../media/dvb-usb-lmedm04-cardlist.rst        |  20 +
- .../media/dvb-usb-m920x-cardlist.rst          |  26 ++
- .../media/dvb-usb-mxl111sf-cardlist.rst       |  36 ++
- .../media/dvb-usb-nova-t-usb2-cardlist.rst    |  16 +
- .../media/dvb-usb-opera1-cardlist.rst         |  16 +
- .../media/dvb-usb-pctv452e-cardlist.rst       |  20 +
- .../media/dvb-usb-rtl28xxu-cardlist.rst       |  80 ++++
- .../media/dvb-usb-technisat-usb2-cardlist.rst |  16 +
- .../media/dvb-usb-ttusb2-cardlist.rst         |  24 ++
- .../media/dvb-usb-umt-010-cardlist.rst        |  16 +
- .../media/dvb-usb-vp702x-cardlist.rst         |  16 +
- .../media/dvb-usb-vp7045-cardlist.rst         |  18 +
- .../media/dvb-usb-zd1301-cardlist.rst         |  16 +
- .../admin-guide/media/em28xx-cardlist.rst     |   4 +
- Documentation/admin-guide/media/index.rst     |   3 +
- Documentation/admin-guide/media/intro.rst     |  25 ++
- .../admin-guide/media/other-usb-cardlist.rst  |  92 +++++
- .../admin-guide/media/siano-cardlist.rst      |  56 +++
- drivers/media/usb/dvb-usb-v2/ec168.c          |  25 +-
- drivers/media/usb/dvb-usb-v2/gl861.c          |   2 +-
- drivers/media/usb/pwc/pwc-if.c                |  54 +--
- include/media/dvb-usb-ids.h                   |   2 +-
- 47 files changed, 1909 insertions(+), 44 deletions(-)
- create mode 100644 Documentation/admin-guide/media/building.rst
- create mode 100644 Documentation/admin-guide/media/cx231xx-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-a800-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-af9005-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-af9015-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-af9035-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-anysee-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-au6610-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-az6007-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-az6027-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-ce6230-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-cinergyT2-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-cxusb-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-dib0700-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-dibusb-mb-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-dibusb-mc-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-digitv-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-dtt200u-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-dtv5100-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-dvbsky-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-dw2102-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-ec168-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-gl861-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-gp8psk-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-lmedm04-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-m920x-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-mxl111sf-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-nova-t-usb2-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-opera1-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-pctv452e-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-rtl28xxu-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-technisat-usb2-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-ttusb2-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-umt-010-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-vp702x-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-vp7045-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/dvb-usb-zd1301-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/intro.rst
- create mode 100644 Documentation/admin-guide/media/other-usb-cardlist.rst
- create mode 100644 Documentation/admin-guide/media/siano-cardlist.rst
-
+diff --git a/drivers/media/usb/dvb-usb-v2/gl861.c b/drivers/media/usb/dvb-usb-v2/gl861.c
+index 42c3b8af0774..b7ca236174f3 100644
+--- a/drivers/media/usb/dvb-usb-v2/gl861.c
++++ b/drivers/media/usb/dvb-usb-v2/gl861.c
+@@ -550,7 +550,7 @@ static struct dvb_usb_device_properties friio_props = {
+ static const struct usb_device_id gl861_id_table[] = {
+ 	{ DVB_USB_DEVICE(USB_VID_MSI, USB_PID_MSI_MEGASKY580_55801,
+ 		&gl861_props, "MSI Mega Sky 55801 DVB-T USB2.0", NULL) },
+-	{ DVB_USB_DEVICE(USB_VID_ALINK, USB_VID_ALINK_DTU,
++	{ DVB_USB_DEVICE(USB_VID_ALINK, USB_PID_ALINK_DTU,
+ 		&gl861_props, "A-LINK DTU DVB-T USB2.0", NULL) },
+ 	{ DVB_USB_DEVICE(USB_VID_774, USB_PID_FRIIO_WHITE,
+ 		&friio_props, "774 Friio White ISDB-T USB2.0", NULL) },
+diff --git a/include/media/dvb-usb-ids.h b/include/media/dvb-usb-ids.h
+index 800d473b03c4..41f0bf122f53 100644
+--- a/include/media/dvb-usb-ids.h
++++ b/include/media/dvb-usb-ids.h
+@@ -96,7 +96,7 @@
+ #define USB_PID_AFATECH_AF9035_9035			0x9035
+ #define USB_PID_TREKSTOR_DVBT				0x901b
+ #define USB_PID_TREKSTOR_TERRES_2_0			0xC803
+-#define USB_VID_ALINK_DTU				0xf170
++#define USB_PID_ALINK_DTU				0xf170
+ #define USB_PID_ANSONIC_DVBT_USB			0x6000
+ #define USB_PID_ANYSEE					0x861f
+ #define USB_PID_AZUREWAVE_AD_TU700			0x3237
 -- 
 2.25.2
-
 
