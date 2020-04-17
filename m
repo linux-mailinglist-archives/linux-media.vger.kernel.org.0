@@ -2,103 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32E731AE0D9
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 17:16:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BE431AE2E6
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 18:59:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728520AbgDQPQj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 11:16:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42620 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728114AbgDQPQj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 11:16:39 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7B66C061A0C
-        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2020 08:16:38 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id ms17so1206082pjb.0
-        for <linux-media@vger.kernel.org>; Fri, 17 Apr 2020 08:16:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=yWjSH2H1+WBal025wKvI61t1jVFcTOP5DDCuzNCykmQ=;
-        b=Jkcu8NcNm5+2I4w0SRn/uGJsDb500sUZmGIML9ShC4j4t5RPSUpu2y5LggJwR/ceTg
-         F/JIyQNry6IBYLVcff0JmzRZZKT5bRs0UoidPbzw/vDVZkfvWDrvwbbNKhr5U/NgHnS+
-         wFus/n3Yz3kc6NLt6AC/dHyPPOuRaRRFT/+eEpi0lkH4P2Lo8xsxNFSbYx2BHRlMW7ly
-         wPnPVegIQY/icqR8+IuaiN/eaTA6XbNQYNoKUsgFTopoGnAQHVRoj+22u6sLb1MWLMYZ
-         In6omCAGhuVKE29skIquq8psIRE/f1YQio3oH+8Qihld86kBp53BRA3PMfW9Y08LAIzk
-         NmxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=yWjSH2H1+WBal025wKvI61t1jVFcTOP5DDCuzNCykmQ=;
-        b=OFxVYQfelf9FFsrEdBK9l+TnA38m2LqqjM0OYo6BKtcJ6m/XYclQXHA9mInhIHeQ9h
-         wZwp3vyHlbnH9vfSXoOIBFuFxXsy9BxyseOjgcs06yUN5BntglPlBaQdizsmBQFsLa/w
-         AKCkcTs6svNen2QiV0Y3atVjkcB688Zbfbxn9RDb3VBPLNPa1F3DEyuk6gTWod0TiCQS
-         oReFZ4GqEfcPJuKbHGAtasTU04W30Da0ObI32Y2zBGvqdt2o3GzLvQlI/O5R07HyykQa
-         1+aK/JmV+x94vvvhXfQ1jD5yT0smjOdEAGmUWpiEMrWBORyiXyYXCI5HSXbQoTpLV8sV
-         8Odw==
-X-Gm-Message-State: AGi0PubuvMKLE0T1QExeVxJt5SH2EYqQ1rAlgkglOQHRPWofXBlHue/Y
-        CBJYnplMFvL9Mc5EFTZmypAfVbXHPWImtdTlZdc=
-X-Google-Smtp-Source: APiQypI0IGW/JYNtvqU1TkZNlhWaSa+m/A2nBIurB+mN9L48CAS+pzqUwpC5I+QZnyNkP0fAeIyTGeFhrUve/1XqNcU=
-X-Received: by 2002:a17:902:6ac9:: with SMTP id i9mr4070609plt.35.1587136598443;
- Fri, 17 Apr 2020 08:16:38 -0700 (PDT)
+        id S1727896AbgDQQ7D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 12:59:03 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46066 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727123AbgDQQ7B (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 Apr 2020 12:59:01 -0400
+Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B7C602223C;
+        Fri, 17 Apr 2020 16:58:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587142740;
+        bh=Jg2IGMu1HKXMh3QjTb3oRhIBX3xmwmF4zz7Erzgo3oQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=EOFHV+JKhHrht4X8WLCdR1tf3HF1fA14EBKjpFLMzEripyRZd8blKseDtTbfGc1jp
+         wH2k84zxXKRosgbC5bNmItTuI5PtJKRJg9q8raxO1P5HNBlBZwJCHdZHtj1QHzGLRe
+         F/qRhwfq7vzSWx4yCRTEWxHbblBHHtfYLOd+FAs8=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jPUKO-007wL5-Vo; Fri, 17 Apr 2020 18:58:56 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Richard Fontana <rfontana@redhat.com>,
+        Antti Palosaari <crope@iki.fi>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Allison Randal <allison@lohutok.net>,
+        Thomas Gleixner <tglx@linutronix.de>
+Subject: [PATCH 00/15] More media admin-guide documentation improvements
+Date:   Fri, 17 Apr 2020 18:58:41 +0200
+Message-Id: <cover.1587142382.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
-Received: by 2002:a17:90a:17aa:0:0:0:0 with HTTP; Fri, 17 Apr 2020 08:16:37
- -0700 (PDT)
-From:   Mrs Carlsen Monika <carlsen.monika@gmail.com>
-Date:   Fri, 17 Apr 2020 08:16:37 -0700
-X-Google-Sender-Auth: IeaE384yCiC3fmoe2la0vs0kga0
-Message-ID: <CAO5ptebZey1_DzmZMXF1QNje9D4za4XnDEy7BLyFMq-3zpzESw@mail.gmail.com>
-Subject: Greetings My Dear, Please I Need Your Help.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Greetings My Dear,
+This series contain several patches improving the media documentation.
 
-    I sent this mail praying it will found you in a good condition of
-health, since I myself are in a very critical health
+The last patches on this series are related to the (future) removal of the old
+incomplete "cards.rst" documentation, plus cleaning up reduntant info on
+other driver-specific places. With this series, all USB IDs supported by the
+media subsystem using USB vendor class will be documented.
 
-condition in which I  sleep every night without knowing if I may be
-alive to see the next day. I am Mrs. Monika John
+I should be doing the same for the DVB PCI drivers, making it a complete
+reference for the PC devices that are supported by the media subsystem.
 
- Carlsen from Denmark wife of late Mr John Carlsen, a widow suffering
-from long time illness. I have some funds I
+Once finished, I should be removing the redundant data elsewhere within
+the docs.
 
-inherited from my late husband, the sum of (eleven million dollars) my
-Doctor told me recently that I have serious
+Mauro Carvalho Chehab (15):
+  media: dvb-usb-ids.h: fix an USB PID name
+  media: dvb-usb-v2: use DVB_USB_DEVICE() macro
+  media: pwc-if.c: Update comments about each pwc supported model
+  media: pwc-if: place USB device list on numberical order
+  media: admin-guide: add a card list for cx231xx boards
+  media: admin-guide: update em28xx cardlist
+  media: admin-guide: Add an introduction chapter
+  media: admin-guide: add a generic building guide
+  media: admin-guide: improve cardlist.rst documentation
+  media: admin-guide: add dvb-usb-v2 card lists
+  media: admin-guide: add cardlist for dib0700 driver
+  media: admin-guide: add dibusb-mb and dibusb-mc card lists
+  media: admin-guide: add support for the remaining dvb-usb boards
+  media: admin-guide: add a card list for the Siano driver
+  media: admin-guide: add a cardlist for all other USB cards
 
-sickness which is cancer problem. What disturbs me most is my stroke
-sickness. Having known my condition, I
+ Documentation/admin-guide/media/building.rst  | 357 ++++++++++++++++++
+ Documentation/admin-guide/media/cardlist.rst  | 134 ++++++-
+ .../admin-guide/media/cx231xx-cardlist.rst    |  99 +++++
+ .../media/dvb-usb-a800-cardlist.rst           |  16 +
+ .../media/dvb-usb-af9005-cardlist.rst         |  20 +
+ .../media/dvb-usb-af9015-cardlist.rst         |  80 ++++
+ .../media/dvb-usb-af9035-cardlist.rst         |  74 ++++
+ .../media/dvb-usb-anysee-cardlist.rst         |  16 +
+ .../media/dvb-usb-au6610-cardlist.rst         |  16 +
+ .../media/dvb-usb-az6007-cardlist.rst         |  20 +
+ .../media/dvb-usb-az6027-cardlist.rst         |  24 ++
+ .../media/dvb-usb-ce6230-cardlist.rst         |  18 +
+ .../media/dvb-usb-cinergyT2-cardlist.rst      |  16 +
+ .../media/dvb-usb-cxusb-cardlist.rst          |  40 ++
+ .../media/dvb-usb-dib0700-cardlist.rst        | 162 ++++++++
+ .../media/dvb-usb-dibusb-mb-cardlist.rst      |  42 +++
+ .../media/dvb-usb-dibusb-mc-cardlist.rst      |  30 ++
+ .../media/dvb-usb-digitv-cardlist.rst         |  16 +
+ .../media/dvb-usb-dtt200u-cardlist.rst        |  22 ++
+ .../media/dvb-usb-dtv5100-cardlist.rst        |  16 +
+ .../media/dvb-usb-dvbsky-cardlist.rst         |  42 +++
+ .../media/dvb-usb-dw2102-cardlist.rst         |  52 +++
+ .../media/dvb-usb-ec168-cardlist.rst          |  16 +
+ .../media/dvb-usb-gl861-cardlist.rst          |  20 +
+ .../media/dvb-usb-gp8psk-cardlist.rst         |  22 ++
+ .../media/dvb-usb-lmedm04-cardlist.rst        |  20 +
+ .../media/dvb-usb-m920x-cardlist.rst          |  26 ++
+ .../media/dvb-usb-mxl111sf-cardlist.rst       |  36 ++
+ .../media/dvb-usb-nova-t-usb2-cardlist.rst    |  16 +
+ .../media/dvb-usb-opera1-cardlist.rst         |  16 +
+ .../media/dvb-usb-pctv452e-cardlist.rst       |  20 +
+ .../media/dvb-usb-rtl28xxu-cardlist.rst       |  80 ++++
+ .../media/dvb-usb-technisat-usb2-cardlist.rst |  16 +
+ .../media/dvb-usb-ttusb2-cardlist.rst         |  24 ++
+ .../media/dvb-usb-umt-010-cardlist.rst        |  16 +
+ .../media/dvb-usb-vp702x-cardlist.rst         |  16 +
+ .../media/dvb-usb-vp7045-cardlist.rst         |  18 +
+ .../media/dvb-usb-zd1301-cardlist.rst         |  16 +
+ .../admin-guide/media/em28xx-cardlist.rst     |   4 +
+ Documentation/admin-guide/media/index.rst     |   3 +
+ Documentation/admin-guide/media/intro.rst     |  25 ++
+ .../admin-guide/media/other-usb-cardlist.rst  |  92 +++++
+ .../admin-guide/media/siano-cardlist.rst      |  56 +++
+ drivers/media/usb/dvb-usb-v2/ec168.c          |  25 +-
+ drivers/media/usb/dvb-usb-v2/gl861.c          |   2 +-
+ drivers/media/usb/pwc/pwc-if.c                |  54 +--
+ include/media/dvb-usb-ids.h                   |   2 +-
+ 47 files changed, 1909 insertions(+), 44 deletions(-)
+ create mode 100644 Documentation/admin-guide/media/building.rst
+ create mode 100644 Documentation/admin-guide/media/cx231xx-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-a800-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-af9005-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-af9015-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-af9035-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-anysee-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-au6610-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-az6007-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-az6027-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-ce6230-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-cinergyT2-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-cxusb-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-dib0700-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-dibusb-mb-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-dibusb-mc-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-digitv-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-dtt200u-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-dtv5100-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-dvbsky-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-dw2102-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-ec168-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-gl861-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-gp8psk-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-lmedm04-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-m920x-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-mxl111sf-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-nova-t-usb2-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-opera1-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-pctv452e-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-rtl28xxu-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-technisat-usb2-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-ttusb2-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-umt-010-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-vp702x-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-vp7045-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-usb-zd1301-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/intro.rst
+ create mode 100644 Documentation/admin-guide/media/other-usb-cardlist.rst
+ create mode 100644 Documentation/admin-guide/media/siano-cardlist.rst
 
-decided to donate this fund to a good person that will utilize it the
-way i am going to instruct herein. I need a very
+-- 
+2.25.2
 
-honest and God fearing person who can claim this money and use it for
-Charity works, for orphanages, widows
 
-and also  build schools for less privileges that will be named after
-my late husband if possible and to promote the
-
-word of God and the effort that the house of God is maintained.
-
-I do not want a situation where this money will be used in an ungodly
-manner. That's why I'm taking this decision.
-
-I'm not afraid of death so I know where I'm going. I accept this
-decision because I do not have any child who will
-
-inherit this money after I die. Please I want your sincerely and
-urgent answer to know if you will be able to
-
-execute this project, and I will give you more information on how the
-fund will be transferred to your bank
-
-account. I am waiting for your reply.
-
-May God Bless you,
-Mrs. Monika John  Carlsen
