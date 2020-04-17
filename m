@@ -2,234 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6C761AD8DE
-	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 10:46:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 45BCD1AD956
+	for <lists+linux-media@lfdr.de>; Fri, 17 Apr 2020 11:01:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729885AbgDQIqF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 04:46:05 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:34318 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729809AbgDQIqF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 04:46:05 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jPMaV-0053m3-M3; Fri, 17 Apr 2020 08:43:03 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jPMf7-00038l-N9; Fri, 17 Apr 2020 08:47:50 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.8] Various fixes/enhancements (#63140)
-Date:   Fri, 17 Apr 2020 08:47:49 +0000
-Message-Id: <20200417084749.12030-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <6a56ccf7-4c26-b3ad-eb3a-0647944c2f95@xs4all.nl>
-References: 
+        id S1730025AbgDQJBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 05:01:00 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:38375 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729974AbgDQJA7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 17 Apr 2020 05:00:59 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id PMrmjiE467xncPMrpj9usY; Fri, 17 Apr 2020 11:00:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1587114057; bh=7esEUB68MSV4/K/drHXG+7qEHV1oIz0bnsK7evweQAs=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=BLxHiI8AxPF+7BXmK8H1K1IKSxRmkAm/M3o7HhGAx0/4dSuQ3vVkRO1O48j0sy2ST
+         BhYlX0/RoObbvG7JJ21nl9VnofbMzhB8OM7k4Gc2092j9hCpPemYFW2Uz7YsKmcH56
+         NMeX6qWuNTZ/C4fI4oNgA5gErbtsysPuTlV1hg+IFbnFa05nCO09vlINmcKjheyKt4
+         mnmYtQzPu/Xxv0E3C2xCpga8zYPBozZXPwcSwAfT/GxbrkyZoPEiowAw7/tRrrRoo0
+         +nY9VzKLPuCY1nu2HQXdBcZO9fFW+Ep+TgjtSQY64QzcBHo+SxITDdbfDwi+J/z14A
+         5MlCRZCcJb01w==
+Subject: Re: [PATCH 3/4] media: admin-guide: Add an introduction chapter
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <cover.1587036920.git.mchehab+huawei@kernel.org>
+ <73542a4587ad416b973bebc555fd6b93d40e5139.1587036920.git.mchehab+huawei@kernel.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <83fdb70b-27f6-ca19-653a-c6f12dda3909@xs4all.nl>
+Date:   Fri, 17 Apr 2020 11:00:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <73542a4587ad416b973bebc555fd6b93d40e5139.1587036920.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfCMFlTbWTzgYGkfTpQoPErwZwKDlQo3QMKrOr71HDHLJpObOM9t4jc/lxICVAxfKvBnc6r421T3Wzrb06nEG7RAWRM+HOOinNgAS4G9bXCJr9TejCCqZ
+ F2DrCf1+Jl99wR+8tDhPCS8pY/2qLDGXfRfeTy2FlHu74/0OqIBBDQtbQiKJZnpJBsaW5TTwSXDCXQP4cTS22VCAuznFbK9QtZa7CruKeS4GYdumhfrKB3UM
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
-
-Pull request: https://patchwork.linuxtv.org/patch/63140/
-Build log: https://builder.linuxtv.org/job/patchwork/47130/
-Build time: 00:17:38
-Link: https://lore.kernel.org/linux-media/6a56ccf7-4c26-b3ad-eb3a-0647944c2f95@xs4all.nl
-
-gpg: Signature made Fri 17 Apr 2020 08:17:16 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-
-Summary: 33 patches and/or PDF generation with issues, being 16 at build time
-
-Error/warnings:
-
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-staging-rkisp1-cap-serialize-start-stop-stream.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0004-media-staging-rkisp1-cap-serialize-start-stop-stream.patch
-patches/0004-media-staging-rkisp1-cap-serialize-start-stop-stream.patch:82: CHECK: struct mutex definition without comment
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-media-staging-rkisp1-replace-the-call-to-v4l2_async_.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0006-media-staging-rkisp1-replace-the-call-to-v4l2_async_.patch
-patches/0006-media-staging-rkisp1-replace-the-call-to-v4l2_async_.patch:97: CHECK: Alignment should match open parenthesis
-patches/0006-media-staging-rkisp1-replace-the-call-to-v4l2_async_.patch:118: WARNING: line over 80 characters
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0007-media-coda-add-RC-enable-controls.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0007-media-coda-add-RC-enable-controls.patch
-patches/0007-media-coda-add-RC-enable-controls.patch:70: CHECK: Alignment should match open parenthesis
-patches/0007-media-coda-add-RC-enable-controls.patch:72: CHECK: Alignment should match open parenthesis
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
-Error #256 when running ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0015-dt-bindings-media-convert-rockchip-rga-bindings-to-y.patch:
-$ ./scripts/checkpatch.pl --terse --mailback --no-summary --strict patches/0015-dt-bindings-media-convert-rockchip-rga-bindings-to-y.patch
-patches/0015-dt-bindings-media-convert-rockchip-rga-bindings-to-y.patch:28: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.txt
-patches/0015-dt-bindings-media-convert-rockchip-rga-bindings-to-y.patch:64: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.txt
-patches/0015-dt-bindings-media-convert-rockchip-rga-bindings-to-y.patch:70: WARNING: DT binding documents should be licensed (GPL-2.0-only OR BSD-2-Clause)
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/staging/media:
-
-Error #512 when running make CF=-D__CHECK_ENDIAN__ CONFIG_DEBUG_SECTION_MISMATCH=y C=1 W=1 CHECK=compile_checks M=drivers/media:
-
-Error #512 when running make SPHINXDIRS=media htmldocs:
-
+On 16/04/2020 13:36, Mauro Carvalho Chehab wrote:
+> The media's admin guide is currently just a group of
+> not-connected docs.
+> 
+> Add an introduction chapter for it to start making sense
+> to a random reader.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/admin-guide/media/index.rst |  2 ++
+>  Documentation/admin-guide/media/intro.rst | 25 +++++++++++++++++++++++
+>  2 files changed, 27 insertions(+)
+>  create mode 100644 Documentation/admin-guide/media/intro.rst
+> 
+> diff --git a/Documentation/admin-guide/media/index.rst b/Documentation/admin-guide/media/index.rst
+> index 6e5e6bdb6d4b..f79d4f1e05ba 100644
+> --- a/Documentation/admin-guide/media/index.rst
+> +++ b/Documentation/admin-guide/media/index.rst
+> @@ -34,6 +34,8 @@ Video4Linux (V4L)  driver-specific documentation
+>  	:maxdepth: 5
+>  	:numbered:
+>  
+> +	intro
+> +
+>  	cardlist
+>  
+>  	v4l-with-ir
+> diff --git a/Documentation/admin-guide/media/intro.rst b/Documentation/admin-guide/media/intro.rst
+> new file mode 100644
+> index 000000000000..9b6399fd904f
+> --- /dev/null
+> +++ b/Documentation/admin-guide/media/intro.rst
+> @@ -0,0 +1,25 @@
+> +============
+> +Introduction
+> +============
+> +
+> +The media subsystem consists on Linux support for several different types
+> +of devices:
+
+I'd rephrase this to:
+
+The media subsystem supports several different types of devices:
+
+> +
+> +- Audio and video grabbers;
+
+I'd say 'Video and audio grabbers' since video is the main use-case.
+
+> +- PC and Laptop Cameras;
+
+I'd replace 'PC' with 'Webcams'.
+
+> +- Complex cameras found on Embedded hardware;
+> +- Analog and digital TV;
+> +- HDMI Customer Electronics Control (CEC);
+
+Customer -> Consumer
+
+> +- Multi-touch input devices;
+> +- Remote Controllers;
+> +- Media encoders and decoders.
+
+Add:
+
+- AM/FM Radio and RDS receivers/transmitters
+- Software Defines Radio receivers/transmitters
+
+> +
+> +Due to the diversity of devices, the subsystem provides several different
+> +APIs:
+> +
+> +- Remote Controller API;
+> +- HDMI CEC API;
+> +- Video4Linux API;
+> +- Media controller API;
+> +- Video4Linux Request API (experimental);
+
+I think this can be dropped since it is part of the Media controller API. It's
+not a separate API as such.
+
+> +- Digital TV API (also known as DVB API).
+> 
+
+Regards,
+
+	Hans
