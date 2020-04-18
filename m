@@ -2,111 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E95381AEB1B
-	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2020 11:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 235781AEB70
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2020 11:44:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726112AbgDRJLY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Apr 2020 05:11:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38870 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726009AbgDRJLY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Apr 2020 05:11:24 -0400
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D70E9C061A10
-        for <linux-media@vger.kernel.org>; Sat, 18 Apr 2020 02:11:23 -0700 (PDT)
-Received: by mail-lj1-x244.google.com with SMTP id y4so4485333ljn.7
-        for <linux-media@vger.kernel.org>; Sat, 18 Apr 2020 02:11:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=1+0lxBk92Z4FV+tuRf6x7090CWSvwjw8uGCZ8vNaets=;
-        b=XFsyyjgUyNwmjpheTqxW9aYsSQYJ0lDOzuKTUzlVAn2MmCPhJDf4AYtrnJ5n8dLHEQ
-         9SSh8T7G+R8Z7OIjaIVm3hDS/o1/b+2tE6Ae3uSkU4ARcNccdDvnK2YsELvKFu/CtRIE
-         Z0EPEbA1ZLdARCMDttcWceZMjCTreljTP02DMeUfoy3TFq55oSiT+5KkUGvuN17FmajN
-         Z5PI/PH6HrURbRxJ5u7UNS54wM+fIbG9r4lmRekbviiN0m5O+LyIyWsUmmGev+6rf8g7
-         9GYKz6YDH1wFHcVEimSZ7fyXizRVTMwaq2OqsiNK91LBcYzizguXPsKmwhM/XemtYWgM
-         vTUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=1+0lxBk92Z4FV+tuRf6x7090CWSvwjw8uGCZ8vNaets=;
-        b=NuNTNUg5RS+gfJ//ZydVU4MvIdhS6Ao4ngUTNQO0BW84wKd+W+zSKYQpA6vmViTA6m
-         oAuFPsqlDsSlJq7uRxFOg31zBlJQDsqArOlbAKr8naTmzwdhKYLhRu3EZlwsBbeLn+eU
-         FiFBK1ySrYC3vBfUuJyeWQX1+MeqqcvqGFC9VWX3EGSnLu/+KAQZ1ca9HECidkoASSCp
-         0qJlKyZP6ip8MQ4lPeKF1ifDgfkk4BC0Lf+g0/6gILRMW/lo+cSid/XKyBpcirGyg9Ip
-         zgh/m9F/efjPT2WLoPB+16T+ssR7nQgqu4ouJCa2W6bYTgXwNtUIn6FUkcpx3qaCezCG
-         AKFw==
-X-Gm-Message-State: AGi0PubRUYJRHtHUTG40JqL1NBLbI0FqAqyX7eOVcA2/rlXL3yesDFZ0
-        W2zvPI/naghUiPikonfO4pzxLkcdaleOfQ==
-X-Google-Smtp-Source: APiQypK1l4oogJYB1BPqNzQ+g7PTmKPPdbmtyfUaVP+asaNbzm1SJrR5TaagxWdlGFz7rLKSu9ndtQ==
-X-Received: by 2002:a2e:6a0e:: with SMTP id f14mr4577280ljc.102.1587201081939;
-        Sat, 18 Apr 2020 02:11:21 -0700 (PDT)
-Received: from localhost.localdomain (212-5-158-142.ip.btc-net.bg. [212.5.158.142])
-        by smtp.gmail.com with ESMTPSA id 25sm20114469lft.68.2020.04.18.02.11.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2020 02:11:21 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH] venus: venc,vdec: Return EBUSY on S_FMT while streaming
-Date:   Sat, 18 Apr 2020 12:11:06 +0300
-Message-Id: <20200418091106.28370-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
+        id S1725982AbgDRJoe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Apr 2020 05:44:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57306 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725862AbgDRJod (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 18 Apr 2020 05:44:33 -0400
+Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C9F4421D93;
+        Sat, 18 Apr 2020 09:44:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587203073;
+        bh=CMBQFZwbjLmXIAcXmO3eaQpDCWT50kbSHGAweYwNzCg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=dOv9B9itdv7k3uZtrhZ/DSRyRltwbJJjTDbYI5wc4UPdPLCzjkxlAL+8+aWWefL86
+         W4of6nDOB68YU5YExAzgzK1QIYxQFw83jJd4+m0caJmJ5kQcjJzSRlRFZnOswakNTS
+         i/VMGA3vt+oN2tyCMAQAwe+44DfP1Z2SMOhtZB0c=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jPk1W-0081Nn-2O; Sat, 18 Apr 2020 11:44:30 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 0/9]  More media admin-guide documentation improvements (part 2)
+Date:   Sat, 18 Apr 2020 11:44:20 +0200
+Message-Id: <cover.1587202259.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-According to the v4l spec s_fmt must return EBUSY while the
-particular queue is streaming. Add such check in encoder and
-decoder s_fmt methods.
+This series complement the series I sent on Friday, improving the media
+cards list.
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/vdec.c | 8 ++++++++
- drivers/media/platform/qcom/venus/venc.c | 8 ++++++++
- 2 files changed, 16 insertions(+)
+After this series, all non-staging main drivers should be documented there.
 
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 527944c822b5..7c4c483d5438 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -276,6 +276,14 @@ static int vdec_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
- 	const struct venus_format *fmt;
- 	struct v4l2_format format;
- 	u32 pixfmt_out = 0, pixfmt_cap = 0;
-+	struct vb2_queue *q;
-+
-+	q = v4l2_m2m_get_vq(inst->m2m_ctx, f->type);
-+	if (!q)
-+		return -EINVAL;
-+
-+	if (vb2_is_busy(q))
-+		return -EBUSY;
- 
- 	orig_pixmp = *pixmp;
- 
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 3d8431dc14c4..feed648550d1 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -357,6 +357,14 @@ static int venc_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
- 	const struct venus_format *fmt;
- 	struct v4l2_format format;
- 	u32 pixfmt_out = 0, pixfmt_cap = 0;
-+	struct vb2_queue *q;
-+
-+	q = v4l2_m2m_get_vq(inst->m2m_ctx, f->type);
-+	if (!q)
-+		return -EINVAL;
-+
-+	if (vb2_is_busy(q))
-+		return -EBUSY;
- 
- 	orig_pixmp = *pixmp;
- 
+Mauro Carvalho Chehab (9):
+  media: admin-guide: split DVB cards.rst
+  media: admin-guide: replace the frontend drivers list
+  media: admin-guide: add a list of media PCI cards
+  media: admin-guide: add a table with USB drivers
+  media: admin-guide: add a list of platform drivers
+  media: admin-guide: add a list of I2C drivers
+  media: admin-guide: add SPI cards to platform drivers
+  media: admin-guide: add card lists for radio and firewire
+  media: admin-guide: add test-drivers
+
+ Documentation/admin-guide/media/cardlist.rst  | 557 +++++++++++++++++-
+ Documentation/admin-guide/media/cards.rst     | 146 -----
+ .../admin-guide/media/frontend-cardlist.rst   | 226 +++++++
+ Documentation/admin-guide/media/index.rst     |   1 -
+ 4 files changed, 780 insertions(+), 150 deletions(-)
+ delete mode 100644 Documentation/admin-guide/media/cards.rst
+ create mode 100644 Documentation/admin-guide/media/frontend-cardlist.rst
+
 -- 
-2.17.1
+2.25.2
+
 
