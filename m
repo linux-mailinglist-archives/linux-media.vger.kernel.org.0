@@ -2,99 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40A3F1AE980
-	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2020 05:13:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AB8F1AE984
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2020 05:14:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725857AbgDRDNk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 23:13:40 -0400
-Received: from mailout4.samsung.com ([203.254.224.34]:23684 "EHLO
-        mailout4.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725782AbgDRDNj (ORCPT
+        id S1725970AbgDRDOP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 23:14:15 -0400
+Received: from mailout2.samsung.com ([203.254.224.25]:19960 "EHLO
+        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725320AbgDRDOP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 23:13:39 -0400
-Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
-        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20200418031337epoutp04ef0baad49b07cd1992ba0a2537ddc1fe~Gy3P9zjNU2851528515epoutp04R
-        for <linux-media@vger.kernel.org>; Sat, 18 Apr 2020 03:13:37 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20200418031337epoutp04ef0baad49b07cd1992ba0a2537ddc1fe~Gy3P9zjNU2851528515epoutp04R
+        Fri, 17 Apr 2020 23:14:15 -0400
+Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
+        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20200418031412epoutp024281ae008ee87c356c0cce8f55c04e7e~Gy3wwx6_v2406724067epoutp02i
+        for <linux-media@vger.kernel.org>; Sat, 18 Apr 2020 03:14:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20200418031412epoutp024281ae008ee87c356c0cce8f55c04e7e~Gy3wwx6_v2406724067epoutp02i
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1587179617;
-        bh=PNqePkFJpb+GbkXncFDdHUdqpNPiEttbkU3pj2IpZzc=;
+        s=mail20170921; t=1587179652;
+        bh=crD58NOw86V85XwGNNcCoav9TwvzhMw5wIbsy3PoxVQ=;
         h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-        b=OGyvG48XMmy7oBP8vvghkUN0YRwj7xSGVFGHwoptNoE5yz2BHLIsfNsxtoZI8Vkzc
-         SxkFInWZNf43PAK9xJL/icRAQXlKjLsKWYmAP3DjfCXZy6kC6S6gB/2CsiP1I8UWyu
-         k448+YdcHUESyD+RPP5QIXMsunuYqNFzbn/r1Tg8=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-        epcas2p4.samsung.com (KnoxPortal) with ESMTP id
-        20200418031336epcas2p4995f9bedba0d9800a6f36020ec330913~Gy3PNfSh72331123311epcas2p4y;
-        Sat, 18 Apr 2020 03:13:36 +0000 (GMT)
-Received: from epsmges2p1.samsung.com (unknown [182.195.40.188]) by
-        epsnrtp1.localdomain (Postfix) with ESMTP id 493yht6k9vzMqYlp; Sat, 18 Apr
-        2020 03:13:34 +0000 (GMT)
-Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
-        epsmges2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-        27.F8.04598.E507A9E5; Sat, 18 Apr 2020 12:13:34 +0900 (KST)
+        b=JpnN7FzCjGnm0Cj+kBHAZiBqDeqvB86fLt7+dIG+H02dvjDOfEV4uDxejuF/DH40t
+         uI8IIvqdxVoBqzaqyT+/yW3lhbb42VFrsglV/ANo9K8ToOeSgAX8jTBAkpDjdnbdLf
+         h08Yo//cVW8CWXyX10hPiZLp73JhNb+txdosXL2c=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+        epcas2p3.samsung.com (KnoxPortal) with ESMTP id
+        20200418031412epcas2p358a37f6d306712e71b47cf9faac6921d~Gy3wRM6r32383623836epcas2p3_;
+        Sat, 18 Apr 2020 03:14:12 +0000 (GMT)
+Received: from epsmges2p4.samsung.com (unknown [182.195.40.185]) by
+        epsnrtp4.localdomain (Postfix) with ESMTP id 493yjZ1mgLzMqYkV; Sat, 18 Apr
+        2020 03:14:10 +0000 (GMT)
+Received: from epcas2p3.samsung.com ( [182.195.41.55]) by
+        epsmges2p4.samsung.com (Symantec Messaging Gateway) with SMTP id
+        C8.FE.04647.2807A9E5; Sat, 18 Apr 2020 12:14:10 +0900 (KST)
 Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas2p2.samsung.com (KnoxPortal) with ESMTPA id
-        20200418031334epcas2p2594e3c5bd6d5c4726b7d9996650e124b~Gy3M728Db0781907819epcas2p2u;
-        Sat, 18 Apr 2020 03:13:34 +0000 (GMT)
+        epcas2p3.samsung.com (KnoxPortal) with ESMTPA id
+        20200418031409epcas2p320d403d8caaa77bfe526def8d237b0f7~Gy3t4pbOx0279702797epcas2p3E;
+        Sat, 18 Apr 2020 03:14:09 +0000 (GMT)
 Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
         epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200418031334epsmtrp1f4e4f9dd814f337db978ee78c85dbe4e~Gy3M7HTzP0377203772epsmtrp1x;
-        Sat, 18 Apr 2020 03:13:34 +0000 (GMT)
-X-AuditID: b6c32a45-ea1ff700000011f6-7f-5e9a705efde3
+        20200418031409epsmtrp18cb216f595057f72fc7d8a8d837144a2~Gy3t37qND0377203772epsmtrp19;
+        Sat, 18 Apr 2020 03:14:09 +0000 (GMT)
+X-AuditID: b6c32a48-88dff70000001227-0d-5e9a70823ee1
 Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
         epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        67.2C.04024.E507A9E5; Sat, 18 Apr 2020 12:13:34 +0900 (KST)
+        A9.2C.04024.1807A9E5; Sat, 18 Apr 2020 12:14:09 +0900 (KST)
 Received: from KORCO038849 (unknown [12.36.155.199]) by epsmtip1.samsung.com
         (KnoxPortal) with ESMTPA id
-        20200418031334epsmtip13a6e59867c94bce300d28a5a32300598~Gy3MwIT6C2622726227epsmtip1Z;
-        Sat, 18 Apr 2020 03:13:34 +0000 (GMT)
+        20200418031409epsmtip141ab7faae12fac7e4e96d1addbddb9ff~Gy3tqaFNS2625326253epsmtip1R;
+        Sat, 18 Apr 2020 03:14:09 +0000 (GMT)
 From:   "Sunyoung Kang" <sy0816.kang@samsung.com>
-To:     "'Mauro Carvalho Chehab'" <mchehab+huawei@kernel.org>
-Cc:     "'Hans Verkuil'" <hverkuil-cisco@xs4all.nl>,
+To:     "'Greg Kroah-Hartman'" <gregkh@linuxfoundation.org>
+Cc:     <mchehab@kernel.org>, "'Hans Verkuil'" <hverkuil-cisco@xs4all.nl>,
         "'Arnd Bergmann'" <arnd@arndb.de>,
-        "'Greg Kroah-Hartman'" <gregkh@linuxfoundation.org>,
         "'Thomas Gleixner'" <tglx@linutronix.de>,
         <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-In-Reply-To: <20200417092402.3322e2da@coco.lan>
+In-Reply-To: <20200417083506.GB141762@kroah.com>
 Subject: RE: [PATCH] media: v4l2-compat-ioctl32.c: copy reserved2 field in
  get_v4l2_buffer32
-Date:   Sat, 18 Apr 2020 12:13:34 +0900
-Message-ID: <145201d6152f$584a7850$08df68f0$@samsung.com>
+Date:   Sat, 18 Apr 2020 12:14:09 +0900
+Message-ID: <145301d6152f$6d5b6240$481226c0$@samsung.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQJ7gu42VSZ3MiAb9Gs8yfburY36QgIZ9gAxAyzVj4OnCSH6MA==
+Thread-Index: AQJ7gu42VSZ3MiAb9Gs8yfburY36QgIZ9gAxAlM3OUqnD+90kA==
 Content-Language: ko
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrJJsWRmVeSWpSXmKPExsWy7bCmhW5cwaw4g7NnTC3+TjrGbtG8eD2b
-        xcWZd1ksLu+aw2bRs2Erq8XD2VcZLTZvmsrswO7x+9ckRo9NqzrZPN6dO8fusX/uGnaPz5vk
-        PE59/cwewBaVY5ORmpiSWqSQmpecn5KZl26r5B0c7xxvamZgqGtoaWGupJCXmJtqq+TiE6Dr
-        lpkDdIuSQlliTilQKCCxuFhJ386mKL+0JFUhI7+4xFYptSAlp8DQsECvODG3uDQvXS85P9fK
-        0MDAyBSoMiEno+1rE3PBZMGKXY+WsjYwzubrYuTkkBAwkXhx8ihjFyMXh5DADkaJy2/mskE4
-        nxgl7u2fwALhfGOUeHTmNCNMy7O3s9ghEnsZJb7+3ATV8pJR4kzXWhaQKjYBfYn21o/sILaI
-        gKVE176HYN3MIKMu7nMCsTmBalav6AaKc3AIC8RJ3NioDhJmEVCVWL52MSuIzQvU+mbDFUYI
-        W1Di5MwnLBBj5CW2v53DDHGQgsTPp8tYIVY5SSzd/g9qlYjE7M42ZpDbJAS+s0kcOLOKDaLB
-        ReLRuh4WCFtY4tXxLewQtpTEy/42KLteYtrnz6wQzRMYJV4sOM4KkTCWmPWsHexoZgFNifW7
-        9EFMCQFliSO3oG7jk+g4/JcdIswr0dEmBGGqSmz4ZAQxQ1ri7dvLjBMYlWYheWwWksdmIXlg
-        FsKqBYwsqxjFUguKc9NTi40KDJHjehMjOJlque5gnHHO5xCjAAejEg+vQc/MOCHWxLLiytxD
-        jBIczEoivAfdgEK8KYmVValF+fFFpTmpxYcYTYHhPpFZSjQ5H5jo80riDU2NzMwMLE0tTM2M
-        LJTEeTdz34wREkhPLEnNTk0tSC2C6WPi4JRqYJQwW6GStXnilRX2k6XFtJ67d6nFO6XdTViz
-        Q6TqsHmjXz1T1JaasJvR2fc/6tY/f7/qzL7qGYHX0zRmBz549iDhGev3OfMXVU67nM1Y56H0
-        Y3vthhivwsm9qja/VAznLhDd2PZxl95dfvHHfttnLkh5bHYy8WNPYDH3g77HegVccwLjjTIW
-        syuxFGckGmoxFxUnAgC2fFAPvAMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCIsWRmVeSWpSXmKPExsWy7bCSnG5cwaw4gxeTxC3+TjrGbtG8eD2b
-        xcWZd1ksLu+aw2bRs2Erq8XD2VcZLTZvmsrswO7x+9ckRo9NqzrZPN6dO8fusX/uGnaPz5vk
-        PE59/cwewBbFZZOSmpNZllqkb5fAldH2tYm5YLJgxa5HS1kbGGfzdTFyckgImEg8ezuLvYuR
-        i0NIYDejxPl/X1i7GDmAEtIS+zfmQtQIS9xvOcIKUfOcUeJUy0xmkASbgL5Ee+tHdhBbRMBS
-        omvfQ0aQImaBX4wSW9efZYHo2MgocXTeVLAOTqCO1Su6GUFsYYEYiX/rZoN1swioSixfu5gV
-        xOYFmvRmwxVGCFtQ4uTMJywgFzEL6Em0bQQLMwvIS2x/O4cZ4joFiZ9Pl7FCHOEksXT7P6ga
-        EYnZnW3MExiFZyGZNAth0iwkk2Yh6VjAyLKKUTK1oDg3PbfYsMAwL7Vcrzgxt7g0L10vOT93
-        EyM4rrQ0dzBeXhJ/iFGAg1GJh9egZ2acEGtiWXFl7iFGCQ5mJRHeg25AId6UxMqq1KL8+KLS
-        nNTiQ4zSHCxK4rxP845FCgmkJ5akZqemFqQWwWSZODilGhhXSbldPpt/frbGpj2X/e9LPrhm
-        Fl8zdVmF0GJhmZWWFdl7L67LMi4wqnH8U/395O4I8xlNc5f9v3Kquazq66Xd8xpchR+y3HDa
-        foHv76PvFb6POpacsLhhpnrdV6G19Zh877fsh8cstN7+n7fo+uzGhzY7u+u7ojYHrHh9fO51
-        +a23vRbLvZXTUWIpzkg01GIuKk4EAKlg7rGnAgAA
-X-CMS-MailID: 20200418031334epcas2p2594e3c5bd6d5c4726b7d9996650e124b
+X-Brightmail-Tracker: H4sIAAAAAAAAA01SaUwTWxT2dtqZqbyaa0E98ow2Y4xBg7TVlgHpi1Gik2gIavyDhjqhE0rs
+        MukUl5dnNM/I9ojiHiooUcKiJmgBxS2yGFGjKBISdyUCARNcaNQI1rwOUyP/vnPvt5xz76EJ
+        fS0ZT+d5/ILPw7sYcqr6ckdCcuK/YiDb+KI4hg0fvkOx+842kGx3+Ss123OtgmRLLzZr2Jrg
+        DxXbGDxGrKC48bHDiAueKya5D11dFHer8gLFhYJzuftfQlQmmeVKcwq8Q/AZBE+O15HnybUx
+        azfaV9ktVqMp0ZTCJjMGD+8WbEz6uszE1XmuSC+MYTvvyo8cZfKSxCT9lebz5vsFg9Mr+W2M
+        IDpcoskkLpF4t5TvyV2S43WnmoxGsyXC3Opyll5/TIoj2p19tXdUe9ERugRpacDLoG7oi7oE
+        TaX1uAXBx+shlVKMIggPDlBK8RVB46k21S9J/aXqKOsmgoGh7mgxjODN6AMks0icBIX7P1My
+        jsPJUNnXOWFF4F4EdTeaJqy02Ai191ojmKZjcTY8vbRQhmq8AK683SlDHU6B/Q9ny2Qdng73
+        yvvVMibwPLgyUkEo/Rjg+0CNRklaCf0t41FOHJwsLiDkVMDjJLSebqZkT8Dp8PQlp2hj4X1n
+        E6XgeBg+WBDFe+B4KKRRtGUIhqo6NcrFUggMFiLZh8AJ0HAtSbGcD7efR2OnQVFHOJqkg6IC
+        vQIXwMVRs+LxJ4yM9KAyxAQmzRWYNFdgUv+B31FVSH0OzRREyZ0rSGZx2eSfDqKJJV3EtaDW
+        rnXtCNOI+UNXdKA8W6/ht0u73O0IaIKJ07WtjhzpHPyuvwWf1+7LdwlSO7JEHv0QET8jxxtZ
+        eY/fbrKYrVZjioW1WM0sM0sXjHm2RY9zeb+wTRBEwfdLp6K18XuRJebg1frFPzeccTXx7RnV
+        Lfv+seFtIr37fRuz9GPOy6O9Jd13w+d9VOkJ/fFPfVndx7Kq6hrOxrY+fvegcIyzHi2cc7eZ
+        7yBSaw5VLLfZ02fscK5xVqd9CozRGT2DveEt2uoLr9ePPyrrvz/PsUn9rjGcsXnKk9SEb45H
+        8/v/6zrzmlFLTt60iPBJ/P87p9+IugMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprIIsWRmVeSWpSXmKPExsWy7bCSnG5jwaw4g1PbdCz+TjrGbtG8eD2b
+        xcWZd1ksLu+aw2bRs2Erq8WyTX+YLDZvmsrswO7x+9ckRo9NqzrZPN6dO8fusX/uGnaPz5vk
+        PE59/cwewBbFZZOSmpNZllqkb5fAldGz+wJbwVvOiofLjzE1ME7m6GLk5JAQMJFYuXEJUxcj
+        F4eQwG5GiQWPl7B0MXIAJaQl9m/MhagRlrjfcoQVxBYSeM4oMfGUKIjNJqAv0d76kR3EFhEw
+        l5j78Dg7yBxmgduMEmtOn2OBGLqJUaJ/21MWkCpOAQOJ5ScPMIHYwgIxEv/WzWYHWcYioCqx
+        /UEFiMkrYCnRelYSpIJXQFDi5MwnYOcwC+hJtG1kBAkzC8hLbH87hxniNAWJn0+XsUKc4CTx
+        ZMdvFogaEYnZnW3MExiFZyGZNAth0iwkk2Yh6VjAyLKKUTK1oDg3PbfYsMAwL7Vcrzgxt7g0
+        L10vOT93EyM4orQ0dzBeXhJ/iFGAg1GJh9egZ2acEGtiWXFl7iFGCQ5mJRHeg25AId6UxMqq
+        1KL8+KLSnNTiQ4zSHCxK4rxP845FCgmkJ5akZqemFqQWwWSZODilGhhXTX/grDnT0Hzt7ahY
+        nX21dazyT4Au7I73Mb1eeqV8n1WOm3Sf4Jl7vGteiT8wtv8iJ63BmOM8syRv8YKA8JN2X2x/
+        Los1CovzbQuKWSv+vEH0hEEgs1eLj7zV+R3vHdRdk11uXXsVd/+3eMUM1TKNdWcttua93fS+
+        uj14VsoRvcvLm3x4lViKMxINtZiLihMBErvG/qQCAAA=
+X-CMS-MailID: 20200418031409epcas2p320d403d8caaa77bfe526def8d237b0f7
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: AUTO_CONFIDENTIAL
@@ -104,69 +103,45 @@ X-CFilter-Loop: Reflected
 X-CMS-RootMailID: 20200417025205epcas2p46d33e64f2de49041d2ca68ecc98fc83e
 References: <CGME20200417025205epcas2p46d33e64f2de49041d2ca68ecc98fc83e@epcas2p4.samsung.com>
         <20200417024543.66785-1-sy0816.kang@samsung.com>
-        <20200417092402.3322e2da@coco.lan>
+        <20200417083506.GB141762@kroah.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It uses the reserved 2 field to receive additional information about the
-buffer from the user. 
-Additional information is for special functions.
+Exynos video codec driver uses reserved2 value. How will reserved2 be used
+for future use?
 
-Copy the Reserved2 value to put_v4l2_buffer32(), but it is missing in
-get_v4l2_buffer32(). Can't I put it in get_v4l2_buffer32() also?
-
-Thanks,
+Thanks
 Sunyoung
 
 > -----Original Message-----
-> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Sent: Friday, April 17, 2020 4:24 PM
+> From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Sent: Friday, April 17, 2020 5:35 PM
 > To: sy0816.kang@samsung.com
-> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>; Arnd Bergmann
-<arnd@arndb.de>;
-> Greg Kroah-Hartman <gregkh@linuxfoundation.org>; Thomas Gleixner
-> <tglx@linutronix.de>; linux-media@vger.kernel.org; linux-
-> kernel@vger.kernel.org
+> Cc: mchehab@kernel.org; Hans Verkuil <hverkuil-cisco@xs4all.nl>; Arnd
+> Bergmann <arnd@arndb.de>; Thomas Gleixner <tglx@linutronix.de>; linux-
+> media@vger.kernel.org; linux-kernel@vger.kernel.org
 > Subject: Re: [PATCH] media: v4l2-compat-ioctl32.c: copy reserved2 field in
 > get_v4l2_buffer32
 > 
-> Em Fri, 17 Apr 2020 11:45:23 +0900
-> sy0816.kang@samsung.com escreveu:
-> 
+> On Fri, Apr 17, 2020 at 11:45:23AM +0900, sy0816.kang@samsung.com wrote:
 > > From: Sunyoung Kang <sy0816.kang@samsung.com>
 > >
 > > get_v4l2_buffer32() didn't copy reserved2 field from userspace to
 driver.
 > > So the reserved2 value is not received through compat-ioctl32 in driver.
 > > This patch copy reserved2 field of v4l2_buffer in get_v4l2_buffer32().
-> 
-> Why should it copy reserved values? Those should not be used anywhere.
-> 
 > >
 > > Signed-off-by: Sunyoung Kang <sy0816.kang@samsung.com>
 > > ---
 > >  drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 1 +
 > >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> > index a99e82ec9ab6..e9b2b9c0ec9a 100644
-> > --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> > +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-> > @@ -665,6 +665,7 @@ static int get_v4l2_buffer32(struct v4l2_buffer
-> __user *p64,
-> >  	if (V4L2_TYPE_IS_OUTPUT(type))
-> >  		if (assign_in_user(&p64->bytesused, &p32->bytesused) ||
-> >  		    assign_in_user(&p64->field, &p32->field) ||
-> > +		    assign_in_user(&p64->reserved2, &p32->reserved2) ||
-> >  		    assign_in_user(&p64->timestamp.tv_sec,
-> >  				   &p32->timestamp.tv_sec) ||
-> >  		    assign_in_user(&p64->timestamp.tv_usec,
 > 
+> What driver is using the reserved fields?  They should be ignored as they
+> are "reserved" for future use.
 > 
+> thanks,
 > 
-> Thanks,
-> Mauro
+> greg k-h
 
