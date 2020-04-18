@@ -2,146 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AB8F1AE984
-	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2020 05:14:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECF6A1AE9AE
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2020 05:36:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725970AbgDRDOP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 17 Apr 2020 23:14:15 -0400
-Received: from mailout2.samsung.com ([203.254.224.25]:19960 "EHLO
-        mailout2.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725320AbgDRDOP (ORCPT
+        id S1725784AbgDRDgx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 17 Apr 2020 23:36:53 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:51707 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725320AbgDRDgw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 17 Apr 2020 23:14:15 -0400
-Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
-        by mailout2.samsung.com (KnoxPortal) with ESMTP id 20200418031412epoutp024281ae008ee87c356c0cce8f55c04e7e~Gy3wwx6_v2406724067epoutp02i
-        for <linux-media@vger.kernel.org>; Sat, 18 Apr 2020 03:14:12 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20200418031412epoutp024281ae008ee87c356c0cce8f55c04e7e~Gy3wwx6_v2406724067epoutp02i
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1587179652;
-        bh=crD58NOw86V85XwGNNcCoav9TwvzhMw5wIbsy3PoxVQ=;
-        h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-        b=JpnN7FzCjGnm0Cj+kBHAZiBqDeqvB86fLt7+dIG+H02dvjDOfEV4uDxejuF/DH40t
-         uI8IIvqdxVoBqzaqyT+/yW3lhbb42VFrsglV/ANo9K8ToOeSgAX8jTBAkpDjdnbdLf
-         h08Yo//cVW8CWXyX10hPiZLp73JhNb+txdosXL2c=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-        epcas2p3.samsung.com (KnoxPortal) with ESMTP id
-        20200418031412epcas2p358a37f6d306712e71b47cf9faac6921d~Gy3wRM6r32383623836epcas2p3_;
-        Sat, 18 Apr 2020 03:14:12 +0000 (GMT)
-Received: from epsmges2p4.samsung.com (unknown [182.195.40.185]) by
-        epsnrtp4.localdomain (Postfix) with ESMTP id 493yjZ1mgLzMqYkV; Sat, 18 Apr
-        2020 03:14:10 +0000 (GMT)
-Received: from epcas2p3.samsung.com ( [182.195.41.55]) by
-        epsmges2p4.samsung.com (Symantec Messaging Gateway) with SMTP id
-        C8.FE.04647.2807A9E5; Sat, 18 Apr 2020 12:14:10 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-        epcas2p3.samsung.com (KnoxPortal) with ESMTPA id
-        20200418031409epcas2p320d403d8caaa77bfe526def8d237b0f7~Gy3t4pbOx0279702797epcas2p3E;
-        Sat, 18 Apr 2020 03:14:09 +0000 (GMT)
-Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
-        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-        20200418031409epsmtrp18cb216f595057f72fc7d8a8d837144a2~Gy3t37qND0377203772epsmtrp19;
-        Sat, 18 Apr 2020 03:14:09 +0000 (GMT)
-X-AuditID: b6c32a48-88dff70000001227-0d-5e9a70823ee1
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        A9.2C.04024.1807A9E5; Sat, 18 Apr 2020 12:14:09 +0900 (KST)
-Received: from KORCO038849 (unknown [12.36.155.199]) by epsmtip1.samsung.com
-        (KnoxPortal) with ESMTPA id
-        20200418031409epsmtip141ab7faae12fac7e4e96d1addbddb9ff~Gy3tqaFNS2625326253epsmtip1R;
-        Sat, 18 Apr 2020 03:14:09 +0000 (GMT)
-From:   "Sunyoung Kang" <sy0816.kang@samsung.com>
-To:     "'Greg Kroah-Hartman'" <gregkh@linuxfoundation.org>
-Cc:     <mchehab@kernel.org>, "'Hans Verkuil'" <hverkuil-cisco@xs4all.nl>,
-        "'Arnd Bergmann'" <arnd@arndb.de>,
-        "'Thomas Gleixner'" <tglx@linutronix.de>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-In-Reply-To: <20200417083506.GB141762@kroah.com>
-Subject: RE: [PATCH] media: v4l2-compat-ioctl32.c: copy reserved2 field in
- get_v4l2_buffer32
-Date:   Sat, 18 Apr 2020 12:14:09 +0900
-Message-ID: <145301d6152f$6d5b6240$481226c0$@samsung.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQJ7gu42VSZ3MiAb9Gs8yfburY36QgIZ9gAxAlM3OUqnD+90kA==
-Content-Language: ko
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SaUwTWxT2dtqZqbyaa0E98ow2Y4xBg7TVlgHpi1Gik2gIavyDhjqhE0rs
-        MukUl5dnNM/I9ojiHiooUcKiJmgBxS2yGFGjKBISdyUCARNcaNQI1rwOUyP/vnPvt5xz76EJ
-        fS0ZT+d5/ILPw7sYcqr6ckdCcuK/YiDb+KI4hg0fvkOx+842kGx3+Ss123OtgmRLLzZr2Jrg
-        DxXbGDxGrKC48bHDiAueKya5D11dFHer8gLFhYJzuftfQlQmmeVKcwq8Q/AZBE+O15HnybUx
-        azfaV9ktVqMp0ZTCJjMGD+8WbEz6uszE1XmuSC+MYTvvyo8cZfKSxCT9lebz5vsFg9Mr+W2M
-        IDpcoskkLpF4t5TvyV2S43WnmoxGsyXC3Opyll5/TIoj2p19tXdUe9ERugRpacDLoG7oi7oE
-        TaX1uAXBx+shlVKMIggPDlBK8RVB46k21S9J/aXqKOsmgoGh7mgxjODN6AMks0icBIX7P1My
-        jsPJUNnXOWFF4F4EdTeaJqy02Ai191ojmKZjcTY8vbRQhmq8AK683SlDHU6B/Q9ny2Qdng73
-        yvvVMibwPLgyUkEo/Rjg+0CNRklaCf0t41FOHJwsLiDkVMDjJLSebqZkT8Dp8PQlp2hj4X1n
-        E6XgeBg+WBDFe+B4KKRRtGUIhqo6NcrFUggMFiLZh8AJ0HAtSbGcD7efR2OnQVFHOJqkg6IC
-        vQIXwMVRs+LxJ4yM9KAyxAQmzRWYNFdgUv+B31FVSH0OzRREyZ0rSGZx2eSfDqKJJV3EtaDW
-        rnXtCNOI+UNXdKA8W6/ht0u73O0IaIKJ07WtjhzpHPyuvwWf1+7LdwlSO7JEHv0QET8jxxtZ
-        eY/fbrKYrVZjioW1WM0sM0sXjHm2RY9zeb+wTRBEwfdLp6K18XuRJebg1frFPzeccTXx7RnV
-        Lfv+seFtIr37fRuz9GPOy6O9Jd13w+d9VOkJ/fFPfVndx7Kq6hrOxrY+fvegcIyzHi2cc7eZ
-        7yBSaw5VLLfZ02fscK5xVqd9CozRGT2DveEt2uoLr9ePPyrrvz/PsUn9rjGcsXnKk9SEb45H
-        8/v/6zrzmlFLTt60iPBJ/P87p9+IugMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprIIsWRmVeSWpSXmKPExsWy7bCSnG5jwaw4g1PbdCz+TjrGbtG8eD2b
-        xcWZd1ksLu+aw2bRs2Erq8WyTX+YLDZvmsrswO7x+9ckRo9NqzrZPN6dO8fusX/uGnaPz5vk
-        PE59/cwewBbFZZOSmpNZllqkb5fAldGz+wJbwVvOiofLjzE1ME7m6GLk5JAQMJFYuXEJUxcj
-        F4eQwG5GiQWPl7B0MXIAJaQl9m/MhagRlrjfcoQVxBYSeM4oMfGUKIjNJqAv0d76kR3EFhEw
-        l5j78Dg7yBxmgduMEmtOn2OBGLqJUaJ/21MWkCpOAQOJ5ScPMIHYwgIxEv/WzWYHWcYioCqx
-        /UEFiMkrYCnRelYSpIJXQFDi5MwnYOcwC+hJtG1kBAkzC8hLbH87hxniNAWJn0+XsUKc4CTx
-        ZMdvFogaEYnZnW3MExiFZyGZNAth0iwkk2Yh6VjAyLKKUTK1oDg3PbfYsMAwL7Vcrzgxt7g0
-        L10vOT93EyM4orQ0dzBeXhJ/iFGAg1GJh9egZ2acEGtiWXFl7iFGCQ5mJRHeg25AId6UxMqq
-        1KL8+KLSnNTiQ4zSHCxK4rxP845FCgmkJ5akZqemFqQWwWSZODilGhhXTX/grDnT0Hzt7ahY
-        nX21dazyT4Au7I73Mb1eeqV8n1WOm3Sf4Jl7vGteiT8wtv8iJ63BmOM8syRv8YKA8JN2X2x/
-        Los1CovzbQuKWSv+vEH0hEEgs1eLj7zV+R3vHdRdk11uXXsVd/+3eMUM1TKNdWcttua93fS+
-        uj14VsoRvcvLm3x4lViKMxINtZiLihMBErvG/qQCAAA=
-X-CMS-MailID: 20200418031409epcas2p320d403d8caaa77bfe526def8d237b0f7
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200417025205epcas2p46d33e64f2de49041d2ca68ecc98fc83e
-References: <CGME20200417025205epcas2p46d33e64f2de49041d2ca68ecc98fc83e@epcas2p4.samsung.com>
-        <20200417024543.66785-1-sy0816.kang@samsung.com>
-        <20200417083506.GB141762@kroah.com>
+        Fri, 17 Apr 2020 23:36:52 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id PeHgjFfkylKa1PeHhjehIE; Sat, 18 Apr 2020 05:36:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1587181009; bh=8h6r7oJZafZtVxx4hDDKraRo3ynwuBj1zpgr1w1qMgw=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=V0UYuCVTwEyGwNckS/TZgILacOBnmckO07d2oY+aeaiXDvMXYMcNgbHRaZr97OgDs
+         5ZcgKnpCWYcY8157Xilov0V4A1wcWYKhVIqLqLSE4o461xSoubWOiAfX381LLdyAZf
+         mOLTbkUVHd89yAxAdnmivt6YlfevcAp5sJIwgt04rBgsc4kYsYQirGRS/mYLOpVZdx
+         /HJZ1x+6Fuy74+P+z/hB8fHB5PziSJJlcAE40xR+yRxHK71uif0f0Y5d/3sHaYyXIm
+         TUHs6wGTn3/FdKbeUkTSDJaCmBrWlHuBCKRaXWjfRFyF/uBDoQ7k+sFGuXueSFjGh+
+         w41nl/Yg9x6iQ==
+Message-ID: <c6241d37f0a4f8f07b362c6b533f5978@smtp-cloud8.xs4all.net>
+Date:   Sat, 18 Apr 2020 05:36:48 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfLYfYWU/HTb1wtH7CbbJzPJSxDAm8HUQgM3rfyDsPlNYRdIo8E3akcrE748NPahtDrpnnfaQJvSufYvl9UBDbcDdUI8Id6cpjxMr5J68Nvj5JhRXzy73
+ x2FCd2IWjh1ZVLRDtBPOpgNwQPkXVZC6QwwTV0jm7xoC6rx1W15RZBxKoIFFiZ17FWoHYiDXGCzRLsvO7fPaZ+qD0qsU0HwVykWz2rK3X7b0QqkC5rdRGW6M
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Exynos video codec driver uses reserved2 value. How will reserved2 be used
-for future use?
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thanks
-Sunyoung
+Results of the daily build of media_tree:
 
-> -----Original Message-----
-> From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Sent: Friday, April 17, 2020 5:35 PM
-> To: sy0816.kang@samsung.com
-> Cc: mchehab@kernel.org; Hans Verkuil <hverkuil-cisco@xs4all.nl>; Arnd
-> Bergmann <arnd@arndb.de>; Thomas Gleixner <tglx@linutronix.de>; linux-
-> media@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: Re: [PATCH] media: v4l2-compat-ioctl32.c: copy reserved2 field in
-> get_v4l2_buffer32
-> 
-> On Fri, Apr 17, 2020 at 11:45:23AM +0900, sy0816.kang@samsung.com wrote:
-> > From: Sunyoung Kang <sy0816.kang@samsung.com>
-> >
-> > get_v4l2_buffer32() didn't copy reserved2 field from userspace to
-driver.
-> > So the reserved2 value is not received through compat-ioctl32 in driver.
-> > This patch copy reserved2 field of v4l2_buffer in get_v4l2_buffer32().
-> >
-> > Signed-off-by: Sunyoung Kang <sy0816.kang@samsung.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> 
-> What driver is using the reserved fields?  They should be ignored as they
-> are "reserved" for future use.
-> 
-> thanks,
-> 
-> greg k-h
+date:			Sat Apr 18 05:00:09 CEST 2020
+media-tree git hash:	ceab3ac1e60d70afb4e25147d60817c513f235f7
+media_build git hash:	00e63b78326bfe320582189b774381edbf4ad070
+v4l-utils git hash:	2984938795a23e4bdf5a4b75c12a4245a2e0daff
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: c66f09bba8d560141228fc2c8d78215906866773
+host hardware:		x86_64
+host os:		5.4.0-4-amd64
 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7-rc1-i686: OK
+linux-5.7-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
