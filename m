@@ -2,156 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97A2E1AEB75
-	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2020 11:44:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BEBB1AEB77
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2020 11:44:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725991AbgDRJoh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Apr 2020 05:44:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57328 "EHLO mail.kernel.org"
+        id S1726006AbgDRJoj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Apr 2020 05:44:39 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57314 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725856AbgDRJoe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Apr 2020 05:44:34 -0400
+        id S1725869AbgDRJod (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 18 Apr 2020 05:44:33 -0400
 Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CFAEA22245;
+        by mail.kernel.org (Postfix) with ESMTPSA id CBE5522240;
         Sat, 18 Apr 2020 09:44:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1587203073;
-        bh=rEYUmceJmAylorTV7wxdDIp+HgR66n4L26PJm5r6pBA=;
+        bh=aGpKm2WP2jVgdfoHCgHrXPe6qHp7TrvhJmRUNE7rGlc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=N1oY8q9nmA4GlFIgSQjIKuwbb7tg6fzI89xiXgkMRd4pMSIOJc1zWPlVG64hatUrS
-         /as0ZhmgKGresJ+2Ax7c4rV/9tb2vSX1xujw/nhpCY/OBz5GIpoH/psbQL1OlVJ8U+
-         cZzU8DPQTVFlIutx5HA6lCX5jzQQipnEd5CtS98Q=
+        b=JUdg+mDQxRZc9dLNY7vyAty7GjGlBCJlccv5u964yR8uzDNSxaRoMjMyZOnVbeWI4
+         nD5iCY0DJZT75LIWw5/IDWzsnDiDP//r8Dju8LMmjgUokb9m1GdNobFxKVsCX30EAX
+         n8K0trLsZOR6R8O4M7Wsxcj1IUl5uWWhiI5oXdIc=
 Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
         (envelope-from <mchehab@kernel.org>)
-        id 1jPk1W-0081Ny-6Z; Sat, 18 Apr 2020 11:44:30 +0200
+        id 1jPk1W-0081O5-7c; Sat, 18 Apr 2020 11:44:30 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: [PATCH 3/9] media: admin-guide: add a list of media PCI cards
-Date:   Sat, 18 Apr 2020 11:44:23 +0200
-Message-Id: <fa2b8942a7072a7f8a7414b548fdd68530e784a7.1587202259.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 4/9] media: admin-guide: add a table with USB drivers
+Date:   Sat, 18 Apr 2020 11:44:24 +0200
+Message-Id: <2a083f434130498140c875f6a3eb437c9a38d07c.1587202259.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.25.2
 In-Reply-To: <cover.1587202259.git.mchehab+huawei@kernel.org>
 References: <cover.1587202259.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Instead of listing "other" PCI card list, just add a list with
-the existing drivers (not including sub-drivers).
+Having a table with a list of all USB drivers seems worth,
+and it comes almost for free, as we can just use Kconfig
+descriptions (with some adjustments).
+
+So, add a table for that.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/admin-guide/media/cardlist.rst  | 50 ++++++++++++++++++-
- .../admin-guide/media/other-pci-cardlist.rst  | 25 ----------
- 2 files changed, 48 insertions(+), 27 deletions(-)
- delete mode 100644 Documentation/admin-guide/media/other-pci-cardlist.rst
+ Documentation/admin-guide/media/cardlist.rst | 78 ++++++++++++++++++++
+ 1 file changed, 78 insertions(+)
 
 diff --git a/Documentation/admin-guide/media/cardlist.rst b/Documentation/admin-guide/media/cardlist.rst
-index 01d3290d7f77..93c3290ae9cc 100644
+index 93c3290ae9cc..62375bde4755 100644
 --- a/Documentation/admin-guide/media/cardlist.rst
 +++ b/Documentation/admin-guide/media/cardlist.rst
-@@ -116,6 +116,54 @@ So, several media drivers allow passing a ``card=`` parameter, in order
- to setup a card number that would match the correct settings for an
- specific board.
+@@ -47,6 +47,84 @@ by different products. So, several media drivers allow passing a ``card=``
+ parameter, in order to setup a card number that would match the correct
+ settings for an specific product type.
  
-+The current supported PCI/PCIe cards (not including staging drivers) are
++The current supported USB cards (not including staging drivers) are
 +listed below\ [#]_.
 +
-+.. [#] some of the drivers have sub-drivers, not shown at this table
++.. [#]
 +
-+================  ========================================================
-+Driver            Name
-+================  ========================================================
-+altera-ci         Altera FPGA based CI module
-+b2c2-flexcop-pci  Technisat/B2C2 Air/Sky/Cable2PC PCI
-+bt878             DVB/ATSC Support for bt878 based TV cards
-+bttv              BT8x8 Video For Linux
-+cobalt            Cisco Cobalt
-+cx18              Conexant cx23418 MPEG encoder
-+cx23885           Conexant cx23885 (2388x successor)
-+cx25821           Conexant cx25821
-+cx88xx            Conexant 2388x (bt878 successor)
-+ddbridge          Digital Devices bridge
-+dm1105            SDMC DM1105 based PCI cards
-+dt3155            DT3155 frame grabber
-+dvb-ttpci         AV7110 cards
-+earth-pt1         PT1 cards
-+earth-pt3         Earthsoft PT3 cards
-+hexium_gemini     Hexium Gemini frame grabber
-+hexium_orion      Hexium HV-PCI6 and Orion frame grabber
-+hopper            HOPPER based cards
-+ipu3-cio2         Intel ipu3-cio2 driver
-+ivtv              Conexant cx23416/cx23415 MPEG encoder/decoder
-+ivtvfb            Conexant cx23415 framebuffer
-+mantis            MANTIS based cards
-+meye              Sony Vaio Picturebook Motion Eye
-+mxb               Siemens-Nixdorf 'Multimedia eXtension Board'
-+netup-unidvb      NetUP Universal DVB card
-+ngene             Micronas nGene
-+pluto2            Pluto2 cards
-+saa7134           Philips SAA7134
-+saa7164           NXP SAA7164
-+smipcie           SMI PCIe DVBSky cards
-+solo6x10          Bluecherry / Softlogic 6x10 capture cards (MPEG-4/H.264)
-+sta2x11_vip       STA2X11 VIP Video For Linux
-+tw5864            Techwell TW5864 video/audio grabber and encoder
-+tw686x            Intersil/Techwell TW686x
-+tw68              Techwell tw68x Video For Linux
-+================  ========================================================
++   some of the drivers have sub-drivers, not shown at this table.
++   In particular, gspca driver has lots of sub-drivers,
++   for cameras not supported by the USB Video Class (UVC) driver,
++   as shown at :doc:`gspca card list <gspca-cardlist>`.
 +
-+Some of those drivers support multiple devices, as shown at the card
-+lists below:
++
++======================  =========================================================
++Driver                  Name
++======================  =========================================================
++airspy                  AirSpy
++au0828                  Auvitek AU0828
++b2c2-flexcop-usb        Technisat/B2C2 Air/Sky/Cable2PC USB
++cpia2                   CPiA2 Video For Linux
++cx231xx                 Conexant cx231xx USB video capture
++dvb-as102               Abilis AS102 DVB receiver
++dvb-ttusb-budget        Technotrend/Hauppauge Nova - USB devices
++dvb-usb-a800            AVerMedia AverTV DVB-T USB 2.0 (A800)
++dvb-usb-af9005          Afatech AF9005 DVB-T USB1.1
++dvb-usb-af9015          Afatech AF9015 DVB-T USB2.0
++dvb-usb-af9035          Afatech AF9035 DVB-T USB2.0
++dvb-usb-anysee          Anysee DVB-T/C USB2.0
++dvb-usb-au6610          Alcor Micro AU6610 USB2.0
++dvb-usb-az6007          AzureWave 6007 and clones DVB-T/C USB2.0
++dvb-usb-az6027          Azurewave DVB-S/S2 USB2.0 AZ6027
++dvb-usb-ce6230          Intel CE6230 DVB-T USB2.0
++dvb-usb-cinergyT2       Terratec CinergyT2/qanu USB 2.0 DVB-T
++dvb-usb-cxusb           Conexant USB2.0 hybrid
++dvb-usb-dib0700         DiBcom DiB0700
++dvb-usb-dibusb-common   DiBcom DiB3000M-B
++dvb-usb-dibusb-mc       DiBcom DiB3000M-C/P
++dvb-usb-digitv          Nebula Electronics uDigiTV DVB-T USB2.0
++dvb-usb-dtt200u         WideView WT-200U and WT-220U (pen) DVB-T
++dvb-usb-dtv5100         AME DTV-5100 USB2.0 DVB-T
++dvb-usb-dvbsky          DVBSky USB
++dvb-usb-dw2102          DvbWorld & TeVii DVB-S/S2 USB2.0
++dvb-usb-ec168           E3C EC168 DVB-T USB2.0
++dvb-usb-gl861           Genesys Logic GL861 USB2.0
++dvb-usb-gp8psk          GENPIX 8PSK->USB module
++dvb-usb-lmedm04         LME DM04/QQBOX DVB-S USB2.0
++dvb-usb-m920x           Uli m920x DVB-T USB2.0
++dvb-usb-nova-t-usb2     Hauppauge WinTV-NOVA-T usb2 DVB-T USB2.0
++dvb-usb-opera           Opera1 DVB-S USB2.0 receiver
++dvb-usb-pctv452e        Pinnacle PCTV HDTV Pro USB device/TT Connect S2-3600
++dvb-usb-rtl28xxu        Realtek RTL28xxU DVB USB
++dvb-usb-technisat-usb2  Technisat DVB-S/S2 USB2.0
++dvb-usb-ttusb2          Pinnacle 400e DVB-S USB2.0
++dvb-usb-umt-010         HanfTek UMT-010 DVB-T USB2.0
++dvb_usb_v2              Support for various USB DVB devices v2
++dvb-usb-vp702x          TwinhanDTV StarBox and clones DVB-S USB2.0
++dvb-usb-vp7045          TwinhanDTV Alpha/MagicBoxII, DNTV tinyUSB2, Beetle USB2.0
++em28xx                  Empia EM28xx USB devices
++go7007                  WIS GO7007 MPEG encoder
++gspca                   Drivers for several USB Cameras
++hackrf                  HackRF
++hdpvr                   Hauppauge HD PVR
++msi2500                 Mirics MSi2500
++mxl111sf-tuner          MxL111SF DTV USB2.0
++pvrusb2                 Hauppauge WinTV-PVR USB2
++pwc                     USB Philips Cameras
++s2250                   Sensoray 2250/2251
++s2255drv                USB Sensoray 2255 video capture device
++smsusb                  Siano SMS1xxx based MDTV receiver
++stkwebcam               USB Syntek DC1125 Camera
++tm6000-alsa             TV Master TM5600/6000/6010 audio
++tm6000-dvb              DVB Support for tm6000 based TV cards
++tm6000                  TV Master TM5600/6000/6010 driver
++ttusb_dec               Technotrend/Hauppauge USB DEC devices
++usbtv                   USBTV007 video capture
++uvcvideo                USB Video Class (UVC)
++zd1301                  ZyDAS ZD1301
++zr364xx                 USB ZR364XX Camera
++======================  =========================================================
 +
  .. toctree::
  	:maxdepth: 1
  
-@@ -127,8 +175,6 @@ specific board.
- 	saa7134-cardlist
- 	saa7164-cardlist
- 
--	other-pci-cardlist
--
- I²C drivers
- ===========
- 
-diff --git a/Documentation/admin-guide/media/other-pci-cardlist.rst b/Documentation/admin-guide/media/other-pci-cardlist.rst
-deleted file mode 100644
-index 5ae65547add0..000000000000
---- a/Documentation/admin-guide/media/other-pci-cardlist.rst
-+++ /dev/null
-@@ -1,25 +0,0 @@
--.. SPDX-License-Identifier: GPL-2.0
--
--Other PCI Hardware supported by media subsystem
--===============================================
--
--Generally, media hardware manufacturers frequently change the ancillary
--drivers, like tuners and demodulator units used, usually without
--changing the product name, revision number or specs.
--
--- Cards based on the Phillips saa7146 multimedia PCI bridge chip:
--
--  - TI AV7110 based cards (i.e. with hardware MPEG decoder):
--    - Siemens/Technotrend/Hauppauge PCI DVB card revision 1.1, 1.3, 1.5, 1.6, 2.1 (aka Hauppauge Nexus)
--  - "budget" cards (i.e. without hardware MPEG decoder):
--    - Technotrend Budget / Hauppauge WinTV-Nova PCI Cards
--    - SATELCO Multimedia PCI
--    - KNC1 DVB-S, Typhoon DVB-S, Terratec Cinergy 1200 DVB-S (no CI support)
--    - Typhoon DVB-S budget
--    - Fujitsu-Siemens Activy DVB-S budget card
--
--- Cards based on the B2C2 Inc. FlexCopII/IIb/III:
--
--  - Technisat SkyStar2 PCI DVB card revision 2.3, 2.6B, 2.6C
--
--- Experimental support for the analog module of the Siemens DVB-C PCI card
 -- 
 2.25.2
 
