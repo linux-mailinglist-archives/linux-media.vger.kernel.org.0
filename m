@@ -2,237 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C72761AEBD9
-	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2020 12:37:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BF0E1AEECF
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2020 16:40:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725893AbgDRKg5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Apr 2020 06:36:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40740 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725873AbgDRKg4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Apr 2020 06:36:56 -0400
-Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9452221D79;
-        Sat, 18 Apr 2020 10:36:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587206215;
-        bh=vP5/Rck1WrDqozyC/lEJJiqm/CNCJjvW8McfYF02WvE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=tvBRs8F5jLA7qGs0rAMkuivMKfljxQkXYCIRjLGbH+zWrcnt2prm6q2HKzeuXhdld
-         Afuzecu/ked1OfxYuRK+SGYDyKyStNjB+ptlaUg7NaoyyCbNLEprbCuuL/EK3O3sH4
-         VzZel4F4Q08cGbyAglwT+G0FYw1SyeRtmETX6Z6g=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jPkqD-00838b-M4; Sat, 18 Apr 2020 12:36:53 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 3/3] media: admin-guide: split driver-specific indexes to new files
-Date:   Sat, 18 Apr 2020 12:36:52 +0200
-Message-Id: <7f5d96c64d3c52fa222979e92bf030082492471e.1587206071.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <cover.1587206071.git.mchehab+huawei@kernel.org>
-References: <cover.1587206071.git.mchehab+huawei@kernel.org>
+        id S1726441AbgDROjc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Apr 2020 10:39:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60806 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726398AbgDROjb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 18 Apr 2020 10:39:31 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C59BC061A0F
+        for <linux-media@vger.kernel.org>; Sat, 18 Apr 2020 07:39:29 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id g12so6019919wmh.3
+        for <linux-media@vger.kernel.org>; Sat, 18 Apr 2020 07:39:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-transfer-encoding:content-language;
+        bh=/XM7D8/7XhwSvcHIYzl1pU1WBQ38qKEnXn4Q45Zjmjs=;
+        b=ULmZfJo9mapZTe+vhjOkTNiElb3rH6q3Ti/y51lN9Dg4r6WAwOjbDXXG9ja63eJ2/O
+         1TT0DGFLa3sSFYcJBPfrzFlNFETbjV/w0oGLrMcc1R2uRKiJrvDOFy3zqEzrp3VTDK1y
+         VuR4hC2aSdTAASi7Dh3QsdLdj08UL04xprxEkDBr/SNy/OUDFEFBrEWwQ5JwvXkopGu4
+         SEG+xlZ1vm6L8//p+ctPbLJD2j8hcmivyB8SRVGVNTD9i0mLpbxhLWtN8wAeXzqbU31E
+         9AVdAGR89IwkRw8yyDXmVi2KGeiYSpLgb8Hi9utJpAi3QHowpfzPvLSROifyBzk2jWIt
+         m3ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-transfer-encoding:content-language;
+        bh=/XM7D8/7XhwSvcHIYzl1pU1WBQ38qKEnXn4Q45Zjmjs=;
+        b=dJUe9qUPE4nwpRqXUAbP344A3i5Q/0lh24hMSYC8iboFEWvBqQHS9vt389pOB9aS9r
+         iLtKUQY9KuJY6MYChMMIAAf1EyE6IeKhvyN/julXHhJWTIGCp7Tw+fgjRFiOrxVzsWXo
+         tXD8YJUf8cqUQ1SdxX7oupSggDSfBQaPaXb+bVtOTyqmsqILB6FZzr1Wbl4CeLb/2zko
+         MRiQGmolFkVLgY1kPvGpbK+nWZq8p+qVYbA2lKy4w62XdIxVbSYVE9KbfgnXpS9z/z4+
+         SHm+Q89zpEFDiL/Ag+9aOy3uxMamrOZ6eAfXv9Yx+FtkgqC1trVHYwwse2VDrlA5MIwc
+         agCA==
+X-Gm-Message-State: AGi0PuauxjGaoEDLQqYmvIP36nbcjCiNoDNrUj4d5dU2kWbIa86+jNul
+        KMyd3b1t4wUT35Y/QT0zgMG6L1FeeB4=
+X-Google-Smtp-Source: APiQypJw7V6hQ0tykrXuW3Q4f5rmR+bLZQb9kbT3TtFrj5idEat4ROr+8IBEpD8yc6TBLRjsV+Vxfg==
+X-Received: by 2002:a7b:c456:: with SMTP id l22mr8202691wmi.148.1587220767851;
+        Sat, 18 Apr 2020 07:39:27 -0700 (PDT)
+Received: from [192.168.0.104] (77-56-155-30.dclient.hispeed.ch. [77.56.155.30])
+        by smtp.gmail.com with ESMTPSA id r17sm25118628wrn.43.2020.04.18.07.39.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 18 Apr 2020 07:39:26 -0700 (PDT)
+To:     linux-media@vger.kernel.org, mchehab@kernel.org
+From:   Patrik Gfeller <patrik.gfeller@gmail.com>
+Subject: atomisp kernel driver(s)
+Message-ID: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
+Date:   Sat, 18 Apr 2020 16:39:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In order to better organize the main admin-guide index,
-place the driver-specific indexes on separate files.
+Hello Mauro et al,
 
-This ensures a more consistent numbering at the main index.
+I've recently switched to Linux, and I'm very impressed. Almost 
+everything thing works out of the box. Only the webcam on my device does 
+not. I did some digging and if I'm right an atomisp driver would be 
+required. Is this correct? Below the output of lspci:
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../admin-guide/media/cec-drivers.rst         | 10 +++
- .../admin-guide/media/dvb-drivers.rst         | 16 ++++
- Documentation/admin-guide/media/index.rst     | 79 +------------------
- .../admin-guide/media/v4l-drivers.rst         | 33 ++++++++
- 4 files changed, 63 insertions(+), 75 deletions(-)
- create mode 100644 Documentation/admin-guide/media/cec-drivers.rst
- create mode 100644 Documentation/admin-guide/media/dvb-drivers.rst
- create mode 100644 Documentation/admin-guide/media/v4l-drivers.rst
+00:00.0 Host bridge: Intel Corporation Atom/Celeron/Pentium Processor 
+x5-E8000/J3xxx/N3xxx Series SoC Transaction Register (rev 36) 00:02.0 
+VGA compatible controller: Intel Corporation Atom/Celeron/Pentium 
+Processor x5-E8000/J3xxx/N3xxx Integrated Graphics Controller (rev 36) 
+00:03.0 Multimedia controller: Intel Corporation Atom/Celeron/Pentium 
+Processor x5-E8000/J3xxx/N3xxx Series Imaging Unit (rev 36) 00:0a.0 
+Non-VGA unclassified device: Intel Corporation Device 22d8 (rev 36) 
+00:0b.0 Signal processing controller: Intel Corporation 
+Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series Power 
+Management Controller (rev 36) 00:14.0 USB controller: Intel Corporation 
+Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series USB xHCI 
+Controller (rev 36) 00:1a.0 Encryption controller: Intel Corporation 
+Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series Trusted 
+Execution Engine (rev 36) 00:1c.0 PCI bridge: Intel Corporation 
+Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series PCI Express 
+Port #1 (rev 36) 00:1f.0 ISA bridge: Intel Corporation 
+Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series PCU (rev 36) 
+01:00.0 Network controller: Qualcomm Atheros QCA9377 802.11ac Wireless 
+Network Adapter (rev 31)
 
-diff --git a/Documentation/admin-guide/media/cec-drivers.rst b/Documentation/admin-guide/media/cec-drivers.rst
-new file mode 100644
-index 000000000000..8d9686c08df9
---- /dev/null
-+++ b/Documentation/admin-guide/media/cec-drivers.rst
-@@ -0,0 +1,10 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=================================
-+CEC driver-specific documentation
-+=================================
-+
-+.. toctree::
-+	:maxdepth: 2
-+
-+	pulse8-cec
-diff --git a/Documentation/admin-guide/media/dvb-drivers.rst b/Documentation/admin-guide/media/dvb-drivers.rst
-new file mode 100644
-index 000000000000..8df637c375f9
---- /dev/null
-+++ b/Documentation/admin-guide/media/dvb-drivers.rst
-@@ -0,0 +1,16 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+========================================
-+Digital TV driver-specific documentation
-+========================================
-+
-+.. toctree::
-+	:maxdepth: 2
-+
-+	avermedia
-+	bt8xx
-+	lmedm04
-+	opera-firmware
-+	technisat
-+	ttusb-dec
-+	zr364xx
-diff --git a/Documentation/admin-guide/media/index.rst b/Documentation/admin-guide/media/index.rst
-index 05ddd4930699..6e0d2bae7154 100644
---- a/Documentation/admin-guide/media/index.rst
-+++ b/Documentation/admin-guide/media/index.rst
-@@ -28,7 +28,7 @@ The media subsystem
-         Table of Contents
- 
- .. toctree::
--	:maxdepth: 5
-+	:maxdepth: 2
- 	:numbered:
- 
- 	intro
-@@ -40,80 +40,9 @@ The media subsystem
- 
- 	cardlist
- 
--
--.. _uapi-v4l-drivers:
--
--Video4Linux (V4L) driver-specific documentation
--===============================================
--
--.. only:: html
--
--    .. class:: toc-title
--
--        Table of Contents
--
--.. toctree::
--	:maxdepth: 5
--	:numbered:
--
--	bttv
--	cafe_ccic
--	cpia2
--	cx88
--	davinci-vpbe
--	fimc
--	imx
--	imx7
--	ipu3
--	ivtv
--	meye
--	omap3isp
--	omap4_camera
--	philips
--	qcom_camss
--	rcar-fdp1
--	saa7134
--	si470x
--	si4713
--	si476x
--	vimc
--	vivid
--
--Digital TV driver-specific documentation
--========================================
--
--.. only:: html
--
--    .. class:: toc-title
--
--        Table of Contents
--
--.. toctree::
--	:maxdepth: 5
--	:numbered:
--
--	avermedia
--	bt8xx
--	lmedm04
--	opera-firmware
--	technisat
--	ttusb-dec
--	zr364xx
--
--CEC driver-specific documentation
--=================================
--
--.. only:: html
--
--    .. class:: toc-title
--
--        Table of Contents
--
--.. toctree::
--	:maxdepth: 5
--	:numbered:
--
--	pulse8-cec
-+	v4l-drivers
-+	dvb-drivers
-+	cec-drivers
- 
- **Copyright** |copy| 1999-2020 : LinuxTV Developers
- 
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-new file mode 100644
-index 000000000000..251cc4ede0b6
---- /dev/null
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -0,0 +1,33 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. _uapi-v4l-drivers:
-+
-+===============================================
-+Video4Linux (V4L) driver-specific documentation
-+===============================================
-+
-+.. toctree::
-+	:maxdepth: 2
-+
-+	bttv
-+	cafe_ccic
-+	cpia2
-+	cx88
-+	davinci-vpbe
-+	fimc
-+	imx
-+	imx7
-+	ipu3
-+	ivtv
-+	meye
-+	omap3isp
-+	omap4_camera
-+	philips
-+	qcom_camss
-+	rcar-fdp1
-+	saa7134
-+	si470x
-+	si4713
-+	si476x
-+	vimc
-+	vivid
--- 
-2.25.2
+According to the history it looks like the driver was removed from the 
+kernel in 2018 and replaced with a dummy driver (to make sure power save 
+works).
+
+Is there a chance that the atomisp driver will return to the kernel? 
+There are quite a few older tablets and 2in1 devices that would benefit. 
+Unfortunately I do not understand the removed code (my coding skills are 
+very basic) and can thus not help to change what ever is necessary to 
+make it fit for the kernel :-( (does not sound like a beginner project). 
+However - I would be glad to help out to help testing an ISP driver.
+
+However - even without the cam it is a very impressing operating system 
+which I enjoy very much. I would like to thank all of you for your work 
+that benefits so many people!
+
+All the best and stay healthy.
+
+With kind regards,
+
+Patrik Gfeller <patrik.gfeller@gmail.com>
 
