@@ -2,33 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07AD81AEBD3
-	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2020 12:30:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8BD81AEBD7
+	for <lists+linux-media@lfdr.de>; Sat, 18 Apr 2020 12:37:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725893AbgDRKaL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Apr 2020 06:30:11 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:53699 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725869AbgDRKaK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Apr 2020 06:30:10 -0400
-X-Originating-IP: 87.13.136.104
-Received: from uno.homenet.telecomitalia.it (unknown [87.13.136.104])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 914C660007;
-        Sat, 18 Apr 2020 10:29:58 +0000 (UTC)
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org, laurent.pinchart@ideasonboard.com,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Subject: [PATCH v4 5/5] v4l: document VIDIOC_SUBDEV_QUERYCAP
-Date:   Sat, 18 Apr 2020 12:32:16 +0200
-Message-Id: <20200418103216.140572-6-jacopo@jmondi.org>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200418103216.140572-1-jacopo@jmondi.org>
-References: <20200418103216.140572-1-jacopo@jmondi.org>
+        id S1725892AbgDRKg4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 18 Apr 2020 06:36:56 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40744 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725879AbgDRKg4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 18 Apr 2020 06:36:56 -0400
+Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 963A82220A;
+        Sat, 18 Apr 2020 10:36:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587206215;
+        bh=BNHwS2MybjnfNhmgbySMKz3pG0msrDqgLlQ3XxWV4qw=;
+        h=From:To:Cc:Subject:Date:From;
+        b=iKlvs36t+HJdhuz4Njstn7VbfjatGaLkd+mDGIvBvgGJpjlWtd3637ri8XxHKm0H8
+         GaB/OMklYlAzTg8ppbQzJF2U0g+RuPhAb3X3ml7Y1KTR09OQRJmV8fbJhtf7Sqrb9p
+         6hwJRaOG17cOxjyAYdV3Q9QIRBwxZxUdC95PoPEA=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jPkqD-00838Q-IQ; Sat, 18 Apr 2020 12:36:53 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 0/3] Reorg the media admin-guide
+Date:   Sat, 18 Apr 2020 12:36:49 +0200
+Message-Id: <cover.1587206071.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -36,150 +41,29 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hans.verkuil@cisco.com>
+Change numberation and chapter order at the media-admin guide,
+in order to place generic documents before driver-specific ones.
 
-Add documentation for the new VIDIOC_SUBDEV_QUERYCAP ioctl.
+Mauro Carvalho Chehab (3):
+  media: admin-guide: bt8xx.rst: fix a broken cross-reference
+  media: admin-guide: reorganize the guide
+  media: admin-guide: split driver-specific indexes to new files
 
-Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
----
- .../userspace-api/media/v4l/user-func.rst     |   1 +
- .../media/v4l/vidioc-subdev-querycap.rst      | 114 ++++++++++++++++++
- 2 files changed, 115 insertions(+)
- create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst
+ Documentation/admin-guide/media/bt8xx.rst     |  2 +-
+ .../admin-guide/media/cec-drivers.rst         | 10 +++
+ .../admin-guide/media/dvb-drivers.rst         | 16 ++++
+ Documentation/admin-guide/media/dvb.rst       | 12 +++
+ Documentation/admin-guide/media/index.rst     | 89 +++----------------
+ ...{v4l-with-ir.rst => remote-controller.rst} |  9 +-
+ .../admin-guide/media/v4l-drivers.rst         | 33 +++++++
+ 7 files changed, 90 insertions(+), 81 deletions(-)
+ create mode 100644 Documentation/admin-guide/media/cec-drivers.rst
+ create mode 100644 Documentation/admin-guide/media/dvb-drivers.rst
+ create mode 100644 Documentation/admin-guide/media/dvb.rst
+ rename Documentation/admin-guide/media/{v4l-with-ir.rst => remote-controller.rst} (96%)
+ create mode 100644 Documentation/admin-guide/media/v4l-drivers.rst
 
-diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
-index f235f88efe89..559cce421d41 100644
---- a/Documentation/userspace-api/media/v4l/user-func.rst
-+++ b/Documentation/userspace-api/media/v4l/user-func.rst
-@@ -78,6 +78,7 @@ Function Reference
-     vidioc-subdev-g-fmt
-     vidioc-subdev-g-frame-interval
-     vidioc-subdev-g-selection
-+    vidioc-subdev-querycap.rst
-     vidioc-subscribe-event
-     func-mmap
-     func-munmap
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst
-new file mode 100644
-index 000000000000..d9b2e19e1339
---- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst
-@@ -0,0 +1,114 @@
-+.. Permission is granted to copy, distribute and/or modify this
-+.. document under the terms of the GNU Free Documentation License,
-+.. Version 1.1 or any later version published by the Free Software
-+.. Foundation, with no Invariant Sections, no Front-Cover Texts
-+.. and no Back-Cover Texts. A copy of the license is included at
-+.. Documentation/userspace-api/media/fdl-appendix.rst.
-+..
-+
-+.. _VIDIOC_SUBDEV_QUERYCAP:
-+
-+****************************
-+ioctl VIDIOC_SUBDEV_QUERYCAP
-+****************************
-+
-+Name
-+====
-+
-+VIDIOC_SUBDEV_QUERYCAP - Query sub-device capabilities
-+
-+
-+Synopsis
-+========
-+
-+.. c:function:: int ioctl( int fd, VIDIOC_SUBDEV_QUERYCAP, struct v4l2_subdev_capability *argp )
-+    :name: VIDIOC_SUBDEV_QUERYCAP
-+
-+
-+Arguments
-+=========
-+
-+``fd``
-+    File descriptor returned by :ref:`open() <func-open>`.
-+
-+``argp``
-+    Pointer to struct :c:type:`v4l2_subdev_capability`.
-+
-+
-+Description
-+===========
-+
-+All V4L2 sub-devices support the
-+``VIDIOC_SUBDEV_QUERYCAP`` ioctl. It is used to identify
-+kernel devices compatible with this specification and to obtain
-+information about driver and hardware capabilities. The ioctl takes a
-+pointer to a struct :c:type:`v4l2_subdev_capability` which is filled by the
-+driver. When the driver is not compatible with this specification the ioctl
-+returns ``ENOTTY`` error code.
-+
-+.. tabularcolumns:: |p{1.5cm}|p{2.5cm}|p{13cm}|
-+
-+.. c:type:: v4l2_subdev_capability
-+
-+.. flat-table:: struct v4l2_subdev_capability
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       3 4 20
-+
-+    * - __u32
-+      - ``version``
-+      - Version number of the driver.
-+
-+        The version reported is provided by the V4L2 subsystem following the
-+        kernel numbering scheme. However, it may not always return the same
-+        version as the kernel if, for example, a stable or
-+        distribution-modified kernel uses the V4L2 stack from a newer kernel.
-+
-+	The version number is formatted using the ``KERNEL_VERSION()``
-+	macro:
-+    * - :cspan:`2`
-+
-+	``#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))``
-+
-+	``__u32 version = KERNEL_VERSION(0, 8, 1);``
-+
-+	``printf ("Version: %u.%u.%u\\n",``
-+
-+	``(version >> 16) & 0xFF, (version >> 8) & 0xFF, version & 0xFF);``
-+    * - __u32
-+      - ``subdev_caps``
-+      - Sub-device capabilities of the opened device, see
-+	:ref:`subdevice-capabilities`.
-+
-+.. tabularcolumns:: |p{6cm}|p{2.2cm}|p{8.8cm}|
-+
-+.. _subdevice-capabilities:
-+
-+.. cssclass:: longtable
-+
-+.. flat-table:: Sub-Device Capabilities Flags
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       3 1 4
-+
-+    * - V4L2_SUBDEV_CAP_RO_SUBDEV
-+      - 0x00000001
-+      - The sub-device device node is registered in read-only mode.
-+        Access to the sub-device ioctls that modify the device state is
-+        restricted. Refer to each individual subdevice ioctl documentation
-+        for a description of which restrictions apply to a read-only sub-device.
-+
-+    * - V4L2_SUBDEV_CAP_RW_SUBDEV
-+      - 0x00000002
-+      - The sub-device device node is registered in read/write mode, all the
-+        subdevice ioctls are accessible from userspace.
-+
-+Return Value
-+============
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+ENOTTY
-+    The device node is not a V4L2 sub-device.
 -- 
-2.26.1
+2.25.2
+
 
