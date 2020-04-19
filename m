@@ -2,171 +2,296 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C4E831AF674
-	for <lists+linux-media@lfdr.de>; Sun, 19 Apr 2020 05:32:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D13231AFBC0
+	for <lists+linux-media@lfdr.de>; Sun, 19 Apr 2020 17:43:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725914AbgDSDcV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 18 Apr 2020 23:32:21 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:48881 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725819AbgDSDcV (ORCPT
+        id S1726160AbgDSPnY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 19 Apr 2020 11:43:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36884 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725927AbgDSPnY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 18 Apr 2020 23:32:21 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Q0gqjNj1ElKa1Q0grjjVMI; Sun, 19 Apr 2020 05:32:17 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587267137; bh=ejnKVRc7LhN+w4PBdqiD0nMSMTXWf9F8SfwesEUrV7E=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=GL3/V5SlIQUEcB8PqSA3RX4Oa2zuPBL+Xt6VW3cBclkbhM83pss2RtzzvmLerEaw9
-         WLDEKihlgnlOyA+J7xu6w6QqwyQ52guGiKp/JQ89OnwNrzIu+olq1G79zUmT1iaMfe
-         Y77DkUV8TjDmUrLA3tIgwOd8EIGdFk/BvvZnCymOrUxX52NwV0butREz/ptfXwrP9Y
-         LXzcjR9KmaDbdrtdokWBJuAYKY6g7NsR7oPx459wHhlprOgFDsUv+Js+q37ETnBmWY
-         TDfqGzARGnhvjkdg2wf5HUgpeke24qbObbqTVavGzM5hsnZ/Qp5l7vBZjKNjBPIY7Q
-         jprvz/lKs35Wg==
-Message-ID: <6491d0aa45947a148971ed8c093c7d19@smtp-cloud8.xs4all.net>
-Date:   Sun, 19 Apr 2020 05:32:16 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfKEAV5GSB8guXpTdxDnoTHAzQ/IB0wJCTCUphYM+o3TbFfHWv0m5pUnzDJwHf55j9z60gF+mvog3aRIQa0DKz/WcFGOTDxSi2q/H9o+9524D3nwGOaz9
- erCZz5SWTOWuGoht55WzAIqoM+1jm/qKLhP2Q1jBs6u8YHiayF1WzlYOBQQ6LG99yyIkJzYpWVXpeikv5GYj+Cxh5Jt8ZivhH46F/7IxSMU4cxnP+wn7Hc8X
+        Sun, 19 Apr 2020 11:43:24 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96D6EC061A0C;
+        Sun, 19 Apr 2020 08:43:23 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DC0E528;
+        Sun, 19 Apr 2020 17:43:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1587310999;
+        bh=BYggn48w0d4cVLdQWuqDL2y0MIYNN5XQfNXhNTDpHhQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Tm0eBZ17UpZTN7OIK2fL0iS0KEpeYErWNQuRQzZ2an0KBvv6akAhyOGrOB1c5mj7j
+         i+Y7DEMI7wihePDVqmFOw4fjvFwOy+tNLDoxhXMUETkFP8davY1ama1VRoGACmXQmp
+         OtqDYZO+HYwQfnKKFhzvMLuDUWOrwHeu8lgl5dZQ=
+Date:   Sun, 19 Apr 2020 18:43:05 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Vishal Sagar <vishal.sagar@xilinx.com>
+Cc:     Hyun Kwon <hyunk@xilinx.com>, mchehab@kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com,
+        Michal Simek <michals@xilinx.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, hans.verkuil@cisco.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Dinesh Kumar <dineshk@xilinx.com>,
+        Sandip Kothari <sandipk@xilinx.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Hyun Kwon <hyun.kwon@xilinx.com>, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH v11 1/2] media: dt-bindings: media: xilinx: Add Xilinx
+ MIPI CSI-2 Rx Subsystem
+Message-ID: <20200419154305.GA8117@pendragon.ideasonboard.com>
+References: <20200409194424.45555-1-vishal.sagar@xilinx.com>
+ <20200409194424.45555-2-vishal.sagar@xilinx.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200409194424.45555-2-vishal.sagar@xilinx.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Vishal,
 
-Results of the daily build of media_tree:
+Thank you for the patch.
 
-date:			Sun Apr 19 05:00:08 CEST 2020
-media-tree git hash:	ceab3ac1e60d70afb4e25147d60817c513f235f7
-media_build git hash:	00e63b78326bfe320582189b774381edbf4ad070
-v4l-utils git hash:	2984938795a23e4bdf5a4b75c12a4245a2e0daff
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: c66f09bba8d560141228fc2c8d78215906866773
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+On Fri, Apr 10, 2020 at 01:14:23AM +0530, Vishal Sagar wrote:
+> Add bindings documentation for Xilinx MIPI CSI-2 Rx Subsystem.
+> 
+> The Xilinx MIPI CSI-2 Rx Subsystem consists of a CSI-2 Rx controller, a
+> DPHY in Rx mode, an optional I2C controller and a Video Format Bridge.
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
-sparse: OK
-smatch: OK
+The AXI IIC was removed from the subsystem in v4.1, you could drop it
+from the commit message too.
 
-Detailed results are available here:
+> 
+> Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
+> Reviewed-by: Hyun Kwon <hyun.kwon@xilinx.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
+> ---
+> v11
+> - Modify compatible string from 4.0 to 5.0
+> 
+> v10
+> - No changes
+> 
+> v9
+> - Fix xlnx,vfb description.
+> - s/Optional/Required endpoint property.
+> - Move data-lanes description from Ports to endpoint property section.
+> 
+> v8
+> - Added reset-gpios optional property to assert video_aresetn
+> 
+> v7
+> - Removed the control name from dt bindings
+> - Updated the example dt node name to csi2rx
+> 
+> v6
+> - Added "control" after V4L2_CID_XILINX_MIPICSISS_ACT_LANES as suggested by Luca
+> - Added reviewed by Rob Herring
+> 
+> v5
+> - Incorporated comments by Luca Cersoli
+> - Removed DPHY clock from description and example
+> - Removed bayer pattern from device tree MIPI CSI IP
+>   doesn't deal with bayer pattern.
+> 
+> v4
+> - Added reviewed by Hyun Kwon
+> 
+> v3
+> - removed interrupt parent as suggested by Rob
+> - removed dphy clock
+> - moved vfb to optional properties
+> - Added required and optional port properties section
+> - Added endpoint property section
+> 
+> v2
+> - updated the compatible string to latest version supported
+> - removed DPHY related parameters
+> - added CSI v2.0 related property (including VCX for supporting upto 16
+>   virtual channels).
+> - modified csi-pxl-format from string to unsigned int type where the value
+>   is as per the CSI specification
+> - Defined port 0 and port 1 as sink and source ports.
+> - Removed max-lanes property as suggested by Rob and Sakari
+>  .../bindings/media/xilinx/xlnx,csi2rxss.txt   | 116 ++++++++++++++++++
+>  1 file changed, 116 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/xilinx/xlnx,csi2rxss.txt
+> 
+> diff --git a/Documentation/devicetree/bindings/media/xilinx/xlnx,csi2rxss.txt b/Documentation/devicetree/bindings/media/xilinx/xlnx,csi2rxss.txt
+> new file mode 100644
+> index 000000000000..9269a5c880aa
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/xilinx/xlnx,csi2rxss.txt
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+YAML is the recommended form for new DT bindings. This wasn't a
+requirement when the first version of this series was submitted, and I
+understand it can be frustrating to chase a moving target, so I can help
+with the YAML conversion once we sort out the questions below.
 
-Detailed regression test results are available here:
+> @@ -0,0 +1,116 @@
+> +Xilinx MIPI CSI2 Receiver Subsystem Device Tree Bindings
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+Nitpicking, it's CSI-2, not CSI2.
 
-Full logs are available here:
+> +--------------------------------------------------------
+> +
+> +The Xilinx MIPI CSI2 Receiver Subsystem is used to capture MIPI CSI2 traffic
+> +from compliant camera sensors and send the output as AXI4 Stream video data
+> +for image processing.
+> +
+> +The subsystem consists of a MIPI DPHY in slave mode which captures the
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+And D-PHY, not DPHY :-)
 
-The Media Infrastructure API from this daily build is here:
+> +data packets. This is passed along the MIPI CSI2 Rx IP which extracts the
+> +packet data. The optional Video Format Bridge (VFB) converts this data to
+> +AXI4 Stream video data.
+> +
+> +For more details, please refer to PG232 Xilinx MIPI CSI-2 Receiver Subsystem.
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+If I understand correctly, this DT binding covers the CSI-2 RX
+Controller and the optional Video Format Bridge, but leaves the D-PHY
+out, right ? I think this should be clarified, as the "CSI-2 receiver
+subsystem" includes the D-PHY.
+
+> +
+> +Required properties:
+> +--------------------
+> +- compatible: Must contain "xlnx,mipi-csi2-rx-subsystem-5.0".
+
+Is PG232 v5.0 available ? The most recent version I've found was PG232
+v4.1.
+
+> +- reg: Physical base address and length of the registers set for the device.
+> +- interrupts: Property with a value describing the interrupt number.
+> +- clocks: List of phandles to AXI Lite and Video clocks.
+> +- clock-names: Must contain "lite_aclk" and "video_aclk" in the same order
+> +  as clocks listed in clocks property.
+
+The subsystem documentation also mentions a dphy_clk_200M. Is that
+routed to the D-PHY only, or is it also needed for the CSI-2 RX ?
+
+> +- xlnx,csi-pxl-format: This denotes the CSI Data type selected in hw design.
+> +  Packets other than this data type (except for RAW8 and User defined data
+> +  types) will be filtered out. Possible values are as below -
+> +  0x1E - YUV4228B
+> +  0x1F - YUV42210B
+> +  0x20 - RGB444
+> +  0x21 - RGB555
+> +  0x22 - RGB565
+> +  0x23 - RGB666
+> +  0x24 - RGB888
+> +  0x28 - RAW6
+> +  0x29 - RAW7
+> +  0x2A - RAW8
+> +  0x2B - RAW10
+> +  0x2C - RAW12
+> +  0x2D - RAW14
+> +  0x2E - RAW16
+> +  0x2F - RAW20
+
+Isn't this property required only when the VFB is present ?
+
+> +
+> +
+> +Optional properties:
+> +--------------------
+> +- xlnx,vfb: Present when Video Format Bridge is enabled in IP configuration
+> +- xlnx,en-csi-v2-0: Present if CSI v2 is enabled in IP configuration.
+
+Unless I'm mistaken, this feature is available starting at v4 of the IP
+core.
+
+> +- xlnx,en-vcx: When present, there are maximum 16 virtual channels, else
+> +  only 4. This is present only if xlnx,en-csi-v2-0 is present.
+> +- xlnx,en-active-lanes: present if the number of active lanes can be
+> +  re-configured at runtime in the Protocol Configuration Register.
+> +  Otherwise all lanes, as set in IP configuration, are always active.
+> +- reset-gpios: Optional specifier for a GPIO that asserts video_aresetn.
+
+Should lite_aresetn also be supported ? We can add a lite-reset-gpios
+property later, but maybe we should name this video-reset-gpios ? As the
+video_aresetn signal is the main reset I don't mind keeping the name
+reset-gpios either. It's up to you.
+
+> +
+> +Ports
+> +-----
+> +The device node shall contain two 'port' child nodes as defined in
+> +Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +
+> +The port@0 is a sink port and shall connect to CSI2 source like camera.
+> +
+> +The port@1 is a source port and can be connected to any video processing IP
+> +which can work with AXI4 Stream data.
+> +
+> +Required port properties:
+> +--------------------
+> +- reg: 0 - for sink port.
+> +       1 - for source port.
+
+Don't you need a second source port for embedded non-image data ? If my
+understanding is correct that port can be enabled or disabled through
+the CSI_EMB_NON_IMG parameter, so it should be optional in DT too. We
+can possibly leave it out for now, it can be added later in a
+backward-compatible way.
+
+> +
+> +Required endpoint property:
+> +---------------------------
+> +- data-lanes: specifies MIPI CSI-2 data lanes as covered in video-interfaces.txt.
+> +  This is required only in the sink port 0 endpoint which connects to MIPI CSI2
+> +  source like sensor. The possible values are:
+> +  1       - For 1 lane enabled in IP.
+> +  1 2     - For 2 lanes enabled in IP.
+> +  1 2 3   - For 3 lanes enabled in IP.
+> +  1 2 3 4 - For 4 lanes enabled in IP.
+> +
+> +Example:
+> +
+> +	xcsi2rxss_1: csi2rx@a0020000 {
+> +		compatible = "xlnx,mipi-csi2-rx-subsystem-5.0";
+> +		reg = <0x0 0xa0020000 0x0 0x10000>;
+> +		interrupt-parent = <&gic>;
+> +		interrupts = <0 95 4>;
+> +		xlnx,csi-pxl-format = <0x2a>;
+> +		xlnx,vfb;
+> +		xlnx,en-active-lanes;
+> +		xlnx,en-csi-v2-0;
+> +		xlnx,en-vcx;
+> +		clock-names = "lite_aclk", "video_aclk";
+> +		clocks = <&misc_clk_0>, <&misc_clk_1>;
+> +		reset-gpios = <&gpio 86 GPIO_ACTIVE_LOW>;
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			port@0 {
+> +				/* Sink port */
+> +				reg = <0>;
+> +				csiss_in: endpoint {
+> +					data-lanes = <1 2 3 4>;
+> +					/* MIPI CSI2 Camera handle */
+> +					remote-endpoint = <&camera_out>;
+> +				};
+> +			};
+> +			port@1 {
+> +				/* Source port */
+> +				reg = <1>;
+> +				csiss_out: endpoint {
+> +					remote-endpoint = <&vproc_in>;
+> +				};
+> +			};
+> +		};
+> +	};
+
+-- 
+Regards,
+
+Laurent Pinchart
