@@ -2,428 +2,224 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 260EB1B173C
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2020 22:37:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D1281B1776
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2020 22:47:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726398AbgDTUhM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Apr 2020 16:37:12 -0400
-Received: from mail-40131.protonmail.ch ([185.70.40.131]:47257 "EHLO
-        mail-40131.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725897AbgDTUhM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Apr 2020 16:37:12 -0400
-Date:   Mon, 20 Apr 2020 20:36:57 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1587415026;
-        bh=pi0I3jcM77UFq2VH8uClbT6LRC4hcRh2g4zpQTZot1Q=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=Jx83XqhdE0MRgdP/xldvW0lmgJGF54kC/N/fXjYlrO2SOt2Jdn/kLuO7UCqUvHvaA
-         5KbSGK1TupNkR1H36vWPlzc3r8VG29xGXySLswL0AqcvLzLgRh2SsAlD5+QMgRSUpC
-         ua+Ok19dH6hpJ2rOEhb47trd36PH9jmQMkDymuhA=
-To:     Helen Koike <helen.koike@collabora.com>
-From:   =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>
-Cc:     linux-media@vger.kernel.org,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org
-Reply-To: =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-          <nfraprado@protonmail.com>
-Subject: Re: [PATCH v2 1/3] media: vimc: Support multiple media bus codes for each pixelformat
-Message-ID: <20200420203646.6hhbsb57ybwh6u76@ArchWay.local>
-In-Reply-To: <e41520f6-1d2e-9d36-3693-1e6d950ecf2f@collabora.com>
-References: <20200326214730.2449707-1-nfraprado@protonmail.com>
- <20200326214730.2449707-2-nfraprado@protonmail.com>
- <e41520f6-1d2e-9d36-3693-1e6d950ecf2f@collabora.com>
+        id S1726921AbgDTUrz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Apr 2020 16:47:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57992 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726055AbgDTUry (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 20 Apr 2020 16:47:54 -0400
+Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EEB4020575;
+        Mon, 20 Apr 2020 20:47:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587415673;
+        bh=8IMj1IshRvbcHVM8CrcDJb8Ih3zbJGPNfIzodz3flxI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=2tvcKx38NVPqtmAGa3qE2e/L2Vm2jr+SYTw+uX9j/yrS/yDL02cJj7SwG9yUjl8uT
+         qxtZim/SYs4e+PPHbRQLVyOHJiLzmZYwMj+ExJRfYj4zjnZEK4Skopz+8DBJtysjwe
+         UWzIjkhchT+6zAaIXg/MI2AVCVWDghKKLPKwzXBI=
+Date:   Mon, 20 Apr 2020 22:47:50 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Patrik Gfeller <patrik.gfeller@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: atomisp kernel driver(s)
+Message-ID: <20200420224750.28c0181d@coco.lan>
+In-Reply-To: <eb83f789-9595-55f0-d922-bab00ae85cff@gmail.com>
+References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
+        <20200418172549.7cca07a7@coco.lan>
+        <20200418172654.74a1eeea@coco.lan>
+        <1d529105-3b7d-38d0-b7a2-d385b2221ff7@gmail.com>
+        <20200420013109.65babb54@coco.lan>
+        <e45de3ea-4b5c-f2d0-0844-1233ca15a939@gmail.com>
+        <eb83f789-9595-55f0-d922-bab00ae85cff@gmail.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Helen,
+Em Mon, 20 Apr 2020 20:27:25 +0200
+Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
 
-thanks for the review.
-
-Some comments below.
-
-On Mon, Mar 30, 2020 at 04:36:45PM -0300, Helen Koike wrote:
+> Me again ... sorry to ask such a basic question, but I can't get your=20
+> modified source code. I get the following error:
 >=20
-> Hi N=C3=ADcolas,
+>  > git clone https://git.linuxtv.org/mchehab/experimental.git/ =20
+> Cloning into 'experimental'...
+> warning: adding alternate object store:=20
+> https://git.linuxtv.org/git/linux.git/
+> warning: adding alternate object store:=20
+> https://git.linuxtv.org/git/media_tree.git/
+> warning: adding alternate object store:=20
+> https://git.linuxtv.org/git/linux.git/
+> error: Unable to find fc8670d1f72b746ff3a5fe441f1fca4c4dba0e6f under=20
+> https://git.linuxtv.org/mchehab/experimental.git
+> Cannot obtain needed object fc8670d1f72b746ff3a5fe441f1fca4c4dba0e6f
+> while processing commit 6d80bfc14608f4bb5514b79721d30b486f50c987.
+> error: fetch failed.
 >=20
-> thank you for the patch.
->=20
-> The series looks good in general, just minor comments below.
->=20
-> On 3/26/20 6:47 PM, N=C3=ADcolas F. R. A. Prado wrote:
-> > Change vimc_pix_map_list to allow multiple media bus codes to map to th=
-e
-> > same pixelformat, making it possible to add media bus codes for which
-> > there are no pixelformat.
-> >
-> > Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
-> > ---
-> >
-> > Changes in v2:
-> > - Fix vimc_mbus_code_by_index not checking code array bounds
-> > - Fix array formatting
-> > - Rename variables
-> > - Change code array size
-> > - Add comment about vimc_mbus_code_by_index return value
-> >
-> >  drivers/media/platform/vimc/vimc-common.c | 70 ++++++++++++++---------
-> >  drivers/media/platform/vimc/vimc-common.h | 11 +++-
-> >  drivers/media/platform/vimc/vimc-scaler.c | 10 +++-
-> >  drivers/media/platform/vimc/vimc-sensor.c |  6 +-
-> >  4 files changed, 65 insertions(+), 32 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/=
-platform/vimc/vimc-common.c
-> > index c95c17c048f2..119846f3eaa5 100644
-> > --- a/drivers/media/platform/vimc/vimc-common.c
-> > +++ b/drivers/media/platform/vimc/vimc-common.c
-> > @@ -19,19 +19,19 @@ static const struct vimc_pix_map vimc_pix_map_list[=
-] =3D {
-> >
-> >  =09/* RGB formats */
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_BGR888_1X24,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_BGR888_1X24 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_BGR24,
-> >  =09=09.bpp =3D 3,
-> >  =09=09.bayer =3D false,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_RGB888_1X24,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_RGB888_1X24 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_RGB24,
-> >  =09=09.bpp =3D 3,
-> >  =09=09.bayer =3D false,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_ARGB8888_1X32,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_ARGB8888_1X32 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_ARGB32,
-> >  =09=09.bpp =3D 4,
-> >  =09=09.bayer =3D false,
-> > @@ -39,49 +39,49 @@ static const struct vimc_pix_map vimc_pix_map_list[=
-] =3D {
-> >
-> >  =09/* Bayer formats */
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SBGGR8_1X8,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SBGGR8_1X8 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SBGGR8,
-> >  =09=09.bpp =3D 1,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SGBRG8_1X8,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SGBRG8_1X8 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SGBRG8,
-> >  =09=09.bpp =3D 1,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SGRBG8_1X8,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SGRBG8_1X8 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SGRBG8,
-> >  =09=09.bpp =3D 1,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SRGGB8_1X8,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SRGGB8_1X8 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SRGGB8,
-> >  =09=09.bpp =3D 1,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SBGGR10_1X10,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SBGGR10_1X10 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SBGGR10,
-> >  =09=09.bpp =3D 2,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SGBRG10_1X10,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SGBRG10_1X10 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SGBRG10,
-> >  =09=09.bpp =3D 2,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SGRBG10_1X10,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SGRBG10_1X10 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SGRBG10,
-> >  =09=09.bpp =3D 2,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SRGGB10_1X10,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SRGGB10_1X10 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SRGGB10,
-> >  =09=09.bpp =3D 2,
-> >  =09=09.bayer =3D true,
-> > @@ -89,25 +89,25 @@ static const struct vimc_pix_map vimc_pix_map_list[=
-] =3D {
-> >
-> >  =09/* 10bit raw bayer a-law compressed to 8 bits */
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SBGGR10_ALAW8_1X8,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SBGGR10_ALAW8_1X8 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SBGGR10ALAW8,
-> >  =09=09.bpp =3D 1,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SGBRG10_ALAW8_1X8,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SGBRG10_ALAW8_1X8 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SGBRG10ALAW8,
-> >  =09=09.bpp =3D 1,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SGRBG10_ALAW8_1X8,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SGRBG10_ALAW8_1X8 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SGRBG10ALAW8,
-> >  =09=09.bpp =3D 1,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SRGGB10_ALAW8_1X8,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SRGGB10_ALAW8_1X8 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SRGGB10ALAW8,
-> >  =09=09.bpp =3D 1,
-> >  =09=09.bayer =3D true,
-> > @@ -115,49 +115,49 @@ static const struct vimc_pix_map vimc_pix_map_lis=
-t[] =3D {
-> >
-> >  =09/* 10bit raw bayer DPCM compressed to 8 bits */
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SBGGR10DPCM8,
-> >  =09=09.bpp =3D 1,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SGBRG10DPCM8,
-> >  =09=09.bpp =3D 1,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SGRBG10DPCM8,
-> >  =09=09.bpp =3D 1,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SRGGB10DPCM8,
-> >  =09=09.bpp =3D 1,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SBGGR12_1X12,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SBGGR12_1X12 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SBGGR12,
-> >  =09=09.bpp =3D 2,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SGBRG12_1X12,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SGBRG12_1X12 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SGBRG12,
-> >  =09=09.bpp =3D 2,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SGRBG12_1X12,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SGRBG12_1X12 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SGRBG12,
-> >  =09=09.bpp =3D 2,
-> >  =09=09.bayer =3D true,
-> >  =09},
-> >  =09{
-> > -=09=09.code =3D MEDIA_BUS_FMT_SRGGB12_1X12,
-> > +=09=09.code =3D { MEDIA_BUS_FMT_SRGGB12_1X12 },
-> >  =09=09.pixelformat =3D V4L2_PIX_FMT_SRGGB12,
-> >  =09=09.bpp =3D 2,
-> >  =09=09.bayer =3D true,
-> > @@ -182,13 +182,31 @@ const struct vimc_pix_map *vimc_pix_map_by_index(=
-unsigned int i)
-> >  =09return &vimc_pix_map_list[i];
-> >  }
-> >
-> > +const u32 vimc_mbus_code_by_index(unsigned int index)
-> > +{
-> > +=09unsigned int i, j;
-> > +
-> > +=09for (i =3D 0; i < ARRAY_SIZE(vimc_pix_map_list); i++) {
-> > +=09=09for (j =3D 0; j < ARRAY_SIZE(vimc_pix_map_list[i].code); j++) {
-> > +=09=09=09if (vimc_pix_map_list[i].code[j]) {
->=20
-> Can this be false?
+> Do I use the wrong command?
 
-Actually it can, but after you asked I realized this code could be way clea=
-rer.
+Better to use git:// url:
 
-When vimc_pix_map_list[i].code[j] is 0, it means that this is an unused val=
-ue of
-the array, so we should skip to the next pixelformat.
-I think writing it this way instead would be better, what do you think?
+	git clone git://git.linuxtv.org/mchehab/experimental.git/ =20
 
-        for (i =3D 0; i < ARRAY_SIZE(vimc_pix_map_list); i++) {
-                for (j =3D 0; j < ARRAY_SIZE(vimc_pix_map_list[i].code); j+=
-+) {
-                        if (!vimc_pix_map_list[i].code[j])
-                                break;
+
+>=20
+> kind regards,
+>=20
+> Patrik
+>=20
+> On 20.04.20 19:48, Patrik Gfeller wrote:
+> >
+> > On 20.04.20 01:31, Mauro Carvalho Chehab wrote: =20
+> >> Em Sat, 18 Apr 2020 17:37:22 +0200
+> >> Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
+> >> =20
+> >>> On 18.04.20 17:26, Mauro Carvalho Chehab wrote: =20
+> >>>> Em Sat, 18 Apr 2020 17:25:49 +0200
+> >>>> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu: =20
+> >>>>> Em Sat, 18 Apr 2020 16:39:25 +0200
+> >>>>> Patrik Gfeller <patrik.gfeller@gmail.com> escreveu: =20
+> >>>>>> Hello Mauro et al,
+> >>>>>>
+> >>>>>> I've recently switched to Linux, and I'm very impressed. Almost
+> >>>>>> everything thing works out of the box. Only the webcam on my=20
+> >>>>>> device does
+> >>>>>> not. I did some digging and if I'm right an atomisp driver would be
+> >>>>>> required. Is this correct? Below the output of lspci:
+> >>>>>>
+> >>>>>> 00:00.0 Host bridge: Intel Corporation Atom/Celeron/Pentium=20
+> >>>>>> Processor
+> >>>>>> x5-E8000/J3xxx/N3xxx Series SoC Transaction Register (rev 36)=20
+> >>>>>> 00:02.0
+> >>>>>> VGA compatible controller: Intel Corporation Atom/Celeron/Pentium
+> >>>>>> Processor x5-E8000/J3xxx/N3xxx Integrated Graphics Controller=20
+> >>>>>> (rev 36)
+> >>>>>> 00:03.0 Multimedia controller: Intel Corporation=20
+> >>>>>> Atom/Celeron/Pentium
+> >>>>>> Processor x5-E8000/J3xxx/N3xxx Series Imaging Unit (rev 36) 00:0a.0
+> >>>>>> Non-VGA unclassified device: Intel Corporation Device 22d8 (rev 36)
+> >>>>>> 00:0b.0 Signal processing controller: Intel Corporation
+> >>>>>> Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series Power
+> >>>>>> Management Controller (rev 36) 00:14.0 USB controller: Intel=20
+> >>>>>> Corporation
+> >>>>>> Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series USB xHCI
+> >>>>>> Controller (rev 36) 00:1a.0 Encryption controller: Intel Corporati=
+on
+> >>>>>> Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series Trusted
+> >>>>>> Execution Engine (rev 36) 00:1c.0 PCI bridge: Intel Corporation
+> >>>>>> Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series PCI=20
+> >>>>>> Express
+> >>>>>> Port #1 (rev 36) 00:1f.0 ISA bridge: Intel Corporation
+> >>>>>> Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series PCU=20
+> >>>>>> (rev 36)
+> >>>>>> 01:00.0 Network controller: Qualcomm Atheros QCA9377 802.11ac=20
+> >>>>>> Wireless
+> >>>>>> Network Adapter (rev 31) =20
+> >> What hardware do you have? =20
+> > I have aASUS Transformer Book T101HA-GR029T (HW probe @
+> >
+> > https://linux-hardware.org/?probe=3Dccc26d4cd3).
+> > =20
+> >> I did a look at the atomisp driver. There are some APIs that changed=20
+> >> upstream,
+> >> but making the driver to build again is not hard:
+> >>
+> >> =C2=A0=C2=A0=C2=A0=C2=A0https://git.linuxtv.org/mchehab/experimental.g=
+it/log/?h=3Datomisp
+> >>
+> >> If this would work or just hang, I don't know :-) =20
+> >
+> > Cool!
+> >
+> > Meanwhile I downloaded to kernel source and checked out the latest=20
+> > commit that still has the driver in staging. I'm currently in the=20
+> > process of building the old kernel in order to test if the driver=20
+> > works at all (1st time I'm doing this - thus takes some time,=20
+> > especially on my Atom :-). But I will then switch over to your changed=
 =20
-                        if (!index)
-                                return vimc_pix_map_list[i].code[j];
-                        index--;
+> > version to give it a try.
+> > =20
+> >>
+> >> This driver is still a big mess, and it requires some defines on its=20
+> >> source
+> >> code, in order to use it with some different Atom models.
+> >> =20
+> >>>>>> According to the history it looks like the driver was removed=20
+> >>>>>> from the
+> >>>>>> kernel in 2018 and replaced with a dummy driver (to make sure=20
+> >>>>>> power save
+> >>>>>> works).
+> >>>>>>
+> >>>>>> Is there a chance that the atomisp driver will return to the kerne=
+l?
+> >>>>>> There are quite a few older tablets and 2in1 devices that would=20
+> >>>>>> benefit.
+> >>>>>> Unfortunately I do not understand the removed code (my coding=20
+> >>>>>> skills are
+> >>>>>> very basic) and can thus not help to change what ever is=20
+> >>>>>> necessary to
+> >>>>>> make it fit for the kernel :-( (does not sound like a beginner=20
+> >>>>>> project).
+> >>>>>> However - I would be glad to help out to help testing an ISP drive=
+r. =20
+> >>>>> There are simply too many things there to be fixed, and nobody=20
+> >>>>> without
+> >>>>> time for it. Also, the last reports we had is that the driver was n=
+ot
+> >>>>> working.
+> >>>>>
+> >>>>> Unfortunately, I don't have myself any atomisp hardware, otherwise I
+> >>>>> could try fixing it on my spare time. =20
+> >>>> In time: not really sure if it would be a worth project, as newer=20
+> >>>> Intel
+> >>>> hardware are coming with a different IP block (IPU3). =20
+> >>> I don't know how widespread the IPU that I have is, I assume that some
+> >>> other tablets & 2in1 devices that are a few years old use it as well.=
+ =20
+> >> The IPU is used on some Dell 2in1 devices(I guess they use an i5core
+> >> with a chipset made for mobile market). Not sure if they're using IPU3
+> >> also on Atom.
+> >> =20
+> >>> For me it would be definitely nice to have this driver. However, I can
+> >>> ask around in some of the forums=C2=A0 if there is a wider interest.=
+=20
+> >>> Might be
+> >>> a niche tough, but the support for the Atom device I use have been
+> >>> greatly improved in the recent years. So there is at least some work
+> >>> going on for that platform (I do not know, but I think it is called
+> >>> cherry trail?). As there are many older reports of problems with audi=
+o,
+> >>> touchscreen, stability (freezes) ... and none of them are present=20
+> >>> anymore.
+> >>>
+> >>> As mentioned, if the development is hindered by missing hardware I=20
+> >>> would
+> >>> be glad to help. Anyhow - many thanks for your replies, much=20
+> >>> appreciated!
+> >>> =20
+> >>>> Thanks,
+> >>>> Mauro =20
+> >>
+> >>
+> >> Thanks,
+> >> Mauro =20
+> >
+> > thanks & kind regards,
+> >
+> > Patrik
+> > =20
 
->=20
-> > +=09=09=09=09if (!index)
-> > +=09=09=09=09=09return vimc_pix_map_list[i].code[j];
-> > +=09=09=09=09index--;
-> > +=09=09=09}
-> > +=09=09}
-> > +=09}
-> > +=09return 0;
-> > +}
-> > +
-> >  const struct vimc_pix_map *vimc_pix_map_by_code(u32 code)
-> >  {
-> > -=09unsigned int i;
-> > +=09unsigned int i, j;
-> >
-> >  =09for (i =3D 0; i < ARRAY_SIZE(vimc_pix_map_list); i++) {
-> > -=09=09if (vimc_pix_map_list[i].code =3D=3D code)
-> > -=09=09=09return &vimc_pix_map_list[i];
-> > +=09=09for (j =3D 0; j < ARRAY_SIZE(vimc_pix_map_list[i].code); j++) {
-> > +=09=09=09if (vimc_pix_map_list[i].code[j] =3D=3D code)
-> > +=09=09=09=09return &vimc_pix_map_list[i];
-> > +=09=09}
-> >  =09}
-> >  =09return NULL;
-> >  }
-> > diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/=
-platform/vimc/vimc-common.h
-> > index 616d5a6b0754..585441694c86 100644
-> > --- a/drivers/media/platform/vimc/vimc-common.h
-> > +++ b/drivers/media/platform/vimc/vimc-common.h
-> > @@ -69,7 +69,7 @@ do {=09=09=09=09=09=09=09=09=09\
-> >   * V4L2_PIX_FMT_* fourcc pixelformat and its bytes per pixel (bpp)
-> >   */
-> >  struct vimc_pix_map {
-> > -=09unsigned int code;
-> > +=09unsigned int code[1];
-> >  =09unsigned int bpp;
-> >  =09u32 pixelformat;
-> >  =09bool bayer;
-> > @@ -172,6 +172,15 @@ void vimc_sen_release(struct vimc_ent_device *ved)=
-;
-> >   */
-> >  const struct vimc_pix_map *vimc_pix_map_by_index(unsigned int i);
-> >
-> > +/**
-> > + * vimc_mbus_code_by_index - get mbus code by its index
-> > + *
-> > + * @index:=09=09index of the mbus code in vimc_pix_map_list
-> > + *
-> > + * Returns 0 if no mbus code is found for the given index.
-> > + */
-> > +const u32 vimc_mbus_code_by_index(unsigned int index);
-> > +
-> >  /**
-> >   * vimc_pix_map_by_code - get vimc_pix_map struct by media bus code
-> >   *
-> > diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/=
-platform/vimc/vimc-scaler.c
-> > index 7521439747c5..6bac1fa65a6f 100644
-> > --- a/drivers/media/platform/vimc/vimc-scaler.c
-> > +++ b/drivers/media/platform/vimc/vimc-scaler.c
-> > @@ -110,13 +110,19 @@ static int vimc_sca_enum_mbus_code(struct v4l2_su=
-bdev *sd,
-> >  =09=09=09=09   struct v4l2_subdev_pad_config *cfg,
-> >  =09=09=09=09   struct v4l2_subdev_mbus_code_enum *code)
-> >  {
-> > -=09const struct vimc_pix_map *vpix =3D vimc_pix_map_by_index(code->ind=
-ex);
-> > +=09const u32 mbus_code =3D vimc_mbus_code_by_index(code->index);
-> > +=09const struct vimc_pix_map *vpix;
-> > +
-> > +=09if (!mbus_code)
-> > +=09=09return -EINVAL;
-> > +
-> > +=09vpix =3D vimc_pix_map_by_code(mbus_code);
-> >
-> >  =09/* We don't support bayer format */
-> >  =09if (!vpix || vpix->bayer)
-> >  =09=09return -EINVAL;
-> >
-> > -=09code->code =3D vpix->code;
-> > +=09code->code =3D mbus_code;
->=20
-> no need to change this.
 
-This change is actually needed, because after this patch, the code property=
- of
-vimc_pix_map_list is an array, so there isn't a 1 to 1 relation between mbu=
-s
-code and pixmap format anymore.
-Since we already got the mbus code by index through
-vimc_mbus_code_by_index(code->index), we just use it.
 
->=20
-> >
-> >  =09return 0;
-> >  }
-> > diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/=
-platform/vimc/vimc-sensor.c
-> > index 92daee58209e..b8bd430809c1 100644
-> > --- a/drivers/media/platform/vimc/vimc-sensor.c
-> > +++ b/drivers/media/platform/vimc/vimc-sensor.c
-> > @@ -52,12 +52,12 @@ static int vimc_sen_enum_mbus_code(struct v4l2_subd=
-ev *sd,
-> >  =09=09=09=09   struct v4l2_subdev_pad_config *cfg,
-> >  =09=09=09=09   struct v4l2_subdev_mbus_code_enum *code)
-> >  {
-> > -=09const struct vimc_pix_map *vpix =3D vimc_pix_map_by_index(code->ind=
-ex);
-> > +=09const u32 mbus_code =3D vimc_mbus_code_by_index(code->index);
-> >
-> > -=09if (!vpix)
-> > +=09if (!mbus_code)
-> >  =09=09return -EINVAL;
-> >
-> > -=09code->code =3D vpix->code;
-> > +=09code->code =3D mbus_code;
-> >
-> >  =09return 0;
-> >  }
-> >
->=20
-> With these changes
->=20
-> Acked-by: Helen Koike <helen.koike@collabora.com>
->=20
-> Regards,
-> Helen
-
-Thank you,
-N=C3=ADcolas
-
+Thanks,
+Mauro
