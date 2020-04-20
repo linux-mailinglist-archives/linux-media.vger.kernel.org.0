@@ -2,151 +2,209 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A5391AFF53
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2020 02:40:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DE8E1AFF99
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2020 03:45:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726061AbgDTAkl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 19 Apr 2020 20:40:41 -0400
-Received: from mailout4.samsung.com ([203.254.224.34]:17845 "EHLO
-        mailout4.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725964AbgDTAkk (ORCPT
+        id S1725994AbgDTBpP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 19 Apr 2020 21:45:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44376 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725953AbgDTBpO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 19 Apr 2020 20:40:40 -0400
-Received: from epcas2p2.samsung.com (unknown [182.195.41.54])
-        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20200420004037epoutp040f5322f020d4cbdc3626440f729a5e78~HYEOz1SXN1415214152epoutp04g
-        for <linux-media@vger.kernel.org>; Mon, 20 Apr 2020 00:40:37 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20200420004037epoutp040f5322f020d4cbdc3626440f729a5e78~HYEOz1SXN1415214152epoutp04g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1587343237;
-        bh=WjUouuwpSjcCH4wCj3ionVKHepsaplZuTPFn5NqMPwI=;
-        h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-        b=vMLQlnAabD27ltP/v1cbTqNSjFpd45tm/xC2Anra6tRJTL2X3CATuIv0Xw/8TfTPt
-         Z2lJQ3LvdHp8+D8auatah4T6zDvaYJ2z5TccyT4xt1f+kkrxfxrlliGpeVRuwRMhSK
-         WxtgLCpIWQjvY3WswYMMhf49n6IoaVro0hNn7Fyc=
-Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
-        epcas2p4.samsung.com (KnoxPortal) with ESMTP id
-        20200420004037epcas2p4fc130492944c575178bcd633ab66328e~HYEOTd6s52437624376epcas2p4E;
-        Mon, 20 Apr 2020 00:40:37 +0000 (GMT)
-Received: from epsmges2p1.samsung.com (unknown [182.195.40.182]) by
-        epsnrtp3.localdomain (Postfix) with ESMTP id 4957CQ1Bs6zMqYl4; Mon, 20 Apr
-        2020 00:40:34 +0000 (GMT)
-Received: from epcas2p3.samsung.com ( [182.195.41.55]) by
-        epsmges2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-        3B.45.04598.28FEC9E5; Mon, 20 Apr 2020 09:40:34 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-        epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
-        20200420004033epcas2p4b7509a3b89d73dc1cbe5912c66f12e5c~HYELQEnHm2654826548epcas2p4m;
-        Mon, 20 Apr 2020 00:40:33 +0000 (GMT)
-Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
-        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20200420004033epsmtrp2bc54ee3c4b3eff0e60a975bf83c0be59~HYELPT9Af1250412504epsmtrp2P;
-        Mon, 20 Apr 2020 00:40:33 +0000 (GMT)
-X-AuditID: b6c32a45-eb9ff700000011f6-67-5e9cef822c75
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-        epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        32.D1.04158.18FEC9E5; Mon, 20 Apr 2020 09:40:33 +0900 (KST)
-Received: from KORCO038849 (unknown [12.36.155.199]) by epsmtip1.samsung.com
-        (KnoxPortal) with ESMTPA id
-        20200420004033epsmtip1548dd0f1b37c5331ea680b19f9a61a4d~HYELHmlVw2612026120epsmtip1X;
-        Mon, 20 Apr 2020 00:40:33 +0000 (GMT)
-From:   "Sunyoung Kang" <sy0816.kang@samsung.com>
-To:     "'Greg Kroah-Hartman'" <gregkh@linuxfoundation.org>
-Cc:     <mchehab@kernel.org>, "'Hans Verkuil'" <hverkuil-cisco@xs4all.nl>,
-        "'Arnd Bergmann'" <arnd@arndb.de>,
-        "'Thomas Gleixner'" <tglx@linutronix.de>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-In-Reply-To: <20200418073719.GA2410414@kroah.com>
-Subject: RE: [PATCH] media: v4l2-compat-ioctl32.c: copy reserved2 field in
- get_v4l2_buffer32
-Date:   Mon, 20 Apr 2020 09:40:33 +0900
-Message-ID: <000001d616ac$4ceaf1a0$e6c0d4e0$@samsung.com>
+        Sun, 19 Apr 2020 21:45:14 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25AF3C061A0C;
+        Sun, 19 Apr 2020 18:45:14 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29703528;
+        Mon, 20 Apr 2020 03:45:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1587347110;
+        bh=KDyvi4OkRTcQaQn+3LCFCHsc7jcha5vpO0IGsavZfTE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=vWq4rmVinrjw4xRY3ZxpvWB/7N9wl3zyQAElTNPBugEiBpitwQlQ2kkrmXeDJeutj
+         H+HWObG5VfOTF4lAb6TUTYpVtd3cs0ahbOIem+PI6YKqvJeN5wb7Uu3Ayb9GD/XDs9
+         TmFxjS4TTbMwLWhR14EmayfcOBqXmfS85wSl/WVw=
+Date:   Mon, 20 Apr 2020 04:44:57 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com,
+        niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/6] media: v4l2-subdv: Introduce get_mbus_config pad
+ op
+Message-ID: <20200420014457.GA15673@pendragon.ideasonboard.com>
+References: <20200415105004.2497356-1-jacopo+renesas@jmondi.org>
+ <20200415105004.2497356-2-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQJ7gu42VSZ3MiAb9Gs8yfburY36QgIZ9gAxAlM3OUoCfrlhmAFhRYnppvPm31A=
-Content-Language: ko
-X-Brightmail-Tracker: H4sIAAAAAAAAA01Sa0gUURjlOrMzo7Z1W60+LGoZkygwd7ZWx3IrWIuFHkhRVNTaoJNa+2Jn
-        txe9Ix+RZaKVm4oZSGmhrZXRO5U0saUnPcgeUKGFli1FL7Udx8h/5zvf+e45372XITRnqCgm
-        y+4WXXbBylJh5KWmqQmxez+XWnT5r2i+r/AOze87VUvxD0o6SP7RlVKKP1h3UcVX+f6E8PW+
-        YmIebf79qxCZfdV5lLnH76fNN8vO0uaAb6K57VuATqFWW5MyRSFddGlFe5ojPcueYWQXLks1
-        pRridVwsl8gnsFq7YBONbPKilNgFWdZgFla7SbB6glSKIEls3Jwkl8PjFrWZDsltZEVnutXJ
-        cc7pkmCTPPaM6WkO2yxOp9Mbgsp11sy31/JIpy98i7+mJ2Q3qgk9gEIZwDOhv/mx6gAKYzT4
-        MoKiiiJKKb4iaKu9Q8oqDf6O4NLB9f8mbt5qGBJdR9DZUU4qRReC7yU+JKsoHAc5+3tpGUfi
-        BCh720LLIgI/QXD62oUQuRGKOegfaA+aM0wEtsCz81NkmsQx8Ce/eFCixonw9E0npeDRcLfk
-        3WAiAk+Chu5SQkmkhZ/vq1SK1xLofVhOK5pIOJGXTci+gAco+Lm/kFYGkiHvxnFKwRHwseXC
-        EB8FgZ7rQ/wuOBoIqJThguCaFS0qpTEDvB9ykByawFOh9kqcDAFHQ/OLoWwjIbepj1ZoNeRm
-        axQYA3Vf9coZ46G7+xEqQKx32GLeYYt5hy3g/W9VgchqNFZ0SrYMUdI7ueFv7UOD33Ta/Mvo
-        uH9RI8IMYkeoV5aVWjQqYZO01daIgCHYSPXtBSUWjTpd2LpNdDlSXR6rKDUiQ/DejxBRY9Ic
-        wU9vd6dyBn18vC7RwBvi9Tw7Tl0f/nyNBmcIbnGjKDpF17+5ECY0ajdyts55qauPdmR/UTXd
-        a2yNa3g9gdzcl0tMPGRELzb0dh5ZbapcFS1d9b+Zt/jWueW+GNO5l4s5W8OW5vt1a01VEfhs
-        q6Y/yXNyYG1Y/uTW7V2Hup7vXLFjZvKeisOzJ5hHJR0G6w3+R1Z5Qcrcym1FlmNTcqpM7Z9q
-        u8/TxuIwamklS0qZAjeNcEnCXwnB6e68AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCIsWRmVeSWpSXmKPExsWy7bCSnG7j+zlxBr9vaFn8nXSM3aJ58Xo2
-        i4sz77JYXN41h82iZ8NWVotlm/4wWWzeNJXZgd3j969JjB6bVnWyebw7d47dY//cNewenzfJ
-        eZz6+pk9gC2KyyYlNSezLLVI3y6BK+Phnk6Wgk3cFedWv2NqYFzN2cXIySEhYCKx/8B2ti5G
-        Lg4hgd2MEtOWvmDsYuQASkhL7N+YC1EjLHG/5QgrRM1zRol7z+YwgiTYBPQl2ls/soPYIgLm
-        EnMfHmcHKWIWuM0oseb0ORaIjlYmiRuzfjCDVHEKGEr8+3+GFcQWFoiR+LduNlg3i4CqxJ/e
-        qUwgNq+ApcT1By/YIGxBiZMzn7CAXMQsoCfRthFsMbOAvMT2t3OYIa5TkPj5dBkrxBF+Eh8v
-        zWOHqBGRmN3ZxjyBUXgWkkmzECbNQjJpFpKOBYwsqxglUwuKc9Nziw0LjPJSy/WKE3OLS/PS
-        9ZLzczcxguNKS2sH44kT8YcYBTgYlXh4I+bOiRNiTSwrrsw9xCjBwawkwnvQbWacEG9KYmVV
-        alF+fFFpTmrxIUZpDhYlcV75/GORQgLpiSWp2ampBalFMFkmDk6pBsasX9NO7VMzC5rz0kHP
-        9OalSfEFS+rutW1/pzGhwH2d5dMI9y/XAo9NlV6rE3p9t4xfe8y6BWuniXs5rnXR3adzvnep
-        ++3zwdM3uAdr1TXVW1s4qnf2/1p87bnax3Opk7/NOR5rfOzzCqUDrrXV+64opTU3vF++8OvS
-        cP3l5oEfZp/NOJKzYJWdEktxRqKhFnNRcSIAHNdGCacCAAA=
-X-CMS-MailID: 20200420004033epcas2p4b7509a3b89d73dc1cbe5912c66f12e5c
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20200417025205epcas2p46d33e64f2de49041d2ca68ecc98fc83e
-References: <CGME20200417025205epcas2p46d33e64f2de49041d2ca68ecc98fc83e@epcas2p4.samsung.com>
-        <20200417024543.66785-1-sy0816.kang@samsung.com>
-        <20200417083506.GB141762@kroah.com>
-        <145301d6152f$6d5b6240$481226c0$@samsung.com>
-        <20200418073719.GA2410414@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200415105004.2497356-2-jacopo+renesas@jmondi.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I understand what you mean.
-However, the way to transmit information about the buffer is only flags in
-v4l2_buffer
-In flags in v4l2_buffer, there is no reserved bit field that can be used for
-custom.
-Additional information about the buffer is needed to provide various
-functions required by the customers but flags is not enough. So reserved2 is
-used as an alternative.
-Can you suggest a better opinion?
+Hi Jacopo,
 
-And copy the reserved2 value in put_v4l2_buffer32(), but it is missing only
-in get_v4l2_buffer32().
-Can't I put it in get_v4l2_buffer32()?
+Thank you for the patch.
 
-Thanks,
-Sunyoung
+On Wed, Apr 15, 2020 at 12:49:58PM +0200, Jacopo Mondi wrote:
+> Introduce a new pad operation to allow retrieving the media bus
+> configuration on a subdevice pad.
+> 
+> The newly introduced operation reassembles the s/g_mbus_config video
+> operation, which have been on their way to be deprecated since a long
+> time.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  include/media/v4l2-subdev.h | 69 +++++++++++++++++++++++++++++++++++++
+>  1 file changed, 69 insertions(+)
+> 
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index a4848de59852..fc16af578471 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -350,6 +350,71 @@ struct v4l2_mbus_frame_desc {
+>  	unsigned short num_entries;
+>  };
+>  
+> +/**
+> + * struct v4l2_mbus_parallel_config - parallel mbus configuration
+> + * @hsync_active: hsync active state: 1 for high, 0 for low
+> + * @vsync_active: vsync active state: 1 for high, 0 for low
+> + * @pclk_rising: pixel clock active edge: 1 for rising, 0 for falling
 
-> -----Original Message-----
-> From: 'Greg Kroah-Hartman' <gregkh@linuxfoundation.org>
-> Sent: Saturday, April 18, 2020 4:37 PM
-> To: Sunyoung Kang <sy0816.kang@samsung.com>
-> Cc: mchehab@kernel.org; 'Hans Verkuil' <hverkuil-cisco@xs4all.nl>; 'Arnd
-> Bergmann' <arnd@arndb.de>; 'Thomas Gleixner' <tglx@linutronix.de>; linux-
-> media@vger.kernel.org; linux-kernel@vger.kernel.org
-> Subject: Re: [PATCH] media: v4l2-compat-ioctl32.c: copy reserved2 field in
-> get_v4l2_buffer32
-> 
-> On Sat, Apr 18, 2020 at 12:14:09PM +0900, Sunyoung Kang wrote:
-> > Exynos video codec driver uses reserved2 value. How will reserved2 be
-> > used for future use?
-> 
-> No driver should be using the "reserved" fields, as they are "reserved"
-> by the api for future expansion of it.  They are not driver-specific
-> fields to be used that way at all.
-> 
-> thanks,
-> 
-> greg k-h
+Is this for the driving side or the sampling side ?
 
+> + * @data_active: data lines active state: 1 for high, 0 for low
+
+I wonder, is there any system with active low data lines ?
+
+> + */
+> +struct v4l2_mbus_parallel_config {
+
+Is this intended to cover BT.656 too ? Either way I think it should be
+documented.
+
+> +	unsigned int hsync_active : 1;
+> +	unsigned int vsync_active : 1;
+> +	unsigned int pclk_rising : 1;
+> +	unsigned int data_active : 1;
+
+Shouldn't we reuse the V4L2_MBUS_* flags, given that they're also used
+in v4l2_fwnode_bus_parallel ? While the v4l2_mbus_config structure is
+getting deprecated, it doesn't mean we can reuse the same flags if they
+make sense. Otherwise we'll have to translate between
+v4l2_fwnode_bus_parallel.flags and the fields here. Ideally
+v4l2_fwnode_bus_parallel should be replaced with
+v4l2_mbus_parallel_config (once we add additional fields).
+
+> +};
+> +
+> +/**
+> + * struct v4l2_mbus_csi2_dphy_config - MIPI CSI-2 DPHY mbus configuration
+
+s/DPHY/D-PHY/ (same below)
+
+> + * @data_lanes: number of data lanes in use
+> + * @clock_noncontinuous: non continuous clock enable flag: 1 for non
+> + *			 continuous clock, 0 for continuous clock.
+> + */
+> +struct v4l2_mbus_csi2_dphy_config {
+> +	unsigned int data_lanes : 3;
+> +	unsigned int clock_noncontinuous : 1;
+> +};
+> +
+> +/**
+> + * struct v4l2_mbus_csi2_cphy_config - MIPI CSI-2 CPHY mbus configuration
+> + *
+> + * TODO
+> + */
+> +struct v4l2_mbus_csi2_cphy_config {
+> +	/* TODO */
+> +};
+
+How about leaving this one out for now as it's empty ?
+
+> +
+> +/**
+> + * struct v4l2_mbus_pad_config - media bus configuration
+> + *
+> + * Report the subdevice media bus information to inform the caller of the
+> + * current bus configuration. The structure describes bus configuration
+> + * parameters that might change in-between streaming sessions, in order to allow
+> + * the caller to adjust its media bus configuration to match what is reported
+> + * here.
+
+I'd focus here on what the structure contains rather than how it's used,
+usage belongs to the documentation of the .get_mbus_config() operation.
+
+I think the documentation should specify clearly that this is about the
+physical bus configuration (as it excludes virtual channels on CSI-2 for
+instance), and should also explain that this is about usage of the
+physical bus, not just its hardware configuration on the PCB (as the
+intent is to report the number of CSI-2 D-PHY data lanes actually used,
+not the number of data lanes present on the board for instance).
+
+> + *
+> + * TODO: add '_pad_' to the name to distinguish this from the structure
+> + * defined in v4l2_mediabus.h used for the same purpose by the g/s_mbus_config
+> + * video operations. Reuse the there defined enum v4l2_mbus_type to define
+> + * the bus type.
+
+What is this TODO about ? There's a '_pad_' in the name of this
+structure.
+
+> + *
+> + * @type: mbus type. See &enum v4l2_mbus_type
+> + * @parallel: parallel bus configuration parameters.
+> + *	      See &struct v4l2_mbus_parallel_config
+> + * @csi2_dphy: MIPI CSI-2 DPHY configuration parameters
+> + *	       See &struct v4l2_mbus_csi2_dphy_config
+> + * @csi2_cphy: MIPI CSI-2 CPHY configuration parameters
+> + *	       See &struct v4l2_mbus_csi2_cphy_config
+> + */
+> +struct v4l2_mbus_pad_config {
+> +	enum v4l2_mbus_type type;
+> +	union {
+> +		struct v4l2_mbus_parallel_config parallel;
+> +		struct v4l2_mbus_csi2_dphy_config csi2_dphy;
+> +		struct v4l2_mbus_csi2_cphy_config csi2_cphy;
+> +	};
+> +};
+> +
+>  /**
+>   * struct v4l2_subdev_video_ops - Callbacks used when v4l device was opened
+>   *				  in video mode.
+> @@ -670,6 +735,8 @@ struct v4l2_subdev_pad_config {
+>   *
+>   * @set_frame_desc: set the low level media bus frame parameters, @fd array
+>   *                  may be adjusted by the subdev driver to device capabilities.
+> + *
+> + * @get_mbus_config: get the current mbus configuration
+
+I was going to say that this is a bit too short, but then saw patch 3/6
+:-)
+
+>   */
+>  struct v4l2_subdev_pad_ops {
+>  	int (*init_cfg)(struct v4l2_subdev *sd,
+> @@ -710,6 +777,8 @@ struct v4l2_subdev_pad_ops {
+>  			      struct v4l2_mbus_frame_desc *fd);
+>  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
+>  			      struct v4l2_mbus_frame_desc *fd);
+> +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+> +			       struct v4l2_mbus_pad_config *config);
+>  };
+>  
+>  /**
+
+-- 
+Regards,
+
+Laurent Pinchart
