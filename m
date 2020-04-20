@@ -2,81 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE0EF1B0B8B
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2020 14:56:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA0351B0BAB
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2020 14:57:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729742AbgDTM4s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Apr 2020 08:56:48 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:43991 "EHLO
+        id S1728520AbgDTM5o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Apr 2020 08:57:44 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:44303 "EHLO
         lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728619AbgDTMos (ORCPT
+        by vger.kernel.org with ESMTP id S1728461AbgDTM5n (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Apr 2020 08:44:48 -0400
+        Mon, 20 Apr 2020 08:57:43 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id QVn2j1Gon7xncQVn5jHMy6; Mon, 20 Apr 2020 14:44:47 +0200
+        id QVzWj1LO47xncQVzZjHPwQ; Mon, 20 Apr 2020 14:57:42 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587386687; bh=6V/RHokHlkqZC2wGhrEgZqhKv5p6/QpIW01iSKeg7Ag=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1587387462; bh=oyD9pM6t9PoIRmc9zSwyeEoXI879f9HMWGF4aWcHdpg=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=GZVai+LeMdDkPW/+0g4y1+VN6DJOhSHdhDfoBl/4MVN1PIEWUII4nYcGpy8Gz++81
-         LQkRSn2PG7IHOJWepdLHG8jhPAFLDYoinqgBshJoQT1s+VT/bM7tY0f1vmbUvkH4UR
-         veH4xWqRTWZj3j9E5mK8lSVGlKEOdHloq2HKJHUVpyzxr2rK7ArsHWsc/lU/1PqZ4Z
-         R7rawfbMB0l8Fq8wirmDJ7Plq5B4KwFpOvLS2DR+LlPjkd6An8pv4XpOwnz5nV3ugh
-         /JbbEVSoTFuXJd6NRMCzUf5MYncieQ5rF6Y5p/6MjlxR1ijlcsDklIj+GouIr+T6jJ
-         OB93MTKjtmv2A==
-Subject: Re: How about a v4l-utils-1.20 release?
-To:     Sean Young <sean@mess.org>, Gregor Jasny <gjasny@googlemail.com>
-Cc:     Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Rosen Penev <rosenp@gmail.com>,
-        Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
-References: <818465d4-3665-5af0-0136-2090edbb4eb1@googlemail.com>
- <20200420121942.GA22485@gofer.mess.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <f6a2df46-75f8-1481-3a1c-fcd53032c89f@xs4all.nl>
-Date:   Mon, 20 Apr 2020 14:44:44 +0200
+        b=o/vAOkzlVFIg0C7svkfnDhzk89tsVaizRr+2p6I06BtNMAbE9jm3P+keOMugwrV8e
+         aemzLyrhyZiFr/8HpUhujUg9Mm8VPU3ALNmUf9tMRTvRI05AH+8dR1Hlak1n1XBiwa
+         FiDL2BKZrXRPL0pJkMcgcRtD7/AYinJWvaXCnXfOPH9MOsknyPvF/x7mwErbvLnJ/+
+         p7iyvJJPSI7ayDfdhV/6KZj8AvHjJOin6sMw/gDhK5/0gPVYYElP+XB4aLfZ93IaJD
+         c1i+C4MbYgie5CXEnmWBUeLNfu8UVy8d75+i2woCVoMkV8bISicxez9xroX8juVXD9
+         Pxc3jUYCsxO7w==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] vidioc-reqbufs/create-bufs.rst: fix typo
+Message-ID: <4f3d3be1-3e26-e920-79f1-faafb2246a5e@xs4all.nl>
+Date:   Mon, 20 Apr 2020 14:57:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200420121942.GA22485@gofer.mess.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfDfjThlSs7yJsLwVVCPWYGdzpy+yNFNvfuXj9ev2IuV3khcv7rAIEqsKTd7smDDOqNu/AB0TzD3TnpZyrqnNItQH0zqKxZvnBM3ty98Ohz4HMACevUQp
- yj0xTQ924hd0nFpMNhvpJ3OddmtGTIie//3BXxIfSi5plyWIzrKykJ7Ik6FVk7fxBtahn8rnRY195m7mmoBXozZeigqBsOnAGSnJiU/g7zVX8I6S920lGLQD
- LNvr+MEH1NpgeTBO06WlrtN9q08XTEUtI56EHHnQMXwXG6angO5iUduch5tWYRXu6rj7tTPsinA4lI09EV+ta8jl/TLLppELJxpdkp6M9LE=
+X-CMAE-Envelope: MS4wfBpmNsclfKmPzsjlU26NSrD/U8arBGfmRIi8/jUXLWQ6Wc3I1VxND+0x8fj9EUVjPXx+VCq9u7hanJdRP5WgsSNL77SSGccRfd2ZhQCxA0iBTBKlKUiB
+ vFLG5U5Xp2W5VaWYH7OuhYqbycliyGU5dMaxQCX3e0u6oZNN/+Mw3z/P385bKbA1uT/htksVouQP3Q==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/04/2020 14:19, Sean Young wrote:
-> Hi Gregor,
-> 
-> On Mon, Apr 20, 2020 at 02:05:07PM +0200, Gregor Jasny wrote:
->> Hello,
->>
->> It's been a while since we released v4l-utils 1.18. How about a 1.20
->> release?
->>
->> Do you have anything that should go in before?
-> 
-> There is nothing from me. There are few patches on the list from Rosen Penev,
-> cleaning up various stuff found with clang.
+any others capabilities -> any other capabilities
 
-Merged this.
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
+index bd580232be10..e1afc5b504c2 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
+@@ -113,7 +113,7 @@ than the number requested.
+       - Set by the driver. If 0, then the driver doesn't support
+         capabilities. In that case all you know is that the driver is
+ 	guaranteed to support ``V4L2_MEMORY_MMAP`` and *might* support
+-	other :c:type:`v4l2_memory` types. It will not support any others
++	other :c:type:`v4l2_memory` types. It will not support any other
+ 	capabilities. See :ref:`here <v4l2-buf-capabilities>` for a list of the
+ 	capabilities.
 
-Regards,
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+index 79884bb4893b..b6d52083707b 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+@@ -104,7 +104,7 @@ aborting or finishing any DMA in progress, an implicit
+       - Set by the driver. If 0, then the driver doesn't support
+         capabilities. In that case all you know is that the driver is
+ 	guaranteed to support ``V4L2_MEMORY_MMAP`` and *might* support
+-	other :c:type:`v4l2_memory` types. It will not support any others
++	other :c:type:`v4l2_memory` types. It will not support any other
+ 	capabilities.
 
-	Hans
-
-> 
-> Otherwise I guess there is the meson build system, but I don't know how far
-> out that is.
-> 
-> Thanks,
-> 
-> Sean
-> 
-
+ 	If you want to query the capabilities with a minimum of side-effects,
