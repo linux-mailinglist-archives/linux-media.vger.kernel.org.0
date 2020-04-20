@@ -2,139 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ABDF1B1019
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2020 17:29:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 139151B105D
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2020 17:39:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726984AbgDTP3q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Apr 2020 11:29:46 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:58587 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725989AbgDTP3p (ORCPT
+        id S1726364AbgDTPjt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Apr 2020 11:39:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60442 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725937AbgDTPjs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Apr 2020 11:29:45 -0400
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id B7571100016;
-        Mon, 20 Apr 2020 15:29:41 +0000 (UTC)
-Date:   Mon, 20 Apr 2020 17:29:41 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com, Hans Verkuil <hverkuil@xs4all.nl>,
-        Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH] cedrus: Drop unneeded CONFIG_OF dependency
-Message-ID: <20200420152941.GA610656@aptenodytes>
-References: <20200402194653.13535-1-ezequiel@collabora.com>
- <20200403082206.GA626942@aptenodytes>
- <a36a825bc048821b4b7088feea71bd31e9e17211.camel@collabora.com>
+        Mon, 20 Apr 2020 11:39:48 -0400
+Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7256C061A0C
+        for <linux-media@vger.kernel.org>; Mon, 20 Apr 2020 08:39:47 -0700 (PDT)
+Received: by mail-wr1-x42d.google.com with SMTP id x18so12790378wrq.2
+        for <linux-media@vger.kernel.org>; Mon, 20 Apr 2020 08:39:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=tBfo4+pFkKrmU6eIwlLF4X+B899vvtUyHYmb/XCzx4I=;
+        b=yQ4s7D65uv2uVCEayVB9UfkCDO4B+2i2UYrsiDEiPzOQ+f+tC1O+TMav/Ou9kKsIOi
+         +Dr6E+ev8R+xURDDrJQZW9OOesA9UbKpIBjA9fhCJuoz56nh+Ic5cUJYHdevspCAMSCb
+         6rY03bgYW2Q017CDUvCYNbVSQ2UNiEX554FoYEk+VH/z8wYl6+7ezK7aTaKLVd62BOWT
+         ENK726NNSJOgj1op25fzEbaV02897zbZlvr6Q6WlGL+KZejjUGqytG/tVDmU6D7yFF5u
+         +YoIy+BY2JhZk4WMD7PlL98vbu3OYf34q9D6QG0zrGa7+1zOAXOM5KVXdfyiWgPTBt3i
+         Rxsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=tBfo4+pFkKrmU6eIwlLF4X+B899vvtUyHYmb/XCzx4I=;
+        b=Kj/xS+CFPPLdjqgNAgDJfXxQfPekcg1t2i0bofAIYRhScHoNnT9eNDdumtYENsN2Uj
+         56QNe6QTL2i3mn/WPSvIjOj+UYr86HQAGQTGw+PyQXCw1s7Dv/6wio04llgN5O7lolX7
+         KqfLSk7543cU7ogvz83Pscbwiwh/c+jKi1ulTVKz9bmV7fXHEuqxjVY+3/Bf2hR3sOfi
+         d5WFaq5u5VboftDkw4gyHwneCQsDlSsnu03l9KujMHo6kLIBX5KJZPLCOuwWT9cNe9X3
+         HTOO6lc4DChC7VvZJMD+902QZa5dT5NgBXGiCmUz8yCWZCGvTmqFs2eJ/VklPkBdh4Je
+         2QAg==
+X-Gm-Message-State: AGi0PuaXTz4MpSk+kL+o5Piu40pyON2WVZsU6xyD/IE9v0d9yi+CbvA0
+        WD2gzY5dPGbORxKjbo6Afs9B+RCiQMJNBQ==
+X-Google-Smtp-Source: APiQypJg198wWgr/yfSHqlXDvexQFspmVz6ovTRMJ+Cz1Sszqpa907srBbuQeWoca6/4us+Fjwo/tw==
+X-Received: by 2002:a05:6000:1287:: with SMTP id f7mr19891134wrx.345.1587397186466;
+        Mon, 20 Apr 2020 08:39:46 -0700 (PDT)
+Received: from [192.168.1.5] (212-5-158-142.ip.btc-net.bg. [212.5.158.142])
+        by smtp.googlemail.com with ESMTPSA id c83sm1947059wmd.23.2020.04.20.08.39.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Apr 2020 08:39:45 -0700 (PDT)
+Subject: Re: decode sync frames only
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <9a58a501-8348-2230-2ab5-534471d866ca@linaro.org>
+ <b4471541-aeaf-462b-ee36-14ac4e2845f8@xs4all.nl>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <00202b06-1cfb-e3d1-bd1b-117789b031a1@linaro.org>
+Date:   Mon, 20 Apr 2020 18:39:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="AqsLC8rIMeq19msA"
-Content-Disposition: inline
-In-Reply-To: <a36a825bc048821b4b7088feea71bd31e9e17211.camel@collabora.com>
+In-Reply-To: <b4471541-aeaf-462b-ee36-14ac4e2845f8@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Hans,
 
---AqsLC8rIMeq19msA
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 4/20/20 5:48 PM, Hans Verkuil wrote:
+> On 20/04/2020 16:38, Stanimir Varbanov wrote:
+>> Hi,
+>>
+>> I need to port a decoder v4l2 control in mainline Venus driver which
+>> instructs the decoder to decode sync frames only (I frame/ IDR frame).
+>> In practice the usage of such control is to generate thumbnails for
+>> particular video.
+>>
+>> To do that I researched what we have currently in v4l2-controls.h and
+>> found something similar but for encoders:
+>>
+>> V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME
+>> "Force a key frame for the next queued buffer. Applicable to encoders.
+>> This is a general, codec-agnostic keyframe control."
+>>
+>> I think I have two options:
+>>
+>> 1. reuse V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME for the decoder and document it
+>>
+>> 2. create a new v4l control V4L2_CID_MPEG_VIDC_VIDEO_SYNC_FRAME_DECODE
+> 
+> Make a new v4l control. The encoder control is for something quite different.
+> 
+> How about V4L2_CID_MPEG_VIDEO_DEC_KEY_FRAMES_ONLY?
 
-Hi Ezequiel,
+What you mean by "_DEC_" in the name - DECODER or DECODE?
 
-On Fri 03 Apr 20, 09:21, Ezequiel Garcia wrote:
-> On Fri, 2020-04-03 at 10:22 +0200, Paul Kocialkowski wrote:
-> > Hi Ezequiel,
-> >=20
-> > On Thu 02 Apr 20, 16:46, Ezequiel Garcia wrote:
-> > > The driver is perfectly capable of being built without CONFIG_OF.
-> > > Remove this dependency, which is useful for compile-only tests.
-> >=20
-> > Thanks for the patch!
-> >=20
-> > Alas, the driver won't do anything useful without OF enabled, so it see=
-ms
-> > useful to keep that dependency.
->=20
-> I'm not convinced about this argument, I like to have
-> dependencies on things the driver needs to compile
-> (except the machine option, see below).
+I've found
+V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE and
+V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER
 
-Is there a general kernel-wide policy about that?
+in v4l2-controls.h which use the whole word "DECODER", thus I wonder
+what is proffered word to follow the v4l2-controls.h naming style.
 
-I must admit that I never really understood if Kconfig depends are supposed=
- to
-strictly reflect build dependencies or dependencies that must reasonably be
-expected for the driver to be useful. The arch dependency (which is farily
-common) seems to suggest the latter.
-
-Maxime, any thought about that?
-
-> > I would suggest making this a: depends on OF || COMPILE_TEST
-> > instead. What do you think?
->=20
-> Although there are a handful, I don't see many drivers doing that.
-> To be honest, I don't like this much.
->=20
-> Also, if you want to make sure this driver can only be selected
-> where it makes sense, you consider having a ARCH_SUNXI || COMPILE_TEST.
-
-Fair enough, that would be the consistent choice with OF || COMPILE_TEST.
-
-> IMO, the dependency on OF should be dropped as well.
->
-> Cheers,
-> Eze
->=20
-> > Cheers,
-> >=20
-> > Paul
-> >=20
-> > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > ---
-> > >  drivers/staging/media/sunxi/cedrus/Kconfig | 1 -
-> > >  1 file changed, 1 deletion(-)
-> > >=20
-> > > diff --git a/drivers/staging/media/sunxi/cedrus/Kconfig b/drivers/sta=
-ging/media/sunxi/cedrus/Kconfig
-> > > index 17733e9a088f..59b8d1b29865 100644
-> > > --- a/drivers/staging/media/sunxi/cedrus/Kconfig
-> > > +++ b/drivers/staging/media/sunxi/cedrus/Kconfig
-> > > @@ -3,7 +3,6 @@ config VIDEO_SUNXI_CEDRUS
-> > >  	tristate "Allwinner Cedrus VPU driver"
-> > >  	depends on VIDEO_DEV && VIDEO_V4L2 && MEDIA_CONTROLLER
-> > >  	depends on HAS_DMA
-> > > -	depends on OF
-> > >  	depends on MEDIA_CONTROLLER_REQUEST_API
-> > >  	select SUNXI_SRAM
-> > >  	select VIDEOBUF2_DMA_CONTIG
-> > > --=20
-> > > 2.26.0.rc2
-> > >=20
->=20
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---AqsLC8rIMeq19msA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl6dv+UACgkQ3cLmz3+f
-v9F/ZggAlAIvNxnteZI11ryM9PMa8354QX9Kdf3nGN/QAGCeK48282o2GYPmUmk+
-GHehBW01rTvo9bS/oa0ltcSO06xEvuwusxc3rNA8ldanB16wT/zK9/nPsVFtvd17
-/lhIvSMODSvBYD6HnFOeC058vCcGeFupgTHJyAfatcSYDeYc1ZomT3RMWkuIynMv
-10SqKNWVGH+4cyFw7/Yxth1cHtUNqNtdNwPhW9LBVLm5C3/Sz4SKggUoNhVcHsqA
-gSM4bRnpGudU2e/o++NKJuwxPZQmEjsh9epni8p98Gs6PXAQxvQSurzMY90fYHFT
-h2hgdOrKxzTyH9x3eoaHbxtywqWOxg==
-=KW81
------END PGP SIGNATURE-----
-
---AqsLC8rIMeq19msA--
+-- 
+regards,
+Stan
