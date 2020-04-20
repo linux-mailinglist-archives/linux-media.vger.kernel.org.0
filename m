@@ -2,98 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 255C81B1139
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2020 18:15:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B9651B11A2
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2020 18:33:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728209AbgDTQP3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Apr 2020 12:15:29 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:56459 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725958AbgDTQP3 (ORCPT
+        id S1726358AbgDTQdi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Apr 2020 12:33:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40742 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725287AbgDTQdh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Apr 2020 12:15:29 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id QZ4tjcd3tlKa1QZ4wjuUvp; Mon, 20 Apr 2020 18:15:27 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587399327; bh=wEmNVuyj683uDNJGlJlWTElHRqXqeKyvxmXZl6UkAvo=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=anv+8DdI/sVFbjsFOFnjHjECms/cOcBmTknN9n8zY5nK/RJirmn54MKrQmPtCpngj
-         3TKyMGRZZqyxXQn2egt9qmOmpxAtWaFgVEasy5kW2pf3vb0cFY/mfCzZSb/zCVFDHG
-         iMBU0WipE/ptrAcqd+8+XfdRYGFOH1eJVi4BwlrR9v6u3lijv9cHfAAgr3IHrGyp+W
-         Xo612gJrjc+3FXFoBdm6HclC+nmVEt1Zs2C6f7vMq4olCGevjX8Yzbj/i6oN6HXg2A
-         mNwTR4tfYWXDf/9Vlfm9+kcdTCkT/wGCpMSmD7MP3HhIgvCFv+fTsYAy0DmOMJvI/i
-         dU7h/cOE0Vrzw==
-Subject: Re: decode sync frames only
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <9a58a501-8348-2230-2ab5-534471d866ca@linaro.org>
- <b4471541-aeaf-462b-ee36-14ac4e2845f8@xs4all.nl>
- <00202b06-1cfb-e3d1-bd1b-117789b031a1@linaro.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <e5cacb73-64c0-3137-332c-ce9b3b24e672@xs4all.nl>
-Date:   Mon, 20 Apr 2020 18:15:23 +0200
+        Mon, 20 Apr 2020 12:33:37 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96CF0C025491;
+        Mon, 20 Apr 2020 09:33:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
+        Subject:Sender:Reply-To:Content-ID:Content-Description;
+        bh=CvAAuoxWyufDWEFP6WEdB7uoSrO8WvrXLQoymRvBxWA=; b=goQ2DYjOqDYIjUoE1hbxb7KL5m
+        kAAns3hsxydLwGCF628DLRfJUmcdZuDHht1BPGxhQgMr9Pd1pA8qQ+P5imIC6mULqPqu7u3eYP66c
+        djemYJzRQONbt9Acpf16FDPboAZtKVz5HI1s/aMr09SnTLOjwNGFv52Djy91MpRlJcnrTyXQsKabl
+        JeCcB7I5ysxZDfghDRWsWW/pF9Zt7U/eHdDSj0Rt3kjk8cX+jagkUUckmL+S1SbfvgoACMKIfwf0B
+        2K84eS5Y8zveh/If0gJoMKbCD/QR6boyifR3RWO+oMLT3ZfWLGOkYDrAzVhgQ3uwbGVQvt1aPVsI4
+        8Rs03b9w==;
+Received: from [2601:1c0:6280:3f0::19c2]
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jQZMT-00057w-QB; Mon, 20 Apr 2020 16:33:33 +0000
+Subject: Re: linux-next: Tree for Apr 20 (media: usbvision)
+To:     Stephen Rothwell <sfr@canb.auug.org.au>,
+        Linux Next Mailing List <linux-next@vger.kernel.org>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20200420142610.390e5922@canb.auug.org.au>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Message-ID: <02165f8b-f19f-2293-065a-cf9ad4de9689@infradead.org>
+Date:   Mon, 20 Apr 2020 09:33:31 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <00202b06-1cfb-e3d1-bd1b-117789b031a1@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200420142610.390e5922@canb.auug.org.au>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBF542IXikGeJZUwvJNdMrx2yRXinTEMGfbnkFqkcXx79PkoHp9OsbclVmVV0s8mRHX0vZ8zhoaPArjHBN7lHexnGlgeu8gJ9XI0oKxL3l/E3+lWyd1b
- sZ2bv0ELOdYrIDyaxRRb2/gRUBbRNyn30X8RcRPISuI9/5Cvv5GR27eJHaBsA+8di8X0s5MbOUG75SW4uqqcJ567wXj1eBwN62Zfzb1MAT2nECKVW9ugd8dH
- UtACf3Uul9rCT8cflSpxiQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/04/2020 17:39, Stanimir Varbanov wrote:
-> Hi Hans,
+On 4/19/20 9:26 PM, Stephen Rothwell wrote:
+> Hi all,
 > 
-> On 4/20/20 5:48 PM, Hans Verkuil wrote:
->> On 20/04/2020 16:38, Stanimir Varbanov wrote:
->>> Hi,
->>>
->>> I need to port a decoder v4l2 control in mainline Venus driver which
->>> instructs the decoder to decode sync frames only (I frame/ IDR frame).
->>> In practice the usage of such control is to generate thumbnails for
->>> particular video.
->>>
->>> To do that I researched what we have currently in v4l2-controls.h and
->>> found something similar but for encoders:
->>>
->>> V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME
->>> "Force a key frame for the next queued buffer. Applicable to encoders.
->>> This is a general, codec-agnostic keyframe control."
->>>
->>> I think I have two options:
->>>
->>> 1. reuse V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME for the decoder and document it
->>>
->>> 2. create a new v4l control V4L2_CID_MPEG_VIDC_VIDEO_SYNC_FRAME_DECODE
->>
->> Make a new v4l control. The encoder control is for something quite different.
->>
->> How about V4L2_CID_MPEG_VIDEO_DEC_KEY_FRAMES_ONLY?
-> 
-> What you mean by "_DEC_" in the name - DECODER or DECODE?
-
-DECODER
-
-> 
-> I've found
-> V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE and
-> V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER
-> 
-> in v4l2-controls.h which use the whole word "DECODER", thus I wonder
-> what is proffered word to follow the v4l2-controls.h naming style.
+> Changes since 20200417:
 > 
 
-It's a bit long, but DECODER is unambiguous, so let's use that.
+on i386:
+CONFIG_USB=m
+CONFIG_VIDEO_USBVISION=y
 
-Regards,
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_write_reg_irq':
+usbvision-core.c:(.text+0x8a4): undefined reference to `usb_submit_urb'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_isoc_irq':
+usbvision-core.c:(.text+0x2ee8): undefined reference to `usb_submit_urb'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_read_reg':
+usbvision-core.c:(.text+0x30ad): undefined reference to `usb_control_msg'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_write_reg':
+usbvision-core.c:(.text+0x3178): undefined reference to `usb_control_msg'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_set_output':
+usbvision-core.c:(.text+0x344e): undefined reference to `usb_control_msg'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_set_input':
+usbvision-core.c:(.text+0x3b9b): undefined reference to `usb_control_msg'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_setup':
+usbvision-core.c:(.text+0x4009): undefined reference to `usb_control_msg'
+ld: drivers/staging/media/usbvision/usbvision-core.o:usbvision-core.c:(.text+0x417f): more undefined references to `usb_control_msg' follow
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_set_alternate':
+usbvision-core.c:(.text+0x4518): undefined reference to `usb_set_interface'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_init_isoc':
+usbvision-core.c:(.text+0x4673): undefined reference to `usb_alloc_urb'
+ld: usbvision-core.c:(.text+0x46a5): undefined reference to `usb_alloc_coherent'
+ld: usbvision-core.c:(.text+0x4765): undefined reference to `usb_submit_urb'
+ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_stop_isoc':
+usbvision-core.c:(.text+0x4837): undefined reference to `usb_kill_urb'
+ld: usbvision-core.c:(.text+0x485f): undefined reference to `usb_free_coherent'
+ld: usbvision-core.c:(.text+0x4874): undefined reference to `usb_free_urb'
+ld: usbvision-core.c:(.text+0x48f1): undefined reference to `usb_set_interface'
+ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_release':
+usbvision-video.c:(.text+0x1a8a): undefined reference to `usb_free_urb'
+ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_disconnect':
+usbvision-video.c:(.text+0x1b74): undefined reference to `usb_put_dev'
+ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_radio_close':
+usbvision-video.c:(.text+0x1c89): undefined reference to `usb_set_interface'
+ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_probe':
+usbvision-video.c:(.text+0x1e4b): undefined reference to `usb_get_dev'
+ld: usbvision-video.c:(.text+0x20e1): undefined reference to `usb_alloc_urb'
+ld: usbvision-video.c:(.text+0x2797): undefined reference to `usb_put_dev'
+ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_exit':
+usbvision-video.c:(.exit.text+0x37): undefined reference to `usb_deregister'
+ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_init':
+usbvision-video.c:(.init.text+0xf9): undefined reference to `usb_register_driver'
+ld: drivers/staging/media/usbvision/usbvision-i2c.o: in function `usbvision_i2c_write':
+usbvision-i2c.c:(.text+0x2f4): undefined reference to `usb_control_msg'
 
-	Hans
+-- 
+~Randy
+Reported-by: Randy Dunlap <rdunlap@infradead.org>
