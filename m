@@ -2,105 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E83A1B1602
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2020 21:38:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF4571B1655
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2020 21:57:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726201AbgDTTiK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Apr 2020 15:38:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44324 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725550AbgDTTiK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Apr 2020 15:38:10 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E3FC920782;
-        Mon, 20 Apr 2020 19:38:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587411489;
-        bh=st5ryvnuuzHW/y5jQcD6ktJkLyF7FZY29U4HdlKnUxw=;
+        id S1726294AbgDTT5b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Apr 2020 15:57:31 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:48256 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725897AbgDTT5a (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 20 Apr 2020 15:57:30 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8327897D;
+        Mon, 20 Apr 2020 21:57:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1587412647;
+        bh=VyAYxn5QYg/qgAZ3QLAxeHFXObmm2KTLy1cekrs4/Co=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2wD1wB3o85g4p18KfuQgQ3nh5QvCYEtTG0WYpX2GAGyHlT6o9hYsCH9TMSUvirVCH
-         NtzWAtFykY9kByx0zNIJvrMTE+0mik2BW1te8Ol1bf0wRVpyOz8//ClGC0CwkfIjpC
-         9O07/3WEqn3OTereZBM+G5I0mN7USdlnCHZyGqV4=
-Date:   Mon, 20 Apr 2020 21:38:06 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devel@driverdev.osuosl.org,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        YueHaibing <yuehaibing@huawei.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Thomas Gleixner <tglx@linutronix.de>
-Subject: Re: [PATCH] media: usbvision: depends on USB
-Message-ID: <20200420193806.GB300350@kroah.com>
-References: <a0ed60978af23b398d128d1075a7961ef57f0694.1587401420.git.mchehab+huawei@kernel.org>
- <7034ba29-035c-6f0b-e553-68a369e8aaf8@infradead.org>
+        b=IKhnGhruHCVyCfW+bc7TXpXtGwConChaObWLBzXYbiqByrVChPlQLVGl/G4FdUPMl
+         dLXsraIQVsxotRt3uqKwfPrz5ktBfU2tb7IgP5PW9Mdok0h1m4pjy/h0NdzdJNuSqI
+         VkYK0qyxESSpoQaAtbkSWR96MVTLFEOhi89k09oE=
+Date:   Mon, 20 Apr 2020 22:57:14 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Luca Ceresoli <luca@lucaceresoli.net>
+Cc:     Vishal Sagar <vishal.sagar@xilinx.com>,
+        Hyun Kwon <hyunk@xilinx.com>, mchehab@kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com,
+        Michal Simek <michals@xilinx.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, hans.verkuil@cisco.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Dinesh Kumar <dineshk@xilinx.com>,
+        Sandip Kothari <sandipk@xilinx.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Hyun Kwon <hyun.kwon@xilinx.com>
+Subject: Re: [PATCH v11 2/2] media: v4l: xilinx: Add Xilinx MIPI CSI-2 Rx
+ Subsystem driver
+Message-ID: <20200420195714.GB8195@pendragon.ideasonboard.com>
+References: <20200409194424.45555-1-vishal.sagar@xilinx.com>
+ <20200409194424.45555-3-vishal.sagar@xilinx.com>
+ <20200419180222.GB8117@pendragon.ideasonboard.com>
+ <860c27da-eba0-ddcb-719b-52b2725bd9bf@lucaceresoli.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <7034ba29-035c-6f0b-e553-68a369e8aaf8@infradead.org>
+In-Reply-To: <860c27da-eba0-ddcb-719b-52b2725bd9bf@lucaceresoli.net>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 20, 2020 at 10:41:28AM -0700, Randy Dunlap wrote:
-> On 4/20/20 9:50 AM, Mauro Carvalho Chehab wrote:
-> > When built with:
-> > 	CONFIG_USB=m
-> > 	CONFIG_VIDEO_USBVISION=y
-> > 
-> > It causes ld errors:
-> > 
-> > ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_write_reg_irq':
-> > usbvision-core.c:(.text+0x8a4): undefined reference to `usb_submit_urb'
-> > ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_isoc_irq':
-> > usbvision-core.c:(.text+0x2ee8): undefined reference to `usb_submit_urb'
-> > ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_read_reg':
-> > usbvision-core.c:(.text+0x30ad): undefined reference to `usb_control_msg'
-> > ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_write_reg':
-> > usbvision-core.c:(.text+0x3178): undefined reference to `usb_control_msg'
-> > ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_set_output':
-> > usbvision-core.c:(.text+0x344e): undefined reference to `usb_control_msg'
-> > ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_set_input':
-> > usbvision-core.c:(.text+0x3b9b): undefined reference to `usb_control_msg'
-> > ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_setup':
-> > usbvision-core.c:(.text+0x4009): undefined reference to `usb_control_msg'
-> > ld: drivers/staging/media/usbvision/usbvision-core.o:usbvision-core.c:(.text+0x417f): more undefined references to `usb_control_msg' follow
-> > ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_set_alternate':
-> > usbvision-core.c:(.text+0x4518): undefined reference to `usb_set_interface'
-> > ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_init_isoc':
-> > usbvision-core.c:(.text+0x4673): undefined reference to `usb_alloc_urb'
-> > ld: usbvision-core.c:(.text+0x46a5): undefined reference to `usb_alloc_coherent'
-> > ld: usbvision-core.c:(.text+0x4765): undefined reference to `usb_submit_urb'
-> > ld: drivers/staging/media/usbvision/usbvision-core.o: in function `usbvision_stop_isoc':
-> > usbvision-core.c:(.text+0x4837): undefined reference to `usb_kill_urb'
-> > ld: usbvision-core.c:(.text+0x485f): undefined reference to `usb_free_coherent'
-> > ld: usbvision-core.c:(.text+0x4874): undefined reference to `usb_free_urb'
-> > ld: usbvision-core.c:(.text+0x48f1): undefined reference to `usb_set_interface'
-> > ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_release':
-> > usbvision-video.c:(.text+0x1a8a): undefined reference to `usb_free_urb'
-> > ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_disconnect':
-> > usbvision-video.c:(.text+0x1b74): undefined reference to `usb_put_dev'
-> > ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_radio_close':
-> > usbvision-video.c:(.text+0x1c89): undefined reference to `usb_set_interface'
-> > ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_probe':
-> > usbvision-video.c:(.text+0x1e4b): undefined reference to `usb_get_dev'
-> > ld: usbvision-video.c:(.text+0x20e1): undefined reference to `usb_alloc_urb'
-> > ld: usbvision-video.c:(.text+0x2797): undefined reference to `usb_put_dev'
-> > ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_exit':
-> > usbvision-video.c:(.exit.text+0x37): undefined reference to `usb_deregister'
-> > ld: drivers/staging/media/usbvision/usbvision-video.o: in function `usbvision_init':
-> > usbvision-video.c:(.init.text+0xf9): undefined reference to `usb_register_driver'
-> > ld: drivers/staging/media/usbvision/usbvision-i2c.o: in function `usbvision_i2c_write':
-> > usbvision-i2c.c:(.text+0x2f4): undefined reference to `usb_control_msg'
-> > 
-> > Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-> > Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> 
-> Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
+Hi Luca,
 
-Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On Mon, Apr 20, 2020 at 09:24:25PM +0200, Luca Ceresoli wrote:
+> On 19/04/20 20:02, Laurent Pinchart wrote:
+> [...]
+> >> +static irqreturn_t xcsi2rxss_irq_handler(int irq, void *dev_id)
+> >> +{
+> >> +	struct xcsi2rxss_state *state = (struct xcsi2rxss_state *)dev_id;
+> >> +	struct xcsi2rxss_core *core = &state->core;
+> >> +	u32 status;
+> >> +
+> >> +	status = xcsi2rxss_read(core, XCSI_ISR_OFFSET) & XCSI_ISR_ALLINTR_MASK;
+> >> +	dev_dbg_ratelimited(core->dev, "interrupt status = 0x%08x\n", status);
+> > 
+> > As this is expected to occur for every frame, I would drop the message,
+> > even if rate-limited.
+> > 
+> >> +
+> >> +	if (!status)
+> >> +		return IRQ_NONE;
+> >> +
+> >> +	/* Received a short packet */
+> >> +	if (status & XCSI_ISR_SPFIFONE) {
+> >> +		dev_dbg_ratelimited(core->dev, "Short packet = 0x%08x\n",
+> >> +				    xcsi2rxss_read(core, XCSI_SPKTR_OFFSET));
+> >> +	}
+> > 
+> > Same here, this will occur all the time, I'd remove this message. You
+> > need to read XCSI_SPKTR_OFFSET though, and you should do so in a loop
+> > until the XCSI_CSR_SPFIFONE in XCSI_CSR_OFFSET is cleared in case
+> > multiple short packets are received before the interrupt handler
+> > executes.
+> > 
+> > I also wonder if it would make sense to extract the frame number from
+> > the FS short packet, and make it available through the subdev API. I
+> > think it should be reported through a V4L2_EVENT_FRAME_SYNC event. This
+> > can be implemented later.
+> > 
+> >> +
+> >> +	/* Short packet FIFO overflow */
+> >> +	if (status & XCSI_ISR_SPFIFOF)
+> >> +		dev_dbg_ratelimited(core->dev, "Short packet FIFO overflowed\n");
+> >> +
+> >> +	/*
+> >> +	 * Stream line buffer full
+> >> +	 * This means there is a backpressure from downstream IP
+> >> +	 */
+> >> +	if (status & XCSI_ISR_SLBF) {
+> >> +		dev_alert_ratelimited(core->dev, "Stream Line Buffer Full!\n");
+> >> +		xcsi2rxss_stop_stream(state);
+> >> +		if (core->rst_gpio) {
+> >> +			gpiod_set_value(core->rst_gpio, 1);
+> >> +			/* minimum 40 dphy_clk_200M cycles */
+> >> +			ndelay(250);
+> >> +			gpiod_set_value(core->rst_gpio, 0);
+> >> +		}
+> > 
+> > I don't think you should stop the core here. xcsi2rxss_stop_stream()
+> > calls the source .s_stream(0) operation, which usually involves I2C
+> > writes that will sleep.
+> > 
+> > You should instead report an event to userspace (it looks like we have
+> > no error event defined in V4L2, one should be added), and rely on the
+> > normal stop procedure.
+> 
+> FWIW, since a long time I've been using a modified version of this
+> routine, where after a Stream Line Buffer Full condition I just stop and
+> restart the csi2rx core and the stream continues after a minimal glitch.
+> Other subdev are unaware that anything has happened and keep on streaming.
+> 
+> Not sure this is the correct thing to do, but it's working for me. Also
+> I proposed this topic in one of the previous iterations of this patch,
+> but the situation was different because the stream on/off was not
+> propagated back at that time.
+
+Thanks for the feedback. How often does this occur in practice ?
+
+-- 
+Regards,
+
+Laurent Pinchart
