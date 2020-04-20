@@ -2,82 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EAA6F1B108B
-	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2020 17:45:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 255C81B1139
+	for <lists+linux-media@lfdr.de>; Mon, 20 Apr 2020 18:15:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728549AbgDTPps (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Apr 2020 11:45:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33174 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728514AbgDTPps (ORCPT
+        id S1728209AbgDTQP3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Apr 2020 12:15:29 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:56459 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725958AbgDTQP3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Apr 2020 11:45:48 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E66A6C061A0C;
-        Mon, 20 Apr 2020 08:45:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=fkfnAhp5CM6mmeL7Sr7+YSkpNnHA+3cpF10slzhH73s=; b=aaK9QPykvzVz29xusBdJP3YQPK
-        wRz6J5hikf5OXHuNcmcJ0qmJ2ZNJr01VQb0aL/PjypLCX7pN5GehZW1VPLRFbajaJT+pdbGUXfPdR
-        vtWNiyxss75N1xRJ1YrhBshdKfnnZITTcL7+4P7yhNLFp5w5kyR80jRjc/PZEFVcQJjsdfAsG6nR1
-        RuzlIB7RIVdltNGES5FhWrAISyUq3n0chQAoafvc4xK8vFOzYF8eOQAHRNEaNjmJgvum6CT6PCdJg
-        U1KUiTrKeND9VQ1LMNFmaAeZ7eqAT/kaezpRApsGJgNIR691i+7r/MS5gE3BXQDjKqANdo81qpIBR
-        asGo2qPQ==;
-Received: from [2601:1c0:6280:3f0::19c2]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jQYcF-0004qG-Da; Mon, 20 Apr 2020 15:45:47 +0000
-Subject: Re: linux-next: Tree for Apr 20 (media Kconfig warning)
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     Stephen Rothwell <sfr@canb.auug.org.au>,
-        Linux Next Mailing List <linux-next@vger.kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20200420142610.390e5922@canb.auug.org.au>
- <c53a2fa4-1efe-07d5-6cfa-6ebc37b7d013@infradead.org>
-Message-ID: <752826b9-46d2-5fd9-4759-df5d8bfba1d0@infradead.org>
-Date:   Mon, 20 Apr 2020 08:45:45 -0700
+        Mon, 20 Apr 2020 12:15:29 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id QZ4tjcd3tlKa1QZ4wjuUvp; Mon, 20 Apr 2020 18:15:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1587399327; bh=wEmNVuyj683uDNJGlJlWTElHRqXqeKyvxmXZl6UkAvo=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=anv+8DdI/sVFbjsFOFnjHjECms/cOcBmTknN9n8zY5nK/RJirmn54MKrQmPtCpngj
+         3TKyMGRZZqyxXQn2egt9qmOmpxAtWaFgVEasy5kW2pf3vb0cFY/mfCzZSb/zCVFDHG
+         iMBU0WipE/ptrAcqd+8+XfdRYGFOH1eJVi4BwlrR9v6u3lijv9cHfAAgr3IHrGyp+W
+         Xo612gJrjc+3FXFoBdm6HclC+nmVEt1Zs2C6f7vMq4olCGevjX8Yzbj/i6oN6HXg2A
+         mNwTR4tfYWXDf/9Vlfm9+kcdTCkT/wGCpMSmD7MP3HhIgvCFv+fTsYAy0DmOMJvI/i
+         dU7h/cOE0Vrzw==
+Subject: Re: decode sync frames only
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <9a58a501-8348-2230-2ab5-534471d866ca@linaro.org>
+ <b4471541-aeaf-462b-ee36-14ac4e2845f8@xs4all.nl>
+ <00202b06-1cfb-e3d1-bd1b-117789b031a1@linaro.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <e5cacb73-64c0-3137-332c-ce9b3b24e672@xs4all.nl>
+Date:   Mon, 20 Apr 2020 18:15:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <c53a2fa4-1efe-07d5-6cfa-6ebc37b7d013@infradead.org>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <00202b06-1cfb-e3d1-bd1b-117789b031a1@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfBF542IXikGeJZUwvJNdMrx2yRXinTEMGfbnkFqkcXx79PkoHp9OsbclVmVV0s8mRHX0vZ8zhoaPArjHBN7lHexnGlgeu8gJ9XI0oKxL3l/E3+lWyd1b
+ sZ2bv0ELOdYrIDyaxRRb2/gRUBbRNyn30X8RcRPISuI9/5Cvv5GR27eJHaBsA+8di8X0s5MbOUG75SW4uqqcJ567wXj1eBwN62Zfzb1MAT2nECKVW9ugd8dH
+ UtACf3Uul9rCT8cflSpxiQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 4/20/20 8:21 AM, Randy Dunlap wrote:
-> On 4/19/20 9:26 PM, Stephen Rothwell wrote:
->> Hi all,
+On 20/04/2020 17:39, Stanimir Varbanov wrote:
+> Hi Hans,
+> 
+> On 4/20/20 5:48 PM, Hans Verkuil wrote:
+>> On 20/04/2020 16:38, Stanimir Varbanov wrote:
+>>> Hi,
+>>>
+>>> I need to port a decoder v4l2 control in mainline Venus driver which
+>>> instructs the decoder to decode sync frames only (I frame/ IDR frame).
+>>> In practice the usage of such control is to generate thumbnails for
+>>> particular video.
+>>>
+>>> To do that I researched what we have currently in v4l2-controls.h and
+>>> found something similar but for encoders:
+>>>
+>>> V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME
+>>> "Force a key frame for the next queued buffer. Applicable to encoders.
+>>> This is a general, codec-agnostic keyframe control."
+>>>
+>>> I think I have two options:
+>>>
+>>> 1. reuse V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME for the decoder and document it
+>>>
+>>> 2. create a new v4l control V4L2_CID_MPEG_VIDC_VIDEO_SYNC_FRAME_DECODE
 >>
->> Changes since 20200417:
+>> Make a new v4l control. The encoder control is for something quite different.
 >>
+>> How about V4L2_CID_MPEG_VIDEO_DEC_KEY_FRAMES_ONLY?
 > 
+> What you mean by "_DEC_" in the name - DECODER or DECODE?
+
+DECODER
+
 > 
-> on x86_64:
+> I've found
+> V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE and
+> V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER
 > 
-> WARNING: unmet direct dependencies detected for PHY_ROCKCHIP_DPHY_RX0
->   Depends on [n]: STAGING [=y] && STAGING_MEDIA [=y] && MEDIA_SUPPORT [=y] && (ARCH_ROCKCHIP || COMPILE_TEST [=y]) && OF [=n]
->   Selected by [y]:
->   - VIDEO_ROCKCHIP_ISP1 [=y] && STAGING [=y] && STAGING_MEDIA [=y] && MEDIA_SUPPORT [=y] && VIDEO_V4L2 [=y] && (ARCH_ROCKCHIP || COMPILE_TEST [=y])
-> 
-> 
-> Full randconfig file is attached.
-> 
-> thanks.
+> in v4l2-controls.h which use the whole word "DECODER", thus I wonder
+> what is proffered word to follow the v4l2-controls.h naming style.
 > 
 
-This kconfig problem also causes this build error:
+It's a bit long, but DECODER is unambiguous, so let's use that.
 
-ld: drivers/staging/media/rkisp1/rkisp1-isp.o: in function `rkisp1_mipi_csi2_start.isra.11':
-rkisp1-isp.c:(.text+0x1184): undefined reference to `phy_mipi_dphy_get_default_config'
+Regards,
 
-
--- 
-~Randy
-Reported-by: Randy Dunlap <rdunlap@infradead.org>
+	Hans
