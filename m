@@ -2,471 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA76A1B2EAA
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 19:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A57561B3165
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 22:47:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726012AbgDUR7x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Apr 2020 13:59:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52990 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725870AbgDUR7x (ORCPT
+        id S1726183AbgDUUqx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Apr 2020 16:46:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50768 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726024AbgDUUqw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Apr 2020 13:59:53 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B983EC0610D5
-        for <linux-media@vger.kernel.org>; Tue, 21 Apr 2020 10:59:52 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id j14so11837898lfg.9
-        for <linux-media@vger.kernel.org>; Tue, 21 Apr 2020 10:59:52 -0700 (PDT)
+        Tue, 21 Apr 2020 16:46:52 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A914AC0610D5;
+        Tue, 21 Apr 2020 13:46:50 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id u16so5049943wmc.5;
+        Tue, 21 Apr 2020 13:46:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ksQfUx5Ld5Jb/mLPW9tj/aP76zyWz+SmOm2ecm4frIo=;
-        b=Qp/kb3IiuloprvbeEGXyruDgS2dwoOD+LIKB+b4vLYDErvSr63QpoE+Q9N6jG399I4
-         vOUAR05rIgsj2c9wGD2uC5vz+6KBlZY0PENrNA97peeaZ8RNEh9KaqfitKXewuPTJ1jU
-         FYfhc0NI+x+rSUJchVZKvVt3kiK4TOHJiE3q9So7aVpFuYW+Flr/9o2T27bcIXie4YFK
-         cueu/BbvXZLxXPA4EhocToEu2Ow1b9scKmbC8555OO+sYHnN2Jhpl1KHxCk5Vnedn8Py
-         968X3vOFjnUOLI6ZNyionzKXxZqhUQnhLhSgdZ4HKagNipZGHchx9ogI3nkWw/gyAgIt
-         9c1w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=q6uPC1CnCPTFfr9RZtZjgLS8wz+TR/yHxAxpCEB2ABE=;
+        b=WGSXQ+29Ak7SWw6XyBBOxnAH68o34jNmWGCdSwuAEY1YdHxy2Q3GaOntJ+kdFb1tT+
+         Ng0Loh1AGdVwX8vf+w0CPN1iJ9oDCZOiZ17bnvVlgzouMijVA50KnBn8C649htQ6HmZ5
+         18BsCfiUMLQ4c/0vTBDNjJFIKQBW+uSXjgW8reGxf8AlwwVq87VRKZbVMrUXoVv5MW7E
+         ghslZfoXi7gxJZr+q7L73S4SWZEilk/3OKKUjAD9bLfgqSndZ51bQWuVyGAfAn89GhIA
+         yTLjp0wJNhJN0/DusDeUZC5K8w93pqZnSGkw8BG01cYYINHMF4QQ6rsnn08fIHxPc9KH
+         4wAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ksQfUx5Ld5Jb/mLPW9tj/aP76zyWz+SmOm2ecm4frIo=;
-        b=Hb6jb9dmmjvJwCJoKZELbUl9gSgvFBpGe8LJVBXQhY8Tc7W8kPqVy6z3veUKJE7Zss
-         s+rHaaPnTnsnJkrvFqvT9kvdjgQHuK9yDHRrWUGOag+FXk7CHXlHnMPhRXELLKzw06Jm
-         0f3YB/EhgfmN3F9FrHSSAXiEPvki2srehUemv3ZZ6Mi4eDZIllTBXzkPtYrJoZ1ffE5F
-         SZB4jgJh077WI10NB3JHZkg02wU+3W5yrTrCdgoMnEWjvkBfYiVkO4+bPeVf83nTHR3a
-         7Gh8m5tTeFxrqzeaZ/C2ItMfFKZOMfi0ryU3ZN3n6XQ91Kn7cYGp1FL9oqJNNWh2ioBM
-         kXFA==
-X-Gm-Message-State: AGi0PubsVBkgyaW+16TOszCVIlAnL6od51Ty63EngZd8/Bh7Ez3aJSiP
-        Qp+zFrVwOuAvLvqFMDNJhks0m12ufuiIt/nl37GTC3O4
-X-Google-Smtp-Source: APiQypJ2fKazVC1Od6oeFgH5zuMv+VJRJgmCNQsaiLgo43trOf9KWHnNFPN79pbolrwaYoIEjpj0rJD+sEYUFRyJZCk=
-X-Received: by 2002:ac2:5c45:: with SMTP id s5mr14665286lfp.28.1587491991032;
- Tue, 21 Apr 2020 10:59:51 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=q6uPC1CnCPTFfr9RZtZjgLS8wz+TR/yHxAxpCEB2ABE=;
+        b=X/Vz7CTsxnRSXpgrCZuOCgxsy7Y42sF/Fa/4nO41O8tNMKdK1YyAdblQtS1xLFZlws
+         YrpH2DamVYvOiRAFskcfCKs7fQK0DW1m3/4Fsz8byC7QN8xfN5F1SgS0lljh2JnTUo1m
+         bRQmI7eSUENS+fDNxJpJo5UjL0CYQ/1tNJ6VurasCqoKIWr58/z+PcUONik/ROvhedSy
+         NfHAKXDDuuK2OnG+OYZmuQNvi/C1HZOJfAzcIhAQjs19OpXz2Nnb4DHSlnzpzZH9zvo3
+         IjGbqaWetAIxrXhN/JqqVoeYK+FAh9HCYq7A60/AQPfT/y5WsicddPzfRaA2v0pg0JDp
+         XkNA==
+X-Gm-Message-State: AGi0PuYGiZqpLLqQit7LrHsEo6HRFXZVkqoNACty3ijoKsYGfVLo8sLn
+        ldMaOZH7ChZjHUiKF0yrE4w=
+X-Google-Smtp-Source: APiQypJpQe3wpc763YuNJO0Sx0DlrTQK3dxcxLZhIl4oN7YF3FMeSKlRhIhE/z2gMyKgA2LNdg+fhg==
+X-Received: by 2002:a05:600c:2218:: with SMTP id z24mr6646985wml.82.1587502009392;
+        Tue, 21 Apr 2020 13:46:49 -0700 (PDT)
+Received: from localhost (p2E5BEDBA.dip0.t-ipconnect.de. [46.91.237.186])
+        by smtp.gmail.com with ESMTPSA id k184sm4990111wmf.9.2020.04.21.13.46.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Apr 2020 13:46:47 -0700 (PDT)
+Date:   Tue, 21 Apr 2020 22:46:46 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     jonathanh@nvidia.com, frankc@nvidia.com, hverkuil@xs4all.nl,
+        sakari.ailus@iki.fi, helen.koike@collabora.com, digetx@gmail.com,
+        sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v8 5/9] dt-binding: tegra: Add VI and CSI bindings
+Message-ID: <20200421204646.GA3233341@ulmo>
+References: <1587427874-3291-1-git-send-email-skomatineni@nvidia.com>
+ <1587427874-3291-6-git-send-email-skomatineni@nvidia.com>
 MIME-Version: 1.0
-References: <20200412205916.3333547-1-barbosa.carlos.ec@gmail.com>
- <00452e47-15b6-14e6-0c48-7846f9da542e@collabora.com> <CALBj8qeo_1d09LbRu+gqpXjXQrFkr7Gq0JBbK6UXwnLdDprVYg@mail.gmail.com>
- <348e5daa-bdbe-b288-5770-af5eab1034b0@collabora.com>
-In-Reply-To: <348e5daa-bdbe-b288-5770-af5eab1034b0@collabora.com>
-From:   Carlos Eduardo Climaco Barbosa <barbosa.carlos.ec@gmail.com>
-Date:   Tue, 21 Apr 2020 14:59:39 -0300
-Message-ID: <CALBj8qc-zV8kzGcoQNHD37-vdUrLK_E5MK3Oa4BsTwWRzXqDog@mail.gmail.com>
-Subject: Re: [PATCH v4] media: vimc: get pixformat info from v4l2_format_info
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="5vNYLRcllDrimb99"
+Content-Disposition: inline
+In-Reply-To: <1587427874-3291-6-git-send-email-skomatineni@nvidia.com>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 15, 2020 at 6:15 AM Dafna Hirschfeld
-<dafna.hirschfeld@collabora.com> wrote:
->
->
->
-> On 14.04.20 16:03, Carlos Eduardo Climaco Barbosa wrote:
-> > On Mon, Apr 13, 2020 at 10:24 AM Dafna Hirschfeld <dafna.hirschfeld@collabora.com <mailto:dafna.hirschfeld@collabora.com>> wrote:
-> >
-> >     Hi,
-> >
-> >     Thanks for tha patch!
-> >
-> >     On 12.04.20 22:59, Carlos E. C. Barbosa wrote:
-> >      > From: "Carlos E.C. Barbosa" <barbosa.carlos.ec@gmail.com <mailto:barbosa.carlos.ec@gmail.com>>
-> >      >
-> >      > There is overlapping code over two distinct lists. This repurposes
-> >      > vimc_pix_map for mapping formats and remaps the calls to the matching
-> >      > v4l2_format_info.
-> >      >
-> >      > Signed-off-by: Carlos E. C. Barbosa <barbosa.carlos.ec@gmail.com <mailto:barbosa.carlos.ec@gmail.com>>
-> >      >
-> >      > ---
-> >      >
-> >      > Changes in v2:
-> >      > As advised by Helen Koike and Hans Verkuil, the const qualifiers are
-> >      > not
-> >      > removed, the bayer flag is kept and the unnecessary changes are not
-> >      > made.
-> >      >
-> >      > Changes in v3:
-> >      > Change declaration order of variables and some minor style changes.
-> >      >
-> >      > Changes in v4:
-> >      > Unused variables were removed.
-> >      >
-> >      > v4l2-compliance -m /dev/media0 output:
-> >      > https://pastebin.com/F98792eW
-> >      > ---
-> >      >   drivers/media/platform/vimc/vimc-capture.c | 14 ++++++++-----
-> >      >   drivers/media/platform/vimc/vimc-common.c  | 23 ----------------------
-> >      >   drivers/media/platform/vimc/vimc-common.h  |  2 --
-> >      >   drivers/media/platform/vimc/vimc-debayer.c |  7 +++++--
-> >      >   drivers/media/platform/vimc/vimc-scaler.c  |  8 ++++++--
-> >      >   drivers/media/platform/vimc/vimc-sensor.c  |  9 +++++++--
-> >      >   6 files changed, 27 insertions(+), 36 deletions(-)
-> >      >
-> >      > diff --git a/drivers/media/platform/vimc/vimc-capture.c b/drivers/media/platform/vimc/vimc-capture.c
-> >      > index 23e740c1c5c0..4f85e0bb8f27 100644
-> >      > --- a/drivers/media/platform/vimc/vimc-capture.c
-> >      > +++ b/drivers/media/platform/vimc/vimc-capture.c
-> >      > @@ -85,6 +85,7 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
-> >      >                                   struct v4l2_format *f)
-> >      >   {
-> >      >       struct v4l2_pix_format *format = &f->fmt.pix;
-> >      > +     const struct v4l2_format_info *vinfo;
-> >      >       const struct vimc_pix_map *vpix;
-> >      >
-> >      >       format->width = clamp_t(u32, format->width, VIMC_FRAME_MIN_WIDTH,
-> >      > @@ -94,12 +95,13 @@ static int vimc_cap_try_fmt_vid_cap(struct file *file, void *priv,
-> >      >
-> >      >       /* Don't accept a pixelformat that is not on the table */
-> >      >       vpix = vimc_pix_map_by_pixelformat(format->pixelformat);
-> >      > -     if (!vpix) {
-> >      > +     if (!vpix)
-> >      >               format->pixelformat = fmt_default.pixelformat;
-> >      > -             vpix = vimc_pix_map_by_pixelformat(format->pixelformat);
-> >      > -     }
-> >      > +
-> >      > +     vinfo = v4l2_format_info(format->pixelformat);
-> >      > +
-> >      >       /* TODO: Add support for custom bytesperline values */
-> >      > -     format->bytesperline = format->width * vpix->bpp;
-> >      > +     format->bytesperline = format->width * vinfo->bpp[0];
-> >      >       format->sizeimage = format->bytesperline * format->height;
-> >      >
-> >      >       if (format->field == V4L2_FIELD_ANY)
-> >      > @@ -386,6 +388,7 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
-> >      >                                    const char *vcfg_name)
-> >      >   {
-> >      >       struct v4l2_device *v4l2_dev = &vimc->v4l2_dev;
-> >      > +     const struct v4l2_format_info *vinfo;
-> >      >       const struct vimc_pix_map *vpix;
-> >      >       struct vimc_cap_device *vcap;
-> >      >       struct video_device *vdev;
-> >      > @@ -435,7 +438,8 @@ struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
-> >      >       /* Set default frame format */
-> >      >       vcap->format = fmt_default;
-> >      >       vpix = vimc_pix_map_by_pixelformat(vcap->format.pixelformat);
-> >      > -     vcap->format.bytesperline = vcap->format.width * vpix->bpp;
-> >      > +     vinfo = v4l2_format_info(vpix->pixelformat);
-> >     you can do instead "vinfo = v4l2_format_info(vcap->format.pixelformat);"
-> >     and then you don't need vpix at all
-> >      > +     vcap->format.bytesperline = vcap->format.width * vinfo->bpp[0];
-> >      >       vcap->format.sizeimage = vcap->format.bytesperline *
-> >      >                                vcap->format.height;
-> >      >
-> >      > diff --git a/drivers/media/platform/vimc/vimc-common.c b/drivers/media/platform/vimc/vimc-common.c
-> >      > index c95c17c048f2..fc881daee627 100644
-> >      > --- a/drivers/media/platform/vimc/vimc-common.c
-> >      > +++ b/drivers/media/platform/vimc/vimc-common.c
-> >      > @@ -21,19 +21,16 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_BGR888_1X24,
-> >      >               .pixelformat = V4L2_PIX_FMT_BGR24,
-> >      > -             .bpp = 3,
-> >      >               .bayer = false,
-> >     I know you already removed the bayer field in the first version, I think
-> >     it is actually a good idea since it can be retrieved from the v4l2_format_info
-> >     through the .pixel_enc field and there is even a helper "v4l2_is_format_bayer".
-> >     Then you can add a function
-> >     "const struct v4l2_format_info *vimc_code_to_format_info(u32 mbus_code)"
-> >     that returns the vinfo directly from the code.
-> >
-> >     Thank,
-> >     Dafna
-> >
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_RGB888_1X24,
-> >      >               .pixelformat = V4L2_PIX_FMT_RGB24,
-> >      > -             .bpp = 3,
-> >      >               .bayer = false,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_ARGB8888_1X32,
-> >      >               .pixelformat = V4L2_PIX_FMT_ARGB32,
-> >      > -             .bpp = 4,
-> >      >               .bayer = false,
-> >      >       },
-> >      >
-> >      > @@ -41,49 +38,41 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SBGGR8_1X8,
-> >      >               .pixelformat = V4L2_PIX_FMT_SBGGR8,
-> >      > -             .bpp = 1,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SGBRG8_1X8,
-> >      >               .pixelformat = V4L2_PIX_FMT_SGBRG8,
-> >      > -             .bpp = 1,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SGRBG8_1X8,
-> >      >               .pixelformat = V4L2_PIX_FMT_SGRBG8,
-> >      > -             .bpp = 1,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SRGGB8_1X8,
-> >      >               .pixelformat = V4L2_PIX_FMT_SRGGB8,
-> >      > -             .bpp = 1,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SBGGR10_1X10,
-> >      >               .pixelformat = V4L2_PIX_FMT_SBGGR10,
-> >      > -             .bpp = 2,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SGBRG10_1X10,
-> >      >               .pixelformat = V4L2_PIX_FMT_SGBRG10,
-> >      > -             .bpp = 2,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SGRBG10_1X10,
-> >      >               .pixelformat = V4L2_PIX_FMT_SGRBG10,
-> >      > -             .bpp = 2,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SRGGB10_1X10,
-> >      >               .pixelformat = V4L2_PIX_FMT_SRGGB10,
-> >      > -             .bpp = 2,
-> >      >               .bayer = true,
-> >      >       },
-> >      >
-> >      > @@ -91,25 +80,21 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SBGGR10_ALAW8_1X8,
-> >      >               .pixelformat = V4L2_PIX_FMT_SBGGR10ALAW8,
-> >      > -             .bpp = 1,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SGBRG10_ALAW8_1X8,
-> >      >               .pixelformat = V4L2_PIX_FMT_SGBRG10ALAW8,
-> >      > -             .bpp = 1,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SGRBG10_ALAW8_1X8,
-> >      >               .pixelformat = V4L2_PIX_FMT_SGRBG10ALAW8,
-> >      > -             .bpp = 1,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SRGGB10_ALAW8_1X8,
-> >      >               .pixelformat = V4L2_PIX_FMT_SRGGB10ALAW8,
-> >      > -             .bpp = 1,
-> >      >               .bayer = true,
-> >      >       },
-> >      >
-> >      > @@ -117,49 +102,41 @@ static const struct vimc_pix_map vimc_pix_map_list[] = {
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8,
-> >      >               .pixelformat = V4L2_PIX_FMT_SBGGR10DPCM8,
-> >      > -             .bpp = 1,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8,
-> >      >               .pixelformat = V4L2_PIX_FMT_SGBRG10DPCM8,
-> >      > -             .bpp = 1,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8,
-> >      >               .pixelformat = V4L2_PIX_FMT_SGRBG10DPCM8,
-> >      > -             .bpp = 1,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8,
-> >      >               .pixelformat = V4L2_PIX_FMT_SRGGB10DPCM8,
-> >      > -             .bpp = 1,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SBGGR12_1X12,
-> >      >               .pixelformat = V4L2_PIX_FMT_SBGGR12,
-> >      > -             .bpp = 2,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SGBRG12_1X12,
-> >      >               .pixelformat = V4L2_PIX_FMT_SGBRG12,
-> >      > -             .bpp = 2,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SGRBG12_1X12,
-> >      >               .pixelformat = V4L2_PIX_FMT_SGRBG12,
-> >      > -             .bpp = 2,
-> >      >               .bayer = true,
-> >      >       },
-> >      >       {
-> >      >               .code = MEDIA_BUS_FMT_SRGGB12_1X12,
-> >      >               .pixelformat = V4L2_PIX_FMT_SRGGB12,
-> >      > -             .bpp = 2,
-> >      >               .bayer = true,
-> >      >       },
-> >      >   };
-> >      > diff --git a/drivers/media/platform/vimc/vimc-common.h b/drivers/media/platform/vimc/vimc-common.h
-> >      > index 616d5a6b0754..838d5df7b9ed 100644
-> >      > --- a/drivers/media/platform/vimc/vimc-common.h
-> >      > +++ b/drivers/media/platform/vimc/vimc-common.h
-> >      > @@ -62,7 +62,6 @@ do {                                                                        \
-> >      >    * struct vimc_pix_map - maps media bus code with v4l2 pixel format
-> >      >    *
-> >      >    * @code:           media bus format code defined by MEDIA_BUS_FMT_* macros
-> >      > - * @bbp:             number of bytes each pixel occupies
-> >      >    * @pixelformat:    pixel format devined by V4L2_PIX_FMT_* macros
-> >      >    *
-> >      >    * Struct which matches the MEDIA_BUS_FMT_* codes with the corresponding
-> >      > @@ -70,7 +69,6 @@ do {                                                                        \
-> >      >    */
-> >      >   struct vimc_pix_map {
-> >      >       unsigned int code;
-> >      > -     unsigned int bpp;
-> >      >       u32 pixelformat;
-> >      >       bool bayer;
-> >      >   };
-> >      > diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/media/platform/vimc/vimc-debayer.c
-> >      > index baf6bf9f65b5..c141a307851c 100644
-> >      > --- a/drivers/media/platform/vimc/vimc-debayer.c
-> >      > +++ b/drivers/media/platform/vimc/vimc-debayer.c
-> >      > @@ -303,6 +303,7 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
-> >      >       struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
-> >      >
-> >      >       if (enable) {
-> >      > +             const struct v4l2_format_info *vinfo;
-> >      >               const struct vimc_pix_map *vpix;
-> >      >               unsigned int frame_size;
-> >      >
-> >      > @@ -311,12 +312,14 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
-> >      >
-> >      >               /* Calculate the frame size of the source pad */
-> >      >               vpix = vimc_pix_map_by_code(vdeb->src_code);
-> >      > +             vinfo = v4l2_format_info(vpix->pixelformat);
-> >      >               frame_size = vdeb->sink_fmt.width * vdeb->sink_fmt.height *
-> >      > -                             vpix->bpp;
-> >      > +                             vinfo->bpp[0];
-> >      >
-> >      >               /* Save the bytes per pixel of the sink */
-> >      >               vpix = vimc_pix_map_by_code(vdeb->sink_fmt.code);
-> >      > -             vdeb->sink_bpp = vpix->bpp;
-> >      > +             vinfo = v4l2_format_info(vpix->pixelformat);
-> >      > +             vdeb->sink_bpp = vinfo->bpp[0];
-> >      >
-> >      >               /* Get the corresponding pixel map from the table */
-> >      >               vdeb->sink_pix_map =
-> >      > diff --git a/drivers/media/platform/vimc/vimc-scaler.c b/drivers/media/platform/vimc/vimc-scaler.c
-> >      > index 7521439747c5..9429aeea9cee 100644
-> >      > --- a/drivers/media/platform/vimc/vimc-scaler.c
-> >      > +++ b/drivers/media/platform/vimc/vimc-scaler.c
-> >      > @@ -180,8 +180,10 @@ static void vimc_sca_adjust_sink_fmt(struct v4l2_mbus_framefmt *fmt)
-> >      >
-> >      >       /* Only accept code in the pix map table in non bayer format */
-> >      >       vpix = vimc_pix_map_by_code(fmt->code);
-> >      > -     if (!vpix || vpix->bayer)
-> >      > +     if (!vpix || vpix->bayer) {
-> >      >               fmt->code = sink_fmt_default.code;
-> >      > +             vpix = vimc_pix_map_by_code(fmt->code);
-> >      > +     }
-> >      >
-> >      >       fmt->width = clamp_t(u32, fmt->width, VIMC_FRAME_MIN_WIDTH,
-> >      >                            VIMC_FRAME_MAX_WIDTH) & ~1;
-> >      > @@ -331,6 +333,7 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
-> >      >       struct vimc_sca_device *vsca = v4l2_get_subdevdata(sd);
-> >      >
-> >      >       if (enable) {
-> >      > +             const struct v4l2_format_info *vinfo;
-> >      >               const struct vimc_pix_map *vpix;
-> >      >               unsigned int frame_size;
-> >      >
-> >      > @@ -339,7 +342,8 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
-> >      >
-> >      >               /* Save the bytes per pixel of the sink */
-> >      >               vpix = vimc_pix_map_by_code(vsca->sink_fmt.code);
-> >      > -             vsca->bpp = vpix->bpp;
-> >      > +             vinfo = v4l2_format_info(vpix->pixelformat);
-> >      > +             vsca->bpp = vinfo->bpp[0];
-> >      >
-> >      >               /* Calculate the width in bytes of the src frame */
-> >      >               vsca->src_line_size = vsca->crop_rect.width *
-> >      > diff --git a/drivers/media/platform/vimc/vimc-sensor.c b/drivers/media/platform/vimc/vimc-sensor.c
-> >      > index 92daee58209e..fac2260b939f 100644
-> >      > --- a/drivers/media/platform/vimc/vimc-sensor.c
-> >      > +++ b/drivers/media/platform/vimc/vimc-sensor.c
-> >      > @@ -102,10 +102,13 @@ static void vimc_sen_tpg_s_format(struct vimc_sen_device *vsen)
-> >      >   {
-> >      >       const struct vimc_pix_map *vpix =
-> >      >                               vimc_pix_map_by_code(vsen->mbus_format.code);
-> >      > +     const struct v4l2_format_info *vinfo =
-> >      > +                             v4l2_format_info(vpix->pixelformat);
-> >      >
-> >      >       tpg_reset_source(&vsen->tpg, vsen->mbus_format.width,
-> >      >                        vsen->mbus_format.height, vsen->mbus_format.field);
-> >      > -     tpg_s_bytesperline(&vsen->tpg, 0, vsen->mbus_format.width * vpix->bpp);
-> >      > +     tpg_s_bytesperline(&vsen->tpg, 0,
-> >      > +                        vsen->mbus_format.width * vinfo->bpp[0]);
-> >      >       tpg_s_buf_height(&vsen->tpg, vsen->mbus_format.height);
-> >      >       tpg_s_fourcc(&vsen->tpg, vpix->pixelformat);
-> >      >       /* TODO: add support for V4L2_FIELD_ALTERNATE */
-> >      > @@ -198,12 +201,14 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
-> >      >                               container_of(sd, struct vimc_sen_device, sd);
-> >      >
-> >      >       if (enable) {
-> >      > +             const struct v4l2_format_info *vinfo;
-> >      >               const struct vimc_pix_map *vpix;
-> >      >               unsigned int frame_size;
-> >      >
-> >      >               /* Calculate the frame size */
-> >      >               vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
-> >      > -             frame_size = vsen->mbus_format.width * vpix->bpp *
-> >      > +             vinfo = v4l2_format_info(vpix->pixelformat);
-> >      > +             frame_size = vsen->mbus_format.width * vinfo->bpp[0] *
-> >      >                            vsen->mbus_format.height;
-> >      >
-> >      >               /*
-> >      >
-> >
-> >
-> > Hi Dafna,
-> > Thank you for the feedback
-> > I don't see why a "const struct v4l2_format_info *vimc_code_to_format_info(u32 mbus_code)" would be necessary, as there is the "const struct v4l2_format_info *v4l2_format_info(u32)" function.
-> Hi, the function v4l2_format_info get the pixelformat as input, but in many palces in vimc we want to get the format_info
-> from the v4l2_mbus_pixelcode, maybe a better name is "const struct v4l2_format_info *vimc_mbus_pixelcode_to_format_info(u32 mbus_code)"
-> > I guess there could be a "inline static bool is_v4l2_format_code_bayer(u32 mbus_code)" functio which returns n that would replace the usage of v4l2_is_format_bayer(v4l2_format_info(vpix->pixelformat))
-> >   for a single function. But in that case, should this change be submitted by this patch?
-> I don't think there is a need to add such a function,
->
-> you can do
->
-> vinfo = vimc_mbus_pixelcode_to_format_info(mbus_code)
-> v4l2_is_format_bayer(vinfo)
 
-Hi Dafna,
-I'm not sure whether adding this function would be a good ideia.
-Though it shortens the code, we often need to use vpix for other
-porpouses, so it might be better to standardize it in one single way.
-Also, there are ways to obtain vpix from other info, and I don't think
-it would be worth creating a duplicate function that returns
-v4l2_format_info directly for each of them.
+--5vNYLRcllDrimb99
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sincerely,
-Carlos
->
-> Thanks,
-> Dafna
->
-> >
-> > Thank,
-> > Carlos
+On Mon, Apr 20, 2020 at 05:11:10PM -0700, Sowjanya Komatineni wrote:
+> Tegra contains VI controller which can support up to 6 MIPI CSI
+> camera sensors.
+>=20
+> Each Tegra CSI port from CSI unit can be one-to-one mapper to
+> VI channel and can capture from an external camera sensor or
+> from built-in test pattern generator.
+>=20
+> This patch adds dt-bindings for Tegra VI and CSI.
+>=20
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  .../display/tegra/nvidia,tegra20-host1x.txt        | 73 ++++++++++++++++=
+++----
+>  1 file changed, 60 insertions(+), 13 deletions(-)
+
+Acked-by: Thierry Reding <treding@nvidia.com>
+
+--5vNYLRcllDrimb99
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl6fW7MACgkQ3SOs138+
+s6GcPQ/9FNBtMbNYeZe7HR8tmPr1TQ7xTJ21ncNt7vGdlFWn0F7TXycPiWu86+V6
+Zc2pIGZjSk2uhHKbvYUvA9IXkAY0mxtzZrJeXIU+vAADOjAc6+rYYKcf0zuRr28g
+AAgcnaAZPIsxWCdIM/G4l+Bir8kw82HGIpK45J2m4aWmgBF9c1vMVO4yzj5FALzj
+F7nqa2Iiufghax5P7n/9yKWLeQroDPqsrWCWqVh9ILOn52l/qIDfRPAsEjuoCy3s
+FaDQQQRRSoyYTRg8iNLF6t2H8yI89Suyia4ZcN+YzuhwtEc/DlSvIWFW9BVgyXxH
+N6AdkZzFID0me3ij0xAGJWD2bmUlhQVPMPAJZq52t6vdH+0k9WReRUuBp1D0P7nC
+FYuwttry5BJiXXceFOR29KKAe2qO3IMl3/cpLvcDVPSbMi38Zyd3VvhNbvFD+fn+
+hTa3S+5xLhbQxLZsSDnaPA1Phl4EGGNSWo08Nn5mwU+H/oCO11i/Luy4+usaYgor
+lfa9//chWihgxUnpa0fN4nUdgmaRWxymLiJL3bY8twgvEWlzn7cbtf6EacXY5Yzt
+jUE+kPSEAYy0jjuWANsQJUe2BQiLHIRJEEQSt6EsSgLmV2P+5utoIuAjUQWAiF1V
+fE8pGGlhXJza9q7fbW62lHW/c7agPohXsRsq59UytdnjJtnzTz0=
+=FTJX
+-----END PGP SIGNATURE-----
+
+--5vNYLRcllDrimb99--
