@@ -2,170 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AAB01B223B
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 11:01:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 419FD1B2294
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 11:23:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726812AbgDUJBp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Apr 2020 05:01:45 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:43571 "EHLO
-        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726120AbgDUJBp (ORCPT
+        id S1726095AbgDUJXs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Apr 2020 05:23:48 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:42591 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725920AbgDUJXr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Apr 2020 05:01:45 -0400
-X-Originating-IP: 93.29.109.196
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id E13916001C;
-        Tue, 21 Apr 2020 09:01:39 +0000 (UTC)
-Date:   Tue, 21 Apr 2020 11:01:39 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     jernej.skrabec@gmail.com, Samuel Holland <samuel@sholland.org>,
-        linux-sunxi@googlegroups.com, Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>
-Subject: Re: [linux-sunxi] [PATCH] media: cedrus: Implement runtime PM
-Message-ID: <20200421090139.GC610776@aptenodytes>
-References: <20200408010232.48432-1-samuel@sholland.org>
- <244922ec-ed3a-eca7-6640-49de7ad9c605@sholland.org>
- <20200420151010.GL125838@aptenodytes>
- <5590139.lOV4Wx5bFT@jernej-laptop>
- <CAAEAJfCjUY3JeZ1dmVwkQaumoCbv8OR0FTP9Prdg=RS=gh_NUg@mail.gmail.com>
+        Tue, 21 Apr 2020 05:23:47 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id Qp81j6T3B7xncQp85jJpSx; Tue, 21 Apr 2020 11:23:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1587461025; bh=JKt344UkuDD3egKkW+tihRnZRHf1PfZ3mME3CUrXyLg=;
+        h=From:Subject:To:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=iByx5dUcVySQobLj+4XBsCOOPjUDSOyAm22WgrAU+hekZSMAXg56kuwP12fZJFFkH
+         dgRxOXLRlYO3Iui3+xUs9FXXAyl9qm1Ns5Ph7QLLc2n0EGcFaXIfaLXeaUlmF4UFtj
+         y6CbJMCfV0Yq/cVoW0vWePDLMWZz1d+2Txs1tH+XM4C0kxqjo7HMK3aZIKAL/CQt5v
+         yWDStWbAZ75D7DLaOBTxeUevgr62NN4xM6I85/DPBSaNHxIgW7OXF59vbqDooArpS8
+         fhYFALQDZfiK668/xoo+wEbeUiRFYz9mNa3EtkfzDDLM5JCxrKXg5iWC3KpPd9hQ0e
+         Pzrg8/z6qjzNw==
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] cec-gpio: handle gpiod_get_value errors correctly
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Maxime Ripard <mripard@kernel.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>
+Message-ID: <0bfb4311-0e4e-2a7c-4e9f-cd97f8e63c46@xs4all.nl>
+Date:   Tue, 21 Apr 2020 11:23:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="5QAgd0e35j3NYeGe"
-Content-Disposition: inline
-In-Reply-To: <CAAEAJfCjUY3JeZ1dmVwkQaumoCbv8OR0FTP9Prdg=RS=gh_NUg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfNUX3jXmj+WnruNSxnf8B4ROeXKL+cnqTTyXcyhMHSWIQVtkxniz8vFK52xCHw87OVQHpfjdte0e4Ct9Tq5mT3YoGtbd4WBKNozAIPsL794fgVEBxOKR
+ Z6vYFCs7WPS0PEltmTP0nzZmx+1ZoLdDY+IC/TRRPhA7l8gdaT0AW40M007pr8ux/kxh/1z0icWXMgnSx44Df/MDg9ZuDoDBbV8/vaWT7vdlcixcMGgvf0+A
+ MaNAdt4/pxQVX1n4xc9Hsg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+gpiod_get_value() can return negative values if an error occurs.
+In several places this error code was ignored.
 
---5QAgd0e35j3NYeGe
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ensure that errors codes are handled correctly throughout the CEC
+pin framework and CEC pin drivers.
 
-Hi Ezequiel,
+The return code of the cec_pin_ops read() callback had to be changed
+from 'bool' to 'int', which mean the prototype of that callback in the
+sun4i drm driver also had to be changed.
 
-On Tue 21 Apr 20, 00:51, Ezequiel Garcia wrote:
-> Hi Jernej, Paul:
->=20
-> On Mon, 20 Apr 2020 at 13:41, Jernej =C5=A0krabec <jernej.skrabec@gmail.c=
-om> wrote:
-> >
-> > Dne ponedeljek, 20. april 2020 ob 17:10:10 CEST je Paul Kocialkowski
-> > napisal(a):
-> > > Hi,
-> > >
-> > > On Sun 19 Apr 20, 15:28, Samuel Holland wrote:
-> > > > On 4/8/20 11:01 AM, Jernej =C5=A0krabec wrote:
-> > > > > Hi Samuel!
-> > > > >
-> > > > > Dne sreda, 08. april 2020 ob 03:02:32 CEST je Samuel Holland napi=
-sal(a):
-> > > > >> This allows the VE clocks and PLL_VE to be disabled most of the =
-time.
-> > > > >>
-> > > > >> Since the device is stateless, each frame gets a separate runtim=
-e PM
-> > > > >> reference. Enable autosuspend so the PM callbacks are not run be=
-fore
-> > > > >> and
-> > > > >> after every frame.
-> > > > >>
-> > > > >> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> > > > >> ---
-> > > > >>
-> > > > >> I tested this with v4l2-request-test. I don't have the setup to =
-do
-> > > > >> anything more complicated at the moment.
-> > > > >>
-> > > > >> ---
-> > > > >>
-> > > > >>  drivers/staging/media/sunxi/cedrus/cedrus.c   |   7 ++
-> > > > >>  .../staging/media/sunxi/cedrus/cedrus_hw.c    | 115 +++++++++++=
-+------
-> > > > >>  .../staging/media/sunxi/cedrus/cedrus_hw.h    |   3 +
-> > > > >>  3 files changed, 88 insertions(+), 37 deletions(-)
-> > > >
-> > > > [snip]
-> > > >
-> > > > > Reset above causes problem. When format is set in cedrus_s_fmt_vi=
-d_cap()
-> > > > > a
-> > > > > function is called, which sets few registers in HW. Of course, th=
-ere is
-> > > > > no
-> > > > > guarantee that someone will start decoding immediately after capt=
-ure
-> > > > > format is set. So, if the driver puts VPU to sleep in the mean ti=
-me,
-> > > > > reset will clear those registers and decoded video will be in dif=
-ferent
-> > > > > format than expected. It could be even argued that registers shou=
-ld not
-> > > > > be set in that function and that this is design issue or bug in d=
-river.
-> > > >
-> > > > You're right. I didn't see that cedrus_dst_format_set() was called =
-outside
-> > > > cedrus_engine_enable/disable().
-> > >
-> > > This might indeed be an issue with multiple decoding contexts in para=
-llel,
-> > > with potentially different formats. For that reason, it looks like the
-> > > right thing to do would be to set the format at each decoding run bas=
-ed on
-> > > the format set in the context by s_fmt.
-> >
-> > So you are suggesting that cedrus_dst_format_set() should be moved to
-> > cedrus_device_run(), right? This way all registers are set at each run,=
- which
-> > is then truly stateless.
-> >
->=20
-> BTW, this is how the Hantro and Rockchip's Rkvdec
-> drivers are implemented. One of the main reasons is
-> to have simultaneous decoding support.
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+index 68d4644ac2dc..126e1517ade2 100644
+--- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
++++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+@@ -282,7 +282,7 @@ static const struct drm_connector_funcs sun4i_hdmi_connector_funcs = {
+ };
 
-That's a wise decision :)
+ #ifdef CONFIG_DRM_SUN4I_HDMI_CEC
+-static bool sun4i_hdmi_cec_pin_read(struct cec_adapter *adap)
++static int sun4i_hdmi_cec_pin_read(struct cec_adapter *adap)
+ {
+ 	struct sun4i_hdmi *hdmi = cec_get_drvdata(adap);
 
-I had actually tested that cedrus can decode multiple streams in parallel, =
-but
-I must have used the same format settings for both and didn't notice the is=
-sue
-then.
+diff --git a/drivers/media/cec/platform/cec-gpio/cec-gpio.c b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
+index 42d2c2cd9a78..c8c4efc83f5f 100644
+--- a/drivers/media/cec/platform/cec-gpio/cec-gpio.c
++++ b/drivers/media/cec/platform/cec-gpio/cec-gpio.c
+@@ -31,12 +31,12 @@ struct cec_gpio {
+ 	ktime_t			v5_ts;
+ };
 
-Good that we are fixing it now!
+-static bool cec_gpio_read(struct cec_adapter *adap)
++static int cec_gpio_read(struct cec_adapter *adap)
+ {
+ 	struct cec_gpio *cec = cec_get_drvdata(adap);
 
-Cheers,
+ 	if (cec->cec_is_low)
+-		return false;
++		return 0;
+ 	return gpiod_get_value(cec->cec_gpio);
+ }
 
-Paul
+@@ -71,9 +71,10 @@ static irqreturn_t cec_hpd_gpio_irq_handler_thread(int irq, void *priv)
+ static irqreturn_t cec_5v_gpio_irq_handler(int irq, void *priv)
+ {
+ 	struct cec_gpio *cec = priv;
+-	bool is_high = gpiod_get_value(cec->v5_gpio);
++	int val = gpiod_get_value(cec->v5_gpio);
++	bool is_high = val > 0;
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+-	if (is_high == cec->v5_is_high)
++	if (val < 0 || is_high == cec->v5_is_high)
+ 		return IRQ_HANDLED;
+ 	cec->v5_ts = ktime_get();
+ 	cec->v5_is_high = is_high;
+@@ -91,9 +92,10 @@ static irqreturn_t cec_5v_gpio_irq_handler_thread(int irq, void *priv)
+ static irqreturn_t cec_hpd_gpio_irq_handler(int irq, void *priv)
+ {
+ 	struct cec_gpio *cec = priv;
+-	bool is_high = gpiod_get_value(cec->hpd_gpio);
++	int val = gpiod_get_value(cec->hpd_gpio);
++	bool is_high = val > 0;
 
---5QAgd0e35j3NYeGe
-Content-Type: application/pgp-signature; name="signature.asc"
+-	if (is_high == cec->hpd_is_high)
++	if (val < 0 || is_high == cec->hpd_is_high)
+ 		return IRQ_HANDLED;
+ 	cec->hpd_ts = ktime_get();
+ 	cec->hpd_is_high = is_high;
+@@ -103,8 +105,10 @@ static irqreturn_t cec_hpd_gpio_irq_handler(int irq, void *priv)
+ static irqreturn_t cec_gpio_irq_handler(int irq, void *priv)
+ {
+ 	struct cec_gpio *cec = priv;
++	int val = gpiod_get_value(cec->cec_gpio);
 
------BEGIN PGP SIGNATURE-----
+-	cec_pin_changed(cec->adap, gpiod_get_value(cec->cec_gpio));
++	if (val >= 0)
++		cec_pin_changed(cec->adap, val > 0);
+ 	return IRQ_HANDLED;
+ }
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl6etnMACgkQ3cLmz3+f
-v9ESAgf+JF43Flex0ZzI560R3iFiOKh0qptQg+PzMUxxWUm8DffID3NoERvbt4n7
-ceoOqXP9t2kUPBsYZpvXStydgxHHvp+Gk4z5fKRhv4bH3MZu+FVdhLZwrclpq1qC
-/IO9T4LwvBqamcgR9fNhIy5j6kb+lMUYp8VBYpd5NskxMbUyDboFJaUONdgB2+cr
-YlflGNy7qgvY/MfM/3P49x/HtLRbDWBCY0R8Xti6OLvfQcvme/hS1eAtpHpfAYeL
-1n5XqbfL0AQr7But5vVkBFvUD/cMrlwYiwN8YidW17r28wJGvn9b7eGahbcQKxwS
-0f823/RMeZHpQlq/+/zoj2rL3iryMg==
-=GrkF
------END PGP SIGNATURE-----
+diff --git a/include/media/cec-pin.h b/include/media/cec-pin.h
+index 88c8b016eb09..483bc4769fe9 100644
+--- a/include/media/cec-pin.h
++++ b/include/media/cec-pin.h
+@@ -13,7 +13,8 @@
 
---5QAgd0e35j3NYeGe--
+ /**
+  * struct cec_pin_ops - low-level CEC pin operations
+- * @read:	read the CEC pin. Return true if high, false if low.
++ * @read:	read the CEC pin. Returns > 0 if high, 0 if low, or an error
++ *		if negative.
+  * @low:	drive the CEC pin low.
+  * @high:	stop driving the CEC pin. The pull-up will drive the pin
+  *		high, unless someone else is driving the pin low.
+@@ -22,13 +23,10 @@
+  * @free:	optional. Free any allocated resources. Called when the
+  *		adapter is deleted.
+  * @status:	optional, log status information.
+- * @read_hpd:	read the HPD pin. Return true if high, false if low or
+- *		an error if negative. If NULL or -ENOTTY is returned,
+- *		then this is not supported.
+- * @read_5v:	read the 5V pin. Return true if high, false if low or
+- *		an error if negative. If NULL or -ENOTTY is returned,
+- *		then this is not supported.
+- *
++ * @read_hpd:	optional. Read the HPD pin. Returns > 0 if high, 0 if low or
++ *		an error if negative.
++ * @read_5v:	optional. Read the 5V pin. Returns > 0 if high, 0 if low or
++ *		an error if negative.
+  * @received:	optional. High-level CEC message callback. Allows the driver
+  *		to process CEC messages.
+  *
+@@ -36,7 +34,7 @@
+  * cec pin framework to manipulate the CEC pin.
+  */
+ struct cec_pin_ops {
+-	bool (*read)(struct cec_adapter *adap);
++	int  (*read)(struct cec_adapter *adap);
+ 	void (*low)(struct cec_adapter *adap);
+ 	void (*high)(struct cec_adapter *adap);
+ 	bool (*enable_irq)(struct cec_adapter *adap);
