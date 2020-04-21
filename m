@@ -2,48 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ACBD1B2355
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 11:54:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 116941B23DB
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 12:30:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728597AbgDUJyL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Apr 2020 05:54:11 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:56002 "EHLO
+        id S1728709AbgDUKaM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Apr 2020 06:30:12 -0400
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:34187 "EHLO
         hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726874AbgDUJyK (ORCPT
+        by vger.kernel.org with ESMTP id S1727120AbgDUKaL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Apr 2020 05:54:10 -0400
-Received: from [37.161.214.89] (port=49523 helo=[192.168.42.159])
+        Tue, 21 Apr 2020 06:30:11 -0400
+Received: from [37.161.214.89] (port=49522 helo=[192.168.42.159])
         by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
         (Exim 4.93)
         (envelope-from <luca@lucaceresoli.net>)
-        id 1jQpbN-009P7k-IS; Tue, 21 Apr 2020 11:54:05 +0200
+        id 1jQqAA-009drc-8X; Tue, 21 Apr 2020 12:30:02 +0200
+From:   Luca Ceresoli <luca@lucaceresoli.net>
 Subject: Re: [PATCH v11 2/2] media: v4l: xilinx: Add Xilinx MIPI CSI-2 Rx
  Subsystem driver
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Vishal Sagar <vishal.sagar@xilinx.com>,
-        Hyun Kwon <hyunk@xilinx.com>, mchehab@kernel.org,
+To:     Vishal Sagar <vishal.sagar@xilinx.com>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
         robh+dt@kernel.org, mark.rutland@arm.com,
         Michal Simek <michals@xilinx.com>, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, hans.verkuil@cisco.com,
         linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         Dinesh Kumar <dineshk@xilinx.com>,
         Sandip Kothari <sandipk@xilinx.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Hyun Kwon <hyun.kwon@xilinx.com>
+        Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Hyun Kwon <hyun.kwon@xilinx.com>
 References: <20200409194424.45555-1-vishal.sagar@xilinx.com>
  <20200409194424.45555-3-vishal.sagar@xilinx.com>
- <20200419180222.GB8117@pendragon.ideasonboard.com>
- <860c27da-eba0-ddcb-719b-52b2725bd9bf@lucaceresoli.net>
- <20200420195714.GB8195@pendragon.ideasonboard.com>
- <0a3ea86b-cb4c-a1db-664e-cfa555d8ccf8@lucaceresoli.net>
- <20200421083807.GB5983@pendragon.ideasonboard.com>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <66ad4341-8066-6b09-5473-12825fe26828@lucaceresoli.net>
-Date:   Tue, 21 Apr 2020 11:53:50 +0200
+Message-ID: <4331afd6-3891-2dd5-b5b8-2ffc5d1cbed5@lucaceresoli.net>
+Date:   Tue, 21 Apr 2020 12:29:52 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200421083807.GB5983@pendragon.ideasonboard.com>
+In-Reply-To: <20200409194424.45555-3-vishal.sagar@xilinx.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -62,107 +57,227 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Vishal,
 
-On 21/04/20 10:38, Laurent Pinchart wrote:
-> Hi Luca,
-> 
-> On Tue, Apr 21, 2020 at 09:45:56AM +0200, Luca Ceresoli wrote:
->> On 20/04/20 21:57, Laurent Pinchart wrote:
->>> On Mon, Apr 20, 2020 at 09:24:25PM +0200, Luca Ceresoli wrote:
->>>> On 19/04/20 20:02, Laurent Pinchart wrote:
->>>> [...]
->>>>>> +static irqreturn_t xcsi2rxss_irq_handler(int irq, void *dev_id)
->>>>>> +{
->>>>>> +	struct xcsi2rxss_state *state = (struct xcsi2rxss_state *)dev_id;
->>>>>> +	struct xcsi2rxss_core *core = &state->core;
->>>>>> +	u32 status;
->>>>>> +
->>>>>> +	status = xcsi2rxss_read(core, XCSI_ISR_OFFSET) & XCSI_ISR_ALLINTR_MASK;
->>>>>> +	dev_dbg_ratelimited(core->dev, "interrupt status = 0x%08x\n", status);
->>>>>
->>>>> As this is expected to occur for every frame, I would drop the message,
->>>>> even if rate-limited.
->>>>>
->>>>>> +
->>>>>> +	if (!status)
->>>>>> +		return IRQ_NONE;
->>>>>> +
->>>>>> +	/* Received a short packet */
->>>>>> +	if (status & XCSI_ISR_SPFIFONE) {
->>>>>> +		dev_dbg_ratelimited(core->dev, "Short packet = 0x%08x\n",
->>>>>> +				    xcsi2rxss_read(core, XCSI_SPKTR_OFFSET));
->>>>>> +	}
->>>>>
->>>>> Same here, this will occur all the time, I'd remove this message. You
->>>>> need to read XCSI_SPKTR_OFFSET though, and you should do so in a loop
->>>>> until the XCSI_CSR_SPFIFONE in XCSI_CSR_OFFSET is cleared in case
->>>>> multiple short packets are received before the interrupt handler
->>>>> executes.
->>>>>
->>>>> I also wonder if it would make sense to extract the frame number from
->>>>> the FS short packet, and make it available through the subdev API. I
->>>>> think it should be reported through a V4L2_EVENT_FRAME_SYNC event. This
->>>>> can be implemented later.
->>>>>
->>>>>> +
->>>>>> +	/* Short packet FIFO overflow */
->>>>>> +	if (status & XCSI_ISR_SPFIFOF)
->>>>>> +		dev_dbg_ratelimited(core->dev, "Short packet FIFO overflowed\n");
->>>>>> +
->>>>>> +	/*
->>>>>> +	 * Stream line buffer full
->>>>>> +	 * This means there is a backpressure from downstream IP
->>>>>> +	 */
->>>>>> +	if (status & XCSI_ISR_SLBF) {
->>>>>> +		dev_alert_ratelimited(core->dev, "Stream Line Buffer Full!\n");
->>>>>> +		xcsi2rxss_stop_stream(state);
->>>>>> +		if (core->rst_gpio) {
->>>>>> +			gpiod_set_value(core->rst_gpio, 1);
->>>>>> +			/* minimum 40 dphy_clk_200M cycles */
->>>>>> +			ndelay(250);
->>>>>> +			gpiod_set_value(core->rst_gpio, 0);
->>>>>> +		}
->>>>>
->>>>> I don't think you should stop the core here. xcsi2rxss_stop_stream()
->>>>> calls the source .s_stream(0) operation, which usually involves I2C
->>>>> writes that will sleep.
->>>>>
->>>>> You should instead report an event to userspace (it looks like we have
->>>>> no error event defined in V4L2, one should be added), and rely on the
->>>>> normal stop procedure.
->>>>
->>>> FWIW, since a long time I've been using a modified version of this
->>>> routine, where after a Stream Line Buffer Full condition I just stop and
->>>> restart the csi2rx core and the stream continues after a minimal glitch.
->>>> Other subdev are unaware that anything has happened and keep on streaming.
->>>>
->>>> Not sure this is the correct thing to do, but it's working for me. Also
->>>> I proposed this topic in one of the previous iterations of this patch,
->>>> but the situation was different because the stream on/off was not
->>>> propagated back at that time.
->>>
->>> Thanks for the feedback. How often does this occur in practice ?
->>
->> Quite often indeed in my case, as the MIPI stream comes from a remote
->> sensor via a video serdes chipset, and both the cable and the remote
->> sensor module are subject to heavy EMI. Depending on the setup I
->> observed SLBF happening up to 5~10 times per hour.
-> 
-> Ouch, that is a lot !
+thanks for having resumed this patchset!
 
-That is the worst case, but yes, its a lot.
+On 09/04/20 21:44, Vishal Sagar wrote:
+[...]
+> +static int xcsi2rxss_parse_of(struct xcsi2rxss_state *xcsi2rxss)
+> +{
+> +	struct xcsi2rxss_core *core = &xcsi2rxss->core;
+> +	struct device_node *node = xcsi2rxss->core.dev->of_node;
 
-> Is that really caused by EMI though ? I thought
-> SLBF was due to the downstream components applying backpressure.
+Can be simplified as:
 
-Hum, good point. I might be wrong, I did the tests several months ago
-and cannot do them again at the moment to confirm. But at some point my
-suspect was that in case of noise at the upstream side, on the MIPI line
-there can be an excess of packets w.r.t. the normal streams (perhaps
-short packets?) that produces frames with more lines than expected. But
-it's just a wild idea I got, never had an opportunity to examine it in
-depth, sorry.
+	struct device_node *node = core.dev->of_node;
+
+> +	unsigned int nports, irq;
+> +	bool en_csi_v20, vfb;
+> +	int ret;
+> +
+> +	en_csi_v20 = of_property_read_bool(node, "xlnx,en-csi-v2-0");
+> +	if (en_csi_v20)
+> +		core->en_vcx = of_property_read_bool(node, "xlnx,en-vcx");
+> +
+> +	core->enable_active_lanes =
+> +		of_property_read_bool(node, "xlnx,en-active-lanes");
+> +
+> +	ret = of_property_read_u32(node, "xlnx,csi-pxl-format",
+> +				   &core->datatype);
+> +	if (ret < 0) {
+> +		dev_err(core->dev, "missing xlnx,csi-pxl-format property\n");
+> +		return ret;
+> +	}
+> +
+> +	switch (core->datatype) {
+> +	case XCSI_DT_YUV4228B:
+> +	case XCSI_DT_RGB444:
+> +	case XCSI_DT_RGB555:
+> +	case XCSI_DT_RGB565:
+> +	case XCSI_DT_RGB666:
+> +	case XCSI_DT_RGB888:
+> +	case XCSI_DT_RAW6:
+> +	case XCSI_DT_RAW7:
+> +	case XCSI_DT_RAW8:
+> +	case XCSI_DT_RAW10:
+> +	case XCSI_DT_RAW12:
+> +	case XCSI_DT_RAW14:
+> +		break;
+> +	case XCSI_DT_YUV42210B:
+> +	case XCSI_DT_RAW16:
+> +	case XCSI_DT_RAW20:
+> +		if (!en_csi_v20) {
+> +			ret = -EINVAL;
+> +			dev_dbg(core->dev, "enable csi v2 for this pixel format");
+> +		}
+> +		break;
+> +	default:
+> +		ret = -EINVAL;
+> +	}
+> +	if (ret < 0) {
+> +		dev_err(core->dev, "invalid csi-pxl-format property!\n");
+> +		return ret;
+> +	}
+> +
+> +	vfb = of_property_read_bool(node, "xlnx,vfb");
+> +	if (!vfb) {
+> +		dev_err(core->dev, "failed as VFB is disabled!\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	for (nports = 0; nports < XCSI_MEDIA_PADS; nports++) {
+> +		struct fwnode_handle *ep;
+> +		struct v4l2_fwnode_endpoint vep = {
+> +			.bus_type = V4L2_MBUS_CSI2_DPHY
+> +		};
+> +
+> +		ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(core->dev),
+> +						     nports, 0,
+> +						     FWNODE_GRAPH_ENDPOINT_NEXT);
+> +		if (!ep)
+> +			break;
+> +		/*
+> +		 * since first port is sink port and it contains
+> +		 * all info about data-lanes and cfa-pattern,
+> +		 * don't parse second port but only check if exists
+> +		 */
+> +		if (nports == XVIP_PAD_SOURCE) {
+> +			dev_dbg(core->dev, "no need to parse source port");
+> +			fwnode_handle_put(ep);
+> +			continue;
+> +		}
+> +
+> +		ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> +		if (ret) {
+> +			dev_err(core->dev, "error parsing sink port");
+> +			fwnode_handle_put(ep);
+> +			return ret;
+> +		}
+> +
+> +		dev_dbg(core->dev, "port %d bus type = %d\n", nports,
+> +			vep.bus_type);
+> +
+> +		if (vep.bus_type == V4L2_MBUS_CSI2_DPHY) {
+> +			dev_dbg(core->dev, "base.port = %d base.id = %d\n",
+> +				vep.base.port, vep.base.id);
+> +
+> +			dev_dbg(core->dev, "mipi number lanes = %d\n",
+> +				vep.bus.mipi_csi2.num_data_lanes);
+> +
+> +			core->max_num_lanes =
+> +				vep.bus.mipi_csi2.num_data_lanes;
+> +		}
+> +		fwnode_handle_put(ep);
+> +	}
+> +
+> +	if (nports != XCSI_MEDIA_PADS) {
+> +		dev_err(core->dev, "invalid number of ports %u\n", nports);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Register interrupt handler */
+> +	irq = irq_of_parse_and_map(node, 0);
+> +	ret = devm_request_irq(core->dev, irq, xcsi2rxss_irq_handler,
+> +			       IRQF_SHARED, "xilinx-csi2rxss", xcsi2rxss);
+> +	if (ret) {
+> +		dev_err(core->dev, "Err = %d Interrupt handler reg failed!\n",
+> +			ret);
+> +		return ret;
+> +	}
+
+When using this driver I have changed this to a threaded IRQ, moving
+most of the management out of interrupt context. The patch is super
+simple and it works fine, for my use case at least. Do you think a
+strict IRQ is really needed for some reason?
+
+> +	xcsi2rxss_log_ipconfig(xcsi2rxss);
+> +
+> +	return 0;
+
+This function references 'core->dev' a lot of times, so I'd rather add
+at the top of the function:
+
+  struct device * const dev = &pdev->dev;
+
+and then use simply 'dev' everywhere. This would keep lines shorter and
+more readable. It is also handy when copying/moving a line of code from
+one function to another if all of them have 'dev' called the same way so
+I tend to do use this pattern often.
+
+> +}
+> +
+> +static int xcsi2rxss_probe(struct platform_device *pdev)
+> +{
+> +	struct v4l2_subdev *subdev;
+> +	struct xcsi2rxss_state *xcsi2rxss;
+> +	struct xcsi2rxss_core *core;
+> +	struct resource *res;
+> +	int num_clks = ARRAY_SIZE(xcsi2rxss_clks);
+> +	int ret;
+> +
+> +	xcsi2rxss = devm_kzalloc(&pdev->dev, sizeof(*xcsi2rxss), GFP_KERNEL);
+> +	if (!xcsi2rxss)
+> +		return -ENOMEM;
+> +
+> +	core = &xcsi2rxss->core;
+> +	core->dev = &pdev->dev;
+
+This function references 'dev' many times, sometimes as &pdev->dev,
+thers as 'core->dev', thus as above why not adding at the top of the
+function:
+
+  struct device * const dev = &pdev->dev;
+
+and simplify code using 'dev' always?
+
+> +	core->clks = devm_kmemdup(core->dev, xcsi2rxss_clks,
+> +				  sizeof(xcsi2rxss_clks), GFP_KERNEL);
+> +	if (!core->clks)
+> +		return -ENOMEM;
+> +
+> +	/* Reset GPIO */
+> +	core->rst_gpio = devm_gpiod_get_optional(core->dev, "reset",
+> +						 GPIOD_OUT_HIGH);
+> +	if (IS_ERR(core->rst_gpio)) {
+> +		if (PTR_ERR(core->rst_gpio) != -EPROBE_DEFER)
+> +			dev_err(core->dev, "Video Reset GPIO not setup in DT");
+> +		return PTR_ERR(core->rst_gpio);
+> +	}
+> +
+> +	mutex_init(&xcsi2rxss->lock);
+
+There are 3 'return' statements after this call, and mutex_destroy()
+won't be called if they trigger. Ok, probably no real effect as
+mutex_init() is just initializing data, but for the sake of well-written
+code you can simply move mutex_init()...
+
+> +	ret = xcsi2rxss_parse_of(xcsi2rxss);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> +	core->iomem = devm_ioremap_resource(core->dev, res);
+> +	if (IS_ERR(core->iomem))
+> +		return PTR_ERR(core->iomem);
+> +
+> +	ret = clk_bulk_get(core->dev, num_clks, core->clks);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = clk_bulk_prepare_enable(num_clks, core->clks);
+> +	if (ret)
+> +		goto err_clk_put;
+
+...here.
+
+> +	if (core->rst_gpio) {
+> +		gpiod_set_value_cansleep(core->rst_gpio, 1);
+> +		/* minimum of 40 dphy_clk_200M cycles */
+> +		usleep_range(1, 2);
+> +		gpiod_set_value_cansleep(core->rst_gpio, 0);
+> +	}
+
 
 -- 
 Luca
