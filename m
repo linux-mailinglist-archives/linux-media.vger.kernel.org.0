@@ -2,121 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E93ED1B2103
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 10:05:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B86C91B21D3
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 10:38:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728055AbgDUIFs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Apr 2020 04:05:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34978 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726691AbgDUIFr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Apr 2020 04:05:47 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 557F32071C;
-        Tue, 21 Apr 2020 08:05:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587456346;
-        bh=MIsMOSthC5x1b/v9D2P+kZ/IzkE0C1W/5y/jCBKmXJE=;
+        id S1728413AbgDUIiY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Apr 2020 04:38:24 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:56430 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726018AbgDUIiX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 21 Apr 2020 04:38:23 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1AA4497D;
+        Tue, 21 Apr 2020 10:38:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1587458300;
+        bh=M4JnM4GjvLEco6/O8nqZUJCQJ6W6eag7+dGlDjYn/+Q=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=yu5yyQyNv4XIUAiv3IrPdT9binnqLDUcLtF7ShkV4r61pPbSv6Au4+iJXCqCjh/fi
-         tiP+gTI/LQ36uKxAfSnU3sqBXrqR2nA9HcuR6BUtj+q2brAM+lrlX6zkJZbvB/18Vw
-         jcZFKMEUb0ULBEhzpnRvj1BNYgQDXY0zSfDsD9ng=
-Date:   Tue, 21 Apr 2020 10:05:44 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
-        driverdevel <devel@driverdev.osuosl.org>, nd <nd@arm.com>,
-        Todd Kjos <tkjos@android.com>,
-        Lecopzer Chen <lecopzer.chen@mediatek.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Laura Abbott <laura@labbott.name>,
-        lkml <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
-        Anders Pedersen <anders.pedersen@arm.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Joel Fernandes <joel@joelfernandes.org>,
-        "Darren Hart (VMware)" <dvhart@infradead.org>,
-        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
-        Laura Abbott <labbott@redhat.com>,
-        Martijn Coenen <maco@android.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Brauner <christian@brauner.io>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
-Message-ID: <20200421080544.GA611314@kroah.com>
-References: <20200414134629.54567-1-orjan.eide@arm.com>
- <20200414141849.55654-1-orjan.eide@arm.com>
- <20200414142810.GA958163@kroah.com>
- <CALAqxLX-SUhHPH6ewt-s9cEMc8DtMTgXem=JruAkLofuJf1syg@mail.gmail.com>
- <20200416102508.GA820251@kroah.com>
- <20200420082207.ui7iyg7dsnred2vv@wittgenstein>
- <CALAqxLW-txNEqW=P_9VTxvOVu_fgpjzHHDbR5BhtpYwhg1SXgw@mail.gmail.com>
+        b=Vb+6+eIW8vz8kOW8VNVyZLYL9GXfkJerZLOL9xivPPgeaV/eHmTZ3y2DxatzPa36s
+         E3G2rc7AQ59LxL+wEWbP85vmDy/gP6EkkO3pzMUL/eU4tLikNh46cjN/TCaDOAVsXY
+         G4xmN1JnYeAucJwc0nXGZb/3gG8u8B0rD4tCp/oQ=
+Date:   Tue, 21 Apr 2020 11:38:07 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Luca Ceresoli <luca@lucaceresoli.net>
+Cc:     Vishal Sagar <vishal.sagar@xilinx.com>,
+        Hyun Kwon <hyunk@xilinx.com>, mchehab@kernel.org,
+        robh+dt@kernel.org, mark.rutland@arm.com,
+        Michal Simek <michals@xilinx.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, hans.verkuil@cisco.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Dinesh Kumar <dineshk@xilinx.com>,
+        Sandip Kothari <sandipk@xilinx.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Hyun Kwon <hyun.kwon@xilinx.com>
+Subject: Re: [PATCH v11 2/2] media: v4l: xilinx: Add Xilinx MIPI CSI-2 Rx
+ Subsystem driver
+Message-ID: <20200421083807.GB5983@pendragon.ideasonboard.com>
+References: <20200409194424.45555-1-vishal.sagar@xilinx.com>
+ <20200409194424.45555-3-vishal.sagar@xilinx.com>
+ <20200419180222.GB8117@pendragon.ideasonboard.com>
+ <860c27da-eba0-ddcb-719b-52b2725bd9bf@lucaceresoli.net>
+ <20200420195714.GB8195@pendragon.ideasonboard.com>
+ <0a3ea86b-cb4c-a1db-664e-cfa555d8ccf8@lucaceresoli.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CALAqxLW-txNEqW=P_9VTxvOVu_fgpjzHHDbR5BhtpYwhg1SXgw@mail.gmail.com>
+In-Reply-To: <0a3ea86b-cb4c-a1db-664e-cfa555d8ccf8@lucaceresoli.net>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 20, 2020 at 01:03:39PM -0700, John Stultz wrote:
-> On Mon, Apr 20, 2020 at 1:22 AM Christian Brauner
-> <christian.brauner@ubuntu.com> wrote:
-> > On Thu, Apr 16, 2020 at 12:25:08PM +0200, Greg Kroah-Hartman wrote:
-> > > On Tue, Apr 14, 2020 at 09:41:31PM -0700, John Stultz wrote:
-> > > > But I do think we can mark it as deprecated and let folks know that
-> > > > around the end of the year it will be deleted.
-> > >
-> > > No one ever notices "depreciated" things, they only notice if the code
-> > > is no longer there :)
-> > >
-> > > So I'm all for just deleting it and seeing who even notices...
-> >
-> > Agreed.
+Hi Luca,
+
+On Tue, Apr 21, 2020 at 09:45:56AM +0200, Luca Ceresoli wrote:
+> On 20/04/20 21:57, Laurent Pinchart wrote:
+> > On Mon, Apr 20, 2020 at 09:24:25PM +0200, Luca Ceresoli wrote:
+> >> On 19/04/20 20:02, Laurent Pinchart wrote:
+> >> [...]
+> >>>> +static irqreturn_t xcsi2rxss_irq_handler(int irq, void *dev_id)
+> >>>> +{
+> >>>> +	struct xcsi2rxss_state *state = (struct xcsi2rxss_state *)dev_id;
+> >>>> +	struct xcsi2rxss_core *core = &state->core;
+> >>>> +	u32 status;
+> >>>> +
+> >>>> +	status = xcsi2rxss_read(core, XCSI_ISR_OFFSET) & XCSI_ISR_ALLINTR_MASK;
+> >>>> +	dev_dbg_ratelimited(core->dev, "interrupt status = 0x%08x\n", status);
+> >>>
+> >>> As this is expected to occur for every frame, I would drop the message,
+> >>> even if rate-limited.
+> >>>
+> >>>> +
+> >>>> +	if (!status)
+> >>>> +		return IRQ_NONE;
+> >>>> +
+> >>>> +	/* Received a short packet */
+> >>>> +	if (status & XCSI_ISR_SPFIFONE) {
+> >>>> +		dev_dbg_ratelimited(core->dev, "Short packet = 0x%08x\n",
+> >>>> +				    xcsi2rxss_read(core, XCSI_SPKTR_OFFSET));
+> >>>> +	}
+> >>>
+> >>> Same here, this will occur all the time, I'd remove this message. You
+> >>> need to read XCSI_SPKTR_OFFSET though, and you should do so in a loop
+> >>> until the XCSI_CSR_SPFIFONE in XCSI_CSR_OFFSET is cleared in case
+> >>> multiple short packets are received before the interrupt handler
+> >>> executes.
+> >>>
+> >>> I also wonder if it would make sense to extract the frame number from
+> >>> the FS short packet, and make it available through the subdev API. I
+> >>> think it should be reported through a V4L2_EVENT_FRAME_SYNC event. This
+> >>> can be implemented later.
+> >>>
+> >>>> +
+> >>>> +	/* Short packet FIFO overflow */
+> >>>> +	if (status & XCSI_ISR_SPFIFOF)
+> >>>> +		dev_dbg_ratelimited(core->dev, "Short packet FIFO overflowed\n");
+> >>>> +
+> >>>> +	/*
+> >>>> +	 * Stream line buffer full
+> >>>> +	 * This means there is a backpressure from downstream IP
+> >>>> +	 */
+> >>>> +	if (status & XCSI_ISR_SLBF) {
+> >>>> +		dev_alert_ratelimited(core->dev, "Stream Line Buffer Full!\n");
+> >>>> +		xcsi2rxss_stop_stream(state);
+> >>>> +		if (core->rst_gpio) {
+> >>>> +			gpiod_set_value(core->rst_gpio, 1);
+> >>>> +			/* minimum 40 dphy_clk_200M cycles */
+> >>>> +			ndelay(250);
+> >>>> +			gpiod_set_value(core->rst_gpio, 0);
+> >>>> +		}
+> >>>
+> >>> I don't think you should stop the core here. xcsi2rxss_stop_stream()
+> >>> calls the source .s_stream(0) operation, which usually involves I2C
+> >>> writes that will sleep.
+> >>>
+> >>> You should instead report an event to userspace (it looks like we have
+> >>> no error event defined in V4L2, one should be added), and rely on the
+> >>> normal stop procedure.
+> >>
+> >> FWIW, since a long time I've been using a modified version of this
+> >> routine, where after a Stream Line Buffer Full condition I just stop and
+> >> restart the csi2rx core and the stream continues after a minimal glitch.
+> >> Other subdev are unaware that anything has happened and keep on streaming.
+> >>
+> >> Not sure this is the correct thing to do, but it's working for me. Also
+> >> I proposed this topic in one of the previous iterations of this patch,
+> >> but the situation was different because the stream on/off was not
+> >> propagated back at that time.
+> > 
+> > Thanks for the feedback. How often does this occur in practice ?
 > 
-> I mean, I get there's not much love for ION in staging, and I too am
-> eager to see it go, but I also feel like in the discussions around
-> submitting the dmabuf heaps at talks, etc, that there was clear value
-> in removing ION after a short time so that folks could transition
-> being able to test both implementations against the same kernel so
-> performance regressions, etc could be worked out.
-> 
-> I am actively getting many requests for help for vendors who are
-> looking at dmabuf heaps and are starting the transition process, and
-> I'm trying my best to motivate them to directly work within the
-> community so their needed heap functionality can go upstream. But it's
-> going to be a process, and their first attempts aren't going to
-> magically land upstream.  I think being able to really compare their
-> implementations as they iterate and push things upstream will help in
-> order to be able to have upstream solutions that are also properly
-> functional for production usage.
+> Quite often indeed in my case, as the MIPI stream comes from a remote
+> sensor via a video serdes chipset, and both the cable and the remote
+> sensor module are subject to heavy EMI. Depending on the setup I
+> observed SLBF happening up to 5~10 times per hour.
 
-But we are not accepting any new ion allocators or changes at the
-moment, so I don't see how the ion code in the kernel is helping/hurting
-anything here.
+Ouch, that is a lot ! Is that really caused by EMI though ? I thought
+SLBF was due to the downstream components applying backpressure.
 
-There has been a bunch of changes to the ion code recently, in the
-Android kernel trees, in order to get a lot of the different
-manufacturer "forks" of ion back together into one place.  But again,
-those patches are not going to be sent upstream for merging so how is
-ion affecting the dmabuf code at all here?
+-- 
+Regards,
 
-> The dmabuf heaps have been in an official kernel now for all of three
-> weeks. So yea, we can "delete [ION] and see who even notices", but I
-> worry that may seem a bit like contempt for the folks doing the work
-> on transitioning over, which doesn't help getting them to participate
-> within the community.
-
-But they aren't participating in the community today as no one is
-touching the ion code.  So I fail to see how keeping a dead-end-version
-of ion in the kernel tree really affects anyone these days.
-
-thanks,
-
-greg k-h
+Laurent Pinchart
