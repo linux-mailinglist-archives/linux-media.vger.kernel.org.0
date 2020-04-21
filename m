@@ -2,166 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0DAC1B1A7B
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 02:11:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AABB1B1C33
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 04:59:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727074AbgDUALa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 20 Apr 2020 20:11:30 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:11245 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726659AbgDUAL2 (ORCPT
+        id S1727019AbgDUC7s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 20 Apr 2020 22:59:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55120 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726793AbgDUC7r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 20 Apr 2020 20:11:28 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5e9e39bd0001>; Mon, 20 Apr 2020 17:09:33 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 20 Apr 2020 17:11:28 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 20 Apr 2020 17:11:28 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 21 Apr
- 2020 00:11:28 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 21 Apr 2020 00:11:27 +0000
-Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.165.49]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5e9e3a2e0000>; Mon, 20 Apr 2020 17:11:27 -0700
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
-CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: [RFC PATCH v8 9/9] arm64: tegra: Add Tegra VI CSI support in device tree
-Date:   Mon, 20 Apr 2020 17:11:14 -0700
-Message-ID: <1587427874-3291-10-git-send-email-skomatineni@nvidia.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1587427874-3291-1-git-send-email-skomatineni@nvidia.com>
-References: <1587427874-3291-1-git-send-email-skomatineni@nvidia.com>
-X-NVConfidentiality: public
+        Mon, 20 Apr 2020 22:59:47 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6AFC061A0E;
+        Mon, 20 Apr 2020 19:59:47 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id C6B722A11CD
+Message-ID: <2d1da0b9d857c5607c989be85a04c9d7d9d19b38.camel@collabora.com>
+Subject: Re: [PATCH v4] dt-bindings: rockchip-vpu: Convert bindings to
+ json-schema
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Johan Jonker <jbx6244@gmail.com>, heiko@sntech.de
+Cc:     devicetree@vger.kernel.org, hverkuil@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, mark.rutland@arm.com,
+        robh@kernel.org
+Date:   Mon, 20 Apr 2020 23:59:33 -0300
+In-Reply-To: <12f6d7cf-6af6-4f54-3188-65e73b703a72@gmail.com>
+References: <20200326191343.1989-1-ezequiel@collabora.com>
+         <12f6d7cf-6af6-4f54-3188-65e73b703a72@gmail.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1587427773; bh=yB3b29VbNFtTvMcPZCMVxLppaVECoZp9WEY70dWiuUY=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:X-NVConfidentiality:MIME-Version:
-         Content-Type;
-        b=Z861qR1kCPrPTC77B0TQq0mcYt0ZOKeI5+4i+af+jrC0GXt10fnlIEZ17w2MtWG4v
-         RfWhkNsOgg4Y6h0ayBwHt+BWJ7s7yY+ggiIXfexzYHC4B2M1wte0f7GCL3ZJyYLoos
-         kNh9KxE8SHfRdRIzO1FYk1WyezRfmdxPqS92JHgT6oHBr1ATPCxdJqU2MwbXsIzNR6
-         FEB4bJsDGB1rCs03v6DHe94Lk2uZRG8paJOA6n4OPY6SeAodRTdzws3/q1gubyrSYt
-         IU7PuYnvBAqdRlWGslgaAKOVQU/nbl049S4g8iDJQn1p1xA/AOxRf4A/UbFXb1fQSU
-         EMtcuHemi2R3Q==
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Tegra210 contains VI controller for video input capture from MIPI
-CSI camera sensors and also supports built-in test pattern generator.
+Hey Johan,
 
-CSI ports can be one-to-one mapped to VI channels for capturing from
-an external sensor or from built-in test pattern generator.
+On Mon, 2020-04-20 at 15:33 +0200, Johan Jonker wrote:
+> Hi Heiko,
+> 
+> This patch was applied by the media people Hans and Ezequil without note
+> and test I think.
+> 
 
-This patch adds support for VI and CSI and enables them in Tegra210
-device tree.
+I did test it, but I guess something felt thru the cracks.
+If you'd be kind enough to submit a patch, that would be lovely.
 
-Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
----
- arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi | 10 ++++++
- arch/arm64/boot/dts/nvidia/tegra210.dtsi       | 46 +++++++++++++++++++++++++-
- 2 files changed, 55 insertions(+), 1 deletion(-)
+Thanks!
+Ezequiel
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-index 313a4c2..b57d837 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-@@ -14,6 +14,16 @@
- 			status = "okay";
- 		};
- 
-+		vi@54080000 {
-+			status = "okay";
-+
-+			avdd-dsi-csi-supply = <&vdd_dsi_csi>;
-+
-+			csi@838 {
-+				status = "okay";
-+			};
-+		};
-+
- 		sor@54580000 {
- 			status = "okay";
- 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210.dtsi b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-index 5b1dfd8..cad42a7 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210.dtsi
-@@ -137,9 +137,44 @@
- 
- 		vi@54080000 {
- 			compatible = "nvidia,tegra210-vi";
--			reg = <0x0 0x54080000 0x0 0x00040000>;
-+			reg = <0x0 0x54080000 0x0 0x700>;
- 			interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
- 			status = "disabled";
-+			assigned-clocks = <&tegra_car TEGRA210_CLK_VI>;
-+			assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_C4_OUT0>;
-+
-+			clocks = <&tegra_car TEGRA210_CLK_VI>;
-+			power-domains = <&pd_venc>;
-+
-+			#address-cells = <1>;
-+			#size-cells = <1>;
-+
-+			ranges = <0x0 0x0 0x54080000 0x2000>;
-+
-+			csi@838 {
-+				compatible = "nvidia,tegra210-csi";
-+				reg = <0x838 0x1300>;
-+				status = "disabled";
-+				assigned-clocks = <&tegra_car TEGRA210_CLK_CILAB>,
-+						  <&tegra_car TEGRA210_CLK_CILCD>,
-+						  <&tegra_car TEGRA210_CLK_CILE>,
-+						  <&tegra_car TEGRA210_CLK_CSI_TPG>;
-+				assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_P>,
-+							 <&tegra_car TEGRA210_CLK_PLL_P>,
-+							 <&tegra_car TEGRA210_CLK_PLL_P>;
-+				assigned-clock-rates = <102000000>,
-+						       <102000000>,
-+						       <102000000>,
-+						       <972000000>;
-+
-+				clocks = <&tegra_car TEGRA210_CLK_CSI>,
-+					 <&tegra_car TEGRA210_CLK_CILAB>,
-+					 <&tegra_car TEGRA210_CLK_CILCD>,
-+					 <&tegra_car TEGRA210_CLK_CILE>,
-+					 <&tegra_car TEGRA210_CLK_CSI_TPG>;
-+				clock-names = "csi", "cilab", "cilcd", "cile", "csi_tpg";
-+				power-domains = <&pd_sor>;
-+			};
- 		};
- 
- 		tsec@54100000 {
-@@ -839,6 +874,15 @@
- 				reset-names = "vic";
- 				#power-domain-cells = <0>;
- 			};
-+
-+			pd_venc: venc {
-+				clocks = <&tegra_car TEGRA210_CLK_VI>,
-+					 <&tegra_car TEGRA210_CLK_CSI>;
-+				resets = <&mc TEGRA210_MC_RESET_VI>,
-+					 <&tegra_car TEGRA210_RST_VI>,
-+					 <&tegra_car TEGRA210_CLK_CSI>;
-+				#power-domain-cells = <0>;
-+			};
- 		};
- 
- 		sdmmc1_3v3: sdmmc1-3v3 {
--- 
-2.7.4
+> make ARCH=arm64 dtbs_check
+> DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+> 
+> Errors for example:
+> 
+>   DTC     arch/arm64/boot/dts/rockchip/rk3328-evb.dt.yaml
+>   CHECK   arch/arm64/boot/dts/rockchip/rk3328-evb.dt.yaml
+> arch/arm64/boot/dts/rockchip/rk3328-evb.dt.yaml: video-codec@ff350000:
+> interrupts: [[0, 9, 4]] is too short
+> arch/arm64/boot/dts/rockchip/rk3328-evb.dt.yaml: video-codec@ff350000:
+> interrupt-names: ['vdpu'] is too short
+> arch/arm64/boot/dts/rockchip/rk3328-evb.dt.yaml: video-codec@ff350000:
+> interrupt-names:0: 'vepu' was expected
+> 
+> See:
+> https://lore.kernel.org/lkml/20200403124316.5445-1-jbx6244@gmail.com/
+> 
+> +  interrupts:
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  interrupt-names:
+> +    oneOf:
+> +      - const: vdpu
+> +      - items:
+> +        - const: vepu
+> +        - const: vdpu
+> 
+> Vs.:
+> 
+> 
+> +  interrupts:
+> +    maxItems: 2
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: vepu
+> +      - const: vdpu
+
 
