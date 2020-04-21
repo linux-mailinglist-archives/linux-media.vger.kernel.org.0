@@ -2,99 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30B781B2A1C
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 16:38:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33C6F1B2B31
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 17:31:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728802AbgDUOiP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Apr 2020 10:38:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49952 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726018AbgDUOiO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Apr 2020 10:38:14 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F602C061A10;
-        Tue, 21 Apr 2020 07:38:14 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id u16so3939569wmc.5;
-        Tue, 21 Apr 2020 07:38:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:cc:references:subject:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=YA77VEvZf8UQcQ4TTsdI/a+SvMgtENjG2+uBnNTp7Ig=;
-        b=LbaHCdZ6QeVqbsp9MAokVbaW/yaDO5n04fFH95m1r9QWRNpt+ZG1qJmwIc7EXjnHJY
-         NK3ckMDszDV53QmlI3HCQnyljuha5foVDTCr4+6/vD1QqLpBID7lkRt/KBQ5XWiEGYZQ
-         /aXEJvbGW/4kGhxEESepQczvZbrM9wH2HAVIASnhwubUe2Wyr7aXUzCOltHcKMXNnS4x
-         i8X7rtP1Tb9mendM5gWAPNHJMLahjfL02h35LXrMcYG1UM0n5gEb1iGRDwVETZUcg9AG
-         sh/g4A8tPL4fyxgNKBdkbpDehXc0Rrjf9aoO9brY8WB1ZxHWiIOCmV5cbVjuUIMH7EuK
-         vcPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:cc:references:subject:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=YA77VEvZf8UQcQ4TTsdI/a+SvMgtENjG2+uBnNTp7Ig=;
-        b=gaqtkdUV6QU1eGCed7RZvvp9vsHz7WuGO/7lYTDAByGgmx7PLOjhfkt0XlF9/K2lR4
-         ctg4nC7SVEX9mZkNCwDAC2e49Op2AzYG8428X/a7GGhJrwBANUQdQix/GAyEQxJuIX3+
-         3YgIcHbKh6G8x0Y7ggwXLLcKlD5Vd7RvyOS2zJohUJJapZ//jaM9BrJZqBlIZ+JSGT3e
-         SJNZoB60E3CXppzZYX7XypHz2Md6OqzNTRQIWSTm/nEO7CbURFMnK3cyJag/I5rp42L4
-         iJ/OtuAnCAY7BCwu8PjtKc1cEx/wwyTvxR9UVi+mBvQNr7Qknf8roWi+BcFasgImtDOB
-         vR0A==
-X-Gm-Message-State: AGi0PuYyI0lSw8YTOmuTSsZdTb+8meAFLqK1PuKeNPGG3d/1fQxaU+No
-        1ScwPIaADUYsoskjI2y9Gtw4JXk3
-X-Google-Smtp-Source: APiQypK6WFC+eeMq2iNU8/2Y4EFxBMwpP04anrgv02aAulvE9AG2v/u6c11Sb7yxTkz+kd6P4Qo0Xg==
-X-Received: by 2002:a1c:f609:: with SMTP id w9mr5120046wmc.123.1587479893310;
-        Tue, 21 Apr 2020 07:38:13 -0700 (PDT)
-Received: from [192.168.2.1] (ip51ccf9cd.speed.planet.nl. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id q10sm4150118wrv.95.2020.04.21.07.38.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Apr 2020 07:38:12 -0700 (PDT)
-To:     ezequiel@collabora.com
-Cc:     boris.brezillon@collabora.com, heiko@sntech.de, hverkuil@xs4all.nl,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-References: <20200403221345.16702-5-ezequiel@collabora.com>
-Subject: Re: [PATCH v8 4/5] media: rkvdec: Add the rkvdec driver
-From:   Johan Jonker <jbx6244@gmail.com>
-Message-ID: <f596299f-9a4b-6fc7-17c5-b8a720301c86@gmail.com>
-Date:   Tue, 21 Apr 2020 16:38:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+        id S1726115AbgDUPbG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Apr 2020 11:31:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39362 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725870AbgDUPbF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 21 Apr 2020 11:31:05 -0400
+Received: from coco.lan (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 176B3206A2;
+        Tue, 21 Apr 2020 15:31:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587483065;
+        bh=B+qhYhs1NI+wK5JRTy+v09+PSidfojdfV0NzDFhRjS8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=fWAdMORj8aSbjjUO652AJ50JpGZb1lT8NyKEcXIIFcVOKSpah64+up1BfJVlfcH5G
+         MpmBki76WcRDA8RJKhkUTv1hizP5EDdzZSYx6P2fyQLugwWRhnqJN3HGIrNNvGq+Y5
+         yiP5uI9CzLDhsaeiqYrQhdiuGm/BI9g2dKHQqVDU=
+Date:   Tue, 21 Apr 2020 17:31:00 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [GIT PULL FOR v5.8] Various fixes/enhancements
+Message-ID: <20200421173100.2f1f9471@coco.lan>
+In-Reply-To: <6a56ccf7-4c26-b3ad-eb3a-0647944c2f95@xs4all.nl>
+References: <6a56ccf7-4c26-b3ad-eb3a-0647944c2f95@xs4all.nl>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200403221345.16702-5-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Em Fri, 17 Apr 2020 10:18:44 +0200
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 
-The MAINTAINERS document is now sort by entry name and the field names
-sort for all entries.
-Ask Joe Perches.
+> The following changes since commit ceab3ac1e60d70afb4e25147d60817c513f235f7:
+> 
+>   media: dvb-frontends: DUMMY_FE should depends on DVB_CORE (2020-04-17 09:21:47 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.8c
+> 
+> for you to fetch changes up to 0f72df4db95844184f49bbdfeaae013919c12c1b:
+> 
+>   dt-bindings: media: rockchip-rga: add power-domains property (2020-04-17 10:05:10 +0200)
+> 
+> ----------------------------------------------------------------
+> Tag branch
+> 
+> ----------------------------------------------------------------
+> Dafna Hirschfeld (8):
+>       media: staging: rkisp1: remove mbus field from rkisp1_sensor_async
+>       media: staging: rkisp1: replace the call to v4l2_async_notifier_parse_fwnode_endpoints_by_port
+>       media: staging: rkisp1: cap: cleanup in mainpath config for uv swap format
+>       media: staging: rkisp1: cap: fix value written to uv swap register in selfpath
+>       media: staging: rkisp1: cap: change the logic for writing to uv swap register
+>       media: staging: rkisp1: cap: support uv swap only for semiplanar formats
+>       media: staging: rkisp1: cap: support uv swapped planar formats
 
-Johan
+There were two merge conflicts on rksip1 patches. The first one was
+trivial, and I already addressed...
+
+>       media: staging: rkisp1: cap: remove unsupported formats
+
+But this one is not so trivial.
+
+Dafna,
+
+Please rebase this patch on the top of upstream and re-submit.
 
 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2b8b3e7f3df3..3cd32c54dcec 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -14298,6 +14298,13 @@ F:	drivers/hid/hid-roccat*
->  F:	include/linux/hid-roccat*
->  F:	Documentation/ABI/*/sysfs-driver-hid-roccat*
->  
-> +ROCKCHIP VIDEO DECODER DRIVER
-> +M:	Ezequiel Garcia <ezequiel@collabora.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +F:	drivers/staging/media/rkvdec/
-> +F:	Documentation/devicetree/bindings/media/rockchip,vdec.yaml
-> +
->  ROCKCHIP ISP V1 DRIVER
->  M:	Helen Koike <helen.koike@collabora.com>
->  L:	linux-media@vger.kernel.org
-
+Thanks,
+Mauro
