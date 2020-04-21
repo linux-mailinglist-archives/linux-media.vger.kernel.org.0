@@ -2,126 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 961341B2035
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 09:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E93ED1B2103
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 10:05:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727120AbgDUHqc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Apr 2020 03:46:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42732 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726600AbgDUHqc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Apr 2020 03:46:32 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14A75C061A0F;
-        Tue, 21 Apr 2020 00:46:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=/OXNbozW3KLxHR+6wT6r83XbqqDsIOVg2wPtGyv5qC4=; b=mMRoC104uMYwG6vg0L71fdPnij
-        PgU9CE5qoy3CNIP/Pc5OMJUibQn0OASApH5svN3WUNdTnQebVewSTbMvqVCBqPSyttoGwaP7BidMp
-        OXwu7yJiGdBb4B67yV02sTXlRqFrrHKXW8Kc1xjMUmbYQOtzxeVnE+O8vDjPykJ7m9ww0V5BL/qWD
-        WBqm54AkKJzo9XcxtEWsuvFA+srIgGxGKpxSB/+7z0IcWuU9tWWG67hq1uZFoJzPHFAMeocThzPrV
-        KbJxADBDO3mTiFOq9pIp5o319cDFKmCe3jJbw3cllR96Bo02s56r76H6bN6HL2u9/aIkPMJIO7Y8e
-        e7jHjaBw==;
-Received: from ip5f5ad4d8.dynamic.kabel-deutschland.de ([95.90.212.216] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jQnbu-0005Os-1F; Tue, 21 Apr 2020 07:46:26 +0000
-Date:   Tue, 21 Apr 2020 09:46:20 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     "Sunyoung Kang" <sy0816.kang@samsung.com>
-Cc:     "'Arnd Bergmann'" <arnd@arndb.de>,
-        "'Greg Kroah-Hartman'" <gregkh@linuxfoundation.org>,
-        "'Hans Verkuil'" <hverkuil-cisco@xs4all.nl>,
-        "'Thomas Gleixner'" <tglx@linutronix.de>,
-        "'Linux Media Mailing List'" <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: v4l2-compat-ioctl32.c: copy reserved2 field in
- get_v4l2_buffer32
-Message-ID: <20200421094620.3649a219@coco.lan>
-In-Reply-To: <046f01d6178d$a7fbc150$f7f343f0$@samsung.com>
-References: <CGME20200417025205epcas2p46d33e64f2de49041d2ca68ecc98fc83e@epcas2p4.samsung.com>
-        <20200417024543.66785-1-sy0816.kang@samsung.com>
-        <20200417083506.GB141762@kroah.com>
-        <145301d6152f$6d5b6240$481226c0$@samsung.com>
-        <20200418073719.GA2410414@kroah.com>
-        <000001d616ac$4ceaf1a0$e6c0d4e0$@samsung.com>
-        <CAK8P3a37dAwH=gjUJjJE2061MD3jpqP8p+QkkZj9Ok3WcfH0dg@mail.gmail.com>
-        <046f01d6178d$a7fbc150$f7f343f0$@samsung.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728055AbgDUIFs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Apr 2020 04:05:48 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34978 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726691AbgDUIFr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 21 Apr 2020 04:05:47 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 557F32071C;
+        Tue, 21 Apr 2020 08:05:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587456346;
+        bh=MIsMOSthC5x1b/v9D2P+kZ/IzkE0C1W/5y/jCBKmXJE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=yu5yyQyNv4XIUAiv3IrPdT9binnqLDUcLtF7ShkV4r61pPbSv6Au4+iJXCqCjh/fi
+         tiP+gTI/LQ36uKxAfSnU3sqBXrqR2nA9HcuR6BUtj+q2brAM+lrlX6zkJZbvB/18Vw
+         jcZFKMEUb0ULBEhzpnRvj1BNYgQDXY0zSfDsD9ng=
+Date:   Tue, 21 Apr 2020 10:05:44 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     John Stultz <john.stultz@linaro.org>
+Cc:     Christian Brauner <christian.brauner@ubuntu.com>,
+        driverdevel <devel@driverdev.osuosl.org>, nd <nd@arm.com>,
+        Todd Kjos <tkjos@android.com>,
+        Lecopzer Chen <lecopzer.chen@mediatek.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Laura Abbott <laura@labbott.name>,
+        lkml <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Arve =?iso-8859-1?B?SGr4bm5lduVn?= <arve@android.com>,
+        Anders Pedersen <anders.pedersen@arm.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        "Darren Hart (VMware)" <dvhart@infradead.org>,
+        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
+        Laura Abbott <labbott@redhat.com>,
+        Martijn Coenen <maco@android.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Brauner <christian@brauner.io>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] staging: android: ion: Skip sync if not mapped
+Message-ID: <20200421080544.GA611314@kroah.com>
+References: <20200414134629.54567-1-orjan.eide@arm.com>
+ <20200414141849.55654-1-orjan.eide@arm.com>
+ <20200414142810.GA958163@kroah.com>
+ <CALAqxLX-SUhHPH6ewt-s9cEMc8DtMTgXem=JruAkLofuJf1syg@mail.gmail.com>
+ <20200416102508.GA820251@kroah.com>
+ <20200420082207.ui7iyg7dsnred2vv@wittgenstein>
+ <CALAqxLW-txNEqW=P_9VTxvOVu_fgpjzHHDbR5BhtpYwhg1SXgw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CALAqxLW-txNEqW=P_9VTxvOVu_fgpjzHHDbR5BhtpYwhg1SXgw@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sunyoung,
-
-Em Tue, 21 Apr 2020 12:33:42 +0900
-"Sunyoung Kang" <sy0816.kang@samsung.com> escreveu:
-
-> Thank you for your detailed guide.
-> And I'll look into how to handle the additional information.
-
-Please don't top post. See my comments below.
-
-> 
-> Thanks
-> Sunyoung
-> 
-> > -----Original Message-----
-> > From: Arnd Bergmann <arnd@arndb.de>
-> > Sent: Monday, April 20, 2020 8:23 PM
-> > To: Sunyoung Kang <sy0816.kang@samsung.com>
-> > Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>; Mauro Carvalho Chehab
-> > <mchehab@kernel.org>; Hans Verkuil <hverkuil-cisco@xs4all.nl>; Thomas
-> > Gleixner <tglx@linutronix.de>; Linux Media Mailing List <linux-  
-> > media@vger.kernel.org>; linux-kernel@vger.kernel.org  
-> > Subject: Re: [PATCH] media: v4l2-compat-ioctl32.c: copy reserved2 field in
-> > get_v4l2_buffer32
-> > 
-> > On Mon, Apr 20, 2020 at 2:40 AM Sunyoung Kang <sy0816.kang@samsung.com>
-> > wrote:  
+On Mon, Apr 20, 2020 at 01:03:39PM -0700, John Stultz wrote:
+> On Mon, Apr 20, 2020 at 1:22 AM Christian Brauner
+> <christian.brauner@ubuntu.com> wrote:
+> > On Thu, Apr 16, 2020 at 12:25:08PM +0200, Greg Kroah-Hartman wrote:
+> > > On Tue, Apr 14, 2020 at 09:41:31PM -0700, John Stultz wrote:
+> > > > But I do think we can mark it as deprecated and let folks know that
+> > > > around the end of the year it will be deleted.
 > > >
-> > > I understand what you mean.
-> > > However, the way to transmit information about the buffer is only
-> > > flags in v4l2_buffer In flags in v4l2_buffer, there is no reserved bit
-> > > field that can be used for custom.
-> > > Additional information about the buffer is needed to provide various
-> > > functions required by the customers but flags is not enough. So
-> > > reserved2 is used as an alternative.
-> > > Can you suggest a better opinion?  
-> > 
-> > If you have a driver that needs to pass additional information that is not
-> > supported by the subsystem, this is generally either because there is
-> > something wrong in the driver, or because there is something wrong in the
-> > subsystem.
-> > 
-> > Whichever is at fault should be fixed. If it's the subsystem, then you
-> > should explain why it's wrong and make a suggestion for how to address it,
-> > e.g.
-> > introducing a new ioctl command or redefining the reserved members to be
-> > defined in the way you need.
-> > 
-> > In any case, the ioctl commands should be driver independent, so that any
-> > hardware with the same feature as your driver can work with the same user
-> > space.
+> > > No one ever notices "depreciated" things, they only notice if the code
+> > > is no longer there :)
+> > >
+> > > So I'm all for just deleting it and seeing who even notices...
+> >
+> > Agreed.
+> 
+> I mean, I get there's not much love for ION in staging, and I too am
+> eager to see it go, but I also feel like in the discussions around
+> submitting the dmabuf heaps at talks, etc, that there was clear value
+> in removing ION after a short time so that folks could transition
+> being able to test both implementations against the same kernel so
+> performance regressions, etc could be worked out.
+> 
+> I am actively getting many requests for help for vendors who are
+> looking at dmabuf heaps and are starting the transition process, and
+> I'm trying my best to motivate them to directly work within the
+> community so their needed heap functionality can go upstream. But it's
+> going to be a process, and their first attempts aren't going to
+> magically land upstream.  I think being able to really compare their
+> implementations as they iterate and push things upstream will help in
+> order to be able to have upstream solutions that are also properly
+> functional for production usage.
 
-I guess the problem here is that the driver that Sunyoung is working
-is not upstream.
+But we are not accepting any new ion allocators or changes at the
+moment, so I don't see how the ion code in the kernel is helping/hurting
+anything here.
 
-The right approach here is to upstream the driver. Once we see the code,
-we can help addressing the issues. This could either involve using some
-reserved space at the ioctl for some usage or propose some other solution
-that would address your needs.
+There has been a bunch of changes to the ion code recently, in the
+Android kernel trees, in order to get a lot of the different
+manufacturer "forks" of ion back together into one place.  But again,
+those patches are not going to be sent upstream for merging so how is
+ion affecting the dmabuf code at all here?
 
-This has to be discussed case by case, as it is really hard to say what
-to do with "additional information that is not supported by the subsystem".
-What does that exactly means? We need to see the code to better understand
-it ;-)
+> The dmabuf heaps have been in an official kernel now for all of three
+> weeks. So yea, we can "delete [ION] and see who even notices", but I
+> worry that may seem a bit like contempt for the folks doing the work
+> on transitioning over, which doesn't help getting them to participate
+> within the community.
 
-Thanks,
-Mauro
+But they aren't participating in the community today as no one is
+touching the ion code.  So I fail to see how keeping a dead-end-version
+of ion in the kernel tree really affects anyone these days.
+
+thanks,
+
+greg k-h
