@@ -2,84 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3356D1B2641
-	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 14:38:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F20D1B2787
+	for <lists+linux-media@lfdr.de>; Tue, 21 Apr 2020 15:19:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728479AbgDUMin (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Apr 2020 08:38:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59640 "EHLO
+        id S1729028AbgDUNTl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 21 Apr 2020 09:19:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728285AbgDUMim (ORCPT
+        by vger.kernel.org with ESMTP id S1726691AbgDUNTk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Apr 2020 08:38:42 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28A8EC061A10
-        for <linux-media@vger.kernel.org>; Tue, 21 Apr 2020 05:38:41 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id b11so16266862wrs.6
-        for <linux-media@vger.kernel.org>; Tue, 21 Apr 2020 05:38:41 -0700 (PDT)
+        Tue, 21 Apr 2020 09:19:40 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B5F0C061A10;
+        Tue, 21 Apr 2020 06:19:40 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id x25so3550698wmc.0;
+        Tue, 21 Apr 2020 06:19:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=dEtMSnugQ0Yz8dEGP0UAZ0gmicmpiHlS1EX56QRmSxU=;
-        b=CBU1r5Bh/z0btpExs9JQcV1xmQKPX8pt2qs5S2PKDBCXn+8oq/3Zit1BDOlY7ZtHVB
-         ZCt35gvpxp/b8ZMio6jsNpYxm9V49VDog66VLWJzup6N0BP23SIeZGpN1PNnbePNh3t/
-         9wA20fyU9sIL6UZfl+s7XPNkO7+Nuxq4JbL00=
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=TAO+0ZkQGzRlz79i9so3eTTstzU170GvA9NPAGQEIMQ=;
+        b=D9x5mxHFMGg+HnZopS9+Zgl4ocxvopuSEo6BqEwDW+5f7Jn7eo+EHmjtUGZw43My+S
+         nIDulDrnrMxWXgjM4y+tGlVDAEjZkxqJfKld3UD7pDfmcQWp7ayYOkwv3kHM9k3z3L4B
+         y5BRcojU/DG5+0lIoEZ9XlRNCvYgxfhnxkwo3KIpIcdX7iZZSfh5ZbR7OrNk/g0LvUCs
+         Lf84VWlivj4vXdm6uRvwXD+7ay1CdeqM6cDVKe7MNMOVKUryPAnqYJDMGUwlWZc1zEvL
+         O76dUv+liatt0wUeHHESLmXa+leq7LgDWVVEXEf+nAEFNd5+7kvSQVgncU87Xi2rarAD
+         Ok5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dEtMSnugQ0Yz8dEGP0UAZ0gmicmpiHlS1EX56QRmSxU=;
-        b=D+kA0epNUnHGfCkpzZ5BOLUgjHZmk6u6Oq39IjaW7qp/iGZf2bMCEXnNA07P7QYQ3n
-         1+jjGKBI482kv0arO2CkaS10+fb3BCwesSZUeKavcn3yCCzj9lN2qNuL1tDb+CgGzypo
-         YSi7X7q8R4yb7qju+0eHX2J2zziQx5mO9RTq+CuWiV/M8z029whPiUYwk4KQLSv4uFIq
-         kHBIpeUKp6ekkeSKF2c026D86Csq4nitnWBIBjbqDPz36U/c+R/DcTFxvN6s0szYCVQE
-         pvKfCkrYjnKmoichy6qg3T2lr+FFQoQbUHU8ZXJq42049/rLW7OGZi9oKfWenzUQ8U8f
-         Rq4w==
-X-Gm-Message-State: AGi0PuZsQdzOzGrpHzmMQxNr1ZZMApE/JlkoxJSyNhpfE5OSXtK4DqTA
-        1Ogyj5qSfRVBtzbMGdCdpaXe3w==
-X-Google-Smtp-Source: APiQypIzvmkA09MwByYqroH0B7xqF5CSvHdVyYFGv6atnXmAXLQdkPPxOvWpKImiQh189bdrvWfWOA==
-X-Received: by 2002:a05:6000:10c4:: with SMTP id b4mr3232873wrx.203.1587472719979;
-        Tue, 21 Apr 2020 05:38:39 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id k3sm4000288wru.90.2020.04.21.05.38.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2020 05:38:39 -0700 (PDT)
-Date:   Tue, 21 Apr 2020 14:38:37 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Gal Pressman <galpress@amazon.com>, linux-doc@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH] dma-buf: Couple of documentation typo fixes
-Message-ID: <20200421123837.GZ3456981@phenom.ffwll.local>
-References: <20200420074115.23931-1-galpress@amazon.com>
- <20200420170059.5a42693e@lwn.net>
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=TAO+0ZkQGzRlz79i9so3eTTstzU170GvA9NPAGQEIMQ=;
+        b=DXP+6cR1TQYsUf649J0ij4gQNtQcfS70MwPi3Qfy/5DnwM84Vs3wxXXvI/QQSAEygC
+         waNs2FBXPHVZr1SmgRvGunCdPnTxWZNAlVAmV3EM4s2BTve7obb9+OKZA6YXVqkTu/Tw
+         r1ItWUHIHLuRJy/CFYuopToEkks1nRY9XLf2RljmqyMTh7eOrADKtbZG2ZFJ8lyIgE0j
+         5vZdVRiLOgHV8ePbs+/Ixiuq/ncy9cr3dUaGj1FpWHNX1CdTqO8+ghXe+oJgZYLRy0AO
+         2j72HLNGI2FmR6f6bkcUi5PIRePLBxJe6AYgN42GLUvhVvFVOwChovoQGywn+I7VqZeT
+         Pl7A==
+X-Gm-Message-State: AGi0PuYHbUPkMVdZUYET/jQXvHLnZpDGJY88Rh07QKlrIs1pjWoUsU5x
+        quB6vchIV1Tjo3h9t+5L5cY=
+X-Google-Smtp-Source: APiQypLr/7nO9p+xL01dDsn1rdwzQMyND4hb6/GRHkqQt+WjCBL145fU5drl2P0dW+IH4WO5WuiZew==
+X-Received: by 2002:a7b:ce0b:: with SMTP id m11mr4981350wmc.67.1587475178825;
+        Tue, 21 Apr 2020 06:19:38 -0700 (PDT)
+Received: from [192.168.2.1] (ip51ccf9cd.speed.planet.nl. [81.204.249.205])
+        by smtp.gmail.com with ESMTPSA id w6sm3847410wrm.86.2020.04.21.06.19.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Apr 2020 06:19:38 -0700 (PDT)
+Subject: Re: [PATCH v4] dt-bindings: rockchip-vpu: Convert bindings to
+ json-schema
+From:   Johan Jonker <jbx6244@gmail.com>
+To:     heiko@sntech.de
+Cc:     ezequiel@collabora.com, devicetree@vger.kernel.org,
+        hverkuil@xs4all.nl, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        mark.rutland@arm.com, robh@kernel.org
+References: <20200326191343.1989-1-ezequiel@collabora.com>
+ <12f6d7cf-6af6-4f54-3188-65e73b703a72@gmail.com>
+Message-ID: <9328212d-139f-6a0e-7d0c-3a5529a392f2@gmail.com>
+Date:   Tue, 21 Apr 2020 15:19:36 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200420170059.5a42693e@lwn.net>
-X-Operating-System: Linux phenom 5.3.0-3-amd64 
+In-Reply-To: <12f6d7cf-6af6-4f54-3188-65e73b703a72@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 20, 2020 at 05:00:59PM -0600, Jonathan Corbet wrote:
-> On Mon, 20 Apr 2020 10:41:15 +0300
-> Gal Pressman <galpress@amazon.com> wrote:
-> 
-> > Fix a couple of typos: "as" -> "has" and "int" -> "in".
-> > 
-> > Signed-off-by: Gal Pressman <galpress@amazon.com>
-> 
-> Applied, thanks.
+Hi,
 
-Also applied to drm-misc-next, the dma-buf stuff is maintained as part of
-drm. And maybe I actually get around to doing the doc polish for all
-things dma-buf that I've been promised to do since months :-)
+Question for the media maintainers Hans & Co. :
 
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+What's nxp,imx8mq-vpu.yaml doing under rga?
+Why is rockchip-vpu.yaml inserted under rga instead of vpu?
+
+Johan
+
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f0e7b4d17fcc..0cfd86594b0b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14471,7 +14471,8 @@ M:	Jacob Chen <jacob-chen@iotwrt.com>
+>  M:	Ezequiel Garcia <ezequiel@collabora.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+> -F:	Documentation/devicetree/bindings/media/rockchip-rga.txt
+> +F:	Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> +F:	Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+>  F:	drivers/media/platform/rockchip/rga/
+
+HANTRO VPU CODEC DRIVER
+M:	Ezequiel Garcia <ezequiel@collabora.com>
+M:	Philipp Zabel <p.zabel@pengutronix.de>
+L:	linux-media@vger.kernel.org
+L:	linux-rockchip@lists.infradead.org
+S:	Maintained
+F:	Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+F:	Documentation/devicetree/bindings/media/rockchip-vpu.txt
+F:	drivers/staging/media/hantro/
+
+ROCKCHIP RASTER 2D GRAPHIC ACCELERATION UNIT DRIVER
+M:	Jacob Chen <jacob-chen@iotwrt.com>
+M:	Ezequiel Garcia <ezequiel@collabora.com>
+L:	linux-media@vger.kernel.org
+S:	Maintained
+F:	Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+F:	Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+F:	drivers/media/platform/rockchip/rga/
