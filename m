@@ -2,165 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0643A1B436F
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2020 13:43:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77B341B43B9
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2020 14:00:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726654AbgDVLnR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Apr 2020 07:43:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47968 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726426AbgDVLnP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Apr 2020 07:43:15 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 385DFC03C1A8
-        for <linux-media@vger.kernel.org>; Wed, 22 Apr 2020 04:43:15 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id x18so2015219wrq.2
-        for <linux-media@vger.kernel.org>; Wed, 22 Apr 2020 04:43:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=TqyD0J3YK2+KhjhxDqI7aoojqAM5A+2KhBmH6duYJVU=;
-        b=TaKz7DRfPleQN1GNWjaSEPCEVy5b7+FSHxeK8WYqfHMVq6rRD15apHmqSrCVqwLXKC
-         jzBUz5Qunr/4jaD7/i+gHWbNunqBiL/7Sw+b1AOVt4AIOiUb6Rcg8lEqC9DK55QZ/SAh
-         mAOtycNJWvQAqoVPU8WpVznes/qEun6YMbupD67Fz61z/tr+ui+DXfHfqq4ADJZKf7ID
-         qEt35I71SsmDLHJ/kcT2QwecxYG1lx+BppvRBA4iXL5nICu/s+99MR08SjxHsrbXfrin
-         P1PR1eXW8JP+IlPWNsOEX3tBmR+54eCagakYq9zVhufz91hEwn2ebpVnKYVPS1wkkil1
-         aQrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=TqyD0J3YK2+KhjhxDqI7aoojqAM5A+2KhBmH6duYJVU=;
-        b=EDWsv1DGqhbliqknsio5A99PcLbsox8SiXnge+qNWtqwTVBox2oALU1jOflAN57t+n
-         0Z4VhhA3g3k7DItpLYTDeiJG4NbZGx/CjQoX5EZ+9m4v+silTW1YsBkGwA3yXIO5pgyt
-         C3MknY/eTHbtDiSIv9JuWN5FYJtuzvSXMf8k6LZwDUS25fZDiw3herplh0IdeAO6B3ej
-         R0WsUsVljKfKlohDwh/Ce+yQbsultm6CyC4sh3yjH8cUx0BK0fW+lc16vpywc/4m+/DK
-         Bm3tB9+cH7es4iBQpz54NM1y5yOTEmHdpEuI7RD3iibcinAJzSI1HMdZvPnZjsjKSHQb
-         1qMw==
-X-Gm-Message-State: AGi0PubWDmYmYI9v2uv7CnEnjEoapb7Qa/1AhmM+13QMSqKgxYUMy4lU
-        7jnZk5xdq9qgTb8CaNXKBCBIZA==
-X-Google-Smtp-Source: APiQypIet52zBota+cj4/KsJs9rGOHvv0n9N4JoefVszbyFekaWMhxT4hkOOia51671XqtCrN2RHIg==
-X-Received: by 2002:a5d:4748:: with SMTP id o8mr28812592wrs.422.1587555793395;
-        Wed, 22 Apr 2020 04:43:13 -0700 (PDT)
-Received: from [192.168.1.2] (212-5-158-120.ip.btc-net.bg. [212.5.158.120])
-        by smtp.googlemail.com with ESMTPSA id l19sm7557503wmj.14.2020.04.22.04.43.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Apr 2020 04:43:12 -0700 (PDT)
-Subject: Re: decode sync frames only
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <9a58a501-8348-2230-2ab5-534471d866ca@linaro.org>
- <e0d850725c11e420dd0952bc07a857495bf37fa4.camel@ndufresne.ca>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <06340f1f-0ff1-2407-2f9f-144452b34aa8@linaro.org>
-Date:   Wed, 22 Apr 2020 14:43:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <e0d850725c11e420dd0952bc07a857495bf37fa4.camel@ndufresne.ca>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+        id S1728455AbgDVMAD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Apr 2020 08:00:03 -0400
+Received: from mx2.suse.de ([195.135.220.15]:53172 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727791AbgDVMAD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 22 Apr 2020 08:00:03 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id A9C23AE79;
+        Wed, 22 Apr 2020 12:00:00 +0000 (UTC)
+Message-ID: <1587556788.26476.13.camel@suse.com>
+Subject: Re: general protection fault in go7007_usb_probe
+From:   Oliver Neukum <oneukum@suse.com>
+To:     syzbot <syzbot+cabfa4b5b05ff6be4ef0@syzkaller.appspotmail.com>,
+        andreyknvl@google.com, hverkuil-cisco@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org,
+        syzkaller-bugs@googlegroups.com
+Date:   Wed, 22 Apr 2020 13:59:48 +0200
+In-Reply-To: <0000000000003cbf8e05a3d57b98@google.com>
+References: <0000000000003cbf8e05a3d57b98@google.com>
+Content-Type: multipart/mixed; boundary="=-McCpIkgPwCqlblO8/Hrv"
+X-Mailer: Evolution 3.26.6 
+Mime-Version: 1.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas,
 
-On 4/21/20 1:09 AM, Nicolas Dufresne wrote:
-> Hi Stanimir,
-> 
-> Le lundi 20 avril 2020 à 17:38 +0300, Stanimir Varbanov a écrit :
->> Hi,
->>
->> I need to port a decoder v4l2 control in mainline Venus driver which
->> instructs the decoder to decode sync frames only (I frame/ IDR frame).
->> In practice the usage of such control is to generate thumbnails for
->> particular video.
->>
->> To do that I researched what we have currently in v4l2-controls.h and
->> found something similar but for encoders:
->>
->> V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME
->> "Force a key frame for the next queued buffer. Applicable to encoders.
->> This is a general, codec-agnostic keyframe control."
->>
->> I think I have two options:
->>
->> 1. reuse V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME for the decoder and document it
->>
->> 2. create a new v4l control V4L2_CID_MPEG_VIDC_VIDEO_SYNC_FRAME_DECODE
-> 
-> Seems analogue to GStreamer flag GST_SEEK_FLAG_TRICKMODE_KEY_UNIT, if that helps
-> your inspiration. It's used to speed up fast-forward (ore thumbnails
-> generation). What the decoder will effectively do is to skip the P and the B
-> frames. Some decoder offers fine grain control on that.
-> 
-> That being said, in GStreamer (and probably most framework) frames are skipped
-> in userspace. But decoder tend to wait for the next key frame to output the
-> first one, so we endup having to do more work to force the frame out (like
-> CMD_STOP/START cycle, or crafts an early AUD). Would be nice to document if that
-> mode will help in this regard (or not). 
-> 
-> For protocols like DASH, when doing fast-forward we don't even download the non-
-> key-frames from the server, so the skipping behaviour does not provide any gain
-> any way.
-> 
->>
->> Any suggestions?
->>
-> 
-> Could be as Hans suggested, or something less generic but that covers more
-> trickmodes ?
-> 
-> V4L2_CID_MPEG_VIDEO_DECODER_H264_TRICKMODE
->   - No skip
->   - Skip B Frames
->   - I frame only
-> 
-> Or maybe try and construct something base on what other do ?
-> 
-> FFMPEG software decoder has the following:
->   (0): Skip nothing     - 0
->   (1): Skip B-frames    - 1
->   (2): Skip IDCT/Dequantization - 2
->   (5): Skip everything  - 5
-> 
-> CODA from Chips&Media is fancier, and propose some variants that have
-> implication how muchs state is maintained, hence allowing or not the transition
-> back to non-skipping outside IRAP boundary.
->   NORMAL
->   THUMBNAIL
->   Skip nonIRAP
->   Skip nonREF-PIC
->   Skip Temporal Layer
-> 
-> I didn't find such feature for Samsung MFC, but Amlogic is likely one candidate
-> having this type of skipping feature (as it also has HW demuxers). Hope this
-> helps getting the big picture, hence proposing uAPI that isn't too limited.
-> 
-> regards,
-> Nicolas
-> 
+--=-McCpIkgPwCqlblO8/Hrv
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-I like your idea to have more generic one and codec-agnostic. I guess
-something like below menu control:
+Am Dienstag, den 21.04.2020, 16:36 -0700 schrieb syzbot:
+> Hello,
+> 
+> syzbot found the following crash on:
+> 
+> HEAD commit:    e9010320 usb: cdns3: gadget: make a bunch of functions sta..
+> git tree:       https://github.com/google/kasan.git usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=1263a930100000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=bd14feb44652cfaf
+> dashboard link: https://syzkaller.appspot.com/bug?extid=cabfa4b5b05ff6be4ef0
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> 
+> Unfortunately, I don't have any reproducer for this crash yet.
+> 
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+cabfa4b5b05ff6be4ef0@syzkaller.appspotmail.com
 
-V4L2_CID_MPEG_VIDEO_DECODER_DECODE_PICTURE_TYPE
-"Normal"	- decode everything applicable to the codec (default)
-"Thumbnail"	- decode sync frames (pictures?) with low memory usage
-"Sync frames"	- decode sync frames without memory constraints
-"Skip B frames"	- decode sync frames and unidirectional frames
-"Skip Temporal layer(s)" - decode everything but skip temporal layers
-above base layer
+#syz test: https://github.com/google/kasan.git e9010320
+--=-McCpIkgPwCqlblO8/Hrv
+Content-Disposition: attachment; filename="0001-go7007-add-sanity-checking.patch"
+Content-Transfer-Encoding: base64
+Content-Type: text/x-patch; name="0001-go7007-add-sanity-checking.patch";
+	charset="UTF-8"
 
--- 
-regards,
-Stan
+RnJvbSBlZjEzZjM1NWQ2MWNmODhjOTYyOWM5ZTBiMzI5OTNiMzE1MjBmMzYyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29tPgpEYXRl
+OiBXZWQsIDIyIEFwciAyMDIwIDEzOjQ5OjU1ICswMjAwClN1YmplY3Q6IFtQQVRDSF0gZ283MDA3
+OiBhZGQgc2FuaXR5IGNoZWNraW5nCgpBIG1hbGljaW91cyBVU0IgZGV2aWNlIG1heSBsYWNrIGVu
+ZHBvaW50cyB0aGUgZHJpdmVyIGFzc3VtZXMgdG8gZXhpc3QKQWNjZXNzaW5nIHRoZW0gbGVhZHMg
+dG8gTlVMTCBwb2ludGVyIGFjY2Vzc2VzLiBUaGlzIHBhdGNoIGludHJvZHVjZXMKc2FuaXR5IGNo
+ZWNraW5nLgoKU2lnbmVkLW9mZi1ieTogT2xpdmVyIE5ldWt1bSA8b25ldWt1bUBzdXNlLmNvbT4K
+Rml4ZXM6IDg2NmI4Njk1ZDY3ZTggKCJTdGFnaW5nOiBhZGQgdGhlIGdvNzAwNyB2aWRlbyBkcml2
+ZXIiKQotLS0KIGRyaXZlcnMvbWVkaWEvdXNiL2dvNzAwNy9nbzcwMDctdXNiLmMgfCAxMiArKysr
+KysrKysrKy0KIDEgZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
+CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS91c2IvZ283MDA3L2dvNzAwNy11c2IuYyBiL2Ry
+aXZlcnMvbWVkaWEvdXNiL2dvNzAwNy9nbzcwMDctdXNiLmMKaW5kZXggZjg4OWM5ZDc0MGNkLi5l
+YWU5ZTRlNTU1Y2YgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbWVkaWEvdXNiL2dvNzAwNy9nbzcwMDct
+dXNiLmMKKysrIGIvZHJpdmVycy9tZWRpYS91c2IvZ283MDA3L2dvNzAwNy11c2IuYwpAQCAtMTEy
+MSw2ICsxMTIxLDExIEBAIHN0YXRpYyBpbnQgZ283MDA3X3VzYl9wcm9iZShzdHJ1Y3QgdXNiX2lu
+dGVyZmFjZSAqaW50ZiwKIAkJcmV0dXJuIC1FTk9NRU07CiAJfQogCisJLyogc2FuaXR5IGNoZWNr
+cyAqLworCWVwID0gdXNiLT51c2JkZXYtPmVwX2luWzRdOworCWlmICghZXApCisJCXJldHVybiAt
+RU5PREVWOworCiAJdXNiLT5ib2FyZCA9IGJvYXJkOwogCXVzYi0+dXNiZGV2ID0gdXNiZGV2Owog
+CXVzYl9tYWtlX3BhdGgodXNiZGV2LCBnby0+YnVzX2luZm8sIHNpemVvZihnby0+YnVzX2luZm8p
+KTsKQEAgLTExNDEsNyArMTE0Niw2IEBAIHN0YXRpYyBpbnQgZ283MDA3X3VzYl9wcm9iZShzdHJ1
+Y3QgdXNiX2ludGVyZmFjZSAqaW50ZiwKIAlpZiAodXNiLT5pbnRyX3VyYi0+dHJhbnNmZXJfYnVm
+ZmVyID09IE5VTEwpCiAJCWdvdG8gYWxsb2NmYWlsOwogCi0JZXAgPSB1c2ItPnVzYmRldi0+ZXBf
+aW5bNF07CiAJaWYgKHVzYl9lbmRwb2ludF90eXBlKCZlcC0+ZGVzYykgPT0gVVNCX0VORFBPSU5U
+X1hGRVJfQlVMSykKIAkJdXNiX2ZpbGxfYnVsa191cmIodXNiLT5pbnRyX3VyYiwgdXNiLT51c2Jk
+ZXYsCiAJCQl1c2JfcmN2YnVsa3BpcGUodXNiLT51c2JkZXYsIDQpLApAQCAtMTI2Myw5ICsxMjY3
+LDEzIEBAIHN0YXRpYyBpbnQgZ283MDA3X3VzYl9wcm9iZShzdHJ1Y3QgdXNiX2ludGVyZmFjZSAq
+aW50ZiwKIAogCS8qIEFsbG9jYXRlIHRoZSBVUkJzIGFuZCBidWZmZXJzIGZvciByZWNlaXZpbmcg
+dGhlIHZpZGVvIHN0cmVhbSAqLwogCWlmIChib2FyZC0+ZmxhZ3MgJiBHTzcwMDdfVVNCX0VaVVNC
+KSB7CisJCWlmICghdXNiLT51c2JkZXYtPmVwX2luWzZdKQorCQkJZ290byBhbGxvY2ZhaWw7CiAJ
+CXZfdXJiX2xlbiA9IDEwMjQ7CiAJCXZpZGVvX3BpcGUgPSB1c2JfcmN2YnVsa3BpcGUodXNiLT51
+c2JkZXYsIDYpOwogCX0gZWxzZSB7CisJCWlmICghdXNiLT51c2JkZXYtPmVwX2luWzFdKQorCQkJ
+Z290byBhbGxvY2ZhaWw7CiAJCXZfdXJiX2xlbiA9IDUxMjsKIAkJdmlkZW9fcGlwZSA9IHVzYl9y
+Y3ZidWxrcGlwZSh1c2ItPnVzYmRldiwgMSk7CiAJfQpAQCAtMTI4NSw2ICsxMjkzLDggQEAgc3Rh
+dGljIGludCBnbzcwMDdfdXNiX3Byb2JlKHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRmLAogCS8q
+IEFsbG9jYXRlIHRoZSBVUkJzIGFuZCBidWZmZXJzIGZvciByZWNlaXZpbmcgdGhlIGF1ZGlvIHN0
+cmVhbSAqLwogCWlmICgoYm9hcmQtPmZsYWdzICYgR083MDA3X1VTQl9FWlVTQikgJiYKIAkgICAg
+KGJvYXJkLT5tYWluX2luZm8uZmxhZ3MgJiBHTzcwMDdfQk9BUkRfSEFTX0FVRElPKSkgeworCQlp
+ZiAoIXVzYi0+dXNiZGV2LT5lcF9pbls4XSkKKwkJCWdvdG8gYWxsb2NmYWlsOwogCQlmb3IgKGkg
+PSAwOyBpIDwgODsgKytpKSB7CiAJCQl1c2ItPmF1ZGlvX3VyYnNbaV0gPSB1c2JfYWxsb2NfdXJi
+KDAsIEdGUF9LRVJORUwpOwogCQkJaWYgKHVzYi0+YXVkaW9fdXJic1tpXSA9PSBOVUxMKQotLSAK
+Mi4xNi40Cgo=
+
+
+--=-McCpIkgPwCqlblO8/Hrv--
+
