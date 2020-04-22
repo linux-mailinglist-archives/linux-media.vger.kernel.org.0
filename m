@@ -2,171 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 177161B3597
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2020 05:36:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C78B11B35D8
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2020 06:00:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726337AbgDVDgY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 21 Apr 2020 23:36:24 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:42661 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726228AbgDVDgX (ORCPT
+        id S1725787AbgDVEA3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Apr 2020 00:00:29 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:43577 "EHLO
+        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725308AbgDVEA2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 21 Apr 2020 23:36:23 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id R6BPjqdO7lKa1R6BQj4b7P; Wed, 22 Apr 2020 05:36:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587526580; bh=kyxnl5XzmG2RgNFLqzq642uVoiIt+TH7Ne/O93cMVN8=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=mS1p2bTWqoTD1Z5+Wvw4kMIN1cMtV2sPdypJTwIWcl/UX+tQeRlFbVHAYHQ7s8K1s
-         VVqcakEN90I3AIdMr9dcbrMp+gQoRC1YoQ23i0eT1EUrE+vo6WAo4QmuX1H2+8W4lB
-         GkYJD17PDRBhWtXHZMcUG81ewKNBcj0UqXd5lp+Ujw7xMY8gbMRNKWq0e7dzm/F2gL
-         6l3WJzWXK4EYDKCjENBUDUytQ/spE/gprY2rzyM38bOQ2ZukMVdt7FegwJs6R+Y9y5
-         R8w57gLDtTZNjkZ/eemtH7MmxTLcTqUwzsW8JpjmHIg/paEXoUC5HxULcYzjtyc6tv
-         XYO25R0s5g3mg==
-Message-ID: <721f65fdaaea3df7c16ec403a5ec58b1@smtp-cloud8.xs4all.net>
-Date:   Wed, 22 Apr 2020 05:36:19 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfIVb0IY10BBYL+6ZNoKboWDSeWif+nnPtjFOTjopr2MqYZwhgCvVuZrIus9euF8BY6L5Rs3/WYxkf7jpJpZ79EtCYR9RA41uENIIGPtuaOZ78T8PCFaq
- r4M9WUHWhNRYlU9TJZ073XMbFKNJwi71m0NYCUha06ICRZ6rwboKKGZzb7efhZ7/88NiAjJbOckubQ//Mx8/dSL1HPT/hC/kRVhqd/Pa3sohNnfVEt0TjOTv
+        Wed, 22 Apr 2020 00:00:28 -0400
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 86FFA58046D;
+        Wed, 22 Apr 2020 00:00:27 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute3.internal (MEProxy); Wed, 22 Apr 2020 00:00:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        from:to:cc:subject:date:message-id:mime-version:content-type
+        :content-transfer-encoding; s=fm2; bh=NGhpjRaVKhvDj8NJZcE5WLuEq1
+        CNGnmve/laehgEwX4=; b=B8+Om/cERAJzqqSD/dkvjzXMAGZb1DhcwnfESTrNOP
+        CRV2gFEXTkK1cMoziqFgjIq0iGbyicb4lXnoBlzi04YmL0BrkzcyuXsdDiHADt7P
+        wo9hQBeahsMIxZGLPaJydswh11yaBxZE2nA0WwPBimU21JtGnud9Fxbzt+ydJSJt
+        Tt30wPAn/NEl0mnsnlnUyxSW4uc2/Bv3g5wTUZhhZPXqRrLEXkuzSLlhvIvLFHfR
+        QOAXSwipzqUV3cnwyC+MmKZw8gTuHG3XMojx3M2ZpngrVU573GD5pgpyGhufwNED
+        77U8Axy6MtneVod4B2R5phRISgxLqcsdCwfoXLzbZl1Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:message-id:mime-version:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=NGhpjR
+        aVKhvDj8NJZcE5WLuEq1CNGnmve/laehgEwX4=; b=fSiy5rqDHNA3ycHI+1ZqJ/
+        pT9NNV85dzLzo9HV0cXKr6b8m7Xr6/SSBpheGQRl7fA2OfvKWJy+fqCAs9lyfcFS
+        AN4B8+Ru5xLe5VyK9s9pHCWyalllHKY4//H5LQxrTdzXe9kNC77Kfromd4Ckh/LS
+        2saMLN1J+wTh984/BI3R4DMYJJf6WnnMxIx+B4+l2fWeIElBAozT0OzKi6ZSGcuM
+        7mLCpfvmdztHTkuCc1wFVpB8WPgS6iAfxyls2qzplTOyYarKhgkHJcTpCzwPkWRK
+        nYTqvxMDVNth8UeXZT3bl0i9i+nE+q7RDLfB9RQnyGSqE3ufL42Z36KpXMkpICBg
+        ==
+X-ME-Sender: <xms:WsGfXqGX_M0RQvr7pOxgpIBrH6Z7SZcUBp2EVHQ8RFIQptrzL-aBzQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrgeeigdejjecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefhvffufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpefurghmuhgvlhcu
+    jfholhhlrghnugcuoehsrghmuhgvlhesshhhohhllhgrnhgurdhorhhgqeenucfkphepje
+    dtrddufeehrddugeekrdduhedunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghm
+    pehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnugdrohhrgh
+X-ME-Proxy: <xmx:WsGfXgXTWFEZF7yZxo43sFpt7mrJyKD8_xg5O-VmC-Ie3SwnNOsE5w>
+    <xmx:WsGfXlAecWoKoBHEEx6XCaVpS2onHarBEczGZjH3xLiZs0hQLi6wiQ>
+    <xmx:WsGfXp0L5BmC1OyMuOIzppbsFna3mIjMFej7wclpQCxQfE6p9hNgig>
+    <xmx:W8GfXhs2Qf3ZIDWqqsY2NEcAtNCudKR9pSDuuAN_bYjqIa_ITXkKRQ>
+Received: from titanium.stl.sholland.net (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+        by mail.messagingengine.com (Postfix) with ESMTPA id BC8803065CBF;
+        Wed, 22 Apr 2020 00:00:25 -0400 (EDT)
+From:   Samuel Holland <samuel@sholland.org>
+To:     Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-sunxi@googlegroups.com,
+        Samuel Holland <samuel@sholland.org>,
+        =?UTF-8?q?Jernej=20=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Subject: [PATCH v2 1/2] media: cedrus: Program output format during each run
+Date:   Tue, 21 Apr 2020 23:04:09 -0500
+Message-Id: <20200422040410.6251-1-samuel@sholland.org>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Previously, the output format was programmed as part of the ioctl()
+handler. However, this has two problems:
 
-Results of the daily build of media_tree:
+  1) If there are multiple active streams with different output
+     formats, the hardware will use whichever format was set last
+     for both streams. Similary, an ioctl() done in an inactive
+     context will wrongly affect other active contexts.
+  2) The registers are written while the device is not actively
+     streaming. To enable runtime PM tied to the streaming state,
+     all hardware access needs to be moved inside cedrus_device_run().
 
-date:			Wed Apr 22 05:00:10 CEST 2020
-media-tree git hash:	b2965c912a3dbc40821cd27fa5548ae9a086a375
-media_build git hash:	00e63b78326bfe320582189b774381edbf4ad070
-v4l-utils git hash:	9c3d3fde6b5c5102293edbb25d1f4a73d39dc04e
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: ea95b3c30d6328a869ed67f518963895c2ded39d
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+The call to cedrus_dst_format_set() is now placed just before the
+codec-specific callback that programs the hardware.
 
-linux-git-sh: OK
-linux-git-powerpc64: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm-multi: ERRORS
-linux-git-arm64: ERRORS
-linux-git-i686: ERRORS
-linux-git-x86_64: ERRORS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.212-i686: ERRORS
-linux-4.4.212-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.212-i686: ERRORS
-linux-4.9.212-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.169-i686: ERRORS
-linux-4.14.169-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.101-i686: ERRORS
-linux-4.19.101-x86_64: ERRORS
-linux-4.20.15-i686: ERRORS
-linux-4.20.15-x86_64: ERRORS
-linux-5.0.15-i686: ERRORS
-linux-5.0.15-x86_64: ERRORS
-linux-5.1.1-i686: ERRORS
-linux-5.1.1-x86_64: ERRORS
-linux-5.2.1-i686: ERRORS
-linux-5.2.1-x86_64: ERRORS
-linux-5.3.1-i686: ERRORS
-linux-5.3.1-x86_64: ERRORS
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: OK: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 0
-sparse: ERRORS
-smatch: ERRORS
+Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
+Suggested-by: Jernej Škrabec <jernej.skrabec@gmail.com>
+Suggested-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Signed-off-by: Samuel Holland <samuel@sholland.org>
+---
 
-Detailed results are available here:
+v2: added patch
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+---
+ drivers/staging/media/sunxi/cedrus/cedrus_dec.c   | 2 ++
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c | 3 ---
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
-Detailed regression test results are available here:
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+index 4a2fc33a1d79..58c48e4fdfe9 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+@@ -74,6 +74,8 @@ void cedrus_device_run(void *priv)
+ 
+ 	v4l2_m2m_buf_copy_metadata(run.src, run.dst, true);
+ 
++	cedrus_dst_format_set(dev, &ctx->dst_fmt);
++
+ 	dev->dec_ops[ctx->current_codec]->setup(ctx, &run);
+ 
+ 	/* Complete request(s) controls if needed. */
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+index 15cf1f10221b..ed3f511f066f 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+@@ -273,7 +273,6 @@ static int cedrus_s_fmt_vid_cap(struct file *file, void *priv,
+ 				struct v4l2_format *f)
+ {
+ 	struct cedrus_ctx *ctx = cedrus_file2ctx(file);
+-	struct cedrus_dev *dev = ctx->dev;
+ 	struct vb2_queue *vq;
+ 	int ret;
+ 
+@@ -287,8 +286,6 @@ static int cedrus_s_fmt_vid_cap(struct file *file, void *priv,
+ 
+ 	ctx->dst_fmt = f->fmt.pix;
+ 
+-	cedrus_dst_format_set(dev, &ctx->dst_fmt);
+-
+ 	return 0;
+ }
+ 
+-- 
+2.24.1
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
