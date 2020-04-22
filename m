@@ -2,196 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29E231B377D
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2020 08:22:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FAB81B3780
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2020 08:23:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726071AbgDVGWV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Apr 2020 02:22:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36062 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725308AbgDVGWV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Apr 2020 02:22:21 -0400
-Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 41536206CD;
-        Wed, 22 Apr 2020 06:22:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1587536540;
-        bh=BgNK8YyUYXKMZOf+ZevRI6wH/LGqu8vWzst5WoLbRzU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=KFzZGk+Zs7kfIO+aPhybr/PwkdLGXtOLaAiRWzFR49C/w4Vtn9bV8aVuMN3SpqxW0
-         IBVTkYwJ9rCSx0puwTlJ+OtN/C4R5Rr++nksMShU61kQsG3BmvER0Jbd+q4qD3KFiM
-         m1Iz0bU+CgYnEVmUl6lH9hCyK51zUhH7zPRIxCKM=
-Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jR8m2-00DCgn-04; Wed, 22 Apr 2020 08:22:18 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Subject: [[PATCH v2 09/15]] media: admin-guide: improve cardlist.rst documentation
-Date:   Wed, 22 Apr 2020 08:22:12 +0200
-Message-Id: <17ce5e6d72d5acc838e8e6218c3fadc2a7abe7da.1587536517.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.25.2
-In-Reply-To: <824bb8013d308e4bce9da454ca564883806e4fb5.1587142382.git.mchehab+huawei@kernel.org>
-References: <824bb8013d308e4bce9da454ca564883806e4fb5.1587142382.git.mchehab+huawei@kernel.org>
+        id S1726400AbgDVGXH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Apr 2020 02:23:07 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15843 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726082AbgDVGXH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 22 Apr 2020 02:23:07 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e9fe2560001>; Tue, 21 Apr 2020 23:21:10 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 21 Apr 2020 23:23:06 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 21 Apr 2020 23:23:06 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 22 Apr
+ 2020 06:23:06 +0000
+Received: from [10.2.165.49] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 22 Apr
+ 2020 06:23:05 +0000
+Subject: Re: [RFC PATCH v8 0/9] Add Tegra driver for video capture
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+CC:     <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
+        <helen.koike@collabora.com>, <digetx@gmail.com>,
+        <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1587427874-3291-1-git-send-email-skomatineni@nvidia.com>
+ <5c44beca-4016-6e4f-01bb-e38480bfc34b@xs4all.nl>
+ <20200421205032.GD3233341@ulmo>
+ <cfbd9954-6a89-3973-55f5-920b7a807774@nvidia.com>
+Message-ID: <154b779e-e3f5-1322-2f10-1356402ff956@nvidia.com>
+Date:   Tue, 21 Apr 2020 23:23:04 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <cfbd9954-6a89-3973-55f5-920b7a807774@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1587536470; bh=0MjPPOLvF0Koh9IIPl/Xwd7aLx+PTICwfRq0xHoYkQs=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=klxqohSY/6GbdZdLOXvDJjYTVGeNTxVWp+v+1HfSFIbIIlLgy+u99GTzpouOL2+6k
+         LlqsO+MXDxsXOuydKKM8TDzqhnqiZF9GMo/nPjWYsZoF0m7i0U/abRDeVTpC9rFwBZ
+         3LD539xao5yz/yU7fkAulH1vKYMDdUw92gPxptikBYR1ZaYdFPsvDNWvWrE5i4KYaj
+         DtN9sC7pq52aflMt5NaV+3A25YdQW0aCicssTDAHOAclartwbR3Mz2mYRX6bLHiD20
+         1qEbAy+wWi7eEv3XcHy7syu+TMJ5XupwkmCMFT49HFVIsriTsvuCOCkTm81DEUDucT
+         XZe1gqhcQtVmQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The cardlist section is important for some boards, because they
-may require extra modprobe parameters.
 
-Improve the docs to mention that.
+On 4/21/20 9:12 PM, Sowjanya Komatineni wrote:
+>
+> On 4/21/20 1:50 PM, Thierry Reding wrote:
+>> On Tue, Apr 21, 2020 at 01:09:50PM +0200, Hans Verkuil wrote:
+>>> Hi Sowjanya,
+>>>
+>>> On 21/04/2020 02:11, Sowjanya Komatineni wrote:
+>>>> This series adds Tegra210 VI and CSI driver for built-in test pattern
+>>>> generator (TPG) capture.
+>>>>
+>>>> Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
+>>>> CSI port is one-to-one mapped to VI channel for video capture.
+>>>>
+>>>> This series has TPG support only where it creates hard media links
+>>>> between CSI subdevice and VI video device without device graphs.
+>>>>
+>>>> v4l2-compliance results are available below the patch diff.
+>>> I'm ready to merge this v8. Looking at the series I should only merge
+>>> patches 6 and 7, all other patches go through different subsystems, 
+>>> right?
+>> You could also pick up patch 5 because it adds the bindings that are
+>> implemented by the driver in patch 6. But I can also pick that up into
+>> the Tegra tree. In fact, I do have a set of patches to convert some
+>> Tegra bindings to the new json-schema format and the host1x file is
+>> among them. If I do get around to finish those up for v5.8 it might be
+>> better for me to pick up patch 5 so that I can base my conversion patch
+>> on top of that.
+>>
+>> Either way is fine with me, so I've acked the three patches. Take which
+>> ones you want and I'll pick up the rest.
+>>
+>> Thanks again for your guidance on this patch set!
+>>
+>> Thierry
+>
+> Hi Hans,
+>
+> Would like to add a small fix to the driver for explicit check for vi 
+> and csi availability before TPG setup and cleanup in case if video 
+> driver is enabled without device tree support where vi and csi drivers 
+> does not register.
+>
+> Although we are not enabling driver by default now, would be good to 
+> have this in this series itself.
+>
+> Will send out the updated version, please pick v9.
+>
+> Thanks
+>
+> Sowjanya
 
-Thanks-to: Hans Verkuil <hverkuil-cisco@xs4all.nl> # for providing me some PCI IDs
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/admin-guide/media/cardlist.rst | 116 ++++++++++++++++++-
- 1 file changed, 111 insertions(+), 5 deletions(-)
+Sorry Hans. Just sent v9 which has small fix of explicit check on csi 
+and vi both channels availability before TPG setup and cleanup.
 
-diff --git a/Documentation/admin-guide/media/cardlist.rst b/Documentation/admin-guide/media/cardlist.rst
-index 527188ee9697..025d251764c2 100644
---- a/Documentation/admin-guide/media/cardlist.rst
-+++ b/Documentation/admin-guide/media/cardlist.rst
-@@ -1,22 +1,128 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+==========
- Cards List
- ==========
- 
-+The media subsystem provide support for lots of PCI and USB drivers, plus
-+platform-specific drivers. It also contains several ancillary I²C drivers.
-+
-+The platform-specific drivers are usually present on embedded systems,
-+or are supported by the main board. Usually, setting them is done via
-+OpenFirmware or ACPI.
-+
-+The PCI and USB drivers, however, are independent of the system's board,
-+and may be added/removed by the user.
-+
-+This section contains a list of supported PCI and USB boards.
-+
-+Please notice that this list is not exaustive.
-+
-+USB drivers
-+===========
-+
-+The USB boards are identified by an identification called USB ID.
-+
-+The ``lsusb`` command allows identifying the USB IDs::
-+
-+    $ lsusb
-+    ...
-+    Bus 001 Device 015: ID 046d:082d Logitech, Inc. HD Pro Webcam C920
-+    Bus 001 Device 074: ID 2040:b131 Hauppauge
-+    Bus 001 Device 075: ID 2013:024f PCTV Systems nanoStick T2 290e
-+    ...
-+
-+Newer camera devices use a standard way to expose themselves as such,
-+via USB Video Class. Those cameras are automatically supported by the
-+``uvc-driver``.
-+
-+Older cameras and TV USB devices uses USB Vendor Classes: each vendor
-+defines its own way to access the device. This section contains
-+card lists for such vendor-class devices.
-+
-+While this is not as common as on PCI, sometimes the same USB ID is used
-+by different products. So, several media drivers allow passing a ``card=``
-+parameter, in order to setup a card number that would match the correct
-+settings for an specific product type.
-+
- .. toctree::
- 	:maxdepth: 1
- 
- 	au0828-cardlist
-+	cx231xx-cardlist
-+	em28xx-cardlist
-+	tm6000-cardlist
-+	usbvision-cardlist
-+	gspca-cardlist
-+
-+PCI drivers
-+===========
-+
-+The PCI boards are identified by an identification called PCI ID. The PCI ID
-+is actually composed by two parts:
-+
-+	- Vendor ID and device ID;
-+	- Subsystem ID and Subsystem device ID;
-+
-+The ``lspci -nn`` command allows identifying the vendor/device PCI IDs::
-+
-+    $ lspci -nn
-+    ...
-+    00:0b.0 Multimedia controller [0480]: Brooktree Corporation Bt878 Audio Capture [109e:0878] (rev 11)
-+    01:00.0 Multimedia video controller [0400]: Conexant Systems, Inc. CX23887/8 PCIe Broadcast Audio and Video Decoder with 3D Comb [14f1:8880] (rev 0f)
-+    01:01.0 Multimedia controller [0480]: Philips Semiconductors SAA7131/SAA7133/SAA7135 Video Broadcast Decoder [1131:7133] (rev d1)
-+    02:01.0 Multimedia video controller [0400]: Internext Compression Inc iTVC15 (CX23415) Video Decoder [4444:0803] (rev 01)
-+    02:02.0 Multimedia video controller [0400]: Conexant Systems, Inc. CX23418 Single-Chip MPEG-2 Encoder with Integrated Analog Video/Broadcast Audio Decoder [14f1:5b7a]
-+    02:03.0 Multimedia video controller [0400]: Brooktree Corporation Bt878 Video Capture [109e:036e] (rev 11)
-+    ...
-+
-+The subsystem IDs can be obtained using ``lspci -vn``
-+
-+.. code-block:: none
-+   :emphasize-lines: 4
-+
-+    $ lspci -vn
-+    ...
-+	01:01.0 0480: 1131:7133 (rev d1)
-+	        Subsystem: 1461:f01d
-+	        Flags: bus master, medium devsel, latency 32, IRQ 209
-+	        Memory at e2002000 (32-bit, non-prefetchable) [size=2K]
-+	        Capabilities: [40] Power Management version 2
-+    ...
-+
-+Unfortunately, sometimes the same PCI ID is used by different products.
-+So, several media drivers allow passing a ``card=`` parameter, in order
-+to setup a card number that would match the correct settings for an
-+specific board.
-+
-+.. toctree::
-+	:maxdepth: 1
-+
- 	bttv-cardlist
- 	cx18-cardlist
--	cx231xx-cardlist
- 	cx23885-cardlist
- 	cx88-cardlist
--	em28xx-cardlist
- 	ivtv-cardlist
- 	saa7134-cardlist
- 	saa7164-cardlist
--	tm6000-cardlist
-+
-+I²C drivers
-+===========
-+
-+The I²C (Inter-Integrated Circuit) bus is a three-wires bus used internally
-+at the media cards for communication between different chips. While the bus
-+is not visible to the Linux Kernel, drivers need to send and receive
-+commands via the bus. The Linux Kernel driver abstraction has support to
-+implement different drivers for each component inside an I²C bus, as if
-+the bus were visible to the main system board.
-+
-+One of the problems with I²C devices is that sometimes the same device may
-+work with different I²C hardware. This is common, for example, on devices
-+that comes with a tuner for North America market, and another one for
-+Europe. Some drivers have a ``tuner=`` modprobe parameter to allow using a
-+different tuner number in order to address such issue.
-+
-+.. toctree::
-+	:maxdepth: 1
-+
- 	tuner-cardlist
--	usbvision-cardlist
--	gspca-cardlist
--- 
-2.25.2
+As for later Tegras (Tegra186+), CSI is not a child device to VI and in 
+case if either of CSI/VI platform driver register doesn't happen this 
+explicit check helps to skip TPG setup. Mostly as device tree changes go 
+with driver updates, should not be real issue but in case of wrong 
+compatible or missing in device tree to avoid crash added this explicit 
+check.
 
+Please consider this v9 for merge.
+
+Thanks
+
+Sowjanya
+
+>
+>
