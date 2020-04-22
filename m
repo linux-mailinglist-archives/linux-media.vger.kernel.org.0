@@ -2,204 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC9441B4C1C
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2020 19:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BD4C1B4C4A
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2020 19:57:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726082AbgDVRsJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Apr 2020 13:48:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48462 "EHLO
+        id S1726232AbgDVR5B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Apr 2020 13:57:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726006AbgDVRsJ (ORCPT
+        by vger.kernel.org with ESMTP id S1726082AbgDVR5A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Apr 2020 13:48:09 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26B0EC03C1A9;
-        Wed, 22 Apr 2020 10:48:09 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57C5A528;
-        Wed, 22 Apr 2020 19:48:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1587577685;
-        bh=PxeMuCTvxHgnZOe/lMzPRZh/Nr57sZzlUDVOFyhkSBc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Y09URktS1v2REPmzS7wuue4PzmpHSEvmi/ZvXGlCZeJE5NnPSDrfJL1YPOg+KcWS4
-         Cc8MJNX26MLloD58tpZFwZwwpYTzx0bAJC5dIbdFRjXYZyj3WB/yvI+tH775YQbehg
-         7YdC7JM1mtNMm766y2DA1h9mWF0VaKEuXsGc8MvY=
-Date:   Wed, 22 Apr 2020 20:47:50 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com,
-        digetx@gmail.com, sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v9 5/9] dt-binding: tegra: Add VI and CSI bindings
-Message-ID: <20200422174750.GH28105@pendragon.ideasonboard.com>
-References: <1587536339-4030-1-git-send-email-skomatineni@nvidia.com>
- <1587536339-4030-6-git-send-email-skomatineni@nvidia.com>
- <20200422172047.GA18765@pendragon.ideasonboard.com>
- <1ae63b2e-17f0-ca0e-23fa-9aa63eafe01b@nvidia.com>
+        Wed, 22 Apr 2020 13:57:00 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C9E4C03C1A9
+        for <linux-media@vger.kernel.org>; Wed, 22 Apr 2020 10:57:00 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id k1so3559212wrx.4
+        for <linux-media@vger.kernel.org>; Wed, 22 Apr 2020 10:57:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=AsQnYJHGRVcoeE49kypD9U9J99TIWXq/Uillr7CBzng=;
+        b=W2dspDpsGzglS1oe8z4NTbLRnDEEvaY60+TZYEjRMRV3f9Uw5GYMk9QywI8KYJtYiv
+         0LMEBrX7OhPet62Dfx7s2G57Vi9jB9Q6mdkrK3PfjIKAeklNuzDVrqeusBuQASi/eNqh
+         IRj9E3ZKpxh1Kxu4pY1nng7jav2loPSGlIDy8LFskUYaXgF47bkeayuqXe4fW72nFhmk
+         A5vxloAphNfZ7xnB06n2UUhUY98qZtEfIs3qpB+xA+zxzZTEOrzeDe5Q/A4vAYCjADC4
+         Z8KuxODhSx5pUhUuo+XS01L5E2BlSSsF4B8tML3hcVrCc7OjrEegkYKmcGHUVoGeup/C
+         pOfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=AsQnYJHGRVcoeE49kypD9U9J99TIWXq/Uillr7CBzng=;
+        b=b6tkaAb3/1gnqmrtKwnPVlPcm29SksbjgeUvdn6C67Hmy1AQxYacmNCOHnnrnr6lnn
+         WQ5nb8B2O0e2HvyI5CHzUvA0qWPFOGzKaEqVFU2HKKvmTnggbRCadIkr2wuBq9Vw97DP
+         zPvYInVegJjAzxnK9Os/fvFHREt54ll+92BQ04xARt7BqA4dOnQTCAUJTjVTAbZ8gfGL
+         ZSV/OcHe1bZzkwgfmGfnkDFdLw7HvQIotMXEpvsmso1BTks8GsxRNS1Ofnc2V3o3OPLX
+         BPEkfOEMwAyYbs6EqHa4nDanbDhzKC+fc6fFByNuFsp77h8uXxMrEiYvm2Ci+9mVKwSJ
+         wG9Q==
+X-Gm-Message-State: AGi0PuZYy0Oow8ovRhOIY6wGNY4tvzaO3utX5EfGVEvuUgzXZ3C1ozTD
+        v56fGTkBt1hshY3405fFJ4tU8XCEuHo=
+X-Google-Smtp-Source: APiQypLGoW+38ehWavEDdis5lOdlPmc4wMdp2H22VecpnnyVYpVbiXAuymPFM6vWwVfEVpWwkqEyow==
+X-Received: by 2002:a5d:6689:: with SMTP id l9mr198823wru.261.1587578218516;
+        Wed, 22 Apr 2020 10:56:58 -0700 (PDT)
+Received: from [192.168.0.104] (77-56-155-30.dclient.hispeed.ch. [77.56.155.30])
+        by smtp.gmail.com with ESMTPSA id p190sm18745wmp.38.2020.04.22.10.56.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Apr 2020 10:56:57 -0700 (PDT)
+Subject: Re: atomisp kernel driver(s)
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linux-media@vger.kernel.org
+References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
+ <20200418172549.7cca07a7@coco.lan> <20200418172654.74a1eeea@coco.lan>
+ <1d529105-3b7d-38d0-b7a2-d385b2221ff7@gmail.com>
+ <20200420013109.65babb54@coco.lan>
+ <e45de3ea-4b5c-f2d0-0844-1233ca15a939@gmail.com>
+ <eb83f789-9595-55f0-d922-bab00ae85cff@gmail.com>
+ <20200420224750.28c0181d@coco.lan>
+From:   Patrik Gfeller <patrik.gfeller@gmail.com>
+Message-ID: <dd8ab5df-31c7-f009-36e4-ca4fd0605e97@gmail.com>
+Date:   Wed, 22 Apr 2020 19:56:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1ae63b2e-17f0-ca0e-23fa-9aa63eafe01b@nvidia.com>
+In-Reply-To: <20200420224750.28c0181d@coco.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sowjanya,
 
-On Wed, Apr 22, 2020 at 10:26:20AM -0700, Sowjanya Komatineni wrote:
-> On 4/22/20 10:20 AM, Laurent Pinchart wrote:
-> > On Tue, Apr 21, 2020 at 11:18:55PM -0700, Sowjanya Komatineni wrote:
-> >> Tegra contains VI controller which can support up to 6 MIPI CSI
-> >> camera sensors.
-> >>
-> >> Each Tegra CSI port from CSI unit can be one-to-one mapper to
-> >> VI channel and can capture from an external camera sensor or
-> >> from built-in test pattern generator.
-> >>
-> >> This patch adds dt-bindings for Tegra VI and CSI.
-> >>
-> >> Acked-by: Thierry Reding <treding@nvidia.com>
-> >> Reviewed-by: Rob Herring <robh@kernel.org>
-> >> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> >> ---
-> >>   .../display/tegra/nvidia,tegra20-host1x.txt        | 73 ++++++++++++++++++----
-> >>   1 file changed, 60 insertions(+), 13 deletions(-)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> >> index 9999255..4731921 100644
-> >> --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> >> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-host1x.txt
-> >> @@ -40,14 +40,30 @@ of the following host1x client modules:
-> >>
-> >>     Required properties:
-> >>     - compatible: "nvidia,tegra<chip>-vi"
-> >> -  - reg: Physical base address and length of the controller's registers.
-> >> +  - reg: Physical base address and length of the controller registers.
-> >>     - interrupts: The interrupt outputs from the controller.
-> >> -  - clocks: Must contain one entry, for the module clock.
-> >> +  - clocks: clocks: Must contain one entry, for the module clock.
-> >>       See ../clocks/clock-bindings.txt for details.
-> >> -  - resets: Must contain an entry for each entry in reset-names.
-> >> -    See ../reset/reset.txt for details.
-> >> -  - reset-names: Must include the following entries:
-> >> -    - vi
-> >> +  - Tegra20/Tegra30/Tegra114/Tegra124:
-> >> +    - resets: Must contain an entry for each entry in reset-names.
-> >> +      See ../reset/reset.txt for details.
-> >> +    - reset-names: Must include the following entries:
-> >> +      - vi
-> >> +  - Tegra210:
-> >> +    - power-domains: Must include venc powergate node as vi is in VE partition.
-> >> +  - Tegra210 has CSI part of VI sharing same host interface and register space.
-> >> +    So, VI device node should have CSI child node.
-> >> +
-> >> +    - csi: mipi csi interface to vi
-> >> +
-> >> +      Required properties:
-> >> +      - compatible: "nvidia,tegra210-csi"
-> >> +      - reg: Physical base address offset to parent and length of the controller
-> >> +        registers.
-> >> +      - clocks: Must contain entries csi, cilab, cilcd, cile, csi_tpg clocks.
-> >> +        See ../clocks/clock-bindings.txt for details.
-> >> +      - power-domains: Must include sor powergate node as csicil is in
-> >> +        SOR partition.
-> >
-> > A bit of a stupid question maybe, but why is this needed ? Can't the
-> > driver that handles the vi DT node ("nvidia,tegra20-vi") handle all the
-> > registers for all the sub-blocks ? Can't we move the clocks and power
-> > domains from the CSI node to the VI node ?
-> 
-> CSI is separate device driver and VI is separate device driver.
+On 20.04.20 22:47, Mauro Carvalho Chehab wrote:
+> Em Mon, 20 Apr 2020 20:27:25 +0200
+> Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
+>
+>> Me again ... sorry to ask such a basic question, but I can't get your
+>> modified source code. I get the following error:
+>>
+>>   > git clone https://git.linuxtv.org/mchehab/experimental.git/
+>> Cloning into 'experimental'...
+>> warning: adding alternate object store:
+>> https://git.linuxtv.org/git/linux.git/
+>> warning: adding alternate object store:
+>> https://git.linuxtv.org/git/media_tree.git/
+>> warning: adding alternate object store:
+>> https://git.linuxtv.org/git/linux.git/
+>> error: Unable to find fc8670d1f72b746ff3a5fe441f1fca4c4dba0e6f under
+>> https://git.linuxtv.org/mchehab/experimental.git
+>> Cannot obtain needed object fc8670d1f72b746ff3a5fe441f1fca4c4dba0e6f
+>> while processing commit 6d80bfc14608f4bb5514b79721d30b486f50c987.
+>> error: fetch failed.
+>>
+>> Do I use the wrong command?
+> Better to use git:// url:
+>
+> 	git clone git://git.linuxtv.org/mchehab/experimental.git/
 
-That's fine, but that's a software design decision, it should not affect
-the DT bindings. It's possible (even if I don't necessarily recommend
-doing so) to create a platform device manually in the VI driver to get
-it bound to the CSI driver. In any case DT should describe the system
-architecture and shouldn't be influenced by hardware design.
+I was able to download and compile the code. I installed the kernel and 
+tried to boot; unfortunately it hangs with the message "Loading initial 
+ramdisk ..." - after I start the old kernel I check kern.log and syslog 
+- but I do not see entries from the failed boot attempt. I'll read into 
+the topic and try around. This will take some time ... so there will be 
+a dealy, but it's not that I do not care or lacking  interest, I just 
+first have to sort this out.
 
-> For T210, CSI shares register space under VI but for later Tegras its 
-> separate register space.
+>
+>> kind regards,
+>>
+>> Patrik
+>>
+>> On 20.04.20 19:48, Patrik Gfeller wrote:
+>>> On 20.04.20 01:31, Mauro Carvalho Chehab wrote:
+>>>> Em Sat, 18 Apr 2020 17:37:22 +0200
+>>>> Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
+>>>>   
+>>>>> On 18.04.20 17:26, Mauro Carvalho Chehab wrote:
+>>>>>> Em Sat, 18 Apr 2020 17:25:49 +0200
+>>>>>> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+>>>>>>> Em Sat, 18 Apr 2020 16:39:25 +0200
+>>>>>>> Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
+>>>>>>>> Hello Mauro et al,
+>>>>>>>>
+>>>>>>>> I've recently switched to Linux, and I'm very impressed. Almost
+>>>>>>>> everything thing works out of the box. Only the webcam on my
+>>>>>>>> device does
+>>>>>>>> not. I did some digging and if I'm right an atomisp driver would be
+>>>>>>>> required. Is this correct? Below the output of lspci:
+>>>>>>>>
+>>>>>>>> 00:00.0 Host bridge: Intel Corporation Atom/Celeron/Pentium
+>>>>>>>> Processor
+>>>>>>>> x5-E8000/J3xxx/N3xxx Series SoC Transaction Register (rev 36)
+>>>>>>>> 00:02.0
+>>>>>>>> VGA compatible controller: Intel Corporation Atom/Celeron/Pentium
+>>>>>>>> Processor x5-E8000/J3xxx/N3xxx Integrated Graphics Controller
+>>>>>>>> (rev 36)
+>>>>>>>> 00:03.0 Multimedia controller: Intel Corporation
+>>>>>>>> Atom/Celeron/Pentium
+>>>>>>>> Processor x5-E8000/J3xxx/N3xxx Series Imaging Unit (rev 36) 00:0a.0
+>>>>>>>> Non-VGA unclassified device: Intel Corporation Device 22d8 (rev 36)
+>>>>>>>> 00:0b.0 Signal processing controller: Intel Corporation
+>>>>>>>> Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series Power
+>>>>>>>> Management Controller (rev 36) 00:14.0 USB controller: Intel
+>>>>>>>> Corporation
+>>>>>>>> Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series USB xHCI
+>>>>>>>> Controller (rev 36) 00:1a.0 Encryption controller: Intel Corporation
+>>>>>>>> Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series Trusted
+>>>>>>>> Execution Engine (rev 36) 00:1c.0 PCI bridge: Intel Corporation
+>>>>>>>> Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series PCI
+>>>>>>>> Express
+>>>>>>>> Port #1 (rev 36) 00:1f.0 ISA bridge: Intel Corporation
+>>>>>>>> Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series PCU
+>>>>>>>> (rev 36)
+>>>>>>>> 01:00.0 Network controller: Qualcomm Atheros QCA9377 802.11ac
+>>>>>>>> Wireless
+>>>>>>>> Network Adapter (rev 31)
+>>>> What hardware do you have?
+>>> I have aASUS Transformer Book T101HA-GR029T (HW probe @
+>>>
+>>> https://linux-hardware.org/?probe=ccc26d4cd3).
+>>>   
+>>>> I did a look at the atomisp driver. There are some APIs that changed
+>>>> upstream,
+>>>> but making the driver to build again is not hard:
+>>>>
+>>>>      https://git.linuxtv.org/mchehab/experimental.git/log/?h=atomisp
+>>>>
+>>>> If this would work or just hang, I don't know :-)
+>>> Cool!
+>>>
+>>> Meanwhile I downloaded to kernel source and checked out the latest
+>>> commit that still has the driver in staging. I'm currently in the
+>>> process of building the old kernel in order to test if the driver
+>>> works at all (1st time I'm doing this - thus takes some time,
+>>> especially on my Atom :-). But I will then switch over to your changed
+>>> version to give it a try.
+>>>   
+>>>> This driver is still a big mess, and it requires some defines on its
+>>>> source
+>>>> code, in order to use it with some different Atom models.
+>>>>   
+>>>>>>>> According to the history it looks like the driver was removed
+>>>>>>>> from the
+>>>>>>>> kernel in 2018 and replaced with a dummy driver (to make sure
+>>>>>>>> power save
+>>>>>>>> works).
+>>>>>>>>
+>>>>>>>> Is there a chance that the atomisp driver will return to the kernel?
+>>>>>>>> There are quite a few older tablets and 2in1 devices that would
+>>>>>>>> benefit.
+>>>>>>>> Unfortunately I do not understand the removed code (my coding
+>>>>>>>> skills are
+>>>>>>>> very basic) and can thus not help to change what ever is
+>>>>>>>> necessary to
+>>>>>>>> make it fit for the kernel :-( (does not sound like a beginner
+>>>>>>>> project).
+>>>>>>>> However - I would be glad to help out to help testing an ISP driver.
+>>>>>>> There are simply too many things there to be fixed, and nobody
+>>>>>>> without
+>>>>>>> time for it. Also, the last reports we had is that the driver was not
+>>>>>>> working.
+>>>>>>>
+>>>>>>> Unfortunately, I don't have myself any atomisp hardware, otherwise I
+>>>>>>> could try fixing it on my spare time.
+>>>>>> In time: not really sure if it would be a worth project, as newer
+>>>>>> Intel
+>>>>>> hardware are coming with a different IP block (IPU3).
+>>>>> I don't know how widespread the IPU that I have is, I assume that some
+>>>>> other tablets & 2in1 devices that are a few years old use it as well.
+>>>> The IPU is used on some Dell 2in1 devices(I guess they use an i5core
+>>>> with a chipset made for mobile market). Not sure if they're using IPU3
+>>>> also on Atom.
+>>>>   
+>>>>> For me it would be definitely nice to have this driver. However, I can
+>>>>> ask around in some of the forums  if there is a wider interest.
+>>>>> Might be
+>>>>> a niche tough, but the support for the Atom device I use have been
+>>>>> greatly improved in the recent years. So there is at least some work
+>>>>> going on for that platform (I do not know, but I think it is called
+>>>>> cherry trail?). As there are many older reports of problems with audio,
+>>>>> touchscreen, stability (freezes) ... and none of them are present
+>>>>> anymore.
+>>>>>
+>>>>> As mentioned, if the development is hindered by missing hardware I
+>>>>> would
+>>>>> be glad to help. Anyhow - many thanks for your replies, much
+>>>>> appreciated!
+>>>>>   
+>>>>>> Thanks,
+>>>>>> Mauro
+>>>>
+>>>> Thanks,
+>>>> Mauro
+>>> thanks & kind regards,
+>>>
+>>> Patrik
+>>>   
+>
+>
+> Thanks,
+> Mauro
 
-This is useful information. How about interrupts though ? You don't
-specify any interrupt line here, how are the CSI interrutps handled ?
+kind regards,
 
-> So CSI and VI drivers are separate with their corresponding clocks and 
-> power domains in their nodes.
-> 
-> > Regardless of the answer to this question, I think this is missing port
-> > nodes for the physical CSI-2 inputs, to connect them to sensors. I
-> > haven't seen anywhere in this series how a CSI-2 sensor is linked to the
-> > VI.
-> 
-> This patch series is only for Tegra internal TPG and tegra video driver 
-> creates hard media links between CSI and VI,
+Patrik
 
-Could you share the output of media-ctl --print-dot to show how this
-looks like ?
-
-> Sensor support will be in Series-2 where port nodes will be used for 
-> real sensor <-> csi <-> vi endpoints
-> 
-> >>   - epp: encoder pre-processor
-> >>
-> >> @@ -309,13 +325,44 @@ Example:
-> >>                        reset-names = "mpe";
-> >>                };
-> >>
-> >> -             vi {
-> >> -                     compatible = "nvidia,tegra20-vi";
-> >> -                     reg = <0x54080000 0x00040000>;
-> >> -                     interrupts = <0 69 0x04>;
-> >> -                     clocks = <&tegra_car TEGRA20_CLK_VI>;
-> >> -                     resets = <&tegra_car 100>;
-> >> -                     reset-names = "vi";
-> >> +             vi@54080000 {
-> >> +                     compatible = "nvidia,tegra210-vi";
-> >> +                     reg = <0x0 0x54080000 0x0 0x700>;
-> >> +                     interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-> >> +                     assigned-clocks = <&tegra_car TEGRA210_CLK_VI>;
-> >> +                     assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_C4_OUT0>;
-> >> +
-> >> +                     clocks = <&tegra_car TEGRA210_CLK_VI>;
-> >> +                     power-domains = <&pd_venc>;
-> >> +
-> >> +                     #address-cells = <1>;
-> >> +                     #size-cells = <1>;
-> >> +
-> >> +                     ranges = <0x0 0x0 0x54080000 0x2000>;
-> >> +
-> >> +                     csi@838 {
-> >> +                             compatible = "nvidia,tegra210-csi";
-> >> +                             reg = <0x838 0x1300>;
-> >> +                             assigned-clocks = <&tegra_car TEGRA210_CLK_CILAB>,
-> >> +                                               <&tegra_car TEGRA210_CLK_CILCD>,
-> >> +                                               <&tegra_car TEGRA210_CLK_CILE>,
-> >> +                                               <&tegra_car TEGRA210_CLK_CSI_TPG>;
-> >> +                             assigned-clock-parents = <&tegra_car TEGRA210_CLK_PLL_P>,
-> >> +                                                      <&tegra_car TEGRA210_CLK_PLL_P>,
-> >> +                                                      <&tegra_car TEGRA210_CLK_PLL_P>;
-> >> +                             assigned-clock-rates = <102000000>,
-> >> +                                                    <102000000>,
-> >> +                                                    <102000000>,
-> >> +                                                    <972000000>;
-> >> +
-> >> +                             clocks = <&tegra_car TEGRA210_CLK_CSI>,
-> >> +                                      <&tegra_car TEGRA210_CLK_CILAB>,
-> >> +                                      <&tegra_car TEGRA210_CLK_CILCD>,
-> >> +                                      <&tegra_car TEGRA210_CLK_CILE>,
-> >> +                                      <&tegra_car TEGRA210_CLK_CSI_TPG>;
-> >> +                             clock-names = "csi", "cilab", "cilcd", "cile", "csi_tpg";
-> >> +                             power-domains = <&pd_sor>;
-> >> +                     };
-> >>                };
-> >>
-> >>                epp {
-
--- 
-Regards,
-
-Laurent Pinchart
