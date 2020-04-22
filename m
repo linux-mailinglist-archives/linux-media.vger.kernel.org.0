@@ -2,721 +2,957 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A52241B3744
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2020 08:17:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 126051B374A
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2020 08:19:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726071AbgDVGRx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Apr 2020 02:17:53 -0400
-Received: from mga17.intel.com ([192.55.52.151]:34801 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726033AbgDVGRx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Apr 2020 02:17:53 -0400
-IronPort-SDR: 14kxoF9rOjHMw/CamvsiSTBnCeMyzZQKcw902M9gthaxZ2tGw9NFR7xnfojNCgUOwT1ac5Cxqu
- /vIHJckx7YcA==
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2020 23:17:20 -0700
-IronPort-SDR: r7P5zV0COACXeMopWGj5CJ29euxyBZfm4/d4dT3X5dy/9axsVBr0GlsEuzcwYCq3tkuBL5XBqM
- EUCSCf/L9aJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.72,412,1580803200"; 
-   d="gz'50?scan'50,208,50";a="245889759"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 21 Apr 2020 23:17:17 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jR8hB-000Ffn-6v; Wed, 22 Apr 2020 14:17:17 +0800
-Date:   Wed, 22 Apr 2020 14:16:55 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Julian Meyer <julianmeyer2000@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, linux-media@vger.kernel.org,
-        Julian Meyer <julianmeyer2000@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2] media: uvcvideo: read bulk URBs after maxPayloadSize
-Message-ID: <202004221459.HAILYGV0%lkp@intel.com>
-References: <20200420024119.380416-1-julianmeyer2000@gmail.com>
+        id S1726400AbgDVGTD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Apr 2020 02:19:03 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3210 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726041AbgDVGTD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 22 Apr 2020 02:19:03 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5e9fe1980000>; Tue, 21 Apr 2020 23:18:00 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 21 Apr 2020 23:19:02 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 21 Apr 2020 23:19:02 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 22 Apr
+ 2020 06:19:02 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 22 Apr 2020 06:19:01 +0000
+Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.165.49]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5e9fe1d50001>; Tue, 21 Apr 2020 23:19:01 -0700
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [RFC PATCH v9 0/9] Add Tegra driver for video capture
+Date:   Tue, 21 Apr 2020 23:18:50 -0700
+Message-ID: <1587536339-4030-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="zYM0uCDKw75PZbzx"
-Content-Disposition: inline
-In-Reply-To: <20200420024119.380416-1-julianmeyer2000@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1587536280; bh=7JsvMgD6t9P1zn+qkfVAmut+5bL7mcPSo2fbdnOl0tY=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=UhvBkqdAn5sbBSRIJL9tVdYl+/QQ8gQCjfq4r5d08pu90tKte5A1wgU7AFW3oWBVp
+         QoUlC3UngoEPEm8eKPiM2fSk+DQ/qsq3Z2uEwxz6DjbAuC1z8xTgrx4/31zAO/GFsK
+         Oe79p9zYSDUKBsZY99gOo923v9XdjXyR3SuB6j4iRByrbPLH2mw65hjOGShpZ3VcYP
+         F+dgOXEFHAO16i2W1ktwvbbj1Fv0BwM0z/MCmpKokHJoDiAbrQdzQFCknBXrOZfFDm
+         UZts/KCjlsF+vVIROAVXPRbdI3X9xvO6RWRQuOWfZquWcUZdzvE+Oi4r0KfErJ2MNe
+         GgCKd5CGtuUyw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This series adds Tegra210 VI and CSI driver for built-in test pattern
+generator (TPG) capture.
 
---zYM0uCDKw75PZbzx
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Tegra210 supports max 6 channels on VI and 6 ports on CSI where each
+CSI port is one-to-one mapped to VI channel for video capture.
 
-Hi Julian,
+This series has TPG support only where it creates hard media links
+between CSI subdevice and VI video device without device graphs.
 
-Thank you for the patch! Yet something to improve:
+v4l2-compliance results are available below the patch diff.
 
-[auto build test ERROR on linuxtv-media/master]
-[also build test ERROR on v5.7-rc2 next-20200421]
-[if your patch is applied to the wrong git tree, please drop us a note to help
-improve the system. BTW, we also suggest to use '--base' option to specify the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+[v9]:	Includes,
+	- small fix to explicitly check for both vi and csi channels
+	  availability before TPG setup and cleanup so in the cases
+	  of later Tegras where CSI is not child to VI and if either
+	  of the platform drivers are not registered, TPG setup will be
+	  skipped.
 
-url:    https://github.com/0day-ci/linux/commits/Julian-Meyer/media-uvcvideo-read-bulk-URBs-after-maxPayloadSize/20200421-225554
-base:   git://linuxtv.org/media_tree.git master
-config: arm-davinci_all_defconfig (attached as .config)
-compiler: arm-linux-gnueabi-gcc (GCC) 9.3.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # save the attached .config to linux build tree
-        COMPILER_INSTALL_PATH=$HOME/0day GCC_VERSION=9.3.0 make.cross ARCH=arm 
+[v8]:	Includes,
+	- minor change to use device managed allocation fo vi and csi for now.
+	  May need to change back to non device managed allocation later when
+	  support for direct host1x client driver unbind and bind is added.
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kbuild test robot <lkp@intel.com>
+[v7]:	Includes,
+	- v6 feedback
+	- moved registering v4l2 nodes and creating tpg media links to happen
+	  after both host1x client inits so during direct host1x client driver
+	  unbind and bind order of client unregister/register will not impact.
+	- All channels resources and freeing happens during v4l2 device release
+	  callback.
+	- module unload/load works with below host1x bus driver fix.
+	  http://patchwork.ozlabs.org/patch/1268191/
 
-All error/warnings (new ones prefixed by >>):
+[v6]:	Includes,
+	- v5 feedback
+	- fix for csi_tpg clock parent
+	- fix to free channel resources in video device release callback
+	  for registered video devices as resource might still be in use
+	  when application holds handle to it during driver unbind.
+	- added blanking intervals based on resolution and bpp for csi
+	  internal tpg.
+	- added implementation for subdev pad ops enum_frame_size and
+	  enum_frame_interval.
 
-   drivers/media/usb/uvc/uvc_video.c: In function 'uvc_video_decode_bulk':
->> drivers/media/usb/uvc/uvc_video.c:1484:3: error: expected expression before '}' token
-    1484 |   }
-         |   ^
->> drivers/media/usb/uvc/uvc_video.c:1484:3: warning: 'return' with a value, in function returning void [-Wreturn-type]
-   drivers/media/usb/uvc/uvc_video.c:1458:13: note: declared here
-    1458 | static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
-         |             ^~~~~~~~~~~~~~~~~~~~~
+[v5]:	Includes,
+	- v4 feedback
+	- fix for venc powergate mc reset order.
+	- fix to have unbind and bind work during v4l2-ctl sleep and streaming.
 
-vim +1484 drivers/media/usb/uvc/uvc_video.c
+[v4]:	Includes,
+	- v3 feedback changes and some improvements
+	- Fixes tegra_channel_buffer struct to use v4l2 buffer as first
+	  member. This also fixes crash of unable to handle kernel write
+	  to read-only memory.
+	- Uses separate host1x sync ids for frame start and memory write
+	  ack as single sync id for both can cause sync loss between exact
+	  frame start and memory write ack events.
+	- Uses client managed host1x syncpoints.
+	- Includes fix to increment syncpoint counter to match cached value
+	  to synchronize in case of timeouts or missed hardware triggers.
+	- Frame start and memory write ack syncpoint FIFO's are of size 2.
+	  So, updated capture logic to avoid adding more than 2 sync point
+	  condition requests to FIFOs to avoid overflow.
+	- Implemented PM ops for runtime suspend and resume along with generic
+	  power domains to allow proper power gate and ungate sequencing along
+	  with MC VI flush during power gate.
+	- Fixed Tegra210 device tree sor power domain clocks.
+	- Added missing reset-cells to mc node.
 
-  1457	
-  1458	static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
-  1459				struct uvc_buffer *buf, struct uvc_buffer *meta_buf)
-  1460	{
-  1461		struct urb *urb = uvc_urb->urb;
-  1462		struct uvc_streaming *stream = uvc_urb->stream;
-  1463		u8 *mem;
-  1464		int len;
-  1465		int len_processed;
-  1466	
-  1467		/*
-  1468		 * Ignore ZLPs if they're not part of a frame, otherwise process them
-  1469		 * to trigger the end of payload detection.
-  1470		 */
-  1471		if (urb->actual_length == 0 && stream->bulk.header_size == 0)
-  1472			return;
-  1473	
-  1474		mem = urb->transfer_buffer;
-  1475		len = urb->actual_length;
-  1476	
-  1477		while (len > 0) {
-  1478			len_processed = uvc_video_decode_bulk_single(stream, buf,
-  1479				meta_buf, uvc_urb, &mem, &len);
-  1480	
-  1481			// if we don't process anything, we break out of the decode loop
-  1482			if (len_processed == 0) {
-  1483				return
-> 1484			}
-  1485		}
-  1486	}
-  1487	
+[v3]:	Includes,
+	- video device node handling set/get formats of all devices
+	  in the pipeline.
+	- Removed subdev nodes.
+	- Fixed frame sync timeout issue due to CSI clocks not properly
+	  set for corresponding blocks.
+	- uses minimum 3 buffers to be queued to fixed memory race between
+	  DMA writes and userspace reads causing kernel hang reporting
+	  kernel write to read-only memory.
+	- Improved capture threads and done threads to avoid possible
+	  race conditions and added recovery in case of frame sync timeout.
+	- Passes all the V4L compliance tests.
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+[v2]:	Includes,
+	- v0 feedback
+	- Merged files to have Tegra specific separately
+	- Moved CSI device as child to VI as Tegra210 CSI is
+	  part of VI sharing same host interface and register
+	  space.
+	- Added link_validate for format validation.
+	- Fixes for passing v4l2-compliance for media, video,
+	  and subdevices.
 
---zYM0uCDKw75PZbzx
-Content-Type: application/gzip
-Content-Disposition: attachment; filename=".config.gz"
-Content-Transfer-Encoding: base64
+[v1]:	Includes,
+	- Adds CSI TPG clock to Tegra210 clock driver
+	- Host1x video driver with VI and CSI clients.
+	- Support for Tegra210 only.
+	- VI CSI TPG support with hard media links in driver.
+	- Video formats supported by Tegra210 VI
+	- CSI TPG supported video formats
 
-H4sICMnNn14AAy5jb25maWcAlDxLc+M20vf8CtXksnuYrB9jZ2a/8gEkQQkRSWAAUJJ9YWls
-zsS1fszKcpL59183+AJIgM6mkoqFbjSARqOfAH/+6ecFeT0+P+6P97f7h4cfi2/1U33YH+u7
-xdf7h/r/FglfFFwvaML0L4Cc3T+9/vWv/eFxcfHLr7+cvD/cni3W9eGpfljEz09f77+9Quf7
-56effv4J/v0ZGh+/A53DvxfQ5/0D9n7/7em13n+5f//t9nbxj2Uc/3Px6ZfzX04AP+ZFypZV
-HFdMVQC5+tE1wY9qQ6VivLj6dHJ+ctIBsqRvPzv/cGL+6elkpFj24BOL/Iqoiqi8WnLNh0Es
-ACsyVtAJaEtkUeXkOqJVWbCCaUYydkOTAZHJz9WWy/XQEpUsSzTLaaVJlNFKcakBatizNNx+
-WLzUx9fvAwMiyde0qHhRqVxYtGHAihabikhYOMuZvjo/Qya3c+S5YDCApkov7l8WT89HJNxz
-isck65jx7p2vuSKlzQ8z80qRTFv4K7Kh1ZrKgmbV8oZZ07Mh2U1O/JDdTagHDwE+DAB34H7p
-1qj2ysfw3c0cFGYwD/7g4WpCU1JmulpxpQuS06t3/3h6fqr/+W7or7ZEeHqqa7VhwpLxtgH/
-H+tsaBdcsV2Vfy5pSf2tky6x5EpVOc25vK6I1iRe2ewqFc1Y5F0sKeGke2ZrdoTIeNVg4IAk
-yzo5BqlfvLx+efnxcqwfBzle0oJKFptDISSPrOnbILXi2zCkyuiGZrZsyARgCvhaSapokfj7
-xitbOLEl4TlhhU2pSOC8NM2I4aKnXMY0qfRKUpKwYmntlCBS0bZHzzp78IRG5TJVLovrp7vF
-89cRs3xTz0GiWDs9OV1dDGd2DUwptOo2QN8/1ocX3x5oFq9Bk1BgpR5IFbxa3aDGyHlhrwEa
-BYzBExZ7hKDpxWBWI0oWT9lyhdtSocaTytBu1z2Z4zCskJTmQgOxgnrFskPY8KwsNJHXntm1
-ONYRaTvFHPpMmplZeWOlRPkvvX/5z+IIU1zsYbovx/3xZbG/vX1+fTreP30b8RM6VCQ2dBvB
-6Ce6YVKPwLhv3kXhVhvDMOB68SKV4PGJKZxpQNVeJE3UWmmilZ9/inll8W+s3HBIxuVCeYQL
-WFkBbMrzprEfH35WdAei5dMtyqFgaI6acG3uOEgQlptlgxBbkILCwVV0GUcZU9oWQnch/XFf
-N39YCmDdL4jH9krYegXqAETba2LRaKagtliqr04/DExhhV6DJU3pGOd8fLhVvIK5myPeiae6
-/b2+ewUvavG13h9fD/WLaW5X5IH2ZmApeSmUPX2wCXFAyrJ128ELbkDN9OYQBEv8ItjCZRKw
-0S08he2/oXIOJaEbFvv1RIsBYh08KD0R0NBeBDTjoOHhuHm2GJYfrwWH/UQtp7mkNnebzUMv
-KsxIMJ2pguHhpMREB5gpaUZ8Og43CZZvXEFpu534m+RAWPESzJblsMlk5KdBQwQNZ06L67BB
-g+2nGTgf/f5gLzziHPUs/u1jWlxxULg5uMpoVdHEwP9yUsQO98ZoCv7wO06Os2Nck5Ilp5eW
-6yrS4UejeIbfI1xjbcElks5OLqnOQe1Urafjnwfyu/eE2ua0sdtjT623h45OGP+uipzZDril
-kWiWAoelRTgi4ISkpTN4qelu9BOOpEVFcBtfsWVBstSSJDNPu8E4GnaDWoESGX4SZkkG41Up
-HV+JJBumaMcmiwFAJCJSMtvDWSPKde5orK6t8u9CDzbcwHOj2cYRK5AF3y7a3rA0TnyaeOgb
-nxdjv2G+QK2IR3sB/qDjDBr1Ylq9YwItmiTUN6ARZzwhVe/idSKCjTDbapPDWlyzJOLTEyc+
-MSaiDc1Fffj6fHjcP93WC/pH/QQGnoDxiNHEg0vW+EDWGM3AXofhb1LsprzJG2KND+YcAJWV
-UcMmK26BEJZoiH/XzlnMSOQ7f0DAReN+NBLB5skl7YK1MW1jc9BRqCQcXZ771baDiEEIGGy/
-8larMk0hsBAExjQ7RcBQBPxanrJs4vi1zHbTA4NE2qdP5kY6FZomJ7oBka9UKQSXGs6OgI0A
-RUdat9eRNfBw0GJaXSFgXIM9iWlHYYChYwLGawpo8MGnTTOyVFN4CkqQEpldw+/K0SCd67Pa
-Uoge9BQAR5dFEowl7CDYxQHhBuKFKrEtlzmu/bJLE3Uql10gYYAjVsAf9NanwzkiKZZN2sZE
-oerqrHXJjP+40D++14M3nOflaCJ5TsDjKcDgQshc5bA9H+fgZHd1eukioG0SsG1oL225NVAa
-KXJ6euIP5A2C+HS+24XhKZjtSLJk6femDA7j4vxshgbbiQ9zYyR8M0Nd7PzeoAFKEYeBZukz
-a1fn8dnsxCDsF6cTlZm/Phzvvz/Ui+8P+yPqOAA91LdOUlOUoOkO9eLr/vH+4YeD4A7RBPKb
-D+FJdBi+uMhGuBhLVtuvgXhpXr456q/zg5owtskI9ippjj1WlEEwUaTyT2eXMztElKABFdrA
-9afT0AwTsmFFzEZcaVtBJfzVBU/JfnP/dHvfbJh7XkddLj98+CtI7/xivAN2x8tgR/Lx/CQM
-u5iB7XbhyVxejJcXPe8Pd2N9REwvoFQllpprmxtidJOPICpNVSJHjQUtJVcVV8lZgJBhkYdc
-055RLogdsIz6Agt/9XV2EPQcAvBkjgDugwtvmkpWZXHieG5dewHOgEf8xnQvpnQvmv68oCPC
-DUDmjHmlvsdQCZimhPIKzVhoDjnT16jDstPzj6Nld81g4LfriDuc76aelztv49gns0FY/wBn
-RU1Vzm5GU0NgQ5cy6AMZnEzEYGVmtHWe+8PpBrj5FaR8RtXkG1jUDHjnz1kYYAHcTNh6BkEJ
-JmdsHJfgdF3MWaJdQWYmICnJNoxu/R4kOAcVKFIyw1xVFju/xBlweT5nR7E2BG5jNrPAbQ5y
-ezExpeLwfFu/vDwfRnrJ2BWJxsHSStioV2Uegbcn0ONyQednf1y4LSSSGk7ehf7NbRcGkNEl
-ia9dSAxHA4InthkNG3NxDaZ0G41mk0WmlY2wxenFtMV1/rAVA7WmtNBn6QeGpEMiz/JMzfqd
-jAjQYc20E6aQK/6UFqAlQbQp0lYyTfVK8nK5Gg/XYAAIvFJwnlnhIWXSq2uMm6sVzYQT1gWa
-cXnZaUu9yX1eWDlMy502nIpesVDw/fvz4WjnOu1mO8CdsnOTK5ExXZ272fm+FTNNXl52KGf+
-5GAHPvXluUzAx8F+Un118ld84pajG10hq6VgfKhGr24wMqKJ0wKO7agqcxY4ogi6CIJCBxtA
-F2EQjH7iWd3q5up0WE2T6lxJrIdY20yJOS89OQ6/27B+Lrmy4hntCpY5T+g4vdfECmlRbSAU
-dMw1FpygX0Dg1bYr7wlSXLn+1JYUuon5SFatyiWFA+8KLMykxDg+s7MwpiyIsZqJPrlMqLw6
-Pe27ZWxZ5JjxgHjYqVFjRhorOFumVyYNL3wJXkVj5JaT2iGSYKDqV/8tcL6Q5CZv+tPSHLVn
-QHv+jh68dX5Qe3Erh0o0cc3+kMA2c8grpWUZ+zb5xiSHJQf9Rnd4ME6mkEgpG4DMJ0LQIgHy
-iR5tC84FW1u5mgVWcZ7gVY4qNcPAeBnH8o3rwYS7wYyp1w1sETDRbt0U2FG/HxRLosBrLHPf
-TQCMsaobTF0miTMxmvqrds6W9SGpeP6zPizy/dP+W/1YPx3tcDU91P99rZ9uIVi93T84BU08
-Jqmkn13rhS3Vkm/w9oCsUKH5wdMScg/GamTQXBmM7vIEErJqAv9DJ75F72QTsneTDmicTG3H
-O2Mbk4Ps5aMIYL4HwID6xuSf5+YzWu3Vox+jW1oAbq/EB+/mD92n056bbi8zX8cys7g73P/R
-5IsHgg0btDPLts34pgnd2Lz+DM7w5w4nVJL2iGs/K3b3MHIl2/sIrtOEFztwlXim3GqiDwsU
-dhkkoSmf8AdURj+bRdKzxVEpAEca3kX6+9ssaNZpt0zOtxkwfXjeY51+8f35/um4qB9fH5wb
-eOS4eKj3L6AvnuoBunh8haYvdZu9qe/syW9S4Z10cKjGuTXTe+ynN7UpqlTCua7TNnQ1Xycv
-34LUmglTb/G5W2B0MkpdY5kbdWra/QYzB8O/ppjG9tV3RT6iFq4TOzl1//TizK7w5X2GeYgL
-emrbz82RB6WfspihB9EqFz/pEameE2EM25ybQCkfOUQdzwVXijkRWCvO0x1sHDgWUVkYNth9
-e7kJSkYjwPeHxz/3B+8xSpnMt0RS9Jdy4t/QdFvFaVuN9SIsOV/CUe5oTc6yrr8d9ouv3TQa
-JWdHHQGE/liMFzBSA/Ja6KkG6Wo7+8Pt7/dHOIPgkb2/q78DUe/hMW4wb+pFjrpbNzUO79J/
-A4cDVGBEfZXTJvYHPw/veYLPCE7Ylkzuc44rKE2rpNoLgKjK2+6UtQeP3tSMVpyvR8AkJ2if
-NFuWvLRo9ZdkYFlGPzeX86YIBoilbnRdSjEWWIg4wPxqll539yWmCGs4T+NrFj0QqLbRindZ
-ZlatR1xtVxBtt/eQbDrnZxEEkhAuVnpERNKlqghqPyzEVW3gQMSYh23R2W5yNM5QSkaKvnYT
-rDejoHPqW8wgQ774CS+sNrchu6vFHhJtUANHMNN2uT/UbnqaWYEwaRprbgHbq9guuEu2doQD
-fUedYIO4fVeh4SDIHXj9RjbXbAIOXPAbYXmu9o0wILZsmSNozEDlWylcE3Yqczbx1oecsB4Z
-YCCmXs1uqI/rTnFxhEB3IHrjw+Pp9XG6453Lq7lI+LZoOmTkmpdjMTZ5tfYsaPvqR5xh3TYC
-/oJCTiwAx/vmbNmamfMJgMRu/boN1pqThPweLYaba54Q3rd3uOV2XFRpRAlUhnZxBkdkDJxL
-Y7TIbd7AT2kAzlEy5WkIC5vidk8D3Rb7RoWa2pWYb95/2b/Ud4v/NOH+98Pz1/s25huMIqC1
-i5qbhkFrjU7VXHMabifMjOTIAT7eEFm5bDyefgJ2ozWvrrmKr2OzwRkK67XftA/Y4IYhV+A/
-ycWb2HhwpgmLycWLN4xztxbQCDnetLLNnrmOpPCizpDZaw+2vd5WGpqkEqYmfNWeBqcsED5W
-E23XHmhTblWy3zdouysZ968/AhekOkzm94NbMG6VBDs1h4OXYbZVzsBHLKyLlhXLzX0N//Ws
-AvQgnP7rPOKZHwUOVt7hrfEymPfmJLcTlXiRUsWKgXL9XFLbNndXLCPlpI6t5tDbieFyJta7
-QjLbYWH20J9dMDdx2/yTsa3+0g6ibSNfeNAMgRfQUjVeA/KIC5JNFIfYH473JjbENLzlecIU
-NDPOPUk2mLFwxIzEXBYDjj9SYrs3MLhK36KRg/p/C0cTyd7AyUnsx+jgKuFqwHDYpxKsr6wn
-DvVAHBzGHURJ0fwcFM9goqrafbx8Y7Yl0DMB0Py4WZK/QUgt32IM2HT55j6p8q29XkPME9in
-FoOmzM9ffAB1+fEN+tbB8GF1IedImO2TkX82Tpx9bRWbTTjcvGbiw6V66xxAP8abskcCLo37
-QNACrq8jN5fRAaLUn/Fyx/tp2HrzCBEcRDBYqN+dQotzz41o8ALjCgJcq07RJ1XMouhf9e3r
-cf/loTYvOxfm+ubRWl7EijTX6FY6Mt+3VmkimC8NAzD3Liz+MuFE7yti9/bZhMX0hrSKJRPj
-2Ah9jxaeZkR7ZoTNPtU3QPGZ5Ebgg0lhnlKi7+8hBNbItypcRBsS9RsV4mFzcax+fD78sPJz
-0xgeZ+XcfDTTLHhiEhygmsaBKsag5uKxu/ntwz6GesR1iJvipNDGT4QoRV19Mv84DnM8Pnim
-bikpytKodNTrNby/MXK9MTyvuovIHU/BKXWT62vlq811gmGCB9CalSl9fDj51F9/NDVmiFFN
-rLV2snJxRsEMYSXZW5dxHGb4OZPC66Gp960HQEH3EnX169DlRnDuV8I3Uem35zequa/tGaLL
-V5iLsaAoJM3dqmGTyMD96eJRD5VUgicFAXgb7A77SqXJ2gWfhS1LUUW0iFc5kWuvbgpL9bBR
-9rtCqsH9WaIf2Cmeoj7++Xz4D+aNJwcCZHFNtSuK2ALmjvgWiuZwGKw0xjZ2ZMO0jXsPjmLA
-gdylMje5EC8UF7WmvmotK9zZM9FcnYyJ8pe+AKFzovCOhfaWJgBJFPbbVfO7SlaxGA2GzVjT
-9GdGWwRJpB9uNkuwOeASNTnNS1+s2mBUuiwKmrl2HII3ztcskJVsOm60/0oSQlPuv6zVwoZh
-/QPgtlRkFYZB2BEGMoFaMrDbw3LtRhS4UZOORdfski8TERZQgyHJ9g0MhMK+YP7KH2Tg6PDn
-spc2z3J6nLiM7PRTn+Bp4Vfvbl+/3N++c6nnyYXyPvaCnb10xXRz2co6vg5NA6IKSM3jL6Wx
-ZkH8qhRXfzm3tZeze3vp2Vx3DjkT/nvTBsoy/211AxwJtA1STE9YAm3VpfRtjAEX4PHHxjfQ
-14JOejdiOLOO5uFA+9GJwDExiGZrwnBFl5dVtn1rPIMGZsR//aGRAZHNE8oFCFbo3ONHNTBh
-PLVUIxyxujapQLB6ufDbS0Adp5z7JjvIbT9hcqjRiIHHd6wPk8+cTPoP5s+eWguEv8CnX4ef
-cU9RzRce/iZuxgNPWieYEHD7MfGRYVEYZyOEgE+YgU5CNyGMGaEbprLzYXX17jmmOxZO0aCl
-3Uyzo0z8e2Yv7SUobhwRkFz/6w1cpZB8dz2LkoCDNQdHVgbNcwOe6y7pb+D0hVGACYAF4dWc
-EkAUmMPMbsxxrWXrH5f/O2P9itZhbBClZWwQPnAmiNIyN6TuL8Os69kyt2or0BSNxIf4n8QB
-tYfiHQecOxl4Zg9aP3AVX/sfNmZngRGmD8NaQFPRRTdEkZGawyYvsU1Giurjydmp/z1sQuMi
-cJCzLD4LZfsyv47anV34SRHhz9yKFQ8Nf5nxrSCBD3hQSnFNF4EDSvXM9xKSOJBFho0iJtfq
-z5QKWmzUlunY7wRtmvMVVL5G+we9y1wEXGpcS6H8Q65UOG5qZho0FYCRnVc5hEtgEOawinj8
-BZMW2H7OAXGEZP4vOFk4cUaUYj6vy3jeuyoq1XXlPpKPPjvhDb4n/839SJId6C6O9ctxVG0z
-s1vryYdgWkUy6TkC2LGzxXaSS5KElkx8qdfIuqcX4Ttrar/0ghaZ4oVO+85g31hp7f0iBZAp
-qBh1waYqj6sZxddhYTmeexAHtBVLhDPvlXImbd9UMj8Tt+oBUkizNPBZtEh3GaDO4YseXuvj
-8/Px98Vd/cf9bW1de7RprmIW6VIFDnELV6P9ccAlke5+tG0wXdlcm5yCVh9GS+sABcTbftVr
-IUVxIDiycIhena9n51xlWWAS59vQQygLCctj/gDAmanfWlkoUr9J5XP8JkvI8jLw7MxCyuVm
-biyY7NnJ+RyVSJDTk1mEdF6UNvBfCDw3u1yvxzI4AuMCvVopeA4sEwyO1i74Sjut1rEv+YtC
-ko1CpDhdoiWdvsfuAU91ffeyOD7jrdX6CZPwd5iAX0DMaRCcd6+mBROfWElYmdca+DWZq5Nh
-xC2DVr9rla5ZoBSOivxT4ANJhPlDqpiKVRWqGRepn3lCEbz5EM6fpX6YL8DuHA6lm/dX1iUM
-yWF6zWdZehIpYRnfeJUx1SvNedb5EeNLRa1l7BRp0ojN/3N2bc2N47j6fX+Fn7ZmqrZPW3Js
-Kw/7IEuyzY5uEWVb6ReVJ505nZqkk+pkamf+/QKkJJMSIOWch76Y+EjxTgAEwLBvNa7NzwLL
-TyhnpnceBL6tJLlYTz7eN2XPsk6x3GU8aCsZ7YhG9UZ0LJN8K029l06pEzteHMyiNPRjy8As
-L3TxnYGqipXZNryzCH16OX9TtqRt157qzv2k7dIKZO2uHMudpEPXhk8d2UsXJGWFcQG1wz+0
-XW1q2i1Rbel1NK/B2mWtbDhoWi/VYO/RGCEsxJFpQAOIjgUjpmoAnuFNMSDhJVxkCQXzVZSe
-BqyMUok+6SKMNKEOelEqi2hnXcrp37Vwg0GazMXlLG/SksS8ZEajVrmHQQ4xANzWviNG4jZK
-A33PQzsNMJO+c5jU27TNpxRBIstNvRNyA0I+vQclWVUy0o8UuAuhNTnwxbS8EVVqwvHRv3QE
-AqgG8OeWgdJeDEs1HD3b5hg7aQZbW8D5ke9SctonZXgZGPihZof893Pf6uX1/POtx+Uh2i/W
-ytaAKdqyR5D2h7Jtl2oXuZXDIi0EzBHlGkegBgYObb1VxQ9v6CLygqYEOiJT+fP8463x+YjP
-f9sGDfClTXwDq65XcX3d3Ku1SqwLmpXYMrxYyhEESym2IVuclNuQPi9lwmZSQ5HlfG93piSw
-MrUoOjhvCj/5XGTJ5+3T+e377P774+vQGUrNhq3o99uXKIwCbv9BAOxBTXTcXk4oDNUAjRUr
-NwFxo9n4INSfRFjua8cwExhS3VHqlU3F7wuHSHOJNGTq0b3zuU/xE2A8QqptcLD63KoC8qEU
-cT8bjAO/aJjIXWrJbSQc1+RKGhlabddxfn01nN8Uz6lQ53t05u/vF43FKnYt3j5wo4b2vXi0
-9NrXJBMe0yQsozlOBYn9ctBb7aX+RJN0iKuHp98/3b/8eD8//gBWG8ockYfxi6Ff+tvYZ5RE
-aroF+9xd3LhLWueKEClLd8mvYxmPzYB8P0aFP2Nktb+52Mz+4g8f3/74lP34FGAXDZhauw+y
-YLcg+3y6O83pgbFndITB3gSBTYqLS9Nmi4IA/d73PrAf6a5fAAGBzZOyTdHr7aRyjJWysTWR
-er88/+czHEznp6eHp5mq8O96eUEH/Hx5eiK6ThUZQutiUYf81FcwZGumuqGNEEXVPKkEfYx0
-CAzSMI5oo7KNowLgynsuzXpXeXy7J3sA/wKua7xUtAbNUoxwzq+UfBjBSH0wzsOwmP1T/+vO
-chDRn7WRD7OudQbuO7qYOj3SW8301/7Rr3RW2IdIk6jcYa7UHTBwgJbEioimo+vbgx/Cb2Zm
-HDbCLhwS6lOsvFTkPgMRzrRBawGbaNO8t+DO7dYjdQssA+ec2GJ28SHajFSqM0+3cu7vQODr
-scgtU10aIkhmmWwC23lIRcnoO4GKVocYZdssoLFAI0k32eaLlYDGelp/c0mzwufDb8ssDH4n
-oSkLZVsVu784IssVJb3qo/aBjn+sXZQwSmSrRUDurQk0eVEa6CRKiamN7ynD/vQQx/iDzwUy
-dmYqoo1UZcOo48x7w6K1CyjiaD1cAwuLDe8QoKq4oXa8lgqH29CLASNz6Ho5FEkpxRbuemXU
-OggxVEZ+UwbhkYnOV/pqjFAfRAuFyr6635uD9vTaq29Rjkk0k0bon1aSgPSaUZYpWukXu74U
-216jmGV22y8lL/vh0l1WdZhn9AkUHpLkDuc6LdQE8nrhyqu5Q5Jhf4ozeSgiVPAfRcCoOvw8
-lNfe3PU56zYZu9fz+WKE6NKxfYAHlrB11iWAlkzUoBaz2Tvr9ThEVfSaUWvvk2C1WNI3t6F0
-Vh5Nwv0HegZ4i3xBqBQudeBYuQrD6Va1DLdMKJb8mPspc/wHbn/f0LbzUY7CxSUgVTugKh2W
-g2vdylyS6Wvohq5DlI0hEr9aeevRQq4XQUVz0x2gqq5GESD61d71Po8kPZINLIqc+fyKXF+9
-/mm86v86v83Ej7f3n38+qwDRb9/PP4HzfUeNBOJmT8AJz77BSnx8xf+a67BE6ZD81v+j3OHM
-jYVc1D0ugQYJl7ncwOtKH0XYfOhKJX68A9ubwCT75+znw5N6TuttuKUd4dzgFGBjRRhDE+wZ
-LhWNB4tSVvXgWqmVAc0d0NLMi9A2NwyH3Ct6zrXiy2BVKLe6JLNkhsIXoQolRPEymOFyrKrs
-VkxnlaKiVF8uaVUNmk/P3v9+fZj9AiP+x79m7+fXh3/NgvATzMhfDe+W5siRdkCcfaFT6d2+
-y8Q8R9HmZpwLWjJjqaGaBf/H+wVGF6ggcbbbcU/DKIAM0F6kHyTl0k1luzKso05nBc55MCw2
-ZBtMIYT6ewIk8WW1aUgsNpKJhakxRU4V0wrZveb+w+7HU/uUlHFcIoUzO9VUpYnlw4sozGEr
-9wETDV7NZ9YFRZE1vzSSfc83t7cMO0659I01hRwbPlFm3GBhEtpbp2ZkCEwExm6TYeiBojBj
-JyBJ+RobCxPTcnXV05jKdtL97D+P79+hxj8+ye129uP8DsLe7BEfB/j9fG9t9aoQfx8IUqJu
-P77vAiYby1elBtGRCSGOVBVviioQPgo167YTqOR9v/b3f769vzzP1IM1Rs2NEjaJ3qh0GZBC
-F6RggzaHp+F6zSfLMIdvc7NYO/PuKkNkn15+PP3dz28976BGjOhn61b19/PT02/n+z9mn2dP
-D/97vqdVA/R012y40l0R3a7NhpH1NVTIwohrkjZ5LQktS0NuA1QMOUlBK4PdoXd5fDk5bw/q
-6Ubecq2MOGWhH6A1I71j5CzpWHEUvIRkbjI3fhEdQnp32jF2m1A/GZHPt0UlHjeZ9XxbVNrG
-bspULVPvamEohdh6ga48pOb6g5/1UY2Yem+QMVc4TkiJnOVlGie2d2+rjH3/+fjbn8gQSVgZ
-999nvhGlwZqpzTb50SyGlQMGxui5tR2jNMwKYPz8AMPn2i8qNuxgKZlJ3+VO/K+mF6VJghmZ
-lsKniUVApx9gj7aMcHVKnW48j4ziamTeFJkfBpmlfdlc0basmyDBacrcEt/JMkoYlYvxwUZH
-Z6m5/IB6tMXKdBSHhGx9IIriYJsRSe/6r4lmB8rN1eq0XYSe+93AU/q2BERuKyivTmnCb7T3
-5HttO0pvVXTJRs2ir82jlZdtSqXUaY6vg6Q+1FMHOZkqaesXfqheSumK2pbQ19yLGdtyN6QO
-i9Wh1Mix2AsJknfQe05SVMt96NY7zjEIc9XbiCfn8ytWy7RnIptAOtqh03djSJzuv/3BP0WC
-bKjw3KX5NoNJwktQkpL4BXCeFuuZHBPaONTMBnn8NLPCCCVxJU+D89Ukb08TpYqgsNngG+l5
-V7RCBklLWp+lSfBFytqs971sMLPTwPW+MM+DALFyr4A6MR9VyTJK6JFK/ZKnRRj7K0voyZxa
-hiqwM1S76P+2AL3FtbVb+JXnra8ZPUy5J53DjeLyKJUY64usLbIyymzbjLMa+GvcnjglR0sf
-Wn92ANT5cAuzSCZ7oIBOAlGOrHGBPgoFSZJ+Ig/2m6qy2m2i/i5A5IzMaHgmAcOtbOEPPdgy
-kdZTajIJrh1aFaZILE0OiFRdAjQ0qWjmQpZqRlu1KRMMWTPd+rs0y+Egto6oU1BXcX/zHeYt
-jTVSisvbMJCRJDR3Oaa2LshhU8LjTzK23Q1mvCJHYR3L8LMu9oJ5ExipRwzkKkjHBKPYk/ja
-c9TXKfVpyR2IHWAxtQdphbNZeKOC9ivBL6AGA3x22cd08hXwxlpYMmQlTNzYPI9OCzACluA+
-pzGi3PiMHNUWrJ554S+/TRRaN4KI9QFg44tcMdKWAk9wAgoj8ltvvqIZVAWAJRigPMkIbgpy
-5AztFbnKAzIs8P4uFkYYenmCFHMQYnwpvBC7HRqb7q35qC+chJhhOm9Cg2+M97NeiEnI0xrB
-gQfos2fDAmDyrKuqGqN76zF6I0iMFnDleQ4LCATIBnwLGpadpePGNPb9MPcWnuuO0svAc/gK
-qhKuvHH6aj1Bv+7TW/YbXwCpe1NKBHl8kGyJitmsq5N/xxQaS5RonLnjBE3RLaEq+99q+FP2
-Yy3dme94jGIrR8mKC/wAouQHomP5WISORO3zNUkr+MIXH85qfkr7pTdf8OTb0Rrgg01ldDNC
-V6wRTwf2iOopg9PoDyAI4M68ohVCqJqAA0sE/BePooykjFh6c1ztYBtzix33flkzA0AuuL5e
-JpRtZ55bJo/wE6PqMfFWkBpGaJIS9TON+BUiOclzmmdQRDyO0H2FQ2SUEgdzqjuWi1Ydk5ST
-QVnemRWUsaCaI+N90Opq9y9v75/eHr89zPA0au+xMM/Dw7fGsQkprWeo/+38ii7mg8s2AGm/
-a+XnYJmaIynwS/o8ReINyLiMaI3kPNr5krH6R3pRxp7DWBFc6LRUiXSQbPHVNqKnkAp/kGd7
-7jcUDzNnXXGE69pZe/6QGoSB0u70O6ih1RH5hJCJSIOEyqw1BS2CbWxbSrJhmJNuIJPrFWM/
-0kJkcb1m2FYD4k1BYBdZLxnfRxN0PQXaxSt3Tq32FpDiMeTNqe7DI45mx1pEEsi1txhvS4HR
-ctQF18QgysMGQ7dHqXphjpolDaRfV7RKTZarBT+d/dRdu5SsgMRNFN+YjzOrDEUCu9DBEh0w
-Pcpllrqe5/ELN3Cda+5T2I6v/gEVo9Rcrzx34cxZnVqLu/HjhPEnbiG3cAKeTsydRgsCLmXp
-VPx8Fvl+rCpSRAVqsxnFM0KO8Wpipgf7a+75tG7zuA0ch3ps9hT7qS04at/V+hRScgLCO918
-mAATcBlzi1ba1wflfnhFTGZLTAWjSTKU+QQ1EDLIaFJPadknFVJYqkJcZD51vJkZL+pOihiF
-wmd7pvBtz1KLpvkqhigFTTBvvc30ksF/vQtNtZVJUpJWlKbdnW+kHJFnp0f0Jf5lGK7hV3RY
-fnt4mL1/b1GE6MctIn1bylmD47ylfHUvEoIMydcbj5amEH7Wec9Ss7Fiev3znbXyEWluBvxX
-P3XohWc7bbtFC1/l723sR5qGdyW9qB8WXarw1zc9RxlNS3yMV3zTs7zuvOCezj++Xa7tre5u
-8mcYL5wJOaIhX7K7sdpFRzQlfu4n4uu5z2YXcn7QOsNNdNe+0HvRrDdpsIfQ7JsByJdL5qjo
-ga6Jhlwg5c3GMo3qKLdwdjNcnoVhjEUNjOsw6v4OEzbRaYqVR1s9dsj45oY0hu4A6pXNv8lk
-Ne0iusPLwF9dObSe3gR5V85Ep+v5OdGKxFu4tCGvhVlMYGBfWS+W1xOggOblL4C8cFzmqqfF
-pNGp5CJ/txgMUYT3UxOfazT9E6AyO/knn5ZKL6hDesPYzl/mllZeT1QdthNav3gZ/MSty+wQ
-7OmQsB2uYldU4Oeoexj/DBcAxdi8xncujKNJi7gaogKbUfxyQ8YmSpDnzbdtjEQ0yMyjohT2
-exYmwg+Bc2dsj23c2luvPwaj57gNo7dMC1M4c9dhjXstKLJcdVLRDKiFPMDOIqpA0KexCd0c
-XGfu0It6gHOn24zKInxSRwSpt2A2Jgt/5wVlsnMcej+2oWUpc/6+eYi9+hg4vEv9nHEnN3F7
-P8nlnosrZCKjiAkpbIF2fszEfRnC0FFD+MyFlomugsWcETFM3PbwRZSSjm1s4nZZFjJnh9U1
-IuSeOTRhIhYuF33IxMmVvFuv6APAqt0h/fqB0bgpt67jTq/riLOLs0HTM+Xk4x3AyZsz+pMh
-9iMbAJytjuN9oEg4X5cfmQRJIh2HPmQsWBRvfYkBiT+AVT+mJ0JSrQ5xXcrpVos0qphLQOvD
-N2uHVolYR0WUqpg606McgrxQLqv59KGh/l+gJ+DHoCcxPck+uHufwlJdh31k9iglbJbkmRRM
-lOVBTQUwytNHAwyi2p2mxwiQ7sBzh8XRfPcQN72ui6Rm3BqsTUfEERPs24bJD/W3LB2XUdLZ
-sGT7kcodiqvpBQ2orR9EvEeRBa68FRMv1OrkXK6W8/X0pv01KlcuI0NYOGWoOD1o2T5p2I7p
-MsWtXJIK/IZJFbZhjU4FNs65otvVABTHBUwyv6lp4CbxufuHRhZfVHNoTMlJLE01ZVIfxabw
-ucBCDSwBoW/0c7vcZcLDN2S0iYADm1PXXFBhFGThNEzVerQnhQqTVUb0iugUEDL30wY5BqzK
-LzQv2mpzTlEBYu9YGXeRz169aUSQOPOxr6BVf4xjBZxhDjLOCPSg/hmrcbD1lusrdgbnp6QZ
-MUJ3dUomB0CNUpGVfnGHNo39MbWwYbJYLqNjMvySH1bxYnTJiERCW2i+su1Vn+VQm+8XR3c1
-r5pe5R7W6JCr5YeR61FkkYihxKAvSc8/v6ngdOJzNmv915pc6ugz7HHwJ/7dhAKwkmOxyaVr
-3Zar9MI/kTXS1MakH3KOgICa9J7o7hdTBBNl+PlmHKB1VgzkwDMBOz+J+kb5nVME1bkX51NC
-86s1qN/PP8/3eBN9cZ5vD4bSMDE5GoMQaJ8TDGyXSv1glaUyOJYthFgb+1NLNAs3kvEZr9B6
-XhefALr26ry8M7T42tmaTWxiJLjLLvZHrN7fwJiAzcOaTVCkn4/np2HsLy0n6iAagfUglyZ4
-7nJOJsJWnxdRAJtm2Mb56k/UFumslsu5Xx99SGIdRg38Fq9vqHAWJmjQuVbdLC9cg5AWynBY
-/ntBUQt88DiJOghZu6gqozRkYqObQF/m+BTYsW+pTLVYxlznhfxS72pEK9yslpWu51EMTwPC
-iH+Nc107Y9KXH58wL6DV1FGGHoQzeG8Gqafj0ciof6ndzwDi6YIzYrUgjNWyhmDnxj0JxUbY
-T/wZicYU6pcqxVYwjm0tIghSxmqpQzgrIdeMurQBbYJktRiHNNv5l9LfsTbvNnQKJrbVqmJu
-NBpIYzaVy8nC4JgYI8PMruN8qhCFEuk2jqopaIBG6CrIq9iJAPY4mtlsBwHDqY5WUOZ9R8su
-7pm1Y/YmUBKURdze1fTLTLVvfMj5cKb1TjJXoxjLp2Qe4FUBVmFuMlzo/hjgixz8SlCvAB/k
-YDGoSD/YHPhwPyIRJOHzBGlJf7PxhCSOwQtDlScC+Kg0jBm5AI5E/Rw8UXOoWi/KEqTcJMyO
-p94f42P1lgH8ydnoK/EdF9NiyDyY38Sqw9gcYK6hx72OZzzgCVEHMLyLNuPxwo9aXaHAQsjs
-ZB1VsZe294teRChMpp+8Q4oOw6w4A7skP95lG1F2d79Q047Jwni2l2pfWvL32/vD8+w3jHbb
-xGL85fnl7f3p79nD828P39AU8HOD+gQHCQZp/NW6ysYWoJ1932TfoLeB8HotDCMpdqkKXj0a
-yg6xURIdGRESqKy7ABIz/iYQyXlA+6NboOKGCa6PRCmSkgn1g2S9BQ/mUfQXzMMfsDEB5rNM
-cHzOjY0lYaCh+ktkaAlyYJRQqp7ZJiu3h69f60wyweARVvqZrKN+wDwTINK7fuAWVZ3s/TtU
-8FJlY+KYDs/s1Ov1XHmgTe8UMfaZo1tPHgzHzd7zXCC4KCYgbAgcY6kb+Rbk1pxb8xvDmnD2
-VEjTUX6NHRzToo5nQz1ecn5r3nRq4ihQIT9V+BTFLdBnI5IrHWUlSnc9RyYD1HjmWEbEl5iG
-TCYiwKVud7uu2TqhATwyCWwEJMCwixqJyGiMZc70HGbprYE7CwCuzxNyNWfEYkSM8JY4mlyE
-TyRW6C3JUwc7hkX+epfeJnm9u+11wGXm/Pn0/vj69PCXZa9t1+4w3JEwa/7z5f3l/uWpmX2D
-uQZ/OIslJGOEwY0f3NT92I8WqoyjlVsxfCt+hF35EngQmvdgHmfK7ajbOkxJmc/un17u/6A6
-B4i1s/S8OsB4mMNdW5vbaW+sGVp4sa8+GnZ352/fVKh02O3Vh9/+x9wsh/Xp7PtheQE/d9km
-2tcCGkKtnpUyGEFITw4ViUc/uO0hDVoJ3/gE/I/+hCYYLBvuls236e5u6uUnlGlUS1VhdOr8
-kFvWKS01CXJ3IefeSAHAOu9sea+jVM6SETQ7SJlsxxFZEMVM+MUWEt0eYJFuCnEggwXpF+SP
-IJoCNwlcpVKg7Y1Oht+WO1+ToEK55miMq6O9Lh23RYBkb1uUtVlEcdt3bdcDxXBkqi4qmlR7
-2jRPbD+fX1+B3VPZCBZE5VtfVdrvktb35Z3akqfzZ4q+eRgyizr9xL2dp8jbEv+ZM/YkCtLN
-7DFuTyML9vDRIxmfaIFQUeMMBNojvfkrQLLxVpK5WdOAPPAqRpugh89P/GXownTMNrTSvR3l
-gLl5UvSRg0bRv0bH0ZFOwnrbvyCzn22n5lQnfKjUh79eYRul5tqYZWkDSJnARGoQTzDSI8Ok
-TBYZvdUF4FJSmNaHB/71clHZC7JNtaMRNxS86qkGE7vMReB6/Yn7X8qurbltXEn/FT9tzdSe
-U+H98nAeKJKSOOYtBEUpeVHp2MqMqxwrZTtnJ/vrFw3eQBANeB8mk6A/4tJoNBpQo5szQQU2
-9Ut2myjYt2/piWktwuPUrL+d9n/NlNDlbyLPn0eW2SYWu4DjutyXpQfEth0EimmpM1Ih8RB7
-oW4i0xGD0453Qesh9v7a9KgjGfrwlYQqdpraCge5LB7lY2U/VZ6jTvrWm9EgPPUyqPRczOLP
-31elXM2KQNLKIhzxKPH+S6TBX1vsQo8H521shciTOx730frgSWHUZsiVFI9U6Lo1rC+qtlsJ
-X5qUxVssqoR7nzV8tqTNt31wucUTUXaTQ13nX9as7svRI+MCtD8WyyBHNTxcB4R8UQzbXpTE
-kNqVbs7IrSTkrMKrgWuqHctOXrsG4qM3VH9OiOUjS3gB+UAtloQbIyBPd9U57exF6s+BRjby
-K59xGBh9/H7z2fKxLXjEgGOebyD+OQJIviTG3mSkBpASQysKQiTo9ojJ68BHHB5HCGrZzO1A
-lCG1EOSt7SExmUZIkrYsTwJjgOMhGVdGNGW3Y7pydi8woZzbPMZy1RwAjG/L3cw4jBto2iLF
-xnbkTY2Tv4sOu7RXio6aXU0bOq66T4eYmIYhWxArjcAKxjsy4Zqj/1Gwj4cqMfOn2OqJbyNO
-ohzE+QhEbsLNkAJ84T+AkbNniZGL2RIjd+5ZYGx9f0zkxQCHCS1EOcyYlnJZj3E+hNH1mWI8
-zM2Dw+iC7jOMZi6IrauFxL6nm/UT5DYpx0CgmvrgR3o1pD3V6gbZb04QSFKNIp4mvQGkF9CM
-beubgeHKr+h5TGBtkbDNE8i1fRdzxhgwLWnTQxu1yO8gI26Xu2aA/KLJYSxDh/E9A7mQnhFq
-SewP9Yhf/gjaZ3vPRF7mj5gMzuvHAjENJ1QbqFfzHzGyhY8Aajk1pqURDEjUSDdXNYbtFur1
-1WN81CFZxGkzDQAO2e44DN2i1VINGMvU9t2xLDUzGUbPA8dCvR94jLrP7HmFRncCxjM8dYcY
-yFRvLgzjqTdEwIRqaWTnbF/DxB6kWR6Q4UOnqxjG1g7M8zRLhGE0WV8Y5kOj14hrEde2zqxo
-Y8wTft7sYtSrZxCxwpPb5DNAsxVSgLYGzVIoNLYIBahlLi+Q8xoH0HUSeTHNAXSd1GkgalDp
-ALpOhq5lq6ecYRBrfYlRj7eOA9/W6CfAOMiBbcSUbXyGwEFFRrD3ARM0bqlyUbMAML5GniiG
-nt/VvAZMiBxZJ0zN4vopMVUcn+tAu5Ox29MQuUsrsNzQ09fHQmtMkH2r2bkoQqNQKML+W4eI
-NUZokVKtrZaJtIjXd5xrjGXqMd7RQq5jpy4XJHb84mMgzQrtYRtbo+FJvHc9zbpgGFt93iNt
-S3yNzUKKwtPs7HQXMK0gCbQnWeIH1gcwvubcQ2cl0EhaVkYW8kqFh2gWH4XYlnaT9NWrvN0X
-sWZXb4va1OgTBlFLK4Oo2UshWPI7HqIbclG7yAvIEdK1pqUxGo+B7fu2+vQGmMBUn1sBE34E
-Y30Aox4Vg6jXAoXkfuCi7v88ysOSRs0ousr36lNwD0oRFNsZI1n892PUxvuk4t5ljCWr/C4T
-oayO0ZfqIHPznzC9C2yflKkP45ZImoAQJMwfhNb2L0PS1CqfE7uEO17eH/56vP15V79e35++
-X28/3+92t/9cX19uYsSmoZ66SYdmzruqwyvE00aTattO9UmZzA7jSsTgZ67EfM2yBnwilKAx
-i64StG2PSWuYhhqVHKX0kTqEEufEZPoSDiH2STOcAiJuWCY8xl5x/UA2//z35e36OPM/vrw+
-LthOMXWs6CCBCJgVIdlGeNpAZL/mbeIiksKBsOof8xD79vPlAbyS1iGhxxFuk9VSgbIoboPQ
-ceU3PAxAbB9RjiMZObvWBfulqnZd5CaFfR+1VuAbihQUAGKPeMHJMK6QaNwTap/HSMwWwFAO
-uqGB7KQMkISubxZHuV8ca+ZUWwb+Xh8gBXibq1iaxXLdzViWRKGBuCjD10B2LfQaiIOousgg
-8t1hJCO3ehNZPoSBjL2lZuS8xKum1rAN4cNV4xsxqgHuM4+aBoyjUgz4VdT4TACZVo95nUAL
-2WfiWfg83aeF6usgqAssqupMx2eI0T3EP64XwpPpuMhlwgDwfez6ewYoJrIHBHK7fQYghsoE
-CBwlIAiR+BATHfk1aaIjJ5SZLjdEGb31sAMOI6fl1jI3hVzG0q8ncCJCMquBRlZSuwwytlfY
-iyWAUINB7jMGRHrOdukyxZlLJQj7XZxV3rqG4usmdlsXuaFg9PsAsfAZtXRbDzmEAZ2ksXpT
-IJnjeycNpnCREwSj3n8J6BLBdRGccKXEaHNyDc2mRejJQ+Y8wmjMBUXci9uMHhdt2z1BVBQh
-8hivPoe3/eeC1GIVeW2HitUEPgWIF97QgbxQyFOUF0g6VYgwYhrIj/59+JHlz54L0tKTjvWE
-lSs0Sw9ALhkngGXiSxcGS9mh2GkHhIvcKHCtKFgKgMBTNAKAEPlNmAOot/MJpNo2KYjuOMjP
-4e0xdwxbIdMU4BmORuiPuWn5thqTU/lVqJU2tt0gVDDMzz3vhGRdYd97duBrAKGtAnwuTgrR
-y6t4X0a7CMk/AwZek32tykg5YyNGNWHHInAUJgIl26baChogmkZs19DVEoZIphxQ5SzMT+Kb
-gWozGUDUMFVsClNNChBpwahTqHX0UQA7skrjD47utKqz1OxUOMSM4ZXWHEgG8/ubEX2Clq7K
-22iXyiuBN7yH/mU1ORSIB9cMh7gdpIaXyB/8gFqPO0wrzSg4HAaI9uNQiWsjFhTHlSi0ECUn
-gOQTy3EvKl26Aep6hfrGzZCM5KGNmNgLlGf5pvw4N8Ng50XuggWQ3N7gQYGPnCuWIC0P8l6X
-fgDl+XJ9N6PgOOEiWnGBCjxH1yJDIT+nLVGY/zGHimuTWgJaWO1ikZh5UBAggY+XIO3KKerP
-fogcrTgUPVxo5b3eHr6mWFAODtYFgaHlKUMhPw8LKMS24lBH5MX/hCD5DnLi6Soi1Aw3PN0C
-o6jAQgJXzShq47gmllljAfMs7BfdJcwVgtchoKUNK1DND3XI1Q+vQ5/rNevj0rgnQoqEc5zG
-zOlciCUBxaiqZIl7DjlJA8ChkCbKSrKPkuoowhY9GFvnPLwXBFUephG4SZqORUsgaZ7G68va
-4vr4dBk37vdfP/iYUgMfogLiscysWFCjMsoraut2GAAinLR0Y8YRTQSp/xAiSRqMND5lw+jM
-p5+fwel11mrIHCsebq+SfAtdlqQsH+T8KmLgTrXO0550m/7q+LvY6KJy1mj39Hi9OfnTy8+/
-x6wVYqudk1tzs3PZEHhjmnKOAvOe0nlHrNgeGSXd2vYSML3lVWQlyw1S7lLZkx3W5PZYjg9D
-hiHLhrZg9PS2fx64IL8zd4GpcgsUq2zIV//n0/vl+a7tZI3ARBWFNJ8KkBZJ6Bk2OlGuRTXk
-ZfmX6fEkiKcNd9GMVcs0sEBN4QUySdkDZHoeIgQeSkr5DvBDnspmZhixZEz8Ul79kME4ydL5
-TGuh/3Xs+u+Hy/d1KDmW1ofNfpxHhCzzNHGERR6ORW6lHanjSMx/VLhYQAHWt7YzPEWmq10e
-IJvP1OB5k5afNZAYAi/pMHUW4SmTekzSxgS76ptRaVsVeAa3HrPNyrRGoo3PqD9S+I3xDx0q
-hxDCm1h+/Tnj7mmbsfz9GQeqyizGc1D1oCJqdAMsmhDc/HU1lccAuZufMVXnIi6mCwzi4yZg
-zrqa6PHQQi7SFyDfVsg1h0IM1xlFUsx9g8OUIe0VctgXYTp+EjrFyLWOANJJHvzhKrJ88Sjt
-EBlKflQTUfIDiojScgtQiKf0EmVilzEc7HOo7zxgcPtwAtn6KWzvDeQZ0gJkmsijLx5FVTBy
-1OFQhxKyBmpQrYe4EHGQCss/wWMOtRBFU4bqAleRGrAHdbFhI5cEHIhqPDxBZI85ZQ3LkxRn
-Og36NcaiIrJzwlEuAMMOSzchfEhfG9tzFHXTCT+mG9VYiGUhtyF9+xTTrh1qopfL8+1PsDzg
-WfhsOQgf111D6fLu94h9QjEKOpNYD+7OC+z1Sg/cVb4QDZ/r6KfH2VRSdjg6GMIFqmg9Ip8z
-aw3MIsS/ryCMTA9hqLG3sWJrcNWoxbBjC2BEBDdCzor7B/Txt8ti1L+rx5wWlnD93AdCuH17
-Z5HLHq/fnl6uj3evl8enG1YVy6SZNaSWP6sG8j6K7xu5/xozC0lmCTvHeEBn58LJ3uYvC/oT
-Y+b4iH6cAQo1VDSqJK0J2SB3wn3d+6iR6yWOji/g+zQt5T/49PcDEA2+xLVjEYXINtq33qaR
-6yOxKob+RZHvG548wP9YydYLEJ+WHtH/eCU7EYKEbQ5bazwHr8olh1pWXtCB10RGSYr+PJjt
-pPUVUZ5XXHpo2sB8QzDmZ16dlvF4PMOJf3CU6+pse04yQmv8Ip7FFxhInHBoFgESBlThOY53
-jjFnqxFlu+4HQJ57zrAgh2KvNunYc9VlAP6EtAcIQdMEqiKYDkwEnVULokQM84CqOHHC5Eo1
-aZTA/jBcxJ8IldE7uDcYYksuHT+pagYAqpuh3+wKSdqX5V0SH9ynL7q8PDw9P19ef2EH8qht
-o3g/nsWjn6BkH68PN4iw8o+7H683qmnfbq9vLM7a96e/he73bG+76JAgd5EDIol8BzGOJkQY
-IE+1J4QZhkjMpgGSQuJGxKTlIMgN/yBipLaxn2+H5UpsG7HmRwA92ansGgDkNpIpZOho3tmW
-EWWxZcs348FColyxkUd/PeJYBNhjoxmAPC0cLvNqyydFreI8PZ59OW/a7XkFG0T0Y6LFZKtJ
-yARcCxvdMrxVSKqhkcWX88WmorYo6eAVuPp+kiLk+/eMcAIVdwDhIQ+1ZkSgnMZNGyC3DhMd
-CfAx0T0V/Z4YWKK2YV3kgUeH4akwsJ9jCQV5hHIRw4+fvoNu6FTd1K7pnNabGyMgfo8TwjeQ
-e5IBcbQC5Uy1xxALAcMBVJwGgJJHXX2yhWfsnDDDcrksVpN0kfimUlXGJ8td6Vv+yly6kK4v
-yhaV8sMQyANVbqkhL3V5hIuKBtBtx16LBiMgDq0zwkUux0ZEaAehShlH90Gglu09CVZp6Bdc
-nzjMcf3pO9WW/7l+v76830H0bwn7D3XiOYaNuDvwGFGVLVpftzTbBZ96yMONYqjmBk8bpDOg
-on3X2suNFXVl/ekvae7ef75cX9ctgNlVRCfLFLe0Mbyc8GlvDD29PVypHfRyvf18u/vr+vxD
-VvU0Rb6tXOCFa2Ev33sA5pM1XipAPscsEdXQaMvhfe07e/l+fb3Qb17o5omfq/eZq9wOsoLy
-UKXnGEC14QDAVVlBAEDeLc4ANSMLiGWoASgvkKrO8pRWJQAQ35EZoDQQGEDdB1fXBwrQ1qDS
-rVWHRnWYa1BqVgbQ9QF5lzgCfAt55zsBMAepCaBjlK8bhe9ragjUZlLVhbo+hDpWm3agXBgd
-8TxLtTCKNiywBLYcQnmgAgQWU2VC1Jhb8YRotf1oTST764ToDF0/Ou1YOvVYSGPYRh0jkVZ6
-TFlVpWHqUIVbVLn8yN8Dmj9cp1T2xb33ItVGzACqHYYCnDTeKQ9c7r27iVRXL6TIolr+SmW4
-em2D9F4lp8SNfbuQ2wvybYjtQzktk4W1G60oN1Cev6N731ZqouQY+sqtiwICwz93cSHt+qJ/
-rIPb58vbX4p7+QR8FVUTBr7xiGPABPAcT9qdZeNTGGC1lbIjpideinIBdtdmQ38fBLRovoYa
-qoxPiRUERp85ounWDkOLzwT3pkPJEmP2Xfz59n77/vS/V/gdgFlhqwsnhod8LXWeil5MPQ3u
-eViqPIwaUKNBQfRPqnp9E6WGQeAjRHaRjX3JiMiXBcmoAkVorWWckM4CzUNGyWg2SrM8D6WZ
-NtKXz61JVaOcdmI/9WM0SHeO0RyUVpxy+qFLVFS/Raix45DAwDgAhwPPVcmAiQxmG9O5QhjE
-aJaChnRnaBH5MsU5tI2pdY1xLwga4tFPEQ61hyhExY5kluki4pq1oWkjItlQtY3NyCm3DbPZ
-IrJVmIlJWeQgTGD0DR2Nw2semS7hlczblV2qb19vL+/0k7cxpRZ7C/L2fnl5vLw+3v32dnmn
-p6mn9+vvd9846NANuO0n7cYIwnDu21DomfzU9IWdERp/SwrNNdIzTQmUlprLQpB1pgVkvX9g
-qU7++44qXnpMfocseug4kuZ0v6x61HixlSRCT7LlGmEdKYPA8S1ZoT12jxb9k3yEqfHJckyR
-K6zQsoUWWtsUGv2aU9bbnqxQnCZ3bzqWZJrofraeUEM2odZ66tncyabeWPE3MAJ7zXTDCLw1
-1PKEqe9SYp5C8fthISbmqrs9qWftulVa/0nER2sh7j/3ZIW+bLpERlDJOYntELpBCLiE2Kv+
-Q9KNSGy65xfblicRa+9++4jEk5ru2GL/oOy0GojlS/hACy2JPNlCIV1YwvLJ6Wk8MGXjcISm
-y1O7Fjsq8q5E5G1XmNQk2wATi428OF4V+1AsLa1XpeFavPoRCAsnjaV60PZW0kKNSMtoJKWO
-mQrFXxOTbhjgkFwlkg/YvjdJQzzoQVQOYB0FogD2o7GksyTqoF4P+GOjUUtom+Xt9f2vu4ge
-c54eLi+f7m+v18vLXTvL5aeYaeek7dCe0em3DEOQiapxIXDVutAUJW8T03OFqIryXdLatljp
-UOqKpVTPi7MHMm4ISi86BK5lycrOdHzS8s7JJRWb00LOSPLxlRyKE0UlNJArEMsgiyaW+9F/
-/b/abWOIuCLb8xx72pNH/yuuwrvby/OvwSr5VOf5slZaIFPcdEhU0Ul1OiOFk9STNB7fEowH
-w7tv9JjNtt/Vrm+Hpy9/CPNebvaWKAtQFq7KapHzrExgCTymdEThYoXi132hsL7gyGaLkkmC
-Xb4SV1oo7i5Ru6H2rr1e3p7nCgZWdqLnRlcQV2YsWytZirahYQud2lfNgdiRACRx1VqpgEzz
-tEzH+Ypv37/fXu4yKmKv3y4P17vf0tI1LMv8nX8SsnLBGPWdsTJBaktiCq8sXtZ2e7s9v0Gm
-Oyoo1+fbj7uX6/8sxH3h2pIciuLLeYs8o0Z8Rlglu9fLj7+eHt5kGfuy4nTO6kO3jiAwNt3w
-21JTsF9AzslmkbgSypOaqpfTmJBX7qEDMJZWgaT5VsxyyIHuCzIk6l22DeXbzUj6JauZdqMg
-LTgHV3m1+3Ju0q3syRF8sGVvnNICXvplLDjIilh1adP7hdG9Z9lcD8jTiGUvhEiYSD5mAEM6
-5DM9OCXnbdYUaHbPgY/yN31A3KXFGWKVTRwQmLOgTanChl8m76gewu6moII+nzK1OeS37COE
-ZLmQxkoAQH5SuJQJg5MoJAuyeBfPZe3Cetxv8k0hdaWl9e+THHm8wkQ3yjOlKxtjY0VPuJG0
-Z3zDy4+6nWLyu3vkEQ8Q09OXssLJh0T++BRotDuR2FOO3MRRA2H89gmS9nMC5V2C96BC3rdR
-UptB6Ddxjods6LtaHteGrR2Sn5MYp5NWmgadUuqoTPNRtpOntx/Pl1939eXl+rySBQYFJmny
-YM1YJR96SH/9qQFledam9/R/oY1E6uMqjApyKHfnPAmxZEhcByluQ08bnxFHmCVy57hIbPQZ
-V6Z0QeYBPTvsc+RnGg5cdREMrGzt0EDe9s/oKs+K9HSmIgJ/LQ+nDHFIXjODeKlnFzpucOgg
-iIwz/afjWukW+dlL/mEUaZtJs/vq7NjHbmsiTy5nLN396nNODNvv/OSo70nWNvA8ikq87wch
-vm0OcPDVi+KT67nRPa5wenBbg+elYQVtmyLBW1Zgxy7aFHm8KIDr3cpdbHpfuliW/PLdNFnC
-IrCs6pwoi5U922Wb16fHP9cKP05KyBiDK7hB3YPnd8lSauF7NF39FJYg7+7ZBpLuIsgIBbGx
-k/oEERF36XkTuAY1oLZH9DvY8uq2tB3kl6aeDU2UpOeaBJ5SaUwohbagWzT9LwuwWIM9JgsN
-5Ef9kS5E+19QQQ+OsybsAO0+K1P6Z/x/jF1Zc+M2En7fX6Hah63kIVW6j2zlAQRBCTEvE6Qk
-zwvL8WhmXLGtKdtTm/n3iwYvAESTfsjEQn/E2Wg0ju5eL2SnzqbIjbmCJuLAPVI/HUQsDhxA
-95MKB9B9S1qtXmUepFhwqBoh4vVKshfihqXJJvVnczFFHOCrpVp5OZDznMTnNfbA2AZuMO9O
-jSblfPhmTcL+DLKXWnzusDwmR44LJZLRdI+v4tFZBIg1Eqiy0WxeLBAGhfDzSp87bxerjVuj
-azBytd3NEYeUOmaBhKXQMUtkoBtMxKU8Xdy6DfcaUMZSkppuNSyElPYrdc7c+xbWgcUKF1Jp
-iL2mULx4ZL03irqE4xGuLkoxHGQJEnhetZ36uOKTc1/gulMIcvMOESW1tpBxFudqI1beFjy7
-aY+Kgtf758vkrx9fvshtgG87G5DbQRr5EBqqW1VkWpzkPLjTk7S/6y2Y2pAZX1H5X8DDMJMr
-RY9Ak/ROfkV6BNmre+ZJna9HyeQOMeVnFoKvg9K7y81KCrltbIt7tghtcTahK07jH6i43MDz
-fVyy2OdmtA6rRMM+KgDnEgHLMuaXeoB0mQ6xWOvdpGH5JEmgTEMVJNsaKlF/wL7dv36uzAH7
-z0pkRuDpHU4e3LwDNZ75yvUwSo8ELRDvc5KM7Z9g2DwphM750m08CP1CpAC2Gl67icPyjBjo
-c3IHiVYX3z8AVcDp+sYp0J3TQPWmd//w99Pj12/vk/9MYPtbe6ZxnPaALl653vDZkTvN1jxC
-b0K+P+QGsOOXjl6HxnWR0lP0hxFWtiHc0iQqTyFiKNbhiA8+v7DYsAYKeVXYoeABzwJxH2Gh
-3K9JNVC6XZkuV/u9AsGgnW0Pj6v5dBO633V1MM9fzxCvEVrLM3qmsduuWSvR7uealUYYpmmU
-eq9kCYGaBGcKja5Ory9v1yc5wWuNo5rofRdI1QGm/CGSUJeDGYmYVwQBXJB+gFjHxi3TTArC
-zIgG7UJnSbWouKecM/taGubkhsH5n/sR3XCjm/pLXU6TqfCrVFvhEqxznYTjHu5ZXRQaFvl8
-vtQ9UfVOdpvPRFLE2vWcsH6o2BqZmZTSqJdQslBbIJtEzuhutTXT/YiweA9qfy+fw8lnqZmU
-kVPEfW4m/in51swUUmonQZWLoHbggJoIAWe3jtnYVLRqpfXZIVPJTn5QLTEcMSG5Nw7UktAH
-J1lWH2UJLQNhJh7BsbhgihgIu1Idlce52yxc1Q31tqUqxW4LMEZ2aZ7q674Rs0qGeYlmKrcj
-CRLRNQZn7Slx7w+qCmWchGUxW6+wEEeQR1pYbmuUWDn4vyl7E/Wj5vc2zeAvCOAuFSU4ppfr
-6yf2x3qp00kWmUMh7AErhNdLKJVhrMmhbTK4f3X5bzPaBeiCzLCASjWCEk7cTqcaxFrqq0jQ
-0xpx4AGhOMSj/hzzCdlkkSZI+KOOfhhG5EnMYE4Mgo5EcoRrAVXjopvf1wmNlmEJGKurAUgi
-iK2Cs2oVrEQiB/opUoFr+FyUpwMXeTgkJpiQyrbaRkh8j3vFldaGs3D7G7xeLm8P93K9oGnR
-vner7x47aO2NzfHJ74YhVd1iOEUnIsMb1IAEQQLY6hkVcklH4p3pWSFHbQYm9RHPAjqKfaRW
-UhDLDdIgDG4wofK2e4HmTfXQQJi5wbgf+Ho+m9pD6ih0QAxLepTflF5OjwKfMwATSQA3lSE7
-srDPQnn0+PB6vTxdHt5fry+wzMukxXwCPFyZkeoqftPej3+lOQ6ok1Qf5Zd/7t8m/OXt/fUH
-mBO+QR9qO+6m8jmXG2iIm2Qv+DVRDBGLjljdhfcK9SV7aNX6vV+BxkMFEWm/jIYY0Yrc6/vW
-vwU1mRXplb+uEIJq8r/H928f7qGmCHZ0dELlhINwujhXp84uoVaBjglXjsZ7R9OGhf4HxrBf
-QB16bIzfa1i1+IHfDJJjjmOtT8aFwTkP0j1Bq/DpXOa+6zqwnYtwElov682rDtVVjhOHdrGg
-u83AWX8L80kx2wys4B1oPcOjsNpANKC4BkSN3Q3QbLaV+vXHcKPVu1nOsJC0GgQL49lBlogJ
-nQZZYZGjOwjmAE6HYCGzW8hqgRzoapDVWHVDulrPhyvj+fPtKCYvBXXfgDYQKharELGnMzHD
-RVWY4S6uMEi4SgMz3INULOfhyEAozGp8hlS4j+T1gTphccE1DBa5VoNg4cd1yMcathmf+AA7
-n8enqsQtZlhseg2DBeLWIUgY3BYC7m5GSjrPp5h5cLcUbuYjE9q3AsdZZDhyqhdKx2rOxGY2
-wvASgkYmbyHbBfKuQYfMx0eoho0N+D6P1iPLC4/jpMxuFtOReRiR8247RWJNGaDFauM+DTVQ
-q5G1QIGQe1gDs8NCURt1GpmtVWnDfBiJaLubrcsT9Ruv8YN4qX7O1tvh3gfMZrsbHW+F2+Gh
-gWzcGGMAbrv+WH6A+0B+i+kaDzpk4z6Sn+w8POJSD/iBHFez+T8fyVDhxvKTU2aBhRNvIPlq
-PTLdAYIY2rebuH0ONo/DvFm/lyDyXx7wEdVZ8Cyode2ejmpDQb12CUQhojkWakfHrKd4CDMb
-NzY0ErdcjYgEkRPMja4OGTgvrCByf4lExmt3mUTMVyPKhMIgLip1zGZEDZAYNHiejtkgPoYM
-DPImQsNIxXdYOCuvfYj/lRYTkN12M4LpXNmNjr6OHeOoFruYIVe7feT8vPx4HRTaqgWKPbsm
-UE326XmGvLRqkWJB5vMNfgBbgSrlbhw0sjVSbgNHVJ1TtF0h75p0yMiGRUHGC0Jc7GgQLJy1
-DhkR1crT4Xgui2HhA5ARFRAgI8JHQUa7bkxkKMiwxADIdlg4Sch2Oj4vatjYtISwg4gDLQMy
-yhS7EVVNQUZbtkN8UBmQUb7ZIS6eGsgnda61W6fIs0tdBd0gDqdaTL5eIJ6UDMiIlp6vsWBt
-DSQGU74RuQSY7YgYUJiRhleYkQUnJWu5I7Vdzje35cZ5nCGIK72Ikswvi5yHwjoo7ci2jK70
-o31G0oOi6wVXF4jc7z9CkIl6RvJn6amzzDupU2Qs3uduj9YSmBH3QVsBBfWXGci6eyJTneh/
-vzyACSJ80DMpAzxZ5owe7AoSSos8KShaM4nICtetmqKllb8W8wNI5G4tVNEFEqFBEQu4bUWK
-81h4w+NeH7M8ScvAfRCsAHzvsdhCaHR6YFmmec6u0rj8dWeXRZNMkIG20aTAQskCOSKUhKH7
-QhzoaZb4/Ibd4f1D1c0wTpa9l3OIi+pNrSmso+7SjKngScbHkgv3SZxx4dY2AMLASA7vaRYS
-92OYisho4jYsqMgJUl32SXaJXdk9izyOxFJX9CDDy9qHScaTATY8JCEW2kN9n6+3C3yYZXWH
-59TNHd7FBYVH2u4lF+gnEubIqwkgHzk7QVQc18ZOVf0uqywSrf7k4G0ezZXnOO1P4mU4R+Yn
-Hh8GuOKGxYJL0Yi8ogJISNPkhGxrFR158lfR4uSIMRZ0tEsoNunwA/GV1kKQ2QD0rIi8kKXE
-nw+h9rvldIh+OjB44zsw6yIi+SWS7IyPUSSZJhvo4ojcBSEROMdmrJIOSE9GnGaJSILclKJR
-Esvlrz95oyLM+fAUiRHbgYqWcfcdOVCTzJq6uoAlcS6lvZz+xlKtJQ91dMpi2c2xy7K4Iuck
-vIvPdmtTuZRgpqOKLqWmMtWiuEBSLxLdG7xqeGQGA/M3Sygl7uczQJZrGt5ntUWbObLCWhyV
-9dhA16kIDhCaCEfkDAkJVFPlLJAKjzPIo0JUsZ/szs8QA1UlCzPGYiIG1lMRkSz/M7lDo0op
-EceP7qs3RUxSgQWvUPSDlH54u/NDVog8IgK7EldLBuiPZSrcu6tq0Rhaek+cR8mAhD9zyfco
-9RPLksH++XTnSyVyQPoIuQYkWXko3BY9Si8MU7yAiMr91dxtq+TSi5XCDEGDnGp89eqtp8qn
-HI9cKOmWXwKjCO8qU9PX6/v1AVx39J8OqKg7Hp6/Q7jXzRspwoYZz3NgY2/2QFsovHs42A3W
-bOiNz9oXlHoBWu2TA+UlGHTI3VZlQGJG5OyFyFVvF1VwLX0QIDWEt9OY8FePIsOUl95ACDj5
-Z9yLkazRSQbrPhHlgfpGjeyqkDiWawFlZcxOtSWDI9KL4bYbRqEXR1fFc2IBkUtiCQ/huTBC
-Oisy+mzYgCU53i+SBu8OcxZyxAyrQXmheuMvcnQ+1gMh1EjsWQYJ9utMvaMgwHMhF4AYXjZC
-jKL5vwzejps9rOLS69s7vIBv3KP47tlC15vzdAqDhFbxDGw3BGBjgORczGfTQzoI4iKdzdbn
-QUwgOxae/g1h5PK+WM5nNsaeR8CWz67U5kWYzactvQlLhNZAhNtZr3wDkW3Bvc5uMwiCslRs
-osjSSNoxriyMJvTp/s3pElhxje2mV6Opl+zIegj0k49/m0e0V6dYLn6/T6rYhIlUc9nk8+U7
-+MmZwBNaKvjkrx/vEy+8gXleCn/yfP+zeWh7//R2nfx1mbxcLp8vn/8rM70YOR0uT9/Vs7ln
-CK/9+PLlak79GmePWp088CpfR8GZyVAoyjY3kpOA4LO6wQVSMcIUBh3HhY/ZhOow+TeifOoo
-4fvZFI97q8MQ5/467M8iSsUhGS+WhKRAPJ3osCRm+IZFB96A65RRVH0EU8oBoePjwWLZid56
-jlweVNYA/dUH5hp/vv/6+PIVi48Y+XQo0KDa1w1wFk97vp1MMe3Hplaq562EhZ9Rm/crAmYu
-3CL2xN8zbNFRCL8godz6hK3rh/Tp/l3OxefJ/unHZRLe/7y8mrOx+kzZZjauV5XAkiP6fP18
-0XtPQaUeITkjdJkfK2HDS5qmfDkDE4Peqn6iePxHScQDNIKbCO4znMtgTdqYp/wtQ6h3vIjQ
-rYxqnJ+ZmgzyPYs4cvNSU+d4TGTiFzkSxq+q2lEwXBKGbJ/k6CmRQgwsWc1spHcbusYHhd7B
-KQEuFrmPn8IoNSD3OX5GqjoBzs6HvEgpQBkFvAzknhAcou3x8qQuKf933OOMEuJ9kmdEardH
-7mUE82yi2pycSJbxxGUYprKRmoA9wdlBsLzSEQJ+hpCUA5wM1qaI+xMA3Mmvca5hn1S/n3Gm
-lEou/H++mg0EGz8IqX3LPxYr5AZTBy2xmG6qwyE6sxxc5SHelHDtVEu//Xx7fJB7ViWg+rc5
-SvAcNAcEcRWctzxTxo96Z5NosVidAYwG71WSFMTYcWjXBAJlMRAcHbZd6P4UaY/enEqW23xS
-pfZ1IAQC/g6YMLeRJt1NhJbD5cfJ3JjU1GYNjouorMx5hcR19WwsEWll4+se0cvr4/dvl1fZ
-B93WxhaeATDYwFrcbCIKJP6qqnM2SG70d1yzPpM5EiBOLY/HweyBvMAliohT+FxtRPA8oIL4
-dPV8OlgFqaXN55uBeOvVoA6EhO32YsNdXZmc9zZCOt87R/1fhjTwpJqdJkJuzM1dXQAbIDtJ
-rlChZyY27GenMlipet87oEGZeOxsp8X9wpmjPoUnWG6nZrFcwOzECPw9dHsdg1Zv5+zZX/0Z
-uNXa/f3nr5f3yffXCwSLu75dPoNP1S+PX3+83jsOWOCMsneAY0en1deN/GDWUibUDbO0OCAw
-5rIhUuzW78mKAwNhVycoYgoXc06XohVTYl2470bW0t6lvjGoJu+1zjfUdlrqjGlOIWDNEnE7
-WQHU/c4AvXe0aFB9b+++dKvIJ+ZR5KZAyThycrTZmJjjzNNlmd+liCGXKgy8OogTz82NYbNF
-iGi34KSnTLBbqQQ7EuvANz+1D0svTHSfBW1SfQr4x7ariQoVXRDEPhq+dOoaVRjqKhL1B47d
-IB/8OAKowj9Q16tI9WV9OvXT+gR5NaY+cWt9QDoW6FIJ5EIc3GNWEf0DX8uRw7+nt1ZDDOpB
-uI3qgRYhHhYiFomcU9cdG5wfw3Gq5pgDDleVixx97nWpJX5Xq0BeBkpzDDuawwm8Jsd71n/D
-BNfmjn2cyoHEi+l8tXNvHKoywKAdeVjZAZDHaFVTsukUPMO7lWUFYeFsNZ8usAfwCgNBthAj
-oo7uVggaOmbr19J3yKtyBUgp2Vkl6GTbaU+VabrYLQcaDnTkeXlNX63sC68e3b1VaenITr2m
-b1eIut/QMYuZrk9WI522XgwAfEJn86WYIg8sq0xO7mVAETO2B+fbyNa1YlF/vkUsYatW5osV
-Eh24uv+gZL1C/ClVgJCudtgr9JY7V//gdC4WsyBczHYDedQY6wG4NccrQ/Onx5e/f5n9qlbB
-bO9N6qczP17AIbbjqnTyS3dH/WtPSniwmx0Ygig8Z8iZjaIXAjmvUVSIOwdu7Qa6l8v+K+qr
-Qmfb89fHr1+NzbN+cWWL3OY+q/FgZJVWUxMpWLGDZQMotUX3YmCgotx132NADkyu7R4jOVqn
-1i/XeHkU8Z1tgIhURY88d59BGUjkKtXsiPp6s7vpe/z+DlFS3ibv1QB1TBhf3r88Pr2DV3al
-kk1+gXF8v3+VGlufA9sRy0gswMnjB9pP5OAOLGwNLiXWIzo3TG44sZAEVnbwEth98md2vb0t
-6U5zKJVLOvfABbh7ZLj8N+YeiV0sxaRILaVAhJtkQbNC80ukSL1r+CynsEM1Eyq1xEg60DwR
-d+7Exsffv1/fH6b/1gGSmCcHan5VJ1pfte0DCHYaBLT4KPWs5rBfJkweGw+1mgQAoNzzBFBY
-YNVapYMbLUey5SZMTy8LzkrbYZhZ6+zoVsLhNQXU1KGJNd8Rz1t9Ysjrng7Ekk/u27MOct5O
-3etIA/FF30ekA4LYTmiQNXIG00AOd9F2hRy1N5iInNc7RPVrMJlY0cVIWVyEs/nUrYmaGMRY
-wQK57zAa0FlC3DpLg0hpgNpHGZjpSAcp0OIjoI9gtiOjsZzliDlWA/FuF3P3itdyBqg77OjW
-GRqQkAr7DnGq2WCCCHVS0LKG5HbEQkWDrBAjbT0XxAF0A2GR3CwNT5rsKCHDHJgdt1vkdqHt
-GF9Ozm1PhMAeekSEwOAhmqwBGZ3XC0RfNiDD3QWQ5XBdFGRcDO2GR1fJD8QGu+31HeaCp2OA
-5TiPrHvxClxyajnMAZW8G+5fOVPnsxHZEdF0szPGQF+yNI9GPzv+uX/5/JGlyBeLObKZNmv4
-gemwM2+4zQv6kXrQCIlro7HHHLGZ1iA9B/cOCGKNqa9121UZkIgjhj0acoMcNHSQ+RK5PGxl
-QH4z2+RkhJOW23yk9QBBPPToEMQmsYWIaD0faZR3u8R22S0/pCs6Mg2BY4an2Ke7+DZKeyx1
-ffkNtjxjjF0dTyKTBhAQq0jff7WsSHxwjDq8WuXyr9HFaLNwuSqVm3FxeXmTu3ezCfXXfkTq
-x6dGzLI2ta8vV0FQItL3dw9+8ypHmFoUFZlWOyZXJ4kxC4VJTQK9ZHiIlhHJGHsfCwhwKsmZ
-w6fu7ZVy4Ih9DMRbjAg3GSG8wiBIsI/YS4O6bCdduRA/QAZltI/cm8kOg7UObZmQewvru5rS
-PhTq7mFqF4ht1Br5HX16BH97Ov8ScRfTMj+jTZLpzn2HTPeKoP8cWeUHF+mGy8CTSncWUNQ5
-IYVLUhklR1ZHTRiCNYH7kFgPFejAiG0J0EQlMVuk9VFxHnpSUyDbbeD6xq+xY8iqUGTdVKhD
-k0UsLvSuq5OPfuoen5rugYthxESihihn1UOAKMJaIgtXFXM1Ax7a9WutUmP7Ds2g4k1SZDAI
-E/V7f0eQjvp5/MPr9e365X1y+Pn98vrbcfL1x+Xt3eV7dAzaFb/P2B32lkXkZG+Flei+S0I/
-4Mi9ShT4qkUlchlID1kSsfaNtbv0iIUhiZOz8yl2k1F4o2I/JslNkWpO8YmcQpIG3qhTkmkC
-ujr9BFrnNF/5/qVP14e/q9AO/7u+/q1LDcjoIHz3Xq3LULklWCIn8BpM8BXmDs5CIf4LTBRy
-I2SCkNsTE4S4ydBA1KdsgwSltGA7ZBuow1RE2RLxFA2I2yTjt65h7zKxAlxolCMdrUHAz8x3
-SII2tICTNbqsDie5G4jhnrk3WauPxPXH68Olr4eoM/NKFzBS0izxdHWidlvbc5+vXhrDw9Yy
-5fl66bmr76qClgfhoZe4nBVw2UOFdsJZxa69vEAU74kiTtL7rxd1KD0RDnso9b2Usek+J17I
-yjAlbpWvhyRZdNy4V6yxCti5KlUucMsWiEUpIBt72LLL8/X98v31+tAftIyB3Z953qleP+sU
-LeSwI6+qjO/Pb1+d6nUqFcF6fXJ2gfmlJqghyMTJck5f7VYTOvlF/Hx7vzxPEsnK3x6//zp5
-g6urL7Iru3cLla/l56frV5kMnrr16jXOjR3k6juZ4eUz+lmfWgXLeb3ef364Pve+axtFSy+j
-kcjd7O38vrJQOaf/p+zamtvGlfT7/ArVPO1WJRtRd21VHiCSkhjxZoKSZb+oFFuxVWNLPpJc
-Jzm/frsBkiLIbtpbNZlE+Jq4o7sBNLq/Xf2L3xxPwESYQm6Wnm1najyrQid2HJBV+KggfXvz
-P8Ga65sapsCb9+0LNKzeM9lXJG52nGlQpD5e71/2h99cR2ROolfVWLBZkdTHxaPRT82xa1Ex
-RoheTROXYu3uOrVVBGhVOff35QE4cPYEijCz0eQb4dgqRgk5hBnNVAoQz7SMy0iq13NVHC0d
-u8xzmowkTsO+xbw8yUiSdDQedmltMCORQb/PnAJkFLklMtGFAXCj5K4sWjbCDZRzQoNrOU5i
-p/6VzitH2fBQzVYGvAbBJo/RY7zwLAFoQhOFchmQwU+QcDH1porcLCy70QN5nBVroPqfU0l+
-Y9YwL17iA9GCpFMmkbe1aFpZck6e3byKh4fdy+50fN1dKhNPwCbJGnSYc5gcpc+DhLP2u70+
-6yssxzlzL4UPeW+ROc7lPwmExSwEgDrMyRFAPeZ+aRLYMOfVlSsTJFt0mAId0eXCKAYicbgI
-6Aqje1dhzOmRGuVUV3TTFWuPVg8Wa+nQmS/W9o+F1WYcKAd2t8PcswSBGPb6/JjnOG/iJ4ac
-KzLARj3GAAqwcZ/ZSGiMacrahtGmWR1ggw7DBqUtWAs0mS5GXYtxcQbYRDCB6CvLUC/NwxbU
-kdbl2HrcP+0v2xc0gQDxUF+ow/bYSujaAmgx/tQQYkzrAeoM6ImJ0JjjCQDxGY7pQ2qAeoxz
-QoAG7cFGhRxS4Yh9n1l+BiXPNYZDvlXDwWjDtmvILG6E+N4YMndsAI1G9JUIQGPmPgchxoU6
-QoxJmG1bMFstVCBoaRuuXD+K81h3jH3c3Bv1mOuB+ZrzuemFogNSmCvZT+1Ob8hYFSLG2foh
-NqbHUWN014JuY3EXs4hZFmdCrEB69iLGXbnjccmA6ZvAjrsdxvoCsR5je4DYmMkzFMshd7Ui
-HaVCBpHTYAWJepRjt0cWPWA5zNz45XBPthlbVE1hdawu3ZkZ3h5Ji2lGnsNIthlxkFEMLDlg
-LDMUBZRgUXeiGhyO+20zZDKmjrrMKVMGDxiP+FmBynyVI0h9u9dnDs1W04HVZpdRtq9Z1/Bc
-tDSJkbKgmZ6Oh0vLPTwa0gUVisQFoVcNJWtmX/o422m/vcDuqCaqRl2GA88Du1c9USu25UVe
-OrPn3at6QKgvwswSUl+AXjzPnAgxypw7YPi5bcsRx83EDfu2PQ7ksM15s0WPdgnGmpazmAtv
-EUsGWd2Pqow9P/yq9oK+H9w/5veDMHLZAZ8R15Ak0EcpMs6h0ndlxVLGWb/WfMHkO+VaFvp2
-KZt5MAm3er5wqky/zdzVAdRltEOEWPnc7zHMCKEepw0AxEnafn/coeeVwhg/kIgxV/kADTq9
-pEFt6Q9Gg0Z4PGjYavWHjCarIE4p6w8HbL8N+TEaDttsBzRoSl1m8QDDGDE7UCeOUnwWQIOy
-x/mtBxXB4vYZqD4MGPEWDDpdDhLrvsUqFv0RMwNBlveGzC0CYmNGBwBxAe1ujzrscwhN0e8z
-2pWGh9y+NIMHzEZGi6Naz+fXrk1LXZu4Att5fH99zSMZ17iMdsRMxIrNPY5VM/hLh4Lf/et9
-d3j405J/Dpfn3Xn/H3yx4DjyW+z7RSBMdWWgTtq3l+Ppm7M/X077n+94SWxyonHNJtO4dWCy
-0GZLz9vz7qsPZLvHln88vrX+C6rw361fRRXPpSqaxU57XEAKhVVHNKvT/7fEa6T3xk4zmPfT
-n9Px/HB820HRdbmrzoPaLBtGlLPQzFGOGauTJpb3rxPZY3psEsws5rvpWsgOKPzcYUW87Lb7
-fAyb7JhldpdEDacsXjrr1hwiVdZJvVe1HN9tXy7PJQ0nTz1dWsn2smsFx8P+Uh2EqdvrcZxU
-YTRLxFPfdsPuB0Ha2zpZoRJYboNuwfvr/nF/+UPOoaDTtWiG5sxThlnNccPAbKTmqaz5gSyg
-JYNIb8gdCyFUPTvM21ptl2Z1wCMu+Ibqdbc9v592GB+z9Q79RKwd7ugxQ9n5r1D2sNOzGiIx
-ZTCnWUzXkRxBZ7DfFwRcDotgzWgRXrjCRTZoXGQlGq6EbCH6Mhg4klaUGwZBPwzbPz1faJ72
-w9lITkoKZ4nnCcyw+F3Ovg8gDPZCY7Ejx9xLZgVy0S4mc4uLJYIQt90Juh2LsWZGjNF3AOoy
-h1QADZjVg9CAOaidxR0Rc2FINQh91m4z4V3VngRfPvqdcZuLGmoQMdb3CrQYneyHFFaHUYqS
-OGmzT3DThH09u4Jp0mMcPQPnBZbNs2UE6V1KGAnW7j6KU5hhdHViaKB6YM2xRsviwoEC1GO4
-ZrrodrnYIOlmufIk0+GpLbs9xvxHYcxLn3yoUxhN7q2Lwpg3LogNmbwB6/WZ8EBL2bdGHdqX
-xcoOfXYwNcgcsK7cwB+0ufMBBTKGTSt/wF2D3cM06NQu9zKOaXJEbZq3fTrsLvp+guSVCzaE
-joKYHeiiPeZOM7Mrt0DMwgYBdqVh75XErMs9xwgCu9vvMLFtMtGiMud1vHyuzQO7P+o1hC6r
-0LHxkTK6JIA10xBE0SSr5ZabSVLDpgf0/eWyf3vZ/a7sQLDVXIB745tMwXl42R+IaVHIXgJX
-BPlT7NbX1vmyPTzCVvGwu5oiYTXmibYZu15ZG7VUjmqSZZzmBOwopvgU2o+imKIsjza+ADWK
-y5pBVzbTHg6gA6sHM9vD0/sL/PvteN7jZpDqkM+QG7uut+MF9JU9eUHf51xbOdLiHo/hgUSv
-4Ryjx6gDGmMOOey4x4ldxCyGXyLG8VL1HadDpbHPbkmYjiM7FQbTVMX9IB5bNS7N5Ky/1jv+
-0+6MuiXJGidxe9AOaCvjSRCzhgP+HFg7LU2cWHIidR4zI+/ZscXv8mLfshou7zXM8tjYBx7L
-nGTJPnsJBhATRi9jvsoPJz0F+txOdx532gO6GfexAJ12QI5ubQivm4MDesylRlZ2x1WhXRah
-xnfZPDn+3r/iPhE5wOMeuckDOWuUJsqqjZ4jEvSh725WzFKeWJz2HnMW78nUGQ573AViMuVi
-8a2hnox6Bx/RbGHl97t+mwg6XIxGY0dlpqzn4wv6MvmEiURHMq9DEbK4Q5oPStCCbPf6hieB
-zOrHI+Uxo2cCT/WCjXIiG9nRMq5eseVk/nrcHjB6sAa5K9kANlXMLShC9NpLQQ4yE09BjIaL
-B0XWqE+vLqqXrl7PgrILtKDwxHCdsrdBg68xRNGKdZrSD8kRVw6GRtSNL6Kp59rqOZ+ZNk+0
-8b1WdZKb1sPz/q0eIQQQtFQ3n71tph4Vcys3eBegvdh1O3g73mTAVYWqllviEbGwF9XwFvli
-dtGpLvxIk8j3TeN6jWWmx9ntLs0RFKF+Rzej3a9pEoyRfCdtwu1OPL9ryfefZ2U9e+2zLFxh
-5rj2Kg7tYLOIQqF88CJID+j8Ln9nuUmjJOEcvZTpnM9kJj3QKOmjGSTDSeYF61Fww/rPRbLA
-W0N/BV7sNZcar8WmMwoD5Sr4YyrsEr4FMMHj5lqJOJ5HobsJnGAwYBg2Eka260cp+pB0yOhK
-SKPta5dmGBQE9FxBr4Y0WzdmQ+lT9NUNLWBUQbpVCeHjXhweT8f9o8H8QyeJmOA1OXlJsxLU
-g5Hck0z5Z8Gm9MH2bety2j4oiV9/MCIZ1qS7qxoIND9Trmd5/XIaM368p5J6thwHmyg2WJT0
-IvrUXPpewD2YU3su+Hfo2vSSszEgGrMVC2o+/HPF2rR+19d5+xeQFGqeGPJ0JVD5AcUHdmqx
-SCS5mQPMUw+0/5Ss7jsbU6hkSZu1SFMqE8C79U+6quBIeuuNsGmumVNJ114mFd9MV5Ke4X86
-S7jmXCm2x2VoEnHekH5MnE45R/zNEkNJwcQW9tw1hYYHnQ0Y8+LoRw3KgLUCyowCU26WUUpP
-4PWHHYwUjHdThKLQ94DPKadWLNGtYLxvIcjrGrOp7HA9ENkN4CRt6LvQ8xs+nXa4rq1MmGIm
-4LO26szVaZnT2Cgms/PwKRvgsEMouZoFBoomg3dVvMRyNiA+k7sYHRYzTGmzcpm1MJX6LXhJ
-G6omeDpBeQg0ChYNz8hrMyyXB8s0msrepvzWQqdVpukUimPHGprji7sN4Y/a3j48m5FVplKt
-JpL3ZdSa3PmaRME3Z+Uo9kdwP09GYxDeXK2WzrQG5eXQeetjkUh+m4r0m7vG/4MyZZZedHZq
-sKxAwndGyqpKgr9zb38YmDtGX9W97pDCvQjDV6AD8b/35+No1B9/tf4uD/WVdJlO6V2lagC7
-yFJiAeYSqKkHtB573r0/Hlu/qJ7Bd5FGu1UCKsTl10cqEXsAY5x5sKAqEOwhfAd02Wvywk3C
-crYVD3WwhTMXuUqgeadBoSReaSBd/ZzdBbFafkiOf10XRa7B1fuhyMeT2lcEuu1zA6NqUYJe
-h3kOKJwGbMpj80YI41CyDLmhNhMeqn9VyD/Nwq9MJU/R4uR7u5Z+CxzRLd6glSRpjqOHC+Sb
-DIfThHIZBCJpoqCUnAoJunfHsza0U40UH+fbeG94gdRp6qi+FE5j4tXYaZ4GY73CWDKOLpQo
-pqD076N6npXyr8kydQx3/AoQWLH8qXdTWZVFUaTnSlc9a8x9mc5h9+nZoir68lWUiKC8ZvVv
-LYUrHiTlzVLIOTPtVmtu3gVeCMvd7OooaFgWMY/dhOteIzrg0aSp0BgDFdCnW8AsVqw8a1iH
-ScT1SOimt1GyqLCiHJyaMgt/rzqV393yuOgUVhlVcI+oRhLBLjqsluV4UvkBWDpx3cUqEJTC
-OeKvel2cDyrj0LWZJeoRFTCTqBTIVE3Dyk/43qxyFnv1KoaWYRLbxtRVKQ1qs+3Gc24kbY8D
-IkfwMoEb/LI/KviRKw2GVlGCc7VkA2qJ0dNlbMjcUphEzCW3QTRijHQqRPRBT4XoU8V9ouKc
-6/YKEfPoyCT6TMUZi4wKEeOyyyT6TBcwD04qRIwhTZlozFiomkSfGeAxc15vEjFPEMyKM0YX
-SASbBZzwG1pXNrKxuFiSVSqLXnIbIW3PK7GuUvFWdVnlAN8HOQU/UXKKj1vPT5Gcgh/VnIJf
-RDkFP1RFN3zcGOaKxyDhm7OIvNGG1vEKmPb1jnAgbBThTDDCnMJ2fVB2PiAJU3eZ0G4mCqIk
-Ao3po8LuEs/3PyhuJtwPSRKXCVmaU3g2hmGkr7UKmnDp0WdORvd91Kh0mSwqXsVKFLizLSty
-js9ENgo9uxJOOUO8aHN7U74/Mg5S9Tuv3cP7Ca9Wr97+iowX7h1n56TV4I0TuFJd+6SJxxwC
-N55T5iApvZVfs7lIHDeE/QEe99hRfLdBb3i20FvmqyJbJaNPnkDBwqMjGS0Txi2nTGEu2iob
-jFE9d/2YPFXOjx+uXSFKV3i+DL7/jU9DHo//Pnz5s33dfnk5bh/f9ocv5+2vHeSzf/yCDuif
-sO+//Hz79bcejsXudNi9tJ63p8edshi4Dou21Nq9Hk9/WvvDHq2Y9//ZZm9V8gEPPYxKiDeB
-YRQaR7YzG6PrLWdeCATJ0k59Vyz4MBs0+eQucWmz2wZ6HDHyG1Vb9GeDI1qKBNFIjPGnWdrc
-No3upRzmO7l4ulhdFdct212cRoU3vdOft8ux9YDhu4+n1vPu5a0cNVgTQ/NmQnlUppI79XRX
-OPVUubC92IjbVwHqn8xhB0km1kmTcFbLGNJIwkKJrn4g2Jos4phMrGeBpwB1UmClYka0PUs3
-bjMyqDqxyQ+LDZhyLUrkEi596uSshFJlq79oAZK3Ux0VMO4iNQnpmTV+//myf/j6z+5P60HN
-vafT9u35j+G/MRsoSV+oZLBDCZ0Mc2271tOu7cwNz4N5cuI0FwTcceV2+n1rXGuMeL88o+3c
-w/aye2y5B9UitH389/7y3BLn8/FhryBne9kSTbRtWh5m8KwZtucC/uu048i/Y+3jiyU589Bp
-eBONdG88OtZL0VdzAUxsVeuHiXpDiDHEz1QrJ43TxJ7S11o5zBz0FTAleIsKT4gh9xPa9iOD
-o+b6xB80Z814+M15hnt3mzCWAflYoVPZdNk49ni2WR+H+fb8XAxDpZ9AW6utiblOrDXhgyau
-Ki6gc2PU3flSLzexux2bZDE29x4nq8V6zsUBzCgmvli4ncbR0iQNUwSqkVptR3lbq62/jyrw
-mZUXOIwv1xxu/tqDNafMbxpHJAmcDxY3UjAHI1eKTtXcrUbRZV6I5SxkLqgt9RWFEoiOBqDP
-vES6UjAvtDI8aIZT0LkmEXOal4mrWcI5kMoobuNKLTWzU2GQ6ytOuJJoKqRumOixOUW4nDCv
-M3KKxG6cUxM/umV9PefzXqC/Zq9Z8gmZNs5OJGicMRWTqyo8VX83ssu5uBeNiogUvhTNszIX
-lM3Cz20uxk1izjCvmIONo5K6jZ2d3kbVMcv9Xb+hLbexSyq6d+qLcnDtXMLdR8TUGzGhLIqP
-GqsP8JwyAc1gdV2V2ZYm28Pj8bUVvr/+3J1y1wIVjwTFZJdoJpqElOVO3spkMtM+3KvtVIgS
-YnX5ojFBnk2USGp5/vAwlJ2LhqbxHdGLqJZvYNtTy5slzPc3nyJOGGv2Kh3usfiWYd0wXl51
-n/ey/3nawr7ydHy/7A+EmuB7E4ZxIUJIU4pMr7cPqUi9uk6XC1nYEHj37vcxmdlnJPG1arTO
-XKdmBdb8tr5O8Vn2L7UVOKtwpOf900FbiD887x7+gV16+eXUZ8izJxu1IStqgwbTHrl0Jh5I
-PIztULrFzo2UQRiGdny3mSZRkNsgESS+GzJo6KLRiueb+80ocTyKQSTqMln49Xxi26saNoJo
-m2OpoK/Ga3uu7/ASd1reUNuwb4JFWl65tjUwKSidzt546XJD3ZorXdTkIZBQhOzgvkDbUtud
-3I2ITzXCcVRFIpJbwQSA1RQT5oQWUOY+yeY1A3tINAMmeaagmz01Imi1Pm4ECRKhEwXNHYXW
-DciJfMMaR6XWpBeIrcJyw0x13CL9ekJ53yPTURIR2ajkEn0BrO8x+fq9/r1Zjwa1NGXXHddp
-PTHo1RJFElBp6XwZTGqAjGHm11In9o/y1MpSmZ6+tm0zu/dKa6oETADokIh/r6Lx1IH1PUMf
-Mem9+kIvH3hnEMwlXPtlM3SdhCYEG4MnYLpTrl0IupoKzgRk6rjbrTCQ7AttkYRzYVKL+gRV
-9kWC4FxJeyIH6abLWAeBiiWBg0KXONFtWCfBhDAK87zRcW9soolbS7JL4ZB2v7bvLxd8nHXZ
-P70f38+tV30gvD3tti10a/S/JdENH6No3AQYUFp+twY1ROIWUqNlVlWGYzfBuy4xYziSkZVH
-n3CbROTTAyQRvjcLA+z00fVb7AJUbDgzbjnz9Twq9dpNWaj40cS4LYDfTYwp9E0LqWKuqhjC
-aj1fT+6TG9QwqINUYGRTpzR7phGM99USpnRxE5InVYp+9HtUyWH0uyzRJD4piUqNlSAa9AQq
-XfskoAqQLS4946zoEuaNTa6kqNS30/5w+Ue/V3zdnZ+o67UYikwXKtwJOR8y3EZPx+RZdhTK
-SBlhz3zQVvziYH7IUtwsPTf93ivMxYDn4F1+LYfetRYTtFzKquK4XKAs5y4UGDyanX93wSQC
-qb5xkwQoy+wEv9jAH9C3JpF0y9eVbC8We7v9y+7rZf+aqX1nRfqg009Un+vSULcnKumG6jIg
-WGKIqrlrL0rTKoFKq3cC3612p2dOnHgjJL4AYkI7JbDZ0OFeJH0qOQcC9ODvhcCOmbsyXXHp
-2qgOonVtIFKb2p1VSVSl8RmEYbSos5tGwLU2t3hTF1Ph36+RgT7X0X+VQ+dkC8PZ/Xx/esJb
-Nu9wvpzeX6th6gIx85SBdEJFyMgqKssCbeVqMbKYOQbTwt/0DflEVm/iK2F2Gitr1gUNsV2/
-OoHR3jkXQNn1Y5GZuemA9eauU3QEy9x06gyRUHFsmjdgNiA9mX2xguPIk1HIPfDWpUSTH67N
-nLlLfznJyeiaKgpUIdjr+6zLQFPB++D6DMyRpjmvrrOXkpOtEpaqk1G5oaNXbkN+Kyq02lXx
-0TQ6qmW9vhnQkL2OR6KuqymebatSFgImZC40Szb+Klk15bv1V/U6+zqfal0098zFk+lBQN+K
-jm/nLy30Bvn+ppftfHt4qmyEQ1iBaOxNPwUycHx0t3SvBuwaRCEWLVNIvo5LNE1x/4laYJM7
-eQ1u5kuQv6mQ9NDd3gAfA27mMKfQKLQ3ujRynTf3hbaEAc72+I7srLxwjUmmbff/VOZebQFc
-zQiILKtjhz23cN2qIwaTFySu+3+VXUtv2zAM/i89bYel2O47OH7UXvyqH3V7MoI0WIeh7dCm
-w37++JAdWSbV7RaYtGLSFPmRFqWing8nQwEsV/Xh9dePJ/yGCLI9vp2Of47w43g6bDabj2cJ
-qNWLhrsipLMGWXWDZ3Gali5RyzQGiqs+KWYffRffOkfOspUKp8ctp4525zAwDRxONdSB2yK7
-fIKhjZVAzAwkhO5ZmYlxLPwfvJl3xkJtUqHSe0Qp/StMga5v4lUOejbzWVAvEP2P928jFXAr
-Ha78lv8aYQKoZexLrOaDtXOBwiP9jqOH4nh+cki9358g54JYesDynADG8kxRhrH9d+itL7xR
-R2DmHNJ6hrYU2cYo6AIswOH2UauYvPAfikjuv4YN6K/ssiBfNwQ2YS8DAyAgCEt040AOzYIs
-FkBxI+HI2Sl/+WzTyQTsOYYX42ux0XXa+mTx0KvZeW2AZCNAyCXKp1kA6AcPpJKFxJpWGd51
-VS2IR5Ai6UtGuCRI4wDDmXrVBHUq80zJSjKpQieOQ9algOCvXABqyAX1uAMDFnAdFuz5o9eA
-nADGys4dJDQ38ihWMx+NHaK2lheXnnvKTVZv1FGRDJsIMHkYTNDB7B1yw1Lxa0CGQJ/8w0De
-h6Hw6mFIBzAMH4PJ3aaFgcyptFCzes3rUXaUovvHtgzqNq2kqbYF9wiYEYImdUK7yy2n60EJ
-PghsOjI3KJ90Z3awFy/jNscofjPSeXCaLz9b3LiF2ZQWQSPDKusdU26vO582wI3YJXRoQWfa
-CSNrKboOceQWWMLO8Ky84v7lUfaKeHRp3UV9UXtPODWOSN7Doi+HrIQE2yTxpBexoDIzLorP
-+AhMcXM+twPdxDOp0DWRIC8I8z6Kv1487g8Pl/co8yf4+fK8aS/OzzEXhGd24rx8ezqYD9qb
-B6sfGs8iaXFfQ9F7L5VrF6264+sJEQQi4fD59/Fl//24WADel9oydxNYsZ5TNfCY37jsIE84
-7umWeFwb2oXVjfUtirMlSIrgsvGKy2Yz5JfiILhTbPVEc0af6Z5hnu8iZRMWTiQAckD+omwr
-QSxFVtJ58zqHev92wmGE8jzxfovrbjx0LOS3VV7hAc8qFxk75GyjfzAsYANwUOlTYVdBprbg
-aXyLE9ajGS628tp6xf8avjZUlvITww44OmXnGmKguqW8YJ3oXAj20sHKc3ltC3H0vbubkE29
-DZpGqZgSHXeOSMBX6hwNfjak06I9CtfWUhA1i+TFBGzpO880uCn0NImFx/UUarcFa7D2qT+H
-qZBWFLfltbMJuF18C+/EMRotyZoCshiPongXBo88eoHbGCQ1h6h9MWyUReWxCIh+ISAZ7+yg
-dQmK450GURmApiaOXre/6o7gDxp/AbUaGlDtGQIA
 
---zYM0uCDKw75PZbzx--
+
+Sowjanya Komatineni (9):
+  arm64: tegra: Fix sor powergate clocks and reset
+  arm64: tegra: Add reset-cells to mc
+  dt-bindings: clock: tegra: Add clk id for CSI TPG clock
+  clk: tegra: Add Tegra210 CSI TPG clock gate
+  dt-binding: tegra: Add VI and CSI bindings
+  media: tegra: Add Tegra210 Video input driver
+  MAINTAINERS: Add Tegra Video driver section
+  dt-bindings: reset: Add ID for Tegra210 VI reset
+  arm64: tegra: Add Tegra VI CSI support in device tree
+
+ .../display/tegra/nvidia,tegra20-host1x.txt        |   73 +-
+ MAINTAINERS                                        |   10 +
+ arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     |   10 +
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   52 +-
+ drivers/clk/tegra/clk-tegra210.c                   |    7 +
+ drivers/staging/media/Kconfig                      |    2 +
+ drivers/staging/media/Makefile                     |    1 +
+ drivers/staging/media/tegra/Kconfig                |   13 +
+ drivers/staging/media/tegra/Makefile               |    8 +
+ drivers/staging/media/tegra/TODO                   |   10 +
+ drivers/staging/media/tegra/common.h               |  262 +++++
+ drivers/staging/media/tegra/csi.c                  |  606 +++++++++++
+ drivers/staging/media/tegra/csi.h                  |  149 +++
+ drivers/staging/media/tegra/tegra210.c             |  709 ++++++++++++
+ drivers/staging/media/tegra/tegra210.h             |  190 ++++
+ drivers/staging/media/tegra/vi.c                   | 1132 ++++++++++++++++++++
+ drivers/staging/media/tegra/vi.h                   |   83 ++
+ drivers/staging/media/tegra/video.c                |  153 +++
+ drivers/staging/media/tegra/video.h                |   34 +
+ include/dt-bindings/clock/tegra210-car.h           |    2 +-
+ include/dt-bindings/reset/tegra210-car.h           |    1 +
+ 21 files changed, 3490 insertions(+), 17 deletions(-)
+ create mode 100644 drivers/staging/media/tegra/Kconfig
+ create mode 100644 drivers/staging/media/tegra/Makefile
+ create mode 100644 drivers/staging/media/tegra/TODO
+ create mode 100644 drivers/staging/media/tegra/common.h
+ create mode 100644 drivers/staging/media/tegra/csi.c
+ create mode 100644 drivers/staging/media/tegra/csi.h
+ create mode 100644 drivers/staging/media/tegra/tegra210.c
+ create mode 100644 drivers/staging/media/tegra/tegra210.h
+ create mode 100644 drivers/staging/media/tegra/vi.c
+ create mode 100644 drivers/staging/media/tegra/vi.h
+ create mode 100644 drivers/staging/media/tegra/video.c
+ create mode 100644 drivers/staging/media/tegra/video.h
+
+
+v4l2-compliance SHA: 81e45d957c4db39397f893100b3d2729ef39b052, 32 bits, 32-bit time_t
+
+Compliance test for tegra-video device /dev/media0:
+
+Media Driver Info:
+        Driver name      : tegra-video
+        Model            : NVIDIA Tegra Video Input Device
+        Serial           : 
+        Bus info         : platform:54080000.vi
+        Media version    : 5.6.0
+        Hardware revision: 0x00000003 (3)
+        Driver version   : 5.6.0
+
+Required ioctls:
+        test MEDIA_IOC_DEVICE_INFO: OK
+
+Allow for multiple opens:
+        test second /dev/media0 open: OK
+        test MEDIA_IOC_DEVICE_INFO: OK
+        test for unlimited opens: OK
+
+Media Controller ioctls:
+        test MEDIA_IOC_G_TOPOLOGY: OK
+        Entities: 12 Interfaces: 6 Pads: 12 Links: 12
+        test MEDIA_IOC_ENUM_ENTITIES/LINKS: OK
+        test MEDIA_IOC_SETUP_LINK: OK
+        test invalid ioctls: OK
+
+Total for tegra-video device /dev/media0: 8, Succeeded: 8, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for tegra-video device /dev/video0:
+
+Driver Info:
+        Driver name      : tegra-video
+        Card type        : 54080000.vi-output-0
+        Bus info         : platform:54080000.vi
+        Driver version   : 5.6.0
+        Capabilities     : 0x85200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x05200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : tegra-video
+        Model            : NVIDIA Tegra Video Input Device
+        Serial           : 
+        Bus info         : platform:54080000.vi
+        Media version    : 5.6.0
+        Hardware revision: 0x00000003 (3)
+        Driver version   : 5.6.0
+Interface Info:
+        ID               : 0x03000003
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000001 (1)
+        Name             : 54080000.vi-output-0
+        Function         : V4L2 I/O
+        Pad 0x01000002   : 0: Sink
+          Link 0x02000007: from remote pad 0x1000006 of entity 'tpg-0': Data, Enabled
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+        test invalid ioctls: OK
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 2 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK
+        test blocking wait: OK
+        test MMAP (no poll): OK                           
+        test MMAP (select): OK                            
+        test MMAP (epoll): OK                             
+        test USERPTR (no poll): OK (Not Supported)
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for tegra-video device /dev/video0: 53, Succeeded: 53, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for tegra-video device /dev/video1:
+
+Driver Info:
+        Driver name      : tegra-video
+        Card type        : 54080000.vi-output-1
+        Bus info         : platform:54080000.vi
+        Driver version   : 5.6.0
+        Capabilities     : 0x85200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x05200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : tegra-video
+        Model            : NVIDIA Tegra Video Input Device
+        Serial           : 
+        Bus info         : platform:54080000.vi
+        Media version    : 5.6.0
+        Hardware revision: 0x00000003 (3)
+        Driver version   : 5.6.0
+Interface Info:
+        ID               : 0x0300000b
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000009 (9)
+        Name             : 54080000.vi-output-1
+        Function         : V4L2 I/O
+        Pad 0x0100000a   : 0: Sink
+          Link 0x0200000f: from remote pad 0x100000e of entity 'tpg-1': Data, Enabled
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+        test second /dev/video1 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+        test invalid ioctls: OK
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 2 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK
+        test blocking wait: OK
+        test MMAP (no poll): OK                           
+        test MMAP (select): OK                            
+        test MMAP (epoll): OK                             
+        test USERPTR (no poll): OK (Not Supported)
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for tegra-video device /dev/video1: 53, Succeeded: 53, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for tegra-video device /dev/video2:
+
+Driver Info:
+        Driver name      : tegra-video
+        Card type        : 54080000.vi-output-2
+        Bus info         : platform:54080000.vi
+        Driver version   : 5.6.0
+        Capabilities     : 0x85200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x05200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : tegra-video
+        Model            : NVIDIA Tegra Video Input Device
+        Serial           : 
+        Bus info         : platform:54080000.vi
+        Media version    : 5.6.0
+        Hardware revision: 0x00000003 (3)
+        Driver version   : 5.6.0
+Interface Info:
+        ID               : 0x03000013
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000011 (17)
+        Name             : 54080000.vi-output-2
+        Function         : V4L2 I/O
+        Pad 0x01000012   : 0: Sink
+          Link 0x02000017: from remote pad 0x1000016 of entity 'tpg-2': Data, Enabled
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+        test second /dev/video2 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+        test invalid ioctls: OK
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 2 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK
+        test blocking wait: OK
+        test MMAP (no poll): OK                           
+        test MMAP (select): OK                            
+        test MMAP (epoll): OK                             
+        test USERPTR (no poll): OK (Not Supported)
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for tegra-video device /dev/video2: 53, Succeeded: 53, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for tegra-video device /dev/video3:
+
+Driver Info:
+        Driver name      : tegra-video
+        Card type        : 54080000.vi-output-3
+        Bus info         : platform:54080000.vi
+        Driver version   : 5.6.0
+        Capabilities     : 0x85200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x05200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : tegra-video
+        Model            : NVIDIA Tegra Video Input Device
+        Serial           : 
+        Bus info         : platform:54080000.vi
+        Media version    : 5.6.0
+        Hardware revision: 0x00000003 (3)
+        Driver version   : 5.6.0
+Interface Info:
+        ID               : 0x0300001b
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000019 (25)
+        Name             : 54080000.vi-output-3
+        Function         : V4L2 I/O
+        Pad 0x0100001a   : 0: Sink
+          Link 0x0200001f: from remote pad 0x100001e of entity 'tpg-3': Data, Enabled
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+        test second /dev/video3 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+        test invalid ioctls: OK
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 2 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK
+        test blocking wait: OK
+        test MMAP (no poll): OK                           
+        test MMAP (select): OK                            
+        test MMAP (epoll): OK                             
+        test USERPTR (no poll): OK (Not Supported)
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for tegra-video device /dev/video3: 53, Succeeded: 53, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for tegra-video device /dev/video4:
+
+Driver Info:
+        Driver name      : tegra-video
+        Card type        : 54080000.vi-output-4
+        Bus info         : platform:54080000.vi
+        Driver version   : 5.6.0
+        Capabilities     : 0x85200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x05200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : tegra-video
+        Model            : NVIDIA Tegra Video Input Device
+        Serial           : 
+        Bus info         : platform:54080000.vi
+        Media version    : 5.6.0
+        Hardware revision: 0x00000003 (3)
+        Driver version   : 5.6.0
+Interface Info:
+        ID               : 0x03000023
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000021 (33)
+        Name             : 54080000.vi-output-4
+        Function         : V4L2 I/O
+        Pad 0x01000022   : 0: Sink
+          Link 0x02000027: from remote pad 0x1000026 of entity 'tpg-4': Data, Enabled
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+        test second /dev/video4 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+        test invalid ioctls: OK
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 2 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK
+        test blocking wait: OK
+        test MMAP (no poll): OK                           
+        test MMAP (select): OK                            
+        test MMAP (epoll): OK                             
+        test USERPTR (no poll): OK (Not Supported)
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for tegra-video device /dev/video4: 53, Succeeded: 53, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for tegra-video device /dev/video5:
+
+Driver Info:
+        Driver name      : tegra-video
+        Card type        : 54080000.vi-output-5
+        Bus info         : platform:54080000.vi
+        Driver version   : 5.6.0
+        Capabilities     : 0x85200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x05200001
+                Video Capture
+                Read/Write
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : tegra-video
+        Model            : NVIDIA Tegra Video Input Device
+        Serial           : 
+        Bus info         : platform:54080000.vi
+        Media version    : 5.6.0
+        Hardware revision: 0x00000003 (3)
+        Driver version   : 5.6.0
+Interface Info:
+        ID               : 0x0300002b
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000029 (41)
+        Name             : 54080000.vi-output-5
+        Function         : V4L2 I/O
+        Pad 0x0100002a   : 0: Sink
+          Link 0x0200002f: from remote pad 0x100002e of entity 'tpg-5': Data, Enabled
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+        test second /dev/video5 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+        test invalid ioctls: OK
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 2 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+        test read/write: OK
+        test blocking wait: OK
+        test MMAP (no poll): OK                           
+        test MMAP (select): OK                            
+        test MMAP (epoll): OK                             
+        test USERPTR (no poll): OK (Not Supported)
+        test USERPTR (select): OK (Not Supported)
+        test DMABUF: Cannot test, specify --expbuf-device
+
+Total for tegra-video device /dev/video5: 53, Succeeded: 53, Failed: 0, Warnings: 0
+
+Grand Total for tegra-video device /dev/media0: 326, Succeeded: 326, Failed: 0, Warnings: 0
+
+
+-- 
+2.7.4
+
