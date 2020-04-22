@@ -2,69 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20AEA1B42E6
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2020 13:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0643A1B436F
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2020 13:43:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726576AbgDVLO1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Apr 2020 07:14:27 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:39621 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726551AbgDVLO1 (ORCPT
+        id S1726654AbgDVLnR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Apr 2020 07:43:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47968 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726426AbgDVLnP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Apr 2020 07:14:27 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id RDKgjuTEclKa1RDKjj7r59; Wed, 22 Apr 2020 13:14:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587554065; bh=Zk3Gqei1CaEYrPoMqdTr49lfvfT3LP6TseMSM0jfRUg=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=YbYaFR25L1B+G8heeUQnPUH8N6eBkTYY5j5Kj0L2BwhG2rOMqJBtqql77XiFJuIJJ
-         39MDahQusQSK/4uJVxoxM3Ft4LtTr3UdCDSYO/jbj6+C5XU8Se3AZya361lEuLEYVt
-         D0RRKjQTvDfOVURYezJrudZjB+Ti3TwtNkoVRCZKMqkvZYJziASqQ7/KYJmnsY2eUH
-         v1oAv4TUhuBF9WDoZ19BHBAUbzam8NVDMvcqwckUzG5jk+X+f2ZtiBt60Oz5kdLfxV
-         FX+spFBIRKNf0dYFenOzIKHuba8Aj4bxGv185glocTWFiqlO8pEc9xojja7jkjBt7x
-         ADZo6D5Tlsvxg==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCHv2] rkisp1: fix missing mbus.type -> mbus_type conversion
-Message-ID: <c5048206-e835-94e6-574d-95ae4b971bed@xs4all.nl>
-Date:   Wed, 22 Apr 2020 13:14:21 +0200
+        Wed, 22 Apr 2020 07:43:15 -0400
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 385DFC03C1A8
+        for <linux-media@vger.kernel.org>; Wed, 22 Apr 2020 04:43:15 -0700 (PDT)
+Received: by mail-wr1-x42f.google.com with SMTP id x18so2015219wrq.2
+        for <linux-media@vger.kernel.org>; Wed, 22 Apr 2020 04:43:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=TqyD0J3YK2+KhjhxDqI7aoojqAM5A+2KhBmH6duYJVU=;
+        b=TaKz7DRfPleQN1GNWjaSEPCEVy5b7+FSHxeK8WYqfHMVq6rRD15apHmqSrCVqwLXKC
+         jzBUz5Qunr/4jaD7/i+gHWbNunqBiL/7Sw+b1AOVt4AIOiUb6Rcg8lEqC9DK55QZ/SAh
+         mAOtycNJWvQAqoVPU8WpVznes/qEun6YMbupD67Fz61z/tr+ui+DXfHfqq4ADJZKf7ID
+         qEt35I71SsmDLHJ/kcT2QwecxYG1lx+BppvRBA4iXL5nICu/s+99MR08SjxHsrbXfrin
+         P1PR1eXW8JP+IlPWNsOEX3tBmR+54eCagakYq9zVhufz91hEwn2ebpVnKYVPS1wkkil1
+         aQrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=TqyD0J3YK2+KhjhxDqI7aoojqAM5A+2KhBmH6duYJVU=;
+        b=EDWsv1DGqhbliqknsio5A99PcLbsox8SiXnge+qNWtqwTVBox2oALU1jOflAN57t+n
+         0Z4VhhA3g3k7DItpLYTDeiJG4NbZGx/CjQoX5EZ+9m4v+silTW1YsBkGwA3yXIO5pgyt
+         C3MknY/eTHbtDiSIv9JuWN5FYJtuzvSXMf8k6LZwDUS25fZDiw3herplh0IdeAO6B3ej
+         R0WsUsVljKfKlohDwh/Ce+yQbsultm6CyC4sh3yjH8cUx0BK0fW+lc16vpywc/4m+/DK
+         Bm3tB9+cH7es4iBQpz54NM1y5yOTEmHdpEuI7RD3iibcinAJzSI1HMdZvPnZjsjKSHQb
+         1qMw==
+X-Gm-Message-State: AGi0PubWDmYmYI9v2uv7CnEnjEoapb7Qa/1AhmM+13QMSqKgxYUMy4lU
+        7jnZk5xdq9qgTb8CaNXKBCBIZA==
+X-Google-Smtp-Source: APiQypIet52zBota+cj4/KsJs9rGOHvv0n9N4JoefVszbyFekaWMhxT4hkOOia51671XqtCrN2RHIg==
+X-Received: by 2002:a5d:4748:: with SMTP id o8mr28812592wrs.422.1587555793395;
+        Wed, 22 Apr 2020 04:43:13 -0700 (PDT)
+Received: from [192.168.1.2] (212-5-158-120.ip.btc-net.bg. [212.5.158.120])
+        by smtp.googlemail.com with ESMTPSA id l19sm7557503wmj.14.2020.04.22.04.43.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Apr 2020 04:43:12 -0700 (PDT)
+Subject: Re: decode sync frames only
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <9a58a501-8348-2230-2ab5-534471d866ca@linaro.org>
+ <e0d850725c11e420dd0952bc07a857495bf37fa4.camel@ndufresne.ca>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <06340f1f-0ff1-2407-2f9f-144452b34aa8@linaro.org>
+Date:   Wed, 22 Apr 2020 14:43:10 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <e0d850725c11e420dd0952bc07a857495bf37fa4.camel@ndufresne.ca>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfF9KTLxZlLGSvZtYOYd/pqQp/WMH4zSyWKbQEk6s6EzqjbW+kC+fNuSIqVKvP03JL2vIxuDnOBLIe7XKwQua3XvDMyyGb1stCgc3zAhO2YvC2SzzFtVH
- r2Tx7dbz2Q3/I4PaHm6OIlwicBptmYU7C12uaE2ACT3XILZAINC1f2fo8Xa+jF4p9RvfBU1of4uYIR+/JEXc31tAF5euZ7GY9dDbLTt3yotSWm5/0jbs1jyP
- 1gH0N+T/xs6WPRB6k8Kpe+u6KVCyB8OpbSrzb/FXB5w=
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There was one missing sensor->mbus.type to sensor->mbus_type
-conversion which broke the build.
+Hi Nicolas,
 
-I suspect this was due to a merge conflict that was incorrectly resolved.
+On 4/21/20 1:09 AM, Nicolas Dufresne wrote:
+> Hi Stanimir,
+> 
+> Le lundi 20 avril 2020 à 17:38 +0300, Stanimir Varbanov a écrit :
+>> Hi,
+>>
+>> I need to port a decoder v4l2 control in mainline Venus driver which
+>> instructs the decoder to decode sync frames only (I frame/ IDR frame).
+>> In practice the usage of such control is to generate thumbnails for
+>> particular video.
+>>
+>> To do that I researched what we have currently in v4l2-controls.h and
+>> found something similar but for encoders:
+>>
+>> V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME
+>> "Force a key frame for the next queued buffer. Applicable to encoders.
+>> This is a general, codec-agnostic keyframe control."
+>>
+>> I think I have two options:
+>>
+>> 1. reuse V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME for the decoder and document it
+>>
+>> 2. create a new v4l control V4L2_CID_MPEG_VIDC_VIDEO_SYNC_FRAME_DECODE
+> 
+> Seems analogue to GStreamer flag GST_SEEK_FLAG_TRICKMODE_KEY_UNIT, if that helps
+> your inspiration. It's used to speed up fast-forward (ore thumbnails
+> generation). What the decoder will effectively do is to skip the P and the B
+> frames. Some decoder offers fine grain control on that.
+> 
+> That being said, in GStreamer (and probably most framework) frames are skipped
+> in userspace. But decoder tend to wait for the next key frame to output the
+> first one, so we endup having to do more work to force the frame out (like
+> CMD_STOP/START cycle, or crafts an early AUD). Would be nice to document if that
+> mode will help in this regard (or not). 
+> 
+> For protocols like DASH, when doing fast-forward we don't even download the non-
+> key-frames from the server, so the skipping behaviour does not provide any gain
+> any way.
+> 
+>>
+>> Any suggestions?
+>>
+> 
+> Could be as Hans suggested, or something less generic but that covers more
+> trickmodes ?
+> 
+> V4L2_CID_MPEG_VIDEO_DECODER_H264_TRICKMODE
+>   - No skip
+>   - Skip B Frames
+>   - I frame only
+> 
+> Or maybe try and construct something base on what other do ?
+> 
+> FFMPEG software decoder has the following:
+>   (0): Skip nothing     - 0
+>   (1): Skip B-frames    - 1
+>   (2): Skip IDCT/Dequantization - 2
+>   (5): Skip everything  - 5
+> 
+> CODA from Chips&Media is fancier, and propose some variants that have
+> implication how muchs state is maintained, hence allowing or not the transition
+> back to non-skipping outside IRAP boundary.
+>   NORMAL
+>   THUMBNAIL
+>   Skip nonIRAP
+>   Skip nonREF-PIC
+>   Skip Temporal Layer
+> 
+> I didn't find such feature for Samsung MFC, but Amlogic is likely one candidate
+> having this type of skipping feature (as it also has HW demuxers). Hope this
+> helps getting the big picture, hence proposing uAPI that isn't too limited.
+> 
+> regards,
+> Nicolas
+> 
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-Changes since v1: use a more descriptive subject line
----
-diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
-index 61f159e59d07..dc2b59a0160a 100644
---- a/drivers/staging/media/rkisp1/rkisp1-isp.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
-@@ -291,7 +291,7 @@ static int rkisp1_config_isp(struct rkisp1_device *rkisp1)
- 	if (sink_fmt->pixel_enc == V4L2_PIXEL_ENC_BAYER) {
- 		acq_mult = 1;
- 		if (src_fmt->pixel_enc == V4L2_PIXEL_ENC_BAYER) {
--			if (sensor->mbus.type == V4L2_MBUS_BT656)
-+			if (sensor->mbus_type == V4L2_MBUS_BT656)
- 				isp_ctrl = RKISP1_CIF_ISP_CTRL_ISP_MODE_RAW_PICT_ITU656;
- 			else
- 				isp_ctrl = RKISP1_CIF_ISP_CTRL_ISP_MODE_RAW_PICT;
+I like your idea to have more generic one and codec-agnostic. I guess
+something like below menu control:
+
+V4L2_CID_MPEG_VIDEO_DECODER_DECODE_PICTURE_TYPE
+"Normal"	- decode everything applicable to the codec (default)
+"Thumbnail"	- decode sync frames (pictures?) with low memory usage
+"Sync frames"	- decode sync frames without memory constraints
+"Skip B frames"	- decode sync frames and unidirectional frames
+"Skip Temporal layer(s)" - decode everything but skip temporal layers
+above base layer
+
+-- 
+regards,
+Stan
