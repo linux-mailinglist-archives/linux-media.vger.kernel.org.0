@@ -2,109 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77B341B43B9
-	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2020 14:00:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8CC11B43D3
+	for <lists+linux-media@lfdr.de>; Wed, 22 Apr 2020 14:01:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728455AbgDVMAD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Apr 2020 08:00:03 -0400
-Received: from mx2.suse.de ([195.135.220.15]:53172 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727791AbgDVMAD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Apr 2020 08:00:03 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id A9C23AE79;
-        Wed, 22 Apr 2020 12:00:00 +0000 (UTC)
-Message-ID: <1587556788.26476.13.camel@suse.com>
-Subject: Re: general protection fault in go7007_usb_probe
-From:   Oliver Neukum <oneukum@suse.com>
-To:     syzbot <syzbot+cabfa4b5b05ff6be4ef0@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, hverkuil-cisco@xs4all.nl,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com
-Date:   Wed, 22 Apr 2020 13:59:48 +0200
-In-Reply-To: <0000000000003cbf8e05a3d57b98@google.com>
-References: <0000000000003cbf8e05a3d57b98@google.com>
-Content-Type: multipart/mixed; boundary="=-McCpIkgPwCqlblO8/Hrv"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
+        id S1728072AbgDVMBq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 22 Apr 2020 08:01:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50848 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727974AbgDVMBq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 22 Apr 2020 08:01:46 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ED5EC03C1A8;
+        Wed, 22 Apr 2020 05:01:45 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id d15so466135wrx.3;
+        Wed, 22 Apr 2020 05:01:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=iOKXRpXv+gkEgofK4WVWRQKy9tlZ8yvYUK75eISMHWM=;
+        b=czKi7qn21POWgr44WAv0KdcLxI/rxgkVzrlB/1C4Xw4WEoR6ftneGr4rQ2iMCyufUz
+         pcFMo829elw+M1gPwGJq7n4Hefkg1pBL6KAzY2pV5y11GBX/Bfv5BMxdQP/CUSD3OSJ4
+         3Idb9AILqcpMVQScuFr+q0G9QEVExG4DmMAsfTAkfunYXiVH5SpQm73iGD2o7iKwx5Lt
+         9Lxv9S+u09drWbnwxBQxzneFd7z7DKPHYdYEhZDcCr1rGDPXAcfcBb7eFJczltlqofnX
+         xsmgXDx9NvO/yYeemtjZoyn8VdN9ZMIXMgIc0z8EjaUGD5MewXNrSiMiL9mg3BhyIy24
+         rT1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=iOKXRpXv+gkEgofK4WVWRQKy9tlZ8yvYUK75eISMHWM=;
+        b=nsWobq/dRrfBf0Uzle5BGWmaCbk4jb85NYaL6fmFQgPm8DNRgGWfx93HOF76koWR9h
+         G+oYJcGFbtfWKWJCy2oWbkdGIpgeST+qi2yExG89e+cOrGSgqMl4LvmN/tMK3iy7ZVPI
+         2XzS6VV4hHOm1S6dqMwQ2CZzHddx05wyq6qxHmRA+z61NS4hef0f9UTzGSuOeJPaSMP9
+         +1uEHVhhLaj8XHcLNYpa0iJaNM2TGTcjj82WpKm1LzdigVeAxl6wPCZb+72sw63vX9jc
+         Uss8Aq0+jZn4jLBFg9GcUrsx1OODkgwcK3SV7pkMrOyoTARjtm8Oyi8+hl3hsDFffDXG
+         AC8Q==
+X-Gm-Message-State: AGi0PuZkmR+rBg/aAmSkaaQeqnk1Tm72TKdrXhcE0DkQTYrQPN5A1tpi
+        qo9DkO3/khwAzaYjR7Q8bMk=
+X-Google-Smtp-Source: APiQypL1hXf3hE8tEvLggJJTkHpQZJynplGAtPQGFoM6V+qOP/gFDPqiGq8QGze8PKklHkmiSsjBVQ==
+X-Received: by 2002:adf:82cf:: with SMTP id 73mr28979371wrc.411.1587556904428;
+        Wed, 22 Apr 2020 05:01:44 -0700 (PDT)
+Received: from [192.168.2.1] (ip51ccf9cd.speed.planet.nl. [81.204.249.205])
+        by smtp.gmail.com with ESMTPSA id s18sm8576749wra.94.2020.04.22.05.01.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Apr 2020 05:01:43 -0700 (PDT)
+Subject: Re: [PATCH] media: MAINTAINERS: Fix Hantro, Rga and Rkvdec entries
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
+        Heiko Stuebner <heiko@sntech.de>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>
+References: <20200422111403.19114-1-ezequiel@collabora.com>
+From:   Johan Jonker <jbx6244@gmail.com>
+Message-ID: <73d3d8c1-1952-aeb1-5bc0-829503cf29bd@gmail.com>
+Date:   Wed, 22 Apr 2020 14:01:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
+MIME-Version: 1.0
+In-Reply-To: <20200422111403.19114-1-ezequiel@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Ezequiel,
 
---=-McCpIkgPwCqlblO8/Hrv
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-
-Am Dienstag, den 21.04.2020, 16:36 -0700 schrieb syzbot:
-> Hello,
+On 4/22/20 1:14 PM, Ezequiel Garcia wrote:
+> It seems recent merges introduced a couple issues
+> here, so let's fix them all. Also, reorder Rockchip
+> video decoder as per parse-maintainers.pl script
+> and add linux-rockchip mailing list.
 > 
-> syzbot found the following crash on:
+> Reported-by: Johan Jonker <jbx6244@gmail.com>
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+>  MAINTAINERS | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
 > 
-> HEAD commit:    e9010320 usb: cdns3: gadget: make a bunch of functions sta..
-> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1263a930100000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=bd14feb44652cfaf
-> dashboard link: https://syzkaller.appspot.com/bug?extid=cabfa4b5b05ff6be4ef0
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 09e0137df61d..4d5b06c6fe0f 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7460,7 +7460,7 @@ L:	linux-media@vger.kernel.org
+>  L:	linux-rockchip@lists.infradead.org
+>  S:	Maintained
+>  F:	Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+> -F:	Documentation/devicetree/bindings/media/rockchip-vpu.txt
+> +F:	Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+>  F:	drivers/staging/media/hantro/
+>  
+>  HARD DRIVE ACTIVE PROTECTION SYSTEM (HDAPS) DRIVER
+> @@ -14465,13 +14465,6 @@ F:	Documentation/ABI/*/sysfs-driver-hid-roccat*
+>  F:	drivers/hid/hid-roccat*
+>  F:	include/linux/hid-roccat*
+>  
+> -ROCKCHIP VIDEO DECODER DRIVER
+> -M:	Ezequiel Garcia <ezequiel@collabora.com>
+> -L:	linux-media@vger.kernel.org
+> -S:	Maintained
+> -F:	drivers/staging/media/rkvdec/
+> -F:	Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+> -
+>  ROCKCHIP ISP V1 DRIVER
+>  M:	Helen Koike <helen.koike@collabora.com>
+>  L:	linux-media@vger.kernel.org
+
+L:	linux-rockchip@lists.infradead.org
+
+> @@ -14483,12 +14476,19 @@ ROCKCHIP RASTER 2D GRAPHIC ACCELERATION UNIT DRIVER
+>  M:	Jacob Chen <jacob-chen@iotwrt.com>
+>  M:	Ezequiel Garcia <ezequiel@collabora.com>
+>  L:	linux-media@vger.kernel.org
+> +L:	linux-rockchip@lists.infradead.org
+>  S:	Maintained
+> -F:	Documentation/devicetree/bindings/media/nxp,imx8mq-vpu.yaml
+>  F:	Documentation/devicetree/bindings/media/rockchip-rga.yaml
+> -F:	Documentation/devicetree/bindings/media/rockchip-vpu.yaml
+>  F:	drivers/media/platform/rockchip/rga/
+>  
+> +ROCKCHIP VIDEO DECODER DRIVER
+> +M:	Ezequiel Garcia <ezequiel@collabora.com>
+> +L:	linux-media@vger.kernel.org
+> +L:	linux-rockchip@lists.infradead.org
+> +S:	Maintained
+
+> +F:	drivers/staging/media/rkvdec/
+> +F:	Documentation/devicetree/bindings/media/rockchip,vdec.yaml
+
+When I look at the other entries 'drivers/' is sort below 'Documentation/'.
+
+./scripts/parse-maintainers.pl --input=MAINTAINERS --output=MAINTAINERS
+--order
+
+> +
+>  ROCKER DRIVER
+>  M:	Jiri Pirko <jiri@resnulli.us>
+>  L:	netdev@vger.kernel.org
 > 
-> Unfortunately, I don't have any reproducer for this crash yet.
-> 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+cabfa4b5b05ff6be4ef0@syzkaller.appspotmail.com
-
-#syz test: https://github.com/google/kasan.git e9010320
---=-McCpIkgPwCqlblO8/Hrv
-Content-Disposition: attachment; filename="0001-go7007-add-sanity-checking.patch"
-Content-Transfer-Encoding: base64
-Content-Type: text/x-patch; name="0001-go7007-add-sanity-checking.patch";
-	charset="UTF-8"
-
-RnJvbSBlZjEzZjM1NWQ2MWNmODhjOTYyOWM5ZTBiMzI5OTNiMzE1MjBmMzYyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29tPgpEYXRl
-OiBXZWQsIDIyIEFwciAyMDIwIDEzOjQ5OjU1ICswMjAwClN1YmplY3Q6IFtQQVRDSF0gZ283MDA3
-OiBhZGQgc2FuaXR5IGNoZWNraW5nCgpBIG1hbGljaW91cyBVU0IgZGV2aWNlIG1heSBsYWNrIGVu
-ZHBvaW50cyB0aGUgZHJpdmVyIGFzc3VtZXMgdG8gZXhpc3QKQWNjZXNzaW5nIHRoZW0gbGVhZHMg
-dG8gTlVMTCBwb2ludGVyIGFjY2Vzc2VzLiBUaGlzIHBhdGNoIGludHJvZHVjZXMKc2FuaXR5IGNo
-ZWNraW5nLgoKU2lnbmVkLW9mZi1ieTogT2xpdmVyIE5ldWt1bSA8b25ldWt1bUBzdXNlLmNvbT4K
-Rml4ZXM6IDg2NmI4Njk1ZDY3ZTggKCJTdGFnaW5nOiBhZGQgdGhlIGdvNzAwNyB2aWRlbyBkcml2
-ZXIiKQotLS0KIGRyaXZlcnMvbWVkaWEvdXNiL2dvNzAwNy9nbzcwMDctdXNiLmMgfCAxMiArKysr
-KysrKysrKy0KIDEgZmlsZSBjaGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0p
-CgpkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS91c2IvZ283MDA3L2dvNzAwNy11c2IuYyBiL2Ry
-aXZlcnMvbWVkaWEvdXNiL2dvNzAwNy9nbzcwMDctdXNiLmMKaW5kZXggZjg4OWM5ZDc0MGNkLi5l
-YWU5ZTRlNTU1Y2YgMTAwNjQ0Ci0tLSBhL2RyaXZlcnMvbWVkaWEvdXNiL2dvNzAwNy9nbzcwMDct
-dXNiLmMKKysrIGIvZHJpdmVycy9tZWRpYS91c2IvZ283MDA3L2dvNzAwNy11c2IuYwpAQCAtMTEy
-MSw2ICsxMTIxLDExIEBAIHN0YXRpYyBpbnQgZ283MDA3X3VzYl9wcm9iZShzdHJ1Y3QgdXNiX2lu
-dGVyZmFjZSAqaW50ZiwKIAkJcmV0dXJuIC1FTk9NRU07CiAJfQogCisJLyogc2FuaXR5IGNoZWNr
-cyAqLworCWVwID0gdXNiLT51c2JkZXYtPmVwX2luWzRdOworCWlmICghZXApCisJCXJldHVybiAt
-RU5PREVWOworCiAJdXNiLT5ib2FyZCA9IGJvYXJkOwogCXVzYi0+dXNiZGV2ID0gdXNiZGV2Owog
-CXVzYl9tYWtlX3BhdGgodXNiZGV2LCBnby0+YnVzX2luZm8sIHNpemVvZihnby0+YnVzX2luZm8p
-KTsKQEAgLTExNDEsNyArMTE0Niw2IEBAIHN0YXRpYyBpbnQgZ283MDA3X3VzYl9wcm9iZShzdHJ1
-Y3QgdXNiX2ludGVyZmFjZSAqaW50ZiwKIAlpZiAodXNiLT5pbnRyX3VyYi0+dHJhbnNmZXJfYnVm
-ZmVyID09IE5VTEwpCiAJCWdvdG8gYWxsb2NmYWlsOwogCi0JZXAgPSB1c2ItPnVzYmRldi0+ZXBf
-aW5bNF07CiAJaWYgKHVzYl9lbmRwb2ludF90eXBlKCZlcC0+ZGVzYykgPT0gVVNCX0VORFBPSU5U
-X1hGRVJfQlVMSykKIAkJdXNiX2ZpbGxfYnVsa191cmIodXNiLT5pbnRyX3VyYiwgdXNiLT51c2Jk
-ZXYsCiAJCQl1c2JfcmN2YnVsa3BpcGUodXNiLT51c2JkZXYsIDQpLApAQCAtMTI2Myw5ICsxMjY3
-LDEzIEBAIHN0YXRpYyBpbnQgZ283MDA3X3VzYl9wcm9iZShzdHJ1Y3QgdXNiX2ludGVyZmFjZSAq
-aW50ZiwKIAogCS8qIEFsbG9jYXRlIHRoZSBVUkJzIGFuZCBidWZmZXJzIGZvciByZWNlaXZpbmcg
-dGhlIHZpZGVvIHN0cmVhbSAqLwogCWlmIChib2FyZC0+ZmxhZ3MgJiBHTzcwMDdfVVNCX0VaVVNC
-KSB7CisJCWlmICghdXNiLT51c2JkZXYtPmVwX2luWzZdKQorCQkJZ290byBhbGxvY2ZhaWw7CiAJ
-CXZfdXJiX2xlbiA9IDEwMjQ7CiAJCXZpZGVvX3BpcGUgPSB1c2JfcmN2YnVsa3BpcGUodXNiLT51
-c2JkZXYsIDYpOwogCX0gZWxzZSB7CisJCWlmICghdXNiLT51c2JkZXYtPmVwX2luWzFdKQorCQkJ
-Z290byBhbGxvY2ZhaWw7CiAJCXZfdXJiX2xlbiA9IDUxMjsKIAkJdmlkZW9fcGlwZSA9IHVzYl9y
-Y3ZidWxrcGlwZSh1c2ItPnVzYmRldiwgMSk7CiAJfQpAQCAtMTI4NSw2ICsxMjkzLDggQEAgc3Rh
-dGljIGludCBnbzcwMDdfdXNiX3Byb2JlKHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRmLAogCS8q
-IEFsbG9jYXRlIHRoZSBVUkJzIGFuZCBidWZmZXJzIGZvciByZWNlaXZpbmcgdGhlIGF1ZGlvIHN0
-cmVhbSAqLwogCWlmICgoYm9hcmQtPmZsYWdzICYgR083MDA3X1VTQl9FWlVTQikgJiYKIAkgICAg
-KGJvYXJkLT5tYWluX2luZm8uZmxhZ3MgJiBHTzcwMDdfQk9BUkRfSEFTX0FVRElPKSkgeworCQlp
-ZiAoIXVzYi0+dXNiZGV2LT5lcF9pbls4XSkKKwkJCWdvdG8gYWxsb2NmYWlsOwogCQlmb3IgKGkg
-PSAwOyBpIDwgODsgKytpKSB7CiAJCQl1c2ItPmF1ZGlvX3VyYnNbaV0gPSB1c2JfYWxsb2NfdXJi
-KDAsIEdGUF9LRVJORUwpOwogCQkJaWYgKHVzYi0+YXVkaW9fdXJic1tpXSA9PSBOVUxMKQotLSAK
-Mi4xNi40Cgo=
-
-
---=-McCpIkgPwCqlblO8/Hrv--
 
