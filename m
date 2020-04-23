@@ -2,106 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 836F61B5AB6
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 13:46:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE1261B5B76
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 14:32:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727088AbgDWLqs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Apr 2020 07:46:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46614 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728017AbgDWLqs (ORCPT
+        id S1726434AbgDWMce (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Apr 2020 08:32:34 -0400
+Received: from elasmtp-masked.atl.sa.earthlink.net ([209.86.89.68]:58100 "EHLO
+        elasmtp-masked.atl.sa.earthlink.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726105AbgDWMce (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Apr 2020 07:46:48 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDFD2C035495
-        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 04:46:46 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id z25so5439253otq.13
-        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 04:46:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=soBENWxtv1Jx6Q4M8NjC2VsgjFKXOfQejEBroBd8f4g=;
-        b=NXx4YPgvtOlyiKjB650mQVqamk7mwKi2f5oD1cAMtY5EWRnaThyz0h+QPOfwI1jQ9w
-         6Nx1NeQyKFKmVdgwiYV71tS6SUDsNJ+4BS5yWOt41z7u06V3K9qAR9zAsV0eciBZ82NB
-         MVwTigSQtl3NWsR6OlpVgGl3p8JXDydOI5XDQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=soBENWxtv1Jx6Q4M8NjC2VsgjFKXOfQejEBroBd8f4g=;
-        b=QxkKhSvferRUIYH+SHSRd4H5/uREnDov8acYJPNyd5xAqUnAzEgokDYXQtYk7ynH3j
-         0cX5m7tKwqGtT4KrCI3KeFoT2c3QHs8kItQ5r0bJMhXS5xTyOhbg9sxFfdBs377AKok1
-         K3Lh16CkBJt5jS+T97+GF31EBRRJUXM0viqGcEmxLpLNQYrmkmWTjdfqHSZ7KKpQmLZ/
-         sHqlaKb0lXjnchhwWYxSBBixgulpxgHVTL+/9W5dJ7YZNYBZhonDiaSpuT9ZLVeN9Jbc
-         s8Adb1EOVPQPHTX0mgFNQPYDNp9LtxW/qnvqTjnx2O4s9PReToDE7wnCy1yv5OAOOKQd
-         sS8g==
-X-Gm-Message-State: AGi0PuaBh/uAYE2rIYkoVvBmaTxPGun/yusgcCphqEpnjzX9a5jEQQgl
-        ToNHrawnsqTYtPisXEYw+byXERk3w5MZm3SrJQ+UlA==
-X-Google-Smtp-Source: APiQypKhOGBw+yldUeb3d73cJTyCIRTooxDShKtfsXpDubxWoQUNatT4V7/wpGHO6fgRNhipZQ5IOE3srpPVZe4TbtA=
-X-Received: by 2002:a9d:2056:: with SMTP id n80mr3147281ota.281.1587642406180;
- Thu, 23 Apr 2020 04:46:46 -0700 (PDT)
+        Thu, 23 Apr 2020 08:32:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mindspring.com;
+        s=dk12062016; t=1587645153; bh=l6AOgMZePT2J8X8M74Q/FF9AUe1F61hAHPLg
+        dHzCTjA=; h=Received:From:Subject:To:Message-ID:Date:User-Agent:
+         MIME-Version:Content-Type:Content-Transfer-Encoding:X-ELNK-Trace:
+         X-Originating-IP; b=cM9ETZR4ZIO+LWgvzfbXZmO7c9rb9P8qLo6tjiMrLFQTcw
+        +uowcjdcdS7zHrwpOYoDbW5rwwwa0aSOGr63Xg3+TAyCFHTzRKn34xpIab5l6Fe7wjf
+        0quwffNhZKBJtVIR/NrAWgkLe+VmPqWz3zJfP+KTemqBekcgtQOPhgf0XyT9/NqBpt+
+        bsVHks9uP7g/PGFenAeBj32m+paFZHTiBCCKHG/EYQVQD0w0Cf24JiYVe0ebxsOEorZ
+        np1L4kAfA6SXgNe4T3dxM1D+G+cS8FyN3n8tCox4fIRFWLry4F3S3EplzfITfLJT10E
+        0TCf0azO1bdDDWXA+eJt9x4P0WSg==
+DomainKey-Signature: a=rsa-sha1; q=dns; c=nofws;
+  s=dk12062016; d=mindspring.com;
+  b=TP6epgX303/EnEkpvoMZ0I6NBJb6tIT/2UKzui8vdQQ3jlynwf/T//Cq4eE8+tFXHysR4dCWKpSG/zpY/9GXmnCTVIUV2+eFGIzDrV2jiMm4pAyrY8l5XX4ExGyC6/QM3uKEZxlHooNzXRF9uxLnBvad5xRXbj3DmxUn9WpTae8IMTevysZ+EhjMZIbfTYSuw9jWSoQRQBs9p/w5EqM3P8yeQ1JSqTp5cVrmSY2rFGMoBkDoic5w1U68PPiC3+UfluhkcdZPeFl1M0N54f6dXt/68wzyuBc3BSeV3WTtlQfS9tedWWW0aKv4rJRO+Vm16YAPzQ6zx+tLJm3zN+pmpg==;
+  h=Received:From:Subject:To:Message-ID:Date:User-Agent:MIME-Version:Content-Type:Content-Transfer-Encoding:X-ELNK-Trace:X-Originating-IP;
+Received: from [24.6.19.181] (helo=[192.168.1.217])
+        by elasmtp-masked.atl.sa.earthlink.net with esmtpa (Exim 4)
+        (envelope-from <rolfpedersen@mindspring.com>)
+        id 1jRb1s-000DAJ-IR
+        for linux-media@vger.kernel.org; Thu, 23 Apr 2020 08:32:32 -0400
+From:   Rolf Pedersen <rolfpedersen@mindspring.com>
+Subject: Re: HauppaugeTV-quadHD DVB-T mpeg risc op code error
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Message-ID: <0c0ab661-17bb-231a-7311-c35d8d0435c0@mindspring.com>
+Date:   Thu, 23 Apr 2020 05:32:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+ Firefox/52.0 SeaMonkey/2.49.5
 MIME-Version: 1.0
-References: <20200420074115.23931-1-galpress@amazon.com> <20200420170059.5a42693e@lwn.net>
- <20200421123837.GZ3456981@phenom.ffwll.local> <20200421103236.4b64155c@lwn.net>
-In-Reply-To: <20200421103236.4b64155c@lwn.net>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Thu, 23 Apr 2020 13:46:35 +0200
-Message-ID: <CAKMK7uGTP93tbpsZhc1On2ka+YiVhwHk32cWHEdvS5O5DGODTg@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: Couple of documentation typo fixes
-To:     Jonathan Corbet <corbet@lwn.net>
-Cc:     Gal Pressman <galpress@amazon.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ELNK-Trace: 160c66f8c3bc2670427f8aa51e728925f402879cecb40bd5e83d8e5ea292f9c0d71279da8098c300e793f793464d3e2c350badd9bab72f9c350badd9bab72f9c
+X-Originating-IP: 24.6.19.181
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 21, 2020 at 6:32 PM Jonathan Corbet <corbet@lwn.net> wrote:
->
-> On Tue, 21 Apr 2020 14:38:37 +0200
-> Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> > On Mon, Apr 20, 2020 at 05:00:59PM -0600, Jonathan Corbet wrote:
-> > > On Mon, 20 Apr 2020 10:41:15 +0300
-> > > Gal Pressman <galpress@amazon.com> wrote:
-> > >
-> > > > Fix a couple of typos: "as" -> "has" and "int" -> "in".
-> > > >
-> > > > Signed-off-by: Gal Pressman <galpress@amazon.com>
-> > >
-> > > Applied, thanks.
-> >
-> > Also applied to drm-misc-next, the dma-buf stuff is maintained as part of
-> > drm. And maybe I actually get around to doing the doc polish for all
-> > things dma-buf that I've been promised to do since months :-)
->
-> I actually looked for it in linux-next before applying, but didn't (and
-> don't) see it there...?
+Hi Folks,
+I just subscribed after having trouble with this card that worked for 3 
+years on Skylake i5-6500 but stopped tuning when I moved it to AMD Ryzen 
+5 3400G machine.  I found the workaround in the archived thread 
+referenced in the subject line and don't know any way to reply directly 
+to it: https://www.spinics.net/lists/linux-media/msg114563.html
 
-I only spotted the patch after I've seen your notification, so it was
-indeed not there back then. But now it should be there:
+My card is ATSC as on this page: 
+https://www.kernel.org/doc/html/v4.10/media/v4l-drivers/cx23885-cardlist.html
+57     Hauppauge WinTV-QuadHD-ATSC     0070:6a18, 0070:6b18
 
-commit 776d58823a60c689816972b51100cb322a0834ce (HEAD ->
-drm-misc-next, drm-misc/for-linux-next, drm-misc/drm-misc-next)
-Author: Gal Pressman <galpress@amazon.com>
-Date:   Mon Apr 20 10:41:15 2020 +0300
+and
 
-    dma-buf: Couple of documentation typo fixes
+[rolf@x570i coup]$ lspcidrake -v | grep Conexant
+cx23885         : Conexant Systems, Inc.|CX23887/8 PCIe Broadcast Audio 
+and Video Decoder with 3D Comb [MULTIMEDIA_VIDEO] (vendor:14f1 
+device:8880 subv:0070 subd:6b18) (rev: 04)
+cx23885         : Conexant Systems, Inc.|CX23887/8 PCIe Broadcast Audio 
+and Video Decoder with 3D Comb [MULTIMEDIA_VIDEO] (vendor:14f1 
+device:8880 subv:0070 subd:6a18) (rev: 04)
 
-drm-misc/for-linux-next is included in linux-next (we have some
-special branches for linux-next because of some different rules than
-usual for our committers). Latest linux-next also seems to have it by
-now.
--Daniel
+Neither scan, dvbscan, nor w_scan2, nor Kaffeine TV, while finding 
+working frequencies, could divulge any services.  The workaround was in 
+the referenced post:  cx23885.debug=8
 
+I've seen another report of a different kernel option that worked on 
+Ryzen: |cx23885.dma_reset_workaround=2 here: 
+https://www.dslreports.com/forum/r32639318-SFF-3400G-build#32640298
 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Ok.  Just wanted to join the chorus with a *metoo* in case I can provide 
+some (guided) forensics.
+Thanks,
+Rolf
+|
