@@ -2,124 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AA121B56C1
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 09:56:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA1791B5724
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 10:19:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726070AbgDWH4F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Apr 2020 03:56:05 -0400
-Received: from mga04.intel.com ([192.55.52.120]:21960 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725562AbgDWH4E (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Apr 2020 03:56:04 -0400
-IronPort-SDR: 9q1XsrS7ReNvW3PVd2iLaDYK+pyRmnRIQ7Zsm7z9YFVu0j0jrdDwo17T+VfARP2fgSyV/FgZtm
- TmySfglMIOeA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 00:56:04 -0700
-IronPort-SDR: r+jLurLD/ryur1rbMtyce0xKOEJmXIaoqKT5V0T+RrNwOh9LVjOo744jmIAT0wOwTME4+gLANB
- 0TwumWeKu/hg==
-X-IronPort-AV: E=Sophos;i="5.73,306,1583222400"; 
-   d="scan'208";a="430232630"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 00:56:00 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 9B42C2080B; Thu, 23 Apr 2020 10:55:57 +0300 (EEST)
-Date:   Thu, 23 Apr 2020 10:55:57 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Luis Oliveira <lolivei@synopsys.com>,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>, Jacopo Mondi <jacopo@jmondi.org>,
-        Michael Rodin <mrodin@de.adit-jv.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Adam Ford <aford173@gmail.com>,
-        Todor Tomov <todor.tomov@linaro.org>,
-        Suresh Udipi <sudipi@jp.adit-jv.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>
-Subject: Re: [PATCH 4/4] media: ov5647: Use gpiod_set_value_cansleep
-Message-ID: <20200423075557.GL5381@paasikivi.fi.intel.com>
-References: <cover.1586759968.git.roman.kovalivskyi@globallogic.com>
- <f496fe5d364748e9d625a634581a404f30a13efa.1586759968.git.roman.kovalivskyi@globallogic.com>
+        id S1726453AbgDWITh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Apr 2020 04:19:37 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:35117 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726027AbgDWITh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 23 Apr 2020 04:19:37 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id RX51jKqzf7xncRX54jPirO; Thu, 23 Apr 2020 10:19:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1587629975; bh=6Qwjrk58nRdGC9EMw/dOUdO16jo9zBCCMoVwspAGboU=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=iEN5aVxF2tEtzww2N98k0CxnDDw4uJIKInjM7yXca88yZFVFmbjeDDi5lQy8DI/oN
+         2UTF8nNw/YrNFMnCIhwLTuVOcGuG/ojD14WWmff3Hwu4TA+46swdTeUW6g2Ph7cp9k
+         oQ9Nwf3245r+M0lKAkTvy3ngUxRfKljdixtKyokvVGT5CWn8rbnrnfw59xBt+H60cN
+         uZkFuAhDXQ+qfvhvYaYnVbB08H9Ic9e0DqFoZIye0pleG8PePP+0WtI97egVrAWLny
+         sRdZ61/pXiqClY96rIna622nYKb3M1j6YM7qrBikVAawg/gVTt+2bWJ4k6Em4MwoIk
+         Xjy251zpyHbew==
+Subject: Re: [PATCH 01/12] utils: fix compilation with C++98
+To:     Rosen Penev <rosenp@gmail.com>, linux-media@vger.kernel.org
+References: <20200422003735.3891-1-rosenp@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <5cf49918-bff9-d97b-701b-7ece6e1ae0a5@xs4all.nl>
+Date:   Thu, 23 Apr 2020 10:19:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f496fe5d364748e9d625a634581a404f30a13efa.1586759968.git.roman.kovalivskyi@globallogic.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200422003735.3891-1-rosenp@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJvctoAcDDZMoEimRUpZ5+shbeXIxajshg3aCnBswLZOJZS4MIUlAZP7tE5CbJqXnbp/kVn8XVPf+baB2dmJTcp4amU93VGKIcjbbTc8S5DDzqK+1SC0
+ TJlV92iBDG/cyga1nxSKJ8Jg2zCCICi4V46/qXCJVjYkLHYOx7Hh4arDgFWWm4sYTMpuqcSrrzrVv68A96ClHm3A4GZ6d2mwD74=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Roman,
-
-On Mon, Apr 13, 2020 at 12:17:47PM +0300, Roman Kovalivskyi wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> 
-> All calls to the gpio library are in contexts that can sleep,
-> therefore there is no issue with having those GPIOs controlled
-> by controllers which require sleeping (eg I2C GPIO expanders).
-> 
-> Switch to using gpiod_set_value_cansleep instead of gpiod_set_value
-> to avoid triggering the warning in gpiolib should the GPIO
-> controller need to sleep.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> Signed-off-by: Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
-
-This should be merged with the second patch.
-
+On 22/04/2020 02:37, Rosen Penev wrote:
+> Signed-off-by: Rosen Penev <rosenp@gmail.com>
 > ---
->  drivers/media/i2c/ov5647.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  utils/cec-compliance/cec-test.cpp | 4 ++--
+>  utils/rds-ctl/rds-ctl.cpp         | 2 +-
+>  2 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index 8a1a515388e0..07550377be2e 100644
-> --- a/drivers/media/i2c/ov5647.c
-> +++ b/drivers/media/i2c/ov5647.c
-> @@ -373,7 +373,7 @@ static int ov5647_sensor_power(struct v4l2_subdev *sd, int on)
->  		dev_dbg(&client->dev, "OV5647 power on\n");
->  
->  		if (ov5647->pwdn) {
-> -			gpiod_set_value(ov5647->pwdn, 0);
-> +			gpiod_set_value_cansleep(ov5647->pwdn, 0);
->  			msleep(PWDN_ACTIVE_DELAY_MS);
->  		}
->  
-> @@ -415,7 +415,7 @@ static int ov5647_sensor_power(struct v4l2_subdev *sd, int on)
->  
->  		clk_disable_unprepare(ov5647->xclk);
->  
-> -		gpiod_set_value(ov5647->pwdn, 1);
-> +		gpiod_set_value_cansleep(ov5647->pwdn, 1);
->  	}
->  
->  	/* Update the power count. */
-> @@ -648,13 +648,13 @@ static int ov5647_probe(struct i2c_client *client)
->  		goto mutex_remove;
->  
->  	if (sensor->pwdn) {
-> -		gpiod_set_value(sensor->pwdn, 0);
-> +		gpiod_set_value_cansleep(sensor->pwdn, 0);
->  		msleep(PWDN_ACTIVE_DELAY_MS);
->  	}
->  
->  	ret = ov5647_detect(sd);
->  
-> -	gpiod_set_value(sensor->pwdn, 1);
-> +	gpiod_set_value_cansleep(sensor->pwdn, 1);
->  
->  	if (ret < 0)
->  		goto error;
-> -- 
-> 2.17.1
+> diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
+> index 032ff5ad..cc07998a 100644
+> --- a/utils/cec-compliance/cec-test.cpp
+> +++ b/utils/cec-compliance/cec-test.cpp
+> @@ -908,7 +908,7 @@ static int tuner_ctl_test(struct node *node, unsigned me, unsigned la, bool inte
+>  		cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
+>  		fail_on_test(!transmit_timeout(node, &msg));
+>  		fail_on_test(timed_out_or_abort(&msg));
+> -		info = {};
+> +		memset(&info, 0, sizeof(info));
+>  		cec_ops_tuner_device_status(&msg, &info);
+>  		if (!memcmp(&info, &info_vec[0], sizeof(info)))
+>  			break;
+> @@ -935,7 +935,7 @@ static int tuner_ctl_test(struct node *node, unsigned me, unsigned la, bool inte
+>  		cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
+>  		fail_on_test(!transmit_timeout(node, &msg));
+>  		fail_on_test(timed_out_or_abort(&msg));
+> -		info = {};
+> +		memset(&info, 0, sizeof(info));
+>  		cec_ops_tuner_device_status(&msg, &info);
+>  		if (memcmp(&info, &(*iter), sizeof(info))) {
+>  			log_tuner_service(info);
+> diff --git a/utils/rds-ctl/rds-ctl.cpp b/utils/rds-ctl/rds-ctl.cpp
+> index 0511fe5d..0e497b2a 100644
+> --- a/utils/rds-ctl/rds-ctl.cpp
+> +++ b/utils/rds-ctl/rds-ctl.cpp
+> @@ -918,7 +918,7 @@ static void get_options(const int fd, const int capabilities, struct v4l2_freque
+>  				printf("\tFrequency range      : %.1f MHz - %.1f MHz\n",
+>  					 vt.rangelow / 16.0, vt.rangehigh / 16.0);
+>  			printf("\tSignal strength/AFC  : %ld%%/%d\n",
+> -				std::lround(vt.signal / 655.35), vt.afc);
+> +				lround(vt.signal / 655.25), vt.afc);
+
+v4l2-ctl-tuner.cpp also uses std::lround, but that one isn't changed back.
+
+Is rds-ctl.cpp perhaps just missing a header?
+
+Regards,
+
+	Hans
+
+>  			printf("\tCurrent audio mode   : %s\n", audmode2s(vt.audmode));
+>  			printf("\tAvailable subchannels: %s\n",
+>  					rxsubchans2s(vt.rxsubchans).c_str());
 > 
 
--- 
-Sakari Ailus
