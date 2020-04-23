@@ -2,97 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 762B91B629A
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 19:48:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 488661B6331
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 20:20:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730219AbgDWRrk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Apr 2020 13:47:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46596 "EHLO
+        id S1730133AbgDWSU5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Apr 2020 14:20:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51876 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730216AbgDWRrk (ORCPT
+        with ESMTP id S1729995AbgDWSU4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Apr 2020 13:47:40 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D586BC09B042;
-        Thu, 23 Apr 2020 10:47:39 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id r26so7499229wmh.0;
-        Thu, 23 Apr 2020 10:47:39 -0700 (PDT)
+        Thu, 23 Apr 2020 14:20:56 -0400
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5193DC09B042
+        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 11:20:56 -0700 (PDT)
+Received: by mail-qk1-x741.google.com with SMTP id t3so7489511qkg.1
+        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 11:20:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=s7IbTs24rsRNhpZKr45UIa67diIJ2j3hIHeW1sPPTHg=;
-        b=rT7iEze1HALDl6lvpSUzL8kQ9itum3Z2XzfNcB2XoIEDVCBM/j6/M7zr6uN213LHUZ
-         YPYTt0ivYzYSF6YneI4BMvUwFVX7iEc9dxIja6Z4QObAUcaSpzyxGXz6vc7hl2fzkrQD
-         R9BSc6JnDVw/7JsvxiMy0WjdfVS++akr/2p7eA02ylWNjpXat6zFTDhrZ2kGyVS30m0C
-         fn1diPgUwWhu9n+CSUoJBhA40Gv7vM4IZZHJOL6B4l6qmbvTXyfW0+MsY2+3J+lPRkTp
-         +ENdEpaKAoskWaicO76h7c0+S+IfLzGYHPCpE0GR798uEQawjTlUTuSuk1smrO08DO73
-         Ss0A==
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=NtfUG9nvSwbZuMEFLhsesb054eEDoOEiVvzgETJhoAI=;
+        b=M3ngQnbNRUoJ4/HzoYCzkT2s7DutMpj1zOp4Xdk5WhtGrKH6/mMrrpAl1EFhEdvd1M
+         9hDwa58GzYy8mNRE4MOJxvi2UAmu6uTizhrz6SBxfrt9x0J+U9k4pCuLwLVcwUsy8K7P
+         u/xAF2AYAP6FF87oz3ssaQD9R1Llfd1g32BFwnMEF5Y8rKbD1RE7s5s/MjPvzlPCVnmC
+         K1A8Jjcf88qSRavGLLZTK+Y5rBlKkqL0PkYhbMmihCjYhYam7QeWC4jVX//YMUry3D6R
+         08vLYm4fcagWo4hElo6IIU2ank2Aw9twEF9tiElRn+uU4ba9Yhd/1D+wqMa5u5yEHEIZ
+         Thwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=s7IbTs24rsRNhpZKr45UIa67diIJ2j3hIHeW1sPPTHg=;
-        b=BobVN+r92DCJAIOnYcr5sUIdY6pVegRvT4Jfst1AEvGLAyJKhVm7PVZTz2PpdLu02s
-         Z63LJqlLRY2GhVn3JNehVl0QtgtZbC8s6hoAgx5rlbwZZH/qaxIUL3gv7VmQIbt9BWRv
-         5uveOuwAafT9xgxrfQaUnnXtXjALCwVregDoexEu5FPelEwHZhUtOEJBHs9++9r5muHi
-         bnLvVPWp607zZS2e02eiFpRHncrUo5VARJz8tndAJRxIOn9lInrzgTAOrfaKDP8d535k
-         z0dbq//c07eZwvm9t3NcvZUi20gYfQtqh9y7VMYIhkxh792PScWfOH7RDJUmhlJz7fu7
-         /84Q==
-X-Gm-Message-State: AGi0PuYoWjQZ//hE6mj7PveGf5lCcGwsus7w/ioj1vpcKmJmFhiRyzdB
-        ClZ1nyqnBv+i2yAUU7/VKc4=
-X-Google-Smtp-Source: APiQypJw5ok5IF/3P0V2C6qsbqky8PzsWdgQGR5qKWG2iHmneXc96Vsz7zLQC9ZR9/+p6Grpp62Rng==
-X-Received: by 2002:a1c:b70a:: with SMTP id h10mr5429318wmf.172.1587664058540;
-        Thu, 23 Apr 2020 10:47:38 -0700 (PDT)
-Received: from jernej-laptop.localnet (cpe-194-152-20-232.static.triera.net. [194.152.20.232])
-        by smtp.gmail.com with ESMTPSA id x18sm4631951wmi.29.2020.04.23.10.47.36
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=NtfUG9nvSwbZuMEFLhsesb054eEDoOEiVvzgETJhoAI=;
+        b=kSMoTu68KzDJuLmx1NcaF23Tsbr/xm654I7iPqCiahAoGjPMgy/K1YnzY09K4QEXST
+         VVsW5KBejayd223PPlNYMsxprlhG7D+ABzHFUpyAOHsn+e9vzZuP+FQslb4AKj/eu9D+
+         3L3fkbUnb6weGAyxJQIqI1AsSJ33q+kJ42USswOcAnz0dxXJ5x84qO5ccLwXxzF1XXOv
+         P4MEr0cAV75pntkHkZ9HQanB9u6TFopvLkF1ByeOTdZHCdA18/O+XA29A4CKuhdzoJDt
+         Bl9NWAg+97LpziCkz67f1QpEcQQIvE94yoLffk1WmNRxx51Ia9OEiwYYP4C8sUYCvswY
+         zx5A==
+X-Gm-Message-State: AGi0PuZbYhNUhiTOayHlUa8RxOvVNXJNlpaHMIH4lJB5cHWs9womdlAf
+        n0zqpWkS6QIUOMnAvs3oWN+WW/l4g1Q=
+X-Google-Smtp-Source: APiQypK/nmdkzOQ0yLnnvhZkUrb/qwpyXvxUx1C04TlPGnxn/3N9DP+0pEf7r1SlQ7uyXnvUvqc4CA==
+X-Received: by 2002:a37:a9c7:: with SMTP id s190mr5122827qke.435.1587666055485;
+        Thu, 23 Apr 2020 11:20:55 -0700 (PDT)
+Received: from skullcanyon ([192.222.193.21])
+        by smtp.gmail.com with ESMTPSA id t27sm2044875qkg.4.2020.04.23.11.20.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2020 10:47:37 -0700 (PDT)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
-To:     Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-sunxi@googlegroups.com
-Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-sunxi@googlegroups.com,
-        Samuel Holland <samuel@sholland.org>, samuel@sholland.org
-Subject: Re: [linux-sunxi] [PATCH v2 2/2] media: cedrus: Implement runtime PM
-Date:   Thu, 23 Apr 2020 19:47:36 +0200
-Message-ID: <3048039.44csPzL39Z@jernej-laptop>
-In-Reply-To: <20200422040410.6251-2-samuel@sholland.org>
-References: <20200422040410.6251-1-samuel@sholland.org> <20200422040410.6251-2-samuel@sholland.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+        Thu, 23 Apr 2020 11:20:54 -0700 (PDT)
+Message-ID: <22d832929c6cd57bfc06ffe3a9971a60fb00bb82.camel@ndufresne.ca>
+Subject: Re: decode sync frames only
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Date:   Thu, 23 Apr 2020 14:20:53 -0400
+In-Reply-To: <06340f1f-0ff1-2407-2f9f-144452b34aa8@linaro.org>
+References: <9a58a501-8348-2230-2ab5-534471d866ca@linaro.org>
+         <e0d850725c11e420dd0952bc07a857495bf37fa4.camel@ndufresne.ca>
+         <06340f1f-0ff1-2407-2f9f-144452b34aa8@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.1 (3.36.1-1.fc32) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne sreda, 22. april 2020 ob 06:04:10 CEST je Samuel Holland napisal(a):
-> This allows the VE clocks and PLL_VE to be disabled most of the time.
-> A runtime PM reference is held while streaming.
->=20
-> Originally-by: Jernej =C5=A0krabec <jernej.skrabec@gmail.com>
+Le mercredi 22 avril 2020 à 14:43 +0300, Stanimir Varbanov a écrit :
+> Hi Nicolas,
+> 
+> On 4/21/20 1:09 AM, Nicolas Dufresne wrote:
+> > Hi Stanimir,
+> > 
+> > Le lundi 20 avril 2020 à 17:38 +0300, Stanimir Varbanov a écrit :
+> > > Hi,
+> > > 
+> > > I need to port a decoder v4l2 control in mainline Venus driver which
+> > > instructs the decoder to decode sync frames only (I frame/ IDR frame).
+> > > In practice the usage of such control is to generate thumbnails for
+> > > particular video.
+> > > 
+> > > To do that I researched what we have currently in v4l2-controls.h and
+> > > found something similar but for encoders:
+> > > 
+> > > V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME
+> > > "Force a key frame for the next queued buffer. Applicable to encoders.
+> > > This is a general, codec-agnostic keyframe control."
+> > > 
+> > > I think I have two options:
+> > > 
+> > > 1. reuse V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME for the decoder and document it
+> > > 
+> > > 2. create a new v4l control V4L2_CID_MPEG_VIDC_VIDEO_SYNC_FRAME_DECODE
+> > 
+> > Seems analogue to GStreamer flag GST_SEEK_FLAG_TRICKMODE_KEY_UNIT, if that helps
+> > your inspiration. It's used to speed up fast-forward (ore thumbnails
+> > generation). What the decoder will effectively do is to skip the P and the B
+> > frames. Some decoder offers fine grain control on that.
+> > 
+> > That being said, in GStreamer (and probably most framework) frames are skipped
+> > in userspace. But decoder tend to wait for the next key frame to output the
+> > first one, so we endup having to do more work to force the frame out (like
+> > CMD_STOP/START cycle, or crafts an early AUD). Would be nice to document if that
+> > mode will help in this regard (or not). 
+> > 
+> > For protocols like DASH, when doing fast-forward we don't even download the non-
+> > key-frames from the server, so the skipping behaviour does not provide any gain
+> > any way.
+> > 
+> > > Any suggestions?
+> > > 
+> > 
+> > Could be as Hans suggested, or something less generic but that covers more
+> > trickmodes ?
+> > 
+> > V4L2_CID_MPEG_VIDEO_DECODER_H264_TRICKMODE
+> >   - No skip
+> >   - Skip B Frames
+> >   - I frame only
+> > 
+> > Or maybe try and construct something base on what other do ?
+> > 
+> > FFMPEG software decoder has the following:
+> >   (0): Skip nothing     - 0
+> >   (1): Skip B-frames    - 1
+> >   (2): Skip IDCT/Dequantization - 2
+> >   (5): Skip everything  - 5
+> > 
+> > CODA from Chips&Media is fancier, and propose some variants that have
+> > implication how muchs state is maintained, hence allowing or not the transition
+> > back to non-skipping outside IRAP boundary.
+> >   NORMAL
+> >   THUMBNAIL
+> >   Skip nonIRAP
+> >   Skip nonREF-PIC
+> >   Skip Temporal Layer
+> > 
+> > I didn't find such feature for Samsung MFC, but Amlogic is likely one candidate
+> > having this type of skipping feature (as it also has HW demuxers). Hope this
+> > helps getting the big picture, hence proposing uAPI that isn't too limited.
+> > 
+> > regards,
+> > Nicolas
+> > 
+> 
+> I like your idea to have more generic one and codec-agnostic. I guess
+> something like below menu control:
+> 
+> V4L2_CID_MPEG_VIDEO_DECODER_DECODE_PICTURE_TYPE
+> "Normal"	- decode everything applicable to the codec (default)
+> "Thumbnail"	- decode sync frames (pictures?) with low memory usage
+> "Sync frames"	- decode sync frames without memory constraints
+> "Skip B frames"	- decode sync frames and unidirectional frames
+> "Skip Temporal layer(s)" - decode everything but skip temporal layers
+> above base layer
 
-I guess this could be SOB? Either way I'm fine.
+That's promising, of course it will be hard to claim that "Skip B-
+frame" is codec-agnostic. But it could be acceptable if we come up with
+a proper story for enumeration. If I may make the analogy with the
+enum-framerate, the answer from that can vary depending on the
+configured format. The enumeration of the menu could behave similarly I
+think.
 
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
-> ---
->=20
-> v2: moved PM reference to cedrus_{start,stop}_streaming, based on an
->     earlier patch by Jernej Skrabec. Removes the need for autosuspend.
->     I tested this with running 2x v4l2-request-test in parallel.
->=20
-
-I tested previous and this patch with LibreELEC and I didn't noticed any=20
-regressions:
-
-Tested-by: Jernej Skrabec <jernej.skrabec@siol.net>
-
-Best regards,
-Jernej
-
+Nicolas
 
