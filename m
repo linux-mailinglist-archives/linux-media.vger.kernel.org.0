@@ -2,81 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C42D1B573B
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 10:30:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ED661B5740
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 10:33:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726530AbgDWIaM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Apr 2020 04:30:12 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:38719 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725854AbgDWIaM (ORCPT
+        id S1726021AbgDWIdI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Apr 2020 04:33:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44646 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725854AbgDWIdF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Apr 2020 04:30:12 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id RXFHjKvGh7xncRXFKjPkxv; Thu, 23 Apr 2020 10:30:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587630610; bh=9WcQfpLGZN4pud2Zo3lEaTA3Onw7DFfH9kUQm9h+1zM=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=BwDjqcBYW+m+oVGZdJ+ip4h92AbIqPTE8rUc1tAN5jYETRneSq4K8J59In9Ta05PZ
-         xC6tSWz9EdK5gZViTiq7oHQ4pyVA1SQn9aAAQ0C8Jhgrt3Oj5aZLqF3eUADFfkc8dM
-         8wj6KETDkueJlC5zCUWvIcSWcyI58MhJ8WvrYr1mh0yKCu0VXfZralfJgLErGn+4QK
-         CI+Lom138v9x+ivSgZ+A3K7kGj9BQ/APUEcJa7vl8XohYTTzjdIaLsvgVRqew4Q3iu
-         HjxqWmVsoaZLgOxAd7I1d1ozNp+aSMrIWCDWUZmjhama02f4Z/RjPCVjoR/j7DxXtk
-         RZR/L8J6FMJLA==
-Subject: Re: [PATCH 04/12] utils: don't check unsigned for < 0.
-To:     Rosen Penev <rosenp@gmail.com>, linux-media@vger.kernel.org
-References: <20200422003735.3891-1-rosenp@gmail.com>
- <20200422003735.3891-4-rosenp@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d1116917-29c6-fb16-f19e-e075c727bc94@xs4all.nl>
-Date:   Thu, 23 Apr 2020 10:30:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <20200422003735.3891-4-rosenp@gmail.com>
+        Thu, 23 Apr 2020 04:33:05 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 524ADC03C1AB
+        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 01:33:05 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id t40so2213191pjb.3
+        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 01:33:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=NmBZyP3DelujsHP31EVLPzROnX8jtf9XYU+l9YfXXHk=;
+        b=kyfC/bzDaqg7OJU2hBjDK+NcxH9v13TzX+ooJpbSgY5PxYvg9H2Osaz0s5nv8kdM/N
+         C8+yRFQeqt9KYeKMaZFJ/3E/Xdi/jOUDChOyugzPkdfVsj/AL2bwSZDYbONQ5XsE//Jx
+         FgTUwgleZmBZpCJUeNFs6OExG6SzbY21KyeOirjhx8ozovdM2eNQUbVbaBfm/kQ+7S2s
+         LpZ8nljFl83gMmtzRL+J8gbuWnWuJRnxYumvkXG49VVmjC954IZ5SJKps551hDQKWu3q
+         BVQJjtQH8JYdX5BjSWTIajblLYktkrsKHq6OV1EaP0MR/5DlB8AsIGu+Uqu8lzzJoPLj
+         We2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=NmBZyP3DelujsHP31EVLPzROnX8jtf9XYU+l9YfXXHk=;
+        b=T4mzMBd7hDS3Og0XJMkriQSbZMbPjhCrXaXgxGGAUWgBmLJFDIpssz0nEAZmLIC3sg
+         7RAPAn1tktQwwAIGLXeqBd+BkdBIUw8zteF1tmKSymQ8adOuLD4aT+Q5ZjaeOlWufQFv
+         eGBBRfvsQtFm/XZUpVjFnXOPvXHpcANZdUOZFlFO+F6ZXEZYHJAIkVZ5K3Iut9ZGi/p0
+         cCT0Dj8rexqbELufkkIc0mQQQZxLWwE0G0cDRyE3RB3B4K+hTsm62jC0YjiSyZDtHe8a
+         iIvi+GepoA6YPT3lriVSSeK3xHBSIYYslLc6z2A1QF+ZNMeaSAOHZ2Yp2eWCZCfP1wzS
+         5e0Q==
+X-Gm-Message-State: AGi0PubI2L1NV8l9TusjbOnp3kw8SOJwlVghK1LKNNXFCpaoegBdVuBj
+        yOXuyTX8ZxH30/WXPKnOHPWtLGFE
+X-Google-Smtp-Source: APiQypJs8o8pCcWMzx6yK/Id19itGJzKjNddU9cUJmfzB8nVl9RaUtvj0ctlYQORkHdNsEK6P9PR+A==
+X-Received: by 2002:a17:902:ed13:: with SMTP id b19mr2820384pld.254.1587630784743;
+        Thu, 23 Apr 2020 01:33:04 -0700 (PDT)
+Received: from [192.168.0.147] (76-14-109-232.rk.wavecable.com. [76.14.109.232])
+        by smtp.gmail.com with ESMTPSA id x63sm1930702pfc.56.2020.04.23.01.33.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Apr 2020 01:33:04 -0700 (PDT)
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfDJ0wSjYCoBhAIAOfv00GDu8RjWP6uP5QEyf7pt6EP2XOQHX0sun+B0QJfYWQaIUHDSfi+8fnYsAkNnIB0IBIOz8q+FAgymkQfJAvpPjDfyAgIZznp3A
- ReKGOE83E6rabQ8c1aemZTBbeT8TgwAlLLcpn/pIM7dQigmvxJU0iuP50H/FcRCpO93wZYNqM4Z6c/RmsQoXkF64W+NL5hxcw2w=
+Content-Transfer-Encoding: quoted-printable
+From:   Rosen Penev <rosenp@gmail.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH 04/12] utils: don't check unsigned for < 0.
+Date:   Thu, 23 Apr 2020 01:33:03 -0700
+Message-Id: <95622E7A-3F1E-427D-82D8-55D3E65B9473@gmail.com>
+References: <d1116917-29c6-fb16-f19e-e075c727bc94@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+In-Reply-To: <d1116917-29c6-fb16-f19e-e075c727bc94@xs4all.nl>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+X-Mailer: iPhone Mail (17C54)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22/04/2020 02:37, Rosen Penev wrote:
-> Found with -Wtautological-unsigned-zero-compare
-> 
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
-> ---
->  utils/v4l2-compliance/v4l2-test-controls.cpp | 2 --
->  1 file changed, 2 deletions(-)
-> 
-> diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-compliance/v4l2-test-controls.cpp
-> index 8c4480be..251a6049 100644
-> --- a/utils/v4l2-compliance/v4l2-test-controls.cpp
-> +++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
-> @@ -80,8 +80,6 @@ static int checkQCtrl(struct node *node, struct test_query_ext_ctrl &qctrl)
->  			return fail("min > max\n");
->  		if (qctrl.step == 0)
->  			return fail("step == 0\n");
-> -		if (qctrl.step < 0)
-> -			return fail("step < 0\n");
 
-Ah, nice. This is actually a bug since this test needs to be done for
-struct v4l2_queryctl (where step is signed) instead of struct v4l2_query_ext_ctrl
-(where step is unsigned).
 
-I've made a patch fixing this correctly.
-
-Regards,
-
-	Hans
-
->  		if (static_cast<unsigned>(qctrl.step) > static_cast<unsigned>(qctrl.maximum - qctrl.minimum) &&
->  		    qctrl.maximum != qctrl.minimum)
->  			return fail("step > max - min\n");
-> 
-
+> On Apr 23, 2020, at 1:30 AM, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>=20
+> =EF=BB=BFOn 22/04/2020 02:37, Rosen Penev wrote:
+>> Found with -Wtautological-unsigned-zero-compare
+>>=20
+>> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+>> ---
+>> utils/v4l2-compliance/v4l2-test-controls.cpp | 2 --
+>> 1 file changed, 2 deletions(-)
+>>=20
+>> diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-co=
+mpliance/v4l2-test-controls.cpp
+>> index 8c4480be..251a6049 100644
+>> --- a/utils/v4l2-compliance/v4l2-test-controls.cpp
+>> +++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
+>> @@ -80,8 +80,6 @@ static int checkQCtrl(struct node *node, struct test_qu=
+ery_ext_ctrl &qctrl)
+>>            return fail("min > max\n");
+>>        if (qctrl.step =3D=3D 0)
+>>            return fail("step =3D=3D 0\n");
+>> -        if (qctrl.step < 0)
+>> -            return fail("step < 0\n");
+>=20
+> Ah, nice. This is actually a bug since this test needs to be done for
+> struct v4l2_queryctl (where step is signed) instead of struct v4l2_query_e=
+xt_ctrl
+> (where step is unsigned).
+>=20
+> I've made a patch fixing this correctly.
+Sounds good.
+>=20
+> Regards,
+>=20
+>    Hans
+>=20
+>>        if (static_cast<unsigned>(qctrl.step) > static_cast<unsigned>(qctr=
+l.maximum - qctrl.minimum) &&
+>>            qctrl.maximum !=3D qctrl.minimum)
+>>            return fail("step > max - min\n");
+>>=20
+>=20
