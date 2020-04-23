@@ -2,234 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6733C1B5961
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 12:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78BF01B5982
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 12:46:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727015AbgDWKi4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Apr 2020 06:38:56 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:54751 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725863AbgDWKi4 (ORCPT
+        id S1727098AbgDWKqf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Apr 2020 06:46:35 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:51713 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725863AbgDWKqf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Apr 2020 06:38:56 -0400
+        Thu, 23 Apr 2020 06:46:35 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id RZFpjLqYo7xncRZFsjQFiG; Thu, 23 Apr 2020 12:38:52 +0200
+        id RZNFjLthm7xncRZNIjQHAv; Thu, 23 Apr 2020 12:46:32 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587638332; bh=navaRimnR9rBBLMvcpN4leBA30lNa0An4ygk0CtmV/0=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1587638792; bh=4Z9L3fveCgB/UVffyvJ0cbAFPHfM23fVKi3mF2tZbAU=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=PpRYDB6RVjq2iTVzbveDXCT6eqBe0JfrvbdboOXZsNs8HBsc72QLRuxg+SBCFkZiE
-         ELSJsh+UHBmayDvi1O7lNi7FUjc1Lh/eBa4754rCz/P0ra7Lq1FQ4rWEOdP2+UY8Po
-         zWNx6VrYUpt0CDevrFvx/Pe52z+178gyggegjeL2nLPIP8LMVfxmJl/agZ/Qp2qdvd
-         cLb7nsWCBhtgYLSc5hZY+d7RLGcJqECLXNDI4lcW1dH2gLrbGMBMcpW1vamDXi7G5y
-         JpVlkw88BgSyWj0ocAzIdWI9Kq2uYDJrjay5iVaMgQ9/zGgXqtdpYIcH9amGdPKxf/
-         pKWuweMzlK2Lw==
-Subject: Re: [PATCH v8 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support
- MC-centric devices
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
+        b=uTIY26ojCZRblaU9PgqhgeRBmrMHMYau37foeoh/xzQdGJ9UbJuichV/ML1ywlMNM
+         mf464BvY/lvtqv5hyazC2vWCA+UX5ID4BUmqqwxF8TfK2BvdirYxHZ2TnLsS9y7P1d
+         9b8+xRFU9FeSO8zomf5jExLPt0dAZ0xZDYMiV3dWp7epMhOivIG5pP9pqHHxrQ4u5a
+         /Mf9bJt97yYwTbAB1krD5ncza6MRJCrk1fv7YA4ZOUQMVFstrfhutUFTBZUHqj407Y
+         btzWyl92gECpVuVAWVGOMoqwEAMr8sBRhd2ABSqIEo8gNXdtcush6SwGm2hhj1LhjE
+         z4C6blZ1L4cUg==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
         Helen Koike <helen.koike@collabora.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-References: <20200421135743.1381930-1-niklas.soderlund+renesas@ragnatech.se>
- <20200421135743.1381930-4-niklas.soderlund+renesas@ragnatech.se>
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d234f2bf-9bda-e073-ad6f-392f6b5d0cdd@xs4all.nl>
-Date:   Thu, 23 Apr 2020 12:38:49 +0200
+Subject: [PATCHv2] v4l2-compliance: add tests for V4L2_CAP_IO_MC
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Message-ID: <a79f8f49-817a-1804-e88e-455f00d21006@xs4all.nl>
+Date:   Thu, 23 Apr 2020 12:46:28 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200421135743.1381930-4-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfMGnnR36/4hbHS3twyWytg1zEw87eBVLsZKY4jChSxByy1KwPILv+oPSg2mEw4fChuhsoe69auEV8IgDne4ZX1ORWnm2PpIvHv8uPHpzd0SKAHHzMTIn
- idyqtUTsSlp9hOndFVu9A5aLEt4IGI+Nc/Z6rhgMtDI+yKVjEKz3RRPZ73FKvTTzFsHS96nP+kdfw8hlPyQiZB3rtYZVcek6Yh1A+O37MOlR3GrhDug0nHxT
- BLqSxEmNOO4Y0OKZUXNFGIpedoizTouAHDc55xd5hII0mumjjoHNpIWQy7ii/ydoV63WYqKlvtTwPaJTmGj2oG+5Uwjupx+SrU2hbEz1y5yaiC+o4QfLp6WN
- mcVfyJAN6DKfoyYEOGzd2ZT5rKg+ASXMyS9LdZkvWSmv/7o2mB1LP+q3abB9tDGjLvDviE+gem2PZkJBLAOyAQ2UX66gGg==
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfLP0YRrVz5DMHmhBL5FBmGH6OWr9NJ0DayTkik5Ka4rRujGh8/yMleob9APVQAG2SsJ5VBLYbOHWXPYmf0LaC4bljk9VmO4qCFeFla36RPWdquE0UdFq
+ Oqqi5M+59xTLMClsKxZ3qrpSzmoasemX1XkF9zAb5Vz5UQLo+a02hHqMe2izCaF3Gq0R+0L5OPrBBYhmWO9GRIjQAlBnneWE/06R2FA1+e8Dry0TrpRe0BsU
+ IHbutS2LslH/uCW1aZxfCpcMyylmuMs8rmexPmStPNO7TlJOyyfL5TZP46bgXwuKTm6FxnqltJc7limkjLz2nGN/23iou4HBeJf7OliMHQVdXnPk2xUebaZE
+ BJiz5QqV34Z94umBe7y4HgfDKFMaWwTUYKDuf4U6U2ONFlOQw/Q=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/04/2020 15:57, Niklas Söderlund wrote:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
-> node. For MC-centric devices, its behaviour has always been ill-defined,
-> with drivers implementing one of the following behaviours:
-> 
-> - No support for VIDIOC_ENUM_FMT at all
-> - Enumerating all formats supported by the video node, regardless of the
->   configuration of the pipeline
-> - Enumerating formats supported by the video node for the active
->   configuration of the connected subdevice
-> 
-> The first behaviour is obviously useless for applications. The second
-> behaviour provides the most information, but doesn't offer a way to find
-> what formats are compatible with a given pipeline configuration. The
-> third behaviour fixes that, but with the drawback that applications
-> can't enumerate all supported formats anymore, and have to modify the
-> active configuration of the pipeline to enumerate formats.
-> 
-> The situation is messy as none of the implemented behaviours are ideal,
-> and userspace can't predict what will happen as the behaviour is
-> driver-specific.
-> 
-> To fix this, let's extend the VIDIOC_ENUM_FMT with a missing capability:
-> enumerating pixel formats for a given media bus code. The media bus code
-> is passed through the v4l2_fmtdesc structure in a new mbus_code field
-> (repurposed from the reserved fields). With this capability in place,
-> applications can enumerate pixel formats for a given media bus code
-> without modifying the active configuration of the device.
-> 
-> The current behaviour of the ioctl is preserved when the new mbus_code
-> field is set to 0, ensuring compatibility with existing userspace. The
-> API extension is documented as mandatory for MC-centric devices (as
-> advertised through the V4L2_CAP_IO_MC capability), allowing applications
-> and compliance tools to easily determine the availability of the
-> VIDIOC_ENUM_FMT extension.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
-> * Changes since v7
-> - Update documentation.
-> ---
->  .../userspace-api/media/v4l/vidioc-enum-fmt.rst  | 16 +++++++++++++---
->  drivers/media/v4l2-core/v4l2-ioctl.c             | 13 +++++++++++--
->  include/uapi/linux/videodev2.h                   |  3 ++-
->  3 files changed, 26 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> index 7e3142e11d77d9c0..8dc8a73c320dda98 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> @@ -48,10 +48,20 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
->  formats in preference order, where preferred formats are returned before
->  (that is, with lower ``index`` value) less-preferred formats.
->  
-> -.. note::
-> +If the driver doesn't advertise the ``V4L2_CAP_IO_MC``
-> +:ref:`device-capabilities <capability>`, applications shall initialize the
+Add tests to check the behavior of VIDIOC_ENUM{INPUT,OUTPUT},
+VIDIOC_G_{INPUT,OUTPUT} and VIDIOC_S_{INPUT,OUTPUT} when the
+V4L2_CAP_IO_MC is set.
 
-That's :ref:`capability <device-capabilities>`
+And the old 'node->has_inputs || node->has_outputs' argument for testColorspace()
+can now be replaced with !node->is_io_mc.
 
-> +``mbus_code`` field to zero. Drivers shall enumerate all image formats. The
-> +enumerated formats may depend on the active input or output of the device.
->  
-> -   After switching input or output the list of enumerated image
-> -   formats may be different.
-> +If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`device-capabilities
-> +<capability>`, applications may initialize the ``mbus_code`` to a valid
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+Supersedes https://patchwork.linuxtv.org/patch/62312.
+---
+diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+index b3a18492..7bd2e035 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.cpp
++++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+@@ -1004,6 +1004,8 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+ 		node.is_video = false;
+ 		node.is_meta = true;
+ 	}
++	if (node.g_caps() & V4L2_CAP_IO_MC)
++		node.is_io_mc = true;
 
-Ditto.
+ 	/* Information Opts */
 
-> +:ref:`v4l2_mbus_pixelcode <media bus format code>`. If the ``mbus_code` field
+diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+index 07c7be29..6c3928fe 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.h
++++ b/utils/v4l2-compliance/v4l2-compliance.h
+@@ -97,6 +97,7 @@ struct base_node {
+ 	bool is_meta;
+ 	bool is_touch;
+ 	bool is_m2m;
++	bool is_io_mc;
+ 	bool is_planar;
+ 	bool can_capture;
+ 	bool can_output;
+diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-compliance/v4l2-test-formats.cpp
+index 824769b3..f38bc30a 100644
+--- a/utils/v4l2-compliance/v4l2-test-formats.cpp
++++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
+@@ -447,7 +447,7 @@ static int testFormatsType(struct node *node, int ret,  unsigned type, struct v4
+ 		fail_on_test(pix.bytesperline && pix.bytesperline < pix.width);
+ 		fail_on_test(!pix.sizeimage);
+ 		if (!node->is_m2m)
+-			fail_on_test(testColorspace(node->has_inputs || node->has_outputs,
++			fail_on_test(testColorspace(!node->is_io_mc,
+ 						    pix.pixelformat, pix.colorspace,
+ 						    pix.ycbcr_enc, pix.quantization));
+ 		fail_on_test(pix.field == V4L2_FIELD_ANY);
+@@ -463,7 +463,7 @@ static int testFormatsType(struct node *node, int ret,  unsigned type, struct v4
+ 			return fail("pixelformat %08x (%s) for buftype %d not reported by ENUM_FMT\n",
+ 					pix_mp.pixelformat, fcc2s(pix_mp.pixelformat).c_str(), type);
+ 		if (!node->is_m2m)
+-			fail_on_test(testColorspace(node->has_inputs || node->has_outputs,
++			fail_on_test(testColorspace(!node->is_io_mc,
+ 						    pix_mp.pixelformat, pix_mp.colorspace,
+ 						    pix_mp.ycbcr_enc, pix_mp.quantization));
+ 		fail_on_test(pix_mp.field == V4L2_FIELD_ANY);
+diff --git a/utils/v4l2-compliance/v4l2-test-input-output.cpp b/utils/v4l2-compliance/v4l2-test-input-output.cpp
+index fb8d12b1..80ecf75d 100644
+--- a/utils/v4l2-compliance/v4l2-test-input-output.cpp
++++ b/utils/v4l2-compliance/v4l2-test-input-output.cpp
+@@ -466,6 +466,10 @@ int testInput(struct node *node)
+ 	if (!node->inputs && node->has_inputs)
+ 		return fail("no inputs found, but input capabilities set\n");
+ 	fail_on_test(node->is_m2m && node->inputs > 1);
++	if (node->is_io_mc) {
++		fail_on_test(!node->is_video && !node->is_meta);
++		fail_on_test(node->inputs != 1);
++	}
+ 	return 0;
+ }
 
-:ref:`media bus format code <v4l2-mbus-pixelcode>`
-
-``mbus_code` -> ``mbus_code``
-
-> +is not zero, drivers shall restrict enumeration to only the image formats that
-> +can produce (for video output devices) or be produced from (for video capture
-> +devices) that media bus code. Regardless of the value of the ``mbus_code``
-> +field, the enumerated image formats shall not depend on the active
-> +configuration of the video device or device pipeline. Enumeration shall
-> +otherwise operate as previously described.
-
-The new field isn't documented, vidioc-enum-fmt.rst still shows 'reserved[4]' in
-the struct v4l2_fmtdesc description.
-
->  
->  
->  .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index afd1f427df557f71..3e7b99fa415222c6 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -264,12 +264,13 @@ static void v4l_print_fmtdesc(const void *arg, bool write_only)
->  {
->  	const struct v4l2_fmtdesc *p = arg;
->  
-> -	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, description='%.*s'\n",
-> +	pr_cont("index=%u, type=%s, flags=0x%x, pixelformat=%c%c%c%c, mbus_code=0x%04x, description='%.*s'\n",
->  		p->index, prt_names(p->type, v4l2_type_names),
->  		p->flags, (p->pixelformat & 0xff),
->  		(p->pixelformat >>  8) & 0xff,
->  		(p->pixelformat >> 16) & 0xff,
->  		(p->pixelformat >> 24) & 0xff,
-> +		p->mbus_code,
->  		(int)sizeof(p->description), p->description);
->  }
->  
-> @@ -1472,12 +1473,20 @@ static int v4l_enum_fmt(const struct v4l2_ioctl_ops *ops,
->  	struct video_device *vdev = video_devdata(file);
->  	struct v4l2_fmtdesc *p = arg;
->  	int ret = check_fmt(file, p->type);
-> +	u32 mbus_code;
->  	u32 cap_mask;
->  
->  	if (ret)
->  		return ret;
->  	ret = -EINVAL;
->  
-> +	if (p->mbus_code && !(vdev->device_caps & V4L2_CAP_IO_MC))
-> +		return -EINVAL;
-
-I suggest changing this to:
-
-	if (!(vdev->device_caps & V4L2_CAP_IO_MC))
-		p->mbus_code = 0;
-
-This is much more robust for existing userspace since they may not have
-properly zeroed the reserved array. Also, mbus_code only makes sense in
-combination with CAP_IO_MC, so zeroing it if CAP_IO_MC isn't set makes sense.
-
-The documentation probably needs to be updated to reflect this change as well.
-
-I'll post a patch for v4l2-compliance as well.
-
-Regards,
-
-	Hans
-
-> +
-> +	mbus_code = p->mbus_code;
-> +	CLEAR_AFTER_FIELD(p, type);
-> +	p->mbus_code = mbus_code;
-> +
->  	switch (p->type) {
->  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
->  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-> @@ -2757,7 +2766,7 @@ DEFINE_V4L_STUB_FUNC(dv_timings_cap)
->  
->  static const struct v4l2_ioctl_info v4l2_ioctls[] = {
->  	IOCTL_INFO(VIDIOC_QUERYCAP, v4l_querycap, v4l_print_querycap, 0),
-> -	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, INFO_FL_CLEAR(v4l2_fmtdesc, type)),
-> +	IOCTL_INFO(VIDIOC_ENUM_FMT, v4l_enum_fmt, v4l_print_fmtdesc, 0),
->  	IOCTL_INFO(VIDIOC_G_FMT, v4l_g_fmt, v4l_print_format, 0),
->  	IOCTL_INFO(VIDIOC_S_FMT, v4l_s_fmt, v4l_print_format, INFO_FL_PRIO),
->  	IOCTL_INFO(VIDIOC_REQBUFS, v4l_reqbufs, v4l_print_requestbuffers, INFO_FL_PRIO | INFO_FL_QUEUE),
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index b18f3f7cde31c2e4..c3a1cf1c507f5506 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -784,7 +784,8 @@ struct v4l2_fmtdesc {
->  	__u32               flags;
->  	__u8		    description[32];   /* Description string */
->  	__u32		    pixelformat;       /* Format fourcc      */
-> -	__u32		    reserved[4];
-> +	__u32		    mbus_code;		/* Media bus code    */
-> +	__u32		    reserved[3];
->  };
->  
->  #define V4L2_FMT_FLAG_COMPRESSED		0x0001
-> 
+@@ -836,6 +840,10 @@ int testOutput(struct node *node)
+ 	if (!node->outputs && node->has_outputs)
+ 		return fail("no outputs found, but output capabilities set\n");
+ 	fail_on_test(node->is_m2m && node->outputs > 1);
++	if (node->is_io_mc) {
++		fail_on_test(!node->is_video && !node->is_meta);
++		fail_on_test(node->outputs != 1);
++	}
+ 	return 0;
+ }
 
