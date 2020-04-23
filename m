@@ -2,59 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0F931B65F2
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 23:10:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B2F981B65F4
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 23:10:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727092AbgDWVKq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Apr 2020 17:10:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50330 "EHLO
+        id S1727772AbgDWVKt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Apr 2020 17:10:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727065AbgDWVKq (ORCPT
+        with ESMTP id S1727125AbgDWVKs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Apr 2020 17:10:46 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11ABBC09B044
-        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 14:10:46 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id a31so1135664pje.1
-        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 14:10:46 -0700 (PDT)
+        Thu, 23 Apr 2020 17:10:48 -0400
+Received: from mail-pj1-x102d.google.com (mail-pj1-x102d.google.com [IPv6:2607:f8b0:4864:20::102d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21C37C09B042
+        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 14:10:47 -0700 (PDT)
+Received: by mail-pj1-x102d.google.com with SMTP id fu13so2426582pjb.5
+        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 14:10:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:mime-version
+        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
          :content-transfer-encoding;
-        bh=WYxKCRpYcYJulfhpMhiVVDeFXV8YlPiKJygpdbe/abE=;
-        b=lnyVafeXM3v8E0R4lop6SK7FRVEIdJZpMwyFF8Q61z+vbTzaxIlYbaZuAa9kD76aSC
-         34rwgTN+09JaQOBKH5U6YwfghXjclKA+1Xs37rG+HY3GA9uS4CJnNHgb9+Nb9kb6ijvQ
-         mm/iIFvS87x+f9e+QtCGMl0nakWumLdLhW8SZ6jk5GeXxyczPit5unDlnunQNKuXA63v
-         CQSHTJ6Do+QNyozaCzV3nGXH87NWmxIlTE6lQJ3Y0pmUjnioSoLP5bVihIbVCCn0jKin
-         xdfg71faYWyXAz6RE7pp2rHTBLzNJZpSFQo09/slAcUjGBSQUinG+MwBXituwHQssHkS
-         WYCQ==
+        bh=odzY2H9MOg6XnqWqH3v4/StHWBLH4+8YutE666x3msg=;
+        b=TLBKjNX9AbFhEZefKEvLa/tPyDAUfY2dMDu0CacKPYtnkRJof+yoM9oZ+yO5Wwa74k
+         eYC2i4OeOURIUEX4sTtBder8LAs9W0AG4bCgi53kA5gFHy/UUD73dTY50i+ANj5fLjn4
+         p664rRG46pgi0mG16QtbPTg3O/7yGAUVdD3YcVoAqBmGzDpWXmXODMLlFfi7mIUYW8T1
+         dc+Z3Gh2C790So1mgCp+1wstnCCjkkUkrAfw6ZNfWATmF7Ez6XHjcFS7YorqPNs8K1QZ
+         9VByE6OVSn2G4dwxDOf1C6M7qa4Jxxbn4Jhb/cxzRQ7HLPomycZ+D8BoxRWaBqF6koKe
+         TO+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=WYxKCRpYcYJulfhpMhiVVDeFXV8YlPiKJygpdbe/abE=;
-        b=G5oq7lp8BAK1JRDOgy2pPRd2p3B45Av//iuEvfl2kekQAIAF3O5ikKwU6VAebk+w7E
-         14qSJuMgpdyErwjSFUHMs66eJskkedv48V+PActZ73O7XUm9HteV8hKoJffitcITm9WW
-         YV3e36zDEtvw5JBvlIb+2EXXxWhoI/VsMUpwMRaWfrtxNVn3kPtEw8gXVEPpT6x8KJta
-         qsIgHeKoHnIX2gdLim2PMILq19xnfSjZ3lcKrUqeeHnungR20yTN1UIf2cDfHdaOznxE
-         1ybXha+GM7KrDjviBrYNA4vI3BPdW5HQZjcRGXF9CP2/WK9bpUr9pOpBMMW7jAP8ZO1B
-         PSqw==
-X-Gm-Message-State: AGi0PuaNFaxA8Hzr1t3dLXPghfUSxa2vIpwP/pwv4Ni0e6huCktUvPwG
-        woMitgVTHUJssjSFH1GWxVusYatA
-X-Google-Smtp-Source: APiQypLmuPT9/DCxj+uVPKOS3oWsfAJC82LjJaSQAsXykwwJKBlxMPRmqgqvspf65uD/lD8kYnj7ZA==
-X-Received: by 2002:a17:90a:589:: with SMTP id i9mr2656907pji.156.1587676245174;
-        Thu, 23 Apr 2020 14:10:45 -0700 (PDT)
+        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=odzY2H9MOg6XnqWqH3v4/StHWBLH4+8YutE666x3msg=;
+        b=P6XlAu0HD2OHjN3Y3VAxwxnmEiMnQUVEf3N47FDsERQTMbbd0dipWdG45gTGasHhMO
+         Y+Sg6tkSIe5ANePkTaUAQpz0/OIDvZKp90N/GFtJFbz5bk7RHByPl7lpXVN8+JOv0j78
+         etnDyaoRX1xeox93Oio/Ry/FI1cPXqN0qX2lwh6rF1iqjMXzKF9S+AbRLVk5pCEr9Jah
+         sYGawcFql//gq9eyKbIGZMKygRUgPVquz7gn50UsqLZdDM0Xe5TID7cRdxnsBAA8zt0t
+         72yaFVI5GF922/qE1gfVf5Ml0qsqWmTpAu1fOdSeXprKPLVPk8vBttycj/x1us2uFmTl
+         7Krg==
+X-Gm-Message-State: AGi0PuateK401Rg3s0xsXwAh9j5GBpACirVgRLO25vPR7nw/g7oMkARW
+        YXp4KKVSAoS9LlAb9AmWt6sTSn3v
+X-Google-Smtp-Source: APiQypK2Ky/H+eIc5LwOXyx4RRMvDDK4iarTk9d/2BK16WbXRSMtPyasziIamHVz7jdpTqAXg4VVmw==
+X-Received: by 2002:a17:902:ac87:: with SMTP id h7mr5452209plr.119.1587676246175;
+        Thu, 23 Apr 2020 14:10:46 -0700 (PDT)
 Received: from localhost.localdomain (76-14-109-232.rk.wavecable.com. [76.14.109.232])
-        by smtp.gmail.com with ESMTPSA id f21sm3563630pfn.71.2020.04.23.14.10.44
+        by smtp.gmail.com with ESMTPSA id f21sm3563630pfn.71.2020.04.23.14.10.45
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2020 14:10:44 -0700 (PDT)
+        Thu, 23 Apr 2020 14:10:45 -0700 (PDT)
 From:   Rosen Penev <rosenp@gmail.com>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH 1/5] utils: fix compilation with C++98
-Date:   Thu, 23 Apr 2020 14:10:36 -0700
-Message-Id: <20200423211040.14275-1-rosenp@gmail.com>
+Subject: [PATCH 2/5] utils: add noreturn attribute and remove dead code
+Date:   Thu, 23 Apr 2020 14:10:37 -0700
+Message-Id: <20200423211040.14275-2-rosenp@gmail.com>
 X-Mailer: git-send-email 2.25.3
+In-Reply-To: <20200423211040.14275-1-rosenp@gmail.com>
+References: <20200423211040.14275-1-rosenp@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -62,61 +64,98 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Found with -Wmissing-noreturn and -Wunreachable-code-return
+
 Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
- utils/cec-compliance/cec-test.cpp | 4 ++--
- utils/rds-ctl/rds-ctl.cpp         | 2 +-
- utils/v4l2-ctl/v4l2-ctl-tuner.cpp | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ utils/v4l2-compliance/v4l2-compliance.cpp | 10 +++++-----
+ utils/v4l2-dbg/v4l2-dbg.cpp               |  5 ++---
+ 2 files changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
-index 032ff5ad..cc07998a 100644
---- a/utils/cec-compliance/cec-test.cpp
-+++ b/utils/cec-compliance/cec-test.cpp
-@@ -908,7 +908,7 @@ static int tuner_ctl_test(struct node *node, unsigned me, unsigned la, bool inte
- 		cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
- 		fail_on_test(!transmit_timeout(node, &msg));
- 		fail_on_test(timed_out_or_abort(&msg));
--		info = {};
-+		memset(&info, 0, sizeof(info));
- 		cec_ops_tuner_device_status(&msg, &info);
- 		if (!memcmp(&info, &info_vec[0], sizeof(info)))
- 			break;
-@@ -935,7 +935,7 @@ static int tuner_ctl_test(struct node *node, unsigned me, unsigned la, bool inte
- 		cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
- 		fail_on_test(!transmit_timeout(node, &msg));
- 		fail_on_test(timed_out_or_abort(&msg));
--		info = {};
-+		memset(&info, 0, sizeof(info));
- 		cec_ops_tuner_device_status(&msg, &info);
- 		if (memcmp(&info, &(*iter), sizeof(info))) {
- 			log_tuner_service(info);
-diff --git a/utils/rds-ctl/rds-ctl.cpp b/utils/rds-ctl/rds-ctl.cpp
-index 0511fe5d..0e497b2a 100644
---- a/utils/rds-ctl/rds-ctl.cpp
-+++ b/utils/rds-ctl/rds-ctl.cpp
-@@ -918,7 +918,7 @@ static void get_options(const int fd, const int capabilities, struct v4l2_freque
- 				printf("\tFrequency range      : %.1f MHz - %.1f MHz\n",
- 					 vt.rangelow / 16.0, vt.rangehigh / 16.0);
- 			printf("\tSignal strength/AFC  : %ld%%/%d\n",
--				std::lround(vt.signal / 655.35), vt.afc);
-+				lround(vt.signal / 655.25), vt.afc);
- 			printf("\tCurrent audio mode   : %s\n", audmode2s(vt.audmode));
- 			printf("\tAvailable subchannels: %s\n",
- 					rxsubchans2s(vt.rxsubchans).c_str());
-diff --git a/utils/v4l2-ctl/v4l2-ctl-tuner.cpp b/utils/v4l2-ctl/v4l2-ctl-tuner.cpp
-index bc397ec2..73dc323c 100644
---- a/utils/v4l2-ctl/v4l2-ctl-tuner.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl-tuner.cpp
-@@ -423,7 +423,7 @@ void tuner_get(cv4l_fd &_fd)
+diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+index b3a18492..a312f54d 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.cpp
++++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+@@ -247,7 +247,6 @@ static void usage()
+ 	printf("  -w, --wrapper      Use the libv4l2 wrapper library.\n");
+ #endif
+ 	printf("  -W, --exit-on-warn Exit on the first warning.\n");
+-	exit(0);
+ }
  
- 			if (vt.type != V4L2_TUNER_SDR && vt.type != V4L2_TUNER_RF) {
- 				printf("\tSignal strength/AFC  : %ld%%/%d\n",
--				       std::lround(vt.signal / 655.35), vt.afc);
-+				       lround(vt.signal / 655.35), vt.afc);
- 				printf("\tCurrent audio mode   : %s\n", audmode2s(vt.audmode));
- 				printf("\tAvailable subchannels: %s\n", rxsubchans2s(vt.rxsubchans).c_str());
- 			}
+ const char *ok(int res)
+@@ -482,6 +481,7 @@ static void restoreState()
+ 	node->reopen();
+ }
+ 
++__attribute__((noreturn))
+ static void signal_handler_interrupt(int signum)
+ {
+ 	restoreState();
+@@ -1544,7 +1544,7 @@ int main(int argc, char **argv)
+ 		switch (ch) {
+ 		case OptHelp:
+ 			usage();
+-			return 0;
++			exit(0);
+ 		case OptSetDevice:
+ 			device = make_devname(optarg, "video", media_bus_info);
+ 			break;
+@@ -1669,13 +1669,13 @@ int main(int argc, char **argv)
+ 			fprintf(stderr, "Option `%s' requires a value\n",
+ 				argv[optind]);
+ 			usage();
+-			return 1;
++			exit(1);
+ 		case '?':
+ 			if (argv[optind])
+ 				fprintf(stderr, "Unknown argument `%s'\n",
+ 					argv[optind]);
+ 			usage();
+-			return 1;
++			exit(1);
+ 		}
+ 	}
+ 	if (optind < argc) {
+@@ -1684,7 +1684,7 @@ int main(int argc, char **argv)
+ 			fprintf(stderr, "%s ", argv[optind++]);
+ 		fprintf(stderr, "\n");
+ 		usage();
+-		return 1;
++		exit(1);
+ 	}
+ 	bool direct = !options[OptUseWrapper];
+ 	int fd;
+diff --git a/utils/v4l2-dbg/v4l2-dbg.cpp b/utils/v4l2-dbg/v4l2-dbg.cpp
+index cd387d1d..99c5a726 100644
+--- a/utils/v4l2-dbg/v4l2-dbg.cpp
++++ b/utils/v4l2-dbg/v4l2-dbg.cpp
+@@ -187,7 +187,6 @@ static void usage()
+ 	       "		     Sets step between two registers\n"
+ 	       "  --list-symbols     List the symbolic register names you can use, if any\n"
+ 	       "  --log-status       Log the board status in the kernel log [VIDIOC_LOG_STATUS]\n");
+-	exit(0);
+ }
+ 
+ static std::string cap2s(unsigned cap)
+@@ -429,7 +428,7 @@ int main(int argc, char **argv)
+ 
+ 	if (argc == 1) {
+ 		usage();
+-		return 0;
++		exit(0);
+ 	}
+ 	for (i = 0; long_options[i].name; i++) {
+ 		if (!isalpha(long_options[i].val))
+@@ -467,7 +466,7 @@ int main(int argc, char **argv)
+ 		switch (ch) {
+ 		case OptHelp:
+ 			usage();
+-			return 0;
++			exit(0);
+ 
+ 		case OptSetDevice:
+ 			device = optarg;
 -- 
 2.25.3
 
