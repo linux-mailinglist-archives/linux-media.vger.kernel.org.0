@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D5331B6227
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 19:41:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 762B91B629A
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 19:48:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729983AbgDWRlC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Apr 2020 13:41:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45566 "EHLO
+        id S1730219AbgDWRrk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Apr 2020 13:47:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729917AbgDWRlC (ORCPT
+        with ESMTP id S1730216AbgDWRrk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Apr 2020 13:41:02 -0400
+        Thu, 23 Apr 2020 13:47:40 -0400
 Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD24FC09B042;
-        Thu, 23 Apr 2020 10:41:01 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id 188so7323027wmc.2;
-        Thu, 23 Apr 2020 10:41:01 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D586BC09B042;
+        Thu, 23 Apr 2020 10:47:39 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id r26so7499229wmh.0;
+        Thu, 23 Apr 2020 10:47:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=gWv80nzXUhTdWCFgmyjTCUoBOWCYJ0shhaZECz9MPDU=;
-        b=NX1C5IscIq8eq/7t7aqC4WMjLMIwy0TYJXkv81hlXtOf7GAgezW8xB3N+PSUNC4nDL
-         5PNxuRDBeCtnM/2Xb8IYAkefyXNM9TED4TjytiGbv2wdOMKxNlEL44KXM+rAEBq3tFCw
-         EpVcUvYprGVexQv7brmcia+kisIR3akARAx1SFcKsIoVNBjfnULTFrBocFex8JGj7lYJ
-         Ra0b7OB5ZIxBvXVs8Od3sSB/I7tD9MrS3y/U8KFGGFS7YJd+4FOD6+FmeQoj5HkeDuBV
-         Pv7ag4Mj2hz8C/+5aBe3w+KsQliYhuYkPfZMRWiwT/4HsjaK3JK7ICWbGCOsmNnt9fxR
-         ZdDw==
+        bh=s7IbTs24rsRNhpZKr45UIa67diIJ2j3hIHeW1sPPTHg=;
+        b=rT7iEze1HALDl6lvpSUzL8kQ9itum3Z2XzfNcB2XoIEDVCBM/j6/M7zr6uN213LHUZ
+         YPYTt0ivYzYSF6YneI4BMvUwFVX7iEc9dxIja6Z4QObAUcaSpzyxGXz6vc7hl2fzkrQD
+         R9BSc6JnDVw/7JsvxiMy0WjdfVS++akr/2p7eA02ylWNjpXat6zFTDhrZ2kGyVS30m0C
+         fn1diPgUwWhu9n+CSUoJBhA40Gv7vM4IZZHJOL6B4l6qmbvTXyfW0+MsY2+3J+lPRkTp
+         +ENdEpaKAoskWaicO76h7c0+S+IfLzGYHPCpE0GR798uEQawjTlUTuSuk1smrO08DO73
+         Ss0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=gWv80nzXUhTdWCFgmyjTCUoBOWCYJ0shhaZECz9MPDU=;
-        b=efwwXqeq8lQwehA6DstKYQuPR28mvLmZaLkB4OmowXxbZ5aBD1jEflZ+EKaJLG+fx4
-         q1CAlI3C7GsDR3CNf5gOW5jzMI2nCwtyLRBJCRKdwKpqoPySlKnBMhPYWAP2ome9vSZZ
-         /dMJafxUL70ly9/Q5OC9/HdZF60iLNIEwLijP3MrGgRu+Dcb3M1RmEewbPt+8feSTbrb
-         1Wr5quVKe56NVlI4CsCUbCSFEYV2pdNG7q6x2jHGDMZ80kaQFxp07rfA3ZaDA8WSF5E5
-         VHrfUnE2dL8XWEDavGbhTJDpJFGK/YqmW2kWWHfqWhGN2N7htAxwAukBw7WhfrYysLM4
-         GvyQ==
-X-Gm-Message-State: AGi0PuZkcodaIRPYGbH4M7lyJHxE19dn5ns4Sl5GPcA7zMkajqs7f6vJ
-        CYQ7RUNrWFnYMECXR0yat5w=
-X-Google-Smtp-Source: APiQypIkxumrWz+ndrMvOJ91zYJzQlX5sVnzAQWpOSbcaM+o3LFMTKXuBlxS10rMdu61zM/gqoUfMQ==
-X-Received: by 2002:a1c:a5c8:: with SMTP id o191mr5451325wme.77.1587663660323;
-        Thu, 23 Apr 2020 10:41:00 -0700 (PDT)
+        bh=s7IbTs24rsRNhpZKr45UIa67diIJ2j3hIHeW1sPPTHg=;
+        b=BobVN+r92DCJAIOnYcr5sUIdY6pVegRvT4Jfst1AEvGLAyJKhVm7PVZTz2PpdLu02s
+         Z63LJqlLRY2GhVn3JNehVl0QtgtZbC8s6hoAgx5rlbwZZH/qaxIUL3gv7VmQIbt9BWRv
+         5uveOuwAafT9xgxrfQaUnnXtXjALCwVregDoexEu5FPelEwHZhUtOEJBHs9++9r5muHi
+         bnLvVPWp607zZS2e02eiFpRHncrUo5VARJz8tndAJRxIOn9lInrzgTAOrfaKDP8d535k
+         z0dbq//c07eZwvm9t3NcvZUi20gYfQtqh9y7VMYIhkxh792PScWfOH7RDJUmhlJz7fu7
+         /84Q==
+X-Gm-Message-State: AGi0PuYoWjQZ//hE6mj7PveGf5lCcGwsus7w/ioj1vpcKmJmFhiRyzdB
+        ClZ1nyqnBv+i2yAUU7/VKc4=
+X-Google-Smtp-Source: APiQypJw5ok5IF/3P0V2C6qsbqky8PzsWdgQGR5qKWG2iHmneXc96Vsz7zLQC9ZR9/+p6Grpp62Rng==
+X-Received: by 2002:a1c:b70a:: with SMTP id h10mr5429318wmf.172.1587664058540;
+        Thu, 23 Apr 2020 10:47:38 -0700 (PDT)
 Received: from jernej-laptop.localnet (cpe-194-152-20-232.static.triera.net. [194.152.20.232])
-        by smtp.gmail.com with ESMTPSA id i25sm4471771wml.43.2020.04.23.10.40.57
+        by smtp.gmail.com with ESMTPSA id x18sm4631951wmi.29.2020.04.23.10.47.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2020 10:40:58 -0700 (PDT)
+        Thu, 23 Apr 2020 10:47:37 -0700 (PDT)
 From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@gmail.com>
 To:     Maxime Ripard <mripard@kernel.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
@@ -58,11 +58,11 @@ To:     Maxime Ripard <mripard@kernel.org>,
 Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, linux-sunxi@googlegroups.com,
         Samuel Holland <samuel@sholland.org>, samuel@sholland.org
-Subject: Re: [linux-sunxi] [PATCH v2 1/2] media: cedrus: Program output format during each run
-Date:   Thu, 23 Apr 2020 19:40:57 +0200
-Message-ID: <2018061.irdbgypaU6@jernej-laptop>
-In-Reply-To: <20200422040410.6251-1-samuel@sholland.org>
-References: <20200422040410.6251-1-samuel@sholland.org>
+Subject: Re: [linux-sunxi] [PATCH v2 2/2] media: cedrus: Implement runtime PM
+Date:   Thu, 23 Apr 2020 19:47:36 +0200
+Message-ID: <3048039.44csPzL39Z@jernej-laptop>
+In-Reply-To: <20200422040410.6251-2-samuel@sholland.org>
+References: <20200422040410.6251-1-samuel@sholland.org> <20200422040410.6251-2-samuel@sholland.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="UTF-8"
@@ -71,32 +71,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne sreda, 22. april 2020 ob 06:04:09 CEST je Samuel Holland napisal(a):
-> Previously, the output format was programmed as part of the ioctl()
-> handler. However, this has two problems:
+Dne sreda, 22. april 2020 ob 06:04:10 CEST je Samuel Holland napisal(a):
+> This allows the VE clocks and PLL_VE to be disabled most of the time.
+> A runtime PM reference is held while streaming.
 >=20
->   1) If there are multiple active streams with different output
->      formats, the hardware will use whichever format was set last
->      for both streams. Similary, an ioctl() done in an inactive
->      context will wrongly affect other active contexts.
->   2) The registers are written while the device is not actively
->      streaming. To enable runtime PM tied to the streaming state,
->      all hardware access needs to be moved inside cedrus_device_run().
->=20
-> The call to cedrus_dst_format_set() is now placed just before the
-> codec-specific callback that programs the hardware.
->=20
-> Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
-> Suggested-by: Jernej =C5=A0krabec <jernej.skrabec@gmail.com>
-> Suggested-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> Originally-by: Jernej =C5=A0krabec <jernej.skrabec@gmail.com>
 
-=46or what is worth:
+I guess this could be SOB? Either way I'm fine.
+
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
+> ---
+>=20
+> v2: moved PM reference to cedrus_{start,stop}_streaming, based on an
+>     earlier patch by Jernej Skrabec. Removes the need for autosuspend.
+>     I tested this with running 2x v4l2-request-test in parallel.
+>=20
+
+I tested previous and this patch with LibreELEC and I didn't noticed any=20
+regressions:
+
 Tested-by: Jernej Skrabec <jernej.skrabec@siol.net>
-Reviewed-by: Jernej Skrabec <jernej.skrabec@siol.net>
 
 Best regards,
 Jernej
-
 
 
