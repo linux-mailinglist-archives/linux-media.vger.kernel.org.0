@@ -2,115 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 831791B5777
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 10:48:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44E631B577D
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 10:50:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726032AbgDWIsc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Apr 2020 04:48:32 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:40675 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725854AbgDWIsc (ORCPT
+        id S1726700AbgDWIup (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Apr 2020 04:50:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47436 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726346AbgDWIup (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Apr 2020 04:48:32 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id RXX0jL2pz7xncRXX3jPoPq; Thu, 23 Apr 2020 10:48:29 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587631709; bh=qjN5+OrQRILlTY9HdLu+mTnhbsh6dVrh0lF9Msi9Bwk=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=pf2igBXRss35h0QqS09A9pX2AhqB5w6ChWGV9rSyFBYx81cPN26SlxrDANX4hA6fq
-         vMjoSys0FApuZVAZoaAgnTSOJoT0+tuDIslbp6/QnczEwloA56ye1PjydvOQhV2fWT
-         vGnE/Z5Uulm3bJ9Z8nPQOK2TNUy6o2Dpd0AZxKSFqBfqyIYGNp6ideskoQbjexo+ab
-         0tR6CFu5ZPdkelKEMkhfSerexNeIWMhJrFONvn1MkA5Z6/218RZSKp7jjXr8sGmEnP
-         TcevtwvctIcUbwpgJAcCuJMZE52cWtQVW89bWzYYG5Ebixf3yYWHLhcFpX2U0z87w8
-         8zvqp0XPvsMGg==
-Subject: Re: [PATCH 01/12] utils: fix compilation with C++98
-To:     Rosen Penev <rosenp@gmail.com>
-Cc:     linux-media@vger.kernel.org
-References: <5cf49918-bff9-d97b-701b-7ece6e1ae0a5@xs4all.nl>
- <400FD765-D58F-401D-90EF-9AFED41B53D5@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <2ecc5ce5-e6a4-8d6a-ae03-2e169ef68653@xs4all.nl>
-Date:   Thu, 23 Apr 2020 10:48:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
-MIME-Version: 1.0
-In-Reply-To: <400FD765-D58F-401D-90EF-9AFED41B53D5@gmail.com>
+        Thu, 23 Apr 2020 04:50:45 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 213B0C03C1AF
+        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 01:50:45 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id o15so2592199pgi.1
+        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 01:50:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=content-transfer-encoding:from:mime-version:subject:date:message-id
+         :references:cc:in-reply-to:to;
+        bh=bzYSkghE+rayvUA079AE+562umxaszQmCWj46a/QCLg=;
+        b=FpAGn3EJB3ST4fW/H8wBG64WP6XaSAkWL20ywuOXgjS6Gp763+WyrLaLBBWrNCgqyi
+         81GR3wsSbrIrsxbzte+HR6mh0J8ROY1Enyypk6R+zjm0kyymAWgHhWaRLyod392MGurI
+         wYJ8aLu5Uk2KLQurn6iXnedlQngshN5dJMXTMA6QgzuAqNDqUuWk3nWwx0MZDlYb4RC4
+         zBV1SADxT0gSGDoC8QIKmYOIQ7XfafScDEfxGZ1WQ00B+b/PvdCmRTQcwJvi42XxwsE0
+         3zYrJVLPLmj4JJEH8dVGKffWYJU9PJXWMNeeWpX5Do+oDAomZdOf8l5WoALSkhfBGftK
+         Euww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:content-transfer-encoding:from:mime-version
+         :subject:date:message-id:references:cc:in-reply-to:to;
+        bh=bzYSkghE+rayvUA079AE+562umxaszQmCWj46a/QCLg=;
+        b=N3EJLZk84BjRPE0zhLk++oYFA+fkBgkVtODv8bqs6giTQoJ7yH4BE347q9A3DWbmk6
+         X9x2T+DDetRR7NBQHV/n2YULxn7ZObZguoIoUi8ll+3XFJOT4dujOgyTLVWMXg5h7H4V
+         H6HdZm+yQUue5REdWM4980gMCDwGikLPqFRbZhXueBH1+fTaOskayipIFeet2SzB/orM
+         FQ9V4BOStHdePQYhiGHPp66vrWzkOm8zvo+Jaj1KtMEWJmM70SngS3Vxi7VIbmAYAMy9
+         /WBPvhqn4M8s52F6LmWtdO6uHdv3hBH3zgNBgoM8b6XIvsMU2TO5wu1HOsrEUz2LbWxv
+         IM8w==
+X-Gm-Message-State: AGi0PuYbb9L7rs6dUNX5U+DwXAOg3ruMNchh6y0/KkRkf86OzRrnuCDa
+        DwUI/tsgjMK9+cJ0sCubjgzwABgx
+X-Google-Smtp-Source: APiQypJATyUdOUYz9UJwfpRDu2gy3cUIKyai7Z0XCng1ibAO6BEZDq35GTcJlS0SWD36kuNu5ijaXw==
+X-Received: by 2002:aa7:8743:: with SMTP id g3mr2722915pfo.218.1587631843601;
+        Thu, 23 Apr 2020 01:50:43 -0700 (PDT)
+Received: from [192.168.0.147] (76-14-109-232.rk.wavecable.com. [76.14.109.232])
+        by smtp.gmail.com with ESMTPSA id y21sm351557pfn.148.2020.04.23.01.50.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Apr 2020 01:50:43 -0700 (PDT)
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfDUOcXJIbL7/agwj3ranLD1NwOXf9FBBr1vXgKXyjFfpjZnupggP8Hb7ibXM8MbmxnEZ9Vm2H6qHWgTWOQ2tla952GHJoieRF7hGdJ9zE/PWo1FbQFhi
- FjX2Akwdb8aAhfAX1683gixEyciRI55Ezxr4AazUkVsmCrNKTiJtjQ/R1+csVmkBZ1cWo9x5YCBGISVbA7kz8L8rLQ3vzm1WRv4=
+Content-Transfer-Encoding: quoted-printable
+From:   Rosen Penev <rosenp@gmail.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH 01/12] utils: fix compilation with C++98
+Date:   Thu, 23 Apr 2020 01:50:42 -0700
+Message-Id: <9A9211EF-4983-47AA-8FC6-C85FB9879377@gmail.com>
+References: <2ecc5ce5-e6a4-8d6a-ae03-2e169ef68653@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+In-Reply-To: <2ecc5ce5-e6a4-8d6a-ae03-2e169ef68653@xs4all.nl>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+X-Mailer: iPhone Mail (17C54)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/04/2020 10:30, Rosen Penev wrote:
-> 
-> 
->> On Apr 23, 2020, at 1:19 AM, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> ﻿On 22/04/2020 02:37, Rosen Penev wrote:
->>> Signed-off-by: Rosen Penev <rosenp@gmail.com>
->>> ---
->>> utils/cec-compliance/cec-test.cpp | 4 ++--
->>> utils/rds-ctl/rds-ctl.cpp         | 2 +-
->>> 2 files changed, 3 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
->>> index 032ff5ad..cc07998a 100644
->>> --- a/utils/cec-compliance/cec-test.cpp
->>> +++ b/utils/cec-compliance/cec-test.cpp
->>> @@ -908,7 +908,7 @@ static int tuner_ctl_test(struct node *node, unsigned me, unsigned la, bool inte
->>>        cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
->>>        fail_on_test(!transmit_timeout(node, &msg));
->>>        fail_on_test(timed_out_or_abort(&msg));
->>> -        info = {};
->>> +        memset(&info, 0, sizeof(info));
->>>        cec_ops_tuner_device_status(&msg, &info);
->>>        if (!memcmp(&info, &info_vec[0], sizeof(info)))
->>>            break;
->>> @@ -935,7 +935,7 @@ static int tuner_ctl_test(struct node *node, unsigned me, unsigned la, bool inte
->>>        cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ONCE);
->>>        fail_on_test(!transmit_timeout(node, &msg));
->>>        fail_on_test(timed_out_or_abort(&msg));
->>> -        info = {};
->>> +        memset(&info, 0, sizeof(info));
->>>        cec_ops_tuner_device_status(&msg, &info);
->>>        if (memcmp(&info, &(*iter), sizeof(info))) {
->>>            log_tuner_service(info);
->>> diff --git a/utils/rds-ctl/rds-ctl.cpp b/utils/rds-ctl/rds-ctl.cpp
->>> index 0511fe5d..0e497b2a 100644
->>> --- a/utils/rds-ctl/rds-ctl.cpp
->>> +++ b/utils/rds-ctl/rds-ctl.cpp
->>> @@ -918,7 +918,7 @@ static void get_options(const int fd, const int capabilities, struct v4l2_freque
->>>                printf("\tFrequency range      : %.1f MHz - %.1f MHz\n",
->>>                     vt.rangelow / 16.0, vt.rangehigh / 16.0);
->>>            printf("\tSignal strength/AFC  : %ld%%/%d\n",
->>> -                std::lround(vt.signal / 655.35), vt.afc);
->>> +                lround(vt.signal / 655.25), vt.afc);
->>
->> v4l2-ctl-tuner.cpp also uses std::lround, but that one isn't changed back.
->>
->> Is rds-ctl.cpp perhaps just missing a header?
-> Nope. std::lround is C++11.
 
-So, why isn't v4l2-ctl-tuner.cpp changed to lround as well?
 
-Regards,
-
-	Hans
-
->>
->> Regards,
->>
->>    Hans
->>
->>>            printf("\tCurrent audio mode   : %s\n", audmode2s(vt.audmode));
->>>            printf("\tAvailable subchannels: %s\n",
->>>                    rxsubchans2s(vt.rxsubchans).c_str());
->>>
->>
-
+> On Apr 23, 2020, at 1:48 AM, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>=20
+> =EF=BB=BFOn 23/04/2020 10:30, Rosen Penev wrote:
+>>=20
+>>=20
+>>>> On Apr 23, 2020, at 1:19 AM, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>>=20
+>>> =EF=BB=BFOn 22/04/2020 02:37, Rosen Penev wrote:
+>>>> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+>>>> ---
+>>>> utils/cec-compliance/cec-test.cpp | 4 ++--
+>>>> utils/rds-ctl/rds-ctl.cpp         | 2 +-
+>>>> 2 files changed, 3 insertions(+), 3 deletions(-)
+>>>>=20
+>>>> diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/c=
+ec-test.cpp
+>>>> index 032ff5ad..cc07998a 100644
+>>>> --- a/utils/cec-compliance/cec-test.cpp
+>>>> +++ b/utils/cec-compliance/cec-test.cpp
+>>>> @@ -908,7 +908,7 @@ static int tuner_ctl_test(struct node *node, unsign=
+ed me, unsigned la, bool inte
+>>>>       cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ON=
+CE);
+>>>>       fail_on_test(!transmit_timeout(node, &msg));
+>>>>       fail_on_test(timed_out_or_abort(&msg));
+>>>> -        info =3D {};
+>>>> +        memset(&info, 0, sizeof(info));
+>>>>       cec_ops_tuner_device_status(&msg, &info);
+>>>>       if (!memcmp(&info, &info_vec[0], sizeof(info)))
+>>>>           break;
+>>>> @@ -935,7 +935,7 @@ static int tuner_ctl_test(struct node *node, unsign=
+ed me, unsigned la, bool inte
+>>>>       cec_msg_give_tuner_device_status(&msg, true, CEC_OP_STATUS_REQ_ON=
+CE);
+>>>>       fail_on_test(!transmit_timeout(node, &msg));
+>>>>       fail_on_test(timed_out_or_abort(&msg));
+>>>> -        info =3D {};
+>>>> +        memset(&info, 0, sizeof(info));
+>>>>       cec_ops_tuner_device_status(&msg, &info);
+>>>>       if (memcmp(&info, &(*iter), sizeof(info))) {
+>>>>           log_tuner_service(info);
+>>>> diff --git a/utils/rds-ctl/rds-ctl.cpp b/utils/rds-ctl/rds-ctl.cpp
+>>>> index 0511fe5d..0e497b2a 100644
+>>>> --- a/utils/rds-ctl/rds-ctl.cpp
+>>>> +++ b/utils/rds-ctl/rds-ctl.cpp
+>>>> @@ -918,7 +918,7 @@ static void get_options(const int fd, const int cap=
+abilities, struct v4l2_freque
+>>>>               printf("\tFrequency range      : %.1f MHz - %.1f MHz\n",
+>>>>                    vt.rangelow / 16.0, vt.rangehigh / 16.0);
+>>>>           printf("\tSignal strength/AFC  : %ld%%/%d\n",
+>>>> -                std::lround(vt.signal / 655.35), vt.afc);
+>>>> +                lround(vt.signal / 655.25), vt.afc);
+>>>=20
+>>> v4l2-ctl-tuner.cpp also uses std::lround, but that one isn't changed bac=
+k.
+>>>=20
+>>> Is rds-ctl.cpp perhaps just missing a header?
+>> Nope. std::lround is C++11.
+>=20
+> So, why isn't v4l2-ctl-tuner.cpp changed to lround as well?
+Ugh I think it=E2=80=99s in some other local patch of mine. I=E2=80=99ll nee=
+d to resend this one.
+>=20
+> Regards,
+>=20
+>    Hans
+>=20
+>>>=20
+>>> Regards,
+>>>=20
+>>>   Hans
+>>>=20
+>>>>           printf("\tCurrent audio mode   : %s\n", audmode2s(vt.audmode)=
+);
+>>>>           printf("\tAvailable subchannels: %s\n",
+>>>>                   rxsubchans2s(vt.rxsubchans).c_str());
+>>>>=20
+>>>=20
+>=20
