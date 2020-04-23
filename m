@@ -2,206 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD46C1B6110
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 18:36:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 70BD51B614E
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 18:51:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729514AbgDWQgB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Apr 2020 12:36:01 -0400
-Received: from gofer.mess.org ([88.97.38.141]:39611 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729407AbgDWQgB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Apr 2020 12:36:01 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 0FF65C637F; Thu, 23 Apr 2020 17:35:59 +0100 (BST)
-Date:   Thu, 23 Apr 2020 17:35:59 +0100
-From:   Sean Young <sean@mess.org>
-To:     Rolf Pedersen <rolfpedersen@mindspring.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Brad Love <brad@nextdimension.cc>
-Subject: Re: HauppaugeTV-quadHD DVB-T mpeg risc op code error
-Message-ID: <20200423163559.GB23006@gofer.mess.org>
-References: <0c0ab661-17bb-231a-7311-c35d8d0435c0@mindspring.com>
- <20200423153505.GA22057@gofer.mess.org>
- <686f60be-7a37-42ce-b4c0-b34cf54055e7@mindspring.com>
- <20200423155908.GA22613@gofer.mess.org>
- <bc0644cd-3438-6505-d438-8f3f71347ccb@mindspring.com>
+        id S1729763AbgDWQvA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Apr 2020 12:51:00 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16536 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729673AbgDWQvA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 23 Apr 2020 12:51:00 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ea1c6fe0000>; Thu, 23 Apr 2020 09:49:02 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 23 Apr 2020 09:50:59 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 23 Apr 2020 09:50:59 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 23 Apr
+ 2020 16:50:59 +0000
+Received: from [10.2.165.49] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 23 Apr
+ 2020 16:50:58 +0000
+Subject: Re: [RFC PATCH v9 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
+        <helen.koike@collabora.com>
+CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <1587536339-4030-1-git-send-email-skomatineni@nvidia.com>
+ <1587536339-4030-7-git-send-email-skomatineni@nvidia.com>
+ <ae6dfd6b-4b0b-db73-54cf-a16e59476f38@xs4all.nl>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <3115a959-045e-7b27-94fb-a11a8b5f4a6a@nvidia.com>
+Date:   Thu, 23 Apr 2020 09:50:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <bc0644cd-3438-6505-d438-8f3f71347ccb@mindspring.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <ae6dfd6b-4b0b-db73-54cf-a16e59476f38@xs4all.nl>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1587660543; bh=dej+/NPj9Zi1pabB1YDOATDwcPgl93oxjqVQvLEgeFI=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=AFFUb/gOdvlNFh1DMRIVqsHEiu2OxZA7yamw8sGomynyNEQHjU2gdH4D/+rYuHqzW
+         GIE8dqx8IYgzpyoX8l8Xq9wTvP0fkBgIqmSUWljq4BsBGCshvTvhd4DDHKLOz2zvZs
+         dCFHPknwxPg2f4a/rXS/H6paMn9MbEc4DsdqHaeok/pVCehqLD0knLBkIh4DbpiRwt
+         juF5SVtaW6gsd9UosilztfUhUIxEx4gWkpM5qQUCpVc7iDEavnuhMEEMXGZuh7thla
+         G7AeWdL8aB6c99SkEIgPAIrzhVYcDr6dpiunAdtX5Kx3iSSgXoGfJHOwWLbDMK93tx
+         0ep0Na2OjP/IQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
 
-On Thu, Apr 23, 2020 at 09:09:35AM -0700, Rolf Pedersen wrote:
-> Okie-doke
-> 
-> On 04/23/2020 08:59 AM, Sean Young wrote:
-> > Hi,
-> > 
-> > On Thu, Apr 23, 2020 at 08:49:17AM -0700, Rolf Pedersen wrote:
-> > > Hi,
-> > > 
-> > > On 04/23/2020 08:35 AM, Sean Young wrote:
-> > > > Hi,
-> > > > 
-> > > > On Thu, Apr 23, 2020 at 05:32:32AM -0700, Rolf Pedersen wrote:
-> > > > > Hi Folks,
-> > > > > I just subscribed after having trouble with this card that worked for 3
-> > > > > years on Skylake i5-6500 but stopped tuning when I moved it to AMD Ryzen 5
-> > > > > 3400G machine.  I found the workaround in the archived thread referenced in
-> > > > > the subject line and don't know any way to reply directly to it:
-> > > > > https://www.spinics.net/lists/linux-media/msg114563.html
-> > > > > 
-> > > > > My card is ATSC as on this page:
-> > > > > https://www.kernel.org/doc/html/v4.10/media/v4l-drivers/cx23885-cardlist.html
-> > > > > 57     Hauppauge WinTV-QuadHD-ATSC     0070:6a18, 0070:6b18
-> > > > > 
-> > > > > and
-> > > > > 
-> > > > > [rolf@x570i coup]$ lspcidrake -v | grep Conexant
-> > > > > cx23885         : Conexant Systems, Inc.|CX23887/8 PCIe Broadcast Audio and
-> > > > > Video Decoder with 3D Comb [MULTIMEDIA_VIDEO] (vendor:14f1 device:8880
-> > > > > subv:0070 subd:6b18) (rev: 04)
-> > > > > cx23885         : Conexant Systems, Inc.|CX23887/8 PCIe Broadcast Audio and
-> > > > > Video Decoder with 3D Comb [MULTIMEDIA_VIDEO] (vendor:14f1 device:8880
-> > > > > subv:0070 subd:6a18) (rev: 04)
-> > > > > 
-> > > > > Neither scan, dvbscan, nor w_scan2, nor Kaffeine TV, while finding working
-> > > > > frequencies, could divulge any services.  The workaround was in the
-> > > > > referenced post:  cx23885.debug=8
-> > > > > 
-> > > > > I've seen another report of a different kernel option that worked on Ryzen:
-> > > > > |cx23885.dma_reset_workaround=2 here:
-> > > > > https://www.dslreports.com/forum/r32639318-SFF-3400G-build#32640298
-> > > > > 
-> > > > > Ok.  Just wanted to join the chorus with a *metoo* in case I can provide
-> > > > > some (guided) forensics.
-> > > > So there is a commit for a related issue:
-> > > > 
-> > > > https://git.linuxtv.org/media_tree.git/commit/?id=4bd46aa0353e022c2401a258e93b107880a66533
-> > > > 
-> > > > That is kernel v5.0 and higher. So:
-> > > > 
-> > > > 1. What kernel are you using?
-> > > > 
-> > > > 2. What is the full lspci -n of your machine?
-> > > > 
-> > > > Thanks,
-> > > > 
-> > > > Sean
-> > > > 
-> > > [rolf@x570i ~]$ uname -r
-> > > 5.5.15-desktop-3.mga7
-> > > [rolf@x570i ~]$
-> > > [rolf@x570i ~]$
-> > > [rolf@x570i ~]$ lspci -n
-> > > 00:00.0 0600: 1022:15d0
-> > > 00:00.2 0806: 1022:15d1
-> > > 00:01.0 0600: 1022:1452
-> > > 00:01.1 0604: 1022:15d3
-> > > 00:01.2 0604: 1022:15d3
-> > > 00:01.6 0604: 1022:15d3
-> > > 00:08.0 0600: 1022:1452
-> > > 00:08.1 0604: 1022:15db
-> > > 00:08.2 0604: 1022:15dc
-> > > 00:14.0 0c05: 1022:790b (rev 61)
-> > > 00:14.3 0601: 1022:790e (rev 51)
-> > > 00:18.0 0600: 1022:15e8
-> > > 00:18.1 0600: 1022:15e9
-> > > 00:18.2 0600: 1022:15ea
-> > > 00:18.3 0600: 1022:15eb
-> > > 00:18.4 0600: 1022:15ec
-> > > 00:18.5 0600: 1022:15ed
-> > > 00:18.6 0600: 1022:15ee
-> > > 00:18.7 0600: 1022:15ef
-> > > 01:00.0 0604: 12d8:2304 (rev 05)
-> > > 02:01.0 0604: 12d8:2304 (rev 05)
-> > > 02:02.0 0604: 12d8:2304 (rev 05)
-> > > 03:00.0 0400: 14f1:8880 (rev 04)
-> > > 04:00.0 0400: 14f1:8880 (rev 04)
-> > > 05:00.0 0604: 1022:57ad
-> > > 06:02.0 0604: 1022:57a3
-> > > 06:04.0 0604: 1022:57a3
-> > > 06:08.0 0604: 1022:57a4
-> > > 06:09.0 0604: 1022:57a4
-> > > 06:0a.0 0604: 1022:57a4
-> > > 07:00.0 0280: 8086:2723 (rev 1a)
-> > > 08:00.0 0200: 8086:1539 (rev 03)
-> > > 09:00.0 1300: 1022:1485
-> > > 09:00.1 0c03: 1022:149c
-> > > 09:00.3 0c03: 1022:149c
-> > > 0a:00.0 0106: 1022:7901 (rev 51)
-> > > 0b:00.0 0106: 1022:7901 (rev 51)
-> > > 0c:00.0 0108: 144d:a808
-> > > 0d:00.0 0300: 1002:15d8 (rev c8)
-> > > 0d:00.1 0403: 1002:15de
-> > > 0d:00.2 1080: 1022:15df
-> > > 0d:00.3 0c03: 1022:15e0
-> > > 0d:00.4 0c03: 1022:15e1
-> > > 0d:00.6 0403: 1022:15e3
-> > > 0e:00.0 0106: 1022:7901 (rev 61)
-> > Thanks.
-> > 
-> > I'm afraid that I should have asked for: lspci -v
-> > 
-> > That would be helpful, thanks.
-> > 
-> > 
-> > Sean
-> > 
-> Please find output of `sudo lspci -v` attached.
-> Thanks,
-> Rolf
-> 
+On 4/23/20 12:48 AM, Hans Verkuil wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> On 22/04/2020 08:18, Sowjanya Komatineni wrote:
+>> Tegra210 contains a powerful Video Input (VI) hardware controller
+>> which can support up to 6 MIPI CSI camera sensors.
+>>
+>> Each Tegra CSI port can be one-to-one mapped to VI channel and can
+>> capture from an external camera sensor connected to CSI or from
+>> built-in test pattern generator.
+>>
+>> Tegra210 supports built-in test pattern generator from CSI to VI.
+>>
+>> This patch adds a v4l2 capture driver with media interface for
+>> Tegra210 built-in CSI to VI test pattern generator.
+>>
+>> This patch includes TPG support only and all the video pipeline
+>> configuration happens through the video device node.
+>>
+>> Acked-by: Thierry Reding <treding@nvidia.com>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>   drivers/staging/media/Kconfig          |    2 +
+>>   drivers/staging/media/Makefile         |    1 +
+>>   drivers/staging/media/tegra/Kconfig    |   13 +
+>>   drivers/staging/media/tegra/Makefile   |    8 +
+>>   drivers/staging/media/tegra/TODO       |   10 +
+>>   drivers/staging/media/tegra/common.h   |  262 ++++++++
+>>   drivers/staging/media/tegra/csi.c      |  606 +++++++++++++++++
+>>   drivers/staging/media/tegra/csi.h      |  149 +++++
+>>   drivers/staging/media/tegra/tegra210.c |  709 ++++++++++++++++++++
+>>   drivers/staging/media/tegra/tegra210.h |  190 ++++++
+>>   drivers/staging/media/tegra/vi.c       | 1132 ++++++++++++++++++++++++++++++++
+>>   drivers/staging/media/tegra/vi.h       |   83 +++
+>>   drivers/staging/media/tegra/video.c    |  153 +++++
+>>   drivers/staging/media/tegra/video.h    |   34 +
+>>   14 files changed, 3352 insertions(+)
+>>   create mode 100644 drivers/staging/media/tegra/Kconfig
+>>   create mode 100644 drivers/staging/media/tegra/Makefile
+>>   create mode 100644 drivers/staging/media/tegra/TODO
+>>   create mode 100644 drivers/staging/media/tegra/common.h
+>>   create mode 100644 drivers/staging/media/tegra/csi.c
+>>   create mode 100644 drivers/staging/media/tegra/csi.h
+>>   create mode 100644 drivers/staging/media/tegra/tegra210.c
+>>   create mode 100644 drivers/staging/media/tegra/tegra210.h
+>>   create mode 100644 drivers/staging/media/tegra/vi.c
+>>   create mode 100644 drivers/staging/media/tegra/vi.h
+>>   create mode 100644 drivers/staging/media/tegra/video.c
+>>   create mode 100644 drivers/staging/media/tegra/video.h
+> With 'make menuconfig' I get this:
+>
+> scripts/kconfig/mconf  Kconfig
+>
+> WARNING: unmet direct dependencies detected for TEGRA_HOST1X
+>    Depends on [n]: HAS_IOMEM [=y] && (ARCH_TEGRA || ARM && COMPILE_TEST [=y])
+>    Selected by [y]:
+>    - VIDEO_TEGRA [=y] && STAGING [=y] && STAGING_MEDIA [=y] && MEDIA_SUPPORT [=y] && (ARCH_TEGRA || COMPILE_TEST [=y])
+>
+> This is an x86_64 build with COMPILE_TEST set. I can provide my full .config if you need it.
+>
+> CONFIG_TEGRA_HOST1X=y
+> CONFIG_VIDEO_TEGRA=y
+>
+> Regards,
+>
+>          Hans
 
-> 00:00.0 Host bridge: Advanced Micro Devices, Inc. [AMD] Raven/Raven2 Root Complex
-> 	Subsystem: ASUSTeK Computer Inc. Device 876b
-> 	Flags: fast devsel
-> 
-> 00:00.2 IOMMU: Advanced Micro Devices, Inc. [AMD] Raven/Raven2 IOMMU
-> 	Subsystem: Advanced Micro Devices, Inc. [AMD] Raven/Raven2 IOMMU
-> 	Flags: bus master, fast devsel, latency 0, IRQ 26
-> 	Capabilities: [40] Secure device <?>
-> 	Capabilities: [64] MSI: Enable+ Count=1/4 Maskable- 64bit+
-> 	Capabilities: [74] HyperTransport: MSI Mapping Enable+ Fixed+
+Hi Hans,
 
-Can you please try this patch and let us know if it works:
+In v7, changed Kconfig to remove ARM. But looks like we should limit
 
-From c761fe49e66236b7e459d9f501ed20fd401181b8 Mon Sep 17 00:00:00 2001
-From: Sean Young <sean@mess.org>
-Date: Thu, 23 Apr 2020 17:28:09 +0100
-Subject: [PATCH] media: cx23885: add a missing vid for another problematic AMD
- IOMMU
+TEGRA_HOST1X also limits compile to ARM only so running VIDEO_TEGRA on 
+x86_64 shows above warning.
 
-The issue described in commit 95f408bbc4e4 ("media: cx23885: Ryzen DMA
-related RiSC engine stall fixes") also affects this device.
+We should limit compile to ARM for CONFIG_VIDEO_TEGRA.
 
-Fixes: 95f408bbc4e4 ("media: cx23885: Ryzen DMA related RiSC engine stall fixes")
+Will update CONFIG_VIDEO_TEGRA dependency to use ARM && COMPILE_TEST 
+like I had in previous version. Sorry about this.
 
-Cc: Brad Love <brad@nextdimension.cc>
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/media/pci/cx23885/cx23885-core.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/pci/cx23885/cx23885-core.c b/drivers/media/pci/cx23885/cx23885-core.c
-index 7e0b0b7cc2a3..1ed3b76de2fa 100644
---- a/drivers/media/pci/cx23885/cx23885-core.c
-+++ b/drivers/media/pci/cx23885/cx23885-core.c
-@@ -2074,6 +2074,7 @@ static struct {
- 	 * 0x1451 is PCI ID for the IOMMU found on Ryzen
- 	 */
- 	{ PCI_VENDOR_ID_AMD, 0x1451 },
-+	{ PCI_VENDOR_ID_AMD, 0x15d1 }, /* Raven2 IOMMU */
- };
- 
- static bool cx23885_does_need_dma_reset(void)
--- 
-2.25.3
+Also, I see some changes went into latest linux-next staging media 
+Kconfig, So, will have my patches on top of today's linux-next.
+
+Thanks
+
+Sowjanya
+
 
