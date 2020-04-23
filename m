@@ -2,111 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CB101B65F9
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 23:10:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8E511B674A
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2020 00:55:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727814AbgDWVKz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Apr 2020 17:10:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50362 "EHLO
+        id S1727970AbgDWWzc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Apr 2020 18:55:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727778AbgDWVKy (ORCPT
+        with ESMTP id S1726057AbgDWWzb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Apr 2020 17:10:54 -0400
-Received: from mail-pf1-x429.google.com (mail-pf1-x429.google.com [IPv6:2607:f8b0:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49DD3C09B042
-        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 14:10:53 -0700 (PDT)
-Received: by mail-pf1-x429.google.com with SMTP id z1so1918943pfn.3
-        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 14:10:53 -0700 (PDT)
+        Thu, 23 Apr 2020 18:55:31 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B4ADC09B042;
+        Thu, 23 Apr 2020 15:55:31 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id l11so6115187lfc.5;
+        Thu, 23 Apr 2020 15:55:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=mao265vqR3DSfNevTKL5tM2C8pyH2zCIE1IOHDhO9sY=;
-        b=ap8WkfneMwYDbwaLUrB+PKEEQhK9MJRCSXn5c/EyFGJwhBgY+kYKFYor50/ae85HgG
-         6yO4qFFUnW9Xg8M8bNb8Sw4LsYBiKiTNSrZ3MRHQd4AFllASxuHWrxkE8+XMiK3lnbLP
-         2nC9whcAJyHrKv/OYNdJk4AU6IR+hL7CUga1/pwPTIV6snCeqKKzC8OcnsM1KFRP6u9e
-         h/+G2zT1OcDzXBK+Qm7GuTU+78K91rFNA+ejlC7bVCkodz40h34y5+uRLMipYlaZdr+v
-         +C1cnmlRfDSkRiG+1nzaVWUkEpc+vw2juM279GpQlTV9GHn7Cv3FisYN7CIu5J1bXwlA
-         gJxg==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=PB7rgoDy5himItCOeLRz+eJgO6V/+5SjwACH9dxFOS8=;
+        b=aN7rt3UIPEbwz86wPCY/biZV3eDrFUXJbo+AaudyFeoIhg/WaOWaQUC130cluTbu1D
+         5zzdaf6VPlHcMfH14O6U+7XYt38+4RE8xxM+O1MaGHEzxqmaCxSaKLXiI3OfX/bNSMAU
+         5qDovelvda2hts/VNp6TuxHN/s1HOKd98U3KArTOB4gzgHJSSWUk+5KDQ/VZMz5qnGbz
+         qx7uV2CrRv5xca7/v9eVc6xaIgWW1ErTsRwW8/vzElQI7W6NaEIvKAyanScvamGWkL+f
+         6YXKRefckfC3gmKhpAdTJcSWbvrRbIWdOXQYW/t+3TeMqRzTjgd0YLq0d4ccgT1JyaLG
+         cb9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=mao265vqR3DSfNevTKL5tM2C8pyH2zCIE1IOHDhO9sY=;
-        b=jWkVKYBkizDfygqI03hxBMVfl5nW/gcmG0DPfTrjNwZz454Y9sYAtOHHl7n02FlxBp
-         pdpdXZbOoBMr8Noc3PuHrpHjmHUUN981JjLlLw72cpvGvIPNyRLukfsHV38ApLnmJXd/
-         2mklvmVp1VISasCbUMMw7rcz0/4KvXxgwhs1wmnRDi7NYZEj0tEnoihYQ9iJpKx9rI81
-         j1bx4A0ZQ56XAQecf2y3TMxIVgTMHa8jHT9yDgm0YLsu+bXvmB3r/6RuNRWQUnnDeVVc
-         KdB0Ik1mDc8QhM2/ZQHbx3vE8zQycth5plCA9OkxaPrpkJeBnaS6K8a9NgXq9V2Ta8nV
-         reww==
-X-Gm-Message-State: AGi0PubxdBGMMfMsW3axrQY/vvjhUV6gYEROO6XPrtGM8nxwsIL+wc6U
-        6kfRy3yR6/FNsYft5gtVWmgvHRhZ
-X-Google-Smtp-Source: APiQypKOrUnbtkuXnCCrAOzLyn5KVi6SQYaxF4U0inyJFffxjOv9u6Q055BGVc1ig0xDySWz53XZpQ==
-X-Received: by 2002:a63:b954:: with SMTP id v20mr5503697pgo.100.1587676252620;
-        Thu, 23 Apr 2020 14:10:52 -0700 (PDT)
-Received: from localhost.localdomain (76-14-109-232.rk.wavecable.com. [76.14.109.232])
-        by smtp.gmail.com with ESMTPSA id f21sm3563630pfn.71.2020.04.23.14.10.51
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2020 14:10:52 -0700 (PDT)
-From:   Rosen Penev <rosenp@gmail.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH 5/5] utils: fix double promotions
-Date:   Thu, 23 Apr 2020 14:10:40 -0700
-Message-Id: <20200423211040.14275-5-rosenp@gmail.com>
-X-Mailer: git-send-email 2.25.3
-In-Reply-To: <20200423211040.14275-1-rosenp@gmail.com>
-References: <20200423211040.14275-1-rosenp@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=PB7rgoDy5himItCOeLRz+eJgO6V/+5SjwACH9dxFOS8=;
+        b=aPTEaMbsEvvkN3MipKY9RB5bWcUGHTBW9VGZMw7ZqD+Bt0QHfiXxHrhsns3OvxxW/9
+         bGosyaYZdcc+E24gVzGi8CnHNxiULcP1fuEj9YbdAH7pQStrSaNvozkC5SZq0sgAmduO
+         v1VdguWH3gVeDeASB/hgwvA3DYbo+g59HpuARZ4JUONH+DISXUVzI6tnb94ZEXa/0f69
+         ZbFjpegve79BVhuarEhmISqob/dzY05urOz5Dy0QWP9d+AcM5gtuc4Q3y2BcIuwvo3+3
+         VTPIIvCHrtJnY7NEPaUaEGWQFiyxmlj9i7LeCIMWPA+jbpgeyIZis+SX4bHMkUcb32bX
+         iCfA==
+X-Gm-Message-State: AGi0Pua1qOkLvofSGyH/jxDL3CevyDV5hrC1n85AR9eMxhcUGt41yyZJ
+        ymPZybvYcw1677sf2CpLKvnDxXhA
+X-Google-Smtp-Source: APiQypKt7gl9kf0Oj/Qig0AndoFuPk6CxjR5cFrqCFCDkuFpS7P2OyXlK+y7KJrvL+ZyzfPGgsXn5w==
+X-Received: by 2002:a19:5f04:: with SMTP id t4mr3959503lfb.208.1587682529523;
+        Thu, 23 Apr 2020 15:55:29 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id b28sm2952013ljo.1.2020.04.23.15.55.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Apr 2020 15:55:28 -0700 (PDT)
+Subject: Re: [RFC PATCH v9 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, frankc@nvidia.com, sakari.ailus@iki.fi,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1587536339-4030-1-git-send-email-skomatineni@nvidia.com>
+ <1587536339-4030-7-git-send-email-skomatineni@nvidia.com>
+ <ae6dfd6b-4b0b-db73-54cf-a16e59476f38@xs4all.nl>
+ <3115a959-045e-7b27-94fb-a11a8b5f4a6a@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <db413479-1557-3c40-ecb2-5a0c657065b6@gmail.com>
+Date:   Fri, 24 Apr 2020 01:55:27 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <3115a959-045e-7b27-94fb-a11a8b5f4a6a@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Found with -Wdouble-promotion
+23.04.2020 19:50, Sowjanya Komatineni пишет:
+> 
+> On 4/23/20 12:48 AM, Hans Verkuil wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> On 22/04/2020 08:18, Sowjanya Komatineni wrote:
+>>> Tegra210 contains a powerful Video Input (VI) hardware controller
+>>> which can support up to 6 MIPI CSI camera sensors.
+>>>
+>>> Each Tegra CSI port can be one-to-one mapped to VI channel and can
+>>> capture from an external camera sensor connected to CSI or from
+>>> built-in test pattern generator.
+>>>
+>>> Tegra210 supports built-in test pattern generator from CSI to VI.
+>>>
+>>> This patch adds a v4l2 capture driver with media interface for
+>>> Tegra210 built-in CSI to VI test pattern generator.
+>>>
+>>> This patch includes TPG support only and all the video pipeline
+>>> configuration happens through the video device node.
+>>>
+>>> Acked-by: Thierry Reding <treding@nvidia.com>
+>>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>>> ---
+>>>   drivers/staging/media/Kconfig          |    2 +
+>>>   drivers/staging/media/Makefile         |    1 +
+>>>   drivers/staging/media/tegra/Kconfig    |   13 +
+>>>   drivers/staging/media/tegra/Makefile   |    8 +
+>>>   drivers/staging/media/tegra/TODO       |   10 +
+>>>   drivers/staging/media/tegra/common.h   |  262 ++++++++
+>>>   drivers/staging/media/tegra/csi.c      |  606 +++++++++++++++++
+>>>   drivers/staging/media/tegra/csi.h      |  149 +++++
+>>>   drivers/staging/media/tegra/tegra210.c |  709 ++++++++++++++++++++
+>>>   drivers/staging/media/tegra/tegra210.h |  190 ++++++
+>>>   drivers/staging/media/tegra/vi.c       | 1132
+>>> ++++++++++++++++++++++++++++++++
+>>>   drivers/staging/media/tegra/vi.h       |   83 +++
+>>>   drivers/staging/media/tegra/video.c    |  153 +++++
+>>>   drivers/staging/media/tegra/video.h    |   34 +
+>>>   14 files changed, 3352 insertions(+)
+>>>   create mode 100644 drivers/staging/media/tegra/Kconfig
+>>>   create mode 100644 drivers/staging/media/tegra/Makefile
+>>>   create mode 100644 drivers/staging/media/tegra/TODO
+>>>   create mode 100644 drivers/staging/media/tegra/common.h
+>>>   create mode 100644 drivers/staging/media/tegra/csi.c
+>>>   create mode 100644 drivers/staging/media/tegra/csi.h
+>>>   create mode 100644 drivers/staging/media/tegra/tegra210.c
+>>>   create mode 100644 drivers/staging/media/tegra/tegra210.h
+>>>   create mode 100644 drivers/staging/media/tegra/vi.c
+>>>   create mode 100644 drivers/staging/media/tegra/vi.h
+>>>   create mode 100644 drivers/staging/media/tegra/video.c
+>>>   create mode 100644 drivers/staging/media/tegra/video.h
+>> With 'make menuconfig' I get this:
+>>
+>> scripts/kconfig/mconf  Kconfig
+>>
+>> WARNING: unmet direct dependencies detected for TEGRA_HOST1X
+>>    Depends on [n]: HAS_IOMEM [=y] && (ARCH_TEGRA || ARM &&
+>> COMPILE_TEST [=y])
+>>    Selected by [y]:
+>>    - VIDEO_TEGRA [=y] && STAGING [=y] && STAGING_MEDIA [=y] &&
+>> MEDIA_SUPPORT [=y] && (ARCH_TEGRA || COMPILE_TEST [=y])
+>>
+>> This is an x86_64 build with COMPILE_TEST set. I can provide my full
+>> .config if you need it.
+>>
+>> CONFIG_TEGRA_HOST1X=y
+>> CONFIG_VIDEO_TEGRA=y
+>>
+>> Regards,
+>>
+>>          Hans
+> 
+> Hi Hans,
+> 
+> In v7, changed Kconfig to remove ARM. But looks like we should limit
+> 
+> TEGRA_HOST1X also limits compile to ARM only so running VIDEO_TEGRA on
+> x86_64 shows above warning.
+> 
+> We should limit compile to ARM for CONFIG_VIDEO_TEGRA.
+> 
+> Will update CONFIG_VIDEO_TEGRA dependency to use ARM && COMPILE_TEST
+> like I had in previous version. Sorry about this.
+> 
+> 
+> Also, I see some changes went into latest linux-next staging media
+> Kconfig, So, will have my patches on top of today's linux-next.
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- utils/rds-ctl/rds-ctl.cpp                   | 4 ++--
- utils/v4l2-compliance/v4l2-test-buffers.cpp | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+VIDEO_TEGRA should depend on TEGRA_HOST1X and not select it.
 
-diff --git a/utils/rds-ctl/rds-ctl.cpp b/utils/rds-ctl/rds-ctl.cpp
-index 0e497b2a..558f5d76 100644
---- a/utils/rds-ctl/rds-ctl.cpp
-+++ b/utils/rds-ctl/rds-ctl.cpp
-@@ -521,7 +521,7 @@ static void print_rds_statistics(const struct v4l2_rds_statistics *statistics)
- 	printf("received blocks / received groups: %u / %u\n",
- 		statistics->block_cnt, statistics->group_cnt);
- 
--	float block_error_percentage = 0;
-+	double block_error_percentage = 0;
- 
- 	if (statistics->block_cnt)
- 		block_error_percentage =
-@@ -530,7 +530,7 @@ static void print_rds_statistics(const struct v4l2_rds_statistics *statistics)
- 		statistics->block_error_cnt,
- 		block_error_percentage, statistics->group_error_cnt);
- 
--	float block_corrected_percentage = 0;
-+	double block_corrected_percentage = 0;
- 
- 	if (statistics->block_cnt)
- 		block_corrected_percentage = (
-diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-index 561a3376..26947724 100644
---- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-@@ -2597,7 +2597,7 @@ static void streamFmt(struct node *node, __u32 pixelformat, __u32 w, __u32 h,
- 	char hz[32] = "";
- 
- 	if (!frame_count)
--		frame_count = f ? static_cast<unsigned>(1.0f / fract2f(f)) : 10;
-+		frame_count = f ? static_cast<unsigned>(1.0 / fract2f(f)) : 10;
- 	node->g_fmt(fmt);
- 	fmt.s_pixelformat(pixelformat);
- 	fmt.s_width(w);
--- 
-2.25.3
-
+depends on (ARCH_TEGRA && TEGRA_HOST1X) || COMPILE_TEST
