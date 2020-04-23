@@ -2,152 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F0261B6003
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 17:59:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BD561B6039
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 18:04:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729363AbgDWP7M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 23 Apr 2020 11:59:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57844 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729072AbgDWP7M (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 23 Apr 2020 11:59:12 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37512C09B040
-        for <linux-media@vger.kernel.org>; Thu, 23 Apr 2020 08:59:12 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 43B00C637F; Thu, 23 Apr 2020 16:59:08 +0100 (BST)
-Date:   Thu, 23 Apr 2020 16:59:08 +0100
-From:   Sean Young <sean@mess.org>
-To:     Rolf Pedersen <rolfpedersen@mindspring.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: HauppaugeTV-quadHD DVB-T mpeg risc op code error
-Message-ID: <20200423155908.GA22613@gofer.mess.org>
-References: <0c0ab661-17bb-231a-7311-c35d8d0435c0@mindspring.com>
- <20200423153505.GA22057@gofer.mess.org>
- <686f60be-7a37-42ce-b4c0-b34cf54055e7@mindspring.com>
+        id S1729635AbgDWQDp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Apr 2020 12:03:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43988 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729589AbgDWQDo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 23 Apr 2020 12:03:44 -0400
+Received: from mail.kernel.org (ip5f5ad4d8.dynamic.kabel-deutschland.de [95.90.212.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A352420724;
+        Thu, 23 Apr 2020 16:03:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1587657823;
+        bh=FqIAIjHEHsQ7xRBsV2Y5JCufTJA27s9HlVEIGpXCSmQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=pmRxV4/U7UlqgYLq6vAPjLL6w+JCxNeTbY/qkugmGFzlMmfyWv2R4gqIatDT44/Qw
+         Lpi+ARwUTucJLtGLmXqO7g6AOBgtDvfzyGTiF8jGdRfn+/6OxJJx4x3/uaYT8rg/fZ
+         EkHqbjkoRC7dngGklY5QXu7KSlb7eccYllhjBcdg=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jReKD-00Eb5S-G8; Thu, 23 Apr 2020 18:03:41 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] media: Kconfig: fix some dvb-usb-v2 dependencies
+Date:   Thu, 23 Apr 2020 18:03:40 +0200
+Message-Id: <4e5552b23f9fdfdca008a1ab05725daa471f5a83.1587657818.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <686f60be-7a37-42ce-b4c0-b34cf54055e7@mindspring.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+There are some tuners used by a few pure DVB boards that use
+internally V4L2 function calls. Due to that, such drivers now
+depends on v4l2 core support, and can't be auto-selected
+if !VIDEO_V4L2:
 
-On Thu, Apr 23, 2020 at 08:49:17AM -0700, Rolf Pedersen wrote:
-> Hi,
-> 
-> On 04/23/2020 08:35 AM, Sean Young wrote:
-> > Hi,
-> > 
-> > On Thu, Apr 23, 2020 at 05:32:32AM -0700, Rolf Pedersen wrote:
-> > > Hi Folks,
-> > > I just subscribed after having trouble with this card that worked for 3
-> > > years on Skylake i5-6500 but stopped tuning when I moved it to AMD Ryzen 5
-> > > 3400G machine.  I found the workaround in the archived thread referenced in
-> > > the subject line and don't know any way to reply directly to it:
-> > > https://www.spinics.net/lists/linux-media/msg114563.html
-> > > 
-> > > My card is ATSC as on this page:
-> > > https://www.kernel.org/doc/html/v4.10/media/v4l-drivers/cx23885-cardlist.html
-> > > 57     Hauppauge WinTV-QuadHD-ATSC     0070:6a18, 0070:6b18
-> > > 
-> > > and
-> > > 
-> > > [rolf@x570i coup]$ lspcidrake -v | grep Conexant
-> > > cx23885         : Conexant Systems, Inc.|CX23887/8 PCIe Broadcast Audio and
-> > > Video Decoder with 3D Comb [MULTIMEDIA_VIDEO] (vendor:14f1 device:8880
-> > > subv:0070 subd:6b18) (rev: 04)
-> > > cx23885         : Conexant Systems, Inc.|CX23887/8 PCIe Broadcast Audio and
-> > > Video Decoder with 3D Comb [MULTIMEDIA_VIDEO] (vendor:14f1 device:8880
-> > > subv:0070 subd:6a18) (rev: 04)
-> > > 
-> > > Neither scan, dvbscan, nor w_scan2, nor Kaffeine TV, while finding working
-> > > frequencies, could divulge any services.  The workaround was in the
-> > > referenced post:  cx23885.debug=8
-> > > 
-> > > I've seen another report of a different kernel option that worked on Ryzen:
-> > > |cx23885.dma_reset_workaround=2 here:
-> > > https://www.dslreports.com/forum/r32639318-SFF-3400G-build#32640298
-> > > 
-> > > Ok.  Just wanted to join the chorus with a *metoo* in case I can provide
-> > > some (guided) forensics.
-> > So there is a commit for a related issue:
-> > 
-> > https://git.linuxtv.org/media_tree.git/commit/?id=4bd46aa0353e022c2401a258e93b107880a66533
-> > 
-> > That is kernel v5.0 and higher. So:
-> > 
-> > 1. What kernel are you using?
-> > 
-> > 2. What is the full lspci -n of your machine?
-> > 
-> > Thanks,
-> > 
-> > Sean
-> > 
-> 
-> [rolf@x570i ~]$ uname -r
-> 5.5.15-desktop-3.mga7
-> [rolf@x570i ~]$
-> [rolf@x570i ~]$
-> [rolf@x570i ~]$ lspci -n
-> 00:00.0 0600: 1022:15d0
-> 00:00.2 0806: 1022:15d1
-> 00:01.0 0600: 1022:1452
-> 00:01.1 0604: 1022:15d3
-> 00:01.2 0604: 1022:15d3
-> 00:01.6 0604: 1022:15d3
-> 00:08.0 0600: 1022:1452
-> 00:08.1 0604: 1022:15db
-> 00:08.2 0604: 1022:15dc
-> 00:14.0 0c05: 1022:790b (rev 61)
-> 00:14.3 0601: 1022:790e (rev 51)
-> 00:18.0 0600: 1022:15e8
-> 00:18.1 0600: 1022:15e9
-> 00:18.2 0600: 1022:15ea
-> 00:18.3 0600: 1022:15eb
-> 00:18.4 0600: 1022:15ec
-> 00:18.5 0600: 1022:15ed
-> 00:18.6 0600: 1022:15ee
-> 00:18.7 0600: 1022:15ef
-> 01:00.0 0604: 12d8:2304 (rev 05)
-> 02:01.0 0604: 12d8:2304 (rev 05)
-> 02:02.0 0604: 12d8:2304 (rev 05)
-> 03:00.0 0400: 14f1:8880 (rev 04)
-> 04:00.0 0400: 14f1:8880 (rev 04)
-> 05:00.0 0604: 1022:57ad
-> 06:02.0 0604: 1022:57a3
-> 06:04.0 0604: 1022:57a3
-> 06:08.0 0604: 1022:57a4
-> 06:09.0 0604: 1022:57a4
-> 06:0a.0 0604: 1022:57a4
-> 07:00.0 0280: 8086:2723 (rev 1a)
-> 08:00.0 0200: 8086:1539 (rev 03)
-> 09:00.0 1300: 1022:1485
-> 09:00.1 0c03: 1022:149c
-> 09:00.3 0c03: 1022:149c
-> 0a:00.0 0106: 1022:7901 (rev 51)
-> 0b:00.0 0106: 1022:7901 (rev 51)
-> 0c:00.0 0108: 144d:a808
-> 0d:00.0 0300: 1002:15d8 (rev c8)
-> 0d:00.1 0403: 1002:15de
-> 0d:00.2 1080: 1022:15df
-> 0d:00.3 0c03: 1022:15e0
-> 0d:00.4 0c03: 1022:15e1
-> 0d:00.6 0403: 1022:15e3
-> 0e:00.0 0106: 1022:7901 (rev 61)
+	WARNING: unmet direct dependencies detected for DVB_RTL2832_SDR
+	  Depends on [n]: MEDIA_SUPPORT [=y] && MEDIA_DIGITAL_TV_SUPPORT [=y] && DVB_CORE [=y] && I2C [=y] && I2C_MUX [=y] && VIDEO_V4L2 [=n] && MEDIA_SDR_SUPPORT [=y] && USB [=y]
+	  Selected by [y]:
+	  - DVB_USB_RTL28XXU [=y] && USB [=y] && MEDIA_SUPPORT [=y] && MEDIA_USB_SUPPORT [=y] && I2C [=y] && MEDIA_DIGITAL_TV_SUPPORT [=y] && DVB_USB_V2 [=y] && I2C_MUX [=y] && MEDIA_SUBDRV_AUTOSELECT [=y] && MEDIA_SDR_SUPPORT [=y]
 
-Thanks.
+	WARNING: unmet direct dependencies detected for MEDIA_TUNER_E4000
+	  Depends on [n]: (MEDIA_ANALOG_TV_SUPPORT [=y] || MEDIA_DIGITAL_TV_SUPPORT [=y] || MEDIA_RADIO_SUPPORT [=y] || MEDIA_SDR_SUPPORT [=y]) && MEDIA_SUPPORT [=y] && I2C [=y] && VIDEO_V4L2 [=n]
+	  Selected by [y]:
+	  - DVB_USB_RTL28XXU [=y] && USB [=y] && MEDIA_SUPPORT [=y] && MEDIA_USB_SUPPORT [=y] && I2C [=y] && MEDIA_DIGITAL_TV_SUPPORT [=y] && DVB_USB_V2 [=y] && I2C_MUX [=y] && MEDIA_SUBDRV_AUTOSELECT [=y]
 
-I'm afraid that I should have asked for: lspci -v
+	WARNING: unmet direct dependencies detected for MEDIA_TUNER_FC2580
+	  Depends on [n]: (MEDIA_ANALOG_TV_SUPPORT [=y] || MEDIA_DIGITAL_TV_SUPPORT [=y] || MEDIA_RADIO_SUPPORT [=y] || MEDIA_SDR_SUPPORT [=y]) && MEDIA_SUPPORT [=y] && I2C [=y] && VIDEO_V4L2 [=n]
+	  Selected by [y]:
+	  - DVB_USB_RTL28XXU [=y] && USB [=y] && MEDIA_SUPPORT [=y] && MEDIA_USB_SUPPORT [=y] && I2C [=y] && MEDIA_DIGITAL_TV_SUPPORT [=y] && DVB_USB_V2 [=y] && I2C_MUX [=y] && MEDIA_SUBDRV_AUTOSELECT [=y]
 
-That would be helpful, thanks.
+Detected via randconfig builds.
 
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ drivers/media/usb/dvb-usb-v2/Kconfig | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Sean
+diff --git a/drivers/media/usb/dvb-usb-v2/Kconfig b/drivers/media/usb/dvb-usb-v2/Kconfig
+index ff0ae64424c4..5c75303fba9d 100644
+--- a/drivers/media/usb/dvb-usb-v2/Kconfig
++++ b/drivers/media/usb/dvb-usb-v2/Kconfig
+@@ -38,7 +38,7 @@ config DVB_USB_AF9035
+ 	select MEDIA_TUNER_FC0011 if MEDIA_SUBDRV_AUTOSELECT
+ 	select MEDIA_TUNER_MXL5007T if MEDIA_SUBDRV_AUTOSELECT
+ 	select MEDIA_TUNER_TDA18218 if MEDIA_SUBDRV_AUTOSELECT
+-	select MEDIA_TUNER_FC2580 if MEDIA_SUBDRV_AUTOSELECT
++	select MEDIA_TUNER_FC2580 if (MEDIA_SUBDRV_AUTOSELECT && VIDEO_V4L2)
+ 	select MEDIA_TUNER_IT913X if MEDIA_SUBDRV_AUTOSELECT
+ 	help
+ 	  Say Y here to support the Afatech AF9035 based DVB USB receiver.
+@@ -137,12 +137,12 @@ config DVB_USB_RTL28XXU
+ 	select DVB_CXD2841ER if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_RTL2830
+ 	select DVB_RTL2832
+-	select DVB_RTL2832_SDR if (MEDIA_SUBDRV_AUTOSELECT && MEDIA_SDR_SUPPORT)
++	select DVB_RTL2832_SDR if (MEDIA_SUBDRV_AUTOSELECT && MEDIA_SDR_SUPPORT && VIDEO_V4L2)
+ 	select DVB_SI2168 if MEDIA_SUBDRV_AUTOSELECT
+-	select MEDIA_TUNER_E4000 if MEDIA_SUBDRV_AUTOSELECT
++	select MEDIA_TUNER_E4000 if (MEDIA_SUBDRV_AUTOSELECT && VIDEO_V4L2)
+ 	select MEDIA_TUNER_FC0012 if MEDIA_SUBDRV_AUTOSELECT
+ 	select MEDIA_TUNER_FC0013 if MEDIA_SUBDRV_AUTOSELECT
+-	select MEDIA_TUNER_FC2580 if MEDIA_SUBDRV_AUTOSELECT
++	select MEDIA_TUNER_FC2580 if (MEDIA_SUBDRV_AUTOSELECT && VIDEO_V4L2)
+ 	select MEDIA_TUNER_MT2060 if MEDIA_SUBDRV_AUTOSELECT
+ 	select MEDIA_TUNER_MXL5005S if MEDIA_SUBDRV_AUTOSELECT
+ 	select MEDIA_TUNER_QT1010 if MEDIA_SUBDRV_AUTOSELECT
+-- 
+2.25.2
+
