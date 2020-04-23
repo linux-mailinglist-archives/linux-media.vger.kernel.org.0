@@ -2,171 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F14661B5332
-	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 05:40:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 280F01B5659
+	for <lists+linux-media@lfdr.de>; Thu, 23 Apr 2020 09:48:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726590AbgDWDk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 22 Apr 2020 23:40:28 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:47867 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726002AbgDWDk2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 22 Apr 2020 23:40:28 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id RSitj1JjilKa1RSiujCcnZ; Thu, 23 Apr 2020 05:40:24 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587613224; bh=wgJo9suW3F7oajLO2sYJt6M8plaKL56y0hryb6TdzlU=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=Mzqsq5S17B0jE0RHekMHTQHo1MV5XwELw4hp1Psc2s5ttaOnVcrVn128MpRB1bsUj
-         V2CI05BVfJ5euOIMDd70CmfASSmnRibGC+JJYHF2JjNkk4A/hw8aPy/e5NZnW6BK0y
-         KoUTO/TQ7ZqZm6rMd4UpUxPBL8sHc7XN9te0qHM58jEinVM6ywvxUkgw/i1xgkZYYS
-         beGViNNeLDFlpZ7RCvBX+jwJlYJc8DypvStlqw0bWMkgN1au220K7z0QxZTdank7Vc
-         A7z7vA1Tt1i/5D2gCPkPnCvNh3Ae88fB3mF/REvPv4bQnRfXCre0zU4d+aqX7AX9H/
-         xOifWU5MEL4fw==
-Message-ID: <45346cb333993eed1f0ad78629d80e6d@smtp-cloud8.xs4all.net>
-Date:   Thu, 23 Apr 2020 05:40:23 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfPOl91eFPOxCtDsHqAdSuGwsuylStTdVwuSDFH0LtmZG2tWZ4CNb+JRv5LFd9nM13XIiaWVck+GRxWPN7YcQiOA1R7knPJuMkv2QHprb3dtMSDpQR7sv
- 5T5H7UCokYgMNJ9gIW0h/c8nWB5FZ3cdP0KtoZdtDzmN6DQncD8Krb5xVSEsA4d2jHQvH4UdqIcpJrxX05wzFFiumof1wcvg5GxIK7G4wTtYUkH3RPbdAgFW
+        id S1726912AbgDWHr3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 23 Apr 2020 03:47:29 -0400
+Received: from mga07.intel.com ([134.134.136.100]:64699 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726322AbgDWHr2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 23 Apr 2020 03:47:28 -0400
+IronPort-SDR: 4OUUcQHIIKsiOGwvPAP8zmx8ioWZllOaiYAW/wJPNjjCRI5CEWTu/g28Ya0NtD7sznzisg/B6l
+ KWb0Z0TAV8LA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 00:47:27 -0700
+IronPort-SDR: xebuX4Zqh2Fzs8VKrVMTXlJ1UMcv1KriaDNTvXrXAHOnRuQgYvCSjXW9IpM+PKHsaq1g09075h
+ aWGqFgg+JwGw==
+X-IronPort-AV: E=Sophos;i="5.73,306,1583222400"; 
+   d="scan'208";a="255903604"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2020 00:47:16 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id B6BA22080B; Thu, 23 Apr 2020 10:47:13 +0300 (EEST)
+Date:   Thu, 23 Apr 2020 10:47:13 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Luis Oliveira <lolivei@synopsys.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, Jacopo Mondi <jacopo@jmondi.org>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Adam Ford <aford173@gmail.com>,
+        Todor Tomov <todor.tomov@linaro.org>,
+        Suresh Udipi <sudipi@jp.adit-jv.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>
+Subject: Re: [PATCH 3/4] media: ov5647: Add support for non-continuous clock
+ mode
+Message-ID: <20200423074713.GK5381@paasikivi.fi.intel.com>
+References: <cover.1586759968.git.roman.kovalivskyi@globallogic.com>
+ <c3189c80ac27d67e814509d44a864f8164971efb.1586759968.git.roman.kovalivskyi@globallogic.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c3189c80ac27d67e814509d44a864f8164971efb.1586759968.git.roman.kovalivskyi@globallogic.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Roman,
 
-Results of the daily build of media_tree:
+On Mon, Apr 13, 2020 at 12:17:46PM +0300, Roman Kovalivskyi wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> 
+> The driver was only supporting continuous clock mode
+> although this was not stated anywhere.
+> Non-continuous clock saves a small amount of power and
+> on some SoCs is easier to interface with.
+> 
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> Signed-off-by: Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+> ---
+>  drivers/media/i2c/ov5647.c | 17 ++++++++++++++---
+>  1 file changed, 14 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index c39e3d20e3ef..8a1a515388e0 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -44,6 +44,7 @@
+>  #define PWDN_ACTIVE_DELAY_MS	20
+>  
+>  #define MIPI_CTRL00_CLOCK_LANE_GATE		BIT(5)
+> +#define MIPI_CTRL00_LINE_SYNC_ENABLE		BIT(4)
+>  #define MIPI_CTRL00_BUS_IDLE			BIT(2)
+>  #define MIPI_CTRL00_CLOCK_LANE_DISABLE		BIT(0)
+>  
+> @@ -95,6 +96,7 @@ struct ov5647 {
+>  	int				power_count;
+>  	struct clk			*xclk;
+>  	struct gpio_desc		*pwdn;
+> +	unsigned int			flags;
+>  };
+>  
+>  static inline struct ov5647 *to_state(struct v4l2_subdev *sd)
+> @@ -269,9 +271,15 @@ static int ov5647_set_virtual_channel(struct v4l2_subdev *sd, int channel)
+>  
+>  static int ov5647_stream_on(struct v4l2_subdev *sd)
+>  {
+> +	struct ov5647 *ov5647 = to_state(sd);
+> +	u8 val = MIPI_CTRL00_BUS_IDLE;
+>  	int ret;
+>  
+> -	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, MIPI_CTRL00_BUS_IDLE);
+> +	if (ov5647->flags & V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK)
+> +		val |= MIPI_CTRL00_CLOCK_LANE_GATE |
+> +		       MIPI_CTRL00_LINE_SYNC_ENABLE;
+> +
+> +	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, val);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> @@ -568,7 +576,7 @@ static const struct v4l2_subdev_internal_ops ov5647_subdev_internal_ops = {
+>  	.open = ov5647_open,
+>  };
+>  
+> -static int ov5647_parse_dt(struct device_node *np)
+> +static int ov5647_parse_dt(struct device_node *np, struct ov5647 *sensor)
+>  {
+>  	struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
 
-date:			Thu Apr 23 05:00:09 CEST 2020
-media-tree git hash:	a349d3d97ea2d532a9c2d7211272623a4f71e8d0
-media_build git hash:	2f75e0d4330da180166ebcd104560d471a1599b6
-v4l-utils git hash:	9c3d3fde6b5c5102293edbb25d1f4a73d39dc04e
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: ea95b3c30d6328a869ed67f518963895c2ded39d
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+The bus type should be set to V4L2_MBUS_CSI2_DPHY here; 0 is just for
+compatibility with the old heuristics.
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
-sparse: OK
-smatch: ERRORS
+>  	struct device_node *ep;
+> @@ -581,6 +589,9 @@ static int ov5647_parse_dt(struct device_node *np)
+>  
+>  	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &bus_cfg);
+>  
+> +	if (!ret)
+> +		sensor->flags = bus_cfg.bus.mipi_csi2.flags;
+> +
+>  	of_node_put(ep);
+>  	return ret;
+>  }
+> @@ -599,7 +610,7 @@ static int ov5647_probe(struct i2c_client *client)
+>  		return -ENOMEM;
+>  
+>  	if (IS_ENABLED(CONFIG_OF) && np) {
+> -		ret = ov5647_parse_dt(np);
+> +		ret = ov5647_parse_dt(np, sensor);
+>  		if (ret) {
+>  			dev_err(dev, "DT parsing error: %d\n", ret);
+>  			return ret;
 
-Detailed results are available here:
+-- 
+Kind regards,
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Sakari Ailus
