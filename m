@@ -2,140 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1662B1B7369
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2020 13:45:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF1231B7382
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2020 14:00:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726717AbgDXLpw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Apr 2020 07:45:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45092 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726699AbgDXLpw (ORCPT
+        id S1726753AbgDXMAI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Apr 2020 08:00:08 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:51307 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726698AbgDXMAI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Apr 2020 07:45:52 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB49FC09B045
-        for <linux-media@vger.kernel.org>; Fri, 24 Apr 2020 04:45:51 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id e25so9617976ljg.5
-        for <linux-media@vger.kernel.org>; Fri, 24 Apr 2020 04:45:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=95uqkebeHf7dQxE+4F7EdCqt0giQUolqlX9+pJlKNo8=;
-        b=McRxgPsturGvemx6LQUyKlVq97jV1fp4T8rYSt5QIEJwc4+wPCfqoQaumMASYrRivq
-         3Bk79kaP6sGMWJEILojUXj1Zexth3wcWyzJf3Mc26C0CLrNF+l8vS2nf2l8iofWTlNwh
-         UvLn5Y5m7wlwO78fXNJQws8NCYYXue5vvJGNU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=95uqkebeHf7dQxE+4F7EdCqt0giQUolqlX9+pJlKNo8=;
-        b=oTwlWA0nGpuwXmmIGxST+jhLWFwGRXZ/5CQN0N1968ee6kyLfb9QXBmFQFn4n4Rs10
-         FucvNvv+cBsgjQ9ybBI1v2uMwmmofyk7eus0HKqIHUtfHHrY9Sg91Ch9p9Zx1837GTDS
-         Lr/jzaRuJ7nS4UXhv7MNtj8KAGU/BoqmRuqAee8VKLg89Z/Wt7tM++xBFk9OPeo4XIOL
-         kuI4+V03g1yePu+29wT28uz0ihpXpcbZvZayv5e4xqgNNO17ZCMzoJRiZknioSvE558F
-         OBlCgBDtj+oz0UkP6HGG9R92py1ZCwwKywjUZ47CcBoQMa58NayVDmUgIDzDH334JRPu
-         /a3Q==
-X-Gm-Message-State: AGi0PuY/Fq51kAPkwMCKZfGJ0v2Fa6ezrzSyqThM0XMdDAolQTA+eL2M
-        mewzzBdratw4kvmcR3PATuY95fJDMjsNLuGRqtGN0Q==
-X-Google-Smtp-Source: APiQypJjMfpHfD2gZgpMSn7TIRfXNVPKhn5y+ZajpqtefKWXMDIW4Y/VH39q5Hcm+zIcM9NxPW1spC0H7Ay3l4ttlOE=
-X-Received: by 2002:a2e:7a0a:: with SMTP id v10mr5765813ljc.86.1587728750324;
- Fri, 24 Apr 2020 04:45:50 -0700 (PDT)
+        Fri, 24 Apr 2020 08:00:08 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id RwzxjFXYSlKa1Rx01jNve4; Fri, 24 Apr 2020 14:00:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1587729605; bh=zZ2wwpEgLHB6mj3CufEWcojnNhlvi8MfX/eIcPeqdK4=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=pBtIg+DzzHRsyafofhQX+9A86KpM9aZCg+76lbAFgQtPLS1/S23Fr8z8nmUlceSUM
+         6SPgIMkQ/LBPoDhLKldROlD8kz6lSpnAjx6qAZwvTlgTacEZDQ9x1CrmEwcr6V9hk+
+         PBkR2khhgxYwFqSQeAzPyXgBo0ceEyysHAejXGHwRMdV5qAkmpaLWNPL9wzLPeDiiR
+         2eXECBY6YEN39vs/sYsLpWPxD/ZGbhSFRRBVnJOKauFEKEOznkkRrW/33dIB9b+YBA
+         hTGGGHZcGrlhipI+9Dwz28qBjWU+HoG+K7DEUdmLn4xLK1Z77v+0VXqUU5Zhg2W3hu
+         qAq5lIg8CtdNg==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.8] Add Tegra210 Video input driver
+Message-ID: <506a8f62-f56a-9974-b419-a27e653dca16@xs4all.nl>
+Date:   Fri, 24 Apr 2020 14:00:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200206102058.247258-1-keiichiw@chromium.org>
- <4320831.CvnuH1ECHv@os-lin-dmo> <CAD90Vca4jqLPdK4my3mCmPM45Lwc5te6PbDhA+H=0X1QyTFWzQ@mail.gmail.com>
- <17068786.sWSEgdgrri@os-lin-dmo>
-In-Reply-To: <17068786.sWSEgdgrri@os-lin-dmo>
-From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Fri, 24 Apr 2020 20:45:38 +0900
-Message-ID: <CAD90Vcbrgf2dK2EYeQDJ=-AFA2NkFnyJhutLX3nfeD7ajNYw=A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] virtio-video: Add virtio video device specification
-To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Cc:     virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        David Staessens <dstaessens@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, uril@redhat.com,
-        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
-        Kiran Pawar <kiran.pawar@opensynergy.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfHV2g8kDTo2Oj5DLf5PCZKLGbVUU6jJN3GeN9E1213aypIN6oLKU3WLze98xrgNSPjCr72UCvJsK+oJPREIjaGfHEIE6W9e6FO5O2GBrWpdqEjss0cDs
+ tGqAAqdUs5ST6Sqvlg8PoOfHwkrI2YUWTRMuoOqWc+0FcvKFyuyCqCIxyYh6anlE9sj7FvF/sd4xa7ofCe2jqxi/DvYwh49otpLSuwvee9EZvqorPZPl0WwU
+ jIQQU+yp+G9KKnZpctTqrw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dmitry,
+Hi Mauro,
 
-On Thu, Apr 9, 2020 at 10:23 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
->
-> Hi Keiichi,
->
-> On Donnerstag, 9. April 2020 12:46:56 CEST Keiichi Watanabe wrote:
-> > Hi,
-> >
-> > On Tue, Apr 7, 2020 at 11:49 PM Dmitry Sepp <dmitry.sepp@opensynergy.com>
-> wrote:
-> > > Hi,
-> > >
-> > > > +\item[VIRTIO_VIDEO_CMD_STREAM_DESTROY] Destroy a video stream
-> > > > +  (context) within the device.
-> > > > +
-> > > > +\begin{lstlisting}
-> > > > +struct virtio_video_stream_destroy {
-> > > > +        struct virtio_video_cmd_hdr hdr;
-> > > > +};
-> > > > +\end{lstlisting}
-> > >
-> > > Let's add more strict description to stream_destroy, like as follows:
-> > > Device MUST NOT generate any events for the stream in question after
-> > > receiving the command. Before completing the command, Device MUST ensure
-> > > that all asynchronous commands that are related to the stream have been
-> > > completed and all memory objects are unreferenced.
-> >
-> > Sounds good. But, the device should probably be able to generate
-> > VIRTIO_VIDEO_EVENT_ERROR for a device-wide error?
-> > Or, should VIRTIO_VIDEO_EVENT_ERROR always be a per-stream error? (I
-> > haven't documented it in v3)
-> >
->
-> In the current version of the driver  I have we interpret it a stream error. I
-> think it makes sense as several stream formats might be backed by different
-> hardware devices on the host side. So it would be an overkill to mark the
-> whole virtio device as broken on the guest side.
+This adds the Tegra video input driver. It currently only supports the test
+pattern generator, the next phase will add sensor support.
 
-It makes sense. I'll explicitly document that it's a per-stream error.
+Sowjanya, thank you for all your hard work on this driver!
 
->
-> BTW, I think we should add some hard limit to the max_cap_length and
-> max_resp_length in the spec, so buggy device does not make us allocate all
-> memory for a response on the host side by providing a garbage value. I think
-> 4k might be a good value.
+Regards,
 
-Sounds good. Thank you for the suggestion.
+	Hans
 
-Best regards,
-Keiichi
+PS: The dt-bindings patch https://patchwork.linuxtv.org/patch/63331 will go through
+Thierry, together with other non-media patches. The bindings for this device are a
+bit unusual since they are under bindings/display due to the HW design.
 
 
->
-> Best regards,
-> Dmitry.
->
-> > Best regards,
-> > Keiichi
-> >
-> > > Best regards,
-> > > Dmitry.
->
->
+The following changes since commit 4bdbff4da40584ec2225bb429b7c66ad54d19cda:
+
+  media: tuners: Kconfig: add some missing VIDEO_V4L2 dependencies (2020-04-23 07:57:27 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-tegra
+
+for you to fetch changes up to 81ac3132ed589757063d65928b13148bb32b0f08:
+
+  MAINTAINERS: Add Tegra Video driver section (2020-04-24 13:15:18 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Sowjanya Komatineni (2):
+      media: tegra: Add Tegra210 Video input driver
+      MAINTAINERS: Add Tegra Video driver section
+
+ MAINTAINERS                            |   10 +
+ drivers/staging/media/Kconfig          |    2 +
+ drivers/staging/media/Makefile         |    1 +
+ drivers/staging/media/tegra/Kconfig    |   12 +
+ drivers/staging/media/tegra/Makefile   |    8 +
+ drivers/staging/media/tegra/TODO       |   10 +
+ drivers/staging/media/tegra/common.h   |  259 ++++++++++++++
+ drivers/staging/media/tegra/csi.c      |  604 +++++++++++++++++++++++++++++++++
+ drivers/staging/media/tegra/csi.h      |  144 ++++++++
+ drivers/staging/media/tegra/tegra210.c |  708 ++++++++++++++++++++++++++++++++++++++
+ drivers/staging/media/tegra/tegra210.h |  190 +++++++++++
+ drivers/staging/media/tegra/vi.c       | 1127 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/staging/media/tegra/vi.h       |   72 ++++
+ drivers/staging/media/tegra/video.c    |  153 +++++++++
+ drivers/staging/media/tegra/video.h    |   29 ++
+ 15 files changed, 3329 insertions(+)
+ create mode 100644 drivers/staging/media/tegra/Kconfig
+ create mode 100644 drivers/staging/media/tegra/Makefile
+ create mode 100644 drivers/staging/media/tegra/TODO
+ create mode 100644 drivers/staging/media/tegra/common.h
+ create mode 100644 drivers/staging/media/tegra/csi.c
+ create mode 100644 drivers/staging/media/tegra/csi.h
+ create mode 100644 drivers/staging/media/tegra/tegra210.c
+ create mode 100644 drivers/staging/media/tegra/tegra210.h
+ create mode 100644 drivers/staging/media/tegra/vi.c
+ create mode 100644 drivers/staging/media/tegra/vi.h
+ create mode 100644 drivers/staging/media/tegra/video.c
+ create mode 100644 drivers/staging/media/tegra/video.h
