@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54FD91B70EB
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2020 11:31:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4C4A1B70EE
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2020 11:31:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726983AbgDXJbS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Apr 2020 05:31:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52296 "EHLO
+        id S1726996AbgDXJbY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Apr 2020 05:31:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52312 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726523AbgDXJbR (ORCPT
+        by vger.kernel.org with ESMTP id S1726523AbgDXJbX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Apr 2020 05:31:17 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D25B3C09B045;
-        Fri, 24 Apr 2020 02:31:17 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id w3so3543540plz.5;
-        Fri, 24 Apr 2020 02:31:17 -0700 (PDT)
+        Fri, 24 Apr 2020 05:31:23 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB07AC09B045;
+        Fri, 24 Apr 2020 02:31:21 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id y6so3685173pjc.4;
+        Fri, 24 Apr 2020 02:31:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=THhKNtjH/uEj0jg+pesiBCJg+1ebmbvJUD6/foS9B1Q=;
-        b=CHtX2WtnxNzO5uPFdApzvX/OoTxAoC69nGtsgdoImceGkYQD7NbFKuYA4qP9+1MJdl
-         LjBRNEJf2z4kqzPrmTCQVhDbYC2wW4auT2BNUrZjUAxnH/ipmKYxTKCZD5OyDLjqG50i
-         GuCH+nINsRgloq6SarEYFB7S3yXi2RJ0pgmNGSvLYIjhmaxoo6DsYlwdp/X7U7E87K0Q
-         rdS2B7SeQGS6YqNUK8rIHLiUiz1Th3624BMOcZXmT/E46UYmRf9miVgoM7sAfHsZDFgk
-         /DET/s363DrnEv7+QogISyK6+1f9Nlzx1tUHPiKvG6ZSSZgCE3nwYDFhaX99dojPolPP
-         7ybg==
+        bh=+rsYbWWzoE0lVJTAtJ90p8tOUmwZIRJ0zy7fKEnpH4c=;
+        b=b36VpCzV7zti4L8z9p4NJt/YfJChnE42aDZFhVYDX4Ysh0fulcs8UGIkiwGWLYuEEf
+         dQQDeBMcoPSsO/s4CqMt++DRIxpMZF5n5vQvrl83F4N+7Q1FErqOSY6d4NKuOCCQFW/H
+         YmacrQ/0T1Qn5tx1SmHHLne+B3eWRhNdQ2ehD7VyXjgNngu83vQy5AZA8MTmB4DhLCKM
+         W9j5tCP8E6xsOjV2cEdTk24REYkiBWhKTqLtQ9YLYMbo7SpFFfUFxedsSh+0DA98ENKL
+         m3u09CKUtlTYuJrp05n//2mBrRgpBb5tjGn1pGk8CYi8rcdahC6MCyjmZcA9Tmo3GllQ
+         N1fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=THhKNtjH/uEj0jg+pesiBCJg+1ebmbvJUD6/foS9B1Q=;
-        b=FI0BfwhpvLoCj54KONUYa4jPYD5WbAGBj5J9CXkr76RkRYRvzouQa6OLYVqxwxGobu
-         mSiVZAWvyJ2rKLp5Eu0k/9hxWafyS11DUQyh5ySC00zhQPYuVISxZWv8PDdsIAxI8KpV
-         VMcE2E+7IAwA+/tcjtQLkryRXN/KYsHTyxTC2dFl0SvUVq1XLnyyn+x1IajI6zp5qdHp
-         ZsINjCB4BDtsEYg9Upd7HUjT9WzJsIIrBDen/74RRPib7Qb0Q5dPB/4seHJ0Qc4DLpF8
-         cu3AE2enhPSWXJ1PSM29SW2iugG69bDqgjphgTwwVWKbqXQPVxygWPrzOgQeAXLFsz9G
-         8+Xg==
-X-Gm-Message-State: AGi0PubNIqaF+Vt/QfP5iFe/iS3KH3iAOzgQtRnLLDYJO7U6oIQMANHx
-        /oGwtYy0UsLdMLHGQKAKyE8=
-X-Google-Smtp-Source: APiQypKd9OHBDoHGBTRLyj3+BsnI6AnjtLIwL2qeULNLoU5v1bAXJV0jKf71cTgLrMkzA7LH7e3pTw==
-X-Received: by 2002:a17:90a:ad02:: with SMTP id r2mr5294423pjq.63.1587720677333;
-        Fri, 24 Apr 2020 02:31:17 -0700 (PDT)
+        bh=+rsYbWWzoE0lVJTAtJ90p8tOUmwZIRJ0zy7fKEnpH4c=;
+        b=Hs0KT+ESu6fXgKB5XeSlZwFgEk7I6RJ4MKZqeLgkZecpZr+rvdUnMfG+qSAFu/elNC
+         eM5krbaEhwIZcJROMyqETxbxRHxV/iuX4YZQQpmbXtL7dbVrIQ0E/Fz9C8hAmLb3Y00k
+         lM1cJ9UjHtavr4M8cEIdIadPvmT0axKqznZKFHNJMyDLIJOnbbpeJmzmXylT4nKMpWuJ
+         46oA0jG9h/Q5qOmyJfJAptK7PJZl+ryoYn6LNSo5aUdRGRgjkRNAgbHEjnUbtz9Gh9i/
+         /gSFsn+yFfcd8Dh57e5wFvHJTWB7+NDHJClQrr1wmjgKKq8ai5inlSVwLxGCO2z9oxLc
+         wSWw==
+X-Gm-Message-State: AGi0PubAo/4hG/tSmdz+NySPgGi8X2lHVvIMe4RyuPm27vE40Qsot12m
+        OoxTYL7BqXtWETP71q+sGJY=
+X-Google-Smtp-Source: APiQypJp7ndABcDIcAJcH/x3UIeGvoQUWaE7aoN/rWhfc8p42rvhjgMLDfX1vf1A2j1n+lDtxAPu+A==
+X-Received: by 2002:a17:90a:30a5:: with SMTP id h34mr5050464pjb.171.1587720681431;
+        Fri, 24 Apr 2020 02:31:21 -0700 (PDT)
 Received: from localhost.localdomain (146.85.30.125.dy.iij4u.or.jp. [125.30.85.146])
-        by smtp.gmail.com with ESMTPSA id 185sm5541315pfv.9.2020.04.24.02.31.13
+        by smtp.gmail.com with ESMTPSA id 185sm5541315pfv.9.2020.04.24.02.31.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2020 02:31:16 -0700 (PDT)
+        Fri, 24 Apr 2020 02:31:20 -0700 (PDT)
 From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
 To:     Hans Verkuil <hans.verkuil@cisco.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -55,9 +55,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [PATCHv5 09/13] videobuf2: check ->synced flag in prepare() and finish()
-Date:   Fri, 24 Apr 2020 18:29:16 +0900
-Message-Id: <20200424092920.4801-10-sergey.senozhatsky@gmail.com>
+Subject: [PATCHv5 10/13] videobuf2: add begin/end cpu_access callbacks to dma-contig
+Date:   Fri, 24 Apr 2020 18:29:17 +0900
+Message-Id: <20200424092920.4801-11-sergey.senozhatsky@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200424092920.4801-1-sergey.senozhatsky@gmail.com>
 References: <20200424092920.4801-1-sergey.senozhatsky@gmail.com>
@@ -70,48 +70,78 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Sergey Senozhatsky <senozhatsky@chromium.org>
 
-This simplifies the code a tiny bit and let's us to avoid
-unneeded ->prepare()/->finish() calls.
+Provide begin_cpu_access() and end_cpu_access() callbacks for
+cache synchronisation on exported buffers.
+
+The patch also adds a new helper function - vb2_dc_buffer_consistent(),
+which returns true is if the buffer is consistent (DMA_ATTR_NON_CONSISTENT
+bit cleared), so then we don't need to sync anything.
 
 Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 ---
- drivers/media/common/videobuf2/videobuf2-core.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ .../common/videobuf2/videobuf2-dma-contig.c   | 35 +++++++++++++++++++
+ 1 file changed, 35 insertions(+)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index 5409e15b6af4..5a69005b7d59 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -304,6 +304,9 @@ static void __vb2_buf_mem_prepare(struct vb2_buffer *vb)
- {
- 	unsigned int plane;
+diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+index d3a3ee5b597b..6787e2cb905e 100644
+--- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
++++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+@@ -42,6 +42,11 @@ struct vb2_dc_buf {
+ 	struct dma_buf_attachment	*db_attach;
+ };
  
-+	if (vb->synced)
-+		return;
++static inline bool vb2_dc_buffer_consistent(unsigned long attr)
++{
++	return !(attr & DMA_ATTR_NON_CONSISTENT);
++}
 +
- 	if (vb->need_cache_sync_on_prepare) {
- 		for (plane = 0; plane < vb->num_planes; ++plane)
- 			call_void_memop(vb, prepare,
-@@ -320,6 +323,9 @@ static void __vb2_buf_mem_finish(struct vb2_buffer *vb)
- {
- 	unsigned int plane;
+ /*********************************************/
+ /*        scatterlist table functions        */
+ /*********************************************/
+@@ -335,6 +340,34 @@ static void vb2_dc_dmabuf_ops_release(struct dma_buf *dbuf)
+ 	vb2_dc_put(dbuf->priv);
+ }
  
-+	if (!vb->synced)
-+		return;
++static int
++vb2_dc_dmabuf_ops_begin_cpu_access(struct dma_buf *dbuf,
++				   enum dma_data_direction direction)
++{
++	struct vb2_dc_buf *buf = dbuf->priv;
++	struct sg_table *sgt = buf->dma_sgt;
 +
- 	if (vb->need_cache_sync_on_finish) {
- 		for (plane = 0; plane < vb->num_planes; ++plane)
- 			call_void_memop(vb, finish,
-@@ -2000,8 +2006,7 @@ static void __vb2_queue_cancel(struct vb2_queue *q)
- 				call_void_vb_qop(vb, buf_request_complete, vb);
- 		}
- 
--		if (vb->synced)
--			__vb2_buf_mem_finish(vb);
-+		__vb2_buf_mem_finish(vb);
- 
- 		if (vb->prepared) {
- 			call_void_vb_qop(vb, buf_finish, vb);
++	if (vb2_dc_buffer_consistent(buf->attrs))
++		return 0;
++
++	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->nents, buf->dma_dir);
++	return 0;
++}
++
++static int
++vb2_dc_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
++				 enum dma_data_direction direction)
++{
++	struct vb2_dc_buf *buf = dbuf->priv;
++	struct sg_table *sgt = buf->dma_sgt;
++
++	if (vb2_dc_buffer_consistent(buf->attrs))
++		return 0;
++
++	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->nents, buf->dma_dir);
++	return 0;
++}
++
+ static void *vb2_dc_dmabuf_ops_vmap(struct dma_buf *dbuf)
+ {
+ 	struct vb2_dc_buf *buf = dbuf->priv;
+@@ -353,6 +386,8 @@ static const struct dma_buf_ops vb2_dc_dmabuf_ops = {
+ 	.detach = vb2_dc_dmabuf_ops_detach,
+ 	.map_dma_buf = vb2_dc_dmabuf_ops_map,
+ 	.unmap_dma_buf = vb2_dc_dmabuf_ops_unmap,
++	.begin_cpu_access = vb2_dc_dmabuf_ops_begin_cpu_access,
++	.end_cpu_access = vb2_dc_dmabuf_ops_end_cpu_access,
+ 	.vmap = vb2_dc_dmabuf_ops_vmap,
+ 	.mmap = vb2_dc_dmabuf_ops_mmap,
+ 	.release = vb2_dc_dmabuf_ops_release,
 -- 
 2.26.2
 
