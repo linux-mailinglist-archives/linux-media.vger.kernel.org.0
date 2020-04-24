@@ -2,187 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F6931B704C
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2020 11:10:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94E091B70D9
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2020 11:30:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726494AbgDXJKp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Apr 2020 05:10:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49116 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726298AbgDXJKp (ORCPT
+        id S1726829AbgDXJaf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Apr 2020 05:30:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52172 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726523AbgDXJaf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Apr 2020 05:10:45 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FE04C09B045
-        for <linux-media@vger.kernel.org>; Fri, 24 Apr 2020 02:10:45 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id j1so9863577wrt.1
-        for <linux-media@vger.kernel.org>; Fri, 24 Apr 2020 02:10:44 -0700 (PDT)
+        Fri, 24 Apr 2020 05:30:35 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BC42C09B045;
+        Fri, 24 Apr 2020 02:30:35 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id ay1so3552297plb.0;
+        Fri, 24 Apr 2020 02:30:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=vcRWYkcNfS4V8Bu74JQa3IXdQi9KAHxD0a7K9WTEago=;
-        b=o0Tbrnd2bWCnPlH/xibS/2/HVqIMLs+JmISfP8TZjhDLRQ3CmqScuU5NL07ambvSGP
-         /LbbvVZMRAQUqIzm4oSAXVd+8NFl/+RG91y2/q1KQIiTnSFzy6wF/dSLyQW7a2Y/Gem7
-         3+IlF21sxY44x64i7bmTkkzmpNR5XCU4xziPk27/gkp+/4rtKfWD/i6LCfvTLKY9LK2N
-         b0d11muWIHTSw+dKbWJOyzDYabyT3geGcIfjOvroq8afD1gpVtISi2v9DABFLUZ9tpqy
-         LGSPXbEDsFO/aWgXQpskrQ3J5iww5q5O1W3OG3IgASbJ39CtoE1s1A8Y/ePmfpslSmVo
-         xRFw==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nOe4eSFf8uaQPFRnz/HB78krP+RHMm+yFvd35oui5EE=;
+        b=ejmiU1QYFN0TNxurB1zJMhR8EuFUTcFF7RduwDMofM3bvkWZj0mda+IXNsETZTme8o
+         DCMkE8Q3sK5LYgWvaGspC481L12yjveuTE74oW1D1I4s9lkLsTh5Puj8NDTC1ugCSzoP
+         xQN6LFcS2vBFkU3GhNyvMmFFV5CqJ5/80bDTq7lzPsDxHqcLyBv6udq4rFrGnsXhmTWL
+         sxKNjUJcTQxY25LCAKgpro0vVKkopOsdlBhuPwn0QUldqDqugP7a308wHsIXIe/bQNQ9
+         zdTMffVtyCnEMsQscc3lx0rlG7ifOmw5I7PyPqNQtPueBq8M0fNaUQ5qPug7doxfQbmM
+         I+Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=vcRWYkcNfS4V8Bu74JQa3IXdQi9KAHxD0a7K9WTEago=;
-        b=OKheUpJuc02plOqrL05P52nraFATtdsoQKENeg+dp7g+aI9uZQ2pf2iCX1zNc+6YTZ
-         yyl4BQk38e6TgRq/0M1SzcRYIkK+duLIxmWSajDyd1gOC8t3seVyMM2mtS4SJiQt4mDa
-         ZlPHVsttsg0L9LvYZ2WuNGgG/b9nm017eU7AUNXnENk3cS7uNNKDkgaRHIEGwWmlZG8B
-         QWZYIyUW2S1sxi++mZJnz3d0oHoB2B2jn+zRc3ko8uQuWiLB0DuIKd51yQus3E2hLEXc
-         o93yI0f82rkxxtAJ2Otryb2f8m3GekTJei7iZNk+zpgc7EkUhINPaXPXBB2QnFEueh1Q
-         CtLQ==
-X-Gm-Message-State: AGi0PuYWzet0RO4xef5VoozJqgBFK9BziqBKJ+rR+j4QAYEZMI8mTo+D
-        AR1r9hl5ruDoild4jzfSL6zYFopxOm8=
-X-Google-Smtp-Source: APiQypKYoJQ3RXd9zMaTxBToQ96yv2KH/EAxa8equDo9IqXPopPSsIH2R8KaZspG61uHrVFIB1ihNg==
-X-Received: by 2002:a5d:42c7:: with SMTP id t7mr9740095wrr.336.1587719443149;
-        Fri, 24 Apr 2020 02:10:43 -0700 (PDT)
-Received: from [192.168.0.104] (77-56-155-30.dclient.hispeed.ch. [77.56.155.30])
-        by smtp.gmail.com with ESMTPSA id c190sm2024453wme.4.2020.04.24.02.10.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Apr 2020 02:10:42 -0700 (PDT)
-Subject: Re: atomisp kernel driver(s)
-From:   Patrik Gfeller <patrik.gfeller@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linux-media@vger.kernel.org
-References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
- <20200418172549.7cca07a7@coco.lan> <20200418172654.74a1eeea@coco.lan>
- <1d529105-3b7d-38d0-b7a2-d385b2221ff7@gmail.com>
- <20200420013109.65babb54@coco.lan>
- <e45de3ea-4b5c-f2d0-0844-1233ca15a939@gmail.com>
- <eb83f789-9595-55f0-d922-bab00ae85cff@gmail.com>
- <20200420224750.28c0181d@coco.lan>
- <dd8ab5df-31c7-f009-36e4-ca4fd0605e97@gmail.com>
- <20200422211344.2ec3d93e@coco.lan>
- <23b3a078-2a9a-5f50-a35e-9f40f5aa8a6e@gmail.com>
-Message-ID: <86413836-e4b5-cb53-3ac0-1764c693ec7b@gmail.com>
-Date:   Fri, 24 Apr 2020 11:10:41 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=nOe4eSFf8uaQPFRnz/HB78krP+RHMm+yFvd35oui5EE=;
+        b=dzF3cdHJB6IP6NRqqaQ8VSFL0DY3lZNklefzhfQLhng9D1wGi/xzcmMvaaKgPAQgAR
+         y0eOApJLOLRaeGomN7zg7moBtmz4RqFaL1/ACvP77OX2ctXIJBtDjtBlyOAkNDsALHH7
+         qY6hK6y6GqBWON0UQxheHpi8hOQrnU8BGSPKUBTsQ3WjMxCCl57inPUPWE/frgu7yd0R
+         30obsVsPz6JkDy4zOCXfT1UVq8mrocugDZCkgm7nvxqUOIzmnL8ZzBgpUwK+7VdiFMwj
+         uV72eT/kUzIiIAeQno4iPpTeapCm+4hq3CEAWilj4Qi8yOLt6zElqhjVZMjDOpwcHSaR
+         pPRQ==
+X-Gm-Message-State: AGi0PuZ9tkFbiEbcEl1Hsm5pUWjWIcHzYO/X2+/zsoCucVhChJSwl+/8
+        mkFf2mBOK5saWfytmv7K/4g=
+X-Google-Smtp-Source: APiQypJhrHHsRU/uH3PJZnexuFIJsytzrUPi3t+Wn5Z4iRIF0i263atdJFB9hYLExhT1Ysy5RFpCfA==
+X-Received: by 2002:a17:90a:a893:: with SMTP id h19mr5238698pjq.138.1587720634247;
+        Fri, 24 Apr 2020 02:30:34 -0700 (PDT)
+Received: from localhost.localdomain (146.85.30.125.dy.iij4u.or.jp. [125.30.85.146])
+        by smtp.gmail.com with ESMTPSA id 185sm5541315pfv.9.2020.04.24.02.30.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Apr 2020 02:30:33 -0700 (PDT)
+From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+To:     Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Subject: [PATCHv5 00/13] Implement V4L2_BUF_FLAG_NO_CACHE_* flags
+Date:   Fri, 24 Apr 2020 18:29:07 +0900
+Message-Id: <20200424092920.4801-1-sergey.senozhatsky@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <23b3a078-2a9a-5f50-a35e-9f40f5aa8a6e@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello,
 
-On 24.04.20 10:52, Patrik Gfeller wrote:
->
-> On 22.04.20 21:13, Mauro Carvalho Chehab wrote:
->> Em Wed, 22 Apr 2020 19:56:56 +0200
->> Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
->>
->>> On 20.04.20 22:47, Mauro Carvalho Chehab wrote:
->>>> Em Mon, 20 Apr 2020 20:27:25 +0200
->>>> Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
->>>>> Me again ... sorry to ask such a basic question, but I can't get your
->>>>> modified source code. I get the following error:
->>>>>      > git clone https://git.linuxtv.org/mchehab/experimental.git/
->>>>> Cloning into 'experimental'...
->>>>> warning: adding alternate object store:
->>>>> https://git.linuxtv.org/git/linux.git/
->>>>> warning: adding alternate object store:
->>>>> https://git.linuxtv.org/git/media_tree.git/
->>>>> warning: adding alternate object store:
->>>>> https://git.linuxtv.org/git/linux.git/
->>>>> error: Unable to find fc8670d1f72b746ff3a5fe441f1fca4c4dba0e6f under
->>>>> https://git.linuxtv.org/mchehab/experimental.git
->>>>> Cannot obtain needed object fc8670d1f72b746ff3a5fe441f1fca4c4dba0e6f
->>>>> while processing commit 6d80bfc14608f4bb5514b79721d30b486f50c987.
->>>>> error: fetch failed.
->>>>>
->>>>> Do I use the wrong command?
->>>> Better to use git:// url:
->>>>
->>>>     git clone git://git.linuxtv.org/mchehab/experimental.git/
->>> I was able to download and compile the code. I installed the kernel and
->>> tried to boot; unfortunately it hangs with the message "Loading initial
->>> ramdisk ..." - after I start the old kernel I check kern.log and syslog
->>> - but I do not see entries from the failed boot attempt. I'll read into
->>> the topic and try around. This will take some time ... so there will be
->>> a dealy, but it's not that I do not care or lacking  interest, I just
->>> first have to sort this out.
->> Well, try to build it first without the atomisp driver. This would allow
->> you to see what's going on.
->
-> I was able to solve the problem I had with the ramdisk - I had to 
-> strip the kernel modules, probably the ramdisk file was too big.
->
-> It is possible to boot with the atomisp driver, but I can not see the 
-> camera yet - but maybe that's due to missing firmware, as there were 
-> warnings when I installed the kernel that firmware files are missing.
->
-> The following I found in dmesg:
->
-> [    9.331011] kernel: atomisp_ov2680: module is from the staging 
-> directory, the quality is unknown, you have been warned.
-> [    9.402456] kernel: ov2680 i2c-OVTI2680:00: gmin: initializing 
-> atomisp module subdev data.PMIC ID 1
-> [    9.421113] kernel: acpi OVTI2680:00: Failed to find gmin variable 
-> OVTI2680:00_CamClk
-> [    9.433478] kernel: acpi OVTI2680:00: Failed to find gmin variable 
-> OVTI2680:00_ClkSrc
-> [    9.443146] kernel: acpi OVTI2680:00: Failed to find gmin variable 
-> OVTI2680:00_CsiPort
-> [    9.456677] kernel: acpi OVTI2680:00: Failed to find gmin variable 
-> OVTI2680:00_CsiLanes
-> [    9.479411] kernel: ov2680 i2c-OVTI2680:00: supply V1P8SX not 
-> found, using dummy regulator
-> [    ...
-> [    9.510282] kernel: ov2680 i2c-OVTI2680:00: supply V2P8SX not 
-> found, using dummy regulator
-> [    ...
-> [    9.532284] kernel: ov2680 i2c-OVTI2680:00: supply V1P2A not found, 
-> using dummy regulator
-> [    9.536200] kernel: ov2680 i2c-OVTI2680:00: supply VPROG4B not 
-> found, using dummy regulator
-> [   ...'
-> [    9.592064] kernel: ov2680 i2c-OVTI2680:00: unable to set PMC rate 1
-> [    9.623628] kernel: ov2680 i2c-OVTI2680:00: camera pdata: port: 0 
-> lanes: 1 order: 00000002
-> [    9.628258] kernel: ov2680 i2c-OVTI2680:00: sensor_revision id = 
-> 0x2680, rev= 0
-> [    9.636582] kernel: ov2680 i2c-OVTI2680:00: register atomisp i2c 
-> module type 1
->
-> The first signs of live :-) ... I'll try to find the firmware files to 
-> see if it makes a difference.
+	v5 with fixes and improvements.
 
-May be of interest as well:
+I have a simple v4l-compliance patch now (will send it separately) which
+tests cache and consistency hints. I ran compliance against the vivid
+test driver, which was additionally extended with cache_hints module param:
+Trimmed v4l-compliance output:
 
-$ i2cdetect -l
-i2c-3    unknown       Synopsys DesignWare I2C adapter     N/A
-i2c-10    unknown       i915 gmbus dpc                      N/A
-i2c-1    unknown       Synopsys DesignWare I2C adapter     N/A
-i2c-8    unknown       i915 gmbus vga                      N/A
-i2c-6    unknown       Synopsys DesignWare I2C adapter     N/A
-i2c-13    unknown       AUX D/port D                        N/A
-i2c-4    unknown       Synopsys DesignWare I2C adapter     N/A
-i2c-11    unknown       i915 gmbus dpb                      N/A
-i2c-2    unknown       Synopsys DesignWare I2C adapter     N/A
-i2c-0    unknown       Synopsys DesignWare I2C adapter     N/A
-i2c-9    unknown       i915 gmbus panel                    N/A
-i2c-7    unknown       i915 gmbus ssc                      N/A
-i2c-5    unknown       Synopsys DesignWare I2C adapter     N/A
-i2c-12    unknown       i915 gmbus dpd                      N/A
+- vivid with disabled cache hints support
 
->
->> Thanks,
->> Mauro
->
-> kind regards,
->
-> Patrik
->
+[..]
+Buffer ioctls (Input 3):
+	test V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS: OK
+	test V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS: OK
+	test V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS: OK
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+[..]
+
+- vivid with enabled cache hints (cache_hints=1,...)
+
+[..]
+Buffer ioctls (Input 3):
+	test V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS: OK
+	test V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS: OK
+	test V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS: OK
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+[..]
+
+
+v4l-compliance revealed that we cannot reliably report
+V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS, it's a bit special.
+Let's look at fill_buf_caps()
+
+	if (q->allow_cache_hints && q->io_modes & VB2_MMAP)
+		*caps |= V4L2_BUF_CAP_SUPPORTS_CACHE_HINTS;
+
+There are several things here. First, if the queue is not setup yet
+(we didn't call driver's ->queue_setup()) then ->allow_cache_hints
+is expected to be 0. It's only in the ->queue_setup() that the driver
+sets ->allow_cache_hints for those queues that can benefit from cache
+management. What this means, is that if one does
+
+	q.init(node->g_type(), memory);
+	q.reqbufs(node);
+	q.g_capabilities();
+
+the cache hints cap will not be reported. We need to setup the queue
+
+	q.init(node->g_type(), memory);
+	q.reqbufs(node, 1);
+	q.g_capabilities();
+
+Second. Even if the queue is setup, we still can report wrong cache
+hint values. Let's look at the following code
+
+	fill_buf_caps(q, &p->capabilities);
+	if (!vb2_queue_allows_cache_hints(q))
+		p->flags &= ~V4L2_FLAG_MEMORY_NON_CONSISTENT;
+	ret = vb2_core_reqbufs(...);
+	return ret;
+
+The thing here is that vb2_core_reqbufs() and vb2_core_create_bufs()
+can re-initialize the queue and invoke ->queue_setup(), possibly
+changing its memory model, etc. so cache hints cap which we set or
+clear before vb2_core_reqbufs() and vb2_core_create_bufs() can become
+invalid after we call those functions. It's the same with
+``req->flags &= ~V4L2_FLAG_MEMORY_NON_CONSISTENT``, we cannot clear
+it before reqbufs()/create_bufs(). Therefore I added two simple
+functions which fixup cache hint cap and non_consistent flag after
+reqbufs()/create_bufs(). So the code looks like this now:
+
+	fill_buf_caps(q, &p->capabilities);
+	ret = vb2_core_reqbufs(...);
+	fixup_consistency_attr(q, &p->flags);
+	fixup_cache_hints_cap(q, &p->capabilities);
+	return ret;
+
+
+The rest is the pretty much the same.
+
+Previous series:
+v4 link: https://lore.kernel.org/lkml/20200302041213.27662-1-senozhatsky@chromium.org/
+v3 link: https://lore.kernel.org/lkml/20200226111529.180197-1-senozhatsky@chromium.org
+v2 link: https://lore.kernel.org/lkml/20200204025641.218376-1-senozhatsky@chromium.org/
+v1 link: https://lore.kernel.org/lkml/20191217032034.54897-1-senozhatsky@chromium.org/
+
+Series Intro
+========================================================================
+
+	This is a reworked version of the vb2 cache hints
+(V4L2_BUF_FLAG_NO_CACHE_INVALIDATE / V4L2_BUF_FLAG_NO_CACHE_CLEAN)
+support patch series which previsouly was developed by Sakari and
+Laurent [0].
+
+The patch set attempts to preserve the existing behvaiour - cache
+sync is performed in ->prepare() and ->finish() (unless the buffer
+is DMA exported). User space can request “default behavior” override
+with cache management hints, which are handled on a per-buffer basis
+and should be supplied with v4l2_buffer ->flags during buffer
+preparation. There are two possible hints:
+
+- V4L2_BUF_FLAG_NO_CACHE_INVALIDATE
+	No cache sync on ->finish()
+
+- V4L2_BUF_FLAG_NO_CACHE_CLEAN
+	No cache sync on ->prepare()
+
+In order to keep things on the safe side, we also require driver
+to explicitly state which of its queues (if any) support user space
+cache management hints (such queues should have ->allow_cache_hints
+bit set).
+
+The patch set also (to some extent) simplifies allocators' ->prepare()
+and ->finish() callbacks. Namely, we move cache management decision
+making to the upper - core - layer. For example, if, previously, we
+would have something like this
+
+	vb2_buffer_done()
+	  vb2_dc_finish()
+	    if (buf->db_attach)
+	      return;
+
+where each allocators' ->finish() callback would either bail
+out (DMA exported buffer, for instance) or sync, now that "bail
+out or sync" decision is made before we call into the allocator.
+
+Along with cache management hints, user space is also able to
+adjust queue's memory consistency attributes. Memory consistency
+attribute (dma_attrs) is per-queue, yet it plays its role on the
+allocator level, when we allocate buffers’ private memory (planes).
+For the time being, only one consistency attribute is supported:
+DMA_ATTR_NON_CONSISTENT.
+
+[0] https://www.mail-archive.com/linux-media@vger.kernel.org/msg112459.html
+
+Sergey Senozhatsky (13):
+  videobuf2: use explicit unsigned int in vb2_queue
+  videobuf2: add cache management members
+  videobuf2: handle V4L2 buffer cache flags
+  videobuf2: add V4L2_FLAG_MEMORY_NON_CONSISTENT flag
+  videobuf2: add queue memory consistency parameter
+  videobuf2: handle V4L2_FLAG_MEMORY_NON_CONSISTENT flag
+  videobuf2: factor out planes prepare/finish functions
+  videobuf2: do not sync caches when we are allowed not to
+  videobuf2: check ->synced flag in prepare() and finish()
+  videobuf2: add begin/end cpu_access callbacks to dma-contig
+  videobuf2: add begin/end cpu_access callbacks to dma-sg
+  videobuf2: don't test db_attach in dma-contig prepare and finish
+  media: vivid: add cache_hints module param
+
+ Documentation/admin-guide/media/vivid.rst     |   9 ++
+ .../userspace-api/media/v4l/buffer.rst        |  41 +++++-
+ .../media/v4l/vidioc-create-bufs.rst          |   7 +-
+ .../media/v4l/vidioc-reqbufs.rst              |  20 ++-
+ .../media/common/videobuf2/videobuf2-core.c   | 121 +++++++++++++-----
+ .../common/videobuf2/videobuf2-dma-contig.c   |  41 +++++-
+ .../media/common/videobuf2/videobuf2-dma-sg.c |  38 ++++--
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  93 +++++++++++++-
+ drivers/media/dvb-core/dvb_vb2.c              |   2 +-
+ drivers/media/test-drivers/vivid/vivid-core.c |   9 ++
+ drivers/media/test-drivers/vivid/vivid-core.h |   1 +
+ .../media/test-drivers/vivid/vivid-meta-cap.c |   5 +
+ .../media/test-drivers/vivid/vivid-meta-out.c |   5 +
+ .../media/test-drivers/vivid/vivid-sdr-cap.c  |   7 +
+ .../test-drivers/vivid/vivid-touch-cap.c      |   5 +
+ .../media/test-drivers/vivid/vivid-vbi-cap.c  |   5 +
+ .../media/test-drivers/vivid/vivid-vbi-out.c  |   5 +
+ .../media/test-drivers/vivid/vivid-vid-cap.c  |   5 +
+ .../media/test-drivers/vivid/vivid-vid-out.c  |   5 +
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c |   9 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   5 +-
+ include/media/videobuf2-core.h                |  47 +++++--
+ include/uapi/linux/videodev2.h                |  13 +-
+ 23 files changed, 426 insertions(+), 72 deletions(-)
+
+-- 
+2.26.2
+
