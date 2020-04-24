@@ -2,118 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 90EAF1B7865
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2020 16:35:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5B4C1B78D4
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2020 17:07:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727840AbgDXOfM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Apr 2020 10:35:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43340 "EHLO
+        id S1727843AbgDXPHr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Apr 2020 11:07:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726946AbgDXOfM (ORCPT
+        by vger.kernel.org with ESMTP id S1727804AbgDXPHq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Apr 2020 10:35:12 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0D61C09B045;
-        Fri, 24 Apr 2020 07:35:11 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 5159B2A2DEF
-Message-ID: <ad0310d6618cd8cd8a88c0eaf27ae83432a61344.camel@collabora.com>
-Subject: Re: [PATCH v2 3/4] media: rockchip: rga: Add support for the PX30
- compatible
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hans Verkuil <hansverk@cisco.com>,
-        justin.swartz@risingedge.co.za, Johan Jonker <jbx6244@gmail.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Date:   Fri, 24 Apr 2020 11:34:59 -0300
-In-Reply-To: <20200424135552.GI610776@aptenodytes>
-References: <20200423200937.1039257-1-paul.kocialkowski@bootlin.com>
-         <20200423200937.1039257-4-paul.kocialkowski@bootlin.com>
-         <cf31ae67792aedf60ee4cf8002861edadc305314.camel@collabora.com>
-         <20200424135552.GI610776@aptenodytes>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.0-1 
+        Fri, 24 Apr 2020 11:07:46 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04279C09B045;
+        Fri, 24 Apr 2020 08:07:46 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id f18so10258629lja.13;
+        Fri, 24 Apr 2020 08:07:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=eKcdA+dDv3apEGoIEYmiVrw3cgxqfzkbkMuXMV5Wzxw=;
+        b=eF/WjjdrpYG8GbJD2epM2jYqVElc8vnk/blaeJGJJUogjkBxOL2LpiQA2uVx6sCmL/
+         tyfaa+go+TW1tf8uCnKgbddliwbIp9qStq2D4BXW9ofydEk/Ej5xyCsGaiNwA4V0Xt4C
+         n+gl76v1gV4v4eXB4khekXndT1gpL0ixcoNz8ZOSvjlJ9mpkcy/dsO5XTmyUseS9BKy5
+         yTTcnR6hqUFkkR+4RBWZV3U+v35cN7wiRCZHFFoUXFjdj+iW9e5j+P7VuNQJArDEfyCC
+         RWRDb375SFQHnO6TWGKnJWBwybRlZxTGR9Gf+ex8uKB/Pi2vXtTeoNkb4a/20D57xB32
+         t08A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=eKcdA+dDv3apEGoIEYmiVrw3cgxqfzkbkMuXMV5Wzxw=;
+        b=QghSTogBYbzuo2aQSuKdBiykGn04OEVWT6HYMsCQsEihCRrBd2g09c+ZA11oJs5pxu
+         C6UN2iNzPlkueFo8WZJqBkYxGaK6etuA3+lYcOygbJzizL8bborcp1htFSpTxiMz4J89
+         JmIN/C8STP16aZa53JiUemqNrkhe9LioAJDuJDr8NRquG8zgFYTpU2aiFKzSMTl1Ldn4
+         rnhkZSrFsVPGaEZpDYhWlz4t0kw9/k3IVa7cPzL4CJC4LIPMkrMFYpxTEYVXb6ZQlM2g
+         Eob9ey1aicG4P2u8b0X9CLAGSZzsAw0ObrLT7y0kP9fKtrSP2/2Vu9usB5HLQw6dKmcf
+         ECww==
+X-Gm-Message-State: AGi0PuYeIHRDrivbSfHFB8WuoJQplcdHVNJjzo1LZ69njRlnb2CE6MxY
+        hIyjVl0bC49aCRqX+1holY07f9KR
+X-Google-Smtp-Source: APiQypL5MY2vyLQU+YPqfQ5Dipx5sJ7h9GhaJyKYPeNiMvXVDpt5JK0SL1ZAFqjn9cgFhihxSs6Fdw==
+X-Received: by 2002:a2e:8912:: with SMTP id d18mr6334430lji.123.1587740863623;
+        Fri, 24 Apr 2020 08:07:43 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id e8sm4395850lja.3.2020.04.24.08.07.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Apr 2020 08:07:42 -0700 (PDT)
+Subject: Re: [RFC PATCH v10 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1587700513-28449-1-git-send-email-skomatineni@nvidia.com>
+ <1587700513-28449-7-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <3155e0d2-94b0-6e0a-bf35-b3560c201039@gmail.com>
+Date:   Fri, 24 Apr 2020 18:07:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <1587700513-28449-7-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2020-04-24 at 15:55 +0200, Paul Kocialkowski wrote:
-> Hi Ezequiel,
-> 
-> On Fri 24 Apr 20, 09:54, Ezequiel Garcia wrote:
-> > Hey Paul,
-> > 
-> > Thanks for the patch!
-> > 
-> > On Thu, 2020-04-23 at 22:09 +0200, Paul Kocialkowski wrote:
-> > > The PX30 SoC has a RGA block, so add the associated compatible to
-> > > support it.
-> > > 
-> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > ---
-> > >  drivers/media/platform/rockchip/rga/rga.c | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
-> > > index 9d122429706e..4fb4615662b7 100644
-> > > --- a/drivers/media/platform/rockchip/rga/rga.c
-> > > +++ b/drivers/media/platform/rockchip/rga/rga.c
-> > > @@ -955,6 +955,9 @@ static const struct dev_pm_ops rga_pm = {
-> > >  };
-> > >  
-> > >  static const struct of_device_id rockchip_rga_match[] = {
-> > > +	{
-> > > +		.compatible = "rockchip,px30-rga",
-> > > +	},
-> > 
-> > Please note that if you don't have anything px30-specific,
-> > then you don't need the compatible in the driver.
-> > 
-> > You can have something like:
-> > 
-> > compatible = "rockchip,px30-rga", "rockchip,rk3288-rga"
-> > 
-> > so you need to add it to the bindings. See Justin Swartz
-> > recent patches for rk3228.
-> 
-> Thanks for the instruction!
-> 
-> I've been a bit confused about that because RK3399 has its own compatible
-> (without a 2nd rk3288 compatible) although there's nothing different with it
-> either. All of these rockchip platforms come with what they call "RGA2", that
-> seems to have no variation across platforms (downstream rockchip even has a
-> single compatible for it).
-> 
+24.04.2020 06:55, Sowjanya Komatineni пишет:
 
-Yep, and that's an anti pattern, so you can expect to see that elsewhere.
+Is this driver compiled as a single kernel module file?
 
-> Should we add the rk3288 compatible to the rk3399 dtsi? I guess we
-> can't remove it from the driver at this point, for backward compatibility
-> with previous dts (what a strange idea...).
-> 
+> +MODULE_AUTHOR("Sowjanya Komatineni <skomatineni@nvidia.com>");
+> +MODULE_DESCRIPTION("NVIDIA Tegra CSI Device Driver");
+> +MODULE_LICENSE("GPL v2");
+...
+> +MODULE_AUTHOR("Sowjanya Komatineni <skomatineni@nvidia.com>");
+> +MODULE_DESCRIPTION("NVIDIA Tegra Video Input Device Driver");
+> +MODULE_LICENSE("GPL v2");
 
-No, we don't necesarily need/have to do anything with rk3399,
-not sure if there's any gain at this point.
-
-> > Down the road, if you find something specific for px30,
-> > you can make the driver aware. 
-> 
-> Makes sense, yes.
-> 
-
-Cool.
-
-Thanks,
-Ezequiel
-
+I don't think that these macros are needed in that case.
+The video.c should be enough, isn't it?
