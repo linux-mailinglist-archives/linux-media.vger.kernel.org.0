@@ -2,62 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF1F81B7224
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2020 12:40:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41B5D1B72E4
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2020 13:16:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726857AbgDXKkB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Apr 2020 06:40:01 -0400
-Received: from sauhun.de ([88.99.104.3]:46272 "EHLO pokefinder.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726791AbgDXKkB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Apr 2020 06:40:01 -0400
-Received: from localhost (p5486CE62.dip0.t-ipconnect.de [84.134.206.98])
-        by pokefinder.org (Postfix) with ESMTPSA id 71E812C1FE8;
-        Fri, 24 Apr 2020 12:39:59 +0200 (CEST)
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Koji Matsuoka <koji.matsuoka.xm@renesas.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH] media: rcar-csi2: Fix comment of VCDT/VCDT2 register
-Date:   Fri, 24 Apr 2020 12:39:45 +0200
-Message-Id: <20200424103945.2836-1-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.20.1
+        id S1726929AbgDXLQE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Apr 2020 07:16:04 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:47613 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726582AbgDXLQD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 24 Apr 2020 07:16:03 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <colin.king@canonical.com>)
+        id 1jRwJM-0005Gj-JK; Fri, 24 Apr 2020 11:16:00 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Yasunari Takiguchi <Yasunari.Takiguchi@sony.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: dvb: remove redundant assignment to variable bw
+Date:   Fri, 24 Apr 2020 12:16:00 +0100
+Message-Id: <20200424111600.11991-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
+From: Colin Ian King <colin.king@canonical.com>
 
-According to latest H/W manual v1.50, the description of channel
-number in the VCDT/VCDT2 register is decremented by one.
-Therefore, this patch fixes it about comment.
+The variable bw is being initialized with a value that is
+never read and it is being updated later with a new value.  The
+initialization is redundant and can be removed.
 
-Signed-off-by: Koji Matsuoka <koji.matsuoka.xm@renesas.com>
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Addresses-Coverity: ("Unused value")
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
 ---
- drivers/media/platform/rcar-vin/rcar-csi2.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/dvb-frontends/cxd2880/cxd2880_top.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index faa9fb23a2e9..151e6a90c5fb 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -52,8 +52,8 @@ struct rcar_csi2;
- 
- /*
-  * Channel Data Type Select
-- * VCDT[0-15]:  Channel 1 VCDT[16-31]:  Channel 2
-- * VCDT2[0-15]: Channel 3 VCDT2[16-31]: Channel 4
-+ * VCDT[0-15]:  Channel 0 VCDT[16-31]:  Channel 1
-+ * VCDT2[0-15]: Channel 2 VCDT2[16-31]: Channel 3
-  */
- #define VCDT_REG			0x10
- #define VCDT2_REG			0x14
+diff --git a/drivers/media/dvb-frontends/cxd2880/cxd2880_top.c b/drivers/media/dvb-frontends/cxd2880/cxd2880_top.c
+index f87e27481ea7..d5b1b3788e39 100644
+--- a/drivers/media/dvb-frontends/cxd2880/cxd2880_top.c
++++ b/drivers/media/dvb-frontends/cxd2880/cxd2880_top.c
+@@ -685,7 +685,7 @@ static int cxd2880_set_ber_per_period_t(struct dvb_frontend *fe)
+ 	int ret;
+ 	struct cxd2880_priv *priv;
+ 	struct cxd2880_dvbt_tpsinfo info;
+-	enum cxd2880_dtv_bandwidth bw = CXD2880_DTV_BW_1_7_MHZ;
++	enum cxd2880_dtv_bandwidth bw;
+ 	u32 pre_ber_rate = 0;
+ 	u32 post_ber_rate = 0;
+ 	u32 ucblock_rate = 0;
 -- 
-2.20.1
+2.25.1
 
