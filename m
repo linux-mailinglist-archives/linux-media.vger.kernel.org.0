@@ -2,46 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87DC41B7A9D
-	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2020 17:51:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AEC71B7AAD
+	for <lists+linux-media@lfdr.de>; Fri, 24 Apr 2020 17:53:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727089AbgDXPvK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Apr 2020 11:51:10 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:43447 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727021AbgDXPvK (ORCPT
+        id S1728106AbgDXPxt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 24 Apr 2020 11:53:49 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:51767 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727108AbgDXPxt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Apr 2020 11:51:10 -0400
+        Fri, 24 Apr 2020 11:53:49 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id S0bYjHbgslKa1S0bcjPu9l; Fri, 24 Apr 2020 17:51:08 +0200
+        id S0e7jHcrIlKa1S0eAjPv24; Fri, 24 Apr 2020 17:53:46 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587743468; bh=SBEkrspu+em6W1HwCyrE9wRUDRDjyoE8FuCvel9RWWc=;
+        t=1587743626; bh=HT2YmloE2aU8gylKuK95lBifz+ZtAMS7l3rUqu/z2yM=;
         h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=Ba4u3TGh5MwifWUGIR8EczbLzvfxjAwldvafXPyOyUqQ++0vRCHfyoeevqWIliUnY
-         tNtttRRM0kgfu2b8UxCZVPkEwELeFKf6nBwpqB1esGXVTsM6XRhycD8xlu9Q4RfIYl
-         LYFt76PTS2tIeW1qtWHNu2o659ub3O4b+t1TC/FO8WF9HfRfpLzy96EnISo280G4rZ
-         JQilNo8gIUtqxmvkkJJWHtNyvBvql91e3f5m2SLeXKb0Z0PTH+NLHmj346U5i5kDYW
-         yCX7a7A37v2yYcUn7ywbPaZpAoTRwFxiyEiWGmVJwrkXffvWsT/mIpwM7b91XPnt9I
-         YDyIK1LmCWtiA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+        b=Mo87iaFEWL/SkBkog5XxWRrSiNt7GAWnrs86N28ABTGzUmQkmYPyfBVKwwrSvz3XG
+         g4weDESJF8TBAGihogo2L7RoqoPFTGiPUGxK2719sOEfxOMppS/hAp++VuTctYuV8S
+         a2zjGnESHYuxNFuNsdKqWnxNn/M0ye0kzDkWnBmG7q0mVGGPVKmLQK1qP+aGJeX8EI
+         nM6IqjDeHevRBUy5Cw5Jwrf8H2VDrRUZ94ADUY8xQ6Z0lbs1kWxhoIlqCn5vt20HPj
+         kD6W3coTRVvvi69i7hxzu+thB0p9t7UBQ2O6ar/RCOKhSzCGBDZ4RDtDy+osAJ2YOb
+         8mgU+uqO69oRw==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.8] Various fixes
-Message-ID: <b1f48b3f-e762-b54f-2bf4-f99d61b964c8@xs4all.nl>
-Date:   Fri, 24 Apr 2020 17:51:04 +0200
+Subject: [GIT PULL FOR v5.8] Add V4L2_CAP_IO_MC, extend VIDIOC_ENUM_FMT
+Message-ID: <d999f775-4a4e-b95e-62f3-a306a0c1ad98@xs4all.nl>
+Date:   Fri, 24 Apr 2020 17:53:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfGK0fBE6EmrvpAkVuMLrqw/HBkn+v0GFVviMheWoN77O09/nyMqq3R5PRHXu+grjrUWoYTy5wDppH1ZQ0qPUmoQ7MOo09zmRvaK57+2Z7Bw0DiVTPoNs
- w2Jt0FFB6klCFm7cXzYQ9cFcleU1G+a1no4WhzGIFz3lMumhzwFv47f3sQlQc3oKQX0TPcQtaKm4Aw==
+X-CMAE-Envelope: MS4wfGRt/jSHn3At7NFeGypvMs6M1giTxAjGn5wFxxgWmho4QheOSCvWzy+CRl5LOdEF5QWUxkANFodmeiHfXonXoEqUhJvu9WmEJ9VaF3QCk3qNOTw/j2Ag
+ EtkT5pgcEHehhAkuN1+P5BQOej9S4kOBnQ5aGUeaFw3GfRDO5G1F9YfNVntU9gCwvAOWzZ5gkrwyoa+8EQ6azVVveM0dqP1L4hPsu2sK3hdwGlpzBGxLiiQg
+ 6vNvUW1Hr2/Ob9yIwn17J82YrbsD7Cf1c0RMJJ2FwyC8EbxaOv/iOZZXjToB8sQW
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
+
+Note: after this is applied v4l2-compliance needs to be synced to these
+API changes and two patches have to be applied on top:
+
+https://patchwork.linuxtv.org/patch/63301/
+https://patchwork.linuxtv.org/patch/63302/
+
+I'll do that once this PR is merged.
+
+Regards,
+
+	Hans
 
 The following changes since commit 4bdbff4da40584ec2225bb429b7c66ad54d19cda:
 
@@ -49,36 +65,35 @@ The following changes since commit 4bdbff4da40584ec2225bb429b7c66ad54d19cda:
 
 are available in the Git repository at:
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.8d
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.8e
 
-for you to fetch changes up to c02407e73792d3a1149370314f6cc17de8bed7d2:
+for you to fetch changes up to bd0f67f1f204fa7331258feb62f2e22fb14f1dea:
 
-  v4l2-ctrls.h: clarify the p_def argument of v4l2_ctrl_new_std_compound (2020-04-24 16:01:33 +0200)
+  vimc: Make use of V4L2_CAP_IO_MC (2020-04-24 16:07:27 +0200)
 
 ----------------------------------------------------------------
 Tag branch
 
 ----------------------------------------------------------------
-Hans Verkuil (3):
-      vidioc-reqbufs/create-bufs.rst: fix typo
-      cec-gpio: handle gpiod_get_value errors correctly
-      v4l2-ctrls.h: clarify the p_def argument of v4l2_ctrl_new_std_compound
+Laurent Pinchart (2):
+      media: pci: Fill v4l2_fmtdesc with designated initializers
+      media: v4l2: Extend VIDIOC_ENUM_FMT to support MC-centric devices
 
-Lukas Bulwahn (1):
-      MAINTAINERS: adjust entries to moving CEC USB drivers
+Niklas Söderlund (4):
+      v4l2-dev/ioctl: Add V4L2_CAP_IO_MC
+      rcar-vin: Make use of V4L2_CAP_IO_MC
+      staging/intel-ipu3: Make use of V4L2_CAP_IO_MC
+      vimc: Make use of V4L2_CAP_IO_MC
 
-Niklas Söderlund (1):
-      vimc: cap: Report a colorspace
-
- Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst |  2 +-
- Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst     |  2 +-
- MAINTAINERS                                                  |  4 ++--
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c                       |  2 +-
- drivers/media/cec/platform/cec-gpio/cec-gpio.c               | 18 +++++++++++-------
- drivers/media/test-drivers/vimc/vimc-capture.c               |  5 ++++-
- drivers/media/test-drivers/vimc/vimc-debayer.c               |  2 +-
- drivers/media/test-drivers/vimc/vimc-scaler.c                |  2 +-
- drivers/media/test-drivers/vimc/vimc-sensor.c                |  2 +-
- include/media/cec-pin.h                                      | 16 +++++++---------
- include/media/v4l2-ctrls.h                                   |  4 +++-
- 11 files changed, 33 insertions(+), 26 deletions(-)
+ Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst    | 27 +++++++++++++---
+ Documentation/userspace-api/media/v4l/vidioc-querycap.rst    |  6 ++++
+ Documentation/userspace-api/media/videodev2.h.rst.exceptions |  1 +
+ drivers/media/pci/cx18/cx18-ioctl.c                          | 22 +++++++++----
+ drivers/media/pci/ivtv/ivtv-ioctl.c                          | 26 ++++++++-------
+ drivers/media/platform/rcar-vin/rcar-v4l2.c                  | 40 +++++++++++++----------
+ drivers/media/test-drivers/vimc/vimc-capture.c               | 14 +++++++--
+ drivers/media/v4l2-core/v4l2-dev.c                           | 25 +++++++++++----
+ drivers/media/v4l2-core/v4l2-ioctl.c                         | 70 +++++++++++++++++++++++++++++++++++++----
+ drivers/staging/media/ipu3/ipu3-v4l2.c                       | 64 +++++--------------------------------
+ include/uapi/linux/videodev2.h                               |  5 ++-
+ 11 files changed, 189 insertions(+), 111 deletions(-)
