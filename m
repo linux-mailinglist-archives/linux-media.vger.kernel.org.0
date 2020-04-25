@@ -2,146 +2,225 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D11111B851E
-	for <lists+linux-media@lfdr.de>; Sat, 25 Apr 2020 11:16:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 312921B8522
+	for <lists+linux-media@lfdr.de>; Sat, 25 Apr 2020 11:17:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726088AbgDYJQa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Apr 2020 05:16:30 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:58483 "EHLO
+        id S1726090AbgDYJRo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Apr 2020 05:17:44 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:35587 "EHLO
         lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725837AbgDYJQ3 (ORCPT
+        by vger.kernel.org with ESMTP id S1725837AbgDYJRm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Apr 2020 05:16:29 -0400
+        Sat, 25 Apr 2020 05:17:42 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id SGv9jMxedlKa1SGvCjTM8w; Sat, 25 Apr 2020 11:16:26 +0200
+        id SGwKjMyDilKa1SGwNjTMdn; Sat, 25 Apr 2020 11:17:40 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587806186; bh=bPXVNps72IWu/as3fHBk9yJ/PdnzczbB13/PPS/gBH0=;
+        t=1587806260; bh=IL+cBrSdrf5mHSNS3ugipWYC+HFR9jntLFaxtqRICU4=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=rw8OLlk+c7B4WE2IdOz8MYx8r/zMzAf/YIVEE8lyxdRmGWdggeTBUd/beUefqfzi5
-         4if9pTZ4KCvo8cR1fMTam2p0PejZcT3Jui11xq7i+s5G8M36Nql/3LIDwLIZKnlq5/
-         IiwcLA4HFVcTamytVRnpJJQ3SjDKou6c7SqOE7XWJeGsiBCb/G1Hmriu88shZY4nkp
-         CWIOIuINyZHgiz7lZqpP4GLEHbMMqx9emlG1J+lZ9Ac9YTweg3444sTCR11PNnzK6A
-         SboMy4MUDa+/Bq+0DhmaGEfl4609lBzliBHeRkSlnx+K0fZ6+Q8esvIWBPRCzlkQLG
-         uZIeiuP/yt59A==
+        b=pnGJQegbUuvE65dR2J9Nxzzrxmi+SiTnknRE9/dKO1f4zhctciD5s3pi0y/c9XXPP
+         KTLIuRslQWoJaClp5AkRIstMFV3IuKVM2Pqt78gdZgeNjfqnO++p3OR60+77f3mLCN
+         eK3Ve0fBzC3Zpbvm+qpq1zAwiatnO2ytixOyUxt7BU7nvNyLyCOuJS4/g8OGw9xmiW
+         eJYLvZavz1MowCYZkwhNDY96FsQ4ifSV/RCywGRCoSHEiOeMIEhizsm757CXEAebJA
+         adLaS3sTmrVhbcWa3jk3i80VIlRt48s/pHh9sB2XBwllferLNJDaOK92ChG59kc+zx
+         5bzzFWbYgR5HQ==
 Subject: Re: [PATCH 2/2] media: cec: i2c: ch7322: Add ch7322 CEC controller
  driver
-To:     Jeff Chase <jnchase@google.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        robh+dt@kernel.org, devicetree@vger.kernel.org
+To:     Jeff Chase <jnchase@google.com>, linux-media@vger.kernel.org
+Cc:     mchehab@kernel.org, robh+dt@kernel.org, devicetree@vger.kernel.org
 References: <20200424053819.220276-1-jnchase@google.com>
  <20200424053819.220276-2-jnchase@google.com>
- <74c08463-7052-2ac4-3662-7301ecb8150d@xs4all.nl>
- <CALTkaQ2dnWdkAsqYXF+msN+Jnz_1RuvbQtJd4PFwVT_Q7FTc5Q@mail.gmail.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <290277ee-f1a1-db02-9885-d4193a40e8f8@xs4all.nl>
-Date:   Sat, 25 Apr 2020 11:16:23 +0200
+Message-ID: <51d31f54-6ec6-b94a-3aed-c56a52232e15@xs4all.nl>
+Date:   Sat, 25 Apr 2020 11:17:36 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CALTkaQ2dnWdkAsqYXF+msN+Jnz_1RuvbQtJd4PFwVT_Q7FTc5Q@mail.gmail.com>
+In-Reply-To: <20200424053819.220276-2-jnchase@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFGLuT3HLzH7lHY2Ii2kZu5jWah5wTXTnD5F7ZssR8HU/qkUJqjBAFR5bNeRwnvqueVZXTHL8Me/qxKuWiIs5K6CLp+LlS0gXoQepylXOk3X5ZV5H9JY
- Mi0ry/DcDnljKaiv2za0lcHm4MAIuD7J03rNqTukbcB6/Ie8SGNaszC20EdBzN0M8mHn2Lh90oGt7u8QMsBttHHBdpqsnUhznaqGoMkt0KGncsatDaX977vK
- wJ3kA6ofud53MZ5ywYfDDa3zlDL6HrYihQBQOEdR9AfjKsJ/ePLtusixJIK6NgeFwaDg2s5yxJomKts6ZF5qJA==
+X-CMAE-Envelope: MS4wfA/xqxNZIOwONR4QNobRSZUwrXv+7PwJo3nAxBG0b60kvb1Xw2WVoBJQZrn+FOYV7/3dKcix/ddH1eIDkU4dgC6/9+P854RttTg7P3dgbkXGTSuejMle
+ CU5yuvKsardKDerlJ7R0IiH4shI+VPI56CWc6YuiKoZq6Awwl3B6F/6IhXWhm0zXFTtgLIgGmTJV7DB66a0SAkPGh8Lgaw/Xg94jwCOB8Yyjx/xbxGYEjQXi
+ lZaPKFQGAHIrQBDB1nAaxtPH4SatqK9xESbmV4xbJGxF76+E/MlpHW5s39kgly0+Go4mqBBvHkra+0lghyPATA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/04/2020 21:33, Jeff Chase wrote:
-> Hi Hans,
+On 24/04/2020 07:38, Jeff Chase wrote:
+> Add a CEC device driver for the Chrontel ch7322 CEC conroller.
+> This is an I2C device capable of sending and receiving CEC messages.
 > 
-> Thank you for the quick review.
+> Signed-off-by: Jeff Chase <jnchase@google.com>
+> ---
+>  MAINTAINERS                    |   7 +
+>  drivers/media/cec/Kconfig      |   1 +
+>  drivers/media/cec/Makefile     |   2 +-
+>  drivers/media/cec/i2c/Kconfig  |  14 +
+>  drivers/media/cec/i2c/Makefile |   5 +
+>  drivers/media/cec/i2c/ch7322.c | 455 +++++++++++++++++++++++++++++++++
+>  6 files changed, 483 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/media/cec/i2c/Kconfig
+>  create mode 100644 drivers/media/cec/i2c/Makefile
+>  create mode 100644 drivers/media/cec/i2c/ch7322.c
 > 
->> Is the register documentation available somewhere? I only found the product brief.
-> 
-> No, it's not publicly available.
-> 
->> The chip can only detect OK vs NACK? There are no error states for Arbitration Lost
->> or Low Drive conditions? Just checking, not all hardware has support for that.
-> 
-> Correct, message transmit completion just has a one-bit status.
-> 
->>> +static int ch7322_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
->>> +{
->>> +     struct ch7322 *ch7322 = cec_get_drvdata(adap);
->>> +
->>> +     dev_dbg(&ch7322->i2c->dev, "cec log addr: %x\n", log_addr);
->>> +
->>> +     return 0;
->>
->> This can't be right. I expect that logical addresses are set/cleared here,
->> because the device needs to know that so that it can ignore messages not
->> intended for it.
-> 
-> As far as I can tell the device doesn't filter based on logical
-> address. I'll have to save
-> the logical address to the driver and filter manually.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index d633a131dcd7..d43f5146cad6 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -4047,6 +4047,13 @@ F:	drivers/power/supply/cros_usbpd-charger.c
+>  N:	cros_ec
+>  N:	cros-ec
+>  
+> +CHRONTEL CH7322 CEC DRIVER
+> +M:	Jeff Chase <jnchase@google.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://linuxtv.org/media_tree.git
+> +F:	drivers/media/cec/i2c/ch7322.c
+> +
+>  CIRRUS LOGIC AUDIO CODEC DRIVERS
+>  M:	James Schulman <james.schulman@cirrus.com>
+>  M:	David Rhodes <david.rhodes@cirrus.com>
+> diff --git a/drivers/media/cec/Kconfig b/drivers/media/cec/Kconfig
+> index eea74b7cfa8c..3e934aa239ab 100644
+> --- a/drivers/media/cec/Kconfig
+> +++ b/drivers/media/cec/Kconfig
+> @@ -33,6 +33,7 @@ menuconfig MEDIA_CEC_SUPPORT
+>  	  adapter that supports HDMI CEC.
+>  
+>  if MEDIA_CEC_SUPPORT
+> +source "drivers/media/cec/i2c/Kconfig"
+>  source "drivers/media/cec/platform/Kconfig"
+>  source "drivers/media/cec/usb/Kconfig"
+>  endif
+> diff --git a/drivers/media/cec/Makefile b/drivers/media/cec/Makefile
+> index 74e80e1b3571..23539339bc81 100644
+> --- a/drivers/media/cec/Makefile
+> +++ b/drivers/media/cec/Makefile
+> @@ -1,2 +1,2 @@
+>  # SPDX-License-Identifier: GPL-2.0
+> -obj-y += core/ platform/ usb/
+> +obj-y += core/ i2c/ platform/ usb/
+> diff --git a/drivers/media/cec/i2c/Kconfig b/drivers/media/cec/i2c/Kconfig
+> new file mode 100644
+> index 000000000000..e445ca2110b3
+> --- /dev/null
+> +++ b/drivers/media/cec/i2c/Kconfig
+> @@ -0,0 +1,14 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# I2C drivers
+> +
+> +config CEC_CH7322
+> +	tristate "Chrontel CH7322 CEC controller"
+> +	select I2C
+> +	select REGMAP_I2C
+> +	select CEC_CORE
+> +	help
+> +	  This is a driver for the Chrontel CH7322 CEC controller. It uses the
+> +	  generic CEC framework interface.
+> +	  CEC bus is present in the HDMI connector and enables communication
+> +	  between compatible devices.
+> diff --git a/drivers/media/cec/i2c/Makefile b/drivers/media/cec/i2c/Makefile
+> new file mode 100644
+> index 000000000000..d7496dfd0fa4
+> --- /dev/null
+> +++ b/drivers/media/cec/i2c/Makefile
+> @@ -0,0 +1,5 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# Makefile for the CEC I2C device drivers.
+> +#
+> +obj-$(CONFIG_CEC_CH7322) += ch7322.o
+> diff --git a/drivers/media/cec/i2c/ch7322.c b/drivers/media/cec/i2c/ch7322.c
+> new file mode 100644
+> index 000000000000..a9d66ec26440
+> --- /dev/null
+> +++ b/drivers/media/cec/i2c/ch7322.c
+> @@ -0,0 +1,455 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Driver for the Chrontel CH7322 CEC Controller
+> + *
+> + * Copyright 2020 Google LLC.
+> + */
+> +#include <linux/cec.h>
+> +#include <linux/i2c.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/module.h>
+> +#include <linux/mutex.h>
+> +#include <linux/regmap.h>
+> +#include <media/cec.h>
+> +
+> +#define CH7322_WRITE		0x00
+> +#define CH7322_WRITE_MSENT		0x80
+> +#define CH7322_WRITE_BOK		0x40
+> +#define CH7322_WRITE_NMASK		0x0F
+> +
+> +/* Write buffer is 0x01-0x10 */
+> +#define CH7322_WRBUF		0x01
+> +#define CH7322_WRBUF_LEN	0x10
+> +
+> +#define CH7322_READ		0x40
+> +#define CH7322_READ_NRDT		0x80
+> +#define CH7322_READ_MSENT		0x20
+> +#define CH7322_READ_NMASK		0x0F
+> +
+> +/* Read buffer is 0x41-0x50 */
+> +#define CH7322_RDBUF		0x41
+> +#define CH7322_RDBUF_LEN	0x10
+> +
+> +#define CH7322_MODE		0x11
+> +#define CH7322_MODE_AUTO		0x78
+> +#define CH7322_MODE_SW			0xB5
+> +
+> +#define CH7322_RESET		0x12
+> +#define CH7322_RESET_RST		0x00
+> +
+> +#define CH7322_POWER		0x13
+> +
+> +#define CH7322_CFG0		0x17
+> +#define CH7322_CFG0_EOBEN		0x40
+> +#define CH7322_CFG0_PEOB		0x20
+> +#define CH7322_CFG0_CLRSPP		0x10
+> +#define CH7322_CFG0_FLOW		0x08
+> +
+> +#define CH7322_CFG1		0x1A
+> +#define CH7322_CFG1_STDBYO		0x04
+> +#define CH7322_CFG1_HPBP		0x02
+> +#define CH7322_CFG1_PIO			0x01
+> +
+> +#define CH7322_INTCTL		0x1B
+> +#define CH7322_INTCTL_INTPB		0x80
+> +#define CH7322_INTCTL_STDBY		0x40
+> +#define CH7322_INTCTL_HPDFALL		0x20
+> +#define CH7322_INTCTL_HPDRISE		0x10
+> +#define CH7322_INTCTL_RXMSG		0x08
+> +#define CH7322_INTCTL_TXMSG		0x04
+> +#define CH7322_INTCTL_NEWPHA		0x02
+> +#define CH7322_INTCTL_ERROR		0x01
+> +
+> +#define CH7322_DVCLKFNH	0x1D
+> +#define CH7322_DVCLKFNL	0x1E
+> +
+> +#define CH7322_CTL		0x31
+> +#define CH7322_CTL_FSTDBY		0x80
+> +#define CH7322_CTL_PLSEN		0x40
+> +#define CH7322_CTL_PLSPB		0x20
+> +#define CH7322_CTL_SPADL		0x10
+> +#define CH7322_CTL_HINIT		0x08
+> +#define CH7322_CTL_WPHYA		0x04
+> +#define CH7322_CTL_H1T			0x02
+> +#define CH7322_CTL_S1T			0x01
+> +
+> +#define CH7322_PAWH		0x32
+> +#define CH7322_PAWL		0x32
 
-That can't be right. If this CEC adapter is assigned logical address 4, and
-it has to Ack any received messages from other CEC devices with destination 4,
-and ignore (i.e. not explicitly Ack) messages with other destinations.
-
-If the CEC adapter wouldn't know what LA to use, then it would have to Ack
-all messages, regardless of the destination, which would make this a complete
-mess.
-
-There must be a register that tells the CEC adapter which logical address(es)
-should be Acked. It's usually a bitmask (one bit for each possible LA) or the
-LA itself is stored.
-
-It might be that you still receive all messages (in which case monitor_all
-is effectively always enabled), but it really needs to be told which LAs should
-be Acked.
+Shouldn't this be 0x33?
 
 Regards,
 
 	Hans
-
-> 
->>> +}
->>> +
->>> +static int ch7322_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
->>> +                                  u32 signal_free_time, struct cec_msg *msg)
->>> +{
->>
->> Does the hardware correctly handle Signal Free Time? If this isn't handled right
->> then one CEC device can flood the CEC bus, preventing anyone else from using it.
->>
->> In some devices it has to be programmed, in others it is hardwired.
-> 
-> It must be hardwired -- I don't see a way to program it.
-> 
->>> +     struct ch7322 *ch7322 = cec_get_drvdata(adap);
->>> +     int ret;
->>> +
->>> +     dev_dbg(&ch7322->i2c->dev, "cec transmit: %x->%x: %x\n",
->>> +             cec_msg_initiator(msg), cec_msg_destination(msg),
->>> +             cec_msg_opcode(msg));
->>> +
->>> +     mutex_lock(&ch7322->mutex);
->>> +     ret = ch7322_send_message(ch7322, msg);
->>> +     mutex_unlock(&ch7322->mutex);
->>> +
->>> +     return ret;
->>> +}
->>> +
->>> +static const struct cec_adap_ops ch7322_cec_adap_ops = {
->>> +     .adap_enable = ch7322_cec_adap_enable,
->>> +     .adap_log_addr = ch7322_cec_adap_log_addr,
->>> +     .adap_transmit = ch7322_cec_adap_transmit,
->>
->> If the HW supports CEC monitoring (aka snooping), then I recommend that
->> adap_monitor_all_enable is also implemented. It's very useful for debugging
->> CEC in userspace. Not all HW supports it, though.
-> 
-> Okay, I'll add this along with the logical address filtering I mentioned above.
-> 
-> Thanks,
-> Jeff
-> 
-
