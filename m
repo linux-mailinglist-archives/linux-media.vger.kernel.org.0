@@ -2,210 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A1C51B87F6
-	for <lists+linux-media@lfdr.de>; Sat, 25 Apr 2020 19:05:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C1001B89B7
+	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2020 00:08:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726162AbgDYRFu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Apr 2020 13:05:50 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:41295 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726146AbgDYRFu (ORCPT
+        id S1726285AbgDYWIH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Apr 2020 18:08:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55120 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726220AbgDYWIG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Apr 2020 13:05:50 -0400
-X-Originating-IP: 87.3.55.240
-Received: from uno.homenet.telecomitalia.it (host240-55-dynamic.3-87-r.retail.telecomitalia.it [87.3.55.240])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 4C1741C0005;
-        Sat, 25 Apr 2020 17:05:36 +0000 (UTC)
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl
-Subject: [PATCH] media: i2c: imx219: Implement get_selection
-Date:   Sat, 25 Apr 2020 19:08:33 +0200
-Message-Id: <20200425170833.276706-1-jacopo@jmondi.org>
-X-Mailer: git-send-email 2.26.1
+        Sat, 25 Apr 2020 18:08:06 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21D44C09B04F;
+        Sat, 25 Apr 2020 15:08:06 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id t11so10679918lfe.4;
+        Sat, 25 Apr 2020 15:08:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=stKhy/h17mAoYghX4I6mRLwgtGhKJwi/X0wHAwKsRfA=;
+        b=nkdAxr8G/h5QMxMQ9/0+z2TWsdx8OXFRV84cGL/0tawE+iOu7o/nCj4il4G4CQQWH2
+         YxQQPBwb7kFRDeoF7664tHtQtx7LXr/YR9YEUcoezdCu+5wjkOPKCV5vdI2TU8SZw/JC
+         Qt3QNALge3rxc3i+4l4vhGWNRhE9fRtFFXKBEz/k+TuQY80Oq1FSY8FeyS9FjFBigkgR
+         DYoNYP0BytvKxuz30uvOSaaNRcfh7YB5gnK1ritRDzK7YKrljKO62bccDfdpv6/+dma8
+         NYCZ/uyRbZ0tDxomDcTauOL/p0NlXLlbE1L116d24Syr5TNmuR+zgjGe48BgfIp18kyD
+         qjGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=stKhy/h17mAoYghX4I6mRLwgtGhKJwi/X0wHAwKsRfA=;
+        b=SzdVkcG9UZrxaR6+1QTZ49pHfiGzLkOvq/bdC5FmcVQehp20PKTTXYdJeZfOv01iGn
+         YoLLV4ZzgJ2FR/dQobgiXoi54r/qBXgU5QLH4EhzOfC7EzHOktnt0SgfvR0sTbv8duhm
+         fjvG/Yb1cnyjQvVRiDOCsOeCf1zb+O7vNmufWYJjzK4SSjz0ja6d/6bvtk9Ic88GMoDO
+         Pu0uJaeiT+r1zMuVOfLHZHN9dHR/5W88K3v45Gmxtgg+dLkkyPV8+jScwFJJ/RvNSwCQ
+         NyXO17/1N3ZCSYqZtvkPNK4g6TmM53K/YWvk/H5RVzV2/CuQN5XmRw7J59shXjgk8ryk
+         PPCQ==
+X-Gm-Message-State: AGi0PuZMoRlMFE53W223D+n4zNicXvo4CfSydhY+OT2W4/BEcDndW1Yz
+        VyAo+ZiBDaqJG9RF6b3PWVNjx8qV
+X-Google-Smtp-Source: APiQypJBj4/s4vaQgtuniB+FW/ntlwSg1bwGWcRhW63q5PuexDleztxn7q3vyN2ftsUWnXOncpip9w==
+X-Received: by 2002:ac2:52b9:: with SMTP id r25mr10877874lfm.156.1587852484346;
+        Sat, 25 Apr 2020 15:08:04 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id k2sm6889535ljg.7.2020.04.25.15.08.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Apr 2020 15:08:03 -0700 (PDT)
+Subject: Re: [RFC PATCH v10 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1587700513-28449-1-git-send-email-skomatineni@nvidia.com>
+ <1587700513-28449-7-git-send-email-skomatineni@nvidia.com>
+ <3155e0d2-94b0-6e0a-bf35-b3560c201039@gmail.com>
+ <fffc09d1-a25f-2d6e-83bd-f7657dd2ff16@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <e5602c48-a73e-8e71-188d-6a53ebf8e4a4@gmail.com>
+Date:   Sun, 26 Apr 2020 01:08:02 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <fffc09d1-a25f-2d6e-83bd-f7657dd2ff16@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Implement the get_selection pad operation for the IMX219 sensor driver.
-The supported target report the sensor's native size, the crop default
-rectangle and the crop rectangle.
+25.04.2020 01:00, Sowjanya Komatineni пишет:
+> 
+> On 4/24/20 8:07 AM, Dmitry Osipenko wrote:
+>> External email: Use caution opening links or attachments
+>>
+>>
+>> 24.04.2020 06:55, Sowjanya Komatineni пишет:
+>>
+>> Is this driver compiled as a single kernel module file?
+>>
+>>> +MODULE_AUTHOR("Sowjanya Komatineni <skomatineni@nvidia.com>");
+>>> +MODULE_DESCRIPTION("NVIDIA Tegra CSI Device Driver");
+>>> +MODULE_LICENSE("GPL v2");
+>> ...
+>>> +MODULE_AUTHOR("Sowjanya Komatineni <skomatineni@nvidia.com>");
+>>> +MODULE_DESCRIPTION("NVIDIA Tegra Video Input Device Driver");
+>>> +MODULE_LICENSE("GPL v2");
+>> I don't think that these macros are needed in that case.
+>> The video.c should be enough, isn't it?
+> yes these can be removed
 
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
----
- drivers/media/i2c/imx219.c | 97 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 97 insertions(+)
-
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index cb03bdec1f9c..2744669fb419 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -112,6 +112,14 @@
- #define IMX219_TESTP_BLUE_DEFAULT	0
- #define IMX219_TESTP_GREENB_DEFAULT	0
-
-+/* IMX219 native and active pixel array size. */
-+#define IMX219_NATIVE_WIDTH		3296U
-+#define IMX219_NATIVE_HEIGHT		2480U
-+#define IMX219_PIXEL_ARRAY_LEFT		8U
-+#define IMX219_PIXEL_ARRAY_TOP		8U
-+#define IMX219_PIXEL_ARRAY_WIDTH	3280U
-+#define IMX219_PIXEL_ARRAY_HEIGHT	2464U
-+
- struct imx219_reg {
- 	u16 address;
- 	u8 val;
-@@ -129,6 +137,9 @@ struct imx219_mode {
- 	/* Frame height */
- 	unsigned int height;
-
-+	/* Analog crop rectangle. */
-+	struct v4l2_rect crop;
-+
- 	/* V-timing */
- 	unsigned int vts_def;
-
-@@ -463,6 +474,12 @@ static const struct imx219_mode supported_modes[] = {
- 		/* 8MPix 15fps mode */
- 		.width = 3280,
- 		.height = 2464,
-+		.crop = {
-+			.top = 0,
-+			.left = 0,
-+			.width = 3280,
-+			.height = 2464
-+		},
- 		.vts_def = IMX219_VTS_15FPS,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_3280x2464_regs),
-@@ -473,6 +490,12 @@ static const struct imx219_mode supported_modes[] = {
- 		/* 1080P 30fps cropped */
- 		.width = 1920,
- 		.height = 1080,
-+		.crop = {
-+			.top = 692,
-+			.left = 680,
-+			.width = 1920,
-+			.height = 1080
-+		},
- 		.vts_def = IMX219_VTS_30FPS_1080P,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_1920_1080_regs),
-@@ -483,6 +506,12 @@ static const struct imx219_mode supported_modes[] = {
- 		/* 2x2 binned 30fps mode */
- 		.width = 1640,
- 		.height = 1232,
-+		.crop = {
-+			.top = 0,
-+			.left = 0,
-+			.width = 3280,
-+			.height = 2464
-+		},
- 		.vts_def = IMX219_VTS_30FPS_BINNED,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_1640_1232_regs),
-@@ -654,6 +683,7 @@ static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- 	struct imx219 *imx219 = to_imx219(sd);
- 	struct v4l2_mbus_framefmt *try_fmt =
- 		v4l2_subdev_get_try_format(sd, fh->pad, 0);
-+	struct v4l2_rect *try_crop;
-
- 	mutex_lock(&imx219->mutex);
-
-@@ -664,6 +694,13 @@ static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- 					       MEDIA_BUS_FMT_SRGGB10_1X10);
- 	try_fmt->field = V4L2_FIELD_NONE;
-
-+	/* Initialize try_crop rectangle. */
-+	try_crop = v4l2_subdev_get_try_crop(sd, fh->pad, 0);
-+	try_crop->top = IMX219_PIXEL_ARRAY_TOP;
-+	try_crop->left = IMX219_PIXEL_ARRAY_LEFT;
-+	try_crop->width = IMX219_PIXEL_ARRAY_WIDTH;
-+	try_crop->height = IMX219_PIXEL_ARRAY_HEIGHT;
-+
- 	mutex_unlock(&imx219->mutex);
-
- 	return 0;
-@@ -928,6 +965,65 @@ static int imx219_set_framefmt(struct imx219 *imx219)
- 	return -EINVAL;
- }
-
-+static const struct v4l2_rect *
-+__imx219_get_pad_crop(struct imx219 *imx219, struct v4l2_subdev_pad_config *cfg,
-+		      unsigned int pad, enum v4l2_subdev_format_whence which)
-+{
-+	switch (which) {
-+	case V4L2_SUBDEV_FORMAT_TRY:
-+		return v4l2_subdev_get_try_crop(&imx219->sd, cfg, pad);
-+	case V4L2_SUBDEV_FORMAT_ACTIVE:
-+		return &imx219->mode->crop;
-+	default:
-+		return NULL;
-+	}
-+}
-+
-+static int imx219_get_selection(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_pad_config *cfg,
-+				struct v4l2_subdev_selection *sel)
-+{
-+	struct imx219 *imx219 = to_imx219(sd);
-+	const struct v4l2_rect *__crop;
-+
-+	if (sel->pad != 0)
-+		return -EINVAL;
-+
-+	mutex_lock(&imx219->mutex);
-+
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_NATIVE_SIZE:
-+		sel->r.top = 0;
-+		sel->r.left = 0;
-+		sel->r.width = IMX219_NATIVE_WIDTH;
-+		sel->r.height = IMX219_NATIVE_HEIGHT;
-+		mutex_unlock(&imx219->mutex);
-+
-+		return 0;
-+
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+		sel->r.top = IMX219_PIXEL_ARRAY_TOP;
-+		sel->r.left = IMX219_PIXEL_ARRAY_LEFT;
-+		sel->r.width = IMX219_PIXEL_ARRAY_WIDTH;
-+		sel->r.height = IMX219_PIXEL_ARRAY_HEIGHT;
-+		mutex_unlock(&imx219->mutex);
-+
-+		return 0;
-+
-+	case V4L2_SEL_TGT_CROP:
-+		__crop = __imx219_get_pad_crop(imx219, cfg, sel->pad,
-+					       sel->which);
-+		sel->r = *__crop;
-+		mutex_unlock(&imx219->mutex);
-+
-+		return 0;
-+	}
-+
-+	mutex_unlock(&imx219->mutex);
-+
-+	return -EINVAL;
-+}
-+
- static int imx219_start_streaming(struct imx219 *imx219)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
-@@ -1152,6 +1248,7 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
- 	.enum_mbus_code = imx219_enum_mbus_code,
- 	.get_fmt = imx219_get_pad_format,
- 	.set_fmt = imx219_set_pad_format,
-+	.get_selection = imx219_get_selection,
- 	.enum_frame_size = imx219_enum_frame_size,
- };
-
---
-2.26.1
-
+It will be nice to factor out the Tegra210-specific VI/CSI OPS into a
+separate driver module (say tegra210-vi) to ease supporting of other
+Tegra versions. Of course this could be done later on, although I
+suppose the amount of hassle could be reduced if it's done from the start.
