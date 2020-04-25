@@ -2,171 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7671A1B837A
-	for <lists+linux-media@lfdr.de>; Sat, 25 Apr 2020 05:37:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D11111B851E
+	for <lists+linux-media@lfdr.de>; Sat, 25 Apr 2020 11:16:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726061AbgDYDhI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 24 Apr 2020 23:37:08 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:41749 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726040AbgDYDhH (ORCPT
+        id S1726088AbgDYJQa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Apr 2020 05:16:30 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:58483 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725837AbgDYJQ3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 24 Apr 2020 23:37:07 -0400
+        Sat, 25 Apr 2020 05:16:29 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id SBcljLASflKa1SBcmjSCJO; Sat, 25 Apr 2020 05:37:04 +0200
+        id SGv9jMxedlKa1SGvCjTM8w; Sat, 25 Apr 2020 11:16:26 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587785824; bh=tTNzHsPE4URACdzhpvYy8vE62M2UmbUfOCQYk9t+FHA=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=f3SpO8IwNOB5qxrPQwtqkzzyJjR02SoXr5EupHuCHJ8Mwpq1buF0dr0ytdfPTPKkK
-         B2PSxmbcKcHhGX9O8R1m/6K10HhCajHzi9LHtvRnkAaVrFo/3QxjB68OCfA5DeMyGn
-         l8IeNn7XtKUM3E9fYEr8RiHIYFe/50j+T9v9vsmkUKPP8VtvboIco1orogCIwWr1gS
-         q+rk5ukUSKlWILAhYWu2U9/ftw2kSsjtzf0S36EDd/vOwY2Q3DyJGQl+UIJ1tGaMYL
-         qVkiEUU0q5f003Bc+YRuxQYKMm6PJj11LjYB+IMRJ1c8DYAPFohdT7qKfUD7N9Ifnn
-         N57vTHyPVOn9w==
-Message-ID: <73b698de180c1b9c2e8dae1cb548c204@smtp-cloud8.xs4all.net>
-Date:   Sat, 25 Apr 2020 05:37:03 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfF4IOBUC1B7Kfb9LC9GE9Ci5vuRQ7M3ubfb2xRa7+JlOBg6Jp64LtsBtNBVA1Xsdz8Rq5mcl61+j+MkYuA1kvOjFOKoJF0HyVlfHBwnwW32VeoTsydd3
- aTNTVNHg6hV5npVZfM2CNIRvmtVyIpRe2Cy4n4nitIMVrHASY4iM/mzLkCsJGqVS0NHv/xrJKdKpHTXaV72Pva3RqwvmMUlwmGp/p6MEc6kZD9dzxSc04RFO
+        t=1587806186; bh=bPXVNps72IWu/as3fHBk9yJ/PdnzczbB13/PPS/gBH0=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=rw8OLlk+c7B4WE2IdOz8MYx8r/zMzAf/YIVEE8lyxdRmGWdggeTBUd/beUefqfzi5
+         4if9pTZ4KCvo8cR1fMTam2p0PejZcT3Jui11xq7i+s5G8M36Nql/3LIDwLIZKnlq5/
+         IiwcLA4HFVcTamytVRnpJJQ3SjDKou6c7SqOE7XWJeGsiBCb/G1Hmriu88shZY4nkp
+         CWIOIuINyZHgiz7lZqpP4GLEHbMMqx9emlG1J+lZ9Ac9YTweg3444sTCR11PNnzK6A
+         SboMy4MUDa+/Bq+0DhmaGEfl4609lBzliBHeRkSlnx+K0fZ6+Q8esvIWBPRCzlkQLG
+         uZIeiuP/yt59A==
+Subject: Re: [PATCH 2/2] media: cec: i2c: ch7322: Add ch7322 CEC controller
+ driver
+To:     Jeff Chase <jnchase@google.com>
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        robh+dt@kernel.org, devicetree@vger.kernel.org
+References: <20200424053819.220276-1-jnchase@google.com>
+ <20200424053819.220276-2-jnchase@google.com>
+ <74c08463-7052-2ac4-3662-7301ecb8150d@xs4all.nl>
+ <CALTkaQ2dnWdkAsqYXF+msN+Jnz_1RuvbQtJd4PFwVT_Q7FTc5Q@mail.gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <290277ee-f1a1-db02-9885-d4193a40e8f8@xs4all.nl>
+Date:   Sat, 25 Apr 2020 11:16:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+In-Reply-To: <CALTkaQ2dnWdkAsqYXF+msN+Jnz_1RuvbQtJd4PFwVT_Q7FTc5Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfFGLuT3HLzH7lHY2Ii2kZu5jWah5wTXTnD5F7ZssR8HU/qkUJqjBAFR5bNeRwnvqueVZXTHL8Me/qxKuWiIs5K6CLp+LlS0gXoQepylXOk3X5ZV5H9JY
+ Mi0ry/DcDnljKaiv2za0lcHm4MAIuD7J03rNqTukbcB6/Ie8SGNaszC20EdBzN0M8mHn2Lh90oGt7u8QMsBttHHBdpqsnUhznaqGoMkt0KGncsatDaX977vK
+ wJ3kA6ofud53MZ5ywYfDDa3zlDL6HrYihQBQOEdR9AfjKsJ/ePLtusixJIK6NgeFwaDg2s5yxJomKts6ZF5qJA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 24/04/2020 21:33, Jeff Chase wrote:
+> Hi Hans,
+> 
+> Thank you for the quick review.
+> 
+>> Is the register documentation available somewhere? I only found the product brief.
+> 
+> No, it's not publicly available.
+> 
+>> The chip can only detect OK vs NACK? There are no error states for Arbitration Lost
+>> or Low Drive conditions? Just checking, not all hardware has support for that.
+> 
+> Correct, message transmit completion just has a one-bit status.
+> 
+>>> +static int ch7322_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
+>>> +{
+>>> +     struct ch7322 *ch7322 = cec_get_drvdata(adap);
+>>> +
+>>> +     dev_dbg(&ch7322->i2c->dev, "cec log addr: %x\n", log_addr);
+>>> +
+>>> +     return 0;
+>>
+>> This can't be right. I expect that logical addresses are set/cleared here,
+>> because the device needs to know that so that it can ignore messages not
+>> intended for it.
+> 
+> As far as I can tell the device doesn't filter based on logical
+> address. I'll have to save
+> the logical address to the driver and filter manually.
 
-Results of the daily build of media_tree:
+That can't be right. If this CEC adapter is assigned logical address 4, and
+it has to Ack any received messages from other CEC devices with destination 4,
+and ignore (i.e. not explicitly Ack) messages with other destinations.
 
-date:			Sat Apr 25 05:00:09 CEST 2020
-media-tree git hash:	4bdbff4da40584ec2225bb429b7c66ad54d19cda
-media_build git hash:	2f75e0d4330da180166ebcd104560d471a1599b6
-v4l-utils git hash:	b8e58b75b57b94378990cedb38459623c06fc3eb
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 7bc5ca34b446a30a7e19688e9a1e68e905cb8ff4
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+If the CEC adapter wouldn't know what LA to use, then it would have to Ack
+all messages, regardless of the destination, which would make this a complete
+mess.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: ERRORS
+There must be a register that tells the CEC adapter which logical address(es)
+should be Acked. It's usually a bitmask (one bit for each possible LA) or the
+LA itself is stored.
 
-Detailed results are available here:
+It might be that you still receive all messages (in which case monitor_all
+is effectively always enabled), but it really needs to be told which LAs should
+be Acked.
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+Regards,
 
-Detailed regression test results are available here:
+	Hans
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+> 
+>>> +}
+>>> +
+>>> +static int ch7322_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
+>>> +                                  u32 signal_free_time, struct cec_msg *msg)
+>>> +{
+>>
+>> Does the hardware correctly handle Signal Free Time? If this isn't handled right
+>> then one CEC device can flood the CEC bus, preventing anyone else from using it.
+>>
+>> In some devices it has to be programmed, in others it is hardwired.
+> 
+> It must be hardwired -- I don't see a way to program it.
+> 
+>>> +     struct ch7322 *ch7322 = cec_get_drvdata(adap);
+>>> +     int ret;
+>>> +
+>>> +     dev_dbg(&ch7322->i2c->dev, "cec transmit: %x->%x: %x\n",
+>>> +             cec_msg_initiator(msg), cec_msg_destination(msg),
+>>> +             cec_msg_opcode(msg));
+>>> +
+>>> +     mutex_lock(&ch7322->mutex);
+>>> +     ret = ch7322_send_message(ch7322, msg);
+>>> +     mutex_unlock(&ch7322->mutex);
+>>> +
+>>> +     return ret;
+>>> +}
+>>> +
+>>> +static const struct cec_adap_ops ch7322_cec_adap_ops = {
+>>> +     .adap_enable = ch7322_cec_adap_enable,
+>>> +     .adap_log_addr = ch7322_cec_adap_log_addr,
+>>> +     .adap_transmit = ch7322_cec_adap_transmit,
+>>
+>> If the HW supports CEC monitoring (aka snooping), then I recommend that
+>> adap_monitor_all_enable is also implemented. It's very useful for debugging
+>> CEC in userspace. Not all HW supports it, though.
+> 
+> Okay, I'll add this along with the logical address filtering I mentioned above.
+> 
+> Thanks,
+> Jeff
+> 
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
