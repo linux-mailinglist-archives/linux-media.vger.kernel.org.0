@@ -2,162 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 091211B8545
-	for <lists+linux-media@lfdr.de>; Sat, 25 Apr 2020 11:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0031F1B854D
+	for <lists+linux-media@lfdr.de>; Sat, 25 Apr 2020 11:36:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726107AbgDYJbP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Apr 2020 05:31:15 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:41857 "EHLO
+        id S1726073AbgDYJg2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Apr 2020 05:36:28 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:54873 "EHLO
         lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726022AbgDYJbO (ORCPT
+        by vger.kernel.org with ESMTP id S1725837AbgDYJg1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Apr 2020 05:31:14 -0400
+        Sat, 25 Apr 2020 05:36:27 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id SH9QjN3X9lKa1SH9TjTQoI; Sat, 25 Apr 2020 11:31:11 +0200
+        id SHERjN65NlKa1SHEVjTTIE; Sat, 25 Apr 2020 11:36:24 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587807071; bh=bOGrTyfTpmqnr7C8+o3dhNsgfT1Gb1JBZyBwk5WE+hI=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1587807384; bh=fSYBdxjgYtmYwGO3ICwPcGjEcBBVqN9UZaSZatOml9E=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=Lw3pMWS4uA5OYzT/H+onvDly4zoqWFDHJKNerA/oQBMjar9QV4PFGjOIo6IK+UT6D
-         cXadle2se1KXZborMy7db0jbFhJLce7gHz3x5uzXD6jFZp0Ny+2q1rXTVlMsg4PXRp
-         tXHUdX6flyvPHKKuucoFnYx5dFFUQwPDwM+88geF6QdGYYY4Pq+6hA0jJgp36MWTfO
-         LV9AZYKgBJXRxBxC5VNvEBrywEYJET0NszDSFI10W8iCRfHRaskBzWSq5RPTtC0kdU
-         po1s9GTH0Fq0g7Gf5E7Fgh4Bz1zCw5FU/Fe8h6IwUvMeBkfv/s9RIQ7K5oz0LDEkQc
-         0uyh5cCssKLEw==
-Subject: Re: [PATCH 2/2] media: cec: i2c: ch7322: Add ch7322 CEC controller
- driver
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     Jeff Chase <jnchase@google.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        robh+dt@kernel.org, devicetree@vger.kernel.org
-References: <20200424053819.220276-1-jnchase@google.com>
- <20200424053819.220276-2-jnchase@google.com>
- <74c08463-7052-2ac4-3662-7301ecb8150d@xs4all.nl>
- <CALTkaQ2dnWdkAsqYXF+msN+Jnz_1RuvbQtJd4PFwVT_Q7FTc5Q@mail.gmail.com>
- <290277ee-f1a1-db02-9885-d4193a40e8f8@xs4all.nl>
-Message-ID: <d1d55874-9f64-8fbf-a590-f1328535a7e4@xs4all.nl>
-Date:   Sat, 25 Apr 2020 11:31:08 +0200
+        b=CslqNo6TKr61FhjvZFeX4gxFSTW3yda1JQn1LdpQJf2j+M8j5S3RH+XrsXl496S7p
+         gf31e4sre4Ofq1DdZLgfcJC8Ac5lpBctqgW7gTPd2cz4Ix6OdwLd+VekbGRSVdXXTK
+         fpFLeoeBYqx3mlBVvD4quAru9/yw24j9WZCxnp95EQZq5BJAZKt73XBv1rA/N4TL60
+         6WdWxWUFYjKroQBXNemGwgj3M/YdjE3O5BoeeCYQLie9tmGjqgqoExq7exGZd60Qlf
+         nvqqbjkQHVOFLYKYNC1x+gdsyMamBqWeAJhhr792mj8y1NlelP0wkPejUVAQlETWNk
+         ppsheNEsfYhLA==
+Subject: Re: [RFC PATCH v10 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1587700513-28449-1-git-send-email-skomatineni@nvidia.com>
+ <1587700513-28449-7-git-send-email-skomatineni@nvidia.com>
+ <6ca93ff9-ca59-544f-767c-4355d01a5c20@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <62546d1f-eca5-06be-2bc2-e45ccd53830a@xs4all.nl>
+Date:   Sat, 25 Apr 2020 11:36:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <290277ee-f1a1-db02-9885-d4193a40e8f8@xs4all.nl>
+In-Reply-To: <6ca93ff9-ca59-544f-767c-4355d01a5c20@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfEUM8QPNFutHvCca3Iyz78Hg5z6qgmDRsGgWQKXaAoWwCdmZobrlCeIA/FUsS/h5XboK2aZ+ryFa4b8n4G0Q1+zQP9cmJOa5KXxTFcEX68iYvRWr4EUT
- oQCiWSQyyvnrDc43yGyQDakCV1Pa055Bchxe7Gdita+0CIMf6cDi/TutskHL2Fl8hZ4WcOnWS/tl+jYH8GeNiKEo/okfnzrOFGYUC/vkldMPhA42+eqMPKMI
- cvnl8fWVHF2ppB7T6XHFbiSRo05FzGo0K7ikzcjdFLiW0/Gz5MQMz2qVhBY8qPERHz+G+r3hkQMSBSlIaRFwSw==
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfNDz9HNxuqvyVl2LksfOfgdeceMdmfDlPtUuL8p5+1z94jh0ysXaXrk72fRFAoZruzMaSpqmLAabuLPR5TyA5ByC+iydYkYlRyRlM0C7ttuXsNFV1eGY
+ LsJkH3/vDAMCBJ8Fv5m1EmuwJm5pi6PX3ch6aCVALXxDadxmW1SA5WVFFbo/LjjGLfyzePjxAWsMOl4PNiGprlcYCqN9VqdJG/IkgFFMUOKPFSSxmoHwkOXZ
+ sZzwyghdVQA+TzD0DxfFTpptWzbrvMWwJvpm7/pvgomRw2+iOS5U1NDSfaULH8RDhLI1dlwk1st1XgsqGjbcInAIH34OqwchG0gW24U41PG00p7bkKnhIWB3
+ MOKrYVqHcNLQ401YQFQ2uGXfxY9AGfuYHQDSz2jw2CzWCk2BF+/ApXoz+OkOJ03Ap38lV0W5JccjA42GvfgfF0FhSg5cAOtCr+Az78jHzp6Awo/u81IYG3yO
+ cCtMKi9bxEuozGXV/hol1DzHh743hJQKa9h8R0WJ2VoyKmsCZGifmne5T1DQZ5bWxP+eD0DBuQGX00+YvBzXvVZKJx1hyfnPYXFers040re5rp3+Y4mMTiqP
+ JNc=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/04/2020 11:16, Hans Verkuil wrote:
-> On 24/04/2020 21:33, Jeff Chase wrote:
->> Hi Hans,
+On 24/04/2020 17:11, Dmitry Osipenko wrote:
+> 24.04.2020 06:55, Sowjanya Komatineni пишет:
+>> Tegra210 contains a powerful Video Input (VI) hardware controller
+>> which can support up to 6 MIPI CSI camera sensors.
 >>
->> Thank you for the quick review.
+>> Each Tegra CSI port can be one-to-one mapped to VI channel and can
+>> capture from an external camera sensor connected to CSI or from
+>> built-in test pattern generator.
 >>
->>> Is the register documentation available somewhere? I only found the product brief.
+>> Tegra210 supports built-in test pattern generator from CSI to VI.
 >>
->> No, it's not publicly available.
+>> This patch adds a v4l2 capture driver with media interface for
+>> Tegra210 built-in CSI to VI test pattern generator.
 >>
->>> The chip can only detect OK vs NACK? There are no error states for Arbitration Lost
->>> or Low Drive conditions? Just checking, not all hardware has support for that.
+>> This patch includes TPG support only and all the video pipeline
+>> configuration happens through the video device node.
 >>
->> Correct, message transmit completion just has a one-bit status.
->>
->>>> +static int ch7322_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
->>>> +{
->>>> +     struct ch7322 *ch7322 = cec_get_drvdata(adap);
->>>> +
->>>> +     dev_dbg(&ch7322->i2c->dev, "cec log addr: %x\n", log_addr);
->>>> +
->>>> +     return 0;
->>>
->>> This can't be right. I expect that logical addresses are set/cleared here,
->>> because the device needs to know that so that it can ignore messages not
->>> intended for it.
->>
->> As far as I can tell the device doesn't filter based on logical
->> address. I'll have to save
->> the logical address to the driver and filter manually.
+>> Acked-by: Thierry Reding <treding@nvidia.com>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>  drivers/staging/media/Kconfig          |    2 +
+>>  drivers/staging/media/Makefile         |    1 +
+>>  drivers/staging/media/tegra/Kconfig    |   12 +
+>>  drivers/staging/media/tegra/Makefile   |    8 +
+>>  drivers/staging/media/tegra/TODO       |   10 +
+>>  drivers/staging/media/tegra/common.h   |  259 ++++++++
+>>  drivers/staging/media/tegra/csi.c      |  604 +++++++++++++++++
+>>  drivers/staging/media/tegra/csi.h      |  144 ++++
+>>  drivers/staging/media/tegra/tegra210.c |  708 ++++++++++++++++++++
+>>  drivers/staging/media/tegra/tegra210.h |  190 ++++++
+>>  drivers/staging/media/tegra/vi.c       | 1127 ++++++++++++++++++++++++++++++++
+>>  drivers/staging/media/tegra/vi.h       |   72 ++
+>>  drivers/staging/media/tegra/video.c    |  153 +++++
+>>  drivers/staging/media/tegra/video.h    |   29 +
 > 
-> That can't be right. If this CEC adapter is assigned logical address 4, and
-> it has to Ack any received messages from other CEC devices with destination 4,
-> and ignore (i.e. not explicitly Ack) messages with other destinations.
+> The media/tegra/ sounds a bit too generic, the media/tegra-vi/ path
+> should better reflect the driver, IMO.
 > 
-> If the CEC adapter wouldn't know what LA to use, then it would have to Ack
-> all messages, regardless of the destination, which would make this a complete
-> mess.
+> It also should be better to name the compiled kernel module as tegra-vi,
+> IMO.
 > 
-> There must be a register that tells the CEC adapter which logical address(es)
-> should be Acked. It's usually a bitmask (one bit for each possible LA) or the
-> LA itself is stored.
-> 
-> It might be that you still receive all messages (in which case monitor_all
-> is effectively always enabled), but it really needs to be told which LAs should
-> be Acked.
 
-Reading through the product brief they mention "Supported Logical Type". It could
-be that this device is trying to be smart and that it has to be programmed with
-the desired type (which in the linux CEC API is equivalent to CEC_LOG_ADDR_TYPE_*),
-and that it claims the logical address based on that.
+The driver name and the directory should be in sync, so either tegra-video
+or tegra-vi for both. I have no preference myself, as long as they are the
+same.
 
-If so, then that is currently not supported in the CEC framework and some work
-would have to be done there.
+This can be done as a follow-up patch.
 
 Regards,
 
 	Hans
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>
->>>> +}
->>>> +
->>>> +static int ch7322_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
->>>> +                                  u32 signal_free_time, struct cec_msg *msg)
->>>> +{
->>>
->>> Does the hardware correctly handle Signal Free Time? If this isn't handled right
->>> then one CEC device can flood the CEC bus, preventing anyone else from using it.
->>>
->>> In some devices it has to be programmed, in others it is hardwired.
->>
->> It must be hardwired -- I don't see a way to program it.
->>
->>>> +     struct ch7322 *ch7322 = cec_get_drvdata(adap);
->>>> +     int ret;
->>>> +
->>>> +     dev_dbg(&ch7322->i2c->dev, "cec transmit: %x->%x: %x\n",
->>>> +             cec_msg_initiator(msg), cec_msg_destination(msg),
->>>> +             cec_msg_opcode(msg));
->>>> +
->>>> +     mutex_lock(&ch7322->mutex);
->>>> +     ret = ch7322_send_message(ch7322, msg);
->>>> +     mutex_unlock(&ch7322->mutex);
->>>> +
->>>> +     return ret;
->>>> +}
->>>> +
->>>> +static const struct cec_adap_ops ch7322_cec_adap_ops = {
->>>> +     .adap_enable = ch7322_cec_adap_enable,
->>>> +     .adap_log_addr = ch7322_cec_adap_log_addr,
->>>> +     .adap_transmit = ch7322_cec_adap_transmit,
->>>
->>> If the HW supports CEC monitoring (aka snooping), then I recommend that
->>> adap_monitor_all_enable is also implemented. It's very useful for debugging
->>> CEC in userspace. Not all HW supports it, though.
->>
->> Okay, I'll add this along with the logical address filtering I mentioned above.
->>
->> Thanks,
->> Jeff
->>
-> 
-
