@@ -2,97 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D4321B8B19
-	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2020 04:19:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DDDD1B8B20
+	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2020 04:27:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726228AbgDZCTn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Apr 2020 22:19:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37336 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726087AbgDZCTm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Apr 2020 22:19:42 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A50BBC061A0C;
-        Sat, 25 Apr 2020 19:19:41 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id k28so10918362lfe.10;
-        Sat, 25 Apr 2020 19:19:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=BWBm7/mVEXhWuPVxLsh6N26LOmhjPIMhMvd6hBXqCfU=;
-        b=kHS7cMNq4luW+Dv12Ull6rhXLP8u1mUKeYWf4a9eHUftTkPKfkSTaJU/ba+zrefdpj
-         VF2FOHEUzMBRJq+yeRuGdQNOu9ayMtrJjslLsy+1dhRRMmEBDPuWH+1zoiGcbqJbjhGM
-         GfJWJCSZHsruZIiN0Z6Sj/Zgwqv4nSThbz8vbceGiNtBKXw5FKYqaG6lOohkAK7OkcAv
-         Ma1YRsvpZNR2Qyit/kvL9I15jUwJZbOJ2EqXdsNUhWfk/Io2H2bwsM7rJsADulBiYXvU
-         tERTwxsgEUGMuenrSGwC7unQmXMCoxINzx+9P/iaVfjgg3dFLBlfCesgPHT928Pd6JHj
-         lwZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=BWBm7/mVEXhWuPVxLsh6N26LOmhjPIMhMvd6hBXqCfU=;
-        b=B2mi2P4Mb4ftczRff4ytt7HYnHOx+v8mMhvnbjqfR2MHZP/3ASgx0v5lZZLenynA12
-         HDEKIZIIPHpWgob3d14fEFdW3iaqmoOlkAiX0Twg5jRvPE9CEdav5Dk+o3v41qkro+oU
-         ugAuMjxFO0UrvBnN52OYSJ6DkI8bes2k+FcQ72c4Q9+C5GC9JG4GBFtx1ZIjxNaN9lgn
-         l2Nw13fo7V9VbEYX2enLBYFcU8GFJ+TDtaZQjK0s/IfxAjHtU7PVXiJM0pqsBC7H+Wjh
-         Yb/HSgUsX7ESwIqH1EZ2lX7UmYmAUPcczpoQMx6RIMj5xVuzkb+vfZV4DSpGfw9R03aF
-         mTkA==
-X-Gm-Message-State: AGi0Pub4NAbxfNlFx4toNgkbDf1Bkp+vgokKi5XuHjK8hWwxuxMm/WvF
-        EBT76PaJNKoo4K5vvhZYjH/J1Bu/
-X-Google-Smtp-Source: APiQypIIxxRdfeo5otCtYYxQleaZuzDb4kY/HNsRdUV71uYhG5rPdIMCDsU5BdLOfKFFBtQFEgHqsQ==
-X-Received: by 2002:a19:a411:: with SMTP id q17mr11374733lfc.214.1587867579759;
-        Sat, 25 Apr 2020 19:19:39 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id j22sm7061153ljh.107.2020.04.25.19.19.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Apr 2020 19:19:39 -0700 (PDT)
-Subject: Re: [RFC PATCH v10 6/9] media: tegra: Add Tegra210 Video input driver
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, thierry.reding@gmail.com,
-        jonathanh@nvidia.com, frankc@nvidia.com, sakari.ailus@iki.fi,
-        helen.koike@collabora.com
-Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1587700513-28449-1-git-send-email-skomatineni@nvidia.com>
- <1587700513-28449-7-git-send-email-skomatineni@nvidia.com>
- <6ca93ff9-ca59-544f-767c-4355d01a5c20@gmail.com>
- <62546d1f-eca5-06be-2bc2-e45ccd53830a@xs4all.nl>
- <50fd1016-ca8b-ec5d-e5a8-f257138b152e@gmail.com>
- <658c4232-94d9-3051-8c93-bff7046cf5f2@nvidia.com>
- <03426915-25ea-69b4-bc64-f87f3046d33f@nvidia.com>
- <aabaecc4-3494-0137-7d2b-853304bfa68b@gmail.com>
- <09f20441-fec6-7496-2edc-c69db535e441@nvidia.com>
- <61799fab-858c-8b0d-ba7d-846cd041e044@gmail.com>
-Message-ID: <99a5c82a-bd84-5c80-e6d7-7b6f2858aa78@gmail.com>
-Date:   Sun, 26 Apr 2020 05:19:38 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726110AbgDZC1P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Apr 2020 22:27:15 -0400
+Received: from mail-dm6nam11olkn2096.outbound.protection.outlook.com ([40.92.19.96]:5696
+        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726087AbgDZC1P (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 25 Apr 2020 22:27:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JVWczFcwgVsbygDxIzPfJGyLvJp6mf/cyxpsOKA1T8Dk1RtIDCWogHvaCYmBSoUt+tOinO17Uwy+Lv5vF1GcmWE+jvLXBBNZlw5zxHBonjNHm7zKotinMDq/CIWXEbMnp0Iyd1H5mxjJ7NppaxWwAku7vi3JGqg/Y4lew7Qk7IXQnm6o7VExDyyVpNlQjiDpeZ8zgsV49Gxv4FOS6pcOkJNrVa/cqV83nk65slwNah43m3fkPIJ7JhjEfAwBzAFipRq20CDIApAQrVRnv/dRJi2bMaDXMp3v+IbCE+5+r1ewuCDHsIChKqQaLKBKXYaWU7c1ddWejFAYqf2O8qHHKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YIai2UCie5uAdRZypBYolyyz1q9wd+OOct+1I+f5Gow=;
+ b=QWae5/77RItvlqIqU9Kgn1yIOIQi4OAJqLMXPCU58FAleD5chsqu+7yaeVl3r9M+bsXnR+xVz+ffDvX7fxeyMIIQeFGoAc4oXsd3jZeW3sOO+0KP3AZGPwHYylczdylf5MO5vlk/MwSGLfjvuPfHDgPvHaiKchdFr13P0A+GYGfAkvngteEMUnoKrdlyC59HdJQNUiPqxP0MXDc0BSYDuS9qPBiLeFLCyojZ2Qf5k1Qu31V+oP/txgvQ0IrdbHWvjWbeh5eXsxNYRnayyiuPFCojsVmuivwsdParhN9Gg43sufdUwwfkj7byI5BK1MH/5PS1lUXKySAOHMGmm7CB0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=live.ca; dmarc=pass action=none header.from=live.ca; dkim=pass
+ header.d=live.ca; arc=none
+Received: from DM6NAM11FT041.eop-nam11.prod.protection.outlook.com
+ (2a01:111:e400:fc4d::4f) by
+ DM6NAM11HT010.eop-nam11.prod.protection.outlook.com (2a01:111:e400:fc4d::169)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.15; Sun, 26 Apr
+ 2020 02:27:13 +0000
+Received: from BN6PR04MB0660.namprd04.prod.outlook.com
+ (2a01:111:e400:fc4d::4a) by DM6NAM11FT041.mail.protection.outlook.com
+ (2a01:111:e400:fc4d::98) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.15 via Frontend
+ Transport; Sun, 26 Apr 2020 02:27:13 +0000
+X-IncomingTopHeaderMarker: OriginalChecksum:6C3C4D775E340410A25E041F9860D233A9430FD71AB0B6C65217D9B2BB811079;UpperCasedChecksum:FFCFA57C55479EF904CAAAC48016629450CD64C999D9A17CA2EC27511A171EC9;SizeAsReceived:7772;Count:48
+Received: from BN6PR04MB0660.namprd04.prod.outlook.com
+ ([fe80::ad10:4127:4bc8:76fc]) by BN6PR04MB0660.namprd04.prod.outlook.com
+ ([fe80::ad10:4127:4bc8:76fc%6]) with mapi id 15.20.2937.020; Sun, 26 Apr 2020
+ 02:27:13 +0000
+From:   Jonathan Bakker <xc-racer2@live.ca>
+To:     kyungmin.park@samsung.com, s.nawrocki@samsung.com,
+        mchehab@kernel.org, kgene@kernel.org, krzk@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Jonathan Bakker <xc-racer2@live.ca>
+Subject: [PATCH 00/11] media: exynos4-is: Improve support for s5pv210 and parallel ports
+Date:   Sat, 25 Apr 2020 19:26:39 -0700
+Message-ID: <BN6PR04MB06602E7221CC7455F3142540A3AE0@BN6PR04MB0660.namprd04.prod.outlook.com>
+X-Mailer: git-send-email 2.20.1
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-ClientProxiedBy: MWHPR17CA0086.namprd17.prod.outlook.com
+ (2603:10b6:300:c2::24) To BN6PR04MB0660.namprd04.prod.outlook.com
+ (2603:10b6:404:d9::21)
+X-Microsoft-Original-Message-ID: <20200426022650.10355-1-xc-racer2@live.ca>
 MIME-Version: 1.0
-In-Reply-To: <61799fab-858c-8b0d-ba7d-846cd041e044@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from jon-hp-6570b.telus (2001:569:fb67:7300:9f89:4b96:de0b:cd14) by MWHPR17CA0086.namprd17.prod.outlook.com (2603:10b6:300:c2::24) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13 via Frontend Transport; Sun, 26 Apr 2020 02:27:11 +0000
+X-Mailer: git-send-email 2.20.1
+X-Microsoft-Original-Message-ID: <20200426022650.10355-1-xc-racer2@live.ca>
+X-TMN:  [Ir4pf3fCPfIZp8hSif/KV7bN2M9wUsbTSjsvWkRqHJKxyj04210y2rxIq3JfF8Wz]
+X-MS-PublicTrafficType: Email
+X-IncomingHeaderCount: 48
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-Correlation-Id: 7c52f882-2a33-4e07-6414-08d7e9895433
+X-MS-TrafficTypeDiagnostic: DM6NAM11HT010:
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: NqCIYIiw4DxMxZ14MuE4EsKLh4N0ziK5vHFy3Fz47C+2vzue9LCEjNJuYQtJuEFtKz+Mi/yBDKGBQPtMRSHlvGmX03RwMhNFugv/cDfDsRuWJ7G4xD23+zv1ERaJvdlUQt2DRGq4bsgaoIc1SOQfscLAK0V831Ix3Bgkj1obTxJYa8Mq3ubSrltzfeTGUR+zzJfsJYduKIx96MtY+DRIwg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:0;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR04MB0660.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:;DIR:OUT;SFP:1901;
+X-MS-Exchange-AntiSpam-MessageData: oniZQFVDVYiluJ8VIae0XN0hwSqrV1g0sNABB7eDrauLO5QqfMDguDosZSrUaSaWB4NHuqLlcja8rf8KIitP5sNCjILs1Myw0iLJ40hqBbIAy8teoOPlDKf7K1Lm3jjCf8ytT0k4tyq7Bg363Xt5GtFQjcjR0qdbHj4JCHuvy/Lh2sGnjzsjVUKJEcGgwDG0dw7teXJ3/tdaDQc52pDYZw==
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c52f882-2a33-4e07-6414-08d7e9895433
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2020 02:27:13.2598
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6NAM11HT010
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-26.04.2020 05:10, Dmitry Osipenko пишет:
-...
->> currently other Tegra host1x driver (drm) also does similar. Single
->> module for all Tegra SoCs.
-> 
-> DRM driver has a proper separation of the sub-drivers where sub-driver
-> won't load on unsupported hardware. The tegra-video driver should do the
-> same, i.e. VI and CSI should be individual drivers (and not OPS). There
-> could be a some common core, but for now it's not obvious to me what
-> that core should be, maybe just the video.c.
+This patchset improves support in the exynos4-is driver for s5pv210
+platforms as well as for sensors connected to the parallel ports
+and not using the CSIS device.
 
-Maybe video.c csi.c vi.c could be moved into a separate module, somewhat
-like a common driver framework. Then the individual CSI/VI drivers will
-use those common helpers.. Just a quick thought.
+Fixes range from nullptr exceptions to probe fixes to JPEG fixes.
+
+Notably, it also changes the fwnode probing of parallel port sensors
+to match the binding doc.  The binding doc said port A = reg 0 and
+port B = reg 1 but the driver implemented A=1 and B=2.  The only in-tree
+user of parallel ports is currently Goni, which notes that it uses port
+A but has reg = 1.  Also note that the sensor driver is not mainlined
+despite being present.  I have left the DTS as-is.
+
+Some patches cleaning up non-DT support are also included.
+
+The patches have been tested on a first-gen Galaxy S GT-i900M device based
+on S5PV210.  Two sensors (CE147 and S5KA3DFX, both with non-mainline
+drivers), both attached to port A, were succesfully used.
+
+Jonathan Bakker (10):
+  media: exynos4-is: Remove static driver data for S5PV210 FIMC variants
+  media: exynos4-is: Fix nullptr when no CSIS device present
+  media: exynos4-is: Correct missing entity function initialization
+  media: exynos4-is: Improve support for sensors with multiple pads
+  media: exynos4-is: Properly set JPEG options when not using CSIS
+  media: exynos4-is: Add support for multiple sensors on one port
+  media: exynos4-is: Remove inh_sensor_ctrls
+  media: exynos4-is: Remove unused struct member input_index
+  media: exynos4-is: Prevent duplicate call to media_pipeline_stop
+  media: exynos4-is: Correct parallel port probing
+
+Tomasz Figa (1):
+  media: exynos4-is: Request syscon only if ISP writeback is present
+
+ .../media/platform/exynos4-is/fimc-capture.c  | 22 ++----
+ drivers/media/platform/exynos4-is/fimc-core.c | 67 ++----------------
+ drivers/media/platform/exynos4-is/fimc-core.h |  5 --
+ drivers/media/platform/exynos4-is/fimc-reg.c  |  7 ++
+ drivers/media/platform/exynos4-is/media-dev.c | 68 ++++++++++++++-----
+ drivers/media/platform/exynos4-is/media-dev.h |  1 +
+ include/media/drv-intf/exynos-fimc.h          |  2 +-
+ 7 files changed, 72 insertions(+), 100 deletions(-)
+
+-- 
+2.20.1
+
