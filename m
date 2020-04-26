@@ -2,171 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A30E1B8BA8
-	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2020 05:35:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AA74E1B8BE6
+	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2020 06:24:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726100AbgDZDfs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Apr 2020 23:35:48 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:58971 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725942AbgDZDfs (ORCPT
+        id S1726131AbgDZEXu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 26 Apr 2020 00:23:50 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:2031 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725979AbgDZEXu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Apr 2020 23:35:48 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id SY52jSgtClKa1SY53jX7iQ; Sun, 26 Apr 2020 05:35:45 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1587872145; bh=WAe+dw06fMOsDdbbwEWRxodNuOlH9ExIpnZOJv5d8OU=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=GUjMJ0TXa9QPGkyi/YRxJOpbDDPiLZsgIRy1r7INbqRZEzPrza4nPXCxZXLu0lBDZ
-         OPbb+HcmZdy/eUBawPo28oqFsqEIgoH5zRqyhab9MSNjhQ42T7AKab3djR1Xa62W0U
-         8NHK4D2Z9u+GXDcAv1CpplwI4lpgafMMJ4GmHkpD3pRQLjq7mBEHvH9mMO55wL5Q2F
-         vAjNhwikH/bw4Talru3nQcbYH8MiLYG352fOXIQXDGL7Qq7k/pktTpMXEWq+vyvEFs
-         Sj0H77f8g/dtKWesdnYDR1s0fW7YOeJbCXP25DN066t9iqVWnJ9HnLuaMlaLAeA2PN
-         jeEPylo71dBPw==
-Message-ID: <8ed7b4fd2be9ea136dfa40a4ec4b5918@smtp-cloud8.xs4all.net>
-Date:   Sun, 26 Apr 2020 05:35:44 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfBVMMyM9rZaIuMlKbI0T8fJ27JfDn5+kjTBhJBrisfz/NMWwQLhb2o95p6aL72DELV0T5n+rPULw8OVrccUjOy4iR6hUeO3W3D2bBHScZITNjlPYH4WB
- GxucRgHS5Rd1Q2kg8x2BrAYD7vtAGeYxp0hUnyfGjnWHJ5ufxB0OGAQKIO8YVZbzCFoXlzGgSswI4yjXzFD/g7CyIWerWa+c5wd+dQQB+rnytlUkJ6FflwZx
+        Sun, 26 Apr 2020 00:23:50 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ea50c940003>; Sat, 25 Apr 2020 21:22:45 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Sat, 25 Apr 2020 21:23:49 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Sat, 25 Apr 2020 21:23:49 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 26 Apr
+ 2020 04:23:48 +0000
+Received: from [10.2.165.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 26 Apr
+ 2020 04:23:48 +0000
+Subject: Re: [RFC PATCH v10 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
+        <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1587700513-28449-1-git-send-email-skomatineni@nvidia.com>
+ <1587700513-28449-7-git-send-email-skomatineni@nvidia.com>
+ <6ca93ff9-ca59-544f-767c-4355d01a5c20@gmail.com>
+ <62546d1f-eca5-06be-2bc2-e45ccd53830a@xs4all.nl>
+ <50fd1016-ca8b-ec5d-e5a8-f257138b152e@gmail.com>
+ <658c4232-94d9-3051-8c93-bff7046cf5f2@nvidia.com>
+ <03426915-25ea-69b4-bc64-f87f3046d33f@nvidia.com>
+ <aabaecc4-3494-0137-7d2b-853304bfa68b@gmail.com>
+ <09f20441-fec6-7496-2edc-c69db535e441@nvidia.com>
+ <61799fab-858c-8b0d-ba7d-846cd041e044@gmail.com>
+ <99a5c82a-bd84-5c80-e6d7-7b6f2858aa78@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <8c4f5e88-b47a-6b5c-b579-1b28be19feb5@nvidia.com>
+Date:   Sat, 25 Apr 2020 21:23:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <99a5c82a-bd84-5c80-e6d7-7b6f2858aa78@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1587874965; bh=kYrleJVCmR2hU5ZLnRdh4ugBfBt80Fuh+Z9062SgVHU=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=CkafEwoOfR629GEZLhuqmipmbtJ07vZQz4WCLz0/j5kI7CO9xE58jEiTjhw1DEpZV
+         Hw3rBHMD5z99ZZyXuAabu36B1xunnX8egUurwXGz3i7xuVQ6daSsLaPW2vDpM3owWR
+         8CcN+3yo4IQjBmBwQffRNmGwllttJwqJ5bniVYU4rGkayZZVS+DeSa7qE5Z5Mxe856
+         qqZ2ce1/9Ry840xauirpWjUE2JKayFdIEqV+0A7x4qcHap64k6pn2CDxI7MGoNuLVi
+         nbIVQCzB3N4zsH7r6zlRCLZ4Rj1jtpqC3Ckto33I0tZsygIRNIunFK4ywz32JMpsOK
+         218ydUM/A6IbA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
 
-Results of the daily build of media_tree:
+On 4/25/20 7:19 PM, Dmitry Osipenko wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> 26.04.2020 05:10, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+> ...
+>>> currently other Tegra host1x driver (drm) also does similar. Single
+>>> module for all Tegra SoCs.
+>> DRM driver has a proper separation of the sub-drivers where sub-driver
+>> won't load on unsupported hardware. The tegra-video driver should do the
+>> same, i.e. VI and CSI should be individual drivers (and not OPS). There
+>> could be a some common core, but for now it's not obvious to me what
+>> that core should be, maybe just the video.c.
+> Maybe video.c csi.c vi.c could be moved into a separate module, somewhat
+> like a common driver framework. Then the individual CSI/VI drivers will
+> use those common helpers.. Just a quick thought.
 
-date:			Sun Apr 26 05:00:08 CEST 2020
-media-tree git hash:	4bdbff4da40584ec2225bb429b7c66ad54d19cda
-media_build git hash:	2f75e0d4330da180166ebcd104560d471a1599b6
-v4l-utils git hash:	b8e58b75b57b94378990cedb38459623c06fc3eb
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 7bc5ca34b446a30a7e19688e9a1e68e905cb8ff4
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+structure of driver is based on prior feedback.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: ERRORS
+How about instead of re-structuring whole driver again, probably we can=20
+use conditional compatibles and also corresponding tegra210.o in=20
+Makefile based on ARCH_TEGRA?
 
-Detailed results are available here:
+#if defined(CONFIG_ARCH_TEGRA_210_SOC)
+ =C2=A0=C2=A0=C2=A0 { .compatible =3D "nvidia,tegra210-vi", .data =3D &tegr=
+a210_vi_soc },
+#endif
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
