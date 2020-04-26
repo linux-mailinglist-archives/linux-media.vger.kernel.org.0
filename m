@@ -2,347 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 108AD1B8AC4
-	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2020 03:28:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 986191B8ADF
+	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2020 03:43:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726284AbgDZB2F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Apr 2020 21:28:05 -0400
-Received: from mga09.intel.com ([134.134.136.24]:27105 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726110AbgDZB2F (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Apr 2020 21:28:05 -0400
-IronPort-SDR: h0EIuHh76mhpU7wTIGZpH7oKKVX3fKYd0yG4E92qtliRu8r7mED1ppo8c0KPYH9Xv6st86Faey
- 1ADeZGkVDqmQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2020 18:28:04 -0700
-IronPort-SDR: +IY7KYDhpIIvcssUZWJf/ae4+mSWA/utEyRl/GRDg3xvVpKJN2pbYsgwUBStJGp52CBDjo0TJp
- PrX0OaiQQjeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,318,1583222400"; 
-   d="scan'208";a="293099163"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by orsmga008.jf.intel.com with ESMTP; 25 Apr 2020 18:28:02 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jSW5R-000Biv-SY; Sun, 26 Apr 2020 09:28:01 +0800
-Date:   Sun, 26 Apr 2020 09:27:52 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- 4bdbff4da40584ec2225bb429b7c66ad54d19cda
-Message-ID: <5ea4e398.h+6g32kwmQ1pKxgi%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1726101AbgDZBni (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Apr 2020 21:43:38 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:5803 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725931AbgDZBni (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 25 Apr 2020 21:43:38 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ea4e73d0000>; Sat, 25 Apr 2020 18:43:25 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Sat, 25 Apr 2020 18:43:38 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Sat, 25 Apr 2020 18:43:38 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 26 Apr
+ 2020 01:43:38 +0000
+Received: from [10.2.165.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 26 Apr
+ 2020 01:43:36 +0000
+Subject: Re: [RFC PATCH v10 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
+        <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1587700513-28449-1-git-send-email-skomatineni@nvidia.com>
+ <1587700513-28449-7-git-send-email-skomatineni@nvidia.com>
+ <6ca93ff9-ca59-544f-767c-4355d01a5c20@gmail.com>
+ <62546d1f-eca5-06be-2bc2-e45ccd53830a@xs4all.nl>
+ <50fd1016-ca8b-ec5d-e5a8-f257138b152e@gmail.com>
+ <658c4232-94d9-3051-8c93-bff7046cf5f2@nvidia.com>
+ <03426915-25ea-69b4-bc64-f87f3046d33f@nvidia.com>
+ <aabaecc4-3494-0137-7d2b-853304bfa68b@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <09f20441-fec6-7496-2edc-c69db535e441@nvidia.com>
+Date:   Sat, 25 Apr 2020 18:43:18 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <aabaecc4-3494-0137-7d2b-853304bfa68b@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1587865405; bh=fIaSaG+JMolsYjsCT2iZAB7fnW0LWdosDfY/M747Esc=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=VNtcJaAygaSdM6ObESj0yxBpYZ7JvWDke+X1IU21UvNnQ+0G6Gg5c5GOZbAxGoWZX
+         /B5H8ZUkbIA+Cr9bwz2GochyQ3KGz8ZBNqgtJ1pNUDsl2ZcmEUBql6YpukuyE/SVQq
+         j164MRTWJEw6SRT9gM+HflJQfL3lER3kgtzydbTx388jdaKkyUJUP+ZME7VpsDOcvY
+         TnNKWnR5BDiPH/wkG3O/SRnIlvs++h7qgdmuRnbCz/zrlyvAYYiZXXfSRV3T7FUHiV
+         kiVoAyuBWSzj3bkDssTEeaIM7jikXywGKPK7mnsBityTSFh/hoSPkduxjhZIZpgxg6
+         Q3Q9v+23xrLJw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-tree
-branch HEAD: 4bdbff4da40584ec2225bb429b7c66ad54d19cda  media: tuners: Kconfig: add some missing VIDEO_V4L2 dependencies
 
-Warning in current branch:
+On 4/25/20 6:26 PM, Dmitry Osipenko wrote:
+> External email: Use caution opening links or attachments
+>
+>
+> 26.04.2020 04:08, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> On 4/25/20 5:41 PM, Sowjanya Komatineni wrote:
+>>> On 4/25/20 5:36 PM, Dmitry Osipenko wrote:
+>>>> External email: Use caution opening links or attachments
+>>>>
+>>>>
+>>>> 25.04.2020 12:36, Hans Verkuil =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>> ...
+>>>>>> The media/tegra/ sounds a bit too generic, the media/tegra-vi/ path
+>>>>>> should better reflect the driver, IMO.
+>>>>>>
+>>>>>> It also should be better to name the compiled kernel module as
+>>>>>> tegra-vi,
+>>>>>> IMO.
+>>>>>>
+>>>>> The driver name and the directory should be in sync, so either
+>>>>> tegra-video
+>>>>> or tegra-vi for both. I have no preference myself, as long as they
+>>>>> are the
+>>>>> same.
+>>>>>
+>>>>> This can be done as a follow-up patch.
+>>>> Given that this driver isn't going to be reused by older pre-Tegra210
+>>>> SoCs, perhaps it will also be worthwhile to name it as tegra210-vi or
+>>>> tegra210-video.
+>>> Can you explain what do you meant by can't be reused for pre-tegra210
+>>> or for tegra186/194?
+> It looks to me that at least all those hardcoded HW format IDs do not
+> match the older SoCs.
 
-drivers/media/dvb-frontends/m88ds3103.c:993:6: warning: Variable 'ret' is reassigned a value before the old one has been used. [redundantAssignment]
-drivers/media/platform/qcom/venus/vdec.c:1290:22: warning: The statement 'if (inst->bit_depth!=ev_data->bit_depth) inst->bit_depth=ev_data->bit_depth' is logically equivalent to 'inst->bit_depth=ev_data->bit_depth'. [duplicateConditionalAssign]
+TPG hard coded formats are supported on prior Tegra.
 
-Warning ids grouped by kconfigs:
+Other supported formats are SoC dependent and=C2=A0 part of soc data in the=
+=20
+driver already.
 
-recent_errors
-|-- i386-allmodconfig
-|   |-- drivers-media-dvb-frontends-m88ds3103.c:warning:Variable-ret-is-reassigned-a-value-before-the-old-one-has-been-used.-redundantAssignment
-|   `-- drivers-media-platform-qcom-venus-vdec.c:warning:The-statement-if-(inst-bit_depth-ev_data-bit_depth)-inst-bit_depth-ev_data-bit_depth-is-logically-equivalent-to-inst-bit_depth-ev_data-bit_depth-.-dupl
-`-- x86_64-allyesconfig
-    |-- drivers-media-dvb-frontends-m88ds3103.c:warning:Variable-ret-is-reassigned-a-value-before-the-old-one-has-been-used.-redundantAssignment
-    `-- drivers-media-platform-qcom-venus-vdec.c:warning:The-statement-if-(inst-bit_depth-ev_data-bit_depth)-inst-bit_depth-ev_data-bit_depth-is-logically-equivalent-to-inst-bit_depth-ev_data-bit_depth-.-dupl
+>>> support for other tegra's can be added to same tegra-video driver.
+>>> tegra-video host1x driver can be updated to add other tegra's vi and
+>>> csi compatibles to host1x subdevs and vi and csi driver can be updated
+>>> to add other tegra soc data and need to add coresponding
+>>> tegra186/194/xxx.c file with tegra specific prog sequence
+>>>
+>> Same tegra-video.ko can be used for all tegra soc as driver supports
+>> adding other soc related as well.
+> Well, I'm still not sure why you would want to have all the unnecessary
+> code of a different SoCs shared within the same kernel module, it will
+> be quite be a lot wasted space in comparison to a used part of the driver=
+.
+>
+> The driver will need to have a bit better separation if it's supposed to
+> have a common core for all SoCs. Each incompatible VI/CSI hardware
+> version should have its own kernel module.
 
-elapsed time: 4037m
+currently other Tegra host1x driver (drm) also does similar. Single=20
+module for all Tegra SoCs.
 
-configs tested: 273
-configs skipped: 0
+With current tegra-video, all the v4l2 related common part of=20
+implementation is same for all tegra's and only=20
+tegra210.c/tegra186.c/tegra194.c will have corresponding tegra soc=20
+specific vi/csi programming sequence.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-arm64                            allyesconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm                              allmodconfig
-arm64                             allnoconfig
-arm                               allnoconfig
-arm                           efm32_defconfig
-arm                         at91_dt_defconfig
-arm                        shmobile_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                           sunxi_defconfig
-arm                        multi_v7_defconfig
-arm64                               defconfig
-sparc                            allyesconfig
-ia64                          tiger_defconfig
-parisc                            allnoconfig
-arc                              allyesconfig
-m68k                          multi_defconfig
-sparc64                             defconfig
-ia64                         bigsur_defconfig
-m68k                       m5475evb_defconfig
-sh                  sh7785lcr_32bit_defconfig
-um                           x86_64_defconfig
-mips                           ip32_defconfig
-h8300                       h8s-sim_defconfig
-riscv                    nommu_virt_defconfig
-ia64                              allnoconfig
-mips                  decstation_64_defconfig
-c6x                              allyesconfig
-mips                         tb0287_defconfig
-c6x                        evmc6678_defconfig
-riscv                             allnoconfig
-mips                              allnoconfig
-s390                              allnoconfig
-riscv                          rv32_defconfig
-riscv                            allyesconfig
-xtensa                       common_defconfig
-powerpc                             defconfig
-ia64                                defconfig
-nds32                             allnoconfig
-mips                malta_kvm_guest_defconfig
-nios2                         10m50_defconfig
-powerpc                       ppc64_defconfig
-parisc                           allyesconfig
-ia64                             allyesconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                             alldefconfig
-i386                                defconfig
-i386                              debian-10.3
-ia64                             allmodconfig
-ia64                        generic_defconfig
-ia64                             alldefconfig
-nios2                         3c120_defconfig
-xtensa                          iss_defconfig
-openrisc                 simple_smp_defconfig
-openrisc                    or1ksim_defconfig
-nds32                               defconfig
-csky                                defconfig
-alpha                               defconfig
-h8300                     edosk2674_defconfig
-m68k                             allmodconfig
-h8300                    h8300h-sim_defconfig
-m68k                           sun3_defconfig
-arc                                 defconfig
-powerpc                          rhel-kconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-powerpc                           allnoconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-mips                            ar7_defconfig
-mips                             allyesconfig
-mips                         64r6el_defconfig
-mips                           32r2_defconfig
-mips                             allmodconfig
-mips                       capcella_defconfig
-mips                      loongson3_defconfig
-mips                          ath79_defconfig
-mips                        bcm63xx_defconfig
-parisc                generic-64bit_defconfig
-parisc                generic-32bit_defconfig
-parisc                           allmodconfig
-parisc               randconfig-a001-20200426
-mips                 randconfig-a001-20200426
-alpha                randconfig-a001-20200426
-m68k                 randconfig-a001-20200426
-nds32                randconfig-a001-20200426
-parisc               randconfig-a001-20200424
-alpha                randconfig-a001-20200424
-m68k                 randconfig-a001-20200424
-riscv                randconfig-a001-20200424
-nds32                randconfig-a001-20200424
-parisc               randconfig-a001-20200422
-mips                 randconfig-a001-20200422
-alpha                randconfig-a001-20200422
-m68k                 randconfig-a001-20200422
-riscv                randconfig-a001-20200422
-nds32                randconfig-a001-20200422
-nios2                randconfig-a001-20200424
-c6x                  randconfig-a001-20200424
-h8300                randconfig-a001-20200424
-sparc64              randconfig-a001-20200424
-microblaze           randconfig-a001-20200424
-nios2                randconfig-a001-20200423
-h8300                randconfig-a001-20200423
-c6x                  randconfig-a001-20200423
-sparc64              randconfig-a001-20200423
-microblaze           randconfig-a001-20200423
-nios2                randconfig-a001-20200426
-c6x                  randconfig-a001-20200426
-h8300                randconfig-a001-20200426
-sparc64              randconfig-a001-20200426
-microblaze           randconfig-a001-20200426
-nios2                randconfig-a001-20200425
-c6x                  randconfig-a001-20200425
-h8300                randconfig-a001-20200425
-sparc64              randconfig-a001-20200425
-microblaze           randconfig-a001-20200425
-sh                   randconfig-a001-20200426
-csky                 randconfig-a001-20200426
-s390                 randconfig-a001-20200426
-xtensa               randconfig-a001-20200426
-openrisc             randconfig-a001-20200426
-sh                   randconfig-a001-20200424
-csky                 randconfig-a001-20200424
-s390                 randconfig-a001-20200424
-xtensa               randconfig-a001-20200424
-openrisc             randconfig-a001-20200424
-sh                   randconfig-a001-20200422
-csky                 randconfig-a001-20200422
-s390                 randconfig-a001-20200422
-xtensa               randconfig-a001-20200422
-openrisc             randconfig-a001-20200422
-i386                 randconfig-b002-20200422
-i386                 randconfig-b001-20200422
-x86_64               randconfig-b001-20200422
-i386                 randconfig-b003-20200422
-x86_64               randconfig-b003-20200422
-i386                 randconfig-b002-20200426
-x86_64               randconfig-b001-20200426
-i386                 randconfig-b001-20200426
-i386                 randconfig-b003-20200426
-x86_64               randconfig-b003-20200426
-x86_64               randconfig-a001-20200426
-i386                 randconfig-a003-20200426
-x86_64               randconfig-a003-20200426
-i386                 randconfig-a002-20200426
-i386                 randconfig-a001-20200426
-x86_64               randconfig-a002-20200426
-i386                 randconfig-c002-20200425
-i386                 randconfig-c001-20200425
-x86_64               randconfig-c002-20200425
-x86_64               randconfig-c001-20200425
-i386                 randconfig-c003-20200425
-x86_64               randconfig-c003-20200425
-i386                 randconfig-c002-20200424
-i386                 randconfig-c001-20200424
-x86_64               randconfig-c001-20200424
-i386                 randconfig-c003-20200424
-x86_64               randconfig-c003-20200424
-x86_64               randconfig-d001-20200424
-i386                 randconfig-d002-20200424
-i386                 randconfig-d001-20200424
-x86_64               randconfig-d003-20200424
-i386                 randconfig-d003-20200424
-x86_64               randconfig-d002-20200426
-i386                 randconfig-d002-20200426
-i386                 randconfig-d001-20200426
-i386                 randconfig-d003-20200426
-x86_64               randconfig-d002-20200422
-i386                 randconfig-d002-20200422
-i386                 randconfig-d001-20200422
-i386                 randconfig-d003-20200422
-x86_64               randconfig-a001-20200424
-i386                 randconfig-a003-20200424
-x86_64               randconfig-a003-20200424
-i386                 randconfig-a002-20200424
-i386                 randconfig-a001-20200424
-x86_64               randconfig-a002-20200424
-i386                 randconfig-f002-20200425
-i386                 randconfig-f003-20200425
-x86_64               randconfig-f003-20200425
-i386                 randconfig-f001-20200425
-x86_64               randconfig-f001-20200425
-i386                 randconfig-f002-20200421
-i386                 randconfig-f003-20200421
-x86_64               randconfig-f003-20200421
-i386                 randconfig-f001-20200421
-x86_64               randconfig-f001-20200421
-i386                 randconfig-g003-20200422
-x86_64               randconfig-g001-20200422
-i386                 randconfig-g001-20200422
-x86_64               randconfig-g002-20200422
-i386                 randconfig-g002-20200422
-x86_64               randconfig-g003-20200422
-i386                 randconfig-g003-20200424
-i386                 randconfig-g001-20200424
-x86_64               randconfig-g001-20200424
-x86_64               randconfig-g002-20200424
-i386                 randconfig-g002-20200424
-x86_64               randconfig-g003-20200424
-i386                 randconfig-h003-20200422
-x86_64               randconfig-h001-20200422
-x86_64               randconfig-h003-20200422
-x86_64               randconfig-h002-20200422
-i386                 randconfig-h001-20200422
-i386                 randconfig-h002-20200422
-i386                 randconfig-h003-20200424
-x86_64               randconfig-h001-20200424
-x86_64               randconfig-h003-20200424
-x86_64               randconfig-h002-20200424
-i386                 randconfig-h001-20200424
-i386                 randconfig-h002-20200424
-x86_64               randconfig-a001-20200422
-i386                 randconfig-a003-20200422
-x86_64               randconfig-a003-20200422
-i386                 randconfig-a002-20200422
-i386                 randconfig-a001-20200422
-x86_64               randconfig-a002-20200422
-sparc                randconfig-a001-20200426
-ia64                 randconfig-a001-20200426
-powerpc              randconfig-a001-20200426
-arm                  randconfig-a001-20200426
-arm64                randconfig-a001-20200426
-arc                  randconfig-a001-20200426
-sparc                randconfig-a001-20200425
-ia64                 randconfig-a001-20200425
-powerpc              randconfig-a001-20200425
-arm                  randconfig-a001-20200425
-arc                  randconfig-a001-20200425
-sparc                randconfig-a001-20200423
-ia64                 randconfig-a001-20200423
-arm                  randconfig-a001-20200423
-arm64                randconfig-a001-20200423
-arc                  randconfig-a001-20200423
-sparc                randconfig-a001-20200424
-ia64                 randconfig-a001-20200424
-powerpc              randconfig-a001-20200424
-arm64                randconfig-a001-20200424
-arc                  randconfig-a001-20200424
-sparc                randconfig-a001-20200422
-ia64                 randconfig-a001-20200422
-powerpc              randconfig-a001-20200422
-arm                  randconfig-a001-20200422
-arm64                randconfig-a001-20200422
-arc                  randconfig-a001-20200422
-riscv                               defconfig
-riscv                            allmodconfig
-s390                       zfcpdump_defconfig
-s390                          debug_defconfig
-s390                             allyesconfig
-s390                             allmodconfig
-s390                             alldefconfig
-s390                                defconfig
-sh                          rsk7269_defconfig
-sh                               allmodconfig
-sh                            titan_defconfig
-sh                                allnoconfig
-sparc                               defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                             i386_defconfig
-um                                  defconfig
-x86_64                                   rhel
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
-x86_64                         rhel-7.2-clear
-x86_64                    rhel-7.6-kselftests
-x86_64                               rhel-7.6
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+>> Also was thinking instead of renaming media/tegra as media/tegra-vi,
+>> probably we can rename as media/tegra-video so it will be inline with
+>> module name we already chosen and also mainly we have vi and csi with in
+>> that so instead of tegra-vi probably we can use media/tegra-video?
+> The tegra-video should be okay, although the "video" part sounds a bit
+> too broad since video could mean a lot of things. I think downstream
+> kernel uses (or at least used) the tegra-camera name for the driver,
+> perhaps it could be a reasonable variant as well.
+prior feedback suggests not to use camera variant instead to use video
