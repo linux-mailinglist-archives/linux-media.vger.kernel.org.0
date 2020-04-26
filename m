@@ -2,37 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39B2B1B8B16
-	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2020 04:19:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D4321B8B19
+	for <lists+linux-media@lfdr.de>; Sun, 26 Apr 2020 04:19:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726135AbgDZCTk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 25 Apr 2020 22:19:40 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:6440 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726087AbgDZCTj (ORCPT
+        id S1726228AbgDZCTn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 25 Apr 2020 22:19:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37336 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726087AbgDZCTm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 25 Apr 2020 22:19:39 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ea4efae0000>; Sat, 25 Apr 2020 19:19:26 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sat, 25 Apr 2020 19:19:39 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sat, 25 Apr 2020 19:19:39 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 26 Apr
- 2020 02:19:39 +0000
-Received: from [10.2.165.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 26 Apr
- 2020 02:19:36 +0000
+        Sat, 25 Apr 2020 22:19:42 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A50BBC061A0C;
+        Sat, 25 Apr 2020 19:19:41 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id k28so10918362lfe.10;
+        Sat, 25 Apr 2020 19:19:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=BWBm7/mVEXhWuPVxLsh6N26LOmhjPIMhMvd6hBXqCfU=;
+        b=kHS7cMNq4luW+Dv12Ull6rhXLP8u1mUKeYWf4a9eHUftTkPKfkSTaJU/ba+zrefdpj
+         VF2FOHEUzMBRJq+yeRuGdQNOu9ayMtrJjslLsy+1dhRRMmEBDPuWH+1zoiGcbqJbjhGM
+         GfJWJCSZHsruZIiN0Z6Sj/Zgwqv4nSThbz8vbceGiNtBKXw5FKYqaG6lOohkAK7OkcAv
+         Ma1YRsvpZNR2Qyit/kvL9I15jUwJZbOJ2EqXdsNUhWfk/Io2H2bwsM7rJsADulBiYXvU
+         tERTwxsgEUGMuenrSGwC7unQmXMCoxINzx+9P/iaVfjgg3dFLBlfCesgPHT928Pd6JHj
+         lwZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=BWBm7/mVEXhWuPVxLsh6N26LOmhjPIMhMvd6hBXqCfU=;
+        b=B2mi2P4Mb4ftczRff4ytt7HYnHOx+v8mMhvnbjqfR2MHZP/3ASgx0v5lZZLenynA12
+         HDEKIZIIPHpWgob3d14fEFdW3iaqmoOlkAiX0Twg5jRvPE9CEdav5Dk+o3v41qkro+oU
+         ugAuMjxFO0UrvBnN52OYSJ6DkI8bes2k+FcQ72c4Q9+C5GC9JG4GBFtx1ZIjxNaN9lgn
+         l2Nw13fo7V9VbEYX2enLBYFcU8GFJ+TDtaZQjK0s/IfxAjHtU7PVXiJM0pqsBC7H+Wjh
+         Yb/HSgUsX7ESwIqH1EZ2lX7UmYmAUPcczpoQMx6RIMj5xVuzkb+vfZV4DSpGfw9R03aF
+         mTkA==
+X-Gm-Message-State: AGi0Pub4NAbxfNlFx4toNgkbDf1Bkp+vgokKi5XuHjK8hWwxuxMm/WvF
+        EBT76PaJNKoo4K5vvhZYjH/J1Bu/
+X-Google-Smtp-Source: APiQypIIxxRdfeo5otCtYYxQleaZuzDb4kY/HNsRdUV71uYhG5rPdIMCDsU5BdLOfKFFBtQFEgHqsQ==
+X-Received: by 2002:a19:a411:: with SMTP id q17mr11374733lfc.214.1587867579759;
+        Sat, 25 Apr 2020 19:19:39 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id j22sm7061153ljh.107.2020.04.25.19.19.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Apr 2020 19:19:39 -0700 (PDT)
 Subject: Re: [RFC PATCH v10 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Dmitry Osipenko <digetx@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
-        <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, frankc@nvidia.com, sakari.ailus@iki.fi,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <1587700513-28449-1-git-send-email-skomatineni@nvidia.com>
  <1587700513-28449-7-git-send-email-skomatineni@nvidia.com>
  <6ca93ff9-ca59-544f-767c-4355d01a5c20@gmail.com>
@@ -43,84 +68,31 @@ References: <1587700513-28449-1-git-send-email-skomatineni@nvidia.com>
  <aabaecc4-3494-0137-7d2b-853304bfa68b@gmail.com>
  <09f20441-fec6-7496-2edc-c69db535e441@nvidia.com>
  <61799fab-858c-8b0d-ba7d-846cd041e044@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <3a9707b5-b260-6137-f475-fc88d271010f@nvidia.com>
-Date:   Sat, 25 Apr 2020 19:19:13 -0700
+Message-ID: <99a5c82a-bd84-5c80-e6d7-7b6f2858aa78@gmail.com>
+Date:   Sun, 26 Apr 2020 05:19:38 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
 In-Reply-To: <61799fab-858c-8b0d-ba7d-846cd041e044@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1587867566; bh=1MfBi+G+LzJwO7xglD1bMaMrBMfEyvyC00SZ3J576ts=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=fY2iSJMCEw10PSKDcovUub9kfACa3tIE/BFOdRshAJIAOLC8dWOAPfb2HoqdKbclv
-         Gr0zglJtPtla6eqepenN4yZG9oiYZVvRpifH8AElavOEXAfdKkFxHVVHei7Upo8PU4
-         1F4cZlfWmP8HD1vEcstmkjW+Nj9GnQnsY+xvVzyCOh74XU/YY0Ak4rPzhMzwD0Kpss
-         Q8bFK9m32OZ8jMPh36lnLRpZVPAi1vectuPSlADVbFW72UyMNG3xb2ZDmtU93613oC
-         BRDeSfKxWsLsgaIOYp2WWjTzyo/0tQFEPCMV67hfkoZdRXnU6lq/mywqeOFc/nTgDT
-         UDV7WJ7r/GjYg==
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On 4/25/20 7:10 PM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
->
->
-> 26.04.2020 04:43, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> ...
->>> It looks to me that at least all those hardcoded HW format IDs do not
->>> match the older SoCs.
->> TPG hard coded formats are supported on prior Tegra.
->>
->> Other supported formats are SoC dependent and  part of soc data in the
->> driver already.
-> But I don't see where that SoC-dependent definition is made in
-> terga210.c. That tegra_image_format enum looks T210-specific, isn't it?
->
-> ...
-
-Video formats which are SoC variants are made soc specific in driver=20
-already tegra_vi_soc structure member video_formats
-
-tegra_image_format enum is same for T210 and T186
-
-For T194, enums will be diff and will have diff TEGRA194_VIDEO_FORMAT=20
-using corresponding Tegra194 video format enums
-
->>> The driver will need to have a bit better separation if it's supposed t=
-o
->>> have a common core for all SoCs. Each incompatible VI/CSI hardware
->>> version should have its own kernel module.
+26.04.2020 05:10, Dmitry Osipenko пишет:
+...
 >> currently other Tegra host1x driver (drm) also does similar. Single
 >> module for all Tegra SoCs.
+> 
 > DRM driver has a proper separation of the sub-drivers where sub-driver
 > won't load on unsupported hardware. The tegra-video driver should do the
 > same, i.e. VI and CSI should be individual drivers (and not OPS). There
 > could be a some common core, but for now it's not obvious to me what
 > that core should be, maybe just the video.c.
->
->> With current tegra-video, all the v4l2 related common part of
->> implementation is same for all tegra's and only
->> tegra210.c/tegra186.c/tegra194.c will have corresponding tegra soc
->> specific vi/csi programming sequence.
-> This code shouldn't be shared within the same driver module, IMO.
->
->
->>> The tegra-video should be okay, although the "video" part sounds a bit
->>> too broad since video could mean a lot of things. I think downstream
->>> kernel uses (or at least used) the tegra-camera name for the driver,
->>> perhaps it could be a reasonable variant as well.
->> prior feedback suggests not to use camera variant instead to use video
-> Alright, then the tegra-video should be fine.
+
+Maybe video.c csi.c vi.c could be moved into a separate module, somewhat
+like a common driver framework. Then the individual CSI/VI drivers will
+use those common helpers.. Just a quick thought.
