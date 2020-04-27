@@ -2,62 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7032E1BA702
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2020 16:55:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DAAC1BA728
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2020 17:02:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728067AbgD0Ozc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Apr 2020 10:55:32 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:53664 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726651AbgD0Ozc (ORCPT
+        id S1727794AbgD0PCF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Apr 2020 11:02:05 -0400
+Received: from mail-il1-f197.google.com ([209.85.166.197]:42328 "EHLO
+        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727006AbgD0PCF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Apr 2020 10:55:32 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 387AD634C8D;
-        Mon, 27 Apr 2020 17:54:40 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1jT59b-0001w9-Nd; Mon, 27 Apr 2020 17:54:39 +0300
-Date:   Mon, 27 Apr 2020 17:54:39 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joe Perches <joe@perches.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [PATCH 1/1] lib/vsprintf: Add support for printing V4L2 and DRM
- fourccs
-Message-ID: <20200427145439.GR934@valkosipuli.retiisi.org.uk>
-References: <20200427145007.29736-1-sakari.ailus@linux.intel.com>
+        Mon, 27 Apr 2020 11:02:05 -0400
+Received: by mail-il1-f197.google.com with SMTP id l16so19692206ilf.9
+        for <linux-media@vger.kernel.org>; Mon, 27 Apr 2020 08:02:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=TfUPXfE+cTIMWHEFg4Dl9b/oLW/Udq/MPl9VKXgMmok=;
+        b=AaV2ksF/Ol/N9l3V7GFvCdfkJNciecySIdNsZ0ZgWbeoil/h+X5fTEdWXKF4JUHCNG
+         /YEGa+AKX0bQWcZxYgpv4ajBed2o3+ROEPk+RhuMZ+u2lNIIQbd+gF3khLpV5/T1G7nb
+         9TIWBM38zV9BgNkqarQfUyCcKTXQx8npOqCV3s9b7c8Ieeo6z1IvxvsCLwzb8kWY6QDx
+         JzFkX/cOEJgJoJfm5PfjiowWMryUM5xaO1xoIMyTb2JkrmkokKqiMPlevWYgveFE11xD
+         roHXvti56ImdX8KD3d7VNvuvEcBU+sk40ZEIjZhqd41KeVGULNw20Y9PZrkFhRe/Homi
+         1RGQ==
+X-Gm-Message-State: AGi0Pual0GcApXBSu/810ZkWvB5XY+NVcn8mvmfD5Md0k3HBg7av8zHB
+        LyYSMvUmvQv0ETvPk4dsuzd+wS30Z1iTlmEcUkRegN+NmiUn
+X-Google-Smtp-Source: APiQypL38u/Fn/pFodfcLRM1XK4BHxaVuMTFystRgZIhu07N9kJA6Yq8V9okZv7VSqr1LnfCu93YVrBkOZXUvBvnmUfJyxrixMPE
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200427145007.29736-1-sakari.ailus@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Received: by 2002:a5d:85d7:: with SMTP id e23mr21430309ios.174.1587999723210;
+ Mon, 27 Apr 2020 08:02:03 -0700 (PDT)
+Date:   Mon, 27 Apr 2020 08:02:03 -0700
+In-Reply-To: <CAAEAJfAnMeZw3H3PJccpJTEME877i3=21CehykkSgnSnCZbOVQ@mail.gmail.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000067d2de05a446ffb5@google.com>
+Subject: Re: KASAN: use-after-free Read in vkms_dumb_create
+From:   syzbot <syzbot+e3372a2afe1e7ef04bc7@syzkaller.appspotmail.com>
+To:     airlied@linux.ie, daniel@ffwll.ch, dri-devel@lists.freedesktop.org,
+        ezequiel@vanguardiasur.com.ar, hamohammed.sa@gmail.com,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, rodrigosiqueiramelo@gmail.com,
+        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 27, 2020 at 05:50:07PM +0300, Sakari Ailus wrote:
-> Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
-> pixel formats denoted by fourccs. The fourcc encoding is the same for both
-> so the same implementation can be used.
-> 
-> Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Hello,
 
-Please ignore this one.
+syzbot tried to test the proposed patch but build/boot failed:
 
--- 
-Sakari Ailus
+failed to apply patch:
+checking file drivers/gpu/drm/vkms/vkms_gem.c
+patch: **** unexpected end of file in patch
+
+
+
+Tested on:
+
+commit:         c578ddb3 Merge tag 'linux-kselftest-5.7-rc3' of git://git...
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+dashboard link: https://syzkaller.appspot.com/bug?extid=e3372a2afe1e7ef04bc7
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+patch:          https://syzkaller.appspot.com/x/patch.diff?x=165806efe00000
+
