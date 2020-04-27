@@ -2,43 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0808F1BB165
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 00:12:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC0711BB1C9
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 01:02:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726253AbgD0WMx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Apr 2020 18:12:53 -0400
-Received: from mail1.protonmail.ch ([185.70.40.18]:18099 "EHLO
-        mail1.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725998AbgD0WMw (ORCPT
+        id S1726259AbgD0XCx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Apr 2020 19:02:53 -0400
+Received: from mail2.protonmail.ch ([185.70.40.22]:42127 "EHLO
+        mail2.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726204AbgD0XCx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Apr 2020 18:12:52 -0400
-Date:   Mon, 27 Apr 2020 22:12:41 +0000
+        Mon, 27 Apr 2020 19:02:53 -0400
+Date:   Mon, 27 Apr 2020 23:02:42 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1588025566;
-        bh=DYCuiuKPBBkEr3iJsKakDERZQBlOgZSxnVMeB5WxUYI=;
-        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
-        b=UPw4k7kt7irmUwsOK7H6HcWWyJU095QTGSCxXmPbmgm/vJZtDQ4x9IXo551MZFviN
-         wNmwOFyFa7+dIWRwgZDINQ3KJf/RMtlGWXOYyOoQBjWsyVKq/kqRrFr4wjwVyV8SBU
-         EEPXfK8B063GsvdXoI09U7wwbqTzga4DZDh/1+AA=
-To:     Helen Koike <helen.koike@collabora.com>
+        s=protonmail; t=1588028569;
+        bh=j/6gQ7g8eXIunOpgenLWkuAMisfz4Ev0v5T6VrKg0bQ=;
+        h=Date:To:From:Cc:Reply-To:Subject:From;
+        b=YC79boMjvYrTIFrpPt5gAAIPjDD9ySNxBuCesHL7N+zfWnmLoeAQ0XavTFma+TtPa
+         WJ5uw4Qyf0Of/FEnCtSPSkCGAuG7cWfVAGKCasUTPOT6RthonRJnzO+EFGx3SUoHqF
+         /VR06P9UfLZSE8PJz0pfqB8WbROtqlaHYCY+rkqo=
+To:     linux-media@vger.kernel.org
 From:   =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
         <nfraprado@protonmail.com>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        linux-media@vger.kernel.org,
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org
 Reply-To: =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
           <nfraprado@protonmail.com>
-Subject: Re: [PATCH v2 3/3] media: vimc: deb: Add support for {RGB,BGR,GBR}888 bus formats on source pad
-Message-ID: <20200427221212.ito2n77c2uwulek2@ArchWay.local>
-In-Reply-To: <64a28b0a-f4fc-2623-ac42-d7ebec52ceba@collabora.com>
-References: <20200326214730.2449707-1-nfraprado@protonmail.com>
- <20200326214730.2449707-4-nfraprado@protonmail.com>
- <b5bc6ab8-274a-adc7-9d86-a91a1efb8805@linuxfoundation.org>
- <ae9fdf85-7129-e1ad-a377-bda0808545c1@collabora.com>
- <20200420210135.bmca5qw5ilaavuo6@ArchWay.local>
- <64a28b0a-f4fc-2623-ac42-d7ebec52ceba@collabora.com>
+Subject: [PATCH v3 0/3] media: vimc: Add support for {RGB,BGR,GBR}888 bus formats on debayer source pad
+Message-ID: <20200427230234.3114565-1-nfraprado@protonmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
@@ -51,299 +44,94 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 20, 2020 at 06:04:25PM -0300, Helen Koike wrote:
->=20
->=20
->=20
-> On 4/20/20 6:01 PM, N=C3=ADcolas F. R. A. Prado wrote:
-> > Hi Helen,
-> >
-> > thanks for the review.
-> >
-> > Some comments below.
-> >
-> > On Mon, Mar 30, 2020 at 04:43:53PM -0300, Helen Koike wrote:
-> >>
-> >> Hello,
-> >>
-> >> On 3/26/20 7:06 PM, Shuah Khan wrote:
-> >>> On 3/26/20 3:47 PM, N=C3=ADcolas F. R. A. Prado wrote:
-> >>>> Add support for RGB888_*, BGR888_* and GBR888_* media bus formats on
-> >>>> the source pad of debayer subdevices.
-> >>>>
-> >>>> Co-developed-by: Vitor Massaru Iha <vitor@massaru.org>
-> >>>> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> >>>> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com=
->
-> >>>> ---
-> >>>>
-> >>>> Changes in v2:
-> >>>> - Change commit message to reflect v2 changes
-> >>>> - Rename variables
-> >>>> - Fix array formatting
-> >>>> - Add vimc_deb_is_src_code_valid function
-> >>>> - Add other BGR888 and RGB888 formats to debayer source pad supporte=
-d
-> >>>> =C2=A0=C2=A0 formats
-> >>>>
-> >>>> =C2=A0 drivers/media/platform/vimc/vimc-debayer.c | 61 +++++++++++++=
-++++-----
-> >>>> =C2=A0 1 file changed, 49 insertions(+), 12 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/media/platform/vimc/vimc-debayer.c b/drivers/me=
-dia/platform/vimc/vimc-debayer.c
-> >>>> index baf6bf9f65b5..33a9bea770bc 100644
-> >>>> --- a/drivers/media/platform/vimc/vimc-debayer.c
-> >>>> +++ b/drivers/media/platform/vimc/vimc-debayer.c
-> >>>> @@ -51,6 +51,19 @@ static const struct v4l2_mbus_framefmt sink_fmt_d=
-efault =3D {
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .colorspace =3D V4L2_COLORSPACE_DEFAU=
-LT,
-> >>>> =C2=A0 };
-> >>>> =C2=A0 +static const u32 vimc_deb_src_mbus_codes[] =3D {
-> >>>> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_GBR888_1X24,
-> >>>> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_BGR888_1X24,
-> >>>> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_BGR888_3X8,
-> >>>> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_RGB888_1X24,
-> >>>> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_RGB888_2X12_BE,
-> >>>> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_RGB888_2X12_LE,
-> >>>> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_RGB888_3X8,
-> >>>> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-> >>>> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
-> >>>> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_RGB888_1X32_PADHI,
-> >>>> +};
-> >>>> +
-> >>>> =C2=A0 static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] =
-=3D {
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .code =3D MED=
-IA_BUS_FMT_SBGGR8_1X8,
-> >>>> @@ -125,6 +138,17 @@ static const struct vimc_deb_pix_map *vimc_deb_=
-pix_map_by_code(u32 code)
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
-> >>>> =C2=A0 }
-> >>>> =C2=A0 +static int vimc_deb_is_src_code_invalid(u32 code)
-> >>>> +{
-> >>>> +=C2=A0=C2=A0=C2=A0 unsigned int i;
-> >>>> +
-> >>>> +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < ARRAY_SIZE(vimc_deb_src_mbus_c=
-odes); i++)
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (vimc_deb_src_mbus_co=
-des[i] =3D=3D code)
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 return 0;
-> >>>> +
-> >>>> +=C2=A0=C2=A0=C2=A0 return -EINVAL;
-> >>>> +}
-> >>
-> >> The naming is a bit confusing, since it checks if it is invalid, but r=
-eturns a negative number if so.
-> >>
-> >> How about renaming to vimc_deb_src_code_is_valid ?
-> >
-> > I also don't like that the function is called 'is_invalid', but I gave =
-it that
-> > name because I think it actually is less confusing when calling.
-> > For example, later in this patch I do:
-> >
-> > =C2=A0=C2=A0=C2=A0 } else if (vimc_deb_is_src_code_invalid(fse->code)) =
-{
-> >         return -EINVAL;
-> >
-> > Which to me becomes very clear.
-> >
-> > Since the error values evaluate to True, the other alternative that I
-> > see is to call it 'is_valid', but return 0 when invalid and 1 when vali=
-d.
-> > But then we no longer return the -EINVAL value, which I think makes the=
- function
-> > less clear.
-> >
-> > What do you think?
->=20
-> How about make the function to return bool instead of int?
+This patch series adds support for the missing RGB888_*, BGR888_* and GBR88=
+8_*
+media bus formats on the source pad of debayer subdevices of the vimc drive=
+r.
+These additional bus formats enable a wider range of formats to be configur=
+ed
+on the topologies, making it possible to test more real use cases.
+It also enables video to be streamed in the BGR pixelformat on /dev/video3.
 
-Oh that's better, I didn't realize there was a bool type.
-I'll send a v3 using bool then.
+The first patch makes it possible to have multiple media bus codes mapping =
+to
+the same pixelformat, so that, for example, all RGB888_* media bus formats =
+use
+the same RGB24 pixelformat.
 
-Thank you,
-N=C3=ADcolas
+The second patch maps the missing RGB888_*, BGR888_* and GBR888_* media bus
+codes to the RGB24 and BGR24 pixelformats.
+Since there isn't a GBR24 pixelformat, the GBR888_1X24 bus code maps to the
+RGB24 pixelformat.
 
->=20
-> Regards,
-> Helen
->=20
-> >
-> > Thank you,
-> > N=C3=ADcolas
-> >
-> >>
-> >>>> +
-> >>>> =C2=A0 static int vimc_deb_init_cfg(struct v4l2_subdev *sd,
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev_pad_config=
- *cfg)
-> >>>> =C2=A0 {
-> >>>> @@ -148,14 +172,11 @@ static int vimc_deb_enum_mbus_code(struct v4l2=
-_subdev *sd,
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subde=
-v_pad_config *cfg,
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subde=
-v_mbus_code_enum *code)
-> >>>> =C2=A0 {
-> >>>> -=C2=A0=C2=A0=C2=A0 /* We only support one format for source pads */
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (VIMC_IS_SRC(code->pad)) {
-> >>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vimc_deb_device *=
-vdeb =3D v4l2_get_subdevdata(sd);
-> >>>> -
-> >>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (code->index)
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (code->index >=3D ARR=
-AY_SIZE(vimc_deb_src_mbus_codes))
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 return -EINVAL;
-> >>>> =C2=A0 -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 code->code =3D vd=
-eb->src_code;
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 code->code =3D vimc_deb_=
-src_mbus_codes[code->index];
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (code->ind=
-ex >=3D ARRAY_SIZE(vimc_deb_pix_map_list))
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 return -EINVAL;
-> >>>> @@ -170,8 +191,6 @@ static int vimc_deb_enum_frame_size(struct v4l2_=
-subdev *sd,
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2=
-_subdev_pad_config *cfg,
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2=
-_subdev_frame_size_enum *fse)
-> >>>> =C2=A0 {
-> >>>> -=C2=A0=C2=A0=C2=A0 struct vimc_deb_device *vdeb =3D v4l2_get_subdev=
-data(sd);
-> >>>> -
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (fse->index)
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVA=
-L;
-> >>>> =C2=A0 @@ -181,7 +200,7 @@ static int vimc_deb_enum_frame_size(struc=
-t v4l2_subdev *sd,
-> >>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!v=
-pix)
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 return -EINVAL;
-> >>>> -=C2=A0=C2=A0=C2=A0 } else if (fse->code !=3D vdeb->src_code) {
-> >>>> +=C2=A0=C2=A0=C2=A0 } else if (vimc_deb_is_src_code_invalid(fse->cod=
-e)) {
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVA=
-L;
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> >>>> =C2=A0 @@ -237,6 +256,7 @@ static int vimc_deb_set_fmt(struct v4l2_s=
-ubdev *sd,
-> >>>> =C2=A0 {
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vimc_deb_device *vdeb =3D v4l2=
-_get_subdevdata(sd);
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_mbus_framefmt *sink_fmt;
-> >>>> +=C2=A0=C2=A0=C2=A0 u32 *src_code;
-> >>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (fmt->which =3D=3D V4L2_SUB=
-DEV_FORMAT_ACTIVE) {
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Do not cha=
-nge the format while stream is on */
-> >>>> @@ -244,8 +264,10 @@ static int vimc_deb_set_fmt(struct v4l2_subdev =
-*sd,
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 return -EBUSY;
-> >>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sink_f=
-mt =3D &vdeb->sink_fmt;
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 src_code =3D &vdeb->src_=
-code;
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sink_fmt =3D =
-v4l2_subdev_get_try_format(sd, cfg, 0);
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 src_code =3D &v4l2_subde=
-v_get_try_format(sd, cfg, 1)->code;
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> >>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
-> >>>> @@ -253,9 +275,14 @@ static int vimc_deb_set_fmt(struct v4l2_subdev =
-*sd,
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * it is propagated from the sin=
-k
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (VIMC_IS_SRC(fmt->pad)) {
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u32 code =3D fmt->format=
-.code;
-> >>>> +
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->format =
-=3D *sink_fmt;
-> >>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* TODO: Add support for=
- other formats */
-> >>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->format.code =3D vde=
-b->src_code;
-> >>>> +
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!vimc_deb_is_src_cod=
-e_invalid(code))
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 *src_code =3D code;
-> >>>> +
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->format.code =3D *sr=
-c_code;
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Set the ne=
-w format in the sink pad */
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vimc_deb_adju=
-st_sink_fmt(&fmt->format);
-> >>>> @@ -291,11 +318,21 @@ static void vimc_deb_set_rgb_mbus_fmt_rgb888_1=
-x24(struct vimc_deb_device *vdeb,
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int col,
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int rgb[3])
-> >>>
-> >>> Change this to pass a pointer and size.
-> >>
-> >> Hi Shuah,
-> >>
-> >> Modifying vimc_deb_set_rgb_mbus_fmt_rgb888_1x24() is not part of this =
-patch, or do you mean another part of the code?
-> >>
-> >> Thanks for reviewing
-> >> Helen
-> >>
-> >>>
-> >>>> =C2=A0 {
-> >>>> +=C2=A0=C2=A0=C2=A0 const struct vimc_pix_map *vpix;
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int i, index;
-> >>>> =C2=A0 +=C2=A0=C2=A0=C2=A0 vpix =3D vimc_pix_map_by_code(vdeb->src_c=
-ode);
-> >>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 index =3D VIMC_FRAME_INDEX(lin, col, =
-vdeb->sink_fmt.width, 3);
-> >>>> -=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < 3; i++)
-> >>>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vdeb->src_frame[index + =
-i] =3D rgb[i];
-> >>>> +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < 3; i++) {
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (vpix->pixelforma=
-t) {
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case V4L2_PIX_FMT_RGB24:
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 vdeb->src_frame[index + i] =3D rgb[i];
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 break;
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case V4L2_PIX_FMT_BGR24:
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 vdeb->src_frame[index + i] =3D rgb[2-i];
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 break;
-> >>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> >>>> +=C2=A0=C2=A0=C2=A0 }
-> >>>> =C2=A0 }
-> >>>> =C2=A0 =C2=A0 static int vimc_deb_s_stream(struct v4l2_subdev *sd, i=
-nt enable)
-> >>>>
-> >>>
-> >>> thanks,
-> >>> -- Shuah
-> >
+The third patch enables the source pad of the debayer subdevice to use the
+added media bus formats.
+
+This patch series passed all tests of v4l2-compliance:
+$ compliance_git -m /dev/media0
+v4l2-compliance SHA: 81e45d957c4db39397f893100b3d2729ef39b052, 64 bits, 64-=
+bit time_t
+Grand Total for vimc device /dev/media0: 461, Succeeded: 461, Failed: 0, Wa=
+rnings: 0
+
+As a side note, when listing the pads containing the new formats added, I
+noticed that MEDIA_BUS_FMT_RGB888_3X8 doesn't have its name displayed by
+v4l2-ctl, but from my understanding that should be a bug in v4l-utils.
+
+$ v4l2-ctl -d /dev/v4l-subdev2 --list-subdev-mbus-codes 1
+ioctl: VIDIOC_SUBDEV_ENUM_MBUS_CODE (pad=3D1)
+=090x1014: MEDIA_BUS_FMT_GBR888_1X24
+=090x1013: MEDIA_BUS_FMT_BGR888_1X24
+=090x101b: MEDIA_BUS_FMT_BGR888_3X8
+=090x100a: MEDIA_BUS_FMT_RGB888_1X24
+=090x100b: MEDIA_BUS_FMT_RGB888_2X12_BE
+=090x100c: MEDIA_BUS_FMT_RGB888_2X12_LE
+=090x101c
+=090x1011: MEDIA_BUS_FMT_RGB888_1X7X4_SPWG
+=090x1012: MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA
+=090x100f: MEDIA_BUS_FMT_RGB888_1X32_PADHI
+
+Changes in v3:
+- Make loop in vimc_mbus_code_by_index() clearer by using break instead of =
+if
+- Suggested by Helen:
+    - Rename vimc_deb_is_src_code_invalid() to vimc_deb_src_code_is_valid()
+    - Change vimc_deb_src_code_is_valid() to return bool
+- Suggested by Shuah:
+    - Use VIMC_PIX_FMT_MAX_CODES define instead of hardcoded value for the
+      size of code array in struct vimc_pix_map
+
+Changes in v2:
+- Fix vimc_mbus_code_by_index not checking code array bounds
+- Change commit messages to reflect v2 changes
+- Suggested by Helen:
+    - Rename variables
+    - Fix array formatting
+    - Change code array size
+    - Add comment about vimc_mbus_code_by_index return value
+    - Add vimc_deb_is_src_code_valid function
+    - Add other BGR888 and RGB888 formats to BGR24 and RGB24 pixelformats
+    - Add other BGR888 and RGB888 formats to debayer source pad supported
+      formats
+- Suggested by Ezequiel:
+    - Change cover letter to better explain this patch series
+
+You can find v1 here: https://patchwork.linuxtv.org/cover/61391/
+
+N=C3=ADcolas F. R. A. Prado (3):
+  media: vimc: Support multiple media bus codes for each pixelformat
+  media: vimc: Add missing {RGB,BGR,GBR}888 media bus codes
+  media: vimc: deb: Add support for {RGB,BGR,GBR}888 bus formats on
+    source pad
+
+ drivers/media/test-drivers/vimc/vimc-common.c | 83 +++++++++++++------
+ drivers/media/test-drivers/vimc/vimc-common.h | 13 ++-
+ .../media/test-drivers/vimc/vimc-debayer.c    | 61 +++++++++++---
+ drivers/media/test-drivers/vimc/vimc-scaler.c | 10 ++-
+ drivers/media/test-drivers/vimc/vimc-sensor.c |  6 +-
+ 5 files changed, 129 insertions(+), 44 deletions(-)
+
+--=20
+2.26.1
+
 
