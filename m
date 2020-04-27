@@ -2,185 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 462A91B97F7
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2020 09:03:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60E951B9939
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2020 10:02:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726429AbgD0HDd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Apr 2020 03:03:33 -0400
-Received: from www52.your-server.de ([213.133.104.52]:46750 "EHLO
-        www52.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726221AbgD0HDc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Apr 2020 03:03:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=burnicki.net; s=default1902; h=Content-Transfer-Encoding:Content-Type:
-        In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender
-        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=exsF3pioNayT4kFt3RiF0UYE5529aEfhEsYbxF2emK8=; b=hK2qqnRmvwfH9kxojbavruSnHg
-        /x46F3S+imMXMa79pXdRFUlzEyvScivOIVEdC7tCNAvlmBi0gKkLb/FsudbHCbGA87uhy3CSWGf/C
-        8DZd6M/LyJlCBzz18BVaGgUYo8sY6uprfBjidlPhbXK0J7St9xWhPpgz4LSUmpQQOxP2pQGEvxwcv
-        M8qI4N1GFxW9ReWqBOrCDx8qO7bVUF348ahVii0Pe0Q2bdi6AVIYwmbKIcEDVlg/ij2wAqrEgAx/X
-        EPHVCsGd8KO8J0ZSg9xzv0uFzD9ChxnrLvJtldoWvnZ68Um9Y5wAVj6PXUh8wKavQTcMNH8hAC9fz
-        wP65wMIw==;
-Received: from sslproxy03.your-server.de ([88.198.220.132])
-        by www52.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
-        (Exim 4.89_1)
-        (envelope-from <martin.burnicki@burnicki.net>)
-        id 1jSxnc-00069m-0l; Mon, 27 Apr 2020 09:03:28 +0200
-Received: from [2a02:8108:98bf:e274:4d82:1183:1695:f1f5]
-        by sslproxy03.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <martin.burnicki@burnicki.net>)
-        id 1jSxnY-000SVp-VW; Mon, 27 Apr 2020 09:03:27 +0200
-Subject: Re: HauppaugeTV-quadHD DVB-T mpeg risc op code error
-From:   Martin Burnicki <martin.burnicki@burnicki.net>
-To:     Sean Young <sean@mess.org>
-Cc:     Rolf Pedersen <rolfpedersen@mindspring.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Brad Love <brad@nextdimension.cc>
-References: <0c0ab661-17bb-231a-7311-c35d8d0435c0@mindspring.com>
- <20200423153505.GA22057@gofer.mess.org>
- <686f60be-7a37-42ce-b4c0-b34cf54055e7@mindspring.com>
- <20200423155908.GA22613@gofer.mess.org>
- <bc0644cd-3438-6505-d438-8f3f71347ccb@mindspring.com>
- <20200423163559.GB23006@gofer.mess.org>
- <0cd2436c-0a39-0f85-929e-5d8f333b5027@burnicki.net>
- <20200425114147.GA3037@gofer.mess.org>
- <4aa38e2a-6b98-6530-69d9-d945a467bf0b@burnicki.net>
-Autocrypt: addr=martin.burnicki@burnicki.net; keydata=
- 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
- fPTIMcWxGmfGPw==
-Message-ID: <1a2d9e15-55e2-88a7-d197-208a8ce99218@burnicki.net>
-Date:   Mon, 27 Apr 2020 09:03:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <4aa38e2a-6b98-6530-69d9-d945a467bf0b@burnicki.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+        id S1726496AbgD0ICb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Apr 2020 04:02:31 -0400
+Received: from mail-mw2nam10on2057.outbound.protection.outlook.com ([40.107.94.57]:6088
+        "EHLO NAM10-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726003AbgD0ICa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 27 Apr 2020 04:02:30 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=eunK4BtvvyrpfHkNqSVf/O4SKWpKltbLhwsiXYtL4r51iiZAgLcDVTKgpipReO78iOGnAkuOYlMqeTbla+RXDvrCJem7OnjJEJSdIXAzgQjdkA+WQGde3dI1oGNxTNmD/orxTDo1p6lW8v37soynYTzobpx86kCy7Hax9aTGvOYBcOx4S0OveCAd/vM/8Gwj6L6m1Ov9O04GSXZFdau3baSlcd6KL2i6cI0i3ZoTgdsIukUlZFzrq1T4xN+FFRF60VbR2EO2UgY1ODT1+SyvKBUU+alloXt5DWPpiQJ46ILkDPT4zf2FSZtUH4xx7nVSDIV3iNa6svX9Svz6+ouU9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bfAuTqNdZrxCCoiSEe+Wf0k2MuD/uf7U4RsxgDeBmn8=;
+ b=C377x//CPqC+SKKzCt2F5xhQXgfDEWPQ4rST38YGHcLSrfLQhuMdvfVddLyrcXMibAGGcenquhC9ZHO64ISJF9UgNJcnkNS6isviqXcctapSIKO33tqNEvG6AvJnQCMES/Rww9+FSe7WytnQwxKuRkJ/EL9n0+L/lPAzdWZgX6ytG+uDk2hgp5QuAXYnWJj+xKM/D8Zg1nnipbcqKXVZ9gfihRXbXrZ7bhvMnSoukgBdq4mtkg0xi6QTKHMHOdOF04de4rKNDt5lwgbtiW7ZFwGcCtzU86wkunogalUxX7vsF5y3a7cCn1EJ8WvDY6KU75avBT4gwUfEGjgVNndE2A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bfAuTqNdZrxCCoiSEe+Wf0k2MuD/uf7U4RsxgDeBmn8=;
+ b=RWcxERoXtHifnUjyDKb9JsvJGWqVsC9BKSiprpr/HrtGQDZ2VHoPXy5AqpTbbGTzLXm2WzNt41bllXqR+AHbCZjKG9Rogw/Go2BN2d2c7YDM7w6tWbuINXuleVWSh+Am8/41tr3macBKlmtFjIHYI4f6bq1FDPX6Mc7L/DACfqM=
+Authentication-Results: spf=none (sender IP is )
+ smtp.mailfrom=Christian.Koenig@amd.com; 
+Received: from DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15)
+ by DM6PR12MB4564.namprd12.prod.outlook.com (2603:10b6:5:2a9::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13; Mon, 27 Apr
+ 2020 08:02:28 +0000
+Received: from DM6PR12MB4401.namprd12.prod.outlook.com
+ ([fe80::7949:b580:a2d5:f766]) by DM6PR12MB4401.namprd12.prod.outlook.com
+ ([fe80::7949:b580:a2d5:f766%3]) with mapi id 15.20.2937.023; Mon, 27 Apr 2020
+ 08:02:27 +0000
+Subject: Re: [PATCH] drm/amdgpu: remove conversion to bool in amdgpu_device.c
+To:     Jason Yan <yanaijie@huawei.com>, alexander.deucher@amd.com,
+        David1.Zhou@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, amd-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20200427063655.21169-1-yanaijie@huawei.com>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <69374bbb-7e17-8b3a-8a24-591de2c55ee3@amd.com>
+Date:   Mon, 27 Apr 2020 10:02:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+In-Reply-To: <20200427063655.21169-1-yanaijie@huawei.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Authenticated-Sender: mailout@burnicki.net
-X-Virus-Scanned: Clear (ClamAV 0.102.2/25794/Sun Apr 26 14:01:10 2020)
+Content-Language: en-US
+X-ClientProxiedBy: AM0PR01CA0126.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:168::31) To DM6PR12MB4401.namprd12.prod.outlook.com
+ (2603:10b6:5:2a9::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM0PR01CA0126.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2937.13 via Frontend Transport; Mon, 27 Apr 2020 08:02:25 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 0fa1a210-ff05-4229-9595-08d7ea8153dc
+X-MS-TrafficTypeDiagnostic: DM6PR12MB4564:|DM6PR12MB4564:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB4564B5BFA3E2B7B60FFA2BA683AF0@DM6PR12MB4564.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2089;
+X-Forefront-PRVS: 0386B406AA
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4401.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(136003)(39860400002)(346002)(366004)(376002)(81156014)(6486002)(31696002)(8676002)(8936002)(2906002)(66574012)(36756003)(86362001)(316002)(6666004)(31686004)(2616005)(186003)(5660300002)(16526019)(66476007)(52116002)(478600001)(66946007)(66556008)(921003);DIR:OUT;SFP:1101;
+Received-SPF: None (protection.outlook.com: amd.com does not designate
+ permitted sender hosts)
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 92tJyVm4S8PTKYb/DN0apie4GIbwdLtJZBfOFuybwNkurcruae3jK3ddWAsJXho0luD9T2fXRXSzScTYdh00rYpPUTYcu+LkwImTocOtof822T+tjVv0VkmNw88ni6smnglGX3uX9LYt5q4UJtlUlls+mPpmx+VVKyeZ3g0M4dLQ4UYDyDf91vtZJarRPgn3f6783HNEO8fHRi0ITIqFjpffODHNq06MgZpQ30zrb7eCzcJDrkNGGd1rPEhTrnWaBFdj4ItEfFkorgPInm7TkCwDzmNeGaUf+PnBNJpt1w8vJmxhigR8egL5apPAYsV+gozMp8Z6ALimp9g8FJq5cpFGEG4Ohjwk0cKUDqNvt7nn3XJf+pQAkjTBTxoVjrh/iDfC7JUhE1S9wYMe3yPuTRa/jpEo3Bg/DmKNyG2y3GGvUc+Ur08zxrL6FfH57FpDnA+id37GBt7F4H6Nf5avehq5zERbGd04bApMkGJDKIM=
+X-MS-Exchange-AntiSpam-MessageData: bi7Zslq4G9+9LkEP45OSn6S8dXZJ1MPS/5yD7aXZkw81N5MjmC2lxOWUkztXm2AOcdjazvuffxiQeDghDrCC+HHTWhYpN42z/gWTAVcKSSdNqFmx5r6v8stul0TSmeOCD21FTN6UjKwjSrrYoj+BFVywZmLMKszmC2gRMpk6iiByl4fksF/tt8IFaOZGn3BNsg73Eby1H718qjhJ7cFl9C69Pcpfuyrs99+RnMG9bUeMU0Au3zUlBN0LqYsk+O49HSJyW9gLgnyiNgsJy2iYcFb6jQmkeKRD/ezGlOkUclNo8OlnzQjJ5rgB45EK8MHEBSYup79ORsJS/BehCH+gg7P5WkzN2Jnwd8l5dlC0nmysPgqeYl1r/RNJ0n8ljdtQDagircaCngOhF4DXSgMCtzKr9om7ZSFbZy7h3cbNNnQnaCtocOkQyMDgYOU5Y0coVf8MwKFazy26EDWYmqmD338NDDTIwLUhP2QMaQ/oUnNgc08aC3p9MLEVI5iHILSUGe2MsKS9twDzYrPBTf5zha9MGsyKJ5fYoa7GzWHHn4QsTKdiRjlc+XZKLyNLefMzYD5LVghzp6z3tVzpAw96+KjECX6bKGTbD2PmZ7pMdzQblFYAp2dZ22RdTUdAPNYjPJbyav9VCYHt5i9l7j9d8DfIASKv2PeGx8CLG17I1DfLkIosGL7RIBCJ4+bYTkTttWRhcBb0UEgssU2Hvj+dMyYpOjO7h1dVcUv9yvVxZyjA5Bvqm9aUHrwPT3tmFDTm9bkX0TlwrDfHDQYfqeHTyy2Nev0C9DVOCqt4/CvRz4iKuYcr5jh3LG0WydM4r836Zu405La145vgxxxiDRLYSsXvaPq7yR+s+RbACtp5wTM=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fa1a210-ff05-4229-9595-08d7ea8153dc
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Apr 2020 08:02:27.8036
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rODL7CwHx0iNHsKWqS9dEyCVOthl/LxvVqVq6VKOFsW4cYo9Gceo1wAXp2wbySLP
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4564
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Am 27.04.20 um 08:36 schrieb Jason Yan:
+> The '>' expression itself is bool, no need to convert it to bool again.
+> This fixes the following coccicheck warning:
+>
+> drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:3004:68-73: WARNING:
+> conversion to bool not needed here
+>
+> Signed-off-by: Jason Yan <yanaijie@huawei.com>
 
-Martin Burnicki wrote:
-> Sean Young wrote:
->> On Fri, Apr 24, 2020 at 07:46:26PM +0200, Martin Burnicki wrote:
->>> I came across this thread and want to let you know that I also have
->>> problems with the cx23885 driver on a Ryzen system.
->>>
->>> The only solution I found on the 'net that could make it work was to add
->>> a line
->>>
->>> options cx23885 debug=7
->>>
->>> to the file /etc/modprobe.d/cx23885.conf
->>
->> Have you tried: 
->>
->> options cx23885 dma_reset_workaround=2
-> 
-> I think I remember I originally tried this when I set up this system,
-> and it didn't work, but that may not have been with a value of 2.
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-I've tried this now once more on my Ubuntu system with 5.3.0-46-generic,
-and indeed the workaround fixes the problem.
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> index 3d601d5dd5af..ad94de3632d8 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+> @@ -3000,7 +3000,7 @@ int amdgpu_device_init(struct amdgpu_device *adev,
+>   	INIT_WORK(&adev->xgmi_reset_work, amdgpu_device_xgmi_reset_func);
+>   
+>   	adev->gfx.gfx_off_req_count = 1;
+> -	adev->pm.ac_power = power_supply_is_system_supplied() > 0 ? true : false;
+> +	adev->pm.ac_power = power_supply_is_system_supplied() > 0;
+>   
+>   	/* Registers mapping */
+>   	/* TODO: block userspace mapping of io register */
 
-In case you are interested, here is the full dmesg output of the system
-when the error occurs if *no* workaround is enabled:
-
-https://burnicki.net/martin/tmp/dmesg-with-error.txt
-
-See the "mpeg risc op code error" message close to the bottom of the file.
-
-
-Thanks,
-
-Martin
