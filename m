@@ -2,185 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABB571BA7FD
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2020 17:30:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2828C1BA833
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2020 17:41:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728040AbgD0Pas (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Apr 2020 11:30:48 -0400
-Received: from mga11.intel.com ([192.55.52.93]:50188 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728021AbgD0Pas (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Apr 2020 11:30:48 -0400
-IronPort-SDR: 8tMmEonabBebIQtUWcVAK9+E4KlWVRyIH86DXF4vQVdchlWHhFtis0rTbQDy7ZA56vi+t8XkPQ
- yKOpF60aXPeA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2020 08:30:48 -0700
-IronPort-SDR: GP3A3rfPMYdQpzYh2A4GAPQSDWg+are3wylGKVaQq4kEA+BeK88WkbqyFEkCwtaaKfarRcKcAw
- aZqyaUnWvt6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,324,1583222400"; 
-   d="scan'208";a="431816249"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga005.jf.intel.com with ESMTP; 27 Apr 2020 08:30:44 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jT5iZ-003PtH-0X; Mon, 27 Apr 2020 18:30:47 +0300
-Date:   Mon, 27 Apr 2020 18:30:46 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Petr Mladek <pmladek@suse.com>, linux-media@vger.kernel.org,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joe Perches <joe@perches.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>
-Subject: Re: [RESEND PATCH v3 1/1] lib/vsprintf: Add support for printing
- V4L2 and DRM fourccs
-Message-ID: <20200427153046.GL185537@smile.fi.intel.com>
-References: <20200427145303.29943-1-sakari.ailus@linux.intel.com>
+        id S1727768AbgD0Plk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Apr 2020 11:41:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45500 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727077AbgD0Plj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 27 Apr 2020 11:41:39 -0400
+Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAFA2C0610D5
+        for <linux-media@vger.kernel.org>; Mon, 27 Apr 2020 08:41:39 -0700 (PDT)
+Received: from lanttu.localdomain (lanttu.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::c1:2])
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTP id 0441F634C8F;
+        Mon, 27 Apr 2020 18:40:46 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     rajmohan.mani@intel.com, bingbu.cao@intel.com, tfiga@chromium.org
+Subject: [PATCH v1.1 1/3] Revert "staging: imgu: Address a compiler warning on alignment"
+Date:   Mon, 27 Apr 2020 18:39:53 +0300
+Message-Id: <20200427153953.346-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200416091850.31177-2-sakari.ailus@linux.intel.com>
+References: <20200416091850.31177-2-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200427145303.29943-1-sakari.ailus@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Apr 27, 2020 at 05:53:03PM +0300, Sakari Ailus wrote:
-> Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
-> pixel formats denoted by fourccs. The fourcc encoding is the same for both
-> so the same implementation can be used.
+This reverts commit c9d52c114a9fcc61c30512c7f810247a9f2812af.
 
-4cc is more generic than pixel format.
+The patch being reverted changed the memory layout of struct
+ipu3_uapi_acc_param. Revert it, and address the compiler warning issues in
+further patches.
 
-...
+Reported-by: Tomasz Figa <tfiga@chromium.org>
+Tested-by: Tested-by: Bingbu Cao <bingbu.cao@intel.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+since v1:
 
-> +V4L2 and DRM FourCC code (pixel format)
-> +---------------------------------------
-> +
-> +::
-> +
-> +	%p4cc
+- Fixed upstream commit id.
 
-Missed examples.
+ drivers/staging/media/ipu3/include/intel-ipu3.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +Print a FourCC code used by V4L2 or DRM, including format endianness and
-> +its numerical value as hexadecimal.
-
-...
-
-> +static noinline_for_stack
-> +char *fourcc_string(char *buf, char *end, const u32 *__fourcc,
-> +		    struct printf_spec spec, const char *fmt)
-> +{
-> +#define FOURCC_HEX_CHAR_STR		"(xx)"
-> +#define FOURCC_BIG_ENDIAN_STR		" big-endian"
-> +#define FOURCC_LITTLE_ENDIAN_STR	" little-endian"
-> +#define FOURCC_HEX_NUMBER		" (0x01234567)"
-
-Where are #undef:s?
-
-> +#define FOURCC_STRING_MAX						\
-> +	FOURCC_HEX_CHAR_STR FOURCC_HEX_CHAR_STR FOURCC_HEX_CHAR_STR	\
-> +	FOURCC_HEX_CHAR_STR FOURCC_LITTLE_ENDIAN_STR FOURCC_HEX_NUMBER
-
-> +	struct printf_spec my_spec = {
-> +		.type = FORMAT_TYPE_UINT,
-> +		.field_width = 2,
-> +		.flags = SMALL,
-> +		.base = 16,
-> +		.precision = -1,
-> +	};
-
-Seems like close enough to bus_spec.
-
-> +	char __s[sizeof(FOURCC_STRING_MAX)];
-> +	char *s = __s;
-> +	unsigned int i;
-> +	/*
-> +	 * The 31st bit defines the endianness of the data, so save its printing
-> +	 * for later.
-> +	 */
-> +	u32 fourcc = *__fourcc & ~BIT(31);
-> +	int ret;
-> +
-> +	if (check_pointer(&buf, end, __fourcc, spec))
-> +		return buf;
-> +
-> +	if (fmt[1] != 'c' || fmt[2] != 'c')
-> +		return error_string(buf, end, "(%p4?)", spec);
-> +
-> +	for (i = 0; i < sizeof(fourcc); i++, fourcc >>= 8) {
-> +		unsigned char c = fourcc;
-> +
-> +		/* Weed out spaces */
-> +		if (c == ' ')
-> +			continue;
-> +
-> +		/* Print non-control characters as-is */
-> +		if (c > ' ') {
-> +			*s = c;
-> +			s++;
-> +			continue;
-> +		}
-
-> +		if (WARN_ON_ONCE(sizeof(__s) <
-> +				 (s - __s) + sizeof(FOURCC_HEX_CHAR_STR)))
-
-Why WARN?!
-
-> +			break;
-> +
-> +		*s = '(';
-> +		s++;
-> +		s = number(s, s + 2, c, my_spec);
-> +		*s = ')';
-> +		s++;
-> +	}
-> +
-> +	ret = strscpy(s, *__fourcc & BIT(31) ? FOURCC_BIG_ENDIAN_STR
-> +					     : FOURCC_LITTLE_ENDIAN_STR,
-> +		      sizeof(__s) - (s - __s));
-
-> +	if (!WARN_ON_ONCE(ret < 0))
-
-Ditto.
-
-> +		s += ret;
-
-> +	if (!WARN_ON_ONCE(sizeof(__s) <
-> +			  (s - __s) + sizeof(FOURCC_HEX_NUMBER))) {
-
-Ditto.
-
-> +		*s = ' ';
-> +		s++;
-> +		*s = '(';
-> +		s++;
-> +		/* subtract parentheses and the space from the size */
-> +		special_hex_number(s, s + sizeof(FOURCC_HEX_NUMBER) - 3,
-> +				   *__fourcc, sizeof(u32));
-> +		s += sizeof(u32) * 2 + 2 /* 0x */;
-> +		*s = ')';
-> +		s++;
-> +		*s = '\0';
-> +	}
-> +
-> +	return string(buf, end, __s, spec);
-
-This looks overengineered. Why everyone will need so long strings to be printed?
-
-> +}
-
+diff --git a/drivers/staging/media/ipu3/include/intel-ipu3.h b/drivers/staging/media/ipu3/include/intel-ipu3.h
+index 1c9c3ba4d518..5f43f631cf62 100644
+--- a/drivers/staging/media/ipu3/include/intel-ipu3.h
++++ b/drivers/staging/media/ipu3/include/intel-ipu3.h
+@@ -2477,7 +2477,7 @@ struct ipu3_uapi_acc_param {
+ 	struct ipu3_uapi_yuvp1_yds_config yds2 __attribute__((aligned(32)));
+ 	struct ipu3_uapi_yuvp2_tcc_static_config tcc __attribute__((aligned(32)));
+ 	struct ipu3_uapi_anr_config anr;
+-	struct ipu3_uapi_awb_fr_config_s awb_fr __attribute__((aligned(32)));
++	struct ipu3_uapi_awb_fr_config_s awb_fr;
+ 	struct ipu3_uapi_ae_config ae;
+ 	struct ipu3_uapi_af_config_s af;
+ 	struct ipu3_uapi_awb_config awb;
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.20.1
 
