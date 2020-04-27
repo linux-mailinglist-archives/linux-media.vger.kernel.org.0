@@ -2,115 +2,223 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19E9C1BA65E
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2020 16:28:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4C771BA6E9
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2020 16:52:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727771AbgD0O2k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Apr 2020 10:28:40 -0400
-Received: from plasma33.jpberlin.de ([80.241.58.43]:11629 "EHLO
-        plasma33.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727077AbgD0O2j (ORCPT
+        id S1727104AbgD0Ov7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Apr 2020 10:51:59 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:53572 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727022AbgD0Ov7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Apr 2020 10:28:39 -0400
-Received: from spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122])
-        by plasma.jpberlin.de (Postfix) with ESMTP id E7BBD10165D;
-        Mon, 27 Apr 2020 16:28:30 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from plasma.jpberlin.de ([80.241.56.76])
-        by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de [80.241.56.122]) (amavisd-new, port 10030)
-        with ESMTP id 5ppAa0GIDohX; Mon, 27 Apr 2020 16:28:29 +0200 (CEST)
-Received: from webmail.opensynergy.com (unknown [217.66.60.5])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
-        (Authenticated sender: opensynergy@jpberlin.de)
-        by plasma.jpberlin.de (Postfix) with ESMTPSA id E6A87101D98;
-        Mon, 27 Apr 2020 16:28:28 +0200 (CEST)
-Received: from os-lin-dmo.localnet (10.25.255.1) by MXS01.open-synergy.com
- (10.25.10.17) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 27 Apr
- 2020 16:30:12 +0200
-From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
-To:     Keiichi Watanabe <keiichiw@chromium.org>
-CC:     Alexandre Courbot <acourbot@chromium.org>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        <virtio-dev@lists.oasis-open.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        David Staessens <dstaessens@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        <spice-devel@lists.freedesktop.org>,
-        David Stevens <stevensd@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, <uril@redhat.com>,
-        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
-        Kiran Pawar <kiran.pawar@opensynergy.com>
-Subject: Re: [PATCH v3 1/2] virtio-video: Add virtio video device specification
-Date:   Mon, 27 Apr 2020 16:28:28 +0200
-Message-ID: <36408073.J2Yia2DhmK@os-lin-dmo>
-Organization: OpenSynergy
-In-Reply-To: <CAD90VcZpXevAF9=d1FvdHyGkU3ShKWga+_AhPWN4BBFTTRY1aQ@mail.gmail.com>
-References: <20200206102058.247258-1-keiichiw@chromium.org> <3597088.V25eIC5XRa@os-lin-dmo> <CAD90VcZpXevAF9=d1FvdHyGkU3ShKWga+_AhPWN4BBFTTRY1aQ@mail.gmail.com>
+        Mon, 27 Apr 2020 10:51:59 -0400
+Received: from lanttu.localdomain (lanttu.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::c1:2])
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTP id 47D6A634C87;
+        Mon, 27 Apr 2020 17:51:02 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-media@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joe Perches <joe@perches.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: [PATCH 1/1] lib/vsprintf: Add support for printing V4L2 and DRM fourccs
+Date:   Mon, 27 Apr 2020 17:50:07 +0300
+Message-Id: <20200427145007.29736-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [10.25.255.1]
-X-Rspamd-Queue-Id: E7BBD10165D
-X-Rspamd-Score: -0.32 / 15.00 / 200.00
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Keiichi,
+Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
+pixel formats denoted by fourccs. The fourcc encoding is the same for both
+so the same implementation can be used.
 
-Thanks for the update.
+Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+---
+ Documentation/core-api/printk-formats.rst | 12 ++++
+ lib/test_printf.c                         | 17 +++++
+ lib/vsprintf.c                            | 86 +++++++++++++++++++++++
+ 3 files changed, 115 insertions(+)
 
-> > Thanks for providing this detailed overview. But again, we have already
-> > discussed this in a similar way and it does not answer the questions. Ok,
-> > suppose we set bitrate to 0xffffffff as I assumed above. Then the decoder
-> > code should ideally wait until metadata has been parsed, then query
-> > parameters and get min buffers (using get_params). Encoder does not have
-> > such logic. What values should we set for encoder to make sure that the
-> > pipelines does not stall? Probably people from the Chromium team has
-> > better knowledge, if they can provide some sane value it'd be just great.
-> 
-> Sorry that my explanation was unclear to you.  Let me try to explain
-> my idea in another way.
-> 
-> The design I'm proposing can be seen as a kind of "Copy-on-Write"
-> strategy. The resource creation can be deferred to the first write.
-> In other words, the call of STREAM_CREATE can be delayed to the first
-> place where a user makes a change to the stream, instead of open().
-> The code snippet I wrote above explains a general way of achieving
-> CoW. In this design, ctx2stream() will be called when modifying a
-> stream.
-> 
-> In the V4L2 stateful encoder API, the first place in which a user
-> writes values is the first call of VIDIOC_S_FMT().
-> So, we can have a virtio_video_cmd_stream_cmd() call in the callback
-> for VIDIOC_S_FMT. I guess it's even better than my previous proposal
-> of ctx2stream, as the driver can raise an error when a user calls
-> ioctls in a wrong order.
-> (I think I said that the place would be REQBUFS callback in a previous
-> review comment to your patch. It was my misunderstanding. My
-> apologies.)
-> 
-> Does it make sense? I hope this answers your question.
-
-I had understood the idea behind the proposal. But I didn't see a correct way 
-to implement that. But now it looks different of course. The decoder should 
-also be fine if we create a stream on S_FMT.
-
-Best regards,
-Dmitry.
-
-> 
-> Best regards,
-> Keiichi
-> 
-
+diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+index 8ebe46b1af39..7aa0451e06fb 100644
+--- a/Documentation/core-api/printk-formats.rst
++++ b/Documentation/core-api/printk-formats.rst
+@@ -545,6 +545,18 @@ For printing netdev_features_t.
+ 
+ Passed by reference.
+ 
++V4L2 and DRM FourCC code (pixel format)
++---------------------------------------
++
++::
++
++	%p4cc
++
++Print a FourCC code used by V4L2 or DRM, including format endianness and
++its numerical value as hexadecimal.
++
++Passed by reference.
++
+ Thanks
+ ======
+ 
+diff --git a/lib/test_printf.c b/lib/test_printf.c
+index 2d9f520d2f27..a14754086707 100644
+--- a/lib/test_printf.c
++++ b/lib/test_printf.c
+@@ -624,6 +624,22 @@ static void __init fwnode_pointer(void)
+ 	software_node_unregister_nodes(softnodes);
+ }
+ 
++static void __init fourcc_pointer(void)
++{
++	struct {
++		u32 code;
++		char *str;
++	} const try[] = {
++		{ 0x20104646, "FF(10) little-endian (0x20104646)", },
++		{ 0xa0104646, "FF(10) big-endian (0xa0104646)", },
++		{ 0x10111213, "(13)(12)(11)(10) little-endian (0x10111213)", },
++	};
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(try); i++)
++		test(try[i].str, "%p4cc", &try[i].code);
++}
++
+ static void __init
+ errptr(void)
+ {
+@@ -668,6 +684,7 @@ test_pointer(void)
+ 	flags();
+ 	errptr();
+ 	fwnode_pointer();
++	fourcc_pointer();
+ }
+ 
+ static void __init selftest(void)
+diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+index 7c488a1ce318..02e7906619c0 100644
+--- a/lib/vsprintf.c
++++ b/lib/vsprintf.c
+@@ -1721,6 +1721,89 @@ char *netdev_bits(char *buf, char *end, const void *addr,
+ 	return special_hex_number(buf, end, num, size);
+ }
+ 
++static noinline_for_stack
++char *fourcc_string(char *buf, char *end, const u32 *__fourcc,
++		    struct printf_spec spec, const char *fmt)
++{
++#define FOURCC_HEX_CHAR_STR		"(xx)"
++#define FOURCC_BIG_ENDIAN_STR		" big-endian"
++#define FOURCC_LITTLE_ENDIAN_STR	" little-endian"
++#define FOURCC_HEX_NUMBER		" (0x01234567)"
++#define FOURCC_STRING_MAX						\
++	FOURCC_HEX_CHAR_STR FOURCC_HEX_CHAR_STR FOURCC_HEX_CHAR_STR	\
++	FOURCC_HEX_CHAR_STR FOURCC_LITTLE_ENDIAN_STR FOURCC_HEX_NUMBER
++	struct printf_spec my_spec = {
++		.type = FORMAT_TYPE_UINT,
++		.field_width = 2,
++		.flags = SMALL,
++		.base = 16,
++		.precision = -1,
++	};
++	char __s[sizeof(FOURCC_STRING_MAX)];
++	char *s = __s;
++	unsigned int i;
++	/*
++	 * The 31st bit defines the endianness of the data, so save its printing
++	 * for later.
++	 */
++	u32 fourcc = *__fourcc & ~BIT(31);
++	int ret;
++
++	if (check_pointer(&buf, end, __fourcc, spec))
++		return buf;
++
++	if (fmt[1] != 'c' || fmt[2] != 'c')
++		return error_string(buf, end, "(%p4?)", spec);
++
++	for (i = 0; i < sizeof(fourcc); i++, fourcc >>= 8) {
++		unsigned char c = fourcc;
++
++		/* Weed out spaces */
++		if (c == ' ')
++			continue;
++
++		/* Print non-control characters as-is */
++		if (c > ' ') {
++			*s = c;
++			s++;
++			continue;
++		}
++
++		if (WARN_ON_ONCE(sizeof(__s) <
++				 (s - __s) + sizeof(FOURCC_HEX_CHAR_STR)))
++			break;
++
++		*s = '(';
++		s++;
++		s = number(s, s + 2, c, my_spec);
++		*s = ')';
++		s++;
++	}
++
++	ret = strscpy(s, *__fourcc & BIT(31) ? FOURCC_BIG_ENDIAN_STR
++					     : FOURCC_LITTLE_ENDIAN_STR,
++		      sizeof(__s) - (s - __s));
++	if (!WARN_ON_ONCE(ret < 0))
++		s += ret;
++
++	if (!WARN_ON_ONCE(sizeof(__s) <
++			  (s - __s) + sizeof(FOURCC_HEX_NUMBER))) {
++		*s = ' ';
++		s++;
++		*s = '(';
++		s++;
++		/* subtract parentheses and the space from the size */
++		special_hex_number(s, s + sizeof(FOURCC_HEX_NUMBER) - 3,
++				   *__fourcc, sizeof(u32));
++		s += sizeof(u32) * 2 + 2 /* 0x */;
++		*s = ')';
++		s++;
++		*s = '\0';
++	}
++
++	return string(buf, end, __s, spec);
++}
++
+ static noinline_for_stack
+ char *address_val(char *buf, char *end, const void *addr,
+ 		  struct printf_spec spec, const char *fmt)
+@@ -2131,6 +2214,7 @@ char *fwnode_string(char *buf, char *end, struct fwnode_handle *fwnode,
+  *       correctness of the format string and va_list arguments.
+  * - 'K' For a kernel pointer that should be hidden from unprivileged users
+  * - 'NF' For a netdev_features_t
++ * - '4cc' V4L2 or DRM FourCC code, with endianness and raw numerical value.
+  * - 'h[CDN]' For a variable-length buffer, it prints it as a hex string with
+  *            a certain separator (' ' by default):
+  *              C colon
+@@ -2223,6 +2307,8 @@ char *pointer(const char *fmt, char *buf, char *end, void *ptr,
+ 		return restricted_pointer(buf, end, ptr, spec);
+ 	case 'N':
+ 		return netdev_bits(buf, end, ptr, spec, fmt);
++	case '4':
++		return fourcc_string(buf, end, ptr, spec, fmt);
+ 	case 'a':
+ 		return address_val(buf, end, ptr, spec, fmt);
+ 	case 'd':
+-- 
+2.20.1
 
