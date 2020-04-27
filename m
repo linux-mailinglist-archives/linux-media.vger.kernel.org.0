@@ -2,142 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DAAA1BA033
-	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2020 11:42:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDEDA1BA00D
+	for <lists+linux-media@lfdr.de>; Mon, 27 Apr 2020 11:39:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726604AbgD0Jms (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 27 Apr 2020 05:42:48 -0400
-Received: from plasma33.jpberlin.de ([80.241.58.43]:44241 "EHLO
-        plasma33.jpberlin.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726349AbgD0Jmr (ORCPT
+        id S1726889AbgD0JjG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 27 Apr 2020 05:39:06 -0400
+Received: from mail26.static.mailgun.info ([104.130.122.26]:49885 "EHLO
+        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726485AbgD0JjF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 27 Apr 2020 05:42:47 -0400
-X-Greylist: delayed 518 seconds by postgrey-1.27 at vger.kernel.org; Mon, 27 Apr 2020 05:42:47 EDT
-Received: from gerste.heinlein-support.de (unknown [80.241.56.124])
-        by plasma.jpberlin.de (Postfix) with ESMTP id AD2571021E1;
-        Mon, 27 Apr 2020 11:34:04 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from plasma.jpberlin.de ([80.241.56.76])
-        by gerste.heinlein-support.de (gerste.heinlein-support.de [91.198.250.173]) (amavisd-new, port 10030)
-        with ESMTP id 0oLZMmHE_UCb; Mon, 27 Apr 2020 11:33:58 +0200 (CEST)
-Received: from webmail.opensynergy.com (unknown [217.66.60.5])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "webmail.opensynergy.com", Issuer "GeoTrust EV RSA CA 2018" (not verified))
-        (Authenticated sender: opensynergy@jpberlin.de)
-        by plasma.jpberlin.de (Postfix) with ESMTPSA id CE3571007AE;
-        Mon, 27 Apr 2020 11:33:57 +0200 (CEST)
-Received: from os-lin-dmo.localnet (10.25.255.1) by MXS02.open-synergy.com
- (10.25.10.18) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 27 Apr
- 2020 11:33:56 +0200
-From:   Dmitry Sepp <dmitry.sepp@opensynergy.com>
-To:     Keiichi Watanabe <keiichiw@chromium.org>
-CC:     <virtio-dev@lists.oasis-open.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        David Staessens <dstaessens@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        =?ISO-8859-1?Q?St=E9phane?= Marchesin <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        <spice-devel@lists.freedesktop.org>,
-        David Stevens <stevensd@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, <uril@redhat.com>,
-        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
-        Kiran Pawar <kiran.pawar@opensynergy.com>
-Subject: Re: [PATCH v3 1/2] virtio-video: Add virtio video device specification
-Date:   Mon, 27 Apr 2020 11:33:56 +0200
-Message-ID: <3353506.N7aMVyhfb1@os-lin-dmo>
-Organization: OpenSynergy
-In-Reply-To: <CAD90Vcbrgf2dK2EYeQDJ=-AFA2NkFnyJhutLX3nfeD7ajNYw=A@mail.gmail.com>
-References: <20200206102058.247258-1-keiichiw@chromium.org> <17068786.sWSEgdgrri@os-lin-dmo> <CAD90Vcbrgf2dK2EYeQDJ=-AFA2NkFnyJhutLX3nfeD7ajNYw=A@mail.gmail.com>
+        Mon, 27 Apr 2020 05:39:05 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1587980345; h=Content-Type: MIME-Version: Message-ID: Date:
+ References: In-Reply-To: Subject: Cc: To: From: Sender;
+ bh=fUyyyvZY5erFWNghFuz6u1lkeSrntr/X0HIwG5v1vAY=; b=dKv3MKCvrdIpXxFcSOS42HFU8RDES3YdUjoFtpLI5lkvkZ+F8JDfC/ljaTIAF9re7yXt0/vG
+ u8JQZXRIvY0PvJJuG+wvy6XT2Q2bbVzEYL65mSw9ReXbWgx3vAky3yiANL8kgcOtpY4mHEOH
+ pLEni3tn9Ct0PnexxWz1FA4yPGU=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5ea6a820.7f730f8c8228-smtp-out-n03;
+ Mon, 27 Apr 2020 09:38:40 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 2DBE6C432C2; Mon, 27 Apr 2020 09:38:40 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from potku.adurom.net (88-114-240-156.elisa-laajakaista.fi [88.114.240.156])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: kvalo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7D714C433D2;
+        Mon, 27 Apr 2020 09:38:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7D714C433D2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=kvalo@codeaurora.org
+From:   Kalle Valo <kvalo@codeaurora.org>
+To:     Wei Yongjun <weiyongjun1@huawei.com>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        kernel-janitors@vger.kernel.org, linux-wireless@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        ath11k@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH net-next] ath11k: use GFP_ATOMIC under spin lock
+In-Reply-To: <20200427092417.56236-1-weiyongjun1@huawei.com> (Wei Yongjun's
+        message of "Mon, 27 Apr 2020 09:24:17 +0000")
+References: <20200427092417.56236-1-weiyongjun1@huawei.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/24.5 (gnu/linux)
+Date:   Mon, 27 Apr 2020 12:38:35 +0300
+Message-ID: <877dy1gtes.fsf@kamboji.qca.qualcomm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Originating-IP: [10.25.255.1]
-X-Rspamd-Queue-Id: AD2571021E1
-X-Rspamd-Score: -1.29 / 15.00 / 200.00
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Keiichi,
+Wei Yongjun <weiyongjun1@huawei.com> writes:
 
-One more addition to the comments below. Currently spec does not define units 
-for bitrate (are units needed for anything else except that?). Let's 
-explicitly state that bitrate is provided in bits per sec, so whatever 
-implementation can do proper conversion if needed.
+> A spin lock is taken here so we should use GFP_ATOMIC.
+>
+> Fixes: d5c65159f289 ("ath11k: driver for Qualcomm IEEE 802.11ax devices")
+> Signed-off-by: Wei Yongjun <weiyongjun1@huawei.com>
 
-Best regards,
-Dmity.
+Do note that ath11k patches go to my ath.git tree, not net-next. But no
+need to resend because of this.
 
-On Freitag, 24. April 2020 13:45:38 CEST Keiichi Watanabe wrote:
-> Hi Dmitry,
-> 
-> On Thu, Apr 9, 2020 at 10:23 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> 
-wrote:
-> > Hi Keiichi,
-> > 
-> > On Donnerstag, 9. April 2020 12:46:56 CEST Keiichi Watanabe wrote:
-> > > Hi,
-> > > 
-> > > On Tue, Apr 7, 2020 at 11:49 PM Dmitry Sepp
-> > > <dmitry.sepp@opensynergy.com>
-> > 
-> > wrote:
-> > > > Hi,
-> > > > 
-> > > > > +\item[VIRTIO_VIDEO_CMD_STREAM_DESTROY] Destroy a video stream
-> > > > > +  (context) within the device.
-> > > > > +
-> > > > > +\begin{lstlisting}
-> > > > > +struct virtio_video_stream_destroy {
-> > > > > +        struct virtio_video_cmd_hdr hdr;
-> > > > > +};
-> > > > > +\end{lstlisting}
-> > > > 
-> > > > Let's add more strict description to stream_destroy, like as follows:
-> > > > Device MUST NOT generate any events for the stream in question after
-> > > > receiving the command. Before completing the command, Device MUST
-> > > > ensure
-> > > > that all asynchronous commands that are related to the stream have
-> > > > been
-> > > > completed and all memory objects are unreferenced.
-> > > 
-> > > Sounds good. But, the device should probably be able to generate
-> > > VIRTIO_VIDEO_EVENT_ERROR for a device-wide error?
-> > > Or, should VIRTIO_VIDEO_EVENT_ERROR always be a per-stream error? (I
-> > > haven't documented it in v3)
-> > 
-> > In the current version of the driver  I have we interpret it a stream
-> > error. I think it makes sense as several stream formats might be backed
-> > by different hardware devices on the host side. So it would be an
-> > overkill to mark the whole virtio device as broken on the guest side.
-> 
-> It makes sense. I'll explicitly document that it's a per-stream error.
-> 
-> > BTW, I think we should add some hard limit to the max_cap_length and
-> > max_resp_length in the spec, so buggy device does not make us allocate all
-> > memory for a response on the host side by providing a garbage value. I
-> > think 4k might be a good value.
-> 
-> Sounds good. Thank you for the suggestion.
-> 
-> Best regards,
-> Keiichi
-> 
-> > Best regards,
-> > Dmitry.
-> > 
-> > > Best regards,
-> > > Keiichi
-> > > 
-> > > > Best regards,
-> > > > Dmitry.
-
-
+-- 
+https://wireless.wiki.kernel.org/en/developers/documentation/submittingpatches
