@@ -2,224 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0ADCD1BC79B
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 20:13:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 771021BC7B1
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 20:24:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728293AbgD1SNt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Apr 2020 14:13:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41086 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727827AbgD1SNs (ORCPT
+        id S1728601AbgD1SYZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Apr 2020 14:24:25 -0400
+Received: from www52.your-server.de ([213.133.104.52]:40120 "EHLO
+        www52.your-server.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728392AbgD1SYZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Apr 2020 14:13:48 -0400
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31A1AC03C1AB
-        for <linux-media@vger.kernel.org>; Tue, 28 Apr 2020 11:13:48 -0700 (PDT)
-Received: by mail-wr1-x42f.google.com with SMTP id f13so25754945wrm.13
-        for <linux-media@vger.kernel.org>; Tue, 28 Apr 2020 11:13:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=ydZ+8l4DpM7bKtj+eJw3Diy95hdWbwL2Psy3q6A85Ec=;
-        b=pTcwlxCRFq80JYO/oUe6UF2bR4jWQ9bdN5BoSMlxhcc3Re2Z/iuuHkIIXWrjQLlHhh
-         MNi0xHkkRtyOO8LTGn0iXsCvoCl9brCCvlkyDrokLySn43852/VjUNfBrV+HJatdn8bp
-         eUv5yEAJZOQv+7LaQVOvK+oymnzMx8MmvVlfKr8J+b43rO5eez/RaYiCqh8En/Cz/nU8
-         eHISa8z6Tgtis0ix5J6JQEh3OnwzPKj0jfi8d3zHppWCjoGYqTVaUFCUDh/VuUAkRuaM
-         WsoBQpAzAlYQBYf2pX4aKkBPBNbcd2t+82v3g8Vp0NX5byWXrg0TeH20sz+um8d0ysjA
-         7ZzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=ydZ+8l4DpM7bKtj+eJw3Diy95hdWbwL2Psy3q6A85Ec=;
-        b=lkSU/4vtJ7smUIUhIBJAEUltmWdvof2GORVOOe4qL1iLcPE+pfJ5u5bkjIJ6S2IzpN
-         rtO6Xk2FDOU58ukpbVVM10deV1Qzlvrd1UI0pXTVtdMdpdjUI7BmQvRi3/oov8yD6hKN
-         kmKb9DaYzbA14HLnCdM7PEbBg6v4tWz5HFmTFR71COFnVEdhWsLcgWBwhr7B1dFh4kL8
-         Gxis3/OaJizvIlOGuU7tfbkoikgpY2M0xZ3wopO/A0bQaWVUAZ+4M5WwH4ex2k4qEi3+
-         S6bkqh7R6T5LI+M1SNZIHuLhb/YkmpLAteYPlLT8fx6LDlbCucbDsfg3aDXOIxTe+5FK
-         og5w==
-X-Gm-Message-State: AGi0Puaa/GEoiCBdWp7bZA/3o5K7D3oL+w8KfYCJnFW5DWMYfZmlo4RS
-        azUXJFQODQJV+h+YwkTDkIs=
-X-Google-Smtp-Source: APiQypJSVuhE8D0+4g5jWlq7jNEBgrTe+ePu1UnVkeRNP7oOaJAkraJ/HtCm6ZVxxcgcjaad6yICVA==
-X-Received: by 2002:adf:f10c:: with SMTP id r12mr35186302wro.409.1588097626692;
-        Tue, 28 Apr 2020 11:13:46 -0700 (PDT)
-Received: from [192.168.0.104] (77-56-155-30.dclient.hispeed.ch. [77.56.155.30])
-        by smtp.gmail.com with ESMTPSA id i17sm26279547wru.39.2020.04.28.11.13.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Apr 2020 11:13:46 -0700 (PDT)
-Subject: Re: atomisp kernel driver(s)
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>
-References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
- <20200425023926.GA30200@pendragon.ideasonboard.com>
- <8bda5543-100b-95f7-04a2-d7b302fc7833@gmail.com>
- <20200426193318.GC31313@pendragon.ideasonboard.com>
-From:   Patrik Gfeller <patrik.gfeller@gmail.com>
-Message-ID: <b3204156-a7be-8f35-7799-377c0a6015f7@gmail.com>
-Date:   Tue, 28 Apr 2020 20:13:44 +0200
+        Tue, 28 Apr 2020 14:24:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=burnicki.net; s=default1902; h=Content-Transfer-Encoding:Content-Type:
+        In-Reply-To:MIME-Version:Date:Message-ID:References:Cc:To:From:Subject:Sender
+        :Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=LaS/bLqWRUjyNqG2LIUS3dzE3nFUlgJuL+LWYs145Qo=; b=wEl7PoaRKCcG+W3bfaLto/BOiS
+        OGaqyCCuo3lxHuQovKgz2Id1d2PHff5wtkT6a0RH7guNdf96n/MIILv53lyum7q+AdpKoMh+cbY0a
+        Wq/NbnDTX5LRQoUG8Ko2+I5zNeLSR0RpZdx7tafakotEYPRpf16YCra2fNyUDoeSz6+UPQ3fYYZEy
+        71W0cGuSLo2/aHkJPV/Ra7jHmu1ZKUiWdFI1V67j5UUgpeAwt/EUYHgFCir1sK8ZWvSpFhrj9qRQU
+        tFnpP7BCpyju32fNM4QOWNPLQKWKWchDgcqG3RAlqs2QFGQ2gD4u4/fGRMnKOJQBY+s9h17CgVxUc
+        epCQiQOg==;
+Received: from sslproxy01.your-server.de ([78.46.139.224])
+        by www52.your-server.de with esmtpsa (TLSv1.2:DHE-RSA-AES256-GCM-SHA384:256)
+        (Exim 4.89_1)
+        (envelope-from <martin.burnicki@burnicki.net>)
+        id 1jTUu5-0005zP-JW; Tue, 28 Apr 2020 20:24:21 +0200
+Received: from [2a02:8108:98bf:e274:4d82:1183:1695:f1f5]
+        by sslproxy01.your-server.de with esmtpsa (TLSv1.3:TLS_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <martin.burnicki@burnicki.net>)
+        id 1jTUu5-000LYL-CC; Tue, 28 Apr 2020 20:24:21 +0200
+Subject: Re: HauppaugeTV-quadHD DVB-T mpeg risc op code error
+From:   Martin Burnicki <martin.burnicki@burnicki.net>
+To:     Sean Young <sean@mess.org>
+Cc:     Rolf Pedersen <rolfpedersen@mindspring.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Brad Love <brad@nextdimension.cc>
+References: <0c0ab661-17bb-231a-7311-c35d8d0435c0@mindspring.com>
+ <20200423153505.GA22057@gofer.mess.org>
+ <686f60be-7a37-42ce-b4c0-b34cf54055e7@mindspring.com>
+ <20200423155908.GA22613@gofer.mess.org>
+ <bc0644cd-3438-6505-d438-8f3f71347ccb@mindspring.com>
+ <20200423163559.GB23006@gofer.mess.org>
+ <0cd2436c-0a39-0f85-929e-5d8f333b5027@burnicki.net>
+ <20200425114147.GA3037@gofer.mess.org>
+ <4aa38e2a-6b98-6530-69d9-d945a467bf0b@burnicki.net>
+ <1a2d9e15-55e2-88a7-d197-208a8ce99218@burnicki.net>
+ <20200427080751.GA5925@gofer.mess.org>
+ <e7d8aeb8-124a-f7b3-d469-4c47f182f067@burnicki.net>
+Autocrypt: addr=martin.burnicki@burnicki.net; keydata=
+ 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
+ fPTIMcWxGmfGPw==
+Message-ID: <0fc5d43f-7928-1649-220b-45916b189d8f@burnicki.net>
+Date:   Tue, 28 Apr 2020 20:24:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200426193318.GC31313@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <e7d8aeb8-124a-f7b3-d469-4c47f182f067@burnicki.net>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: mailout@burnicki.net
+X-Virus-Scanned: Clear (ClamAV 0.102.2/25796/Tue Apr 28 14:00:48 2020)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
-On 26.04.20 21:33, Laurent Pinchart wrote:
-> Hi Patrik,
->
-> On Sat, Apr 25, 2020 at 12:36:18PM +0200, Patrik Gfeller wrote:
->> On 25.04.20 04:39, Laurent Pinchart wrote:
->>> On Sat, Apr 18, 2020 at 04:39:25PM +0200, Patrik Gfeller wrote:
->>>> Hello Mauro et al,
->>>>
->>>> I've recently switched to Linux, and I'm very impressed. Almost
->>>> everything thing works out of the box. Only the webcam on my device does
->>>> not. I did some digging and if I'm right an atomisp driver would be
->>>> required. Is this correct? Below the output of lspci:
->>>>
->>>> 00:00.0 Host bridge: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series SoC Transaction Register (rev 36)
->>>> 00:02.0 VGA compatible controller: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Integrated Graphics Controller (rev 36)
->>>> 00:03.0 Multimedia controller: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series Imaging Unit (rev 36)
->>>> 00:0a.0 Non-VGA unclassified device: Intel Corporation Device 22d8 (rev 36)
->>>> 00:0b.0 Signal processing controller: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series Power Management Controller (rev 36)
->>>> 00:14.0 USB controller: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series USB xHCI Controller (rev 36)
->>>> 00:1a.0 Encryption controller: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series Trusted Execution Engine (rev 36)
->>>> 00:1c.0 PCI bridge: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series PCI Express Port #1 (rev 36)
->>>> 00:1f.0 ISA bridge: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series PCU (rev 36)
->>>> 01:00.0 Network controller: Qualcomm Atheros QCA9377 802.11ac Wireless Network Adapter (rev 31)
->>>>
->>>> According to the history it looks like the driver was removed from the
->>>> kernel in 2018 and replaced with a dummy driver (to make sure power save
->>>> works).
->>>>
->>>> Is there a chance that the atomisp driver will return to the kernel?
->>> As much as I'd like to say yes, I think this is unfortunately very
->>> unlikely. There are a few obstacles to getting a working camera with
->>> atomisp:
->>>
->>> - According to some reports, the driver doesn't work. That's the first
->>>     thing that would need to be fixed, and without hardware documentation
->>>     and support from Intel, that would be a difficult (to say the least)
->>>     task.
->>>
->>> - Assuming we could fix the driver, we would need to make sure it
->>>     supports your device. If the atomisp is anything like the IPU3 (a more
->>>     recent ISP from Intel), there are two different and incompatible sets
->>>     of ACPI data formats related to the device, one developed for Windows,
->>>     and one developed for Linux. I expect the atomisp driver to support
->>>     the latter but not the former. If your device was shipped with
->>>     Windows, it uses the Windows-specific ACPI data format. Furthermore,
->>>     it would in that case likely not encode all the information we would
->>>     need in ACPI, as Windows drivers have the bad habit of hardcoding
->>>     device-specific data in drivers. At the very least we would need to
->>>     get the atomisp to support the Windows ACPI data format (which is most
->>>     likely completely undocumented), and we would need to figure out how
->>>     to retrieve data that are simply not there. This being said, maybe the
->>>     atomisp ACPI design was better than the IPU3 and all (or part of)
->>>     those issues don't exist, but I'd be surprised.
->>>
->>> - At this point you would (hopefully) have a driver that could capture
->>>     RAW images. In order to use the camera as a webcam, those images would
->>>     need to be processed by the ISP that is part of the atomisp. This
->>>     requires complex image processing algorithm control code in userspace.
->>>     Intel has not released any open version of such code for the atomisp
->>>     (or any other platform) to my knowledge, so this would need to be
->>>     implemented from scratch. The libcamera project could help there, as
->>>     it provides a framework to host such code, but the atomisp-specific
->>>     code would still need to be implemented. This is a complex task when
->>>     the hardware is fully documented, without hardware documentation and
->>>     thus without knowing how the hardware works, it gets extremely
->>>     difficult. The task would be orders of magnitude more complex than
->>>     reverse-engineering a GPU.
->>>
->>> - Finally, in order for the driver to be merged back in the upstream
->>>     kernel, it would require massive cleanups, but that's the simplest
->>>     task of all that is required here.
->>>
->>> I'm sorry for the bad news, we need to be more vocal blaming hardware
->>> vendors for this type of mess.
->> Bad news indeed, this doesn't sound promising at all. I can confirm that
->> the driver does not work out of the box in its current state (many
->> thanks to Mauro for making this test possible). With all those obstacles
->> I'm surprised that work on such a driver was even started. My only hope
->> is, that the ISP 2 is better documented and less complex than ISP 3 ...
->>
->> I'll try to get hold of hardware documentation from Intel, and check if
->> there is any kind of community support program in place (it is at least
->> worth a try :-) ) - that hopefully would allow to assess if there is a
->> possibility to fix the driver and how much post processing would be
->> needed in user space (what raw format that thing delivers).
->> Unfortunately I would depend on others to do the judgment (I do not have
->> the technical skills necessary). I'll also try to find out who initiated
-> It could also be an interesting project to acquire those technical
-> skills ;-) It's often said that the best way forward with free software
-> development is to scratch your own itch.
+Am 27.04.20 um 10:59 schrieb Martin Burnicki:
+> Sean Young wrote:
+>> Would you mind testing this patch please?
+> 
+> I'm going to try it this evening.
+> 
+> I'll have to find out how to do an out-of-tree build for a copy of the
+> cx module that includes the patch.
+> 
+> My own kernel driver is always and only built out-of-tree, but for the
+> cx driver I need to see which files I need to copy to a local directory,
+> and if there is anything else that needs to be done to build a copy of
+> it out-of-tree.
 
-That's definitely a true statement & I'll do my best to help. But 
-without C & Linux background I can not directly contribute to the code - 
-who knows, maybe some day. I try to read, learn and understand - first I 
-try to get used to the operating system and to be able to perform basic 
-tasks as collecting data, build kernel & learn about the utilities 
-required (didn't know modprobe, insmod, dmesg and alike a few weeks ago).
+Sorry, I haven't managed to test the patch, yet.
 
->
->> the original implementation to find out on what documentation it was
->> based (or if it was all reverse engineering) and what was the rational
->> to asses such an implementation as possible.
->>
->> What I've found already is a public document about the ISP2-Registers of
->> the x5-Z8350:
->>
->> https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/atom-z8000-datasheet-vol-2.pdf
->> (page 972 ff.) - not sure if this is of any help.
->>
->> What kind of documentation would be needed? What I understood so far is
->> that details of ACPI format are important.
-> The ACPI format is important, and after a quick glance it seems that
-> some data at least is encoded in a readable way. There's however
->
-> \_SB_.PCI0.I2C3.CAM1._DSM bothers me. It's a device-specific method that
-> returns device-specific data in an undocumented format. Some of it is
-> human-readable (the package returned when Arg0 is
-> dc2f6c4f-045b-4f1d-97b9-882a6860a4be for instance), but some of it isn't
-> (f486d39f-d657-484b-84a6-42a565712b92 for instance). I haven't seen any
-> call to the _DSM method in the atomisp driver, so we can't figure out
-> what it contains from the driver code. Maybe we won't need that data at
-> all. We also don't know whether we would need data that is not available
-> in the DSDT.
->
-> Beside the ACPI format, we need to know how to communicate with the
-> device, and with its firmware. Documentation of hardware registers
-> helps, but I would expect most of that to already be handled in the
-> atomisp driver. The part that worries me the most is the communication
-> with the firmware. The firmware takes a very large number of ISP
-> configuration parameters at runtime. They are defined in
-> drivers/staging/media/atomisp/include/linux, but under-documented, so
-> it's not clear how most of them work.
-I understand. I'll approach Intel to see if there is any chance that we 
-get something useful in terms of documentation from them.
->
->> As already mentioned: I would also sponsor a device or two to developers
->> with a reputation as you and Mauro have (preferably the same device I
->> have :-), they are quite cheap today - and that is a way I could support
->> the efforts).
->>
->>>> There are quite a few older tablets and 2in1 devices that would benefit.
->>>> Unfortunately I do not understand the removed code (my coding skills are
->>>> very basic) and can thus not help to change what ever is necessary to
->>>> make it fit for the kernel :-( (does not sound like a beginner project).
->>>> However - I would be glad to help out to help testing an ISP driver.
->>>>
->>>> However - even without the cam it is a very impressing operating system
->>>> which I enjoy very much. I would like to thank all of you for your work
->>>> that benefits so many people!
->>> You're welcome. Your thanks are much appreciated :-)
+Currently I have the driver loaded with
+
+options cx23885 dma_reset_workaround=2
+
+but today there were 3 occurrences of the risc opcode error:
+
+root@pc:~# dmesg | grep risc
+[166528.023263] cx23885: cx23885[0]: mpeg risc op code error
+[166528.023273] cx23885: cx23885[0]:   cmds: init risc lo   : 0xff667000
+[166528.023277] cx23885: cx23885[0]:   cmds: init risc hi   : 0x00000000
+[166528.023293] cx23885: cx23885[0]:   cmds: risc pc lo     : 0xff667018
+[166528.023296] cx23885: cx23885[0]:   cmds: risc pc hi     : 0x00000000
+[166528.023319] cx23885: cx23885[0]:   risc0:
+[166528.023324] cx23885: cx23885[0]:   risc1:
+[166528.023330] cx23885: cx23885[0]:   risc2:
+[166528.023334] cx23885: cx23885[0]:   risc3:
+[180595.947077] cx23885: cx23885[0]: mpeg risc op code error
+[180595.947087] cx23885: cx23885[0]:   cmds: init risc lo   : 0xfc6ee000
+[180595.947090] cx23885: cx23885[0]:   cmds: init risc hi   : 0x00000000
+[180595.947107] cx23885: cx23885[0]:   cmds: risc pc lo     : 0xfc6ee018
+[180595.947110] cx23885: cx23885[0]:   cmds: risc pc hi     : 0x00000000
+[180595.947133] cx23885: cx23885[0]:   risc0:
+[180595.947138] cx23885: cx23885[0]:   risc1:
+[180595.947143] cx23885: cx23885[0]:   risc2:
+[180595.947147] cx23885: cx23885[0]:   risc3:
+[180595.947263] cx23885: cx23885[0]: mpeg risc op code error
+[180595.947270] cx23885: cx23885[0]:   cmds: init risc lo   : 0xfc6ee000
+[180595.947274] cx23885: cx23885[0]:   cmds: init risc hi   : 0x00000000
+[180595.947290] cx23885: cx23885[0]:   cmds: risc pc lo     : 0xfc6ee018
+[180595.947293] cx23885: cx23885[0]:   cmds: risc pc hi     : 0x00000000
+[180595.947315] cx23885: cx23885[0]:   risc0:
+[180595.947319] cx23885: cx23885[0]:   risc1:
+[180595.947324] cx23885: cx23885[0]:   risc2:
+[180595.947328] cx23885: cx23885[0]:   risc3:
+
+My wife is very happy that the recordings of the TV shows she wanted to
+see later were aborted. ;-)
+
+So the workaround doesn't seem to fix the problem anyway, and the patch
+would just enable the workaround with out the specific option, right?
+
+The effect of the workaround looks just like debug levels lower than 7,
+it just seems to reduce the probability that the bug occurs, but doesn't
+really fix it.
+
+So my conclusion is still that that this smells like a missing memory
+barrier or so in the driver.
+
+Since the driver seems to work properly with older mainboards/CPU types,
+this doesn't sound like a problem in the CX chip, IMO.
+
+Martin
