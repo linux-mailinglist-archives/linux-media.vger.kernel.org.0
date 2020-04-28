@@ -2,142 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CB9E1BC00A
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 15:43:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9BA71BC068
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 15:59:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727076AbgD1NmM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Apr 2020 09:42:12 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42960 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727057AbgD1NmL (ORCPT
+        id S1727060AbgD1N7h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Apr 2020 09:59:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57642 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726868AbgD1N7h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Apr 2020 09:42:11 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2930572C;
-        Tue, 28 Apr 2020 15:42:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1588081329;
-        bh=Ztwc28sa8MiTTHghqNIMgky45c6jDpHEve/akex51bw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=eE1py6Odoo3ru7bZdKGO+Z01kUrkdZpc43E1d8bBwUeLKJYWTUK1NS9TIi2KjXEQp
-         u95t5umIYoaHl+qhsDAYJfLJ7lfo4yreyKbRgtvtGK7l0RGmJtEJTcQWs8TTW8xgSy
-         JxAaEJ03Yds3bg769S4NuE73BzULhzBAROG1G2FU=
-Date:   Tue, 28 Apr 2020 16:41:53 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org,
-        mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hverkuil-cisco@xs4all.nl
-Subject: Re: [PATCH v2] media: i2c: imx219: Implement get_selection
-Message-ID: <20200428134153.GF5859@pendragon.ideasonboard.com>
-References: <20200426205250.305320-1-jacopo@jmondi.org>
- <20200426210548.GD31313@pendragon.ideasonboard.com>
- <20200428134036.askdjybit2lq47t6@uno.localdomain>
+        Tue, 28 Apr 2020 09:59:37 -0400
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C55DC03C1A9;
+        Tue, 28 Apr 2020 06:59:37 -0700 (PDT)
+Received: by mail-lj1-x244.google.com with SMTP id a21so18685126ljj.11;
+        Tue, 28 Apr 2020 06:59:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/zDDEPocLsCCoVeXtmXy84tPsu7600voeG3oAn4ZlpA=;
+        b=kUNbrCtmRLSJ/pudx3+TenRiaadVEt9iw7/4tzRtVz5f/MZveB8dNvKk2/ugbTRJhR
+         Zc4pUnkymtC8EutfUFzMyYsKttPwsPjlD6AaornIRldASJA4iHMJ02RsgXc4oiL45RPT
+         zuqWAUPYL+6qHrzh95mLH2MjhNtZYNXaEkibHmCeipxrXopGe4oUAiY8S40ud8JKMSLh
+         rUeu1zEG2pwxbmZLiK1vLU7VzezAMwC6qkcj3zjVopvb/eXGcoHRakxEt9D3gR7mzqtw
+         H8nTX7D79cjA+d+H2H/UCv2J5pHS+HBmTR/vmPF7lkGMzHjulmVeSQIxE1hi5q2A5tSX
+         3bkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/zDDEPocLsCCoVeXtmXy84tPsu7600voeG3oAn4ZlpA=;
+        b=HN7w7/PfUjQkDZv3rGz8agSN5Kwqkn052WjMehxM+sZ3HrlmLVaFLH0L/Y74Mb03X1
+         GEWsMI50J6AWUlqq3b2skmdluZbhmMamiinkpzRP11WYUar4n86c6IGcZWr1/5WyJ3jA
+         ZJemSsszHmN3sbCOOJxlRjIv6wzic0qNqHiP+L9mTwfUtP5xrVP9AxvsIx5Mq2i7DIb7
+         t5JQ+ceb30D6SGg1ABFjm+Ri1rRkg3oy3VSddUbNFXrcSJozQwfSqky7X1tf4JBFm5S2
+         QnvjOSdX2P2PJqIiNj8OcPXtYmryQ0lglpC1voPj5+HEbQcxzto6kWzZOVVXW/1yFpuU
+         Fkfg==
+X-Gm-Message-State: AGi0PuZtkNHXYQ2SftoZ/iLPX3pbxu2CPqEcFtJXV+70aXKLaq/s9Wz9
+        YpMu81w4kjca356hHJ+/G9cjQQ5I
+X-Google-Smtp-Source: APiQypKJJuzlxQ9mHh3+8CqA33Kq/xzKGGJF2P2UiVJ2Y2mGNO1HupwCr8Yqb6gYmn+InovKMBfcPA==
+X-Received: by 2002:a2e:85d1:: with SMTP id h17mr18032882ljj.70.1588082372333;
+        Tue, 28 Apr 2020 06:59:32 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id o3sm14358371lfl.78.2020.04.28.06.59.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Apr 2020 06:59:31 -0700 (PDT)
+Subject: Re: [RFC PATCH v1 3/5] media: tegra-video: Move PM runtime handle to
+ streaming
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1588047650-29402-1-git-send-email-skomatineni@nvidia.com>
+ <1588047650-29402-4-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <631390cb-9aff-0e3f-6c39-81d6c565987e@gmail.com>
+Date:   Tue, 28 Apr 2020 16:59:30 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <1588047650-29402-4-git-send-email-skomatineni@nvidia.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200428134036.askdjybit2lq47t6@uno.localdomain>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+28.04.2020 07:20, Sowjanya Komatineni пишет:
+> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+> index b3dd0c3..29ccdae 100644
+> --- a/drivers/staging/media/tegra-video/csi.c
+> +++ b/drivers/staging/media/tegra-video/csi.c
+> @@ -272,8 +272,25 @@ static int tegra_csi_s_stream(struct v4l2_subdev *subdev, int enable)
+>  	struct tegra_vi_channel *chan = v4l2_get_subdev_hostdata(subdev);
+>  	struct tegra_csi_channel *csi_chan = to_csi_chan(subdev);
+>  	struct tegra_csi *csi = csi_chan->csi;
+> +	int ret;
+> +
+> +	if (enable && atomic_add_return(1, &csi->clk_refcnt) == 1) {
+> +		ret = pm_runtime_get_sync(csi->dev);
+> +		if (ret < 0) {
+> +			dev_err(csi->dev,
+> +				"failed to get runtime PM: %d\n", ret);
+> +			pm_runtime_put_noidle(csi->dev);
+> +			atomic_dec(&csi->clk_refcnt);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	ret = csi->ops->csi_streaming(csi_chan, chan->pg_mode, enable);
+>  
+> -	return csi->ops->csi_streaming(csi_chan, chan->pg_mode, enable);
+> +	if ((ret < 0 || !enable) && atomic_dec_and_test(&csi->clk_refcnt))
+> +		pm_runtime_put_sync(csi->dev);
 
-On Tue, Apr 28, 2020 at 03:40:36PM +0200, Jacopo Mondi wrote:
-> On Mon, Apr 27, 2020 at 12:05:48AM +0300, Laurent Pinchart wrote:
-> > Hi Jacopo,
-> >
-> > Thank you for the patch.
-> >
-> 
-> [snip]
-> 
-> > > +
-> > > +static int imx219_get_selection(struct v4l2_subdev *sd,
-> > > +				struct v4l2_subdev_pad_config *cfg,
-> > > +				struct v4l2_subdev_selection *sel)
-> > > +{
-> > > +	struct imx219 *imx219 = to_imx219(sd);
-> > > +	const struct v4l2_rect *__crop;
-> > > +
-> > > +	if (sel->pad != 0)
-> > > +		return -EINVAL;
-> > > +
-> > > +	mutex_lock(&imx219->mutex);
-> > > +
-> > > +	switch (sel->target) {
-> > > +	case V4L2_SEL_TGT_NATIVE_SIZE:
-> > > +		sel->r.top = 0;
-> > > +		sel->r.left = 0;
-> > > +		sel->r.width = IMX219_NATIVE_WIDTH;
-> > > +		sel->r.height = IMX219_NATIVE_HEIGHT;
-> > > +		mutex_unlock(&imx219->mutex);
-> > > +
-> > > +		return 0;
-> > > +
-> > > +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> > > +		sel->r.top = IMX219_PIXEL_ARRAY_TOP;
-> > > +		sel->r.left = IMX219_PIXEL_ARRAY_LEFT;
-> > > +		sel->r.width = IMX219_PIXEL_ARRAY_WIDTH;
-> > > +		sel->r.height = IMX219_PIXEL_ARRAY_HEIGHT;
-> > > +		mutex_unlock(&imx219->mutex);
-> > > +
-> > > +		return 0;
-> > > +
-> > > +	case V4L2_SEL_TGT_CROP:
-> > > +		__crop = __imx219_get_pad_crop(imx219, cfg, sel->pad,
-> > > +					       sel->which);
-> > > +		sel->r = *__crop;
-> > > +		mutex_unlock(&imx219->mutex);
-> >
-> > I should have thought about it before, but only this case requires
-> > locking. Maybe
-> 
-> I should have thought it better, yes
-> 
-> >
-> > 		__crop = __imx219_get_pad_crop(imx219, cfg, sel->pad,
-> > 					       sel->which);
-> > 		mutex_lock(&imx219->mutex);
-> 
-> Actually, retreiveing __crop should be protected too, as the crop
-> rectangle is part of the imx219->mode, which is updated by the set_fmt
-> operation.
-
-__crop is a pointer, retrieving the pointer doesn't need protection.
-Accessing its contents does. No big deal though, it's cheap, as long as
-we don't lock for the bounds and default cases.
-
-> I'll wrap the whole case content in a critical session.
-> 
-> > 		sel->r = *__crop;
-> > 		mutex_unlock(&imx219->mutex);
-> >
-> > and removing the mutex_lock() at the beginning ?
-> >
-> > > +
-> > > +		return 0;
-> > > +	}
-> > > +
-> > > +	mutex_unlock(&imx219->mutex);
-> > > +
-> > > +	return -EINVAL;
-> > > +}
-> > > +
-> > >  static int imx219_start_streaming(struct imx219 *imx219)
-> > >  {
-> > >  	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
-> > > @@ -1152,6 +1248,7 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
-> > >  	.enum_mbus_code = imx219_enum_mbus_code,
-> > >  	.get_fmt = imx219_get_pad_format,
-> > >  	.set_fmt = imx219_set_pad_format,
-> > > +	.get_selection = imx219_get_selection,
-> > >  	.enum_frame_size = imx219_enum_frame_size,
-> > >  };
-> > >
-
--- 
-Regards,
-
-Laurent Pinchart
+Runtime PM maintains its own refcount, why these
+clk_refcnt/power_on_refcnt are needed?
