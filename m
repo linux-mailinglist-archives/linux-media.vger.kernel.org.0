@@ -2,188 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 826BB1BB82B
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 09:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 91A921BB830
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 09:55:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726441AbgD1Hyk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Apr 2020 03:54:40 -0400
-Received: from mail27.static.mailgun.info ([104.130.122.27]:52143 "EHLO
-        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726253AbgD1Hyk (ORCPT
+        id S1726598AbgD1HzI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Apr 2020 03:55:08 -0400
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:33417 "EHLO
+        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726355AbgD1HzI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Apr 2020 03:54:40 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1588060479; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=f/T5W9edoqmG5/Gb8TlNNFSJZNa7ziJ0WeSwP+Ejvek=; b=QFUt0qddNVk6A9MjG4PVO9gg2TecD8Tyw/i2K+QABzVIUQ+HbyIedVHYWbf9BBcxGVflzex+
- iMgUYtek1x/HSq73Us3cyXeWau2R1drCHmXFG4FTz1zbsHpHw52xwPTDo2bpZwrDQuryOFF8
- okZPhPU1RUEucDsM4Dxhjhf4QVE=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5ea7e137.7f0129019f48-smtp-out-n01;
- Tue, 28 Apr 2020 07:54:31 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id E4356C433BA; Tue, 28 Apr 2020 07:54:30 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from charante-linux.qualcomm.com (blr-c-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.19.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: charante)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id ECBA0C433CB;
-        Tue, 28 Apr 2020 07:54:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org ECBA0C433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=charante@codeaurora.org
-From:   Charan Teja Reddy <charante@codeaurora.org>
-To:     sumit.semwal@linaro.org, ghackmann@google.com, fengc@google.com
-Cc:     linux-media@vger.kernel.org, vinmenon@codeaurora.org,
-        Charan Teja Reddy <charante@codeaurora.org>
-Subject: [PATCH] dma-buf: fix use-after-free in dmabuffs_dname
-Date:   Tue, 28 Apr 2020 13:24:02 +0530
-Message-Id: <1588060442-28638-1-git-send-email-charante@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
+        Tue, 28 Apr 2020 03:55:08 -0400
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id D71FD5801B9;
+        Tue, 28 Apr 2020 03:55:06 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Tue, 28 Apr 2020 03:55:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=3Ly4DUDSUpkyQ57Uyx52tImyR/V
+        7cGw1VRugpX+pW4g=; b=o2owi7ebNFkyAxuDt0S0E4gMjDAPl+rlEs413NF3wrZ
+        QD1LxrZMT1bx9d2Xiaht6gsGzwmwE39UCG1jJlPr+LlxzLWfDZC3TSsy5EeG4dBB
+        +Ld7llM3WFIeiQn+ZuobU870M87rwbTpC4bzFGo85lDtxtm/LzY27SLRWRs7RbKV
+        vL0s+ouSm+pLTydOadSYn7pNPkxHWyYIFPdAOBbix61Eyxd0lEMBsvQbxJTpMIWr
+        MAkZSpvQnttVf1DQb1OoAzRpcVBJyquSbmXgZIz081PW4JFbxRSAtOL93jhkKYG7
+        wf3nY/mU8pAqJ14oHC3mokmxqCUctXka1bFpnSFNqww==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=3Ly4DU
+        DSUpkyQ57Uyx52tImyR/V7cGw1VRugpX+pW4g=; b=rmOcc2Vnwerk37bE3zrswg
+        JZZRXT/vUZOSv1thw+gTfqY7sq4K45Dh8UWjurjZaEYhNDXBsW2Ek/yVk5lFdsFa
+        mBF1FsL50xFPW30cFD2s9CLue8c3xG6JC9HnTRCitN9caGh8e+D21TxdM4g6z+Jw
+        pgyt75yoIFYHdncoYOlB+B9y5hRjAAdGQ2QxOBuqzekL4/jdE51RxjhSdep+xsjt
+        7+IVtBaDdMXesFbmSYmc8j2RApLOPdPFeneP7aDN7QrdQ9ha0C1xU8zhctTdSNk1
+        +3WsWVtFSxsMeCIhXsvOknaJnA0+PeDtXKXACnyPQGYTLhl5WrvsrEMq9P94En2A
+        ==
+X-ME-Sender: <xms:WeGnXr2kiIe9Nna4uMsIplj4cWOL8LkAS7YpQUgKGiIVH6O6E18E6g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedriedtgdduvddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuffhomhgrih
+    hnpeguvghvihgtvghtrhgvvgdrohhrghenucfkphepledtrdekledrieekrdejieenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvg
+    estggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:WeGnXkKXNeQAHdF25E0lMqJFjK8KyV4BTYiOoi9a-n7xlygAo2ykGg>
+    <xmx:WeGnXuwLDE6M2xiVAnbufxzc7f_WjQtfmPAUuqd5KE_YQs12eIT9Uw>
+    <xmx:WeGnXowGzHwORiE6YCTQVXbShNboMDsHPdPWmKMkFirCUqH8uhdflA>
+    <xmx:WuGnXs_B6lTCI76oCVDXt1qyT7caIAhVUlOWIvduG1BvzvG4AujUXg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id AF3543280065;
+        Tue, 28 Apr 2020 03:55:05 -0400 (EDT)
+Date:   Tue, 28 Apr 2020 09:55:04 +0200
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Robert Foss <robert.foss@linaro.org>
+Cc:     Marco Felsch <m.felsch@pengutronix.de>,
+        Rob Herring <robh@kernel.org>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v7 1/3] media: dt-bindings: ov8856: Document YAML bindings
+Message-ID: <20200428075504.ovzugt2mbgan7z3k@gilmour.lan>
+References: <20200408110816.2712841-1-robert.foss@linaro.org>
+ <20200408110816.2712841-2-robert.foss@linaro.org>
+ <20200415160729.GA4438@bogus>
+ <20200415162110.bmorj4u4hkqohqjx@pengutronix.de>
+ <CAG3jFysg34=HJ7xefuAKw4Uq6W0POm5TsJmzQku6WwkhH_j=-w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="bgh5jcvervb4fpgs"
+Content-Disposition: inline
+In-Reply-To: <CAG3jFysg34=HJ7xefuAKw4Uq6W0POm5TsJmzQku6WwkhH_j=-w@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following race occurs while accessing the dmabuf object exported as
-file:
-P1				P2
-dma_buf_release()          dmabuffs_dname()
-			   [say lsof reading /proc/<P1 pid>/fd/<num>]
 
-			   read dmabuf stored in dentry->fsdata
-Free the dmabuf object
-			   Start accessing the dmabuf structure
+--bgh5jcvervb4fpgs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In the above description, the dmabuf object freed in P1 is being
-accessed from P2 which is resulting into the use-after-free. Below is
-the dump stack reported.
+On Mon, Apr 27, 2020 at 05:13:42PM +0200, Robert Foss wrote:
+> On Wed, 15 Apr 2020 at 18:21, Marco Felsch <m.felsch@pengutronix.de> wrot=
+e:
+> >
+> > On 20-04-15 11:07, Rob Herring wrote:
+> > > On Wed, Apr 08, 2020 at 01:08:14PM +0200, Robert Foss wrote:
+> > > > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > >
+> > > > This patch adds documentation of device tree in YAML schema for the
+> > > > OV8856 CMOS image sensor.
+> > > >
+> > > > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > > Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> > > > ---
+> > > >
+> > > > - Changes since v6:
+> > > >   * Marco: remove qcom specifics from DT example
+> > > >
+> > > > - Changes since v5:
+> > > >   * Add assigned-clocks and assigned-clock-rates
+> > > >   * robher: dt-schema errors
+> > > >
+> > > > - Changes since v4:
+> > > >   * Fabio: Change reset-gpio to GPIO_ACTIVE_LOW, explain in descrip=
+tion
+> > > >   * Add clock-lanes property to example
+> > > >   * robher: Fix syntax error in devicetree example
+> > > >
+> > > > - Changes since v3:
+> > > >   * robher: Fix syntax error
+> > > >   * robher: Removed maxItems
+> > > >   * Fixes yaml 'make dt-binding-check' errors
+> > > >
+> > > > - Changes since v2:
+> > > >   Fixes comments from from Andy, Tomasz, Sakari, Rob.
+> > > >   * Convert text documentation to YAML schema.
+> > > >
+> > > > - Changes since v1:
+> > > >   Fixes comments from Sakari, Tomasz
+> > > >   * Add clock-frequency and link-frequencies in DT
+> > > >
+> > > >  .../devicetree/bindings/media/i2c/ov8856.yaml | 143 ++++++++++++++=
+++++
+> > > >  MAINTAINERS                                   |   1 +
+> > > >  2 files changed, 144 insertions(+)
+> > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8=
+856.yaml
+> > > >
+> > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yam=
+l b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..96bef5403d7e
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> > > > @@ -0,0 +1,143 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > > +# Copyright (c) 2019 MediaTek Inc.
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: Omnivision OV8856 CMOS Sensor Device Tree Bindings
+> > > > +
+> > > > +maintainers:
+> > > > +  - Ben Kao <ben.kao@intel.com>
+> > > > +  - Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > > +
+> > > > +description: |-
+> > > > +  The Omnivision OV8856 is a high performance, 1/4-inch, 8 megapix=
+el, CMOS
+> > > > +  image sensor that delivers 3264x2448 at 30fps. It provides full-=
+frame,
+> > > > +  sub-sampled, and windowed 10-bit MIPI images in various formats =
+via the
+> > > > +  Serial Camera Control Bus (SCCB) interface. This chip is program=
+mable
+> > > > +  through I2C and two-wire SCCB. The sensor output is available vi=
+a CSI-2
+> > > > +  serial data output (up to 4-lane).
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    const: ovti,ov8856
+> > > > +
+> > > > +  reg:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  clocks:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  clock-names:
+> > > > +    description:
+> > > > +      Input clock for the sensor.
+> > > > +    items:
+> > > > +      - const: xvclk
+> > > > +
+> > > > +  assigned-clocks:
+> > > > +    description:
+> > > > +      Input clock for the sensor.
+> > > > +
+> > > > +  assigned-clock-rates:
+> > > > +    description:
+> > > > +      Frequency of the xvclk clock in Hertz.
+> > >
+> > > These 2 should have a 'maxItems: 1'
+> >
+> > Don't know why those properties are needed here.. IMHO this shouldn't be
+> > part of the binding or at least it should be optional and not required.
+> > All we need is the clocks and the clock-names property.
+>=20
+> Thanks Marco, I'll make it optional for the next revision.
 
-Call Trace:
- kasan_report+0x12/0x20
- __asan_report_load8_noabort+0x14/0x20
- dmabuffs_dname+0x4f4/0x560
- tomoyo_realpath_from_path+0x165/0x660
- tomoyo_get_realpath
- tomoyo_check_open_permission+0x2a3/0x3e0
- tomoyo_file_open
- tomoyo_file_open+0xa9/0xd0
- security_file_open+0x71/0x300
- do_dentry_open+0x37a/0x1380
- vfs_open+0xa0/0xd0
- path_openat+0x12ee/0x3490
- do_filp_open+0x192/0x260
- do_sys_openat2+0x5eb/0x7e0
- do_sys_open+0xf2/0x180
+Well, the whole discussion we had was about removing them entirely?
 
-Fixes: bb2bb90 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
-Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
-Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
----
- drivers/dma-buf/dma-buf.c | 25 +++++++++++++++++++++++--
- include/linux/dma-buf.h   |  1 +
- 2 files changed, 24 insertions(+), 2 deletions(-)
+Maxime
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 570c923..069d8f78 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -25,6 +25,7 @@
- #include <linux/mm.h>
- #include <linux/mount.h>
- #include <linux/pseudo_fs.h>
-+#include <linux/dcache.h>
- 
- #include <uapi/linux/dma-buf.h>
- #include <uapi/linux/magic.h>
-@@ -38,18 +39,34 @@ struct dma_buf_list {
- 
- static struct dma_buf_list db_list;
- 
-+static void dmabuf_dent_put(struct dma_buf *dmabuf)
-+{
-+	if (atomic_dec_and_test(&dmabuf->dent_count)) {
-+		kfree(dmabuf->name);
-+		kfree(dmabuf);
-+	}
-+}
-+
- static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
- {
- 	struct dma_buf *dmabuf;
- 	char name[DMA_BUF_NAME_LEN];
- 	size_t ret = 0;
- 
-+	spin_lock(&dentry->d_lock);
- 	dmabuf = dentry->d_fsdata;
-+	if (!dmabuf || !atomic_add_unless(&dmabuf->dent_count, 1, 0)) {
-+		spin_unlock(&dentry->d_lock);
-+		goto out;
-+	}
-+	spin_unlock(&dentry->d_lock);
- 	dma_resv_lock(dmabuf->resv, NULL);
- 	if (dmabuf->name)
- 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
- 	dma_resv_unlock(dmabuf->resv);
-+	dmabuf_dent_put(dmabuf);
- 
-+out:
- 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
- 			     dentry->d_name.name, ret > 0 ? name : "");
- }
-@@ -80,12 +97,16 @@ static int dma_buf_fs_init_context(struct fs_context *fc)
- static int dma_buf_release(struct inode *inode, struct file *file)
- {
- 	struct dma_buf *dmabuf;
-+	struct dentry *dentry = file->f_path.dentry;
- 
- 	if (!is_dma_buf_file(file))
- 		return -EINVAL;
- 
- 	dmabuf = file->private_data;
- 
-+	spin_lock(&dentry->d_lock);
-+	dentry->d_fsdata = NULL;
-+	spin_unlock(&dentry->d_lock);
- 	BUG_ON(dmabuf->vmapping_counter);
- 
- 	/*
-@@ -108,8 +129,7 @@ static int dma_buf_release(struct inode *inode, struct file *file)
- 		dma_resv_fini(dmabuf->resv);
- 
- 	module_put(dmabuf->owner);
--	kfree(dmabuf->name);
--	kfree(dmabuf);
-+	dmabuf_dent_put(dmabuf);
- 	return 0;
- }
- 
-@@ -548,6 +568,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
- 	init_waitqueue_head(&dmabuf->poll);
- 	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
- 	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
-+	atomic_set(&dmabuf->dent_count, 1);
- 
- 	if (!resv) {
- 		resv = (struct dma_resv *)&dmabuf[1];
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 82e0a4a..a259042 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -315,6 +315,7 @@ struct dma_buf {
- 	struct list_head list_node;
- 	void *priv;
- 	struct dma_resv *resv;
-+	atomic_t dent_count;
- 
- 	/* poll support */
- 	wait_queue_head_t poll;
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a
-member of the Code Aurora Forum, hosted by The Linux Foundation
+--bgh5jcvervb4fpgs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCXqfhWAAKCRDj7w1vZxhR
+xXg4AP9QpJm1SeDBHxg+crTVi5icwwj1p96ALN1LEBBdS0vlzgD+IHz1H62cHcBI
+cgbH2BwkU2AT26cxWg6C2u5UtOXswQQ=
+=qFiE
+-----END PGP SIGNATURE-----
+
+--bgh5jcvervb4fpgs--
