@@ -2,163 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D193F1BBB57
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 12:37:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A638F1BBCD8
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 13:51:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726415AbgD1Khj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Apr 2020 06:37:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54090 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726276AbgD1Khj (ORCPT
+        id S1726285AbgD1Lv1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Apr 2020 07:51:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37540 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726448AbgD1Lv1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Apr 2020 06:37:39 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9934AC03C1A9
-        for <linux-media@vger.kernel.org>; Tue, 28 Apr 2020 03:37:39 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id z25so31700273otq.13
-        for <linux-media@vger.kernel.org>; Tue, 28 Apr 2020 03:37:39 -0700 (PDT)
+        Tue, 28 Apr 2020 07:51:27 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EE93C03C1AC
+        for <linux-media@vger.kernel.org>; Tue, 28 Apr 2020 04:51:27 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id e20so32049692otk.12
+        for <linux-media@vger.kernel.org>; Tue, 28 Apr 2020 04:51:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=/lbZ/o7rViPH+y9TQc0SUKwOd3mSEgmUJullTUqZ1zw=;
-        b=tV9Fikyh7laK//5LljoUi8361sRi9GDmRlXVfYSZ6r4s46shMh1d/KzEq65dHBa5u+
-         AmJvWEWOBHp9NE75KHX/uuj6u1661O9qUR/nkyzTyZopxT2w9we+Fyja8tSQnpWVt+ax
-         lmBPPhz0K+zNF26Qb3RBe5w9fSURekRbjz6DNevKZi/aVxUj3sItV2Mcvg5X04VDpC/g
-         ZiR1hFp0dB2r6sA0BOQ8jnSs5wpy0hKTTonQJvFB9JjB8Zc/3jUXbqjAUTgM9jUv6tf6
-         kq8gZkjR8xR9uZEtc97WS9vZ/diLVDf84zmnOl6YU0dOIrIQ2LfidnmXM2RRBwjW8N/6
-         m9Gw==
+        bh=YV5X7b0RVx9UtJZqWhbhycNNkPCol2NhsoVPXumvChw=;
+        b=qY200Gdh14KWjuFl7nMHJc5Y6JPsMnKXb+yEm+ncWoJ2UZOZXise3+Js8HeoWMi7cc
+         IgwtEqKjPLAGBnHEg5HKFHjRoxSnELVv8kn45MyI9kIFqYgVS6zPiJ2M85fAOg22GyyE
+         819bOa4POc+oTD+ZXBHOQGapNKnxVaE7fpJUkb9oIedVVdxYBRu0336uweqMWwyfBhRd
+         cg4cmOHFVMgLu/3Xr/MNVw4TRUgxCW2aFT9eVid1r0DJvVrHL5ecakv39CU7qdZADE2/
+         mV9188VWARK8Oe7oA39H1FZ1UhXWmfyCwoT9EmxMJFgimfGqXL9yyKrEStKAlQkAgLsZ
+         rJAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=/lbZ/o7rViPH+y9TQc0SUKwOd3mSEgmUJullTUqZ1zw=;
-        b=kxQqgiclfQGO11gkuS/TZGdtJwlk7HHRvTVNJbm71rdUb339AnkapR67n8+PZFw9Bw
-         1cfoVBp5P0Jgmm2az5vmHPo4Qg0brs8ycF5v79rHtWLD51dBmEMrE9S6u3mYnW9BaOk4
-         JtfJ45bWRBvRB53q/Qhk0+8EXQVlMOKQ5yvD0uRe5nxu3qU5BY5BA77/FtXy6U27zWKG
-         FQuMY5OxHtJRhqIHbJ+HFLtQ6pogZhIFSy8/O8wq5gi1uwTABFHyQG640CBOl1g/gIoc
-         oW0YcC+Jm0oaw2tlfAaQYtg2wHknrxFkoAaqW7X492lxRgwJ9V+hqU6L++A7peHlVBTY
-         jONA==
-X-Gm-Message-State: AGi0PuZAOg+MiTNFxPeygsjgwOHLDEBvDYm6Msw6bPxkNBtLqKg9xC4b
-        326Lub3xv+rXUJONnMVaQ8S7Ni6zjzWLa2/nZ1/E/w==
-X-Google-Smtp-Source: APiQypJBytTcB67KweAIRvJkCA/naVwdNTs/27EB0xHKNcKsZvMT52vq5eSodEdlOT00J33uHlOKEpmUvYzvjkOh7QY=
-X-Received: by 2002:aca:d885:: with SMTP id p127mr2520841oig.76.1588070258849;
- Tue, 28 Apr 2020 03:37:38 -0700 (PDT)
+        bh=YV5X7b0RVx9UtJZqWhbhycNNkPCol2NhsoVPXumvChw=;
+        b=eFxvYmGFdIOm0UfddkPiH1CUhMF0QLxS+pOfnpyVZomjBb7XgfRcrvYqnbimlS/fuR
+         WYXBtx7YNnvQpjPYFpg5pHMKTCnE7H0j1iCJcl23Rp7Yh0ptQ5Q+hSzypW6mCSPXM34E
+         D62ObwrD8PtgrZfEdYHTSRlTqm3a6JYbAowkycQh8WamEHXuXgYaAUEbCYkBPw6mn7yq
+         fUklelYVnm0hufy+jvu28MBkYIxbB6S2ljkCdRuBMzDioROns0hJdbrXZS+dySZUvH82
+         xgNXzqDgpz/r0EwnAj2eM6k2gvUqIW5dky3aaWhTJqdXBv/xwY+MF4x9a1MiiRQK68d6
+         Beaw==
+X-Gm-Message-State: AGi0PuabzcsTuCS03YnOVnms/5yp5gdeaGqIeNCtlnrg1CCaw+9o0KOs
+        MTZMhyky59SCzGeW0ow3jUruULt3vqe02ceP2vFlcA==
+X-Google-Smtp-Source: APiQypIGTUh/5sCvlDOhvI/LG4JE8NTFr9y4EW8BlYgrxb5QHasXcsr59vMAsl3o74ezgCVEiF3BiSVV/FTK4Mkh01Y=
+X-Received: by 2002:a05:6830:1e4e:: with SMTP id e14mr21811872otj.91.1588074686391;
+ Tue, 28 Apr 2020 04:51:26 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200407133002.3486387-1-daniel.vetter@ffwll.ch>
- <CAO_48GF5jM-L7bqnfvXSvbugAjYsYnE7rGokO7_LWQxHua0=wQ@mail.gmail.com> <20200423145122.GA17542@google.com>
-In-Reply-To: <20200423145122.GA17542@google.com>
-From:   Sumit Semwal <sumit.semwal@linaro.org>
-Date:   Tue, 28 Apr 2020 16:07:27 +0530
-Message-ID: <CAO_48GHcwZC2zisha9JVg5ifDdXrTLFOgrVL+yYyLuxw4j5JMQ@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: Fix SET_NAME ioctl uapi
-To:     Martin Liu <liumartin@google.com>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Chenbo Feng <fengc@google.com>,
-        Greg Hackmann <ghackmann@google.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
-        minchan@kernel.org, Suren Baghdasaryan <surenb@google.com>,
-        Jenhao Chen <jenhaochen@google.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Todd Kjos <tkjos@android.com>
+References: <20200408110816.2712841-1-robert.foss@linaro.org>
+ <20200408110816.2712841-2-robert.foss@linaro.org> <20200415160729.GA4438@bogus>
+ <20200415162110.bmorj4u4hkqohqjx@pengutronix.de> <CAG3jFysg34=HJ7xefuAKw4Uq6W0POm5TsJmzQku6WwkhH_j=-w@mail.gmail.com>
+ <20200428075504.ovzugt2mbgan7z3k@gilmour.lan> <20200428082505.GA22489@pengutronix.de>
+In-Reply-To: <20200428082505.GA22489@pengutronix.de>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Tue, 28 Apr 2020 13:51:15 +0200
+Message-ID: <CAG3jFysKKfu564y4jnfh3unT-6xPLSeBPjfGX5KRY5s=avp1mg@mail.gmail.com>
+Subject: Re: [PATCH v7 1/3] media: dt-bindings: ov8856: Document YAML bindings
+To:     Marco Felsch <m.felsch@pengutronix.de>
+Cc:     Maxime Ripard <maxime@cerno.tech>, Rob Herring <robh@kernel.org>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks Daniel, Martin,
+Ah, sorry. I was thinking of the 'port' property and replying to that.
 
-On Thu, 23 Apr 2020 at 20:21, Martin Liu <liumartin@google.com> wrote:
->
-> On Thu, Apr 09, 2020 at 09:28:16AM +0530, Sumit Semwal wrote:
-> > Thanks for the patch, Daniel!
-> >
-> >
-> > On Tue, 7 Apr 2020 at 19:00, Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > >
-> > > The uapi is the same on 32 and 64 bit, but the number isnt. Everyone
-> > > who botched this please re-read:
-> > >
-> > > https://www.kernel.org/doc/html/v5.4-preprc-cpu/ioctl/botching-up-ioctls.html
-> > >
-> > > Also, the type argument for the ioctl macros is for the type the void
-> > > __user *arg pointer points at, which in this case would be the
-> > > variable-sized char[] of a 0 terminated string. So this was botched in
-> > > more than just the usual ways.
-> >
-> > Yes, it shouldn't have passed through the cracks; my apologies!
-> >
-> > >
-> > > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > > Cc: Chenbo Feng <fengc@google.com>
-> > > Cc: Greg Hackmann <ghackmann@google.com>
-> > > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > Cc: linux-media@vger.kernel.org
-> > > Cc: linaro-mm-sig@lists.linaro.org
-> > > Cc: minchan@kernel.org
-> > > Cc: surenb@google.com
-> > > Cc: jenhaochen@google.com
-> > > Cc: Martin Liu <liumartin@google.com>
-> >
-> > Martin,
-> > Could I request you to test this one with the 4 combinations of 32-bit
-> > / 64-bit userspace and kernel, and let us know that all 4 are working
-> > alright? If yes, please consider giving your tested-by here.
-> >
-> Hi Sumit, Daniel,
-> Sorry for being late to the tests. I finished the tests on 32/64 apps
-> with 64 bit kernel and they were fine. Unfortunately, I couldn't have a 32
-> bit kernel to run the tests somehow. However, this should work from the
-> code logic. Hope this is okay to you and thanks for Todd's help.
->
-> Tested-by: Martin Liu <liumartin@google.com>
-> Reviewed-by: Martin Liu <liumartin@google.com>
+assigned clocks are definitely being removed.
 
-Applied to drm-misc-fixes.
+On Tue, 28 Apr 2020 at 10:25, Marco Felsch <m.felsch@pengutronix.de> wrote:
 >
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > ---
-> > >  drivers/dma-buf/dma-buf.c    | 3 ++-
-> > >  include/uapi/linux/dma-buf.h | 4 ++++
-> > >  2 files changed, 6 insertions(+), 1 deletion(-)
+> On 20-04-28 09:55, Maxime Ripard wrote:
+> > On Mon, Apr 27, 2020 at 05:13:42PM +0200, Robert Foss wrote:
+> > > On Wed, 15 Apr 2020 at 18:21, Marco Felsch <m.felsch@pengutronix.de> wrote:
+> > > >
+> > > > On 20-04-15 11:07, Rob Herring wrote:
+> > > > > On Wed, Apr 08, 2020 at 01:08:14PM +0200, Robert Foss wrote:
+> > > > > > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+>
+> ...
+>
+> > > > > > +  clock-names:
+> > > > > > +    description:
+> > > > > > +      Input clock for the sensor.
+> > > > > > +    items:
+> > > > > > +      - const: xvclk
+> > > > > > +
+> > > > > > +  assigned-clocks:
+> > > > > > +    description:
+> > > > > > +      Input clock for the sensor.
+> > > > > > +
+> > > > > > +  assigned-clock-rates:
+> > > > > > +    description:
+> > > > > > +      Frequency of the xvclk clock in Hertz.
+> > > > >
+> > > > > These 2 should have a 'maxItems: 1'
+> > > >
+> > > > Don't know why those properties are needed here.. IMHO this shouldn't be
+> > > > part of the binding or at least it should be optional and not required.
+> > > > All we need is the clocks and the clock-names property.
 > > >
-> > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > > index 570c923023e6..1d923b8e4c59 100644
-> > > --- a/drivers/dma-buf/dma-buf.c
-> > > +++ b/drivers/dma-buf/dma-buf.c
-> > > @@ -388,7 +388,8 @@ static long dma_buf_ioctl(struct file *file,
-> > >
-> > >                 return ret;
-> > >
-> > > -       case DMA_BUF_SET_NAME:
-> > > +       case DMA_BUF_SET_NAME_A:
-> > > +       case DMA_BUF_SET_NAME_B:
-> > >                 return dma_buf_set_name(dmabuf, (const char __user *)arg);
-> > >
-> > >         default:
-> > > diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-> > > index dbc7092e04b5..21dfac815dc0 100644
-> > > --- a/include/uapi/linux/dma-buf.h
-> > > +++ b/include/uapi/linux/dma-buf.h
-> > > @@ -39,6 +39,10 @@ struct dma_buf_sync {
-> > >
-> > >  #define DMA_BUF_BASE           'b'
-> > >  #define DMA_BUF_IOCTL_SYNC     _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
-> > > +/* 32/64bitness of this uapi was botched in android, there's no difference
-> > > + * between them in actual uapi, they're just different numbers. */
-> > >  #define DMA_BUF_SET_NAME       _IOW(DMA_BUF_BASE, 1, const char *)
-> > > +#define DMA_BUF_SET_NAME_A     _IOW(DMA_BUF_BASE, 1, u32)
-> > > +#define DMA_BUF_SET_NAME_B     _IOW(DMA_BUF_BASE, 1, u64)
-> > >
-> > >  #endif
-> > > --
-> > > 2.25.1
-> > >
-> > Best,
-> > Sumit.
-Best,
-Sumit.
+> > > Thanks Marco, I'll make it optional for the next revision.
+> >
+> > Well, the whole discussion we had was about removing them entirely?
+>
+> +1 from my side. It is part of the system integration and not part of
+> this device.
+>
+> Regards,
+>   Marco
+>
+> > Maxime
