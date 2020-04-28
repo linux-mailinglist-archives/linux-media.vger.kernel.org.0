@@ -2,125 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 975761BB7D4
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 09:38:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E25191BB7F4
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 09:46:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726526AbgD1HiO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Apr 2020 03:38:14 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:37375 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726253AbgD1HiO (ORCPT
+        id S1726621AbgD1HqP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Apr 2020 03:46:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55652 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726253AbgD1HqP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Apr 2020 03:38:14 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id TKohjjwJplKa1TKoljkB2C; Tue, 28 Apr 2020 09:38:11 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588059492; bh=+nAgS30c07wDN6lSEWd2/CCFrQtC4lXyHeV3iYFeXr8=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=mBrX3lU7q134xiasmBAak+ZWfmaAQQrJetv44aekDE+ksxsm8RXWBLJ1Use1JCl1I
-         BNuw0PeUOY9yC8G8KpXKYvjaoWL6EF9bWY6mcY4gClBI4AZMAkIpBHVztc2QZ55FXQ
-         hqWMlu9XFOpTiCm/THBGdcluPNCw8z9/ulLHdPO3zBmDxNx8GuKTMOHsIZQRy3i1Qr
-         DG9NwevQ5K+bk1iU3tWo5kkmQN2NzghndxPOh2sB9lqm2fGjd0ToxEl+08T4tsqVBa
-         XWuWsr42mhUyZOmHB5fjFR+g0jkbKbq+rX8zKv4jTYPVqn5w1yn3PuL7W/+rfXm1de
-         zxwD9Uv85jWAA==
-Subject: Re: [RFC PATCH v1 0/5] media: tegra: Tegra video driver follow-up
- patches
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com
-Cc:     digetx@gmail.com, linux-media@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1588047650-29402-1-git-send-email-skomatineni@nvidia.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <5f065fc5-0f45-6b9e-068c-28d0a2e4684e@xs4all.nl>
-Date:   Tue, 28 Apr 2020 09:38:07 +0200
+        Tue, 28 Apr 2020 03:46:15 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC0A3C03C1A9;
+        Tue, 28 Apr 2020 00:46:14 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 1202C2A1111
+Subject: Re: [PATCH v3 3/3] media: vimc: deb: Add support for {RGB,BGR,GBR}888
+ bus formats on source pad
+To:     =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= 
+        <nfraprado@protonmail.com>, linux-media@vger.kernel.org
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org
+References: <20200427230234.3114565-4-nfraprado@protonmail.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <1fcbe67e-db71-7841-6165-e62b74d82994@collabora.com>
+Date:   Tue, 28 Apr 2020 09:46:07 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <1588047650-29402-1-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200427230234.3114565-4-nfraprado@protonmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNnYN4mXESrKOpzlixmWEfZewJ9vePxyXiaZ6eW8U8sCyiqmmBh4L32L7ha5AdhsZGvLriTlcjavNogmiOF5LjXDr2At4PGJsV+wyFJ6oVTyHgLXXlE3
- lFXrY3m1G3Ek/L39otmz3XNqNPgLiN+8UWLeeJ9oQFu0gp7oUHuR05FWFDVbvG1G6rSV8v+6aR5PfiBZQNFim6rs8eXkhVKMdkuC5KUWY+SkEBrYaLJmjkP1
- AwEMi5Gn4fQpYifQsawYhLphF3CH1o3ueY5AGW5VEWUkIm0mA4aoMomZjhgiI7S5tdouZEwVreO8DvynFMnPcdMI6NhUaDIqwPLypDaULPyWhPfWqGpOAUrC
- AiwCUkqDCfAwoFVKTHgrToY5yrAnAF9NoKNV8TX8098zQMQItqIp3mOEAqNlWJ44PlYRfjLJ
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 28/04/2020 06:20, Sowjanya Komatineni wrote:
-> This is a fllow-up to some last feedback received for Tegra VI driver RFC
-> v10 patches.
-> https://patchwork.linuxtv.org/cover/63334/
+hi,
+Thanks for the patches!
+
+On 28.04.20 01:03, Nícolas F. R. A. Prado wrote:
+> Add support for RGB888_*, BGR888_* and GBR888_* media bus formats on
+> the source pad of debayer subdevices.
 > 
+> Co-developed-by: Vitor Massaru Iha <vitor@massaru.org>
+> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@protonmail.com>
+> ---
 > 
-> Sowjanya Komatineni (5):
->   MAINTAINERS: Rename Tegra Video driver path
->   media: tegra: Rename driver path to tegra-video
->   media: tegra-video: Move PM runtime handle to streaming
->   media: tegra-video: Rearrange SoC specific to Tegra210 and cleanup
->     files
->   media: tegra-video: Remove module macros for vi and csi driver
+> Changes in v3:
+> - Rename vimc_deb_is_src_code_invalid() to vimc_deb_src_code_is_valid()
+> - Change vimc_deb_src_code_is_valid() to return bool
 > 
->  MAINTAINERS                                  |    2 +-
->  drivers/staging/media/Kconfig                |    2 +-
->  drivers/staging/media/Makefile               |    2 +-
->  drivers/staging/media/tegra-video/Kconfig    |   12 +
->  drivers/staging/media/tegra-video/Makefile   |    8 +
->  drivers/staging/media/tegra-video/TODO       |   10 +
->  drivers/staging/media/tegra-video/csi.c      |  536 ++++++++++++
->  drivers/staging/media/tegra-video/csi.h      |  146 ++++
->  drivers/staging/media/tegra-video/tegra210.c | 1080 ++++++++++++++++++++++++
->  drivers/staging/media/tegra-video/vi.c       | 1082 +++++++++++++++++++++++++
->  drivers/staging/media/tegra-video/vi.h       |  258 ++++++
->  drivers/staging/media/tegra-video/video.c    |  155 ++++
->  drivers/staging/media/tegra-video/video.h    |   29 +
->  drivers/staging/media/tegra/Kconfig          |   12 -
->  drivers/staging/media/tegra/Makefile         |    8 -
->  drivers/staging/media/tegra/TODO             |   10 -
->  drivers/staging/media/tegra/common.h         |  259 ------
->  drivers/staging/media/tegra/csi.c            |  604 --------------
->  drivers/staging/media/tegra/csi.h            |  144 ----
->  drivers/staging/media/tegra/tegra210.c       |  708 ----------------
->  drivers/staging/media/tegra/tegra210.h       |  190 -----
->  drivers/staging/media/tegra/vi.c             | 1127 --------------------------
->  drivers/staging/media/tegra/vi.h             |   72 --
->  drivers/staging/media/tegra/video.c          |  153 ----
->  drivers/staging/media/tegra/video.h          |   29 -
->  25 files changed, 3319 insertions(+), 3319 deletions(-)
-
-I thought that the follow-up series was just a rename of a directory
-and perhaps one or two smaller changes, but this is too much change.
-I prefer to have a v11 instead with all these changes incorporated.
-
-Sorry about that,
-
-	Hans
-
->  create mode 100644 drivers/staging/media/tegra-video/Kconfig
->  create mode 100644 drivers/staging/media/tegra-video/Makefile
->  create mode 100644 drivers/staging/media/tegra-video/TODO
->  create mode 100644 drivers/staging/media/tegra-video/csi.c
->  create mode 100644 drivers/staging/media/tegra-video/csi.h
->  create mode 100644 drivers/staging/media/tegra-video/tegra210.c
->  create mode 100644 drivers/staging/media/tegra-video/vi.c
->  create mode 100644 drivers/staging/media/tegra-video/vi.h
->  create mode 100644 drivers/staging/media/tegra-video/video.c
->  create mode 100644 drivers/staging/media/tegra-video/video.h
->  delete mode 100644 drivers/staging/media/tegra/Kconfig
->  delete mode 100644 drivers/staging/media/tegra/Makefile
->  delete mode 100644 drivers/staging/media/tegra/TODO
->  delete mode 100644 drivers/staging/media/tegra/common.h
->  delete mode 100644 drivers/staging/media/tegra/csi.c
->  delete mode 100644 drivers/staging/media/tegra/csi.h
->  delete mode 100644 drivers/staging/media/tegra/tegra210.c
->  delete mode 100644 drivers/staging/media/tegra/tegra210.h
->  delete mode 100644 drivers/staging/media/tegra/vi.c
->  delete mode 100644 drivers/staging/media/tegra/vi.h
->  delete mode 100644 drivers/staging/media/tegra/video.c
->  delete mode 100644 drivers/staging/media/tegra/video.h
+> Changes in v2:
+> - Change commit message to reflect v2 changes
+> - Rename variables
+> - Fix array formatting
+> - Add vimc_deb_is_src_code_valid function
+> - Add other BGR888 and RGB888 formats to debayer source pad supported
+>    formats
 > 
+>   .../media/test-drivers/vimc/vimc-debayer.c    | 61 +++++++++++++++----
+>   1 file changed, 49 insertions(+), 12 deletions(-)
+> 
+> diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
+> index d10aee9f84c4..7e87706d417e 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-debayer.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
+> @@ -51,6 +51,19 @@ static const struct v4l2_mbus_framefmt sink_fmt_default = {
+>   	.colorspace = V4L2_COLORSPACE_DEFAULT,
+>   };
+>   
+> +static const u32 vimc_deb_src_mbus_codes[] = {
+> +	MEDIA_BUS_FMT_GBR888_1X24,
+> +	MEDIA_BUS_FMT_BGR888_1X24,
+> +	MEDIA_BUS_FMT_BGR888_3X8,
+> +	MEDIA_BUS_FMT_RGB888_1X24,
+> +	MEDIA_BUS_FMT_RGB888_2X12_BE,
+> +	MEDIA_BUS_FMT_RGB888_2X12_LE,
+> +	MEDIA_BUS_FMT_RGB888_3X8,
+> +	MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> +	MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
+> +	MEDIA_BUS_FMT_RGB888_1X32_PADHI,
+> +};
+> +
+>   static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] = {
+>   	{
+>   		.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+> @@ -125,6 +138,17 @@ static const struct vimc_deb_pix_map *vimc_deb_pix_map_by_code(u32 code)
+>   	return NULL;
+>   }
+>   
+> +static bool vimc_deb_src_code_is_valid(u32 code)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(vimc_deb_src_mbus_codes); i++)
+> +		if (vimc_deb_src_mbus_codes[i] == code)
+> +			return true;
+> +
+> +	return false;
+> +}
+> +
+>   static int vimc_deb_init_cfg(struct v4l2_subdev *sd,
+>   			     struct v4l2_subdev_pad_config *cfg)
+>   {
+> @@ -148,14 +172,11 @@ static int vimc_deb_enum_mbus_code(struct v4l2_subdev *sd,
+>   				   struct v4l2_subdev_pad_config *cfg,
+>   				   struct v4l2_subdev_mbus_code_enum *code)
+>   {
+> -	/* We only support one format for source pads */
+>   	if (VIMC_IS_SRC(code->pad)) {
+> -		struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
+> -
+> -		if (code->index)
+> +		if (code->index >= ARRAY_SIZE(vimc_deb_src_mbus_codes))
+>   			return -EINVAL;
+>   
+> -		code->code = vdeb->src_code;
+> +		code->code = vimc_deb_src_mbus_codes[code->index];
+>   	} else {
+>   		if (code->index >= ARRAY_SIZE(vimc_deb_pix_map_list))
+>   			return -EINVAL;
+> @@ -170,8 +191,6 @@ static int vimc_deb_enum_frame_size(struct v4l2_subdev *sd,
+>   				    struct v4l2_subdev_pad_config *cfg,
+>   				    struct v4l2_subdev_frame_size_enum *fse)
+>   {
+> -	struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
+> -
+>   	if (fse->index)
+>   		return -EINVAL;
+>   
+> @@ -181,7 +200,7 @@ static int vimc_deb_enum_frame_size(struct v4l2_subdev *sd,
+>   
+>   		if (!vpix)
+>   			return -EINVAL;
+> -	} else if (fse->code != vdeb->src_code) {
+> +	} else if (!vimc_deb_src_code_is_valid(fse->code)) {
+>   		return -EINVAL;
+>   	}
+>   
+> @@ -237,6 +256,7 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
+>   {
+>   	struct vimc_deb_device *vdeb = v4l2_get_subdevdata(sd);
+>   	struct v4l2_mbus_framefmt *sink_fmt;
+> +	u32 *src_code;
+>   
+>   	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+>   		/* Do not change the format while stream is on */
+> @@ -244,8 +264,10 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
+>   			return -EBUSY;
+>   
+>   		sink_fmt = &vdeb->sink_fmt;
+> +		src_code = &vdeb->src_code;
+>   	} else {
+>   		sink_fmt = v4l2_subdev_get_try_format(sd, cfg, 0);
+> +		src_code = &v4l2_subdev_get_try_format(sd, cfg, 1)->code;
+>   	}
+>   
+>   	/*
+> @@ -253,9 +275,14 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
+>   	 * it is propagated from the sink
+>   	 */
+>   	if (VIMC_IS_SRC(fmt->pad)) {
+> +		u32 code = fmt->format.code;
+> +
+>   		fmt->format = *sink_fmt;
+> -		/* TODO: Add support for other formats */
+> -		fmt->format.code = vdeb->src_code;
+> +
+> +		if (vimc_deb_src_code_is_valid(code))
+> +			*src_code = code;
+> +
+> +		fmt->format.code = *src_code;
+>   	} else {
+>   		/* Set the new format in the sink pad */
+>   		vimc_deb_adjust_sink_fmt(&fmt->format);
+> @@ -291,11 +318,21 @@ static void vimc_deb_set_rgb_mbus_fmt_rgb888_1x24(struct vimc_deb_device *vdeb,
+I guess the name of the function should now change to vimc_deb_set_rgb_mbus_fmt ?
+Or better vimc_deb_process_rgb_frame.
+Also, it seems that it is a assigned as a callback so that each src_fmt have a different callback
+but you already did it with a switch case. So maybe you can add a patch to call it directly
 
+Thanks,
+Dafna
+
+>   						  unsigned int col,
+>   						  unsigned int rgb[3])
+>   {
+> +	const struct vimc_pix_map *vpix;
+>   	unsigned int i, index;
+>   
+> +	vpix = vimc_pix_map_by_code(vdeb->src_code);
+>   	index = VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
+> -	for (i = 0; i < 3; i++)
+> -		vdeb->src_frame[index + i] = rgb[i];
+> +	for (i = 0; i < 3; i++) {
+> +		switch (vpix->pixelformat) {
+> +		case V4L2_PIX_FMT_RGB24:
+> +			vdeb->src_frame[index + i] = rgb[i];
+> +			break;
+> +		case V4L2_PIX_FMT_BGR24:
+> +			vdeb->src_frame[index + i] = rgb[2-i];
+> +			break;
+> +		}
+> +	}
+>   }
+>   
+>   static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
+> 
