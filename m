@@ -2,124 +2,277 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C66271BCED7
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 23:36:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C32951BCF6D
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 00:07:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726697AbgD1VgJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Apr 2020 17:36:09 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:60941 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726456AbgD1VgJ (ORCPT
+        id S1726398AbgD1WG3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Apr 2020 18:06:29 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:42994 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726256AbgD1WG3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Apr 2020 17:36:09 -0400
-Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
- (mreue106 [212.227.15.145]) with ESMTPA (Nemesis) id
- 1N0FE1-1jIE0M3Npv-00xHPb; Tue, 28 Apr 2020 23:35:53 +0200
-From:   Arnd Bergmann <arnd@arndb.de>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Maxime Ripard <mripard@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: add missing v4l2 dependencies
-Date:   Tue, 28 Apr 2020 23:35:37 +0200
-Message-Id: <20200428213552.3538767-1-arnd@arndb.de>
-X-Mailer: git-send-email 2.26.0
+        Tue, 28 Apr 2020 18:06:29 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 96AD3634C8F;
+        Wed, 29 Apr 2020 01:05:29 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jTYM5-00028u-1o; Wed, 29 Apr 2020 01:05:29 +0300
+Date:   Wed, 29 Apr 2020 01:05:29 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Robert Foss <robert.foss@linaro.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [PATCH v8 v5 1/3] media: dt-bindings: ov8856: Document YAML
+ bindings
+Message-ID: <20200428220528.GX934@valkosipuli.retiisi.org.uk>
+References: <20200428180718.1609826-1-robert.foss@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:iocJEcgLvReQSOfV5oCNDw3ndfKYeCb9qcL1xqElP+KWoh87nHl
- TRguru1TSsOAPOLE2gJItg5HqVXfWdB34vz+QYeE/AquNBsdLBvqDhTM4tR1HwJ6Ya5dmSQ
- W5EZP5EZteLSemlbW3BOQ1GD9fcg2vkZ69ExSMwMyk97/IX36Iu+TPzodMXjIRNsBqrc6oj
- RBqkDjWqusHIabZrbb5jg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:bEiWZKhOr88=:zHmMbDt3VJvx7hVB6ZJSDI
- 9EcqcsjKsfFNOQAXOy2LXH/l+NzQZlpnB5Uw/FNoD4jwe/7a6Y3FCsPuYYs7fLPwdo03R/bWF
- 7+uZ8lMhPxwpsTlYjGN0/mLBqRwimm8lwWq7LIMPVuRp1LoYuouy/O8zx8TxW4/Sb3eQ4EmSO
- gH1TjlV/fE/7wkCuTk0BkEYy/+iCwikpwbpLM0eyy7LCaPFq2Ay+3KJkxsZttkYXLZkCJpbGT
- Xe/1tcg02MwkVwl2YYUNAdWTjnPLtrgSidYU2xXi9240EuUQ8oReL3sMsskmjzioE3kBZFUL+
- k6VlbuI2bbBl4hi/zrC7DSpHO6WVbSaFNP0CZgxRvOk8mV7GYOl6q+HY1argLsbWbZcMpH1ri
- bhg87YBia4GK3pw4YZaufw/IP4oXNTc5xQwZ+sw/8g9t/D5TZb/jtca7+tR4hNlEPzpvGwmhA
- 93nPPQcPimThaiSbt5CgR5ku0r1jS4Yz9jTXLBwflGgRsoL6YydoV8NFIFVK3eoksxBq0A4Ak
- 7k6rvkwWZb7AtC2soP5BR4PNdHbXgbAifF0/dS8JPnJkNLq/Ga4q9tZvzxDgO2e7e3ViVcNZm
- cC/UjzoemHepc95bMf3UC+CALsgVUQdzAi+6tDawg4baP1Ru2G8Tr0fp7aoD0Q1VifwGtOXPf
- YK1lNJju8kiQVZBh0ahRM/GnV8Q89/I/hVxbtKInzHg5o4xbzI6GLfXI3uOPMTky+7u5v6mrp
- 1hf2yY1KofC9gsIhw6Yzsv1shMF4Vppts/g33JWpuPyCwtW+jA/XvXn974O/jn6lowglxQCXS
- 3xc5q+IhS4kvx3Xtftbs0dxev53/h6YrGWehJs/U2kk/7MTlrI=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200428180718.1609826-1-robert.foss@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-A few Kconfig warnings showed up recently, pointing to missing
-CONFIG_VIDEO_V4L2 dependencies, e.g.:
+Hi Robert,
 
-WARNING: unmet direct dependencies detected for DVB_RTL2832_SDR
-  Depends on [n]: MEDIA_SUPPORT [=y] && MEDIA_DIGITAL_TV_SUPPORT [=y] && DVB_CORE [=y] && I2C [=y] && I2C_MUX [=y] && VIDEO_V4L2 [=n] && MEDIA_SDR_SUPPORT [=y] && USB [=y]
-  Selected by [y]:
-  - DVB_USB_RTL28XXU [=y] && USB [=y] && MEDIA_SUPPORT [=y] && MEDIA_USB_SUPPORT [=y] && I2C [=y] && MEDIA_DIGITAL_TV_SUPPORT [=y] && DVB_USB_V2 [=y] && I2C_MUX [=y] && MEDIA_SUBDRV_AUTOSELECT [=y] && MEDIA_SDR_SUPPORT [=y]
+Thanks for the update. Some small matters below.
 
-WARNING: unmet direct dependencies detected for MEDIA_TUNER_FC2580
-  Depends on [n]: (MEDIA_ANALOG_TV_SUPPORT [=y] || MEDIA_DIGITAL_TV_SUPPORT [=y] || MEDIA_RADIO_SUPPORT [=y] || MEDIA_SDR_SUPPORT [=y]) && MEDIA_SUPPORT [=y] && I2C [=y] && VIDEO_V4L2 [=n]
-  Selected by [y]:
-  - DVB_USB_AF9035 [=y] && USB [=y] && MEDIA_SUPPORT [=y] && MEDIA_USB_SUPPORT [=y] && I2C [=y] && MEDIA_DIGITAL_TV_SUPPORT [=y] && DVB_USB_V2 [=y] && MEDIA_SUBDRV_AUTOSELECT [=y]
+On Tue, Apr 28, 2020 at 08:07:16PM +0200, Robert Foss wrote:
+> From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> 
+> This patch adds documentation of device tree in YAML schema for the
+> OV8856 CMOS image sensor.
+> 
+> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> ---
+> 
+> - Changes since v7:
+>   * Marco: Make 'port' property optional
+>   * Maxime & Sakari: Add 'link-frequencies' property to dt binding
+>   * robher: Improve description for 'port' property
+> 
+> - Changes since v6:
+>   * Marco: remove qcom specifics from DT example
+>    
+> - Changes since v5:
+>   * Add assigned-clocks and assigned-clock-rates
+>   * robher: dt-schema errors
+> 
+> - Changes since v4:
+>   * Fabio: Change reset-gpio to GPIO_ACTIVE_LOW, explain in description
+>   * Add clock-lanes property to example
+>   * robher: Fix syntax error in devicetree example
+> 
+> - Changes since v3:
+>   * robher: Fix syntax error
+>   * robher: Removed maxItems
+>   * Fixes yaml 'make dt-binding-check' errors
+> 
+> - Changes since v2:
+>   Fixes comments from from Andy, Tomasz, Sakari, Rob.
+>   * Convert text documentation to YAML schema.
+> 
+> - Changes since v1:
+>   Fixes comments from Sakari, Tomasz
+>   * Add clock-frequency and link-frequencies in DT
+> 
+>  .../devicetree/bindings/media/i2c/ov8856.yaml | 140 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 141 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> new file mode 100644
+> index 000000000000..f78d3eae81cb
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> @@ -0,0 +1,140 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright (c) 2019 MediaTek Inc.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ov8856.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Omnivision OV8856 CMOS Sensor Device Tree Bindings
+> +
+> +maintainers:
+> +  - Ben Kao <ben.kao@intel.com>
+> +  - Dongchun Zhu <dongchun.zhu@mediatek.com>
 
-WARNING: unmet direct dependencies detected for VIDEO_OV7670
-  Depends on [n]: MEDIA_SUPPORT [=y] && I2C [=y] && VIDEO_V4L2 [=n]
-  Selected by [y]:
-  - VIDEO_VIA_CAMERA [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_PLATFORM_DRIVERS [=y] && FB_VIA [=y]
+I guess Dongchun would be the maintainer for these bindings, not Ben.
+Please also cc Ben in the next version.
 
-Some of these apparently stem from a recently added dependency
-in the tuner drivers, but I don't know where the VIDEO_VIA_CAMERA
-warning got added.
+> +
+> +description: |-
+> +  The Omnivision OV8856 is a high performance, 1/4-inch, 8 megapixel, CMOS
+> +  image sensor that delivers 3264x2448 at 30fps. It provides full-frame,
+> +  sub-sampled, and windowed 10-bit MIPI images in various formats via the
+> +  Serial Camera Control Bus (SCCB) interface. This chip is programmable
+> +  through I2C and two-wire SCCB. The sensor output is available via CSI-2
+> +  serial data output (up to 4-lane).
+> +
+> +properties:
+> +  compatible:
+> +    const: ovti,ov8856
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  clock-names:
+> +    description:
+> +      Input clock for the sensor.
+> +    items:
+> +      - const: xvclk
+> +
+> +  clock-frequency:
+> +    description:
+> +      Frequency of the xvclk clock in Hertz.
+> +
+> +  dovdd-supply:
+> +    description:
+> +      Definition of the regulator used as interface power supply.
+> +
+> +  avdd-supply:
+> +    description:
+> +      Definition of the regulator used as analog power supply.
+> +
+> +  dvdd-supply:
+> +    description:
+> +      Definition of the regulator used as digital power supply.
+> +
+> +  reset-gpios:
+> +    description:
+> +      The phandle and specifier for the GPIO that controls sensor reset.
+> +      This corresponds to the hardware pin XSHUTDOWN which is physically
+> +      active low.
+> +
+> +  port:
+> +    type: object
+> +    additionalProperties: false
+> +    description:
+> +      A node containing an output port node with an endpoint definition
+> +      as documented in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +
+> +        properties:
+> +          clock-lanes:
 
-Fixes: 4bdbff4da405 ("media: tuners: Kconfig: add some missing VIDEO_V4L2 dependencies")
-Signed-off-by: Arnd Bergmann <arnd@arndb.de>
----
-I'm not completely convinced the previous patch (4bdbff4da405) was
-going in the right direction, it's possible that we should instead
-revert that and fix the other problem in a different way.
----
- drivers/media/platform/Kconfig       | 1 +
- drivers/media/usb/dvb-usb-v2/Kconfig | 2 ++
- 2 files changed, 3 insertions(+)
+Does the sensor support lane reordering? If not, please omit this.
 
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index b1ac9c6c9cdb..994ecd71da8a 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -15,6 +15,7 @@ source "drivers/media/platform/marvell-ccic/Kconfig"
- config VIDEO_VIA_CAMERA
- 	tristate "VIAFB camera controller support"
- 	depends on FB_VIA
-+	depends on VIDEO_V4L2 # for VIDEO_OV7670
- 	select VIDEOBUF2_DMA_SG
- 	select VIDEO_OV7670
- 	help
-diff --git a/drivers/media/usb/dvb-usb-v2/Kconfig b/drivers/media/usb/dvb-usb-v2/Kconfig
-index ff0ae64424c4..0b48b4af38ba 100644
---- a/drivers/media/usb/dvb-usb-v2/Kconfig
-+++ b/drivers/media/usb/dvb-usb-v2/Kconfig
-@@ -33,6 +33,7 @@ config DVB_USB_AF9015
- config DVB_USB_AF9035
- 	tristate "Afatech AF9035 DVB-T USB2.0 support"
- 	depends on DVB_USB_V2
-+	depends on VIDEO_V4L2 # for MEDIA_TUNER_*
- 	select DVB_AF9033
- 	select MEDIA_TUNER_TUA9001 if MEDIA_SUBDRV_AUTOSELECT
- 	select MEDIA_TUNER_FC0011 if MEDIA_SUBDRV_AUTOSELECT
-@@ -132,6 +133,7 @@ config DVB_USB_MXL111SF
- config DVB_USB_RTL28XXU
- 	tristate "Realtek RTL28xxU DVB USB support"
- 	depends on DVB_USB_V2 && I2C_MUX
-+	depends on VIDEO_V4L2 # for MEDIA_TUNER_*
- 	select DVB_MN88472 if MEDIA_SUBDRV_AUTOSELECT
- 	select DVB_MN88473 if MEDIA_SUBDRV_AUTOSELECT
- 	select DVB_CXD2841ER if MEDIA_SUBDRV_AUTOSELECT
+> +            maxItems: 1
+> +
+> +          data-lanes:
+> +            maxItems: 1
+
+Hmm. The example has four lanes. Do I miss something?
+
+> +
+> +          link-frequencies:
+> +            maxItems: 1
+
+The number of items in link-frequencies should not be limited to one
+either.
+
+> +
+> +          remote-endpoint: true
+> +
+> +        required:
+> +          - clock-lanes
+> +          - data-lanes
+> +          - remote-endpoint
+> +          - link-frequencies
+> +
+> +    required:
+> +      - endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - clock-frequency
+> +  - dovdd-supply
+> +  - avdd-supply
+> +  - dvdd-supply
+> +  - reset-gpios
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        ov8856: camera@10 {
+> +            compatible = "ovti,ov8856";
+> +            reg = <0x10>;
+> +
+> +            reset-gpios = <&pio 111 GPIO_ACTIVE_LOW>;
+> +            pinctrl-names = "default";
+> +            pinctrl-0 = <&clk_24m_cam>;
+> +
+> +            clocks = <&cam_osc>;
+> +            clock-names = "xvclk";
+> +            clock-frequency = <19200000>;
+> +
+> +            avdd-supply = <&mt6358_vcama2_reg>;
+> +            dvdd-supply = <&mt6358_vcamd_reg>;
+> +            dovdd-supply = <&mt6358_vcamio_reg>;
+> +
+> +            port {
+> +                wcam_out: endpoint {
+> +                    remote-endpoint = <&mipi_in_wcam>;
+> +                    clock-lanes = <0>;
+> +                    data-lanes = <1 2 3 4>;
+> +                    link-frequencies = /bits/ 64 <360000000 180000000>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +...
+> \ No newline at end of file
+
+^
+
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 26f281d9f32a..84b262afd13d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12489,6 +12489,7 @@ L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://linuxtv.org/media_tree.git
+>  F:	drivers/media/i2c/ov8856.c
+> +F:	Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+>  
+>  OMNIVISION OV9640 SENSOR DRIVER
+>  M:	Petr Cvek <petrcvekcz@gmail.com>
+
 -- 
-2.26.0
+Kind regards,
 
+Sakari Ailus
