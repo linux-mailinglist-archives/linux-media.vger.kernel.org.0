@@ -2,32 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E6CE1BCE25
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 23:04:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DB171BCE2C
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 23:06:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726931AbgD1VDV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Apr 2020 17:03:21 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:52647 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726911AbgD1VDU (ORCPT
+        id S1726375AbgD1VGF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Apr 2020 17:06:05 -0400
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:39721 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726284AbgD1VGF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Apr 2020 17:03:20 -0400
+        Tue, 28 Apr 2020 17:06:05 -0400
+X-Originating-IP: 2.224.242.101
 Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id B1148200002;
-        Tue, 28 Apr 2020 21:03:16 +0000 (UTC)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 3FEFC40005;
+        Tue, 28 Apr 2020 21:06:00 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
+To:     dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+        linux-media@vger.kernel.org
 Cc:     Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org, laurent.pinchart@ideasonboard.com,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Subject: [PATCH v5 6/6] v4l: document VIDIOC_SUBDEV_QUERYCAP
-Date:   Tue, 28 Apr 2020 23:06:09 +0200
-Message-Id: <20200428210609.6793-7-jacopo@jmondi.org>
+        sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl
+Subject: [PATCH v3] media: i2c: imx219: Implement get_selection
+Date:   Tue, 28 Apr 2020 23:09:03 +0200
+Message-Id: <20200428210903.6957-1-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200428210609.6793-1-jacopo@jmondi.org>
-References: <20200428210609.6793-1-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -35,151 +33,198 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hans.verkuil@cisco.com>
+Implement the get_selection pad operation for the IMX219 sensor driver.
+The supported targets report the sensor's native size, the crop default
+rectangle and the crop rectangle.
 
-Add documentation for the new VIDIOC_SUBDEV_QUERYCAP ioctl.
-
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
----
- .../userspace-api/media/v4l/user-func.rst     |   1 +
- .../media/v4l/vidioc-subdev-querycap.rst      | 114 ++++++++++++++++++
- 2 files changed, 115 insertions(+)
- create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst
 
-diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
-index f235f88efe89..bf77c842718e 100644
---- a/Documentation/userspace-api/media/v4l/user-func.rst
-+++ b/Documentation/userspace-api/media/v4l/user-func.rst
-@@ -78,6 +78,7 @@ Function Reference
-     vidioc-subdev-g-fmt
-     vidioc-subdev-g-frame-interval
-     vidioc-subdev-g-selection
-+    vidioc-subdev-querycap
-     vidioc-subscribe-event
-     func-mmap
-     func-munmap
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst
-new file mode 100644
-index 000000000000..1ab5c808d9b4
---- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst
-@@ -0,0 +1,114 @@
-+.. Permission is granted to copy, distribute and/or modify this
-+.. document under the terms of the GNU Free Documentation License,
-+.. Version 1.1 or any later version published by the Free Software
-+.. Foundation, with no Invariant Sections, no Front-Cover Texts
-+.. and no Back-Cover Texts. A copy of the license is included at
-+.. Documentation/userspace-api/media/fdl-appendix.rst.
-+..
-+.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+---
+v2->v3:
+- Guard with critical section only the V4L2_SEL_TGT_CROP case
+
+v1->v2:
+- Add crop rectangle fro 640x480 mode
+- Re-order rectangle fields
+---
+
+ drivers/media/i2c/imx219.c | 99 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 99 insertions(+)
+
+diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+index cb03bdec1f9c..2916709a4ea3 100644
+--- a/drivers/media/i2c/imx219.c
++++ b/drivers/media/i2c/imx219.c
+@@ -112,6 +112,14 @@
+ #define IMX219_TESTP_BLUE_DEFAULT	0
+ #define IMX219_TESTP_GREENB_DEFAULT	0
+
++/* IMX219 native and active pixel array size. */
++#define IMX219_NATIVE_WIDTH		3296U
++#define IMX219_NATIVE_HEIGHT		2480U
++#define IMX219_PIXEL_ARRAY_LEFT		8U
++#define IMX219_PIXEL_ARRAY_TOP		8U
++#define IMX219_PIXEL_ARRAY_WIDTH	3280U
++#define IMX219_PIXEL_ARRAY_HEIGHT	2464U
 +
-+.. _VIDIOC_SUBDEV_QUERYCAP:
+ struct imx219_reg {
+ 	u16 address;
+ 	u8 val;
+@@ -129,6 +137,9 @@ struct imx219_mode {
+ 	/* Frame height */
+ 	unsigned int height;
+
++	/* Analog crop rectangle. */
++	struct v4l2_rect crop;
 +
-+****************************
-+ioctl VIDIOC_SUBDEV_QUERYCAP
-+****************************
+ 	/* V-timing */
+ 	unsigned int vts_def;
+
+@@ -463,6 +474,12 @@ static const struct imx219_mode supported_modes[] = {
+ 		/* 8MPix 15fps mode */
+ 		.width = 3280,
+ 		.height = 2464,
++		.crop = {
++			.left = 0,
++			.top = 0,
++			.width = 3280,
++			.height = 2464
++		},
+ 		.vts_def = IMX219_VTS_15FPS,
+ 		.reg_list = {
+ 			.num_of_regs = ARRAY_SIZE(mode_3280x2464_regs),
+@@ -473,6 +490,12 @@ static const struct imx219_mode supported_modes[] = {
+ 		/* 1080P 30fps cropped */
+ 		.width = 1920,
+ 		.height = 1080,
++		.crop = {
++			.left = 680,
++			.top = 692,
++			.width = 1920,
++			.height = 1080
++		},
+ 		.vts_def = IMX219_VTS_30FPS_1080P,
+ 		.reg_list = {
+ 			.num_of_regs = ARRAY_SIZE(mode_1920_1080_regs),
+@@ -483,6 +506,12 @@ static const struct imx219_mode supported_modes[] = {
+ 		/* 2x2 binned 30fps mode */
+ 		.width = 1640,
+ 		.height = 1232,
++		.crop = {
++			.left = 0,
++			.top = 0,
++			.width = 3280,
++			.height = 2464
++		},
+ 		.vts_def = IMX219_VTS_30FPS_BINNED,
+ 		.reg_list = {
+ 			.num_of_regs = ARRAY_SIZE(mode_1640_1232_regs),
+@@ -493,6 +522,12 @@ static const struct imx219_mode supported_modes[] = {
+ 		/* 640x480 30fps mode */
+ 		.width = 640,
+ 		.height = 480,
++		.crop = {
++			.left = 1000,
++			.top = 752,
++			.width = 1280,
++			.height = 960
++		},
+ 		.vts_def = IMX219_VTS_30FPS_640x480,
+ 		.reg_list = {
+ 			.num_of_regs = ARRAY_SIZE(mode_640_480_regs),
+@@ -654,6 +689,7 @@ static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ 	struct imx219 *imx219 = to_imx219(sd);
+ 	struct v4l2_mbus_framefmt *try_fmt =
+ 		v4l2_subdev_get_try_format(sd, fh->pad, 0);
++	struct v4l2_rect *try_crop;
+
+ 	mutex_lock(&imx219->mutex);
+
+@@ -664,6 +700,13 @@ static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ 					       MEDIA_BUS_FMT_SRGGB10_1X10);
+ 	try_fmt->field = V4L2_FIELD_NONE;
+
++	/* Initialize try_crop rectangle. */
++	try_crop = v4l2_subdev_get_try_crop(sd, fh->pad, 0);
++	try_crop->top = IMX219_PIXEL_ARRAY_TOP;
++	try_crop->left = IMX219_PIXEL_ARRAY_LEFT;
++	try_crop->width = IMX219_PIXEL_ARRAY_WIDTH;
++	try_crop->height = IMX219_PIXEL_ARRAY_HEIGHT;
 +
-+Name
-+====
+ 	mutex_unlock(&imx219->mutex);
+
+ 	return 0;
+@@ -928,6 +971,61 @@ static int imx219_set_framefmt(struct imx219 *imx219)
+ 	return -EINVAL;
+ }
+
++static const struct v4l2_rect *
++__imx219_get_pad_crop(struct imx219 *imx219, struct v4l2_subdev_pad_config *cfg,
++		      unsigned int pad, enum v4l2_subdev_format_whence which)
++{
++	switch (which) {
++	case V4L2_SUBDEV_FORMAT_TRY:
++		return v4l2_subdev_get_try_crop(&imx219->sd, cfg, pad);
++	case V4L2_SUBDEV_FORMAT_ACTIVE:
++		return &imx219->mode->crop;
++	default:
++		return NULL;
++	}
++}
 +
-+VIDIOC_SUBDEV_QUERYCAP - Query sub-device capabilities
++static int imx219_get_selection(struct v4l2_subdev *sd,
++				struct v4l2_subdev_pad_config *cfg,
++				struct v4l2_subdev_selection *sel)
++{
++	struct imx219 *imx219 = to_imx219(sd);
++	const struct v4l2_rect *__crop;
++	int ret = 0;
 +
++	if (sel->pad != 0)
++		return -EINVAL;
 +
-+Synopsis
-+========
++	switch (sel->target) {
++	case V4L2_SEL_TGT_NATIVE_SIZE:
++		sel->r.top = 0;
++		sel->r.left = 0;
++		sel->r.width = IMX219_NATIVE_WIDTH;
++		sel->r.height = IMX219_NATIVE_HEIGHT;
 +
-+.. c:function:: int ioctl( int fd, VIDIOC_SUBDEV_QUERYCAP, struct v4l2_subdev_capability *argp )
-+    :name: VIDIOC_SUBDEV_QUERYCAP
++		return 0;
 +
++	case V4L2_SEL_TGT_CROP_DEFAULT:
++		sel->r.top = IMX219_PIXEL_ARRAY_TOP;
++		sel->r.left = IMX219_PIXEL_ARRAY_LEFT;
++		sel->r.width = IMX219_PIXEL_ARRAY_WIDTH;
++		sel->r.height = IMX219_PIXEL_ARRAY_HEIGHT;
 +
-+Arguments
-+=========
++		return 0;
 +
-+``fd``
-+    File descriptor returned by :ref:`open() <func-open>`.
++	case V4L2_SEL_TGT_CROP:
++		mutex_lock(&imx219->mutex);
++		__crop = __imx219_get_pad_crop(imx219, cfg, sel->pad,
++					       sel->which);
++		sel->r = *__crop;
++		mutex_unlock(&imx219->mutex);
 +
-+``argp``
-+    Pointer to struct :c:type:`v4l2_subdev_capability`.
++		return 0;
++	}
 +
++	return -EINVAL;
++}
 +
-+Description
-+===========
-+
-+All V4L2 sub-devices support the ``VIDIOC_SUBDEV_QUERYCAP`` ioctl. It is used to
-+identify kernel devices compatible with this specification and to obtain
-+information about driver and hardware capabilities. The ioctl takes a pointer to
-+a struct :c:type:`v4l2_subdev_capability` which is filled by the driver. When
-+the driver is not compatible with this specification the ioctl returns
-+``ENOTTY`` error code.
-+
-+.. tabularcolumns:: |p{1.5cm}|p{2.5cm}|p{13cm}|
-+
-+.. c:type:: v4l2_subdev_capability
-+
-+.. flat-table:: struct v4l2_subdev_capability
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       3 4 20
-+
-+    * - __u32
-+      - ``version``
-+      - Version number of the driver.
-+
-+	The version reported is provided by the V4L2 subsystem following the
-+	kernel numbering scheme. However, it may not always return the same
-+	version as the kernel if, for example, a stable or
-+	distribution-modified kernel uses the V4L2 stack from a newer kernel.
-+
-+	The version number is formatted using the ``KERNEL_VERSION()``
-+	macro:
-+    * - :cspan:`2`
-+
-+	``#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))``
-+
-+	``__u32 version = KERNEL_VERSION(0, 8, 1);``
-+
-+	``printf ("Version: %u.%u.%u\\n",``
-+
-+	``(version >> 16) & 0xFF, (version >> 8) & 0xFF, version & 0xFF);``
-+    * - __u32
-+      - ``subdev_caps``
-+      - Sub-device capabilities of the opened device, see
-+	:ref:`subdevice-capabilities`.
-+
-+.. tabularcolumns:: |p{6cm}|p{2.2cm}|p{8.8cm}|
-+
-+.. _subdevice-capabilities:
-+
-+.. cssclass:: longtable
-+
-+.. flat-table:: Sub-Device Capabilities Flags
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       3 1 4
-+
-+    * - V4L2_SUBDEV_CAP_RO_SUBDEV
-+      - 0x00000001
-+      - The sub-device device node is registered in read-only mode.
-+	Access to the sub-device ioctls that modify the device state is
-+	restricted. Refer to each individual subdevice ioctl documentation
-+	for a description of which restrictions apply to a read-only sub-device.
-+
-+    * - V4L2_SUBDEV_CAP_RW_SUBDEV
-+      - 0x00000002
-+      - The sub-device device node is registered in read/write mode, all the
-+	subdevice ioctls are accessible from userspace.
-+
-+Return Value
-+============
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+ENOTTY
-+    The device node is not a V4L2 sub-device.
--- 
+ static int imx219_start_streaming(struct imx219 *imx219)
+ {
+ 	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
+@@ -1152,6 +1250,7 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
+ 	.enum_mbus_code = imx219_enum_mbus_code,
+ 	.get_fmt = imx219_get_pad_format,
+ 	.set_fmt = imx219_set_pad_format,
++	.get_selection = imx219_get_selection,
+ 	.enum_frame_size = imx219_enum_frame_size,
+ };
+
+--
 2.26.1
 
