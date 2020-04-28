@@ -2,252 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AE401BCECD
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 23:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C66271BCED7
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 23:36:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726534AbgD1Vf1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Apr 2020 17:35:27 -0400
-Received: from mga07.intel.com ([134.134.136.100]:15088 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725934AbgD1Vf1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Apr 2020 17:35:27 -0400
-IronPort-SDR: faFk7BrV2k/n1mKQqVJfasw1iZUX4DGaTbzeXOp4psiQhmkhIYIenGC/AaPQKXXYiNEFmHJ6u+
- yl9s5BqjPdTw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2020 14:35:26 -0700
-IronPort-SDR: aPohWQivKBnVShpwTEMPDN5FzHfMnKoO3ZCpctDwFK4BYxfK0Is388kFAy/IGUfxGkWZXvbx/r
- A99s/5lhh/jQ==
-X-IronPort-AV: E=Sophos;i="5.73,328,1583222400"; 
-   d="scan'208";a="247824235"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2020 14:35:24 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 82044202F2; Wed, 29 Apr 2020 00:35:02 +0300 (EEST)
-Date:   Wed, 29 Apr 2020 00:35:02 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl
-Subject: Re: [PATCH v3] media: i2c: imx219: Implement get_selection
-Message-ID: <20200428213502.GD5381@paasikivi.fi.intel.com>
-References: <20200428210903.6957-1-jacopo@jmondi.org>
+        id S1726697AbgD1VgJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Apr 2020 17:36:09 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:60941 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726456AbgD1VgJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 28 Apr 2020 17:36:09 -0400
+Received: from threadripper.lan ([149.172.19.189]) by mrelayeu.kundenserver.de
+ (mreue106 [212.227.15.145]) with ESMTPA (Nemesis) id
+ 1N0FE1-1jIE0M3Npv-00xHPb; Tue, 28 Apr 2020 23:35:53 +0200
+From:   Arnd Bergmann <arnd@arndb.de>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Maxime Ripard <mripard@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: add missing v4l2 dependencies
+Date:   Tue, 28 Apr 2020 23:35:37 +0200
+Message-Id: <20200428213552.3538767-1-arnd@arndb.de>
+X-Mailer: git-send-email 2.26.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200428210903.6957-1-jacopo@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:iocJEcgLvReQSOfV5oCNDw3ndfKYeCb9qcL1xqElP+KWoh87nHl
+ TRguru1TSsOAPOLE2gJItg5HqVXfWdB34vz+QYeE/AquNBsdLBvqDhTM4tR1HwJ6Ya5dmSQ
+ W5EZP5EZteLSemlbW3BOQ1GD9fcg2vkZ69ExSMwMyk97/IX36Iu+TPzodMXjIRNsBqrc6oj
+ RBqkDjWqusHIabZrbb5jg==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:bEiWZKhOr88=:zHmMbDt3VJvx7hVB6ZJSDI
+ 9EcqcsjKsfFNOQAXOy2LXH/l+NzQZlpnB5Uw/FNoD4jwe/7a6Y3FCsPuYYs7fLPwdo03R/bWF
+ 7+uZ8lMhPxwpsTlYjGN0/mLBqRwimm8lwWq7LIMPVuRp1LoYuouy/O8zx8TxW4/Sb3eQ4EmSO
+ gH1TjlV/fE/7wkCuTk0BkEYy/+iCwikpwbpLM0eyy7LCaPFq2Ay+3KJkxsZttkYXLZkCJpbGT
+ Xe/1tcg02MwkVwl2YYUNAdWTjnPLtrgSidYU2xXi9240EuUQ8oReL3sMsskmjzioE3kBZFUL+
+ k6VlbuI2bbBl4hi/zrC7DSpHO6WVbSaFNP0CZgxRvOk8mV7GYOl6q+HY1argLsbWbZcMpH1ri
+ bhg87YBia4GK3pw4YZaufw/IP4oXNTc5xQwZ+sw/8g9t/D5TZb/jtca7+tR4hNlEPzpvGwmhA
+ 93nPPQcPimThaiSbt5CgR5ku0r1jS4Yz9jTXLBwflGgRsoL6YydoV8NFIFVK3eoksxBq0A4Ak
+ 7k6rvkwWZb7AtC2soP5BR4PNdHbXgbAifF0/dS8JPnJkNLq/Ga4q9tZvzxDgO2e7e3ViVcNZm
+ cC/UjzoemHepc95bMf3UC+CALsgVUQdzAi+6tDawg4baP1Ru2G8Tr0fp7aoD0Q1VifwGtOXPf
+ YK1lNJju8kiQVZBh0ahRM/GnV8Q89/I/hVxbtKInzHg5o4xbzI6GLfXI3uOPMTky+7u5v6mrp
+ 1hf2yY1KofC9gsIhw6Yzsv1shMF4Vppts/g33JWpuPyCwtW+jA/XvXn974O/jn6lowglxQCXS
+ 3xc5q+IhS4kvx3Xtftbs0dxev53/h6YrGWehJs/U2kk/7MTlrI=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+A few Kconfig warnings showed up recently, pointing to missing
+CONFIG_VIDEO_V4L2 dependencies, e.g.:
 
-On Tue, Apr 28, 2020 at 11:09:03PM +0200, Jacopo Mondi wrote:
-> Implement the get_selection pad operation for the IMX219 sensor driver.
-> The supported targets report the sensor's native size, the crop default
-> rectangle and the crop rectangle.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> 
-> ---
-> v2->v3:
-> - Guard with critical section only the V4L2_SEL_TGT_CROP case
-> 
-> v1->v2:
-> - Add crop rectangle fro 640x480 mode
-> - Re-order rectangle fields
-> ---
-> 
->  drivers/media/i2c/imx219.c | 99 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 99 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index cb03bdec1f9c..2916709a4ea3 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -112,6 +112,14 @@
->  #define IMX219_TESTP_BLUE_DEFAULT	0
->  #define IMX219_TESTP_GREENB_DEFAULT	0
-> 
-> +/* IMX219 native and active pixel array size. */
-> +#define IMX219_NATIVE_WIDTH		3296U
-> +#define IMX219_NATIVE_HEIGHT		2480U
-> +#define IMX219_PIXEL_ARRAY_LEFT		8U
-> +#define IMX219_PIXEL_ARRAY_TOP		8U
-> +#define IMX219_PIXEL_ARRAY_WIDTH	3280U
-> +#define IMX219_PIXEL_ARRAY_HEIGHT	2464U
-> +
->  struct imx219_reg {
->  	u16 address;
->  	u8 val;
-> @@ -129,6 +137,9 @@ struct imx219_mode {
->  	/* Frame height */
->  	unsigned int height;
-> 
-> +	/* Analog crop rectangle. */
-> +	struct v4l2_rect crop;
-> +
->  	/* V-timing */
->  	unsigned int vts_def;
-> 
-> @@ -463,6 +474,12 @@ static const struct imx219_mode supported_modes[] = {
->  		/* 8MPix 15fps mode */
->  		.width = 3280,
->  		.height = 2464,
-> +		.crop = {
-> +			.left = 0,
-> +			.top = 0,
-> +			.width = 3280,
-> +			.height = 2464
-> +		},
->  		.vts_def = IMX219_VTS_15FPS,
->  		.reg_list = {
->  			.num_of_regs = ARRAY_SIZE(mode_3280x2464_regs),
-> @@ -473,6 +490,12 @@ static const struct imx219_mode supported_modes[] = {
->  		/* 1080P 30fps cropped */
->  		.width = 1920,
->  		.height = 1080,
-> +		.crop = {
-> +			.left = 680,
-> +			.top = 692,
-> +			.width = 1920,
-> +			.height = 1080
-> +		},
->  		.vts_def = IMX219_VTS_30FPS_1080P,
->  		.reg_list = {
->  			.num_of_regs = ARRAY_SIZE(mode_1920_1080_regs),
-> @@ -483,6 +506,12 @@ static const struct imx219_mode supported_modes[] = {
->  		/* 2x2 binned 30fps mode */
->  		.width = 1640,
->  		.height = 1232,
-> +		.crop = {
-> +			.left = 0,
-> +			.top = 0,
-> +			.width = 3280,
-> +			.height = 2464
-> +		},
->  		.vts_def = IMX219_VTS_30FPS_BINNED,
->  		.reg_list = {
->  			.num_of_regs = ARRAY_SIZE(mode_1640_1232_regs),
-> @@ -493,6 +522,12 @@ static const struct imx219_mode supported_modes[] = {
->  		/* 640x480 30fps mode */
->  		.width = 640,
->  		.height = 480,
-> +		.crop = {
-> +			.left = 1000,
-> +			.top = 752,
-> +			.width = 1280,
-> +			.height = 960
-> +		},
->  		.vts_def = IMX219_VTS_30FPS_640x480,
->  		.reg_list = {
->  			.num_of_regs = ARRAY_SIZE(mode_640_480_regs),
-> @@ -654,6 +689,7 @@ static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
->  	struct imx219 *imx219 = to_imx219(sd);
->  	struct v4l2_mbus_framefmt *try_fmt =
->  		v4l2_subdev_get_try_format(sd, fh->pad, 0);
-> +	struct v4l2_rect *try_crop;
-> 
->  	mutex_lock(&imx219->mutex);
-> 
-> @@ -664,6 +700,13 @@ static int imx219_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
->  					       MEDIA_BUS_FMT_SRGGB10_1X10);
->  	try_fmt->field = V4L2_FIELD_NONE;
-> 
-> +	/* Initialize try_crop rectangle. */
-> +	try_crop = v4l2_subdev_get_try_crop(sd, fh->pad, 0);
-> +	try_crop->top = IMX219_PIXEL_ARRAY_TOP;
-> +	try_crop->left = IMX219_PIXEL_ARRAY_LEFT;
-> +	try_crop->width = IMX219_PIXEL_ARRAY_WIDTH;
-> +	try_crop->height = IMX219_PIXEL_ARRAY_HEIGHT;
-> +
->  	mutex_unlock(&imx219->mutex);
-> 
->  	return 0;
-> @@ -928,6 +971,61 @@ static int imx219_set_framefmt(struct imx219 *imx219)
->  	return -EINVAL;
->  }
-> 
-> +static const struct v4l2_rect *
-> +__imx219_get_pad_crop(struct imx219 *imx219, struct v4l2_subdev_pad_config *cfg,
-> +		      unsigned int pad, enum v4l2_subdev_format_whence which)
-> +{
-> +	switch (which) {
-> +	case V4L2_SUBDEV_FORMAT_TRY:
-> +		return v4l2_subdev_get_try_crop(&imx219->sd, cfg, pad);
-> +	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> +		return &imx219->mode->crop;
-> +	default:
-> +		return NULL;
-> +	}
-> +}
-> +
-> +static int imx219_get_selection(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_pad_config *cfg,
-> +				struct v4l2_subdev_selection *sel)
-> +{
-> +	struct imx219 *imx219 = to_imx219(sd);
-> +	const struct v4l2_rect *__crop;
-> +	int ret = 0;
+WARNING: unmet direct dependencies detected for DVB_RTL2832_SDR
+  Depends on [n]: MEDIA_SUPPORT [=y] && MEDIA_DIGITAL_TV_SUPPORT [=y] && DVB_CORE [=y] && I2C [=y] && I2C_MUX [=y] && VIDEO_V4L2 [=n] && MEDIA_SDR_SUPPORT [=y] && USB [=y]
+  Selected by [y]:
+  - DVB_USB_RTL28XXU [=y] && USB [=y] && MEDIA_SUPPORT [=y] && MEDIA_USB_SUPPORT [=y] && I2C [=y] && MEDIA_DIGITAL_TV_SUPPORT [=y] && DVB_USB_V2 [=y] && I2C_MUX [=y] && MEDIA_SUBDRV_AUTOSELECT [=y] && MEDIA_SDR_SUPPORT [=y]
 
-ret is unused.
+WARNING: unmet direct dependencies detected for MEDIA_TUNER_FC2580
+  Depends on [n]: (MEDIA_ANALOG_TV_SUPPORT [=y] || MEDIA_DIGITAL_TV_SUPPORT [=y] || MEDIA_RADIO_SUPPORT [=y] || MEDIA_SDR_SUPPORT [=y]) && MEDIA_SUPPORT [=y] && I2C [=y] && VIDEO_V4L2 [=n]
+  Selected by [y]:
+  - DVB_USB_AF9035 [=y] && USB [=y] && MEDIA_SUPPORT [=y] && MEDIA_USB_SUPPORT [=y] && I2C [=y] && MEDIA_DIGITAL_TV_SUPPORT [=y] && DVB_USB_V2 [=y] && MEDIA_SUBDRV_AUTOSELECT [=y]
 
-> +
-> +	if (sel->pad != 0)
-> +		return -EINVAL;
+WARNING: unmet direct dependencies detected for VIDEO_OV7670
+  Depends on [n]: MEDIA_SUPPORT [=y] && I2C [=y] && VIDEO_V4L2 [=n]
+  Selected by [y]:
+  - VIDEO_VIA_CAMERA [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_PLATFORM_DRIVERS [=y] && FB_VIA [=y]
 
-As you only have a single pad (0), this check is redundant --- the caller
-will have done that check already.
+Some of these apparently stem from a recently added dependency
+in the tuner drivers, but I don't know where the VIDEO_VIA_CAMERA
+warning got added.
 
-> +
-> +	switch (sel->target) {
-> +	case V4L2_SEL_TGT_NATIVE_SIZE:
-> +		sel->r.top = 0;
-> +		sel->r.left = 0;
-> +		sel->r.width = IMX219_NATIVE_WIDTH;
-> +		sel->r.height = IMX219_NATIVE_HEIGHT;
-> +
-> +		return 0;
-> +
-> +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> +		sel->r.top = IMX219_PIXEL_ARRAY_TOP;
-> +		sel->r.left = IMX219_PIXEL_ARRAY_LEFT;
-> +		sel->r.width = IMX219_PIXEL_ARRAY_WIDTH;
-> +		sel->r.height = IMX219_PIXEL_ARRAY_HEIGHT;
-> +
-> +		return 0;
-> +
-> +	case V4L2_SEL_TGT_CROP:
-> +		mutex_lock(&imx219->mutex);
-> +		__crop = __imx219_get_pad_crop(imx219, cfg, sel->pad,
-> +					       sel->which);
-> +		sel->r = *__crop;
-> +		mutex_unlock(&imx219->mutex);
-> +
-> +		return 0;
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
->  static int imx219_start_streaming(struct imx219 *imx219)
->  {
->  	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
-> @@ -1152,6 +1250,7 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
->  	.enum_mbus_code = imx219_enum_mbus_code,
->  	.get_fmt = imx219_get_pad_format,
->  	.set_fmt = imx219_set_pad_format,
-> +	.get_selection = imx219_get_selection,
->  	.enum_frame_size = imx219_enum_frame_size,
->  };
-> 
+Fixes: 4bdbff4da405 ("media: tuners: Kconfig: add some missing VIDEO_V4L2 dependencies")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+I'm not completely convinced the previous patch (4bdbff4da405) was
+going in the right direction, it's possible that we should instead
+revert that and fix the other problem in a different way.
+---
+ drivers/media/platform/Kconfig       | 1 +
+ drivers/media/usb/dvb-usb-v2/Kconfig | 2 ++
+ 2 files changed, 3 insertions(+)
 
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index b1ac9c6c9cdb..994ecd71da8a 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -15,6 +15,7 @@ source "drivers/media/platform/marvell-ccic/Kconfig"
+ config VIDEO_VIA_CAMERA
+ 	tristate "VIAFB camera controller support"
+ 	depends on FB_VIA
++	depends on VIDEO_V4L2 # for VIDEO_OV7670
+ 	select VIDEOBUF2_DMA_SG
+ 	select VIDEO_OV7670
+ 	help
+diff --git a/drivers/media/usb/dvb-usb-v2/Kconfig b/drivers/media/usb/dvb-usb-v2/Kconfig
+index ff0ae64424c4..0b48b4af38ba 100644
+--- a/drivers/media/usb/dvb-usb-v2/Kconfig
++++ b/drivers/media/usb/dvb-usb-v2/Kconfig
+@@ -33,6 +33,7 @@ config DVB_USB_AF9015
+ config DVB_USB_AF9035
+ 	tristate "Afatech AF9035 DVB-T USB2.0 support"
+ 	depends on DVB_USB_V2
++	depends on VIDEO_V4L2 # for MEDIA_TUNER_*
+ 	select DVB_AF9033
+ 	select MEDIA_TUNER_TUA9001 if MEDIA_SUBDRV_AUTOSELECT
+ 	select MEDIA_TUNER_FC0011 if MEDIA_SUBDRV_AUTOSELECT
+@@ -132,6 +133,7 @@ config DVB_USB_MXL111SF
+ config DVB_USB_RTL28XXU
+ 	tristate "Realtek RTL28xxU DVB USB support"
+ 	depends on DVB_USB_V2 && I2C_MUX
++	depends on VIDEO_V4L2 # for MEDIA_TUNER_*
+ 	select DVB_MN88472 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_MN88473 if MEDIA_SUBDRV_AUTOSELECT
+ 	select DVB_CXD2841ER if MEDIA_SUBDRV_AUTOSELECT
 -- 
-Regards,
+2.26.0
 
-Sakari Ailus
