@@ -2,106 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7421A1BC1EE
-	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 16:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AAE51BC1B3
+	for <lists+linux-media@lfdr.de>; Tue, 28 Apr 2020 16:49:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727886AbgD1Owm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Apr 2020 10:52:42 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:7589 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727775AbgD1Owm (ORCPT
+        id S1728003AbgD1Ot0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Apr 2020 10:49:26 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:48611 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727079AbgD1OtY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Apr 2020 10:52:42 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ea842c00000>; Tue, 28 Apr 2020 07:50:40 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 28 Apr 2020 07:52:41 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 28 Apr 2020 07:52:41 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 28 Apr
- 2020 14:52:41 +0000
-Received: from [10.2.165.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 28 Apr
- 2020 14:52:40 +0000
-Subject: Re: [RFC PATCH v1 3/5] media: tegra-video: Move PM runtime handle to
- streaming
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>
-CC:     <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <1588047650-29402-1-git-send-email-skomatineni@nvidia.com>
- <1588047650-29402-4-git-send-email-skomatineni@nvidia.com>
- <631390cb-9aff-0e3f-6c39-81d6c565987e@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <3ef69413-a606-b475-f530-d5534760b73b@nvidia.com>
-Date:   Tue, 28 Apr 2020 07:51:45 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Tue, 28 Apr 2020 10:49:24 -0400
+X-Originating-IP: 212.216.150.148
+Received: from uno.localdomain (a-ur1-85.tin.it [212.216.150.148])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 8DD5D1BF20D;
+        Tue, 28 Apr 2020 14:49:19 +0000 (UTC)
+Date:   Tue, 28 Apr 2020 16:52:30 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        andrey.konovalov@linaro.org, laurent.pinchart@ideasonboard.com,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Subject: Re: [PATCH v4 5/5] v4l: document VIDIOC_SUBDEV_QUERYCAP
+Message-ID: <20200428145230.kqvbbzzc6qgplx4t@uno.localdomain>
+References: <20200418103216.140572-1-jacopo@jmondi.org>
+ <20200418103216.140572-6-jacopo@jmondi.org>
+ <20200421215541.GE5381@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <631390cb-9aff-0e3f-6c39-81d6c565987e@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1588085440; bh=7Vr55oxdvlc54RS7GqDJrEUI+/BVLfeLIuIbc/K80U4=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=YbQwT+y92pw9Dr0Uq+/Dh/yatrxwXV5i+q6Xv8qfIdM/KUhdW84OmV+0j25fCWynu
-         eXAzB2/+UwfyoA6OweHYTcyn7qah9oQmKdX6n30AW0efAKj7l5SMeVE8B6KXYNJ6oX
-         QQq2Q1+7kC7WOx1gLKVVU7FqsId3AFn0O4yXaRnRDFqRmTCYV7VJCrEsvfihCOKUoF
-         3YfWbUiBuBWLwsX4jNgtHlavQggUCSo1kTRptJiZGH432/3CSV8Q0uAL2fnYhBVhsB
-         u4a6t9DF0pR0EjtlhZpnfC4mto9r+VbJ85+xrWdv191Fj9Sc67M6RRfU0kMLpvJN+c
-         w7HaPSShQES3A==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200421215541.GE5381@paasikivi.fi.intel.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Sakari,
 
-On 4/28/20 6:59 AM, Dmitry Osipenko wrote:
-> External email: Use caution opening links or attachments
+On Wed, Apr 22, 2020 at 12:55:41AM +0300, Sakari Ailus wrote:
+> Hi Jacopo,
 >
+> On Sat, Apr 18, 2020 at 12:32:16PM +0200, Jacopo Mondi wrote:
+> > From: Hans Verkuil <hans.verkuil@cisco.com>
+> >
+> > Add documentation for the new VIDIOC_SUBDEV_QUERYCAP ioctl.
+> >
+> > Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  .../userspace-api/media/v4l/user-func.rst     |   1 +
+> >  .../media/v4l/vidioc-subdev-querycap.rst      | 114 ++++++++++++++++++
+> >  2 files changed, 115 insertions(+)
+> >  create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
+> > index f235f88efe89..559cce421d41 100644
+> > --- a/Documentation/userspace-api/media/v4l/user-func.rst
+> > +++ b/Documentation/userspace-api/media/v4l/user-func.rst
+> > @@ -78,6 +78,7 @@ Function Reference
+> >      vidioc-subdev-g-fmt
+> >      vidioc-subdev-g-frame-interval
+> >      vidioc-subdev-g-selection
+> > +    vidioc-subdev-querycap.rst
 >
-> 28.04.2020 07:20, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/m=
-edia/tegra-video/csi.c
->> index b3dd0c3..29ccdae 100644
->> --- a/drivers/staging/media/tegra-video/csi.c
->> +++ b/drivers/staging/media/tegra-video/csi.c
->> @@ -272,8 +272,25 @@ static int tegra_csi_s_stream(struct v4l2_subdev *s=
-ubdev, int enable)
->>        struct tegra_vi_channel *chan =3D v4l2_get_subdev_hostdata(subdev=
-);
->>        struct tegra_csi_channel *csi_chan =3D to_csi_chan(subdev);
->>        struct tegra_csi *csi =3D csi_chan->csi;
->> +     int ret;
->> +
->> +     if (enable && atomic_add_return(1, &csi->clk_refcnt) =3D=3D 1) {
->> +             ret =3D pm_runtime_get_sync(csi->dev);
->> +             if (ret < 0) {
->> +                     dev_err(csi->dev,
->> +                             "failed to get runtime PM: %d\n", ret);
->> +                     pm_runtime_put_noidle(csi->dev);
->> +                     atomic_dec(&csi->clk_refcnt);
->> +                     return ret;
->> +             }
->> +     }
->> +
->> +     ret =3D csi->ops->csi_streaming(csi_chan, chan->pg_mode, enable);
->>
->> -     return csi->ops->csi_streaming(csi_chan, chan->pg_mode, enable);
->> +     if ((ret < 0 || !enable) && atomic_dec_and_test(&csi->clk_refcnt))
->> +             pm_runtime_put_sync(csi->dev);
-> Runtime PM maintains its own refcount, why these
-> clk_refcnt/power_on_refcnt are needed?
+> .rst looks like extra.
+>
+> >      vidioc-subscribe-event
+> >      func-mmap
+> >      func-munmap
+> > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst
+> > new file mode 100644
+> > index 000000000000..d9b2e19e1339
+> > --- /dev/null
+> > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst
+> > @@ -0,0 +1,114 @@
+> > +.. Permission is granted to copy, distribute and/or modify this
+> > +.. document under the terms of the GNU Free Documentation License,
+> > +.. Version 1.1 or any later version published by the Free Software
+> > +.. Foundation, with no Invariant Sections, no Front-Cover Texts
+> > +.. and no Back-Cover Texts. A copy of the license is included at
+> > +.. Documentation/userspace-api/media/fdl-appendix.rst.
+> > +..
+> > +
+> > +.. _VIDIOC_SUBDEV_QUERYCAP:
+> > +
+> > +****************************
+> > +ioctl VIDIOC_SUBDEV_QUERYCAP
+> > +****************************
+> > +
+> > +Name
+> > +====
+> > +
+> > +VIDIOC_SUBDEV_QUERYCAP - Query sub-device capabilities
+> > +
+> > +
+> > +Synopsis
+> > +========
+> > +
+> > +.. c:function:: int ioctl( int fd, VIDIOC_SUBDEV_QUERYCAP, struct v4l2_subdev_capability *argp )
+> > +    :name: VIDIOC_SUBDEV_QUERYCAP
+> > +
+> > +
+> > +Arguments
+> > +=========
+> > +
+> > +``fd``
+> > +    File descriptor returned by :ref:`open() <func-open>`.
+> > +
+> > +``argp``
+> > +    Pointer to struct :c:type:`v4l2_subdev_capability`.
+> > +
+> > +
+> > +Description
+> > +===========
+> > +
+> > +All V4L2 sub-devices support the
+> > +``VIDIOC_SUBDEV_QUERYCAP`` ioctl. It is used to identify
+>
+> You could rewrap the paragraph.
+>
+> > +kernel devices compatible with this specification and to obtain
+> > +information about driver and hardware capabilities. The ioctl takes a
+> > +pointer to a struct :c:type:`v4l2_subdev_capability` which is filled by the
+> > +driver. When the driver is not compatible with this specification the ioctl
+> > +returns ``ENOTTY`` error code.
+> > +
+> > +.. tabularcolumns:: |p{1.5cm}|p{2.5cm}|p{13cm}|
+> > +
+> > +.. c:type:: v4l2_subdev_capability
+> > +
+> > +.. flat-table:: struct v4l2_subdev_capability
+> > +    :header-rows:  0
+> > +    :stub-columns: 0
+> > +    :widths:       3 4 20
+> > +
+> > +    * - __u32
+> > +      - ``version``
+> > +      - Version number of the driver.
+> > +
+> > +        The version reported is provided by the V4L2 subsystem following the
+> > +        kernel numbering scheme. However, it may not always return the same
+> > +        version as the kernel if, for example, a stable or
+> > +        distribution-modified kernel uses the V4L2 stack from a newer kernel.
+> > +
+> > +	The version number is formatted using the ``KERNEL_VERSION()``
+> > +	macro:
+> > +    * - :cspan:`2`
+> > +
+> > +	``#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))``
+> > +
+> > +	``__u32 version = KERNEL_VERSION(0, 8, 1);``
+> > +
+> > +	``printf ("Version: %u.%u.%u\\n",``
+> > +
+> > +	``(version >> 16) & 0xFF, (version >> 8) & 0xFF, version & 0xFF);``
+> > +    * - __u32
+> > +      - ``subdev_caps``
+> > +      - Sub-device capabilities of the opened device, see
+> > +	:ref:`subdevice-capabilities`.
+> > +
+> > +.. tabularcolumns:: |p{6cm}|p{2.2cm}|p{8.8cm}|
+> > +
+> > +.. _subdevice-capabilities:
+> > +
+> > +.. cssclass:: longtable
+> > +
+> > +.. flat-table:: Sub-Device Capabilities Flags
+> > +    :header-rows:  0
+> > +    :stub-columns: 0
+> > +    :widths:       3 1 4
+> > +
+> > +    * - V4L2_SUBDEV_CAP_RO_SUBDEV
+> > +      - 0x00000001
+> > +      - The sub-device device node is registered in read-only mode.
+> > +        Access to the sub-device ioctls that modify the device state is
+> > +        restricted. Refer to each individual subdevice ioctl documentation
+> > +        for a description of which restrictions apply to a read-only sub-device.
+>
+> Tabs would be nice. Same below (and above, too).
 
-Streaming is per channel and we can't turn power/clocks off while other=20
-channels may still be running.
+I'm not sure what is the rule here, but mixing tabs and spaces doesn't
+seem nice to me :)
 
+>
+> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>
+
+Thanks
+  j
+
+> > +
+> > +    * - V4L2_SUBDEV_CAP_RW_SUBDEV
+> > +      - 0x00000002
+> > +      - The sub-device device node is registered in read/write mode, all the
+> > +        subdevice ioctls are accessible from userspace.
+> > +
+> > +Return Value
+> > +============
+> > +
+> > +On success 0 is returned, on error -1 and the ``errno`` variable is set
+> > +appropriately. The generic error codes are described at the
+> > +:ref:`Generic Error Codes <gen-errors>` chapter.
+> > +
+> > +ENOTTY
+> > +    The device node is not a V4L2 sub-device.
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
