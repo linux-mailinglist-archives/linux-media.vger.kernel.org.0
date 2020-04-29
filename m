@@ -2,199 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 954961BE817
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 22:08:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79DD71BE917
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 22:50:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726862AbgD2UIO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Apr 2020 16:08:14 -0400
-Received: from mga17.intel.com ([192.55.52.151]:24528 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726456AbgD2UIO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Apr 2020 16:08:14 -0400
-IronPort-SDR: kwvhZ03/e5F9V+kx+1fPS3NAdgWz5b3tg46ahY4eXRwTg0UVQb/qXcrdPY0mnn9mXJ/XPUzhKP
- bmQ5PvvFThRA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 13:08:12 -0700
-IronPort-SDR: Su2Lu5tP4r6TR8aEa3Qsr09txqHFj2Y5G6m9Yc6/f2eDur7BraWwFEYALVoXCRXO8X0rZunJkB
- TcGmxia9UL6w==
-X-IronPort-AV: E=Sophos;i="5.73,333,1583222400"; 
-   d="scan'208";a="248078171"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 13:08:11 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id ED588202AE; Wed, 29 Apr 2020 23:08:08 +0300 (EEST)
-Date:   Wed, 29 Apr 2020 23:08:08 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org,
-        Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v8.1 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support
- MC-centric devices
-Message-ID: <20200429200808.GK9190@paasikivi.fi.intel.com>
-References: <20200421135743.1381930-4-niklas.soderlund+renesas@ragnatech.se>
- <20200424134331.22271-1-laurent.pinchart@ideasonboard.com>
- <20200429182739.274ce451@coco.lan>
- <20200429163849.GK5956@pendragon.ideasonboard.com>
- <20200429200140.22a4db22@coco.lan>
- <20200429185033.GN5956@pendragon.ideasonboard.com>
+        id S1726973AbgD2Utl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Apr 2020 16:49:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36598 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726910AbgD2Utk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Apr 2020 16:49:40 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A598FC03C1AE
+        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2020 13:49:39 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id t16so1281813plo.7
+        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2020 13:49:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=dDfsPjc2eafyO/4KPYv20ArmQvNr+tvi92kvu1zdsKM=;
+        b=bbd3fFOeP3ETWnnwMa3xDvPhIrJML31fB5CZcl7tfsi27paXAjpXFXgWJi3Y+n7UTx
+         rfQfZ8X9aDzvtRXLpCxjP4KYMkqIkDLC7j6ryQB5IG1sNa2yW2cx41U0ISK7k8jivjH5
+         g49oMS6l1oh9DQ0DiYe8jRPjcaUukL1H4HT0i7oFv782hH2k6M6kRDgUbSCU0eqsJRzC
+         hPaiZ7/zvphI72SKtZh+yizn049WyPGKPeMziefs+AtGL7/9REoUFnENNMZUcxTDPb2P
+         7kWt9Uf2hSBKoRw4Vljfy+BG65jUBgEIY/x5SDkqqG3HLyMlhFRvM553+6ZxijMF5VQV
+         8G3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=dDfsPjc2eafyO/4KPYv20ArmQvNr+tvi92kvu1zdsKM=;
+        b=fc2ysSDc3G2koSZppJxv6qIorHv25oBgfpak0ippxvuFIO3x9wDhs1Xx6G21l6ECwe
+         MeuKgvVrNxUOB7hc4i/W74ciWjtnPjEi0+IjqMFNINj40Uuw0QtvL/ZFHmVmIowahNj0
+         kRTEM/kUaMNKmKOLqVlRl86TH333ZBnZUmoS00KrrzSxCvqQXbdvR5YbHWL9idSXjak/
+         p8zGD2saD0XOwnPTOjvSvLBsyje6See47f6SPAla4juxSkIutfOH+L8pCFPiOELL7gWl
+         dEYD5mwgaHuNs7n4h++PfH1lNfIoZsjqkOYK21oV0BHKwCWpI6e5qsi2hmdPNRM2voPu
+         gsKQ==
+X-Gm-Message-State: AGi0PuYAmakR7LfwovODIF0UeShUsip/iES8TK7LNSABzGo1GC7XehJ+
+        iR1e84ME1pMsoQrk6y32BWU=
+X-Google-Smtp-Source: APiQypIO6gVWkorVl2+vrzUG7+QIDQsdtlid/Q8T6a+uIbWpjuBQoq+1kLIiwiN5YnTdNMJcIZZvdA==
+X-Received: by 2002:a17:902:24b:: with SMTP id 69mr244898plc.52.1588193379003;
+        Wed, 29 Apr 2020 13:49:39 -0700 (PDT)
+Received: from [172.30.0.94] (nat-wv.mentorg.com. [192.94.38.34])
+        by smtp.gmail.com with ESMTPSA id z60sm147884pjj.14.2020.04.29.13.49.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Apr 2020 13:49:38 -0700 (PDT)
+Subject: Re: [PATCH v5 03/23] media: v4l2-subdev: add
+ v4l2_subdev_get_fwnode_pad_default
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+References: <20200420003930.11463-1-slongerbeam@gmail.com>
+ <20200420003930.11463-4-slongerbeam@gmail.com>
+ <20200429143946.GI9190@paasikivi.fi.intel.com>
+From:   Steve Longerbeam <slongerbeam@gmail.com>
+Message-ID: <62e91ae8-7099-6f1d-9c8a-9255d90c3db9@gmail.com>
+Date:   Wed, 29 Apr 2020 13:49:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200429185033.GN5956@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200429143946.GI9190@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent, Mauro,
+Hi Sakari,
 
-On Wed, Apr 29, 2020 at 09:50:33PM +0300, Laurent Pinchart wrote:
-> Hi Mauro,
-> 
-> On Wed, Apr 29, 2020 at 08:01:40PM +0200, Mauro Carvalho Chehab wrote:
-> > Em Wed, 29 Apr 2020 19:38:49 +0300 Laurent Pinchart escreveu:
-> > > On Wed, Apr 29, 2020 at 06:27:39PM +0200, Mauro Carvalho Chehab wrote:
-> > > > Em Fri, 24 Apr 2020 16:43:31 +0300 Laurent Pinchart escreveu:
-> > > >   
-> > > > > The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
-> > > > > node. For MC-centric devices, its behaviour has always been ill-defined,
-> > > > > with drivers implementing one of the following behaviours:
-> > > > 
-> > > > ...
-> > > > 
-> > > > The patch itself is OK. However, there's a change you did at the
-> > > > documentation that it is unrelated. 
-> > > > 
-> > > > See below.
-> > > >   
-> > > > > diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > > > > index 8ca6ab701e4a..a987debc7654 100644
-> > > > > --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > > > > +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > > > > @@ -48,10 +48,21 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
-> > > > >  formats in preference order, where preferred formats are returned before
-> > > > >  (that is, with lower ``index`` value) less-preferred formats.
-> > > > >  
-> > > > > -.. note::
-> > > > > -   After switching input or output the list of enumerated image
-> > > > > -   formats may be different.  
-> > > > 
-> > > > Why are you dropping this note?
-> > > > 
-> > > > This basically reverts this changeset:
-> > > > 
-> > > >   commit 93828d6438081649e81b8681df9bf6ad5d691650
-> > > >   Author: Hans Verkuil <hans.verkuil@cisco.com>
-> > > >   Date:   Mon Sep 3 09:37:18 2012 -0300
-> > > > 
-> > > >     [media] DocBook: make the G/S/TRY_FMT specification more strict
-> > > >     
-> > > >     - S/TRY_FMT should always succeed, unless an invalid type field is passed in.
-> > > >     - TRY_FMT should give the same result as S_FMT, all other things being equal.
-> > > >     - ENUMFMT may return different formats for different inputs or outputs.
-> > > >     This was decided during the 2012 Media Workshop.
-> > > >     
-> > > >     Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
-> > > >     Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
-> > > >     Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > >     Acked-by: Sakari Ailus <sakari.ailus@iki.fi>
-> > > >     Signed-off-by: Mauro Carvalho Chehab <mchehab@redhat.com>
-> > > > 
-> > > > As far as I remember, from our 2012 discussions, some drivers may change 
-> > > > the enumerated image formats when some ioctls like VIDIOC_S_INPUT and
-> > > > VIDIOC_S_OUTPUT ioctls are used. I also vaguely remember that 90 and 270
-> > > > degrees rotation would equally affect it.
-> > > > 
-> > > > Perhaps, the removal was just some mistake. If so, please re-submit
-> > > > another patch without it.
-> > > > 
-> > > > Otherwise, if are there any good reasons for such change, and it won't
-> > > > cause any API regressions, please place it on a separate patch, clearly
-> > > > that.
-> > > > 
-> > > > ... Or, maybe you felt that it won't make sense for MC-centric devices.
-> > > > On such case, please improve the note stating it on a way that it would
-> > > > be understandable on both MC-centric and bridge-centrid drivers.  
-> > > 
-> > > I'm not dropping the requirement, I'm rewriting it :-) The patch indeed
-> > > removes the above, but adds the following
-> > > 
-> > > ----
-> > > If the driver doesn't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
-> > > <device-capabilities>`, applications shall initialize the ``mbus_code`` field
-> > > to zero and drivers shall ignore the value of the field.  Drivers shall
-> > > enumerate all image formats. The enumerated formats may depend on the active
-> > > input or output of the device.
-> > > 
-> > > If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`capability
-> > > <device-capabilities>`, applications may initialize the ``mbus_code`` field to
-> > > a valid :ref:`media bus format code <v4l2-mbus-pixelcode>`. If the
-> > > ``mbus_code`` field is not zero, drivers shall restrict enumeration to only the
-> > > image formats that can produce (for video output devices) or be produced from
-> > > (for video capture devices) that media bus code.  Regardless of the value of
-> > > the ``mbus_code`` field, the enumerated image formats shall not depend on the
-> > > active configuration of the video device or device pipeline. Enumeration shall
-> > > otherwise operate as previously described.
-> > 
-> > Hmm... it took me re-reading this text 4 or 5 times, in order to understand
-> > that you're actually meaning bridge-centric devices here :-)
-> > 
-> > Also, you placed two independent and unrelated information at the same
-> > paragraph.
-> > 
-> > IMHO, you should let it more clear, like, for example adding a numerated
-> > list, like:
-> > 
-> > 1. Bridge-centric devices
-> > 
-> >    As such devices don't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
-> >    <device-capabilities>`, applications shall initialize the ``mbus_code`` field
-> >    to zero and drivers shall ignore the value of the field.
-> 
-> I could settle for
-> 
->    These devices don't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
->    <device-capabilities>`. Applications shall initialize the ``mbus_code`` field
->    to zero and drivers shall ignore the value of the field.
-> 
-> and similarly below. It bothers me though, as "bridge" isn't formally
-> defined anywhere in the userspace API documentation. It's more formal to
-> explain the behaviour of individual ioctls based solely on the
-> V4L2_CAP_IO_MC flag, and gather all the explanation of what
-> bridge-centric vs. MC-centric means in a single place, an introductory
+On 4/29/20 7:39 AM, Sakari Ailus wrote:
+> Hi Steve,
+>
+> On Sun, Apr 19, 2020 at 05:39:10PM -0700, Steve Longerbeam wrote:
+>> Add a convenience function that can be used as the .get_fwnode_pad
+>> operation for subdevices that map port numbers and pad indexes 1:1.
+>> The function verifies the endpoint is owned by the subdevice, and if
+>> so returns the endpoint port number.
+>>
+>> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-subdev.c | 25 +++++++++++++++++++++++++
+>>   include/media/v4l2-subdev.h           | 17 +++++++++++++++++
+>>   2 files changed, 42 insertions(+)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>> index a376b351135f..d5b5cd7a6049 100644
+>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>> @@ -696,6 +696,31 @@ const struct v4l2_file_operations v4l2_subdev_fops = {
+>>   };
+>>   
+>>   #ifdef CONFIG_MEDIA_CONTROLLER
+>> +
+>> +int v4l2_subdev_get_fwnode_pad_default(struct media_entity *entity,
+>> +				       struct fwnode_endpoint *endpoint)
+>> +{
+>> +	struct fwnode_handle *ep;
+>> +	struct v4l2_subdev *sd;
+>> +
+>> +	if (!is_media_entity_v4l2_subdev(entity))
+>> +		return -EINVAL;
+>> +
+>> +	sd = media_entity_to_v4l2_subdev(entity);
+>> +
+>> +	fwnode_graph_for_each_endpoint(dev_fwnode(sd->dev), ep) {
+>> +		if (ep != endpoint->local_fwnode)
+>> +			continue;
+> If the purpose is just to check a given endpoint belongs to a device, could
+> it be done in a more simple way? E.g.:
+>
+> 	fwnode = fwnode_graph_get_port_parent(endpoint->local_fwnode);
+> 	fwnode_handle_put(fwnode);
+>
+> 	if (dev_fwnode(sd->dev) == fwnode)
+> 		return endpoint->port;
+>
+> 	return -ENXIO;
 
-How about "video node centric"? That's what I recall has been used
-previously to differentiate regular V4L2 uAPI drivers from MC-centric
-drivers. Bridge refers to hardware whereas MC-centric is software, just as
-video node centric would be.
+Sorry you are right, I was stuck on confirming the endpoint itself is 
+one of the devices endpoints, but yes, above is all that is needed to 
+confirm the endpoint is owned by the device, I'll make that change.
 
-> section, instead of spreading it through documentation of individual
-> ioctls. V4L2 has more UAPI documentation than most other kernel APIs,
-> but there are lots of places where details are not very clear.
-> Standardizing ioctl documentation on the use of common vocabulary
-> ("may", "shall", ...) and using clearly defined concepts (e.g.
-> V4L2_CAP_IO_MC) instead of losely defined ones (e.g. Bridge-centric
-> devices) that are explained in non-normative sections would increase
-> clarity. I thus prefer the wording in v8.1 of this patch, or possibly
-> with the small extension I've proposed in my previous e-mail.
-> 
-> Hans, Sakari, what do you think ?
+Steve
 
-My preference is with v8.1 wording, with bridge-centric replaced by video
-node centric. This is because it differentiates between the flag what
-actually defines device behaviour. That's what applications see, they don't
-necessarily know what kind of devices they're working with when they open
-the device node.
 
--- 
-Kind regards,
+>
+>> +
+>> +		fwnode_handle_put(ep);
+>> +
+>> +		return endpoint->port;
+>> +	}
+>> +
+>> +	return -ENXIO;
+>> +}
+>> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_fwnode_pad_default);
+>> +
+>>   int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
+>>   				      struct media_link *link,
+>>   				      struct v4l2_subdev_format *source_fmt,
+>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>> index a4848de59852..940181323427 100644
+>> --- a/include/media/v4l2-subdev.h
+>> +++ b/include/media/v4l2-subdev.h
+>> @@ -1027,6 +1027,23 @@ static inline void *v4l2_get_subdev_hostdata(const struct v4l2_subdev *sd)
+>>   
+>>   #ifdef CONFIG_MEDIA_CONTROLLER
+>>   
+>> +/**
+>> + * v4l2_subdev_get_fwnode_pad_default - Get pad number from a subdev fwnode
+>> + *                                      endpoint, assuming 1:1 port:pad
+>> + *
+>> + * @entity - Pointer to the subdev entity
+>> + * @endpoint - Pointer to a parsed fwnode endpoint
+>> + *
+>> + * This function can be used as the .get_fwnode_pad operation for
+>> + * subdevices that map port numbers and pad indexes 1:1. If the endpoint
+>> + * is owned by the subdevice, the function returns the endpoint port
+>> + * number.
+>> + *
+>> + * Returns the endpoint port number on success or a negative error code.
+>> + */
+>> +int v4l2_subdev_get_fwnode_pad_default(struct media_entity *entity,
+>> +				       struct fwnode_endpoint *endpoint);
+>> +
+>>   /**
+>>    * v4l2_subdev_link_validate_default - validates a media link
+>>    *
 
-Sakari Ailus
