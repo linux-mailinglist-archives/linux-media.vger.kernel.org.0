@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06DC21BE156
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 16:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 60BBA1BE158
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 16:42:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726503AbgD2Ojw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Apr 2020 10:39:52 -0400
-Received: from mga14.intel.com ([192.55.52.115]:4377 "EHLO mga14.intel.com"
+        id S1726451AbgD2OmJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Apr 2020 10:42:09 -0400
+Received: from mga05.intel.com ([192.55.52.43]:47902 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726355AbgD2Ojw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Apr 2020 10:39:52 -0400
-IronPort-SDR: 95fgwkjshHfP8pWPL8EoiLw02GmPDR/AiFX79XHnM1OUoVyA1IMMWRaHLshwT6VM6pxPEq11n5
- lnCQcHcV/VUw==
+        id S1726348AbgD2OmJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Apr 2020 10:42:09 -0400
+IronPort-SDR: AZS+NQ2dSfSLmMs2v0GMdKbfhf1aEDSRrFoSeSeBxYEKmw6SeErqP0ZT+RvwKNFfmQ+wrLOkUe
+ r+SVE+vlQ1mA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 07:39:51 -0700
-IronPort-SDR: BnVy39kzQ4RoUlSTsbT5tQ41pcER0ntvzkcmjQZE+sMBY/tM8Sx7mCUQiRAQ7+Sw/FJWxHV451
- +LkqtF6ahSXA==
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 07:42:08 -0700
+IronPort-SDR: JYTmKi7eEB+Du7rYHHpKyO7w9AIyKHZa5zKlyvAQxtazK0eBGdTnfgt+oGU2JilEyt1UW3lFyq
+ Y2W05HvD0Umw==
 X-IronPort-AV: E=Sophos;i="5.73,332,1583222400"; 
-   d="scan'208";a="293220203"
+   d="scan'208";a="246865286"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 07:39:49 -0700
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 07:42:06 -0700
 Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 58392202AE; Wed, 29 Apr 2020 17:39:46 +0300 (EEST)
-Date:   Wed, 29 Apr 2020 17:39:46 +0300
+        id 026FC202AE; Wed, 29 Apr 2020 17:42:03 +0300 (EEST)
+Date:   Wed, 29 Apr 2020 17:42:03 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Steve Longerbeam <slongerbeam@gmail.com>
 Cc:     linux-media@vger.kernel.org,
@@ -34,15 +34,15 @@ Cc:     linux-media@vger.kernel.org,
         Rui Miguel Silva <rmfrfs@gmail.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v5 03/23] media: v4l2-subdev: add
- v4l2_subdev_get_fwnode_pad_default
-Message-ID: <20200429143946.GI9190@paasikivi.fi.intel.com>
+Subject: Re: [PATCH v5 02/23] media: entity: Modify default behavior of
+ media_entity_get_fwnode_pad
+Message-ID: <20200429144203.GJ9190@paasikivi.fi.intel.com>
 References: <20200420003930.11463-1-slongerbeam@gmail.com>
- <20200420003930.11463-4-slongerbeam@gmail.com>
+ <20200420003930.11463-3-slongerbeam@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200420003930.11463-4-slongerbeam@gmail.com>
+In-Reply-To: <20200420003930.11463-3-slongerbeam@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -51,96 +51,96 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Steve,
 
-On Sun, Apr 19, 2020 at 05:39:10PM -0700, Steve Longerbeam wrote:
-> Add a convenience function that can be used as the .get_fwnode_pad
-> operation for subdevices that map port numbers and pad indexes 1:1.
-> The function verifies the endpoint is owned by the subdevice, and if
-> so returns the endpoint port number.
+On Sun, Apr 19, 2020 at 05:39:09PM -0700, Steve Longerbeam wrote:
+> Modify the default behavior of media_entity_get_fwnode_pad() (when the
+> entity does not provide the get_fwnode_pad op) to first assume the entity
+> implements a 1:1 mapping between fwnode port number and media pad index.
+> 
+> If the 1:1 mapping is not valid, e.g. the port number falls outside the
+> entity's pad index range, or the pad at that port number doesn't match the
+> given direction_flags, fall-back to the previous behavior that searches
+> the entity for the first pad that matches the given direction_flags.
+> 
+> The previous default behavior can choose the wrong pad for entities with
+> multiple sink or source pads. With this change the function will choose
+> the correct pad index if the entity implements a 1:1 port to pad mapping
+> at that port.
 > 
 > Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 > ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 25 +++++++++++++++++++++++++
->  include/media/v4l2-subdev.h           | 17 +++++++++++++++++
->  2 files changed, 42 insertions(+)
+>  drivers/media/mc/mc-entity.c | 25 ++++++++++++++++++++-----
+>  include/media/media-entity.h |  6 ++++--
+>  2 files changed, 24 insertions(+), 7 deletions(-)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index a376b351135f..d5b5cd7a6049 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -696,6 +696,31 @@ const struct v4l2_file_operations v4l2_subdev_fops = {
->  };
+> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+> index 12b45e669bcc..b1e0259a58c5 100644
+> --- a/drivers/media/mc/mc-entity.c
+> +++ b/drivers/media/mc/mc-entity.c
+> @@ -370,22 +370,37 @@ int media_entity_get_fwnode_pad(struct media_entity *entity,
+>  				unsigned long direction_flags)
+>  {
+>  	struct fwnode_endpoint endpoint;
+> -	unsigned int i;
+>  	int ret;
 >  
->  #ifdef CONFIG_MEDIA_CONTROLLER
+> +	ret = fwnode_graph_parse_endpoint(fwnode, &endpoint);
+> +	if (ret)
+> +		return ret;
 > +
-> +int v4l2_subdev_get_fwnode_pad_default(struct media_entity *entity,
-> +				       struct fwnode_endpoint *endpoint)
-> +{
-> +	struct fwnode_handle *ep;
-> +	struct v4l2_subdev *sd;
+>  	if (!entity->ops || !entity->ops->get_fwnode_pad) {
+> +		unsigned int i;
 > +
-> +	if (!is_media_entity_v4l2_subdev(entity))
-> +		return -EINVAL;
-> +
-> +	sd = media_entity_to_v4l2_subdev(entity);
-> +
-> +	fwnode_graph_for_each_endpoint(dev_fwnode(sd->dev), ep) {
-> +		if (ep != endpoint->local_fwnode)
-> +			continue;
+> +		/*
+> +		 * for the default case, first try a 1:1 mapping between
+> +		 * fwnode port number and pad index.
+> +		 */
+> +		ret = endpoint.port;
+> +		if (ret < entity->num_pads &&
+> +		    (entity->pads[ret].flags & direction_flags))
+> +			return ret;
 
-If the purpose is just to check a given endpoint belongs to a device, could
-it be done in a more simple way? E.g.:
-
-	fwnode = fwnode_graph_get_port_parent(endpoint->local_fwnode);
-	fwnode_handle_put(fwnode);
-
-	if (dev_fwnode(sd->dev) == fwnode)
-		return endpoint->port;
-
-	return -ENXIO;
+Given the 3rd patch, is this one still meant to be here?
 
 > +
-> +		fwnode_handle_put(ep);
-> +
-> +		return endpoint->port;
-> +	}
-> +
-> +	return -ENXIO;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_fwnode_pad_default);
-> +
->  int v4l2_subdev_link_validate_default(struct v4l2_subdev *sd,
->  				      struct media_link *link,
->  				      struct v4l2_subdev_format *source_fmt,
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index a4848de59852..940181323427 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1027,6 +1027,23 @@ static inline void *v4l2_get_subdev_hostdata(const struct v4l2_subdev *sd)
+> +		/*
+> +		 * if that didn't work search the entity for the first
+> +		 * pad that matches the @direction_flags.
+> +		 */
+>  		for (i = 0; i < entity->num_pads; i++) {
+>  			if (entity->pads[i].flags & direction_flags)
+>  				return i;
+>  		}
 >  
->  #ifdef CONFIG_MEDIA_CONTROLLER
+> +		/* else fail */
+>  		return -ENXIO;
+>  	}
 >  
-> +/**
-> + * v4l2_subdev_get_fwnode_pad_default - Get pad number from a subdev fwnode
-> + *                                      endpoint, assuming 1:1 port:pad
-> + *
-> + * @entity - Pointer to the subdev entity
-> + * @endpoint - Pointer to a parsed fwnode endpoint
-> + *
-> + * This function can be used as the .get_fwnode_pad operation for
-> + * subdevices that map port numbers and pad indexes 1:1. If the endpoint
-> + * is owned by the subdevice, the function returns the endpoint port
-> + * number.
-> + *
-> + * Returns the endpoint port number on success or a negative error code.
-> + */
-> +int v4l2_subdev_get_fwnode_pad_default(struct media_entity *entity,
-> +				       struct fwnode_endpoint *endpoint);
-> +
->  /**
->   * v4l2_subdev_link_validate_default - validates a media link
+> -	ret = fwnode_graph_parse_endpoint(fwnode, &endpoint);
+> -	if (ret)
+> -		return ret;
+> -
+>  	ret = entity->ops->get_fwnode_pad(entity, &endpoint);
+>  	if (ret < 0)
+>  		return ret;
+> diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+> index cde80ad029b7..9316eb9f8486 100644
+> --- a/include/media/media-entity.h
+> +++ b/include/media/media-entity.h
+> @@ -871,8 +871,10 @@ struct media_pad *media_entity_remote_pad(const struct media_pad *pad);
+>   * mappings of media pads.
 >   *
+>   * If the entity does not implement the get_fwnode_pad() operation
+> - * then this function searches the entity for the first pad that
+> - * matches the @direction_flags.
+> + * then this function first assumes the entity implements a 1:1 mapping
+> + * between fwnode port number and media pad index. If the 1:1 mapping
+> + * is not valid, then the function searches the entity for the first pad
+> + * that matches the @direction_flags.
+>   *
+>   * Return: returns the pad number on success or a negative error code.
+>   */
 
 -- 
-Kind regards,
+Regards,
 
 Sakari Ailus
