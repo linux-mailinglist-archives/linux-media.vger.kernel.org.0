@@ -2,112 +2,266 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A21A1BEBA4
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 00:09:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF6661BEBF3
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 00:12:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728227AbgD2WJ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Apr 2020 18:09:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49142 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728021AbgD2WJZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Apr 2020 18:09:25 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E791FC03C1AE;
-        Wed, 29 Apr 2020 15:09:24 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id g14so3137869otg.10;
-        Wed, 29 Apr 2020 15:09:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=8oqwTr93GONiIRzdNlX+cz19aB6zUtjVhJXAzceD5NI=;
-        b=mbT0/nGlQVzYagaookGp3cEt7WpHHYBvOZ0eg9smcL5aJUbT99dEyaKCU+lwAoXgpi
-         3XWCQanM4wWlKeU1lcb3ywJ046tsjFk0WKR2ctNr2fSHkzgR3Rchv3lQkOLxODyhgi7W
-         zdpySIQe8y3fRub9I9zVCXi362IIZXiEe+OR71DOkOHSpux73eGW9th2DUh4b7wqU9Fs
-         s/CdEqtDZSE0o+8lKUVxEA8+D84EcxNJbzeimiuaCUf3prxmEggk9gmRNSSVQDnbwyXs
-         WWzsP3h99/+yez6l4AhJBHTyVPBHNtzOtu6C/P+mI3kpV3VtW3NIxfcGr3FRNhvcrqlV
-         UdVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=8oqwTr93GONiIRzdNlX+cz19aB6zUtjVhJXAzceD5NI=;
-        b=pIBCbyUQw2OWGo6wc0lNJtQi5JAqrhgtThExihwYKGV6RQhIJfgkJ7Rc5S0keXkimH
-         VaRhFOwiiCRh07HIgSD9zdZFEHAJsrVP2STm/treUV70iz3k12XUU81zo4wu51/K8fnx
-         CgrrTzCFybW6zQL+QInwv+0jRBcS3GAKkJcIlrAT0ncwnm6Xs61hdiwEV7drgctQA4cL
-         19wIKWPzamgvILy8wj2YpHH945SdveLo/3fITTyfXhNoc/AlOGtKU0uaTsUDk+0BegdW
-         VRCuJXWQTtf/xRxJ9aNgmlSy9Ub0pgiDLDNRZc/dX/+3P+piv4oO1pVjntyST57KvGxI
-         y2Lg==
-X-Gm-Message-State: AGi0PuZppdDoRbPUoiZMkuIurz0mom53ya3bwUd7C3dwADTHeHxCI9pu
-        DfaEeZBgKn4p1Lm4z/PSWBF2e9Km+1kdUbsIZeNRhk4j
-X-Google-Smtp-Source: APiQypKobiQJJqpqNRhFSNXeLIHjEz81s3WISBQksQoAKf9VSaGW8bghC6rpb+qGC5zWjSngm/v2nXCxiH0QCiwVw68=
-X-Received: by 2002:a9d:7390:: with SMTP id j16mr94578otk.43.1588198164341;
- Wed, 29 Apr 2020 15:09:24 -0700 (PDT)
+        id S1727106AbgD2WMP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Apr 2020 18:12:15 -0400
+Received: from mga18.intel.com ([134.134.136.126]:44585 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726481AbgD2WMP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Apr 2020 18:12:15 -0400
+IronPort-SDR: Pw0qN+0e/45k1yoL4kUr1VOi1Jcg3V2OaCkVIEw3k0biZdTjf3z+AQs6Hc1AKKZMnBkp3NRtG8
+ C6EStpRj3dGg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 15:12:13 -0700
+IronPort-SDR: 7elixb/D+NGie0SaN32Tpt/1KrUx0MjcDMwO7abmrsFhhh/O5VfrmOkdcq0cZ9z7b33OJG0Qkl
+ TxKWmqb/5blg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,333,1583222400"; 
+   d="scan'208";a="459347368"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 29 Apr 2020 15:12:11 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jTuw7-000HUn-3f; Thu, 30 Apr 2020 06:12:11 +0800
+Date:   Thu, 30 Apr 2020 06:11:03 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ e51759f56d314d28c25be7606b03791f048e44c7
+Message-ID: <5ea9fb77.wTWTF9DAGZSHUTNC%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <1586945948-11026-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <1586945948-11026-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Wed, 29 Apr 2020 23:08:58 +0100
-Message-ID: <CA+V-a8s+rU8PV9nzERGSeiauxekP7MOgMXMOtx579OqnVmMHrA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] media: rcar-vin: Enable MEDIA_BUS_FMT_SRGGB8_1X8 format
-To:     Niklas <niklas.soderlund@ragnatech.se>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+tree/branch: git://git.ragnatech.se/linux  media-tree
+branch HEAD: e51759f56d314d28c25be7606b03791f048e44c7  media: v4l2-ctrls.h: clarify the p_def argument of v4l2_ctrl_new_std_compound
 
-On Wed, Apr 15, 2020 at 11:19 AM Lad Prabhakar
-<prabhakar.mahadev-lad.rj@bp.renesas.com> wrote:
->
-> Hi,
->
-> This patch series adds support for MEDIA_BUS_FMT_SRGGB8_1X8 format for vin
->
-> Cheers,
-> --Prabhakar
->
-> Changed for v4:
-> * patch 1/3 is new patch which adds a check for conversion from input to
->   output.
-> * patch 2/3 added a comment while setting VNIS_REG for RAW format as
->   suggested by Niklas
->
-> Changes for v3:
-> * Dropped patch 1/1 from v2 as this handled neatly by patches
->   https://patchwork.linuxtv.org/project/linux-media/list/?series=1974
-> * Included Ack from Niklas for patch 2/2
-> * Updated commit message for patch 1/1.
->
-> Changes for v2:
-> * Added support for matching fwnode against endpoints/nodes.
-> * Separated patch for rcar-vin and rcar-csi2.c which added
->   MEDIA_BUS_FMT_SRGGB8_1X8.
->
-> Lad Prabhakar (3):
->   media: rcar-vin: Invalidate pipeline if conversion is not possible on
->     input formats
->   media: rcar-vin: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
->   media: rcar-csi2: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
->
-Gentle ping.
+elapsed time: 704m
 
-Cheers,
---Prabhakar
+configs tested: 207
+configs skipped: 0
 
->  drivers/media/platform/rcar-vin/rcar-csi2.c |  1 +
->  drivers/media/platform/rcar-vin/rcar-dma.c  | 21 +++++++++++++++++++--
->  drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
->  3 files changed, 24 insertions(+), 2 deletions(-)
->
-> --
-> 2.20.1
->
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+arm                           efm32_defconfig
+arm                         at91_dt_defconfig
+arm                        shmobile_defconfig
+arm64                               defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+arm                           sunxi_defconfig
+arm                        multi_v7_defconfig
+arm64                            allyesconfig
+arm                              allyesconfig
+arm64                            allmodconfig
+arm                              allmodconfig
+arm64                             allnoconfig
+arm                               allnoconfig
+sparc                            allyesconfig
+s390                                defconfig
+ia64                              allnoconfig
+ia64                                defconfig
+i386                                defconfig
+xtensa                          iss_defconfig
+parisc                           allmodconfig
+ia64                        generic_defconfig
+m68k                          multi_defconfig
+mips                malta_kvm_guest_defconfig
+ia64                             allmodconfig
+powerpc                             defconfig
+h8300                     edosk2674_defconfig
+sh                  sh7785lcr_32bit_defconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                             alldefconfig
+i386                              debian-10.3
+ia64                          tiger_defconfig
+ia64                         bigsur_defconfig
+ia64                             allyesconfig
+ia64                             alldefconfig
+m68k                       m5475evb_defconfig
+m68k                             allmodconfig
+m68k                       bvme6000_defconfig
+m68k                           sun3_defconfig
+nios2                         3c120_defconfig
+nios2                         10m50_defconfig
+c6x                        evmc6678_defconfig
+c6x                              allyesconfig
+openrisc                 simple_smp_defconfig
+openrisc                    or1ksim_defconfig
+nds32                               defconfig
+nds32                             allnoconfig
+csky                                defconfig
+alpha                               defconfig
+h8300                       h8s-sim_defconfig
+h8300                    h8300h-sim_defconfig
+xtensa                       common_defconfig
+arc                                 defconfig
+arc                              allyesconfig
+microblaze                      mmu_defconfig
+microblaze                    nommu_defconfig
+mips                      fuloong2e_defconfig
+mips                      malta_kvm_defconfig
+mips                            ar7_defconfig
+mips                             allyesconfig
+mips                         64r6el_defconfig
+mips                              allnoconfig
+mips                           32r2_defconfig
+mips                             allmodconfig
+mips                         tb0287_defconfig
+mips                       capcella_defconfig
+mips                           ip32_defconfig
+mips                  decstation_64_defconfig
+mips                      loongson3_defconfig
+mips                          ath79_defconfig
+mips                        bcm63xx_defconfig
+parisc                            allnoconfig
+parisc                generic-64bit_defconfig
+parisc                generic-32bit_defconfig
+parisc                           allyesconfig
+powerpc                      chrp32_defconfig
+powerpc                       holly_defconfig
+powerpc                       ppc64_defconfig
+powerpc                          rhel-kconfig
+powerpc                           allnoconfig
+powerpc                  mpc866_ads_defconfig
+powerpc                    amigaone_defconfig
+powerpc                    adder875_defconfig
+powerpc                     ep8248e_defconfig
+powerpc                          g5_defconfig
+powerpc                     mpc512x_defconfig
+parisc               randconfig-a001-20200429
+m68k                 randconfig-a001-20200429
+alpha                randconfig-a001-20200429
+mips                 randconfig-a001-20200429
+nds32                randconfig-a001-20200429
+riscv                randconfig-a001-20200429
+parisc               randconfig-a001-20200430
+mips                 randconfig-a001-20200430
+m68k                 randconfig-a001-20200430
+riscv                randconfig-a001-20200430
+alpha                randconfig-a001-20200430
+nds32                randconfig-a001-20200430
+nios2                randconfig-a001-20200429
+h8300                randconfig-a001-20200429
+c6x                  randconfig-a001-20200429
+sparc64              randconfig-a001-20200429
+microblaze           randconfig-a001-20200429
+sh                   randconfig-a001-20200429
+csky                 randconfig-a001-20200429
+s390                 randconfig-a001-20200429
+xtensa               randconfig-a001-20200429
+openrisc             randconfig-a001-20200429
+s390                 randconfig-a001-20200430
+xtensa               randconfig-a001-20200430
+csky                 randconfig-a001-20200430
+openrisc             randconfig-a001-20200430
+sh                   randconfig-a001-20200430
+i386                 randconfig-b002-20200429
+i386                 randconfig-b001-20200429
+x86_64               randconfig-b001-20200429
+i386                 randconfig-b003-20200429
+x86_64               randconfig-b002-20200429
+x86_64               randconfig-b003-20200429
+i386                 randconfig-b001-20200430
+i386                 randconfig-b002-20200430
+x86_64               randconfig-b001-20200430
+i386                 randconfig-b003-20200430
+x86_64               randconfig-b002-20200430
+x86_64               randconfig-b003-20200430
+i386                 randconfig-c002-20200429
+i386                 randconfig-c001-20200429
+x86_64               randconfig-c002-20200429
+x86_64               randconfig-c001-20200429
+i386                 randconfig-c003-20200429
+x86_64               randconfig-c003-20200429
+x86_64               randconfig-c001-20200430
+i386                 randconfig-c001-20200430
+i386                 randconfig-c002-20200430
+x86_64               randconfig-c002-20200430
+x86_64               randconfig-c003-20200430
+i386                 randconfig-c003-20200430
+x86_64               randconfig-d001-20200428
+i386                 randconfig-d002-20200428
+i386                 randconfig-d001-20200428
+x86_64               randconfig-d003-20200428
+i386                 randconfig-d003-20200428
+x86_64               randconfig-d001-20200429
+x86_64               randconfig-d002-20200429
+i386                 randconfig-d002-20200429
+i386                 randconfig-d001-20200429
+x86_64               randconfig-d003-20200429
+i386                 randconfig-d003-20200429
+x86_64               randconfig-e002-20200430
+i386                 randconfig-e003-20200430
+x86_64               randconfig-e003-20200430
+i386                 randconfig-e002-20200430
+x86_64               randconfig-e001-20200430
+i386                 randconfig-e001-20200430
+x86_64               randconfig-e002-20200429
+i386                 randconfig-e003-20200429
+i386                 randconfig-e002-20200429
+x86_64               randconfig-e003-20200429
+i386                 randconfig-e001-20200429
+x86_64               randconfig-e001-20200429
+i386                 randconfig-f002-20200429
+i386                 randconfig-f003-20200429
+x86_64               randconfig-f003-20200429
+i386                 randconfig-f001-20200429
+x86_64               randconfig-f001-20200429
+x86_64               randconfig-h001-20200429
+i386                 randconfig-h003-20200429
+x86_64               randconfig-h003-20200429
+i386                 randconfig-h002-20200429
+i386                 randconfig-h001-20200429
+sparc                randconfig-a001-20200429
+ia64                 randconfig-a001-20200429
+powerpc              randconfig-a001-20200429
+arm                  randconfig-a001-20200429
+arc                  randconfig-a001-20200429
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+s390                       zfcpdump_defconfig
+s390                          debug_defconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             allmodconfig
+s390                             alldefconfig
+sh                          rsk7269_defconfig
+sh                               allmodconfig
+sh                            titan_defconfig
+sh                                allnoconfig
+sparc                               defconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+um                           x86_64_defconfig
+um                             i386_defconfig
+um                                  defconfig
+x86_64                                   rhel
+x86_64                               rhel-7.6
+x86_64                    rhel-7.6-kselftests
+x86_64                         rhel-7.2-clear
+x86_64                                    lkp
+x86_64                              fedora-25
+x86_64                                  kexec
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
