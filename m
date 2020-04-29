@@ -2,69 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CA631BE792
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 21:46:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 954961BE817
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 22:08:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726635AbgD2Tqa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Apr 2020 15:46:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47118 "EHLO mail.kernel.org"
+        id S1726862AbgD2UIO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Apr 2020 16:08:14 -0400
+Received: from mga17.intel.com ([192.55.52.151]:24528 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726456AbgD2Tqa (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Apr 2020 15:46:30 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 92C3C206B8;
-        Wed, 29 Apr 2020 19:46:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588189589;
-        bh=kZVAKSKhFNo6xx7Xf7X7yL4ZQKoDrz+Xvxx7V0gd2RQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=UqG0YsxlHGfZ257znmDrS/r5czfUIzI17xuiF6BYRu0dZdReve3MyrPM1VM53m9s+
-         9z8qA55OgYxaM08xv3hx3040w+fYpziwsfFOb881zeblKocFv81VAoKylCzvrCM8ZZ
-         XfqcpQQPX7l+mco0OAz99RCGgRpgiMzLEnU+JXMo=
-Date:   Wed, 29 Apr 2020 21:46:24 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        id S1726456AbgD2UIO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Apr 2020 16:08:14 -0400
+IronPort-SDR: kwvhZ03/e5F9V+kx+1fPS3NAdgWz5b3tg46ahY4eXRwTg0UVQb/qXcrdPY0mnn9mXJ/XPUzhKP
+ bmQ5PvvFThRA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 13:08:12 -0700
+IronPort-SDR: Su2Lu5tP4r6TR8aEa3Qsr09txqHFj2Y5G6m9Yc6/f2eDur7BraWwFEYALVoXCRXO8X0rZunJkB
+ TcGmxia9UL6w==
+X-IronPort-AV: E=Sophos;i="5.73,333,1583222400"; 
+   d="scan'208";a="248078171"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 13:08:11 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id ED588202AE; Wed, 29 Apr 2020 23:08:08 +0300 (EEST)
+Date:   Wed, 29 Apr 2020 23:08:08 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>,
         Helen Koike <helen.koike@collabora.com>,
         Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-renesas-soc@vger.kernel.org
 Subject: Re: [PATCH v8.1 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support
  MC-centric devices
-Message-ID: <20200429214624.402e4744@coco.lan>
-In-Reply-To: <20200429185033.GN5956@pendragon.ideasonboard.com>
+Message-ID: <20200429200808.GK9190@paasikivi.fi.intel.com>
 References: <20200421135743.1381930-4-niklas.soderlund+renesas@ragnatech.se>
-        <20200424134331.22271-1-laurent.pinchart@ideasonboard.com>
-        <20200429182739.274ce451@coco.lan>
-        <20200429163849.GK5956@pendragon.ideasonboard.com>
-        <20200429200140.22a4db22@coco.lan>
-        <20200429185033.GN5956@pendragon.ideasonboard.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ <20200424134331.22271-1-laurent.pinchart@ideasonboard.com>
+ <20200429182739.274ce451@coco.lan>
+ <20200429163849.GK5956@pendragon.ideasonboard.com>
+ <20200429200140.22a4db22@coco.lan>
+ <20200429185033.GN5956@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200429185033.GN5956@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 29 Apr 2020 21:50:33 +0300
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+Hi Laurent, Mauro,
 
+On Wed, Apr 29, 2020 at 09:50:33PM +0300, Laurent Pinchart wrote:
 > Hi Mauro,
 > 
 > On Wed, Apr 29, 2020 at 08:01:40PM +0200, Mauro Carvalho Chehab wrote:
-> > Em Wed, 29 Apr 2020 19:38:49 +0300 Laurent Pinchart escreveu:  
-> > > On Wed, Apr 29, 2020 at 06:27:39PM +0200, Mauro Carvalho Chehab wrote:  
+> > Em Wed, 29 Apr 2020 19:38:49 +0300 Laurent Pinchart escreveu:
+> > > On Wed, Apr 29, 2020 at 06:27:39PM +0200, Mauro Carvalho Chehab wrote:
 > > > > Em Fri, 24 Apr 2020 16:43:31 +0300 Laurent Pinchart escreveu:
-> > > >     
+> > > >   
 > > > > > The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
 > > > > > node. For MC-centric devices, its behaviour has always been ill-defined,
-> > > > > with drivers implementing one of the following behaviours:  
+> > > > > with drivers implementing one of the following behaviours:
 > > > > 
 > > > > ...
 > > > > 
@@ -72,7 +74,7 @@ Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 > > > > documentation that it is unrelated. 
 > > > > 
 > > > > See below.
-> > > >     
+> > > >   
 > > > > > diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
 > > > > > index 8ca6ab701e4a..a987debc7654 100644
 > > > > > --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
@@ -83,7 +85,7 @@ Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 > > > > >  
 > > > > > -.. note::
 > > > > > -   After switching input or output the list of enumerated image
-> > > > > -   formats may be different.    
+> > > > > -   formats may be different.  
 > > > > 
 > > > > Why are you dropping this note?
 > > > > 
@@ -120,7 +122,7 @@ Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 > > > > 
 > > > > ... Or, maybe you felt that it won't make sense for MC-centric devices.
 > > > > On such case, please improve the note stating it on a way that it would
-> > > > be understandable on both MC-centric and bridge-centrid drivers.    
+> > > > be understandable on both MC-centric and bridge-centrid drivers.  
 > > > 
 > > > I'm not dropping the requirement, I'm rewriting it :-) The patch indeed
 > > > removes the above, but adds the following
@@ -140,7 +142,7 @@ Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 > > > (for video capture devices) that media bus code.  Regardless of the value of
 > > > the ``mbus_code`` field, the enumerated image formats shall not depend on the
 > > > active configuration of the video device or device pipeline. Enumeration shall
-> > > otherwise operate as previously described.  
+> > > otherwise operate as previously described.
 > > 
 > > Hmm... it took me re-reading this text 4 or 5 times, in order to understand
 > > that you're actually meaning bridge-centric devices here :-)
@@ -155,7 +157,7 @@ Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 > > 
 > >    As such devices don't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
 > >    <device-capabilities>`, applications shall initialize the ``mbus_code`` field
-> >    to zero and drivers shall ignore the value of the field.  
+> >    to zero and drivers shall ignore the value of the field.
 > 
 > I could settle for
 > 
@@ -163,38 +165,19 @@ Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 >    <device-capabilities>`. Applications shall initialize the ``mbus_code`` field
 >    to zero and drivers shall ignore the value of the field.
 > 
-> and similarly below. 
-
-Works for me.
-
-> It bothers me though, as "bridge" isn't formally
-> defined anywhere in the userspace API documentation.
-
-Actually, I submitted some patches some time ago related to documenting
-it. They are the "v8, x/7" at patchwork:
-
-	https://patchwork.linuxtv.org/project/linux-media/list/?series=&submitter=&state=&q=&archive=&delegate=1
-
-> It's more formal to
+> and similarly below. It bothers me though, as "bridge" isn't formally
+> defined anywhere in the userspace API documentation. It's more formal to
 > explain the behaviour of individual ioctls based solely on the
 > V4L2_CAP_IO_MC flag, and gather all the explanation of what
 > bridge-centric vs. MC-centric means in a single place, an introductory
+
+How about "video node centric"? That's what I recall has been used
+previously to differentiate regular V4L2 uAPI drivers from MC-centric
+drivers. Bridge refers to hardware whereas MC-centric is software, just as
+video node centric would be.
+
 > section, instead of spreading it through documentation of individual
-> ioctls. 
-
-This patch in particular (from the above series) does that:
-
-	https://patchwork.linuxtv.org/patch/44904/
-
--
-
-That's said, that series is outdated. IMO, we should do another spin 
-on that, in the light of the V4L2_CAP_IO_MC changes (making the 
-introductory chapter point to it).
-
-I'll seek for some time and re-submit such patchset.
-
-> V4L2 has more UAPI documentation than most other kernel APIs,
+> ioctls. V4L2 has more UAPI documentation than most other kernel APIs,
 > but there are lots of places where details are not very clear.
 > Standardizing ioctl documentation on the use of common vocabulary
 > ("may", "shall", ...) and using clearly defined concepts (e.g.
@@ -202,99 +185,16 @@ I'll seek for some time and re-submit such patchset.
 > devices) that are explained in non-normative sections would increase
 > clarity. I thus prefer the wording in v8.1 of this patch, or possibly
 > with the small extension I've proposed in my previous e-mail.
-
-See, my proposal is to have both ;-)
-
-The list have the "less formal" definition (MC-centric x bridge-centric),
-with is how media developers usually refer to those (as you did at
-the subject of this patch series), while the contents preserve a more 
-technical definition, based on V4L2_CAP_IO_MC field.
-
 > 
 > Hans, Sakari, what do you think ?
-> 
-> > 
-> >    Drivers shall enumerate all image formats. The enumerated formats may depend
-> >    on the active input or output of the device.
-> > 
-> > 2. MC-centric devices
-> > 
-> >   As such devices advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
-> >   <device-capabilities>`, applications may initialize the ``mbus_code`` field to
-> >   a valid :ref:`media bus format code <v4l2-mbus-pixelcode>`. 
-> > 
-> >   If the ``mbus_code`` field is not zero, drivers shall restrict enumeration to 
-> >   only the image formats that can produce (for video output devices) or be produced 
-> >   from (for video capture devices) that media bus code.  
-> > 
-> >   Regardless of the value of the ``mbus_code`` field, the enumerated image formats
-> >   shall not depend on the active configuration of the video device or device
-> >   pipeline. Enumeration shall otherwise operate as previously described.
-> > 
-> > - 
-> > 
-> > On a side note: can a MC-centric device fill ``mbus_code`` field with zero?  
-> 
-> I assume you mean application here ? mbus_code is set by applications.
-> 
-> > The second paragraph seems to contradict the first one with mandates that
-> > ``mbus_code`` should be a valid format.  
-> 
-> The first paragraph says that applications "may" set the field. The
-> second paragraph explains what happens if they do.
 
-Ok. I would then write it as:
+My preference is with v8.1 wording, with bridge-centric replaced by video
+node centric. This is because it differentiates between the flag what
+actually defines device behaviour. That's what applications see, they don't
+necessarily know what kind of devices they're working with when they open
+the device node.
 
- 2. MC-centric devices
- 
-   These devices advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
-   <device-capabilities>`.
+-- 
+Kind regards,
 
-   Applications shall initialize the ``mbus_code`` field to zero or to
-   a valid :ref:`media bus format code <v4l2-mbus-pixelcode>`. 
- 
-   If the ``mbus_code`` field is zero, the driver shall return all
-   media formats supported by the driver. Otherwise, drivers shall
-   restrict enumeration to only the image formats that can produce 
-   (for video output devices) or be produced from (for video capture
-   devices) that media bus code.
-
-   If the ``mbus_code`` is not valid or if it is not supported, the
-   driver shall return -EINVAL.
- 
-   Regardless of the value of the ``mbus_code`` field, the enumerated image
-   formats shall not depend on the active configuration of the video device
-   or device pipeline. Enumeration shall otherwise operate as previously
-   described.
-
-
-> 
-> > > ----
-> > > 
-> > > Note the last sentence for the !V4L2_CAP_IO_MC case:
-> > > 
-> > > "The enumerated formats may depend on the active input or output of the
-> > > device."
-> > > 
-> > > We can extend it with
-> > > 
-> > > "The enumerated formats may depend on the active input or output of the
-> > > device, switching the input or output may thus produce different lists
-> > > of enumerated formats."  
-> > 
-> > That sounds better, but "may" seems to weak for my taste. So, I would 
-> > also add:
-> > 
-> >   Applications should (re)call VIDIOC_ENUM_FMT after changing the ative
-> >   input or output of the device.  
-> 
-> That only applies if they need to enumerate formats in the first place.
-> I'd prefer avoiding making this more complex. "may" is standard
-> vocabulary in specifications to indicate a permitted behaviour. How
-> applications react to that is based on their needs, and I don't think
-> here is the right place to try and imagine what those needs are.
-
-Works for me.
-
-Thanks,
-Mauro
+Sakari Ailus
