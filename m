@@ -2,137 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 941431BD146
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 02:39:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADF021BD2D5
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 05:16:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726482AbgD2AjK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 28 Apr 2020 20:39:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44888 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726522AbgD2AjK (ORCPT
+        id S1726650AbgD2DQE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 28 Apr 2020 23:16:04 -0400
+Received: from sonic308-10.consmr.mail.ne1.yahoo.com ([66.163.187.33]:40214
+        "EHLO sonic308-10.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726560AbgD2DQD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 28 Apr 2020 20:39:10 -0400
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26F23C03C1AD
-        for <linux-media@vger.kernel.org>; Tue, 28 Apr 2020 17:39:10 -0700 (PDT)
-Received: by mail-pf1-x443.google.com with SMTP id r14so242522pfg.2
-        for <linux-media@vger.kernel.org>; Tue, 28 Apr 2020 17:39:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=W7gWUUXU/Yr8aGKVFYA0eYnvhip9VKNyy91uupW34i0=;
-        b=I02X3CZM/NUHTH3RQSutmuienX62rm5LBybo8+305etL9oecXnfyo7V6fNMAb2ZqsY
-         GEnD1SVRAVPUrbKTGngrY5QzpG2TxAkPdT23TeWZ9XR+u9tUhgwZVxZ5uA8bl3iMxHRS
-         7mxQERX7ZXWTguvM+vNzEh3xLlDgjIKuwbZ8Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=W7gWUUXU/Yr8aGKVFYA0eYnvhip9VKNyy91uupW34i0=;
-        b=oevIsgqqHCf7tx4uajkJApAKqquH9t1xjl0f/SoBBUn9Ak8DxN12QuoFo/btRT5pn0
-         3120xVLY/jjwSHSew15rQFJdBcX9NaD3LF8jMuJejZ9/gRUAZWHs5nHFDSlxydraOXLt
-         om1uk08upIMwgu0iLXpzsoibiHDguLdNqJTQ7j7GaW9AyHHocM9Yo/DHV7nYPutsMqEZ
-         9IV5tR7UaCQQ6FzfC/67wapKPDCRL5awtE4Ks/X6T2YlzPTygdmwWJ+9vJDFGw2ddggq
-         2gXkyQJEPLuASL2w30Qo9RTpmFoWvIPHjdDxVomluxX+iSGrFDGPon6m+JhWnINxWq9H
-         ZePw==
-X-Gm-Message-State: AGi0Pua0cHc3EpCma4pUwpoeEGdm8EFA8uGLHn+P6LLo7zh1CSftMLJI
-        ft1SxVf9oTdxx96Iq9HZiRf4pw==
-X-Google-Smtp-Source: APiQypLbPYTzp9qbzyos35G6tVPdoCiVx7N0aCXfQqih6ccSR97hGwNwigOKEqtptnE5JuFmlqObAA==
-X-Received: by 2002:a63:5717:: with SMTP id l23mr19849633pgb.217.1588120749609;
-        Tue, 28 Apr 2020 17:39:09 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:4fff:7a6b:a335:8fde])
-        by smtp.gmail.com with ESMTPSA id u15sm3044185pjm.47.2020.04.28.17.39.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Apr 2020 17:39:08 -0700 (PDT)
-Date:   Tue, 28 Apr 2020 17:39:07 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Rajendra Nayak <rnayak@codeaurora.org>
-Cc:     viresh.kumar@linaro.org, sboyd@kernel.org,
-        bjorn.andersson@linaro.org, agross@kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 12/17] media: venus: core: Add support for opp
- tables/perf voting
-Message-ID: <20200429003907.GN4525@google.com>
-References: <1588080785-6812-1-git-send-email-rnayak@codeaurora.org>
- <1588080785-6812-13-git-send-email-rnayak@codeaurora.org>
+        Tue, 28 Apr 2020 23:16:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1588130162; bh=DPYuw2gUpgtMJzJhlH/AVmRGu2wSKCY1C+f8nOCoxu0=; h=Date:From:Reply-To:Subject:References:From:Subject; b=Yde5fEAydJcaCiiCxIBT4YY8SrRkahAC/+IR35qVZsWSXKw/FFMS/9ZzEqogGF8pughxs+K5IRDRV337tHeWjDUqxavSidgJ38OT7mViBMMO0K1H+1qKZrt7GhqY+Z0zoKrMvSNpSao6d35IUF0CWuU+GdTZoaGRXBtCt/PkEM+B56lSZ4JAHOKKChQSICPXLM/+hGWEFsmJAlMXXZkLeTt2mEkm8avLvzkFUttl4xpeUoaAjJJXe0dV4eEWR6tztm2S7X8qMLgBK3dkbLmBxtQNJD/MFZGCyie51xWCfFC+jRORsYwQY8kLZ6hYdPV5B3lh+W/Rbs8SuUdzDtxnUg==
+X-YMail-OSG: mixw9AgVM1ltJRP_mXBqWmVujtwwLelAc1v0VjHyfE6TyU9VlEI0DRogJgSEZI_
+ t1cWKA140MpoyXYrV7rGaPl6xfT71uNItlH.YJfa5ZWMhOm..S9CvroF5JTtX0YOyoMGmoNVSscq
+ iXbjG0giebB1KAFewj5K7nZ7_OpE5AVEcOkv2muwH0ietiAcP2l6G0Yg.z8PzlZKrDIV..zd.Sfn
+ 7dLg1799Vu3T5qM4WTJb5iyWe4DAaagDQfQF6k0sAfNqpo0raHMefOTfqfi9mot03AmZL98ceW37
+ tQPf8mxeKYkDmqM6ioxDKRjeGglsTOALxt3l6BjUMUyOcpYt7203_TONUma5srf2Dob92gvQBGKU
+ sdd53JwHj33DqLeguN9OJUjpjTrPibicyZ7Xv_OYGiS.dx00O8qbP.SfqMvXB.Ics91U9Iv7KDUo
+ Nx9VjhAnZstgO3zlgOWxMsbKSnY3PPdOKsB35.hLZtQaiPvaX45lg_fQb1CYaT3o2Tim5ymyAkdC
+ DagDiaa1LJz45EAEusOn69LhPhPAWxEtU16088Pmca_zWplvRaHEkZZ6AACsiEy9y5wGtH1EVdrs
+ tDD2ENRJ6qfqaSBnFZAy9.5.6cW_2iBBfgkQA4O7nIuz4w5dmoL.iMfE5Q2aSb1uN88_PPlBuxq7
+ yWwRGEnckHhAu8jAqq7vtZ3.QSWrsZcRQQqrZirNKvxW7uKDQXd8lYLknA4ry5nnUaWEoSTbSg69
+ J0QdtJpQK4Dtr9zjAo0nzdwOlY4zjI1pytVnetwVaoL__NQJJAyCdI38SXn51pJQY1ws0YyGlfI7
+ gHdYlx9yI687SFlfAud5Cc236obr2TFTVQIaUfkjLBp3cUMUjtRQKgmHyK9NGjmhahU6m4B07ioq
+ y5sJYYkGr_paOH467d941oNVTDsvzPkg6QSXLWGQSjVDHdaaC6YryQYpr5GqXaLQRZI2wnfWuVbC
+ f12M2Ij98.zz4j3.61m7XuoaOfVhJ4sodPpTv5acWXpClNelzRTjRjmlVKs7m_viEI65iGebQAQK
+ Aa26m3yvhfrsF50EFkI3M9tBt.jUppOOcosk.D6LHTuW_ekJuEjVvKVsOWrK6FCtMyWpPPQ6EpEg
+ 9a6uCO93CXe.RXff6zAaAQ5wjYCdjwTiPMc.pl9_hS36xKo27QHphW3LoDPu53IboXCzk58FxeQK
+ zglxjJGGIlHF_buC15uHaTVbYcjYzAvQ8DHbsJuNKsRGusDuNU5QbcRNY__WWZZrQ6aKngfWv28B
+ IId_AzIKHgHQZnf2H2rNHL2NmBu1sLvYGTvFRbjdPoerIw_B0RB6qnkxwKsfdQL2huH1IYyShjNK
+ LyV3s
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ne1.yahoo.com with HTTP; Wed, 29 Apr 2020 03:16:02 +0000
+Date:   Wed, 29 Apr 2020 03:15:58 +0000 (UTC)
+From:   "Mrs. Mina A. Brunel" <mrsminaab@gmail.com>
+Reply-To: mrsminaabrunel63@gmail.com
+Message-ID: <611529533.1976008.1588130158855@mail.yahoo.com>
+Subject: My Dear in the lord
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1588080785-6812-13-git-send-email-rnayak@codeaurora.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+References: <611529533.1976008.1588130158855.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15756 YMailNodin Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 28, 2020 at 07:03:00PM +0530, Rajendra Nayak wrote:
-> Add support to add OPP tables and perf voting on the OPP powerdomain.
-> This is needed so venus votes on the corresponding performance state
-> for the OPP powerdomain along with setting the core clock rate.
-> 
-> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
-> Cc: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> Cc: linux-media@vger.kernel.org
-> ---
->  drivers/media/platform/qcom/venus/core.c       | 28 +++++++++++++++++++
->  drivers/media/platform/qcom/venus/core.h       |  5 ++++
->  drivers/media/platform/qcom/venus/pm_helpers.c | 37 +++++++++++++++++++++++---
->  3 files changed, 66 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 194b10b9..e98fea92 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -12,6 +12,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
-> +#include <linux/pm_opp.h>
->  #include <linux/pm_runtime.h>
->  #include <media/videobuf2-v4l2.h>
->  #include <media/v4l2-mem2mem.h>
-> @@ -214,6 +215,20 @@ static int venus_probe(struct platform_device *pdev)
->  	if (!core->pm_ops)
->  		return -ENODEV;
->  
-> +	core->opp_table = dev_pm_opp_set_clkname(dev, "core");
-> +	if (IS_ERR(core->opp_table))
-> +		return PTR_ERR(core->opp_table);
-> +
-> +	if (core->res->opp_pmdomain) {
-> +		ret = dev_pm_opp_of_add_table(dev);
-> +		if (!ret) {
-> +			core->has_opp_table = true;
-> +		} else if (ret != -ENODEV) {
-> +			dev_err(dev, "Invalid OPP table in Device tree\n");
-> +			return ret;
-> +		}
-> +	}
-> +
->  	if (core->pm_ops->core_get) {
->  		ret = core->pm_ops->core_get(dev);
->  		if (ret)
-> @@ -301,6 +316,9 @@ static int venus_probe(struct platform_device *pdev)
->  err_venus_shutdown:
->  	venus_shutdown(core);
->  err_runtime_disable:
-> +	if (core->res->opp_pmdomain && core->has_opp_table)
 
-the check for 'core->res->opp_pmdomain' is not needed, 'core->has_opp_table'
-can only be true when 'core->res->opp_pmdomain' is not NULL.
 
-> +		dev_pm_opp_of_remove_table(dev);
-> +	dev_pm_opp_put_clkname(core->opp_table);
->  	pm_runtime_set_suspended(dev);
->  	pm_runtime_disable(dev);
->  	hfi_destroy(core);
-> @@ -326,6 +344,10 @@ static int venus_remove(struct platform_device *pdev)
->  
->  	venus_firmware_deinit(core);
->  
-> +	if (core->res->opp_pmdomain && core->has_opp_table)
+My Dear in the lord
 
-ditto
+
+My name is Mrs. Mina A. Brunel I am a Norway Citizen who is living in Burki=
+na Faso, I am married to Mr. Brunel Patrice, a politicians who owns a small=
+ gold company in Burkina Faso; He died of Leprosy and Radesyge, in year Feb=
+ruary 2010, During his lifetime he deposited the sum of =E2=82=AC 8.5 Milli=
+on Euro) Eight million, Five hundred thousand Euros in a bank in Ouagadougo=
+u the capital city of of Burkina in West Africa. The money was from the sal=
+e of his company and death benefits payment and entitlements of my deceased=
+ husband by his company.
+
+I am sending you this message with heavy tears in my eyes and great sorrow =
+in my heart, and also praying that it will reach you in good health because=
+ I am not in good health, I sleep every night without knowing if I may be a=
+live to see the next day. I am suffering from long time cancer and presentl=
+y I am partially suffering from Leprosy, which has become difficult for me =
+to move around. I was married to my late husband for more than 6 years with=
+out having a child and my doctor confided that I have less chance to live, =
+having to know when the cup of death will come, I decided to contact you to=
+ claim the fund since I don't have any relation I grew up from an orphanage=
+ home.
+
+I have decided to donate this money for the support of helping Motherless b=
+abies/Less privileged/Widows and churches also to build the house of God be=
+cause I am dying and diagnosed with cancer for about 3 years ago. I have de=
+cided to donate from what I have inherited from my late husband to you for =
+the good work of Almighty God; I will be going in for an operation surgery =
+soon.
+
+Now I want you to stand as my next of kin to claim the funds for charity pu=
+rposes. Because of this money remains unclaimed after my death, the bank ex=
+ecutives or the government will take the money as unclaimed fund and maybe =
+use it for selfishness and worthless ventures, I need a very honest person =
+who can claim this money and use it for Charity works, for orphanages, wido=
+ws and also build schools and churches for less privilege that will be name=
+d after my late husband and my name.
+
+I need your urgent answer to know if you will be able to execute this proje=
+ct, and I will give you more information on how the fund will be transferre=
+d to your bank account or online banking.
+
+Thanks
+Mrs. Mina A. Brunel
