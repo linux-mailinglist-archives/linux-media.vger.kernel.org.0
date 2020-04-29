@@ -2,93 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E6F31BE381
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 18:12:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFC7F1BE3B4
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 18:25:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726562AbgD2QMc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Apr 2020 12:12:32 -0400
-Received: from foss.arm.com ([217.140.110.172]:41580 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726423AbgD2QMc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Apr 2020 12:12:32 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7552E1045;
-        Wed, 29 Apr 2020 09:12:31 -0700 (PDT)
-Received: from [10.0.2.15] (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 89FE63F73D;
-        Wed, 29 Apr 2020 09:12:29 -0700 (PDT)
-Subject: Re: [RFC 0/3] Introduce cpufreq minimum load QoS
-To:     Benjamin GAIGNARD <benjamin.gaignard@st.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>
-Cc:     "viresh.kumar@linaro.org" <viresh.kumar@linaro.org>,
-        Hugues FRUCHET <hugues.fruchet@st.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        Alexandre TORGUE <alexandre.torgue@st.com>,
-        "pavel@ucw.cz" <pavel@ucw.cz>,
-        "len.brown@intel.com" <len.brown@intel.com>,
-        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Patrick Bellasi <patrick.bellasi@arm.com>
-References: <20200424114058.21199-1-benjamin.gaignard@st.com>
- <7657495.QyJl4BcWH5@kreacher> <30cdecf9-703a-eb2b-7c2b-f1e21c805add@st.com>
-From:   Valentin Schneider <valentin.schneider@arm.com>
-Message-ID: <70e743cf-b88e-346a-5114-939b8724c83d@arm.com>
-Date:   Wed, 29 Apr 2020 17:12:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726835AbgD2QYo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Apr 2020 12:24:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51226 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726423AbgD2QYn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Apr 2020 12:24:43 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 201D1C03C1AD
+        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2020 09:24:43 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id d17so3249318wrg.11
+        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2020 09:24:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ADiqVCpvp8u+dzB9ke1O/BxJ8B4T05czfzaYmje6w94=;
+        b=nfg9FBtzRkNNFB895zwDXF5h1SCzLtHIHEArxQOIypisEW+sLJeEFFsl5jQZOAQUm1
+         Gk2W/HepcONJybmjc7yjUPdCpz45ff/0ZoYTN8+ncWXr18rhjybizCruAH25c3QdQBnC
+         InPigL/BxQnpb6RwI+uNMKDmQ+FA65z8S7lVPXLYPDGV6s+r0nmcwrDvCdMxbpkQCay3
+         Zj5oe0cn2dguQVi883e+4v3r19aNtH2BbOZK1DfS8UHBvUIdTvlDrKumUW3PHp4MYIpe
+         CcIKR8XPnWNp9FFyqHJUNSLb2QZuAFgwmKX+txpPHgeXMyUySi2VEXNcmiY1Lcsm/0fu
+         mjVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ADiqVCpvp8u+dzB9ke1O/BxJ8B4T05czfzaYmje6w94=;
+        b=GrEo2P4CixAxoXulPVO6PBT+eR8KA+HA0gYguzvZdKTzv45GmlDU+7i0/qO5v/MtDn
+         zZdiHmECyia3qKpBAnpb4qZWBMOeFlq54KpgICJRu7iTGeSQeJOcO71EeK+mGtsZP3sC
+         HFzZTDrsGG05BC2sxBHJfn+l5b1rZ+HTNrkny98AiOOol/NNEWF5Se26IT/DN99dMIGs
+         WKzDp+JvSAr9hPtRMUCIB0exQx4lpeXtqF7rcrMCUVSYmfixfsu0G6rJD4RP712j6RPJ
+         NhRL/E6jYIhODBgkCUFFB6tAhK4jVve75TthF5zXtqtx2J4v9grc4y8F9rIZpWeWdA+O
+         OJpQ==
+X-Gm-Message-State: AGi0PubB67OxtFWRZz0J1wnKQImu/r0thC8IkLf54/GY9Q0MmAbuowQZ
+        0C7GQ7X9R1XB3dqLfa2p0/ntpg==
+X-Google-Smtp-Source: APiQypLrrX5chyfQ776G/ANPebYHVEwsF2r9aqYcDy10DPmWsl+HRRFigDXqGRIWFJXTPDwD5WMOTQ==
+X-Received: by 2002:adf:ce02:: with SMTP id p2mr39887093wrn.173.1588177481814;
+        Wed, 29 Apr 2020 09:24:41 -0700 (PDT)
+Received: from xps7590.local ([37.120.81.28])
+        by smtp.gmail.com with ESMTPSA id h2sm32616554wro.9.2020.04.29.09.24.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2020 09:24:41 -0700 (PDT)
+From:   Robert Foss <robert.foss@linaro.org>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Robert Foss <robert.foss@linaro.org>
+Subject: [PATCH v6 v6 0/3] media: ov8856: Add devicetree support
+Date:   Wed, 29 Apr 2020 18:24:34 +0200
+Message-Id: <20200429162437.2025699-1-robert.foss@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <30cdecf9-703a-eb2b-7c2b-f1e21c805add@st.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/04/2020 16:57, Benjamin GAIGNARD wrote:
-> 
-> 
-> On 4/29/20 5:50 PM, Rafael J. Wysocki wrote:
->> On Friday, April 24, 2020 1:40:55 PM CEST Benjamin Gaignard wrote:
->>> When start streaming from the sensor the CPU load could remain very low
->>> because almost all the capture pipeline is done in hardware (i.e. without
->>> using the CPU) and let believe to cpufreq governor that it could use lower
->>> frequencies. If the governor decides to use a too low frequency that
->>> becomes a problem when we need to acknowledge the interrupt during the
->>> blanking time.
->>> The delay to ack the interrupt and perform all the other actions before
->>> the next frame is very short and doesn't allow to the cpufreq governor to
->>> provide the required burst of power. That led to drop the half of the frames.
->>>
->>> To avoid this problem, DCMI driver informs the cpufreq governors by adding
->>> a cpufreq minimum load QoS resquest.
->> This seems to be addressing a use case that can be addressed with the help of
->> utilization clamps with less power overhead.
-> Do mean clamping the policy frequencies ? I may have miss the API to do 
-> that...
->>
+This adds devicetree support to the ov8856 driver.
+In order to to aid debugging and enable future sensor
+modes to be supported, module revision detection is also added.
 
-IIUC Rafael is referring to uclamp, i.e. scheduler utilization clamping, see:
 
-  https://www.kernel.org/doc/html/latest/admin-guide/cgroup-v2.html#cpu
+Dongchun Zhu (1):
+  media: dt-bindings: ov8856: Document YAML bindings
 
-The above describes the cgroup interface, note that you can also set clamps
-per task (via sched_setattr()).
+Robert Foss (2):
+  media: ov8856: Add devicetree support
+  media: ov8856: Implement sensor module revision identification
 
-One thing that comes to mind however is that schedutil only "sees" the clamps
-of runnable tasks, and from reading your changelog you may not have moments
-without any (i.e. gears are grinding in HW). You'd have to try boosting
-(setting a high uclamp.min) whatever tasks you have on the software side and
-see how it all behaves.
+ .../devicetree/bindings/media/i2c/ov8856.yaml | 140 +++++++++++++
+ MAINTAINERS                                   |   1 +
+ drivers/media/i2c/ov8856.c                    | 190 ++++++++++++++++--
+ 3 files changed, 317 insertions(+), 14 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
 
->> Thanks!
->>
->>
->>
+-- 
+2.25.1
+
