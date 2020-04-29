@@ -2,164 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C5751BE3BA
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 18:25:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 259041BE3D2
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 18:27:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726915AbgD2QYt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Apr 2020 12:24:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51254 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726815AbgD2QYs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Apr 2020 12:24:48 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2878C03C1AD
-        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2020 09:24:47 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id d17so3249568wrg.11
-        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2020 09:24:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=MJEKgZOpkzSWpFL/ACKo1fDWzWkNEADjm8mRR//fcr8=;
-        b=QeNGZtKpDxisjOutQ/9m7p1Y7VyoKTecV5cTKdC48xFGi+jM8I0r5xdcpGxNhh7NHw
-         itQVSZ4gIRF3rupZUtgYbbWJjSiTsS5+u62ogIVlLRvJIJJ6R003J1t9x0Eck5qMr4fQ
-         NPAS9PUqiMdEtRlk2QgoBSXWaeSfxQjOl0RrLIBQpgLiqg6Uidx1NUZlAtbVMZCNxf0k
-         c5eqx11txM3QyslPyeXXmpm2DDYs/DBLl37gr2UBZovCV8/EDBLjcSi0GtWsIPoMCSLL
-         IyoDZpANtyYODNwEJ3+u/8cbxKC/IvN1Fds3jE4g59eUT7pE/hpZs10JkGx3Kx0aTUKD
-         ExUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=MJEKgZOpkzSWpFL/ACKo1fDWzWkNEADjm8mRR//fcr8=;
-        b=F3NSaDLKjYbW8lOGWvYqpKlSVLBuXvBSnE4gkrCAhXfN41o/sebrBsuA4wBs6dHS5v
-         F62vmau+OFSFIr2wGveTK/OKArB7eqqyrjQQUFV1K9CIG7/0RYsaki27++pYE+ymM9Vl
-         PWBMCjAvG2xcXrXjwz21kvyztp/lX6SdDBvRs7ZLRanuAyy1BTvG8KrV6SYhTVDpQycp
-         WKAnJ6UpY4/gcuvUYGAASeVb5hdNdrUooSNfK5AzNecOHQkqz9AT3BHyxM1ywUOCSTwH
-         vZUfvCPv3vuk5dh8r9oSrcwRWbPVIFJahlECyItg7yNdQNhRsyZt1zAgJXYtGxlU+QFR
-         p25Q==
-X-Gm-Message-State: AGi0PubTpnpqig1EnRFASG2wZoRi9YJvOVDo/r4HO3PdNYMPyhk0rVTJ
-        M0P5eh/w8Ryl1ZZwnQ9CoZ/Crw==
-X-Google-Smtp-Source: APiQypJWI3QFx/qs4gwb7UHLzIkML6oEYje5SwO3wUkXBbyxZD0VyxynxsFw3GRGOaMKk0d/A+Lkbw==
-X-Received: by 2002:adf:b1d1:: with SMTP id r17mr38235410wra.85.1588177486440;
-        Wed, 29 Apr 2020 09:24:46 -0700 (PDT)
-Received: from xps7590.local ([37.120.81.28])
-        by smtp.gmail.com with ESMTPSA id h2sm32616554wro.9.2020.04.29.09.24.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2020 09:24:45 -0700 (PDT)
-From:   Robert Foss <robert.foss@linaro.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH v6 3/3] media: ov8856: Implement sensor module revision identification
-Date:   Wed, 29 Apr 2020 18:24:37 +0200
-Message-Id: <20200429162437.2025699-4-robert.foss@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200429162437.2025699-1-robert.foss@linaro.org>
-References: <20200429162437.2025699-1-robert.foss@linaro.org>
+        id S1726686AbgD2Q1p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Apr 2020 12:27:45 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43110 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726481AbgD2Q1o (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Apr 2020 12:27:44 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 651352076B;
+        Wed, 29 Apr 2020 16:27:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588177664;
+        bh=eh/IvFPQ0/dhBqxFJsWXSuX5dJOIuA7wn7RrZfWWTyo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=eL0/l3i2bAMKLXeB6g3tu+tF4VoMOD4Nxy4P18oBgmjbm7LVBmuweqaW77GEZlY04
+         S1+nBle1qW6Iz3P6VNsgRvQ3HcCZkscAbhEjwTcWFIm4xghDQowsvKvasqLq6tYi7j
+         dwn4xJza25Go94WYwEeFzbVfhuyMnrGCGOL+VOvw=
+Date:   Wed, 29 Apr 2020 18:27:39 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v8.1 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support
+ MC-centric devices
+Message-ID: <20200429182739.274ce451@coco.lan>
+In-Reply-To: <20200424134331.22271-1-laurent.pinchart@ideasonboard.com>
+References: <20200421135743.1381930-4-niklas.soderlund+renesas@ragnatech.se>
+        <20200424134331.22271-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Query the sensor for its module revision, and compare it
-to known revisions.
+Em Fri, 24 Apr 2020 16:43:31 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
----
+> The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
+> node. For MC-centric devices, its behaviour has always been ill-defined,
+> with drivers implementing one of the following behaviours:
+> 
 
-- Changes since v3:
-  * Actually add module revision 2A
+...
 
-- Changes since v2:
-  * Add module revision 2A
-  * Sakari: Remove ov8856_check_revision()
-  * Sakari: Stop EEPROM streaming mode
+The patch itself is OK. However, there's a change you did at the
+documentation that it is unrelated. 
 
- drivers/media/i2c/ov8856.c | 53 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
+See below.
 
-diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-index 4749dc74d5ad..3f4000aef2ab 100644
---- a/drivers/media/i2c/ov8856.c
-+++ b/drivers/media/i2c/ov8856.c
-@@ -32,6 +32,19 @@
- #define OV8856_MODE_STANDBY		0x00
- #define OV8856_MODE_STREAMING		0x01
- 
-+/* module revisions */
-+#define OV8856_2A_MODULE		0x01
-+#define OV8856_1B_MODULE		0x02
-+
-+/* the OTP read-out buffer is at 0x7000 and 0xf is the offset
-+ * of the byte in the OTP that means the module revision
-+ */
-+#define OV8856_MODULE_REVISION		0x700f
-+#define OV8856_OTP_MODE_CTRL		0x3d84
-+#define OV8856_OTP_LOAD_CTRL		0x3d81
-+#define OV8856_OTP_MODE_AUTO		0x00
-+#define OV8856_OTP_LOAD_CTRL_ENABLE	BIT(0)
-+
- /* vertical-timings from sensor */
- #define OV8856_REG_VTS			0x380e
- #define OV8856_VTS_MAX			0x7fff
-@@ -1152,6 +1165,46 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
- 		return -ENXIO;
- 	}
- 
-+	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
-+			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STREAMING);
-+	if (ret)
-+		return ret;
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_OTP_MODE_CTRL,
-+			       OV8856_REG_VALUE_08BIT, OV8856_OTP_MODE_AUTO);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to set otp mode");
-+		return ret;
-+	}
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_OTP_LOAD_CTRL,
-+			       OV8856_REG_VALUE_08BIT,
-+			       OV8856_OTP_LOAD_CTRL_ENABLE);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to enable load control");
-+		return ret;
-+	}
-+
-+	ret = ov8856_read_reg(ov8856, OV8856_MODULE_REVISION,
-+			      OV8856_REG_VALUE_08BIT, &val);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to read module revision");
-+		return ret;
-+	}
-+
-+	dev_info(&client->dev, "OV8856 revision %x (%s) at address 0x%02x\n",
-+		val,
-+		val == OV8856_2A_MODULE ? "2A" :
-+		val == OV8856_1B_MODULE ? "1B" : "unknown revision",
-+		client->addr);
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
-+			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STANDBY);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to exit streaming mode");
-+		return ret;
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.25.1
+> diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> index 8ca6ab701e4a..a987debc7654 100644
+> --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> @@ -48,10 +48,21 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
+>  formats in preference order, where preferred formats are returned before
+>  (that is, with lower ``index`` value) less-preferred formats.
+>  
+> -.. note::
+> -   After switching input or output the list of enumerated image
+> -   formats may be different.
 
+Why are you dropping this note?
+
+This basically reverts this changeset:
+
+  commit 93828d6438081649e81b8681df9bf6ad5d691650
+  Author: Hans Verkuil <hans.verkuil@cisco.com>
+  Date:   Mon Sep 3 09:37:18 2012 -0300
+
+    [media] DocBook: make the G/S/TRY_FMT specification more strict
+    
+    - S/TRY_FMT should always succeed, unless an invalid type field is passed in.
+    - TRY_FMT should give the same result as S_FMT, all other things being equal.
+    - ENUMFMT may return different formats for different inputs or outputs.
+    This was decided during the 2012 Media Workshop.
+    
+    Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+    Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+    Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+    Acked-by: Sakari Ailus <sakari.ailus@iki.fi>
+    Signed-off-by: Mauro Carvalho Chehab <mchehab@redhat.com>
+
+As far as I remember, from our 2012 discussions, some drivers may change 
+the enumerated image formats when some ioctls like VIDIOC_S_INPUT and
+VIDIOC_S_OUTPUT ioctls are used. I also vaguely remember that 90 and 270
+degrees rotation would equally affect it.
+
+Perhaps, the removal was just some mistake. If so, please re-submit
+another patch without it.
+
+Otherwise, if are there any good reasons for such change, and it won't
+cause any API regressions, please place it on a separate patch, clearly
+that.
+
+... Or, maybe you felt that it won't make sense for MC-centric devices.
+On such case, please improve the note stating it on a way that it would
+be understandable on both MC-centric and bridge-centrid drivers. 
+
+Thanks,
+Mauro
