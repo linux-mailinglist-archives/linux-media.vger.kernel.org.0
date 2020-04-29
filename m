@@ -2,215 +2,208 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 008171BE5BC
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 19:59:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 875B51BE5CB
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 20:01:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726838AbgD2R72 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Apr 2020 13:59:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37934 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726554AbgD2R71 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Apr 2020 13:59:27 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE493C03C1AE
-        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2020 10:59:25 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id x17so3644416wrt.5
-        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2020 10:59:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:subject:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=H8x5+/eNTMXkZiY8ZzmLocFCWhJxa23yQBDkG2bVMzw=;
-        b=Wp6r6eijeYTDKk+1n9dsDoJC9L4m+ey5sIYKWgtWHUicjbdQp9Z9O16hUNO6gjXTqu
-         PBlzn03AOmGX4eweFHTowtry5OHnsbRJaGFD7Swz6cstNatXod24/miDl4eflYjJmSd5
-         AmakH4yTmlpF01hW/+OctgN11HLh0ZKVU/09FCd0ENBq+zWciswhymdeHFeGff6/E/t7
-         xdGAhm/7RFYIymj1MKY0w3PqILIOmnj74049CitaxPzX63UMK5BRVVqvLEsRBICUSJaz
-         /gE/Bl42YsPSlKJtPyxpJITqUKPDQFnfK2hEi+KL5+JpvLy+zcE2b6/+nqEggpCn1X0s
-         FstA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:subject:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=H8x5+/eNTMXkZiY8ZzmLocFCWhJxa23yQBDkG2bVMzw=;
-        b=L8nE3F8DnFUIZLMFqV43WJ7pe/S5DEzuZLF0kaFCgkYPx7s4ucqcSZoDGkuNXh8CKg
-         i2jWZMn1nX+aIIEJuJ+jb2xrNKeLwNmzVwIKRcyiK6ns+S3hmKRvRaVM8ahsZtx8jls3
-         9iymsgljeuCZaitLnRwYJZGuLg49iqSZ2pZYy+DWgiF31HcZOGhHr+vfn2q1zFu/agOG
-         G+IqFYYMcXEtMc3KmVSSSfjh5MtgvB7jRDGDJURiO5GiLlJR3O8WcMx8bXoTUYbp6SRb
-         HwqF4SeRQuLsUQ3cuCStTaqKVVNqAoXByr742f10VDYiuNnoyotRVUxFPn01jb67/RzN
-         Y6/g==
-X-Gm-Message-State: AGi0PubHTsQ1PBWct3PFc3K0eiGdorWBTYHCm030yDyybeuvqlCPfUL0
-        /xnmhU3s34mHliWLLa/vwNE=
-X-Google-Smtp-Source: APiQypKzqjLHJwvRPPq6N3ZX3a8DSD/l6uAljYnpMqexOIom4fBtdnwGltU+AUG+1GzyTXL80hniWw==
-X-Received: by 2002:adf:e4cc:: with SMTP id v12mr40951164wrm.106.1588183164528;
-        Wed, 29 Apr 2020 10:59:24 -0700 (PDT)
-Received: from [192.168.0.104] (77-56-155-30.dclient.hispeed.ch. [77.56.155.30])
-        by smtp.gmail.com with ESMTPSA id n6sm33576784wrs.81.2020.04.29.10.59.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Apr 2020 10:59:23 -0700 (PDT)
-From:   Patrik Gfeller <patrik.gfeller@gmail.com>
-Subject: Re: atomisp kernel driver(s)
+        id S1726883AbgD2SBq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Apr 2020 14:01:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40190 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726423AbgD2SBq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Apr 2020 14:01:46 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BCFC221707;
+        Wed, 29 Apr 2020 18:01:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588183305;
+        bh=UbrfAVHZB0y38ZBCNrWV6BNbz8MWTED68fuBIbVFME8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=SZBB+GCDzPqB+LhOCjxSJj5FDl71oGTAHgZpc5G2aYbqQv5Bg3EII1KRJK6u4QudQ
+         +SrptZHOpi9JmHLPf/mQtuUA8tSA6Q6BhPadJ5CU7MfOafvS7e+cv5OeFaWe2DCOR1
+         zaDjVYMGI/yVYVpeoigLvK53KDaFHU6Z+pxTfVcU=
+Date:   Wed, 29 Apr 2020 20:01:40 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>
-References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
- <20200425023926.GA30200@pendragon.ideasonboard.com>
- <1c4e1128-dd66-88e3-88c1-82198ccee3d9@gmail.com>
- <20200426191721.GB31313@pendragon.ideasonboard.com>
-Message-ID: <48ecd222-428d-521d-fdbf-601cd1e21f74@gmail.com>
-Date:   Wed, 29 Apr 2020 19:59:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Cc:     linux-media@vger.kernel.org,
+        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v8.1 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support
+ MC-centric devices
+Message-ID: <20200429200140.22a4db22@coco.lan>
+In-Reply-To: <20200429163849.GK5956@pendragon.ideasonboard.com>
+References: <20200421135743.1381930-4-niklas.soderlund+renesas@ragnatech.se>
+        <20200424134331.22271-1-laurent.pinchart@ideasonboard.com>
+        <20200429182739.274ce451@coco.lan>
+        <20200429163849.GK5956@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200426191721.GB31313@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Em Wed, 29 Apr 2020 19:38:49 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-On 26.04.20 21:17, Laurent Pinchart wrote:
-> Hi Patrik,
->
-> On Sun, Apr 26, 2020 at 09:44:30AM +0200, Patrik Gfeller wrote:
->> Hi Sakari,
->>
->> I hope you are well!
->>
->> We are currently evaluation (mainly Mauro and Laurent) if it is possible
->> to continue the work on the atomisp driver. I try to do some tests to
->> see if the driver works at all using the patches Mauro made. As the
->> firmware is hardcoded I need specific firmware versions. In an earlier
->> post related to atomisp you mentioned that you use the following firmware:
->>
->> shisp_2400b0_v21.bin
->> Version string: irci_stable_candrpv_0415_20150423_1753
->>
->> I only found the following versions
->>
->> shisp_2400b0_v21.bin
->> Version string: irci_master_20140707_0622
->>
->> shisp_2401a0_v21.bin
->> Version string: irci_master_20140707_0622
->>
->> I tried to change the hardcoded string in the code to the version I have
->> available, but not sure if it loaded the firmware at all. I saw that
->> there are debug lines to provide more verbose information, but I could
->> not figure out how to enable those messages:
->>
->> atomisp_fops.c
->>           isp->firmware = atomisp_load_firmware(isp);
->>           if (!isp->firmware) {
->>               dev_err(isp->dev, "Failed to load ISP firmware.\n");
->>               ret = -ENOENT;
->>               goto error;
->>           }
->>           ret = atomisp_css_load_firmware(isp);
->>           if (ret) {
->>               dev_err(isp->dev, "Failed to init css.\n");
->>               goto error;
->>           }
->>
->> If you could provide me the correct firmware file would be highly
->> appreciated. Maybe you even remember how to enable the more verbose logging?
-> What verbose logging are you talking about ? If you're referring to
-> dev_dbg(), Documentation/admin-guide/dynamic-debug-howto.rst if your
-> kernel is compiled with dynamic debug support, otherwise just
->
-> #define DEBUG 1
->
-> at the top of the file.
+> Hi Mauro,
+> 
+> On Wed, Apr 29, 2020 at 06:27:39PM +0200, Mauro Carvalho Chehab wrote:
+> > Em Fri, 24 Apr 2020 16:43:31 +0300 Laurent Pinchart escreveu:
+> >   
+> > > The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
+> > > node. For MC-centric devices, its behaviour has always been ill-defined,
+> > > with drivers implementing one of the following behaviours:
+> > >   
+> > 
+> > ...
+> > 
+> > The patch itself is OK. However, there's a change you did at the
+> > documentation that it is unrelated. 
+> > 
+> > See below.
+> >   
+> > > diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> > > index 8ca6ab701e4a..a987debc7654 100644
+> > > --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> > > +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
+> > > @@ -48,10 +48,21 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
+> > >  formats in preference order, where preferred formats are returned before
+> > >  (that is, with lower ``index`` value) less-preferred formats.
+> > >  
+> > > -.. note::
+> > > -   After switching input or output the list of enumerated image
+> > > -   formats may be different.  
+> > 
+> > Why are you dropping this note?
+> > 
+> > This basically reverts this changeset:
+> > 
+> >   commit 93828d6438081649e81b8681df9bf6ad5d691650
+> >   Author: Hans Verkuil <hans.verkuil@cisco.com>
+> >   Date:   Mon Sep 3 09:37:18 2012 -0300
+> > 
+> >     [media] DocBook: make the G/S/TRY_FMT specification more strict
+> >     
+> >     - S/TRY_FMT should always succeed, unless an invalid type field is passed in.
+> >     - TRY_FMT should give the same result as S_FMT, all other things being equal.
+> >     - ENUMFMT may return different formats for different inputs or outputs.
+> >     This was decided during the 2012 Media Workshop.
+> >     
+> >     Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+> >     Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
+> >     Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >     Acked-by: Sakari Ailus <sakari.ailus@iki.fi>
+> >     Signed-off-by: Mauro Carvalho Chehab <mchehab@redhat.com>
+> > 
+> > As far as I remember, from our 2012 discussions, some drivers may change 
+> > the enumerated image formats when some ioctls like VIDIOC_S_INPUT and
+> > VIDIOC_S_OUTPUT ioctls are used. I also vaguely remember that 90 and 270
+> > degrees rotation would equally affect it.
+> > 
+> > Perhaps, the removal was just some mistake. If so, please re-submit
+> > another patch without it.
+> > 
+> > Otherwise, if are there any good reasons for such change, and it won't
+> > cause any API regressions, please place it on a separate patch, clearly
+> > that.
+> > 
+> > ... Or, maybe you felt that it won't make sense for MC-centric devices.
+> > On such case, please improve the note stating it on a way that it would
+> > be understandable on both MC-centric and bridge-centrid drivers.  
+> 
+> I'm not dropping the requirement, I'm rewriting it :-) The patch indeed
+> removes the above, but adds the following
+> 
+> ----
+> If the driver doesn't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
+> <device-capabilities>`, applications shall initialize the ``mbus_code`` field
+> to zero and drivers shall ignore the value of the field.  Drivers shall
+> enumerate all image formats. The enumerated formats may depend on the active
+> input or output of the device.
+> 
+> If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`capability
+> <device-capabilities>`, applications may initialize the ``mbus_code`` field to
+> a valid :ref:`media bus format code <v4l2-mbus-pixelcode>`. If the
+> ``mbus_code`` field is not zero, drivers shall restrict enumeration to only the
+> image formats that can produce (for video output devices) or be produced from
+> (for video capture devices) that media bus code.  Regardless of the value of
+> the ``mbus_code`` field, the enumerated image formats shall not depend on the
+> active configuration of the video device or device pipeline. Enumeration shall
+> otherwise operate as previously described.
 
-Thanks, That was exactly what I was looking for. I've made sure that 
-dynamic debug support was enabled and re-compiled the kernel. Then I've 
-added to the following boot parameter: dyndbg="module atomisp_ov2680 +pm".
+Hmm... it took me re-reading this text 4 or 5 times, in order to understand
+that you're actually meaning bridge-centric devices here :-)
 
-I do not see debug messages in dmesg or kern.log - but maybe we do not 
-reach those lines yet.
+Also, you placed two independent and unrelated information at the same
+paragraph.
 
->> On 25.04.20 04:39, Laurent Pinchart wrote:
->>> On Sat, Apr 18, 2020 at 04:39:25PM +0200, Patrik Gfeller wrote:
->>>> Hello Mauro et al,
->>>>
->>>> I've recently switched to Linux, and I'm very impressed. Almost
->>>> everything thing works out of the box. Only the webcam on my device does
->>>> not. I did some digging and if I'm right an atomisp driver would be
->>>> required. Is this correct? Below the output of lspci:
->>>>
->>>> 00:00.0 Host bridge: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series SoC Transaction Register (rev 36)
->>>> 00:02.0 VGA compatible controller: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Integrated Graphics Controller (rev 36)
->>>> 00:03.0 Multimedia controller: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series Imaging Unit (rev 36)
->>>> 00:0a.0 Non-VGA unclassified device: Intel Corporation Device 22d8 (rev 36)
->>>> 00:0b.0 Signal processing controller: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series Power Management Controller (rev 36)
->>>> 00:14.0 USB controller: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series USB xHCI Controller (rev 36)
->>>> 00:1a.0 Encryption controller: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series Trusted Execution Engine (rev 36)
->>>> 00:1c.0 PCI bridge: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series PCI Express Port #1 (rev 36)
->>>> 00:1f.0 ISA bridge: Intel Corporation Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series PCU (rev 36)
->>>> 01:00.0 Network controller: Qualcomm Atheros QCA9377 802.11ac Wireless Network Adapter (rev 31)
->>>>
->>>> According to the history it looks like the driver was removed from the
->>>> kernel in 2018 and replaced with a dummy driver (to make sure power save
->>>> works).
->>>>
->>>> Is there a chance that the atomisp driver will return to the kernel?
->>> As much as I'd like to say yes, I think this is unfortunately very
->>> unlikely. There are a few obstacles to getting a working camera with
->>> atomisp:
->>>
->>> - According to some reports, the driver doesn't work. That's the first
->>>     thing that would need to be fixed, and without hardware documentation
->>>     and support from Intel, that would be a difficult (to say the least)
->>>     task.
->>>
->>> - Assuming we could fix the driver, we would need to make sure it
->>>     supports your device. If the atomisp is anything like the IPU3 (a more
->>>     recent ISP from Intel), there are two different and incompatible sets
->>>     of ACPI data formats related to the device, one developed for Windows,
->>>     and one developed for Linux. I expect the atomisp driver to support
->>>     the latter but not the former. If your device was shipped with
->>>     Windows, it uses the Windows-specific ACPI data format. Furthermore,
->>>     it would in that case likely not encode all the information we would
->>>     need in ACPI, as Windows drivers have the bad habit of hardcoding
->>>     device-specific data in drivers. At the very least we would need to
->>>     get the atomisp to support the Windows ACPI data format (which is most
->>>     likely completely undocumented), and we would need to figure out how
->>>     to retrieve data that are simply not there. This being said, maybe the
->>>     atomisp ACPI design was better than the IPU3 and all (or part of)
->>>     those issues don't exist, but I'd be surprised.
->>>
->>> - At this point you would (hopefully) have a driver that could capture
->>>     RAW images. In order to use the camera as a webcam, those images would
->>>     need to be processed by the ISP that is part of the atomisp. This
->>>     requires complex image processing algorithm control code in userspace.
->>>     Intel has not released any open version of such code for the atomisp
->>>     (or any other platform) to my knowledge, so this would need to be
->>>     implemented from scratch. The libcamera project could help there, as
->>>     it provides a framework to host such code, but the atomisp-specific
->>>     code would still need to be implemented. This is a complex task when
->>>     the hardware is fully documented, without hardware documentation and
->>>     thus without knowing how the hardware works, it gets extremely
->>>     difficult. The task would be orders of magnitude more complex than
->>>     reverse-engineering a GPU.
->>>
->>> - Finally, in order for the driver to be merged back in the upstream
->>>     kernel, it would require massive cleanups, but that's the simplest
->>>     task of all that is required here.
->>>
->>> I'm sorry for the bad news, we need to be more vocal blaming hardware
->>> vendors for this type of mess.
->>>
->>>> There are quite a few older tablets and 2in1 devices that would benefit.
->>>> Unfortunately I do not understand the removed code (my coding skills are
->>>> very basic) and can thus not help to change what ever is necessary to
->>>> make it fit for the kernel :-( (does not sound like a beginner project).
->>>> However - I would be glad to help out to help testing an ISP driver.
->>>>
->>>> However - even without the cam it is a very impressing operating system
->>>> which I enjoy very much. I would like to thank all of you for your work
->>>> that benefits so many people!
->>> You're welcome. Your thanks are much appreciated :-)
+IMHO, you should let it more clear, like, for example adding a numerated
+list, like:
+
+1. Bridge-centric devices
+
+   As such devices don't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
+   <device-capabilities>`, applications shall initialize the ``mbus_code`` field
+   to zero and drivers shall ignore the value of the field.  
+
+   Drivers shall enumerate all image formats. The enumerated formats may depend
+   on the active input or output of the device.
+
+2. MC-centric devices
+
+  As such devices advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
+  <device-capabilities>`, applications may initialize the ``mbus_code`` field to
+  a valid :ref:`media bus format code <v4l2-mbus-pixelcode>`. 
+
+  If the ``mbus_code`` field is not zero, drivers shall restrict enumeration to 
+  only the image formats that can produce (for video output devices) or be produced 
+  from (for video capture devices) that media bus code.  
+
+  Regardless of the value of the ``mbus_code`` field, the enumerated image formats
+  shall not depend on the active configuration of the video device or device
+  pipeline. Enumeration shall otherwise operate as previously described.
+
+- 
+
+On a side note: can a MC-centric device fill ``mbus_code`` field with zero?
+The second paragraph seems to contradict the first one with mandates that
+``mbus_code`` should be a valid format.
+
+> ----
+> 
+> Note the last sentence for the !V4L2_CAP_IO_MC case:
+> 
+> "The enumerated formats may depend on the active input or output of the
+> device."
+> 
+> We can extend it with
+> 
+> "The enumerated formats may depend on the active input or output of the
+> device, switching the input or output may thus produce different lists
+> of enumerated formats."
+
+That sounds better, but "may" seems to weak for my taste. So, I would 
+also add:
+
+  Applications should (re)call VIDIOC_ENUM_FMT after changing the ative
+  input or output of the device.
+
+> 
+> I think it's a bit overkill as it's saying the same thing twice, but if
+> you prefer that, I'm fine with it.
+> 
+> For the V4L2_CAP_IO_MC case there's no .s_input() or .s_output(), so the
+> note isn't applicable.
+
+Ok.
+
+Thanks,
+Mauro
