@@ -2,208 +2,316 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 875B51BE5CB
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 20:01:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 595DC1BE618
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 20:17:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726883AbgD2SBq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Apr 2020 14:01:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40190 "EHLO mail.kernel.org"
+        id S1726861AbgD2SR6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Apr 2020 14:17:58 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49334 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726423AbgD2SBq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Apr 2020 14:01:46 -0400
+        id S1726456AbgD2SR6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Apr 2020 14:17:58 -0400
 Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BCFC221707;
-        Wed, 29 Apr 2020 18:01:43 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EFFFB21D79;
+        Wed, 29 Apr 2020 18:17:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588183305;
-        bh=UbrfAVHZB0y38ZBCNrWV6BNbz8MWTED68fuBIbVFME8=;
+        s=default; t=1588184277;
+        bh=Y2hhr5bxglvvnLRu7Krfld80BFO1N2yKEXT9h0Z2W8o=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=SZBB+GCDzPqB+LhOCjxSJj5FDl71oGTAHgZpc5G2aYbqQv5Bg3EII1KRJK6u4QudQ
-         +SrptZHOpi9JmHLPf/mQtuUA8tSA6Q6BhPadJ5CU7MfOafvS7e+cv5OeFaWe2DCOR1
-         zaDjVYMGI/yVYVpeoigLvK53KDaFHU6Z+pxTfVcU=
-Date:   Wed, 29 Apr 2020 20:01:40 +0200
+        b=ZlCsviwoEdeJKmwwVu90yNS22LzFzxqlqzjSuCjBwYAi+u3LbvbhURNHH3beazFc8
+         E+8uGnShDIJkS/yOU8kebfdaBB+Rdq1EpsEP51PYBzlg/SGxbKBF8iYNZzdkgSEM9a
+         zNOzHL6ZoetFiQQp/b9YBmjPatBM60EeiXPmsHlU=
+Date:   Wed, 29 Apr 2020 20:17:53 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Helen Koike <helen.koike@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v8.1 3/6] media: v4l2: Extend VIDIOC_ENUM_FMT to support
- MC-centric devices
-Message-ID: <20200429200140.22a4db22@coco.lan>
-In-Reply-To: <20200429163849.GK5956@pendragon.ideasonboard.com>
-References: <20200421135743.1381930-4-niklas.soderlund+renesas@ragnatech.se>
-        <20200424134331.22271-1-laurent.pinchart@ideasonboard.com>
-        <20200429182739.274ce451@coco.lan>
-        <20200429163849.GK5956@pendragon.ideasonboard.com>
+To:     Patrik Gfeller <patrik.gfeller@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: atomisp kernel driver(s)
+Message-ID: <20200429201753.3b2d679b@coco.lan>
+In-Reply-To: <3b7366b9-463d-c49b-0f2d-51a1d5475a9d@gmail.com>
+References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
+        <20200418172549.7cca07a7@coco.lan>
+        <20200418172654.74a1eeea@coco.lan>
+        <1d529105-3b7d-38d0-b7a2-d385b2221ff7@gmail.com>
+        <20200420013109.65babb54@coco.lan>
+        <e45de3ea-4b5c-f2d0-0844-1233ca15a939@gmail.com>
+        <eb83f789-9595-55f0-d922-bab00ae85cff@gmail.com>
+        <20200420224750.28c0181d@coco.lan>
+        <dd8ab5df-31c7-f009-36e4-ca4fd0605e97@gmail.com>
+        <20200422211344.2ec3d93e@coco.lan>
+        <23b3a078-2a9a-5f50-a35e-9f40f5aa8a6e@gmail.com>
+        <86413836-e4b5-cb53-3ac0-1764c693ec7b@gmail.com>
+        <682558b0-a2cf-9fe2-6e54-20462ecccb5d@gmail.com>
+        <20200425132255.4bf872b2@coco.lan>
+        <131a4247-cef3-d651-a0ea-defd32b8bf20@gmail.com>
+        <20200426185007.1954885a@coco.lan>
+        <45817a6a-dd2f-13a6-835b-fd2b04ded23f@gmail.com>
+        <20200427235027.15cd4e03@coco.lan>
+        <d9ec5067-142c-66c9-c412-51ddf38e44f7@gmail.com>
+        <20200429011339.03af3c2a@coco.lan>
+        <3b7366b9-463d-c49b-0f2d-51a1d5475a9d@gmail.com>
 X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 29 Apr 2020 19:38:49 +0300
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+Em Wed, 29 Apr 2020 19:56:49 +0200
+Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
 
-> Hi Mauro,
-> 
-> On Wed, Apr 29, 2020 at 06:27:39PM +0200, Mauro Carvalho Chehab wrote:
-> > Em Fri, 24 Apr 2020 16:43:31 +0300 Laurent Pinchart escreveu:
-> >   
-> > > The VIDIOC_ENUM_FMT ioctl enumerates all formats supported by a video
-> > > node. For MC-centric devices, its behaviour has always been ill-defined,
-> > > with drivers implementing one of the following behaviours:
-> > >   
-> > 
-> > ...
-> > 
-> > The patch itself is OK. However, there's a change you did at the
-> > documentation that it is unrelated. 
-> > 
-> > See below.
-> >   
-> > > diff --git a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > > index 8ca6ab701e4a..a987debc7654 100644
-> > > --- a/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > > +++ b/Documentation/media/uapi/v4l/vidioc-enum-fmt.rst
-> > > @@ -48,10 +48,21 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
-> > >  formats in preference order, where preferred formats are returned before
-> > >  (that is, with lower ``index`` value) less-preferred formats.
-> > >  
-> > > -.. note::
-> > > -   After switching input or output the list of enumerated image
-> > > -   formats may be different.  
-> > 
-> > Why are you dropping this note?
-> > 
-> > This basically reverts this changeset:
-> > 
-> >   commit 93828d6438081649e81b8681df9bf6ad5d691650
-> >   Author: Hans Verkuil <hans.verkuil@cisco.com>
-> >   Date:   Mon Sep 3 09:37:18 2012 -0300
-> > 
-> >     [media] DocBook: make the G/S/TRY_FMT specification more strict
-> >     
-> >     - S/TRY_FMT should always succeed, unless an invalid type field is passed in.
-> >     - TRY_FMT should give the same result as S_FMT, all other things being equal.
-> >     - ENUMFMT may return different formats for different inputs or outputs.
-> >     This was decided during the 2012 Media Workshop.
-> >     
-> >     Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
-> >     Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
-> >     Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >     Acked-by: Sakari Ailus <sakari.ailus@iki.fi>
-> >     Signed-off-by: Mauro Carvalho Chehab <mchehab@redhat.com>
-> > 
-> > As far as I remember, from our 2012 discussions, some drivers may change 
-> > the enumerated image formats when some ioctls like VIDIOC_S_INPUT and
-> > VIDIOC_S_OUTPUT ioctls are used. I also vaguely remember that 90 and 270
-> > degrees rotation would equally affect it.
-> > 
-> > Perhaps, the removal was just some mistake. If so, please re-submit
-> > another patch without it.
-> > 
-> > Otherwise, if are there any good reasons for such change, and it won't
-> > cause any API regressions, please place it on a separate patch, clearly
-> > that.
-> > 
-> > ... Or, maybe you felt that it won't make sense for MC-centric devices.
-> > On such case, please improve the note stating it on a way that it would
-> > be understandable on both MC-centric and bridge-centrid drivers.  
-> 
-> I'm not dropping the requirement, I'm rewriting it :-) The patch indeed
-> removes the above, but adds the following
-> 
-> ----
-> If the driver doesn't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
-> <device-capabilities>`, applications shall initialize the ``mbus_code`` field
-> to zero and drivers shall ignore the value of the field.  Drivers shall
-> enumerate all image formats. The enumerated formats may depend on the active
-> input or output of the device.
-> 
-> If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`capability
-> <device-capabilities>`, applications may initialize the ``mbus_code`` field to
-> a valid :ref:`media bus format code <v4l2-mbus-pixelcode>`. If the
-> ``mbus_code`` field is not zero, drivers shall restrict enumeration to only the
-> image formats that can produce (for video output devices) or be produced from
-> (for video capture devices) that media bus code.  Regardless of the value of
-> the ``mbus_code`` field, the enumerated image formats shall not depend on the
-> active configuration of the video device or device pipeline. Enumeration shall
-> otherwise operate as previously described.
+> On 29.04.20 01:13, Mauro Carvalho Chehab wrote:
+> > Em Tue, 28 Apr 2020 19:59:28 +0200
+> > Patrik Gfeller<patrik.gfeller@gmail.com>  escreveu:
+> > =20
+> >> On 27.04.20 23:50, Mauro Carvalho Chehab wrote: =20
+> >>> Em Mon, 27 Apr 2020 20:31:31 +0200
+> >>> Patrik Gfeller<patrik.gfeller@gmail.com>  escreveu: =20
+> >>>> On 26.04.20 18:50, Mauro Carvalho Chehab wrote: =20
+> >>>>> No, you're looking at the wrong place. This should be at the system
+> >>>>> board's BIOS, and not at something that the driver would load.
+> >>>>>
+> >>>>> Just run (as root):
+> >>>>>
+> >>>>> 	# dmidecode
+> >>>>>
+> >>>>> and check the name of your board. It should be similar to this:
+> >>>>>
+> >>>>> 	...
+> >>>>> 	System Information
+> >>>>> 	        Manufacturer: Intel Corporation
+> >>>>> 	        Product Name: (something)
+> >>>>>
+> >>>>> The "(something)" is the board name. The atomisp driver will seek f=
+or
+> >>>>> it. So, you need to patch the driver (using the example I gave) in
+> >>>>> order for it to look at the right DMI_MATCH() table. Right now,
+> >>>>> the driver knows only those:
+> >>>>>
+> >>>>> 	$ git grep DMI_MATCH drivers/staging/media/atomisp/
+> >>>>> 	drivers/staging/media/atomisp/platform/intel-mid/atomisp_gmin_plat=
+form.c:                       DMI_MATCH(DMI_BOARD_NAME, "BYT-T FFD8"),
+> >>>>> 	drivers/staging/media/atomisp/platform/intel-mid/atomisp_gmin_plat=
+form.c:                       DMI_MATCH(DMI_BOARD_NAME, "T100TA"),
+> >>>>> 	drivers/staging/media/atomisp/platform/intel-mid/atomisp_gmin_plat=
+form.c:                       DMI_MATCH(DMI_BOARD_NAME, "TABLET"),=09
+> >>>>> 	drivers/staging/media/atomisp/platform/intel-mid/atomisp_gmin_plat=
+form.c:                       DMI_MATCH(DMI_BOARD_VERSION, "MRD 7"),
+> >>>>> 	drivers/staging/media/atomisp/platform/intel-mid/atomisp_gmin_plat=
+form.c:                       DMI_MATCH(DMI_BOARD_NAME, "ST70408"),
+> >>>>> 	drivers/staging/media/atomisp/platform/intel-mid/atomisp_gmin_plat=
+form.c:                       DMI_MATCH(DMI_BOARD_NAME, "VTA0803"),
+> >>>>>
+> >>>>> Your asus board should likely use "ASUS", "_ASUS_" or something sim=
+ilar.
+> >>>>> So, you should take a look on the patch I sent you and modify it to
+> >>>>> match whatever name dmidecode printed.
+> >>>>>
+> >>>>> See for example this patch:
+> >>>>>
+> >>>>> 	https://www.spinics.net/lists/linux-media/msg126880.html
+> >>>>>
+> >>>>> If it finds the right table, it should end by calling gmin_subdev_a=
+dd(),
+> >>>>> with should use DTST table, also from the ACPI table inside the sys=
+tem's BIOS. =20
+> >>>> Now I understood :-). I've made the modifications as you explained a=
+nd
+> >>>> indeed the errors regarding
+> >>>>
+> >>>> OVTI2680:00_CamClk
+> >>>> OVTI2680:00_ClkSrc
+> >>>> OVTI2680:00_CsiPort
+> >>>> OVTI2680:00_CsiLanes
+> >>>>
+> >>>> are gone. =20
+> >>> Great! Could you please submit the exact patch you applied? I'll place
+> >>> it on my experimental tree: =20
+> >> Here is the patch for the change I made:
+> >>
+> >> diff --git
+> >> a/drivers/staging/media/atomisp/platform/intel-mid/atomisp_gmin_platfo=
+rm.c
+> >> b/drivers/staging/media/atomisp/platform/intel-mid/atomisp_gmin_platfo=
+rm.c
+> >> index eef7123a586f..081f9be6ec29 100644
+> >> ---
+> >> a/drivers/staging/media/atomisp/platform/intel-mid/atomisp_gmin_platfo=
+rm.c
+> >> +++
+> >> b/drivers/staging/media/atomisp/platform/intel-mid/atomisp_gmin_platfo=
+rm.c
+> >> @@ -269,6 +269,15 @@ static struct gmin_cfg_var i8880_vars[] =3D {
+> >>   =C2=A0=C2=A0=C2=A0=C2=A0 {},
+> >>   =C2=A0};
+> >>
+> >> +static struct gmin_cfg_var asus_vars[] =3D {
+> >> +=C2=A0=C2=A0=C2=A0 {"OVTI2680:00_CsiPort", "0"},
+> >> +=C2=A0=C2=A0=C2=A0 {"OVTI2680:00_CsiLanes", "1"},
+> >> +=C2=A0=C2=A0=C2=A0 {"OVTI2680:00_CsiFmt", "15"},
+> >> +=C2=A0=C2=A0=C2=A0 {"OVTI2680:00_CsiBayer", "0"},
+> >> +=C2=A0=C2=A0=C2=A0 {"OVTI2680:00_CamClk", "1"},
+> >> +=C2=A0=C2=A0=C2=A0 {},
+> >> +};
+> >> +
+> >>   =C2=A0static const struct dmi_system_id gmin_vars[] =3D {
+> >>   =C2=A0=C2=A0=C2=A0=C2=A0 {
+> >>   =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 .ident =3D "BYT-T FFD8",=
+ @@ -306,6 +315,13 @@ static const struct dmi_system_id gmin_vars[]=20
+> >> =3D { =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 }, =C2=A0=C2=A0=C2=
+=A0=C2=A0 =C2=A0=C2=A0=C2=A0 .driver_data =3D i8880_vars, =C2=A0=C2=A0=C2=
+=A0=C2=A0 }, +=C2=A0=C2=A0=C2=A0 {=20
+> >> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 .ident =3D "T101HA",
+> >> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 .matches =3D {
+> >> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 DMI_MATCH(DM=
+I_BOARD_NAME, "T101HA"),
+> >> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 },
+> >> +=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 .driver_data =3D asus_vars,
+> >> +=C2=A0=C2=A0=C2=A0 },
+> >>   =C2=A0=C2=A0=C2=A0=C2=A0 {}
+> >>   =C2=A0}; =20
+> > Thanks for testing it. Just applied this patch upstream, together with a
+> > bunch of other cleanup patches.
+> > =20
+> >>>> Now we have the following in dmesg:
+> >>>>
+> >>>> [=C2=A0=C2=A0=C2=A0 8.815960] kernel: mc: Linux media interface: v0.=
+10
+> >>>> [=C2=A0=C2=A0=C2=A0 8.858458] kernel: videodev: Linux video capture =
+interface: v2.00
+> >>>> [=C2=A0=C2=A0=C2=A0 8.876864] kernel: input: Intel HID events as
+> >>>> /devices/pci0000:00/INT33D5:00/input/input16
+> >>>> [=C2=A0=C2=A0=C2=A0 8.887625] kernel: 8086228A:01: ttyS5 at MMIO 0x9=
+1a1f000 (irq =3D 40,
+> >>>> base_baud =3D 2764800) is a 16550A
+> >>>> [=C2=A0=C2=A0=C2=A0 8.894655] kernel: dw_dmac INTL9C60:01: DesignWar=
+e DMA Controller, 8
+> >>>> channels
+> >>>> [=C2=A0=C2=A0=C2=A0 8.929818] kernel: atomisp_ov2680: module is from=
+ the staging
+> >>>> directory, the quality is unknown, you have been warned.
+> >>>> [=C2=A0=C2=A0=C2=A0 8.989630] kernel: ov2680 i2c-OVTI2680:00: gmin: =
+initializing
+> >>>> atomisp module subdev data.PMIC ID 1
+> >>>> [=C2=A0=C2=A0=C2=A0 8.989887] kernel: ov2680 i2c-OVTI2680:00: supply=
+ V1P8SX not found,
+> >>>> using dummy regulator
+> >>>> [=C2=A0=C2=A0=C2=A0 8.989954] kernel: ov2680 i2c-OVTI2680:00: supply=
+ V2P8SX not found,
+> >>>> using dummy regulator =20
+> >>> Did you apply this patch also?
+> >>>
+> >>> 	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=3Datomisp=
+&id=3D898564642042fdd136a16c3ee120a00061c13940
+> >>>
+> >>> I guess this would get rid of the two above warnings.
+> >>>    =20
+> >> The patch was already applied when I did the test width the driver - t=
+he
+> >> warnings are also present with it. =20
+> > Ok. Yet, I found an issue on that patch. Just merged an improvement.
+> >
+> > Could you please test it again? =20
+>=20
+> Of course - I pulled the changes and recompiled the kernel. This is=C2=A0=
+=20
+> what we see if I reboot the system:
+>=20
+> Apr 29 19:49:04 ASUS kernel: [=C2=A0=C2=A0=C2=A0 8.821277] atomisp_ov2680=
+: loading=20
+> out-of-tree module taints kernel.
+> Apr 29 19:49:04 ASUS kernel: [=C2=A0=C2=A0=C2=A0 8.824016] atomisp_ov2680=
+: module is=20
+> from the staging directory, the quality is unknown, you have been warned.
+> Apr 29 19:49:04 ASUS kernel: [=C2=A0=C2=A0=C2=A0 8.945856] ov2680 i2c-OVT=
+I2680:00:=20
+> gmin: initializing atomisp module subdev data.PMIC ID 1
+> Apr 29 19:49:04 ASUS kernel: [=C2=A0=C2=A0=C2=A0 8.949070] ov2680 i2c-OVT=
+I2680:00:=20
+> supply V1P8SX not found, using dummy regulator
+> Apr 29 19:49:04 ASUS kernel: [=C2=A0=C2=A0=C2=A0 8.952036] ov2680 i2c-OVT=
+I2680:00:=20
+> supply V2P8SX not found, using dummy regulator
 
-Hmm... it took me re-reading this text 4 or 5 times, in order to understand
-that you're actually meaning bridge-centric devices here :-)
+The above don't sound right.=20
 
-Also, you placed two independent and unrelated information at the same
-paragraph.
+I changed the logic to use regulator_get_optional():
 
-IMHO, you should let it more clear, like, for example adding a numerated
-list, like:
+               gmin_subdevs[i].v1p8_reg =3D regulator_get_optional(dev, "V1=
+P8SX");
+               gmin_subdevs[i].v2p8_reg =3D regulator_get_optional(dev, "V2=
+P8SX");
 
-1. Bridge-centric devices
+With that, probing to "V1P8SX" and "V2P8SX" wouldn't print any messages.
 
-   As such devices don't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
-   <device-capabilities>`, applications shall initialize the ``mbus_code`` field
-   to zero and drivers shall ignore the value of the field.  
+So, I suspect that either you're missing patches on your tree or
+you booted an older Kernel.
 
-   Drivers shall enumerate all image formats. The enumerated formats may depend
-   on the active input or output of the device.
+The last patch on my tree is currently this one:
 
-2. MC-centric devices
+	commit 4c922df10252f4bd3f28187eba36056aa3c3c06e (experimental/atomisp)
+	Author: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+	Date:   Wed Apr 29 11:50:52 2020 +0200
 
-  As such devices advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
-  <device-capabilities>`, applications may initialize the ``mbus_code`` field to
-  a valid :ref:`media bus format code <v4l2-mbus-pixelcode>`. 
+	    media: atomisp2: get rid of ia_css_sc_param.h version dependency
 
-  If the ``mbus_code`` field is not zero, drivers shall restrict enumeration to 
-  only the image formats that can produce (for video output devices) or be produced 
-  from (for video capture devices) that media bus code.  
+> Apr 29 19:49:04 ASUS kernel: [=C2=A0=C2=A0=C2=A0 8.954893] ov2680 i2c-OVT=
+I2680:00:=20
+> supply V1P2A not found, using dummy regulator
+> Apr 29 19:49:04 ASUS kernel: [=C2=A0=C2=A0=C2=A0 8.957849] ov2680 i2c-OVT=
+I2680:00:=20
+> supply VPROG4B not found, using dummy regulator
+> Apr 29 19:49:04 ASUS kernel: [=C2=A0=C2=A0=C2=A0 9.013717] ov2680 i2c-OVT=
+I2680:00:=20
+> unable to set PMC rate 1
+> Apr 29 19:49:04 ASUS kernel: [=C2=A0=C2=A0=C2=A0 9.041777] ov2680 i2c-OVT=
+I2680:00:=20
+> camera pdata: port: 0 lanes: 1 order: 00000002
+> Apr 29 19:49:04 ASUS kernel: [=C2=A0=C2=A0=C2=A0 9.048368] ov2680 i2c-OVT=
+I2680:00:=20
+> sensor_revision id =3D 0x2680, rev=3D 0
+> Apr 29 19:49:04 ASUS kernel: [=C2=A0=C2=A0=C2=A0 9.051525] ov2680 i2c-OVT=
+I2680:00:=20
+> register atomisp i2c module type 1
+>=20
+> I've also added the following boot parameter to make sure we get all=20
+> debug messages from the module: dyndbg=3D"module atomisp_ov2680 +pm" (as=
+=20
+> explained by Laurent)
+>=20
+> I've checked the code of atomisp_ov2680 and there are some dev_dbg=20
+> calls, but either I did the configuration not correct, or we do not=20
+> reach those lines yet (or I looked at the wrong place; I checked dmesg=20
+> and kern.log).
 
-  Regardless of the value of the ``mbus_code`` field, the enumerated image formats
-  shall not depend on the active configuration of the video device or device
-  pipeline. Enumeration shall otherwise operate as previously described.
+Maybe you built your Kernel without dyndbg support. The kernel needs
+this at .config:
 
-- 
+CONFIG_DYNAMIC_DEBUG=3Dy
 
-On a side note: can a MC-centric device fill ``mbus_code`` field with zero?
-The second paragraph seems to contradict the first one with mandates that
-``mbus_code`` should be a valid format.
+This depends on those symbols:
+	CONFIG_PRINTK [=3Dy] && (CONFIG_DEBUG_FS [=3Dy] || CONFIG_PROC_FS [=3Dy]) =
+  =20
+=09
 
-> ----
-> 
-> Note the last sentence for the !V4L2_CAP_IO_MC case:
-> 
-> "The enumerated formats may depend on the active input or output of the
-> device."
-> 
-> We can extend it with
-> 
-> "The enumerated formats may depend on the active input or output of the
-> device, switching the input or output may thus produce different lists
-> of enumerated formats."
+>=20
+> >> But if I read the code correctly this is expected, as we try to get
+> >> those regulators in any case - only if we have an error on two of them
+> >> we try the "Regulator1p8v" & "Regulator2p8v". As we do not see warnings
+> >> for those two regulators I assume this worked. =20
+> > No. It probably returned a valid "dummy" regulator. That's not what
+> > we want.
+> >
+> > There are still some things that could be missing for it to work
+> > properly with ISP2401. I'm trying to do some cleanups in order to
+> > be sure that everything needed for isp2401 will be there. =20
+> Just let me know if I shall try something.
 
-That sounds better, but "may" seems to weak for my taste. So, I would 
-also add:
+Sure.
 
-  Applications should (re)call VIDIOC_ENUM_FMT after changing the ative
-  input or output of the device.
-
-> 
-> I think it's a bit overkill as it's saying the same thing twice, but if
-> you prefer that, I'm fine with it.
-> 
-> For the V4L2_CAP_IO_MC case there's no .s_input() or .s_output(), so the
-> note isn't applicable.
-
-Ok.
 
 Thanks,
 Mauro
