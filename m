@@ -2,199 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE6EF1BE21E
-	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 17:10:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 550FC1BE25A
+	for <lists+linux-media@lfdr.de>; Wed, 29 Apr 2020 17:16:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726812AbgD2PKw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Apr 2020 11:10:52 -0400
-Received: from mail26.static.mailgun.info ([104.130.122.26]:14826 "EHLO
-        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726530AbgD2PKw (ORCPT
+        id S1726785AbgD2PQt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Apr 2020 11:16:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40596 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726526AbgD2PQs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Apr 2020 11:10:52 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1588173050; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=Uj1kdH+1z3EYbeBHEefFEkAH70TKfLMeVJuy+wrtzT4=; b=eNFuYJ9bIB4pGP2I1ZJozdsOLO6RWDBXiVl92lEaA6NmDpfPRZHHm0wu+ORUODMTpH/zocPj
- pKOMlZDZS05nBhxwzS+X5ndBboB6gRF7jpjEN3Z6IWhD8UtqDWrqIFDrqEAxisYFLSMr8kZ4
- RjipNsHILHU6Im0ImCeOKjexIfo=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5ea998f9.7f1b79ee56c0-smtp-out-n04;
- Wed, 29 Apr 2020 15:10:49 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id A277DC433BA; Wed, 29 Apr 2020 15:10:48 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [10.131.182.194] (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: rnayak)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id F1CE6C433CB;
-        Wed, 29 Apr 2020 15:10:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org F1CE6C433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=rnayak@codeaurora.org
-Subject: Re: [PATCH v3 12/17] media: venus: core: Add support for opp
- tables/perf voting
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        viresh.kumar@linaro.org, sboyd@kernel.org,
-        bjorn.andersson@linaro.org, agross@kernel.org
-Cc:     linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, mka@chromium.org,
-        linux-media@vger.kernel.org
-References: <1588080785-6812-1-git-send-email-rnayak@codeaurora.org>
- <1588080785-6812-13-git-send-email-rnayak@codeaurora.org>
- <b091dc29-d2e8-ed3f-fe1c-ae60e16d5d78@linaro.org>
-From:   Rajendra Nayak <rnayak@codeaurora.org>
-Message-ID: <425a8828-be17-fe79-99f5-9e20eff51b13@codeaurora.org>
-Date:   Wed, 29 Apr 2020 20:40:42 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Wed, 29 Apr 2020 11:16:48 -0400
+Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8F16C03C1AD
+        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2020 08:16:48 -0700 (PDT)
+Received: by mail-qk1-x743.google.com with SMTP id h124so2284200qke.11
+        for <linux-media@vger.kernel.org>; Wed, 29 Apr 2020 08:16:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iJJZSSZBDxrYd3Iw8y6t7LleITOoKpnV8+aFNzkLH6g=;
+        b=Z7gHTBDgWgwDVPHr+JBvEhKRyKehZOLlaa9iuDe+qnu/0rphzw4CvuyZU7g1dmESEB
+         HwCJZQZYo5fepCj2N54XPPhlyLdhqsMY1CXkxEmPmZtnIEZ+eyoWJ9R8cKYN9MqeduQO
+         5NmlPa19Viyf5K2wImkOcvjRE4auFTPcGegmG31C66ThCayT4M8ZQk5SY6xU91/xOLe5
+         fDHuyI1gpukZ2taTAh5Pd2nUf6V19tZ4iqgWqGIVTmy3Aina4LOc7zuwn2cR2uOtNs4N
+         7jkE5JZwtYFu4/F12ZSUZJ68vo0gVEcO//m89oT+EOkMdXnPE8Cux5IDuA2/99esQJ3q
+         UkgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=iJJZSSZBDxrYd3Iw8y6t7LleITOoKpnV8+aFNzkLH6g=;
+        b=YV8qIqVTSD08ZlhxQ22kesvDK7+wksAr62FnYh7pAGzmz4Vq5dGE9ebLRNG4M146bH
+         9jqkKjv2JII0tPmgnLxKyfMvGtEYNaDxr3chA43/FItu7fy0FIe87bKJBRWkDFIG+0eP
+         dxtLblow8imNEf+tuLVHcsR2GVas1HtlDimw+bXkHx7fwlmmY7XBJYsjdHEipetoKsqv
+         d0etb4BwJz0JUsq99jkAbI5yrc8wUQYwiDCngO+T6Exw0FpDRQItO52sK5U/Msf66clQ
+         +o3YkTOtU0JSnexpEK7OhuBvwZANeWQW63h7BbtWxx6KUykPOS6hj2R5Z8If4l3wSA9p
+         feGw==
+X-Gm-Message-State: AGi0Pubmyw8jFJtPp8mvIzYBr4b6z9QTB4/aJw9LZJn9OjOLGljCtdCJ
+        rwL28AdaNXpxNUqX3D1+UeG+gIW/IHvgrQ==
+X-Google-Smtp-Source: APiQypJMZ/3rme3twuYLSpxuqW+ks1hcTkdACopRqPZwQx8Db/eD2AG5d2GjKlVZ8Ij6ALTx03P34Q==
+X-Received: by 2002:a37:a3d8:: with SMTP id m207mr33360001qke.371.1588173407683;
+        Wed, 29 Apr 2020 08:16:47 -0700 (PDT)
+Received: from localhost.localdomain (38-151-126-200.fibertel.com.ar. [200.126.151.38])
+        by smtp.gmail.com with ESMTPSA id c139sm15981716qkg.8.2020.04.29.08.16.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2020 08:16:47 -0700 (PDT)
+From:   Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
+To:     linux-media@vger.kernel.org
+Cc:     rosenp@gmail.com, hverkuil@xs4all.nl, sean@mess.org,
+        p.zabel@pengutronix.de, laurent.pinchart@ideasonboard.com,
+        ezequiel@collabora.com, nicolas@ndufresne.ca,
+        kieran.bingham@ideasonboard.com, ariel@vanguardiasur.com.ar
+Subject: [RFC PATCH v3 0/1] Add support for meson building
+Date:   Wed, 29 Apr 2020 12:16:38 -0300
+Message-Id: <20200429151639.5003-1-ariel@vanguardiasur.com.ar>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <b091dc29-d2e8-ed3f-fe1c-ae60e16d5d78@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Stan,
+Hi all,
 
-On 4/29/2020 8:06 PM, Stanimir Varbanov wrote:
-> Hi Rajendra,
-> 
-> Thanks for the patch!
-> 
-[]..
+Finally got some time to put another patchset together.
 
->>   #include <linux/pm_runtime.h>
->>   #include <media/videobuf2-v4l2.h>
->>   #include <media/v4l2-mem2mem.h>
->> @@ -214,6 +215,20 @@ static int venus_probe(struct platform_device *pdev)
->>   	if (!core->pm_ops)
->>   		return -ENODEV;
->>   
->> +	core->opp_table = dev_pm_opp_set_clkname(dev, "core");
-> 
-> Should we set opp clkname if opp_of_add_table fails? We have platforms
-> which don't have opp tables in Venus DT node. We have to be backward
-> compatible for them.
+Any feedback, testing or suggestion is welcome. I'll be submitting this
+patchset soon if no further major changes are needed.
 
-so the way its designed, you are expected to call dev_pm_opp_set_clkname()
-*before* adding any OPPs from the OPP table.
-As for backward compatibility its already handled by the OPP core now [1]
-which makes sure dev_pm_opp_set_rate() is equivalent to a clk_set_rate()
-in case of a missing OPP table.
+I'd like to get some comments from v4l-utils developers about the
+feature options mainly. I tried keeping the configuration behaviour
+from autotools scripts as much as possible. 
 
->> +	if (IS_ERR(core->opp_table))
->> +		return PTR_ERR(core->opp_table);
->> +
->> +	if (core->res->opp_pmdomain) {
->> +		ret = dev_pm_opp_of_add_table(dev);
->> +		if (!ret) {
->> +			core->has_opp_table = true;
->> +		} else if (ret != -ENODEV) {
-> 
-> Is it possible dev_pm_opp_of_add_table() to return EPROBE_DEFER?
+Changes from v2:
 
-Nope, it does not, I had checked.
+  * Added support to build contrib/.
+  * Added support for gettext translations.
+  * Move several boolean options to features.
+  * Libraries in lib/ are now defined as library() instead of
+    shared_library(), so default_library option is used.
+  * Minor fixes on lib/ utils/ support.
 
->> +			dev_err(dev, "Invalid OPP table in Device tree\n");
-> 
-> ... if so, please drop dev_err.
-> 
->> +			return ret;
->> +		}
->> +	}
-[]..
+This patchset has been developed on top of v4l-utils commit:
 
->> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
->> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
->> @@ -9,6 +9,7 @@
->>   #include <linux/iopoll.h>
->>   #include <linux/kernel.h>
->>   #include <linux/pm_domain.h>
->> +#include <linux/pm_opp.h>
->>   #include <linux/pm_runtime.h>
->>   #include <linux/types.h>
->>   #include <media/v4l2-mem2mem.h>
->> @@ -66,10 +67,9 @@ static void core_clks_disable(struct venus_core *core)
->>   
->>   static int core_clks_set_rate(struct venus_core *core, unsigned long freq)
->>   {
->> -	struct clk *clk = core->clks[0];
->>   	int ret;
->>   
->> -	ret = clk_set_rate(clk, freq);
->> +	ret = dev_pm_opp_set_rate(core->dev, freq);
-> 
-> Is this will work for legacy platforms without OPP tables?
+    commit 9c3d3fde6b5c5102293edbb25d1f4a73d39dc04e
+    Author: Rosen Penev <rosenp@gmail.com>
+        utils: do not use empty void with C++
 
-yes, see [1] which is already merged in mainline.
+Thanks!
 
-> 
-> Also what about the other clocks (vicodec0,1) in this function.
+Ariel D'Alessandro (1):
+  Add support for meson building
 
-We continue to use clk_set_rate() for those. The performance state
-is associated with only the core clk.
-
->>   	if (ret)
->>   		return ret;
->>   
->> @@ -740,13 +740,15 @@ static int venc_power_v4(struct device *dev, int on)
->>   
->>   static int vcodec_domains_get(struct device *dev)
->>   {
->> +	struct opp_table *opp_table;
->> +	struct device **opp_virt_dev;
->>   	struct venus_core *core = dev_get_drvdata(dev);
->>   	const struct venus_resources *res = core->res;
->>   	struct device *pd;
->>   	unsigned int i;
->>   
->>   	if (!res->vcodec_pmdomains_num)
->> -		return -ENODEV;
->> +		goto skip_pmdomains;
->>   
->>   	for (i = 0; i < res->vcodec_pmdomains_num; i++) {
->>   		pd = dev_pm_domain_attach_by_name(dev,
->> @@ -763,6 +765,24 @@ static int vcodec_domains_get(struct device *dev)
->>   	if (!core->pd_dl_venus)
->>   		return -ENODEV;
->>   
->> +skip_pmdomains:
->> +	if (!res->opp_pmdomain || !core->has_opp_table)
->> +		return 0;
->> +
->> +	/* Attach the power domain for setting performance state */
->> +	opp_table = dev_pm_opp_attach_genpd(dev, res->opp_pmdomain, &opp_virt_dev);
->> +	if (IS_ERR(opp_table)) {
->> +		return PTR_ERR(opp_table);
->> +	} else if (opp_virt_dev) {
->> +		core->opp_pmdomain = *opp_virt_dev;
->> +		core->opp_dl_venus = device_link_add(dev, core->opp_pmdomain,
->> +						     DL_FLAG_RPM_ACTIVE |
->> +						     DL_FLAG_PM_RUNTIME |
->> +						     DL_FLAG_STATELESS);
->> +		if (!core->opp_dl_venus)
->> +			return -ENODEV;
-> 
-> I think as you return ENODEV you have to detach opp domain here because
-> vcodec_domains_put() is not called in error path.
-
-Ok, I'll fix that up.
-
-Thanks for the review.
-
-[1] https://lkml.org/lkml/2020/4/8/413
+ .gitignore                                    |   1 +
+ contrib/cobalt-ctl/meson.build                |   7 +
+ contrib/decode_tm6000/meson.build             |  13 +
+ contrib/gconv/meson.build                     |  42 ++++
+ contrib/meson.build                           |  10 +
+ contrib/rds-saa6588/meson.build               |   6 +
+ contrib/test/meson.build                      | 132 +++++++++++
+ contrib/xc3028-firmware/meson.build           |  10 +
+ gen-version.sh                                |  36 +++
+ lib/libdvbv5/meson.build                      | 151 ++++++++++++
+ lib/libv4l-mplane/meson.build                 |  16 ++
+ lib/libv4l1/meson.build                       |  53 +++++
+ lib/libv4l2/meson.build                       |  65 +++++
+ lib/libv4l2rds/meson.build                    |  28 +++
+ lib/libv4lconvert/meson.build                 | 105 +++++++++
+ lib/meson.build                               |  11 +
+ libdvbv5-po/meson.build                       |   3 +
+ meson.build                                   | 222 ++++++++++++++++++
+ meson_options.txt                             |  42 ++++
+ utils/cec-compliance/meson.build              |  24 ++
+ utils/cec-ctl/meson.build                     |  18 ++
+ utils/cec-follower/meson.build                |  21 ++
+ utils/cx18-ctl/meson.build                    |   7 +
+ utils/dvb/meson.build                         |  69 ++++++
+ utils/gen_media_bus_format_codes.sh           |   7 +
+ utils/gen_media_bus_format_names.sh           |   7 +
+ utils/ir-ctl/meson.build                      |  17 ++
+ utils/ivtv-ctl/meson.build                    |  13 +
+ .../bpf_protocols/clang_sys_includes.sh       |   9 +
+ utils/keytable/bpf_protocols/meson.build      |  31 +++
+ utils/keytable/meson.build                    |  70 ++++++
+ utils/keytable/rc_keymaps/meson.build         | 147 ++++++++++++
+ utils/libcecutil/meson.build                  |  45 ++++
+ utils/libmedia_dev/meson.build                |  14 ++
+ utils/libv4l2util/meson.build                 |  16 ++
+ utils/media-ctl/meson.build                   |  41 ++++
+ utils/meson.build                             |  44 ++++
+ utils/qv4l2/meson.build                       |  80 +++++++
+ utils/qvidcap/meson.build                     |  82 +++++++
+ utils/rds-ctl/meson.build                     |  13 +
+ utils/v4l2-compliance/meson.build             |  60 +++++
+ utils/v4l2-ctl/meson.build                    |  75 ++++++
+ utils/v4l2-dbg/meson.build                    |  16 ++
+ utils/v4l2-sysfs-path/meson.build             |  13 +
+ v4l-utils-po/meson.build                      |   3 +
+ version.h.in                                  |   1 +
+ 46 files changed, 1896 insertions(+)
+ create mode 100644 contrib/cobalt-ctl/meson.build
+ create mode 100644 contrib/decode_tm6000/meson.build
+ create mode 100644 contrib/gconv/meson.build
+ create mode 100644 contrib/meson.build
+ create mode 100644 contrib/rds-saa6588/meson.build
+ create mode 100644 contrib/test/meson.build
+ create mode 100644 contrib/xc3028-firmware/meson.build
+ create mode 100755 gen-version.sh
+ create mode 100644 lib/libdvbv5/meson.build
+ create mode 100644 lib/libv4l-mplane/meson.build
+ create mode 100644 lib/libv4l1/meson.build
+ create mode 100644 lib/libv4l2/meson.build
+ create mode 100644 lib/libv4l2rds/meson.build
+ create mode 100644 lib/libv4lconvert/meson.build
+ create mode 100644 lib/meson.build
+ create mode 100644 libdvbv5-po/meson.build
+ create mode 100644 meson.build
+ create mode 100644 meson_options.txt
+ create mode 100644 utils/cec-compliance/meson.build
+ create mode 100644 utils/cec-ctl/meson.build
+ create mode 100644 utils/cec-follower/meson.build
+ create mode 100644 utils/cx18-ctl/meson.build
+ create mode 100644 utils/dvb/meson.build
+ create mode 100755 utils/gen_media_bus_format_codes.sh
+ create mode 100755 utils/gen_media_bus_format_names.sh
+ create mode 100644 utils/ir-ctl/meson.build
+ create mode 100644 utils/ivtv-ctl/meson.build
+ create mode 100755 utils/keytable/bpf_protocols/clang_sys_includes.sh
+ create mode 100644 utils/keytable/bpf_protocols/meson.build
+ create mode 100644 utils/keytable/meson.build
+ create mode 100644 utils/keytable/rc_keymaps/meson.build
+ create mode 100644 utils/libcecutil/meson.build
+ create mode 100644 utils/libmedia_dev/meson.build
+ create mode 100644 utils/libv4l2util/meson.build
+ create mode 100644 utils/media-ctl/meson.build
+ create mode 100644 utils/meson.build
+ create mode 100644 utils/qv4l2/meson.build
+ create mode 100644 utils/qvidcap/meson.build
+ create mode 100644 utils/rds-ctl/meson.build
+ create mode 100644 utils/v4l2-compliance/meson.build
+ create mode 100644 utils/v4l2-ctl/meson.build
+ create mode 100644 utils/v4l2-dbg/meson.build
+ create mode 100644 utils/v4l2-sysfs-path/meson.build
+ create mode 100644 v4l-utils-po/meson.build
+ create mode 100644 version.h.in
 
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+2.25.1
+
