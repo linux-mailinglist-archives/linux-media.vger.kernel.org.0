@@ -2,148 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F21AE1BF8FE
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 15:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5A811BF96D
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 15:24:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726789AbgD3NNG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 09:13:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48794 "EHLO
+        id S1727105AbgD3NYY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 09:24:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726661AbgD3NNG (ORCPT
+        by vger.kernel.org with ESMTP id S1727085AbgD3NYY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 09:13:06 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 719DFC035494;
-        Thu, 30 Apr 2020 06:13:04 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id v4so7439107wme.1;
-        Thu, 30 Apr 2020 06:13:04 -0700 (PDT)
+        Thu, 30 Apr 2020 09:24:24 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64271C035494;
+        Thu, 30 Apr 2020 06:24:23 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id h4so6432840ljg.12;
+        Thu, 30 Apr 2020 06:24:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=N8o0WCkgmNcRVLVFgbGXJgHA8SmIuPpmu2c2tbvo+tw=;
-        b=qA+PMiz8eAXBGH9BURIrD/1CrZpiAUC83W+MjER4hnqkuSfCzux0bA14WLnqH4D2Vt
-         +zE0BWwQd6sqQGTHQ+M0MUU2oC2O7Ww1ywFxfqDsGtJgooVYxl4hvYUoV07WlaaSJukw
-         Ex3+6dwRoq9OAOadSJ9TV8uwaglubeHUtzrvSWfq1mCHktlBxuFiUYvaPESZ2pnnQLaG
-         bpMlH6fw3qUfaFl9wyLfc4OA7CLeKu3ddGPKdY1LZ+fuo71rY6E8beOIHxMknJCAsG9j
-         vjJagusyKaqs2acIAjPFrCwXDzUAiXOfdBxdNNKBVW2bVxl3hdi/3NEyptJbcHxmQp1S
-         QSaA==
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=qde8t3vRUc/hQ/MC7JEYphNWgl9OWJai6PKBunRXPXA=;
+        b=lMKcXJnvcttkwHN0EbPnQfc1IC1TeYfDz2/nKRisC3XiSrB6PRb6AMLIkRVM3+cbXv
+         iSFdihYCojZZbCI4glgaa3Lz74NEbsN/kPs0wpfm/7+amrmd9LCoShpr0Id6Kx9ieenf
+         mIuqI/Zqr06HVNstAfDNtLuoPQ0TkhhpbiSQwy7X8XiTYsU5XWgZeHOzRH7pU20SKimY
+         0LtRVMhyDxnuDRD4qQ6H5emdnmTEuNwSTu8+HDURfpB4WZcz0ajyGLhdY9v6oS/GzE1y
+         BHDTbisHQnjiUv9Yu5jUZf5t4lke+TxWj7+CKHzhXHeSxITy+6mhIzInLIFAvEdHIDoQ
+         CIBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=N8o0WCkgmNcRVLVFgbGXJgHA8SmIuPpmu2c2tbvo+tw=;
-        b=lhI4lmXfIoG4UzxzPpfDP1xtRGjKDqANBaFHzeUdFxoxWxN9Q/t3TpiQJcQDMXWSc8
-         G6ZzMm3+IL1XPfXGEsVJFfNp4Trfgq0agJDwiTnikTE99FarMZYV0/9MgkX6RkLbWWXy
-         aCLd0gljXkpTXXVK/NTSTRC7pxrJ2ZfITh3ctwwm/wFNCgSX2wFFlnfIGWUjiBT2NXWV
-         X5FkMUHIQ7ZyDyOQECbt5T8X8dzVsfl0Ju+/RF9Tnv8Dr1G7wx+yjtBely9r80pYIQky
-         DiIeFciOPb9TRmlu3VJ4ySbg8X28eTtrwN3ZbxbVPHrw01pmRjXRXAYSlazS4H5zEK1r
-         r/SQ==
-X-Gm-Message-State: AGi0PuZeykTisLaFVOnftIHx3h9urGZ1wQJuR2mL7ApkPS4nUIc0cU0C
-        0J5eOOPJ3WcgnLHSjThWfyBGMIPLKSPnc/33C0k=
-X-Google-Smtp-Source: APiQypLRoWdeYknVupE+6N8yAi1xDxWATm+stncb9njAtDCMiRIWkFBmlcq9r4s+xdnKcd1PEPCOx2mPQcXe0iWsqp8=
-X-Received: by 2002:a7b:cc8e:: with SMTP id p14mr2914876wma.70.1588252383121;
- Thu, 30 Apr 2020 06:13:03 -0700 (PDT)
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qde8t3vRUc/hQ/MC7JEYphNWgl9OWJai6PKBunRXPXA=;
+        b=YsILYFAR32LJqnoMTOfitLmbeOJMuz6xK0+LxnbQfh+yKiIDTtrP0Q++H82evq5TF5
+         ocBZneha8HIrND0dQi07mWsLK3DKBOgxEJQ+g9IS63F9GW19eQd92+nWEJmGgHRA8c2u
+         R9olJkzyu3sZ/WPJw5Wf+0uIw6qtVbBH9E9BNlIVH+hVdBieRh0L7qs/maiyYGQbS6Ci
+         /eLQd9uocNCFf9XtDIx3wzezNaV2VogKwNcO+x8g2QD3RPFrieNRQ2kFVy1z6/azcZ/0
+         PAPZ4KWtJyVS181KyWUSYY404P7ir/F3Xmknr7C3qlWPmZr617kOQCSj9DWDRJYB/ldE
+         QmCA==
+X-Gm-Message-State: AGi0PuZBa3fSQkKA6s+yF0a1xiZp+dEDGaYEJUKNzL8eyNinFfXw0Aw4
+        qNmzSK/DZnj4O0z6tSv45YCvBReR
+X-Google-Smtp-Source: APiQypKVnFF7PMVGH7zBRJZEH4i3Y3qqneV0Yoo3oMoTYqDvFv2MSojkc9RD0I7qj0CVmALYXElfpQ==
+X-Received: by 2002:a2e:99c2:: with SMTP id l2mr2248343ljj.92.1588253061664;
+        Thu, 30 Apr 2020 06:24:21 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id h6sm4566128ljj.29.2020.04.30.06.24.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2020 06:24:20 -0700 (PDT)
+Subject: Re: [RFC PATCH v1 3/5] media: tegra-video: Move PM runtime handle to
+ streaming
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <1588047650-29402-1-git-send-email-skomatineni@nvidia.com>
+ <1588047650-29402-4-git-send-email-skomatineni@nvidia.com>
+ <631390cb-9aff-0e3f-6c39-81d6c565987e@gmail.com>
+ <3ef69413-a606-b475-f530-d5534760b73b@nvidia.com>
+ <2b334095-fadb-bf0a-f7a8-62fc798c2bd2@gmail.com>
+ <18a7b095-7f0f-7819-c786-7e011cfd14ed@nvidia.com>
+ <ce31e273-f424-f13e-5cd6-0db2589a2a10@gmail.com>
+ <5741d5d3-e474-e23c-4841-809df5760067@nvidia.com>
+ <f6e34203-3e4b-b804-30a5-bf78445ab366@gmail.com>
+Message-ID: <6a676161-e948-9afc-296b-ccd1df202e36@gmail.com>
+Date:   Thu, 30 Apr 2020 16:24:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200430085318.114894-1-jian-hong@endlessm.com>
-In-Reply-To: <20200430085318.114894-1-jian-hong@endlessm.com>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Thu, 30 Apr 2020 09:12:51 -0400
-Message-ID: <CADnq5_MjWEj6UwNZnuz=s+w=Hru7Gyzn8_rWAEDMH16MQZOiDg@mail.gmail.com>
-Subject: Re: [PATCH] drm/radeon: drm/amdgpu: Disable [1002:6611] in radeon
-To:     Jian-Hong Pan <jian-hong@endlessm.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        David Zhou <David1.Zhou@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Tianci . Yin" <tianci.yin@amd.com>,
-        =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Linux Upstreaming Team <linux@endlessm.com>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <f6e34203-3e4b-b804-30a5-bf78445ab366@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 30, 2020 at 9:08 AM Jian-Hong Pan <jian-hong@endlessm.com> wrote:
->
-> The AMD/ATI Oland [1002:6611]'s HDMI output status is not synchronous
-> as shown on UI after hot re-plug the HDMI cable, if it is radeon in
-> used. The amdgpu module does not hit this issue.
->
-> This patch disables [1002:6611] in radeon and enables it in amdgpu.
->
-> Fixes: https://gitlab.freedesktop.org/drm/amd/-/issues/1117
-> Signed-off-by: Jian-Hong Pan <jian-hong@endlessm.com>
+28.04.2020 19:04, Dmitry Osipenko пишет:
+...
+>>>>>>>> +             ret = pm_runtime_get_sync(csi->dev);
+>>>>>>>> +             if (ret < 0) {
+>>>>>>>> +                     dev_err(csi->dev,
+>>>>>>>> +                             "failed to get runtime PM: %d\n",
+>>>>>>>> ret);
+>>>>>>>> +                     pm_runtime_put_noidle(csi->dev);
+>>> Why this pm_runtime_put_noidle() is needed? This should be wrong, please
+>>> remove it.
+>>
+>> pm_runtime_get_sync() increments power.usage_count prior to rpm_resume
+>>
+>> if rpm_resume fails it does not decrement usage_count.
+>>
+>> So to balance count on failure, calling pm_runtime_put_noidle()
+> 
+> Hmm.. maybe you're right. I'll need to take a more detailed look.
+> 
 
-Nack.  Amdgpu does not have support for VCE or UVD yet so you are just
-trading one issue for another.  It would be better to figure out why
-the audio is not updated properly in some cases.
-
-Alex
-
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 11 +++++++++++
->  include/drm/drm_pciids.h                |  1 -
->  2 files changed, 11 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> index 8ea86ffdea0d..1ad6f13a5bc0 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
-> @@ -1017,6 +1017,15 @@ MODULE_DEVICE_TABLE(pci, pciidlist);
->
->  static struct drm_driver kms_driver;
->
-> +static void amdgpu_pci_fixup(struct pci_dev *pdev)
-> +{
-> +#ifdef CONFIG_DRM_AMDGPU_SI
-> +       /* [1002:6611] is disabled in radeon, so enable si_support in amdgpu. */
-> +       if (pdev->vendor == PCI_VENDOR_ID_ATI && pdev->device == 0x6611)
-> +               amdgpu_si_support = 1;
-> +#endif
-> +}
-> +
->  static int amdgpu_pci_probe(struct pci_dev *pdev,
->                             const struct pci_device_id *ent)
->  {
-> @@ -1036,6 +1045,8 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
->                 return -ENODEV;
->         }
->
-> +       amdgpu_pci_fixup(pdev);
-> +
->  #ifdef CONFIG_DRM_AMDGPU_SI
->         if (!amdgpu_si_support) {
->                 switch (flags & AMD_ASIC_MASK) {
-> diff --git a/include/drm/drm_pciids.h b/include/drm/drm_pciids.h
-> index b7e899ce44f0..57368a0f5b82 100644
-> --- a/include/drm/drm_pciids.h
-> +++ b/include/drm/drm_pciids.h
-> @@ -171,7 +171,6 @@
->         {0x1002, 0x6607, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_OLAND|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP}, \
->         {0x1002, 0x6608, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_OLAND|RADEON_NEW_MEMMAP}, \
->         {0x1002, 0x6610, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_OLAND|RADEON_NEW_MEMMAP}, \
-> -       {0x1002, 0x6611, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_OLAND|RADEON_NEW_MEMMAP}, \
->         {0x1002, 0x6613, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_OLAND|RADEON_NEW_MEMMAP}, \
->         {0x1002, 0x6617, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_OLAND|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP}, \
->         {0x1002, 0x6620, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_OLAND|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP}, \
-> --
-> 2.26.2
->
-> _______________________________________________
-> amd-gfx mailing list
-> amd-gfx@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+I checked the RPM's use-count after error condition and yours variant is
+correct. Perhaps we should start correcting all other Tegra drivers that
+do not handle the RPM error properly.
