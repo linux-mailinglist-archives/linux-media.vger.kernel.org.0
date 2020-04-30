@@ -2,132 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01C361BFC95
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 16:07:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6BEB1BFAEF
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 15:56:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728489AbgD3Nwo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 09:52:44 -0400
-Received: from conssluserg-06.nifty.com ([210.131.2.91]:26111 "EHLO
-        conssluserg-06.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728361AbgD3Nwo (ORCPT
+        id S1729262AbgD3N4t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 09:56:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55640 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728885AbgD3N4s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 09:52:44 -0400
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41]) (authenticated)
-        by conssluserg-06.nifty.com with ESMTP id 03UDqPGZ032676;
-        Thu, 30 Apr 2020 22:52:25 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 03UDqPGZ032676
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1588254745;
-        bh=9ltjNZ8e4vrC7cBbZIWrYc76JCI/RhItJRQkfkK98AE=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=R86dw4zvy/H/eesDgAJVTUk+Cc3K8OruRnFRIPPbqkF2uwBuu/wY+B+V4UjIWmLhN
-         BQFyZu3SzNgetMRDO4PIKfSKHbINrQWqRo3hNRs2MLPN3rFP519zMJ87heGncNA4o1
-         2BZbh2kq+XE44vTGGI1CD1F6ahvvJCL6kUuMqp+Jv8kSWC8WhxEr2FbhhY0x1eiR1y
-         Y6U1XLNZterOCcl9k5ZEgrBhTS8u/6Jq5QwrOkH8xwVn6qglGcc/Q1r25LRylvhKTB
-         z7HetM64+oxIMuFXv+euF7Q++/ouE4u8b274o+t26rFsiXltG005+jS/GUfObL905B
-         ywdYixoSH1poA==
-X-Nifty-SrcIP: [209.85.217.41]
-Received: by mail-vs1-f41.google.com with SMTP id e10so1273031vsp.12;
-        Thu, 30 Apr 2020 06:52:25 -0700 (PDT)
-X-Gm-Message-State: AGi0PuYjcm1oxK+UPt+X8xsEf1IA2SyrBwikPi9VuZyICQ5e/0Tj+Jul
-        GA8SSD4zn6GoyHT40duoD+pdBPPjESdRfGYrbLE=
-X-Google-Smtp-Source: APiQypIy9756CPvWD3ER84r/D6PmKnL8yZmjLBInKlAqsGjqLulysxLmU7+IFcPqJmEmIY/ijlBjOyjjXpQdbOHVeZc=
-X-Received: by 2002:a05:6102:240f:: with SMTP id j15mr3325751vsi.155.1588254744247;
- Thu, 30 Apr 2020 06:52:24 -0700 (PDT)
+        Thu, 30 Apr 2020 09:56:48 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 966A7C035494;
+        Thu, 30 Apr 2020 06:56:47 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id 188so1281687lfa.10;
+        Thu, 30 Apr 2020 06:56:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=3gswp6hcYzQc3s447UZL4JEqcj83pPEFgQbY9aLBIPE=;
+        b=XDiRg0coz1JSo501wpD7JZHgkWVAmnY6dM/sDPCrf1o6il2EB8ZMP4RQ7pUXLVURMp
+         POM8/vHxH8TuIX2sLXN+r09H+e+kg7n5VQDlTdYfWlmJ/qQW3sioaud0ngdkWeeW8cCW
+         TAqwfDk2mKWpU2+UkHrwr/uSs7fZP+eUpX28wZyEnbRrKV1q8xuU9Zs2wzIjfaDwQpRN
+         eLUNu3KB30UDufqPl8kx8K8z0Iis9OcpJQSA5TYrWQ+dl/3u5fSFsyTAKtAdzg4nsaLZ
+         XuiZiKQIxtg55yPfKOl6w3YP8/1TLD0wtgl8L6WqG5PU8OD8yyk/XYFWRtCijy8Z95rE
+         BZKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=3gswp6hcYzQc3s447UZL4JEqcj83pPEFgQbY9aLBIPE=;
+        b=pXb/qLLw3V9MXdgAhvGR0+5kZ9guLtNYmAl2UUanL6dRJDB6/RaPAfa4Gy7nHfjGkz
+         NiO4ieNQANA1VhbccZ7OXLFuwgUEhkXr1dH0F8UQUT3nPrRXPkHd+pkSsEmXJWNr357C
+         WND+AmmJZI8W0bLV+aFsOW4cLH7V8RCKJyKNTVwbtYlOY5zfFtYfzygzFxn9rCIAi1Ce
+         04KqP73RL7nUOHzCKPvd4LZZtGMevC9aP4pe1FN3mnmiUEFVcOngyVajyENpWG+FZJ9U
+         zKHJXkQk/2w3KqmVTdDuN9FzuMLAHKMuOVb9+AQq58MLxs6KVLi9/4NGe4uayYyyy8OX
+         U5Dg==
+X-Gm-Message-State: AGi0PuaS9+g0pG1VQAkNFAZLywmlybmLxaIU0RdqP8qY+LsQsDFu11tS
+        hsPVkazMFIPEb+HPpWdqqxaOJz8Q
+X-Google-Smtp-Source: APiQypK46PRL3v3DYR8dl4DeEVpliW6UGYANs3SGyaSLfacl+8hLEH5qKMGOTotKyFCr+Sq00HlE2Q==
+X-Received: by 2002:ac2:489b:: with SMTP id x27mr2308645lfc.60.1588255005883;
+        Thu, 30 Apr 2020 06:56:45 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id j23sm548483lfh.65.2020.04.30.06.56.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2020 06:56:45 -0700 (PDT)
+Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
+ <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <bacc4308-4b95-f566-b80e-096ff96407b5@gmail.com>
+Date:   Thu, 30 Apr 2020 16:56:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200430131715.32c1a1f6@coco.lan>
-In-Reply-To: <20200430131715.32c1a1f6@coco.lan>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Thu, 30 Apr 2020 22:51:48 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASmVoZequqaj6MTimeZ0MG0fk7Wb5-9haFhgG03kDBpxg@mail.gmail.com>
-Message-ID: <CAK7LNASmVoZequqaj6MTimeZ0MG0fk7Wb5-9haFhgG03kDBpxg@mail.gmail.com>
-Subject: Re: bug: Kbuild seems to require "make prepare-objtool" in order to
- use (some) new config vars
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+30.04.2020 01:00, Sowjanya Komatineni пишет:
+> +static int chan_capture_kthread_finish(void *data)
+> +{
+> +	struct tegra_vi_channel *chan = data;
+> +	struct tegra_channel_buffer *buf;
+> +
+> +	set_freezable();
+> +
+> +	while (1) {
+> +		try_to_freeze();
 
+I guess it won't be great to freeze in the middle of a capture process, so:
+		if (list_empty(&chan->done))
+			try_to_freeze();
 
-On Thu, Apr 30, 2020 at 8:17 PM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Hi Masahiro,
->
-> Not sure if this was already reported (or eventually fixed) upstream.
->
-> While doing a Kconfig reorg on media, I noticed a few weird things,
-> requiring me to call, on a few situations, "make modules_prepare"
-> manually after some changes.
->
-> I'm now working on a patchset to yet to be merged upstream aiming to
-> resurrect a driver from staging. It is currently on this tree
-> (with is based at the media development tree, on the top of 5.7-rc1):
->
->         https://git.linuxtv.org/mchehab/experimental.git/log/?h=atomisp_v2
->
-> There, I was able to identify a misbehavior that it is probably
-> what forced me to need calling "make modules_prepare".
->
-> The atomisp driver is on a very bad shape. Among its problems, it has a
-> set of header definitions that should be different for two different
-> variants of the supported devices. In order to be able to compile for
-> either one of the variants, I added a new config var:
-> CONFIG_VIDEO_ATOMISP_ISP2401.
->
-> The problem is that calling just
->
->         ./scripts/config -e CONFIG_VIDEO_ATOMISP_ISP2401
->
-> or
->         ./scripts/config -d CONFIG_VIDEO_ATOMISP_ISP2401
+> +		wait_event_interruptible(chan->done_wait,
+> +					 !list_empty(&chan->done) ||
+> +					 kthread_should_stop());
+> +
+> +		/* dequeue buffers and finish capture */
+> +		buf = dequeue_buf_done(chan);
+> +		while (buf) {
+> +			tegra_channel_capture_done(chan, buf);
+> +			buf = dequeue_buf_done(chan);
+> +		}
+> +
+> +		if (kthread_should_stop())
+> +			break;
+> +	}
+> +
+> +	return 0;
+> +}
 
-
-scripts/config does not take the dependency into consideration
-at all.
-
-You need to enable/disable other options that it depends on.
-
-
-./scripts/config -e STAGING -e STAGING_MEDIA -e MEDIA_SUPPORT -e
-MEDIA_CONTROLLER -e INTEL_ATOMISP -e VIDEOBUF_VMALLOC -e VIDEO_ATOMISP
--d MEDIA_SUPPORT_FILTER -e VIDEO_DEV -e VIDEO_V4L2 -e
-VIDEO_ATOMISP_ISP2401
-
-allows me to enable VIDEO_ATOMISP_ISP2401.
-
-
-It is painful to debug such complicated dependency graph, though.
-
-
->
-> is not enough anymore for the build to actually use the new config value.
->
-> It just keeps silently using the old config value.
->
-> I double-checked it by adding this macro at the Makefile:
->
->         $(info ************ ISP2401: $(CONFIG_VIDEO_ATOMISP_ISP2401) ************)
->
-> The Makefile doesn't see the change, except if I explicitly call
-> "make modules_prepare" or "make prepare-objtool".
->
-> Even calling "make oldconfig" doesn't make it use the new CONFIG_*
-
-
-I do not know.
-
-I cannot look into it without detailed steps to reproduce it.
-
-
-
--- 
-Best Regards
-Masahiro Yamada
