@@ -2,87 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73F8B1C0647
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 21:25:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DAFC1C065D
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 21:29:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726691AbgD3TZQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 15:25:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47066 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726272AbgD3TZQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 15:25:16 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7D8F52072A;
-        Thu, 30 Apr 2020 19:25:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588274715;
-        bh=+7YJ0F1f3t1J9sJB435G2DWcTRqHj08byBs/EBxxpUE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=eLexogwtOcM4N+0UYjECMimdHQ1opWtbze6Dopj5VT/8YNtXib+uDpzQ+/j7L1wM7
-         gO7qJfjWBGp/EUqclA9T2dFbzn7epFKMoqif+CwAY1rvNnNdS9GaFG/7gci0ZG5mEH
-         gP89jPiJs/LD6qCbcNj9srmmHA07LUSjwbSMf6aM=
-Date:   Thu, 30 Apr 2020 21:25:11 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Masahiro Yamada <masahiroy@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: [PATCH RFC] Kbuild: Makefile: warn if auto.conf is obsolete
-Message-ID: <20200430212511.2115ed98@coco.lan>
-In-Reply-To: <20200430211009.3fef03f3@coco.lan>
-References: <20200430131715.32c1a1f6@coco.lan>
-        <CAK7LNASmVoZequqaj6MTimeZ0MG0fk7Wb5-9haFhgG03kDBpxg@mail.gmail.com>
-        <20200430184948.27191975@coco.lan>
-        <CAK7LNASx5qfV_6Wow-MVKsHXUX96m8yYvpeK1QVt+2i46FTMNg@mail.gmail.com>
-        <20200430211009.3fef03f3@coco.lan>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726814AbgD3T3W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 15:29:22 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:8943 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726396AbgD3T3V (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 30 Apr 2020 15:29:21 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5eab26ce0001>; Thu, 30 Apr 2020 12:28:14 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 30 Apr 2020 12:29:21 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 30 Apr 2020 12:29:21 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
+ 2020 19:29:20 +0000
+Received: from [10.2.165.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
+ 2020 19:29:19 +0000
+Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
+ <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+ <18d457dd-17cb-633e-cdec-e0abfe73b0b0@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <10286a40-ed3c-1999-68fa-7099130a2423@nvidia.com>
+Date:   Thu, 30 Apr 2020 12:27:52 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <18d457dd-17cb-633e-cdec-e0abfe73b0b0@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1588274894; bh=+3lStLw5yssQ0AKxd+sc1j1usFslZ6/M/9XZ4GHBV9w=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=VgEzGXuHYNGSQ+lgeTnPiB/xxffHbRX9bSPslEoyb5hWTxK4OHySD9I0srZBKKBTm
+         Vep79jUMJmlAkESyVFlbqjXU0n7RN2HsDJOqdzui7G9QMu+Rw/DKjINMx/O3eA8xo6
+         FcGdfSV4vaoenWB+ItVETxBgdxBIy7i/KEX3eqoCFeyP3zJ24nLq+3WPN1nDx0U60B
+         SIEI529dw2XeiX/M1JCov7c6OPz4DKKd9FJeMVajjS8z1VexD+5y8Y09VPBAVtr6mV
+         AL4Vd9qcwTRQCW3F8VNB3sx6kiAAbz06kC6uJjFDczETj9v4/T4+MuXwjNSG+Cnsto
+         I/+RD7azUQunA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-A new behavior on more recent kernels require to always call
-"make modules_prepare" after *any* Kconfig changes.
 
-This is not what a poor mortal would be expecting on a building
-system, as it should, IMHO, be able to detect and auto-run
-whatever is needed to use the newer setup.
+On 4/30/20 6:34 AM, Dmitry Osipenko wrote:
+> 30.04.2020 01:00, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> +static int tegra_csi_init(struct host1x_client *client)
+>> +{
+>> +	struct tegra_csi *csi =3D host1x_client_to_csi(client);
+>> +	struct tegra_video_device *vid =3D dev_get_drvdata(client->host);
+>> +	int ret;
+>> +
+>> +	INIT_LIST_HEAD(&csi->csi_chans);
+>> +
+>> +	ret =3D tegra_csi_tpg_channels_alloc(csi);
+>> +	if (ret < 0) {
+>> +		dev_err(csi->dev,
+>> +			"failed to allocate tpg channels: %d\n", ret);
+>> +		goto cleanup;
+>> +	}
+>> +
+>> +	ret =3D tegra_csi_channels_init(csi);
+>> +	if (ret < 0)
+>> +		goto cleanup;
+>> +
+>> +	vid->csi =3D csi;
+>> +
+>> +	return 0;
+>> +
+>> +cleanup:
+>> +	tegra_csi_channels_cleanup(csi);
+>> +	pm_runtime_put_sync(csi->dev);
+> This pm_runtime_put_sync() should be removed.
 
-Yet, while this is not solved, let's at least stop the build
-and produce a warning, to notify the user about that.
+Sorry, I had it correct in follow-up patches and missed this to remove=20
+in v12.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
+Will double check all changes before sending v12 once all v11 feedback=20
+from you is done.
 
-I would still prefer to call "make modules_prepare" directly,
-on such cases, but just calling "make -C . modules_prepare" doesn't
-work. So, the next best thing would be to at least print a message
-and don't try to do a build with a broken auto.conf file.
-
- Makefile | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/Makefile b/Makefile
-index 70def4907036..492ee2396ab9 100644
---- a/Makefile
-+++ b/Makefile
-@@ -1632,6 +1632,11 @@ $(objtree)/Module.symvers:
- build-dirs := $(KBUILD_EXTMOD)
- PHONY += modules
- modules: descend $(objtree)/Module.symvers
-+	@if [ $(KCONFIG_CONFIG) -nt include/config/auto.conf ]; then \
-+		echo "  WARNING: $(KCONFIG_CONFIG) was modified. Need to run:"; \
-+		echo "           $(MAKE) modules_prepare"; \
-+		exit -1; \
-+	fi
- 	$(Q)$(MAKE) -f $(srctree)/scripts/Makefile.modpost
- 
- PHONY += modules_install
--- 
-2.25.4
-
+>
+>> +	return ret;
+>> +}
