@@ -2,125 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F96F1C06F1
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 21:48:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41AB11C0706
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 21:53:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726396AbgD3Tsm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 15:48:42 -0400
-Received: from gofer.mess.org ([88.97.38.141]:56767 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726318AbgD3Tsm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 15:48:42 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 2BF79C63EF; Thu, 30 Apr 2020 20:48:40 +0100 (BST)
-Date:   Thu, 30 Apr 2020 20:48:40 +0100
-From:   Sean Young <sean@mess.org>
-To:     Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
-Cc:     linux-media@vger.kernel.org, rosenp@gmail.com, hverkuil@xs4all.nl,
-        p.zabel@pengutronix.de, laurent.pinchart@ideasonboard.com,
-        ezequiel@collabora.com, nicolas@ndufresne.ca,
-        kieran.bingham@ideasonboard.com
-Subject: Re: [RFC PATCH v3 1/1] Add support for meson building
-Message-ID: <20200430194840.GA19358@gofer.mess.org>
-References: <20200429151639.5003-1-ariel@vanguardiasur.com.ar>
- <20200429151639.5003-2-ariel@vanguardiasur.com.ar>
+        id S1726816AbgD3TxO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 15:53:14 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:10134 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726436AbgD3TxO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 30 Apr 2020 15:53:14 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5eab2c660003>; Thu, 30 Apr 2020 12:52:06 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 30 Apr 2020 12:53:13 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 30 Apr 2020 12:53:13 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
+ 2020 19:53:04 +0000
+Received: from [10.2.165.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
+ 2020 19:53:03 +0000
+Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
+ <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+ <34a49a30-71f2-5b24-20a4-7d98ae37cefa@gmail.com>
+ <1b23178b-0e5c-c97e-434c-f9cc3c02805b@nvidia.com>
+ <ebfb532b-bcd2-f356-49e0-e4d72d0db933@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <9b2b36ad-82cb-bcf6-24d6-3533b51918c8@nvidia.com>
+Date:   Thu, 30 Apr 2020 12:51:35 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200429151639.5003-2-ariel@vanguardiasur.com.ar>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <ebfb532b-bcd2-f356-49e0-e4d72d0db933@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1588276326; bh=YGHHf9FqhJUSc/izYrsM7kJipcRMrjm3r41ZO5HxE7U=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=A3x0Mf4xuUyXXBzN+BVHVOzIlC/+1KQzA9+TVaNB6MZFEzC3+TPfBBFd+7IsoZvHi
+         EIsASEXuAQTh6ITQDAaPM+fRL+OGqmdHflmV/P0PoL/ade0a5twYh5s4EITIYrTGQG
+         WSWzU692tZGgVXd6C6Lr9YXjUnjxnH8gGmIColYdDY/nwJ/MNwo6MMyk6wkTqOAmeK
+         BipjTt+MBuPqcbEm+qadPkCj+k6iUP6pviCMfqZ5w4lQbKNwWlGE0dERmKjtZN9uOT
+         v1MRDttwZvhCWXd55KZdIlDCTXsjJxRAa1h5NzCxix/6tgVUgaYZ2OY9IwAFu7SJxj
+         Ian0977At6n7Q==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Apr 29, 2020 at 12:16:39PM -0300, Ariel D'Alessandro wrote:
-> Supports building libraries and tools found in contrib/, lib/ and
-> utils/ directories, along with the implemented gettext translations.
-> 
-> Co-developed-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> Signed-off-by: Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
-> ---
->  .gitignore                                    |   1 +
 
-...
+On 4/30/20 12:47 PM, Dmitry Osipenko wrote:
+> 30.04.2020 22:32, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> On 4/30/20 6:38 AM, Dmitry Osipenko wrote:
+>>> 30.04.2020 01:00, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>> +/**
+>>>> + * struct tegra_csi_ops - Tegra CSI operations
+>>>> + *
+>>>> + * @csi_streaming: programs csi hardware to enable or disable
+>>>> streaming.
+>>>> + * @csi_err_recover: csi hardware block recovery in case of any
+>>>> capture errors
+>>>> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 due to missing source st=
+ream or due to improper csi input
+>>>> from
+>>>> + *=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the external source.
+>>>> + */
+>>>> +struct tegra_csi_ops {
+>>>> +=C2=A0=C2=A0=C2=A0 int (*csi_streaming)(struct tegra_csi_channel *csi=
+_chan, u8
+>>>> pg_mode,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 int enable);
+>>> What about to split csi_streaming() into csi_start_streaming() /
+>>> csi_stop_streaming()?
+>>>
+>>> This will make tegra_csi_ops to be consistent with the tegra_ve_ops. A
+>>> separated start/stop operations are somewhat more natural to have in
+>>> general.
+>> vi ops is for vb2_ops which has separate start/stop so has seperate
+>> start/stop for vi ops.
+>>
+>> csi is subdev and csi ops is for v4l2_subdev_ops which as s_stream
+>> callback only.
+>>
+>> So, created single stream function for csi to match same as subdev_ops.
+> It will be nicer to have separate ops for CSI, regardless of the
+> subdev_ops. It should be okay to have a single-combined ops if CSI
+> start/stop was trivial, but it's not the case here.
+>
+> For example, the pm_runtime_put() shouldn't be invoked if stream's
+> stopping fails. The stopping can't fail for the current code, but this
+> could change in the future.
+>
+> You could make csi_streaming to return void, telling explicitly that
+> this code can't fail. Then the combined OPS should be okay to have.
 
-> +# Detect system gconv directory
-> +gconvsysdir = get_option('gconvsysdir')
-> +
-> +# Generic check: works with most distributions
-> +gconv_dirs_generic = [
-> +    '/lib',
-> +    '/lib64',
+we don't return anything for stop stream. OK can make it split to=20
+explicitly specify no return code during stop stream.
 
-On Fedora 32 (just released yesterday), I have to /lib64 before /lib in this
-list. Otherwise, dep_jis becomes /lib/gconv/libJIS.so, which is the 32
-bit version. It should be /lib64/gconv/libJIS.so
+will split this in v12
 
-> +    '/usr/lib',
-> +    '/usr/lib64',
-> +    '/usr/local/lib',
-> +    '/usr/local/lib64',
-> +]
-> +
-> +if gconvsysdir == ''
-> +    foreach dir : gconv_dirs_generic
-> +        dir = dir / 'gconv'
-> +        if fs.is_dir(dir)
-> +            gconvsysdir = dir
-> +            break
-> +        endif
-> +    endforeach
-> +endif
-> +
-> +# Debian/Ubuntu-specific check: should be aligned with the debian package
-> +gconv_dirs_debian = [
-> +    'alphaev67-linux-gnu',
-> +    'arm-linux-gnueabi',
-> +    'arm-linux-gnueabihf',
-> +    'i686-kfreebsd-gnu',
-> +    'i686-linux-gnu',
-> +    'mips-linux-gnu',
-> +    'mips64-linux-gnuabi64',
-> +    'mips64-linux-gnuabin32',
-> +    'mips64el-linux-gnuabi64',
-> +    'mips64el-linux-gnuabin32',
-> +    'mipsel-linux-gnu',
-> +    'mipsisa32r6-linux-gnu',
-> +    'mipsisa32r6el-linux-gnu',
-> +    'mipsisa64r6-linux-gnuabi64',
-> +    'mipsisa64r6-linux-gnuabin32',
-> +    'mipsisa64r6el-linux-gnuabi64',
-> +    'mipsisa64r6el-linux-gnuabin32',
-> +    'powerpc-linux-gnu',
-> +    'powerpc64-linux-gnu',
-> +    's390-linux-gnu',
-> +    'sparc64-linux-gnu',
-> +    'sparcv9-linux-gnu',
-> +    'x86_64-linux-gnu',
-> +    'x86_64-linux-gnux32',
-> +]
-> +if gconvsysdir == ''
-> +    foreach dir : gconv_dirs_debian
-> +        dir = '/usr' / 'lib' / dir / 'gconv'
-> +        if fs.is_dir(dir)
-> +            gconv_dir = dir
-> +            break
-> +        endif
-> +    endforeach
-> +endif
-> +
-> +dep_jis = cc.find_library('JIS', required : get_option('gconv'), dirs : gconvsysdir)
-> +dep_jisx0213 = cc.find_library('JISX0213', required : get_option('gconv'), dirs : gconvsysdir)
-> +
-> +dep_jpeg = dependency('libjpeg', required : get_option('jpeg'))
-> +if dep_jpeg.found()
-> +    dep_jpeg_priv_libs = '-ljpeg'
-> +endif
-
-
-Looks great otherwise, thank you for doing this!
-
-
-Sean
