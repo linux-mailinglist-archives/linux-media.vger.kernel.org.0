@@ -2,122 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FA721BFDCF
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 16:20:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5770C1BFDD4
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 16:21:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727865AbgD3OU2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 10:20:28 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37880 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726309AbgD3OU2 (ORCPT
+        id S1726906AbgD3OU6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 10:20:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59380 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726309AbgD3OU5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 10:20:28 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0DE45321;
-        Thu, 30 Apr 2020 16:20:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1588256426;
-        bh=y2PsAauFIXGCIqWqheeij6vlSTYDffjTnW42XNRYk9c=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=a5wr02LbeaRy801vibzYJaPl7k7MplN6oN/MwAdSu1+l3dpGCEvT7kBl3kldBQjCA
-         mpw8mzlOWMMig8slWa9n9M0VPL5kM/JumATTQQZLRQCQb81sVzTmm3LDU5E33DMm1R
-         ylhpKSPrevZzm6RVI5FhCi0c4ERchuitzU93bXcs=
-Date:   Thu, 30 Apr 2020 17:20:24 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Daniel Gomez <daniel@qtec.com>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/3] media: v4l2-subdev.h: Add min and max enum
-Message-ID: <20200430142024.GK5856@pendragon.ideasonboard.com>
-References: <20200414200151.80089-1-daniel@qtec.com>
- <20200414200151.80089-2-daniel@qtec.com>
- <20200430094233.GE867@valkosipuli.retiisi.org.uk>
- <20200430111014.GD5856@pendragon.ideasonboard.com>
- <20200430133125.GL867@valkosipuli.retiisi.org.uk>
- <20200430135904.GI5856@pendragon.ideasonboard.com>
- <20200430141552.GO867@valkosipuli.retiisi.org.uk>
- <20200430141753.GJ5856@pendragon.ideasonboard.com>
- <20200430141849.GP867@valkosipuli.retiisi.org.uk>
+        Thu, 30 Apr 2020 10:20:57 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60C27C035494
+        for <linux-media@vger.kernel.org>; Thu, 30 Apr 2020 07:20:57 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id c124so1803503oib.13
+        for <linux-media@vger.kernel.org>; Thu, 30 Apr 2020 07:20:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=vU7NNDB88N8b7luDUTJQIrpl7937xKbm7PdW+jOV5J4=;
+        b=pyVQXCzRdeYFN35dxvsghsrXzIdcIbEYwc3EaNswiigQ56cZTaQdOFWpaTh0LfCcdm
+         2KjNZxbDLoiOShbqWhjVC9o5qbxrY7BWh0w5c+wVG3zivALqYuf86KUZjg5MdLb8W9j5
+         pICF3wLWqrM0bo3kIYJMJJyW8jKzWQXR9OH5A5rzn2vBpKJwwOImwWTVnzVH08xSth+I
+         9+4KH1ak29J3udYms0FoW4bD0Oh3Y2xYPy++zsxjMAbWXZc59UIOz4nbUiYnTT3lvxzn
+         mR2DQiqizyIRFsjO3i3lIyN/yI1wkbOWVcjCADgROSvUQboVCrBkRfFoDvvfSHp3Hy19
+         ZvDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=vU7NNDB88N8b7luDUTJQIrpl7937xKbm7PdW+jOV5J4=;
+        b=S2T2GfrWnfIj4Qb9F6zMPCkyd6z6iVoalAwjL+iglQlteXva9BceIA97ly4nXR4IFq
+         H1lbZjpk4EWa8rZRraTTf76yWPJc5Fk7E2FlGCvMksQJCW36AROFicoCXaRsd3nnqpYw
+         iWhy70LVbh6hvxiQlXSlVXbSB+naoteZKxPtWzqkAbzt9/7AjAM3LyDNZOtvdzy2zCbU
+         niEiSOk0iHIVyOAvfJE8xZi0A3VgeXJT044XjuDrEPvAJYi8HErMwx3EWBig+/E8rpdH
+         ESIi531SQnhqP6o6IXx+iBWtt1YRpxrDnYozazKFbLLXOJcr2D7aI81yS/FbGtzPaJZU
+         PbSw==
+X-Gm-Message-State: AGi0PuYedtoZ8tdLFiygn1iOPL2PbHiL9y4jmHTIi3a8ULuHvXeEG8IE
+        +x8tbHWnO1H8RcSxMKwss1NwIPZ+PA90MN9wdNocyQ==
+X-Google-Smtp-Source: APiQypKi11+B07gGR75YnzeMGeraH6AVLTAvNHkxcGX7oFLvFp4wW4F3hi8wb9UT3WC71m1+ov8vwd6qa2wRA4NbCjo=
+X-Received: by 2002:aca:d485:: with SMTP id l127mr1766826oig.119.1588256456666;
+ Thu, 30 Apr 2020 07:20:56 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200430141849.GP867@valkosipuli.retiisi.org.uk>
+References: <20200430015930.32224-1-vitor@massaru.org> <cb4d93a0-b967-f37d-ea01-0368c91b896e@infradead.org>
+ <0463c90cfbe2036235010c5f8b92af6a96c20f74.camel@massaru.org> <20200430043723.GA27272@ravnborg.org>
+In-Reply-To: <20200430043723.GA27272@ravnborg.org>
+From:   Sumit Semwal <sumit.semwal@linaro.org>
+Date:   Thu, 30 Apr 2020 19:50:45 +0530
+Message-ID: <CAO_48GGgeJ9cFeAfKB7GjLTwOzXxk_goKsi42ocRswwXkWh11g@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: Documentation: fix: `make htmldocs` warnings
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     Vitor Massaru Iha <vitor@massaru.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        brendanhiggins@google.com, LKML <linux-kernel@vger.kernel.org>,
+        Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hello Everyone,
 
-On Thu, Apr 30, 2020 at 05:18:49PM +0300, Sakari Ailus wrote:
-> On Thu, Apr 30, 2020 at 05:17:53PM +0300, Laurent Pinchart wrote:
-> > On Thu, Apr 30, 2020 at 05:15:52PM +0300, Sakari Ailus wrote:
-> >> On Thu, Apr 30, 2020 at 04:59:04PM +0300, Laurent Pinchart wrote:
-> >>> On Thu, Apr 30, 2020 at 04:31:25PM +0300, Sakari Ailus wrote:
-> >>>> On Thu, Apr 30, 2020 at 02:10:14PM +0300, Laurent Pinchart wrote:
-> >>>>> On Thu, Apr 30, 2020 at 12:42:33PM +0300, Sakari Ailus wrote:
-> >>>>>> On Tue, Apr 14, 2020 at 10:01:49PM +0200, Daniel Gomez wrote:
-> >>>>>>> Add min and max structures to the v4l2-subdev callback in order to allow
-> >>>>>>> the subdev to return a range of valid frame intervals.
-> >>>>>>> 
-> >>>>>>> This would operate similar to the struct v4l2_subdev_frame_size_enum and
-> >>>>>>> its max and min values for the width and the height. In this case, the
-> >>>>>>> possibility to return a frame interval range is added to the v4l2-subdev level
-> >>>>>>> whenever the v4l2 device operates in step-wise or continuous mode.
-> >>>>>> 
-> >>>>>> The current API only allows providing a list of enumerated values. That is
-> >>>>>> limiting indeed, especially on register list based sensor drivers where
-> >>>>>> vertical blanking is configurable.
-> >>>>>> 
-> >>>>>> I guess this could be extended to cover what V4L2, more or less. If we tell
-> >>>>>> it's a range, is it assumed to be contiguous? We don't have try operation
-> >>>>>> for the frame interval, but I guess set is good enough. The fraction is
-> >>>>>> probably best for TV standards but it's not what camera sensors natively
-> >>>>>> use. (But for a register list based driver, the established practice
-> >>>>>> remains to use frame interval.)
-> >>>>>> 
-> >>>>>> I'm also wondering the effect on existing user space; if a driver gives a
-> >>>>>> range, how will the existing programs work with such a driver?
-> >>>>>> 
-> >>>>>> I'd add an anonymous union with the interval field, the other field being
-> >>>>>> min_interval. Then the current applications would get the minimum interval
-> >>>>>> and still continue to function. I guess compilers are modern enough these
-> >>>>>> days we can have an anonymous union in the uAPI?
-> >>>>> 
-> >>>>> We can discuss all this, but given patch 3/3 in this series, I think
-> >>>>> this isn't the right API :-) The sensor driver should not expose the
-> >>>>> frame interval enumeration API. It should instead expose control of the
-> >>>>> frame rate through V4L2_CID_PIXEL_RATE, V4L2_CID_HBLANK and
-> >>>>> V4L2_CID_VBLANK.
-> >>>>> 
-> >>>> 
-> >>>> That would require also exposing the size of the pixel array (and the
-> >>>> analogue crop), in order to provide all the necessary information to
-> >>>> calculate the frame rate. No objections there; this is a new driver.
-> >>>> 
-> >>>> There are however existing drivers that implement s_frame_interval subdev
-> >>>> ioctl; those might benefit from this one. Or would you implement the pixel
-> >>>> rate based control as well, and effectively deprecate the s_frame_interval
-> >>>> on those?
-> >>> 
-> >>> That's what I would recommend, yes. I would only keep
-> >>> .s_frame_interval() for sensors that expose that concept at the hardware
-> >>> level (for instance with an integrated ISP whose firmware exposes a
-> >>> frame interval or frame rate control).
-> >> 
-> >> Sounds good to me.
-> >> 
-> >> Jacopo's set exposing read-only subdevs completes the puzzle so the user
-> >> space should have all it needs, right?
-> > 
-> > Until we run into the next missing piece :-)
-> 
-> I was thinking of the frame rate configuration. Can you confirm that?
+On Thu, 30 Apr 2020 at 10:07, Sam Ravnborg <sam@ravnborg.org> wrote:
+>
+> On Wed, Apr 29, 2020 at 11:27:22PM -0300, Vitor Massaru Iha wrote:
+> > On Wed, 2020-04-29 at 19:06 -0700, Randy Dunlap wrote:
+> > > On 4/29/20 6:59 PM, Vitor Massaru Iha wrote:
+> > > > Add missed ":" on kernel-doc function parameter.
+> > > >
+> > > > This patch fixes this warnings from `make htmldocs`:
+> > > > ./drivers/dma-buf/dma-buf.c:678: warning: Function parameter or
+> > > > member 'importer_ops' not described in 'dma_buf_dynamic_attach'
+> > > > ./drivers/dma-buf/dma-buf.c:678: warning: Function parameter or
+> > > > member 'importer_priv' not described in 'dma_buf_dynamic_attach'
+> > > >
+> > > > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> > > > ---
+> > > >  drivers/dma-buf/dma-buf.c | 4 ++--
+> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > > > index ccc9eda1bc28..0756d2155745 100644
+> > > > --- a/drivers/dma-buf/dma-buf.c
+> > > > +++ b/drivers/dma-buf/dma-buf.c
+> > > > @@ -655,8 +655,8 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
+> > > >   * calls attach() of dma_buf_ops to allow device-specific attach
+> > > > functionality
+> > > >   * @dmabuf:              [in]    buffer to attach device to.
+> > > >   * @dev:         [in]    device to be attached.
+> > > > - * @importer_ops [in]    importer operations for the
+> > > > attachment
+> > > > - * @importer_priv        [in]    importer private pointer for the
+> > > > attachment
+> > > > + * @importer_ops:        [in]    importer operations for the
+> > > > attachment
+> > > > + * @importer_priv:       [in]    importer private pointer for the
+> > > > attachment
+> > > >   *
+> > > >   * Returns struct dma_buf_attachment pointer for this attachment.
+> > > > Attachments
+> > > >   * must be cleaned up by calling dma_buf_detach().
+> > > >
+> > >
+> > > Sumit said that he would be applying my patch from April 7:
+> > > https://lore.kernel.org/linux-media/7bcbe6fe-0b4b-87da-d003-b68a26eb4cf0@infradead.org/
+> > >
+> > > thanks.
+> >
+> > Sorry. I didn't check if the patch has already been sent.
+>
+> Sumit - patch from Randy is neither applied to drm-misc-next nor
+> drm-misc-fixes.
+> A reminder in case it was lost somewhere.
 
-I believe so, yes.
+My bad: I have now applied it to drm-misc-fixes, so should be seen in
+-next soon.
 
--- 
-Regards,
+>
+>         Sam
 
-Laurent Pinchart
+Best,
+Sumit.
