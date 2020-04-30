@@ -2,140 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE8D81BFB55
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 15:59:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B017C1BFBE8
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 16:02:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728800AbgD3N7M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 09:59:12 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:37628 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729166AbgD3N7J (ORCPT
+        id S1728978AbgD3OC2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 10:02:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56524 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729147AbgD3OCX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 09:59:09 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E6246321;
-        Thu, 30 Apr 2020 15:59:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1588255146;
-        bh=GhmU8YETMOVIz97f3awqWGN1baPnypD27desAmZxvnM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=m0nCqzOK1A1eW641+wJC9vh12s4/oo687inR7KwWAJ0KfqiiA33qRsLDxYcMx6ii6
-         nLBqmMij+oZZhbjtiWkUkW2pvzh+f/SZwuwlfKT6O9T4OqGBt/h223EPPZfeexVlUe
-         6Cgq6VmXqw2elz+zFvEkTwg+mGUak8lKvy5fWD4o=
-Date:   Thu, 30 Apr 2020 16:59:04 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Daniel Gomez <daniel@qtec.com>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/3] media: v4l2-subdev.h: Add min and max enum
-Message-ID: <20200430135904.GI5856@pendragon.ideasonboard.com>
-References: <20200414200151.80089-1-daniel@qtec.com>
- <20200414200151.80089-2-daniel@qtec.com>
- <20200430094233.GE867@valkosipuli.retiisi.org.uk>
- <20200430111014.GD5856@pendragon.ideasonboard.com>
- <20200430133125.GL867@valkosipuli.retiisi.org.uk>
+        Thu, 30 Apr 2020 10:02:23 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37561C035494;
+        Thu, 30 Apr 2020 07:02:23 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id a21so6594391ljb.9;
+        Thu, 30 Apr 2020 07:02:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=N+Ht0CmfDxJVUU6J4yFlhD6kd2eTTrdGjBG9WTx/UyQ=;
+        b=XPLsH1OV1IK/7IHKpVHzrXqje08ez4AfmDTnVvgYOvBOy0FfpRqK+D9XYPlaE05rNQ
+         tbWt8gHkoewEz1ZUIHtmfsi6katLHTeLsDVuZdrrb/9kmBnnr7Nqg4uaZMHik+Lfx6bT
+         CnqceWSKVJEUN9qF/EyddjcmjwKe2GCmxEKpOxxTndVb9qiTjOzT0MYSxJFK+kGc+B1U
+         ss1n7PFEVRDR/o9znXtZsEQYylgNtoHQJBLwCePduH/UfxVLEX40B8VRVdyP8pEunGTV
+         kZTPfxQ4HNrinx9RBPk88XHaX88dN3YSuwQOdCnup6aHtdw0gsWv+BchoKbWH6xQEaEw
+         K0mg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=N+Ht0CmfDxJVUU6J4yFlhD6kd2eTTrdGjBG9WTx/UyQ=;
+        b=s57I4YQgB+D0UXAnhqsItvyDVqjJNqarQ00pQ/nIAnEcQUg+rjc9mJVF93UqcRDv+9
+         BJ87PNUr0/ZI4c83Ey5jbxBj2bGsIVMNyhgaE6y+hK+iP/Rgdl8mi45QH1ifOfqMHM/e
+         8LA05IGc6tnnWLMKTksdCBgCrV0lZbTIKk615KkLmHnZA3p7NzgD7wwNss5AGMNC9aBr
+         ipGI3mPTSzrUjqgqnTI1atvcwF4OX2zHt9RPyIr6cfvr8jlMneUdXp5rOWtll0WfnJ0R
+         7R1pXHW4ODbWl9Jj4gayufqn+n+ojVz7fBATu53t+ARa27L5engxI6uLxZZ02rC5CCoh
+         g9cQ==
+X-Gm-Message-State: AGi0PubsdP8A1WQGp7T6pGEU46IiNbmVW5kRWUoRoj/KegF+QT8CReSj
+        a6/i9R+F0bzyEbMoozGwfXC8yt19
+X-Google-Smtp-Source: APiQypInaM7ORzF/CVsxNxUc0J9Cyf/Q6St4WH9tVfb2A8VygbMaxJllBH4AhcGid0vObbUWazuWjQ==
+X-Received: by 2002:a2e:87d9:: with SMTP id v25mr2275164ljj.241.1588255341268;
+        Thu, 30 Apr 2020 07:02:21 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id v8sm4886684lfp.85.2020.04.30.07.02.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2020 07:02:20 -0700 (PDT)
+Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
+ <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+ <bacc4308-4b95-f566-b80e-096ff96407b5@gmail.com>
+Message-ID: <4da289e6-036f-853b-beb4-379d6462adb0@gmail.com>
+Date:   Thu, 30 Apr 2020 17:02:19 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <bacc4308-4b95-f566-b80e-096ff96407b5@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200430133125.GL867@valkosipuli.retiisi.org.uk>
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-On Thu, Apr 30, 2020 at 04:31:25PM +0300, Sakari Ailus wrote:
-> On Thu, Apr 30, 2020 at 02:10:14PM +0300, Laurent Pinchart wrote:
-> > On Thu, Apr 30, 2020 at 12:42:33PM +0300, Sakari Ailus wrote:
-> >> On Tue, Apr 14, 2020 at 10:01:49PM +0200, Daniel Gomez wrote:
-> >>> Add min and max structures to the v4l2-subdev callback in order to allow
-> >>> the subdev to return a range of valid frame intervals.
-> >>> 
-> >>> This would operate similar to the struct v4l2_subdev_frame_size_enum and
-> >>> its max and min values for the width and the height. In this case, the
-> >>> possibility to return a frame interval range is added to the v4l2-subdev level
-> >>> whenever the v4l2 device operates in step-wise or continuous mode.
-> >> 
-> >> The current API only allows providing a list of enumerated values. That is
-> >> limiting indeed, especially on register list based sensor drivers where
-> >> vertical blanking is configurable.
-> >> 
-> >> I guess this could be extended to cover what V4L2, more or less. If we tell
-> >> it's a range, is it assumed to be contiguous? We don't have try operation
-> >> for the frame interval, but I guess set is good enough. The fraction is
-> >> probably best for TV standards but it's not what camera sensors natively
-> >> use. (But for a register list based driver, the established practice
-> >> remains to use frame interval.)
-> >> 
-> >> I'm also wondering the effect on existing user space; if a driver gives a
-> >> range, how will the existing programs work with such a driver?
-> >> 
-> >> I'd add an anonymous union with the interval field, the other field being
-> >> min_interval. Then the current applications would get the minimum interval
-> >> and still continue to function. I guess compilers are modern enough these
-> >> days we can have an anonymous union in the uAPI?
-> > 
-> > We can discuss all this, but given patch 3/3 in this series, I think
-> > this isn't the right API :-) The sensor driver should not expose the
-> > frame interval enumeration API. It should instead expose control of the
-> > frame rate through V4L2_CID_PIXEL_RATE, V4L2_CID_HBLANK and
-> > V4L2_CID_VBLANK.
-> > 
+30.04.2020 16:56, Dmitry Osipenko пишет:
+> 30.04.2020 01:00, Sowjanya Komatineni пишет:
+>> +static int chan_capture_kthread_finish(void *data)
+>> +{
+>> +	struct tegra_vi_channel *chan = data;
+>> +	struct tegra_channel_buffer *buf;
+>> +
+>> +	set_freezable();
+>> +
+>> +	while (1) {
+>> +		try_to_freeze();
 > 
-> That would require also exposing the size of the pixel array (and the
-> analogue crop), in order to provide all the necessary information to
-> calculate the frame rate. No objections there; this is a new driver.
+> I guess it won't be great to freeze in the middle of a capture process, so:
+> 		if (list_empty(&chan->done))
+> 			try_to_freeze();
+
+And here should be some locking protection in order not race with the
+chan_capture_kthread_start because kthread_finish could freeze before
+kthread_start.
+
+>> +		wait_event_interruptible(chan->done_wait,
+>> +					 !list_empty(&chan->done) ||
+>> +					 kthread_should_stop());
+>> +
+>> +		/* dequeue buffers and finish capture */
+>> +		buf = dequeue_buf_done(chan);
+>> +		while (buf) {
+>> +			tegra_channel_capture_done(chan, buf);
+>> +			buf = dequeue_buf_done(chan);
+>> +		}
+>> +
+>> +		if (kthread_should_stop())
+>> +			break;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
 > 
-> There are however existing drivers that implement s_frame_interval subdev
-> ioctl; those might benefit from this one. Or would you implement the pixel
-> rate based control as well, and effectively deprecate the s_frame_interval
-> on those?
 
-That's what I would recommend, yes. I would only keep
-.s_frame_interval() for sensors that expose that concept at the hardware
-level (for instance with an integrated ISP whose firmware exposes a
-frame interval or frame rate control).
-
-> >>> Signed-off-by: Daniel Gomez <daniel@qtec.com>
-> >>> ---
-> >>>  include/uapi/linux/v4l2-subdev.h | 6 +++++-
-> >>>  1 file changed, 5 insertions(+), 1 deletion(-)
-> >>> 
-> >>> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-> >>> index 03970ce30741..ee15393c58cd 100644
-> >>> --- a/include/uapi/linux/v4l2-subdev.h
-> >>> +++ b/include/uapi/linux/v4l2-subdev.h
-> >>> @@ -117,6 +117,8 @@ struct v4l2_subdev_frame_interval {
-> >>>   * @code: format code (MEDIA_BUS_FMT_ definitions)
-> >>>   * @width: frame width in pixels
-> >>>   * @height: frame height in pixels
-> >>> + * @min_interval: min frame interval in seconds
-> >>> + * @max_interval: max frame interval in seconds
-> >>>   * @interval: frame interval in seconds
-> >>>   * @which: format type (from enum v4l2_subdev_format_whence)
-> >>>   */
-> >>> @@ -126,9 +128,11 @@ struct v4l2_subdev_frame_interval_enum {
-> >>>  	__u32 code;
-> >>>  	__u32 width;
-> >>>  	__u32 height;
-> >>> +	struct v4l2_fract min_interval;
-> >>> +	struct v4l2_fract max_interval;
-> >> 
-> >> This changes the memory layout of the struct and breaks the ABI. Any new
-> >> fields in the struct may only replace reserved fields while the rest must
-> >> stay unchanged.
-> >> 
-> >>>  	struct v4l2_fract interval;
-> >>>  	__u32 which;
-> >>> -	__u32 reserved[8];
-> >>> +	__u32 reserved[4];
-> >>>  };
-> >>>  
-> >>>  /**
-
--- 
-Regards,
-
-Laurent Pinchart
