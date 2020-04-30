@@ -2,159 +2,309 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 125491C0A61
-	for <lists+linux-media@lfdr.de>; Fri,  1 May 2020 00:25:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A67C21C0AE9
+	for <lists+linux-media@lfdr.de>; Fri,  1 May 2020 01:16:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727065AbgD3WZP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 18:25:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60130 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726697AbgD3WZP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 18:25:15 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id CB83E206D9;
-        Thu, 30 Apr 2020 22:25:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588285514;
-        bh=PVHQHhcGp1IbUmhBe/8piZ8ELOqI6YFayIIZMFj6Bl4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=0wpcQNWhC7R1oUmHj4AAGC03BV3J9Qo2BDQzamOUulXGb9JwPoxSfyizFMEaPWk4y
-         4p2d/5QfHuUpHEMooDbdmeJy/BbpczI6H7D02xi7ujdnbKV7/wu/2I8EiOMsaPhVQ6
-         wQmzhSGaT9gdk/PthD6eaz+nlYee4KzCiNUYzw7U=
-Date:   Fri, 1 May 2020 00:25:10 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Patrik Gfeller <patrik.gfeller@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: atomisp kernel driver(s)
-Message-ID: <20200501002510.0ead955d@coco.lan>
-In-Reply-To: <403b799e-6ae9-d62b-1f3a-a1b6b874071b@gmail.com>
-References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
-        <20200420013109.65babb54@coco.lan>
-        <e45de3ea-4b5c-f2d0-0844-1233ca15a939@gmail.com>
-        <eb83f789-9595-55f0-d922-bab00ae85cff@gmail.com>
-        <20200420224750.28c0181d@coco.lan>
-        <dd8ab5df-31c7-f009-36e4-ca4fd0605e97@gmail.com>
-        <20200422211344.2ec3d93e@coco.lan>
-        <23b3a078-2a9a-5f50-a35e-9f40f5aa8a6e@gmail.com>
-        <86413836-e4b5-cb53-3ac0-1764c693ec7b@gmail.com>
-        <682558b0-a2cf-9fe2-6e54-20462ecccb5d@gmail.com>
-        <20200425132255.4bf872b2@coco.lan>
-        <131a4247-cef3-d651-a0ea-defd32b8bf20@gmail.com>
-        <20200426185007.1954885a@coco.lan>
-        <45817a6a-dd2f-13a6-835b-fd2b04ded23f@gmail.com>
-        <20200427235027.15cd4e03@coco.lan>
-        <d9ec5067-142c-66c9-c412-51ddf38e44f7@gmail.com>
-        <20200429011339.03af3c2a@coco.lan>
-        <3b7366b9-463d-c49b-0f2d-51a1d5475a9d@gmail.com>
-        <20200429201753.3b2d679b@coco.lan>
-        <6fffdf73-a0eb-1b1c-d894-e4799b8ef944@gmail.com>
-        <20200430125544.10a9830d@coco.lan>
-        <403b799e-6ae9-d62b-1f3a-a1b6b874071b@gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727092AbgD3XQO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 19:16:14 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:1955 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726285AbgD3XQN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 30 Apr 2020 19:16:13 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5eab5c300002>; Thu, 30 Apr 2020 16:16:00 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Thu, 30 Apr 2020 16:16:13 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Thu, 30 Apr 2020 16:16:13 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
+ 2020 23:16:13 +0000
+Received: from [10.2.165.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
+ 2020 23:16:11 +0000
+Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
+ <bacc4308-4b95-f566-b80e-096ff96407b5@gmail.com>
+ <4da289e6-036f-853b-beb4-379d6462adb0@gmail.com>
+ <c6d54885-6f23-f60c-a17b-3481fc4d6adf@gmail.com>
+ <b14b9dc5-7ac9-7735-d98d-eebc7e151cba@nvidia.com>
+ <7d31d24f-f353-7e82-3ff9-cdba8b773d1e@nvidia.com>
+ <06a4a067-8d54-4322-b2a6-14e82eaeda29@nvidia.com>
+ <47873bbd-cf90-4595-5a99-7e9113327ecc@nvidia.com>
+ <f6088e0f-4ac7-a6be-3ede-0233dc88ef2c@nvidia.com>
+ <71532440-f455-cc24-74f7-9ccad5947099@gmail.com>
+ <b3238987-5e8a-32f2-7ce7-924e86bc6e9e@nvidia.com>
+ <298187f6-2425-4813-1ae1-f256c179623e@nvidia.com>
+ <9c942bc9-703e-3bbb-eeab-f37e69dc1ded@nvidia.com>
+ <b72b9d5c-7d02-1b58-20f7-30f94e230d58@gmail.com>
+ <668d9b65-9590-cc97-41c3-2c1a5cfbbe61@nvidia.com>
+ <289d9c92-383f-3257-de7b-46179724285a@nvidia.com>
+ <9aa64f21-7b23-7228-b5eb-d2ff092682ad@nvidia.com>
+ <668cc4a0-2c81-0d87-b801-9fbf64e19137@nvidia.com>
+ <bf3f654e-b8f8-d560-fc5e-03d73cb7eab0@nvidia.com>
+Message-ID: <525e481b-9137-6fdd-bbf9-3779a5704e6b@nvidia.com>
+Date:   Thu, 30 Apr 2020 16:14:42 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <bf3f654e-b8f8-d560-fc5e-03d73cb7eab0@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1588288560; bh=Lf1Qbcw4txylM3XQa52HfKdGcybPELunpJDQcMgrvno=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=ah2g2m1SY7YJwjZ4/kHHpPscqA0pm98mQ0zkicWrS5JMtclNlmg+1bDzk1oAGVPyt
+         DHLUz6InP6Xw0IkY3MS3ON3lcbE4svLkdSeh9ufexIvC2gIuulkSYf1v/RwEPv9f20
+         8Vw9JPtlk0q3LLopvEF3XSiuvdKyFgAhGpe0y0NYSU9b70j8D1Eg6MiPLxC2K6LdB8
+         DBkI9rvrbjyLZ7x81+u3vPfQy3cW8+OYhmpYfp/XQuwe3JRGXGHgF7SCzqI1D4k0Co
+         87ISnw7pFYyjv3+1t9idqxGYUrnvO1iL7EkynokSTvwHAsRUPROJxCbHdb2fCEKSmT
+         GZYGvYN8GPfWQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 30 Apr 2020 17:09:48 +0200
-Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
 
-> Am 4/30/2020 um 12:55 PM schrieb Mauro Carvalho Chehab:
-> > Em Thu, 30 Apr 2020 09:56:53 +0200
-> > Patrik Gfeller<patrik.gfeller@gmail.com>  escreveu:
-> >  
-> >> For my first test tried to re-compile to module, without the whole
-> >> kernel. That was a mistake, as I mixed something up, probably it loaded
-> >> an old version of the module ... to be on the save side the steps I used
-> >> this time (in case we see something unexpected and for my later reference):
-> >>
-> >> $ git log --oneline
-> >> 4c922df10252 (HEAD -> atomisp, origin/atomisp) media: atomisp2: get rid
-> >> of ia_css_sc_param.h version dependency
-> >> ...
-> >>
-> >> $ make -j4 clean
-> >> $ make -j4
-> >> $ sudo make modules_install INSTALL_MOD_STRIP=1
-> >> $ sudo make install  
-> > Please try to build from this branch:
-> >
-> > 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=atomisp_v2
-> >
-> > You'll need to setup a new config var there. So, please run this before
-> > make clean. So, for building it, you will do:
-> >
-> > 	$ ./scripts/config -e CONFIG_VIDEO_ATOMISP_ISP2401 && make -j modules_prepare
-> > 	$ make -j4 clean && make -j4
-> > 	$ sudo make modules_install INSTALL_MOD_STRIP=1 && sudo make install
-> >
-> > This won't change the regulator detection, but it should hopefully use
-> > the ISP2401-specific code, with seems to be needed for your device.  
-> 
-> I've updated to the latest source (git checkout atomisp_v2 && git pull) 
-> and compiled using the instructions above. Compilation worked well, but 
-> the linker had some problems (full log attached):
-> 
-> ...
-> ld: 
-> drivers/staging/media/atomisp/pci/css_2401_system/hive_isp_css_2401_system_generated/ia_css_isp_states.o:(.data+0x0): 
-> multiple definition of `ia_css_kernel_init_state'; 
-> drivers/staging/media/atomisp/pci/css_2401_csi2p_system/hive_isp_css_2401_system_csi2p_generated/ia_css_isp_states.o:(.data+0x0): 
-> first defined here
-> ...
+On 4/30/20 3:19 PM, Sowjanya Komatineni wrote:
+>
+> On 4/30/20 3:16 PM, Sowjanya Komatineni wrote:
+>>
+>> On 4/30/20 2:53 PM, Sowjanya Komatineni wrote:
+>>>
+>>> On 4/30/20 2:37 PM, Sowjanya Komatineni wrote:
+>>>>
+>>>> On 4/30/20 2:26 PM, Sowjanya Komatineni wrote:
+>>>>>
+>>>>> On 4/30/20 2:17 PM, Dmitry Osipenko wrote:
+>>>>>> 30.04.2020 23:02, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82=
+:
+>>>>>>> On 4/30/20 12:53 PM, Sowjanya Komatineni wrote:
+>>>>>>>> On 4/30/20 12:46 PM, Sowjanya Komatineni wrote:
+>>>>>>>>> On 4/30/20 12:33 PM, Dmitry Osipenko wrote:
+>>>>>>>>>> 30.04.2020 22:09, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=
+=D1=82:
+>>>>>>>>>>> On 4/30/20 11:18 AM, Sowjanya Komatineni wrote:
+>>>>>>>>>>>> On 4/30/20 10:06 AM, Sowjanya Komatineni wrote:
+>>>>>>>>>>>>> On 4/30/20 9:29 AM, Sowjanya Komatineni wrote:
+>>>>>>>>>>>>>> On 4/30/20 9:04 AM, Sowjanya Komatineni wrote:
+>>>>>>>>>>>>>>> On 4/30/20 7:13 AM, Dmitry Osipenko wrote:
+>>>>>>>>>>>>>>>> 30.04.2020 17:02, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=
+=D1=82:
+>>>>>>>>>>>>>>>>> 30.04.2020 16:56, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=
+=B5=D1=82:
+>>>>>>>>>>>>>>>>>> 30.04.2020 01:00, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=
+=D0=B5=D1=82:
+>>>>>>>>>>>>>>>>>>> +static int chan_capture_kthread_finish(void *data)
+>>>>>>>>>>>>>>>>>>> +{
+>>>>>>>>>>>>>>>>>>> +=C2=A0=C2=A0=C2=A0 struct tegra_vi_channel *chan =3D d=
+ata;
+>>>>>>>>>>>>>>>>>>> +=C2=A0=C2=A0=C2=A0 struct tegra_channel_buffer *buf;
+>>>>>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>>>>>> +=C2=A0=C2=A0=C2=A0 set_freezable();
+>>>>>>>>>>>>>>>>>>> +
+>>>>>>>>>>>>>>>>>>> +=C2=A0=C2=A0=C2=A0 while (1) {
+>>>>>>>>>>>>>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try_to_free=
+ze();
+>>>>>>>>>>>>>>>>>> I guess it won't be great to freeze in the middle of=20
+>>>>>>>>>>>>>>>>>> a capture
+>>>>>>>>>>>>>>>>>> process, so:
+>>>>>>>>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 i=
+f (list_empty(&chan->done))
+>>>>>>>>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 try_to_freeze();
+>>>>>>>>>>>>>>>>> And here should be some locking protection in order=20
+>>>>>>>>>>>>>>>>> not race
+>>>>>>>>>>>>>>>>> with
+>>>>>>>>>>>>>>>>> the
+>>>>>>>>>>>>>>>>> chan_capture_kthread_start because kthread_finish=20
+>>>>>>>>>>>>>>>>> could freeze
+>>>>>>>>>>>>>>>>> before
+>>>>>>>>>>>>>>>>> kthread_start.
+>>>>>>>>>>>>>>>> Or maybe both start / finish threads should simply be=20
+>>>>>>>>>>>>>>>> allowed to
+>>>>>>>>>>>>>>>> freeze
+>>>>>>>>>>>>>>>> only when both capture and done lists are empty.
+>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>> if (list_empty(&chan->capture) &&
+>>>>>>>>>>>>>>>> list_empty(&chan->done))
+>>>>>>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0try_to_freeze();
+>>>>>>>>>>>>>>> good to freeze when not in middle of the frame capture=20
+>>>>>>>>>>>>>>> but why
+>>>>>>>>>>>>>>> should we not allow freeze in between captures?
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> Other drivers do allow freeze in between frame captures.
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>> I guess we can freeze before dequeue for capture and in=20
+>>>>>>>>>>>>>>> finish
+>>>>>>>>>>>>>>> thread we can freeze after capture done. This also don't=20
+>>>>>>>>>>>>>>> need to
+>>>>>>>>>>>>>>> check for list_empty with freeze to allow between frame=20
+>>>>>>>>>>>>>>> captures.
+>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>> Also if we add check for both lists empty, freeze is not=20
+>>>>>>>>>>>>>> allowed as
+>>>>>>>>>>>>>> long as streaming is going on and in case of continuous=20
+>>>>>>>>>>>>>> streaming
+>>>>>>>>>>>>>> freeze will never happen.
+>>>>>>>>>>>> To allow freeze b/w frames (but not in middle of a frame),
+>>>>>>>>>>>>
+>>>>>>>>>>>> for capture_start thread, probably we can do unconditional
+>>>>>>>>>>>> try_to_freeze()
+>>>>>>>>>> Is it possible to use wait_event_freezable()?
+>>>>>>>>>>
+>>>>>>>>>> https://www.kernel.org/doc/Documentation/power/freezing-of-tasks=
+.txt=20
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> Will the wait_event_interruptible() be woken up when system=20
+>>>>>>>>>> freezes?
+>>>>>>>>> Based on wait_event_freezable implementation, looks like it=20
+>>>>>>>>> similar
+>>>>>>>>> to wait_event_interruptible + try_to_free() as it does
+>>>>>>>>> freezable_schedule unlike schedule with wait_event_interruptible.
+>>>>>>>>>
+>>>>>>>>> So using this for capture_start may be ok to allow freeze before
+>>>>>>>>> start of frame. But can't use for capture_finish as this is=20
+>>>>>>>>> same as
+>>>>>>>>> wait_event_interruptible followed by unconditional try_to_freeze.
+>>>>>>>>>
+>>>>>>>>>>>> for capture_finish thread, at end of capture done we can do
+>>>>>>>>>>>> try_to_freeze() only when done list is empty
+>>>>>>>>>> This doesn't prevent situation where the done-list is empty=20
+>>>>>>>>>> and the
+>>>>>>>>>> "finish" thread freezes, in the same time the "start" thread=20
+>>>>>>>>>> issues new
+>>>>>>>>>> capture and then freezes too.
+>>>>>>>>>>
+>>>>>>>>>> 1. "start" thread issues capture
+>>>>>>>>>>
+>>>>>>>>>> 2. "finish" thread wakes and waits for the capture to complete
+>>>>>>>>>>
+>>>>>>>>>> 3. "start" thread begins another capture, waits for FRAME_START
+>>>>>>>>>>
+>>>>>>>>>> 4. system freezing activates
+>>>>>>>>>>
+>>>>>>>>>> 5. "finish" thread completes the capture and freezes because=20
+>>>>>>>>>> done-list
+>>>>>>>>>> is empty
+>>>>>>>>>>
+>>>>>>>>>> 6. "start" thread gets FRAME_START, issues another capture=20
+>>>>>>>>>> and freezes
+>>>>>>>>> This will not happen as we allow double buffering done list=20
+>>>>>>>>> will not
+>>>>>>>>> be empty till stream stop happens
+>>>>>>>>>
+>>>>>>>>> There will always be 1 outstanding frame in done list
+>>>>>>>> Correction, there will always be 1 outstanding buffer except=20
+>>>>>>>> beginning
+>>>>>>>> during beginning of stream.
+>>>>>>>>
+>>>>>>>> Except during beginning frames, done list will not be empty for=20
+>>>>>>>> all
+>>>>>>>> subsequent streaming process
+>>>>>>> Also to be clear, hardware sees next frame start event prior to=20
+>>>>>>> previous
+>>>>>>> frame mw_ack event as mw_ack event happens after frame end. So once
+>>>>>>> initial buffer got queued to done list to finish processes, while
+>>>>>>> waiting for mw_ack next frame start happens and pushes next=20
+>>>>>>> buffer to
+>>>>>>> done list.
+>>>>>> What about this variant:
+>>>>>>
+>>>>>> 1. "start" thread wakes up to start capture
+>>>>>>
+>>>>>> 2. system freezing activates
+>>>>>>
+>>>>>> 3. "finish" thread wakes up and freezes
+>>>>>
+>>>>> finish thread will wake up only when done list is not=20
+>>>>> empty/kthread_stop/wake even from capture start thread.
+>>>>>
+>>>>> Also when I said will allow try_to_free when done list is empty I=20
+>>>>> meant to have this at end of capture_done() in finish thread
+>>>>>
+>>>>>>
+>>>>>> 4. "start" thread issues capture and freezes
+>>>>>>
+>>>>>> And again, I assume that system's freezing should wake
+>>>>>> wait_event_interruptible(), otherwise it won't be possible to freeze
+>>>>>> idling threads at all and freezing should fail (IIUC).
+>>>>>
+>>>>> Based on kernel doc on freezing, looks like when we mark thread as=20
+>>>>> freezable, freeze state happens when we explicitly call=20
+>>>>> try_to_freeze.
+>>>>>
+>>>>> I don't think its other way where freeze causes=20
+>>>>> wait_event_interruptible to wake up.
+>>>
+>>> Based on my understanding when we mark thread as freezable,
+>>>
+>>> with wait_event_freezable() - after wait event, it invokes=20
+>>> try_to_freeze(). So frozen state enters unconditionally with this.
+>>>
+>>> with wait_event_interruptible - we do try_to_freeze when its safe to=20
+>>> enter frozen state.
+>>>
+>>> https://www.kernel.org/doc/Documentation/power/freezing-of-tasks.txt
+>>>
+>> Sorry correction. When system tries to freeze tasks looks like it=20
+>> will sending signal to thread and wake up happens when signal is sent=20
+>> to thread and freezable thread should invoke try_to_free when its=20
+>> safe to free
+>
+> freeze_task() sends fake signal
+>
+> https://elixir.bootlin.com/linux/v5.7-rc2/source/kernel/freezer.c#L115
+>
+>>
+>>>
+>>>>>
+>>>>>> And in this case synchronization between start/finish threads=20
+>>>>>> should be
+>>>>>> needed in regards to freezing.
+>>>>>
+>>>>> Was thinking to have counter to track outstanding frame w.r.t=20
+>>>>> single shot issue b/w start and finish and allow to freeze only=20
+>>>>> when no outstanding frames in process.
+>>>>>
+>>>>> This will make sure freeze will not happen when any buffers are in=20
+>>>>> progress
+>>>>>
+>>>>>> Note that this could be a wrong assumption, I'm not closely familiar
+>>>>>> with how freezer works.
+>>>>
+>>>> kthread_start can unconditionally allow try_to_freeze before start=20
+>>>> of frame capture
+>>>>
+>>>> We can compute captures inflight w.r.t single shot issued during=20
+>>>> capture start and finished frames by kthread_finish and allow=20
+>>>> kthread_finish to freeze only when captures inflight is 0.
+>>>>
+>>>> This allows freeze to happen b/w frames but not in middle of frame
+> will have caps inflight check in v12 to allow freeze finish thread=20
+> only when no captures are in progress
 
-Ok. That's because there are two "hive" variants. the building system
-should use either one of them (but not both at the same time).
 
-I didn't get the error before because I was just building a module
-(that speeds up the development). Such errors only happen on a full 
-build.
+try_to_freeze() returns thread frozen state and looks like we can use=20
+this in kthread finish to allow finish thread to freeze only when=20
+kthread_start is already frozen and no buffers in progress/initiated for=20
+capture.
 
-Fixed.
 
-As I did a git rebase (in order to have something that we could
-upstream later), you'll need to use this procedure to update:
-
-	$ git remote update
-	$ git reset --hard origin/atomisp_v2
-
-There's no need to clean your last build. Just run:
-
-	$ make -j4 
-
-And it should build fine this time.
-
-> 
-> Not sure if I can help with that. Sounds like we have to remove 
-> definitions - which I might be able to do. But I would need to know 
-> where the right place is to keep the definitions.
-
-> If a code generator is 
-> involved (one of the paths looks like it) it will be more difficult for 
-> me.
-
-Intel seems to use some code generator internally. Basically, for each
-specific device, it can remove/add/change things. Don't mind about that.
-
-For us, we're seeing just the generated code and working to simplify it
-and making it more generic.
-
-> But with some hints I'm of course willing to give it a shot. Please 
-> give me an example of a definition) and a hint in case we deal with 
-> generated code.
-> 
-> > Ah, when replying, could you please use an emailer that won't be breaking
-> > long lines? Your emailer is currently breaking lines longer than 80 columns,
-> > with is quite annoying when checking log results ;-)  
-> I changed the configuration of my mail client; a test message looked ok. 
-> Let me know if the problem persists.
-
-Yeah, is is fine now. Thanks!
-
-Thanks,
-Mauro
