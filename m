@@ -2,123 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65B521BF994
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 15:33:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 275A41BF9A0
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 15:35:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727095AbgD3NdG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 09:33:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51922 "EHLO
+        id S1727802AbgD3Nez (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 09:34:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727088AbgD3NdG (ORCPT
+        by vger.kernel.org with ESMTP id S1726685AbgD3Ney (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 09:33:06 -0400
-X-Greylist: delayed 13628 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 30 Apr 2020 06:33:05 PDT
-Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDF39C035494;
-        Thu, 30 Apr 2020 06:33:05 -0700 (PDT)
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id C2C81634C91;
-        Thu, 30 Apr 2020 16:32:57 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1jU9JB-0000Re-LJ; Thu, 30 Apr 2020 16:32:57 +0300
-Date:   Thu, 30 Apr 2020 16:32:57 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     Robert Foss <robert.foss@linaro.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH v6 2/3] media: ov8856: Add devicetree support
-Message-ID: <20200430133257.GM867@valkosipuli.retiisi.org.uk>
-References: <20200429162437.2025699-1-robert.foss@linaro.org>
- <20200429162437.2025699-3-robert.foss@linaro.org>
- <20200430093524.GB2188@pengutronix.de>
- <20200430094549.GF867@valkosipuli.retiisi.org.uk>
- <20200430095332.GC2188@pengutronix.de>
- <20200430095907.GG867@valkosipuli.retiisi.org.uk>
- <20200430101157.GD2188@pengutronix.de>
- <20200430102018.GI867@valkosipuli.retiisi.org.uk>
- <20200430120740.GG2188@pengutronix.de>
+        Thu, 30 Apr 2020 09:34:54 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E66FC035494;
+        Thu, 30 Apr 2020 06:34:54 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id f11so6540113ljp.1;
+        Thu, 30 Apr 2020 06:34:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=fCQ3rEpE5jQHFq26jG3Uzev2rOHW4jFOBpkkcGSf+aI=;
+        b=nVAIx27ki5G+TMmHDPTsuP61ioX7yieaJw4ochVVtSlwbseqOqSIFuOYpzNVJ1b9t0
+         UqIulYybPWYhL7U2kRXVy88J9GH7/SPXy/Gu3/n3WGdj2apwn4QlsbPSpcsiRLQGuoFH
+         YGJUtI5d6ybUNcERa6kGRfmn6gJok3vZsmPBGIVM+cEZ5cfwXcBESEmpZMkVbZBWHT4t
+         Hum1AYt40hOvHBvOpJiYw1tXWJgWQ1K27VIW4QHdep3DISYQKT1ox26VFXqre5d8u3aY
+         uYcBgMidlmAra67srG8dPxksuoY5Nlotks3+2LBru5tUKKfWNdbRNGhtkptGoSgq4zF8
+         MBGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=fCQ3rEpE5jQHFq26jG3Uzev2rOHW4jFOBpkkcGSf+aI=;
+        b=r+4fxRBsSO2u9GW7Xo7N1IFyFH2mn59qAENe4UUEk0GG5L1knPaI1YQFf6dLJhybnI
+         Se1S6IirtldNXmh38zbvUOfZcV83VfVe6xpismEYCGOP5VjAUb1Clq9xBwfPR6Ne+R3d
+         /qbOG+5TtBMG1QVrs07odBaCIExmHvcPZkUM6hoxLQ3gmVuMbha5nnn3FKua3E2HCsx1
+         QowsIsdf7uWg2QUa7XRy8SEL0GwJ50IgvoM8Ttcr3CnSxjrnjm0xDMfWjPLjLCM0ovp7
+         PmMCQN8Fb617Z6ZEDZDjR0Y+l2LEmgPiaoPuqLHm0+b51VrbUuGBCJ/9ErOGmZIGSuJ4
+         Qfog==
+X-Gm-Message-State: AGi0PuZGFK/OLuD5fEl8xTWhrpCpmdWF0N4wyT//MTtrOXKW8d3nJ8+C
+        01I0xEFmn6TQvuW8axWVes+xIQSw
+X-Google-Smtp-Source: APiQypKwRQ8qpaW2NliuGwwjM4IpowpPy3uwLgkBVIs12DIw0YuuwLuRDpkUTKJeub/QxzKZisSpbQ==
+X-Received: by 2002:a2e:87d0:: with SMTP id v16mr2163032ljj.137.1588253692311;
+        Thu, 30 Apr 2020 06:34:52 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id g11sm4373852ljg.24.2020.04.30.06.34.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2020 06:34:51 -0700 (PDT)
+Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
+ <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <18d457dd-17cb-633e-cdec-e0abfe73b0b0@gmail.com>
+Date:   Thu, 30 Apr 2020 16:34:50 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200430120740.GG2188@pengutronix.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Apr 30, 2020 at 02:07:41PM +0200, Marco Felsch wrote:
-> On 20-04-30 13:20, Sakari Ailus wrote:
-> > On Thu, Apr 30, 2020 at 12:11:57PM +0200, Marco Felsch wrote:
-> > > On 20-04-30 12:59, Sakari Ailus wrote:
-> > > > Hi Marco,
-> > > > 
-> > > > On Thu, Apr 30, 2020 at 11:53:32AM +0200, Marco Felsch wrote:
-> > > > > Hi Sakari,
-> > > > > 
-> > > > > On 20-04-30 12:45, Sakari Ailus wrote:
-> > > > > > Hi Marco,
-> > > > > > 
-> > > > > > On Thu, Apr 30, 2020 at 11:35:24AM +0200, Marco Felsch wrote:
-> > > 
-> > > ...
-> > > 
-> > > > > > > > -	if (mclk != OV8856_MCLK) {
-> > > > > > > > -		dev_err(dev, "external clock %d is not supported", mclk);
-> > > > > > > > -		return -EINVAL;
-> > > > > > > > +	if (!is_acpi_node(fwnode)) {
-> > > > > > > > +		ov8856->xvclk = devm_clk_get(dev, "xvclk");
-> > > > > > > > +		if (IS_ERR(ov8856->xvclk)) {
-> > > > > > > > +			dev_err(dev, "could not get xvclk clock (%pe)\n",
-> > > > > > > > +					ov8856->xvclk);
-> > > > > > > > +			return PTR_ERR(ov8856->xvclk);
-> > > > > > > > +		}
-> > > > > > > > +
-> > > > > > > > +		clk_set_rate(ov8856->xvclk, xvclk_rate);
-> > > > > > > > +		xvclk_rate = clk_get_rate(ov8856->xvclk);
-> > > > > > > >  	}
-> > > > > > > 
-> > > > > > > Why do we handle the clock only in DT case? Is there a problem with the
-> > > > > > > clock handling and ACPI?
-> > > > > > 
-> > > > > > Not really, it's just that ACPI does not provide an interface to the clocks
-> > > > > > as such.
-> > > > > 
-> > > > > But you will get a clk by devm_clk_get()?
-> > > > 
-> > > > No, because ACPI does not expose one to drivers. Effectively the entire
-> > > > power sequences are implemented in ACPI, not in the driver.
-> > > > 
-> > > 
-> > > Ah okay, thanks for the explanation. I'm really not into the ACPI
-> > > stuff.. So this means the __power_off / power_on should only be done if
-> > > we are using DT's?
-> > 
-> > Correct. That's why it bails out early. It could be yet earlier though,
-> > without doing anything.
-> 
-> Yes I see. For easier and error less prone handling I would prefer:
-> 
-> if (is_acpi_node())
-> 	return 0;
-> 
-> as first instruction for __power_off/on().
-> 
-> Also I would refator the ov8856_check_hwcfg() so the common part can be
-> used by this function and by a ov8856_parse_of() function. But thats
-> only my opinion.
+30.04.2020 01:00, Sowjanya Komatineni пишет:
+> +static int tegra_csi_init(struct host1x_client *client)
+> +{
+> +	struct tegra_csi *csi = host1x_client_to_csi(client);
+> +	struct tegra_video_device *vid = dev_get_drvdata(client->host);
+> +	int ret;
+> +
+> +	INIT_LIST_HEAD(&csi->csi_chans);
+> +
+> +	ret = tegra_csi_tpg_channels_alloc(csi);
+> +	if (ret < 0) {
+> +		dev_err(csi->dev,
+> +			"failed to allocate tpg channels: %d\n", ret);
+> +		goto cleanup;
+> +	}
+> +
+> +	ret = tegra_csi_channels_init(csi);
+> +	if (ret < 0)
+> +		goto cleanup;
+> +
+> +	vid->csi = csi;
+> +
+> +	return 0;
+> +
+> +cleanup:
+> +	tegra_csi_channels_cleanup(csi);
+> +	pm_runtime_put_sync(csi->dev);
 
-I guess it could be the same function, up to you.
+This pm_runtime_put_sync() should be removed.
 
--- 
-Sakari Ailus
+> +	return ret;
+> +}
+
