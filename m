@@ -2,100 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F6A81BF5ED
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 12:55:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E41F51BF628
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 13:10:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726431AbgD3Kzt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 06:55:49 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60084 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726413AbgD3Kzt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 06:55:49 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 20C5720784;
-        Thu, 30 Apr 2020 10:55:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588244148;
-        bh=iW2c88BqJ5zgrCzh66vrzGEP0KWCmub4ykoRlfPzZFw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=hgrcmELDi3sp2T2ud51h0N6fCUg8V7QPo5+DTJBG+aX1RnCerKXU5J+UmczoWf5un
-         fIXdXk1XvRn+n+3DsT/+aKEjMZQ5/n8Lc2j/DPtLT73MpUCKhT4aLSaphNcktjxDvI
-         u8xu/BaLO40g1+XOQZ2cwMLrcW1fXX8LR3PsFD4w=
-Date:   Thu, 30 Apr 2020 12:55:44 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Patrik Gfeller <patrik.gfeller@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: atomisp kernel driver(s)
-Message-ID: <20200430125544.10a9830d@coco.lan>
-In-Reply-To: <6fffdf73-a0eb-1b1c-d894-e4799b8ef944@gmail.com>
-References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
-        <20200418172654.74a1eeea@coco.lan>
-        <1d529105-3b7d-38d0-b7a2-d385b2221ff7@gmail.com>
-        <20200420013109.65babb54@coco.lan>
-        <e45de3ea-4b5c-f2d0-0844-1233ca15a939@gmail.com>
-        <eb83f789-9595-55f0-d922-bab00ae85cff@gmail.com>
-        <20200420224750.28c0181d@coco.lan>
-        <dd8ab5df-31c7-f009-36e4-ca4fd0605e97@gmail.com>
-        <20200422211344.2ec3d93e@coco.lan>
-        <23b3a078-2a9a-5f50-a35e-9f40f5aa8a6e@gmail.com>
-        <86413836-e4b5-cb53-3ac0-1764c693ec7b@gmail.com>
-        <682558b0-a2cf-9fe2-6e54-20462ecccb5d@gmail.com>
-        <20200425132255.4bf872b2@coco.lan>
-        <131a4247-cef3-d651-a0ea-defd32b8bf20@gmail.com>
-        <20200426185007.1954885a@coco.lan>
-        <45817a6a-dd2f-13a6-835b-fd2b04ded23f@gmail.com>
-        <20200427235027.15cd4e03@coco.lan>
-        <d9ec5067-142c-66c9-c412-51ddf38e44f7@gmail.com>
-        <20200429011339.03af3c2a@coco.lan>
-        <3b7366b9-463d-c49b-0f2d-51a1d5475a9d@gmail.com>
-        <20200429201753.3b2d679b@coco.lan>
-        <6fffdf73-a0eb-1b1c-d894-e4799b8ef944@gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726449AbgD3LKT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 07:10:19 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:36476 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725280AbgD3LKT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 30 Apr 2020 07:10:19 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C30D8321;
+        Thu, 30 Apr 2020 13:10:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1588245015;
+        bh=vzoIGymqMDr4/e03h5JjVx/KZIHtnmQaHGQ9XNk5uK4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ljs9rQYOPJA0aSO47jOEwAPJoY6ZuSjAu026tsgjxuc9vkCtysBW18J5kqOZAxv72
+         be88In7eRKa+ZDqolmSVj2xqY9pmLpNNRDoXUZDFyyppR6Bo/ih1syTJl3ZwYpk/tj
+         hLxDAnk+T3/s3GvhNMjl9JNM0mr+DLiTbnP6FU+k=
+Date:   Thu, 30 Apr 2020 14:10:14 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Daniel Gomez <daniel@qtec.com>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH 1/3] media: v4l2-subdev.h: Add min and max enum
+Message-ID: <20200430111014.GD5856@pendragon.ideasonboard.com>
+References: <20200414200151.80089-1-daniel@qtec.com>
+ <20200414200151.80089-2-daniel@qtec.com>
+ <20200430094233.GE867@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200430094233.GE867@valkosipuli.retiisi.org.uk>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 30 Apr 2020 09:56:53 +0200
-Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
+Hello,
 
-> For my first test tried to re-compile to module, without the whole 
-> kernel. That was a mistake, as I mixed something up, probably it loaded 
-> an old version of the module ... to be on the save side the steps I used 
-> this time (in case we see something unexpected and for my later reference):
+On Thu, Apr 30, 2020 at 12:42:33PM +0300, Sakari Ailus wrote:
+> Hi Daniel,
 > 
-> $ git log --oneline
-> 4c922df10252 (HEAD -> atomisp, origin/atomisp) media: atomisp2: get rid 
-> of ia_css_sc_param.h version dependency
-> ...
+> Thanks for the patchset.
 > 
-> $ make -j4 clean
-> $ make -j4
-> $ sudo make modules_install INSTALL_MOD_STRIP=1
-> $ sudo make install
+> I'm also cc'ing Laurent who I think could be interested in this one.
+> 
+> On Tue, Apr 14, 2020 at 10:01:49PM +0200, Daniel Gomez wrote:
+> > Add min and max structures to the v4l2-subdev callback in order to allow
+> > the subdev to return a range of valid frame intervals.
+> > 
+> > This would operate similar to the struct v4l2_subdev_frame_size_enum and
+> > its max and min values for the width and the height. In this case, the
+> > possibility to return a frame interval range is added to the v4l2-subdev level
+> > whenever the v4l2 device operates in step-wise or continuous mode.
+> 
+> The current API only allows providing a list of enumerated values. That is
+> limiting indeed, especially on register list based sensor drivers where
+> vertical blanking is configurable.
+> 
+> I guess this could be extended to cover what V4L2, more or less. If we tell
+> it's a range, is it assumed to be contiguous? We don't have try operation
+> for the frame interval, but I guess set is good enough. The fraction is
+> probably best for TV standards but it's not what camera sensors natively
+> use. (But for a register list based driver, the established practice
+> remains to use frame interval.)
+> 
+> I'm also wondering the effect on existing user space; if a driver gives a
+> range, how will the existing programs work with such a driver?
+> 
+> I'd add an anonymous union with the interval field, the other field being
+> min_interval. Then the current applications would get the minimum interval
+> and still continue to function. I guess compilers are modern enough these
+> days we can have an anonymous union in the uAPI?
 
-Please try to build from this branch:
+We can discuss all this, but given patch 3/3 in this series, I think
+this isn't the right API :-) The sensor driver should not expose the
+frame interval enumeration API. It should instead expose control of the
+frame rate through V4L2_CID_PIXEL_RATE, V4L2_CID_HBLANK and
+V4L2_CID_VBLANK.
 
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=atomisp_v2
+> > Signed-off-by: Daniel Gomez <daniel@qtec.com>
+> > ---
+> >  include/uapi/linux/v4l2-subdev.h | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+> > index 03970ce30741..ee15393c58cd 100644
+> > --- a/include/uapi/linux/v4l2-subdev.h
+> > +++ b/include/uapi/linux/v4l2-subdev.h
+> > @@ -117,6 +117,8 @@ struct v4l2_subdev_frame_interval {
+> >   * @code: format code (MEDIA_BUS_FMT_ definitions)
+> >   * @width: frame width in pixels
+> >   * @height: frame height in pixels
+> > + * @min_interval: min frame interval in seconds
+> > + * @max_interval: max frame interval in seconds
+> >   * @interval: frame interval in seconds
+> >   * @which: format type (from enum v4l2_subdev_format_whence)
+> >   */
+> > @@ -126,9 +128,11 @@ struct v4l2_subdev_frame_interval_enum {
+> >  	__u32 code;
+> >  	__u32 width;
+> >  	__u32 height;
+> > +	struct v4l2_fract min_interval;
+> > +	struct v4l2_fract max_interval;
+> 
+> This changes the memory layout of the struct and breaks the ABI. Any new
+> fields in the struct may only replace reserved fields while the rest must
+> stay unchanged.
+> 
+> >  	struct v4l2_fract interval;
+> >  	__u32 which;
+> > -	__u32 reserved[8];
+> > +	__u32 reserved[4];
+> >  };
+> >  
+> >  /**
 
-You'll need to setup a new config var there. So, please run this before
-make clean. So, for building it, you will do:
+-- 
+Regards,
 
-	$ ./scripts/config -e CONFIG_VIDEO_ATOMISP_ISP2401 && make -j modules_prepare
-	$ make -j4 clean && make -j4
-	$ sudo make modules_install INSTALL_MOD_STRIP=1 && sudo make install
-
-This won't change the regulator detection, but it should hopefully use
-the ISP2401-specific code, with seems to be needed for your device.
-
-Ah, when replying, could you please use an emailer that won't be breaking
-long lines? Your emailer is currently breaking lines longer than 80 columns,
-with is quite annoying when checking log results ;-)
-
-Thanks,
-Mauro
+Laurent Pinchart
