@@ -2,131 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5770C1BFDD4
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 16:21:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 061571BFE15
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 16:26:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726906AbgD3OU6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 10:20:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59380 "EHLO
+        id S1728336AbgD3OZO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 10:25:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726309AbgD3OU5 (ORCPT
+        with ESMTP id S1726853AbgD3OZO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 10:20:57 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60C27C035494
-        for <linux-media@vger.kernel.org>; Thu, 30 Apr 2020 07:20:57 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id c124so1803503oib.13
-        for <linux-media@vger.kernel.org>; Thu, 30 Apr 2020 07:20:57 -0700 (PDT)
+        Thu, 30 Apr 2020 10:25:14 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0BDAC035494;
+        Thu, 30 Apr 2020 07:25:13 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id j14so1371441lfg.9;
+        Thu, 30 Apr 2020 07:25:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=vU7NNDB88N8b7luDUTJQIrpl7937xKbm7PdW+jOV5J4=;
-        b=pyVQXCzRdeYFN35dxvsghsrXzIdcIbEYwc3EaNswiigQ56cZTaQdOFWpaTh0LfCcdm
-         2KjNZxbDLoiOShbqWhjVC9o5qbxrY7BWh0w5c+wVG3zivALqYuf86KUZjg5MdLb8W9j5
-         pICF3wLWqrM0bo3kIYJMJJyW8jKzWQXR9OH5A5rzn2vBpKJwwOImwWTVnzVH08xSth+I
-         9+4KH1ak29J3udYms0FoW4bD0Oh3Y2xYPy++zsxjMAbWXZc59UIOz4nbUiYnTT3lvxzn
-         mR2DQiqizyIRFsjO3i3lIyN/yI1wkbOWVcjCADgROSvUQboVCrBkRfFoDvvfSHp3Hy19
-         ZvDg==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=tCY9CYxU1gOzRgXfCj/hSl5kyF2mN2AlCiXAxXLnSuM=;
+        b=Yls6c42gjD6zTZpJzYY5ocdHYSZeyoSnujMd9pi8JSCHJ3DnixNK8u1NSrrQghA6w8
+         9tkHj0U6/xNjU7hJhx8h64wdiry/1JMSUI1rS4Mm7eqZh7AXgVBecNthGqNzwOb4DOaE
+         lIlIiTvDtAl+OPGwD17vAL7ZWINU10TUkLgRdmS3s1IACHN7iF6cKMPYGnz+EVz+fsAS
+         Y3NDUEKc5nmiGii7c4qhPvDTYfG+Bu2MVsm0Qw8qJnBq9C46ngDOfo/okVRzh1+OtHl+
+         x60FWuExZgACWju7/R55m1NGf8Ig87+ClD2hP8N6zTo29DsWU3piOGyPfZ6qSbIkpxRf
+         6QJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=vU7NNDB88N8b7luDUTJQIrpl7937xKbm7PdW+jOV5J4=;
-        b=S2T2GfrWnfIj4Qb9F6zMPCkyd6z6iVoalAwjL+iglQlteXva9BceIA97ly4nXR4IFq
-         H1lbZjpk4EWa8rZRraTTf76yWPJc5Fk7E2FlGCvMksQJCW36AROFicoCXaRsd3nnqpYw
-         iWhy70LVbh6hvxiQlXSlVXbSB+naoteZKxPtWzqkAbzt9/7AjAM3LyDNZOtvdzy2zCbU
-         niEiSOk0iHIVyOAvfJE8xZi0A3VgeXJT044XjuDrEPvAJYi8HErMwx3EWBig+/E8rpdH
-         ESIi531SQnhqP6o6IXx+iBWtt1YRpxrDnYozazKFbLLXOJcr2D7aI81yS/FbGtzPaJZU
-         PbSw==
-X-Gm-Message-State: AGi0PuYedtoZ8tdLFiygn1iOPL2PbHiL9y4jmHTIi3a8ULuHvXeEG8IE
-        +x8tbHWnO1H8RcSxMKwss1NwIPZ+PA90MN9wdNocyQ==
-X-Google-Smtp-Source: APiQypKi11+B07gGR75YnzeMGeraH6AVLTAvNHkxcGX7oFLvFp4wW4F3hi8wb9UT3WC71m1+ov8vwd6qa2wRA4NbCjo=
-X-Received: by 2002:aca:d485:: with SMTP id l127mr1766826oig.119.1588256456666;
- Thu, 30 Apr 2020 07:20:56 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=tCY9CYxU1gOzRgXfCj/hSl5kyF2mN2AlCiXAxXLnSuM=;
+        b=AmNOpei6ToD9ZUslZq0usvosFVEDuYZPrfMyzAfGmIxuxSnRnxIAiK15nKJEH7Pxqf
+         emgmSUX/dsSN8zSjimgBtkNP8mqTSYAhHKUrzU94xm0A6NpeK34N2U6vLer2tDxZ9GLF
+         tS5zLFGAbGq7o0gYtk6VGkciyRod/ajo2Za4STy6gEO3yu6ZW54GEs8kfT7LLJKD7d7M
+         ovQvNb6cNI+51gWjxwJbx5RFMFjFUT6BG5yVlSTvjGm9uSTpEegtzBrqerp7XK1W2dvS
+         5V9u3b72gvM1Uhu0V2Y0OSwNUnfNVDnuFjRgcgXfk/V3zCSiqO8CGBAgZVgdeXOBsaFU
+         l80w==
+X-Gm-Message-State: AGi0PuY7rL9dyRxLBqW0bZNJisuuC9E0XsSiXa+c0hU2BS6CwAHRnOdJ
+        sMSCxLvDGSHSuylzYWSUJZWuwZBP
+X-Google-Smtp-Source: APiQypIxKIrY61iyWN8E2p2v+gt5AUX6i+jScFYei172jZBeATJ8+md5KljdfAj8+Dhqh3p5r2H+ig==
+X-Received: by 2002:a05:6512:108a:: with SMTP id j10mr2368340lfg.38.1588256712061;
+        Thu, 30 Apr 2020 07:25:12 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id a28sm4893311lfr.4.2020.04.30.07.25.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2020 07:25:11 -0700 (PDT)
+Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
+ <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <05271cd8-010d-6e09-2bb0-97519d3db3c6@gmail.com>
+Date:   Thu, 30 Apr 2020 17:25:10 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200430015930.32224-1-vitor@massaru.org> <cb4d93a0-b967-f37d-ea01-0368c91b896e@infradead.org>
- <0463c90cfbe2036235010c5f8b92af6a96c20f74.camel@massaru.org> <20200430043723.GA27272@ravnborg.org>
-In-Reply-To: <20200430043723.GA27272@ravnborg.org>
-From:   Sumit Semwal <sumit.semwal@linaro.org>
-Date:   Thu, 30 Apr 2020 19:50:45 +0530
-Message-ID: <CAO_48GGgeJ9cFeAfKB7GjLTwOzXxk_goKsi42ocRswwXkWh11g@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: Documentation: fix: `make htmldocs` warnings
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     Vitor Massaru Iha <vitor@massaru.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>,
-        brendanhiggins@google.com, LKML <linux-kernel@vger.kernel.org>,
-        Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Everyone,
+30.04.2020 01:00, Sowjanya Komatineni пишет:
+> +int tegra_v4l2_nodes_setup_tpg(struct tegra_video_device *vid)
+> +{
+> +	struct tegra_vi *vi = vid->vi;
+> +	struct tegra_csi *csi = vid->csi;
+> +	struct tegra_vi_channel *vi_chan;
+> +	struct tegra_csi_channel *csi_chan;
+> +	u32 link_flags = MEDIA_LNK_FL_ENABLED;
 
-On Thu, 30 Apr 2020 at 10:07, Sam Ravnborg <sam@ravnborg.org> wrote:
->
-> On Wed, Apr 29, 2020 at 11:27:22PM -0300, Vitor Massaru Iha wrote:
-> > On Wed, 2020-04-29 at 19:06 -0700, Randy Dunlap wrote:
-> > > On 4/29/20 6:59 PM, Vitor Massaru Iha wrote:
-> > > > Add missed ":" on kernel-doc function parameter.
-> > > >
-> > > > This patch fixes this warnings from `make htmldocs`:
-> > > > ./drivers/dma-buf/dma-buf.c:678: warning: Function parameter or
-> > > > member 'importer_ops' not described in 'dma_buf_dynamic_attach'
-> > > > ./drivers/dma-buf/dma-buf.c:678: warning: Function parameter or
-> > > > member 'importer_priv' not described in 'dma_buf_dynamic_attach'
-> > > >
-> > > > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-> > > > ---
-> > > >  drivers/dma-buf/dma-buf.c | 4 ++--
-> > > >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> > > > index ccc9eda1bc28..0756d2155745 100644
-> > > > --- a/drivers/dma-buf/dma-buf.c
-> > > > +++ b/drivers/dma-buf/dma-buf.c
-> > > > @@ -655,8 +655,8 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
-> > > >   * calls attach() of dma_buf_ops to allow device-specific attach
-> > > > functionality
-> > > >   * @dmabuf:              [in]    buffer to attach device to.
-> > > >   * @dev:         [in]    device to be attached.
-> > > > - * @importer_ops [in]    importer operations for the
-> > > > attachment
-> > > > - * @importer_priv        [in]    importer private pointer for the
-> > > > attachment
-> > > > + * @importer_ops:        [in]    importer operations for the
-> > > > attachment
-> > > > + * @importer_priv:       [in]    importer private pointer for the
-> > > > attachment
-> > > >   *
-> > > >   * Returns struct dma_buf_attachment pointer for this attachment.
-> > > > Attachments
-> > > >   * must be cleaned up by calling dma_buf_detach().
-> > > >
-> > >
-> > > Sumit said that he would be applying my patch from April 7:
-> > > https://lore.kernel.org/linux-media/7bcbe6fe-0b4b-87da-d003-b68a26eb4cf0@infradead.org/
-> > >
-> > > thanks.
-> >
-> > Sorry. I didn't check if the patch has already been sent.
->
-> Sumit - patch from Randy is neither applied to drm-misc-next nor
-> drm-misc-fixes.
-> A reminder in case it was lost somewhere.
+> +	int ret = 0;
 
-My bad: I have now applied it to drm-misc-fixes, so should be seen in
--next soon.
-
->
->         Sam
-
-Best,
-Sumit.
+No need to unnecessarily initialize variables. Same for all other
+similar occurrences in the code.
