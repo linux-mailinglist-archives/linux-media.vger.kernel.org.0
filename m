@@ -2,162 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFA5A1C02E1
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 18:44:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 506C21C030F
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 18:49:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726435AbgD3Qnt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 12:43:49 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:58891 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726333AbgD3Qns (ORCPT
+        id S1726467AbgD3Qti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 12:49:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54602 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726404AbgD3Qth (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 12:43:48 -0400
-X-Originating-IP: 93.29.109.196
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id CB8E11BF203;
-        Thu, 30 Apr 2020 16:43:43 +0000 (UTC)
-Date:   Thu, 30 Apr 2020 18:43:43 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hans Verkuil <hansverk@cisco.com>,
-        justin.swartz@risingedge.co.za, Johan Jonker <jbx6244@gmail.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v2 4/4] media: rockchip: rga: Only set output CSC mode
- for RGB input
-Message-ID: <20200430164343.GB1526319@aptenodytes>
-References: <20200423200937.1039257-1-paul.kocialkowski@bootlin.com>
- <20200423200937.1039257-5-paul.kocialkowski@bootlin.com>
- <c49a060e7f5da9564e375fdd47117d3f901e5d00.camel@collabora.com>
+        Thu, 30 Apr 2020 12:49:37 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B207BC035494
+        for <linux-media@vger.kernel.org>; Thu, 30 Apr 2020 09:49:37 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id CEFFCC63EF; Thu, 30 Apr 2020 17:49:34 +0100 (BST)
+Date:   Thu, 30 Apr 2020 17:49:34 +0100
+From:   Sean Young <sean@mess.org>
+To:     Martin Burnicki <martin.burnicki@burnicki.net>
+Cc:     Rolf Pedersen <rolfpedersen@mindspring.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Brad Love <brad@nextdimension.cc>
+Subject: Re: HauppaugeTV-quadHD DVB-T mpeg risc op code error
+Message-ID: <20200430164934.GA16730@gofer.mess.org>
+References: <20200423155908.GA22613@gofer.mess.org>
+ <bc0644cd-3438-6505-d438-8f3f71347ccb@mindspring.com>
+ <20200423163559.GB23006@gofer.mess.org>
+ <0cd2436c-0a39-0f85-929e-5d8f333b5027@burnicki.net>
+ <20200425114147.GA3037@gofer.mess.org>
+ <4aa38e2a-6b98-6530-69d9-d945a467bf0b@burnicki.net>
+ <1a2d9e15-55e2-88a7-d197-208a8ce99218@burnicki.net>
+ <20200427080751.GA5925@gofer.mess.org>
+ <e7d8aeb8-124a-f7b3-d469-4c47f182f067@burnicki.net>
+ <0fc5d43f-7928-1649-220b-45916b189d8f@burnicki.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="eRtJSFbw+EEWtPj3"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c49a060e7f5da9564e375fdd47117d3f901e5d00.camel@collabora.com>
+In-Reply-To: <0fc5d43f-7928-1649-220b-45916b189d8f@burnicki.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Tue, Apr 28, 2020 at 08:24:20PM +0200, Martin Burnicki wrote:
+> Hi,
+> 
+> Am 27.04.20 um 10:59 schrieb Martin Burnicki:
+> > Sean Young wrote:
+> >> Would you mind testing this patch please?
+> > 
+> > I'm going to try it this evening.
+> > 
+> > I'll have to find out how to do an out-of-tree build for a copy of the
+> > cx module that includes the patch.
+> > 
+> > My own kernel driver is always and only built out-of-tree, but for the
+> > cx driver I need to see which files I need to copy to a local directory,
+> > and if there is anything else that needs to be done to build a copy of
+> > it out-of-tree.
+> 
+> Sorry, I haven't managed to test the patch, yet.
+> 
+> Currently I have the driver loaded with
+> 
+> options cx23885 dma_reset_workaround=2
+> 
+> but today there were 3 occurrences of the risc opcode error:
+> 
+> root@pc:~# dmesg | grep risc
+> [166528.023263] cx23885: cx23885[0]: mpeg risc op code error
+> [166528.023273] cx23885: cx23885[0]:   cmds: init risc lo   : 0xff667000
+> [166528.023277] cx23885: cx23885[0]:   cmds: init risc hi   : 0x00000000
+> [166528.023293] cx23885: cx23885[0]:   cmds: risc pc lo     : 0xff667018
+> [166528.023296] cx23885: cx23885[0]:   cmds: risc pc hi     : 0x00000000
+> [166528.023319] cx23885: cx23885[0]:   risc0:
+> [166528.023324] cx23885: cx23885[0]:   risc1:
+> [166528.023330] cx23885: cx23885[0]:   risc2:
+> [166528.023334] cx23885: cx23885[0]:   risc3:
+> [180595.947077] cx23885: cx23885[0]: mpeg risc op code error
+> [180595.947087] cx23885: cx23885[0]:   cmds: init risc lo   : 0xfc6ee000
+> [180595.947090] cx23885: cx23885[0]:   cmds: init risc hi   : 0x00000000
+> [180595.947107] cx23885: cx23885[0]:   cmds: risc pc lo     : 0xfc6ee018
+> [180595.947110] cx23885: cx23885[0]:   cmds: risc pc hi     : 0x00000000
+> [180595.947133] cx23885: cx23885[0]:   risc0:
+> [180595.947138] cx23885: cx23885[0]:   risc1:
+> [180595.947143] cx23885: cx23885[0]:   risc2:
+> [180595.947147] cx23885: cx23885[0]:   risc3:
+> [180595.947263] cx23885: cx23885[0]: mpeg risc op code error
+> [180595.947270] cx23885: cx23885[0]:   cmds: init risc lo   : 0xfc6ee000
+> [180595.947274] cx23885: cx23885[0]:   cmds: init risc hi   : 0x00000000
+> [180595.947290] cx23885: cx23885[0]:   cmds: risc pc lo     : 0xfc6ee018
+> [180595.947293] cx23885: cx23885[0]:   cmds: risc pc hi     : 0x00000000
+> [180595.947315] cx23885: cx23885[0]:   risc0:
+> [180595.947319] cx23885: cx23885[0]:   risc1:
+> [180595.947324] cx23885: cx23885[0]:   risc2:
+> [180595.947328] cx23885: cx23885[0]:   risc3:
+> 
+> My wife is very happy that the recordings of the TV shows she wanted to
+> see later were aborted. ;-)
 
---eRtJSFbw+EEWtPj3
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Drats.
 
-Hi Ezequiel,
+> So the workaround doesn't seem to fix the problem anyway, and the patch
+> would just enable the workaround with out the specific option, right?
 
-On Sat 25 Apr 20, 10:46, Ezequiel Garcia wrote:
-> Hi Paul,
->=20
-> Thanks a lot for the patch.
->=20
-> I haven't had the chance to test this,
-> but I'd say you are fixing a long time issue here.
->=20
-> I really appreciate that.
->=20
-> On Thu, 2020-04-23 at 22:09 +0200, Paul Kocialkowski wrote:
-> > Setting the output CSC mode is required for a YUV output, but must not
-> > be set when the input is also YUV. Doing this (as tested with a YUV420P
-> > to YUV420P conversion) results in wrong colors.
-> >=20
-> > Adapt the logic to only set the CSC mode when the output is YUV and the
-> > input is RGB.
-> >=20
-> > Fixes: f7e7b48e6d79 ("[media] rockchip/rga: v4l2 m2m support")
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> >  drivers/media/platform/rockchip/rga/rga-hw.c | 18 +++++++++++-------
-> >  1 file changed, 11 insertions(+), 7 deletions(-)
-> >=20
-> > diff --git a/drivers/media/platform/rockchip/rga/rga-hw.c b/drivers/med=
-ia/platform/rockchip/rga/rga-hw.c
-> > index 4be6dcf292ff..cbffcf986ccf 100644
-> > --- a/drivers/media/platform/rockchip/rga/rga-hw.c
-> > +++ b/drivers/media/platform/rockchip/rga/rga-hw.c
-> > @@ -216,13 +216,17 @@ static void rga_cmd_set_trans_info(struct rga_ctx=
- *ctx)
-> >  	}
-> > =20
-> >  	if (ctx->out.fmt->hw_format >=3D RGA_COLOR_FMT_YUV422SP) {
->=20
-> Since we are already here touching this code, would you mind
-> adding another patch, to do some cleaning first?
->=20
-> First, replace the nested ifs with a boolean operator.
-> Then, introduce some IS_YUV (or IS_RGB) macro, making the above test
-> more like IS_YUV(out_hw_format).
->=20
-> Finally, perhaps a comment along the lines of your commit message:
->=20
-> """
-> Setting the output CSC mode is required for a YUV output,
-> but must not be set when the input is also YUV.
-> """
->=20
-> Details up to you :-)
->=20
-> After the clean-up patch, which would be just cosmetics,
-> your fix should be cleaner and more clear.
+Yes, that's right.
 
-All done in v3, thanks for the feedback :)
+> The effect of the workaround looks just like debug levels lower than 7,
+> it just seems to reduce the probability that the bug occurs, but doesn't
+> really fix it.
+> 
+> So my conclusion is still that that this smells like a missing memory
+> barrier or so in the driver.
+> 
+> Since the driver seems to work properly with older mainboards/CPU types,
+> this doesn't sound like a problem in the CX chip, IMO.
 
-Cheers,
+I would agree with that. I would suspect same issue was being papered over
+by the patch; now what that issue is, I don't know. Certainly some ordering
+or barrier issue seems likely.
 
-Paul
+Actually I suspected this all along, but the workaround is the best we have.
 
-> Thanks,
-> Ezequiel
-> =20
-> > -		switch (ctx->out.colorspace) {
-> > -		case V4L2_COLORSPACE_REC709:
-> > -			dst_info.data.csc_mode =3D RGA_SRC_CSC_MODE_BT709_R0;
-> > -			break;
-> > -		default:
-> > -			dst_info.data.csc_mode =3D RGA_DST_CSC_MODE_BT601_R0;
-> > -			break;
-> > +		if (ctx->in.fmt->hw_format < RGA_COLOR_FMT_YUV422SP) {
-> > +			switch (ctx->out.colorspace) {
-> > +			case V4L2_COLORSPACE_REC709:
-> > +				dst_info.data.csc_mode =3D
-> > +					RGA_SRC_CSC_MODE_BT709_R0;
-> > +				break;
-> > +			default:
-> > +				dst_info.data.csc_mode =3D
-> > +					RGA_DST_CSC_MODE_BT601_R0;
-> > +				break;
-> > +			}
-> >  		}
-> >  	}
-> > =20
->=20
->=20
+I think, some time spent hunting down the issue would really be helpful
+here. Hopefully that doesn't mean too many aborted recordings..
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+Thanks,
 
---eRtJSFbw+EEWtPj3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl6rAD8ACgkQ3cLmz3+f
-v9EZUgf/ZXVht/wSchF8mkR6JIJf2Oywvx2GVKvvg/AmHfOt1XTsRKHpmGz8hQEH
-NbOjsdq8EVD+tGKnOgP/DyjN4cTtkpNFJj89Bi95hb+7AyBu+ixbDH25hV2jYija
-hYHjahA0/MqEN6hFxB4JKlYtd642n5RZ14NCxWqerWKha6LmfsLFT5tdytpQQ/8W
-2DTfATXGqnDr5Mmds+uFfRoXGhN9D9OxH+XLSmKsVOtsYurEShfPLIXscec00Mdn
-gjvMhqTTat/ttKD1OWnT6C3wuxAE0QrxHg0VvZ2LchjGq4VZbRdF/iQ+DJ4TlASi
-5NDfLWJCRezzUYzh000lLcAHVxOAQw==
-=2n7E
------END PGP SIGNATURE-----
-
---eRtJSFbw+EEWtPj3--
+Sean
