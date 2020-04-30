@@ -2,127 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E41F51BF628
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 13:10:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8F4D1BF657
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 13:17:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726449AbgD3LKT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 07:10:19 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36476 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725280AbgD3LKT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 07:10:19 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C30D8321;
-        Thu, 30 Apr 2020 13:10:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1588245015;
-        bh=vzoIGymqMDr4/e03h5JjVx/KZIHtnmQaHGQ9XNk5uK4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ljs9rQYOPJA0aSO47jOEwAPJoY6ZuSjAu026tsgjxuc9vkCtysBW18J5kqOZAxv72
-         be88In7eRKa+ZDqolmSVj2xqY9pmLpNNRDoXUZDFyyppR6Bo/ih1syTJl3ZwYpk/tj
-         hLxDAnk+T3/s3GvhNMjl9JNM0mr+DLiTbnP6FU+k=
-Date:   Thu, 30 Apr 2020 14:10:14 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Daniel Gomez <daniel@qtec.com>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 1/3] media: v4l2-subdev.h: Add min and max enum
-Message-ID: <20200430111014.GD5856@pendragon.ideasonboard.com>
-References: <20200414200151.80089-1-daniel@qtec.com>
- <20200414200151.80089-2-daniel@qtec.com>
- <20200430094233.GE867@valkosipuli.retiisi.org.uk>
+        id S1726869AbgD3LRU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 07:17:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36966 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726309AbgD3LRU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 30 Apr 2020 07:17:20 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 89E012076D;
+        Thu, 30 Apr 2020 11:17:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588245439;
+        bh=yWtbilunzsxo7xtZWR1/a83wu91pcqoLS8Bvylbv1hk=;
+        h=Date:From:To:Subject:From;
+        b=DW0Kr5Cgs1hv+JYaJeZtv+nPgxnYZTe7aZIf8uxlGA772zeF1oO1kpGTeBqb5W/Mq
+         6xAVYNGdce2V/U2gDeZfY+6jgJYHDzN1K47OgsRRwnbYAo8vSKAbeExPVYUEysG6aS
+         WhhdoIWpoVHayYEpFi9RcrLypb3is6vx5inSDBAs=
+Date:   Thu, 30 Apr 2020 13:17:15 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Masahiro Yamada <masahiroy@kernel.org>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: bug: Kbuild seems to require "make prepare-objtool" in order to use
+ (some) new config vars
+Message-ID: <20200430131715.32c1a1f6@coco.lan>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200430094233.GE867@valkosipuli.retiisi.org.uk>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Masahiro,
 
-On Thu, Apr 30, 2020 at 12:42:33PM +0300, Sakari Ailus wrote:
-> Hi Daniel,
-> 
-> Thanks for the patchset.
-> 
-> I'm also cc'ing Laurent who I think could be interested in this one.
-> 
-> On Tue, Apr 14, 2020 at 10:01:49PM +0200, Daniel Gomez wrote:
-> > Add min and max structures to the v4l2-subdev callback in order to allow
-> > the subdev to return a range of valid frame intervals.
-> > 
-> > This would operate similar to the struct v4l2_subdev_frame_size_enum and
-> > its max and min values for the width and the height. In this case, the
-> > possibility to return a frame interval range is added to the v4l2-subdev level
-> > whenever the v4l2 device operates in step-wise or continuous mode.
-> 
-> The current API only allows providing a list of enumerated values. That is
-> limiting indeed, especially on register list based sensor drivers where
-> vertical blanking is configurable.
-> 
-> I guess this could be extended to cover what V4L2, more or less. If we tell
-> it's a range, is it assumed to be contiguous? We don't have try operation
-> for the frame interval, but I guess set is good enough. The fraction is
-> probably best for TV standards but it's not what camera sensors natively
-> use. (But for a register list based driver, the established practice
-> remains to use frame interval.)
-> 
-> I'm also wondering the effect on existing user space; if a driver gives a
-> range, how will the existing programs work with such a driver?
-> 
-> I'd add an anonymous union with the interval field, the other field being
-> min_interval. Then the current applications would get the minimum interval
-> and still continue to function. I guess compilers are modern enough these
-> days we can have an anonymous union in the uAPI?
+Not sure if this was already reported (or eventually fixed) upstream.
 
-We can discuss all this, but given patch 3/3 in this series, I think
-this isn't the right API :-) The sensor driver should not expose the
-frame interval enumeration API. It should instead expose control of the
-frame rate through V4L2_CID_PIXEL_RATE, V4L2_CID_HBLANK and
-V4L2_CID_VBLANK.
+While doing a Kconfig reorg on media, I noticed a few weird things,
+requiring me to call, on a few situations, "make modules_prepare"
+manually after some changes.
 
-> > Signed-off-by: Daniel Gomez <daniel@qtec.com>
-> > ---
-> >  include/uapi/linux/v4l2-subdev.h | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-> > index 03970ce30741..ee15393c58cd 100644
-> > --- a/include/uapi/linux/v4l2-subdev.h
-> > +++ b/include/uapi/linux/v4l2-subdev.h
-> > @@ -117,6 +117,8 @@ struct v4l2_subdev_frame_interval {
-> >   * @code: format code (MEDIA_BUS_FMT_ definitions)
-> >   * @width: frame width in pixels
-> >   * @height: frame height in pixels
-> > + * @min_interval: min frame interval in seconds
-> > + * @max_interval: max frame interval in seconds
-> >   * @interval: frame interval in seconds
-> >   * @which: format type (from enum v4l2_subdev_format_whence)
-> >   */
-> > @@ -126,9 +128,11 @@ struct v4l2_subdev_frame_interval_enum {
-> >  	__u32 code;
-> >  	__u32 width;
-> >  	__u32 height;
-> > +	struct v4l2_fract min_interval;
-> > +	struct v4l2_fract max_interval;
-> 
-> This changes the memory layout of the struct and breaks the ABI. Any new
-> fields in the struct may only replace reserved fields while the rest must
-> stay unchanged.
-> 
-> >  	struct v4l2_fract interval;
-> >  	__u32 which;
-> > -	__u32 reserved[8];
-> > +	__u32 reserved[4];
-> >  };
-> >  
-> >  /**
+I'm now working on a patchset to yet to be merged upstream aiming to
+resurrect a driver from staging. It is currently on this tree
+(with is based at the media development tree, on the top of 5.7-rc1):
 
--- 
-Regards,
+	https://git.linuxtv.org/mchehab/experimental.git/log/?h=atomisp_v2
 
-Laurent Pinchart
+There, I was able to identify a misbehavior that it is probably
+what forced me to need calling "make modules_prepare".
+
+The atomisp driver is on a very bad shape. Among its problems, it has a 
+set of header definitions that should be different for two different
+variants of the supported devices. In order to be able to compile for
+either one of the variants, I added a new config var:
+CONFIG_VIDEO_ATOMISP_ISP2401.
+
+The problem is that calling just
+
+	./scripts/config -e CONFIG_VIDEO_ATOMISP_ISP2401
+
+or
+	./scripts/config -d CONFIG_VIDEO_ATOMISP_ISP2401
+
+is not enough anymore for the build to actually use the new config value.
+
+It just keeps silently using the old config value.
+
+I double-checked it by adding this macro at the Makefile:
+
+	$(info ************ ISP2401: $(CONFIG_VIDEO_ATOMISP_ISP2401) ************)
+
+The Makefile doesn't see the change, except if I explicitly call
+"make modules_prepare" or "make prepare-objtool".
+
+Even calling "make oldconfig" doesn't make it use the new CONFIG_*
+value.
+
+Thanks,
+Mauro
