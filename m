@@ -2,171 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 976591BEEB7
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 05:41:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A69E41BEF55
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 06:37:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726486AbgD3DlJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Apr 2020 23:41:09 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:34979 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726309AbgD3DlJ (ORCPT
+        id S1726587AbgD3Eha (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 00:37:30 -0400
+Received: from asavdk3.altibox.net ([109.247.116.14]:48876 "EHLO
+        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726180AbgD3Eha (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Apr 2020 23:41:09 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id U04PjB9cKMYMvU04Qj4fZU; Thu, 30 Apr 2020 05:41:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588218066; bh=bZ2rrFLzXq97YW6/JbiaY0pGTCroLp/25efje9zNhM0=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=kUjrU+JUrPC2pZKJff5XI7D0cK7W2fYPDYU2zcO0R3y8knAU3bvFhdXg0GnfqSP+2
-         Ogsr+SjpoVwZR6oev07yceWe2sSwYLipLmn18xnikSTDVl2VR5W9yCiJ7MviukSqNe
-         D7OBBJ36sH0ApUp59ezMC4wz6Lhe31SbiiYfigEgx/Exxtyw8z36D3I9N2vPpvYuOF
-         dACC8GIKRl7HAf16D9G5nxXJ8yndj4OmK24M6xhgg6E0pYRfazMxHes232YAAwp5Lo
-         9XWgxGitHkNOABsg89hEd462gbmJmH0cM9SMjK1YP56fFqiPWIDx6YcVeQQoIburGI
-         QaTe6/JkEP40g==
-Message-ID: <342feb7ebacb005ef0e7f246037a3f43@smtp-cloud8.xs4all.net>
-Date:   Thu, 30 Apr 2020 05:41:05 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfADQHRmh7ARqdwO7gV1EbMEdnHPPfHuspFYfmUXfjpD0FiLx7oww2RWWpebpOKaUa2W5QMgLp7SC/E2JtWG+Ytz3ZaUHtnHxXy2M8nHfDqLzT2XPqP6J
- jdV5VzyMPf7HKxj4V3GITxZPFmlDIzx8vIoqyv+RX+tfEOnA15evglyppDftSYaQ1/6U1SONwVRgh+qZi5qO9dMjWaf0zpuq1V8pn48IYUuPap80WRLpW7nD
+        Thu, 30 Apr 2020 00:37:30 -0400
+Received: from ravnborg.org (unknown [158.248.194.18])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk3.altibox.net (Postfix) with ESMTPS id 8A20620025;
+        Thu, 30 Apr 2020 06:37:24 +0200 (CEST)
+Date:   Thu, 30 Apr 2020 06:37:23 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Vitor Massaru Iha <vitor@massaru.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        dri-devel@lists.freedesktop.org, brendanhiggins@google.com,
+        linux-kernel@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] dma-buf: Documentation: fix: `make htmldocs` warnings
+Message-ID: <20200430043723.GA27272@ravnborg.org>
+References: <20200430015930.32224-1-vitor@massaru.org>
+ <cb4d93a0-b967-f37d-ea01-0368c91b896e@infradead.org>
+ <0463c90cfbe2036235010c5f8b92af6a96c20f74.camel@massaru.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0463c90cfbe2036235010c5f8b92af6a96c20f74.camel@massaru.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=ULXz4hXy c=1 sm=1 tr=0
+        a=UWs3HLbX/2nnQ3s7vZ42gw==:117 a=UWs3HLbX/2nnQ3s7vZ42gw==:17
+        a=kj9zAlcOel0A:10 a=DAf_8NmfAAAA:8 a=VwQbUJbxAAAA:8 a=JfrnYn6hAAAA:8
+        a=NxUiqei-aeCDQRDTOOgA:9 a=CjuIK1q_8ugA:10 a=-sleECFk_mc0XVijyva9:22
+        a=AjGcO6oz07-iQ99wixmX:22 a=1CNFftbPRP8L7MoqJWF3:22
+        a=pHzHmUro8NiASowvMSCR:22 a=Ew2E2A-JSTLzCXPT_086:22
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Wed, Apr 29, 2020 at 11:27:22PM -0300, Vitor Massaru Iha wrote:
+> On Wed, 2020-04-29 at 19:06 -0700, Randy Dunlap wrote:
+> > On 4/29/20 6:59 PM, Vitor Massaru Iha wrote:
+> > > Add missed ":" on kernel-doc function parameter.
+> > > 
+> > > This patch fixes this warnings from `make htmldocs`:
+> > > ./drivers/dma-buf/dma-buf.c:678: warning: Function parameter or
+> > > member 'importer_ops' not described in 'dma_buf_dynamic_attach'
+> > > ./drivers/dma-buf/dma-buf.c:678: warning: Function parameter or
+> > > member 'importer_priv' not described in 'dma_buf_dynamic_attach'
+> > > 
+> > > Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> > > ---
+> > >  drivers/dma-buf/dma-buf.c | 4 ++--
+> > >  1 file changed, 2 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > > index ccc9eda1bc28..0756d2155745 100644
+> > > --- a/drivers/dma-buf/dma-buf.c
+> > > +++ b/drivers/dma-buf/dma-buf.c
+> > > @@ -655,8 +655,8 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
+> > >   * calls attach() of dma_buf_ops to allow device-specific attach
+> > > functionality
+> > >   * @dmabuf:		[in]	buffer to attach device to.
+> > >   * @dev:		[in]	device to be attached.
+> > > - * @importer_ops	[in]	importer operations for the
+> > > attachment
+> > > - * @importer_priv	[in]	importer private pointer for the
+> > > attachment
+> > > + * @importer_ops:	[in]	importer operations for the
+> > > attachment
+> > > + * @importer_priv:	[in]	importer private pointer for the
+> > > attachment
+> > >   *
+> > >   * Returns struct dma_buf_attachment pointer for this attachment.
+> > > Attachments
+> > >   * must be cleaned up by calling dma_buf_detach().
+> > > 
+> > 
+> > Sumit said that he would be applying my patch from April 7:
+> > https://lore.kernel.org/linux-media/7bcbe6fe-0b4b-87da-d003-b68a26eb4cf0@infradead.org/
+> > 
+> > thanks.
+> 
+> Sorry. I didn't check if the patch has already been sent.
 
-Results of the daily build of media_tree:
+Sumit - patch from Randy is neither applied to drm-misc-next nor
+drm-misc-fixes.
+A reminder in case it was lost somewhere.
 
-date:			Thu Apr 30 05:00:10 CEST 2020
-media-tree git hash:	e51759f56d314d28c25be7606b03791f048e44c7
-media_build git hash:	2f75e0d4330da180166ebcd104560d471a1599b6
-v4l-utils git hash:	f5b0fca142994b6ea3138704d5a013dd0fbca3cd
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 7bc5ca34b446a30a7e19688e9a1e68e905cb8ff4
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
-
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 4
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+	Sam
