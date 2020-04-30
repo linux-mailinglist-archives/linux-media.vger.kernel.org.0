@@ -2,114 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B1841BF8F3
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 15:10:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F21AE1BF8FE
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 15:13:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726784AbgD3NKR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 09:10:17 -0400
-Received: from mx2.suse.de ([195.135.220.15]:53122 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726520AbgD3NKQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 09:10:16 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 19F2BAB3D;
-        Thu, 30 Apr 2020 13:10:14 +0000 (UTC)
-Message-ID: <1588252185.16510.12.camel@suse.com>
-Subject: Re: general protection fault in go7007_usb_probe
-From:   Oliver Neukum <oneukum@suse.com>
-To:     syzbot <syzbot+cabfa4b5b05ff6be4ef0@syzkaller.appspotmail.com>,
-        andreyknvl@google.com, hverkuil-cisco@xs4all.nl,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com
-Date:   Thu, 30 Apr 2020 15:09:45 +0200
-In-Reply-To: <0000000000003cbf8e05a3d57b98@google.com>
-References: <0000000000003cbf8e05a3d57b98@google.com>
-Content-Type: multipart/mixed; boundary="=-+D+L3gse/YsCAM2iZJV0"
-X-Mailer: Evolution 3.26.6 
-Mime-Version: 1.0
+        id S1726789AbgD3NNG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 09:13:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48794 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726661AbgD3NNG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 30 Apr 2020 09:13:06 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 719DFC035494;
+        Thu, 30 Apr 2020 06:13:04 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id v4so7439107wme.1;
+        Thu, 30 Apr 2020 06:13:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=N8o0WCkgmNcRVLVFgbGXJgHA8SmIuPpmu2c2tbvo+tw=;
+        b=qA+PMiz8eAXBGH9BURIrD/1CrZpiAUC83W+MjER4hnqkuSfCzux0bA14WLnqH4D2Vt
+         +zE0BWwQd6sqQGTHQ+M0MUU2oC2O7Ww1ywFxfqDsGtJgooVYxl4hvYUoV07WlaaSJukw
+         Ex3+6dwRoq9OAOadSJ9TV8uwaglubeHUtzrvSWfq1mCHktlBxuFiUYvaPESZ2pnnQLaG
+         bpMlH6fw3qUfaFl9wyLfc4OA7CLeKu3ddGPKdY1LZ+fuo71rY6E8beOIHxMknJCAsG9j
+         vjJagusyKaqs2acIAjPFrCwXDzUAiXOfdBxdNNKBVW2bVxl3hdi/3NEyptJbcHxmQp1S
+         QSaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=N8o0WCkgmNcRVLVFgbGXJgHA8SmIuPpmu2c2tbvo+tw=;
+        b=lhI4lmXfIoG4UzxzPpfDP1xtRGjKDqANBaFHzeUdFxoxWxN9Q/t3TpiQJcQDMXWSc8
+         G6ZzMm3+IL1XPfXGEsVJFfNp4Trfgq0agJDwiTnikTE99FarMZYV0/9MgkX6RkLbWWXy
+         aCLd0gljXkpTXXVK/NTSTRC7pxrJ2ZfITh3ctwwm/wFNCgSX2wFFlnfIGWUjiBT2NXWV
+         X5FkMUHIQ7ZyDyOQECbt5T8X8dzVsfl0Ju+/RF9Tnv8Dr1G7wx+yjtBely9r80pYIQky
+         DiIeFciOPb9TRmlu3VJ4ySbg8X28eTtrwN3ZbxbVPHrw01pmRjXRXAYSlazS4H5zEK1r
+         r/SQ==
+X-Gm-Message-State: AGi0PuZeykTisLaFVOnftIHx3h9urGZ1wQJuR2mL7ApkPS4nUIc0cU0C
+        0J5eOOPJ3WcgnLHSjThWfyBGMIPLKSPnc/33C0k=
+X-Google-Smtp-Source: APiQypLRoWdeYknVupE+6N8yAi1xDxWATm+stncb9njAtDCMiRIWkFBmlcq9r4s+xdnKcd1PEPCOx2mPQcXe0iWsqp8=
+X-Received: by 2002:a7b:cc8e:: with SMTP id p14mr2914876wma.70.1588252383121;
+ Thu, 30 Apr 2020 06:13:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200430085318.114894-1-jian-hong@endlessm.com>
+In-Reply-To: <20200430085318.114894-1-jian-hong@endlessm.com>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Thu, 30 Apr 2020 09:12:51 -0400
+Message-ID: <CADnq5_MjWEj6UwNZnuz=s+w=Hru7Gyzn8_rWAEDMH16MQZOiDg@mail.gmail.com>
+Subject: Re: [PATCH] drm/radeon: drm/amdgpu: Disable [1002:6611] in radeon
+To:     Jian-Hong Pan <jian-hong@endlessm.com>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        David Zhou <David1.Zhou@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "Tianci . Yin" <tianci.yin@amd.com>,
+        =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        Linux Upstreaming Team <linux@endlessm.com>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Thu, Apr 30, 2020 at 9:08 AM Jian-Hong Pan <jian-hong@endlessm.com> wrote:
+>
+> The AMD/ATI Oland [1002:6611]'s HDMI output status is not synchronous
+> as shown on UI after hot re-plug the HDMI cable, if it is radeon in
+> used. The amdgpu module does not hit this issue.
+>
+> This patch disables [1002:6611] in radeon and enables it in amdgpu.
+>
+> Fixes: https://gitlab.freedesktop.org/drm/amd/-/issues/1117
+> Signed-off-by: Jian-Hong Pan <jian-hong@endlessm.com>
 
---=-+D+L3gse/YsCAM2iZJV0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Nack.  Amdgpu does not have support for VCE or UVD yet so you are just
+trading one issue for another.  It would be better to figure out why
+the audio is not updated properly in some cases.
 
-Am Dienstag, den 21.04.2020, 16:36 -0700 schrieb syzbot:
-> Hello,
-> 
-> syzbot found the following crash on:
-> 
-> HEAD commit:    e9010320 usb: cdns3: gadget: make a bunch of functions sta..
-> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1263a930100000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=bd14feb44652cfaf
-> dashboard link: https://syzkaller.appspot.com/bug?extid=cabfa4b5b05ff6be4ef0
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> 
-> Unfortunately, I don't have any reproducer for this crash yet.
-> 
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+cabfa4b5b05ff6be4ef0@syzkaller.appspotmail.com
+Alex
 
-#syz test: https://github.com/google/kasan.git e9010320
-
---=-+D+L3gse/YsCAM2iZJV0
-Content-Disposition: attachment; filename="0001-go7007-add-only-insanity-checking.patch"
-Content-Transfer-Encoding: base64
-Content-Type: text/x-patch; name="0001-go7007-add-only-insanity-checking.patch";
-	charset="UTF-8"
-
-RnJvbSBhMDA2YTcyNDg4MWJmYjU5MmRiNjFiYTE3ZGIxZTIxN2I5NjE1Y2M0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBPbGl2ZXIgTmV1a3VtIDxvbmV1a3VtQHN1c2UuY29tPgpEYXRl
-OiBXZWQsIDIyIEFwciAyMDIwIDEzOjQ5OjU1ICswMjAwClN1YmplY3Q6IFtQQVRDSF0gZ283MDA3
-OiBhZGQgb25seSBpbnNhbml0eSBjaGVja2luZwoKQSBtYWxpY2lvdXMgVVNCIGRldmljZSBtYXkg
-bGFjayBlbmRwb2ludHMgdGhlIGRyaXZlciBhc3N1bWVzIHRvIGV4aXN0CkFjY2Vzc2luZyB0aGVt
-IGxlYWRzIHRvIE5VTEwgcG9pbnRlciBhY2Nlc3Nlcy4gVGhpcyBwYXRjaCBpbnRyb2R1Y2VzCnNh
-bml0eSBjaGVja2luZy4KClNpZ25lZC1vZmYtYnk6IE9saXZlciBOZXVrdW0gPG9uZXVrdW1Ac3Vz
-ZS5jb20+CkZpeGVzOiA4NjZiODY5NWQ2N2U4ICgiU3RhZ2luZzogYWRkIHRoZSBnbzcwMDcgdmlk
-ZW8gZHJpdmVyIikKLS0tCiBkcml2ZXJzL21lZGlhL3VzYi9nbzcwMDcvZ283MDA3LXVzYi5jIHwg
-MjEgKysrKysrKysrKysrKysrKysrKystCiAxIGZpbGUgY2hhbmdlZCwgMjAgaW5zZXJ0aW9ucygr
-KSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvdXNiL2dvNzAwNy9n
-bzcwMDctdXNiLmMgYi9kcml2ZXJzL21lZGlhL3VzYi9nbzcwMDcvZ283MDA3LXVzYi5jCmluZGV4
-IGY4ODljOWQ3NDBjZC4uYTQ1YWYxNDljYWRjIDEwMDY0NAotLS0gYS9kcml2ZXJzL21lZGlhL3Vz
-Yi9nbzcwMDcvZ283MDA3LXVzYi5jCisrKyBiL2RyaXZlcnMvbWVkaWEvdXNiL2dvNzAwNy9nbzcw
-MDctdXNiLmMKQEAgLTExMzIsNiArMTEzMiwyMCBAQCBzdGF0aWMgaW50IGdvNzAwN191c2JfcHJv
-YmUoc3RydWN0IHVzYl9pbnRlcmZhY2UgKmludGYsCiAJCWdvLT5ocGlfb3BzID0gJmdvNzAwN191
-c2Jfb25ib2FyZF9ocGlfb3BzOwogCWdvLT5ocGlfY29udGV4dCA9IHVzYjsKIAorCWlmICghdXNi
-LT51c2JkZXYpIHsKKwkJcHJpbnRrKEtFUk5fRVJSIkl0IGlzIGZ1bGwgb2Ygc3RhcnMhXG4iKTsK
-KwkJQlVHKCk7CisJfQorCisJaWYgKCF1c2ItPnVzYmRldi0+ZXBfaW4pIHsKKwkJcHJpbnRrKEtF
-Uk5fRVJSIkl0IGlzIGFsc28gZnVsbCBvZiBzdGFycyFcbiIpOworCQlCVUcoKTsKKwl9CisKKwll
-cCA9IHVzYi0+dXNiZGV2LT5lcF9pbls0XTsKKwlpZiAoIWVwKQorCQlyZXR1cm4gLUVOT0RFVjsK
-KwogCS8qIEFsbG9jYXRlIHRoZSBVUkIgYW5kIGJ1ZmZlciBmb3IgcmVjZWl2aW5nIGluY29taW5n
-IGludGVycnVwdHMgKi8KIAl1c2ItPmludHJfdXJiID0gdXNiX2FsbG9jX3VyYigwLCBHRlBfS0VS
-TkVMKTsKIAlpZiAodXNiLT5pbnRyX3VyYiA9PSBOVUxMKQpAQCAtMTE0MSw3ICsxMTU1LDYgQEAg
-c3RhdGljIGludCBnbzcwMDdfdXNiX3Byb2JlKHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRmLAog
-CWlmICh1c2ItPmludHJfdXJiLT50cmFuc2Zlcl9idWZmZXIgPT0gTlVMTCkKIAkJZ290byBhbGxv
-Y2ZhaWw7CiAKLQllcCA9IHVzYi0+dXNiZGV2LT5lcF9pbls0XTsKIAlpZiAodXNiX2VuZHBvaW50
-X3R5cGUoJmVwLT5kZXNjKSA9PSBVU0JfRU5EUE9JTlRfWEZFUl9CVUxLKQogCQl1c2JfZmlsbF9i
-dWxrX3VyYih1c2ItPmludHJfdXJiLCB1c2ItPnVzYmRldiwKIAkJCXVzYl9yY3ZidWxrcGlwZSh1
-c2ItPnVzYmRldiwgNCksCkBAIC0xMjYzLDkgKzEyNzYsMTMgQEAgc3RhdGljIGludCBnbzcwMDdf
-dXNiX3Byb2JlKHN0cnVjdCB1c2JfaW50ZXJmYWNlICppbnRmLAogCiAJLyogQWxsb2NhdGUgdGhl
-IFVSQnMgYW5kIGJ1ZmZlcnMgZm9yIHJlY2VpdmluZyB0aGUgdmlkZW8gc3RyZWFtICovCiAJaWYg
-KGJvYXJkLT5mbGFncyAmIEdPNzAwN19VU0JfRVpVU0IpIHsKKwkJaWYgKCF1c2ItPnVzYmRldi0+
-ZXBfaW5bNl0pCisJCQlnb3RvIGFsbG9jZmFpbDsKIAkJdl91cmJfbGVuID0gMTAyNDsKIAkJdmlk
-ZW9fcGlwZSA9IHVzYl9yY3ZidWxrcGlwZSh1c2ItPnVzYmRldiwgNik7CiAJfSBlbHNlIHsKKwkJ
-aWYgKCF1c2ItPnVzYmRldi0+ZXBfaW5bMV0pCisJCQlnb3RvIGFsbG9jZmFpbDsKIAkJdl91cmJf
-bGVuID0gNTEyOwogCQl2aWRlb19waXBlID0gdXNiX3JjdmJ1bGtwaXBlKHVzYi0+dXNiZGV2LCAx
-KTsKIAl9CkBAIC0xMjg1LDYgKzEzMDIsOCBAQCBzdGF0aWMgaW50IGdvNzAwN191c2JfcHJvYmUo
-c3RydWN0IHVzYl9pbnRlcmZhY2UgKmludGYsCiAJLyogQWxsb2NhdGUgdGhlIFVSQnMgYW5kIGJ1
-ZmZlcnMgZm9yIHJlY2VpdmluZyB0aGUgYXVkaW8gc3RyZWFtICovCiAJaWYgKChib2FyZC0+Zmxh
-Z3MgJiBHTzcwMDdfVVNCX0VaVVNCKSAmJgogCSAgICAoYm9hcmQtPm1haW5faW5mby5mbGFncyAm
-IEdPNzAwN19CT0FSRF9IQVNfQVVESU8pKSB7CisJCWlmICghdXNiLT51c2JkZXYtPmVwX2luWzhd
-KQorCQkJZ290byBhbGxvY2ZhaWw7CiAJCWZvciAoaSA9IDA7IGkgPCA4OyArK2kpIHsKIAkJCXVz
-Yi0+YXVkaW9fdXJic1tpXSA9IHVzYl9hbGxvY191cmIoMCwgR0ZQX0tFUk5FTCk7CiAJCQlpZiAo
-dXNiLT5hdWRpb191cmJzW2ldID09IE5VTEwpCi0tIAoyLjE2LjQKCg==
-
-
---=-+D+L3gse/YsCAM2iZJV0--
-
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 11 +++++++++++
+>  include/drm/drm_pciids.h                |  1 -
+>  2 files changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> index 8ea86ffdea0d..1ad6f13a5bc0 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -1017,6 +1017,15 @@ MODULE_DEVICE_TABLE(pci, pciidlist);
+>
+>  static struct drm_driver kms_driver;
+>
+> +static void amdgpu_pci_fixup(struct pci_dev *pdev)
+> +{
+> +#ifdef CONFIG_DRM_AMDGPU_SI
+> +       /* [1002:6611] is disabled in radeon, so enable si_support in amdgpu. */
+> +       if (pdev->vendor == PCI_VENDOR_ID_ATI && pdev->device == 0x6611)
+> +               amdgpu_si_support = 1;
+> +#endif
+> +}
+> +
+>  static int amdgpu_pci_probe(struct pci_dev *pdev,
+>                             const struct pci_device_id *ent)
+>  {
+> @@ -1036,6 +1045,8 @@ static int amdgpu_pci_probe(struct pci_dev *pdev,
+>                 return -ENODEV;
+>         }
+>
+> +       amdgpu_pci_fixup(pdev);
+> +
+>  #ifdef CONFIG_DRM_AMDGPU_SI
+>         if (!amdgpu_si_support) {
+>                 switch (flags & AMD_ASIC_MASK) {
+> diff --git a/include/drm/drm_pciids.h b/include/drm/drm_pciids.h
+> index b7e899ce44f0..57368a0f5b82 100644
+> --- a/include/drm/drm_pciids.h
+> +++ b/include/drm/drm_pciids.h
+> @@ -171,7 +171,6 @@
+>         {0x1002, 0x6607, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_OLAND|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP}, \
+>         {0x1002, 0x6608, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_OLAND|RADEON_NEW_MEMMAP}, \
+>         {0x1002, 0x6610, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_OLAND|RADEON_NEW_MEMMAP}, \
+> -       {0x1002, 0x6611, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_OLAND|RADEON_NEW_MEMMAP}, \
+>         {0x1002, 0x6613, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_OLAND|RADEON_NEW_MEMMAP}, \
+>         {0x1002, 0x6617, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_OLAND|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP}, \
+>         {0x1002, 0x6620, PCI_ANY_ID, PCI_ANY_ID, 0, 0, CHIP_OLAND|RADEON_IS_MOBILITY|RADEON_NEW_MEMMAP}, \
+> --
+> 2.26.2
+>
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
