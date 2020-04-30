@@ -2,157 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 22DC21C01CF
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 18:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E7B4E1C0286
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 18:30:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727802AbgD3QL2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 12:11:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48550 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726688AbgD3QL1 (ORCPT
+        id S1726609AbgD3Qaa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 12:30:30 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:13064 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726130AbgD3Qa2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 12:11:27 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E8D1C035495
-        for <linux-media@vger.kernel.org>; Thu, 30 Apr 2020 09:11:26 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id b13so5380861oti.3
-        for <linux-media@vger.kernel.org>; Thu, 30 Apr 2020 09:11:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=AJJ2h/RywV36voKthnSah9RB9XIE3vlA2oANqch/TM8=;
-        b=CYltEK4lC6uNdm1mZD87iAO3gl4/SEpFxwxAVQriTh0uwE0bwfs7T4If8r4qzRFUut
-         7IdUYmj/x2ICjOeMUbaYNeSSXqPNUqJVYYXpcaRLSAFQTLmZrMjTnV1tfi0Tf3Le51BT
-         fnw4RULB5jHBAOJYEjxqmzhlwrKAtNE1V28c2UBw53QpFhPzOfTcxfXZwBGGOnA1Vwu+
-         y6nGq2YIx5qbnEoyz7wgr+bLsBZ+LdEd7DjAFR6azx2r7uylWSU37XbQ0boP7RSMx5TI
-         n/nsLqXgERcuFpp0+gG67xFFEliHMoxB1booz8Jm7sQHobePp+4cGPl9DGrIK4KJeMc6
-         slZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=AJJ2h/RywV36voKthnSah9RB9XIE3vlA2oANqch/TM8=;
-        b=gHmefYIKiYfu25BvscnB/98YCrHD1TCAud923QZ/r+NZS+XMe7e/s9K4Mnurbmnr/x
-         RdzMwv9f/uMqLa29xlrfbWO5+b7K+MHkbqYigthUWw4zos9qgr9dhE6BqEd92ckqQmN/
-         qVDrdbHAZ71V2UBeMZE9I41xhnmIrQJyXjwQKI1wLi5MJcCuEN0mIVe2g0Tgmvnj/3OT
-         IMRuCS0G0QUQnRQvCGYrgQuFHNKmbsD8jx7JkohJqCePxPxtDVM6fzpzciWCHFPgiAyP
-         F4E2+fi1QW6IlLBScG5bSJAjNCvN5yc1JtA0a5UJ7fu5WIgENw4GDoXf+iccAbh8xmI6
-         ZA0w==
-X-Gm-Message-State: AGi0PubdyJ1r7T9jL08yMDqFlYshTRUQ635AX7V0RP5WTS1V5mo7j4uW
-        LPp2J4eZ85La7n43N4XkH0qbVM1Ap+WnnABy7Mf6Qw==
-X-Google-Smtp-Source: APiQypImvZrbPbUvob8q7lUT988oyJugoOnuZpnTvOCTRRSEV39r/EJBJ5kkKQTYtVWYsNXk8krIMSPhXpH7Dv5VP5A=
-X-Received: by 2002:a05:6830:1d7:: with SMTP id r23mr3174295ota.68.1588263085714;
- Thu, 30 Apr 2020 09:11:25 -0700 (PDT)
+        Thu, 30 Apr 2020 12:30:28 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5eaafce10000>; Thu, 30 Apr 2020 09:29:21 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 30 Apr 2020 09:30:28 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 30 Apr 2020 09:30:28 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
+ 2020 16:30:28 +0000
+Received: from [10.2.165.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
+ 2020 16:30:26 +0000
+Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
+ <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+ <bacc4308-4b95-f566-b80e-096ff96407b5@gmail.com>
+ <4da289e6-036f-853b-beb4-379d6462adb0@gmail.com>
+ <c6d54885-6f23-f60c-a17b-3481fc4d6adf@gmail.com>
+ <b14b9dc5-7ac9-7735-d98d-eebc7e151cba@nvidia.com>
+Message-ID: <7d31d24f-f353-7e82-3ff9-cdba8b773d1e@nvidia.com>
+Date:   Thu, 30 Apr 2020 09:29:00 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200429162437.2025699-1-robert.foss@linaro.org>
- <20200429162437.2025699-3-robert.foss@linaro.org> <20200430093524.GB2188@pengutronix.de>
- <20200430094549.GF867@valkosipuli.retiisi.org.uk> <20200430095332.GC2188@pengutronix.de>
- <20200430095907.GG867@valkosipuli.retiisi.org.uk> <20200430101157.GD2188@pengutronix.de>
- <20200430102018.GI867@valkosipuli.retiisi.org.uk> <20200430120740.GG2188@pengutronix.de>
-In-Reply-To: <20200430120740.GG2188@pengutronix.de>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 30 Apr 2020 18:11:14 +0200
-Message-ID: <CAG3jFytP9=pL=9Qh64BKqQchs7J7E45USfirK_SnGn3NMeCdcg@mail.gmail.com>
-Subject: Re: [PATCH v6 2/3] media: ov8856: Add devicetree support
-To:     Marco Felsch <m.felsch@pengutronix.de>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <b14b9dc5-7ac9-7735-d98d-eebc7e151cba@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1588264161; bh=2DroO8GJPT0AtZeSQK8ueROEdYIu6Ovs1ect3MjQzPE=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=sOWMM3UKIfeFYgOV3uLGzs75tw9iBGuZFODCZwKiHiL0dCOJKwlbBZuiVacayju7e
+         27d2YHXn6JgrBPa+b3Hh61DgKBgkUmucxkOTNu8c+vgIAULPzB8dey7Yw/htsnhCCi
+         sgpgv5qzEi2Xjxe45K2l7wKPHL30bR76787qy9sYYntYjM1k3MGUtvwlC2oBaqb24e
+         T3cqJ8NssY3wetqt+VdP8KOmm25bnSyqK5rGV9hT8NdshtcuZqFpdbsfHCebZ31M2P
+         +9bqvOZCh/SYfCppuNEApgaVu0DmUSJyW0MHRm1PjX133UeOdd26rXX75kPw9uNcGz
+         6VU8iQUbmqIyA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Marco,
 
-On Thu, 30 Apr 2020 at 14:07, Marco Felsch <m.felsch@pengutronix.de> wrote:
+On 4/30/20 9:04 AM, Sowjanya Komatineni wrote:
 >
-> On 20-04-30 13:20, Sakari Ailus wrote:
-> > On Thu, Apr 30, 2020 at 12:11:57PM +0200, Marco Felsch wrote:
-> > > On 20-04-30 12:59, Sakari Ailus wrote:
-> > > > Hi Marco,
-> > > >
-> > > > On Thu, Apr 30, 2020 at 11:53:32AM +0200, Marco Felsch wrote:
-> > > > > Hi Sakari,
-> > > > >
-> > > > > On 20-04-30 12:45, Sakari Ailus wrote:
-> > > > > > Hi Marco,
-> > > > > >
-> > > > > > On Thu, Apr 30, 2020 at 11:35:24AM +0200, Marco Felsch wrote:
-> > >
-> > > ...
-> > >
-> > > > > > > > - if (mclk != OV8856_MCLK) {
-> > > > > > > > -         dev_err(dev, "external clock %d is not supported", mclk);
-> > > > > > > > -         return -EINVAL;
-> > > > > > > > + if (!is_acpi_node(fwnode)) {
-> > > > > > > > +         ov8856->xvclk = devm_clk_get(dev, "xvclk");
-> > > > > > > > +         if (IS_ERR(ov8856->xvclk)) {
-> > > > > > > > +                 dev_err(dev, "could not get xvclk clock (%pe)\n",
-> > > > > > > > +                                 ov8856->xvclk);
-> > > > > > > > +                 return PTR_ERR(ov8856->xvclk);
-> > > > > > > > +         }
-> > > > > > > > +
-> > > > > > > > +         clk_set_rate(ov8856->xvclk, xvclk_rate);
-> > > > > > > > +         xvclk_rate = clk_get_rate(ov8856->xvclk);
-> > > > > > > >   }
-> > > > > > >
-> > > > > > > Why do we handle the clock only in DT case? Is there a problem with the
-> > > > > > > clock handling and ACPI?
-> > > > > >
-> > > > > > Not really, it's just that ACPI does not provide an interface to the clocks
-> > > > > > as such.
-> > > > >
-> > > > > But you will get a clk by devm_clk_get()?
-> > > >
-> > > > No, because ACPI does not expose one to drivers. Effectively the entire
-> > > > power sequences are implemented in ACPI, not in the driver.
-> > > >
-> > >
-> > > Ah okay, thanks for the explanation. I'm really not into the ACPI
-> > > stuff.. So this means the __power_off / power_on should only be done if
-> > > we are using DT's?
-> >
-> > Correct. That's why it bails out early. It could be yet earlier though,
-> > without doing anything.
+> On 4/30/20 7:13 AM, Dmitry Osipenko wrote:
+>> 30.04.2020 17:02, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>> 30.04.2020 16:56, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>> 30.04.2020 01:00, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>> +static int chan_capture_kthread_finish(void *data)
+>>>>> +{
+>>>>> +=C2=A0=C2=A0=C2=A0 struct tegra_vi_channel *chan =3D data;
+>>>>> +=C2=A0=C2=A0=C2=A0 struct tegra_channel_buffer *buf;
+>>>>> +
+>>>>> +=C2=A0=C2=A0=C2=A0 set_freezable();
+>>>>> +
+>>>>> +=C2=A0=C2=A0=C2=A0 while (1) {
+>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try_to_freeze();
+>>>> I guess it won't be great to freeze in the middle of a capture=20
+>>>> process, so:
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (list_empty(&chan->done)=
+)
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try=
+_to_freeze();
+>>> And here should be some locking protection in order not race with the
+>>> chan_capture_kthread_start because kthread_finish could freeze before
+>>> kthread_start.
+>> Or maybe both start / finish threads should simply be allowed to freeze
+>> only when both capture and done lists are empty.
+>>
+>> if (list_empty(&chan->capture) &&
+>> =C2=A0=C2=A0=C2=A0=C2=A0 list_empty(&chan->done))
+>> =C2=A0=C2=A0=C2=A0=C2=A0try_to_freeze();
 >
-> Yes I see. For easier and error less prone handling I would prefer:
+> good to freeze when not in middle of the frame capture but why should=20
+> we not allow freeze in between captures?
 >
-> if (is_acpi_node())
->         return 0;
+> Other drivers do allow freeze in between frame captures.
 >
-> as first instruction for __power_off/on().
-
-__ov8856_power_on() does make a check like that, albeit only after
-having run clk_prepare_enable() which won't do anything due to
-ov8856->xvclk==NULL. So this should be fixed and be moved to after the
-ACPI check.
-
-__ov8856_power_off() has no ACPI check, but all of the calls it makes
-are going to do nothing due to v8856->reset_gpio / v8856->reset_gpio /
-ov8856->xvclk all being NULL or dummies. For the sake of clarity an
-early ACPI check+return could be added, but if clarity is the goal a
-comment would work too.
-
+> I guess we can freeze before dequeue for capture and in finish thread=20
+> we can freeze after capture done. This also don't need to check for=20
+> list_empty with freeze to allow between frame captures.
 >
-> Also I would refactor the ov8856_check_hwcfg() so the common part can be
-> used by this function and by a ov8856_parse_of() function. But thats
-> only my opinion.
-
-I'm trying to grok the above paragraph. You'd like to see something in
-the style of tc358743_probe_of()?
-
->
-> Regards,
->   Marco
+Also if we add check for both lists empty, freeze is not allowed as long=20
+as streaming is going on and in case of continuous streaming freeze will=20
+never happen.
