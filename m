@@ -2,226 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D73F71C03C4
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 19:21:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59D331C048E
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 20:19:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726840AbgD3RVH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 13:21:07 -0400
-Received: from conssluserg-03.nifty.com ([210.131.2.82]:54297 "EHLO
-        conssluserg-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726785AbgD3RVG (ORCPT
+        id S1726509AbgD3STh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 14:19:37 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:8280 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726336AbgD3STh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 13:21:06 -0400
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com [209.85.217.49]) (authenticated)
-        by conssluserg-03.nifty.com with ESMTP id 03UHKnKI029138;
-        Fri, 1 May 2020 02:20:50 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-03.nifty.com 03UHKnKI029138
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-        s=dec2015msa; t=1588267250;
-        bh=idO+PYcTkrBz1ObTdwrdbsSBqMQ+50mQZ94ZeAp+P/o=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=uP+Vt2DBQqTUpgrqE87lFRDHSBL6hPCLcr1BA1Ynf9wBb5JDsks3LCTd6nX956S3j
-         Mk6NrtnZgZqPRn3smlQhA/VecUy3IjcXXC9EYVYiWV8HysHwGaEDX6l3kkOpFVNDCD
-         tf2A1c6LCqo14yV82lPq27gC1ysMN47I+Yl9HUhwsRTO5sIofIBIbUx3cjx3bTV95M
-         fQkhFvAvjXSxH82nfo7eyAg/3wpUNzcuHFIKQFYpXQiOY4gcZ/6XeCfDMB5mrWxUNo
-         ddW/6eWgHy9C+SOcvmAxHeqZqopGPeTtVuCA6Rmaf+1NzKw8YXW5T1mlInIVQD06Yf
-         GAC5frx+hxtmQ==
-X-Nifty-SrcIP: [209.85.217.49]
-Received: by mail-vs1-f49.google.com with SMTP id z1so4540548vsn.11;
-        Thu, 30 Apr 2020 10:20:50 -0700 (PDT)
-X-Gm-Message-State: AGi0PuaPZmy5Yx6yN/NPPGlWGK7d1QCMKAoBBY5NTjBY0N3P8Rt2Jsgu
-        DtgEFanC5WZ6Hh6YX3rYaiGGZUieS+yLNZL0WQc=
-X-Google-Smtp-Source: APiQypLaXg5iWTN+9RN6U1M6KCPary9ZZvUbEEvqouDEsArTUokkiuHp39Ss8noi9EjdWgfULUl9e5c85d5slO5Uqz8=
-X-Received: by 2002:a67:e94d:: with SMTP id p13mr4348692vso.215.1588267248970;
- Thu, 30 Apr 2020 10:20:48 -0700 (PDT)
+        Thu, 30 Apr 2020 14:19:37 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5eab163d0000>; Thu, 30 Apr 2020 11:17:33 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Thu, 30 Apr 2020 11:19:37 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Thu, 30 Apr 2020 11:19:37 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
+ 2020 18:19:37 +0000
+Received: from [10.2.165.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
+ 2020 18:19:35 +0000
+Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
+ <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+ <bacc4308-4b95-f566-b80e-096ff96407b5@gmail.com>
+ <4da289e6-036f-853b-beb4-379d6462adb0@gmail.com>
+ <c6d54885-6f23-f60c-a17b-3481fc4d6adf@gmail.com>
+ <b14b9dc5-7ac9-7735-d98d-eebc7e151cba@nvidia.com>
+ <7d31d24f-f353-7e82-3ff9-cdba8b773d1e@nvidia.com>
+ <06a4a067-8d54-4322-b2a6-14e82eaeda29@nvidia.com>
+Message-ID: <47873bbd-cf90-4595-5a99-7e9113327ecc@nvidia.com>
+Date:   Thu, 30 Apr 2020 11:18:09 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-References: <20200430131715.32c1a1f6@coco.lan> <CAK7LNASmVoZequqaj6MTimeZ0MG0fk7Wb5-9haFhgG03kDBpxg@mail.gmail.com>
- <20200430184948.27191975@coco.lan>
-In-Reply-To: <20200430184948.27191975@coco.lan>
-From:   Masahiro Yamada <masahiroy@kernel.org>
-Date:   Fri, 1 May 2020 02:20:13 +0900
-X-Gmail-Original-Message-ID: <CAK7LNASx5qfV_6Wow-MVKsHXUX96m8yYvpeK1QVt+2i46FTMNg@mail.gmail.com>
-Message-ID: <CAK7LNASx5qfV_6Wow-MVKsHXUX96m8yYvpeK1QVt+2i46FTMNg@mail.gmail.com>
-Subject: Re: bug: Kbuild seems to require "make prepare-objtool" in order to
- use (some) new config vars
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <06a4a067-8d54-4322-b2a6-14e82eaeda29@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1588270653; bh=ohRADXuDVSbfuKDemL6KlJp4gvc5xFXfIRWVd+qBixM=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=UIzTRbYXVHksNJe2IzQvFcLxdGJKeeB0UUtI8EJKq8drnM36u+15eSwIsxJcl1lXz
+         0z/kJj40OEH6AtwGMs3z48FH096qMn3++VHTU2md0zUDeCkPrjSp6p2OS3yrlzFUCt
+         LNskQ6+n3BWKn5xCyKCBjTaHxNWG11GbhrkuaM9PqaGppirx6Lp4sdFwG40+5PHbDM
+         Yii6YWdsF6vPA1L0Ijf3TgAoLElFjK65+lT7TPHEuNnqrKGN0TjTy6M6hu37FV+FDH
+         jgE4fSIMEYLyRHosvo33XU/RNoZtu52+mqgTdteyTushcfupuK1Yl/I7euGQUkiWa7
+         UDifnOjDwwT6w==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 1, 2020 at 1:49 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Em Thu, 30 Apr 2020 22:51:48 +0900
-> Masahiro Yamada <masahiroy@kernel.org> escreveu:
->
-> > Hi Mauro,
-> >
-> >
-> > On Thu, Apr 30, 2020 at 8:17 PM Mauro Carvalho Chehab
-> > <mchehab+huawei@kernel.org> wrote:
-> > >
-> > > Hi Masahiro,
-> > >
-> > > Not sure if this was already reported (or eventually fixed) upstream.
-> > >
-> > > While doing a Kconfig reorg on media, I noticed a few weird things,
-> > > requiring me to call, on a few situations, "make modules_prepare"
-> > > manually after some changes.
-> > >
-> > > I'm now working on a patchset to yet to be merged upstream aiming to
-> > > resurrect a driver from staging. It is currently on this tree
-> > > (with is based at the media development tree, on the top of 5.7-rc1):
-> > >
-> > >         https://git.linuxtv.org/mchehab/experimental.git/log/?h=3Dato=
-misp_v2
-> > >
-> > > There, I was able to identify a misbehavior that it is probably
-> > > what forced me to need calling "make modules_prepare".
-> > >
-> > > The atomisp driver is on a very bad shape. Among its problems, it has=
- a
-> > > set of header definitions that should be different for two different
-> > > variants of the supported devices. In order to be able to compile for
-> > > either one of the variants, I added a new config var:
-> > > CONFIG_VIDEO_ATOMISP_ISP2401.
-> > >
-> > > The problem is that calling just
-> > >
-> > >         ./scripts/config -e CONFIG_VIDEO_ATOMISP_ISP2401
-> > >
-> > > or
-> > >         ./scripts/config -d CONFIG_VIDEO_ATOMISP_ISP2401
-> >
-> >
-> > scripts/config does not take the dependency into consideration
-> > at all.
-> >
-> > You need to enable/disable other options that it depends on.
->
-> Yes, I know. on my tests, I did a "make allyesconfig" before
-> the patch whose added this dependency. So, the only dependency
-> left to be enabled or disabled was this one.
->
-> The problem I'm pointing is not really do a select recursion
-> (that would be a really cool feature, but I know it is not
-> trivial), but, instead, that, despite the config var was
-> there, when I tried to build it with:
->
->         make clean; make M=3Ddrivers/staging/media/atomisp
->
-> It didn't do the right thing. Instead, it used ISP2401=3Dy
-> on make clean and ISP2401=3Dn at the drivers build.
->
-> So, in order to test if patches won't break building,
-> depending on the value of this var, I'm currently doing:
->
->         cls;./scripts/config -d CONFIG_VIDEO_ATOMISP_ISP2401 && make prep=
-are-objtool && make clean && make M=3Ddrivers/staging/media/atomisp && ./sc=
-ripts/config -e CONFIG_VIDEO_ATOMISP_ISP2401 && make prepare-objtool && mak=
-e clean && make M=3Ddrivers/staging/media/atomisp
->
-> (note the alien "make prepare-objtool" in the middle)
->
->
-> > ./scripts/config -e STAGING -e STAGING_MEDIA -e MEDIA_SUPPORT -e
-> > MEDIA_CONTROLLER -e INTEL_ATOMISP -e VIDEOBUF_VMALLOC -e VIDEO_ATOMISP
-> > -d MEDIA_SUPPORT_FILTER -e VIDEO_DEV -e VIDEO_V4L2 -e
-> > VIDEO_ATOMISP_ISP2401
-> >
-> > allows me to enable VIDEO_ATOMISP_ISP2401.
-> >
-> >
-> > It is painful to debug such complicated dependency graph, though.
->
-> Yeah, dependencies at the media subsystem are usually quite complex.
->
-> > >
-> > > is not enough anymore for the build to actually use the new config va=
-lue.
-> > >
-> > > It just keeps silently using the old config value.
-> > >
-> > > I double-checked it by adding this macro at the Makefile:
-> > >
-> > >         $(info ************ ISP2401: $(CONFIG_VIDEO_ATOMISP_ISP2401) =
-************)
-> > >
-> > > The Makefile doesn't see the change, except if I explicitly call
-> > > "make modules_prepare" or "make prepare-objtool".
-> > >
-> > > Even calling "make oldconfig" doesn't make it use the new CONFIG_*
-> >
-> >
-> > I do not know.
-> >
-> > I cannot look into it without detailed steps to reproduce it.
->
-> I'm applying the enclosed patch to this branch:
->
->         https://git.linuxtv.org/mchehab/experimental.git/log/?h=3Datomisp=
-_v2
->
-> and running this:
->
->         $ make allyesconfig 2>/dev/null >/dev/null; echo "disable";./scri=
-pts/config -d CONFIG_VIDEO_ATOMISP_ISP2401 && make M=3Ddrivers/staging/medi=
-a/atomisp && ./scripts/config -e CONFIG_VIDEO_ATOMISP_ISP2401 && echo "enab=
-le" && make clean && make M=3Ddrivers/staging/media/atomisp
->         disable
->
->           WARNING: Symbol version dump ./Module.symvers
->                    is missing; modules will have no dependencies and modv=
-ersions.
->
->         ************ ISP2401: y ************
->           AR      drivers/staging/media/atomisp/built-in.a
->         ************ ISP2401: y ************
->           MODPOST 0 modules
->         enable
->         ************ ISP2401:  ************
->
->           WARNING: Symbol version dump ./Module.symvers
->                    is missing; modules will have no dependencies and modv=
-ersions.
->
->         ************ ISP2401: y ************
->           AR      drivers/staging/media/atomisp/built-in.a
->         ************ ISP2401: y ************
->           MODPOST 0 modules
->
-> PS.: the same occurs if I use "make allmodconfig".
 
+On 4/30/20 10:06 AM, Sowjanya Komatineni wrote:
+>
+> On 4/30/20 9:29 AM, Sowjanya Komatineni wrote:
+>>
+>> On 4/30/20 9:04 AM, Sowjanya Komatineni wrote:
+>>>
+>>> On 4/30/20 7:13 AM, Dmitry Osipenko wrote:
+>>>> 30.04.2020 17:02, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>> 30.04.2020 16:56, Dmitry Osipenko =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>>> 30.04.2020 01:00, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82=
+:
+>>>>>>> +static int chan_capture_kthread_finish(void *data)
+>>>>>>> +{
+>>>>>>> +=C2=A0=C2=A0=C2=A0 struct tegra_vi_channel *chan =3D data;
+>>>>>>> +=C2=A0=C2=A0=C2=A0 struct tegra_channel_buffer *buf;
+>>>>>>> +
+>>>>>>> +=C2=A0=C2=A0=C2=A0 set_freezable();
+>>>>>>> +
+>>>>>>> +=C2=A0=C2=A0=C2=A0 while (1) {
+>>>>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try_to_freeze();
+>>>>>> I guess it won't be great to freeze in the middle of a capture=20
+>>>>>> process, so:
+>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (list_empty(&chan->don=
+e))
+>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 t=
+ry_to_freeze();
+>>>>> And here should be some locking protection in order not race with the
+>>>>> chan_capture_kthread_start because kthread_finish could freeze before
+>>>>> kthread_start.
+>>>> Or maybe both start / finish threads should simply be allowed to=20
+>>>> freeze
+>>>> only when both capture and done lists are empty.
+>>>>
+>>>> if (list_empty(&chan->capture) &&
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0 list_empty(&chan->done))
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0try_to_freeze();
+>>>
+>>> good to freeze when not in middle of the frame capture but why=20
+>>> should we not allow freeze in between captures?
+>>>
+>>> Other drivers do allow freeze in between frame captures.
+>>>
+>>> I guess we can freeze before dequeue for capture and in finish=20
+>>> thread we can freeze after capture done. This also don't need to=20
+>>> check for list_empty with freeze to allow between frame captures.
+>>>
+>> Also if we add check for both lists empty, freeze is not allowed as=20
+>> long as streaming is going on and in case of continuous streaming=20
+>> freeze will never happen.
+>
+To allow freeze b/w frames (but not in middle of a frame),
 
+for capture_start thread, probably we can do unconditional try_to_freeze()
 
-This is the expected behavior.
+for capture_finish thread, at end of capture done we can do=20
+try_to_freeze() only when done list is empty
 
-The problem is that you immediately compile the module after
-you tweak the .config file.
-
-Kbuild does not use the .config file directly.
-Instead, it uses include/config/auto.conf.
-
-
-The M=3D builds never touch the in-kernel build artifacts,
-so it includes the stale include/config/auto.conf
-
-
-After you change the .config, you must run 'make modules_prepare'
-at least.
-
-This is documented in 'make help'.
-
-
-  modules_prepare - Set up for building external modules
-
-
---=20
-Best Regards
-Masahiro Yamada
+> Hi Dmitry,
+>
+> Will update in v12 to not allow freeze in middle of a frame capture.
+>
+> Can you please confirm on above if you agree to allow freeze to happen=20
+> in b/w frame captures?
+>
+> Also as most feedback has been received from you by now, appreciate if=20
+> you can provide all in this v11 if you have anything else so we will=20
+> not have any new changes after v12.
+>
+> Thanks
+>
+> Sowjanya
+>
