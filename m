@@ -2,139 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7546C1C07C8
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 22:22:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FDA41C07FC
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 22:33:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726875AbgD3UWp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 30 Apr 2020 16:22:45 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:11591 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726745AbgD3UWp (ORCPT
+        id S1727818AbgD3UdP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 30 Apr 2020 16:33:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33610 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726626AbgD3UdP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 30 Apr 2020 16:22:45 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5eab33510003>; Thu, 30 Apr 2020 13:21:37 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Thu, 30 Apr 2020 13:22:44 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Thu, 30 Apr 2020 13:22:44 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
- 2020 20:22:44 +0000
-Received: from [10.2.165.152] (10.124.1.5) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 30 Apr
- 2020 20:22:43 +0000
-Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
- <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
- <eadf3a5a-f305-4561-10e1-1b9241b9c5c2@gmail.com>
- <bfd82642-9648-96f1-737d-4b9a869d34a3@nvidia.com>
- <52b98347-4b78-f637-04f4-cc730ad336f3@nvidia.com>
- <8da0929d-4a58-75b8-381c-511ce66f8d9d@gmail.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <d9aa7cb7-cb16-9896-17c9-2d84fbaa0893@nvidia.com>
-Date:   Thu, 30 Apr 2020 13:21:15 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Thu, 30 Apr 2020 16:33:15 -0400
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EE09C035494
+        for <linux-media@vger.kernel.org>; Thu, 30 Apr 2020 13:33:15 -0700 (PDT)
+Received: by mail-il1-x144.google.com with SMTP id u189so2683740ilc.4
+        for <linux-media@vger.kernel.org>; Thu, 30 Apr 2020 13:33:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=Bh2oJ/XVgYbiwcViNXU7Wr2Slvtj+Iv0KAYIbg/TCVU=;
+        b=gO1UQD3j0EyTMqSrhJ7Yh0DuiACJTvn61/AGJbCPB/vq5AdDJAR7R58zSuJiecC50i
+         Nj5LTFM0kF1YAueboWXB9Aj0UkJ/+GUp/UJsUFDCt8tJb4FTUs/Ku+wIXNDF7aZIzo0f
+         UkKMKEE76datx/4y3bhQkuQjjlM9+RUTLEmFKABGJSp6k5X5M6HHNRcR3Gg31fWYnCtM
+         ssc3vfSCDwryD0Owdniq+LvTQn+So5c9qQEtBsw03CmUOo014Ructl0XD+IQZZaNc2Nu
+         YvKQ742zaxiuTdZIgU0V11ZKmpGFdmEbjm+xo+ECkKn7yUu49Odo8qb4K9mGVkFJVQbi
+         CW2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=Bh2oJ/XVgYbiwcViNXU7Wr2Slvtj+Iv0KAYIbg/TCVU=;
+        b=Rq8DL8yQf5MIQ0J7UZMNbMUx3L1smXKhECzgcIxxqLglHa/EonTbMqSRgV7GyXa85S
+         3rYvBJ0Iny19WDNDQKgIyKFQNI7Sb68u4pXRtoLEf6DMl7XKZMUHjIk6DdTAemEfRDNL
+         18qFyaKfS1GnPja90Kd0LyAzXUQNvXHZERWxcNHNAcaiQwlDjQJGEksx0f8V8HYkX80O
+         kPV1/zOw7KfIA7g0m3z8KPTyj39hyCXxmNHSOZGg0WV98kJjvQR2/gRlJbeXOraRONKa
+         /lyJHQjMFnIhphWBIPPKlYJr+TzLo0eAbqV9Ins85GEVa+JBVbGyRleweCRtZwbTsC2M
+         osIw==
+X-Gm-Message-State: AGi0PuaKPyKMHvDn0kwwMZx8o0I0iBOqa2cNk4IBBH9JceJ+aZXpy8sQ
+        6aM65FiWHL4iI6/boohtbvUUq67i3dvwTxnj799zlw==
+X-Google-Smtp-Source: APiQypL2zKplW9etbDIRkHGYcvPRSmYJJprYefEdlrJ2pZ++aSYKQnhzayNkkVXSiXFIyV9DfVTAAzUZe4qMgKmu6Eg=
+X-Received: by 2002:a92:5d0f:: with SMTP id r15mr164679ilb.251.1588278794535;
+ Thu, 30 Apr 2020 13:33:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <8da0929d-4a58-75b8-381c-511ce66f8d9d@gmail.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1588278097; bh=4+/UTSmWZA6aF77P2/8J93AOfTND6l5qFFYe2ctxF4Q=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=e0NoxIpSz0QgI/vCC25BgCu4y5yZLE6jyMFQpqWNDabNeROYXEINBIS38hisW58mt
-         7xFe9s8UqXtWJkj59geL66IxPUXF9AJ3dUuB8N5DMQ1bd1v/VR5ZSpgcO5pP1k1E8G
-         q5dCCNhjEu3KwWtDp9EFBj5WRUXxhBeM3JhE+nWwOtpo0jXgb0pvehrDOrzziotrqc
-         L2dZIzDKVpN4Jv7l2g+c7+CGKb9MSuZeIRWtCunz8ov6PzcRDsk8gqpjBycIrGbh0R
-         iAkv9qC/0ZK2KuR4zDdXQiA9qoDR6i7NjV2rVZqrl89YIqMIarvcraMMoUhu74r5ZS
-         773zBlkpLz82w==
+References: <20200429151639.5003-1-ariel@vanguardiasur.com.ar>
+ <20200429151639.5003-2-ariel@vanguardiasur.com.ar> <20200430194840.GA19358@gofer.mess.org>
+In-Reply-To: <20200430194840.GA19358@gofer.mess.org>
+From:   "Ariel D'Alessandro" <ariel@vanguardiasur.com.ar>
+Date:   Thu, 30 Apr 2020 17:33:01 -0300
+Message-ID: <CADutaf0-=r-zwf7Z90XJq3+PnpyEYOVv5LBi5DQDzYKVkTV4Zw@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 1/1] Add support for meson building
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Rosen Penev <rosenp@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Sean,
 
-On 4/30/20 1:21 PM, Dmitry Osipenko wrote:
-> 30.04.2020 23:09, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->> On 4/30/20 1:08 PM, Sowjanya Komatineni wrote:
->>> On 4/30/20 1:06 PM, Dmitry Osipenko wrote:
->>>> 30.04.2020 01:00, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>>> +static int chan_capture_kthread_start(void *data)
->>>>> +{
->>>>> +=C2=A0=C2=A0=C2=A0 struct tegra_vi_channel *chan =3D data;
->>>>> +=C2=A0=C2=A0=C2=A0 struct tegra_channel_buffer *buf;
->>>>> +=C2=A0=C2=A0=C2=A0 int err =3D 0;
->>>>> +
->>>>> +=C2=A0=C2=A0=C2=A0 set_freezable();
->>>>> +
->>>>> +=C2=A0=C2=A0=C2=A0 while (1) {
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try_to_freeze();
->>>>> +
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * Source is not str=
-eaming if error is non-zero.
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * So, do not dequeu=
-e buffers on error and let the thread
->>>>> sleep
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * till kthread stop=
- signal is received.
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 wait_event_interruptible(=
-chan->start_wait,
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kthread_should_stop(=
-) ||
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (!list_empty(&chan->=
-capture) &&
->>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 !err));
->>>> ...
->>>>> +static void tegra_channel_buffer_queue(struct vb2_buffer *vb)
->>>>> +{
->>>>> +=C2=A0=C2=A0=C2=A0 struct tegra_vi_channel *chan =3D vb2_get_drv_pri=
-v(vb->vb2_queue);
->>>>> +=C2=A0=C2=A0=C2=A0 struct vb2_v4l2_buffer *vbuf =3D to_vb2_v4l2_buff=
-er(vb);
->>>>> +=C2=A0=C2=A0=C2=A0 struct tegra_channel_buffer *buf =3D to_tegra_cha=
-nnel_buffer(vbuf);
->>>>> +
->>>>> +=C2=A0=C2=A0=C2=A0 /* put buffer into the capture queue */
->>>>> +=C2=A0=C2=A0=C2=A0 spin_lock(&chan->start_lock);
->>>>> +=C2=A0=C2=A0=C2=A0 list_add_tail(&buf->queue, &chan->capture);
->>>>> +=C2=A0=C2=A0=C2=A0 spin_unlock(&chan->start_lock);
->>>>> +
->>>>> +=C2=A0=C2=A0=C2=A0 /* wait up kthread for capture */
->>>>> +=C2=A0=C2=A0=C2=A0 wake_up_interruptible(&chan->start_wait);
->>>>> +}
->>>> The V4L doc says that buffers could be enqueued before streaming is
->>>> started. I guess it should be a trouble here, shouldn't it?
->>>>
->>>> https://elixir.bootlin.com/linux/v5.7-rc3/source/include/media/videobu=
-f2-core.h#L379
->>>>
->>> what trouble are you referring here?
->>>
->>> I dont think so as we set min buffers needed as 2 always there will be
->>> 2 per-queued buffers.
->> typo* pre-queued buffers before streaming start
->>> But buffers from this queue will be dequeued only when ready to
->>> processes in the capture thread
-> I see now that the threads won't be running until start_streaming() is
-> invoked, should be okay then.
-ok. yes threads run only during streaming
+On Thu, Apr 30, 2020 at 4:48 PM Sean Young <sean@mess.org> wrote:
+>
+> On Wed, Apr 29, 2020 at 12:16:39PM -0300, Ariel D'Alessandro wrote:
+> > Supports building libraries and tools found in contrib/, lib/ and
+> > utils/ directories, along with the implemented gettext translations.
+> >
+> > Co-developed-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > Signed-off-by: Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
+> > ---
+> >  .gitignore                                    |   1 +
+>
+> ...
+>
+> > +# Detect system gconv directory
+> > +gconvsysdir = get_option('gconvsysdir')
+> > +
+> > +# Generic check: works with most distributions
+> > +gconv_dirs_generic = [
+> > +    '/lib',
+> > +    '/lib64',
+>
+> On Fedora 32 (just released yesterday), I have to /lib64 before /lib in this
+> list. Otherwise, dep_jis becomes /lib/gconv/libJIS.so, which is the 32
+> bit version. It should be /lib64/gconv/libJIS.so
+
+Makes sense. I'll keep the directories order as it is in the configure.ac file.
+
+>
+> > +    '/usr/lib',
+> > +    '/usr/lib64',
+> > +    '/usr/local/lib',
+> > +    '/usr/local/lib64',
+> > +]
+> > +
+> > +if gconvsysdir == ''
+> > +    foreach dir : gconv_dirs_generic
+> > +        dir = dir / 'gconv'
+> > +        if fs.is_dir(dir)
+> > +            gconvsysdir = dir
+> > +            break
+> > +        endif
+> > +    endforeach
+> > +endif
+> > +
+> > +# Debian/Ubuntu-specific check: should be aligned with the debian package
+> > +gconv_dirs_debian = [
+> > +    'alphaev67-linux-gnu',
+> > +    'arm-linux-gnueabi',
+> > +    'arm-linux-gnueabihf',
+> > +    'i686-kfreebsd-gnu',
+> > +    'i686-linux-gnu',
+> > +    'mips-linux-gnu',
+> > +    'mips64-linux-gnuabi64',
+> > +    'mips64-linux-gnuabin32',
+> > +    'mips64el-linux-gnuabi64',
+> > +    'mips64el-linux-gnuabin32',
+> > +    'mipsel-linux-gnu',
+> > +    'mipsisa32r6-linux-gnu',
+> > +    'mipsisa32r6el-linux-gnu',
+> > +    'mipsisa64r6-linux-gnuabi64',
+> > +    'mipsisa64r6-linux-gnuabin32',
+> > +    'mipsisa64r6el-linux-gnuabi64',
+> > +    'mipsisa64r6el-linux-gnuabin32',
+> > +    'powerpc-linux-gnu',
+> > +    'powerpc64-linux-gnu',
+> > +    's390-linux-gnu',
+> > +    'sparc64-linux-gnu',
+> > +    'sparcv9-linux-gnu',
+> > +    'x86_64-linux-gnu',
+> > +    'x86_64-linux-gnux32',
+> > +]
+> > +if gconvsysdir == ''
+> > +    foreach dir : gconv_dirs_debian
+> > +        dir = '/usr' / 'lib' / dir / 'gconv'
+> > +        if fs.is_dir(dir)
+> > +            gconv_dir = dir
+> > +            break
+> > +        endif
+> > +    endforeach
+> > +endif
+> > +
+> > +dep_jis = cc.find_library('JIS', required : get_option('gconv'), dirs : gconvsysdir)
+> > +dep_jisx0213 = cc.find_library('JISX0213', required : get_option('gconv'), dirs : gconvsysdir)
+> > +
+> > +dep_jpeg = dependency('libjpeg', required : get_option('jpeg'))
+> > +if dep_jpeg.found()
+> > +    dep_jpeg_priv_libs = '-ljpeg'
+> > +endif
+>
+>
+> Looks great otherwise, thank you for doing this!
+>
+>
+> Sean
