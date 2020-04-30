@@ -2,266 +2,294 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF6661BEBF3
-	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 00:12:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57D811BEDCE
+	for <lists+linux-media@lfdr.de>; Thu, 30 Apr 2020 03:44:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727106AbgD2WMP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 29 Apr 2020 18:12:15 -0400
-Received: from mga18.intel.com ([134.134.136.126]:44585 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726481AbgD2WMP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 29 Apr 2020 18:12:15 -0400
-IronPort-SDR: Pw0qN+0e/45k1yoL4kUr1VOi1Jcg3V2OaCkVIEw3k0biZdTjf3z+AQs6Hc1AKKZMnBkp3NRtG8
- C6EStpRj3dGg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2020 15:12:13 -0700
-IronPort-SDR: 7elixb/D+NGie0SaN32Tpt/1KrUx0MjcDMwO7abmrsFhhh/O5VfrmOkdcq0cZ9z7b33OJG0Qkl
- TxKWmqb/5blg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,333,1583222400"; 
-   d="scan'208";a="459347368"
-Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 29 Apr 2020 15:12:11 -0700
-Received: from kbuild by lkp-server01 with local (Exim 4.89)
-        (envelope-from <lkp@intel.com>)
-        id 1jTuw7-000HUn-3f; Thu, 30 Apr 2020 06:12:11 +0800
-Date:   Thu, 30 Apr 2020 06:11:03 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- e51759f56d314d28c25be7606b03791f048e44c7
-Message-ID: <5ea9fb77.wTWTF9DAGZSHUTNC%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1726419AbgD3BoH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 29 Apr 2020 21:44:07 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:42707 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726180AbgD3BoG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 29 Apr 2020 21:44:06 -0400
+Received: by mail-ot1-f65.google.com with SMTP id m18so3551503otq.9;
+        Wed, 29 Apr 2020 18:44:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to:user-agent;
+        bh=kFOY9LBT7oRxXs+9HBZXsCqB/74byVIkRhIK2w5gsqU=;
+        b=Ta282Fq6bv40GNFwjNn/cooxiVObXeMXzIWkei5CSqUj56uJH1TGEaPAaqYj6HrAeM
+         KLZJBH/SOQeXg67P2Z5AJK53g+G1eFW+feNGG2cXGhIPg7pZ7xy8D7b7kg5kLpw2NRg8
+         LRuQ0Eq77NI3luLmylbh7bsav1whBV94HlOILyGsX9gF1YOoIro6srSevfV9Y8E4pSt6
+         2R9uLmKeoDChbovbiLO3JB9+n/zdKnXWO9i5HecyJ4LdRfi9xsgqAyyRq7OQ7SkR8Aam
+         QarQfaq7Ywx6TcHoIYHJ0fN9HpecMDgyRqrMZ6WYm59Y6+9zABfnv/4U8sC5RDSKjvzM
+         fJEg==
+X-Gm-Message-State: AGi0PuZqmH7oJrvJm7uQQeP2aUgW3cYzq1hzucTGsh5QxHJWo0H7oUL1
+        WnQbb6kfo877OVbKjq7+SA==
+X-Google-Smtp-Source: APiQypLeXWVNTM/kAh0IfxfyEeLbDd3n3glnfR2APAbNu1iLMd8dVDVz7bMK/hmFQ5E4taHp1lRB/g==
+X-Received: by 2002:a9d:694e:: with SMTP id p14mr650572oto.237.1588211045159;
+        Wed, 29 Apr 2020 18:44:05 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id s10sm846379otd.69.2020.04.29.18.44.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2020 18:44:04 -0700 (PDT)
+Received: (nullmailer pid 6061 invoked by uid 1000);
+        Thu, 30 Apr 2020 01:44:03 -0000
+Date:   Wed, 29 Apr 2020 20:44:03 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, sakari.ailus@iki.fi,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>
+Subject: Re: [PATCH v8 3/4] dt-bindings: media: i2c: Add bindings for IMI
+ RDACM2x
+Message-ID: <20200430014403.GA18465@bogus>
+References: <20200417103424.5875-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200417103424.5875-4-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200417103424.5875-4-kieran.bingham+renesas@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-tree
-branch HEAD: e51759f56d314d28c25be7606b03791f048e44c7  media: v4l2-ctrls.h: clarify the p_def argument of v4l2_ctrl_new_std_compound
+On Fri, Apr 17, 2020 at 11:34:23AM +0100, Kieran Bingham wrote:
+> From: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> 
+> The IMI RDACM20 and IMI RDACM21 are Gigabit Multimedia Serial Link (GMSL) camera
+> capable of transmitting video and I2C control messages on a coax cable
+> physical link for automotive applications.
+> 
+> Document their device tree bindings.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> ---
+> v2:
+>  - Provide imi vendor prefix
+>  - Fix minor spelling
+> 
+> v3:
+>  - update binding descriptions
+> 
+> v4:
+>  - No change
+> 
+> v5:
+>  - Specify optional third reg address for the MCU
+> 
+> v7:
+>  [Jacopo]
+>  - Rename to imi,rdacm2x-gmsl.yaml
+>  - Exand bindings to describe RDACM21
+> ---
+>  .../bindings/media/i2c/imi,rdacm2x-gmsl.yaml  | 161 ++++++++++++++++++
+>  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+>  2 files changed, 163 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml b/Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
+> new file mode 100644
+> index 000000000000..8476e99b46b5
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
+> @@ -0,0 +1,161 @@
+> +# SPDX-License-Identifier: GPL-2.0 OR BSD-2-Clause
+> +# Copyright (C) 2019 Renesas Electronics Corp.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/imi,rdacm2x-gmsl.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title:  IMI D&D RDACM20 and RDACM21 Automotive Camera Platforms
+> +
+> +maintainers:
+> +  - Jacopo Mondi <jacopo+renesas@jmondi.org>
+> +  - Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> +  - Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> +
+> +description: -|
+> +  The IMI D&D RDACM20 and RDACM21 are GMSL-compatible camera designed for
+> +  automotive applications.
+> +
+> +  The RDACM20 camera module encloses a Maxim Integrated MAX9271 GMSL serializer,
+> +  coupled with an OV10635 image sensor and an embedded MCU. Both the MCU and
+> +  the image sensor are connected to the serializer local I2C bus and are
+> +  accessible by the host SoC by direct addressing.
+> +
+> +  The RDACM21 camera module encloses the same serializer, coupled with an
+> +  OV10640 image sensor and an OV490 ISP. Only the OV490 ISP is interfaced to
+> +  the serializer local I2C bus while the image sensor is not accessible from
+> +  the host SoC.
+> +
+> +  They both connect to a remote GMSL endpoint through a coaxial cable.
+> +
+> +                                                   IMI RDACM20
+> +  +---------------+                        +--------------------------------+
+> +  |      GMSL     |   <- Video Stream      |       <- Video--------\        |
+> +  |               |< === GMSL Link ====== >|MAX9271<- I2C bus-> <-->OV10635 |
+> +  | de-serializer |   <- I2C messages ->   |                   \<-->MCU     |
+> +  +---------------+                        +--------------------------------+
+> +
+> +                                                   IMI RDACM21
+> +  +---------------+                        +--------------------------------+
+> +  |      GMSL     |   <- Video Stream      |       <- Video--------\        |
+> +  |               |< === GMSL Link ====== >|MAX9271<- I2C bus-> <-->OV490   |
+> +  |               |   <- I2C messages ->   |                          |     |
+> +  | de-serializer |                        |          OV10640 <-------|     |
+> +  +---------------+                        +--------------------------------+
+> +
+> +  Both camera modules serialize video data generated by the embedded camera
+> +  sensor on the GMSL serial channel to a remote GMSL de-serializer. They also
+> +  receive and transmit I2C messages encapsulated and transmitted on the GMSL
+> +  bidirectional control channel.
+> +
+> +  All I2C traffic received on the GMSL link not directed to the serializer is
+> +  propagated on the local I2C bus to the remote device there connected. All the
+> +  I2C traffic generated on the local I2C bus not directed to the serializer is
+> +  propagated to the remote de-serializer encapsulated in the GMSL control
+> +  channel.
+> +
+> +  The RDACM20 and RDACM21 DT node should be a direct child of the GMSL
+> +  deserializer's I2C bus corresponding to the GMSL link that the camera is
+> +  attached to.
+> +
+> +properties:
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +        - enum:
 
-elapsed time: 704m
+You can drop oneOf and items.
 
-configs tested: 207
-configs skipped: 0
+> +          - imi,rdacm20
+> +          - imi,rdacm21
+> +
+> +  reg:
+> +    description: -|
+> +      I2C device addresses, the first to be assigned to the serializer, the
+> +      following ones to be assigned to the remote devices.
+> +
+> +      For RDACM20 the second entry of the property is assigned to the
+> +      OV10635 image sensor and the optional third one to the embedded MCU.
+> +
+> +      For RDACM21 the second entry is assigned to the OV490 ISP and the optional
+> +      third one ignored.
+> +
+> +    minItems: 2
+> +    maxItems: 3
+> +
+> +  port:
+> +    type: object
+> +    additionalProperties: false
+> +    description: -|
+> +      Connection to the remote GMSL endpoint are modelled using the OF graph
+> +      bindings in accordance with the video interface bindings defined in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +
+> +      The device node contains a single "port" child node with a single
+> +      "endpoint" sub-device.
+> +
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        properties:
+> +          remote-endpoint:
+> +            description: -|
+> +              phandle to the remote GMSL endpoint sub-node in the remote node
+> +              port.
+> +            maxItems: 1
+> +
+> +        required:
+> +          - remote-endpoint
+> +
+> +    required:
+> +      - endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - port
+> +
+> +examples:
+> +  - |
+> +    i2c@e66d8000 {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      reg = <0 0xe66d8000 0 0x40>;
+> +
+> +      camera@31 {
+> +        compatible = "imi,rdacm20";
+> +        reg = <0x31>, <0x41>, <0x51>;
+> +
+> +        port {
+> +          rdacm20_out0: endpoint {
+> +            remote-endpoint = <&max9286_in0>;
+> +          };
+> +        };
+> +      };
+> +    };
+> +
+> +  - |
+> +    i2c@e66d8000 {
+> +      #address-cells = <1>;
+> +      #size-cells = <0>;
+> +
+> +      reg = <0 0xe66d8000 0 0x40>;
+> +
+> +      camera@31 {
+> +        compatible = "imi,rdacm21";
+> +        reg = <0x31>, <0x41>;
+> +
+> +        port {
+> +          rdacm21_out0: endpoint {
+> +            remote-endpoint = <&max9286_in0>;
+> +          };
+> +        };
+> +      };
+> +    };
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index d3891386d671..dcbecdc58731 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -453,6 +453,8 @@ patternProperties:
+>      description: Ingenieurburo Fur Ic-Technologie (I/F/I)
+>    "^ilitek,.*":
+>      description: ILI Technology Corporation (ILITEK)
+> +  "^imi,.*":
+> +    description: Integrated Micro-Electronics Inc.
+>    "^img,.*":
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Alphabetical order...
 
-arm                           efm32_defconfig
-arm                         at91_dt_defconfig
-arm                        shmobile_defconfig
-arm64                               defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-arm                           sunxi_defconfig
-arm                        multi_v7_defconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-arm64                            allmodconfig
-arm                              allmodconfig
-arm64                             allnoconfig
-arm                               allnoconfig
-sparc                            allyesconfig
-s390                                defconfig
-ia64                              allnoconfig
-ia64                                defconfig
-i386                                defconfig
-xtensa                          iss_defconfig
-parisc                           allmodconfig
-ia64                        generic_defconfig
-m68k                          multi_defconfig
-mips                malta_kvm_guest_defconfig
-ia64                             allmodconfig
-powerpc                             defconfig
-h8300                     edosk2674_defconfig
-sh                  sh7785lcr_32bit_defconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                             alldefconfig
-i386                              debian-10.3
-ia64                          tiger_defconfig
-ia64                         bigsur_defconfig
-ia64                             allyesconfig
-ia64                             alldefconfig
-m68k                       m5475evb_defconfig
-m68k                             allmodconfig
-m68k                       bvme6000_defconfig
-m68k                           sun3_defconfig
-nios2                         3c120_defconfig
-nios2                         10m50_defconfig
-c6x                        evmc6678_defconfig
-c6x                              allyesconfig
-openrisc                 simple_smp_defconfig
-openrisc                    or1ksim_defconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                                defconfig
-alpha                               defconfig
-h8300                       h8s-sim_defconfig
-h8300                    h8300h-sim_defconfig
-xtensa                       common_defconfig
-arc                                 defconfig
-arc                              allyesconfig
-microblaze                      mmu_defconfig
-microblaze                    nommu_defconfig
-mips                      fuloong2e_defconfig
-mips                      malta_kvm_defconfig
-mips                            ar7_defconfig
-mips                             allyesconfig
-mips                         64r6el_defconfig
-mips                              allnoconfig
-mips                           32r2_defconfig
-mips                             allmodconfig
-mips                         tb0287_defconfig
-mips                       capcella_defconfig
-mips                           ip32_defconfig
-mips                  decstation_64_defconfig
-mips                      loongson3_defconfig
-mips                          ath79_defconfig
-mips                        bcm63xx_defconfig
-parisc                            allnoconfig
-parisc                generic-64bit_defconfig
-parisc                generic-32bit_defconfig
-parisc                           allyesconfig
-powerpc                      chrp32_defconfig
-powerpc                       holly_defconfig
-powerpc                       ppc64_defconfig
-powerpc                          rhel-kconfig
-powerpc                           allnoconfig
-powerpc                  mpc866_ads_defconfig
-powerpc                    amigaone_defconfig
-powerpc                    adder875_defconfig
-powerpc                     ep8248e_defconfig
-powerpc                          g5_defconfig
-powerpc                     mpc512x_defconfig
-parisc               randconfig-a001-20200429
-m68k                 randconfig-a001-20200429
-alpha                randconfig-a001-20200429
-mips                 randconfig-a001-20200429
-nds32                randconfig-a001-20200429
-riscv                randconfig-a001-20200429
-parisc               randconfig-a001-20200430
-mips                 randconfig-a001-20200430
-m68k                 randconfig-a001-20200430
-riscv                randconfig-a001-20200430
-alpha                randconfig-a001-20200430
-nds32                randconfig-a001-20200430
-nios2                randconfig-a001-20200429
-h8300                randconfig-a001-20200429
-c6x                  randconfig-a001-20200429
-sparc64              randconfig-a001-20200429
-microblaze           randconfig-a001-20200429
-sh                   randconfig-a001-20200429
-csky                 randconfig-a001-20200429
-s390                 randconfig-a001-20200429
-xtensa               randconfig-a001-20200429
-openrisc             randconfig-a001-20200429
-s390                 randconfig-a001-20200430
-xtensa               randconfig-a001-20200430
-csky                 randconfig-a001-20200430
-openrisc             randconfig-a001-20200430
-sh                   randconfig-a001-20200430
-i386                 randconfig-b002-20200429
-i386                 randconfig-b001-20200429
-x86_64               randconfig-b001-20200429
-i386                 randconfig-b003-20200429
-x86_64               randconfig-b002-20200429
-x86_64               randconfig-b003-20200429
-i386                 randconfig-b001-20200430
-i386                 randconfig-b002-20200430
-x86_64               randconfig-b001-20200430
-i386                 randconfig-b003-20200430
-x86_64               randconfig-b002-20200430
-x86_64               randconfig-b003-20200430
-i386                 randconfig-c002-20200429
-i386                 randconfig-c001-20200429
-x86_64               randconfig-c002-20200429
-x86_64               randconfig-c001-20200429
-i386                 randconfig-c003-20200429
-x86_64               randconfig-c003-20200429
-x86_64               randconfig-c001-20200430
-i386                 randconfig-c001-20200430
-i386                 randconfig-c002-20200430
-x86_64               randconfig-c002-20200430
-x86_64               randconfig-c003-20200430
-i386                 randconfig-c003-20200430
-x86_64               randconfig-d001-20200428
-i386                 randconfig-d002-20200428
-i386                 randconfig-d001-20200428
-x86_64               randconfig-d003-20200428
-i386                 randconfig-d003-20200428
-x86_64               randconfig-d001-20200429
-x86_64               randconfig-d002-20200429
-i386                 randconfig-d002-20200429
-i386                 randconfig-d001-20200429
-x86_64               randconfig-d003-20200429
-i386                 randconfig-d003-20200429
-x86_64               randconfig-e002-20200430
-i386                 randconfig-e003-20200430
-x86_64               randconfig-e003-20200430
-i386                 randconfig-e002-20200430
-x86_64               randconfig-e001-20200430
-i386                 randconfig-e001-20200430
-x86_64               randconfig-e002-20200429
-i386                 randconfig-e003-20200429
-i386                 randconfig-e002-20200429
-x86_64               randconfig-e003-20200429
-i386                 randconfig-e001-20200429
-x86_64               randconfig-e001-20200429
-i386                 randconfig-f002-20200429
-i386                 randconfig-f003-20200429
-x86_64               randconfig-f003-20200429
-i386                 randconfig-f001-20200429
-x86_64               randconfig-f001-20200429
-x86_64               randconfig-h001-20200429
-i386                 randconfig-h003-20200429
-x86_64               randconfig-h003-20200429
-i386                 randconfig-h002-20200429
-i386                 randconfig-h001-20200429
-sparc                randconfig-a001-20200429
-ia64                 randconfig-a001-20200429
-powerpc              randconfig-a001-20200429
-arm                  randconfig-a001-20200429
-arc                  randconfig-a001-20200429
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-s390                       zfcpdump_defconfig
-s390                          debug_defconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                             alldefconfig
-sh                          rsk7269_defconfig
-sh                               allmodconfig
-sh                            titan_defconfig
-sh                                allnoconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                           x86_64_defconfig
-um                             i386_defconfig
-um                                  defconfig
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
+With those fixes,
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Reviewed-by: Rob Herring <robh@kernel.org>
+
