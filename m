@@ -2,261 +2,310 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF5D21C106E
-	for <lists+linux-media@lfdr.de>; Fri,  1 May 2020 11:38:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F9321C125D
+	for <lists+linux-media@lfdr.de>; Fri,  1 May 2020 14:45:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728352AbgEAJiW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 May 2020 05:38:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58358 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728236AbgEAJiV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 1 May 2020 05:38:21 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B903C2076D;
-        Fri,  1 May 2020 09:38:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588325900;
-        bh=l0FoOmEc6c2IIXe804SNSZqXZ9M+wy2WUGrWUpz208c=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=R9kCbQKw7Mgg5IkynKdCw5hXMhMIJoq6LiLM2uhKDDQSObgeruMD8e7Tvsk7pxEYl
-         0CSnHNLLOBYthrnrDeB10Jjzf+ohV4rMOfSN6V6FlRlfnlhCRkem91/T8qtCT6MmAt
-         uy1+WgDX7elyf1wQsJEe9+oLJTMf1Wcti/R2N1Rk=
-Date:   Fri, 1 May 2020 11:38:12 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Patrik Gfeller <patrik.gfeller@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: atomisp kernel driver(s)
-Message-ID: <20200501113812.7f16b7ca@coco.lan>
-In-Reply-To: <1a17ffad-9792-a4ff-519e-a4306e7bf3e1@gmail.com>
-References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
-        <eb83f789-9595-55f0-d922-bab00ae85cff@gmail.com>
-        <20200420224750.28c0181d@coco.lan>
-        <dd8ab5df-31c7-f009-36e4-ca4fd0605e97@gmail.com>
-        <20200422211344.2ec3d93e@coco.lan>
-        <23b3a078-2a9a-5f50-a35e-9f40f5aa8a6e@gmail.com>
-        <86413836-e4b5-cb53-3ac0-1764c693ec7b@gmail.com>
-        <682558b0-a2cf-9fe2-6e54-20462ecccb5d@gmail.com>
-        <20200425132255.4bf872b2@coco.lan>
-        <131a4247-cef3-d651-a0ea-defd32b8bf20@gmail.com>
-        <20200426185007.1954885a@coco.lan>
-        <45817a6a-dd2f-13a6-835b-fd2b04ded23f@gmail.com>
-        <20200427235027.15cd4e03@coco.lan>
-        <d9ec5067-142c-66c9-c412-51ddf38e44f7@gmail.com>
-        <20200429011339.03af3c2a@coco.lan>
-        <3b7366b9-463d-c49b-0f2d-51a1d5475a9d@gmail.com>
-        <20200429201753.3b2d679b@coco.lan>
-        <6fffdf73-a0eb-1b1c-d894-e4799b8ef944@gmail.com>
-        <20200430125544.10a9830d@coco.lan>
-        <403b799e-6ae9-d62b-1f3a-a1b6b874071b@gmail.com>
-        <20200501002510.0ead955d@coco.lan>
-        <1a17ffad-9792-a4ff-519e-a4306e7bf3e1@gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728712AbgEAMps (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 May 2020 08:45:48 -0400
+Received: from mail1.protonmail.ch ([185.70.40.18]:28335 "EHLO
+        mail1.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728443AbgEAMpr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 May 2020 08:45:47 -0400
+Date:   Fri, 01 May 2020 12:45:33 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+        s=protonmail; t=1588337141;
+        bh=ISx5BmR3vZGoKhJj7Hq5Oyt/vvFDUjNxUpcAaTJTGMU=;
+        h=Date:To:From:Cc:Reply-To:Subject:In-Reply-To:References:From;
+        b=lDrSe4WH5vrkE9vxngTiXBo9jvGpBBF6iK5PlHrHopzzqZ0iv+CwYLnEBzspBYZqz
+         62LNFZWK9Tq/wh8w4E8hYQv47U7Ilx34n6tc1PreGfqHDHWB55u82Qqs5vLobniAtC
+         2UBd+5LwzoZ8i2HGk3mw83+P9YQb+cb3hs6x5dCg=
+To:     Helen Koike <helen@koikeco.de>
+From:   =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+        <nfraprado@protonmail.com>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Helen Koike <helen.koike@collabora.com>,
+        lkcamp@lists.libreplanetbr.org,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Reply-To: =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
+          <nfraprado@protonmail.com>
+Subject: Re: [Lkcamp] [PATCH v3 3/3] media: vimc: deb: Add support for {RGB, BGR, GBR}888 bus formats on source pad
+Message-ID: <20200501124513.pruy45zh6wezs32g@ArchWay.local>
+In-Reply-To: <cd585b72-067f-88d6-7ec6-30044101db38@koikeco.de>
+References: <20200427230234.3114565-4-nfraprado@protonmail.com>
+ <1fcbe67e-db71-7841-6165-e62b74d82994@collabora.com>
+ <cd585b72-067f-88d6-7ec6-30044101db38@koikeco.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
+        autolearn=disabled version=3.4.4
+X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 1 May 2020 10:54:18 +0200
-Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
-
-> On 01.05.20 00:25, Mauro Carvalho Chehab wrote:
-> > Em Thu, 30 Apr 2020 17:09:48 +0200
-> > Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
-> > =20
-> >> Am 4/30/2020 um 12:55 PM schrieb Mauro Carvalho Chehab: =20
-> >>> Em Thu, 30 Apr 2020 09:56:53 +0200
-> >>> Patrik Gfeller<patrik.gfeller@gmail.com>  escreveu:
-> >>>    =20
-> >>>> For my first test tried to re-compile to module, without the whole
-> >>>> kernel. That was a mistake, as I mixed something up, probably it loa=
-ded
-> >>>> an old version of the module ... to be on the save side the steps I =
-used
-> >>>> this time (in case we see something unexpected and for my later refe=
-rence):
-> >>>>
-> >>>> $ git log --oneline
-> >>>> 4c922df10252 (HEAD -> atomisp, origin/atomisp) media: atomisp2: get =
-rid
-> >>>> of ia_css_sc_param.h version dependency
-> >>>> ...
-> >>>>
-> >>>> $ make -j4 clean
-> >>>> $ make -j4
-> >>>> $ sudo make modules_install INSTALL_MOD_STRIP=3D1
-> >>>> $ sudo make install =20
-> >>> Please try to build from this branch:
-> >>>
-> >>> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=3Datomisp_v2
-> >>>
-> >>> You'll need to setup a new config var there. So, please run this befo=
-re
-> >>> make clean. So, for building it, you will do:
-> >>>
-> >>> 	$ ./scripts/config -e CONFIG_VIDEO_ATOMISP_ISP2401 && make -j module=
-s_prepare
-> >>> 	$ make -j4 clean && make -j4
-> >>> 	$ sudo make modules_install INSTALL_MOD_STRIP=3D1 && sudo make insta=
-ll
-> >>>
-> >>> This won't change the regulator detection, but it should hopefully use
-> >>> the ISP2401-specific code, with seems to be needed for your device. =
-=20
-> >> I've updated to the latest source (git checkout atomisp_v2 && git pull)
-> >> and compiled using the instructions above. Compilation worked well, but
-> >> the linker had some problems (full log attached):
+On Tue, Apr 28, 2020 at 09:25:25AM -0300, Helen Koike wrote:
+>=20
+> Hello,
+>=20
+> On 4/28/20 4:46 AM, Dafna Hirschfeld wrote:
+> > hi,
+> > Thanks for the patches!
+> >
+> > On 28.04.20 01:03, N=C3=ADcolas F. R. A. Prado wrote:
+> >> Add support for RGB888_*, BGR888_* and GBR888_* media bus formats on
+> >> the source pad of debayer subdevices.
 > >>
-> >> ...
-> >> ld:
-> >> drivers/staging/media/atomisp/pci/css_2401_system/hive_isp_css_2401_sy=
-stem_generated/ia_css_isp_states.o:(.data+0x0):
-> >> multiple definition of `ia_css_kernel_init_state';
-> >> drivers/staging/media/atomisp/pci/css_2401_csi2p_system/hive_isp_css_2=
-401_system_csi2p_generated/ia_css_isp_states.o:(.data+0x0):
-> >> first defined here
-> >> ... =20
-> > Ok. That's because there are two "hive" variants. the building system
-> > should use either one of them (but not both at the same time).
-> >
-> > I didn't get the error before because I was just building a module
-> > (that speeds up the development). Such errors only happen on a full
-> > build.
-> >
-> > Fixed.
-> >
-> > As I did a git rebase (in order to have something that we could
-> > upstream later), you'll need to use this procedure to update:
-> >
-> > 	$ git remote update
-> > 	$ git reset --hard origin/atomisp_v2
-> >
-> > There's no need to clean your last build. Just run:
-> >
-> > 	$ make -j4
-> >
-> > And it should build fine this time. =20
+> >> Co-developed-by: Vitor Massaru Iha <vitor@massaru.org>
+> >> Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
+> >> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
+> >> ---
+> >>
+> >> Changes in v3:
+> >> - Rename vimc_deb_is_src_code_invalid() to vimc_deb_src_code_is_valid(=
+)
+> >> - Change vimc_deb_src_code_is_valid() to return bool
+> >>
+> >> Changes in v2:
+> >> - Change commit message to reflect v2 changes
+> >> - Rename variables
+> >> - Fix array formatting
+> >> - Add vimc_deb_is_src_code_valid function
+> >> - Add other BGR888 and RGB888 formats to debayer source pad supported
+> >> =C2=A0=C2=A0 formats
+> >>
+> >> =C2=A0 .../media/test-drivers/vimc/vimc-debayer.c=C2=A0=C2=A0=C2=A0 | =
+61 +++++++++++++++----
+> >> =C2=A0 1 file changed, 49 insertions(+), 12 deletions(-)
+> >>
+> >> diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/=
+media/test-drivers/vimc/vimc-debayer.c
+> >> index d10aee9f84c4..7e87706d417e 100644
+> >> --- a/drivers/media/test-drivers/vimc/vimc-debayer.c
+> >> +++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
+> >> @@ -51,6 +51,19 @@ static const struct v4l2_mbus_framefmt sink_fmt_def=
+ault =3D {
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .colorspace =3D V4L2_COLORSPACE_DEFAULT=
+,
+> >> =C2=A0 };
+> >> =C2=A0 +static const u32 vimc_deb_src_mbus_codes[] =3D {
+> >> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_GBR888_1X24,
+> >> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_BGR888_1X24,
+> >> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_BGR888_3X8,
+> >> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_RGB888_1X24,
+> >> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_RGB888_2X12_BE,
+> >> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_RGB888_2X12_LE,
+> >> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_RGB888_3X8,
+> >> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> >> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
+> >> +=C2=A0=C2=A0=C2=A0 MEDIA_BUS_FMT_RGB888_1X32_PADHI,
+> >> +};
+> >> +
+> >> =C2=A0 static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] =
+=3D {
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 {
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .code =3D MEDIA=
+_BUS_FMT_SBGGR8_1X8,
+> >> @@ -125,6 +138,17 @@ static const struct vimc_deb_pix_map *vimc_deb_pi=
+x_map_by_code(u32 code)
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return NULL;
+> >> =C2=A0 }
+> >> =C2=A0 +static bool vimc_deb_src_code_is_valid(u32 code)
+> >> +{
+> >> +=C2=A0=C2=A0=C2=A0 unsigned int i;
+> >> +
+> >> +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < ARRAY_SIZE(vimc_deb_src_mbus_cod=
+es); i++)
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (vimc_deb_src_mbus_code=
+s[i] =3D=3D code)
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 re=
+turn true;
+> >> +
+> >> +=C2=A0=C2=A0=C2=A0 return false;
+> >> +}
+> >> +
+> >> =C2=A0 static int vimc_deb_init_cfg(struct v4l2_subdev *sd,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev_pad_config *c=
+fg)
+> >> =C2=A0 {
+> >> @@ -148,14 +172,11 @@ static int vimc_deb_enum_mbus_code(struct v4l2_s=
+ubdev *sd,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev_p=
+ad_config *cfg,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_subdev_m=
+bus_code_enum *code)
+> >> =C2=A0 {
+> >> -=C2=A0=C2=A0=C2=A0 /* We only support one format for source pads */
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (VIMC_IS_SRC(code->pad)) {
+> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vimc_deb_device *vd=
+eb =3D v4l2_get_subdevdata(sd);
+> >> -
+> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (code->index)
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (code->index >=3D ARRAY=
+_SIZE(vimc_deb_src_mbus_codes))
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 return -EINVAL;
+> >> =C2=A0 -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 code->code =3D vdeb=
+->src_code;
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 code->code =3D vimc_deb_sr=
+c_mbus_codes[code->index];
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (code->index=
+ >=3D ARRAY_SIZE(vimc_deb_pix_map_list))
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 return -EINVAL;
+> >> @@ -170,8 +191,6 @@ static int vimc_deb_enum_frame_size(struct v4l2_su=
+bdev *sd,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_su=
+bdev_pad_config *cfg,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_su=
+bdev_frame_size_enum *fse)
+> >> =C2=A0 {
+> >> -=C2=A0=C2=A0=C2=A0 struct vimc_deb_device *vdeb =3D v4l2_get_subdevda=
+ta(sd);
+> >> -
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (fse->index)
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
+> >> =C2=A0 @@ -181,7 +200,7 @@ static int vimc_deb_enum_frame_size(struct =
+v4l2_subdev *sd,
+> >> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!vpi=
+x)
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 return -EINVAL;
+> >> -=C2=A0=C2=A0=C2=A0 } else if (fse->code !=3D vdeb->src_code) {
+> >> +=C2=A0=C2=A0=C2=A0 } else if (!vimc_deb_src_code_is_valid(fse->code))=
+ {
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> >> =C2=A0 @@ -237,6 +256,7 @@ static int vimc_deb_set_fmt(struct v4l2_sub=
+dev *sd,
+> >> =C2=A0 {
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vimc_deb_device *vdeb =3D v4l2_g=
+et_subdevdata(sd);
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct v4l2_mbus_framefmt *sink_fmt;
+> >> +=C2=A0=C2=A0=C2=A0 u32 *src_code;
+> >> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (fmt->which =3D=3D V4L2_SUBDE=
+V_FORMAT_ACTIVE) {
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Do not chang=
+e the format while stream is on */
+> >> @@ -244,8 +264,10 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *s=
+d,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 return -EBUSY;
+> >> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sink_fmt=
+ =3D &vdeb->sink_fmt;
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 src_code =3D &vdeb->src_co=
+de;
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sink_fmt =3D v4=
+l2_subdev_get_try_format(sd, cfg, 0);
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 src_code =3D &v4l2_subdev_=
+get_try_format(sd, cfg, 1)->code;
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> >> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /*
+> >> @@ -253,9 +275,14 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *s=
+d,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * it is propagated from the sink
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (VIMC_IS_SRC(fmt->pad)) {
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u32 code =3D fmt->format.c=
+ode;
+> >> +
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->format =3D=
+ *sink_fmt;
+> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* TODO: Add support for o=
+ther formats */
+> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->format.code =3D vdeb-=
+>src_code;
+> >> +
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (vimc_deb_src_code_is_v=
+alid(code))
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *s=
+rc_code =3D code;
+> >> +
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->format.code =3D *src_=
+code;
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } else {
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Set the new =
+format in the sink pad */
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vimc_deb_adjust=
+_sink_fmt(&fmt->format);
+> >> @@ -291,11 +318,21 @@ static void vimc_deb_set_rgb_mbus_fmt_rgb888_1x2=
+4(struct vimc_deb_device *vdeb,
+> > I guess the name of the function should now change to vimc_deb_set_rgb_=
+mbus_fmt ?
+> > Or better vimc_deb_process_rgb_frame.
+> > Also, it seems that it is a assigned as a callback so that each src_fmt=
+ have a different callback
+> > but you already did it with a switch case. So maybe you can add a patch=
+ to call it directly
 >=20
-> Compiled and linked :-). We get some more output this time:
+> Agreed that it should be renamed. Removing the callback could be done lat=
+er (up to you N=C3=ADcolas).
+>=20
+> With the rename, and with or without the callback removal:
+> Acked-by: Helen Koike <helen.koike@collabora.com>
 
-Good!
+Okay, I'd rather do that later as a separate patch.
+I'll send the v4 with the rename, then.
+
+Thank you both for the review.
+
+N=C3=ADcolas
 
 >=20
-> [=C2=A0=C2=A0=C2=A0 9.120066] kernel: videodev: Linux video capture inter=
-face: v2.00
->=20
-> [=C2=A0=C2=A0=C2=A0 9.141554] kernel: atomisp_ov2680: module is from the =
-staging=20
-> directory, the quality is unknown, you have been warned.
+> >
+> > Thanks,
+> > Dafna
+> >
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int col,
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int rgb[3])
+> >> =C2=A0 {
+> >> +=C2=A0=C2=A0=C2=A0 const struct vimc_pix_map *vpix;
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 unsigned int i, index;
+> >> =C2=A0 +=C2=A0=C2=A0=C2=A0 vpix =3D vimc_pix_map_by_code(vdeb->src_cod=
+e);
+> >> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 index =3D VIMC_FRAME_INDEX(lin, col, vd=
+eb->sink_fmt.width, 3);
+> >> -=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < 3; i++)
+> >> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vdeb->src_frame[index + i]=
+ =3D rgb[i];
+> >> +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < 3; i++) {
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (vpix->pixelformat)=
+ {
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case V4L2_PIX_FMT_RGB24:
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vd=
+eb->src_frame[index + i] =3D rgb[i];
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 br=
+eak;
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case V4L2_PIX_FMT_BGR24:
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vd=
+eb->src_frame[index + i] =3D rgb[2-i];
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 br=
+eak;
+> >> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+> >> +=C2=A0=C2=A0=C2=A0 }
+> >> =C2=A0 }
+> >> =C2=A0 =C2=A0 static int vimc_deb_s_stream(struct v4l2_subdev *sd, int=
+ enable)
+> >>
+> >
+> > _______________________________________________
+> > Lkcamp mailing list
+> > Lkcamp@lists.libreplanetbr.org
+> > https://lists.libreplanetbr.org/mailman/listinfo/lkcamp
 
-Hmm.. your e-mailer is breaking long lines again  :-(
-
-> [=C2=A0=C2=A0=C2=A0 9.175421] kernel: ov2680 i2c-OVTI2680:00: gmin: initi=
-alizing=20
-> atomisp module subdev data.PMIC ID 1
-> [=C2=A0=C2=A0=C2=A0 9.178755] kernel: ov2680 i2c-OVTI2680:00: supply V1P2=
-A not found,=20
-> using dummy regulator
-> [=C2=A0=C2=A0=C2=A0 9.189966] kernel: proc_thermal 0000:00:0b.0: enabling=
- device (0000=20
-> -> 0002) =20
-> [=C2=A0=C2=A0=C2=A0 9.212704] kernel: ov2680 i2c-OVTI2680:00: supply VPRO=
-G4B not found,=20
-> using dummy regulator
-> [=C2=A0=C2=A0=C2=A0 9.235024] kernel: ov2680 i2c-OVTI2680:00: supply Regu=
-lator1p8v not=20
-> found, using dummy regulator
-
-I'll check this.
-
-> [=C2=A0=C2=A0=C2=A0 9.235057] kernel: proc_thermal 0000:00:0b.0: Creating=
- sysfs group=20
-> for PROC_THERMAL_PCI
-> [=C2=A0=C2=A0=C2=A0 9.238185] kernel: ov2680 i2c-OVTI2680:00: supply Regu=
-lator2p8v not=20
-> found, using dummy regulator
-> [=C2=A0=C2=A0=C2=A0 9.337925] kernel: atomisp: module is from the staging=
- directory,=20
-> the quality is unknown, you have been warned.
-> [=C2=A0=C2=A0=C2=A0 9.404666] kernel: atomisp-isp2 0000:00:03.0: enabling=
- device (0000=20
-> -> 0002) =20
-> [=C2=A0=C2=A0=C2=A0 9.408680] kernel: atomisp-isp2 0000:00:03.0: ISP HPLL=
- frequency=20
-> base =3D 1600 MHz
-> [=C2=A0=C2=A0=C2=A0 9.412197] kernel: atomisp-isp2 0000:00:03.0: Unsuppor=
-ted=20
-> hw_revision 0x2010
-
-This is related to firmware load stuff. The code use those macros:
-
-	#define ATOMISP_HW_REVISION_MASK	0x0000ff00
-	#define ATOMISP_HW_REVISION_SHIFT	8
-	#define ATOMISP_HW_REVISION_ISP2300	0x00
-	#define ATOMISP_HW_REVISION_ISP2400	0x10
-	#define ATOMISP_HW_REVISION_ISP2401_LEGACY 0x11
-	#define ATOMISP_HW_REVISION_ISP2401	0x20
-
-	#define ATOMISP_HW_STEPPING_MASK	0x000000ff
-	#define ATOMISP_HW_STEPPING_A0		0x00
-	#define ATOMISP_HW_STEPPING_B0		0x10
-
-According with the above, 0x2010 would mean ISP2401-B0.
-
-The code itself check those macros in order to load the right firmware:
-
-        if (isp->media_dev.hw_revision =3D=3D
-            ((ATOMISP_HW_REVISION_ISP2401 << ATOMISP_HW_REVISION_SHIFT)
-             | ATOMISP_HW_STEPPING_A0))
-                fw_path =3D "shisp_2401a0_v21.bin";
-
-        if (isp->media_dev.hw_revision =3D=3D
-            ((ATOMISP_HW_REVISION_ISP2401_LEGACY << ATOMISP_HW_REVISION_SHI=
-FT)
-             | ATOMISP_HW_STEPPING_A0))
-                fw_path =3D "shisp_2401a0_legacy_v21.bin";
-
-        if (isp->media_dev.hw_revision =3D=3D
-            ((ATOMISP_HW_REVISION_ISP2400 << ATOMISP_HW_REVISION_SHIFT)
-             | ATOMISP_HW_STEPPING_B0))
-                fw_path =3D "shisp_2400b0_v21.bin";
-
-        if (!fw_path) {
-                dev_err(isp->dev, "Unsupported hw_revision 0x%x\n",
-                        isp->media_dev.hw_revision);
-                return NULL;
-        }
-
-It sounds that we need to add:
-
-        if (isp->media_dev.hw_revision =3D=3D
-            ((ATOMISP_HW_REVISION_ISP2401 << ATOMISP_HW_REVISION_SHIFT)
-             | ATOMISP_HW_STEPPING_B0))
-                fw_path =3D "shisp_2401b0_v21.bin";
-
-Eventually, other changes may be needed, depending on how different is
-this B0 revision from A0.
-
-Patch for it pushed. Please notice that it will seek for a firmware
-named "shisp_2401b0_v21.bin".
-
-This driver will also check if the firmware version is:
-
-	"irci_ecr - master_20150911_0724"
-
-As far as I know, the firmware is linked to the driver's code.=20
-So, supporting a different firmware version will likely require
-changes at the driver.
-
-> [=C2=A0=C2=A0=C2=A0 9.416174] kernel: atomisp-isp2: probe of 0000:00:03.0=
- failed with=20
-> error -2
-
-That's because it didn't load the firmware.
-
-Thanks,
-Mauro
