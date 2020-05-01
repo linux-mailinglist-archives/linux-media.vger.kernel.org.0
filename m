@@ -2,240 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B3251C12A6
-	for <lists+linux-media@lfdr.de>; Fri,  1 May 2020 15:11:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0BF4F1C178F
+	for <lists+linux-media@lfdr.de>; Fri,  1 May 2020 16:19:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728847AbgEANLb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 May 2020 09:11:31 -0400
-Received: from mail-40131.protonmail.ch ([185.70.40.131]:18809 "EHLO
-        mail-40131.protonmail.ch" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728737AbgEANLb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 May 2020 09:11:31 -0400
-Date:   Fri, 01 May 2020 13:11:23 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-        s=protonmail; t=1588338688;
-        bh=PIB2K8Yw5EwBdrfXSF6xtVui4Zg441ssTDvwGoGwAgM=;
-        h=Date:To:From:Cc:Reply-To:Subject:From;
-        b=kPa33wfn58w6p364UM48VkKQQ6SYLz1lmfECsbEfxL57UeuulInj2Vv+1gjWJ+HRc
-         XIcPXDKDlc4tR5CmnJyhUBpH0fQKdiVOlnZMku8J/xoKwp3hpWurPsvXlYNBSbXozz
-         C7xWInrEwgIcaQBOZ7//AVbd8iZeUbiVZ3jyjpLU=
-To:     linux-media@vger.kernel.org
-From:   =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-        <nfraprado@protonmail.com>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-kernel@vger.kernel.org, lkcamp@lists.libreplanetbr.org
-Reply-To: =?UTF-8?Q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= 
-          <nfraprado@protonmail.com>
-Subject: [PATCH v4 3/3] media: vimc: deb: Add support for {RGB,BGR,GBR}888 bus formats on source pad
-Message-ID: <20200501131045.1849315-4-nfraprado@protonmail.com>
+        id S1728978AbgEAOTH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 May 2020 10:19:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58550 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728839AbgEAOTG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 1 May 2020 10:19:06 -0400
+Received: from mail-qt1-x82b.google.com (mail-qt1-x82b.google.com [IPv6:2607:f8b0:4864:20::82b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C3E0C061A0C
+        for <linux-media@vger.kernel.org>; Fri,  1 May 2020 07:19:05 -0700 (PDT)
+Received: by mail-qt1-x82b.google.com with SMTP id k12so8010428qtm.4
+        for <linux-media@vger.kernel.org>; Fri, 01 May 2020 07:19:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=Yn+1TKfovnXiOgNNAcPh0kJa+4Pic1O3dxoARC/a4ak=;
+        b=gA6kaDIBBYRHQApxBxWonJfxU8/7/uKycVgk394cd0i7LPmYXkiBxvkEI0XbHaY0/z
+         6zbnOUtuMfkdmI45bsVkpOnwTkFCra9qdQmWffg5lPa4ZDGKO3wgadfQK/3teokD7vNl
+         jOiuj51gWN+gF2+5jthzaFebqy5QTFV40MR1UmVUcXHRcWrsnJsO5fIstlWv42wfKtZm
+         ze9ebWLlSPsfmTj2hga6o9TUKSsXicleyFwgZFWdoN2pkh1rmAnJPC/043m+jxQ+N1IN
+         UMupTkEcjkI9s2UKTmBtKSA91A5dRgYXPPvZC4+MT9+xned1qaQ7vx2TLyMRSdXJzhWL
+         OZGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=Yn+1TKfovnXiOgNNAcPh0kJa+4Pic1O3dxoARC/a4ak=;
+        b=qzsBlZdDrTioW4jarHBUTlg20A/B/BKVq8ZIKWOfxXgyrHGTey8pmNFQeebioQQtrN
+         ACCbHRcCXtNVIgLsW12L0WCpizv3j3eTRkgp/3c/TCDMOdZ2kI9mK+LzXCEJ7c4x9fa8
+         jd/x3UCMxr7GZXftCLvsVivm/GVIO5CxMS07U/7DIQ3TY/PVfdRQjlW8cRhbq0S9Guy0
+         eLcCk1W2eMDYo3oDUvh0aEJj/SpGDI31KMQZKEOfq19RUzMrLN1woXWtCNyMlORiv3X5
+         Hw666hOHiqWkl46WG9S6mt8254H5BgQ1Bs1XPOc7zz/Hhu5Al/rSak3anPi+Kuv0GIuO
+         rQrw==
+X-Gm-Message-State: AGi0PuZ8aISzQ8YN6eu3aKfyqvAKWHOUmOuB683vxcnT+QHARYYkFJMD
+        loeWzFuY0yx3qj7/vAfIuoSiKA==
+X-Google-Smtp-Source: APiQypJ0WG72ONSD4nEjVRs3zk4pZlewSgj6kecaTJJhIT0T8oFw+vCtfii6Bobnmuc09F+6Gy4Aaw==
+X-Received: by 2002:aed:37ca:: with SMTP id j68mr4077099qtb.276.1588342744170;
+        Fri, 01 May 2020 07:19:04 -0700 (PDT)
+Received: from skullcanyon ([192.222.193.21])
+        by smtp.gmail.com with ESMTPSA id i5sm2654891qki.42.2020.05.01.07.19.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2020 07:19:03 -0700 (PDT)
+Message-ID: <d97b3c8e8a838d60d2d0d6058b77e624c0ee2fe1.camel@ndufresne.ca>
+Subject: Re: [RFC] docs: dev-decoder: Add two more reasons for dynamic change
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Date:   Fri, 01 May 2020 10:19:02 -0400
+In-Reply-To: <20200430113809.14872-1-stanimir.varbanov@linaro.org>
+References: <20200430113809.14872-1-stanimir.varbanov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.1 (3.36.1-1.fc32) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.2 required=7.0 tests=ALL_TRUSTED,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM shortcircuit=no
-        autolearn=disabled version=3.4.4
-X-Spam-Checker-Version: SpamAssassin 3.4.4 (2020-01-24) on mail.protonmail.ch
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for RGB888_*, BGR888_* and GBR888_* media bus formats on
-the source pad of debayer subdevices.
+Le jeudi 30 avril 2020 à 14:38 +0300, Stanimir Varbanov a écrit :
+> Here we add two more reasons for dynamic-resolution-change state
+> (I think the name is misleading espesially "resolution" word, maybe
+> dynamic-bitstream-change is better to describe).
+> 
+> The first one which could change in the middle of the stream is the
+> bit-depth. For worst example the stream is 8bit at the begging but
+> later in the bitstream it changes to 10bit. That change should be
+> propagated to the client so that it can take appropriate  action. In
+> this case most probably it has to stop the streaming on the capture
+> queue and re-negotiate the pixel format and start the streaming
+> again.
+> 
+> The second new reason is colorspace change. I'm not sure what action
+> client should take but at least it should be notified for such change.
+> One possible action is to notify the display entity that the colorspace
+> and its parameters (y'cbcr encoding and so on) has been changed.
 
-Acked-by: Helen Koike <helen.koike@collabora.com>
-Co-developed-by: Vitor Massaru Iha <vitor@massaru.org>
-Signed-off-by: Vitor Massaru Iha <vitor@massaru.org>
-Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@protonmail.com>
----
+Just to help with the use case, colorspace changes need to be
+communicated to the following HW or software in your media pipeline.
+Let's consider a V4L2 only use case:
 
-Changes in v4:
-- Rename vimc_deb_set_rgb_mbus_fmt_rgb888_1x24() to vimc_deb_process_rgb_fr=
-ame()
+  m2m decoder -> m2m color transform - >...
 
-Changes in v3:
-- Rename vimc_deb_is_src_code_invalid() to vimc_deb_src_code_is_valid()
-- Change vimc_deb_src_code_is_valid() to return bool
+The userspace needs to be aware on time, so that it can reconfigure the
+color transformation parameters. The V4L2 event is a miss-fit though,
+as it does not tell exactly which buffer will start having this new
+colorspace. So in theory, one would have to:
 
-Changes in v2:
-- Change commit message to reflect v2 changes
-- Rename variables
-- Fix array formatting
-- Add vimc_deb_is_src_code_valid function
-- Add other BGR888 and RGB888 formats to debayer source pad supported
-  formats
+  - drain
+  - send the new csc parameters
+  - resume
 
- .../media/test-drivers/vimc/vimc-debayer.c    | 71 ++++++++++++++-----
- 1 file changed, 54 insertions(+), 17 deletions(-)
+I'm not sure if our drivers implement resuming after CMD_STOP, do you
+have information about that ? We could also go through streamoff/on
+cycle in the mean time. Most codec won't allow changing these
+parameters on delta frames, as it would force the decoder doing CSC
+conversion of the reference frames in decode process, that seems
+unrealistically complex requirement.
 
-diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media=
-/test-drivers/vimc/vimc-debayer.c
-index d10aee9f84c4..b13530017364 100644
---- a/drivers/media/test-drivers/vimc/vimc-debayer.c
-+++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
-@@ -51,6 +51,19 @@ static const struct v4l2_mbus_framefmt sink_fmt_default =
-=3D {
- =09.colorspace =3D V4L2_COLORSPACE_DEFAULT,
- };
-=20
-+static const u32 vimc_deb_src_mbus_codes[] =3D {
-+=09MEDIA_BUS_FMT_GBR888_1X24,
-+=09MEDIA_BUS_FMT_BGR888_1X24,
-+=09MEDIA_BUS_FMT_BGR888_3X8,
-+=09MEDIA_BUS_FMT_RGB888_1X24,
-+=09MEDIA_BUS_FMT_RGB888_2X12_BE,
-+=09MEDIA_BUS_FMT_RGB888_2X12_LE,
-+=09MEDIA_BUS_FMT_RGB888_3X8,
-+=09MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-+=09MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
-+=09MEDIA_BUS_FMT_RGB888_1X32_PADHI,
-+};
-+
- static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] =3D {
- =09{
- =09=09.code =3D MEDIA_BUS_FMT_SBGGR8_1X8,
-@@ -125,6 +138,17 @@ static const struct vimc_deb_pix_map *vimc_deb_pix_map=
-_by_code(u32 code)
- =09return NULL;
- }
-=20
-+static bool vimc_deb_src_code_is_valid(u32 code)
-+{
-+=09unsigned int i;
-+
-+=09for (i =3D 0; i < ARRAY_SIZE(vimc_deb_src_mbus_codes); i++)
-+=09=09if (vimc_deb_src_mbus_codes[i] =3D=3D code)
-+=09=09=09return true;
-+
-+=09return false;
-+}
-+
- static int vimc_deb_init_cfg(struct v4l2_subdev *sd,
- =09=09=09     struct v4l2_subdev_pad_config *cfg)
- {
-@@ -148,14 +172,11 @@ static int vimc_deb_enum_mbus_code(struct v4l2_subdev=
- *sd,
- =09=09=09=09   struct v4l2_subdev_pad_config *cfg,
- =09=09=09=09   struct v4l2_subdev_mbus_code_enum *code)
- {
--=09/* We only support one format for source pads */
- =09if (VIMC_IS_SRC(code->pad)) {
--=09=09struct vimc_deb_device *vdeb =3D v4l2_get_subdevdata(sd);
--
--=09=09if (code->index)
-+=09=09if (code->index >=3D ARRAY_SIZE(vimc_deb_src_mbus_codes))
- =09=09=09return -EINVAL;
-=20
--=09=09code->code =3D vdeb->src_code;
-+=09=09code->code =3D vimc_deb_src_mbus_codes[code->index];
- =09} else {
- =09=09if (code->index >=3D ARRAY_SIZE(vimc_deb_pix_map_list))
- =09=09=09return -EINVAL;
-@@ -170,8 +191,6 @@ static int vimc_deb_enum_frame_size(struct v4l2_subdev =
-*sd,
- =09=09=09=09    struct v4l2_subdev_pad_config *cfg,
- =09=09=09=09    struct v4l2_subdev_frame_size_enum *fse)
- {
--=09struct vimc_deb_device *vdeb =3D v4l2_get_subdevdata(sd);
--
- =09if (fse->index)
- =09=09return -EINVAL;
-=20
-@@ -181,7 +200,7 @@ static int vimc_deb_enum_frame_size(struct v4l2_subdev =
-*sd,
-=20
- =09=09if (!vpix)
- =09=09=09return -EINVAL;
--=09} else if (fse->code !=3D vdeb->src_code) {
-+=09} else if (!vimc_deb_src_code_is_valid(fse->code)) {
- =09=09return -EINVAL;
- =09}
-=20
-@@ -237,6 +256,7 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
- {
- =09struct vimc_deb_device *vdeb =3D v4l2_get_subdevdata(sd);
- =09struct v4l2_mbus_framefmt *sink_fmt;
-+=09u32 *src_code;
-=20
- =09if (fmt->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE) {
- =09=09/* Do not change the format while stream is on */
-@@ -244,8 +264,10 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
- =09=09=09return -EBUSY;
-=20
- =09=09sink_fmt =3D &vdeb->sink_fmt;
-+=09=09src_code =3D &vdeb->src_code;
- =09} else {
- =09=09sink_fmt =3D v4l2_subdev_get_try_format(sd, cfg, 0);
-+=09=09src_code =3D &v4l2_subdev_get_try_format(sd, cfg, 1)->code;
- =09}
-=20
- =09/*
-@@ -253,9 +275,14 @@ static int vimc_deb_set_fmt(struct v4l2_subdev *sd,
- =09 * it is propagated from the sink
- =09 */
- =09if (VIMC_IS_SRC(fmt->pad)) {
-+=09=09u32 code =3D fmt->format.code;
-+
- =09=09fmt->format =3D *sink_fmt;
--=09=09/* TODO: Add support for other formats */
--=09=09fmt->format.code =3D vdeb->src_code;
-+
-+=09=09if (vimc_deb_src_code_is_valid(code))
-+=09=09=09*src_code =3D code;
-+
-+=09=09fmt->format.code =3D *src_code;
- =09} else {
- =09=09/* Set the new format in the sink pad */
- =09=09vimc_deb_adjust_sink_fmt(&fmt->format);
-@@ -286,16 +313,26 @@ static const struct v4l2_subdev_pad_ops vimc_deb_pad_=
-ops =3D {
- =09.set_fmt=09=09=3D vimc_deb_set_fmt,
- };
-=20
--static void vimc_deb_set_rgb_mbus_fmt_rgb888_1x24(struct vimc_deb_device *=
-vdeb,
--=09=09=09=09=09=09  unsigned int lin,
--=09=09=09=09=09=09  unsigned int col,
--=09=09=09=09=09=09  unsigned int rgb[3])
-+static void vimc_deb_process_rgb_frame(struct vimc_deb_device *vdeb,
-+=09=09=09=09       unsigned int lin,
-+=09=09=09=09       unsigned int col,
-+=09=09=09=09       unsigned int rgb[3])
- {
-+=09const struct vimc_pix_map *vpix;
- =09unsigned int i, index;
-=20
-+=09vpix =3D vimc_pix_map_by_code(vdeb->src_code);
- =09index =3D VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
--=09for (i =3D 0; i < 3; i++)
--=09=09vdeb->src_frame[index + i] =3D rgb[i];
-+=09for (i =3D 0; i < 3; i++) {
-+=09=09switch (vpix->pixelformat) {
-+=09=09case V4L2_PIX_FMT_RGB24:
-+=09=09=09vdeb->src_frame[index + i] =3D rgb[i];
-+=09=09=09break;
-+=09=09case V4L2_PIX_FMT_BGR24:
-+=09=09=09vdeb->src_frame[index + i] =3D rgb[2-i];
-+=09=09=09break;
-+=09=09}
-+=09}
- }
-=20
- static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
-@@ -568,7 +605,7 @@ static struct vimc_ent_device *vimc_deb_add(struct vimc=
-_device *vimc,
- =09 * for the code
- =09 */
- =09vdeb->src_code =3D MEDIA_BUS_FMT_RGB888_1X24;
--=09vdeb->set_rgb_src =3D vimc_deb_set_rgb_mbus_fmt_rgb888_1x24;
-+=09vdeb->set_rgb_src =3D vimc_deb_process_rgb_frame;
-=20
- =09return &vdeb->ved;
-=20
---=20
-2.26.2
+That being said, please keep in mind that in VP9, reference frames do
+not have to be of the same sizes. You can change the resolution at any
+point in time. No one managed to decode the related test vectors [0]
+with our current event base resolution change notification.
 
+[0] FRM_RESIZE https://www.webmproject.org/vp9/levels/
+
+> 
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  Documentation/userspace-api/media/v4l/dev-decoder.rst | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst b/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> index 606b54947e10..bf10eda6125c 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> @@ -906,7 +906,11 @@ reflected by corresponding queries):
+>  
+>  * visible resolution (selection rectangles),
+>  
+> -* the minimum number of buffers needed for decoding.
+> +* the minimum number of buffers needed for decoding,
+> +
+> +* bit-depth of the bitstream has been changed,
+> +
+> +* colorspace (and its properties) has been changed.
+>  
+>  Whenever that happens, the decoder must proceed as follows:
+>  
 
