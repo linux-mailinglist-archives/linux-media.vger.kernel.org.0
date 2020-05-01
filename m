@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 310DE1C1B63
+	by mail.lfdr.de (Postfix) with ESMTP id 9DB811C1B64
 	for <lists+linux-media@lfdr.de>; Fri,  1 May 2020 19:16:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729513AbgEARQT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 May 2020 13:16:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58074 "EHLO
+        id S1729535AbgEARQU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 May 2020 13:16:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728970AbgEARQS (ORCPT
+        by vger.kernel.org with ESMTP id S1728970AbgEARQT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 1 May 2020 13:16:18 -0400
-Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 156CCC061A0C
-        for <linux-media@vger.kernel.org>; Fri,  1 May 2020 10:16:18 -0700 (PDT)
-Received: by mail-pl1-x642.google.com with SMTP id z6so3838343plk.10
-        for <linux-media@vger.kernel.org>; Fri, 01 May 2020 10:16:18 -0700 (PDT)
+        Fri, 1 May 2020 13:16:19 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F5A3C061A0C
+        for <linux-media@vger.kernel.org>; Fri,  1 May 2020 10:16:19 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id a5so146433pjh.2
+        for <linux-media@vger.kernel.org>; Fri, 01 May 2020 10:16:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=FVAjkuoo2ThSpOR4ie/eTODzC5Quk6g8w++NYCnSb4o=;
-        b=Rrf4Z4PUWafdLiSKuzKm61CT8hoMw1RETl7sTcQ85T2LZhT/1UDP2Us1oPt/1VD+xN
-         mPzKuzUQso6D1/zAv+9Yrk9hIovRQp8Vhu3x6KtCLTNSXZaP0OcUF+pSl1moePSSmw1D
-         6VnvnvBO9eqqvZFFxyB7XSKzfBPQgE9rLlAsmFxZBPfR78d4zx8yGr2vpiWDzcWiP+8V
-         K0+sAcqyZyZhuF/NFZ9J7nrU4QAsvibug/JJNzMuHsizU5rb6fAqnea74/oRu0l52K2B
-         U3WypAPxJb64CU7qHmOWSWY22yObjgNLFe2iJ/W41v/QBOIS/UBJ6MJnTIM2kbLpUE3C
-         JRPQ==
+        bh=BnMGjNnDbs7knQNG08RhDP1eWnGEoczFnCi38jnuKiY=;
+        b=das/IGQR7zyQOTvEceNfRO9GvX26AdyGcY0THN9bP6n3FsnSbtVFXp42pmyf/xhmGW
+         CWF1dv9xtUOWq+hQ53RPeYAbp2i8Gjyr2kTLGtILug4KoNdPPW5+nbk3a2oZWYMWRE2r
+         byS5/pewuzpzg/rycpO+nMKsuhPMS3kGCCw7/UV2ox0nYK6x6lZjPnp0Z/yTRRbS/BMs
+         Bs2UblLGAQ7EqykvGJrupbwe9eIF9S3kpq/H4OTtXMsk7hC4R1+cPPoKSMDGxPUyyGSV
+         AAJ+ZEdUt53DWp4XMWmMjLzh2WcY4g02OGMZa2vJ68F3Upsj9vew8IiKqd93fzxgxhja
+         qDDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=FVAjkuoo2ThSpOR4ie/eTODzC5Quk6g8w++NYCnSb4o=;
-        b=ar06+v+9o65Nnh6ayhKQdJzUUVfkloqLdGe7oyw8mTDV7yXXt1rHfNLOSDj7xIwIHK
-         r1Bs5TUR7G1QEpOGDKZIbHk2OWjJbf8GBn3+9Q/qHgbFA5IOQ0Gz9jeY58u+JS+g/SKO
-         Fmrj2rnaKBfBSrG7/gijWTogV+0OBw1Fp0fJfU+ek4TmqIEOa+ymPLusENe5xtOlp8sY
-         tE7lKiFeLtNQJHS/lE4fd+w/QsEthjXRM4ukkoCH+pWowdG/9Lt4hBvlFhv8/hk0hq40
-         4d3Z5Y2/O5ZodcXzFPVokK8OaFUEFeHzSieX3YfjMFXCKSdsSC/B22PUDV6NEe/msG81
-         3/CQ==
-X-Gm-Message-State: AGi0PuY10XCYyAj+QVNxtLbgqb8VzxeMQqSbTVVZ9AOCaB2ML6KxRfW5
-        HJVh55aFpjk1TpviX09h1f3ihR2q
-X-Google-Smtp-Source: APiQypKs+BjLihNlS5Hg16b8Sb3jWaed8CTi/j7UBhIApnyn9d+71fYIaHpjvSvrEOuqV2IdejkUSw==
-X-Received: by 2002:a17:90b:4d10:: with SMTP id mw16mr663054pjb.19.1588353377356;
-        Fri, 01 May 2020 10:16:17 -0700 (PDT)
+        bh=BnMGjNnDbs7knQNG08RhDP1eWnGEoczFnCi38jnuKiY=;
+        b=fv3a04RUuDln0wCkBpvgBhGDTo8VDq9CHT3ThjvqsGuNyz6acZYrocEIfjZqpGi3pt
+         YC10yIy5w3NxVMVD6EN2OlYcdMQ+3CscGC4dAeWVv8bAecQMiw4UpjFKEi/Jli2TRKx2
+         OlidpBYbaPiypKxpgL5ni9PsDEMxvf+wGC+t+07lbMm2q02J62giW6jAjSkSCCNx4Vqt
+         bBSzJzmG1XyRS7wJpjvks0Fz0FeN5Zrtu3TH5XX4B1tSI7cKdazY+zbA40LsGmKwEVOb
+         w1ZpEdxAJE7Dqal2tegXTuiExHfQiT7+lOYMqcGTxFAEOZs3Z8JUCIIKajFneDmXTc3o
+         CrbA==
+X-Gm-Message-State: AGi0PubcxLAnYx4ot4dVKyFjsL0oouE81Vw7tHjoMe0Yy5dojqLs6Rjv
+        KVSElfS9istUgR2jmCPEJiISAiuZ
+X-Google-Smtp-Source: APiQypJGrGmH0EYP1tEyCcspnlrATc+MAyOfXZE0KiBc8uDCPyPyyXDLlT3PcksKjpkb7Pb8DSj9ug==
+X-Received: by 2002:a17:90a:2943:: with SMTP id x3mr666937pjf.63.1588353378703;
+        Fri, 01 May 2020 10:16:18 -0700 (PDT)
 Received: from mappy.hsd1.ca.comcast.net (c-107-3-184-99.hsd1.ca.comcast.net. [107.3.184.99])
-        by smtp.gmail.com with ESMTPSA id g14sm2733966pfh.49.2020.05.01.10.16.16
+        by smtp.gmail.com with ESMTPSA id g14sm2733966pfh.49.2020.05.01.10.16.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2020 10:16:16 -0700 (PDT)
+        Fri, 01 May 2020 10:16:18 -0700 (PDT)
 From:   Steve Longerbeam <slongerbeam@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -56,9 +56,9 @@ Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Steve Longerbeam <slongerbeam@gmail.com>
-Subject: [PATCH v6 11/22] media: imx: imx7-media-csi: Implement get_fwnode_pad op
-Date:   Fri,  1 May 2020 10:15:45 -0700
-Message-Id: <20200501171556.14731-12-slongerbeam@gmail.com>
+Subject: [PATCH v6 12/22] media: video-mux: Create media links in bound notifier
+Date:   Fri,  1 May 2020 10:15:46 -0700
+Message-Id: <20200501171556.14731-13-slongerbeam@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200501171556.14731-1-slongerbeam@gmail.com>
 References: <20200501171556.14731-1-slongerbeam@gmail.com>
@@ -67,26 +67,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use v4l2_subdev_get_fwnode_pad_1_to_1() as the get_fwnode_pad operation.
-The i.MX7 CSI maps port numbers and pad indexes 1:1.
+Implement a notifier bound op to register media links from the remote
+sub-device's source pad(s) to the video-mux sink pad(s).
 
 Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 ---
- drivers/staging/media/imx/imx7-media-csi.c | 1 +
- 1 file changed, 1 insertion(+)
+Changes in v5:
+- went back to something similar to v2. A call is made to helper
+  v4l2_create_fwnode_links().
+Changes in v4:
+- none
+Changes in v3:
+- this version does the work inline. The previous version called
+  a media_create_fwnode_links() which is removed in v3.
+---
+ drivers/media/platform/video-mux.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index abef59dc22b6..c74455f65b3e 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1179,6 +1179,7 @@ static int imx7_csi_init_cfg(struct v4l2_subdev *sd,
- static const struct media_entity_operations imx7_csi_entity_ops = {
- 	.link_setup	= imx7_csi_link_setup,
- 	.link_validate	= v4l2_subdev_link_validate,
-+	.get_fwnode_pad = v4l2_subdev_get_fwnode_pad_1_to_1,
+diff --git a/drivers/media/platform/video-mux.c b/drivers/media/platform/video-mux.c
+index 9f148f403603..53570250a25d 100644
+--- a/drivers/media/platform/video-mux.c
++++ b/drivers/media/platform/video-mux.c
+@@ -17,6 +17,7 @@
+ #include <media/v4l2-async.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-fwnode.h>
++#include <media/v4l2-mc.h>
+ #include <media/v4l2-subdev.h>
+ 
+ struct video_mux {
+@@ -36,6 +37,12 @@ static const struct v4l2_mbus_framefmt video_mux_format_mbus_default = {
+ 	.field = V4L2_FIELD_NONE,
  };
  
- static const struct v4l2_subdev_video_ops imx7_csi_video_ops = {
++static inline struct video_mux *
++notifier_to_video_mux(struct v4l2_async_notifier *n)
++{
++	return container_of(n, struct video_mux, notifier);
++}
++
+ static inline struct video_mux *v4l2_subdev_to_video_mux(struct v4l2_subdev *sd)
+ {
+ 	return container_of(sd, struct video_mux, subdev);
+@@ -332,6 +339,19 @@ static const struct v4l2_subdev_ops video_mux_subdev_ops = {
+ 	.video = &video_mux_subdev_video_ops,
+ };
+ 
++static int video_mux_notify_bound(struct v4l2_async_notifier *notifier,
++				  struct v4l2_subdev *sd,
++				  struct v4l2_async_subdev *asd)
++{
++	struct video_mux *vmux = notifier_to_video_mux(notifier);
++
++	return v4l2_create_fwnode_links(sd, &vmux->subdev);
++}
++
++static const struct v4l2_async_notifier_operations video_mux_notify_ops = {
++	.bound = video_mux_notify_bound,
++};
++
+ static int video_mux_async_register(struct video_mux *vmux,
+ 				    unsigned int num_input_pads)
+ {
+@@ -369,6 +389,8 @@ static int video_mux_async_register(struct video_mux *vmux,
+ 		}
+ 	}
+ 
++	vmux->notifier.ops = &video_mux_notify_ops;
++
+ 	ret = v4l2_async_subdev_notifier_register(&vmux->subdev,
+ 						  &vmux->notifier);
+ 	if (ret)
 -- 
 2.17.1
 
