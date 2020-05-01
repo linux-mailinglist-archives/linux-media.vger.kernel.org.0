@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A0401C1B6A
-	for <lists+linux-media@lfdr.de>; Fri,  1 May 2020 19:16:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8002D1C1B6B
+	for <lists+linux-media@lfdr.de>; Fri,  1 May 2020 19:16:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729885AbgEARQ3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 May 2020 13:16:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58114 "EHLO
+        id S1729792AbgEARQb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 May 2020 13:16:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58116 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729792AbgEARQ1 (ORCPT
+        by vger.kernel.org with ESMTP id S1729865AbgEARQ3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 1 May 2020 13:16:27 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98EDBC061A0E
-        for <linux-media@vger.kernel.org>; Fri,  1 May 2020 10:16:27 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id a21so280364pls.4
-        for <linux-media@vger.kernel.org>; Fri, 01 May 2020 10:16:27 -0700 (PDT)
+        Fri, 1 May 2020 13:16:29 -0400
+Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 009E5C061A0C
+        for <linux-media@vger.kernel.org>; Fri,  1 May 2020 10:16:29 -0700 (PDT)
+Received: by mail-pl1-x644.google.com with SMTP id u22so3840147plq.12
+        for <linux-media@vger.kernel.org>; Fri, 01 May 2020 10:16:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=iR1mKkkmKIZESgEF8BbzgebbENJGwFXvt3bpadflBeo=;
-        b=edc3A13CnaJYaOprnVfOHCkqYgRm7iLAmR2LyO34CUt5jwHga9B39+x1eYl/q6qEm/
-         AkQqD9dGXJUvRrzTP1fgp7At4IFvqJD2zeCgxY3QQwgAgvK0i/Dcs9Q3SV4dbD1KhhNW
-         Wrq2zHwUW4JLSy7Rvom5vuOKUqzHON/2Gf43GsHK8NIVwksktaQZgLj37abDhTrVudEn
-         PsgxPlf4r0CvJlCIugshSs3DunKxEh9lKAWqSP+rjG5OIk8NnVS9l9ya6JefddNq5DF4
-         u1qmP3RdYLdLB2FNL+lUV4cYEyTqwL8c/NLtC6cnTttL2Ge436HM1cEjRi/+dMDicj5P
-         Hx6w==
+        bh=R/JI0aS56V9pQ1I8WLqOQx9B/h2i55Iy3v4YpaXKhJk=;
+        b=Q9HiZtALbPgIu6T8W0xXlfBFTUcIM2rpnLaNjCZ7QQmiQFGQQnegLFbM0RFB2dBS0g
+         4+dUuv7RVR6dIECR+oF1kjE2TjcZQLe46ssHw5DzWvmT3rHg9GA7deV9NbTLa2yIf3YQ
+         wkBcN0BipxLHNToOJYXu75dSfKIN+5tWcmtNKFJLSCvqrm8tTNJJ9mzFAgqQAw+4JboT
+         jYwDaiiK6XTHGeBoXCqnfXn8D8n7X4qz3ZQ7wV8JDikEvjp9A8W1A2L+FeR6PQfeHvGX
+         dKHvOqZe+QuM5B0F3RY7PCxWG7FM0isF+MoTx5sULcOfC/RTElPVLkWv6nX4Ra9gf1Jx
+         ludw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=iR1mKkkmKIZESgEF8BbzgebbENJGwFXvt3bpadflBeo=;
-        b=Qmfy5YoVONs2EOwygQCmtOW7IlNOUFl03JNE08KSW9Vl5oMsJU10dQmeqWH/+nv0/x
-         XwMx893eyfJiyG0sZikY6D49dMBbx+sv53fifWMdNmyXrYjjSNBrSLnw+tDgghtKai5W
-         sjsBCYuPrArsT0JPbLn2uNuoExpAz7s9MQDT3/2mPfzkbMbEJl7wqWFeXVnU3sgoFbKE
-         NjxhnhW5y4t5JjMAF10bd6cpO+nAaEkv5Ru8DDtlzI5jQZlezGrsdzQiphVAKthkRgIN
-         kP/GpFgDtJqI6hWtHboZtHp2wKG8SyrGCNzS23aPd9+dP0jq0+ecJacjOseMt3rCptgm
-         ZQHQ==
-X-Gm-Message-State: AGi0PuZk9Xsv0qVI9KBR1n6Xx7/shq83IMBGt4A9j7eMHI1AL9f3vHAx
-        D1dZzTRO9Jw2iz/Hzbmf8CUgTS20
-X-Google-Smtp-Source: APiQypIYuKiFBHNTkSqPILyXYmNY4ZFkUStvm/1xe5xdTzTPk4jwmU+nqXCRD6osL4lke2kRBEhvgg==
-X-Received: by 2002:a17:90b:30cb:: with SMTP id hi11mr679774pjb.103.1588353386774;
-        Fri, 01 May 2020 10:16:26 -0700 (PDT)
+        bh=R/JI0aS56V9pQ1I8WLqOQx9B/h2i55Iy3v4YpaXKhJk=;
+        b=ouJvMS83CkpTCQXmdmA6bqJeOj7EWlAFHA1F7m0jMP8RObKoHF+V1InovnrTSpfdTH
+         LQMl2ZlnpxqeYpcDxtpSSrRm58vaQBqFQk6P57J6ITEG/3I0RuoP9fvua3D3vOErpq/y
+         U92RqRDocyO8pQzIHvvgYgjzLWwaChpL4xfvuK08Opa86Ke8FKj61C4eQudRhOYvFeEQ
+         ZSqe1jbgzdTq1lzwU+VDhn0ISCWbZ/iCRmqCvexo9Lh3FPEFMziG8mjakPenAMV7Ub82
+         /aUurwm+6zCK+RcyFOthMPVTRarrArp7oWU9Ni2DRKIIMcOqriyJD8n1S/vI1OyV/cMZ
+         z7cA==
+X-Gm-Message-State: AGi0PuZva5cuTlb0KZ9BYHIzXwXK/kOC9JuafQJzZdfZPRysSnm+FKOm
+        /7Lmf368QIvvS+gW116XiKg5whzV
+X-Google-Smtp-Source: APiQypKmWvyCmJV3/n3Qnl9iBJwxnN4ueVT5JkZY8grcAss0ulRLJxgBBiBcFkcjUjRprtd5Gj6MpA==
+X-Received: by 2002:a17:90a:210b:: with SMTP id a11mr719243pje.31.1588353388175;
+        Fri, 01 May 2020 10:16:28 -0700 (PDT)
 Received: from mappy.hsd1.ca.comcast.net (c-107-3-184-99.hsd1.ca.comcast.net. [107.3.184.99])
-        by smtp.gmail.com with ESMTPSA id g14sm2733966pfh.49.2020.05.01.10.16.25
+        by smtp.gmail.com with ESMTPSA id g14sm2733966pfh.49.2020.05.01.10.16.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2020 10:16:26 -0700 (PDT)
+        Fri, 01 May 2020 10:16:27 -0700 (PDT)
 From:   Steve Longerbeam <slongerbeam@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -56,9 +56,9 @@ Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Steve Longerbeam <slongerbeam@gmail.com>
-Subject: [PATCH v6 18/22] media: imx5/6/7: csi: Mark a bound video mux as a CSI mux
-Date:   Fri,  1 May 2020 10:15:52 -0700
-Message-Id: <20200501171556.14731-19-slongerbeam@gmail.com>
+Subject: [PATCH v6 19/22] media: imx: csi: Lookup upstream endpoint with imx_media_get_pad_fwnode
+Date:   Fri,  1 May 2020 10:15:53 -0700
+Message-Id: <20200501171556.14731-20-slongerbeam@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200501171556.14731-1-slongerbeam@gmail.com>
 References: <20200501171556.14731-1-slongerbeam@gmail.com>
@@ -67,129 +67,116 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-For i.MX5/6, if the bound subdev is a video mux, it must be one of the
-CSI muxes, and for i.MX7, the bound subdev must always be a CSI mux.
+Fix the 1:1 port-id:pad-index assumption for the upstream subdevice, by
+searching the upstream subdevice's endpoints for one that maps to the
+pad's index. This is carried out by a new reverse mapping function
+imx_media_get_pad_fwnode().
 
-So if the bound subdev is a video mux, mark it as a CSI mux with a new
-group id IMX_MEDIA_GRP_ID_CSI_MUX.
-
-In the process use the new group id in csi_get_upstream_endpoint(), and
-do some cleanup in that function for better readability.
-
-Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
 ---
- drivers/staging/media/imx/imx-media-csi.c  | 45 +++++++++++++---------
- drivers/staging/media/imx/imx-media.h      |  1 +
- drivers/staging/media/imx/imx7-media-csi.c |  7 ++++
- 3 files changed, 35 insertions(+), 18 deletions(-)
+ drivers/staging/media/imx/imx-media-csi.c   | 22 ++++----------
+ drivers/staging/media/imx/imx-media-utils.c | 33 +++++++++++++++++++++
+ drivers/staging/media/imx/imx-media.h       |  1 +
+ 3 files changed, 40 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-index a051a063a2db..6cfbe67c43d1 100644
+index 6cfbe67c43d1..d7e5b9ed27b8 100644
 --- a/drivers/staging/media/imx/imx-media-csi.c
 +++ b/drivers/staging/media/imx/imx-media-csi.c
-@@ -165,7 +165,6 @@ static int csi_get_upstream_endpoint(struct csi_priv *priv,
+@@ -164,7 +164,7 @@ static inline bool requires_passthrough(struct v4l2_fwnode_endpoint *ep,
+ static int csi_get_upstream_endpoint(struct csi_priv *priv,
  				     struct v4l2_fwnode_endpoint *ep)
  {
- 	struct device_node *endpoint, *port;
--	struct media_entity *src;
+-	struct device_node *endpoint, *port;
++	struct fwnode_handle *endpoint;
  	struct v4l2_subdev *sd;
  	struct media_pad *pad;
  
-@@ -176,30 +175,33 @@ static int csi_get_upstream_endpoint(struct csi_priv *priv,
- 		return -EPIPE;
- 
- 	sd = priv->src_sd;
--	src = &sd->entity;
- 
--	if (src->function == MEDIA_ENT_F_VID_MUX) {
-+	switch (sd->grp_id) {
-+	case IMX_MEDIA_GRP_ID_CSI_MUX:
- 		/*
--		 * CSI is connected directly to video mux, skip up to
-+		 * CSI is connected directly to CSI mux, skip up to
- 		 * CSI-2 receiver if it is in the path, otherwise stay
--		 * with video mux.
-+		 * with the CSI mux.
- 		 */
--		sd = imx_media_pipeline_subdev(src, IMX_MEDIA_GRP_ID_CSI2,
-+		sd = imx_media_pipeline_subdev(&sd->entity,
-+					       IMX_MEDIA_GRP_ID_CSI2,
- 					       true);
--		if (!IS_ERR(sd))
--			src = &sd->entity;
-+		if (IS_ERR(sd))
-+			sd = priv->src_sd;
-+		break;
-+	case IMX_MEDIA_GRP_ID_CSI2:
-+		break;
-+	default:
-+		/*
-+		 * the source is neither the CSI mux nor the CSI-2 receiver,
-+		 * get the source pad directly upstream from CSI itself.
-+		 */
-+		sd = &priv->sd;
-+		break;
- 	}
- 
--	/*
--	 * If the source is neither the video mux nor the CSI-2 receiver,
--	 * get the source pad directly upstream from CSI itself.
--	 */
--	if (src->function != MEDIA_ENT_F_VID_MUX &&
--	    sd->grp_id != IMX_MEDIA_GRP_ID_CSI2)
--		src = &priv->sd.entity;
--
--	/* get source pad of entity directly upstream from src */
--	pad = imx_media_pipeline_pad(src, 0, 0, true);
-+	/* get source pad of entity directly upstream from sd */
-+	pad = imx_media_pipeline_pad(&sd->entity, 0, 0, true);
+@@ -205,23 +205,13 @@ static int csi_get_upstream_endpoint(struct csi_priv *priv,
  	if (!pad)
  		return -ENODEV;
  
-@@ -1906,6 +1908,13 @@ static int imx_csi_notify_bound(struct v4l2_async_notifier *notifier,
- 	struct csi_priv *priv = notifier_to_dev(notifier);
- 	struct media_pad *sink = &priv->sd.entity.pads[CSI_SINK_PAD];
+-	sd = media_entity_to_v4l2_subdev(pad->entity);
++	endpoint = imx_media_get_pad_fwnode(pad);
++	if (IS_ERR(endpoint))
++		return PTR_ERR(endpoint);
  
-+	/*
-+	 * If the subdev is a video mux, it must be one of the CSI
-+	 * muxes. Mark it as such via its group id.
-+	 */
-+	if (sd->entity.function == MEDIA_ENT_F_VID_MUX)
-+		sd->grp_id = IMX_MEDIA_GRP_ID_CSI_MUX;
-+
- 	return v4l2_create_fwnode_links_to_pad(sd, sink);
+-	/*
+-	 * NOTE: this assumes an OF-graph port id is the same as a
+-	 * media pad index.
+-	 */
+-	port = of_graph_get_port_by_id(sd->dev->of_node, pad->index);
+-	if (!port)
+-		return -ENODEV;
+-
+-	endpoint = of_get_next_child(port, NULL);
+-	of_node_put(port);
+-	if (!endpoint)
+-		return -ENODEV;
++	v4l2_fwnode_endpoint_parse(endpoint, ep);
+ 
+-	v4l2_fwnode_endpoint_parse(of_fwnode_handle(endpoint), ep);
+-	of_node_put(endpoint);
++	fwnode_handle_put(endpoint);
+ 
+ 	return 0;
  }
+diff --git a/drivers/staging/media/imx/imx-media-utils.c b/drivers/staging/media/imx/imx-media-utils.c
+index 42e64b618a61..7c058db41f7c 100644
+--- a/drivers/staging/media/imx/imx-media-utils.c
++++ b/drivers/staging/media/imx/imx-media-utils.c
+@@ -835,6 +835,39 @@ imx_media_pipeline_video_device(struct media_entity *start_entity,
+ }
+ EXPORT_SYMBOL_GPL(imx_media_pipeline_video_device);
  
++/*
++ * Find a fwnode endpoint that maps to the given subdevice's pad.
++ * If there are multiple endpoints that map to the pad, only the
++ * first endpoint encountered is returned.
++ *
++ * On success the refcount of the returned fwnode endpoint is
++ * incremented.
++ */
++struct fwnode_handle *imx_media_get_pad_fwnode(struct media_pad *pad)
++{
++	struct fwnode_handle *endpoint;
++	struct v4l2_subdev *sd;
++
++	if (!is_media_entity_v4l2_subdev(pad->entity))
++		return ERR_PTR(-ENODEV);
++
++	sd = media_entity_to_v4l2_subdev(pad->entity);
++
++	fwnode_graph_for_each_endpoint(dev_fwnode(sd->dev), endpoint) {
++		int pad_idx = media_entity_get_fwnode_pad(&sd->entity,
++							  endpoint,
++							  pad->flags);
++		if (pad_idx < 0)
++			continue;
++
++		if (pad_idx == pad->index)
++			return endpoint;
++	}
++
++	return ERR_PTR(-ENODEV);
++}
++EXPORT_SYMBOL_GPL(imx_media_get_pad_fwnode);
++
+ /*
+  * Turn current pipeline streaming on/off starting from entity.
+  */
 diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-index ca36beca16de..b5b7d3245727 100644
+index b5b7d3245727..c5f2aa2f0e98 100644
 --- a/drivers/staging/media/imx/imx-media.h
 +++ b/drivers/staging/media/imx/imx-media.h
-@@ -311,5 +311,6 @@ void imx_media_csc_scaler_device_unregister(struct imx_media_video_dev *vdev);
- #define IMX_MEDIA_GRP_ID_IPU_IC_PRP    BIT(13)
- #define IMX_MEDIA_GRP_ID_IPU_IC_PRPENC BIT(14)
- #define IMX_MEDIA_GRP_ID_IPU_IC_PRPVF  BIT(15)
-+#define IMX_MEDIA_GRP_ID_CSI_MUX       BIT(16)
+@@ -220,6 +220,7 @@ imx_media_pipeline_subdev(struct media_entity *start_entity, u32 grp_id,
+ struct video_device *
+ imx_media_pipeline_video_device(struct media_entity *start_entity,
+ 				enum v4l2_buf_type buftype, bool upstream);
++struct fwnode_handle *imx_media_get_pad_fwnode(struct media_pad *pad);
  
- #endif
-diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-index 69f7abb32ae1..a3f3df901704 100644
---- a/drivers/staging/media/imx/imx7-media-csi.c
-+++ b/drivers/staging/media/imx/imx7-media-csi.c
-@@ -1164,6 +1164,13 @@ static int imx7_csi_notify_bound(struct v4l2_async_notifier *notifier,
- 	struct imx7_csi *csi = imx7_csi_notifier_to_dev(notifier);
- 	struct media_pad *sink = &csi->sd.entity.pads[IMX7_CSI_PAD_SINK];
- 
-+	/* The bound subdev must always be the CSI mux */
-+	if (WARN_ON(sd->entity.function != MEDIA_ENT_F_VID_MUX))
-+		return -ENXIO;
-+
-+	/* Mark it as such via its group id */
-+	sd->grp_id = IMX_MEDIA_GRP_ID_CSI_MUX;
-+
- 	return v4l2_create_fwnode_links_to_pad(sd, sink);
- }
- 
+ struct imx_media_dma_buf {
+ 	void          *virt;
 -- 
 2.17.1
 
