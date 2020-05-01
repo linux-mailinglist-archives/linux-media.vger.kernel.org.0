@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2ACED1C1B66
+	by mail.lfdr.de (Postfix) with ESMTP id 96DA31C1B67
 	for <lists+linux-media@lfdr.de>; Fri,  1 May 2020 19:16:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729686AbgEARQW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 May 2020 13:16:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58090 "EHLO
+        id S1729701AbgEARQY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 May 2020 13:16:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728970AbgEARQW (ORCPT
+        by vger.kernel.org with ESMTP id S1728970AbgEARQX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 1 May 2020 13:16:22 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E866C061A0C
-        for <linux-media@vger.kernel.org>; Fri,  1 May 2020 10:16:22 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id p25so1819712pfn.11
-        for <linux-media@vger.kernel.org>; Fri, 01 May 2020 10:16:22 -0700 (PDT)
+        Fri, 1 May 2020 13:16:23 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80DD5C061A0C
+        for <linux-media@vger.kernel.org>; Fri,  1 May 2020 10:16:23 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id y25so1837381pfn.5
+        for <linux-media@vger.kernel.org>; Fri, 01 May 2020 10:16:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=cvFFu/w/Sqd1CjEtVEg3CHkjbOlulSOPdqVl8s8dGaI=;
-        b=Cqia4m0ldgnKSrzy62lTb8j3aY85o+cpyVKOjBunkw5WCAloV7HKA/KhDUmuoK2PPJ
-         6LUwK9CQR7Bq7ujIR5CLPPOOndYmTEjotw3gr/kkEaLk4q1aMBLHvyGBkaEqpt++WjpL
-         cvY+j+tbymS453VN568HEbL5nG0q9BHa84Y3P/Svtl4wj2doEE0mcbjPbJ/26DHanVCw
-         vaxsoLLIdEUCsoje1s9Dx8FSYGt7oVq6zuNGlkEbbFGT43Zm5Q2rYgHlrZXU/iR9wypJ
-         zFslpGoH4n+2S0tsMLVY7JUZ7tkDkQ6/CxK+ll20NN/W4BQTUCi5Ni4D93dGE+nLdmeK
-         Ey4g==
+        bh=GEyFXh4vSWfigdSzRW/AG6YVXwt0cYiVSCi8tI0IZg8=;
+        b=W0VLtuVWzjgXs5lT0xK3lY9i3osxxaGJB+tZAjaYaOE2S24x0wlzr3yLYjbHcrVTXC
+         1AJQDQ6nmb5BMYcjAaFlL56oh7Jl0yrzztWjIdZaUdYHccNS4eLlbW4y9SvGrsrDpZAc
+         GKDOM36OCfmNn7G/kSJi87zq6KVpyVvwkEQ4TFHHxcrAiLOvaOjltBKGjKqRRXaNZtDz
+         1HdqwQv64QxDakpeJ561J6K+AbM0WZJG7r2f/iga+mn7OuzyimKxS4G0PTbMyfxfWFnI
+         cOI77bW+PmaDN33UBSYBanDGQ99dg4en1b8JUPYDrt7E5ltTabZGQPtuLQWMymavzUrV
+         a7Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=cvFFu/w/Sqd1CjEtVEg3CHkjbOlulSOPdqVl8s8dGaI=;
-        b=qMK7hL1hatnAoDptJV8a0XA60WeuowTZ13Nrnno8wuG6N0xVO51GKVHdvjwNgd0VXT
-         qQX8oHydz6yZD4Ej4ntIWTtSrv8VKJbcueVYImAurh8LO6kWG5YAGmajXJhKGVjLInKV
-         dAmL3UsJNt7V0kehqd4p6xIWF+6tSh1ojDvkdxgPg9iUtpo7FIbgozOvTi1QRrQPjyFl
-         N8oqYyo9GuCEU95sML6/wMlsY+2Z/d3Tdn/jNSh/p9tx8v65zIOHg2M7eG+0C1ojmWlm
-         27Yp/vRgPGKU1MALQyRjr8Rzmf21riq5SxItBubZDHgUaIXYv3fFN7BLuTEivTXzXftm
-         ZrLw==
-X-Gm-Message-State: AGi0PuajjcHEo4dsGImxFX8qSQ6V7//4sQZYwyS3KLVxJmPTXb5BW0Y1
-        +v9aa8An3sCqnd2OlYh3YBasgzTH
-X-Google-Smtp-Source: APiQypILAL97XnNE/TTeRW5PvBMLjOWPrP5SmvyHwT8HZiDhsRDvnXB7N5YuJcWlyDyF/XYNLBqi7w==
-X-Received: by 2002:a63:513:: with SMTP id 19mr5258582pgf.48.1588353381359;
-        Fri, 01 May 2020 10:16:21 -0700 (PDT)
+        bh=GEyFXh4vSWfigdSzRW/AG6YVXwt0cYiVSCi8tI0IZg8=;
+        b=Mfi3r3+rCqGgTKVCBJJYxhKDXdsCeIfGMCQsJ4c7rQBhrfmroj7Zy/vvqg/f4cRcAk
+         LInkd1RpBnVbEMs1euv94CbZaHpmz5c/zWe57rivYhE52QAuCpCh/y2cAQ985/OzX2He
+         Dr9TyfRlLIOblqwmiBSVX/BFWo+ULPsrwjFIk3UtXmNAI7EuFLIHUx2TEYLzYZ+d/9FG
+         PD52G/edEcPFzMK8F7xy1r1B4uaj+Z3RTVcKTJNYfLrewaXfMDg0eW6gKVXZ7fmWSwIZ
+         5RItJh1J0GX7Ns0TQTdoea8hbrfi91bygVcgUcXlnJZlvJgfLwELVl79CVuZYrBzxER+
+         EgKQ==
+X-Gm-Message-State: AGi0PuZKM842tTKgxaLdR9ZQ2P+8TzCs7/BLiriaocM9Xt3b+bo9z5xp
+        ZPhooGLawqIXD0n+bgk+EFPK3Q30
+X-Google-Smtp-Source: APiQypLfeDOVUNSuRxvD/jPeHEuDVYdFs6aDcbhsSPOgPlWFUajJjdNiTSoEhS8+2RQJsqnXE4FloQ==
+X-Received: by 2002:a62:3287:: with SMTP id y129mr5284860pfy.167.1588353382732;
+        Fri, 01 May 2020 10:16:22 -0700 (PDT)
 Received: from mappy.hsd1.ca.comcast.net (c-107-3-184-99.hsd1.ca.comcast.net. [107.3.184.99])
-        by smtp.gmail.com with ESMTPSA id g14sm2733966pfh.49.2020.05.01.10.16.20
+        by smtp.gmail.com with ESMTPSA id g14sm2733966pfh.49.2020.05.01.10.16.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2020 10:16:20 -0700 (PDT)
+        Fri, 01 May 2020 10:16:22 -0700 (PDT)
 From:   Steve Longerbeam <slongerbeam@gmail.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -56,9 +56,9 @@ Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Steve Longerbeam <slongerbeam@gmail.com>
-Subject: [PATCH v6 14/22] media: imx7: mipi csis: Create media links in bound notifier
-Date:   Fri,  1 May 2020 10:15:48 -0700
-Message-Id: <20200501171556.14731-15-slongerbeam@gmail.com>
+Subject: [PATCH v6 15/22] media: imx7: csi: Create media links in bound notifier
+Date:   Fri,  1 May 2020 10:15:49 -0700
+Message-Id: <20200501171556.14731-16-slongerbeam@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200501171556.14731-1-slongerbeam@gmail.com>
 References: <20200501171556.14731-1-slongerbeam@gmail.com>
@@ -68,9 +68,10 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Implement a notifier bound op to register media links from the remote
-sub-device's source pad(s) to the mipi csi-2 receiver sink pad.
+sub-device's source pad(s) to the CSI sink pad.
 
 Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
+Reviewed-by: Rui Miguel Silva <rmfrfs@gmail.com>
 ---
 Changes in v5:
 - imx_media_create_fwnode_pad_link() has been moved to core as
@@ -80,68 +81,59 @@ Changes in v4:
 Changes in v3:
 - call a local imx-media utility imx_media_create_fwnode_pad_link().
 Changes in v2:
-- Move notifier_to_csis_state() next to mipi_sd_to_csis_state(), remove
-  unnecessary inline, and rename to mipi_notifier_to_csis_state().
-  Suggested by Rui Silva.
+- Rename notifier_to_dev() to imx7_csi_notifier_to_dev() and remove
+  unnecessary inline. Suggested by Rui Silva.
 ---
- drivers/staging/media/imx/imx7-mipi-csis.c | 23 ++++++++++++++++++++++
- 1 file changed, 23 insertions(+)
+ drivers/staging/media/imx/imx7-media-csi.c | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
 
-diff --git a/drivers/staging/media/imx/imx7-mipi-csis.c b/drivers/staging/media/imx/imx7-mipi-csis.c
-index 7b5c3e662d0d..1025e42740f1 100644
---- a/drivers/staging/media/imx/imx7-mipi-csis.c
-+++ b/drivers/staging/media/imx/imx7-mipi-csis.c
-@@ -26,6 +26,7 @@
+diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
+index c74455f65b3e..21a86fa3d89b 100644
+--- a/drivers/staging/media/imx/imx7-media-csi.c
++++ b/drivers/staging/media/imx/imx7-media-csi.c
+@@ -196,6 +196,12 @@ struct imx7_csi {
+ 	struct completion last_eof_completion;
+ };
  
- #include <media/v4l2-device.h>
- #include <media/v4l2-fwnode.h>
-+#include <media/v4l2-mc.h>
- #include <media/v4l2-subdev.h>
- 
- #define CSIS_DRIVER_NAME			"imx7-mipi-csis"
-@@ -385,6 +386,12 @@ static int mipi_csis_dump_regs(struct csi_state *state)
- 	return 0;
- }
- 
-+static struct csi_state *
-+mipi_notifier_to_csis_state(struct v4l2_async_notifier *n)
++static struct imx7_csi *
++imx7_csi_notifier_to_dev(struct v4l2_async_notifier *n)
 +{
-+	return container_of(n, struct csi_state, notifier);
++	return container_of(n, struct imx7_csi, notifier);
 +}
 +
- static struct csi_state *mipi_sd_to_csis_state(struct v4l2_subdev *sdev)
+ static u32 imx7_csi_reg_read(struct imx7_csi *csi, unsigned int offset)
  {
- 	return container_of(sdev, struct csi_state, mipi_sd);
-@@ -948,6 +955,20 @@ static int mipi_csis_parse_dt(struct platform_device *pdev,
+ 	return readl(csi->regbase + offset);
+@@ -1204,6 +1210,20 @@ static const struct v4l2_subdev_internal_ops imx7_csi_internal_ops = {
+ 	.unregistered	= imx7_csi_unregistered,
+ };
  
- static int mipi_csis_pm_resume(struct device *dev, bool runtime);
- 
-+static int mipi_csis_notify_bound(struct v4l2_async_notifier *notifier,
-+				  struct v4l2_subdev *sd,
-+				  struct v4l2_async_subdev *asd)
++static int imx7_csi_notify_bound(struct v4l2_async_notifier *notifier,
++				 struct v4l2_subdev *sd,
++				 struct v4l2_async_subdev *asd)
 +{
-+	struct csi_state *state = mipi_notifier_to_csis_state(notifier);
-+	struct media_pad *sink = &state->mipi_sd.entity.pads[CSIS_PAD_SINK];
++	struct imx7_csi *csi = imx7_csi_notifier_to_dev(notifier);
++	struct media_pad *sink = &csi->sd.entity.pads[IMX7_CSI_PAD_SINK];
 +
 +	return v4l2_create_fwnode_links_to_pad(sd, sink);
 +}
 +
-+static const struct v4l2_async_notifier_operations mipi_csis_notify_ops = {
-+	.bound = mipi_csis_notify_bound,
++static const struct v4l2_async_notifier_operations imx7_csi_notify_ops = {
++	.bound = imx7_csi_notify_bound,
 +};
 +
- static int mipi_csis_subdev_init(struct v4l2_subdev *mipi_sd,
- 				 struct platform_device *pdev,
- 				 const struct v4l2_subdev_ops *ops)
-@@ -1016,6 +1037,8 @@ static int mipi_csis_async_register(struct csi_state *state)
+ static int imx7_csi_async_register(struct imx7_csi *csi)
+ {
+ 	struct v4l2_async_subdev *asd = NULL;
+@@ -1234,6 +1254,8 @@ static int imx7_csi_async_register(struct imx7_csi *csi)
+ 		}
+ 	}
  
- 	fwnode_handle_put(ep);
- 
-+	state->notifier.ops = &mipi_csis_notify_ops;
++	csi->notifier.ops = &imx7_csi_notify_ops;
 +
- 	ret = v4l2_async_subdev_notifier_register(&state->mipi_sd,
- 						  &state->notifier);
+ 	ret = v4l2_async_subdev_notifier_register(&csi->sd, &csi->notifier);
  	if (ret)
+ 		return ret;
 -- 
 2.17.1
 
