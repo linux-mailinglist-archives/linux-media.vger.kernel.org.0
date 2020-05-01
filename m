@@ -2,318 +2,398 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B8921C1BEB
-	for <lists+linux-media@lfdr.de>; Fri,  1 May 2020 19:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30CCF1C1DE5
+	for <lists+linux-media@lfdr.de>; Fri,  1 May 2020 21:30:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730148AbgEARhS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 May 2020 13:37:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33202 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1730260AbgEARhQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 1 May 2020 13:37:16 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E165C061A0E
-        for <linux-media@vger.kernel.org>; Fri,  1 May 2020 10:37:16 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id u16so429122wmc.5
-        for <linux-media@vger.kernel.org>; Fri, 01 May 2020 10:37:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ufxfpcTyMlazNounw3wNzyToYB3UJEzHIn7ulrOGXXU=;
-        b=ImQZRdwOETOF5qY/+pyGGb3LTEQ9xFaAZ+Oh5wq1sxFysc+UZ2KddbKYoqax8Vjr7z
-         sgvIxkJ+RJgkAZAdTUleV59iJQCJJZSUkKcIN4hgrw7bXJWPsZUfnyvu9Bq4xvrlqXV0
-         Wf+83lgasQstrjoJbaTCr0HQGjf3+NCZof2RQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ufxfpcTyMlazNounw3wNzyToYB3UJEzHIn7ulrOGXXU=;
-        b=h46vLUqVitWeMBb1nsHs/qdcYFC342ndjPitRzsmVRL870drM/udEvbtDr2mvnTqUW
-         P0ahUVeJRcz6zh8bR39FR4pgDxF04uH4ghVAPfsnAWbSIjeGtkd7cmonBR+EDCoi4Vjh
-         CtFz9C1SrkS48pwWXR0zmrzDgcLo4F/f6WOQcI5ys1O1TUyCtezGLXKXrbXn3hz/kfo1
-         SPsHPFEjuetOYbWknffruPt382FCzXHXhMnRCMUv4VP9ExYn58xm5r/wipfvh0jduwtI
-         NtnMPD45WpvkKQJEhOIr/p7mMsEXkiq9t441roeLXqOoW4kxXPyCAqZ92N2xOd1NwkJS
-         zp0g==
-X-Gm-Message-State: AGi0PuYEfDWjKssTeoKvMiZ6vIIkAlq/hvN25QxuSJrUhsiPKIxp/o3M
-        ykbncS6+FshhRes13jWCP8Unvw==
-X-Google-Smtp-Source: APiQypJyniRJmeRLwjfWdIyj8PkcBx1aKguknLdjRpeiffgQiJ+m2FGrMs2k7mIaQ49bHNdCnwosXA==
-X-Received: by 2002:a7b:cdfa:: with SMTP id p26mr569906wmj.186.1588354634845;
-        Fri, 01 May 2020 10:37:14 -0700 (PDT)
-Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id d5sm5373095wrp.44.2020.05.01.10.37.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2020 10:37:14 -0700 (PDT)
-Date:   Fri, 1 May 2020 17:37:12 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Xia Jiang <xia.jiang@mediatek.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rick Chang <rick.chang@mediatek.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        srv_heupstream@mediatek.com
-Subject: Re: [PATCH v7 11/11] media: platform: Add jpeg dec/enc feature
-Message-ID: <20200501173712.GB218308@chromium.org>
-References: <20200303123446.20095-1-xia.jiang@mediatek.com>
- <20200303123446.20095-12-xia.jiang@mediatek.com>
- <20200306112337.GA163286@chromium.org>
- <1587009795.24163.87.camel@mhfsdcap03>
+        id S1726558AbgEATa3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 May 2020 15:30:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36438 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726377AbgEATa2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 1 May 2020 15:30:28 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 513AB2137B;
+        Fri,  1 May 2020 19:30:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588361427;
+        bh=CdZpFAvc6bJ4mUQLvMN/5BekrVW2IwArxsoXURgSIqY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=q+UmCnIEGyFlV1unEEoyT5dGD7eCLap6i2k14SJ9kqcfUOsaIFVJKEsaEkn33zaBw
+         e4OBbINvk3kNnx6hij/p92+KxkHYvO3J6GxBJ4nw2Kc81K57EJGIJ0vJnwkls5JmXz
+         RByvmeNWUen9jq+G0Aj/RZMGkGMYKrf5WCa0TMeI=
+Date:   Fri, 1 May 2020 21:30:23 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Patrik Gfeller <patrik.gfeller@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: atomisp kernel driver(s)
+Message-ID: <20200501213023.7fe29188@coco.lan>
+In-Reply-To: <20200501192844.397efcaa@ASUS>
+References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
+        <dd8ab5df-31c7-f009-36e4-ca4fd0605e97@gmail.com>
+        <20200422211344.2ec3d93e@coco.lan>
+        <23b3a078-2a9a-5f50-a35e-9f40f5aa8a6e@gmail.com>
+        <86413836-e4b5-cb53-3ac0-1764c693ec7b@gmail.com>
+        <682558b0-a2cf-9fe2-6e54-20462ecccb5d@gmail.com>
+        <20200425132255.4bf872b2@coco.lan>
+        <131a4247-cef3-d651-a0ea-defd32b8bf20@gmail.com>
+        <20200426185007.1954885a@coco.lan>
+        <45817a6a-dd2f-13a6-835b-fd2b04ded23f@gmail.com>
+        <20200427235027.15cd4e03@coco.lan>
+        <d9ec5067-142c-66c9-c412-51ddf38e44f7@gmail.com>
+        <20200429011339.03af3c2a@coco.lan>
+        <3b7366b9-463d-c49b-0f2d-51a1d5475a9d@gmail.com>
+        <20200429201753.3b2d679b@coco.lan>
+        <6fffdf73-a0eb-1b1c-d894-e4799b8ef944@gmail.com>
+        <20200430125544.10a9830d@coco.lan>
+        <403b799e-6ae9-d62b-1f3a-a1b6b874071b@gmail.com>
+        <20200501002510.0ead955d@coco.lan>
+        <1a17ffad-9792-a4ff-519e-a4306e7bf3e1@gmail.com>
+        <20200501113812.7f16b7ca@coco.lan>
+        <20200501192844.397efcaa@ASUS>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1587009795.24163.87.camel@mhfsdcap03>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Xia,
+Em Fri, 1 May 2020 19:31:05 +0200
+Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
 
-On Thu, Apr 16, 2020 at 12:03:15PM +0800, Xia Jiang wrote:
-> On Fri, 2020-03-06 at 20:23 +0900, Tomasz Figa wrote:
-> > Hi Xia,
-> > 
-> > On Tue, Mar 03, 2020 at 08:34:46PM +0800, Xia Jiang wrote:
-> > > Add mtk jpeg encode v4l2 driver based on jpeg decode, because that jpeg
-> > > decode and encode have great similarities with function operation.
-> > 
-> > Thank you for the patch. Please see my comments inline.
-> 
-> Dear Tomasz,
-> 
-> Thank you for your reply. I have followed your advice and submited v8
-> version patch.
-> 
-> Please check my reply below.
-[snip]
-> > 
-> > >  
-> > > -	switch (s->target) {
-> > > -	case V4L2_SEL_TGT_COMPOSE:
-> > > -		s->r.left = 0;
-> > > -		s->r.top = 0;
-> > > -		ctx->out_q.w = s->r.width;
-> > > -		ctx->out_q.h = s->r.height;
-> > > -		break;
-> > > -	default:
-> > > -		return -EINVAL;
-> > > +		switch (s->target) {
-> > > +		case V4L2_SEL_TGT_CROP:
-> > > +			s->r.left = 0;
-> > > +			s->r.top = 0;
-> > > +			ctx->out_q.w = s->r.width;
-> > > +			ctx->out_q.h = s->r.height;
-> > 
-> > What happens if the userspace provides a value bigger than current format?
-> we need get the min value of userspace value and current value,changed
-> it like this:
-> ctx->out_q.w = min(s->r.width, ctx->out_q.w);
-> ctx->out_q.h = min(s->r.height,ctx->out_q.h);
+> On Fri, 1 May 2020 11:38:12 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+>=20
+> > Em Fri, 1 May 2020 10:54:18 +0200
+> > Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
+> >=20
+> >  [...] =20
+> >  [...] =20
+> >  [...] =20
+> >  [...] =20
+> >  [...] =20
+> >  [...] =20
+> >  [...] =20
+> >  [...]   =20
+> > >=20
+> > > Compiled and linked :-). We get some more output this time:   =20
+> >=20
+> > Good!
+> >=20
+> >  [...] =20
+> >=20
+> > Hmm.. your e-mailer is breaking long lines again  :-( =20
+>=20
+> Ok - then the configuration option I used is not reliable. I've now switc=
+hed to Claws Mail; I hope this resolves the problem.
 
-Since ctx->out_q is modified by this function, wouldn't that cause
-problems if S_SELECTION was called two times, first with a smaller
-rectangle and then with a bigger one? We should store the active crop
-and format separately and use the latter for min().
+Yeah, that's what I use here. I actually manually break my lines
+when I'm closed to the 80 column, as most people do on mailing
+lists (some people read those upstream MLs with emacs).
 
-[snip]
-> > >  
-> > >  	while ((vb = mtk_jpeg_buf_remove(ctx, q->type)))
-> > >  		v4l2_m2m_buf_done(vb, VB2_BUF_STATE_ERROR);
-> > > @@ -772,6 +1011,45 @@ static int mtk_jpeg_set_dec_dst(struct mtk_jpeg_ctx *ctx,
-> > >  	return 0;
-> > >  }
-> > >  
-> > > +static void mtk_jpeg_set_enc_dst(struct mtk_jpeg_ctx *ctx, void __iomem *base,
-> > > +				 struct vb2_buffer *dst_buf,
-> > > +				 struct mtk_jpeg_enc_bs *bs)
-> > > +{
-> > > +	bs->dma_addr = vb2_dma_contig_plane_dma_addr(dst_buf, 0);
-> > > +	bs->dma_addr_offset = ctx->enable_exif ? MTK_JPEG_DEFAULT_EXIF_SIZE : 0;
-> > 
-> > Could you explain what is the meaning of the dma_addr_offset and where the
-> > default EXIF size comes from? Also, how is the encoder output affected by
-> > the enable_exif flag?
-> If enabled the exif mode, the real output will be filled at the locaiton
-> of dst_addr+ dma_addr_offset(exif size).The dma_addr_offset will be
-> filled by the application.
-> The default exif size is setted as constant value 64k according to the
-> spec.(Exif metadata are restricted in size to 64kB in JPEG images
-> because according to the specification this information must be
-> contained within a signed JPEG APP1 segment)
+>=20
+> >  =20
+> > > [=C2=A0=C2=A0=C2=A0 9.175421] kernel: ov2680 i2c-OVTI2680:00: gmin: i=
+nitializing atomisp module subdev data.PMIC ID 1
+> > > [=C2=A0=C2=A0=C2=A0 9.178755] kernel: ov2680 i2c-OVTI2680:00: supply =
+V1P2A not
+> > > found, using dummy regulator [=C2=A0=C2=A0=C2=A0 9.189966] kernel: pr=
+oc_thermal
+> > > 0000:00:0b.0: enabling device (0000 -> 0002)   =20
+> > > [=C2=A0=C2=A0=C2=A0 9.212704] kernel: ov2680 i2c-OVTI2680:00: supply =
+VPROG4B not
+> > > found, using dummy regulator
+> > > [=C2=A0=C2=A0=C2=A0 9.235024] kernel: ov2680 i2c-OVTI2680:00: supply =
+Regulator1p8v
+> > > not found, using dummy regulator   =20
+> >=20
+> > I'll check this.
+> >  =20
+> > > [=C2=A0=C2=A0=C2=A0 9.235057] kernel: proc_thermal 0000:00:0b.0: Crea=
+ting sysfs
+> > > group for PROC_THERMAL_PCI
+> > > [=C2=A0=C2=A0=C2=A0 9.238185] kernel: ov2680 i2c-OVTI2680:00: supply =
+Regulator2p8v
+> > > not found, using dummy regulator
+> > > [=C2=A0=C2=A0=C2=A0 9.337925] kernel: atomisp: module is from the sta=
+ging
+> > > directory, the quality is unknown, you have been warned.
+> > > [=C2=A0=C2=A0=C2=A0 9.404666] kernel: atomisp-isp2 0000:00:03.0: enab=
+ling device
+> > > (0000 -> 0002)   =20
+> > > [=C2=A0=C2=A0=C2=A0 9.408680] kernel: atomisp-isp2 0000:00:03.0: ISP =
+HPLL
+> > > frequency base =3D 1600 MHz
+> > > [=C2=A0=C2=A0=C2=A0 9.412197] kernel: atomisp-isp2 0000:00:03.0: Unsu=
+pported=20
+> > > hw_revision 0x2010   =20
+> >=20
+> > This is related to firmware load stuff. The code use those macros:
+> >=20
+> > 	#define ATOMISP_HW_REVISION_MASK	0x0000ff00
+> > 	#define ATOMISP_HW_REVISION_SHIFT	8
+> > 	#define ATOMISP_HW_REVISION_ISP2300	0x00
+> > 	#define ATOMISP_HW_REVISION_ISP2400	0x10
+> > 	#define ATOMISP_HW_REVISION_ISP2401_LEGACY 0x11
+> > 	#define ATOMISP_HW_REVISION_ISP2401	0x20
+> >=20
+> > 	#define ATOMISP_HW_STEPPING_MASK	0x000000ff
+> > 	#define ATOMISP_HW_STEPPING_A0		0x00
+> > 	#define ATOMISP_HW_STEPPING_B0		0x10
+> >=20
+> > According with the above, 0x2010 would mean ISP2401-B0.
+> >=20
+> > The code itself check those macros in order to load the right
+> > firmware:
+> >=20
+> >         if (isp->media_dev.hw_revision =3D=3D
+> >             ((ATOMISP_HW_REVISION_ISP2401 <<
+> > ATOMISP_HW_REVISION_SHIFT) | ATOMISP_HW_STEPPING_A0))
+> >                 fw_path =3D "shisp_2401a0_v21.bin";
+> >=20
+> >         if (isp->media_dev.hw_revision =3D=3D
+> >             ((ATOMISP_HW_REVISION_ISP2401_LEGACY <<
+> > ATOMISP_HW_REVISION_SHIFT) | ATOMISP_HW_STEPPING_A0))
+> >                 fw_path =3D "shisp_2401a0_legacy_v21.bin";
+> >=20
+> >         if (isp->media_dev.hw_revision =3D=3D
+> >             ((ATOMISP_HW_REVISION_ISP2400 <<
+> > ATOMISP_HW_REVISION_SHIFT) | ATOMISP_HW_STEPPING_B0))
+> >                 fw_path =3D "shisp_2400b0_v21.bin";
+> >=20
+> >         if (!fw_path) {
+> >                 dev_err(isp->dev, "Unsupported hw_revision 0x%x\n",
+> >                         isp->media_dev.hw_revision);
+> >                 return NULL;
+> >         }
+> >=20
+> > It sounds that we need to add:
+> >=20
+> >         if (isp->media_dev.hw_revision =3D=3D
+> >             ((ATOMISP_HW_REVISION_ISP2401 <<
+> > ATOMISP_HW_REVISION_SHIFT) | ATOMISP_HW_STEPPING_B0))
+> >                 fw_path =3D "shisp_2401b0_v21.bin";
+> >=20
+> > Eventually, other changes may be needed, depending on how different is
+> > this B0 revision from A0.
+> >=20
+> > Patch for it pushed. Please notice that it will seek for a firmware
+> > named "shisp_2401b0_v21.bin". =20
+>=20
+> Unfortunately I was not able to find "shisp_2401b0_v21.bin";=20
 
-Okay, thanks. Then it sounds like MTK_JPEG_MAX_EXIF_SIZE could be a more
-appropriate name.
+Yeah, I also searched for it. Was unable to find it. I suspect that the
+B0 version could be newer than the atomisp driver that got merged.
 
-[snip]
-> > > +}
-> > > +
-> > >  static void mtk_jpeg_device_run(void *priv)
-> > >  {
-> > >  	struct mtk_jpeg_ctx *ctx = priv;
-> > > @@ -782,6 +1060,8 @@ static void mtk_jpeg_device_run(void *priv)
-> > >  	struct mtk_jpeg_src_buf *jpeg_src_buf;
-> > >  	struct mtk_jpeg_bs bs;
-> > >  	struct mtk_jpeg_fb fb;
-> > > +	struct mtk_jpeg_enc_bs enc_bs;
-> > > +	struct mtk_jpeg_enc_fb enc_fb;
-> > >  	int i;
-> > >  
-> > >  	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
-> > > @@ -792,30 +1072,47 @@ static void mtk_jpeg_device_run(void *priv)
-> > >  		for (i = 0; i < dst_buf->vb2_buf.num_planes; i++)
-> > >  			vb2_set_plane_payload(&dst_buf->vb2_buf, i, 0);
-> > >  		buf_state = VB2_BUF_STATE_DONE;
-> > 
-> > About existing code, but we may want to explain this.
-> > What is this last frame handling above for?
-> if the user gives us a empty buffer(means it is the last frame),the
-> driver will not encode and done the buffer to the user.
->
+> so I changed the values in the code and tried with "shisp_2401a0_v21.bin,=
+ irci_master_20140707_0622".
 
-An empty buffer is not a valid way of signaling a last frame in V4L2. In
-general, I'm not sure there is such a thing in JPEG, because all frames
-are separate from each other and we always expect 1 input buffer and 1
-output buffer for one frame. We might want to remove the special
-handling in a follow up patch.
+Yeah, I suspect that this is the next best thing.
 
-> > > -		goto dec_end;
-> > > +		goto device_run_end;
-> > >  	}
-> > >  
-> > > -	if (mtk_jpeg_check_resolution_change(ctx, &jpeg_src_buf->dec_param)) {
-> > > -		mtk_jpeg_queue_src_chg_event(ctx);
-> > > -		ctx->state = MTK_JPEG_SOURCE_CHANGE;
-> > > -		v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
-> > > -		return;
-> > > -	}
-> > > +	if (jpeg->mode == MTK_JPEG_ENC) {
-> > > +		spin_lock_irqsave(&jpeg->hw_lock, flags);
-> > > +		mtk_jpeg_enc_reset(jpeg->reg_base);
-> > 
-> > Why do we need to reset every frame?
-> We do this operation is to ensure that all registers are cleared.
-> It's safer from the hardware point of view.
+> I contacted Intel to see if they are willing to provide the newer firmwar=
+e. Alan Cox mentioned in a commit message, that the drivers can be extracte=
+d from an "upgrade kit":
+>=20
+>    "... The firmware files will usually be found in /etc/firmware on an A=
+ndroid
+>    device but can also be extracted from the upgrade kit if you've managed
+>    to lose them somehow. ..."
+>=20
+> But I did not yet figure out what this kit is.
 
-Wouldn't this only waste power? If we reset the hardware after powering
-up, the only registers that could change would be changed by the driver
-itself. The driver should program all registers properly when starting
-next frame anyway, so such a reset shouldn't be necessary.
+The firmware should be there somewhere at the BSP for Android
+(for hardware that came originally with it). It should also be
+present on Windows and other OSes that support, although the
+version could be different.
 
-> > 
-> > > +
-> > > +		mtk_jpeg_set_enc_dst(ctx, jpeg->reg_base, &dst_buf->vb2_buf,
-> > > +				     &enc_bs);
-> > > +		mtk_jpeg_set_enc_src(ctx, jpeg->reg_base, &src_buf->vb2_buf,
-> > > +				     &enc_fb);
-> > > +		mtk_jpeg_enc_set_ctrl_cfg(jpeg->reg_base, ctx->enable_exif,
-> > > +					  ctx->enc_quality,
-> > > +					  ctx->restart_interval);
-> > > +
-> > > +		mtk_jpeg_enc_start(jpeg->reg_base);
-> > > +	} else {
-> > > +		if (mtk_jpeg_check_resolution_change
-> > > +			(ctx, &jpeg_src_buf->dec_param)) {
-> > > +			mtk_jpeg_queue_src_chg_event(ctx);
-> > > +			ctx->state = MTK_JPEG_SOURCE_CHANGE;
-> > > +			v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
-> > 
-> > This is a bit strange. Resolution change should be signaled when the
-> > hardware attempted to decode a frame and detected a different resolution
-> > than current. It shouldn't be necessary for the userspace to queue a pair
-> > of buffers to signal it, as with the current code.
-> If the the resolution is bigger than current, the current buffer will
-> not be enough for the changed resolution.Shouldn't it tell the userspace
-> to queue new buffer and stream on again?
+>=20
+> There is also an open support request with Intel to get some hardware/fir=
+mware documentation. But this will be difficult (as expected by you and Lau=
+rent) - their process only supports requests from companies that sign an ND=
+A. But I opened a ticket as well to see if there's a way to get access to t=
+heir developer network someway, or if it is possible that they send only th=
+e documents required.=20
 
-The V4L2 decode flow is as follows:
- - application configures and starts only the OUTPUT queue,
- - application queues an OUTPUT buffer with a frame worth of bitstream,
- - decoder parses the bitstream headers, detects CAPTURE format and
-   signals the source change event,
- - application reads CAPTURE format and configures and starts the
-   CAPTURE queue,
- - application queues a CAPTURE buffer,
- - decoder decodes the image to the queued buffer.
+Yeah, I suspect that they would open this only for companies
+with signed NDAs.
 
-In case of subsequent (dynamic) resolution change:
- - application queues an OUTPUT buffer and a CAPTURE buffer,
- - decoder parses the bitstream, notices resolution change, updates
-   CAPTURE format and signals the source change event, refusing to
-   continue the decoding until the application acknowledges it,
- - application either reallocates its CAPTURE buffers or confirms that
-   the existing buffers are fine and acknowledges resolution change,
- - decoding continues.
+>=20
+> I also sent an Mail to the original authors of the drivers at Intel. Two =
+of them no longer work there (mail was rejected), but one went trough. Let'=
+s see...
 
-For more details, please check the interface specification:
-https://www.kernel.org/doc/html/latest/media/uapi/v4l/dev-decoder.html
+Ok. Btw, there is a driver for Atomisp on an yocto tree:
 
-[snip]
-> > > -	ret = video_register_device(jpeg->dec_vdev, VFL_TYPE_GRABBER, 3);
-> > > +	ret = video_register_device(jpeg->vfd_jpeg, VFL_TYPE_GRABBER, -1);
-> > 
-> > FYI the type changed to VFL_TYPE_VIDEO recently.
-> I changed VFL_TYPE_GRABBER to VFL_TYPE_VIDEO,but builded fail.
+	https://github.com/intel-aero/meta-intel-aero.git
 
-What kernel version are you building with?
+It got removed back in 2018, but if you checkout this changeset:
 
-> > >  	if (ret) {
-> > >  		v4l2_err(&jpeg->v4l2_dev, "Failed to register video device\n");
-> > > -		goto err_dec_vdev_register;
-> > > +		goto err_vfd_jpeg_register;
-> > >  	}
-> > >  
-> > > -	video_set_drvdata(jpeg->dec_vdev, jpeg);
-> > > +	video_set_drvdata(jpeg->vfd_jpeg, jpeg);
-> > >  	v4l2_info(&jpeg->v4l2_dev,
-> > > -		  "decoder device registered as /dev/video%d (%d,%d)\n",
-> > > -		  jpeg->dec_vdev->num, VIDEO_MAJOR, jpeg->dec_vdev->minor);
-> > > +		  "jpeg device %d registered as /dev/video%d (%d,%d)\n",
-> > 
-> > Here it would be actually useful to special case the encoder and decoder,
-> > because it would be easier for the user to know which device is which.
-> > 
+	Merge: db1df368eb58 08f476112708
+	Author: Lucas De Marchi <lucas.demarchi@intel.com>
+	Date:   Tue Apr 4 11:51:42 2017 -0700
 
-Just making sure this wasn't overlooked.
+	    Merge pull request #70 from zehortigoza/jam
+   =20
+You would be able to see it. Unfortunately, the driver there
+also came with shisp_2401a0_v21.bin.
 
-[snip]
-> > > +
-> > > +void mtk_jpeg_enc_reset(void __iomem *base)
-> > > +{
-> > > +	writel(0x00, base + JPEG_ENC_RSTB);
-> > > +	writel(JPEG_ENC_RESET_BIT, base + JPEG_ENC_RSTB);
-> > > +	writel(0x00, base + JPEG_ENC_CODEC_SEL);
-> > > +}
-> > > +
-> > > +u32 mtk_jpeg_enc_get_int_status(void __iomem *base)
-> > > +{
-> > > +	u32 ret;
-> > > +
-> > > +	ret = readl(base + JPEG_ENC_INT_STS) &
-> > > +		    JPEG_ENC_INT_STATUS_MASK_ALLIRQ;
-> > > +	if (ret)
-> > > +		writel(0, base + JPEG_ENC_INT_STS);
-> > > +
-> > > +	return ret;
-> > > +}
-> > 
-> > Does it make sense to have a function for what is essentially just 2 lines?
-> > Also, the name is misleading, as the function not only gets but also
-> > clears.
-> Make all hw register setting in mtk_jpeg_enc_hw.c is one part of current
-> architecture.
-> I have changed the function name to
-> mtk_jpeg_enc_get_and_clear_int_status.
+The driver there forces this specific version, disabling the=20
+firmware version checking:
 
-As I mentioned before, this driver needs a big clean up and that's why I
-suggested starting over with a new one for the JPEG encoder part. Since
-we decided to extend this one in the end, would you be able to improve
-this aspect as well? Thanks.
+recipes-kernel/linux/linux-yocto/0013-temp-atomisp-support.patch:+ccflags-y=
+ +=3D -DATOMISP_POSTFIX=3D\"css2401a0_v21\" -DATOMISP_FWNAME=3D\"shisp_2401=
+a0_v21.bin\" -DISP2401 -DISP2401_NEW_INPUT_SYSTEM
 
-Best regards,
-Tomasz
+I also found a firmware for some other Asus Transformer device:
+
+	https://github.com/jfwells/linux-asus-t100ta/tree/master/webcam/firmware
+
+That's said, there's also a firmware for it inside this:
+	https://dlcdnets.asus.com/pub/ASUS/nb/DriversForWin10/Chipset/Chipset_Inte=
+l_CherryTrail_T_Win10_64_VER110.zip
+
+Probably it is a different version, but it could be worth renaming it and
+try it. The firmware load code should check if the firmware version is the
+right one.
+
+Also, the .INF file seems to point to the right PCI ID:
+
+	[Device.NTamd64]
+	%iacamera.DeviceDesc%=3Diacamera,VIDEO\INT22B8
+
+drivers/staging/media/atomisp/pci/atomisp_v4l2.c:       {PCI_DEVICE(PCI_VEN=
+DOR_ID_INTEL, 0x22b8), .driver_data =3D HW_IS_ISP2401},
+
+The inf file also contains this:
+
+	DriverVer=3D03/02/2016,21.10586.6069.2007
+
+So, it sounds to be Version 21. If it is the right one or
+something else, I dunno.
+
+>=20
+> >=20
+> > This driver will also check if the firmware version is:
+> >=20
+> > 	"irci_ecr - master_20150911_0724"
+> >=20
+> > As far as I know, the firmware is linked to the driver's code.=20
+> > So, supporting a different firmware version will likely require
+> > changes at the driver.
+> >  =20
+> > > [=C2=A0=C2=A0=C2=A0 9.416174] kernel: atomisp-isp2: probe of 0000:00:=
+03.0 failed
+> > > with error -2   =20
+>=20
+> With the older firmware it does not look good (full dmesg output attached=
+):
+> [    9.416329] ov2680 i2c-OVTI2680:00: supply Regulator1p8v not found, us=
+ing dummy regulator
+> [    9.425878] ov2680 i2c-OVTI2680:00: supply Regulator2p8v not found, us=
+ing dummy regulator
+> [    9.471140] atomisp-isp2 0000:00:03.0: enabling device (0000 -> 0002)
+> [    9.476362] proc_thermal 0000:00:0b.0: enabling device (0000 -> 0002)
+> [    9.478540] ov2680 i2c-OVTI2680:00: unable to set PMC rate 1
+> [    9.493784] cfg80211: Loading compiled-in X.509 certificates for regul=
+atory database
+> [    9.495675] atomisp-isp2 0000:00:03.0: ISP HPLL frequency base =3D 160=
+0 MHz
+> [    9.501274] cfg80211: Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
+> [    9.510963] ov2680 i2c-OVTI2680:00: camera pdata: port: 1 lanes: 1 ord=
+er: 00000002
+> [    9.515507] ov2680 i2c-OVTI2680:00: sensor_revision id =3D 0x2680, rev=
+=3D 0
+> [    9.519100] ov2680 i2c-OVTI2680:00: register atomisp i2c module type 1
+> [    9.530607] proc_thermal 0000:00:0b.0: Creating sysfs group for PROC_T=
+HERMAL_PCI
+> [    9.585233] input: Intel HDMI/DP LPE Audio HDMI/DP,pcm=3D0 as /devices=
+/pci0000:00/0000:00:02.0/hdmi-lpe-audio/sound/card0/input17
+> [    9.591623] input: Intel HDMI/DP LPE Audio HDMI/DP,pcm=3D1 as /devices=
+/pci0000:00/0000:00:02.0/hdmi-lpe-audio/sound/card0/input18
+> [    9.603063] input: Intel HDMI/DP LPE Audio HDMI/DP,pcm=3D2 as /devices=
+/pci0000:00/0000:00:02.0/hdmi-lpe-audio/sound/card0/input19
+> [    9.688254] ------------[ cut here ]------------
+> [    9.691775] cpu_latency_qos_update_request called for unknown object
+> [    9.695279] WARNING: CPU: 3 PID: 523 at kernel/power/qos.c:296 cpu_lat=
+ency_qos_update_request+0x3a/0xb0
+> [    9.698826] Modules linked in: snd_soc_acpi_intel_match snd_rawmidi sn=
+d_soc_acpi snd_soc_rl6231 snd_soc_core ath mac80211 snd_compress snd_hdmi_l=
+pe_audio ac97_bus hid_sensor_accel_3d snd_pcm_dmaengine hid_sensor_gyro_3d =
+hid_sensor_trigger industrialio_triggered_buffer kfifo_buf hid_sensor_iio_c=
+ommon processor_thermal_device industrialio cfg80211 snd_pcm snd_seq intel_=
+rapl_common atomisp(C+) libarc4 intel_soc_dts_iosf cros_ec_ishtp intel_xhci=
+_usb_role_switch mei_txe cros_ec videobuf_vmalloc mei roles atomisp_ov2680(=
+C) videobuf_core snd_seq_device snd_timer spi_pxa2xx_platform videodev snd =
+mc dw_dmac intel_hid dw_dmac_core 8250_dw soundcore int3406_thermal int3400=
+_thermal intel_int0002_vgpio acpi_pad acpi_thermal_rel soc_button_array int=
+3403_thermal int340x_thermal_zone mac_hid sch_fq_codel parport_pc ppdev lp =
+parport ip_tables x_tables autofs4 hid_sensor_custom hid_sensor_hub intel_i=
+shtp_loader intel_ishtp_hid crct10dif_pclmul crc32_pclmul ghash_clmulni_int=
+el i915 mmc_block i2c_algo_bit
+> [    9.698885]  aesni_intel crypto_simd drm_kms_helper cryptd syscopyarea=
+ sysfillrect glue_helper sysimgblt fb_sys_fops cec intel_ish_ipc drm lpc_ic=
+h intel_ishtp hid_asus intel_soc_pmic_chtdc_ti asus_wmi i2c_hid sparse_keym=
+ap sdhci_acpi wmi video sdhci hid_generic usbhid hid
+> [    9.736699] CPU: 3 PID: 523 Comm: systemd-udevd Tainted: G         C  =
+      5.7.0-rc1+ #2
+> [    9.741309] Hardware name: ASUSTeK COMPUTER INC. T101HA/T101HA, BIOS T=
+101HA.305 01/24/2018
+> [    9.745962] RIP: 0010:cpu_latency_qos_update_request+0x3a/0xb0
+> [    9.750615] Code: 89 e5 41 55 41 54 41 89 f4 53 48 89 fb 48 81 7f 28 e=
+0 7f c6 9e 74 1c 48 c7 c6 60 f3 65 9e 48 c7 c7 e8 a9 99 9e e8 b2 a6 f9 ff <=
+0f> 0b 5b 41 5c 41 5d 5d c3 0f 1f 44 00 00 44 3b 23 74 ef 44 89 e2
+> [    9.760065] RSP: 0018:ffffa865404f39c0 EFLAGS: 00010282
+> [    9.764734] RAX: 0000000000000000 RBX: ffff9d2aefc84350 RCX: 000000000=
+0000000
+> [    9.769435] RDX: ffff9d2afbfa97c0 RSI: ffff9d2afbf99808 RDI: ffff9d2af=
+bf99808
+> [    9.774125] RBP: ffffa865404f39d8 R08: 0000000000000304 R09: 000000000=
+0aaaaaa
+> [    9.778804] R10: 0000000000000000 R11: 0000000000000001 R12: 00000000f=
+fffffff
+> [    9.783491] R13: ffff9d2afb4640b0 R14: ffffffffc07ecf20 R15: 000000009=
+1000000
+> [    9.788187] FS:  00007efe67ff8880(0000) GS:ffff9d2afbf80000(0000) knlG=
+S:0000000000000000
+> [    9.792864] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [    9.797482] CR2: 00007ffc6424bdc8 CR3: 0000000178998000 CR4: 000000000=
+01006e0
+> [    9.802126] Call Trace:
+> [    9.806775]  atomisp_pci_probe.cold.19+0x15f/0x116f [atomisp]
+> [    9.811441]  local_pci_probe+0x47/0x80
+> [    9.816085]  pci_device_probe+0xff/0x1b0
+> [    9.820706]  really_probe+0x1c8/0x3e0
+> [    9.825247]  driver_probe_device+0xd9/0x120
+> [    9.829769]  device_driver_attach+0x58/0x60
+> [    9.834294]  __driver_attach+0x8f/0x150
+> [    9.838782]  ? device_driver_attach+0x60/0x60
+> [    9.843205]  ? device_driver_attach+0x60/0x60
+> [    9.847634]  bus_for_each_dev+0x79/0xc0
+> [    9.852033]  ? kmem_cache_alloc_trace+0x167/0x230
+> [    9.856462]  driver_attach+0x1e/0x20
+>=20
+> Well - It did more things than before.=20
+
+Actually, it looked a lot better for me, as the driver is now trying to=20
+do something ;-)
+
+> But my fear is that we really depend on the rev b firmware, which is very=
+ difficult to get hold of :-(.
+>=20
+> >=20
+> > That's because it didn't load the firmware.
+> >=20
+> > Thanks,
+> > Mauro =20
+>=20
+> with kind regards,
+> Patrik
+>=20
+
+
+
+Thanks,
+Mauro
