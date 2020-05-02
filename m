@@ -2,200 +2,416 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67B5D1C26FB
-	for <lists+linux-media@lfdr.de>; Sat,  2 May 2020 18:28:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63AB31C271C
+	for <lists+linux-media@lfdr.de>; Sat,  2 May 2020 18:56:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728379AbgEBQ2m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 May 2020 12:28:42 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55342 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728342AbgEBQ2l (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 2 May 2020 12:28:41 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 80FC221974;
-        Sat,  2 May 2020 16:28:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588436921;
-        bh=HbLk2qO6hRNsRv1Mh3ffSJyvYKECW9VUmmae5grsUzI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=2uETBB96+Buh7Y8Vt4/uCMBOkWkxH0NFFa5NtOG+yU84KED6wX/65CEzXg/d9Sm9R
-         dUC4qqmR9ZQoa0SpjQnRTRMwG+QwOzThQGK2cP9DPwbDhJOMZiUW3TDZ6ciQegHAKy
-         UALNfy3CNTpttOsTaNjRDnbHKbfP9/b82wA/XTO4=
-Date:   Sat, 2 May 2020 18:28:37 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Patrik Gfeller <patrik.gfeller@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: atomisp kernel driver(s)
-Message-ID: <20200502182837.3b254abc@coco.lan>
-In-Reply-To: <20200502162951.0ad8a080@ASUS>
-References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
-        <86413836-e4b5-cb53-3ac0-1764c693ec7b@gmail.com>
-        <682558b0-a2cf-9fe2-6e54-20462ecccb5d@gmail.com>
-        <20200425132255.4bf872b2@coco.lan>
-        <131a4247-cef3-d651-a0ea-defd32b8bf20@gmail.com>
-        <20200426185007.1954885a@coco.lan>
-        <45817a6a-dd2f-13a6-835b-fd2b04ded23f@gmail.com>
-        <20200427235027.15cd4e03@coco.lan>
-        <d9ec5067-142c-66c9-c412-51ddf38e44f7@gmail.com>
-        <20200429011339.03af3c2a@coco.lan>
-        <3b7366b9-463d-c49b-0f2d-51a1d5475a9d@gmail.com>
-        <20200429201753.3b2d679b@coco.lan>
-        <6fffdf73-a0eb-1b1c-d894-e4799b8ef944@gmail.com>
-        <20200430125544.10a9830d@coco.lan>
-        <403b799e-6ae9-d62b-1f3a-a1b6b874071b@gmail.com>
-        <20200501002510.0ead955d@coco.lan>
-        <1a17ffad-9792-a4ff-519e-a4306e7bf3e1@gmail.com>
-        <20200501113812.7f16b7ca@coco.lan>
-        <20200501192844.397efcaa@ASUS>
-        <20200501213023.7fe29188@coco.lan>
-        <20200502101542.2972010a@ASUS>
-        <20200502113414.618964a9@coco.lan>
-        <20200502162951.0ad8a080@ASUS>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728395AbgEBQ4M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 May 2020 12:56:12 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:15413 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728312AbgEBQ4L (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 May 2020 12:56:11 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5eada5ad0000>; Sat, 02 May 2020 09:54:05 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Sat, 02 May 2020 09:56:10 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Sat, 02 May 2020 09:56:10 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 2 May
+ 2020 16:56:10 +0000
+Received: from [10.2.165.119] (172.20.13.39) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 2 May 2020
+ 16:56:09 +0000
+Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
+ <b72b9d5c-7d02-1b58-20f7-30f94e230d58@gmail.com>
+ <668d9b65-9590-cc97-41c3-2c1a5cfbbe61@nvidia.com>
+ <289d9c92-383f-3257-de7b-46179724285a@nvidia.com>
+ <9aa64f21-7b23-7228-b5eb-d2ff092682ad@nvidia.com>
+ <668cc4a0-2c81-0d87-b801-9fbf64e19137@nvidia.com>
+ <bf3f654e-b8f8-d560-fc5e-03d73cb7eab0@nvidia.com>
+ <525e481b-9137-6fdd-bbf9-3779a5704e6b@nvidia.com>
+ <fe7ebad6-0368-b1f0-4f58-648baa5e3f79@nvidia.com>
+ <4f095181-2338-3b71-316c-f8bbfc7865cc@nvidia.com>
+ <50e872bb-913a-7b47-3264-af6b1cedb0e2@nvidia.com>
+ <e17a8a49-be53-465d-f64c-3f4c77391d98@nvidia.com>
+ <da5154b4-85f9-3e56-a440-f75debaec3a8@nvidia.com>
+ <cbb047ae-97dc-8b9a-a5ba-8e2a5dab3771@nvidia.com>
+ <6ae2d00d-7955-d12b-5b56-955ef72ece26@nvidia.com>
+ <f9073b28-f1f1-636c-be53-764fb0a531a1@gmail.com>
+ <1767e50f-efb7-5e89-22f6-0917821b660d@nvidia.com>
+ <235a4cd4-4d4a-04b8-6c65-43a4dba48a0b@nvidia.com>
+ <f8103170-7879-8597-3e3c-da9a3b6a40b3@nvidia.com>
+Message-ID: <5d847770-dad9-8f18-67b5-c1ba79084957@nvidia.com>
+Date:   Sat, 2 May 2020 09:55:31 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <f8103170-7879-8597-3e3c-da9a3b6a40b3@nvidia.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1588438445; bh=LRDvfOuwDnzQpxVfGeuBCDMK95XjyKuWDsakb0MRcng=;
+        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=gSINDPJta4pz1rZadjniiN1Tn+FAJc0B+RauGz9bJ7VGGBr5eHRsrQkZNHipWRtKN
+         hrCIShT8xnK35oPwhnj1C7jYww8Uww3nxoSkA59fBk8r1IbenEaCy/LSuNZqZ6Cuan
+         irXpqY2rZcVG1tznKnkBfKTVQg1J6vpl9BbFMwnwLZ3Gq1lhyjfKPKKT3fHMYHGeZL
+         WVjFHnyGA0btgZfRPUkFq2bsVOlbHMjvZLl6i/LDKjAAniD5h6gh51iuz92OHcVHDV
+         AQIjOiCQUqHldaRuAatbmCcyXdWum+wlUIKyMA3nA3o5Su5MZgp4PrrjXFUHARAmYV
+         e4NQrnKtwDSFQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sat, 2 May 2020 16:29:51 +0200
-Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
 
-> On Sat, 2 May 2020 11:34:14 +0200
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
-> 
-> > Em Sat, 2 May 2020 10:15:42 +0200
-> > Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
-> > 
-> >  [...]  
-> >  [...]  
-> >   
-> > > > Ok. Btw, there is a driver for Atomisp on an yocto tree:
-> > > > 
-> > > > 	https://github.com/intel-aero/meta-intel-aero.git
-> > > > 
-> > > > It got removed back in 2018, but if you checkout this changeset:
-> > > > 
-> > > > 	Merge: db1df368eb58 08f476112708
-> > > > 	Author: Lucas De Marchi <lucas.demarchi@intel.com>
-> > > > 	Date:   Tue Apr 4 11:51:42 2017 -0700
-> > > > 
-> > > > 	    Merge pull request #70 from zehortigoza/jam
-> > > >           
-> > > 
-> > > Cool, the code might give additional information.    
-> > 
-> > Yes. And, as it was released from Intel for a specific device,
-> > it should very likely work for the model supported there (with
-> > the Yocto 4.4 Kernel). So, it could be valuable to help identifying
-> > if some of the cleanup patches would have broken something.
-> > 
-> > ON a quick look, it sounds that such build was is targeted for
-> > ISP2401:
-> > 
-> > 	+++ b/drivers/media/pci/atomisp/Makefile
-> > 	@@ -0,0 +1 @@
-> > 	+obj-$(CONFIG_VIDEO_ATOMISP) += css2401a0_v21_build/
-> >   
-> > > I've also send a
-> > > request regarding the firmware and HW documentation to the author and
-> > > the engineers that signed the patch. The firmware in the patch has a
-> > > different version string and the size is surprisingly a few MB bigger
-> > > than the one I used for the first experiment.     
-> > 
-> > There are some vendors that generate a firmware together with a source
-> > code. This could be the case here. That's my feeling when looking into
-> > a file like:
-> > 
-> > 	drivers/staging/media/atomisp/pci/css_2401_system/spmem_dump.c
-> > 
-> > Which contains lots of addresses that it is different betwen 2401 and
-> > 2400.
-> > 
-> > If so, using a different firmware version will likely cause at least
-> > some parts of the driver to fail.
-> > 
-> > 
-> >  [...]  
-> >  [...]    
-> > > 
-> > > It looks a this firmware is for the 2400 variant; I could also not
-> > > extract the irci version string. Thus I'll not try them for the moment
-> > > to perform experiments.    
-> > 
-> > Ok.
-> > 
-> >  [...]    
-> > > 
-> > > It identifies itself as irci_stable_bw10p_0518_20150801_0537;     
-> > 
-> > Same year as what we had. Just a little older. Yeah, some things there
-> > could work.  
-> 
-> Below the result from the test with
-> irci_stable_bw10p_0518_20150801_0537 - looks like it loaded the
-> firmare; I got an a message when the file was not present, or the
-> version did not add up. I tried to cleanup the dmesg output a little
-> (removed what was unrelated to atom-isp):
+On 5/2/20 9:14 AM, Sowjanya Komatineni wrote:
+>
+> On 5/2/20 9:03 AM, Sowjanya Komatineni wrote:
+>>
+>> On 5/2/20 8:38 AM, Sowjanya Komatineni wrote:
+>>>
+>>> On 5/2/20 8:16 AM, Dmitry Osipenko wrote:
+>>>> 02.05.2020 06:55, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>>>>> On 5/1/20 8:39 PM, Sowjanya Komatineni wrote:
+>>>>>>
+>>>>>> On 5/1/20 2:05 PM, Sowjanya Komatineni wrote:
+>>>>>>>
+>>>>>>> On 5/1/20 1:58 PM, Sowjanya Komatineni wrote:
+>>>>>>>>
+>>>>>>>> On 5/1/20 1:44 PM, Sowjanya Komatineni wrote:
+>>>>>>>>>
+>>>>>>>>> On 5/1/20 11:03 AM, Sowjanya Komatineni wrote:
+>>>>>>>>>>
+>>>>>>>>>> On 4/30/20 4:33 PM, Sowjanya Komatineni wrote:
+>>>>>>>>>>>
+>>>>>>>>>>> On 4/30/20 4:14 PM, Sowjanya Komatineni wrote:
+>>>>>>>>>>>>>>>>>> And in this case synchronization between start/finish
+>>>>>>>>>>>>>>>>>> threads should be
+>>>>>>>>>>>>>>>>>> needed in regards to freezing.
+>>>>>>>>>>>>>>>>> Was thinking to have counter to track outstanding frame
+>>>>>>>>>>>>>>>>> w.r.t single shot issue b/w start and finish and allow to
+>>>>>>>>>>>>>>>>> freeze only when no outstanding frames in process.
+>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>> This will make sure freeze will not happen when any=20
+>>>>>>>>>>>>>>>>> buffers
+>>>>>>>>>>>>>>>>> are in progress
+>>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>>>> Note that this could be a wrong assumption, I'm not
+>>>>>>>>>>>>>>>>>> closely familiar
+>>>>>>>>>>>>>>>>>> with how freezer works.
+>>>>>>>>>>>>>>>> kthread_start can unconditionally allow try_to_freeze=20
+>>>>>>>>>>>>>>>> before
+>>>>>>>>>>>>>>>> start of frame capture
+>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>> We can compute captures inflight w.r.t single shot issued
+>>>>>>>>>>>>>>>> during capture start and finished frames by kthread_finish
+>>>>>>>>>>>>>>>> and allow kthread_finish to freeze only when captures
+>>>>>>>>>>>>>>>> inflight is 0.
+>>>>>>>>>>>>>>>>
+>>>>>>>>>>>>>>>> This allows freeze to happen b/w frames but not in=20
+>>>>>>>>>>>>>>>> middle of
+>>>>>>>>>>>>>>>> frame
+>>>>>>>>>>>>> will have caps inflight check in v12 to allow freeze finish
+>>>>>>>>>>>>> thread only when no captures are in progress
+>>>>>>>>>>>>
+>>>>>>>>>>>> try_to_freeze() returns thread frozen state and looks like we
+>>>>>>>>>>>> can use this in kthread finish to allow finish thread to=20
+>>>>>>>>>>>> freeze
+>>>>>>>>>>>> only when kthread_start is already frozen and no buffers in
+>>>>>>>>>>>> progress/initiated for capture.
+>>>>>>>>>>>>
+>>>>>>>>>>> chan->capture_frozen holds frozen state returned from
+>>>>>>>>>>> try_to_freeze() in start kthread
+>>>>>>>>>>>
+>>>>>>>>>>> chan->capture_reqs increments after every single shot issued.
+>>>>>>>>>>>
+>>>>>>>>>>>
+>>>>>>>>>>> static int chan_capture_kthread_finish(void *data)
+>>>>>>>>>>>
+>>>>>>>>>>> {
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_vi_channel *chan =3D data=
+;
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_channel_buffer *buf;
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 int caps_inflight;
+>>>>>>>>>>>
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 set_freezable();
+>>>>>>>>>>>
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 while (1) {
+>>>>>>>>>>> wait_event_interruptible(chan->done_wait,
+>>>>>>>>>>> =C2=A0!list_empty(&chan->done) ||
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =
+=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0kthread_should_stop());
+>>>>>>>>>>>
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 /* dequeue buffers =
+and finish capture */
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 buf =3D dequeue_buf=
+_done(chan);
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 while (buf) {
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =
+tegra_channel_capture_done(chan, buf);
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =
+buf =3D dequeue_buf_done(chan);
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 }
+>>>>>>>>>>>
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (kthread_should_=
+stop())
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =
+break;
+>>>>>>>>>>>
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 caps_inflight =3D c=
+han->capture_reqs - chan->sequence;
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (chan->capture_f=
+rozen && !caps_inflight)
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =
+try_to_freeze();
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>>>>>>>>>
+>>>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 return 0;
+>>>>>>>>>>> }
+>>>>>>>>>>
+>>>>>>>>>> Freezing happens prior to suspend() during suspend entry and=20
+>>>>>>>>>> when
+>>>>>>>>>> we implement suspend/resume during suspend we stop streaming=20
+>>>>>>>>>> where
+>>>>>>>>>> we stop threads anyway.
+>>>>>>>>>>
+>>>>>>>>>> So, was thinking why we need these threads freezable here?
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>> Hi Dmitry,
+>>>>>>>>>
+>>>>>>>>> Did some testing and below are latest observation and fix I=20
+>>>>>>>>> tested.
+>>>>>>>>>
+>>>>>>>>> wait_event_interruptible() uses schedule() which blocks the=20
+>>>>>>>>> freezer.
+>>>>>>>>> When I do suspend while keeping streaming active in background, I
+>>>>>>>>> see freezing of these threads fail and call trace shows=20
+>>>>>>>>> __schedule
+>>>>>>>>> -> __switch_to from these kthreads.
+>>>>>>>>>
+>>>>>>>>> wait_event_freezable() uses freezable_schedule() which should not
+>>>>>>>>> block the freezer but we can't use this here as we need=20
+>>>>>>>>> conditional
+>>>>>>>>> try_to_freeze().
+>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> So, doing below sequence works where we set PF_FREEZER_SKIP flag
+>>>>>>>>> thru freezer_not_count() before wait_event which calls schedule()
+>>>>>>>>> and remove PF_FREEZER_SKIP after schedule allows try_to_freeze to
+>>>>>>>>> work and also conditional try_to_freeze below prevents freezing
+>>>>>>>>> thread in middle of capture.
+>>>>>>>>>
+>>>>>>>>> while (1) {
+>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 freezer_not_count()
+>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 wait_event_interruptible()
+>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 freezer_count()
+>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 ...
+>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 ...
+>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 if (chan->capture_frozen && !caps_inflig=
+ht)
+>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 try_to_freeze()
+>>>>>>>>> }
+>>>>>>>>>
+>>>>>>>>> Please comment if you agree with above sequence. Will include=20
+>>>>>>>>> this
+>>>>>>>>> in v12.
+>>>>>>>>>
+>>>>>>> sorry, freezer_count() does try_to_freeze after clearing skip flag.
+>>>>>>> So, dont think we can use this as we need conditional=20
+>>>>>>> try_to_freeze.
+>>>>>>> Please ignore above sequence.
+>>>>>>>> Or probably we can take closer look on this later when we add
+>>>>>>>> suspend/resume support as it need more testing as well.
+>>>>>>>>
+>>>>>>>> As this is initial series which has TPG only I think we shouldn't
+>>>>>>>> get blocked on this now. Series-2 and 3 will be for sensor support
+>>>>>>>> and on next series when we add suspend/resume will look into this.
+>>>>>>>>
+>>>>>>>>
+>>>>>> When freeze activity starts and in case if finish thread freezes=20
+>>>>>> prior
+>>>>>> to start thread issuing capture, its the VI hardware writes data to
+>>>>>> the allocated buffer address.
+>>>>>>
+>>>>>> finish thread just checks for the event from the hardware and we=20
+>>>>>> don't
+>>>>>> handle/process directly on memory in this driver.
+>>>>>>
+>>>>>> So even we freeze done thread when single shot is issued frame=20
+>>>>>> buffer
+>>>>>> gets updated.
+>>>>>>
+>>>>>> In case if capture thread is frozen there will not buffers queued to
+>>>>>> process by finish thread. So, this will not be an issue.
+>>>>>>
+>>>>>> So, probably we don't need to do conditional try_to_freeze and=20
+>>>>>> what we
+>>>>>> have should work good in this corner case.
+>>>>>>
+>>>>> I still need to change wait_event_interruptible() to
+>>>>> wait_event_freezable() but no need to synchronize finish thread=20
+>>>>> freeze
+>>>>> with start thread as even on issuing capture start its vi hardware=20
+>>>>> that
+>>>>> does frame buffer update and finish thread just checks for mw_ack=20
+>>>>> event
+>>>>> and returns buffer to application.
+>>>> The problem we are primarily trying to avoid is to have suspending=20
+>>>> being
+>>>> done in the middle of IO.
+>>>>
+>>>> IIUC, even if system will be suspended in the middle of VI IO, it=20
+>>>> won't
+>>>> be fatal. In worst case the buffer capture should fail on resume from
+>>>> suspend. Could you please try to simulate this potential issue and see
+>>>> what result will be on suspending in the middle of VI IO?
+>>>>
+>>>> We don't want to suspend system / stop streaming in the middle of=20
+>>>> IO, so
+>>>> this problem of a proper threads tear-down still exists. It should
+>>>> become easier to resolve the problem in a case of a proper suspending
+>>>> callback because the "start" thread could be turned down at any=20
+>>>> time, so
+>>>> it should be easier to maintain a proper tear-down order when threads
+>>>> are fully controlled by the driver, i.e. the "start" thread goes down
+>>>> first and the "finish" is second, blocking until the capture is=20
+>>>> completed.
+>>
+>> I don't see issue of tear-down threads in case of suspend as we do=20
+>> stop streaming where thread stop happens on both threads and are=20
+>> stopped only after processing all outstanding buffers.
+>>
+>> Regarding freezing activity during suspend, If done thread freezes=20
+>> prior to processing buffers for finish, vi hardware is still active=20
+>> by this time which will update the frame buffer for initiated=20
+>> capture. Driver is not directly involved in this frame buffer update.
+>>
+>> Finish thread only checks for completion to return buffers back to=20
+>> the application when done.
+>
+> when done thread freeze happens after start thread initiated capture,=20
+> vi hardware continues to update frame buffer for ongoing capture till=20
+> it hits driver suspend callback. Yes worst case this frame data may=20
+> not be valid data if invoking of this driver suspend happens immediate=20
+> after this thread freeze during system suspend.
+>
+> But driver will still hold buffers to return which will be returned=20
+> back on resume when threads are out from frozen state.
 
-> [   10.089196] ------------[ cut here ]------------
-> [   10.093225] WARNING: CPU: 1 PID: 503 at drivers/media/v4l2-core/v4l2-dev.c:885 __video_register_device+0x93e/0x1120 [videodev]
 
-That's due to a change at the media core that added this test:
+Also stop stream ioctl request happens during suspend where both threads=20
+will be stopped properly. done thread stop happens only after finishing=20
+all outstanding buffers.
 
-	/* the device_caps field MUST be set for all but subdevs */
-	if (WARN_ON(type != VFL_TYPE_SUBDEV && !vdev->device_caps))
-		return -EINVAL;
+Stop stream request happens from streaming applications so even without=20
+driver suspend/resume implementation currently, streaming will be=20
+stopped prior to system=C2=A0 suspend where both threads will be stopped=20
+properly (after finishing out standing buffers) and will be resumed by=20
+application on system resume
 
-Added on this patch:
+Also tested suspending while streaming with this unconditional freeze, I=20
+don't see any issue as application stops stream where v4l_streamoff gets=20
+executed during suspend and on resume streaming starts where=20
+v4l_streamon happens.
 
-	commit 3c1350501c21db8e3b1a38d9e97db29694305c3b
-	Author: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-	Date:   Tue Jul 23 04:21:25 2019 -0400
+So, I don't see any issue with existing implementation of unconditional=20
+freeze.
 
-	    media: v4l2-dev/ioctl: require non-zero device_caps, verify sane querycap results
-    
-	    Now that all V4L2 drivers set device_caps in struct video_device, we can add
-	    a check for this to ensure all future drivers fill this in.
+>
+>>
+>>
+>>>> I think yours suggestion about dropping the freezing from the threads
+>>>> for now and returning back to it later on (once a proper=20
+>>>> suspend/resume
+>>>> support will be added) sounds reasonable.
+>>>>
+>>>> But if you'd want to keep the freezing, then the easy solution=20
+>>>> could be
+>>>> like that:
+>>>>
+>>>> =C2=A0=C2=A0 1. "start" thread could freeze at any time
+>>>> =C2=A0=C2=A0 2. "finish" thread could freeze only when the "start" thr=
+ead is=20
+>>>> frozen
+>>>> and capture isn't in-progress. Use frozen(kthread_start_capture) to
+>>>> check the freezing state.
+>>>>
+>>>> https://elixir.bootlin.com/linux/v5.7-rc3/source/include/linux/freezer=
+.h#L25=20
+>>>>
+>>>
+>>> That's exactly what I tried, below is the snippet.
+>>>
+>>> But as mentioned I am seeing freezing fail when I=20
+>>> wait_event_interruptible() in either of the threads.
+>>>
+>>> =C2=A0=C2=A0 60.368709] Call trace:
+>>> [=C2=A0=C2=A0 60.371216] __switch_to+0xec/0x140
+>>> [=C2=A0=C2=A0 60.374768] __schedule+0x32c/0x668
+>>> [=C2=A0=C2=A0 60.378315] schedule+0x78/0x118
+>>> [=C2=A0=C2=A0 60.381606]=C2=A0 chan_capture_kthread_finish+0x244/0x2a0 =
+[tegra_video]
+>>> [=C2=A0=C2=A0 60.387865] kthread+0x124/0x150
+>>> [=C2=A0=C2=A0 60.391150] ret_from_fork+0x10/0x1c
+>>>
+>>> wait_event_interruptible() API uses schedule() which blocks freezer=20
+>>> while wait_event_freezable APIs uses freezable_schedule() which=20
+>>> allows to skip freezer during schedule and then clears skip and=20
+>>> calls try_to_freeze()
+>>>
+>>> But we can't use wait_event_freezable() here as we need conditional=20
+>>> freeze.
+>>>
+>>>
+>>> =C2=A0=C2=A0=C2=A0 while (1) {
+>>> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 caps_inflight =3D chan->capture_r=
+eqs - chan->sequence;
+>>> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (frozen(chan->kthread_start_ca=
+pture) && !caps_inflight)
+>>> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 wait_event_fre=
+ezable(chan->done_wait,
+>>> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
+=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 !list_empty(&chan->done)=
+ ||
+>>> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
+=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 kthread_should_stop());
+>>> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 else
+>>> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 wait_event_int=
+erruptible(chan->done_wait,
+>>> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
+=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0!list_empty(&chan->done)=
+ ||
+>>> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=
+=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0kthread_should_stop());
+>>>
+>>> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 /* dequeue buffers and finish cap=
+ture */
+>>>
+>>> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 ...
+>>>
+>>> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 ...
+>>>
+>>>
+>>> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (kthread_should_stop())
+>>> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 break;
+>>> =C2=A0=C2=A0=C2=A0 }
+>>>
 
-Fixing it is simple. Just sent a patch.
-
-> > I'm suspecting that, before being able of calling regulator_get(),
-> > the code should use some match logic to get the regulators on this
-> > board and call regulator_register().
-> > 
-> > Please run this command on your tablet:
-> > 
-> > 	$ sudo cat /sys/kernel/debug/regulator/supply_map
-> > 
-> > If this returns nothing - as I suspect - then calling regulator_get()
-> > won't be doing anything.   
-> 
-> The statement to read the supply_map did return nothing, as you'd
-> expected.
-
-Ok. That explains why register_get() failed ;-)
-
-If this time the probing part works, I guess the next step would
-be to use some tools from https://git.linuxtv.org/v4l-utils.git/,
-in order to test the stuff that doesn't depend on the sensors,
-as, without the regulator settings, it won't be turned on.
-
-The simplest test would be to run:
-
-	$ v4l2-ctl --all -d /dev/video0
-
-(and the same for the other /dev/video? nodes created by the driver)
-
--
-
-A more complete test would be to run v4l2-compliance (without
-enabling streaming), but let's first check if v4l2-ctl won't
-hit any Kernel bugs.
-
-Thanks,
-Mauro
