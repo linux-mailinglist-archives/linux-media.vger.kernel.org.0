@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB77A1C2286
-	for <lists+linux-media@lfdr.de>; Sat,  2 May 2020 05:23:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29CDC1C2289
+	for <lists+linux-media@lfdr.de>; Sat,  2 May 2020 05:23:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727866AbgEBDWy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 May 2020 23:22:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39940 "EHLO
+        id S1727890AbgEBDW7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 1 May 2020 23:22:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726439AbgEBDWx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 1 May 2020 23:22:53 -0400
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C193C061A0C;
-        Fri,  1 May 2020 20:22:53 -0700 (PDT)
-Received: by mail-qk1-x741.google.com with SMTP id c63so11238441qke.2;
-        Fri, 01 May 2020 20:22:53 -0700 (PDT)
+        with ESMTP id S1726439AbgEBDW6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 1 May 2020 23:22:58 -0400
+Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06FD7C061A0E;
+        Fri,  1 May 2020 20:22:58 -0700 (PDT)
+Received: by mail-qt1-x841.google.com with SMTP id b1so9557706qtt.1;
+        Fri, 01 May 2020 20:22:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wLSxbksYe7vFAl+dAChpvHeW8F9QhUMpS/+xzmVyhR4=;
-        b=PKcEoF52OoEQuSEvPnG7/F79zFA430vYjff3uLEaOAC77ileYYAVSA3SXQsDIKw+M3
-         HcDrfcuFrS/QUQDnpcCexhoyiNE6QsrA6UfmN9q4uiJTghyxQeUsPDShKXdG/o3qdYrU
-         9zeUjwc62srL/KTat/i1wO8BwvcelbUaGQUnZ4LmUpjrXbThKdrTP0i33IZVSfiIXT7W
-         S7hxlYaUwhbEEaJkdnH+zwPfiAqI8DD3GGTLqEd6e0e9T+MDbfP3IVSDoTgMEDF0h/HM
-         tsdL8nF1s3fr3RLhxwQybv0usgeJCk5BKLikcnCnJv0EdFROOp9pOVkcxoG2XGRwlTWj
-         Ndbg==
+        bh=j9T0sUjzus57nQX3/1aTAi2/PzSdq5kO5uH1qanv+VM=;
+        b=WAnk+iEhDMCNqbqS9lfGR85tTSPeKzmUkI25Zwao4HFSD1euRhc9gOOVQ+Kh4io4LA
+         EM517TClNjTAJj87a5rqr46N81wsIrWtEoo7mqplYfaqGVvUdVV4/WS2KhlvhfeyCqq7
+         74+pEsDMyiP1aWtHTLitrWViRn6G/EqGPG5MFplWqA59ORU0eTBE1YvwXl/77w+rzAjp
+         e4ngl55bWXiTxUs2Rs+0vdPpV/TYTu+8H91UgQtMAmpxuS/Sj5TpDVtJMdFOqyzEla0l
+         /0eDA/tGN+KHGHgxwixBdLVLzCeN2rqDwT/6Q/dWSydCTZF+1u2U+2l/kq+Bo0NYU4Dj
+         QhMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wLSxbksYe7vFAl+dAChpvHeW8F9QhUMpS/+xzmVyhR4=;
-        b=V3mLbD60WRWf4qNzGMP1GktEV163Dy6SnWCzoujOz95kUAod7rEzseGZayu1ny6sqH
-         rbNdU3yTMootGxTpd/wXWWoZvNuZ00c4VBnuzmhoUYDU96gv+L6mvLQMensxkW8eL4XZ
-         U1dPRBZJwy0KxDoL+14HTZv16MQtAO/9Ja8BsKayzrpz1acl5eq4M4OEyuJRM6t8K3jz
-         3cpXEDNo5zl7woFNNKIkgMOihK98ZWpZ9o/CTNGoMHbgGnt6PBa5F7yslBMwze38R8RT
-         FHnPzszQtnMRzLFibIv3xlQdWOThux+EqlGdG1Mp5eQEJ/+fMzFiQ1o4LygpZFuiKU7C
-         hUlg==
-X-Gm-Message-State: AGi0PuZBdnisxXNGt00hFAcK1AZkqJUPUzLna1TZdRk3qe+ZhlAzOZfh
-        Shhqn30sD1yQ2et28LU1UQg=
-X-Google-Smtp-Source: APiQypJb3IAWNuPS7msR8bj0xvAODcxZmScGMJAQQ2/JpuoFHKaMLO78YDuwxGvzgaCnE85MOVC0nw==
-X-Received: by 2002:a37:792:: with SMTP id 140mr6325361qkh.58.1588389772555;
-        Fri, 01 May 2020 20:22:52 -0700 (PDT)
+        bh=j9T0sUjzus57nQX3/1aTAi2/PzSdq5kO5uH1qanv+VM=;
+        b=byqgOaRTmvj0dCvgQ6hIvxbboRLQWOJthyCMY0Rr9mq5nvFGT3cfxrpLIErb449ndW
+         2JBI+s68o8aV6TECK/EPQY7q0J9S9m4DPTZ8sTBygKJjHRjhI6309T5TQdinG6a7oJRF
+         AA2SLpS13TNGKosmRd7SoUBaoOyjvXioWeWZCQLhYrE4iOLg3XYqi8hV2gWPfGwuiV4U
+         hcjH0ceJ0T7Zl8l/8P9500VGhEguDtFs8QRoB3DAdMHeNfBAxELZ0rvruo+bcFoW+quB
+         7o8IC3OqadGaQKvG+/3Rz9Sga9cQ5CFE+8xm8vuDVOWoepQSCeSU+fkKxQtaovOnXCxX
+         Q+YA==
+X-Gm-Message-State: AGi0Pubpn198UtVTnbAVw5CeihCiYDrNDECDtuVPn33OXB1pWVnG5D0+
+        NoBq0pdVX6TDo4p5Evlh+vQ=
+X-Google-Smtp-Source: APiQypL9x3757gA7ZdWFRnQp5KbLEBJY3dJZUvR9zlkavh6HA0rHE8slrfDimJ2b38nuhzxEGGxv4w==
+X-Received: by 2002:ac8:720f:: with SMTP id a15mr6656883qtp.207.1588389777113;
+        Fri, 01 May 2020 20:22:57 -0700 (PDT)
 Received: from localhost.localdomain ([2804:18:602b:723a:1b2a:57a1:a611:34ed])
-        by smtp.gmail.com with ESMTPSA id c41sm4410399qta.96.2020.05.01.20.22.48
+        by smtp.gmail.com with ESMTPSA id c41sm4410399qta.96.2020.05.01.20.22.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 May 2020 20:22:52 -0700 (PDT)
+        Fri, 01 May 2020 20:22:56 -0700 (PDT)
 From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To:     mchehab+huawei@kernel.org, sean@mess.org,
@@ -56,9 +56,9 @@ Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         linux-media@vger.kernel.org, skhan@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
         linux-kernel@vger.kernel.org
-Subject: [RFC, WIP, v4 06/11] media: vidtv: add wrappers for memcpy and memset
-Date:   Sat,  2 May 2020 00:22:11 -0300
-Message-Id: <20200502032216.197977-7-dwlsalmeida@gmail.com>
+Subject: [RFC, WIP, v4 07/11] media: vidtv: add MPEG TS common code
+Date:   Sat,  2 May 2020 00:22:12 -0300
+Message-Id: <20200502032216.197977-8-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200502032216.197977-1-dwlsalmeida@gmail.com>
 References: <20200502032216.197977-1-dwlsalmeida@gmail.com>
@@ -71,38 +71,36 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-A lot of code in this driver is for serializing structures. This is
-error prone.
-
-Therefore, prevent buffer overflows by wrapping memcpy and memset,
-comparing the requested length against the buffer size.
+Add code to work with MPEG TS packets, such as TS headers, adaptation
+fields, PCR packets and NULL packets.
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- drivers/media/test-drivers/vidtv/Makefile     |  3 ++
- .../media/test-drivers/vidtv/vidtv_common.c   | 44 +++++++++++++++++++
- .../media/test-drivers/vidtv/vidtv_common.h   | 28 ++++++++++++
- 3 files changed, 75 insertions(+)
- create mode 100644 drivers/media/test-drivers/vidtv/vidtv_common.c
- create mode 100644 drivers/media/test-drivers/vidtv/vidtv_common.h
+ drivers/media/test-drivers/vidtv/Makefile   |   2 +-
+ drivers/media/test-drivers/vidtv/vidtv_ts.c | 130 ++++++++++++++++++++
+ drivers/media/test-drivers/vidtv/vidtv_ts.h | 103 ++++++++++++++++
+ 3 files changed, 234 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.h
 
 diff --git a/drivers/media/test-drivers/vidtv/Makefile b/drivers/media/test-drivers/vidtv/Makefile
-index a9f1993dd5443..9ea9485d42189 100644
+index 9ea9485d42189..92001bc348615 100644
 --- a/drivers/media/test-drivers/vidtv/Makefile
 +++ b/drivers/media/test-drivers/vidtv/Makefile
-@@ -1,3 +1,6 @@
+@@ -1,6 +1,6 @@
  # SPDX-License-Identifier: GPL-2.0
  
-+vidtv_demod-objs := vidtv_common.o
-+vidtv_bridge-objs := vidtv_common.o
-+
+ vidtv_demod-objs := vidtv_common.o
+-vidtv_bridge-objs := vidtv_common.o
++vidtv_bridge-objs := vidtv_common.o vidtv_ts.o
+ 
  obj-$(CONFIG_DVB_VIDTV)	+= vidtv_tuner.o vidtv_demod.o vidtv_bridge.o
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_common.c b/drivers/media/test-drivers/vidtv/vidtv_common.c
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.c b/drivers/media/test-drivers/vidtv/vidtv_ts.c
 new file mode 100644
-index 0000000000000..28f10630499a9
+index 0000000000000..f545c45c0fe7c
 --- /dev/null
-+++ b/drivers/media/test-drivers/vidtv/vidtv_common.c
-@@ -0,0 +1,44 @@
++++ b/drivers/media/test-drivers/vidtv/vidtv_ts.c
+@@ -0,0 +1,130 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * The Virtual DVB test driver serves as a reference DVB driver and helps
@@ -113,46 +111,132 @@ index 0000000000000..28f10630499a9
 + */
 +
 +#include <linux/types.h>
-+#include <linux/string.h>
-+#include <linux/printk.h>
++#include <asm/byteorder.h>
++#include "vidtv_ts.h"
++#include "vidtv_common.h"
 +
-+u32 vidtv_memcpy(void *to,
-+		 const void *from,
-+		 size_t len,
-+		 u32 offset,
-+		 u32 buf_sz)
++static u32 vidtv_ts_write_pcr_bits(u8 *buf, u64 pcr)
 +{
-+	if (buf_sz && offset + len > buf_sz) {
-+		pr_err("%s: overflow detected, skipping. Try increasing the buffer size",
-+		       __func__);
-+		return 0;
-+	}
++	/* Exact same from ffmpeg. PCR is a counter driven by a 27Mhz clock */
++	u64 pcr_low = pcr % 300, pcr_high = pcr / 300;
 +
-+	memcpy(to, from, len);
-+	return len;
++	*buf++ = pcr_high >> 25;
++	*buf++ = pcr_high >> 17;
++	*buf++ = pcr_high >>  9;
++	*buf++ = pcr_high >>  1;
++	*buf++ = pcr_high <<  7 | pcr_low >> 8 | 0x7e;
++	*buf++ = pcr_low;
++
++	return 6;
 +}
 +
-+u32 vidtv_memset(void *to,
-+		 int c,
-+		 size_t len,
-+		 u32 offset,
-+		 u32 buf_sz)
++void vidtv_ts_inc_cc(u8 *continuity_counter)
 +{
-+	if (buf_sz && offset + len > buf_sz) {
-+		pr_err("%s: overflow detected, skipping. Try increasing the buffer size",
-+		       __func__);
-+		return 0;
-+	}
-+
-+	memset(to, c, len);
-+	return len;
++	++*continuity_counter;
++	if (*continuity_counter > TS_CC_MAX_VAL)
++		*continuity_counter = 0;
 +}
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_common.h b/drivers/media/test-drivers/vidtv/vidtv_common.h
++
++u32 vidtv_ts_null_write_into(struct null_packet_write_args args)
++{
++	u32    nbytes                  = 0;
++	struct vidtv_mpeg_ts ts_header = {0};
++
++	ts_header.sync_byte          = TS_SYNC_BYTE;
++	ts_header.pid                = TS_NULL_PACKET_PID;
++	ts_header.payload            = 1;
++	ts_header.continuity_counter = *args.continuity_counter;
++
++	cpu_to_be16s(&ts_header.bitfield);
++
++	/* copy TS header */
++	nbytes += vidtv_memcpy(args.dest_buf + args.dest_offset + nbytes,
++			       &ts_header,
++			       sizeof(ts_header),
++			       args.dest_offset + nbytes,
++			       args.buf_sz);
++
++	be16_to_cpus(&ts_header.bitfield);
++
++	vidtv_ts_inc_cc(args.continuity_counter);
++
++	/* fill the rest with empty data */
++	nbytes += vidtv_memset(args.dest_buf + args.dest_offset + nbytes,
++			       0xff,
++			       TS_PACKET_LEN - nbytes,
++			       args.dest_offset + nbytes,
++			       args.buf_sz);
++
++	/* we should have written exactly _one_ 188byte packet */
++	WARN_ON(nbytes != TS_PACKET_LEN);
++
++	return nbytes;
++}
++
++u32 vidtv_ts_pcr_write_into(struct pcr_write_args args)
++{
++	u32    nbytes                         = 0;
++	struct vidtv_mpeg_ts ts_header        = {0};
++	struct vidtv_mpeg_ts_adaption ts_adap = {0};
++
++	ts_header.sync_byte     = TS_SYNC_BYTE;
++	ts_header.tei           = 0;
++	ts_header.payload_start = 0;
++	ts_header.pid           = args.pid;
++	ts_header.priority      = 0;
++	ts_header.scrambling    = 0;
++	/* cc is not incremented, see 13818-1 clause 2.4.3.3 */
++	ts_header.continuity_counter = *args.continuity_counter;
++	ts_header.payload            = 0;
++	ts_header.adaptation_field   = 1;
++
++	/* 13818-1 clause 2.4.3.5 */
++	ts_adap.length = 183;
++	ts_adap.PCR    = 1;
++
++	cpu_to_be16s(&ts_header.bitfield);
++
++	/* copy TS header */
++	nbytes += vidtv_memcpy(args.dest_buf + args.dest_offset + nbytes,
++			       &ts_header,
++			       sizeof(ts_header),
++			       args.dest_offset + nbytes,
++			       args.buf_sz);
++
++	be16_to_cpus(&ts_header.bitfield);
++
++	/* write the adap after the TS header */
++	nbytes += vidtv_memcpy(args.dest_buf + args.dest_offset + nbytes,
++			       &ts_adap,
++			       sizeof(ts_adap),
++			       args.dest_offset + nbytes,
++			       args.buf_sz);
++
++	/* write the PCR optional */
++	cpu_to_be64s(&args.pcr);
++	nbytes += vidtv_ts_write_pcr_bits(args.dest_buf +
++					  args.dest_offset +
++					  nbytes,
++					  args.pcr);
++	be64_to_cpus(&args.pcr);
++
++	nbytes += vidtv_memset(args.dest_buf + args.dest_offset + nbytes,
++			       0xff,
++			       TS_PACKET_LEN - nbytes,
++			       args.dest_offset + nbytes,
++			       args.buf_sz);
++
++	/* we should have written exactly _one_ 188byte packet */
++	WARN_ON(nbytes != TS_PACKET_LEN);
++
++	return nbytes;
++}
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.h b/drivers/media/test-drivers/vidtv/vidtv_ts.h
 new file mode 100644
-index 0000000000000..64072c010dc66
+index 0000000000000..2c07bddc46119
 --- /dev/null
-+++ b/drivers/media/test-drivers/vidtv/vidtv_common.h
-@@ -0,0 +1,28 @@
++++ b/drivers/media/test-drivers/vidtv/vidtv_ts.h
+@@ -0,0 +1,103 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * The Virtual DVB test driver serves as a reference DVB driver and helps
@@ -162,25 +246,100 @@ index 0000000000000..64072c010dc66
 + * Written by Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 + */
 +
-+#ifndef VIDTV_COMMON_H
-+#define VIDTV_COMMON_H
++#ifndef VIDTV_TS_H
++#define VIDTV_TS_H
 +
 +#include <linux/types.h>
-+#include <media/dvb_frontend.h>
++#include <asm/byteorder.h>
 +
-+u32 vidtv_memcpy(void *to,
-+		 const void *from,
-+		 size_t len,
-+		 u32 offset,
-+		 u32 buf_sz);
++#define TS_SYNC_BYTE 0x47
++#define TS_PACKET_LEN 188
++#define TS_PAYLOAD_LEN 184
++#define TS_NULL_PACKET_PID 0x1fff
++#define TS_CC_MAX_VAL 0x0f /* 4 bits */
++#define TS_LAST_VALID_PID 8191
 +
-+u32 vidtv_memset(void *to,
-+		 int c,
-+		 size_t len,
-+		 u32 offset,
-+		 u32 buf_sz);
++struct vidtv_mpeg_ts_adaption {
++	u8 length;
++	struct {
++#if defined(__LITTLE_ENDIAN_BITFIELD)
++		u8 extension:1;
++		u8 private_data:1;
++		u8 splicing_point:1;
++		u8 OPCR:1;
++		u8 PCR:1;
++		u8 priority:1;
++		u8 random_access:1;
++		u8 discontinued:1;
++#elif defined(__BIG_ENDIAN_BITFIELD)
++		u8 discontinued:1;
++		u8 random_access:1;
++		u8 priority:1;
++		u8 PCR:1;
++		u8 OPCR:1;
++		u8 splicing_point:1;
++		u8 private_data:1;
++		u8 extension:1;
++#else
++#error  "Please fix <asm/byteorder.h>"
++#endif
++	} __packed;
++	u8 data[];
++} __packed;
 +
-+#endif // VIDTV_COMMON_H
++struct vidtv_mpeg_ts {
++	u8 sync_byte;
++	union {
++		u16 bitfield;
++		struct {
++			u16 pid:13;
++			u16 priority:1;
++			u16 payload_start:1;
++			u16 tei:1;
++		} __packed;
++	} __packed;
++	struct {
++#if defined(__LITTLE_ENDIAN_BITFIELD)
++		u8 continuity_counter:4;
++		u8 payload:1;
++		u8 adaptation_field:1;
++		u8 scrambling:2;
++#elif defined(__BIG_ENDIAN_BITFIELD)
++		u8 scrambling:2;
++		u8 adaptation_field:1;
++		u8 payload:1;
++		u8 continuity_counter:4;
++#else
++#error  "Please fix <asm/byteorder.h>"
++#endif
++	} __packed;
++	struct vidtv_mpeg_ts_adaption adaption[];
++} __packed;
++
++struct pcr_write_args {
++	void *dest_buf; /* The buffer to write into */
++	u32 dest_offset; /* The byte offset into the buffer */
++	u16 pid; /* the TS PID for the PCR packets */
++	u32 buf_sz; /* protect against overflow when this field is not zero */
++	u8 *continuity_counter;
++	u64 pcr; /* A sample from the system clock */
++};
++
++struct null_packet_write_args {
++	void *dest_buf;/* The buffer to write into */
++	u32 dest_offset;/* The byte offset into the buffer */
++	u32 buf_sz; /* protect against overflow when this field is not zero */
++	u8 *continuity_counter;
++};
++
++/* Increment the continuity counter */
++void vidtv_ts_inc_cc(u8 *continuity_counter);
++
++u32 vidtv_ts_null_write_into(struct null_packet_write_args args);
++
++u32 vidtv_ts_pcr_write_into(struct pcr_write_args args);
++
++#endif //VIDTV_TS_H
 -- 
 2.26.2
 
