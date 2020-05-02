@@ -2,169 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 07D751C2462
-	for <lists+linux-media@lfdr.de>; Sat,  2 May 2020 11:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36DF41C2463
+	for <lists+linux-media@lfdr.de>; Sat,  2 May 2020 11:34:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726654AbgEBJds (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 May 2020 05:33:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40786 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726548AbgEBJds (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 2 May 2020 05:33:48 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6F34C061A0C
-        for <linux-media@vger.kernel.org>; Sat,  2 May 2020 02:33:46 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id h4so2618474wmb.4
-        for <linux-media@vger.kernel.org>; Sat, 02 May 2020 02:33:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=qGaiNdyrdu5lnBLiGpcUxv1L5915osBmIs26enQqNWc=;
-        b=tcdhjy2WZn+culOf27p/Iei8Xdogu5vo/eOWRW6SeUOgqvrnj/PjOBU33dsA+QIwFi
-         OH344QZVEQagPVPmFONLeAJsXCPNPEhaOAft6+cFQz7N+Z0bPwOsiXpMkFE23XokfXoT
-         /zNA5kR9mjQZaOfemQYHH/pWdn9DP8y+1eFR6kGlNSfOjm1OweMwVMzhr7lSlC7jgLom
-         Q9sQAM4J7Q8ZnlmYSn3wI/bnSaLOHgo2JULFyNviuw1vHauh+u29JIoGQ64GByiC+dOo
-         HWvHyVQ757y0PzJhYdj+mBN2FArNObKUq6095TDlfVsHjdYl+zoBC9K8kWkD/6KXq2/+
-         WmLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=qGaiNdyrdu5lnBLiGpcUxv1L5915osBmIs26enQqNWc=;
-        b=ZLVY0gYKHKhGxyORoLx4t+QsewkEbtxjl+m7x5OJhEG0g6zOZSYk/elxOdNpdLZ5ia
-         L3WU1yxQBkPp2bN65pLkXgkaBp1lwYpChQwEydTSjBkIxhk1ELLb0gCbxhVNvWRaCe5R
-         0IHvwS5zrx66zb3/0G0wIHnhluXXZUXmWnkwFEVZGw9Z8jE9VRxwo5rfPuCahF9AV0Zm
-         TXhre3iqMsRC7J6PyW74GxdLrvYJuuLWA4sjdoFave8sNpBMuc/njLzermhExGkyqyV/
-         C1Od93OkppmHD6ZRGJTtGUOwx34m85ilR6FO2RcvN5QCUcytb3J2qeW9qrimqeDRVEQ4
-         VkIQ==
-X-Gm-Message-State: AGi0PuaPcaGYovCmTgI5tteiPpWjhtowhHFyuBec7BpZVAFPTKSDawjQ
-        RYIRjPBms8RWnZb/qQuambCQ3g==
-X-Google-Smtp-Source: APiQypJA0HECOIr7/Pzo59aDmuNrMWweXl71hmEM16sJE3tlUltgKk4o7XAbM966T8W98VXMWtcTLQ==
-X-Received: by 2002:a7b:c390:: with SMTP id s16mr3690214wmj.14.1588412025435;
-        Sat, 02 May 2020 02:33:45 -0700 (PDT)
-Received: from [192.168.1.2] (212-5-158-103.ip.btc-net.bg. [212.5.158.103])
-        by smtp.googlemail.com with ESMTPSA id y11sm7156287wrh.59.2020.05.02.02.33.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 May 2020 02:33:44 -0700 (PDT)
-Subject: Re: [RFC] docs: dev-decoder: Add two more reasons for dynamic change
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-References: <20200430113809.14872-1-stanimir.varbanov@linaro.org>
- <d97b3c8e8a838d60d2d0d6058b77e624c0ee2fe1.camel@ndufresne.ca>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <793c9c28-f922-d1fa-bfda-1709262d4d2c@linaro.org>
-Date:   Sat, 2 May 2020 12:33:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1726809AbgEBJeT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 May 2020 05:34:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46174 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726548AbgEBJeS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 2 May 2020 05:34:18 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 824C82137B;
+        Sat,  2 May 2020 09:34:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588412058;
+        bh=/LBY4v/A9DWiU0sENH+0vjh8HsSunZSbMf162tw0lKc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=GGdyFbwT3spTWgkdCADo3cq0aAIwFRQMjF8kP4kQgWzNUo8gLxe+54Q4b7/0gImHV
+         db7Ah827jJNcVDpLfDfidPHG62JbZaPYlWdU3EfNgqQLmCd1z+HA4+K/nva4U/MzzD
+         4CyVnoIqsu9gF3v31wiNVcdTt7hBAWdVp6tZGz4o=
+Date:   Sat, 2 May 2020 11:34:14 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Patrik Gfeller <patrik.gfeller@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: atomisp kernel driver(s)
+Message-ID: <20200502113414.618964a9@coco.lan>
+In-Reply-To: <20200502101542.2972010a@ASUS>
+References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
+        <20200422211344.2ec3d93e@coco.lan>
+        <23b3a078-2a9a-5f50-a35e-9f40f5aa8a6e@gmail.com>
+        <86413836-e4b5-cb53-3ac0-1764c693ec7b@gmail.com>
+        <682558b0-a2cf-9fe2-6e54-20462ecccb5d@gmail.com>
+        <20200425132255.4bf872b2@coco.lan>
+        <131a4247-cef3-d651-a0ea-defd32b8bf20@gmail.com>
+        <20200426185007.1954885a@coco.lan>
+        <45817a6a-dd2f-13a6-835b-fd2b04ded23f@gmail.com>
+        <20200427235027.15cd4e03@coco.lan>
+        <d9ec5067-142c-66c9-c412-51ddf38e44f7@gmail.com>
+        <20200429011339.03af3c2a@coco.lan>
+        <3b7366b9-463d-c49b-0f2d-51a1d5475a9d@gmail.com>
+        <20200429201753.3b2d679b@coco.lan>
+        <6fffdf73-a0eb-1b1c-d894-e4799b8ef944@gmail.com>
+        <20200430125544.10a9830d@coco.lan>
+        <403b799e-6ae9-d62b-1f3a-a1b6b874071b@gmail.com>
+        <20200501002510.0ead955d@coco.lan>
+        <1a17ffad-9792-a4ff-519e-a4306e7bf3e1@gmail.com>
+        <20200501113812.7f16b7ca@coco.lan>
+        <20200501192844.397efcaa@ASUS>
+        <20200501213023.7fe29188@coco.lan>
+        <20200502101542.2972010a@ASUS>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <d97b3c8e8a838d60d2d0d6058b77e624c0ee2fe1.camel@ndufresne.ca>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas,
+Em Sat, 2 May 2020 10:15:42 +0200
+Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
 
-On 5/1/20 5:19 PM, Nicolas Dufresne wrote:
-> Le jeudi 30 avril 2020 à 14:38 +0300, Stanimir Varbanov a écrit :
->> Here we add two more reasons for dynamic-resolution-change state
->> (I think the name is misleading espesially "resolution" word, maybe
->> dynamic-bitstream-change is better to describe).
->>
->> The first one which could change in the middle of the stream is the
->> bit-depth. For worst example the stream is 8bit at the begging but
->> later in the bitstream it changes to 10bit. That change should be
->> propagated to the client so that it can take appropriate  action. In
->> this case most probably it has to stop the streaming on the capture
->> queue and re-negotiate the pixel format and start the streaming
->> again.
->>
->> The second new reason is colorspace change. I'm not sure what action
->> client should take but at least it should be notified for such change.
->> One possible action is to notify the display entity that the colorspace
->> and its parameters (y'cbcr encoding and so on) has been changed.
+> On Fri, 1 May 2020 21:30:23 +0200
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
 > 
-> Just to help with the use case, colorspace changes need to be
-> communicated to the following HW or software in your media pipeline.
-> Let's consider a V4L2 only use case:
+> > Em Fri, 1 May 2020 19:31:05 +0200
+> > Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
+> >   
+
+> > Ok. Btw, there is a driver for Atomisp on an yocto tree:
+> > 
+> > 	https://github.com/intel-aero/meta-intel-aero.git
+> > 
+> > It got removed back in 2018, but if you checkout this changeset:
+> > 
+> > 	Merge: db1df368eb58 08f476112708
+> > 	Author: Lucas De Marchi <lucas.demarchi@intel.com>
+> > 	Date:   Tue Apr 4 11:51:42 2017 -0700
+> > 
+> > 	    Merge pull request #70 from zehortigoza/jam
+> >       
 > 
->   m2m decoder -> m2m color transform - >...
+> Cool, the code might give additional information.
+
+Yes. And, as it was released from Intel for a specific device,
+it should very likely work for the model supported there (with
+the Yocto 4.4 Kernel). So, it could be valuable to help identifying
+if some of the cleanup patches would have broken something.
+
+ON a quick look, it sounds that such build was is targeted for
+ISP2401:
+
+	+++ b/drivers/media/pci/atomisp/Makefile
+	@@ -0,0 +1 @@
+	+obj-$(CONFIG_VIDEO_ATOMISP) += css2401a0_v21_build/
+
+> I've also send a
+> request regarding the firmware and HW documentation to the author and
+> the engineers that signed the patch. The firmware in the patch has a
+> different version string and the size is surprisingly a few MB bigger
+> than the one I used for the first experiment. 
+
+There are some vendors that generate a firmware together with a source
+code. This could be the case here. That's my feeling when looking into
+a file like:
+
+	drivers/staging/media/atomisp/pci/css_2401_system/spmem_dump.c
+
+Which contains lots of addresses that it is different betwen 2401 and
+2400.
+
+If so, using a different firmware version will likely cause at least
+some parts of the driver to fail.
+
+
+> I'll give that one a try as well.
 > 
-> The userspace needs to be aware on time, so that it can reconfigure the
-> color transformation parameters. The V4L2 event is a miss-fit though,
-> as it does not tell exactly which buffer will start having this new
-> colorspace. So in theory, one would have to:
+> > You would be able to see it. Unfortunately, the driver there
+> > also came with shisp_2401a0_v21.bin.
+> > 
+> > The driver there forces this specific version, disabling the 
+> > firmware version checking:
+> > 
+> > recipes-kernel/linux/linux-yocto/0013-temp-atomisp-support.patch:+ccflags-y += -DATOMISP_POSTFIX=\"css2401a0_v21\" -DATOMISP_FWNAME=\"shisp_2401a0_v21.bin\" -DISP2401 -DISP2401_NEW_INPUT_SYSTEM
+> > 
+> > I also found a firmware for some other Asus Transformer device:
+> > 
+> > 	https://github.com/jfwells/linux-asus-t100ta/tree/master/webcam/firmware
+> >   
 > 
->   - drain
->   - send the new csc parameters
->   - resume
+> It looks a this firmware is for the 2400 variant; I could also not
+> extract the irci version string. Thus I'll not try them for the moment
+> to perform experiments.
+
+Ok.
+
+> > That's said, there's also a firmware for it inside this:
+> > 	https://dlcdnets.asus.com/pub/ASUS/nb/DriversForWin10/Chipset/Chipset_Intel_CherryTrail_T_Win10_64_VER110.zip
+> > 
+> > Probably it is a different version, but it could be worth renaming it and
+> > try it. The firmware load code should check if the firmware version is the
+> > right one.  
 > 
-> I'm not sure if our drivers implement resuming after CMD_STOP, do you
+> It identifies itself as irci_stable_bw10p_0518_20150801_0537; 
 
-According to the spec, after implicit drain the decoder is stopping and
-the client have two options:
+Same year as what we had. Just a little older. Yeah, some things there
+could work.
 
-1. streamoff -> reconfigure queue -> streamon
-2. decoder command start
+> I'll give
+> that one a try first. As usual it will unfortunately take some time
+> until I get back to you with the results, as every experiment takes
+> many hours (building the kernel on what is essentially a tablet takes
+> time).
 
-#2 would be the case with colorspace changes.
+I would suggest you to build on some other machine. Btw, you don't need
+to build everything every time. If you build atomisp as a module, you
+could do, instead:
 
-> have information about that ? We could also go through streamoff/on
-> cycle in the mean time. Most codec won't allow changing these
-> parameters on delta frames, as it would force the decoder doing CSC
-> conversion of the reference frames in decode process, that seems
-> unrealistically complex requirement.
+	$ make modules_prepare && make M=drivers/staging/media/atomisp
 
-Shouldn't such changes be preceded by IDR (or what is applicable for the
-codec)?
+This will build just the new module(s).
 
-> 
-> That being said, please keep in mind that in VP9, reference frames do
-> not have to be of the same sizes. You can change the resolution at any
-> point in time. No one managed to decode the related test vectors [0]
-> with our current event base resolution change notification.
-> 
-> [0] FRM_RESIZE https://www.webmproject.org/vp9/levels/
+> > > [    9.691775] cpu_latency_qos_update_request called for unknown object
 
-I'd like to try those test streams.
+Btw, the patch I send earlier today should fix this issue.
 
-So, If I understood your comments correctly, the colorspace change event
-in stateful decoder spec isn't needed?
+-
 
-> 
->>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  Documentation/userspace-api/media/v4l/dev-decoder.rst | 6 +++++-
->>  1 file changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst b/Documentation/userspace-api/media/v4l/dev-decoder.rst
->> index 606b54947e10..bf10eda6125c 100644
->> --- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
->> +++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
->> @@ -906,7 +906,11 @@ reflected by corresponding queries):
->>  
->>  * visible resolution (selection rectangles),
->>  
->> -* the minimum number of buffers needed for decoding.
->> +* the minimum number of buffers needed for decoding,
->> +
->> +* bit-depth of the bitstream has been changed,
->> +
->> +* colorspace (and its properties) has been changed.
->>  
->>  Whenever that happens, the decoder must proceed as follows:
->>  
-> 
+I need to understand a little bit more about how ACPI is supposed to
+detect and register regulators. While using regulators with DT is very
+common, not many places use it for ACPI. 
 
--- 
-regards,
-Stan
+I'm suspecting that, before being able of calling regulator_get(),
+the code should use some match logic to get the regulators on this
+board and call regulator_register().
+
+Please run this command on your tablet:
+
+	$ sudo cat /sys/kernel/debug/regulator/supply_map
+
+If this returns nothing - as I suspect - then calling regulator_get()
+won't be doing anything. 
+
+Thanks,
+Mauro
