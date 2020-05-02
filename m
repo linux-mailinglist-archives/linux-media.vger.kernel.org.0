@@ -2,380 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA5C11C26CC
-	for <lists+linux-media@lfdr.de>; Sat,  2 May 2020 18:15:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD4031C26DA
+	for <lists+linux-media@lfdr.de>; Sat,  2 May 2020 18:18:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728354AbgEBQO6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 May 2020 12:14:58 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:16945 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728325AbgEBQO6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 2 May 2020 12:14:58 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ead9c750000>; Sat, 02 May 2020 09:14:45 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Sat, 02 May 2020 09:14:57 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Sat, 02 May 2020 09:14:57 -0700
-Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL111.nvidia.com
- (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 2 May
- 2020 16:14:57 +0000
-Received: from [10.2.165.119] (172.20.13.39) by DRHQMAIL107.nvidia.com
- (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 2 May 2020
- 16:14:56 +0000
-Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
-        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
-        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
-CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
- <9c942bc9-703e-3bbb-eeab-f37e69dc1ded@nvidia.com>
- <b72b9d5c-7d02-1b58-20f7-30f94e230d58@gmail.com>
- <668d9b65-9590-cc97-41c3-2c1a5cfbbe61@nvidia.com>
- <289d9c92-383f-3257-de7b-46179724285a@nvidia.com>
- <9aa64f21-7b23-7228-b5eb-d2ff092682ad@nvidia.com>
- <668cc4a0-2c81-0d87-b801-9fbf64e19137@nvidia.com>
- <bf3f654e-b8f8-d560-fc5e-03d73cb7eab0@nvidia.com>
- <525e481b-9137-6fdd-bbf9-3779a5704e6b@nvidia.com>
- <fe7ebad6-0368-b1f0-4f58-648baa5e3f79@nvidia.com>
- <4f095181-2338-3b71-316c-f8bbfc7865cc@nvidia.com>
- <50e872bb-913a-7b47-3264-af6b1cedb0e2@nvidia.com>
- <e17a8a49-be53-465d-f64c-3f4c77391d98@nvidia.com>
- <da5154b4-85f9-3e56-a440-f75debaec3a8@nvidia.com>
- <cbb047ae-97dc-8b9a-a5ba-8e2a5dab3771@nvidia.com>
- <6ae2d00d-7955-d12b-5b56-955ef72ece26@nvidia.com>
- <f9073b28-f1f1-636c-be53-764fb0a531a1@gmail.com>
- <1767e50f-efb7-5e89-22f6-0917821b660d@nvidia.com>
- <235a4cd4-4d4a-04b8-6c65-43a4dba48a0b@nvidia.com>
-Message-ID: <f8103170-7879-8597-3e3c-da9a3b6a40b3@nvidia.com>
-Date:   Sat, 2 May 2020 09:14:19 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1728363AbgEBQSd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 May 2020 12:18:33 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:34943 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728235AbgEBQSd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 May 2020 12:18:33 -0400
+X-UUID: d4da2c91a54b4fbfac170d4fb213753e-20200503
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=EAAh30Bef+oW9eX3BIR+Eagl/ceAkjF9T1b8MCX4U/s=;
+        b=gteqzQ8YkMYcJB1FRKXZfdwyUoGdEgzj11pVC45ifZLdzJyvW6/t5zeAT9Joyv4ezFWVa80Y22BlYEA6buj0tPQ6WO45gOkYeg/v+5uzFq8bOCD+AzucxHjWUTZkqqTxRDuBeCHLO3Hf4Zei7fJfD5gx6yHvCekZ7Qc9r6l9y2o=;
+X-UUID: d4da2c91a54b4fbfac170d4fb213753e-20200503
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw01.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 798395048; Sun, 03 May 2020 00:18:29 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs05n1.mediatek.inc (172.21.101.15) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sun, 3 May 2020 00:18:23 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sun, 3 May 2020 00:18:24 +0800
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     <linus.walleij@linaro.org>, <bgolaszewski@baylibre.com>,
+        <mchehab@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <sakari.ailus@linux.intel.com>, <drinkcat@chromium.org>,
+        <tfiga@chromium.org>, <matthias.bgg@gmail.com>,
+        <bingbu.cao@intel.com>
+CC:     <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>,
+        <dongchun.zhu@mediatek.com>
+Subject: [V5, 0/2] media: i2c: Add support for DW9768 VCM driver
+Date:   Sun, 3 May 2020 00:17:25 +0800
+Message-ID: <20200502161727.30463-1-dongchun.zhu@mediatek.com>
+X-Mailer: git-send-email 2.9.2
 MIME-Version: 1.0
-In-Reply-To: <235a4cd4-4d4a-04b8-6c65-43a4dba48a0b@nvidia.com>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- DRHQMAIL107.nvidia.com (10.27.9.16)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1588436085; bh=OiDqyr/JazfyrNaV3JMZnmdkFchj7uL7aCaOoPT7eTM=;
-        h=X-PGP-Universal:Subject:From:To:CC:References:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=C7tRvf/nmvVHeR91VscQFb04J8zZjd/KVLgtpdsFah0LqQ6hYEKacQFB3u47l91DH
-         LDXEP6EEyl46pGtogiqNGKNZUyl0SbwvHF8winrTC7IlTMC6d9H46twAL4lBW/TwYY
-         VPNgTkQOywPeBBKcSnaUI8sWMBgEetqA5jImPj/s1g2r0XUNg94x01/UPBkfHntfb8
-         XuLkUW/Mto+5cwp5N2crKhSZea6xq9fV+j6SW9+7q7wDKJEXXDjcdiptHRLK6v8n2F
-         mmDZbgYDSqqfCA1b6oy+m8pRbr93Leh7B4oXrN4/Svgu2Jv3vm1z+c13eT+T5d2GHR
-         Hc5oP/fmbqoRQ==
+Content-Type: text/plain
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+SGVsbG8sDQoNClRoaXMgc2VyaWVzIGFkZHMgRFQgYmluZGluZ3MgaW4gWUFNTCBhbmQgVjRMMiBz
+dWItZGV2aWNlIGRyaXZlciBmb3IgRFc5NzY4DQpsZW5zIHZvaWNlIGNvaWwgbW90b3IsIHdoaWNo
+IGlzIGEgMTAtYml0IERBQyB3aXRoIDEwMG1BIG91dHB1dCBjdXJyZW50DQpzaW5rIGNhcGFiaWxp
+dHkgZnJvbSBEb25nd29vbi4NCg0KVGhlIGRyaXZlciBpcyBkZXNpZ25lZCBmb3IgbGluZWFyIGNv
+bnRyb2wgb2Ygdm9pY2UgY29pbCBtb3RvciwNCmFuZCBjb250cm9sbGVkIHZpYSBJSUMgc2VyaWFs
+IGludGVyZmFjZSB0byBzZXQgdGhlIGRlc2lyZWQgZm9jdXMuDQpJdCBjb250cm9scyB0aGUgcG9z
+aXRpb24gd2l0aCAxMC1iaXQgREFDIGRhdGEgRFs5OjBdIGFuZCBzZXBlcmF0ZXMNCnR3byA4LWJp
+dCByZWdpc3RlcnMgdG8gY29udHJvbCB0aGUgVkNNIHBvc2l0aW9uIGFzIGJlbG93cy4NCkRBQ19N
+U0I6IERbOTo4XShBRERSOiAweDAzKToNCiAgICAgKy0tLSstLS0rLS0tKy0tLSstLS0rLS0tKy0t
+LSstLS0rDQogICAgIHwtLS18LS0tfC0tLXwtLS18LS0tfC0tLXxEMDl8RDA4fA0KICAgICArLS0t
+Ky0tLSstLS0rLS0tKy0tLSstLS0rLS0tKy0tLSsNCkRBQ19MU0I6IERbNzowXShBRERSOiAweDA0
+KToNCiAgICAgKy0tLSstLS0rLS0tKy0tLSstLS0rLS0tKy0tLSstLS0rDQogICAgIHxEMDd8RDA2
+fEQwNXxEMDR8RDAzfEQwMnxEMDF8RDAwfA0KICAgICArLS0tKy0tLSstLS0rLS0tKy0tLSstLS0r
+LS0tKy0tLSsNCg0KVGhpcyBkcml2ZXIgc3VwcG9ydHM6DQogLSBzZXQgRFc5NzY4IHRvIHN0YW5k
+YnkgbW9kZSBvbmNlIHN1c3BlbmQgYW5kIHR1cm4gaXQgYmFjayB0byBhY3RpdmUgaWYgcmVzdW1l
+DQogLSBzZXQgdGhlIGRlc2lyZWQgZm9jdXMgdmlhIFY0TDJfQ0lEX0ZPQ1VTX0FCU09MVVRFIGN0
+cmwNCg0KUHJldmlvdXMgdmVyc2lvbnMgb2YgdGhpcyBwYXRjaC1zZXQgY2FuIGJlIGZvdW5kIGhl
+cmU6DQogdjQ6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LW1lZGlhLzIwMjAwMzMwMTIz
+NjM0LjM2My0xLWRvbmdjaHVuLnpodUBtZWRpYXRlay5jb20vDQogdjM6IGh0dHBzOi8vbG9yZS5r
+ZXJuZWwub3JnL2xpbnV4LW1lZGlhLzIwMjAwMjI4MTU1OTU4LjIwNjU3LTEtZG9uZ2NodW4uemh1
+QG1lZGlhdGVrLmNvbS8NCiB2MjogaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtbWVkaWEv
+MjAxOTA5MDUwNzIxNDIuMTQ2MDYtMS1kb25nY2h1bi56aHVAbWVkaWF0ZWsuY29tLw0KIHYxOiBo
+dHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1tZWRpYS8yMDE5MDcwODEwMDY0MS4yNzAyLTEt
+ZG9uZ2NodW4uemh1QG1lZGlhdGVrLmNvbS8NCg0KQ2hhbmdlcyBvZiB2NSBhcmUgYWRkcmVzc2lu
+ZyBjb21tZW50cyBmcm9tIFJvYiwgQW5keSwgU2FrYXJpLCBpbmNsdWRpbmc6DQogLSBSZWJhc2Ug
+b250byA1LjctcmMxDQogLSBSZWZpbmUgRFQgYmluZGluZ3MgaW4gWUFNTA0KIC0gUmVtb3ZlIHRo
+ZSBjb25kaXRpb24gb2YgSVNfRU5BQkxFRChDT05GSUdfUE0pIGFzIHRoZSBkcml2ZXIgZGVwZW5k
+cyBvbiBQTQ0KIC0gUmV2ZXJzZSB0aGUgb3JkZXIgb2YgZW5hYmxpbmcgUlBNIGFuZCByZWdpc3Rl
+cmluZyB0aGUgYXN5bmMgc3ViZGV2DQoNClBsZWFzZSByZXZpZXcuDQpUaGFua3MuDQoNCkRvbmdj
+aHVuIFpodSAoMik6DQogIG1lZGlhOiBkdC1iaW5kaW5nczogbWVkaWE6IGkyYzogRG9jdW1lbnQg
+RFc5NzY4IGJpbmRpbmdzDQogIG1lZGlhOiBpMmM6IGR3OTc2ODogQWRkIERXOTc2OCBWQ00gZHJp
+dmVyDQoNCiAuLi4vYmluZGluZ3MvbWVkaWEvaTJjL2Rvbmd3b29uLGR3OTc2OC55YW1sICAgICAg
+ICB8ICA2MCArKysNCiBNQUlOVEFJTkVSUyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICB8ICAgOCArDQogZHJpdmVycy9tZWRpYS9pMmMvS2NvbmZpZyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgfCAgMTEgKw0KIGRyaXZlcnMvbWVkaWEvaTJjL01ha2VmaWxlICAgICAgICAg
+ICAgICAgICAgICAgICAgIHwgICAxICsNCiBkcml2ZXJzL21lZGlhL2kyYy9kdzk3NjguYyAgICAg
+ICAgICAgICAgICAgICAgICAgICB8IDQ0MCArKysrKysrKysrKysrKysrKysrKysNCiA1IGZpbGVz
+IGNoYW5nZWQsIDUyMCBpbnNlcnRpb25zKCspDQogY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50
+YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9pMmMvZG9uZ3dvb24sZHc5NzY4LnlhbWwN
+CiBjcmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9tZWRpYS9pMmMvZHc5NzY4LmMNCg0KLS0gDQoy
+LjkuMg0K
 
-On 5/2/20 9:03 AM, Sowjanya Komatineni wrote:
->
-> On 5/2/20 8:38 AM, Sowjanya Komatineni wrote:
->>
->> On 5/2/20 8:16 AM, Dmitry Osipenko wrote:
->>> 02.05.2020 06:55, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
->>>> On 5/1/20 8:39 PM, Sowjanya Komatineni wrote:
->>>>>
->>>>> On 5/1/20 2:05 PM, Sowjanya Komatineni wrote:
->>>>>>
->>>>>> On 5/1/20 1:58 PM, Sowjanya Komatineni wrote:
->>>>>>>
->>>>>>> On 5/1/20 1:44 PM, Sowjanya Komatineni wrote:
->>>>>>>>
->>>>>>>> On 5/1/20 11:03 AM, Sowjanya Komatineni wrote:
->>>>>>>>>
->>>>>>>>> On 4/30/20 4:33 PM, Sowjanya Komatineni wrote:
->>>>>>>>>>
->>>>>>>>>> On 4/30/20 4:14 PM, Sowjanya Komatineni wrote:
->>>>>>>>>>>>>>>>> And in this case synchronization between start/finish
->>>>>>>>>>>>>>>>> threads should be
->>>>>>>>>>>>>>>>> needed in regards to freezing.
->>>>>>>>>>>>>>>> Was thinking to have counter to track outstanding frame
->>>>>>>>>>>>>>>> w.r.t single shot issue b/w start and finish and allow to
->>>>>>>>>>>>>>>> freeze only when no outstanding frames in process.
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>> This will make sure freeze will not happen when any=20
->>>>>>>>>>>>>>>> buffers
->>>>>>>>>>>>>>>> are in progress
->>>>>>>>>>>>>>>>
->>>>>>>>>>>>>>>>> Note that this could be a wrong assumption, I'm not
->>>>>>>>>>>>>>>>> closely familiar
->>>>>>>>>>>>>>>>> with how freezer works.
->>>>>>>>>>>>>>> kthread_start can unconditionally allow try_to_freeze=20
->>>>>>>>>>>>>>> before
->>>>>>>>>>>>>>> start of frame capture
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> We can compute captures inflight w.r.t single shot issued
->>>>>>>>>>>>>>> during capture start and finished frames by kthread_finish
->>>>>>>>>>>>>>> and allow kthread_finish to freeze only when captures
->>>>>>>>>>>>>>> inflight is 0.
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> This allows freeze to happen b/w frames but not in=20
->>>>>>>>>>>>>>> middle of
->>>>>>>>>>>>>>> frame
->>>>>>>>>>>> will have caps inflight check in v12 to allow freeze finish
->>>>>>>>>>>> thread only when no captures are in progress
->>>>>>>>>>>
->>>>>>>>>>> try_to_freeze() returns thread frozen state and looks like we
->>>>>>>>>>> can use this in kthread finish to allow finish thread to freeze
->>>>>>>>>>> only when kthread_start is already frozen and no buffers in
->>>>>>>>>>> progress/initiated for capture.
->>>>>>>>>>>
->>>>>>>>>> chan->capture_frozen holds frozen state returned from
->>>>>>>>>> try_to_freeze() in start kthread
->>>>>>>>>>
->>>>>>>>>> chan->capture_reqs increments after every single shot issued.
->>>>>>>>>>
->>>>>>>>>>
->>>>>>>>>> static int chan_capture_kthread_finish(void *data)
->>>>>>>>>>
->>>>>>>>>> {
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_vi_channel *chan =3D data;
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 struct tegra_channel_buffer *buf;
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 int caps_inflight;
->>>>>>>>>>
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 set_freezable();
->>>>>>>>>>
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 while (1) {
->>>>>>>>>> wait_event_interruptible(chan->done_wait,
->>>>>>>>>> =C2=A0!list_empty(&chan->done) ||
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =
-=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0kthread_should_stop());
->>>>>>>>>>
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 /* dequeue buffers a=
-nd finish capture */
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 buf =3D dequeue_buf_=
-done(chan);
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 while (buf) {
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 t=
-egra_channel_capture_done(chan, buf);
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 b=
-uf =3D dequeue_buf_done(chan);
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 }
->>>>>>>>>>
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (kthread_should_s=
-top())
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 b=
-reak;
->>>>>>>>>>
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 caps_inflight =3D ch=
-an->capture_reqs - chan->sequence;
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (chan->capture_fr=
-ozen && !caps_inflight)
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 t=
-ry_to_freeze();
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 }
->>>>>>>>>>
->>>>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 return 0;
->>>>>>>>>> }
->>>>>>>>>
->>>>>>>>> Freezing happens prior to suspend() during suspend entry and when
->>>>>>>>> we implement suspend/resume during suspend we stop streaming=20
->>>>>>>>> where
->>>>>>>>> we stop threads anyway.
->>>>>>>>>
->>>>>>>>> So, was thinking why we need these threads freezable here?
->>>>>>>>>
->>>>>>>>>
->>>>>>>> Hi Dmitry,
->>>>>>>>
->>>>>>>> Did some testing and below are latest observation and fix I=20
->>>>>>>> tested.
->>>>>>>>
->>>>>>>> wait_event_interruptible() uses schedule() which blocks the=20
->>>>>>>> freezer.
->>>>>>>> When I do suspend while keeping streaming active in background, I
->>>>>>>> see freezing of these threads fail and call trace shows __schedule
->>>>>>>> -> __switch_to from these kthreads.
->>>>>>>>
->>>>>>>> wait_event_freezable() uses freezable_schedule() which should not
->>>>>>>> block the freezer but we can't use this here as we need=20
->>>>>>>> conditional
->>>>>>>> try_to_freeze().
->>>>>>>>
->>>>>>>>
->>>>>>>> So, doing below sequence works where we set PF_FREEZER_SKIP flag
->>>>>>>> thru freezer_not_count() before wait_event which calls schedule()
->>>>>>>> and remove PF_FREEZER_SKIP after schedule allows try_to_freeze to
->>>>>>>> work and also conditional try_to_freeze below prevents freezing
->>>>>>>> thread in middle of capture.
->>>>>>>>
->>>>>>>> while (1) {
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 freezer_not_count()
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 wait_event_interruptible()
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 freezer_count()
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 ...
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 ...
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 if (chan->capture_frozen && !caps_infligh=
-t)
->>>>>>>> =C2=A0=C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 try_to_freeze()
->>>>>>>> }
->>>>>>>>
->>>>>>>> Please comment if you agree with above sequence. Will include this
->>>>>>>> in v12.
->>>>>>>>
->>>>>> sorry, freezer_count() does try_to_freeze after clearing skip flag.
->>>>>> So, dont think we can use this as we need conditional try_to_freeze.
->>>>>> Please ignore above sequence.
->>>>>>> Or probably we can take closer look on this later when we add
->>>>>>> suspend/resume support as it need more testing as well.
->>>>>>>
->>>>>>> As this is initial series which has TPG only I think we shouldn't
->>>>>>> get blocked on this now. Series-2 and 3 will be for sensor support
->>>>>>> and on next series when we add suspend/resume will look into this.
->>>>>>>
->>>>>>>
->>>>> When freeze activity starts and in case if finish thread freezes=20
->>>>> prior
->>>>> to start thread issuing capture, its the VI hardware writes data to
->>>>> the allocated buffer address.
->>>>>
->>>>> finish thread just checks for the event from the hardware and we=20
->>>>> don't
->>>>> handle/process directly on memory in this driver.
->>>>>
->>>>> So even we freeze done thread when single shot is issued frame buffer
->>>>> gets updated.
->>>>>
->>>>> In case if capture thread is frozen there will not buffers queued to
->>>>> process by finish thread. So, this will not be an issue.
->>>>>
->>>>> So, probably we don't need to do conditional try_to_freeze and=20
->>>>> what we
->>>>> have should work good in this corner case.
->>>>>
->>>> I still need to change wait_event_interruptible() to
->>>> wait_event_freezable() but no need to synchronize finish thread freeze
->>>> with start thread as even on issuing capture start its vi hardware=20
->>>> that
->>>> does frame buffer update and finish thread just checks for mw_ack=20
->>>> event
->>>> and returns buffer to application.
->>> The problem we are primarily trying to avoid is to have suspending=20
->>> being
->>> done in the middle of IO.
->>>
->>> IIUC, even if system will be suspended in the middle of VI IO, it won't
->>> be fatal. In worst case the buffer capture should fail on resume from
->>> suspend. Could you please try to simulate this potential issue and see
->>> what result will be on suspending in the middle of VI IO?
->>>
->>> We don't want to suspend system / stop streaming in the middle of=20
->>> IO, so
->>> this problem of a proper threads tear-down still exists. It should
->>> become easier to resolve the problem in a case of a proper suspending
->>> callback because the "start" thread could be turned down at any=20
->>> time, so
->>> it should be easier to maintain a proper tear-down order when threads
->>> are fully controlled by the driver, i.e. the "start" thread goes down
->>> first and the "finish" is second, blocking until the capture is=20
->>> completed.
->
-> I don't see issue of tear-down threads in case of suspend as we do=20
-> stop streaming where thread stop happens on both threads and are=20
-> stopped only after processing all outstanding buffers.
->
-> Regarding freezing activity during suspend, If done thread freezes=20
-> prior to processing buffers for finish, vi hardware is still active by=20
-> this time which will update the frame buffer for initiated capture.=20
-> Driver is not directly involved in this frame buffer update.
->
-> Finish thread only checks for completion to return buffers back to the=20
-> application when done.
-
-when done thread freeze happens after start thread initiated capture, vi=20
-hardware continues to update frame buffer for ongoing capture till it=20
-hits driver suspend callback. Yes worst case this frame data may not be=20
-valid data if invoking of this driver suspend happens immediate after=20
-this thread freeze during system suspend.
-
-But driver will still hold buffers to return which will be returned back=20
-on resume when threads are out from frozen state.
-
->
->
->>> I think yours suggestion about dropping the freezing from the threads
->>> for now and returning back to it later on (once a proper suspend/resume
->>> support will be added) sounds reasonable.
->>>
->>> But if you'd want to keep the freezing, then the easy solution could be
->>> like that:
->>>
->>> =C2=A0=C2=A0 1. "start" thread could freeze at any time
->>> =C2=A0=C2=A0 2. "finish" thread could freeze only when the "start" thre=
-ad is=20
->>> frozen
->>> and capture isn't in-progress. Use frozen(kthread_start_capture) to
->>> check the freezing state.
->>>
->>> https://elixir.bootlin.com/linux/v5.7-rc3/source/include/linux/freezer.=
-h#L25=20
->>>
->>
->> That's exactly what I tried, below is the snippet.
->>
->> But as mentioned I am seeing freezing fail when I=20
->> wait_event_interruptible() in either of the threads.
->>
->> =C2=A0=C2=A0 60.368709] Call trace:
->> [=C2=A0=C2=A0 60.371216] __switch_to+0xec/0x140
->> [=C2=A0=C2=A0 60.374768] __schedule+0x32c/0x668
->> [=C2=A0=C2=A0 60.378315] schedule+0x78/0x118
->> [=C2=A0=C2=A0 60.381606]=C2=A0 chan_capture_kthread_finish+0x244/0x2a0 [=
-tegra_video]
->> [=C2=A0=C2=A0 60.387865] kthread+0x124/0x150
->> [=C2=A0=C2=A0 60.391150] ret_from_fork+0x10/0x1c
->>
->> wait_event_interruptible() API uses schedule() which blocks freezer=20
->> while wait_event_freezable APIs uses freezable_schedule() which=20
->> allows to skip freezer during schedule and then clears skip and calls=20
->> try_to_freeze()
->>
->> But we can't use wait_event_freezable() here as we need conditional=20
->> freeze.
->>
->>
->> =C2=A0=C2=A0=C2=A0 while (1) {
->> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 caps_inflight =3D chan->capture_re=
-qs - chan->sequence;
->> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (frozen(chan->kthread_start_cap=
-ture) && !caps_inflight)
->> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 wait_event_free=
-zable(chan->done_wait,
->> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=
-=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 !list_empty(&chan->done) ||
->> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=
-=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0 kthread_should_stop());
->> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 else
->> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 wait_event_inte=
-rruptible(chan->done_wait,
->> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=
-=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0!list_empty(&chan->done) ||
->> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=
-=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0kthread_should_stop());
->>
->> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 /* dequeue buffers and finish capt=
-ure */
->>
->> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 ...
->>
->> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 ...
->>
->>
->> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 if (kthread_should_stop())
->> =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0=C2=A0 break;
->> =C2=A0=C2=A0=C2=A0 }
->>
