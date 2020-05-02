@@ -2,126 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01E8B1C2720
-	for <lists+linux-media@lfdr.de>; Sat,  2 May 2020 19:04:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E3FE1C2737
+	for <lists+linux-media@lfdr.de>; Sat,  2 May 2020 19:18:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728342AbgEBRE2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 May 2020 13:04:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54200 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728312AbgEBRE1 (ORCPT
+        id S1728433AbgEBRSI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 May 2020 13:18:08 -0400
+Received: from sonic313-21.consmr.mail.ir2.yahoo.com ([77.238.179.188]:35197
+        "EHLO sonic313-21.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728420AbgEBRSI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 2 May 2020 13:04:27 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8042C061A0C
-        for <linux-media@vger.kernel.org>; Sat,  2 May 2020 10:04:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=Leun0h42fT0V6FNo36eDwM5s4wJk0ooxxqRhDg2BAo0=; b=N+Fo0ZAGCry9qenG3VA1Lfck/4
-        aO9CP6evt+uJR3DArr88C3PATHv5XwXDuJMwXMYMfzPVBqvXqTcA/rd+GOLhLq5pFurXD1wze14hC
-        uPtRvotYgnxhNQUIn5rQEa6uREQ+AhM9lkHpIV04mDx7bLUmJ8/ouF5fXUABephRXueyz0UjeCyPQ
-        wOvhzszegWhiD6dfP3QpluGDp4MvT5td4XMogfUR5JYIQoLJM6iM60J60HCTv8enIK/NsXbZGLfeu
-        LRXqGwx4K0gRd6SEvllYO0uX4tm4mBPK4INiZ306z/745qglArwFB3yBWh6mtg0tJImkCD65949JJ
-        h4yRpG1Q==;
-Received: from ip5f5ad5c5.dynamic.kabel-deutschland.de ([95.90.213.197] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jUvYs-00031E-OZ; Sat, 02 May 2020 17:04:22 +0000
-Date:   Sat, 2 May 2020 19:04:14 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Patrik Gfeller <patrik.gfeller@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: atomisp kernel driver(s)
-Message-ID: <20200502190414.7ede79b6@coco.lan>
-In-Reply-To: <CAHp75Vf9M7=Gf=mCgdBgt0-aR+kBOjtE3pvJyEya2OGmqbr6XA@mail.gmail.com>
-References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
-        <CAHp75Vf9M7=Gf=mCgdBgt0-aR+kBOjtE3pvJyEya2OGmqbr6XA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Sat, 2 May 2020 13:18:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1588439884; bh=+NKq2YP/4c3bLm2HmGhxa/KCZOXr0NIUKHs/ECuC0yk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=qBP2lcjSr8q7TgpLQLiuz97xVGP2/Z7qiZFuoll9UYBZPqQEGCmI5TYmRsjDebluGFxObWhzJDJwtqv8TrEl924CRjX9djR9BsSdvJHBdX5r5IoYws7c1VfnEwTxxuRsB+XqLaFU6s3HP6p5xag9pFos8eJSZzQd+grUoXUMaUxHtr/oSucTp7Wqfr6gvvwwuCOYNfUd7piYH9vTUXlSrCGyDMdfzeRk3rCAPRxsOOpWAE+XKFkVtWqbM7PAtLOmgKxdmu8nKQwcQw1UPbDwWFDr09OGlswiTs6JQakIArYjAptSX8ceMxTpsP1cTiXZ+BHacRDnP//xrxww5JTSsQ==
+X-YMail-OSG: 2ZbRMtcVM1nsAfGKsl6cKABpw5JZCCLY9VCQTJDTj_j2nR5wZQaONxBw7xVqyPo
+ n377WWssMESuxsLR4RyuYV7ja6Xr4T.SvXMHSSSVpmF_QR.BW.5CgH8oGlCs8ECSC35OpTU3uWPb
+ HwOxpsPe5m9qld6Gg8vhmg9UQ668SbIYkvtoTjTFkMKcJ15M9AvbVxlMF.Kud2iX5hSEWjds75Gj
+ VBxoe5dWa9hJ7J6IgaL_2tuogM92jM.LxFQWotObxO833anoUlkg.gHaWtzbUotaCDh1pC6V9_um
+ U7sVUy2HNQ3lgWXt5WgTGNOdO5vkNimQ4xDPeVkiLZ3P_tIiU1rIK6aOlDznbWHPpkVX8jURwBIN
+ c11DtbtPlevp4BRTJr2egwFUo9Xjt1VeqoeKzAizl4i_zJ4bSVq5R3Izm1xh6AKUmv9q4VSpvj3u
+ GkdR8oXgVCHVnEkEWws87xDV1tLKHmavaX9vonm_txawplevwe3EQ6nGlUHLzbxJYQsmzr5Rhs4H
+ m.uZCglC2_vvVlJCyLqn.HrA5f0UQqEg5vXKp05JqJRF4opOijJ6JHQbkr2RiyQ9m9PUfpY2yMpj
+ 86T8He8j0Susl_Ib0DBhbJLBicI8LAih3vt21xL8sKKmROPZ4mxKS_zH0vqEwJH1G2ROu0Qqm2G9
+ 6H9f3xlFxo5pPXW8qW1Pb58F_mGol_1MZkoJ.oOAaecrL0637sZ6kfOSuE7r8HhxP0ys7tCfw5hU
+ gqx54BbPnfy7oZmfhf6jXcd5DlxRiwbNbYyspbWK81eGJcH.6v2whDP0lGNPvfVVcy.X.TuK_fFX
+ zYVyQDxfdVlmBwr53gYW.XrGzBzuh3Xh8uVEKvMgSemZ5EWEtZetiCySWaQo.2mVKMRCTRCDl6gO
+ P0Nj5wn1kZYxeNmtDUa440oZm1P0tEcUJ19N2WliHWuDwXIQZMLspxLQQOVWwtNh_uUkeRDcz4vy
+ IyDDe2E0HKxmS86Fg1ulrTk7cHWQNYCyofSlmzGaruPORxHMme5n_BHa7VivCjCsLtz1Y6eReaLw
+ zXOUpOyECNOvzxJ40f5E9JlfqaxiicdqJDWM_MkV11kyLXv6VOkrWcN9d9Ro5Ysk_Tuo4gkw88TW
+ zdhnGQJ81IS7COSXYyaxc6VNCA2iMqC1BzYzsCj_WvNqpwnrzVE1FFWuFczSu6AIDkB3tuXzB73j
+ TOIE60LYAvFYRlxSBIkJwrwBdkwCsUYn8vkdGkLpZgcN_isPIDR0K2X7FFob1yQolG8vs5zWmmtp
+ rOhCtsJSexPpnl49pYTq.EzlmtZwyPY2GuBY0T92wa.eKp.9cMb_DqX3.QRQFMpsr7OSinGk1g1g
+ DtAJbC3.k1jI-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic313.consmr.mail.ir2.yahoo.com with HTTP; Sat, 2 May 2020 17:18:04 +0000
+Date:   Sat, 2 May 2020 17:18:01 +0000 (UTC)
+From:   "Mrs. Mina A. Brunel" <mrs.minaabrunel209@gmail.com>
+Reply-To: mrs.minaabrunel30@gmail.com
+Message-ID: <570800982.467049.1588439881918@mail.yahoo.com>
+Subject: My Dear in the lord
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+References: <570800982.467049.1588439881918.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15756 YMailNodin Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
-
-Em Sat, 2 May 2020 19:08:36 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
-
-> I follow your attempts to enable that driver (I, myself, spent a lot
-> of time to an attempt of getting this driver in a shape). However, I
-> guess you started from a wrong side. Even with access to internal tree
-> for Android firmware we didn't manage to find a proper one to whatever
-> has been published in drivers/staging. So, to get it done, one should
-> first to find a *working* Android for the certain device. Without that
-> it will be a journey of wasted time and big disappointment.
-
-I found a driver that is probably working:
-	https://github.com/intel-aero/meta-intel-aero.git
-
-It is for an Intel Mobile Aero AUV platform. I suspect that his one
-should likely work. 
-
-> My achievements end with no getting IRQ from the driver (and I was
-> experimenting on MRD-7 CRB).
-> 
-> P.S. I also have some (semi-) debug patches I can share. 
-> Perhaps they will give some more ideas.
-
-Anything you can share will be welcomed.
-
-> Btw, based on this discussion I think that
-> it can be power issues with sensors that possible affect IRQ
-> generation inside SiliconHive vector processor.
-
-Yeah, the current issue sounds simple to solve, but I need to understand
-how an ACPI-based device would be calling regulator_register(). Using
-regulators with ACPI is new to me. I suspect that this should be done
-by ./arch/x86/platform/intel-mid, with of course doesn't have the needed
-bits for this board. Also, there is a dummy regulator driver for atomisp
-based boards (drivers/platform/x86/intel_atomisp2_pm.c). This one could
-be causing some issues too.
-
-The atomisp driver uses regulator_get() to turn on the sensors.
-
-In order for regulator_get() to work, regulator_dev_lookup() should
-be capable of finding a regulator either via DT or via the
-regulator_map_list.
-
-The contents of the regulator_map_list should visible on a configfs
-node (/sys/kernel/debug/regulator/supply_map).
-
-Yet, those aren't visible (probably because the ACPI data was written
-for Windows). So, the atomisp code should very likely call 
-regulator_register() for the regulators with the atomisp driver
-need, in order to setup the regulator list.
 
 
-> In IPU3 the dedicated
-> PMIC is used for camera devices, and I have no idea of the design for
-> old ones.
+My Dear in the lord
 
-I have here a Dell notebook with IPU3 on it (marketed for MS windows):
 
-	ipu3_imgu: module is from the staging directory, the quality is unknown, you have been warned.
-	ipu3-imgu 0000:00:05.0: enabling device (0000 -> 0002)
-	ipu3-imgu 0000:00:05.0: device 0x1919 (rev: 0x1)
-	ipu3-imgu 0000:00:05.0: physical base address 0x00000000ec000000, 4194304 bytes
-	ipu3-imgu 0000:00:05.0: loaded firmware version irci_irci_ecr-master_20161208_0213_20170112_1500, 17 binaries, 1212984 bytes
-	ipu3-cio2 0000:00:14.3: enabling device (0000 -> 0002)
-	ipu3-cio2 0000:00:14.3: device 0x9d32 (rev: 0x1)
+My name is Mrs. Mina A. Brunel I am a Norway Citizen who is living in Burki=
+na Faso, I am married to Mr. Brunel Patrice, a politician who owns a small =
+gold company in Burkina Faso; He died of Leprosy and Radesyge, in the year =
+February 2010, During his lifetime he deposited the sum of =E2=82=AC 8.5 Mi=
+llion Euro) Eight million, Five hundred thousand Euros in a bank in Ouagado=
+ugou the capital city of Burkina Faso in West Africa. The money was from th=
+e sale of his company and death benefits payment and entitlements of my dec=
+eased husband by his company.
 
-This command:
+I am sending you this message with heavy tears in my eyes and great sorrow =
+in my heart, and also praying that it will reach you in good health because=
+ I am not in good health, I sleep every night without knowing if I may be a=
+live to see the next day. I am suffering from long time cancer and presentl=
+y I am partially suffering from Leprosy, which has become difficult for me =
+to move around. I was married to my late husband for more than 6 years with=
+out having a child and my doctor confided that I have less chance to live, =
+having to know when the cup of death will come, I decided to contact you to=
+ claim the fund since I don't have any relation I grew up from an orphanage=
+ home.
 
-	# cat /sys/kernel/debug/regulator/supply_map
+I have decided to donate this money for the support of helping Motherless b=
+abies/Less privileged/Widows and churches also to build the house of God be=
+cause I am dying and diagnosed with cancer for about 3 years ago. I have de=
+cided to donate from what I have inherited from my late husband to you for =
+the good work of Almighty God; I will be going in for an operation surgery =
+soon.
 
-Returns nothing. So, it seems that the very same issue may also be
-happening on IPU3-based laptops that won't have BIOSes designed to
-work on Linux.
+Now I want you to stand as my next of kin to claim the funds for charity pu=
+rposes. Because of this money remains unclaimed after my death, the bank ex=
+ecutives or the government will take the money as unclaimed fund and maybe =
+use it for selfishness and worthless ventures, I need a very honest person =
+who can claim this money and use it for Charity works, for orphanages, wido=
+ws and also build schools and churches for less privilege that will be name=
+d after my late husband and my name.
 
-Thanks,
-Mauro
+I need your urgent answer to know if you will be able to execute this proje=
+ct, and I will give you more information on how the fund will be transferre=
+d to your bank account or online banking.
+
+Thanks
+Mrs. Mina A. Brunel
