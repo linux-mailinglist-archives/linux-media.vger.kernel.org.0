@@ -2,171 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6CB71C2298
-	for <lists+linux-media@lfdr.de>; Sat,  2 May 2020 05:36:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A842C1C2325
+	for <lists+linux-media@lfdr.de>; Sat,  2 May 2020 06:58:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726565AbgEBDgK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 1 May 2020 23:36:10 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:35215 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726439AbgEBDgK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 1 May 2020 23:36:10 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id UiwgjFnLUzorkUiwhj1aNE; Sat, 02 May 2020 05:36:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588390567; bh=hnppiUGm5zFsNUcx4dqi4+735Buv6T5nB37uQxy3JFY=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=Fw39myrhupydTY0ACr4VldI1/IL4qso8WbYYyyjpNzSw+5ET/pYURDHwcUxe83cvr
-         BfE9kkrbKKQ4+dTJ4cj5eeFRRdV0JaeBUR9/PX+EiqkhiG5lJ2WmN8U3VgMYpjGo30
-         2wdoMA09J0gQvldB6zl10hYPb+dZScTPcOQBtidH3lvVuBQKycXfHTCvqfSLhj/ksD
-         gt+hK+NxOvULHjt8cWdQ8tUPNMZufl8SJi9PopLFLtWqrwCJpiye7pdeq3wWXByOUH
-         rJof/LYFzsM3Zr7VPfKCi8uC2u8PrbCU+DxnCg/VXjx/SA3xnqcyC+lRmNTH+nusBz
-         aeSTX9g1rBF5Q==
-Message-ID: <60945e0fb97f7d6304b305610c200795@smtp-cloud7.xs4all.net>
-Date:   Sat, 02 May 2020 05:36:06 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfEBVaeTGr+2qP7FMKWZO8pk7uPv8j/ihuHc/IXBiO32se2Zfm0yYqcq0fhTLbN5wOb6WauB445bG4BAI4FcrYgM8v2d9x500IeFkGeQ03OLLNQVE1fW+
- +kRV2WSK1Pz951Q+8pqL7vm+cguxgWgKZlIkF9rsEB2dxTken000Baw35TJ/ehSTcxzG5+eF/DNJwFDig/rHvwSpuJeO62syqva3oXCpiHIJnjXjNiQXtlzN
+        id S1726574AbgEBE6J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 May 2020 00:58:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33948 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726058AbgEBE6J (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 2 May 2020 00:58:09 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B207A208DB;
+        Sat,  2 May 2020 04:58:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588395488;
+        bh=Z+otAQneYfqHhtTr/kcWGv2dvBqsPgkDZ6RhF2u47sk=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=fZ5iGBxYMQtFy2pi/3pWB6Gftl+GybrebqQ+MXe7RPq3FiyZbU0njTCEMmhBpUJSl
+         CdZRi0kiZyvDez7u8LtIJU4PW+2Q3S1SES492RdLxsw1Hi3xIcukpGU8MbhDwV1Q/c
+         wNsKhOZaTi+/+ssuS6x8ITq1bIqCFXGbgfDA5B9Q=
+Date:   Sat, 2 May 2020 06:58:03 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     sean@mess.org, kstewart@linuxfoundation.org, allison@lohutok.net,
+        tglx@linutronix.de, linux-media@vger.kernel.org,
+        skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [RFC, WIP, v4 01/11] media: vidtv: add Kconfig entry
+Message-ID: <20200502065803.37d40feb@coco.lan>
+In-Reply-To: <20200502032216.197977-2-dwlsalmeida@gmail.com>
+References: <20200502032216.197977-1-dwlsalmeida@gmail.com>
+        <20200502032216.197977-2-dwlsalmeida@gmail.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Em Sat,  2 May 2020 00:22:06 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
-Results of the daily build of media_tree:
+> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+> 
+> Add the necessary Kconfig entries and a dummy Makefile to compile the new
+> virtual DVB test driver (vidtv).
 
-date:			Sat May  2 05:00:08 CEST 2020
-media-tree git hash:	e51759f56d314d28c25be7606b03791f048e44c7
-media_build git hash:	2f75e0d4330da180166ebcd104560d471a1599b6
-v4l-utils git hash:	f5b0fca142994b6ea3138704d5a013dd0fbca3cd
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 7bc5ca34b446a30a7e19688e9a1e68e905cb8ff4
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+Patch looks good. Please notice that this should be the last patch at the 
+series, as otherwise it would break git bisect.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: OK: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+> 
+> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> ---
+>  drivers/media/test-drivers/Kconfig        | 10 ++++++++++
+>  drivers/media/test-drivers/Makefile       |  1 +
+>  drivers/media/test-drivers/vidtv/Kconfig  | 11 +++++++++++
+>  drivers/media/test-drivers/vidtv/Makefile |  2 ++
+>  4 files changed, 24 insertions(+)
+>  create mode 100644 drivers/media/test-drivers/vidtv/Kconfig
+>  create mode 100644 drivers/media/test-drivers/vidtv/Makefile
+> 
+> diff --git a/drivers/media/test-drivers/Kconfig b/drivers/media/test-drivers/Kconfig
+> index 188381c855939..7d273a8a7acc2 100644
+> --- a/drivers/media/test-drivers/Kconfig
+> +++ b/drivers/media/test-drivers/Kconfig
+> @@ -4,6 +4,10 @@ menuconfig V4L_TEST_DRIVERS
+>  	bool "V4L test drivers"
+>  	depends on VIDEO_DEV
+>  
+> +menuconfig DVB_TEST_DRIVERS
+> +	bool "DVB test drivers"
+> +	depends on DVB_CORE && MEDIA_SUPPORT && I2C
+> +
+>  if V4L_TEST_DRIVERS
+>  
+>  source "drivers/media/test-drivers/vimc/Kconfig"
+> @@ -24,3 +28,9 @@ config VIDEO_VIM2M
+>  source "drivers/media/test-drivers/vicodec/Kconfig"
+>  
+>  endif #V4L_TEST_DRIVERS
+> +
+> +if DVB_TEST_DRIVERS
+> +
+> +source "drivers/media/test-drivers/vidtv/Kconfig"
+> +
+> +endif #DVB_TEST_DRIVERS
+> diff --git a/drivers/media/test-drivers/Makefile b/drivers/media/test-drivers/Makefile
+> index 74410d3a9f2d2..9f0e4ebb2efe7 100644
+> --- a/drivers/media/test-drivers/Makefile
+> +++ b/drivers/media/test-drivers/Makefile
+> @@ -7,3 +7,4 @@ obj-$(CONFIG_VIDEO_VIMC)		+= vimc/
+>  obj-$(CONFIG_VIDEO_VIVID)		+= vivid/
+>  obj-$(CONFIG_VIDEO_VIM2M)		+= vim2m.o
+>  obj-$(CONFIG_VIDEO_VICODEC)		+= vicodec/
+> +obj-$(CONFIG_DVB_VIDTV)			+= vidtv/
+> diff --git a/drivers/media/test-drivers/vidtv/Kconfig b/drivers/media/test-drivers/vidtv/Kconfig
+> new file mode 100644
+> index 0000000000000..22c4fd39461f1
+> --- /dev/null
+> +++ b/drivers/media/test-drivers/vidtv/Kconfig
+> @@ -0,0 +1,11 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +config DVB_VIDTV
+> +	tristate "Virtual DVB Driver (vidtv)"
+> +	depends on DVB_CORE && MEDIA_SUPPORT && I2C
+> +	help
+> +	  The virtual DVB test driver serves as a reference DVB driver and helps
+> +	  validate the existing APIs in the media subsystem. It can also aid developers
+> +	  working on userspace applications.
+> +
+> +
+> +	  When in doubt, say N.
+> diff --git a/drivers/media/test-drivers/vidtv/Makefile b/drivers/media/test-drivers/vidtv/Makefile
+> new file mode 100644
+> index 0000000000000..d1558d84eeaed
+> --- /dev/null
+> +++ b/drivers/media/test-drivers/vidtv/Makefile
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
 
-Detailed results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Thanks,
+Mauro
