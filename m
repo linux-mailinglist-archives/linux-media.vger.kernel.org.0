@@ -2,61 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09CDA1C2789
-	for <lists+linux-media@lfdr.de>; Sat,  2 May 2020 20:25:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 949D81C27C1
+	for <lists+linux-media@lfdr.de>; Sat,  2 May 2020 20:37:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728365AbgEBSZS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 2 May 2020 14:25:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38456 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728263AbgEBSZR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 2 May 2020 14:25:17 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9C6DC061A0C
-        for <linux-media@vger.kernel.org>; Sat,  2 May 2020 11:25:16 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id f11so5667603ljp.1
-        for <linux-media@vger.kernel.org>; Sat, 02 May 2020 11:25:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=iHvFHfgOLd/cS36koGuE36pzO5sa4kRW0rb+//vsI3E=;
-        b=c6M12po5gmqE2LwuCrjc6geZ23X5jl8+OCIonA+PsMxnw5BNNcmyy02iLE44sBxP6a
-         1kxuyOcBi7y+78RK3ddZwHh1S7RpYs7oh0KoSAHJCw6q4mY6qJm7IbmkLnTCzCvNDUTv
-         io5tcjqZjtvj7R9dhRSQ4/BeM3G2A7MJQhRmJs99CSgNFRk4YX2KQLkwtJFMLzoFzW7S
-         dW+DjXWYjUBkZz263p+75dxOHoMWhTJmDjlMNwywPfYv6cU8MK1ycGAMxgn+ORIPSmNK
-         quF6k//iFmdyiEG9uUSWpehyHEAP8onJAAJAu2ymG0l1vN/6hSklwnjmLX8sSLtTy3ly
-         xh1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=iHvFHfgOLd/cS36koGuE36pzO5sa4kRW0rb+//vsI3E=;
-        b=fc2cDGSDMs9VKJTamkSGcizfOCBjg6gUEuXbl7rXt48e3WetMuyM+12pD30L+y/wqp
-         40LjDF5iz9Jlkj1lMUF8pDXmzQb/mjMD7JhPuJxf4YUnm3SeNY5MqFEx8xxzxMJ9DXl2
-         JxbBtD/NQ9eWZLa/UeENnAciDhZi2rrem1wRqqxjU3O/6ftitLJ0S5lgbeZzs1UgtMUq
-         ZI8zDnXIF+Sbpaqz8Yncm/anqf7lgwLHz12hpjcYm0nK3NGgJssY0cFAeyaE0PfHwSAm
-         rgFR9r6mzLyhTTvzIT9sSL8t24Vk7IukuWhtakG284vzYVomMXE8x48b8Kbb1Nn+iJcd
-         FJSA==
-X-Gm-Message-State: AGi0PuY5Bzc61mHa7ZwFx1YCYaAXSHyq5kOGRIcA/ejiqTz7JSp+cv1H
-        34RVanAXM+BFX0Da2uJFQIpE1wj1nO87H9tr1Pk=
-X-Google-Smtp-Source: APiQypJD6gpXmo2TgKRviiZM66lNv7M8/Tv7hI7ekt8FTsaL4mDg3yUkPH0+Y0f+/YO5XDWemDxvES0CTrrVcxoG9j4=
-X-Received: by 2002:a05:651c:1121:: with SMTP id e1mr5599189ljo.205.1588443915142;
- Sat, 02 May 2020 11:25:15 -0700 (PDT)
+        id S1728226AbgEBShN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 2 May 2020 14:37:13 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42978 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727880AbgEBShM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 2 May 2020 14:37:12 -0400
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bbrezillon)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id CD91C2683D0;
+        Sat,  2 May 2020 19:37:10 +0100 (BST)
+Date:   Sat, 2 May 2020 20:37:07 +0200
+From:   Boris Brezillon <boris.brezillon@collabora.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>
+Subject: Re: [PATCH v2 2/3] media: uapi: Add VP9 stateless decoder controls
+Message-ID: <20200502203707.402ea3cd@collabora.com>
+In-Reply-To: <bf475e70cca6f9ebf645aed51276e57668eaf43b.camel@collabora.com>
+References: <20200410115113.31728-1-ezequiel@collabora.com>
+        <20200410115113.31728-3-ezequiel@collabora.com>
+        <9126475c-275d-71ab-0308-6ae85e22446b@xs4all.nl>
+        <bf475e70cca6f9ebf645aed51276e57668eaf43b.camel@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Received: by 2002:ac2:4291:0:0:0:0:0 with HTTP; Sat, 2 May 2020 11:25:14 -0700 (PDT)
-Reply-To: mrdavidkekeli01@gmail.com
-From:   "Mr.David Keller" <joykekeli1@gmail.com>
-Date:   Sat, 2 May 2020 18:25:14 +0000
-Message-ID: <CAMEnU2DCmhboHnZFtpnfjvFh4m+2jWbh68NnK_8a_nKHWsZjZQ@mail.gmail.com>
-Subject: i wait to hear from you
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Greeting, did you receive my previous email? I sent you an urgent
-letter days ago without any response from you yet. Please answer
-me.Best Regard, Mr.David Keller.
+On Fri, 01 May 2020 13:57:49 -0300
+Ezequiel Garcia <ezequiel@collabora.com> wrote:
+
+> > > +
+> > > +.. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
+> > > +
+> > > +.. flat-table:: enum v4l2_vp9_reset_frame_context
+> > > +    :header-rows:  0
+> > > +    :stub-columns: 0
+> > > +    :widths:       1 2
+> > > +
+> > > +    * - ``V4L2_VP9_RESET_FRAME_CTX_NONE``
+> > > +      - Do not reset any frame context.
+> > > +    * - ``V4L2_VP9_RESET_FRAME_CTX_NONE_ALT``
+> > > +      - Do not reset any frame context. This is an alternative value for
+> > > +        V4L2_VP9_RESET_FRAME_CTX_NONE.  
+> > 
+> > Add `` around V4L2_VP9_RESET_FRAME_CTX_NONE.
+> >   
+> 
+> Hm, now that I look closer, what's the point
+> of having the NONE_ALT in our uAPI if it
+> has same meaning as NONE?
+> 
+> I think it can be removed.
+
+The intent was to match the spec so that one can pass the value
+extracted from the bitstream directly.
+
+> > 
+> > I got several smatch warnings:
+> > 
+> > smatch: ERRORS
+> > drivers/media/v4l2-core/v4l2-ctrls.c:1880 validate_vp9_frame_decode_params() warn: was && intended here instead of ||?
+> > 
+> > (Commented on this ^^^ one above)
+> > 
+> > drivers/staging/media/rkvdec/rkvdec-vp9.c:426 init_intra_only_probs() error: buffer overflow 'ptr' 9 <= 69
+> > drivers/staging/media/rkvdec/rkvdec-vp9.c:1478 rkvdec_vp9_done() error: potentially dereferencing uninitialized 'ctrl'.
+> > drivers/staging/media/rkvdec/rkvdec-vp9.c:1483 rkvdec_vp9_done() error: uninitialized symbol 'dec_dst_buf'.
+> > drivers/staging/media/rkvdec/rkvdec-vp9.c:941:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+> > drivers/staging/media/rkvdec/rkvdec-vp9.c:1466:40: warning: variable 'fctx' set but not used [-Wunused-but-set-variable]
+> >   
+> 
+> Oh, I'll run smatch and fix them all.
+
+Oops!
