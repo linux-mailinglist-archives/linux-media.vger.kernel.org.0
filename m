@@ -2,42 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F8AD1C2AFD
-	for <lists+linux-media@lfdr.de>; Sun,  3 May 2020 11:51:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F36E1C2B1A
+	for <lists+linux-media@lfdr.de>; Sun,  3 May 2020 12:07:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727892AbgECJu5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 3 May 2020 05:50:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56602 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726884AbgECJu5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 3 May 2020 05:50:57 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 52588206B8;
-        Sun,  3 May 2020 09:50:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588499456;
-        bh=E/sTWHiOvUIoBBaFZvsl2NpEPvdhm/z5bua77hLK/ho=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=w2COvS66ha4wd5AKHE1T+pOOLqq9GdLedwqPQTZEdeVaH1ltRjSHzWYz05kcZbywJ
-         4iK1liYeMOGPQgl5VgBMjz1hfEP0L5G2Qp6yT+l4JkQaU37EGZKttVdxy8tOw72Cgh
-         FCDKy2VuZPCG3OqkEOOmwbazUk2o1RPBOKaflvvM=
-Date:   Sun, 3 May 2020 11:50:51 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Cc:     sean@mess.org, kstewart@linuxfoundation.org, allison@lohutok.net,
-        tglx@linutronix.de, linux-media@vger.kernel.org,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [RFC, WIP, v4 07/11] media: vidtv: add MPEG TS common code
-Message-ID: <20200503115051.273cf845@coco.lan>
-In-Reply-To: <de298533-e002-99f0-0db0-0418a284fa9e@gmail.com>
-References: <20200502032216.197977-1-dwlsalmeida@gmail.com>
-        <20200502032216.197977-8-dwlsalmeida@gmail.com>
-        <20200502090933.171aa862@coco.lan>
-        <de298533-e002-99f0-0db0-0418a284fa9e@gmail.com>
+        id S1728110AbgECKHa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 May 2020 06:07:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42880 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728095AbgECKH3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 3 May 2020 06:07:29 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EE60C061A0C;
+        Sun,  3 May 2020 03:07:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description;
+        bh=11eMvbjGeR29h1DUas3zdmi7upTWauQvUqLXTyueNJg=; b=tfXwO/vsnGFWRrrWcdQPqqP20R
+        YrnQ7Dex9YBnC7SjIj/RxLh8ojnSzWAfuNB6v0HzGMxNtfZSvu7vziVQthR4jdn5LhMi81IGxnYC2
+        Rf9PknX6ObDBjZtDuzpjdImQyZf5Facvi7KA6WJRjp0A+XogHyPJi+pjbRTqTP6SQ3dhTgKgZd1/x
+        CKTjKF2kux7seQ+NAETEUyl8O5mSNG5okp2Sf4RoSyJyMM6v3ya+TgaaifbTNutx6lIoYNfiM2h1O
+        uHAWBC9C7RpLCefjrMejLRZgr2Xp/BiaPh48jIZdsNjUaXjlWfUYiUnbj2mbY49ukkJsZsQtn323j
+        atgU1XSg==;
+Received: from [95.90.213.197] (helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jVBWs-0000so-KN; Sun, 03 May 2020 10:07:22 +0000
+Date:   Sun, 3 May 2020 12:07:14 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Francescodario Cuzzocrea <francescodario.cuzzocrea@mail.polimi.it>
+Cc:     "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "gnomes@lxorguk.ukuu.org.uk" <gnomes@lxorguk.ukuu.org.uk>,
+        "alan@linux.intel.com" <alan@linux.intel.com>
+Subject: Re: [GIT PULL] Ressurect the atomisp staging driver
+Message-ID: <20200503120714.28f62360@coco.lan>
+In-Reply-To: <3f551a8f87808ee7828dc03d41c7a23faac89f3c.camel@mail.polimi.it>
+References: <20200501215741.3be05695@coco.lan>
+        <3f551a8f87808ee7828dc03d41c7a23faac89f3c.camel@mail.polimi.it>
 X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -47,239 +51,88 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sat, 2 May 2020 19:22:06 -0300
-"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
+Hi Francescodario,
 
-> Hi Mauro, thanks for reviewing this!
+Em Sun, 3 May 2020 09:19:55 +0000
+Francescodario Cuzzocrea <francescodario.cuzzocrea@mail.polimi.it> escreveu:
+
+> Hi ! 
 > 
->  > Em Sat,  2 May 2020 00:22:12 -0300
->  > "Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
->  >  
->  >> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
->  >>
->  >> Add code to work with MPEG TS packets, such as TS headers, adaptation
->  >> fields, PCR packets and NULL packets.
->  >>
->  >> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
->  >> ---
->  >>   drivers/media/test-drivers/vidtv/Makefile   |   2 +-
->  >>   drivers/media/test-drivers/vidtv/vidtv_ts.c | 130 ++++++++++++++++++++
->  >>   drivers/media/test-drivers/vidtv/vidtv_ts.h | 103 ++++++++++++++++
->  >>   3 files changed, 234 insertions(+), 1 deletion(-)
->  >>   create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.c
->  >>   create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.h
->  >>
->  >> diff --git a/drivers/media/test-drivers/vidtv/Makefile   
-> b/drivers/media/test-drivers/vidtv/Makefile
->  >> index 9ea9485d42189..92001bc348615 100644
->  >> --- a/drivers/media/test-drivers/vidtv/Makefile
->  >> +++ b/drivers/media/test-drivers/vidtv/Makefile
->  >> @@ -1,6 +1,6 @@
->  >>   # SPDX-License-Identifier: GPL-2.0
->  >>
->  >>   vidtv_demod-objs := vidtv_common.o
->  >> -vidtv_bridge-objs := vidtv_common.o
->  >> +vidtv_bridge-objs := vidtv_common.o vidtv_ts.o
->  >>
->  >>   obj-$(CONFIG_DVB_VIDTV)	+= vidtv_tuner.o vidtv_demod.o vidtv_bridge.o
->  >> diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.c   
-> b/drivers/media/test-drivers/vidtv/vidtv_ts.c
->  >> new file mode 100644
->  >> index 0000000000000..f545c45c0fe7c
->  >> --- /dev/null
->  >> +++ b/drivers/media/test-drivers/vidtv/vidtv_ts.c
->  >> @@ -0,0 +1,130 @@
->  >> +// SPDX-License-Identifier: GPL-2.0
->  >> +/*
->  >> + * The Virtual DVB test driver serves as a reference DVB driver and   
-> helps
->  >> + * validate the existing APIs in the media subsystem. It can also aid
->  >> + * developers working on userspace applications.
->  >> + *
->  >> + * Written by Daniel W. S. Almeida <dwlsalmeida@gmail.com>
->  >> + */
->  >> +
->  >> +#include <linux/types.h>
->  >> +#include <asm/byteorder.h>
->  >> +#include "vidtv_ts.h"
->  >> +#include "vidtv_common.h"
->  >> +
->  >> +static u32 vidtv_ts_write_pcr_bits(u8 *buf, u64 pcr)
->  >> +{
->  >> +	/* Exact same from ffmpeg. PCR is a counter driven by a 27Mhz clock */
->  >> +	u64 pcr_low = pcr % 300, pcr_high = pcr / 300;
->  >> +
->  >> +	*buf++ = pcr_high >> 25;
->  >> +	*buf++ = pcr_high >> 17;
->  >> +	*buf++ = pcr_high >>  9;
->  >> +	*buf++ = pcr_high >>  1;
->  >> +	*buf++ = pcr_high <<  7 | pcr_low >> 8 | 0x7e;
->  >> +	*buf++ = pcr_low;
->  >> +
->  >> +	return 6;
->  >> +}
->  >> +
->  >> +void vidtv_ts_inc_cc(u8 *continuity_counter)
->  >> +{
->  >> +	++*continuity_counter;
->  >> +	if (*continuity_counter > TS_CC_MAX_VAL)
->  >> +		*continuity_counter = 0;
->  >> +}
->  >> +
->  >> +u32 vidtv_ts_null_write_into(struct null_packet_write_args args)
->  >> +{
->  >> +	u32    nbytes                  = 0;
->  >> +	struct vidtv_mpeg_ts ts_header = {0};
->  >> +
->  >> +	ts_header.sync_byte          = TS_SYNC_BYTE;
->  >> +	ts_header.pid                = TS_NULL_PACKET_PID;
->  >> +	ts_header.payload            = 1;
->  >> +	ts_header.continuity_counter = *args.continuity_counter;
->  >> +
->  >> +	cpu_to_be16s(&ts_header.bitfield);
->  >> +
->  >> +	/* copy TS header */
->  >> +	nbytes += vidtv_memcpy(args.dest_buf + args.dest_offset + nbytes,
->  >> +			       &ts_header,
->  >> +			       sizeof(ts_header),
->  >> +			       args.dest_offset + nbytes,
->  >> +			       args.buf_sz);  
->  >
->  > Hmm... now I see why you're returning 0 to vidtv_memcpy().
->  >
->  > Yet, if the buffer is full, you should just drop the entire package,
->  > as otherwise you may end copying things that aren't multiple of 188   
-> bytes,
->  > causing sync issues at the client.  
+> Thanks for this, it is very appreciated !! 
 > 
-> I'd like to provide a counterargument for this.
+> I have a bay trail 2in1 (namely, the acer aspire swtich 10 sw5-012,
+> with an OV2722 module, so supported by the driver) on top of which I
+> run android-x86-q so I would be able to help a bit with testing the
+> driver.
 > 
-> The way I am dealing with errors throughout vidtv so far is:
-> If we hit any of these WARN_ON macros, pr_err and the like, then all 
-> bets are off. This means that the resulting stream will likely be 
-> invalid
+> I tried to pull in your changes on top of my 5.7-rc2 here : 
+> https://gitlab.com/lineageos-x86/android_kernel_common/-/commits/5.7-media
+> 
+> but I did not understood how to correctly enable the driver.
+> According
+> to Kconfig help, there is still the hardcoded switch between ISP2401
+> and ISP2400, so for my Bay Trail tablet I should set :
+> 
+> #
+> CONFIG_VIDEO_ATOMISP_ISP2401 is not set
+> 
+> but settings this breaks compilation with : 
+> 
+> ERROR: modpost:
+> "ia_css_configure_sc"[drivers/staging/media/atomisp/atomisp.ko]
+> undefined!
 
-Losing some data is not really a big issue. 
-
-I mean, a stream with some dropped packages is acceptable. That 
-actually happens in practice, as sometimes userspace just can't read
-everything in time. 
-
-The only thing is that, if buffer overflow conditions are detected
-(and allowed - se more below), the code should ensure that the package
-counters should be updated, so the next frame will show a 
-discontinuity. This way, userspace can detect packet losses.
-
-> and that something needs to be rewritten in the source code and 
-> my main concern is then preventing the whole driver from crashing.
-
-A WARN_ON() won't prevent a crash. It will just output (very noisly)
-stuff at dmesg. This can actually cause a crash: if someone is using
-a serial console, for example, the amount of data at dmesg will
-be so much that the machine will become unresponsive.
-
-Btw, when WARN_ON() is detecting something that would cause crashes,
-it should use this pattern:
-
-	if (WARN_ON(...))
-		return -EINVAL; // or some other error code like -ENOMEM
-
-> This is exactly the behavior that you see in vidtv_memcpy and 
-> vidtv_memset: nothing gets written so we don't end up with an overflow, 
-> a diagnostic message is printed and there are no attempts at recovery.
-
-Yeah, after looking how you're using it, I'm ok with the way you're
-using vidtv_memcpy (but see the comments I posted today about them).
+I'll double check and address this issue. 
 
 > 
-> In this particular example, I compromised by allowing the size of the 
-> buffer to be a module param, i.e.
+> Looking at commit history, I noticed that the driver should be able to
+> recognize at runtime the ISP version,
+
+Not yet. There are simply too many places there with checks for ISP2400
+or ISP2401. I got rid of most of them, but there are 4 header files
+that contain ISP-version specific information, whose are used by several
+parts of the driver. Getting rid of it would require more work.
+
+> so what I tried next was to set
+> CONFIG_VIDEO_ATOMISP_ISP2401=y, and the compilation went fine.
+> I was able to boot the kernel (and I also added both
+> shisp_2400b0_v21.bin and shisp_2401a0_v21.bin from an android tablet
+> dump).
 > 
->  >> +static unsigned int ts_buf_sz = 20 * 188;
->  >> +module_param(ts_buf_sz, uint, 0644);
->  >> +MODULE_PARM_DESC(ts_buf_sz, "Optional size for the TS buffer");  
+> The kernel booted fine, the ov2722 module is loaded, but according to
+> dmesg it is not able to initialize the hardware : 
+> https://pastebin.com/VBMD1bau
 
-(Unrelated to this discussion)
-What happens if userspace sets ts_buf_sz < 188? What happens if
-ts_buf_sz is bigger than the available RAM size? For sure you need
-a callback there in order validate its result and ensure it would
-between a certain range that would make sense.
+(transcribing the relevant messages from pastebin below)
 
-> 
-> I think that what I am trying to say is better seen in the last patch 
-> for this series: [RFC, WIP, v4 11/11] media: vidtv: Add a MPEG Transport 
-> Stream Multiplexer.
-> 
-> The following takes place in vidtv_mux.c:
-> 
-> 	1. We wake up from sleep, take note of how long we slept for and store 
-> it into "elapsed_time". This is usually between 10ms and 20ms.
-> 	2. We encode "elapsed_time" miliseconds worth of data into a buffer
-> 	3. We call dvb_dmx_swfilter(), passing a pointer to the buffer
-> 	4. We clear the buffer, sleep for a bit and then go back to 1.
-> 
-> If the buffer is somehow full then it means that we are trying to 
-> simulate too many fake channels while allocating too little memory, so 
-> either we scale down on the amount of fake channels or we choose another 
-> value for the "ts_buf_sz" module_param.
-> 
-> I feel that this is better than adding more logic in an attempt to 
-> circumvent the issue, specially since I can add more logic and still 
-> fail due to my limited experience. The result is more bloat on the 
-> source code for little gain.
+> ov2722 i2c-INT33FB: 00: gmin: initializing atomisp module subdev data.PMIC ID 1
+> ov2722 i2c-INT33FB: 00: supply V1P2A not found, using dummy regulator
+> ov2722 i2c-INT33FB: 00: supply VPROG4B not found, using dummy regulator
+> ov2722 i2c-INT33FB: 00: supply Regulator1p8v not found, using dummy regulator
+> ov2722 i2c-INT33FB: 00: supply Regulator2p8v not found, using dummy regulator
+> ov2722 i2c-INT33FB: 00: unable to set PMC rate 1
+> ov2722 i2c-INT33FB: 00: camera pdata: port: 0 lanes: 1 order: 00000000
+> ov2722 i2c-INT33FB: 00: read from offset 0x300a error -121
+> ov2722 i2c-INT33FB: 00: sensor_id_high = 0xffff
+> ov2722 i2c-INT33FB: 00: ov2722_detect err s_config.
+> ov2722 i2c-INT33FB: 00: sensor power-gating failed
 
-Ok, there are some different situations buffer overflow conditions:
+That's the same that happened with the tests we've done so far:
+it is not finding the regulators. I'm currently seeking for a solution
+to that.
 
-1) userspace may not be calling read() fast enough;
-2) the buffer is too small for a single stream;
-3) the buffer will support a limited number of streams.
+Usually, regulator data comes via OpenFirmware/Device Tree.
 
-The code should work fine with condition (1), not causing warnings
-or errors.
+However, ACPI BIOS store this on a different way. Some (missing) code
+would need to get the relevant parameters from the BIOS and setup
+the regulators.
 
-The minimal buffer size should be big enough to avoid condition (2).
+Btw, could you please send me a tarball with the output of your
+BIOS ACPI tables?
 
-Different strategies could be used to handle condition (3).
+You can get it with:
 
--
-
-Let's forget for a while the Kernel driver, focusing on the other
-side of the coin:
-
-This driver is meant to allow testing userspace programs, emulating
-a real hardware.
-
-With real hardware, the TV board will receive a signal with some
-noise. The signal is encoded with several error detection mechanisms.
-
-When a board hardware detects that a package has issues, it will
-discard it. That's why some packets have a continuity_counter,
-while others are just continuously repeated.
-
-So, from this aspect, having some packages dropped from a stream
-is actually not a bad thing.
-
-Back to the implementation part, in order to simulate a package
-drop, we could simply have a rand() call that would be randomly
-dropping some packages. Or, we could set the driver to produce
-more streams that it would fit into the MPEG-TS stream.
-
-For now, I would just do the latter: if the buffer is too small,
-just drop an entire package, preserving the alignment.
-
-> 
->  > A WARN_ON() seems too severe here. Also, if something bad happens, it
->  > will end causing lots of problems that can make the machine very slow,
->  > ad this will flood dmesg.
->  >
->  > So, the best would be to use, instead, dev_warn_ratelimited().  
-> 
-> You're right, I did not consider this. I will use dev_warn_ratelimited() 
-> in place of WARN_ON in the next revisions.
-
-yeah, dev_warn_ratelimited() would work. You could also use
-WARN_ON_ONCE(), as probably there's not much value on keep
-repeating the message every time.
+	$ sudo acpidump |bzip2 > acpi.log.bz2
 
 Thanks,
 Mauro
