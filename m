@@ -2,145 +2,289 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19BF91C2B4E
-	for <lists+linux-media@lfdr.de>; Sun,  3 May 2020 12:23:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 30C161C2C0A
+	for <lists+linux-media@lfdr.de>; Sun,  3 May 2020 14:05:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727916AbgECKXz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 3 May 2020 06:23:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45472 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727051AbgECKXz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 3 May 2020 06:23:55 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AEFAC061A0C
-        for <linux-media@vger.kernel.org>; Sun,  3 May 2020 03:23:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=irE9avXxWF9X94gghTS//U/v9GckRlDTcihbjUkoD6A=; b=qpBUtOzClpXqhXO/GJGqk5w5Dv
-        WbHu3nCYY78Th7XnKqc3g0MpkXO9Bfz/973JFYTArJAu3JY3av3WhYyNHU75AViH1/le1VMAp96xU
-        o8qG8aS/EDUjag2zrT4i76mLocg6GBm8Nv4g42Z9smNCRAtRXEjmjpg8hgBPcFFeVRg2pRlY3Uwzf
-        fduG9zSLZaKCXfmB2sqGLDt5m71kvLHCQ2xl8uSJ1KxHqXLesdiOdJ629oegV1iayMJQ1ItOTl7Gb
-        c04o0L8rZTi4hyx8NSfLgTfTWKgnXEuVXg6fiSvuGWvEFpyLwXRW57NvZsdp+FYY3DqW+N3u8L0m6
-        wPaH9bfg==;
-Received: from [95.90.213.197] (helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jVBmr-0001Kq-S4; Sun, 03 May 2020 10:23:54 +0000
-Date:   Sun, 3 May 2020 12:23:50 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Patrik Gfeller <patrik.gfeller@gmail.com>
-Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: atomisp kernel driver(s)
-Message-ID: <20200503122350.2ade79ad@coco.lan>
-In-Reply-To: <20200503104612.7da12913@ASUS>
-References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
-        <CAHp75Vf9M7=Gf=mCgdBgt0-aR+kBOjtE3pvJyEya2OGmqbr6XA@mail.gmail.com>
-        <20200503104612.7da12913@ASUS>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        id S1728326AbgECMFT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 May 2020 08:05:19 -0400
+Received: from mail26.static.mailgun.info ([104.130.122.26]:35942 "EHLO
+        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728298AbgECMFS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 3 May 2020 08:05:18 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1588507518; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=bCDPaEJIcuD8wOAW1dzwMfsToUuM+au+ax3hHCPjjng=; b=p9bFqPbaaZFSwcMkiQMrCqkMC6r40hirouPivkdf/ptFRl0KockgilcGxllBxzEw9iNsdBBt
+ S7eqFC9yuTkV63nx0lIA7pv11tKF26t5+/8JQOb1bfo3u0ucG1nGkuNZra0quW1OIHV/kbjQ
+ u1SK7DLPcAiAKkfOacpqx/EpTEM=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5eaeb37d.7f4fad57a880-smtp-out-n03;
+ Sun, 03 May 2020 12:05:17 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 13FB6C44792; Sun,  3 May 2020 12:05:15 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from blr-ubuntu-173.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: rnayak)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 57034C44793;
+        Sun,  3 May 2020 12:05:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 57034C44793
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=rnayak@codeaurora.org
+From:   Rajendra Nayak <rnayak@codeaurora.org>
+To:     viresh.kumar@linaro.org, sboyd@kernel.org,
+        bjorn.andersson@linaro.org, agross@kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mka@chromium.org, Rajendra Nayak <rnayak@codeaurora.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v4 5/6] media: venus: core: Add support for opp tables/perf voting
+Date:   Sun,  3 May 2020 17:34:28 +0530
+Message-Id: <1588507469-31889-6-git-send-email-rnayak@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1588507469-31889-1-git-send-email-rnayak@codeaurora.org>
+References: <1588507469-31889-1-git-send-email-rnayak@codeaurora.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sun, 3 May 2020 10:46:12 +0200
-Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
+Add support to add OPP tables and perf voting on the OPP powerdomain.
+This is needed so venus votes on the corresponding performance state
+for the OPP powerdomain along with setting the core clock rate.
 
-> On Sat, 2 May 2020 19:08:36 +0300
-> Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
-> 
-> Hi Andy,
-> 
-> > On Sat, Apr 18, 2020 at 5:42 PM Patrik Gfeller <patrik.gfeller@gmail.com> wrote:  
-> > >
-> > > Hello Mauro et al,
-> > >
-> > > I've recently switched to Linux, and I'm very impressed. Almost
-> > > everything thing works out of the box. Only the webcam on my device does
-> > > not. I did some digging and if I'm right an atomisp driver would be
-> > > required. Is this correct? Below the output of lspci:
-> > >
-> > > 00:00.0 Host bridge: Intel Corporation Atom/Celeron/Pentium Processor
-> > > x5-E8000/J3xxx/N3xxx Series SoC Transaction Register (rev 36) 00:02.0
-> > > VGA compatible controller: Intel Corporation Atom/Celeron/Pentium
-> > > Processor x5-E8000/J3xxx/N3xxx Integrated Graphics Controller (rev 36)
-> > > 00:03.0 Multimedia controller: Intel Corporation Atom/Celeron/Pentium
-> > > Processor x5-E8000/J3xxx/N3xxx Series Imaging Unit (rev 36) 00:0a.0
-> > > Non-VGA unclassified device: Intel Corporation Device 22d8 (rev 36)
-> > > 00:0b.0 Signal processing controller: Intel Corporation
-> > > Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series Power
-> > > Management Controller (rev 36) 00:14.0 USB controller: Intel Corporation
-> > > Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series USB xHCI
-> > > Controller (rev 36) 00:1a.0 Encryption controller: Intel Corporation
-> > > Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series Trusted
-> > > Execution Engine (rev 36) 00:1c.0 PCI bridge: Intel Corporation
-> > > Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series PCI Express
-> > > Port #1 (rev 36) 00:1f.0 ISA bridge: Intel Corporation
-> > > Atom/Celeron/Pentium Processor x5-E8000/J3xxx/N3xxx Series PCU (rev 36)
-> > > 01:00.0 Network controller: Qualcomm Atheros QCA9377 802.11ac Wireless
-> > > Network Adapter (rev 31)
-> > >
-> > > According to the history it looks like the driver was removed from the
-> > > kernel in 2018 and replaced with a dummy driver (to make sure power save
-> > > works).
-> > >
-> > > Is there a chance that the atomisp driver will return to the kernel?
-> > > There are quite a few older tablets and 2in1 devices that would benefit.
-> > > Unfortunately I do not understand the removed code (my coding skills are
-> > > very basic) and can thus not help to change what ever is necessary to
-> > > make it fit for the kernel :-( (does not sound like a beginner project).
-> > > However - I would be glad to help out to help testing an ISP driver.
-> > >
-> > > However - even without the cam it is a very impressing operating system
-> > > which I enjoy very much. I would like to thank all of you for your work
-> > > that benefits so many people!    
-> > 
-> > I follow your attempts to enable that driver (I, myself, spent a lot
-> > of time to an attempt of getting this driver in a shape). However, I
-> > guess you started from a wrong side. Even with access to internal tree
-> > for Android firmware we didn't manage to find a proper one to whatever
-> > has been published in drivers/staging. So, to get it done, one should
-> > first to find a *working* Android for the certain device. Without that
-> > it will be a journey of wasted time and big disappointment.  
-> 
-> Thank you for your advice, I've tried various Android distros for x86 on
-> my device. Unfortunately none of the boots. I'll investigate if I can
-> make one of them to work. I also found that a predecessor of the driver
-> seemed to have worked for E3800. At lease there is a users guide from intel
-> (for Fedora 18):
-> 
-> https://cdrdv2.intel.com/v1/dl/getcontent/331329
-> 
-> Unfortunately this targets the 2400, and I have 2401 rev B chip. However -
-> I'll give Fedora 18 a try, but if the HW detection works as in the
-> current driver it will not accept my device.
+Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
+Cc: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc: linux-media@vger.kernel.org
+---
+ drivers/media/platform/qcom/venus/core.c       | 28 +++++++++++++
+ drivers/media/platform/qcom/venus/core.h       |  5 +++
+ drivers/media/platform/qcom/venus/pm_helpers.c | 54 ++++++++++++++++++++++++--
+ 3 files changed, 83 insertions(+), 4 deletions(-)
 
-Wow, that sounds promising! Did you find where the Kernel patches
-and userspace applications are stored?
-
-> > My achievements end with no getting IRQ from the driver (and I was
-> > experimenting on MRD-7 CRB).  
-> 
-> I could not find information about MRD-7 CRB HW. Do you still have this
-> HW? Fedora 18 might be worth a try if it uses a 2400 chip.
-> 
-> > P.S. I also have some (semi-) debug patches I can share. Perhaps they
-> > will give some more ideas. Btw, based on this discussion I think that
-> > it can be power issues with sensors that possible affect IRQ
-> > generation inside SiliconHive vector processor. In IPU3 the dedicated
-> > PMIC is used for camera devices, and I have no idea of the design for
-> > old ones.
-> >   
-> 
-> with kind regards,
-> Patrik 
-> 
-
-
-
-Thanks,
-Mauro
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 194b10b9..6f72e99 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -12,6 +12,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
++#include <linux/pm_opp.h>
+ #include <linux/pm_runtime.h>
+ #include <media/videobuf2-v4l2.h>
+ #include <media/v4l2-mem2mem.h>
+@@ -214,6 +215,20 @@ static int venus_probe(struct platform_device *pdev)
+ 	if (!core->pm_ops)
+ 		return -ENODEV;
+ 
++	core->opp_table = dev_pm_opp_set_clkname(dev, "core");
++	if (IS_ERR(core->opp_table))
++		return PTR_ERR(core->opp_table);
++
++	if (core->res->opp_pmdomain) {
++		ret = dev_pm_opp_of_add_table(dev);
++		if (!ret) {
++			core->has_opp_table = true;
++		} else if (ret != -ENODEV) {
++			dev_err(dev, "invalid OPP table in device tree\n");
++			return ret;
++		}
++	}
++
+ 	if (core->pm_ops->core_get) {
+ 		ret = core->pm_ops->core_get(dev);
+ 		if (ret)
+@@ -301,6 +316,9 @@ static int venus_probe(struct platform_device *pdev)
+ err_venus_shutdown:
+ 	venus_shutdown(core);
+ err_runtime_disable:
++	if (core->has_opp_table)
++		dev_pm_opp_of_remove_table(dev);
++	dev_pm_opp_put_clkname(core->opp_table);
+ 	pm_runtime_set_suspended(dev);
+ 	pm_runtime_disable(dev);
+ 	hfi_destroy(core);
+@@ -326,6 +344,10 @@ static int venus_remove(struct platform_device *pdev)
+ 
+ 	venus_firmware_deinit(core);
+ 
++	if (core->has_opp_table)
++		dev_pm_opp_of_remove_table(dev);
++	dev_pm_opp_put_clkname(core->opp_table);
++
+ 	pm_runtime_put_sync(dev);
+ 	pm_runtime_disable(dev);
+ 
+@@ -350,6 +372,10 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
++	/* Drop the performance state vote */
++	if (core->opp_pmdomain)
++		dev_pm_opp_set_rate(dev, 0);
++
+ 	if (pm_ops->core_power)
+ 		ret = pm_ops->core_power(dev, POWER_OFF);
+ 
+@@ -511,6 +537,7 @@ static const struct venus_resources sdm845_res_v2 = {
+ 	.vcodec_clks_num = 2,
+ 	.vcodec_pmdomains = { "venus", "vcodec0", "vcodec1" },
+ 	.vcodec_pmdomains_num = 3,
++	.opp_pmdomain = (const char *[]) { "opp-pd", NULL },
+ 	.vcodec_num = 2,
+ 	.max_load = 3110400,	/* 4096x2160@90 */
+ 	.hfi_version = HFI_VERSION_4XX,
+@@ -556,6 +583,7 @@ static const struct venus_resources sc7180_res = {
+ 	.vcodec_clks_num = 2,
+ 	.vcodec_pmdomains = { "venus", "vcodec0" },
+ 	.vcodec_pmdomains_num = 2,
++	.opp_pmdomain = (const char *[]) { "opp-pd", NULL },
+ 	.vcodec_num = 1,
+ 	.hfi_version = HFI_VERSION_4XX,
+ 	.vmem_id = VIDC_RESOURCE_NONE,
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index bd3ac6a..cc1d511 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -62,6 +62,7 @@ struct venus_resources {
+ 	unsigned int vcodec_clks_num;
+ 	const char * const vcodec_pmdomains[VIDC_PMDOMAINS_NUM_MAX];
+ 	unsigned int vcodec_pmdomains_num;
++	const char **opp_pmdomain;
+ 	unsigned int vcodec_num;
+ 	enum hfi_version hfi_version;
+ 	u32 max_load;
+@@ -144,8 +145,12 @@ struct venus_core {
+ 	struct clk *vcodec1_clks[VIDC_VCODEC_CLKS_NUM_MAX];
+ 	struct icc_path *video_path;
+ 	struct icc_path *cpucfg_path;
++	struct opp_table *opp_table;
++	bool has_opp_table;
+ 	struct device_link *pd_dl_venus;
+ 	struct device *pmdomains[VIDC_PMDOMAINS_NUM_MAX];
++	struct device_link *opp_dl_venus;
++	struct device *opp_pmdomain;
+ 	struct video_device *vdev_dec;
+ 	struct video_device *vdev_enc;
+ 	struct v4l2_device v4l2_dev;
+diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+index abf9315..30600bc 100644
+--- a/drivers/media/platform/qcom/venus/pm_helpers.c
++++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+@@ -9,6 +9,7 @@
+ #include <linux/iopoll.h>
+ #include <linux/kernel.h>
+ #include <linux/pm_domain.h>
++#include <linux/pm_opp.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/types.h>
+ #include <media/v4l2-mem2mem.h>
+@@ -66,10 +67,9 @@ static void core_clks_disable(struct venus_core *core)
+ 
+ static int core_clks_set_rate(struct venus_core *core, unsigned long freq)
+ {
+-	struct clk *clk = core->clks[0];
+ 	int ret;
+ 
+-	ret = clk_set_rate(clk, freq);
++	ret = dev_pm_opp_set_rate(core->dev, freq);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -740,13 +740,16 @@ static int venc_power_v4(struct device *dev, int on)
+ 
+ static int vcodec_domains_get(struct device *dev)
+ {
++	int ret;
++	struct opp_table *opp_table;
++	struct device **opp_virt_dev;
+ 	struct venus_core *core = dev_get_drvdata(dev);
+ 	const struct venus_resources *res = core->res;
+ 	struct device *pd;
+ 	unsigned int i;
+ 
+ 	if (!res->vcodec_pmdomains_num)
+-		return -ENODEV;
++		goto skip_pmdomains;
+ 
+ 	for (i = 0; i < res->vcodec_pmdomains_num; i++) {
+ 		pd = dev_pm_domain_attach_by_name(dev,
+@@ -763,7 +766,41 @@ static int vcodec_domains_get(struct device *dev)
+ 	if (!core->pd_dl_venus)
+ 		return -ENODEV;
+ 
++skip_pmdomains:
++	if (!res->opp_pmdomain || !core->has_opp_table)
++		return 0;
++
++	/* Attach the power domain for setting performance state */
++	opp_table = dev_pm_opp_attach_genpd(dev, res->opp_pmdomain, &opp_virt_dev);
++	if (IS_ERR(opp_table)) {
++		ret = PTR_ERR(opp_table);
++		goto opp_attach_err;
++	} else if (opp_virt_dev) {
++		core->opp_pmdomain = *opp_virt_dev;
++		core->opp_dl_venus = device_link_add(dev, core->opp_pmdomain,
++						     DL_FLAG_RPM_ACTIVE |
++						     DL_FLAG_PM_RUNTIME |
++						     DL_FLAG_STATELESS);
++		if (!core->opp_dl_venus) {
++			ret = -ENODEV;
++			goto opp_dl_add_err;
++		}
++	}
++
+ 	return 0;
++
++opp_dl_add_err:
++	dev_pm_domain_detach(core->opp_pmdomain, true);
++opp_attach_err:
++	if (core->pd_dl_venus) {
++		device_link_del(core->pd_dl_venus);
++		for (i = 0; i < res->vcodec_pmdomains_num; i++) {
++			if (IS_ERR_OR_NULL(core->pmdomains[i]))
++				continue;
++			dev_pm_domain_detach(core->pmdomains[i], true);
++		}
++	}
++	return ret;
+ }
+ 
+ static void vcodec_domains_put(struct device *dev)
+@@ -773,7 +810,7 @@ static void vcodec_domains_put(struct device *dev)
+ 	unsigned int i;
+ 
+ 	if (!res->vcodec_pmdomains_num)
+-		return;
++		goto skip_pmdomains;
+ 
+ 	if (core->pd_dl_venus)
+ 		device_link_del(core->pd_dl_venus);
+@@ -783,6 +820,15 @@ static void vcodec_domains_put(struct device *dev)
+ 			continue;
+ 		dev_pm_domain_detach(core->pmdomains[i], true);
+ 	}
++
++skip_pmdomains:
++	if (!res->opp_pmdomain)
++		return;
++
++	if (core->opp_dl_venus)
++		device_link_del(core->opp_dl_venus);
++
++	dev_pm_domain_detach(core->opp_pmdomain, true);
+ }
+ 
+ static int core_get_v4(struct device *dev)
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
