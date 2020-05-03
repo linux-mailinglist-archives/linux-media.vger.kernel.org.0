@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F5B21C2AA0
-	for <lists+linux-media@lfdr.de>; Sun,  3 May 2020 09:51:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F7751C2AB5
+	for <lists+linux-media@lfdr.de>; Sun,  3 May 2020 10:16:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727801AbgECHvO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 3 May 2020 03:51:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54538 "EHLO mail.kernel.org"
+        id S1727101AbgECIQ2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 May 2020 04:16:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60910 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727092AbgECHvO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 3 May 2020 03:51:14 -0400
+        id S1726884AbgECIQ1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 3 May 2020 04:16:27 -0400
 Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C5C112078E;
-        Sun,  3 May 2020 07:51:08 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 9C7C320707;
+        Sun,  3 May 2020 08:16:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588492271;
-        bh=gWyIIK/nrdvzERPOtreUHxDjhZ0zdML6J/AYop1NgCU=;
+        s=default; t=1588493786;
+        bh=4WNzWqAYufkXz9Z7j+mxhxeHLbceR83Yjw3n7+wd6EY=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=xq1MDdkX4MouteyNDwEyeh56fEdsLGPWUuBXDVFmlc/OT68i9KxxS5FEzj9Hxs3/X
-         rPGW2Sms55yNPuJDmIm/uUXTnPYvGidRmVaK5kYCgxXzs3daobf4oTt2WCwdujrzuO
-         FqcELYYNyNXsDGbScXB1liCJinQYqzr3suxJJCKM=
-Date:   Sun, 3 May 2020 09:51:05 +0200
+        b=2sJ/ftGdZiZ2SgNm0L4FXN4ewvA831stWtrwqyDg6gBJBJUiq0Y3HB32ruDfoD3Rs
+         kMjHjOusmmBLjfsgtWvReL9jPU3y1UdgDj25GT2fPdk1vzlnHMbHUOUO9jEXia6WrG
+         fU2E/7XPojXRSGVUH/dMhmbHrj7DQrcDEeQ5aOLM=
+Date:   Sun, 3 May 2020 10:16:21 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 Cc:     sean@mess.org, kstewart@linuxfoundation.org, allison@lohutok.net,
@@ -31,11 +31,11 @@ Cc:     sean@mess.org, kstewart@linuxfoundation.org, allison@lohutok.net,
         skhan@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [RFC, WIP, v4 08/11] media: vidtv: implement a PSI generator
-Message-ID: <20200503095105.6b8f0d3f@coco.lan>
-In-Reply-To: <20200502032216.197977-9-dwlsalmeida@gmail.com>
+Subject: Re: [RFC, WIP, v4 09/11] media: vidtv: implement a PES packetizer
+Message-ID: <20200503101621.50047b5c@coco.lan>
+In-Reply-To: <20200502032216.197977-10-dwlsalmeida@gmail.com>
 References: <20200502032216.197977-1-dwlsalmeida@gmail.com>
-        <20200502032216.197977-9-dwlsalmeida@gmail.com>
+        <20200502032216.197977-10-dwlsalmeida@gmail.com>
 X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -45,1623 +45,743 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Sat,  2 May 2020 00:22:13 -0300
+Em Sat,  2 May 2020 00:22:14 -0300
 "Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
 > From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 > 
-> PSI packets contain general information about a MPEG Transport Stream.
-> A PSI generator is needed so userspace apps can retrieve information
-> about the Transport Stream and eventually tune into a (dummy) channel.
-> 
-> Because the generator is implemented in a separate file, it can be
-> reused elsewhere in the media subsystem.
-> 
-> Currently this commit adds support for working with 3 PSI tables:
-> PAT, PMT and SDT.
+> Implement the PES logic to convert encoder data into MPEG TS packets.
+> These TS packets can then be fed into a TS multiplexer and eventually
+> into userspace.
 > 
 > Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 > ---
->  drivers/media/test-drivers/vidtv/Makefile    |    2 +-
->  drivers/media/test-drivers/vidtv/vidtv_psi.c | 1137 ++++++++++++++++++
->  drivers/media/test-drivers/vidtv/vidtv_psi.h |  357 ++++++
->  3 files changed, 1495 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/media/test-drivers/vidtv/vidtv_psi.c
->  create mode 100644 drivers/media/test-drivers/vidtv/vidtv_psi.h
+>  drivers/media/test-drivers/vidtv/Makefile     |   2 +-
+>  .../media/test-drivers/vidtv/vidtv_common.c   |   7 +
+>  .../media/test-drivers/vidtv/vidtv_common.h   |   2 +
+>  drivers/media/test-drivers/vidtv/vidtv_pes.c  | 429 ++++++++++++++++++
+>  drivers/media/test-drivers/vidtv/vidtv_pes.h  | 185 ++++++++
+>  5 files changed, 624 insertions(+), 1 deletion(-)
+>  create mode 100644 drivers/media/test-drivers/vidtv/vidtv_pes.c
+>  create mode 100644 drivers/media/test-drivers/vidtv/vidtv_pes.h
 > 
 > diff --git a/drivers/media/test-drivers/vidtv/Makefile b/drivers/media/test-drivers/vidtv/Makefile
-> index 92001bc348615..e4f744aa53136 100644
+> index e4f744aa53136..e3a6540f50e87 100644
 > --- a/drivers/media/test-drivers/vidtv/Makefile
 > +++ b/drivers/media/test-drivers/vidtv/Makefile
 > @@ -1,6 +1,6 @@
 >  # SPDX-License-Identifier: GPL-2.0
 >  
 >  vidtv_demod-objs := vidtv_common.o
-> -vidtv_bridge-objs := vidtv_common.o vidtv_ts.o
-> +vidtv_bridge-objs := vidtv_common.o vidtv_ts.o vidtv_psi.o
+> -vidtv_bridge-objs := vidtv_common.o vidtv_ts.o vidtv_psi.o
+> +vidtv_bridge-objs := vidtv_common.o vidtv_ts.o vidtv_psi.o vidtv_pes.o
 >  
 >  obj-$(CONFIG_DVB_VIDTV)	+= vidtv_tuner.o vidtv_demod.o vidtv_bridge.o
-> diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c b/drivers/media/test-drivers/vidtv/vidtv_psi.c
+> diff --git a/drivers/media/test-drivers/vidtv/vidtv_common.c b/drivers/media/test-drivers/vidtv/vidtv_common.c
+> index 28f10630499a9..b1412b497e1e3 100644
+> --- a/drivers/media/test-drivers/vidtv/vidtv_common.c
+> +++ b/drivers/media/test-drivers/vidtv/vidtv_common.c
+> @@ -42,3 +42,10 @@ u32 vidtv_memset(void *to,
+>  	memset(to, c, len);
+>  	return len;
+>  }
+> +
+> +u64 vidtv_extract_bits(u64 value, u8 start_bit, u8 nbits)
+> +{
+> +	u64  mask = ((1 << nbits) - 1) << start_bit;
+> +
+> +	return value & mask;
+> +}
+
+
+There are macros already for it, like:
+
+	include/linux/bits.h:#define BIT_MASK(nr)		(UL(1) << ((nr) % BITS_PER_LONG))
+
+So, please stick with the existing code there, as defining driver-specific
+stuff like that is usually painful and may lead into errors.
+
+(Btw, your "mask" definition doesn't work with u64)
+
+> diff --git a/drivers/media/test-drivers/vidtv/vidtv_common.h b/drivers/media/test-drivers/vidtv/vidtv_common.h
+> index 64072c010dc66..3b68f95c5f6c8 100644
+> --- a/drivers/media/test-drivers/vidtv/vidtv_common.h
+> +++ b/drivers/media/test-drivers/vidtv/vidtv_common.h
+> @@ -25,4 +25,6 @@ u32 vidtv_memset(void *to,
+>  		 u32 offset,
+>  		 u32 buf_sz);
+>  
+> +u64 vidtv_extract_bits(u64 value, u8 start_bit, u8 nbits);
+> +
+>  #endif // VIDTV_COMMON_H
+> diff --git a/drivers/media/test-drivers/vidtv/vidtv_pes.c b/drivers/media/test-drivers/vidtv/vidtv_pes.c
 > new file mode 100644
-> index 0000000000000..191d37a248923
+> index 0000000000000..bc631bac07778
 > --- /dev/null
-> +++ b/drivers/media/test-drivers/vidtv/vidtv_psi.c
-> @@ -0,0 +1,1137 @@
+> +++ b/drivers/media/test-drivers/vidtv/vidtv_pes.c
+> @@ -0,0 +1,429 @@
 > +// SPDX-License-Identifier: GPL-2.0
 > +/*
-> + * This file contains the logic to work with MPEG Program-Specific Information.
-> + * These are defined both in ISO/IEC 13818-1 (systems) and ETSI EN 300 468.
-> + * PSI is carried in the form of table structures, and although each table might
-> + * technically be broken into one or more sections, we do not do this here,
-> + * hence 'table' and 'section' are interchangeable for us.
+> + * Vidtv serves as a reference DVB driver and helps validate the existing APIs
+> + * in the media subsystem. It can also aid developers working on userspace
+> + * applications.
 > + *
-> + * This code currently supports three tables: PAT, PMT and SDT. These are the
-> + * bare minimum to get userspace to recognize our MPEG transport stream. It can
-> + * be extended to support more PSI tables in the future.
+> + * This file contains the logic to translate the ES data for one access unit
+> + * from an encoder into MPEG TS packets. It does so by first encapsulating it
+> + * with a PES header and then splitting it into TS packets.
 > + *
-> + * A note on endianness: MPEG layout is big-endian, therefore:
-> + * - All fields spanning more than a byte must undergo 'cpu_to_beXX()' before
-> + * serialization. These convertions are done in the *_write_into() functions.
-> + *
-> + * - All byte sized bitfields must have their ordering reversed if
-> + *  __LITTLE_ENDIAN_BITFIELD is defined.
-> + *
-> + * Written by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> + * Written by Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 > + */
 > +
-> +#include <linux/kernel.h>
 > +#include <linux/types.h>
-> +#include <linux/slab.h>
-> +#include <linux/crc32.h>
-> +#include <linux/string.h>
 > +#include <linux/printk.h>
-> +
-> +#include "vidtv_psi.h"
+> +#include "vidtv_pes.h"
 > +#include "vidtv_common.h"
 > +#include "vidtv_ts.h"
 > +
-> +#define CRC_SIZE_IN_BYTES 4
+> +#define PRIVATE_STREAM_1_ID 0xbd /* private_stream_1. See SMPTE 302M-2007 p.6 */
+> +#define PES_HEADER_MAX_STUFFING_BYTES 32
+> +#define PES_TS_HEADER_MAX_STUFFING_BYTES 182
 > +
-> +static u32 vidtv_psi_ts_psi_write_stuffing(void *to,
-> +					   u32 len,
-> +					   u32 offset,
-> +					   u32 buf_sz)
+> +static u32 vidtv_pes_op_get_regular_len(bool send_pts, bool send_dts)
 > +{
-> +	return vidtv_memset(to, 0xff, len, offset, buf_sz);
+> +	u32 len = 0;
+> +
+> +	/* the flags must always be sent */
+> +	len += sizeof(struct vidtv_pes_optional);
+> +
+> +	/* From all optionals, we might send these for now */
+> +	if (send_pts && send_dts)
+> +		len += sizeof(struct vidtv_pes_optional_pts_dts);
+> +	else if (send_pts)
+> +		len += sizeof(struct vidtv_pes_optional_pts);
+> +
+> +	return len;
 > +}
-
-Instead, add thid define:
-
-	#define TS_FILL_BYTE 0xff
-
-And just use vidtv_memset() when needed.
-
-
-
 > +
-> +static u32
-> +vidtv_psi_ts_psi_write_into(struct psi_write_args args)
+> +static u32 vidtv_pes_h_get_regular_len(bool send_pts, bool send_dts)
+> +{
+> +	/* PES header length notwithstanding stuffing bytes */
+> +	u32 len = 0;
+> +
+> +	len += sizeof(struct vidtv_mpeg_pes);
+> +	len += vidtv_pes_op_get_regular_len(send_pts, send_dts);
+> +
+> +	return len;
+> +}
+> +
+> +static u32 vidtv_pes_write_header_stuffing(struct vidtv_mpeg_pes *pes_h,
+> +					   struct pes_header_write_args args)
 > +{
 > +	/*
-> +	 * Packetize PSI sections into TS packets:
-> +	 * push a TS header (4bytes) every 184 bytes
-> +	 * manage the continuity_counter
-> +	 * add stuffing after the CRC
+> +	 * This is a fixed 8-bit value equal to '1111 1111' that can be inserted
+> +	 * by the encoder, for example to meet the requirements of the channel.
+> +	 * It is discarded by the decoder. No more than 32 stuffing bytes shall
+> +	 * be present in one PES packet header.
 > +	 */
 > +
-> +	u32  nbytes_past_boundary = (args.dest_offset % TS_PACKET_LEN);
-> +	bool aligned              = nbytes_past_boundary == 0;
-> +
-> +	/*
-> +	 * whether we need to fragment the data into multiple ts packets
-> +	 * if we are aligned we need to spare one byte for the pointer_field
-> +	 */
-> +	bool split = (aligned) ?
-> +		     args.len > TS_PAYLOAD_LEN - 1 :
-> +		     nbytes_past_boundary + args.len > TS_PACKET_LEN;
-> +
-> +	/* how much we can write in this packet */
-> +	u32 payload_write_len = (split) ?
-> +				(aligned)     ? TS_PAYLOAD_LEN       :
-> +				TS_PACKET_LEN - nbytes_past_boundary :
-> +				args.len;
-> +
-> +	struct psi_write_args new_args = {0};
-> +	struct vidtv_mpeg_ts ts_header = {0};
-> +
-> +	u32 nbytes = 0;  /* number of bytes written by this function */
-> +	u32 temp   = 0;
-> +
-> +	/* Just a sanity check, should not really happen because we stuff
-> +	 * the packet when we finish a section, i.e. when we write the crc at
-> +	 * the end. But if this happens then we have messed up the logic
-> +	 * somewhere.
-> +	 */
-> +	WARN_ON(args.new_psi_section && !aligned);
+> +	WARN_ON(args.n_pes_h_s_bytes > PES_HEADER_MAX_STUFFING_BYTES);
 
-Please use a ratelimited printk instead (here and on all similar cases
-at the TS generator).
+As commented, don't use WARN_ON(). At most, you could use WARN_ON_ONCE(),
+as otherwise, you may end by causing serious performance issues if
+the code starts to produce a flood of warnings at the dmesg.
 
-Also, I think that, on such case, the driver should be filling the
-remaining frame with pad bytes. E. g.:
-
-	/* 
-	 * Assuming that vidtv_memset() args from patch 06/11 were changed 
-	 * according with this prototype: 
-	 */
-	size_t vidtv_memset(void *to, size_t to_offset, size_t to_size,
-			    u8 c, size_t len);
-
-
-	#define TS_FILL_BYTE 0xff
-
-	if (args.new_psi_section && !aligned) {
-		pr_warn_ratelimit("Warning: PSI not aligned. Re-aligning it\n");
-
-		vidtv_memset(args.dest_buf,
-			     args.dest_offset + nbytes_past_boundary,
-			     args.dest_buf_sz,
-			     TS_FILL_BYTE,	
-			     TS_PACKET_LEN - nbytes_past_boundary);
-		args.dest_offset += TS_PACKET_LEN - nbytes_past_boundary;
-		aligned = 1;
-		nbytes_past_boundary = 0;
-	}
+I would use pr_warn_ratelimit() on all such cases.
 
 > +
-> +	if (aligned) {
-> +		/* if at a packet boundary, write a new TS header */
-> +		ts_header.sync_byte          = TS_SYNC_BYTE;
-> +		ts_header.tei                = 0;
-> +		ts_header.payload_start      = 1;
-> +		ts_header.pid                = args.pid;
-> +		ts_header.priority           = 0;
-> +		ts_header.scrambling         = 0;
-> +		ts_header.continuity_counter = *args.continuity_counter;
-> +		ts_header.payload            = 1;
-> +		/* no adaptation field */
-> +		ts_header.adaptation_field = 0;
+> +	if (args.n_pes_h_s_bytes > PES_HEADER_MAX_STUFFING_BYTES)
+> +		args.n_pes_h_s_bytes = PES_HEADER_MAX_STUFFING_BYTES;
 > +
-> +		cpu_to_be16s(&ts_header.bitfield);
+> +	/* gives the length of the remainder of the PES header in bytes */
+> +	pes_h->length += args.n_pes_h_s_bytes;
 > +
-> +		/* copy the header */
-> +		nbytes += vidtv_memcpy(args.dest_buf +
-> +				       args.dest_offset +
-> +				       nbytes,
-> +				       &ts_header,
-> +				       sizeof(ts_header),
-> +				       args.dest_offset + nbytes,
-> +				       args.dest_buf_sz);
+> +	return vidtv_memset(args.dest_buf + args.dest_offset,
+> +			    0xff,
+> +			    args.n_pes_h_s_bytes,
+> +			    args.dest_offset,
+> +			    args.dest_buf_sz);
+> +}
 > +
-> +		be16_to_cpus(&ts_header.bitfield);
+> +static u32 vidtv_pes_write_pts_dts(struct pes_header_write_args args)
+> +{
+> +	u32 nbytes = 0;  /* the number of bytes written by this function */
 > +
-> +		/*
-> +		 * increment the countinuity counter since we have started
-> +		 * a new packet
-> +		 */
-> +		vidtv_ts_inc_cc(args.continuity_counter);
+> +	struct vidtv_pes_optional_pts pts         = {0};
+> +	struct vidtv_pes_optional_pts_dts pts_dts = {0};
+> +	void   *op                                = NULL;
+> +	size_t op_sz                              = 0;
+> +
+> +	if (!args.send_pts && args.send_dts)
+> +		return 0;
+> +
+> +	/* see ISO/IEC 13818-1 : 2000 p. 32 */
+> +
+> +	if (args.send_pts && args.send_dts) {
+> +		cpu_to_be64s(&args.pts);
+> +		cpu_to_be64s(&args.dts);
+> +		pts_dts.three = 0x3;
+> +
+> +		pts_dts.pts1    = vidtv_extract_bits(args.pts, 30, 3);
+> +		pts_dts.marker1 = 0x1;
+> +		pts_dts.pts2    = vidtv_extract_bits(args.pts, 15, 15);
+> +		pts_dts.marker2 = 0x1;
+> +		pts_dts.pts3    = vidtv_extract_bits(args.pts, 0, 15);
+> +		pts_dts.marker3 = 0x1;
+> +
+> +		pts_dts.one = 0x1;
+> +
+> +		pts_dts.dts1    = vidtv_extract_bits(args.dts, 30, 3);
+> +		pts_dts.marker1 = 0x1;
+> +		pts_dts.dts2    = vidtv_extract_bits(args.dts, 15, 15);
+> +		pts_dts.marker2 = 0x1;
+> +		pts_dts.dts3    = vidtv_extract_bits(args.dts, 0, 15);
+> +		pts_dts.marker3 = 0x1;
+> +
+> +		be64_to_cpus(&args.pts);
+> +		be64_to_cpus(&args.dts);
+> +
+> +		op    = &pts_dts;
+> +		op_sz = sizeof(pts_dts);
+> +
+> +	} else if (args.send_pts) {
+> +		cpu_to_be64s(&args.pts);
+> +		pts.two     = 0x2;
+> +		pts.pts1    = vidtv_extract_bits(args.pts, 30, 3);
+> +		pts.marker1 = 0x1;
+> +		pts.pts2    = vidtv_extract_bits(args.pts, 15, 15);
+> +		pts.marker2 = 0x1;
+> +		pts.pts3    = vidtv_extract_bits(args.pts, 0, 15);
+> +		pts.marker3 = 0x1;
+> +		be64_to_cpus(&args.pts);
+> +
+> +		op    = &pts;
+> +		op_sz = sizeof(pts);
 > +	}
 > +
-> +	if (args.new_psi_section) {
-> +		/* write the pointer_field in the first byte of the payload
-> */
-> +		temp = vidtv_memset(args.dest_buf + args.dest_offset +
-> nbytes,
-> +				    0x0,
-> +				    1,
-> +				    args.dest_offset + nbytes,
-> +				    args.dest_buf_sz);
-> +		/* one byte was used by the pointer field*/
-> +		nbytes += temp;
-> +		if (payload_write_len == TS_PAYLOAD_LEN)
-> +			payload_write_len -= temp;
-> +	}
-> +
-> +	/* write as much of the payload as we possibly can */
+> +	/* copy PTS/DTS optional */
 > +	nbytes += vidtv_memcpy(args.dest_buf + args.dest_offset + nbytes,
-> +			       args.from,
-> +			       payload_write_len,
+> +			       op,
+> +			       op_sz,
 > +			       args.dest_offset + nbytes,
 > +			       args.dest_buf_sz);
 > +
-> +	if (split) {
-> +		/* 'payload_write_len' written from a total of 'len' requested*/
-> +		args.len -= payload_write_len;
+> +	return nbytes;
+> +}
+> +
+> +static u32 vidtv_pes_write_h(struct pes_header_write_args args)
+> +{
+> +	u32 nbytes = 0;  /* the number of bytes written by this function */
+> +
+> +	struct vidtv_mpeg_pes pes_header          = {0};
+> +	struct vidtv_pes_optional pes_optional    = {0};
+> +	struct pes_header_write_args pts_dts_args = args;
+> +
+> +	pes_header.packet_start_code_prefix = PES_START_CODE_PREFIX;
+> +
+> +	pes_header.stream_id = (args.is_s302m_pkt) ?
+> +				PRIVATE_STREAM_1_ID :
+> +				args.stream_id;
+> +
+> +	pes_header.length = vidtv_pes_op_get_regular_len(args.send_pts,
+> +							 args.send_dts);
+> +
+> +	pes_optional.two     = 0x2;
+> +
+> +	pes_optional.PTS_DTS = (args.send_pts && args.send_dts) ?
+> +			       0x3 :
+> +			       (args.send_pts) ?
+> +			       0x2 :
+> +			       0x0;
+> +
+> +	/* copy header */
+> +	cpu_to_be32s(&pes_header.bitfield);
+> +	cpu_to_be16s(&pes_header.length);
+> +
+> +	nbytes += vidtv_memcpy(args.dest_buf + args.dest_offset + nbytes,
+> +			       &pes_header,
+> +			       sizeof(pes_header),
+> +			       args.dest_offset + nbytes,
+> +			       args.dest_buf_sz);
+> +
+> +	be32_to_cpus(&pes_header.bitfield);
+> +	be16_to_cpus(&pes_header.length);
+
+I don't like the idea of changing the "from" buffer endiannes, copy
+and then restore it back to the original state. Is this really needed?
+
+I would, instead, define:
+
+	struct pes_header {
+	...
+		__be32 bitfield;
+		__be16 length;
+	...
+	};
+
+Then wherever you would touch them:
+
+	u32 bitfield;
+	u16 len;
+
+	/* Write into BE fields */
+	pes_header.bitfield = cpu_to_be32(bitfield);
+	pes_header.length = cpu_to_be16(len);
+
+	/* Read from BE fields */
+	bitfield = be32_to_cpu(pes_header.bitfield);
+	len = be16_to_cpu(pes_header.length);
+
+
+As a side effect, when you use "__be16" and "__be32" types, gcc
+and smatch/sparse will warn you if you mess with endiannes.
+
+Same applies to similar code elsewhere.
+
+> +
+> +	/* copy optional header */
+> +	cpu_to_be16s(&pes_optional.bitfield);
+> +
+> +	nbytes += vidtv_memcpy(args.dest_buf + args.dest_offset + nbytes,
+> +			       &pes_optional,
+> +			       sizeof(pes_optional),
+> +			       args.dest_offset + nbytes,
+> +			       args.dest_buf_sz);
+> +
+> +	be16_to_cpus(&pes_optional.bitfield);
+> +
+> +	pts_dts_args.dest_offset  = args.dest_offset + nbytes;
+> +	nbytes                   += vidtv_pes_write_pts_dts(pts_dts_args);
+> +
+> +	/* write any PES header stuffing */
+> +	nbytes += vidtv_pes_write_header_stuffing(&pes_header, args);
+> +
+> +	return nbytes;
+> +}
+> +
+> +static u32 vidtv_pes_write_stuffing(struct vidtv_mpeg_ts *ts_h,
+> +				    void *dest_buf,
+> +				    u32 dest_offset,
+> +				    u32 n_stuffing_bytes,
+> +				    u32 buf_sz)
+> +{
+> +	/*
+> +	 * For Transport Stream packets carrying PES packets, stuffing is
+> +	 * needed when there is insufficient PES packet data to completely
+> +	 * fill the Transport Stream packet payload bytes. Stuffing is
+> +	 * accomplished by defining an adaptation field longer than the sum of
+> +	 * the lengths of the data elements in it, so that the payload bytes
+> +	 * remaining after the adaptation field exactly accommodates the
+> +	 * available PES packet data. The extra space in the adaptation field
+> +	 * is filled with stuffing bytes.
+> +	 *
+> +	 */
+> +
+> +	/* the number of bytes written by this function */
+> +	u32    nbytes                         = 0;
+> +	struct vidtv_mpeg_ts_adaption ts_adap = {0};
+> +
+> +	if (!n_stuffing_bytes)
+> +		return nbytes;
+> +
+> +	ts_h->adaptation_field = 1;
+> +
+> +	WARN_ON(n_stuffing_bytes > PES_TS_HEADER_MAX_STUFFING_BYTES);
+> +
+> +	if (n_stuffing_bytes > PES_TS_HEADER_MAX_STUFFING_BYTES)
+> +		n_stuffing_bytes = PES_TS_HEADER_MAX_STUFFING_BYTES;
+> +
+> +	/* the AF will only be its 'length' field with a value of zero */
+> +	if (n_stuffing_bytes == 1) {
+> +		nbytes += vidtv_memset(dest_buf + dest_offset + nbytes,
+> +				       0,
+> +				       n_stuffing_bytes,
+> +				       dest_offset + nbytes,
+> +				       buf_sz);
+> +
+> +		return nbytes;
+> +	}
+> +
+> +	n_stuffing_bytes -= sizeof(ts_adap);
+> +
+> +	/* length _immediately_ following 'adaptation_field_length' */
+> +	ts_adap.length = sizeof(ts_adap) -
+> +			 sizeof(ts_adap.length) +
+> +			 n_stuffing_bytes;
+> +
+> +	/* write the adap after the TS header */
+> +	nbytes += vidtv_memcpy(dest_buf + dest_offset + nbytes,
+> +			       &ts_adap,
+> +			       sizeof(ts_adap),
+> +			       dest_offset + nbytes,
+> +			       buf_sz);
+> +
+> +	/* write the stuffing bytes */
+> +	nbytes += vidtv_memset(dest_buf + dest_offset + nbytes,
+> +			       0xff,
+> +			       n_stuffing_bytes,
+> +			       dest_offset + nbytes,
+> +			       buf_sz);
+> +
+> +	return nbytes;
+> +}
+> +
+> +static u32 vidtv_pes_write_ts_h(struct pes_ts_header_write_args args)
+> +{
+> +	/* number of bytes written by this function */
+> +	u32    nbytes                  = 0;
+> +	struct vidtv_mpeg_ts ts_header = {0};
+> +
+> +	ts_header.sync_byte        = TS_SYNC_BYTE;
+> +	ts_header.tei              = 0;
+> +	ts_header.pid              = args.pid;
+> +	ts_header.priority         = 0;
+> +	ts_header.scrambling       = 0;             /* not scrambled */
+> +	ts_header.adaptation_field = 0;
+> +	ts_header.payload          = 1;
+> +
+> +	ts_header.payload_start      = (!args.wrote_pes_header) ? 1 : 0;
+> +	ts_header.continuity_counter = *args.continuity_counter;
+> +
+> +	vidtv_ts_inc_cc(args.continuity_counter);
+> +
+> +	cpu_to_be16s(&ts_header.bitfield);
+> +
+> +	/* write the TS header */
+> +	nbytes += vidtv_memcpy(args.dest_buf + args.dest_offset + nbytes,
+> +			       &ts_header,
+> +			       sizeof(ts_header),
+> +			       args.dest_offset + nbytes,
+> +			       args.dest_buf_sz);
+> +
+> +	be16_to_cpus(&ts_header.bitfield);
+> +	/* write stuffing, if any */
+> +	nbytes += vidtv_pes_write_stuffing(&ts_header,
+> +					   args.dest_buf,
+> +					   args.dest_offset + nbytes,
+> +					   args.n_stuffing_bytes,
+> +					   args.dest_buf_sz);
+> +
+> +	return nbytes;
+> +}
+> +
+> +u32 vidtv_pes_write_into(struct pes_write_args args)
+> +{
+> +	u32 nbytes_past_boundary = (args.dest_offset % TS_PACKET_LEN);
+> +	bool aligned = (nbytes_past_boundary == 0);
+> +
+> +	struct pes_ts_header_write_args ts_header_args = {0};
+> +	struct pes_header_write_args pes_header_args   = {0};
+> +
+> +	/* number of bytes written by this function */
+> +	u32 nbytes        = 0;
+> +	u32 remaining_len = args.access_unit_len;
+> +
+> +	bool wrote_pes_header = false;
+> +	bool stuff            = false;
+> +
+> +	u32 available_space    = 0;
+> +	u32 payload_write_len  = 0;
+> +	u32 num_stuffing_bytes = 0;
+> +
+> +	/* Just a sanity check, should not really happen because we stuff the
+> +	 * TS packet when we finish writing the PES data, but if this happens
+> +	 * then we have messed up the logic somewhere.
+> +	 *
+> +	 * Also note that, unlike packets for PSI data, we need to carry PES
+> +	 * packets aligned with the payload of transport packets, that is the
+> +	 * first byte of each PES header must be the first byte in the payload
+> +	 * of a transport packet. As a consequence, the last byte of a PES
+> +	 * packet must be the last byte of the payload of a transport packet.
+> +	 */
+> +	WARN_ON(!aligned);
+
+Same note as on a previous patch: if not aligned, you should re-align.
+
+> +
+> +	if (args.send_dts && !args.send_pts) {
+> +		pr_warn("%s: forbidden value '01' for PTS_DTS flags", __func__);
+> +		args.send_pts = true;
+> +		args.pts      = args.dts;
+> +	}
+> +
+> +	/* see SMPTE 302M clause 6.4 */
+> +	if (args.is_s302m_pkt) {
+> +		args.send_dts = false;
+> +		args.send_pts = true;
+> +	}
+> +
+> +	while (remaining_len) {
 > +		/*
-> +		 * recursively write the rest of the data until we do not
-> +		 * need to split it anymore
+> +		 * The amount of space initially available in the TS packet.
+> +		 * if this is the beginning of the PES packet, we need to
+> +		 * take into account the space needed for the TS header _and_
+> +		 * for the PES header
 > +		 */
-> +		memcpy(&new_args, &args, sizeof(struct psi_write_args));
-> +		new_args.from            = args.from + payload_write_len;
-> +		new_args.dest_offset     = args.dest_offset + nbytes;
-> +		new_args.new_psi_section = false;
-> +
-> +		nbytes += vidtv_psi_ts_psi_write_into(new_args);
-> +	}
-> +
-> +	/*
-> +	 * as the CRC is last in the section, stuff the rest of the
-> +	 * packet if there is any remaining space in there
-> +	 */
-> +	if (args.is_crc)
-> +		nbytes += vidtv_psi_ts_psi_write_stuffing(args.dest_buf +
-> +							  args.dest_offset +
-> +							  nbytes,
-> +							  TS_PACKET_LEN -
-> +							  payload_write_len,
-> +							  args.dest_offset +
-> +							  nbytes,
-> +							  args.dest_buf_sz);
-> +
-> +	return nbytes;
-> +}
-> +
-> +static u32 table_section_crc32_write_into(struct crc32_write_args args)
-> +{
-> +	/* the CRC is the last entry in the section */
-> +	u32 nbytes = 0;
-> +	u32 crc;
-> +	struct psi_write_args psi_args = {0};
-> +
-> +	crc = crc32_be(0, args.dest_buf, args.dest_offset);
-> +
-> +	psi_args.dest_buf           = args.dest_buf;
-> +	psi_args.from               = &crc;
-> +	psi_args.len                = CRC_SIZE_IN_BYTES;
-> +	psi_args.dest_offset        = args.dest_offset;
-> +	psi_args.pid                = args.pid;
-> +	psi_args.new_psi_section    = false;
-> +	psi_args.continuity_counter = args.continuity_counter;
-> +	psi_args.is_crc             = true;
-> +	psi_args.dest_buf_sz        = args.dest_buf_sz;
-> +
-> +	cpu_to_be32s(&crc);
-> +	nbytes += vidtv_psi_ts_psi_write_into(psi_args);
-> +	be32_to_cpus(&crc);
-> +
-> +	return nbytes;
-> +}
-> +
-> +struct vidtv_psi_desc *vidtv_psi_desc_init(struct vidtv_psi_desc *head,
-> +					   u8 type,
-> +					   u8 length)
-> +{
-> +	struct vidtv_psi_desc *desc;
-> +
-> +	/* alloc enough memory for the flexible array too */
-> +	desc = kzalloc(sizeof(*desc) + length, GFP_KERNEL);
-> +
-> +	desc->type   = type;
-> +	desc->length = length;
-> +
-> +	if (head) {
-> +		while (head->next)
-> +			head = head->next;
-> +
-> +		head->next = desc;
-> +	}
-> +
-> +	return desc;
-> +}
-> +
-> +void vidtv_psi_desc_destroy(struct vidtv_psi_desc *desc)
-> +{
-> +	struct vidtv_psi_desc *curr = desc;
-> +	struct vidtv_psi_desc *tmp  = NULL;
-> +
-> +	while (curr) {
-> +		tmp  = curr;
-> +		curr = curr->next;
-> +		kfree(tmp);
-> +	}
-> +}
-> +
-> +static u32
-> +vidtv_psi_desc_comp_len(struct vidtv_psi_desc *desc)
-> +{
-> +	u32 length = 0;
-> +
-> +	if (!desc)
-> +		return 0;
-> +
-> +	while (desc) {
-> +		length += desc->length;
-> +		desc    = desc->next;
-> +	}
-> +
-> +	return length;
-> +}
-> +
-> +void vidtv_psi_desc_assign(struct vidtv_psi_desc **to,
-> +			   struct vidtv_psi_desc *desc)
-> +{
-> +	/*
-> +	 * Caller must recompute the section length afterwards at some point
-> +	 * This function transfers ownedship of desc.
-> +	 * Start by cleaning the old data
-> +	 */
-> +	if (*to)
-> +		vidtv_psi_desc_destroy(*to);
-> +
-> +	*to = desc;  /* reassign pointer */
-> +}
-> +
-> +static void vidtv_psi_desc_to_be(struct vidtv_psi_desc *desc)
-> +{
-> +	/*
-> +	 * Convert descriptor endianness to big-endian on a field-by-field
-> basis
-> +	 * where applicable
-> +	 */
-> +
-> +	switch (desc->type) {
-> +	/* nothing do do */
-> +	case SERVICE_DESCRIPTOR:
-> +		break;
-> +	case REGISTRATION_DESCRIPTOR:
-> +		cpu_to_be32s(&((struct vidtv_psi_desc_registration *)
-> +			     desc)->format_identifier);
-> +		pr_alert("%s: descriptor type %d found\n",
-> +			 __func__,
-> +			 desc->type);
-> +		pr_alert("%s: change 'additional_info' endianness before
-> calling\n",
-> +			 __func__);
-
-The above pr_alert() calls sound weird. Why are you unconditionally
-calling it (and still doing the BE conversion) for all
-REGISTRATION_DESCRIPTOR types?
-
-> +		break;
-> +	default:
-> +		pr_err("%s: descriptor type %d not implemented, skipping\n",
-> +		       __func__,
-> +		       desc->type);
-
-please use pr_*_ratelimited() everywhere, as otherwise the driver
-could cause Kernel to be too slow if something bad happens.
-
-> +		break;
-> +	}
-> +}
-> +
-> +static void vidtv_psi_desc_to_cpu(struct vidtv_psi_desc *desc)
-> +{
-> +	/*
-> +	 * Convert descriptor endianness to native on a field-by-field basis
-> +	 * where applicable
-> +	 */
-> +
-> +	switch (desc->type) {
-> +	/* nothing do do */
-> +	case SERVICE_DESCRIPTOR:
-> +		break;
-> +	case REGISTRATION_DESCRIPTOR:
-> +		be32_to_cpus(&((struct vidtv_psi_desc_registration *)
-> +			     desc)->format_identifier);
-> +		pr_alert("%s: descriptor type %d found\n",
-> +			 __func__,
-> +			 desc->type);
-> +		pr_alert("%s: change 'additional_info' endianness before
-> calling\n",
-> +			 __func__);
-
-The above pr_alert() calls sound weird.
-
-> +		break;
-> +	default:
-> +		pr_err("%s: descriptor type %d not implemented, skipping\n",
-> +		       __func__,
-> +		       desc->type);
-> +		break;
-> +	}
-> +}
-> +
-> +static u32 vidtv_psi_desc_write_into(struct desc_write_args args)
-> +{
-> +	/* the number of bytes written by this function */
-> +	u32    nbytes                  = 0;
-> +	struct psi_write_args psi_args = {0};
-> +
-> +	psi_args.dest_buf = args.dest_buf;
-> +	psi_args.from     = args.desc;
-> +
-> +	psi_args.len      = sizeof_field(struct vidtv_psi_desc, type) +
-> +			    sizeof_field(struct vidtv_psi_desc, length);
-> +
-> +	psi_args.dest_offset        = args.dest_offset;
-> +	psi_args.pid                = args.pid;
-> +	psi_args.new_psi_section    = false;
-> +	psi_args.continuity_counter = args.continuity_counter;
-> +	psi_args.is_crc             = false;
-> +	psi_args.dest_buf_sz        = args.dest_buf_sz;
-> +
-> +	vidtv_psi_desc_to_be(args.desc);
-> +
-> +	nbytes += vidtv_psi_ts_psi_write_into(psi_args);
-> +
-> +	/* move 'from' pointer to point to u8 data[] */
-> +	psi_args.from = args.desc +
-> +			sizeof_field(struct vidtv_psi_desc, type) +
-> +			sizeof_field(struct vidtv_psi_desc, length) +
-> +			sizeof(struct vidtv_psi_desc *);
-> +
-> +	psi_args.len         = args.desc->length;
-> +	psi_args.dest_offset = args.dest_offset + nbytes;
-> +
-> +	nbytes += vidtv_psi_ts_psi_write_into(psi_args);
-> +
-> +	vidtv_psi_desc_to_cpu(args.desc);
-> +
-> +	return nbytes;
-> +}
-> +
-> +static u32
-> +vidtv_psi_table_header_write_into(struct header_write_args args)
-> +{
-> +	/* the number of bytes written by this function */
-> +	u32    nbytes                  = 0;
-> +	struct psi_write_args psi_args = {0};
-> +
-> +	psi_args.dest_buf           = args.dest_buf;
-> +	psi_args.from               = args.h;
-> +	psi_args.len                = sizeof(struct vidtv_psi_table_header);
-> +	psi_args.dest_offset        = args.dest_offset;
-> +	psi_args.pid                = args.pid;
-> +	psi_args.new_psi_section    = true;
-> +	psi_args.continuity_counter = args.continuity_counter;
-> +	psi_args.is_crc             = false;
-> +	psi_args.dest_buf_sz        = args.dest_buf_sz;
-> +
-> +	cpu_to_be16s(&args.h->bitfield);
-> +	cpu_to_be16s(&args.h->id);
-> +
-> +	nbytes += vidtv_psi_ts_psi_write_into(psi_args);
-> +
-> +	be16_to_cpus(&args.h->bitfield);
-> +	be16_to_cpus(&args.h->id);
-> +
-> +	return nbytes;
-> +}
-> +
-> +void
-> +vidtv_psi_pat_table_comp_sec_len(struct vidtv_psi_table_pat *pat)
-> +{
-> +	/* see ISO/IEC 13818-1 : 2000 p.43 */
-> +	u16 length = 0;
-> +	u32 i;
-> +
-> +	/* from immediately after 'section_length' until
-> 'last_section_number'*/
-> +	length += PAT_LEN_UNTIL_LAST_SECTION_NUMBER;
-> +
-> +	/* do not count the pointer */
-> +	for (i = 0; i < pat->programs; ++i)
-> +		length += sizeof(struct vidtv_psi_table_pat_program) -
-> +			  sizeof(struct vidtv_psi_table_pat_program *);
-> +
-> +	length += CRC_SIZE_IN_BYTES;
-> +
-> +	WARN_ON(length > MAX_SECTION_LEN);
-
-Please get rid of all WARN_ON, in favor of pr_*_ratelimited() calls.
-
-> +	pat->header.section_length = length;
-> +}
-> +
-> +void vidtv_psi_pmt_table_comp_sec_len(struct vidtv_psi_table_pmt *pmt)
-> +{
-> +	/* see ISO/IEC 13818-1 : 2000 p.46 */
-> +	u16    length                        = 0;
-> +	struct vidtv_psi_table_pmt_stream *s = pmt->stream;
-> +
-> +	/* from immediately after 'section_length' until
-> 'program_info_length'*/
-> +	length += PMT_LEN_UNTIL_PROGRAM_INFO_LENGTH;
-> +
-> +	pmt->desc_length  = vidtv_psi_desc_comp_len(pmt->descriptor);
-> +	length           += pmt->desc_length;
-> +
-> +	while (s) {
-> +		/* skip both pointers at the end */
-> +		length += sizeof(struct vidtv_psi_table_pmt_stream) -
-> +			  sizeof(struct vidtv_psi_desc *) -
-> +			  sizeof(struct vidtv_psi_table_pmt_stream *);
-> +
-> +		s->desc_length  = vidtv_psi_desc_comp_len(s->descriptor);
-> +		length         += s->desc_length;
-> +
-> +		s = s->next;
-> +	}
-> +
-> +	length += CRC_SIZE_IN_BYTES;
-> +
-> +	WARN_ON(length > MAX_SECTION_LEN);
-> +	pmt->header.section_length = length;
-> +}
-> +
-> +void vidtv_psi_sdt_table_comp_sec_len(struct vidtv_psi_table_sdt *sdt)
-> +{
-> +	/* see ETSI EN 300 468 V 1.10.1 p.24 */
-> +	u16    length                         = 0;
-> +	struct vidtv_psi_table_sdt_service *s = sdt->service;
-> +
-> +	/*
-> +	 * from immediately after 'section_length' until
-> +	 * 'reserved_for_future_use'
-> +	 */
-> +	length += SDT_LEN_UNTIL_RESERVED_FOR_FUTURE_USE;
-> +
-> +	while (s) {
-> +		/* skip both pointers at the end */
-> +		length += sizeof(struct vidtv_psi_table_sdt_service) -
-> +			  sizeof(struct vidtv_psi_desc *) -
-> +			  sizeof(struct vidtv_psi_table_sdt_service *);
-> +
-> +		s->desc_length  = vidtv_psi_desc_comp_len(s->descriptor);
-> +		length         += s->desc_length;
-> +
-> +		s = s->next;
-> +	}
-> +
-> +	length += CRC_SIZE_IN_BYTES;
-> +
-> +	WARN_ON(length > MAX_SECTION_LEN);
-> +	sdt->header.section_length = length;
-> +}
-> +
-> +struct vidtv_psi_table_pat_program*
-> +vidtv_psi_pat_program_init(struct vidtv_psi_table_pat_program *head,
-> +			   u16 service_id,
-> +			   u16 pid)
-> +{
-> +	/*
-> +	 * if 'head' is attached to a table, caller should recompute
-> +	 * the section length afterwards at some point
-> +	 */
-> +	struct vidtv_psi_table_pat_program *program;
-> +
-> +	program = kzalloc(sizeof(*program), GFP_KERNEL);
-> +
-> +	program->service_id = service_id;
-> +	/* pid for the PMT section in the TS */
-> +	program->pid        = pid;
-> +	program->next       = NULL;
-> +	program->reserved   = 0x7;
-> +
-> +	if (head) {
-> +		while (head->next)
-> +			head = head->next;
-> +
-> +		head->next = program;
-> +	}
-> +
-> +	return program;
-> +}
-> +
-> +void
-> +vidtv_psi_pat_program_destroy(struct vidtv_psi_table_pat_program *p)
-> +{
-> +	struct vidtv_psi_table_pat_program *curr = p;
-> +	struct vidtv_psi_table_pat_program *tmp  = NULL;
-> +
-> +	while (curr) {
-> +		tmp  = curr;
-> +		curr = curr->next;
-> +		kfree(tmp);
-> +	}
-> +}
-> +
-> +void
-> +vidtv_psi_pat_program_assign(struct vidtv_psi_table_pat *pat,
-> +			     struct vidtv_psi_table_pat_program *p)
-> +{
-> +	/* This function transfers ownership of p to the table */
-> +
-> +	u16    program_count                        = 0;
-> +	struct vidtv_psi_table_pat_program *program = p;
-> +	struct vidtv_psi_table_pat_program *temp    = pat->program;
-> +
-> +	while (program) {
-> +		++program_count;
-> +		program = program->next;
-> +	}
-> +
-> +	pat->programs = program_count;
-> +	pat->program  = p;
-> +
-> +	/* Recompute section length */
-> +	vidtv_psi_pat_table_comp_sec_len(pat);
-> +
-> +	/* reassign if the new size is too big */
-> +	if (pat->header.section_length > MAX_SECTION_LEN)
-> +		vidtv_psi_pat_program_assign(pat, temp);
-> +	else
-> +		vidtv_psi_pat_program_destroy(temp);
-> +}
-> +
-> +void vidtv_psi_pat_table_init(struct vidtv_psi_table_pat *pat,
-> +			      bool update_version_num,
-> +			      u16 transport_stream_id)
-> +{
-> +	static u8 pat_version;
-> +
-> +	pat->header.table_id = 0x0;
-> +	pat->header.syntax   = 0x1;
-> +	pat->header.zero     = 0x0;
-> +	pat->header.one      = 0x03;
-> +
-> +	/* transport stream ID, at will */
-> +	pat->header.id           = transport_stream_id;
-> +	pat->header.current_next = 0x1;
-> +
-> +	/* ETSI 300 468: indicates changes in the TS described by this
-> table*/
-> +	if (update_version_num)
-> +		++pat_version;
-> +
-> +	pat->header.version = pat_version;
-> +
-> +	pat->header.one2         = 0x03;
-> +	pat->header.section_id   = 0x0;
-> +	pat->header.last_section = 0x0;
-> +
-> +	pat->programs = 0;
-> +
-> +	vidtv_psi_pat_table_comp_sec_len(pat);
-> +}
-> +
-> +u32 vidtv_psi_pat_write_into(char *buf,
-> +			     u32 offset,
-> +			     struct vidtv_psi_table_pat *pat,
-> +			     u32 buf_sz,
-> +			     u8 *continuity_counter)
-> +{
-> +	/* the number of bytes written by this function */
-> +	u32   nbytes      = 0;
-> +	const u16 pat_pid = VIDTV_PAT_PID;
-> +
-> +	struct vidtv_psi_table_pat_program *p = pat->program;
-> +	struct header_write_args h_args       = {0};
-> +	struct psi_write_args args            = {0};
-> +	struct crc32_write_args c_args        = {0};
-> +
-> +	vidtv_psi_pat_table_comp_sec_len(pat);
-> +
-> +	h_args.dest_buf           = buf;
-> +	h_args.dest_offset        = offset;
-> +	h_args.h                  = &pat->header;
-> +	h_args.pid                = pat_pid;
-> +	h_args.continuity_counter = continuity_counter;
-> +	h_args.dest_buf_sz        = buf_sz;
-> +
-> +	nbytes += vidtv_psi_table_header_write_into(h_args);
-> +
-> +	/* note that the field 'u16 programs' is not really part of the PAT
-> */ +
-> +	args.dest_buf           = buf;
-> +	args.pid                = pat_pid;
-> +	args.new_psi_section    = false;
-> +	args.continuity_counter = continuity_counter;
-> +	args.is_crc             = false;
-> +	args.dest_buf_sz        = buf_sz;
-> +
-> +	while (p) {
-> +		/* copy the PAT programs */
-> +		cpu_to_be16s(&p->service_id);
-> +		cpu_to_be16s(&p->bitfield);
-> +
-> +		args.from = p;
-> +		/* skip the pointer */
-> +		args.len = sizeof(*p) -
-> +			   sizeof(struct vidtv_psi_table_pat_program *);
-> +		args.dest_offset = offset + nbytes;
-> +
-> +		nbytes += vidtv_psi_ts_psi_write_into(args);
-> +
-> +		be16_to_cpus(&p->service_id);
-> +		be16_to_cpus(&p->bitfield);
-> +
-> +		p = p->next;
-> +	}
-> +
-> +	c_args.dest_buf           = buf;
-> +	c_args.dest_offset        = offset + nbytes;
-> +	c_args.pid                = pat_pid;
-> +	c_args.continuity_counter = continuity_counter;
-> +	c_args.dest_buf_sz        = buf_sz;
-> +
-> +	nbytes += table_section_crc32_write_into(c_args);
-> +
-> +	return nbytes;
-> +}
-> +
-> +void
-> +vidtv_psi_pat_table_destroy(struct vidtv_psi_table_pat *p)
-> +{
-> +	vidtv_psi_pat_program_destroy(p->program);
-> +}
-> +
-> +struct vidtv_psi_table_pmt_stream*
-> +vidtv_psi_pmt_stream_init(struct vidtv_psi_table_pmt_stream *head,
-> +			  enum vidtv_psi_stream_types stream_type,
-> +			  u16 es_pid)
-> +{
-> +	struct vidtv_psi_table_pmt_stream *stream;
-> +
-> +	stream = kzalloc(sizeof(*stream), GFP_KERNEL);
-> +
-> +	stream->type           = stream_type;
-> +	stream->elementary_pid = es_pid;
-> +	stream->reserved       = 0x07;
-> +
-> +	stream->desc_length = vidtv_psi_desc_comp_len(stream->descriptor);
-> +
-> +	stream->zero      = 0x0;
-> +	stream->reserved2 = 0x0f;
-> +
-> +	if (head) {
-> +		while (head->next)
-> +			head = head->next;
-> +
-> +		head->next = stream;
-> +	}
-> +
-> +	return stream;
-> +}
-> +
-> +void vidtv_psi_pmt_stream_destroy(struct vidtv_psi_table_pmt_stream *s)
-> +{
-> +	struct vidtv_psi_table_pmt_stream *curr_stream = s;
-> +	struct vidtv_psi_table_pmt_stream *tmp_stream  = NULL;
-> +
-> +	while (curr_stream) {
-> +		tmp_stream  = curr_stream;
-> +		curr_stream = curr_stream->next;
-> +		kfree(tmp_stream);
-> +	}
-> +}
-> +
-> +void vidtv_psi_pmt_stream_assign(struct vidtv_psi_table_pmt *pmt,
-> +				 struct vidtv_psi_table_pmt_stream *s)
-> +{
-> +	/* This function transfers ownership of s to the table */
-> +	struct vidtv_psi_table_pmt_stream *stream = s;
-> +	struct vidtv_psi_desc *desc               = s->descriptor;
-> +	struct vidtv_psi_table_pmt_stream *temp   = pmt->stream;
-> +
-> +	while (stream)
-> +		stream = stream->next;
-> +
-> +	while (desc)
-> +		desc = desc->next;
-> +
-> +	pmt->stream = s;
-> +	/* Recompute section length */
-> +	vidtv_psi_pmt_table_comp_sec_len(pmt);
-> +
-> +	/* reassign if the new size is too big */
-> +	if (pmt->header.section_length > MAX_SECTION_LEN)
-> +		vidtv_psi_pmt_stream_assign(pmt, temp);
-> +	else
-> +		vidtv_psi_pmt_stream_destroy(temp);
-> +}
-> +
-> +u16 vidtv_psi_pmt_get_pid(struct vidtv_psi_table_pmt *section,
-> +			  struct vidtv_psi_table_pat *pat)
-> +{
-> +	struct vidtv_psi_table_pat_program *program = pat->program;
-> +
-> +	/*
-> +	 * service_id is the same as program_number in the
-> +	 * corresponding program_map_section
-> +	 * see ETSI EN 300 468 v1.15.1 p. 24
-> +	 */
-> +	while (program) {
-> +		if (program->service_id == section->header.id)
-> +			return pat->program->pid;
-> +
-> +		program = program->next;
-> +	}
-> +
-> +	return TS_LAST_VALID_PID + 1; /* not found */
-> +}
-> +
-> +void vidtv_psi_pmt_table_init(struct vidtv_psi_table_pmt *pmt,
-> +			      bool update_version_num,
-> +			      u16 program_number,
-> +			      u16 pcr_pid)
-> +{
-> +	static u8 pmt_version;
-> +
-> +	pmt->header.table_id = 0x2;
-> +	pmt->header.syntax   = 0x1;
-> +	pmt->header.zero     = 0x0;
-> +	pmt->header.one      = 0x3;
-> +
-> +	pmt->header.id           = program_number;
-> +	pmt->header.current_next = 0x1;
-> +
-> +	/* ETSI 300 468: indicates changes in the TS described by this
-> table*/
-> +	if (update_version_num)
-> +		++pmt_version;
-> +
-> +	pmt->header.version = pmt_version;
-> +
-> +	pmt->header.one2         = 0x3;
-> +	pmt->header.section_id   = 0;
-> +	pmt->header.last_section = 0;
-> +
-> +	pmt->pcr_pid   = (pcr_pid) ? pcr_pid : 0x1fff;
-> +	pmt->reserved2 = 0x03;
-> +
-> +	pmt->reserved3 = 0x0f;
-> +	pmt->zero3     = 0x0;
-> +
-> +	pmt->desc_length = vidtv_psi_desc_comp_len(pmt->descriptor);
-> +
-> +	vidtv_psi_pmt_table_comp_sec_len(pmt);
-> +}
-> +
-> +u32 vidtv_psi_pmt_write_into(char *buf,
-> +			     u32 offset,
-> +			     struct vidtv_psi_table_pmt *pmt,
-> +			     u16 pid,
-> +			     u32 buf_sz,
-> +			     u8 *continuity_counter)
-> +{
-> +	/* the number of bytes written by this function */
-> +	u32    nbytes                             = 0;
-> +	struct vidtv_psi_desc *table_descriptor   = pmt->descriptor;
-> +	struct vidtv_psi_table_pmt_stream *stream = pmt->stream;
-> +	struct vidtv_psi_desc *stream_descriptor  = (stream) ?
-> +						    pmt->stream->descriptor :
-> +						    NULL;
-> +
-> +	struct header_write_args h_args = {0};
-> +	struct psi_write_args args      = {0};
-> +	struct desc_write_args d_args   = {0};
-> +	struct crc32_write_args c_args  = {0};
-> +
-> +	vidtv_psi_pmt_table_comp_sec_len(pmt);
-> +
-> +	h_args.dest_buf           = buf;
-> +	h_args.dest_offset        = offset;
-> +	h_args.h                  = &pmt->header;
-> +	h_args.pid                = pid;
-> +	h_args.continuity_counter = continuity_counter;
-> +	h_args.dest_buf_sz        = buf_sz;
-> +
-> +	nbytes += vidtv_psi_table_header_write_into(h_args);
-> +
-> +	/* write the two bitfields */
-> +	cpu_to_be16s(&pmt->bitfield);
-> +	cpu_to_be16s(&pmt->bitfield2);
-> +
-> +	args.dest_buf = buf;
-> +	args.from     = pmt + sizeof(struct vidtv_psi_table_header);
-> +	args.len      = sizeof_field(struct vidtv_psi_table_pmt, bitfield) +
-> +			sizeof_field(struct vidtv_psi_table_pmt, bitfield2);
-> +	args.dest_offset        = offset + nbytes;
-> +	args.pid                = pid;
-> +	args.new_psi_section    = false;
-> +	args.continuity_counter = continuity_counter;
-> +	args.is_crc             = false;
-> +	args.dest_buf_sz        = buf_sz;
-> +
-> +	nbytes += vidtv_psi_ts_psi_write_into(args);
-> +
-> +	be16_to_cpus(&pmt->bitfield);
-> +	be16_to_cpus(&pmt->bitfield2);
-> +
-> +	while (table_descriptor) {
-> +		/* write the descriptors, if any */
-> +		d_args.dest_buf           = buf;
-> +		d_args.dest_offset        = offset + nbytes;
-> +		d_args.desc               = table_descriptor;
-> +		d_args.pid                = pid;
-> +		d_args.continuity_counter = continuity_counter;
-> +		d_args.dest_buf_sz        = buf_sz;
-> +
-> +		vidtv_psi_desc_to_be(d_args.desc);
-> +		nbytes += vidtv_psi_desc_write_into(d_args);
-> +		vidtv_psi_desc_to_cpu(d_args.desc);
-> +
-> +		table_descriptor = table_descriptor->next;
-> +	}
-> +
-> +	while (stream) {
-> +		/* write the streams, if any */
-> +		args.from = stream;
-> +		args.len  = sizeof_field(struct vidtv_psi_table_pmt_stream,
-> +					 type) +
-> +			    sizeof_field(struct vidtv_psi_table_pmt_stream,
-> +					 bitfield) +
-> +			    sizeof_field(struct vidtv_psi_table_pmt_stream,
-> +					 bitfield2);
-> +		args.dest_offset = offset + nbytes;
-> +
-> +		cpu_to_be16s(&stream->bitfield);
-> +		cpu_to_be16s(&stream->bitfield2);
-> +
-> +		nbytes += vidtv_psi_ts_psi_write_into(args);
-> +
-> +		be16_to_cpus(&stream->bitfield);
-> +		be16_to_cpus(&stream->bitfield2);
-> +
-> +		while (stream_descriptor) {
-> +			/* write the stream descriptors, if any */
-> +			d_args.desc        = stream_descriptor;
-> +			d_args.dest_offset = offset + nbytes;
-> +
-> +			vidtv_psi_desc_to_be(d_args.desc);
-> +
-> +			nbytes += vidtv_psi_desc_write_into(d_args);
-> +
-> +			vidtv_psi_desc_to_cpu(d_args.desc);
-> +
-> +			stream_descriptor = stream_descriptor->next;
+> +		available_space = (!wrote_pes_header) ?
+> +				  TS_PAYLOAD_LEN -
+> +				  vidtv_pes_h_get_regular_len(args.send_pts,
+> +							      args.send_dts) :
+> +				  TS_PAYLOAD_LEN;
+> +
+> +		/* if the encoder has inserted stuffing bytes in the PES
+> +		 * header, account for them.
+> +		 */
+> +		available_space -= args.n_pes_h_s_bytes;
+> +
+> +		/* whether we need to stuff the TS packet to align the buffer */
+> +		stuff = remaining_len < available_space;
+> +
+> +		/*
+> +		 * how much of the _actual_ payload we should write in this
+> +		 * packet.
+> +		 */
+> +		payload_write_len = (stuff) ?
+> +				    remaining_len :
+> +				    available_space;
+> +
+> +		num_stuffing_bytes = available_space - payload_write_len;
+> +
+> +		/* write ts header */
+> +		ts_header_args.dest_buf           = args.dest_buf;
+> +		ts_header_args.dest_offset        = args.dest_offset + nbytes;
+> +		ts_header_args.dest_buf_sz        = args.dest_buf_sz;
+> +		ts_header_args.pid                = args.pid;
+> +		ts_header_args.continuity_counter = args.continuity_counter;
+> +		ts_header_args.wrote_pes_header   = wrote_pes_header;
+> +		ts_header_args.n_stuffing_bytes   = num_stuffing_bytes;
+> +
+> +		nbytes += vidtv_pes_write_ts_h(ts_header_args);
+> +
+> +		if (!wrote_pes_header) {
+> +			/* write the PES header only once */
+> +			pes_header_args.dest_buf        = args.dest_buf;
+> +
+> +			pes_header_args.dest_offset     = args.dest_offset +
+> +							  nbytes;
+> +
+> +			pes_header_args.dest_buf_sz     = args.dest_buf_sz;
+> +			pes_header_args.is_s302m_pkt    = args.is_s302m_pkt;
+> +			pes_header_args.send_pts        = args.send_pts;
+> +			pes_header_args.pts             = args.pts;
+> +			pes_header_args.send_dts        = args.send_dts;
+> +			pes_header_args.dts             = args.dts;
+> +			pes_header_args.stream_id       = args.stream_id;
+> +			pes_header_args.n_pes_h_s_bytes = args.n_pes_h_s_bytes;
+> +
+> +			nbytes           += vidtv_pes_write_h(pes_header_args);
+> +			wrote_pes_header  = true;
 > +		}
 > +
-> +		stream = stream->next;
+> +		/* write as much of the payload as we possibly can */
+> +		nbytes += vidtv_memcpy(args.dest_buf +
+> +				       args.dest_offset +
+> +				       nbytes,
+> +				       args.from,
+> +				       payload_write_len,
+> +				       args.dest_offset + nbytes,
+> +				       args.dest_buf_sz);
+> +
+> +		args.from        += payload_write_len;
+> +		args.dest_offset += nbytes;
+> +
+> +		/* sanity check for underflow */
+> +		WARN_ON(remaining_len - payload_write_len > remaining_len);
+> +		remaining_len -= payload_write_len;
 > +	}
-> +
-> +	c_args.dest_buf           = buf;
-> +	c_args.dest_offset        = offset + nbytes;
-> +	c_args.pid                = pid;
-> +	c_args.continuity_counter = continuity_counter;
-> +	c_args.dest_buf_sz        = buf_sz;
-> +
-> +	nbytes += table_section_crc32_write_into(c_args);
 > +
 > +	return nbytes;
 > +}
-> +
-> +void vidtv_psi_pmt_table_destroy(struct vidtv_psi_table_pmt *pmt)
-> +{
-> +	struct vidtv_psi_desc *curr_desc = pmt->descriptor;
-> +	struct vidtv_psi_desc *tmp_desc  = NULL;
-> +
-> +	while (curr_desc) {
-> +		tmp_desc  = curr_desc;
-> +		curr_desc = curr_desc->next;
-> +		vidtv_psi_desc_destroy(tmp_desc);
-> +		kfree(tmp_desc);
-> +	}
-> +
-> +	vidtv_psi_pmt_stream_destroy(pmt->stream);
-> +}
-> +
-> +void vidtv_psi_sdt_table_init(struct vidtv_psi_table_sdt *sdt,
-> +			      bool update_version_num,
-> +			      u16 transport_stream_id)
-> +{
-> +	static u8 sdt_version;
-> +
-> +	sdt->header.table_id = 0x42;
-> +
-> +	sdt->header.one  = 0x3;
-> +	sdt->header.zero = 0x1;
-> +	/*
-> +	 * The PAT, PMT, and CAT all set this to 0.
-> +	 * Other tables set this to 1.
-> +	 */
-> +	sdt->header.syntax = 0x1;
-> +
-> +	/*
-> +	 * This is a 16-bit field which serves as a label for identification
-> +	 * of the TS, about which the SDT informs, from any other multiplex
-> +	 * within the delivery system.
-> +	 */
-> +	sdt->header.id           = transport_stream_id;
-> +	sdt->header.current_next = 0x1;
-> +
-> +	/* ETSI 300 468: indicates changes in the TS described by this
-> table*/
-> +	if (update_version_num)
-> +		++sdt_version;
-> +
-> +	sdt->header.version = sdt_version;
-> +
-> +	sdt->header.one2         = 0x3;
-> +	sdt->header.section_id   = 0;
-> +	sdt->header.last_section = 0;
-> +
-> +	sdt->network_id = transport_stream_id;
-> +	sdt->reserved   = 0xff;
-> +
-> +	vidtv_psi_sdt_table_comp_sec_len(sdt);
-> +}
-> +
-> +u32 vidtv_psi_sdt_write_into(char *buf,
-> +			     u32 offset,
-> +			     struct vidtv_psi_table_sdt *sdt,
-> +			     u32 buf_sz,
-> +			     u8 *continuity_counter)
-> +{
-> +	u32 nbytes  = 0;              /* the number of bytes written */
-> +	u16 sdt_pid = VIDTV_SDT_PID;  /* see ETSI EN 300 468 v1.15.1 p. 11 */
-> +
-> +	struct vidtv_psi_table_sdt_service *service = sdt->service;
-> +	struct vidtv_psi_desc *service_desc = (sdt->service) ?
-> +					      sdt->service->descriptor :
-> +					      NULL;
-> +
-> +	struct header_write_args h_args = {0};
-> +	struct psi_write_args args      = {0};
-> +	struct desc_write_args d_args   = {0};
-> +	struct crc32_write_args c_args  = {0};
-> +
-> +	vidtv_psi_sdt_table_comp_sec_len(sdt);
-> +
-> +	h_args.dest_buf           = buf;
-> +	h_args.dest_offset        = offset;
-> +	h_args.h                  = &sdt->header;
-> +	h_args.pid                = sdt_pid;
-> +	h_args.continuity_counter = continuity_counter;
-> +	h_args.dest_buf_sz        = buf_sz;
-> +
-> +	nbytes += vidtv_psi_table_header_write_into(h_args);
-> +
-> +	args.dest_buf = buf;
-> +	args.from     = sdt + sizeof(struct vidtv_psi_table_header);
-> +
-> +	args.len      = sizeof_field(struct vidtv_psi_table_sdt, network_id)
-> +
-> +			sizeof_field(struct vidtv_psi_table_sdt, reserved);
-> +
-> +	args.dest_offset        = offset + nbytes;
-> +	args.pid                = sdt_pid;
-> +	args.new_psi_section    = false;
-> +	args.continuity_counter = continuity_counter;
-> +	args.is_crc             = false;
-> +	args.dest_buf_sz        = buf_sz;
-> +
-> +	/* copy u16 network_id + u8 reserved)*/
-> +	cpu_to_be16s(&sdt->network_id);
-> +
-> +	nbytes += vidtv_psi_ts_psi_write_into(args);
-> +
-> +	be16_to_cpus(&sdt->network_id);
-> +
-> +	while (service) {
-> +		/* copy the services, if any */
-> +		args.from = service;
-> +		/* skip both pointers at the end */
-> +		args.len = sizeof(struct vidtv_psi_table_sdt_service) -
-> +			   sizeof(struct vidtv_psi_desc *) -
-> +			   sizeof(struct vidtv_psi_table_sdt_service *);
-> +		args.dest_offset = offset + nbytes;
-> +
-> +		cpu_to_be16s(&service->service_id);
-> +		cpu_to_be16s(&service->bitfield);
-> +
-> +		nbytes += vidtv_psi_ts_psi_write_into(args);
-> +
-> +		be16_to_cpus(&service->service_id);
-> +		be16_to_cpus(&service->bitfield);
-> +
-> +		while (service_desc) {
-> +			/* copy the service descriptors, if any */
-> +			d_args.dest_buf           = buf;
-> +			d_args.dest_offset        = offset + nbytes;
-> +			d_args.desc               = service_desc;
-> +			d_args.pid                = sdt_pid;
-> +			d_args.continuity_counter = continuity_counter;
-> +			d_args.dest_buf_sz        = buf_sz;
-> +
-> +			vidtv_psi_desc_to_be(d_args.desc);
-> +
-> +			nbytes += vidtv_psi_desc_write_into(d_args);
-> +
-> +			vidtv_psi_desc_to_cpu(d_args.desc);
-> +
-> +			service_desc = service_desc->next;
-> +		}
-> +
-> +		service = service->next;
-> +	}
-> +
-> +	c_args.dest_buf           = buf;
-> +	c_args.dest_offset        = offset + nbytes;
-> +	c_args.pid                = sdt_pid;
-> +	c_args.continuity_counter = continuity_counter;
-> +	c_args.dest_buf_sz        = buf_sz;
-> +
-> +	nbytes += table_section_crc32_write_into(c_args);
-> +
-> +	return nbytes;
-> +}
-> +
-> +void vidtv_psi_sdt_table_destroy(struct vidtv_psi_table_sdt *sdt)
-> +{
-> +	struct vidtv_psi_table_sdt_service *curr_service = sdt->service;
-> +	struct vidtv_psi_table_sdt_service *tmp_service  = NULL;
-> +	struct vidtv_psi_desc *curr_desc = (sdt->service) ?
-> +					   sdt->service->descriptor : NULL;
-> +	struct vidtv_psi_desc *tmp_desc = NULL;
-> +
-> +	while (curr_service) {
-> +		curr_desc = curr_service->descriptor;
-> +
-> +		while (curr_desc) {
-> +			/* clear all descriptors for the service */
-> +			tmp_desc  = curr_desc;
-> +			curr_desc = curr_desc->next;
-> +			vidtv_psi_desc_destroy(tmp_desc);
-> +			kfree(tmp_desc);
-> +		}
-> +
-> +		/* then clear the current service */
-> +		tmp_service  = curr_service;
-> +		curr_service = curr_service->next;
-> +		kfree(tmp_service);
-> +	}
-> +}
-> +
-> +struct vidtv_psi_table_sdt_service
-> +*vidtv_psi_sdt_service_init(struct vidtv_psi_table_sdt_service *head,
-> +			    u16 service_id)
-> +{
-> +	/*
-> +	 * if 'head' is attached to a table, caller should recompute
-> +	 * the section length afterwards at some point
-> +	 */
-> +	struct vidtv_psi_table_sdt_service *service;
-> +
-> +	service = kzalloc(sizeof(*service), GFP_KERNEL);
-> +
-> +	/*
-> +	 * ETSI 300 468: this is a 16bit field which serves as a label to
-> +	 * identify this service from any other service within the TS.
-> +	 * The service id is the same as the program number in the
-> +	 * corresponding program_map_section
-> +	 */
-> +	service->service_id            = service_id;
-> +	service->EIT_schedule          = 0x0;         /* TODO */
-> +	service->EIT_present_following = 0x0;         /* TODO */
-> +	service->reserved              = 0x3f;        /* all bits on */
-> +	service->free_CA_mode          = 0x0;         /* not scrambled */
-> +	service->running_status        = RUNNING;
-> +
-> +	if (head) {
-> +		while (head->next)
-> +			head = head->next;
-> +
-> +		head->next = service;
-> +	}
-> +
-> +	return service;
-> +}
-> +
-> +void
-> +vidtv_psi_sdt_service_destroy(struct vidtv_psi_table_sdt_service *service)
-> +{
-> +	struct vidtv_psi_table_sdt_service *curr = service;
-> +	struct vidtv_psi_table_sdt_service *tmp  = NULL;
-> +
-> +	while (curr) {
-> +		tmp  = curr;
-> +		curr = curr->next;
-> +		kfree(tmp);
-> +	}
-> +}
-> +
-> +void
-> +vidtv_psi_sdt_service_assign(struct vidtv_psi_table_sdt *sdt,
-> +			     struct vidtv_psi_table_sdt_service *service)
-> +{
-> +	struct vidtv_psi_table_sdt_service *temp = sdt->service;
-> +
-> +	sdt->service = service;
-> +
-> +	/* recompute section length */
-> +	vidtv_psi_sdt_table_comp_sec_len(sdt);
-> +
-> +	/* reassign if the new size is too big */
-> +	if (sdt->header.section_length > MAX_SECTION_LEN)
-> +		vidtv_psi_sdt_service_assign(sdt, temp);
-> +	else
-> +		vidtv_psi_sdt_service_destroy(temp);
-> +}
-> +
-> +void
-> +vidtv_psi_pmt_create_sec_for_each_pat_entry(struct vidtv_psi_table_pat *pat,
-> +					    struct vidtv_psi_table_pmt sec[])
-> +
-> +{
-> +	/*
-> +	 * PMTs contain information about programs. For each program,
-> +	 * there is one PMT section. This function will create a section
-> +	 * for each program found in the PAT
-> +	 */
-> +	struct vidtv_psi_table_pat_program *program = pat->program;
-> +	u32    i                                    = 0;
-> +
-> +	while (program) {
-> +		vidtv_psi_pmt_table_init(&sec[i],
-> +					 false,
-> +					 sec[i].header.id,
-> +					 0);
-> +
-> +		++i;
-> +		program = program->next;
-> +	}
-> +}
-> diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.h
-> b/drivers/media/test-drivers/vidtv/vidtv_psi.h new file mode 100644
-> index 0000000000000..c5c8c143f0e4a
+> diff --git a/drivers/media/test-drivers/vidtv/vidtv_pes.h b/drivers/media/test-drivers/vidtv/vidtv_pes.h
+> new file mode 100644
+> index 0000000000000..00ede32adf476
 > --- /dev/null
-> +++ b/drivers/media/test-drivers/vidtv/vidtv_psi.h
-> @@ -0,0 +1,357 @@
+> +++ b/drivers/media/test-drivers/vidtv/vidtv_pes.h
+> @@ -0,0 +1,185 @@
 > +/* SPDX-License-Identifier: GPL-2.0 */
 > +/*
-> + * This file contains the logic to work with MPEG Program-Specific
-> Information.
-> + * These are defined both in ISO/IEC 13818-1 (systems) and ETSI EN 300 468.
-> + * PSI is carried in the form of table structures, and although each table
-> might
-> + * technically be broken into one or more sections, we do not do this here,
-> + * hence 'table' and 'section' are interchangeable for us.
+> + * Vidtv serves as a reference DVB driver and helps validate the existing APIs
+> + * in the media subsystem. It can also aid developers working on userspace
+> + * applications.
 > + *
-> + * This code currently supports three tables: PAT, PMT and SDT. These are the
-> + * bare minimum to get userspace to recognize our MPEG transport stream. It
-> can
-> + * be extended to support more PSI tables in the future.
+> + * This file contains the logic to translate the ES data for one access unit
+> + * from an encoder into MPEG TS packets. It does so by first encapsulating it
+> + * with a PES header and then splitting it into TS packets.
 > + *
-> + * A note on endianness: MPEG layout is big-endian, therefore:
-> + * - All fields spanning more than a byte must undergo 'cpu_to_beXX()' before
-> + * serialization. These convertions are done in the *_write_into() functions.
-> + *
-> + * - All byte sized bitfields must have their ordering reversed if
-> + *  __LITTLE_ENDIAN_BITFIELD is defined.
-> + *
-> + * Written by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> + * Written by Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 > + */
 > +
-> +#ifndef VIDTV_PSI_H
-> +#define VIDTV_PSI_H
+> +#ifndef VIDTV_PES_H
+> +#define VIDTV_PES_H
 > +
-> +#include <linux/types.h>
 > +#include <asm/byteorder.h>
+> +#include <linux/types.h>
+> +#include "vidtv_common.h"
 > +
-> +/*
-> + * all section lengths start immediately after the 'section_length' field
-> + * see ISO/IEC 13818-1 : 2000 and ETSI EN 300 468 V 1.10.1 for
-> + * reference
-> + */
-> +#define PAT_LEN_UNTIL_LAST_SECTION_NUMBER 5
-> +#define PMT_LEN_UNTIL_PROGRAM_INFO_LENGTH 9
-> +#define SDT_LEN_UNTIL_RESERVED_FOR_FUTURE_USE 8
-> +#define MAX_SECTION_LEN 1021
-> +#define VIDTV_PAT_PID 0
-> +#define VIDTV_SDT_PID 0x0011
+> +#define PES_MAX_LEN 65536 /* Set 'length' to 0 if greater */
+> +#define PES_START_CODE_PREFIX 0x001 /* 00 00 01 */
 > +
-> +enum vidtv_psi_descriptors {
-> +	REGISTRATION_DESCRIPTOR	= 0x05,
-> +	SERVICE_DESCRIPTOR = 0x48,
-> +};
+> +struct vidtv_pes_optional_pts {
+> +	struct {
+> +	#if defined(__LITTLE_ENDIAN_BITFIELD)
+> +		u8 marker3:1; /* always 0x1 */
+> +		u16 pts3:15;
+> +		u8 marker2:1; /* always 0x1 */
+> +		u16 pts2:15;
+> +		u8 marker1:1; /* always 0x1 */
+> +		u8 pts1:3;
+> +		u8 two:4; /* always 0010b */
+> +	#elif defined(__BIG_ENDIAN_BITFIELD)
+> +		u8 two:4; /* always 0010b */
+> +		u8 pts1:3;
+> +		u8 marker1:1; /* always 0x1 */
+> +		u16 pts2:15;
+> +		u8 marker2:1; /* always 0x1 */
+> +		u16 pts3:15;
+> +		u8 marker3:1; /* always 0x1 */
+> +	#else
+> +	#error  "Please fix <asm/byteorder.h>"
+> +	#endif
+> +	} __packed;
+> +} __packed;
 > +
-> +enum vidtv_psi_stream_types {
-> +	/* see ISO/IEC 13818-1 2000 p. 48 */
-> +	STREAM_PRIVATE_DATA = 0x06,
-> +};
+> +struct vidtv_pes_optional_pts_dts {
+> +	struct {
+> +	#if defined(__LITTLE_ENDIAN_BITFIELD)
+> +		u8 marker6:1; /* always 0x1 */
+> +		u16 dts3:15;
+> +		u8 marker5:1; /* always 0x1 */
+> +		u16 dts2:15;
+> +		u8 marker4:1; /* always 0x1 */
+> +		u8 dts1:3;
+> +		u8 one:4; /* always 0001b */
+> +		u8 marker3:1; /* always 0x1 */
+> +		u16 pts3:15;
+> +		u8 marker2:1; /* always 0x1 */
+> +		u16 pts2:15;
+> +		u8 marker1:1; /* always 0x1 */
+> +		u8 pts1:3;
+> +		u8 three:4; /* always 0011b */
+> +	#elif defined(__BIG_ENDIAN_BITFIELD)
+> +		u8 three:4; /* always 0011b */
+> +		u8 pts1:3;
+> +		u8 marker1:1; /* always 0x1 */
+> +		u16 pts2:15;
+> +		u8 marker2:1; /* always 0x1 */
+> +		u16 pts3:15;
+> +		u8 marker3:1; /* always 0x1 */
+> +		u8 one:4; /* always 0001b */
+> +		u8 dts1:3;
+> +		u8 marker4:1; /* always 0x1 */
+> +		u16 dts2:15;
+> +		u8 marker5:1; /* always 0x1 */
+> +		u16 dts3:15;
+> +		u8 marker6:1; /* always 0x1 */
+> +	#else
+> +	#error  "Please fix <asm/byteorder.h>"
+> +	#endif
+> +	} __packed;
+> +} __packed;
 > +
-> +struct vidtv_psi_desc {
-> +	u8 type;
+> +struct vidtv_pes_optional {
+> +	union {
+> +		u16 bitfield;
+> +		struct {
+> +			u16 two:2; /* always 0x2*/
+> +			u16 PES_scrambling_control:2;
+> +			u16 PES_priority:1;
+> +			u16 data_alignment_indicator:1; /* ununsed for us */
+> +			u16 copyright:1;
+> +			u16 original_or_copy:1;
+> +			u16 PTS_DTS:2;
+> +			/* These flags show which components are actually
+> +			 * present in the "optinal fields" in the optinal PES
+> +			 * header and which are not. Vidtv currently does
+> +			 * not need any of these.
+> +			 */
+> +			u16 ESCR:1;
+> +			u16 ES_rate:1;
+> +			u16 DSM_trick_mode:1;
+> +			u16 additional_copy_info:1;
+> +			u16 PES_CRC:1;
+> +			u16 PES_extension:1;
+> +		} __packed;
+> +	} __packed;
 > +	u8 length;
-> +	struct vidtv_psi_desc *next;
-> +	u8 data[];
 > +} __packed;
 > +
-> +struct vidtv_psi_desc_service {
-> +	u8 type;
-> +	u8 length;
-> +	struct vidtv_psi_desc *next;
-> +
-> +	u8 service_type;
-> +	char *name;
-> +	char *name_emph;
-> +	char *provider;
-> +	char *provider_emph;
-> +} __packed;
-> +
-> +struct vidtv_psi_desc_registration {
-> +	u8 type;
-> +	u8 length;
-> +	struct vidtv_psi_desc *next;
-> +
-> +	/*
-> +	 * The format_identifier is a 32-bit value obtained from a
-> Registration
-> +	 * Authority as designated by ISO/IEC JTC 1/SC 29.
-> +	 */
-> +	u32 format_identifier;
-> +	/*
-> +	 * The meaning of additional_identification_info bytes, if any, are
-> +	 * defined by the assignee of that format_identifier, and once
-> defined
-> +	 * they shall not change.
-> +	 */
-> +	u8 additional_identification_info[];
-> +} __packed;
-> +
-> +struct vidtv_psi_table_header {
-> +	u8  table_id;
+> +struct vidtv_mpeg_pes {
 > +	union {
-> +		u16 bitfield;
+> +		u32 bitfield;
 > +		struct {
-> +			u8  syntax:1;
-> +			u8  zero:1;
-> +			u8  one:2;
-> +			u16 section_length:12;
+> +			/* These two together make the 32-bit start-code */
+> +			u32  packet_start_code_prefix:24;
+> +			u32  stream_id:8;
 > +		} __packed;
 > +	} __packed;
-> +
-> +	u16 id;			/* TS ID */
-> +#if defined(__LITTLE_ENDIAN_BITFIELD)
-> +	u8  current_next:1;
-> +	u8  version:5;
-> +	u8  one2:2;
-> +#elif defined(__BIG_ENDIAN_BITFIELD)
-> +	u8  one2:2;
-> +	u8  version:5;
-> +	u8  current_next:1;
-> +#else
-> +#error  "Please fix <asm/byteorder.h>"
-
-I would change the message. I mean, if something has changed there,
-and, for example, one of the defines was renamed, then the vidtv code
-is the one that would require changes, not asm/byteorder.
-
-> +#endif
-> +	u8  section_id;		/* section_number */
-> +	u8  last_section;		/* last_section_number */
+> +	/* after this field until the end of the PES data payload */
+> +	u16 length;
+> +	struct vidtv_pes_optional optional[];
 > +} __packed;
 > +
-> +struct vidtv_psi_table_pat_program {
-> +	u16 service_id;
-> +	union {
-> +		u16 bitfield;
-> +		struct {
-> +			u8  reserved:3;
-> +			u16 pid:13;
-> +		} __packed;
-> +	} __packed;
-> +	struct vidtv_psi_table_pat_program *next;
-> +} __packed;
+> +struct pes_header_write_args {
+> +	void *dest_buf;
+> +	u32 dest_offset;
+> +	u32 dest_buf_sz;
+> +	bool is_s302m_pkt;
 > +
-> +struct vidtv_psi_table_pat {
-> +	struct vidtv_psi_table_header header;
-> +	u16 programs;
-> +	struct vidtv_psi_table_pat_program *program;
-> +} __packed;
+> +	bool send_pts;
+> +	u64 pts;
 > +
-> +struct vidtv_psi_table_sdt_service {
-> +	u16 service_id;
-> +#if defined(__LITTLE_ENDIAN_BITFIELD)
-> +	u8 EIT_present_following:1;
-> +	u8 EIT_schedule:1;
-> +	u8 reserved:6;
-> +#elif defined(__BIG_ENDIAN_BITFIELD)
-> +	u8 reserved:6;
-> +	u8 EIT_schedule:1;
-> +	u8 EIT_present_following:1;
-> +#else
-> +#error  "Please fix <asm/byteorder.h>"
-> +#endif
-> +	union {
-> +		u16 bitfield;
-> +		struct {
-> +			u16 running_status:3;
-> +			u16 free_CA_mode:1;
-> +			u16 desc_length:12;
-> +		} __packed;
-> +	} __packed;
-> +	struct vidtv_psi_desc *descriptor;
-> +	struct vidtv_psi_table_sdt_service *next;
-> +} __packed;
+> +	bool send_dts;
+> +	u64 dts;
 > +
-> +struct vidtv_psi_table_sdt {
-> +	struct vidtv_psi_table_header header;
-> +	u16 network_id; /* original_network_id */
-> +	u8  reserved;
-> +	struct vidtv_psi_table_sdt_service *service;
-> +} __packed;
-> +
-> +enum service_running_status {
-> +	RUNNING,
+> +	u16 stream_id;
+> +	/* might be used by an encoder if needed, gets discarded by decoder */
+> +	u32 n_pes_h_s_bytes;
 > +};
 > +
-> +enum service_type {
-> +	/* see ETSI EN 300 468 v1.15.1 p. 77 */
-> +	DIGITAL_TELEVISION_SERVICE = 0x1,
+> +struct pes_ts_header_write_args {
+> +	void *dest_buf;
+> +	u32 dest_offset;
+> +	u32 dest_buf_sz;
+> +	u16 pid;
+> +	u8 *continuity_counter;
+> +	bool wrote_pes_header;
+> +	u32 n_stuffing_bytes;
 > +};
 > +
-> +struct vidtv_psi_table_pmt_stream {
-> +	u8 type;
-> +	union {
-> +		u16 bitfield;
-> +		struct {
-> +			u16 reserved:3;
-> +			u16 elementary_pid:13;
-> +		} __packed;
-> +	} __packed;
-> +	union {
-> +		u16 bitfield2;
-> +		struct {
-> +			u16 reserved2:4;
-> +			u16 zero:2;
-> +			u16 desc_length:10;
-> +		} __packed;
-> +	} __packed;
-> +	struct vidtv_psi_desc *descriptor;
-> +	struct vidtv_psi_table_pmt_stream *next;
-> +} __packed;
+> +struct pes_write_args {
+> +	void *dest_buf; /* pointer to a program mux buffer */
+> +	void *from; /* pointer to the encoder buffer */
 > +
-> +struct vidtv_psi_table_pmt {
-> +	struct vidtv_psi_table_header header;
-> +	union {
-> +		u16 bitfield;
-> +		struct {
-> +			u16 reserved2:3;
-> +			u16 pcr_pid:13;
-> +		} __packed;
-> +	} __packed;
+> +	/* the size of one access unit (with any headers it might need) */
+> +	u32 access_unit_len;
 > +
-> +	union {
-> +		u16 bitfield2;
-> +		struct {
-> +			u16 reserved3:4;
-> +			u16 zero3:2;
-> +			u16 desc_length:10; /* program_info_length */
-> +		} __packed;
-> +	} __packed;
-> +	struct vidtv_psi_desc *descriptor;
-> +	struct vidtv_psi_table_pmt_stream *stream;
-> +} __packed;
-> +
-> +struct psi_write_args {
-> +	void *dest_buf; /* the buffer to write into */
-> +	void *from;
-> +	size_t len; /* how much to write */
-> +	u32 dest_offset; /* where to start writing in the buffer */
+> +	u32 dest_offset; /* where to start writing in the program mux buffer */
+> +	u32 dest_buf_sz; /* how big is the program mux buffer */
 > +	u16 pid; /* TS packet ID */
-> +	bool new_psi_section; /* set when starting a table section */
-> +	u8 *continuity_counter; /* TS: incremented on every new packet */
-> +	bool is_crc; /* set when writing the CRC at the end */
-> +	u32 dest_buf_sz; /* protect against overflow if not zero */
+> +
+> +	/* use SMPTE 302M to packetize the data */
+> +	bool is_s302m_pkt;
+> +
+> +	u8 *continuity_counter; /* incremented for every TS packet */
+> +
+> +	/* Examples: Audio streams (0xc0-0xdf), Video streams (0xe0-0xef) */
+> +	u16 stream_id;
+> +
+> +	bool send_pts;
+> +	u64 pts;
+> +
+> +	bool send_dts;
+> +	u64 dts;
+> +
+> +	/* might be used by an encoder if needed, gets discarded by decoder */
+> +	u32 n_pes_h_s_bytes;
 > +};
 > +
-> +struct desc_write_args {
-> +	void *dest_buf;
-> +	u32 dest_offset;
-> +	struct vidtv_psi_desc *desc;
-> +	u16 pid;
-> +	u8 *continuity_counter;
-> +	u32 dest_buf_sz;
-> +};
+> +u32 vidtv_pes_write_into(struct pes_write_args args);
 > +
-> +struct crc32_write_args {
-> +	void *dest_buf;
-> +	u32 dest_offset;
-> +	u16 pid;
-> +	u8 *continuity_counter;
-> +	u32 dest_buf_sz;
-> +};
-> +
-> +struct header_write_args {
-> +	void *dest_buf;
-> +	u32 dest_offset;
-> +	struct vidtv_psi_table_header *h;
-> +	u16 pid;
-> +	u8 *continuity_counter;
-> +	u32 dest_buf_sz;
-> +};
-> +
-> +struct vidtv_psi_desc *vidtv_psi_desc_init(struct vidtv_psi_desc *head,
-> +					   u8 type,
-> +					   u8 length);
-> +
-> +void vidtv_psi_pat_table_init(struct vidtv_psi_table_pat *pat,
-> +			      bool update_version_num,
-> +			      u16 transport_stream_id);
-> +
-> +struct vidtv_psi_table_pat_program*
-> +vidtv_psi_pat_program_init(struct vidtv_psi_table_pat_program *head,
-> +			   u16 service_id,
-> +			   u16 pid);
-> +
-> +struct vidtv_psi_table_pmt_stream*
-> +vidtv_psi_pmt_stream_init(struct vidtv_psi_table_pmt_stream *head,
-> +			  enum vidtv_psi_stream_types stream_type,
-> +			  u16 es_pid);
-> +
-> +void vidtv_psi_pmt_table_init(struct vidtv_psi_table_pmt *pmt,
-> +			      bool update_version_num,
-> +			      u16 program_number,
-> +			      u16 pcr_pid);
-> +
-> +void
-> +vidtv_psi_sdt_table_init(struct vidtv_psi_table_sdt *sdt,
-> +			 bool update_version_num,
-> +			 u16 transport_stream_id);
-> +
-> +struct vidtv_psi_table_sdt_service*
-> +vidtv_psi_sdt_service_init(struct vidtv_psi_table_sdt_service *head,
-> +			   u16 service_id);
-> +
-> +void
-> +vidtv_psi_desc_destroy(struct vidtv_psi_desc *desc);
-> +
-> +void
-> +vidtv_psi_pat_program_destroy(struct vidtv_psi_table_pat_program *p);
-> +
-> +void
-> +vidtv_psi_pat_table_destroy(struct vidtv_psi_table_pat *p);
-> +
-> +void
-> +vidtv_psi_pmt_stream_destroy(struct vidtv_psi_table_pmt_stream *s);
-> +
-> +void
-> +vidtv_psi_pmt_table_destroy(struct vidtv_psi_table_pmt *pmt);
-> +
-> +void
-> +vidtv_psi_sdt_table_destroy(struct vidtv_psi_table_sdt *sdt);
-> +
-> +void
-> +vidtv_psi_sdt_service_destroy(struct vidtv_psi_table_sdt_service *service);
-> +
-> +void
-> +vidtv_psi_desc_destroy(struct vidtv_psi_desc *desc);
-> +
-> +void
-> +vidtv_psi_pat_program_destroy(struct vidtv_psi_table_pat_program *p);
-> +
-> +void
-> +vidtv_psi_sdt_service_assign(struct vidtv_psi_table_sdt *sdt,
-> +			     struct vidtv_psi_table_sdt_service *service);
-> +
-> +void vidtv_psi_desc_assign(struct vidtv_psi_desc **to,
-> +			   struct vidtv_psi_desc *desc);
-> +
-> +void vidtv_psi_pat_program_assign(struct vidtv_psi_table_pat *pat,
-> +				  struct vidtv_psi_table_pat_program *p);
-> +
-> +void vidtv_psi_pmt_stream_assign(struct vidtv_psi_table_pmt *pmt,
-> +				 struct vidtv_psi_table_pmt_stream *s);
-> +void
-> +vidtv_psi_pmt_create_sec_for_each_pat_entry(struct vidtv_psi_table_pat *pat,
-> +					    struct vidtv_psi_table_pmt *sec);
-> +
-> +u16 vidtv_psi_pmt_get_pid(struct vidtv_psi_table_pmt *section,
-> +			  struct vidtv_psi_table_pat *pat);
-> +
-> +void vidtv_psi_pat_table_comp_sec_len(struct vidtv_psi_table_pat *pat);
-> +void vidtv_psi_pmt_table_comp_sec_len(struct vidtv_psi_table_pmt *pmt);
-> +void vidtv_psi_sdt_table_comp_sec_len(struct vidtv_psi_table_sdt *sdt);
-> +
-> +u32 vidtv_psi_pat_write_into(char *buf,
-> +			     u32 offset,
-> +			     struct vidtv_psi_table_pat *pat,
-> +			     u32 buf_sz,
-> +			     u8 *continuity_counter);
-> +
-> +u32 vidtv_psi_sdt_write_into(char *buf,
-> +			     u32 offset,
-> +			     struct vidtv_psi_table_sdt *sdt,
-> +			     u32 buf_sz,
-> +			     u8 *continuity_counter);
-> +
-> +u32 vidtv_psi_pmt_write_into(char *buf,
-> +			     u32 offset,
-> +			     struct vidtv_psi_table_pmt *pmt,
-> +			     u16 pid,
-> +			     u32 buf_sz,
-> +			     u8 *continuity_counter);
-> +
-> +#endif // VIDTV_PSI_H
+> +#endif // VIDTV_PES_H
 
 
 
