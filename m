@@ -2,66 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B0E61C2CD0
-	for <lists+linux-media@lfdr.de>; Sun,  3 May 2020 15:36:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EE3C1C2D11
+	for <lists+linux-media@lfdr.de>; Sun,  3 May 2020 16:43:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728582AbgECNgr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 3 May 2020 09:36:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46988 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728522AbgECNgq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 3 May 2020 09:36:46 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25D8DC061A0C
-        for <linux-media@vger.kernel.org>; Sun,  3 May 2020 06:36:46 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id f13so17618733wrm.13
-        for <linux-media@vger.kernel.org>; Sun, 03 May 2020 06:36:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Yu0MGCRvB1xe3Mi7K45NB/kKHMlY1jBQmbdLE9OG89I=;
-        b=ZUIIdni2NhX6296CTC0/OCPyQDJ73Zzn9FdkRwuOYMZ42Gvlw6+c6fmvQjHQ+oWutg
-         nEIClOzuIgyY/ATRXutGlDk2E8QIz+j3S/rk0Pz4k3OKKUv25hk2ULnzrQRKog4uH9hr
-         RMKYwgNMa/ERrfGNL6nFp8gILz4v2aHbTXivg681xLFXcEzjYI9CcdK8iy5Ao6N0BrP3
-         Rcs3MmQK+NntUz+zJzD4qOr5DUOnduw8XD7cu5b50F2gXUUM9g5pdaALvxqnd/jJOIVz
-         w3GyyhKZ71IcBQPd/MbaVwmxztf2Mwt64gtkQf6enzbun2uHzKoYJR6xgoPjZd+/swQX
-         Djpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Yu0MGCRvB1xe3Mi7K45NB/kKHMlY1jBQmbdLE9OG89I=;
-        b=XK+HwkCUkrrXNY0gbIc2x1Gs0xKGVnz6/EniKyfqlcJrhLc7Yd82i6gRqaJMargsU2
-         APrbCDDklQIlUrLjRVjxwP54kmlufx0zmfcIuyJyszSCNZVkQzMXOULywF8pl9CE9L6i
-         MytAxCaakRoVJ3W4eXZMcJu6JO+hgGQjtG9Hm1y0gMLB2PcwnSEmYRicY+v0JkMY5rTA
-         ED+cI8idkAgB11A8tyz+oZwWKuZg8xGrUi7N9eR3PM6ildioRQxEYQQpNhW+EOfJ83e7
-         T5eNAINS9lzW5R458kfkWogiNjbdmbv54EqiDv3woEJbGMyDFWTUaYGGkgnXP3InrAQP
-         83aA==
-X-Gm-Message-State: AGi0PuaEJZulVL4bfNrtAvm51pJaFr61oS45REwptFK7RKxfN0V84+Zz
-        v9GPm31C9oQeY0qA0r9mkaA=
-X-Google-Smtp-Source: APiQypKA5wDHG5GbmFBmZ99voqzB/QZh++TwvERH9kOzsVXBn9qqO/rK6HygD444jGmAWQoGZ3Js+Q==
-X-Received: by 2002:adf:82cf:: with SMTP id 73mr13923025wrc.411.1588513004688;
-        Sun, 03 May 2020 06:36:44 -0700 (PDT)
-Received: from ASUS (77-56-155-30.dclient.hispeed.ch. [77.56.155.30])
-        by smtp.gmail.com with ESMTPSA id s18sm15210824wra.94.2020.05.03.06.36.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2020 06:36:44 -0700 (PDT)
-Date:   Sun, 3 May 2020 15:36:41 +0200
-From:   Patrik Gfeller <patrik.gfeller@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+        id S1728723AbgECOnM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 3 May 2020 10:43:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57250 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728696AbgECOnM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 3 May 2020 10:43:12 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C4C4C061A0E
+        for <linux-media@vger.kernel.org>; Sun,  3 May 2020 07:43:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
+        From:Date:Sender:Reply-To:Content-ID:Content-Description;
+        bh=7jMh6lqUCoJCkGcY4Q3WQSE12Fg78dXw9bCN/RDcmF0=; b=SCxsQP1f5ZhIo98uTcCL/ozUZh
+        cYCBaqTSIenCLjqZD1FHHLTneWA6dTVh1LH5FZPzFUdZgoDhIb4c1XksDS6yiFtlICav7OfITbn0w
+        WRa077yJsLTXEimVE2DfpDOWrE5Em9R2HoSmWmcz7sJCXLKkbuUYQHgNCCJtbDKZxkq0KK0RjQarT
+        LJfMr8yUqlAd/2mthVr5etYTIfaSGXpeFIBqB38BBWAQTxEnq44+EtiJRxL7wqCETrRQj4SoKCi2p
+        1gMHq6X2KmQZeFMT62SNDtfTs0Ibt96Gr+17Im2tirBzCPUu/WkKh4n61It3Jj+jHEbo44YVlbXlV
+        QuUGRKwQ==;
+Received: from ip5f5ad5c5.dynamic.kabel-deutschland.de ([95.90.213.197] helo=coco.lan)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jVFpl-0005O6-8v; Sun, 03 May 2020 14:43:09 +0000
+Date:   Sun, 3 May 2020 16:43:05 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Patrik Gfeller <patrik.gfeller@gmail.com>
 Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
         Linux Media Mailing List <linux-media@vger.kernel.org>
 Subject: Re: atomisp kernel driver(s)
-Message-ID: <20200503153641.56795e1d@ASUS>
+Message-ID: <20200503164305.678298d7@coco.lan>
 In-Reply-To: <20200503143120.008fa7c0@ASUS>
 References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
         <CAHp75Vf9M7=Gf=mCgdBgt0-aR+kBOjtE3pvJyEya2OGmqbr6XA@mail.gmail.com>
         <20200503104612.7da12913@ASUS>
         <20200503122350.2ade79ad@coco.lan>
         <20200503143120.008fa7c0@ASUS>
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -70,8 +49,8 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, 3 May 2020 14:31:20 +0200
-Patrik Gfeller <patrik.gfeller@gmail.com> wrote:
+Em Sun, 3 May 2020 14:31:20 +0200
+Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
 
 > On Sun, 3 May 2020 12:23:50 +0200
 > Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
@@ -79,8 +58,26 @@ Patrik Gfeller <patrik.gfeller@gmail.com> wrote:
 > > Em Sun, 3 May 2020 10:46:12 +0200
 > > Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
 > >   
->  [...]     
->  [...]  
+> > > On Sat, 2 May 2020 19:08:36 +0300
+> > > Andy Shevchenko <andy.shevchenko@gmail.com> wrote:
+> > > 
+> > > Hi Andy,
+> > >     
+> >  [...]  
+> >  [...]  
+> >  [...]    
+> > > 
+> > > Thank you for your advice, I've tried various Android distros for x86 on
+> > > my device. Unfortunately none of the boots. I'll investigate if I can
+> > > make one of them to work. I also found that a predecessor of the driver
+> > > seemed to have worked for E3800. At lease there is a users guide from intel
+> > > (for Fedora 18):
+> > > 
+> > > https://cdrdv2.intel.com/v1/dl/getcontent/331329
+> > > 
+> > > Unfortunately this targets the 2400, and I have 2401 rev B chip. However -
+> > > I'll give Fedora 18 a try, but if the HW detection works as in the
+> > > current driver it will not accept my device.    
 > > 
 > > Wow, that sounds promising! Did you find where the Kernel patches
 > > and userspace applications are stored?  
@@ -107,17 +104,25 @@ Patrik Gfeller <patrik.gfeller@gmail.com> wrote:
 > 
 > I'll now figure out how to open the .rpm package to have a look if
 > there is something about atomisp.
-> 
 
-The patches have different names (ISP_) than mentioned in the intel
-forum post, but there are a lot of changes. When I searched
-ISP_3_01.DRIVER.patch for "+++ b/drivers/media/atomisp2/" 
-I have 536 hits. I did not find references to ov2680 tough.
+A .rpm package can be opened either with "rpm" or with "alien". 
+Yet, this is how binary packages are distributed, although I saw a few
+rpm files that would be building something dynamically when installed.
 
-But I hope it is something useful.
+Something like:
 
-> > 
-> > Thanks,
-> > Mauro  
-> 
+	$ alien emgd-ddx-2.0-3685.i686.rpm -t 
+	Warning: alien is not running as root!
+	Warning: Ownerships of files in the generated packages will probably be wrong.
+	emgd-ddx-2.0.tgz generated
+	$ tar xvf ../emgd-ddx-2.0.tgz 
+	./
+	./usr/
+	./usr/lib/
+	./usr/lib/xorg/
+	./usr/lib/xorg/modules/
+	./usr/lib/xorg/modules/drivers/
+	./usr/lib/xorg/modules/drivers/emgd_drv.so
 
+Thanks,
+Mauro
