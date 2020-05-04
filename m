@@ -2,25 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 249C31C35A4
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 11:26:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75A0C1C35A7
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 11:26:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728434AbgEDJ0v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 May 2020 05:26:51 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:56776 "EHLO
+        id S1728441AbgEDJ0x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 May 2020 05:26:53 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:56720 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728422AbgEDJ0u (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 May 2020 05:26:50 -0400
+        with ESMTP id S1728430AbgEDJ0w (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 May 2020 05:26:52 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1F40D4F7;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B05D2122D;
         Mon,  4 May 2020 11:26:46 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1588584406;
-        bh=h1f4LLJwwL0fBSoFl0xi5O2F/8Lszy9bphrat8ky49o=;
+        s=mail; t=1588584407;
+        bh=Xc+03rJOLzY9YeBMxi1IzWdzC5nCF0ClGsyZ+jt95bc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=BZrUWm0IeMGoJ1sKI5Z9OTvAHnF8bWGP6a2HY2vfYisU3rr1HpCXX0U4dxrEx2Dux
-         e9ljkZOGexON6HKVREzNFucVYCUfX01voAM/EOCzbpAeDOp11bpADdHokXFJB8UBqM
-         lR2TvxSZ+BYdY8x6BuMKJfqM9Svwxs79wnvZow5s=
+        b=snjCtUc5V3qf/NRAus8cbTeVhNAvr/BVrH+QKmHaKkpaLa6olzbuZA+T6iI8S0VDk
+         P15jrJIb+3dXgyfW/PmjqBvjyFTHtG6Hl7orucoltiUsj9dqgEQvR5I48vo5XaOaco
+         hdqhsy7imx7+0B/iSdoUjd0SPxj02+ZpbgJ83jW0=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
@@ -28,10 +28,10 @@ Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
         =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Naushir Patuck <naush@raspberrypi.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Oliver Gjoneski <ogjoneski@gmail.com>
-Subject: [PATCH v2 28/34] staging: vchiq_2835_arm: Implement a DMA pool for small bulk transfers
-Date:   Mon,  4 May 2020 12:26:05 +0300
-Message-Id: <20200504092611.9798-29-laurent.pinchart@ideasonboard.com>
+        Phil Elwell <phil@raspberrypi.org>
+Subject: [PATCH v2 29/34] staging: vchiq: Add 36-bit address support
+Date:   Mon,  4 May 2020 12:26:06 +0300
+Message-Id: <20200504092611.9798-30-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
 References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
@@ -42,129 +42,205 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Oliver Gjoneski <ogjoneski@gmail.com>
+From: Phil Elwell <phil@raspberrypi.org>
 
-During a bulk transfer we request a DMA allocation to hold the
-scatter-gather list.  Most of the time, this allocation is small
-(<< PAGE_SIZE), however it can be requested at a high enough frequency
-to cause fragmentation and/or stress the CMA allocator (think time
-spent in compaction here, or during allocations elsewhere).
+Conditional on a new compatible string, change the pagelist encoding
+such that the top 24 bits are the pfn, leaving 8 bits for run length
+(-1).
 
-Implement a pool to serve up small DMA allocations, falling back
-to a coherent allocation if the request is greater than
-VCHIQ_DMA_POOL_SIZE.
-
-Signed-off-by: Oliver Gjoneski <ogjoneski@gmail.com>
+Signed-off-by: Phil Elwell <phil@raspberrypi.org>
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- .../interface/vchiq_arm/vchiq_2835_arm.c      | 38 ++++++++++++++++---
- 1 file changed, 33 insertions(+), 5 deletions(-)
+ .../interface/vchiq_arm/vchiq_2835_arm.c      | 88 ++++++++++++++-----
+ .../interface/vchiq_arm/vchiq_arm.c           |  6 ++
+ .../interface/vchiq_arm/vchiq_arm.h           |  1 +
+ 3 files changed, 74 insertions(+), 21 deletions(-)
 
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c
-index c18c6ca0b6c0..3e422a7eb3f1 100644
+index 3e422a7eb3f1..ecec84ad4345 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c
-@@ -7,6 +7,7 @@
- #include <linux/interrupt.h>
- #include <linux/pagemap.h>
- #include <linux/dma-mapping.h>
-+#include <linux/dmapool.h>
- #include <linux/io.h>
- #include <linux/platform_device.h>
- #include <linux/uaccess.h>
-@@ -28,6 +29,8 @@
- #define BELL0	0x00
- #define BELL2	0x08
+@@ -16,6 +16,8 @@
+ #include <soc/bcm2835/raspberrypi-firmware.h>
  
-+#define VCHIQ_DMA_POOL_SIZE PAGE_SIZE
-+
- struct vchiq_2835_state {
- 	int inited;
- 	struct vchiq_arm_state arm_state;
-@@ -37,6 +40,7 @@ struct vchiq_pagelist_info {
- 	struct pagelist *pagelist;
- 	size_t pagelist_buffer_size;
- 	dma_addr_t dma_addr;
-+	bool is_from_pool;
- 	enum dma_data_direction dma_dir;
- 	unsigned int num_pages;
- 	unsigned int pages_need_release;
-@@ -57,6 +61,7 @@ static void __iomem *g_regs;
-  * of 32.
+ #define TOTAL_SLOTS (VCHIQ_SLOT_ZERO_SLOTS + 2 * 32)
++#define VC_SAFE(x) (g_use_36bit_addrs ? ((u32)(x) | 0xc0000000) : (u32)(x))
++#define IS_VC_SAFE(x) (g_use_36bit_addrs ? !((x) & ~0x3fffffffull) : 1)
+ 
+ #include "vchiq_arm.h"
+ #include "vchiq_connected.h"
+@@ -62,6 +64,7 @@ static void __iomem *g_regs;
   */
  static unsigned int g_cache_line_size = 32;
-+static struct dma_pool *g_dma_pool;
+ static struct dma_pool *g_dma_pool;
++static unsigned int g_use_36bit_addrs = 0;
  static unsigned int g_fragments_size;
  static char *g_fragments_base;
  static char *g_free_fragments;
-@@ -159,6 +164,14 @@ int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+@@ -104,6 +107,8 @@ int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+ 	g_cache_line_size = drvdata->cache_line_size;
+ 	g_fragments_size = 2 * g_cache_line_size;
+ 
++	g_use_36bit_addrs = (dev->dma_pfn_offset == 0);
++
+ 	/* Allocate space for the channels in coherent memory */
+ 	slot_mem_size = PAGE_ALIGN(TOTAL_SLOTS * VCHIQ_SLOT_SIZE);
+ 	frag_mem_size = PAGE_ALIGN(g_fragments_size * MAX_FRAGMENTS);
+@@ -115,14 +120,21 @@ int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
+ 		return -ENOMEM;
  	}
  
- 	g_dev = dev;
-+	g_dma_pool = dmam_pool_create("vchiq_scatter_pool", dev,
-+				      VCHIQ_DMA_POOL_SIZE, g_cache_line_size,
-+				      0);
-+	if (!g_dma_pool) {
-+		dev_err(dev, "failed to create dma pool");
++	if (!IS_VC_SAFE(slot_phys)) {
++		dev_err(dev, "allocated DMA memory %pad is not VC-safe\n",
++			&slot_phys);
 +		return -ENOMEM;
 +	}
 +
- 	vchiq_log_info(vchiq_arm_log_level,
- 		"vchiq_init - done (slots %pK, phys %pad)",
- 		vchiq_slot_zero, &slot_phys);
-@@ -293,9 +306,14 @@ cleanup_pagelistinfo(struct vchiq_pagelist_info *pagelistinfo)
- 		for (i = 0; i < pagelistinfo->num_pages; i++)
- 			put_page(pagelistinfo->pages[i]);
+ 	WARN_ON(((unsigned long)slot_mem & (PAGE_SIZE - 1)) != 0);
++	channelbase = VC_SAFE(slot_phys);
+ 
+ 	vchiq_slot_zero = vchiq_init_slots(slot_mem, slot_mem_size);
+ 	if (!vchiq_slot_zero)
+ 		return -EINVAL;
+ 
+ 	vchiq_slot_zero->platform_data[VCHIQ_PLATFORM_FRAGMENTS_OFFSET_IDX] =
+-		(int)slot_phys + slot_mem_size;
++		channelbase + slot_mem_size;
+ 	vchiq_slot_zero->platform_data[VCHIQ_PLATFORM_FRAGMENTS_COUNT_IDX] =
+ 		MAX_FRAGMENTS;
+ 
+@@ -155,7 +167,6 @@ int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state *state)
  	}
--
--	dma_free_coherent(g_dev, pagelistinfo->pagelist_buffer_size,
--			  pagelistinfo->pagelist, pagelistinfo->dma_addr);
-+	if (pagelistinfo->is_from_pool) {
-+		dma_pool_free(g_dma_pool, pagelistinfo->pagelist,
-+			      pagelistinfo->dma_addr);
+ 
+ 	/* Send the base address of the slots to VideoCore */
+-	channelbase = slot_phys;
+ 	err = rpi_firmware_property(fw, RPI_FIRMWARE_VCHIQ_INIT,
+ 				    &channelbase, sizeof(channelbase));
+ 	if (err || channelbase) {
+@@ -241,7 +252,7 @@ vchiq_prepare_bulk_data(struct vchiq_bulk *bulk, void *offset, int size,
+ 	if (!pagelistinfo)
+ 		return VCHIQ_ERROR;
+ 
+-	bulk->data = (void *)(unsigned long)pagelistinfo->dma_addr;
++	bulk->data = (void *)VC_SAFE(pagelistinfo->dma_addr);
+ 
+ 	/*
+ 	 * Store the pagelistinfo address in remote_data,
+@@ -475,25 +486,60 @@ create_pagelist(char __user *buf, size_t count, unsigned short type)
+ 
+ 	/* Combine adjacent blocks for performance */
+ 	k = 0;
+-	for_each_sg(scatterlist, sg, dma_buffers, i) {
+-		u32 len = sg_dma_len(sg);
+-		u32 addr = sg_dma_address(sg);
++	if (g_use_36bit_addrs) {
++		for_each_sg(scatterlist, sg, dma_buffers, i) {
++			u32 len = sg_dma_len(sg);
++			u64 addr = sg_dma_address(sg);
++			u32 page_id = (u32)((addr >> 4) & ~0xff);
++			u32 sg_pages = (len + PAGE_SIZE - 1) >> PAGE_SHIFT;
+ 
+-		/* Note: addrs is the address + page_count - 1
+-		 * The firmware expects blocks after the first to be page-
+-		 * aligned and a multiple of the page size
+-		 */
+-		WARN_ON(len == 0);
+-		WARN_ON(i && (i != (dma_buffers - 1)) && (len & ~PAGE_MASK));
+-		WARN_ON(i && (addr & ~PAGE_MASK));
+-		if (k > 0 &&
+-		    ((addrs[k - 1] & PAGE_MASK) +
+-		     (((addrs[k - 1] & ~PAGE_MASK) + 1) << PAGE_SHIFT))
+-		    == (addr & PAGE_MASK))
+-			addrs[k - 1] += ((len + PAGE_SIZE - 1) >> PAGE_SHIFT);
+-		else
+-			addrs[k++] = (addr & PAGE_MASK) |
+-				(((len + PAGE_SIZE - 1) >> PAGE_SHIFT) - 1);
++			/* Note: addrs is the address + page_count - 1
++			 * The firmware expects blocks after the first to be page-
++			 * aligned and a multiple of the page size
++			 */
++			WARN_ON(len == 0);
++			WARN_ON(i &&
++				(i != (dma_buffers - 1)) && (len & ~PAGE_MASK));
++			WARN_ON(i && (addr & ~PAGE_MASK));
++			WARN_ON(upper_32_bits(addr) > 0xf);
++			if (k > 0 &&
++			    ((addrs[k - 1] & ~0xff) +
++			     (((addrs[k - 1] & 0xff) + 1) << 8)
++			     == page_id)) {
++				u32 inc_pages = min(sg_pages,
++						    0xff - (addrs[k - 1] & 0xff));
++				addrs[k - 1] += inc_pages;
++				page_id += inc_pages << 8;
++				sg_pages -= inc_pages;
++			}
++			while (sg_pages) {
++				u32 inc_pages = min(sg_pages, 0x100u);
++				addrs[k++] = page_id | (inc_pages - 1);
++				page_id += inc_pages << 8;
++				sg_pages -= inc_pages;
++			}
++		}
 +	} else {
-+		dma_free_coherent(g_dev, pagelistinfo->pagelist_buffer_size,
-+				  pagelistinfo->pagelist,
-+				  pagelistinfo->dma_addr);
-+	}
- }
++		for_each_sg(scatterlist, sg, dma_buffers, i) {
++			u32 len = sg_dma_len(sg);
++			u32 addr = VC_SAFE(sg_dma_address(sg));
++			u32 new_pages = (len + PAGE_SIZE - 1) >> PAGE_SHIFT;
++
++			/* Note: addrs is the address + page_count - 1
++			 * The firmware expects blocks after the first to be page-
++			 * aligned and a multiple of the page size
++			 */
++			WARN_ON(len == 0);
++			WARN_ON(i && (i != (dma_buffers - 1)) && (len & ~PAGE_MASK));
++			WARN_ON(i && (addr & ~PAGE_MASK));
++			if (k > 0 &&
++			    ((addrs[k - 1] & PAGE_MASK) +
++			     (((addrs[k - 1] & ~PAGE_MASK) + 1) << PAGE_SHIFT))
++			    == (addr & PAGE_MASK))
++				addrs[k - 1] += new_pages;
++			else
++				addrs[k++] = (addr & PAGE_MASK) | (new_pages - 1);
++		}
+ 	}
  
- /* There is a potential problem with partial cache lines (pages?)
-@@ -315,6 +333,7 @@ create_pagelist(char __user *buf, size_t count, unsigned short type)
- 	u32 *addrs;
- 	unsigned int num_pages, offset, i, k;
- 	int actual_pages;
-+	bool is_from_pool;
- 	size_t pagelist_size;
- 	struct scatterlist *scatterlist, *sg;
- 	int dma_buffers;
-@@ -341,8 +360,16 @@ create_pagelist(char __user *buf, size_t count, unsigned short type)
- 	/* Allocate enough storage to hold the page pointers and the page
- 	 * list
- 	 */
--	pagelist = dma_alloc_coherent(g_dev, pagelist_size, &dma_addr,
--				      GFP_KERNEL);
-+	if (pagelist_size > VCHIQ_DMA_POOL_SIZE) {
-+		pagelist = dma_alloc_coherent(g_dev,
-+					       pagelist_size,
-+					       &dma_addr,
-+					       GFP_KERNEL);
-+		is_from_pool = false;
-+	} else {
-+		pagelist = dma_pool_alloc(g_dma_pool, GFP_KERNEL, &dma_addr);
-+		is_from_pool = true;
-+	}
+ 	/* Partial cache lines (fragments) require special measures */
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+index d1a556f16499..dd3c8f829daa 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+@@ -117,6 +117,11 @@ static struct vchiq_drvdata bcm2836_drvdata = {
+ 	.cache_line_size = 64,
+ };
  
- 	vchiq_log_trace(vchiq_arm_log_level, "%s - %pK", __func__, pagelist);
++static struct vchiq_drvdata bcm2711_drvdata = {
++	.cache_line_size = 64,
++	.use_36bit_addrs = true,
++};
++
+ static const char *const ioctl_names[] = {
+ 	"CONNECT",
+ 	"SHUTDOWN",
+@@ -2710,6 +2715,7 @@ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
+ static const struct of_device_id vchiq_of_match[] = {
+ 	{ .compatible = "brcm,bcm2835-vchiq", .data = &bcm2835_drvdata },
+ 	{ .compatible = "brcm,bcm2836-vchiq", .data = &bcm2836_drvdata },
++	{ .compatible = "brcm,bcm2711-vchiq", .data = &bcm2711_drvdata },
+ 	{},
+ };
+ MODULE_DEVICE_TABLE(of, vchiq_of_match);
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+index 0784c5002417..f8b1c005af62 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.h
+@@ -52,6 +52,7 @@ struct vchiq_arm_state {
  
-@@ -363,6 +390,7 @@ create_pagelist(char __user *buf, size_t count, unsigned short type)
- 	pagelistinfo->pagelist = pagelist;
- 	pagelistinfo->pagelist_buffer_size = pagelist_size;
- 	pagelistinfo->dma_addr = dma_addr;
-+	pagelistinfo->is_from_pool = is_from_pool;
- 	pagelistinfo->dma_dir =  (type == PAGELIST_WRITE) ?
- 				  DMA_TO_DEVICE : DMA_FROM_DEVICE;
- 	pagelistinfo->num_pages = num_pages;
+ struct vchiq_drvdata {
+ 	const unsigned int cache_line_size;
++	const bool use_36bit_addrs;
+ 	struct rpi_firmware *fw;
+ };
+ 
 -- 
 Regards,
 
