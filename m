@@ -2,257 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 269DC1C38E9
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 14:08:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D0401C391F
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 14:18:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728642AbgEDMIo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 May 2020 08:08:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58308 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726445AbgEDMIo (ORCPT
+        id S1728678AbgEDMSR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 May 2020 08:18:17 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:36921 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726744AbgEDMSR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 4 May 2020 08:08:44 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D236AC061A0E
-        for <linux-media@vger.kernel.org>; Mon,  4 May 2020 05:08:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=+LivZ7XIdr+JuLNszhfjBx3ERwicsmZ1RqwlMn3QXzM=; b=jDDAjraS5JsBo5AmiINKtJmtKF
-        4wdymluejUrMekwk3T38ev6yfkC96B6LiMAPU4rpWaWX/ZukSijcLqoQGRhhhjRQQSG3AZwu1wK1M
-        DINrVyvAW6/eOCBOKAp9WdcjTd+GLsnuSSy5ChBUWucxrBV5FE6xZ1BUDW4anujsZuS42vQU/HV+O
-        7ExJZe4BlO21cpUC7nzYYfchxROJjaE/V72jlSNh7lXJFY6GbZRS1XYruOQZtO7u00NcmpQBStDTE
-        +neoHezanMpkPDqdf1aQB/K1ZNlRMLIoSkQS1YXDwMYM3cSB/KOO8MhyePbSiurP0aAxw97esak59
-        7/Jjn7Zw==;
-Received: from ip5f5ad5c5.dynamic.kabel-deutschland.de ([95.90.213.197] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jVZtm-0003ff-97; Mon, 04 May 2020 12:08:38 +0000
-Date:   Mon, 4 May 2020 14:08:33 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Patrik Gfeller <patrik.gfeller@gmail.com>
-Cc:     Francescodario Cuzzocrea 
-        <francescodario.cuzzocrea@mail.polimi.it>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [GIT PULL] Ressurect the atomisp staging driver
-Message-ID: <20200504140833.11dd5622@coco.lan>
-In-Reply-To: <20200504124539.77eac397@ASUS>
-References: <20200501215741.3be05695@coco.lan>
-        <3f551a8f87808ee7828dc03d41c7a23faac89f3c.camel@mail.polimi.it>
-        <20200503173213.78ae6aaa@coco.lan>
-        <CADnVkj96W0QfthukTKQ0a-i2fH1buooH3BEgfy22J9H9=_PcKA@mail.gmail.com>
-        <20200503180751.0b1e29c4@ASUS>
-        <20200504101628.0f632bf2@ASUS>
-        <20200504104934.7873cee3@coco.lan>
-        <20200504124539.77eac397@ASUS>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        Mon, 4 May 2020 08:18:17 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id Va2zj7GgatKAsVa32jNiyx; Mon, 04 May 2020 14:18:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1588594693; bh=HVNXIkkNMZQlYuLbLWLUIzp75qNsPdBtM9JVbTK3Ih4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=wGwc8o0VwP2CuMsWR0P9h8hr75SYZR//XkpDxYxIoAEUs2UWI2rUYDSsYClO1rsbX
+         4YR4EInbdAiGRaoVPMGRBKDa6I+tivF1a6RxbGIwmp6kcpPMz+7qvLHt9Gfy/Nh+gU
+         V4dM19O2uhp663hUUjf8uYJHcGBCyR1knX7GBFYF/wRzOdR/MJ+PdoSTE8y7FAx776
+         C5EczPZqzdksKfLOe0i6KqiTHWWR/qn2eDM4d8ZRfE8KuA2s78wi6ZrVjz9RAmNjRb
+         3iBgT6vAW4IKnRrCaOoYvIKM8KF61T9gXTy1x6KhcL55DWgEkkK320HNOuZYVuBkTd
+         gSToIAztD0NiA==
+Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Dmitry Osipenko <digetx@gmail.com>, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, frankc@nvidia.com, sakari.ailus@iki.fi,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
+ <9aa64f21-7b23-7228-b5eb-d2ff092682ad@nvidia.com>
+ <668cc4a0-2c81-0d87-b801-9fbf64e19137@nvidia.com>
+ <bf3f654e-b8f8-d560-fc5e-03d73cb7eab0@nvidia.com>
+ <525e481b-9137-6fdd-bbf9-3779a5704e6b@nvidia.com>
+ <fe7ebad6-0368-b1f0-4f58-648baa5e3f79@nvidia.com>
+ <4f095181-2338-3b71-316c-f8bbfc7865cc@nvidia.com>
+ <50e872bb-913a-7b47-3264-af6b1cedb0e2@nvidia.com>
+ <e17a8a49-be53-465d-f64c-3f4c77391d98@nvidia.com>
+ <da5154b4-85f9-3e56-a440-f75debaec3a8@nvidia.com>
+ <cbb047ae-97dc-8b9a-a5ba-8e2a5dab3771@nvidia.com>
+ <6ae2d00d-7955-d12b-5b56-955ef72ece26@nvidia.com>
+ <f9073b28-f1f1-636c-be53-764fb0a531a1@gmail.com>
+ <1767e50f-efb7-5e89-22f6-0917821b660d@nvidia.com>
+ <235a4cd4-4d4a-04b8-6c65-43a4dba48a0b@nvidia.com>
+ <f8103170-7879-8597-3e3c-da9a3b6a40b3@nvidia.com>
+ <5d847770-dad9-8f18-67b5-c1ba79084957@nvidia.com>
+ <4abf30e0-fed9-ba39-ae38-350789bce99d@gmail.com>
+ <b5f6a4e0-6e97-05ae-f034-b84fc5a1129a@nvidia.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <eddb1de3-81c2-159b-b24b-2e30ba2ba948@xs4all.nl>
+Date:   Mon, 4 May 2020 14:18:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <b5f6a4e0-6e97-05ae-f034-b84fc5a1129a@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfC/9I5yCpR9QTbwYRfbWeo4XJNYMtYq035bhhkI8MQx/AST33orAwOy3B+7rSNzuLEKTn+BP8TP4v3lQpr5eY92DFADr1wm4twGH0oPCblkgZQCIz7xP
+ 2d4+LmDJoxyFmt8FStQa3jP8RfSkxlrghM/gqpbF+FHpt2lxG/Rm98CgBlWYJDC0IRvus9jFc/x1YHHCsppBBBstssOqEoiPCafQEJ/umSLVTEkZNeyKYLhv
+ PGLTjBoIe2Bgm/044DdeMVvYU0r16rHeOIvcNQxHOiVy7R+tKUkw8fzBpfashZJILiPbJ4887peC4Tr6j1+BpD4I3mEqNhICd523ar6SrRFapcXn/V6fP5UV
+ V8GWhXe9OKNxo2RNgrl+ySbExrUPNFcnmdlEu7NBVXhFofkF1af1XPhcrKMem2s2plFUs1g8vzEuNJw0FQoAGRGEDgHqc1/6dIJAQXvMc6KdgZwIftPGK8xJ
+ pxHL9+3JPaUIpguLVGpFvXZQdVqz+agLFNE6i6Ci7xx8fz79Hf97TbdP5t2dwsS+ywtd6otVlOAXhaJAviwKymEzo7uQYczO0Di5l8kG2x20Fq9jrlYPlkR5
+ uk0=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 4 May 2020 12:45:39 +0200
-Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
+On 03/05/2020 00:46, Sowjanya Komatineni wrote:
+> 
+> On 5/2/20 1:48 PM, Dmitry Osipenko wrote:
+>> 02.05.2020 19:55, Sowjanya Komatineni пишет:
+>>> Also stop stream ioctl request happens during suspend where both threads
+>>> will be stopped properly. done thread stop happens only after finishing
+>>> all outstanding buffers.
+>> Do you mean that V4L core takes care of stopping the streami on suspend
+>> and re-starting it on resume from suspend?
+>>
+>>> Stop stream request happens from streaming applications so even without
+>>> driver suspend/resume implementation currently, streaming will be
+>>> stopped prior to system  suspend where both threads will be stopped
+>>> properly (after finishing out standing buffers) and will be resumed by
+>>> application on system resume
+>> All userspace is frozen on suspend. System suspension is transparent for
+>> userspace applications. I'm not sure what you're meaning here.
+>>
+>>> Also tested suspending while streaming with this unconditional freeze, I
+>>> don't see any issue as application stops stream where v4l_streamoff gets
+>>> executed during suspend and on resume streaming starts where
+>>> v4l_streamon happens.
+>>>
+>>> So, I don't see any issue with existing implementation of unconditional
+>>> freeze.
+>> I don't understand why freezing is needed at all if V4L core takes care
+>> of stopping the stream on suspend, what is the point? If there is no
+>> real point, then let's make threads non-freezable and done with that.
+> 
+> video device fops unlocked_ioctl is set to video_ioctl2() in vi driver.
+> 
+> video device fops unlocked_ioctl gets executed with stream off cmd 
+> during suspend and stream on cmd during resume which eventually calls 
+> v4l_streamoff and v4l_streamon during system suspend/resume.
 
-> On Mon, 4 May 2020 10:49:34 +0200
-> Mauro Carvalho Chehab <mchehab@kernel.org> wrote:
->=20
-> > Em Mon, 4 May 2020 10:16:28 +0200
-> > Patrik Gfeller <patrik.gfeller@gmail.com> escreveu:
-> >  =20
-> > > On Sun, 3 May 2020 18:07:51 +0200
-> > > Patrik Gfeller <patrik.gfeller@gmail.com> wrote:
-> > >     =20
-> >  [...]   =20
-> > >=20
-> > > I was not able yet to compile the kernel 4.4 successfully yet.    =20
-> >=20
-> > Yesterday, I imported only a subset of the yocto patches. I imported to=
-day
-> > all 24 patches from it, as some patches depend on hacks on other upstre=
-am
-> > stuff. You'll need to do a:
-> >=20
-> > 	$ git remote update && git reset --hard origin/yocto_intel_atom
-> >=20
-> > To update your local branch.
-> >  =20
-> > > I get quite
-> > > some warnings that are treated as errors. I assume that I can "resolv=
-e"
-> > > this by removing the respective compiler flag (-Werror).   =20
-> >=20
-> > Yeah, you may need to to that. There's a Kernel option with disables
-> > -Werror. You may also change the Makefile to add things like:
-> >=20
-> > 	# HACK! While this driver is in bad shape, don't enable several warnin=
-gs
-> > 	#       that would be otherwise enabled with W=3D1
-> > 	ccflags-y +=3D $(call cc-disable-warning, implicit-fallthrough)
-> > 	ccflags-y +=3D $(call cc-disable-warning, missing-prototypes)
-> > 	ccflags-y +=3D $(call cc-disable-warning, missing-declarations)
-> > 	ccflags-y +=3D $(call cc-disable-warning, suggest-attribute=3Dformat)
-> > 	ccflags-y +=3D $(call cc-disable-warning, unused-const-variable)
-> > 	ccflags-y +=3D $(call cc-disable-warning, unused-but-set-variable)
-> >=20
-> > (this is what we do with the upstream version, as this driver is on
-> > bad shape)
-> >  =20
-> > > But there are a few things that will take more time for me to investi=
-gate:
-> > >=20
-> > > drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atom=
-isp_cmd.c:36:10: fatal error: linux/kct.h: No such file or directory
-> > > include/media/v4l2-subdev.h:821:51: error: =E2=80=98const struct v4l2=
-_subdev_core_ops=E2=80=99 has no member named =E2=80=98g_chip_ident=E2=80=99
-> > > include/media/v4l2-subdev.h:822:15: error: =E2=80=98const struct v4l2=
-_subdev_core_ops=E2=80=99 has no member named =E2=80=98g_chip_ident=E2=80=
-=99 =20
->=20
-> There are still errors when I try to build. I've found code like the
-> one below:
->=20
-> const struct v4l2_ioctl_ops atomisp_ioctl_ops =3D {
-> 	.vidioc_querycap =3D atomisp_querycap,
-> #ifndef CONFIG_INTEL_MID_ISP
-> 	.vidioc_g_chip_ident =3D atomisp_g_chip_ident,
-> #endif
-> 	.vidioc_enum_input =3D atomisp_enum_input,
->=20
-> Therefore I've tried with "CONFIG_INTEL_MID_ISP=3Dy". Not sure if this is
-> a good idea function wise - but it compiles.
+That's news to me. The 'only' thing that suspend/resume needs to do is to
+stop the HW DMA on suspend and to restart the HW DMA (and typically reconfigure
+the whole HW video pipeline) on resume. Userspace doesn't do anything special.
 
-Yes, that's it. You also need:
+That's how e.g. a UVC webcam behaves when you close the lid of a laptop while
+it is streaming and open it again later.
 
-CONFIG_REGULATOR_WHISKEY_COVE=3Dy        =20
+It can be hard to get this right, and I suspect many media drivers will fail
+this test.
 
-and maybe some other stuff. Take a look at the Yocto's *.cfg files I pointed
-with the options (see enclosed).
+> 
+> My understanding to have freezable threads is during system suspend user 
+> space applications are frozen prior to kernel freeze and during suspend 
+> when opened video character device node gets closed these ioctl gets 
+> invoked and stream off during suspend and stream on during resume 
+> happens. So probably we still need to use freezable threads to sync with 
+> user space application when frozen before really entering suspend.
+> 
+> Will wait for Thierry/Hans comment to correct if my above understanding 
+> is wrong and help clarify if we need freezable threads at all in this 
+> case...
+> 
+> Note: I see other drivers using freezable threads for capture drivers.
 
+Well, it's often a copy-and-paste without truly understanding what is
+going on. You should not assume that the author knew what was happening.
 
+To be honest, I'm not an expert on this either.
 
-> But the last step of the
-> module build produces some scary warnings:
->=20
-> WARNING: "cpu_tss" [drivers/media/pci/atomisp//css2401a0_v21_build/atomis=
-p-css2401a0_v21.ko] undefined!
-> WARNING: "pv_lock_ops" [drivers/media/pci/atomisp//css2401a0_v21_build/at=
-omisp-css2401a0_v21.ko] undefined!
-> WARNING: "__alloc_workqueue_key" [drivers/media/pci/atomisp//css2401a0_v2=
-1_build/atomisp-css2401a0_v21.ko] undefined!
-> WARNING: "v4l2_subdev_querymenu" [drivers/media/pci/atomisp//css2401a0_v2=
-1_build/atomisp-css2401a0_v21.ko] undefined!
-> WARNING: "intel_mid_msgbus_write32" [drivers/media/pci/atomisp//css2401a0=
-_v21_build/atomisp-css2401a0_v21.ko] undefined!
-> ...
->=20
-> Maybe this is related to my partial build (only the module to test if
-> it builds). I'll now do a full build of the kernel.
+Looking at the tegra start/finish threads: they basically look at the
+chan->capture and chan->done lists. Freezing the threads should not be
+a problem as long as the actual suspend/resume doesn't mess with those
+lists. If it does, then it may get tricky to prove that it is safe to
+do suspend/resume (I think).
 
-Yeah, either that or there are some config options with different values.
+An alternative is to stop and restart those threads when suspending or
+resuming. Then those threads do not need to be 'freezable' and it might
+be easier to validate the code.
 
-I was able to do a full build here without the above errors, although
-I had to turn of some CONFIG options that were otherwise failing.
+In any case, I do not want to postpone the merger of the upcoming v12 for
+this. Changes can be done in later patches, if needed.
 
+Regards,
 
-Thanks,
-Mauro
+	Hans
 
-~/meta-intel-aero/recipes-kernel/linux/linux-yocto $ cat *.cfg
-CONFIG_USB_ACM=3Dy
-CONFIG_USB_WDM=3Dy
-CONFIG_USB_USBNET=3Dy
-CONFIG_USB_NET_CDC_MBIM=3Dy
-CONFIG_MEDIA_PCI_SUPPORT=3Dy
-
-CONFIG_VIDEO_DEV=3Dy
-CONFIG_MEDIA_SUPPORT=3Dy
-CONFIG_VIDEO_V4L2=3Dy
-CONFIG_INTEL_MID_ISP=3Dy
-CONFIG_VIDEO_ATOMISP=3Dm
-CONFIG_VIDEO_OV7251=3Dy
-CONFIG_VIDEO_OV8858=3Dy
-CONFIG_I2C_CHARDEV=3Dy
-CONFIG_GPIO_SYSFS=3Dy
-CONFIG_DYNAMIC_DEBUG=3Dy
-CONFIG_PRINTK_TIME=3Dy
-CONFIG_DMADEVICES=3Dy
-CONFIG_DW_DMAC_CORE=3Dy
-CONFIG_DW_DMAC=3Dy
-# DRONE CODE CONFIG
-CONFIG_HAVE_INTEL_TXT=3Dy
-CONFIG_MMU_NOTIFIER=3Dy
-CONFIG_PCI_ATS=3Dy
-CONFIG_PCI_PASID=3Dy
-
-CONFIG_VFIO_IOMMU_TYPE1=3Dy
-CONFIG_VFIO_VIRQFD=3Dy
-CONFIG_VFIO=3Dy
-CONFIG_VFIO_PCI=3Dy
-CONFIG_VFIO_PCI_MMAP=3Dy
-CONFIG_VFIO_PCI_INTX=3Dy
-CONFIG_IRQ_BYPASS_MANAGER=3Dy
-
-CONFIG_IOMMU_API=3Dy
-CONFIG_IOMMU_IOVA=3Dy
-CONFIG_DMAR_TABLE=3Dy
-CONFIG_INTEL_IOMMU=3Dy
-CONFIG_INTEL_IOMMU_SVM=3Dy
-CONFIG_INTEL_IOMMU_DEFAULT_ON=3Dy
-CONFIG_INTEL_IOMMU_FLOPPY_WA=3Dy
-
-CONFIG_X86_INTEL_LPSS=3Dy
-CONFIG_I2C_DESIGNWARE_CORE=3Dy
-CONFIG_I2C_DESIGNWARE_PCI=3Dy
-CONFIG_I2C_DESIGNWARE_PLATFORM=3Dy
-CONFIG_SERIAL_8250_DW=3Dy
-CONFIG_MMC=3Dy
-CONFIG_MMC_SDHCI=3Dy
-CONFIG_MMC_SDHCI_ACPI=3Dy
-CONFIG_NF_NAT_FTP=3Dy
-CONFIG_NF_NAT_IPV4=3Dy
-CONFIG_NF_NAT_IRC=3Dy
-CONFIG_NF_NAT_NEEDED=3Dy
-CONFIG_NF_NAT_SIP=3Dy
-CONFIG_IP_NF_NAT=3Dy
-CONFIG_GPIOLIB=3Dy
-CONFIG_DEBUG_PINCTRL=3Dy
-CONFIG_PINCTRL_CHERRYVIEW=3Dy
-
-#GPIO Keys
-CONFIG_KEYBOARD_GPIO=3Dy
-CONFIG_INPUT_MISC=3Dy
-CONFIG_INPUT_SOC_BUTTON_ARRAY=3Dy
-CONFIG_REGULATOR=3Dy
-CONFIG_REGULATOR_DEBUG=3Dy
-CONFIG_REGULATOR_FIXED_VOLTAGE=3Dy
-CONFIG_REGULATOR_GPIO=3Dy
-CONFIG_REGULATOR_WHISKEY_COVE=3Dy
-CONFIG_INTEL_SOC_DTS_THERMAL=3Dy
-CONFIG_SPI=3Dy
-CONFIG_SPI_MASTER=3Dy
-CONFIG_SPI_SPIDEV=3Dy
-CONFIG_SPI_PXA2XX=3Dy
-CONFIG_SPI_PXA2XX_DMA=3Dy
-CONFIG_SPI_PXA2XX_PCI=3Dy
-CONFIG_USB_ETH=3Dy
-CONFIG_USB_GADGET=3Dy
-CONFIG_USB_DWC3=3Dy
-CONFIG_USB_DWC3_PCI=3Dy
-CONFIG_USB_DWC3_GADGET=3Dy
-CONFIG_USB_OTG=3Dy
-CONFIG_USB_OTG_FSM=3Dy
-CONFIG_INTEL_CHT_PHY=3Dy
-CONFIG_NOP_USB_XCEIV=3Dy
-CONFIG_IIO=3Dy
-CONFIG_INTEL_SOC_PMIC=3Dy
-CONFIG_ITCO_WDT=3Dy
-# CONFIG_ITCO_VENDOR_SUPPORT is not set
-CONFIG_LPC_ICH=3Dy
-
+> 
+> 
+> Assuming we use freezable threads, I was saying we don't need 
+> conditional try_to_freeze() like you pointed because even if finish 
+> thread freeze happens prior to frame capture initiated by start thread, 
+> vi hardware will still continue to update this single ongoing buffer and 
+> will finish max within 200ms and actually there is no direct processing 
+> of this done by finish thread itself except that it returns buffers back 
+> when done and in this case it returns back when unfreeze/wake up happens.
+> 
+> So, I don't see any issue of unconditional try_to_freeze() even with 
+> freezable threads.
+> 
+> Thanks
+> 
+> Sowjanya
+> 
+> 
 
