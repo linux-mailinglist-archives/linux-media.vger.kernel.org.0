@@ -2,64 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C5A91C3CF1
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 16:27:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8A0C1C3D2D
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 16:35:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728847AbgEDO1F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 May 2020 10:27:05 -0400
-Received: from mail-il1-f198.google.com ([209.85.166.198]:41837 "EHLO
-        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728695AbgEDO1F (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 May 2020 10:27:05 -0400
-Received: by mail-il1-f198.google.com with SMTP id y2so13847056ilm.8
-        for <linux-media@vger.kernel.org>; Mon, 04 May 2020 07:27:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=tPiCWo5vZt6eRDO7BBRPOa0yuIhUrB+l131rOX9s6CY=;
-        b=qhp0r8ZYdKz9U0f3lqQlhywurS7WdtYaalSy7VEbpvduRFqMNwoDy3tXmJzvQ4xR3I
-         8S07ZBht5pYvSROhDjeh03sL9oRIvNwre6Qo04d+7sFNNq9HqIBxgs234nU5+SMtJJnm
-         qPCShPqqxGPH8moDkQtY87ViqZ2R/UBf1I8ORPxUtSZ2NlWeZyQgjsZy7gSiyQY3KUWU
-         TQKPJomqXzSNzYmfYUy0T2bQGoJWVTW/QRI/rGz4R2JNYwoTubDiTBpmYDMZt1CT63fX
-         rdGHOM+q4WVZFQS02CA3BgRklQOgkeQ1w8b4F9PqStkBxBmET5FLbeSaSQU4ENflr/zD
-         RJqQ==
-X-Gm-Message-State: AGi0Pua7PYwORllxvjbjSxQVjAHJoZRrtOxPOBry2uS4F9FEsSo3AtP7
-        RhNZJXxR6qKQJpZB+rS9lszX4yHu+M4Q93X+4I7k3ATVRTIJ
-X-Google-Smtp-Source: APiQypJ8harZ8NMOPBBI5viNbcdAe/HO5mOVtP+fh48bD5vjQGEpp9ITY+DyKOTs273WuBIXSFmjQ9qZWsR+xnFn/H5HXBGE1lGL
+        id S1729148AbgEDOf1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 May 2020 10:35:27 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:16141 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728187AbgEDOf0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 May 2020 10:35:26 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5eb027e90000>; Mon, 04 May 2020 07:34:17 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 04 May 2020 07:35:26 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 04 May 2020 07:35:26 -0700
+Received: from DRHQMAIL107.nvidia.com (10.27.9.16) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May
+ 2020 14:35:26 +0000
+Received: from [10.2.165.119] (172.20.13.39) by DRHQMAIL107.nvidia.com
+ (10.27.9.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May 2020
+ 14:35:25 +0000
+Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
+ <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+ <f1cbb602-163e-a539-aaa5-c7e947a8945b@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <834b9295-d46a-dd01-2496-2c24a8e7a8e4@nvidia.com>
+Date:   Mon, 4 May 2020 07:36:05 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-X-Received: by 2002:a92:5aca:: with SMTP id b71mr16544469ilg.56.1588602424468;
- Mon, 04 May 2020 07:27:04 -0700 (PDT)
-Date:   Mon, 04 May 2020 07:27:04 -0700
-In-Reply-To: <1588601290.13662.6.camel@suse.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000003329dd05a4d353d5@google.com>
-Subject: Re: general protection fault in go7007_usb_probe
-From:   syzbot <syzbot+cabfa4b5b05ff6be4ef0@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, hverkuil-cisco@xs4all.nl,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org, oneukum@suse.com,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <f1cbb602-163e-a539-aaa5-c7e947a8945b@gmail.com>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ DRHQMAIL107.nvidia.com (10.27.9.16)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1588602857; bh=QbHAIibWev3PVyqXHVQaxCb68Be+zOimcNcvRZM45Ec=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=WhE5NNBNk2KR58CeKJ3JDTLxgB344OmjUeTKqdEmKhd1HZ78sqnH0vFfhVTrZx05a
+         WXVlyyHuW4kCgOKu4JNleNd6oTtCaxH9+0PTpZvFjI57Aj4bkBUSwQGkCZXO0d1g0R
+         nb7CYqEXnEoNKR0Qoi789+TZnaXVlly1lTT6O7gwmFthjPDHsEVeOx9qzWyPh6MUTU
+         OIRHPn1/WZvoacZOR9UBQI35XrrQRHHo5t0FqUjiR4dcyjBOYyXP31QRo/gJVVyG1s
+         hPoB7AqDn9HKFGMi3SdL4Dy5/R/u8WUW6LGkHAiSsMBqYsmYMhKV88e1jhlKZUrAvw
+         ayKTD8qVDkYSw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
 
-syzbot has tested the proposed patch and the reproducer did not trigger crash:
-
-Reported-and-tested-by: syzbot+cabfa4b5b05ff6be4ef0@syzkaller.appspotmail.com
-
-Tested on:
-
-commit:         e9010320 usb: cdns3: gadget: make a bunch of functions sta..
-git tree:       https://github.com/google/kasan.git
-kernel config:  https://syzkaller.appspot.com/x/.config?x=bd14feb44652cfaf
-dashboard link: https://syzkaller.appspot.com/bug?extid=cabfa4b5b05ff6be4ef0
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-patch:          https://syzkaller.appspot.com/x/patch.diff?x=17327ea8100000
-
-Note: testing is done by a robot and is best-effort only.
+On 5/4/20 12:44 AM, Dmitry Osipenko wrote:
+> 30.04.2020 01:00, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> +/*
+>> + * VI channel input data type enum.
+>> + * These data type enum value gets programmed into corresponding Tegra =
+VI
+>> + * channel register bits.
+>> + */
+>> +enum tegra_image_dt {
+>> +	TEGRA_IMAGE_DT_YUV420_8 =3D 24,
+>> +	TEGRA_IMAGE_DT_YUV420_10,
+>> +
+>> +	TEGRA_IMAGE_DT_YUV420CSPS_8 =3D 28,
+>> +	TEGRA_IMAGE_DT_YUV420CSPS_10,
+>> +	TEGRA_IMAGE_DT_YUV422_8,
+>> +	TEGRA_IMAGE_DT_YUV422_10,
+>> +	TEGRA_IMAGE_DT_RGB444,
+>> +	TEGRA_IMAGE_DT_RGB555,
+>> +	TEGRA_IMAGE_DT_RGB565,
+>> +	TEGRA_IMAGE_DT_RGB666,
+>> +	TEGRA_IMAGE_DT_RGB888,
+>> +
+>> +	TEGRA_IMAGE_DT_RAW6 =3D 40,
+>> +	TEGRA_IMAGE_DT_RAW7,
+>> +	TEGRA_IMAGE_DT_RAW8,
+>> +	TEGRA_IMAGE_DT_RAW10,
+>> +	TEGRA_IMAGE_DT_RAW12,
+>> +	TEGRA_IMAGE_DT_RAW14,
+>> +};
+> Are these format IDs common to all Tegra SoCs or they unique to T210?
+Common for all SoCs
