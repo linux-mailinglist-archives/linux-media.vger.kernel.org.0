@@ -2,103 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 69C4A1C33D6
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 09:44:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCDFF1C3426
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 10:16:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728081AbgEDHoX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 May 2020 03:44:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45492 "EHLO
+        id S1728116AbgEDIQd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 May 2020 04:16:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727088AbgEDHoX (ORCPT
+        by vger.kernel.org with ESMTP id S1727878AbgEDIQd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 4 May 2020 03:44:23 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CE05C061A0E;
-        Mon,  4 May 2020 00:44:21 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id f11so8712066ljp.1;
-        Mon, 04 May 2020 00:44:21 -0700 (PDT)
+        Mon, 4 May 2020 04:16:33 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B672C061A0E
+        for <linux-media@vger.kernel.org>; Mon,  4 May 2020 01:16:33 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id v8so14940180wma.0
+        for <linux-media@vger.kernel.org>; Mon, 04 May 2020 01:16:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=e4Prdlmnh5uMplVy6wvzEHluFiUsOf4wHXUycuzMInI=;
-        b=rc7VQyjWHiU8q8qd53Z+gt23a2bhQs1Im6BnZyZBhVh5XJ6EL6dKzE0iatghW6oR0H
-         GL9eYKW6E7wbVT1gk9tepA8LjwnLXAcv+SyREN2WF6uyqARF0upWipHGR44MIPXI3tT/
-         mC01pyqegP/i+P24L1gtiPXRDUY9PRP2p68Nb79PKEkKH2FoU5Eymqqwr38LstdpGTea
-         KnOXiCfrxgYoURdxxy3lnKGl2x3v2lAnAtT/n/ON2L+UsmdX48dNiAmgiwDjljQHlFKL
-         gLnETiVHjve/Ud4pkfvKYZ3gQy+oiTX8KFtF6ipQcDDlKuboY0l3Ay0Iq55aUi2YKhT3
-         +KAQ==
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=S96L5sgkcY9t+MobNfmZ4UffGI1jHtyh8IAYblf7C1Q=;
+        b=iXlQp11NFh6d5KGWMQAEBl9zr6eHXGo2o5z1wT7+z/2twpH+jcHvi5QogSLSYUvZhy
+         nyiqmZtY+rYqcIZaCpJU5RlC84anRP1IcgWdiMBX/T0JmHPcCprvGTYJiTHbmcUzbMDc
+         J4+HMtkMXm289wS4TeNwH6UBR654zCDHQZ4yPWpf4BUx6S16tqeEhGNrOi6K8GlbboVg
+         5v3ur6ARdtYhr1X8iPK4hx+yobf3GkMYUiTM1QflTL8smfBgutFHIAAsRV4NKB59A+A4
+         M2qdNTX6JOLMFXF8vT7wYicwjEawnPgrU7Hb0oMluilb5KbVwKI2Wr5L+vX+z5x7lJ34
+         x2NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=e4Prdlmnh5uMplVy6wvzEHluFiUsOf4wHXUycuzMInI=;
-        b=U6eK5sh2SJWR3r3+sTXiTveVOcSruTCsGfzwqfPi4XwsDXL9298kDs49WG1Rcy3jOE
-         bZj43S0F2wVm558nfuqGjCuunPsjOyXAyW0inrgJlA78ns9udUBJ2ziyYAxw8XKYHFtC
-         f749s+B1IHs/1yJA7jQ1WZ24foE8t0SaUC/2AX/hqcnpxjS3l5JUU2Gbo53pJmjqPgyc
-         Qn6YwitwCe026eStLO5QjtA9VIoYDw4GVt3QX3q6TUu5SG2y56hfbSj1PC8FASF3KXV5
-         0G+gp9Zk6G18R40IqiDxLD1ICV3D3QDrheKI6efieWrzUHt5Tx3regX5quXid3DH1hoK
-         CBDg==
-X-Gm-Message-State: AGi0PubOfSz82sLpR9rJ0V+SNTM9NFxGBUGfXm9Jmxu5HtRNiOiUwWZb
-        fzMl1abpggZhkDTeRNhuzV9RY8K/
-X-Google-Smtp-Source: APiQypJ8wNAZdGO/6Y4ZZsGPSt3WVOBD64UxuHEzeznj10Lv1Ffj/SWws8iZ49zH7gwc43OFr4X0OQ==
-X-Received: by 2002:a2e:5813:: with SMTP id m19mr9144139ljb.230.1588578259413;
-        Mon, 04 May 2020 00:44:19 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id y21sm7535417ljg.66.2020.05.04.00.44.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 May 2020 00:44:18 -0700 (PDT)
-Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
-Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
- <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <f1cbb602-163e-a539-aaa5-c7e947a8945b@gmail.com>
-Date:   Mon, 4 May 2020 10:44:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=S96L5sgkcY9t+MobNfmZ4UffGI1jHtyh8IAYblf7C1Q=;
+        b=KK9m3bGy4LbLaG3I3hsjOPjGDw6JT+1nCD8kw2rZ3k09ci+X0nTw7QALKq49isqyvN
+         Ilb1YDIgQmw8dNKrxsvU7JvYrPg8GtumevWy4azh+MIjbiNLUa6JJO9biSJO3wb/lv20
+         MJJsoAAr9mZyGIPf9OZB9HGQp1QAndhpDPaqzXIGJFx6qRdu1KR7hSJi1Wpkh81GVvAb
+         XKCSnVebeavuLjYzOsqSrKgqH+1MsiFjJABZKPOAXs0ujwV8avP/mHAkHGd1fCLh8++V
+         4mUUSqlek7h10UTKXa2pcFDcK6rXwwXK9OhDEgxMVpQn3uruASCzQAkv+uGCueUWGStu
+         e0hw==
+X-Gm-Message-State: AGi0PuZYJMJp39iOT90fL/8hJNgLw3Ec29virzUq8n4By/jWuv1YJMXK
+        lGB/Ft1aqh5H9dKrK1r4ptk=
+X-Google-Smtp-Source: APiQypIlzRPo40EKsc7eIVx8GucOt4txcScIHqeqK8fl36CtO+a0rWexvm2eeB4PFcntDnutlQJj3Q==
+X-Received: by 2002:a05:600c:210b:: with SMTP id u11mr14108841wml.133.1588580191484;
+        Mon, 04 May 2020 01:16:31 -0700 (PDT)
+Received: from ASUS (77-56-155-30.dclient.hispeed.ch. [77.56.155.30])
+        by smtp.gmail.com with ESMTPSA id t16sm17768640wrm.26.2020.05.04.01.16.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 May 2020 01:16:31 -0700 (PDT)
+Date:   Mon, 4 May 2020 10:16:28 +0200
+From:   Patrik Gfeller <patrik.gfeller@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Francescodario Cuzzocrea 
+        <francescodario.cuzzocrea@mail.polimi.it>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "mchehab+huawei@kernel.org" <mchehab+huawei@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [GIT PULL] Ressurect the atomisp staging driver
+Message-ID: <20200504101628.0f632bf2@ASUS>
+In-Reply-To: <20200503180751.0b1e29c4@ASUS>
+References: <20200501215741.3be05695@coco.lan>
+        <3f551a8f87808ee7828dc03d41c7a23faac89f3c.camel@mail.polimi.it>
+        <20200503173213.78ae6aaa@coco.lan>
+        <CADnVkj96W0QfthukTKQ0a-i2fH1buooH3BEgfy22J9H9=_PcKA@mail.gmail.com>
+        <20200503180751.0b1e29c4@ASUS>
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-30.04.2020 01:00, Sowjanya Komatineni пишет:
-> +/*
-> + * VI channel input data type enum.
-> + * These data type enum value gets programmed into corresponding Tegra VI
-> + * channel register bits.
-> + */
-> +enum tegra_image_dt {
-> +	TEGRA_IMAGE_DT_YUV420_8 = 24,
-> +	TEGRA_IMAGE_DT_YUV420_10,
-> +
-> +	TEGRA_IMAGE_DT_YUV420CSPS_8 = 28,
-> +	TEGRA_IMAGE_DT_YUV420CSPS_10,
-> +	TEGRA_IMAGE_DT_YUV422_8,
-> +	TEGRA_IMAGE_DT_YUV422_10,
-> +	TEGRA_IMAGE_DT_RGB444,
-> +	TEGRA_IMAGE_DT_RGB555,
-> +	TEGRA_IMAGE_DT_RGB565,
-> +	TEGRA_IMAGE_DT_RGB666,
-> +	TEGRA_IMAGE_DT_RGB888,
-> +
-> +	TEGRA_IMAGE_DT_RAW6 = 40,
-> +	TEGRA_IMAGE_DT_RAW7,
-> +	TEGRA_IMAGE_DT_RAW8,
-> +	TEGRA_IMAGE_DT_RAW10,
-> +	TEGRA_IMAGE_DT_RAW12,
-> +	TEGRA_IMAGE_DT_RAW14,
-> +};
+On Sun, 3 May 2020 18:07:51 +0200
+Patrik Gfeller <patrik.gfeller@gmail.com> wrote:
 
-Are these format IDs common to all Tegra SoCs or they unique to T210?
+> On Sun, 3 May 2020 18:03:54 +0200
+> Francescodario Cuzzocrea <francescodario.cuzzocrea@mail.polimi.it> wrote:
+>=20
+> > Il giorno dom 3 mag 2020 alle ore 17:32 Mauro Carvalho Chehab <   =20
+>  [...] =20
+> >=20
+> > Thanks a lot !!
+> >  =20
+>  [...] =20
+> > According to my understarding mine which is baytrail should be  ISP2400=
+ =20
+>=20
+> I have ISP2401 (rev B) ... I'll give it a try :-) - thanks Mauro!
+
+I was not able yet to compile the kernel 4.4 successfully yet. I get quite
+some warnings that are treated as errors. I assume that I can "resolve"
+this by removing the respective compiler flag (-Werror).
+
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_cm=
+d.c:36:10: fatal error: linux/kct.h: No such file or directory
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_in=
+ternal.h:61: error: "IS_CHT" redefined [-Werror]
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_in=
+ternal.h:63: error: "IS_MOFD" redefined [-Werror]
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_in=
+ternal.h:65: error: "IS_BYT" redefined [-Werror]
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_in=
+ternal.h:61: error: "IS_CHT" redefined [-Werror]
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_in=
+ternal.h:63: error: "IS_MOFD" redefined [-Werror]
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_in=
+ternal.h:65: error: "IS_BYT" redefined [-Werror]
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_co=
+mpat_ioctl32.c:86:5: error: this =E2=80=98if=E2=80=99 clause does not guard=
+... [-Werror=3Dmisleading-indentation]
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_io=
+ctl.c:590:5: error: this =E2=80=98else=E2=80=99 clause does not guard... [-=
+Werror=3Dmisleading-indentation]
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_io=
+ctl.c:604:9: error: =E2=80=98struct v4l2_dbg_chip_ident=E2=80=99 declared i=
+nside parameter list will not be visible outside of this definition or decl=
+aration [-Werror]
+include/media/v4l2-subdev.h:821:51: error: =E2=80=98const struct v4l2_subde=
+v_core_ops=E2=80=99 has no member named =E2=80=98g_chip_ident=E2=80=99
+include/media/v4l2-subdev.h:822:15: error: =E2=80=98const struct v4l2_subde=
+v_core_ops=E2=80=99 has no member named =E2=80=98g_chip_ident=E2=80=99
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_in=
+ternal.h:61: error: "IS_CHT" redefined [-Werror]
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_in=
+ternal.h:63: error: "IS_MOFD" redefined [-Werror]
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_in=
+ternal.h:65: error: "IS_BYT" redefined [-Werror]
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_io=
+ctl.c:1916:3: error: implicit declaration of function =E2=80=98pci_write_co=
+nfig_word=E2=80=99; did you mean =E2=80=98gmin_get_config_var=E2=80=99? [-W=
+error=3Dimplicit-function-declaration]
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_io=
+ctl.c:1942:3: error: implicit declaration of function =E2=80=98INIT_COMPLET=
+ION=E2=80=99; did you mean =E2=80=98CONFIG_COMPACTION=E2=80=99? [-Werror=3D=
+implicit-function-declaration]
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_io=
+ctl.c:2182:3: error: implicit declaration of function =E2=80=98pci_write_co=
+nfig_dword=E2=80=99; did you mean =E2=80=98gmin_get_config_var=E2=80=99? [-=
+Werror=3Dimplicit-function-declaration]
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_io=
+ctl.c:3063:3: error: =E2=80=98const struct v4l2_ioctl_ops=E2=80=99 has no m=
+ember named =E2=80=98vidioc_g_chip_ident=E2=80=99; did you mean =E2=80=98vi=
+dioc_g_enc_index=E2=80=99?
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_io=
+ctl.c:3063:25: error: initialization of =E2=80=98int (*)(struct file *, voi=
+d *, struct v4l2_fmtdesc *)=E2=80=99 from incompatible pointer type =E2=80=
+=98int (*)(struct file *, void *, struct v4l2_dbg_chip_ident *)=E2=80=99 [-=
+Werror=3Dincompatible-pointer-types]
+cc1: all warnings being treated as errors
+
+But there are a few things that will take more time for me to investigate:
+
+drivers/media/pci/atomisp//css2401a0_v21_build/../atomisp_driver/atomisp_cm=
+d.c:36:10: fatal error: linux/kct.h: No such file or directory
+include/media/v4l2-subdev.h:821:51: error: =E2=80=98const struct v4l2_subde=
+v_core_ops=E2=80=99 has no member named =E2=80=98g_chip_ident=E2=80=99
+include/media/v4l2-subdev.h:822:15: error: =E2=80=98const struct v4l2_subde=
+v_core_ops=E2=80=99 has no member named =E2=80=98g_chip_ident=E2=80=99
+
+I'll keep you updated.
+
+>=20
+> >=20
+> > https://github.com/intel-aero/meta-intel-aero/blob/4ebb7cc829f57306b989=
+5f20af8fd17987089392/recipes-kernel/linux/linux-yocto/shisp_2401a0_v21.bin =
+=20
+>  [...] =20
+> >=20
+> > Dario =20
+>=20
+
+with kind regards,
+Patrik
+
