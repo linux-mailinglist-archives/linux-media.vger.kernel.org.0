@@ -2,104 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DEB61C3557
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 11:14:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AF3D1C3562
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 11:18:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727781AbgEDJOh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 May 2020 05:14:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59520 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726467AbgEDJOg (ORCPT
+        id S1728132AbgEDJSH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 May 2020 05:18:07 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:28466 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726625AbgEDJSH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 4 May 2020 05:14:36 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65443C061A0E
-        for <linux-media@vger.kernel.org>; Mon,  4 May 2020 02:14:36 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id e26so7600557wmk.5
-        for <linux-media@vger.kernel.org>; Mon, 04 May 2020 02:14:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=BmVMc7UKLdiuTwiPWoTqq3GgP0uVOQe/qjS3P8pMe9I=;
-        b=TqJ3DIHZ/IZk6mXHOJ8WqA4feSKeBAXwK2b6sTgrpXtVAwkvrh1xmb0EEpXrer7kzY
-         vbTfieAks+hEgtw3T/YtRn7IA0bckQ7MkR+2l5+hPtNEpT0+gJwSuSorjIfVK5dcQpAn
-         4aKWgAdHpP2GQ85d47BIOgbUoUnq4wa/CAm4xG76OUnDxERYqnOnwbs8Cd5IKAfm/fK2
-         m5uiSCYdRzK0Dut9SQZhdb3lk1lFaxVNCO2pp2YbPio3RZL1NCp1SFp9ZNfnrI47zFe8
-         2uSC/10/95xnAADHNC86A7jSwcX3G8oRbpHdCzlpIR9QGrIijHplBDYQh4bmNzLSqztD
-         EbzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=BmVMc7UKLdiuTwiPWoTqq3GgP0uVOQe/qjS3P8pMe9I=;
-        b=U+ROhVoPOitl/+VwYud/8T/lsg/A2pYLMZFM4+HKOXZo2svAzX6H7ofRg5sGBUnX83
-         Hkcu9c+gCAx+T2e8bCsUVWDt6r7xIee5L6HpnosAOx0D5AT5C1FBf9PEf0GW67JPYR5P
-         noXTtpKxiFO3AYeTPVs+hB346O377XvOwEgTtp6LT86sTQc/G9QGDYvyljTzeVxz8mUp
-         4R4k4eoV+Tn7GPMYhGK/mmqQkR+40eFaw3biHRE7+Bi19x3SRaALTzrwtRgi8MpmyFo3
-         COmTsdPyxQRPrgb3FMsVPosq27kR1h17/jIzhoxBEazrTsIfRKRW8M85I7S/qnHwx6qe
-         eRgQ==
-X-Gm-Message-State: AGi0PuZDl62G8pYlHsMyEkRxI337k3SPWn2VYt3Ha/r3bF0WQEeyI5ge
-        m/hGtfOXRwnS42YZ8v1iEXg=
-X-Google-Smtp-Source: APiQypLBV0D5do5BqtIWWZqTftXJDhCweajo3Fp4n05/CnCBZJY0l7YHWrzbGYw5yEVeduBgHqKS8w==
-X-Received: by 2002:a05:600c:2:: with SMTP id g2mr14082838wmc.85.1588583675193;
-        Mon, 04 May 2020 02:14:35 -0700 (PDT)
-Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id 17sm11998984wmo.2.2020.05.04.02.14.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2020 02:14:34 -0700 (PDT)
-Date:   Mon, 4 May 2020 10:14:32 +0100
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v6 11/22] media: imx: imx7-media-csi: Implement
- get_fwnode_pad op
-Message-ID: <20200504091432.3sqyzqkbf63ugazr@arch-thunder.localdomain>
-References: <20200501171556.14731-1-slongerbeam@gmail.com>
- <20200501171556.14731-12-slongerbeam@gmail.com>
+        Mon, 4 May 2020 05:18:07 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 044978Ts004044;
+        Mon, 4 May 2020 11:17:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=t8yE9JoGl4flloHQYJEWfkrlpSIqoEFqyExGxmwsMx8=;
+ b=SKVrCXff3h/xL4m3odmOVBOJUf2qGJNoKtavF7W6Rz0kENh4xvZMCpxwYDsfw58rWIxe
+ uHRuHlXRWPeptG3pU39cL8A4BE1d0BtwMYevfaQHB/x2JNqzO9+rv8pP8e/Bm++04prk
+ NdRdpi514nAwSf9qy1Vh0haZNOCXBmidZqBMY04DfYc6MFpEo1X2u3FXlifIRn7rEtbt
+ SHgnlyxsUf/vuXjEWSG7CZZ98MkRvZu5Ey0Me0w2BRr4wkDbaVHNUqljBSysarYiAjBl
+ atBmEB2Osx42GsTLk8y13PzfkW51ioujPXV2+37zvew1lZHY8NySEcot5hhcDaqikLV2 xg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 30rx089j7y-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 04 May 2020 11:17:45 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 1E65710002A;
+        Mon,  4 May 2020 11:17:41 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag5node3.st.com [10.75.127.15])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D3AA22BBAA5;
+        Mon,  4 May 2020 11:17:41 +0200 (CEST)
+Received: from SFHDAG3NODE3.st.com (10.75.127.9) by SFHDAG5NODE3.st.com
+ (10.75.127.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 4 May
+ 2020 11:17:41 +0200
+Received: from SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476]) by
+ SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476%20]) with mapi id
+ 15.00.1347.000; Mon, 4 May 2020 11:17:41 +0200
+From:   Benjamin GAIGNARD <benjamin.gaignard@st.com>
+To:     Valentin Schneider <valentin.schneider@arm.com>
+CC:     "Rafael J. Wysocki" <rafael@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        "viresh.kumar@linaro.org" <viresh.kumar@linaro.org>,
+        Hugues FRUCHET <hugues.fruchet@st.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "len.brown@intel.com" <len.brown@intel.com>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Patrick Bellasi <patrick.bellasi@arm.com>
+Subject: Re: [RFC 0/3] Introduce cpufreq minimum load QoS
+Thread-Topic: [RFC 0/3] Introduce cpufreq minimum load QoS
+Thread-Index: AQHWGi06wBgeAQBseECYOK/U7Qvw76iQJdAAgAACCYCAAAQ3AIABBseAgAAT0wCAAE7QgIAADU2AgAARzICAAAO9AIAF2zaA
+Date:   Mon, 4 May 2020 09:17:41 +0000
+Message-ID: <b8757472-c973-a32d-d5c9-a584d7d703f8@st.com>
+References: <20200424114058.21199-1-benjamin.gaignard@st.com>
+ <7657495.QyJl4BcWH5@kreacher> <30cdecf9-703a-eb2b-7c2b-f1e21c805add@st.com>
+ <70e743cf-b88e-346a-5114-939b8724c83d@arm.com>
+ <6b5cde14-58b3-045d-9413-223e66b87bf0@st.com>
+ <CAJZ5v0h6t6perZiibCWhEh1_V0pSXqFe-z22TFqH7KTFXYmqpQ@mail.gmail.com>
+ <a234e123-6c15-8e58-8921-614b58ca24ca@st.com> <jhjtv11cabk.mognet@arm.com>
+ <a20c5214-211b-1f70-1162-57b32e60549b@st.com> <jhjmu6tc6rz.mognet@arm.com>
+In-Reply-To: <jhjmu6tc6rz.mognet@arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.44]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F04BFBC11629A34FAC8C983CAC60E3EF@st.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200501171556.14731-12-slongerbeam@gmail.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.138,18.0.676
+ definitions=2020-05-04_05:2020-05-01,2020-05-04 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-On Fri, May 01, 2020 at 10:15:45AM -0700, Steve Longerbeam wrote:
-> Use v4l2_subdev_get_fwnode_pad_1_to_1() as the get_fwnode_pad operation.
-> The i.MX7 CSI maps port numbers and pad indexes 1:1.
-> 
-> Signed-off-by: Steve Longerbeam <slongerbeam@gmail.com>
-
-Acked-by: Rui Miguel Silva <rmfrfs@gmail.com>
-
-------
-Cheers,
-     Rui
-
-> ---
->  drivers/staging/media/imx/imx7-media-csi.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/staging/media/imx/imx7-media-csi.c b/drivers/staging/media/imx/imx7-media-csi.c
-> index abef59dc22b6..c74455f65b3e 100644
-> --- a/drivers/staging/media/imx/imx7-media-csi.c
-> +++ b/drivers/staging/media/imx/imx7-media-csi.c
-> @@ -1179,6 +1179,7 @@ static int imx7_csi_init_cfg(struct v4l2_subdev *sd,
->  static const struct media_entity_operations imx7_csi_entity_ops = {
->  	.link_setup	= imx7_csi_link_setup,
->  	.link_validate	= v4l2_subdev_link_validate,
-> +	.get_fwnode_pad = v4l2_subdev_get_fwnode_pad_1_to_1,
->  };
->  
->  static const struct v4l2_subdev_video_ops imx7_csi_video_ops = {
-> -- 
-> 2.17.1
-> 
+DQoNCk9uIDQvMzAvMjAgNTo1MCBQTSwgVmFsZW50aW4gU2NobmVpZGVyIHdyb3RlOg0KPiBPbiAz
+MC8wNC8yMCAxNjozNywgQmVuamFtaW4gR0FJR05BUkQgd3JvdGU6DQo+PiBPbiA0LzMwLzIwIDQ6
+MzMgUE0sIFZhbGVudGluIFNjaG5laWRlciB3cm90ZToNCj4+PiBPbiAzMC8wNC8yMCAxNDo0Niwg
+QmVuamFtaW4gR0FJR05BUkQgd3JvdGU6DQo+Pj4+PiBUaGF0J3Mgbm90IHdoYXQgSSBtZWFudC4N
+Cj4+Pj4+DQo+Pj4+PiBJIHN1cHBvc2UgdGhhdCB0aGUgaW50ZXJydXB0IHByb2Nlc3NpbmcgaW4g
+cXVlc3Rpb24gdGFrZXMgcGxhY2UgaW4NCj4+Pj4+IHByb2Nlc3MgY29udGV4dCBhbmQgc28geW91
+IG1heSBzZXQgdGhlIGxvd2VyIGNsYW1wIG9uIHRoZSB1dGlsaXphdGlvbg0KPj4+Pj4gb2YgdGhl
+IHRhc2sgY2FycnlpbmcgdGhhdCBvdXQuDQo+Pj4+IEkgaGF2ZSB0cnkgdG8gYWRkIHRoaXMgY29k
+ZSB3aGVuIHN0YXJ0aW5nIHN0cmVhbWluZyAoYmVmb3JlIHRoZSBmaXJzdA0KPj4+PiBpbnRlcnJ1
+cHQpIHRoZSBmcmFtZXMgZnJvbSB0aGUgc2Vuc29yOg0KPj4+PiBjb25zdCBzdHJ1Y3Qgc2NoZWRf
+YXR0ciBzY2hlZF9hdHRyID0gew0KPj4+PiAgICAgIC5zY2hlZF91dGlsX21pbiA9IDEwMDAwLCAv
+KiAxMDAlIG9mIHVzYWdlICovDQo+Pj4gVW5sZXNzIHlvdSBwbGF5IHdpdGggU0NIRURfQ0FQQUNJ
+VFlfU0hJRlQsIHRoZSBtYXggc2hvdWxkIGJlIDEwMjQgLQ0KPj4+IGkuZS4gU0NIRURfQ0FQQUNJ
+VFlfU0NBTEUuIFRoYXQncyBhIHJlYWxseSBiaWcgYm9vc3QsIGJ1dCB0aGF0J3MgZm9yIHlvdSB0
+bw0KPj4+IGJlbmNobWFyay4NCj4+Pg0KPj4+PiAgICAgIC5zY2hlZF9mbGFncyA9IFNDSEVEX0ZM
+QUdfVVRJTF9DTEFNUF9NSU4sDQo+Pj4+ICAgICB9Ow0KPj4+Pg0KPj4+PiBzY2hlZF9zZXRhdHRy
+KGN1cnJlbnQsICZzY2hlZF9hdHRyKTsNCj4+Pj4NCj4+Pj4gSSBkb24ndCBzZWUgYW55IGJlbmVm
+aWNlcyBtYXliZSB0aGVyZSBpcyBzb21lIGNvbmZpZ3VyYXRpb24gZmxhZ3MgdG8gc2V0Lg0KPj4+
+Pg0KPj4+PiBIb3cgY2hhbmdpbmcgc2NoZWRfdXRpbF9taW4gY291bGQgaW1wYWN0IGNwdWZyZXEg
+b25kZW1hbmQgZ292ZXJub3IgPw0KPj4+PiBEb2VzIGl0IGNoYW5nZSB0aGUgdmFsdWUgcmV0dXJu
+ZWQgd2hlbiB0aGUgZ292ZXJub3IgY2hlY2sgdGhlIGlkbGUgdGltZSA/DQo+Pj4+DQo+Pj4gWW91
+J2xsIGhhdmUgdG8gdXNlIHRoZSBzY2hlZHV0aWwgZ292ZXJub3IgZm9yIHVjbGFtcCB0byBoYXZl
+IGFuIGVmZmVjdC4gQW5kDQo+Pj4gYXJndWFibHkgdGhhdCdzIHdoYXQgeW91IHNob3VsZCBiZSB1
+c2luZywgdW5sZXNzIHNvbWV0aGluZyBleHBsaWNpdGx5DQo+Pj4gcHJldmVudHMgeW91IGZyb20g
+ZG9pbmcgdGhhdC4NCj4+IEV2ZW4gd2l0aCBzY2hlZHV0aWwgYW5kIFNDSEVEX0NBUEFDSVRZX1ND
+QUxFIHRoYXQgaXQgZG9lc24ndCB3b3JrLg0KPj4gY3B1ZnJlcS9jcHVpbmZvX2N1cl9mcmVxIHZh
+bHVlcyBhcmUgYWx3YXlzIG9uIHRoZSBtYXggdmFsdWUgZXZlbiBpZiB0aGUNCj4+IHN0YXRzIHNo
+b3cgdHJhbnNpdGlvbnMgYmV0d2VlbiB0aGUgYXZhaWxhYmxlIGZyZXF1ZW5jaWVzLg0KPj4NCj4+
+IEkgc2VlIHR3byBwb3NzaWJsZXMgcmVhc29ucyB0byBleHBsYWluIHRoYXQ6DQo+PiAtIHNjaGVk
+X3NldGF0dHIoKSBpcyBjYWxsZWQgaW4gdXNlcmxhbmQgcHJvY2VzcyBjb250ZXh0LCBidXQgdGhl
+DQo+PiB0aHJlYWRlZCBpcnEgaGFuZGxlciBpcyBydW5uaW5nIGluIGFub3RoZXIgcHJvY2Vzcy4N
+Cj4gQWggeWVzLCB0aGlzIG9ubHkgd29ya3MgaWYgdGhlIHRhc2sgeW91IGJvb3N0IGlzIHRoZSBv
+bmUgdGhhdCB3aWxsIGhhbmRsZQ0KPiB3aGF0ZXZlciB3b3JrIHlvdSBjYXJlIGFib3V0IChpbiB0
+aGlzIGNhc2UgaGFuZGxpbmcgdGhlIGlycSkuIFRoYXQgc2FpZCwgaWYNCj4geW91IGRvIHVzZSB0
+aHJlYWRlZCBJUlFzLCB0aGF0IHNob3VsZCBnaXZlIHlvdSBhIFNDSEVEX0ZJRk8gdGhyZWFkLCB3
+aGljaA0KPiBzaG91bGQgZHJpdmUgdGhlIGZyZXF1ZW5jeSB0byBpdHMgbWF4IHdoZW4gdXNpbmcg
+c2NoZWR1dGlsICh1bnJlbGF0ZWQgdG8NCj4gdWNsYW1wKS4NCkNhbiBJIGNvbmNsdWRlIHRoYXQg
+c2NoZWRfc2V0YXR0cigpIGlzbid0IHRoZSBnb29kIHdheSB0byBzb2x2ZSB0aGlzIA0KcHJvYmxl
+bSA/DQpEb2VzIG15IHBhdGNoZXMgbWFrZSBzZW5zZSBpbiB0aGlzIGNhc2UgPw0KDQo+PiAtIGJl
+Y2F1c2UgdGhpcyB1c2UgY2FzZSBpcyBhbG1vc3QgcnVubmluZyBhbGwgaW4gaGFyZHdhcmUgdGhl
+IHByb2Nlc3MNCj4+IGlzbid0IGRvaW5nIGFueXRoaW5nIHNvIHRoZSBzY2hlZHVsZXIgZG9lc24n
+dCB0YWtlIGNhcmUgb2YgaXQuDQo+Pg0KPj4+Pj4gQWx0ZXJuYXRpdmVseSwgdGhhdCB0YXNrIG1h
+eSBiZSBhIGRlYWRsaW5lIG9uZS4NCg==
