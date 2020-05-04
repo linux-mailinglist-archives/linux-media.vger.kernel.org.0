@@ -2,191 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C07C1C3FCB
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 18:27:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E31A51C3FDF
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 18:30:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729075AbgEDQ1g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 May 2020 12:27:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42260 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728158AbgEDQ1f (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 May 2020 12:27:35 -0400
-Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65F59C061A0E
-        for <linux-media@vger.kernel.org>; Mon,  4 May 2020 09:27:34 -0700 (PDT)
-Received: by mail-il1-x144.google.com with SMTP id t12so11819575ile.9
-        for <linux-media@vger.kernel.org>; Mon, 04 May 2020 09:27:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Vems/syeWDuHZxfDxCxSkbWqojVpVjsZQKfB682BvMY=;
-        b=ubk6me6pEGKBggtqvApwVlh70BBPX0f0m5eA4Q1WZ8GsbedeOugLSOyVSTDzWCAMhJ
-         a7eCR/c3m5l025gtR30RU7FAnlf3NzsjLu96ph2xcgpmCowKyrlPYAHylM+tDhutQMB5
-         raU9//eHhdVcjJUwm7mbV/icflBj/eufcFz9aFed3ngeyzFYlMNlJrPynWf6djYmR/Ub
-         NKETFL9980l0xPeFT1DsYUHtgUUwnoGoSZS8e3QF43cKPeiua3J5sITi9MhXEmv4aiDI
-         lHq/d9SkIoXueVFiE8kihpW2NxBKiLQe+C7xHPxcfdoNvMMLSoNPlNmKJXpFMFFCBZRD
-         LcTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Vems/syeWDuHZxfDxCxSkbWqojVpVjsZQKfB682BvMY=;
-        b=blsonFZRw7uolWjSE7mmDfgkIX6wT0uqvOThONjrAqs+K5Uxm8hMtouC9Dcec2MtyT
-         KzKVxLEM1PXtjn+M+IFVMNYzoG9f2Lb/8bLWO8rCOyJ88sm3kUDtMvszJkNy1zEyyN9B
-         uAGZ0/w0OObxzKDm1ASsAi+ICAWoL84UK9ZVz41snKbF6jLZTTUHQ28+GYQTgCLltn1M
-         waaQn481wFrAghzW7taEvYalcV6nQZ3qBpqRGZ195DGCak1bKBa+AFASxHlD1Gvj5x/U
-         1DAAUhp59PbEL0CPYBBrrN/6auMv/hCFPmPcG00Ug4c1ewJGuAv/jeI9vB6Y9Mn/9FHr
-         vJDw==
-X-Gm-Message-State: AGi0PuYaB9rtUsHs+l4clvTSrPsrzN2WLP1+wVLL5XPcJ2XV29g0OBtO
-        KdhNQiSkmDlf5A3Hb4QzQIO0ElDnMsQJQXxwJKFKkA==
-X-Google-Smtp-Source: APiQypLZJlejyJHYRbGILBMYWMB1UymktCGjlunt+QvgEaV8j7JfhqsDLs7nuBxdfhi67LUUBokONNhN7FEGPG3NNqE=
-X-Received: by 2002:a92:5d0f:: with SMTP id r15mr16915355ilb.251.1588609653225;
- Mon, 04 May 2020 09:27:33 -0700 (PDT)
+        id S1729425AbgEDQa1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 May 2020 12:30:27 -0400
+Received: from mx2.suse.de ([195.135.220.15]:37772 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729360AbgEDQa1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 4 May 2020 12:30:27 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 542B4AE85;
+        Mon,  4 May 2020 16:30:27 +0000 (UTC)
+Message-ID: <a215710b20cad7792d427a79659650308e56562f.camel@suse.de>
+Subject: Re: [PATCH v2 15/34] staging: mmal-vchiq: Use vc-sm-cma to support
+ zero copy
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>
+Date:   Mon, 04 May 2020 18:30:23 +0200
+In-Reply-To: <20200504092611.9798-16-laurent.pinchart@ideasonboard.com>
+References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
+         <20200504092611.9798-16-laurent.pinchart@ideasonboard.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-NqI+rUGeysOyvR1pZS0B"
+User-Agent: Evolution 3.36.2 
 MIME-Version: 1.0
-References: <20200429151639.5003-1-ariel@vanguardiasur.com.ar>
- <20200429151639.5003-2-ariel@vanguardiasur.com.ar> <20200501081819.GA29107@gofer.mess.org>
-In-Reply-To: <20200501081819.GA29107@gofer.mess.org>
-From:   "Ariel D'Alessandro" <ariel@vanguardiasur.com.ar>
-Date:   Mon, 4 May 2020 13:27:22 -0300
-Message-ID: <CADutaf3s91o8D+2389iMH-TmuX4euC+m3Gu2St0uDb+6RoJ-ZQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 1/1] Add support for meson building
-To:     Sean Young <sean@mess.org>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Rosen Penev <rosenp@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sean,
-Thanks for the feedback!
 
-On Fri, May 1, 2020 at 5:18 AM Sean Young <sean@mess.org> wrote:
->
-> On Wed, Apr 29, 2020 at 12:16:39PM -0300, Ariel D'Alessandro wrote:
-> > Supports building libraries and tools found in contrib/, lib/ and
-> > utils/ directories, along with the implemented gettext translations.
-> >
-> > Co-developed-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > Signed-off-by: Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
-> > ---
-> >  .gitignore                                    |   1 +
->
-> -snip-
->
-> > diff --git a/utils/keytable/meson.build b/utils/keytable/meson.build
-> > new file mode 100644
-> > index 00000000..751cb702
-> > --- /dev/null
-> > +++ b/utils/keytable/meson.build
-> > @@ -0,0 +1,70 @@
-> > +ir_keytable_sources = files(
-> > +    'ir-encode.c',
-> > +    'ir-encode.h',
-> > +    'keymap.c',
-> > +    'keymap.h',
-> > +    'keytable.c',
-> > +    'parse.h',
-> > +    'toml.c',
-> > +    'toml.h',
-> > +)
-> > +
-> > +ir_keytable_deps = []
-> > +
-> > +if not get_option('bpf').disabled() and prog_clang.found() and dep_libelf.found()
-> > +    ir_keytable_sources += files(
-> > +        'bpf.c',
-> > +        'bpf.h',
-> > +        'bpf_load.c',
-> > +        'bpf_load.h',
-> > +    )
-> > +    ir_keytable_deps += [
-> > +        dep_libelf,
-> > +    ]
-> > +    subdir('bpf_protocols')
-> > +endif
-> > +
-> > +ir_keytable_system_dir = udevdir
-> > +ir_keytable_user_dir = get_option('sysconfdir') / 'rc_keymaps'
-> > +
-> > +ir_keytable_c_args = [
-> > +    '-DIR_KEYTABLE_SYSTEM_DIR="@0@"'.format(ir_keytable_system_dir),
-> > +    '-DIR_KEYTABLE_USER_DIR="@0@"'.format(ir_keytable_user_dir),
-> > +]
-> > +
-> > +ir_keytable_incdir = [
-> > +    utils_common_incdir,
-> > +    v4l2_utils_incdir,
-> > +]
-> > +
-> > +ir_keytable = executable('ir-keytable',
-> > +                         sources : ir_keytable_sources,
-> > +                         install : true,
-> > +                         dependencies : ir_keytable_deps,
-> > +                         c_args : ir_keytable_c_args,
-> > +                         include_directories : ir_keytable_incdir)
-> > +
-> > +man_pages += [[ meson.current_source_dir(), 'ir-keytable', 1 ]]
-> > +man_pages += [[ meson.current_source_dir(), 'rc_keymap', 5 ]]
-> > +
-> > +ir_keytable_sysconf_files = files(
-> > +    'rc_maps.cfg',
-> > +)
-> > +install_data(ir_keytable_sysconf_files,
-> > +             install_dir : get_option('sysconfdir'))
-> > +
-> > +subdir('rc_keymaps')
-> > +install_data(ir_keytable_rc_keymaps,
-> > +             install_dir : udevdir / 'rc_keymaps')
-> > +
-> > +ir_keytable_udev_rules = files(
-> > +    '70-infrared.rules',
-> > +)
-> > +install_data(ir_keytable_udev_rules,
-> > +             install_dir : udevdir / 'rules.d')
-> > +
-> > +ir_keytable_systemd_files = files(
-> > +    '50-rc_keymap.conf',
-> > +)
-> > +install_data(ir_keytable_systemd_files,
-> > +             install_dir : systemd_systemdir / 'systemd-udevd.service.d')
->
-> There seems to be no way overriding systemd_systemdir or udevdir. This
-> would be very useful.
+--=-NqI+rUGeysOyvR1pZS0B
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-There's a way, as follows:
+On Mon, 2020-05-04 at 12:25 +0300, Laurent Pinchart wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+>=20
+> With the vc-sm-cma driver we can support zero copy of buffers between
+> the kernel and VPU. Add this support to vchiq-mmal.
+>=20
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+>=20
+> staging: vc-sm-cma: Use a void* pointer as the handle within the kernel
+>=20
+> The driver was using an unsigned int as the handle to the outside world,
+> and doing a nasty cast to the struct dmabuf when handed it back.
+> This breaks badly with a 64 bit kernel where the pointer doesn't fit
+> in an unsigned int.
+>=20
+> Switch to using a void* within the kernel. Reality is that it is
+> a struct dma_buf*, but advertising it as such to other drivers seems
+> to encourage the use of it as such, and I'm not sure on the implications
+> of that.
+>=20
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 
-Meson way:
-    $ meson -Dsystemdsystemunitdir=$my_path build/
-    $ meson -Dudevdir=$my_path build/
-
-Autoconf way:
-    $ ./configure --with-systemdsystemunitdir=$my_path
-    $ ./configure --with-udevdir=$my_path
-
-The above will set systemd_systemdir or udevdir with the specified path.
-
-> I don't think this can be done with autoconf either, so this is probably
-> a nice to have. However with autoconf I can do "make -k install" to
-> skip installing system udev/systemd files, but I don't know how to do
-> with ninja.
-
-Shall we provide an option to skip installing these system files?
-
-> Lastly the meson build does not support sync-with-kernel. We can add
-> this at some later point, I suppose.
-
-True, that's not done yet. We should support it in the meson build in order
-to replace autotools completely. I'll try to tackle that down ASAP.
+I think this patch's description needs to be updated.
 
 Regards,
-Ariel
+Nicolas
+
+
+--=-NqI+rUGeysOyvR1pZS0B
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl6wQyAACgkQlfZmHno8
+x/4TtAf/XSqwkQ0qgudS8QOXk37BR/lYQYBsMo5rheQ49UL7PZFQI6t9era8fZjC
++RqaGc6/hCfrfSeOY3rIuoUHywGcIP1EJXK5OBTLYyCKJ2toXCp2cfjJWGNQiQ1W
+RiMQ3YUq0n6ZxH45hwDposOKCrXnBirmcqBYUoiOEPtnuQyw7UrnHpDzwx+IItkk
+xBMEzy9xkaEvE2dI4S2o7RHSyYPR/HeWBlnkb7wc2rAXwV1Dx2hVJexz25k5My6k
+ZXQAY/+qTKcqNo0iqG4FU/oc40jOcY9Pgow5etHZuXONFh1Fz5VUOYJmblP9gfQx
+gA24FoLvV6KqoHjv1nBeDoSP5q9OEA==
+=9fDj
+-----END PGP SIGNATURE-----
+
+--=-NqI+rUGeysOyvR1pZS0B--
+
