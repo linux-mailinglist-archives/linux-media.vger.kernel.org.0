@@ -2,166 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D04E51C3EAC
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 17:38:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 103121C3ED9
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 17:44:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728437AbgEDPi0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 May 2020 11:38:26 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:48008 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726551AbgEDPi0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 May 2020 11:38:26 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C85BF4F7;
-        Mon,  4 May 2020 17:38:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1588606704;
-        bh=8D+XvK66hBRVjgtCaBGYbZT8OF1/bHqd4K845ykRMnY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=j/NwD4K6nqyd71xn7/fi3SdT8d9YlwPNrlmF58mOby2kqQNa/1l5UOtOpMclt7EeO
-         +PBV1VLlXA1QaTRHIEYFs6UIk4IknDkoIeIyI2iS0mt+jwfL+/zaIuRygIQaMv13Qg
-         or6f2oKd1LO36oVAuLKmEBO71KgvLZwPM5zZZ9rY=
-Date:   Mon, 4 May 2020 18:38:18 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-Cc:     linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        id S1728983AbgEDPog (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 May 2020 11:44:36 -0400
+Received: from mx2.suse.de ([195.135.220.15]:44428 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728021AbgEDPog (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 4 May 2020 11:44:36 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 24999AFA9;
+        Mon,  4 May 2020 15:44:36 +0000 (UTC)
+Message-ID: <4bb8d41381004b02a1345f44165f6ad5b99f74ec.camel@suse.de>
+Subject: Re: [PATCH v2 27/34] staging: vchiq: Use the old dma controller for
+ OF config on platform devices
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
         Naushir Patuck <naush@raspberrypi.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v2 00/34] Drivers for the BCM283x CSI-2/CCP2 receiver and
- ISP
-Message-ID: <20200504153818.GE4365@pendragon.ideasonboard.com>
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>
+Date:   Mon, 04 May 2020 17:44:32 +0200
+In-Reply-To: <20200504092611.9798-28-laurent.pinchart@ideasonboard.com>
 References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
- <8ef4ab2d73ff9b4d1135ed8362aff2fe0fe21c41.camel@suse.de>
+         <20200504092611.9798-28-laurent.pinchart@ideasonboard.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-bhSj+tuO8H54oGJFMMJS"
+User-Agent: Evolution 3.36.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8ef4ab2d73ff9b4d1135ed8362aff2fe0fe21c41.camel@suse.de>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas,
 
-On Mon, May 04, 2020 at 05:15:42PM +0200, Nicolas Saenz Julienne wrote:
-> On Mon, 2020-05-04 at 12:25 +0300, Laurent Pinchart wrote:
-> > Hello,
-> 
-> Hi Laurent, thanks for the series!
-> Would you mind CCing on further iterations, I was lucky enough to find this
-> referenced in twitter, and I'll be more than happy to review/test it. I'm the
-> BCM2711/BCM2835 arm architecture & vc04_services maintainer :).
-> 
-> An please also CC:
-> bcm-kernel-feedback-list@broadcom.com
-> linux-rpi-kernel@lists.infradead.org
-> linux-arm-kernel@lists.infradead.org
+--=-bhSj+tuO8H54oGJFMMJS
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sure. I was so focussed on the userspace part and on getting everything
-ready for today's release that I completely forgot to run the patches
-through get_maintainers.pl and CC the appropriate people and lists.
-Sorry about the oversight, I'll make sure to fix it next time.
+Hi Laurent, Dave,
 
-Speaking of BCM2711/BCM2835 maintenance... :-) This series isn't
-complete as it's missing full DT integration of camera sensor modules.
-This is handled through DT overlays in the Raspberry Pi downstream
-kernel, which are applied to the base DT by the boot loader (a neat
-solution in my opinion). I wonder what we should do for mainline.
-Ideally we should be able to at least use the DT overlays from the
-downstream Raspberry Pi kernel on mainline, but that's not possible
-today due to incompatibilities in the base DT (in particular related to
-the I2C port to which the camera sensors are connected). Dave, have you
-given that a thought by any chance ?
+On Mon, 2020-05-04 at 12:26 +0300, Laurent Pinchart wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+>=20
+> vchiq on Pi4 is no longer under the soc node, therefore it
+> doesn't get the dma-ranges for the VPU.
 
-Another more general question for Nicolas, is there a plan to try and
-get vc04_services out of staging ?
+This is not true in upstream's device-tree, and AFAIK, from a HW perspectiv=
+e,
+the VPU interface didn't change interconnects, it's still connected to /soc
+(highlighted by the fact that it has its DMA limitations).
 
-> > This patch series adds drivers for the CSI-2/CCP2 receiver and ISP found
-> > in the Broadcom BCM283x and compatible SoCs (namely the BCM2711). The
-> > CSI-2/CCP2 receiver IP core is known as Unicam. The most well known
-> > platforms representative of these SoCs are the Raspberry Pi. The
-> > previous version of the series was titled "[PATCH 0/5] Driver for the
-> > BCM283x CSI-2/CCP2 receiver" and contained the CSI-2/CCP2 receiver only.
-> > 
-> > A driver already exists in drivers/staging/vc04_services/bcm2835-camera/
-> > to support cameras on Raspberry Pi platforms. The driver relies on the
-> > firmware running on the VC4 VPU to control the camera, and is thus
-> > limited to the camera sensors supported in the firmware. These drivers,
-> > on the other hand, have limited dependencies on the firmware:
-> > 
-> > - The Unicam peripheral driver doesn't rely on the firmware at all and
-> >   controls the Unicam hardware directly. It supports any camera sensor
-> >   compatible with those interfaces.
-> > 
-> > - The ISP driver relies on the VC4 VPU firmware to communicate with the
-> >   ISP hardware, but, unlike with the existing bcm2835-camera driver, the
-> >   firmware exposes the ISP instead of controlling it internally.
-> > 
-> > The code is upported from the Raspberry Pi Linux kernel repository
-> > available at https://github.com/raspberrypi/linux. The patches are based
-> > on top of v5.7-rc2 with Jacopo's "[PATCH v4 0/5] media: Register
-> > read-only sub-dev devnode" series applied.
-> > 
-> > Patches 01/34 to 05/34 are related to the bcm2835-unicam driver. Patches
-> > 01/34 and 02/34 add new a pixel format and media bus code for sensor
-> > embedded data. Patch 03/34 then adds DT bindings for the driver, and
-> > patch 04/34 adds the driver itself. Patch 05/34 adds the Unicam
-> > peripheral instances to the BCM2711 device tree.
-> > 
-> > The bcm2835-unicam driver supports capturing both image data and
-> > embedded data. Support for embedded data is currently implemented
-> > through two sink pads, requiring two source pads on the sensor driver
-> > side. Work is ongoing to try and replace this with usage of a
-> > multiplexed streams API.
-> > 
-> > The remaining patches are related to the bcm2835-isp driver. As the
-> > driver needs to communicate with the VC4 VPU firmware, whose support is
-> > currently in staging, the new driver is added to staging too.
-> > 
-> > Patch 06/34 adds a new driver named vc-sm-cma to handle memory sharing
-> > with the VC4 VPU. This will likely be reworked in the future to use
-> > dmabuf heaps. Patch 07/34 then breaks the VC4 VPU multimedia access
-> > layer code (named vchiq-mmal) out of the existing bcm2835-camera driver
-> > to a new directory, to be shared with the bcm2835-isp driver. Patches
-> > 08/34 to 24/34 then upport various improvements to the MMAL code.
-> > Patches 25/34 to 31/34 follow with an upport of various improvement to
-> > the VCHIQ code, which handles the communication with the VC4 VPU (and is
-> > used by the MMAL code).
-> > 
-> > At patch 32/34 we move to the media side, with a small extension to
-> > videobuf2. Patch 33/34 adds the bcm2835-isp driver, along with
-> > documentation of the related metadata format. Patch 34/34 then wires
-> > this up with the vchiq-mmal driver.
-> > 
-> > The two drivers will likely be split into separate patch series for v3.
-> > I however wanted to bundle them here to emphasize that they're related,
-> > and that together they support full control of the Raspberry Pi cameras
-> > through libcamera without any closed-source software. The corresponding
-> > libcamera code is available from
-> > 
-> > 	git://linuxtv.org/libcamera.git raspberrypi
-> > 
-> > The 'raspberrypi' branch is temporary until the code gets integrated in
-> > the master branch after public review.
-> > 
-> > I would like to thank Dave Stevenson, Naushir Patuk and David Plowman
-> > from Raspberry Pi (Trading) Ltd. for their hard work that made this all
-> > possible, as well as Jacopo Mondi, Kieran Bingham and Niklas Söderlund
-> > from the libcamera team for all their efforts on both the kernel and
-> > libcamera side. This is, I'm sure, the beginning of a new journey for
-> > computational camera support in Linux.
-> > 
-> > And now, the customary v4l2-compliance report. There are three new
-> > failures with bcm2835-unicam compared to the previous version, and they
-> > will addressed in v3.
+Why did you found the need to move vchiq into /scb downstream?
 
-[snip]
+> Switch to using the configuration of the old dma controller as
+> that will set the dma-ranges correctly.
 
--- 
+Ultimately, this is no different than copying DMA constraints from, say, th=
+e
+I2C bus controller. The fact that this is a DMA controller has nothing to w=
+ith
+VPU's view of the system's memory (which dma-ranges symbolizes).
+
+BTW, Laurent, I learned all about DMA trough one of your talks, it really
+helped to set everything in place at the time :).
+
 Regards,
+Nicolas
 
-Laurent Pinchart
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  .../interface/vchiq_arm/vchiq_arm.c             | 17 ++++++++++++++---
+>  1 file changed, 14 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.=
+c
+> b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 15ccd624aaab..d1a556f16499 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -2719,6 +2719,7 @@ vchiq_register_child(struct platform_device *pdev, =
+const
+> char *name)
+>  {
+>  	struct platform_device_info pdevinfo;
+>  	struct platform_device *child;
+> +	struct device_node *np;
+> =20
+>  	memset(&pdevinfo, 0, sizeof(pdevinfo));
+> =20
+> @@ -2734,10 +2735,20 @@ vchiq_register_child(struct platform_device *pdev=
+,
+> const char *name)
+>  	}
+> =20
+>  	/*
+> -	 * We want the dma-ranges etc to be copied from the parent VCHIQ device
+> -	 * to be passed on to the children too.
+> +	 * We want the dma-ranges etc to be copied from a device with the
+> +	 * correct dma-ranges for the VPU.
+> +	 * VCHIQ on Pi4 is now under scb which doesn't get those dma-ranges.
+> +	 * Take the "dma" node as going to be suitable as it sees the world
+> +	 * through the same eyes as the VPU.
+>  	 */
+> -	of_dma_configure(&new_dev->dev, pdev->dev.of_node, true);
+> +	np =3D of_find_node_by_path("dma");
+> +	if (!np)
+> +		np =3D pdev->dev.of_node;
+> +
+> +	of_dma_configure(&child->dev, np, true);
+> +
+> +	if (np !=3D pdev->dev.of_node)
+> +		of_node_put(np);
+> =20
+>  	return child;
+>  }
+
+
+--=-bhSj+tuO8H54oGJFMMJS
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl6wOGEACgkQlfZmHno8
+x/7CQQf+NZXJoC6+6D7D0KVm2kS/oC8Zrh37pWEaAMVufqVecVaJ9ADHQ5TJKkYR
+AZnd6wDMu185ObBznfyLxKJCflmIftSyXyKDameryd4qYNmF3WhwZMDL2iW5DDnV
+gdz/Ym2vFup5zl1ZL3mqNZYyOGX4aU1OMj6GgWKI/Y6p9JrHlh2/duXM5MWMcY/Y
+nB4ojW90V5A01m0Us+yw5PrQYxkxx5Glj1FAJLx8LzshBbQ1IIEFsxexGCi7UQoq
+415GC3wyIbI3jgikptHbrMuLAuQz//y5v4+KdaePzCnyr1YVj7Iw2ZJMHcKcG6xd
+KjQbBeCMusd0DXzbMea58eQOxJ9N8g==
+=APJn
+-----END PGP SIGNATURE-----
+
+--=-bhSj+tuO8H54oGJFMMJS--
+
