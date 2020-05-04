@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E91991C35B8
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 11:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F079E1C35C5
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 11:30:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728388AbgEDJ36 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 May 2020 05:29:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33678 "EHLO
+        id S1728565AbgEDJam (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 May 2020 05:30:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727781AbgEDJ35 (ORCPT
+        by vger.kernel.org with ESMTP id S1728071AbgEDJal (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 4 May 2020 05:29:57 -0400
+        Mon, 4 May 2020 05:30:41 -0400
 Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 944B3C061A0E;
-        Mon,  4 May 2020 02:29:57 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id e16so14948707wra.7;
-        Mon, 04 May 2020 02:29:57 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96ACDC061A0E;
+        Mon,  4 May 2020 02:30:41 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id g13so20045261wrb.8;
+        Mon, 04 May 2020 02:30:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=l2YxkH/lWbx8jjAhy6XV0nL4qLMq1MOAjY7RA6k/WB4=;
-        b=K/Ws8BmyoqGZGLQYHin3HwA+JMkgqMir7wNzB+pLnNTGxSTZUQHt0DLXMzAsIQEzcP
-         9QJhcV4cq2WOOptbt+J4xCmszcY31/GvEuCAPr3uqFtzKXNVWE9T/Kza5Y0rT/KzbyaA
-         hL9Sre8KAx8xY1lePcT+QeEx4d81BJyyb6c2/KPjBTx0YLLH0EjrYv/y0BcbiMjfluoR
-         /coNr6jJ3H+bn0ZuQ+DREJfJeSjZ+oxvg21BqHTIWsOJVyJypNsL7X5HEHOoYc8ma5E/
-         0ivUVZdwJXvWcE79pxbu0EAW9Gw1v5obnDV/lGVFG6/5I6LqZCBBtLvoTR3myFpzLxE7
-         lKDQ==
+        bh=ILoe7y0shto7bU0P2H+2klHY8P228w9POxLvuitoG7I=;
+        b=bJU8W1fM3zw2r4Ba5Dl1PuJBnxl0FmJIjrjpwbeYBXO4OlYdW7lQCPRbjaFrAZYsTT
+         91aVNepFk6EylE+Ux5jwIBE+2zDHUDWgjwZhJwOTo0/F7O1H3+NTgCO+rPRZvQ8fmqoe
+         FVgqDvpt3wT59lVSABdupwMmw4+nmai4HG6lzXT4BxEETAFXbCp/sSTwowDU/UaJvdd9
+         UJL+6Wnt0HFxDCDw2PTSavg9pYv5fB/EC8bY8BcjZyNke0e6lDRXAf5vj20V8offQ84l
+         EmMpo1B4aDnynA71nShdaLEnEtxCGBnLX6IRhCbmU0dn8pW7nxcC8acevT5mtmhoZa5J
+         JVOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=l2YxkH/lWbx8jjAhy6XV0nL4qLMq1MOAjY7RA6k/WB4=;
-        b=rysfett1YnHUB8EevK4YlL9fwyRXojWrzUsmyyyMpCGW2yaPuB9xbYbk3PfBwyS50d
-         /UE5ckicsTDVulmHFV1V17bkZzZXSeDuK9lua2nKnN3uO8cgsT7d+UWFMNG7wvfSKFL5
-         0k6qMumR43cNkvgj96/6tlJ3+H360FAG1BUR4r57YXRlQk/R6nuyHtRe2zz8PNRhXU+S
-         lOKtS7dXoTO7AeSp8YKRSua/gZ6qVLvxBeQwnB4k56nhBQrW8ukAWTwjo/lC4YGwd/UI
-         wmpeL57J/tEQ7YNFRrm0eNLtIx1432ZZAxD+nijGffckMkOBzG0HLa5b2GlnQ3Q2XMoZ
-         vCfw==
-X-Gm-Message-State: AGi0PubKpangctsFpuZuB57EXbwDLUwNGYJN0dOgEbOfGUmzrUfOI4LS
-        KOB6KRQ4D5yiggHFbN/NTc8=
-X-Google-Smtp-Source: APiQypIkkbhC2pp71xWc4qJpvnWgeLLvCX9aOOoVg4impVPijmMMmbwo6MgNbyyZOaF+TmYb8rAXSw==
-X-Received: by 2002:adf:ea09:: with SMTP id q9mr314819wrm.399.1588584596171;
-        Mon, 04 May 2020 02:29:56 -0700 (PDT)
+        bh=ILoe7y0shto7bU0P2H+2klHY8P228w9POxLvuitoG7I=;
+        b=oDb1kH5bODZC/8WyhcOAdeGI5VXnb7t8X3DtkGpKOE2uLIhP0lp2NpRlkUe8UI3sne
+         Dn2MABODLURs+NKKqDS95eUZo4c67bfKqul10evZoElFC4sshcTyG06u4qbke5GqQYtC
+         l89MK1+11Zp2JB/2KrPmy+99cKTiRxk3A9KBVvEQF4gGalRSShqspLZpNEr9SHb1FheY
+         Dr6g0OuztYYcsKEQueAuDKjNIJKIGyorjhZe+aMhT7LPApVSVyDUsb/xTdfMyZlmN/zs
+         QOk33JuCRHEhAKLUo3KFFU8UeALvNn8gRmwNAJEnOtU2L87SuWlamARb8KQnLl16yxOh
+         jPzw==
+X-Gm-Message-State: AGi0PuYXRCH5jq+78S9qhZyzPftifWsuGKwkxbzV9mrLIYXEsMHYOEdG
+        /ocXZ0NJclKzf1LnYwU8VDg=
+X-Google-Smtp-Source: APiQypLvAvPIqV4mmOd08kzXGbxUOuVUQXP/BU97hOB+1KAm8BHZmwLzY/vOTCYPLk1/KgNU/leseA==
+X-Received: by 2002:a5d:6a04:: with SMTP id m4mr19509274wru.326.1588584640260;
+        Mon, 04 May 2020 02:30:40 -0700 (PDT)
 Received: from skynet.lan (246.red-83-44-9.dynamicip.rima-tde.net. [83.44.9.246])
-        by smtp.gmail.com with ESMTPSA id s8sm17334965wru.38.2020.05.04.02.29.54
+        by smtp.gmail.com with ESMTPSA id u12sm13075570wmu.25.2020.05.04.02.30.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2020 02:29:55 -0700 (PDT)
+        Mon, 04 May 2020 02:30:39 -0700 (PDT)
 From:   =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
         <noltari@gmail.com>
 To:     computersforpeace@gmail.com, kdasu.kdev@gmail.com,
@@ -58,9 +58,9 @@ To:     computersforpeace@gmail.com, kdasu.kdev@gmail.com,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
 Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
         <noltari@gmail.com>
-Subject: [PATCH] nand: brcmnand: correctly verify erased pages
-Date:   Mon,  4 May 2020 11:29:43 +0200
-Message-Id: <20200504092943.2739784-1-noltari@gmail.com>
+Subject: [PATCH 1/2] nand: brcmnand: improve hamming oob layout
+Date:   Mon,  4 May 2020 11:30:33 +0200
+Message-Id: <20200504093034.2739968-1-noltari@gmail.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -70,57 +70,80 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The current code checks that the whole OOB area is erased.
-This is a problem when JFFS2 cleanmarkers are added to the OOB, since it will
-fail due to the usable OOB bytes not being 0xff.
-Correct this by only checking that the ECC aren't 0xff.
+The current code generates 8 oob sections:
+S1	1-5
+ECC	6-8
+S2	9-15
+S3	16-21
+ECC	22-24
+S4	25-31
+S5	32-37
+ECC	38-40
+S6	41-47
+S7	48-53
+ECC	54-56
+S8	57-63
+
+Change it by merging continuous sections:
+S1	1-5
+ECC	6-8
+S2	9-21
+ECC	22-24
+S3	25-37
+ECC	38-40
+S4	41-53
+ECC	54-56
+S5	57-63
 
 Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
 ---
- drivers/mtd/nand/raw/brcmnand/brcmnand.c | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ drivers/mtd/nand/raw/brcmnand/brcmnand.c | 28 +++++++++---------------
+ 1 file changed, 10 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-index e4e3ceeac38f..546f0807b887 100644
+index e4e3ceeac38f..1bba309c7684 100644
 --- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
 +++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-@@ -2018,6 +2018,7 @@ static int brcmnand_read_by_pio(struct mtd_info *mtd, struct nand_chip *chip,
- static int brcmstb_nand_verify_erased_page(struct mtd_info *mtd,
- 		  struct nand_chip *chip, void *buf, u64 addr)
- {
-+	struct mtd_oob_region oobecc;
- 	int i, sas;
- 	void *oob = chip->oob_poi;
- 	int bitflips = 0;
-@@ -2035,11 +2036,24 @@ static int brcmstb_nand_verify_erased_page(struct mtd_info *mtd,
- 	if (ret)
- 		return ret;
+@@ -1100,29 +1100,21 @@ static int brcmnand_hamming_ooblayout_free(struct mtd_info *mtd, int section,
+ 	struct brcmnand_cfg *cfg = &host->hwcfg;
+ 	int sas = cfg->spare_area_size << cfg->sector_size_1k;
+ 	int sectors = cfg->page_size / (512 << cfg->sector_size_1k);
++	u32 next;
  
--	for (i = 0; i < chip->ecc.steps; i++, oob += sas) {
-+	for (i = 0; i < chip->ecc.steps; i++) {
- 		ecc_chunk = buf + chip->ecc.size * i;
--		ret = nand_check_erased_ecc_chunk(ecc_chunk,
--						  chip->ecc.size,
--						  oob, sas, NULL, 0,
-+
-+		ret = nand_check_erased_ecc_chunk(ecc_chunk, chip->ecc.size,
-+						  NULL, 0, NULL, 0,
-+						  chip->ecc.strength);
-+		if (ret < 0)
-+			return ret;
-+
-+		bitflips = max(bitflips, ret);
-+	}
-+
-+	for (i = 0; mtd->ooblayout->ecc(mtd, i, &oobecc) != -ERANGE; i++)
-+	{
-+		ret = nand_check_erased_ecc_chunk(NULL, 0,
-+						  oob + oobecc.offset,
-+						  oobecc.length,
-+						  NULL, 0,
- 						  chip->ecc.strength);
- 		if (ret < 0)
- 			return ret;
+-	if (section >= sectors * 2)
++	if (section > sectors)
+ 		return -ERANGE;
+ 
+-	oobregion->offset = (section / 2) * sas;
++	next = (section * sas);
++	if (section < sectors)
++		next += 6;
+ 
+-	if (section & 1) {
+-		oobregion->offset += 9;
+-		oobregion->length = 7;
+-	} else {
+-		oobregion->length = 6;
++	if (section)
++		oobregion->offset = ((section - 1) * sas) + 9;
++	else
++		oobregion->offset = 1; /* BBI */
+ 
+-		/* First sector of each page may have BBI */
+-		if (!section) {
+-			/*
+-			 * Small-page NAND use byte 6 for BBI while large-page
+-			 * NAND use byte 0.
+-			 */
+-			if (cfg->page_size > 512)
+-				oobregion->offset++;
+-			oobregion->length--;
+-		}
+-	}
++	oobregion->length = next - oobregion->offset;
+ 
+ 	return 0;
+ }
 -- 
 2.26.2
 
