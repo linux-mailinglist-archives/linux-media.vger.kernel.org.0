@@ -2,175 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CB4C01C32B0
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 08:25:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69C4A1C33D6
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 09:44:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726627AbgEDGY7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 May 2020 02:24:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33132 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726330AbgEDGY7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 4 May 2020 02:24:59 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26995C061A0E
-        for <linux-media@vger.kernel.org>; Sun,  3 May 2020 23:24:59 -0700 (PDT)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1jVUX7-0004OA-T3; Mon, 04 May 2020 08:24:53 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1jVUWx-0000TK-96; Mon, 04 May 2020 08:24:43 +0200
-Date:   Mon, 4 May 2020 08:24:43 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Maxime Ripard <maxime@cerno.tech>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH v6 2/3] media: ov8856: Add devicetree support
-Message-ID: <20200504062443.qgme3pnhzugqeqhk@pengutronix.de>
-References: <20200429162437.2025699-1-robert.foss@linaro.org>
- <20200429162437.2025699-3-robert.foss@linaro.org>
- <20200430093524.GB2188@pengutronix.de>
- <20200430094549.GF867@valkosipuli.retiisi.org.uk>
- <20200430095332.GC2188@pengutronix.de>
- <20200430095907.GG867@valkosipuli.retiisi.org.uk>
- <20200430101157.GD2188@pengutronix.de>
- <20200430102018.GI867@valkosipuli.retiisi.org.uk>
- <20200430120740.GG2188@pengutronix.de>
- <CAG3jFytP9=pL=9Qh64BKqQchs7J7E45USfirK_SnGn3NMeCdcg@mail.gmail.com>
+        id S1728081AbgEDHoX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 May 2020 03:44:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45492 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727088AbgEDHoX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 4 May 2020 03:44:23 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CE05C061A0E;
+        Mon,  4 May 2020 00:44:21 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id f11so8712066ljp.1;
+        Mon, 04 May 2020 00:44:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=e4Prdlmnh5uMplVy6wvzEHluFiUsOf4wHXUycuzMInI=;
+        b=rc7VQyjWHiU8q8qd53Z+gt23a2bhQs1Im6BnZyZBhVh5XJ6EL6dKzE0iatghW6oR0H
+         GL9eYKW6E7wbVT1gk9tepA8LjwnLXAcv+SyREN2WF6uyqARF0upWipHGR44MIPXI3tT/
+         mC01pyqegP/i+P24L1gtiPXRDUY9PRP2p68Nb79PKEkKH2FoU5Eymqqwr38LstdpGTea
+         KnOXiCfrxgYoURdxxy3lnKGl2x3v2lAnAtT/n/ON2L+UsmdX48dNiAmgiwDjljQHlFKL
+         gLnETiVHjve/Ud4pkfvKYZ3gQy+oiTX8KFtF6ipQcDDlKuboY0l3Ay0Iq55aUi2YKhT3
+         +KAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=e4Prdlmnh5uMplVy6wvzEHluFiUsOf4wHXUycuzMInI=;
+        b=U6eK5sh2SJWR3r3+sTXiTveVOcSruTCsGfzwqfPi4XwsDXL9298kDs49WG1Rcy3jOE
+         bZj43S0F2wVm558nfuqGjCuunPsjOyXAyW0inrgJlA78ns9udUBJ2ziyYAxw8XKYHFtC
+         f749s+B1IHs/1yJA7jQ1WZ24foE8t0SaUC/2AX/hqcnpxjS3l5JUU2Gbo53pJmjqPgyc
+         Qn6YwitwCe026eStLO5QjtA9VIoYDw4GVt3QX3q6TUu5SG2y56hfbSj1PC8FASF3KXV5
+         0G+gp9Zk6G18R40IqiDxLD1ICV3D3QDrheKI6efieWrzUHt5Tx3regX5quXid3DH1hoK
+         CBDg==
+X-Gm-Message-State: AGi0PubOfSz82sLpR9rJ0V+SNTM9NFxGBUGfXm9Jmxu5HtRNiOiUwWZb
+        fzMl1abpggZhkDTeRNhuzV9RY8K/
+X-Google-Smtp-Source: APiQypJ8wNAZdGO/6Y4ZZsGPSt3WVOBD64UxuHEzeznj10Lv1Ffj/SWws8iZ49zH7gwc43OFr4X0OQ==
+X-Received: by 2002:a2e:5813:: with SMTP id m19mr9144139ljb.230.1588578259413;
+        Mon, 04 May 2020 00:44:19 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id y21sm7535417ljg.66.2020.05.04.00.44.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 May 2020 00:44:18 -0700 (PDT)
+Subject: Re: [RFC PATCH v11 6/9] media: tegra: Add Tegra210 Video input driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com
+Cc:     sboyd@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1588197606-32124-1-git-send-email-skomatineni@nvidia.com>
+ <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <f1cbb602-163e-a539-aaa5-c7e947a8945b@gmail.com>
+Date:   Mon, 4 May 2020 10:44:17 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAG3jFytP9=pL=9Qh64BKqQchs7J7E45USfirK_SnGn3NMeCdcg@mail.gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 08:13:17 up 170 days, 21:31, 171 users,  load average: 0.06, 0.04,
- 0.05
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <1588197606-32124-7-git-send-email-skomatineni@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Robert,
+30.04.2020 01:00, Sowjanya Komatineni пишет:
+> +/*
+> + * VI channel input data type enum.
+> + * These data type enum value gets programmed into corresponding Tegra VI
+> + * channel register bits.
+> + */
+> +enum tegra_image_dt {
+> +	TEGRA_IMAGE_DT_YUV420_8 = 24,
+> +	TEGRA_IMAGE_DT_YUV420_10,
+> +
+> +	TEGRA_IMAGE_DT_YUV420CSPS_8 = 28,
+> +	TEGRA_IMAGE_DT_YUV420CSPS_10,
+> +	TEGRA_IMAGE_DT_YUV422_8,
+> +	TEGRA_IMAGE_DT_YUV422_10,
+> +	TEGRA_IMAGE_DT_RGB444,
+> +	TEGRA_IMAGE_DT_RGB555,
+> +	TEGRA_IMAGE_DT_RGB565,
+> +	TEGRA_IMAGE_DT_RGB666,
+> +	TEGRA_IMAGE_DT_RGB888,
+> +
+> +	TEGRA_IMAGE_DT_RAW6 = 40,
+> +	TEGRA_IMAGE_DT_RAW7,
+> +	TEGRA_IMAGE_DT_RAW8,
+> +	TEGRA_IMAGE_DT_RAW10,
+> +	TEGRA_IMAGE_DT_RAW12,
+> +	TEGRA_IMAGE_DT_RAW14,
+> +};
 
-On 20-04-30 18:11, Robert Foss wrote:
-> Hey Marco,
-> 
-> On Thu, 30 Apr 2020 at 14:07, Marco Felsch <m.felsch@pengutronix.de> wrote:
-> >
-> > On 20-04-30 13:20, Sakari Ailus wrote:
-> > > On Thu, Apr 30, 2020 at 12:11:57PM +0200, Marco Felsch wrote:
-> > > > On 20-04-30 12:59, Sakari Ailus wrote:
-> > > > > Hi Marco,
-> > > > >
-> > > > > On Thu, Apr 30, 2020 at 11:53:32AM +0200, Marco Felsch wrote:
-> > > > > > Hi Sakari,
-> > > > > >
-> > > > > > On 20-04-30 12:45, Sakari Ailus wrote:
-> > > > > > > Hi Marco,
-> > > > > > >
-> > > > > > > On Thu, Apr 30, 2020 at 11:35:24AM +0200, Marco Felsch wrote:
-> > > >
-> > > > ...
-> > > >
-> > > > > > > > > - if (mclk != OV8856_MCLK) {
-> > > > > > > > > -         dev_err(dev, "external clock %d is not supported", mclk);
-> > > > > > > > > -         return -EINVAL;
-> > > > > > > > > + if (!is_acpi_node(fwnode)) {
-> > > > > > > > > +         ov8856->xvclk = devm_clk_get(dev, "xvclk");
-> > > > > > > > > +         if (IS_ERR(ov8856->xvclk)) {
-> > > > > > > > > +                 dev_err(dev, "could not get xvclk clock (%pe)\n",
-> > > > > > > > > +                                 ov8856->xvclk);
-> > > > > > > > > +                 return PTR_ERR(ov8856->xvclk);
-> > > > > > > > > +         }
-> > > > > > > > > +
-> > > > > > > > > +         clk_set_rate(ov8856->xvclk, xvclk_rate);
-> > > > > > > > > +         xvclk_rate = clk_get_rate(ov8856->xvclk);
-> > > > > > > > >   }
-> > > > > > > >
-> > > > > > > > Why do we handle the clock only in DT case? Is there a problem with the
-> > > > > > > > clock handling and ACPI?
-> > > > > > >
-> > > > > > > Not really, it's just that ACPI does not provide an interface to the clocks
-> > > > > > > as such.
-> > > > > >
-> > > > > > But you will get a clk by devm_clk_get()?
-> > > > >
-> > > > > No, because ACPI does not expose one to drivers. Effectively the entire
-> > > > > power sequences are implemented in ACPI, not in the driver.
-> > > > >
-> > > >
-> > > > Ah okay, thanks for the explanation. I'm really not into the ACPI
-> > > > stuff.. So this means the __power_off / power_on should only be done if
-> > > > we are using DT's?
-> > >
-> > > Correct. That's why it bails out early. It could be yet earlier though,
-> > > without doing anything.
-> >
-> > Yes I see. For easier and error less prone handling I would prefer:
-> >
-> > if (is_acpi_node())
-> >         return 0;
-> >
-> > as first instruction for __power_off/on().
-> 
-> __ov8856_power_on() does make a check like that, albeit only after
-> having run clk_prepare_enable() which won't do anything due to
-> ov8856->xvclk==NULL. So this should be fixed and be moved to after the
-> ACPI check.
-
-Yep, I saw that. I didn't checked the clk_prepare_enable() function and
-just saw that we don't request the clk for the acpi case and enable it
-in both cases. This doesn't sound right to me.
-
-> __ov8856_power_off() has no ACPI check, but all of the calls it makes
-> are going to do nothing due to v8856->reset_gpio / v8856->reset_gpio /
-> ov8856->xvclk all being NULL or dummies. For the sake of clarity an
-> early ACPI check+return could be added, but if clarity is the goal a
-> comment would work too.
-
-Thanks god that most of the library functions taking NULL into account
-=) But I think we have to take the regulator count into account. Again I
-don't know how the ACPI part is working. What happens if we request
-regulators which aren't listed within the ACPI table? In case of DT
-there will be added dummy-regulator. If this is the case for ACPI too we
-are ending in an unbalanced regulator enable/disable count since you
-enable it for the DT case and disable it in both cases.
-
-> >
-> > Also I would refactor the ov8856_check_hwcfg() so the common part can be
-> > used by this function and by a ov8856_parse_of() function. But thats
-> > only my opinion.
-> 
-> I'm trying to grok the above paragraph. You'd like to see something in
-> the style of tc358743_probe_of()?
-
-You don't have to if Saki is fine with the current patch. Just saying
-that it would be a bit easier for the patch review.
-
-Regards,
-  Marco
-
-> >
-> > Regards,
-> >   Marco
-> 
+Are these format IDs common to all Tegra SoCs or they unique to T210?
