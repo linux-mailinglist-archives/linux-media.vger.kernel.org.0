@@ -2,279 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8570F1C3E8D
-	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 17:32:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D04E51C3EAC
+	for <lists+linux-media@lfdr.de>; Mon,  4 May 2020 17:38:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729402AbgEDPcu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 4 May 2020 11:32:50 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:60571 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729395AbgEDPct (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 4 May 2020 11:32:49 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Vd5GjOm0ihEkrVd5JjvB9S; Mon, 04 May 2020 17:32:46 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588606366; bh=CQJMiIRS7DdB+gRE84At/YdWCEinRgji6tHL3JB7jBs=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=aIkWiXppI2jZabGwFIZl6wyFcsh6S2srXBaoeJ+v9GKz5ysSla/hFoslbZFfrd9QK
-         O6phWTcaI6/7wbVG0AxprbAzYr4BlSNsPCYCBKjRpaqnxUjE3SkDIPV5rH6SUqv8iT
-         sXHtxsnkgwIo6L6OfcV7phgFANS0Awp7FsV6BJNMwTjz60Qw3ZAbVuqdZZ46gBfQss
-         7JVMcBna6Z40pV54jvObaRbXa3mKUMZt+ZOmoyHaAWlhEMYsQhF9w6dk0RERHXpsqw
-         9zCQddT/h8CMVGeg050SYS+xjzGh7Qxhd/PxjYXVRZajAAQAsUnSbTxIk+CO6KmSEV
-         QAr5qqB1/3DjQ==
-Subject: Re: [PATCH v2 01/34] media: uapi: v4l2-core: Add sensor ancillary
- data V4L2 fourcc type
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        id S1728437AbgEDPi0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 4 May 2020 11:38:26 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:48008 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726551AbgEDPi0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 4 May 2020 11:38:26 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C85BF4F7;
+        Mon,  4 May 2020 17:38:23 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1588606704;
+        bh=8D+XvK66hBRVjgtCaBGYbZT8OF1/bHqd4K845ykRMnY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=j/NwD4K6nqyd71xn7/fi3SdT8d9YlwPNrlmF58mOby2kqQNa/1l5UOtOpMclt7EeO
+         +PBV1VLlXA1QaTRHIEYFs6UIk4IknDkoIeIyI2iS0mt+jwfL+/zaIuRygIQaMv13Qg
+         or6f2oKd1LO36oVAuLKmEBO71KgvLZwPM5zZZ9rY=
+Date:   Mon, 4 May 2020 18:38:18 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+Cc:     linux-media@vger.kernel.org,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Naushir Patuck <naush@raspberrypi.com>
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v2 00/34] Drivers for the BCM283x CSI-2/CCP2 receiver and
+ ISP
+Message-ID: <20200504153818.GE4365@pendragon.ideasonboard.com>
 References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
- <20200504092611.9798-2-laurent.pinchart@ideasonboard.com>
- <b4c2bb55-a93b-2035-289c-50e10282e54f@xs4all.nl>
- <CAPY8ntALc=2gWJ_hK+j3TopP_ipQ5GMRBdVpG5CQz64pcqgrPQ@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <55a5c2e3-4a76-57b7-910e-f7fb16181c0f@xs4all.nl>
-Date:   Mon, 4 May 2020 17:32:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ <8ef4ab2d73ff9b4d1135ed8362aff2fe0fe21c41.camel@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <CAPY8ntALc=2gWJ_hK+j3TopP_ipQ5GMRBdVpG5CQz64pcqgrPQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNdd2QyytUpYlGARnXy435Jb8dG04WwUKQ/q67HH5R5oRrn3JA9Xb7d9AxxFKG6IkhbkBxC0iW6E5OtK0aWg+hiCLSjcPKP4x2Z2NKEB7dOS/0g7SIC2
- 4fgzU3iSQBzIvbVRXkR8tesnKBUhDUfBD8FZJv1wG2AG1bONxcc7EkzqRcy0/8rhWfyOeTe1e+Gq7noZo//KXC46hpM9Uw3LADPHHoyF+ouMj7GRJIeTdHRE
- 9fyUa7qbTWtx7OcMnZT5NcegqUj/9aRiHK66FTl0QDS9hRKuSymcWRZBKeYPxr1f7c678vQoJ+5+EoMeqEbtrJgoy/AmM+HNzi6bqJuVtEvejCliCx8OjHsR
- tMyoO/xioUSunFTlmKV5ASGBn4ocDtTVMuInShnCRTXvb9GwMu3b2OFQMXOc3XwoKoiTseFl
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8ef4ab2d73ff9b4d1135ed8362aff2fe0fe21c41.camel@suse.de>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/05/2020 16:39, Dave Stevenson wrote:
-> Hi Hans
-> 
-> On Mon, 4 May 2020 at 14:48, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> On 04/05/2020 11:25, Laurent Pinchart wrote:
->>> From: Naushir Patuck <naush@raspberrypi.com>
->>>
->>> Add V4L2_META_FMT_SENSOR_DATA format 4CC.
->>>
->>> This new format will be used by the BCM2835 Unicam device to return
->>> out camera sensor embedded data.
->>
->> out -> our (I think)
-> 
-> More like drop the word totally.
-> "used by BCM2835 Unicam device to return camera sensor embedded data"
-> 
-> The reference to Unicam probably ought to be dropped as other SoCs may
-> also be able to return embedded data.
-> 
->>>
->>> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
->>> ---
->>>  Documentation/media/uapi/v4l/meta-formats.rst |  1 +
->>>  .../uapi/v4l/pixfmt-meta-sensor-data.rst      | 32 +++++++++++++++++++
->>>  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
->>>  include/uapi/linux/videodev2.h                |  1 +
->>>  4 files changed, 35 insertions(+)
->>>  create mode 100644 Documentation/media/uapi/v4l/pixfmt-meta-sensor-data.rst
->>>
->>> diff --git a/Documentation/media/uapi/v4l/meta-formats.rst b/Documentation/media/uapi/v4l/meta-formats.rst
->>> index 74c8659ee9d6..5474086ef6f0 100644
->>> --- a/Documentation/media/uapi/v4l/meta-formats.rst
->>> +++ b/Documentation/media/uapi/v4l/meta-formats.rst
->>> @@ -21,6 +21,7 @@ These formats are used for the :ref:`metadata` interface only.
->>>
->>>      pixfmt-meta-d4xx
->>>      pixfmt-meta-intel-ipu3
->>> +    pixfmt-meta-sensor-data
->>>      pixfmt-meta-uvc
->>>      pixfmt-meta-vsp1-hgo
->>>      pixfmt-meta-vsp1-hgt
->>> diff --git a/Documentation/media/uapi/v4l/pixfmt-meta-sensor-data.rst b/Documentation/media/uapi/v4l/pixfmt-meta-sensor-data.rst
->>> new file mode 100644
->>> index 000000000000..4a67e204d08a
->>> --- /dev/null
->>> +++ b/Documentation/media/uapi/v4l/pixfmt-meta-sensor-data.rst
->>> @@ -0,0 +1,32 @@
->>> +.. Permission is granted to copy, distribute and/or modify this
->>> +.. document under the terms of the GNU Free Documentation License,
->>> +.. Version 1.1 or any later version published by the Free Software
->>> +.. Foundation, with no Invariant Sections, no Front-Cover Texts
->>> +.. and no Back-Cover Texts. A copy of the license is included at
->>> +.. Documentation/media/uapi/fdl-appendix.rst.
->>> +..
->>> +.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
->>> +
->>> +.. _v4l2-meta-fmt-sensor-data:
->>> +
->>> +***********************************
->>> +V4L2_META_FMT_SENSOR_DATA  ('SENS')
->>> +***********************************
->>> +
->>> +Sensor Ancillary Metadata
->>> +
->>> +Description
->>> +===========
->>> +
->>> +This format describes ancillary data generated by a camera sensor and
->>> +transmitted over a stream on the camera bus. Sensor vendors generally have their
->>
->> 'generally' can be dropped.
->>
->>> +own custom format for this ancillary data. Some vendors follow a generic
->>> +CSI-2/SMIA embedded data format as described in the `CSI-2 specification.
->>> +<https://mipi.org/specifications/csi-2>`_
->>
->> So what does this format represent? Sensor specific custom data where you need
->> sensor-specific NDA knowledge in userspace to parse it? Or SMIA formatted sensor
->> data?
->>
->> A 4cc should map to a specific data format. I understand that this is not always
->> known, but at least the SMIA data format would need its own 4cc. I assume that the
->> sensor driver will at least know that it produces SMIA data, right?
->>
->> "SENSOR_DATA" is also much too generic IMHO.
-> 
-> It's a tricky one to call as to either creating a vast number of
-> formats vs being too generic.
-> 
-> With V4L2 setting exposure as a number of lines, and analogue gain as
-> the precomputed the gain code, decoding the register set from embedded
-> data almost always requires sensor specific information.
-> 
-> SMIA defines a strict register set. Yes you could decode that using
-> the defined rules. However I'm not aware of any current sensors that
-> actually implement the SMIA spec - that pretty much died with Nokia.
+Hi Nicolas,
 
-OK.
+On Mon, May 04, 2020 at 05:15:42PM +0200, Nicolas Saenz Julienne wrote:
+> On Mon, 2020-05-04 at 12:25 +0300, Laurent Pinchart wrote:
+> > Hello,
+> 
+> Hi Laurent, thanks for the series!
+> Would you mind CCing on further iterations, I was lucky enough to find this
+> referenced in twitter, and I'll be more than happy to review/test it. I'm the
+> BCM2711/BCM2835 arm architecture & vc04_services maintainer :).
+> 
+> An please also CC:
+> bcm-kernel-feedback-list@broadcom.com
+> linux-rpi-kernel@lists.infradead.org
+> linux-arm-kernel@lists.infradead.org
 
-> 
-> Looking slightly more generically, there is the encoding of the
-> embedded data based on the Bayer format
-> Raw 10 puts a dummy byte in every 5th byte to "match" the Bayer
-> encoding of the least sig bits for 4 pixels being packed in the 5th
-> byte.
-> Raw 12 puts a dummy byte in every 3rd byte to "match" the Bayer raw 12 format.
-> Raw 14 I have no idea over with 3 pixels in 7 bytes packing.
-> (Raw 8 has no additional bytes, and I wouldn't expect raw 16 to have
-> any either).
-> This could be defined as a SMIA-style packing, and is very common.
-> They also tend to use the same 0x55 0x5a 0xa5 0xaa values for
-> signalling for which registers are used number is being presented.
-> 
-> So you could reasonably define a SENSOR_DATA_RAW8, SENSOR_DATA_RAW10,
-> SENSOR_DATA_RAW12, SENSOR_DATA_RAW14, and SENSOR_DATA_RAW16 formats,
-> but userland still needs to know in which registers the actual useful
-> values are.
-> You've also now mandated support of V4L2_EVENT_SOURCE_CHANGE events,
-> as changing the Bayer format on the video node will change the
-> metadata format on the other.
-> 
-> However unless you also know the exact sensor, you still don't know
-> which register(s) relates to exposure or analogue gain. To do that
-> would imply a unique 4CC in both mediabus and V4L2 domains for every
-> sensor that varies the register configuration (families of sensors may
-> put them in the same place if you're lucky). And you'll need
-> raw10/12/14 packing variants of each based on the formats supported by
-> the sensor.
+Sure. I was so focussed on the userspace part and on getting everything
+ready for today's release that I completely forgot to run the patches
+through get_maintainers.pl and CC the appropriate people and lists.
+Sorry about the oversight, I'll make sure to fix it next time.
 
-Out of curiosity: is the description of this metadata still something
-that is typically under NDA? Or is this opening up more?
+Speaking of BCM2711/BCM2835 maintenance... :-) This series isn't
+complete as it's missing full DT integration of camera sensor modules.
+This is handled through DT overlays in the Raspberry Pi downstream
+kernel, which are applied to the base DT by the boot loader (a neat
+solution in my opinion). I wonder what we should do for mainline.
+Ideally we should be able to at least use the DT overlays from the
+downstream Raspberry Pi kernel on mainline, but that's not possible
+today due to incompatibilities in the base DT (in particular related to
+the I2C port to which the camera sensors are connected). Dave, have you
+given that a thought by any chance ?
 
-> 
-> So as I see it you have 3 levels:
-> 1) Totally generic and let userspace have to worry about the problem.
-> (1 new format)
-> 2) Semi generic raw8/10/12/14/16 packing for the data, but still
-> userspace needs to know sensor specifics to decode anything useful
-> from it (5 new formats)
-> 3) Unique formats for every sensor, and for each bit depth that that
-> sensor can produce (I'd estimate around ~20 new formats for the
-> drivers in existing mainline kernel, and probably adding 1 or 2 per
-> new driver).
-> 
-> Personally I don't see the third option as being practical, and the
-> second doesn't really add anything that significant over the first as
-> you still need to know the register setup.
-> 
-> You can't even easily take the second option and add read-only
-> controls telling userspace the registers for exposure and gain (and
-> anything else?). You'd also need the info on how many bits of each
-> register(s) are used, for exposure are all bits denoting whole lines,
-> or and do you compute the analogue gain code (this can often be
-> defined via 4 co-efficients, but that's not guaranteed). Perhaps it
-> can be described in a dozen new read only controls if you're lucky,
-> but then there's bound to be one sensor that can't.
-> 
-> 
-> So where do you draw the line between too generic and totally
-> unscalable? Over to you.
+Another more general question for Nicolas, is there a plan to try and
+get vc04_services out of staging ?
 
-So a proper description of this format would be that it is custom sensor
-specific data stored in the first line of the image sent by the sensor.
+> > This patch series adds drivers for the CSI-2/CCP2 receiver and ISP found
+> > in the Broadcom BCM283x and compatible SoCs (namely the BCM2711). The
+> > CSI-2/CCP2 receiver IP core is known as Unicam. The most well known
+> > platforms representative of these SoCs are the Raspberry Pi. The
+> > previous version of the series was titled "[PATCH 0/5] Driver for the
+> > BCM283x CSI-2/CCP2 receiver" and contained the CSI-2/CCP2 receiver only.
+> > 
+> > A driver already exists in drivers/staging/vc04_services/bcm2835-camera/
+> > to support cameras on Raspberry Pi platforms. The driver relies on the
+> > firmware running on the VC4 VPU to control the camera, and is thus
+> > limited to the camera sensors supported in the firmware. These drivers,
+> > on the other hand, have limited dependencies on the firmware:
+> > 
+> > - The Unicam peripheral driver doesn't rely on the firmware at all and
+> >   controls the Unicam hardware directly. It supports any camera sensor
+> >   compatible with those interfaces.
+> > 
+> > - The ISP driver relies on the VC4 VPU firmware to communicate with the
+> >   ISP hardware, but, unlike with the existing bcm2835-camera driver, the
+> >   firmware exposes the ISP instead of controlling it internally.
+> > 
+> > The code is upported from the Raspberry Pi Linux kernel repository
+> > available at https://github.com/raspberrypi/linux. The patches are based
+> > on top of v5.7-rc2 with Jacopo's "[PATCH v4 0/5] media: Register
+> > read-only sub-dev devnode" series applied.
+> > 
+> > Patches 01/34 to 05/34 are related to the bcm2835-unicam driver. Patches
+> > 01/34 and 02/34 add new a pixel format and media bus code for sensor
+> > embedded data. Patch 03/34 then adds DT bindings for the driver, and
+> > patch 04/34 adds the driver itself. Patch 05/34 adds the Unicam
+> > peripheral instances to the BCM2711 device tree.
+> > 
+> > The bcm2835-unicam driver supports capturing both image data and
+> > embedded data. Support for embedded data is currently implemented
+> > through two sink pads, requiring two source pads on the sensor driver
+> > side. Work is ongoing to try and replace this with usage of a
+> > multiplexed streams API.
+> > 
+> > The remaining patches are related to the bcm2835-isp driver. As the
+> > driver needs to communicate with the VC4 VPU firmware, whose support is
+> > currently in staging, the new driver is added to staging too.
+> > 
+> > Patch 06/34 adds a new driver named vc-sm-cma to handle memory sharing
+> > with the VC4 VPU. This will likely be reworked in the future to use
+> > dmabuf heaps. Patch 07/34 then breaks the VC4 VPU multimedia access
+> > layer code (named vchiq-mmal) out of the existing bcm2835-camera driver
+> > to a new directory, to be shared with the bcm2835-isp driver. Patches
+> > 08/34 to 24/34 then upport various improvements to the MMAL code.
+> > Patches 25/34 to 31/34 follow with an upport of various improvement to
+> > the VCHIQ code, which handles the communication with the VC4 VPU (and is
+> > used by the MMAL code).
+> > 
+> > At patch 32/34 we move to the media side, with a small extension to
+> > videobuf2. Patch 33/34 adds the bcm2835-isp driver, along with
+> > documentation of the related metadata format. Patch 34/34 then wires
+> > this up with the vchiq-mmal driver.
+> > 
+> > The two drivers will likely be split into separate patch series for v3.
+> > I however wanted to bundle them here to emphasize that they're related,
+> > and that together they support full control of the Raspberry Pi cameras
+> > through libcamera without any closed-source software. The corresponding
+> > libcamera code is available from
+> > 
+> > 	git://linuxtv.org/libcamera.git raspberrypi
+> > 
+> > The 'raspberrypi' branch is temporary until the code gets integrated in
+> > the master branch after public review.
+> > 
+> > I would like to thank Dave Stevenson, Naushir Patuk and David Plowman
+> > from Raspberry Pi (Trading) Ltd. for their hard work that made this all
+> > possible, as well as Jacopo Mondi, Kieran Bingham and Niklas Söderlund
+> > from the libcamera team for all their efforts on both the kernel and
+> > libcamera side. This is, I'm sure, the beginning of a new journey for
+> > computational camera support in Linux.
+> > 
+> > And now, the customary v4l2-compliance report. There are three new
+> > failures with bcm2835-unicam compared to the previous version, and they
+> > will addressed in v3.
 
-Since this is sensor specific, how does libcamera know which sensor it is?
-It uses the sensor entity information for that?
+[snip]
 
+-- 
 Regards,
 
-	Hans
-
-> 
-> Regards
->   Dave
-> 
->>> +
->>> +The size of the embedded buffer is defined as a single line with a pixel width
->>> +width specified in bytes. This is obtained by a call to the
->>
->> "pixel width width"? Typo?
->>
->>> +:c:type:`VIDIOC_SUBDEV_G_FMT` ioctl on the sensor subdevice where the ``pad``
->>> +field in :c:type:`v4l2_subdev_format` is set to 1.  Note that this size is fixed
->>
->> Should this description be explicit about the pad number?
->>
->> Regards,
->>
->>         Hans
->>
->>> +and cannot be modified with a call to :c:type:`VIDIOC_SUBDEV_S_FMT`.
->>> +
->>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
->>> index b2ef8e60ea7d..faf5a0f5eb6b 100644
->>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->>> @@ -1346,6 +1346,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->>>       case V4L2_META_FMT_UVC:         descr = "UVC Payload Header Metadata"; break;
->>>       case V4L2_META_FMT_D4XX:        descr = "Intel D4xx UVC Metadata"; break;
->>>       case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
->>> +     case V4L2_META_FMT_SENSOR_DATA: descr = "Sensor Ancillary Metadata"; break;
->>>
->>>       default:
->>>               /* Compressed formats */
->>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->>> index 9817b7e2c968..a96146223843 100644
->>> --- a/include/uapi/linux/videodev2.h
->>> +++ b/include/uapi/linux/videodev2.h
->>> @@ -766,6 +766,7 @@ struct v4l2_pix_format {
->>>  #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
->>>  #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
->>>  #define V4L2_META_FMT_VIVID    v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
->>> +#define V4L2_META_FMT_SENSOR_DATA v4l2_fourcc('S', 'E', 'N', 'S') /* Sensor Ancillary metadata */
->>>
->>>  /* priv field value to indicates that subsequent fields are valid. */
->>>  #define V4L2_PIX_FMT_PRIV_MAGIC              0xfeedcafe
->>>
->>
-
+Laurent Pinchart
