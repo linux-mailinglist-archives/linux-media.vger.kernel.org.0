@@ -2,125 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 291081C535F
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 12:36:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5B2D1C5368
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 12:37:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728238AbgEEKgu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 06:36:50 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:60047 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728180AbgEEKgu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 06:36:50 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id VuwNjj5qA8hmdVuwRjAERZ; Tue, 05 May 2020 12:36:47 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588675007; bh=qdJ39qitW1QEl5X3l8DhjZd7o2jE81OOvmf7Er9DqPg=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=vLZ6vsWCV8NG5NEpsGDMU9FUmoOQT7XwSN5Lh2a8f5mbSQvvB8W3ZGHhKuQKrwh6D
-         16kj4xlb4SDctR+uPST+WNbdznfGuRYpMglwaRlxP46hu1+vIBWtzyJ0db7+RkFDCW
-         4bS9gw/uDKDG8BdyAl4iq9qNH9A6HZvVq15g8lpYChR5jqe7row9ccyTuyUY6QF7fv
-         xf/9FZxqGexAn3O01ajbng3fm5V6RynsRVK7nY/CnHYwAPw0slQvPgaPtTxTd68Xwv
-         +k3uSkvwOppSowBP7QGAM7KN2f/2AZn0Qc4aS3HR/9Po9RgqzYogC22QzxVrAKXT+W
-         WVuyvZuwoYf5A==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.8] Various fixes
-Message-ID: <0d19d00a-f419-fd67-d844-776720da2613@xs4all.nl>
-Date:   Tue, 5 May 2020 12:36:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1728512AbgEEKhr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 06:37:47 -0400
+Received: from mx2.suse.de ([195.135.220.15]:44196 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728238AbgEEKhq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 May 2020 06:37:46 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 076E2AC6C;
+        Tue,  5 May 2020 10:37:47 +0000 (UTC)
+Message-ID: <ad81d1a3ce1a5c9c0103bf54313a99c96c91fa9a.camel@suse.de>
+Subject: Re: [PATCH v2 30/34] staging: vchiq_arm: Give vchiq children DT
+ nodes
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     Phil Elwell <phil@raspberrypi.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Tue, 05 May 2020 12:37:42 +0200
+In-Reply-To: <8e062f07-c151-6273-4c25-e541f6df1bb0@raspberrypi.com>
+References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
+         <20200504092611.9798-31-laurent.pinchart@ideasonboard.com>
+         <ccd8ad49a699d9f8a4d77577eb76b4b281b17843.camel@suse.de>
+         <8e062f07-c151-6273-4c25-e541f6df1bb0@raspberrypi.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-kGx5z/wRu/Gl606/dyld"
+User-Agent: Evolution 3.36.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfN+rXn2BrOhS/68OrF6ziWsxvil4BszMkoslA4G3lxjg026UlX2TA2OPIEKQEtottiK8aMihTc8NIrgKC9qCHDjR8peBQwNp4ar8e2GY6VS+r+7SsXFK
- dsxi1nw3X2/35lgnjzuT/MEofQmdcFg8hF+9i+HijAgS2zPsTfLPlSDS9gp3nZ8rwjIdkMNs0fIx+A==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit e51759f56d314d28c25be7606b03791f048e44c7:
 
-  media: v4l2-ctrls.h: clarify the p_def argument of v4l2_ctrl_new_std_compound (2020-04-29 12:04:58 +0200)
+--=-kGx5z/wRu/Gl606/dyld
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-are available in the Git repository at:
+On Mon, 2020-05-04 at 20:42 +0100, Phil Elwell wrote:
+> Hi Nicolas,
+>=20
+> On 04/05/2020 18:12, Nicolas Saenz Julienne wrote:
+> > Hi Phil, Laurent,
+> >=20
+> > On Mon, 2020-05-04 at 12:26 +0300, Laurent Pinchart wrote:
+> > > From: Phil Elwell <phil@raspberrypi.com>
+> > >=20
+> > > vchiq kernel clients are now instantiated as platform drivers rather
+> > > than using DT, but the children of the vchiq interface may still
+> > > benefit from access to DT properties. Give them the option of a
+> > > a sub-node of the vchiq parent for configuration and to allow
+> > > them to be disabled.
+> > >=20
+> > > Signed-off-by: Phil Elwell <phil@raspberrypi.com>
+> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > ---
+> > >   .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 8 +++++=
++++
+> > >   1 file changed, 8 insertions(+)
+> > >=20
+> > > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_=
+arm.c
+> > > b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > > index dd3c8f829daa..2325ab825941 100644
+> > > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > > @@ -2734,12 +2734,20 @@ vchiq_register_child(struct platform_device *=
+pdev,
+> > > const char *name)
+> > >   	pdevinfo.id =3D PLATFORM_DEVID_NONE;
+> > >   	pdevinfo.dma_mask =3D DMA_BIT_MASK(32);
+> > >  =20
+> > > +	np =3D of_get_child_by_name(pdev->dev.of_node, name);
+> > > +
+> > > +	/* Skip the child if it is explicitly disabled */
+> > > +	if (np && !of_device_is_available(np))
+> > > +		return NULL;
+> >=20
+> > I think this is alright, although I'd reshufle the code a little so it =
+looks
+> > nicer:
+> >=20
+> > +	/* Skip the child if it is explicitly disabled */
+> > +	np =3D of_get_child_by_name(pdev->dev.of_node, name);
+> > +	if (np && !of_device_is_available(np))
+> > +		return NULL;
+>=20
+> I prefer the original.
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.8g
+Fair enough
 
-for you to fetch changes up to a42ecefb40c08538516ca9f1efa6499dec290721:
+> > >   	child =3D platform_device_register_full(&pdevinfo);
+> > >   	if (IS_ERR(child)) {
+> > >   		dev_warn(&pdev->dev, "%s not registered\n", name);
+> > >   		child =3D NULL;
+> > >   	}
+> > >  =20
+> > > +	child->dev.of_node =3D np;
+> >=20
+> > Is this really needed? I'd rather have the parent's np (as commented in
+> > patch
+> > 26) as long as this is not a real device-tree defined platform device.
+>=20
+> Unless the of_node pointer refers to the sub-node for the child, all chil=
+dren
+> would have to share a common set of properties, rather defeating the poin=
+t of
+> the
+> change.
 
-  media: cec: silence shift wrapping warning in __cec_s_log_addrs() (2020-05-05 12:31:46 +0200)
+Sorry I wasn't clear, my main point is that, since manually editing device
+internals is bad a practice, specially after they have been registered (the=
+re
+are potential races with dma_configure()/probe()). I want to make sure we n=
+eed
+it in the first place (i.e. I don't see any further usage of that device no=
+de).
+If we can get rid of this line, we're better-off.
 
-----------------------------------------------------------------
-Tag branch
+If we actually need the device node further down I propose two things:
+- Use dev.of_node_reused, and do an children lookup anytime you need to get=
+ a
+  property. It's a one-liner in the end.
+- Move device registration to DT. There has been some push-back of this in =
+the
+  past, but IMO things like arm's SCMI already set a standard on what firmw=
+are
+  devices can do trough DT and it fits this situation.
 
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      media: ti-vpe: avoid gcc-9 warning
+Regards,
+Nicolas
 
-Christophe JAILLET (1):
-      media: sun8i: Fix an error handling path in 'deinterlace_runtime_resume()'
 
-Dafna Hirschfeld (4):
-      media: staging: rkisp1: rsz: get the capture format info from the capture struct
-      media: staging: rkisp1: rsz: remove redundant if statement and add inline doc
-      media: staging: rkisp1: rsz: change (hv)div only if capture format is YUV
-      media: staging: rkisp1: cap: enable RGB capture format with YUV media bus
+--=-kGx5z/wRu/Gl606/dyld
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-Dan Carpenter (1):
-      media: cec: silence shift wrapping warning in __cec_s_log_addrs()
+-----BEGIN PGP SIGNATURE-----
 
-Greg Kroah-Hartman (1):
-      staging: media: imx: no need to check return value of debugfs_create functions
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl6xQfYACgkQlfZmHno8
+x/6oTggAmZlxeCopvax438yIxjhlJxZkQqp8nT8kgT073OSIQT38a3kwLegThuSq
+DArJf65wrmuEv/rUSQnRluv50sdepFCMuywyb4HvJLerCE//JLQhxIP7x//gVsVx
+fsisxR1XPE7anc6g+yKEnb6hAVqmCOs+DdVxJ7ATMMJVjmnFdaIN5q/oQtgY0DwQ
+c1Reaujl4lY1KYgho6WXOPEiHTtAH3IxM1MGW/NTwUfDTi31nE4ZnwP4NsHicmia
+9RK46MSVghetGng6VB6qeMH/CMRCmjFCdB3Oj7iobhZ+QUd2dZEqI9vNWvZKVBjK
+uMlhMMTWTd4FD7WIO5O2N6t4f6Lgbg==
+=TtUL
+-----END PGP SIGNATURE-----
 
-Johan Jonker (1):
-      dt-bindings: media: rockchip-vpu: fix interrupt-names
+--=-kGx5z/wRu/Gl606/dyld--
 
-John Oldman (1):
-      staging: media: usbvision: usbvision-core Correct spelling
-
-Koji Matsuoka (1):
-      media: rcar-csi2: Fix comment of VCDT/VCDT2 register
-
-Maxime Jourdan (2):
-      media: meson: vdec: enable mcrcc for VP9
-      media: meson: vdec: fix another case of VP9 buffer shortage
-
-Neil Armstrong (1):
-      MAINTAINERS: update the Amlogic VDEC driver maintainer entry
-
-Nícolas F. R. A. Prado (3):
-      media: vimc: Support multiple media bus codes for each pixelformat
-      media: vimc: Add missing {RGB,BGR,GBR}888 media bus codes
-      media: vimc: deb: Add support for {RGB,BGR,GBR}888 bus formats on source pad
-
-Steve Longerbeam (1):
-      media: imx: utils: Default colorspace to SRGB
-
-Zou Wei (1):
-      media: cx231xx: Remove unneeded semicolon
-
- Documentation/devicetree/bindings/media/rockchip-vpu.yaml |  7 ++--
- MAINTAINERS                                               |  2 ++
- drivers/media/cec/core/cec-adap.c                         |  8 ++---
- drivers/media/platform/rcar-vin/rcar-csi2.c               |  4 +--
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.c          |  6 ++--
- drivers/media/platform/ti-vpe/cal.c                       | 46 +++++++++++-------------
- drivers/media/test-drivers/vimc/vimc-common.c             | 83 ++++++++++++++++++++++++++++++--------------
- drivers/media/test-drivers/vimc/vimc-common.h             | 13 ++++++-
- drivers/media/test-drivers/vimc/vimc-debayer.c            | 71 ++++++++++++++++++++++++++++---------
- drivers/media/test-drivers/vimc/vimc-scaler.c             | 10 ++++--
- drivers/media/test-drivers/vimc/vimc-sensor.c             |  6 ++--
- drivers/media/usb/cx231xx/cx231xx-avcore.c                |  2 +-
- drivers/staging/media/imx/imx-media-utils.c               |  3 +-
- drivers/staging/media/imx/imx7-mipi-csis.c                | 29 +++-------------
- drivers/staging/media/meson/vdec/codec_vp9.c              | 72 ++++++++++++++++++++++++++++++--------
- drivers/staging/media/meson/vdec/esparser.c               | 24 ++++++-------
- drivers/staging/media/rkisp1/rkisp1-capture.c             |  6 +++-
- drivers/staging/media/rkisp1/rkisp1-resizer.c             | 26 +++++++++-----
- drivers/staging/media/usbvision/usbvision-core.c          |  2 +-
- 19 files changed, 271 insertions(+), 149 deletions(-)
