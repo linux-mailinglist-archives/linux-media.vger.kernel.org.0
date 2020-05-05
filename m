@@ -2,265 +2,244 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 936031C4CD8
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 06:01:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A6721C4EC3
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 09:05:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727958AbgEEEBs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 00:01:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37834 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726529AbgEEEBr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 May 2020 00:01:47 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A388BC061A0F
-        for <linux-media@vger.kernel.org>; Mon,  4 May 2020 21:01:47 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id y6so437918pjc.4
-        for <linux-media@vger.kernel.org>; Mon, 04 May 2020 21:01:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=bpjBtLncAz/kkdJRFvfwLGKHTuYx2q9S+ZoV2LMI0sk=;
-        b=VbujnOEQMZDOvKD6JgULstaRPp5TbWOJsPdLxFzzgVi40j4j8tuBRSRFvpvzoBkYSf
-         lO0M+ZVsf9myuBszhMt2QSGHGtU8kRpUIR3mj4IohA7wnTGIa+SgSww71z3yb4RyOP7h
-         GcXDBs1AcsM+5xTCfeK0etclI1e+Xtsxuhr5M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bpjBtLncAz/kkdJRFvfwLGKHTuYx2q9S+ZoV2LMI0sk=;
-        b=PQ4+/4r48wOYwl2941KTP9IocSaqW0y9SjBDwCphfwR3wd2FpM91wD160HtslChenH
-         89kEozBD+tbaRPFpMlcxp76ECua5v+KHBuj/NV2Oxc+mrTZlXXgFUJS3DOmfOSff97Q4
-         U4/TZsU/MN5kOzNd6GfDhttfJSJKWbYUeMQGNGzDqCmYdbxgdaDvKL2rnZWKTO7C+QL7
-         MxfETRdm0lg4XyzxgTzRoOJ8LUd3jFx8rYgWgU70pnuVA0d3U0P+NYdIF+A3d7G3KAYM
-         zJIM/bCcfcqNd0u5Uj0O97TinOnZQ5woWZlhu4AQc3f+x35kD3IwsDVXq9tNVhiWtCuY
-         D8Sw==
-X-Gm-Message-State: AGi0Puad9hz+OFRk4R7XA2PaYKQPsHBBoXkgZ5jWJrMJQzg4+ZG4Oy1r
-        rm06NphWIc8mET4wMACy/SkzBA==
-X-Google-Smtp-Source: APiQypIIT08h1AWzqb1iRTGb9ruvQSlZZOU8/i1YaxP5EHPA9oPU9ul/hj4nqNSO5G0FMS7NhYGjDA==
-X-Received: by 2002:a17:90a:25cb:: with SMTP id k69mr514820pje.93.1588651307182;
-        Mon, 04 May 2020 21:01:47 -0700 (PDT)
-Received: from localhost ([2401:fa00:9:14:a92f:c47d:76a8:b09e])
-        by smtp.gmail.com with ESMTPSA id x132sm588010pfc.57.2020.05.04.21.01.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 May 2020 21:01:46 -0700 (PDT)
-From:   Eizan Miyamoto <eizan@chromium.org>
-X-Google-Original-From: Eizan Miyamoto <eizan@google.com>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Eizan Miyamoto <eizan@google.com>, eizan@chromium.org,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH v1 5/5] [media] mtk-mdp: Remove mtk_mdp_comp.id and supporting functionality
-Date:   Tue,  5 May 2020 14:00:48 +1000
-Message-Id: <20200505125042.v1.5.I1c85bddc262913b8572d892dd6bf9bc03fbe0ec7@changeid>
-X-Mailer: git-send-email 2.26.2.526.g744177e7f7-goog
-In-Reply-To: <20200505040048.132493-1-eizan@google.com>
-References: <20200505040048.132493-1-eizan@google.com>
+        id S1726568AbgEEHE6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 03:04:58 -0400
+Received: from mga09.intel.com ([134.134.136.24]:51445 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725320AbgEEHE6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 May 2020 03:04:58 -0400
+IronPort-SDR: xTwSVgACmSWwEEOUv57GG4fl7NB3XsEeatOGAlN9PNe+Bzn2DRfmEI5+946veYS6glEyk5MqM2
+ rsDLWCQVQ4hg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2020 00:04:57 -0700
+IronPort-SDR: g0lTiDLjerpC+aeL3NNgChf6tU+zFHtkYay4QAa0CV2X6WLkoRkX86t2Lv/urXwg7apXXGUovU
+ G6q2tKeVlRWA==
+X-IronPort-AV: E=Sophos;i="5.73,354,1583222400"; 
+   d="scan'208";a="304397388"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2020 00:04:53 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 7D2EF20885; Tue,  5 May 2020 10:04:51 +0300 (EEST)
+Date:   Tue, 5 May 2020 10:04:51 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        mchehab@kernel.org, andriy.shevchenko@linux.intel.com,
+        robh+dt@kernel.org, mark.rutland@arm.com, drinkcat@chromium.org,
+        tfiga@chromium.org, matthias.bgg@gmail.com, bingbu.cao@intel.com,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
+Subject: Re: [V7, 1/2] media: dt-bindings: media: i2c: Document OV02A10
+ bindings
+Message-ID: <20200505070451.GS9190@paasikivi.fi.intel.com>
+References: <20200430080924.1140-1-dongchun.zhu@mediatek.com>
+ <20200430080924.1140-2-dongchun.zhu@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200430080924.1140-2-dongchun.zhu@mediatek.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since components are registered in a list, the numeric component id that
-specified a location in an array is not necessary.
+Hi Dongchun,
 
-Signed-off-by: eizan@chromium.org
-Signed-off-by: Eizan Miyamoto <eizan@google.com>
----
+On Thu, Apr 30, 2020 at 04:09:23PM +0800, Dongchun Zhu wrote:
+> Add DT bindings documentation for Omnivision OV02A10 image sensor.
+> 
+> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> ---
+>  .../bindings/media/i2c/ovti,ov02a10.yaml           | 148 +++++++++++++++++++++
+>  MAINTAINERS                                        |   7 +
+>  2 files changed, 155 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+> new file mode 100644
+> index 0000000..2be4bd2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+> @@ -0,0 +1,148 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +# Copyright (c) 2020 MediaTek Inc.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov02a10.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Omnivision OV02A10 CMOS Sensor Device Tree Bindings
+> +
+> +maintainers:
+> +  - Dongchun Zhu <dongchun.zhu@mediatek.com>
+> +
+> +description: |-
+> +  The Omnivision OV02A10 is a low-cost, high performance, 1/5-inch, 2 megapixel
+> +  image sensor, which is the latest production derived from Omnivision's CMOS
+> +  image sensor technology. Ihis chip supports high frame rate speeds up to 30fps
+> +  @ 1600x1200 (UXGA) resolution transferred over a 1-lane MIPI interface. The
+> +  sensor output is available via CSI-2 serial data output.
+> +
+> +properties:
+> +  compatible:
+> +    const: ovti,ov02a10
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: top mux camtg clock
+> +      - description: devider clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: eclk
+> +      - const: freq_mux
+> +
+> +  clock-frequency:
+> +    description:
+> +      Frequency of the eclk clock in Hertz.
+> +
+> +  dovdd-supply:
+> +    description:
+> +      Definition of the regulator used as interface power supply.
+> +
+> +  avdd-supply:
+> +    description:
+> +      Definition of the regulator used as analog power supply.
+> +
+> +  dvdd-supply:
+> +    description:
+> +      Definition of the regulator used as digital power supply.
+> +
+> +  powerdown-gpios:
+> +    description:
+> +      The phandle and specifier for the GPIO that controls sensor powerdown.
+> +
+> +  reset-gpios:
+> +    description:
+> +      The phandle and specifier for the GPIO that controls sensor reset.
+> +
+> +  rotation:
+> +    description:
+> +      Definition of the sensor's placement, valid values are 0 and 180.
+> +    allOf:
+> +      - $ref: "/schemas/types.yaml#/definitions/uint32"
+> +      - enum:
+> +          - 0    # Sensor Mounted Upright
+> +          - 180  # Sensor Mounted Upside Down
+> +
+> +  ovti,mipi-tx-speed:
+> +    description:
+> +      Indication of MIPI transmission speed select.
 
- drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 60 +++----------------
- drivers/media/platform/mtk-mdp/mtk_mdp_comp.h | 19 +-----
- drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 10 +---
- 3 files changed, 11 insertions(+), 78 deletions(-)
+What exactly does this signify? And how do you come up with the number?
 
-diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-index d4afed1363d5..362fff924aef 100644
---- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-+++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-@@ -14,46 +14,6 @@
- #include "mtk_mdp_comp.h"
- 
- 
--static const char * const mtk_mdp_comp_stem[MTK_MDP_COMP_TYPE_MAX] = {
--	"mdp_rdma",
--	"mdp_rsz",
--	"mdp_wdma",
--	"mdp_wrot",
--};
--
--struct mtk_mdp_comp_match {
--	enum mtk_mdp_comp_type type;
--	int alias_id;
--};
--
--static const struct mtk_mdp_comp_match mtk_mdp_matches[MTK_MDP_COMP_ID_MAX] = {
--	{ MTK_MDP_RDMA,	0 },
--	{ MTK_MDP_RDMA,	1 },
--	{ MTK_MDP_RSZ,	0 },
--	{ MTK_MDP_RSZ,	1 },
--	{ MTK_MDP_RSZ,	2 },
--	{ MTK_MDP_WDMA,	0 },
--	{ MTK_MDP_WROT,	0 },
--	{ MTK_MDP_WROT,	1 },
--};
--
--int mtk_mdp_comp_get_id(struct device *dev, struct device_node *node,
--			enum mtk_mdp_comp_type comp_type)
--{
--	int id = of_alias_get_id(node, mtk_mdp_comp_stem[comp_type]);
--	int i;
--
--	for (i = 0; i < ARRAY_SIZE(mtk_mdp_matches); i++) {
--		if (comp_type == mtk_mdp_matches[i].type &&
--		    id == mtk_mdp_matches[i].alias_id)
--			return i;
--	}
--
--	dev_err(dev, "Failed to get id. type: %d, id: %d\n", comp_type, id);
--
--	return -EINVAL;
--}
--
- void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp)
- {
- 	int i, err;
-@@ -62,8 +22,8 @@ void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp)
- 		err = mtk_smi_larb_get(comp->larb_dev);
- 		if (err)
- 			dev_err(dev,
--				"failed to get larb, err %d. type:%d id:%d\n",
--				err, comp->type, comp->id);
-+				"failed to get larb, err %d. type:%d\n",
-+				err, comp->type);
- 	}
- 
- 	for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
-@@ -72,8 +32,8 @@ void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp)
- 		err = clk_prepare_enable(comp->clk[i]);
- 		if (err)
- 			dev_err(dev,
--			"failed to enable clock, err %d. type:%d id:%d i:%d\n",
--				err, comp->type, comp->id, i);
-+			"failed to enable clock, err %d. type:%d i:%d\n",
-+				err, comp->type, i);
- 	}
- }
- 
-@@ -92,21 +52,15 @@ void mtk_mdp_comp_clock_off(struct device *dev, struct mtk_mdp_comp *comp)
- }
- 
- int mtk_mdp_comp_init(struct device *dev, struct device_node *node,
--		      struct mtk_mdp_comp *comp, enum mtk_mdp_comp_id comp_id)
-+		      struct mtk_mdp_comp *comp,
-+		      enum mtk_mdp_comp_type comp_type)
- {
- 	struct device_node *larb_node;
- 	struct platform_device *larb_pdev;
- 	int i;
- 
--	if (comp_id < 0 || comp_id >= MTK_MDP_COMP_ID_MAX) {
--		dev_err(dev, "Invalid comp_id %d\n", comp_id);
--		return -EINVAL;
--	}
--
--	INIT_LIST_HEAD(&comp->node);
- 	comp->dev_node = of_node_get(node);
--	comp->id = comp_id;
--	comp->type = mtk_mdp_matches[comp_id].type;
-+	comp->type = comp_type;
- 
- 	for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
- 		comp->clk[i] = of_clk_get(node, i);
-diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-index 1f745891c6c3..1bf0242cce46 100644
---- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-+++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-@@ -22,18 +22,6 @@ enum mtk_mdp_comp_type {
- 	MTK_MDP_COMP_TYPE_MAX,
- };
- 
--enum mtk_mdp_comp_id {
--	MTK_MDP_COMP_RDMA0,
--	MTK_MDP_COMP_RDMA1,
--	MTK_MDP_COMP_RSZ0,
--	MTK_MDP_COMP_RSZ1,
--	MTK_MDP_COMP_RSZ2,
--	MTK_MDP_COMP_WDMA,
--	MTK_MDP_COMP_WROT0,
--	MTK_MDP_COMP_WROT1,
--	MTK_MDP_COMP_ID_MAX,
--};
--
- /**
-  * struct mtk_mdp_comp - the MDP's function component data
-  * @node:	list node to track sibing MDP components
-@@ -41,7 +29,6 @@ enum mtk_mdp_comp_id {
-  * @clk:	clocks required for component
-  * @larb_dev:	SMI device required for component
-  * @type:	component type
-- * @id:		component ID
-  */
- struct mtk_mdp_comp {
- 	struct list_head	node;
-@@ -49,14 +36,12 @@ struct mtk_mdp_comp {
- 	struct clk		*clk[2];
- 	struct device		*larb_dev;
- 	enum mtk_mdp_comp_type	type;
--	enum mtk_mdp_comp_id	id;
- };
- 
- int mtk_mdp_comp_init(struct device *dev, struct device_node *node,
--		      struct mtk_mdp_comp *comp, enum mtk_mdp_comp_id comp_id);
-+		      struct mtk_mdp_comp *comp,
-+		      enum mtk_mdp_comp_type comp_type);
- void mtk_mdp_comp_deinit(struct device *dev, struct mtk_mdp_comp *comp);
--int mtk_mdp_comp_get_id(struct device *dev, struct device_node *node,
--			enum mtk_mdp_comp_type comp_type);
- void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp);
- void mtk_mdp_comp_clock_off(struct device *dev, struct mtk_mdp_comp *comp);
- 
-diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-index e6e702d9cb69..b1227c99569a 100644
---- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-+++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-@@ -137,7 +137,6 @@ static int mtk_mdp_probe(struct platform_device *pdev)
- 	for_each_child_of_node(parent, node) {
- 		const struct of_device_id *of_id;
- 		enum mtk_mdp_comp_type comp_type;
--		int comp_id;
- 
- 		of_id = of_match_node(mtk_mdp_comp_dt_ids, node);
- 		if (!of_id)
-@@ -150,12 +149,7 @@ static int mtk_mdp_probe(struct platform_device *pdev)
- 		}
- 
- 		comp_type = (enum mtk_mdp_comp_type)of_id->data;
--		comp_id = mtk_mdp_comp_get_id(dev, node, comp_type);
--		if (comp_id < 0) {
--			dev_warn(dev, "Skipping unknown component %pOF\n",
--				 node);
--			continue;
--		}
-+
- 
- 		comp = devm_kzalloc(dev, sizeof(*comp), GFP_KERNEL);
- 		if (!comp) {
-@@ -164,7 +158,7 @@ static int mtk_mdp_probe(struct platform_device *pdev)
- 			goto err_comp;
- 		}
- 
--		ret = mtk_mdp_comp_init(dev, node, comp, comp_id);
-+		ret = mtk_mdp_comp_init(dev, node, comp, comp_type);
- 		if (ret) {
- 			of_node_put(node);
- 			goto err_comp;
+> +    allOf:
+> +      - $ref: "/schemas/types.yaml#/definitions/uint32"
+> +      - enum: [ 3, 4 ]
+> +
+> +  # See ../video-interfaces.txt for details
+> +  port:
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        properties:
+> +          remote-endpoint: true
+> +          link-frequencies: true
+> +
+> +    required:
+> +      - endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - clock-frequency
+> +  - dovdd-supply
+> +  - avdd-supply
+> +  - dvdd-supply
+> +  - powerdown-gpios
+> +  - reset-gpios
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/mt8183-clk.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        clock-frequency = <400000>;
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        ov02a10: camera-sensor@3d {
+> +            compatible = "ovti,ov02a10";
+> +            reg = <0x3d>;
+> +            pinctrl-names = "default";
+> +            pinctrl-0 = <&clk_24m_cam>;
+> +
+> +            clocks = <&topckgen CLK_TOP_MUX_CAMTG>,
+> +                     <&topckgen CLK_TOP_UNIVP_192M_D8>;
+> +            clock-names = "eclk", "freq_mux";
+> +            clock-frequency = <24000000>;
+> +
+> +            rotation = <180>;
+> +            ovti,mipi-tx-speed = <3>;
+> +
+> +            dovdd-supply = <&mt6358_vcamio_reg>;
+> +            avdd-supply = <&mt6358_vcama1_reg>;
+> +            dvdd-supply = <&mt6358_vcn18_reg>;
+> +            powerdown-gpios = <&pio 107 GPIO_ACTIVE_LOW>;
+> +            reset-gpios = <&pio 109 GPIO_ACTIVE_HIGH>;
+> +
+> +            port {
+> +                wcam_out: endpoint {
+> +                    remote-endpoint = <&mipi_in_wcam>;
+> +                    link-frequencies = /bits/ 64 <390000000>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index e64e5db..63a2335 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -12389,6 +12389,13 @@ M:	Harald Welte <laforge@gnumonks.org>
+>  S:	Maintained
+>  F:	drivers/char/pcmcia/cm4040_cs.*
+>  
+> +OMNIVISION OV02A10 SENSOR DRIVER
+> +M:	Dongchun Zhu <dongchun.zhu@mediatek.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://linuxtv.org/media_tree.git
+> +F:	Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+> +
+>  OMNIVISION OV13858 SENSOR DRIVER
+>  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+>  L:	linux-media@vger.kernel.org
+
 -- 
-2.26.2.526.g744177e7f7-goog
+Regards,
 
+Sakari Ailus
