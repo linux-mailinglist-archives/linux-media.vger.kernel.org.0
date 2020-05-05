@@ -2,162 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 683A41C52E4
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 12:17:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 291081C535F
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 12:36:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728624AbgEEKRe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 06:17:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39692 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728622AbgEEKRd (ORCPT
+        id S1728238AbgEEKgu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 06:36:50 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:60047 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728180AbgEEKgu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 06:17:33 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 827D6C061A0F
-        for <linux-media@vger.kernel.org>; Tue,  5 May 2020 03:17:33 -0700 (PDT)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1jVudl-0006U8-R3; Tue, 05 May 2020 12:17:29 +0200
-Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mfe@pengutronix.de>)
-        id 1jVudl-0000fG-DQ; Tue, 05 May 2020 12:17:29 +0200
-Date:   Tue, 5 May 2020 12:17:29 +0200
-From:   Marco Felsch <m.felsch@pengutronix.de>
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>, Ben Kao <ben.kao@intel.com>
-Subject: Re: [PATCH v7 3/3] media: ov8856: Implement sensor module revision
- identification
-Message-ID: <20200505101729.GF18755@pengutronix.de>
-References: <20200505100129.104673-1-robert.foss@linaro.org>
- <20200505100129.104673-4-robert.foss@linaro.org>
+        Tue, 5 May 2020 06:36:50 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id VuwNjj5qA8hmdVuwRjAERZ; Tue, 05 May 2020 12:36:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1588675007; bh=qdJ39qitW1QEl5X3l8DhjZd7o2jE81OOvmf7Er9DqPg=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=vLZ6vsWCV8NG5NEpsGDMU9FUmoOQT7XwSN5Lh2a8f5mbSQvvB8W3ZGHhKuQKrwh6D
+         16kj4xlb4SDctR+uPST+WNbdznfGuRYpMglwaRlxP46hu1+vIBWtzyJ0db7+RkFDCW
+         4bS9gw/uDKDG8BdyAl4iq9qNH9A6HZvVq15g8lpYChR5jqe7row9ccyTuyUY6QF7fv
+         xf/9FZxqGexAn3O01ajbng3fm5V6RynsRVK7nY/CnHYwAPw0slQvPgaPtTxTd68Xwv
+         +k3uSkvwOppSowBP7QGAM7KN2f/2AZn0Qc4aS3HR/9Po9RgqzYogC22QzxVrAKXT+W
+         WVuyvZuwoYf5A==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.8] Various fixes
+Message-ID: <0d19d00a-f419-fd67-d844-776720da2613@xs4all.nl>
+Date:   Tue, 5 May 2020 12:36:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200505100129.104673-4-robert.foss@linaro.org>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 12:16:56 up 73 days, 21:33, 142 users,  load average: 0.19, 1.60,
- 15.64
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfN+rXn2BrOhS/68OrF6ziWsxvil4BszMkoslA4G3lxjg026UlX2TA2OPIEKQEtottiK8aMihTc8NIrgKC9qCHDjR8peBQwNp4ar8e2GY6VS+r+7SsXFK
+ dsxi1nw3X2/35lgnjzuT/MEofQmdcFg8hF+9i+HijAgS2zPsTfLPlSDS9gp3nZ8rwjIdkMNs0fIx+A==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Robert,
+The following changes since commit e51759f56d314d28c25be7606b03791f048e44c7:
 
-On 20-05-05 12:01, Robert Foss wrote:
-> Query the sensor for its module revision, and compare it
-> to known revisions.
-> 
-> Currently 2A and 1B revision indentification is supported.
-> 
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> ---
-> 
-> - Changes since v3:
->   * Actually add module revision 2A
-> 
-> - Changes since v2:
->   * Add module revision 2A
->   * Sakari: Remove ov8856_check_revision()
->   * Sakari: Stop EEPROM streaming mode
-> 
->  drivers/media/i2c/ov8856.c | 53 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 53 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-> index e6418a79801e..3c82c3e588d7 100644
-> --- a/drivers/media/i2c/ov8856.c
-> +++ b/drivers/media/i2c/ov8856.c
-> @@ -32,6 +32,19 @@
->  #define OV8856_MODE_STANDBY		0x00
->  #define OV8856_MODE_STREAMING		0x01
->  
-> +/* module revisions */
-> +#define OV8856_2A_MODULE		0x01
-> +#define OV8856_1B_MODULE		0x02
-> +
-> +/* the OTP read-out buffer is at 0x7000 and 0xf is the offset
-> + * of the byte in the OTP that means the module revision
-> + */
-> +#define OV8856_MODULE_REVISION		0x700f
-> +#define OV8856_OTP_MODE_CTRL		0x3d84
-> +#define OV8856_OTP_LOAD_CTRL		0x3d81
-> +#define OV8856_OTP_MODE_AUTO		0x00
-> +#define OV8856_OTP_LOAD_CTRL_ENABLE	BIT(0)
-> +
->  /* vertical-timings from sensor */
->  #define OV8856_REG_VTS			0x380e
->  #define OV8856_VTS_MAX			0x7fff
-> @@ -1152,6 +1165,46 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
->  		return -ENXIO;
->  	}
->  
-> +	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
-> +			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STREAMING);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ov8856_write_reg(ov8856, OV8856_OTP_MODE_CTRL,
-> +			       OV8856_REG_VALUE_08BIT, OV8856_OTP_MODE_AUTO);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to set otp mode");
-> +		return ret;
-> +	}
-> +
-> +	ret = ov8856_write_reg(ov8856, OV8856_OTP_LOAD_CTRL,
-> +			       OV8856_REG_VALUE_08BIT,
-> +			       OV8856_OTP_LOAD_CTRL_ENABLE);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to enable load control");
-> +		return ret;
-> +	}
-> +
-> +	ret = ov8856_read_reg(ov8856, OV8856_MODULE_REVISION,
-> +			      OV8856_REG_VALUE_08BIT, &val);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to read module revision");
-> +		return ret;
-> +	}
-> +
-> +	dev_info(&client->dev, "OV8856 revision %x (%s) at address 0x%02x\n",
-> +		val,
-> +		val == OV8856_2A_MODULE ? "2A" :
-> +		val == OV8856_1B_MODULE ? "1B" : "unknown revision",
-> +		client->addr);
+  media: v4l2-ctrls.h: clarify the p_def argument of v4l2_ctrl_new_std_compound (2020-04-29 12:04:58 +0200)
 
-Pls check the alignment here too.
+are available in the Git repository at:
 
-Regards,
-  Marco
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.8g
 
-> +
-> +	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
-> +			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STANDBY);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to exit streaming mode");
-> +		return ret;
-> +	}
-> +
->  	return 0;
->  }
->  
-> -- 
-> 2.25.1
+for you to fetch changes up to a42ecefb40c08538516ca9f1efa6499dec290721:
+
+  media: cec: silence shift wrapping warning in __cec_s_log_addrs() (2020-05-05 12:31:46 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      media: ti-vpe: avoid gcc-9 warning
+
+Christophe JAILLET (1):
+      media: sun8i: Fix an error handling path in 'deinterlace_runtime_resume()'
+
+Dafna Hirschfeld (4):
+      media: staging: rkisp1: rsz: get the capture format info from the capture struct
+      media: staging: rkisp1: rsz: remove redundant if statement and add inline doc
+      media: staging: rkisp1: rsz: change (hv)div only if capture format is YUV
+      media: staging: rkisp1: cap: enable RGB capture format with YUV media bus
+
+Dan Carpenter (1):
+      media: cec: silence shift wrapping warning in __cec_s_log_addrs()
+
+Greg Kroah-Hartman (1):
+      staging: media: imx: no need to check return value of debugfs_create functions
+
+Johan Jonker (1):
+      dt-bindings: media: rockchip-vpu: fix interrupt-names
+
+John Oldman (1):
+      staging: media: usbvision: usbvision-core Correct spelling
+
+Koji Matsuoka (1):
+      media: rcar-csi2: Fix comment of VCDT/VCDT2 register
+
+Maxime Jourdan (2):
+      media: meson: vdec: enable mcrcc for VP9
+      media: meson: vdec: fix another case of VP9 buffer shortage
+
+Neil Armstrong (1):
+      MAINTAINERS: update the Amlogic VDEC driver maintainer entry
+
+Nícolas F. R. A. Prado (3):
+      media: vimc: Support multiple media bus codes for each pixelformat
+      media: vimc: Add missing {RGB,BGR,GBR}888 media bus codes
+      media: vimc: deb: Add support for {RGB,BGR,GBR}888 bus formats on source pad
+
+Steve Longerbeam (1):
+      media: imx: utils: Default colorspace to SRGB
+
+Zou Wei (1):
+      media: cx231xx: Remove unneeded semicolon
+
+ Documentation/devicetree/bindings/media/rockchip-vpu.yaml |  7 ++--
+ MAINTAINERS                                               |  2 ++
+ drivers/media/cec/core/cec-adap.c                         |  8 ++---
+ drivers/media/platform/rcar-vin/rcar-csi2.c               |  4 +--
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c          |  6 ++--
+ drivers/media/platform/ti-vpe/cal.c                       | 46 +++++++++++-------------
+ drivers/media/test-drivers/vimc/vimc-common.c             | 83 ++++++++++++++++++++++++++++++--------------
+ drivers/media/test-drivers/vimc/vimc-common.h             | 13 ++++++-
+ drivers/media/test-drivers/vimc/vimc-debayer.c            | 71 ++++++++++++++++++++++++++++---------
+ drivers/media/test-drivers/vimc/vimc-scaler.c             | 10 ++++--
+ drivers/media/test-drivers/vimc/vimc-sensor.c             |  6 ++--
+ drivers/media/usb/cx231xx/cx231xx-avcore.c                |  2 +-
+ drivers/staging/media/imx/imx-media-utils.c               |  3 +-
+ drivers/staging/media/imx/imx7-mipi-csis.c                | 29 +++-------------
+ drivers/staging/media/meson/vdec/codec_vp9.c              | 72 ++++++++++++++++++++++++++++++--------
+ drivers/staging/media/meson/vdec/esparser.c               | 24 ++++++-------
+ drivers/staging/media/rkisp1/rkisp1-capture.c             |  6 +++-
+ drivers/staging/media/rkisp1/rkisp1-resizer.c             | 26 +++++++++-----
+ drivers/staging/media/usbvision/usbvision-core.c          |  2 +-
+ 19 files changed, 271 insertions(+), 149 deletions(-)
