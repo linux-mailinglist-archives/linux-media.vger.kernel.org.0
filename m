@@ -2,149 +2,297 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5011F1C622D
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 22:39:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A06F51C634B
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 23:45:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729108AbgEEUjV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 16:39:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40232 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729031AbgEEUjU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 16:39:20 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E5A4920752;
-        Tue,  5 May 2020 20:39:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588711160;
-        bh=bBahhc3JQm49gK7zoqqLsScSJYt4ATXEkf9o3bVl2Lw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=acO6ed+Tj1OAkGnH4XGDhPvsb8UwFMHVQ/HLFCd4oHXO5bJZhkE/cM6UW4vpylPdT
-         kq/OSMpRzuQg2ypI2BIg9ebgyeFb5Ug1N3tFHzq0UDgxREk8KC0IBUgPJBEgPb/pP/
-         rimdfBnHlugqpUkF1NPUU+f6UUzLQuPjsd5ET8KM=
-Date:   Tue, 5 May 2020 22:39:15 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Rob Herring <robh@kernel.org>
-Subject: Re: [GIT PULL FOR v5.8] Add Tegra210 Video input driver
-Message-ID: <20200505223915.05cf8254@coco.lan>
-In-Reply-To: <20200505202220.GA1972539@ulmo>
-References: <c95abf33-bfd4-489f-2c20-536e76b848ce@xs4all.nl>
-        <20200505141735.53526ede@coco.lan>
-        <fa23e434-6a04-aa11-ad0d-ca546914a328@xs4all.nl>
-        <20200505161555.2c4ddfcc@coco.lan>
-        <3c9e6a28-fc6e-0e4d-b7a0-57e3f2e1b206@xs4all.nl>
-        <20200505202220.GA1972539@ulmo>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728914AbgEEVpp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 17:45:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35024 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728756AbgEEVpp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 May 2020 17:45:45 -0400
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5C86C061A0F;
+        Tue,  5 May 2020 14:45:44 -0700 (PDT)
+Received: by mail-qv1-xf42.google.com with SMTP id ck5so1838168qvb.11;
+        Tue, 05 May 2020 14:45:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=s66XPkgMwGFSFmHdN4XrXjad6dUlsV4ovrv9xRFYc8U=;
+        b=kVMitITx0hzfbz/PVolq7QDRCcCPFBsT3hxiGclz/IUyW6it4xuWFiSfiK4zDEHln4
+         HrLkQ4yq6L7xaIZclHnqhS4pQuJs8IbV3lFRVFOK7dv8Gdgk3AU3DiwN1VKt6yi+u1kH
+         KuD+4TLIWVojzJixQk96HMbBUc1z5UOsDd7ik2y//0NYRle7NY/83Z3xCibxeHrpcVs9
+         ngR21sNPfyKgAIwPjpEsOHCQLvK4pnBnxNyJui4jEHyVwlnHILauPoV1l7VfxYoaaDgJ
+         EpMaVY/hFrnyEXK//cCvBaTtNpGQuoglfsLW12WsNEytnwft7eMinWJbbraGbS17jxx/
+         hK2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=s66XPkgMwGFSFmHdN4XrXjad6dUlsV4ovrv9xRFYc8U=;
+        b=lXjO8N750pSG+EmE+LgK6NdHVTEknt6U8TMrusM1qbNVuaRCP7YMvJYUfHokVCsH5L
+         5A+dxDIUw5GrpTTiFryEsNupEqVp1S9GOn+ZSSscGwjSxJlc7bt3EpGm+lOl11B1Diik
+         qzEldEiKfX9JRUW6g/sqcRhwstAnjLnWYw05BsJDDI5MCu5Xomzn1+zWxEnpGmOK5XVZ
+         1UN7A+wTkHnxsx08/8oFizh3/76kOgiXm12cl0nJaLR3mO+cFq3TDlBKARzVuVs/wR2l
+         1Tb/blOL4xj8C6655HzDLL8aSXeQrRGDs6Ex8yj7O0xk4uxM2ixSATOyHF98XgVWTWTO
+         A4Tw==
+X-Gm-Message-State: AGi0PuaxZ4vHSLBppaMqFi7bMcV+cX3KM15Tyo0IkdV/PhuBDyQ1/c/R
+        BdP6q8gx0gEO2bDILCu1Wvk2vd942RjWRBIvHuQ=
+X-Google-Smtp-Source: APiQypJFCA7bIBQcIPXGf65hMMzl5Ubgd/CRnfOw5kselIiTWTYUO4nuMhm6aC6/ObAD90bzhq4CH0CGhSFXW807ufs=
+X-Received: by 2002:a0c:ed42:: with SMTP id v2mr4945783qvq.94.1588715143885;
+ Tue, 05 May 2020 14:45:43 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20200505113410.v1.1.I30f6c1f7d6001931439d5950f31b1b0f8ca9b6e8@changeid>
+In-Reply-To: <20200505113410.v1.1.I30f6c1f7d6001931439d5950f31b1b0f8ca9b6e8@changeid>
+From:   Enric Balletbo Serra <eballetbo@gmail.com>
+Date:   Tue, 5 May 2020 23:45:32 +0200
+Message-ID: <CAFqH_50grfy_Bd_R7tPvKu=kmuUU96+G74iZXzmP0F_LaJJa2Q@mail.gmail.com>
+Subject: Re: [PATCH v1] [media] mtk-mdp: Remove states for format checks
+To:     Eizan Miyamoto <eizan@chromium.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        Francois Buergisser <fbuergisser@chromium.org>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Tue, 5 May 2020 22:22:20 +0200
-Thierry Reding <thierry.reding@gmail.com> escreveu:
+Hi Eizan,
 
-> On Tue, May 05, 2020 at 04:26:04PM +0200, Hans Verkuil wrote:
-> > On 05/05/2020 16:15, Mauro Carvalho Chehab wrote:  
-> > > Em Tue, 5 May 2020 14:24:22 +0200
-> > > Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-> > >   
-> > >> On 05/05/2020 14:17, Mauro Carvalho Chehab wrote:  
-> > >>> Em Tue, 5 May 2020 10:33:00 +0200
-> > >>> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-> > >>>     
-> > >>>> The following changes since commit e51759f56d314d28c25be7606b03791f048e44c7:
-> > >>>>
-> > >>>>   media: v4l2-ctrls.h: clarify the p_def argument of v4l2_ctrl_new_std_compound (2020-04-29 12:04:58 +0200)
-> > >>>>
-> > >>>> are available in the Git repository at:
-> > >>>>
-> > >>>>   git://linuxtv.org/hverkuil/media_tree.git tags/br-tegra
-> > >>>>
-> > >>>> for you to fetch changes up to 0bba0154ded02babccd59e21c6a27c5ad7d50faf:
-> > >>>>
-> > >>>>   MAINTAINERS: Add Tegra Video driver section (2020-05-05 10:26:05 +0200)
-> > >>>>
-> > >>>> ----------------------------------------------------------------
-> > >>>> Tag branch
-> > >>>>
-> > >>>> ----------------------------------------------------------------
-> > >>>> Sowjanya Komatineni (2):
-> > >>>>       media: tegra: Add Tegra210 Video input driver
-> > >>>>       MAINTAINERS: Add Tegra Video driver section    
-> > >>>
-> > >>>
-> > >>> As pointed by checkpatch:
-> > >>>
-> > >>> 	WARNING: DT compatible string "nvidia,tegra210-csi" appears un-documented -- check ./Documentation/devicetree/bindings/
-> > >>> 	#628: FILE: drivers/staging/media/tegra-video/csi.c:521:
-> > >>> 	+	{ .compatible = "nvidia,tegra210-csi", .data = &tegra210_csi_soc },
-> > >>>
-> > >>> 	WARNING: DT compatible string "nvidia,tegra210-csi" appears un-documented -- check ./Documentation/devicetree/bindings/
-> > >>> 	#3238: FILE: drivers/staging/media/tegra-video/video.c:106:
-> > >>> 	+	{ .compatible = "nvidia,tegra210-csi", },
-> > >>>
-> > >>> and double-checked with:
-> > >>>
-> > >>> 	$ git grep "nvidia,tegra210-csi"
-> > >>> 	drivers/staging/media/tegra-video/csi.c:        { .compatible = "nvidia,tegra210-csi", .data = &tegra210_csi_soc },
-> > >>> 	drivers/staging/media/tegra-video/video.c:      { .compatible = "nvidia,tegra210-csi", },
-> > >>>
-> > >>> The DT specs for this driver are missing. I even checked at linux-next:
-> > >>> there's no DT bindings for this.    
-> > >>
-> > >> Sorry, I should have mentioned this in the cover letter: the binding file
-> > >> is here: https://patchwork.linuxtv.org/patch/63576/
-> > >>
-> > >> But it will be merged via the tegra subsystem (Thierry Reding) since it is
-> > >> part of the display bindings, not media bindings. Also, Thierry was planning
-> > >> to convert it to yaml, so he offered to merge it instead.  
-> > > 
-> > > Ok. Please re-send the pull request (or just mark it as New on patchwork) 
-> > > once the bindings arrive linux-next.  
-> > 
-> > It's still marked as New in patchwork :-) (https://patchwork.linuxtv.org/patch/63596/)
-> >   
-> > > 
-> > > Alternatively, I don't mind if those patches would also be merged via
-> > > Tegra's tree, together with the bindings. On such case, feel free to 
-> > > add, for both patches:
-> > > 
-> > > Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> 
-> Mauro, do you mind if I turn that into an Acked-by? I think the ARM SoC
-> maintainers may prefer that as being more of an explicit statement than
-> Reviewed-by: that it's fine to take this through ARM SoC.
+Thank you for your patch. Two trivial comments, see below ...
 
-Sure, go ahead.
+Missatge de Eizan Miyamoto <eizan@chromium.org> del dia dt., 5 de maig
+2020 a les 4:07:
+>
+> From: Francois Buergisser <fbuergisser@chromium.org>
+>
+> The mtk-mdp driver uses states to check if the formats have been set
+> on the capture and output when turning the streaming on, setting
+> controls or setting the selection rectangles.
+> Those states are reset when 0 buffers are requested like when checking
+> capabilities.
+> This patch removes all format checks and set one by default as queues in
+> V4L2 are expected to always have a format set.
+>
+> https://linuxtv.org/downloads/v4l-dvb-apis/uapi/v4l/vidioc-streamon.html
+> https://linuxtv.org/downloads/v4l-dvb-apis/uapi/v4l/vidioc-g-ctrl.html
+> https://linuxtv.org/downloads/v4l-dvb-apis/uapi/v4l/vidioc-g-selection.html
+>
+> Signed-off-by: Francois Buergisser <fbuergisser@chromium.org>
+> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
 
-> 
-> > 
-> > Thierry, let us know what you want to do. It might not be a bad idea to merge
-> > the whole series through your tree, as Mauro suggested. It keeps everything
-> > together.  
-> 
-> I can do that. For ARM SoC I typically create a for-X.Y/dt-bindings
-> branch where I collect device tree bindings patches that don't have
-> a better place anywhere else, so I'll probably stick the DT binding
-> update into that branch and then I can base a for-5.8/media branch
-> on top of that to resolve the checkpatch warnings.
-> 
-> Actually, once I have that I could even just send a PR to Mauro to
-> take this through the media tree since the dependencies should all
-> be resolved. But with an Acked-by I'm sure the ARM SoC maintainers
-> won't mind picking this up.
+I guess that this Reviewed-by comes from a previous Gerrit workflow.
+Usually, when you submit a patch to upstream you should remove the
+Reviewed-by internally done, so I'd remove it, and ask Tomasz to give
+you the Reviewed-by on the upstream patch.
 
-Whatever works best. I don't mind to either pick it together with
-the DT, or to merge it via some other tree with either my
-acked-by or reviewed-by.
+> (cherry picked from commit 1887bb3924d030352df179347c8962248cdb903e)
 
-Thanks,
-Mauro
+Also, drop this, only has sense in the context of ChromeOS tree.
+
+> Signed-off-by: Eizan Miyamoto <eizan@chromium.org>
+> ---
+
+Apart from that, the patch looks good to me, so:
+
+Reviewed-by: Enric Balletbo I Serra <enric.balletbo@collabora.com>
+
+
+
+>
+>  drivers/media/platform/mtk-mdp/mtk_mdp_core.h |  2 -
+>  drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c  | 90 +++++++------------
+>  2 files changed, 34 insertions(+), 58 deletions(-)
+>
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.h b/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
+> index bafcccd71f31..dd130cc218c9 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.h
+> @@ -28,8 +28,6 @@
+>  #define MTK_MDP_FMT_FLAG_CAPTURE       BIT(1)
+>
+>  #define MTK_MDP_VPU_INIT               BIT(0)
+> -#define MTK_MDP_SRC_FMT                        BIT(1)
+> -#define MTK_MDP_DST_FMT                        BIT(2)
+>  #define MTK_MDP_CTX_ERROR              BIT(5)
+>
+>  /**
+> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c b/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+> index 821f2cf325f0..bb9caaf513bc 100644
+> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+> @@ -369,13 +369,6 @@ void mtk_mdp_ctx_state_lock_set(struct mtk_mdp_ctx *ctx, u32 state)
+>         mutex_unlock(&ctx->slock);
+>  }
+>
+> -static void mtk_mdp_ctx_state_lock_clear(struct mtk_mdp_ctx *ctx, u32 state)
+> -{
+> -       mutex_lock(&ctx->slock);
+> -       ctx->state &= ~state;
+> -       mutex_unlock(&ctx->slock);
+> -}
+> -
+>  static bool mtk_mdp_ctx_state_is_set(struct mtk_mdp_ctx *ctx, u32 mask)
+>  {
+>         bool ret;
+> @@ -726,11 +719,6 @@ static int mtk_mdp_m2m_s_fmt_mplane(struct file *file, void *fh,
+>                 ctx->quant = pix_mp->quantization;
+>         }
+>
+> -       if (V4L2_TYPE_IS_OUTPUT(f->type))
+> -               mtk_mdp_ctx_state_lock_set(ctx, MTK_MDP_SRC_FMT);
+> -       else
+> -               mtk_mdp_ctx_state_lock_set(ctx, MTK_MDP_DST_FMT);
+> -
+>         mtk_mdp_dbg(2, "[%d] type:%d, frame:%dx%d", ctx->id, f->type,
+>                     frame->width, frame->height);
+>
+> @@ -742,13 +730,6 @@ static int mtk_mdp_m2m_reqbufs(struct file *file, void *fh,
+>  {
+>         struct mtk_mdp_ctx *ctx = fh_to_ctx(fh);
+>
+> -       if (reqbufs->count == 0) {
+> -               if (reqbufs->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+> -                       mtk_mdp_ctx_state_lock_clear(ctx, MTK_MDP_SRC_FMT);
+> -               else
+> -                       mtk_mdp_ctx_state_lock_clear(ctx, MTK_MDP_DST_FMT);
+> -       }
+> -
+>         return v4l2_m2m_reqbufs(file, ctx->m2m_ctx, reqbufs);
+>  }
+>
+> @@ -758,14 +739,6 @@ static int mtk_mdp_m2m_streamon(struct file *file, void *fh,
+>         struct mtk_mdp_ctx *ctx = fh_to_ctx(fh);
+>         int ret;
+>
+> -       /* The source and target color format need to be set */
+> -       if (V4L2_TYPE_IS_OUTPUT(type)) {
+> -               if (!mtk_mdp_ctx_state_is_set(ctx, MTK_MDP_SRC_FMT))
+> -                       return -EINVAL;
+> -       } else if (!mtk_mdp_ctx_state_is_set(ctx, MTK_MDP_DST_FMT)) {
+> -               return -EINVAL;
+> -       }
+> -
+>         if (!mtk_mdp_ctx_state_is_set(ctx, MTK_MDP_VPU_INIT)) {
+>                 ret = mtk_mdp_vpu_init(&ctx->vpu);
+>                 if (ret < 0) {
+> @@ -899,24 +872,21 @@ static int mtk_mdp_m2m_s_selection(struct file *file, void *fh,
+>                 frame = &ctx->d_frame;
+>
+>         /* Check to see if scaling ratio is within supported range */
+> -       if (mtk_mdp_ctx_state_is_set(ctx, MTK_MDP_DST_FMT | MTK_MDP_SRC_FMT)) {
+> -               if (V4L2_TYPE_IS_OUTPUT(s->type)) {
+> -                       ret = mtk_mdp_check_scaler_ratio(variant, new_r.width,
+> -                               new_r.height, ctx->d_frame.crop.width,
+> -                               ctx->d_frame.crop.height,
+> -                               ctx->ctrls.rotate->val);
+> -               } else {
+> -                       ret = mtk_mdp_check_scaler_ratio(variant,
+> -                               ctx->s_frame.crop.width,
+> -                               ctx->s_frame.crop.height, new_r.width,
+> -                               new_r.height, ctx->ctrls.rotate->val);
+> -               }
+> +       if (V4L2_TYPE_IS_OUTPUT(s->type))
+> +               ret = mtk_mdp_check_scaler_ratio(variant, new_r.width,
+> +                       new_r.height, ctx->d_frame.crop.width,
+> +                       ctx->d_frame.crop.height,
+> +                       ctx->ctrls.rotate->val);
+> +       else
+> +               ret = mtk_mdp_check_scaler_ratio(variant,
+> +                       ctx->s_frame.crop.width,
+> +                       ctx->s_frame.crop.height, new_r.width,
+> +                       new_r.height, ctx->ctrls.rotate->val);
+>
+> -               if (ret) {
+> -                       dev_info(&ctx->mdp_dev->pdev->dev,
+> -                               "Out of scaler range");
+> -                       return -EINVAL;
+> -               }
+> +       if (ret) {
+> +               dev_info(&ctx->mdp_dev->pdev->dev,
+> +                       "Out of scaler range");
+> +               return -EINVAL;
+>         }
+>
+>         s->r = new_r;
+> @@ -989,7 +959,6 @@ static int mtk_mdp_s_ctrl(struct v4l2_ctrl *ctrl)
+>         struct mtk_mdp_ctx *ctx = ctrl_to_ctx(ctrl);
+>         struct mtk_mdp_dev *mdp = ctx->mdp_dev;
+>         struct mtk_mdp_variant *variant = mdp->variant;
+> -       u32 state = MTK_MDP_DST_FMT | MTK_MDP_SRC_FMT;
+>         int ret = 0;
+>
+>         if (ctrl->flags & V4L2_CTRL_FLAG_INACTIVE)
+> @@ -1003,17 +972,15 @@ static int mtk_mdp_s_ctrl(struct v4l2_ctrl *ctrl)
+>                 ctx->vflip = ctrl->val;
+>                 break;
+>         case V4L2_CID_ROTATE:
+> -               if (mtk_mdp_ctx_state_is_set(ctx, state)) {
+> -                       ret = mtk_mdp_check_scaler_ratio(variant,
+> -                                       ctx->s_frame.crop.width,
+> -                                       ctx->s_frame.crop.height,
+> -                                       ctx->d_frame.crop.width,
+> -                                       ctx->d_frame.crop.height,
+> -                                       ctx->ctrls.rotate->val);
+> -
+> -                       if (ret)
+> -                               return -EINVAL;
+> -               }
+> +               ret = mtk_mdp_check_scaler_ratio(variant,
+> +                               ctx->s_frame.crop.width,
+> +                               ctx->s_frame.crop.height,
+> +                               ctx->d_frame.crop.width,
+> +                               ctx->d_frame.crop.height,
+> +                               ctx->ctrls.rotate->val);
+> +
+> +               if (ret)
+> +                       return -EINVAL;
+>
+>                 ctx->rotation = ctrl->val;
+>                 break;
+> @@ -1090,6 +1057,7 @@ static int mtk_mdp_m2m_open(struct file *file)
+>         struct video_device *vfd = video_devdata(file);
+>         struct mtk_mdp_ctx *ctx = NULL;
+>         int ret;
+> +       struct v4l2_format default_format;
+>
+>         ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
+>         if (!ctx)
+> @@ -1144,6 +1112,16 @@ static int mtk_mdp_m2m_open(struct file *file)
+>         list_add(&ctx->list, &mdp->ctx_list);
+>         mutex_unlock(&mdp->lock);
+>
+> +       /* Default format */
+> +       memset(&default_format, 0, sizeof(default_format));
+> +       default_format.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+> +       default_format.fmt.pix_mp.width = 32;
+> +       default_format.fmt.pix_mp.height = 32;
+> +       default_format.fmt.pix_mp.pixelformat = V4L2_PIX_FMT_YUV420M;
+> +       mtk_mdp_m2m_s_fmt_mplane(file, &ctx->fh, &default_format);
+> +       default_format.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+> +       mtk_mdp_m2m_s_fmt_mplane(file, &ctx->fh, &default_format);
+> +
+>         mtk_mdp_dbg(0, "%s [%d]", dev_name(&mdp->pdev->dev), ctx->id);
+>
+>         return 0;
+> --
+> 2.26.2.526.g744177e7f7-goog
+>
+>
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
