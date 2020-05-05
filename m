@@ -2,166 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 281681C5273
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 12:02:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B02DB1C5291
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 12:08:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728742AbgEEKCM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 06:02:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37270 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728180AbgEEKCL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 06:02:11 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F0C2C061A10
-        for <linux-media@vger.kernel.org>; Tue,  5 May 2020 03:02:10 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id z6so1645105wml.2
-        for <linux-media@vger.kernel.org>; Tue, 05 May 2020 03:02:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6ARsMuKYhMVLxyg5O1RxGGO0HJh3za6PnGW69GdNBJ8=;
-        b=tj9jstQlHQwxdLi82NpQl1+wOETOL0437W7bk+nJ218gBSz4wh0KU80LEHlbUVpAU9
-         1COLiEfLL4x4WRRkaTcMs6agaZvgFAJZSxSgvmdgq0KtNdiUJPY7r8k4m7ek7LItNvM5
-         Ywv9pLxXQBfL/aUSGI0wpKAk2S7AF22jntxLzG2bpIALl5ODWwNooBRMM8bPU0f0aBdw
-         ees1DQwOg2hl1uezS8yD+k/NxC/F0Xv+OQIT3nGNXjSVzk2Wx3yDQCpbN6QSz+v/ZUc5
-         IrDLoiDhWMPtIl56p+OIQvYjHqXzzROgwPOyNuvkjEkZNzCfXO5itng/CzPTskBXGZy9
-         TjaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6ARsMuKYhMVLxyg5O1RxGGO0HJh3za6PnGW69GdNBJ8=;
-        b=W7THnyY+KJKCS6BZNQd2xl9sEVJf1jI9P9Z/BzY1DQHbhGs5786OFG6pXFBKxPwKtl
-         QTv9DvNVc+NTSvckBhmo2yzX6SK8UbhIMKfNiYWh+eSC1MJA4dhzeKG++eFxhlPdUV0O
-         rBOIZqZbsuA0FaK013WMCWz6sKZRBHPAwRCsfC2Ix0EfoSKo0jJJkreFxG7IpoIEpU/1
-         EyaHXNQgESyxoepcPoxIXGi5HlFmePfPArdiRH7FX1yZeZCVnPck27PE6pS0DtvAqcg4
-         ujCnrqBLQhFqCW5jt8M+/Crio1seJKZu1PXnXuW78ukho/OxVMofsZPjBUjoKJ/BjmbL
-         AoQw==
-X-Gm-Message-State: AGi0PuZnuBH80uCHbylSqcnVYY241XNRPWbbFuhxlC5HsSrzIplkNR4h
-        zqdrAbQQgukED0ZOU0u6N2hXLg==
-X-Google-Smtp-Source: APiQypKwu36pUjC85aEvxmSpfIP0n4+pkY0t2Ob4Bb98cCm8CtABo39acwOtrwCqI8byYKvbJV3XYA==
-X-Received: by 2002:a1c:a549:: with SMTP id o70mr2541234wme.179.1588672929334;
-        Tue, 05 May 2020 03:02:09 -0700 (PDT)
-Received: from localhost.localdomain ([37.120.63.158])
-        by smtp.gmail.com with ESMTPSA id n6sm2884258wmc.28.2020.05.05.03.02.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 03:02:08 -0700 (PDT)
-From:   Robert Foss <robert.foss@linaro.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>, Ben Kao <ben.kao@intel.com>,
-        Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH v7 3/3] media: ov8856: Implement sensor module revision identification
-Date:   Tue,  5 May 2020 12:01:32 +0200
-Message-Id: <20200505100129.104673-4-robert.foss@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200505100129.104673-1-robert.foss@linaro.org>
-References: <20200505100129.104673-1-robert.foss@linaro.org>
+        id S1728608AbgEEKIK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 06:08:10 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57406 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728238AbgEEKIK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 May 2020 06:08:10 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 30B14206B9;
+        Tue,  5 May 2020 10:08:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588673288;
+        bh=h6ygWRY0TPM1wR0iW+iTQNTbvWj2q0E/jKf9+RhM830=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=PDjk/lryDIC+p84TX6qI07P8AC2VHmvxlj5ILost1ux7ggM+rOXjsE0gMpCS3xsWm
+         h0sGOitP6cDkd2cfGYarNFq9/lnNU5Rmz8ZivUd554C3YJyMNGZuxjSAigtDcc6gop
+         vllPCBsPLwQZXEzLAzoEDmGd9EmHUMArlPI6X/r8=
+Date:   Tue, 5 May 2020 12:08:06 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Charan Teja Reddy <charante@codeaurora.org>
+Cc:     sumit.semwal@linaro.org, ghackmann@google.com, fengc@google.com,
+        linux-media@vger.kernel.org, vinmenon@codeaurora.org
+Subject: Re: [PATCH] dma-buf: fix use-after-free in dmabuffs_dname
+Message-ID: <20200505100806.GA4177627@kroah.com>
+References: <1588060442-28638-1-git-send-email-charante@codeaurora.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1588060442-28638-1-git-send-email-charante@codeaurora.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Query the sensor for its module revision, and compare it
-to known revisions.
+On Tue, Apr 28, 2020 at 01:24:02PM +0530, Charan Teja Reddy wrote:
+> The following race occurs while accessing the dmabuf object exported as
+> file:
+> P1				P2
+> dma_buf_release()          dmabuffs_dname()
+> 			   [say lsof reading /proc/<P1 pid>/fd/<num>]
+> 
+> 			   read dmabuf stored in dentry->fsdata
+> Free the dmabuf object
+> 			   Start accessing the dmabuf structure
+> 
+> In the above description, the dmabuf object freed in P1 is being
+> accessed from P2 which is resulting into the use-after-free. Below is
+> the dump stack reported.
+> 
+> Call Trace:
+>  kasan_report+0x12/0x20
+>  __asan_report_load8_noabort+0x14/0x20
+>  dmabuffs_dname+0x4f4/0x560
+>  tomoyo_realpath_from_path+0x165/0x660
+>  tomoyo_get_realpath
+>  tomoyo_check_open_permission+0x2a3/0x3e0
+>  tomoyo_file_open
+>  tomoyo_file_open+0xa9/0xd0
+>  security_file_open+0x71/0x300
+>  do_dentry_open+0x37a/0x1380
+>  vfs_open+0xa0/0xd0
+>  path_openat+0x12ee/0x3490
+>  do_filp_open+0x192/0x260
+>  do_sys_openat2+0x5eb/0x7e0
+>  do_sys_open+0xf2/0x180
+> 
+> Fixes: bb2bb90 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
 
-Currently 2A and 1B revision indentification is supported.
+Nit, please read the documentation for how to do a Fixes: line properly,
+you need more digits:
+	Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
 
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
----
+> Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
+> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
 
-- Changes since v3:
-  * Actually add module revision 2A
+Also, any reason you didn't include the other mailing lists that
+get_maintainer.pl said to?
 
-- Changes since v2:
-  * Add module revision 2A
-  * Sakari: Remove ov8856_check_revision()
-  * Sakari: Stop EEPROM streaming mode
+And finally, no cc: stable in the s-o-b area for an issue that needs to
+be backported to older kernels?
 
- drivers/media/i2c/ov8856.c | 53 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 53 insertions(+)
 
-diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-index e6418a79801e..3c82c3e588d7 100644
---- a/drivers/media/i2c/ov8856.c
-+++ b/drivers/media/i2c/ov8856.c
-@@ -32,6 +32,19 @@
- #define OV8856_MODE_STANDBY		0x00
- #define OV8856_MODE_STREAMING		0x01
- 
-+/* module revisions */
-+#define OV8856_2A_MODULE		0x01
-+#define OV8856_1B_MODULE		0x02
-+
-+/* the OTP read-out buffer is at 0x7000 and 0xf is the offset
-+ * of the byte in the OTP that means the module revision
-+ */
-+#define OV8856_MODULE_REVISION		0x700f
-+#define OV8856_OTP_MODE_CTRL		0x3d84
-+#define OV8856_OTP_LOAD_CTRL		0x3d81
-+#define OV8856_OTP_MODE_AUTO		0x00
-+#define OV8856_OTP_LOAD_CTRL_ENABLE	BIT(0)
-+
- /* vertical-timings from sensor */
- #define OV8856_REG_VTS			0x380e
- #define OV8856_VTS_MAX			0x7fff
-@@ -1152,6 +1165,46 @@ static int ov8856_identify_module(struct ov8856 *ov8856)
- 		return -ENXIO;
- 	}
- 
-+	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
-+			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STREAMING);
-+	if (ret)
-+		return ret;
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_OTP_MODE_CTRL,
-+			       OV8856_REG_VALUE_08BIT, OV8856_OTP_MODE_AUTO);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to set otp mode");
-+		return ret;
-+	}
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_OTP_LOAD_CTRL,
-+			       OV8856_REG_VALUE_08BIT,
-+			       OV8856_OTP_LOAD_CTRL_ENABLE);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to enable load control");
-+		return ret;
-+	}
-+
-+	ret = ov8856_read_reg(ov8856, OV8856_MODULE_REVISION,
-+			      OV8856_REG_VALUE_08BIT, &val);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to read module revision");
-+		return ret;
-+	}
-+
-+	dev_info(&client->dev, "OV8856 revision %x (%s) at address 0x%02x\n",
-+		val,
-+		val == OV8856_2A_MODULE ? "2A" :
-+		val == OV8856_1B_MODULE ? "1B" : "unknown revision",
-+		client->addr);
-+
-+	ret = ov8856_write_reg(ov8856, OV8856_REG_MODE_SELECT,
-+			       OV8856_REG_VALUE_08BIT, OV8856_MODE_STANDBY);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to exit streaming mode");
-+		return ret;
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.25.1
+> ---
+>  drivers/dma-buf/dma-buf.c | 25 +++++++++++++++++++++++--
+>  include/linux/dma-buf.h   |  1 +
+>  2 files changed, 24 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 570c923..069d8f78 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -25,6 +25,7 @@
+>  #include <linux/mm.h>
+>  #include <linux/mount.h>
+>  #include <linux/pseudo_fs.h>
+> +#include <linux/dcache.h>
+>  
+>  #include <uapi/linux/dma-buf.h>
+>  #include <uapi/linux/magic.h>
+> @@ -38,18 +39,34 @@ struct dma_buf_list {
+>  
+>  static struct dma_buf_list db_list;
+>  
+> +static void dmabuf_dent_put(struct dma_buf *dmabuf)
+> +{
+> +	if (atomic_dec_and_test(&dmabuf->dent_count)) {
+> +		kfree(dmabuf->name);
+> +		kfree(dmabuf);
+> +	}
 
+Why not just use a kref instead of an open-coded atomic value?
+
+> +}
+> +
+>  static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+>  {
+>  	struct dma_buf *dmabuf;
+>  	char name[DMA_BUF_NAME_LEN];
+>  	size_t ret = 0;
+>  
+> +	spin_lock(&dentry->d_lock);
+>  	dmabuf = dentry->d_fsdata;
+> +	if (!dmabuf || !atomic_add_unless(&dmabuf->dent_count, 1, 0)) {
+> +		spin_unlock(&dentry->d_lock);
+> +		goto out;
+
+How can dmabuf not be valid here?
+
+And isn't there already a usecount for the buffer?
+
+> +	}
+> +	spin_unlock(&dentry->d_lock);
+>  	dma_resv_lock(dmabuf->resv, NULL);
+>  	if (dmabuf->name)
+>  		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+>  	dma_resv_unlock(dmabuf->resv);
+> +	dmabuf_dent_put(dmabuf);
+>  
+> +out:
+>  	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
+>  			     dentry->d_name.name, ret > 0 ? name : "");
+>  }
+> @@ -80,12 +97,16 @@ static int dma_buf_fs_init_context(struct fs_context *fc)
+>  static int dma_buf_release(struct inode *inode, struct file *file)
+>  {
+>  	struct dma_buf *dmabuf;
+> +	struct dentry *dentry = file->f_path.dentry;
+>  
+>  	if (!is_dma_buf_file(file))
+>  		return -EINVAL;
+>  
+>  	dmabuf = file->private_data;
+>  
+> +	spin_lock(&dentry->d_lock);
+> +	dentry->d_fsdata = NULL;
+> +	spin_unlock(&dentry->d_lock);
+>  	BUG_ON(dmabuf->vmapping_counter);
+>  
+>  	/*
+> @@ -108,8 +129,7 @@ static int dma_buf_release(struct inode *inode, struct file *file)
+>  		dma_resv_fini(dmabuf->resv);
+>  
+>  	module_put(dmabuf->owner);
+> -	kfree(dmabuf->name);
+> -	kfree(dmabuf);
+> +	dmabuf_dent_put(dmabuf);
+>  	return 0;
+>  }
+>  
+> @@ -548,6 +568,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+>  	init_waitqueue_head(&dmabuf->poll);
+>  	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
+>  	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
+> +	atomic_set(&dmabuf->dent_count, 1);
+>  
+>  	if (!resv) {
+>  		resv = (struct dma_resv *)&dmabuf[1];
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index 82e0a4a..a259042 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -315,6 +315,7 @@ struct dma_buf {
+>  	struct list_head list_node;
+>  	void *priv;
+>  	struct dma_resv *resv;
+> +	atomic_t dent_count;
+
+Isn't there other usage counters here that can support this?  Adding
+another one feels wrong as now we have multiple use counts, right?
+
+thanks,
+
+greg k-h
