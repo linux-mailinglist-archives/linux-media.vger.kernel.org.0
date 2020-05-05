@@ -2,131 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8F5D1C5023
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 10:21:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 021E41C503A
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 10:26:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728006AbgEEIVC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 04:21:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49754 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725766AbgEEIVB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 04:21:01 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A78C061A0F;
-        Tue,  5 May 2020 01:21:01 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id h9so1645943wrt.0;
-        Tue, 05 May 2020 01:21:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=tu5nPp2tsr/xXDZw6NiH6JY/janBM8/TqJS/baK6bXk=;
-        b=hfCvpOqo590T0shuE1cPR7Tyz4uhd2A/5uh7k+1VU2jedYxG9T1l4vgT1N5LVp7/rU
-         tBOap/HTZwM8PxrP/4Ry1VPhX+JjSr7aTQj32sKsZ361l7KSOldxc+/lOT4bb08zXTIY
-         bGsadrq+6cxj1FWYpnXSU1qMjEJQcvbHecedCmrt9tDQfKV5bNW1DJCKuqHw6OqylKyK
-         0nVefIu/SOI2KBuHsym/FdIb5P6Oza1bDm+mZMzXdIDrCWd106b5mQDChyD92l0ppLwI
-         pSAuWHwF8e1cLmCubRyxw+0jZgwwurLfMxVchOT31Zqja55LvsEICbiRb/7Zxlh3MSFy
-         TSaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=tu5nPp2tsr/xXDZw6NiH6JY/janBM8/TqJS/baK6bXk=;
-        b=N+qZPeHjAzeInpmDIlsN3wI+LKpVqe4tmKa9vbjw7Fs2U3mIxwoOZCWYX7+SXlFmzX
-         hFYi1qYvut0lgraxmy4uEsy2fkTVh2cYbYpoMlC18JFnHUBtegW0I7SKEBTTzjLHsGES
-         MATG9ZTsujMeaksHw56/9pvi3hm0zeIpUn59EfrRa8+c1DtsObcivURHRmY8GlYNtY9/
-         5ep/A3TemTAocSZgS9aW1FHnCbRoxYPDH3YfMfzPso9U7Z+O/tTovYYGMLpn6rI6MlR8
-         PvAhd2o9mG0o+f1CS+Ne1aDUv86wU91FmDhtcgBHbNET1hYM7/uyvs29Siprk4qeKvHL
-         KT4A==
-X-Gm-Message-State: AGi0PuYH7E8ZLK80mI0NaNY1vTAcihhJBXB6xNWMa1F+buSA+mDNtuEh
-        Ren5X6mid3tK4Bt3QmxaLT70iCX44U9nsDF0
-X-Google-Smtp-Source: APiQypLrjmQKo6d9M8OL1hHuv8HTAuaj9UpwYWqHt0WxaUQvw0OPHJw9ZyiR41AHYzey4MuSaYo7Cw==
-X-Received: by 2002:adf:fa41:: with SMTP id y1mr2198454wrr.131.1588666860081;
-        Tue, 05 May 2020 01:21:00 -0700 (PDT)
-Received: from skynet.lan (246.red-83-44-9.dynamicip.rima-tde.net. [83.44.9.246])
-        by smtp.gmail.com with ESMTPSA id k9sm1969160wrd.17.2020.05.05.01.20.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 01:20:59 -0700 (PDT)
-From:   =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>
-To:     computersforpeace@gmail.com, kdasu.kdev@gmail.com,
-        miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-        sumit.semwal@linaro.org, linux-mtd@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>
-Subject: [PATCH v2] nand: brcmnand: correctly verify erased pages
-Date:   Tue,  5 May 2020 10:20:55 +0200
-Message-Id: <20200505082055.2843847-1-noltari@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200504092943.2739784-1-noltari@gmail.com>
-References: <20200504092943.2739784-1-noltari@gmail.com>
+        id S1728114AbgEEI0L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 04:26:11 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:35792 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725320AbgEEI0L (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 May 2020 04:26:11 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0458N6ZD135107;
+        Tue, 5 May 2020 08:26:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=vfafqK+gClVsvD0wGa8+iFWiZuHNuS1IxnHzPnTCGTA=;
+ b=zAucqM8ZjJy1x3vZA+k83i6bRxzTkfEJ19ggLKPhVgYhmAoEk4YqtZFWfcAnajXXiRtp
+ RPD0TnvXpy0Ym9pMxZR6LYU58GNzfSW1JyzDW70j9xG3PuhZUlYbVbsueqeQACfgu/fd
+ TuuUG0v1awhPeVaIoRD6Do313dW7ymFy1CHpVJ1YgEltf5BDuMvkuuO1DCNhJZISvFUZ
+ ik+P6S49SoyYsZkPZUq7jIi8XNX4evtBM6jKtBMLQukYTzBvxlehii4twyvxah7qV/fe
+ GovyL9959VQ/Bht9G+fzVSPAiA7xR2b1RvIpwgrxNSV7DBKvvOTH2VNKA4D+cE+ch2+u iQ== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by aserp2120.oracle.com with ESMTP id 30s0tmb86p-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 05 May 2020 08:26:06 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0458NNYO132559;
+        Tue, 5 May 2020 08:26:05 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 30sjndqsdk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 05 May 2020 08:26:05 +0000
+Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0458Q3SN014522;
+        Tue, 5 May 2020 08:26:03 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 05 May 2020 01:26:03 -0700
+Date:   Tue, 5 May 2020 11:25:56 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dariusz Marcinkiewicz <darekm@google.com>,
+        Kamil Debski <kamil@wypas.org>, linux-media@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: cec: silence shift wrapping warning in
+ __cec_s_log_addrs()
+Message-ID: <20200505082556.GA113134@mwanda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9611 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 phishscore=0
+ mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005050067
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9611 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0
+ priorityscore=1501 lowpriorityscore=0 spamscore=0 suspectscore=0
+ phishscore=0 clxscore=1011 bulkscore=0 mlxlogscore=999 adultscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005050067
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The current code checks that the whole OOB area is erased.
-This is a problem when JFFS2 cleanmarkers are added to the OOB, since it will
-fail due to the usable OOB bytes not being 0xff.
-Correct this by only checking that the ECC aren't 0xff.
+The log_addrs->log_addr_type[i] value is a u8 which is controlled by
+the user and comes from the ioctl.  If it's over 31 then that results in
+undefined behavior (shift wrapping) and that leads to a Smatch static
+checker warning.  We already cap the value later so we can silence the
+warning just by re-ordering the existing checks.
 
-Fixes: 02b88eea9f9c ("mtd: brcmnand: Add check for erased page bitflips")
+I think the UBSan checker will also catch this bug at runtime and
+generate a warning.  But otherwise the bug is harmless.
 
-Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
+Fixes: 9881fe0ca187 ("[media] cec: add HDMI CEC framework (adapter)")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 ---
- v2: Add Fixes tag
+I haven't pushed the Smatch check for this but I've been re-working how
+user data is tracked and hopefully it should reach acceptable false
+positive ratio soon so I can do that.
 
- drivers/mtd/nand/raw/brcmnand/brcmnand.c | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+ drivers/media/cec/core/cec-adap.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-index e4e3ceeac38f..546f0807b887 100644
---- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-+++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-@@ -2018,6 +2018,7 @@ static int brcmnand_read_by_pio(struct mtd_info *mtd, struct nand_chip *chip,
- static int brcmstb_nand_verify_erased_page(struct mtd_info *mtd,
- 		  struct nand_chip *chip, void *buf, u64 addr)
- {
-+	struct mtd_oob_region oobecc;
- 	int i, sas;
- 	void *oob = chip->oob_poi;
- 	int bitflips = 0;
-@@ -2035,11 +2036,24 @@ static int brcmstb_nand_verify_erased_page(struct mtd_info *mtd,
- 	if (ret)
- 		return ret;
+diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
+index 6c95dc471d4c6..6a04d19a96b2e 100644
+--- a/drivers/media/cec/core/cec-adap.c
++++ b/drivers/media/cec/core/cec-adap.c
+@@ -1734,6 +1734,10 @@ int __cec_s_log_addrs(struct cec_adapter *adap,
+ 		unsigned j;
  
--	for (i = 0; i < chip->ecc.steps; i++, oob += sas) {
-+	for (i = 0; i < chip->ecc.steps; i++) {
- 		ecc_chunk = buf + chip->ecc.size * i;
--		ret = nand_check_erased_ecc_chunk(ecc_chunk,
--						  chip->ecc.size,
--						  oob, sas, NULL, 0,
-+
-+		ret = nand_check_erased_ecc_chunk(ecc_chunk, chip->ecc.size,
-+						  NULL, 0, NULL, 0,
-+						  chip->ecc.strength);
-+		if (ret < 0)
-+			return ret;
-+
-+		bitflips = max(bitflips, ret);
-+	}
-+
-+	for (i = 0; mtd->ooblayout->ecc(mtd, i, &oobecc) != -ERANGE; i++)
-+	{
-+		ret = nand_check_erased_ecc_chunk(NULL, 0,
-+						  oob + oobecc.offset,
-+						  oobecc.length,
-+						  NULL, 0,
- 						  chip->ecc.strength);
- 		if (ret < 0)
- 			return ret;
+ 		log_addrs->log_addr[i] = CEC_LOG_ADDR_INVALID;
++		if (log_addrs->log_addr_type[i] > CEC_LOG_ADDR_TYPE_UNREGISTERED) {
++			dprintk(1, "unknown logical address type\n");
++			return -EINVAL;
++		}
+ 		if (type_mask & (1 << log_addrs->log_addr_type[i])) {
+ 			dprintk(1, "duplicate logical address type\n");
+ 			return -EINVAL;
+@@ -1754,10 +1758,6 @@ int __cec_s_log_addrs(struct cec_adapter *adap,
+ 			dprintk(1, "invalid primary device type\n");
+ 			return -EINVAL;
+ 		}
+-		if (log_addrs->log_addr_type[i] > CEC_LOG_ADDR_TYPE_UNREGISTERED) {
+-			dprintk(1, "unknown logical address type\n");
+-			return -EINVAL;
+-		}
+ 		for (j = 0; j < feature_sz; j++) {
+ 			if ((features[j] & 0x80) == 0) {
+ 				if (op_is_dev_features)
 -- 
 2.26.2
 
