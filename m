@@ -2,132 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61B941C5004
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 10:15:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8F5D1C5023
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 10:21:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728238AbgEEIPd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 04:15:33 -0400
-Received: from mout.web.de ([217.72.192.78]:57769 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725833AbgEEIPc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 04:15:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1588666508;
-        bh=xb0+yObJ8LX/ryqF56WrDSm/1zLQIxqPtNdtj7KlzLQ=;
-        h=X-UI-Sender-Class:Cc:Subject:From:To:Date;
-        b=UqOdNS+4km77RSRM1WoqtscWjlmjpU/whCRrTEhVHavftK4qXyDODNzucPjWN+T0C
-         8/s3tWW1YrJV9JqIxZW+RH+wv31RihaTBKVAaLHhPJ0nCiDmVF/hCJNfWDs3wMEMaH
-         buUNOueAAtjVMDgbzYS09yV2KkrI9h6BtfpTo6HQ=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([78.48.132.123]) by smtp.web.de (mrweb105
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MrOhx-1ikzGt0K9v-00oX8B; Tue, 05
- May 2020 10:15:08 +0200
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Chen-Yu Tsai <wens@csie.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH] media: sun8i: Fix an error handling path in
- deinterlace_runtime_resume()
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-To:     Christophe Jaillet <christophe.jaillet@wanadoo.fr>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Message-ID: <75dd05b8-7895-e1cf-2c76-2327aa11f033@web.de>
-Date:   Tue, 5 May 2020 10:15:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1728006AbgEEIVC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 04:21:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49754 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725766AbgEEIVB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 May 2020 04:21:01 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71A78C061A0F;
+        Tue,  5 May 2020 01:21:01 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id h9so1645943wrt.0;
+        Tue, 05 May 2020 01:21:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=tu5nPp2tsr/xXDZw6NiH6JY/janBM8/TqJS/baK6bXk=;
+        b=hfCvpOqo590T0shuE1cPR7Tyz4uhd2A/5uh7k+1VU2jedYxG9T1l4vgT1N5LVp7/rU
+         tBOap/HTZwM8PxrP/4Ry1VPhX+JjSr7aTQj32sKsZ361l7KSOldxc+/lOT4bb08zXTIY
+         bGsadrq+6cxj1FWYpnXSU1qMjEJQcvbHecedCmrt9tDQfKV5bNW1DJCKuqHw6OqylKyK
+         0nVefIu/SOI2KBuHsym/FdIb5P6Oza1bDm+mZMzXdIDrCWd106b5mQDChyD92l0ppLwI
+         pSAuWHwF8e1cLmCubRyxw+0jZgwwurLfMxVchOT31Zqja55LvsEICbiRb/7Zxlh3MSFy
+         TSaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=tu5nPp2tsr/xXDZw6NiH6JY/janBM8/TqJS/baK6bXk=;
+        b=N+qZPeHjAzeInpmDIlsN3wI+LKpVqe4tmKa9vbjw7Fs2U3mIxwoOZCWYX7+SXlFmzX
+         hFYi1qYvut0lgraxmy4uEsy2fkTVh2cYbYpoMlC18JFnHUBtegW0I7SKEBTTzjLHsGES
+         MATG9ZTsujMeaksHw56/9pvi3hm0zeIpUn59EfrRa8+c1DtsObcivURHRmY8GlYNtY9/
+         5ep/A3TemTAocSZgS9aW1FHnCbRoxYPDH3YfMfzPso9U7Z+O/tTovYYGMLpn6rI6MlR8
+         PvAhd2o9mG0o+f1CS+Ne1aDUv86wU91FmDhtcgBHbNET1hYM7/uyvs29Siprk4qeKvHL
+         KT4A==
+X-Gm-Message-State: AGi0PuYH7E8ZLK80mI0NaNY1vTAcihhJBXB6xNWMa1F+buSA+mDNtuEh
+        Ren5X6mid3tK4Bt3QmxaLT70iCX44U9nsDF0
+X-Google-Smtp-Source: APiQypLrjmQKo6d9M8OL1hHuv8HTAuaj9UpwYWqHt0WxaUQvw0OPHJw9ZyiR41AHYzey4MuSaYo7Cw==
+X-Received: by 2002:adf:fa41:: with SMTP id y1mr2198454wrr.131.1588666860081;
+        Tue, 05 May 2020 01:21:00 -0700 (PDT)
+Received: from skynet.lan (246.red-83-44-9.dynamicip.rima-tde.net. [83.44.9.246])
+        by smtp.gmail.com with ESMTPSA id k9sm1969160wrd.17.2020.05.05.01.20.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2020 01:20:59 -0700 (PDT)
+From:   =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
+        <noltari@gmail.com>
+To:     computersforpeace@gmail.com, kdasu.kdev@gmail.com,
+        miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+        sumit.semwal@linaro.org, linux-mtd@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
+        <noltari@gmail.com>
+Subject: [PATCH v2] nand: brcmnand: correctly verify erased pages
+Date:   Tue,  5 May 2020 10:20:55 +0200
+Message-Id: <20200505082055.2843847-1-noltari@gmail.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200504092943.2739784-1-noltari@gmail.com>
+References: <20200504092943.2739784-1-noltari@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:ra9Z1AZM1ohG0BJsAfpYw+Nq3NhM9qaNW9+6pJX6nXvLTpOydkY
- 0E9GoHt+vErz4+EFcOHtR2q45a38/z5DZ6wrk53Dv0iyymtqJI7cTecD2cyhxVL/5Fsxcw7
- qjWCCGhv6XQkDJ54Fh0UQd3u0NpkBWVTl+b4+JiHzc55lF2Pn/w7nfR3n3l6XR5j0y/ud+s
- WDl9IdT9Th2sD9a+NYa/w==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:SEoUJAW4u8I=:eJrDYbtggXycnYIbCBf16Z
- P+y1YFruoAMZBTtQITaRV7TP74W0R6XLq4t2gBOgO6F3dNkjR21ab3jtb9HKwX6aDmgDxbwVV
- q+/r16AH5Wucqj/7RB2VGmgZVDbFzO61UwrXL0Wjir2ACek+W/bwOHXTbOIXSHpWVbbjOjJP2
- QP0mKkIopAIaHLhuroleE+A9VtQwgv+zDixbBXOFDQ4JX8J7L4Rr0i142UfvE/Kr9sKbFF6Dm
- xRr+TIvLAiix84TWCauT8jlKMLZndTd8cyQTIkrsBi2aF4HwuGIi7qy6QGRn2udzEhOSKnK69
- +z6+/XdcwooWa/wwtYnOF3KDCqUg2v4IJv01Wu5O9icxuBzRltKVnjuPsoxnfhHe9GwZyTVd5
- KpOfM1g0V/w9UqJeJ4LkYFBhcuMrBScSYWU/QCavSd2EylZdLCjM96vFd5biV3xd3yDZHWtaq
- amKCwTA6aUt1Yj0t6roxNb6CmvXsr6tQ1MFll+rGyULh/c7gf5wrDnhKyk6jazTzMdtVtihl+
- Jb5PS3w9rFRPn3zNzeG0vHoab4VDVTDFZiJqJQU20gRR7HA65twynG4MUiY6PlJsU1/DuogJ5
- VainFFj7zb5zozrJMk/4c5ssfu0/PCpAVPp45JQ0TdJx3rx9chZ4uuvi0ja8HMXo0vCNJXZLp
- nOviS2QlZKPJol9xpCQVdbAl1AcPsvoMJAeRhX7r/lr4YaRkJbwnviU8VykjFfJZ7Ez4GvqGk
- fOHgoDSqK2ST7qS1tKwV5Mmnuj5cwq4+qEDC9p2geh8rTGLu+g+oyepZSoF799Rsy23Ok1UPJ
- +jxH+wdSE/ukoB+C83yW8HxsaadjnK6Z5ZFZ0gLqUtvbRKoBPwPn8+gmCxDXtzoo++wjtg06E
- 27mI9YOB7+W5UHVAUbBYNRar+cPiqoThF05XJAUjygrf5kh4yKBkJ0cpzhUEa8m51PEDnlmDk
- enkBewrcQpT351gSSqSITNFDramlGNbQmPnaPQfCSJK6oVvKA3nL0SnCdzevav7LEyTYopVhu
- AVZqO+mIDKY6piQhtDw6zw49iHsy4/rFuxHk9CntmhUWDRzx9/f+5M29S65PK0ihOUdETpNDY
- 2Ytz/+j6L+k917zbaWbpH3SHK9BfRnnhyHx5ETRcU1RhD1/PCnGCWt/DV1qxQUox7jM4QrHVB
- o0AOBE/+CiT7BmHfWqlPyVOyjsvZ0IfVIgMThfsSjx0VE7de6BJMRh9qLiKFMTiOf12oGTRUl
- ACkejzQgzF8qCmDYL
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> It is spurious to call 'clk_disable_unprepare()' when
-> 'clk_prepare_enable()' has not been called yet.
+The current code checks that the whole OOB area is erased.
+This is a problem when JFFS2 cleanmarkers are added to the OOB, since it will
+fail due to the usable OOB bytes not being 0xff.
+Correct this by only checking that the ECC aren't 0xff.
 
-Can it be that the usage of the word =E2=80=9Csuspicious=E2=80=9D would be=
- more appropriate
-for such a change description?
+Fixes: 02b88eea9f9c ("mtd: brcmnand: Add check for erased page bitflips")
 
+Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
+---
+ v2: Add Fixes tag
 
-> Re-order the error handling path to avoid it.
+ drivers/mtd/nand/raw/brcmnand/brcmnand.c | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
 
-Would it be also helpful to explicitly mention in the commit message
-that you would like to move a call of the function =E2=80=9Cclk_rate_exclu=
-sive_put=E2=80=9D
-to the end of this function implementation for the correction
-of the desired exception handling?
+diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+index e4e3ceeac38f..546f0807b887 100644
+--- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
++++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+@@ -2018,6 +2018,7 @@ static int brcmnand_read_by_pio(struct mtd_info *mtd, struct nand_chip *chip,
+ static int brcmstb_nand_verify_erased_page(struct mtd_info *mtd,
+ 		  struct nand_chip *chip, void *buf, u64 addr)
+ {
++	struct mtd_oob_region oobecc;
+ 	int i, sas;
+ 	void *oob = chip->oob_poi;
+ 	int bitflips = 0;
+@@ -2035,11 +2036,24 @@ static int brcmstb_nand_verify_erased_page(struct mtd_info *mtd,
+ 	if (ret)
+ 		return ret;
+ 
+-	for (i = 0; i < chip->ecc.steps; i++, oob += sas) {
++	for (i = 0; i < chip->ecc.steps; i++) {
+ 		ecc_chunk = buf + chip->ecc.size * i;
+-		ret = nand_check_erased_ecc_chunk(ecc_chunk,
+-						  chip->ecc.size,
+-						  oob, sas, NULL, 0,
++
++		ret = nand_check_erased_ecc_chunk(ecc_chunk, chip->ecc.size,
++						  NULL, 0, NULL, 0,
++						  chip->ecc.strength);
++		if (ret < 0)
++			return ret;
++
++		bitflips = max(bitflips, ret);
++	}
++
++	for (i = 0; mtd->ooblayout->ecc(mtd, i, &oobecc) != -ERANGE; i++)
++	{
++		ret = nand_check_erased_ecc_chunk(NULL, 0,
++						  oob + oobecc.offset,
++						  oobecc.length,
++						  NULL, 0,
+ 						  chip->ecc.strength);
+ 		if (ret < 0)
+ 			return ret;
+-- 
+2.26.2
 
-Regards,
-Markus
