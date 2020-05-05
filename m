@@ -2,109 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 876561C5812
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 16:05:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C7531C58F0
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 16:20:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729142AbgEEOFh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 10:05:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47238 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729351AbgEEOFh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 10:05:37 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B28EC061A10
-        for <linux-media@vger.kernel.org>; Tue,  5 May 2020 07:05:36 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id s3so1753955eji.6
-        for <linux-media@vger.kernel.org>; Tue, 05 May 2020 07:05:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=DQhPVNzCwxODV9jjVycfNahbwJl6DrUIjQ9AnoCrWCs=;
-        b=YU+6u86++6VWtYwNPHyc1ME4CNkzeonYAyS/jdldZueht1JjMExBXKZ2fwCZZnMaZI
-         ZhkNfG4Iq7Wa8TgqlSCI9rUl8C2Q7X0XofiEN2if0Co5+gwFJU/5PxOH4YrwKBPJ5sGz
-         zyiacbV9r11JC/U44S4xnE/s0Ymar0Oax5aJI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=DQhPVNzCwxODV9jjVycfNahbwJl6DrUIjQ9AnoCrWCs=;
-        b=G/xujff6vnuIbQcyiEXA1VtT++D4CS4pfq159HkhMLEK5xPs4AzL+QTKw0U7GzeICf
-         sgY6KoT1Ceq6p3TPNb9tB32WYIPa7kMa5H057dOPqnLspu4OoJvZUloN6JDijO9qbI1e
-         xxKaX9wPDP36TAhTh3onCT85pb4DkWyVh+OEKx0jx34YQWrOeW8GLF+8uG7bxmp9M6AB
-         tQpVI6ze4zMeZTcOTmtz+WooICLIRWP3f8ZSgRzPBY7uoOHHDDogdqDAFAnW34tShh5l
-         R/JVGBLVRrsthIt4/eFNOVBXPK3BDDdXxBXQIY439y7oDyMSXlWzZbCdJj49/gbJJD9M
-         0UmQ==
-X-Gm-Message-State: AGi0PubMh1aR1jSYzBw99+7/EMoDmWFY2NGnqm3zg2tdVDVkfCa14kib
-        Qvnvw1JrWew0IEsoe4a1VieA4qW+ghbmPg==
-X-Google-Smtp-Source: APiQypLfJBq7mSP5n+MqYsZIPwYZjU067xwYGmZbWGD3IjNxwbozEcq4AM/fG4nD6hXeVr3GMsS16Q==
-X-Received: by 2002:a17:907:7210:: with SMTP id dr16mr2695038ejc.197.1588687534605;
-        Tue, 05 May 2020 07:05:34 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
-        by smtp.gmail.com with ESMTPSA id c8sm322020ejs.86.2020.05.05.07.05.33
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 May 2020 07:05:33 -0700 (PDT)
-Received: by mail-wr1-f47.google.com with SMTP id s8so2878918wrt.9
-        for <linux-media@vger.kernel.org>; Tue, 05 May 2020 07:05:33 -0700 (PDT)
-X-Received: by 2002:adf:fc4f:: with SMTP id e15mr3926804wrs.415.1588687532834;
- Tue, 05 May 2020 07:05:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200505134110.3435-1-ezequiel@collabora.com> <20200505134110.3435-2-ezequiel@collabora.com>
- <CAAFQd5AWZFoPk2YTp2k8M7LvJshxw46-z+wK2VoM9EzB2CqiFA@mail.gmail.com> <c29fcc922a4917ac695043e605973ba9649f9c9b.camel@collabora.com>
-In-Reply-To: <c29fcc922a4917ac695043e605973ba9649f9c9b.camel@collabora.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 5 May 2020 16:05:19 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5A458E8iqwakKTDEyTHC+NYY-M1SaTS3m0MARwPaRyOuw@mail.gmail.com>
-Message-ID: <CAAFQd5A458E8iqwakKTDEyTHC+NYY-M1SaTS3m0MARwPaRyOuw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] media: rkvdec: Fix .buf_prepare
-To:     Ezequiel Garcia <ezequiel@collabora.com>
+        id S1729979AbgEEOQE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 10:16:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39962 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729986AbgEEOQA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 May 2020 10:16:00 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id C68852083B;
+        Tue,  5 May 2020 14:15:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588688159;
+        bh=hQaBKfpKqeZ1fxu1koHuFFwAPFXimKVr2qwWy4pH3Fc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=2RvpUPtpckRL6M+orldQnp5MsEzNCr3zbE3BO5vBiJeea/pybACKTWuVs/OQ9hKuw
+         xdf72G/tgWNG6WNABpRIsMVh4QyxaH1C/gQEeKP+Y/TlXiXvxeX5fY56kyHMC/ccVm
+         hwN6AdyRtGUN6gAwhXtjRRWElqVXVtSUsaopTD4U=
+Date:   Tue, 5 May 2020 16:15:55 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Gustavo Padovan <gustavo.padovan@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Rob Herring <robh@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>
+Subject: Re: [GIT PULL FOR v5.8] Add Tegra210 Video input driver
+Message-ID: <20200505161555.2c4ddfcc@coco.lan>
+In-Reply-To: <fa23e434-6a04-aa11-ad0d-ca546914a328@xs4all.nl>
+References: <c95abf33-bfd4-489f-2c20-536e76b848ce@xs4all.nl>
+        <20200505141735.53526ede@coco.lan>
+        <fa23e434-6a04-aa11-ad0d-ca546914a328@xs4all.nl>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 5, 2020 at 3:59 PM Ezequiel Garcia <ezequiel@collabora.com> wrote:
->
-> On Tue, 2020-05-05 at 15:56 +0200, Tomasz Figa wrote:
-> > Hi Ezequiel,
-> >
-> > On Tue, May 5, 2020 at 3:41 PM Ezequiel Garcia <ezequiel@collabora.com> wrote:
-> > > The driver should only set the payload on .buf_prepare
-> > > if the buffer is CAPTURE type, or if an OUTPUT buffer
-> > > has a zeroed payload.
-> >
-> > Thanks for the patch. Just one question below.
-> >
-> > Where does the requirement to set OUTPUT buffer bytesused to sizeimage
-> > if the original bytesused is 0 come from?
-> >
->
-> If I'm reading english correctly, it's here:
->
-> https://www.kernel.org/doc/html/latest/media/uapi/v4l/buffer.html
->
-> """
-> The number of bytes occupied by the data in the buffer. It depends on the negotiated data format and may change with each buffer for compressed
-> variable size data like JPEG images. Drivers must set this field when type refers to a capture stream, applications when it refers to an output
-> stream. If the application sets this to 0 for an output stream, then bytesused will be set to the size of the buffer (see the length field of this
-> struct) by the driver. For multiplanar formats this field is ignored and the planes pointer is used instead.
-> """
+Em Tue, 5 May 2020 14:24:22 +0200
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 
-Okay, thanks. I wonder if this shouldn't be handled by the core,
-though. Especially given that the document refers to the length field
-specifically and not the sizeimage set in the format.
+> On 05/05/2020 14:17, Mauro Carvalho Chehab wrote:
+> > Em Tue, 5 May 2020 10:33:00 +0200
+> > Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+> >   
+> >> The following changes since commit e51759f56d314d28c25be7606b03791f048e44c7:
+> >>
+> >>   media: v4l2-ctrls.h: clarify the p_def argument of v4l2_ctrl_new_std_compound (2020-04-29 12:04:58 +0200)
+> >>
+> >> are available in the Git repository at:
+> >>
+> >>   git://linuxtv.org/hverkuil/media_tree.git tags/br-tegra
+> >>
+> >> for you to fetch changes up to 0bba0154ded02babccd59e21c6a27c5ad7d50faf:
+> >>
+> >>   MAINTAINERS: Add Tegra Video driver section (2020-05-05 10:26:05 +0200)
+> >>
+> >> ----------------------------------------------------------------
+> >> Tag branch
+> >>
+> >> ----------------------------------------------------------------
+> >> Sowjanya Komatineni (2):
+> >>       media: tegra: Add Tegra210 Video input driver
+> >>       MAINTAINERS: Add Tegra Video driver section  
+> > 
+> > 
+> > As pointed by checkpatch:
+> > 
+> > 	WARNING: DT compatible string "nvidia,tegra210-csi" appears un-documented -- check ./Documentation/devicetree/bindings/
+> > 	#628: FILE: drivers/staging/media/tegra-video/csi.c:521:
+> > 	+	{ .compatible = "nvidia,tegra210-csi", .data = &tegra210_csi_soc },
+> > 
+> > 	WARNING: DT compatible string "nvidia,tegra210-csi" appears un-documented -- check ./Documentation/devicetree/bindings/
+> > 	#3238: FILE: drivers/staging/media/tegra-video/video.c:106:
+> > 	+	{ .compatible = "nvidia,tegra210-csi", },
+> > 
+> > and double-checked with:
+> > 
+> > 	$ git grep "nvidia,tegra210-csi"
+> > 	drivers/staging/media/tegra-video/csi.c:        { .compatible = "nvidia,tegra210-csi", .data = &tegra210_csi_soc },
+> > 	drivers/staging/media/tegra-video/video.c:      { .compatible = "nvidia,tegra210-csi", },
+> > 
+> > The DT specs for this driver are missing. I even checked at linux-next:
+> > there's no DT bindings for this.  
+> 
+> Sorry, I should have mentioned this in the cover letter: the binding file
+> is here: https://patchwork.linuxtv.org/patch/63576/
+> 
+> But it will be merged via the tegra subsystem (Thierry Reding) since it is
+> part of the display bindings, not media bindings. Also, Thierry was planning
+> to convert it to yaml, so he offered to merge it instead.
 
-Best regards,
-Tomasz
+Ok. Please re-send the pull request (or just mark it as New on patchwork) 
+once the bindings arrive linux-next.
+
+Alternatively, I don't mind if those patches would also be merged via
+Tegra's tree, together with the bindings. On such case, feel free to 
+add, for both patches:
+
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+Thanks,
+Mauro
