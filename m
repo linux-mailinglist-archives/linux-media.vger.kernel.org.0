@@ -2,118 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 021E41C503A
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 10:26:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 96FB41C505D
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 10:33:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728114AbgEEI0L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 04:26:11 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:35792 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725320AbgEEI0L (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 May 2020 04:26:11 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0458N6ZD135107;
-        Tue, 5 May 2020 08:26:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=vfafqK+gClVsvD0wGa8+iFWiZuHNuS1IxnHzPnTCGTA=;
- b=zAucqM8ZjJy1x3vZA+k83i6bRxzTkfEJ19ggLKPhVgYhmAoEk4YqtZFWfcAnajXXiRtp
- RPD0TnvXpy0Ym9pMxZR6LYU58GNzfSW1JyzDW70j9xG3PuhZUlYbVbsueqeQACfgu/fd
- TuuUG0v1awhPeVaIoRD6Do313dW7ymFy1CHpVJ1YgEltf5BDuMvkuuO1DCNhJZISvFUZ
- ik+P6S49SoyYsZkPZUq7jIi8XNX4evtBM6jKtBMLQukYTzBvxlehii4twyvxah7qV/fe
- GovyL9959VQ/Bht9G+fzVSPAiA7xR2b1RvIpwgrxNSV7DBKvvOTH2VNKA4D+cE+ch2+u iQ== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2120.oracle.com with ESMTP id 30s0tmb86p-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 05 May 2020 08:26:06 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0458NNYO132559;
-        Tue, 5 May 2020 08:26:05 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 30sjndqsdk-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 05 May 2020 08:26:05 +0000
-Received: from abhmp0013.oracle.com (abhmp0013.oracle.com [141.146.116.19])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0458Q3SN014522;
-        Tue, 5 May 2020 08:26:03 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 05 May 2020 01:26:03 -0700
-Date:   Tue, 5 May 2020 11:25:56 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dariusz Marcinkiewicz <darekm@google.com>,
-        Kamil Debski <kamil@wypas.org>, linux-media@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: cec: silence shift wrapping warning in
- __cec_s_log_addrs()
-Message-ID: <20200505082556.GA113134@mwanda>
+        id S1728370AbgEEIdH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 04:33:07 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:56515 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725320AbgEEIdG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 May 2020 04:33:06 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id Vt0fjTQEWhEkrVt0ijwxcS; Tue, 05 May 2020 10:33:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1588667584; bh=jMtgmaneONt36GPv7oDBDqosNRFCT7P3G65Wr3bG4HA=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=EkK4n+TmZMY9cDTUpzjBxm+khW73E6A34nt07LgRmdZaQYdiox03w4RjlnxPv8mg8
+         AjnMrH90GR830ObU35wROV+zGH5zpgZXYSs96D31L+4O3OejvGRaJujO0OGT/sNzBs
+         NaObCNQJ2OsGCKX9jE9SmeCHHMRxJAR2lOGeDkuDgrj9Z7NSeQu4xjOakOXiy79h9O
+         gvHrclgvZLN0o7Z6PJVVOGg96tpQezHvnLLKZIKfDPil4oLtQyX4Vb6zae4hJ353R3
+         5+e2/MV9ZF7GMg+5phypbQmZWMXVOdytX+uAeBRkRYpUd0pQwCq2x431lvGcTI6wyG
+         3oyU7x8DgLZ5A==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.8] Add Tegra210 Video input driver
+Message-ID: <c95abf33-bfd4-489f-2c20-536e76b848ce@xs4all.nl>
+Date:   Tue, 5 May 2020 10:33:00 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9611 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 phishscore=0
- mlxlogscore=999 bulkscore=0 malwarescore=0 spamscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2005050067
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9611 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0
- priorityscore=1501 lowpriorityscore=0 spamscore=0 suspectscore=0
- phishscore=0 clxscore=1011 bulkscore=0 mlxlogscore=999 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005050067
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfOLaaYrg6PFDYWPCzDqcpkj6yACw8KuOaKl0aNIPuNFPeCO1Bn6Ar4aAUj59J8bOP5c/rYlzbFkYkGUHoZjC9UtCaqeitaPLx8z8kB8//wH9eN9yhNlk
+ TS2dE9JOz1r/eiAvbUnysSVirRnBx82qFH7MByywpQj2xq100kYNKGZO2freNzCPlXAjXe+xWDuC4sKICL91GGHufoXWE7//T0M=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The log_addrs->log_addr_type[i] value is a u8 which is controlled by
-the user and comes from the ioctl.  If it's over 31 then that results in
-undefined behavior (shift wrapping) and that leads to a Smatch static
-checker warning.  We already cap the value later so we can silence the
-warning just by re-ordering the existing checks.
+The following changes since commit e51759f56d314d28c25be7606b03791f048e44c7:
 
-I think the UBSan checker will also catch this bug at runtime and
-generate a warning.  But otherwise the bug is harmless.
+  media: v4l2-ctrls.h: clarify the p_def argument of v4l2_ctrl_new_std_compound (2020-04-29 12:04:58 +0200)
 
-Fixes: 9881fe0ca187 ("[media] cec: add HDMI CEC framework (adapter)")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
-I haven't pushed the Smatch check for this but I've been re-working how
-user data is tracked and hopefully it should reach acceptable false
-positive ratio soon so I can do that.
+are available in the Git repository at:
 
- drivers/media/cec/core/cec-adap.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-tegra
 
-diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index 6c95dc471d4c6..6a04d19a96b2e 100644
---- a/drivers/media/cec/core/cec-adap.c
-+++ b/drivers/media/cec/core/cec-adap.c
-@@ -1734,6 +1734,10 @@ int __cec_s_log_addrs(struct cec_adapter *adap,
- 		unsigned j;
- 
- 		log_addrs->log_addr[i] = CEC_LOG_ADDR_INVALID;
-+		if (log_addrs->log_addr_type[i] > CEC_LOG_ADDR_TYPE_UNREGISTERED) {
-+			dprintk(1, "unknown logical address type\n");
-+			return -EINVAL;
-+		}
- 		if (type_mask & (1 << log_addrs->log_addr_type[i])) {
- 			dprintk(1, "duplicate logical address type\n");
- 			return -EINVAL;
-@@ -1754,10 +1758,6 @@ int __cec_s_log_addrs(struct cec_adapter *adap,
- 			dprintk(1, "invalid primary device type\n");
- 			return -EINVAL;
- 		}
--		if (log_addrs->log_addr_type[i] > CEC_LOG_ADDR_TYPE_UNREGISTERED) {
--			dprintk(1, "unknown logical address type\n");
--			return -EINVAL;
--		}
- 		for (j = 0; j < feature_sz; j++) {
- 			if ((features[j] & 0x80) == 0) {
- 				if (op_is_dev_features)
--- 
-2.26.2
+for you to fetch changes up to 0bba0154ded02babccd59e21c6a27c5ad7d50faf:
 
+  MAINTAINERS: Add Tegra Video driver section (2020-05-05 10:26:05 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Sowjanya Komatineni (2):
+      media: tegra: Add Tegra210 Video input driver
+      MAINTAINERS: Add Tegra Video driver section
+
+ MAINTAINERS                                  |   10 +
+ drivers/staging/media/Kconfig                |    2 +
+ drivers/staging/media/Makefile               |    1 +
+ drivers/staging/media/tegra-video/Kconfig    |   12 +
+ drivers/staging/media/tegra-video/Makefile   |    8 +
+ drivers/staging/media/tegra-video/TODO       |   11 +
+ drivers/staging/media/tegra-video/csi.c      |  539 ++++++++++++++++++++++++++++
+ drivers/staging/media/tegra-video/csi.h      |  147 ++++++++
+ drivers/staging/media/tegra-video/tegra210.c |  978 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/staging/media/tegra-video/vi.c       | 1074 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/staging/media/tegra-video/vi.h       |  257 +++++++++++++
+ drivers/staging/media/tegra-video/video.c    |  155 ++++++++
+ drivers/staging/media/tegra-video/video.h    |   29 ++
+ 13 files changed, 3223 insertions(+)
+ create mode 100644 drivers/staging/media/tegra-video/Kconfig
+ create mode 100644 drivers/staging/media/tegra-video/Makefile
+ create mode 100644 drivers/staging/media/tegra-video/TODO
+ create mode 100644 drivers/staging/media/tegra-video/csi.c
+ create mode 100644 drivers/staging/media/tegra-video/csi.h
+ create mode 100644 drivers/staging/media/tegra-video/tegra210.c
+ create mode 100644 drivers/staging/media/tegra-video/vi.c
+ create mode 100644 drivers/staging/media/tegra-video/vi.h
+ create mode 100644 drivers/staging/media/tegra-video/video.c
+ create mode 100644 drivers/staging/media/tegra-video/video.h
