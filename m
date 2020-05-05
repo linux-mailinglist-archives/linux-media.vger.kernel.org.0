@@ -2,115 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B22C1C5559
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 14:24:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E88C1C55DE
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 14:45:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728233AbgEEMY2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 08:24:28 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:40409 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728180AbgEEMY1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 08:24:27 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id VwcYjUjZnhEkrVwcbjxh45; Tue, 05 May 2020 14:24:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588681465; bh=iz+x1HZHbuuJvR7KWXAjlRSrOiJV8OLzAgDQQOMYU+w=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=TESiILNo8gSC8apxfTV+bzEHhOXA8/Fw6+nyCyPnqX1FYi+nxOnxMp6IHhDHM6Lgj
-         p9xouL3sNXNbXROfvf3zMNjPfZ56F4i0IfiL4jMojAZ1c7KbnMeQEHEZB5cMal9klz
-         BYpPeyHUHCraA7vXJ4LCEEzclRBjNRDtIDWhELXvXn4gXV/KjqWwNSSjFvveXlSJZt
-         0I7Hwd9bVect/DPq113ahRkZ0Iu6ggnNTxPp+TEUaYl6BFjvewO97RpNzlSccqWP2k
-         CF173vD8kqaI+pCc9Cv+axjP3+EY9QDF50135RimONR/BuN9WWadSQorT/EPcACjXA
-         VuUfubXiNS4cA==
-Subject: Re: [GIT PULL FOR v5.8] Add Tegra210 Video input driver
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Rob Herring <robh@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>
-References: <c95abf33-bfd4-489f-2c20-536e76b848ce@xs4all.nl>
- <20200505141735.53526ede@coco.lan>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <fa23e434-6a04-aa11-ad0d-ca546914a328@xs4all.nl>
-Date:   Tue, 5 May 2020 14:24:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1728850AbgEEMpw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 08:45:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34684 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728627AbgEEMpt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 May 2020 08:45:49 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C75C3C061A0F
+        for <linux-media@vger.kernel.org>; Tue,  5 May 2020 05:45:47 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id k22so1648969eds.6
+        for <linux-media@vger.kernel.org>; Tue, 05 May 2020 05:45:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=YMVoM8MB/DmaYSfgc1C7r97WJiRJ98Zuz8O8b2fB1Tk=;
+        b=YZDlR7wbgPixPGqp6u7w1A7c0PPVBfjS74wwW7ww4Ig5XezgZvl9QiF9A0RFr/W9Ih
+         rwj2bR4V3i7wXxokh95QBlfNsec5zxioWSkkvqgXo2Jgr9pUUnw45qBqaNiG9N2sbBdZ
+         VNT78i2Uaat8Os2U8RbN0mHi2SZjlpTYFnafK3h7c0cts4BjvSTLmL+AQ0sOHj1OfrJx
+         VyRIhjHZ85wtcQMoCHETeWA3CSUcPMQ35mZiZOAAJA/KIfWTwuxPJ/NfT9UqUXsOBTCq
+         Ol/NeYcxTHXH1dJk4OIDZsX8vpsCtpkW96uaiICi5xxxIu2m8QY/ymo0aAf1b1VjYe5g
+         ovyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=YMVoM8MB/DmaYSfgc1C7r97WJiRJ98Zuz8O8b2fB1Tk=;
+        b=JRdI8GRblHGhnlSMi5APsKGO9s6YVnEfoU/wvH0WFeFahu83WW+8MDrwWt+a8vJ4X6
+         6pyPQQE52rJe99b4CB69ttJ0dvQyPZvPiwWp9x6cuRCRYmcSizVvbSk8qulgbZ4XgHr6
+         ZYJkOJokHDAXCDCsq34qWMIq2bxrvUhncPS5uDX5R1my69WPov5h5bk9ytAJwbvVfYFa
+         JnxI78rfuWE27+EylKZtgR6yI30Kcs8jmGARgpujSePe+DbI6BPFM/WGKynPTnALyy67
+         jbnr3hzd0IayD8pZaWS0u2ANMGVvGdnHZ7M32+oJZ8GnRgC5ye77ulxAaz9SrhFsYiR/
+         BCow==
+X-Gm-Message-State: AGi0PuZo69INevXE8TxN6s23BA+9s3R6uff5TpYYIgylw30akjdDWfEA
+        oqThleNqqemeMWUctAbGb2l3cnEFDXDtYqngMXBXyA==
+X-Google-Smtp-Source: APiQypKckLPqHpRxF9lpdKOAJMSVW/WHsfxFruoN9Jp/mBAEIJISr+H5BCKREAnltXZk8VCTHOkQ5PA01iVWPjvSa2Y=
+X-Received: by 2002:a05:6402:1587:: with SMTP id c7mr2263913edv.61.1588682746473;
+ Tue, 05 May 2020 05:45:46 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200505141735.53526ede@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfHt245UiJF2ooZaHi8IrT+mvXKCoW8ccOWBJJarinyBe9eweEgceyyqhZBsr6Q0M67O/YPQItlGdCYtvUz7XtUUtwblcexyk2xOeDEYaNc+T716Rqj+Z
- jXVAGsFgYfnstTxv4OvgfGRy8ZN1advje4XsKQHbHNfUNsdP+5Fb9K6tq2TKPcETlKWWFbxR3JDlKDw5ByYAB/hf5Sti7Qps50e4p5PYT4Du9/vXPs/3qbDv
- vyzwPmG5HefRe0t8m7HhnPhJHLuP+xMZmNaoQyeJcFevCEEbH8gJrpKKTYtdwp6uRwWX9GoeBIS/L0Os6HyhYw==
+References: <20200422040410.6251-1-samuel@sholland.org>
+In-Reply-To: <20200422040410.6251-1-samuel@sholland.org>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Tue, 5 May 2020 09:45:35 -0300
+Message-ID: <CAAEAJfCffyB_7xUVsJsScXNpO7iMuwsQ8Cu5p_xw3dtqqQgwbg@mail.gmail.com>
+Subject: Re: [linux-sunxi] [PATCH v2 1/2] media: cedrus: Program output format
+ during each run
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-sunxi@googlegroups.com,
+        =?UTF-8?Q?Jernej_=C5=A0krabec?= <jernej.skrabec@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/05/2020 14:17, Mauro Carvalho Chehab wrote:
-> Em Tue, 5 May 2020 10:33:00 +0200
-> Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-> 
->> The following changes since commit e51759f56d314d28c25be7606b03791f048e44c7:
->>
->>   media: v4l2-ctrls.h: clarify the p_def argument of v4l2_ctrl_new_std_compound (2020-04-29 12:04:58 +0200)
->>
->> are available in the Git repository at:
->>
->>   git://linuxtv.org/hverkuil/media_tree.git tags/br-tegra
->>
->> for you to fetch changes up to 0bba0154ded02babccd59e21c6a27c5ad7d50faf:
->>
->>   MAINTAINERS: Add Tegra Video driver section (2020-05-05 10:26:05 +0200)
->>
->> ----------------------------------------------------------------
->> Tag branch
->>
->> ----------------------------------------------------------------
->> Sowjanya Komatineni (2):
->>       media: tegra: Add Tegra210 Video input driver
->>       MAINTAINERS: Add Tegra Video driver section
-> 
-> 
-> As pointed by checkpatch:
-> 
-> 	WARNING: DT compatible string "nvidia,tegra210-csi" appears un-documented -- check ./Documentation/devicetree/bindings/
-> 	#628: FILE: drivers/staging/media/tegra-video/csi.c:521:
-> 	+	{ .compatible = "nvidia,tegra210-csi", .data = &tegra210_csi_soc },
-> 
-> 	WARNING: DT compatible string "nvidia,tegra210-csi" appears un-documented -- check ./Documentation/devicetree/bindings/
-> 	#3238: FILE: drivers/staging/media/tegra-video/video.c:106:
-> 	+	{ .compatible = "nvidia,tegra210-csi", },
-> 
-> and double-checked with:
-> 
-> 	$ git grep "nvidia,tegra210-csi"
-> 	drivers/staging/media/tegra-video/csi.c:        { .compatible = "nvidia,tegra210-csi", .data = &tegra210_csi_soc },
-> 	drivers/staging/media/tegra-video/video.c:      { .compatible = "nvidia,tegra210-csi", },
-> 
-> The DT specs for this driver are missing. I even checked at linux-next:
-> there's no DT bindings for this.
+On Wed, 22 Apr 2020 at 01:00, Samuel Holland <samuel@sholland.org> wrote:
+>
+> Previously, the output format was programmed as part of the ioctl()
+> handler. However, this has two problems:
+>
+>   1) If there are multiple active streams with different output
+>      formats, the hardware will use whichever format was set last
+>      for both streams. Similary, an ioctl() done in an inactive
+>      context will wrongly affect other active contexts.
+>   2) The registers are written while the device is not actively
+>      streaming. To enable runtime PM tied to the streaming state,
+>      all hardware access needs to be moved inside cedrus_device_run().
+>
+> The call to cedrus_dst_format_set() is now placed just before the
+> codec-specific callback that programs the hardware.
+>
 
-Sorry, I should have mentioned this in the cover letter: the binding file
-is here: https://patchwork.linuxtv.org/patch/63576/
+Cc: <stable@vger.kernel.org>
 
-But it will be merged via the tegra subsystem (Thierry Reding) since it is
-part of the display bindings, not media bindings. Also, Thierry was planning
-to convert it to yaml, so he offered to merge it instead.
+> Fixes: 50e761516f2b ("media: platform: Add Cedrus VPU decoder driver")
+> Suggested-by: Jernej =C5=A0krabec <jernej.skrabec@gmail.com>
+> Suggested-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Signed-off-by: Samuel Holland <samuel@sholland.org>
 
-Regards,
+Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
 
-	Hans
+Thanks,
+Ezequiel
 
-> 
-> While the code sounds ok, I'll reject this PR. Please submit a new one
-> together with the DT file properly reviewed by DT maintainers.
-> 
-> Thanks,
-> Mauro
-> 
-
+> ---
+>
+> v2: added patch
+>
+> ---
+>  drivers/staging/media/sunxi/cedrus/cedrus_dec.c   | 2 ++
+>  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 3 ---
+>  2 files changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/st=
+aging/media/sunxi/cedrus/cedrus_dec.c
+> index 4a2fc33a1d79..58c48e4fdfe9 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+> @@ -74,6 +74,8 @@ void cedrus_device_run(void *priv)
+>
+>         v4l2_m2m_buf_copy_metadata(run.src, run.dst, true);
+>
+> +       cedrus_dst_format_set(dev, &ctx->dst_fmt);
+> +
+>         dev->dec_ops[ctx->current_codec]->setup(ctx, &run);
+>
+>         /* Complete request(s) controls if needed. */
+> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/=
+staging/media/sunxi/cedrus/cedrus_video.c
+> index 15cf1f10221b..ed3f511f066f 100644
+> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+> @@ -273,7 +273,6 @@ static int cedrus_s_fmt_vid_cap(struct file *file, vo=
+id *priv,
+>                                 struct v4l2_format *f)
+>  {
+>         struct cedrus_ctx *ctx =3D cedrus_file2ctx(file);
+> -       struct cedrus_dev *dev =3D ctx->dev;
+>         struct vb2_queue *vq;
+>         int ret;
+>
+> @@ -287,8 +286,6 @@ static int cedrus_s_fmt_vid_cap(struct file *file, vo=
+id *priv,
+>
+>         ctx->dst_fmt =3D f->fmt.pix;
+>
+> -       cedrus_dst_format_set(dev, &ctx->dst_fmt);
+> -
+>         return 0;
+>  }
+>
+> --
+> 2.24.1
+>
+> --
+> You received this message because you are subscribed to the Google Groups=
+ "linux-sunxi" group.
+> To unsubscribe from this group and stop receiving emails from it, send an=
+ email to linux-sunxi+unsubscribe@googlegroups.com.
+> To view this discussion on the web, visit https://groups.google.com/d/msg=
+id/linux-sunxi/20200422040410.6251-1-samuel%40sholland.org.
