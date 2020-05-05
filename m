@@ -2,269 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5F7A1C644B
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 01:07:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12AB21C647B
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 01:26:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729447AbgEEXHG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 19:07:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47732 "EHLO
+        id S1728853AbgEEX0Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 19:26:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727089AbgEEXHG (ORCPT
+        by vger.kernel.org with ESMTP id S1728642AbgEEX0Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 19:07:06 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FC94C061A0F
-        for <linux-media@vger.kernel.org>; Tue,  5 May 2020 16:07:04 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id t40so15084pjb.3
-        for <linux-media@vger.kernel.org>; Tue, 05 May 2020 16:07:04 -0700 (PDT)
+        Tue, 5 May 2020 19:26:16 -0400
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73EC4C061A0F
+        for <linux-media@vger.kernel.org>; Tue,  5 May 2020 16:26:16 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id d197so3016ybh.6
+        for <linux-media@vger.kernel.org>; Tue, 05 May 2020 16:26:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=lnMvLXoN54fiT5bQ9B36ujD00twLWQQOJMf5mTznE2I=;
-        b=XcvJJmrhLeml8LvNg+e0aEqu2fgQOHjibmSlo0uENuXWka6vbu5QxddzF0qXyBySj4
-         ERWA+nfNguqgX+PjiYndGtiQ16Ig4mcMbCyL6K0dOLQdYtrnJsaL9+F94IMFpMXApxM+
-         hPms0zmx3o6GMAtdvu/GNVXSSGieqcwAqOo3A=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dSNUOaj5KxlkmD3E6We3JZzhQHqRCx3I4wcT9gUGuhg=;
+        b=MQyPrHImzLs/VQfBJV923ppx7fQWNvo0uqdxIdrZDaFeE6/xsKpn1noL2Ke51fqI7+
+         3t5sbTe6qX4wp2AcvVt3jgCB/KDPBHj2c4YQgmN4AHEcsjwY/P865XqvLIt9fNxMfl+S
+         eD/qipQkbesQ7vYbA0IurM6pfOgqPb1vBO97mkv7Yhf2NiFgTjIgDJQTgEFTBxZrt8og
+         4LzaA9jPda8IzrCaN9HXotXumGTYXpS++DxyEokv7hyUi2em5AKqQztF6EtcTSafZqg4
+         OP4bX1uLqV2FnlBG9Dzx5NOA3ufeNdD8UCNF61lczzJ0V4FFtk7Ykn5/G2noFvFTPhGU
+         Lxmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lnMvLXoN54fiT5bQ9B36ujD00twLWQQOJMf5mTznE2I=;
-        b=lbW7X4RqS+ba6FFG8rxBfTzTEkily7cX93/r6sk8yg0EaMh+T+QR9qZLja3BUDr4uX
-         Wc0TyBnJ7NQ4OUuY+GGU2asaiBdVVddi71D8VFnwL0VOzCs5BSmCptDCeb/+Sb+y0L/f
-         B1YkuXGtvQsxNuLCrDKCrxdODt04ZssFGpUhnu65cQvlVGK408Kcs6C2izdfzpMrkVx6
-         H8JXg0iLMA3+6SO9aq34SJvK8A8Zu48FBBTO0bJddWlNrRMC0nh6W5uaRzizlum4/hhj
-         d8O/zdGLh9wHed3DmrSs4Okxu1v7wDDnRIZ5mecIWo45lKTa1S0lgh9P83lSPk0EiIor
-         wF5g==
-X-Gm-Message-State: AGi0PubGdwJo6Df5QNPnNzZHQzmno9HsEJpk4/KM+4tm8uCvD7wW8ISB
-        Ro9cZyms52JVok/MIu/JKtzhvw==
-X-Google-Smtp-Source: APiQypKWFU3p57Hd9uUtW+gyz/ATiQN945XSVyla1OHMs2n/q7J6O7vqOVLV3UG5FLVjmrA/tShUKw==
-X-Received: by 2002:a17:90a:7105:: with SMTP id h5mr5488824pjk.3.1588720024172;
-        Tue, 05 May 2020 16:07:04 -0700 (PDT)
-Received: from localhost ([2620:15c:202:1:4fff:7a6b:a335:8fde])
-        by smtp.gmail.com with ESMTPSA id g43sm2932584pje.22.2020.05.05.16.07.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 May 2020 16:07:03 -0700 (PDT)
-Date:   Tue, 5 May 2020 16:07:02 -0700
-From:   Matthias Kaehlcke <mka@chromium.org>
-To:     Rajendra Nayak <rnayak@codeaurora.org>
-Cc:     viresh.kumar@linaro.org, sboyd@kernel.org,
-        bjorn.andersson@linaro.org, agross@kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 5/6] media: venus: core: Add support for opp
- tables/perf voting
-Message-ID: <20200505230702.GX4525@google.com>
-References: <1588507469-31889-1-git-send-email-rnayak@codeaurora.org>
- <1588507469-31889-6-git-send-email-rnayak@codeaurora.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dSNUOaj5KxlkmD3E6We3JZzhQHqRCx3I4wcT9gUGuhg=;
+        b=nmzAW/sin8dF1CmmnqZtOzNtpemcymXF2KMmurLB3CDExkvAIUEWDkcMOvLxWJsASR
+         qb8unTVse2nH1b5MVRTvHdTS5cx6YGKeYnmgXqIBXkdlrbNMF3cUGFGfWPtHb3EC78AL
+         soj218df3UWZUjog0OhmmV/8NSzWiiHKUbaXu2DGFKO6RFTSqSaRuTaNCr2jfLQuECl0
+         LD6n6vJdPCM8heMPiz9FEOl1Va5QxI23fZ7fb8HjoWMXJVo9nnfKPmSDma20uB0bEgUI
+         n9AUfxUULIdA7T4nqKBd+uCnJpixWwZ306suBQnw9KdfeO/TLL5tz+zB5zkZrLC9CxV/
+         2MtQ==
+X-Gm-Message-State: AGi0PuadC66h23L1fhsDae/AZPZCQCwXjVo8RRsrUpjyqrbiBokTN+bP
+        nML3PFLZY3GBWXV28zPtUHrQTqhVHfZ2ank/KV0tnA==
+X-Google-Smtp-Source: APiQypKKDQU2Sw118oCoUpMcYow1NLSmmvRnupnXJQZ/a9ro8u95AnjtEu8uifc2boNhNYZe/1BXwzxYTQKsis2AMhs=
+X-Received: by 2002:a25:ba8f:: with SMTP id s15mr9039706ybg.34.1588721175380;
+ Tue, 05 May 2020 16:26:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <1588507469-31889-6-git-send-email-rnayak@codeaurora.org>
+References: <20200424053819.220276-1-jnchase@google.com> <20200424053819.220276-2-jnchase@google.com>
+ <74c08463-7052-2ac4-3662-7301ecb8150d@xs4all.nl> <CALTkaQ2dnWdkAsqYXF+msN+Jnz_1RuvbQtJd4PFwVT_Q7FTc5Q@mail.gmail.com>
+ <290277ee-f1a1-db02-9885-d4193a40e8f8@xs4all.nl>
+In-Reply-To: <290277ee-f1a1-db02-9885-d4193a40e8f8@xs4all.nl>
+From:   Jeff Chase <jnchase@google.com>
+Date:   Tue, 5 May 2020 19:26:04 -0400
+Message-ID: <CALTkaQ0tp91FJJbrzj3=+qP5z4myuUyOA9fO0L-V4CMG6Qc=nA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: cec: i2c: ch7322: Add ch7322 CEC controller driver
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        robh+dt@kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rajendra,
+On Sat, Apr 25, 2020 at 5:16 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> On 24/04/2020 21:33, Jeff Chase wrote:
+> > Hi Hans,
+> >
+> > Thank you for the quick review.
+> >
+> >> Is the register documentation available somewhere? I only found the product brief.
+> >
+> > No, it's not publicly available.
+> >
+> >> The chip can only detect OK vs NACK? There are no error states for Arbitration Lost
+> >> or Low Drive conditions? Just checking, not all hardware has support for that.
+> >
+> > Correct, message transmit completion just has a one-bit status.
+> >
+> >>> +static int ch7322_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
+> >>> +{
+> >>> +     struct ch7322 *ch7322 = cec_get_drvdata(adap);
+> >>> +
+> >>> +     dev_dbg(&ch7322->i2c->dev, "cec log addr: %x\n", log_addr);
+> >>> +
+> >>> +     return 0;
+> >>
+> >> This can't be right. I expect that logical addresses are set/cleared here,
+> >> because the device needs to know that so that it can ignore messages not
+> >> intended for it.
+> >
+> > As far as I can tell the device doesn't filter based on logical
+> > address. I'll have to save
+> > the logical address to the driver and filter manually.
+>
+> That can't be right. If this CEC adapter is assigned logical address 4, and
+> it has to Ack any received messages from other CEC devices with destination 4,
+> and ignore (i.e. not explicitly Ack) messages with other destinations.
+>
+> If the CEC adapter wouldn't know what LA to use, then it would have to Ack
+> all messages, regardless of the destination, which would make this a complete
+> mess.
+>
+> There must be a register that tells the CEC adapter which logical address(es)
+> should be Acked. It's usually a bitmask (one bit for each possible LA) or the
+> LA itself is stored.
 
-On Sun, May 03, 2020 at 05:34:28PM +0530, Rajendra Nayak wrote:
-> Add support to add OPP tables and perf voting on the OPP powerdomain.
-> This is needed so venus votes on the corresponding performance state
-> for the OPP powerdomain along with setting the core clock rate.
-> 
-> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
-> Cc: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> Cc: linux-media@vger.kernel.org
-> ---
->  drivers/media/platform/qcom/venus/core.c       | 28 +++++++++++++
->  drivers/media/platform/qcom/venus/core.h       |  5 +++
->  drivers/media/platform/qcom/venus/pm_helpers.c | 54 ++++++++++++++++++++++++--
->  3 files changed, 83 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 194b10b9..6f72e99 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -12,6 +12,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/slab.h>
->  #include <linux/types.h>
-> +#include <linux/pm_opp.h>
->  #include <linux/pm_runtime.h>
->  #include <media/videobuf2-v4l2.h>
->  #include <media/v4l2-mem2mem.h>
-> @@ -214,6 +215,20 @@ static int venus_probe(struct platform_device *pdev)
->  	if (!core->pm_ops)
->  		return -ENODEV;
->  
-> +	core->opp_table = dev_pm_opp_set_clkname(dev, "core");
-> +	if (IS_ERR(core->opp_table))
-> +		return PTR_ERR(core->opp_table);
-> +
-> +	if (core->res->opp_pmdomain) {
-> +		ret = dev_pm_opp_of_add_table(dev);
-> +		if (!ret) {
-> +			core->has_opp_table = true;
-> +		} else if (ret != -ENODEV) {
-> +			dev_err(dev, "invalid OPP table in device tree\n");
+Sorry, you're right, of course. The register isn't in the
+documentation I have but I found it referenced in some sample code. By
+default it seems the device automatically stores the logical address
+if it recognizes a polling message (with src == dst) that was not
+ack'd. The behavior can be configured to allow explicit logical
+address assignment instead. I assume that would be preferred?
 
-			dev_pm_opp_put_clkname(core->opp_table);
+Thanks,
+Jeff
 
-this and removing the OPP table is also needed in other error paths below,
-which currently return directly. Looks like you want to add another label
-to the unwind path.
 
-> +			return ret;
-> +		}
-> +	}
-> +
->  	if (core->pm_ops->core_get) {
->  		ret = core->pm_ops->core_get(dev);
->  		if (ret)
-> @@ -301,6 +316,9 @@ static int venus_probe(struct platform_device *pdev)
->  err_venus_shutdown:
->  	venus_shutdown(core);
->  err_runtime_disable:
-> +	if (core->has_opp_table)
-> +		dev_pm_opp_of_remove_table(dev);
-> +	dev_pm_opp_put_clkname(core->opp_table);
-
-move this after hfi_destroy(core), to do unwinding in reverse order, it
-also allows to add the new jump label mentioned above.
-
->  	pm_runtime_set_suspended(dev);
->  	pm_runtime_disable(dev);
->  	hfi_destroy(core);
-> @@ -326,6 +344,10 @@ static int venus_remove(struct platform_device *pdev)
->  
->  	venus_firmware_deinit(core);
->  
-> +	if (core->has_opp_table)
-> +		dev_pm_opp_of_remove_table(dev);
-> +	dev_pm_opp_put_clkname(core->opp_table);
-> +
->  	pm_runtime_put_sync(dev);
->  	pm_runtime_disable(dev);
->  
-> @@ -350,6 +372,10 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
->  	if (ret)
->  		return ret;
->  
-> +	/* Drop the performance state vote */
-> +	if (core->opp_pmdomain)
-> +		dev_pm_opp_set_rate(dev, 0);
-> +
->  	if (pm_ops->core_power)
->  		ret = pm_ops->core_power(dev, POWER_OFF);
->  
-> @@ -511,6 +537,7 @@ static const struct venus_resources sdm845_res_v2 = {
->  	.vcodec_clks_num = 2,
->  	.vcodec_pmdomains = { "venus", "vcodec0", "vcodec1" },
->  	.vcodec_pmdomains_num = 3,
-> +	.opp_pmdomain = (const char *[]) { "opp-pd", NULL },
->  	.vcodec_num = 2,
->  	.max_load = 3110400,	/* 4096x2160@90 */
->  	.hfi_version = HFI_VERSION_4XX,
-> @@ -556,6 +583,7 @@ static const struct venus_resources sc7180_res = {
->  	.vcodec_clks_num = 2,
->  	.vcodec_pmdomains = { "venus", "vcodec0" },
->  	.vcodec_pmdomains_num = 2,
-> +	.opp_pmdomain = (const char *[]) { "opp-pd", NULL },
-
-The new power domain needs to be added to the SDM845 and SC7180 bindings.
-
->  	.vcodec_num = 1,
->  	.hfi_version = HFI_VERSION_4XX,
->  	.vmem_id = VIDC_RESOURCE_NONE,
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index bd3ac6a..cc1d511 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -62,6 +62,7 @@ struct venus_resources {
->  	unsigned int vcodec_clks_num;
->  	const char * const vcodec_pmdomains[VIDC_PMDOMAINS_NUM_MAX];
->  	unsigned int vcodec_pmdomains_num;
-> +	const char **opp_pmdomain;
->  	unsigned int vcodec_num;
->  	enum hfi_version hfi_version;
->  	u32 max_load;
-> @@ -144,8 +145,12 @@ struct venus_core {
->  	struct clk *vcodec1_clks[VIDC_VCODEC_CLKS_NUM_MAX];
->  	struct icc_path *video_path;
->  	struct icc_path *cpucfg_path;
-> +	struct opp_table *opp_table;
-> +	bool has_opp_table;
->  	struct device_link *pd_dl_venus;
->  	struct device *pmdomains[VIDC_PMDOMAINS_NUM_MAX];
-> +	struct device_link *opp_dl_venus;
-> +	struct device *opp_pmdomain;
->  	struct video_device *vdev_dec;
->  	struct video_device *vdev_enc;
->  	struct v4l2_device v4l2_dev;
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index abf9315..30600bc 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -9,6 +9,7 @@
->  #include <linux/iopoll.h>
->  #include <linux/kernel.h>
->  #include <linux/pm_domain.h>
-> +#include <linux/pm_opp.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/types.h>
->  #include <media/v4l2-mem2mem.h>
-> @@ -66,10 +67,9 @@ static void core_clks_disable(struct venus_core *core)
->  
->  static int core_clks_set_rate(struct venus_core *core, unsigned long freq)
->  {
-> -	struct clk *clk = core->clks[0];
->  	int ret;
->  
-> -	ret = clk_set_rate(clk, freq);
-> +	ret = dev_pm_opp_set_rate(core->dev, freq);
->  	if (ret)
->  		return ret;
->  
-> @@ -740,13 +740,16 @@ static int venc_power_v4(struct device *dev, int on)
->  
->  static int vcodec_domains_get(struct device *dev)
->  {
-> +	int ret;
-> +	struct opp_table *opp_table;
-> +	struct device **opp_virt_dev;
->  	struct venus_core *core = dev_get_drvdata(dev);
->  	const struct venus_resources *res = core->res;
->  	struct device *pd;
->  	unsigned int i;
->  
->  	if (!res->vcodec_pmdomains_num)
-> -		return -ENODEV;
-> +		goto skip_pmdomains;
->  
->  	for (i = 0; i < res->vcodec_pmdomains_num; i++) {
->  		pd = dev_pm_domain_attach_by_name(dev,
-> @@ -763,7 +766,41 @@ static int vcodec_domains_get(struct device *dev)
->  	if (!core->pd_dl_venus)
->  		return -ENODEV;
->  
-> +skip_pmdomains:
-> +	if (!res->opp_pmdomain || !core->has_opp_table)
-
-nit: '!res->opp_pmdomain' isn't strictly needed, 'has_opp_table' is always
-false when there is no OPP domain. It's ok if you prefer to keep it.
-
-> +		return 0;
-> +
-> +	/* Attach the power domain for setting performance state */
-> +	opp_table = dev_pm_opp_attach_genpd(dev, res->opp_pmdomain, &opp_virt_dev);
-> +	if (IS_ERR(opp_table)) {
-> +		ret = PTR_ERR(opp_table);
-> +		goto opp_attach_err;
-> +	} else if (opp_virt_dev) {
-
-If I read dev_pm_opp_attach_genpd() correctly 'opp_virt_dev' is always
-set unless the function returns an error. If that's correct the condition
-can be removed. Otherwise you probably want to initialize 'opp_virt_dev' to
-NULL, to not rely on dev_pm_opp_attach_genpd() to do it.
+>
+> It might be that you still receive all messages (in which case monitor_all
+> is effectively always enabled), but it really needs to be told which LAs should
+> be Acked.
+>
+> Regards,
+>
+>         Hans
+>
+> >
+> >>> +}
+> >>> +
+> >>> +static int ch7322_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
+> >>> +                                  u32 signal_free_time, struct cec_msg *msg)
+> >>> +{
+> >>
+> >> Does the hardware correctly handle Signal Free Time? If this isn't handled right
+> >> then one CEC device can flood the CEC bus, preventing anyone else from using it.
+> >>
+> >> In some devices it has to be programmed, in others it is hardwired.
+> >
+> > It must be hardwired -- I don't see a way to program it.
+> >
+> >>> +     struct ch7322 *ch7322 = cec_get_drvdata(adap);
+> >>> +     int ret;
+> >>> +
+> >>> +     dev_dbg(&ch7322->i2c->dev, "cec transmit: %x->%x: %x\n",
+> >>> +             cec_msg_initiator(msg), cec_msg_destination(msg),
+> >>> +             cec_msg_opcode(msg));
+> >>> +
+> >>> +     mutex_lock(&ch7322->mutex);
+> >>> +     ret = ch7322_send_message(ch7322, msg);
+> >>> +     mutex_unlock(&ch7322->mutex);
+> >>> +
+> >>> +     return ret;
+> >>> +}
+> >>> +
+> >>> +static const struct cec_adap_ops ch7322_cec_adap_ops = {
+> >>> +     .adap_enable = ch7322_cec_adap_enable,
+> >>> +     .adap_log_addr = ch7322_cec_adap_log_addr,
+> >>> +     .adap_transmit = ch7322_cec_adap_transmit,
+> >>
+> >> If the HW supports CEC monitoring (aka snooping), then I recommend that
+> >> adap_monitor_all_enable is also implemented. It's very useful for debugging
+> >> CEC in userspace. Not all HW supports it, though.
+> >
+> > Okay, I'll add this along with the logical address filtering I mentioned above.
+> >
+> > Thanks,
+> > Jeff
+> >
+>
