@@ -2,118 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB6FA1C5167
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 10:55:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 420611C51D6
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 11:24:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728180AbgEEIzu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 04:55:50 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:34765 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725766AbgEEIzu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 04:55:50 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id VtMejTYJKhEkrVtMijx1ve; Tue, 05 May 2020 10:55:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588668948; bh=Ccvi09j039SC2YcP0LHx86Wu6B3IoL9FiSRG8yv4P2s=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=o2QLxKmMidNXySlW5D+QYS2YWxUGFuJTz4QhoJnKnUpwWG86nHQoDPr0Ybx+yBo3R
-         rg87MmgLymKpupx4u42/jwT1/3z+MgF5rTuVCdFpRv6X99DWIAH0oxIyYmzPzcnp3O
-         SPxJlE5MMV68Uk3cMG5mlAaAkLWDQhnM+SpMIzAxJOqQZ2o2FiOF0rYA3aOMBHqz0C
-         1utlq/EQdAEPp++x3nsCFWfBzuTH21hRiApgSzxzYldZutRO6AukItaEt8RB3DdqUS
-         q2ZwyiCp1XUL0gurVloZ7d/I4ckFjbDA5EZSretnVuIcTyXhUInB169+44vGx9CwDg
-         feY9t+uYYLkiw==
-Subject: Re: [PATCH 7/7] utils: switch C to C++ headers
-To:     Rosen Penev <rosenp@gmail.com>, linux-media@vger.kernel.org
-References: <20200429040627.27859-1-rosenp@gmail.com>
- <20200429040627.27859-7-rosenp@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <792154c5-ee89-f467-cd4d-29a4aad7de5e@xs4all.nl>
-Date:   Tue, 5 May 2020 10:55:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1728497AbgEEJYv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 05:24:51 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:38374 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725766AbgEEJYu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 May 2020 05:24:50 -0400
+Received: by mail-oi1-f193.google.com with SMTP id r66so1396581oie.5;
+        Tue, 05 May 2020 02:24:48 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fA6tjdmApvG0BpsjkTdWv9/ZTQZ9vjPp82obp9l863E=;
+        b=KuMdbSTevVVyIcYYwphkz89h1ykWQxiWyG2eWWDmtjnV+yzVc4tt2q8+BeaOpzjM1U
+         yCoOgzHHy2BrTq5b3au0LHxkOhhw4Z9k4bLPrwuO/lytRpt6mL2+haUmOV1DQFjy4VXY
+         1zNA43sIG/9b81RppTbGgEmH5N581W6CE9EUyScqWgQDE38GaloJ9gt4wTnypxmoQDsX
+         W+EQyre3gBrosnxRDrqg2St+AdOSbKgPKyhqcbTzAvNrNJSivm/xbeBfql/gQdM9KVsk
+         5WZzmCaE6u3AfXJXu/yrUHpSwZrvhJLLQ1magehi2GgProOFXFZOm/8Ymn6xRHF42yyh
+         iMdw==
+X-Gm-Message-State: AGi0PuarmqkJr6sohlcUqKgki7AcwsDBScsPOP4hlxLXa1y4giZPspff
+        9/bcY/NHnL9l35nLVGTQwfX7b/e+jS736vysKlk=
+X-Google-Smtp-Source: APiQypKOjAo7caYTLLrvaP2LfYH11Xj01QYaa+uBtqm/9mZJ41Mdkz0F6pXJ47B38HgwsYDHPLvoSnLN/Mh8S4elUzU=
+X-Received: by 2002:aca:f541:: with SMTP id t62mr1674694oih.148.1588670688206;
+ Tue, 05 May 2020 02:24:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200429040627.27859-7-rosenp@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBIoadFiEwntdZ6epYmuL7WkIYRzbrzItrq3o4IMDAjao2yAj61kJ5541iKev/GL9alJwzwiAKJii5xp9WHMkN3kOjbbJ2SACe1wMdENFJqLYUGK68Lw
- QTlCGeicK8+/61+wgAzNDRKb+Fzg9PLfurCQOAHNll3WJIiKsRgnGNSOMiiV7PO1JDE8YZUAEY+XV4STYjGGnCkMnM2hDbKnCYU=
+References: <20200505083926.28503-1-m.szyprowski@samsung.com>
+ <CGME20200505084634eucas1p1e0ea160dd77afbf6d2f7e6154ded40d0@eucas1p1.samsung.com>
+ <20200505084614.30424-1-m.szyprowski@samsung.com> <20200505084614.30424-18-m.szyprowski@samsung.com>
+In-Reply-To: <20200505084614.30424-18-m.szyprowski@samsung.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 5 May 2020 11:24:37 +0200
+Message-ID: <CAMuHMdVisnijasoxazj+6kUFM3UrTYkVo6kC1dxZv5zK0yD7TQ@mail.gmail.com>
+Subject: Re: [PATCH v3 18/25] drm: rcar-du: fix common struct sg_table related issues
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux IOMMU <iommu@lists.linux-foundation.org>,
+        linaro-mm-sig@lists.linaro.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/04/2020 06:06, Rosen Penev wrote:
-> Recently, I changed exit() to the std variant, which caused build
-> failures on older platforms. Switch all headers to the C++ variants
-> to avoid this.
-> 
-> These C headers are deprecated by C++14.
+Hi Marek,
 
-What failures exactly? And on what platforms?
-
-This patch changes a lot of files, and I'd like to have a bit more
-information before applying this.
-
-I'll commit patches 5 and 6 of this series, but please repost the
-others with better commit logs that help me understand the reason
-for the change.
-
-Regards,
-
-	Hans
-
-> 
-> Signed-off-by: Rosen Penev <rosenp@gmail.com>
+On Tue, May 5, 2020 at 10:48 AM Marek Szyprowski
+<m.szyprowski@samsung.com> wrote:
+> The Documentation/DMA-API-HOWTO.txt states that dma_map_sg returns the
+> numer of the created entries in the DMA address space. However the
+> subsequent calls to dma_sync_sg_for_{device,cpu} and dma_unmap_sg must be
+> called with the original number of the entries passed to dma_map_sg. The
+> sg_table->nents in turn holds the result of the dma_map_sg call as stated
+> in include/linux/scatterlist.h. A common mistake was to ignore a result
+> of the dma_map_sg function and don't use the sg_table->orig_nents at all.
+>
+> To avoid such issues, lets use common dma-mapping wrappers operating
+> directly on the struct sg_table objects and adjust references to the
+> nents and orig_nents respectively.
+>
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 > ---
->  utils/cec-compliance/cec-compliance.cpp          | 10 +++++-----
->  utils/cec-compliance/cec-test-adapter.cpp        | 10 +++++-----
->  utils/cec-compliance/cec-test-audio.cpp          | 10 +++++-----
->  utils/cec-compliance/cec-test-fuzzing.cpp        | 10 +++++-----
->  utils/cec-compliance/cec-test-power.cpp          | 10 +++++-----
->  utils/cec-compliance/cec-test.cpp                |  8 ++++----
->  utils/cec-ctl/cec-ctl.cpp                        | 10 +++++-----
->  utils/cec-ctl/cec-pin.cpp                        | 12 ++++++------
->  utils/cec-follower/cec-follower.cpp              |  8 ++++----
->  utils/cec-follower/cec-processing.cpp            | 10 +++++-----
->  utils/cec-follower/cec-tuner.cpp                 |  2 +-
->  utils/common/media-info.cpp                      | 10 +++++-----
->  utils/common/v4l2-info.cpp                       | 10 +++++-----
->  utils/libcecutil/cec-info.cpp                    |  2 +-
->  utils/libcecutil/cec-log.cpp                     |  8 ++++----
->  utils/libcecutil/cec-parse.cpp                   | 10 +++++-----
->  utils/rds-ctl/rds-ctl.cpp                        | 14 +++++++-------
->  utils/v4l2-compliance/v4l2-compliance.cpp        | 12 ++++++------
->  utils/v4l2-compliance/v4l2-test-buffers.cpp      | 10 +++++-----
->  utils/v4l2-compliance/v4l2-test-codecs.cpp       | 12 ++++++------
->  utils/v4l2-compliance/v4l2-test-colors.cpp       | 12 ++++++------
->  utils/v4l2-compliance/v4l2-test-controls.cpp     | 10 +++++-----
->  utils/v4l2-compliance/v4l2-test-debug.cpp        | 12 ++++++------
->  utils/v4l2-compliance/v4l2-test-formats.cpp      | 12 ++++++------
->  utils/v4l2-compliance/v4l2-test-input-output.cpp | 10 +++++-----
->  utils/v4l2-compliance/v4l2-test-io-config.cpp    | 10 +++++-----
->  utils/v4l2-compliance/v4l2-test-media.cpp        | 12 ++++++------
->  utils/v4l2-compliance/v4l2-test-subdevs.cpp      | 12 ++++++------
->  utils/v4l2-ctl/v4l2-ctl-common.cpp               | 10 +++++-----
->  utils/v4l2-ctl/v4l2-ctl-edid.cpp                 |  8 ++++----
->  utils/v4l2-ctl/v4l2-ctl-io.cpp                   | 12 ++++++------
->  utils/v4l2-ctl/v4l2-ctl-meta.cpp                 | 12 ++++++------
->  utils/v4l2-ctl/v4l2-ctl-misc.cpp                 | 12 ++++++------
->  utils/v4l2-ctl/v4l2-ctl-modes.cpp                |  4 ++--
->  utils/v4l2-ctl/v4l2-ctl-overlay.cpp              | 12 ++++++------
->  utils/v4l2-ctl/v4l2-ctl-sdr.cpp                  | 12 ++++++------
->  utils/v4l2-ctl/v4l2-ctl-selection.cpp            | 12 ++++++------
->  utils/v4l2-ctl/v4l2-ctl-stds.cpp                 | 12 ++++++------
->  utils/v4l2-ctl/v4l2-ctl-streaming.cpp            | 10 +++++-----
->  utils/v4l2-ctl/v4l2-ctl-subdev.cpp               | 12 ++++++------
->  utils/v4l2-ctl/v4l2-ctl-tuner.cpp                | 10 +++++-----
->  utils/v4l2-ctl/v4l2-ctl-vbi.cpp                  | 10 +++++-----
->  utils/v4l2-ctl/v4l2-ctl-vidcap.cpp               | 12 ++++++------
->  utils/v4l2-ctl/v4l2-ctl-vidout.cpp               | 12 ++++++------
->  utils/v4l2-ctl/v4l2-ctl.cpp                      | 12 ++++++------
->  utils/v4l2-dbg/v4l2-dbg.cpp                      | 10 +++++-----
->  46 files changed, 236 insertions(+), 236 deletions(-)
+> For more information, see '[PATCH v3 00/25] DRM: fix struct sg_table nents
+> vs. orig_nents misuse' thread: https://lkml.org/lkml/2020/5/5/187
 
+For the modern lore-users:
+https://lore.kernel.org/r/20200505083926.28503-1-m.szyprowski@samsung.com/
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
