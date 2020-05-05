@@ -2,244 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A6721C4EC3
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 09:05:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A79C1C4F66
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 09:45:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726568AbgEEHE6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 03:04:58 -0400
-Received: from mga09.intel.com ([134.134.136.24]:51445 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725320AbgEEHE6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 03:04:58 -0400
-IronPort-SDR: xTwSVgACmSWwEEOUv57GG4fl7NB3XsEeatOGAlN9PNe+Bzn2DRfmEI5+946veYS6glEyk5MqM2
- rsDLWCQVQ4hg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2020 00:04:57 -0700
-IronPort-SDR: g0lTiDLjerpC+aeL3NNgChf6tU+zFHtkYay4QAa0CV2X6WLkoRkX86t2Lv/urXwg7apXXGUovU
- G6q2tKeVlRWA==
-X-IronPort-AV: E=Sophos;i="5.73,354,1583222400"; 
-   d="scan'208";a="304397388"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2020 00:04:53 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 7D2EF20885; Tue,  5 May 2020 10:04:51 +0300 (EEST)
-Date:   Tue, 5 May 2020 10:04:51 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        mchehab@kernel.org, andriy.shevchenko@linux.intel.com,
-        robh+dt@kernel.org, mark.rutland@arm.com, drinkcat@chromium.org,
-        tfiga@chromium.org, matthias.bgg@gmail.com, bingbu.cao@intel.com,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [V7, 1/2] media: dt-bindings: media: i2c: Document OV02A10
- bindings
-Message-ID: <20200505070451.GS9190@paasikivi.fi.intel.com>
-References: <20200430080924.1140-1-dongchun.zhu@mediatek.com>
- <20200430080924.1140-2-dongchun.zhu@mediatek.com>
+        id S1726575AbgEEHo6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 03:44:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44138 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725833AbgEEHo6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 May 2020 03:44:58 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BD18C061A0F
+        for <linux-media@vger.kernel.org>; Tue,  5 May 2020 00:44:58 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id u10so480314pls.8
+        for <linux-media@vger.kernel.org>; Tue, 05 May 2020 00:44:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O2pv13qx7VFGbbGCBI+M8Dk49yxcXbYowJJnWYcKPyA=;
+        b=gTUcBPhXn7zwDJld52yMM64s04tMkXRJBQG1NWq/zYwXC6B1H01YZwAbf03E0N+d3a
+         dsYVRX3mdZ9pP3VUEc1ki2liSb7gzB2RnSZzS39WlTfSWX5IENahsL6Ptt8mKz3pYpcg
+         OyJfrpRgzQWKerlBIyhp3wbvemUv+0LOlwiCk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=O2pv13qx7VFGbbGCBI+M8Dk49yxcXbYowJJnWYcKPyA=;
+        b=UCOJnX0AQKUfE8/hNGPKx5Vo3YPF4ZoEJVj/TFdTo4oSH8VDPYdOav8R0v/XXAC3nO
+         SLJCcukDnO7Bl+Xph8nNnPikgQ57oB2lKrIXLjVUKNL4wHsGAZhGi49wGL215wzbo10M
+         Mq2EaJ6o2uwEuBg7wkszLDpeJ7ds5BNfrRwyfY3Rn1pp2AE9lSHsRYYnuUgTEE3JqeaT
+         hBACYiop7JQ0RlRE/1mVjet/6gh5iWAfh3ZNUtcX5AjPS8WVdkCDr9zM62ALLMdd0zdx
+         MEqZz4a8KyJYjEwXIcCVaLx6/qo0GnwX/+x/TkGhC3NEFYHVUXxi0JH6qORZc9SpwgGP
+         svQw==
+X-Gm-Message-State: AGi0PuZRTBkPS3oCcXU0zKW1bsAIH4u+rVuX5MaotanRKse9Sb/kfbuN
+        qlExqNWV3HRTJPk/ToFjwkdWhA==
+X-Google-Smtp-Source: APiQypKEj76sEkdrmamm6pACw3UuGZqt7SISdTgTQwe/a0f+om4l4A/EzQV+B3BPoL0Bs/K056M7Kg==
+X-Received: by 2002:a17:902:8687:: with SMTP id g7mr1976063plo.59.1588664697580;
+        Tue, 05 May 2020 00:44:57 -0700 (PDT)
+Received: from localhost ([2401:fa00:9:14:a92f:c47d:76a8:b09e])
+        by smtp.gmail.com with ESMTPSA id j5sm1205741pfh.58.2020.05.05.00.44.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 May 2020 00:44:57 -0700 (PDT)
+From:   Eizan Miyamoto <eizan@chromium.org>
+X-Google-Original-From: Eizan Miyamoto <eizan@google.com>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Eizan Miyamoto <eizan@google.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH v1 0/2] Refactor MDP driver and add dummy component driver
+Date:   Tue,  5 May 2020 17:44:29 +1000
+Message-Id: <20200505074431.242840-1-eizan@google.com>
+X-Mailer: git-send-email 2.26.2.526.g744177e7f7-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200430080924.1140-2-dongchun.zhu@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dongchun,
 
-On Thu, Apr 30, 2020 at 04:09:23PM +0800, Dongchun Zhu wrote:
-> Add DT bindings documentation for Omnivision OV02A10 image sensor.
-> 
-> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> ---
->  .../bindings/media/i2c/ovti,ov02a10.yaml           | 148 +++++++++++++++++++++
->  MAINTAINERS                                        |   7 +
->  2 files changed, 155 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> new file mode 100644
-> index 0000000..2be4bd2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> @@ -0,0 +1,148 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright (c) 2020 MediaTek Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov02a10.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Omnivision OV02A10 CMOS Sensor Device Tree Bindings
-> +
-> +maintainers:
-> +  - Dongchun Zhu <dongchun.zhu@mediatek.com>
-> +
-> +description: |-
-> +  The Omnivision OV02A10 is a low-cost, high performance, 1/5-inch, 2 megapixel
-> +  image sensor, which is the latest production derived from Omnivision's CMOS
-> +  image sensor technology. Ihis chip supports high frame rate speeds up to 30fps
-> +  @ 1600x1200 (UXGA) resolution transferred over a 1-lane MIPI interface. The
-> +  sensor output is available via CSI-2 serial data output.
-> +
-> +properties:
-> +  compatible:
-> +    const: ovti,ov02a10
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: top mux camtg clock
-> +      - description: devider clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: eclk
-> +      - const: freq_mux
-> +
-> +  clock-frequency:
-> +    description:
-> +      Frequency of the eclk clock in Hertz.
-> +
-> +  dovdd-supply:
-> +    description:
-> +      Definition of the regulator used as interface power supply.
-> +
-> +  avdd-supply:
-> +    description:
-> +      Definition of the regulator used as analog power supply.
-> +
-> +  dvdd-supply:
-> +    description:
-> +      Definition of the regulator used as digital power supply.
-> +
-> +  powerdown-gpios:
-> +    description:
-> +      The phandle and specifier for the GPIO that controls sensor powerdown.
-> +
-> +  reset-gpios:
-> +    description:
-> +      The phandle and specifier for the GPIO that controls sensor reset.
-> +
-> +  rotation:
-> +    description:
-> +      Definition of the sensor's placement, valid values are 0 and 180.
-> +    allOf:
-> +      - $ref: "/schemas/types.yaml#/definitions/uint32"
-> +      - enum:
-> +          - 0    # Sensor Mounted Upright
-> +          - 180  # Sensor Mounted Upside Down
-> +
-> +  ovti,mipi-tx-speed:
-> +    description:
-> +      Indication of MIPI transmission speed select.
+This series depends on changes in
+https://patchwork.kernel.org/patch/11528171/
 
-What exactly does this signify? And how do you come up with the number?
+We are adding a dummy MDP component driver so that all the components
+are properly configured with IOMMUs and LARBs. This is required for
+us to get hardware video decode working in 4.19, and possibly newer
+kernels.
 
-> +    allOf:
-> +      - $ref: "/schemas/types.yaml#/definitions/uint32"
-> +      - enum: [ 3, 4 ]
-> +
-> +  # See ../video-interfaces.txt for details
-> +  port:
-> +    type: object
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        type: object
-> +        additionalProperties: false
-> +
-> +        properties:
-> +          remote-endpoint: true
-> +          link-frequencies: true
-> +
-> +    required:
-> +      - endpoint
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - clock-frequency
-> +  - dovdd-supply
-> +  - avdd-supply
-> +  - dvdd-supply
-> +  - powerdown-gpios
-> +  - reset-gpios
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/mt8183-clk.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        clock-frequency = <400000>;
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        ov02a10: camera-sensor@3d {
-> +            compatible = "ovti,ov02a10";
-> +            reg = <0x3d>;
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&clk_24m_cam>;
-> +
-> +            clocks = <&topckgen CLK_TOP_MUX_CAMTG>,
-> +                     <&topckgen CLK_TOP_UNIVP_192M_D8>;
-> +            clock-names = "eclk", "freq_mux";
-> +            clock-frequency = <24000000>;
-> +
-> +            rotation = <180>;
-> +            ovti,mipi-tx-speed = <3>;
-> +
-> +            dovdd-supply = <&mt6358_vcamio_reg>;
-> +            avdd-supply = <&mt6358_vcama1_reg>;
-> +            dvdd-supply = <&mt6358_vcn18_reg>;
-> +            powerdown-gpios = <&pio 107 GPIO_ACTIVE_LOW>;
-> +            reset-gpios = <&pio 109 GPIO_ACTIVE_HIGH>;
-> +
-> +            port {
-> +                wcam_out: endpoint {
-> +                    remote-endpoint = <&mipi_in_wcam>;
-> +                    link-frequencies = /bits/ 64 <390000000>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e64e5db..63a2335 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12389,6 +12389,13 @@ M:	Harald Welte <laforge@gnumonks.org>
->  S:	Maintained
->  F:	drivers/char/pcmcia/cm4040_cs.*
->  
-> +OMNIVISION OV02A10 SENSOR DRIVER
-> +M:	Dongchun Zhu <dongchun.zhu@mediatek.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> +
->  OMNIVISION OV13858 SENSOR DRIVER
->  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
->  L:	linux-media@vger.kernel.org
+
+Eizan Miyamoto (2):
+  [media] mtk-mdp: add driver to probe mdp components
+  [media] mtk-mdp: use pm_runtime in MDP component driver
+
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 186 +++++++++++++++---
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  33 +---
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 177 ++++++++++++-----
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.h |   1 +
+ 4 files changed, 297 insertions(+), 100 deletions(-)
 
 -- 
-Regards,
+2.26.2.526.g744177e7f7-goog
 
-Sakari Ailus
