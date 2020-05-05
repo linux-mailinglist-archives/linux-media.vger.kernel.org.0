@@ -2,123 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF2081C5C79
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 17:49:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD5131C5D04
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 18:08:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729668AbgEEPtR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 11:49:17 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:39794 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729561AbgEEPtQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 May 2020 11:49:16 -0400
-Received: by mail-ot1-f65.google.com with SMTP id m13so2034529otf.6;
-        Tue, 05 May 2020 08:49:15 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=kCQr2A1yVRSlZqXHXQYGpMp329yMREeOZVsfc6fgXVk=;
-        b=eqePmWvt89LzZQuFtpPydXt5hDiG1VXQJZ5CgTRRiwvss3j7e5WapBHTj2C8wGrvtD
-         YSWie4z5+C3GoiwA5e++jGIeH1nzytdVpvBpdE85kHS1pYxw9Sn86Xnpj3do8xZhs4qQ
-         D6p3f/jWJeweHScviEtRlqGN4gcVfrqnIRmaftytZpt5ImfFS/on6ULrJ/6qe0a0kg84
-         M8MQm91QJo5wQEXyFkMQ+miakVArbxoY4sps9kPLp+Hg3a6nLxZCvJAAOZwr7H9H3Fuz
-         1JcP0/HcSkxWmQpyQVgNR9gMkgsd0GI0GF50InUMD8S0d2ocuoisA1Un846c2i6X5kEj
-         1CIA==
-X-Gm-Message-State: AGi0Puac48way/KOzvGL4A9hcoehI0PpqiTktaLh61kN21SZCPUJUE3K
-        EaaiVP/ttpOPB+hnHQvSLg==
-X-Google-Smtp-Source: APiQypI+Ez39Hrf4Q/bsebTZ68LQuPy7DpmQgJdv0Xsn4eo11httcQIjp0lYLFxRt3XsSqKHyhk0yw==
-X-Received: by 2002:a9d:7858:: with SMTP id c24mr2655285otm.163.1588693755099;
-        Tue, 05 May 2020 08:49:15 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id i5sm629069oik.11.2020.05.05.08.49.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2020 08:49:14 -0700 (PDT)
-Received: (nullmailer pid 17500 invoked by uid 1000);
-        Tue, 05 May 2020 15:49:13 -0000
-Date:   Tue, 5 May 2020 10:49:13 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Robert Foss <robert.foss@linaro.org>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Maxime Ripard <maxime@cerno.tech>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Robert Foss <robert.foss@linaro.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, Ben Kao <ben.kao@intel.com>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>
-Subject: Re: [PATCH v10 1/3] media: dt-bindings: ov8856: Document YAML
- bindings
-Message-ID: <20200505154913.GA17438@bogus>
-References: <20200505100129.104673-1-robert.foss@linaro.org>
- <20200505100129.104673-2-robert.foss@linaro.org>
+        id S1729289AbgEEQIk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 12:08:40 -0400
+Received: from mga17.intel.com ([192.55.52.151]:15558 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728804AbgEEQIk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 May 2020 12:08:40 -0400
+IronPort-SDR: /KlQygJ35N16zWxdr3DP6dGaVCAfw9TTpebR/kpEWOSloa5dWhFLzxmLCGARKGNsLETk8RuDlI
+ 1QdGrrjM2UDQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2020 09:08:39 -0700
+IronPort-SDR: tgbAVapRBB6JIOk0B2uOROiorBQLh4mv4ID14N42bIb5ifp85UIZdjREN4BLIyBSZ/znz8tAiB
+ URoZXT0rNa2Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,355,1583222400"; 
+   d="scan'208";a="284302668"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 05 May 2020 09:08:37 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jW07Y-000CXf-Dg; Wed, 06 May 2020 00:08:36 +0800
+Date:   Wed, 6 May 2020 00:07:37 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     kbuild-all@lists.01.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v2 15/34] staging: mmal-vchiq: Use vc-sm-cma to support
+ zero copy
+Message-ID: <202005060033.fVqn7hFL%lkp@intel.com>
+References: <20200504092611.9798-16-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200505100129.104673-2-robert.foss@linaro.org>
+In-Reply-To: <20200504092611.9798-16-laurent.pinchart@ideasonboard.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue,  5 May 2020 12:01:29 +0200, Robert Foss wrote:
-> From: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> 
-> This patch adds documentation of device tree in YAML schema for the
-> OV8856 CMOS image sensor.
-> 
-> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> ---
-> 
-> - Changes since v9:
->   * Remove remote-endpoint property
->   * Marco: Make port property required again
->   * Sakari: Remove Ben as a maintainer
->   * Sakari: Replace data-lanes with const items
->   * Sakari: Remove clock-lanes property
->   * Sakari & Rob Herring: Change type of link-frequency
->     work around dt-schema bug
-> 
-> - Changes since v8:
->   * Maxime: Added r-b
-> 
-> - Changes since v7:
->   * Marco: Make 'port' property optional
->   * Maxime & Sakari: Add 'link-frequencies' property to dt binding
->   * robher: Improve description for 'port' property
-> 
-> - Changes since v6:
->   * Marco: remove qcom specifics from DT example
->    
-> - Changes since v5:
->   * Add assigned-clocks and assigned-clock-rates
->   * robher: dt-schema errors
-> 
-> - Changes since v4:
->   * Fabio: Change reset-gpio to GPIO_ACTIVE_LOW, explain in description
->   * Add clock-lanes property to example
->   * robher: Fix syntax error in devicetree example
-> 
-> - Changes since v3:
->   * robher: Fix syntax error
->   * robher: Removed maxItems
->   * Fixes yaml 'make dt-binding-check' errors
-> 
-> - Changes since v2:
-> 
-> - Changes since v1:
->   Fixes comments from Sakari, Tomasz
->   * Add clock-frequency and link-frequencies in DT
-> 
->  .../devicetree/bindings/media/i2c/ov8856.yaml | 142 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 143 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> 
+Hi Laurent,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.7-rc4]
+[cannot apply to linuxtv-media/master anholt/for-next next-20200505]
+[if your patch is applied to the wrong git tree, please drop us a note to help
+improve the system. BTW, we also suggest to use '--base' option to specify the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+
+url:    https://github.com/0day-ci/linux/commits/Laurent-Pinchart/Drivers-for-the-BCM283x-CSI-2-CCP2-receiver-and-ISP/20200505-054310
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 9851a0dee7c28514f149f7e4f60ec1b06286cc1b
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-191-gc51a0382-dirty
+        make ARCH=x86_64 allmodconfig
+        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kbuild test robot <lkp@intel.com>
+
+
+sparse warnings: (new ones prefixed by >>)
+
+>> drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c:1796:36: sparse: sparse: Using plain integer as NULL pointer
+   drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c:472:48: sparse: sparse: non size-preserving integer to pointer cast
+
+vim +1796 drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
+
+  1779	
+  1780	int mmal_vchi_buffer_cleanup(struct mmal_buffer *buf)
+  1781	{
+  1782		struct mmal_msg_context *msg_context = buf->msg_context;
+  1783	
+  1784		if (msg_context)
+  1785			release_msg_context(msg_context);
+  1786		buf->msg_context = NULL;
+  1787	
+  1788		if (buf->vcsm_handle) {
+  1789			int ret;
+  1790	
+  1791			pr_debug("%s: vc_sm_cma_free on handle %p\n", __func__,
+  1792				 buf->vcsm_handle);
+  1793			ret = vc_sm_cma_free(buf->vcsm_handle);
+  1794			if (ret)
+  1795				pr_err("%s: vcsm_free failed, ret %d\n", __func__, ret);
+> 1796			buf->vcsm_handle = 0;
+  1797		}
+  1798		return 0;
+  1799	}
+  1800	EXPORT_SYMBOL_GPL(mmal_vchi_buffer_cleanup);
+  1801	
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
