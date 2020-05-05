@@ -2,180 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56BE11C58D0
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 16:18:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECD7E1C5916
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 16:22:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729250AbgEEOSl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 10:18:41 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:63707 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729179AbgEEOSj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 May 2020 10:18:39 -0400
-X-UUID: 6e5b004d81ed483296411afc687b381f-20200505
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=Ln7segckAaiZAgl5KaodMOtBPiq7uyrqeiRYfTd7390=;
-        b=qn+orp4IE+WGgZ3zaTvwWzfltDoVjEASb2YDxUFQJyMpBrFhMvHWyFLF2KlspoGxrZFpBC6x2ySJVBWVdnZbNeovMfO8k0Yn5Eufdny3Aj0GQpzevI2MbFQDqOpnvtIcUJhwXnQBhkFgSIvVrVsDK8zv1TIPIyhsKTFVzzy924A=;
-X-UUID: 6e5b004d81ed483296411afc687b381f-20200505
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
-        (envelope-from <dongchun.zhu@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 1886301026; Tue, 05 May 2020 22:18:22 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N2.mediatek.inc
- (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 5 May
- 2020 22:18:18 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 5 May 2020 22:18:18 +0800
-Message-ID: <1588688238.8804.150.camel@mhfsdcap03>
-Subject: Re: [V7, 1/2] media: dt-bindings: media: i2c: Document OV02A10
- bindings
-From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     <linus.walleij@linaro.org>, <bgolaszewski@baylibre.com>,
-        <mchehab@kernel.org>, <andriy.shevchenko@linux.intel.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <drinkcat@chromium.org>, <matrix.zhu@aliyun.com>,
-        <tfiga@chromium.org>, <matthias.bgg@gmail.com>,
-        <bingbu.cao@intel.com>, <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>
-Date:   Tue, 5 May 2020 22:17:18 +0800
-In-Reply-To: <20200505070451.GS9190@paasikivi.fi.intel.com>
-References: <20200430080924.1140-1-dongchun.zhu@mediatek.com>
-         <20200430080924.1140-2-dongchun.zhu@mediatek.com>
-         <20200505070451.GS9190@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-MIME-Version: 1.0
-X-TM-SNTS-SMTP: 4EB007B2B39823776E591625AE24E153515C61B35CE8B89132CA6EE5D2B255FE2000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+        id S1730256AbgEEOV4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 10:21:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50124 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729256AbgEEOV4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 May 2020 10:21:56 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13B45C061A0F;
+        Tue,  5 May 2020 07:21:56 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id 207so1086068pgc.6;
+        Tue, 05 May 2020 07:21:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=cPehjVZlHj3aHIpwlaH11wYRizkllSVBKTyEpG1u9o8=;
+        b=cQe6rtuYwQupTWb2O+AmXwy/AngOD5Gs7e004xd9rHZ8q0lFfYjREUPKhrReYPNq+y
+         Y+LFSx278dRQWd4kuh6dz9PX70JoD+PBkFrX6cAgBKSl4eIl8dSUWj6XCkiKYL3aa9bC
+         Bcxyclf2McA4goDo32h13h1kKMPxHbcRadw7TI9B2ynWCS8Jn2urb3BxH0ZiShuakOh0
+         M0NZgA9Ejv2g1rHRUcvXf+CSBa16TUnzfCJeOOGNoqOPgvMAOb1ry/qz6qOe9fa45sDl
+         9LNqnq714nyPQ17T8yZ4QlvQRvh7rb5qewA3WdIXi01mf/9V7W/X1Vs3HopzbBLiKtrn
+         2baA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=cPehjVZlHj3aHIpwlaH11wYRizkllSVBKTyEpG1u9o8=;
+        b=QK82PuiXB3KVWcJwb8IbpPerj0OO0ragzm8yRVGpaBDy6QzJ7Fzche4GGlpy7kbteV
+         mqSE2E9hIahwu0UZFttXozbjEEEzXU2wG/2mcIRwDd5hAjuvHK/53HUswmxYoOJfnPu9
+         AHz/JCUbeHgYsj27APY/UhrxLCcGN0v6JI+5UB4KdimOgUPKM+anrW4aFQRC449s+ziM
+         CSQIbg0P+ofVMkelzWe1cCltP+iBMIDxejO0/0kB1rs/ns4lpCbEkw3cV8wT9Rf84RE6
+         ogE2jQpZ/xiC3boW7FmH/f/UGaqNDecrRROqoOuq6p1TeLDAMhQoUpdnPSrCEEESuCWy
+         LTKw==
+X-Gm-Message-State: AGi0PubosorSy67EL2Kp7o5ldTMDPR7RnVTN5dymRZlgGY3MF3JQWQ1D
+        LwslKdI5SR+zvL2vZSlsfuc=
+X-Google-Smtp-Source: APiQypLEf1iEWLOIV3zKy//l6iBpXlZXz4d2EO3uWFl2oLEiwZOq4ELIBlobuJS0yMohcdO7rPPZow==
+X-Received: by 2002:a63:8d4b:: with SMTP id z72mr2992726pgd.376.1588688515628;
+        Tue, 05 May 2020 07:21:55 -0700 (PDT)
+Received: from localhost.localdomain ([120.244.110.63])
+        by smtp.gmail.com with ESMTPSA id o63sm2235060pjb.40.2020.05.05.07.21.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2020 07:21:55 -0700 (PDT)
+From:   Jia-Ju Bai <baijiaju1990@gmail.com>
+To:     mchehab@kernel.org, kstewart@linuxfoundation.org,
+        tomasbortoli@gmail.com, gregkh@linuxfoundation.org, sean@mess.org,
+        allison@lohutok.net, tglx@linutronix.de
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jia-Ju Bai <baijiaju1990@gmail.com>
+Subject: [PATCH] media: usb: ttusb-dec: avoid buffer overflow in ttusb_dec_handle_irq() when DMA failures/attacks occur
+Date:   Tue,  5 May 2020 22:21:10 +0800
+Message-Id: <20200505142110.7620-1-baijiaju1990@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgU2FrYXJpLA0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXcuDQoNCk9uIFR1ZSwgMjAyMC0wNS0w
-NSBhdCAxMDowNCArMDMwMCwgU2FrYXJpIEFpbHVzIHdyb3RlOg0KPiBIaSBEb25nY2h1biwNCj4g
-DQo+IE9uIFRodSwgQXByIDMwLCAyMDIwIGF0IDA0OjA5OjIzUE0gKzA4MDAsIERvbmdjaHVuIFpo
-dSB3cm90ZToNCj4gPiBBZGQgRFQgYmluZGluZ3MgZG9jdW1lbnRhdGlvbiBmb3IgT21uaXZpc2lv
-biBPVjAyQTEwIGltYWdlIHNlbnNvci4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBEb25nY2h1
-biBaaHUgPGRvbmdjaHVuLnpodUBtZWRpYXRlay5jb20+DQo+ID4gLS0tDQo+ID4gIC4uLi9iaW5k
-aW5ncy9tZWRpYS9pMmMvb3Z0aSxvdjAyYTEwLnlhbWwgICAgICAgICAgIHwgMTQ4ICsrKysrKysr
-KysrKysrKysrKysrKw0KPiA+ICBNQUlOVEFJTkVSUyAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICB8ICAgNyArDQo+ID4gIDIgZmlsZXMgY2hhbmdlZCwgMTU1IGluc2VydGlv
-bnMoKykNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
-aW5kaW5ncy9tZWRpYS9pMmMvb3Z0aSxvdjAyYTEwLnlhbWwNCj4gPiANCj4gPiBkaWZmIC0tZ2l0
-IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL2kyYy9vdnRpLG92MDJh
-MTAueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9pMmMvb3Z0
-aSxvdjAyYTEwLnlhbWwNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAw
-MDAuLjJiZTRiZDINCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9k
-ZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL2kyYy9vdnRpLG92MDJhMTAueWFtbA0KPiA+IEBAIC0w
-LDAgKzEsMTQ4IEBADQo+ID4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wIE9S
-IEJTRC0yLUNsYXVzZSkNCj4gPiArIyBDb3B5cmlnaHQgKGMpIDIwMjAgTWVkaWFUZWsgSW5jLg0K
-PiA+ICslWUFNTCAxLjINCj4gPiArLS0tDQo+ID4gKyRpZDogaHR0cDovL2RldmljZXRyZWUub3Jn
-L3NjaGVtYXMvbWVkaWEvaTJjL292dGksb3YwMmExMC55YW1sIw0KPiA+ICskc2NoZW1hOiBodHRw
-Oi8vZGV2aWNldHJlZS5vcmcvbWV0YS1zY2hlbWFzL2NvcmUueWFtbCMNCj4gPiArDQo+ID4gK3Rp
-dGxlOiBPbW5pdmlzaW9uIE9WMDJBMTAgQ01PUyBTZW5zb3IgRGV2aWNlIFRyZWUgQmluZGluZ3MN
-Cj4gPiArDQo+ID4gK21haW50YWluZXJzOg0KPiA+ICsgIC0gRG9uZ2NodW4gWmh1IDxkb25nY2h1
-bi56aHVAbWVkaWF0ZWsuY29tPg0KPiA+ICsNCj4gPiArZGVzY3JpcHRpb246IHwtDQo+ID4gKyAg
-VGhlIE9tbml2aXNpb24gT1YwMkExMCBpcyBhIGxvdy1jb3N0LCBoaWdoIHBlcmZvcm1hbmNlLCAx
-LzUtaW5jaCwgMiBtZWdhcGl4ZWwNCj4gPiArICBpbWFnZSBzZW5zb3IsIHdoaWNoIGlzIHRoZSBs
-YXRlc3QgcHJvZHVjdGlvbiBkZXJpdmVkIGZyb20gT21uaXZpc2lvbidzIENNT1MNCj4gPiArICBp
-bWFnZSBzZW5zb3IgdGVjaG5vbG9neS4gSWhpcyBjaGlwIHN1cHBvcnRzIGhpZ2ggZnJhbWUgcmF0
-ZSBzcGVlZHMgdXAgdG8gMzBmcHMNCj4gPiArICBAIDE2MDB4MTIwMCAoVVhHQSkgcmVzb2x1dGlv
-biB0cmFuc2ZlcnJlZCBvdmVyIGEgMS1sYW5lIE1JUEkgaW50ZXJmYWNlLiBUaGUNCj4gPiArICBz
-ZW5zb3Igb3V0cHV0IGlzIGF2YWlsYWJsZSB2aWEgQ1NJLTIgc2VyaWFsIGRhdGEgb3V0cHV0Lg0K
-PiA+ICsNCj4gPiArcHJvcGVydGllczoNCj4gPiArICBjb21wYXRpYmxlOg0KPiA+ICsgICAgY29u
-c3Q6IG92dGksb3YwMmExMA0KPiA+ICsNCj4gPiArICByZWc6DQo+ID4gKyAgICBtYXhJdGVtczog
-MQ0KPiA+ICsNCj4gPiArICBjbG9ja3M6DQo+ID4gKyAgICBpdGVtczoNCj4gPiArICAgICAgLSBk
-ZXNjcmlwdGlvbjogdG9wIG11eCBjYW10ZyBjbG9jaw0KPiA+ICsgICAgICAtIGRlc2NyaXB0aW9u
-OiBkZXZpZGVyIGNsb2NrDQo+ID4gKw0KPiA+ICsgIGNsb2NrLW5hbWVzOg0KPiA+ICsgICAgaXRl
-bXM6DQo+ID4gKyAgICAgIC0gY29uc3Q6IGVjbGsNCj4gPiArICAgICAgLSBjb25zdDogZnJlcV9t
-dXgNCj4gPiArDQo+ID4gKyAgY2xvY2stZnJlcXVlbmN5Og0KPiA+ICsgICAgZGVzY3JpcHRpb246
-DQo+ID4gKyAgICAgIEZyZXF1ZW5jeSBvZiB0aGUgZWNsayBjbG9jayBpbiBIZXJ0ei4NCj4gPiAr
-DQo+ID4gKyAgZG92ZGQtc3VwcGx5Og0KPiA+ICsgICAgZGVzY3JpcHRpb246DQo+ID4gKyAgICAg
-IERlZmluaXRpb24gb2YgdGhlIHJlZ3VsYXRvciB1c2VkIGFzIGludGVyZmFjZSBwb3dlciBzdXBw
-bHkuDQo+ID4gKw0KPiA+ICsgIGF2ZGQtc3VwcGx5Og0KPiA+ICsgICAgZGVzY3JpcHRpb246DQo+
-ID4gKyAgICAgIERlZmluaXRpb24gb2YgdGhlIHJlZ3VsYXRvciB1c2VkIGFzIGFuYWxvZyBwb3dl
-ciBzdXBwbHkuDQo+ID4gKw0KPiA+ICsgIGR2ZGQtc3VwcGx5Og0KPiA+ICsgICAgZGVzY3JpcHRp
-b246DQo+ID4gKyAgICAgIERlZmluaXRpb24gb2YgdGhlIHJlZ3VsYXRvciB1c2VkIGFzIGRpZ2l0
-YWwgcG93ZXIgc3VwcGx5Lg0KPiA+ICsNCj4gPiArICBwb3dlcmRvd24tZ3Bpb3M6DQo+ID4gKyAg
-ICBkZXNjcmlwdGlvbjoNCj4gPiArICAgICAgVGhlIHBoYW5kbGUgYW5kIHNwZWNpZmllciBmb3Ig
-dGhlIEdQSU8gdGhhdCBjb250cm9scyBzZW5zb3IgcG93ZXJkb3duLg0KPiA+ICsNCj4gPiArICBy
-ZXNldC1ncGlvczoNCj4gPiArICAgIGRlc2NyaXB0aW9uOg0KPiA+ICsgICAgICBUaGUgcGhhbmRs
-ZSBhbmQgc3BlY2lmaWVyIGZvciB0aGUgR1BJTyB0aGF0IGNvbnRyb2xzIHNlbnNvciByZXNldC4N
-Cj4gPiArDQo+ID4gKyAgcm90YXRpb246DQo+ID4gKyAgICBkZXNjcmlwdGlvbjoNCj4gPiArICAg
-ICAgRGVmaW5pdGlvbiBvZiB0aGUgc2Vuc29yJ3MgcGxhY2VtZW50LCB2YWxpZCB2YWx1ZXMgYXJl
-IDAgYW5kIDE4MC4NCj4gPiArICAgIGFsbE9mOg0KPiA+ICsgICAgICAtICRyZWY6ICIvc2NoZW1h
-cy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzIiDQo+ID4gKyAgICAgIC0gZW51bToNCj4g
-PiArICAgICAgICAgIC0gMCAgICAjIFNlbnNvciBNb3VudGVkIFVwcmlnaHQNCj4gPiArICAgICAg
-ICAgIC0gMTgwICAjIFNlbnNvciBNb3VudGVkIFVwc2lkZSBEb3duDQo+ID4gKw0KPiA+ICsgIG92
-dGksbWlwaS10eC1zcGVlZDoNCj4gPiArICAgIGRlc2NyaXB0aW9uOg0KPiA+ICsgICAgICBJbmRp
-Y2F0aW9uIG9mIE1JUEkgdHJhbnNtaXNzaW9uIHNwZWVkIHNlbGVjdC4NCj4gDQo+IFdoYXQgZXhh
-Y3RseSBkb2VzIHRoaXMgc2lnbmlmeT8gQW5kIGhvdyBkbyB5b3UgY29tZSB1cCB3aXRoIHRoZSBu
-dW1iZXI/DQo+IA0KDQpBcG9sb2dpZXMgZm9yIG5vdCBhZGRyZXNzaW5nIHRoaXMgbnVtYmVyIGNs
-ZWFyLg0KDQpGcm9tIHRoZSBkYXRhc2hlZXQsIFAxOjB4QTEgcmVnaXN0ZXIgcmVwcmVzZW50cyBU
-WF9TUEVFRF9BUkVBX1NFTCB3aXRoDQp0aGUgZGVmYXVsdCB2YWw6IDB4MDMuDQpUaGUgZGVzY3Jp
-cHRpb24gb2YgdGhpcyBSVyByZWdpc3RlciBpcyBhcyBiZWxvdzoNCkJpdFsyOjBdOiBNSVBJIHRy
-YW5zbWlzc2lvbiBzcGVlZCBzZWxlY3QuDQoNClRodXMgdGhlIGVudW0gc2hvdWxkIGJlIGRlZmlu
-aXRlZCBhcyBbIDAsIDEsIDIsIDMsIDQsIDUsIDYsIDcgXS4NClRoaXMgd291bGQgYmUgZml4ZWQg
-aW4gbmV4dCByZWxlYXNlLg0KDQpJbiB0aGUgbWVhbnRpbWUsIGFzIHRoZSBkZWZhdWx0IHZhbCBv
-ZiBQMToweEExIGlzIDB4MDMsIHdlIGhvcGUgdG8ga2VlcA0KdGhhdCB2YWx1ZSBpZiB0aGVyZSBp
-cyBubyBzZXR0aW5nIGZvciB0aGlzIHByaXZhdGUgcHJvcGVydHkgaW4gRFQuDQpUaGUgY2FsbGVy
-IGluIGRyaXZlciB3b3VsZCBiZSB1cGRhdGVkIGxpa2UgdGhpcyBpbiBuZXh0IHJlbGVhc2UuDQpp
-ZiAob3YwMmExMC0+bWlwaV9jbG9ja190eF9zcGVlZCkNCglyZXQgPSBpMmNfc21idXNfd3JpdGVf
-Ynl0ZV9kYXRhKC4uLiwuLi4pOw0KDQo+ID4gKyAgICBhbGxPZjoNCj4gPiArICAgICAgLSAkcmVm
-OiAiL3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyIg0KPiA+ICsgICAgICAt
-IGVudW06IFsgMywgNCBdDQo+ID4gKw0KPiA+ICsgICMgU2VlIC4uL3ZpZGVvLWludGVyZmFjZXMu
-dHh0IGZvciBkZXRhaWxzDQo+ID4gKyAgcG9ydDoNCj4gPiArICAgIHR5cGU6IG9iamVjdA0KPiA+
-ICsgICAgYWRkaXRpb25hbFByb3BlcnRpZXM6IGZhbHNlDQo+ID4gKw0KPiA+ICsgICAgcHJvcGVy
-dGllczoNCj4gPiArICAgICAgZW5kcG9pbnQ6DQo+ID4gKyAgICAgICAgdHlwZTogb2JqZWN0DQo+
-ID4gKyAgICAgICAgYWRkaXRpb25hbFByb3BlcnRpZXM6IGZhbHNlDQo+ID4gKw0KPiA+ICsgICAg
-ICAgIHByb3BlcnRpZXM6DQo+ID4gKyAgICAgICAgICByZW1vdGUtZW5kcG9pbnQ6IHRydWUNCj4g
-PiArICAgICAgICAgIGxpbmstZnJlcXVlbmNpZXM6IHRydWUNCj4gPiArDQo+ID4gKyAgICByZXF1
-aXJlZDoNCj4gPiArICAgICAgLSBlbmRwb2ludA0KPiA+ICsNCj4gPiArcmVxdWlyZWQ6DQo+ID4g
-KyAgLSBjb21wYXRpYmxlDQo+ID4gKyAgLSByZWcNCj4gPiArICAtIGNsb2Nrcw0KPiA+ICsgIC0g
-Y2xvY2stbmFtZXMNCj4gPiArICAtIGNsb2NrLWZyZXF1ZW5jeQ0KPiA+ICsgIC0gZG92ZGQtc3Vw
-cGx5DQo+ID4gKyAgLSBhdmRkLXN1cHBseQ0KPiA+ICsgIC0gZHZkZC1zdXBwbHkNCj4gPiArICAt
-IHBvd2VyZG93bi1ncGlvcw0KPiA+ICsgIC0gcmVzZXQtZ3Bpb3MNCj4gPiArICAtIHBvcnQNCj4g
-PiArDQo+ID4gK2FkZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQ0KPiA+ICsNCj4gPiArZXhhbXBs
-ZXM6DQo+ID4gKyAgLSB8DQo+ID4gKyAgICAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvY2xvY2svbXQ4
-MTgzLWNsay5oPg0KPiA+ICsgICAgI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2dwaW8vZ3Bpby5oPg0K
-PiA+ICsNCj4gPiArICAgIGkyYyB7DQo+ID4gKyAgICAgICAgY2xvY2stZnJlcXVlbmN5ID0gPDQw
-MDAwMD47DQo+ID4gKyAgICAgICAgI2FkZHJlc3MtY2VsbHMgPSA8MT47DQo+ID4gKyAgICAgICAg
-I3NpemUtY2VsbHMgPSA8MD47DQo+ID4gKw0KPiA+ICsgICAgICAgIG92MDJhMTA6IGNhbWVyYS1z
-ZW5zb3JAM2Qgew0KPiA+ICsgICAgICAgICAgICBjb21wYXRpYmxlID0gIm92dGksb3YwMmExMCI7
-DQo+ID4gKyAgICAgICAgICAgIHJlZyA9IDwweDNkPjsNCj4gPiArICAgICAgICAgICAgcGluY3Ry
-bC1uYW1lcyA9ICJkZWZhdWx0IjsNCj4gPiArICAgICAgICAgICAgcGluY3RybC0wID0gPCZjbGtf
-MjRtX2NhbT47DQo+ID4gKw0KPiA+ICsgICAgICAgICAgICBjbG9ja3MgPSA8JnRvcGNrZ2VuIENM
-S19UT1BfTVVYX0NBTVRHPiwNCj4gPiArICAgICAgICAgICAgICAgICAgICAgPCZ0b3Bja2dlbiBD
-TEtfVE9QX1VOSVZQXzE5Mk1fRDg+Ow0KPiA+ICsgICAgICAgICAgICBjbG9jay1uYW1lcyA9ICJl
-Y2xrIiwgImZyZXFfbXV4IjsNCj4gPiArICAgICAgICAgICAgY2xvY2stZnJlcXVlbmN5ID0gPDI0
-MDAwMDAwPjsNCj4gPiArDQo+ID4gKyAgICAgICAgICAgIHJvdGF0aW9uID0gPDE4MD47DQo+ID4g
-KyAgICAgICAgICAgIG92dGksbWlwaS10eC1zcGVlZCA9IDwzPjsNCj4gPiArDQo+ID4gKyAgICAg
-ICAgICAgIGRvdmRkLXN1cHBseSA9IDwmbXQ2MzU4X3ZjYW1pb19yZWc+Ow0KPiA+ICsgICAgICAg
-ICAgICBhdmRkLXN1cHBseSA9IDwmbXQ2MzU4X3ZjYW1hMV9yZWc+Ow0KPiA+ICsgICAgICAgICAg
-ICBkdmRkLXN1cHBseSA9IDwmbXQ2MzU4X3ZjbjE4X3JlZz47DQo+ID4gKyAgICAgICAgICAgIHBv
-d2VyZG93bi1ncGlvcyA9IDwmcGlvIDEwNyBHUElPX0FDVElWRV9MT1c+Ow0KPiA+ICsgICAgICAg
-ICAgICByZXNldC1ncGlvcyA9IDwmcGlvIDEwOSBHUElPX0FDVElWRV9ISUdIPjsNCj4gPiArDQo+
-ID4gKyAgICAgICAgICAgIHBvcnQgew0KPiA+ICsgICAgICAgICAgICAgICAgd2NhbV9vdXQ6IGVu
-ZHBvaW50IHsNCj4gPiArICAgICAgICAgICAgICAgICAgICByZW1vdGUtZW5kcG9pbnQgPSA8Jm1p
-cGlfaW5fd2NhbT47DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgbGluay1mcmVxdWVuY2llcyA9
-IC9iaXRzLyA2NCA8MzkwMDAwMDAwPjsNCj4gPiArICAgICAgICAgICAgICAgIH07DQo+ID4gKyAg
-ICAgICAgICAgIH07DQo+ID4gKyAgICAgICAgfTsNCj4gPiArICAgIH07DQo+ID4gKw0KPiA+ICsu
-Li4NCj4gPiBkaWZmIC0tZ2l0IGEvTUFJTlRBSU5FUlMgYi9NQUlOVEFJTkVSUw0KPiA+IGluZGV4
-IGU2NGU1ZGIuLjYzYTIzMzUgMTAwNjQ0DQo+ID4gLS0tIGEvTUFJTlRBSU5FUlMNCj4gPiArKysg
-Yi9NQUlOVEFJTkVSUw0KPiA+IEBAIC0xMjM4OSw2ICsxMjM4OSwxMyBAQCBNOglIYXJhbGQgV2Vs
-dGUgPGxhZm9yZ2VAZ251bW9ua3Mub3JnPg0KPiA+ICBTOglNYWludGFpbmVkDQo+ID4gIEY6CWRy
-aXZlcnMvY2hhci9wY21jaWEvY200MDQwX2NzLioNCj4gPiAgDQo+ID4gK09NTklWSVNJT04gT1Yw
-MkExMCBTRU5TT1IgRFJJVkVSDQo+ID4gK006CURvbmdjaHVuIFpodSA8ZG9uZ2NodW4uemh1QG1l
-ZGlhdGVrLmNvbT4NCj4gPiArTDoJbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnDQo+ID4gK1M6
-CU1haW50YWluZWQNCj4gPiArVDoJZ2l0IGdpdDovL2xpbnV4dHYub3JnL21lZGlhX3RyZWUuZ2l0
-DQo+ID4gK0Y6CURvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9pMmMvb3Z0
-aSxvdjAyYTEwLnlhbWwNCj4gPiArDQo+ID4gIE9NTklWSVNJT04gT1YxMzg1OCBTRU5TT1IgRFJJ
-VkVSDQo+ID4gIE06CVNha2FyaSBBaWx1cyA8c2FrYXJpLmFpbHVzQGxpbnV4LmludGVsLmNvbT4N
-Cj4gPiAgTDoJbGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnDQo+IA0KDQo=
+In ttusb_dec_init_usb():
+  dec->irq_buffer = usb_alloc_coherent(...)
+
+Thus, "dec->irq_buffer" is a DMA value, and it is assigned to "buffer"
+in ttusb_dec_handle_irq():
+  char *buffer = dec->irq_buffer;
+
+When DMA failures or attacks occur, the value of buffer[4] can be
+changed at any time. In this case, "buffer[4] - 1 < ARRAY_SIZE(rc_keys)"
+can be first satisfied, and then the value of buffer[4] can be changed
+to a large number, causing a buffer-overflow vulnerability.
+
+To avoid the risk of this vulnerability, buffer[4] is assigned to a
+non-DMA local variable "index" at the beginning of
+ttusb_dec_handle_irq(), and then this variable replaces each use of
+buffer[4] in the function.
+
+Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
+---
+ drivers/media/usb/ttusb-dec/ttusb_dec.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
+index 3198f9624b7c..8543c552515b 100644
+--- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
++++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
+@@ -250,6 +250,7 @@ static void ttusb_dec_handle_irq( struct urb *urb)
+ 	struct ttusb_dec *dec = urb->context;
+ 	char *buffer = dec->irq_buffer;
+ 	int retval;
++	u8 index = buffer[4];
+ 
+ 	switch(urb->status) {
+ 		case 0: /*success*/
+@@ -281,11 +282,11 @@ static void ttusb_dec_handle_irq( struct urb *urb)
+ 		 * this should/could be added later ...
+ 		 * for now lets report each signal as a key down and up
+ 		 */
+-		if (buffer[4] - 1 < ARRAY_SIZE(rc_keys)) {
+-			dprintk("%s:rc signal:%d\n", __func__, buffer[4]);
+-			input_report_key(dec->rc_input_dev, rc_keys[buffer[4] - 1], 1);
++		if (index - 1 < ARRAY_SIZE(rc_keys)) {
++			dprintk("%s:rc signal:%d\n", __func__, index);
++			input_report_key(dec->rc_input_dev, rc_keys[index - 1], 1);
+ 			input_sync(dec->rc_input_dev);
+-			input_report_key(dec->rc_input_dev, rc_keys[buffer[4] - 1], 0);
++			input_report_key(dec->rc_input_dev, rc_keys[index - 1], 0);
+ 			input_sync(dec->rc_input_dev);
+ 		}
+ 	}
+-- 
+2.17.1
 
