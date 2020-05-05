@@ -2,83 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63CCA1C4F85
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 09:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 977DC1C4F9C
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 09:50:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728624AbgEEHq5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 03:46:57 -0400
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3409 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725833AbgEEHq5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 03:46:57 -0400
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 0C4A467DFD34D00D0C71;
-        Tue,  5 May 2020 15:46:54 +0800 (CST)
-Received: from huawei.com (10.175.124.28) by DGGEMS401-HUB.china.huawei.com
- (10.3.19.201) with Microsoft SMTP Server id 14.3.487.0; Tue, 5 May 2020
- 15:46:46 +0800
-From:   Jason Yan <yanaijie@huawei.com>
-To:     <michael.chan@broadcom.com>, <davem@davemloft.net>,
-        <ast@kernel.org>, <daniel@iogearbox.net>, <kuba@kernel.org>,
-        <hawk@kernel.org>, <john.fastabend@gmail.com>,
-        <sumit.semwal@linaro.org>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <bpf@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>
-CC:     Jason Yan <yanaijie@huawei.com>
-Subject: [PATCH net-next] net: bnxt: Remove Comparison to bool in bnxt_ethtool.c
-Date:   Tue, 5 May 2020 15:46:08 +0800
-Message-ID: <20200505074608.22432-1-yanaijie@huawei.com>
-X-Mailer: git-send-email 2.21.1
+        id S1728510AbgEEHur (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 03:50:47 -0400
+Received: from smtp11.smtpout.orange.fr ([80.12.242.133]:27954 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725320AbgEEHuq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 May 2020 03:50:46 -0400
+Received: from localhost.localdomain ([93.23.13.215])
+        by mwinf5d34 with ME
+        id avqb2200p4ePWwV03vqcd5; Tue, 05 May 2020 09:50:45 +0200
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 05 May 2020 09:50:45 +0200
+X-ME-IP: 93.23.13.215
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     jernej.skrabec@siol.net, mchehab@kernel.org, mripard@kernel.org,
+        wens@csie.org, hverkuil-cisco@xs4all.nl
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: sun8i: Fix an error handling path in 'deinterlace_runtime_resume()'
+Date:   Tue,  5 May 2020 09:50:34 +0200
+Message-Id: <20200505075034.168296-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.124.28]
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix the following coccicheck warning:
+It is spurious to call 'clk_disable_unprepare()' when
+'clk_prepare_enable()' has not been called yet.
+Re-order the error handling path to avoid it.
 
-drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:1991:5-46: WARNING:
-Comparison to bool
-drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:1993:10-54: WARNING:
-Comparison to bool
-drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c:2380:5-38: WARNING:
-Comparison to bool
-
-Signed-off-by: Jason Yan <yanaijie@huawei.com>
+Fixes: a4260ea49547 ("media: sun4i: Add H3 deinterlace driver")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 ---
- drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-index 34046a6286e8..75f60aea8dec 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_ethtool.c
-@@ -1988,9 +1988,9 @@ static int bnxt_flash_firmware_from_file(struct net_device *dev,
- 			   rc, filename);
- 		return rc;
- 	}
--	if (bnxt_dir_type_is_ape_bin_format(dir_type) == true)
-+	if (bnxt_dir_type_is_ape_bin_format(dir_type))
- 		rc = bnxt_flash_firmware(dev, dir_type, fw->data, fw->size);
--	else if (bnxt_dir_type_is_other_exec_format(dir_type) == true)
-+	else if (bnxt_dir_type_is_other_exec_format(dir_type))
- 		rc = bnxt_flash_microcode(dev, dir_type, fw->data, fw->size);
- 	else
- 		rc = bnxt_flash_nvram(dev, dir_type, BNX_DIR_ORDINAL_FIRST,
-@@ -2377,7 +2377,7 @@ static int bnxt_set_eeprom(struct net_device *dev,
- 	}
+diff --git a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+index d78f6593ddd1..a1f29462d260 100644
+--- a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
++++ b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+@@ -969,14 +969,14 @@ static int deinterlace_runtime_resume(struct device *device)
  
- 	/* Create or re-write an NVM item: */
--	if (bnxt_dir_type_is_executable(type) == true)
-+	if (bnxt_dir_type_is_executable(type))
- 		return -EOPNOTSUPP;
- 	ext = eeprom->magic & 0xffff;
- 	ordinal = eeprom->offset >> 16;
+ 	return 0;
+ 
+-err_exlusive_rate:
+-	clk_rate_exclusive_put(dev->mod_clk);
+ err_ram_clk:
+ 	clk_disable_unprepare(dev->ram_clk);
+ err_mod_clk:
+ 	clk_disable_unprepare(dev->mod_clk);
+ err_bus_clk:
+ 	clk_disable_unprepare(dev->bus_clk);
++err_exlusive_rate:
++	clk_rate_exclusive_put(dev->mod_clk);
+ 
+ 	return ret;
+ }
 -- 
-2.21.1
+2.25.1
 
