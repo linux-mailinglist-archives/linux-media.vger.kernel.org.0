@@ -2,56 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F4351C6350
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 23:46:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2B801C6354
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 23:46:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729315AbgEEVqA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 17:46:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35058 "EHLO
+        id S1729348AbgEEVqD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 17:46:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729284AbgEEVp7 (ORCPT
+        by vger.kernel.org with ESMTP id S1729284AbgEEVqC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 17:45:59 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B70AEC061A0F;
-        Tue,  5 May 2020 14:45:57 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id w29so3432704qtv.3;
-        Tue, 05 May 2020 14:45:57 -0700 (PDT)
+        Tue, 5 May 2020 17:46:02 -0400
+Received: from mail-qv1-xf41.google.com (mail-qv1-xf41.google.com [IPv6:2607:f8b0:4864:20::f41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C5E4C061A0F;
+        Tue,  5 May 2020 14:46:02 -0700 (PDT)
+Received: by mail-qv1-xf41.google.com with SMTP id dn1so61300qvb.3;
+        Tue, 05 May 2020 14:46:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=NpBCtXOwKgxraDAqMLQlaDGkzFixaXVJTgaJ+cTQxAU=;
-        b=sqLgPwwXtoPOEBnbyVTD6cYOITJkB1ur03Mep+sRAK+XUgaNrFAyE1lDzIB00zAdlA
-         6XeBSXZLSFiU0uDkHJyj6GZPTpQk8p56wyJ73XSh5t3n5bsFC5QSUMfcXSsogFI+J0jT
-         xLT/Xublm0dIcBdi9dDi74+OWApLxpLXHg+HG4Gx1R3CN5yldhkFi9zffnP68om5Eg6q
-         Uviv207VmRm03ls+hifi2+gaji2e/SnSxbGgpGlQM+S2DaDn06nMKEMmSoGroEg1pQ8Z
-         EGooot7kZn4zrfiTkYucLr2zCOSkhfHBKx7sTeVB1Fr+Iy0mCYTrKgx+cJUpVFaEi8un
-         PMGA==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=R8NCAiVQGf1RfOegGjvzJMziYyDzp2bsCSV1MaN4Voo=;
+        b=ZIoXJJraEJVdnimMK50llvgOXi7em9HScaaU0nSq0RkeBqNWbeZeE9X/srcFx5jieX
+         qQl4234YJtVcJNFfaHC8xj6U0z+l2yZ8R1rCmZcg7w+E2X2wmfEaZVWHPdfyqdgwLnxt
+         rYV+cfrjp5X3UvK8pjx2n/AAfKT0Gg8JQLWs35P01KX67S/rY/Kgh4qh1j+3391E53Mg
+         o1ukd6V1kR6sjIlXVhCQHwhLYyVXjg8I9nGLRwn04GU+DGHf4k3QYo5hHx/DwE9nEyE2
+         tGkgEMN4ZUb3A2ScVWZtB8f2uKK4xj3hRc7ZoKy+xi34Rwv1rn2pxYkseY2QUOUCsyeB
+         gfXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=NpBCtXOwKgxraDAqMLQlaDGkzFixaXVJTgaJ+cTQxAU=;
-        b=XCo646vh9FJ7do4bXiJyU7Ke5e6dUUAyi/vYCHUaEl1e5uhKCshJD7g3jYn5urwE7P
-         I32mbDfy02eD7DQMa5QsKqqAc4TqeVvYkp9nnbzZMc80wojRLX0uvCbv8LDOugoos29Q
-         jbookrl1IaiXHC7oacgzyIdQA8nv7QbpGJ3BGWhQA94SqVQzhH6bojtZutd/RYxR4Zbn
-         CF6aJKqqFHy62QX9hba2bVUbDvDoLk9KYN/+wL0fYQnGHEcpqV/LYiKN3An6Kp0EihiN
-         38MJQll04GpNzOR4r2qhvU8bs5UUCh8yqlc6sMOrLGmBr5CUCVbYAAEkEjgUqT6Mqrrz
-         aVMw==
-X-Gm-Message-State: AGi0PuZGpDt79h5VynyD6IEhjMdM6l6pbnxXtZ04O8Ar6GZ1WmlpkkNC
-        b1s2BQnVA1GztylcB69zJQUSEjSwXrT2xKy+hf4=
-X-Google-Smtp-Source: APiQypJ+I7qzGCg7I3XEFp+30dxyhhDaYL307MRMPZ3KJ2JDfJIaAmHE2VyjJI3pkzHl5cnzFRj2Db79lVlNOnLj3x4=
-X-Received: by 2002:ac8:27cb:: with SMTP id x11mr5207636qtx.272.1588715156968;
- Tue, 05 May 2020 14:45:56 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=R8NCAiVQGf1RfOegGjvzJMziYyDzp2bsCSV1MaN4Voo=;
+        b=DgPPMpGE+e9Wb7Zsu9Rpt45zNcOIZ2hVlsMtLwRa39JZNuSD0F1FIDvQkoqC+o7Sdp
+         uTSLY+QCJ8xodhmNezLqoT6hvp5wXsUB2GrIZuqhjOGLXSFIsBuTJP3ZEwi5GIKV3D++
+         hQkI/e40TooBz3U4vllMh7H6FjRBUHbN5UNBqBnyPH/BdxH3744pMohnrQ/ACzCExwAe
+         S4eFPu+65We481V14aAAkVjAPGu3cxM+aJ1kAqREvJbxy4sDycrqkaVR4azu66w/n/3b
+         JwxIJ47SKZIwYI/+OTlgJh7DqR9OWab2TCJPHScgRXTBrFkMiTvPoLLypc+wDOFVkPrH
+         uK1Q==
+X-Gm-Message-State: AGi0PuYUpiFuESTlp8IfVWyN0ggeFGXUnSViXhtum3iJkO2EmlcOnmOa
+        V/0oMPgSBcvnhb3qtC4cec9BEGpQ1sK90luYDJE=
+X-Google-Smtp-Source: APiQypIgezGzc28P28ECC0K35WZq6bKt5h1gPnuYe/Qlr/SsV0rJJZPPlQSFwztMV/9sQnHqEoH0ghXBgjTBUwXil6M=
+X-Received: by 2002:a0c:ec44:: with SMTP id n4mr4828893qvq.237.1588715161652;
+ Tue, 05 May 2020 14:46:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200505040048.132493-1-eizan@google.com> <20200505125042.v1.2.Ie596e59e0a18935f0b7321ff45e5c5f2ce8082b1@changeid>
-In-Reply-To: <20200505125042.v1.2.Ie596e59e0a18935f0b7321ff45e5c5f2ce8082b1@changeid>
+References: <20200505040048.132493-1-eizan@google.com> <20200505125042.v1.3.Ieebc5dcb6dcc116119a570f14786ba47c9007ec8@changeid>
+In-Reply-To: <20200505125042.v1.3.Ieebc5dcb6dcc116119a570f14786ba47c9007ec8@changeid>
 From:   Enric Balletbo Serra <eballetbo@gmail.com>
-Date:   Tue, 5 May 2020 23:45:45 +0200
-Message-ID: <CAFqH_52qx7g5BLUBGoUQGFTcFE9FjWGe+i9on=5p7ZqzObsB6g@mail.gmail.com>
-Subject: Re: [PATCH v1 2/5] [media] mtk-mdp: handle vb2_dma_contig_set_max_seg_size
+Date:   Tue, 5 May 2020 23:45:50 +0200
+Message-ID: <CAFqH_50YZacJPRv9Wcr6h0U7q5BSNTjCsTuaLhUXNMGe=-nYHA@mail.gmail.com>
+Subject: Re: [PATCH v1 3/5] [media] mtk-mdp: handle vpu_wdt_reg_handler()
  errors during probe
-To:     Eizan Miyamoto <eizan@chromium.org>,
+To:     Eizan Miyamoto <eizan@chromium.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
         Houlong Wei <houlong.wei@mediatek.com>,
@@ -61,7 +63,7 @@ To:     Eizan Miyamoto <eizan@chromium.org>,
         Matthias Brugger <matthias.bgg@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+        linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -80,39 +82,41 @@ Missatge de Eizan Miyamoto <eizan@chromium.org> del dia dt., 5 de maig
 > Signed-off-by: eizan@chromium.org
 > Signed-off-by: Eizan Miyamoto <eizan@google.com>
 
-Same comment as the first patch. You should probably fix your configuration.
+Ditto
 
 > ---
 >
->  drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
+>  drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 10 ++++++++--
+>  1 file changed, 8 insertions(+), 2 deletions(-)
 >
 > diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> index aeaed2cf4458..c20ac7681c6f 100644
+> index c20ac7681c6f..f974242663dc 100644
 > --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
 > +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> @@ -193,13 +193,19 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+> @@ -188,8 +188,12 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+>         }
 >
->         platform_set_drvdata(pdev, mdp);
->
-> -       vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
-> +       ret = vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+>         mdp->vpu_dev = vpu_get_plat_device(pdev);
+> -       vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp,
+> -                           VPU_RST_MDP);
+> +       ret = vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp,
+> +                                 VPU_RST_MDP);
 > +       if (ret) {
-> +               dev_err(&pdev->dev, "Failed to set vb2 dma mag seg size\n");
-> +               goto err_set_max_seg_size;
+> +               dev_err(&pdev->dev, "Failed to register reset handler\n");
+> +               goto err_wdt_reg;
 
-You don't need to introduce a new label, just goto err_m2m_register
-
+No need to introduce a new label, just goto err_m2m_register
 
 
 > +       }
 >
->         pm_runtime_enable(dev);
->         dev_dbg(dev, "mdp-%d registered successfully\n", mdp->id);
+>         platform_set_drvdata(pdev, mdp);
 >
->         return 0;
+> @@ -206,6 +210,8 @@ static int mtk_mdp_probe(struct platform_device *pdev)
 >
-> +err_set_max_seg_size:
+>  err_set_max_seg_size:
+>
+> +err_wdt_reg:
 > +
 >  err_m2m_register:
 >         v4l2_device_unregister(&mdp->v4l2_dev);
