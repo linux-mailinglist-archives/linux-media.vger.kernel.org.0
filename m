@@ -2,200 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B02DB1C5291
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 12:08:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 322211C52B2
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 12:13:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728608AbgEEKIK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 06:08:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57406 "EHLO mail.kernel.org"
+        id S1728489AbgEEKNK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 06:13:10 -0400
+Received: from mx2.suse.de ([195.135.220.15]:60816 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728238AbgEEKIK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 06:08:10 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 30B14206B9;
-        Tue,  5 May 2020 10:08:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588673288;
-        bh=h6ygWRY0TPM1wR0iW+iTQNTbvWj2q0E/jKf9+RhM830=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PDjk/lryDIC+p84TX6qI07P8AC2VHmvxlj5ILost1ux7ggM+rOXjsE0gMpCS3xsWm
-         h0sGOitP6cDkd2cfGYarNFq9/lnNU5Rmz8ZivUd554C3YJyMNGZuxjSAigtDcc6gop
-         vllPCBsPLwQZXEzLAzoEDmGd9EmHUMArlPI6X/r8=
-Date:   Tue, 5 May 2020 12:08:06 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Charan Teja Reddy <charante@codeaurora.org>
-Cc:     sumit.semwal@linaro.org, ghackmann@google.com, fengc@google.com,
-        linux-media@vger.kernel.org, vinmenon@codeaurora.org
-Subject: Re: [PATCH] dma-buf: fix use-after-free in dmabuffs_dname
-Message-ID: <20200505100806.GA4177627@kroah.com>
-References: <1588060442-28638-1-git-send-email-charante@codeaurora.org>
+        id S1725766AbgEEKNK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 May 2020 06:13:10 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+        by mx2.suse.de (Postfix) with ESMTP id 189FAB0F2;
+        Tue,  5 May 2020 10:13:10 +0000 (UTC)
+Message-ID: <09a896b78b42d2c78ed3ad468de7e90163b9d6c4.camel@suse.de>
+Subject: Re: [PATCH v2 29/34] staging: vchiq: Add 36-bit address support
+From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
+To:     Phil Elwell <phil@raspberrypi.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Phil Elwell <phil@raspberrypi.org>
+Date:   Tue, 05 May 2020 12:13:03 +0200
+In-Reply-To: <7cbd4185-0d26-aa26-3f7a-56b5b13e5336@raspberrypi.com>
+References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
+         <20200504092611.9798-30-laurent.pinchart@ideasonboard.com>
+         <00cc89e24aa5c3d4286b6f42347aa87e7699c4e5.camel@suse.de>
+         <7cbd4185-0d26-aa26-3f7a-56b5b13e5336@raspberrypi.com>
+Content-Type: multipart/signed; micalg="pgp-sha256";
+        protocol="application/pgp-signature"; boundary="=-1SdcJXjM1ZGDAbrh0A7N"
+User-Agent: Evolution 3.36.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1588060442-28638-1-git-send-email-charante@codeaurora.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Apr 28, 2020 at 01:24:02PM +0530, Charan Teja Reddy wrote:
-> The following race occurs while accessing the dmabuf object exported as
-> file:
-> P1				P2
-> dma_buf_release()          dmabuffs_dname()
-> 			   [say lsof reading /proc/<P1 pid>/fd/<num>]
-> 
-> 			   read dmabuf stored in dentry->fsdata
-> Free the dmabuf object
-> 			   Start accessing the dmabuf structure
-> 
-> In the above description, the dmabuf object freed in P1 is being
-> accessed from P2 which is resulting into the use-after-free. Below is
-> the dump stack reported.
-> 
-> Call Trace:
->  kasan_report+0x12/0x20
->  __asan_report_load8_noabort+0x14/0x20
->  dmabuffs_dname+0x4f4/0x560
->  tomoyo_realpath_from_path+0x165/0x660
->  tomoyo_get_realpath
->  tomoyo_check_open_permission+0x2a3/0x3e0
->  tomoyo_file_open
->  tomoyo_file_open+0xa9/0xd0
->  security_file_open+0x71/0x300
->  do_dentry_open+0x37a/0x1380
->  vfs_open+0xa0/0xd0
->  path_openat+0x12ee/0x3490
->  do_filp_open+0x192/0x260
->  do_sys_openat2+0x5eb/0x7e0
->  do_sys_open+0xf2/0x180
-> 
-> Fixes: bb2bb90 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
 
-Nit, please read the documentation for how to do a Fixes: line properly,
-you need more digits:
-	Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
+--=-1SdcJXjM1ZGDAbrh0A7N
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
-> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+On Mon, 2020-05-04 at 21:46 +0100, Phil Elwell wrote:
+> Hi Nicolas,
+>=20
+> On 04/05/2020 18:40, Nicolas Saenz Julienne wrote:
+> > Hi Phil, Laurent,
+> >=20
+> > On Mon, 2020-05-04 at 12:26 +0300, Laurent Pinchart wrote:
+> > > From: Phil Elwell <phil@raspberrypi.org>
+> > >=20
+> > > Conditional on a new compatible string, change the pagelist encoding
+> > > such that the top 24 bits are the pfn, leaving 8 bits for run length
+> > > (-1).
+> > >=20
+> > > Signed-off-by: Phil Elwell <phil@raspberrypi.org>
+> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > ---
+> > >   .../interface/vchiq_arm/vchiq_2835_arm.c      | 88 ++++++++++++++--=
+---
+> > >   .../interface/vchiq_arm/vchiq_arm.c           |  6 ++
+> > >   .../interface/vchiq_arm/vchiq_arm.h           |  1 +
+> > >   3 files changed, 74 insertions(+), 21 deletions(-)
+> > >=20
+> > > diff --git
+> > > a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c
+> > > b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_arm.c
+> > > index 3e422a7eb3f1..ecec84ad4345 100644
+> > > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_ar=
+m.c
+> > > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_2835_ar=
+m.c
+> > > @@ -16,6 +16,8 @@
+> > >   #include <soc/bcm2835/raspberrypi-firmware.h>
+> > >     #define TOTAL_SLOTS (VCHIQ_SLOT_ZERO_SLOTS + 2 * 32)
+> > > +#define VC_SAFE(x) (g_use_36bit_addrs ? ((u32)(x) | 0xc0000000) :
+> > > (u32)(x))
+> > > +#define IS_VC_SAFE(x) (g_use_36bit_addrs ? !((x) & ~0x3fffffffull) :=
+ 1)
+> >=20
+> > As I commented earlier, this is a sign your dma-ranges are wrong, most =
+of
+> > the
+> > code below reimplements what is already done by dma-direct (see
+> > kernel/dma/direct.c). Once properly setup, you should be able to use
+> > whatever
+> > phys address dmam_alloc_coherent() provides and drop g_use_36bit_addrs.
+> >=20
+> > Note that on arm32+LPAE, dma-direct/swiotlb are the default dma_ops, so=
+ this
+> > also applies there.
+>=20
+> As I explained in an offline email, the problem is that VCHIQ needs acces=
+s to
 
-Also, any reason you didn't include the other mailing lists that
-get_maintainer.pl said to?
+We discussed this privately, but I wanted to start from scratch, specially =
+as I
+hope I won't be the only one reviewing this :).
 
-And finally, no cc: stable in the s-o-b area for an issue that needs to
-be backported to older kernels?
+> two
+> kinds of "DMA" addresses - those suitable for the 40-bit DMA channel, and=
+ the
+> 30-bit addresses that the VPU can use. Since each DT node only has access=
+ to a
+> single set of DMA ranges, I can't see how to use dma-direct to calculate
+> addreses
+> for everything, but feel free to submit an alternative implementation sho=
+wing
+> how
+> it should be done.
+
+How about this):
+ - Move vchiq to /soc
+ - Get a handle to the relevant dma controller device pointer (so 30-bit DM=
+A
+   controller on old RPis, 40-bit on RPi4)
+ - Allocate slotmem/pagelist with dma_alloc_coherent(vpu_dev, ...)
+ - Map pages with dma_map_sg(dma_dev, ...)
+
+I hope I'm not missing anything, but short of implementing it and seeing th=
+e
+end result, I think you'd be free of any rpi[1-3]/rpi4 distinction in the c=
+ode.
+
+Regards,
+Nicolas
 
 
-> ---
->  drivers/dma-buf/dma-buf.c | 25 +++++++++++++++++++++++--
->  include/linux/dma-buf.h   |  1 +
->  2 files changed, 24 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 570c923..069d8f78 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -25,6 +25,7 @@
->  #include <linux/mm.h>
->  #include <linux/mount.h>
->  #include <linux/pseudo_fs.h>
-> +#include <linux/dcache.h>
->  
->  #include <uapi/linux/dma-buf.h>
->  #include <uapi/linux/magic.h>
-> @@ -38,18 +39,34 @@ struct dma_buf_list {
->  
->  static struct dma_buf_list db_list;
->  
-> +static void dmabuf_dent_put(struct dma_buf *dmabuf)
-> +{
-> +	if (atomic_dec_and_test(&dmabuf->dent_count)) {
-> +		kfree(dmabuf->name);
-> +		kfree(dmabuf);
-> +	}
+--=-1SdcJXjM1ZGDAbrh0A7N
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-Why not just use a kref instead of an open-coded atomic value?
+-----BEGIN PGP SIGNATURE-----
 
-> +}
-> +
->  static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
->  {
->  	struct dma_buf *dmabuf;
->  	char name[DMA_BUF_NAME_LEN];
->  	size_t ret = 0;
->  
-> +	spin_lock(&dentry->d_lock);
->  	dmabuf = dentry->d_fsdata;
-> +	if (!dmabuf || !atomic_add_unless(&dmabuf->dent_count, 1, 0)) {
-> +		spin_unlock(&dentry->d_lock);
-> +		goto out;
+iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl6xPC8ACgkQlfZmHno8
+x/47IQgAp4Z5SWglpwGbAFpUHgwVMCwHgDAKmRivKtUIO6EIK8UTccmdGSWeXRnP
+miICnMgIAuF//hRa3+GRtPCjlMz8BGm0ZozVwzuuxy4eFMgeGDMNB4laj3mrHmVW
+umSvP3YSKR0HSLZ/mWgZNQyuDdrGiVsiSlyAlF50CcYkZzA/tSht89rMhQbz/nNL
+9a+f1GCYWPb/B7Q1A9ppy+URvR4TpsaBCnwPUUitrqlYcXWgj0PPakdBmVQEqKpj
+cD+1lUhIAsogi4kdLDYacRsfUAQ7VgDehzoXS1erlH26A8J/78lVzkLcF8/K4t9V
+t8uwOdnEe3fdmvE+Uif+ni/Ivukjgw==
+=ljTC
+-----END PGP SIGNATURE-----
 
-How can dmabuf not be valid here?
+--=-1SdcJXjM1ZGDAbrh0A7N--
 
-And isn't there already a usecount for the buffer?
-
-> +	}
-> +	spin_unlock(&dentry->d_lock);
->  	dma_resv_lock(dmabuf->resv, NULL);
->  	if (dmabuf->name)
->  		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
->  	dma_resv_unlock(dmabuf->resv);
-> +	dmabuf_dent_put(dmabuf);
->  
-> +out:
->  	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
->  			     dentry->d_name.name, ret > 0 ? name : "");
->  }
-> @@ -80,12 +97,16 @@ static int dma_buf_fs_init_context(struct fs_context *fc)
->  static int dma_buf_release(struct inode *inode, struct file *file)
->  {
->  	struct dma_buf *dmabuf;
-> +	struct dentry *dentry = file->f_path.dentry;
->  
->  	if (!is_dma_buf_file(file))
->  		return -EINVAL;
->  
->  	dmabuf = file->private_data;
->  
-> +	spin_lock(&dentry->d_lock);
-> +	dentry->d_fsdata = NULL;
-> +	spin_unlock(&dentry->d_lock);
->  	BUG_ON(dmabuf->vmapping_counter);
->  
->  	/*
-> @@ -108,8 +129,7 @@ static int dma_buf_release(struct inode *inode, struct file *file)
->  		dma_resv_fini(dmabuf->resv);
->  
->  	module_put(dmabuf->owner);
-> -	kfree(dmabuf->name);
-> -	kfree(dmabuf);
-> +	dmabuf_dent_put(dmabuf);
->  	return 0;
->  }
->  
-> @@ -548,6 +568,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
->  	init_waitqueue_head(&dmabuf->poll);
->  	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
->  	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
-> +	atomic_set(&dmabuf->dent_count, 1);
->  
->  	if (!resv) {
->  		resv = (struct dma_resv *)&dmabuf[1];
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index 82e0a4a..a259042 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -315,6 +315,7 @@ struct dma_buf {
->  	struct list_head list_node;
->  	void *priv;
->  	struct dma_resv *resv;
-> +	atomic_t dent_count;
-
-Isn't there other usage counters here that can support this?  Adding
-another one feels wrong as now we have multiple use counts, right?
-
-thanks,
-
-greg k-h
