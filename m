@@ -2,70 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 977DC1C4F9C
-	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 09:50:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37ED41C4FA9
+	for <lists+linux-media@lfdr.de>; Tue,  5 May 2020 09:53:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728510AbgEEHur (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 03:50:47 -0400
-Received: from smtp11.smtpout.orange.fr ([80.12.242.133]:27954 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725320AbgEEHuq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 5 May 2020 03:50:46 -0400
-Received: from localhost.localdomain ([93.23.13.215])
-        by mwinf5d34 with ME
-        id avqb2200p4ePWwV03vqcd5; Tue, 05 May 2020 09:50:45 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Tue, 05 May 2020 09:50:45 +0200
-X-ME-IP: 93.23.13.215
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     jernej.skrabec@siol.net, mchehab@kernel.org, mripard@kernel.org,
-        wens@csie.org, hverkuil-cisco@xs4all.nl
-Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] media: sun8i: Fix an error handling path in 'deinterlace_runtime_resume()'
-Date:   Tue,  5 May 2020 09:50:34 +0200
-Message-Id: <20200505075034.168296-1-christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.25.1
+        id S1728180AbgEEHwn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 03:52:43 -0400
+Received: from mail-lf1-f66.google.com ([209.85.167.66]:42873 "EHLO
+        mail-lf1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725915AbgEEHwn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 5 May 2020 03:52:43 -0400
+Received: by mail-lf1-f66.google.com with SMTP id j14so562972lfg.9;
+        Tue, 05 May 2020 00:52:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=0Y7Rnj17ii//R53Od+I3NriqOZPosXNwE7MSov+XlfY=;
+        b=iy49VVYBUEbHpP6UrgjpJkUZ9YmV5EQ0njhXfazLAr96Fa7bWKaXJxqeMRFvMk7znX
+         yWa7dAw3lCInQVa6tMN7Z03OsyZM7coB/EH6B8I+Q5rPLovDVAW5xiyf0Gc8fc8wj29F
+         udlf2182CL+thE+BtNaFK7CPPkaJDpP/RqITce+h2GRgLw+9NGmIaqzZQZz5I1ee0ltG
+         eKaEHip6bByoxEIB8x3kRo4lnYuFmtGB6fsHX1kA29hdNB4Cxb+buBUdAJqmgyTW405N
+         M+ZZM+0+CVgGm44HMghlvGRZaGERJ2QzkyOuQ5CxrwRjWZiyA7b9L5UYg88lG0AFtfHC
+         vnvg==
+X-Gm-Message-State: AGi0PubbOec2tJWWyU2o3Br+KsmJ9+uZApxPMu0gEiTIYO4LpyfFevvw
+        3U1cWc6ND+R5rbdxvZglf66OaomwZC0=
+X-Google-Smtp-Source: APiQypKUJ47EMGE/ZFOvAQXjtRPtwqdPUM00s4u5xHsW9UqgxbtxmVXW8hY7TmeX9lb3F+2KGB550g==
+X-Received: by 2002:a05:6512:108f:: with SMTP id j15mr831965lfg.19.1588665159309;
+        Tue, 05 May 2020 00:52:39 -0700 (PDT)
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
+        by smtp.gmail.com with ESMTPSA id u21sm1043048ljo.61.2020.05.05.00.52.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 May 2020 00:52:38 -0700 (PDT)
+Received: by mail-lf1-f48.google.com with SMTP id a4so552747lfh.12;
+        Tue, 05 May 2020 00:52:38 -0700 (PDT)
+X-Received: by 2002:ac2:5290:: with SMTP id q16mr830193lfm.108.1588665158225;
+ Tue, 05 May 2020 00:52:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200505075034.168296-1-christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20200505075034.168296-1-christophe.jaillet@wanadoo.fr>
+From:   Chen-Yu Tsai <wens@csie.org>
+Date:   Tue, 5 May 2020 15:52:25 +0800
+X-Gmail-Original-Message-ID: <CAGb2v65PhkepV=1RzKr7bmF_iyjOEM3iu2a772uYPYhy+7Db=Q@mail.gmail.com>
+Message-ID: <CAGb2v65PhkepV=1RzKr7bmF_iyjOEM3iu2a772uYPYhy+7Db=Q@mail.gmail.com>
+Subject: Re: [PATCH] media: sun8i: Fix an error handling path in 'deinterlace_runtime_resume()'
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     Jernej Skrabec <jernej.skrabec@siol.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It is spurious to call 'clk_disable_unprepare()' when
-'clk_prepare_enable()' has not been called yet.
-Re-order the error handling path to avoid it.
+On Tue, May 5, 2020 at 3:50 PM Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+>
+> It is spurious to call 'clk_disable_unprepare()' when
+> 'clk_prepare_enable()' has not been called yet.
+> Re-order the error handling path to avoid it.
+>
+> Fixes: a4260ea49547 ("media: sun4i: Add H3 deinterlace driver")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
-Fixes: a4260ea49547 ("media: sun4i: Add H3 deinterlace driver")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-index d78f6593ddd1..a1f29462d260 100644
---- a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-+++ b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-@@ -969,14 +969,14 @@ static int deinterlace_runtime_resume(struct device *device)
- 
- 	return 0;
- 
--err_exlusive_rate:
--	clk_rate_exclusive_put(dev->mod_clk);
- err_ram_clk:
- 	clk_disable_unprepare(dev->ram_clk);
- err_mod_clk:
- 	clk_disable_unprepare(dev->mod_clk);
- err_bus_clk:
- 	clk_disable_unprepare(dev->bus_clk);
-+err_exlusive_rate:
-+	clk_rate_exclusive_put(dev->mod_clk);
- 
- 	return ret;
- }
--- 
-2.25.1
-
+Acked-by: Chen-Yu Tsai <wens@csie.org>
