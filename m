@@ -2,326 +2,267 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D5001C6AC7
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 10:04:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C7541C6BBD
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 10:30:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728359AbgEFIEr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 May 2020 04:04:47 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:59431 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728297AbgEFIEq (ORCPT
+        id S1728602AbgEFIaU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 May 2020 04:30:20 -0400
+Received: from mail27.static.mailgun.info ([104.130.122.27]:61172 "EHLO
+        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728535AbgEFIaU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 May 2020 04:04:46 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id WF2ljLpVxtKAsWF2pjUE29; Wed, 06 May 2020 10:04:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588752283; bh=ltd4qst7D7I3x++9bUGIH+BMfFhVv6azIH/osw8vUo8=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=kz31dokAX32wzyITYud1/0i4FWTn2y48BhLBm/tgqnadvLmPSKpeMn0j+Oeg6anca
-         i0LONeaB3tSWU3Qw0jbKUhcs8TwxFux9yiYuLwxYIxyyYcPpQg2OKpohwUnICM3v+G
-         9ZUaooaH4bBoiU/QWLC5GJzoLfmvGoFOWWHv7FCNO2lhjfLnYMISeGSvz7oOZNlzYJ
-         cendCDk//fjHleoca7WkoBnYn8dnpblCxSqrYIZRZLELsbifplzkujORScoaKYfmrh
-         RHuIUWFRGAgwm9cvmnxqdU60L1g+hV6jwLH6vXk5LC87NPZvKLGTzBEf/87dXgLWLA
-         YDCAGk8vBiYpA==
-Subject: Re: [PATCH v9 02/11] media: v4l2-ctrl: Document
- V4L2_CID_CAMERA_SENSOR_LOCATION
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tfiga@google.com, pavel@ucw.cz,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>, libcamera-devel@lists.libcamera.org
-References: <20200417124110.72313-1-jacopo@jmondi.org>
- <20200417124110.72313-3-jacopo@jmondi.org> <20200505140206.589f54ae@coco.lan>
- <a5d77790-5f98-650e-cfb9-a97b8701454d@xs4all.nl>
- <20200505165826.1ce8bb0d@coco.lan>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <b3e211da-b9f6-a65c-4453-c11b05bced45@xs4all.nl>
-Date:   Wed, 6 May 2020 10:04:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Wed, 6 May 2020 04:30:20 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1588753818; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: References: Cc: To:
+ Subject: From: Sender; bh=jzdjT5/FfPOTtWWCKqxudmO6PH7po5sH4MzlpxAcptc=;
+ b=mLUoJKiQwJ1UcAVWjvEUgSGmHCWfHrw96LI9qtZWfMUlCWPZziU9j+Q/tf47sRCrOPNm6Hl3
+ jr4mFy0Cqji8j8gL/UeeCt7veyzSbVgWfzQZ6O3bREarmK66m2FTdWPKEHQYALYX4TYi4v6o
+ I6TwDuIc3snOMqoxfm7oKn7pDzY=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5eb27599.7f608a93aca8-smtp-out-n04;
+ Wed, 06 May 2020 08:30:17 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 58BC0C43636; Wed,  6 May 2020 08:30:17 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.0.102] (unknown [183.83.139.238])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: charante)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 90C41C433BA;
+        Wed,  6 May 2020 08:30:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 90C41C433BA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=charante@codeaurora.org
+From:   Charan Teja Kalla <charante@codeaurora.org>
+Subject: Re: [PATCH] dma-buf: fix use-after-free in dmabuffs_dname
+To:     Greg KH <gregkh@linuxfoundation.org>,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org
+Cc:     vinmenon@codeaurora.org, sumit.semwal@linaro.org,
+        ghackmann@google.com, fengc@google.com, linux-media@vger.kernel.org
+References: <1588060442-28638-1-git-send-email-charante@codeaurora.org>
+ <20200505100806.GA4177627@kroah.com>
+Message-ID: <8424b2ac-3ea6-6e5b-b99c-951a569f493d@codeaurora.org>
+Date:   Wed, 6 May 2020 14:00:10 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200505165826.1ce8bb0d@coco.lan>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200505100806.GA4177627@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLsWrudtSIG2n2n8LA8HaVFfI8HgBuvIxtXEOL/qNLE7F2LgakRAAFyCV+C/Mgo5YAJBU6CGfdJmo/174ET0RRVMoQjHyuFsuoXDw5eRjDA0kMHf314r
- 6QZYJsF054po8qz1Dob+Q3vLFSXYUoVxkt0S9N3hzSUE+lKLrITH4+PfSmfRJQBHKxfBBKzxFKjJ4VSlrTAUgnTvscVAYR9wDFpHncjUaQXWSO21ZK4XfFhp
- Ttn6KrEA1JRM+xAQjk2F34zzVppd4OqBtYg6Dksq7q9PfgSdvWG5gDfywmZvLUb4zrQ3kBx2DMdEq2jSbhCIDiFhefOHiJJ/Epfeyh4H1Dc/8UlY1ir/uGwJ
- MDmJCT6QPIE8yM6rqHxCpj/HfYDu3876i17cthi4ScYr/pvlW1KIBycTmcles40vDoG5wr1g7gH4zA8ga+MuTf/GC6zsJg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/05/2020 16:58, Mauro Carvalho Chehab wrote:
-> Em Tue, 5 May 2020 14:21:38 +0200
-> Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
-> 
->> On 05/05/2020 14:02, Mauro Carvalho Chehab wrote:
->>> Em Fri, 17 Apr 2020 14:41:01 +0200
->>> Jacopo Mondi <jacopo@jmondi.org> escreveu:
->>>   
->>>> Add documentation for the V4L2_CID_CAMERA_SENSOR_LOCATION camera
->>>> control. The newly added read-only control reports the camera device
->>>> mounting position.
->>>>
->>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
->>>> ---
->>>>  .../media/v4l/ext-ctrls-camera.rst            | 32 +++++++++++++++++++
->>>>  1 file changed, 32 insertions(+)
->>>>
->>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
->>>> index e39f84d2447f..01a9042d53a6 100644
->>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
->>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
->>>> @@ -510,6 +510,38 @@ enum v4l2_scene_mode -
->>>>      value down. A value of zero stops the motion if one is in progress
->>>>      and has no effect otherwise.
->>>>  
->>>> +``V4L2_CID_CAMERA_SENSOR_LOCATION (integer)``
->>>> +    This read-only control describes the camera sensor location by reporting
->>>> +    its mounting position on the device where the camera is installed. The
->>>> +    control value is constant and not modifiable by software. This control is
->>>> +    particularly meaningful for devices which have a well defined orientation,
->>>> +    such as phones, laptops and portable devices since the camera location is
->>>> +    expressed as a position relative to the device's intended usage orientation.
->>>> +    For example, a camera sensor installed on the user-facing side of a phone,
->>>> +    a tablet or a laptop device is said to be installed in the
->>>> +    ``V4L2_LOCATION_FRONT`` location while camera sensors installed on the side
->>>> +    opposite the front one are said to be installed in the
->>>> +    ``V4L2_LOCATION_BACK`` location. Camera sensors not directly attached to
->>>> +    the device or attached in a way that allows them to move freely, such as
->>>> +    webcams and digital cameras, are said to have the ``V4L2_LOCATION_EXTERNAL``
->>>> +    location.
->>>> +
->>>> +
->>>> +
->>>> +.. flat-table::
->>>> +    :header-rows:  0
->>>> +    :stub-columns: 0
->>>> +
->>>> +    * - ``  
->>> ``  
->>>> +      - The camera sensor is located on the front side of the device.
->>>> +    * - ``V4L2_LOCATION_BACK``
->>>> +      - The camera sensor is located on the back side of the device.
->>>> +    * - ``V4L2_LOCATION_EXTERNAL``
->>>> +      - The camera sensor is not directly attached to the device and is
->>>> +        freely movable.  
->>>
->>> I guess I mentioned this already, but IMHO this ioctl is somewhat flawed,
->>> for two reasons:
->>>
->>> 1) newer devices may all top of the line mobile devices now are coming
->>>    with multiple camera sensors at the same side. So, just saying that
->>>    the location is front or back is not enough. A location syscall would
->>>    need have something more to better identify the location.
->>>    It probably doesn't need to be something fancy, but, at least, on a
->>>    device with 3 back sensors, I would call them as:
->>>
->>> 	V4L2_LOCATION_BACK_1
->>> 	V4L2_LOCATION_BACK_2
->>> 	V4L2_LOCATION_BACK_3
->>>
->>>    And add some comment at the control documentation that would allow to
->>>    uniquely number the other ones, like:
->>>
->>> 	"when multiple sensors are present at the same side, sensors
->>> 	 will be numbered considering the ``(x,y)`` coordinates of the center
->>> 	 of each sensor, starting from the topmost, leftmost position.
->>>
->>> 	 She first sensor will be the topmost sensor column at the leftmost
->>> 	 side. The other sensors that will have the same ``y`` coordinate,
->>> 	 counting from the left to the right, then increment the ``y`` and
->>> 	 parse the next column again until all sensors are numbered."  
+Thank you Greg for the reply.
+
+On 5/5/2020 3:38 PM, Greg KH wrote:
+> On Tue, Apr 28, 2020 at 01:24:02PM +0530, Charan Teja Reddy wrote:
+>> The following race occurs while accessing the dmabuf object exported as
+>> file:
+>> P1				P2
+>> dma_buf_release()          dmabuffs_dname()
+>> 			   [say lsof reading /proc/<P1 pid>/fd/<num>]
 >>
->> I think this isn't a good idea. In most cases you do not care about this.
-> 
-> True, because on most cases, the userspace is hardcoded to open, let's say,
-> video0 for the front sensor or video1 for the back sensor.
-> 
-> This control only makes sense if the userspace is generic enough to accept
-> sensors on different positions, identifying them at runtime.
-> 
-> With the current proposal, userspace can only work with 2 sensors, as, if
-> there's a third sensor, userspace won't know how to pick the right one.
-> 
-> For instance, let's assume a car with 4 sensors, one on each side of
-> the car (right, front); (left, front); (right; back); (left; back).
-> 
-> With the current proposal, userspace can't do anything if it wants
-> to identify the (right, back) camera.
-> 
->> And if you do care about this, then wouldn't it be better to do that through
->> a new control where you provide the precise coordinates in e.g. mm?
+>> 			   read dmabuf stored in dentry->fsdata
+>> Free the dmabuf object
+>> 			   Start accessing the dmabuf structure
 >>
->> BACK_1/2/3 really doesn't tell you anything other than that there are three
->> sensors on the back, but we knew that already.
-> 
-> No, if we define some criteria about how sensors should be accounted for
-> (something similar to the text I drafted), the location will be defined.
-> 
-> With the above text, for example, a device with 3 sensors horizontally
-> aligned, the arrangement will be:
-> 
-> - sensor 1 is on the left;
-> - sensor 2 in the middle;
-> - sensor 3 is on the right.
-
-Or sensor 2 is below sensor 1 and sensor 3 is to the right of sensor 1.
-It's meaningless information. If you want to specify the location, then
-be precise. Especially for stereoscopic sensors (left and right) it is
-good to know the exact distance between the sensors. Just calling them
-'1' and '2' is not enough.
-
-For sensors you want to know the plane (back/front) and where they are
-on that plane (in the case of more than one sensor). That's separate
-information that's only needed in the case of more than one sensor.
-
-> 
-> Ok, I agree that writing a text with such criteria sucks, and maybe
-> just numbering from 1 to n may not be the best thing to do. Yet,
-> adding coordinates in mm would be just too much information, IMHO.
-
-Why? Just numbering them makes no sense, it's useless information.
-
-> 
->> If we need support for the precise location in the future, then let's do that
->> right and not try to shoehorn into something that wasn't meant for it.
-> 
-> Assuming that all the problems we have so far are to support devices with
-> 2 sensors, by the time we add support for a third sensor, we'll end having
-> a new ioctl for the same thing: to specify the sensors locations.
-
-It's just a control, nothing more.
-
-In most cases all you need to know is if it is a front or back sensor. In
-some cases you need to know more: e.g. my Samsung Note 10+ has three sensors
-on the back in a vertical row (wide, telephoto, ultrawide), and two sensors
-for 3D to the right of them. For those last two you need to know the exact
-position relative to one another. For the other sensors all you need to know
-is that they are back sensors.
-
-> 
-> We know the drill: having two controls for the same thing makes userspace
-> more complex and will require backward-compatibility code at the kernel
-> and at userspace. That's what I want to avoid.
-> 
-> I'm open to other suggestions that won't limit the usage of this control
-> for devices with just (up to) two sensors.
-
-What backward compatibility code are you talking about? I honestly don't see
-the problem here.
-
-> 
+>> In the above description, the dmabuf object freed in P1 is being
+>> accessed from P2 which is resulting into the use-after-free. Below is
+>> the dump stack reported.
 >>
->>>
->>> 2) There are also some devices that has a movable sensor, that can either
->>>    be taking a picture from the front or from the back, like those:
->>>
->>> 	https://www.youtube.com/watch?v=br6G7MrkRUc
->>>
->>>    On such case, the control should not be read-only, as one may need to
->>>    change this control in order to select if a sensor would either be on
->>>    FRONT or on BACK position.
->>>
->>>    For such kind of sensors (when we start supporting them), we could 
->>>    for example call them like:
->>>
->>> 	V4L2_LOCATION_MOVABLE_IN_BACK_POSITION_1
->>> 	V4L2_LOCATION_MOVABLE_IN_BACK_POSITION_2
->>> 	V4L2_LOCATION_MOVABLE_IN_FRONT_POSITION_1
->>> 	V4L2_LOCATION_MOVABLE_IN_FRONT_POSITION_2  
+>> Call Trace:
+>>   kasan_report+0x12/0x20
+>>   __asan_report_load8_noabort+0x14/0x20
+>>   dmabuffs_dname+0x4f4/0x560
+>>   tomoyo_realpath_from_path+0x165/0x660
+>>   tomoyo_get_realpath
+>>   tomoyo_check_open_permission+0x2a3/0x3e0
+>>   tomoyo_file_open
+>>   tomoyo_file_open+0xa9/0xd0
+>>   security_file_open+0x71/0x300
+>>   do_dentry_open+0x37a/0x1380
+>>   vfs_open+0xa0/0xd0
+>>   path_openat+0x12ee/0x3490
+>>   do_filp_open+0x192/0x260
+>>   do_sys_openat2+0x5eb/0x7e0
+>>   do_sys_open+0xf2/0x180
 >>
->> I don't like this. If the driver can tell when the position changes, then it
->> can update the control's value (it's still read-only because userspace
->> can't write to it, but that doesn't mean it can't be updated).
-> 
-> Why userspace can't set it? I mean, if the camera is movable, it
-> should be up to the application to select the sensor between FRONT
-> and BACK.
+>> Fixes: bb2bb90 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
+> Nit, please read the documentation for how to do a Fixes: line properly,
+> you need more digits:
+> 	Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
 
-Ah, right. If you can command the camera to flip from back to front using
-a button or something, then yes, it can be writable. Sorry, didn't think of
-that. I was thinking that the user would manually move the camera and the
-new position would be detected by the driver and reported in the location
-control.
 
-In any case, if the location control can be set through the driver by setting
-this control, then just drop the READ_ONLY flag. If the control is writable,
-then the sensor is movable. Just document this and we're done.
+Will update the patch
 
-You are making this much more complicated than it need to be IMHO.
 
-> 
-> Btw, this is a case where I clearly see value on this ioctl: all cameras
+>> Reported-by:syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
+>> Signed-off-by: Charan Teja Reddy<charante@codeaurora.org>
+> Also, any reason you didn't include the other mailing lists that
+> get_maintainer.pl said to?
 
-It's a *control*, not a new ioctl.
 
-> with flippable sensors need a control to switch the sensor's position,
-> even if the sensor device is hardcoded on some application.
-> 
->> So there is
->> no need to call it 'MOVABLE', you just report the correct location. And with
->> QUERYMENU you can tell that it is movable since multiple possible locations
->> are reported (BACK and FRONT in this example). If it is fixed, then QUERYMENU
->> will report only a single location.
+Really sorry for not sending to complete list. Added now.
+
+
+> And finally, no cc: stable in the s-o-b area for an issue that needs to
+> be backported to older kernels?
+
+
+Will update the patch.
+
+
+>
+>> ---
+>>   drivers/dma-buf/dma-buf.c | 25 +++++++++++++++++++++++--
+>>   include/linux/dma-buf.h   |  1 +
+>>   2 files changed, 24 insertions(+), 2 deletions(-)
 >>
->> This might have some consequences for the DT bindings, though. Not sure
->> how to represent this there.
-> 
-> I guess DT should contain the default value when the device is turned
-> off. 
-> 
->> If the driver cannot tell what the position is, then it makes no sense for
->> the driver to expose this location control since it clearly is something that
->> has to be hardcoded in userspace. I.e., there is no point for userspace to
->> write to the control and then read back what it wrote :-)
-> 
-> Actually there is. When you command a device to switch position, it may
-> take some time to move the sensor, and such operation may even fail.
+>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>> index 570c923..069d8f78 100644
+>> --- a/drivers/dma-buf/dma-buf.c
+>> +++ b/drivers/dma-buf/dma-buf.c
+>> @@ -25,6 +25,7 @@
+>>   #include <linux/mm.h>
+>>   #include <linux/mount.h>
+>>   #include <linux/pseudo_fs.h>
+>> +#include <linux/dcache.h>
+>>   
+>>   #include <uapi/linux/dma-buf.h>
+>>   #include <uapi/linux/magic.h>
+>> @@ -38,18 +39,34 @@ struct dma_buf_list {
+>>   
+>>   static struct dma_buf_list db_list;
+>>   
+>> +static void dmabuf_dent_put(struct dma_buf *dmabuf)
+>> +{
+>> +	if (atomic_dec_and_test(&dmabuf->dent_count)) {
+>> +		kfree(dmabuf->name);
+>> +		kfree(dmabuf);
+>> +	}
+> Why not just use a kref instead of an open-coded atomic value?
 
-Yeah, I forgot about that option.
 
-> 
-> So, reading back the position is probably mandatory.
+Kref approach looks cleaner. will update the patch accordingly.
 
-Well, it's a control, so that's standard.
 
-> 
-> That reminds that it may actually have a third position, to warn
-> that the sensor was blocked.
-> 
-> Also, some flip sensors may have another position (a "closed"
-> position).
+>> +}
+>> +
+>>   static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+>>   {
+>>   	struct dma_buf *dmabuf;
+>>   	char name[DMA_BUF_NAME_LEN];
+>>   	size_t ret = 0;
+>>   
+>> +	spin_lock(&dentry->d_lock);
+>>   	dmabuf = dentry->d_fsdata;
+>> +	if (!dmabuf || !atomic_add_unless(&dmabuf->dent_count, 1, 0)) {
+>> +		spin_unlock(&dentry->d_lock);
+>> +		goto out;
+> How can dmabuf not be valid here?
+>
+> And isn't there already a usecount for the buffer?
 
-It's certainly possible that we need to add new positions to support the
-various states of such a movable sensor. But that's no problem. It's just
-a menu control, adding new positions is cheap and easy.
 
-I stand by what I said, except that I agree that this control can be
-writable in some circumstances, and that should be documented.
+dmabuf exported as file simply relies on that file's refcount, thus 
+fput() releases the dmabuf.
 
-I strongly disagree with the notion of BACK_1/2/3 and FRONT_1/2/3: it adds
-no meaningful information. If you have multiple sensors and in order to use
-them the application needs to know the relative positions (most likely for
-3D sensors), then provide the precise position. The unit for that should
-probably be micrometer since millimeter is most likely not precise enough
-(at least looking at the depth sensors on my camera).
+We are storing the dmabuf in the dentry->d_fsdata but there is no 
+binding between the dentry and the dmabuf. So, flow will be like
 
-Regards,
+1) P1 calls fput(dmabuf_fd)
 
-	Hans
+2) P2 trying to access the file information of P1.
+     Eg: lsof command trying to list out the dmabuf_fd information using 
+/proc/<P1 pid>/fd/dmabuf_fd
 
-> 
->> So I disagree that there is a need for FIXED vs MOVABLE, this can be
->> represented nicely with the current proposal.
-> 
-> Thanks,
-> Mauro
-> 
+3) P1 calls the file->f_op->release(dmabuf_fd_file)(ends up in calling 
+dma_buf_release()),   thus frees up the dmabuf buffer.
 
+4) P2 access the dmabuf stored in the dentry->d_fsdata which was freed 
+in step 3.
+
+So we need to have some refcount mechanism to avoid the use-after-free 
+in step 4.
+
+>> +	}
+>> +	spin_unlock(&dentry->d_lock);
+>>   	dma_resv_lock(dmabuf->resv, NULL);
+>>   	if (dmabuf->name)
+>>   		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+>>   	dma_resv_unlock(dmabuf->resv);
+>> +	dmabuf_dent_put(dmabuf);
+>>   
+>> +out:
+>>   	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
+>>   			     dentry->d_name.name, ret > 0 ? name : "");
+>>   }
+>> @@ -80,12 +97,16 @@ static int dma_buf_fs_init_context(struct fs_context *fc)
+>>   static int dma_buf_release(struct inode *inode, struct file *file)
+>>   {
+>>   	struct dma_buf *dmabuf;
+>> +	struct dentry *dentry = file->f_path.dentry;
+>>   
+>>   	if (!is_dma_buf_file(file))
+>>   		return -EINVAL;
+>>   
+>>   	dmabuf = file->private_data;
+>>   
+>> +	spin_lock(&dentry->d_lock);
+>> +	dentry->d_fsdata = NULL;
+>> +	spin_unlock(&dentry->d_lock);
+>>   	BUG_ON(dmabuf->vmapping_counter);
+>>   
+>>   	/*
+>> @@ -108,8 +129,7 @@ static int dma_buf_release(struct inode *inode, struct file *file)
+>>   		dma_resv_fini(dmabuf->resv);
+>>   
+>>   	module_put(dmabuf->owner);
+>> -	kfree(dmabuf->name);
+>> -	kfree(dmabuf);
+>> +	dmabuf_dent_put(dmabuf);
+>>   	return 0;
+>>   }
+>>   
+>> @@ -548,6 +568,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+>>   	init_waitqueue_head(&dmabuf->poll);
+>>   	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
+>>   	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
+>> +	atomic_set(&dmabuf->dent_count, 1);
+>>   
+>>   	if (!resv) {
+>>   		resv = (struct dma_resv *)&dmabuf[1];
+>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>> index 82e0a4a..a259042 100644
+>> --- a/include/linux/dma-buf.h
+>> +++ b/include/linux/dma-buf.h
+>> @@ -315,6 +315,7 @@ struct dma_buf {
+>>   	struct list_head list_node;
+>>   	void *priv;
+>>   	struct dma_resv *resv;
+>> +	atomic_t dent_count;
+> Isn't there other usage counters here that can support this?  Adding
+> another one feels wrong as now we have multiple use counts, right?
+
+
+I couldn't see any refcount exist and couldn't find the need either, 
+earlier.
+
+But the change bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls") 
+requires to have one.
+
+
+> thanks,
+>
+> greg k-h
