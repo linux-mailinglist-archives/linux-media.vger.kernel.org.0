@@ -2,122 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 838DF1C6E22
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 12:13:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62CE21C6E47
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 12:23:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728730AbgEFKNM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 May 2020 06:13:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38262 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728306AbgEFKNL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 May 2020 06:13:11 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4A12C061A0F;
-        Wed,  6 May 2020 03:13:11 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id f8so297799plt.2;
-        Wed, 06 May 2020 03:13:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=6WNtx/WWmmyn4FXsUEVTqUH4KJDR4nxrdnROOFWF/VA=;
-        b=mzbUK3+wvDC/iKKVfsqO7JxEpc8wkfvQGmd9RVRS5IlAeErkoJfQAYkHrc1DhpRpYC
-         fv8KQ3XglpbVR5p0mD/8GydupQlPSlIAP9MhVUOEkdqkpJDFKGlNtBk8yIsV2V7WoWDU
-         jlT3QrOPU5GsdYKpmRZF2RDGBUzVWAOyYSFLdyXcg+YqzTVw1MG/nvw+NQ3B3mWSqmCU
-         1JSsaxotmtp99Q4ASjOi9TT6zv1IQHlGvTlNSbMsPEaWbsotJ5DiLqIrR9fLy3XV6zt5
-         q51Ff7cYqaJ6ebxxaB4HvaoFPqidAyJg+iybqAmB9R8jdS1+mp7m9gwEntmvhCc9PUx4
-         aYSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=6WNtx/WWmmyn4FXsUEVTqUH4KJDR4nxrdnROOFWF/VA=;
-        b=qYwF16IgHta35RlLJk0NX02ZLimRw20CxMBnMRvvt4THC7N06cCyDlhCNn2ZWvhndG
-         zaSnX+8Uvs29a2Sk+53ub/fK55l0dvOK8s01jw+hkyqWS8NDY/0gL0pA5zIravvBT0Yr
-         GbA1XUGjsGhz0oAWOarO66YQNQBk9tOxar1PiDHa/KmwmHkn70XRlz+DFjIi0vqUNaXu
-         +0j7CReJfbGVamDgEShXncPspY9nlZXK2SaeccdVKXDma1ElIp3ZsxaOB9aVGcHoHAsA
-         XRdPpR+GDfOsWHVR2CmZYz5qKiLTkqgz+UAg6of09+eFlo4MkOmgMxCvhcpnu34n6IZc
-         wBRw==
-X-Gm-Message-State: AGi0Pub2kO7uzjM9DPD9w0C/pvvc6dz53lWwFylxK2dCAO0jNfCWK0XE
-        tZMK3MKAK7xJIJM8z2cbFs85duo1j50=
-X-Google-Smtp-Source: APiQypLiiBZmSCG4wntUL7TaFVTjDm5EyQBD2qbPgRk0HPb182fxQ/EzgQf9njQfVxApmOk4Ctml4A==
-X-Received: by 2002:a17:902:a989:: with SMTP id bh9mr7260346plb.44.1588759990559;
-        Wed, 06 May 2020 03:13:10 -0700 (PDT)
-Received: from [192.168.1.7] ([223.72.42.191])
-        by smtp.gmail.com with ESMTPSA id q7sm1348750pgs.13.2020.05.06.03.13.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2020 03:13:09 -0700 (PDT)
-Subject: Re: [PATCH] media: usb: ttusb-dec: avoid buffer overflow in
- ttusb_dec_handle_irq() when DMA failures/attacks occur
-To:     Greg KH <gregkh@linuxfoundation.org>,
-        Jia-Ju Bai <baijiaju1990@gmail.com>
-Cc:     mchehab@kernel.org, kstewart@linuxfoundation.org,
-        tomasbortoli@gmail.com, sean@mess.org, allison@lohutok.net,
-        tglx@linutronix.de, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200505142110.7620-1-baijiaju1990@gmail.com>
- <20200505181042.GD1199718@kroah.com>
-From:   Jia-Ju Bai <baijiaju1990@gmail.com>
-Message-ID: <0e4a86ee-8c4e-4ac3-8499-4e9a6ed7bd1e@gmail.com>
-Date:   Wed, 6 May 2020 18:13:01 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        id S1728930AbgEFKXA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 May 2020 06:23:00 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47562 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726354AbgEFKW7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 May 2020 06:22:59 -0400
+Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 126522068E;
+        Wed,  6 May 2020 10:22:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588760579;
+        bh=bVT++xGeBIALzytE0FVZzuQCS5ohlHxqVEbtaWtmVUE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=1EUoQVjuwjltOwoGyPGogrhUHOlS4+UZ0BfRc6uEggPaRUyDFbRcYfqwo7r4Rxyhp
+         xUz+ylLunqdv8OamRnQ9ZAjq+Wh045ueDkkuNGx8M1eVKtR8VAl9X+BGp5rWrAVouA
+         uQzaUHXwZIkf8vaQZiOS2YMmeYUGHy5rgKsvw9Pk=
+Received: from mchehab by mail.kernel.org with local (Exim 4.92.3)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jWHCb-002tSm-2I; Wed, 06 May 2020 12:22:57 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Maxime Jourdan <mjourdan@baylibre.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [PATCH] media: vidioc-enum-fmt.rst: make the ENUM_FMT text clearer
+Date:   Wed,  6 May 2020 12:22:56 +0200
+Message-Id: <a1c4af7c4925ce3d6cd96f6416da65a4ec0702bb.1588760571.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-In-Reply-To: <20200505181042.GD1199718@kroah.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Greg,
+There are simply too many information at the same paragraph
+when explaining the differences between MC and non-MC
+centred devices.
 
-Thanks for the reply :)
+Also, while using the V4L2_CAP_IO_MC flag to distinguish
+it more formal, media developers understand the differences
+as "MC-centric" and "video-node centric". So, add an alias
+to make the text clearer for the targeted audience.
 
-On 2020/5/6 2:10, Greg KH wrote:
-> On Tue, May 05, 2020 at 10:21:10PM +0800, Jia-Ju Bai wrote:
->> In this case, "buffer[4] - 1 < ARRAY_SIZE(rc_keys)"
->> can be first satisfied, and then the value of buffer[4] can be changed
->> to a large number, causing a buffer-overflow vulnerability.
-> Um, maybe.  I agree testing and then using the value can cause problems
-> when userspace provides you with that data and control, but for
-> DMA-backed memory, we are in so much other trouble if that is the case.
->
->> To avoid the risk of this vulnerability, buffer[4] is assigned to a
->> non-DMA local variable "index" at the beginning of
->> ttusb_dec_handle_irq(), and then this variable replaces each use of
->> buffer[4] in the function.
-> I strongly doubt this is even possible.  Can you describe how you can
-> modify DMA memory and if so, would you do something tiny like this?
->
+Fixes: e5b6b07a1b45 ("media: v4l2: Extend VIDIOC_ENUM_FMT to support MC-centric devices")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ .../media/v4l/vidioc-enum-fmt.rst             | 41 ++++++++++++-------
+ 1 file changed, 26 insertions(+), 15 deletions(-)
 
-I have never modified DMA memory in the real world, but an attacker can 
-use a malicious device to do this.
-There is a video that shows how to use the Inception tool to perform DMA 
-attacks and login in the Windows OS without password:
-https://www.youtube.com/watch?v=HDhpy7RpUjM
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+index 9694111772a2..aef6a69625b9 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+@@ -48,21 +48,32 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
+ formats in preference order, where preferred formats are returned before
+ (that is, with lower ``index`` value) less-preferred formats.
+ 
+-If the driver doesn't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
+-<device-capabilities>`, applications shall initialize the ``mbus_code`` field
+-to zero and drivers shall ignore the value of the field.  Drivers shall
+-enumerate all image formats. The enumerated formats may depend on the active
+-input or output of the device.
+-
+-If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`capability
+-<device-capabilities>`, applications may initialize the ``mbus_code`` field to
+-a valid :ref:`media bus format code <v4l2-mbus-pixelcode>`. If the
+-``mbus_code`` field is not zero, drivers shall restrict enumeration to only the
+-image formats that can produce (for video output devices) or be produced from
+-(for video capture devices) that media bus code.  Regardless of the value of
+-the ``mbus_code`` field, the enumerated image formats shall not depend on the
+-active configuration of the video device or device pipeline. Enumeration shall
+-otherwise operate as previously described.
++1) If the driver doesn't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
++   <device-capabilities>` (also known as a 'video node centric' driver)
++
++   Applications shall initialize the ``mbus_code`` field to zero and drivers
++   shall ignore the value of the field.
++
++   Drivers shall enumerate all image formats.
++
++   .. note::
++
++      After switching input or output the list of enumerated image
++      formats may be different.
++
++2) If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`capability
++   <device-capabilities>` (also known as a 'MC-centric' driver)
++
++   Applications may initialize the ``mbus_code`` field to a valid
++   :ref:`media bus format code <v4l2-mbus-pixelcode>`.
++
++   If the ``mbus_code`` field is not zero, drivers shall restrict enumeration
++   to only the image formats that can produce (for video output devices) or
++   be produced from (for video capture devices) that media bus code.
++   Regardless of the value of the ``mbus_code`` field, the enumerated image
++   formats shall not depend on the active configuration of the video device
++   or device pipeline. Enumeration shall otherwise operate as previously
++   described.
+ 
+ 
+ .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
+-- 
+2.25.4
 
-Besides, the Windows OS resists against DMA attacks by disabling DMA of 
-external devices by default:
-http://support.microsoft.com/kb/2516445
-
-Considering that this patch is for a USB media driver, I think that an 
-attacker can just insert a malicious USB device to modify DMA memory and 
-trigger this bug.
-Besides, not related to this patch, some drivers use DMA to send/receive 
-data (such as the URB used in USB drivers and ring descriptors used in 
-network drivers). In this case, if the data is malicious and used as an 
-array index through DMA, security problems may occur.
-
-In my opinion, similar to the data from userspace, the data from 
-hardware may be also malicious and should be checked.
-
-Maybe we could discuss this issue with DMA driver developers?
-
-
-Best wishes,
-Jia-Ju Bai
