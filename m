@@ -2,170 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12AB21C647B
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 01:26:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75B2F1C6616
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 04:55:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728853AbgEEX0Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 5 May 2020 19:26:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50746 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728642AbgEEX0Q (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 5 May 2020 19:26:16 -0400
-Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73EC4C061A0F
-        for <linux-media@vger.kernel.org>; Tue,  5 May 2020 16:26:16 -0700 (PDT)
-Received: by mail-yb1-xb42.google.com with SMTP id d197so3016ybh.6
-        for <linux-media@vger.kernel.org>; Tue, 05 May 2020 16:26:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dSNUOaj5KxlkmD3E6We3JZzhQHqRCx3I4wcT9gUGuhg=;
-        b=MQyPrHImzLs/VQfBJV923ppx7fQWNvo0uqdxIdrZDaFeE6/xsKpn1noL2Ke51fqI7+
-         3t5sbTe6qX4wp2AcvVt3jgCB/KDPBHj2c4YQgmN4AHEcsjwY/P865XqvLIt9fNxMfl+S
-         eD/qipQkbesQ7vYbA0IurM6pfOgqPb1vBO97mkv7Yhf2NiFgTjIgDJQTgEFTBxZrt8og
-         4LzaA9jPda8IzrCaN9HXotXumGTYXpS++DxyEokv7hyUi2em5AKqQztF6EtcTSafZqg4
-         OP4bX1uLqV2FnlBG9Dzx5NOA3ufeNdD8UCNF61lczzJ0V4FFtk7Ykn5/G2noFvFTPhGU
-         Lxmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dSNUOaj5KxlkmD3E6We3JZzhQHqRCx3I4wcT9gUGuhg=;
-        b=nmzAW/sin8dF1CmmnqZtOzNtpemcymXF2KMmurLB3CDExkvAIUEWDkcMOvLxWJsASR
-         qb8unTVse2nH1b5MVRTvHdTS5cx6YGKeYnmgXqIBXkdlrbNMF3cUGFGfWPtHb3EC78AL
-         soj218df3UWZUjog0OhmmV/8NSzWiiHKUbaXu2DGFKO6RFTSqSaRuTaNCr2jfLQuECl0
-         LD6n6vJdPCM8heMPiz9FEOl1Va5QxI23fZ7fb8HjoWMXJVo9nnfKPmSDma20uB0bEgUI
-         n9AUfxUULIdA7T4nqKBd+uCnJpixWwZ306suBQnw9KdfeO/TLL5tz+zB5zkZrLC9CxV/
-         2MtQ==
-X-Gm-Message-State: AGi0PuadC66h23L1fhsDae/AZPZCQCwXjVo8RRsrUpjyqrbiBokTN+bP
-        nML3PFLZY3GBWXV28zPtUHrQTqhVHfZ2ank/KV0tnA==
-X-Google-Smtp-Source: APiQypKKDQU2Sw118oCoUpMcYow1NLSmmvRnupnXJQZ/a9ro8u95AnjtEu8uifc2boNhNYZe/1BXwzxYTQKsis2AMhs=
-X-Received: by 2002:a25:ba8f:: with SMTP id s15mr9039706ybg.34.1588721175380;
- Tue, 05 May 2020 16:26:15 -0700 (PDT)
+        id S1726093AbgEFCzR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 5 May 2020 22:55:17 -0400
+Received: from mga05.intel.com ([192.55.52.43]:20284 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725900AbgEFCzQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 5 May 2020 22:55:16 -0400
+IronPort-SDR: ZRmIWABGCMBtKxwVyw2P+Gy/zxKq8crzrNqCt7Ika1broQp5WRBeAQffZufJlkdUd84Lhvt8LV
+ Kxai5RuSFLgA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2020 19:55:14 -0700
+IronPort-SDR: FbyDQkqVD/EFys3GGNwE6nA95jiOjDTCP5sUiWITvMObf7dJwyfCKHno50b3ZkCNA2GzqOPoJK
+ H9xxFaG/NtWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,357,1583222400"; 
+   d="scan'208";a="338858176"
+Received: from xsang-optiplex-9020.sh.intel.com (HELO xsang-OptiPlex-9020) ([10.239.159.140])
+  by orsmga001.jf.intel.com with ESMTP; 05 May 2020 19:55:12 -0700
+Date:   Wed, 6 May 2020 11:05:20 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     kbuild-all@lists.01.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Naushir Patuck <naush@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v2 06/34] staging: vc04_services: Add new vc-sm-cma driver
+Message-ID: <20200506030520.GA25800@xsang-OptiPlex-9020>
 MIME-Version: 1.0
-References: <20200424053819.220276-1-jnchase@google.com> <20200424053819.220276-2-jnchase@google.com>
- <74c08463-7052-2ac4-3662-7301ecb8150d@xs4all.nl> <CALTkaQ2dnWdkAsqYXF+msN+Jnz_1RuvbQtJd4PFwVT_Q7FTc5Q@mail.gmail.com>
- <290277ee-f1a1-db02-9885-d4193a40e8f8@xs4all.nl>
-In-Reply-To: <290277ee-f1a1-db02-9885-d4193a40e8f8@xs4all.nl>
-From:   Jeff Chase <jnchase@google.com>
-Date:   Tue, 5 May 2020 19:26:04 -0400
-Message-ID: <CALTkaQ0tp91FJJbrzj3=+qP5z4myuUyOA9fO0L-V4CMG6Qc=nA@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: cec: i2c: ch7322: Add ch7322 CEC controller driver
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        robh+dt@kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200504092611.9798-7-laurent.pinchart@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Apr 25, 2020 at 5:16 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> On 24/04/2020 21:33, Jeff Chase wrote:
-> > Hi Hans,
-> >
-> > Thank you for the quick review.
-> >
-> >> Is the register documentation available somewhere? I only found the product brief.
-> >
-> > No, it's not publicly available.
-> >
-> >> The chip can only detect OK vs NACK? There are no error states for Arbitration Lost
-> >> or Low Drive conditions? Just checking, not all hardware has support for that.
-> >
-> > Correct, message transmit completion just has a one-bit status.
-> >
-> >>> +static int ch7322_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
-> >>> +{
-> >>> +     struct ch7322 *ch7322 = cec_get_drvdata(adap);
-> >>> +
-> >>> +     dev_dbg(&ch7322->i2c->dev, "cec log addr: %x\n", log_addr);
-> >>> +
-> >>> +     return 0;
-> >>
-> >> This can't be right. I expect that logical addresses are set/cleared here,
-> >> because the device needs to know that so that it can ignore messages not
-> >> intended for it.
-> >
-> > As far as I can tell the device doesn't filter based on logical
-> > address. I'll have to save
-> > the logical address to the driver and filter manually.
->
-> That can't be right. If this CEC adapter is assigned logical address 4, and
-> it has to Ack any received messages from other CEC devices with destination 4,
-> and ignore (i.e. not explicitly Ack) messages with other destinations.
->
-> If the CEC adapter wouldn't know what LA to use, then it would have to Ack
-> all messages, regardless of the destination, which would make this a complete
-> mess.
->
-> There must be a register that tells the CEC adapter which logical address(es)
-> should be Acked. It's usually a bitmask (one bit for each possible LA) or the
-> LA itself is stored.
+Hi Laurent,
 
-Sorry, you're right, of course. The register isn't in the
-documentation I have but I found it referenced in some sample code. By
-default it seems the device automatically stores the logical address
-if it recognizes a polling message (with src == dst) that was not
-ack'd. The behavior can be configured to allow explicit logical
-address assignment instead. I assume that would be preferred?
+I love your patch! Perhaps something to improve:
 
-Thanks,
-Jeff
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.7-rc4]
+[cannot apply to linuxtv-media/master anholt/for-next next-20200505]
+[if your patch is applied to the wrong git tree, please drop us a note to help
+improve the system. BTW, we also suggest to use '--base' option to specify the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
+
+url:    https://github.com/0day-ci/linux/commits/Laurent-Pinchart/Drivers-for-the-BCM283x-CSI-2-CCP2-receiver-and-ISP/20200505-054310
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git 9851a0dee7c28514f149f7e4f60ec1b06286cc1b
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-191-gc51a0382-dirty
+        make ARCH=x86_64 allmodconfig
+        make C=1 CF='-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kbuild test robot <lkp@intel.com>
 
 
->
-> It might be that you still receive all messages (in which case monitor_all
-> is effectively always enabled), but it really needs to be told which LAs should
-> be Acked.
->
-> Regards,
->
->         Hans
->
-> >
-> >>> +}
-> >>> +
-> >>> +static int ch7322_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
-> >>> +                                  u32 signal_free_time, struct cec_msg *msg)
-> >>> +{
-> >>
-> >> Does the hardware correctly handle Signal Free Time? If this isn't handled right
-> >> then one CEC device can flood the CEC bus, preventing anyone else from using it.
-> >>
-> >> In some devices it has to be programmed, in others it is hardwired.
-> >
-> > It must be hardwired -- I don't see a way to program it.
-> >
-> >>> +     struct ch7322 *ch7322 = cec_get_drvdata(adap);
-> >>> +     int ret;
-> >>> +
-> >>> +     dev_dbg(&ch7322->i2c->dev, "cec transmit: %x->%x: %x\n",
-> >>> +             cec_msg_initiator(msg), cec_msg_destination(msg),
-> >>> +             cec_msg_opcode(msg));
-> >>> +
-> >>> +     mutex_lock(&ch7322->mutex);
-> >>> +     ret = ch7322_send_message(ch7322, msg);
-> >>> +     mutex_unlock(&ch7322->mutex);
-> >>> +
-> >>> +     return ret;
-> >>> +}
-> >>> +
-> >>> +static const struct cec_adap_ops ch7322_cec_adap_ops = {
-> >>> +     .adap_enable = ch7322_cec_adap_enable,
-> >>> +     .adap_log_addr = ch7322_cec_adap_log_addr,
-> >>> +     .adap_transmit = ch7322_cec_adap_transmit,
-> >>
-> >> If the HW supports CEC monitoring (aka snooping), then I recommend that
-> >> adap_monitor_all_enable is also implemented. It's very useful for debugging
-> >> CEC in userspace. Not all HW supports it, though.
-> >
-> > Okay, I'll add this along with the logical address filtering I mentioned above.
-> >
-> > Thanks,
-> > Jeff
-> >
->
+sparse warnings: (new ones prefixed by >>)
+
+>> drivers/staging/vc04_services/vc-sm-cma/vc_sm.h:60:21: sparse: sparse: dubious one-bit signed bitfield
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm.h:61:23: sparse: sparse: dubious one-bit signed bitfield
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm.c:1265:24: sparse: sparse: undefined identifier 'dmac_flush_range'
+--
+>> drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:474:55: sparse: sparse: Using plain integer as NULL pointer
+   drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c:503:59: sparse: sparse: Using plain integer as NULL pointer
+
+# https://github.com/0day-ci/linux/commit/5f041a24bca6d9babfbb0e35b8e2f7cea4cf933b
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 5f041a24bca6d9babfbb0e35b8e2f7cea4cf933b
+vim +60 drivers/staging/vc04_services/vc-sm-cma/vc_sm.h
+
+5f041a24bca6d9 Dave Stevenson 2020-05-04  43  
+5f041a24bca6d9 Dave Stevenson 2020-05-04  44  struct vc_sm_buffer {
+5f041a24bca6d9 Dave Stevenson 2020-05-04  45  	struct list_head global_buffer_list;	/* Global list of buffers. */
+5f041a24bca6d9 Dave Stevenson 2020-05-04  46  
+5f041a24bca6d9 Dave Stevenson 2020-05-04  47  	/* Index in the kernel_id idr so that we can find the
+5f041a24bca6d9 Dave Stevenson 2020-05-04  48  	 * mmal_msg_context again when servicing the VCHI reply.
+5f041a24bca6d9 Dave Stevenson 2020-05-04  49  	 */
+5f041a24bca6d9 Dave Stevenson 2020-05-04  50  	int kernel_id;
+5f041a24bca6d9 Dave Stevenson 2020-05-04  51  
+5f041a24bca6d9 Dave Stevenson 2020-05-04  52  	size_t size;
+5f041a24bca6d9 Dave Stevenson 2020-05-04  53  
+5f041a24bca6d9 Dave Stevenson 2020-05-04  54  	/* Lock over all the following state for this buffer */
+5f041a24bca6d9 Dave Stevenson 2020-05-04  55  	struct mutex lock;
+5f041a24bca6d9 Dave Stevenson 2020-05-04  56  	struct list_head attachments;
+5f041a24bca6d9 Dave Stevenson 2020-05-04  57  
+5f041a24bca6d9 Dave Stevenson 2020-05-04  58  	char name[VC_SM_MAX_NAME_LEN];
+5f041a24bca6d9 Dave Stevenson 2020-05-04  59  
+5f041a24bca6d9 Dave Stevenson 2020-05-04 @60  	int in_use:1;	/* Kernel is still using this resource */
+5f041a24bca6d9 Dave Stevenson 2020-05-04  61  	int imported:1;	/* Imported dmabuf */
+5f041a24bca6d9 Dave Stevenson 2020-05-04  62  
+5f041a24bca6d9 Dave Stevenson 2020-05-04  63  	enum vc_sm_vpu_mapping_state vpu_state;
+5f041a24bca6d9 Dave Stevenson 2020-05-04  64  	u32 vc_handle;	/* VideoCore handle for this buffer */
+5f041a24bca6d9 Dave Stevenson 2020-05-04  65  	int vpu_allocated;	/*
+5f041a24bca6d9 Dave Stevenson 2020-05-04  66  				 * The VPU made this allocation. Release the
+5f041a24bca6d9 Dave Stevenson 2020-05-04  67  				 * local dma_buf when the VPU releases the
+5f041a24bca6d9 Dave Stevenson 2020-05-04  68  				 * resource.
+5f041a24bca6d9 Dave Stevenson 2020-05-04  69  				 */
+5f041a24bca6d9 Dave Stevenson 2020-05-04  70  
+5f041a24bca6d9 Dave Stevenson 2020-05-04  71  	/* DMABUF related fields */
+5f041a24bca6d9 Dave Stevenson 2020-05-04  72  	struct dma_buf *dma_buf;
+5f041a24bca6d9 Dave Stevenson 2020-05-04  73  	dma_addr_t dma_addr;
+5f041a24bca6d9 Dave Stevenson 2020-05-04  74  	void *cookie;
+5f041a24bca6d9 Dave Stevenson 2020-05-04  75  
+5f041a24bca6d9 Dave Stevenson 2020-05-04  76  	struct vc_sm_privdata_t *private;
+5f041a24bca6d9 Dave Stevenson 2020-05-04  77  
+5f041a24bca6d9 Dave Stevenson 2020-05-04  78  	union {
+5f041a24bca6d9 Dave Stevenson 2020-05-04  79  		struct vc_sm_alloc_data alloc;
+5f041a24bca6d9 Dave Stevenson 2020-05-04  80  		struct vc_sm_imported import;
+5f041a24bca6d9 Dave Stevenson 2020-05-04  81  	};
+5f041a24bca6d9 Dave Stevenson 2020-05-04  82  };
+5f041a24bca6d9 Dave Stevenson 2020-05-04  83  
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
