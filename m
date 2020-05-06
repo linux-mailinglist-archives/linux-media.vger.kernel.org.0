@@ -2,158 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 739021C6F75
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 13:41:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC13F1C6FC2
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 13:59:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726558AbgEFLk7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 May 2020 07:40:59 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:46265 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725824AbgEFLk7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 May 2020 07:40:59 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id WIQ0jodhT8hmdWIQ3jCb57; Wed, 06 May 2020 13:40:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588765256; bh=bcAKEKV60SExJ8D6COhzkjBGSAQVfnSrdGSf3R6oGa8=;
-        h=From:Subject:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=eF7/KEOFJlBwvD6JnSvjQ8dKAIF0LGkFQTNAAoMHyDdBcFAOlbbRZEraAZDBIz1wm
-         ye7aUIYaFIRSXxN2Esw6471B6skvLDzLdnLEdosAq6uPMlcNf8XappTXECuAWgB8Z1
-         ZZgksSB1KSOLrm02El5VcFeEZum1tLNGTaXB8H4CqCIVZIO7uoNmPoZjvbsHSnBLfC
-         ImFydG6PC/HdUcK4cqLPwlhfR7BPmcgD0PfX4CLyKue3qOrS56f7v5f48aFSa+/onU
-         3gFom3UkkMYDzJ5ERmUOXxK+vm7VNdG//LOlhnHBpZZPFN+xcNhqDg3xSfEDNlxoFf
-         j9QmTEgJR0ilA==
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv2] media: vidioc-enum-fmt.rst: make the ENUM_FMT text clearer
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Maxime Jourdan <mjourdan@baylibre.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
-Message-ID: <e9daad9e-f481-93e7-c338-0f29105fc148@xs4all.nl>
-Date:   Wed, 6 May 2020 13:40:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727777AbgEFL7E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 May 2020 07:59:04 -0400
+Received: from gofer.mess.org ([88.97.38.141]:42517 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727067AbgEFL7E (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 May 2020 07:59:04 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 62A3CC6372; Wed,  6 May 2020 12:59:03 +0100 (BST)
+From:   Sean Young <sean@mess.org>
+To:     linux-media@vger.kernel.org
+Subject: [PATCH v4l-utils] ir-ctl: allow unmodulated signal to be sent
+Date:   Wed,  6 May 2020 12:59:03 +0100
+Message-Id: <20200506115903.17482-1-sean@mess.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJe/eznRf/qNoxVSFxgaTFT83zkzXtgCZ3lk9mv8k9j6lOHHKfYFXbNEV6DAXnRoPp4WG5V/kag/HAAq9UocvxnKn+3sFLlo9Nbd7x6QE4qIR/qbByAG
- PmVj3++uamw7dHwnNcK3JRW8c2D7DhOCtzkZrpqi2mq+uUHOSuOEsI9NQrCsnTnMl9JA2uMrZ/9dpfxYAIRctH3J692we1MObyroKWi/KMHXejHv1VIoqivv
- Cx6Pv3iS8z3HYP70QylJmQKQg5oYj1mQL9RN+oUhkMAxED5JWss2fV493eUNhL3MvjgqZ3bI1acFtCbxKboTpVdMOxqOFUXpvfBcTPqYJRZivRUv6Z1+1sgc
- 4nl3pdIIFj/s9ETnE/YfWxyTQspZECJWFfgD02Offvzz5aZFdcPAFPFniA8hen3EdsLWmW/eoZjDASeyyhYJ6fxHC1JPDM6evLJkkMKaABNC7oB8Cmk=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rework the documentation to make it easier for the reader to understand
-the differences in behavior of this ioctl between MC and non-MC drivers.
+Some drivers like gpio-ir-tx and mceusb allow unmodulated signal to be
+sent by setting the carrier to 0.
 
-Note the addition of the 'video-node-centric' and 'MC-centric' terms to
-help understand what the IO_MC capability really means.
+Likewise the timeout can be set to 0.
 
-Also mention in the beginning that mbus_code is one of the fields that
-application should initialize, and add META_OUTPUT as one of the types that
-this ioctl supports (that was never added here when the META_OUTPUT buffer
-type was added).
-
-Fixes: e5b6b07a1b45 ("media: v4l2: Extend VIDIOC_ENUM_FMT to support MC-centric devices")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Sean Young <sean@mess.org>
 ---
-Updated version from Mauro's patch. Reworked the numerated list a bit since it
-looked a bit odd in places. I think this version looks nice.
+ utils/ir-ctl/ir-ctl.c | 71 +++++++++++++++++++++++++++----------------
+ 1 file changed, 44 insertions(+), 27 deletions(-)
 
-Also mention in the beginning that mbus_code is one of the fields that
-application should initialize, and add META_OUTPUT as one of the types that
-this ioctl supports (that was never added here when the META_OUTPUT buffer
-type was added).
+diff --git a/utils/ir-ctl/ir-ctl.c b/utils/ir-ctl/ir-ctl.c
+index ba454619..abf3ccf6 100644
+--- a/utils/ir-ctl/ir-ctl.c
++++ b/utils/ir-ctl/ir-ctl.c
+@@ -59,6 +59,7 @@
+ /* See drivers/media/rc/lirc_dev.c line 22 */
+ #define LIRCBUF_SIZE 1024
+ #define IR_DEFAULT_TIMEOUT 125000
++#define UNSET UINT32_MAX
+ 
+ const char *argp_program_version = "IR ctl version " V4L_UTILS_VERSION;
+ const char *argp_program_bug_address = "Sean Young <sean@mess.org>";
+@@ -158,17 +159,18 @@ static const char doc[] = N_(
+ 	"Note that most lirc setting have global state, i.e. the device will remain\n"
+ 	"in this state until set otherwise.");
+ 
+-static int strtoint(const char *p, const char *unit)
++static bool strtoint(const char *p, const char *unit, unsigned *ret)
+ {
+ 	char *end;
+-	long arg = strtol(p, &end, 10);
++	long arg = strtoll(p, &end, 10);
+ 	if (end == NULL || (end[0] != 0 && strcasecmp(end, unit) != 0))
+-		return 0;
++		return false;
+ 
+-	if (arg <= 0 || arg >= 0xffffff)
+-		return 0;
++	if (arg < 0 || arg >= 0xffffff)
++		return false;
+ 
+-	return arg;
++	*ret = arg;
++	return true;
+ }
+ 
+ static bool strtoscancode(const char *p, unsigned *ret)
+@@ -221,7 +223,7 @@ static struct send *read_file_pulse_space(struct arguments *args, const char *fn
+ 	}
+ 	f->is_scancode = false;
+ 	f->is_keycode = false;
+-	f->carrier = 0;
++	f->carrier = UNSET;
+ 	f->fname = fname;
+ 
+ 	while (fgets(line, sizeof(line), input)) {
+@@ -300,8 +302,8 @@ static struct send *read_file_pulse_space(struct arguments *args, const char *fn
+ 			continue;
+ 		}
+ 
+-		int arg = strtoint(p, "");
+-		if (arg == 0) {
++		unsigned int arg;
++		if (!strtoint(p, "", &arg)) {
+ 			fprintf(stderr, _("warning: %s:%d: invalid argument '%s'\n"), fname, lineno, p);
+ 			continue;
+ 		}
+@@ -313,6 +315,10 @@ static struct send *read_file_pulse_space(struct arguments *args, const char *fn
+ 		}
+ 
+ 		if (strcmp(keyword, "space") == 0) {
++			if (arg == 0) {
++				fprintf(stderr, _("warning: %s:%d: invalid argument to space '%d'\n"), fname, lineno, arg);
++				continue;
++			}
+ 			if (expect_pulse) {
+ 				if (len == 0) {
+ 					fprintf(stderr, _("warning: %s:%d: leading space ignored\n"),
+@@ -326,13 +332,17 @@ static struct send *read_file_pulse_space(struct arguments *args, const char *fn
+ 			lastspace = lineno;
+ 			expect_pulse = true;
+ 		} else if (strcmp(keyword, "pulse") == 0) {
++			if (arg == 0) {
++				fprintf(stderr, _("warning: %s:%d: invalid argument to pulse '%d'\n"), fname, lineno, arg);
++				continue;
++			}
+ 			if (!expect_pulse)
+ 				f->buf[len-1] += arg;
+ 			else
+ 				f->buf[len++] = arg;
+ 			expect_pulse = false;
+ 		} else if (strcmp(keyword, "carrier") == 0) {
+-			if (f->carrier && f->carrier != arg) {
++			if (f->carrier != UNSET && f->carrier != arg) {
+ 				fprintf(stderr, _("warning: %s:%d: carrier already specified\n"), fname, lineno);
+ 			} else {
+ 				f->carrier = arg;
+@@ -383,7 +393,7 @@ static struct send *read_file_raw(struct arguments *args, const char *fname, FIL
+ 	}
+ 	f->is_scancode = false;
+ 	f->is_keycode = false;
+-	f->carrier = 0;
++	f->carrier = UNSET;
+ 	f->fname = fname;
+ 
+ 	while (fgets(line, sizeof(line), input)) {
+@@ -619,8 +629,7 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ 		break;
+ 	}
+ 	case 't':
+-		arguments->timeout = strtoint(arg, "µs");
+-		if (arguments->timeout == 0)
++		if (!strtoint(arg, "µs", &arguments->timeout))
+ 			argp_error(state, _("cannot parse timeout `%s'"), arg);
+ 		break;
+ 
+@@ -629,8 +638,7 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ 		arguments->device = arg;
+ 		break;
+ 	case 'c':
+-		arguments->carrier = strtoint(arg, "Hz");
+-		if (arguments->carrier == 0)
++		if (!strtoint(arg, "Hz", &arguments->carrier))
+ 			argp_error(state, _("cannot parse carrier `%s'"), arg);
+ 		break;
+ 	case 'e':
+@@ -639,13 +647,12 @@ static error_t parse_opt(int k, char *arg, struct argp_state *state)
+ 			argp_error(state, _("cannot parse emitters `%s'"), arg);
+ 		break;
+ 	case 'g':
+-		arguments->gap = strtoint(arg, "");
+-		if (arguments->gap == 0)
++		if (!strtoint(arg, "", &arguments->gap))
+ 			argp_error(state, _("cannot parse gap `%s'"), arg);
+ 		break;
+ 	case 'D':
+-		arguments->duty = strtoint(arg, "%");
+-		if (arguments->duty == 0 || arguments->duty >= 100)
++		if (!strtoint(arg, "%", &arguments->duty) ||
++		     arguments->duty == 0 || arguments->duty >= 100)
+ 			argp_error(state, _("invalid duty cycle `%s'"), arg);
+ 		break;
+ 	case 's':
+@@ -862,7 +869,7 @@ static int lirc_options(struct arguments *args, int fd, unsigned features)
+ 	const char *dev = args->device;
+ 	int rc;
+ 
+-	if (args->timeout) {
++	if (args->timeout != UNSET) {
+ 		if (features & LIRC_CAN_SET_REC_TIMEOUT) {
+ 			rc = ioctl(fd, LIRC_SET_REC_TIMEOUT, &args->timeout);
+ 			if (rc)
+@@ -910,7 +917,7 @@ static int lirc_options(struct arguments *args, int fd, unsigned features)
+ 			fprintf(stderr, _("%s: device does not support setting receiver carrier range\n"), dev);
+ 	}
+ 
+-	if (args->carrier)
++	if (args->carrier != UNSET)
+ 		lirc_set_send_carrier(fd, dev, features, args->carrier);
+ 
+ 	if (args->duty) {
+@@ -970,8 +977,12 @@ static void lirc_features(struct arguments *args, int fd, unsigned features)
+ 		// This ioctl is only supported from kernel 4.18 onwards
+ 		unsigned timeout;
+ 		int rc = ioctl(fd, LIRC_GET_REC_TIMEOUT, &timeout);
+-		if (rc == 0)
+-			printf(_(" - Receiving timeout %u microseconds\n"), timeout);
++		if (rc == 0) {
++			if (timeout == 0)
++				printf(_(" - Receiving timeout not set\n"));
++			else
++				printf(_(" - Receiving timeout %u microseconds\n"), timeout);
++		}
+ 
+ 		if (features & LIRC_CAN_SET_REC_TIMEOUT) {
+ 			unsigned min_timeout, max_timeout;
+@@ -1074,9 +1085,11 @@ static int lirc_send(struct arguments *args, int fd, unsigned features, struct s
+ 		f->carrier = protocol_carrier(proto);
+ 	}
+ 
+-	if (args->carrier && f->carrier)
+-		fprintf(stderr, _("warning: %s: carrier specified but overwritten on command line\n"), f->fname);
+-	else if (f->carrier && args->carrier == 0)
++	if (args->carrier != UNSET) {
++		if (f->carrier != UNSET)
++			fprintf(stderr, _("warning: carrier specified but overwritten on command line\n"));
++		lirc_set_send_carrier(fd, dev, features, args->carrier);
++	} else if (f->carrier != UNSET)
+ 		lirc_set_send_carrier(fd, dev, features, f->carrier);
+ 
+ 	size_t size = f->len * sizeof(unsigned);
+@@ -1220,7 +1233,11 @@ err:
+ 
+ int main(int argc, char *argv[])
+ {
+-	struct arguments args = { .gap = IR_DEFAULT_TIMEOUT };
++	struct arguments args = {
++		.gap = IR_DEFAULT_TIMEOUT,
++		.carrier = UNSET,
++		.timeout = UNSET,
++	};
+ 
+ #ifdef ENABLE_NLS
+         setlocale (LC_ALL, "");
+-- 
+2.26.2
 
-Finally changed 'video node centric' to 'video-node-centric', mostly because
-'centric' is a suffix and so should be written as 'foo-centric'. And
-'video node-centric' looks weird. But 'video-node-centric' and 'MC-centric'
-work well IMHO.
----
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-index 9694111772a2..82f3338d8f66 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-@@ -39,8 +39,8 @@ Arguments
- Description
- ===========
-
--To enumerate image formats applications initialize the ``type`` and
--``index`` field of struct :c:type:`v4l2_fmtdesc` and call
-+To enumerate image formats applications initialize the ``type``, ``mbus_code``
-+and ``index`` fields of struct :c:type:`v4l2_fmtdesc` and call
- the :ref:`VIDIOC_ENUM_FMT` ioctl with a pointer to this structure. Drivers
- fill the rest of the structure or return an ``EINVAL`` error code. All
- formats are enumerable by beginning at index zero and incrementing by
-@@ -48,21 +48,35 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
- formats in preference order, where preferred formats are returned before
- (that is, with lower ``index`` value) less-preferred formats.
-
--If the driver doesn't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
--<device-capabilities>`, applications shall initialize the ``mbus_code`` field
--to zero and drivers shall ignore the value of the field.  Drivers shall
--enumerate all image formats. The enumerated formats may depend on the active
--input or output of the device.
-+Depending on the ``V4L2_CAP_IO_MC`` :ref:`capability <device-capabilities>`,
-+the ``mbus_code`` field is handled differently:
-
--If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`capability
--<device-capabilities>`, applications may initialize the ``mbus_code`` field to
--a valid :ref:`media bus format code <v4l2-mbus-pixelcode>`. If the
--``mbus_code`` field is not zero, drivers shall restrict enumeration to only the
--image formats that can produce (for video output devices) or be produced from
--(for video capture devices) that media bus code.  Regardless of the value of
--the ``mbus_code`` field, the enumerated image formats shall not depend on the
--active configuration of the video device or device pipeline. Enumeration shall
--otherwise operate as previously described.
-+1) ``V4L2_CAP_IO_MC`` is not set (also known as a 'video-node-centric' driver)
-+
-+   Applications shall initialize the ``mbus_code`` field to zero and drivers
-+   shall ignore the value of the field.
-+
-+   Drivers shall enumerate all image formats.
-+
-+   .. note::
-+
-+      After switching the input or output the list of enumerated image
-+      formats may be different.
-+
-+2) ``V4L2_CAP_IO_MC`` is set (also known as an 'MC-centric' driver)
-+
-+   If the ``mbus_code`` field is zero, then all image formats
-+   shall be enumerated.
-+
-+   If the ``mbus_code`` field is initialized to a valid (non-zero)
-+   :ref:`media bus format code <v4l2-mbus-pixelcode>`, then drivers
-+   shall restrict enumeration to only the image formats that can produce
-+   (for video output devices) or be produced from (for video capture
-+   devices) that media bus code.
-+
-+   Regardless of the value of the ``mbus_code`` field, the enumerated image
-+   formats shall not depend on the active configuration of the video device
-+   or device pipeline.
-
-
- .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
-@@ -87,8 +101,9 @@ otherwise operate as previously described.
- 	``V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE``,
- 	``V4L2_BUF_TYPE_VIDEO_OVERLAY``,
- 	``V4L2_BUF_TYPE_SDR_CAPTURE``,
--	``V4L2_BUF_TYPE_SDR_OUTPUT`` and
--	``V4L2_BUF_TYPE_META_CAPTURE``.
-+	``V4L2_BUF_TYPE_SDR_OUTPUT``,
-+	``V4L2_BUF_TYPE_META_CAPTURE`` and
-+	``V4L2_BUF_TYPE_META_OUTPUT``.
- 	See :c:type:`v4l2_buf_type`.
-     * - __u32
-       - ``flags``
