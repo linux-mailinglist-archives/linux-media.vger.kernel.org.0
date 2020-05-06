@@ -2,136 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF9FF1C6F5A
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 13:30:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 739021C6F75
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 13:41:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727067AbgEFLas (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 May 2020 07:30:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50350 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725824AbgEFLar (ORCPT
+        id S1726558AbgEFLk7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 May 2020 07:40:59 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:46265 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725824AbgEFLk7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 May 2020 07:30:47 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65204C061A10
-        for <linux-media@vger.kernel.org>; Wed,  6 May 2020 04:30:47 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id z25so918381otq.13
-        for <linux-media@vger.kernel.org>; Wed, 06 May 2020 04:30:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=i/mnRlrL4hTk5ZWZZBpQB+A2vYhFKnlQEEPlCkWsPZE=;
-        b=ahVcX9y0875VtYAfqeLGE8/rEUacYR6cv0gOwEAGAK2TtEt3EZqIgzdUxj8+oqmEtg
-         x9e9VKyqjWNyJMH3BbsQqcIEjgMedce3ldo/d88jKQw534PPBjFG3b1ecntQ/L+MSrcl
-         ZSsO+EEouEiGHHSZtucCvwmF6m6HWcUfia96aiIq5kRGKvsJhToKu+3nBY4adWL1wQj9
-         Zgu3L2lTon+z/3KU5UDDwaKQWxILJ9o47N4Yzpd9MGuGXRq/E0gFe5pgMh3uEVm/hpkD
-         otLpeiuEMsLF4/Qq9XuYwSDdlDq6/9PsatWSJf8CRiWCWwW7t7ejcu+eVg5Gn6WRWeku
-         k3Iw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=i/mnRlrL4hTk5ZWZZBpQB+A2vYhFKnlQEEPlCkWsPZE=;
-        b=irZrJ+fMgnW5TrXmyWITWXrS+gZl1MW13wkfKSQSBiw2j/2gMo3YoPC+Qei7yQaNfH
-         H8kd0KV+2ddm1TIPGpq738/1gCNW5uRaUrn5khuwmOrryo6Yam0xmVYAyBmXyr6juTa8
-         SRkF7qXaEUCBTluFNyvTQSNghH6L4fs/Apa03/HoRZd8I3EEzM8/Rg5DAAaVyE5BDoen
-         AUEUzC356ULlAAQQBe23ehZ3+GDSONNyYiuQ1X6I6i2Q6YwHMz0raVVJ8FIBOjr+Bafg
-         vRQlCl9XURCnqiLl7DM/MnQaBUuTVFW0nCs1z8M2Wk2KkhiMcXpMF997UcKx8qbsdUEJ
-         Y3IQ==
-X-Gm-Message-State: AGi0PubqSvNyY77P6BjQrbQ6LLSI+U///vs994WJSf7fexPb0F6r1kbc
-        N1PAO7xpQJ6zV9x7cU2Q9JyM7WEwuvjQ+Jg748y5fg==
-X-Google-Smtp-Source: APiQypI10Opg1+VL0qGtAj9swPO65KogncWTx9LO8yV8j8xz4TIqaR59fBT2pvHi/zHAbFL61M3nNSKybpyU+5oO17k=
-X-Received: by 2002:a9d:7645:: with SMTP id o5mr5754004otl.272.1588764646808;
- Wed, 06 May 2020 04:30:46 -0700 (PDT)
+        Wed, 6 May 2020 07:40:59 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id WIQ0jodhT8hmdWIQ3jCb57; Wed, 06 May 2020 13:40:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1588765256; bh=bcAKEKV60SExJ8D6COhzkjBGSAQVfnSrdGSf3R6oGa8=;
+        h=From:Subject:To:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=eF7/KEOFJlBwvD6JnSvjQ8dKAIF0LGkFQTNAAoMHyDdBcFAOlbbRZEraAZDBIz1wm
+         ye7aUIYaFIRSXxN2Esw6471B6skvLDzLdnLEdosAq6uPMlcNf8XappTXECuAWgB8Z1
+         ZZgksSB1KSOLrm02El5VcFeEZum1tLNGTaXB8H4CqCIVZIO7uoNmPoZjvbsHSnBLfC
+         ImFydG6PC/HdUcK4cqLPwlhfR7BPmcgD0PfX4CLyKue3qOrS56f7v5f48aFSa+/onU
+         3gFom3UkkMYDzJ5ERmUOXxK+vm7VNdG//LOlhnHBpZZPFN+xcNhqDg3xSfEDNlxoFf
+         j9QmTEgJR0ilA==
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv2] media: vidioc-enum-fmt.rst: make the ENUM_FMT text clearer
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Maxime Jourdan <mjourdan@baylibre.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+Message-ID: <e9daad9e-f481-93e7-c338-0f29105fc148@xs4all.nl>
+Date:   Wed, 6 May 2020 13:40:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200505100129.104673-1-robert.foss@linaro.org>
- <20200505100129.104673-2-robert.foss@linaro.org> <20200505154913.GA17438@bogus>
-In-Reply-To: <20200505154913.GA17438@bogus>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Wed, 6 May 2020 13:30:35 +0200
-Message-ID: <CAG3jFytNwG0tZJnf-qCGEzY_cXucMDYxmCn8z4QW+EHrab8m_A@mail.gmail.com>
-Subject: Re: [PATCH v10 1/3] media: dt-bindings: ov8856: Document YAML bindings
-To:     Rob Herring <robh@kernel.org>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Maxime Ripard <maxime@cerno.tech>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, Ben Kao <ben.kao@intel.com>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJe/eznRf/qNoxVSFxgaTFT83zkzXtgCZ3lk9mv8k9j6lOHHKfYFXbNEV6DAXnRoPp4WG5V/kag/HAAq9UocvxnKn+3sFLlo9Nbd7x6QE4qIR/qbByAG
+ PmVj3++uamw7dHwnNcK3JRW8c2D7DhOCtzkZrpqi2mq+uUHOSuOEsI9NQrCsnTnMl9JA2uMrZ/9dpfxYAIRctH3J692we1MObyroKWi/KMHXejHv1VIoqivv
+ Cx6Pv3iS8z3HYP70QylJmQKQg5oYj1mQL9RN+oUhkMAxED5JWss2fV493eUNhL3MvjgqZ3bI1acFtCbxKboTpVdMOxqOFUXpvfBcTPqYJRZivRUv6Z1+1sgc
+ 4nl3pdIIFj/s9ETnE/YfWxyTQspZECJWFfgD02Offvzz5aZFdcPAFPFniA8hen3EdsLWmW/eoZjDASeyyhYJ6fxHC1JPDM6evLJkkMKaABNC7oB8Cmk=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks Rob!
+Rework the documentation to make it easier for the reader to understand
+the differences in behavior of this ioctl between MC and non-MC drivers.
 
-On Tue, 5 May 2020 at 17:49, Rob Herring <robh@kernel.org> wrote:
->
-> On Tue,  5 May 2020 12:01:29 +0200, Robert Foss wrote:
-> > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> >
-> > This patch adds documentation of device tree in YAML schema for the
-> > OV8856 CMOS image sensor.
-> >
-> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
-> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >
-> > - Changes since v9:
-> >   * Remove remote-endpoint property
-> >   * Marco: Make port property required again
-> >   * Sakari: Remove Ben as a maintainer
-> >   * Sakari: Replace data-lanes with const items
-> >   * Sakari: Remove clock-lanes property
-> >   * Sakari & Rob Herring: Change type of link-frequency
-> >     work around dt-schema bug
-> >
-> > - Changes since v8:
-> >   * Maxime: Added r-b
-> >
-> > - Changes since v7:
-> >   * Marco: Make 'port' property optional
-> >   * Maxime & Sakari: Add 'link-frequencies' property to dt binding
-> >   * robher: Improve description for 'port' property
-> >
-> > - Changes since v6:
-> >   * Marco: remove qcom specifics from DT example
-> >
-> > - Changes since v5:
-> >   * Add assigned-clocks and assigned-clock-rates
-> >   * robher: dt-schema errors
-> >
-> > - Changes since v4:
-> >   * Fabio: Change reset-gpio to GPIO_ACTIVE_LOW, explain in description
-> >   * Add clock-lanes property to example
-> >   * robher: Fix syntax error in devicetree example
-> >
-> > - Changes since v3:
-> >   * robher: Fix syntax error
-> >   * robher: Removed maxItems
-> >   * Fixes yaml 'make dt-binding-check' errors
-> >
-> > - Changes since v2:
-> >
-> > - Changes since v1:
-> >   Fixes comments from Sakari, Tomasz
-> >   * Add clock-frequency and link-frequencies in DT
-> >
-> >  .../devicetree/bindings/media/i2c/ov8856.yaml | 142 ++++++++++++++++++
-> >  MAINTAINERS                                   |   1 +
-> >  2 files changed, 143 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> >
->
-> Reviewed-by: Rob Herring <robh@kernel.org>
+Note the addition of the 'video-node-centric' and 'MC-centric' terms to
+help understand what the IO_MC capability really means.
+
+Also mention in the beginning that mbus_code is one of the fields that
+application should initialize, and add META_OUTPUT as one of the types that
+this ioctl supports (that was never added here when the META_OUTPUT buffer
+type was added).
+
+Fixes: e5b6b07a1b45 ("media: v4l2: Extend VIDIOC_ENUM_FMT to support MC-centric devices")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+Updated version from Mauro's patch. Reworked the numerated list a bit since it
+looked a bit odd in places. I think this version looks nice.
+
+Also mention in the beginning that mbus_code is one of the fields that
+application should initialize, and add META_OUTPUT as one of the types that
+this ioctl supports (that was never added here when the META_OUTPUT buffer
+type was added).
+
+Finally changed 'video node centric' to 'video-node-centric', mostly because
+'centric' is a suffix and so should be written as 'foo-centric'. And
+'video node-centric' looks weird. But 'video-node-centric' and 'MC-centric'
+work well IMHO.
+---
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+index 9694111772a2..82f3338d8f66 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
+@@ -39,8 +39,8 @@ Arguments
+ Description
+ ===========
+
+-To enumerate image formats applications initialize the ``type`` and
+-``index`` field of struct :c:type:`v4l2_fmtdesc` and call
++To enumerate image formats applications initialize the ``type``, ``mbus_code``
++and ``index`` fields of struct :c:type:`v4l2_fmtdesc` and call
+ the :ref:`VIDIOC_ENUM_FMT` ioctl with a pointer to this structure. Drivers
+ fill the rest of the structure or return an ``EINVAL`` error code. All
+ formats are enumerable by beginning at index zero and incrementing by
+@@ -48,21 +48,35 @@ one until ``EINVAL`` is returned. If applicable, drivers shall return
+ formats in preference order, where preferred formats are returned before
+ (that is, with lower ``index`` value) less-preferred formats.
+
+-If the driver doesn't advertise the ``V4L2_CAP_IO_MC`` :ref:`capability
+-<device-capabilities>`, applications shall initialize the ``mbus_code`` field
+-to zero and drivers shall ignore the value of the field.  Drivers shall
+-enumerate all image formats. The enumerated formats may depend on the active
+-input or output of the device.
++Depending on the ``V4L2_CAP_IO_MC`` :ref:`capability <device-capabilities>`,
++the ``mbus_code`` field is handled differently:
+
+-If the driver advertises the ``V4L2_CAP_IO_MC`` :ref:`capability
+-<device-capabilities>`, applications may initialize the ``mbus_code`` field to
+-a valid :ref:`media bus format code <v4l2-mbus-pixelcode>`. If the
+-``mbus_code`` field is not zero, drivers shall restrict enumeration to only the
+-image formats that can produce (for video output devices) or be produced from
+-(for video capture devices) that media bus code.  Regardless of the value of
+-the ``mbus_code`` field, the enumerated image formats shall not depend on the
+-active configuration of the video device or device pipeline. Enumeration shall
+-otherwise operate as previously described.
++1) ``V4L2_CAP_IO_MC`` is not set (also known as a 'video-node-centric' driver)
++
++   Applications shall initialize the ``mbus_code`` field to zero and drivers
++   shall ignore the value of the field.
++
++   Drivers shall enumerate all image formats.
++
++   .. note::
++
++      After switching the input or output the list of enumerated image
++      formats may be different.
++
++2) ``V4L2_CAP_IO_MC`` is set (also known as an 'MC-centric' driver)
++
++   If the ``mbus_code`` field is zero, then all image formats
++   shall be enumerated.
++
++   If the ``mbus_code`` field is initialized to a valid (non-zero)
++   :ref:`media bus format code <v4l2-mbus-pixelcode>`, then drivers
++   shall restrict enumeration to only the image formats that can produce
++   (for video output devices) or be produced from (for video capture
++   devices) that media bus code.
++
++   Regardless of the value of the ``mbus_code`` field, the enumerated image
++   formats shall not depend on the active configuration of the video device
++   or device pipeline.
+
+
+ .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
+@@ -87,8 +101,9 @@ otherwise operate as previously described.
+ 	``V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE``,
+ 	``V4L2_BUF_TYPE_VIDEO_OVERLAY``,
+ 	``V4L2_BUF_TYPE_SDR_CAPTURE``,
+-	``V4L2_BUF_TYPE_SDR_OUTPUT`` and
+-	``V4L2_BUF_TYPE_META_CAPTURE``.
++	``V4L2_BUF_TYPE_SDR_OUTPUT``,
++	``V4L2_BUF_TYPE_META_CAPTURE`` and
++	``V4L2_BUF_TYPE_META_OUTPUT``.
+ 	See :c:type:`v4l2_buf_type`.
+     * - __u32
+       - ``flags``
