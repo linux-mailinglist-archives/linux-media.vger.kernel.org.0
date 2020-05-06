@@ -2,59 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80CCD1C6F56
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 13:30:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF9FF1C6F5A
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 13:30:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726797AbgEFL3z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 May 2020 07:29:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50204 "EHLO
+        id S1727067AbgEFLas (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 May 2020 07:30:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725985AbgEFL3z (ORCPT
+        by vger.kernel.org with ESMTP id S1725824AbgEFLar (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 May 2020 07:29:55 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E05C061A10
-        for <linux-media@vger.kernel.org>; Wed,  6 May 2020 04:29:54 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id k110so1044403otc.2
-        for <linux-media@vger.kernel.org>; Wed, 06 May 2020 04:29:54 -0700 (PDT)
+        Wed, 6 May 2020 07:30:47 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65204C061A10
+        for <linux-media@vger.kernel.org>; Wed,  6 May 2020 04:30:47 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id z25so918381otq.13
+        for <linux-media@vger.kernel.org>; Wed, 06 May 2020 04:30:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=YSDapmMgNKW5r9KuP6TQNUmeTHZRb0J/HB9oD2+E5xY=;
-        b=MQZj6pwlg0yTJaS9PRfkaH5gydyswEKWshRAcYFNNiG+FnRWt+d1I5K+uVTmAAh6HT
-         uXDVK4EkwfhhFGpXOVRFBr1NJr8TwYUCRbww/eS8XKxDtm1eZ6fwKDQ4g1pvmlVy9CsY
-         JDSEhZHdbN51G+MpZpuJ3qgO8THgeAxp77Z8yobpcfWhM/hizRI3Hb9YMwNjgnnnG9EH
-         Ub6+n9Z7C9s9R/28/KrUcz6wsGEqhC0XTR/9pnaw5Hx2WYNAPK7mJ/dGiQTelDJ556jZ
-         TkkKn5c5ntKQOC8jgFODOJjMAUEycj4khQ5qkYBju0gESsUmgv6fSO4Wa40Yjw/Twc+7
-         G70Q==
+        bh=i/mnRlrL4hTk5ZWZZBpQB+A2vYhFKnlQEEPlCkWsPZE=;
+        b=ahVcX9y0875VtYAfqeLGE8/rEUacYR6cv0gOwEAGAK2TtEt3EZqIgzdUxj8+oqmEtg
+         x9e9VKyqjWNyJMH3BbsQqcIEjgMedce3ldo/d88jKQw534PPBjFG3b1ecntQ/L+MSrcl
+         ZSsO+EEouEiGHHSZtucCvwmF6m6HWcUfia96aiIq5kRGKvsJhToKu+3nBY4adWL1wQj9
+         Zgu3L2lTon+z/3KU5UDDwaKQWxILJ9o47N4Yzpd9MGuGXRq/E0gFe5pgMh3uEVm/hpkD
+         otLpeiuEMsLF4/Qq9XuYwSDdlDq6/9PsatWSJf8CRiWCWwW7t7ejcu+eVg5Gn6WRWeku
+         k3Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YSDapmMgNKW5r9KuP6TQNUmeTHZRb0J/HB9oD2+E5xY=;
-        b=rEwtns97u6dzfseIKOYg5Xg8FbF1SZmIwctBT1FugEAeeeOHDt0WbPZDFOoeky3Obf
-         neepdabuj1tcyNzKLvIelhb0263zHqhurqdvdokJi98hyZBtY/XpzEU2T21r8DBNuxIw
-         IkQCaa3p0R/25qegmp519O5s8MTvbNX60TMA/qPpquqGXi9/e+aDsCAFXDsD1l/QicF8
-         SZb1a0jwBvSNWHOJUlt+CP8F/0zBEU8fbGHsLeEVDxjiK11O2MSM9L2TGXC1IJIGmaY4
-         ALx0HZwCET8Ndo/Xzih0hLAUVGr7xjVM3yJF/G5AJFPTCIarD2qoXRuk+zjdmTZ1etub
-         cfOA==
-X-Gm-Message-State: AGi0PuZPp0gAWFsNoy1+Y6efIkodWhmUEIhaxmKBNKkKU5JILmUSzfgs
-        F66kaae9uDS67QVsHSN0v+M4J3kV4DP1JXdZlFTnJg==
-X-Google-Smtp-Source: APiQypIGS3Olnt59XIqgX3m5pyxz9JgUlFMHAZAqicbZYG6FQMcwoTgHPVTzSA29qFYkRFUig7c8zx837fnoQ2EYvdI=
-X-Received: by 2002:a05:6830:1e4e:: with SMTP id e14mr5760377otj.91.1588764594274;
- Wed, 06 May 2020 04:29:54 -0700 (PDT)
+        bh=i/mnRlrL4hTk5ZWZZBpQB+A2vYhFKnlQEEPlCkWsPZE=;
+        b=irZrJ+fMgnW5TrXmyWITWXrS+gZl1MW13wkfKSQSBiw2j/2gMo3YoPC+Qei7yQaNfH
+         H8kd0KV+2ddm1TIPGpq738/1gCNW5uRaUrn5khuwmOrryo6Yam0xmVYAyBmXyr6juTa8
+         SRkF7qXaEUCBTluFNyvTQSNghH6L4fs/Apa03/HoRZd8I3EEzM8/Rg5DAAaVyE5BDoen
+         AUEUzC356ULlAAQQBe23ehZ3+GDSONNyYiuQ1X6I6i2Q6YwHMz0raVVJ8FIBOjr+Bafg
+         vRQlCl9XURCnqiLl7DM/MnQaBUuTVFW0nCs1z8M2Wk2KkhiMcXpMF997UcKx8qbsdUEJ
+         Y3IQ==
+X-Gm-Message-State: AGi0PubqSvNyY77P6BjQrbQ6LLSI+U///vs994WJSf7fexPb0F6r1kbc
+        N1PAO7xpQJ6zV9x7cU2Q9JyM7WEwuvjQ+Jg748y5fg==
+X-Google-Smtp-Source: APiQypI10Opg1+VL0qGtAj9swPO65KogncWTx9LO8yV8j8xz4TIqaR59fBT2pvHi/zHAbFL61M3nNSKybpyU+5oO17k=
+X-Received: by 2002:a9d:7645:: with SMTP id o5mr5754004otl.272.1588764646808;
+ Wed, 06 May 2020 04:30:46 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200505100129.104673-1-robert.foss@linaro.org>
- <20200505100129.104673-2-robert.foss@linaro.org> <1588679279.8804.133.camel@mhfsdcap03>
-In-Reply-To: <1588679279.8804.133.camel@mhfsdcap03>
+ <20200505100129.104673-2-robert.foss@linaro.org> <20200505154913.GA17438@bogus>
+In-Reply-To: <20200505154913.GA17438@bogus>
 From:   Robert Foss <robert.foss@linaro.org>
-Date:   Wed, 6 May 2020 13:29:43 +0200
-Message-ID: <CAG3jFyvo3gmO3zLRUKQEdgRkmzvvvMTzDKV-LZAeKYFdOfCnEw@mail.gmail.com>
+Date:   Wed, 6 May 2020 13:30:35 +0200
+Message-ID: <CAG3jFytNwG0tZJnf-qCGEzY_cXucMDYxmCn8z4QW+EHrab8m_A@mail.gmail.com>
 Subject: Re: [PATCH v10 1/3] media: dt-bindings: ov8856: Document YAML bindings
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+To:     Rob Herring <robh@kernel.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sakari Ailus <sakari.ailus@iki.fi>,
         Marco Felsch <m.felsch@pengutronix.de>,
         Maxime Ripard <maxime@cerno.tech>,
@@ -64,109 +63,75 @@ Cc:     Tomasz Figa <tfiga@chromium.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
         <linux-arm-kernel@lists.infradead.org>,
-        Fabio Estevam <festevam@gmail.com>,
-        Ben Kao <ben.kao@intel.com>, Maxime Ripard <mripard@kernel.org>
+        Maxime Ripard <mripard@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, Ben Kao <ben.kao@intel.com>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Fabio Estevam <festevam@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Dongchun,
+Thanks Rob!
 
-Thanks for having a look at this series.
-
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    i2c {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        ov8856: camera@10 {
-> > +            compatible = "ovti,ov8856";
-> > +            reg = <0x10>;
-> > +
-> > +            reset-gpios = <&pio 111 GPIO_ACTIVE_LOW>;
+On Tue, 5 May 2020 at 17:49, Rob Herring <robh@kernel.org> wrote:
 >
-> Apologies for missing to follow the earlier discussion related to this.
-> I noticed the GPIO flag para and __ov8856_power_on() are aligned using
-> ACTIVE_LOW.
->
-> But from the datasheet, XSHUTDN pin is active-high for OV8856.
-> It means devm_gpiod_get API (in probe func) should use GPIOD_OUT_LOW to
-> initialize the GPIO as output with a value of 0.
-> Otherwise it should use GPIOD_OUT_HIGH.
->
-> There is one case for GPIO_ACTIVE_LOW setting:
-> https://patchwork.linuxtv.org/patch/63460/
-> https://patchwork.linuxtv.org/patch/63461/
-
-We went back and forth about this a few times, and I switched to this
-gpio setting after having worked through the device probing reset gpio
-toggling. Semantically it seemed easier to understand in the driver,
-since the gpio is called reset and not !shutdown.
-
-Looking into devm_gpiod_get_optional(), the flag argument
-GPIOD_OUT_LOW or HIGH for that matter is actually not used initialize
-the output, but only used for an exclusivity check.
-https://elixir.bootlin.com/linux/latest/source/drivers/gpio/gpiolib-devres.c#L109
-
-If you prefer, I can invert the logic again. To me making the reset
-gpio active resulting in the device being actually reset seems like
-the most intuitive and easy to understand option.
-The different OmniVision drivers seem to have different approaches to
-this. The ov9640 driver for example is doing what this series
-currently is doing.
-
->
-> Sakari, Tomasz, am I right?
->
-> > +            pinctrl-names = "default";
-> > +            pinctrl-0 = <&clk_24m_cam>;
-> > +
-> > +            clocks = <&cam_osc>;
-> > +            clock-names = "xvclk";
-> > +            clock-frequency = <19200000>;
-> > +
-> > +            avdd-supply = <&mt6358_vcama2_reg>;
-> > +            dvdd-supply = <&mt6358_vcamd_reg>;
-> > +            dovdd-supply = <&mt6358_vcamio_reg>;
-> > +
-> > +            port {
-> > +                wcam_out: endpoint {
-> > +                    remote-endpoint = <&mipi_in_wcam>;
-> > +                    data-lanes = <1 2 3 4>;
-> > +                    link-frequencies = /bits/ 64 <360000000>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +...
-> > \ No newline at end of file
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 26f281d9f32a..84b262afd13d 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -12489,6 +12489,7 @@ L:    linux-media@vger.kernel.org
-> >  S:   Maintained
-> >  T:   git git://linuxtv.org/media_tree.git
-> >  F:   drivers/media/i2c/ov8856.c
-> > +F:   Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> On Tue,  5 May 2020 12:01:29 +0200, Robert Foss wrote:
+> > From: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> >
+> > This patch adds documentation of device tree in YAML schema for the
+> > OV8856 CMOS image sensor.
+> >
+> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> > Reviewed-by: Maxime Ripard <mripard@kernel.org>
+> > ---
+> >
+> > - Changes since v9:
+> >   * Remove remote-endpoint property
+> >   * Marco: Make port property required again
+> >   * Sakari: Remove Ben as a maintainer
+> >   * Sakari: Replace data-lanes with const items
+> >   * Sakari: Remove clock-lanes property
+> >   * Sakari & Rob Herring: Change type of link-frequency
+> >     work around dt-schema bug
+> >
+> > - Changes since v8:
+> >   * Maxime: Added r-b
+> >
+> > - Changes since v7:
+> >   * Marco: Make 'port' property optional
+> >   * Maxime & Sakari: Add 'link-frequencies' property to dt binding
+> >   * robher: Improve description for 'port' property
+> >
+> > - Changes since v6:
+> >   * Marco: remove qcom specifics from DT example
+> >
+> > - Changes since v5:
+> >   * Add assigned-clocks and assigned-clock-rates
+> >   * robher: dt-schema errors
+> >
+> > - Changes since v4:
+> >   * Fabio: Change reset-gpio to GPIO_ACTIVE_LOW, explain in description
+> >   * Add clock-lanes property to example
+> >   * robher: Fix syntax error in devicetree example
+> >
+> > - Changes since v3:
+> >   * robher: Fix syntax error
+> >   * robher: Removed maxItems
+> >   * Fixes yaml 'make dt-binding-check' errors
+> >
+> > - Changes since v2:
+> >
+> > - Changes since v1:
+> >   Fixes comments from Sakari, Tomasz
+> >   * Add clock-frequency and link-frequencies in DT
+> >
+> >  .../devicetree/bindings/media/i2c/ov8856.yaml | 142 ++++++++++++++++++
+> >  MAINTAINERS                                   |   1 +
+> >  2 files changed, 143 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
 > >
 >
-> Had you run parse-maintainers.pl?
-> The new item is supposed to be arranged in alphabetical order.
-
-No, I have not. But upon running it now, it doesn't make suggest any
-changes. But let me order the files manually in the next revision.
-
-However, I noticed I removed the wrong person from the maintainers
-file in this revision.
-So, I'll correct that and add you Dongchun as the maintainer if that's ok.
-
->
-> >  OMNIVISION OV9640 SENSOR DRIVER
-> >  M:   Petr Cvek <petrcvekcz@gmail.com>
->
+> Reviewed-by: Rob Herring <robh@kernel.org>
