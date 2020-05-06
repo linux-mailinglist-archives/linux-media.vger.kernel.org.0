@@ -2,245 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7BBC1C6EA9
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 12:44:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EFD271C6EE9
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 13:07:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725985AbgEFKoS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 May 2020 06:44:18 -0400
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:48849 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725796AbgEFKoS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 May 2020 06:44:18 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 0778840009;
-        Wed,  6 May 2020 10:44:11 +0000 (UTC)
-Date:   Wed, 6 May 2020 12:47:23 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tfiga@google.com, pavel@ucw.cz,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>, libcamera-devel@lists.libcamera.org
-Subject: Re: [PATCH v9 02/11] media: v4l2-ctrl: Document
- V4L2_CID_CAMERA_SENSOR_LOCATION
-Message-ID: <20200506104723.l3wojjyefvazohpd@uno.localdomain>
-References: <20200417124110.72313-1-jacopo@jmondi.org>
- <20200417124110.72313-3-jacopo@jmondi.org>
- <20200505140206.589f54ae@coco.lan>
- <a5d77790-5f98-650e-cfb9-a97b8701454d@xs4all.nl>
+        id S1727918AbgEFLH0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 May 2020 07:07:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:54584 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727102AbgEFLHZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 May 2020 07:07:25 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A715D2068E;
+        Wed,  6 May 2020 11:07:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588763245;
+        bh=uKEKqSAFW/aYJ2Fu+oNP2OG3gCFuq6s+Y3wl5j44KCE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uWC3u5WjG91H2+dc4Bkf6aVXMcIZ0cAuEkHSQiBXupiDku785TgQK/8AchuZvCRSG
+         oLTZkJjYLiUNP+XKf6tsDH+yQkf+MqTseD2H85JSofiEwG1AEPIj9Uzs5ZCZ7I9PjY
+         /4W33vNyBVdBAqI3MwKPvoAUUXXrOumzYHYytn28=
+Date:   Wed, 6 May 2020 13:07:22 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jia-Ju Bai <baijiaju1990@gmail.com>
+Cc:     mchehab@kernel.org, kstewart@linuxfoundation.org,
+        tomasbortoli@gmail.com, sean@mess.org, allison@lohutok.net,
+        tglx@linutronix.de, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: usb: ttusb-dec: avoid buffer overflow in
+ ttusb_dec_handle_irq() when DMA failures/attacks occur
+Message-ID: <20200506110722.GA2975410@kroah.com>
+References: <20200505142110.7620-1-baijiaju1990@gmail.com>
+ <20200505181042.GD1199718@kroah.com>
+ <0e4a86ee-8c4e-4ac3-8499-4e9a6ed7bd1e@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a5d77790-5f98-650e-cfb9-a97b8701454d@xs4all.nl>
+In-Reply-To: <0e4a86ee-8c4e-4ac3-8499-4e9a6ed7bd1e@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Wed, May 06, 2020 at 06:13:01PM +0800, Jia-Ju Bai wrote:
+> Hi Greg,
+> 
+> Thanks for the reply :)
+> 
+> On 2020/5/6 2:10, Greg KH wrote:
+> > On Tue, May 05, 2020 at 10:21:10PM +0800, Jia-Ju Bai wrote:
+> > > In this case, "buffer[4] - 1 < ARRAY_SIZE(rc_keys)"
+> > > can be first satisfied, and then the value of buffer[4] can be changed
+> > > to a large number, causing a buffer-overflow vulnerability.
+> > Um, maybe.  I agree testing and then using the value can cause problems
+> > when userspace provides you with that data and control, but for
+> > DMA-backed memory, we are in so much other trouble if that is the case.
+> > 
+> > > To avoid the risk of this vulnerability, buffer[4] is assigned to a
+> > > non-DMA local variable "index" at the beginning of
+> > > ttusb_dec_handle_irq(), and then this variable replaces each use of
+> > > buffer[4] in the function.
+> > I strongly doubt this is even possible.  Can you describe how you can
+> > modify DMA memory and if so, would you do something tiny like this?
+> > 
+> 
+> I have never modified DMA memory in the real world, but an attacker can use
+> a malicious device to do this.
+> There is a video that shows how to use the Inception tool to perform DMA
+> attacks and login in the Windows OS without password:
+> https://www.youtube.com/watch?v=HDhpy7RpUjM
 
-On Tue, May 05, 2020 at 02:21:38PM +0200, Hans Verkuil wrote:
-> On 05/05/2020 14:02, Mauro Carvalho Chehab wrote:
-> > Em Fri, 17 Apr 2020 14:41:01 +0200
-> > Jacopo Mondi <jacopo@jmondi.org> escreveu:
-> >
-> >> Add documentation for the V4L2_CID_CAMERA_SENSOR_LOCATION camera
-> >> control. The newly added read-only control reports the camera device
-> >> mounting position.
-> >>
-> >> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> >> ---
-> >>  .../media/v4l/ext-ctrls-camera.rst            | 32 +++++++++++++++++++
-> >>  1 file changed, 32 insertions(+)
-> >>
-> >> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> >> index e39f84d2447f..01a9042d53a6 100644
-> >> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> >> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
-> >> @@ -510,6 +510,38 @@ enum v4l2_scene_mode -
-> >>      value down. A value of zero stops the motion if one is in progress
-> >>      and has no effect otherwise.
-> >>
-> >> +``V4L2_CID_CAMERA_SENSOR_LOCATION (integer)``
-> >> +    This read-only control describes the camera sensor location by reporting
-> >> +    its mounting position on the device where the camera is installed. The
-> >> +    control value is constant and not modifiable by software. This control is
-> >> +    particularly meaningful for devices which have a well defined orientation,
-> >> +    such as phones, laptops and portable devices since the camera location is
-> >> +    expressed as a position relative to the device's intended usage orientation.
-> >> +    For example, a camera sensor installed on the user-facing side of a phone,
-> >> +    a tablet or a laptop device is said to be installed in the
-> >> +    ``V4L2_LOCATION_FRONT`` location while camera sensors installed on the side
-> >> +    opposite the front one are said to be installed in the
-> >> +    ``V4L2_LOCATION_BACK`` location. Camera sensors not directly attached to
-> >> +    the device or attached in a way that allows them to move freely, such as
-> >> +    webcams and digital cameras, are said to have the ``V4L2_LOCATION_EXTERNAL``
-> >> +    location.
-> >> +
-> >> +
-> >> +
-> >> +.. flat-table::
-> >> +    :header-rows:  0
-> >> +    :stub-columns: 0
-> >> +
-> >> +    * - ``
-> > ``
-> >> +      - The camera sensor is located on the front side of the device.
-> >> +    * - ``V4L2_LOCATION_BACK``
-> >> +      - The camera sensor is located on the back side of the device.
-> >> +    * - ``V4L2_LOCATION_EXTERNAL``
-> >> +      - The camera sensor is not directly attached to the device and is
-> >> +        freely movable.
-> >
-> > I guess I mentioned this already, but IMHO this ioctl is somewhat flawed,
-> > for two reasons:
-> >
-> > 1) newer devices may all top of the line mobile devices now are coming
-> >    with multiple camera sensors at the same side. So, just saying that
-> >    the location is front or back is not enough. A location syscall would
-> >    need have something more to better identify the location.
-> >    It probably doesn't need to be something fancy, but, at least, on a
-> >    device with 3 back sensors, I would call them as:
-> >
-> > 	V4L2_LOCATION_BACK_1
-> > 	V4L2_LOCATION_BACK_2
-> > 	V4L2_LOCATION_BACK_3
-> >
-> >    And add some comment at the control documentation that would allow to
-> >    uniquely number the other ones, like:
-> >
-> > 	"when multiple sensors are present at the same side, sensors
-> > 	 will be numbered considering the ``(x,y)`` coordinates of the center
-> > 	 of each sensor, starting from the topmost, leftmost position.
-> >
-> > 	 She first sensor will be the topmost sensor column at the leftmost
-> > 	 side. The other sensors that will have the same ``y`` coordinate,
-> > 	 counting from the left to the right, then increment the ``y`` and
-> > 	 parse the next column again until all sensors are numbered."
->
-> I think this isn't a good idea. In most cases you do not care about this.
->
-> And if you do care about this, then wouldn't it be better to do that through
-> a new control where you provide the precise coordinates in e.g. mm?
->
-> BACK_1/2/3 really doesn't tell you anything other than that there are three
-> sensors on the back, but we knew that already.
->
-> If we need support for the precise location in the future, then let's do that
-> right and not try to shoehorn into something that wasn't meant for it.
+If you have control over the hardware, and can write to any DMA memory,
+again, there's almost nothing a kernel can do to protect from that.
 
-I think the best move forward to describe movable cameras and such
-would be to provide a 3D rotation matrix, along the lines of what iio
-has in the 'mount-matrix' property as suggested by Rob and Laurent in
-the review of the series.
+> Besides, the Windows OS resists against DMA attacks by disabling DMA of
+> external devices by default:
+> http://support.microsoft.com/kb/2516445
 
-Before going the 'easy' way with this proeprty that just allow to
-enumerate fixed locations I considered the idea, but we're still
-missing a unique definition for the device usage orientation that the
-rotation matrix would be defined for.
+So does Linux :)
 
-This property implements a mechanism that covers most of devices out
-there and all devices in mainline. The properties defined here are the
-most basic ones, and could be combined and expanded to provide more
-precise definition is someone needs to do so (expecially downstream),
-but the important part is that the mechanism to retrieve the
-information is in place.
+> Considering that this patch is for a USB media driver, I think that an
+> attacker can just insert a malicious USB device to modify DMA memory and
+> trigger this bug.
 
->
-> >
-> > 2) There are also some devices that has a movable sensor, that can either
-> >    be taking a picture from the front or from the back, like those:
-> >
-> > 	https://www.youtube.com/watch?v=br6G7MrkRUc
-> >
-> >    On such case, the control should not be read-only, as one may need to
-> >    change this control in order to select if a sensor would either be on
-> >    FRONT or on BACK position.
-> >
-> >    For such kind of sensors (when we start supporting them), we could
-> >    for example call them like:
-> >
-> > 	V4L2_LOCATION_MOVABLE_IN_BACK_POSITION_1
-> > 	V4L2_LOCATION_MOVABLE_IN_BACK_POSITION_2
-> > 	V4L2_LOCATION_MOVABLE_IN_FRONT_POSITION_1
-> > 	V4L2_LOCATION_MOVABLE_IN_FRONT_POSITION_2
->
-> I don't like this. If the driver can tell when the position changes, then it
-> can update the control's value (it's still read-only because userspace
-> can't write to it, but that doesn't mean it can't be updated). So there is
+USB devices do not touch DMA memory so they physically can not do things
+like what thunderbolt devices can do.
 
-Yes, the control is read-only as userspace cannot modify it, but
-drivers could update it after having gathered its value from firmware.
+> Besides, not related to this patch, some drivers use DMA to send/receive
+> data (such as the URB used in USB drivers and ring descriptors used in
+> network drivers). In this case, if the data is malicious and used as an
+> array index through DMA, security problems may occur.
+> 
+> In my opinion, similar to the data from userspace, the data from hardware
+> may be also malicious and should be checked.
+> 
+> Maybe we could discuss this issue with DMA driver developers?
 
-> no need to call it 'MOVABLE', you just report the correct location. And with
-> QUERYMENU you can tell that it is movable since multiple possible locations
-> are reported (BACK and FRONT in this example). If it is fixed, then QUERYMENU
-> will report only a single location.
->
-> This might have some consequences for the DT bindings, though. Not sure
-> how to represent this there.
->
-> If the driver cannot tell what the position is, then it makes no sense for
-> the driver to expose this location control since it clearly is something that
-> has to be hardcoded in userspace. I.e., there is no point for userspace to
-> write to the control and then read back what it wrote :-)
->
-> So I disagree that there is a need for FIXED vs MOVABLE, this can be
-> represented nicely with the current proposal.
+Sure, but I think that's outside the scope of this tiny patch :)
 
-Just to add that enumerating several BACK_x (or FRONT_x) location
-would not help at all userspace, which should be again capable of
-recognizing what '_x' conveys.
+thanks,
 
-What userspace could be interested in is something like "find
-all BACK cameras" then "use the one with the highest resolution". The
-here presented property allows filtering cameras in the system, but
-should not try to uniquely identify them, as userspace would most
-likely combine several filtering criteria to get to the "right" camera.
-
-Thanks
-   j
-
->
-> Regards,
->
-> 	Hans
->
-> >
-> >    And add rename the other definitions to:
-> >
-> > 	V4L2_LOCATION_FIXED_FRONT_1
-> > 	V4L2_LOCATION_FIXED_BACK_1
-> >
-> > Ok, nobody has yet attempted to upstream code for such devices,
-> > so, we, for now, we don't need to add more than those 3 types.
-> >
-> > But, IMO, we would change the sensors description in a way that it
-> > would be easier to add support for more than one sensor per location
-> > in the future, like:
-> >
-> > 	* - ``V4L2_LOCATION_FIXED_FRONT_1``
-> >           - The camera sensor is fixed, being the first sensor
-> > 	    located on the front side of the device.
-> > 	* - ``V4L2_LOCATION_FIXED_BACK_1``
-> > 	  - The camera sensor is fixed, being the first sensor
-> > 	    located on the back side of the device.
-> > 	* - ``V4L2_LOCATION_EXTERNAL``
-> >           - The camera sensor is not directly attached to the device
-> > 	    and is freely movable.
-> >
-> > 	.. note:: Please submit a patch upstream if you need to have
-> > 		  more than one sensor either at front or back position.
-> >
-> > This would make a lot easier when someone upstream patches requiring
-> > to locate more than one sensor location, or to support flipping
-> > sensors.
-> >
-> > Thanks,
-> > Mauro
-> >
->
+greg k-h
