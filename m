@@ -2,93 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D611B1C6C03
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 10:41:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94AAE1C6C4C
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 10:59:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728943AbgEFIlg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 May 2020 04:41:36 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:22122 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728475AbgEFIlf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 May 2020 04:41:35 -0400
-X-UUID: ff5e5475aeeb4475820515b1c4f681d3-20200506
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=9mo0KK2pekNHH+R5fI35YInu1I3bC2TpqDtV05+qjyA=;
-        b=ILC/ja6Azn9CQqyqsAd169EqGNjlBu1Wl8iEYYbJ/YD6VJt5ciz2Hgyvlq5hHy3PyrcTC/VRdEt3uYZm0VlfJ1k9E5SBRHUtHESH4U9bPPbBPOw5rJLVTxMeHetDp+gWEdDPhEGkSFDpnv7iBSehmSPy0xf428LYeHO2hATnk74=;
-X-UUID: ff5e5475aeeb4475820515b1c4f681d3-20200506
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw01.mediatek.com
-        (envelope-from <jerry-ch.chen@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 1282518738; Wed, 06 May 2020 16:41:28 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Wed, 6 May 2020 16:41:26 +0800
-Received: from [172.21.84.99] (172.21.84.99) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 6 May 2020 16:41:26 +0800
-Message-ID: <1588754487.16825.5.camel@mtksdccf07>
-Subject: Re: [RFC PATCH V4 2/4] dt-bindings: mt8183: Added FD dt-bindings
-From:   Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
-        "laurent.pinchart+renesas@ideasonboard.com" 
-        <laurent.pinchart+renesas@ideasonboard.com>,
-        "tfiga@chromium.org" <tfiga@chromium.org>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "pihsun@chromium.org" <pihsun@chromium.org>,
-        "yuzhao@chromium.org" <yuzhao@chromium.org>,
-        "zwisler@chromium.org" <zwisler@chromium.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?= 
-        <Sean.Cheng@mediatek.com>,
-        "Sj Huang =?UTF-8?Q?=28=E9=BB=83=E4=BF=A1=E7=92=8B=29?=" 
-        <sj.huang@mediatek.com>,
-        Christie Yu =?UTF-8?Q?=28=E6=B8=B8=E9=9B=85=E6=83=A0=29?= 
-        <christie.yu@mediatek.com>,
-        Frederic Chen =?UTF-8?Q?=28=E9=99=B3=E4=BF=8A=E5=85=83=29?= 
-        <Frederic.Chen@mediatek.com>,
-        Jungo Lin =?UTF-8?Q?=28=E6=9E=97=E6=98=8E=E4=BF=8A=29?= 
-        <jungo.lin@mediatek.com>,
-        Rynn Wu =?UTF-8?Q?=28=E5=90=B3=E8=82=B2=E6=81=A9=29?= 
-        <Rynn.Wu@mediatek.com>,
+        id S1728715AbgEFI7c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 May 2020 04:59:32 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39594 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728474AbgEFI7b (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 6 May 2020 04:59:31 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id DF198206B8;
+        Wed,  6 May 2020 08:59:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588755570;
+        bh=BZXsrGPAq0ynniSVougrqqFVO9Q9Qs8HW3VY67EvUxU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=0d2LMF3dWC0+omwbsoSjSumt5lIAZWiaKCxqTMeQDHkSF0iSN1gV6SZFWqFf7mVko
+         w/ITUeNWxJJMjZ9R4lvXJjCMTewj+wJHZ3RyHtfNWQ5dfapxd9NQ7B4kZ10Whw+voB
+         b2gEcrMi22UeGSzjelMxolxYk+XHP/IWEzSNmQoI=
+Date:   Wed, 6 May 2020 10:59:25 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     "sean@mess.org" <sean@mess.org>,
+        "kstewart@linuxfoundation.org" <kstewart@linuxfoundation.org>,
+        "allison@lohutok.net" <allison@lohutok.net>,
+        "tglx@linutronix.de" <tglx@linutronix.de>,
         "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Date:   Wed, 6 May 2020 16:41:27 +0800
-In-Reply-To: <20191204185813.GA23184@bogus>
-References: <20191204124732.10932-1-Jerry-Ch.chen@mediatek.com>
-         <20191204124732.10932-3-Jerry-Ch.chen@mediatek.com>
-         <20191204185813.GA23184@bogus>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+        "linux-kernel-mentees@lists.linuxfoundation.org" 
+        <linux-kernel-mentees@lists.linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC, WIP, v4 09/11] media: vidtv: implement a PES packetizer
+Message-ID: <20200506105925.0bff8984@coco.lan>
+In-Reply-To: <40C2F764-6E43-418B-8904-952C5E99D9D9@getmailspring.com>
+References: <20200503101621.50047b5c@coco.lan>
+        <40C2F764-6E43-418B-8904-952C5E99D9D9@getmailspring.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgUm9iLA0KDQpPbiBUaHUsIDIwMTktMTItMDUgYXQgMDI6NTggKzA4MDAsIFJvYiBIZXJyaW5n
-IHdyb3RlOg0KPiBPbiBXZWQsIDQgRGVjIDIwMTkgMjA6NDc6MzAgKzA4MDAsIEplcnJ5LWNoIENo
-ZW4gd3JvdGU6DQo+ID4gRnJvbTogSmVycnktY2ggQ2hlbiA8amVycnktY2guY2hlbkBtZWRpYXRl
-ay5jb20+DQo+ID4gDQo+ID4gVGhpcyBwYXRjaCBhZGRzIERUIGJpbmRpbmcgZG9jdW1lbnRhdGlv
-biBmb3IgdGhlIEZhY2UgRGV0ZWN0aW9uIChGRCkNCj4gPiB1bml0IG9mIHRoZSBNZWRpYXRlaydz
-IG10ODE4MyBTb0MuDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogSmVycnktY2ggQ2hlbiA8amVy
-cnktY2guY2hlbkBtZWRpYXRlay5jb20+DQo+ID4gLS0tDQo+ID4gIC4uLi9iaW5kaW5ncy9tZWRp
-YS9tZWRpYXRlayxtdDgxODMtZmQudHh0ICAgICB8IDM0ICsrKysrKysrKysrKysrKysrKysNCj4g
-PiAgMSBmaWxlIGNoYW5nZWQsIDM0IGluc2VydGlvbnMoKykNCj4gPiAgY3JlYXRlIG1vZGUgMTAw
-NjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9tZWRpYXRlayxtdDgx
-ODMtZmQudHh0DQo+ID4gDQo+IA0KPiBQbGVhc2UgYWRkIEFja2VkLWJ5L1Jldmlld2VkLWJ5IHRh
-Z3Mgd2hlbiBwb3N0aW5nIG5ldyB2ZXJzaW9ucy4gSG93ZXZlciwNCj4gdGhlcmUncyBubyBuZWVk
-IHRvIHJlcG9zdCBwYXRjaGVzICpvbmx5KiB0byBhZGQgdGhlIHRhZ3MuIFRoZSB1cHN0cmVhbQ0K
-PiBtYWludGFpbmVyIHdpbGwgZG8gdGhhdCBmb3IgYWNrcyByZWNlaXZlZCBvbiB0aGUgdmVyc2lv
-biB0aGV5IGFwcGx5Lg0KPiANCj4gSWYgYSB0YWcgd2FzIG5vdCBhZGRlZCBvbiBwdXJwb3NlLCBw
-bGVhc2Ugc3RhdGUgd2h5IGFuZCB3aGF0IGNoYW5nZWQuDQoNClNvcnJ5IGZvciBtaXNzaW5nIHRo
-ZSB0YWdzLA0KSSB3aWxsIGFkZCBpdCBiYWNrIGluIG5leHQgdmVyc2lvbi4NCg0KVGhhbmtzIGFu
-ZCBCZXN0IFJlZ2FyZHMsDQpKZXJyeQ0K
+Em Wed, 6 May 2020 03:55:48 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
+> Hi Mauro,
+> 
+> 
+> > As commented, don't use WARN_ON(). At most, you could use WARN_ON_ONCE(),
+> > as otherwise, you may end by causing serious performance issues if
+> > the code starts to produce a flood of warnings at the dmesg.
+> > 
+> > I would use pr_warn_ratelimit() on all such cases.
+> >   
+> 
+> OK.
+> 
+> 
+> 
+> 
+> > I don't like the idea of changing the "from" buffer endiannes, copy
+> > and then restore it back to the original state. Is this really needed?
+> > 
+> > I would, instead, define:
+> > 
+> > 	struct pes_header {
+> > 	...
+> > 		__be32 bitfield;
+> > 		__be16 length;
+> > 	...
+> > 	};
+> > 
+> > Then wherever you would touch them:
+> > 
+> > 	u32 bitfield;
+> > 	u16 len;
+> > 
+> > 	/* Write into BE fields */
+> > 	pes_header.bitfield = cpu_to_be32(bitfield);
+> > 	pes_header.length = cpu_to_be16(len);
+> > 
+> > 	/* Read from BE fields */
+> > 	bitfield = be32_to_cpu(pes_header.bitfield);
+> > 	len = be16_to_cpu(pes_header.length);
+> > 
+> > 
+> > As a side effect, when you use "__be16" and "__be32" types, gcc
+> > and smatch/sparse will warn you if you mess with endiannes.
+> > 
+> > Same applies to similar code elsewhere.
+> >   
+> 
+> I don't like it either, it is error prone. I did not know about this
+> other possibility. Does this work for _bitfields_ though?
+
+See my comment below.
+
+> I think the authors for libdvbv5 used unions precisely so bswap() could
+> be called on a 'bitfield' member and from then on the bitfields could be
+> accessed directly, e.g.:
+> 
+> 	union {
+> 		u16 bitfield; <-- call bswap() on this
+> 		struct {
+>                         --> then use these directly:  
+> 			u8  syntax:1;
+> 			u8  zero:1;
+> 			u8  one:2;
+> 			u16 section_length:12;
+> 		} __packed;
+> 	} __packed
+> 
+> At least that's what I understood.
+
+You should double-check the structs from the specs. If I'm not mistaken,
+bytes were swapped on some places. As I commented for patch 08/11,
+the focus there were to make life simpler for userspace, and not to
+store a precise copy of the byte order.
+
+> 
+> I found this: 
+> https://lwn.net/Articles/741762/
+> 
+> Maybe *_get_bits, *_replace_bits is the equivalent that I should use for bitfields?
+
+I never used them, but, based on their definition:
+
+static __always_inline base type##_get_bits(__##type v, base field)	\
+{									\
+	return (from(v) & field)/field_multiplier(field);		\
+}
+
+Calling be16_get_bits should do the right cast to the type.
+
+I don't know what the "from()" and "to()" macros would do.
+
+I guess you will need to do some tests to see if this works as
+expected.
+
+> 
+> Because I'd rather not do this:
+> 
+> > 	u32 bitfield;
+> > 	/* Write into BE fields */
+> > 	pes_header.bitfield = cpu_to_be32(bitfield);  
+> 
+> Since I'd have to write the (many!) bitwise operations myself and I'm
+> sure I will mess this up at _some_ point.
+
+If you mess up, gcc (and/or smatch) will complain. I mean,
+
+if bitfield is declared as __be32, if you do:
+
+	u32 bitfield;
+	pes_header.bitfield = bitfield;
+
+this will produce warnings.
+
+Thanks,
+Mauro
