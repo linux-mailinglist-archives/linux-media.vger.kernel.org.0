@@ -2,295 +2,404 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 015DC1C74F7
-	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 17:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8CE31C754C
+	for <lists+linux-media@lfdr.de>; Wed,  6 May 2020 17:47:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729703AbgEFPdm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 May 2020 11:33:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729411AbgEFPdm (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 6 May 2020 11:33:42 -0400
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC485C061A0F;
-        Wed,  6 May 2020 08:33:41 -0700 (PDT)
-Received: by mail-qk1-x741.google.com with SMTP id c10so2379598qka.4;
-        Wed, 06 May 2020 08:33:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5aNB+Iw02ld5+/4wIdEOYftyvHXtMbzPLoPWT3yjBMk=;
-        b=IsTfeYH8grm//EGFXoDFN23AbhCqfLB/CQEPdtF08B1i6Al9CoIw889xpHN9kM4S3Q
-         JG5ai4a0MicfJrhGDuSa4DR2YPVoUxq8gdNuzg/ehlQy79Bf5CgsnjiC+dStxwycRbN+
-         sLZas8boySRpOpcgvDriQbHQAfHo+mNK9yQW+LQD2/HBlzpIktgFKd1DQ69phc3WKabn
-         3+NEk1HJ5ho7t3u1W+mgu3JCv0OjsYnYNl6+gW49UeGKtwyVHS9DKJLRFf1v6VdfTupP
-         cPv1ncTUUZzPhqNfjzja/WaGfIExuyRpQhYsUHUTc5BNhE4xq8kU654Jv0czsGwCPF2P
-         nBgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5aNB+Iw02ld5+/4wIdEOYftyvHXtMbzPLoPWT3yjBMk=;
-        b=XggAweW3ohMziVTnREDXmk4nzsg9Yykh7Fg8M7IQze9r5YmVbQf/3qapkcALK0D+mG
-         EWxBCXKbIdbqNPFykQgQxDV3HaunWUGbL8QxAqcf004JS7LPzQmr1os0x4WPI2nqWi9Q
-         L0Kn43YOHoSjamkg9dHFMHWnf9FbmwiY1QS24A7Hz3NIKEYkc9pBVUtfKu8+ck/37OHb
-         zWGwFFPH2bTdSGzq8xnrlYkK5k/+/CImql9dr8R+l5wBrdXOCtacoXhl5EtOB2jp1Lou
-         h1roMe20SnhPG/SJZGIpFDw6YmEjFIgYNrWxNXLq7g6HvH1JPhxyqt4qMy0HpwBhf+eD
-         3qoQ==
-X-Gm-Message-State: AGi0PuZKw2JtDGRIRC2lFoJ+ca7qAXN/3qulsdLXnCrGj60W0lfyZAlE
-        /mIrfHHnd/XCupPmnqqfI6sdFxIo2Bpdd68hIp4=
-X-Google-Smtp-Source: APiQypIy3/zvoIMiFNcOyiwIyoYNY3iPcQ6hCkEO2ikjFkgj/bIcdOxWs77/kL2Zmv6uLSssdnqVw/BtfRUyAD5lp1k=
-X-Received: by 2002:a37:6f47:: with SMTP id k68mr9522705qkc.341.1588779220920;
- Wed, 06 May 2020 08:33:40 -0700 (PDT)
+        id S1729426AbgEFPrv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 6 May 2020 11:47:51 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57022 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728428AbgEFPru (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 6 May 2020 11:47:50 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 74E28542;
+        Wed,  6 May 2020 17:47:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1588780066;
+        bh=xKyuqGZpJAkeeoGZz6G2JEo//dgEHFtxij9vI5Zt/Us=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hu7/BjAJZ767Lt9sWd12c/UbbzfPzXMjYCnQ+8UbYdbcF/c3O1acMkAOXNJ6NdYWp
+         cITemgTaRngArtaBa33V92rUR7151d4gbd31VfGgFdDW5bsu7g7Hv++KFl/jGssAW/
+         nsKnlSIOmIgq2ssfHKqZVns2lkxzJP4+dWoCYRug=
+Date:   Wed, 6 May 2020 18:47:41 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>, tfiga@google.com,
+        pavel@ucw.cz,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>, libcamera-devel@lists.libcamera.org
+Subject: Re: [PATCH v9 02/11] media: v4l2-ctrl: Document
+ V4L2_CID_CAMERA_SENSOR_LOCATION
+Message-ID: <20200506154741.GB15206@pendragon.ideasonboard.com>
+References: <20200417124110.72313-1-jacopo@jmondi.org>
+ <20200417124110.72313-3-jacopo@jmondi.org>
+ <20200505140206.589f54ae@coco.lan>
+ <a5d77790-5f98-650e-cfb9-a97b8701454d@xs4all.nl>
+ <20200505165826.1ce8bb0d@coco.lan>
+ <b3e211da-b9f6-a65c-4453-c11b05bced45@xs4all.nl>
+ <20200506113909.1489bd1e@coco.lan>
+ <20200506110730.rvhxoh74u3rmemtw@uno.localdomain>
 MIME-Version: 1.0
-References: <20200506054920.109738-1-eizan@chromium.org> <20200506154832.v2.5.I1c85bddc262913b8572d892dd6bf9bc03fbe0ec7@changeid>
-In-Reply-To: <20200506154832.v2.5.I1c85bddc262913b8572d892dd6bf9bc03fbe0ec7@changeid>
-From:   Enric Balletbo Serra <eballetbo@gmail.com>
-Date:   Wed, 6 May 2020 17:33:29 +0200
-Message-ID: <CAFqH_50btHhvm_h=5d0Y7jA=tZsCREDB730i4ip7cieNsZjF_w@mail.gmail.com>
-Subject: Re: [PATCH v2 5/5] [media] mtk-mdp: Remove mtk_mdp_comp.id and
- supporting functionality
-To:     Eizan Miyamoto <eizan@chromium.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200506110730.rvhxoh74u3rmemtw@uno.localdomain>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eizan,
+Hi Jacopo,
 
-Thank you for the patch. Two trivial comments
+On Wed, May 06, 2020 at 01:07:30PM +0200, Jacopo Mondi wrote:
+> On Wed, May 06, 2020 at 11:39:09AM +0200, Mauro Carvalho Chehab wrote:
+> > Em Wed, 6 May 2020 10:04:39 +0200 Hans Verkuil escreveu:
+> >> On 05/05/2020 16:58, Mauro Carvalho Chehab wrote:
+> >>> Em Tue, 5 May 2020 14:21:38 +0200 Hans Verkuil escreveu:
+> >>>> On 05/05/2020 14:02, Mauro Carvalho Chehab wrote:
+> >>>>> Em Fri, 17 Apr 2020 14:41:01 +0200 Jacopo Mondi escreveu:
+> >>>>>> Add documentation for the V4L2_CID_CAMERA_SENSOR_LOCATION camera
+> >>>>>> control. The newly added read-only control reports the camera device
+> >>>>>> mounting position.
+> >>>>>>
+> >>>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> >>>>>> ---
+> >>>>>>  .../media/v4l/ext-ctrls-camera.rst            | 32 +++++++++++++++++++
+> >>>>>>  1 file changed, 32 insertions(+)
+> >>>>>>
+> >>>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> >>>>>> index e39f84d2447f..01a9042d53a6 100644
+> >>>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> >>>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> >>>>>> @@ -510,6 +510,38 @@ enum v4l2_scene_mode -
+> >>>>>>      value down. A value of zero stops the motion if one is in progress
+> >>>>>>      and has no effect otherwise.
+> >>>>>>
+> >>>>>> +``V4L2_CID_CAMERA_SENSOR_LOCATION (integer)``
+> >>>>>> +    This read-only control describes the camera sensor location by reporting
+> >>>>>> +    its mounting position on the device where the camera is installed. The
+> >>>>>> +    control value is constant and not modifiable by software. This control is
+> >>>>>> +    particularly meaningful for devices which have a well defined orientation,
+> >>>>>> +    such as phones, laptops and portable devices since the camera location is
+> >>>>>> +    expressed as a position relative to the device's intended usage orientation.
+> >>>>>> +    For example, a camera sensor installed on the user-facing side of a phone,
+> >>>>>> +    a tablet or a laptop device is said to be installed in the
+> >>>>>> +    ``V4L2_LOCATION_FRONT`` location while camera sensors installed on the side
+> >>>>>> +    opposite the front one are said to be installed in the
+> >>>>>> +    ``V4L2_LOCATION_BACK`` location. Camera sensors not directly attached to
+> >>>>>> +    the device or attached in a way that allows them to move freely, such as
+> >>>>>> +    webcams and digital cameras, are said to have the ``V4L2_LOCATION_EXTERNAL``
+> >>>>>> +    location.
+> >>>>>> +
+> >>>>>> +
+> >>>>>> +
+> >>>>>> +.. flat-table::
+> >>>>>> +    :header-rows:  0
+> >>>>>> +    :stub-columns: 0
+> >>>>>> +
+> >>>>>> +    * - ``
+> >>>>> ``
+> >>>>>> +      - The camera sensor is located on the front side of the device.
+> >>>>>> +    * - ``V4L2_LOCATION_BACK``
+> >>>>>> +      - The camera sensor is located on the back side of the device.
+> >>>>>> +    * - ``V4L2_LOCATION_EXTERNAL``
+> >>>>>> +      - The camera sensor is not directly attached to the device and is
+> >>>>>> +        freely movable.
+> >>>>>
+> >>>>> I guess I mentioned this already, but IMHO this ioctl is somewhat flawed,
+> >>>>> for two reasons:
+> >>>>>
+> >>>>> 1) newer devices may all top of the line mobile devices now are coming
+> >>>>>    with multiple camera sensors at the same side. So, just saying that
+> >>>>>    the location is front or back is not enough. A location syscall would
+> >>>>>    need have something more to better identify the location.
+> >>>>>    It probably doesn't need to be something fancy, but, at least, on a
+> >>>>>    device with 3 back sensors, I would call them as:
+> >>>>>
+> >>>>> 	V4L2_LOCATION_BACK_1
+> >>>>> 	V4L2_LOCATION_BACK_2
+> >>>>> 	V4L2_LOCATION_BACK_3
+> >>>>>
+> >>>>>    And add some comment at the control documentation that would allow to
+> >>>>>    uniquely number the other ones, like:
+> >>>>>
+> >>>>> 	"when multiple sensors are present at the same side, sensors
+> >>>>> 	 will be numbered considering the ``(x,y)`` coordinates of the center
+> >>>>> 	 of each sensor, starting from the topmost, leftmost position.
+> >>>>>
+> >>>>> 	 She first sensor will be the topmost sensor column at the leftmost
+> >>>>> 	 side. The other sensors that will have the same ``y`` coordinate,
+> >>>>> 	 counting from the left to the right, then increment the ``y`` and
+> >>>>> 	 parse the next column again until all sensors are numbered."
+> >>>>
+> >>>> I think this isn't a good idea. In most cases you do not care about this.
+> >>>
+> >>> True, because on most cases, the userspace is hardcoded to open, let's say,
+> >>> video0 for the front sensor or video1 for the back sensor.
+> >>>
+> >>> This control only makes sense if the userspace is generic enough to accept
+> >>> sensors on different positions, identifying them at runtime.
+> >>>
+> >>> With the current proposal, userspace can only work with 2 sensors, as, if
+> >>> there's a third sensor, userspace won't know how to pick the right one.
+> >>>
+> >>> For instance, let's assume a car with 4 sensors, one on each side of
+> >>> the car (right, front); (left, front); (right; back); (left; back).
+> >>>
+> >>> With the current proposal, userspace can't do anything if it wants
+> >>> to identify the (right, back) camera.
+> >>>
+> >>>> And if you do care about this, then wouldn't it be better to do that through
+> >>>> a new control where you provide the precise coordinates in e.g. mm?
+> >>>>
+> >>>> BACK_1/2/3 really doesn't tell you anything other than that there are three
+> >>>> sensors on the back, but we knew that already.
+> >>>
+> >>> No, if we define some criteria about how sensors should be accounted for
+> >>> (something similar to the text I drafted), the location will be defined.
+> >>>
+> >>> With the above text, for example, a device with 3 sensors horizontally
+> >>> aligned, the arrangement will be:
+> >>>
+> >>> - sensor 1 is on the left;
+> >>> - sensor 2 in the middle;
+> >>> - sensor 3 is on the right.
+> >>
+> >> Or sensor 2 is below sensor 1 and sensor 3 is to the right of sensor 1.
+> >> It's meaningless information. If you want to specify the location, then
+> >> be precise. Especially for stereoscopic sensors (left and right) it is
+> >> good to know the exact distance between the sensors. Just calling them
+> >> '1' and '2' is not enough.
+> >>
+> >> For sensors you want to know the plane (back/front) and where they are
+> >> on that plane (in the case of more than one sensor). That's separate
+> >> information that's only needed in the case of more than one sensor.
+> >>
+> >>>
+> >>> Ok, I agree that writing a text with such criteria sucks, and maybe
+> >>> just numbering from 1 to n may not be the best thing to do. Yet,
+> >>> adding coordinates in mm would be just too much information, IMHO.
+> >>
+> >> Why? Just numbering them makes no sense, it's useless information.
+> >>
+> >>>> If we need support for the precise location in the future, then let's do that
+> >>>> right and not try to shoehorn into something that wasn't meant for it.
+> >>>
+> >>> Assuming that all the problems we have so far are to support devices with
+> >>> 2 sensors, by the time we add support for a third sensor, we'll end having
+> >>> a new ioctl for the same thing: to specify the sensors locations.
+> >>
+> >> It's just a control, nothing more.
+> >>
+> >> In most cases all you need to know is if it is a front or back sensor. In
+> >> some cases you need to know more: e.g. my Samsung Note 10+ has three sensors
+> >> on the back in a vertical row (wide, telephoto, ultrawide), and two sensors
+> >> for 3D to the right of them. For those last two you need to know the exact
+> >> position relative to one another. For the other sensors all you need to know
+> >> is that they are back sensors.
+> >>
+> >>> We know the drill: having two controls for the same thing makes userspace
+> >>> more complex and will require backward-compatibility code at the kernel
+> >>> and at userspace. That's what I want to avoid.
+> >>>
+> >>> I'm open to other suggestions that won't limit the usage of this control
+> >>> for devices with just (up to) two sensors.
+> >>
+> >> What backward compatibility code are you talking about? I honestly don't see
+> >> the problem here.
+> >
+> > Right now, we're adding an API that assumes that the video node may have
+> > only up to 2 sensors, and that would cover just one small subset of usecases
+> > (see more below). If it has anything more than that, this control won't help.
+> 
+> I don't agree the number of sensor is limited to 2. This property does
+> not identify sensors, it describes one more thing that userspace might
+> use to filter cameras. I was actually suprised nothing like this
+> existed in Linux when I started looking into this issue, as this seems
+> to me quite basic information that a generic enough userspace
+> application would like to be able to retrieve.
+> 
+> TL;DR: you can describe as many BACK cameras you want, the 'location'
+> gives you -one- filtering criteria more, that's it.
+> 
+> > One day (probably soon enough, as there are several devices with more than
+> > two sensors already), we'll end adding a proper support for it, and this
+> > control will become obsoleted, requiring us to think about backward
+> > compatibility issues when this control become deprecated.
+> >
+> > That's why I prefer spending some time finding a better way to report it,
+> > avoiding the need of having to do some deprecation logic anytime soon.
+> 
+> As said and discussed during the review of this series, a 3-d rotation
+> matrix is probably the right direction. I refrained from taking that
+> path because:
+> 1) 99% of devices are interested in reporting FRONT/BACK or some
+> specialization of those. Asking dt to provide a 9 entries matrix to
+> say "FRONT" seemed an overkill.
+> 2) There is no consensus on how the reference plane should be defined,
+> given the wide range of devices that we target. This is a separate
+> discussion on itself, and given it took 6 months to get to the point
+> of considering these basic properties, I'm a bit skeptical such a
+> discussion would have taken less than that.
+> 
+> >>>>>
+> >>>>> 2) There are also some devices that has a movable sensor, that can either
+> >>>>>    be taking a picture from the front or from the back, like those:
+> >>>>>
+> >>>>> 	https://www.youtube.com/watch?v=br6G7MrkRUc
+> >>>>>
+> >>>>>    On such case, the control should not be read-only, as one may need to
+> >>>>>    change this control in order to select if a sensor would either be on
+> >>>>>    FRONT or on BACK position.
+> >>>>>
+> >>>>>    For such kind of sensors (when we start supporting them), we could
+> >>>>>    for example call them like:
+> >>>>>
+> >>>>> 	V4L2_LOCATION_MOVABLE_IN_BACK_POSITION_1
+> >>>>> 	V4L2_LOCATION_MOVABLE_IN_BACK_POSITION_2
+> >>>>> 	V4L2_LOCATION_MOVABLE_IN_FRONT_POSITION_1
+> >>>>> 	V4L2_LOCATION_MOVABLE_IN_FRONT_POSITION_2
+> >>>>
+> >>>> I don't like this. If the driver can tell when the position changes, then it
+> >>>> can update the control's value (it's still read-only because userspace
+> >>>> can't write to it, but that doesn't mean it can't be updated).
+> >>>
+> >>> Why userspace can't set it? I mean, if the camera is movable, it
+> >>> should be up to the application to select the sensor between FRONT
+> >>> and BACK.
+> >>
+> >> Ah, right. If you can command the camera to flip from back to front using
+> >> a button or something, then yes, it can be writable. Sorry, didn't think of
+> >> that. I was thinking that the user would manually move the camera and the
+> >> new position would be detected by the driver and reported in the location
+> >> control.
+> >>
+> >> In any case, if the location control can be set through the driver by setting
+> >> this control, then just drop the READ_ONLY flag. If the control is writable,
+> >> then the sensor is movable. Just document this and we're done.
+> >
+> > Works for me.
+> 
+> This makes sense, it will impact bindings in the sense that it now
+> becomes possible to specify several locations to which select from,
+> which will become the items of the menu control (with some rule that
+> says "the first is the default" or such). If more than one location is
+> specified the control is RW, RO otherwise.
+> 
+> >> You are making this much more complicated than it need to be IMHO.
+> >>
+> >>> Btw, this is a case where I clearly see value on this ioctl: all cameras
+> >>
+> >> It's a *control*, not a new ioctl.
+> >>
+> >>> with flippable sensors need a control to switch the sensor's position,
+> >>> even if the sensor device is hardcoded on some application.
+> >>>
+> >>>> So there is
+> >>>> no need to call it 'MOVABLE', you just report the correct location. And with
+> >>>> QUERYMENU you can tell that it is movable since multiple possible locations
+> >>>> are reported (BACK and FRONT in this example). If it is fixed, then QUERYMENU
+> >>>> will report only a single location.
+> >>>>
+> >>>> This might have some consequences for the DT bindings, though. Not sure
+> >>>> how to represent this there.
+> >>>
+> >>> I guess DT should contain the default value when the device is turned
+> >>> off.
+> >>>
+> >>>> If the driver cannot tell what the position is, then it makes no sense for
+> >>>> the driver to expose this location control since it clearly is something that
+> >>>> has to be hardcoded in userspace. I.e., there is no point for userspace to
+> >>>> write to the control and then read back what it wrote :-)
+> >>>
+> >>> Actually there is. When you command a device to switch position, it may
+> >>> take some time to move the sensor, and such operation may even fail.
+> >>
+> >> Yeah, I forgot about that option.
+> >>
+> >>>
+> >>> So, reading back the position is probably mandatory.
+> >>
+> >> Well, it's a control, so that's standard.
+> >>
+> >>>
+> >>> That reminds that it may actually have a third position, to warn
+> >>> that the sensor was blocked.
+> >>>
+> >>> Also, some flip sensors may have another position (a "closed"
+> >>> position).
+> >>
+> >> It's certainly possible that we need to add new positions to support the
+> >> various states of such a movable sensor. But that's no problem. It's just
+> >> a menu control, adding new positions is cheap and easy.
+> >>
+> >> I stand by what I said, except that I agree that this control can be
+> >> writable in some circumstances, and that should be documented
+> >>
+> >> I strongly disagree with the notion of BACK_1/2/3 and FRONT_1/2/3: it adds
+> >> no meaningful information.
+> >
+> > Ok, but if this control would just say where a sensor is mounted
+> > (front, back or unknown/external), naming it as "LOCATION" seems too
+> > ambitious ;-)
+> >
+> > What it is actually trying to report is the angle of the sensor, with
+> > regards to the front position, adding currently two possible angles:
+> > 0 degrees (front) or 180 degrees (back).
+> >
+> > So, I would call it, instead, as V4L2_CID_CAMERA_VIEWING_ANGLE
+> > (or something similar to it).
+> 
+> _ORIENTATION might be the right word, I'm fine to reserve _LOCATION
+> for a more precise property if that helps moving forward.
+> 
+> > Having just two pre-defined angles (front/back) only works fine on
+> > devices like cell-phones or tablets, where the sensor cannot be
+> > on some other angle.
+> >
+> > If you mount cameras on a larger device, like a car, you may have
+> > some cameras mounted with different angles, for example, the front
+> > cameras could have been mounted with -45, 0 and 45 degrees, in order
+> > to cover a larger region.
+> 
+> I considered that case, but I expect those very specific usages to be
+> covered by downstream extensions of the property supported values. I
+> wish we had a .dts to describe a car in mainlien, but I would be happy
+> enough to provide a standard mechanism for people to use downstream
+> eventually, instead of adding custom properties, or taking shortcuts
+> like it mostly happens today.
+> 
+> > So, if that would be ok for you, I can live with a
+> >
+> > V4L2_CID_CAMERA_VIEWING_ANGLE (or some similar name) that will
+> > specify the angle where the sensor is mounted (for fixed sensors),
+> > or the current angle, in case of movable ones, being RO for fixed
+> > sensors and RW for movable ones.
+> >
+> > Let's postpone discussions for a LOCATION control once this
+> > would be needed by some driver.
+> 
+> Would V4L2_CID_CAMERA_ORIENTATION work ?
+> 
+> I could:
+> 1) rename dt-proeprty and control to use orientation
+> 2) specify multiple locations could be entered, the first one being
+> the "default" (eg. device turned off) location
+> 3) make am RW control if multiple entries have been specified, a RO
+> otherwise.
 
-Missatge de Eizan Miyamoto <eizan@chromium.org> del dia dc., 6 de maig
-2020 a les 7:51:
->
-> Since components are registered in a list, the numeric component id that
-> specified a location in an array is not necessary.
->
-> Signed-off-by: eizan@chromium.org
+I would refrain from doing 2) and 3) at this point. We have no idea how
+we will control those devices, as we haven't worked with them, and we
+don't know whether flipping the camera could be done through the V4L2
+subsystem or would need to involve other APIs. Designing APIs that can't
+be tested has so far not been a great success. It's easy to specify the
+DT property as a single value and the control as read-only and ease
+those restrictions later, it will be more difficult to start with the
+read-write case and then change it to something else if we realize it
+was a bad idea.
 
-ditto: Drop the above line.
+-- 
+Regards,
 
-> Signed-off-by: Eizan Miyamoto <eizan@chromium.org>
-> ---
->
-> Changes in v1:
-> - rebase onto linux-next/master to pick up
->   757570f11fa4b0ce5472a6583de6f06e996a8527
->
-
-You probably should mention this in the cover-letter or as a comment
-here to make the maintainer aware of this dependency.
-
->  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 60 +++----------------
->  drivers/media/platform/mtk-mdp/mtk_mdp_comp.h | 19 +-----
->  drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 10 +---
->  3 files changed, 11 insertions(+), 78 deletions(-)
->
-> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> index da2bdad7a8d1..362fff924aef 100644
-> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> @@ -14,46 +14,6 @@
->  #include "mtk_mdp_comp.h"
->
->
-> -static const char * const mtk_mdp_comp_stem[MTK_MDP_COMP_TYPE_MAX] = {
-> -       "mdp-rdma",
-> -       "mdp-rsz",
-> -       "mdp-wdma",
-> -       "mdp-wrot",
-> -};
-> -
-> -struct mtk_mdp_comp_match {
-> -       enum mtk_mdp_comp_type type;
-> -       int alias_id;
-> -};
-> -
-> -static const struct mtk_mdp_comp_match mtk_mdp_matches[MTK_MDP_COMP_ID_MAX] = {
-> -       { MTK_MDP_RDMA, 0 },
-> -       { MTK_MDP_RDMA, 1 },
-> -       { MTK_MDP_RSZ,  0 },
-> -       { MTK_MDP_RSZ,  1 },
-> -       { MTK_MDP_RSZ,  2 },
-> -       { MTK_MDP_WDMA, 0 },
-> -       { MTK_MDP_WROT, 0 },
-> -       { MTK_MDP_WROT, 1 },
-> -};
-> -
-> -int mtk_mdp_comp_get_id(struct device *dev, struct device_node *node,
-> -                       enum mtk_mdp_comp_type comp_type)
-> -{
-> -       int id = of_alias_get_id(node, mtk_mdp_comp_stem[comp_type]);
-> -       int i;
-> -
-> -       for (i = 0; i < ARRAY_SIZE(mtk_mdp_matches); i++) {
-> -               if (comp_type == mtk_mdp_matches[i].type &&
-> -                   id == mtk_mdp_matches[i].alias_id)
-> -                       return i;
-> -       }
-> -
-> -       dev_err(dev, "Failed to get id. type: %d, id: %d\n", comp_type, id);
-> -
-> -       return -EINVAL;
-> -}
-> -
->  void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp)
->  {
->         int i, err;
-> @@ -62,8 +22,8 @@ void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp)
->                 err = mtk_smi_larb_get(comp->larb_dev);
->                 if (err)
->                         dev_err(dev,
-> -                               "failed to get larb, err %d. type:%d id:%d\n",
-> -                               err, comp->type, comp->id);
-> +                               "failed to get larb, err %d. type:%d\n",
-> +                               err, comp->type);
->         }
->
->         for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
-> @@ -72,8 +32,8 @@ void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp)
->                 err = clk_prepare_enable(comp->clk[i]);
->                 if (err)
->                         dev_err(dev,
-> -                       "failed to enable clock, err %d. type:%d id:%d i:%d\n",
-> -                               err, comp->type, comp->id, i);
-> +                       "failed to enable clock, err %d. type:%d i:%d\n",
-> +                               err, comp->type, i);
->         }
->  }
->
-> @@ -92,21 +52,15 @@ void mtk_mdp_comp_clock_off(struct device *dev, struct mtk_mdp_comp *comp)
->  }
->
->  int mtk_mdp_comp_init(struct device *dev, struct device_node *node,
-> -                     struct mtk_mdp_comp *comp, enum mtk_mdp_comp_id comp_id)
-> +                     struct mtk_mdp_comp *comp,
-> +                     enum mtk_mdp_comp_type comp_type)
->  {
->         struct device_node *larb_node;
->         struct platform_device *larb_pdev;
->         int i;
->
-> -       if (comp_id < 0 || comp_id >= MTK_MDP_COMP_ID_MAX) {
-> -               dev_err(dev, "Invalid comp_id %d\n", comp_id);
-> -               return -EINVAL;
-> -       }
-> -
-> -       INIT_LIST_HEAD(&comp->node);
->         comp->dev_node = of_node_get(node);
-> -       comp->id = comp_id;
-> -       comp->type = mtk_mdp_matches[comp_id].type;
-> +       comp->type = comp_type;
->
->         for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
->                 comp->clk[i] = of_clk_get(node, i);
-> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-> index 1f745891c6c3..1bf0242cce46 100644
-> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-> @@ -22,18 +22,6 @@ enum mtk_mdp_comp_type {
->         MTK_MDP_COMP_TYPE_MAX,
->  };
->
-> -enum mtk_mdp_comp_id {
-> -       MTK_MDP_COMP_RDMA0,
-> -       MTK_MDP_COMP_RDMA1,
-> -       MTK_MDP_COMP_RSZ0,
-> -       MTK_MDP_COMP_RSZ1,
-> -       MTK_MDP_COMP_RSZ2,
-> -       MTK_MDP_COMP_WDMA,
-> -       MTK_MDP_COMP_WROT0,
-> -       MTK_MDP_COMP_WROT1,
-> -       MTK_MDP_COMP_ID_MAX,
-> -};
-> -
->  /**
->   * struct mtk_mdp_comp - the MDP's function component data
->   * @node:      list node to track sibing MDP components
-> @@ -41,7 +29,6 @@ enum mtk_mdp_comp_id {
->   * @clk:       clocks required for component
->   * @larb_dev:  SMI device required for component
->   * @type:      component type
-> - * @id:                component ID
->   */
->  struct mtk_mdp_comp {
->         struct list_head        node;
-> @@ -49,14 +36,12 @@ struct mtk_mdp_comp {
->         struct clk              *clk[2];
->         struct device           *larb_dev;
->         enum mtk_mdp_comp_type  type;
-> -       enum mtk_mdp_comp_id    id;
->  };
->
->  int mtk_mdp_comp_init(struct device *dev, struct device_node *node,
-> -                     struct mtk_mdp_comp *comp, enum mtk_mdp_comp_id comp_id);
-> +                     struct mtk_mdp_comp *comp,
-> +                     enum mtk_mdp_comp_type comp_type);
->  void mtk_mdp_comp_deinit(struct device *dev, struct mtk_mdp_comp *comp);
-> -int mtk_mdp_comp_get_id(struct device *dev, struct device_node *node,
-> -                       enum mtk_mdp_comp_type comp_type);
->  void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp);
->  void mtk_mdp_comp_clock_off(struct device *dev, struct mtk_mdp_comp *comp);
->
-> diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> index 40b9fda8b03b..acbc5a01ae4c 100644
-> --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> @@ -137,7 +137,6 @@ static int mtk_mdp_probe(struct platform_device *pdev)
->         for_each_child_of_node(parent, node) {
->                 const struct of_device_id *of_id;
->                 enum mtk_mdp_comp_type comp_type;
-> -               int comp_id;
->
->                 of_id = of_match_node(mtk_mdp_comp_dt_ids, node);
->                 if (!of_id)
-> @@ -150,12 +149,7 @@ static int mtk_mdp_probe(struct platform_device *pdev)
->                 }
->
->                 comp_type = (enum mtk_mdp_comp_type)of_id->data;
-> -               comp_id = mtk_mdp_comp_get_id(dev, node, comp_type);
-> -               if (comp_id < 0) {
-> -                       dev_warn(dev, "Skipping unknown component %pOF\n",
-> -                                node);
-> -                       continue;
-> -               }
-> +
-
-Look like you are introducing a double line break, remove it.
-
-Other than that:
-
-Reviewed-by: Enric Balletbo i Serra <enric.balletbo@collabora.com>
-
->
->                 comp = devm_kzalloc(dev, sizeof(*comp), GFP_KERNEL);
->                 if (!comp) {
-> @@ -164,7 +158,7 @@ static int mtk_mdp_probe(struct platform_device *pdev)
->                         goto err_comp;
->                 }
->
-> -               ret = mtk_mdp_comp_init(dev, node, comp, comp_id);
-> +               ret = mtk_mdp_comp_init(dev, node, comp, comp_type);
->                 if (ret) {
->                         of_node_put(node);
->                         goto err_comp;
-> --
-> 2.26.2.526.g744177e7f7-goog
->
->
-> _______________________________________________
-> Linux-mediatek mailing list
-> Linux-mediatek@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-mediatek
+Laurent Pinchart
