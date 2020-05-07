@@ -2,185 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6B941C8346
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 09:14:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E50C91C83D4
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 09:52:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725969AbgEGHOX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 May 2020 03:14:23 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:52945 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725834AbgEGHOX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 May 2020 03:14:23 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id WajXjt77j8hmdWajbjESeT; Thu, 07 May 2020 09:14:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588835660; bh=+qDNWwp87lKMUHdFLqR7C9oEa5HDPiDUf0yQGM9reW4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=BcwGC74kEZ4arp0j6SJREbhrlWgXdkMIwUYa1Qr04/MG9QzCU4J+N+zuPNegu0phU
-         S32TRGQr9ixvNFR9BALLc/ENwwCWDvogSpQt0o4HvgzKB+ybebOzdq+4Oi+HC1Urkm
-         3VaJvMGE8BsrykbGMnvwQEWwBVgDTz4I4xxm55yRfT9SlVCfkfSHCH7GYf0KZVzEu4
-         K0BersbtZONYMNwKQtp/Ll2ySoSvIQTQx6M5vESLu00b6xlg6P58qsHfwDOeyYDeAQ
-         vfHdzf4ePFNEGPulRUd34MwBk7qKRHDmO6+Ct+uhLGfsWiYp2AfC8/vOH3VVg5bdfD
-         js3xnZ4k8sjyA==
-Subject: Re: [PATCH v5 5/6] v4l2-subdev: add VIDIOC_SUBDEV_QUERYCAP ioctl
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        libcamera-devel@lists.libcamera.org, mchehab@kernel.org,
-        andrey.konovalov@linaro.org, laurent.pinchart@ideasonboard.com,
-        Hans Verkuil <hans.verkuil@cisco.com>
-References: <20200428210609.6793-1-jacopo@jmondi.org>
- <20200428210609.6793-6-jacopo@jmondi.org>
- <20200428212858.GC5381@paasikivi.fi.intel.com>
- <20200429080949.walimwkrth3ixn2o@uno.localdomain>
- <20200429081859.GA9190@paasikivi.fi.intel.com>
- <15053210-8d02-afbd-0d02-b08f9b5f4378@xs4all.nl>
- <20200506183459.GA9190@paasikivi.fi.intel.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <5a016d20-6582-1dff-935f-ad49434c5eeb@xs4all.nl>
-Date:   Thu, 7 May 2020 09:14:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1725845AbgEGHwm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 May 2020 03:52:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:56292 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725802AbgEGHwm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 7 May 2020 03:52:42 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6DF482075E;
+        Thu,  7 May 2020 07:52:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1588837959;
+        bh=ujCMRVMfllan9Dbh7F/kka0DBgXEpAIyKSGPSNapBOU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ukCLcKniQbJ+p1k6xGU8np7WcT4oId0rAQPLlQ1Nl69qiSkwMs8/VX1DTPIBGNE9J
+         CqeyQg2AP4KLedw93hbwe+NxmaoWy0HwRxdqUfzMCC4CGO45h8h5Vx7kj/qhj2KT5n
+         qBc6nfkMYSvi6r/6oSTPlC2ZhkZm2Un7NrWKN5mo=
+Date:   Thu, 7 May 2020 09:52:37 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Jia-Ju Bai <baijiaju1990@gmail.com>
+Cc:     mchehab@kernel.org, kstewart@linuxfoundation.org,
+        tomasbortoli@gmail.com, sean@mess.org, allison@lohutok.net,
+        tglx@linutronix.de, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: usb: ttusb-dec: avoid buffer overflow in
+ ttusb_dec_handle_irq() when DMA failures/attacks occur
+Message-ID: <20200507075237.GA1024567@kroah.com>
+References: <20200505142110.7620-1-baijiaju1990@gmail.com>
+ <20200505181042.GD1199718@kroah.com>
+ <0e4a86ee-8c4e-4ac3-8499-4e9a6ed7bd1e@gmail.com>
+ <20200506110722.GA2975410@kroah.com>
+ <b3af10e3-8709-3da0-6841-e5ddd6b4a609@gmail.com>
+ <20200506155257.GB3537174@kroah.com>
+ <46615f6e-11ec-6546-42a9-3490414f9550@gmail.com>
+ <20200506174345.GA3711921@kroah.com>
+ <4bc70ec6-e518-5f42-b336-c86e1f92619f@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200506183459.GA9190@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfCSmQ0b8oiZu9UvRlLVqzFsS7TmJ1LBnD1fHi4yHm6RgiiiAa87xyI8bkkQvp+ixxvcdxBHRA8Aa3+8TK3iaIduVss1X7xB/2HCXzt1Xujk1IOVxmJDh
- aWvoBDen5X2oRi3xaKfo28nGTSjgV4N10VFiVDtXxaAH1CnKANwE11gIugfk9OtQZ4eMxPeUxMUZJbM2VO9OIcrFrcX7TcJdmpHAwC23iOvpPewW6JDraSjG
- LXX9NTRx/5MqpHuqI8Thqgc+xaSQHn6PVgnoNILhkEI2GtkkyOs0zjLNESR5yyHCvhgTO+vmhooy1gxmHUMUw0wlOcVOgBpDibeLImf5+GIxhOqeBBLMXuFC
- CrvdFtdTxfemV68jiGTOrq6Xeccz24Tge6HbxR/oTaMc1IAC5TGfAblL0+u0YvzBVpKcaIeqqO0rH1rErgMMofq30LxaN/DUN2zPoDnupT9vAIOz804=
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4bc70ec6-e518-5f42-b336-c86e1f92619f@gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/05/2020 20:34, Sakari Ailus wrote:
-> Hi Hans, Jacopo,
+On Thu, May 07, 2020 at 01:15:22PM +0800, Jia-Ju Bai wrote:
 > 
-> On Wed, May 06, 2020 at 03:29:03PM +0200, Hans Verkuil wrote:
->> On 29/04/2020 10:18, Sakari Ailus wrote:
->>> Hi Jacopo,
->>>
->>> On Wed, Apr 29, 2020 at 10:09:49AM +0200, Jacopo Mondi wrote:
->>>> Hi Sakari,
->>>>
->>>> On Wed, Apr 29, 2020 at 12:28:58AM +0300, Sakari Ailus wrote:
->>>>> Hi Jacopo,
->>>>>
->>>>> On Tue, Apr 28, 2020 at 11:06:08PM +0200, Jacopo Mondi wrote:
->>>>>> From: Hans Verkuil <hans.verkuil@cisco.com>
->>>>>>
->>>>>> While normal video/radio/vbi/swradio nodes have a proper QUERYCAP ioctl
->>>>>> that apps can call to determine that it is indeed a V4L2 device, there
->>>>>> is currently no equivalent for v4l-subdev nodes. Adding this ioctl will
->>>>>> solve that, and it will allow utilities like v4l2-compliance to be used
->>>>>> with these devices as well.
->>>>>>
->>>>>> SUBDEV_QUERYCAP currently returns the version and subdev_caps of the
->>>>>> subdevice. Define as the initial set of subdev_caps the read-only or
->>>>>> read/write flags, to signal to userspace which set of IOCTLs are
->>>>>> available on the subdevice.
->>>>>>
->>>>>> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
->>>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
->>>>>> ---
->>>>>>  drivers/media/v4l2-core/v4l2-subdev.c | 12 ++++++++++++
->>>>>>  include/uapi/linux/v4l2-subdev.h      | 15 +++++++++++++++
->>>>>>  2 files changed, 27 insertions(+)
->>>>>>
->>>>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->>>>>> index f3fe515b8ccb..b8c0071aa4d0 100644
->>>>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->>>>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->>>>>> @@ -15,6 +15,7 @@
->>>>>>  #include <linux/types.h>
->>>>>>  #include <linux/videodev2.h>
->>>>>>  #include <linux/export.h>
->>>>>> +#include <linux/version.h>
->>>>>>
->>>>>>  #include <media/v4l2-ctrls.h>
->>>>>>  #include <media/v4l2-device.h>
->>>>>> @@ -331,6 +332,17 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->>>>>>  	int rval;
->>>>>>
->>>>>>  	switch (cmd) {
->>>>>> +	case VIDIOC_SUBDEV_QUERYCAP: {
->>>>>> +		struct v4l2_subdev_capability *cap = arg;
->>>>>> +
->>>>>> +		memset(cap, 0, sizeof(*cap));
->>>>>> +		cap->version = LINUX_VERSION_CODE;
->>>>>> +		cap->subdev_caps |= ro_subdev ? V4L2_SUBDEV_CAP_RO_SUBDEV
->>>>>> +					      : V4L2_SUBDEV_CAP_RW_SUBDEV;
->>>>>> +
->>>>>> +		return 0;
->>>>>> +	}
->>>>>> +
->>>>>>  	case VIDIOC_QUERYCTRL:
->>>>>>  		/*
->>>>>>  		 * TODO: this really should be folded into v4l2_queryctrl (this
->>>>>> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
->>>>>> index 03970ce30741..89dc8f2ba6b3 100644
->>>>>> --- a/include/uapi/linux/v4l2-subdev.h
->>>>>> +++ b/include/uapi/linux/v4l2-subdev.h
->>>>>> @@ -155,9 +155,24 @@ struct v4l2_subdev_selection {
->>>>>>  	__u32 reserved[8];
->>>>>>  };
->>>>>>
->>>>>> +/**
->>>>>> + * struct v4l2_subdev_capability - subdev capabilities
->>>>>> + * @device_caps: the subdev capabilities, see V4L2_SUBDEV_CAP_*.
->>>>>> + */
->>>>>> +struct v4l2_subdev_capability {
->>>>>> +	__u32 version;
->>>>>> +	__u32 subdev_caps;
->>>>>
->>>>> How do you intend to address additional fields being added to the struct in
->>>>> the future? Something else than what's been done in V4L2 traditionally?
->>>>>
->>>>
->>>> I'm not sure I get what you mean here, so I assume I don't know what
->>>> "has been done in V4L2 traditionally" and why what I have here goes
->>>> against it...
->>>
->>> I can't help noticing you have no reserved fields in your IOCTL argument
->>> struct. That has generally been the way V4L2 IOCTLs have been extended when
->>> there's been a need to.
->>>
->>> Media controller adopted a different approach to that recently, based on
->>> the argument size. We've discussed doing that on V4L2 but I don't think
->>> a decision has been made.
->>>
->>
->> While I agree that using the argument size to do 'versioning' of the API
->> is a better solution, the fact is that historically we always used a 'reserved'
->> field. And I think we need to do that here as well. It's consistent with
->> the existing subdev ioctls, so I would be in favor of adding a 'u32 reserved[6];'
->> field.
 > 
-> Agreed. Could be even 14, in practice it matters little performance-wise.
+> On 2020/5/7 1:43, Greg KH wrote:
+> > On Thu, May 07, 2020 at 12:48:47AM +0800, Jia-Ju Bai wrote:
+> > > Yes, I agree that this issue is not new, because DMA attacks are old
+> > > problems.
+> > > But I am a little surprised that many current drivers are still vulnerable
+> > > to DMA attacks.
+> > Given that the attack vector is very hard to actually do, that's not
+> > a suprise.
+> > 
+> > It's only a very recent thing that Linux drivers have started to work on
+> > "we don't trust the data coming from the hardware" path.  Previously we
+> > always trusted that, but did not trust data coming from userspace.  So
+> > work on fixing up drivers in this area is always encouraged.
+> > 
+> > An example of this would be all of the fuzzing that USB drivers have
+> > been getting with custom loop-back interfaces and the like over the past
+> > year or so.  Expanding that to "we don't trust PCI device data" should
+> > be the next step on this, and would help out your area as well.
+> 
+> Okay, I am glad to hear that :)
+> Hardware security for the Linux kernel should receive more attention.
 
-True. Let's make it 14.
+If you care about that, yes it should.  At the least it is providing
+lots of graduate students with good research papers :)
 
-Regards,
+> Last year some researchers finished an interesting work about fuzzing the
+> inputs from hardware:
+> https://github.com/securesystemslab/periscope
 
-	Hans
+Nice!
 
+> > > > If you trust a device enough to plug it in, well, you need to trust it
+> > > > :)
+> > > Well, maybe I need to trust all devices in my computer :)
+> > > 
+> > > Anyway, thanks a lot for your patient explanation and reply.
+> > > If you have encountered other kinds of DMA-related bugs/vulnerabilities,
+> > > maybe I can help to detect them using my static-analysis tool :)
+> > Did you only find a problem in this one driver?  Have you run it on any
+> > more "complex" drivers and gotten any good results showing either that
+> > we are programming defensively in this area, or not?
+> > 
 > 
->>
->> If there are such strong feelings against it that it wouldn't be merged, then
->> we can always just leave it as-is. It's not worth blocking this patch just
->> because of that.
+> At present, I only detect the cases that a DMA value *directly* taints array
+> index, loop condition and important kernel-interface calls (such as
+> request_irq()).
+> In this one driver, I only find two problems that mentioned in this patch.
+> With the kernel configuration "allyesconfig" in my x86_64 machine, I find
+> nearly 200 such problems (intra-procedurally and inter-procedurally) in all
+> the compiled device drivers.
 > 
-> I'm not (strongly) pushing either here; just that we need to make a
-> decision. I'm in favour of the reserved field for the same reason. I was
-> just wondering whether it was intentional. :-)
+> I also find that several drivers check the data from DMA memory, but some of
+> these checks can be bypassed.
+> Here is an example in drivers/scsi/esas2r/esas2r_vda.c:
 > 
->>
->> BTW, one thing that should be changed is the name 'subdev_caps': just name it
->> 'capabilities'. It's a field in a struct v4l2_subdev_capability, so it is
->> already obvious that this is subdev specific.
+> The function esas2r_read_vda() uses a DMA value "vi":
+>   struct atto_ioctl_vda *vi =
+>             (struct atto_ioctl_vda *)a->vda_buffer;
 > 
+> Then esas2r_read_vda() calls esas2r_process_vda_ioctl() with vi:
+>   esas2r_process_vda_ioctl(a, vi, rq, &sgc);
+> 
+> In esas2r_process_vda_ioctl(), the DMA value "vi->function" is
+> used at many places, such as:
+>   if (vi->function >= vercnt)
+>   ...
+>   if (vi->version > esas2r_vdaioctl_versions[vi->function])
+>   ...
+> 
+> However, when DMA failures or attacks occur, the value of vi->function can
+> be changed at any time. In this case, vi->function can be first smaller than
+> vercnt, and then it can be larger than vercnt when it is used as the array
+> index of esas2r_vdaioctl_versions, causing a buffer-overflow vulnerability.
+> 
+> I also submitted this patch, but no one has replied yet:
+> https://lore.kernel.org/lkml/20200504172412.25985-1-baijiaju1990@gmail.com/
 
+It's only been a few days, give them time.
+
+But, as with this patch, you might want to change your approach.  Having
+the changelog say "this is a security problem!" really isn't that "real"
+as the threat model is very obscure at this point in time.
+
+Just say something like I referenced here, "read the value from memory
+and test it and use that value instead of constantly reading from memory
+each time in case it changes" is nicer and more realistic.  It's a
+poential optimization as well, if the complier didn't already do it for
+us automatically (which you really should look into...)
+
+If you make up a large series of these, I'd be glad to take them through
+one of my trees to try to fix them all up at once, that's usually a
+simpler way to do cross-tree changes like this.
+
+thanks,
+
+greg k-h
