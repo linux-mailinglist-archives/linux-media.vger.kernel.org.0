@@ -2,188 +2,416 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AD1931C8470
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 10:13:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 341491C84AE
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 10:22:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726320AbgEGINa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 May 2020 04:13:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46688 "EHLO
+        id S1726308AbgEGIWB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 May 2020 04:22:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725953AbgEGIN3 (ORCPT
+        by vger.kernel.org with ESMTP id S1725802AbgEGIWA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 May 2020 04:13:29 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78461C061A41
-        for <linux-media@vger.kernel.org>; Thu,  7 May 2020 01:13:29 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id y4so5178432wrm.11
-        for <linux-media@vger.kernel.org>; Thu, 07 May 2020 01:13:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=J7Nyoh6TN298A/zGPu60YeuCRUMyhvi1B0VPpIRXkD8=;
-        b=Df6/MbhaEVfEMhHwUNcTRMIYUT9M/0U7WL0VSOMhhFZneTCeZNZC/3pFk4TAipIMT0
-         xp2xcpNiCkBgvgse0AeKftj58pwORKkjnwon9g3du+eSV+2bCTkCgHj9OncMCGqlQKq3
-         VCmFUyFXhiGRf9t65xr3URIgKtRwHajRWxvybsS/qcjlM/xfXZR059+o9IyjvCXbW11P
-         ibj2b7//mwD0B6P7LmHtKZUWbxVVVXt+IrbU9Uj8yY4xoDzGO7zoJGxcrVc9o+ukPx0n
-         vhmsIJRFDQC9yL45QQtGgUt8nhqV3aMHTbtJxlaFY+Vanip1Ibg5gT9UlKsLc25W3hy/
-         3rnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=J7Nyoh6TN298A/zGPu60YeuCRUMyhvi1B0VPpIRXkD8=;
-        b=hMRKpzvKXg78f1d/uzCC3PHJ23oZBcKZoYCdcwXWifdzp8DbNB9StuNL8KM5d84QRy
-         n1qoZ8uZTFMMDCZBgpo8brgASyaCZH9eWxmpU0MJMj5q1Vi3EualbzRFjGFro5PGlwhD
-         jItMhnlsqJvc00s03SwHvKrPuKIvzh4yoJNMGsD5wj4QIDk72+6NYeryONYpSj+w9Oee
-         k6PWrt6Jq3bTOpC9P6qd1fwCy1s6u9Y/YB1IeXRBVoSCNJZ9DtJotoOofTfav5GlR7Zz
-         o/u/aA3b3T55jmztd7STSEemA9opTEOVLFfqqtMXH25MGCh5vzAwjFm5oOxe6pXFMO65
-         CfLg==
-X-Gm-Message-State: AGi0PuY3Nosq5BMRsoVN3YZ9ztD1+IbPMTIjUPX6M+9Z+f0qSp78OTww
-        qZaWFXj8tzG7F5tR9LZiBM0W4A==
-X-Google-Smtp-Source: APiQypJn2l9LEXuUtrCJU4T9xg/aguaE6+ll31meUQQy/XlK4lu1w23zu47PB8L6M4tnbGGhLUVbTA==
-X-Received: by 2002:adf:f652:: with SMTP id x18mr13797663wrp.262.1588839207953;
-        Thu, 07 May 2020 01:13:27 -0700 (PDT)
-Received: from [192.168.1.3] (212-5-158-166.ip.btc-net.bg. [212.5.158.166])
-        by smtp.googlemail.com with ESMTPSA id s18sm7542852wra.94.2020.05.07.01.13.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 May 2020 01:13:27 -0700 (PDT)
-Subject: Re: [PATCH 1/2] media: venus: Add support for MSM8939
-To:     Konrad Dybcio <konradybcio@gmail.com>
-Cc:     skrzynka@konradybcio.pl, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        linux-media@vger.kernel.org, DTML <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-References: <20200501203505.144362-1-konradybcio@gmail.com>
- <20200501203505.144362-2-konradybcio@gmail.com>
- <3d73eb09-ba4e-5706-042c-0d1894928a35@linaro.org>
- <CAMS8qEVa_uRdeHEGpjni-qwGqryVVRp9VY8Ej87MbSCfTqWOFA@mail.gmail.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <ed4b2b21-69f9-4272-2631-08e8e578096b@linaro.org>
-Date:   Thu, 7 May 2020 11:13:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Thu, 7 May 2020 04:22:00 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 888D9C061A10
+        for <linux-media@vger.kernel.org>; Thu,  7 May 2020 01:22:00 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1jWbmy-0001oj-5y; Thu, 07 May 2020 10:21:52 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1jWbmv-0004eQ-Fp; Thu, 07 May 2020 10:21:49 +0200
+Date:   Thu, 7 May 2020 10:21:49 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     "Kao, Ben" <ben.kao@intel.com>
+Cc:     Robert Foss <robert.foss@linaro.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Maxime Ripard <maxime@cerno.tech>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [PATCH v7 2/3] media: ov8856: Add devicetree support
+Message-ID: <20200507082149.y7yzzgzkmw5nu7b4@pengutronix.de>
+References: <20200505100129.104673-1-robert.foss@linaro.org>
+ <20200505100129.104673-3-robert.foss@linaro.org>
+ <SN6PR11MB3293BF52D336178B9D2F5974EDA50@SN6PR11MB3293.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMS8qEVa_uRdeHEGpjni-qwGqryVVRp9VY8Ej87MbSCfTqWOFA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <SN6PR11MB3293BF52D336178B9D2F5974EDA50@SN6PR11MB3293.namprd11.prod.outlook.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 10:20:45 up 173 days, 23:39, 183 users,  load average: 0.22, 0.16,
+ 0.11
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Konrad,
+Hi Ben,
 
-On 5/7/20 12:23 AM, Konrad Dybcio wrote:
-> Hi Stan,
+On 20-05-07 08:06, Kao, Ben wrote:
+> Hi Robert,
 > 
-> I have found some issues with the submitted GCC driver, related to
-> venus, but I have to further look into them locally and work out some
-> stuff. One of the things is that freq table for venus clock should be
-> changed to the values found here [1] (currently it has 8916
-> frequencies). When I find all the causes I'll resubmit this and
-> include them in the cover letter, as I might've overlooked something
-> wrt venus driver itself when creating this patch from my WIP branch.
-> Also it seems like I tested this very patch incorrectly (getting
-> segfaults in ffmpeg with v4l2m2m now)... Anyways, I'll get back to you
-> when I make it work for sure. Sorry again for the inconvenience.
+> On 20-05-05 12:01, Robert Foss wrote:
+> > Add match table, enable ov8856_probe() to support both ACPI and DT modes.
+> > 
+> > ACPI and DT modes are primarily distinguished from by checking for ACPI mode
+> > and by having resource like be NULL.
+> > 
+> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> > ---
+> > 
+> > - Changes since v6:
+> >   * Marco: Bail out of __ov8856_power_on earlier if ACPI mode
+> > 
+> > - Changes since v5:
+> >   * Maxime & Sakari: Replaced clock tolerance check with warning
+> > 
+> > - Changes since v4:
+> >   * Maxime & Sakari: Switch to clock-frequency
+> > 
+> > - Changes since v3:
+> >   * Remove redundant {}-brackets
+> >   * Compare xvclk_rate to 5% tolerance
+> >   * Andy: Use dev_fwnode()
+> >   * Andy: Use %pe instead of %ld + PTR_ERR()
+> >   * Andy: Invert reset_gpio logic
+> >   * Andy: Remove dev_dbg() from failing reset_gpio setup
+> >   * Andy: Use dev_err for logging for failures
+> >   * Andy: Remove dev_warn from EDEFER/regulator error path
+> >   * Andy & Sakari: Replaced GPIOD_OUT_XXX with 0/1
+> >   * Maxime & Sakari: Verify clock frequency from DT
+> >   * Sakari: Verify the 'xvclk_rate' is set correctly for ACPI/DT devices
+> >   * Sakari: Remove duplicate ov8856->dev assignment
+> > 
+> > - Changes since v2:
+> >   * Added "struct device *dev" member to struct ov8856
+> >   * Andy: Switch to optional version of devm_gpiod_get
+> >   * Andy: Switch to optional version of devm_clk_get
+> >   * Fabio: Add reset sleep period
+> >   * Sakari: Unify defines for 19.2Mhz
+> >   * Sakari: Remove 24Mhz clock, since it isn't needed for supported modes
+> >   * Sakari: Replace dev_info() with dev_dbg()
+> >   * Sakari: Switch induction variable type to unsigned
+> >   * Sakari: Don't wait for reset_gpio when in ACPI mode
+> >   * Sakari: Pull reset GPIO high on power on failure
+> >   * Sakari: Add power on/off to resume/suspend
+> >   * Sakari: Fix indentation
+> >   * Sakari: Power off during ov8856_remove()
+> >   * Sakari: Don't sleep during power-on in ACPI mode
+> >   * Sakari: Switch to getting xvclk from clk_get_rate
+> > 
+> > - Changes since v1:
+> >   * Andy & Sakari: Make XVCLK optional since to not break ACPI
+> >   * Fabio: Change n_shutdown_gpio name to reset_gpio
+> >   * Fabio: Invert reset_gpio due to GPIO_ACTIVE_HIGH -> GPIO_ACTIVE_LOW
+> > change
+> >   * Fabio: Remove empty line
+> >   * Fabio: Remove real error from devm_gpiod_get() failures
+> >   * Sakari: ARRAY_SIZE() directly instead of through OV8856_NUM_SUPPLIES
+> >   * Sakari: Use XVCLK rate as provided by DT
+> > 
+> >  drivers/media/i2c/ov8856.c | 137 +++++++++++++++++++++++++++++++++----
+> >  1 file changed, 123 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c index
+> > 8655842af275..e6418a79801e 100644
+> > --- a/drivers/media/i2c/ov8856.c
+> > +++ b/drivers/media/i2c/ov8856.c
+> > @@ -3,10 +3,13 @@
+> > 
+> >  #include <asm/unaligned.h>
+> >  #include <linux/acpi.h>
+> > +#include <linux/clk.h>
+> >  #include <linux/delay.h>
+> > +#include <linux/gpio/consumer.h>
+> >  #include <linux/i2c.h>
+> >  #include <linux/module.h>
+> >  #include <linux/pm_runtime.h>
+> > +#include <linux/regulator/consumer.h>
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-device.h>
+> >  #include <media/v4l2-fwnode.h>
+> > @@ -18,7 +21,7 @@
+> >  #define OV8856_LINK_FREQ_360MHZ		360000000ULL
+> >  #define OV8856_LINK_FREQ_180MHZ		180000000ULL
+> >  #define OV8856_SCLK			144000000ULL
+> > -#define OV8856_MCLK			19200000
+> > +#define OV8856_XVCLK_19_2		19200000
+> >  #define OV8856_DATA_LANES		4
+> >  #define OV8856_RGB_DEPTH		10
+> > 
+> > @@ -64,6 +67,12 @@
+> > 
+> >  #define to_ov8856(_sd)			container_of(_sd, struct ov8856, sd)
+> > 
+> > +static const char * const ov8856_supply_names[] = {
+> > +	"dovdd",	/* Digital I/O power */
+> > +	"avdd",		/* Analog power */
+> > +	"dvdd",		/* Digital core power */
+> > +};
+> > +
+> >  enum {
+> >  	OV8856_LINK_FREQ_720MBPS,
+> >  	OV8856_LINK_FREQ_360MBPS,
+> > @@ -566,6 +575,11 @@ struct ov8856 {
+> >  	struct media_pad pad;
+> >  	struct v4l2_ctrl_handler ctrl_handler;
+> > 
+> > +	struct device		*dev;
+> > +	struct clk		*xvclk;
+> > +	struct gpio_desc	*reset_gpio;
+> > +	struct regulator_bulk_data
+> > supplies[ARRAY_SIZE(ov8856_supply_names)];
+> > +
+> >  	/* V4L2 Controls */
+> >  	struct v4l2_ctrl *link_freq;
+> >  	struct v4l2_ctrl *pixel_rate;
+> > @@ -908,6 +922,52 @@ static int ov8856_set_stream(struct v4l2_subdev *sd,
+> > int enable)
+> >  	return ret;
+> >  }
+> > 
+> > +static int __ov8856_power_on(struct ov8856 *ov8856) {
+> > +	struct i2c_client *client = v4l2_get_subdevdata(&ov8856->sd);
+> > +	int ret;
+> > +
+> > +	if (is_acpi_node(dev_fwnode(ov8856->dev)))
+> > +		return 0;
+> > +
+> > +	ret = clk_prepare_enable(ov8856->xvclk);
+> > +	if (ret < 0) {
+> > +		dev_err(&client->dev, "failed to enable xvclk\n");
+> > +		return ret;
+> > +	}
+> > +
+> > +	if (ov8856->reset_gpio) {
+> > +		gpiod_set_value_cansleep(ov8856->reset_gpio, 1);
+> > +		usleep_range(1000, 2000);
+> > +	}
+> > +
+> > +	ret = regulator_bulk_enable(ARRAY_SIZE(ov8856_supply_names),
+> > +				    ov8856->supplies);
+> > +	if (ret < 0) {
+> > +		dev_err(&client->dev, "failed to enable regulators\n");
+> > +		goto disable_clk;
+> > +	}
+> > +
+> > +	gpiod_set_value_cansleep(ov8856->reset_gpio, 0);
+> > +	usleep_range(1500, 1800);
+> > +
+> > +	return 0;
+> > +
+> > +disable_clk:
+> > +	gpiod_set_value_cansleep(ov8856->reset_gpio, 1);
+> > +	clk_disable_unprepare(ov8856->xvclk);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> > +static void __ov8856_power_off(struct ov8856 *ov8856) {
+> > +	gpiod_set_value_cansleep(ov8856->reset_gpio, 1);
+> > +	regulator_bulk_disable(ARRAY_SIZE(ov8856_supply_names),
+> > +			       ov8856->supplies);
+> > +	clk_disable_unprepare(ov8856->xvclk);
+> > +}
+> > +
+> >  static int __maybe_unused ov8856_suspend(struct device *dev)  {
+> >  	struct i2c_client *client = to_i2c_client(dev); @@ -918,6 +978,7 @@
+> > static int __maybe_unused ov8856_suspend(struct device *dev)
+> >  	if (ov8856->streaming)
+> >  		ov8856_stop_streaming(ov8856);
+> > 
+> > +	__ov8856_power_off(ov8856);
+> >  	mutex_unlock(&ov8856->mutex);
+> > 
+> >  	return 0;
+> > @@ -931,6 +992,8 @@ static int __maybe_unused ov8856_resume(struct
+> > device *dev)
+> >  	int ret;
+> > 
+> >  	mutex_lock(&ov8856->mutex);
+> > +
+> > +	__ov8856_power_on(ov8856);
+> >  	if (ov8856->streaming) {
+> >  		ret = ov8856_start_streaming(ov8856);
+> >  		if (ret) {
+> > @@ -1092,29 +1155,54 @@ static int ov8856_identify_module(struct ov8856
+> > *ov8856)
+> >  	return 0;
+> >  }
+> > 
+> > -static int ov8856_check_hwcfg(struct device *dev)
+> > +static int ov8856_get_hwcfg(struct ov8856 *ov8856)
+> >  {
+> > +	struct device *dev = ov8856->dev;
+> >  	struct fwnode_handle *ep;
+> >  	struct fwnode_handle *fwnode = dev_fwnode(dev);
+> >  	struct v4l2_fwnode_endpoint bus_cfg = {
+> >  		.bus_type = V4L2_MBUS_CSI2_DPHY
+> >  	};
+> > -	u32 mclk;
+> > +	u32 xvclk_rate;
+> >  	int ret;
+> >  	unsigned int i, j;
+> > 
+> >  	if (!fwnode)
+> >  		return -ENXIO;
+> > 
+> > -	ret = fwnode_property_read_u32(fwnode, "clock-frequency", &mclk);
+> > +	ret = fwnode_property_read_u32(fwnode, "clock-frequency",
+> > +		&xvclk_rate);
+> >  	if (ret)
+> >  		return ret;
+> > 
+> > -	if (mclk != OV8856_MCLK) {
+> > -		dev_err(dev, "external clock %d is not supported", mclk);
+> > -		return -EINVAL;
+> > +	if (!is_acpi_node(fwnode)) {
+> > +		ov8856->xvclk = devm_clk_get(dev, "xvclk");
+> > +		if (IS_ERR(ov8856->xvclk)) {
+> > +			dev_err(dev, "could not get xvclk clock (%pe)\n",
+> > +					ov8856->xvclk);
+> > +			return PTR_ERR(ov8856->xvclk);
+> > +		}
+> > +
+> > +		clk_set_rate(ov8856->xvclk, xvclk_rate);
+> > +		xvclk_rate = clk_get_rate(ov8856->xvclk);
+> >  	}
+> > 
+> > +	if (xvclk_rate != OV8856_XVCLK_19_2)
+> > +		dev_warn(dev, "external clock rate %d is unsupported",
+> > xvclk_rate);
+> > +
+> > +	ov8856->reset_gpio = devm_gpiod_get_optional(dev, "reset",
+> > +		GPIOD_OUT_LOW);
+> > +	if (IS_ERR(ov8856->reset_gpio))
+> > +		return PTR_ERR(ov8856->reset_gpio);
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(ov8856_supply_names); i++)
+> > +		ov8856->supplies[i].supply = ov8856_supply_names[i];
+> > +
+> > +	ret = devm_regulator_bulk_get(dev,
+> > ARRAY_SIZE(ov8856_supply_names),
+> > +				      ov8856->supplies);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> 
+> In case of ACPI this cannot get ov8856->reset_gpio  and ov8856->supplies, please add the check for ACPI case:
+> if (!is_acpi_node(fwnode)) { }
 
-OK. Thanks for the details, I'm waiting for good news :). If you need
-some help with Venus bringup ping me on IRC - my nickname is svarbanov
-on #v4l channel.
+I tought that dummy-regulators will be created in case of ACPI?
 
-Regarding to venus clocks, these two clocks exist in below gcc driver
-but missing in msm8916:
+Regards,
+  Marco
 
-gcc_venus0_core0_vcodec0_clk
-gcc_venus0_core1_vcodec0_clk
-
-but the Venus IP block should be the same as in msm8916. Can you point
-me to the donwstream gcc driver or check from where they comes.
-
+> Thanks.
+> Ben
+> 
+> >  	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+> >  	if (!ep)
+> >  		return -ENXIO;
+> > @@ -1169,6 +1257,8 @@ static int ov8856_remove(struct i2c_client *client)
+> >  	pm_runtime_disable(&client->dev);
+> >  	mutex_destroy(&ov8856->mutex);
+> > 
+> > +	__ov8856_power_off(ov8856);
+> > +
+> >  	return 0;
+> >  }
+> > 
+> > @@ -1177,22 +1267,31 @@ static int ov8856_probe(struct i2c_client *client)
+> >  	struct ov8856 *ov8856;
+> >  	int ret;
+> > 
+> > -	ret = ov8856_check_hwcfg(&client->dev);
+> > +	ov8856 = devm_kzalloc(&client->dev, sizeof(*ov8856), GFP_KERNEL);
+> > +	if (!ov8856)
+> > +		return -ENOMEM;
+> > +
+> > +	ov8856->dev = &client->dev;
+> > +
+> > +	ret = ov8856_get_hwcfg(ov8856);
+> >  	if (ret) {
+> > -		dev_err(&client->dev, "failed to check HW configuration: %d",
+> > +		dev_err(&client->dev, "failed to get HW configuration: %d",
+> >  			ret);
+> >  		return ret;
+> >  	}
+> > 
+> > -	ov8856 = devm_kzalloc(&client->dev, sizeof(*ov8856), GFP_KERNEL);
+> > -	if (!ov8856)
+> > -		return -ENOMEM;
+> > -
+> >  	v4l2_i2c_subdev_init(&ov8856->sd, client, &ov8856_subdev_ops);
+> > +
+> > +	ret = __ov8856_power_on(ov8856);
+> > +	if (ret) {
+> > +		dev_err(&client->dev, "failed to power on\n");
+> > +		return ret;
+> > +	}
+> > +
+> >  	ret = ov8856_identify_module(ov8856);
+> >  	if (ret) {
+> >  		dev_err(&client->dev, "failed to find sensor: %d", ret);
+> > -		return ret;
+> > +		goto probe_power_off;
+> >  	}
+> > 
+> >  	mutex_init(&ov8856->mutex);
+> > @@ -1238,6 +1337,9 @@ static int ov8856_probe(struct i2c_client *client)
+> >  	v4l2_ctrl_handler_free(ov8856->sd.ctrl_handler);
+> >  	mutex_destroy(&ov8856->mutex);
+> > 
+> > +probe_power_off:
+> > +	__ov8856_power_off(ov8856);
+> > +
+> >  	return ret;
+> >  }
+> > 
+> > @@ -1254,11 +1356,18 @@ static const struct acpi_device_id ov8856_acpi_ids[]
+> > = {  MODULE_DEVICE_TABLE(acpi, ov8856_acpi_ids);  #endif
+> > 
+> > +static const struct of_device_id ov8856_of_match[] = {
+> > +	{ .compatible = "ovti,ov8856" },
+> > +	{ /* sentinel */ }
+> > +};
+> > +MODULE_DEVICE_TABLE(of, ov8856_of_match);
+> > +
+> >  static struct i2c_driver ov8856_i2c_driver = {
+> >  	.driver = {
+> >  		.name = "ov8856",
+> >  		.pm = &ov8856_pm_ops,
+> >  		.acpi_match_table = ACPI_PTR(ov8856_acpi_ids),
+> > +		.of_match_table = ov8856_of_match,
+> >  	},
+> >  	.probe_new = ov8856_probe,
+> >  	.remove = ov8856_remove,
+> > --
+> > 2.25.1
 > 
 > 
-> [1] https://github.com/konradybcio/android_kernel_asus_msm8916-1/blob/minimal/drivers/clk/qcom/clock-gcc-8936.c#L1613-L1618
-> 
-> Konrad
-> 
-> wt., 5 maj 2020 o 13:43 Stanimir Varbanov
-> <stanimir.varbanov@linaro.org> napisał(a):
->>
->> Hi Konrad,
->>
->> On 5/1/20 11:35 PM, Konrad Dybcio wrote:
->>> Signed-off-by: Konrad Dybcio <konradybcio@gmail.com>
->>> ---
->>>  drivers/media/platform/qcom/venus/core.c | 33 ++++++++++++++++++++++++
->>>  1 file changed, 33 insertions(+)
->>>
->>> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
->>> index 194b10b987672..f3a15991ac763 100644
->>> --- a/drivers/media/platform/qcom/venus/core.c
->>> +++ b/drivers/media/platform/qcom/venus/core.c
->>> @@ -405,6 +405,38 @@ static const struct venus_resources msm8916_res = {
->>>       .fwname = "qcom/venus-1.8/venus.mdt",
->>>  };
->>>
->>> +static const struct freq_tbl msm8939_freq_table[] = {
->>> +     { 489600, 266670000 },  /* 1080p @ 60 */
->>> +     { 244800, 200000000 },  /* 1080p @ 30 */
->>> +     { 244800, 133330000 },  /* 1080p @ 30 (decode only) */
->>> +     { 220800, 133330000 },  /* 720p @ 60 (decode only?) */
->>> +     { 108000, 133330000 },  /* 720p @ 30*/
->>> +     { 72000, 133330000 },  /* VGA @ 60 */
->>> +     { 36000, 133330000 },  /* VGA @ 30 */
->>
->> 133MHz is the minimum clock frequency in the GCC driver? Do you think
->> that will change?
->>
->>> +};
->>> +
->>> +static const struct reg_val msm8939_reg_preset[] = {
->>> +     { 0xe0020, 0x0aaaaaaa },
->>> +     { 0xe0024, 0x0aaaaaaa },
->>> +     { 0x80124, 0x00000003 },
->>> +};
->>> +
->>> +static const struct venus_resources msm8939_res = {
->>> +     .freq_tbl = msm8939_freq_table,
->>> +     .freq_tbl_size = ARRAY_SIZE(msm8939_freq_table),
->>> +     .reg_tbl = msm8939_reg_preset,
->>> +     .reg_tbl_size = ARRAY_SIZE(msm8939_reg_preset),
->>> +     .clks = { "core", "iface", "bus", },
->>> +     .clks_num = 3,
->>> +     .max_load = 489600, /* 1080p @ 60 */
->>> +     .hfi_version = HFI_VERSION_1XX,
->>> +     .vmem_id = VIDC_RESOURCE_NONE,
->>> +     .vmem_size = 0,
->>> +     .vmem_addr = 0,
->>> +     .dma_mask = 0xddc00000 - 1,
->>> +     .fwname = "qcom/venus-1.8/venus.mdt",
->>> +};
->>> +
->>>  static const struct freq_tbl msm8996_freq_table[] = {
->>>       { 1944000, 520000000 }, /* 4k UHD @ 60 (decode only) */
->>>       {  972000, 520000000 }, /* 4k UHD @ 30 */
->>> @@ -567,6 +599,7 @@ static const struct venus_resources sc7180_res = {
->>>
->>>  static const struct of_device_id venus_dt_match[] = {
->>>       { .compatible = "qcom,msm8916-venus", .data = &msm8916_res, },
->>> +     { .compatible = "qcom,msm8939-venus", .data = &msm8939_res, },
->>>       { .compatible = "qcom,msm8996-venus", .data = &msm8996_res, },
->>>       { .compatible = "qcom,sdm845-venus", .data = &sdm845_res, },
->>>       { .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2, },
->>>
->>
->> --
->> regards,
->> Stan
 
 -- 
-regards,
-Stan
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
