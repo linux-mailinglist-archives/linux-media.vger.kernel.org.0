@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28C4B1C9A6E
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 21:03:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BF1B1C9AB0
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 21:15:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727891AbgEGTDY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 May 2020 15:03:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33676 "EHLO mail.kernel.org"
+        id S1728605AbgEGTPe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 May 2020 15:15:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39298 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726367AbgEGTDY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 May 2020 15:03:24 -0400
+        id S1726320AbgEGTPe (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 7 May 2020 15:15:34 -0400
 Received: from embeddedor (unknown [189.207.59.248])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2D7FE2083B;
-        Thu,  7 May 2020 19:03:23 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5EF12208E4;
+        Thu,  7 May 2020 19:15:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588878203;
-        bh=hDrhDJ+9+p7V0p39p+wAiF1BD0xFcVR0UNXHEixFP8Y=;
+        s=default; t=1588878933;
+        bh=ZPm1lXreSdVxT/TB7RrJsuJK7F5PayuZXbIMXSCMsAY=;
         h=Date:From:To:Cc:Subject:From;
-        b=E7TMDbft1Dv7fxo6+nlAZ+ThbNi/6sm0iSirDV/cgElpudWvzkztchzb4ZH1quic2
-         BYcnmjQOWzzohH4P9QwN5wb2ngO5gceV3FCZU+xk/AuVvYcdqRkMj5rDO3lG0+6WDW
-         eum6FARUXDlyK33hw53WysF9cyVMnch5R39tDOqk=
-Date:   Thu, 7 May 2020 14:07:50 -0500
+        b=vlko1ZXU6sxyMwVHztzLWGJbGIgUyvcKyr7zJGP09DVL7Q53ijWDz62osbXgQtpqB
+         m6+ktOxPTd8FWxurabY8spnYoPSq/8r1QDAPrYCIUwuHt+V27sKyMHKbZeYonoHLn9
+         +LBX/te2mO9bBc6Gi15U13IQoxBlukDWYHM+Zr+k=
+Date:   Thu, 7 May 2020 14:20:00 -0500
 From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: venus: Replace zero-length array with flexible-array
-Message-ID: <20200507190750.GA15755@embeddedor>
+To:     Kyungmin Park <kyungmin.park@samsung.com>,
+        Andrzej Hajda <a.hajda@samsung.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: s5k5baf: Replace zero-length array with flexible-array
+Message-ID: <20200507192000.GA16098@embeddedor>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -76,70 +76,20 @@ This issue was found with the help of Coccinelle.
 
 Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
- drivers/media/platform/qcom/venus/hfi_cmds.h |    2 +-
- drivers/media/platform/qcom/venus/hfi_msgs.h |   10 +++++-----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/media/i2c/s5k5baf.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.h b/drivers/media/platform/qcom/venus/hfi_cmds.h
-index cae9d5d61c0c..83705e237f1c 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.h
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.h
-@@ -107,7 +107,7 @@ struct hfi_session_abort_pkt {
- struct hfi_session_set_property_pkt {
- 	struct hfi_session_hdr_pkt shdr;
- 	u32 num_properties;
--	u32 data[0];
-+	u32 data[];
+diff --git a/drivers/media/i2c/s5k5baf.c b/drivers/media/i2c/s5k5baf.c
+index cdfe008ba39f..42584a088273 100644
+--- a/drivers/media/i2c/s5k5baf.c
++++ b/drivers/media/i2c/s5k5baf.c
+@@ -281,7 +281,7 @@ struct s5k5baf_fw {
+ 		u16 id;
+ 		u16 offset;
+ 	} seq[0];
+-	u16 data[0];
++	u16 data[];
  };
  
- struct hfi_session_set_buffers_pkt {
-diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.h b/drivers/media/platform/qcom/venus/hfi_msgs.h
-index 7694b1d25d9d..526d9f5b487b 100644
---- a/drivers/media/platform/qcom/venus/hfi_msgs.h
-+++ b/drivers/media/platform/qcom/venus/hfi_msgs.h
-@@ -155,7 +155,7 @@ struct hfi_msg_session_empty_buffer_done_pkt {
- 	u32 input_tag;
- 	u32 packet_buffer;
- 	u32 extradata_buffer;
--	u32 data[0];
-+	u32 data[];
- };
- 
- struct hfi_msg_session_fbd_compressed_pkt {
-@@ -175,7 +175,7 @@ struct hfi_msg_session_fbd_compressed_pkt {
- 	u32 picture_type;
- 	u32 packet_buffer;
- 	u32 extradata_buffer;
--	u32 data[0];
-+	u32 data[];
- };
- 
- struct hfi_msg_session_fbd_uncompressed_plane0_pkt {
-@@ -202,7 +202,7 @@ struct hfi_msg_session_fbd_uncompressed_plane0_pkt {
- 	u32 picture_type;
- 	u32 packet_buffer;
- 	u32 extradata_buffer;
--	u32 data[0];
-+	u32 data[];
- };
- 
- struct hfi_msg_session_fbd_uncompressed_plane1_pkt {
-@@ -211,7 +211,7 @@ struct hfi_msg_session_fbd_uncompressed_plane1_pkt {
- 	u32 filled_len;
- 	u32 offset;
- 	u32 packet_buffer2;
--	u32 data[0];
-+	u32 data[];
- };
- 
- struct hfi_msg_session_fbd_uncompressed_plane2_pkt {
-@@ -220,7 +220,7 @@ struct hfi_msg_session_fbd_uncompressed_plane2_pkt {
- 	u32 filled_len;
- 	u32 offset;
- 	u32 packet_buffer3;
--	u32 data[0];
-+	u32 data[];
- };
- 
- struct hfi_msg_session_parse_sequence_header_done_pkt {
+ struct s5k5baf {
 
