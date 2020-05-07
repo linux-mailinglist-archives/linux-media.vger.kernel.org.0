@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9F7E31C9014
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 16:37:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 655201C8F05
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 16:35:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727890AbgEGO17 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 May 2020 10:27:59 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54018 "EHLO mail.kernel.org"
+        id S1728340AbgEGO25 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 May 2020 10:28:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55958 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727867AbgEGO16 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 May 2020 10:27:58 -0400
+        id S1728329AbgEGO2z (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 7 May 2020 10:28:55 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 71A1020A8B;
-        Thu,  7 May 2020 14:27:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B38CF20857;
+        Thu,  7 May 2020 14:28:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588861677;
-        bh=jpYLgPba2W2cjLL8grkS1iQbCs1US7rxH2gsLmc3ELo=;
+        s=default; t=1588861735;
+        bh=d77HrayXv/zUq1hAABKyDml8cu8MWX+x2DmXs/dulIE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TOEBOY4lqdVDquf5/8fqLBrAfG5BLUYyJdAcFl6XXosQ1pmx5nTTs6ak9zglXwbZ5
-         koE8l0y8c1hoYUAfJAAX4Ct+eeeylD8N6X/dk2GMm7zPyYyO3tHqh3M8xCvC17u4xJ
-         QusFnX9MGM3zojYJgbhSfK/2j0d/a5xxX4TRAglM=
+        b=1nuMML2NUbxZkabrfk00d3qXuaOGmGtgSj05FNMxZFv20WlhcCMS3wF8uPDuJ5zCj
+         V70uQMIBpL8+uUcEEVUX6PowbIjy811bBIeAbcsI9z3RlFETDJcuAdBHCGiwTM+F9W
+         vCMzMXAT1RpAz1hTEom4dcnmHryreLYigti3ipA0=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Daniel Vetter <daniel.vetter@intel.com>,
@@ -35,12 +35,12 @@ Cc:     Daniel Vetter <daniel.vetter@intel.com>,
         Martin Liu <liumartin@google.com>,
         Sasha Levin <sashal@kernel.org>,
         dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.6 25/50] dma-buf: Fix SET_NAME ioctl uapi
-Date:   Thu,  7 May 2020 10:27:01 -0400
-Message-Id: <20200507142726.25751-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 19/35] dma-buf: Fix SET_NAME ioctl uapi
+Date:   Thu,  7 May 2020 10:28:13 -0400
+Message-Id: <20200507142830.26239-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200507142726.25751-1-sashal@kernel.org>
-References: <20200507142726.25751-1-sashal@kernel.org>
+In-Reply-To: <20200507142830.26239-1-sashal@kernel.org>
+References: <20200507142830.26239-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -87,7 +87,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 8 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index c343c7c10b4cc..e7589d91de8fb 100644
+index 0fb0358f00736..adc88e1dc999a 100644
 --- a/drivers/dma-buf/dma-buf.c
 +++ b/drivers/dma-buf/dma-buf.c
 @@ -388,7 +388,8 @@ static long dma_buf_ioctl(struct file *file,
