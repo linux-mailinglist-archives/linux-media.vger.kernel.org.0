@@ -2,537 +2,281 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 993541C8D0F
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 15:53:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12AA81C8D26
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 16:00:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726445AbgEGNxl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 May 2020 09:53:41 -0400
-Received: from gofer.mess.org ([88.97.38.141]:55479 "EHLO gofer.mess.org"
+        id S1726467AbgEGOAI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 May 2020 10:00:08 -0400
+Received: from mga11.intel.com ([192.55.52.93]:7975 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725985AbgEGNxj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 May 2020 09:53:39 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 00995C643A; Thu,  7 May 2020 14:53:37 +0100 (BST)
-From:   Sean Young <sean@mess.org>
-To:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        linux-input@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 3/3] media: rc: add support for Infrared Toy and IR Droid devices
-Date:   Thu,  7 May 2020 14:53:37 +0100
-Message-Id: <20200507135337.2343-3-sean@mess.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200507135337.2343-1-sean@mess.org>
-References: <20200507135337.2343-1-sean@mess.org>
+        id S1725969AbgEGOAH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 7 May 2020 10:00:07 -0400
+IronPort-SDR: rE5mJvSOY4jlrTKyg5N1cVErkYNKzsN2Kjy3ubhuOEvme314CfHFcHZf0s5EPRKVzpR/8iRpwK
+ oonpkA/hEBjw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2020 07:00:06 -0700
+IronPort-SDR: nHg03Jtzxqxpk53+oPQicTxzPUA5TyRzpGZkoZRsE6KoOchQu219sne80JrX9id5bvkMNu5N7k
+ jD6REUlx7y3Q==
+X-IronPort-AV: E=Sophos;i="5.73,363,1583222400"; 
+   d="scan'208";a="251520648"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2020 07:00:02 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 2A3C820752; Thu,  7 May 2020 17:00:00 +0300 (EEST)
+Date:   Thu, 7 May 2020 17:00:00 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-devicetree <devicetree@vger.kernel.org>,
+        Louis Kuo <louis.kuo@mediatek.com>,
+        Shengnan Wang =?utf-8?B?KOeOi+Wco+eUtyk=?= 
+        <shengnan.wang@mediatek.com>
+Subject: Re: [V5, 2/2] media: i2c: dw9768: Add DW9768 VCM driver
+Message-ID: <20200507135959.GD9190@paasikivi.fi.intel.com>
+References: <20200502161727.30463-1-dongchun.zhu@mediatek.com>
+ <20200502161727.30463-3-dongchun.zhu@mediatek.com>
+ <20200506151352.GZ9190@paasikivi.fi.intel.com>
+ <1588855524.8804.168.camel@mhfsdcap03>
+ <20200507131220.GC9190@paasikivi.fi.intel.com>
+ <CAAFQd5DO9FGx9OF2RpcSprg0oLiVuS90w2qLAHCOSc3w6tKUWw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAFQd5DO9FGx9OF2RpcSprg0oLiVuS90w2qLAHCOSc3w6tKUWw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-These devices are connected via an usb serial port, and need to be
-attached using "inputattach -irtoy /dev/ttyACM[0-9]" (patches will
-be sent once this is merged).
+Hi Tomasz,
 
-http://dangerousprototypes.com/docs/USB_Infrared_Toy
-https://www.irdroid.com/irdroid-usb-ir-transceiver/
+On Thu, May 07, 2020 at 03:46:31PM +0200, Tomasz Figa wrote:
+> Hi Sakari, Dongchun,
+> 
+> On Thu, May 7, 2020 at 3:12 PM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > HI Dongchun,
+> >
+> > On Thu, May 07, 2020 at 08:45:24PM +0800, Dongchun Zhu wrote:
+> > > Hi Sakari,
+> > >
+> > > Thanks for the review.
+> > >
+> > > On Wed, 2020-05-06 at 18:13 +0300, Sakari Ailus wrote:
+> > > > Hi Dongchun,
+> > > >
+> > > > On Sun, May 03, 2020 at 12:17:27AM +0800, Dongchun Zhu wrote:
+> > > > > Add a V4L2 sub-device driver for DW9768 voice coil motor, providing
+> > > > > control to set the desired focus via IIC serial interface.
+> > > > >
+> > > > > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > > > ---
+> > > > >  MAINTAINERS                |   1 +
+> > > > >  drivers/media/i2c/Kconfig  |  11 ++
+> > > > >  drivers/media/i2c/Makefile |   1 +
+> > > > >  drivers/media/i2c/dw9768.c | 440 +++++++++++++++++++++++++++++++++++++++++++++
+> > > > >  4 files changed, 453 insertions(+)
+> > > > >  create mode 100644 drivers/media/i2c/dw9768.c
+> > > > >
+> > > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > > index 8d72c41..c92dc99 100644
+> > > > > --- a/MAINTAINERS
+> > > > > +++ b/MAINTAINERS
+> > > > > @@ -5157,6 +5157,7 @@ L:  linux-media@vger.kernel.org
+> > > > >  S:       Maintained
+> > > > >  T:       git git://linuxtv.org/media_tree.git
+> > > > >  F:       Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
+> > > > > +F:       drivers/media/i2c/dw9768.c
+> > > > >
+> > > > >  DONGWOON DW9807 LENS VOICE COIL DRIVER
+> > > > >  M:       Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > > > > index 125d596..6a3f9da 100644
+> > > > > --- a/drivers/media/i2c/Kconfig
+> > > > > +++ b/drivers/media/i2c/Kconfig
+> > > > > @@ -1040,6 +1040,17 @@ config VIDEO_DW9714
+> > > > >     capability. This is designed for linear control of
+> > > > >     voice coil motors, controlled via I2C serial interface.
+> > > > >
+> > > > > +config VIDEO_DW9768
+> > > > > + tristate "DW9768 lens voice coil support"
+> > > > > + depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
+> > > > > + depends on VIDEO_V4L2_SUBDEV_API
+> > > >
+> > > > Please check how this works in the media tree master branch now --- it's
+> > > > largely select based.
+> > > >
+> > >
+> > > The actuator driver uses some structures that require the
+> > > VIDEO_V4L2_SUBDEV_API code, so here we add VIDEO_V4L2_SUBDEV_API
+> > > dependency to avoid possible build error when it's not enabled.
+> >
+> > Please make sure this works with current media tree master. Right now it
+> > does not.
+> >
+> 
+> Dongchun, as Sakari said, please make sure to base the patches on the
+> master branch of the media tree.
+> (https://git.linuxtv.org/media_tree.git/). The approach for Kconfig
+> dependency selection there seems to have changed recently.
+> 
+> > >
+> > > > In general the patch seems fine to me, but please see the other comments
+> > > > below, too.
+> > > >
+> > > > > + depends on PM
+> > > > > + help
+> > > > > +   This is a driver for the DW9768 camera lens voice coil.
+> > > > > +   DW9768 is a 10 bit DAC with 100mA output current sink
+> > > > > +   capability. This is designed for linear control of
+> > > > > +   voice coil motors, controlled via I2C serial interface.
+> > > > > +
+> > > > >  config VIDEO_DW9807_VCM
+> > > > >   tristate "DW9807 lens voice coil support"
+> > > > >   depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
+> > > > > diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> > > > > index 77bf7d0..4057476 100644
+> > > > > --- a/drivers/media/i2c/Makefile
+> > > > > +++ b/drivers/media/i2c/Makefile
+> > > > > @@ -24,6 +24,7 @@ obj-$(CONFIG_VIDEO_SAA6752HS) += saa6752hs.o
+> > > > >  obj-$(CONFIG_VIDEO_AD5820)  += ad5820.o
+> > > > >  obj-$(CONFIG_VIDEO_AK7375)  += ak7375.o
+> > > > >  obj-$(CONFIG_VIDEO_DW9714)  += dw9714.o
+> > > > > +obj-$(CONFIG_VIDEO_DW9768)  += dw9768.o
+> > > > >  obj-$(CONFIG_VIDEO_DW9807_VCM)  += dw9807-vcm.o
+> > > > >  obj-$(CONFIG_VIDEO_ADV7170) += adv7170.o
+> > > > >  obj-$(CONFIG_VIDEO_ADV7175) += adv7175.o
+> > > > > diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
+> > > > > new file mode 100644
+> > > > > index 0000000..dd68534
+> > > > > --- /dev/null
+> > > > > +++ b/drivers/media/i2c/dw9768.c
+> > > > > @@ -0,0 +1,440 @@
+> > > > > +// SPDX-License-Identifier: GPL-2.0
+> > > > > +// Copyright (c) 2020 MediaTek Inc.
+> > > > > +
+> > > > > +#include <linux/delay.h>
+> > > > > +#include <linux/i2c.h>
+> > > > > +#include <linux/module.h>
+> > > > > +#include <linux/pm_runtime.h>
+> > > > > +#include <linux/regulator/consumer.h>
+> > > > > +#include <media/v4l2-async.h>
+> > > > > +#include <media/v4l2-ctrls.h>
+> > > > > +#include <media/v4l2-device.h>
+> > > > > +#include <media/v4l2-subdev.h>
+> > > > > +
+> > > > > +#define DW9768_NAME                              "dw9768"
+> > > > > +#define DW9768_MAX_FOCUS_POS                     (1024 - 1)
+> > > > > +/*
+> > > > > + * This sets the minimum granularity for the focus positions.
+> > > > > + * A value of 1 gives maximum accuracy for a desired focus position
+> > > > > + */
+> > > > > +#define DW9768_FOCUS_STEPS                       1
+> > > > > +
+> > > > > +/*
+> > > > > + * Ring control and Power control register
+> > > > > + * Bit[1] RING_EN
+> > > > > + * 0: Direct mode
+> > > > > + * 1: AAC mode (ringing control mode)
+> > > > > + * Bit[0] PD
+> > > > > + * 0: Normal operation mode
+> > > > > + * 1: Power down mode
+> > > > > + * DW9768 requires waiting time of Topr after PD reset takes place.
+> > > > > + */
+> > > > > +#define DW9768_RING_PD_CONTROL_REG               0x02
+> > > > > +#define DW9768_PD_MODE_OFF                       0x00
+> > > > > +#define DW9768_PD_MODE_EN                        BIT(0)
+> > > > > +#define DW9768_AAC_MODE_EN                       BIT(1)
+> > > > > +
+> > > > > +/*
+> > > > > + * DW9768 separates two registers to control the VCM position.
+> > > > > + * One for MSB value, another is LSB value.
+> > > > > + * DAC_MSB: D[9:8] (ADD: 0x03)
+> > > > > + * DAC_LSB: D[7:0] (ADD: 0x04)
+> > > > > + * D[9:0] DAC data input: positive output current = D[9:0] / 1023 * 100[mA]
+> > > > > + */
+> > > > > +#define DW9768_MSB_ADDR                          0x03
+> > > > > +#define DW9768_LSB_ADDR                          0x04
+> > > > > +#define DW9768_STATUS_ADDR                       0x05
+> > > > > +
+> > > > > +/*
+> > > > > + * AAC mode control & prescale register
+> > > > > + * Bit[7:5] Namely AC[2:0], decide the VCM mode and operation time.
+> > > > > + * 000 Direct(default)
+> > > > > + * 001 AAC2 0.48xTvib
+> > > > > + * 010 AAC3 0.70xTvib
+> > > > > + * 011 AAC4 0.75xTvib
+> > > > > + * 100 Reserved
+> > > > > + * 101 AAC8 1.13xTvib
+> > > > > + * 110 Reserved
+> > > > > + * 111 Reserved
+> > > > > + * Bit[2:0] Namely PRESC[2:0], set the internal clock dividing rate as follow.
+> > > > > + * 000 2
+> > > > > + * 001 1(default)
+> > > > > + * 010 1/2
+> > > > > + * 011 1/4
+> > > > > + * 100 8
+> > > > > + * 101 4
+> > > > > + * 110 Reserved
+> > > > > + * 111 Reserved
+> > > > > + */
+> > > > > +#define DW9768_AAC_PRESC_REG                     0x06
+> > > > > +#define DW9768_AAC3_SELECT_DIVIDING_RATE_1       0x41
+> > > >
+> > > > I guess we can start with these values. But I can't think of another option
+> > > > than putting them into DT if there are differences between what hardware
+> > > > platforms require.
+> > > >
+> > >
+> > > Let's have a discussion about this.
+> > > Now these non-default register settings represent one AAC operation
+> > > mode, this is one option and works for a given lens or a module.
+> > > If sometime in the future hardware platforms require another different
+> > > settings, then DT properties may need to be created.
+> >
+> > If these values indeed are specific to a given lens (and presumably also a
+> > spring), then I'd put them to DT right now --- we don't have drivers for
+> > these components the drivers of which could hold this information, nor it
+> > makes sense to add them just for that.
+> >
+> 
+> I tend to stay on the conservative side and only add DT properties
+> once there is really a need to do so. Right now we haven't seen any
+> system which would use different values of these parameters.
 
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/media/rc/Kconfig  |  15 ++
- drivers/media/rc/Makefile |   1 +
- drivers/media/rc/ir_toy.c | 448 ++++++++++++++++++++++++++++++++++++++
- 3 files changed, 464 insertions(+)
- create mode 100644 drivers/media/rc/ir_toy.c
+I think it's also conservative to put things that are system specific to
+DT. :-)
 
-diff --git a/drivers/media/rc/Kconfig b/drivers/media/rc/Kconfig
-index c18dee6482536..aa690ba6a981a 100644
---- a/drivers/media/rc/Kconfig
-+++ b/drivers/media/rc/Kconfig
-@@ -530,6 +530,21 @@ config IR_ZX
- 	   To compile this driver as a module, choose M here: the
- 	   module will be called zx-irdec.
- 
-+config IR_TOY
-+	tristate "Infrared Toy and IR Droid"
-+	depends on RC_CORE
-+	select USB
-+	select USB_ACM
-+	select SERIO
-+	select SERIO_SERPORT
-+	help
-+	   Say Y here if you want to use the Infrared Toy or IR Droid. This
-+	   is a serio driver which needs to be attached to the usb serial
-+	   port using inputattach.
-+
-+	   To compile this driver as a module, choose M here: the module will be
-+	   called ir_toy.
-+
- endif #RC_DEVICES
- 
- endif #RC_CORE
-diff --git a/drivers/media/rc/Makefile b/drivers/media/rc/Makefile
-index 48d23433b3c06..5bb2932ab1195 100644
---- a/drivers/media/rc/Makefile
-+++ b/drivers/media/rc/Makefile
-@@ -50,3 +50,4 @@ obj-$(CONFIG_IR_MTK) += mtk-cir.o
- obj-$(CONFIG_IR_ZX) += zx-irdec.o
- obj-$(CONFIG_IR_TANGO) += tango-ir.o
- obj-$(CONFIG_RC_XBOX_DVD) += xbox_remote.o
-+obj-$(CONFIG_IR_TOY) += ir_toy.o
-diff --git a/drivers/media/rc/ir_toy.c b/drivers/media/rc/ir_toy.c
-new file mode 100644
-index 0000000000000..8c9dffa002f44
---- /dev/null
-+++ b/drivers/media/rc/ir_toy.c
-@@ -0,0 +1,448 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+
-+/*
-+ * Infrared Toy and IR Droid RC core driver
-+ *
-+ * Copyright (C) 2020 Sean Young <sean@mess.org>
-+
-+ * This driver is based on the lirc driver which can be found here:
-+ * https://sourceforge.net/p/lirc/git/ci/master/tree/plugins/irtoy.c
-+ * Copyright (C) 2011 Peter Kooiman <pkooiman@gmail.com>
-+ */
-+
-+#include <linux/completion.h>
-+#include <linux/delay.h>
-+#include <linux/init.h>
-+#include <linux/interrupt.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/serio.h>
-+#include <linux/slab.h>
-+
-+#include <media/rc-core.h>
-+
-+static u8 COMMAND_VERSION[] = { 'v' };
-+// End transmit and repeat reset command so we exit sump mode
-+static u8 COMMAND_RESET[] = { 0xff, 0xff, 0, 0, 0, 0, 0 };
-+static u8 COMMAND_SMODE_ENTER[] = { 's' };
-+static u8 COMMAND_TXSTART[] = { 0x26, 0x24, 0x25, 0x03 };
-+
-+#define COMMAND_IO_WRITE 0x30
-+#define COMMAND_IO_DIRECTION 0x31
-+
-+#define REPLY_XMITCOUNT 't'
-+#define REPLY_XMITSUCCESS 'C'
-+#define REPLY_VERSION 'V'
-+#define REPLY_SAMPLEMODEPROTO 'S'
-+
-+#define TIMEOUT_READYFORDATA 1000000
-+#define TIMEOUT_FLUSH 20000
-+#define TIMEOUT_SMODE_ENTER 500000
-+#define TIMEOUT_VERSION 500000
-+
-+#define LEN_XMITRES 4
-+#define LEN_VERSION 4
-+#define LEN_SAMPLEMODEPROTO 3
-+
-+#define MAX_MSG_SIZE 6
-+
-+#define MIN_FW_SUPPORTING_SETPIN 22
-+#define MIN_FW_VERSION 20
-+#define UNIT_NS 21333
-+#define MAX_TIMEOUT_NS (UNIT_NS * U16_MAX)
-+
-+#define OPEN_PIN	5	// RA5
-+#define RECEIVE_PIN	3	// RA3
-+#define SENDING_PIN	4	// RA4
-+
-+struct irtoy {
-+	struct device *dev;
-+	struct rc_dev *rc;
-+	struct serio *serio;
-+
-+	u8 rx[MAX_MSG_SIZE];
-+	u8 rx_len;
-+	u8 rx_needed;
-+	bool pulse;
-+	struct completion rx_done;
-+
-+	uint hw_version;
-+	uint sw_version;
-+	uint proto_version;
-+};
-+
-+static irqreturn_t irtoy_interrupt(struct serio *serio, unsigned char data,
-+				   unsigned int flags)
-+{
-+	struct irtoy *irtoy = serio_get_drvdata(serio);
-+
-+	// add byte to buffer
-+	if (irtoy->rx_len < MAX_MSG_SIZE)
-+		irtoy->rx[irtoy->rx_len++] = data;
-+
-+	if (irtoy->rx_needed == 0 && irtoy->rx_len == 2) {
-+		u32 v = be16_to_cpup((__be16 *)irtoy->rx);
-+
-+		if (v != 0xffff) {
-+			struct ir_raw_event rawir = {
-+				.pulse = irtoy->pulse,
-+				.duration = v * UNIT_NS,
-+			};
-+
-+			ir_raw_event_store_with_timeout(irtoy->rc, &rawir);
-+			ir_raw_event_handle(irtoy->rc);
-+			irtoy->pulse = !irtoy->pulse;
-+		} else {
-+			irtoy->pulse = true;
-+		}
-+
-+		irtoy->rx_len = 0;
-+	} else if (irtoy->rx_len == irtoy->rx_needed) {
-+		complete(&irtoy->rx_done);
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+// Send a command and wait for a response of rx_len bytes, for at most
-+// timeout microseconds. If rxlen is 0, then wait for timeout microseconds
-+// and read all response bytes within that period
-+static int irtoy_send_and_recv(struct irtoy *irtoy, u8 *cmd, int cmd_len,
-+			       int rx_len, int timeout)
-+{
-+	int err;
-+
-+	serio_pause_rx(irtoy->serio);
-+	init_completion(&irtoy->rx_done);
-+	irtoy->rx_len = 0;
-+	irtoy->rx_needed = rx_len;
-+	serio_continue_rx(irtoy->serio);
-+
-+	err = serio_write_buf(irtoy->serio, cmd, cmd_len);
-+	if (err)
-+		return err;
-+
-+	if (!wait_for_completion_timeout(&irtoy->rx_done,
-+					 usecs_to_jiffies(timeout)))
-+		return -ETIMEDOUT;
-+
-+	return 0;
-+}
-+
-+// Wait for timeout for rx_len bytes to arrive
-+static int irtoy_recv(struct irtoy *irtoy, int rx_len, int timeout)
-+{
-+	bool done;
-+
-+	serio_pause_rx(irtoy->serio);
-+	if (irtoy->rx_len >= rx_len) {
-+		done = true;
-+	} else {
-+		init_completion(&irtoy->rx_done);
-+		irtoy->rx_needed = rx_len;
-+		done = false;
-+	}
-+	serio_continue_rx(irtoy->serio);
-+
-+	if (!done && !wait_for_completion_timeout(&irtoy->rx_done,
-+						  usecs_to_jiffies(timeout)))
-+		return -ETIMEDOUT;
-+
-+	return 0;
-+}
-+
-+static int irtoy_send_tx(struct irtoy *irtoy, void *buf, uint size)
-+{
-+	uint buf_len, buf_size, count, emitted;
-+	int err;
-+
-+	err = irtoy_send_and_recv(irtoy, COMMAND_TXSTART,
-+				  sizeof(COMMAND_TXSTART),
-+				  1, TIMEOUT_READYFORDATA);
-+	if (err) {
-+		dev_err(irtoy->dev, "failed to send tx start command: %d\n",
-+			err);
-+		return err;
-+	}
-+
-+	buf_len = irtoy->rx[0];
-+	count = size;
-+
-+	while (count) {
-+		dev_dbg(irtoy->dev, "ready to receive: 0x%02x\n", buf_len);
-+
-+		if (buf_len == 0) {
-+			dev_err(irtoy->dev, "not enough buffer space\n");
-+			return -EINVAL;
-+		}
-+
-+		buf_size = min(buf_len, count);
-+
-+		err = irtoy_send_and_recv(irtoy, buf, buf_size, 1,
-+					  TIMEOUT_READYFORDATA);
-+		if (err) {
-+			dev_err(irtoy->dev, "failed to send tx buffer: %d\n",
-+				err);
-+			return err;
-+		}
-+
-+		buf_len = irtoy->rx[0];
-+
-+		buf += buf_size;
-+		count -= buf_size;
-+	}
-+
-+	err = irtoy_recv(irtoy, 1 + LEN_XMITRES, TIMEOUT_READYFORDATA);
-+	if (err) {
-+		dev_err(irtoy->dev, "failed to receive tx result: %d\n", err);
-+		return err;
-+	}
-+
-+	dev_dbg(irtoy->dev, "tx result: %*phN", LEN_XMITRES, irtoy->rx + 1);
-+
-+	if (irtoy->rx[1] != REPLY_XMITCOUNT) {
-+		dev_err(irtoy->dev, "invalid byte count indicator\n");
-+		return -EINVAL;
-+	}
-+
-+	emitted = be16_to_cpup((__be16 *)(irtoy->rx + 2));
-+
-+	if (size != emitted) {
-+		dev_err(irtoy->dev, "expected %u emitted, got %u\n", count,
-+			emitted);
-+		return -EINVAL;
-+	}
-+
-+	if (irtoy->rx[4] != REPLY_XMITSUCCESS) {
-+		dev_err(irtoy->dev, "invalid byte count indicator\n");
-+		return -EINVAL;
-+	}
-+
-+	// switch to raw IR mode
-+	irtoy->rx_needed = 0;
-+	irtoy->rx_len = 0;
-+
-+	return 0;
-+}
-+
-+static int irtoy_tx(struct rc_dev *rc, uint *txbuf, uint count)
-+{
-+	struct irtoy *irtoy = rc->priv;
-+	unsigned int i;
-+	size_t size;
-+	__be16 *buf;
-+	int err;
-+
-+	size = sizeof(u16) * (count + 1);
-+	buf = kmalloc(size, GFP_KERNEL);
-+	if (!buf)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < count; i++) {
-+		u16 v = DIV_ROUND_CLOSEST(US_TO_NS(txbuf[i]), UNIT_NS);
-+
-+		if (!v)
-+			v = 1;
-+		buf[i] = cpu_to_be16(v);
-+	}
-+
-+	buf[i] = cpu_to_be16(0xffff);
-+
-+	err = irtoy_send_tx(irtoy, buf, size);
-+	kfree(buf);
-+
-+	return err == 0 ? count : err;
-+}
-+
-+static int irtoy_reset(struct irtoy *irtoy)
-+{
-+	int err;
-+
-+	err = serio_write_buf(irtoy->serio, COMMAND_RESET,
-+			      sizeof(COMMAND_RESET));
-+	if (err != 0) {
-+		dev_err(irtoy->dev, "could not write reset command: %d\n",
-+			err);
-+		return err;
-+	}
-+
-+	usleep_range(50, 50);
-+
-+	return 0;
-+}
-+
-+static int irtoy_setup(struct irtoy *irtoy)
-+{
-+	uint version;
-+	int err;
-+
-+	// reset device
-+	err = irtoy_reset(irtoy);
-+	if (err)
-+		return err;
-+
-+	// get version
-+	err = irtoy_send_and_recv(irtoy, COMMAND_VERSION,
-+				  sizeof(COMMAND_VERSION),
-+				  LEN_VERSION, TIMEOUT_VERSION);
-+	if (err) {
-+		dev_err(irtoy->dev, "could not write version command: %d\n",
-+			err);
-+		return err;
-+	}
-+
-+	irtoy->rx[LEN_VERSION] = 0;
-+
-+	if (irtoy->rx[0] != REPLY_VERSION ||
-+	    kstrtouint(irtoy->rx + 1, 10, &version)) {
-+		dev_err(irtoy->dev, "invalid version %*phN. Please make sure you are using firmware v20 or higher",
-+			LEN_VERSION, irtoy->rx);
-+		return -ENODEV;
-+	}
-+
-+	dev_dbg(irtoy->dev, "version %s\n", irtoy->rx);
-+
-+	irtoy->hw_version = version / 100;
-+	irtoy->sw_version = version % 100;
-+
-+	// enter sample mode
-+	err = irtoy_send_and_recv(irtoy, COMMAND_SMODE_ENTER,
-+				  sizeof(COMMAND_SMODE_ENTER),
-+				  LEN_SAMPLEMODEPROTO, TIMEOUT_SMODE_ENTER);
-+	if (err) {
-+		dev_err(irtoy->dev, "could not write version command: %d\n",
-+			err);
-+		return err;
-+	}
-+
-+	irtoy->rx[LEN_SAMPLEMODEPROTO] = 0;
-+
-+	if (irtoy->rx[0] != REPLY_SAMPLEMODEPROTO ||
-+	    kstrtouint(irtoy->rx + 1, 10, &version)) {
-+		dev_err(irtoy->dev, "invalid sample mode response %*phN",
-+			LEN_SAMPLEMODEPROTO, irtoy->rx);
-+		return -ENODEV;
-+	}
-+
-+	dev_dbg(irtoy->dev, "protocol %s\n", irtoy->rx);
-+
-+	irtoy->proto_version = version;
-+
-+	return 0;
-+}
-+
-+static int irtoy_connect(struct serio *serio, struct serio_driver *drv)
-+{
-+	struct irtoy *irtoy;
-+	struct rc_dev *rc;
-+	int err;
-+
-+	irtoy = kzalloc(sizeof(*irtoy), GFP_KERNEL);
-+	if (!irtoy)
-+		return -ENOMEM;
-+
-+	rc = rc_allocate_device(RC_DRIVER_IR_RAW);
-+	if (!rc) {
-+		err = -ENOMEM;
-+		goto free_irtoy;
-+	}
-+
-+	irtoy->serio = serio;
-+	irtoy->dev = &serio->dev;
-+	irtoy->rc = rc;
-+	irtoy->pulse = true;
-+
-+	serio_set_drvdata(serio, irtoy);
-+
-+	err = serio_open(serio, drv);
-+	if (err)
-+		goto free_device;
-+
-+	err = irtoy_setup(irtoy);
-+	if (err)
-+		goto close_serio;
-+
-+	dev_info(irtoy->dev, "version hardware %u, firmware %u, protocol %u",
-+		 irtoy->hw_version, irtoy->sw_version, irtoy->proto_version);
-+
-+	if (irtoy->sw_version < MIN_FW_VERSION) {
-+		dev_err(irtoy->dev, "need firmware V%02u or higher",
-+			MIN_FW_VERSION);
-+		err = -ENODEV;
-+		goto close_serio;
-+	}
-+
-+	rc->device_name = dev_name(&serio->dev);
-+	rc->driver_name = KBUILD_MODNAME;
-+	rc->input_phys = serio->phys;
-+	rc->priv = irtoy;
-+	rc->dev.parent = &serio->dev;
-+	rc->tx_ir = irtoy_tx;
-+	rc->allowed_protocols = RC_PROTO_BIT_ALL_IR_DECODER;
-+	rc->map_name = RC_MAP_RC6_MCE;
-+	rc->rx_resolution = UNIT_NS;
-+	rc->timeout = IR_DEFAULT_TIMEOUT;
-+	rc->min_timeout = US_TO_NS(1);
-+	rc->max_timeout = MAX_TIMEOUT_NS;
-+
-+	err = rc_register_device(rc);
-+	if (err)
-+		goto close_serio;
-+
-+	// switch to raw IR mode
-+	irtoy->rx_needed = 0;
-+	irtoy->rx_len = 0;
-+
-+	return 0;
-+
-+close_serio:
-+	serio_close(serio);
-+free_device:
-+	serio_set_drvdata(serio, NULL);
-+	rc_free_device(rc);
-+free_irtoy:
-+	kfree(irtoy);
-+	return err;
-+}
-+
-+static void irtoy_disconnect(struct serio *serio)
-+{
-+	struct irtoy *irtoy = serio_get_drvdata(serio);
-+
-+	rc_unregister_device(irtoy->rc);
-+
-+	irtoy->serio = NULL;
-+
-+	serio_close(serio);
-+	serio_set_drvdata(serio, NULL);
-+	kfree(irtoy);
-+}
-+
-+static const struct serio_device_id irtoy_serio_ids[] = {
-+	{
-+		.type	= SERIO_RS232,
-+		.proto	= SERIO_IRTOY,
-+		.id	= SERIO_ANY,
-+		.extra	= SERIO_ANY,
-+	},
-+	{ }
-+};
-+
-+MODULE_DEVICE_TABLE(serio, irtoy_serio_ids);
-+
-+static struct serio_driver irtoy_drv = {
-+	.driver		= {
-+		.name	= "irtoy",
-+	},
-+	.description	= "Infrared Toy and IR Droid RC driver",
-+	.id_table	= irtoy_serio_ids,
-+	.interrupt	= irtoy_interrupt,
-+	.connect	= irtoy_connect,
-+	.disconnect	= irtoy_disconnect,
-+};
-+
-+module_serio_driver(irtoy_drv);
-+
-+MODULE_AUTHOR("Sean Young <sean@mess.org>");
-+MODULE_DESCRIPTION("Infrared Toy and IR Droid driver");
-+MODULE_LICENSE("GPL");
+In practice we haven't put lens specific parameters to DT before, but
+that's because 1) devices that need them are old, and so are the drivers
+and the matter was not recognised at the time they were merged and 2) a lot
+of devices these days don't have such configuration registers.
+
+That said, I don't have a strong opinion on this one, but I think putting
+this to DT would be a safer bet in the long run as this is specific to the
+board, not the device itself.
+
 -- 
-2.26.2
+Regards,
 
+Sakari Ailus
