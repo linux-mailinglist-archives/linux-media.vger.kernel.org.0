@@ -2,171 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72AF71C809A
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 05:42:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 726AE1C816A
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 07:15:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725985AbgEGDm3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 6 May 2020 23:42:29 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:54909 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725857AbgEGDm3 (ORCPT
+        id S1725848AbgEGFPn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 May 2020 01:15:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47438 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725802AbgEGFPm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 6 May 2020 23:42:29 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id WXQWjghmDhEkrWXQXj2zrk; Thu, 07 May 2020 05:42:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588822946; bh=EkjOSro8ZIeA9pMuXy2XUMt/+bJ0mSAkNsqjanwrxXk=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=CoEQbFHsvF0SWIgneXRydy1q/ZXf62HFtC9y8D231CBplb/WD1HgnINCpyzn5WowX
-         w7hRK8Lx37N4YYKZKmgMzOc4WADv2c8hpN4z7mhE2hSHDHzzFp+RlJh8pDKlRjg5wK
-         9dp9MIh12ri/wEBcoqaRmdvEW4//LmIk/hAZkrVqS/SwANQL7pAH5Dt8Iq1MzdLRF3
-         9NRv1XSAyMxrm6zxGFXX4s8egyGH1RUkNYad/9UFwf884mGq/qv40ZS2XsCagjtm7R
-         XZr2Lp91H437De6yOUCa7q/ZBki3rxQdjyiXBbwCLrB/JSYpk49HL/zCDiCLBRNZu2
-         ltTs1aX6UIHgw==
-Message-ID: <dfb1e382a17c06ef6aa3f409b34f3b22@smtp-cloud8.xs4all.net>
-Date:   Thu, 07 May 2020 05:42:24 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfFnsbLg+4ySIq82Bwbij8wchPBAeH1obguEVL2+f7mRa9zDOkK2jmt8h2dA4WNAOq69Tle8fxyD2uZdIadjFlcSokqu4b83Qi1sbHSca3HegSE+/gMFn
- XRt5x9uXSQ8KIEGo2sFmZPzPeg8cBYP6uRhT+SvpitKIvvXAxJDrIAMpgnxNJ1ijliF4BaamtYTLGPYZMvjrqDRtweZtWKbdl8WD5/VcSI6TU1MPMOWpqsNF
+        Thu, 7 May 2020 01:15:42 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E484C061A0F;
+        Wed,  6 May 2020 22:15:42 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id z6so1593685plk.10;
+        Wed, 06 May 2020 22:15:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=nX7bM4TH0Tvn6hSm8gSOJvn+yn2K9ALhjMGae7bRORU=;
+        b=KgV4t378aPEJDPqUuu6JwtkmVJRC3gE1dk5/MGcb8Yrk5OlinEQlA2gw7Sz9Mg9qs1
+         jD9EwAodYa1MlHq2ChhmDoCDIfQ8sG6myoTqYosXggAvFgzt9KwldVTSMwNU3dwGtCCP
+         8YiRvRpeDe+N/SNEORLTcWtH9rWRG2Li21bnTX/8GvM5+vvH7Kp3/IRgq7zkJiC8HcoX
+         FE6AXO9JggRx2ya4fXFcbG/QOwpVjDnJGK1unI13UGlWhCw4NIgkURyI0f/VO7xRbS/p
+         eHj9tpOP2XdeORrVOUm7SIjZOKlZgu1pKGnVjJ/YjfEEk79o3UZFOT/l1M7aq6aKiyYq
+         5dmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=nX7bM4TH0Tvn6hSm8gSOJvn+yn2K9ALhjMGae7bRORU=;
+        b=bnjl2q+K6AKyF7nH6jzuUl0pYzqYP9aUAD/gGt56CrfPuVR0kiaKekc4GxqhDVABll
+         rVkEvMVFb0mQLDo/XRuhYK7rstin4sSar5b23FEZ5Z5wGczHOd4hGu86U1l0P+PXVUgH
+         7K4EIUx+U3iIJZgR+C9cKJC6Zi58Ll1QgWf7cpZ7by0frs9HcgzX28T/aDibanI5yA7p
+         XP9FLcqnRk/J1JT8dl+Y4FhvUZHn3TER7mm1c1L8s0hMZSxhv+gRGkLs95Ys9mld8ILA
+         NZnFCZnV43n5Dlr+91t7SJ8lqlCsIBtprs85nwVlPZM3tQyj0X39m0PKtF5xirswT2nQ
+         qC+Q==
+X-Gm-Message-State: AGi0PuZA5pbmQiO5AdysJ+q5OGTD8Idq1vKQBpLWp+FfQoWdo3sgr28r
+        JmnpDM+lq66/zlJabeJAXnNOnWvbbgY=
+X-Google-Smtp-Source: APiQypLlqbbQkO44XhBAGOE2WtkfSoD8mEKjku4O8Ur/r2EPn0z3KOuE/0+kT/ufg1eo+jyqYfJs5w==
+X-Received: by 2002:a17:90a:6f22:: with SMTP id d31mr13316874pjk.14.1588828541305;
+        Wed, 06 May 2020 22:15:41 -0700 (PDT)
+Received: from [192.168.1.7] ([120.244.109.48])
+        by smtp.gmail.com with ESMTPSA id z25sm3549380pfa.213.2020.05.06.22.15.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 06 May 2020 22:15:40 -0700 (PDT)
+Subject: Re: [PATCH] media: usb: ttusb-dec: avoid buffer overflow in
+ ttusb_dec_handle_irq() when DMA failures/attacks occur
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     mchehab@kernel.org, kstewart@linuxfoundation.org,
+        tomasbortoli@gmail.com, sean@mess.org, allison@lohutok.net,
+        tglx@linutronix.de, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20200505142110.7620-1-baijiaju1990@gmail.com>
+ <20200505181042.GD1199718@kroah.com>
+ <0e4a86ee-8c4e-4ac3-8499-4e9a6ed7bd1e@gmail.com>
+ <20200506110722.GA2975410@kroah.com>
+ <b3af10e3-8709-3da0-6841-e5ddd6b4a609@gmail.com>
+ <20200506155257.GB3537174@kroah.com>
+ <46615f6e-11ec-6546-42a9-3490414f9550@gmail.com>
+ <20200506174345.GA3711921@kroah.com>
+From:   Jia-Ju Bai <baijiaju1990@gmail.com>
+Message-ID: <4bc70ec6-e518-5f42-b336-c86e1f92619f@gmail.com>
+Date:   Thu, 7 May 2020 13:15:22 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200506174345.GA3711921@kroah.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
 
-Results of the daily build of media_tree:
 
-date:			Thu May  7 05:00:09 CEST 2020
-media-tree git hash:	5b9f8e4ac9473962fa0e824fd1f04138600d459d
-media_build git hash:	2f75e0d4330da180166ebcd104560d471a1599b6
-v4l-utils git hash:	e0de0ec4541424a59891038be2a61de9231ad701
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 7bc5ca34b446a30a7e19688e9a1e68e905cb8ff4
-host hardware:		x86_64
-host os:		5.4.0-4-amd64
+On 2020/5/7 1:43, Greg KH wrote:
+> On Thu, May 07, 2020 at 12:48:47AM +0800, Jia-Ju Bai wrote:
+>> Yes, I agree that this issue is not new, because DMA attacks are old
+>> problems.
+>> But I am a little surprised that many current drivers are still vulnerable
+>> to DMA attacks.
+> Given that the attack vector is very hard to actually do, that's not
+> a suprise.
+>
+> It's only a very recent thing that Linux drivers have started to work on
+> "we don't trust the data coming from the hardware" path.  Previously we
+> always trusted that, but did not trust data coming from userspace.  So
+> work on fixing up drivers in this area is always encouraged.
+>
+> An example of this would be all of the fuzzing that USB drivers have
+> been getting with custom loop-back interfaces and the like over the past
+> year or so.  Expanding that to "we don't trust PCI device data" should
+> be the next step on this, and would help out your area as well.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
+Okay, I am glad to hear that :)
+Hardware security for the Linux kernel should receive more attention.
+Last year some researchers finished an interesting work about fuzzing 
+the inputs from hardware:
+https://github.com/securesystemslab/periscope
 
-Detailed results are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+>
+>>> If you trust a device enough to plug it in, well, you need to trust it
+>>> :)
+>> Well, maybe I need to trust all devices in my computer :)
+>>
+>> Anyway, thanks a lot for your patient explanation and reply.
+>> If you have encountered other kinds of DMA-related bugs/vulnerabilities,
+>> maybe I can help to detect them using my static-analysis tool :)
+> Did you only find a problem in this one driver?  Have you run it on any
+> more "complex" drivers and gotten any good results showing either that
+> we are programming defensively in this area, or not?
+>
 
-Detailed regression test results are available here:
+At present, I only detect the cases that a DMA value *directly* taints 
+array index, loop condition and important kernel-interface calls (such 
+as request_irq()).
+In this one driver, I only find two problems that mentioned in this patch.
+With the kernel configuration "allyesconfig" in my x86_64 machine, I 
+find nearly 200 such problems (intra-procedurally and 
+inter-procedurally) in all the compiled device drivers.
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+I also find that several drivers check the data from DMA memory, but 
+some of these checks can be bypassed.
+Here is an example in drivers/scsi/esas2r/esas2r_vda.c:
 
-Full logs are available here:
+The function esas2r_read_vda() uses a DMA value "vi":
+   struct atto_ioctl_vda *vi =
+             (struct atto_ioctl_vda *)a->vda_buffer;
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+Then esas2r_read_vda() calls esas2r_process_vda_ioctl() with vi:
+   esas2r_process_vda_ioctl(a, vi, rq, &sgc);
 
-The Media Infrastructure API from this daily build is here:
+In esas2r_process_vda_ioctl(), the DMA value "vi->function" is
+used at many places, such as:
+   if (vi->function >= vercnt)
+   ...
+   if (vi->version > esas2r_vdaioctl_versions[vi->function])
+   ...
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+However, when DMA failures or attacks occur, the value of vi->function 
+can be changed at any time. In this case, vi->function can be first 
+smaller than vercnt, and then it can be larger than vercnt when it is 
+used as the array index of esas2r_vdaioctl_versions, causing a 
+buffer-overflow vulnerability.
+
+I also submitted this patch, but no one has replied yet:
+https://lore.kernel.org/lkml/20200504172412.25985-1-baijiaju1990@gmail.com/
+
+
+Best wishes,
+Jia-Ju Bai
