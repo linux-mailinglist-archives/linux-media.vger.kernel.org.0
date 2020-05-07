@@ -2,1323 +2,405 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFFA51C8ABB
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 14:28:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAE3D1C8AB1
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 14:26:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726788AbgEGM2C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 May 2020 08:28:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58422 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725923AbgEGM2B (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 May 2020 08:28:01 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36EA6C05BD43
-        for <linux-media@vger.kernel.org>; Thu,  7 May 2020 05:28:01 -0700 (PDT)
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:6572:4a1f:d283:9ae8])
-        by andre.telenet-ops.be with bizsmtp
-        id boTy2200u3ZRV0X01oTzq1; Thu, 07 May 2020 14:27:59 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jWfd8-0008LG-SX; Thu, 07 May 2020 14:27:58 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jWfd8-0007qW-Ox; Thu, 07 May 2020 14:27:58 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>, Guennadi@rox.of.borg,
-        Liakhovetski@rox.of.borg, g.liakhovetski@gmx.de,
-        Magnus Damm <magnus.damm@gmail.com>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-sh@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] [RFC] media: sh_veu: Remove driver
-Date:   Thu,  7 May 2020 14:27:57 +0200
-Message-Id: <20200507122757.30119-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        id S1726320AbgEGM0z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 May 2020 08:26:55 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:44097 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725923AbgEGM0y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 May 2020 08:26:54 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 899B41C000B;
+        Thu,  7 May 2020 12:26:46 +0000 (UTC)
+Date:   Thu, 7 May 2020 14:29:58 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>, tfiga@google.com,
+        pavel@ucw.cz,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>, libcamera-devel@lists.libcamera.org
+Subject: Re: [PATCH v9 02/11] media: v4l2-ctrl: Document
+ V4L2_CID_CAMERA_SENSOR_LOCATION
+Message-ID: <20200507122958.2ot7aqtowcutiobe@uno.localdomain>
+References: <20200417124110.72313-1-jacopo@jmondi.org>
+ <20200417124110.72313-3-jacopo@jmondi.org>
+ <20200505140206.589f54ae@coco.lan>
+ <a5d77790-5f98-650e-cfb9-a97b8701454d@xs4all.nl>
+ <20200505165826.1ce8bb0d@coco.lan>
+ <b3e211da-b9f6-a65c-4453-c11b05bced45@xs4all.nl>
+ <20200506113909.1489bd1e@coco.lan>
+ <20200506110730.rvhxoh74u3rmemtw@uno.localdomain>
+ <20200506154741.GB15206@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200506154741.GB15206@pendragon.ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since its inclusion in v3.9, no users of the SuperH VEU mem2mem video
-processing driver have appeared upstream.  All VEU devices in SuperH
-board code still bind to the "uio_pdrv_genirq" driver instead.
-The original author marked the driver orphaned in v3.15.
+Hi Laurent,
 
-Remove the driver; it can always be resurrected from git history when
-needed.
+On Wed, May 06, 2020 at 06:47:41PM +0300, Laurent Pinchart wrote:
+> Hi Jacopo,
+>
+> On Wed, May 06, 2020 at 01:07:30PM +0200, Jacopo Mondi wrote:
+> > On Wed, May 06, 2020 at 11:39:09AM +0200, Mauro Carvalho Chehab wrote:
+> > > Em Wed, 6 May 2020 10:04:39 +0200 Hans Verkuil escreveu:
+> > >> On 05/05/2020 16:58, Mauro Carvalho Chehab wrote:
+> > >>> Em Tue, 5 May 2020 14:21:38 +0200 Hans Verkuil escreveu:
+> > >>>> On 05/05/2020 14:02, Mauro Carvalho Chehab wrote:
+> > >>>>> Em Fri, 17 Apr 2020 14:41:01 +0200 Jacopo Mondi escreveu:
+> > >>>>>> Add documentation for the V4L2_CID_CAMERA_SENSOR_LOCATION camera
+> > >>>>>> control. The newly added read-only control reports the camera device
+> > >>>>>> mounting position.
+> > >>>>>>
+> > >>>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > >>>>>> ---
+> > >>>>>>  .../media/v4l/ext-ctrls-camera.rst            | 32 +++++++++++++++++++
+> > >>>>>>  1 file changed, 32 insertions(+)
+> > >>>>>>
+> > >>>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > >>>>>> index e39f84d2447f..01a9042d53a6 100644
+> > >>>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > >>>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > >>>>>> @@ -510,6 +510,38 @@ enum v4l2_scene_mode -
+> > >>>>>>      value down. A value of zero stops the motion if one is in progress
+> > >>>>>>      and has no effect otherwise.
+> > >>>>>>
+> > >>>>>> +``V4L2_CID_CAMERA_SENSOR_LOCATION (integer)``
+> > >>>>>> +    This read-only control describes the camera sensor location by reporting
+> > >>>>>> +    its mounting position on the device where the camera is installed. The
+> > >>>>>> +    control value is constant and not modifiable by software. This control is
+> > >>>>>> +    particularly meaningful for devices which have a well defined orientation,
+> > >>>>>> +    such as phones, laptops and portable devices since the camera location is
+> > >>>>>> +    expressed as a position relative to the device's intended usage orientation.
+> > >>>>>> +    For example, a camera sensor installed on the user-facing side of a phone,
+> > >>>>>> +    a tablet or a laptop device is said to be installed in the
+> > >>>>>> +    ``V4L2_LOCATION_FRONT`` location while camera sensors installed on the side
+> > >>>>>> +    opposite the front one are said to be installed in the
+> > >>>>>> +    ``V4L2_LOCATION_BACK`` location. Camera sensors not directly attached to
+> > >>>>>> +    the device or attached in a way that allows them to move freely, such as
+> > >>>>>> +    webcams and digital cameras, are said to have the ``V4L2_LOCATION_EXTERNAL``
+> > >>>>>> +    location.
+> > >>>>>> +
+> > >>>>>> +
+> > >>>>>> +
+> > >>>>>> +.. flat-table::
+> > >>>>>> +    :header-rows:  0
+> > >>>>>> +    :stub-columns: 0
+> > >>>>>> +
+> > >>>>>> +    * - ``
+> > >>>>> ``
+> > >>>>>> +      - The camera sensor is located on the front side of the device.
+> > >>>>>> +    * - ``V4L2_LOCATION_BACK``
+> > >>>>>> +      - The camera sensor is located on the back side of the device.
+> > >>>>>> +    * - ``V4L2_LOCATION_EXTERNAL``
+> > >>>>>> +      - The camera sensor is not directly attached to the device and is
+> > >>>>>> +        freely movable.
+> > >>>>>
+> > >>>>> I guess I mentioned this already, but IMHO this ioctl is somewhat flawed,
+> > >>>>> for two reasons:
+> > >>>>>
+> > >>>>> 1) newer devices may all top of the line mobile devices now are coming
+> > >>>>>    with multiple camera sensors at the same side. So, just saying that
+> > >>>>>    the location is front or back is not enough. A location syscall would
+> > >>>>>    need have something more to better identify the location.
+> > >>>>>    It probably doesn't need to be something fancy, but, at least, on a
+> > >>>>>    device with 3 back sensors, I would call them as:
+> > >>>>>
+> > >>>>> 	V4L2_LOCATION_BACK_1
+> > >>>>> 	V4L2_LOCATION_BACK_2
+> > >>>>> 	V4L2_LOCATION_BACK_3
+> > >>>>>
+> > >>>>>    And add some comment at the control documentation that would allow to
+> > >>>>>    uniquely number the other ones, like:
+> > >>>>>
+> > >>>>> 	"when multiple sensors are present at the same side, sensors
+> > >>>>> 	 will be numbered considering the ``(x,y)`` coordinates of the center
+> > >>>>> 	 of each sensor, starting from the topmost, leftmost position.
+> > >>>>>
+> > >>>>> 	 She first sensor will be the topmost sensor column at the leftmost
+> > >>>>> 	 side. The other sensors that will have the same ``y`` coordinate,
+> > >>>>> 	 counting from the left to the right, then increment the ``y`` and
+> > >>>>> 	 parse the next column again until all sensors are numbered."
+> > >>>>
+> > >>>> I think this isn't a good idea. In most cases you do not care about this.
+> > >>>
+> > >>> True, because on most cases, the userspace is hardcoded to open, let's say,
+> > >>> video0 for the front sensor or video1 for the back sensor.
+> > >>>
+> > >>> This control only makes sense if the userspace is generic enough to accept
+> > >>> sensors on different positions, identifying them at runtime.
+> > >>>
+> > >>> With the current proposal, userspace can only work with 2 sensors, as, if
+> > >>> there's a third sensor, userspace won't know how to pick the right one.
+> > >>>
+> > >>> For instance, let's assume a car with 4 sensors, one on each side of
+> > >>> the car (right, front); (left, front); (right; back); (left; back).
+> > >>>
+> > >>> With the current proposal, userspace can't do anything if it wants
+> > >>> to identify the (right, back) camera.
+> > >>>
+> > >>>> And if you do care about this, then wouldn't it be better to do that through
+> > >>>> a new control where you provide the precise coordinates in e.g. mm?
+> > >>>>
+> > >>>> BACK_1/2/3 really doesn't tell you anything other than that there are three
+> > >>>> sensors on the back, but we knew that already.
+> > >>>
+> > >>> No, if we define some criteria about how sensors should be accounted for
+> > >>> (something similar to the text I drafted), the location will be defined.
+> > >>>
+> > >>> With the above text, for example, a device with 3 sensors horizontally
+> > >>> aligned, the arrangement will be:
+> > >>>
+> > >>> - sensor 1 is on the left;
+> > >>> - sensor 2 in the middle;
+> > >>> - sensor 3 is on the right.
+> > >>
+> > >> Or sensor 2 is below sensor 1 and sensor 3 is to the right of sensor 1.
+> > >> It's meaningless information. If you want to specify the location, then
+> > >> be precise. Especially for stereoscopic sensors (left and right) it is
+> > >> good to know the exact distance between the sensors. Just calling them
+> > >> '1' and '2' is not enough.
+> > >>
+> > >> For sensors you want to know the plane (back/front) and where they are
+> > >> on that plane (in the case of more than one sensor). That's separate
+> > >> information that's only needed in the case of more than one sensor.
+> > >>
+> > >>>
+> > >>> Ok, I agree that writing a text with such criteria sucks, and maybe
+> > >>> just numbering from 1 to n may not be the best thing to do. Yet,
+> > >>> adding coordinates in mm would be just too much information, IMHO.
+> > >>
+> > >> Why? Just numbering them makes no sense, it's useless information.
+> > >>
+> > >>>> If we need support for the precise location in the future, then let's do that
+> > >>>> right and not try to shoehorn into something that wasn't meant for it.
+> > >>>
+> > >>> Assuming that all the problems we have so far are to support devices with
+> > >>> 2 sensors, by the time we add support for a third sensor, we'll end having
+> > >>> a new ioctl for the same thing: to specify the sensors locations.
+> > >>
+> > >> It's just a control, nothing more.
+> > >>
+> > >> In most cases all you need to know is if it is a front or back sensor. In
+> > >> some cases you need to know more: e.g. my Samsung Note 10+ has three sensors
+> > >> on the back in a vertical row (wide, telephoto, ultrawide), and two sensors
+> > >> for 3D to the right of them. For those last two you need to know the exact
+> > >> position relative to one another. For the other sensors all you need to know
+> > >> is that they are back sensors.
+> > >>
+> > >>> We know the drill: having two controls for the same thing makes userspace
+> > >>> more complex and will require backward-compatibility code at the kernel
+> > >>> and at userspace. That's what I want to avoid.
+> > >>>
+> > >>> I'm open to other suggestions that won't limit the usage of this control
+> > >>> for devices with just (up to) two sensors.
+> > >>
+> > >> What backward compatibility code are you talking about? I honestly don't see
+> > >> the problem here.
+> > >
+> > > Right now, we're adding an API that assumes that the video node may have
+> > > only up to 2 sensors, and that would cover just one small subset of usecases
+> > > (see more below). If it has anything more than that, this control won't help.
+> >
+> > I don't agree the number of sensor is limited to 2. This property does
+> > not identify sensors, it describes one more thing that userspace might
+> > use to filter cameras. I was actually suprised nothing like this
+> > existed in Linux when I started looking into this issue, as this seems
+> > to me quite basic information that a generic enough userspace
+> > application would like to be able to retrieve.
+> >
+> > TL;DR: you can describe as many BACK cameras you want, the 'location'
+> > gives you -one- filtering criteria more, that's it.
+> >
+> > > One day (probably soon enough, as there are several devices with more than
+> > > two sensors already), we'll end adding a proper support for it, and this
+> > > control will become obsoleted, requiring us to think about backward
+> > > compatibility issues when this control become deprecated.
+> > >
+> > > That's why I prefer spending some time finding a better way to report it,
+> > > avoiding the need of having to do some deprecation logic anytime soon.
+> >
+> > As said and discussed during the review of this series, a 3-d rotation
+> > matrix is probably the right direction. I refrained from taking that
+> > path because:
+> > 1) 99% of devices are interested in reporting FRONT/BACK or some
+> > specialization of those. Asking dt to provide a 9 entries matrix to
+> > say "FRONT" seemed an overkill.
+> > 2) There is no consensus on how the reference plane should be defined,
+> > given the wide range of devices that we target. This is a separate
+> > discussion on itself, and given it took 6 months to get to the point
+> > of considering these basic properties, I'm a bit skeptical such a
+> > discussion would have taken less than that.
+> >
+> > >>>>>
+> > >>>>> 2) There are also some devices that has a movable sensor, that can either
+> > >>>>>    be taking a picture from the front or from the back, like those:
+> > >>>>>
+> > >>>>> 	https://www.youtube.com/watch?v=br6G7MrkRUc
+> > >>>>>
+> > >>>>>    On such case, the control should not be read-only, as one may need to
+> > >>>>>    change this control in order to select if a sensor would either be on
+> > >>>>>    FRONT or on BACK position.
+> > >>>>>
+> > >>>>>    For such kind of sensors (when we start supporting them), we could
+> > >>>>>    for example call them like:
+> > >>>>>
+> > >>>>> 	V4L2_LOCATION_MOVABLE_IN_BACK_POSITION_1
+> > >>>>> 	V4L2_LOCATION_MOVABLE_IN_BACK_POSITION_2
+> > >>>>> 	V4L2_LOCATION_MOVABLE_IN_FRONT_POSITION_1
+> > >>>>> 	V4L2_LOCATION_MOVABLE_IN_FRONT_POSITION_2
+> > >>>>
+> > >>>> I don't like this. If the driver can tell when the position changes, then it
+> > >>>> can update the control's value (it's still read-only because userspace
+> > >>>> can't write to it, but that doesn't mean it can't be updated).
+> > >>>
+> > >>> Why userspace can't set it? I mean, if the camera is movable, it
+> > >>> should be up to the application to select the sensor between FRONT
+> > >>> and BACK.
+> > >>
+> > >> Ah, right. If you can command the camera to flip from back to front using
+> > >> a button or something, then yes, it can be writable. Sorry, didn't think of
+> > >> that. I was thinking that the user would manually move the camera and the
+> > >> new position would be detected by the driver and reported in the location
+> > >> control.
+> > >>
+> > >> In any case, if the location control can be set through the driver by setting
+> > >> this control, then just drop the READ_ONLY flag. If the control is writable,
+> > >> then the sensor is movable. Just document this and we're done.
+> > >
+> > > Works for me.
+> >
+> > This makes sense, it will impact bindings in the sense that it now
+> > becomes possible to specify several locations to which select from,
+> > which will become the items of the menu control (with some rule that
+> > says "the first is the default" or such). If more than one location is
+> > specified the control is RW, RO otherwise.
+> >
+> > >> You are making this much more complicated than it need to be IMHO.
+> > >>
+> > >>> Btw, this is a case where I clearly see value on this ioctl: all cameras
+> > >>
+> > >> It's a *control*, not a new ioctl.
+> > >>
+> > >>> with flippable sensors need a control to switch the sensor's position,
+> > >>> even if the sensor device is hardcoded on some application.
+> > >>>
+> > >>>> So there is
+> > >>>> no need to call it 'MOVABLE', you just report the correct location. And with
+> > >>>> QUERYMENU you can tell that it is movable since multiple possible locations
+> > >>>> are reported (BACK and FRONT in this example). If it is fixed, then QUERYMENU
+> > >>>> will report only a single location.
+> > >>>>
+> > >>>> This might have some consequences for the DT bindings, though. Not sure
+> > >>>> how to represent this there.
+> > >>>
+> > >>> I guess DT should contain the default value when the device is turned
+> > >>> off.
+> > >>>
+> > >>>> If the driver cannot tell what the position is, then it makes no sense for
+> > >>>> the driver to expose this location control since it clearly is something that
+> > >>>> has to be hardcoded in userspace. I.e., there is no point for userspace to
+> > >>>> write to the control and then read back what it wrote :-)
+> > >>>
+> > >>> Actually there is. When you command a device to switch position, it may
+> > >>> take some time to move the sensor, and such operation may even fail.
+> > >>
+> > >> Yeah, I forgot about that option.
+> > >>
+> > >>>
+> > >>> So, reading back the position is probably mandatory.
+> > >>
+> > >> Well, it's a control, so that's standard.
+> > >>
+> > >>>
+> > >>> That reminds that it may actually have a third position, to warn
+> > >>> that the sensor was blocked.
+> > >>>
+> > >>> Also, some flip sensors may have another position (a "closed"
+> > >>> position).
+> > >>
+> > >> It's certainly possible that we need to add new positions to support the
+> > >> various states of such a movable sensor. But that's no problem. It's just
+> > >> a menu control, adding new positions is cheap and easy.
+> > >>
+> > >> I stand by what I said, except that I agree that this control can be
+> > >> writable in some circumstances, and that should be documented
+> > >>
+> > >> I strongly disagree with the notion of BACK_1/2/3 and FRONT_1/2/3: it adds
+> > >> no meaningful information.
+> > >
+> > > Ok, but if this control would just say where a sensor is mounted
+> > > (front, back or unknown/external), naming it as "LOCATION" seems too
+> > > ambitious ;-)
+> > >
+> > > What it is actually trying to report is the angle of the sensor, with
+> > > regards to the front position, adding currently two possible angles:
+> > > 0 degrees (front) or 180 degrees (back).
+> > >
+> > > So, I would call it, instead, as V4L2_CID_CAMERA_VIEWING_ANGLE
+> > > (or something similar to it).
+> >
+> > _ORIENTATION might be the right word, I'm fine to reserve _LOCATION
+> > for a more precise property if that helps moving forward.
+> >
+> > > Having just two pre-defined angles (front/back) only works fine on
+> > > devices like cell-phones or tablets, where the sensor cannot be
+> > > on some other angle.
+> > >
+> > > If you mount cameras on a larger device, like a car, you may have
+> > > some cameras mounted with different angles, for example, the front
+> > > cameras could have been mounted with -45, 0 and 45 degrees, in order
+> > > to cover a larger region.
+> >
+> > I considered that case, but I expect those very specific usages to be
+> > covered by downstream extensions of the property supported values. I
+> > wish we had a .dts to describe a car in mainlien, but I would be happy
+> > enough to provide a standard mechanism for people to use downstream
+> > eventually, instead of adding custom properties, or taking shortcuts
+> > like it mostly happens today.
+> >
+> > > So, if that would be ok for you, I can live with a
+> > >
+> > > V4L2_CID_CAMERA_VIEWING_ANGLE (or some similar name) that will
+> > > specify the angle where the sensor is mounted (for fixed sensors),
+> > > or the current angle, in case of movable ones, being RO for fixed
+> > > sensors and RW for movable ones.
+> > >
+> > > Let's postpone discussions for a LOCATION control once this
+> > > would be needed by some driver.
+> >
+> > Would V4L2_CID_CAMERA_ORIENTATION work ?
+> >
+> > I could:
+> > 1) rename dt-proeprty and control to use orientation
+> > 2) specify multiple locations could be entered, the first one being
+> > the "default" (eg. device turned off) location
+> > 3) make am RW control if multiple entries have been specified, a RO
+> > otherwise.
+>
+> I would refrain from doing 2) and 3) at this point. We have no idea how
+> we will control those devices, as we haven't worked with them, and we
+> don't know whether flipping the camera could be done through the V4L2
+> subsystem or would need to involve other APIs. Designing APIs that can't
+> be tested has so far not been a great success. It's easy to specify the
+> DT property as a single value and the control as read-only and ease
+> those restrictions later, it will be more difficult to start with the
+> read-write case and then change it to something else if we realize it
+> was a bad idea.
+>
 
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- MAINTAINERS                     |    5 -
- drivers/media/platform/Kconfig  |    9 -
- drivers/media/platform/Makefile |    2 -
- drivers/media/platform/sh_veu.c | 1203 -------------------------------
- 4 files changed, 1219 deletions(-)
- delete mode 100644 drivers/media/platform/sh_veu.c
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 16644a41d42737fe..b7f8bf25eb620bf5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15299,11 +15299,6 @@ T:	git git://linuxtv.org/media_tree.git
- F:	drivers/media/i2c/rj54n1cb0c.c
- F:	include/media/i2c/rj54n1cb0c.h
- 
--SH_VEU V4L2 MEM2MEM DRIVER
--L:	linux-media@vger.kernel.org
--S:	Orphan
--F:	drivers/media/platform/sh_veu.c
--
- SH_VOU V4L2 OUTPUT DRIVER
- L:	linux-media@vger.kernel.org
- S:	Orphan
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index b1ac9c6c9cdbce5b..a3f764911636621b 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -393,15 +393,6 @@ config VIDEO_STI_DELTA_DRIVER
- 
- endif # VIDEO_STI_DELTA
- 
--config VIDEO_SH_VEU
--	tristate "SuperH VEU mem2mem video processing driver"
--	depends on VIDEO_DEV && VIDEO_V4L2 && HAS_DMA
--	select VIDEOBUF2_DMA_CONTIG
--	select V4L2_MEM2MEM_DEV
--	help
--	    Support for the Video Engine Unit (VEU) on SuperH and
--	    SH-Mobile SoCs.
--
- config VIDEO_RENESAS_FDP1
- 	tristate "Renesas Fine Display Processor"
- 	depends on VIDEO_DEV && VIDEO_V4L2
-diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
-index ac31d474886990e6..62b6cdc8c73002ad 100644
---- a/drivers/media/platform/Makefile
-+++ b/drivers/media/platform/Makefile
-@@ -21,8 +21,6 @@ obj-$(CONFIG_VIDEO_CODA)		+= coda/
- 
- obj-$(CONFIG_VIDEO_IMX_PXP)		+= imx-pxp.o
- 
--obj-$(CONFIG_VIDEO_SH_VEU)		+= sh_veu.o
--
- obj-$(CONFIG_VIDEO_MEM2MEM_DEINTERLACE)	+= m2m-deinterlace.o
- 
- obj-$(CONFIG_VIDEO_MUX)			+= video-mux.o
-diff --git a/drivers/media/platform/sh_veu.c b/drivers/media/platform/sh_veu.c
-deleted file mode 100644
-index f08b8fc192d87795..0000000000000000
---- a/drivers/media/platform/sh_veu.c
-+++ /dev/null
-@@ -1,1203 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0
--/*
-- * sh-mobile VEU mem2mem driver
-- *
-- * Copyright (C) 2012 Renesas Electronics Corporation
-- * Author: Guennadi Liakhovetski, <g.liakhovetski@gmx.de>
-- * Copyright (C) 2008 Magnus Damm
-- */
--
--#include <linux/err.h>
--#include <linux/fs.h>
--#include <linux/kernel.h>
--#include <linux/module.h>
--#include <linux/interrupt.h>
--#include <linux/io.h>
--#include <linux/platform_device.h>
--#include <linux/pm_runtime.h>
--#include <linux/slab.h>
--#include <linux/types.h>
--#include <linux/videodev2.h>
--
--#include <media/v4l2-dev.h>
--#include <media/v4l2-device.h>
--#include <media/v4l2-ioctl.h>
--#include <media/v4l2-mem2mem.h>
--#include <media/v4l2-image-sizes.h>
--#include <media/videobuf2-dma-contig.h>
--
--#define VEU_STR 0x00 /* start register */
--#define VEU_SWR 0x10 /* src: line length */
--#define VEU_SSR 0x14 /* src: image size */
--#define VEU_SAYR 0x18 /* src: y/rgb plane address */
--#define VEU_SACR 0x1c /* src: c plane address */
--#define VEU_BSSR 0x20 /* bundle mode register */
--#define VEU_EDWR 0x30 /* dst: line length */
--#define VEU_DAYR 0x34 /* dst: y/rgb plane address */
--#define VEU_DACR 0x38 /* dst: c plane address */
--#define VEU_TRCR 0x50 /* transform control */
--#define VEU_RFCR 0x54 /* resize scale */
--#define VEU_RFSR 0x58 /* resize clip */
--#define VEU_ENHR 0x5c /* enhance */
--#define VEU_FMCR 0x70 /* filter mode */
--#define VEU_VTCR 0x74 /* lowpass vertical */
--#define VEU_HTCR 0x78 /* lowpass horizontal */
--#define VEU_APCR 0x80 /* color match */
--#define VEU_ECCR 0x84 /* color replace */
--#define VEU_AFXR 0x90 /* fixed mode */
--#define VEU_SWPR 0x94 /* swap */
--#define VEU_EIER 0xa0 /* interrupt mask */
--#define VEU_EVTR 0xa4 /* interrupt event */
--#define VEU_STAR 0xb0 /* status */
--#define VEU_BSRR 0xb4 /* reset */
--
--#define VEU_MCR00 0x200 /* color conversion matrix coefficient 00 */
--#define VEU_MCR01 0x204 /* color conversion matrix coefficient 01 */
--#define VEU_MCR02 0x208 /* color conversion matrix coefficient 02 */
--#define VEU_MCR10 0x20c /* color conversion matrix coefficient 10 */
--#define VEU_MCR11 0x210 /* color conversion matrix coefficient 11 */
--#define VEU_MCR12 0x214 /* color conversion matrix coefficient 12 */
--#define VEU_MCR20 0x218 /* color conversion matrix coefficient 20 */
--#define VEU_MCR21 0x21c /* color conversion matrix coefficient 21 */
--#define VEU_MCR22 0x220 /* color conversion matrix coefficient 22 */
--#define VEU_COFFR 0x224 /* color conversion offset */
--#define VEU_CBR   0x228 /* color conversion clip */
--
--/*
-- * 4092x4092 max size is the normal case. In some cases it can be reduced to
-- * 2048x2048, in other cases it can be 4092x8188 or even 8188x8188.
-- */
--#define MAX_W 4092
--#define MAX_H 4092
--#define MIN_W 8
--#define MIN_H 8
--#define ALIGN_W 4
--
--/* 3 buffers of 2048 x 1536 - 3 megapixels @ 16bpp */
--#define VIDEO_MEM_LIMIT ALIGN(2048 * 1536 * 2 * 3, 1024 * 1024)
--
--#define MEM2MEM_DEF_TRANSLEN 1
--
--struct sh_veu_dev;
--
--struct sh_veu_file {
--	struct v4l2_fh fh;
--	struct sh_veu_dev *veu_dev;
--	bool cfg_needed;
--};
--
--struct sh_veu_format {
--	u32 fourcc;
--	unsigned int depth;
--	unsigned int ydepth;
--};
--
--/* video data format */
--struct sh_veu_vfmt {
--	/* Replace with v4l2_rect */
--	struct v4l2_rect		frame;
--	unsigned int			bytesperline;
--	unsigned int			offset_y;
--	unsigned int			offset_c;
--	const struct sh_veu_format	*fmt;
--};
--
--struct sh_veu_dev {
--	struct v4l2_device v4l2_dev;
--	struct video_device vdev;
--	struct v4l2_m2m_dev *m2m_dev;
--	struct device *dev;
--	struct v4l2_m2m_ctx *m2m_ctx;
--	struct sh_veu_vfmt vfmt_out;
--	struct sh_veu_vfmt vfmt_in;
--	/* Only single user per direction so far */
--	struct sh_veu_file *capture;
--	struct sh_veu_file *output;
--	struct mutex fop_lock;
--	void __iomem *base;
--	spinlock_t lock;
--	bool is_2h;
--	unsigned int xaction;
--	bool aborting;
--};
--
--enum sh_veu_fmt_idx {
--	SH_VEU_FMT_NV12,
--	SH_VEU_FMT_NV16,
--	SH_VEU_FMT_NV24,
--	SH_VEU_FMT_RGB332,
--	SH_VEU_FMT_RGB444,
--	SH_VEU_FMT_RGB565,
--	SH_VEU_FMT_RGB666,
--	SH_VEU_FMT_RGB24,
--};
--
--#define DEFAULT_IN_WIDTH	VGA_WIDTH
--#define DEFAULT_IN_HEIGHT	VGA_HEIGHT
--#define DEFAULT_IN_FMTIDX	SH_VEU_FMT_NV12
--#define DEFAULT_OUT_WIDTH	VGA_WIDTH
--#define DEFAULT_OUT_HEIGHT	VGA_HEIGHT
--#define DEFAULT_OUT_FMTIDX	SH_VEU_FMT_RGB565
--
--/*
-- * Alignment: Y-plane should be 4-byte aligned for NV12 and NV16, and 8-byte
-- * aligned for NV24.
-- */
--static const struct sh_veu_format sh_veu_fmt[] = {
--	[SH_VEU_FMT_NV12]   = { .ydepth = 8, .depth = 12, .fourcc = V4L2_PIX_FMT_NV12 },
--	[SH_VEU_FMT_NV16]   = { .ydepth = 8, .depth = 16, .fourcc = V4L2_PIX_FMT_NV16 },
--	[SH_VEU_FMT_NV24]   = { .ydepth = 8, .depth = 24, .fourcc = V4L2_PIX_FMT_NV24 },
--	[SH_VEU_FMT_RGB332] = { .ydepth = 8, .depth = 8, .fourcc = V4L2_PIX_FMT_RGB332 },
--	[SH_VEU_FMT_RGB444] = { .ydepth = 16, .depth = 16, .fourcc = V4L2_PIX_FMT_RGB444 },
--	[SH_VEU_FMT_RGB565] = { .ydepth = 16, .depth = 16, .fourcc = V4L2_PIX_FMT_RGB565 },
--	[SH_VEU_FMT_RGB666] = { .ydepth = 32, .depth = 32, .fourcc = V4L2_PIX_FMT_BGR666 },
--	[SH_VEU_FMT_RGB24]  = { .ydepth = 24, .depth = 24, .fourcc = V4L2_PIX_FMT_RGB24 },
--};
--
--#define DEFAULT_IN_VFMT (struct sh_veu_vfmt){						\
--	.frame = {									\
--		.width = VGA_WIDTH,							\
--		.height = VGA_HEIGHT,							\
--	},										\
--	.bytesperline = (VGA_WIDTH * sh_veu_fmt[DEFAULT_IN_FMTIDX].ydepth) >> 3,	\
--	.fmt = &sh_veu_fmt[DEFAULT_IN_FMTIDX],						\
--}
--
--#define DEFAULT_OUT_VFMT (struct sh_veu_vfmt){						\
--	.frame = {									\
--		.width = VGA_WIDTH,							\
--		.height = VGA_HEIGHT,							\
--	},										\
--	.bytesperline = (VGA_WIDTH * sh_veu_fmt[DEFAULT_OUT_FMTIDX].ydepth) >> 3,	\
--	.fmt = &sh_veu_fmt[DEFAULT_OUT_FMTIDX],						\
--}
--
--/*
-- * TODO: add support for further output formats:
-- *	SH_VEU_FMT_NV12,
-- *	SH_VEU_FMT_NV16,
-- *	SH_VEU_FMT_NV24,
-- *	SH_VEU_FMT_RGB332,
-- *	SH_VEU_FMT_RGB444,
-- *	SH_VEU_FMT_RGB666,
-- *	SH_VEU_FMT_RGB24,
-- */
--
--static const int sh_veu_fmt_out[] = {
--	SH_VEU_FMT_RGB565,
--};
--
--/*
-- * TODO: add support for further input formats:
-- *	SH_VEU_FMT_NV16,
-- *	SH_VEU_FMT_NV24,
-- *	SH_VEU_FMT_RGB565,
-- *	SH_VEU_FMT_RGB666,
-- *	SH_VEU_FMT_RGB24,
-- */
--static const int sh_veu_fmt_in[] = {
--	SH_VEU_FMT_NV12,
--};
--
--static enum v4l2_colorspace sh_veu_4cc2cspace(u32 fourcc)
--{
--	switch (fourcc) {
--	default:
--		BUG();
--	case V4L2_PIX_FMT_NV12:
--	case V4L2_PIX_FMT_NV16:
--	case V4L2_PIX_FMT_NV24:
--		return V4L2_COLORSPACE_SMPTE170M;
--	case V4L2_PIX_FMT_RGB332:
--	case V4L2_PIX_FMT_RGB444:
--	case V4L2_PIX_FMT_RGB565:
--	case V4L2_PIX_FMT_BGR666:
--	case V4L2_PIX_FMT_RGB24:
--		return V4L2_COLORSPACE_SRGB;
--	}
--}
--
--static u32 sh_veu_reg_read(struct sh_veu_dev *veu, unsigned int reg)
--{
--	return ioread32(veu->base + reg);
--}
--
--static void sh_veu_reg_write(struct sh_veu_dev *veu, unsigned int reg,
--			     u32 value)
--{
--	iowrite32(value, veu->base + reg);
--}
--
--		/* ========== mem2mem callbacks ========== */
--
--static void sh_veu_job_abort(void *priv)
--{
--	struct sh_veu_dev *veu = priv;
--
--	/* Will cancel the transaction in the next interrupt handler */
--	veu->aborting = true;
--}
--
--static void sh_veu_process(struct sh_veu_dev *veu,
--			   struct vb2_buffer *src_buf,
--			   struct vb2_buffer *dst_buf)
--{
--	dma_addr_t addr = vb2_dma_contig_plane_dma_addr(dst_buf, 0);
--
--	sh_veu_reg_write(veu, VEU_DAYR, addr + veu->vfmt_out.offset_y);
--	sh_veu_reg_write(veu, VEU_DACR, veu->vfmt_out.offset_c ?
--			 addr + veu->vfmt_out.offset_c : 0);
--	dev_dbg(veu->dev, "%s(): dst base %lx, y: %x, c: %x\n", __func__,
--		(unsigned long)addr,
--		veu->vfmt_out.offset_y, veu->vfmt_out.offset_c);
--
--	addr = vb2_dma_contig_plane_dma_addr(src_buf, 0);
--	sh_veu_reg_write(veu, VEU_SAYR, addr + veu->vfmt_in.offset_y);
--	sh_veu_reg_write(veu, VEU_SACR, veu->vfmt_in.offset_c ?
--			 addr + veu->vfmt_in.offset_c : 0);
--	dev_dbg(veu->dev, "%s(): src base %lx, y: %x, c: %x\n", __func__,
--		(unsigned long)addr,
--		veu->vfmt_in.offset_y, veu->vfmt_in.offset_c);
--
--	sh_veu_reg_write(veu, VEU_STR, 1);
--
--	sh_veu_reg_write(veu, VEU_EIER, 1); /* enable interrupt in VEU */
--}
--
--/*
-- * sh_veu_device_run() - prepares and starts the device
-- *
-- * This will be called by the framework when it decides to schedule a particular
-- * instance.
-- */
--static void sh_veu_device_run(void *priv)
--{
--	struct sh_veu_dev *veu = priv;
--	struct vb2_v4l2_buffer *src_buf, *dst_buf;
--
--	src_buf = v4l2_m2m_next_src_buf(veu->m2m_ctx);
--	dst_buf = v4l2_m2m_next_dst_buf(veu->m2m_ctx);
--
--	if (src_buf && dst_buf)
--		sh_veu_process(veu, &src_buf->vb2_buf, &dst_buf->vb2_buf);
--}
--
--		/* ========== video ioctls ========== */
--
--static bool sh_veu_is_streamer(struct sh_veu_dev *veu, struct sh_veu_file *veu_file,
--			       enum v4l2_buf_type type)
--{
--	return (type == V4L2_BUF_TYPE_VIDEO_CAPTURE &&
--		veu_file == veu->capture) ||
--		(type == V4L2_BUF_TYPE_VIDEO_OUTPUT &&
--		 veu_file == veu->output);
--}
--
--static int sh_veu_queue_init(void *priv, struct vb2_queue *src_vq,
--			     struct vb2_queue *dst_vq);
--
--/*
-- * It is not unusual to have video nodes open()ed multiple times. While some
-- * V4L2 operations are non-intrusive, like querying formats and various
-- * parameters, others, like setting formats, starting and stopping streaming,
-- * queuing and dequeuing buffers, directly affect hardware configuration and /
-- * or execution. This function verifies availability of the requested interface
-- * and, if available, reserves it for the requesting user.
-- */
--static int sh_veu_stream_init(struct sh_veu_dev *veu, struct sh_veu_file *veu_file,
--			      enum v4l2_buf_type type)
--{
--	struct sh_veu_file **stream;
--
--	switch (type) {
--	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
--		stream = &veu->capture;
--		break;
--	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
--		stream = &veu->output;
--		break;
--	default:
--		return -EINVAL;
--	}
--
--	if (*stream == veu_file)
--		return 0;
--
--	if (*stream)
--		return -EBUSY;
--
--	*stream = veu_file;
--
--	return 0;
--}
--
--static int sh_veu_context_init(struct sh_veu_dev *veu)
--{
--	if (veu->m2m_ctx)
--		return 0;
--
--	veu->m2m_ctx = v4l2_m2m_ctx_init(veu->m2m_dev, veu,
--					 sh_veu_queue_init);
--
--	return PTR_ERR_OR_ZERO(veu->m2m_ctx);
--}
--
--static int sh_veu_querycap(struct file *file, void *priv,
--			   struct v4l2_capability *cap)
--{
--	strscpy(cap->driver, "sh-veu", sizeof(cap->driver));
--	strscpy(cap->card, "sh-mobile VEU", sizeof(cap->card));
--	strscpy(cap->bus_info, "platform:sh-veu", sizeof(cap->bus_info));
--	return 0;
--}
--
--static int sh_veu_enum_fmt(struct v4l2_fmtdesc *f, const int *fmt, int fmt_num)
--{
--	if (f->index >= fmt_num)
--		return -EINVAL;
--
--	f->pixelformat = sh_veu_fmt[fmt[f->index]].fourcc;
--	return 0;
--}
--
--static int sh_veu_enum_fmt_vid_cap(struct file *file, void *priv,
--				   struct v4l2_fmtdesc *f)
--{
--	return sh_veu_enum_fmt(f, sh_veu_fmt_out, ARRAY_SIZE(sh_veu_fmt_out));
--}
--
--static int sh_veu_enum_fmt_vid_out(struct file *file, void *priv,
--				   struct v4l2_fmtdesc *f)
--{
--	return sh_veu_enum_fmt(f, sh_veu_fmt_in, ARRAY_SIZE(sh_veu_fmt_in));
--}
--
--static struct sh_veu_vfmt *sh_veu_get_vfmt(struct sh_veu_dev *veu,
--					   enum v4l2_buf_type type)
--{
--	switch (type) {
--	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
--		return &veu->vfmt_out;
--	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
--		return &veu->vfmt_in;
--	default:
--		return NULL;
--	}
--}
--
--static int sh_veu_g_fmt(struct sh_veu_file *veu_file, struct v4l2_format *f)
--{
--	struct v4l2_pix_format *pix = &f->fmt.pix;
--	struct sh_veu_dev *veu = veu_file->veu_dev;
--	struct sh_veu_vfmt *vfmt;
--
--	vfmt = sh_veu_get_vfmt(veu, f->type);
--
--	pix->width		= vfmt->frame.width;
--	pix->height		= vfmt->frame.height;
--	pix->field		= V4L2_FIELD_NONE;
--	pix->pixelformat	= vfmt->fmt->fourcc;
--	pix->colorspace		= sh_veu_4cc2cspace(pix->pixelformat);
--	pix->bytesperline	= vfmt->bytesperline;
--	pix->sizeimage		= vfmt->bytesperline * pix->height *
--		vfmt->fmt->depth / vfmt->fmt->ydepth;
--	dev_dbg(veu->dev, "%s(): type: %d, size %u @ %ux%u, fmt %x\n", __func__,
--		f->type, pix->sizeimage, pix->width, pix->height, pix->pixelformat);
--
--	return 0;
--}
--
--static int sh_veu_g_fmt_vid_out(struct file *file, void *priv,
--				struct v4l2_format *f)
--{
--	return sh_veu_g_fmt(priv, f);
--}
--
--static int sh_veu_g_fmt_vid_cap(struct file *file, void *priv,
--				struct v4l2_format *f)
--{
--	return sh_veu_g_fmt(priv, f);
--}
--
--static int sh_veu_try_fmt(struct v4l2_format *f, const struct sh_veu_format *fmt)
--{
--	struct v4l2_pix_format *pix = &f->fmt.pix;
--	unsigned int y_bytes_used;
--
--	/*
--	 * V4L2 specification suggests, that the driver should correct the
--	 * format struct if any of the dimensions is unsupported
--	 */
--	switch (pix->field) {
--	default:
--	case V4L2_FIELD_ANY:
--		pix->field = V4L2_FIELD_NONE;
--		/* fall through: continue handling V4L2_FIELD_NONE */
--	case V4L2_FIELD_NONE:
--		break;
--	}
--
--	v4l_bound_align_image(&pix->width, MIN_W, MAX_W, ALIGN_W,
--			      &pix->height, MIN_H, MAX_H, 0, 0);
--
--	y_bytes_used = (pix->width * fmt->ydepth) >> 3;
--
--	if (pix->bytesperline < y_bytes_used)
--		pix->bytesperline = y_bytes_used;
--	pix->sizeimage = pix->height * pix->bytesperline * fmt->depth / fmt->ydepth;
--
--	pix->pixelformat	= fmt->fourcc;
--	pix->colorspace		= sh_veu_4cc2cspace(pix->pixelformat);
--
--	pr_debug("%s(): type: %d, size %u\n", __func__, f->type, pix->sizeimage);
--
--	return 0;
--}
--
--static const struct sh_veu_format *sh_veu_find_fmt(const struct v4l2_format *f)
--{
--	const int *fmt;
--	int i, n, dflt;
--
--	pr_debug("%s(%d;%d)\n", __func__, f->type, f->fmt.pix.field);
--
--	switch (f->type) {
--	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
--		fmt = sh_veu_fmt_out;
--		n = ARRAY_SIZE(sh_veu_fmt_out);
--		dflt = DEFAULT_OUT_FMTIDX;
--		break;
--	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
--	default:
--		fmt = sh_veu_fmt_in;
--		n = ARRAY_SIZE(sh_veu_fmt_in);
--		dflt = DEFAULT_IN_FMTIDX;
--		break;
--	}
--
--	for (i = 0; i < n; i++)
--		if (sh_veu_fmt[fmt[i]].fourcc == f->fmt.pix.pixelformat)
--			return &sh_veu_fmt[fmt[i]];
--
--	return &sh_veu_fmt[dflt];
--}
--
--static int sh_veu_try_fmt_vid_cap(struct file *file, void *priv,
--				  struct v4l2_format *f)
--{
--	const struct sh_veu_format *fmt;
--
--	fmt = sh_veu_find_fmt(f);
--
--	return sh_veu_try_fmt(f, fmt);
--}
--
--static int sh_veu_try_fmt_vid_out(struct file *file, void *priv,
--				  struct v4l2_format *f)
--{
--	const struct sh_veu_format *fmt;
--
--	fmt = sh_veu_find_fmt(f);
--
--	return sh_veu_try_fmt(f, fmt);
--}
--
--static void sh_veu_colour_offset(struct sh_veu_dev *veu, struct sh_veu_vfmt *vfmt)
--{
--	/* dst_left and dst_top validity will be verified in CROP / COMPOSE */
--	unsigned int left = vfmt->frame.left & ~0x03;
--	unsigned int top = vfmt->frame.top;
--	dma_addr_t offset = (dma_addr_t)top * veu->vfmt_out.bytesperline +
--			(((dma_addr_t)left * veu->vfmt_out.fmt->depth) >> 3);
--	unsigned int y_line;
--
--	vfmt->offset_y = offset;
--
--	switch (vfmt->fmt->fourcc) {
--	case V4L2_PIX_FMT_NV12:
--	case V4L2_PIX_FMT_NV16:
--	case V4L2_PIX_FMT_NV24:
--		y_line = ALIGN(vfmt->frame.width, 16);
--		vfmt->offset_c = offset + y_line * vfmt->frame.height;
--		break;
--	case V4L2_PIX_FMT_RGB332:
--	case V4L2_PIX_FMT_RGB444:
--	case V4L2_PIX_FMT_RGB565:
--	case V4L2_PIX_FMT_BGR666:
--	case V4L2_PIX_FMT_RGB24:
--		vfmt->offset_c = 0;
--		break;
--	default:
--		BUG();
--	}
--}
--
--static int sh_veu_s_fmt(struct sh_veu_file *veu_file, struct v4l2_format *f)
--{
--	struct v4l2_pix_format *pix = &f->fmt.pix;
--	struct sh_veu_dev *veu = veu_file->veu_dev;
--	struct sh_veu_vfmt *vfmt;
--	struct vb2_queue *vq;
--	int ret = sh_veu_context_init(veu);
--	if (ret < 0)
--		return ret;
--
--	vq = v4l2_m2m_get_vq(veu->m2m_ctx, f->type);
--	if (!vq)
--		return -EINVAL;
--
--	if (vb2_is_busy(vq)) {
--		v4l2_err(&veu_file->veu_dev->v4l2_dev, "%s queue busy\n", __func__);
--		return -EBUSY;
--	}
--
--	vfmt = sh_veu_get_vfmt(veu, f->type);
--	/* called after try_fmt(), hence vfmt != NULL. Implicit BUG_ON() below */
--
--	vfmt->fmt		= sh_veu_find_fmt(f);
--	/* vfmt->fmt != NULL following the same argument as above */
--	vfmt->frame.width	= pix->width;
--	vfmt->frame.height	= pix->height;
--	vfmt->bytesperline	= pix->bytesperline;
--
--	sh_veu_colour_offset(veu, vfmt);
--
--	/*
--	 * We could also verify and require configuration only if any parameters
--	 * actually have changed, but it is unlikely, that the user requests the
--	 * same configuration several times without closing the device.
--	 */
--	veu_file->cfg_needed = true;
--
--	dev_dbg(veu->dev,
--		"Setting format for type %d, wxh: %dx%d, fmt: %x\n",
--		f->type, pix->width, pix->height, vfmt->fmt->fourcc);
--
--	return 0;
--}
--
--static int sh_veu_s_fmt_vid_cap(struct file *file, void *priv,
--				struct v4l2_format *f)
--{
--	int ret = sh_veu_try_fmt_vid_cap(file, priv, f);
--	if (ret)
--		return ret;
--
--	return sh_veu_s_fmt(priv, f);
--}
--
--static int sh_veu_s_fmt_vid_out(struct file *file, void *priv,
--				struct v4l2_format *f)
--{
--	int ret = sh_veu_try_fmt_vid_out(file, priv, f);
--	if (ret)
--		return ret;
--
--	return sh_veu_s_fmt(priv, f);
--}
--
--static int sh_veu_reqbufs(struct file *file, void *priv,
--			  struct v4l2_requestbuffers *reqbufs)
--{
--	struct sh_veu_file *veu_file = priv;
--	struct sh_veu_dev *veu = veu_file->veu_dev;
--	int ret = sh_veu_context_init(veu);
--	if (ret < 0)
--		return ret;
--
--	ret = sh_veu_stream_init(veu, veu_file, reqbufs->type);
--	if (ret < 0)
--		return ret;
--
--	return v4l2_m2m_reqbufs(file, veu->m2m_ctx, reqbufs);
--}
--
--static int sh_veu_querybuf(struct file *file, void *priv,
--			   struct v4l2_buffer *buf)
--{
--	struct sh_veu_file *veu_file = priv;
--
--	if (!sh_veu_is_streamer(veu_file->veu_dev, veu_file, buf->type))
--		return -EBUSY;
--
--	return v4l2_m2m_querybuf(file, veu_file->veu_dev->m2m_ctx, buf);
--}
--
--static int sh_veu_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
--{
--	struct sh_veu_file *veu_file = priv;
--
--	dev_dbg(veu_file->veu_dev->dev, "%s(%d)\n", __func__, buf->type);
--	if (!sh_veu_is_streamer(veu_file->veu_dev, veu_file, buf->type))
--		return -EBUSY;
--
--	return v4l2_m2m_qbuf(file, veu_file->veu_dev->m2m_ctx, buf);
--}
--
--static int sh_veu_dqbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
--{
--	struct sh_veu_file *veu_file = priv;
--
--	dev_dbg(veu_file->veu_dev->dev, "%s(%d)\n", __func__, buf->type);
--	if (!sh_veu_is_streamer(veu_file->veu_dev, veu_file, buf->type))
--		return -EBUSY;
--
--	return v4l2_m2m_dqbuf(file, veu_file->veu_dev->m2m_ctx, buf);
--}
--
--static void sh_veu_calc_scale(struct sh_veu_dev *veu,
--			      int size_in, int size_out, int crop_out,
--			      u32 *mant, u32 *frac, u32 *rep)
--{
--	u32 fixpoint;
--
--	/* calculate FRAC and MANT */
--	*rep = *mant = *frac = 0;
--
--	if (size_in == size_out) {
--		if (crop_out != size_out)
--			*mant = 1; /* needed for cropping */
--		return;
--	}
--
--	/* VEU2H special upscale */
--	if (veu->is_2h && size_out > size_in) {
--		u32 fixpoint = (4096 * size_in) / size_out;
--		*mant = fixpoint / 4096;
--		*frac = (fixpoint - (*mant * 4096)) & ~0x07;
--
--		switch (*frac) {
--		case 0x800:
--			*rep = 1;
--			break;
--		case 0x400:
--			*rep = 3;
--			break;
--		case 0x200:
--			*rep = 7;
--			break;
--		}
--		if (*rep)
--			return;
--	}
--
--	fixpoint = (4096 * (size_in - 1)) / (size_out + 1);
--	*mant = fixpoint / 4096;
--	*frac = fixpoint - (*mant * 4096);
--
--	if (*frac & 0x07) {
--		/*
--		 * FIXME: do we really have to round down twice in the
--		 * up-scaling case?
--		 */
--		*frac &= ~0x07;
--		if (size_out > size_in)
--			*frac -= 8; /* round down if scaling up */
--		else
--			*frac += 8; /* round up if scaling down */
--	}
--}
--
--static unsigned long sh_veu_scale_v(struct sh_veu_dev *veu,
--				    int size_in, int size_out, int crop_out)
--{
--	u32 mant, frac, value, rep;
--
--	sh_veu_calc_scale(veu, size_in, size_out, crop_out, &mant, &frac, &rep);
--
--	/* set scale */
--	value = (sh_veu_reg_read(veu, VEU_RFCR) & ~0xffff0000) |
--		(((mant << 12) | frac) << 16);
--
--	sh_veu_reg_write(veu, VEU_RFCR, value);
--
--	/* set clip */
--	value = (sh_veu_reg_read(veu, VEU_RFSR) & ~0xffff0000) |
--		(((rep << 12) | crop_out) << 16);
--
--	sh_veu_reg_write(veu, VEU_RFSR, value);
--
--	return ALIGN((size_in * crop_out) / size_out, 4);
--}
--
--static unsigned long sh_veu_scale_h(struct sh_veu_dev *veu,
--				    int size_in, int size_out, int crop_out)
--{
--	u32 mant, frac, value, rep;
--
--	sh_veu_calc_scale(veu, size_in, size_out, crop_out, &mant, &frac, &rep);
--
--	/* set scale */
--	value = (sh_veu_reg_read(veu, VEU_RFCR) & ~0xffff) |
--		(mant << 12) | frac;
--
--	sh_veu_reg_write(veu, VEU_RFCR, value);
--
--	/* set clip */
--	value = (sh_veu_reg_read(veu, VEU_RFSR) & ~0xffff) |
--		(rep << 12) | crop_out;
--
--	sh_veu_reg_write(veu, VEU_RFSR, value);
--
--	return ALIGN((size_in * crop_out) / size_out, 4);
--}
--
--static void sh_veu_configure(struct sh_veu_dev *veu)
--{
--	u32 src_width, src_stride, src_height;
--	u32 dst_width, dst_stride, dst_height;
--	u32 real_w, real_h;
--
--	/* reset VEU */
--	sh_veu_reg_write(veu, VEU_BSRR, 0x100);
--
--	src_width = veu->vfmt_in.frame.width;
--	src_height = veu->vfmt_in.frame.height;
--	src_stride = ALIGN(veu->vfmt_in.frame.width, 16);
--
--	dst_width = real_w = veu->vfmt_out.frame.width;
--	dst_height = real_h = veu->vfmt_out.frame.height;
--	/* Datasheet is unclear - whether it's always number of bytes or not */
--	dst_stride = veu->vfmt_out.bytesperline;
--
--	/*
--	 * So far real_w == dst_width && real_h == dst_height, but it wasn't
--	 * necessarily the case in the original vidix driver, so, it may change
--	 * here in the future too.
--	 */
--	src_width = sh_veu_scale_h(veu, src_width, real_w, dst_width);
--	src_height = sh_veu_scale_v(veu, src_height, real_h, dst_height);
--
--	sh_veu_reg_write(veu, VEU_SWR, src_stride);
--	sh_veu_reg_write(veu, VEU_SSR, src_width | (src_height << 16));
--	sh_veu_reg_write(veu, VEU_BSSR, 0); /* not using bundle mode */
--
--	sh_veu_reg_write(veu, VEU_EDWR, dst_stride);
--	sh_veu_reg_write(veu, VEU_DACR, 0); /* unused for RGB */
--
--	sh_veu_reg_write(veu, VEU_SWPR, 0x67);
--	sh_veu_reg_write(veu, VEU_TRCR, (6 << 16) | (0 << 14) | 2 | 4);
--
--	if (veu->is_2h) {
--		sh_veu_reg_write(veu, VEU_MCR00, 0x0cc5);
--		sh_veu_reg_write(veu, VEU_MCR01, 0x0950);
--		sh_veu_reg_write(veu, VEU_MCR02, 0x0000);
--
--		sh_veu_reg_write(veu, VEU_MCR10, 0x397f);
--		sh_veu_reg_write(veu, VEU_MCR11, 0x0950);
--		sh_veu_reg_write(veu, VEU_MCR12, 0x3ccd);
--
--		sh_veu_reg_write(veu, VEU_MCR20, 0x0000);
--		sh_veu_reg_write(veu, VEU_MCR21, 0x0950);
--		sh_veu_reg_write(veu, VEU_MCR22, 0x1023);
--
--		sh_veu_reg_write(veu, VEU_COFFR, 0x00800010);
--	}
--}
--
--static int sh_veu_streamon(struct file *file, void *priv,
--			   enum v4l2_buf_type type)
--{
--	struct sh_veu_file *veu_file = priv;
--
--	if (!sh_veu_is_streamer(veu_file->veu_dev, veu_file, type))
--		return -EBUSY;
--
--	if (veu_file->cfg_needed) {
--		struct sh_veu_dev *veu = veu_file->veu_dev;
--		veu_file->cfg_needed = false;
--		sh_veu_configure(veu_file->veu_dev);
--		veu->xaction = 0;
--		veu->aborting = false;
--	}
--
--	return v4l2_m2m_streamon(file, veu_file->veu_dev->m2m_ctx, type);
--}
--
--static int sh_veu_streamoff(struct file *file, void *priv,
--			    enum v4l2_buf_type type)
--{
--	struct sh_veu_file *veu_file = priv;
--
--	if (!sh_veu_is_streamer(veu_file->veu_dev, veu_file, type))
--		return -EBUSY;
--
--	return v4l2_m2m_streamoff(file, veu_file->veu_dev->m2m_ctx, type);
--}
--
--static const struct v4l2_ioctl_ops sh_veu_ioctl_ops = {
--	.vidioc_querycap	= sh_veu_querycap,
--
--	.vidioc_enum_fmt_vid_cap = sh_veu_enum_fmt_vid_cap,
--	.vidioc_g_fmt_vid_cap	= sh_veu_g_fmt_vid_cap,
--	.vidioc_try_fmt_vid_cap	= sh_veu_try_fmt_vid_cap,
--	.vidioc_s_fmt_vid_cap	= sh_veu_s_fmt_vid_cap,
--
--	.vidioc_enum_fmt_vid_out = sh_veu_enum_fmt_vid_out,
--	.vidioc_g_fmt_vid_out	= sh_veu_g_fmt_vid_out,
--	.vidioc_try_fmt_vid_out	= sh_veu_try_fmt_vid_out,
--	.vidioc_s_fmt_vid_out	= sh_veu_s_fmt_vid_out,
--
--	.vidioc_reqbufs		= sh_veu_reqbufs,
--	.vidioc_querybuf	= sh_veu_querybuf,
--
--	.vidioc_qbuf		= sh_veu_qbuf,
--	.vidioc_dqbuf		= sh_veu_dqbuf,
--
--	.vidioc_streamon	= sh_veu_streamon,
--	.vidioc_streamoff	= sh_veu_streamoff,
--};
--
--		/* ========== Queue operations ========== */
--
--static int sh_veu_queue_setup(struct vb2_queue *vq,
--			      unsigned int *nbuffers, unsigned int *nplanes,
--			      unsigned int sizes[], struct device *alloc_devs[])
--{
--	struct sh_veu_dev *veu = vb2_get_drv_priv(vq);
--	struct sh_veu_vfmt *vfmt = sh_veu_get_vfmt(veu, vq->type);
--	unsigned int count = *nbuffers;
--	unsigned int size = vfmt->bytesperline * vfmt->frame.height *
--		vfmt->fmt->depth / vfmt->fmt->ydepth;
--
--	if (count < 2)
--		*nbuffers = count = 2;
--
--	if (size * count > VIDEO_MEM_LIMIT) {
--		count = VIDEO_MEM_LIMIT / size;
--		*nbuffers = count;
--	}
--
--	if (*nplanes)
--		return sizes[0] < size ? -EINVAL : 0;
--
--	*nplanes = 1;
--	sizes[0] = size;
--
--	dev_dbg(veu->dev, "get %d buffer(s) of size %d each.\n", count, size);
--
--	return 0;
--}
--
--static int sh_veu_buf_prepare(struct vb2_buffer *vb)
--{
--	struct sh_veu_dev *veu = vb2_get_drv_priv(vb->vb2_queue);
--	struct sh_veu_vfmt *vfmt;
--	unsigned int sizeimage;
--
--	vfmt = sh_veu_get_vfmt(veu, vb->vb2_queue->type);
--	sizeimage = vfmt->bytesperline * vfmt->frame.height *
--		vfmt->fmt->depth / vfmt->fmt->ydepth;
--
--	if (vb2_plane_size(vb, 0) < sizeimage) {
--		dev_dbg(veu->dev, "%s data will not fit into plane (%lu < %u)\n",
--			__func__, vb2_plane_size(vb, 0), sizeimage);
--		return -EINVAL;
--	}
--
--	vb2_set_plane_payload(vb, 0, sizeimage);
--
--	return 0;
--}
--
--static void sh_veu_buf_queue(struct vb2_buffer *vb)
--{
--	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
--	struct sh_veu_dev *veu = vb2_get_drv_priv(vb->vb2_queue);
--	dev_dbg(veu->dev, "%s(%d)\n", __func__, vb->type);
--	v4l2_m2m_buf_queue(veu->m2m_ctx, vbuf);
--}
--
--static const struct vb2_ops sh_veu_qops = {
--	.queue_setup	 = sh_veu_queue_setup,
--	.buf_prepare	 = sh_veu_buf_prepare,
--	.buf_queue	 = sh_veu_buf_queue,
--	.wait_prepare	 = vb2_ops_wait_prepare,
--	.wait_finish	 = vb2_ops_wait_finish,
--};
--
--static int sh_veu_queue_init(void *priv, struct vb2_queue *src_vq,
--			     struct vb2_queue *dst_vq)
--{
--	struct sh_veu_dev *veu = priv;
--	int ret;
--
--	memset(src_vq, 0, sizeof(*src_vq));
--	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
--	src_vq->io_modes = VB2_MMAP | VB2_USERPTR;
--	src_vq->drv_priv = veu;
--	src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
--	src_vq->ops = &sh_veu_qops;
--	src_vq->mem_ops = &vb2_dma_contig_memops;
--	src_vq->lock = &veu->fop_lock;
--	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
--	src_vq->dev = veu->v4l2_dev.dev;
--
--	ret = vb2_queue_init(src_vq);
--	if (ret < 0)
--		return ret;
--
--	memset(dst_vq, 0, sizeof(*dst_vq));
--	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
--	dst_vq->io_modes = VB2_MMAP | VB2_USERPTR;
--	dst_vq->drv_priv = veu;
--	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
--	dst_vq->ops = &sh_veu_qops;
--	dst_vq->mem_ops = &vb2_dma_contig_memops;
--	dst_vq->lock = &veu->fop_lock;
--	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
--	dst_vq->dev = veu->v4l2_dev.dev;
--
--	return vb2_queue_init(dst_vq);
--}
--
--		/* ========== File operations ========== */
--
--static int sh_veu_open(struct file *file)
--{
--	struct sh_veu_dev *veu = video_drvdata(file);
--	struct sh_veu_file *veu_file;
--
--	veu_file = kzalloc(sizeof(*veu_file), GFP_KERNEL);
--	if (!veu_file)
--		return -ENOMEM;
--
--	v4l2_fh_init(&veu_file->fh, video_devdata(file));
--	veu_file->veu_dev = veu;
--	veu_file->cfg_needed = true;
--
--	file->private_data = veu_file;
--
--	pm_runtime_get_sync(veu->dev);
--	v4l2_fh_add(&veu_file->fh);
--
--	dev_dbg(veu->dev, "Created instance %p\n", veu_file);
--
--	return 0;
--}
--
--static int sh_veu_release(struct file *file)
--{
--	struct sh_veu_dev *veu = video_drvdata(file);
--	struct sh_veu_file *veu_file = file->private_data;
--
--	dev_dbg(veu->dev, "Releasing instance %p\n", veu_file);
--
--	if (veu_file == veu->capture) {
--		veu->capture = NULL;
--		vb2_queue_release(v4l2_m2m_get_vq(veu->m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE));
--	}
--
--	if (veu_file == veu->output) {
--		veu->output = NULL;
--		vb2_queue_release(v4l2_m2m_get_vq(veu->m2m_ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT));
--	}
--
--	if (!veu->output && !veu->capture && veu->m2m_ctx) {
--		v4l2_m2m_ctx_release(veu->m2m_ctx);
--		veu->m2m_ctx = NULL;
--	}
--
--	pm_runtime_put(veu->dev);
--	v4l2_fh_del(&veu_file->fh);
--	v4l2_fh_exit(&veu_file->fh);
--
--	kfree(veu_file);
--
--	return 0;
--}
--
--static __poll_t sh_veu_poll(struct file *file,
--				struct poll_table_struct *wait)
--{
--	struct sh_veu_file *veu_file = file->private_data;
--
--	return v4l2_m2m_poll(file, veu_file->veu_dev->m2m_ctx, wait);
--}
--
--static int sh_veu_mmap(struct file *file, struct vm_area_struct *vma)
--{
--	struct sh_veu_file *veu_file = file->private_data;
--
--	return v4l2_m2m_mmap(file, veu_file->veu_dev->m2m_ctx, vma);
--}
--
--static const struct v4l2_file_operations sh_veu_fops = {
--	.owner		= THIS_MODULE,
--	.open		= sh_veu_open,
--	.release	= sh_veu_release,
--	.poll		= sh_veu_poll,
--	.unlocked_ioctl	= video_ioctl2,
--	.mmap		= sh_veu_mmap,
--};
--
--static const struct video_device sh_veu_videodev = {
--	.name		= "sh-veu",
--	.fops		= &sh_veu_fops,
--	.ioctl_ops	= &sh_veu_ioctl_ops,
--	.minor		= -1,
--	.release	= video_device_release_empty,
--	.vfl_dir	= VFL_DIR_M2M,
--	.device_caps	= V4L2_CAP_VIDEO_M2M | V4L2_CAP_STREAMING,
--};
--
--static const struct v4l2_m2m_ops sh_veu_m2m_ops = {
--	.device_run	= sh_veu_device_run,
--	.job_abort	= sh_veu_job_abort,
--};
--
--static irqreturn_t sh_veu_bh(int irq, void *dev_id)
--{
--	struct sh_veu_dev *veu = dev_id;
--
--	if (veu->xaction == MEM2MEM_DEF_TRANSLEN || veu->aborting) {
--		v4l2_m2m_job_finish(veu->m2m_dev, veu->m2m_ctx);
--		veu->xaction = 0;
--	} else {
--		sh_veu_device_run(veu);
--	}
--
--	return IRQ_HANDLED;
--}
--
--static irqreturn_t sh_veu_isr(int irq, void *dev_id)
--{
--	struct sh_veu_dev *veu = dev_id;
--	struct vb2_v4l2_buffer *dst;
--	struct vb2_v4l2_buffer *src;
--	u32 status = sh_veu_reg_read(veu, VEU_EVTR);
--
--	/* bundle read mode not used */
--	if (!(status & 1))
--		return IRQ_NONE;
--
--	/* disable interrupt in VEU */
--	sh_veu_reg_write(veu, VEU_EIER, 0);
--	/* halt operation */
--	sh_veu_reg_write(veu, VEU_STR, 0);
--	/* ack int, write 0 to clear bits */
--	sh_veu_reg_write(veu, VEU_EVTR, status & ~1);
--
--	/* conversion completed */
--	dst = v4l2_m2m_dst_buf_remove(veu->m2m_ctx);
--	src = v4l2_m2m_src_buf_remove(veu->m2m_ctx);
--	if (!src || !dst)
--		return IRQ_NONE;
--
--	dst->vb2_buf.timestamp = src->vb2_buf.timestamp;
--	dst->flags &= ~V4L2_BUF_FLAG_TSTAMP_SRC_MASK;
--	dst->flags |=
--		src->flags & V4L2_BUF_FLAG_TSTAMP_SRC_MASK;
--	dst->timecode = src->timecode;
--
--	spin_lock(&veu->lock);
--	v4l2_m2m_buf_done(src, VB2_BUF_STATE_DONE);
--	v4l2_m2m_buf_done(dst, VB2_BUF_STATE_DONE);
--	spin_unlock(&veu->lock);
--
--	veu->xaction++;
--
--	return IRQ_WAKE_THREAD;
--}
--
--static int sh_veu_probe(struct platform_device *pdev)
--{
--	struct sh_veu_dev *veu;
--	struct resource *reg_res;
--	struct video_device *vdev;
--	int irq, ret;
--
--	reg_res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
--	irq = platform_get_irq(pdev, 0);
--
--	if (!reg_res || irq <= 0) {
--		dev_err(&pdev->dev, "Insufficient VEU platform information.\n");
--		return -ENODEV;
--	}
--
--	veu = devm_kzalloc(&pdev->dev, sizeof(*veu), GFP_KERNEL);
--	if (!veu)
--		return -ENOMEM;
--
--	veu->is_2h = resource_size(reg_res) == 0x22c;
--
--	veu->base = devm_ioremap_resource(&pdev->dev, reg_res);
--	if (IS_ERR(veu->base))
--		return PTR_ERR(veu->base);
--
--	ret = devm_request_threaded_irq(&pdev->dev, irq, sh_veu_isr, sh_veu_bh,
--					0, "veu", veu);
--	if (ret < 0)
--		return ret;
--
--	ret = v4l2_device_register(&pdev->dev, &veu->v4l2_dev);
--	if (ret < 0) {
--		dev_err(&pdev->dev, "Error registering v4l2 device\n");
--		return ret;
--	}
--
--	vdev = &veu->vdev;
--
--	*vdev = sh_veu_videodev;
--	vdev->v4l2_dev = &veu->v4l2_dev;
--	spin_lock_init(&veu->lock);
--	mutex_init(&veu->fop_lock);
--	vdev->lock = &veu->fop_lock;
--
--	video_set_drvdata(vdev, veu);
--
--	veu->dev	= &pdev->dev;
--	veu->vfmt_out	= DEFAULT_OUT_VFMT;
--	veu->vfmt_in	= DEFAULT_IN_VFMT;
--
--	veu->m2m_dev = v4l2_m2m_init(&sh_veu_m2m_ops);
--	if (IS_ERR(veu->m2m_dev)) {
--		ret = PTR_ERR(veu->m2m_dev);
--		v4l2_err(&veu->v4l2_dev, "Failed to init mem2mem device: %d\n", ret);
--		goto em2minit;
--	}
--
--	pm_runtime_enable(&pdev->dev);
--	pm_runtime_resume(&pdev->dev);
--
--	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
--	pm_runtime_suspend(&pdev->dev);
--	if (ret < 0)
--		goto evidreg;
--
--	return ret;
--
--evidreg:
--	pm_runtime_disable(&pdev->dev);
--	v4l2_m2m_release(veu->m2m_dev);
--em2minit:
--	v4l2_device_unregister(&veu->v4l2_dev);
--	return ret;
--}
--
--static int sh_veu_remove(struct platform_device *pdev)
--{
--	struct v4l2_device *v4l2_dev = platform_get_drvdata(pdev);
--	struct sh_veu_dev *veu = container_of(v4l2_dev,
--					      struct sh_veu_dev, v4l2_dev);
--
--	video_unregister_device(&veu->vdev);
--	pm_runtime_disable(&pdev->dev);
--	v4l2_m2m_release(veu->m2m_dev);
--	v4l2_device_unregister(&veu->v4l2_dev);
--
--	return 0;
--}
--
--static struct platform_driver __refdata sh_veu_pdrv = {
--	.remove		= sh_veu_remove,
--	.driver		= {
--		.name	= "sh_veu",
--	},
--};
--
--module_platform_driver_probe(sh_veu_pdrv, sh_veu_probe);
--
--MODULE_DESCRIPTION("sh-mobile VEU mem2mem driver");
--MODULE_AUTHOR("Guennadi Liakhovetski, <g.liakhovetski@gmx.de>");
--MODULE_LICENSE("GPL v2");
--- 
-2.17.1
-
+Sure we don't have use cases at hand.. I'm fine post-poning then.
+> --
+> Regards,
+>
+> Laurent Pinchart
