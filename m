@@ -2,619 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F5891C8B9E
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 15:00:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 448F51C8BAE
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 15:03:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726635AbgEGNAl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 May 2020 09:00:41 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:37077 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725857AbgEGNAk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 May 2020 09:00:40 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Wg8djWXEBtKAsWg8gja5Cb; Thu, 07 May 2020 15:00:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1588856435; bh=yLTTsMQNEA1ZfoBb3bDv/4ugCr2LFpR2Cuip3QppEp8=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=qH6xAIX6syi0C6r5aCWYLVcLvmPxcr3ZqeFrKpjqe/fOFKN+0tsh2/PuMrbZChVPX
-         ImOLH54BvndxbiBdYv5kcrZGka+IEPz3E4zbCkeCtnmAlXCqiR9rtCLM6WLkLFveAJ
-         5vrYArbUtxwQCzSUTAhg8BZp7S3mMZcaf5CNtQYxGLJl7W4tk4tZ/5t1LWZFgKVVYI
-         ehBrHdPVaxWLlNZI04Tct61WYMHshlEjr3Nl+cAS5qz7gJne0v7j+oUuCDL+dGheBi
-         C3NRfbnNtPC1ELuGgeG869n9L08ft3BIqWmBIdGoWMZ6IcV05g/DNfV5PL70tq+w7l
-         FS5NrxVyhPvBg==
-Subject: Re: [RFC v3 1/2] v4l2: add support for colorspace conversion for
- video capture
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org, helen.koike@collabora.com,
-        ezequiel@collabora.com, kernel@collabora.com, dafna3@gmail.com,
-        laurent.pinchart@ideasonboard.com,
-        linux-rockchip@lists.infradead.org, sakari.ailus@linux.intel.com
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <HansVerkuil@cisco.com>
-References: <20200416145605.12399-1-dafna.hirschfeld@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <f8549b52-4b16-06f4-a017-99c521a822a7@xs4all.nl>
-Date:   Thu, 7 May 2020 15:00:30 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1726222AbgEGNDj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 May 2020 09:03:39 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:18791 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725857AbgEGNDj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 May 2020 09:03:39 -0400
+X-UUID: 58a65aa61db84f4e9ae5d7ba4c3dc3f8-20200507
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=xX6WbzwsIrvXQxxM1hcKQEzgle+dF5Y3ZwcOUMUxvqQ=;
+        b=WVjh0TGnFB7unPUcyqoVPbwtHD0dMByw3R50Ec3RDpkuzR34BPMmpXj624fymR3BjUfgllQzqZVn+PL7QqKW8dzZ2XCzVz8fGn5Go3SBA16+oIVR8bQ1Ks2Ndkn2YGcF4lx3I2fxD2sSz9mvp3S6McrrQwGMTtZlr27edVi0hWE=;
+X-UUID: 58a65aa61db84f4e9ae5d7ba4c3dc3f8-20200507
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1239997048; Thu, 07 May 2020 21:03:15 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31DR.mediatek.inc
+ (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 7 May
+ 2020 21:03:13 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 7 May 2020 21:03:14 +0800
+Message-ID: <1588856529.8804.182.camel@mhfsdcap03>
+Subject: Re: [V7, 1/2] media: dt-bindings: media: i2c: Document OV02A10
+ bindings
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Rob Herring <robh@kernel.org>
+CC:     <linus.walleij@linaro.org>, <bgolaszewski@baylibre.com>,
+        <mchehab@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <mark.rutland@arm.com>, <sakari.ailus@linux.intel.com>,
+        <drinkcat@chromium.org>, <tfiga@chromium.org>,
+        <matthias.bgg@gmail.com>, <bingbu.cao@intel.com>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>
+Date:   Thu, 7 May 2020 21:02:09 +0800
+In-Reply-To: <20200505161540.GA22172@bogus>
+References: <20200430080924.1140-1-dongchun.zhu@mediatek.com>
+         <20200430080924.1140-2-dongchun.zhu@mediatek.com>
+         <20200505161540.GA22172@bogus>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <20200416145605.12399-1-dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfF4aDOU2Qdb/bJ2k7Go+8fsH7jM5KfuYwetb6kccEHxuz0FJeK3QSD9SQ+Q87SMSCez6d2GziSMup7dCJMCiyP+1uzZqa7tIgUSZ+UeYEXgDG2TLRXRc
- IGMyVj4nGNwYtVbzD8NXe+j0xnMBa+oZuFQwdoB90m33L5dtzXsoTszYmPtzUAuUD+v7nkTD9MKdhdP8qyadLwXrbBmdwIwqZq8IgQDI4NPaBeK6zHrSpy0j
- hSXS9F/qJ7/gp8GOgZq4Zpwp0GRR/FU6/QSHAGjSTpNX5NiVa5w6rwK4MATvpDs4wKHNIqJ09hP1SNw5H15RDdwGkbya/Y5DcaB+1koaGQfh2rnriZry2Vev
- Roiii+xnRatTil5LV49AprqL9l8HdUH8gVbPwFrzeI+KDbtob0FyZ5l7IaW/rveKGb5MZB/07gT4Lr/Kl7geJX69c85yvxdFgwO5j2L2xPp9uwaS6eun21+2
- z4hIE+3UTUSATDFSh9Vk7zVoAUiuA3S5Nbo/mjwYLbaewcyvWi76My318MHhTZltsXZNRo0L2qUB+KRafwBSTS7VEnk1SROeldZdzg==
+X-TM-SNTS-SMTP: C1DAAC863A668D2A4CF4F32E5C24F6E2E84AB6876C2AEAB38359B8B9244F95AE2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/04/2020 16:56, Dafna Hirschfeld wrote:
-> From: Philipp Zabel <p.zabel@pengutronix.de>
-> 
-> For video capture it is the driver that reports the colorspace,
-> Y'CbCr/HSV encoding, quantization range and transfer function
-> used by the video, and there is no way to request something
-> different, even though many HDTV receivers have some sort of
-> colorspace conversion capabilities.
-> 
-> For output video this feature already exists since the application
-> specifies this information for the video format it will send out, and
-> the transmitter will enable any available CSC if a format conversion has
-> to be performed in order to match the capabilities of the sink.
-> 
-> For video capture we propose adding new pix_format flag:
-> V4L2_PIX_FMT_FLAG_HAS_CSC. The flag is set by the application,
+SGkgUm9iLA0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXcuDQoNCk9uIFR1ZSwgMjAyMC0wNS0wNSBh
+dCAxMToxNSAtMDUwMCwgUm9iIEhlcnJpbmcgd3JvdGU6DQo+IE9uIFRodSwgQXByIDMwLCAyMDIw
+IGF0IDA0OjA5OjIzUE0gKzA4MDAsIERvbmdjaHVuIFpodSB3cm90ZToNCj4gPiBBZGQgRFQgYmlu
+ZGluZ3MgZG9jdW1lbnRhdGlvbiBmb3IgT21uaXZpc2lvbiBPVjAyQTEwIGltYWdlIHNlbnNvci4N
+Cj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBEb25nY2h1biBaaHUgPGRvbmdjaHVuLnpodUBtZWRp
+YXRlay5jb20+DQo+ID4gLS0tDQo+ID4gIC4uLi9iaW5kaW5ncy9tZWRpYS9pMmMvb3Z0aSxvdjAy
+YTEwLnlhbWwgICAgICAgICAgIHwgMTQ4ICsrKysrKysrKysrKysrKysrKysrKw0KPiA+ICBNQUlO
+VEFJTkVSUyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgNyArDQo+
+ID4gIDIgZmlsZXMgY2hhbmdlZCwgMTU1IGluc2VydGlvbnMoKykNCj4gPiAgY3JlYXRlIG1vZGUg
+MTAwNjQ0IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9pMmMvb3Z0aSxv
+djAyYTEwLnlhbWwNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0
+cmVlL2JpbmRpbmdzL21lZGlhL2kyYy9vdnRpLG92MDJhMTAueWFtbCBiL0RvY3VtZW50YXRpb24v
+ZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9pMmMvb3Z0aSxvdjAyYTEwLnlhbWwNCj4gPiBuZXcg
+ZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAuLjJiZTRiZDINCj4gPiAtLS0gL2Rl
+di9udWxsDQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlh
+L2kyYy9vdnRpLG92MDJhMTAueWFtbA0KPiA+IEBAIC0wLDAgKzEsMTQ4IEBADQo+ID4gKyMgU1BE
+WC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwtMi4wIE9SIEJTRC0yLUNsYXVzZSkNCj4gPiArIyBD
+b3B5cmlnaHQgKGMpIDIwMjAgTWVkaWFUZWsgSW5jLg0KPiA+ICslWUFNTCAxLjINCj4gPiArLS0t
+DQo+ID4gKyRpZDogaHR0cDovL2RldmljZXRyZWUub3JnL3NjaGVtYXMvbWVkaWEvaTJjL292dGks
+b3YwMmExMC55YW1sIw0KPiA+ICskc2NoZW1hOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvbWV0YS1z
+Y2hlbWFzL2NvcmUueWFtbCMNCj4gPiArDQo+ID4gK3RpdGxlOiBPbW5pdmlzaW9uIE9WMDJBMTAg
+Q01PUyBTZW5zb3IgRGV2aWNlIFRyZWUgQmluZGluZ3MNCj4gPiArDQo+ID4gK21haW50YWluZXJz
+Og0KPiA+ICsgIC0gRG9uZ2NodW4gWmh1IDxkb25nY2h1bi56aHVAbWVkaWF0ZWsuY29tPg0KPiA+
+ICsNCj4gPiArZGVzY3JpcHRpb246IHwtDQo+ID4gKyAgVGhlIE9tbml2aXNpb24gT1YwMkExMCBp
+cyBhIGxvdy1jb3N0LCBoaWdoIHBlcmZvcm1hbmNlLCAxLzUtaW5jaCwgMiBtZWdhcGl4ZWwNCj4g
+PiArICBpbWFnZSBzZW5zb3IsIHdoaWNoIGlzIHRoZSBsYXRlc3QgcHJvZHVjdGlvbiBkZXJpdmVk
+IGZyb20gT21uaXZpc2lvbidzIENNT1MNCj4gPiArICBpbWFnZSBzZW5zb3IgdGVjaG5vbG9neS4g
+SWhpcyBjaGlwIHN1cHBvcnRzIGhpZ2ggZnJhbWUgcmF0ZSBzcGVlZHMgdXAgdG8gMzBmcHMNCj4g
+PiArICBAIDE2MDB4MTIwMCAoVVhHQSkgcmVzb2x1dGlvbiB0cmFuc2ZlcnJlZCBvdmVyIGEgMS1s
+YW5lIE1JUEkgaW50ZXJmYWNlLiBUaGUNCj4gPiArICBzZW5zb3Igb3V0cHV0IGlzIGF2YWlsYWJs
+ZSB2aWEgQ1NJLTIgc2VyaWFsIGRhdGEgb3V0cHV0Lg0KPiA+ICsNCj4gPiArcHJvcGVydGllczoN
+Cj4gPiArICBjb21wYXRpYmxlOg0KPiA+ICsgICAgY29uc3Q6IG92dGksb3YwMmExMA0KPiA+ICsN
+Cj4gPiArICByZWc6DQo+ID4gKyAgICBtYXhJdGVtczogMQ0KPiA+ICsNCj4gPiArICBjbG9ja3M6
+DQo+ID4gKyAgICBpdGVtczoNCj4gPiArICAgICAgLSBkZXNjcmlwdGlvbjogdG9wIG11eCBjYW10
+ZyBjbG9jaw0KPiA+ICsgICAgICAtIGRlc2NyaXB0aW9uOiBkZXZpZGVyIGNsb2NrDQo+ID4gKw0K
+PiA+ICsgIGNsb2NrLW5hbWVzOg0KPiA+ICsgICAgaXRlbXM6DQo+ID4gKyAgICAgIC0gY29uc3Q6
+IGVjbGsNCj4gPiArICAgICAgLSBjb25zdDogZnJlcV9tdXgNCj4gPiArDQo+ID4gKyAgY2xvY2st
+ZnJlcXVlbmN5Og0KPiA+ICsgICAgZGVzY3JpcHRpb246DQo+ID4gKyAgICAgIEZyZXF1ZW5jeSBv
+ZiB0aGUgZWNsayBjbG9jayBpbiBIZXJ0ei4NCj4gPiArDQo+ID4gKyAgZG92ZGQtc3VwcGx5Og0K
+PiA+ICsgICAgZGVzY3JpcHRpb246DQo+ID4gKyAgICAgIERlZmluaXRpb24gb2YgdGhlIHJlZ3Vs
+YXRvciB1c2VkIGFzIGludGVyZmFjZSBwb3dlciBzdXBwbHkuDQo+ID4gKw0KPiA+ICsgIGF2ZGQt
+c3VwcGx5Og0KPiA+ICsgICAgZGVzY3JpcHRpb246DQo+ID4gKyAgICAgIERlZmluaXRpb24gb2Yg
+dGhlIHJlZ3VsYXRvciB1c2VkIGFzIGFuYWxvZyBwb3dlciBzdXBwbHkuDQo+ID4gKw0KPiA+ICsg
+IGR2ZGQtc3VwcGx5Og0KPiA+ICsgICAgZGVzY3JpcHRpb246DQo+ID4gKyAgICAgIERlZmluaXRp
+b24gb2YgdGhlIHJlZ3VsYXRvciB1c2VkIGFzIGRpZ2l0YWwgcG93ZXIgc3VwcGx5Lg0KPiA+ICsN
+Cj4gPiArICBwb3dlcmRvd24tZ3Bpb3M6DQo+IA0KPiBtYXhJdGVtczogMQ0KPiANCg0KVGhhbmtz
+IGZvciB0aGUgcmVtaW5kZXIsIGl0IHdvdWxkIGJlIGZpeGVkIGluIG5leHQgcmVsZWFzZS4NCg0K
+PiA+ICsgICAgZGVzY3JpcHRpb246DQo+ID4gKyAgICAgIFRoZSBwaGFuZGxlIGFuZCBzcGVjaWZp
+ZXIgZm9yIHRoZSBHUElPIHRoYXQgY29udHJvbHMgc2Vuc29yIHBvd2VyZG93bi4NCj4gDQo+IENh
+biBiZSBkcm9wcGVkLiBEb2Vzbid0IHRlbGwgbWUgYW55dGhpbmcgc3BlY2lmaWMgdG8gdGhpcyBk
+ZXZpY2UuDQo+IA0KDQpGaXhlZCBpbiBuZXh0IHJlbGVhc2UuDQoNCj4gPiArDQo+ID4gKyAgcmVz
+ZXQtZ3Bpb3M6DQo+IA0KPiBtYXhJdGVtczogMQ0KPiANCg0KU2FtZSBhcyBwb3dlcmRvd24tZ3Bp
+b3MuIFdlIHdvdWxkIGp1c3QgdXNlIG1heEl0ZW1zIG9ubHkuDQoNCj4gPiArICAgIGRlc2NyaXB0
+aW9uOg0KPiA+ICsgICAgICBUaGUgcGhhbmRsZSBhbmQgc3BlY2lmaWVyIGZvciB0aGUgR1BJTyB0
+aGF0IGNvbnRyb2xzIHNlbnNvciByZXNldC4NCj4gPiArDQo+ID4gKyAgcm90YXRpb246DQo+ID4g
+KyAgICBkZXNjcmlwdGlvbjoNCj4gPiArICAgICAgRGVmaW5pdGlvbiBvZiB0aGUgc2Vuc29yJ3Mg
+cGxhY2VtZW50LCB2YWxpZCB2YWx1ZXMgYXJlIDAgYW5kIDE4MC4NCj4gPiArICAgIGFsbE9mOg0K
+PiA+ICsgICAgICAtICRyZWY6ICIvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50
+MzIiDQo+ID4gKyAgICAgIC0gZW51bToNCj4gPiArICAgICAgICAgIC0gMCAgICAjIFNlbnNvciBN
+b3VudGVkIFVwcmlnaHQNCj4gPiArICAgICAgICAgIC0gMTgwICAjIFNlbnNvciBNb3VudGVkIFVw
+c2lkZSBEb3duDQo+ID4gKw0KPiA+ICsgIG92dGksbWlwaS10eC1zcGVlZDoNCj4gPiArICAgIGRl
+c2NyaXB0aW9uOg0KPiA+ICsgICAgICBJbmRpY2F0aW9uIG9mIE1JUEkgdHJhbnNtaXNzaW9uIHNw
+ZWVkIHNlbGVjdC4NCj4gPiArICAgIGFsbE9mOg0KPiA+ICsgICAgICAtICRyZWY6ICIvc2NoZW1h
+cy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzIiDQo+ID4gKyAgICAgIC0gZW51bTogWyAz
+LCA0IF0NCj4gPiArDQo+ID4gKyAgIyBTZWUgLi4vdmlkZW8taW50ZXJmYWNlcy50eHQgZm9yIGRl
+dGFpbHMNCj4gPiArICBwb3J0Og0KPiA+ICsgICAgdHlwZTogb2JqZWN0DQo+ID4gKyAgICBhZGRp
+dGlvbmFsUHJvcGVydGllczogZmFsc2UNCj4gPiArDQo+ID4gKyAgICBwcm9wZXJ0aWVzOg0KPiA+
+ICsgICAgICBlbmRwb2ludDoNCj4gPiArICAgICAgICB0eXBlOiBvYmplY3QNCj4gPiArICAgICAg
+ICBhZGRpdGlvbmFsUHJvcGVydGllczogZmFsc2UNCj4gPiArDQo+ID4gKyAgICAgICAgcHJvcGVy
+dGllczoNCj4gPiArICAgICAgICAgIHJlbW90ZS1lbmRwb2ludDogdHJ1ZQ0KPiA+ICsgICAgICAg
+ICAgbGluay1mcmVxdWVuY2llczogdHJ1ZQ0KPiA+ICsNCj4gPiArICAgIHJlcXVpcmVkOg0KPiA+
+ICsgICAgICAtIGVuZHBvaW50DQo+ID4gKw0KPiA+ICtyZXF1aXJlZDoNCj4gPiArICAtIGNvbXBh
+dGlibGUNCj4gPiArICAtIHJlZw0KPiA+ICsgIC0gY2xvY2tzDQo+ID4gKyAgLSBjbG9jay1uYW1l
+cw0KPiA+ICsgIC0gY2xvY2stZnJlcXVlbmN5DQo+ID4gKyAgLSBkb3ZkZC1zdXBwbHkNCj4gPiAr
+ICAtIGF2ZGQtc3VwcGx5DQo+ID4gKyAgLSBkdmRkLXN1cHBseQ0KPiA+ICsgIC0gcG93ZXJkb3du
+LWdwaW9zDQo+ID4gKyAgLSByZXNldC1ncGlvcw0KPiA+ICsgIC0gcG9ydA0KPiA+ICsNCj4gPiAr
+YWRkaXRpb25hbFByb3BlcnRpZXM6IGZhbHNlDQo+ID4gKw0KPiA+ICtleGFtcGxlczoNCj4gPiAr
+ICAtIHwNCj4gPiArICAgICNpbmNsdWRlIDxkdC1iaW5kaW5ncy9jbG9jay9tdDgxODMtY2xrLmg+
+DQo+ID4gKyAgICAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvZ3Bpby9ncGlvLmg+DQo+ID4gKw0KPiA+
+ICsgICAgaTJjIHsNCj4gPiArICAgICAgICBjbG9jay1mcmVxdWVuY3kgPSA8NDAwMDAwPjsNCj4g
+PiArICAgICAgICAjYWRkcmVzcy1jZWxscyA9IDwxPjsNCj4gPiArICAgICAgICAjc2l6ZS1jZWxs
+cyA9IDwwPjsNCj4gPiArDQo+ID4gKyAgICAgICAgb3YwMmExMDogY2FtZXJhLXNlbnNvckAzZCB7
+DQo+ID4gKyAgICAgICAgICAgIGNvbXBhdGlibGUgPSAib3Z0aSxvdjAyYTEwIjsNCj4gPiArICAg
+ICAgICAgICAgcmVnID0gPDB4M2Q+Ow0KPiA+ICsgICAgICAgICAgICBwaW5jdHJsLW5hbWVzID0g
+ImRlZmF1bHQiOw0KPiA+ICsgICAgICAgICAgICBwaW5jdHJsLTAgPSA8JmNsa18yNG1fY2FtPjsN
+Cj4gPiArDQo+ID4gKyAgICAgICAgICAgIGNsb2NrcyA9IDwmdG9wY2tnZW4gQ0xLX1RPUF9NVVhf
+Q0FNVEc+LA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICA8JnRvcGNrZ2VuIENMS19UT1BfVU5J
+VlBfMTkyTV9EOD47DQo+ID4gKyAgICAgICAgICAgIGNsb2NrLW5hbWVzID0gImVjbGsiLCAiZnJl
+cV9tdXgiOw0KPiA+ICsgICAgICAgICAgICBjbG9jay1mcmVxdWVuY3kgPSA8MjQwMDAwMDA+Ow0K
+PiA+ICsNCj4gPiArICAgICAgICAgICAgcm90YXRpb24gPSA8MTgwPjsNCj4gPiArICAgICAgICAg
+ICAgb3Z0aSxtaXBpLXR4LXNwZWVkID0gPDM+Ow0KPiA+ICsNCj4gPiArICAgICAgICAgICAgZG92
+ZGQtc3VwcGx5ID0gPCZtdDYzNThfdmNhbWlvX3JlZz47DQo+ID4gKyAgICAgICAgICAgIGF2ZGQt
+c3VwcGx5ID0gPCZtdDYzNThfdmNhbWExX3JlZz47DQo+ID4gKyAgICAgICAgICAgIGR2ZGQtc3Vw
+cGx5ID0gPCZtdDYzNThfdmNuMThfcmVnPjsNCj4gPiArICAgICAgICAgICAgcG93ZXJkb3duLWdw
+aW9zID0gPCZwaW8gMTA3IEdQSU9fQUNUSVZFX0xPVz47DQo+ID4gKyAgICAgICAgICAgIHJlc2V0
+LWdwaW9zID0gPCZwaW8gMTA5IEdQSU9fQUNUSVZFX0hJR0g+Ow0KPiA+ICsNCj4gPiArICAgICAg
+ICAgICAgcG9ydCB7DQo+ID4gKyAgICAgICAgICAgICAgICB3Y2FtX291dDogZW5kcG9pbnQgew0K
+PiA+ICsgICAgICAgICAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmbWlwaV9pbl93Y2Ft
+PjsNCj4gPiArICAgICAgICAgICAgICAgICAgICBsaW5rLWZyZXF1ZW5jaWVzID0gL2JpdHMvIDY0
+IDwzOTAwMDAwMDA+Ow0KPiA+ICsgICAgICAgICAgICAgICAgfTsNCj4gPiArICAgICAgICAgICAg
+fTsNCj4gPiArICAgICAgICB9Ow0KPiA+ICsgICAgfTsNCj4gPiArDQo+ID4gKy4uLg0KPiA+IGRp
+ZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlORVJTDQo+ID4gaW5kZXggZTY0ZTVkYi4u
+NjNhMjMzNSAxMDA2NDQNCj4gPiAtLS0gYS9NQUlOVEFJTkVSUw0KPiA+ICsrKyBiL01BSU5UQUlO
+RVJTDQo+ID4gQEAgLTEyMzg5LDYgKzEyMzg5LDEzIEBAIE06CUhhcmFsZCBXZWx0ZSA8bGFmb3Jn
+ZUBnbnVtb25rcy5vcmc+DQo+ID4gIFM6CU1haW50YWluZWQNCj4gPiAgRjoJZHJpdmVycy9jaGFy
+L3BjbWNpYS9jbTQwNDBfY3MuKg0KPiA+ICANCj4gPiArT01OSVZJU0lPTiBPVjAyQTEwIFNFTlNP
+UiBEUklWRVINCj4gPiArTToJRG9uZ2NodW4gWmh1IDxkb25nY2h1bi56aHVAbWVkaWF0ZWsuY29t
+Pg0KPiA+ICtMOglsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcNCj4gPiArUzoJTWFpbnRhaW5l
+ZA0KPiA+ICtUOglnaXQgZ2l0Oi8vbGludXh0di5vcmcvbWVkaWFfdHJlZS5naXQNCj4gPiArRjoJ
+RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL2kyYy9vdnRpLG92MDJhMTAu
+eWFtbA0KPiA+ICsNCj4gPiAgT01OSVZJU0lPTiBPVjEzODU4IFNFTlNPUiBEUklWRVINCj4gPiAg
+TToJU2FrYXJpIEFpbHVzIDxzYWthcmkuYWlsdXNAbGludXguaW50ZWwuY29tPg0KPiA+ICBMOgls
+aW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmcNCj4gPiAtLSANCj4gPiAyLjkuMg0KDQo=
 
-That should be V4L2_PIX_FMT_FLAG_REQUEST_CSC, since the application actively
-requests the use of the CSC.
-
-> the driver will interpret the ycbcr_enc/hsv_enc, and quantization fields
-> as the requested colorspace information and will attempt to
-> do the conversion it supports.
-> 
-> Drivers set the flags
-> V4L2_FMT_FLAG_CSC_YCBCR_ENC,
-> V4L2_FMT_FLAG_CSC_HSV_ENC,
-> V4L2_FMT_FLAG_CSC_HSV_QUANTIZATION,
-
-That last define should be 'V4L2_FMT_FLAG_CSC_QUANTIZATION' without 'HSV_'.
-
-> in the flags field of the struct v4l2_fmtdesc during enumeration to
-> indicate that they support colorspace conversion for the respective field.
-> Currently the conversion of the fields colorspace, xfer_func is not
-> supported since there are no drivers that support it.
-> 
-> The same API is added for the subdevices. With the flag V4L2_MBUS_FRAMEFMT_HAS_CSC
-
-Should also be REQUEST_CSC.
-
-> set by the application in the VIDIOC_SUBDEV_S_FMT ioctl and the flags
-> V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC, V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION
-> set by the driver in the VIDIOC_SUBDEV_ENUM_MBUS_CODE ioctl.
-> 
-> For subdevices, new 'flags' fields were added to the structs
-> v4l2_subdev_mbus_code_enum, v4l2_mbus_framefmt which are borrowed from the 'reserved' field
-> 
-> Drivers do not have to actually look at the flags: if the flags are not
-> set, then the colorspace, ycbcr_enc and quantization fields are set to
-> the default values by the core, i.e. just pass on the received format
-> without conversion.
-> 
-> Signed-off-by: Hans Verkuil <Hans Verkuil@cisco.com>
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
-> This is v3 of the RFC suggested originaly by Hans Verkuil:
-> 
->  https://patchwork.linuxtv.org/patch/28847/
-> 
-> And then a v2 from Philipp Zabel:
-> 
->  https://patchwork.kernel.org/project/linux-media/list/?series=15483
-> 
-> changes in v3:
-> I added the API to subdevices as well and added fixes according to
-> comments from Hans.
-> I also added a usecase for the new API for the rkisp1 driver.
-> 
-> changes in v2 (reported by Philipp Zabel):
->  - convert to rst
->  - split V4L2_PIX_FMT_FLAG_REQUEST_CSC into four separate flags for
->    colorspace, ycbcr_enc/hsv_enc, quantization, and xfer_func
->  - let driver set flags to indicate supported features
-> 
-> [1] https://patchwork.linuxtv.org/patch/28847/
-> 
->  .../media/v4l/pixfmt-reserved.rst             |  6 +++
->  .../media/v4l/pixfmt-v4l2-mplane.rst          | 16 ++-----
->  .../userspace-api/media/v4l/pixfmt-v4l2.rst   | 36 +++++++++++++---
->  .../media/v4l/subdev-formats.rst              | 42 +++++++++++++++++--
->  .../media/v4l/vidioc-enum-fmt.rst             | 18 ++++++++
->  .../v4l/vidioc-subdev-enum-mbus-code.rst      | 23 ++++++++++
->  drivers/media/v4l2-core/v4l2-ioctl.c          | 19 ++++++++-
->  drivers/media/v4l2-core/v4l2-subdev.c         |  7 ++++
->  include/uapi/linux/v4l2-mediabus.h            |  5 ++-
->  include/uapi/linux/v4l2-subdev.h              |  5 ++-
->  include/uapi/linux/videodev2.h                |  4 ++
->  11 files changed, 158 insertions(+), 23 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> index 59b9e7238f90..fa8dada69f8c 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-
-Why on earth did the documentation of these pixel format flags end up in
-pixfmt-reserved.rst?
-
-Can you make a patch that moves this to pixfmt-v4l2.rst?
-
-> @@ -280,3 +280,9 @@ please make a proposal on the linux-media mailing list.
->  	by RGBA values (128, 192, 255, 128), the same pixel described with
->  	premultiplied colors would be described by RGBA values (64, 96,
->  	128, 128)
-> +    * - ``V4L2_PIX_FMT_FLAG_HAS_CSC``
-> +      - 0x00000002
-> +      - Set by the application. It is only used for capture and is
-> +	ignored for output streams. If set, then request the driver to do
-> +	colorspace conversion from the received colorspace, only conversions
-> +	of Ycbcr encoding, HSV encoding and quantization are supported.
-
-I'd replace the part "If set..." with this:
-
-----------
-If set, then request the driver to do colorspace conversion from the received
-colorspace to the requested colorspace values. If a colorimetry field
-(``colorspace``, ``xfer_func``, ``ycncr_enc`` or ``quantization``) is set to 0,
-then that colorimetry setting will remain unchanged from what was received.
-So to just change the quantization only the ``quantization`` field shall be set
-to a non-zero value (``V4L2_QUANTIZATION_FULL_RANGE`` or
-``V4L2_QUANTIZATION_LIM_RANGE``) and all other colorimetry fields shall be set to 0.
-
-To check which conversions are supported by the hardware for the current pixel
-format, see :ref:`fmtdesc-flags`.
-----------
-
-
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-v4l2-mplane.rst b/Documentation/userspace-api/media/v4l/pixfmt-v4l2-mplane.rst
-> index 444b4082684c..66f3365d7b72 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-v4l2-mplane.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-v4l2-mplane.rst
-> @@ -105,29 +105,21 @@ describing all planes of that format.
->      * - __u8
->        - ``ycbcr_enc``
->        - Y'CbCr encoding, from enum :c:type:`v4l2_ycbcr_encoding`.
-> -        This information supplements the ``colorspace`` and must be set by
-> -	the driver for capture streams and by the application for output
-> -	streams, see :ref:`colorspaces`.
-> +	See struct :c:type:`v4l2_pix_format`.
->      * - __u8
->        - ``hsv_enc``
->        - HSV encoding, from enum :c:type:`v4l2_hsv_encoding`.
-> -        This information supplements the ``colorspace`` and must be set by
-> -	the driver for capture streams and by the application for output
-> -	streams, see :ref:`colorspaces`.
-> +	See struct :c:type:`v4l2_pix_format`.
->      * - }
->        -
->      * - __u8
->        - ``quantization``
->        - Quantization range, from enum :c:type:`v4l2_quantization`.
-> -        This information supplements the ``colorspace`` and must be set by
-> -	the driver for capture streams and by the application for output
-> -	streams, see :ref:`colorspaces`.
-> +	See struct :c:type:`v4l2_pix_format`.
->      * - __u8
->        - ``xfer_func``
->        - Transfer function, from enum :c:type:`v4l2_xfer_func`.
-> -        This information supplements the ``colorspace`` and must be set by
-> -	the driver for capture streams and by the application for output
-> -	streams, see :ref:`colorspaces`.
-> +	See struct :c:type:`v4l2_pix_format`.
->      * - __u8
->        - ``reserved[7]``
->        - Reserved for future extensions. Should be zeroed by drivers and
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst b/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst
-> index 759420a872d6..ce57718cd66b 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst
-> @@ -110,8 +110,8 @@ Single-planar format structure
->        - ``colorspace``
->        - Image colorspace, from enum :c:type:`v4l2_colorspace`.
->          This information supplements the ``pixelformat`` and must be set
-> -	by the driver for capture streams and by the application for
-> -	output streams, see :ref:`colorspaces`.
-> +	by the driver for capture streams and by the application for output
-> +	streams, see :ref:`colorspace`.
-
-This doesn't appear to change anything.
-
->      * - __u32
->        - ``priv``
->        - This field indicates whether the remaining fields of the
-> @@ -148,13 +148,31 @@ Single-planar format structure
->        - Y'CbCr encoding, from enum :c:type:`v4l2_ycbcr_encoding`.
->          This information supplements the ``colorspace`` and must be set by
->  	the driver for capture streams and by the application for output
-> -	streams, see :ref:`colorspaces`.
-> +	streams, see :ref:`colorspaces`. If the application sets the
-> +	flag ``V4L2_PIX_FMT_FLAG_HAS_CSC`` then the application can set
-> +	this field for a capture stream to request a specific Y'CbCr encoding
-> +	for the captured image data. The driver will attempt to do the
-> +	conversion to the specified Y'CbCr encoding or return the encoding it
-> +	will use if it can't do the conversion. This field is ignored for
-> +	non-Y'CbCr pixelformats. The driver indicates that ycbcr_enc conversion
-> +	is supported by setting the flag V4L2_FMT_FLAG_CSC_YCBCR_ENC on the
-> +	on the corresponding struct :c:type:`v4l2_fmtdesc` during enumeration.
-
-on the on the -> in the
-
-> +	See :ref:`fmtdesc-flags`
->      * - __u32
->        - ``hsv_enc``
->        - HSV encoding, from enum :c:type:`v4l2_hsv_encoding`.
->          This information supplements the ``colorspace`` and must be set by
->  	the driver for capture streams and by the application for output
-> -	streams, see :ref:`colorspaces`.
-> +	streams, see :ref:`colorspaces`. If the application sets the flag
-> +	``V4L2_PIX_FMT_FLAG_HAS_CSC`` then the application can set this
-> +	field for a capture stream to request a specific HSV encoding for the
-> +	captured image data. The driver will attempt to do the conversion to
-> +	the specified HSV encoding or return the encoding it will use if it
-> +	can't do the conversion. This field is ignored for non-HSV
-> +	pixelformats. The driver indicates that hsv_enc conversion
-> +	is supported by setting the flag V4L2_FMT_FLAG_CSC_HSV_ENC on the
-> +	on the corresponding struct :c:type:`v4l2_fmtdesc` during enumeration.
-
-Ditto.
-
-> +	See :ref:`fmtdesc-flags`
->      * - }
->        -
->      * - __u32
-> @@ -162,7 +180,15 @@ Single-planar format structure
->        - Quantization range, from enum :c:type:`v4l2_quantization`.
->          This information supplements the ``colorspace`` and must be set by
->  	the driver for capture streams and by the application for output
-> -	streams, see :ref:`colorspaces`.
-> +	streams, see :ref:`colorspaces`. If the application sets the flag
-> +	``V4L2_PIX_FMT_FLAG_HAS_CSC`` then the application can set
-> +	this field for a capture stream to request a specific quantization
-> +	range for the captured image data. The driver will attempt to do the
-> +	conversion to the specified quantization range or return the
-> +	quantization it will use if it can't do the conversion.  The driver
-> +	indicates that quantization conversion is supported by setting the flag
-> +	V4L2_FMT_FLAG_CSC_QUANTIZATION on the on the corresponding struct
-
-Ditto
-
-> +	:c:type:`v4l2_fmtdesc` during enumeration. See :ref:`fmtdesc-flags`
->      * - __u32
->        - ``xfer_func``
->        - Transfer function, from enum :c:type:`v4l2_xfer_func`.
-> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> index 9a4d61b0d76f..f1d4ca29a3e8 100644
-> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> @@ -49,13 +49,33 @@ Media Bus Formats
->        - Y'CbCr encoding, from enum :c:type:`v4l2_ycbcr_encoding`.
->          This information supplements the ``colorspace`` and must be set by
->  	the driver for capture streams and by the application for output
-> -	streams, see :ref:`colorspaces`.
-> +	streams, see :ref:`colorspaces`. If the application sets the
-> +	flag ``V4L2_MBUS_FRAMEFMT_HAS_CSC`` the the application can set
-> +	this field for a capture stream to request a specific Y'CbCr encoding
-> +	for the mbus data. The driver will attempt to do the
-
-mbus -> media bus
-
-> +	conversion to the specified Y'CbCr encoding or return the encoding it
-> +	will use if it can't do the conversion. This field is ignored for
-> +	non-Y'CbCr pixelformats. The driver indicates that ycbcr_enc conversion
-
-This is a media bus format, not a pixelformat.
-
-> +	is supported by setting the flag V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC on
-
-on -> in
-
-> +	the corresponding struct c:type:`v4l2_subdev_mbus_code_enum` during
-> +	enumeration. See :ref:`vidioc-subdev-enum-mbus-code.rst <v4l2-subdev-mbus-code-flags>`
-> +
->      * - __u16
->        - ``quantization``
->        - Quantization range, from enum :c:type:`v4l2_quantization`.
->          This information supplements the ``colorspace`` and must be set by
->  	the driver for capture streams and by the application for output
-> -	streams, see :ref:`colorspaces`.
-> +	streams, see :ref:`colorspaces`. If the application sets the
-> +	flag ``V4L2_MBUS_FRAMEFMT_HAS_CSC`` the the application can set
-> +	this field for a capture stream to request a specific quantization
-> +	encoding for the mbus data. The driver will attempt to do the
-
-mbus -> media bus
-
-> +	conversion to the specified quantization or return the quantization it
-> +	will use if it can't do the conversion. The driver indicates that
-> +	quantization conversion is supported by setting the flag
-> +	V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION on the corresponding struct
-
-on -> in
-
-> +	c:type:`v4l2_subdev_mbus_code_enum` during enumeration.
-> +	See :ref:`vidioc-subdev-enum-mbus-code.rst <v4l2-subdev-mbus-code-flags>`
-> +
->      * - __u16
->        - ``xfer_func``
->        - Transfer function, from enum :c:type:`v4l2_xfer_func`.
-> @@ -63,10 +83,26 @@ Media Bus Formats
->  	the driver for capture streams and by the application for output
->  	streams, see :ref:`colorspaces`.
->      * - __u16
-> -      - ``reserved``\ [11]
-> +      - ``flags``
-> +      - flags see:  :ref:v4l2-mbus-framefmt-flags
-
-flags see: -> See:
-
-> +    * - __u16
-> +      - ``reserved``\ [10]
->        - Reserved for future extensions. Applications and drivers must set
->  	the array to zero.
->  
-> +.. _v4l2-mbus-framefmt-flags:
-> +
-> +.. flat-table:: v4l2_mbus_framefmt Flags
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       3 1 4
-> +
-> +    * - ``V4L2_MBUS_FRAMEFMT_HAS_CSC``
-> +      - 0x0001
-> +      - Set by the application. It is only used for capture and is
-> +	ignored for output streams. If set, then request the subdevice to do
-> +	colorspace conversion from the received colorspace, only conversions
-> +	of Ycbcr encoding, and quantization are supported.
-
-Replace by a similar text as for V4L2_PIX_FMT_FLAG_HAS_CSC.
-
->  
->  
->  .. _v4l2-mbus-pixelcode:
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> index 7e3142e11d77..125f074543af 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-> @@ -145,6 +145,24 @@ formats in preference order, where preferred formats are returned before
->  	parameters are detected. This flag can only be used in combination
->  	with the ``V4L2_FMT_FLAG_COMPRESSED`` flag, since this applies to
->  	compressed formats only. It is also only applies to stateful codecs.
-> +    * - ``V4L2_FMT_FLAG_CSC_YCBCR_ENC``
-> +      - 0x0010
-> +      - The driver allows the application to try to change the default
-> +	ycbcr encoding. This flag is relevant only for capture devices.
-> +	The application can ask to configure the ycbcr_enc of the capture device
-> +	when calling the :c:func:`VIDIOC_S_FMT` ioctl.
-
-add: ...ioctl with ``V4L2_FMT_FLAG_REQUEST_CSC`` set. (this should probably be
-a reference to the REQUEST_CSC flag documentation).
-
-> +    * - ``V4L2_FMT_FLAG_CSC_HSV_ENC``
-> +      - 0x0010
-> +      - The driver allows the application to try to change the default
-> +	hsv encoding. This flag is relevant only for capture devices.
-> +	The application can ask to configure the hsv_enc of the capture device
-> +	when calling the :c:func:`VIDIOC_S_FMT` ioctl.
-
-Ditto. Also: hsv -> HSV.
-
-> +    * - ``V4L2_FMT_FLAG_CSC_QUANTIZATION``
-> +      - 0x0020
-> +      - The driver allows the application to try to change the default
-> +	quantization. This flag is relevant only for capture devices.
-> +	The application can ask to configure the quantization of the capture device
-> +	when calling the :c:func:`VIDIOC_S_FMT` ioctl.
-
-Ditto.
-
->  
->  
->  Return Value
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
-> index 35b8607203a4..4ad87cb74f57 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-enum-mbus-code.rst
-> @@ -78,11 +78,34 @@ information about the try formats.
->        - ``which``
->        - Media bus format codes to be enumerated, from enum
->  	:ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`.
-> +    * - __u32
-> +      - ``flags``
-> +      - see :ref:`v4l2-subdev-mbus-code-flags`
-
-see -> See
-
->      * - __u32
->        - ``reserved``\ [8]
->        - Reserved for future extensions. Applications and drivers must set
->  	the array to zero.
->  
-> +.. _v4l2-subdev-mbus-code-flags:
-> +
-> +
-> +.. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{7.7cm}|
-> +
-> +.. flat-table:: flags in struct v4l2_subdev_mbus_code_enum
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC
-> +      - 0x00000001
-> +      - The driver supports setting the ycbcr encoding by the application
-> +	when calling the VIDIOC_SUBDEV_S_FMT ioctl. see :ref:`v4l2-mbus-format`
-
-see -> See
-
-> +	on how to do this.
-> +    * - V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION
-> +      - 0x00000002
-> +      - The driver supports setting the quantization by the application
-> +	when calling the VIDIOC_SUBDEV_S_FMT ioctl. see :ref:`v4l2-mbus-format`
-
-see -> See
-
-> +	on how to do this.
->  
->  Return Value
->  ============
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index b2ef8e60ea7d..3c7ffb6b15cb 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1029,6 +1029,15 @@ static void v4l_sanitize_format(struct v4l2_format *fmt)
->  		fmt->fmt.pix_mp.num_planes = min_t(u32, fmt->fmt.pix_mp.num_planes,
->  					       VIDEO_MAX_PLANES);
->  
-> +	if (fmt->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
-> +		if (fmt->fmt.pix_mp.flags & V4L2_PIX_FMT_FLAG_HAS_CSC)
-> +			return;
-> +		fmt->fmt.pix_mp.colorspace = V4L2_COLORSPACE_DEFAULT;
-> +		fmt->fmt.pix_mp.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-> +		fmt->fmt.pix_mp.quantization = V4L2_QUANTIZATION_DEFAULT;
-> +		fmt->fmt.pix_mp.xfer_func = V4L2_XFER_FUNC_DEFAULT;
-> +	}
-> +
->  	/*
->  	 * The v4l2_pix_format structure has been extended with fields that were
->  	 * not previously required to be set to zero by applications. The priv
-> @@ -1043,8 +1052,16 @@ static void v4l_sanitize_format(struct v4l2_format *fmt)
->  	    fmt->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
->  		return;
->  
-> -	if (fmt->fmt.pix.priv == V4L2_PIX_FMT_PRIV_MAGIC)
-> +	if (fmt->fmt.pix.priv == V4L2_PIX_FMT_PRIV_MAGIC) {
-> +		if (fmt->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
-> +		    fmt->fmt.pix.flags & V4L2_PIX_FMT_FLAG_HAS_CSC)
-> +			return;
-> +		fmt->fmt.pix.colorspace = V4L2_COLORSPACE_DEFAULT;
-> +		fmt->fmt.pix.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-> +		fmt->fmt.pix.quantization = V4L2_QUANTIZATION_DEFAULT;
-> +		fmt->fmt.pix.xfer_func = V4L2_XFER_FUNC_DEFAULT;
->  		return;
-> +	}
->  
->  	fmt->fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index a376b351135f..51e009936aad 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -477,6 +477,13 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->  	case VIDIOC_SUBDEV_S_FMT: {
->  		struct v4l2_subdev_format *format = arg;
->  
-> +		if (!(format->format.flags & V4L2_MBUS_FRAMEFMT_HAS_CSC)) {
-> +			format->format.colorspace = V4L2_COLORSPACE_DEFAULT;
-> +			format->format.xfer_func = V4L2_XFER_FUNC_DEFAULT;
-> +			format->format.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-> +			format->format.quantization = V4L2_QUANTIZATION_DEFAULT;
-> +		}
-> +
->  		memset(format->reserved, 0, sizeof(format->reserved));
->  		memset(format->format.reserved, 0, sizeof(format->format.reserved));
->  		return v4l2_subdev_call(sd, pad, set_fmt, subdev_fh->pad, format);
-> diff --git a/include/uapi/linux/v4l2-mediabus.h b/include/uapi/linux/v4l2-mediabus.h
-> index 123a231001a8..89ff0ad6a631 100644
-> --- a/include/uapi/linux/v4l2-mediabus.h
-> +++ b/include/uapi/linux/v4l2-mediabus.h
-> @@ -16,6 +16,8 @@
->  #include <linux/types.h>
->  #include <linux/videodev2.h>
->  
-> +#define V4L2_MBUS_FRAMEFMT_HAS_CSC	0x0001
-> +
->  /**
->   * struct v4l2_mbus_framefmt - frame format on the media bus
->   * @width:	image width
-> @@ -36,7 +38,8 @@ struct v4l2_mbus_framefmt {
->  	__u16			ycbcr_enc;
->  	__u16			quantization;
->  	__u16			xfer_func;
-> -	__u16			reserved[11];
-> +	__u16			flags;
-> +	__u16			reserved[10];
->  };
->  
->  #ifndef __KERNEL__
-> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-> index 03970ce30741..4410b26a7158 100644
-> --- a/include/uapi/linux/v4l2-subdev.h
-> +++ b/include/uapi/linux/v4l2-subdev.h
-> @@ -65,6 +65,8 @@ struct v4l2_subdev_crop {
->  	__u32 reserved[8];
->  };
->  
-> +#define V4L2_SUBDEV_MBUS_CODE_CSC_YCBCR_ENC	0x00000001
-
-I think it is better to add an HSV_ENC alias here as well.
-
-It's for readability only, since talking about YCBCR_ENC when the mediabus format
-is a HSV format is just weird.
-
-> +#define V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION	0x00000002
->  /**
->   * struct v4l2_subdev_mbus_code_enum - Media bus format enumeration
->   * @pad: pad number, as reported by the media API
-> @@ -77,7 +79,8 @@ struct v4l2_subdev_mbus_code_enum {
->  	__u32 index;
->  	__u32 code;
->  	__u32 which;
-> -	__u32 reserved[8];
-> +	__u32 flags;
-> +	__u32 reserved[7];
->  };
->  
->  /**
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 9817b7e2c968..adc9dd1080b8 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -772,6 +772,7 @@ struct v4l2_pix_format {
->  
->  /* Flags */
->  #define V4L2_PIX_FMT_FLAG_PREMUL_ALPHA	0x00000001
-> +#define V4L2_PIX_FMT_FLAG_HAS_CSC	0x00000002
->  
->  /*
->   *	F O R M A T   E N U M E R A T I O N
-> @@ -789,6 +790,9 @@ struct v4l2_fmtdesc {
->  #define V4L2_FMT_FLAG_EMULATED			0x0002
->  #define V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM	0x0004
->  #define V4L2_FMT_FLAG_DYN_RESOLUTION		0x0008
-> +#define V4L2_FMT_FLAG_CSC_YCBCR_ENC		0x0010
-> +#define V4L2_FMT_FLAG_CSC_HSV_ENC		0x0010
-> +#define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0020
->  
->  	/* Frame Size and frame rate enumeration */
->  /*
-> 
-
-I think this is quite good, it's mainly doc improvements and renaming HAS_CSC to REQUEST_CSC.
-
-That said, I do want to see this supported in at least vivid (vimc would be nice
-too!). And v4l2-ctl needs a patch to support this.
-
-A compliance test for v4l2-compliance would be nice too, but it is not a prerequisite.
-I'm not entirely sure what would be the best way to test this. Perhaps a vivid-specific
-test might be easiest (i.e., don't test it for all drivers, but just for vivid).
-
-Regards,
-
-	Hans
