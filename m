@@ -2,121 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 655201C8F05
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 16:35:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7087E1C8F81
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 16:36:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728340AbgEGO25 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 May 2020 10:28:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55958 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728329AbgEGO2z (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 May 2020 10:28:55 -0400
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B38CF20857;
-        Thu,  7 May 2020 14:28:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588861735;
-        bh=d77HrayXv/zUq1hAABKyDml8cu8MWX+x2DmXs/dulIE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=1nuMML2NUbxZkabrfk00d3qXuaOGmGtgSj05FNMxZFv20WlhcCMS3wF8uPDuJ5zCj
-         V70uQMIBpL8+uUcEEVUX6PowbIjy811bBIeAbcsI9z3RlFETDJcuAdBHCGiwTM+F9W
-         vCMzMXAT1RpAz1hTEom4dcnmHryreLYigti3ipA0=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Daniel Vetter <daniel.vetter@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Chenbo Feng <fengc@google.com>,
-        Greg Hackmann <ghackmann@google.com>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        minchan@kernel.org, surenb@google.com, jenhaochen@google.com,
-        Martin Liu <liumartin@google.com>,
-        Sasha Levin <sashal@kernel.org>,
-        dri-devel@lists.freedesktop.org
-Subject: [PATCH AUTOSEL 5.4 19/35] dma-buf: Fix SET_NAME ioctl uapi
-Date:   Thu,  7 May 2020 10:28:13 -0400
-Message-Id: <20200507142830.26239-19-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200507142830.26239-1-sashal@kernel.org>
-References: <20200507142830.26239-1-sashal@kernel.org>
+        id S1728661AbgEGOcm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 May 2020 10:32:42 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:55291 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728568AbgEGOcl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 May 2020 10:32:41 -0400
+Received: from localhost.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 7D16E200007;
+        Thu,  7 May 2020 14:32:36 +0000 (UTC)
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
+Cc:     Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
+        andrey.konovalov@linaro.org, laurent.pinchart@ideasonboard.com
+Subject: [PATCH v6 0/6] media: Register read-only sub-dev devnode
+Date:   Thu,  7 May 2020 16:35:31 +0200
+Message-Id: <20200507143537.2945672-1-jacopo@jmondi.org>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Daniel Vetter <daniel.vetter@intel.com>
+Hello,
+  this new v6 addresses the last two concerns on the series
+1) Versioning of the new VIDIOC_SUBDEV_QUERYCAP IOCTL is done by adding
+   a reserved field
+2) Renamed the struct v4l2_subdev_capabilities.subdev_cap field to
+   struct v4l2_subdev_capabilities.capabilities
+3) Replace v5 [4/6] with a new
+   "media: v4l2-subdev: Guard whole fops and ioctl hdlr" which was
+   sent as 5.1 RFC and there return -ENODEV in stub function as suggested
+   by Sakari.
 
-[ Upstream commit a5bff92eaac45bdf6221badf9505c26792fdf99e ]
+Series based on latest media tree master.
 
-The uapi is the same on 32 and 64 bit, but the number isn't. Everyone
-who botched this please re-read:
+Applies cleanly on Hans' br-v5.8g (I was afraid of documentation clashes, seems
+there are none).
 
-https://www.kernel.org/doc/html/v5.4-preprc-cpu/ioctl/botching-up-ioctls.html
+Thanks
+   j
 
-Also, the type argument for the ioctl macros is for the type the void
-__user *arg pointer points at, which in this case would be the
-variable-sized char[] of a 0 terminated string. So this was botched in
-more than just the usual ways.
+v5.1->v6:
+- Add __u32 reserved[14] field to struct v4l2_subdev_capabilities
+- s/v4l2_subdev_capabilities.subdev_cap/v4l2_subdev_capabilities.capabilities
+- Update documentation accordingly
 
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Chenbo Feng <fengc@google.com>
-Cc: Greg Hackmann <ghackmann@google.com>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: minchan@kernel.org
-Cc: surenb@google.com
-Cc: jenhaochen@google.com
-Cc: Martin Liu <liumartin@google.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Tested-by: Martin Liu <liumartin@google.com>
-Reviewed-by: Martin Liu <liumartin@google.com>
-Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
-  [sumits: updated some checkpatch fixes, corrected author email]
-Link: https://patchwork.freedesktop.org/patch/msgid/20200407133002.3486387-1-daniel.vetter@ffwll.ch
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/dma-buf/dma-buf.c    | 3 ++-
- include/uapi/linux/dma-buf.h | 6 ++++++
- 2 files changed, 8 insertions(+), 1 deletion(-)
+v5->v5.1:
+- Replace
+  "media: v4l2-subdev: Assume V4L2_SUBDEV_API is selected"
+  with
+  "media: v4l2-subdev: Guard whole fops and ioctl hdlr"
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 0fb0358f00736..adc88e1dc999a 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -388,7 +388,8 @@ static long dma_buf_ioctl(struct file *file,
- 
- 		return ret;
- 
--	case DMA_BUF_SET_NAME:
-+	case DMA_BUF_SET_NAME_A:
-+	case DMA_BUF_SET_NAME_B:
- 		return dma_buf_set_name(dmabuf, (const char __user *)arg);
- 
- 	default:
-diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.h
-index dbc7092e04b5a..7f30393b92c3b 100644
---- a/include/uapi/linux/dma-buf.h
-+++ b/include/uapi/linux/dma-buf.h
-@@ -39,6 +39,12 @@ struct dma_buf_sync {
- 
- #define DMA_BUF_BASE		'b'
- #define DMA_BUF_IOCTL_SYNC	_IOW(DMA_BUF_BASE, 0, struct dma_buf_sync)
-+
-+/* 32/64bitness of this uapi was botched in android, there's no difference
-+ * between them in actual uapi, they're just different numbers.
-+ */
- #define DMA_BUF_SET_NAME	_IOW(DMA_BUF_BASE, 1, const char *)
-+#define DMA_BUF_SET_NAME_A	_IOW(DMA_BUF_BASE, 1, u32)
-+#define DMA_BUF_SET_NAME_B	_IOW(DMA_BUF_BASE, 1, u64)
- 
- #endif
--- 
-2.20.1
+v4->v5:
+- Add "media: v4l2-subdev: Assume V4L2_SUBDEV_API is selected"
+- Use BIT() instead of manual bitshifting
+- Use tabs in documentation in place of 8 spaces
+- minor documentation fixes
+
+v3->v4:
+- Rebase v3 on latest media master and new documentation layout
+- Add SUBDEV_QUERYCAP support
+
+v2->v3:
+- Add Sakari's ack to the series
+- Documentation:
+  - Address Sakari' and Hans suggestions
+- Implementation:
+  - Rename V4L2_FL_RO_DEVNODE to V4L2_FL_SUBDEV_RO_DEVNODE
+  - Limit the ability to register sub-device video device nodes to
+    driver claiming support for CONFIG_VIDEO_V4L2_SUBDEV_API
+
+v1->v2:
+- Documentation:
+  - Add a new patch using Laurent's suggestion to update the sub-device
+    userspace API introduction
+  - Take in some of Laurent's suggestions in v4l2-subdev.rst and add a new
+    section in dev-subdev.rst
+- Implementation:
+  - As noted by Andrey, V4L2_FL_* are meant to be used as bitmasks. Use
+    test_bit()/set_bit() as the rest of the v4l2 core does. It's a bit an
+    overkill compared to use plain BIT() as noted by Sakari but I preferred
+    consistency with the rest of the core
+  - Make v4l2_device_register_subdev_nodes() and
+    v4l2_device_register_ro_subdev_nodes() to v4l2-device.h and make them
+    inline functions. Documentation style has been copied from other functions
+    with similar implementations, such as __video_register_device() in
+    v4l2-dev.h
+
+
+Hans Verkuil (2):
+  v4l2-subdev: add VIDIOC_SUBDEV_QUERYCAP ioctl
+  v4l: document VIDIOC_SUBDEV_QUERYCAP
+
+Jacopo Mondi (4):
+  Documentation: media: Update sub-device API intro
+  Documentation: media: Document read-only subdevice
+  media: v4l2-dev: Add v4l2_device_register_ro_subdev_node()
+  media: v4l2-subdev: Guard whole fops and ioctl hdlr
+
+ .../driver-api/media/v4l2-subdev.rst          |  53 +++++++-
+ .../userspace-api/media/v4l/dev-subdev.rst    |   5 +
+ .../userspace-api/media/v4l/user-func.rst     |   1 +
+ .../media/v4l/vidioc-g-dv-timings.rst         |   6 +
+ .../userspace-api/media/v4l/vidioc-g-std.rst  |   6 +
+ .../media/v4l/vidioc-subdev-g-crop.rst        |   9 ++
+ .../media/v4l/vidioc-subdev-g-fmt.rst         |   8 ++
+ .../v4l/vidioc-subdev-g-frame-interval.rst    |   8 ++
+ .../media/v4l/vidioc-subdev-g-selection.rst   |   8 ++
+ .../media/v4l/vidioc-subdev-querycap.rst      | 117 ++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-device.c         |   7 +-
+ drivers/media/v4l2-core/v4l2-subdev.c         |  70 +++++++++--
+ include/media/v4l2-dev.h                      |   7 ++
+ include/media/v4l2-device.h                   |  50 +++++++-
+ include/uapi/linux/v4l2-subdev.h              |  18 +++
+ 15 files changed, 357 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst
+
+--
+2.26.1
 
