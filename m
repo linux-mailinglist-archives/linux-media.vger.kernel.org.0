@@ -2,123 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 26C271C8664
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 12:11:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB77D1C868F
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 12:24:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725939AbgEGKLY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 May 2020 06:11:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36872 "EHLO
+        id S1725857AbgEGKYC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 May 2020 06:24:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725809AbgEGKLY (ORCPT
+        by vger.kernel.org with ESMTP id S1725809AbgEGKYC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 May 2020 06:11:24 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44B01C061A10;
-        Thu,  7 May 2020 03:11:24 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id t40so2419970pjb.3;
-        Thu, 07 May 2020 03:11:24 -0700 (PDT)
+        Thu, 7 May 2020 06:24:02 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C69C061A10
+        for <linux-media@vger.kernel.org>; Thu,  7 May 2020 03:24:02 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id z1so2811896pfn.3
+        for <linux-media@vger.kernel.org>; Thu, 07 May 2020 03:24:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=HhSAZeA5fR3eItczHq8etGQv9r/MRFur72D3zwuNGr8=;
-        b=PNz7Rl44p/6xrv3Ez9oT4I8v/ywwZUrSOGssT1stHaUldJsN3rR+Z1nc8KvN5aJWtZ
-         41vtDvGKG6WIAg/bUhLCJlH+oTkDlRiVOc1MXVkywbKC11wAbus0FUF1wdTaVPmEdBLc
-         PLMI608TXls4KxptYlzIqlpOVvuPwVT7JYtCujHchp9H4VFwMDjI2chyFWwhO/aa0Erd
-         9I5/FQXK2MV/RixgCzVAe/1kMvz4EF/YqP087eo7k3QxYObbHEOLpBaLbJDKRBv0RvgU
-         l0+FKFgK/A/TqaUZZLMqBvCIALogr4K6Ra5/K18G21vhVAcNRHB3iwgsu/FZb5tLTZ6V
-         CwfA==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=U3adop0qZHoN5+fe1H4HdGFUSAzpEKX4OuXet5VsNhk=;
+        b=msVYVtXbC1rDLmlHB0A5OMuw6LsY6yof/OQbghdzmC8mQ+pR4tv1wSmxhZk/KvRE6d
+         c2GPXGyyr1qqebFYtA8Q9gy95GufDlZuB0bUHy13z9lIMGTV1RCYE9kvrFNSLQZP99E9
+         z190vOnTwXc6wcneboX0FzxIOCQ6KX/9YAl6U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=HhSAZeA5fR3eItczHq8etGQv9r/MRFur72D3zwuNGr8=;
-        b=LsgQtq7lzLiQpI2Mr5sX23INoaxfTUIiaJDH2Vn4tfEoqw9N8rrGFZ3jD03NxitvkR
-         QUxa7CqdMvim558cM760Ro/QhDlkwUkOKcMUoD1ypW5gdiUY4mPs+sZYMaaqbVxguw/M
-         NwLfr4o0ZbcocLgEQEqdgNmlklTk3oM1yZSq/85H4vczxr8cT5DA4tO83C7QRTZy16pE
-         ameWMfCXSYPACtKW5pB9LoYSO4HynlBqz0pnqVMlKaL0OiSZ+ZQ76xgipeUD288goluf
-         iyPo777IfvKIRrN9cwMq1yxkK7sA7+NvnamMh4Oh30fA+7hMltxmA/9fGyfvQZMjmuug
-         Hwzg==
-X-Gm-Message-State: AGi0PuYUZBjAd8zBaWJMg6zk2cn+rVqJjtWpqHlJo5PWJZqn4CM/Fapp
-        xTUF6mM/jzHy8X1Yloi+w7axPEtPjfU=
-X-Google-Smtp-Source: APiQypL2FeT2BHJNUixYPIA4dPmVZLzjBVooz5RM2BkFiXZ9Gv6It3eyH66eBN8NiTWnZ9IT2WyUNw==
-X-Received: by 2002:a17:902:7d98:: with SMTP id a24mr11941831plm.97.1588846283429;
-        Thu, 07 May 2020 03:11:23 -0700 (PDT)
-Received: from [192.168.1.7] ([120.244.109.48])
-        by smtp.gmail.com with ESMTPSA id m12sm3368268pgj.46.2020.05.07.03.11.18
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=U3adop0qZHoN5+fe1H4HdGFUSAzpEKX4OuXet5VsNhk=;
+        b=IIEQrqHnm1Nx/VzgmrMtVcDNsechbYwb2ioA3BGELM2/ZKvZyEkOsEb9PyuyITEu2G
+         MzNkbXSVkaPXw6GfHe7XVQxQqhNuLaCHUWrZ8Wwpo0SCjGt3sv5EmGuw94pq0UDI2Iik
+         BYSuj3l1gHlkfcx7iLJYpsdwmwadkjFGzUT5oW25YIxm21rNDBCCpVP9gzf86Vo7CZp5
+         8dUh8q1eOR9BgOH/c99Klyp7PIr+O3o6smFt0oJ7kXCl3NYizsQQJQcaT/8VQvBBDFJu
+         uOiSb2B11vfejn9gILG9YeyB1T4IsYj0IlR0iTP98aRRZJowXujOhvN153TNf0qbEXFf
+         vCXg==
+X-Gm-Message-State: AGi0PuaBtlGKD+O3uhLBODzVdj0yO4yl+/pRP9uXr/SCfjd1UloftptG
+        FUOilspaaRk18tnUJA1fp7sf7rhb13k=
+X-Google-Smtp-Source: APiQypIJANgSss8r4jrDFwpt2FRxJF0v5BBqD8mhWuxiK45XDvceGeJ0E8SQWciZ2KIF8EhjAyoH+Q==
+X-Received: by 2002:a63:f54d:: with SMTP id e13mr11526261pgk.325.1588847041657;
+        Thu, 07 May 2020 03:24:01 -0700 (PDT)
+Received: from localhost ([2401:fa00:9:14:a92f:c47d:76a8:b09e])
+        by smtp.gmail.com with ESMTPSA id m7sm4639156pfb.48.2020.05.07.03.23.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 May 2020 03:11:22 -0700 (PDT)
-Subject: Re: [PATCH] media: usb: ttusb-dec: avoid buffer overflow in
- ttusb_dec_handle_irq() when DMA failures/attacks occur
-To:     Sean Young <sean@mess.org>
-Cc:     mchehab@kernel.org, kstewart@linuxfoundation.org,
-        tomasbortoli@gmail.com, gregkh@linuxfoundation.org,
-        allison@lohutok.net, tglx@linutronix.de,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20200505142110.7620-1-baijiaju1990@gmail.com>
- <20200507084332.GA14459@gofer.mess.org>
-From:   Jia-Ju Bai <baijiaju1990@gmail.com>
-Message-ID: <4f95bc0d-0b75-dd75-642c-b2238feb9890@gmail.com>
-Date:   Thu, 7 May 2020 18:11:06 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.4.1
+        Thu, 07 May 2020 03:24:01 -0700 (PDT)
+From:   Eizan Miyamoto <eizan@chromium.org>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Eizan Miyamoto <eizan@chromium.org>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Houlong Wei <houlong.wei@mediatek.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-mediatek@lists.infradead.org
+Subject: [PATCH v3 0/5] MTK MDP driver cleanups to prep for futher work
+Date:   Thu,  7 May 2020 20:23:40 +1000
+Message-Id: <20200507102345.81849-1-eizan@chromium.org>
+X-Mailer: git-send-email 2.26.2.526.g744177e7f7-goog
 MIME-Version: 1.0
-In-Reply-To: <20200507084332.GA14459@gofer.mess.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks for the reply, Sean :)
 
-On 2020/5/7 16:43, Sean Young wrote:
-> On Tue, May 05, 2020 at 10:21:10PM +0800, Jia-Ju Bai wrote:
->> Signed-off-by: Jia-Ju Bai <baijiaju1990@gmail.com>
->> ---
->>   drivers/media/usb/ttusb-dec/ttusb_dec.c | 9 +++++----
->>   1 file changed, 5 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/media/usb/ttusb-dec/ttusb_dec.c b/drivers/media/usb/ttusb-dec/ttusb_dec.c
->> index 3198f9624b7c..8543c552515b 100644
->> --- a/drivers/media/usb/ttusb-dec/ttusb_dec.c
->> +++ b/drivers/media/usb/ttusb-dec/ttusb_dec.c
->> @@ -250,6 +250,7 @@ static void ttusb_dec_handle_irq( struct urb *urb)
->>   	struct ttusb_dec *dec = urb->context;
->>   	char *buffer = dec->irq_buffer;
->>   	int retval;
->> +	u8 index = buffer[4];
->>   
->>   	switch(urb->status) {
->>   		case 0: /*success*/
->> @@ -281,11 +282,11 @@ static void ttusb_dec_handle_irq( struct urb *urb)
->>   		 * this should/could be added later ...
->>   		 * for now lets report each signal as a key down and up
->>   		 */
->> -		if (buffer[4] - 1 < ARRAY_SIZE(rc_keys)) {
-> Here buffer[4] is signed char, so if buffer[4] == 0 then (buffer[4] - 1) = -1,
-> this becomes "if (-1 < ARRAY_SIZE(rc_keys))", which evaluates to false,
-> due to it becoming an unsigned compare. _I think_.
+It most notably converts an array of MDP components to a list instead,
+but also removes some unused fields.
 
-I think you are right.
-Maybe I should use "int index = buffer[4]" here.
+This series of patches does some cleanup in preparation for futher work
+so that hardware video decode works on 4.19 and later kernels. We are
+planning on adding a dummy driver for the relevant MDP components that
+will be bound together using the component framework, which will enable
+calls to set up IOMMUs and LARBs, and make calls into pm_runtime.
 
->> -			dprintk("%s:rc signal:%d\n", __func__, buffer[4]);
->> -			input_report_key(dec->rc_input_dev, rc_keys[buffer[4] - 1], 1);
->> +		if (index - 1 < ARRAY_SIZE(rc_keys)) {
->> +			dprintk("%s:rc signal:%d\n", __func__, index);
->> +			input_report_key(dec->rc_input_dev, rc_keys[index - 1], 1);
->>   			input_sync(dec->rc_input_dev);
->> -			input_report_key(dec->rc_input_dev, rc_keys[buffer[4] - 1], 0);
->> +			input_report_key(dec->rc_input_dev, rc_keys[index - 1], 0);
-> Like Greg said, this patch reduces the number of dereferences and makes
-> the code much cleaner, but the commit message is misleading.
+Note: these changes depend on 757570f11fa4b0ce5472a6583de6f06e996a8527
+to apply cleanly.
 
-Okay, I will change my log and send a new patch.
+Changes in v3:
+- Removed extra Signed-off-by: tag from commit messages.
+- Removed extra line break in mtk_mdp_core.c
+- Update cover letter with dependent commit
 
+Changes in v2:
+- remove unnecessary error handling labels in favor of err_m2m_register
+- remove unnecessary error handling labels in favor of err_m2m_register
+- rebase onto linux-next/master to pick up
+  757570f11fa4b0ce5472a6583de6f06e996a8527
 
-Best wishes,
-Jia-Ju Bai
+Eizan Miyamoto (5):
+  [media] mtk-mdp: remove mtk_mdp_comp.regs from mtk_mdp_comp.h
+  [media] mtk-mdp: handle vb2_dma_contig_set_max_seg_size errors during
+    probe
+  [media] mtk-mdp: handle vpu_wdt_reg_handler() errors during probe
+  [media] mtk-mdp: convert mtk_mdp_dev.comp array to list
+  [media] mtk-mdp: Remove mtk_mdp_comp.id and supporting functionality
+
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 60 ++--------------
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.h | 23 ++-----
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c | 69 ++++++++++++-------
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.h | 10 ++-
+ 4 files changed, 63 insertions(+), 99 deletions(-)
+
+-- 
+2.26.2.526.g744177e7f7-goog
+
