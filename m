@@ -2,181 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6B351C93DD
-	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 17:10:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3BF01C9567
+	for <lists+linux-media@lfdr.de>; Thu,  7 May 2020 17:49:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728003AbgEGPKC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 May 2020 11:10:02 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:44663 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726308AbgEGPKB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 7 May 2020 11:10:01 -0400
-Received: from localhost.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 417AB200021;
-        Thu,  7 May 2020 15:09:57 +0000 (UTC)
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
-        andrey.konovalov@linaro.org, laurent.pinchart@ideasonboard.com,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Subject: [PATCH v7 6/6] v4l: document VIDIOC_SUBDEV_QUERYCAP
-Date:   Thu,  7 May 2020 17:12:53 +0200
-Message-Id: <20200507151253.2951492-7-jacopo@jmondi.org>
-X-Mailer: git-send-email 2.26.1
-In-Reply-To: <20200507151253.2951492-1-jacopo@jmondi.org>
-References: <20200507151253.2951492-1-jacopo@jmondi.org>
+        id S1726774AbgEGPtZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 May 2020 11:49:25 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:42513 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725914AbgEGPtZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 7 May 2020 11:49:25 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id Wilzjvibl8hmdWim3jG1q5; Thu, 07 May 2020 17:49:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1588866563; bh=BErk7/73tzUU+i623liGF0G4u9DBnWsUB9b2EV45ZUA=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=aHQ+D9YOApTsQ9vAMh5ihODKeFLCT6u9Xi+tgl/hOedhAIgk/57Ir6Rt+Y2nrsI00
+         ETWLehZAGri4LKI98v7rZR6zoAw2BQrfDt9TrC50ETTJ9GBBG4FsRa/mavyLk6/eqQ
+         mAEwmvfO1y8Nicr7DY5qBUlyyM66uUU4h3TTIY8Ej/SJogDUFmh1339QBQvHMPtRTS
+         3eZ5T26g20U5myqg8Fl0UiclPhPSqyRG9MibxSOhU+gdEs2WwFEN4LvpEDuzaQXkf/
+         VVZ/DjZJ6o7/1gG01x+HpBgVtKCgHxVHpZVGeM7cAD/b0z/OUT7kCeXE1jVL355I65
+         wqi3QqR4eKw1A==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.8] Register read-only sub-dev devnode
+Message-ID: <25d49102-10f1-b8fa-b9fa-42f2b0a17197@xs4all.nl>
+Date:   Thu, 7 May 2020 17:49:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfAojep7adG2RC797ZURYxXiItsiYa87sba0y4Qc12n5Zs0QJhOL850hHQtyL018vfXGskAj0HSH12/D33ZVmQEDz4iWLR7AfxBK12wnnLh7ubHjFgdFS
+ wEKasvRezKqJrZmFMgQi/2A0L4TV4kZnpHVFnhPeV6vkrg3l63vIl6Y8UQ3JdVQ2FBpXpEjgmaIC/TlzKfAr24ENQ1ZyA3T29AQ=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hans.verkuil@cisco.com>
+This makes a lot of sense for libcamera and this is required for the
+"Drivers for the BCM283x CSI-2/CCP2 receiver and ISP" patch series.
 
-Add documentation for the new VIDIOC_SUBDEV_QUERYCAP ioctl.
+Regards,
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
----
- .../userspace-api/media/v4l/user-func.rst     |   1 +
- .../media/v4l/vidioc-subdev-querycap.rst      | 112 ++++++++++++++++++
- 2 files changed, 113 insertions(+)
+	Hans
+
+The following changes since commit 5b9f8e4ac9473962fa0e824fd1f04138600d459d:
+
+  media: ipu3.rst: fix a build warning (2020-05-06 14:49:41 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.8i
+
+for you to fetch changes up to a9c3d98a76dbe3b32e29ebab056daa2fad653d7e:
+
+  v4l: document VIDIOC_SUBDEV_QUERYCAP (2020-05-07 17:37:22 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (2):
+      v4l2-subdev: add VIDIOC_SUBDEV_QUERYCAP ioctl
+      v4l: document VIDIOC_SUBDEV_QUERYCAP
+
+Jacopo Mondi (4):
+      Documentation: media: Update sub-device API intro
+      Documentation: media: Document read-only subdevice
+      media: v4l2-dev: Add v4l2_device_register_ro_subdev_node()
+      media: v4l2-subdev: Guard whole fops and ioctl hdlr
+
+ Documentation/driver-api/media/v4l2-subdev.rst                           |  53 +++++++++++++++-
+ Documentation/userspace-api/media/v4l/dev-subdev.rst                     |   5 ++
+ Documentation/userspace-api/media/v4l/user-func.rst                      |   1 +
+ Documentation/userspace-api/media/v4l/vidioc-g-dv-timings.rst            |   6 ++
+ Documentation/userspace-api/media/v4l/vidioc-g-std.rst                   |   6 ++
+ Documentation/userspace-api/media/v4l/vidioc-subdev-g-crop.rst           |   9 +++
+ Documentation/userspace-api/media/v4l/vidioc-subdev-g-fmt.rst            |   8 +++
+ Documentation/userspace-api/media/v4l/vidioc-subdev-g-frame-interval.rst |   8 +++
+ Documentation/userspace-api/media/v4l/vidioc-subdev-g-selection.rst      |   8 +++
+ Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst         | 112 ++++++++++++++++++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-device.c                                    |   7 ++-
+ drivers/media/v4l2-core/v4l2-subdev.c                                    |  69 ++++++++++++++++++---
+ include/media/v4l2-dev.h                                                 |   7 +++
+ include/media/v4l2-device.h                                              |  50 +++++++++++++--
+ include/uapi/linux/v4l2-subdev.h                                         |  16 +++++
+ 15 files changed, 349 insertions(+), 16 deletions(-)
  create mode 100644 Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst
-
-diff --git a/Documentation/userspace-api/media/v4l/user-func.rst b/Documentation/userspace-api/media/v4l/user-func.rst
-index f235f88efe891..bf77c842718e5 100644
---- a/Documentation/userspace-api/media/v4l/user-func.rst
-+++ b/Documentation/userspace-api/media/v4l/user-func.rst
-@@ -78,6 +78,7 @@ Function Reference
-     vidioc-subdev-g-fmt
-     vidioc-subdev-g-frame-interval
-     vidioc-subdev-g-selection
-+    vidioc-subdev-querycap
-     vidioc-subscribe-event
-     func-mmap
-     func-munmap
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst
-new file mode 100644
-index 0000000000000..0371a76321af8
---- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-querycap.rst
-@@ -0,0 +1,112 @@
-+.. Permission is granted to copy, distribute and/or modify this
-+.. document under the terms of the GNU Free Documentation License,
-+.. Version 1.1 or any later version published by the Free Software
-+.. Foundation, with no Invariant Sections, no Front-Cover Texts
-+.. and no Back-Cover Texts. A copy of the license is included at
-+.. Documentation/userspace-api/media/fdl-appendix.rst.
-+..
-+.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
-+
-+.. _VIDIOC_SUBDEV_QUERYCAP:
-+
-+****************************
-+ioctl VIDIOC_SUBDEV_QUERYCAP
-+****************************
-+
-+Name
-+====
-+
-+VIDIOC_SUBDEV_QUERYCAP - Query sub-device capabilities
-+
-+
-+Synopsis
-+========
-+
-+.. c:function:: int ioctl( int fd, VIDIOC_SUBDEV_QUERYCAP, struct v4l2_subdev_capability *argp )
-+    :name: VIDIOC_SUBDEV_QUERYCAP
-+
-+
-+Arguments
-+=========
-+
-+``fd``
-+    File descriptor returned by :ref:`open() <func-open>`.
-+
-+``argp``
-+    Pointer to struct :c:type:`v4l2_subdev_capability`.
-+
-+
-+Description
-+===========
-+
-+All V4L2 sub-devices support the ``VIDIOC_SUBDEV_QUERYCAP`` ioctl. It is used to
-+identify kernel devices compatible with this specification and to obtain
-+information about driver and hardware capabilities. The ioctl takes a pointer to
-+a struct :c:type:`v4l2_subdev_capability` which is filled by the driver. When
-+the driver is not compatible with this specification the ioctl returns
-+``ENOTTY`` error code.
-+
-+.. tabularcolumns:: |p{1.5cm}|p{2.5cm}|p{13cm}|
-+
-+.. c:type:: v4l2_subdev_capability
-+
-+.. flat-table:: struct v4l2_subdev_capability
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       3 4 20
-+
-+    * - __u32
-+      - ``version``
-+      - Version number of the driver.
-+
-+	The version reported is provided by the V4L2 subsystem following the
-+	kernel numbering scheme. However, it may not always return the same
-+	version as the kernel if, for example, a stable or
-+	distribution-modified kernel uses the V4L2 stack from a newer kernel.
-+
-+	The version number is formatted using the ``KERNEL_VERSION()``
-+	macro:
-+    * - :cspan:`2`
-+
-+	``#define KERNEL_VERSION(a,b,c) (((a) << 16) + ((b) << 8) + (c))``
-+
-+	``__u32 version = KERNEL_VERSION(0, 8, 1);``
-+
-+	``printf ("Version: %u.%u.%u\\n",``
-+
-+	``(version >> 16) & 0xFF, (version >> 8) & 0xFF, version & 0xFF);``
-+    * - __u32
-+      - ``capabilities``
-+      - Sub-device capabilities of the opened device, see
-+	:ref:`subdevice-capabilities`.
-+    * - __u32
-+      - ``reserved``\ [14]
-+      - Reserved for future extensions. Set to 0 by the V4L2 core.
-+
-+.. tabularcolumns:: |p{6cm}|p{2.2cm}|p{8.8cm}|
-+
-+.. _subdevice-capabilities:
-+
-+.. cssclass:: longtable
-+
-+.. flat-table:: Sub-Device Capabilities Flags
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       3 1 4
-+
-+    * - V4L2_SUBDEV_CAP_RO_SUBDEV
-+      - 0x00000001
-+      - The sub-device device node is registered in read-only mode.
-+	Access to the sub-device ioctls that modify the device state is
-+	restricted. Refer to each individual subdevice ioctl documentation
-+	for a description of which restrictions apply to a read-only sub-device.
-+
-+Return Value
-+============
-+
-+On success 0 is returned, on error -1 and the ``errno`` variable is set
-+appropriately. The generic error codes are described at the
-+:ref:`Generic Error Codes <gen-errors>` chapter.
-+
-+ENOTTY
-+    The device node is not a V4L2 sub-device.
--- 
-2.26.1
-
