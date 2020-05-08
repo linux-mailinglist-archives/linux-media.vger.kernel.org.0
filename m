@@ -2,39 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B08AC1CAE88
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 15:11:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 891551CAE84
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 15:11:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728547AbgEHNKq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 May 2020 09:10:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60476 "EHLO mail.kernel.org"
+        id S1730485AbgEHNKn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 May 2020 09:10:43 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60500 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730522AbgEHNKl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 May 2020 09:10:41 -0400
+        id S1728787AbgEHNKm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 May 2020 09:10:42 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 93AC0249DA;
+        by mail.kernel.org (Postfix) with ESMTPSA id 93A52249D3;
         Fri,  8 May 2020 13:10:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1588943440;
-        bh=0V/wbv+b5jsi4lq2mG/sYRgYjKG8X51Xr2wTxp7q+Qg=;
+        bh=5auvOo0cz4Mvuw96bMWyk5KHEpjwFSVVuFxTn6gbhZo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=rvtQFNRCvETARY1n2LhZTueLeZwztyCwecl41AlWdjNh+WBCXXV9OwEvRiBVH7F4o
-         pCVyDBOn0XiT/qOVcZP8p5bPKvw9pEJfu+UA2VjLquiUJmfTUrl7V6lLAqm4i3VGLs
-         HslqvTykytEA5z9OG+NIkLl8JGyBpOBvlD4UzpMo=
+        b=gX75Ai6Dswv7vYjL4lzKXWXn4NDfjgD9MoKyOMnR5sZ3Z1S3psJ6DrIlf0uL8NAtj
+         VleRZ2XNkl2tCV5bIikX89wy43rysfu01ZJBGOEab1mRry0KpRPKUbEqNevAfwXVgR
+         T/dny8iZ1ovE/VgKe6TkWEAOnH813Rxb0a+UpEyk=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jX2ly-000Z9H-GL; Fri, 08 May 2020 15:10:38 +0200
+        id 1jX2ly-000Z9L-HI; Fri, 08 May 2020 15:10:38 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [PATCH v9 4/5] media: glossary.rst: add terms for MC-centric video-node-centric
-Date:   Fri,  8 May 2020 15:10:36 +0200
-Message-Id: <0c083fffe63499a9ce49d30f3c907668299401f1.1588943181.git.mchehab+huawei@kernel.org>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>
+Subject: [PATCH v9 5/5] media: open.rst: document mc-centric and video-node-centric
+Date:   Fri,  8 May 2020 15:10:37 +0200
+Message-Id: <4fe37ecf19ad62f3c2ba6af31de81ec724fead16.1588943181.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1588943181.git.mchehab+huawei@kernel.org>
 References: <cover.1588943181.git.mchehab+huawei@kernel.org>
@@ -46,92 +47,105 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Now that we have a chapter describing hardware control, let's
-add the terms used there to the glossary.
+When we added support for omap3, back in 2010, we added a new
+type of V4L2 devices that aren't fully controlled via the V4L2
+device node.
+
+Yet, we have never clearly documented in the V4L2 specification
+the differences between the two types.
+
+Let's document them based on the the current implementation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../userspace-api/media/glossary.rst          | 42 ++++++++++++++++---
- 1 file changed, 37 insertions(+), 5 deletions(-)
+ .../userspace-api/media/v4l/open.rst          | 54 ++++++++++++++++---
+ 1 file changed, 48 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/glossary.rst b/Documentation/userspace-api/media/glossary.rst
-index 18a1ace00159..8cdb7900e994 100644
---- a/Documentation/userspace-api/media/glossary.rst
-+++ b/Documentation/userspace-api/media/glossary.rst
-@@ -69,6 +69,20 @@ Glossary
+diff --git a/Documentation/userspace-api/media/v4l/open.rst b/Documentation/userspace-api/media/v4l/open.rst
+index ee4c8f123815..8a9f766ab855 100644
+--- a/Documentation/userspace-api/media/v4l/open.rst
++++ b/Documentation/userspace-api/media/v4l/open.rst
+@@ -13,6 +13,48 @@
+ Opening and Closing Devices
+ ***************************
  
- 	See https://en.wikipedia.org/wiki/Field-programmable_gate_array.
- 
-+    Hardware Component
-+	A subset of the :term:`media hardware`. For example an :term:`I²C` or
-+	:term:`SPI` device, or an :term:`IP block` inside a
-+	:term:`SoC` or :term:`FPGA`.
++.. _v4l2_hardware_control:
 +
-+    Hardware Peripheral
-+	A group of :term:`hardware components <hardware component>` that
-+	together make a larger user-facing functional peripheral. For
-+	instance the :term:`SoC` :term:`ISP` :term:`IP	block <ip block>`
-+	and external camera sensors together make a camera hardware
-+	peripheral.
++Controlling a hardware peripheral via V4L2
++==========================================
 +
-+	Also known as :term:`peripheral`.
++V4L2 hardware peripheral is usually complex: support for it is
++implemented via a bridge driver and often by several additional drivers.
++The bridge driver exposes one or more V4L2 device nodes
++(see :ref:`v4l2_device_naming`).
 +
-     I²C
- 	**Inter-Integrated Circuit**
- 
-@@ -126,6 +140,14 @@ Glossary
- 
- 	See :ref:`media_controller`.
- 
-+    MC-Centric
-+	:term:`V4L2 hardware` that requires a :term:`MC API`.
++There are other drivers providing support for other components of
++the hardware, with may also expose device nodes, called V4L2 sub-devices.
 +
-+	Such hardware have ``V4L2_CAP_IO_MC`` device_caps field unset
-+	(see :ref:`VIDIOC_QUERYCAP`).
++When such V4L2 sub-devices are exposed, they allow controlling
++other hardware components - usually connected via a serial bus (like
++I²C, SMBus or SPI). Depending on the bridge driver, those sub-devices
++can be controlled indirectly via the bridge driver or explicitly via
++the :ref:`Media Controller <media_controller>` and via the
++:ref:`V4L2 sub-devices <subdev>`.
 +
-+	See :ref:`v4l2_hardware_control` for more details.
++The devices that require the use of the
++:ref:`Media Controller <media_controller>` are called **MC-centric**
++devices. The devices that are fully controlled via V4L2 device nodes
++are called **video-node-centric**.
 +
-     Media Hardware
- 	Subset of the hardware that is supported by the Linux Media API.
- 
-@@ -139,6 +161,9 @@ Glossary
- 	control and input/output (I/O) operations specified by the
- 	instructions on a single integrated circuit.
- 
-+    Peripheral
-+	The same as :term:`hardware peripheral`.
++Userspace can check if a V4L2 hardware peripheral is MC-centric by
++calling :ref:`VIDIOC_QUERYCAP` and checking the
++:ref:`device_caps field <device-capabilities>`.
 +
-     RC API
- 	**Remote Controller API**
- 
-@@ -168,15 +193,22 @@ Glossary
- 	The userspace API defined in :ref:`v4l2spec`, which is used to
- 	control a V4L2 hardware.
- 
-+    V4L2 Device Node
-+	A :term:`device node` that is associated to a V4L driver.
++If the device returns ``V4L2_CAP_IO_MC`` flag at ``device_caps``,
++it is MC-centric, otherwise, it is video-node-centric.
 +
-+	The V4L2 device node naming is specified at :ref:`v4l2_device_naming`.
++It is required for MC-centric hardware to identify the V4L2
++sub-devices and to configure the pipelines via the
++:ref:`media controller API <media_controller>` before using the peripheral.
++Also, the sub-devices' configuration shall be controlled via the
++:ref:`sub-device API <subdev>`.
 +
-     V4L2 Hardware
- 	Part of a media hardware with is supported by the :term:`V4L2 API`.
- 
-     V4L2 Sub-device
- 	V4L2 hardware components that aren't controlled by a
--	:term:`bridge driver`.
-+	:term:`bridge driver`. See :ref:`subdev`.
- 
--    V4L2 Sub-device API
--	Part of the :term:`V4L2 API` which control
--	:term:`V4L2 sub-devices <V4L2 Sub-device>`.
-+    Video-node-Centric
-+	V4L2 hardware that doesn't require a media controller to be used.
- 
--	See :ref:`subdev`.
-+	Such hardware have ``V4L2_CAP_IO_MC`` device_caps field unset
-+	(see :ref:`VIDIOC_QUERYCAP`).
++.. note::
 +
-+	See :ref:`v4l2_hardware_control` for more details.
++   A video-node-centric may still provide a both media-controller and
++   sub-device interfaces as well.
+ 
+ .. _v4l2_device_naming:
+ 
+@@ -109,7 +151,7 @@ Related Devices
+ Devices can support several functions. For example video capturing, VBI
+ capturing and radio support.
+ 
+-The V4L2 API creates different nodes for each of these functions.
++The V4L2 API creates different V4L2 device nodes for each of these functions.
+ 
+ The V4L2 API was designed with the idea that one device node could
+ support all functions. However, in practice this never worked: this
+@@ -119,17 +161,17 @@ switching a device node between different functions only works when
+ using the streaming I/O API, not with the
+ :ref:`read() <func-read>`/\ :ref:`write() <func-write>` API.
+ 
+-Today each device node supports just one function.
++Today each V4L2 device node supports just one function.
+ 
+ Besides video input or output the hardware may also support audio
+ sampling or playback. If so, these functions are implemented as ALSA PCM
+ devices with optional ALSA audio mixer devices.
+ 
+ One problem with all these devices is that the V4L2 API makes no
+-provisions to find these related devices. Some really complex devices
+-use the Media Controller (see :ref:`media_controller`) which can be
+-used for this purpose. But most drivers do not use it, and while some
+-code exists that uses sysfs to discover related devices (see
++provisions to find these related V4L2 device nodes. Some really complex
++hardware use the Media Controller (see :ref:`media_controller`) which can
++be used for this purpose. But several drivers do not use it, and while some
++code exists that uses sysfs to discover related V4L2 device nodes (see
+ libmedia_dev in the
+ `v4l-utils <http://git.linuxtv.org/cgit.cgi/v4l-utils.git/>`__ git
+ repository), there is no library yet that can provide a single API
 -- 
 2.26.2
 
