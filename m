@@ -2,186 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A69AE1CB1E2
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 16:36:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC23D1CB20D
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 16:41:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727082AbgEHOgo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 May 2020 10:36:44 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34640 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726689AbgEHOgo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 May 2020 10:36:44 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 8EE982083B;
-        Fri,  8 May 2020 14:36:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1588948603;
-        bh=jqTlb2vYzrNgFL07ZdRIYprWqnjbt5GT2f8R1c508k4=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=lgNcnFS9+FjD1wFc2RYf+c7F5sQniML2RhkdsEnBm6mO5UeOaXev7O1musavKd4hg
-         X2gPXgx1y969KZpxAl0qqscbG+NU/MYmrf0ZEmAAq37bZDNKXYv8Jt27sUtZnAAfyZ
-         TaGunov3jXHWVqJe6S0/s3V2rAZsNrEbrxw2X80s=
-Date:   Fri, 8 May 2020 16:36:39 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH v9 4/5] media: glossary.rst: add terms for MC-centric
- video-node-centric
-Message-ID: <20200508163639.7bf3bde5@coco.lan>
-In-Reply-To: <230cccf3-fbe9-5308-9c11-b48aa8382709@xs4all.nl>
-References: <cover.1588943181.git.mchehab+huawei@kernel.org>
-        <0c083fffe63499a9ce49d30f3c907668299401f1.1588943181.git.mchehab+huawei@kernel.org>
-        <230cccf3-fbe9-5308-9c11-b48aa8382709@xs4all.nl>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728300AbgEHOlN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 May 2020 10:41:13 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:40432 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728174AbgEHOlL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 May 2020 10:41:11 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 048Ebmmb151195;
+        Fri, 8 May 2020 14:40:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=B1c1c4b7hcwNQpIS66ZNy2hvCK33KO4bX3N1aBJuM1c=;
+ b=iBy3sM5gzqqO9TmCpG6EnnQDsryKuEu9BCc9Wl1tZ/U6DZR8IIV/Q1IHr7ERdefSRe1x
+ /qmlmoYLrCCUfMhC+Z5QWcORvPJC+jOKphHEe7zpFD/g1tCoo4Blj7Xbn/RVqrAS4uc8
+ Rb/mlNaiCth0NyPbN7HHOFKlJ8ZiUxD3lAu9CHKr9HRT1Y425wJ5gwuCv6CK+/yDjPAE
+ szwyutASWoLWN/fa8xLJYV9ESwLpUUvU6/bpzvob+7Jg77phEtZVai/NDqBgAzxk73e9
+ nfmsu8R1UdzsJIry7UtU7a5JSlA0BB7xOFRbFtp4nuAjkciP5fYkQwqKGjRiwC1f1S88 Nw== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2130.oracle.com with ESMTP id 30vtewub98-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 May 2020 14:40:32 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 048Eba9h145238;
+        Fri, 8 May 2020 14:40:31 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 30vte02xpu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 08 May 2020 14:40:31 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 048EeUww002334;
+        Fri, 8 May 2020 14:40:30 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Fri, 08 May 2020 07:40:29 -0700
+Date:   Fri, 8 May 2020 17:40:22 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Stefan Richter <stefanr@s5r6.in-berlin.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] firewire: Using uninitialized values in node_probe()
+Message-ID: <20200508144022.GB410645@mwanda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9614 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
+ bulkscore=0 malwarescore=0 suspectscore=0 adultscore=0 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2003020000 definitions=main-2005080130
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9614 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 mlxlogscore=999
+ malwarescore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0
+ impostorscore=0 suspectscore=0 adultscore=0 clxscore=1011 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005080130
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 8 May 2020 15:46:50 +0200
-Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
+If fw_csr_string() returns -ENOENT, then "name" is uninitialized.  So
+then the "strlen(model_names[i]) <= name_len" is true because strlen()
+is unsigned and -ENOENT is type promoted to a very high positive value.
+Then the "strncmp(name, model_names[i], name_len)" uses uninitialized
+data because "name" is uninitialized.
 
-> On 08/05/2020 15:10, Mauro Carvalho Chehab wrote:
-> > Now that we have a chapter describing hardware control, let's
-> > add the terms used there to the glossary.
-> >=20
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  .../userspace-api/media/glossary.rst          | 42 ++++++++++++++++---
-> >  1 file changed, 37 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/Documentation/userspace-api/media/glossary.rst b/Documenta=
-tion/userspace-api/media/glossary.rst
-> > index 18a1ace00159..8cdb7900e994 100644
-> > --- a/Documentation/userspace-api/media/glossary.rst
-> > +++ b/Documentation/userspace-api/media/glossary.rst
-> > @@ -69,6 +69,20 @@ Glossary
-> > =20
-> >  	See https://en.wikipedia.org/wiki/Field-programmable_gate_array.
-> > =20
-> > +    Hardware Component
-> > +	A subset of the :term:`media hardware`. For example an :term:`I=C2=B2=
-C` or
-> > +	:term:`SPI` device, or an :term:`IP block` inside a =20
->=20
-> inside a -> inside an
->=20
-> > +	:term:`SoC` or :term:`FPGA`.
-> > +
-> > +    Hardware Peripheral
-> > +	A group of :term:`hardware components <hardware component>` that
-> > +	together make a larger user-facing functional peripheral. For
-> > +	instance the :term:`SoC` :term:`ISP` :term:`IP	block <ip block>` =20
->=20
-> Are there some commas missing here after 'SoC' and 'ISP'?
+Fixes: 92374e886c75 ("[media] firedtv: drop obsolete backend abstraction")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/media/firewire/firedtv-fw.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-There is a comma missing, but not at the place you pointed (IMHO) ;-)
+diff --git a/drivers/media/firewire/firedtv-fw.c b/drivers/media/firewire/firedtv-fw.c
+index 97144734eb052..3f1ca40b9b987 100644
+--- a/drivers/media/firewire/firedtv-fw.c
++++ b/drivers/media/firewire/firedtv-fw.c
+@@ -272,6 +272,8 @@ static int node_probe(struct fw_unit *unit, const struct ieee1394_device_id *id)
+ 
+ 	name_len = fw_csr_string(unit->directory, CSR_MODEL,
+ 				 name, sizeof(name));
++	if (name_len < 0)
++		return name_len;
+ 	for (i = ARRAY_SIZE(model_names); --i; )
+ 		if (strlen(model_names[i]) <= name_len &&
+ 		    strncmp(name, model_names[i], name_len) == 0)
+-- 
+2.26.2
 
-Removing the :term: markup, what the above is saying is:
-
-	For  instance, the SoC ISP IP block and external camera=20
-	sensors together make a camera hardware peripheral.
-
-Ok, we could just call it as "ISP", instead of trying to be too
-formal.
-
->=20
-> > +	and external camera sensors together make a camera hardware
-> > +	peripheral.
-> > +
-> > +	Also known as :term:`peripheral`.
-> > +
-> >      I=C2=B2C
-> >  	**Inter-Integrated Circuit**
-> > =20
-> > @@ -126,6 +140,14 @@ Glossary
-> > =20
-> >  	See :ref:`media_controller`.
-> > =20
-> > +    MC-Centric
-> > +	:term:`V4L2 hardware` that requires a :term:`MC API`. =20
->=20
-> a -> the
->=20
-> > +
-> > +	Such hardware have ``V4L2_CAP_IO_MC`` device_caps field unset =20
->=20
-> They have that capability set, not unset.
-
-Sorry, cut and paste error... it is identical to the video-node-centric
-below ;-)
-
->=20
-> > +	(see :ref:`VIDIOC_QUERYCAP`).
-> > +
-> > +	See :ref:`v4l2_hardware_control` for more details.
-> > +
-> >      Media Hardware
-> >  	Subset of the hardware that is supported by the Linux Media API.
-> > =20
-> > @@ -139,6 +161,9 @@ Glossary
-> >  	control and input/output (I/O) operations specified by the
-> >  	instructions on a single integrated circuit.
-> > =20
-> > +    Peripheral
-> > +	The same as :term:`hardware peripheral`.
-> > +
-> >      RC API
-> >  	**Remote Controller API**
-> > =20
-> > @@ -168,15 +193,22 @@ Glossary
-> >  	The userspace API defined in :ref:`v4l2spec`, which is used to
-> >  	control a V4L2 hardware.
-> > =20
-> > +    V4L2 Device Node
-> > +	A :term:`device node` that is associated to a V4L driver.
-> > +
-> > +	The V4L2 device node naming is specified at :ref:`v4l2_device_naming`.
-> > +
-> >      V4L2 Hardware
-> >  	Part of a media hardware with is supported by the :term:`V4L2 API`.
-> > =20
-> >      V4L2 Sub-device
-> >  	V4L2 hardware components that aren't controlled by a
-> > -	:term:`bridge driver`.
-> > +	:term:`bridge driver`. See :ref:`subdev`.
-> > =20
-> > -    V4L2 Sub-device API
-> > -	Part of the :term:`V4L2 API` which control
-> > -	:term:`V4L2 sub-devices <V4L2 Sub-device>`.
-> > +    Video-node-Centric =20
->=20
-> Either Video-Node-Centric or Video-node-centric, but not Video-node-Centr=
-ic,
-> that's inconsistent use of capitals.
-
-Ok.
-
->=20
-> > +	V4L2 hardware that doesn't require a media controller to be used. =20
->=20
-> a media controller to be used -> the MC API.
->=20
-> > =20
-> > -	See :ref:`subdev`.
-> > +	Such hardware have ``V4L2_CAP_IO_MC`` device_caps field unset
-> > +	(see :ref:`VIDIOC_QUERYCAP`).
-> > +
-> > +	See :ref:`v4l2_hardware_control` for more details.
-> >  =20
->=20
-> Regards,
->=20
-> 	Hans
-
-
-
-Thanks,
-Mauro
