@@ -2,104 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76F121CA6B9
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 11:03:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD6091CA758
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 11:41:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726807AbgEHJDV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 May 2020 05:03:21 -0400
-Received: from gofer.mess.org ([88.97.38.141]:51945 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726768AbgEHJDV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 May 2020 05:03:21 -0400
+        id S1726083AbgEHJlR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 May 2020 05:41:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59458 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725775AbgEHJlR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 May 2020 05:41:17 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C007C05BD43
+        for <linux-media@vger.kernel.org>; Fri,  8 May 2020 02:41:17 -0700 (PDT)
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id F26FAC6429; Fri,  8 May 2020 10:03:19 +0100 (BST)
-Date:   Fri, 8 May 2020 10:03:19 +0100
+        id CA62FC6429; Fri,  8 May 2020 10:41:15 +0100 (BST)
+Date:   Fri, 8 May 2020 10:41:15 +0100
 From:   Sean Young <sean@mess.org>
-To:     Ralf Schmidt <rds2@gmx.de>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: Missing Protocols ir-keytable Ubuntu 20.04
-Message-ID: <20200508090319.GA32337@gofer.mess.org>
-References: <6446b77c-e6de-9d0a-2ed3-691481917b80@gmx.de>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v5.8] Small fixes
+Message-ID: <20200508094115.GA1214@gofer.mess.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6446b77c-e6de-9d0a-2ed3-691481917b80@gmx.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ralf,
+The following changes since commit 5b9f8e4ac9473962fa0e824fd1f04138600d459d:
 
-On Wed, May 06, 2020 at 02:35:32PM +0200, Ralf Schmidt wrote:
-> Only working Receiver: all RF X10 Wireless Receiver
-> All Outputs with just upgraded 5.4.0-29-generic Kernel (Ubuntu 20.04LTS)
-> and newly installed ir-keytable
-> 
-> ralf@nexus:~$ ir-keytable --version
-> IR keytable control version 1.18.0
-> 
-> ralf@nexus:~$ sudo ir-keytable -p all
-> [sudo] Passwort für ralf:
-> Die Protokolle für das Gerät können nicht geändert werden
-> Protokolle geändert in other
+  media: ipu3.rst: fix a build warning (2020-05-06 14:49:41 +0200)
 
-Well those messages can't both be true.
+are available in the Git repository at:
 
-> /dev/lirc0: kein Empfangsgerät für unverarbeitetes Infrarot
-> BPF-Protokoll rc-mm konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
-> BPF-Protokoll imon konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
-> BPF-Protokoll cec konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
-> BPF-Protokoll xmp konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
-> BPF-Protokoll sharp konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
-> BPF-Protokoll rc-6 konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
-> BPF-Protokoll mce_kbd konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
-> BPF-Protokoll sanyo konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
-> BPF-Protokoll nec konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
-> BPF-Protokoll sony konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
-> BPF-Protokoll jvc konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
-> BPF-Protokoll rc-5-sz konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
-> BPF-Protokoll rc-5 konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
-> BPF-Protokoll lirc konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
-> BPF-Protokoll unknown konnte weder in /etc/rc_keymaps/protocols noch in
-> /lib/udev/rc_keymaps/protocols gefunden werden
+  git://linuxtv.org/syoung/media_tree.git for-v5.8d
 
-Oops. Yes, I broke this. ir-keytable should not be doing this. I'll fix
-this; in the mean time those messages can be ignored.
+for you to fetch changes up to 9757af7af9480de959e3a13b96a8f506b12740b8:
 
--snip-
+  media: dvb-frontends: remove redundant initialization of variable status (2020-05-08 09:26:21 +0100)
 
-> But all the protocols are available
+----------------------------------------------------------------
+Colin Ian King (4):
+      media: dvb: remove redundant assignment to variable bw
+      media: stv0900_core: remove redundant assignment to variable val
+      media: mantis_dvb: remove redundant initialization to variable result
+      media: dvb-frontends: remove redundant initialization of variable status
 
-Yes, you are right.
- 
-> On more thing: because off the removed -d parameter, Remotes like the
-> Technisat TTS35AI are no longer supported, such Type of Remotes are not
-> recognized in /sys/class/rc/.
+Jia-Ju Bai (1):
+      media: usb: ttusb-dec: reduce the number of memory reads in ttusb_dec_handle_irq()
 
-Hmm it would be good to know more about this. What device is this exactly?
-It would be good to have lsusb output.
+Sean Young (2):
+      media: gpio-ir-tx: improve precision of transmitted signal due to scheduling
+      media: gpio-ir-tx: allow transmission without carrier
 
-> Sorry for my bad English
-
-You are very clear and thank you for your bug report.
-
-Thanks,
-
-Sean
+ drivers/media/dvb-frontends/cxd2880/cxd2880_top.c |  2 +-
+ drivers/media/dvb-frontends/drxk_hard.c           |  2 +-
+ drivers/media/dvb-frontends/stv0900_core.c        |  2 +-
+ drivers/media/pci/mantis/mantis_dvb.c             |  2 +-
+ drivers/media/rc/gpio-ir-tx.c                     | 51 ++++++++++++++++++-----
+ drivers/media/usb/ttusb-dec/ttusb_dec.c           |  9 ++--
+ 6 files changed, 50 insertions(+), 18 deletions(-)
