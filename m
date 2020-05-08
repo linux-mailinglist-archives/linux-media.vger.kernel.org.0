@@ -2,84 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ED1C21CA5A4
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 10:02:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76F121CA6B9
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 11:03:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726736AbgEHICy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 May 2020 04:02:54 -0400
-Received: from gofer.mess.org ([88.97.38.141]:51477 "EHLO gofer.mess.org"
+        id S1726807AbgEHJDV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 May 2020 05:03:21 -0400
+Received: from gofer.mess.org ([88.97.38.141]:51945 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726036AbgEHICy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 May 2020 04:02:54 -0400
+        id S1726768AbgEHJDV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 May 2020 05:03:21 -0400
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 73043C6429; Fri,  8 May 2020 09:02:52 +0100 (BST)
-Date:   Fri, 8 May 2020 09:02:52 +0100
+        id F26FAC6429; Fri,  8 May 2020 10:03:19 +0100 (BST)
+Date:   Fri, 8 May 2020 10:03:19 +0100
 From:   Sean Young <sean@mess.org>
-To:     Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Rosen Penev <rosenp@gmail.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [RFC PATCH v3 1/1] Add support for meson building
-Message-ID: <20200508080252.GA30803@gofer.mess.org>
-References: <20200429151639.5003-1-ariel@vanguardiasur.com.ar>
- <20200429151639.5003-2-ariel@vanguardiasur.com.ar>
- <20200501081819.GA29107@gofer.mess.org>
- <CADutaf3s91o8D+2389iMH-TmuX4euC+m3Gu2St0uDb+6RoJ-ZQ@mail.gmail.com>
+To:     Ralf Schmidt <rds2@gmx.de>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: Missing Protocols ir-keytable Ubuntu 20.04
+Message-ID: <20200508090319.GA32337@gofer.mess.org>
+References: <6446b77c-e6de-9d0a-2ed3-691481917b80@gmx.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CADutaf3s91o8D+2389iMH-TmuX4euC+m3Gu2St0uDb+6RoJ-ZQ@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6446b77c-e6de-9d0a-2ed3-691481917b80@gmx.de>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ariel,
+Hi Ralf,
 
-On Mon, May 04, 2020 at 01:27:22PM -0300, Ariel D'Alessandro wrote:
-> On Fri, May 1, 2020 at 5:18 AM Sean Young <sean@mess.org> wrote:
-> > There seems to be no way overriding systemd_systemdir or udevdir. This
-> > would be very useful.
+On Wed, May 06, 2020 at 02:35:32PM +0200, Ralf Schmidt wrote:
+> Only working Receiver: all RF X10 Wireless Receiver
+> All Outputs with just upgraded 5.4.0-29-generic Kernel (Ubuntu 20.04LTS)
+> and newly installed ir-keytable
 > 
-> There's a way, as follows:
+> ralf@nexus:~$ ir-keytable --version
+> IR keytable control version 1.18.0
 > 
-> Meson way:
->     $ meson -Dsystemdsystemunitdir=$my_path build/
->     $ meson -Dudevdir=$my_path build/
-> 
-> Autoconf way:
->     $ ./configure --with-systemdsystemunitdir=$my_path
->     $ ./configure --with-udevdir=$my_path
-> 
-> The above will set systemd_systemdir or udevdir with the specified path.
+> ralf@nexus:~$ sudo ir-keytable -p all
+> [sudo] Passwort für ralf:
+> Die Protokolle für das Gerät können nicht geändert werden
+> Protokolle geändert in other
 
-Great, thank you!
+Well those messages can't both be true.
 
-> > I don't think this can be done with autoconf either, so this is probably
-> > a nice to have. However with autoconf I can do "make -k install" to
-> > skip installing system udev/systemd files, but I don't know how to do
-> > with ninja.
-> 
-> Shall we provide an option to skip installing these system files?
+> /dev/lirc0: kein Empfangsgerät für unverarbeitetes Infrarot
+> BPF-Protokoll rc-mm konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
+> BPF-Protokoll imon konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
+> BPF-Protokoll cec konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
+> BPF-Protokoll xmp konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
+> BPF-Protokoll sharp konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
+> BPF-Protokoll rc-6 konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
+> BPF-Protokoll mce_kbd konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
+> BPF-Protokoll sanyo konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
+> BPF-Protokoll nec konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
+> BPF-Protokoll sony konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
+> BPF-Protokoll jvc konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
+> BPF-Protokoll rc-5-sz konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
+> BPF-Protokoll rc-5 konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
+> BPF-Protokoll lirc konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
+> BPF-Protokoll unknown konnte weder in /etc/rc_keymaps/protocols noch in
+> /lib/udev/rc_keymaps/protocols gefunden werden
 
-With the above options, I don't think it is needed.
+Oops. Yes, I broke this. ir-keytable should not be doing this. I'll fix
+this; in the mean time those messages can be ignored.
 
-> > Lastly the meson build does not support sync-with-kernel. We can add
-> > this at some later point, I suppose.
-> 
-> True, that's not done yet. We should support it in the meson build in order
-> to replace autotools completely. I'll try to tackle that down ASAP.
+-snip-
 
-I would think it's not needed for an initial version of the meson build
-system to be merged, just speaking for myself of course.
+> But all the protocols are available
 
+Yes, you are right.
+ 
+> On more thing: because off the removed -d parameter, Remotes like the
+> Technisat TTS35AI are no longer supported, such Type of Remotes are not
+> recognized in /sys/class/rc/.
 
-Thanks for the great work!
+Hmm it would be good to know more about this. What device is this exactly?
+It would be good to have lsusb output.
+
+> Sorry for my bad English
+
+You are very clear and thank you for your bug report.
+
+Thanks,
 
 Sean
