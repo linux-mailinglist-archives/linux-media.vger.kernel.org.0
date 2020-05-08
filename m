@@ -2,33 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 958C91CA7AE
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 11:59:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E63011CA7A2
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 11:58:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726906AbgEHJ7Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 May 2020 05:59:24 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:44234 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726897AbgEHJ7Y (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 May 2020 05:59:24 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jWzjc-00H91e-CC; Fri, 08 May 2020 09:56:00 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jWzom-0006o8-1b; Fri, 08 May 2020 10:01:20 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.8] Small fixes (#63674)
-Date:   Fri,  8 May 2020 10:01:19 +0000
-Message-Id: <20200508100119.26127-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200508094758.GC1214@gofer.mess.org>
-References: 
+        id S1726618AbgEHJ65 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 May 2020 05:58:57 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:59853 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725815AbgEHJ64 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 May 2020 05:58:56 -0400
+X-Originating-IP: 2.224.242.101
+Received: from localhost.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id D5E95FF806;
+        Fri,  8 May 2020 09:58:52 +0000 (UTC)
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
+        (V4L/DVB)), libcamera-devel@lists.libcamera.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>, tfiga@google.com, pavel@ucw.cz
+Subject: [PATCH v10 00/13] media: report camera properties
+Date:   Fri,  8 May 2020 12:01:45 +0200
+Message-Id: <20200508100158.3437161-1-jacopo@jmondi.org>
+X-Mailer: git-send-email 2.26.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -36,25 +35,81 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hello,
+   this v10 is not just a rename s/location/orientation as the documentation
+around the property has changed slightly as well and should probably be re-read.
 
-Pull request: https://patchwork.linuxtv.org/patch/63674/
-Build log: https://builder.linuxtv.org/job/patchwork/50037/
-Build time: 00:11:00
-Link: https://lore.kernel.org/linux-media/20200508094758.GC1214@gofer.mess.org
+Anyway, most notable change is indeed the usa of 'orientation' in place of
+location, so that we have an 'orientation' DT property, a
+V4L2_CID_CAMERA_ORIENTATION control id and V4L2_ORIENTATION_* control values.
 
-gpg: Signature made Fri 08 May 2020 08:29:18 AM UTC
-gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
-gpg:                issuer "sean@mess.org"
-gpg: Good signature from "Sean Young <sean@mess.org>" [full]
+A new patch 'dt-bindings: Add media properties' add an header to help DT users
+by providing macros for the currently supported locations.
 
-Summary: 2 patches and/or PDF generation with issues, being 0 at build time
+I've added a patch for a new sensor driver I have used for testing (imx219) and
+made the V4L2_CID_CAMERA_ORIENTATION a menu control as it was meant to be.
 
-Error/warnings:
+I know the additional DT header could slow the series inclusion, I'm fine
+leaving it out if it proves controversial.
 
+The result of the two new controls inspected with v4l2-ctl -L for a camera
+with EXTERNAL orientation and 180 degrees rotation is the following:
 
-Error #256 when running cat patches/0005-media-usb-ttusb-dec-reduce-the-number-of-memory-read.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
-$ cat patches/0005-media-usb-ttusb-dec-reduce-the-number-of-memory-read.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
--:39: WARNING: line over 80 characters
--:42: WARNING: line over 80 characters
+------------------------------------------------------------------------------------------------------------------
+Camera Controls
+
+             camera_orientation 0x009a0922 (menu)   : min=0 max=2 default=2 value=2 flags=read-only
+				0: Front Camera
+				1: Back Camera
+				2: External Camera
+         camera_sensor_rotation 0x009a0923 (int)    : min=180 max=180 step=1 default=180 value=180 flags=read-only
+------------------------------------------------------------------------------------------------------------------
+
+Thanks
+   j
+
+v9->v10:
+- s/location/orientation and documentation update
+- Add DT bindings header for media properties
+- Make V4L2_CID_CAMERA_ORIENTATION a TYPE_MENU control
+- Add patch for imx219
+
+v8->v9:
+- Rebased on media master which has moved media documentation
+
+v7->v8:
+- Add Rob's ack to 03/11
+- Address Hans typographical comments in 03/11
+
+Jacopo Mondi (13):
+  dt-bindings: video-interfaces: Document 'orientation' property
+  dt-bindings: video-interface: Replace 'rotation' description
+  dt-bindings: Add media properties
+  media: v4l2-ctrl: Document V4L2_CID_CAMERA_ORIENTATION
+  media: v4l2-ctrl: Document V4L2_CID_CAMERA_SENSOR_ROTATION
+  media: v4l2-ctrls: Add camera orientation and rotation
+  media: v4l2-fwnode: Add helper to parse device properties
+  include: v4l2-ctrl: Sort forward declarations
+  media: v4l2-ctrls: Sort includes alphabetically
+  media: v4l2-ctrls: Add helper to register properties
+  media: i2c: ov5670: Parse and register properties
+  media: i2c: ov13858: Parse and register properties
+  media: i2c: imx219: Parse and register properties
+
+ .../bindings/media/video-interfaces.txt       | 372 +++++++++++++++++-
+ .../media/v4l/ext-ctrls-camera.rst            | 151 +++++++
+ drivers/media/i2c/imx219.c                    |  12 +-
+ drivers/media/i2c/ov13858.c                   |  13 +-
+ drivers/media/i2c/ov5670.c                    |  14 +-
+ drivers/media/v4l2-core/v4l2-ctrls.c          |  63 ++-
+ drivers/media/v4l2-core/v4l2-fwnode.c         |  42 ++
+ include/dt-bindings/media/video-interfaces.h  |  15 +
+ include/media/v4l2-ctrls.h                    |  34 +-
+ include/media/v4l2-fwnode.h                   |  47 +++
+ include/uapi/linux/v4l2-controls.h            |   7 +
+ 11 files changed, 755 insertions(+), 15 deletions(-)
+ create mode 100644 include/dt-bindings/media/video-interfaces.h
+
+--
+2.26.1
 
