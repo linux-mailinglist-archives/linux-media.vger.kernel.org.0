@@ -2,20 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D86421CA7AB
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 11:59:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B51131CA7AC
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 11:59:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726883AbgEHJ7V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 May 2020 05:59:21 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:48681 "EHLO
+        id S1726885AbgEHJ7X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 May 2020 05:59:23 -0400
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:60661 "EHLO
         relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726091AbgEHJ7U (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 May 2020 05:59:20 -0400
+        with ESMTP id S1726091AbgEHJ7X (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 8 May 2020 05:59:23 -0400
 X-Originating-IP: 2.224.242.101
 Received: from localhost.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 014C7FF805;
-        Fri,  8 May 2020 09:59:14 +0000 (UTC)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 749F1FF804;
+        Fri,  8 May 2020 09:59:19 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
         (V4L/DVB)), libcamera-devel@lists.libcamera.org,
@@ -24,9 +24,9 @@ To:     linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Jacopo Mondi <jacopo@jmondi.org>, tfiga@google.com, pavel@ucw.cz
-Subject: [PATCH v10 06/13] media: v4l2-ctrls: Add camera orientation and rotation
-Date:   Fri,  8 May 2020 12:01:51 +0200
-Message-Id: <20200508100158.3437161-7-jacopo@jmondi.org>
+Subject: [PATCH v10 07/13] media: v4l2-fwnode: Add helper to parse device properties
+Date:   Fri,  8 May 2020 12:01:52 +0200
+Message-Id: <20200508100158.3437161-8-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.26.1
 In-Reply-To: <20200508100158.3437161-1-jacopo@jmondi.org>
 References: <20200508100158.3437161-1-jacopo@jmondi.org>
@@ -37,89 +37,136 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for the newly defined V4L2_CID_CAMERA_ORIENTATION
-and V4L2_CID_CAMERA_SENSOR_ROTATION read-only controls used to report
-the camera device mounting position and orientation respectively.
+Add an helper function to parse common device properties in the same
+way as v4l2_fwnode_endpoint_parse() parses common endpoint properties.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Parse the 'rotation' and 'orientation' properties from the firmware
+interface.
+
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- drivers/media/v4l2-core/v4l2-ctrls.c | 15 +++++++++++++++
- include/uapi/linux/v4l2-controls.h   |  7 +++++++
- 2 files changed, 22 insertions(+)
+ drivers/media/v4l2-core/v4l2-fwnode.c | 42 ++++++++++++++++++++++++
+ include/media/v4l2-fwnode.h           | 47 +++++++++++++++++++++++++++
+ 2 files changed, 89 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index 1c617b42a944d..97765a57654d2 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -583,6 +583,12 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
- 		"Annex B Start Code",
- 		NULL,
- 	};
-+	static const char * const camera_orientation[] = {
-+		"Front Camera",
-+		"Back Camera",
-+		"External Camera",
-+		NULL,
-+	};
+diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+index 97f0f8b23b5dd..17b68cec8b083 100644
+--- a/drivers/media/v4l2-core/v4l2-fwnode.c
++++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+@@ -756,6 +756,48 @@ int v4l2_fwnode_connector_add_link(struct fwnode_handle *fwnode,
+ }
+ EXPORT_SYMBOL_GPL(v4l2_fwnode_connector_add_link);
  
- 	switch (id) {
- 	case V4L2_CID_MPEG_AUDIO_SAMPLING_FREQ:
-@@ -708,6 +714,8 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
- 		return hevc_decode_mode;
- 	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:
- 		return hevc_start_code;
-+	case V4L2_CID_CAMERA_ORIENTATION:
-+		return camera_orientation;
- 	default:
- 		return NULL;
- 	}
-@@ -1020,6 +1028,8 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_PAN_SPEED:		return "Pan, Speed";
- 	case V4L2_CID_TILT_SPEED:		return "Tilt, Speed";
- 	case V4L2_CID_UNIT_CELL_SIZE:		return "Unit Cell Size";
-+	case V4L2_CID_CAMERA_ORIENTATION:	return "Camera Orientation";
-+	case V4L2_CID_CAMERA_SENSOR_ROTATION:	return "Camera Sensor Rotation";
- 
- 	/* FM Radio Modulator controls */
- 	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-@@ -1295,6 +1305,10 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:
- 		*type = V4L2_CTRL_TYPE_MENU;
- 		break;
-+	case V4L2_CID_CAMERA_ORIENTATION:
-+		*type = V4L2_CTRL_TYPE_MENU;
-+		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+		break;
- 	case V4L2_CID_LINK_FREQ:
- 		*type = V4L2_CTRL_TYPE_INTEGER_MENU;
- 		break;
-@@ -1346,6 +1360,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 		break;
- 	case V4L2_CID_MIN_BUFFERS_FOR_CAPTURE:
- 	case V4L2_CID_MIN_BUFFERS_FOR_OUTPUT:
-+	case V4L2_CID_CAMERA_SENSOR_ROTATION:
- 		*type = V4L2_CTRL_TYPE_INTEGER;
- 		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 		break;
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 0ba1005c96519..3da37c9cf5046 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -923,6 +923,13 @@ enum v4l2_auto_focus_range {
- #define V4L2_CID_PAN_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+32)
- #define V4L2_CID_TILT_SPEED			(V4L2_CID_CAMERA_CLASS_BASE+33)
- 
-+#define V4L2_CID_CAMERA_ORIENTATION		(V4L2_CID_CAMERA_CLASS_BASE+34)
-+#define V4L2_ORIENTATION_FRONT			0
-+#define V4L2_ORIENTATION_BACK			1
-+#define V4L2_ORIENTATION_EXTERNAL		2
++int v4l2_fwnode_device_parse(struct device *dev,
++			     struct v4l2_fwnode_device_properties *props)
++{
++	struct fwnode_handle *fwnode = dev_fwnode(dev);
++	u32 val;
++	int ret;
 +
-+#define V4L2_CID_CAMERA_SENSOR_ROTATION		(V4L2_CID_CAMERA_CLASS_BASE+35)
++	memset(props, 0, sizeof(*props));
 +
- /* FM Modulator class control IDs */
++	props->orientation = V4L2_FWNODE_PROPERTY_UNSET;
++	ret = fwnode_property_read_u32(fwnode, "orientation", &val);
++	if (!ret) {
++		switch (val) {
++		case V4L2_FWNODE_ORIENTATION_FRONT:
++		case V4L2_FWNODE_ORIENTATION_BACK:
++		case V4L2_FWNODE_ORIENTATION_EXTERNAL:
++			break;
++		default:
++			dev_warn(dev, "Unsupported device orientation: %u\n", val);
++			return -EINVAL;
++		}
++
++		props->orientation = val;
++		dev_dbg(dev, "device orientation: %u\n", val);
++	}
++
++	props->rotation = V4L2_FWNODE_PROPERTY_UNSET;
++	ret = fwnode_property_read_u32(fwnode, "rotation", &val);
++	if (!ret) {
++		if (val >= 360) {
++			dev_warn(dev, "Unsupported device rotation: %u\n", val);
++			return -EINVAL;
++		}
++
++		props->rotation = val;
++		dev_dbg(dev, "device rotation: %u\n", val);
++	}
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(v4l2_fwnode_device_parse);
++
+ static int
+ v4l2_async_notifier_fwnode_parse_endpoint(struct device *dev,
+ 					  struct v4l2_async_notifier *notifier,
+diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+index dd82d6d9764ef..68c415fdaac53 100644
+--- a/include/media/v4l2-fwnode.h
++++ b/include/media/v4l2-fwnode.h
+@@ -109,6 +109,36 @@ struct v4l2_fwnode_endpoint {
+ 	unsigned int nr_of_link_frequencies;
+ };
  
- #define V4L2_CID_FM_TX_CLASS_BASE		(V4L2_CTRL_CLASS_FM_TX | 0x900)
++/**
++ * V4L2_FWNODE_PROPERTY_UNSET - identify a non initialized property
++ *
++ * All properties in &struct v4l2_fwnode_device_properties are initialized
++ * to this value.
++ */
++#define V4L2_FWNODE_PROPERTY_UNSET   (-1U)
++
++/**
++ * enum v4l2_fwnode_orientation - possible device orientation
++ * @V4L2_FWNODE_ORIENTATION_FRONT: device installed on the front side
++ * @V4L2_FWNODE_ORIENTATION_BACK: device installed on the back side
++ * @V4L2_FWNODE_ORIENTATION_EXTERNAL: device externally located
++ */
++enum v4l2_fwnode_orientation {
++	V4L2_FWNODE_ORIENTATION_FRONT,
++	V4L2_FWNODE_ORIENTATION_BACK,
++	V4L2_FWNODE_ORIENTATION_EXTERNAL
++};
++
++/**
++ * struct v4l2_fwnode_device_properties - fwnode device properties
++ * @orientation: device orientation. See &enum v4l2_fwnode_orientation
++ * @rotation: device rotation
++ */
++struct v4l2_fwnode_device_properties {
++	enum v4l2_fwnode_orientation orientation;
++	unsigned int rotation;
++};
++
+ /**
+  * struct v4l2_fwnode_link - a link between two endpoints
+  * @local_node: pointer to device_node of this endpoint
+@@ -354,6 +384,23 @@ int v4l2_fwnode_connector_parse(struct fwnode_handle *fwnode,
+ int v4l2_fwnode_connector_add_link(struct fwnode_handle *fwnode,
+ 				   struct v4l2_fwnode_connector *connector);
+ 
++/**
++ * v4l2_fwnode_device_parse() - parse fwnode device properties
++ * @dev: pointer to &struct device
++ * @props: pointer to &struct v4l2_fwnode_device_properties where to store the
++ *	   parsed properties values
++ *
++ * This function parses and validates the V4L2 fwnode device properties from the
++ * firmware interface, and fills the @struct v4l2_fwnode_device_properties
++ * provided by the caller.
++ *
++ * Return:
++ *	% 0 on success
++ *	%-EINVAL if a parsed property value is not valid
++ */
++int v4l2_fwnode_device_parse(struct device *dev,
++			     struct v4l2_fwnode_device_properties *props);
++
+ /**
+  * typedef parse_endpoint_func - Driver's callback function to be called on
+  *	each V4L2 fwnode endpoint.
 -- 
 2.26.1
 
