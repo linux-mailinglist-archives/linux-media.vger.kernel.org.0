@@ -2,96 +2,255 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC23D1CB20D
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 16:41:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B79D1CB255
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 16:54:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728300AbgEHOlN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 May 2020 10:41:13 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:40432 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728174AbgEHOlL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 8 May 2020 10:41:11 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 048Ebmmb151195;
-        Fri, 8 May 2020 14:40:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=B1c1c4b7hcwNQpIS66ZNy2hvCK33KO4bX3N1aBJuM1c=;
- b=iBy3sM5gzqqO9TmCpG6EnnQDsryKuEu9BCc9Wl1tZ/U6DZR8IIV/Q1IHr7ERdefSRe1x
- /qmlmoYLrCCUfMhC+Z5QWcORvPJC+jOKphHEe7zpFD/g1tCoo4Blj7Xbn/RVqrAS4uc8
- Rb/mlNaiCth0NyPbN7HHOFKlJ8ZiUxD3lAu9CHKr9HRT1Y425wJ5gwuCv6CK+/yDjPAE
- szwyutASWoLWN/fa8xLJYV9ESwLpUUvU6/bpzvob+7Jg77phEtZVai/NDqBgAzxk73e9
- nfmsu8R1UdzsJIry7UtU7a5JSlA0BB7xOFRbFtp4nuAjkciP5fYkQwqKGjRiwC1f1S88 Nw== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2130.oracle.com with ESMTP id 30vtewub98-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 08 May 2020 14:40:32 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 048Eba9h145238;
-        Fri, 8 May 2020 14:40:31 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 30vte02xpu-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 08 May 2020 14:40:31 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 048EeUww002334;
-        Fri, 8 May 2020 14:40:30 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 08 May 2020 07:40:29 -0700
-Date:   Fri, 8 May 2020 17:40:22 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Stefan Richter <stefanr@s5r6.in-berlin.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] firewire: Using uninitialized values in node_probe()
-Message-ID: <20200508144022.GB410645@mwanda>
+        id S1727099AbgEHOy0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 May 2020 10:54:26 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:39083 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726913AbgEHOyZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 May 2020 10:54:25 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id X4OJj1O8U8hmdX4OMjIbHK; Fri, 08 May 2020 16:54:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1588949663; bh=yVOPQ3qP/k7xm+iKzAlbta7A3DZ+wSwDBcfvxjdGl2U=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=RvWdeaDWiAs81u4qnROp0Fc7PtbA3Avkx/UGDVMSGovYvxW4+MAxvgcoLqkz/G88i
+         rXfxW9dpf0VfxPqVRzfR2Yqi4YHw8HPkYbcGhwqQuIQmDPjiJJXLf6NtO8GBDgjnf6
+         YVw/8DiO4Y4zQNLMB0V16KOYCLjtrVaAszZ35kjDBtN/gP475/JyruNjOpnvc9Rw+i
+         N8x3F6j1ry+5BqoaHOF2c0l+tkJHJGgcai+1BqNfA6Bf/+nHTfOIaJtKwRj48/2vRM
+         q0nWU/m4dpMbIf8ZhKscJaWMU43Y5AE1cNvS/b6M+uIXaf5O432hx1Htc8BTTXS6BP
+         t9xEzVNcULqUg==
+Subject: Re: [PATCH v9 3/5] media: docs: add glossary.rst with common terms
+ used at V4L2 spec
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <cover.1588943181.git.mchehab+huawei@kernel.org>
+ <03ae8cfd780924080f48154569c7fa26b6e92ab3.1588943181.git.mchehab+huawei@kernel.org>
+ <cf9f5a08-4c32-febe-52e9-56d2233c387a@xs4all.nl>
+ <20200508162556.048a7868@coco.lan>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <a386a8a4-4340-ea19-2e9f-44e90e8949d9@xs4all.nl>
+Date:   Fri, 8 May 2020 16:54:19 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9614 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 phishscore=0
- bulkscore=0 malwarescore=0 suspectscore=0 adultscore=0 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2003020000 definitions=main-2005080130
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9614 signatures=668687
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxscore=0 mlxlogscore=999
- malwarescore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0
- impostorscore=0 suspectscore=0 adultscore=0 clxscore=1011 phishscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
- definitions=main-2005080130
+In-Reply-To: <20200508162556.048a7868@coco.lan>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfKFWbfZleCwGd2nr2/TEyDCrDWkLtSBoKTbg3y6I4BS9rPxr4MarhK1dZtxHGBwmDtrnVYKa+igSiY+7AEsQLvRIKBX1SXUtP8Km1vLiphr5nVIRJSxo
+ Q62kJW4SD6LKYEaNwHBT689M9VAajwlZ8fF5Kf/pH7rvct4ojaTwVWKEVsR7EQrWcnXMp5i7WsaHeAg8XyPqMvXeGIb98PSZ18KtxvI83jPCgzEgHR1fGv08
+ bF3rdM1HehP7PZspZtWymOcoyuyq/4PQ/Q8azRf7oIYsXVZCfVU3Ki0cfaj12AP+FBF/IpAoOKF/P4fhT61iqg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If fw_csr_string() returns -ENOENT, then "name" is uninitialized.  So
-then the "strlen(model_names[i]) <= name_len" is true because strlen()
-is unsigned and -ENOENT is type promoted to a very high positive value.
-Then the "strncmp(name, model_names[i], name_len)" uses uninitialized
-data because "name" is uninitialized.
+On 08/05/2020 16:25, Mauro Carvalho Chehab wrote:
+> Em Fri, 8 May 2020 15:40:25 +0200
+> Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
+> 
+>> On 08/05/2020 15:10, Mauro Carvalho Chehab wrote:
+>>> Add a glossary of terms used within the media userspace API
+>>> documentation, as several concepts are complex enough to cause
+>>> misunderstandings.
+>>>
+>>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>>> ---
+>>>  .../userspace-api/media/glossary.rst          | 182 ++++++++++++++++++
+>>>  Documentation/userspace-api/media/index.rst   |   3 +
+>>>  2 files changed, 185 insertions(+)
+>>>  create mode 100644 Documentation/userspace-api/media/glossary.rst
+>>>
+>>> diff --git a/Documentation/userspace-api/media/glossary.rst b/Documentation/userspace-api/media/glossary.rst
+>>> new file mode 100644
+>>> index 000000000000..18a1ace00159
+>>> --- /dev/null
+>>> +++ b/Documentation/userspace-api/media/glossary.rst
+>>> @@ -0,0 +1,182 @@
+>>> +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-or-later
+>>> +
+>>> +.. For GPL-2.0, see LICENSES/preferred/GPL-2.0
+>>> +..
+>>> +.. For GFDL-1.1-or-later, see:
+>>> +..
+>>> +.. Permission is granted to copy, distribute and/or modify this document
+>>> +.. under the terms of the GNU Free Documentation License, Version 1.1 or
+>>> +.. any later version published by the Free Software Foundation, with no
+>>> +.. Invariant Sections, no Front-Cover Texts and no Back-Cover Texts.
+>>> +.. A copy of the license is included at
+>>> +.. Documentation/userspace-api/media/fdl-appendix.rst.
+>>> +
+>>> +========
+>>> +Glossary
+>>> +========
+>>> +
+>>> +.. note::
+>>> +
+>>> +   This goal of this section is to standardize the terms used within the media  
+>>
+>> This -> The
+>>
+>>> +   userspace API documentation. It is written incrementally as they are
+>>> +   standardized in the media documentation.
+>>> +
+>>> +   So, it is a Work In Progress.  
+>>
+>> I'd just say:
+>>
+>> userspace API documentation. This is Work in Progress.
+>>
+>>> +
+>>> +.. Please keep the glossary entries in alphabetical order
+>>> +
+>>> +.. glossary::
+>>> +
+>>> +    Bridge Driver
+>>> +	A :term:`device driver` that implements the main logic to talk with
+>>> +	media hardware.
+>>> +
+>>> +    CEC API
+>>> +	**Consumer Electronics Control API**
+>>> +
+>>> +	An API designed to receive and transmit data via an HDMI
+>>> +	CEC interface.
+>>> +
+>>> +	See :ref:`cec`.
+>>> +
+>>> +    Device Driver
+>>> +	Part of the Linux Kernel that implements support for a hardware
+>>> +	component.
+>>> +
+>>> +    Device Node
+>>> +	A character device node in the file system used to control and
+>>> +	ransfer data in and out of a Kernel driver.  
+>>
+>> ransfer -> transfer
+>>
+>>> +
+>>> +    Digital TV API
+>>> +	**Previously known as DVB API**
+>>> +
+>>> +	An API designed to control a subset of the :term:`Media Hardware`
+>>> +	that implements	digital TV.  
+>>
+>> I think it will help to provide some examples, e.g.:
+>>
+>> that implements digital TV (e.g. DVB, ATSC, etc.).
+> 
+> For the above: Ok!
+> 
+>>
+>>> +
+>>> +	See :ref:`dvbapi`.
+>>> +
+>>> +    DSP
+>>> +        **Digital Signal Processor**
+>>> +
+>>> +	A specialized :term:`Microprocessor`, with its architecture
+>>> +	optimized for the operational needs of digital signal processing.
+>>> +
+>>> +    FPGA
+>>> +	**Field-programmable Gate Array**
+>>> +
+>>> +	An :term:`IC` circuit designed to be configured by a customer or
+>>> +	a designer after manufacturing.
+>>> +
+>>> +	See https://en.wikipedia.org/wiki/Field-programmable_gate_array.
+>>> +
+>>> +    I²C
+>>> +	**Inter-Integrated Circuit**
+>>> +
+>>> +	A  multi-master, multi-slave, packet switched, single-ended,
+>>> +	serial computer bus used to control some hardware components
+>>> +	like sub-device hardware components.
+>>> +
+>>> +	See http://www.nxp.com/docs/en/user-guide/UM10204.pdf.
+>>> +
+>>> +    IC
+>>> +	**Integrated circuit**
+>>> +
+>>> +	A set of electronic circuits on one small flat piece of
+>>> +	semiconductor material, normally silicon.
+>>> +
+>>> +	Also known as chip.
+>>> +
+>>> +    IP Block
+>>> +	**Intellectual property core**
+>>> +
+>>> +	In electronic design a semiconductor intellectual property core,
+>>> +	is a reusable unit of logic, cell, or integrated circuit layout
+>>> +	design that is the intellectual property of one party.
+>>> +	IP Blocks may be licensed to another party or can be owned
+>>> +	and used by a single party alone.
+>>> +
+>>> +	See https://en.wikipedia.org/wiki/Semiconductor_intellectual_property_core).
+>>> +
+>>> +    ISP
+>>> +	**Image Signal Processor**
+>>> +
+>>> +	A specialized processor that implements a set of algorithms for
+>>> +	processing image data. ISPs may implement algorithms for lens
+>>> +	shading correction, demosaicing, scaling and pixel format conversion
+>>> +	as well as produce statistics for the use of the control
+>>> +	algorithms (e.g. automatic exposure, white balance and focus).
+>>> +
+>>> +    Media API
+>>> +	A set of userspace APIs used to control the media hardware. It is
+>>> +	composed by:
+>>> +
+>>> +	  - :term:`CEC API`;
+>>> +	  - :term:`Digital TV API`;
+>>> +	  - :term:`MC API`;
+>>> +	  - :term:`RC API`; and
+>>> +	  - :term:`V4L2 API`.
+>>> +
+>>> +	See :doc:`v4l/v4l2`.  
+>>
+>> Is that the right reference? I'd expect that v4l/v4l2 refers to the V4L2 API
+>> and not the whole media API.
+> 
+> That's the right reference: userspace-api/media/v4l/v4l2.rst file has
+> just the V4L2 API.
 
-Fixes: 92374e886c75 ("[media] firedtv: drop obsolete backend abstraction")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/media/firewire/firedtv-fw.c | 2 ++
- 1 file changed, 2 insertions(+)
+That's what I mean: This is the glossary entry for 'Media API', so why have a reference
+to the V4L2 API? I expect to see a reference to the top-level media API.
 
-diff --git a/drivers/media/firewire/firedtv-fw.c b/drivers/media/firewire/firedtv-fw.c
-index 97144734eb052..3f1ca40b9b987 100644
---- a/drivers/media/firewire/firedtv-fw.c
-+++ b/drivers/media/firewire/firedtv-fw.c
-@@ -272,6 +272,8 @@ static int node_probe(struct fw_unit *unit, const struct ieee1394_device_id *id)
- 
- 	name_len = fw_csr_string(unit->directory, CSR_MODEL,
- 				 name, sizeof(name));
-+	if (name_len < 0)
-+		return name_len;
- 	for (i = ARRAY_SIZE(model_names); --i; )
- 		if (strlen(model_names[i]) <= name_len &&
- 		    strncmp(name, model_names[i], name_len) == 0)
--- 
-2.26.2
+> 
+> The entire API file is now at userspace-api/media/index.html.
+> 
+>>
+>>> +
+>>> +    MC API
+>>> +	**Media Controller API**
+>>> +
+>>> +	An API designed to expose and control the relationships between
+>>> +	devices and sub-devices.  
+>>
+>> I'd say 'media devices and sub-devices'. Otherwise it would suggest that
+>> the MC API also supports non-media devices.
+> 
+> Yeah, it sounds too generic, but MC is currently used also by audio
+> devices.>
+> Ok, "audio" is "media", but not covered by this spec. 
+> 
+> We might use "multimedia" or some similar word. What do you think?
+
+Multimedia is fine. Or audio/video.
+
+Regards,
+
+	Hans
+
+> 
+> Thanks,
+> Mauro
+> 
 
