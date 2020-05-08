@@ -2,161 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 630AE1C9F3D
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 01:40:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 382FB1C9F76
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 02:11:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726690AbgEGXkM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 May 2020 19:40:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50372 "EHLO
+        id S1726612AbgEHAL2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 May 2020 20:11:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726464AbgEGXkM (ORCPT
+        by vger.kernel.org with ESMTP id S1726480AbgEHAL2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 May 2020 19:40:12 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B22A3C05BD43;
-        Thu,  7 May 2020 16:40:11 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id 188so8413764wmc.2;
-        Thu, 07 May 2020 16:40:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=LeEjSoC+KWHnDVL+GAb88TtcLPL+vxgTH1UqxiwLGBE=;
-        b=jJI7iisBRN9lUPdFF2pIY3P84wTuq5rziNa8d2Njwyf5twXA4f2pAJ22picElxpgCN
-         RyBGlJMHmqCVyGXHpafltfYuFvjwQjXLeErMK7RbRKwR4i+jSCyDu/Gm9UGj92UXGQQV
-         4xuAE50GfM5+SUDeyXcWbvxi81C49veMoelfexh+sxYyvi6Xd3Hf9sHZwf2oJcdfqZ4c
-         sj/MaurplX/+lA2Srv921WfXEfqyWGZrz6mDmuGsdFSU76YgtdC4NYP5L4n7Aew+1boG
-         OaND5pJ0wkJhUVj19FxWH28LxXSvtdi1BUQOEzbpOOID4pvqpenZMTLZ0B7mDjS+3XJS
-         cwzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=LeEjSoC+KWHnDVL+GAb88TtcLPL+vxgTH1UqxiwLGBE=;
-        b=jiZljHK0WfI1Gx9c+fGgGEToEg4nkelLgtW741GtzmGN/a1Tmd/g6VKGyb9ksNBTxd
-         MVfRZFkURuOgzGDUs+G5p3LhZHt8ShnHBtbIaEqQkc9Lk+iDkmwUeq4kDX+HfHJcmoeX
-         Nu9IgF5GEcQIjUbQAwYAV1VmsmTpq0H/B2JLgl1wh35MzA54BuQlytNL+wJWDlW+ASAG
-         uy5EBg4H8d1DiNNOQ8qCywOYu5t+15IPl3BQ2bOqXfcSF16O38UTJ+nMTrd31iId0hMd
-         DyxLgwzLt02Ty2FFBDqiAbKufMfTBX0RsL5buO5KqIPQ8XgaEu+DmGS/p5MVhksp2MqG
-         qOOA==
-X-Gm-Message-State: AGi0Pubgg2A1CxrntbnDiwrKeqNLIWDnP4pT5xmI8KJBvrsKsdpvchcN
-        WTeMLbjK3QWN3dY6N+AHIuU=
-X-Google-Smtp-Source: APiQypIMjl0Gv1T78MM/jPEcJHt9TQ1o4EZ7MA/8Dhv4FzUE6INX4d2J+WXVM11MeDplM6s2Vrwqbg==
-X-Received: by 2002:a05:600c:22d3:: with SMTP id 19mr13644233wmg.110.1588894810321;
-        Thu, 07 May 2020 16:40:10 -0700 (PDT)
-Received: from [192.168.2.1] (ip51ccf9cd.speed.planet.nl. [81.204.249.205])
-        by smtp.gmail.com with ESMTPSA id c128sm10549504wma.42.2020.05.07.16.40.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 May 2020 16:40:09 -0700 (PDT)
-Subject: Re: [PATCH v3 2/4] arm64: dts: rockchip: Add RGA support to the PX30
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     devicetree@vger.kernel.org, ezequiel@collabora.com,
-        hansverk@cisco.com, heiko@sntech.de,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, robh+dt@kernel.org,
-        thomas.petazzoni@bootlin.com
-References: <20200430164245.1630174-3-paul.kocialkowski@bootlin.com>
- <c3954924-c220-73ef-06dd-85b6876be819@gmail.com>
- <20200507202558.GK2422122@aptenodytes>
-From:   Johan Jonker <jbx6244@gmail.com>
-Message-ID: <7112d1fa-a872-c66f-0ece-a77ba1f852de@gmail.com>
-Date:   Fri, 8 May 2020 01:40:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Thu, 7 May 2020 20:11:28 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65684C05BD43
+        for <linux-media@vger.kernel.org>; Thu,  7 May 2020 17:11:28 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2A04D329;
+        Fri,  8 May 2020 02:11:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1588896685;
+        bh=8HqLKIiW4kNe6jbWW+3KuwYo4dkxOd+zovw79HxFiYI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=UyNytcYmkpxPJLQDuTLIeTEk44E7xlkt83MaUmg4rP/cfLW1BMSUTIF9uWKm1rpoC
+         9jjSF+BxwNCBrtELZLMhnJhxi8Jl6khYqj5UXmfFUv4taVMPPvVD9HqIWDNWd83mk5
+         q3L2BGVo/+EDiKA01lsmakC66W9BgwVYJPPbs7dk=
+Date:   Fri, 8 May 2020 03:11:19 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Naushir Patuck <naush@raspberrypi.com>
+Subject: Re: [PATCH v2 06/34] staging: vc04_services: Add new vc-sm-cma driver
+Message-ID: <20200508001119.GI5838@pendragon.ideasonboard.com>
+References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
+ <20200504092611.9798-7-laurent.pinchart@ideasonboard.com>
+ <4e42a593f16614e913613150a90e851acbfcaa8c.camel@suse.de>
+ <CAPY8ntB3RCwzCzj+v0QEQp19f-X7tgfhFZ_DK3-LUiWXGK0eNA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200507202558.GK2422122@aptenodytes>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntB3RCwzCzj+v0QEQp19f-X7tgfhFZ_DK3-LUiWXGK0eNA@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Hi Dave,
 
-On 5/7/20 10:25 PM, Paul Kocialkowski wrote:
-> Hi,
+On Wed, May 06, 2020 at 08:24:38PM +0100, Dave Stevenson wrote:
+> On Wed, 6 May 2020 at 19:04, Nicolas Saenz Julienne wrote:
+> > On Mon, 2020-05-04 at 12:25 +0300, Laurent Pinchart wrote:
+> >> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> >>
+> >> Add Broadcom VideoCore Shared Memory support.
+> >>
+> >> This new driver allows contiguous memory blocks to be imported
+> >> into the VideoCore VPU memory map, and manages the lifetime of
+> >> those objects, only releasing the source dmabuf once the VPU has
+> >> confirmed it has finished with it.
+> >
+> > I'm still digesting all this, but a question came up, who is using the
+> > ioctls?
 > 
-> On Fri 01 May 20, 00:05, Johan Jonker wrote:
->> Hi Paul,
->>
->>> The PX30 features a RGA block: add the necessary node to support it.
->>>
->>> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
->>> ---
->>>  arch/arm64/boot/dts/rockchip/px30.dtsi | 11 +++++++++++
->>>  1 file changed, 11 insertions(+)
->>>
->>> diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
->>> index f809dd6d5dc3..3de70aa4f1ce 100644
->>> --- a/arch/arm64/boot/dts/rockchip/px30.dtsi
->>> +++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
->>> @@ -1102,6 +1102,17 @@ vopl_mmu: iommu@ff470f00 {
->>>  		status = "disabled";
->>>  	};
->>>  
->>> +	rga: rga@ff480000 {
->>> +		compatible = "rockchip,px30-rga", "rockchip,rk3288-rga";
->>> +		reg = <0x0 0xff480000 0x0 0x10000>;
->>> +		interrupts = <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH 0>;
->>> +		clocks = <&cru ACLK_RGA>, <&cru HCLK_RGA>, <&cru SCLK_RGA_CORE>;
->>> +		clock-names = "aclk", "hclk", "sclk";
->>
->>> +		resets = <&cru SRST_RGA>, <&cru SRST_RGA_A>, <&cru SRST_RGA_H>;
->>> +		reset-names = "core", "axi", "ahb";
->>> +		power-domains = <&power PX30_PD_VO>;
->>
->> sort
->>
->> 		power-domains = <&power PX30_PD_VO>;
->> 		resets = <&cru SRST_RGA>, <&cru SRST_RGA_A>, <&cru SRST_RGA_H>;
->> 		reset-names = "core", "axi", "ahb";
+> We have a userspace library that uses it [1].
+> It is used by things like MMAL to share buffers between the VPU and
+> ARM, rather than having to get VCHI to copy all the data between
+> mirrored buffers.
 > 
-> What's the rationale behind this (besides alphabetic sorting, which I don't
-> believe is a rule for dt properties)? Some nodes above in the file have it in
-> the same order that I do, and I like to see clocks followed by resets.
-
-My short list.
-There is no hard rule... It mostly depend on Heiko...
-
-For nodes:
-If exists on top: model, compatible and chosen.
-Sort things without reg alphabetical first,
-then sort the rest by reg address.
-
-Inside nodes:
-If exists on top: compatible, reg and interrupts.
-In alphabetical order the required properties.
-Then in alphabetical order the other properties.
-And as last things that start with '#' in alphabetical order.
-Add status below all other properties for soc internal components with
-any board-specifics.
-Keep an empty line between properties and nodes.
-
-Exceptions:
-Sort pinctrl-0 above pinctrl-names, so it stays in line with clock-names
-and dma-names.
-Sort simple-audio-card,name above other simple-audio-card properties.
-Sort regulator-name above other regulator properties.
-Sort regulator-min-microvolt above regulator-max-microvolt.
-
+> I think what has happened here is that Laurent has picked up the
+> version of the driver from the top of our downstream kernel tree.
+> For libcamera and the ISP driver, we need a significantly smaller
+> feature set, basically import of dmabufs only, no allocations or cache
+> management. For the ISP driver it's mainly dmabuf import from
+> videobuf2 for the image buffers, but there's also a need to pass in
+> lens shading tables which are relatively large. With a small amount of
+> rework in libcamera, we can make it so that we use dma-buf heaps to do
+> the allocation, and pass in a dmabuf fd to the ISP driver to then map
+> onto the VPU. That removes all the ioctls handling from this driver.
 > 
-> Cheers,
+> Downstream we do have other use cases that want to be able to do other
+> functions on shared memory, but that too should be reworkable into
+> using dma-buf heaps for allocations, and vcsm only handles importing
+> dmabufs via an ioctl. All that can be hidden away in the vcsm library,
+> so applications don't care.
+> We've also got some legacy code kicking around, as there was
+> originally a version of the driver that mapped the VPU's memory blocks
+> to the ARM. That's why the vcsm library has two code paths through
+> almost every function - one for each driver.
 > 
-> Paul
-> 
->>
->>
->>> +	};
->>> +
->>>  	qos_gmac: qos@ff518000 {
->>>  		compatible = "syscon";
->>>  		reg = <0x0 0xff518000 0x0 0x20>;
->>> -- 
->>> 2.26.0
->>
-> 
+> Laurent: What's your view? Halt the review this particular patch for
+> now and rework, or try and get this all integrated?
+> Mainline obviously already has dma-buf heaps merged, whilst I have a
+> PR cherry-picking it back into our downstream 5.4. The main reason it
+> hasn't been merged is that I haven't had a test case to prove it
+> works. The rework should be relatively simple, but will need small
+> updates to both libcamera and ISP driver.
 
+My preference would be to go for a solution based on dma-buf heap right
+away for mainline, to minimize the code going into staging. There's no
+hurry there, and I can help integrating the changes in libcamera if
+needed.
+
+> [1] https://github.com/raspberrypi/userland/tree/master/host_applications/linux/libs/sm
+> 
+> >> Driver upported from the RaspberryPi BSP at revision:
+> >> 890691d1c996 ("staging: vc04_services: Fix vcsm overflow bug when
+> >> counting transactions")
+> >> forward ported to recent mainline kernel version.
+> >>
+> >> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> >> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> >> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> >> ---
+> >>  drivers/staging/vc04_services/Kconfig         |    2 +
+> >>  drivers/staging/vc04_services/Makefile        |    1 +
+> >>  .../include/linux/broadcom/vc_sm_cma_ioctl.h  |  114 ++
+> >>  .../staging/vc04_services/vc-sm-cma/Kconfig   |   10 +
+> >>  .../staging/vc04_services/vc-sm-cma/Makefile  |   13 +
+> >>  drivers/staging/vc04_services/vc-sm-cma/TODO  |    1 +
+> >>  .../staging/vc04_services/vc-sm-cma/vc_sm.c   | 1732 +++++++++++++++++
+> >>  .../staging/vc04_services/vc-sm-cma/vc_sm.h   |   84 +
+> >>  .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.c  |  505 +++++
+> >>  .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.h  |   63 +
+> >>  .../vc04_services/vc-sm-cma/vc_sm_defs.h      |  300 +++
+> >>  .../vc04_services/vc-sm-cma/vc_sm_knl.h       |   28 +
+> >>  12 files changed, 2853 insertions(+)
+> >>  create mode 100644
+> >> drivers/staging/vc04_services/include/linux/broadcom/vc_sm_cma_ioctl.h
+> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Kconfig
+> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Makefile
+> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/TODO
+> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.c
+> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.h
+> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
+> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.h
+> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_defs.h
+> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_knl.h
+
+-- 
+Regards,
+
+Laurent Pinchart
