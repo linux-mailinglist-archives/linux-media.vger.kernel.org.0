@@ -2,147 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 382FB1C9F76
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 02:11:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DDB61CA077
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 04:03:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726612AbgEHAL2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 7 May 2020 20:11:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55274 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726480AbgEHAL2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 7 May 2020 20:11:28 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65684C05BD43
-        for <linux-media@vger.kernel.org>; Thu,  7 May 2020 17:11:28 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2A04D329;
-        Fri,  8 May 2020 02:11:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1588896685;
-        bh=8HqLKIiW4kNe6jbWW+3KuwYo4dkxOd+zovw79HxFiYI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=UyNytcYmkpxPJLQDuTLIeTEk44E7xlkt83MaUmg4rP/cfLW1BMSUTIF9uWKm1rpoC
-         9jjSF+BxwNCBrtELZLMhnJhxi8Jl6khYqj5UXmfFUv4taVMPPvVD9HqIWDNWd83mk5
-         q3L2BGVo/+EDiKA01lsmakC66W9BgwVYJPPbs7dk=
-Date:   Fri, 8 May 2020 03:11:19 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Naushir Patuck <naush@raspberrypi.com>
-Subject: Re: [PATCH v2 06/34] staging: vc04_services: Add new vc-sm-cma driver
-Message-ID: <20200508001119.GI5838@pendragon.ideasonboard.com>
-References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
- <20200504092611.9798-7-laurent.pinchart@ideasonboard.com>
- <4e42a593f16614e913613150a90e851acbfcaa8c.camel@suse.de>
- <CAPY8ntB3RCwzCzj+v0QEQp19f-X7tgfhFZ_DK3-LUiWXGK0eNA@mail.gmail.com>
+        id S1726598AbgEHCDH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 7 May 2020 22:03:07 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:7574 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726538AbgEHCDG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 7 May 2020 22:03:06 -0400
+X-UUID: 0ae10075a48645848c62f2f38851ad5e-20200508
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=xhErCNTGA4K1pAz3pSf/U2DgPhd9wGG9OEf9rfF2qB8=;
+        b=ihVKjETOtq4XPJCDKgw0f5xDFJOeMBOhYUiefX3gnLUA/uUUbeQ4+9cYCW9m9lh3nGOrwLCxn6ao60EN/LXglr3U1TVcxGL90cTR1dX/sOZ2hSUmfCle7C+2eMZwO2b6AcReTpo8xlYvx1nI6rolKTwrEU1hhI6XQBSyHZ4jzdQ=;
+X-UUID: 0ae10075a48645848c62f2f38851ad5e-20200508
+Received: from mtkcas10.mediatek.inc [(172.21.101.39)] by mailgw02.mediatek.com
+        (envelope-from <jerry-ch.chen@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 2064779321; Fri, 08 May 2020 10:02:53 +0800
+Received: from mtkcas07.mediatek.inc (172.21.101.84) by
+ mtkmbs08n2.mediatek.inc (172.21.101.56) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Fri, 8 May 2020 10:02:51 +0800
+Received: from [172.21.84.99] (172.21.84.99) by mtkcas07.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 8 May 2020 10:02:50 +0800
+Message-ID: <1588903371.16825.14.camel@mtksdccf07>
+Subject: Re: [RFC PATCH V4 0/4] media: platform: Add support for Face
+ Detection (FD) on mt8183 SoC
+From:   Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
+To:     "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>
+CC:     "laurent.pinchart+renesas@ideasonboard.com" 
+        <laurent.pinchart+renesas@ideasonboard.com>,
+        "tfiga@chromium.org" <tfiga@chromium.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "pihsun@chromium.org" <pihsun@chromium.org>,
+        "yuzhao@chromium.org" <yuzhao@chromium.org>,
+        "zwisler@chromium.org" <zwisler@chromium.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?= 
+        <Sean.Cheng@mediatek.com>,
+        "Sj Huang =?UTF-8?Q?=28=E9=BB=83=E4=BF=A1=E7=92=8B=29?=" 
+        <sj.huang@mediatek.com>,
+        Christie Yu =?UTF-8?Q?=28=E6=B8=B8=E9=9B=85=E6=83=A0=29?= 
+        <christie.yu@mediatek.com>,
+        Frederic Chen =?UTF-8?Q?=28=E9=99=B3=E4=BF=8A=E5=85=83=29?= 
+        <Frederic.Chen@mediatek.com>,
+        Jungo Lin =?UTF-8?Q?=28=E6=9E=97=E6=98=8E=E4=BF=8A=29?= 
+        <jungo.lin@mediatek.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Date:   Fri, 8 May 2020 10:02:51 +0800
+In-Reply-To: <20191204124732.10932-1-Jerry-Ch.chen@mediatek.com>
+References: <20191204124732.10932-1-Jerry-Ch.chen@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.2.3-0ubuntu6 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntB3RCwzCzj+v0QEQp19f-X7tgfhFZ_DK3-LUiWXGK0eNA@mail.gmail.com>
+X-TM-SNTS-SMTP: D3865495D52D3B1B12527068DC0C2A006499A4DC78BD746801E96892862A5F8D2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+SGkgTGF1cmVudCwgVG9tYXN6LCBNYXR0aGlhcywNCg0KZ2VudGxlIHBpbmcgZm9yIHRoaXMgcGF0
+Y2ggc2V0LA0KSWYgbm8gbmV3IGNvbW1lbnRzLCBJIHdvdWxkIGxpa2UgdG8gc2VuZCBhIG5ld2Vy
+IHZlcnNpb24uDQoNClRoYW5rcyBhbmQgQmVzdCBSZWdhcmRzLA0KSmVycnkNCg0KT24gV2VkLCAy
+MDE5LTEyLTA0IGF0IDIwOjQ3ICswODAwLCBKZXJyeS1jaCBDaGVuIHdyb3RlOg0KPiBIZWxsbywN
+Cj4gDQo+IFRoaXMgUkZDIHBhdGNoIHNlcmllcyBpcyBhZGRpbmcgRmFjZSBEZXRlY3Rpb24gKEZE
+KSBkcml2ZXIgb24gTWVkaWF0ZWsNCj4gbXQ4MTgzIFNvQy4gSXQgYmVsb25ncyB0byB0aGUgZmly
+c3QgTWVkaWF0ZWsncyBjYW1lcmEgZHJpdmVyIHNlcmllcyBiYXNlZA0KPiBvbiBWNEwyIGFuZCBt
+ZWRpYSBjb250cm9sbGVyIGZyYW1ld29yay4gSSBwb3N0ZWQgdGhlIG1haW4gcGFydCBvZiB0aGUg
+RkQNCj4gZHJpdmVyIGFzIFJGQyB0byBkaXNjdXNzIGZpcnN0IGFuZCB3b3VsZCBsaWtlIHNvbWUg
+cmV2aWV3IGNvbW1lbnRzLg0KPiANCj4gPT09PT09PT09PT09PT0NCj4gSW50cm9kdWN0aW9uDQo+
+ID09PT09PT09PT09PT09DQo+IA0KPiBGYWNlIERldGVjdGlvbiAoRkQpIHVuaXQgcHJvdmlkZXMg
+aGFyZHdhcmUgYWNjZWxlcmF0ZWQgZmFjZSBkZXRlY3Rpb24NCj4gZmVhdHVyZS4gSXQgY2FuIGRl
+dGVjdCBkaWZmZXJlbnQgc2l6ZXMgb2YgZmFjZXMgaW4gYSBnaXZlbiBpbWFnZS4NCj4gDQo+IFRo
+ZSBkcml2ZXIgaXMgaW1wbGVtZW50ZWQgYXMgYSBub3JtYWwgVjRMMiBtZW1vcnktdG8tbWVtb3J5
+IGRldmljZSBhbmQNCj4gc3VwcG9ydHMgVjRMMiBjb250cm9scyBmb3IgZGV0ZWN0aW9uIHNldHRp
+bmdzLiBJdCBoYXMgdHdvIGJ1ZmZlciBxdWV1ZXMuDQo+IA0KPiAxLiBWaWRlbyBvdXRwdXQgYnVm
+ZmVyOiBSQVcgaW1hZ2UgZm9yIGZhY2UgZGV0ZWN0aW9uLg0KPiANCj4gMi4gTWV0YSBjYXB0dXJl
+IGJ1ZmZlcjogUmVzdWx0IG9mIHRoZSBkZXRlY3RlZCBmYWNlcy4NCj4gDQo+ID09PT09PT09PT09
+PT09PT09PQ0KPiBDaGFuZ2VzIGluIHY0DQo+ID09PT09PT09PT09PT09PT09PQ0KPiANCj4gUkZD
+IHY0IGluY2x1ZGVzIHRoZSBmb2xsb3dpbmcgbW9kaWZpY2F0aW9uOg0KPiAxLiBJbmNsdWRlcyB2
+NGwyLW1lbTJtZW0gY2hhbmdlczogYWRkIHY0bDJfbTJtX3N1c3BlbmQsIHY0bDJfbTJtX3Jlc3Vt
+ZQ0KPiANCj4gMi4gTW92ZSBGRCBWNEwyIGNvbnRyb2wgaWRzIGJhY2sgaW5zaWRlIEZEIGRyaXZl
+cg0KPiANCj4gMy4gRGVwZW5kIG9uIG5ld2VyIFNDUCBkcml2ZXIgYXBpDQo+IA0KPiA0LiBBZGQg
+ZXhpdCBodyBmbG93IGZvciBGRCBkcml2ZXINCj4gDQo+IDUuIEFkZCBoYXJkd2FyZSB0aW1lb3V0
+IGhhbmRsaW5nIGluIHRoZSBGRCBmaXJtd2FyZQ0KPiANCj4gNi4gTW92ZSBhbGxvY2F0aW9uIG9m
+IGRtYSBidWZmZXIgZnJvbSBjb25uZWN0IC8gZGlzY29ubmVjdCB0byBkcml2ZXIgcHJvYmUNCj4g
+LyByZW1vdmUNCj4gDQo+IFRvZG86DQo+ICAtIEFkZCB2NGwyIGNvbnRyb2wgbWVudXMgZm9yIHBy
+aXZhdGUgbXRrIGZkIGNvbnRyb2wNCj4gPT09PT09PT09PT09PT09PT09DQo+IENoYW5nZXMgaW4g
+djMNCj4gPT09PT09PT09PT09PT09PT09DQo+IA0KPiBSRkMgdjMgaW5jbHVkZXMgdGhlIGZvbGxv
+d2luZyBtb2RpZmljYXRpb246DQo+IDEuIEFkanVzdCB0aGUgcHJpdmF0ZSBjb250cm9sIGlkcyBh
+bmQgcGxhY2UgdGhlbSBpbg0KPiAgaW5jbHVkZS91YXBpL2xpbnV4L210ay1mZC12NGwyLWNvbnRy
+b2xzLmgNCj4gDQo+IDIuIE1lcmdlIHN0cnVjdCBtdGtfZmRfaHcgaW5mbyBzdHJ1Y3QgbXRrX2Zk
+X2Rldg0KPiANCj4gMy4gRGVmaW5lIEZEIG1ldGEgY2FwdHVyZSBidWZmZXIgaW4gaW5jbHVkZS91
+YXBpL2xpbnV4L3ZpZGVvZGV2Mi5oDQo+IA0KPiA0LiBSZW1vdmUgdGhlIHVzYWdlIG9mIGdldF9y
+ZXNlcnZlZF9tZW1vcnkgYnkgc2NwIGRyaXZlciwNCj4gIHVzZSBkbWFfYWxsb2MgYXBpIGluc3Rl
+YWQNCj4gDQo+IFRvZG86DQo+ICAtIEFkZCB2NGwyIGNvbnRyb2wgbWVudXMgZm9yIHByaXZhdGUg
+bXRrIGZkIGNvbnRyb2wNCj4gIC0gUmVmaW5lIHRoZSBqb2IgZmluaXNoIGZsb3cgd2hlbiBzeXN0
+ZW0gc3VzcGVuZA0KPiA9PT09PT09PT09PT09PT09PT0NCj4gQ2hhbmdlcyBpbiB2Mg0KPiA9PT09
+PT09PT09PT09PT09PT0NCj4gDQo+IFJGQyB2MiBpbmNsdWRlcyB0aGUgZm9sbG93aW5nIG1vZGlm
+aWNhdGlvbjoNCj4gMS4gSW1wbGVtZW50IEZEIGFzIGEgVjRMMiBtZW0ybWVtIGRyaXZlcg0KPiAN
+Cj4gMi4gUmVwbGFjZSBtZXRhIGlucHV0IHdpdGggVjRMMiBjb250cm9scw0KPiANCj4gPT09PT09
+PT09PT09PT09PT09DQo+IENoYW5nZXMgaW4gdjENCj4gPT09PT09PT09PT09PT09PT09DQo+IA0K
+PiBSRkMgdjEgaW5jbHVkZXMgdGhlIGZvbGxvd2luZyBtb2RpZmljYXRpb246DQo+IDEuIFVzZXMg
+UmVxdWVzdCBBUEkgaW5zdGVhZCBvZiBGRCdzIGJ1ZmZlciBjb2xsZWN0aW9uIGRlc2lnbg0KPiAN
+Cj4gMi4gcmVtb3ZlZCB1bm5lY2Vzc2FyeSBhYnN0cmFjdGlvbiBzdHJ1Y3R1cmFsbHksIGluY2x1
+ZGluZyBtdGtfZmRfY3R4IGFuZA0KPiByZWxhdGVkIG9wcw0KPiANCj4gMy4gcmVtb3ZlZCB0aGUg
+ZmRfc21lbSBub2RlIGZyb20gZGV2aWNlIHRyZWUNCj4gDQo+IDQuIEZpeGVkIHRoZSBjb21tb24g
+aXNzdWVzIFRvbWFzeiBjb21tZW50ZWQgb24gTWVkaWF0ZWsgSVNQIFBhc3MgMSdzIFJGQyB2MA0K
+PiBwYXRjaCBzZXJpZXMNCj4gDQo+ID09PT09PT09PT09PT09PT09PQ0KPiBEZXBlbmRlbnQgcGF0
+Y2gNCj4gPT09PT09PT09PT09PT09PT09DQo+IA0KPiBGRCBkcml2ZXIgZGVwZW5kcyBvbiBTQ1Ag
+ZHJpdmVyLiBUaGUgcGF0Y2hlcyBhcmUgYXMgZm9sbG93aW5nOg0KPiANCj4gWzFdLiBBZGQgc3Vw
+cG9ydCBmb3IgbXQ4MTgzIFNDUA0KPiBodHRwczovL3BhdGNod29yay5rZXJuZWwub3JnL2NvdmVy
+LzExNTIzNTAvDQo+IA0KPiA9PT09PT09PT09PT09PT09PT0NCj4gQ29tcGxpYW5jZSB0ZXN0DQo+
+ID09PT09PT09PT09PT09PT09PQ0KPiANCj4gKiBWZXJzaW9uOiBodHRwczovL2dpdC5saW51eHR2
+Lm9yZy92NGwtdXRpbHMuZ2l0L2NvbW1pdC8/aWQ9YjE2ZjllOTQ1ZDc0YWE1DQo+ICogTm90ZTog
+U29tZSBmYWlsdXJlcyBhcmUgY2F1c2VkIGJ5IHRoZSBpbXBsZW1lbnRhdGlvbiBvZiBGRCBkcml2
+ZXIsDQo+ICAgICAgICAgd2hpYyBpcyBhIG0ybSBkZXZpY2Ugd2l0aCBWSURFT19PVVQgYW5kIE1F
+VEFfQ0FQVFVSRSBxdWV1ZXMsDQo+ICAgICAgICAgdGhlcmVmb3JlIHdlIGNhbid0IHNldCBWNEwy
+X0NBUF9WSURFT19NMk0gaW4gZGV2aWNlIGNhcGFiaWxpdHksIGFuZA0KPiAgICAgICAgIGZhaWwg
+aW4gc29tZSBub24tbTJtIHY0bDIgdGVzdCBjYXNlcy4NCj4gKiBUZXN0IGNvbW1hbmQ6IHY0bDIt
+Y29tcGxpYW5jZSAtbSAyDQo+ICogdGVzdCBvdXRwdXQ6DQo+IA0KPiB2NGwyLWNvbXBsaWFuY2Ug
+U0hBOiBub3QgYXZhaWxhYmxlLCAzMiBiaXRzDQo+IA0KPiBDb21wbGlhbmNlIHRlc3QgZm9yIG10
+ay1mZC00LjAgZGV2aWNlIC9kZXYvbWVkaWEyOg0KPiANCj4gTWVkaWEgRHJpdmVyIEluZm86DQo+
+ICAgICAgICAgRHJpdmVyIG5hbWUgICAgICA6IG10ay1mZC00LjANCj4gICAgICAgICBNb2RlbCAg
+ICAgICAgICAgIDogbXRrLWZkLTQuMA0KPiAgICAgICAgIFNlcmlhbCAgICAgICAgICAgOg0KPiAg
+ICAgICAgIEJ1cyBpbmZvICAgICAgICAgOiBwbGF0Zm9ybToxNTAyYjAwMC5mZA0KPiAgICAgICAg
+IE1lZGlhIHZlcnNpb24gICAgOiA0LjE5Ljg0DQo+ICAgICAgICAgSGFyZHdhcmUgcmV2aXNpb246
+IDB4MDAwMDAwMDAgKDApDQo+ICAgICAgICAgRHJpdmVyIHZlcnNpb24gICA6IDQuMTkuODQNCj4g
+DQo+IFJlcXVpcmVkIGlvY3RsczoNCj4gICAgICAgICB0ZXN0IE1FRElBX0lPQ19ERVZJQ0VfSU5G
+TzogT0sNCj4gDQo+IEFsbG93IGZvciBtdWx0aXBsZSBvcGVuczoNCj4gICAgICAgICB0ZXN0IHNl
+Y29uZCAvZGV2L21lZGlhMiBvcGVuOiBPSw0KPiAgICAgICAgIHRlc3QgTUVESUFfSU9DX0RFVklD
+RV9JTkZPOiBPSw0KPiAgICAgICAgIHRlc3QgZm9yIHVubGltaXRlZCBvcGVuczogT0sNCj4gDQo+
+IE1lZGlhIENvbnRyb2xsZXIgaW9jdGxzOg0KPiAgICAgICAgIHRlc3QgTUVESUFfSU9DX0dfVE9Q
+T0xPR1k6IE9LDQo+ICAgICAgICAgRW50aXRpZXM6IDMgSW50ZXJmYWNlczogMSBQYWRzOiA0IExp
+bmtzOiA0DQo+ICAgICAgICAgdGVzdCBNRURJQV9JT0NfRU5VTV9FTlRJVElFUy9MSU5LUzogT0sN
+Cj4gICAgICAgICB0ZXN0IE1FRElBX0lPQ19TRVRVUF9MSU5LOiBPSw0KPiANCj4gVG90YWwgZm9y
+IG10ay1mZC00LjAgZGV2aWNlIC9kZXYvbWVkaWEyOiA3LCBTdWNjZWVkZWQ6IDcsIEZhaWxlZDog
+MCwgV2FybmluZ3M6IDANCj4gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4gQ29tcGxpYW5jZSB0
+ZXN0IGZvciBtdGstZmQtNC4wIGRldmljZSAvZGV2L3ZpZGVvMzI6DQo+IA0KPiBEcml2ZXIgSW5m
+bzoNCj4gICAgICAgICBEcml2ZXIgbmFtZSAgICAgIDogbXRrLWZkLTQuMA0KPiAgICAgICAgIENh
+cmQgdHlwZSAgICAgICAgOiBtdGstZmQtNC4wDQo+ICAgICAgICAgQnVzIGluZm8gICAgICAgICA6
+IHBsYXRmb3JtOjE1MDJiMDAwLmZkDQo+ICAgICAgICAgRHJpdmVyIHZlcnNpb24gICA6IDQuMTku
+ODQNCj4gICAgICAgICBDYXBhYmlsaXRpZXMgICAgIDogMHg4NGEwMjAwMA0KPiAgICAgICAgICAg
+ICAgICAgVmlkZW8gT3V0cHV0IE11bHRpcGxhbmFyDQo+ICAgICAgICAgICAgICAgICBNZXRhZGF0
+YSBDYXB0dXJlDQo+ICAgICAgICAgICAgICAgICBTdHJlYW1pbmcNCj4gICAgICAgICAgICAgICAg
+IEV4dGVuZGVkIFBpeCBGb3JtYXQNCj4gICAgICAgICAgICAgICAgIERldmljZSBDYXBhYmlsaXRp
+ZXMNCj4gICAgICAgICBEZXZpY2UgQ2FwcyAgICAgIDogMHgwNGEwMjAwMA0KPiAgICAgICAgICAg
+ICAgICAgVmlkZW8gT3V0cHV0IE11bHRpcGxhbmFyDQo+ICAgICAgICAgICAgICAgICBNZXRhZGF0
+YSBDYXB0dXJlDQo+ICAgICAgICAgICAgICAgICBTdHJlYW1pbmcNCj4gICAgICAgICAgICAgICAg
+IEV4dGVuZGVkIFBpeCBGb3JtYXQNCj4gTWVkaWEgRHJpdmVyIEluZm86DQo+ICAgICAgICAgRHJp
+dmVyIG5hbWUgICAgICA6IG10ay1mZC00LjANCj4gICAgICAgICBNb2RlbCAgICAgICAgICAgIDog
+bXRrLWZkLTQuMA0KPiAgICAgICAgIFNlcmlhbCAgICAgICAgICAgOg0KPiAgICAgICAgIEJ1cyBp
+bmZvICAgICAgICAgOiBwbGF0Zm9ybToxNTAyYjAwMC5mZA0KPiAgICAgICAgIE1lZGlhIHZlcnNp
+b24gICAgOiA0LjE5Ljg0DQo+ICAgICAgICAgSGFyZHdhcmUgcmV2aXNpb246IDB4MDAwMDAwMDAg
+KDApDQo+ICAgICAgICAgRHJpdmVyIHZlcnNpb24gICA6IDQuMTkuODQNCj4gSW50ZXJmYWNlIElu
+Zm86DQo+ICAgICAgICAgSUQgICAgICAgICAgICAgICA6IDB4MDMwMDAwMGMNCj4gICAgICAgICBU
+eXBlICAgICAgICAgICAgIDogVjRMIFZpZGVvDQo+IEVudGl0eSBJbmZvOg0KPiAgICAgICAgIElE
+ICAgICAgICAgICAgICAgOiAweDAwMDAwMDAxICgxKQ0KPiAgICAgICAgIE5hbWUgICAgICAgICAg
+ICAgOiBtdGstZmQtNC4wLXNvdXJjZQ0KPiAgICAgICAgIEZ1bmN0aW9uICAgICAgICAgOiBWNEwy
+IEkvTw0KPiAgICAgICAgIFBhZCAweDAxMDAwMDAyICAgOiAwOiBTb3VyY2UNCj4gICAgICAgICAg
+IExpbmsgMHgwMjAwMDAwODogdG8gcmVtb3RlIHBhZCAweDEwMDAwMDUgb2YgZW50aXR5ICdtdGst
+ZmQtNC4wLXByb2MnOiBEYXRhLCBFbmFibGVkLCBJbW11dGFibGUNCj4gDQo+IFJlcXVpcmVkIGlv
+Y3RsczoNCj4gICAgICAgICB0ZXN0IE1DIGluZm9ybWF0aW9uIChzZWUgJ01lZGlhIERyaXZlciBJ
+bmZvJyBhYm92ZSk6IE9LDQo+ICAgICAgICAgICAgICAgICBmYWlsOiB2NGwyLWNvbXBsaWFuY2Uu
+Y3BwKDY2OCk6IGRjYXBzICYgb3V0cHV0X2NhcHMNCj4gICAgICAgICB0ZXN0IFZJRElPQ19RVUVS
+WUNBUDogRkFJTA0KPiANCj4gQWxsb3cgZm9yIG11bHRpcGxlIG9wZW5zOg0KPiAgICAgICAgIHRl
+c3Qgc2Vjb25kIC9kZXYvdmlkZW8zMiBvcGVuOiBPSw0KPiAgICAgICAgICAgICAgICAgZmFpbDog
+djRsMi1jb21wbGlhbmNlLmNwcCg2NjgpOiBkY2FwcyAmIG91dHB1dF9jYXBzDQo+ICAgICAgICAg
+dGVzdCBWSURJT0NfUVVFUllDQVA6IEZBSUwNCj4gICAgICAgICB0ZXN0IFZJRElPQ19HL1NfUFJJ
+T1JJVFk6IE9LDQo+ICAgICAgICAgdGVzdCBmb3IgdW5saW1pdGVkIG9wZW5zOiBPSw0KPiANCj4g
+RGVidWcgaW9jdGxzOg0KPiAgICAgICAgIHRlc3QgVklESU9DX0RCR19HL1NfUkVHSVNURVI6IE9L
+IChOb3QgU3VwcG9ydGVkKQ0KPiAgICAgICAgIHRlc3QgVklESU9DX0xPR19TVEFUVVM6IE9LIChO
+b3QgU3VwcG9ydGVkKQ0KPiANCj4gSW5wdXQgaW9jdGxzOg0KPiAgICAgICAgIHRlc3QgVklESU9D
+X0cvU19UVU5FUi9FTlVNX0ZSRVFfQkFORFM6IE9LIChOb3QgU3VwcG9ydGVkKQ0KPiAgICAgICAg
+IHRlc3QgVklESU9DX0cvU19GUkVRVUVOQ1k6IE9LIChOb3QgU3VwcG9ydGVkKQ0KPiAgICAgICAg
+IHRlc3QgVklESU9DX1NfSFdfRlJFUV9TRUVLOiBPSyAoTm90IFN1cHBvcnRlZCkNCj4gICAgICAg
+ICB0ZXN0IFZJRElPQ19FTlVNQVVESU86IE9LIChOb3QgU3VwcG9ydGVkKQ0KPiAgICAgICAgIHRl
+c3QgVklESU9DX0cvUy9FTlVNSU5QVVQ6IE9LIChOb3QgU3VwcG9ydGVkKQ0KPiAgICAgICAgIHRl
+c3QgVklESU9DX0cvU19BVURJTzogT0sgKE5vdCBTdXBwb3J0ZWQpDQo+ICAgICAgICAgSW5wdXRz
+OiAwIEF1ZGlvIElucHV0czogMCBUdW5lcnM6IDANCj4gDQo+IE91dHB1dCBpb2N0bHM6DQo+ICAg
+ICAgICAgdGVzdCBWSURJT0NfRy9TX01PRFVMQVRPUjogT0sgKE5vdCBTdXBwb3J0ZWQpDQo+ICAg
+ICAgICAgdGVzdCBWSURJT0NfRy9TX0ZSRVFVRU5DWTogT0sgKE5vdCBTdXBwb3J0ZWQpDQo+ICAg
+ICAgICAgdGVzdCBWSURJT0NfRU5VTUFVRE9VVDogT0sgKE5vdCBTdXBwb3J0ZWQpDQo+ICAgICAg
+ICAgdGVzdCBWSURJT0NfRy9TL0VOVU1PVVRQVVQ6IE9LIChOb3QgU3VwcG9ydGVkKQ0KPiAgICAg
+ICAgIHRlc3QgVklESU9DX0cvU19BVURPVVQ6IE9LIChOb3QgU3VwcG9ydGVkKQ0KPiAgICAgICAg
+IE91dHB1dHM6IDAgQXVkaW8gT3V0cHV0czogMCBNb2R1bGF0b3JzOiAwDQo+IA0KPiBJbnB1dC9P
+dXRwdXQgY29uZmlndXJhdGlvbiBpb2N0bHM6DQo+ICAgICAgICAgdGVzdCBWSURJT0NfRU5VTS9H
+L1MvUVVFUllfU1REOiBPSyAoTm90IFN1cHBvcnRlZCkNCj4gICAgICAgICB0ZXN0IFZJRElPQ19F
+TlVNL0cvUy9RVUVSWV9EVl9USU1JTkdTOiBPSyAoTm90IFN1cHBvcnRlZCkNCj4gICAgICAgICB0
+ZXN0IFZJRElPQ19EVl9USU1JTkdTX0NBUDogT0sgKE5vdCBTdXBwb3J0ZWQpDQo+ICAgICAgICAg
+dGVzdCBWSURJT0NfRy9TX0VESUQ6IE9LIChOb3QgU3VwcG9ydGVkKQ0KPiANCj4gQ29udHJvbCBp
+b2N0bHM6DQo+ICAgICAgICAgdGVzdCBWSURJT0NfUVVFUllfRVhUX0NUUkwvUVVFUllNRU5VOiBP
+Sw0KPiAgICAgICAgIHRlc3QgVklESU9DX1FVRVJZQ1RSTDogT0sNCj4gICAgICAgICB0ZXN0IFZJ
+RElPQ19HL1NfQ1RSTDogT0sNCj4gICAgICAgICB0ZXN0IFZJRElPQ19HL1MvVFJZX0VYVF9DVFJM
+UzogT0sNCj4gICAgICAgICB0ZXN0IFZJRElPQ18oVU4pU1VCU0NSSUJFX0VWRU5UL0RRRVZFTlQ6
+IE9LDQo+ICAgICAgICAgdGVzdCBWSURJT0NfRy9TX0pQRUdDT01QOiBPSyAoTm90IFN1cHBvcnRl
+ZCkNCj4gICAgICAgICBTdGFuZGFyZCBDb250cm9sczogMSBQcml2YXRlIENvbnRyb2xzOiA2DQo+
+IA0KPiBGb3JtYXQgaW9jdGxzOg0KPiAgICAgICAgIHRlc3QgVklESU9DX0VOVU1fRk1UL0ZSQU1F
+U0laRVMvRlJBTUVJTlRFUlZBTFM6IE9LDQo+ICAgICAgICAgdGVzdCBWSURJT0NfRy9TX1BBUk06
+IE9LIChOb3QgU3VwcG9ydGVkKQ0KPiAgICAgICAgIHRlc3QgVklESU9DX0dfRkJVRjogT0sgKE5v
+dCBTdXBwb3J0ZWQpDQo+ICAgICAgICAgICAgICAgICBmYWlsOiB2NGwyLXRlc3QtZm9ybWF0cy5j
+cHAoNDU3KTogcGl4ZWxmb3JtYXQgMDAwMDAwMDAgKCkgZm9yIGJ1ZnR5cGUgMTAgbm90IHJlcG9y
+dGVkIGJ5IEVOVU1fRk1UDQo+ICAgICAgICAgdGVzdCBWSURJT0NfR19GTVQ6IEZBSUwNCj4gICAg
+ICAgICAgICAgICAgIGZhaWw6IHY0bDItdGVzdC1mb3JtYXRzLmNwcCg0NTcpOiBwaXhlbGZvcm1h
+dCAwMDAwMDAwMCAoKSBmb3IgYnVmdHlwZSAxMCBub3QgcmVwb3J0ZWQgYnkgRU5VTV9GTVQNCj4g
+ICAgICAgICB0ZXN0IFZJRElPQ19UUllfRk1UOiBGQUlMDQo+ICAgICAgICAgICAgICAgICBmYWls
+OiB2NGwyLXRlc3QtZm9ybWF0cy5jcHAoNDU3KTogcGl4ZWxmb3JtYXQgZmZmZmZmZmYgKC1CRSkg
+Zm9yIGJ1ZnR5cGUgMTAgbm90IHJlcG9ydGVkIGJ5IEVOVU1fRk1UDQo+ICAgICAgICAgdGVzdCBW
+SURJT0NfU19GTVQ6IEZBSUwNCj4gICAgICAgICB0ZXN0IFZJRElPQ19HX1NMSUNFRF9WQklfQ0FQ
+OiBPSyAoTm90IFN1cHBvcnRlZCkNCj4gICAgICAgICB0ZXN0IENyb3BwaW5nOiBPSyAoTm90IFN1
+cHBvcnRlZCkNCj4gICAgICAgICB0ZXN0IENvbXBvc2luZzogT0sgKE5vdCBTdXBwb3J0ZWQpDQo+
+ICAgICAgICAgdGVzdCBTY2FsaW5nOiBPSyAoTm90IFN1cHBvcnRlZCkNCj4gDQo+IENvZGVjIGlv
+Y3RsczoNCj4gICAgICAgICB0ZXN0IFZJRElPQ18oVFJZXylFTkNPREVSX0NNRDogT0sgKE5vdCBT
+dXBwb3J0ZWQpDQo+ICAgICAgICAgdGVzdCBWSURJT0NfR19FTkNfSU5ERVg6IE9LIChOb3QgU3Vw
+cG9ydGVkKQ0KPiAgICAgICAgIHRlc3QgVklESU9DXyhUUllfKURFQ09ERVJfQ01EOiBPSyAoTm90
+IFN1cHBvcnRlZCkNCj4gDQo+IEJ1ZmZlciBpb2N0bHM6DQo+ICAgICAgICAgICAgICAgICBmYWls
+OiB2NGwyLXRlc3QtYnVmZmVycy5jcHAoNjY3KTogcTIucmVxYnVmcyhub2RlLT5ub2RlMiwgMSkg
+IT0gRUJVU1kNCj4gICAgICAgICB0ZXN0IFZJRElPQ19SRVFCVUZTL0NSRUFURV9CVUZTL1FVRVJZ
+QlVGOiBGQUlMDQo+ICAgICAgICAgdGVzdCBWSURJT0NfRVhQQlVGOiBPSw0KPiAgICAgICAgIHRl
+c3QgUmVxdWVzdHM6IE9LDQo+IA0KPiBUb3RhbCBmb3IgbXRrLWZkLTQuMCBkZXZpY2UgL2Rldi92
+aWRlbzMyOiA0NSwgU3VjY2VlZGVkOiAzOSwgRmFpbGVkOiA2LCBXYXJuaW5nczogMA0KPiANCj4g
+R3JhbmQgVG90YWwgZm9yIG10ay1mZC00LjAgZGV2aWNlIC9kZXYvbWVkaWEyOiA1MiwgU3VjY2Vl
+ZGVkOiA0NiwgRmFpbGVkOiA2LCBXYXJuaW5nczogMA0KPiANCg0K
 
-On Wed, May 06, 2020 at 08:24:38PM +0100, Dave Stevenson wrote:
-> On Wed, 6 May 2020 at 19:04, Nicolas Saenz Julienne wrote:
-> > On Mon, 2020-05-04 at 12:25 +0300, Laurent Pinchart wrote:
-> >> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> >>
-> >> Add Broadcom VideoCore Shared Memory support.
-> >>
-> >> This new driver allows contiguous memory blocks to be imported
-> >> into the VideoCore VPU memory map, and manages the lifetime of
-> >> those objects, only releasing the source dmabuf once the VPU has
-> >> confirmed it has finished with it.
-> >
-> > I'm still digesting all this, but a question came up, who is using the
-> > ioctls?
-> 
-> We have a userspace library that uses it [1].
-> It is used by things like MMAL to share buffers between the VPU and
-> ARM, rather than having to get VCHI to copy all the data between
-> mirrored buffers.
-> 
-> I think what has happened here is that Laurent has picked up the
-> version of the driver from the top of our downstream kernel tree.
-> For libcamera and the ISP driver, we need a significantly smaller
-> feature set, basically import of dmabufs only, no allocations or cache
-> management. For the ISP driver it's mainly dmabuf import from
-> videobuf2 for the image buffers, but there's also a need to pass in
-> lens shading tables which are relatively large. With a small amount of
-> rework in libcamera, we can make it so that we use dma-buf heaps to do
-> the allocation, and pass in a dmabuf fd to the ISP driver to then map
-> onto the VPU. That removes all the ioctls handling from this driver.
-> 
-> Downstream we do have other use cases that want to be able to do other
-> functions on shared memory, but that too should be reworkable into
-> using dma-buf heaps for allocations, and vcsm only handles importing
-> dmabufs via an ioctl. All that can be hidden away in the vcsm library,
-> so applications don't care.
-> We've also got some legacy code kicking around, as there was
-> originally a version of the driver that mapped the VPU's memory blocks
-> to the ARM. That's why the vcsm library has two code paths through
-> almost every function - one for each driver.
-> 
-> Laurent: What's your view? Halt the review this particular patch for
-> now and rework, or try and get this all integrated?
-> Mainline obviously already has dma-buf heaps merged, whilst I have a
-> PR cherry-picking it back into our downstream 5.4. The main reason it
-> hasn't been merged is that I haven't had a test case to prove it
-> works. The rework should be relatively simple, but will need small
-> updates to both libcamera and ISP driver.
-
-My preference would be to go for a solution based on dma-buf heap right
-away for mainline, to minimize the code going into staging. There's no
-hurry there, and I can help integrating the changes in libcamera if
-needed.
-
-> [1] https://github.com/raspberrypi/userland/tree/master/host_applications/linux/libs/sm
-> 
-> >> Driver upported from the RaspberryPi BSP at revision:
-> >> 890691d1c996 ("staging: vc04_services: Fix vcsm overflow bug when
-> >> counting transactions")
-> >> forward ported to recent mainline kernel version.
-> >>
-> >> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> >> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> >> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> >> ---
-> >>  drivers/staging/vc04_services/Kconfig         |    2 +
-> >>  drivers/staging/vc04_services/Makefile        |    1 +
-> >>  .../include/linux/broadcom/vc_sm_cma_ioctl.h  |  114 ++
-> >>  .../staging/vc04_services/vc-sm-cma/Kconfig   |   10 +
-> >>  .../staging/vc04_services/vc-sm-cma/Makefile  |   13 +
-> >>  drivers/staging/vc04_services/vc-sm-cma/TODO  |    1 +
-> >>  .../staging/vc04_services/vc-sm-cma/vc_sm.c   | 1732 +++++++++++++++++
-> >>  .../staging/vc04_services/vc-sm-cma/vc_sm.h   |   84 +
-> >>  .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.c  |  505 +++++
-> >>  .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.h  |   63 +
-> >>  .../vc04_services/vc-sm-cma/vc_sm_defs.h      |  300 +++
-> >>  .../vc04_services/vc-sm-cma/vc_sm_knl.h       |   28 +
-> >>  12 files changed, 2853 insertions(+)
-> >>  create mode 100644
-> >> drivers/staging/vc04_services/include/linux/broadcom/vc_sm_cma_ioctl.h
-> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Kconfig
-> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Makefile
-> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/TODO
-> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.c
-> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.h
-> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
-> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.h
-> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_defs.h
-> >>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_knl.h
-
--- 
-Regards,
-
-Laurent Pinchart
