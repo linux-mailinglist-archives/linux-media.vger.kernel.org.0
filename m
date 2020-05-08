@@ -2,148 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 908FD1CA8CE
-	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 12:56:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ADF31CA8E2
+	for <lists+linux-media@lfdr.de>; Fri,  8 May 2020 13:02:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726907AbgEHK4B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 8 May 2020 06:56:01 -0400
-Received: from gloria.sntech.de ([185.11.138.130]:58096 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726811AbgEHK4A (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 8 May 2020 06:56:00 -0400
-Received: from p5b127ea8.dip0.t-ipconnect.de ([91.18.126.168] helo=phil.localnet)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1jX0fV-0004DA-5n; Fri, 08 May 2020 12:55:49 +0200
-From:   Heiko Stuebner <heiko@sntech.de>
-To:     Johan Jonker <jbx6244@gmail.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     devicetree@vger.kernel.org, ezequiel@collabora.com,
-        hansverk@cisco.com, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        robh+dt@kernel.org, thomas.petazzoni@bootlin.com
-Subject: Re: [PATCH v3 2/4] arm64: dts: rockchip: Add RGA support to the PX30
-Date:   Fri, 08 May 2020 12:55:48 +0200
-Message-ID: <2855296.rNCsY6NMd3@phil>
-In-Reply-To: <7112d1fa-a872-c66f-0ece-a77ba1f852de@gmail.com>
-References: <20200430164245.1630174-3-paul.kocialkowski@bootlin.com> <20200507202558.GK2422122@aptenodytes> <7112d1fa-a872-c66f-0ece-a77ba1f852de@gmail.com>
+        id S1726636AbgEHLCe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 8 May 2020 07:02:34 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:41019 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726519AbgEHLCd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 8 May 2020 07:02:33 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id X0lvjdrhStKAsX0lyje6yc; Fri, 08 May 2020 13:02:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1588935751; bh=sfB+F30dZUB3AukYrPqyY23lRcTjzwmtOAAxkiLjgLE=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=H45apuXesIGCWiuk9E/4xRY/li2fIB1JnV2ICZ73zdabA48jcDeiFGCdBw45VAX0U
+         LoP6uEHuqrUzAHTNu5WluheHsstedxEJd2kiYggQbY6q4U94jtJFy76l9haqz6Ac95
+         j7pfbfR35rFnPiMVDUHePZcQmtbvCaJ5fT6ru6lYJ9o4LVhm5a6s6NpAZsiYPvtTK1
+         Lz6IbrSp0f0ojaomzDR2IYK6afqyMesIPXKJHO/BRENFO+66ILLwMqH0xKITVcQzyD
+         vXZmjU1vVpcsdMWFGGbZ2k3L4iTbHTX9kGdMvsc2N5jQxVWwtC4hNg7dUkgulnlzNE
+         XI5qynN0xk2Fg==
+Subject: Re: [PATCH v10 04/13] media: v4l2-ctrl: Document
+ V4L2_CID_CAMERA_ORIENTATION
+To:     Jacopo Mondi <jacopo@jmondi.org>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>, libcamera-devel@lists.libcamera.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     tfiga@google.com, pavel@ucw.cz
+References: <20200508100158.3437161-1-jacopo@jmondi.org>
+ <20200508100158.3437161-5-jacopo@jmondi.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <eea16d6b-bc58-a78a-c4c8-6f857251a047@xs4all.nl>
+Date:   Fri, 8 May 2020 13:02:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+In-Reply-To: <20200508100158.3437161-5-jacopo@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfEOHUNdSILVOu0C6r1yF0hqH++4oIPLeUKSiC5k1Id9zV361AsBGojv6FmqjHUzf8scQbVwVK3w6mqCLAG2C8xxuNnt5h+GHE7NgLunU09ox7vfLgPgk
+ HSEg255j4e8luOOlHHrIJc3Jcv2dc080EH0usmTCMEguD2fhm/WXrPZFgSPBYju8cK6BjxtcUOI/Ram8QKZhlkzkW69fRCH99x/uWxRP0ds/EoFJ791XnIbd
+ D9DNo0ZtCIo7waMjF54F8qJWxCkK1lyBQ2GGlZNLpFm4H0HOZRlvGvKWJjLXLnnU1JnUrAgMdpwlT1alY794R89Y1d0tKNziuIwc2X0ZXSSn7mE4FITYCd3D
+ KbNYn6LGZM0BfWUS6i1/vSr8g6izg12IM9timuMoXHrET7lBkLMlNRUyyjcgXZ5B21/vF8O9dc7ZrN7lD1LpilxZYpZJqQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Freitag, 8. Mai 2020, 01:40:08 CEST schrieb Johan Jonker:
-> Hi Paul,
+On 08/05/2020 12:01, Jacopo Mondi wrote:
+> Add documentation for the V4L2_CID_CAMERA_ORIENTATION camera
+> control. The newly added read-only control reports the camera device
+> orientation relative to the usage orientation of the system the camera
+> is installed on.
 > 
-> On 5/7/20 10:25 PM, Paul Kocialkowski wrote:
-> > Hi,
-> > 
-> > On Fri 01 May 20, 00:05, Johan Jonker wrote:
-> >> Hi Paul,
-> >>
-> >>> The PX30 features a RGA block: add the necessary node to support it.
-> >>>
-> >>> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> >>> ---
-> >>>  arch/arm64/boot/dts/rockchip/px30.dtsi | 11 +++++++++++
-> >>>  1 file changed, 11 insertions(+)
-> >>>
-> >>> diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
-> >>> index f809dd6d5dc3..3de70aa4f1ce 100644
-> >>> --- a/arch/arm64/boot/dts/rockchip/px30.dtsi
-> >>> +++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
-> >>> @@ -1102,6 +1102,17 @@ vopl_mmu: iommu@ff470f00 {
-> >>>  		status = "disabled";
-> >>>  	};
-> >>>  
-> >>> +	rga: rga@ff480000 {
-> >>> +		compatible = "rockchip,px30-rga", "rockchip,rk3288-rga";
-> >>> +		reg = <0x0 0xff480000 0x0 0x10000>;
-> >>> +		interrupts = <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH 0>;
-> >>> +		clocks = <&cru ACLK_RGA>, <&cru HCLK_RGA>, <&cru SCLK_RGA_CORE>;
-> >>> +		clock-names = "aclk", "hclk", "sclk";
-> >>
-> >>> +		resets = <&cru SRST_RGA>, <&cru SRST_RGA_A>, <&cru SRST_RGA_H>;
-> >>> +		reset-names = "core", "axi", "ahb";
-> >>> +		power-domains = <&power PX30_PD_VO>;
-> >>
-> >> sort
-> >>
-> >> 		power-domains = <&power PX30_PD_VO>;
-> >> 		resets = <&cru SRST_RGA>, <&cru SRST_RGA_A>, <&cru SRST_RGA_H>;
-> >> 		reset-names = "core", "axi", "ahb";
-> > 
-> > What's the rationale behind this (besides alphabetic sorting, which I don't
-> > believe is a rule for dt properties)? Some nodes above in the file have it in
-> > the same order that I do, and I like to see clocks followed by resets.
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  .../media/v4l/ext-ctrls-camera.rst            | 30 +++++++++++++++++++
+>  1 file changed, 30 insertions(+)
 > 
-> My short list.
-> There is no hard rule... It mostly depend on Heiko...
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> index e39f84d2447f8..01e104bab6b3d 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> @@ -510,6 +510,36 @@ enum v4l2_scene_mode -
+>      value down. A value of zero stops the motion if one is in progress
+>      and has no effect otherwise.
+>  
+> +``V4L2_CID_CAMERA_ORIENTATION (integer)``
 
-For the record, if needed I do any re-sorting myself normally, so there is
-no need to respin patches just because nodes are sorted differently.
+integer -> menu
 
-But yes, since the early Chromebook project in 2014 we agreed on
-doing in Rockchip dts files:
+> +    This read-only control describes the camera orientation by reporting
+> +    its mounting position on the device where the camera is installed. The
+> +    control value is constant and not modifiable by software. This control is
+> +    particularly meaningful for devices which have a well defined orientation,
+> +    such as phones, laptops and portable devices since the control is expressed
+> +    as a position relative to the device's intended usage orientation.
+> +    For example, a camera installed on the user-facing side of a phone,
+> +    a tablet or a laptop device is said to be have ``V4L2_ORIENTATION_FRONT``
+> +    orientation, while a camera installed on the opposite side of the front one
+> +    is said to be have ``V4L2_ORIENTATION_BACK`` orientation. Camera sensors not
+> +    directly attached to the device, or attached in a way that allows them to
+> +    move freely, such as webcams and digital cameras, are said to have the
+> +    ``V4L2_ORIENTATION_EXTERNAL`` orientation.
+> +
+> +
+> +
+> +.. flat-table::
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +
+> +    * - ``V4L2_ORIENTATION_FRONT``
 
-----
-compatible
-reg
-interrupts
-[alphabetical]
-status [if needed]
-----
+This really should be V4L2_CAMERA_ORIENTATION_FRONT. Yes, it is long, but just
+'ORIENTATION' doesn't tell you which orientation is meant, that's too generic.
 
-This works most of the time, but sometimes gets missed but is not _that_
-big a deal if that happens ;-) .
+Regards,
 
+	Hans
 
-Heiko
-
-
-> For nodes:
-> If exists on top: model, compatible and chosen.
-> Sort things without reg alphabetical first,
-> then sort the rest by reg address.
+> +      - The camera is oriented towards the user facing side of the device.
+> +    * - ``V4L2_ORIENTATION_BACK``
+> +      - The camera is oriented towards the back facing side of the device.
+> +    * - ``V4L2_ORIENTATION_EXTERNAL``
+> +      - The camera is not directly attached to the device and is freely movable.
+> +
+> +
+> +
+>  .. [#f1]
+>     This control may be changed to a menu control in the future, if more
+>     options are required.
 > 
-> Inside nodes:
-> If exists on top: compatible, reg and interrupts.
-> In alphabetical order the required properties.
-> Then in alphabetical order the other properties.
-> And as last things that start with '#' in alphabetical order.
-> Add status below all other properties for soc internal components with
-> any board-specifics.
-> Keep an empty line between properties and nodes.
-> 
-> Exceptions:
-> Sort pinctrl-0 above pinctrl-names, so it stays in line with clock-names
-> and dma-names.
-> Sort simple-audio-card,name above other simple-audio-card properties.
-> Sort regulator-name above other regulator properties.
-> Sort regulator-min-microvolt above regulator-max-microvolt.
-> 
-> > 
-> > Cheers,
-> > 
-> > Paul
-> > 
-> >>
-> >>
-> >>> +	};
-> >>> +
-> >>>  	qos_gmac: qos@ff518000 {
-> >>>  		compatible = "syscon";
-> >>>  		reg = <0x0 0xff518000 0x0 0x20>;
-> >>
-> > 
-> 
-> 
-
-
-
 
