@@ -2,66 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D01E41CC4DE
-	for <lists+linux-media@lfdr.de>; Sun, 10 May 2020 00:08:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FBCC1CC4E0
+	for <lists+linux-media@lfdr.de>; Sun, 10 May 2020 00:11:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728073AbgEIWIY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 May 2020 18:08:24 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:58738 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728011AbgEIWIY (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 9 May 2020 18:08:24 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jXXac-001Xwz-Ho; Sat, 09 May 2020 22:04:58 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jXXfo-0005zp-1D; Sat, 09 May 2020 22:10:20 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for 5.8] V4L2 fwnode improvements, sensor driver patches (#63718)
-Date:   Sat,  9 May 2020 22:10:19 +0000
-Message-Id: <20200509221019.23008-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200509212606.GV867@valkosipuli.retiisi.org.uk>
-References: 
+        id S1728613AbgEIWLE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 May 2020 18:11:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60970 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726908AbgEIWLD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 9 May 2020 18:11:03 -0400
+Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com [IPv6:2607:f8b0:4864:20::a42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3293C05BD09
+        for <linux-media@vger.kernel.org>; Sat,  9 May 2020 15:11:01 -0700 (PDT)
+Received: by mail-vk1-xa42.google.com with SMTP id j127so1381258vke.4
+        for <linux-media@vger.kernel.org>; Sat, 09 May 2020 15:11:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=HWF2ey4ug8G9neYJpYSIMLITHgHDfrFhTEVReBRzGDY=;
+        b=k61T6nD8B76SiZlya6B4kzyS4Bi81GJ1RsX65Y1YP+mNKf2tbQBiMkev3V4Xdv8TOS
+         c7SamY7S5FtZb92AKaD5Y9QrUNFU3UeUTNgP+/KrkXcL7ev0VGPGGtNtfxXYDeq0dMWQ
+         nOuLkLSAsku1B+OLIei6Hx4a2VuxwA4VowUhqk6BKLHF2TpaE3cw/008L8dliwXjbbng
+         xhjzeSqFGiTNwgYINiHz85RPJsQieYCpdSvoILmA1Bj2uUUIkYy9vEIijNdhsdMP163U
+         3FL+x9onygL8nQr7piGB/SGI0JNZ6FkjI3Rxt+88K71WjXwqYwFWitmHR9kAkcOdOn4k
+         vgYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=HWF2ey4ug8G9neYJpYSIMLITHgHDfrFhTEVReBRzGDY=;
+        b=Pf4zyEK4Wotd67I0IeRP7dxYCinCsSTd36kxoRubdg9OO/ExaXbqgb4oh4ZlLpel8/
+         TDSjX4hJcJXQQfUseVHiovsr4ju3dtPFeMeVPC3TibsK8wCswYbZGjppAi6/Ppm/cOp+
+         Dcx2H/7zHMW2It6rtfwz+5Yj+wyb+FB31udCT/l5H4H0ee0KL7hvWTEzxXfIgH3vj0S3
+         /5A0Obp3Z0WNh4jkUaG3NF6DlY9Akmmf3vj3s5eFLykJuf0syaAsOO5u/sb4Hzn7TYNt
+         +i9ObxExcOOXN2nehwTY9g+IruIOrwtE4sQ0+i4AfeMBXCulN2LfXkfrcU55AnlMZu78
+         EFDg==
+X-Gm-Message-State: AGi0PuapqXxU8PC/UxTTrlpMHtqn8Taw9EGIwEjCMYZ6E2CEwktZ9Qxj
+        7QuEXy9LP/INITkTfgOLKDgiPIwxJRH4HxIXcXM=
+X-Google-Smtp-Source: APiQypIS1mdeA7fc3Qy8lBh5NXvpw9FoZHGJNqlKuafvIZxiQts0oiuYU587/tQsyvrIhlSwjB0LjaJSLLWfG3m/ZXg=
+X-Received: by 2002:a1f:1ed1:: with SMTP id e200mr6592923vke.96.1589062261005;
+ Sat, 09 May 2020 15:11:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:ab0:2307:0:0:0:0:0 with HTTP; Sat, 9 May 2020 15:11:00 -0700 (PDT)
+Reply-To: azizdake0@gmail.com
+From:   Aziz Dake <pw190339@gmail.com>
+Date:   Sat, 9 May 2020 15:11:00 -0700
+Message-ID: <CADGqVRJKjz2NFOwfFuFeg3+dH7p0uTE3g6uFxtiuezg-r3hsUg@mail.gmail.com>
+Subject: From Honourable Barrister Paul williams.
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Attn: Sir/Madam
 
-Pull request: https://patchwork.linuxtv.org/patch/63718/
-Build log: https://builder.linuxtv.org/job/patchwork/50251/
-Build time: 00:40:08
-Link: https://lore.kernel.org/linux-media/20200509212606.GV867@valkosipuli.retiisi.org.uk
+I am Honourable Barrister Paul williams  the personal resident
+Attorney here in Burkina Faso to Late Mr. Muammar Muhammad Abu Minyar
+al-Gaddafi of Libya c. 1942 =E2=80=93 20 October 2011.
 
-gpg: Signature made Fri 08 May 2020 03:36:32 PM UTC
-gpg:                using DSA key F0D0377A0D4F25A79238EFE56D40361B6E28C193
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
+My client Late Mr. Muammar Muhammad Abu Minyar al-Gaddafi c. 1942 =E2=80=93=
+ 20
+October 2011, was having a deposit sum of {thirty million four Hundred
+thousand united state dollars} only ($30.4M USD) with a security
+finance firm affiliated with African development bank here in Burkina
+Faso.
 
-Summary: 3 patches and/or PDF generation with issues, being 0 at build time
+With the above explanation=E2=80=99s I want to move this money from Burkina
+Faso to your country, affidavit on your name, but note that this is a
+deal between me and you and should not be related to anybody until the
+deal is over for security reasons, please if interested reply as soon
+as possible.
 
-Error/warnings:
-
-
-Error #256 when running cat patches/0006-media-video-mux-Parse-information-from-firmware-with.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
-$ cat patches/0006-media-video-mux-Parse-information-from-firmware-with.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
--:70: CHECK: Lines should not end with a '('
--:82: CHECK: Lines should not end with a '('
-
-Error #256 when running cat patches/0007-media-imx-Parse-information-from-firmware-without-us.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
-$ cat patches/0007-media-imx-Parse-information-from-firmware-without-us.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
--:94: CHECK: Lines should not end with a '('
--:211: CHECK: Lines should not end with a '('
--:304: CHECK: Lines should not end with a '('
--:448: CHECK: Lines should not end with a '('
-
+Thanks,
+Honourable Barrister Paul williams.
