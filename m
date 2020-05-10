@@ -2,93 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 261F11CCC03
-	for <lists+linux-media@lfdr.de>; Sun, 10 May 2020 17:39:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA6F21CCE8D
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 00:31:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728681AbgEJPjc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 May 2020 11:39:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53184 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726104AbgEJPjc (ORCPT
+        id S1729106AbgEJWbN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 10 May 2020 18:31:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60432 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729022AbgEJWbN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 May 2020 11:39:32 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C8B5C061A0C;
-        Sun, 10 May 2020 08:39:32 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id w65so3516679pfc.12;
-        Sun, 10 May 2020 08:39:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-language:content-transfer-encoding;
-        bh=seBRUeC3dXeweg1N46JHOrRIXAJ2J/eJ5PgpRDXu7Xc=;
-        b=s4FTilbcUE8qHtABX9tC1pNRpLYSHM1TMUlKxdLHfC5Tof1lVZLrrpHEv2HJURUQAt
-         gOqR0S6tdssLEU8p+wfY3407Y7n55X6ZgOiSWOYBr3SW7vwyDWMeXdxrGbFvIvTEKK8M
-         FUxjaYGr2auuqB8f99EyUk5Eo7XSa1/dZc5OnGudxkdFz5beN77mjR7VSeXtEO8+G4y1
-         URSuKE3HIbfwgkv/ma0LxIZF9/TwzVBUHO28l1oHJuKxu1bRlQYBtHpFvy6Qd290+Chv
-         SSJwqDx3X/p7oMekjkjXbZrakW5q0inyzqjAfWSP+dub16WBR639QzqdIKuJgV4pEiDj
-         MAmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=seBRUeC3dXeweg1N46JHOrRIXAJ2J/eJ5PgpRDXu7Xc=;
-        b=qSz5Mq5brMM+/2I+3e6MuoWc8h9ONlBd+v4In8bQUCSzy05CcTgqe0xNCn9tM+6Ufe
-         uBHSg9vvm5LMeqwM1Iuck+graRSAwcbMF8gqRPmtvJ13Nu99ThxdymwD29MrIjhDuYho
-         gGJoyXeQrD9kMJdzOiZ1OxQ7jHrS3+2AmqbdpnBna7JPa6PGvwt7/lNaQ+AHFeHmlCvl
-         gMfDEjKOod2NyLP/TcekIhVsWY7K8404STshiO7V4hWqFW/v3vnG2QfLRREOREc/999t
-         vfl84YyF98Jv5aoEtEu7w+eLTCvKWkrjJfKquM/Zbgofaa5cGbo3d+1e2EVUn9mzDp8e
-         64Uw==
-X-Gm-Message-State: AGi0PubzWF9KodfRaI0GTND+0NJdpnbDFH93MrkKSQhEUwZZekTJ5zgK
-        GdBRJkQJ2EcrJ2dwyG8qG18=
-X-Google-Smtp-Source: APiQypJCzqQ1G38MUBlHGJNY+XRYSsDfA3QS/iaiPMPTtOCZltcGYKqYDBQ/vmE4+rvfmkAA0ntZVg==
-X-Received: by 2002:aa7:9432:: with SMTP id y18mr12463677pfo.82.1589125171929;
-        Sun, 10 May 2020 08:39:31 -0700 (PDT)
-Received: from [192.168.1.3] (ip68-111-84-250.oc.oc.cox.net. [68.111.84.250])
-        by smtp.gmail.com with ESMTPSA id s136sm7208036pfc.29.2020.05.10.08.39.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 10 May 2020 08:39:31 -0700 (PDT)
-Subject: Re: [PATCH 3/3] nand: brcmnand: support v2.1-v2.2 controllers
-To:     =?UTF-8?Q?=c3=81lvaro_Fern=c3=a1ndez_Rojas?= <noltari@gmail.com>,
-        computersforpeace@gmail.com, kdasu.kdev@gmail.com,
-        miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-        sumit.semwal@linaro.org, linux-mtd@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-References: <20200510151406.2527856-1-noltari@gmail.com>
- <20200510151406.2527856-3-noltari@gmail.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <e0b9365b-f22c-ac56-481b-ab21490a3409@gmail.com>
-Date:   Sun, 10 May 2020 08:39:29 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Firefox/68.0 Thunderbird/68.8.0
+        Sun, 10 May 2020 18:31:13 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B87D9C061A0C
+        for <linux-media@vger.kernel.org>; Sun, 10 May 2020 15:31:12 -0700 (PDT)
+Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E9BF7304;
+        Mon, 11 May 2020 00:31:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1589149869;
+        bh=j/ePAMygMzKHjH+X1o5blZwL3i7ve1s6LKl8RRRF0mY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=j77ITH4YL2HVrb1nt7ilCYp4g3qG9VIJOHhuSNvvvd327/1iGRRr4iN7hQeF0rDPd
+         M1eonQOiPK4bzY7DmFRbVrSoHvj2nFS5yriTvOc9dV549vBsV1BWXyZHUY3gw8zGgo
+         V52BAdNoF91C3UoVTf9PXsfHkh+50eWt8fdiUP0Q=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-imx@nxp.com, kernel@pengutronix.de,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH 0/2] media: imx-pxp: Fix operation on i.MX7
+Date:   Mon, 11 May 2020 01:30:58 +0300
+Message-Id: <20200510223100.11641-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200510151406.2527856-3-noltari@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The i.MX7 includes a PXP that is an evolution from the i.MX6 version. It
+offers more processing block in its pipeline, and by default operates in
+legacy mode for i.MX6 compatibility.
 
+To enable the extra processing blocks, the i.MX7 PXP has two extra
+registers to configure routing in the internal pipeline. The values
+currently programmed in these registers don't match the blocks enabled
+by the driver, which makes the PXP hang without producing any frame.
 
-On 5/10/2020 8:14 AM, Álvaro Fernández Rojas wrote:
-> Tested on Netgear DGND3700v2 (BCM6362 with v2.2 controller).
-> 
-> Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
+This patch series fixes the issue. Patch 1/2 fixes the routing
+configuration, and patch 2/2 disables unused blocks and configures
+routing accordingly. The first patch is enough to use the PXP on i.MX7,
+but the second patch may offer additional power saving.
 
-Can you fix a couple of things for your future submissions:
+The patches have been tested on an i.MX7D. Philipp, would you be able to
+give them a try on i.MX6 ?
 
-- for patch count > 1, please provide a cover letter introducing your
-patches
+Laurent Pinchart (2):
+  media: imx-pxp: Fix routing configuration for i.MX7
+  media: imx-pxp: Disable LUT and Rotation 0 blocks
 
-- for this specific patch, you are missing a Device Tree binding
-document update with the new compatible strings you are adding
+ drivers/media/platform/imx-pxp.c | 37 ++++++++++++++++++--------------
+ 1 file changed, 21 insertions(+), 16 deletions(-)
 
-Thank you!
 -- 
-Florian
+Regards,
+
+Laurent Pinchart
+
