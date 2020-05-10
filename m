@@ -2,80 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FBCC1CC4E0
-	for <lists+linux-media@lfdr.de>; Sun, 10 May 2020 00:11:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 365881CC5CD
+	for <lists+linux-media@lfdr.de>; Sun, 10 May 2020 02:40:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728613AbgEIWLE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 9 May 2020 18:11:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60970 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726908AbgEIWLD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 9 May 2020 18:11:03 -0400
-Received: from mail-vk1-xa42.google.com (mail-vk1-xa42.google.com [IPv6:2607:f8b0:4864:20::a42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3293C05BD09
-        for <linux-media@vger.kernel.org>; Sat,  9 May 2020 15:11:01 -0700 (PDT)
-Received: by mail-vk1-xa42.google.com with SMTP id j127so1381258vke.4
-        for <linux-media@vger.kernel.org>; Sat, 09 May 2020 15:11:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=HWF2ey4ug8G9neYJpYSIMLITHgHDfrFhTEVReBRzGDY=;
-        b=k61T6nD8B76SiZlya6B4kzyS4Bi81GJ1RsX65Y1YP+mNKf2tbQBiMkev3V4Xdv8TOS
-         c7SamY7S5FtZb92AKaD5Y9QrUNFU3UeUTNgP+/KrkXcL7ev0VGPGGtNtfxXYDeq0dMWQ
-         nOuLkLSAsku1B+OLIei6Hx4a2VuxwA4VowUhqk6BKLHF2TpaE3cw/008L8dliwXjbbng
-         xhjzeSqFGiTNwgYINiHz85RPJsQieYCpdSvoILmA1Bj2uUUIkYy9vEIijNdhsdMP163U
-         3FL+x9onygL8nQr7piGB/SGI0JNZ6FkjI3Rxt+88K71WjXwqYwFWitmHR9kAkcOdOn4k
-         vgYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=HWF2ey4ug8G9neYJpYSIMLITHgHDfrFhTEVReBRzGDY=;
-        b=Pf4zyEK4Wotd67I0IeRP7dxYCinCsSTd36kxoRubdg9OO/ExaXbqgb4oh4ZlLpel8/
-         TDSjX4hJcJXQQfUseVHiovsr4ju3dtPFeMeVPC3TibsK8wCswYbZGjppAi6/Ppm/cOp+
-         Dcx2H/7zHMW2It6rtfwz+5Yj+wyb+FB31udCT/l5H4H0ee0KL7hvWTEzxXfIgH3vj0S3
-         /5A0Obp3Z0WNh4jkUaG3NF6DlY9Akmmf3vj3s5eFLykJuf0syaAsOO5u/sb4Hzn7TYNt
-         +i9ObxExcOOXN2nehwTY9g+IruIOrwtE4sQ0+i4AfeMBXCulN2LfXkfrcU55AnlMZu78
-         EFDg==
-X-Gm-Message-State: AGi0PuapqXxU8PC/UxTTrlpMHtqn8Taw9EGIwEjCMYZ6E2CEwktZ9Qxj
-        7QuEXy9LP/INITkTfgOLKDgiPIwxJRH4HxIXcXM=
-X-Google-Smtp-Source: APiQypIS1mdeA7fc3Qy8lBh5NXvpw9FoZHGJNqlKuafvIZxiQts0oiuYU587/tQsyvrIhlSwjB0LjaJSLLWfG3m/ZXg=
-X-Received: by 2002:a1f:1ed1:: with SMTP id e200mr6592923vke.96.1589062261005;
- Sat, 09 May 2020 15:11:01 -0700 (PDT)
+        id S1728717AbgEJAku (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 9 May 2020 20:40:50 -0400
+Received: from sonic301-20.consmr.mail.ir2.yahoo.com ([77.238.176.97]:33260
+        "EHLO sonic301-20.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726630AbgEJAku (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 9 May 2020 20:40:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1589071248; bh=DPYuw2gUpgtMJzJhlH/AVmRGu2wSKCY1C+f8nOCoxu0=; h=Date:From:Reply-To:Subject:References:From:Subject; b=EXHeer7kIRYN8aJ9MKnzhzIpXPNfpNAFmNNUfGwocz1WgF1k5gMqw4d99BQGySy8z9TnP2U3qTwyK7fmxyBExzfa2byZxC4ifWMrHsK3e+tFZ0/s7ROGzveZOoy9HY+EL3BLECZq3A3WpNB2K7viKE/8GeWTZlpozoQ3jpCLuNB1Xvky1cwGIx5rQ1MPJZMrrdxwM+atFekYmDtk32VouAeKtKu394Ne2jgwodp6O1uCMlniGT2+sxDt/vsI20heh6TIOSoSNlZr6lzzhWyssi6DpUod9CneQ1div7LYWBHQ5oQUxHPbdSDQTyTCtYa8Cvlh6EJAlgM0Dlq68PS2sA==
+X-YMail-OSG: GfrEtmcVM1lwJOh4Q.4vLBQ7QhztqVysUcdGz6lNJSMz29.gZbqP51u1y5MnCFz
+ 9CTqELyHCBQ3GGxP792NpPc9x8COya2Pd5T9S74elplVYoQpIdYHgHIcEp540YJJY5.OlV_trkgm
+ d9HjRs_kG7RsAT9zicXHwlOtxAN5YQarQTD4otx33LgoHJDvTJSNhqNeDBwj4crGslFCziULlHfD
+ fk..0tFX6TAWE6XvUvBMoBQh8KSjLUOAvqa1gSs1feuhpfciSbS8optlWmbLAQhrNjZDRPHYaDdh
+ TmhBZIFvTFxwG7UQi6VaMyKFkdazcmjP1K8tuUnDOpvyPZRJDETJ6pjPSAWhWgopFmnJKT6MVNNm
+ DkRX2yqhtYP6U0S89grG831DGN6Oe7BHIjCWXtpQnv_LZGXLzHWsX8hiw1fd.t76tgYXCR6TlV0i
+ CACK6DE205Q1kJd4M93N160K5bHyaY5WxYOYootfVZE5bv1D8Ja6Y6xhP1UR8ZSoV_CrEQCU_TnH
+ mdlgJp__wLskk_PCCD9qbv6hV8rq1CgfrLzEDfvmnfdDXXgtzL4FUNGCo4jhEWuk615zz50baDId
+ wRNL8JDfo9C2yRxa_WTMobevmiyOlyl5yLSv0HTc7Tm4N0gFR9FxXWnqo1CJi6h0506YXzj5V7c4
+ wdS7v1q.Z.bq9CwDu98DCYS.8fms_s8L7DNYS2dIubOde8RefdJ1kWRLfP5TzrZV9913vvXRnN6z
+ 6DvzEWrTd_PqPEuPw4Y78wNwrhJZovoxOiGGfd_2E4uUWcCVj7de3nI0FDycK0gBK4HKs70HwJ.J
+ DwxiFIORn8s8RnJcrgPRlXzFcjfHQRVnIzE6VjlyzqAHjH2jQ81XHyEcWUbPj1fahVOnCafqO1Zf
+ gGWF0az8VspCNnU_C5L698RM7FVUJ8Vff1nPICyU5HM4gsVGo4CuKgNb.BYzUEHCSYuxP.Whc1N4
+ c_OW_4QjCd5WOCUDuEFDR7LDuB0ZHX5FoA4lBbZ0jSwfji832wueJgS1i.CDqNIILmQYepzMAutZ
+ LtAC7_mTCBozTqvD5MTTB5KMACbHraGFFkx0yArBy2u82sdckmeQi20rPImC8seKhlsUDpw110AM
+ Kj7HRhhqXOe08QDfvr0e.Mh54fdTkbwsIgAFDvcNzzYqHrKsrYz4Crw6xJJbYTHfttXdixd6cz0N
+ nLZjU0VldzN2kOrKDVhsTsetcTEtBQJu0WkKwIpB3RAUB9kjY7Q4RcfcQGn6leHl8yaRElfSI1HC
+ St0g_OUtxtei.13rS6KUNkbK8T6Txqhse4NMuU2IsfLA56N_V9AUi47JDjHSpQgeTlltPYhgnkYz
+ m
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.ir2.yahoo.com with HTTP; Sun, 10 May 2020 00:40:48 +0000
+Date:   Sun, 10 May 2020 00:40:44 +0000 (UTC)
+From:   "Mina A. Brunel" <mrsminaabrunel2334@gmail.com>
+Reply-To: bmrsminaa232@gmail.com
+Message-ID: <901195803.1380358.1589071244655@mail.yahoo.com>
+Subject: My Dear in the lord
 MIME-Version: 1.0
-Received: by 2002:ab0:2307:0:0:0:0:0 with HTTP; Sat, 9 May 2020 15:11:00 -0700 (PDT)
-Reply-To: azizdake0@gmail.com
-From:   Aziz Dake <pw190339@gmail.com>
-Date:   Sat, 9 May 2020 15:11:00 -0700
-Message-ID: <CADGqVRJKjz2NFOwfFuFeg3+dH7p0uTE3g6uFxtiuezg-r3hsUg@mail.gmail.com>
-Subject: From Honourable Barrister Paul williams.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+References: <901195803.1380358.1589071244655.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15902 YMailNodin Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Attn: Sir/Madam
 
-I am Honourable Barrister Paul williams  the personal resident
-Attorney here in Burkina Faso to Late Mr. Muammar Muhammad Abu Minyar
-al-Gaddafi of Libya c. 1942 =E2=80=93 20 October 2011.
 
-My client Late Mr. Muammar Muhammad Abu Minyar al-Gaddafi c. 1942 =E2=80=93=
- 20
-October 2011, was having a deposit sum of {thirty million four Hundred
-thousand united state dollars} only ($30.4M USD) with a security
-finance firm affiliated with African development bank here in Burkina
-Faso.
+My Dear in the lord
 
-With the above explanation=E2=80=99s I want to move this money from Burkina
-Faso to your country, affidavit on your name, but note that this is a
-deal between me and you and should not be related to anybody until the
-deal is over for security reasons, please if interested reply as soon
-as possible.
 
-Thanks,
-Honourable Barrister Paul williams.
+My name is Mrs. Mina A. Brunel I am a Norway Citizen who is living in Burki=
+na Faso, I am married to Mr. Brunel Patrice, a politicians who owns a small=
+ gold company in Burkina Faso; He died of Leprosy and Radesyge, in year Feb=
+ruary 2010, During his lifetime he deposited the sum of =E2=82=AC 8.5 Milli=
+on Euro) Eight million, Five hundred thousand Euros in a bank in Ouagadougo=
+u the capital city of of Burkina in West Africa. The money was from the sal=
+e of his company and death benefits payment and entitlements of my deceased=
+ husband by his company.
+
+I am sending you this message with heavy tears in my eyes and great sorrow =
+in my heart, and also praying that it will reach you in good health because=
+ I am not in good health, I sleep every night without knowing if I may be a=
+live to see the next day. I am suffering from long time cancer and presentl=
+y I am partially suffering from Leprosy, which has become difficult for me =
+to move around. I was married to my late husband for more than 6 years with=
+out having a child and my doctor confided that I have less chance to live, =
+having to know when the cup of death will come, I decided to contact you to=
+ claim the fund since I don't have any relation I grew up from an orphanage=
+ home.
+
+I have decided to donate this money for the support of helping Motherless b=
+abies/Less privileged/Widows and churches also to build the house of God be=
+cause I am dying and diagnosed with cancer for about 3 years ago. I have de=
+cided to donate from what I have inherited from my late husband to you for =
+the good work of Almighty God; I will be going in for an operation surgery =
+soon.
+
+Now I want you to stand as my next of kin to claim the funds for charity pu=
+rposes. Because of this money remains unclaimed after my death, the bank ex=
+ecutives or the government will take the money as unclaimed fund and maybe =
+use it for selfishness and worthless ventures, I need a very honest person =
+who can claim this money and use it for Charity works, for orphanages, wido=
+ws and also build schools and churches for less privilege that will be name=
+d after my late husband and my name.
+
+I need your urgent answer to know if you will be able to execute this proje=
+ct, and I will give you more information on how the fund will be transferre=
+d to your bank account or online banking.
+
+Thanks
+Mrs. Mina A. Brunel
