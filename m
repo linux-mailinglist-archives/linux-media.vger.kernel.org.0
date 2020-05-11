@@ -2,310 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D38E1CE29E
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 20:27:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 881F51CE014
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 18:08:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731137AbgEKS1Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 May 2020 14:27:25 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:41244 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731028AbgEKS1Y (ORCPT
+        id S1730668AbgEKQID (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 May 2020 12:08:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54900 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730664AbgEKQIC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 May 2020 14:27:24 -0400
-Received: by mail-oi1-f196.google.com with SMTP id 19so15950496oiy.8;
-        Mon, 11 May 2020 11:27:22 -0700 (PDT)
+        Mon, 11 May 2020 12:08:02 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3BE9C061A0C
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2020 09:07:59 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id e16so11688116wra.7
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2020 09:07:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=EOTrhKoXTQCksNt/M+2O2ZRPWzowDLqWNSVg2dHxPYE=;
+        b=HMbhTFp/lUZqbswKm59PgdUfWw5d1xrYUpBIcTwVd3/KCQr73HBeGY2kjmvMrd+sHq
+         1mUH/KcNBUxsJSGGHIkA6JEnIzZs1K9lb4a1xuNO3aowxpHGsscZ8F3yCc2FnzBR1XEt
+         SUkrSqQy6LcWPvxCCcJ5KAopHnvutWMi9ksaulwlzI3iLrpdOIyFQPkUlpYzKu51vVEx
+         jnWBLJp1NIGuf4uBofR4tKXeWibIYanReI9gNwpwQsXG6l4EnRnm7stnbprM+M46Rvvg
+         Xh8DqLVJH14mJeex83ONRMxTsrjp5Jb7byY3enuBPl4Pr9x8Nwevt8nkrmEDTlMHr57i
+         72OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=qXhlH20xl+SARUCA4rhfAEYWxQyu62FZrWp9XsKvGVg=;
-        b=e4Rb9XxCdT0obAPmNTHn4umD2mfoY40cCYe5oX+Fogf8bJvKveLkBdsLEc+0kAXCEe
-         HJR9wJyMHxHdqQhWciX1gpwtltlFoNZqXEQMOSgwWvXRMGACbYzcM7At2snPM6n+EHDw
-         av5d8dsHEKQ8nA12lSPTwi8IH18Z7HjKxEuQVRNzcv6HaQD6tblLa9WoZpu5kxe6Oxo2
-         G4g6wBioHcMVxfZ8kEgf5BJOisdFLsnF+NpQyA+VZM6ItqZrtQFLtn1Oxcky6+6bxMBn
-         Z7/0miPLXNOyZi2jUrAFQlm9AxjPzC7XtAK4iJJ3L47urLCfnusrxoC4yPtE1tiBRzGL
-         tzzg==
-X-Gm-Message-State: AGi0PuYgCEXFzDnyS9Y3uIVNeiKJ1VM4kXZ2ISVbnQATHz0YTS/ZHDxW
-        Yf11jH48flKFMPWtcKHSQA==
-X-Google-Smtp-Source: APiQypKs3Fghjq4SPEnasGGKQrJQnDjXMHnsE2wETrSBrc6VCtFD/eACI9dYBaqhcmfSSj7fJPaitA==
-X-Received: by 2002:a05:6808:30b:: with SMTP id i11mr19891919oie.124.1589221642433;
-        Mon, 11 May 2020 11:27:22 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id r67sm4754220oie.19.2020.05.11.11.27.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 11:27:21 -0700 (PDT)
-Received: (nullmailer pid 9052 invoked by uid 1000);
-        Mon, 11 May 2020 16:02:07 -0000
-Date:   Mon, 11 May 2020 11:02:07 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        mchehab@kernel.org, andriy.shevchenko@linux.intel.com,
-        mark.rutland@arm.com, sakari.ailus@linux.intel.com,
-        drinkcat@chromium.org, tfiga@chromium.org, matthias.bgg@gmail.com,
-        bingbu.cao@intel.com, srv_heupstream@mediatek.com,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [V8, 1/2] media: dt-bindings: media: i2c: Document OV02A10
- bindings
-Message-ID: <20200511160207.GA32476@bogus>
-References: <20200509080627.23222-1-dongchun.zhu@mediatek.com>
- <20200509080627.23222-2-dongchun.zhu@mediatek.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=EOTrhKoXTQCksNt/M+2O2ZRPWzowDLqWNSVg2dHxPYE=;
+        b=GDExMpHMOSyi7xG12sDMQaRDJmSL374gh20z2olmxlqKBfgWhMTXIg4UkqpkJogXXy
+         6Q2+AKorEjD7zCAR4DCqPL7OwphKKoeTTaXxs3bBvtGpOWUI8rVMPo8Th6d2cEk8YeG0
+         VWzhhXdjCtLwX2M4yRyDK0BgE4ug0AzX9ZIz+RFIvk7mmWlylCCBAiLk2MRMjyKCmTSQ
+         1KXb7qyYkwRcniYMhxK50ZGW0/C3JcgVZCuWFx1ie3VgPQIYRLpvx9cTVp9iD1Ua1eH5
+         ldAcR1gKh3uzoEA+klUrFOgQq2Pend1GZjTuaiP7Xxv2DV92/VZurGtQoswI3yjnXtX/
+         pQrw==
+X-Gm-Message-State: AGi0PuYWBZLYjphgeEHMwfwx35RnljreHDeKtnBY0SeptrkaOc/5rtNd
+        Ss71cLhAy+Ygm0FP/kdlWAIlzw==
+X-Google-Smtp-Source: APiQypKuf+PStVH4uY61ONd676UlcdylUrMZvc56RU5mJo/8UsPwIqP2FolnBFSWR+vZ2DMpKQh/Xg==
+X-Received: by 2002:adf:dc89:: with SMTP id r9mr18626985wrj.138.1589213278457;
+        Mon, 11 May 2020 09:07:58 -0700 (PDT)
+Received: from [192.168.86.34] (cpc89974-aztw32-2-0-cust43.18-1.cable.virginm.net. [86.30.250.44])
+        by smtp.googlemail.com with ESMTPSA id s8sm17867754wrt.69.2020.05.11.09.07.57
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 11 May 2020 09:07:57 -0700 (PDT)
+Subject: Re: [bug report] misc: fastrpc: Add support for context Invoke method
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20200511145100.GA221682@mwanda>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Message-ID: <e644a0fc-bf9c-c43d-1f44-07aa49a5030b@linaro.org>
+Date:   Mon, 11 May 2020 17:07:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200509080627.23222-2-dongchun.zhu@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200511145100.GA221682@mwanda>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, May 09, 2020 at 04:06:26PM +0800, Dongchun Zhu wrote:
-> Add DT bindings documentation for Omnivision OV02A10 image sensor.
+Thanks Dan for reporting this,
+
+On 11/05/2020 15:51, Dan Carpenter wrote:
+> Hello Srinivas Kandagatla,
 > 
-> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> ---
->  .../bindings/media/i2c/ovti,ov02a10.yaml           | 184 +++++++++++++++++++++
->  MAINTAINERS                                        |   7 +
->  2 files changed, 191 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+> The patch c68cfb718c8f: "misc: fastrpc: Add support for context
+> Invoke method" from Feb 8, 2019, leads to the following static
+> checker warning:
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> new file mode 100644
-> index 0000000..5468d1b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> @@ -0,0 +1,184 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +# Copyright (c) 2020 MediaTek Inc.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov02a10.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Omnivision OV02A10 CMOS Sensor Device Tree Bindings
-> +
-> +maintainers:
-> +  - Dongchun Zhu <dongchun.zhu@mediatek.com>
-> +
-> +description: |-
-> +  The Omnivision OV02A10 is a low-cost, high performance, 1/5-inch, 2 megapixel
-> +  image sensor, which is the latest production derived from Omnivision's CMOS
-> +  image sensor technology. Ihis chip supports high frame rate speeds up to 30fps
-> +  @ 1600x1200 (UXGA) resolution transferred over a 1-lane MIPI interface. The
-> +  sensor output is available via CSI-2 serial data output.
-> +
-> +properties:
-> +  compatible:
-> +    const: ovti,ov02a10
-> +
-> +  reg:
-> +    description: I2C device address
+> 	drivers/misc/fastrpc.c:990 fastrpc_internal_invoke()
+> 	warn: 'ctx->refcount.refcount.ref.counter' not decremented on lines: 990.
+> 
+> drivers/misc/fastrpc.c
+>     925  static int fastrpc_internal_invoke(struct fastrpc_user *fl,  u32 kernel,
+>     926                                     u32 handle, u32 sc,
+>     927                                     struct fastrpc_invoke_args *args)
+>     928  {
+>     929          struct fastrpc_invoke_ctx *ctx = NULL;
+>     930          int err = 0;
+>     931
+>     932          if (!fl->sctx)
+>     933                  return -EINVAL;
+>     934
+>     935          if (!fl->cctx->rpdev)
+>     936                  return -EPIPE;
+>     937
+>     938          ctx = fastrpc_context_alloc(fl, kernel, sc, args);
+> 
+> refcount is 1.
+> 
+>     939          if (IS_ERR(ctx))
+>     940                  return PTR_ERR(ctx);
+>     941
+>     942          if (ctx->nscalars) {
+>     943                  err = fastrpc_get_args(kernel, ctx);
+>     944                  if (err)
+>     945                          goto bail;
+>                                  ^^^^^^^^^
+> Still holding one refcount.
+> 
+>     946          }
+>     947
+>     948          /* make sure that all CPU memory writes are seen by DSP */
+>     949          dma_wmb();
+>     950          /* Send invoke buffer to remote dsp */
+>     951          err = fastrpc_invoke_send(fl->sctx, ctx, kernel, handle);
+>                        ^^^^^^^^^^^^^^^^^^^
+> Takes a reference count.  Refcount is now 2.
+> 
+>     952          if (err)
+>     953                  goto bail;
+>     954
+>     955          if (kernel) {
+>     956                  if (!wait_for_completion_timeout(&ctx->work, 10 * HZ))
+>     957                          err = -ETIMEDOUT;
+>     958          } else {
+>     959                  err = wait_for_completion_interruptible(&ctx->work);
+> 
+> This drops a refcount.
+> 
+>     960          }
+>     961
+>     962          if (err)
+>     963                  goto bail;
+>     964
+>     965          /* Check the response from remote dsp */
+>     966          err = ctx->retval;
+>     967          if (err)
+>     968                  goto bail;
+>     969
+>     970          if (ctx->nscalars) {
+>     971                  /* make sure that all memory writes by DSP are seen by CPU */
+>     972                  dma_rmb();
+>     973                  /* populate all the output buffers with results */
+>     974                  err = fastrpc_put_args(ctx, kernel);
+>     975                  if (err)
+>     976                          goto bail;
+>     977          }
+>     978
+>     979  bail:
+>     980          if (err != -ERESTARTSYS && err != -ETIMEDOUT) {
+>     981                  /* We are done with this compute context */
+>     982                  spin_lock(&fl->lock);
+>     983                  list_del(&ctx->node);
+>     984                  spin_unlock(&fl->lock);
+>     985                  fastrpc_context_put(ctx);
+> 
+> If we're holding two refcounts then I think this leaks.
 
-Drop this. Nothing specific to this device.
+Code can enter with two refcounts only an error other than -ERESTARTSYS 
+&& err != -ETIMEDOUT. This is only possible rpmsg_send() fails for some 
+reason.
 
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: top mux camtg clock
-> +      - description: devider clock
+Let me send a patch to fix this!
 
-typo
+thanks,
+srini
 
-> +
-> +  clock-names:
-> +    items:
-> +      - const: eclk
-> +      - const: freq_mux
-> +
-> +  clock-frequency:
-> +    description:
-> +      Frequency of the eclk clock in Hertz.
-> +
-> +  dovdd-supply:
-> +    description:
-> +      Definition of the regulator used as interface power supply.
-> +
-> +  avdd-supply:
-> +    description:
-> +      Definition of the regulator used as analog power supply.
-> +
-> +  dvdd-supply:
-> +    description:
-> +      Definition of the regulator used as digital power supply.
-> +
-> +  powerdown-gpios:
-> +    maxItems: 1
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +
-> +  rotation:
-> +    description:
-> +      Definition of the sensor's placement, valid values are 0 and 180.
-> +    allOf:
-> +      - $ref: "/schemas/types.yaml#/definitions/uint32"
-> +      - enum:
-> +          - 0    # Sensor Mounted Upright (default)
-> +          - 180  # Sensor Mounted Upside Down
-> +
-> +  ovti,mipi-tx-speed:
-> +    description:
-> +      Indication of MIPI transmission speed select, which is to control D-PHY
-> +      timing setting by adjusting MIPI clock voltage to improve the clock
-> +      driver capability.
-> +    allOf:
-> +      - $ref: "/schemas/types.yaml#/definitions/uint32"
-> +      - enum:
-> +          - 0    #  20MHz -  30MHz
-> +          - 1    #  30MHz -  50MHz
-> +          - 2    #  50MHz -  75MHz
-> +          - 3    #  75MHz - 100MHz
-> +          - 4    # 100MHz - 130MHz (suggested)
-> +          - 5    # Manual
-> +
-> +  # See ../video-interfaces.txt for details
-> +  port:
-> +    type: object
-> +    additionalProperties: false
-> +    description:
-> +      A node containing an output port node with an endpoint definition
-> +      as documented in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
-
-No need for repeating a generic description of a common property.
-
-> +
-> +    properties:
-> +      endpoint:
-> +        type: object
-> +
-> +        properties:
-> +          data-lanes:
-> +            description: |-
-> +              The driver only supports 1-lane operation.
-
-What the driver supports is not relevant.
-
-> +            items:
-> +              - const: 1
-> +              - const: 2
-> +              - const: 3
-> +              - const: 4
-> +
-> +          clock-noncontinuous:
-> +            type: boolean
-> +            description: |-
-> +              MIPI CSI-2 clock is non-continuous if this property is present,
-> +              otherwise it's continuous.
-
-Assume this has a common definition, so just need:
-
-clock-noncontinuous: true
-
-> +
-> +          link-frequencies:
-> +            allOf:
-> +              - $ref: /schemas/types.yaml#/definitions/uint64-array
-> +            description:
-> +              Allowed data bus frequencies. 39000000 Hz is supported by
-> +              the driver.
-
-This too is a common property.
-
-Though 39000000 looks like a constraint. However, what the driver 
-supports is not relevant.
-
-> +
-> +        required:
-> +          - link-frequencies
-> +
-> +    required:
-> +      - endpoint
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - clock-frequency
-> +  - dovdd-supply
-> +  - avdd-supply
-> +  - dvdd-supply
-> +  - powerdown-gpios
-> +  - reset-gpios
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +
-> +    #include <dt-bindings/clock/mt8183-clk.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        clock-frequency = <400000>;
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        ov02a10: camera-sensor@3d {
-> +            compatible = "ovti,ov02a10";
-> +            reg = <0x3d>;
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&clk_24m_cam>;
-> +
-> +            clocks = <&topckgen CLK_TOP_MUX_CAMTG>,
-> +                     <&topckgen CLK_TOP_UNIVP_192M_D8>;
-> +            clock-names = "eclk", "freq_mux";
-> +            clock-frequency = <24000000>;
-> +
-> +            rotation = <180>;
-> +            ovti,mipi-tx-speed = <3>;
-> +
-> +            dovdd-supply = <&mt6358_vcamio_reg>;
-> +            avdd-supply = <&mt6358_vcama1_reg>;
-> +            dvdd-supply = <&mt6358_vcn18_reg>;
-> +
-> +            powerdown-gpios = <&pio 107 GPIO_ACTIVE_LOW>;
-> +            reset-gpios = <&pio 109 GPIO_ACTIVE_HIGH>;
-> +
-> +            port {
-> +                wcam_out: endpoint {
-> +                    remote-endpoint = <&mipi_in_wcam>;
-> +                    data-lanes = <1>;
-
-This doesn't match the schema which says this should be 4 entries.
-
-> +                    clock-noncontinuous;
-> +                    link-frequencies = /bits/ 64 <390000000>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index e64e5db..63a2335 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12389,6 +12389,13 @@ M:	Harald Welte <laforge@gnumonks.org>
->  S:	Maintained
->  F:	drivers/char/pcmcia/cm4040_cs.*
->  
-> +OMNIVISION OV02A10 SENSOR DRIVER
-> +M:	Dongchun Zhu <dongchun.zhu@mediatek.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> +
->  OMNIVISION OV13858 SENSOR DRIVER
->  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
->  L:	linux-media@vger.kernel.org
-> -- 
-> 2.9.2
+> 
+>     986          }
+>     987          if (err)
+>     988                  dev_dbg(fl->sctx->dev, "Error: Invoke Failed %d\n", err);
+>     989
+>     990          return err;
+>     991  }
+> 
+> regards,
+> dan carpenter
+> 
