@@ -2,22 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E91B11CE088
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 18:34:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 63FB31CE0D5
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 18:43:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729698AbgEKQeJ convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 11 May 2020 12:34:09 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:41663 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728556AbgEKQeJ (ORCPT
+        id S1730639AbgEKQni convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 11 May 2020 12:43:38 -0400
+Received: from relay12.mail.gandi.net ([217.70.178.232]:42981 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729463AbgEKQni (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 May 2020 12:34:09 -0400
-X-Originating-IP: 91.224.148.103
+        Mon, 11 May 2020 12:43:38 -0400
 Received: from xps13 (unknown [91.224.148.103])
         (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id D7F1F20009;
-        Mon, 11 May 2020 16:34:02 +0000 (UTC)
-Date:   Mon, 11 May 2020 18:34:01 +0200
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 5F4CC200003;
+        Mon, 11 May 2020 16:43:34 +0000 (UTC)
+Date:   Mon, 11 May 2020 18:43:33 +0200
 From:   Miquel Raynal <miquel.raynal@bootlin.com>
 To:     =?UTF-8?B?w4FsdmFybyBGZXJuw6FuZGV6?= Rojas <noltari@gmail.com>
 Cc:     computersforpeace@gmail.com, kdasu.kdev@gmail.com, richard@nod.at,
@@ -26,11 +25,11 @@ Cc:     computersforpeace@gmail.com, kdasu.kdev@gmail.com, richard@nod.at,
         bcm-kernel-feedback-list@broadcom.com,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 1/2] nand: brcmnand: improve hamming oob layout
-Message-ID: <20200511183401.2ef8b037@xps13>
-In-Reply-To: <20200504185945.2776148-1-noltari@gmail.com>
-References: <20200504093034.2739968-1-noltari@gmail.com>
-        <20200504185945.2776148-1-noltari@gmail.com>
+Subject: Re: [PATCH v2] nand: brcmnand: correctly verify erased pages
+Message-ID: <20200511184333.20d5a560@xps13>
+In-Reply-To: <20200505082055.2843847-1-noltari@gmail.com>
+References: <20200504092943.2739784-1-noltari@gmail.com>
+        <20200505082055.2843847-1-noltari@gmail.com>
 Organization: Bootlin
 X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
@@ -43,99 +42,82 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Álvaro,
 
-Álvaro Fernández Rojas <noltari@gmail.com> wrote on Mon,  4 May 2020
-20:59:44 +0200:
+Álvaro Fernández Rojas <noltari@gmail.com> wrote on Tue,  5 May 2020
+10:20:55 +0200:
 
-> The current code generates 8 oob sections:
-> S1	1-5
-> ECC	6-8
-> S2	9-15
-> S3	16-21
-> ECC	22-24
-> S4	25-31
-> S5	32-37
-> ECC	38-40
-> S6	41-47
-> S7	48-53
-> ECC	54-56
-> S8	57-63
+> The current code checks that the whole OOB area is erased.
+> This is a problem when JFFS2 cleanmarkers are added to the OOB, since it will
+> fail due to the usable OOB bytes not being 0xff.
+> Correct this by only checking that the ECC aren't 0xff.
 > 
-> Change it by merging continuous sections:
-> S1	1-5
-> ECC	6-8
-> S2	9-21
-> ECC	22-24
-> S3	25-37
-> ECC	38-40
-> S4	41-53
-> ECC	54-56
-> S5	57-63
+> Fixes: 02b88eea9f9c ("mtd: brcmnand: Add check for erased page bitflips")
 > 
+
+This extra space between the Fixes tag and your SoB should be removed
+
 > Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
 > ---
->  v2: keep original comment and fix correctly skip byte 6 for small-page nand
+>  v2: Add Fixes tag
 > 
->  drivers/mtd/nand/raw/brcmnand/brcmnand.c | 34 +++++++++++++-----------
->  1 file changed, 18 insertions(+), 16 deletions(-)
+>  drivers/mtd/nand/raw/brcmnand/brcmnand.c | 22 ++++++++++++++++++----
+>  1 file changed, 18 insertions(+), 4 deletions(-)
 > 
 > diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> index e4e3ceeac38f..767343e0e6e7 100644
+> index e4e3ceeac38f..546f0807b887 100644
 > --- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
 > +++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> @@ -1100,30 +1100,32 @@ static int brcmnand_hamming_ooblayout_free(struct mtd_info *mtd, int section,
->  	struct brcmnand_cfg *cfg = &host->hwcfg;
->  	int sas = cfg->spare_area_size << cfg->sector_size_1k;
->  	int sectors = cfg->page_size / (512 << cfg->sector_size_1k);
-> +	u32 next;
+> @@ -2018,6 +2018,7 @@ static int brcmnand_read_by_pio(struct mtd_info *mtd, struct nand_chip *chip,
+>  static int brcmstb_nand_verify_erased_page(struct mtd_info *mtd,
+>  		  struct nand_chip *chip, void *buf, u64 addr)
+>  {
+> +	struct mtd_oob_region oobecc;
+>  	int i, sas;
+>  	void *oob = chip->oob_poi;
+>  	int bitflips = 0;
+> @@ -2035,11 +2036,24 @@ static int brcmstb_nand_verify_erased_page(struct mtd_info *mtd,
+>  	if (ret)
+>  		return ret;
 >  
-> -	if (section >= sectors * 2)
-> +	if (section > sectors)
->  		return -ERANGE;
->  
-> -	oobregion->offset = (section / 2) * sas;
-> +	next = (section * sas);
-> +	if (section < sectors)
-> +		next += 6;
->  
-> -	if (section & 1) {
-> -		oobregion->offset += 9;
-> -		oobregion->length = 7;
-> +	if (section) {
-> +		oobregion->offset = ((section - 1) * sas) + 9;
->  	} else {
-> -		oobregion->length = 6;
-> -
-> -		/* First sector of each page may have BBI */
-> -		if (!section) {
-> -			/*
-> -			 * Small-page NAND use byte 6 for BBI while large-page
-> -			 * NAND use byte 0.
-> -			 */
-> -			if (cfg->page_size > 512)
-> -				oobregion->offset++;
-> -			oobregion->length--;
-> +		/*
-> +		 * Small-page NAND use byte 6 for BBI while large-page
-> +		 * NAND use byte 0.
-> +		 */
-> +		if (cfg->page_size > 512) {
-> +			oobregion->offset = 1;
-> +		} else {
-> +			oobregion->offset = 0;
-> +			next--;
->  		}
->  	}
->  
-> +	oobregion->length = next - oobregion->offset;
+> -	for (i = 0; i < chip->ecc.steps; i++, oob += sas) {
+> +	for (i = 0; i < chip->ecc.steps; i++) {
+>  		ecc_chunk = buf + chip->ecc.size * i;
+> -		ret = nand_check_erased_ecc_chunk(ecc_chunk,
+> -						  chip->ecc.size,
+> -						  oob, sas, NULL, 0,
 > +
->  	return 0;
->  }
->  
+> +		ret = nand_check_erased_ecc_chunk(ecc_chunk, chip->ecc.size,
+> +						  NULL, 0, NULL, 0,
+> +						  chip->ecc.strength);
+> +		if (ret < 0)
+> +			return ret;
+> +
+> +		bitflips = max(bitflips, ret);
+> +	}
+> +
+> +	for (i = 0; mtd->ooblayout->ecc(mtd, i, &oobecc) != -ERANGE; i++)
+> +	{
+> +		ret = nand_check_erased_ecc_chunk(NULL, 0,
+> +						  oob + oobecc.offset,
+> +						  oobecc.length,
+> +						  NULL, 0,
+>  						  chip->ecc.strength);
+>  		if (ret < 0)
+>  			return 
 
-I'm fine with the two patches but could you please invert the order and
-add Fixes: + Cc: stable tags on both? on "fix hamming oob layout"
-please? This way the fix is valid on older versions of the driver an
-can be backported easily.
+If I understand correctly, the cleanmarker is in the "available OOB
+area", which is somewhere in the OOB area between the bad block marker
+and the ECC bytes. I think that checking the data buffer and the ECC
+area only is enough and we can probably leave the remaining spare OOB
+area.
+
+But instead of calling nand_check_erased_ecc_chunk twice, just call:
+
+    nand_check_erased_ecc_chunk(data, datalen, ecc, ecclen, NULL, 0,
+                                strength); 
+
+And also please clarify your commit log: you are not "just checking the
+ECC bytes" but you are checking both the main area and the ECC bytes.
+
 
 Thanks,
 Miquèl
