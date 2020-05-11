@@ -2,179 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B53C1CDD45
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 16:31:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EB8F1CDDC2
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 16:54:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729603AbgEKObq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 May 2020 10:31:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39852 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726173AbgEKObq (ORCPT
+        id S1730510AbgEKOxP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 May 2020 10:53:15 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:57040 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730546AbgEKOxM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 May 2020 10:31:46 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF38CC061A0C
-        for <linux-media@vger.kernel.org>; Mon, 11 May 2020 07:31:45 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA753304;
-        Mon, 11 May 2020 16:31:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1589207502;
-        bh=oSuLwOGHaFVj3MpyELVNUbPTFWevFH3FlsUl+NAZJU4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nyjABrsZDI1gLqkWjquSTgXs5RGdgURpyNSYZ7DI1/RqRsPX3CiM+Vc1WLMCuh0sp
-         nOn/kNmb3tL1TqKCs/cUA+R6GHqc0GGFqzicffsd7pn2Xcr7upDuVTDh6Ia1jiKovp
-         iwqcfNNeR17CETZmytmHTx4jtIJnuALC42eKWbSk=
-Date:   Mon, 11 May 2020 17:31:36 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Keiichi Watanabe <keiichiw@chromium.org>
-Cc:     Saket Sinha <saket.sinha89@gmail.com>,
-        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
-        virtio-dev@lists.oasis-open.org, Alex Lau <alexlau@chromium.org>,
-        Kiran Pawar <Kiran.Pawar@opensynergy.com>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
-        libcamera-devel@lists.libcamera.org,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
-        Pawel Osciak <posciak@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [libcamera-devel] [virtio-dev] Re: Fwd: Qemu Support for Virtio
- Video V4L2 driver
-Message-ID: <20200511143136.GC5830@pendragon.ideasonboard.com>
-References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
- <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
- <CAK25hWM-hLdk=MSKgceumOUo9ZNBrrmM8qSe7MvTUAPGmur_HQ@mail.gmail.com>
- <2515515.r9knKAEANn@os-lin-dmo>
- <CAD90VcYeF7drbYNDiEioPBHcQcifqDYUia_CKqNLv_5VAMjPKw@mail.gmail.com>
- <CAK25hWNR0WdpddU1kDChUB+PWiLG2A76KJW5u5F-LNkGBREj_g@mail.gmail.com>
- <CAD90VcYJe7+R256RdOQKxFQciq54+PwbyDRF1cynjOzdQBrq-g@mail.gmail.com>
+        Mon, 11 May 2020 10:53:12 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04BEh4cb141576;
+        Mon, 11 May 2020 14:53:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=zhsIXIILq+2fhsWNRP7om+IXYVwNAADi+rrniuA99kI=;
+ b=niYcMdefa6p1nRccbuWWpNqUeiMU4H5fbunpNMM95HtMJdo3ZU4RZfeA4/PsOSY8dIln
+ k9xOEYI5yg60lysDRpc9kNIwpCpWG5vFXZHejtjl1/Nc9AKdm+TQDMz0lnynmOf2cosn
+ R26EdnR4oWVheq0HCbJ9Tox7PBB7mDlhTqvqJ7ZOCRZMDcXU0cj+4kF/Spo5nmU04wWf
+ UFY9q9DhaPS2vB0xpM43fmf3aQQ94LpV/+ABe4oR/CP3hArBCBQMDPWCbaId/aCmlJKv
+ QObYvL/oVNyA+rVW5VWiSCl900MRvuhbpaQGW3Q8dP6xHeOfIHyJ9Bzmhs1zq4taR/Zb kQ== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by userp2120.oracle.com with ESMTP id 30x3mbnhn4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 11 May 2020 14:53:08 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04BEiB74147018;
+        Mon, 11 May 2020 14:51:08 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by userp3020.oracle.com with ESMTP id 30x69r5j3w-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 11 May 2020 14:51:08 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 04BEp7LC011848;
+        Mon, 11 May 2020 14:51:07 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 11 May 2020 07:51:07 -0700
+Date:   Mon, 11 May 2020 17:51:00 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     srinivas.kandagatla@linaro.org
+Cc:     linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [bug report] misc: fastrpc: Add support for context Invoke method
+Message-ID: <20200511145100.GA221682@mwanda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAD90VcYJe7+R256RdOQKxFQciq54+PwbyDRF1cynjOzdQBrq-g@mail.gmail.com>
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9617 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0 adultscore=0
+ spamscore=0 suspectscore=3 mlxscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005110117
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9617 signatures=668687
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 priorityscore=1501 impostorscore=0
+ mlxscore=0 suspectscore=3 bulkscore=0 mlxlogscore=999 phishscore=0
+ malwarescore=0 lowpriorityscore=0 spamscore=0 adultscore=0 clxscore=1011
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2003020000
+ definitions=main-2005110117
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hello Srinivas Kandagatla,
 
-Jumping in the middle of this thread, so I apologize if some of my
-comments are a bit out of context.
+The patch c68cfb718c8f: "misc: fastrpc: Add support for context
+Invoke method" from Feb 8, 2019, leads to the following static
+checker warning:
 
-On Mon, May 11, 2020 at 11:06:34PM +0900, Keiichi Watanabe wrote:
-> On Mon, May 11, 2020 at 9:33 PM Saket Sinha <saket.sinha89@gmail.com> wrote:
-> > > > > I do not support the approach of  QEMU implementation forwarding
-> > > > > requests to the host's vicodec module since  this can limit the scope
-> > > > > of the virtio-video device only for testing,
-> > > >
-> > > > That was my understanding as well.
-> > >
-> > > Not really because the API which the vicodec provides is V4L2 stateful
-> > > decoder interface [1], which are also used by other video drivers on
-> > > Linux.
-> > > The difference between vicodec and actual device drivers is that
-> > > vicodec performs decoding in the kernel space without using special
-> > > video devices. In other words, vicodec is a software decoder in kernel
-> > > space which provides the same interface with actual video drivers.
-> > > Thus, if the QEMU implementation can forward virtio-video requests to
-> > > vicodec, it can forward them to the actual V4L2 video decoder devices
-> > > as well and VM gets access to a paravirtualized video device.
-> > >
-> > > The reason why we discussed vicodec in the previous thread was it'll
-> > > allow us to test the virtio-video driver without hardware requirement.
-> > >
-> > > [1] https://www.kernel.org/doc/html/latest/media/uapi/v4l/dev-decoder.html
-> > >
-> >
-> > Thanks for clarification.
-> >
-> > Could  you provide your views if it would be possible to support also
-> > paravirtualized v4l-subdev devices which is enabled by media
-> > controller to expose ISP processing blocks to linux userspace.
-> > Ofcourse, we might need to change implementation and spec to support that
-> > Please refer (1) for details.
+	drivers/misc/fastrpc.c:990 fastrpc_internal_invoke()
+	warn: 'ctx->refcount.refcount.ref.counter' not decremented on lines: 990.
 
-I don't think this would be the right level of abstraction. The V4L2 API
-is way too low-level when it comes to camera paravirtualization (and may
-not be the only API we'll have in the future). I thus recommend
-virtualizing cameras with a higher-level API, more or less on top of
-libcamera or the Android camera HAL (they both sit at the same level in
-the camera stack). Anything lower than that won't be practical.
+drivers/misc/fastrpc.c
+   925  static int fastrpc_internal_invoke(struct fastrpc_user *fl,  u32 kernel,
+   926                                     u32 handle, u32 sc,
+   927                                     struct fastrpc_invoke_args *args)
+   928  {
+   929          struct fastrpc_invoke_ctx *ctx = NULL;
+   930          int err = 0;
+   931  
+   932          if (!fl->sctx)
+   933                  return -EINVAL;
+   934  
+   935          if (!fl->cctx->rpdev)
+   936                  return -EPIPE;
+   937  
+   938          ctx = fastrpc_context_alloc(fl, kernel, sc, args);
 
-> Again, the current virtio-video protocol and driver only support video
-> encoding and decoding. We had no detailed discussion about camera
-> supports.
-> Moreover, I personally disagree with supporting video capturing in
-> virtio-video protocol. Instead, I believe it's better to have a
-> separate protocol like "virtio-camera". Decoupling video codec APIs
-> and camera APIs should make protocols simpler and easier to maintain.
-> I suggested this idea in [1].
-> 
-> So, the answer to your question is:
-> No in virtio-video protocol. But, it's possible to start designing a
-> new "virtio-camera" protocol that supports camera features including
-> image processing.
-> 
-> [1] https://markmail.org/message/4q2g5oqniw62pmqd
-> 
-> > > > > which instead can be used with multiple use cases such as -
-> > > > >
-> > > > > 1. VM gets access to paravirtualized  camera devices which shares the
-> > > > > video frames input through actual HW camera attached to Host.
-> > > >
-> > > > This use-case is out of the scope of virtio-video. Initially I had a plan to
-> > > > support capture-only streams like camera as well, but later the decision was
-> > > > made upstream that camera should be implemented as separate device type. We
-> > > > still plan to implement a simple frame capture capability as a downstream
-> > > > patch though.
-> > > >
-> > > > >
-> > > > > 2. If Host has multiple video devices (especially in ARM SOCs over
-> > > > > MIPI interfaces or USB), different VM can be started or hotplugged
-> > > > > with selective video streams from actual HW video devices.
-> > > >
-> > > > We do support this in our device implementation. But spec in general has no
-> > > > requirements or instructions regarding this. And it is in fact flexible enough
-> > > > to provide abstraction on top of several HW devices.
-> > > >
-> > > > >
-> > > > > Also instead of using libraries like Gstreamer in Host userspace, they
-> > > > > can also be used inside the VM userspace after getting access to
-> > > > > paravirtualized HW camera devices .
-> > >
-> > > Regarding Gstreamer, I intended this video decoding API [2]. If QEMU
-> > > can translate virtio-video requests to this API, we can easily support
-> > > multiple platforms.
-> > > I'm not sure how feasible it is though, as I have no experience of
-> > > using this API by myself...
-> > >
-> > > [2] https://gstreamer.freedesktop.org/documentation/tutorials/playback/hardware-accelerated-video-decoding.html
-> > >
-> >
-> > Like pointed out above, Gstreamer is not the only framework present there.
-> > We have the newer libcamera framework [2] and then Openmax (used in
-> > Android Hal )
-> > Refer [3] for comparison.
-> 
-> It seems that we had miscommunication here. While I had mentioned
-> Gstreamer as a generic implementation to cover "video decoding" APIs
-> on various platforms, you were talking about "camera" APIs.
-> As I said above, virtio-video is NOT designed for cameras.
-> 
-> For abstraction of video decoding APIs, I don't know any better
-> library than Gstreamer. For cameras, libcamera sounds good, but I'm
-> not so familiar with this area...
-> 
-> > My intentions are to make the implementation more generic so that it
-> > can be used by different frameworks on different platforms.
-> >
-> > [1]: https://static.sched.com/hosted_files/osseu19/21/libcamera.pdf
-> > [2]: http://libcamera.org
-> > [3]: https://processors.wiki.ti.com/images/7/7e/OMX_Android_GST_Comparison.pdf
+refcount is 1.
 
--- 
-Regards,
+   939          if (IS_ERR(ctx))
+   940                  return PTR_ERR(ctx);
+   941  
+   942          if (ctx->nscalars) {
+   943                  err = fastrpc_get_args(kernel, ctx);
+   944                  if (err)
+   945                          goto bail;
+                                ^^^^^^^^^
+Still holding one refcount.
 
-Laurent Pinchart
+   946          }
+   947  
+   948          /* make sure that all CPU memory writes are seen by DSP */
+   949          dma_wmb();
+   950          /* Send invoke buffer to remote dsp */
+   951          err = fastrpc_invoke_send(fl->sctx, ctx, kernel, handle);
+                      ^^^^^^^^^^^^^^^^^^^
+Takes a reference count.  Refcount is now 2.
+
+   952          if (err)
+   953                  goto bail;
+   954  
+   955          if (kernel) {
+   956                  if (!wait_for_completion_timeout(&ctx->work, 10 * HZ))
+   957                          err = -ETIMEDOUT;
+   958          } else {
+   959                  err = wait_for_completion_interruptible(&ctx->work);
+
+This drops a refcount.
+
+   960          }
+   961  
+   962          if (err)
+   963                  goto bail;
+   964  
+   965          /* Check the response from remote dsp */
+   966          err = ctx->retval;
+   967          if (err)
+   968                  goto bail;
+   969  
+   970          if (ctx->nscalars) {
+   971                  /* make sure that all memory writes by DSP are seen by CPU */
+   972                  dma_rmb();
+   973                  /* populate all the output buffers with results */
+   974                  err = fastrpc_put_args(ctx, kernel);
+   975                  if (err)
+   976                          goto bail;
+   977          }
+   978  
+   979  bail:
+   980          if (err != -ERESTARTSYS && err != -ETIMEDOUT) {
+   981                  /* We are done with this compute context */
+   982                  spin_lock(&fl->lock);
+   983                  list_del(&ctx->node);
+   984                  spin_unlock(&fl->lock);
+   985                  fastrpc_context_put(ctx);
+
+If we're holding two refcounts then I think this leaks.
+
+   986          }
+   987          if (err)
+   988                  dev_dbg(fl->sctx->dev, "Error: Invoke Failed %d\n", err);
+   989  
+   990          return err;
+   991  }
+
+regards,
+dan carpenter
