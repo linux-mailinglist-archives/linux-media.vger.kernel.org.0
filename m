@@ -2,144 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08DD41CD667
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 12:20:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00FEF1CD655
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 12:19:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729309AbgEKKUx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 May 2020 06:20:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57030 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727093AbgEKKUw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 May 2020 06:20:52 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09EE8C061A0C
-        for <linux-media@vger.kernel.org>; Mon, 11 May 2020 03:20:51 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id x73so7042015lfa.2
-        for <linux-media@vger.kernel.org>; Mon, 11 May 2020 03:20:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7l3aJuCw1ZmCkBeYJdf5n98EOG+qDwjoqW0w6aiK8Jw=;
-        b=Sikc5W36ZX6VLf4vxIpmICrDhJ9qmRTG+teL0qUfwHpirI6RkJ0v/hdzb+V3cF37dh
-         poqmBP9D3KmtU4xWW4uVxU1M/fLBVgjGL/GEtQNHvCviUoj0IopFFElfZVB028qoKj7i
-         Ag+GhK48JROPwo+bKXsnuOf+mgnNWfkx9wMmM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7l3aJuCw1ZmCkBeYJdf5n98EOG+qDwjoqW0w6aiK8Jw=;
-        b=F5kTxT+lmqct0od9CEqC7wavgqQ6yqj4B/w79WiorqJybyWoWnbocnaGKprWP6+g82
-         VWBpFZvocCS/hm+xnzfgBbkWlwZaqoh4ZVVM7prfwu5oA5P/mzfi1hQSHGgynO8EvDqG
-         vgW//eoAWwKeHJwmJmwLckrME57m+wpUeyFRCIOEIe8dqJbMJOZvd+SGkAgOxCWggoqQ
-         HDBtV423pCYmWdYS5BXZsvO1sQGy0oR9hxvLGwtDUzwXoA9LnGzmQZjpgOJPs/HYtOys
-         YmGJ1O+1VQbE0qsLr+6eUrsAEcwvE9kj/vym6TxnNU/0gZBqANkrhSdLkXxg4JmAl4Eg
-         HlfA==
-X-Gm-Message-State: AOAM530mn9ak+4ndApL6n6dJAJ864GEMpLuQt3Rkkr/HJuMVhScqW4h0
-        4iUaLrvFADUtLlJVW2sbaRqsCFeV1Y6WpS4EcCdldw==
-X-Google-Smtp-Source: ABdhPJwQliO9vuZUSjoSithFIp6Rh4GnLng2aK/kW3AYtqC4jRKZQweyrqj0jcFbUxqjG+HiYZc8QabdBuaOZVk+23w=
-X-Received: by 2002:ac2:504c:: with SMTP id a12mr10601082lfm.110.1589192449476;
- Mon, 11 May 2020 03:20:49 -0700 (PDT)
+        id S1729348AbgEKKTi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 May 2020 06:19:38 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:41694 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729046AbgEKKTK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 11 May 2020 06:19:10 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jY5TD-003b9Z-E3; Mon, 11 May 2020 10:15:35 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jY5YR-000250-Ex; Mon, 11 May 2020 10:20:59 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.8] Report camera properties (#63733)
+Date:   Mon, 11 May 2020 10:20:59 +0000
+Message-Id: <20200511102059.7953-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <6ad6a156-8a13-d093-b554-7edb1012ad2f@xs4all.nl>
+References: 
 MIME-Version: 1.0
-References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
- <CAK25hWMj5PyQFZVN5AToHjdySvi6iZ4zjZeUJQR85jNgoeLeAw@mail.gmail.com>
- <CAK25hWOPS1wGORXgtv8hUNu9-mLO+5C_k3Cj=8pnoFWmjuhJdg@mail.gmail.com> <2405792.XL1faGB9W5@os-lin-dmo>
-In-Reply-To: <2405792.XL1faGB9W5@os-lin-dmo>
-From:   Keiichi Watanabe <keiichiw@chromium.org>
-Date:   Mon, 11 May 2020 19:20:38 +0900
-Message-ID: <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
-Subject: Re: [virtio-dev] Re: Fwd: Qemu Support for Virtio Video V4L2 driver
-To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
-Cc:     Kiran Pawar <Kiran.Pawar@opensynergy.com>,
-        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
-        qemu-devel@nongnu.org, Saket Sinha <saket.sinha89@gmail.com>,
-        virtio-dev@lists.oasis-open.org, Gerd Hoffmann <kraxel@redhat.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dmitry,
+From: builder@linuxtv.org
 
-On Mon, May 11, 2020 at 6:40 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
->
-> Hi Saket and all,
->
-> As we are working with automotive platforms, unfortunately we don't plan any
-> Qemu reference implementation so far.
->
-> Of course we are ready to support the community if any help is needed. Is
-> there interest in support for the FWHT format only for testing purpose or you
-> want a full-featured implementation on the QEMU side?
+Pull request: https://patchwork.linuxtv.org/patch/63733/
+Build log: https://builder.linuxtv.org/job/patchwork/50465/
+Build time: 00:40:32
+Link: https://lore.kernel.org/linux-media/6ad6a156-8a13-d093-b554-7edb1012ad2f@xs4all.nl
 
-I guess we don't need to implement the codec algorithm in QEMU.
-Rather, QEMU forwards virtio-video requests to the host video device
-or a software library such as GStreamer or ffmpeg.
-So, what we need to implement in QEMU is a kind of API translation,
-which shouldn't care about actual video formats so much.
+gpg: Signature made Mon 11 May 2020 09:25:11 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-Regarding the FWHT format discussed in the patch thread [1], in my
-understanding, Hans suggested to have QEMU implementation forwarding
-requests to the host's vicodec module [2].
-Then, we'll be able to test the virtio-video driver on QEMU on Linux
-even if the host Linux has no hardware video decoder.
-(Please correct me if I'm wrong.)
+Summary: 4 patches and/or PDF generation with issues, being 0 at build time
 
-Let me add Hans and Linux media ML in CC.
+Error/warnings:
 
-[1]  https://patchwork.linuxtv.org/patch/61717/
-[2] https://lwn.net/Articles/760650/
 
-Best regards,
-Keiichi
+Error #256 when running cat patches/0005-media-v4l2-ctrls-Add-camera-orientation-and-rotation.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0005-media-v4l2-ctrls-Add-camera-orientation-and-rotation.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:78: CHECK: spaces preferred around that '+' (ctx:VxV)
+-:83: CHECK: spaces preferred around that '+' (ctx:VxV)
 
->
-> Please note that the spec is not finalized yet and a major update is now
-> discussed with upstream and the Chrome OS team, which is also interested and
-> deeply involved in the process. The update mostly implies some rewording and
-> reorganization of data structures, but for sure will require a driver rework.
->
-> Best regards,
-> Dmitry.
->
-> On Samstag, 9. Mai 2020 16:11:43 CEST Saket Sinha wrote:
-> > Hi,
-> >
-> > As suggested on #qemu-devel IRC channel, I am including virtio-dev, Gerd and
-> > Michael to point in the right direction how to move forward with Qemu
-> > support for Virtio Video V4L2 driver
-> > posted in [1].
-> >
-> > [1]: https://patchwork.linuxtv.org/patch/61717/
-> >
-> > Regards,
-> > Saket Sinha
-> >
-> > On Sat, May 9, 2020 at 1:09 AM Saket Sinha <saket.sinha89@gmail.com> wrote:
-> > > Hi ,
-> > >
-> > > This is to inquire about Qemu support for Virtio Video V4L2 driver
-> > > posted in [1].
-> > > I am currently not aware of any upstream effort for Qemu reference
-> > > implementation and would like to discuss how to proceed with the same.
-> > >
-> > > [1]: https://patchwork.linuxtv.org/patch/61717/
-> > >
-> > > Regards,
-> > > Saket Sinha
->
->
->
-> ---------------------------------------------------------------------
-> To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
-> For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
->
+Error #256 when running cat patches/0006-media-v4l2-fwnode-Add-helper-to-parse-device-propert.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0006-media-v4l2-fwnode-Add-helper-to-parse-device-propert.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:45: WARNING: line over 80 characters
+
+Error #256 when running cat patches/0009-media-v4l2-ctrls-Add-helper-to-register-properties.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0009-media-v4l2-ctrls-Add-helper-to-register-properties.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:35: WARNING: line over 80 characters
+-:111: WARNING: line over 80 characters
+
