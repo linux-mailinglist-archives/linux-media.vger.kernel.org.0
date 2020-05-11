@@ -2,101 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2A7B1CE4CE
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 21:54:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C77C1CE4D8
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 21:55:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729661AbgEKTyl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 May 2020 15:54:41 -0400
-Received: from mga07.intel.com ([134.134.136.100]:53672 "EHLO mga07.intel.com"
+        id S1729727AbgEKTzk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 May 2020 15:55:40 -0400
+Received: from v6.sk ([167.172.42.174]:52448 "EHLO v6.sk"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728283AbgEKTyl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 May 2020 15:54:41 -0400
-IronPort-SDR: 9QS6IqBZgzmK2xr3peMXjjFwHGwjIIq7iwSlkPvqglCyjzDAmCc99QZYl/ajzxT6ZID9Ic/WiW
- fzHQEiCNFP7g==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2020 12:54:40 -0700
-IronPort-SDR: nrkVhs2KY64uvbGWb8TbDdcpt1XqGWxWNDd41wC2FKPz9dUaJM9u6VAMspAPx6nHD6QH2LMvZ+
- w72qZcPRYfEQ==
-X-IronPort-AV: E=Sophos;i="5.73,381,1583222400"; 
-   d="scan'208";a="297792634"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 May 2020 12:54:36 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 379F6204C7; Mon, 11 May 2020 22:54:34 +0300 (EEST)
-Date:   Mon, 11 May 2020 22:54:34 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, mchehab@kernel.org,
-        andriy.shevchenko@linux.intel.com, mark.rutland@arm.com,
-        drinkcat@chromium.org, tfiga@chromium.org, matthias.bgg@gmail.com,
-        bingbu.cao@intel.com, srv_heupstream@mediatek.com,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [V8, 1/2] media: dt-bindings: media: i2c: Document OV02A10
- bindings
-Message-ID: <20200511195434.GG11272@paasikivi.fi.intel.com>
-References: <20200509080627.23222-1-dongchun.zhu@mediatek.com>
- <20200509080627.23222-2-dongchun.zhu@mediatek.com>
- <20200511160207.GA32476@bogus>
+        id S1729049AbgEKTzk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 11 May 2020 15:55:40 -0400
+Received: from localhost (v6.sk [IPv6:::1])
+        by v6.sk (Postfix) with ESMTP id F13CA610A9;
+        Mon, 11 May 2020 19:55:37 +0000 (UTC)
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     Michael Turquette <mturquette@baylibre.com>
+Cc:     Stephen Boyd <sboyd@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH 0/2] MMP2 Audio clock controller driver 
+Date:   Mon, 11 May 2020 21:55:32 +0200
+Message-Id: <20200511195534.1207927-1-lkundrak@v3.sk>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200511160207.GA32476@bogus>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Hi,
 
-On Mon, May 11, 2020 at 11:02:07AM -0500, Rob Herring wrote:
-> On Sat, May 09, 2020 at 04:06:26PM +0800, Dongchun Zhu wrote:
-...
+please consider applying this patch set. It contains a driver for the
+audio clock generator on Marvell MMP2 along with the DT bindings.
 
-> > +    properties:
-> > +      endpoint:
-> > +        type: object
-> > +
-> > +        properties:
-> > +          data-lanes:
-> > +            description: |-
-> > +              The driver only supports 1-lane operation.
-> 
-> What the driver supports is not relevant.
-> 
-> > +            items:
-> > +              - const: 1
-> > +              - const: 2
-> > +              - const: 3
-> > +              - const: 4
-> > +
-> > +          clock-noncontinuous:
-> > +            type: boolean
-> > +            description: |-
-> > +              MIPI CSI-2 clock is non-continuous if this property is present,
-> > +              otherwise it's continuous.
-> 
-> Assume this has a common definition, so just need:
-> 
-> clock-noncontinuous: true
-> 
+Currently the I2S driver (mmp2-sspa) doesn't have support for DT and is
+not able to get clocks from this driver. The patch set to address that
+will be sent separately.
 
-...
+Note that the DT binding validation is going to complain about the
+example in it until the "clk: mmp2: Enable Audio and GPU on MMP2 and
+MMP3" [1] patch set is merged. Not a big deal I suppose.
 
-> > +                    data-lanes = <1>;
-> 
-> This doesn't match the schema which says this should be 4 entries.
+[1] https://lore.kernel.org/lkml/20200511192517.1206442-1-lkundrak@v3.sk/
 
-I believe the intent has been to say there would be 1, 2, 3 or 4 entries
---- i.e. the number of lanes.
+This patch set has been tested on an OLPC XO-1.75 laptop, along with a
+patched mmp-sspa driver and rt5631 codec.
 
--- 
-Kind regards,
+Thank you
+Lubo
 
-Sakari Ailus
+
