@@ -2,111 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5954A1CD492
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 11:12:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29EA01CD4E7
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 11:29:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729308AbgEKJL5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 May 2020 05:11:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46386 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727093AbgEKJL5 (ORCPT
+        id S1726287AbgEKJ3o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 May 2020 05:29:44 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:44549 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725790AbgEKJ3o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 May 2020 05:11:57 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8848C061A0C
-        for <linux-media@vger.kernel.org>; Mon, 11 May 2020 02:11:56 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id l18so9917688wrn.6
-        for <linux-media@vger.kernel.org>; Mon, 11 May 2020 02:11:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=0CinOkbYS8oPgPVLI49BKt2JzQLqGPZqhctItxxwelA=;
-        b=h4rIFRGn0yKy4FgF2CPDHTuSqgim5fjp6Ly9Ueas+XY00rIljDAeF2fRgJ3GyRmMva
-         juSun8H2JFb0tKhLNykj5s7WbdhQtMrb6yKjQ3/EG1CrxrYWGuMXykVRWcToDMvHyZWd
-         kwRsJAkax1d6Xmna3tnM/71z6J0ExhjpOI7pA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=0CinOkbYS8oPgPVLI49BKt2JzQLqGPZqhctItxxwelA=;
-        b=i1XTPC251JQdsF3XveikvExg1MsRzDlxM3tgLuScj5x74Mx0j/c5CMtRt48KJ2MPG2
-         86PuKbElbpP56vr4b6l6wDGyOsPIIBmkat6Pc/ZDbENzaUzKwfHGseOHUQFovKJeFDN0
-         u/BNtv3a2xY69S2TQTeU2rD1b0Z1yURRUA52Ht2bSjlibfAwfP5q9+5vJPVUyDuSq8+y
-         x+d4hpXBD2QjVgcE+Yc4iY/rH9wkIpgSF5NXgLkSsD75E9uY/phnbFmLm1VS4e9EplwM
-         +XWViw0wPENlt8NYCjujK3Ms4//lbK+kkW2Hh+gpuc+mULG3vIRVCXgdg6AwAnPvItGl
-         Z51A==
-X-Gm-Message-State: AGi0Pub8y+zFh0dbVXw4ypGWXsC/5lzpG9OH9KlEFIsWKe07opiyC5Oi
-        a5wvtz7wKyJOFYIZ7GvocWy8/g==
-X-Google-Smtp-Source: APiQypIe/NcTRB7OjwoRrwiqdLysAONSgQ8XmUpqQiiFNg4nNfp3xqmACL1LU9lULCHwhJ4moMYGIg==
-X-Received: by 2002:adf:e582:: with SMTP id l2mr18950634wrm.392.1589188315492;
-        Mon, 11 May 2020 02:11:55 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id t4sm17506299wri.54.2020.05.11.02.11.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 02:11:54 -0700 (PDT)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Olof Johansson <olof@lixom.net>,
-        Oded Gabbay <oded.gabbay@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 3/3] misc/habalabs: don't set default fence_ops->wait
-Date:   Mon, 11 May 2020 11:11:42 +0200
-Message-Id: <20200511091142.208787-3-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200511091142.208787-1-daniel.vetter@ffwll.ch>
-References: <20200511091142.208787-1-daniel.vetter@ffwll.ch>
+        Mon, 11 May 2020 05:29:44 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id Y4kmj9o81hEkrY4knjFozN; Mon, 11 May 2020 11:29:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1589189382; bh=xFvyyrWYxH6Qmyya4EjMcLwgC/PXvwYMJBP6pqQh8iQ=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=JtOdx00O/Typm6wUT0EgDt12T4rlIMRp8lBNpqG/0XXvx6te5ChzNT1XcD+7vw3Jp
+         097K1O9oAPjvULkDZgQKbixPhzbF2SjnUNstaWDT5YzRoBmrwqzCh4bgt9b+0Kqn9l
+         eUAg+VdTh2Teuqb67SILhKbXTL0y67dA/PaKE/LoJTO0UIIAVjsAbARU1eKDWe9OBH
+         B+4u3i7Sji8lCE7/9UWxAGGmy00FsGujuvVZaLvdKRvf9yKTmxDMTSOTJscFQaaeqR
+         OfiCrDyDRcbVlY9vU1tcd1qqWuOodHSMrJQlspodDEFq1BwsRdnA16e56IqfCv3cui
+         G3GyKrBImLDKQ==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.8] Report camera properties
+Message-ID: <6ad6a156-8a13-d093-b554-7edb1012ad2f@xs4all.nl>
+Date:   Mon, 11 May 2020 11:29:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfLtLn8bL6mmbeTdkJT8T35otQkl7hocAPQkTseDid07ZFoMfRDy27QxkZUmP+RmNpc5gphFyoTkO4wgyzzrLv7PpHp24q5ZBKgOYyZJGhN4OC11D5UAH
+ 617F9LTkUVbgcbIkHdPayh2dCEPpqcT6WBCGLYdtfGjEcvRY42Wn0T5blIraLU2kYEaSDTtN09XPZWfHS8hkWeY/EAprdnVt5dqpcMdLiMid17NTb9NszfZ5
+ krdXp3ex+XGikH7J/Ws8ELlEelTFpJjJuFBUNYFjYoTAfzf7hxp/crVz9AC2bw9NBi6NdA9aNiFBHSGyZKEd8w==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It's the default.
+This merges v11 of this patch series:
 
-Also so much for "we're not going to tell the graphics people how to
-review their code", dma_fence is a pretty core piece of gpu driver
-infrastructure. And it's very much uapi relevant, including piles of
-corresponding userspace protocols and libraries for how to pass these
-around.
+https://patchwork.linuxtv.org/cover/63700/
 
-Would be great if habanalabs would not use this (from a quick look
-it's not needed at all), since open source the userspace and playing
-by the usual rules isn't on the table. If that's not possible (because
-it's actually using the uapi part of dma_fence to interact with gpu
-drivers) then we have exactly what everyone promised we'd want to
-avoid.
+with the exception of the last patch ("dt-bindings: Add media properties")
+which is independent of the other patches and which needs more work.
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: 	Olof Johansson <olof@lixom.net>
-Cc: Oded Gabbay <oded.gabbay@gmail.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- drivers/misc/habanalabs/command_submission.c | 1 -
- 1 file changed, 1 deletion(-)
+Regards,
 
-diff --git a/drivers/misc/habanalabs/command_submission.c b/drivers/misc/habanalabs/command_submission.c
-index 409276b6374d..cc3ce759b6c3 100644
---- a/drivers/misc/habanalabs/command_submission.c
-+++ b/drivers/misc/habanalabs/command_submission.c
-@@ -46,7 +46,6 @@ static const struct dma_fence_ops hl_fence_ops = {
- 	.get_driver_name = hl_fence_get_driver_name,
- 	.get_timeline_name = hl_fence_get_timeline_name,
- 	.enable_signaling = hl_fence_enable_signaling,
--	.wait = dma_fence_default_wait,
- 	.release = hl_fence_release
- };
- 
--- 
-2.26.2
+	Hans
 
+The following changes since commit 5b9f8e4ac9473962fa0e824fd1f04138600d459d:
+
+  media: ipu3.rst: fix a build warning (2020-05-06 14:49:41 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.8h
+
+for you to fetch changes up to e1bf50999c26223bba8df1fcd595ba11f9aa0948:
+
+  media: i2c: imx219: Parse and register properties (2020-05-11 09:24:47 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Jacopo Mondi (12):
+      dt-bindings: video-interfaces: Document 'orientation' property
+      dt-bindings: video-interface: Replace 'rotation' description
+      media: v4l2-ctrl: Document V4L2_CID_CAMERA_ORIENTATION
+      media: v4l2-ctrl: Document V4L2_CID_CAMERA_SENSOR_ROTATION
+      media: v4l2-ctrls: Add camera orientation and rotation
+      media: v4l2-fwnode: Add helper to parse device properties
+      include: v4l2-ctrl: Sort forward declarations
+      media: v4l2-ctrls: Sort includes alphabetically
+      media: v4l2-ctrls: Add helper to register properties
+      media: i2c: ov5670: Parse and register properties
+      media: i2c: ov13858: Parse and register properties
+      media: i2c: imx219: Parse and register properties
+
+ Documentation/devicetree/bindings/media/video-interfaces.txt | 372 ++++++++++++++++++++++++++++++++++++++++++-
+ Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst   | 151 ++++++++++++++++++
+ drivers/media/i2c/imx219.c                                   |  12 +-
+ drivers/media/i2c/ov13858.c                                  |  13 +-
+ drivers/media/i2c/ov5670.c                                   |  14 +-
+ drivers/media/v4l2-core/v4l2-ctrls.c                         |  61 ++++++-
+ drivers/media/v4l2-core/v4l2-fwnode.c                        |  42 +++++
+ include/media/v4l2-ctrls.h                                   |  34 +++-
+ include/media/v4l2-fwnode.h                                  |  47 ++++++
+ include/uapi/linux/v4l2-controls.h                           |   7 +
+ 10 files changed, 738 insertions(+), 15 deletions(-)
