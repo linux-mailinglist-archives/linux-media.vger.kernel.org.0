@@ -2,270 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB9F51CD8B3
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 13:42:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE3111CD8DD
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 13:49:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729163AbgEKLml (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 May 2020 07:42:41 -0400
-Received: from mailgw02.mediatek.com ([1.203.163.81]:38970 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726068AbgEKLmk (ORCPT
+        id S1729646AbgEKLtt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 May 2020 07:49:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42594 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1727019AbgEKLts (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 May 2020 07:42:40 -0400
-X-UUID: a3e452e865a04361b3cbc5c15d232e77-20200511
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=zYP7WUCKByPrvwZhq/DDUeFuqDs/wg9N46m6Bck+LSY=;
-        b=ee0d2ARlP+9DCY124x8s50vIJcxTQMb1CIW6WzXpFDnRmHZm5IYnpi9Xzjc8i1KxKBELoEd+OK7uRrnfsXwatKZQdNRE8fEeyb4BvrNSqJKaqtPRWrEz+1HS3FqxaX5bX3ce+fRHup5ydoG2J2iBEGWJUa4yZwduTEkTRxZUDMU=;
-X-UUID: a3e452e865a04361b3cbc5c15d232e77-20200511
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
-        (envelope-from <dongchun.zhu@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 1617841235; Mon, 11 May 2020 19:42:19 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31DR.mediatek.inc
- (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 11 May
- 2020 19:42:19 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Mon, 11 May 2020 19:42:17 +0800
-Message-ID: <1589197265.8804.262.camel@mhfsdcap03>
-Subject: Re: [V7, 1/2] media: dt-bindings: media: i2c: Document OV02A10
- bindings
-From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     Tomasz Figa <tfiga@chromium.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        <matrix.zhu@aliyun.com>, Matthias Brugger <matthias.bgg@gmail.com>,
-        Cao Bing Bu <bingbu.cao@intel.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg 
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Sj Huang <sj.huang@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        Louis Kuo <louis.kuo@mediatek.com>,
-        "Shengnan Wang =?UTF-8?Q?=28=E7=8E=8B=E5=9C=A3=E7=94=B7=29?=" 
-        <shengnan.wang@mediatek.com>, <dongchun.zhu@mediatek.com>
-Date:   Mon, 11 May 2020 19:41:05 +0800
-In-Reply-To: <20200510223552.GA11272@paasikivi.fi.intel.com>
-References: <20200430080924.1140-1-dongchun.zhu@mediatek.com>
-         <20200430080924.1140-2-dongchun.zhu@mediatek.com>
-         <20200505070451.GS9190@paasikivi.fi.intel.com>
-         <1588688238.8804.150.camel@mhfsdcap03>
-         <20200506112136.GV9190@paasikivi.fi.intel.com>
-         <1588856325.8804.179.camel@mhfsdcap03>
-         <CAAFQd5CXRD_j7Xkxb4=9kkd+pDy4W5pirAPSG8RsMVH6L-MU2w@mail.gmail.com>
-         <20200507141147.GF9190@paasikivi.fi.intel.com>
-         <CAAFQd5DgDk57MCc4vE9VmifZYjtO_SUFss+vc8W-28SFHbKDrA@mail.gmail.com>
-         <1588920685.8804.230.camel@mhfsdcap03>
-         <20200510223552.GA11272@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        Mon, 11 May 2020 07:49:48 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01984C061A0C
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2020 04:49:47 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id a9so7227027lfb.8
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2020 04:49:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=B21F7CiOg+DDDaqcnQJW0RYfm2fpIW2cEenamiuDnaA=;
+        b=A53Unz8Owy5JTyr9M5bWp9gLHNtWnSvJtGt1v6oqr3IeXsxJ0ugGzoCAjVun/M/448
+         mYD/I+0FPQMyINWyPxjg898kLjLdGFL2kILNGhDnTlefdcj34ZjP1MJpzch+FlY+yW79
+         6X+0zmCJbzk0LggSaFKu/+39KHg4CtDlf/hqg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=B21F7CiOg+DDDaqcnQJW0RYfm2fpIW2cEenamiuDnaA=;
+        b=jCZtbb9Zn8+vH2LgA12xwDJE+rk3hljbqZ37DFEzkXdR/t7bKxvNuz1DOm19QxNR7Y
+         qBqZQBEMrsVTvkvUwSkrV7RaYAhvMD3gJ3bM+Tt5aGXAq2BsKp6uPQFneTH9r1kh60sz
+         JRpVaCEonTMI4eNNCssyd/wJraxVz4zUJzWU0wngGrz6CnuWk9iTbg5qpR763XioUynv
+         OU+S1t+KBlXYZhhmuqoIPCgQ/bliAAtvkZJ1FtUc6zVSuuvu5J3j6CGL+Lc92r4BFm7E
+         yfuqHD59r2+y/hmjJv8nsELULg8DmWaEy3N3KKyGE5BHNc/iWYwJLr+OsKc0nDkNC3Hi
+         tONQ==
+X-Gm-Message-State: AOAM531JzAZWkNI0S4nXwxqnP1XmK5dgOzdWo3V6u7kk/Tk/mTtmH1Ms
+        ZhDqYC20hmLD+W+6ADUXAAftymYcufZBEpEFZuW5Rg==
+X-Google-Smtp-Source: ABdhPJy2dm/OSzYbLWWpaDMwsa/U0AXERYmQvZeMpWlmx2lpQWzJ5BXYK0R27wI7E9fHJmoZpAWuq7QjCsf4UJPK3RE=
+X-Received: by 2002:a19:6b13:: with SMTP id d19mr11026821lfa.126.1589197785384;
+ Mon, 11 May 2020 04:49:45 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: F41B5CE6AE9A8E2642EBD9C2C5AEFDD6A7C736217A0BD5B987DEC9241E371ABA2000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
+ <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
+ <CAK25hWM-hLdk=MSKgceumOUo9ZNBrrmM8qSe7MvTUAPGmur_HQ@mail.gmail.com> <2515515.r9knKAEANn@os-lin-dmo>
+In-Reply-To: <2515515.r9knKAEANn@os-lin-dmo>
+From:   Keiichi Watanabe <keiichiw@chromium.org>
+Date:   Mon, 11 May 2020 20:49:33 +0900
+Message-ID: <CAD90VcYeF7drbYNDiEioPBHcQcifqDYUia_CKqNLv_5VAMjPKw@mail.gmail.com>
+Subject: Re: [virtio-dev] Re: Fwd: Qemu Support for Virtio Video V4L2 driver
+To:     Dmitry Sepp <dmitry.sepp@opensynergy.com>
+Cc:     Saket Sinha <saket.sinha89@gmail.com>,
+        Kiran Pawar <Kiran.Pawar@opensynergy.com>,
+        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
+        qemu-devel@nongnu.org, virtio-dev@lists.oasis-open.org,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgU2FrYXJpLA0KDQpPbiBNb24sIDIwMjAtMDUtMTEgYXQgMDE6MzUgKzAzMDAsIFNha2FyaSBB
-aWx1cyB3cm90ZToNCj4gSGkgRG9uZ2NodW4sDQo+IA0KPiBPbiBGcmksIE1heSAwOCwgMjAyMCBh
-dCAwMjo1MToyNVBNICswODAwLCBEb25nY2h1biBaaHUgd3JvdGU6DQo+ID4gSGkgU2FrYXJpLCBU
-b21hc3osDQo+ID4gDQo+ID4gT24gVGh1LCAyMDIwLTA1LTA3IGF0IDE2OjI1ICswMjAwLCBUb21h
-c3ogRmlnYSB3cm90ZToNCj4gPiA+IE9uIFRodSwgTWF5IDcsIDIwMjAgYXQgNDoxMiBQTSBTYWth
-cmkgQWlsdXMNCj4gPiA+IDxzYWthcmkuYWlsdXNAbGludXguaW50ZWwuY29tPiB3cm90ZToNCj4g
-PiA+ID4NCj4gPiA+ID4gSGkgVG9tYXN6LCBEb25nY2h1biwNCj4gPiA+ID4NCj4gPiA+ID4gT24g
-VGh1LCBNYXkgMDcsIDIwMjAgYXQgMDM6NTA6NDBQTSArMDIwMCwgVG9tYXN6IEZpZ2Egd3JvdGU6
-DQo+ID4gPiA+ID4gSGkgU2FrYXJpIGFuZCBEb25nY2h1biwNCj4gPiA+ID4gPg0KPiA+ID4gPiA+
-IE9uIFRodSwgTWF5IDcsIDIwMjAgYXQgMzowMCBQTSBEb25nY2h1biBaaHUgPGRvbmdjaHVuLnpo
-dUBtZWRpYXRlay5jb20+IHdyb3RlOg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IEhpIFNha2Fy
-aSwNCj4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiBUaGFua3MgZm9yIHRoZSByZXZpZXcuDQo+ID4g
-PiA+ID4gPg0KPiA+ID4gPiA+ID4gT24gV2VkLCAyMDIwLTA1LTA2IGF0IDE0OjIxICswMzAwLCBT
-YWthcmkgQWlsdXMgd3JvdGU6DQo+ID4gPiA+ID4gPiA+IEhpIERvbmdjaHVuLA0KPiA+ID4gPiA+
-ID4gPg0KPiA+ID4gPiA+ID4gPiBPbiBUdWUsIE1heSAwNSwgMjAyMCBhdCAxMDoxNzoxOFBNICsw
-ODAwLCBEb25nY2h1biBaaHUgd3JvdGU6DQo+ID4gPiA+ID4gPiA+ID4gSGkgU2FrYXJpLA0KPiA+
-ID4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+ID4gVGhhbmtzIGZvciB0aGUgcmV2aWV3Lg0KPiA+
-ID4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+ID4gT24gVHVlLCAyMDIwLTA1LTA1IGF0IDEwOjA0
-ICswMzAwLCBTYWthcmkgQWlsdXMgd3JvdGU6DQo+ID4gPiA+ID4gPiA+ID4gPiBIaSBEb25nY2h1
-biwNCj4gPiA+ID4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+ID4gPiBPbiBUaHUsIEFwciAzMCwg
-MjAyMCBhdCAwNDowOToyM1BNICswODAwLCBEb25nY2h1biBaaHUgd3JvdGU6DQo+ID4gPiA+ID4g
-PiA+ID4gPiA+IEFkZCBEVCBiaW5kaW5ncyBkb2N1bWVudGF0aW9uIGZvciBPbW5pdmlzaW9uIE9W
-MDJBMTAgaW1hZ2Ugc2Vuc29yLg0KPiA+ID4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+
-ID4gPiBTaWduZWQtb2ZmLWJ5OiBEb25nY2h1biBaaHUgPGRvbmdjaHVuLnpodUBtZWRpYXRlay5j
-b20+DQo+ID4gPiA+ID4gPiA+ID4gPiA+IC0tLQ0KPiA+ID4gPiA+ID4gPiA+ID4gPiAgLi4uL2Jp
-bmRpbmdzL21lZGlhL2kyYy9vdnRpLG92MDJhMTAueWFtbCAgICAgICAgICAgfCAxNDggKysrKysr
-KysrKysrKysrKysrKysrDQo+ID4gPiA+ID4gPiA+ID4gPiA+ICBNQUlOVEFJTkVSUyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAgNyArDQo+ID4gPiA+ID4gPiA+ID4g
-PiA+ICAyIGZpbGVzIGNoYW5nZWQsIDE1NSBpbnNlcnRpb25zKCspDQo+ID4gPiA+ID4gPiA+ID4g
-PiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
-L21lZGlhL2kyYy9vdnRpLG92MDJhMTAueWFtbA0KPiA+ID4gPiA+ID4gPiA+ID4gPg0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
-bmdzL21lZGlhL2kyYy9vdnRpLG92MDJhMTAueWFtbCBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJl
-ZS9iaW5kaW5ncy9tZWRpYS9pMmMvb3Z0aSxvdjAyYTEwLnlhbWwNCj4gPiA+ID4gPiA+ID4gPiA+
-ID4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gPiA+ID4gPiA+ID4gPiA+ID4gaW5kZXggMDAwMDAw
-MC4uMmJlNGJkMg0KPiA+ID4gPiA+ID4gPiA+ID4gPiAtLS0gL2Rldi9udWxsDQo+ID4gPiA+ID4g
-PiA+ID4gPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9p
-MmMvb3Z0aSxvdjAyYTEwLnlhbWwNCj4gPiA+ID4gPiA+ID4gPiA+ID4gQEAgLTAsMCArMSwxNDgg
-QEANCj4gPiA+ID4gPiA+ID4gPiA+ID4gKyMgU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IChHUEwt
-Mi4wIE9SIEJTRC0yLUNsYXVzZSkNCj4gPiA+ID4gPiA+ID4gPiA+ID4gKyMgQ29weXJpZ2h0IChj
-KSAyMDIwIE1lZGlhVGVrIEluYy4NCj4gPiA+ID4gPiA+ID4gPiA+ID4gKyVZQU1MIDEuMg0KPiA+
-ID4gPiA+ID4gPiA+ID4gPiArLS0tDQo+ID4gPiA+ID4gPiA+ID4gPiA+ICskaWQ6IGh0dHA6Ly9k
-ZXZpY2V0cmVlLm9yZy9zY2hlbWFzL21lZGlhL2kyYy9vdnRpLG92MDJhMTAueWFtbCMNCj4gPiA+
-ID4gPiA+ID4gPiA+ID4gKyRzY2hlbWE6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9tZXRhLXNjaGVt
-YXMvY29yZS55YW1sIw0KPiA+ID4gPiA+ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4gPiA+ID4gPiA+
-ICt0aXRsZTogT21uaXZpc2lvbiBPVjAyQTEwIENNT1MgU2Vuc29yIERldmljZSBUcmVlIEJpbmRp
-bmdzDQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ID4gPiA+ID4gK21haW50YWlu
-ZXJzOg0KPiA+ID4gPiA+ID4gPiA+ID4gPiArICAtIERvbmdjaHVuIFpodSA8ZG9uZ2NodW4uemh1
-QG1lZGlhdGVrLmNvbT4NCj4gPiA+ID4gPiA+ID4gPiA+ID4gKw0KPiA+ID4gPiA+ID4gPiA+ID4g
-PiArZGVzY3JpcHRpb246IHwtDQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsgIFRoZSBPbW5pdmlzaW9u
-IE9WMDJBMTAgaXMgYSBsb3ctY29zdCwgaGlnaCBwZXJmb3JtYW5jZSwgMS81LWluY2gsIDIgbWVn
-YXBpeGVsDQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsgIGltYWdlIHNlbnNvciwgd2hpY2ggaXMgdGhl
-IGxhdGVzdCBwcm9kdWN0aW9uIGRlcml2ZWQgZnJvbSBPbW5pdmlzaW9uJ3MgQ01PUw0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiArICBpbWFnZSBzZW5zb3IgdGVjaG5vbG9neS4gSWhpcyBjaGlwIHN1cHBv
-cnRzIGhpZ2ggZnJhbWUgcmF0ZSBzcGVlZHMgdXAgdG8gMzBmcHMNCj4gPiA+ID4gPiA+ID4gPiA+
-ID4gKyAgQCAxNjAweDEyMDAgKFVYR0EpIHJlc29sdXRpb24gdHJhbnNmZXJyZWQgb3ZlciBhIDEt
-bGFuZSBNSVBJIGludGVyZmFjZS4gVGhlDQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsgIHNlbnNvciBv
-dXRwdXQgaXMgYXZhaWxhYmxlIHZpYSBDU0ktMiBzZXJpYWwgZGF0YSBvdXRwdXQuDQo+ID4gPiA+
-ID4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ID4gPiA+ID4gK3Byb3BlcnRpZXM6DQo+ID4gPiA+
-ID4gPiA+ID4gPiA+ICsgIGNvbXBhdGlibGU6DQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsgICAgY29u
-c3Q6IG92dGksb3YwMmExMA0KPiA+ID4gPiA+ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4gPiA+ID4g
-PiA+ICsgIHJlZzoNCj4gPiA+ID4gPiA+ID4gPiA+ID4gKyAgICBtYXhJdGVtczogMQ0KPiA+ID4g
-PiA+ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsgIGNsb2NrczoNCj4gPiA+ID4g
-PiA+ID4gPiA+ID4gKyAgICBpdGVtczoNCj4gPiA+ID4gPiA+ID4gPiA+ID4gKyAgICAgIC0gZGVz
-Y3JpcHRpb246IHRvcCBtdXggY2FtdGcgY2xvY2sNCj4gPiA+ID4gPiA+ID4gPiA+ID4gKyAgICAg
-IC0gZGVzY3JpcHRpb246IGRldmlkZXIgY2xvY2sNCj4gPiA+ID4gPiA+ID4gPiA+ID4gKw0KPiA+
-ID4gPiA+ID4gPiA+ID4gPiArICBjbG9jay1uYW1lczoNCj4gPiA+ID4gPiA+ID4gPiA+ID4gKyAg
-ICBpdGVtczoNCj4gPiA+ID4gPiA+ID4gPiA+ID4gKyAgICAgIC0gY29uc3Q6IGVjbGsNCj4gPiA+
-ID4gPiA+ID4gPiA+ID4gKyAgICAgIC0gY29uc3Q6IGZyZXFfbXV4DQo+ID4gPiA+ID4gPiA+ID4g
-PiA+ICsNCj4gPiA+ID4gPiA+ID4gPiA+ID4gKyAgY2xvY2stZnJlcXVlbmN5Og0KPiA+ID4gPiA+
-ID4gPiA+ID4gPiArICAgIGRlc2NyaXB0aW9uOg0KPiA+ID4gPiA+ID4gPiA+ID4gPiArICAgICAg
-RnJlcXVlbmN5IG9mIHRoZSBlY2xrIGNsb2NrIGluIEhlcnR6Lg0KPiA+ID4gPiA+ID4gPiA+ID4g
-PiArDQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsgIGRvdmRkLXN1cHBseToNCj4gPiA+ID4gPiA+ID4g
-PiA+ID4gKyAgICBkZXNjcmlwdGlvbjoNCj4gPiA+ID4gPiA+ID4gPiA+ID4gKyAgICAgIERlZmlu
-aXRpb24gb2YgdGhlIHJlZ3VsYXRvciB1c2VkIGFzIGludGVyZmFjZSBwb3dlciBzdXBwbHkuDQo+
-ID4gPiA+ID4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+ID4gPiA+ID4gKyAgYXZkZC1zdXBwbHk6
-DQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsgICAgZGVzY3JpcHRpb246DQo+ID4gPiA+ID4gPiA+ID4g
-PiA+ICsgICAgICBEZWZpbml0aW9uIG9mIHRoZSByZWd1bGF0b3IgdXNlZCBhcyBhbmFsb2cgcG93
-ZXIgc3VwcGx5Lg0KPiA+ID4gPiA+ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsg
-IGR2ZGQtc3VwcGx5Og0KPiA+ID4gPiA+ID4gPiA+ID4gPiArICAgIGRlc2NyaXB0aW9uOg0KPiA+
-ID4gPiA+ID4gPiA+ID4gPiArICAgICAgRGVmaW5pdGlvbiBvZiB0aGUgcmVndWxhdG9yIHVzZWQg
-YXMgZGlnaXRhbCBwb3dlciBzdXBwbHkuDQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsNCj4gPiA+ID4g
-PiA+ID4gPiA+ID4gKyAgcG93ZXJkb3duLWdwaW9zOg0KPiA+ID4gPiA+ID4gPiA+ID4gPiArICAg
-IGRlc2NyaXB0aW9uOg0KPiA+ID4gPiA+ID4gPiA+ID4gPiArICAgICAgVGhlIHBoYW5kbGUgYW5k
-IHNwZWNpZmllciBmb3IgdGhlIEdQSU8gdGhhdCBjb250cm9scyBzZW5zb3IgcG93ZXJkb3duLg0K
-PiA+ID4gPiA+ID4gPiA+ID4gPiArDQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsgIHJlc2V0LWdwaW9z
-Og0KPiA+ID4gPiA+ID4gPiA+ID4gPiArICAgIGRlc2NyaXB0aW9uOg0KPiA+ID4gPiA+ID4gPiA+
-ID4gPiArICAgICAgVGhlIHBoYW5kbGUgYW5kIHNwZWNpZmllciBmb3IgdGhlIEdQSU8gdGhhdCBj
-b250cm9scyBzZW5zb3IgcmVzZXQuDQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsNCj4gPiA+ID4gPiA+
-ID4gPiA+ID4gKyAgcm90YXRpb246DQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsgICAgZGVzY3JpcHRp
-b246DQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsgICAgICBEZWZpbml0aW9uIG9mIHRoZSBzZW5zb3In
-cyBwbGFjZW1lbnQsIHZhbGlkIHZhbHVlcyBhcmUgMCBhbmQgMTgwLg0KPiA+ID4gPiA+ID4gPiA+
-ID4gPiArICAgIGFsbE9mOg0KPiA+ID4gPiA+ID4gPiA+ID4gPiArICAgICAgLSAkcmVmOiAiL3Nj
-aGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyIg0KPiA+ID4gPiA+ID4gPiA+ID4g
-PiArICAgICAgLSBlbnVtOg0KPiA+ID4gPiA+ID4gPiA+ID4gPiArICAgICAgICAgIC0gMCAgICAj
-IFNlbnNvciBNb3VudGVkIFVwcmlnaHQNCj4gPiA+ID4gPiA+ID4gPiA+ID4gKyAgICAgICAgICAt
-IDE4MCAgIyBTZW5zb3IgTW91bnRlZCBVcHNpZGUgRG93bg0KPiA+ID4gPiA+ID4gPiA+ID4gPiAr
-DQo+ID4gPiA+ID4gPiA+ID4gPiA+ICsgIG92dGksbWlwaS10eC1zcGVlZDoNCj4gPiA+ID4gPiA+
-ID4gPiA+ID4gKyAgICBkZXNjcmlwdGlvbjoNCj4gPiA+ID4gPiA+ID4gPiA+ID4gKyAgICAgIElu
-ZGljYXRpb24gb2YgTUlQSSB0cmFuc21pc3Npb24gc3BlZWQgc2VsZWN0Lg0KPiA+ID4gPiA+ID4g
-PiA+ID4NCj4gPiA+ID4gPiA+ID4gPiA+IFdoYXQgZXhhY3RseSBkb2VzIHRoaXMgc2lnbmlmeT8g
-QW5kIGhvdyBkbyB5b3UgY29tZSB1cCB3aXRoIHRoZSBudW1iZXI/DQo+ID4gPiA+ID4gPiA+ID4g
-Pg0KPiA+ID4gPiA+ID4gPiA+DQo+ID4gPiA+ID4gPiA+ID4gQXBvbG9naWVzIGZvciBub3QgYWRk
-cmVzc2luZyB0aGlzIG51bWJlciBjbGVhci4NCj4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4g
-PiA+IEZyb20gdGhlIGRhdGFzaGVldCwgUDE6MHhBMSByZWdpc3RlciByZXByZXNlbnRzIFRYX1NQ
-RUVEX0FSRUFfU0VMIHdpdGgNCj4gPiA+ID4gPiA+ID4gPiB0aGUgZGVmYXVsdCB2YWw6IDB4MDMu
-DQo+ID4gPiA+ID4gPiA+ID4gVGhlIGRlc2NyaXB0aW9uIG9mIHRoaXMgUlcgcmVnaXN0ZXIgaXMg
-YXMgYmVsb3c6DQo+ID4gPiA+ID4gPiA+ID4gQml0WzI6MF06IE1JUEkgdHJhbnNtaXNzaW9uIHNw
-ZWVkIHNlbGVjdC4NCj4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+IFRodXMgdGhlIGVu
-dW0gc2hvdWxkIGJlIGRlZmluaXRlZCBhcyBbIDAsIDEsIDIsIDMsIDQsIDUsIDYsIDcgXS4NCj4g
-PiA+ID4gPiA+ID4gPiBUaGlzIHdvdWxkIGJlIGZpeGVkIGluIG5leHQgcmVsZWFzZS4NCj4gPiA+
-ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+IEluIHRoZSBtZWFudGltZSwgYXMgdGhlIGRlZmF1
-bHQgdmFsIG9mIFAxOjB4QTEgaXMgMHgwMywgd2UgaG9wZSB0byBrZWVwDQo+ID4gPiA+ID4gPiA+
-ID4gdGhhdCB2YWx1ZSBpZiB0aGVyZSBpcyBubyBzZXR0aW5nIGZvciB0aGlzIHByaXZhdGUgcHJv
-cGVydHkgaW4gRFQuDQo+ID4gPiA+ID4gPiA+ID4gVGhlIGNhbGxlciBpbiBkcml2ZXIgd291bGQg
-YmUgdXBkYXRlZCBsaWtlIHRoaXMgaW4gbmV4dCByZWxlYXNlLg0KPiA+ID4gPiA+ID4gPiA+IGlm
-IChvdjAyYTEwLT5taXBpX2Nsb2NrX3R4X3NwZWVkKQ0KPiA+ID4gPiA+ID4gPiA+ICAgICByZXQg
-PSBpMmNfc21idXNfd3JpdGVfYnl0ZV9kYXRhKC4uLiwuLi4pOw0KPiA+ID4gPiA+ID4gPg0KPiA+
-ID4gPiA+ID4gPiBIb3cgZGlkIHlvdSBwaWNrIHRoZSB2YWx1ZSBpbiB0aGUgZXhhbXBsZT8gQW5k
-IHdoeSBkbyB5b3UgYmVsaWV2ZSBpdCBpcw0KPiA+ID4gPiA+ID4gPiBzcGVjaWZpYyB0byBhIHBs
-YXRmb3JtLCBhbmQgbm90IGUuZy4gYSBzZW5zb3IgbW9kZT8NCj4gPiA+ID4gPiA+ID4NCj4gPiA+
-ID4gPiA+DQo+ID4gPiA+ID4gPiBXZSBsb29rIGludG8gUDE6MFhBMSwgb25lIHJlZ2lzdGVyIHRo
-YXQgZGVmaW5lcyBNSVBJIHRyYW5zbWlzc2lvbiBzcGVlZA0KPiA+ID4gPiA+ID4gc2VsZWN0Lg0K
-PiA+ID4gPiA+ID4gRnJvbSB0aGUgZGF0YXNoZWV0LCB3ZSBjYW4gZ2V0IHRoZSBwb3NzaWJsZSB2
-YWx1ZXMgdGhhdCBjb3VsZCBiZSBzZXQgdG8NCj4gPiA+ID4gPiA+IFAxOjB4QTEuDQo+ID4gPiA+
-ID4gPg0KPiA+ID4gPiA+ID4gQWN0dWFsbHkgdGhpcyByZWdpc3RlciBpcyBhbiBpbmRlcGVuZGVu
-dCBvZiBzZW5zb3IgbW9kZSwgaXQgaXMganVzdA0KPiA+ID4gPiA+ID4gaW5jbHVkZWQgaW4gc2Vu
-c29yIG1vZGUncyByZWdpc3RlciBzZXR0aW5nIHRhYmxlLg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4g
-PiA+IEluIGFkZGl0aW9uLCB0aGlzIHByaXZhdGUgRFQgUHJvcGVydHkgaXMgY3JlYXRlZCB0byBm
-aXggdGhlIE1JUEkgdGVzdA0KPiA+ID4gPiA+ID4gZmFpbHVyZS4gVGhlIHJlZ2lzdGVyIHZhbHVl
-cyBhcmUgYWRqdXN0ZWQgYW5kIHZlcmlmaWVkIGZyb20gdmVuZG9yIHRvDQo+ID4gPiA+ID4gPiBt
-YWtlIHNlbnNvciBzaWduYWwgbWVldCBNSVBJIHNwZWNpZmljYXRpb24uDQo+ID4gPiA+ID4gPg0K
-PiA+ID4gPiA+DQo+ID4gPiA+ID4gSW4gdGhlb3J5IHRoZSB2YWx1ZSBjb3VsZCBkZXBlbmQgb24g
-dGhlIG1vZGUsIGJlY2F1c2UgZGlmZmVyZW50IGxpbmsNCj4gPiA+ID4gPiByYXRlIGNvdWxkIGlt
-cG9zZSBkaWZmZXJlbnQgcmVxdWlyZW1lbnRzIGZvciB0aGUgcGh5c2ljYWwgaW50ZXJmYWNlLg0K
-PiA+ID4gPiA+IEluIHByYWN0aWNlLCB3ZSBoYXZlbid0IHNlZW4gYW55IGhhcmR3YXJlIHRoYXQg
-d291bGQgcmVxdWlyZSBkaWZmZXJlbnQNCj4gPiA+ID4gPiB2YWx1ZXMgZm9yIGRpZmZlcmVudCBt
-b2Rlcy4NCj4gPiA+ID4NCj4gPiA+ID4gVGhlIG1vZGUgKHBvc3NpYmx5IGluIGNvbmp1bmN0aW9u
-IHdpdGggb3RoZXIgaW5mb3JtYXRpb24gYXZhaWxhYmxlIHRvIHRoZQ0KPiA+ID4gPiBkcml2ZXIg
-dmlhIFY0TDIgZndub2RlIGludGVyZmFjZSkgcHJlY2lzZWx5IGRlZmluZXMgdGhlIHBhcmFtZXRl
-cnMgb2YgdGhlDQo+ID4gPiA+IENTSS0yIGJ1cyAtLS0gYXBhcnQgZnJvbSB0aGUgcG9zc2libGUg
-ZXhjZXB0aW9uIG9mIHRoZSBidXMgdGltaW5nIHJlbGF0ZWQNCj4gPiA+ID4gcGFyYW1ldGVycyBi
-dXQgdGhpcyBpcyBub3Qgc3VwcG9ydGVkIGJ5IHRoZSBuYW1lIG9mIHRoZSBwYXJhbWV0ZXIuDQo+
-ID4gPiA+DQo+ID4gPiA+IFRoZXJlZm9yZSBJIGRvbid0IHNlZSBob3cgdGhpcyBwYXJhbWV0ZXIs
-IHdoaWNoIHN1cHBvc2VkbHkgaXMgdXNlZCB0bw0KPiA+ID4gPiBkZXRlcm1pbmUgdGhlIENTSS0y
-IHRyYW5zbWlzc2lvbnMgc3BlZWQsIGNvdWxkIGJlIGJvYXJkIHNwZWNpZmljIGFuZCB0aHVzDQo+
-ID4gPiA+IGJlbG9uZyB0byBEVC4NCj4gPiA+IA0KPiA+ID4gQWNjb3JkaW5nIHRvIHRoZSB2ZXJ5
-IGltcHJlY2lzZSBpbmZvcm1hdGlvbiBJIGhhdmUgYWNjZXNzIHRvLCBpdCBpcw0KPiA+ID4gbm90
-IGFib3V0IHRoZSBDU0ktMiBidXMgaXRzZWxmLCBidXQgcmF0aGVyIHNvbWUgaW50ZXJuYWwgcGFy
-YW1ldGVyIG9mDQo+ID4gPiB0aGUgc2Vuc29yJ3MgQ1NJIGludGVyZmFjZS4gVW5mb3J0dW5hdGVs
-eSB0aGVyZSBpc24ndCBtdWNoIGluZm9ybWF0aW9uDQo+ID4gPiBvbiB3aGF0IHRoaXMgdmFsdWUg
-ZXhhY3RseSBjb250cm9scy4uLg0KPiA+ID4gDQo+ID4gPiBCZXN0IHJlZ2FyZHMsDQo+ID4gPiBU
-b21hc3oNCj4gPiANCj4gPiBKdXN0IGdvdCBzb21lIGZlZWRiYWNrIGZyb20gT1YgdmVuZG9yIGFi
-b3V0IHRoaXMgcGFyYW1ldGVyLg0KPiA+IA0KPiA+IFAxOjB4QTEgaXMgdGhlIHJlZ2lzdGVyIHRv
-IGNvbnRyb2wgRC1QSFkgdGltaW5nIHNldHRpbmcgYmFzZWQgb24gYmNsay4NCj4gPiBJdCBpcyB0
-byBhZGp1c3QgdGhlIE1JUEkgY2xvY2sgdm9sdGFnZSB0byBpbXByb3ZlIHRoZSBjbG9jayBkcml2
-ZQ0KPiA+IGNhcGFiaWxpdHksIGFuZCBoYXMgbm8gYWZmZWN0IG9uIHRoZSB0cmFuc21pc3Npb24g
-c3BlZWQgb2YgTUlQSSBkYXRhLg0KPiA+IA0KPiA+IEZyb20gdmVuZG9yJ3MgcGVyc3BlY3RpdmUs
-IFAxOjB4QTEgZGVwZW5kcyB1cG9uIHRoZSBsZW5ndGggb2YgRlBDIG9mDQo+ID4gY2FtZXJhIG1v
-ZHVsZSB0aGF0IHVzZWQgb24gdGhlIGJvYXJkLiBDb25zaWRlcmluZyB0aGUgcGh5c2ljYWwNCj4g
-PiBjb25uZWN0aW9ucyBmb3IgTUlQSSBzaWduYWxzIHRvIHVzZXItZmFjaW5nIGNhbWVyYSBhcmUg
-dmVyeSBkaWZmZXJlbnQNCj4gPiBiZXR3ZWVuIG91ciAyIHByb2plY3RzLCBpdCBjYW4gYmUgdmVy
-eSBkaWZmaWN1bHQgdG8gZmluZCB1bml2ZXJzYWwgU0kNCj4gPiBwYXJhbWV0ZXJzIGZvciBib3Ro
-IHByb2plY3RzLg0KPiANCj4gQXJlIHlvdSB1c2luZyBkaWZmZXJlbnQgdmFsdWVzIGZvciB0aGlz
-IHBhcmFtZXRlciBvbiB0aGVzZSB0d28gcHJvamVjdHM/DQo+IA0KDQpZZXMuIFdlJ3JlIGFjdHVh
-bGx5IGFzc2lnbmluZyB0d28gZGlmZmVyZW50IHZhbHVlcyB0byB0aGlzIHByb3BlcnR5Lg0KT25l
-IGlzIDB4MDMsIHRoZSBvdGhlciBpcyAweDA0Lg0KDQo+ID4gDQo+ID4gVGh1cyBoZXJlIHdlIGNy
-ZWF0ZSBvbmUgbmV3IERUIHByb3BlcnR5IHRvIHNlcGFyYXRlIHRoZXNlIHR1bmluZyBpbg0KPiA+
-IGRyaXZlciwgdG8gYmUgbW9yZSBsaWtlIHByb2plY3Qtc3BlY2lmaWMuDQo+ID4gDQo+ID4gTW9y
-ZSBkZXRhaWxzIGFib3V0IHRoZSByZWdpc3RlciBpcyBhcyBiZWxvdy4NCj4gPiBQMToweEExIHZh
-bDogMHgwMyBkZWZhdWx0DQo+ID4gQ2FzZTogMCAgMjBNSHotMzBNSHoNCj4gPiAgICAgICAxICAz
-ME1Iei01ME1Ieg0KPiA+ICAgICAgIDIgIDUwTUh6LTc1TUh6DQo+ID4gICAgICAgMyAgNzVNSHot
-MTAwTUh6ICAgKGRlZmF1bHQsIG9sZCBEQiBzZXR0aW5nIHVzZSkNCj4gPiAgICAgICA0ICAxMDBN
-SHotMTMwTUh6ICAoc3VnZ2VzdGVkLCBuZXcgREIgc2V0dGluZyB1c2UpDQo+ID4gICAgICAgNSAg
-TWFudWFsDQo+ID4gU28gdGhlIHZhbHVlIGluIHRoZSBleGFtcGxlIHNob3VsZCBiZSBbIDAsIDEs
-IDIsIDMsIDQsIDUgXS4NCj4gPiANCj4gPiBBZGRpdGlvbmFsbHksIFAxOjB4QTEgaXMgcmVjb21t
-ZW5kZWQgdG8gYmUgc2V0IGFzIDB4MDQgaW4gdGhlIG5ld2VzdCBEQg0KPiA+IHNldHRpbmcuIFdl
-IHdvdWxkIGFkanVzdCB0aGUgcmVnaXN0ZXIgaW4gbmV4dCByZWxlYXNlLg0KPiANCj4gVGhhbmsg
-eW91IGZvciBkaWdnaW5nIGludG8gdGhlIGlzc3VlLg0KPiANCj4gQmFzZWQgb24gdGhlIGFib3Zl
-IGRlc2NyaXB0aW9uLCB0aGUgcGFyYW1ldGVyIHdvdWxkIGRlcGVuZCBvbiBib3RoIHRoZSBsaW5r
-DQo+IGZyZXF1ZW5jeSBhbmQgcG9zc2libHkgYWxzbyBvbiB3aXJlIGxlbmd0aC4gSSBndWVzcyB0
-aGVyZSdzIG5vIGhhcm0gZnJvbQ0KPiB1c2luZyB0b28gc3Ryb25nIGRyaXZlLCBhcGFydCBmcm9t
-IHBlcmhhcHMgcG93ZXIgY29uc3VtcHRpb24/IEFzIGluDQo+IHByaW5jaXBsZSB0aGlzIGNvdWxk
-IGJlIGRpZmZlcmVudCBmb3IgZGlmZmVyZW50IHNlbnNvciBtb2Rlcy4gQWxiZWl0IEkNCj4gZG9u
-J3QgcmVtZW1iZXIgc2VlaW5nIGEgc2Vuc29yIHdoZXJlIHN1Y2ggYSBwYXJhbWV0ZXIgd291bGQg
-aGF2ZSBiZWVuDQo+IG5lZWRlZCB0byBiZSBtb2RpZmllZC4NCj4gDQoNClRoaXMgbWF5IGJlIHJl
-bGF0ZWQgdG8gc29tZXRoaW5nIGFib3V0IHNlbnNvciBmaW5lIHR1bmluZy4NCkFzIE9WIHZlbmRv
-ciBwb2ludGVkIG91dCwgdGhlIHNlbnNvciBjaGlwIHByb3ZpZGVzIHN1Y2ggb25lIHByb3BlcnR5
-DQp0aGF0IHVzZXIgY291bGQgYWRqdXN0IGJhc2VkIG9uIHRoZWlyIHNwZWNpZmljIHByb2plY3Qu
-DQpBbHNvLCBjYXNlIDQgKDB4MDQpIHNldHRpbmcgaXMgY29uZmlybWVkIHRvIGhhdmUgYSBsaXR0
-bGUgbW9yZSBwb3dlcg0KY29uc3VtcHRpb24gdGhhbiBjYXNlIDMgKDB4MDMpLg0KDQo=
+Hi,
 
+Thanks Saket for your feedback. As Dmitry mentioned, we're focusing on
+video encoding and decoding, not camera. So, my reply was about how to
+implement paravirtualized video codec devices.
+
+On Mon, May 11, 2020 at 8:25 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
+>
+> Hi Saket,
+>
+> On Montag, 11. Mai 2020 13:05:53 CEST Saket Sinha wrote:
+> > Hi Keiichi,
+> >
+> > I do not support the approach of  QEMU implementation forwarding
+> > requests to the host's vicodec module since  this can limit the scope
+> > of the virtio-video device only for testing,
+>
+> That was my understanding as well.
+
+Not really because the API which the vicodec provides is V4L2 stateful
+decoder interface [1], which are also used by other video drivers on
+Linux.
+The difference between vicodec and actual device drivers is that
+vicodec performs decoding in the kernel space without using special
+video devices. In other words, vicodec is a software decoder in kernel
+space which provides the same interface with actual video drivers.
+Thus, if the QEMU implementation can forward virtio-video requests to
+vicodec, it can forward them to the actual V4L2 video decoder devices
+as well and VM gets access to a paravirtualized video device.
+
+The reason why we discussed vicodec in the previous thread was it'll
+allow us to test the virtio-video driver without hardware requirement.
+
+[1] https://www.kernel.org/doc/html/latest/media/uapi/v4l/dev-decoder.html
+
+>
+> > which instead can be used with multiple use cases such as -
+> >
+> > 1. VM gets access to paravirtualized  camera devices which shares the
+> > video frames input through actual HW camera attached to Host.
+>
+> This use-case is out of the scope of virtio-video. Initially I had a plan to
+> support capture-only streams like camera as well, but later the decision was
+> made upstream that camera should be implemented as separate device type. We
+> still plan to implement a simple frame capture capability as a downstream
+> patch though.
+>
+> >
+> > 2. If Host has multiple video devices (especially in ARM SOCs over
+> > MIPI interfaces or USB), different VM can be started or hotplugged
+> > with selective video streams from actual HW video devices.
+>
+> We do support this in our device implementation. But spec in general has no
+> requirements or instructions regarding this. And it is in fact flexible enough
+> to provide abstraction on top of several HW devices.
+>
+> >
+> > Also instead of using libraries like Gstreamer in Host userspace, they
+> > can also be used inside the VM userspace after getting access to
+> > paravirtualized HW camera devices .
+
+Regarding Gstreamer, I intended this video decoding API [2]. If QEMU
+can translate virtio-video requests to this API, we can easily support
+multiple platforms.
+I'm not sure how feasible it is though, as I have no experience of
+using this API by myself...
+
+[2] https://gstreamer.freedesktop.org/documentation/tutorials/playback/hardware-accelerated-video-decoding.html
+
+Best regards,
+Keiichi
+
+> >
+>
+> Regarding the cameras, unfortunately same as above.
+>
+> Best regards,
+> Dmitry.
+>
+> > Regards,
+> > Saket Sinha
+> >
+> > On Mon, May 11, 2020 at 12:20 PM Keiichi Watanabe <keiichiw@chromium.org>
+> wrote:
+> > > Hi Dmitry,
+> > >
+> > > On Mon, May 11, 2020 at 6:40 PM Dmitry Sepp <dmitry.sepp@opensynergy.com>
+> wrote:
+> > > > Hi Saket and all,
+> > > >
+> > > > As we are working with automotive platforms, unfortunately we don't plan
+> > > > any Qemu reference implementation so far.
+> > > >
+> > > > Of course we are ready to support the community if any help is needed.
+> > > > Is
+> > > > there interest in support for the FWHT format only for testing purpose
+> > > > or you want a full-featured implementation on the QEMU side?
+> > >
+> > > I guess we don't need to implement the codec algorithm in QEMU.
+> > > Rather, QEMU forwards virtio-video requests to the host video device
+> > > or a software library such as GStreamer or ffmpeg.
+> > > So, what we need to implement in QEMU is a kind of API translation,
+> > > which shouldn't care about actual video formats so much.
+> > >
+> > > Regarding the FWHT format discussed in the patch thread [1], in my
+> > > understanding, Hans suggested to have QEMU implementation forwarding
+> > > requests to the host's vicodec module [2].
+> > > Then, we'll be able to test the virtio-video driver on QEMU on Linux
+> > > even if the host Linux has no hardware video decoder.
+> > > (Please correct me if I'm wrong.)
+> > >
+> > > Let me add Hans and Linux media ML in CC.
+> > >
+> > > [1]  https://patchwork.linuxtv.org/patch/61717/
+> > > [2] https://lwn.net/Articles/760650/
+> > >
+> > > Best regards,
+> > > Keiichi
+> > >
+> > > > Please note that the spec is not finalized yet and a major update is now
+> > > > discussed with upstream and the Chrome OS team, which is also interested
+> > > > and deeply involved in the process. The update mostly implies some
+> > > > rewording and reorganization of data structures, but for sure will
+> > > > require a driver rework.
+> > > >
+> > > > Best regards,
+> > > > Dmitry.
+> > > >
+> > > > On Samstag, 9. Mai 2020 16:11:43 CEST Saket Sinha wrote:
+> > > > > Hi,
+> > > > >
+> > > > > As suggested on #qemu-devel IRC channel, I am including virtio-dev,
+> > > > > Gerd and Michael to point in the right direction how to move forward
+> > > > > with Qemu support for Virtio Video V4L2 driver
+> > > > > posted in [1].
+> > > > >
+> > > > > [1]: https://patchwork.linuxtv.org/patch/61717/
+> > > > >
+> > > > > Regards,
+> > > > > Saket Sinha
+> > > > >
+> > > > > On Sat, May 9, 2020 at 1:09 AM Saket Sinha <saket.sinha89@gmail.com>
+> wrote:
+> > > > > > Hi ,
+> > > > > >
+> > > > > > This is to inquire about Qemu support for Virtio Video V4L2 driver
+> > > > > > posted in [1].
+> > > > > > I am currently not aware of any upstream effort for Qemu reference
+> > > > > > implementation and would like to discuss how to proceed with the
+> > > > > > same.
+> > > > > >
+> > > > > > [1]: https://patchwork.linuxtv.org/patch/61717/
+> > > > > >
+> > > > > > Regards,
+> > > > > > Saket Sinha
+> > > >
+> > > > ---------------------------------------------------------------------
+> > > > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> > > > For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
+>
+>
