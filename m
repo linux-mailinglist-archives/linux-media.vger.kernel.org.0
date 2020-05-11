@@ -2,18 +2,18 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BA361CE4E0
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 21:56:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECE531CE4DB
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 21:55:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731375AbgEKT4L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 May 2020 15:56:11 -0400
-Received: from v6.sk ([167.172.42.174]:52478 "EHLO v6.sk"
+        id S1731348AbgEKTzp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 May 2020 15:55:45 -0400
+Received: from v6.sk ([167.172.42.174]:52472 "EHLO v6.sk"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729049AbgEKT4L (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 May 2020 15:56:11 -0400
+        id S1729049AbgEKTzo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 11 May 2020 15:55:44 -0400
 Received: from localhost (v6.sk [IPv6:::1])
-        by v6.sk (Postfix) with ESMTP id 77C45610CF;
-        Mon, 11 May 2020 19:55:39 +0000 (UTC)
+        by v6.sk (Postfix) with ESMTP id 11AB2610D0;
+        Mon, 11 May 2020 19:55:41 +0000 (UTC)
 From:   Lubomir Rintel <lkundrak@v3.sk>
 To:     Michael Turquette <mturquette@baylibre.com>
 Cc:     Stephen Boyd <sboyd@kernel.org>,
@@ -22,9 +22,9 @@ Cc:     Stephen Boyd <sboyd@kernel.org>,
         Rob Herring <robh+dt@kernel.org>, linux-clk@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-media@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>
-Subject: [PATCH 1/2] dt-bindings: sound: Add Marvell MMP Audio Clock Controller binding
-Date:   Mon, 11 May 2020 21:55:33 +0200
-Message-Id: <20200511195534.1207927-2-lkundrak@v3.sk>
+Subject: [PATCH 2/2] clk: mmp2: Add audio clock controller driver
+Date:   Mon, 11 May 2020 21:55:34 +0200
+Message-Id: <20200511195534.1207927-3-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200511195534.1207927-1-lkundrak@v3.sk>
 References: <20200511195534.1207927-1-lkundrak@v3.sk>
@@ -35,110 +35,616 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This describes the bindings for a controller that generates master and bit
-clocks for the I2S interface.
+This is a driver for a block that generates master and bit clocks for
+the I2S interface. It's separate from the PMUs that generate clocks for
+the peripherals.
 
 Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
 ---
- .../clock/marvell,mmp2-audio-clock.yaml       | 73 +++++++++++++++++++
- .../dt-bindings/clock/marvell,mmp2-audio.h    |  8 ++
- 2 files changed, 81 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/clock/marvell,mmp2-audio-clock.yaml
- create mode 100644 include/dt-bindings/clock/marvell,mmp2-audio.h
+ drivers/clk/Kconfig         |   6 +
+ drivers/clk/mmp/Makefile    |   1 +
+ drivers/clk/mmp/clk-audio.c | 563 ++++++++++++++++++++++++++++++++++++
+ 3 files changed, 570 insertions(+)
+ create mode 100644 drivers/clk/mmp/clk-audio.c
 
-diff --git a/Documentation/devicetree/bindings/clock/marvell,mmp2-audio-clock.yaml b/Documentation/devicetree/bindings/clock/marvell,mmp2-audio-clock.yaml
+diff --git a/drivers/clk/Kconfig b/drivers/clk/Kconfig
+index bcb257baed06..a28cf98ffe68 100644
+--- a/drivers/clk/Kconfig
++++ b/drivers/clk/Kconfig
+@@ -326,6 +326,12 @@ config COMMON_CLK_MMP2
+ 	help
+ 	  Support for Marvell MMP2 and MMP3 SoC clocks
+ 
++config COMMON_CLK_MMP2_AUDIO
++        tristate "Clock driver for MMP2 Audio subsystem"
++        depends on COMMON_CLK_MMP2 || COMPILE_TEST
++        help
++          This driver supports clocks for Audio subsystem on MMP2 SoC.
++
+ config COMMON_CLK_BD718XX
+ 	tristate "Clock driver for 32K clk gates on ROHM PMICs"
+ 	depends on MFD_ROHM_BD718XX || MFD_ROHM_BD70528 || MFD_ROHM_BD71828
+diff --git a/drivers/clk/mmp/Makefile b/drivers/clk/mmp/Makefile
+index 14dc8a8a9d08..9a4b79ff6572 100644
+--- a/drivers/clk/mmp/Makefile
++++ b/drivers/clk/mmp/Makefile
+@@ -9,6 +9,7 @@ obj-$(CONFIG_RESET_CONTROLLER) += reset.o
+ 
+ obj-$(CONFIG_MACH_MMP_DT) += clk-of-pxa168.o clk-of-pxa910.o
+ obj-$(CONFIG_COMMON_CLK_MMP2) += clk-of-mmp2.o clk-pll.o
++obj-$(CONFIG_COMMON_CLK_MMP2_AUDIO) += clk-audio.o
+ 
+ obj-$(CONFIG_CPU_PXA168) += clk-pxa168.o
+ obj-$(CONFIG_CPU_PXA910) += clk-pxa910.o
+diff --git a/drivers/clk/mmp/clk-audio.c b/drivers/clk/mmp/clk-audio.c
 new file mode 100644
-index 000000000000..b86e9fbfa56d
+index 000000000000..ee89b97dc09a
 --- /dev/null
-+++ b/Documentation/devicetree/bindings/clock/marvell,mmp2-audio-clock.yaml
-@@ -0,0 +1,73 @@
-+# SPDX-License-Identifier: (GPL-2.0+ OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/clock/marvell,mmp2-audio-clock.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
++++ b/drivers/clk/mmp/clk-audio.c
+@@ -0,0 +1,563 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * MMP Audio Clock Controller driver
++ *
++ * Copyright (C) 2020 Lubomir Rintel <lkundrak@v3.sk>
++ */
 +
-+title: Marvell MMP2 Audio Clock Controller
++#include <linux/clk.h>
++#include <linux/clk-provider.h>
++#include <linux/io.h>
++#include <linux/module.h>
++#include <linux/platform_device.h>
++#include <linux/slab.h>
++#include <dt-bindings/clock/marvell,mmp2-audio.h>
 +
-+maintainers:
-+  - Lubomir Rintel <lkundrak@v3.sk>
++enum {
++	SSPA_AUD_CTRL		= 0x04,
++	SSPA_AUD_PLL_CTRL0	= 0x08,
++	SSPA_AUD_PLL_CTRL1	= 0x0c,
++};
 +
-+description: |
-+  The audio clock controller generates and supplies the clocks to the audio
-+  codec.
++/* SSPA Audio Control Register */
++#define SSPA_AUD_CTRL_SYSCLK_SHIFT		0
++#define SSPA_AUD_CTRL_SSPA0_MUX_SHIFT		7
++#define SSPA_AUD_CTRL_SSPA0_SHIFT		8
++#define SSPA_AUD_CTRL_SSPA1_SHIFT		16
++#define SSPA_AUD_CTRL_SSPA1_MUX_SHIFT		23
++#define SSPA_AUD_CTRL_DIV_MASK			0x7e
 +
-+  Each clock is assigned an identifier and client nodes use this identifier
-+  to specify the clock which they consume.
++/* SSPA Audio PLL Control 0 Register */
++#define SSPA_AUD_PLL_CTRL0_DIV_OCLK_MODULO_MASK (0x7 << 28)
++#define SSPA_AUD_PLL_CTRL0_DIV_OCLK_MODULO(x)	((x) << 28)
++#define SSPA_AUD_PLL_CTRL0_FRACT_MASK		(0xfffff << 8)
++#define SSPA_AUD_PLL_CTRL0_FRACT(x)		((x) << 8)
++#define SSPA_AUD_PLL_CTRL0_ENA_DITHER		(1 << 7)
++#define SSPA_AUD_PLL_CTRL0_ICP_2UA		(0 << 5)
++#define SSPA_AUD_PLL_CTRL0_ICP_5UA		(1 << 5)
++#define SSPA_AUD_PLL_CTRL0_ICP_7UA		(2 << 5)
++#define SSPA_AUD_PLL_CTRL0_ICP_10UA		(3 << 5)
++#define SSPA_AUD_PLL_CTRL0_DIV_FBCCLK_MASK	(0x3 << 3)
++#define SSPA_AUD_PLL_CTRL0_DIV_FBCCLK(x)	((x) << 3)
++#define SSPA_AUD_PLL_CTRL0_DIV_MCLK_MASK	(0x1 << 2)
++#define SSPA_AUD_PLL_CTRL0_DIV_MCLK(x)		((x) << 2)
++#define SSPA_AUD_PLL_CTRL0_PD_OVPROT_DIS	(1 << 1)
++#define SSPA_AUD_PLL_CTRL0_PU			(1 << 0)
 +
-+  All these identifiers could be found in <dt-bindings/clock/marvell,mmp2.h>.
++/* SSPA Audio PLL Control 1 Register */
++#define SSPA_AUD_PLL_CTRL1_SEL_FAST_CLK		(1 << 24)
++#define SSPA_AUD_PLL_CTRL1_CLK_SEL_MASK		(1 << 11)
++#define SSPA_AUD_PLL_CTRL1_CLK_SEL_AUDIO_PLL	(1 << 11)
++#define SSPA_AUD_PLL_CTRL1_CLK_SEL_VCXO		(0 << 11)
++#define SSPA_AUD_PLL_CTRL1_DIV_OCLK_PATTERN_MASK (0x7ff << 0)
++#define SSPA_AUD_PLL_CTRL1_DIV_OCLK_PATTERN(x)	((x) << 0)
 +
-+properties:
-+  compatible:
-+    enum:
-+      - marvell,mmp2-audio-clock
++struct mmp_audio_mux {
++	struct clk_hw hw;
++	struct mmp2_audio_clk *priv;
++	u8 shift;
++	u8 flags;
++	int index;
++};
 +
-+  reg:
-+    maxItems: 1
++#define to_mmp_audio_mux(_hw) container_of(_hw, struct mmp_audio_mux, hw)
 +
-+  clocks:
-+    items:
-+      - description: Audio subsystem clock
-+      - description: The crystal oscillator clock
-+      - description: First I2S clock
-+      - description: Second I2S clock
++struct mmp_audio_div {
++	struct clk_hw hw;
++	struct mmp2_audio_clk *priv;
++	u8 shift;
++	int value;
++};
 +
-+  clock-names:
-+    items:
-+      - const: audio
-+      - const: vctcxo
-+      - const: i2s0
-+      - const: i2s1
++#define to_mmp_audio_div(_hw) container_of(_hw, struct mmp_audio_div, hw)
 +
-+  '#clock-cells':
-+    const: 1
++struct mmp_audio_pll {
++	struct clk_hw hw;
++	struct mmp2_audio_clk *priv;
++	u32 ctrl0;
++	u32 ctrl1;
++};
 +
-+  power-domains:
-+    maxItems: 1
++#define to_mmp_audio_pll(_hw) container_of(_hw, struct mmp_audio_pll, hw)
 +
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - '#clock-cells'
++struct mmp2_audio_clk {
++	void __iomem *mmio_base;
 +
-+additionalProperties: false
++	struct clk *audio_clk;
++	struct clk *vctcxo_clk;
++	struct clk *i2s0_clk;
++	struct clk *i2s1_clk;
 +
-+examples:
-+  - |
-+    #include <dt-bindings/clock/marvell,mmp2.h>
-+    #include <dt-bindings/power/marvell,mmp2.h>
++	struct mmp_audio_pll audio_pll;
++	struct mmp_audio_mux sspa_mux;
++	struct mmp_audio_mux sspa1_mux;
++	struct mmp_audio_div sysclk;
++	struct mmp_audio_div sspa0;
++	struct mmp_audio_div sspa1;
 +
-+    clocks@d42a0c30 {
-+      compatible = "marvell,mmp2-audio-clock";
-+      reg = <0xd42a0c30 0x10>;
-+      clock-names = "audio", "vctcxo", "i2s0", "i2s1";
-+      clocks = <&soc_clocks MMP2_CLK_AUDIO>,
-+               <&soc_clocks MMP2_CLK_VCTCXO>,
-+               <&soc_clocks MMP2_CLK_I2S0>,
-+               <&soc_clocks MMP2_CLK_I2S1>;
-+      power-domains = <&soc_clocks MMP2_POWER_DOMAIN_AUDIO>;
-+      #clock-cells = <1>;
-+    };
-diff --git a/include/dt-bindings/clock/marvell,mmp2-audio.h b/include/dt-bindings/clock/marvell,mmp2-audio.h
-new file mode 100644
-index 000000000000..127b48ec0f0a
---- /dev/null
-+++ b/include/dt-bindings/clock/marvell,mmp2-audio.h
-@@ -0,0 +1,8 @@
-+/* SPDX-License-Identifier: (GPL-2.0+ OR BSD-2-Clause) */
-+#ifndef __DT_BINDINGS_CLOCK_MARVELL_MMP2_AUDIO_H
-+#define __DT_BINDINGS_CLOCK_MARVELL_MMP2_AUDIO_H
++	struct clk *clk_table[3];
++	struct clk_onecell_data clk_data;
 +
-+#define MMP2_CLK_AUDIO_SYSCLK		1
-+#define MMP2_CLK_AUDIO_SSPA0		2
-+#define MMP2_CLK_AUDIO_SSPA1		3
-+#endif
++	spinlock_t lock;
++};
++
++static struct {
++	unsigned long parent_rate;
++	unsigned long freq_vco;
++	unsigned char mclk;
++	unsigned char fbcclk;
++	unsigned short fract;
++} predivs[] = {
++	{ 26000000, 135475200, 0, 0, 0x8a18 },
++	{ 26000000, 147456000, 0, 1, 0x0da1 },
++	{ 38400000, 135475200, 1, 2, 0x8208 },
++	{ 38400000, 147456000, 1, 3, 0xaaaa },
++};
++
++static struct {
++	unsigned char divisor;
++	unsigned char modulo;
++	unsigned char pattern;
++} postdivs[] = {
++	{   1,	3,  0, },
++	{   2,	5,  0, },
++	{   4,	0,  0, },
++	{   6,	1,  1, },
++	{   8,	1,  0, },
++	{   9,	1,  2, },
++	{  12,	2,  1, },
++	{  16,	2,  0, },
++	{  18,	2,  2, },
++	{  24,	4,  1, },
++	{  36,	4,  2, },
++	{  48,	6,  1, },
++	{  72,	6,  2, },
++};
++
++static unsigned long mmp_audio_pll_recalc_rate(struct clk_hw *hw,
++					       unsigned long parent_rate)
++{
++	struct mmp_audio_pll *pll = to_mmp_audio_pll(hw);
++	unsigned int prediv;
++	unsigned int postdiv;
++
++	for (prediv = 0; prediv < ARRAY_SIZE(predivs); prediv++) {
++		if (predivs[prediv].parent_rate != parent_rate)
++			continue;
++		for (postdiv = 0; postdiv < ARRAY_SIZE(postdivs); postdiv++) {
++			unsigned long freq;
++			u32 val;
++
++			val = SSPA_AUD_PLL_CTRL0_ENA_DITHER;
++			val |= SSPA_AUD_PLL_CTRL0_PU;
++			val |= SSPA_AUD_PLL_CTRL0_DIV_OCLK_MODULO(postdivs[postdiv].modulo);
++			val |= SSPA_AUD_PLL_CTRL0_FRACT(predivs[prediv].fract);
++			val |= SSPA_AUD_PLL_CTRL0_DIV_FBCCLK(predivs[prediv].fbcclk);
++			val |= SSPA_AUD_PLL_CTRL0_DIV_MCLK(predivs[prediv].mclk);
++			if (val != pll->ctrl0)
++				continue;
++
++			val = SSPA_AUD_PLL_CTRL1_CLK_SEL_AUDIO_PLL;
++			val |= SSPA_AUD_PLL_CTRL1_DIV_OCLK_PATTERN(postdivs[postdiv].pattern);
++			if (val != pll->ctrl1)
++				continue;
++
++			freq = predivs[prediv].freq_vco;
++			freq /= postdivs[postdiv].divisor;
++			return freq;
++		}
++	}
++
++	return 0;
++}
++
++static long mmp_audio_pll_round_rate(struct clk_hw *hw, unsigned long rate,
++				     unsigned long *parent_rate)
++{
++	unsigned int prediv;
++	unsigned int postdiv;
++	long rounded = 0;
++
++	for (prediv = 0; prediv < ARRAY_SIZE(predivs); prediv++) {
++		if (predivs[prediv].parent_rate != *parent_rate)
++			continue;
++		for (postdiv = 0; postdiv < ARRAY_SIZE(postdivs); postdiv++) {
++			long freq = predivs[prediv].freq_vco;
++
++			freq /= postdivs[postdiv].divisor;
++			if (freq == rate)
++				return rate;
++			if (freq < rate)
++				continue;
++			if (rounded && freq > rounded)
++				continue;
++			rounded = freq;
++		}
++	}
++
++	return rounded;
++}
++
++static void mmp_audio_pll_write_rate(struct mmp_audio_pll *pll)
++{
++	struct mmp2_audio_clk *priv = pll->priv;
++
++	__raw_writel(pll->ctrl0, priv->mmio_base + SSPA_AUD_PLL_CTRL0);
++	__raw_writel(pll->ctrl1, priv->mmio_base + SSPA_AUD_PLL_CTRL1);
++}
++
++static int mmp_audio_pll_set_rate(struct clk_hw *hw, unsigned long rate,
++				  unsigned long parent_rate)
++{
++	struct mmp_audio_pll *pll = to_mmp_audio_pll(hw);
++	struct mmp2_audio_clk *priv = pll->priv;
++	unsigned int prediv;
++	unsigned int postdiv;
++
++	for (prediv = 0; prediv < ARRAY_SIZE(predivs); prediv++) {
++		if (predivs[prediv].parent_rate != parent_rate)
++			continue;
++
++		for (postdiv = 0; postdiv < ARRAY_SIZE(postdivs); postdiv++) {
++			if (rate * postdivs[postdiv].divisor != predivs[prediv].freq_vco)
++				continue;
++
++			pll->ctrl0 = SSPA_AUD_PLL_CTRL0_ENA_DITHER;
++			pll->ctrl0 |= SSPA_AUD_PLL_CTRL0_PU;
++			pll->ctrl0 |= SSPA_AUD_PLL_CTRL0_DIV_OCLK_MODULO(postdivs[postdiv].modulo);
++			pll->ctrl0 |= SSPA_AUD_PLL_CTRL0_FRACT(predivs[prediv].fract);
++			pll->ctrl0 |= SSPA_AUD_PLL_CTRL0_DIV_FBCCLK(predivs[prediv].fbcclk);
++			pll->ctrl0 |= SSPA_AUD_PLL_CTRL0_DIV_MCLK(predivs[prediv].mclk);
++
++			pll->ctrl1 = SSPA_AUD_PLL_CTRL1_CLK_SEL_AUDIO_PLL;
++			pll->ctrl1 |= SSPA_AUD_PLL_CTRL1_DIV_OCLK_PATTERN(postdivs[postdiv].pattern);
++
++			if (__clk_is_enabled(priv->audio_clk))
++				mmp_audio_pll_write_rate(pll);
++
++			return 0;
++		}
++	}
++
++	return -ERANGE;
++}
++
++static int mmp_audio_pll_enable(struct clk_hw *hw)
++{
++	struct mmp_audio_pll *pll = to_mmp_audio_pll(hw);
++	struct mmp2_audio_clk *priv = pll->priv;
++
++	clk_prepare_enable(priv->audio_clk);
++	mmp_audio_pll_write_rate(pll);
++	return 0;
++}
++
++static void mmp_audio_pll_disable(struct clk_hw *hw)
++{
++	struct mmp_audio_pll *pll = to_mmp_audio_pll(hw);
++	struct mmp2_audio_clk *priv = pll->priv;
++
++	clk_disable_unprepare(priv->audio_clk);
++}
++
++const struct clk_ops mmp_audio_pll_ops = {
++	.enable = mmp_audio_pll_enable,
++	.disable = mmp_audio_pll_disable,
++	.recalc_rate = mmp_audio_pll_recalc_rate,
++	.round_rate = mmp_audio_pll_round_rate,
++	.set_rate = mmp_audio_pll_set_rate,
++};
++
++static u8 mmp_audio_mux_get_parent(struct clk_hw *hw)
++{
++	struct mmp_audio_mux *mux = to_mmp_audio_mux(hw);
++	struct mmp2_audio_clk *priv = mux->priv;
++	u32 val;
++
++	if (__clk_is_enabled(priv->audio_clk)) {
++		val = __raw_readl(priv->mmio_base + SSPA_AUD_CTRL);
++		val >>= mux->shift;
++		val &= 1;
++	} else {
++		val = 0;
++	}
++	mux->index = val;
++
++	return mux->index;
++}
++
++static void mmp_audio_mux_write_parent(struct mmp_audio_mux *mux)
++{
++	struct mmp2_audio_clk *priv = mux->priv;
++	unsigned long flags = 0;
++	u32 reg;
++
++	spin_lock_irqsave(&priv->lock, flags);
++	reg = __raw_readl(priv->mmio_base + SSPA_AUD_CTRL);
++	reg &= ~(1 << mux->shift);
++	reg |= mux->index << mux->shift;
++	__raw_writel(reg, priv->mmio_base + SSPA_AUD_CTRL);
++	spin_unlock_irqrestore(&priv->lock, flags);
++}
++
++static int mmp_audio_mux_set_parent(struct clk_hw *hw, u8 index)
++{
++	struct mmp_audio_mux *mux = to_mmp_audio_mux(hw);
++	struct mmp2_audio_clk *priv = mux->priv;
++
++	mux->index = index;
++	if (__clk_is_enabled(priv->audio_clk))
++		mmp_audio_mux_write_parent(mux);
++
++	return 0;
++}
++
++static int mmp_audio_mux_determine_rate(struct clk_hw *hw,
++					struct clk_rate_request *req)
++{
++	return clk_mux_determine_rate_flags(hw, req, 0);
++}
++
++static int mmp_audio_mux_enable(struct clk_hw *hw)
++{
++	struct mmp_audio_mux *mux = to_mmp_audio_mux(hw);
++	struct mmp2_audio_clk *priv = mux->priv;
++
++	clk_prepare_enable(priv->audio_clk);
++	mmp_audio_mux_write_parent(mux);
++	return 0;
++}
++
++static void mmp_audio_mux_disable(struct clk_hw *hw)
++{
++	struct mmp_audio_mux *mux = to_mmp_audio_mux(hw);
++	struct mmp2_audio_clk *priv = mux->priv;
++
++	clk_disable_unprepare(priv->audio_clk);
++}
++
++const struct clk_ops mmp_audio_mux_ops = {
++	.enable = mmp_audio_mux_enable,
++	.disable = mmp_audio_mux_disable,
++
++	.get_parent = mmp_audio_mux_get_parent,
++	.set_parent = mmp_audio_mux_set_parent,
++	.determine_rate = mmp_audio_mux_determine_rate,
++};
++
++static unsigned long mmp_audio_div_recalc_rate(struct clk_hw *hw,
++					       unsigned long parent_rate)
++{
++	struct mmp_audio_div *div = to_mmp_audio_div(hw);
++
++	if (div->value == 0)
++		return 0;
++
++	return divider_recalc_rate(hw, parent_rate, div->value, NULL,
++				   CLK_DIVIDER_ONE_BASED |
++				   CLK_DIVIDER_ROUND_CLOSEST |
++				   CLK_DIVIDER_ALLOW_ZERO, 6);
++}
++
++static long mmp_audio_div_round_rate(struct clk_hw *hw, unsigned long rate,
++				unsigned long *prate)
++{
++	return divider_round_rate(hw, rate, prate, NULL, 6,
++				  CLK_DIVIDER_ONE_BASED |
++				  CLK_DIVIDER_ROUND_CLOSEST |
++				  CLK_DIVIDER_ALLOW_ZERO);
++}
++
++static void mmp_audio_div_write_rate(struct mmp_audio_div *div, int enable)
++{
++	struct mmp2_audio_clk *priv = div->priv;
++	u32 val;
++
++	clk_prepare_enable(priv->audio_clk);
++	val = __raw_readl(priv->mmio_base + SSPA_AUD_CTRL);
++	val &= ~(SSPA_AUD_CTRL_DIV_MASK << div->shift);
++	val |= (u32)div->value << (div->shift + 1);
++	val |= enable << div->shift;
++	__raw_writel(val, priv->mmio_base + SSPA_AUD_CTRL);
++	clk_disable_unprepare(priv->audio_clk);
++}
++
++static int mmp_audio_div_enable(struct clk_hw *hw)
++{
++	struct mmp_audio_div *div = to_mmp_audio_div(hw);
++	struct mmp2_audio_clk *priv = div->priv;
++
++	clk_prepare_enable(priv->audio_clk);
++	mmp_audio_div_write_rate(div, 1);
++	return 0;
++}
++
++static void mmp_audio_div_disable(struct clk_hw *hw)
++{
++	struct mmp_audio_div *div = to_mmp_audio_div(hw);
++	struct mmp2_audio_clk *priv = div->priv;
++	unsigned long flags = 0;
++	u32 val;
++
++	spin_lock_irqsave(&priv->lock, flags);
++	val = __raw_readl(priv->mmio_base + SSPA_AUD_CTRL);
++	val &= ~(1 << div->shift);
++	__raw_writel(val, priv->mmio_base + SSPA_AUD_CTRL);
++	spin_unlock_irqrestore(&priv->lock, flags);
++	clk_disable_unprepare(priv->audio_clk);
++}
++
++static int mmp_audio_div_set_rate(struct clk_hw *hw, unsigned long rate,
++				unsigned long parent_rate)
++{
++	struct mmp_audio_div *div = to_mmp_audio_div(hw);
++	struct mmp2_audio_clk *priv = div->priv;
++	int value;
++
++	if (rate == 0) {
++		value = 0;
++	} else {
++		value = divider_get_val(rate, parent_rate, NULL, 6,
++					CLK_DIVIDER_ONE_BASED |
++					CLK_DIVIDER_ROUND_CLOSEST |
++					CLK_DIVIDER_ALLOW_ZERO);
++		if (value < 0)
++			return value;
++	}
++
++	div->value = value;
++	if (__clk_is_enabled(priv->audio_clk))
++		mmp_audio_div_write_rate(div, 0);
++
++	return 0;
++}
++
++const struct clk_ops mmp_audio_div_ops = {
++	.enable = mmp_audio_div_enable,
++	.disable = mmp_audio_div_disable,
++
++	.recalc_rate = mmp_audio_div_recalc_rate,
++	.round_rate = mmp_audio_div_round_rate,
++	.set_rate = mmp_audio_div_set_rate,
++};
++
++static int mmp2_audio_clk_probe(struct platform_device *pdev)
++{
++	const struct clk_hw *sspa_mux_parents[2];
++	const struct clk_hw *sspa1_mux_parents[2];
++	struct mmp2_audio_clk *priv;
++	int ret;
++
++	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
++	if (!priv)
++		return -ENOMEM;
++
++	spin_lock_init(&priv->lock);
++
++	priv->mmio_base = devm_platform_ioremap_resource(pdev, 0);
++	if (IS_ERR(priv->mmio_base))
++		return PTR_ERR(priv->mmio_base);
++
++	priv->audio_clk = devm_clk_get(&pdev->dev, "audio");
++	if (IS_ERR(priv->audio_clk))
++		return PTR_ERR(priv->audio_clk);
++
++	priv->i2s0_clk = devm_clk_get(&pdev->dev, "i2s0");
++	if (IS_ERR(priv->i2s0_clk))
++		return PTR_ERR(priv->i2s0_clk);
++
++	priv->i2s1_clk = devm_clk_get(&pdev->dev, "i2s1");
++	if (IS_ERR(priv->i2s1_clk))
++		return PTR_ERR(priv->i2s1_clk);
++
++	priv->vctcxo_clk = devm_clk_get(&pdev->dev, "vctcxo");
++	if (IS_ERR(priv->vctcxo_clk))
++		return PTR_ERR(priv->vctcxo_clk);
++
++	priv->audio_pll.hw.init =
++		CLK_HW_INIT_HW("audio_pll", __clk_get_hw(priv->vctcxo_clk),
++			       &mmp_audio_pll_ops, CLK_SET_RATE_PARENT);
++	priv->audio_pll.priv = priv;
++	ret = devm_clk_hw_register(&pdev->dev, &priv->audio_pll.hw);
++	if (ret)
++		return ret;
++
++	sspa_mux_parents[0] = &priv->audio_pll.hw;
++	sspa_mux_parents[1] = __clk_get_hw(priv->i2s0_clk);
++	priv->sspa_mux.hw.init =
++		CLK_HW_INIT_PARENTS_HW("sspa_mux", sspa_mux_parents,
++				       &mmp_audio_mux_ops, CLK_SET_RATE_PARENT);
++	priv->sspa_mux.priv = priv;
++	priv->sspa_mux.shift = SSPA_AUD_CTRL_SSPA0_MUX_SHIFT;
++	ret = devm_clk_hw_register(&pdev->dev, &priv->sspa_mux.hw);
++	if (ret)
++		return ret;
++
++	priv->sysclk.hw.init =
++		CLK_HW_INIT_HW("sysclk", &priv->sspa_mux.hw,
++			       &mmp_audio_div_ops, CLK_SET_RATE_PARENT);
++	priv->sysclk.priv = priv;
++	priv->sysclk.shift = SSPA_AUD_CTRL_SYSCLK_SHIFT;
++	ret = devm_clk_hw_register(&pdev->dev, &priv->sysclk.hw);
++	if (ret)
++		return ret;
++
++	priv->sspa0.hw.init =
++		CLK_HW_INIT_HW("sspa0", &priv->sspa_mux.hw,
++			       &mmp_audio_div_ops, 0);
++	priv->sspa0.priv = priv;
++	priv->sspa0.shift = SSPA_AUD_CTRL_SSPA0_SHIFT;
++	ret = devm_clk_hw_register(&pdev->dev, &priv->sspa0.hw);
++	if (ret)
++		return ret;
++
++	sspa1_mux_parents[0] = &priv->audio_pll.hw;
++	sspa1_mux_parents[1] = __clk_get_hw(priv->i2s1_clk);
++	priv->sspa1_mux.hw.init =
++		CLK_HW_INIT_PARENTS_HW("sspa1_mux", sspa1_mux_parents,
++				       &mmp_audio_mux_ops, CLK_SET_RATE_PARENT);
++	priv->sspa1_mux.priv = priv;
++	priv->sspa1_mux.shift = SSPA_AUD_CTRL_SSPA1_MUX_SHIFT;
++	ret = devm_clk_hw_register(&pdev->dev, &priv->sspa1_mux.hw);
++	if (ret)
++		return ret;
++
++	priv->sspa1.hw.init =
++		CLK_HW_INIT_HW("sspa1", &priv->sspa1_mux.hw,
++			       &mmp_audio_div_ops, 0);
++	priv->sspa1.priv = priv;
++	priv->sspa1.shift = SSPA_AUD_CTRL_SSPA1_SHIFT;
++	ret = devm_clk_hw_register(&pdev->dev, &priv->sspa1.hw);
++	if (ret)
++		return ret;
++
++	priv->clk_table[MMP2_CLK_AUDIO_SYSCLK] = priv->sysclk.hw.clk;
++	priv->clk_table[MMP2_CLK_AUDIO_SSPA0] = priv->sspa0.hw.clk;
++	priv->clk_table[MMP2_CLK_AUDIO_SSPA1] = priv->sspa1.hw.clk;
++	priv->clk_data.clks = priv->clk_table;
++	priv->clk_data.clk_num = ARRAY_SIZE(priv->clk_table);
++
++	return of_clk_add_provider(pdev->dev.of_node, of_clk_src_onecell_get,
++				   &priv->clk_data);
++}
++
++static const struct of_device_id mmp2_audio_clk_of_match[] = {
++	{ .compatible = "marvell,mmp2-audio-clock" },
++	{},
++};
++
++MODULE_DEVICE_TABLE(of, mmp2_audio_clk_of_match);
++
++static struct platform_driver mmp2_audio_clk_driver = {
++	.driver = {
++		.name = "mmp2-audio-clock",
++		.of_match_table = of_match_ptr(mmp2_audio_clk_of_match),
++	},
++	.probe = mmp2_audio_clk_probe,
++};
++
++module_platform_driver(mmp2_audio_clk_driver);
++
++MODULE_AUTHOR("Lubomir Rintel <lkundrak@v3.sk>");
++MODULE_DESCRIPTION("Clock driver for MMP2 Audio subsystem");
++MODULE_LICENSE("GPL");
 -- 
 2.26.2
 
