@@ -2,121 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D45B1CD28D
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 09:28:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E411D1CD40D
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 10:35:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728502AbgEKH2C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 May 2020 03:28:02 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:56463 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728425AbgEKH2B (ORCPT
+        id S1728638AbgEKIfL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 May 2020 04:35:11 -0400
+Received: from mail-out.marcant.net ([217.14.160.135]:49921 "EHLO
+        mail-out.marcant.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728613AbgEKIfL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 May 2020 03:28:01 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id Y2qzjxHritKAsY2r0jnQb4; Mon, 11 May 2020 09:27:59 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1589182079; bh=djFYuodzN4n71AJy/ln34i1tOSfwYHOl2CIsBKilu2g=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=ZWq9BdqOaAblLRg+t/bVIpo8mW/NtldKPrpfGt6uTLxWx4wqwz85DWUeu0dJTdBnB
-         Q9O3zOpyTzaUN0uPLmDXgvZWA4DrA25Fl1ULSf+AfBydN21hGRdbD2R0qtW6aaqXD0
-         WY0/bIy4nENa6xCc1qbEpos27RELjDnsncS0ayiKB0v/uapvp4PbFaiuIybrvskWAp
-         zjlXzjvJ1/iBduAYULZF6cfz/WkF+pqutUNvVy9V8684eTeJfNsfN9qD7jo5cFv/7H
-         IIIGj3mWchf+57FjY6DlpzlSdZysgVSEldAbuZt6xgesI4AomOCXTDT6lNL3uao3+5
-         WJ6eNlwxg/Q5Q==
-Subject: Re: [PATCH v11 13/13] dt-bindings: Add media properties
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>, libcamera-devel@lists.libcamera.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh@kernel.org>
-Cc:     tfiga@google.com, pavel@ucw.cz, devicetree@vger.kernel.org
-References: <20200509090456.3496481-1-jacopo@jmondi.org>
- <20200509090456.3496481-14-jacopo@jmondi.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <6a8add4e-c1f6-bd08-8928-3c8884eeda2c@xs4all.nl>
-Date:   Mon, 11 May 2020 09:27:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Mon, 11 May 2020 04:35:11 -0400
+X-Greylist: delayed 301 seconds by postgrey-1.27 at vger.kernel.org; Mon, 11 May 2020 04:35:09 EDT
+Received: from antec.home.local (p57ABD3EC.dip0.t-ipconnect.de [87.171.211.236])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp-auth.marcant.net (Postfix) with ESMTPSA id 27E45542115;
+        Mon, 11 May 2020 10:30:07 +0200 (CEST)
+Received: by antec.home.local (Postfix, from userid 0)
+        id CB75654157C; Mon, 11 May 2020 10:30:06 +0200 (CEST)
+From:   Dirk Nehring <dnehring@gmx.net>
+To:     linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dirk Nehring <dnehring@gmx.net>
+Subject: [PATCH] media: dvb-usb: Add Cinergy S2 PCIe Dual Port support
+Date:   Mon, 11 May 2020 10:29:53 +0200
+Message-Id: <20200511082953.1824517-1-dnehring@gmx.net>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20200509090456.3496481-14-jacopo@jmondi.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfIeiB9Ead4aZl4KJTvWnhlmpMLPgM5Y3oDscyguEHliG8TMHRc+79DqIOQIikfhxtqF8mmh9MxNnSzGbmrkDtuKJBTo4F80Syfrv/3oVnt+t1ZzwwMA6
- EMboqN0CJ2H9jq4dMyli6kanivlpzNiIz+T+RGRmyTVW37v+vJ4e+Ve6SCqR3uKvzs2EFYs9vtCCJqX/H1ISq3zuAje05mTQxHBH3Rt51YgAABYcGcDShuat
- nQsXe9JROuF70Im1EtTcOzmXxufCEFDBDnXaLy3wOPkMgu/wtk7LDYImzMCbUwZ8nrSwwtIJz1ZiTovOoUkrIdks4ZEDsb5X/bKQ0r/0egOSRivS9kgAl1ew
- vuw6FJR5XXdqikrrbExfo6YYpPLKNd6vcELdo7Oj7cprEGTgG/oeQi+lQvvuNdS4s+TFZqTHcSu4DlxJlfPmDDLFtvqLjTtGAvycbYJgzVJmTK/ggjY77YYh
- ud7eDe8O9pDpalSr/l14CQOKrrYlwhkhq23XGdVKcGs83czbXNJNefpe/D/vWNriJ6VVKeCDXvrw0Cn74JwkTTVUJ1C1MNutBvKFf3B9wnjU6JG1GnV52dSG
- pmyHoojaLSWJHbdCxBlxFycc
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/05/2020 11:04, Jacopo Mondi wrote:
-> Add a DT header file to contain definitions for standard media properties.
-> 
-> The file is named after:
-> Documentation/devicetree/bindings/media/video-interfaces.txt
-> which contains the standard media properties definitions.
-> 
-> Initially add three macros to define the supported 'orientation'
-> property values.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
-> 
-> I currently don't have users in mainline for this, I understand this implies
-> this is probably not going to be accepted. At the same time we don't have a
-> common place for media-related definitions, which support properties defined in
-> video-interfaces.txt
-> 
-> I leave it here at the end of the series for discussions, but I'm fine dropping
-> it from the series.
-> 
-> Thanks
->   j
-> 
-> ---
->  include/dt-bindings/media/video-interfaces.h | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->  create mode 100644 include/dt-bindings/media/video-interfaces.h
-> 
-> diff --git a/include/dt-bindings/media/video-interfaces.h b/include/dt-bindings/media/video-interfaces.h
-> new file mode 100644
-> index 0000000000000..404c697d6bd6e
-> --- /dev/null
-> +++ b/include/dt-bindings/media/video-interfaces.h
-> @@ -0,0 +1,15 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * include/dt-bindings/media/video-interfaces.h
-> + *
-> + * Copyright (C) 2020 Jacopo Mondi <jacopo@jmondi.org>
-> + */
-> +
-> +#ifndef __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
-> +#define __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
-> +
-> +#define FRONT_CAMERA		<0>
-> +#define BACK_CAMERA		<1>
-> +#define EXTERNAL_CAMERA		<2>
+Terratec Cinergy S2 PCIe Dual is a PCIe device with two tuners that
+actually contains two USB devices. The devices are visible in the
+lsusb printout.
 
-Uh, shouldn't that be 0, 1 and 2 instead of <0>, <1> and <2> ?
+Bus 004 Device 002: ID 153b:1182 TerraTec Electronic GmbH Cinergy S2 PCIe Dual Port 2
+Bus 003 Device 002: ID 153b:1181 TerraTec Electronic GmbH Cinergy S2 PCIe Dual Port 1
 
-I'm skipping this patch for the PR.
+The devices use the Montage M88DS3000/M88TS2022 demod/tuner.
 
-Regards,
+Signed-off-by: Dirk Nehring <dnehring@gmx.net>
+---
+ drivers/media/usb/dvb-usb/dw2102.c | 14 +++++++++++++-
+ include/media/dvb-usb-ids.h        |  3 +++
+ 2 files changed, 16 insertions(+), 1 deletion(-)
 
-	Hans
-
-> +
-> +#endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__ */
-> --
-> 2.26.1
-> 
+diff --git a/drivers/media/usb/dvb-usb/dw2102.c b/drivers/media/usb/dvb-usb/dw2102.c
+index f6d2d2398db6..9736fa253540 100644
+--- a/drivers/media/usb/dvb-usb/dw2102.c
++++ b/drivers/media/usb/dvb-usb/dw2102.c
+@@ -1779,6 +1779,8 @@ enum dw2102_table_entry {
+ 	TERRATEC_CINERGY_S2_R2,
+ 	TERRATEC_CINERGY_S2_R3,
+ 	TERRATEC_CINERGY_S2_R4,
++	TERRATEC_CINERGY_S2_1,
++	TERRATEC_CINERGY_S2_2,
+ 	GOTVIEW_SAT_HD,
+ 	GENIATECH_T220,
+ 	TECHNOTREND_S2_4600,
+@@ -1809,6 +1811,8 @@ static struct usb_device_id dw2102_table[] = {
+ 	[TERRATEC_CINERGY_S2_R2] = {USB_DEVICE(USB_VID_TERRATEC, USB_PID_TERRATEC_CINERGY_S2_R2)},
+ 	[TERRATEC_CINERGY_S2_R3] = {USB_DEVICE(USB_VID_TERRATEC, USB_PID_TERRATEC_CINERGY_S2_R3)},
+ 	[TERRATEC_CINERGY_S2_R4] = {USB_DEVICE(USB_VID_TERRATEC, USB_PID_TERRATEC_CINERGY_S2_R4)},
++	[TERRATEC_CINERGY_S2_1] = {USB_DEVICE(USB_VID_TERRATEC_2, USB_PID_TERRATEC_CINERGY_S2_1)},
++	[TERRATEC_CINERGY_S2_2] = {USB_DEVICE(USB_VID_TERRATEC_2, USB_PID_TERRATEC_CINERGY_S2_2)},
+ 	[GOTVIEW_SAT_HD] = {USB_DEVICE(0x1FE1, USB_PID_GOTVIEW_SAT_HD)},
+ 	[GENIATECH_T220] = {USB_DEVICE(0x1f4d, 0xD220)},
+ 	[TECHNOTREND_S2_4600] = {USB_DEVICE(USB_VID_TECHNOTREND,
+@@ -2221,7 +2225,7 @@ static struct dvb_usb_device_properties su3000_properties = {
+ 		}},
+ 		}
+ 	},
+-	.num_device_descs = 6,
++	.num_device_descs = 8,
+ 	.devices = {
+ 		{ "SU3000HD DVB-S USB2.0",
+ 			{ &dw2102_table[GENIATECH_SU3000], NULL },
+@@ -2243,6 +2247,14 @@ static struct dvb_usb_device_properties su3000_properties = {
+ 			{ &dw2102_table[TERRATEC_CINERGY_S2_R3], NULL },
+ 			{ NULL },
+ 		},
++		{ "Terratec Cinergy S2 PCIe Dual Port 1",
++			{ &dw2102_table[TERRATEC_CINERGY_S2_1], NULL },
++			{ NULL },
++		},
++		{ "Terratec Cinergy S2 PCIe Dual Port 2",
++			{ &dw2102_table[TERRATEC_CINERGY_S2_2], NULL },
++			{ NULL },
++		},
+ 		{ "GOTVIEW Satellite HD",
+ 			{ &dw2102_table[GOTVIEW_SAT_HD], NULL },
+ 			{ NULL },
+diff --git a/include/media/dvb-usb-ids.h b/include/media/dvb-usb-ids.h
+index 41f0bf122f53..d37cb74b769c 100644
+--- a/include/media/dvb-usb-ids.h
++++ b/include/media/dvb-usb-ids.h
+@@ -56,6 +56,7 @@
+ #define USB_VID_REALTEK				0x0bda
+ #define USB_VID_TECHNOTREND			0x0b48
+ #define USB_VID_TERRATEC			0x0ccd
++#define USB_VID_TERRATEC_2			0x153b
+ #define USB_VID_TELESTAR			0x10b9
+ #define USB_VID_VISIONPLUS			0x13d3
+ #define USB_VID_SONY				0x1415
+@@ -280,6 +281,8 @@
+ #define USB_PID_TERRATEC_CINERGY_S2_R2			0x00b0
+ #define USB_PID_TERRATEC_CINERGY_S2_R3			0x0102
+ #define USB_PID_TERRATEC_CINERGY_S2_R4			0x0105
++#define USB_PID_TERRATEC_CINERGY_S2_1			0x1181
++#define USB_PID_TERRATEC_CINERGY_S2_2			0x1182
+ #define USB_PID_TERRATEC_H7				0x10b4
+ #define USB_PID_TERRATEC_H7_2				0x10a3
+ #define USB_PID_TERRATEC_H7_3				0x10a5
+-- 
+2.26.2
 
