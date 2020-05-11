@@ -2,81 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C560B1CE12A
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 19:03:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDC711CE2BA
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 20:28:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730878AbgEKRD1 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 11 May 2020 13:03:27 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:61445 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730743AbgEKRD0 (ORCPT
+        id S1731222AbgEKS1z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 May 2020 14:27:55 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:43139 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731152AbgEKS1e (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 May 2020 13:03:26 -0400
-X-Originating-IP: 91.224.148.103
-Received: from xps13 (unknown [91.224.148.103])
-        (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 55DAB240005;
-        Mon, 11 May 2020 17:03:22 +0000 (UTC)
-Date:   Mon, 11 May 2020 19:03:21 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     =?UTF-8?B?w4FsdmFybyBGZXJuw6FuZGV6?= Rojas <noltari@gmail.com>
-Cc:     computersforpeace@gmail.com, kdasu.kdev@gmail.com, richard@nod.at,
-        vigneshr@ti.com, sumit.semwal@linaro.org,
-        linux-mtd@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 1/3] nand: brcmnand: rename v4 registers
-Message-ID: <20200511190321.1091bbf2@xps13>
-In-Reply-To: <20200510151406.2527856-1-noltari@gmail.com>
-References: <20200510151406.2527856-1-noltari@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        Mon, 11 May 2020 14:27:34 -0400
+Received: by mail-oi1-f195.google.com with SMTP id j16so15937733oih.10;
+        Mon, 11 May 2020 11:27:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=Ht1Yf4e3ictsVLLZDtTllL6POw3JDfrc6LvgmlTwd+o=;
+        b=mAYz3DgRHLLxHH9EjPJ9fuWZExW19xggotQ6nRqwQC66QRf17sPxmjsPYML2o1L2V4
+         jTN5Y9FMgVUU6Hvjove4sH1lJVNsa88OFJhOurp3AHXI7UPWo9OO7yYuUDf+EAhqjHsC
+         1bNoJ3q3GArSB/rCSAJxur6MBXSojzgwLdZevQ5+YXI96x03O21q+vtMPVdncIqY8whQ
+         dzvyYfZULYovvJUkDpq75ADvR3/QKvh6IL/OSJwRMOzNGQo/L483RU4G1KiK++9H82nh
+         aDFydlcDDR/C+vVig82noUMk2mg+PAWeyjVXqzV63CMsqtxWUXL68eR0Ro/kkshxjmEa
+         DU/w==
+X-Gm-Message-State: AGi0PuZZK1lCSIvZ9Kvzi8VXcfWW5UdvjZZmvuG9+OjbII6WlfpLYU+c
+        uOWSQ3GjjYmWBLYwt4M+Wg==
+X-Google-Smtp-Source: APiQypJJVdhVDIiyV5MQ9hMeG4fzb2BeRMre1Xb8Vy85SfElqigqNr0E3HRoq3Ps/CZug9SB6xEXZg==
+X-Received: by 2002:aca:acd0:: with SMTP id v199mr19934761oie.82.1589221653219;
+        Mon, 11 May 2020 11:27:33 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id n16sm2980243oop.23.2020.05.11.11.27.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 May 2020 11:27:32 -0700 (PDT)
+Received: (nullmailer pid 26196 invoked by uid 1000);
+        Mon, 11 May 2020 17:20:08 -0000
+Date:   Mon, 11 May 2020 12:20:08 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     libcamera-devel@lists.libcamera.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        devicetree@vger.kernel.org, pavel@ucw.cz, tfiga@google.com,
+        "open list:MEDIA INPUT INFRASTRUCTURE V4L/DVB" 
+        <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v10 01/13] dt-bindings: video-interfaces: Document
+ 'orientation' property
+Message-ID: <20200511172008.GA25628@bogus>
+References: <20200508100158.3437161-1-jacopo@jmondi.org>
+ <20200508100158.3437161-2-jacopo@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200508100158.3437161-2-jacopo@jmondi.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Álvaro,
-
-Álvaro Fernández Rojas <noltari@gmail.com> wrote on Sun, 10 May 2020
-17:14:04 +0200:
-
-> These registers are also used on v3.3.
+On Fri,  8 May 2020 12:01:46 +0200, Jacopo Mondi wrote:
+> Add the 'orientation' device property, used to specify the device mounting
+> position. The property is particularly meaningful for mobile devices
+> with a well defined usage orientation.
 > 
-> Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
->  drivers/mtd/nand/raw/brcmnand/brcmnand.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  .../devicetree/bindings/media/video-interfaces.txt    | 11 +++++++++++
+>  1 file changed, 11 insertions(+)
 > 
-> diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> index e4e3ceeac38f..6a08dd07b058 100644
-> --- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> +++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> @@ -338,8 +338,8 @@ enum brcmnand_reg {
->  	BRCMNAND_FC_BASE,
->  };
->  
-> -/* BRCMNAND v4.0 */
-> -static const u16 brcmnand_regs_v40[] = {
-> +/* BRCMNAND v3.3-v4.0 */
-> +static const u16 brcmnand_regs_v33[] = {
->  	[BRCMNAND_CMD_START]		=  0x04,
->  	[BRCMNAND_CMD_EXT_ADDRESS]	=  0x08,
->  	[BRCMNAND_CMD_ADDRESS]		=  0x0c,
-> @@ -591,8 +591,8 @@ static int brcmnand_revision_init(struct brcmnand_controller *ctrl)
->  		ctrl->reg_offsets = brcmnand_regs_v60;
->  	else if (ctrl->nand_version >= 0x0500)
->  		ctrl->reg_offsets = brcmnand_regs_v50;
-> -	else if (ctrl->nand_version >= 0x0400)
-> -		ctrl->reg_offsets = brcmnand_regs_v40;
-> +	else if (ctrl->nand_version >= 0x0303)
-> +		ctrl->reg_offsets = brcmnand_regs_v33;
->  
->  	/* Chip-select stride */
->  	if (ctrl->nand_version >= 0x0701)
 
-Reviewed-by: Miquel Raynal <miquel.raynal@bootlin.com>
+
+Please add Acked-by/Reviewed-by tags when posting new versions. However,
+there's no need to repost patches *only* to add the tags. The upstream
+maintainer will do that for acks received on the version they apply.
+
+If a tag was not added on purpose, please state why and what changed.
+
