@@ -2,83 +2,267 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E5FB1CE74E
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 23:20:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62A021CE93D
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 01:35:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725888AbgEKVUu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 May 2020 17:20:50 -0400
-Received: from mail-oo1-f67.google.com ([209.85.161.67]:34328 "EHLO
-        mail-oo1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725355AbgEKVUu (ORCPT
+        id S1726874AbgEKXfI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 May 2020 19:35:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40042 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725828AbgEKXfI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 May 2020 17:20:50 -0400
-Received: by mail-oo1-f67.google.com with SMTP id s139so1309525oos.1;
-        Mon, 11 May 2020 14:20:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=wpZ8Z2HbipIJu9qv1JxM/GBZFY/WCkbQWVqJwdqtSag=;
-        b=qDZliZ+iPzvUKUfjjV9jiky6JsDx5PM4ms0VBdPaiGTyhkX+W4SwVSo4ZC2gdviYG9
-         GFsFUh2QfvGy5QWdua5fa2+vp1owLgMDP1uPebW8kf+FFvPFb3aaDIeycJelEp/b9MZJ
-         4UOSxDdoOv1pmIlRX9yFS8yrRjz8DK3ERwYbSUkutyOUVl81lA1oeEwZjs7sCIUfpwbr
-         5ObISaU9Nz6v1+NNv4rwo+1j58VqK4ZErhBwfR0PyLjC48CAYOUrpiQG78JUk5bJyc2L
-         FWzt6jZbtI53STUAoXwjSSkqtE1I1QdUT6/0nc3r6gQOB05v2wf8SYe3gNpqVeZuOxP3
-         LayQ==
-X-Gm-Message-State: AGi0Pub5Lk+Eb6XOa+K3OcPwRwPobHiTQ7ZfG2z10sss2GSs1nVDKCBj
-        gZAVfaEPVCk8w8LIpcxrwA==
-X-Google-Smtp-Source: APiQypI6KnlaeO1Yh0UWBD8XnJ6hSVXpqxOM5EEmjFaHTRG4YNRZTlr/VBxQK1119F3/KE+/5tpirQ==
-X-Received: by 2002:a4a:9413:: with SMTP id h19mr10875976ooi.52.1589232049084;
-        Mon, 11 May 2020 14:20:49 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id t15sm3140462oov.32.2020.05.11.14.20.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 14:20:47 -0700 (PDT)
-Received: (nullmailer pid 31409 invoked by uid 1000);
-        Mon, 11 May 2020 21:20:47 -0000
-Date:   Mon, 11 May 2020 16:20:47 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Jeff Chase <jnchase@google.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, devicetree@vger.kernel.org
-Subject: Re: [PATCH 1/2] dt-bindings: Add ch7322 as a trivial device
-Message-ID: <20200511212047.GA21845@bogus>
-References: <20200424053819.220276-1-jnchase@google.com>
+        Mon, 11 May 2020 19:35:08 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D47DC061A0C
+        for <linux-media@vger.kernel.org>; Mon, 11 May 2020 16:35:08 -0700 (PDT)
+Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 95B2333E;
+        Tue, 12 May 2020 01:35:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1589240105;
+        bh=sRsjOh0RLsFmWwyrY+o4wQpsZ3VCgSySJime40cRfV8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=TOtKPBSqwL02Tj8vbMg9151K6eYFTajvDGuWoS6JBRRPuNBO4UoSAixyT0zN9kTtu
+         T9oFaNtsuuine8a9+h3M65zw6hKvk04jh6vGDzmMuVrlNkdMGaDhO6sD+NiF/sEzDx
+         ZBhjwEqDtsiTMyR7RMt2mteH39FcRejPrsPw0JQ4=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>
+Subject: [PATCH 1/2] media: dt-bindings: media: i2c: Add MT9M114 camera sensor binding
+Date:   Tue, 12 May 2020 02:34:55 +0300
+Message-Id: <20200511233456.9722-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200424053819.220276-1-jnchase@google.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Apr 24, 2020 at 01:38:18AM -0400, Jeff Chase wrote:
-> The ch7322 is a Chrontel CEC controller.
-> 
-> Signed-off-by: Jeff Chase <jnchase@google.com>
-> ---
->  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
->  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
->  2 files changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-> index 4165352a590a..ec2ddc6cdf9a 100644
-> --- a/Documentation/devicetree/bindings/trivial-devices.yaml
-> +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-> @@ -48,6 +48,8 @@ properties:
->            - capella,cm32181
->              # CM3232: Ambient Light Sensor
->            - capella,cm3232
-> +            # CH7322: HDMI-CEC Controller
-> +          - chrontel,ch7322
+Add device tree binding for the ON Semiconductor MT9M114 CMOS camera
+sensor.
 
-I don't think this qualifies as a trivial device. It has HPDI, OE and 
-reset signals all likely hooked up to GPIOs. You might not have those 
-hooked up for s/w control, but someone will.
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ .../bindings/media/i2c/onnn,mt9m114.yaml      | 188 ++++++++++++++++++
+ MAINTAINERS                                   |   7 +
+ 2 files changed, 195 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
 
-And I'd assume if you had multiple instances, they will need to be 
-associated with each connector.
+diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+new file mode 100644
+index 000000000000..2c3c691aacfd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+@@ -0,0 +1,188 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/onnn,mt9m114.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: ON Semiconductor 1/6-inch 720p CMOS Digital Image Sensor
++
++maintainers:
++  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++
++description: |-
++  The ON Semiconductor MT9M114 is a 1/6-inch 720p (1.26 Mp) CMOS digital image
++  sensor with an active pixel-array size of 1296H x 976V. It is programmable
++  through an I2C interface and outputs image data over a 8-bit parallel or
++  1-lane MIPI CSI-2 connection.
++
++properties:
++  compatible:
++    const: onnn,mt9m114
++
++  reg:
++    description: I2C device address
++    enum:
++      - 0x48
++      - 0x5d
++
++  clocks:
++    description: EXTCLK clock signal
++    maxItems: 1
++
++  vdd-supply:
++    description:
++      Core digital voltage supply, 1.8V
++
++  vddio-supply:
++    description:
++      I/O digital voltage supply, 1.8V or 2.8V
++
++  vaa-supply:
++    description:
++      Analog voltage supply, 2.8V
++
++  reset-gpios:
++    description: |-
++      Reference to the GPIO connected to the RESET_BAR pin, if any (active
++      low).
++
++  # See ../video-interfaces.txt for more details
++  port:
++    type: object
++    properties:
++      endpoint:
++        type: object
++        properties:
++          bus-type:
++            enum: [4, 5, 6]
++
++          clock-lanes:
++            items:
++              - const: 0
++
++          data-lanes:
++            items:
++              - const: 1
++
++          bus-width:
++            items:
++              - const: 8
++
++          hsync-active:
++            items:
++              - const: 1
++
++          vsync-active:
++            items:
++              - const: 1
++
++        required:
++          - bus-type
++
++        allOf:
++          - if:
++              properties:
++                bus-type:
++                  const: 4
++            then:
++              properties:
++                bus-width: false
++                hsync-active: false
++                vsync-active: false
++
++          - if:
++              properties:
++                bus-type:
++                  const: 5
++            then:
++              properties:
++                clock-lanes: false
++                data-lanes: false
++
++          - if:
++              properties:
++                bus-type:
++                  const: 6
++            then:
++              properties:
++                clock-lanes: false
++                data-lanes: false
++                hsync-active: false
++                vsync-active: false
++
++        unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - vdd-supply
++  - vddio-supply
++  - vaa-supply
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        sensor@48 {
++            compatible = "onnn,mt9m114";
++            reg = <0x48>;
++
++            clocks = <&clk24m 0>;
++
++            reset-gpios = <&gpio5 21 GPIO_ACTIVE_LOW>;
++
++            vddio-supply = <&reg_cam_1v8>;
++            vdd-supply = <&reg_cam_1v8>;
++            vaa-supply = <&reg_2p8v>;
++
++            port {
++                endpoint {
++                    bus-type = <4>;
++                    clock-lanes = <0>;
++                    data-lanes = <1>;
++                    remote-endpoint = <&mipi_csi_in>;
++                };
++            };
++        };
++    };
++
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c0 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        sensor@5d {
++            compatible = "onnn,mt9m114";
++            reg = <0x5d>;
++
++            clocks = <&clk24m 0>;
++
++            reset-gpios = <&gpio5 21 GPIO_ACTIVE_LOW>;
++
++            vddio-supply = <&reg_cam_1v8>;
++            vdd-supply = <&reg_cam_1v8>;
++            vaa-supply = <&reg_2p8v>;
++
++            port {
++                endpoint {
++                    bus-type = <5>;
++                    bus-width = <8>;
++                    hsync-active = <1>;
++                    vsync-active = <1>;
++                    remote-endpoint = <&parallel_in>;
++                };
++            };
++        };
++    };
++
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 091ec22c1a23..61d2fb6d049e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11457,6 +11457,13 @@ T:	git git://linuxtv.org/media_tree.git
+ F:	drivers/media/i2c/mt9m032.c
+ F:	include/media/i2c/mt9m032.h
+ 
++MT9M114 ON SEMICONDUCTOR SENSOR DRIVER
++M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++T:	git git://linuxtv.org/media_tree.git
++F:	Documentation/devicetree/bindings/media/i2c.onnn,mt9m114.yaml
++
+ MT9P031 APTINA CAMERA SENSOR
+ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ L:	linux-media@vger.kernel.org
+-- 
+Regards,
 
-Rob
+Laurent Pinchart
+
