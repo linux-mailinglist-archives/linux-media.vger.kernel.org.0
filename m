@@ -2,171 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FF631CD076
-	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 05:38:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57CF91CD218
+	for <lists+linux-media@lfdr.de>; Mon, 11 May 2020 08:51:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727896AbgEKDiv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 10 May 2020 23:38:51 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:38761 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727121AbgEKDiv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 10 May 2020 23:38:51 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id XzHDjw8HWtKAsXzHEjmoi4; Mon, 11 May 2020 05:38:48 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1589168328; bh=XznYd57Mwhj6vU11pICseUBd2gFwIP9uTd9J2muFtXE=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=BvsJy3RDd256+vLmMqI7Emh5dbpYm8iwVmg4pMX389GKajSfG/W5Ox5NJJbwmQv1i
-         Glc41kTeuOhMgBCJoNKqVA+RL/mhVFlOKW4AGScbf1hFaVeY+5mX6efDXBbdswG7Hb
-         HX+wsekoBhUdGcEp6gMqjZUFIqvYincfKyqBNAZbuXnHJSXC79vplp2z/2u3E544Vm
-         UEtzU9WigBo1ZQd9LaUtndR5xMfS7MY/xFLXXuPylqjs6Rqea3qoa/+ZjfXE7eoq56
-         nwjY5nmpBEbjGAb9NKmnHFcdZENQtSc/w1O7GBs9pNWhBzhioSCVgQJkUek0KtigaL
-         LT62eoLrtvlUw==
-Message-ID: <ea7ec67493adb7ea75c774b5cdbabaac@smtp-cloud7.xs4all.net>
-Date:   Mon, 11 May 2020 05:38:47 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfCK0Go/uqaFhv2tjjtsVJh4FKcSOroD3T4tBy7bSLPpBlZjEzXPd4OxsvrHQC+ivHFZVJkZnwETnWSBfwTWGqKw2ASlcQ0tF7UrL0B1KSfFCuWLTHW1f
- EGNlkc7kAfbRIc3XCS67jk1zfmvn43kq9u/sYrZQbShWz3WzucQOjYLq9p9yzHJXAQFpABImvpvc98LlAWmpRUvD/y/LZNoRuBu8ZlEtsGoC9iLaLA+9gzMt
+        id S1728030AbgEKGvV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 May 2020 02:51:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57186 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726438AbgEKGvV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 11 May 2020 02:51:21 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 508272075E;
+        Mon, 11 May 2020 06:51:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589179881;
+        bh=Ex/q2HLfHwiYEB6FHWoOBEqEx2J/3/iQUzy2/kEnzX4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=k6T4b8RlQzpxGh7XiL504K3yQ9OkM73Df8VH51HCTmanBl7QO8k7jujETqEMBY/UW
+         v9eqQRoJEWkM3JoVmPKEJMQ1MIx5KSVVW2zcEDu6DVi2rbvCAn0uTj/HN4I5Zgtz3D
+         0003e0jaTyLiHpEybm3/wRisv9mxYibI4Zt+gWrA=
+Date:   Mon, 11 May 2020 08:51:18 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Sean Young <sean@mess.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        linux-input@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/3] input: serio: allow more than one byte to be sent at
+ once
+Message-ID: <20200511065118.GA1293993@kroah.com>
+References: <20200507135337.2343-1-sean@mess.org>
+ <20200507135337.2343-2-sean@mess.org>
+ <20200507202546.GM89269@dtor-ws>
+ <20200507205918.GA13370@gofer.mess.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200507205918.GA13370@gofer.mess.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Thu, May 07, 2020 at 09:59:18PM +0100, Sean Young wrote:
+> On Thu, May 07, 2020 at 01:25:46PM -0700, Dmitry Torokhov wrote:
+> > On Thu, May 07, 2020 at 02:53:36PM +0100, Sean Young wrote:
+> > > serio drivers can only send one byte at a time. If the underlying tty
+> > > is a usb serial port, then each byte will be put into separate usb
+> > > urbs, which is not efficient.
+> > > 
+> > > Additionally, the Infrared Toy device refuses to transmit IR if the
+> > > IR data is sent one byte at a time. IR data is formatted in u16 values,
+> > > and the firmware expects complete u16 values in the packet.
+> > > 
+> > > https://github.com/DangerousPrototypes/USB_IR_Toy/blob/master/Firmware-main/IRs.c#L240
+> > 
+> > Ummm, serial protocol data size is at most 9 bits so I have no earthly
+> > idea how they expect to get 16.
+> 
+> serio is a layer on top several serial protocols, including ttys. ttys allow
+> more than one byte to be written at a time, see struct tty_operations:
+> 
+>         int  (*write)(struct tty_struct * tty,
+>                       const unsigned char *buf, int count);
+> 
+> ttys would be very inefficient if you could only write one byte at a time,
+> and they are very serial.
+> 
+> This patch exposes the underlying tty write() functionality to serio. When
+> the underlying tty is a usb serial port this makes for far fewer usb packets
+> being used to send the same data, and fixes my driver problem, and it
+> would reduce the number of calls in a few other cases too.
+> 
+> I'm happy to rework the patch if there are comments on the style or
+> approach.
 
-Results of the daily build of media_tree:
+Why not just use the ir-usb.c driver for this device instead?
 
-date:			Mon May 11 05:00:09 CEST 2020
-media-tree git hash:	5b9f8e4ac9473962fa0e824fd1f04138600d459d
-media_build git hash:	2f75e0d4330da180166ebcd104560d471a1599b6
-v4l-utils git hash:	c39488120a52f88b730c406e2c6abf3176f5d06f
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 7bc5ca34b446a30a7e19688e9a1e68e905cb8ff4
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+thanks,
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: WARNINGS
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 4
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+greg k-h
