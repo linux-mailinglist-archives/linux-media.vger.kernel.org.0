@@ -2,22 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 684311CF3FA
+	by mail.lfdr.de (Postfix) with ESMTP id DE44B1CF3FB
 	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 14:06:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729408AbgELMGH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 08:06:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43990 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728085AbgELMGH (ORCPT
+        id S1729568AbgELMGI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 08:06:08 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35054 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729207AbgELMGI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 08:06:07 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2D83C061A0C
-        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 05:06:06 -0700 (PDT)
+        Tue, 12 May 2020 08:06:08 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: dafna)
-        with ESMTPSA id 90AA62A20B0
+        with ESMTPSA id 7F9C32A20B2
 From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
@@ -25,53 +22,170 @@ Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
         dafna3@gmail.com, sakari.ailus@linux.intel.com,
         linux-rockchip@lists.infradead.org, mchehab@kernel.org,
         laurent.pinchart@ideasonboard.com
-Subject: [PATCH 0/5] media: staging: rkisp1: change workqueue to threaded irq in stats
-Date:   Tue, 12 May 2020 14:05:17 +0200
-Message-Id: <20200512120522.25960-1-dafna.hirschfeld@collabora.com>
+Subject: [PATCH 1/5] media: staging: rkisp1: return IRQ_NONE in isr when irq isn't for ISP
+Date:   Tue, 12 May 2020 14:05:18 +0200
+Message-Id: <20200512120522.25960-2-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200512120522.25960-1-dafna.hirschfeld@collabora.com>
+References: <20200512120522.25960-1-dafna.hirschfeld@collabora.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Reading the statistics registers might take too long
-to run inside the irq handler. Currently it is deferred
-to bottom half using workqueues. This patch replaces the
-workqueue with threaded interrupts.
-This fixes an item in the TODO file to move the driver from staging.
+From: Helen Koike <helen.koike@collabora.com>
 
-Patches Summary:
-1. Since the irq is shared, the isr should return either IRQ_NONE or IRQ_HANDELD.
-This patch fixes it. In later patch, IRQ_WAKE_THREAD will be added.
-2. Replace a long bitwise-or of the statistics flags with a macro to improve readability
-3. Fixes a bug of using spin_lock instead of spin_lock_irqsave inside an irq handler
-3. Replace two locks in the rkisp1_stats object with one lock that
-protects the 'is_streaming' variable and the 'stat' list of buffers.
-4. Replaces the workqueue with threaded irq in the statistics.
+rkisp1 shares the interrupt line, then it shouldn't always return
+IRQ_HANDLED, otherwise it can flag as handled an interrupt that wans't
+meant for ISP.
 
-The code is tested using the 'cam' command from libcamera:
+return IRQ_NONE when the interrupt wans't meant for ISP
 
-cam -c 1 -C  -s width=1280,height=960 --file="/tmp/libcamframe#.data"
+Fixes: d65dd85281fb ("media: staging: rkisp1: add Rockchip ISP1 base driver")
 
-Dafna Hirschfeld (4):
-  media: staging: rkisp1: use a macro for the statistics flags mask
-  media: staging: rkisp1: stats: use spin_lock_irqsave for irq_lock
-  media: staging: rkisp1: stats: replace locks wq_lock, irq_lock with
-    one lock
-  media: staging: rkisp1: replace workqueue with threaded irq for
-    reading statistics registers
+Signed-off-by: Helen Koike <helen.koike@collabora.com>
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+---
+ drivers/staging/media/rkisp1/rkisp1-capture.c |  7 ++++++-
+ drivers/staging/media/rkisp1/rkisp1-common.h  |  6 +++---
+ drivers/staging/media/rkisp1/rkisp1-dev.c     | 14 ++++++++++----
+ drivers/staging/media/rkisp1/rkisp1-isp.c     | 12 ++++++++----
+ 4 files changed, 27 insertions(+), 12 deletions(-)
 
-Helen Koike (1):
-  media: staging: rkisp1: return IRQ_NONE in isr when irq isn't for ISP
-
- drivers/staging/media/rkisp1/TODO             |   1 -
- drivers/staging/media/rkisp1/rkisp1-capture.c |   7 +-
- drivers/staging/media/rkisp1/rkisp1-common.h  |  20 +-
- drivers/staging/media/rkisp1/rkisp1-dev.c     |  22 +-
- drivers/staging/media/rkisp1/rkisp1-isp.c     |  20 +-
- drivers/staging/media/rkisp1/rkisp1-stats.c   | 197 +++++++-----------
- 6 files changed, 121 insertions(+), 146 deletions(-)
-
+diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
+index f69235f82c45..19021875e8a9 100644
+--- a/drivers/staging/media/rkisp1/rkisp1-capture.c
++++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
+@@ -649,12 +649,15 @@ static void rkisp1_handle_buffer(struct rkisp1_capture *cap)
+ 	rkisp1_set_next_buf(cap);
+ }
+ 
+-void rkisp1_capture_isr(struct rkisp1_device *rkisp1)
++irqreturn_t rkisp1_capture_isr(struct rkisp1_device *rkisp1)
+ {
+ 	unsigned int i;
+ 	u32 status;
+ 
+ 	status = rkisp1_read(rkisp1, RKISP1_CIF_MI_MIS);
++	if (!status)
++		return IRQ_NONE;
++
+ 	rkisp1_write(rkisp1, status, RKISP1_CIF_MI_ICR);
+ 
+ 	for (i = 0; i < ARRAY_SIZE(rkisp1->capture_devs); ++i) {
+@@ -682,6 +685,8 @@ void rkisp1_capture_isr(struct rkisp1_device *rkisp1)
+ 		cap->is_streaming = false;
+ 		wake_up(&cap->done);
+ 	}
++
++	return IRQ_HANDLED;
+ }
+ 
+ /* ----------------------------------------------------------------------------
+diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
+index 0c4fe503adc9..33dffe21c769 100644
+--- a/drivers/staging/media/rkisp1/rkisp1-common.h
++++ b/drivers/staging/media/rkisp1/rkisp1-common.h
+@@ -305,9 +305,9 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1);
+ 
+ const struct rkisp1_isp_mbus_info *rkisp1_isp_mbus_info_get(u32 mbus_code);
+ 
+-void rkisp1_isp_isr(struct rkisp1_device *rkisp1);
+-void rkisp1_mipi_isr(struct rkisp1_device *rkisp1);
+-void rkisp1_capture_isr(struct rkisp1_device *rkisp1);
++irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1);
++irqreturn_t rkisp1_mipi_isr(struct rkisp1_device *rkisp1);
++irqreturn_t rkisp1_capture_isr(struct rkisp1_device *rkisp1);
+ void rkisp1_stats_isr(struct rkisp1_stats *stats, u32 isp_ris);
+ void rkisp1_params_isr(struct rkisp1_device *rkisp1, u32 isp_mis);
+ 
+diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
+index 9ac38bafb839..b7f43dab71c8 100644
+--- a/drivers/staging/media/rkisp1/rkisp1-dev.c
++++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
+@@ -387,10 +387,13 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
+ 	return ret;
+ }
+ 
+-static irqreturn_t rkisp1_isr(int irq, void *ctx)
++irqreturn_t rkisp1_isr(int irq, void *ctx)
+ {
+ 	struct device *dev = ctx;
+ 	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
++	irqreturn_t isp_ret;
++	irqreturn_t cap_ret;
++	irqreturn_t mipi_ret;
+ 
+ 	/*
+ 	 * Call rkisp1_capture_isr() first to handle the frame that
+@@ -398,9 +401,12 @@ static irqreturn_t rkisp1_isr(int irq, void *ctx)
+ 	 * it is potentially incremented by rkisp1_isp_isr() in the vertical
+ 	 * sync.
+ 	 */
+-	rkisp1_capture_isr(rkisp1);
+-	rkisp1_isp_isr(rkisp1);
+-	rkisp1_mipi_isr(rkisp1);
++	cap_ret = rkisp1_capture_isr(rkisp1);
++	isp_ret = rkisp1_isp_isr(rkisp1);
++	mipi_ret = rkisp1_mipi_isr(rkisp1);
++
++	if (isp_ret == IRQ_NONE && cap_ret == IRQ_NONE && mipi_ret == IRQ_NONE)
++		return IRQ_NONE;
+ 
+ 	return IRQ_HANDLED;
+ }
+diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
+index dc2b59a0160a..19ab0ed323aa 100644
+--- a/drivers/staging/media/rkisp1/rkisp1-isp.c
++++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
+@@ -1046,13 +1046,13 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
+  * Interrupt handlers
+  */
+ 
+-void rkisp1_mipi_isr(struct rkisp1_device *rkisp1)
++irqreturn_t rkisp1_mipi_isr(struct rkisp1_device *rkisp1)
+ {
+ 	u32 val, status;
+ 
+ 	status = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_MIS);
+ 	if (!status)
+-		return;
++		return IRQ_NONE;
+ 
+ 	rkisp1_write(rkisp1, status, RKISP1_CIF_MIPI_ICR);
+ 
+@@ -1087,6 +1087,8 @@ void rkisp1_mipi_isr(struct rkisp1_device *rkisp1)
+ 	} else {
+ 		rkisp1->debug.mipi_error++;
+ 	}
++
++	return IRQ_HANDLED;
+ }
+ 
+ static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
+@@ -1106,13 +1108,13 @@ static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
+ 	v4l2_event_queue(isp->sd.devnode, &event);
+ }
+ 
+-void rkisp1_isp_isr(struct rkisp1_device *rkisp1)
++irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1)
+ {
+ 	u32 status, isp_err;
+ 
+ 	status = rkisp1_read(rkisp1, RKISP1_CIF_ISP_MIS);
+ 	if (!status)
+-		return;
++		return IRQ_NONE;
+ 
+ 	rkisp1_write(rkisp1, status, RKISP1_CIF_ISP_ICR);
+ 
+@@ -1148,4 +1150,6 @@ void rkisp1_isp_isr(struct rkisp1_device *rkisp1)
+ 	 * Do the updates in the order of the processing flow.
+ 	 */
+ 	rkisp1_params_isr(rkisp1, status);
++
++	return IRQ_HANDLED;
+ }
 -- 
 2.17.1
 
