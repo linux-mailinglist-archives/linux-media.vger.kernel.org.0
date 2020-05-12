@@ -2,117 +2,331 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8F111CFFEC
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 22:56:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CA011CFFF7
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 22:58:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729942AbgELUzs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 16:55:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41796 "EHLO
+        id S1726661AbgELU6V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 16:58:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725938AbgELUzr (ORCPT
+        by vger.kernel.org with ESMTP id S1725938AbgELU6V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 16:55:47 -0400
-Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66F29C061A0C;
-        Tue, 12 May 2020 13:55:47 -0700 (PDT)
-Received: by mail-wr1-x434.google.com with SMTP id j5so17647043wrq.2;
-        Tue, 12 May 2020 13:55:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=jp7GeaNDAqJlfR+e7XcP59HTgpKh1bKvuvHK4VwDL+w=;
-        b=SSp/+IVS9LX8TzdmNCCnRSFDbWo5oj4ZQO4HcQHbGJgm2HVL1XWTOf5iO16yrIyQRL
-         YSlbbfKgJ6dkIGjMLs3Dw288SYAGvQCsiuHsqH6+qMLStAJC4Eb364VyI9+5vtmv0Uxo
-         anCMszzM1P00E6yNHV1qciKp8DM00tyL+bPsrFQ/oATilaTOxbd3rY+gQePmEL2b86HL
-         1Wjr0F52LHwseLTT5lZRaOEE6ehaObnZs5CGwpf1miC3AwdkVlZ3v6A+5HCHe/Z7+5Yk
-         YGxQvwfdsg24yd/QO+rhz7zo/z3B8rLyC3Eu8fsfmLl/G+SEwjnvZGhJOsUsL1QmvnES
-         AvHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=jp7GeaNDAqJlfR+e7XcP59HTgpKh1bKvuvHK4VwDL+w=;
-        b=VMnlhE4gMZ5KWOulMfg9DaxYL82y8/daW5hGE7RHuY4cxpjHhxwrYMVA3VVXak03jW
-         avHw+B1CBCsDwQYuvQlapB0YgWWN/n2t8hNUBChjghaKT+WtxHgMOUfGhvUrGJF/tbO6
-         13dl6YTQsp7a5EapnbLFf+R+QGqCp+q79bl5P5pB7AEOtlwrNSrUb2po+BnSEzUkrDiT
-         faV+RD7h5L8d706vPl2APXJruOZj+uBV0Z3bk23N757jhPQ+ORzUbA9Jf4J9E6WFoRTY
-         W1A3hEC9uCjH/yWq9WWXNwEOcK3Vhut2jATAWfN3/sw3HcGWv4QEXt8P3prcFlRM88no
-         XrDQ==
-X-Gm-Message-State: AGi0PuYvCpM8xyenDZUDcWAWSb5L/8neynJYgewCIcyuGJTmrqjkU9Ej
-        /tjkDvA7GHzyS7orVrVsYZ0=
-X-Google-Smtp-Source: APiQypIeT6aWn9V2z4if5f7/8c3cKK3rSrS1h05YMd/NU6FK/dfa9eaAksPaqw0t49JKBUlPPndKvQ==
-X-Received: by 2002:a05:6000:1ca:: with SMTP id t10mr26855242wrx.230.1589316946050;
-        Tue, 12 May 2020 13:55:46 -0700 (PDT)
-Received: from localhost (pD9E51079.dip0.t-ipconnect.de. [217.229.16.121])
-        by smtp.gmail.com with ESMTPSA id g25sm32389123wmh.24.2020.05.12.13.55.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 13:55:44 -0700 (PDT)
-Date:   Tue, 12 May 2020 22:55:43 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Samuel Zou <zou_wei@huawei.com>
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        jonathanh@nvidia.com, skomatineni@nvidia.com,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH -next] media: tegra: Make tegra210_video_formats static
-Message-ID: <20200512205543.GC3864641@ulmo>
-References: <1589196015-8945-1-git-send-email-zou_wei@huawei.com>
+        Tue, 12 May 2020 16:58:21 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8359DC061A0C
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 13:58:21 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 830F351F;
+        Tue, 12 May 2020 22:58:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1589317098;
+        bh=/mnJ4MtQSS4w5bU8kZ/cIav/b4TfuADK8tFNIpNpUQg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=aJa9qOMlXVzobNOvBJ6tQT7GudZzaYLdJ0Xob8j63EkIscw4YE1FGxISUBm6uk2zk
+         uu1xIkcKHyQyVIJcrwFrOE5QjBS5NAr8TPhsU8LEps4BdDqX+3cJ1sKAk2cGhbHZ4f
+         /wVh5xBvIgIOTbeLsYVK3yfVGSslw9vn47Uq2SDU=
+Date:   Tue, 12 May 2020 23:58:12 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/2] media: dt-bindings: media: i2c: Add MT9M114 camera
+ sensor binding
+Message-ID: <20200512205812.GF28527@pendragon.ideasonboard.com>
+References: <20200511233456.9722-1-laurent.pinchart@ideasonboard.com>
+ <20200512084551.GY867@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="/Uq4LBwYP4y1W6pO"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1589196015-8945-1-git-send-email-zou_wei@huawei.com>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <20200512084551.GY867@valkosipuli.retiisi.org.uk>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Sakari,
 
---/Uq4LBwYP4y1W6pO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, May 12, 2020 at 11:45:51AM +0300, Sakari Ailus wrote:
+> On Tue, May 12, 2020 at 02:34:55AM +0300, Laurent Pinchart wrote:
+> > Add device tree binding for the ON Semiconductor MT9M114 CMOS camera
+> > sensor.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  .../bindings/media/i2c/onnn,mt9m114.yaml      | 188 ++++++++++++++++++
+> >  MAINTAINERS                                   |   7 +
+> >  2 files changed, 195 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> > new file mode 100644
+> > index 000000000000..2c3c691aacfd
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> > @@ -0,0 +1,188 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/onnn,mt9m114.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: ON Semiconductor 1/6-inch 720p CMOS Digital Image Sensor
+> > +
+> > +maintainers:
+> > +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > +
+> > +description: |-
+> > +  The ON Semiconductor MT9M114 is a 1/6-inch 720p (1.26 Mp) CMOS digital image
+> > +  sensor with an active pixel-array size of 1296H x 976V. It is programmable
+> > +  through an I2C interface and outputs image data over a 8-bit parallel or
+> > +  1-lane MIPI CSI-2 connection.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: onnn,mt9m114
+> > +
+> > +  reg:
+> > +    description: I2C device address
+> > +    enum:
+> > +      - 0x48
+> > +      - 0x5d
+> > +
+> > +  clocks:
+> > +    description: EXTCLK clock signal
+> > +    maxItems: 1
+> > +
+> > +  vdd-supply:
+> > +    description:
+> > +      Core digital voltage supply, 1.8V
+> > +
+> > +  vddio-supply:
+> > +    description:
+> > +      I/O digital voltage supply, 1.8V or 2.8V
+> > +
+> > +  vaa-supply:
+> > +    description:
+> > +      Analog voltage supply, 2.8V
+> > +
+> > +  reset-gpios:
+> > +    description: |-
+> > +      Reference to the GPIO connected to the RESET_BAR pin, if any (active
+> > +      low).
+> > +
+> > +  # See ../video-interfaces.txt for more details
+> > +  port:
+> > +    type: object
+> > +    properties:
+> > +      endpoint:
+> > +        type: object
+> > +        properties:
+> > +          bus-type:
+> > +            enum: [4, 5, 6]
+> > +
+> > +          clock-lanes:
+> > +            items:
+> > +              - const: 0
+> > +
+> > +          data-lanes:
+> > +            items:
+> > +              - const: 1
+> > +
+> > +          bus-width:
+> > +            items:
+> > +              - const: 8
+> > +
+> > +          hsync-active:
+> > +            items:
+> > +              - const: 1
+> > +
+> > +          vsync-active:
+> > +            items:
+> > +              - const: 1
+> 
+> Is there anything to configure here with these properties apart from
+> bus-type? If not, they should be omitted.
 
-On Mon, May 11, 2020 at 07:20:15PM +0800, Samuel Zou wrote:
-> Fix the following sparse warning:
->=20
-> drivers/staging/media/tegra-video/tegra210.c:589:33: warning: symbol 'teg=
-ra210_video_formats' was not declared.
->=20
-> The tegra210_video_formats has only call site within tegra210.c
-> It should be static
->=20
-> Fixes: 423d10a99b30 ("media: tegra: Add Tegra210 Video input driver")
-> Reported-by: Hulk Robot <hulkci@huawei.com>
-> Signed-off-by: Samuel Zou <zou_wei@huawei.com>
-> ---
->  drivers/staging/media/tegra-video/tegra210.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+The bindings make those properties optional. Do you think that we
+generally should require them not to be present when their value is
+fixed ? This implies that the mt9m114 driver won't be able to parse them
+(not that it would need any particular information anyway). It also
+implies that, if the driver wants to call __v4l2_fwnode_endpoint_parse()
+(indirectly as that's a static function), it will need to fill the flags
+with the hardcoded values before calling the function. This however
+conflicts with __v4l2_fwnode_endpoint_parse() zeroing vep->bus when the
+bus type is unknown, and the bus type can't be hardcoded as there are
+three options. The other option would be for the driver to fill the
+flags after calling __v4l2_fwnode_endpoint_parse() if it wants to rely
+on the contents of v4l2_fwnode_endpoint through the code, which could be
+the best option.
 
-Applied, thanks.
+And I've now read the documentation of
+v4l2_fwnode_endpoint_alloc_parse():
 
-Thierry
+ * This function parses the V4L2 fwnode endpoint specific parameters from the
+ * firmware. The caller is responsible for assigning @vep.bus_type to a valid
+ * media bus type. The caller may also set the default configuration for the
+ * endpoint --- a configuration that shall be in line with the DT binding
+ * documentation. Should a device support multiple bus types, the caller may
+ * call this function once the correct type is found --- with a default
+ * configuration valid for that type.
+ *
+ * As a compatibility means guessing the bus type is also supported by setting
+ * @vep.bus_type to V4L2_MBUS_UNKNOWN. The caller may not provide a default
+ * configuration in this case as the defaults are specific to a given bus type.
+ * This functionality is deprecated and should not be used in new drivers and it
+ * is only supported for CSI-2 D-PHY, parallel and Bt.656 buses.
 
---/Uq4LBwYP4y1W6pO
-Content-Type: application/pgp-signature; name="signature.asc"
+If V4L2_MBUS_UNKNOWN is deprecated, what is the caller supposed to do
+when multiple bus types are supported by the device ? I'm having a bit
+of trouble figuring out how everything fits together.
 
------BEGIN PGP SIGNATURE-----
+The other consequence of forbidding these properties is that the
+connected entity won't be able to parse the DT properties of the sensor
+endpoint, but that's probably an improvement, as doing so would be
+layering violation. It however means that generic helper functions would
+have equal trouble (as shown by the above explanation).
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl67DU0ACgkQ3SOs138+
-s6FvtA//e37GxkMc9E73ef/XZuzCXW0aTZUMH7NhzcWq6QuuXjKXb7wa77NAvMRh
-q+n5FaU2nK0cKhI6zdW9qmwF2pN6TKIAXeK5HSFfkUs+COwC8EwZT7REVBtMo3/T
-VAxyTWE/oZt6rgG+uPbmI5ahCy3zzsr20Z5+jk9YcdXZT92ZGa/hiDBV294OS/gx
-CCG1GXcbQWO98xw8EyZCRYIYfSRLTRVNq1nNjie95z99dJhEZ4/KNxnGBDBI6hzW
-zqIyiwSrlijNZvVcWaa+lWJ+ldrlxb54wbPhDRihe5y9moFzyxJevnCvQ8gXcix/
-SnxdqHWT++FP/6vaWpwtrwzcLqNg9D28sk1t/tkevBJX9FQ2mP3TZEn6JT0qKTK8
-+cqr16CNkC3myhPuznf6P/SdRrAw1gRT58+dwiEvXYeugUVgBQ/d+D1Q8fZlbBW0
-Tuq+hUDOSIeIWRNEMxjgwC4fTtUwOYMFvcbFUOO0+dCismX/dcxbhKcNZdxiqd9b
-fhoEfRxcJtFHoGAXF/4ThTDM5QXF+CnODkbpupWN8aQmN6lOAckpe9CIXgLlDTqu
-MBHhaSksQGsmoZ0h5e536irVvwPnVC35sDB8hx6sqpd5qW/1NTkUWWFEwYV6dk4I
-at7p0W9nfOMGz6D3HdMg2s2M8kCDOpSyqSTojBwIUFCPIPHV7vo=
-=/sE0
------END PGP SIGNATURE-----
+> > +
+> > +        required:
+> > +          - bus-type
+> > +
+> > +        allOf:
+> > +          - if:
+> > +              properties:
+> > +                bus-type:
+> > +                  const: 4
+> > +            then:
+> > +              properties:
+> > +                bus-width: false
+> > +                hsync-active: false
+> > +                vsync-active: false
+> > +
+> > +          - if:
+> > +              properties:
+> > +                bus-type:
+> > +                  const: 5
+> > +            then:
+> > +              properties:
+> > +                clock-lanes: false
+> > +                data-lanes: false
+> > +
+> > +          - if:
+> > +              properties:
+> > +                bus-type:
+> > +                  const: 6
+> > +            then:
+> > +              properties:
+> > +                clock-lanes: false
+> > +                data-lanes: false
+> > +                hsync-active: false
+> > +                vsync-active: false
+> > +
+> > +        unevaluatedProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - vdd-supply
+> > +  - vddio-supply
+> > +  - vaa-supply
+> > +  - port
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    i2c0 {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        sensor@48 {
+> > +            compatible = "onnn,mt9m114";
+> > +            reg = <0x48>;
+> > +
+> > +            clocks = <&clk24m 0>;
+> > +
+> > +            reset-gpios = <&gpio5 21 GPIO_ACTIVE_LOW>;
+> > +
+> > +            vddio-supply = <&reg_cam_1v8>;
+> > +            vdd-supply = <&reg_cam_1v8>;
+> > +            vaa-supply = <&reg_2p8v>;
+> > +
+> > +            port {
+> > +                endpoint {
+> > +                    bus-type = <4>;
+> > +                    clock-lanes = <0>;
+> > +                    data-lanes = <1>;
+> > +                    remote-endpoint = <&mipi_csi_in>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    i2c0 {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        sensor@5d {
+> > +            compatible = "onnn,mt9m114";
+> > +            reg = <0x5d>;
+> > +
+> > +            clocks = <&clk24m 0>;
+> > +
+> > +            reset-gpios = <&gpio5 21 GPIO_ACTIVE_LOW>;
+> > +
+> > +            vddio-supply = <&reg_cam_1v8>;
+> > +            vdd-supply = <&reg_cam_1v8>;
+> > +            vaa-supply = <&reg_2p8v>;
+> > +
+> > +            port {
+> > +                endpoint {
+> > +                    bus-type = <5>;
+> > +                    bus-width = <8>;
+> > +                    hsync-active = <1>;
+> > +                    vsync-active = <1>;
+> > +                    remote-endpoint = <&parallel_in>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 091ec22c1a23..61d2fb6d049e 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -11457,6 +11457,13 @@ T:	git git://linuxtv.org/media_tree.git
+> >  F:	drivers/media/i2c/mt9m032.c
+> >  F:	include/media/i2c/mt9m032.h
+> >  
+> > +MT9M114 ON SEMICONDUCTOR SENSOR DRIVER
+> > +M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > +L:	linux-media@vger.kernel.org
+> > +S:	Maintained
+> > +T:	git git://linuxtv.org/media_tree.git
+> > +F:	Documentation/devicetree/bindings/media/i2c.onnn,mt9m114.yaml
+> 
+> s/\./\//
+> 
+> > +
+> >  MT9P031 APTINA CAMERA SENSOR
+> >  M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >  L:	linux-media@vger.kernel.org
+> > -- 
+> > Regards,
+> > 
+> > Laurent Pinchart
+> 
+> Wow! Even your git format-patch is polite. 8-)
 
---/Uq4LBwYP4y1W6pO--
+:-)
+
+-- 
+Regards,
+
+Laurent Pinchart
