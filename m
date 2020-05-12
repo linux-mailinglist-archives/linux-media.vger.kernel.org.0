@@ -2,165 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A2051D0250
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 00:28:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A8A61D0262
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 00:33:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729646AbgELW2o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 18:28:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56438 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727899AbgELW2o (ORCPT
+        id S1728362AbgELWdf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 18:33:35 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:42836 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725938AbgELWde (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 18:28:44 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B10ACC061A0E
-        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 15:28:43 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id s9so11928494lfp.1
-        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 15:28:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=Yd6UTaPAb2FR7bBeSDIETddPBi1BC2Xst6NzALQxfFE=;
-        b=EDHW+hVhMyr+diUJcQfeEXL71+toyM5AFY1xZBuNohp7VMM23zBGHCeTs8u0ivUqUX
-         wFbgQeKmp/gZFzOLUEiLptUmUH1yup3T360ik90AXpX6bqSBC9d+XVPp2npld6+/9hVR
-         5emyLEtOCz6Nrp0Oo9eKIk5qxcxKZfnQGT6Av0UTuhVfXMuw5bF91ULFLMfAj0HvxyGi
-         iXpBi7WQrPcj1xA7dN5teJh8JTCXYuhNx0aE2PIz1VeLVVBrMwyNoaH0sRh+/rhBLOVT
-         /JqmMIKVKzi31n0rqVECujzdd/texRunl0Jl02UmSqun7hcDgEV8aCHud1TuNvrT7Gy6
-         N1Vg==
+        Tue, 12 May 2020 18:33:34 -0400
+Received: by mail-ot1-f65.google.com with SMTP id m18so11857462otq.9;
+        Tue, 12 May 2020 15:33:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=Yd6UTaPAb2FR7bBeSDIETddPBi1BC2Xst6NzALQxfFE=;
-        b=MyXa+Z3Y3kheB7IpRnmtWvnMnmC2JzNusT/X9QH9b+U1j+LuiiRSpYnWfZPLeIsX57
-         8vnnaknajtpamH1GciMaQxcsYYWiyakF7ILAVvHUEaws32tRP0wHuvj4JhQJynFKYBRq
-         YvvmeWULe1Pq584bCBZzN/Pt6xzASsNRM8cZR3qK8lMAAqf9Qd7JgsQaVXwPqzF8WM7B
-         Jd7kaSnUQ6o42d0NTwBJjDJQrQ7s0UHuDlQgDw9oPFIdB7uirY6VS/cV68LrpVnGVMzY
-         ddwwh/36is5wfH3zTT5IkE9SurYq8APzn3+SJdcojI3qx7LhZoFoWI4b4ThIbn2LO5ER
-         wMfQ==
-X-Gm-Message-State: AOAM531CcyQnwasodVrg1VK2ALS5/HQYTOjzkFsTtjtNJLQUdMKpbJNT
-        25ZR2KenPtsOCPNo6k2ZZ24A0g==
-X-Google-Smtp-Source: ABdhPJwKafBveyWoomRdtLoMhAo3gKkzcwpPZZz7PuekZpDLOn7NHUaoVIp5m4RE+IIt0gdybMoxTg==
-X-Received: by 2002:a19:d55:: with SMTP id 82mr16119754lfn.89.1589322522058;
-        Tue, 12 May 2020 15:28:42 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id w15sm13497560ljd.35.2020.05.12.15.28.41
+         :in-reply-to:user-agent;
+        bh=y+bYEHG5+H41i0k9IKvYB5czzxQ6apM29KdhUZ9VKVw=;
+        b=LiOQxStM01MH4NI9nUxIRfG791lM9xS8/X8MMpP2um7Vd+pDE7gqNzWHf/MwZ8H77G
+         9VCbwhcBeKcCIQ1Ic2dyH9zwpEUhb50Yw3u47dytNwpYeV19kSsotcHJ/MpovhzGbI8m
+         7fOOJZJVetj97gZxF8zSR5KY9fRZN0ce5uzGxzB7HVlNDxTrG2xFL6tkKma0vc3FNK76
+         xM50yqaToB5wBZMY7sPj6Mq/sBazCnde+bMN8OpQJa0XvH4BmBKMDgXfE29U1G9Q154z
+         TsGt8PWrirqadx30b+qi98gckJFC9xUXf4ArKSHB/xEWW74LJU/dUhESJCSlZu1pXK6m
+         UhHw==
+X-Gm-Message-State: AGi0PubAz451tZMB0ynIuAFIP/02QnUKY/1EJhFznLGMrWHsFbL49BuN
+        1xXG3baMPfs7VnYBWUOuZQ==
+X-Google-Smtp-Source: APiQypJ0QgJBXdaoUzcntJkXYpa7uIVyzsVMP96rgaq721CYrNfs2z6IEGTEW8h4iS6VdvsJIoVFEg==
+X-Received: by 2002:a9d:39b6:: with SMTP id y51mr17894918otb.368.1589322811717;
+        Tue, 12 May 2020 15:33:31 -0700 (PDT)
+Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id 10sm3750640oto.80.2020.05.12.15.33.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 15:28:41 -0700 (PDT)
-Date:   Wed, 13 May 2020 00:28:40 +0200
-From:   Niklas <niklas.soderlund@ragnatech.se>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v4 2/3] media: rcar-vin: Add support for
- MEDIA_BUS_FMT_SRGGB8_1X8 format
-Message-ID: <20200512222840.GE2542285@oden.dyn.berto.se>
-References: <1586945948-11026-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1586945948-11026-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        Tue, 12 May 2020 15:33:31 -0700 (PDT)
+Received: (nullmailer pid 25179 invoked by uid 1000);
+        Tue, 12 May 2020 22:33:29 -0000
+Date:   Tue, 12 May 2020 17:33:29 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        linux-renesas-soc@vger.kernel.org, sakari.ailus@iki.fi,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Hyun Kwon <hyunk@xilinx.com>
+Subject: Re: [PATCH v9 1/4] dt-bindings: media: i2c: Add bindings for Maxim
+ Integrated MAX9286
+Message-ID: <20200512223329.GA23701@bogus>
+References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200512155105.1068064-2-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1586945948-11026-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20200512155105.1068064-2-kieran.bingham+renesas@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lad,
-
-Thanks for your work.
-
-On 2020-04-15 11:19:07 +0100, Lad Prabhakar wrote:
-> Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format in rcar-vin by setting
-> format type to RAW8 in VNMC register and appropriately setting the bpp
-> and bytesperline to enable V4L2_PIX_FMT_SRGGB8.
+On Tue, 12 May 2020 16:51:02 +0100, Kieran Bingham wrote:
+> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
+> The MAX9286 deserializes video data received on up to 4 Gigabit
+> Multimedia Serial Links (GMSL) and outputs them on a CSI-2 port using up
+> to 4 data lanes.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> 
 > ---
->  drivers/media/platform/rcar-vin/rcar-dma.c  | 15 ++++++++++++++-
->  drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
->  2 files changed, 18 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index 48bd9bfc3948..3e8e29573e6d 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -85,6 +85,7 @@
->  #define VNMC_INF_YUV8_BT601	(1 << 16)
->  #define VNMC_INF_YUV10_BT656	(2 << 16)
->  #define VNMC_INF_YUV10_BT601	(3 << 16)
-> +#define VNMC_INF_RAW8		(4 << 16)
->  #define VNMC_INF_YUV16		(5 << 16)
->  #define VNMC_INF_RGB888		(6 << 16)
->  #define VNMC_VUP		(1 << 10)
-> @@ -587,13 +588,19 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
->  	rvin_write(vin, vin->crop.top, VNSLPRC_REG);
->  	rvin_write(vin, vin->crop.top + vin->crop.height - 1, VNELPRC_REG);
->  
-> -
->  	/* TODO: Add support for the UDS scaler. */
->  	if (vin->info->model != RCAR_GEN3)
->  		rvin_crop_scale_comp_gen2(vin);
->  
->  	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
->  	stride = vin->format.bytesperline / fmt->bpp;
-> +
-> +	/* For RAW8 format bpp is 1, but the hardware process RAW8
-> +	 * format in 2 pixel unit hence configure VNIS_REG as stride / 2.
-> +	 */
-> +	if (vin->format.pixelformat == V4L2_PIX_FMT_SRGGB8)
-> +		stride /= 2;
-> +
->  	rvin_write(vin, stride, VNIS_REG);
->  }
->  
-> @@ -676,6 +683,9 @@ static int rvin_setup(struct rvin_dev *vin)
->  
->  		input_is_yuv = true;
->  		break;
-> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> +		vnmc |= VNMC_INF_RAW8;
-> +		break;
->  	default:
->  		break;
->  	}
-> @@ -737,6 +747,9 @@ static int rvin_setup(struct rvin_dev *vin)
->  	case V4L2_PIX_FMT_ABGR32:
->  		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
->  		break;
-> +	case V4L2_PIX_FMT_SRGGB8:
-> +		dmr = 0;
-> +		break;
->  	default:
->  		vin_err(vin, "Invalid pixelformat (0x%x)\n",
->  			vin->format.pixelformat);
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 5151a3cd8a6e..ca542219e8ae 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -66,6 +66,10 @@ static const struct rvin_video_format rvin_formats[] = {
->  		.fourcc			= V4L2_PIX_FMT_ABGR32,
->  		.bpp			= 4,
->  	},
-> +	{
-> +		.fourcc			= V4L2_PIX_FMT_SRGGB8,
-> +		.bpp			= 1,
-> +	},
->  };
->  
->  const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
-> -- 
-> 2.20.1
+> v7:
+>  - Collect Rob's RB tag
+>  - Remove redundant maxItems from remote-endpoints
+>  - Fix SPDX licence tag
+> 
+>  .../bindings/media/i2c/maxim,max9286.yaml     | 287 ++++++++++++++++++
+>  1 file changed, 287 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
 > 
 
--- 
-Regards,
-Niklas Söderlund
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml: properties: {'enum': ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'deprecated', 'description', 'else', 'enum', 'if', 'items', 'maxItems', 'maximum', 'minItems', 'minimum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'propertyNames', 'required', 'then', 'unevaluatedProperties']} is not allowed for 'additionalProperties'
+Documentation/devicetree/bindings/Makefile:12: recipe for target 'Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dts' failed
+make[1]: *** [Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dts] Error 1
+make[1]: *** Waiting for unfinished jobs....
+Makefile:1300: recipe for target 'dt_binding_check' failed
+make: *** [dt_binding_check] Error 2
+
+See https://patchwork.ozlabs.org/patch/1288573
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
+
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+
+Please check and re-submit.
+
