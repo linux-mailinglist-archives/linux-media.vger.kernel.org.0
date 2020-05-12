@@ -2,200 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8A8E1CEFD8
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 10:58:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C3F01CEFE3
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 11:00:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728912AbgELI6j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 04:58:39 -0400
-Received: from mga01.intel.com ([192.55.52.88]:59966 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726193AbgELI6i (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 04:58:38 -0400
-IronPort-SDR: eDQZkVKujyhU6W+KSA0yC492clRUQNeCMlPMzF0Jav7i6tSXeNuXIx6dxdjBpzSYJV7+gEi2kP
- THg9TgcVsfQg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2020 01:58:38 -0700
-IronPort-SDR: mbALTggVDa0a39QMG47umt49d2JUpyQD+6z3TyGCkjFdzl22VLsup2cGbdp5ICq/recQnaKmNS
- JN5exQ5tdubw==
-X-IronPort-AV: E=Sophos;i="5.73,383,1583222400"; 
-   d="scan'208";a="286578828"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2020 01:58:34 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 44834205FC; Tue, 12 May 2020 11:58:32 +0300 (EEST)
-Date:   Tue, 12 May 2020 11:58:32 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Cao Bing Bu <bingbu.cao@intel.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg 
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Sj Huang <sj.huang@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        Louis Kuo <louis.kuo@mediatek.com>,
-        Shengnan Wang =?utf-8?B?KOeOi+Wco+eUtyk=?= 
-        <shengnan.wang@mediatek.com>
-Subject: Re: [V5, 2/2] media: i2c: dw9768: Add DW9768 VCM driver
-Message-ID: <20200512085832.GI11272@paasikivi.fi.intel.com>
-References: <20200502161727.30463-3-dongchun.zhu@mediatek.com>
- <20200506151352.GZ9190@paasikivi.fi.intel.com>
- <1588855524.8804.168.camel@mhfsdcap03>
- <20200507131220.GC9190@paasikivi.fi.intel.com>
- <CAAFQd5DO9FGx9OF2RpcSprg0oLiVuS90w2qLAHCOSc3w6tKUWw@mail.gmail.com>
- <1588907288.8804.188.camel@mhfsdcap03>
- <20200508211319.GJ9190@paasikivi.fi.intel.com>
- <1588991026.8804.235.camel@mhfsdcap03>
- <CAAFQd5DZBEUJUq65WT7i_QjAtgxjhxmfdsjQoyG2UZy8zBih+A@mail.gmail.com>
- <1589254403.8804.306.camel@mhfsdcap03>
+        id S1729258AbgELI76 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 04:59:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42698 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726193AbgELI75 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 May 2020 04:59:57 -0400
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F873C061A0C
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 01:59:57 -0700 (PDT)
+Received: by mail-wr1-x435.google.com with SMTP id l17so792991wrr.4
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 01:59:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5KglkhzKOknxegoh1rG3YIcHJTSInQ4UYexVPjKH+PE=;
+        b=Jfw/Q8OAuPLQhbinu2k0zHhh0xSeFKQ+ThNX/lWWS+g5EnktPdt71Fw1SPCOSwO1DT
+         I3yyprPxJEMCBedaNFOI15C4V0uzgHiDSLQJrIbB/b3hkg3kxfmRKfXkWgRlvRkrLTZN
+         b2clRwBLTEBEySfCkrQHDGAQCbz2YgFZxsQMk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=5KglkhzKOknxegoh1rG3YIcHJTSInQ4UYexVPjKH+PE=;
+        b=nogo69Q42NugYDfO9POxnCWuhAZbefXNGqGyOv1ObHApxQau7r5ZCj9/LUMaueCZ33
+         q9b6rRWQeBtrc+UsN/TqMaatIXGnFT3RJFgyPC/JqOLiFd5eCzWOwXyptGuffAtG1+ph
+         SUXWBEzqd2FjeYR3rDybMwvSWGEKMX1clc6i5g8UiZEG4DFLppyGXtjVKZPw/yjuHG0T
+         Xpakc+xcJ/fg86Za9H+GSHoOq0L5xVTBrF+K3L7PIYs09urs4PFQngj7Xx4RWhff1FfL
+         6N5+GmxiQlW4A0wsAj5jSeVmsUq791Gk+Wuc2AJ16kGdQvvGZ60uWAHsL6G7aaoLd0Uk
+         /ROg==
+X-Gm-Message-State: AGi0Pubcjw5HJrdN2gNiW3rpzUmitIGCGIK/uFwyYtRwbuTlgkRFKawb
+        m+pmd3nE+vZsHyLcaJPJ1UM2Bg==
+X-Google-Smtp-Source: APiQypLFrNQ+vP1/FoQClKLQ9dOM5ud5CMkP+EXrISMxOesIEptzvE+zOlFydX6AdELQrZnabHpwnA==
+X-Received: by 2002:adf:f4c4:: with SMTP id h4mr24357427wrp.142.1589273996049;
+        Tue, 12 May 2020 01:59:56 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id y10sm18845457wrd.95.2020.05.12.01.59.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2020 01:59:55 -0700 (PDT)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-rdma@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Subject: [RFC 00/17] dma-fence lockdep annotations
+Date:   Tue, 12 May 2020 10:59:27 +0200
+Message-Id: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1589254403.8804.306.camel@mhfsdcap03>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dongchun,
+Hi all,
 
-On Tue, May 12, 2020 at 11:33:23AM +0800, Dongchun Zhu wrote:
-> Hi Tomasz,
-> 
-> On Mon, 2020-05-11 at 20:20 +0200, Tomasz Figa wrote:
-> > Hi Dongchun,
-> > 
-> > On Sat, May 9, 2020 at 4:25 AM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
-> > >
-> > > Hi Sakari,
-> > >
-> > > On Sat, 2020-05-09 at 00:13 +0300, Sakari Ailus wrote:
-> > > > Hi Dongchun,
-> > > >
-> > > > On Fri, May 08, 2020 at 11:08:08AM +0800, Dongchun Zhu wrote:
-> > > > > Hi Sakari, Tomasz,
-> > > > >
-> > > > > Thanks for the review.
-> > > > >
-> > > > > On Thu, 2020-05-07 at 15:46 +0200, Tomasz Figa wrote:
-> > > > > > Hi Sakari, Dongchun,
-> > > > > >
-> > > > > > On Thu, May 7, 2020 at 3:12 PM Sakari Ailus
-> > > > > > <sakari.ailus@linux.intel.com> wrote:
-> > > > > > >
-> > > > > > > HI Dongchun,
-> > > > > > >
-> > > > > > > On Thu, May 07, 2020 at 08:45:24PM +0800, Dongchun Zhu wrote:
-> > > > > > > > Hi Sakari,
-> > > > > > > >
-> > > > > > > > Thanks for the review.
-> > > > > > > >
-> > > > > > > > On Wed, 2020-05-06 at 18:13 +0300, Sakari Ailus wrote:
-> > > > > > > > > Hi Dongchun,
-> > > > > > > > >
-> > > > > > > > > On Sun, May 03, 2020 at 12:17:27AM +0800, Dongchun Zhu wrote:
-> > > > > > > > > > Add a V4L2 sub-device driver for DW9768 voice coil motor, providing
-> > > > > > > > > > control to set the desired focus via IIC serial interface.
-> > > > > > > > > >
-> > > > > > > > > > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > > > > > > > > > ---
-> > > > > > > > > >  MAINTAINERS                |   1 +
-> > > > > > > > > >  drivers/media/i2c/Kconfig  |  11 ++
-> > > > > > > > > >  drivers/media/i2c/Makefile |   1 +
-> > > > > > > > > >  drivers/media/i2c/dw9768.c | 440 +++++++++++++++++++++++++++++++++++++++++++++
-> > > > > > > > > >  4 files changed, 453 insertions(+)
-> > > > > > > > > >  create mode 100644 drivers/media/i2c/dw9768.c
-> > > > > > > > > >
-> > > > > > > > > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > > > > > > > > index 8d72c41..c92dc99 100644
-> > > > > > > > > > --- a/MAINTAINERS
-> > > > > > > > > > +++ b/MAINTAINERS
-> > > > > > > > > > @@ -5157,6 +5157,7 @@ L:  linux-media@vger.kernel.org
-> > > > > > > > > >  S:       Maintained
-> > > > > > > > > >  T:       git git://linuxtv.org/media_tree.git
-> > > > > > > > > >  F:       Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
-> > > > > > > > > > +F:       drivers/media/i2c/dw9768.c
-> > > > > > > > > >
-> > > > > > > > > >  DONGWOON DW9807 LENS VOICE COIL DRIVER
-> > > > > > > > > >  M:       Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > > > > > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> > > > > > > > > > index 125d596..6a3f9da 100644
-> > > > > > > > > > --- a/drivers/media/i2c/Kconfig
-> > > > > > > > > > +++ b/drivers/media/i2c/Kconfig
-> > > > > > > > > > @@ -1040,6 +1040,17 @@ config VIDEO_DW9714
-> > > > > > > > > >     capability. This is designed for linear control of
-> > > > > > > > > >     voice coil motors, controlled via I2C serial interface.
-> > > > > > > > > >
-> > > > > > > > > > +config VIDEO_DW9768
-> > > > > > > > > > + tristate "DW9768 lens voice coil support"
-> > > > > > > > > > + depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
-> > > > > > > > > > + depends on VIDEO_V4L2_SUBDEV_API
-> > > > > > > > >
-> > > > > > > > > Please check how this works in the media tree master branch now --- it's
-> > > > > > > > > largely select based.
-> > > > > > > > >
-> > > > > > > >
-> > > > > > > > The actuator driver uses some structures that require the
-> > > > > > > > VIDEO_V4L2_SUBDEV_API code, so here we add VIDEO_V4L2_SUBDEV_API
-> > > > > > > > dependency to avoid possible build error when it's not enabled.
-> > > > > > >
-> > > > > > > Please make sure this works with current media tree master. Right now it
-> > > > > > > does not.
-> > > > > > >
-> > > > > >
-> > > > > > Dongchun, as Sakari said, please make sure to base the patches on the
-> > > > > > master branch of the media tree.
-> > > > > > (https://git.linuxtv.org/media_tree.git/). The approach for Kconfig
-> > > > > > dependency selection there seems to have changed recently.
-> > > > > >
-> > > > >
-> > > > > I searched the patches on the media tree master branch.
-> > > > > It seems that we need to remove the VIDEO_V4L2_SUBDEV_API dependency in
-> > > > > Kconfig, and add #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API to include
-> > > > > v4l2-subdev code.
-> > > > > The change mainly is to make build pass, and don't return ENOTTY if
-> > > > > SUBDEV_API is not set.
-> > > > > Am I right?
-> > > >
-> > > > Please see Kconfig entries for other similar drivers from Dongwoon.
-> > > >
-> > >
-> > > Sorry for the mistake :-)
-> > > Just found the current media tree master branch code...
-> > > I would update Kconfig entries in next release by referring to:
-> > > https://git.linuxtv.org/media_tree.git/tree/drivers/media/i2c/Kconfig
-> > 
-> > Sorry for last minute comments again. We had a short discussion
-> > offline with Sakari and we think there are some changes needed to this
-> > driver, namely:
-> > 
-> > 1) The hardware being driven in our case is a gt9769, which could be
-> > compatible with dw9768, but it's still a different implementation and
-> > could have slightly different characteristics. Thus we think the
-> > driver name and compatible strings should be renamed from
-> > dongwoon,dw9768 to giantec,gt9769. In the future, if there is a device
+I've dragged my feet for years on this, hoping that cross-release lockdep
+would do this for us, but well that never really happened unfortunately.
+So here we are.
 
-Sorry, I actually meant just the compatible string --- Dongwoon is likely
-the original manufacturer. Therefore I'd name the driver according to that,
-and just add a second compatible string for the Giantec device.
+Cc'ed quite a pile of people since this is about the cross-driver contract
+around dma_fences. Which is heavily used for dma_buf, and I'm hearing more
+noises that rdma folks are looking into this, hence also on cc.
 
-Either works for me though.
+There's a bunch of different parts to this RFC:
+
+- The annotations itself, in the 2nd patch after the prep patch to add
+  might_sleep annotations. Commit message has all the motivation for what
+  kind of deadlocks I want to catch, best you just read it.
+
+  Since lockdep doesn't understand cross-release natively we need to
+  cobble something together using rwlocks and a few more tricks, but from
+  the test rollout in a few places in drm/vkms, amdgpu & i915 I think what
+  I have now seems to actually work. Downside is that we have to
+  explicitly annotate all code involved in eventual dma_fence signalling.
+
+- Second important part is locking down the current dma-fence cross-driver
+  contract, using lockdep priming like we already do for dma_resv_lock.
+  I've just started with my own take on what we probably need to make the
+  current code work (-ish), but both amdgpu and i915 have issues with
+  that. So this needs some careful discussions, and also some thought on
+  how we land it all eventually to not break lockdep completely for
+  everyone.
+
+  The important patch for that is "dma-fence: prime lockdep annotations"
+  plus of course the various annotations patches and driver hacks to
+  highlight some of the issues caught.
+
+  Note that depending upon what exactly we end up deciding we might need
+  to improve the annotations for fs_reclaim_acquire/release - for
+  dma_fence_wait in mmu notifiers we can only allow GFP_NOWAIT (afaiui),
+  and currently fs_reclaim_acquire/release only has a lockdep class for
+  __GFP_FS only, we'd need to add another one for __GFP_DIRECT_RECLAIM in
+  general maybe.
+
+- Finally there's clearly some gaps in the current dma_fence driver
+  interfaces: Amdgpu's hang recovery is essentially impossible to fix
+  as-is - it needs to reset the display state and you can't get at modeset
+  locks from tdr without deadlock potential. i915 has an internal trick
+  (but it stops working once we involve real cross-driver fences) for this
+  issues, but then for i915 modeset reset is only needed on very ancient
+  gen2/3. Modern hw is a lot more reasonable.
+
+  I'm kinda hoping that the annotations and priming for basic command
+  submission and atomic modeset paths could be merged soonish, while we
+  the tdr side clearly needs a pile more work to get going. But since we
+  have to explicitly annotate all code paths anyway we can hide bugs in
+  e.g. tdr code by simply not yet annotating those functions.
+
+  I'm trying to lay out at least one idea for solving the tdr issue in the
+  patch titled "drm/scheduler: use dma-fence annotations in tdr work".
+
+Finally, once we have some agreement on where we're going with all this,
+we also need some documentation. Currently that's missing because I don't
+want to re-edit the text all the time while we still figure out the
+details of the exact cross-driver semantics.
+
+My goal here is that with this we can lock down the cross-driver contract
+for the last bit of the dma_buf/resv/fence story and make sure this stops
+being such a wobbly thing where everyone just does whatever they feel
+like.
+
+Ideas, thoughts, reviews, testing (with specific annotations for that
+driver) on other drivers very much welcome.
+
+Cheers, Daniel
+
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-rdma@vger.kernel.org
+Cc: amd-gfx@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Christian König <christian.koenig@amd.com>
+
+Daniel Vetter (17):
+  dma-fence: add might_sleep annotation to _wait()
+  dma-fence: basic lockdep annotations
+  dma-fence: prime lockdep annotations
+  drm/vkms: Annotate vblank timer
+  drm/vblank: Annotate with dma-fence signalling section
+  drm/atomic-helper: Add dma-fence annotations
+  drm/amdgpu: add dma-fence annotations to atomic commit path
+  drm/scheduler: use dma-fence annotations in main thread
+  drm/amdgpu: use dma-fence annotations in cs_submit()
+  drm/amdgpu: s/GFP_KERNEL/GFP_ATOMIC in scheduler code
+  drm/amdgpu: DC also loves to allocate stuff where it shouldn't
+  drm/amdgpu/dc: Stop dma_resv_lock inversion in commit_tail
+  drm/scheduler: use dma-fence annotations in tdr work
+  drm/amdgpu: use dma-fence annotations for gpu reset code
+  Revert "drm/amdgpu: add fbdev suspend/resume on gpu reset"
+  drm/amdgpu: gpu recovery does full modesets
+  drm/i915: Annotate dma_fence_work
+
+ drivers/dma-buf/dma-fence.c                   | 56 +++++++++++++++++++
+ drivers/dma-buf/dma-resv.c                    |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |  5 ++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    | 22 ++++++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c     |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c       |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c      |  2 +-
+ drivers/gpu/drm/amd/amdgpu/atom.c             |  2 +-
+ .../gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 18 +++++-
+ drivers/gpu/drm/amd/display/dc/core/dc.c      |  4 +-
+ drivers/gpu/drm/drm_atomic_helper.c           | 16 ++++++
+ drivers/gpu/drm/drm_vblank.c                  |  8 ++-
+ drivers/gpu/drm/i915/i915_sw_fence_work.c     |  3 +
+ drivers/gpu/drm/scheduler/sched_main.c        | 11 ++++
+ drivers/gpu/drm/vkms/vkms_crtc.c              |  8 ++-
+ include/linux/dma-fence.h                     | 13 +++++
+ 16 files changed, 160 insertions(+), 13 deletions(-)
 
 -- 
-Regards,
+2.26.2
 
-Sakari Ailus
