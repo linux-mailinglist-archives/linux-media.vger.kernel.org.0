@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 236B11CF01B
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 11:00:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3F561CF019
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 11:00:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729519AbgELJAn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 05:00:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42808 "EHLO
+        id S1729492AbgELJAg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 05:00:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1729451AbgELJAN (ORCPT
+        by vger.kernel.org with ESMTP id S1729459AbgELJAO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 05:00:13 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C2A0C061A0E
-        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 02:00:13 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id g12so22346123wmh.3
-        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 02:00:13 -0700 (PDT)
+        Tue, 12 May 2020 05:00:14 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98109C061A0E
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 02:00:14 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id l17so794363wrr.4
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 02:00:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=u5gM1ohPbNVORxsODI5ngB8Z3LljD1/NzUrdRFpQw6k=;
-        b=eo6XCFnGqS3UTbV+XFLkZTkDoh8UHvgOyRRDESLFJ7MP+5Cj3/IxjzAl127GN5O9rY
-         VXDXGt6n7g7rCnvzywPZOWCjrMfNywQXd3+W+fn3un22WolNWV/n9WI+YAZlftq1Ve6F
-         gC89CnJ6agJOr1dSjp+3V/HsmrsJiwJEQFsVU=
+        bh=VL9TtbPRMRPCTQiRlmMi8z5JITNnf6io7xX7MRKl+Ko=;
+        b=kRhMNR3hP3pKPVHZhZ9cT25ln+EAm07SNjcy31Y4dhe3XkzIe07JM4Ya995O4xRy86
+         +saK6s4RC0NG7qbyo1lVxn1eZUImoXrpCgVi47HZi5titk7nGYe9UjbrS8UkF6O3hPRR
+         ovYttYkktjgExaN6BUOrX19W0nVFlKxDNLAKE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=u5gM1ohPbNVORxsODI5ngB8Z3LljD1/NzUrdRFpQw6k=;
-        b=gR2ljXmVjpNFS2XbU1yyBsUsnyLuWSf+XAhNYz+hni1mIBwFqf3eDIhO9OpZaz2NvF
-         KBXlLO62+Zz69IETI7vGoE1sUVXiEvo/PtJvxNMp+qvhLrNMlgjlDBGM1+OPLcSjJ/pg
-         0DHAZz/EuoimT00k2PcsVya3fmXDJlOin09oxFxaMLUqNDjsa/m9IU+pQrvwsPx9lhGO
-         3ZffcMiv07TZcQAuI8XeYAwDXMQ01FzlNFjRYteyxlPJVcjmPzN2xFzojH+TUt4XLdMI
-         IE2pnw/dqWTMKaT3/FTTQ/ZFAh3vW22v7X7tdWrKaCFqmGcnkZvbqZYemV5Nhb/wFM8l
-         /DFw==
-X-Gm-Message-State: AGi0PubfClm2MZONBL17Xi98wORWaXyVUw4IkjvxSdZpvC/fbOkzRNyJ
-        KCT/onqvn7z9gS9NhjFwLqF9+A==
-X-Google-Smtp-Source: APiQypLTNXsQ8HlHPlHfp2Mll6IbSc871xkl7AkjDoENjAiQEoiFF4u2nMFQth6vdD3XxA2bFR9BoQ==
-X-Received: by 2002:a1c:9e52:: with SMTP id h79mr35953921wme.84.1589274012210;
-        Tue, 12 May 2020 02:00:12 -0700 (PDT)
+        bh=VL9TtbPRMRPCTQiRlmMi8z5JITNnf6io7xX7MRKl+Ko=;
+        b=TYsW7922fhaqnuSKJ4GdNM1r/RIIqVIjy/YR2uNIwJ+yCFkon/VALrtgTnsK3D9rCi
+         FnBKC3rLU4E98bJgdBDUKilrc0xWC0YCkLk5H7t7m35QmDZYi/sIYN3wR+jM9SAqkUvD
+         cizWSDN78SFlq71mhkMzIPEhNwDSWKsPJd0TDFb7I2iXF+BWBC+5qNwXDjnfl7Hg0cxj
+         zebmXGN0eGYM5EHHCv3duLFBFVw/wsOqMXsCFk9cIrM+w3ucIxFsucVlH0CC0u3dpp4w
+         mSqhodcD6wjDwIZJJ3EjL9mcFwlm40AUohLNs3aRLIDtu8qugnEzsRrZoZmUCMO9cnuB
+         ginA==
+X-Gm-Message-State: AGi0Pub6sQEfVoRUX6GFH0YXGtcu+caJJlsj5ONog8dh0hn/M7eXr2da
+        KeRrw70KHsfVgcuG2hxk9QQn2Q==
+X-Google-Smtp-Source: APiQypISnc9hbO9Grrz8ir5cKtb2Z6Km73KFVxCF0gD5VBDJDeUiMEfX/2s/6rU4lnpOUPSzhy7kNw==
+X-Received: by 2002:a5d:4e0a:: with SMTP id p10mr23345391wrt.215.1589274013291;
+        Tue, 12 May 2020 02:00:13 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id y10sm18845457wrd.95.2020.05.12.02.00.10
+        by smtp.gmail.com with ESMTPSA id y10sm18845457wrd.95.2020.05.12.02.00.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 02:00:11 -0700 (PDT)
+        Tue, 12 May 2020 02:00:12 -0700 (PDT)
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
 To:     DRI Development <dri-devel@lists.freedesktop.org>
 Cc:     LKML <linux-kernel@vger.kernel.org>,
@@ -54,10 +54,11 @@ Cc:     LKML <linux-kernel@vger.kernel.org>,
         intel-gfx@lists.freedesktop.org,
         Chris Wilson <chris@chris-wilson.co.uk>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [RFC 14/17] drm/amdgpu: use dma-fence annotations for gpu reset code
-Date:   Tue, 12 May 2020 10:59:41 +0200
-Message-Id: <20200512085944.222637-15-daniel.vetter@ffwll.ch>
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@intel.com>
+Subject: [RFC 15/17] Revert "drm/amdgpu: add fbdev suspend/resume on gpu reset"
+Date:   Tue, 12 May 2020 10:59:42 +0200
+Message-Id: <20200512085944.222637-16-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
 References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
@@ -69,10 +70,110 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-To improve coverage also annotate the gpu reset code itself, since
-that's called from other places than drm/scheduler (which is already
-annotated). Annotations nests, so this doesn't break anything, and
-allows easier testing.
+This is one from the department of "maybe play lottery if you hit
+this, karma compensation might work". Or at least lockdep ftw!
+
+This reverts commit 565d1941557756a584ac357d945bc374d5fcd1d0.
+
+It's not quite as low-risk as the commit message claims, because this
+grabs console_lock, which might be held when we allocate memory, which
+might never happen because the dma_fence_wait() is stuck waiting on
+our gpu reset:
+
+[  136.763714] ======================================================
+[  136.763714] WARNING: possible circular locking dependency detected
+[  136.763715] 5.7.0-rc3+ #346 Tainted: G        W
+[  136.763716] ------------------------------------------------------
+[  136.763716] kworker/2:3/682 is trying to acquire lock:
+[  136.763716] ffffffff8226f140 (console_lock){+.+.}-{0:0}, at: drm_fb_helper_set_suspend_unlocked+0x7b/0xa0 [drm_kms_helper]
+[  136.763723]
+               but task is already holding lock:
+[  136.763724] ffffffff82318c80 (dma_fence_map){++++}-{0:0}, at: drm_sched_job_timedout+0x25/0xf0 [gpu_sched]
+[  136.763726]
+               which lock already depends on the new lock.
+
+[  136.763726]
+               the existing dependency chain (in reverse order) is:
+[  136.763727]
+               -> #2 (dma_fence_map){++++}-{0:0}:
+[  136.763730]        __dma_fence_might_wait+0x41/0xb0
+[  136.763732]        dma_resv_lockdep+0x171/0x202
+[  136.763734]        do_one_initcall+0x5d/0x2f0
+[  136.763736]        kernel_init_freeable+0x20d/0x26d
+[  136.763738]        kernel_init+0xa/0xfb
+[  136.763740]        ret_from_fork+0x27/0x50
+[  136.763740]
+               -> #1 (fs_reclaim){+.+.}-{0:0}:
+[  136.763743]        fs_reclaim_acquire.part.0+0x25/0x30
+[  136.763745]        kmem_cache_alloc_trace+0x2e/0x6e0
+[  136.763747]        device_create_groups_vargs+0x52/0xf0
+[  136.763747]        device_create+0x49/0x60
+[  136.763749]        fb_console_init+0x25/0x145
+[  136.763750]        fbmem_init+0xcc/0xe2
+[  136.763750]        do_one_initcall+0x5d/0x2f0
+[  136.763751]        kernel_init_freeable+0x20d/0x26d
+[  136.763752]        kernel_init+0xa/0xfb
+[  136.763753]        ret_from_fork+0x27/0x50
+[  136.763753]
+               -> #0 (console_lock){+.+.}-{0:0}:
+[  136.763755]        __lock_acquire+0x1241/0x23f0
+[  136.763756]        lock_acquire+0xad/0x370
+[  136.763757]        console_lock+0x47/0x70
+[  136.763761]        drm_fb_helper_set_suspend_unlocked+0x7b/0xa0 [drm_kms_helper]
+[  136.763809]        amdgpu_device_gpu_recover.cold+0x21e/0xe7b [amdgpu]
+[  136.763850]        amdgpu_job_timedout+0xfb/0x150 [amdgpu]
+[  136.763851]        drm_sched_job_timedout+0x8a/0xf0 [gpu_sched]
+[  136.763852]        process_one_work+0x23c/0x580
+[  136.763853]        worker_thread+0x50/0x3b0
+[  136.763854]        kthread+0x12e/0x150
+[  136.763855]        ret_from_fork+0x27/0x50
+[  136.763855]
+               other info that might help us debug this:
+
+[  136.763856] Chain exists of:
+                 console_lock --> fs_reclaim --> dma_fence_map
+
+[  136.763857]  Possible unsafe locking scenario:
+
+[  136.763857]        CPU0                    CPU1
+[  136.763857]        ----                    ----
+[  136.763857]   lock(dma_fence_map);
+[  136.763858]                                lock(fs_reclaim);
+[  136.763858]                                lock(dma_fence_map);
+[  136.763858]   lock(console_lock);
+[  136.763859]
+                *** DEADLOCK ***
+
+[  136.763860] 4 locks held by kworker/2:3/682:
+[  136.763860]  #0: ffff8887fb81c938 ((wq_completion)events){+.+.}-{0:0}, at: process_one_work+0x1bc/0x580
+[  136.763862]  #1: ffffc90000cafe58 ((work_completion)(&(&sched->work_tdr)->work)){+.+.}-{0:0}, at: process_one_work+0x1bc/0x580
+[  136.763863]  #2: ffffffff82318c80 (dma_fence_map){++++}-{0:0}, at: drm_sched_job_timedout+0x25/0xf0 [gpu_sched]
+[  136.763865]  #3: ffff8887ab621748 (&adev->lock_reset){+.+.}-{3:3}, at: amdgpu_device_gpu_recover.cold+0x5ab/0xe7b [amdgpu]
+[  136.763914]
+               stack backtrace:
+[  136.763915] CPU: 2 PID: 682 Comm: kworker/2:3 Tainted: G        W         5.7.0-rc3+ #346
+[  136.763916] Hardware name: System manufacturer System Product Name/PRIME X370-PRO, BIOS 4011 04/19/2018
+[  136.763918] Workqueue: events drm_sched_job_timedout [gpu_sched]
+[  136.763919] Call Trace:
+[  136.763922]  dump_stack+0x8f/0xd0
+[  136.763924]  check_noncircular+0x162/0x180
+[  136.763926]  __lock_acquire+0x1241/0x23f0
+[  136.763927]  lock_acquire+0xad/0x370
+[  136.763932]  ? drm_fb_helper_set_suspend_unlocked+0x7b/0xa0 [drm_kms_helper]
+[  136.763933]  ? mark_held_locks+0x2d/0x80
+[  136.763934]  ? _raw_spin_unlock_irqrestore+0x46/0x60
+[  136.763936]  console_lock+0x47/0x70
+[  136.763940]  ? drm_fb_helper_set_suspend_unlocked+0x7b/0xa0 [drm_kms_helper]
+[  136.763944]  drm_fb_helper_set_suspend_unlocked+0x7b/0xa0 [drm_kms_helper]
+[  136.763993]  amdgpu_device_gpu_recover.cold+0x21e/0xe7b [amdgpu]
+[  136.764036]  amdgpu_job_timedout+0xfb/0x150 [amdgpu]
+[  136.764038]  drm_sched_job_timedout+0x8a/0xf0 [gpu_sched]
+[  136.764040]  process_one_work+0x23c/0x580
+[  136.764041]  worker_thread+0x50/0x3b0
+[  136.764042]  ? process_one_work+0x580/0x580
+[  136.764044]  kthread+0x12e/0x150
+[  136.764045]  ? kthread_create_worker_on_cpu+0x70/0x70
+[  136.764046]  ret_from_fork+0x27/0x50
 
 Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
@@ -82,61 +183,33 @@ Cc: intel-gfx@lists.freedesktop.org
 Cc: Chris Wilson <chris@chris-wilson.co.uk>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Christian König <christian.koenig@amd.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index b038ddbb2ece..5560d045b2e0 100644
+index 5560d045b2e0..3584e29323c0 100644
 --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
 +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -4140,6 +4140,9 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
- 	bool use_baco =
- 		(amdgpu_asic_reset_method(adev) == AMD_RESET_METHOD_BACO) ?
- 		true : false;
-+	bool fence_cookie;
-+
-+	fence_cookie = dma_fence_begin_signalling();
+@@ -4047,8 +4047,6 @@ static int amdgpu_do_asic_reset(struct amdgpu_hive_info *hive,
+ 				if (r)
+ 					goto out;
  
- 	/*
- 	 * Flush RAM to disk so that after reboot
-@@ -4168,6 +4171,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
- 		DRM_INFO("Bailing on TDR for s_job:%llx, hive: %llx as another already in progress",
- 			  job ? job->base.id : -1, hive->hive_id);
- 		mutex_unlock(&hive->hive_lock);
-+		dma_fence_end_signalling(fence_cookie);
- 		return 0;
- 	}
+-				amdgpu_fbdev_set_suspend(tmp_adev, 0);
+-
+ 				/* must succeed. */
+ 				amdgpu_ras_resume(tmp_adev);
  
-@@ -4178,8 +4182,10 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
- 	 */
- 	INIT_LIST_HEAD(&device_list);
- 	if (adev->gmc.xgmi.num_physical_nodes > 1) {
--		if (!hive)
-+		if (!hive) {
-+			dma_fence_end_signalling(fence_cookie);
- 			return -ENODEV;
-+		}
- 		if (!list_is_first(&adev->gmc.xgmi.head, &hive->device_list))
- 			list_rotate_to_front(&adev->gmc.xgmi.head, &hive->device_list);
- 		device_list_handle = &hive->device_list;
-@@ -4194,6 +4200,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
- 			DRM_INFO("Bailing on TDR for s_job:%llx, as another already in progress",
- 				  job ? job->base.id : -1);
- 			mutex_unlock(&hive->hive_lock);
-+			dma_fence_end_signalling(fence_cookie);
- 			return 0;
- 		}
+@@ -4217,8 +4215,6 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
+ 		 */
+ 		amdgpu_unregister_gpu_instance(tmp_adev);
  
-@@ -4319,6 +4326,7 @@ int amdgpu_device_gpu_recover(struct amdgpu_device *adev,
- 
- 	if (r)
- 		dev_info(adev->dev, "GPU reset end with ret = %d\n", r);
-+	dma_fence_end_signalling(fence_cookie);
- 	return r;
- }
- 
+-		amdgpu_fbdev_set_suspend(tmp_adev, 1);
+-
+ 		/* disable ras on ALL IPs */
+ 		if (!(in_ras_intr && !use_baco) &&
+ 		      amdgpu_device_ip_need_full_reset(tmp_adev))
 -- 
 2.26.2
 
