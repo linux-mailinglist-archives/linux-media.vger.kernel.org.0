@@ -2,124 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7AA91CEEE3
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 10:13:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 523691CEF07
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 10:24:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726193AbgELINn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 04:13:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35520 "EHLO
+        id S1729157AbgELIYc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 04:24:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725889AbgELINn (ORCPT
+        by vger.kernel.org with ESMTP id S1725987AbgELIYc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 04:13:43 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25701C061A0E
-        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 01:13:43 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id j4so9795848otr.11
-        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 01:13:43 -0700 (PDT)
+        Tue, 12 May 2020 04:24:32 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD8A0C061A0C;
+        Tue, 12 May 2020 01:24:31 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id s9so10293394eju.1;
+        Tue, 12 May 2020 01:24:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+/M7ttbizVNgiq3E6e56DHlLpnfL10dXQ3P0u57oqQo=;
-        b=B3m+V+H5gTjtrCKtwwO492HjhFTr38Y7VLdRIx8Tr0JsnUUVuJfvLNFpAjkYVRe/MU
-         OGhuxIOgscPAJlStLNeONC5jnNM98kozL2u0pPS16qB774cjwhRApsJJSSoWukr1lnGH
-         ndMSRfj/B/LQ6dcNI82uqbQkLohbgmAyXx7d4L3tgQ3l3nihXM9IjQ28IC8EK2tj/GD9
-         iHnOYCeOgJr/UT9aaWtYgPY3TJC7SJd+g13SZ9TH5FPj9pe98IZSRDzO8BHktwFWhKDd
-         X1cRshj6SP1m+RsHrtI3l2vN5q2jx7wmf8L2tcm6zsUJnPybnwRmro6/JKHf/oSS9sVT
-         GmXA==
+         :cc:content-transfer-encoding;
+        bh=WZmVui63+MZYLGPVMsrYodiyTMhn5xAQUNHMSEpC2WI=;
+        b=MfDT8qi45fn3WeCOk2o2t1xYrODuFq3GU+SCCBAWPM2h92+F0KrixpsWHdinUycHmp
+         cpvfFmAD+jhqDkkHYWt5Q8cpPEtpVISDTn+fL0txmPjkOFCBhOzA0wcA7xEM///jyCPo
+         uwm9RP8IhF+DrMIYEyho+wdOOP8Bp+dRlyrWozPG9P+y5mwanSSevRhmbr/Zcxm6ZCYM
+         FG5nskHyavZGHLuX2BeFh1x1xuTXz9NsnKLG/IzAwrXKQ1J3sgROOq4fgIy4zzVWqp3a
+         s3mfLkPWMs8+OTrvEBzEwmUog+hIMGUlfQuFbPgJKByrLRdTy95BMayQjTGNRuEujeOp
+         Ughw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+/M7ttbizVNgiq3E6e56DHlLpnfL10dXQ3P0u57oqQo=;
-        b=XoB73pmcPKZXksMg63JNF56gfyJrtAxBOp0JbOjtmuy0/FPTT90kzi1uMM57Yx0mmx
-         6C2m0AznlUk5OSxRxTIkQC4GbR7odGwm7aiklRJkq2b87ttw21UfBvm1n60LzPukZlS1
-         6tmxuDlQ/1Vi3vAkFKPPwjOxMTAKnULoehK5BOSc0MpABbIuPWo1jaFVDcjFVpssyV00
-         zHlxUUriTYwm2j7GP7Fn6CpnYxp8z+vnRPUA46Od8VzJxobpDv0IMjUUJGNe91BANgtV
-         V1ClgeOdM3F6QuCP2nF8bDKJP5erhYAMQX7gk7738aMhFm3yc8vYf7VsFbUR3LANDYlG
-         l71Q==
-X-Gm-Message-State: AGi0PuaAEJ1y39s4xfM/yE4zrsDDs0zuGjQCNk/1FJNA9F0sWqNn6jYh
-        qkXVBxW7QL694kdHTU82Ev3qYX5tYKHC1v3os62q4A==
-X-Google-Smtp-Source: APiQypLADIaeTtFDiDZj0oHRCnE87JDFcA3KKjn9my/GbFnCnkWw5321wESGx5JUU0FJwwNUrkgSoNw73WHvEVtCGSA=
-X-Received: by 2002:a9d:3462:: with SMTP id v89mr15637311otb.68.1589271222321;
- Tue, 12 May 2020 01:13:42 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=WZmVui63+MZYLGPVMsrYodiyTMhn5xAQUNHMSEpC2WI=;
+        b=hyvqMms0FZyjNve0Nq1CoVGKho6lcS4K1Xu5m/NvT8voHNGE5OyJne0A82BhR3lrT4
+         fWn/A9qwou8VIaUoR/NJ+9cd2l33EatpakX3EqXk2Erk1rLpCaxMgknNh7OZPN5JXnIu
+         GHYY88jeOwD8ninR8n3XToBypGkLudw9b4aOI/+i7QO+2w/lEvMM5GO43sR2072Sj376
+         3P3Q5exbjDyYCFIg064rmewzKyOC+C6R4quxc851PeEUzaqoLMgiJqeqCMWGr8OBCAbt
+         DYbEur5kZX0gMRla3SgeshspIAYjUgh0TMQ+AA770A9P715391Fur+YTrJhuH+3RLceo
+         Z5wA==
+X-Gm-Message-State: AGi0PuZIAib1PLiZF8sCsCJ1C6eYGi01v2vKG/hZ270HgiHx9JuIcNsA
+        QZrdO3edrOeZ2K1lPh1DARdg6kgOJjU81y3SfQ8=
+X-Google-Smtp-Source: APiQypJ6waQrIqdkBNJiYUFTObsy0HOkI967DYuTmDn/95XvGxRe4QaE7sdEQou1ZWkFZkf4jCo6DOQgEKsAM3GPd/s=
+X-Received: by 2002:a17:906:2799:: with SMTP id j25mr8522291ejc.369.1589271870256;
+ Tue, 12 May 2020 01:24:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200511110350.11565-1-robert.foss@linaro.org>
- <20200511110350.11565-3-robert.foss@linaro.org> <20200512002518.GX867@valkosipuli.retiisi.org.uk>
-In-Reply-To: <20200512002518.GX867@valkosipuli.retiisi.org.uk>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Tue, 12 May 2020 10:13:31 +0200
-Message-ID: <CAG3jFytw+GH4bXsUpS-=En52F67_1iPmOtOTo36ujE69j-9h3g@mail.gmail.com>
-Subject: Re: [PATCH v8 2/3] media: ov8856: Add devicetree support
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Maxime Ripard <maxime@cerno.tech>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>, Ben Kao <ben.kao@intel.com>
+References: <20200505082055.2843847-1-noltari@gmail.com> <20200512065111.716801-1-noltari@gmail.com>
+ <20200512091637.198dd0c2@xps13> <50E32C0E-7485-4180-A072-F7F1CFB45B06@gmail.com>
+ <20200512093451.4cde5384@xps13>
+In-Reply-To: <20200512093451.4cde5384@xps13>
+From:   =?UTF-8?B?w4FsdmFybyBGZXJuw6FuZGV6IFJvamFz?= <noltari@gmail.com>
+Date:   Tue, 12 May 2020 10:24:16 +0200
+Message-ID: <CAKR-sGe7OKYmjiPHK1eLO0P1nLoerMRm_OcUkt9Ay3GtFeTA=w@mail.gmail.com>
+Subject: Re: [PATCH v3] mtd: rawnand: brcmnand: correctly verify erased pages
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+Cc:     computersforpeace@gmail.com, kdasu.kdev@gmail.com, richard@nod.at,
+        Vignesh R <vigneshr@ti.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-mtd@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 12 May 2020 at 02:26, Sakari Ailus <sakari.ailus@iki.fi> wrote:
->
-> Hi Robert,
->
-> On Mon, May 11, 2020 at 01:03:49PM +0200, Robert Foss wrote:
-> > Add match table, enable ov8856_probe() to support
-> > both ACPI and DT modes.
-> >
-> > ACPI and DT modes are primarily distinguished from
-> > by checking for ACPI mode and by having resource like
-> > be NULL.
-> >
-> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
->
-> Applied with this small diff --- please check with checkpatch.pl on the
-> next time. Thanks!
+Hi Miqu=C3=A8l,
 
-Thanks Sakari, I appreciate it!
 
+El mar., 12 may. 2020 a las 9:34, Miquel Raynal
+(<miquel.raynal@bootlin.com>) escribi=C3=B3:
 >
-> diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-> index 1657e03d9a9d..4ca27675cc5a 100644
-> --- a/drivers/media/i2c/ov8856.c
-> +++ b/drivers/media/i2c/ov8856.c
-> @@ -1226,8 +1226,7 @@ static int ov8856_get_hwcfg(struct ov8856 *ov8856, struct device *dev)
->         if (!fwnode)
->                 return -ENXIO;
+> Hi =C3=81lvaro,
 >
-> -       ret = fwnode_property_read_u32(fwnode, "clock-frequency",
-> -               &xvclk_rate);
-> +       ret = fwnode_property_read_u32(fwnode, "clock-frequency", &xvclk_rate);
+> =C3=81lvaro Fern=C3=A1ndez Rojas <noltari@gmail.com> wrote on Tue, 12 May=
+ 2020
+> 09:24:32 +0200:
+>
+> > Hi Miqu=C3=A8l
+> >
+> > > El 12 may 2020, a las 9:16, Miquel Raynal <miquel.raynal@bootlin.com>=
+ escribi=C3=B3:
+> > >
+> > > Hi =C3=81lvaro,
+> > >
+> > > =C3=81lvaro Fern=C3=A1ndez Rojas <noltari@gmail.com> wrote on Tue, 12=
+ May 2020
+> > > 08:51:11 +0200:
+> > >
+> > >> The current code checks that the whole OOB area is erased.
+> > >> This is a problem when JFFS2 cleanmarkers are added to the OOB, sinc=
+e it will
+> > >> fail due to the usable OOB bytes not being 0xff.
+> > >> Correct this by only checking that data and ECC bytes aren't 0xff.
+> > >>
+> > >> Fixes: 02b88eea9f9c ("mtd: brcmnand: Add check for erased page bitfl=
+ips")
+> > >> Signed-off-by: =C3=81lvaro Fern=C3=A1ndez Rojas <noltari@gmail.com>
+> > >> ---
+> > >> v3: Fix commit log and merge nand_check_erased_ecc_chunk calls.
+> > >> v2: Add Fixes tag
+> > >>
+> > >> drivers/mtd/nand/raw/brcmnand/brcmnand.c | 19 ++++++++++++++-----
+> > >> 1 file changed, 14 insertions(+), 5 deletions(-)
+> > >>
+> > >> diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/=
+nand/raw/brcmnand/brcmnand.c
+> > >> index e4e3ceeac38f..80fe01f03516 100644
+> > >> --- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+> > >> +++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+> > >> @@ -2018,8 +2018,9 @@ static int brcmnand_read_by_pio(struct mtd_inf=
+o *mtd, struct nand_chip *chip,
+> > >> static int brcmstb_nand_verify_erased_page(struct mtd_info *mtd,
+> > >>              struct nand_chip *chip, void *buf, u64 addr)
+> > >> {
+> > >> +  struct mtd_oob_region oobecc;
+> > >>    int i, sas;
+> > >> -  void *oob =3D chip->oob_poi;
+> > >> +  void *oob;
+> > >>    int bitflips =3D 0;
+> > >>    int page =3D addr >> chip->page_shift;
+> > >>    int ret;
+> > >> @@ -2035,11 +2036,19 @@ static int brcmstb_nand_verify_erased_page(s=
+truct mtd_info *mtd,
+> > >>    if (ret)
+> > >>            return ret;
+> > >>
+> > >> -  for (i =3D 0; i < chip->ecc.steps; i++, oob +=3D sas) {
+> > >> +  for (i =3D 0; i < chip->ecc.steps; i++) {
+> > >>            ecc_chunk =3D buf + chip->ecc.size * i;
+> > >> -          ret =3D nand_check_erased_ecc_chunk(ecc_chunk,
+> > >> -                                            chip->ecc.size,
+> > >> -                                            oob, sas, NULL, 0,
+> > >> +
+> > >> +          if (mtd->ooblayout->ecc(mtd, i, &oobecc)) {
+> > >
+> > > Please use the mtdcore.c's helpers
+> > > (mtd_ooblayout_set/get_data/free/ecc/bytes).
+
+Ok, I will use mtd_ooblayout_ecc function.
+
+> > >
+> > > Also, what are you trying to discriminate with the return code of the
+> > > function? Shouldn't this function "always" work?
+> >
+> > Just making sure it doesn=E2=80=99t return an ERANGE in case chip->ecc.=
+size doesn=E2=80=99t match the sections from mtd->ooblayout->ecc, which sho=
+uldn=E2=80=99t happen, so I think we can remove that...
+>
+> The style we prefer for error checking is:
+>
+>         ret =3D function();
 >         if (ret)
->                 return ret;
+>                 do someting;
 >
-> @@ -1244,10 +1243,11 @@ static int ov8856_get_hwcfg(struct ov8856 *ov8856, struct device *dev)
->         }
+> instead of:
 >
->         if (xvclk_rate != OV8856_XVCLK_19_2)
-> -               dev_warn(dev, "external clock rate %d is unsupported", xvclk_rate);
-> +               dev_warn(dev, "external clock rate %u is unsupported",
-> +                        xvclk_rate);
+>         if (function())
 >
->         ov8856->reset_gpio = devm_gpiod_get_optional(dev, "reset",
-> -               GPIOD_OUT_LOW);
-> +                                                    GPIOD_OUT_LOW);
->         if (IS_ERR(ov8856->reset_gpio))
->                 return PTR_ERR(ov8856->reset_gpio);
+> Anyway, I really don't know if it can happen or not. I suppose it does.
+> What I don't understand is your "oob =3D chip->oob_poi + oobecc.offset".
+> If you expect an error, then you should not update this pointer, right?
+
+After switching to mtd_ooblayout_ecc, error checking isn't needed anymore.
+
 >
-> --
-> Kind regards,
+> Don't you need to use 2 * i instead of i here? Following your other
+> contribution, sections are distributed like "data/ecc/data/ecc/etc".
+
+No, we're checking ECC bytes in the OOB, not about usable bytes in the
+OOB area, which is what my other patch changes.
+
 >
-> Sakari Ailus
+> >
+> > >
+> > >> +                  oob =3D NULL;
+> > >> +                  oobecc.length =3D 0;
+> > >> +          } else {
+> > >> +                  oob =3D chip->oob_poi + oobecc.offset;
+> > >> +          }
+> > >> +
+> > >> +          ret =3D nand_check_erased_ecc_chunk(ecc_chunk, chip->ecc.=
+size,
+> > >> +                                            oob, oobecc.length,
+> > >> +                                            NULL, 0,
+> > >>                                              chip->ecc.strength);
+> > >
+> > > As I told you, this helper takes "maid data" then "spare area" then
+> > > "ecc bytes". The names are pretty important here as you want to avoid
+> > > checking the spare OOB bytes on purpose, so maybe you could have more
+> > > meaningful names and call "ecc" instead of "oob" the ecc region?
+> >
+> > Actually I thought you meant the commit log, not the code itself...
+>
+> No problem ;) I meant both actually, And I think you should name the
+> oob pointer ecc_bytes.
+>
+> >
+> > >
+> > >>            if (ret < 0)
+> > >>                    return ret;
+> > >
+> > >
+> > > Thanks,
+> > > Miqu=C3=A8l
+> >
+> > Regards,
+> > =C3=81lvaro.
+> >
+>
+>
+>
+>
+> Thanks,
+> Miqu=C3=A8l
+
+Regards,
+=C3=81lvaro.
