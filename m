@@ -2,70 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DAA71D0248
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 00:26:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A2051D0250
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 00:28:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731549AbgELW0x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 18:26:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56150 "EHLO
+        id S1729646AbgELW2o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 18:28:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1731156AbgELW0w (ORCPT
+        by vger.kernel.org with ESMTP id S1727899AbgELW2o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 18:26:52 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4108AC061A0F
-        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 15:26:51 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id f18so15501405lja.13
-        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 15:26:51 -0700 (PDT)
+        Tue, 12 May 2020 18:28:44 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B10ACC061A0E
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 15:28:43 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id s9so11928494lfp.1
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 15:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=t1GCnSY4uTkAcfm2Amgz7mdBr4uRw86tBEsv4bxmQzY=;
-        b=mwlbZQAfvfOzwB6ODiMJXWLYT1su4PF828fSWj2MzV2UAihilJRaooKhp4G2RSNKKL
-         8U03XKz4i6TmLdGyJiwS9bV8GU1CmYvqMj7wP1lE/fxakYbdbcv5QYS4uhdm00U2jXoJ
-         kDkEClnyf3wM520UyQjv/dEFBLuVwTRXkr6oaBmgLPYdryH7y2rMuVu9ABRJ2aTq7o5j
-         D70OH4dM+VI6M+ovdGggtM+Z1dGHbe9lGg0NYVqzcdxkUCSr1yR4apP37J5Lg7SnB1tw
-         2ptPSn5bwdHODa3LjzfS4p77gbHmSH+ReJKG7qafpjKUA6AEsskQ8am9RD6yrF9Gja2J
-         0OMg==
+        bh=Yd6UTaPAb2FR7bBeSDIETddPBi1BC2Xst6NzALQxfFE=;
+        b=EDHW+hVhMyr+diUJcQfeEXL71+toyM5AFY1xZBuNohp7VMM23zBGHCeTs8u0ivUqUX
+         wFbgQeKmp/gZFzOLUEiLptUmUH1yup3T360ik90AXpX6bqSBC9d+XVPp2npld6+/9hVR
+         5emyLEtOCz6Nrp0Oo9eKIk5qxcxKZfnQGT6Av0UTuhVfXMuw5bF91ULFLMfAj0HvxyGi
+         iXpBi7WQrPcj1xA7dN5teJh8JTCXYuhNx0aE2PIz1VeLVVBrMwyNoaH0sRh+/rhBLOVT
+         /JqmMIKVKzi31n0rqVECujzdd/texRunl0Jl02UmSqun7hcDgEV8aCHud1TuNvrT7Gy6
+         N1Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=t1GCnSY4uTkAcfm2Amgz7mdBr4uRw86tBEsv4bxmQzY=;
-        b=lOTHv3rMcFRkDt2jdGw0llwylfWUz+PcHSvpxlJYcWnmaS92zqcqD9GDUTfcG5qz7b
-         iniOXjPr43PeE4ovrCS79UlTzuC6Wn0/zDibR2TE+DQu/0MxntVsrFDEUpxTbNGC8HEj
-         xhviHtmS+KHWSFTMPtEBo8oG2Jc1c6JKcZDwcXEUOFRHDJmIk0uhGaDu78AuLRnd2pWc
-         7hNXpK5qawssjw0s3fhGuYa6ZGT4R2LuF24j2j436g/RJDRBmGya+dDMFCVZFtVmGVkU
-         XvTcTMwoOZ7kcO+ORGYATJHysi0OjPcFTCI8KdXGQTk39upJdFFY41bHpmkgy/kgG6H9
-         uUTg==
-X-Gm-Message-State: AOAM532WLvEGdnxeyjkHiI85o894aGaMgkJ4mT0M1aOleViAucXjmSDq
-        Cw5Wzk4k4REu/vP+N89BJ3ExaA==
-X-Google-Smtp-Source: ABdhPJwEduG0cPtm1XlGc9w4iKYmhxowK3sFh1H/aNyWh4z7t2H+0oB7q+2VOgPira1wZz5X0+1tdw==
-X-Received: by 2002:a2e:9cd:: with SMTP id 196mr14484595ljj.226.1589322409674;
-        Tue, 12 May 2020 15:26:49 -0700 (PDT)
+        bh=Yd6UTaPAb2FR7bBeSDIETddPBi1BC2Xst6NzALQxfFE=;
+        b=MyXa+Z3Y3kheB7IpRnmtWvnMnmC2JzNusT/X9QH9b+U1j+LuiiRSpYnWfZPLeIsX57
+         8vnnaknajtpamH1GciMaQxcsYYWiyakF7ILAVvHUEaws32tRP0wHuvj4JhQJynFKYBRq
+         YvvmeWULe1Pq584bCBZzN/Pt6xzASsNRM8cZR3qK8lMAAqf9Qd7JgsQaVXwPqzF8WM7B
+         Jd7kaSnUQ6o42d0NTwBJjDJQrQ7s0UHuDlQgDw9oPFIdB7uirY6VS/cV68LrpVnGVMzY
+         ddwwh/36is5wfH3zTT5IkE9SurYq8APzn3+SJdcojI3qx7LhZoFoWI4b4ThIbn2LO5ER
+         wMfQ==
+X-Gm-Message-State: AOAM531CcyQnwasodVrg1VK2ALS5/HQYTOjzkFsTtjtNJLQUdMKpbJNT
+        25ZR2KenPtsOCPNo6k2ZZ24A0g==
+X-Google-Smtp-Source: ABdhPJwKafBveyWoomRdtLoMhAo3gKkzcwpPZZz7PuekZpDLOn7NHUaoVIp5m4RE+IIt0gdybMoxTg==
+X-Received: by 2002:a19:d55:: with SMTP id 82mr16119754lfn.89.1589322522058;
+        Tue, 12 May 2020 15:28:42 -0700 (PDT)
 Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id c79sm14992881lfg.29.2020.05.12.15.26.48
+        by smtp.gmail.com with ESMTPSA id w15sm13497560ljd.35.2020.05.12.15.28.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 15:26:48 -0700 (PDT)
-Date:   Wed, 13 May 2020 00:26:48 +0200
+        Tue, 12 May 2020 15:28:41 -0700 (PDT)
+Date:   Wed, 13 May 2020 00:28:40 +0200
 From:   Niklas <niklas.soderlund@ragnatech.se>
 To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v4 1/3] media: rcar-vin: Invalidate pipeline if
- conversion is not possible on input formats
-Message-ID: <20200512222648.GD2542285@oden.dyn.berto.se>
+Subject: Re: [PATCH v4 2/3] media: rcar-vin: Add support for
+ MEDIA_BUS_FMT_SRGGB8_1X8 format
+Message-ID: <20200512222840.GE2542285@oden.dyn.berto.se>
 References: <1586945948-11026-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <1586945948-11026-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1586945948-11026-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1586945948-11026-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <1586945948-11026-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -75,77 +75,88 @@ Hi Lad,
 
 Thanks for your work.
 
-On 2020-04-15 11:19:06 +0100, Lad Prabhakar wrote:
-> Up until now the VIN was capable to convert any of its supported input mbus
-> formats to any of it's supported output pixel formats. With the addition of
-> RAW formats this is no longer true.
-
-Add blank line.
-
-> This patch invalidates the pipeline by adding a check if given vin input
-> format can be converted to supported output pixel format.
+On 2020-04-15 11:19:07 +0100, Lad Prabhakar wrote:
+> Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format in rcar-vin by setting
+> format type to RAW8 in VNMC register and appropriately setting the bpp
+> and bytesperline to enable V4L2_PIX_FMT_SRGGB8.
 > 
 > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-I like this patch I think there is a typo bellow and patch [1] have been 
-merged in the media-tree which unfortunately addes one more thing to do 
-in this patch. In rvin_enum_fmt_vid_cap() there is a TODO noted for what 
-needs to be done. In imagine the fix is simple and the end result would 
-look something like this.
-
-    switch (f->mbus_code) {
-    case 0:
-    case MEDIA_BUS_FMT_YUYV8_1X16:
-    case MEDIA_BUS_FMT_UYVY8_1X16:
-    case MEDIA_BUS_FMT_UYVY8_2X8:
-    case MEDIA_BUS_FMT_UYVY10_2X10:
-    case MEDIA_BUS_FMT_RGB888_1X24:
-        break;
-    case MEDIA_BUS_FMT_SRGGB8_1X8:
-        if (f->index)
-            return -EINVAL;
-
-        f->pixelformat = V4L2_PIX_FMT_SRGGB8;
-        return 0;
-    case default:
-        return -EINVAL;
-    }
-
-1. d5f74a1eff9aef3b ("media: rcar-vin: Make use of V4L2_CAP_IO_MC")
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  drivers/media/platform/rcar-vin/rcar-dma.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+>  drivers/media/platform/rcar-vin/rcar-dma.c  | 15 ++++++++++++++-
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
+>  2 files changed, 18 insertions(+), 1 deletion(-)
 > 
 > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index 1a30cd036371..48bd9bfc3948 100644
+> index 48bd9bfc3948..3e8e29573e6d 100644
 > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
 > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -1109,13 +1109,17 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
->  	case MEDIA_BUS_FMT_UYVY8_1X16:
->  	case MEDIA_BUS_FMT_UYVY8_2X8:
->  	case MEDIA_BUS_FMT_UYVY10_2X10:
-> +		break;
->  	case MEDIA_BUS_FMT_RGB888_1X24:
-> -		vin->mbus_code = fmt.format.code;
-
-This is not right is it?
-
-Should you not add a case for MEDIA_BUS_FMT_SRGGB8_1X8 instead of taking 
-over MEDIA_BUS_FMT_RGB888_1X24?
-
-> +		if (vin->format.pixelformat != V4L2_PIX_FMT_SRGGB8)
-> +			return -EPIPE;
->  		break;
->  	default:
->  		return -EPIPE;
->  	}
+> @@ -85,6 +85,7 @@
+>  #define VNMC_INF_YUV8_BT601	(1 << 16)
+>  #define VNMC_INF_YUV10_BT656	(2 << 16)
+>  #define VNMC_INF_YUV10_BT601	(3 << 16)
+> +#define VNMC_INF_RAW8		(4 << 16)
+>  #define VNMC_INF_YUV16		(5 << 16)
+>  #define VNMC_INF_RGB888		(6 << 16)
+>  #define VNMC_VUP		(1 << 10)
+> @@ -587,13 +588,19 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+>  	rvin_write(vin, vin->crop.top, VNSLPRC_REG);
+>  	rvin_write(vin, vin->crop.top + vin->crop.height - 1, VNELPRC_REG);
 >  
-> +	vin->mbus_code = fmt.format.code;
+> -
+>  	/* TODO: Add support for the UDS scaler. */
+>  	if (vin->info->model != RCAR_GEN3)
+>  		rvin_crop_scale_comp_gen2(vin);
+>  
+>  	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
+>  	stride = vin->format.bytesperline / fmt->bpp;
 > +
->  	switch (fmt.format.field) {
->  	case V4L2_FIELD_TOP:
->  	case V4L2_FIELD_BOTTOM:
+> +	/* For RAW8 format bpp is 1, but the hardware process RAW8
+> +	 * format in 2 pixel unit hence configure VNIS_REG as stride / 2.
+> +	 */
+> +	if (vin->format.pixelformat == V4L2_PIX_FMT_SRGGB8)
+> +		stride /= 2;
+> +
+>  	rvin_write(vin, stride, VNIS_REG);
+>  }
+>  
+> @@ -676,6 +683,9 @@ static int rvin_setup(struct rvin_dev *vin)
+>  
+>  		input_is_yuv = true;
+>  		break;
+> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> +		vnmc |= VNMC_INF_RAW8;
+> +		break;
+>  	default:
+>  		break;
+>  	}
+> @@ -737,6 +747,9 @@ static int rvin_setup(struct rvin_dev *vin)
+>  	case V4L2_PIX_FMT_ABGR32:
+>  		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
+>  		break;
+> +	case V4L2_PIX_FMT_SRGGB8:
+> +		dmr = 0;
+> +		break;
+>  	default:
+>  		vin_err(vin, "Invalid pixelformat (0x%x)\n",
+>  			vin->format.pixelformat);
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index 5151a3cd8a6e..ca542219e8ae 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -66,6 +66,10 @@ static const struct rvin_video_format rvin_formats[] = {
+>  		.fourcc			= V4L2_PIX_FMT_ABGR32,
+>  		.bpp			= 4,
+>  	},
+> +	{
+> +		.fourcc			= V4L2_PIX_FMT_SRGGB8,
+> +		.bpp			= 1,
+> +	},
+>  };
+>  
+>  const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
 > -- 
 > 2.20.1
 > 
