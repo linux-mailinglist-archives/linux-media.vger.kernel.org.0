@@ -2,204 +2,1444 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9F261CFF4E
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 22:34:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F6101CFFD9
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 22:51:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729215AbgELUd6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 16:33:58 -0400
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:43150 "EHLO
-        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726324AbgELUd5 (ORCPT
+        id S1728275AbgELUvi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 16:51:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41144 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725987AbgELUvh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 16:33:57 -0400
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200512203355euoutp0148b1b529057d90555ae67d8730e5f08d~OYiZayGaM1647616476euoutp01S
-        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 20:33:55 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200512203355euoutp0148b1b529057d90555ae67d8730e5f08d~OYiZayGaM1647616476euoutp01S
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1589315635;
-        bh=wnAc6t9J+MLeu4DXX/UMTG7FIxfuzBk4sujw+pbXYuI=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=vFcP7z7iNFqcPY/EoZ5ceEWyjH1xwGyPTsFs44xdrk9/usQK/cCqb6wNTikhe/cz3
-         VRuU1QMd4IzJN8gNMfXAO/FSr7WAEwp3UEQA958LHOtJuBsPdJUyXn7cor0p/GkEeY
-         qrecZ9OJZgAZ759EqpgSB1rwj676W+1IKU9G/b1E=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
-        20200512203354eucas1p1ccad241d082e172806147e8051ca5cd5~OYiY_s_Nd1765817658eucas1p1P;
-        Tue, 12 May 2020 20:33:54 +0000 (GMT)
-Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id 59.BC.60679.2380BBE5; Tue, 12
-        May 2020 21:33:54 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-        20200512203354eucas1p1ec0713551239b5437374232a3558db8e~OYiYXwwvs1766317663eucas1p1P;
-        Tue, 12 May 2020 20:33:54 +0000 (GMT)
-Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20200512203354eusmtrp29c5130625112f643794304998f69d654~OYiYXBRxv1599815998eusmtrp2e;
-        Tue, 12 May 2020 20:33:54 +0000 (GMT)
-X-AuditID: cbfec7f4-0cbff7000001ed07-4a-5ebb08320b1c
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms2.samsung.com (EUCPMTA) with SMTP id C1.CA.07950.2380BBE5; Tue, 12
-        May 2020 21:33:54 +0100 (BST)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200512203353eusmtip24e27fc61e27b356e67372df3a9c99d61~OYiXny--L2981929819eusmtip2U;
-        Tue, 12 May 2020 20:33:53 +0000 (GMT)
-Subject: Re: [PATCH v4 38/38] videobuf2: use sgtable-based scatterlist
- wrappers
-To:     "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc:     Pawel Osciak <pawel@osciak.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        David Airlie <airlied@linux.ie>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Christoph Hellwig <hch@lst.de>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <f6242137-82a5-0e33-f1a2-9e73dc679aa9@samsung.com>
-Date:   Tue, 12 May 2020 22:33:54 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
-        Thunderbird/68.8.0
+        Tue, 12 May 2020 16:51:37 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4770BC061A0C
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 13:51:37 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id k133so19295676oih.12
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 13:51:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=9ZyeiuZYbF2iegWp6Lm+nuIFQVDtOrVZbsuYGc9xqmk=;
+        b=IX0w3TsHA8xxQ/tWmjdDC61lO4v9TXnD9MIEiZeIsiKOKBXtJnWrkHYVFo+4a0Vkhv
+         ttFstbyZlvqQwLe82+xrWW/sn2CyPOa43JDtW4bMbU3FYcg6WbGu0ozUMvqBqC2d3WwH
+         HguQUat5nJAjQvv/2AETSlkePrH+tyx4y9Qh2tvutG6DGXamnP8H66zvw1jypyW1Hayd
+         Vkb4BloToFGfgZ/XJkMonthMvk8xHaEwC1/+7JZ7x1uWDU5lqoSDuuz5SsDOiaYOrhRN
+         GaTUR2Av4aT0Q4Y7FFr3iGQMK9yPJWgN4tuiqWs64wl4qanC2vLdnzonLLydHk4TUYgG
+         HwLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=9ZyeiuZYbF2iegWp6Lm+nuIFQVDtOrVZbsuYGc9xqmk=;
+        b=sxj9rCn3ZkG7bRT9WL/oTWMc8oGgA1D1dayGzLfxuuYW/hnt1Af4UnhV7N86On4A+M
+         5IKLuYaGoGWTHV7cndJ+x6FIbt/gln/B0cyhQcZBuY1OR8IiqysZQH2x7j4sfnPfYJ3q
+         pP0Vj6kDb8k9LRmSbPrIqNTohdzKCWsypZIzmEo4Jk+H/NHuKO+eS/EE0mVufaz2Kyr7
+         6Y6sQ2wacB6KpuTZFIBsU/K2AavMR864lnFsMlMowCK/CRge5/dhWrcv6ihwEQ1kL/LX
+         BXbxQnjqFBIIhUpEgvmeq1wCkeMO8bnk9juJin/sfY06yI/RKMA7d26djlcnbeaBcqOc
+         5fBw==
+X-Gm-Message-State: AGi0Pub0FLLxhi6sCv7+7L5IjpFfgGVsbG2rAKYYzb5A70u4Wk2usBff
+        IXNH1/HsZAZFjYDnBfdRIhWTFnFTfNgLlAPDgVk=
+X-Google-Smtp-Source: APiQypLBFLORYHQOe8RTRhjm0ICZkmMUJz9Xd9x9azvWRnQxE7usybyqWHWczVPet3ydX1LvGSwZurB2U2ejnHl7T20=
+X-Received: by 2002:a05:6808:3d5:: with SMTP id o21mr25962237oie.40.1589316696167;
+ Tue, 12 May 2020 13:51:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <14063C7AD467DE4B82DEDB5C278E8663010E210FAC@FMSMSX108.amr.corp.intel.com>
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SfyyUcRzu+773vveSs9fRfCax3cqWLUVt3k2MVdvbVqv80aaNOnmHdYfu
-        TaoxJpOOykjpRpRWuejH3XGclu6K82NJkemHJP4hxjiWH5HzUv57nufzfPY8n+1D4dJpwoOK
-        TzjHqRLkChnpKKptnu3YEUA1RO1qMQUw1zpaMeZF8TOC6Z4eJ5nKJ00Y8+FOn4gpbwxibN0D
-        GKMb7CGYLlMJyeQ9ryGYh7oFjOk0+jI3x2bFjHliiAh1ZqvuViG24uUwxuq0V0nWOPODYPtz
-        rRirf5DOfl0cxNnC3keIbficQbKDc8Mke92gReyUzottm54SH5WccNwbwyniz3OqnSGnHONs
-        83lYUrbnheq+ESwD9burkQMF9B54YnlLqJEjJaUfIzCPvhELxIbgxuRTkUCmEEzO3EZrK9nW
-        biQMHiH4dGUeE8g4glaDHre7XOljMJKlwe0DN7oZg/HK+pUUnK7CYWEhR2x3kbQ/qMfUpB1L
-        6BBo1WZidiyit8FMftZK3iY6Etor9EjwuEDrnaHlUhTlQB+HUutWu4zT3mAcK8EF7A5fhspW
-        GgF9j4Lq0pbV3vvhVV0lLmBXGLEaxAL2hKX6tYXLCAY6qsUCyUPQlVm8uh0E3zrmSHsyTm+H
-        Z6adghwGXbYiZJeBdobeMRehhDMU1N7GBVkCOdlSwe0DGuvTf7Hmzo94PpJp1l2mWXeOZt05
-        mv+55UikRe5cMq+M5fiABC7Fj5cr+eSEWL/TiUodWn7G9kWrrQ6ZFqItiKaQzEmyIc0UJSXk
-        5/mLSgsCCpe5SbLi66Okkhj5xUucKvGkKlnB8Ra0mRLJ3CW77w9HSulY+TnuDMclcaq1KUY5
-        eGSgjepRW2TBUE9RRFqToiLcwdu7SrNvafBgdPCFI301KRNMRHpgoVvw218DE8bG6iUy8efI
-        w67MTB8o2NSGDvncsp5Ujr82O2FlltCfWmNKcUiua07YaPiB1KQ5Zb8uderPluzD/LvK3zFG
-        17NcbmnScAthVrw/Thi8sgK/6zkvmYiPk/v74ipe/hdBiun/iAMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpnleLIzCtJLcpLzFFi42I5/e/4PV0jjt1xBrtmcFv0njvJZLFxxnpW
-        iytf37NZrFx9lMni4sy7LBYL9ltbfLnykMli0+NrrBaXd81hs+jZsJXVYtmmP0wWF7ZrWUx5
-        +5Pd4uCHJ6wOfB5r5q1h9Fi85yWTx6ZVnWwe2789YPW4332cyWPzknqP2/8eM3tMvrGc0WP3
-        zQY2j8e/XrJ59G1ZxejxeZOcx6mvn9kDeKP0bIryS0tSFTLyi0tslaINLYz0DC0t9IxMLPUM
-        jc1jrYxMlfTtbFJSczLLUov07RL0Mr787mEqaJOpWHv3FVMD433xLkZODgkBE4m241cYuxi5
-        OIQEljJK3NyzmBkiISNxcloDK4QtLPHnWhcbRNFbRomvDZvBioQFAiVetcxiBkmICBxjktjR
-        9owJxGEWWMcs8b3xOTtEC1DmxfufjCAtbAKGEl1vQWZxcvAK2EmcXNXEBGKzCKhKfJvQAlYj
-        KhArsfpaKyNEjaDEyZlPWLoYOTg4BcIk5h5XAQkzC5hJzNv8kBnClpfY/nYOlC0ucevJfKYJ
-        jEKzkHTPQtIyC0nLLCQtCxhZVjGKpJYW56bnFhvpFSfmFpfmpesl5+duYgQmgm3Hfm7Zwdj1
-        LvgQowAHoxIPb0T9rjgh1sSy4srcQ4wSHMxKIrwtmTvjhHhTEiurUovy44tKc1KLDzGaAv02
-        kVlKNDkfmKTySuINTQ3NLSwNzY3Njc0slMR5OwQOxggJpCeWpGanphakFsH0MXFwSjUwNm3l
-        /NjmYWpvPWe3RtE5l5/PXaMSlHe8Phi5QIVHqIbh8jrPgDxGLr6C913Plnx3yQl9VauyYyHj
-        D+bN7+Zt4F0qO1H1z4pGNb22+tTbRpzzV06dp7Zg+96NE668PJztt8Vc6/qyzusMWU97LRbc
-        vf1BI87IPinqQOMTUfld7lxpaddntH+bocRSnJFoqMVcVJwIAH0Po9kaAwAA
-X-CMS-MailID: 20200512203354eucas1p1ec0713551239b5437374232a3558db8e
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200512090130eucas1p2eb86c5d34be56bbc81032bc0b6927d1e
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200512090130eucas1p2eb86c5d34be56bbc81032bc0b6927d1e
-References: <20200512085710.14688-1-m.szyprowski@samsung.com>
-        <20200512090058.14910-1-m.szyprowski@samsung.com>
-        <CGME20200512090130eucas1p2eb86c5d34be56bbc81032bc0b6927d1e@eucas1p2.samsung.com>
-        <20200512090058.14910-38-m.szyprowski@samsung.com>
-        <14063C7AD467DE4B82DEDB5C278E8663010E210FAC@FMSMSX108.amr.corp.intel.com>
+References: <20200511012549.1145814-1-rosenp@gmail.com> <20200511012549.1145814-3-rosenp@gmail.com>
+ <5dc51949-8fa3-42ab-13da-2ef2317244ba@xs4all.nl>
+In-Reply-To: <5dc51949-8fa3-42ab-13da-2ef2317244ba@xs4all.nl>
+From:   Rosen Penev <rosenp@gmail.com>
+Date:   Tue, 12 May 2020 13:51:25 -0700
+Message-ID: <CAKxU2N9oAZ58sPKs5yh5xbHgrBwG3Nw-O9_1g4hcLd=fXvrbpg@mail.gmail.com>
+Subject: Re: [PATCH 3/3] utils: switch C to C++ headers
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
-
-On 12.05.2020 19:52, Ruhl, Michael J wrote:
->> -----Original Message-----
->> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->> Marek Szyprowski
->> Sent: Tuesday, May 12, 2020 5:01 AM
->> To: dri-devel@lists.freedesktop.org; iommu@lists.linux-foundation.org;
->> linaro-mm-sig@lists.linaro.org; linux-kernel@vger.kernel.org
->> Cc: Pawel Osciak <pawel@osciak.com>; Bartlomiej Zolnierkiewicz
->> <b.zolnierkie@samsung.com>; David Airlie <airlied@linux.ie>; linux-
->> media@vger.kernel.org; Hans Verkuil <hverkuil-cisco@xs4all.nl>; Mauro
->> Carvalho Chehab <mchehab@kernel.org>; Robin Murphy
->> <robin.murphy@arm.com>; Christoph Hellwig <hch@lst.de>; linux-arm-
->> kernel@lists.infradead.org; Marek Szyprowski
->> <m.szyprowski@samsung.com>
->> Subject: [PATCH v4 38/38] videobuf2: use sgtable-based scatterlist wrappers
->>
->> Use recently introduced common wrappers operating directly on the struct
->> sg_table objects and scatterlist page iterators to make the code a bit
->> more compact, robust, easier to follow and copy/paste safe.
->>
->> No functional change, because the code already properly did all the
->> scaterlist related calls.
->>
->> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
->> ---
->> For more information, see '[PATCH v4 00/38] DRM: fix struct sg_table nents
->> vs. orig_nents misuse' thread:
->> https://lore.kernel.org/dri-devel/20200512085710.14688-1-
->> m.szyprowski@samsung.com/T/
->> ---
->> .../media/common/videobuf2/videobuf2-dma-contig.c  | 41 ++++++++++----
->> --------
->> drivers/media/common/videobuf2/videobuf2-dma-sg.c  | 32 +++++++--------
->> --
->> drivers/media/common/videobuf2/videobuf2-vmalloc.c | 12 +++----
->> 3 files changed, 34 insertions(+), 51 deletions(-)
->>
->> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> index d3a3ee5..bf31a9d 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> @@ -48,16 +48,15 @@ struct vb2_dc_buf {
->>
->> static unsigned long vb2_dc_get_contiguous_size(struct sg_table *sgt)
->> {
->> -	struct scatterlist *s;
->> 	dma_addr_t expected = sg_dma_address(sgt->sgl);
->> -	unsigned int i;
->> +	struct sg_dma_page_iter dma_iter;
->> 	unsigned long size = 0;
->>
->> -	for_each_sg(sgt->sgl, s, sgt->nents, i) {
->> -		if (sg_dma_address(s) != expected)
->> +	for_each_sgtable_dma_page(sgt, &dma_iter, 0) {
->> +		if (sg_page_iter_dma_address(&dma_iter) != expected)
->> 			break;
->> -		expected = sg_dma_address(s) + sg_dma_len(s);
->> -		size += sg_dma_len(s);
->> +		expected += PAGE_SIZE;
->> +		size += PAGE_SIZE;
-> This code in drm_prime_t_contiguous_size and here.  I seem to remember seeing
-> the same pattern in other drivers.
+On Mon, May 11, 2020 at 12:21 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
 >
-> Would it worthwhile to make this a helper as well?
-I think I've identified such patterns in all DRM drivers and replaced 
-with a common helper. So far I have no idea where to put such helper to 
-make it available for media/videobuf2, so those a few lines are indeed 
-duplicated here.
-> Also, isn't the sg_dma_len() the actual length of the chunk we are looking at?
+> On 11/05/2020 03:25, Rosen Penev wrote:
+> > Recently, I changed exit() to the std variant, which caused build
+> > failures on older platforms. Switch all headers to the C++ variants
+> > to avoid this.
+> >
+> > These C headers are deprecated by C++14.
 >
-> If its I not PAGE_SIZE (ie. dma chunk is 4 * PAGE_SIZE?), does your loop/calculation still work?
+> What build failure? Can you show what the error is? And which older
+> platforms?
+I actually cannot build this anymore. I'm getting some weird syscall errors=
+:
 
-scaterlist page iterators (for_each_sg_page/for_each_sg_dma_page and 
-their sgtable variants) always operates on PAGE_SIZE units. They 
-correctly handle larger sg_dma_len().
+../lib/libv4l2/../libv4lconvert/libv4lsyscall-priv.h:116:10: error:
+=E2=80=98SYS_mmap2=E2=80=99 undeclared (first use in this function)
+  116 |  syscall(SYS_mmap2, (void *)(addr), (size_t)(len), \
+      |          ^~~~~~~~~
+../lib/libv4l2/libv4l2.c:112:44: note: in expansion of macro =E2=80=98SYS_M=
+MAP=E2=80=99
+  112 |  devices[index].convert_mmap_buf =3D (void *)SYS_MMAP(NULL,
+      |                                            ^~~~~~~~
+../lib/libv4l2/../libv4lconvert/libv4lsyscall-priv.h:116:10: note:
+each undeclared identifier is reported only once for each function it
+appears in
+  116 |  syscall(SYS_mmap2, (void *)(addr), (size_t)(len), \
+      |          ^~~~~~~~~
+../lib/libv4l2/libv4l2.c:112:44: note: in expansion of macro =E2=80=98SYS_M=
+MAP=E2=80=99
+  112 |  devices[index].convert_mmap_buf =3D (void *)SYS_MMAP(NULL,
+      |                                            ^~~~~~~~
+../lib/libv4l2/../libv4lconvert/libv4lsyscall-priv.h:117:59: error:
+=E2=80=98MMAP2_PAGE_SHIFT=E2=80=99 undeclared (first use in this function);=
+ did you
+mean =E2=80=98MAP_HUGE_SHIFT=E2=80=99?
+  117 |    (int)(prot), (int)(flags), (int)(fd), (off_t)((off) >>
+MMAP2_PAGE_SHIFT))
+      |
+^~~~~~~~~~~~~~~~
+../lib/libv4l2/libv4l2.c:112:44: note: in expansion of macro =E2=80=98SYS_M=
+MAP=E2=80=99
+  112 |  devices[index].convert_mmap_buf =3D (void *)SYS_MMAP(NULL,
+      |                                            ^~~~~~~~
+../lib/libv4l2/libv4l2.c: In function =E2=80=98v4l2_map_buffers=E2=80=99:
+../lib/libv4l2/../libv4lconvert/libv4lsyscall-priv.h:116:10: error:
+=E2=80=98SYS_mmap2=E2=80=99 undeclared (first use in this function)
+  116 |  syscall(SYS_mmap2, (void *)(addr), (size_t)(len), \
 
-
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
-
+Some other patch broke this I guess. This is on Fedora 32.
+>
+> I'd really like to know what the precise problem is that this patch
+> fixes.
+>
+> I'll merge patches 1 and 2, but not this one. I need a better and more
+> detailed commit log message.
+>
+> Regards,
+>
+>         Hans
+>
+>
+> >
+> > Signed-off-by: Rosen Penev <rosenp@gmail.com>
+> > ---
+> >  utils/cec-compliance/cec-compliance.cpp          | 10 +++++-----
+> >  utils/cec-compliance/cec-test-adapter.cpp        | 10 +++++-----
+> >  utils/cec-compliance/cec-test-audio.cpp          | 10 +++++-----
+> >  utils/cec-compliance/cec-test-fuzzing.cpp        | 10 +++++-----
+> >  utils/cec-compliance/cec-test-power.cpp          | 10 +++++-----
+> >  utils/cec-compliance/cec-test.cpp                |  8 ++++----
+> >  utils/cec-ctl/cec-ctl.cpp                        | 10 +++++-----
+> >  utils/cec-ctl/cec-pin.cpp                        | 12 ++++++------
+> >  utils/cec-follower/cec-follower.cpp              |  8 ++++----
+> >  utils/cec-follower/cec-processing.cpp            | 10 +++++-----
+> >  utils/cec-follower/cec-tuner.cpp                 |  2 +-
+> >  utils/common/media-info.cpp                      | 10 +++++-----
+> >  utils/common/v4l2-info.cpp                       | 10 +++++-----
+> >  utils/libcecutil/cec-info.cpp                    |  2 +-
+> >  utils/libcecutil/cec-log.cpp                     |  8 ++++----
+> >  utils/libcecutil/cec-parse.cpp                   | 10 +++++-----
+> >  utils/rds-ctl/rds-ctl.cpp                        | 14 +++++++-------
+> >  utils/v4l2-compliance/v4l2-compliance.cpp        | 12 ++++++------
+> >  utils/v4l2-compliance/v4l2-test-buffers.cpp      | 10 +++++-----
+> >  utils/v4l2-compliance/v4l2-test-codecs.cpp       | 12 ++++++------
+> >  utils/v4l2-compliance/v4l2-test-colors.cpp       | 12 ++++++------
+> >  utils/v4l2-compliance/v4l2-test-controls.cpp     | 10 +++++-----
+> >  utils/v4l2-compliance/v4l2-test-debug.cpp        | 12 ++++++------
+> >  utils/v4l2-compliance/v4l2-test-formats.cpp      | 12 ++++++------
+> >  utils/v4l2-compliance/v4l2-test-input-output.cpp | 10 +++++-----
+> >  utils/v4l2-compliance/v4l2-test-io-config.cpp    | 10 +++++-----
+> >  utils/v4l2-compliance/v4l2-test-media.cpp        | 12 ++++++------
+> >  utils/v4l2-compliance/v4l2-test-subdevs.cpp      | 12 ++++++------
+> >  utils/v4l2-ctl/v4l2-ctl-common.cpp               | 10 +++++-----
+> >  utils/v4l2-ctl/v4l2-ctl-edid.cpp                 |  8 ++++----
+> >  utils/v4l2-ctl/v4l2-ctl-io.cpp                   | 12 ++++++------
+> >  utils/v4l2-ctl/v4l2-ctl-meta.cpp                 | 12 ++++++------
+> >  utils/v4l2-ctl/v4l2-ctl-misc.cpp                 | 12 ++++++------
+> >  utils/v4l2-ctl/v4l2-ctl-modes.cpp                |  4 ++--
+> >  utils/v4l2-ctl/v4l2-ctl-overlay.cpp              | 12 ++++++------
+> >  utils/v4l2-ctl/v4l2-ctl-sdr.cpp                  | 12 ++++++------
+> >  utils/v4l2-ctl/v4l2-ctl-selection.cpp            | 12 ++++++------
+> >  utils/v4l2-ctl/v4l2-ctl-stds.cpp                 | 12 ++++++------
+> >  utils/v4l2-ctl/v4l2-ctl-streaming.cpp            | 10 +++++-----
+> >  utils/v4l2-ctl/v4l2-ctl-subdev.cpp               | 12 ++++++------
+> >  utils/v4l2-ctl/v4l2-ctl-tuner.cpp                | 10 +++++-----
+> >  utils/v4l2-ctl/v4l2-ctl-vbi.cpp                  | 10 +++++-----
+> >  utils/v4l2-ctl/v4l2-ctl-vidcap.cpp               | 12 ++++++------
+> >  utils/v4l2-ctl/v4l2-ctl-vidout.cpp               | 12 ++++++------
+> >  utils/v4l2-ctl/v4l2-ctl.cpp                      | 12 ++++++------
+> >  utils/v4l2-dbg/v4l2-dbg.cpp                      | 10 +++++-----
+> >  46 files changed, 236 insertions(+), 236 deletions(-)
+> >
+> > diff --git a/utils/cec-compliance/cec-compliance.cpp b/utils/cec-compli=
+ance/cec-compliance.cpp
+> > index d0580579..60298846 100644
+> > --- a/utils/cec-compliance/cec-compliance.cpp
+> > +++ b/utils/cec-compliance/cec-compliance.cpp
+> > @@ -4,17 +4,17 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <sys/time.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/wait.h>
+> >  #include <sstream>
+> > diff --git a/utils/cec-compliance/cec-test-adapter.cpp b/utils/cec-comp=
+liance/cec-test-adapter.cpp
+> > index df7374df..b7a8159d 100644
+> > --- a/utils/cec-compliance/cec-test-adapter.cpp
+> > +++ b/utils/cec-compliance/cec-test-adapter.cpp
+> > @@ -4,16 +4,16 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/wait.h>
+> >  #include <sstream>
+> > diff --git a/utils/cec-compliance/cec-test-audio.cpp b/utils/cec-compli=
+ance/cec-test-audio.cpp
+> > index d422a7da..edf528c9 100644
+> > --- a/utils/cec-compliance/cec-test-audio.cpp
+> > +++ b/utils/cec-compliance/cec-test-audio.cpp
+> > @@ -4,15 +4,15 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <config.h>
+> >
+> > diff --git a/utils/cec-compliance/cec-test-fuzzing.cpp b/utils/cec-comp=
+liance/cec-test-fuzzing.cpp
+> > index ce0bf12d..708a8ec3 100644
+> > --- a/utils/cec-compliance/cec-test-fuzzing.cpp
+> > +++ b/utils/cec-compliance/cec-test-fuzzing.cpp
+> > @@ -4,15 +4,15 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <config.h>
+> >  #include <sstream>
+> > diff --git a/utils/cec-compliance/cec-test-power.cpp b/utils/cec-compli=
+ance/cec-test-power.cpp
+> > index 2758c36d..e35264aa 100644
+> > --- a/utils/cec-compliance/cec-test-power.cpp
+> > +++ b/utils/cec-compliance/cec-test-power.cpp
+> > @@ -4,15 +4,15 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <config.h>
+> >
+> > diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/c=
+ec-test.cpp
+> > index a84f83d3..1a05c5ae 100644
+> > --- a/utils/cec-compliance/cec-test.cpp
+> > +++ b/utils/cec-compliance/cec-test.cpp
+> > @@ -6,14 +6,14 @@
+> >  #include <cstring>
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <config.h>
+> >  #include <sstream>
+> > diff --git a/utils/cec-ctl/cec-ctl.cpp b/utils/cec-ctl/cec-ctl.cpp
+> > index 899b83b1..3c6c6f98 100644
+> > --- a/utils/cec-ctl/cec-ctl.cpp
+> > +++ b/utils/cec-ctl/cec-ctl.cpp
+> > @@ -6,8 +6,8 @@
+> >  #include <cstring>
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> > @@ -15,10 +15,10 @@
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> > -#include <stdarg.h>
+> > +#include <cstdarg>
+> >  #include <ctime>
+> >  #include <cerrno>
+> >  #include <string>
+> > diff --git a/utils/cec-ctl/cec-pin.cpp b/utils/cec-ctl/cec-pin.cpp
+> > index c09d6bbd..3ff4734f 100644
+> > --- a/utils/cec-ctl/cec-pin.cpp
+> > +++ b/utils/cec-ctl/cec-pin.cpp
+> > @@ -4,19 +4,19 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <sys/time.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> > -#include <stdarg.h>
+> > +#include <cstdarg>
+> >  #include <cerrno>
+> >  #include <string>
+> >  #include <vector>
+> > diff --git a/utils/cec-follower/cec-follower.cpp b/utils/cec-follower/c=
+ec-follower.cpp
+> > index 589426ec..c6e0a1d1 100644
+> > --- a/utils/cec-follower/cec-follower.cpp
+> > +++ b/utils/cec-follower/cec-follower.cpp
+> > @@ -6,15 +6,15 @@
+> >  #include <cstring>
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/wait.h>
+> >  #include <sstream>
+> > diff --git a/utils/cec-follower/cec-processing.cpp b/utils/cec-follower=
+/cec-processing.cpp
+> > index bc8c9c09..e2c5c8e2 100644
+> > --- a/utils/cec-follower/cec-processing.cpp
+> > +++ b/utils/cec-follower/cec-processing.cpp
+> > @@ -4,16 +4,16 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <sys/time.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <config.h>
+> >
+> > diff --git a/utils/cec-follower/cec-tuner.cpp b/utils/cec-follower/cec-=
+tuner.cpp
+> > index 4aecebce..7ac0decb 100644
+> > --- a/utils/cec-follower/cec-tuner.cpp
+> > +++ b/utils/cec-follower/cec-tuner.cpp
+> > @@ -4,7 +4,7 @@
+> >   */
+> >
+> >  #include <sys/ioctl.h>
+> > -#include <stdlib.h>
+> > +#include <cstdlib>
+> >
+> >  #include "cec-follower.h"
+> >  #include "compiler.h"
+> > diff --git a/utils/common/media-info.cpp b/utils/common/media-info.cpp
+> > index 8aa12f34..d37c5acb 100644
+> > --- a/utils/common/media-info.cpp
+> > +++ b/utils/common/media-info.cpp
+> > @@ -4,15 +4,15 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <sys/sysmacros.h>
+> > diff --git a/utils/common/v4l2-info.cpp b/utils/common/v4l2-info.cpp
+> > index 0aac8504..28116fd3 100644
+> > --- a/utils/common/v4l2-info.cpp
+> > +++ b/utils/common/v4l2-info.cpp
+> > @@ -4,15 +4,15 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <sys/sysmacros.h>
+> > diff --git a/utils/libcecutil/cec-info.cpp b/utils/libcecutil/cec-info.=
+cpp
+> > index f6e60918..ed244437 100644
+> > --- a/utils/libcecutil/cec-info.cpp
+> > +++ b/utils/libcecutil/cec-info.cpp
+> > @@ -5,7 +5,7 @@
+> >   * Copyright 2017 Cisco Systems, Inc. and/or its affiliates. All right=
+s reserved.
+> >   */
+> >
+> > -#include <stdio.h>
+> > +#include <cstdio>
+> >  #include <string>
+> >  #include <unistd.h>
+> >  #include <fcntl.h>
+> > diff --git a/utils/libcecutil/cec-log.cpp b/utils/libcecutil/cec-log.cp=
+p
+> > index 0dcb4675..40028630 100644
+> > --- a/utils/libcecutil/cec-log.cpp
+> > +++ b/utils/libcecutil/cec-log.cpp
+> > @@ -4,11 +4,11 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> > -#include <stdarg.h>
+> > +#include <cstdarg>
+> >  #include <string>
+> >  #include <linux/cec-funcs.h>
+> >  #include "cec-htng-funcs.h"
+> > diff --git a/utils/libcecutil/cec-parse.cpp b/utils/libcecutil/cec-pars=
+e.cpp
+> > index 8c869fec..024b6285 100644
+> > --- a/utils/libcecutil/cec-parse.cpp
+> > +++ b/utils/libcecutil/cec-parse.cpp
+> > @@ -4,8 +4,8 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> > @@ -13,10 +13,10 @@
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> > -#include <stdarg.h>
+> > +#include <cstdarg>
+> >  #include <cstring>
+> >  #include <ctime>
+> >  #include <cerrno>
+> > diff --git a/utils/rds-ctl/rds-ctl.cpp b/utils/rds-ctl/rds-ctl.cpp
+> > index 73fc7e3c..fbc4d310 100644
+> > --- a/utils/rds-ctl/rds-ctl.cpp
+> > +++ b/utils/rds-ctl/rds-ctl.cpp
+> > @@ -8,21 +8,21 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > -#include <wchar.h>
+> > -#include <locale.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> > +#include <cwchar>
+> > +#include <clocale>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <fcntl.h>
+> > -#include <errno.h>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> >  #include <config.h>
+> > -#include <signal.h>
+> > +#include <csignal>
+> >
+> >  #include <linux/videodev2.h>
+> >  #include <libv4l2rds.h>
+> > diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-com=
+pliance/v4l2-compliance.cpp
+> > index 549e37f7..49606975 100644
+> > --- a/utils/v4l2-compliance/v4l2-compliance.cpp
+> > +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+> > @@ -21,22 +21,22 @@
+> >  #include <cstring>
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <sys/sysmacros.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >  #include <sys/utsname.h>
+> > -#include <signal.h>
+> > +#include <csignal>
+> >  #include <vector>
+> >
+> >  #include "v4l2-compliance.h"
+> > diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-c=
+ompliance/v4l2-test-buffers.cpp
+> > index fc49fff6..e2df126d 100644
+> > --- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> > +++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> > @@ -19,9 +19,9 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> > @@ -29,8 +29,8 @@
+> >  #include <sys/wait.h>
+> >  #include <sys/epoll.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <poll.h>
+> >  #include <sys/ioctl.h>
+> >  #include <netinet/in.h>
+> > diff --git a/utils/v4l2-compliance/v4l2-test-codecs.cpp b/utils/v4l2-co=
+mpliance/v4l2-test-codecs.cpp
+> > index 3fd44c8b..377574ec 100644
+> > --- a/utils/v4l2-compliance/v4l2-test-codecs.cpp
+> > +++ b/utils/v4l2-compliance/v4l2-test-codecs.cpp
+> > @@ -19,17 +19,17 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> > -#include <assert.h>
+> > +#include <cassert>
+> >  #include "v4l2-compliance.h"
+> >
+> >  int testEncoder(struct node *node)
+> > diff --git a/utils/v4l2-compliance/v4l2-test-colors.cpp b/utils/v4l2-co=
+mpliance/v4l2-test-colors.cpp
+> > index 09d29a3e..6996877d 100644
+> > --- a/utils/v4l2-compliance/v4l2-test-colors.cpp
+> > +++ b/utils/v4l2-compliance/v4l2-test-colors.cpp
+> > @@ -15,19 +15,19 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >
+> >  #include "compiler.h"
+> >  #include "v4l2-compliance.h"
+> > diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-=
+compliance/v4l2-test-controls.cpp
+> > index d81dddb2..c3c27119 100644
+> > --- a/utils/v4l2-compliance/v4l2-test-controls.cpp
+> > +++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
+> > @@ -19,15 +19,15 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <vector>
+> >
+> > diff --git a/utils/v4l2-compliance/v4l2-test-debug.cpp b/utils/v4l2-com=
+pliance/v4l2-test-debug.cpp
+> > index 3f43e661..206b4b82 100644
+> > --- a/utils/v4l2-compliance/v4l2-test-debug.cpp
+> > +++ b/utils/v4l2-compliance/v4l2-test-debug.cpp
+> > @@ -19,19 +19,19 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >  #include "v4l2-compliance.h"
+> >
+> >  int testRegister(struct node *node)
+> > diff --git a/utils/v4l2-compliance/v4l2-test-formats.cpp b/utils/v4l2-c=
+ompliance/v4l2-test-formats.cpp
+> > index e1b00f3c..7780442e 100644
+> > --- a/utils/v4l2-compliance/v4l2-test-formats.cpp
+> > +++ b/utils/v4l2-compliance/v4l2-test-formats.cpp
+> > @@ -19,17 +19,17 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> > -#include <assert.h>
+> > +#include <cassert>
+> >
+> >  #include "compiler.h"
+> >  #include "v4l2-compliance.h"
+> > diff --git a/utils/v4l2-compliance/v4l2-test-input-output.cpp b/utils/v=
+4l2-compliance/v4l2-test-input-output.cpp
+> > index 80ecf75d..a7fe81d8 100644
+> > --- a/utils/v4l2-compliance/v4l2-test-input-output.cpp
+> > +++ b/utils/v4l2-compliance/v4l2-test-input-output.cpp
+> > @@ -19,15 +19,15 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include "v4l2-compliance.h"
+> >
+> > diff --git a/utils/v4l2-compliance/v4l2-test-io-config.cpp b/utils/v4l2=
+-compliance/v4l2-test-io-config.cpp
+> > index 9ade11e8..be885cb3 100644
+> > --- a/utils/v4l2-compliance/v4l2-test-io-config.cpp
+> > +++ b/utils/v4l2-compliance/v4l2-test-io-config.cpp
+> > @@ -19,15 +19,15 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include "v4l2-compliance.h"
+> >
+> > diff --git a/utils/v4l2-compliance/v4l2-test-media.cpp b/utils/v4l2-com=
+pliance/v4l2-test-media.cpp
+> > index bcd8a725..94c25932 100644
+> > --- a/utils/v4l2-compliance/v4l2-test-media.cpp
+> > +++ b/utils/v4l2-compliance/v4l2-test-media.cpp
+> > @@ -19,19 +19,19 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <sys/sysmacros.h>
+> >  #include <fcntl.h>
+> >  #include <dirent.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> > -#include <assert.h>
+> > +#include <cassert>
+> >  #include <set>
+> >  #include <fstream>
+> >
+> > diff --git a/utils/v4l2-compliance/v4l2-test-subdevs.cpp b/utils/v4l2-c=
+ompliance/v4l2-test-subdevs.cpp
+> > index 489639fb..54d3c430 100644
+> > --- a/utils/v4l2-compliance/v4l2-test-subdevs.cpp
+> > +++ b/utils/v4l2-compliance/v4l2-test-subdevs.cpp
+> > @@ -19,17 +19,17 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> > -#include <assert.h>
+> > +#include <cassert>
+> >
+> >  #include "v4l2-compliance.h"
+> >
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-c=
+tl-common.cpp
+> > index 0640a521..bf267432 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+> > @@ -1,18 +1,18 @@
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/sysmacros.h>
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >  #include <linux/media.h>
+> >
+> >  #include "v4l2-ctl.h"
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-edid.cpp b/utils/v4l2-ctl/v4l2-ctl=
+-edid.cpp
+> > index b13d8209..d028d248 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-edid.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-edid.cpp
+> > @@ -1,12 +1,12 @@
+> >  #include <cstring>
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> >  #include <inttypes.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >
+> >  #include "v4l2-ctl.h"
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-io.cpp b/utils/v4l2-ctl/v4l2-ctl-i=
+o.cpp
+> > index 9e83c03a..379198b5 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-io.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-io.cpp
+> > @@ -1,18 +1,18 @@
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >
+> >  #include "v4l2-ctl.h"
+> >
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-meta.cpp b/utils/v4l2-ctl/v4l2-ctl=
+-meta.cpp
+> > index 3e71a6eb..718be765 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-meta.cpp
+> > @@ -1,18 +1,18 @@
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >
+> >  #include "v4l2-ctl.h"
+> >
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-misc.cpp b/utils/v4l2-ctl/v4l2-ctl=
+-misc.cpp
+> > index deb481b4..5a89aa7e 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-misc.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-misc.cpp
+> > @@ -1,18 +1,18 @@
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >
+> >  #include "v4l2-ctl.h"
+> >
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-modes.cpp b/utils/v4l2-ctl/v4l2-ct=
+l-modes.cpp
+> > index b311ce5d..e076be6e 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-modes.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-modes.cpp
+> > @@ -6,8 +6,8 @@
+> >   * reserved.
+> >   */
+> >
+> > -#include <stdio.h>
+> > -#include <stdbool.h>
+> > +#include <cstdio>
+> > +
+> >  #include "v4l2-ctl.h"
+> >
+> >  static bool valid_params(int width, int height, int refresh_rate)
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-overlay.cpp b/utils/v4l2-ctl/v4l2-=
+ctl-overlay.cpp
+> > index 16344a15..a16e10db 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-overlay.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-overlay.cpp
+> > @@ -1,18 +1,18 @@
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >
+> >  #include <linux/fb.h>
+> >  #include <vector>
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-sdr.cpp b/utils/v4l2-ctl/v4l2-ctl-=
+sdr.cpp
+> > index 71a65913..67603285 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-sdr.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-sdr.cpp
+> > @@ -1,18 +1,18 @@
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >
+> >  #include "v4l2-ctl.h"
+> >
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-selection.cpp b/utils/v4l2-ctl/v4l=
+2-ctl-selection.cpp
+> > index be62eb03..9f3e0397 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-selection.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-selection.cpp
+> > @@ -1,18 +1,18 @@
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >
+> >  #include "v4l2-ctl.h"
+> >
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-stds.cpp b/utils/v4l2-ctl/v4l2-ctl=
+-stds.cpp
+> > index 8dd06c43..3eb67316 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-stds.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-stds.cpp
+> > @@ -1,18 +1,18 @@
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >
+> >  #include "v4l2-ctl.h"
+> >
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp b/utils/v4l2-ctl/v4l=
+2-ctl-streaming.cpp
+> > index 8578610d..fab8f36b 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-streaming.cpp
+> > @@ -1,8 +1,8 @@
+> >  #include <cstring>
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> > @@ -11,13 +11,13 @@
+> >  #include <netinet/in.h>
+> >  #include <netdb.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <sys/mman.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >  #include <linux/media.h>
+> >
+> >  #include "compiler.h"
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-subdev.cpp b/utils/v4l2-ctl/v4l2-c=
+tl-subdev.cpp
+> > index 9e17a58d..1bf35b1d 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-subdev.cpp
+> > @@ -1,18 +1,18 @@
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >
+> >  #include "v4l2-ctl.h"
+> >
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-tuner.cpp b/utils/v4l2-ctl/v4l2-ct=
+l-tuner.cpp
+> > index 981b8765..54635998 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-tuner.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-tuner.cpp
+> > @@ -1,14 +1,14 @@
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-vbi.cpp b/utils/v4l2-ctl/v4l2-ctl-=
+vbi.cpp
+> > index ee55012f..c09bc3e2 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-vbi.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-vbi.cpp
+> > @@ -1,19 +1,19 @@
+> >  #include <cstring>
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >
+> >  #include "compiler.h"
+> >  #include "v4l2-ctl.h"
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp b/utils/v4l2-ctl/v4l2-c=
+tl-vidcap.cpp
+> > index 6e920c1d..68896248 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
+> > @@ -1,18 +1,18 @@
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >
+> >  #include "v4l2-ctl.h"
+> >
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl-vidout.cpp b/utils/v4l2-ctl/v4l2-c=
+tl-vidout.cpp
+> > index e3cb4bcb..39952eef 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl-vidout.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl-vidout.cpp
+> > @@ -1,18 +1,18 @@
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >
+> >  #include "v4l2-ctl.h"
+> >
+> > diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
+> > index e7b270cd..3d784bc2 100644
+> > --- a/utils/v4l2-ctl/v4l2-ctl.cpp
+> > +++ b/utils/v4l2-ctl/v4l2-ctl.cpp
+> > @@ -21,22 +21,22 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > -#include <string.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> > +#include <cstring>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <sys/epoll.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> >  #include <sys/sysmacros.h>
+> >  #include <dirent.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >
+> >  #include <linux/media.h>
+> >
+> > diff --git a/utils/v4l2-dbg/v4l2-dbg.cpp b/utils/v4l2-dbg/v4l2-dbg.cpp
+> > index 06301ae0..765362f6 100644
+> > --- a/utils/v4l2-dbg/v4l2-dbg.cpp
+> > +++ b/utils/v4l2-dbg/v4l2-dbg.cpp
+> > @@ -17,18 +17,18 @@
+> >   */
+> >
+> >  #include <unistd.h>
+> > -#include <stdlib.h>
+> > -#include <stdio.h>
+> > +#include <cstdlib>
+> > +#include <cstdio>
+> >  #include <inttypes.h>
+> >  #include <getopt.h>
+> >  #include <sys/types.h>
+> >  #include <sys/stat.h>
+> >  #include <fcntl.h>
+> > -#include <ctype.h>
+> > -#include <errno.h>
+> > +#include <cctype>
+> > +#include <cerrno>
+> >  #include <sys/ioctl.h>
+> >  #include <sys/time.h>
+> > -#include <math.h>
+> > +#include <cmath>
+> >
+> >  #ifdef ANDROID
+> >  #include <android-config.h>
+> >
+>
