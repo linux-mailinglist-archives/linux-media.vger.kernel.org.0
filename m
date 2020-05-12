@@ -2,205 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DC1C1CEF81
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 10:52:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C8A8E1CEFD8
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 10:58:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729144AbgELIw1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 04:52:27 -0400
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:33467 "EHLO
-        wout1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728912AbgELIw1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 04:52:27 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailout.west.internal (Postfix) with ESMTP id 29DC068A;
-        Tue, 12 May 2020 04:52:26 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Tue, 12 May 2020 04:52:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm3; bh=E18WmbzeT1bm182Fg9GxvyijgHO
-        er2CSWp3rFmp48hg=; b=NeMHfYNWVOyVndoMO9YsJ5eKDle6RGbpRnk/zPEz9zb
-        5d833rpMCx0QlwU7w1iVY9IgfjNd2fgthZ8ijUyn0GWdFLTAvHuksgYLINiUKYQ7
-        0S3kisgsQ49PdzPfoBGense5OdMlTlqF6cEralGJMdiAT6F5DSm2SR1OaDQIZtKk
-        LOzjCURSVb4JKwUEJE6Nm/sLBRYKyNflW0uN3khznWEEJwMvNN3XwN/XJgjswBX4
-        D8pz0m4aZC9e7II5EQi5kuOJlk+AYu67f+0s7v9YyENWLhRRonUd+EWstOSRnSe0
-        b45ZYZEBKXTcamuEIzcC2BcZ1Sr37j1Ne4HfVuRDWOA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=E18Wmb
-        zeT1bm182Fg9GxvyijgHOer2CSWp3rFmp48hg=; b=Hm/CfgBSbRg47TsYuwngZ1
-        +rRbH2/0X299dGg2Ni3eslDhLSpZtTPCCTPW04qDon/8kcv0e+oIppgnTkfpsWbF
-        vj7G0wXdFJx1DjV694F2M1BvPBo4rhW6hMJX3L17b6dY7vRWSvHFdHzY552lFf0R
-        f3o+Yr+xFsnfGbrYBfEifQPiBfQJIH9BRc4VnO4N6exX2pYbecAFjqwTGZ4f0sY4
-        zt/PfEoTC1ByjrMsKgK+OqY4u1aOxphv2FnfPLhT5rDQm8v66iwgUX6DhyLJkueR
-        NUJmfiz+XysWy4ZHxM0KjH0aG+/7YQlc6n0YfOJWxh68Fj8qoKeWeHwwb7XT6SmA
-        ==
-X-ME-Sender: <xms:yWO6Xm8fv_juZ2UHsPRafhdzxe8Yw_auOQ01u8-AXvtljiN7GA2POQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrledvgddtiecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
-    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepueelledthe
-    ekleethfeludduvdfhffeuvdffudevgeehkeegieffveehgeeftefgnecuffhomhgrihhn
-    pehkvghrnhgvlhdrohhrghenucfkphepkeefrdekiedrkeelrddutdejnecuvehluhhsth
-    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghh
-    rdgtohhm
-X-ME-Proxy: <xmx:yWO6Xms46CO1bFvDuGpCwzr2czQV0qcgLXzvfiqefcpaHuptr1oq0g>
-    <xmx:yWO6XsB_lLB0vca3_jVWAA_6oWnNhYV4pafSRtpl3AVGfP_VPOXREA>
-    <xmx:yWO6XudQ5CPQSxsskMANSJO8C1R-7gDYbD8hGMkdhJqqmixDhc1CzQ>
-    <xmx:yWO6Xm2djpTUmgCtbwznISTOQqzYxpTFH7u1O-0MwXk4rcMG1MLlMg>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 09FF3328005A;
-        Tue, 12 May 2020 04:52:24 -0400 (EDT)
-Date:   Tue, 12 May 2020 10:52:21 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Charan Teja Reddy <charante@codeaurora.org>
-Cc:     sumit.semwal@linaro.org, ghackmann@google.com, fengc@google.com,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-Subject: Re: [PATCH v2] dma-buf: fix use-after-free in dmabuffs_dname
-Message-ID: <20200512085221.GB3557007@kroah.com>
-References: <1588920063-17624-1-git-send-email-charante@codeaurora.org>
+        id S1728912AbgELI6j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 04:58:39 -0400
+Received: from mga01.intel.com ([192.55.52.88]:59966 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726193AbgELI6i (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 May 2020 04:58:38 -0400
+IronPort-SDR: eDQZkVKujyhU6W+KSA0yC492clRUQNeCMlPMzF0Jav7i6tSXeNuXIx6dxdjBpzSYJV7+gEi2kP
+ THg9TgcVsfQg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2020 01:58:38 -0700
+IronPort-SDR: mbALTggVDa0a39QMG47umt49d2JUpyQD+6z3TyGCkjFdzl22VLsup2cGbdp5ICq/recQnaKmNS
+ JN5exQ5tdubw==
+X-IronPort-AV: E=Sophos;i="5.73,383,1583222400"; 
+   d="scan'208";a="286578828"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2020 01:58:34 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 44834205FC; Tue, 12 May 2020 11:58:32 +0300 (EEST)
+Date:   Tue, 12 May 2020 11:58:32 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg 
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-devicetree <devicetree@vger.kernel.org>,
+        Louis Kuo <louis.kuo@mediatek.com>,
+        Shengnan Wang =?utf-8?B?KOeOi+Wco+eUtyk=?= 
+        <shengnan.wang@mediatek.com>
+Subject: Re: [V5, 2/2] media: i2c: dw9768: Add DW9768 VCM driver
+Message-ID: <20200512085832.GI11272@paasikivi.fi.intel.com>
+References: <20200502161727.30463-3-dongchun.zhu@mediatek.com>
+ <20200506151352.GZ9190@paasikivi.fi.intel.com>
+ <1588855524.8804.168.camel@mhfsdcap03>
+ <20200507131220.GC9190@paasikivi.fi.intel.com>
+ <CAAFQd5DO9FGx9OF2RpcSprg0oLiVuS90w2qLAHCOSc3w6tKUWw@mail.gmail.com>
+ <1588907288.8804.188.camel@mhfsdcap03>
+ <20200508211319.GJ9190@paasikivi.fi.intel.com>
+ <1588991026.8804.235.camel@mhfsdcap03>
+ <CAAFQd5DZBEUJUq65WT7i_QjAtgxjhxmfdsjQoyG2UZy8zBih+A@mail.gmail.com>
+ <1589254403.8804.306.camel@mhfsdcap03>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1588920063-17624-1-git-send-email-charante@codeaurora.org>
+In-Reply-To: <1589254403.8804.306.camel@mhfsdcap03>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 08, 2020 at 12:11:03PM +0530, Charan Teja Reddy wrote:
-> The following race occurs while accessing the dmabuf object exported as
-> file:
-> P1				P2
-> dma_buf_release()          dmabuffs_dname()
-> 			   [say lsof reading /proc/<P1 pid>/fd/<num>]
-> 
-> 			   read dmabuf stored in dentry->d_fsdata
-> Free the dmabuf object
-> 			   Start accessing the dmabuf structure
-> 
-> In the above description, the dmabuf object freed in P1 is being
-> accessed from P2 which is resulting into the use-after-free. Below is
-> the dump stack reported.
-> 
-> We are reading the dmabuf object stored in the dentry->d_fsdata but
-> there is no binding between the dentry and the dmabuf which means that
-> the dmabuf can be freed while it is being read from ->d_fsdata and
-> inuse. Reviews on the patch V1 says that protecting the dmabuf inuse
-> with an extra refcount is not a viable solution as the exported dmabuf
-> is already under file's refcount and keeping the multiple refcounts on
-> the same object coordinated is not possible.
-> 
-> As we are reading the dmabuf in ->d_fsdata just to get the user passed
-> name, we can directly store the name in d_fsdata thus can avoid the
-> reading of dmabuf altogether.
-> 
-> Call Trace:
->  kasan_report+0x12/0x20
->  __asan_report_load8_noabort+0x14/0x20
->  dmabuffs_dname+0x4f4/0x560
->  tomoyo_realpath_from_path+0x165/0x660
->  tomoyo_get_realpath
->  tomoyo_check_open_permission+0x2a3/0x3e0
->  tomoyo_file_open
->  tomoyo_file_open+0xa9/0xd0
->  security_file_open+0x71/0x300
->  do_dentry_open+0x37a/0x1380
->  vfs_open+0xa0/0xd0
->  path_openat+0x12ee/0x3490
->  do_filp_open+0x192/0x260
->  do_sys_openat2+0x5eb/0x7e0
->  do_sys_open+0xf2/0x180
-> 
-> Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
-> Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
-> Cc: <stable@vger.kernel.org> [5.3+]
-> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
-> ---
-> 
-> Changes in v2: 
-> 
-> - Pass the user passed name in ->d_fsdata instead of dmabuf
-> - Improve the commit message
-> 
-> Changes in v1: (https://patchwork.kernel.org/patch/11514063/)
-> 
->  drivers/dma-buf/dma-buf.c | 17 ++++++++++-------
->  1 file changed, 10 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 01ce125..0071f7d 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -25,6 +25,7 @@
->  #include <linux/mm.h>
->  #include <linux/mount.h>
->  #include <linux/pseudo_fs.h>
-> +#include <linux/dcache.h>
->  
->  #include <uapi/linux/dma-buf.h>
->  #include <uapi/linux/magic.h>
-> @@ -40,15 +41,13 @@ struct dma_buf_list {
->  
->  static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
->  {
-> -	struct dma_buf *dmabuf;
->  	char name[DMA_BUF_NAME_LEN];
->  	size_t ret = 0;
->  
-> -	dmabuf = dentry->d_fsdata;
-> -	dma_resv_lock(dmabuf->resv, NULL);
-> -	if (dmabuf->name)
-> -		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
-> -	dma_resv_unlock(dmabuf->resv);
-> +	spin_lock(&dentry->d_lock);
+Hi Dongchun,
 
-Are you sure this lock always protects d_fsdata?
+On Tue, May 12, 2020 at 11:33:23AM +0800, Dongchun Zhu wrote:
+> Hi Tomasz,
+> 
+> On Mon, 2020-05-11 at 20:20 +0200, Tomasz Figa wrote:
+> > Hi Dongchun,
+> > 
+> > On Sat, May 9, 2020 at 4:25 AM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
+> > >
+> > > Hi Sakari,
+> > >
+> > > On Sat, 2020-05-09 at 00:13 +0300, Sakari Ailus wrote:
+> > > > Hi Dongchun,
+> > > >
+> > > > On Fri, May 08, 2020 at 11:08:08AM +0800, Dongchun Zhu wrote:
+> > > > > Hi Sakari, Tomasz,
+> > > > >
+> > > > > Thanks for the review.
+> > > > >
+> > > > > On Thu, 2020-05-07 at 15:46 +0200, Tomasz Figa wrote:
+> > > > > > Hi Sakari, Dongchun,
+> > > > > >
+> > > > > > On Thu, May 7, 2020 at 3:12 PM Sakari Ailus
+> > > > > > <sakari.ailus@linux.intel.com> wrote:
+> > > > > > >
+> > > > > > > HI Dongchun,
+> > > > > > >
+> > > > > > > On Thu, May 07, 2020 at 08:45:24PM +0800, Dongchun Zhu wrote:
+> > > > > > > > Hi Sakari,
+> > > > > > > >
+> > > > > > > > Thanks for the review.
+> > > > > > > >
+> > > > > > > > On Wed, 2020-05-06 at 18:13 +0300, Sakari Ailus wrote:
+> > > > > > > > > Hi Dongchun,
+> > > > > > > > >
+> > > > > > > > > On Sun, May 03, 2020 at 12:17:27AM +0800, Dongchun Zhu wrote:
+> > > > > > > > > > Add a V4L2 sub-device driver for DW9768 voice coil motor, providing
+> > > > > > > > > > control to set the desired focus via IIC serial interface.
+> > > > > > > > > >
+> > > > > > > > > > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > > > > > > > > ---
+> > > > > > > > > >  MAINTAINERS                |   1 +
+> > > > > > > > > >  drivers/media/i2c/Kconfig  |  11 ++
+> > > > > > > > > >  drivers/media/i2c/Makefile |   1 +
+> > > > > > > > > >  drivers/media/i2c/dw9768.c | 440 +++++++++++++++++++++++++++++++++++++++++++++
+> > > > > > > > > >  4 files changed, 453 insertions(+)
+> > > > > > > > > >  create mode 100644 drivers/media/i2c/dw9768.c
+> > > > > > > > > >
+> > > > > > > > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > > > > > > > index 8d72c41..c92dc99 100644
+> > > > > > > > > > --- a/MAINTAINERS
+> > > > > > > > > > +++ b/MAINTAINERS
+> > > > > > > > > > @@ -5157,6 +5157,7 @@ L:  linux-media@vger.kernel.org
+> > > > > > > > > >  S:       Maintained
+> > > > > > > > > >  T:       git git://linuxtv.org/media_tree.git
+> > > > > > > > > >  F:       Documentation/devicetree/bindings/media/i2c/dongwoon,dw9768.yaml
+> > > > > > > > > > +F:       drivers/media/i2c/dw9768.c
+> > > > > > > > > >
+> > > > > > > > > >  DONGWOON DW9807 LENS VOICE COIL DRIVER
+> > > > > > > > > >  M:       Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > > > > > > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > > > > > > > > > index 125d596..6a3f9da 100644
+> > > > > > > > > > --- a/drivers/media/i2c/Kconfig
+> > > > > > > > > > +++ b/drivers/media/i2c/Kconfig
+> > > > > > > > > > @@ -1040,6 +1040,17 @@ config VIDEO_DW9714
+> > > > > > > > > >     capability. This is designed for linear control of
+> > > > > > > > > >     voice coil motors, controlled via I2C serial interface.
+> > > > > > > > > >
+> > > > > > > > > > +config VIDEO_DW9768
+> > > > > > > > > > + tristate "DW9768 lens voice coil support"
+> > > > > > > > > > + depends on I2C && VIDEO_V4L2 && MEDIA_CONTROLLER
+> > > > > > > > > > + depends on VIDEO_V4L2_SUBDEV_API
+> > > > > > > > >
+> > > > > > > > > Please check how this works in the media tree master branch now --- it's
+> > > > > > > > > largely select based.
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > The actuator driver uses some structures that require the
+> > > > > > > > VIDEO_V4L2_SUBDEV_API code, so here we add VIDEO_V4L2_SUBDEV_API
+> > > > > > > > dependency to avoid possible build error when it's not enabled.
+> > > > > > >
+> > > > > > > Please make sure this works with current media tree master. Right now it
+> > > > > > > does not.
+> > > > > > >
+> > > > > >
+> > > > > > Dongchun, as Sakari said, please make sure to base the patches on the
+> > > > > > master branch of the media tree.
+> > > > > > (https://git.linuxtv.org/media_tree.git/). The approach for Kconfig
+> > > > > > dependency selection there seems to have changed recently.
+> > > > > >
+> > > > >
+> > > > > I searched the patches on the media tree master branch.
+> > > > > It seems that we need to remove the VIDEO_V4L2_SUBDEV_API dependency in
+> > > > > Kconfig, and add #ifdef CONFIG_VIDEO_V4L2_SUBDEV_API to include
+> > > > > v4l2-subdev code.
+> > > > > The change mainly is to make build pass, and don't return ENOTTY if
+> > > > > SUBDEV_API is not set.
+> > > > > Am I right?
+> > > >
+> > > > Please see Kconfig entries for other similar drivers from Dongwoon.
+> > > >
+> > >
+> > > Sorry for the mistake :-)
+> > > Just found the current media tree master branch code...
+> > > I would update Kconfig entries in next release by referring to:
+> > > https://git.linuxtv.org/media_tree.git/tree/drivers/media/i2c/Kconfig
+> > 
+> > Sorry for last minute comments again. We had a short discussion
+> > offline with Sakari and we think there are some changes needed to this
+> > driver, namely:
+> > 
+> > 1) The hardware being driven in our case is a gt9769, which could be
+> > compatible with dw9768, but it's still a different implementation and
+> > could have slightly different characteristics. Thus we think the
+> > driver name and compatible strings should be renamed from
+> > dongwoon,dw9768 to giantec,gt9769. In the future, if there is a device
 
-> +	if (dentry->d_fsdata)
-> +		ret = strlcpy(name, dentry->d_fsdata, DMA_BUF_NAME_LEN);
-> +	spin_unlock(&dentry->d_lock);
->  
->  	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
->  			     dentry->d_name.name, ret > 0 ? name : "");
+Sorry, I actually meant just the compatible string --- Dongwoon is likely
+the original manufacturer. Therefore I'd name the driver according to that,
+and just add a second compatible string for the Giantec device.
 
-If the above check fails the name will be what?  How could d_name.name
-be valid but d_fsdata not be valid?
+Either works for me though.
 
+-- 
+Regards,
 
-> @@ -80,12 +79,16 @@ static int dma_buf_fs_init_context(struct fs_context *fc)
->  static int dma_buf_release(struct inode *inode, struct file *file)
->  {
->  	struct dma_buf *dmabuf;
-> +	struct dentry *dentry = file->f_path.dentry;
->  
->  	if (!is_dma_buf_file(file))
->  		return -EINVAL;
->  
->  	dmabuf = file->private_data;
->  
-> +	spin_lock(&dentry->d_lock);
-> +	dentry->d_fsdata = NULL;
-> +	spin_unlock(&dentry->d_lock);
->  	BUG_ON(dmabuf->vmapping_counter);
->  
->  	/*
-> @@ -343,6 +346,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
->  	}
->  	kfree(dmabuf->name);
->  	dmabuf->name = name;
-> +	dmabuf->file->f_path.dentry->d_fsdata = name;
-
-You are just changing the use of d_fsdata from being a pointer to the
-dmabuf to being a pointer to the name string?  What's to keep that name
-string around and not have the same reference counting issues that the
-dmabuf structure itself has?  Who frees that string memory?
-
-thanks,
-
-greg k-h
+Sakari Ailus
