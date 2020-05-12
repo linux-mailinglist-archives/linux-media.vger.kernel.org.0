@@ -2,220 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0EC91CEE5C
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 09:41:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC16E1CEEA0
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 09:57:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726008AbgELHlU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 12 May 2020 03:41:20 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:59683 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725813AbgELHlU (ORCPT
+        id S1726193AbgELH5j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 03:57:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33040 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725823AbgELH5j (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 03:41:20 -0400
-Received: from xps13 (unknown [91.224.148.103])
-        (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 2440920000F;
-        Tue, 12 May 2020 07:41:13 +0000 (UTC)
-Date:   Tue, 12 May 2020 09:41:12 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     =?UTF-8?B?w4FsdmFybyBGZXJuw6FuZGV6?= Rojas <noltari@gmail.com>
-Cc:     computersforpeace@gmail.com, kdasu.kdev@gmail.com, richard@nod.at,
-        vigneshr@ti.com, sumit.semwal@linaro.org,
-        linux-mtd@lists.infradead.org,
+        Tue, 12 May 2020 03:57:39 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7BBDC061A0C;
+        Tue, 12 May 2020 00:57:38 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id f134so8468074wmf.1;
+        Tue, 12 May 2020 00:57:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=NFX2G/ycRyFJ8XJ2cgub1Gt1QA023juIjxGeZbPNvjA=;
+        b=tgGYet/6aC3qdCyAWGYnA/0YcF3Xpfy3K9R+OyMsK8oSwxfmw0VTuExfGwvlifxeQF
+         T4fnh8wGTU2fz6co0KMZzcTy16xAnvthGS4r0e8BDykVAzaRoRLZ8AMls7SOZf+pG+tY
+         9ZLkxh8eFWpz37ZTaoec6w5j68dnz7VuU3QlJrCi8WFtDI9akFw3ZRc3sIsSbixpZhDG
+         rcNOdBKR9WynexcAM4DveRv08SHG7UnFMGKvkfLgI2oBuIoItAypvrGkflaUL2KQrcA6
+         abZwAl9G3mfIXD5C7nWH+o8h4DOnDSghfC0E+ufRANXk+0sOMahvza6J4Hxo+Hg8tQXV
+         NR7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=NFX2G/ycRyFJ8XJ2cgub1Gt1QA023juIjxGeZbPNvjA=;
+        b=LpmLULJ5KYEhFT5YKNYJFUxZpvkQsf/uj5F4p/NzFF6WhUs55EYje2x33BlI9dSbKC
+         osuDJkwDUARsqnUVfs/pTn6lrLNb5qVjyRlKRwj+edJMRYHi1njjE66p+jmsp7DwP8p4
+         buY9qz2BvdE1iCiAA6F1BgwJbSPTKMxasM2L39zG2o+BWTU7mcQodngfCIqjun+dx5cg
+         ssVNLintrEO5zuZP2Te07mwrRUi9eO7taeJCR+xxvGuDPzo+njfTn/0fh4upQ3lybR37
+         y5UuwvR7Dfr1kmQFpuhMAZ6B3uWymEPjp2wymt5P0TBjhmoGyRnBLP9zSRjUqd/NG99o
+         VKRA==
+X-Gm-Message-State: AGi0PuYV1eCOm0NfORS2Dz1kRNNokrE1JymmXkvqb6jIEpwYrJ5uYxKy
+        QlztCTv2pnYaCy/bZ6dXPJ8=
+X-Google-Smtp-Source: APiQypJS/4uzww2NZhrNqojJOpiIOHrot4eMxoh5tB9WHsGpFGZj2hqvWq2bEXNKrCeG8QMcM73jjw==
+X-Received: by 2002:a1c:e2c5:: with SMTP id z188mr25111209wmg.35.1589270257495;
+        Tue, 12 May 2020 00:57:37 -0700 (PDT)
+Received: from skynet.lan (198.red-83-49-57.dynamicip.rima-tde.net. [83.49.57.198])
+        by smtp.gmail.com with ESMTPSA id p8sm25946618wma.45.2020.05.12.00.57.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2020 00:57:37 -0700 (PDT)
+From:   =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
+        <noltari@gmail.com>
+To:     computersforpeace@gmail.com, kdasu.kdev@gmail.com,
+        miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+        sumit.semwal@linaro.org, linux-mtd@lists.infradead.org,
         bcm-kernel-feedback-list@broadcom.com,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v3 2/2] mtd: rawnand: brcmnand: improve hamming oob
- layout
-Message-ID: <20200512094112.0b9c3403@xps13>
-In-Reply-To: <461FD58F-ACD5-4158-BC0B-8C73C53D5C0D@gmail.com>
-References: <20200504185945.2776148-1-noltari@gmail.com>
-        <20200512060023.684871-1-noltari@gmail.com>
-        <20200512060023.684871-3-noltari@gmail.com>
-        <20200512090844.21bcaf22@xps13>
-        <5377BB9D-35EB-4531-8E03-A7483D3134E4@gmail.com>
-        <20200512091958.0d153319@xps13>
-        <461FD58F-ACD5-4158-BC0B-8C73C53D5C0D@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
+        <noltari@gmail.com>
+Subject: [PATCH v4 0/2] mtd: rawnand: brcmnand: improve hamming oob layout
+Date:   Tue, 12 May 2020 09:57:31 +0200
+Message-Id: <20200512075733.745374-1-noltari@gmail.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200512060023.684871-1-noltari@gmail.com>
+References: <20200512060023.684871-1-noltari@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Álvaro,
+These patches improve the OOB hamming layout by reducing the number of oob
+sections and correctly reserving first two bytes for large page NANDs.
 
-Álvaro Fernández Rojas <noltari@gmail.com> wrote on Tue, 12 May 2020
-09:26:23 +0200:
+v4: clarify small/large pages comment.
+v3: invert patch order.
+v2: extend original comment and correctly skip byte 6 for small-page.
 
-> Hi Miquèl,
-> 
-> > El 12 may 2020, a las 9:19, Miquel Raynal <miquel.raynal@bootlin.com> escribió:
-> > 
-> > Hi Álvaro,
-> > 
-> > Álvaro Fernández Rojas <noltari@gmail.com> wrote on Tue, 12 May 2020
-> > 09:12:10 +0200:
-> >   
-> >> Hi Miquel,
-> >> 
-> >> I also had a hard time understanding your email.
-> >> It was quite misleading.
-> >>   
-> >>> El 12 may 2020, a las 9:08, Miquel Raynal <miquel.raynal@bootlin.com> escribió:
-> >>> 
-> >>> Hi Álvaro,
-> >>> 
-> >>> Álvaro Fernández Rojas <noltari@gmail.com> wrote on Tue, 12 May 2020
-> >>> 08:00:23 +0200:
-> >>>   
-> >>>> The current code generates 8 oob sections:
-> >>>> S1	1-5
-> >>>> ECC	6-8
-> >>>> S2	9-15
-> >>>> S3	16-21
-> >>>> ECC	22-24
-> >>>> S4	25-31
-> >>>> S5	32-37
-> >>>> ECC	38-40
-> >>>> S6	41-47
-> >>>> S7	48-53
-> >>>> ECC	54-56
-> >>>> S8	57-63
-> >>>> 
-> >>>> Change it by merging continuous sections:
-> >>>> S1	1-5
-> >>>> ECC	6-8
-> >>>> S2	9-21
-> >>>> ECC	22-24
-> >>>> S3	25-37
-> >>>> ECC	38-40
-> >>>> S4	41-53
-> >>>> ECC	54-56
-> >>>> S5	57-63
-> >>>> 
-> >>>> Fixes: ef5eeea6e911 ("mtd: nand: brcm: switch to mtd_ooblayout_ops")    
-> >>> 
-> >>> Sorry for leading you the wrong way, actually this patch does not
-> >>> deserve a Fixes tag.    
-> >> 
-> >> Do I need to resend this again?
-> >> Looks like no matter what I do it’s always wrong...  
-> > 
-> > Please don't give up! It is normal to work back and forth with the
-> > community. I need the patch to be clear and bug-free so I ask you to
-> > make changes and ask questions, that's how it works. But all your
-> > patches are enhancing this driver so please keep posting!
-> >   
-> >>   
-> >>>   
-> >>>> Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
-> >>>> ---
-> >>>> v3: invert patch order
-> >>>> v2: keep original comment and fix correctly skip byte 6 for small-page nand
-> >>>> 
-> >>>> drivers/mtd/nand/raw/brcmnand/brcmnand.c | 37 ++++++++++++------------
-> >>>> 1 file changed, 18 insertions(+), 19 deletions(-)
-> >>>> 
-> >>>> diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> >>>> index 1c1070111ebc..0a1d76fde37b 100644
-> >>>> --- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> >>>> +++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> >>>> @@ -1100,33 +1100,32 @@ static int brcmnand_hamming_ooblayout_free(struct mtd_info *mtd, int section,
-> >>>> 	struct brcmnand_cfg *cfg = &host->hwcfg;
-> >>>> 	int sas = cfg->spare_area_size << cfg->sector_size_1k;
-> >>>> 	int sectors = cfg->page_size / (512 << cfg->sector_size_1k);
-> >>>> +	u32 next;
-> >>>> 
-> >>>> -	if (section >= sectors * 2)
-> >>>> +	if (section > sectors)
-> >>>> 		return -ERANGE;
-> >>>> 
-> >>>> -	oobregion->offset = (section / 2) * sas;
-> >>>> +	next = (section * sas);
-> >>>> +	if (section < sectors)
-> >>>> +		next += 6;
-> >>>> 
-> >>>> -	if (section & 1) {
-> >>>> -		oobregion->offset += 9;
-> >>>> -		oobregion->length = 7;
-> >>>> +	if (section) {
-> >>>> +		oobregion->offset = ((section - 1) * sas) + 9;
-> >>>> 	} else {
-> >>>> -		oobregion->length = 6;
-> >>>> -
-> >>>> -		/* First sector of each page may have BBI */
-> >>>> -		if (!section) {
-> >>>> -			/*
-> >>>> -			 * Small-page NAND use byte 6 for BBI while large-page
-> >>>> -			 * NAND use bytes 0 and 1.
-> >>>> -			 */
-> >>>> -			if (cfg->page_size > 512) {
-> >>>> -				oobregion->offset += 2;
-> >>>> -				oobregion->length -= 2;
-> >>>> -			} else {
-> >>>> -				oobregion->length--;
-> >>>> -			}
-> >>>> +		/*
-> >>>> +		 * Small-page NAND use byte 6 for BBI while large-page
-> >>>> +		 * NAND use bytes 0 and 1.
-> >>>> +		 */
-> >>>> +		if (cfg->page_size > 512) {
-> >>>> +			oobregion->offset = 2;
-> >>>> +		} else {
-> >>>> +			oobregion->offset = 0;
-> >>>> +			next--;    
-> >>> 
-> >>> This next-- seems very strange, can you explain?    
-> >> 
-> >> In this case next will be 6 (which is the first ECC byte).
-> >> However, for small page NANDs byte 5 is reserved for BBT, so we want next to be 5 only in this case.  
-> > 
-> > That's clear, please add a comment there then.  
-> 
-> Isn’t “Small-page NAND use byte 6 for BBI while large-page NAND use bytes 0 and 1.” enough?
-> Do we really need a specific comment before next--?
+Álvaro Fernández Rojas (2):
+  mtd: rawnand: brcmnand: fix hamming oob layout
+  mtd: rawnand: brcmnand: improve hamming oob layout
 
-Given the time it took me to understand these lines, I'd say : "no" :)
+ drivers/mtd/nand/raw/brcmnand/brcmnand.c | 34 +++++++++++++-----------
+ 1 file changed, 18 insertions(+), 16 deletions(-)
 
-Just give more information in your main comment, explaining than in one
-case the reserved bytes are at the beginning (enlarging the offset)
-while in the other case it is at the end, so reducing the section.
+-- 
+2.26.2
 
-> 
-> >   
-> >>   
-> >>>   
-> >>>> 		}
-> >>>> 	}
-> >>>> 
-> >>>> +	oobregion->length = next - oobregion->offset;
-> >>>> +
-> >>>> 	return 0;
-> >>>> }
-> >>>>   
-> >>> 
-> >>> 
-> >>> Thanks,
-> >>> Miquèl    
-> >> 
-> >> Regards,
-> >> Álvaro.  
-> > 
-> > 
-> > 
-> > Thanks,
-> > Miquèl  
-> 
-> Regards,
-> Álvaro.
-> 
-
-
-
-
-Thanks,
-Miquèl
