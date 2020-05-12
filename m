@@ -2,269 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6B4E1CFC38
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 19:32:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C43C31CFC53
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 19:37:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728139AbgELRb7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 13:31:59 -0400
-Received: from mail-bn8nam11on2079.outbound.protection.outlook.com ([40.107.236.79]:6036
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725554AbgELRb6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 13:31:58 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GYYdZI5PvtDvhSQpcislTe+X+SzPO6eIyoDtPHwhFg8E9fGKuQOI7tBZKSaRF5ITiqW35MtYgJzuFmD/9ORlQxv1E0xkF4hXl+ePgFtly1cbb+CqYJj9LVgzozbC+tjQzk0YJy7pZVZqmNLsbvk3imVqpWvqe2leFqhKRVGSH0o13utj4VcnN+XXVYXw0pMy2/Yxk/UmgJdvZGw+VWubqjFk4cnZ/ot78wM1mAHjkBq6z/6Ng0v/Ebns/Hcml+2CMrTumcFbVy+LkogRPZcPUJgoe0FU41aw5ZoaSNnfSvZG7BKLiHKMnJkTpPdEfuJI+nuBvOfulhTgXuH5UAmxsA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Paf9aSP7l/UqZPzzc1mm6HCpErMY7jmUg5ejYsLvZ9g=;
- b=hSqRePuF1IPACsPNcD5rnkJPSAidSI42x6ZVnKU2bQ8wtaDtLGDR0kGJPzkyAQtt91LHjqhQaZ8ht52CF183fgVTHwlByAIma5scblps5Yj+mgXdimwvNxf0t5DfctVVmFYQB44EtS64F1adz4CN25ahhySRnIL2t99rjDaAtyjnp28LUAuTPWRYC3cqO/FGtyvGEh794PaQATFoksFNyZ0ymHwMhQ50qc2CGDZirNE3eyELJpvWg/0ivMivgywEKqx3zy6xxr7LDPjNYHZsM92OkBc0iMSTqB+Sy3ybdphQfJ1lfkoZmhgZkYUJNffjzhrQsRHrMh1w3usWNcpWKg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+        id S1730021AbgELRhc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 13:37:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39230 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729583AbgELRhb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 May 2020 13:37:31 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD742C061A0C;
+        Tue, 12 May 2020 10:37:30 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id a4so6474217pgc.0;
+        Tue, 12 May 2020 10:37:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Paf9aSP7l/UqZPzzc1mm6HCpErMY7jmUg5ejYsLvZ9g=;
- b=Xmpsvm/ToIQPyA7egpSjfV3jEwW59BGNzE+seQ6HznLa1uuXxoEL0gRxD3NtYbT11w59WpHX7QNDjhzCJyp0Hea1QHTnXqF0dPt930U8lc6QlgLcDG+toOZNJZYH7dGV9EuYpMKJ3VYMxouhApuT24qHU0CF+JqTv28OKuxmeec=
-Authentication-Results: intel.com; dkim=none (message not signed)
- header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
-Received: from DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15)
- by DM6PR12MB4251.namprd12.prod.outlook.com (2603:10b6:5:21e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.30; Tue, 12 May
- 2020 17:31:55 +0000
-Received: from DM6PR12MB4401.namprd12.prod.outlook.com
- ([fe80::7949:b580:a2d5:f766]) by DM6PR12MB4401.namprd12.prod.outlook.com
- ([fe80::7949:b580:a2d5:f766%3]) with mapi id 15.20.2979.033; Tue, 12 May 2020
- 17:31:55 +0000
-Subject: Re: [RFC 10/17] drm/amdgpu: s/GFP_KERNEL/GFP_ATOMIC in scheduler code
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        intel-gfx <intel-gfx@lists.freedesktop.org>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
- <20200512085944.222637-11-daniel.vetter@ffwll.ch>
- <879b127e-2180-bc59-f522-252416a7ac01@amd.com>
- <CAKMK7uF1c3R7DTsvRaBfzRVAx03Z+AiUnqdAzP=mt4d=KsoEgg@mail.gmail.com>
- <CAKMK7uGUBqcwo56p3f+8B=ntvuYZ8WtKaFxAPJ_D=H7qdDsGqQ@mail.gmail.com>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <5e087376-1c71-ae98-fe91-0d9334e8e6bb@amd.com>
-Date:   Tue, 12 May 2020 19:31:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
-In-Reply-To: <CAKMK7uGUBqcwo56p3f+8B=ntvuYZ8WtKaFxAPJ_D=H7qdDsGqQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: AM3PR07CA0111.eurprd07.prod.outlook.com
- (2603:10a6:207:7::21) To DM6PR12MB4401.namprd12.prod.outlook.com
- (2603:10b6:5:2a9::15)
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=mF3zM7DhrrKYo8fPBJUmFWHaEp8ZgiUqVWZDdjfP8EA=;
+        b=UvAjbsDtM+eHXX5ax4LqffM7L/5Xq+FzLfDHIWEqqddK+2uVi4s6bL9BMLLFjLJKrP
+         8wJsUO4dVpi6sv0gcbo/SSR69hwuOhPXzdBVZlVyfoXWnTBhwB4BYudZcNCoDfAMCCwC
+         jukGPK172sa3aiFaxbVi+1DSLkdnE/B62Smegov8yZGJn4woOPyRkTF9MdGCwyUU1TV7
+         Hj+r4elv+d6U6fMy1hwrJ4pLKqqZMh3lfH4x23mOhIndFWQSsKle3NUSWdhSGemJV8Jy
+         VC8II7BfqWKh1oKGMMNHIQ9VY325rIbns9Uz6WMtJRlVv953dZ0HRV4bxQyz90AP/KJr
+         CoLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mF3zM7DhrrKYo8fPBJUmFWHaEp8ZgiUqVWZDdjfP8EA=;
+        b=NLARMRzcnlfE0RCC2gDMi74o1Kwt1qDQGyvinO1COv2IoOYIki83JSjNmBFGKUBPu0
+         omXL22x7ITEgJl8YHOVWj//xsqbFPPVQM906KhM8aHx5nQbMqy+jOznzXabFLKsjgzsU
+         OqTPkrWbxwCzGP74h2+smhfXXymGREQx6w0kM7SZNHuA/t/Rpz3wTMSi4vouXa1HtBU3
+         CaDi5Z3PjkD77KHy9CC6nTuuX8HIQnAq82Dq6HhDhT8ElWBVIpscZKO384hj31/O/Zf0
+         /RgvV8Id7qgA4Rjyoli1kmj4FXblKnMyqexl1hYvRQzaCZY2DIZTgPVQnobP0S7XXOjd
+         NVlQ==
+X-Gm-Message-State: AGi0PuZbPhe+F1fHzYF494EqWzwGwtzD+AAHvSLHqIWscfHkrt9swFLc
+        iNaopxPdu+bEIzt7Xdwa5Ag=
+X-Google-Smtp-Source: APiQypJQAaLWOPYFbOyHRW289VI02mzFUNboy7l7mm7GIlYwSF8U+4IFpD5KlkLZ3mL7AEHEmPAzog==
+X-Received: by 2002:aa7:8f2c:: with SMTP id y12mr23315202pfr.80.1589305050040;
+        Tue, 12 May 2020 10:37:30 -0700 (PDT)
+Received: from dtor-ws ([2620:15c:202:201:3c2a:73a9:c2cf:7f45])
+        by smtp.gmail.com with ESMTPSA id 141sm12753685pfz.171.2020.05.12.10.37.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2020 10:37:29 -0700 (PDT)
+Date:   Tue, 12 May 2020 10:37:27 -0700
+From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To:     Sean Young <sean@mess.org>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/3] input: serio: allow more than one byte to be sent at
+ once
+Message-ID: <20200512173727.GC89269@dtor-ws>
+References: <20200507135337.2343-1-sean@mess.org>
+ <20200507135337.2343-2-sean@mess.org>
+ <20200507202546.GM89269@dtor-ws>
+ <20200507205918.GA13370@gofer.mess.org>
+ <20200511065118.GA1293993@kroah.com>
+ <20200512090724.GA31990@gofer.mess.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM3PR07CA0111.eurprd07.prod.outlook.com (2603:10a6:207:7::21) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3000.12 via Frontend Transport; Tue, 12 May 2020 17:31:52 +0000
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: ff748cbe-ae9a-490c-2016-08d7f69a5d50
-X-MS-TrafficTypeDiagnostic: DM6PR12MB4251:
-X-Microsoft-Antispam-PRVS: <DM6PR12MB425115830FDFC46148C8283683BE0@DM6PR12MB4251.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-Forefront-PRVS: 0401647B7F
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MAhOIic4in8ak5weawcqmIdaPl26nmiK218DxdbBj0iBx3KVX65DT7kHGFD/+7EIIulN9DzwMtmHGy3tToUSM8RAhtPRW+oBIi2Vdux+LUgujj/wJt1rSV1VpXNAm2IWUab1nZncfFDND9TawKbkLx37ugw7H+1Uw2B3hrXOWLKGSBFCNZwbpsSrMDsw2u19jXLpCHHeAiPpx1PROznnv6KzjROcuWfdkIoGCecBrqB18hx5C0xzWNoo6m3JITZriIcAfucKeUiVIchWrM/VA6zhfrv8fTEVIkPlg+EGJDstC6/kY7TMss1bTcVzzrgjP81JU0GHTvfVAF0Cum5+AdaLmqDxoOeDecegwFEgJIOHAtynqzo3qy9iYmwJV1nA+6BDJP0gCZhk3hSNfkVp5HlZaVNSTAiJIK/3xH2siWQDlqIsocBiPJk5alyu2dnvDdy2GeVrllGO8ZH1rwZTfeFv+L9MF9FMswpxv327mWq4+YIa1WXd9+YuaYq5UlZPdZLeKKMzyZRoufPYwdgsKsoVVXmyAejzwna/3MVL5tGmhcuHckEqrkP+gKBUei+9ubC8Z/NxDvz/ryRZBUagjXBwjMJ3ldTaVgASe0ipXDmLgiJFksW3KM+Httz96+KS0xrcpOORB+TmB4yUSC9gZg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4401.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(376002)(136003)(396003)(346002)(39860400002)(366004)(33430700001)(66574014)(36756003)(316002)(33440700001)(31696002)(54906003)(86362001)(2906002)(6666004)(45080400002)(2616005)(31686004)(83080400001)(66476007)(6916009)(478600001)(52116002)(66946007)(8676002)(5660300002)(966005)(66556008)(8936002)(16526019)(186003)(53546011)(4326008)(6486002)(7416002)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: SdhZQQ6mhCPvi4c+Fpxk8+JoE2Ww9yUdCzyn1GPC9kDEXh3MTeRTvspiotd+COtDpyd+EJlTi5+pKl+Zm4A3KTfLiB1rCw741K4yhzkwKO2QnXl+DIOEAyWMmLxmXIzkYNHEnI9hpg5nSlXy2DzrYcvKsty+EjQ9huTuzwh+GCRqIo8qfgKteEnUSKsBHI9QNbufQeFuOcrFCNLDqifiA8iniG6envi3oe6BuzbKUHc+qvTA/IFoAucRr9bK76ytcnfWTzXSa9PcJxEVEAk2bsXzobfc5kN3gNN8hvrzSX9kBuoaPo7+uDj+TFdhJHw/0+FtWF6fgT2vKTHKhPDV07dg4xaHiIK54JRQcj/Qa/49t3AoD6wqBhxvV8tKN6IoRNfwf0Ertrh3VLM6KzuEB33CM/1GLXUQnHAqdDCRXhHRGavQYfcWaWjYcPzO8mC8GCX33gv7prKy1Ek8MFIC4lZNNeU2ysV6Bz9P5TqH4hryKFjI4iogbmvTl5xiVOp3ZURM32veqlir4B7tnb8Bw6W3ONfnVD0GhYyRUj0x4nrpwg06+CPWeEMEwsvEAf2b
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff748cbe-ae9a-490c-2016-08d7f69a5d50
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 17:31:54.9891
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: me42JpesL+B6lOnOYOp30oi347I8a3Z4AdfuKOpW9DQNtgwrjJPAVtCD61V1MVbv
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4251
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200512090724.GA31990@gofer.mess.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Ah!
+On Tue, May 12, 2020 at 10:07:24AM +0100, Sean Young wrote:
+> On Mon, May 11, 2020 at 08:51:18AM +0200, Greg KH wrote:
+> > On Thu, May 07, 2020 at 09:59:18PM +0100, Sean Young wrote:
+> > > On Thu, May 07, 2020 at 01:25:46PM -0700, Dmitry Torokhov wrote:
+> > > > On Thu, May 07, 2020 at 02:53:36PM +0100, Sean Young wrote:
+> > > > > serio drivers can only send one byte at a time. If the underlying tty
+> > > > > is a usb serial port, then each byte will be put into separate usb
+> > > > > urbs, which is not efficient.
+> > > > > 
+> > > > > Additionally, the Infrared Toy device refuses to transmit IR if the
+> > > > > IR data is sent one byte at a time. IR data is formatted in u16 values,
+> > > > > and the firmware expects complete u16 values in the packet.
+> > > > > 
+> > > > > https://github.com/DangerousPrototypes/USB_IR_Toy/blob/master/Firmware-main/IRs.c#L240
+> > > > 
+> > > > Ummm, serial protocol data size is at most 9 bits so I have no earthly
+> > > > idea how they expect to get 16.
+> > > 
+> > > serio is a layer on top several serial protocols, including ttys. ttys allow
+> > > more than one byte to be written at a time, see struct tty_operations:
+> > > 
+> > >         int  (*write)(struct tty_struct * tty,
+> > >                       const unsigned char *buf, int count);
+> > > 
+> > > ttys would be very inefficient if you could only write one byte at a time,
+> > > and they are very serial.
+> > > 
+> > > This patch exposes the underlying tty write() functionality to serio. When
+> > > the underlying tty is a usb serial port this makes for far fewer usb packets
+> > > being used to send the same data, and fixes my driver problem, and it
+> > > would reduce the number of calls in a few other cases too.
+> > > 
+> > > I'm happy to rework the patch if there are comments on the style or
+> > > approach.
+> > 
+> > Why not just use the ir-usb.c driver for this device instead?
+> 
+> So this device is the infrared kind which rc-core (in drivers/media/rc/)
+> supports, remotes and such things (not for serial IR). So by using a 
+> rc-core driver, it can use kernel IR decoding, BPF decoding, lirc chardev
+> and rc keymaps, etc.
+> 
+> This device is a PIC18F2550 type device, which is a usb serial port
+> microcontroller type with some firmware and IR diodes:
+> 	http://dangerousprototypes.com/docs/USB_IR_Toy_v2
+> 
+> serio supports a whole bunch of usb serial devices which can be attached
+> via inputattach(1). Not all of these are input devices, for example there
+> are two cec devices too.
+> 
+> Now, in many of these drivers, multiple bytes need to be written to the
+> device in order to send it a command, for example in
+> drivers/input/touchscreen/elo.c:
+> 
+>         for (i = 0; i < ELO10_PACKET_LEN; i++) {
+>                 csum += packet[i];
+>                 if (serio_write(elo->serio, packet[i]))
+>                         goto out;
+>         }
+> 
+> So if serio had an interface for sending a buffer, that would be less
+> call overhead. In fact, if the underlying serio is a serial usb port,
+> that would much more efficient on the usb layer too (one usb roundtrips in
+> stead of ELO10_PACKET_LEN roundtrips), like so:
+> 
+> 	serio_write_buf(elo->serio, packet, ELO10_PACKET_LEN);
+> 
+> So what I'm suggesting is extending the serio interface to allow sending
+> a buffer of bytes. Of course serio isn't just usb serial ports. There quite
+> a few instances of serio_register_port() in the kernel. Many of them
+> can be extended to support sending a buffer rather than a single byte,
+> if this makes sense. For example the ps2 serio port takes a mutex for every
+> byte, so this could be more efficient by reducing it to one mutex lock
+> per buffer.
+> 
+> Now it would be nice to have a discussion about this rather than being
+> dismissed with:
+> 
+> > > > Ummm, serial protocol data size is at most 9 bits so I have no earthly
+> > > > idea how they expect to get 16.
+> 
+> Which is just a tad insulting.
 
-So we can't allocate memory while scheduling anything because it could 
-be that memory reclaim is waiting for the scheduler to finish pushing 
-things to the hardware, right?
+That was not meant to be insulting, however serial protocol defines that
+the data size is at most 9 bits, so expecting that one can transmit
+anything more than that _atomically_ is wrong. If your device/firmware
+requires 16 bits to be transferred as indivisible units, then serial
+port abstraction is wrong one to be used.
 
-Indeed a nice problem, haven't noticed that one.
+Now serio is layer "above" serial ports (but does not have to have
+an underlying serial port) that provides byte-oriented communication
+that is expected to mostly flow into host. Its does not expect heavy
+data flows coming from the host and into the device (if you look at all
+the touchscreens, psmouse, etc, they all send initialization sequences
+to the device, and then all the data flows into the host). Therefore
+there is little benefit in optimizing serio writes.
 
-Christian.
+You are using performance clams as a clutch for the requirement of
+sending u16s, but as I mentioned it is wrong if you use serial ports
+abstraction layer. Greg mentioned ir-usb. You can maybe enhance it, or
+create a similar driver that connects USB to rc-core and ensures that
+you can communicate with the device with exact format it needs.
 
-Am 12.05.20 um 18:27 schrieb Daniel Vetter:
-> On Tue, May 12, 2020 at 6:20 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
->> On Tue, May 12, 2020 at 5:56 PM Christian König
->> <christian.koenig@amd.com> wrote:
->>> Hui what? Of hand that doesn't looks correct to me.
->> It's not GFP_ATOMIC, it's just that GFP_ATOMIC is the only shotgun we
->> have to avoid direct reclaim. And direct reclaim might need to call
->> into your mmu notifier, which might need to wait on a fence, which is
->> never going to happen because your scheduler is stuck.
->>
->> Note that all the explanations for the deadlocks and stuff I'm trying
->> to hunt here are in the other patches, the driver ones are more
->> informational, so I left these here rather bare-bones to shut up
->> lockdep so I can get through the entire driver and all major areas
->> (scheduler, reset, modeset code).
->>
->> Now you can do something like GFP_NOFS, but the only reasons that
->> works is because the direct reclaim annotations
->> (fs_reclaim_acquire/release) only validates against __GFP_FS, and not
->> against any of the other flags. We should probably add some lockdep
->> annotations so that __GFP_RECLAIM is annotated against the
->> __mmu_notifier_invalidate_range_start_map lockdep map I've recently
->> added for mmu notifiers. End result (assuming I'm not mixing anything
->> up here, this is all rather tricky stuff): GFP_ATOMIC is the only kind
->> of memory allocation you can do.
->>
->>> Why the heck should this be an atomic context? If that's correct
->>> allocating memory is the least of the problems we have.
->> It's not about atomic, it's !__GFP_RECLAIM. Which more or less is
->> GFP_ATOMIC. Correct fix is probably GFP_ATOMIC + a mempool for the
->> scheduler fixes so that if you can't allocate them for some reason,
->> you at least know that your scheduler should eventually retire retire
->> some of them, which you can then pick up from the mempool to guarantee
->> forward progress.
->>
->> But I really didn't dig into details of the code, this was just a quick hack.
->>
->> So sleeping and taking all kinds of locks (but not all, e.g.
->> dma_resv_lock and drm_modeset_lock are no-go) is still totally ok.
->> Just think
->>
->> #define GFP_NO_DIRECT_RECLAIM GFP_ATOMIC
-> Maybe slightly different take that's easier to understand: You've
-> already made the observation that anything holding adev->notifier_lock
-> isn't allowed to allocate memory (well GFP_ATOMIC is ok, like here).
->
-> Only thing I'm adding is that the situation is a lot worse. Plus the
-> lockdep annotations to help us catch these issues.
-> -Daniel
->
->> Cheers, Daniel
->>
->>> Regards,
->>> Christian.
->>>
->>> Am 12.05.20 um 10:59 schrieb Daniel Vetter:
->>>> My dma-fence lockdep annotations caught an inversion because we
->>>> allocate memory where we really shouldn't:
->>>>
->>>>        kmem_cache_alloc+0x2b/0x6d0
->>>>        amdgpu_fence_emit+0x30/0x330 [amdgpu]
->>>>        amdgpu_ib_schedule+0x306/0x550 [amdgpu]
->>>>        amdgpu_job_run+0x10f/0x260 [amdgpu]
->>>>        drm_sched_main+0x1b9/0x490 [gpu_sched]
->>>>        kthread+0x12e/0x150
->>>>
->>>> Trouble right now is that lockdep only validates against GFP_FS, which
->>>> would be good enough for shrinkers. But for mmu_notifiers we actually
->>>> need !GFP_ATOMIC, since they can be called from any page laundering,
->>>> even if GFP_NOFS or GFP_NOIO are set.
->>>>
->>>> I guess we should improve the lockdep annotations for
->>>> fs_reclaim_acquire/release.
->>>>
->>>> Ofc real fix is to properly preallocate this fence and stuff it into
->>>> the amdgpu job structure. But GFP_ATOMIC gets the lockdep splat out of
->>>> the way.
->>>>
->>>> v2: Two more allocations in scheduler paths.
->>>>
->>>> Frist one:
->>>>
->>>>        __kmalloc+0x58/0x720
->>>>        amdgpu_vmid_grab+0x100/0xca0 [amdgpu]
->>>>        amdgpu_job_dependency+0xf9/0x120 [amdgpu]
->>>>        drm_sched_entity_pop_job+0x3f/0x440 [gpu_sched]
->>>>        drm_sched_main+0xf9/0x490 [gpu_sched]
->>>>
->>>> Second one:
->>>>
->>>>        kmem_cache_alloc+0x2b/0x6d0
->>>>        amdgpu_sync_fence+0x7e/0x110 [amdgpu]
->>>>        amdgpu_vmid_grab+0x86b/0xca0 [amdgpu]
->>>>        amdgpu_job_dependency+0xf9/0x120 [amdgpu]
->>>>        drm_sched_entity_pop_job+0x3f/0x440 [gpu_sched]
->>>>        drm_sched_main+0xf9/0x490 [gpu_sched]
->>>>
->>>> Cc: linux-media@vger.kernel.org
->>>> Cc: linaro-mm-sig@lists.linaro.org
->>>> Cc: linux-rdma@vger.kernel.org
->>>> Cc: amd-gfx@lists.freedesktop.org
->>>> Cc: intel-gfx@lists.freedesktop.org
->>>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
->>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>> Cc: Christian König <christian.koenig@amd.com>
->>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
->>>> ---
->>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c | 2 +-
->>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c   | 2 +-
->>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c  | 2 +-
->>>>    3 files changed, 3 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>> index d878fe7fee51..055b47241bb1 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_fence.c
->>>> @@ -143,7 +143,7 @@ int amdgpu_fence_emit(struct amdgpu_ring *ring, struct dma_fence **f,
->>>>        uint32_t seq;
->>>>        int r;
->>>>
->>>> -     fence = kmem_cache_alloc(amdgpu_fence_slab, GFP_KERNEL);
->>>> +     fence = kmem_cache_alloc(amdgpu_fence_slab, GFP_ATOMIC);
->>>>        if (fence == NULL)
->>>>                return -ENOMEM;
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
->>>> index fe92dcd94d4a..fdcd6659f5ad 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c
->>>> @@ -208,7 +208,7 @@ static int amdgpu_vmid_grab_idle(struct amdgpu_vm *vm,
->>>>        if (ring->vmid_wait && !dma_fence_is_signaled(ring->vmid_wait))
->>>>                return amdgpu_sync_fence(sync, ring->vmid_wait, false);
->>>>
->>>> -     fences = kmalloc_array(sizeof(void *), id_mgr->num_ids, GFP_KERNEL);
->>>> +     fences = kmalloc_array(sizeof(void *), id_mgr->num_ids, GFP_ATOMIC);
->>>>        if (!fences)
->>>>                return -ENOMEM;
->>>>
->>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
->>>> index b87ca171986a..330476cc0c86 100644
->>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
->>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c
->>>> @@ -168,7 +168,7 @@ int amdgpu_sync_fence(struct amdgpu_sync *sync, struct dma_fence *f,
->>>>        if (amdgpu_sync_add_later(sync, f, explicit))
->>>>                return 0;
->>>>
->>>> -     e = kmem_cache_alloc(amdgpu_sync_slab, GFP_KERNEL);
->>>> +     e = kmem_cache_alloc(amdgpu_sync_slab, GFP_ATOMIC);
->>>>        if (!e)
->>>>                return -ENOMEM;
->>>>
->>
->> --
->> Daniel Vetter
->> Software Engineer, Intel Corporation
->> +41 (0) 79 365 57 48 - https://nam11.safelinks.protection.outlook.com/?url=http%3A%2F%2Fblog.ffwll.ch%2F&amp;data=02%7C01%7Cchristian.koenig%40amd.com%7C38b330b8aab946f388e908d7f691553b%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637248976369551581&amp;sdata=6rrCvEYVug95QXc3yYLbQ8ZN4wyYelfUUGWiyitVpuc%3D&amp;reserved=0
->
->
+Thanks.
 
+-- 
+Dmitry
