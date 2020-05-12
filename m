@@ -2,443 +2,334 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A03E01CF80F
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 16:56:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 584D91CF8EA
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 17:20:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727924AbgELO4u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 10:56:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42472 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726891AbgELO4u (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 10:56:50 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B6F6C061A0C
-        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 07:56:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Subject:Cc:To:
-        From:Date:Sender:Reply-To:Content-ID:Content-Description;
-        bh=jJnkB/DzsFl3DKtaEgLPGbM16lqfa5AEGKPzXFeJ9wY=; b=u2W+JJ07OKO1pZDpEcwyVXHWCi
-        zOGgiUJf2EfpUS8679+SQtQ8IpOLPlYecVkTWIJun4tQsWJUo6dxr6yDMkFm6UCwNNlCn7j8/5XHF
-        Hy/cxQzSCe50cVYTHxXtiBH2CloS0KDP5XOOxqmq1KVVHM3ECjOMnny4t0g0pTuyYNUt0UbQUPlxX
-        epJifjMSzk5gqUwrQd892EOhheO2aLZVvEITPbjpuhxg35I4Y6m1EJD/2FtaG2kO8KC44RF+xkZB5
-        Yjy3oYtdIsy/jTAfDZyUaaDWIQ6hel1suO+IMj6D0wPWAf8xGld2i2LJB02uAhCFeGPLcv357iSG2
-        IwlUOGRQ==;
-Received: from ip5f5ad5c5.dynamic.kabel-deutschland.de ([95.90.213.197] helo=coco.lan)
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jYWKv-0005UK-Gj; Tue, 12 May 2020 14:56:49 +0000
-Date:   Tue, 12 May 2020 16:56:44 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Patrik Gfeller <patrik.gfeller@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: atomisp kernel driver(s)
-Message-ID: <20200512165644.6609098b@coco.lan>
-In-Reply-To: <CAHp75VdDm+NLVdG7AfwO=FwmA=naqVwAiqbUyyUWc4hwHHSRHg@mail.gmail.com>
-References: <f3348096-1fb3-5368-ba66-f42a300bde8e@gmail.com>
-        <CAHp75Vf9M7=Gf=mCgdBgt0-aR+kBOjtE3pvJyEya2OGmqbr6XA@mail.gmail.com>
-        <20200502190414.7ede79b6@coco.lan>
-        <CAHp75VeeQ61nUCDr3Fr=mrhxKvVRZ6gWJet+QX+c7jXjTwEhtg@mail.gmail.com>
-        <20200512122056.6ae3580f@coco.lan>
-        <CAHp75VdjdZCFq=uk0M9QG0tNf+wfD6iFzZvmzBWTWNVpgUpfxQ@mail.gmail.com>
-        <CAHp75VdDm+NLVdG7AfwO=FwmA=naqVwAiqbUyyUWc4hwHHSRHg@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1730558AbgELPUR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 11:20:17 -0400
+Received: from mail-bn8nam11on2052.outbound.protection.outlook.com ([40.107.236.52]:9056
+        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726055AbgELPUP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 May 2020 11:20:15 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=epsdWASq2aI1nsDkgYaeP5AfJSc0O5qeNsfnH5ryNX8FYE30TBlCtOSaTfCKhV5Afri+P2QIalZSbMg4WlXXIXwE2B4XYThj4Egi/U2+ChHGZj0tJGEsQ1gxGKG9tCllgyJ+Dci3PjPXbFsevX+j1TJF82MDhbef5SRkaSdBZT3JMjhtnSDeegMsBJWUV5eI3IFA5NHTLaz9iTe+iQt5s4KZPN9Bg/wS3nL68OMK/c1J2JNlA84CER2AecPlJozj1Z13ftgtlYA/bMUoRxWGjbAbIRLLvPoY4zDLnzxhowuZaPD2/bceKmwr276O25fbmy3Ffoxx37fzIZQcR8lJnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e14/e9vvfMfSVAEA9JqCjNhNEOl4W+sX2WJmr8WJXgc=;
+ b=UDNx6AG84H2AfdfWOmzYYu67EocqrJCXDEtE9HpK8Mqteoii7bscTfnV33KkbXzSdHzaGioiJunFOapWxlqp3byHFtSZ4HbKP2fAtugYNTpKpwvu3VhACQj1CdD/E17BKEn/h9DwAPqqnrXGibRN7uokJ9SCIeWsmKpjddjulCA7q5tM7GX5Dyda2pMCUUYABXuj30Ch9ypfM2F0rVbYo8wWvFwihFRfoQZb9PP+yjWV9QUd0n2EKlyqXkiRWqv1zXuiPJfD44zQXN+txP6o7ufzgcOvnrjrb4lT/tjTFELQQx4pCi9/CgT3tm3LudExvlwWvB2lVLyq7v6dhMQNiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.60.83) smtp.rcpttodomain=jmondi.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e14/e9vvfMfSVAEA9JqCjNhNEOl4W+sX2WJmr8WJXgc=;
+ b=XYety179ljM3V7NEBgqHx5iq8G+bq8cj22TVseeFq+Y86WhKgg4AV2Josmxe87ac8+STVyP450PLlqE8FPzC6BHq4h56eyXJebnRrwOynP8iKZ37m0W1Fi5h42Lvw5lduFyvq9MWECcTqV+sxGV965vN2GbhB7nx6wMuBLMcdf8=
+Received: from SN2PR01CA0081.prod.exchangelabs.com (2603:10b6:800::49) by
+ DM6PR02MB5530.namprd02.prod.outlook.com (2603:10b6:5:7a::33) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.2979.35; Tue, 12 May 2020 15:20:11 +0000
+Received: from SN1NAM02FT051.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:800:0:cafe::97) by SN2PR01CA0081.outlook.office365.com
+ (2603:10b6:800::49) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2979.27 via Frontend
+ Transport; Tue, 12 May 2020 15:20:10 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+ smtp.mailfrom=xilinx.com; jmondi.org; dkim=none (message not signed)
+ header.d=none;jmondi.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+ SN1NAM02FT051.mail.protection.outlook.com (10.152.73.103) with Microsoft SMTP
+ Server id 15.20.2979.29 via Frontend Transport; Tue, 12 May 2020 15:20:10
+ +0000
+Received: from [149.199.38.66] (port=46125 helo=xsj-pvapsmtp01)
+        by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
+        (envelope-from <vishal.sagar@xilinx.com>)
+        id 1jYWhF-0004KX-H2; Tue, 12 May 2020 08:19:53 -0700
+Received: from [127.0.0.1] (helo=localhost)
+        by xsj-pvapsmtp01 with smtp (Exim 4.63)
+        (envelope-from <vishal.sagar@xilinx.com>)
+        id 1jYWhV-0000Fo-Sa; Tue, 12 May 2020 08:20:09 -0700
+Received: from xsj-pvapsmtp01 (xsj-mail.xilinx.com [149.199.38.66])
+        by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 04CFK0wI030673;
+        Tue, 12 May 2020 08:20:01 -0700
+Received: from [172.23.82.133] (helo=xhdvsagar40x.xilinx.com)
+        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+        (envelope-from <vishal.sagar@xilinx.com>)
+        id 1jYWhM-0008NS-Bn; Tue, 12 May 2020 08:20:00 -0700
+From:   Vishal Sagar <vishal.sagar@xilinx.com>
+To:     Hyun Kwon <hyunk@xilinx.com>, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        Michal Simek <michals@xilinx.com>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, hans.verkuil@cisco.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Dinesh Kumar <dineshk@xilinx.com>,
+        Sandip Kothari <sandipk@xilinx.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Vishal Sagar <vishal.sagar@xilinx.com>
+Subject: [PATCH v13 0/2] Add support for Xilinx CSI2 Receiver Subsystem
+Date:   Tue, 12 May 2020 20:49:45 +0530
+Message-Id: <20200512151947.120348-1-vishal.sagar@xilinx.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapsmtpgw01;PTR:unknown-60-83.xilinx.com;CAT:NONE;SFTY:;SFS:(136003)(376002)(346002)(396003)(39860400002)(46966005)(33430700001)(70586007)(7696005)(316002)(8676002)(70206006)(9786002)(26005)(186003)(110136005)(2906002)(36756003)(8936002)(2616005)(44832011)(336012)(6666004)(426003)(1076003)(478600001)(82310400002)(82740400003)(47076004)(7416002)(5660300002)(107886003)(4326008)(356005)(81166007)(33440700001)(921003);DIR:OUT;SFP:1101;
+Content-Type: text/plain
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 82946eaf-940f-4ab9-6549-08d7f687f5da
+X-MS-TrafficTypeDiagnostic: DM6PR02MB5530:
+X-Microsoft-Antispam-PRVS: <DM6PR02MB553039278CC7C634AB197416A7BE0@DM6PR02MB5530.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:173;
+X-Forefront-PRVS: 0401647B7F
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 8jldp0Z2g2PTcObtmG++S2lTDDE22gd/xm+7LrqieudM1ekjL/UxjtJCP+y99K0b675MgYpNIx1DKN9AH4Wc4v5DwJ+Rd7zy1eBvbWrViamXeLgBQB4Gb5K3fGzOvEMGHnrffYxbDtJyQWWmIcTujvyaVpHk6jIVgqJ09E0lIFsZk8rZm23tp0lr+H4MHwhIyN0/hgduC17jj/Py0r16ttpdn9WYmLmQjX5RWuLXnzlRwcL5FdtBrzSLgNYFlTNVnixkjrQVjyvw6qntLedtFNRl7do/oLXtLwvd0McUN36QovFUgkH7kKxB3DWfBx2O8TJI25ryy4c7np5vUyCaSmdxC31VJFVTxmmtERwBfY2yWVDoWTBiuL4e/72AFgCvsiQotUf2PIyQjapvw5hA5GHO/4pwXAib/vqcj/1CYOMeEX3etAK3hSOgKnkVW2eLF+FWmZ0cTlpisZL0Ic+WJiF6t68PrNgVjDYratvFK8BSUx1cZZumlLgOkoGoMIc1RCscdtVAex1HZXvZd3s2PP03PmXsusUEDZOZ1sIDXwHJaCiO4+BvZAhDAheEswW2hFcc+HSuZ6B730EbdXIVlw==
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2020 15:20:10.1793
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82946eaf-940f-4ab9-6549-08d7f687f5da
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB5530
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Tue, 12 May 2020 14:21:49 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
+Xilinx MIPI CSI-2 Receiver Subsystem
+------------------------------------
 
-> On Tue, May 12, 2020 at 2:12 PM Andy Shevchenko
-> <andy.shevchenko@gmail.com> wrote:
-> > On Tue, May 12, 2020 at 1:21 PM Mauro Carvalho Chehab
-> > <mchehab@kernel.org> wrote:
-> > > Em Sat, 2 May 2020 20:33:14 +0300
-> > > Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
-> > > > On Sat, May 2, 2020 at 8:04 PM Mauro Carvalho Chehab <mchehab@kerne=
-l.org> wrote:
-> > > > > Em Sat, 2 May 2020 19:08:36 +0300
-> > > > > Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
->=20
-> ...
->=20
-> > Btw, https://git.linuxtv.org/mchehab/experimental.git/commit/?h=3Datomi=
-sp_v2.1&id=3D65608aa8d34ea274600ab2cf6f0cf54ee86d8fd1
-> > is incorrect approach. Look closer what PCI does in case when
-> > pcim_enable_device() has been called.
->=20
-> This has resource leaks
-> https://git.linuxtv.org/mchehab/experimental.git/commit/?h=3Datomisp_v2.1=
-&id=3D88b03de5d705f5f46a896dbd21ef9472030bb8d3
->=20
-> Easier just to acpi_handle_info(ACPI_HANDLE(...), ...);
->=20
-> We don't enumerate them w/o ACPI IIRC.
+The Xilinx MIPI CSI-2 Receiver Subsystem Soft IP consists of a D-PHY which
+gets the data, a CSI-2 Receiver controller which parses the data and
+converts it into AXIS data.
+This stream output maybe connected to a Xilinx Video Format Bridge.
+The maximum number of lanes supported is fixed in the design.
 
-Well, at least while in staging, it would be good to know more details
-about the probing issues on different hardware that people might be
-testing it.
+The pixel format set in design acts as a filter allowing only the selected
+data type or RAW8 data packets. The D-PHY register access can be gated in
+the design.
 
-avoiding to use a get_device() here is not possible, because the
-prints will use the adev to return some info we may need:
+The device driver registers the MIPI CSI-2 Rx Subsystem as a V4L2 sub device
+having 2 pads. The sink pad is connected to the MIPI camera sensor and
+output pad is connected to the video node.
+Refer to xlnx,csi2rxss.yaml for device tree node details.
 
-	ov2680 i2c-OVTI2680:00: ov2680_probe: ACPI detected it on bus ID=3DCAM1, H=
-ID=3DOVTI2680
+This driver helps enable the core, setting and handling interrupts.
+It logs the number of events occurring according to their type between
+streaming ON and OFF.
 
-This, together with the DMI product ID on this message:
+The Xilinx CSI-2 Rx Subsystem outputs an AXI4 Stream data which can be
+used for image processing. This data follows the video formats mentioned
+in Xilinx UG934 when the Video Format Bridge is enabled.
 
-	atomisp-isp2 0000:00:03.0: Detected Cherrytrail version 54 (ISP2401) on T1=
-01HA
+v13
+- 1/2
+  - Based on Laurent's suggestions
+  - Fixed the datatypes values as minimum and maximum
+  - condition added for en-vcx property
+- 2/2
+  - Based on Laurent's suggestions
+  - Removed unnecessary debug statement for vep
+  - Added TODO for clock to enable disable at streamon/off
+  - Fix for index to start from 0 for get_nth_mbus_format
+  - Removed macro XCSI_TIMEOUT_VAL
+  - Remove ndelay from hard reset
+  - Remove hard reset from irq handler
+  - Fix short packet fifo clear
+  - Add TODO for v4l2_subdev_notify for SLBF error
+  - Fix the enable condition in s_stream
+  - Fix condition in xcsi2rxss_set_format
+  - Fix enum_mbus_code for double enumeration of RAW8 Data type
+  - Removed core struct
+  - Added reviewed by Laurent
 
-may help to avoid users to run acpixtract/iasl/dmidecode when adding
-new entries to the dmi match tables. Not 100%, since BIOSes may=20
-still use different names for the sensor data.
+v12
+- 1/2
+  - Moved to yaml format
+- 2/2
+  - Changes done as suggested by Laurent Pinchart and Luca Ceresoli
+  - Removed unused macros
+  - No local storage of supported formats
+  - Dropped init mbus fmts and removed xcsi2rxss_init_mbus_fmts()
+  - XCSI_GET_BITSET_STR removed
+  - Add data type and mbus LUT
+    - Added xcsi2rxss_get_nth_mbus() and xcsi2rxss_get_dt()
+  - Replaced all core->dev with dev in dev_dbg() and related debug prints
+  - Replaced xcsi2rxss_log_ipconfig() with single line
+  - Removed small functions to enable/disable interrupts and core
+  - Now save remote subdev in state struct before streaming on
+  - Made xcsi2rxss_reset as soft_reset()
+  - Added hard reset using video-reset gpio
+    - 2 modes one with delay and another sleep
+  - Instead of reset-gpios it is not video-reset-gpios
+  - In irq handler
+    - Moved clearing of ISR up
+    - Dump / empty short packet fifo
+    - Irq handler is now threaded 
+  - Added init_cfg pad ops and removed open()
+  - Updated xcsi2rxss_set_format(), xcsi2rxss_enum_mbus_code() to use the dt mbus lut
+  - xcsi2rxss_set_default_format() updated
+  - Moved mutex_init()
+  - Updated graph handling
+  - Removed unnecessary prints
+  - devm_platform_ioremap_resource() and platform_get_irq()
+  
+v11
+- 1/2
+  - Modified the compatible string to 5.0 from 4.0
+- 2/2
+  - Fixed changes as suggested by Sakari Ailus
+  - Removed VIDEO_XILINX from KConfig
+  - Minor formatting
+  - Start / Stop upstream sub-device in xcsi2rxss_start_stream()
+    and xcsi2rxss_stop_stream()
+  - Added v4l2_subdev_link_validate_default() in v4l2_subdev_pad_ops()
+  - Use fwnode_graph_get_endpoint_by_id() instead of parsing by self
+  - Set bus type as V4L2_MBUS_CSI2_DPHY in struct v4l2_fwnode_endpoint
+  - Remove num_clks from core. Instead use ARRAY_SIZE()
+  - Fixed SPDX header to GPL-2.0
+  - Update copyright year to 2020
 
->=20
-> P.S. Yes, I understand that is WIP, but better to get rid  of
-> unnecessary / incorrect work from the day 1 :-)
+v10
+- 1/2
+  - No changes
+- 2/2
+  - Removed all V4L2 controls and events.
+  - Now stop_stream() before toggling rst_gpio
+  - Updated init_mbus() to throw error on array out of bound access
+  - Added XADD_MBUS macro
+  - Make events and vcx_events as counters instead of structures
+  - Minor fixes in set_format() enum_mbus_code() as suggested by Sakari
 
-Agreed.
+v9
+- 1/2
+  - Fix xlnx,vfb description.
+  - s/Optional/Required endpoint property.
+  - Move data-lanes description from Ports to endpoint property section.
+- 2/2
+  - Moved all controls and events to xilinx-csi2rxss.h
+  - Updated name and description of controls and events
+  - Get control base address from v4l2-controls.h (0x10c0)
+  - Fix KConfig for dependency on VIDEO_XILINX
+  - Added enum_mbus_code() support
+  - Added default format to be returned on open()
+  - Mark variables are const
+  - Remove references to short packet in comments
+  - Add check for streaming before setting active lanes control
+  - strlcpy -> strscpy
+  - Fix xcsi2rxss_set_format()
 
-I added a call to "acpi_dev_put(adev)" after using the info, in order
-to avoid the leak.
+v8
+- 1/2
+  - Added reset-gpios optional property
+- 2/2
+  - Use clk_bulk* APIs
+  - Add gpio reset for asserting video_aresetn when stream line buffer occurs
+  - Removed short packet related events and irq handling
+    - V4L2_EVENT_XLNXCSIRX_SPKT and V4L2_EVENT_XLNXCSIRX_SPKT_OVF removed
+  - Removed frame counter control V4L2_CID_XILINX_MIPICSISS_FRAME_COUNTER
+    and xcsi2rxss_g_volatile_ctrl()
+  - Minor formatting fixes
 
-Btw, I guess we got some progress with the current version:
+v7
+- 1/2
+  - Removed the name of control from en-active-lanes as suggested by Sakari
+  - Updated the dt node name to csi2rx
+- 2/2
+  - No change
 
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=3Datomisp_v2.1
+v6
+- 1/2
+  - Added minor comment by Luca
+  - Added Reviewed by Rob Herring
+- 2/2
+  - No change
 
-This is what it outputs to dmesg:
+v5
+- 1/2
+  - Removed the DPHY clock description and dt node.
+  - removed bayer pattern as CSI doesn't deal with it.
+- 2/2
+  - removed bayer pattern as CSI doesn't deal with it.
+  - add YUV422 10bpc media bus format.
 
-[   78.131669] atomisp-isp2 0000:00:03.0: Detected Cherrytrail version 54 (=
-ISP2401) on T101HA
-[   78.131684] atomisp-isp2 0000:00:03.0: enabling device (0000 -> 0002)
-[   78.131924] atomisp-isp2 0000:00:03.0: start: 0x91000000
-[   78.132121] atomisp-isp2 0000:00:03.0: base: 00000000e25c1a2a
-[   78.132124] atomisp-isp2 0000:00:03.0: atomisp_io_base: 00000000e25c1a2a
-[   78.132135] atomisp-isp2 0000:00:03.0: ISP HPLL frequency base =3D 1600 =
-MHz
-[   78.236722] atomisp-isp2 0000:00:03.0: Firmware version may not be compa=
-tible with this driver
-[   78.236735] atomisp-isp2 0000:00:03.0: Expecting version 'irci_ecr - mas=
-ter_20150911_0724', but firmware is 'irci_stable_bw10p_0518_20150801_0537'.
-[   79.533784] atomisp-isp2 0000:00:03.0: no camera attached or fail to det=
-ect
-[   79.533829] atomisp-isp2 0000:00:03.0: atomisp_csi_lane_config: the port=
-config is 4-1-0, CSI_CONTROL is 0x000000FC
-[   79.533845] atomisp-isp2 0000:00:03.0: Entity type for entity ATOM ISP C=
-SI2-port0 was not initialized!
-[   79.533872] atomisp-isp2 0000:00:03.0: Entity type for entity ATOM ISP C=
-SI2-port1 was not initialized!
-[   79.533889] atomisp-isp2 0000:00:03.0: Entity type for entity ATOM ISP C=
-SI2-port2 was not initialized!
-[   79.533905] atomisp-isp2 0000:00:03.0: Entity type for entity file_input=
-_subdev was not initialized!
-[   79.533923] atomisp-isp2 0000:00:03.0: Entity type for entity tpg_subdev=
- was not initialized!
-[   79.533938] atomisp-isp2 0000:00:03.0: Entity type for entity ATOMISP_SU=
-BDEV_0 was not initialized!
-[   79.537195] atomisp-isp2 0000:00:03.0: Entity type for entity ATOMISP_SU=
-BDEV_1 was not initialized!
-[   79.538732] atomisp-isp2 0000:00:03.0: FILE_INPUT enable, camera_cnt: 0
-[   79.538746] atomisp-isp2 0000:00:03.0: TPG detected, camera_cnt: 1
-[   79.540979] atomisp-isp2 0000:00:03.0: atomisp_save_iunit_reg
-[   79.541096] atomisp-isp2 0000:00:03.0: DFS target frequency=3D100.
-[   79.541107] atomisp-isp2 0000:00:03.0: Programming DFS frequency to 100
-[   79.541133] atomisp-isp2 0000:00:03.0: waiting for ISPSSPM1 valid bit to=
- be 0.
-[   79.541247] atomisp-isp2 0000:00:03.0: atomisp_ospm_dphy_down
-[   79.541282] atomisp-isp2 0000:00:03.0: IUNIT power-off.
-[   79.546938] atomisp-isp2 0000:00:03.0: Firmware version may not be compa=
-tible with this driver
-[   79.546946] atomisp-isp2 0000:00:03.0: Expecting version 'irci_ecr - mas=
-ter_20150911_0724', but firmware is 'irci_stable_bw10p_0518_20150801_0537'.
-[   79.590508] atomisp_ov2680: module is from the staging directory, the qu=
-ality is unknown, you have been warned.
-[   79.591775] atomisp-isp2 0000:00:03.0: IUNIT power-off timeout.
-[   79.602168] atomisp-isp2 0000:00:03.0: open device ATOMISP ISP CAPTURE o=
-utput
-[   79.604503] ov2680 i2c-OVTI2680:00: ov2680_probe: ACPI detected it on bu=
-s ID=3DCAM1, HID=3DOVTI2680
-[   79.604545] ov2680 i2c-OVTI2680:00: found 'INT33F5:00' at address 0x5e, =
-adapter 6
-[   79.604550] ov2680 i2c-OVTI2680:00: gmin: power management provided via =
-Dollar Cove TI PMIC (i2c addr 0x5e)
-[   79.604566] ov2680 i2c-OVTI2680:00: Found DMI entry for 'OVTI2680:00_Cam=
-Clk'
-[   79.604573] ov2680 i2c-OVTI2680:00: Found DMI entry for 'OVTI2680:00_Clk=
-Src'
-[   79.604577] ov2680 i2c-OVTI2680:00: Found DMI entry for 'OVTI2680:00_Csi=
-Port'
-[   79.604582] ov2680 i2c-OVTI2680:00: Found DMI entry for 'OVTI2680:00_Csi=
-Lanes'
-[   79.604816] ov2680 i2c-OVTI2680:00: Found DMI entry for 'gmin_V1P8GPIO'
-[   79.604823] ov2680 i2c-OVTI2680:00: Found DMI entry for 'gmin_V2P8GPIO'
-[   79.604829] ov2680 i2c-OVTI2680:00: I2C write, addr: 0x5e, reg: 0x4a, va=
-lue: 0x59, mask: 0xff
-[   79.606914] ov2680 i2c-OVTI2680:00: I2C write, addr: 0x5e, reg: 0x49, va=
-lue: 0x2f, mask: 0xff
-[   79.611351] atomisp-isp2 0000:00:03.0: open device ATOMISP ISP CAPTURE o=
-utput
-[   79.617114] sh_css_hrt_system_is_idle() 44: warning: SP not idle
-[   79.617128] sh_css_hrt_system_is_idle() 49: warning: ISP not idle
-[   79.617539] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 12 is =
-not empty
-[   79.617909] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 26 is =
-not empty
-[   79.618020] atomisp-isp2 0000:00:03.0: css init failed --- bad firmware?
-[   79.625849] ------------[ cut here ]------------
-[   79.625858] virt_to_cache: Object is not a Slab page!
-[   79.625894] WARNING: CPU: 0 PID: 1396 at mm/slab.h:475 cache_from_obj+0x=
-ab/0xf0
-[   79.625897] Modules linked in: atomisp_ov2680(CE+) atomisp(CE) videobuf_=
-vmalloc(E) videobuf_core(E) videodev(E) mc(E) ccm(E) nft_fib_inet(E) nft_fi=
-b_ipv4(E) nft_fib_ipv6(E) nft_fib(E) nft_reject_inet(E) nf_reject_ipv4(E) n=
-f_reject_ipv6(E) nft_reject(E) nft_ct(E) nft_chain_nat(E) ip6table_nat(E) i=
-p6table_mangle(E) ip6table_raw(E) ip6table_security(E) iptable_nat(E) nf_na=
-t(E) nf_conntrack(E) nf_defrag_ipv6(E) libcrc32c(E) nf_defrag_ipv4(E) iptab=
-le_mangle(E) iptable_raw(E) iptable_security(E) ip_set(E) nf_tables(E) nfne=
-tlink(E) ip6table_filter(E) ip6_tables(E) iptable_filter(E) cmac(E) bnep(E)=
- sunrpc(E) vfat(E) fat(E) snd_soc_sst_cht_bsw_rt5645(E) mei_hdcp(E) gpio_ke=
-ys(E) intel_rapl_msr(E) intel_powerclamp(E) coretemp(E) kvm_intel(E) kvm(E)=
- irqbypass(E) crct10dif_pclmul(E) crc32_pclmul(E) ghash_clmulni_intel(E) in=
-tel_cstate(E) asus_nb_wmi(E) wdat_wdt(E) pcspkr(E) ath10k_pci(E) ath10k_cor=
-e(E) intel_chtdc_ti_pwrbtn(E) ath(E) mac80211(E) btusb(E) btrtl(E) joydev(E=
-) btbcm(E) btintel(E)
-[   79.625960]  bluetooth(E) ecdh_generic(E) libarc4(E) ecc(E) cfg80211(E) =
-hid_sensor_accel_3d(E) hid_sensor_gyro_3d(E) hid_sensor_trigger(E) hid_sens=
-or_iio_common(E) industrialio_triggered_buffer(E) kfifo_buf(E) industrialio=
-(E) snd_soc_rt5645(E) snd_soc_rl6231(E) snd_intel_sst_acpi(E) snd_intel_sst=
-_core(E) intel_hid(E) snd_soc_sst_atom_hifi2_platform(E) snd_soc_acpi_intel=
-_match(E) snd_soc_acpi(E) spi_pxa2xx_platform(E) snd_soc_core(E) snd_compre=
-ss(E) dw_dmac(E) int3406_thermal(E) int3403_thermal(E) snd_hdmi_lpe_audio(E=
-) int3400_thermal(E) acpi_thermal_rel(E) snd_seq(E) intel_int0002_vgpio(E) =
-soc_button_array(E) acpi_pad(E) snd_seq_device(E) intel_xhci_usb_role_switc=
-h(E) snd_pcm(E) snd_timer(E) snd(E) soundcore(E) mei_txe(E) lpc_ich(E) mei(=
-E) processor_thermal_device(E) intel_soc_dts_iosf(E) intel_rapl_common(E) i=
-nt340x_thermal_zone(E) ip_tables(E) hid_sensor_hub(E) intel_ishtp_loader(E)=
- intel_ishtp_hid(E) mmc_block(E) hid_multitouch(E) crc32c_intel(E) i915(E) =
-i2c_algo_bit(E) hid_asus(E)
-[   79.626014]  drm_kms_helper(E) asus_wmi(E) sparse_keymap(E) rfkill(E) in=
-tel_ish_ipc(E) intel_ishtp(E) drm(E) wmi(E) video(E) i2c_hid(E) pwm_lpss_pl=
-atform(E) pwm_lpss(E) sdhci_acpi(E) sdhci(E) mmc_core(E) fuse(E)
-[   79.626038] CPU: 0 PID: 1396 Comm: v4l_id Tainted: G         C  E     5.=
-7.0-rc2+ #40
-[   79.626041] Hardware name: ASUSTeK COMPUTER INC. T101HA/T101HA, BIOS T10=
-1HA.306 04/23/2019
-[   79.626047] RIP: 0010:cache_from_obj+0xab/0xf0
-[   79.626053] Code: c3 31 c0 80 3d 1c 38 72 01 00 75 f0 48 c7 c6 20 12 06 =
-b4 48 c7 c7 10 f3 37 b4 48 89 04 24 c6 05 01 38 72 01 01 e8 2c 99 e0 ff <0f=
-> 0b 48 8b 04 24 eb ca 48 8b 57 58 48 8b 48 58 48 c7 c6 30 12 06
-[   79.626056] RSP: 0018:ffffac0540febb10 EFLAGS: 00010282
-[   79.626060] RAX: 0000000000000029 RBX: 0000000000000048 RCX: 00000000000=
-00007
-[   79.626063] RDX: 00000000fffffff8 RSI: 0000000000000082 RDI: ffff99ad7bc=
-19cc0
-[   79.626065] RBP: 0000000000c49000 R08: 00000000000003d8 R09: ffffac0540f=
-eb9a0
-[   79.626068] R10: 0000000000000005 R11: 0000000000000000 R12: ffffffffc13=
-3ca80
-[   79.626071] R13: ffff99ac6e040000 R14: 0000000000c49000 R15: ffff99ac6e0=
-40000
-[   79.626075] FS:  00007f542c0f0b80(0000) GS:ffff99ad7bc00000(0000) knlGS:=
-0000000000000000
-[   79.626078] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[   79.626080] CR2: 0000563de87ab268 CR3: 00000001455f6000 CR4: 00000000001=
-006f0
-[   79.626083] Call Trace:
-[   79.626097]  kmem_cache_free+0x19/0x180
-[   79.626167]  mmu_l2_unmap+0xd1/0x100 [atomisp]
-[   79.626213]  mmu_unmap+0xd0/0xf0 [atomisp]
-[   79.626257]  hmm_bo_unbind+0x62/0xb0 [atomisp]
-[   79.626304]  hmm_free+0x44/0x60 [atomisp]
-[   79.626345]  ia_css_spctrl_unload_fw+0x30/0x50 [atomisp]
-[   79.626387]  ia_css_uninit+0x3a/0x90 [atomisp]
-[   79.626428]  atomisp_open+0x501/0x5c0 [atomisp]
-[   79.626458]  v4l2_open+0x85/0xf0 [videodev]
-[   79.626468]  chrdev_open+0xdd/0x210
-[   79.626473]  ? cdev_device_add+0xc0/0xc0
-[   79.626479]  do_dentry_open+0x13a/0x380
-[   79.626484]  path_openat+0xa9a/0xfe0
-[   79.626491]  do_filp_open+0x75/0x100
-[   79.626496]  ? __check_object_size+0x12e/0x13c
-[   79.626501]  ? __alloc_fd+0x44/0x150
-[   79.626506]  do_sys_openat2+0x8a/0x130
-[   79.626512]  __x64_sys_openat+0x46/0x70
-[   79.626519]  do_syscall_64+0x5b/0xf0
-[   79.626528]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-[   79.626533] RIP: 0033:0x7f542d23229b
-[   79.626539] Code: 25 00 00 41 00 3d 00 00 41 00 74 4b 64 8b 04 25 18 00 =
-00 00 85 c0 75 67 44 89 e2 48 89 ee bf 9c ff ff ff b8 01 01 00 00 0f 05 <48=
-> 3d 00 f0 ff ff 0f 87 91 00 00 00 48 8b 4c 24 28 64 48 2b 0c 25
-[   79.626542] RSP: 002b:00007fff3f8f7ca0 EFLAGS: 00000246 ORIG_RAX: 000000=
-0000000101
-[   79.626547] RAX: ffffffffffffffda RBX: 00007fff3f8f7e98 RCX: 00007f542d2=
-3229b
-[   79.626549] RDX: 0000000000000000 RSI: 00007fff3f8f8f2f RDI: 00000000fff=
-fff9c
-[   79.626552] RBP: 00007fff3f8f8f2f R08: 0000000000000000 R09: 00000000000=
-00000
-[   79.626555] R10: 0000000000000000 R11: 0000000000000246 R12: 00000000000=
-00000
-[   79.626557] R13: 0000000000000000 R14: 0000000000000000 R15: 00000000000=
-00000
-[   79.626562] ---[ end trace 29196eb433c515e0 ]---
-[   79.631279] atomisp-isp2 0000:00:03.0: atomisp_mrfld_pre_power_down: err=
-or in iunit interrupt. status reg=3D0xffffffff
-[   79.634585] sh_css_hrt_system_is_idle() 44: warning: SP not idle
-[   79.634598] sh_css_hrt_system_is_idle() 49: warning: ISP not idle
-[   79.634947] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 12 is =
-not empty
-[   79.635314] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 26 is =
-not empty
-[   79.635487] atomisp-isp2 0000:00:03.0: css init failed --- bad firmware?
-[   79.636878] atomisp-isp2 0000:00:03.0: atomisp_mrfld_pre_power_down: err=
-or in iunit interrupt. status reg=3D0xffffffff
-[   79.646387] atomisp-isp2 0000:00:03.0: open device ATOMISP ISP VIDEO out=
-put
-[   79.678237] atomisp-isp2 0000:00:03.0: open device ATOMISP ISP PREVIEW o=
-utput
-[   79.680037] sh_css_hrt_system_is_idle() 44: warning: SP not idle
-[   79.680051] sh_css_hrt_system_is_idle() 49: warning: ISP not idle
-[   79.681501] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 12 is =
-not empty
-[   79.681871] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 26 is =
-not empty
-[   79.681983] atomisp-isp2 0000:00:03.0: css init failed --- bad firmware?
-[   79.683462] ov2680 i2c-OVTI2680:00: camera pdata: port: 1 lanes: 1 order=
-: 00000002
-[   79.684028] ov2680 i2c-OVTI2680:00: sensor_revision id =3D 0x2680, rev=
-=3D 0
-[   79.684060] ov2680 i2c-OVTI2680:00: I2C write, addr: 0x5e, reg: 0x4a, va=
-lue: 0x58, mask: 0xff
-[   79.687202] atomisp-isp2 0000:00:03.0: atomisp_mrfld_pre_power_down: err=
-or in iunit interrupt. status reg=3D0xffffffff
-[   79.687620] ov2680 i2c-OVTI2680:00: I2C write, addr: 0x5e, reg: 0x49, va=
-lue: 0x2e, mask: 0xff
-[   79.692369] ov2680 i2c-OVTI2680:00: register atomisp i2c module type 1
-[   79.740187] atomisp-isp2 0000:00:03.0: open device ATOMISP ISP VIEWFINDE=
-R output
-[   79.742596] sh_css_hrt_system_is_idle() 44: warning: SP not idle
-[   79.743030] sh_css_hrt_system_is_idle() 49: warning: ISP not idle
-[   79.743430] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 12 is =
-not empty
-[   79.743799] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 26 is =
-not empty
-[   79.743909] atomisp-isp2 0000:00:03.0: css init failed --- bad firmware?
-[   79.745403] atomisp-isp2 0000:00:03.0: atomisp_mrfld_pre_power_down: err=
-or in iunit interrupt. status reg=3D0xffffffff
-[   79.749602] sh_css_hrt_system_is_idle() 44: warning: SP not idle
-[   79.749617] sh_css_hrt_system_is_idle() 49: warning: ISP not idle
-[   79.749964] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 12 is =
-not empty
-[   79.750332] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 26 is =
-not empty
-[   79.750484] atomisp-isp2 0000:00:03.0: css init failed --- bad firmware?
-[   79.753638] atomisp-isp2 0000:00:03.0: atomisp_mrfld_pre_power_down: err=
-or in iunit interrupt. status reg=3D0xffffffff
-[   79.776839] atomisp-isp2 0000:00:03.0: open device ATOMISP ISP VIDEO out=
-put
-[   79.779316] atomisp-isp2 0000:00:03.0: open device ATOMISP ISP MEMORY in=
-put
-[   79.780289] sh_css_hrt_system_is_idle() 44: warning: SP not idle
-[   79.780302] sh_css_hrt_system_is_idle() 49: warning: ISP not idle
-[   79.780678] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 12 is =
-not empty
-[   79.781046] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 26 is =
-not empty
-[   79.781155] atomisp-isp2 0000:00:03.0: css init failed --- bad firmware?
-[   79.782329] atomisp-isp2 0000:00:03.0: atomisp_mrfld_pre_power_down: err=
-or in iunit interrupt. status reg=3D0xffffffff
-[   79.790926] sh_css_hrt_system_is_idle() 44: warning: SP not idle
-[   79.790946] sh_css_hrt_system_is_idle() 49: warning: ISP not idle
-[   79.791294] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 12 is =
-not empty
-[   79.791702] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 26 is =
-not empty
-[   79.791814] atomisp-isp2 0000:00:03.0: css init failed --- bad firmware?
-[   79.794120] atomisp-isp2 0000:00:03.0: atomisp_mrfld_pre_power_down: err=
-or in iunit interrupt. status reg=3D0xffffffff
-[   79.807736] atomisp-isp2 0000:00:03.0: open device ATOMISP ISP ACC
-[   79.811965] sh_css_hrt_system_is_idle() 44: warning: SP not idle
-[   79.811979] sh_css_hrt_system_is_idle() 49: warning: ISP not idle
-[   79.812327] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 12 is =
-not empty
-[   79.812746] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 26 is =
-not empty
-[   79.812858] atomisp-isp2 0000:00:03.0: css init failed --- bad firmware?
-[   79.813675] atomisp-isp2 0000:00:03.0: open device ATOMISP ISP ACC
-[   79.815783] atomisp-isp2 0000:00:03.0: atomisp_mrfld_pre_power_down: err=
-or in iunit interrupt. status reg=3D0xffffffff
-[   79.819828] sh_css_hrt_system_is_idle() 44: warning: SP not idle
-[   79.819842] sh_css_hrt_system_is_idle() 49: warning: ISP not idle
-[   79.820190] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 12 is =
-not empty
-[   79.820617] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 26 is =
-not empty
-[   79.820729] atomisp-isp2 0000:00:03.0: css init failed --- bad firmware?
-[   79.821054] atomisp-isp2 0000:00:03.0: open device ATOMISP ISP PREVIEW o=
-utput
-[   79.821828] atomisp-isp2 0000:00:03.0: atomisp_mrfld_pre_power_down: err=
-or in iunit interrupt. status reg=3D0xffffffff
-[   79.826462] atomisp-isp2 0000:00:03.0: open device ATOMISP ISP VIEWFINDE=
-R output
-[   79.827449] sh_css_hrt_system_is_idle() 44: warning: SP not idle
-[   79.827462] sh_css_hrt_system_is_idle() 49: warning: ISP not idle
-[   79.827812] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 12 is =
-not empty
-[   79.828188] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 26 is =
-not empty
-[   79.828299] atomisp-isp2 0000:00:03.0: css init failed --- bad firmware?
-[   79.830094] atomisp-isp2 0000:00:03.0: atomisp_mrfld_pre_power_down: err=
-or in iunit interrupt. status reg=3D0xffffffff
-[   79.842812] sh_css_hrt_system_is_idle() 44: warning: SP not idle
-[   79.842830] sh_css_hrt_system_is_idle() 49: warning: ISP not idle
-[   79.843724] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 12 is =
-not empty
-[   79.845134] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 26 is =
-not empty
-[   79.845760] atomisp-isp2 0000:00:03.0: css init failed --- bad firmware?
-[   79.847366] atomisp-isp2 0000:00:03.0: atomisp_mrfld_pre_power_down: err=
-or in iunit interrupt. status reg=3D0xffffffff
-[  146.677485] atomisp-isp2 0000:00:03.0: open device ATOMISP ISP CAPTURE o=
-utput
-[  146.687599] sh_css_hrt_system_is_idle() 44: warning: SP not idle
-[  146.687611] sh_css_hrt_system_is_idle() 49: warning: ISP not idle
-[  146.687991] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 12 is =
-not empty
-[  146.688359] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 26 is =
-not empty
-[  146.688478] atomisp-isp2 0000:00:03.0: css init failed --- bad firmware?
-[  146.689792] atomisp-isp2 0000:00:03.0: atomisp_mrfld_pre_power_down: err=
-or in iunit interrupt. status reg=3D0xffffffff
+v4
+- 1/2
+  - Added reviewed by Hyun Kwon
+- 2/2
+  - Removed irq member from core structure
+  - Consolidated IP config prints in xcsi2rxss_log_ipconfig()
+  - Return -EINVAL in case of invalid ioctl
+  - Code formatting
+  - Added reviewed by Hyun Kwon
 
-=46rom the above, it sounds that both the ISP and the sensors got power,
-although there are still some things to be fixed there, at the "pre_power"
-part.
+v3
+- 1/2
+  - removed interrupt parent as suggested by Rob
+  - removed dphy clock
+  - moved vfb to optional properties
+  - Added required and optional port properties section
+  - Added endpoint property section
+- 2/2
+ - Fixed comments given by Hyun.
+ - Removed DPHY 200 MHz clock. This will be controlled by DPHY driver
+ - Minor code formatting
+ - en_csi_v20 and vfb members removed from struct and made local to dt parsing
+ - lock description updated
+ - changed to ratelimited type for all dev prints in irq handler
+ - Removed YUV 422 10bpc media format
 
-The memory alloc code has bugs, and it may have issues due to the
-incompatibility between the firmware I used and the one used to
-generate this driver's version.
+v2
+- 1/2
+  - updated the compatible string to latest version supported
+  - removed DPHY related parameters
+  - added CSI v2.0 related property (including VCX for supporting upto 16
+    virtual channels).
+  - modified csi-pxl-format from string to unsigned int type where the value
+    is as per the CSI specification
+  - Defined port 0 and port 1 as sink and source ports.
+  - Removed max-lanes property as suggested by Rob and Sakari
 
-Trying to open a video devnode returns error and produce those logs:
+- 2/2
+  - Fixed comments given by Hyun and Sakari.
+  - Made all bitmask using BIT() and GENMASK()
+  - Removed unused definitions
+  - Removed DPHY access. This will be done by separate DPHY PHY driver.
+  - Added support for CSI v2.0 for YUV 422 10bpc, RAW16, RAW20 and extra
+    virtual channels
+  - Fixed the ports as sink and source
+  - Now use the v4l2fwnode API to get number of data-lanes
+  - Added clock framework support
+  - Removed the close() function
+  - updated the set format function
+  - Support only VFB enabled config
 
-	[ 3262.961623] atomisp-isp2 0000:00:03.0: open device ATOMISP ISP CAPTURE =
-output
-	[ 3262.971350] sh_css_hrt_system_is_idle() 44: warning: SP not idle
-	[ 3262.971364] sh_css_hrt_system_is_idle() 49: warning: ISP not idle
-	[ 3262.971712] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 12 is=
- not empty
-	[ 3262.972079] sh_css_hrt_system_is_idle() 56: warning: FIFO channel 26 is=
- not empty
-	[ 3262.972188] atomisp-isp2 0000:00:03.0: css init failed --- bad firmware?
-	[ 3262.974982] atomisp-isp2 0000:00:03.0: atomisp_mrfld_pre_power_down: er=
-ror in iunit interrupt. status reg=3D0xffffffff
+Vishal Sagar (2):
+  media: dt-bindings: media: xilinx: Add Xilinx MIPI CSI-2 Rx Subsystem
+  media: v4l: xilinx: Add Xilinx MIPI CSI-2 Rx Subsystem driver
 
-Thanks,
-Mauro
+ .../bindings/media/xilinx/xlnx,csi2rxss.yaml  |  226 ++++
+ drivers/media/platform/xilinx/Kconfig         |    7 +
+ drivers/media/platform/xilinx/Makefile        |    1 +
+ .../media/platform/xilinx/xilinx-csi2rxss.c   | 1114 +++++++++++++++++
+ 4 files changed, 1348 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/xilinx/xlnx,csi2rxss.yaml
+ create mode 100644 drivers/media/platform/xilinx/xilinx-csi2rxss.c
+
+-- 
+2.21.0
+
