@@ -2,129 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FBC31CED4B
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 08:51:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9D271CEDA3
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 09:08:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728948AbgELGvR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 02:51:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51004 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725987AbgELGvQ (ORCPT
+        id S1725987AbgELHIu convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 12 May 2020 03:08:50 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:40283 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725813AbgELHIu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 02:51:16 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2CE3C061A0C;
-        Mon, 11 May 2020 23:51:15 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id y24so21992336wma.4;
-        Mon, 11 May 2020 23:51:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=PzqUJAgwkfPwZqY9huLuJ57Jz2DxDsPXmmqSEmn6iEQ=;
-        b=jYYn2rm9tXXBGEfdfNQxs0IaQPLDPbZSznuhX3K3+inFDcNXl0KqQtlWqLM9/BjpNP
-         kVv7wd8np8uF/tWqF7LnPYZiT9kKEfwIdiBsKmde+aZznx/vHd5yLgXEiJ8u98GMTMm/
-         Gsv4kEFmvrb1jC/i9LQB3C+LyUCfjfqEwgt12dDtMEOnNbO0QMLxQwIa2COQGzigJXAe
-         4CaHT90CiQBrTZ2ua2AHa+d8Mi+GHAtvKm9bHHumm3st3Gi8TwvFOWQJTogShROTWwN9
-         OmVGoAxdexdjEQoAoQEigGrj3xKbHKGvBoDQU53JtJj2qNesFI9pkKokCm7CWUhcF4NW
-         GQSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=PzqUJAgwkfPwZqY9huLuJ57Jz2DxDsPXmmqSEmn6iEQ=;
-        b=PRRpqQRHdTXg+LpL8hkkd1ya4OPrzV6h31q422IpRhu4Gh1mzelUKGAmGPR1Ke7YqL
-         r0WJfJyjmU0iE27M2Ph5Z9CbG8w5fWUQO2hGFHw8ojx8r4SJGX/4qk32GvxdGXaZNPL6
-         smito80wpiS6RqgzdYwwUzKLo+PSjWgv26ujnT+VoAW+gxAcjqTWU7yiI/TSdao8ruVw
-         25WxhuBFbtzMgt67wgCznMrjlONg5Nz1G40oQEuI5ciBfVQOGPp4bHsT+nqfxyoqpgeP
-         fDyWZmfzvpD9R26f29ibv3kb3ldzEp7FrXqkXUOzLbUXXOpjRcXJv0FAWF+dec3m9eOk
-         ONkg==
-X-Gm-Message-State: AGi0PuZxP89QPhIrrVOvRUBbMq91Cm4rdqgj3r5V8w4o4N+v/ZyrxoCD
-        rBXVtJ26Ma3J+1g/WVbJuM4=
-X-Google-Smtp-Source: APiQypJvYf4NALaAkFyguhqo82x6QEXVkcwJJetASyREMrQ2k+rzJEeg2imq5+2NaLIPszqT4KSHyA==
-X-Received: by 2002:a7b:cf23:: with SMTP id m3mr34648915wmg.36.1589266274574;
-        Mon, 11 May 2020 23:51:14 -0700 (PDT)
-Received: from skynet.lan (198.red-83-49-57.dynamicip.rima-tde.net. [83.49.57.198])
-        by smtp.gmail.com with ESMTPSA id n25sm30740119wmk.9.2020.05.11.23.51.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 23:51:14 -0700 (PDT)
-From:   =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>
-To:     computersforpeace@gmail.com, kdasu.kdev@gmail.com,
-        miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-        sumit.semwal@linaro.org, linux-mtd@lists.infradead.org,
+        Tue, 12 May 2020 03:08:50 -0400
+X-Originating-IP: 91.224.148.103
+Received: from xps13 (unknown [91.224.148.103])
+        (Authenticated sender: miquel.raynal@bootlin.com)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id C58C6C000C;
+        Tue, 12 May 2020 07:08:45 +0000 (UTC)
+Date:   Tue, 12 May 2020 09:08:44 +0200
+From:   Miquel Raynal <miquel.raynal@bootlin.com>
+To:     =?UTF-8?B?w4FsdmFybyBGZXJuw6FuZGV6?= Rojas <noltari@gmail.com>
+Cc:     computersforpeace@gmail.com, kdasu.kdev@gmail.com, richard@nod.at,
+        vigneshr@ti.com, sumit.semwal@linaro.org,
+        linux-mtd@lists.infradead.org,
         bcm-kernel-feedback-list@broadcom.com,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>
-Subject: [PATCH v3] mtd: rawnand: brcmnand: correctly verify erased pages
-Date:   Tue, 12 May 2020 08:51:11 +0200
-Message-Id: <20200512065111.716801-1-noltari@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200505082055.2843847-1-noltari@gmail.com>
-References: <20200505082055.2843847-1-noltari@gmail.com>
+Subject: Re: [PATCH v3 2/2] mtd: rawnand: brcmnand: improve hamming oob
+ layout
+Message-ID: <20200512090844.21bcaf22@xps13>
+In-Reply-To: <20200512060023.684871-3-noltari@gmail.com>
+References: <20200504185945.2776148-1-noltari@gmail.com>
+        <20200512060023.684871-1-noltari@gmail.com>
+        <20200512060023.684871-3-noltari@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The current code checks that the whole OOB area is erased.
-This is a problem when JFFS2 cleanmarkers are added to the OOB, since it will
-fail due to the usable OOB bytes not being 0xff.
-Correct this by only checking that data and ECC bytes aren't 0xff.
+Hi Álvaro,
 
-Fixes: 02b88eea9f9c ("mtd: brcmnand: Add check for erased page bitflips")
-Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
----
- v3: Fix commit log and merge nand_check_erased_ecc_chunk calls.
- v2: Add Fixes tag
+Álvaro Fernández Rojas <noltari@gmail.com> wrote on Tue, 12 May 2020
+08:00:23 +0200:
 
- drivers/mtd/nand/raw/brcmnand/brcmnand.c | 19 ++++++++++++++-----
- 1 file changed, 14 insertions(+), 5 deletions(-)
+> The current code generates 8 oob sections:
+> S1	1-5
+> ECC	6-8
+> S2	9-15
+> S3	16-21
+> ECC	22-24
+> S4	25-31
+> S5	32-37
+> ECC	38-40
+> S6	41-47
+> S7	48-53
+> ECC	54-56
+> S8	57-63
+> 
+> Change it by merging continuous sections:
+> S1	1-5
+> ECC	6-8
+> S2	9-21
+> ECC	22-24
+> S3	25-37
+> ECC	38-40
+> S4	41-53
+> ECC	54-56
+> S5	57-63
+> 
+> Fixes: ef5eeea6e911 ("mtd: nand: brcm: switch to mtd_ooblayout_ops")
 
-diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-index e4e3ceeac38f..80fe01f03516 100644
---- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-+++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-@@ -2018,8 +2018,9 @@ static int brcmnand_read_by_pio(struct mtd_info *mtd, struct nand_chip *chip,
- static int brcmstb_nand_verify_erased_page(struct mtd_info *mtd,
- 		  struct nand_chip *chip, void *buf, u64 addr)
- {
-+	struct mtd_oob_region oobecc;
- 	int i, sas;
--	void *oob = chip->oob_poi;
-+	void *oob;
- 	int bitflips = 0;
- 	int page = addr >> chip->page_shift;
- 	int ret;
-@@ -2035,11 +2036,19 @@ static int brcmstb_nand_verify_erased_page(struct mtd_info *mtd,
- 	if (ret)
- 		return ret;
- 
--	for (i = 0; i < chip->ecc.steps; i++, oob += sas) {
-+	for (i = 0; i < chip->ecc.steps; i++) {
- 		ecc_chunk = buf + chip->ecc.size * i;
--		ret = nand_check_erased_ecc_chunk(ecc_chunk,
--						  chip->ecc.size,
--						  oob, sas, NULL, 0,
-+
-+		if (mtd->ooblayout->ecc(mtd, i, &oobecc)) {
-+			oob = NULL;
-+			oobecc.length = 0;
-+		} else {
-+			oob = chip->oob_poi + oobecc.offset;
-+		}
-+
-+		ret = nand_check_erased_ecc_chunk(ecc_chunk, chip->ecc.size,
-+						  oob, oobecc.length,
-+						  NULL, 0,
- 						  chip->ecc.strength);
- 		if (ret < 0)
- 			return ret;
--- 
-2.26.2
+Sorry for leading you the wrong way, actually this patch does not
+deserve a Fixes tag.
 
+> Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
+> ---
+>  v3: invert patch order
+>  v2: keep original comment and fix correctly skip byte 6 for small-page nand
+> 
+>  drivers/mtd/nand/raw/brcmnand/brcmnand.c | 37 ++++++++++++------------
+>  1 file changed, 18 insertions(+), 19 deletions(-)
+> 
+> diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+> index 1c1070111ebc..0a1d76fde37b 100644
+> --- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+> +++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+> @@ -1100,33 +1100,32 @@ static int brcmnand_hamming_ooblayout_free(struct mtd_info *mtd, int section,
+>  	struct brcmnand_cfg *cfg = &host->hwcfg;
+>  	int sas = cfg->spare_area_size << cfg->sector_size_1k;
+>  	int sectors = cfg->page_size / (512 << cfg->sector_size_1k);
+> +	u32 next;
+>  
+> -	if (section >= sectors * 2)
+> +	if (section > sectors)
+>  		return -ERANGE;
+>  
+> -	oobregion->offset = (section / 2) * sas;
+> +	next = (section * sas);
+> +	if (section < sectors)
+> +		next += 6;
+>  
+> -	if (section & 1) {
+> -		oobregion->offset += 9;
+> -		oobregion->length = 7;
+> +	if (section) {
+> +		oobregion->offset = ((section - 1) * sas) + 9;
+>  	} else {
+> -		oobregion->length = 6;
+> -
+> -		/* First sector of each page may have BBI */
+> -		if (!section) {
+> -			/*
+> -			 * Small-page NAND use byte 6 for BBI while large-page
+> -			 * NAND use bytes 0 and 1.
+> -			 */
+> -			if (cfg->page_size > 512) {
+> -				oobregion->offset += 2;
+> -				oobregion->length -= 2;
+> -			} else {
+> -				oobregion->length--;
+> -			}
+> +		/*
+> +		 * Small-page NAND use byte 6 for BBI while large-page
+> +		 * NAND use bytes 0 and 1.
+> +		 */
+> +		if (cfg->page_size > 512) {
+> +			oobregion->offset = 2;
+> +		} else {
+> +			oobregion->offset = 0;
+> +			next--;
+
+This next-- seems very strange, can you explain?
+
+>  		}
+>  	}
+>  
+> +	oobregion->length = next - oobregion->offset;
+> +
+>  	return 0;
+>  }
+>  
+
+
+Thanks,
+Miquèl
