@@ -2,96 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50E311CEA2E
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 03:41:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC4AF1CEAA5
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 04:14:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728115AbgELBli (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 11 May 2020 21:41:38 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:35497 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726415AbgELBli (ORCPT
+        id S1728575AbgELCOe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 11 May 2020 22:14:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36454 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727942AbgELCOd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 11 May 2020 21:41:38 -0400
-Received: by mail-oi1-f196.google.com with SMTP id o7so16924736oif.2;
-        Mon, 11 May 2020 18:41:37 -0700 (PDT)
+        Mon, 11 May 2020 22:14:33 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87E3EC061A0C;
+        Mon, 11 May 2020 19:14:33 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id yc10so7772708ejb.12;
+        Mon, 11 May 2020 19:14:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6gJvFOJgRmCUuHQ9KCv0CAQBXJvMZ3ZEqpa1faKKd80=;
+        b=D6meoNPiM/kyzO8itLiSOkXRVo2//1y42iO0SvsJphtgJc+98LNMkQyuYCgzAGZueb
+         MCqVzNdD6z41HnSMAh6Nq4oQc+co5pwat8b0NK+qxYWE4hBAcuwkjPeFRL6eMIPtmsOc
+         CHgXW0JqigelR2oxmJ6ZpGfv7ABk4iGu5Le9PUPfojeEZpjHcpl+bBDOqejGvLFgHLNP
+         L64GyHrJFQ+dXLZeKuHP5qNfLXqcMotUKFo+0JjY+SeZ7aSKN+pky2j9aB2GCQxxYEOe
+         0KK7mN6qN0ZprKspu11gTihjR5yE0Nts47MfgiP2KZjQInixK+KnscSeSP26B5iI+rT+
+         KZKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=qc7aeZe8qKrHeqqbdWlSzYUTH7CM0WkR8L80HDu2Jy4=;
-        b=F3tvvfc5oHR3pf9tKZh1o2xmhx5MfrrzBIZRwv9sl858GrcOAdeppNjVxb5SLfFHLV
-         G1sKOjjaz9ITRbK75l4D9jZzn24lPtQCqe+NPV1ZAZs6JFfPgciG9efcY87kormQSy/9
-         7TT9R6XfhKa26UKEExBCKnY2lu9iGeSiIrRtGJegzDaHFagG0gG0PcsWFcLBqGyCbpT1
-         y1X0PmAkVunDcT4odpQMWVd3KZi0nn9lyTzcN8tsfrxMfSWx0r857uC+jKNdOAG3i9Cb
-         GrzZDbr8CAF5gAaP76btA2mRXG9yHvwfzAp/3SaRMb5VFoBV+YDKRsmySvVhV6eI3QLa
-         YP4A==
-X-Gm-Message-State: AGi0PuZE1CqSCQUqy4BxiozB7y1BwFFWgreyOnxQrnBinDCVdQlKZiH0
-        VVPKB6S6dhRz6SCna4j3hg==
-X-Google-Smtp-Source: APiQypLtu39AJZfEb9cdImmCaZsDHwlqCT3WzgPF/Bxr7JVZSOElTYZZjaXHg/QrGCEcZAYMLJ4VYg==
-X-Received: by 2002:aca:a90e:: with SMTP id s14mr22266347oie.80.1589247696893;
-        Mon, 11 May 2020 18:41:36 -0700 (PDT)
-Received: from rob-hp-laptop (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id 130sm1697610oid.43.2020.05.11.18.41.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 May 2020 18:41:36 -0700 (PDT)
-Received: (nullmailer pid 15739 invoked by uid 1000);
-        Tue, 12 May 2020 01:41:35 -0000
-Date:   Mon, 11 May 2020 20:41:35 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Lubomir Rintel <lkundrak@v3.sk>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-clk@vger.kernel.org, Liam Girdwood <lgirdwood@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH 1/2] dt-bindings: sound: Add Marvell MMP Audio Clock
- Controller binding
-Message-ID: <20200512014135.GA15336@bogus>
-References: <20200511195534.1207927-1-lkundrak@v3.sk>
- <20200511195534.1207927-2-lkundrak@v3.sk>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6gJvFOJgRmCUuHQ9KCv0CAQBXJvMZ3ZEqpa1faKKd80=;
+        b=PP02KZSjYSsLQyDBObydjsD4RxD4avLhg+xX7eSrCLklg3p0JOXfC1XW1dJT9h0Z47
+         hMJgUbPpMSzp3753/hPBOyR7hH05+n7sTbRKAKV5DHumE4mVFlyzKQxgminFdxzjCmfL
+         nXOXWkzHPMfw4dJvKRsk0EfGil58gxfvrdu+Szg8358BOdbn3ag/ssDI5Id3iizHkQIs
+         3JjKjKN3fCKkMm8Q+8vEST5T4e/5HQLZmegIdoSMux9E0MvS8K6Sgfjw6wOMlZSitNXI
+         18e5WzoXI+8/hqzrWX2Fz5M4Nh0OXk6BysbFjnJyDB+dGd4GKxMBec3YX8LAzFF8JWfu
+         kTkA==
+X-Gm-Message-State: AGi0PuaCMZOkrL8cfhYjQtGuyQWSJCIK+GcQClHxXKlmgQmio/YtksSO
+        ImBtyLPZ0LRDn/o2o6nZyDRdHrf1rPEWWTQerUM=
+X-Google-Smtp-Source: APiQypKvoGJ05XwMC2ywwTCNcJ1snijF1Y8YHOxuAycdEcZGBHIMpEuM9QUFeK3xCS81J/YmfWca02XITf2P9jmfZVw=
+X-Received: by 2002:a17:907:2155:: with SMTP id rk21mr16482845ejb.163.1589249672229;
+ Mon, 11 May 2020 19:14:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200511195534.1207927-2-lkundrak@v3.sk>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200511091142.208787-1-daniel.vetter@ffwll.ch>
+ <20200511091142.208787-3-daniel.vetter@ffwll.ch> <CAFCwf10m14ModSuRbQAsWf5CSJvTeP7YRzcokD=o+m2Pa0TqKg@mail.gmail.com>
+In-Reply-To: <CAFCwf10m14ModSuRbQAsWf5CSJvTeP7YRzcokD=o+m2Pa0TqKg@mail.gmail.com>
+From:   Dave Airlie <airlied@gmail.com>
+Date:   Tue, 12 May 2020 12:14:20 +1000
+Message-ID: <CAPM=9tyukFdDiM6-Mxd+ouXCt9Z4t6LRZwxq7DGoX9drrHnMdQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 3/3] misc/habalabs: don't set default fence_ops->wait
+To:     Oded Gabbay <oded.gabbay@gmail.com>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Olof Johansson <olof@lixom.net>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 11 May 2020 21:55:33 +0200, Lubomir Rintel wrote:
-> This describes the bindings for a controller that generates master and bit
-> clocks for the I2S interface.
-> 
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-> ---
->  .../clock/marvell,mmp2-audio-clock.yaml       | 73 +++++++++++++++++++
->  .../dt-bindings/clock/marvell,mmp2-audio.h    |  8 ++
->  2 files changed, 81 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/clock/marvell,mmp2-audio-clock.yaml
->  create mode 100644 include/dt-bindings/clock/marvell,mmp2-audio.h
-> 
+On Mon, 11 May 2020 at 19:37, Oded Gabbay <oded.gabbay@gmail.com> wrote:
+>
+> On Mon, May 11, 2020 at 12:11 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> >
+> > It's the default.
+> Thanks for catching that.
+>
+> >
+> > Also so much for "we're not going to tell the graphics people how to
+> > review their code", dma_fence is a pretty core piece of gpu driver
+> > infrastructure. And it's very much uapi relevant, including piles of
+> > corresponding userspace protocols and libraries for how to pass these
+> > around.
+> >
+> > Would be great if habanalabs would not use this (from a quick look
+> > it's not needed at all), since open source the userspace and playing
+> > by the usual rules isn't on the table. If that's not possible (because
+> > it's actually using the uapi part of dma_fence to interact with gpu
+> > drivers) then we have exactly what everyone promised we'd want to
+> > avoid.
+>
+> We don't use the uapi parts, we currently only using the fencing and
+> signaling ability of this module inside our kernel code. But maybe I
+> didn't understand what you request. You want us *not* to use this
+> well-written piece of kernel code because it is only used by graphics
+> drivers ?
+> I'm sorry but I don't get this argument, if this is indeed what you meant.
 
+We would rather drivers using a feature that has requirements on
+correct userspace implementations of the feature have a userspace that
+is open source and auditable.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Fencing is tricky, cross-device fencing is really tricky, and having
+the ability for a closed userspace component to mess up other people's
+drivers, think i915 shared with closed habana userspace and shared
+fences, decreases ability to debug things.
 
-Documentation/devicetree/bindings/clock/marvell,mmp2-audio-clock.example.dts:20:18: fatal error: dt-bindings/power/marvell,mmp2.h: No such file or directory
-         #include <dt-bindings/power/marvell,mmp2.h>
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-compilation terminated.
-scripts/Makefile.lib:312: recipe for target 'Documentation/devicetree/bindings/clock/marvell,mmp2-audio-clock.example.dt.yaml' failed
-make[1]: *** [Documentation/devicetree/bindings/clock/marvell,mmp2-audio-clock.example.dt.yaml] Error 1
-make[1]: *** Waiting for unfinished jobs....
-Makefile:1300: recipe for target 'dt_binding_check' failed
-make: *** [dt_binding_check] Error 2
+Ideally we wouldn't offer users known untested/broken scenarios, so
+yes we'd prefer that drivers that intend to expose a userspace fencing
+api around dma-fence would adhere to the rules of the gpu drivers.
 
-See https://patchwork.ozlabs.org/patch/1288040
+I'm not say you have to drop using dma-fence, but if you move towards
+cross-device stuff I believe other drivers would be correct in
+refusing to interact with fences from here.
 
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure dt-schema is up to date:
-
-pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
-
-Please check and re-submit.
-
+Dave.
