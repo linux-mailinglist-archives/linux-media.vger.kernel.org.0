@@ -2,211 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97FE71D01C3
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 00:17:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DAA71D0248
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 00:26:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728313AbgELWRz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 18:17:55 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46738 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726031AbgELWRy (ORCPT
+        id S1731549AbgELW0x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 18:26:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56150 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1731156AbgELW0w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 18:17:54 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 557DE51F;
-        Wed, 13 May 2020 00:17:51 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1589321871;
-        bh=/gVJiRjcjIXq1Bky4uYdiC+R4TOXPGvvI7JG8Tf+FKc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JGjutd7aIWABe0wLAKrPGbQ8E0q7Y3sxZhsiZua30ZbebQBhem+5spXsl4eH5gIKZ
-         CzDJ7D05002CTrIW8M5DAzrVTjJ0Ih2tGIA0qN/k43NoVw9ACDGPE2TiEzbz1g4i/n
-         Uacqid90AcGJjHYqnqLkqXKD0NqV4yvNWB5y5yNE=
-Date:   Wed, 13 May 2020 01:17:43 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/2] media: dt-bindings: media: i2c: Add MT9M114 camera
- sensor binding
-Message-ID: <20200512221743.GJ28527@pendragon.ideasonboard.com>
-References: <20200511233456.9722-1-laurent.pinchart@ideasonboard.com>
- <20200512084551.GY867@valkosipuli.retiisi.org.uk>
- <20200512205812.GF28527@pendragon.ideasonboard.com>
- <20200512213114.GZ867@valkosipuli.retiisi.org.uk>
- <20200512215332.GG28527@pendragon.ideasonboard.com>
- <20200512220307.GA867@valkosipuli.retiisi.org.uk>
+        Tue, 12 May 2020 18:26:52 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4108AC061A0F
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 15:26:51 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id f18so15501405lja.13
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 15:26:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=t1GCnSY4uTkAcfm2Amgz7mdBr4uRw86tBEsv4bxmQzY=;
+        b=mwlbZQAfvfOzwB6ODiMJXWLYT1su4PF828fSWj2MzV2UAihilJRaooKhp4G2RSNKKL
+         8U03XKz4i6TmLdGyJiwS9bV8GU1CmYvqMj7wP1lE/fxakYbdbcv5QYS4uhdm00U2jXoJ
+         kDkEClnyf3wM520UyQjv/dEFBLuVwTRXkr6oaBmgLPYdryH7y2rMuVu9ABRJ2aTq7o5j
+         D70OH4dM+VI6M+ovdGggtM+Z1dGHbe9lGg0NYVqzcdxkUCSr1yR4apP37J5Lg7SnB1tw
+         2ptPSn5bwdHODa3LjzfS4p77gbHmSH+ReJKG7qafpjKUA6AEsskQ8am9RD6yrF9Gja2J
+         0OMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=t1GCnSY4uTkAcfm2Amgz7mdBr4uRw86tBEsv4bxmQzY=;
+        b=lOTHv3rMcFRkDt2jdGw0llwylfWUz+PcHSvpxlJYcWnmaS92zqcqD9GDUTfcG5qz7b
+         iniOXjPr43PeE4ovrCS79UlTzuC6Wn0/zDibR2TE+DQu/0MxntVsrFDEUpxTbNGC8HEj
+         xhviHtmS+KHWSFTMPtEBo8oG2Jc1c6JKcZDwcXEUOFRHDJmIk0uhGaDu78AuLRnd2pWc
+         7hNXpK5qawssjw0s3fhGuYa6ZGT4R2LuF24j2j436g/RJDRBmGya+dDMFCVZFtVmGVkU
+         XvTcTMwoOZ7kcO+ORGYATJHysi0OjPcFTCI8KdXGQTk39upJdFFY41bHpmkgy/kgG6H9
+         uUTg==
+X-Gm-Message-State: AOAM532WLvEGdnxeyjkHiI85o894aGaMgkJ4mT0M1aOleViAucXjmSDq
+        Cw5Wzk4k4REu/vP+N89BJ3ExaA==
+X-Google-Smtp-Source: ABdhPJwEduG0cPtm1XlGc9w4iKYmhxowK3sFh1H/aNyWh4z7t2H+0oB7q+2VOgPira1wZz5X0+1tdw==
+X-Received: by 2002:a2e:9cd:: with SMTP id 196mr14484595ljj.226.1589322409674;
+        Tue, 12 May 2020 15:26:49 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id c79sm14992881lfg.29.2020.05.12.15.26.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 May 2020 15:26:48 -0700 (PDT)
+Date:   Wed, 13 May 2020 00:26:48 +0200
+From:   Niklas <niklas.soderlund@ragnatech.se>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v4 1/3] media: rcar-vin: Invalidate pipeline if
+ conversion is not possible on input formats
+Message-ID: <20200512222648.GD2542285@oden.dyn.berto.se>
+References: <1586945948-11026-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <1586945948-11026-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20200512220307.GA867@valkosipuli.retiisi.org.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <1586945948-11026-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Lad,
 
-On Wed, May 13, 2020 at 01:03:07AM +0300, Sakari Ailus wrote:
-> On Wed, May 13, 2020 at 12:53:32AM +0300, Laurent Pinchart wrote:
-> > On Wed, May 13, 2020 at 12:31:14AM +0300, Sakari Ailus wrote:
-> > > On Tue, May 12, 2020 at 11:58:12PM +0300, Laurent Pinchart wrote:
-> > > > On Tue, May 12, 2020 at 11:45:51AM +0300, Sakari Ailus wrote:
-> > > > > On Tue, May 12, 2020 at 02:34:55AM +0300, Laurent Pinchart wrote:
-> > > > > > Add device tree binding for the ON Semiconductor MT9M114 CMOS camera
-> > > > > > sensor.
-> > > > > > 
-> > > > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > > ---
-> > > > > >  .../bindings/media/i2c/onnn,mt9m114.yaml      | 188 ++++++++++++++++++
-> > > > > >  MAINTAINERS                                   |   7 +
-> > > > > >  2 files changed, 195 insertions(+)
-> > > > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > > > > > 
-> > > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > > > > > new file mode 100644
-> > > > > > index 000000000000..2c3c691aacfd
-> > > > > > --- /dev/null
-> > > > > > +++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > > > > > @@ -0,0 +1,188 @@
-> > > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > > +%YAML 1.2
-> > > > > > +---
-> > > > > > +$id: http://devicetree.org/schemas/media/i2c/onnn,mt9m114.yaml#
-> > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > > +
-> > > > > > +title: ON Semiconductor 1/6-inch 720p CMOS Digital Image Sensor
-> > > > > > +
-> > > > > > +maintainers:
-> > > > > > +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > > +
-> > > > > > +description: |-
-> > > > > > +  The ON Semiconductor MT9M114 is a 1/6-inch 720p (1.26 Mp) CMOS digital image
-> > > > > > +  sensor with an active pixel-array size of 1296H x 976V. It is programmable
-> > > > > > +  through an I2C interface and outputs image data over a 8-bit parallel or
-> > > > > > +  1-lane MIPI CSI-2 connection.
-> > > > > > +
-> > > > > > +properties:
-> > > > > > +  compatible:
-> > > > > > +    const: onnn,mt9m114
-> > > > > > +
-> > > > > > +  reg:
-> > > > > > +    description: I2C device address
-> > > > > > +    enum:
-> > > > > > +      - 0x48
-> > > > > > +      - 0x5d
-> > > > > > +
-> > > > > > +  clocks:
-> > > > > > +    description: EXTCLK clock signal
-> > > > > > +    maxItems: 1
-> > > > > > +
-> > > > > > +  vdd-supply:
-> > > > > > +    description:
-> > > > > > +      Core digital voltage supply, 1.8V
-> > > > > > +
-> > > > > > +  vddio-supply:
-> > > > > > +    description:
-> > > > > > +      I/O digital voltage supply, 1.8V or 2.8V
-> > > > > > +
-> > > > > > +  vaa-supply:
-> > > > > > +    description:
-> > > > > > +      Analog voltage supply, 2.8V
-> > > > > > +
-> > > > > > +  reset-gpios:
-> > > > > > +    description: |-
-> > > > > > +      Reference to the GPIO connected to the RESET_BAR pin, if any (active
-> > > > > > +      low).
-> > > > > > +
-> > > > > > +  # See ../video-interfaces.txt for more details
-> > > > > > +  port:
-> > > > > > +    type: object
-> > > > > > +    properties:
-> > > > > > +      endpoint:
-> > > > > > +        type: object
-> > > > > > +        properties:
-> > > > > > +          bus-type:
-> > > > > > +            enum: [4, 5, 6]
-> > > > > > +
-> > > > > > +          clock-lanes:
-> > > > > > +            items:
-> > > > > > +              - const: 0
-> > > > > > +
-> > > > > > +          data-lanes:
-> > > > > > +            items:
-> > > > > > +              - const: 1
-> > > > > > +
-> > > > > > +          bus-width:
-> > > > > > +            items:
-> > > > > > +              - const: 8
-> > > > > > +
-> > > > > > +          hsync-active:
-> > > > > > +            items:
-> > > > > > +              - const: 1
-> > > > > > +
-> > > > > > +          vsync-active:
-> > > > > > +            items:
-> > > > > > +              - const: 1
-> > > > > 
-> > > > > Is there anything to configure here with these properties apart from
-> > > > > bus-type? If not, they should be omitted.
-> > > > 
-> > > > The bindings make those properties optional. Do you think that we
-> > > > generally should require them not to be present when their value is
-> > > > fixed ? This implies that the mt9m114 driver won't be able to parse them
-> > > > (not that it would need any particular information anyway). It also
-> > > > implies that, if the driver wants to call __v4l2_fwnode_endpoint_parse()
-> > > > (indirectly as that's a static function), it will need to fill the flags
-> > > > with the hardcoded values before calling the function. This however
-> > > > conflicts with __v4l2_fwnode_endpoint_parse() zeroing vep->bus when the
-> > > > bus type is unknown, and the bus type can't be hardcoded as there are
-> > > > three options. The other option would be for the driver to fill the
-> > > > flags after calling __v4l2_fwnode_endpoint_parse() if it wants to rely
-> > > > on the contents of v4l2_fwnode_endpoint through the code, which could be
-> > > > the best option.
-> > > > 
-> > > > And I've now read the documentation of
-> > > > v4l2_fwnode_endpoint_alloc_parse():
-> > > > 
-> > > >  * This function parses the V4L2 fwnode endpoint specific parameters from the
-> > > >  * firmware. The caller is responsible for assigning @vep.bus_type to a valid
-> > > >  * media bus type. The caller may also set the default configuration for the
-> > > >  * endpoint --- a configuration that shall be in line with the DT binding
-> > > >  * documentation. Should a device support multiple bus types, the caller may
-> > > >  * call this function once the correct type is found --- with a default
-> > > >  * configuration valid for that type.
-> > > >  *
-> > > >  * As a compatibility means guessing the bus type is also supported by setting
-> > > >  * @vep.bus_type to V4L2_MBUS_UNKNOWN. The caller may not provide a default
-> > > >  * configuration in this case as the defaults are specific to a given bus type.
-> > > >  * This functionality is deprecated and should not be used in new drivers and it
-> > > >  * is only supported for CSI-2 D-PHY, parallel and Bt.656 buses.
-> > > > 
-> > > > If V4L2_MBUS_UNKNOWN is deprecated, what is the caller supposed to do
-> > > > when multiple bus types are supported by the device ? I'm having a bit
-> > > > of trouble figuring out how everything fits together.
-> > > 
-> > > As the defaults are specific to the bus type, the bus type must be
-> > > specified with the defaults. See e.g. drivers/media/platform/omap3isp/isp.c
-> > > for an example --- it parses ports that may be configured to use CSI1, CCP2
-> > > or CSI-2 D-PHY. v4l2_fwnode_endpoint_parse() returns -ENXIO if it
-> > > encounters a bus type that does not match with what was expected.
-> > 
-> > But how about a sensor driver that can support multiple bus types on the
-> > same port ? Will it have to call v4l2_fwnode_endpoint_alloc_parse() for
-> > each possible bus type until one of the calls succeed ?
+Thanks for your work.
+
+On 2020-04-15 11:19:06 +0100, Lad Prabhakar wrote:
+> Up until now the VIN was capable to convert any of its supported input mbus
+> formats to any of it's supported output pixel formats. With the addition of
+> RAW formats this is no longer true.
+
+Add blank line.
+
+> This patch invalidates the pipeline by adding a check if given vin input
+> format can be converted to supported output pixel format.
 > 
-> Yes.
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Yuck :-( Is there any way we could fix this ? Let's try to at least do
-better next time we create such APIs.
+I like this patch I think there is a typo bellow and patch [1] have been 
+merged in the media-tree which unfortunately addes one more thing to do 
+in this patch. In rvin_enum_fmt_vid_cap() there is a TODO noted for what 
+needs to be done. In imagine the fix is simple and the end result would 
+look something like this.
 
-> Do note that even sensors that support two types are somewhat rare. ISPs
-> and CSI-2 receivers generally support that more commonly but there are
-> fewer ISP drivers. The only example of three I know of is the omap3isp.
+    switch (f->mbus_code) {
+    case 0:
+    case MEDIA_BUS_FMT_YUYV8_1X16:
+    case MEDIA_BUS_FMT_UYVY8_1X16:
+    case MEDIA_BUS_FMT_UYVY8_2X8:
+    case MEDIA_BUS_FMT_UYVY10_2X10:
+    case MEDIA_BUS_FMT_RGB888_1X24:
+        break;
+    case MEDIA_BUS_FMT_SRGGB8_1X8:
+        if (f->index)
+            return -EINVAL;
+
+        f->pixelformat = V4L2_PIX_FMT_SRGGB8;
+        return 0;
+    case default:
+        return -EINVAL;
+    }
+
+1. d5f74a1eff9aef3b ("media: rcar-vin: Make use of V4L2_CAP_IO_MC")
+
+> ---
+>  drivers/media/platform/rcar-vin/rcar-dma.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> In other words, this approach does not scale to big numbers but it also
-> does not need to. Simplicity is more important I'd say.
+> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> index 1a30cd036371..48bd9bfc3948 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> @@ -1109,13 +1109,17 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
+>  	case MEDIA_BUS_FMT_UYVY8_1X16:
+>  	case MEDIA_BUS_FMT_UYVY8_2X8:
+>  	case MEDIA_BUS_FMT_UYVY10_2X10:
+> +		break;
+>  	case MEDIA_BUS_FMT_RGB888_1X24:
+> -		vin->mbus_code = fmt.format.code;
+
+This is not right is it?
+
+Should you not add a case for MEDIA_BUS_FMT_SRGGB8_1X8 instead of taking 
+over MEDIA_BUS_FMT_RGB888_1X24?
+
+> +		if (vin->format.pixelformat != V4L2_PIX_FMT_SRGGB8)
+> +			return -EPIPE;
+>  		break;
+>  	default:
+>  		return -EPIPE;
+>  	}
+>  
+> +	vin->mbus_code = fmt.format.code;
+> +
+>  	switch (fmt.format.field) {
+>  	case V4L2_FIELD_TOP:
+>  	case V4L2_FIELD_BOTTOM:
+> -- 
+> 2.20.1
+> 
 
 -- 
 Regards,
-
-Laurent Pinchart
+Niklas Söderlund
