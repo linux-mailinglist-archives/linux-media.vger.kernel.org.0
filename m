@@ -2,433 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10FC21CF3FF
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 14:06:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B569A1CF40A
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 14:09:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729382AbgELMGM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 08:06:12 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35068 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728085AbgELMGL (ORCPT
+        id S1729389AbgELMJz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 08:09:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44580 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726891AbgELMJz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 08:06:11 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 708352A20C7
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com
-Subject: [PATCH 5/5] media: staging: rkisp1: replace workqueue with threaded irq for reading statistics registers
-Date:   Tue, 12 May 2020 14:05:22 +0200
-Message-Id: <20200512120522.25960-6-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200512120522.25960-1-dafna.hirschfeld@collabora.com>
-References: <20200512120522.25960-1-dafna.hirschfeld@collabora.com>
+        Tue, 12 May 2020 08:09:55 -0400
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00132C061A0F
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 05:09:54 -0700 (PDT)
+Received: by mail-qk1-x742.google.com with SMTP id 190so7643099qki.1
+        for <linux-media@vger.kernel.org>; Tue, 12 May 2020 05:09:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=0E+w23r0rm59Sttp+Cx0/u2Fxv6Zhza30yRDAxBOwIM=;
+        b=XRnT+4+TWQyHNmyGS+cSdisYi0zNeQpz5uND4j+3R32mzcUZGCtrhnUZduANVucjLs
+         fPeDcZnf0jJZdFR18+rXBGExeB/xOfjO6j5ubgczrNSIabiDm3PpWhxkNKaizLg4FP0J
+         sa50sZfadORNY04EFhJQrsRUYbYc9oVcbKS2sMEoCu11o9nPs7ZSUus3alQ+pAkKbMAV
+         aWmgipf3DUd2+yiqRDwFz9qMTz3IWl1iCgmhXs/gmp7BDs1Z+Hp9W9wAYy5ZacibQ3td
+         xqUancRvGLhZbF4o+FHI7mZTtBugkHa1LurSn3oFjsiEMnHhi/WOIzp2ySY0+TXNYike
+         G58w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=0E+w23r0rm59Sttp+Cx0/u2Fxv6Zhza30yRDAxBOwIM=;
+        b=nc3CN7VhMSds2RV6lHBFsBE/EfY82wNJ6qHYyEfRp+7vHCVi/45zn8lHl7YqT/zMwN
+         A+N1Vck5B/vFMMt+zESL5HguvNGsb+JnWx513gD8Xm8zR+05IeYZckRRGYBCS8BU45Qk
+         U5jp9K5x8qggRzaz3oBYtKMzFzjsg74N1n0VKH7s9CxCRzLM6gRj6Koims94g9Vh7s3f
+         fAp2N02H9z6i+ztIMuyUWfSyYbKmbAr0ELpmOYwbASeoXG6j+yUoc4VNscRpcqhcg6ex
+         lY5BQJgUxPAhEWDrqCN/Gcvf2mCV2h1jaCAOa5N9rEklg7HaFT1CNkToXFijzaLX8DwL
+         15Mg==
+X-Gm-Message-State: AGi0Puaf4tTqaGn4Ji4P7BnNDst8K/Y9YJExMn6WXVC/UI/hCvYia418
+        jrQTHZNz3uhzTa3zddnq55ey9w==
+X-Google-Smtp-Source: APiQypKyJUyUDzstE5W+rLlCHv8FxVxdeZGVjAl1eRUGduGzlJpYQ83iKZf1ZsgDC1FOpB7AS1NLBw==
+X-Received: by 2002:a37:484c:: with SMTP id v73mr8524856qka.496.1589285394059;
+        Tue, 12 May 2020 05:09:54 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-68-57-212.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.68.57.212])
+        by smtp.gmail.com with ESMTPSA id y18sm12534463qty.41.2020.05.12.05.09.53
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 12 May 2020 05:09:53 -0700 (PDT)
+Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1jYTjM-0003lT-T7; Tue, 12 May 2020 09:09:52 -0300
+Date:   Tue, 12 May 2020 09:09:52 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@intel.com>
+Subject: Re: [RFC 02/17] dma-fence: basic lockdep annotations
+Message-ID: <20200512120952.GG26002@ziepe.ca>
+References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
+ <20200512085944.222637-3-daniel.vetter@ffwll.ch>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200512085944.222637-3-daniel.vetter@ffwll.ch>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Reading the statistics registers might take too long
-to run inside the irq handler. Currently it is deferred
-to bottom half using workqueues. This patch replaces the
-workqueue with threaded interrupts for reading the
-statistics registers.
+On Tue, May 12, 2020 at 10:59:29AM +0200, Daniel Vetter wrote:
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index 6802125349fb..d5c0fd2efc70 100644
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -110,6 +110,52 @@ u64 dma_fence_context_alloc(unsigned num)
+>  }
+>  EXPORT_SYMBOL(dma_fence_context_alloc);
+>  
+> +#ifdef CONFIG_LOCKDEP
+> +struct lockdep_map	dma_fence_lockdep_map = {
+> +	.name = "dma_fence_map"
+> +};
+> +
+> +bool dma_fence_begin_signalling(void)
+> +{
 
-A new struct type 'rkisp1_kstats_buffer' is used as the statistics
-buffers. The struct has a field 'ris' which is the flags of ready
-statistics. If new statistics are ready, the irq handler sets
-this variable and the frame sequence on the next available buffer
-and returns IRQ_WAKE_THREAD.
-Then the threaded interrupt reads the registers and calls
-vb2_buffer_done.
+Why is this global? I would have expected it to be connected to a
+single fence?
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- drivers/staging/media/rkisp1/TODO            |   1 -
- drivers/staging/media/rkisp1/rkisp1-common.h |   5 +-
- drivers/staging/media/rkisp1/rkisp1-dev.c    |   8 +-
- drivers/staging/media/rkisp1/rkisp1-isp.c    |   5 +-
- drivers/staging/media/rkisp1/rkisp1-stats.c  | 167 ++++++++-----------
- 5 files changed, 76 insertions(+), 110 deletions(-)
+It would also be alot nicer if this was some general lockdep feature,
+not tied to dmabuf. This exact problem also strikes anyone using
+completions, for instance, and the same solution should be
+applicable??
 
-diff --git a/drivers/staging/media/rkisp1/TODO b/drivers/staging/media/rkisp1/TODO
-index c0cbec0a164d..bdb1b8f73556 100644
---- a/drivers/staging/media/rkisp1/TODO
-+++ b/drivers/staging/media/rkisp1/TODO
-@@ -1,5 +1,4 @@
- * Fix pad format size for statistics and parameters entities.
--* Use threaded interrupt for rkisp1_stats_isr(), remove work queue.
- * Fix checkpatch errors.
- * Review and comment every lock
- * Handle quantization
-diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
-index c635bb0a7727..c8adcdf661ab 100644
---- a/drivers/staging/media/rkisp1/rkisp1-common.h
-+++ b/drivers/staging/media/rkisp1/rkisp1-common.h
-@@ -190,8 +190,6 @@ struct rkisp1_stats {
- 	struct list_head stat;
- 	struct v4l2_format vdev_fmt;
- 	bool is_streaming;
--
--	struct workqueue_struct *readout_wq;
- };
- 
- /*
-@@ -308,10 +306,11 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1);
- 
- const struct rkisp1_isp_mbus_info *rkisp1_isp_mbus_info_get(u32 mbus_code);
- 
-+irqreturn_t rkisp1_read_stats_threaded_irq(int irq, void *ctx);
- irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1);
- irqreturn_t rkisp1_mipi_isr(struct rkisp1_device *rkisp1);
- irqreturn_t rkisp1_capture_isr(struct rkisp1_device *rkisp1);
--void rkisp1_stats_isr(struct rkisp1_stats *stats, u32 isp_ris);
-+irqreturn_t rkisp1_stats_isr(struct rkisp1_stats *stats, u32 isp_ris);
- void rkisp1_params_isr(struct rkisp1_device *rkisp1, u32 isp_mis);
- 
- int rkisp1_capture_devs_register(struct rkisp1_device *rkisp1);
-diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
-index b7f43dab71c8..12e2e8559acd 100644
---- a/drivers/staging/media/rkisp1/rkisp1-dev.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
-@@ -405,6 +405,8 @@ irqreturn_t rkisp1_isr(int irq, void *ctx)
- 	isp_ret = rkisp1_isp_isr(rkisp1);
- 	mipi_ret = rkisp1_mipi_isr(rkisp1);
- 
-+	if (isp_ret == IRQ_WAKE_THREAD)
-+		return IRQ_WAKE_THREAD;
- 	if (isp_ret == IRQ_NONE && cap_ret == IRQ_NONE && mipi_ret == IRQ_NONE)
- 		return IRQ_NONE;
- 
-@@ -490,8 +492,10 @@ static int rkisp1_probe(struct platform_device *pdev)
- 	if (irq < 0)
- 		return irq;
- 
--	ret = devm_request_irq(dev, irq, rkisp1_isr, IRQF_SHARED,
--			       dev_driver_string(dev), dev);
-+	ret = devm_request_threaded_irq(dev, irq, rkisp1_isr,
-+					rkisp1_read_stats_threaded_irq,
-+					IRQF_SHARED,
-+					dev_driver_string(dev), dev);
- 	if (ret) {
- 		dev_err(dev, "request irq failed: %d\n", ret);
- 		return ret;
-diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
-index 49b47e1734b0..09893073af00 100644
---- a/drivers/staging/media/rkisp1/rkisp1-isp.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
-@@ -1111,6 +1111,7 @@ static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
- irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1)
- {
- 	u32 status, isp_err;
-+	irqreturn_t ret = IRQ_HANDLED;
- 
- 	status = rkisp1_read(rkisp1, RKISP1_CIF_ISP_MIS);
- 	if (!status)
-@@ -1138,7 +1139,7 @@ irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1)
- 		/* New frame from the sensor received */
- 		isp_ris = rkisp1_read(rkisp1, RKISP1_CIF_ISP_RIS);
- 		if (isp_ris & RKISP1_STATS_MEAS_MASK)
--			rkisp1_stats_isr(&rkisp1->stats, isp_ris);
-+			ret = rkisp1_stats_isr(&rkisp1->stats, isp_ris);
- 	}
- 
- 	/*
-@@ -1148,5 +1149,5 @@ irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1)
- 	 */
- 	rkisp1_params_isr(rkisp1, status);
- 
--	return IRQ_HANDLED;
-+	return ret;
- }
-diff --git a/drivers/staging/media/rkisp1/rkisp1-stats.c b/drivers/staging/media/rkisp1/rkisp1-stats.c
-index e6fb2c5f3b3e..f5eaa81362ea 100644
---- a/drivers/staging/media/rkisp1/rkisp1-stats.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-stats.c
-@@ -18,19 +18,9 @@
- #define RKISP1_ISP_STATS_REQ_BUFS_MIN 2
- #define RKISP1_ISP_STATS_REQ_BUFS_MAX 8
- 
--enum rkisp1_isp_readout_cmd {
--	RKISP1_ISP_READOUT_MEAS,
--	RKISP1_ISP_READOUT_META,
--};
--
--struct rkisp1_isp_readout_work {
--	struct work_struct work;
--	struct rkisp1_stats *stats;
--
--	unsigned int frame_id;
--	unsigned int isp_ris;
--	enum rkisp1_isp_readout_cmd readout;
--	struct vb2_buffer *vb;
-+struct rkisp1_kstats_buffer {
-+	struct rkisp1_buffer buff;
-+	u32 ris;
- };
- 
- static int rkisp1_stats_enum_fmt_meta_cap(struct file *file, void *priv,
-@@ -126,16 +116,17 @@ static int rkisp1_stats_vb2_queue_setup(struct vb2_queue *vq,
- static void rkisp1_stats_vb2_buf_queue(struct vb2_buffer *vb)
- {
- 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
--	struct rkisp1_buffer *stats_buf =
--		container_of(vbuf, struct rkisp1_buffer, vb);
-+	struct rkisp1_kstats_buffer *kstats_buf =
-+		container_of(vbuf, struct rkisp1_kstats_buffer, buff.vb);
- 	struct vb2_queue *vq = vb->vb2_queue;
- 	struct rkisp1_stats *stats_dev = vq->drv_priv;
- 	unsigned long flags;
- 
--	stats_buf->vaddr[0] = vb2_plane_vaddr(vb, 0);
-+	kstats_buf->buff.vaddr[0] = vb2_plane_vaddr(vb, 0);
-+	kstats_buf->ris = 0;
- 
- 	spin_lock_irqsave(&stats_dev->stats_lock, flags);
--	list_add_tail(&stats_buf->queue, &stats_dev->stat);
-+	list_add_tail(&kstats_buf->buff.queue, &stats_dev->stat);
- 	spin_unlock_irqrestore(&stats_dev->stats_lock, flags);
- }
- 
-@@ -152,25 +143,19 @@ static int rkisp1_stats_vb2_buf_prepare(struct vb2_buffer *vb)
- static void rkisp1_stats_vb2_stop_streaming(struct vb2_queue *vq)
- {
- 	struct rkisp1_stats *stats = vq->drv_priv;
--	struct rkisp1_buffer *buf;
-+	struct rkisp1_kstats_buffer *buf;
- 	unsigned long flags;
- 	unsigned int i;
- 
--	/* Make sure no new work queued in isr before draining wq */
- 	spin_lock_irqsave(&stats->stats_lock, flags);
- 	stats->is_streaming = false;
--	spin_unlock_irqrestore(&stats->stats_lock, flags);
--
--	drain_workqueue(stats->readout_wq);
--
--	spin_lock_irqsave(&stats->stats_lock, flags);
- 	for (i = 0; i < RKISP1_ISP_STATS_REQ_BUFS_MAX; i++) {
- 		if (list_empty(&stats->stat))
- 			break;
- 		buf = list_first_entry(&stats->stat,
--				       struct rkisp1_buffer, queue);
--		list_del(&buf->queue);
--		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-+				       struct rkisp1_kstats_buffer, buff.queue);
-+		list_del(&buf->buff.queue);
-+		vb2_buffer_done(&buf->buff.vb.vb2_buf, VB2_BUF_STATE_ERROR);
- 	}
- 	spin_unlock_irqrestore(&stats->stats_lock, flags);
- }
-@@ -207,7 +192,7 @@ rkisp1_stats_init_vb2_queue(struct vb2_queue *q, struct rkisp1_stats *stats)
- 	q->drv_priv = stats;
- 	q->ops = &rkisp1_stats_vb2_ops;
- 	q->mem_ops = &vb2_vmalloc_memops;
--	q->buf_struct_size = sizeof(struct rkisp1_buffer);
-+	q->buf_struct_size = sizeof(struct rkisp1_kstats_buffer);
- 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
- 	q->lock = &node->vlock;
- 
-@@ -325,85 +310,81 @@ static void rkisp1_stats_get_bls_meas(struct rkisp1_stats *stats,
- 	}
- }
- 
--static void
--rkisp1_stats_send_measurement(struct rkisp1_stats *stats,
--			      struct rkisp1_isp_readout_work *meas_work)
-+irqreturn_t rkisp1_read_stats_threaded_irq(int irq, void *ctx)
- {
-+	struct device *dev = ctx;
-+	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
-+	struct rkisp1_stats *stats = &rkisp1->stats;
-+	struct rkisp1_kstats_buffer *kstats_buf = NULL;
- 	struct rkisp1_stat_buffer *cur_stat_buf;
--	struct rkisp1_buffer *cur_buf = NULL;
--	unsigned int frame_sequence =
--		atomic_read(&stats->rkisp1->isp.frame_sequence);
--	u64 timestamp = ktime_get_ns();
- 	unsigned long flags;
--
--	if (frame_sequence != meas_work->frame_id) {
--		dev_warn(stats->rkisp1->dev,
--			 "Measurement late(%d, %d)\n",
--			 frame_sequence, meas_work->frame_id);
--		frame_sequence = meas_work->frame_id;
--	}
-+	u64 timestamp = ktime_get_ns();
- 
- 	spin_lock_irqsave(&stats->stats_lock, flags);
--	/* get one empty buffer */
--	if (!list_empty(&stats->stat)) {
--		cur_buf = list_first_entry(&stats->stat,
--					   struct rkisp1_buffer, queue);
--		list_del(&cur_buf->queue);
-+	if (!stats->is_streaming) {
-+		spin_unlock_irqrestore(&stats->stats_lock, flags);
-+		return IRQ_HANDLED;
-+	}
-+	if (list_empty(&stats->stat)) {
-+		spin_unlock_irqrestore(&stats->stats_lock, flags);
-+		WARN("%s: threaded irq waked but there are no buffers",
-+		     __func__);
-+		return IRQ_HANDLED;
-+	}
-+	kstats_buf = list_first_entry(&stats->stat,
-+				      struct rkisp1_kstats_buffer, buff.queue);
-+
-+	/*
-+	 * each waked irq thread reads exactly one ready statistics
-+	 * so it is a bug  if no statistics are ready
-+	 */
-+	if (!kstats_buf->ris) {
-+		spin_unlock_irqrestore(&stats->stats_lock, flags);
-+		WARN("%s: threaded irq waked but buffer holds no measures",
-+		     __func__);
-+		return IRQ_HANDLED;
- 	}
-+	list_del(&kstats_buf->buff.queue);
- 	spin_unlock_irqrestore(&stats->stats_lock, flags);
- 
--	if (!cur_buf)
--		return;
--
- 	cur_stat_buf =
--		(struct rkisp1_stat_buffer *)(cur_buf->vaddr[0]);
-+		(struct rkisp1_stat_buffer *)(kstats_buf->buff.vaddr[0]);
- 
--	if (meas_work->isp_ris & RKISP1_CIF_ISP_AWB_DONE) {
-+	if (kstats_buf->ris & RKISP1_CIF_ISP_AWB_DONE) {
- 		rkisp1_stats_get_awb_meas(stats, cur_stat_buf);
- 		cur_stat_buf->meas_type |= RKISP1_CIF_ISP_STAT_AWB;
- 	}
- 
--	if (meas_work->isp_ris & RKISP1_CIF_ISP_AFM_FIN) {
-+	if (kstats_buf->ris & RKISP1_CIF_ISP_AFM_FIN) {
- 		rkisp1_stats_get_afc_meas(stats, cur_stat_buf);
- 		cur_stat_buf->meas_type |= RKISP1_CIF_ISP_STAT_AFM_FIN;
- 	}
- 
--	if (meas_work->isp_ris & RKISP1_CIF_ISP_EXP_END) {
-+	if (kstats_buf->ris & RKISP1_CIF_ISP_EXP_END) {
- 		rkisp1_stats_get_aec_meas(stats, cur_stat_buf);
- 		rkisp1_stats_get_bls_meas(stats, cur_stat_buf);
- 		cur_stat_buf->meas_type |= RKISP1_CIF_ISP_STAT_AUTOEXP;
- 	}
- 
--	if (meas_work->isp_ris & RKISP1_CIF_ISP_HIST_MEASURE_RDY) {
-+	if (kstats_buf->ris & RKISP1_CIF_ISP_HIST_MEASURE_RDY) {
- 		rkisp1_stats_get_hst_meas(stats, cur_stat_buf);
- 		cur_stat_buf->meas_type |= RKISP1_CIF_ISP_STAT_HIST;
- 	}
- 
--	vb2_set_plane_payload(&cur_buf->vb.vb2_buf, 0,
-+	vb2_set_plane_payload(&kstats_buf->buff.vb.vb2_buf, 0,
- 			      sizeof(struct rkisp1_stat_buffer));
--	cur_buf->vb.sequence = frame_sequence;
--	cur_buf->vb.vb2_buf.timestamp = timestamp;
--	vb2_buffer_done(&cur_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-+	kstats_buf->buff.vb.vb2_buf.timestamp = timestamp;
-+	vb2_buffer_done(&kstats_buf->buff.vb.vb2_buf, VB2_BUF_STATE_DONE);
-+	return IRQ_HANDLED;
- }
- 
--static void rkisp1_stats_readout_work(struct work_struct *work)
--{
--	struct rkisp1_isp_readout_work *readout_work =
--		container_of(work, struct rkisp1_isp_readout_work, work);
--	struct rkisp1_stats *stats = readout_work->stats;
--
--	if (readout_work->readout == RKISP1_ISP_READOUT_MEAS)
--		rkisp1_stats_send_measurement(stats, readout_work);
- 
--	kfree(readout_work);
--}
--
--void rkisp1_stats_isr(struct rkisp1_stats *stats, u32 isp_ris)
-+irqreturn_t rkisp1_stats_isr(struct rkisp1_stats *stats, u32 isp_ris)
- {
--	unsigned int frame_sequence =
--		atomic_read(&stats->rkisp1->isp.frame_sequence);
- 	struct rkisp1_device *rkisp1 = stats->rkisp1;
--	struct rkisp1_isp_readout_work *work;
-+	struct rkisp1_isp *isp = &rkisp1->isp;
-+	struct rkisp1_kstats_buffer *buf = NULL;
-+	irqreturn_t ret = IRQ_HANDLED;
- 	unsigned int isp_mis_tmp = 0;
- 	unsigned long flags;
- 	u32 val;
-@@ -417,28 +398,22 @@ void rkisp1_stats_isr(struct rkisp1_stats *stats, u32 isp_ris)
- 	if (isp_mis_tmp & RKISP1_STATS_MEAS_MASK)
- 		rkisp1->debug.stats_error++;
- 
--	if (!stats->is_streaming)
-+	if (!stats->is_streaming || !(isp_ris & RKISP1_STATS_MEAS_MASK))
- 		goto unlock;
--	if (isp_ris & RKISP1_STATS_MEAS_MASK) {
--		work = kzalloc(sizeof(*work), GFP_ATOMIC);
--		if (work) {
--			INIT_WORK(&work->work,
--				  rkisp1_stats_readout_work);
--			work->readout = RKISP1_ISP_READOUT_MEAS;
--			work->stats = stats;
--			work->frame_id = frame_sequence;
--			work->isp_ris = isp_ris;
--			if (!queue_work(stats->readout_wq,
--					&work->work))
--				kfree(work);
--		} else {
--			dev_err(stats->rkisp1->dev,
--				"Could not allocate work\n");
-+
-+	list_for_each_entry(buf, &stats->stat, buff.queue) {
-+		if (!buf->ris) {
-+			buf->buff.vb.sequence =
-+				atomic_read(&isp->frame_sequence);
-+			buf->ris = isp_ris;
-+			ret = IRQ_WAKE_THREAD;
-+			break;
- 		}
- 	}
- 
- unlock:
- 	spin_unlock_irqrestore(&stats->stats_lock, flags);
-+	return ret;
- }
- 
- static void rkisp1_init_stats(struct rkisp1_stats *stats)
-@@ -489,19 +464,8 @@ int rkisp1_stats_register(struct rkisp1_stats *stats,
- 		goto err_cleanup_media_entity;
- 	}
- 
--	stats->readout_wq = alloc_workqueue("measurement_queue",
--					    WQ_UNBOUND | WQ_MEM_RECLAIM,
--					    1);
--
--	if (!stats->readout_wq) {
--		ret = -ENOMEM;
--		goto err_unreg_vdev;
--	}
--
- 	return 0;
- 
--err_unreg_vdev:
--	video_unregister_device(vdev);
- err_cleanup_media_entity:
- 	media_entity_cleanup(&vdev->entity);
- err_release_queue:
-@@ -515,7 +479,6 @@ void rkisp1_stats_unregister(struct rkisp1_stats *stats)
- 	struct rkisp1_vdev_node *node = &stats->vnode;
- 	struct video_device *vdev = &node->vdev;
- 
--	destroy_workqueue(stats->readout_wq);
- 	video_unregister_device(vdev);
- 	media_entity_cleanup(&vdev->entity);
- 	vb2_queue_release(vdev->queue);
--- 
-2.17.1
-
+Jason
