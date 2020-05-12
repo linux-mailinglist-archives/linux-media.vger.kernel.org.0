@@ -2,136 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BAC81CEF0D
-	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 10:25:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A70861CEF68
+	for <lists+linux-media@lfdr.de>; Tue, 12 May 2020 10:45:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728986AbgELIZR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 12 May 2020 04:25:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37324 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725987AbgELIZQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 12 May 2020 04:25:16 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82EE6C061A0C;
-        Tue, 12 May 2020 01:25:16 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id e1so284576wrt.5;
-        Tue, 12 May 2020 01:25:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Dise/Ltq/8sPUlFw9YHaPR8/vtAeRgM3btPcexpNyWQ=;
-        b=XC8k0dinPlJ2lvGmOqDpvhxBSveCJi3dXzkR0maYhVUJ9RsfihA8jhSuLsu+W/DjG4
-         MATmPbXbdV/sUUhtFi3MzFv7YGK/rODp185eFekYg2Tk4PChrgd/cQtlKZxMWRJMcqE0
-         FTxuQFoB0ThmDmizWbdg1N+IpDMqup4QGgGM1MnZKXNt4uX09n6JYWGGBXGh424j9sq1
-         yuj5IvJT7xFOv5N8d8EfvSMaJKADZM+/wvwRF+LciyTT1O1FproupWDlLdfH8Y4rk/Ms
-         EJ6+cLCT/xGpAGzm2orEoMmIjmcOHs110mVWphRhVSh+FXLNqmk+JtEmj7FHpOtFByyV
-         NogA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Dise/Ltq/8sPUlFw9YHaPR8/vtAeRgM3btPcexpNyWQ=;
-        b=Fbew90RZine/o6zKxQEGiwPC/fM9KUI2qDv5RkH0N4EDb/ZenuZiqQLRCMLwcqiwyp
-         +CaXTWDg0ULkZVGyLD2FiGRTCK3EP10OVFucknKJL/gWEdBnMhWyRphjJr5r+jshaxxb
-         QuRjXGTioTKdsRRVONvEwxlhI5kPL3STBrffMJkJ05bcFGDLOAB0wzFmYCFS048672mc
-         yWzfh5nRwndvNbx3fEc8uYCUfgKr7mjRSNwTdbtqOKhBBB5pnLcgriv/sMFVNoRE3y4J
-         TMc9YCLAYNe/MBmV+QKXfCnxvWP+xVfcb2Jxd+uJdHfS1VARN6Ux6a0a1kn/I6yJ1Yqn
-         3W3Q==
-X-Gm-Message-State: AGi0PuYESztc/Gdd2uUoEkRwPKnMWYLqwIFx93vfXZYz5SrPWWKx/0Tx
-        AXM4tmNJ6mT6oT3+/PzE3gs=
-X-Google-Smtp-Source: APiQypKTZOzCoXzgumrk5YfFOoibdoApMy36qfKw6hTJ2mEDbldC1ZxFTRmuKlE0M1lAGh6UcljBrw==
-X-Received: by 2002:a5d:5105:: with SMTP id s5mr18599515wrt.202.1589271915167;
-        Tue, 12 May 2020 01:25:15 -0700 (PDT)
-Received: from skynet.lan (198.red-83-49-57.dynamicip.rima-tde.net. [83.49.57.198])
-        by smtp.gmail.com with ESMTPSA id w82sm1809746wmg.28.2020.05.12.01.25.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 May 2020 01:25:14 -0700 (PDT)
-From:   =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>
-To:     computersforpeace@gmail.com, kdasu.kdev@gmail.com,
-        miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-        sumit.semwal@linaro.org, linux-mtd@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>
-Subject: [PATCH v4] mtd: rawnand: brcmnand: correctly verify erased pages
-Date:   Tue, 12 May 2020 10:24:51 +0200
-Message-Id: <20200512082451.771212-1-noltari@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200512065111.716801-1-noltari@gmail.com>
-References: <20200512065111.716801-1-noltari@gmail.com>
+        id S1729213AbgELIph (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 12 May 2020 04:45:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40776 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725776AbgELIpg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 12 May 2020 04:45:36 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E2BEE206CC;
+        Tue, 12 May 2020 08:45:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589273136;
+        bh=HHIUAU+1SaQZGuj/kMFvsg276gIp0yMSTOdsnW2u5/g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Kp1CjhZx2evs7dpoOGovhGH3+KzVfWpMQIKjROna1SzcunxkhfKN/q4EJuNt652bf
+         qSQLSbIuWYOvrCEmfblr82+/hJoHBqePBcNEZcbn71U75ERldDAvaHEMDvQpaIye0N
+         LtbBSKL3m1z71mcv8hXp93UXZmC5Y1JxRj7gVjHM=
+Date:   Tue, 12 May 2020 10:45:34 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Charan Teja Kalla <charante@codeaurora.org>
+Cc:     dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, vinmenon@codeaurora.org,
+        sumit.semwal@linaro.org, ghackmann@google.com, fengc@google.com,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] dma-buf: fix use-after-free in dmabuffs_dname
+Message-ID: <20200512084534.GA3557007@kroah.com>
+References: <1588060442-28638-1-git-send-email-charante@codeaurora.org>
+ <20200505100806.GA4177627@kroah.com>
+ <8424b2ac-3ea6-6e5b-b99c-951a569f493d@codeaurora.org>
+ <20200506090002.GA2619587@kroah.com>
+ <3bc8dd81-f298-aea0-f218-2e2ef12ca603@codeaurora.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3bc8dd81-f298-aea0-f218-2e2ef12ca603@codeaurora.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The current code checks that the whole OOB area is erased.
-This is a problem when JFFS2 cleanmarkers are added to the OOB, since it will
-fail due to the usable OOB bytes not being 0xff.
-Correct this by only checking that data and ECC bytes aren't 0xff.
+On Tue, May 12, 2020 at 10:43:18AM +0530, Charan Teja Kalla wrote:
+> > Ok, but watch out, now you have 2 different reference counts for the
+> > same structure.  Keeping them coordinated is almost always an impossible
+> > task so you need to only rely on one.  If you can't use the file api,
+> > just drop all of the reference counting logic in there and only use the
+> > kref one.
+> 
+> I feel that changing the refcount logic now to dma-buf objects involve
+> changes in
+> 
+> the core dma-buf framework. NO? Instead, how about passing the user passed
+> name directly
+> 
+> in the ->d_fsdata inplace of dmabuf object? Because we just need user passed
+> name in the
+> 
+> dmabuffs_dname(). With this we can avoid the need for extra refcount on
+> dmabuf.
 
-Fixes: 02b88eea9f9c ("mtd: brcmnand: Add check for erased page bitflips")
-Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
----
- v4: Use mtd_ooblayout_ecc function, rename oob to ecc_bytes and remove unused
-     sas variable.
- v3: Fix commit log and merge nand_check_erased_ecc_chunk calls.
- v2: Add Fixes tag
+Odd formatting :(
 
- drivers/mtd/nand/raw/brcmnand/brcmnand.c | 19 +++++++++++--------
- 1 file changed, 11 insertions(+), 8 deletions(-)
+> Posted patch-V2: https://lkml.org/lkml/2020/5/8/158
 
-diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-index e4e3ceeac38f..a001483b3614 100644
---- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-+++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-@@ -2018,28 +2018,31 @@ static int brcmnand_read_by_pio(struct mtd_info *mtd, struct nand_chip *chip,
- static int brcmstb_nand_verify_erased_page(struct mtd_info *mtd,
- 		  struct nand_chip *chip, void *buf, u64 addr)
- {
--	int i, sas;
--	void *oob = chip->oob_poi;
-+	struct mtd_oob_region ecc;
-+	int i;
- 	int bitflips = 0;
- 	int page = addr >> chip->page_shift;
- 	int ret;
-+	void *ecc_bytes;
- 	void *ecc_chunk;
- 
- 	if (!buf)
- 		buf = nand_get_data_buf(chip);
- 
--	sas = mtd->oobsize / chip->ecc.steps;
--
- 	/* read without ecc for verification */
- 	ret = chip->ecc.read_page_raw(chip, buf, true, page);
- 	if (ret)
- 		return ret;
- 
--	for (i = 0; i < chip->ecc.steps; i++, oob += sas) {
-+	for (i = 0; i < chip->ecc.steps; i++) {
- 		ecc_chunk = buf + chip->ecc.size * i;
--		ret = nand_check_erased_ecc_chunk(ecc_chunk,
--						  chip->ecc.size,
--						  oob, sas, NULL, 0,
-+
-+		mtd_ooblayout_ecc(mtd, i, &ecc);
-+		ecc_bytes = chip->oob_poi + ecc.offset;
-+
-+		ret = nand_check_erased_ecc_chunk(ecc_chunk, chip->ecc.size,
-+						  ecc_bytes, ecc.length,
-+						  NULL, 0,
- 						  chip->ecc.strength);
- 		if (ret < 0)
- 			return ret;
--- 
-2.26.2
+Please just post links to lore.kernel.org, we have no control over
+lkml.org at all.
 
+I'll go review that patch now...
+
+greg k-h
