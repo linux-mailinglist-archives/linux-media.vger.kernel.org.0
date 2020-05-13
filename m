@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3105D1D16D2
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 16:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B1821D174B
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 16:16:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388746AbgEMOBr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 May 2020 10:01:47 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:34566 "EHLO www.linuxtv.org"
+        id S2388894AbgEMOQZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 May 2020 10:16:25 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:36936 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387608AbgEMOBr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 May 2020 10:01:47 -0400
+        id S1731192AbgEMOQZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 May 2020 10:16:25 -0400
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1jYrtp-006hvP-Ig; Wed, 13 May 2020 13:58:17 +0000
+        id 1jYs7y-006iqb-Jt; Wed, 13 May 2020 14:12:54 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1jYrz6-0003m1-Qs; Wed, 13 May 2020 14:03:44 +0000
-Date:   Wed, 13 May 2020 14:03:44 +0000 (UTC)
+        id 1jYsDE-00047Q-WA; Wed, 13 May 2020 14:18:22 +0000
+Date:   Wed, 13 May 2020 14:18:20 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org,
         libcamera-devel@lists.libcamera.org
-Message-ID: <2088872996.24.1589378624749.JavaMail.jenkins@builder.linuxtv.org>
-In-Reply-To: <2081683680.23.1589231002255.JavaMail.jenkins@builder.linuxtv.org>
-References: <2081683680.23.1589231002255.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: libcamera #173
+Message-ID: <1444985187.25.1589379500987.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <2088872996.24.1589378624749.JavaMail.jenkins@builder.linuxtv.org>
+References: <2088872996.24.1589378624749.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: libcamera #174
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
@@ -40,15 +40,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/libcamera/173/display/redirect?page=changes>
+See <https://builder.linuxtv.org/job/libcamera/174/display/redirect?page=changes>
 
 Changes:
 
-[laurent.pinchart] ipa: Drop v4l2_controls.h from ipa_interface.h
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E231
 
-[laurent.pinchart] libcamera: proxy: Relicense proxy worker under LGPL
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E201 and E202
 
-[laurent.pinchart] licenses: License all meson files under CC0-1.0
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E203
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E241
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E211
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E251
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E128
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E225
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E228
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E701
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E303
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E261 and E262
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E222
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E711 and E712
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E123 and E126
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E116 and E117
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E713
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E721
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E722
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle W504
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E741
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E305
+
+[laurent.pinchart] utils: raspberrypi: ctt: Fix pycodestyle E302
 
 
 ------------------------------------------
@@ -64,12 +104,12 @@ Fetching upstream changes from git://linuxtv.org/libcamera.git
  > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
  > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
-Checking out Revision 7a653369cb42e1611b884f4a16de60d1b60aa8e7 (refs/remotes/origin/master)
+Checking out Revision e8655c2161a97261971ef19621a34651980b76d6 (refs/remotes/origin/master)
  > git config core.sparsecheckout # timeout=10
- > git checkout -f 7a653369cb42e1611b884f4a16de60d1b60aa8e7 # timeout=10
-Commit message: "licenses: License all meson files under CC0-1.0"
- > git rev-list --no-walk 4bb5b1f60248ada4a26e1114940d1bff1cae5bfc # timeout=10
-[libcamera] $ /bin/sh -xe /tmp/jenkins4319577437542992880.sh
+ > git checkout -f e8655c2161a97261971ef19621a34651980b76d6 # timeout=10
+Commit message: "utils: raspberrypi: ctt: Fix pycodestyle E302"
+ > git rev-list --no-walk 7a653369cb42e1611b884f4a16de60d1b60aa8e7 # timeout=10
+[libcamera] $ /bin/sh -xe /tmp/jenkins11751882835199749524.sh
 + meson setup --wipe build
 Traceback (most recent call last):
   File "/usr/lib/python3/dist-packages/mesonbuild/mesonmain.py", line 112, in run
