@@ -2,111 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C34A1D06DC
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 08:04:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D54D1D096D
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 09:02:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729180AbgEMGEr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 May 2020 02:04:47 -0400
-Received: from mail26.static.mailgun.info ([104.130.122.26]:56122 "EHLO
-        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728902AbgEMGEr (ORCPT
+        id S1730219AbgEMHCn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 May 2020 03:02:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51460 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726020AbgEMHCm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 May 2020 02:04:47 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1589349886; h=Message-Id: Date: Subject: Cc: To: From:
- Sender; bh=UkD6t098TzP+r9v6wY7c61VUY/PDazOwDvlcOxcji3Y=; b=GVJ3mh5yOM5VzR8HBN4Kq6JlwW5a//sPCjznuZR+Whs96FxwlgJDurvehALwQ+lzVdESU4YC
- Jb8VIUlSKAVtyspUvgpEN+h0Fb+pUTAo1NRhdOSJnkJ/Hg6Yj+s9FZ4a44KgtWByZilQIiDF
- Tot4Pc1NubNKeOi7r1b9PZjMvsI=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5ebb8dfc.7f7a119bd340-smtp-out-n03;
- Wed, 13 May 2020 06:04:44 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 83E25C63C41; Wed, 13 May 2020 06:04:44 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.1 required=2.0 tests=ALL_TRUSTED,SPF_FAIL,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from blr-ubuntu-173.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: rnayak)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id F3EABC433CB;
-        Wed, 13 May 2020 06:03:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org F3EABC433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=rnayak@codeaurora.org
-From:   Rajendra Nayak <rnayak@codeaurora.org>
-To:     stanimir.varbanov@linaro.org, robh+dt@kernel.org,
-        agross@kernel.org, bjorn.andersson@linaro.org
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        mka@chromium.org, Rajendra Nayak <rnayak@codeaurora.org>
-Subject: [PATCH v2] dt-bindings: media: venus: Add an optional power domain for perf voting
-Date:   Wed, 13 May 2020 11:33:27 +0530
-Message-Id: <1589349807-10163-1-git-send-email-rnayak@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
+        Wed, 13 May 2020 03:02:42 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43542C061A0C;
+        Wed, 13 May 2020 00:02:42 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id u16so27110529wmc.5;
+        Wed, 13 May 2020 00:02:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=Dy8Jhh6UuIjYdQgEuvO0u3h8Ch6uEM4eGbltcbsMang=;
+        b=BT0cJHsc3Glo8geXjfBR1S4oNEPaYEYyYfD3Fau2YdIjGM7ikkS2Yp8bW6BmW78ySv
+         FXKIBBNHt6TesiqyZ/GvDSQniFIwcbeKCK1JVcDSYQ+jYamLlVdglqyVNuJC6i3ZTlHY
+         kcTh16jbw/mvGfumpngFq8fr+MTZuoQJ0a/nbkV4tPJlQApEr/+BCs29SAv0Nefz6JB7
+         8kcYmJaJalkvbqt7284kR0rVzX08/YZEpWJ1Q4MPa/wHRqsovOxwgHqlJ0ekZWMLXMWg
+         NHPpWfyfcKeosm8FB4O4Ml3+dFPot5/A9L15EtzWHexWDd7WJOeiTutT2dggdpouK7Pp
+         bHMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:reply-to:subject:to:cc:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-transfer-encoding:content-language;
+        bh=Dy8Jhh6UuIjYdQgEuvO0u3h8Ch6uEM4eGbltcbsMang=;
+        b=CRMpaISGw9ywmyIBF+k+J+jav4mMUTfUN1yTR9NOcpAnHl2JyGQcwZrHR/lSPq8doK
+         LEmFzy9hCNvAc4VItXpamWAFTwj55xqbWTX9pAhgmJxZd4+2UpHEFXdOlRDYUXpD6xuf
+         S2B25iMA9R09NOGvAxbCHRplNQiraCWcva8a5QR8sukPueXeSOfw8SLVrmGURpxTQY9q
+         i5M3oWC9oC/xIZ9VZKJNs5V5049BCqosCymkFTev5TIGPDvVn1KIqqxTTCwR5EgMXylK
+         ccguQYqPRZAIZmlycBjI4dAmKkwfTxNc/w2tA3BjiTXx/gX6PgDx/Wzc5uqFI4j1+FSc
+         jC5g==
+X-Gm-Message-State: AGi0Puahu9E0UnMdNX5gyt2fDubIPstyTknyRlvyJY546cF8+MjqrExn
+        Gg6QXF2gUYLqKP3680fp9hG5L25J
+X-Google-Smtp-Source: APiQypL6H5LiHY+WHN2lUhR0xRgoqcNlS21mxYwDK4aftjSqKO9Mfp2AQiBafBotsWqxQRILrAhvwQ==
+X-Received: by 2002:a1c:9ad1:: with SMTP id c200mr19199796wme.147.1589353360875;
+        Wed, 13 May 2020 00:02:40 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+        by smtp.gmail.com with ESMTPSA id x17sm1053434wrp.71.2020.05.13.00.02.39
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 13 May 2020 00:02:40 -0700 (PDT)
+Reply-To: christian.koenig@amd.com
+Subject: Re: [RFC 09/17] drm/amdgpu: use dma-fence annotations in cs_submit()
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     linux-rdma@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        linaro-mm-sig@lists.linaro.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org
+References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
+ <20200512085944.222637-10-daniel.vetter@ffwll.ch>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <6cfd324e-0443-3a12-6a2c-25a546c68643@gmail.com>
+Date:   Wed, 13 May 2020 09:02:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+MIME-Version: 1.0
+In-Reply-To: <20200512085944.222637-10-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add an optional power domain which when specified can be used for
-setting the performance state of Venus.
+Am 12.05.20 um 10:59 schrieb Daniel Vetter:
+> This is a bit tricky, since ->notifier_lock is held while calling
+> dma_fence_wait we must ensure that also the read side (i.e.
+> dma_fence_begin_signalling) is on the same side. If we mix this up
+> lockdep complaints, and that's again why we want to have these
+> annotations.
+>
+> A nice side effect of this is that because of the fs_reclaim priming
+> for dma_fence_enable lockdep now automatically checks for us that
+> nothing in here allocates memory, without even running any userptr
+> workloads.
+>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: linux-rdma@vger.kernel.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> index 7653f62b1b2d..6db3f3c629b0 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> @@ -1213,6 +1213,7 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
+>   	struct amdgpu_job *job;
+>   	uint64_t seq;
+>   	int r;
+> +	bool fence_cookie;
+>   
+>   	job = p->job;
+>   	p->job = NULL;
+> @@ -1227,6 +1228,8 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
+>   	 */
+>   	mutex_lock(&p->adev->notifier_lock);
+>   
+> +	fence_cookie = dma_fence_begin_signalling();
+> +
+>   	/* If userptr are invalidated after amdgpu_cs_parser_bos(), return
+>   	 * -EAGAIN, drmIoctl in libdrm will restart the amdgpu_cs_ioctl.
+>   	 */
+> @@ -1264,12 +1267,14 @@ static int amdgpu_cs_submit(struct amdgpu_cs_parser *p,
+>   	amdgpu_vm_move_to_lru_tail(p->adev, &fpriv->vm);
+>   
+>   	ttm_eu_fence_buffer_objects(&p->ticket, &p->validated, p->fence);
+> +	dma_fence_end_signalling(fence_cookie);
 
-Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
----
- Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml    | 6 +++++-
- Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml | 6 +++++-
- 2 files changed, 10 insertions(+), 2 deletions(-)
+Mhm, this could come earlier in theory. E.g. after pushing the job to 
+the scheduler.
 
-diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-index 764affa..ac1ed64 100644
---- a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
-@@ -25,12 +25,16 @@ properties:
-     maxItems: 1
- 
-   power-domains:
--    maxItems: 2
-+    minItems: 2
-+    maxItems: 3
- 
-   power-domain-names:
-+    minItems: 2
-+    maxItems: 3
-     items:
-       - const: venus
-       - const: vcodec0
-+      - const: opp-pd
- 
-   clocks:
-     maxItems: 5
-diff --git a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-index 8552f4a..9af78cb 100644
---- a/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml
-@@ -25,13 +25,17 @@ properties:
-     maxItems: 1
- 
-   power-domains:
--    maxItems: 3
-+    minItems: 3
-+    maxItems: 4
- 
-   power-domain-names:
-+    minItems: 3
-+    maxItems: 4
-     items:
-       - const: venus
-       - const: vcodec0
-       - const: vcodec1
-+      - const: opp-pd
- 
-   clocks:
-     maxItems: 7
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+Christian.
+
+>   	mutex_unlock(&p->adev->notifier_lock);
+>   
+>   	return 0;
+>   
+>   error_abort:
+>   	drm_sched_job_cleanup(&job->base);
+> +	dma_fence_end_signalling(fence_cookie);
+>   	mutex_unlock(&p->adev->notifier_lock);
+>   
+>   error_unlock:
+
