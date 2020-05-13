@@ -2,117 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C12291D1DF6
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 20:49:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE7E01D1ED8
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 21:16:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390235AbgEMStV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 May 2020 14:49:21 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:38075 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389392AbgEMStU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 May 2020 14:49:20 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 9D623FF806;
-        Wed, 13 May 2020 18:49:15 +0000 (UTC)
-Date:   Wed, 13 May 2020 20:52:32 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
-        niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 0/6] v4l2-subdev: Introduce get_mbus_format pad op
-Message-ID: <20200513185232.z4vvkaa4dhpgip2y@uno.localdomain>
-References: <20200415105004.2497356-1-jacopo+renesas@jmondi.org>
- <20200420020228.GF15673@pendragon.ideasonboard.com>
+        id S2390356AbgEMTQW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 May 2020 15:16:22 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:59884 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2390336AbgEMTQU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 May 2020 15:16:20 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jYwoE-007149-4F; Wed, 13 May 2020 19:12:50 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jYwtW-0004zQ-5w; Wed, 13 May 2020 19:18:18 +0000
+Date:   Wed, 13 May 2020 19:18:18 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        libcamera-devel@lists.libcamera.org
+Message-ID: <445916266.26.1589397498172.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <1444985187.25.1589379500987.JavaMail.jenkins@builder.linuxtv.org>
+References: <1444985187.25.1589379500987.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: libcamera #175
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200420020228.GF15673@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: libcamera
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+See <https://builder.linuxtv.org/job/libcamera/175/display/redirect?page=changes>
 
-On Mon, Apr 20, 2020 at 05:02:28AM +0300, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> Thank you for the patches.
->
-> On Wed, Apr 15, 2020 at 12:49:57PM +0200, Jacopo Mondi wrote:
-> > v2 introduces two new patches that could be likely squashed in later to
-> > deprecate the g_mbus_config() operation in documentation and expand the newly
-> > introduced function documentation by popular demand.
-> >
-> > Will report again the use cases I'm trying to address here:
-> > ------------------------------------------------------------------------------
-> > Quoting:
-> > https://patchwork.kernel.org/cover/10855919/
-> > "The use case this series cover is the following one:
-> > the Gen-3 R-Car boards include an ADV748x HDMI/CVBS to CSI-2 converter
-> > connected to its CSI-2 receivers. The ADV748x chip has recently gained support
-> > for routing both HDMI and analogue video streams through its 4 lanes TXA
-> > transmitter, specifically to support the Ebisu board that has a single CSI-2
-> > receiver, compared to all other Gen-3 board where the ADV748x TXes are connected
-> > to different CSI-2 receivers, and where analogue video is streamed out from the
-> > ADV748x single lane TXB transmitter.
-> > To properly support transmission of analogue video through TXA, the number of
-> > data lanes shall be dynamically reduced to 1, in order to comply with the MIPI
-> > CSI-2 minimum clock frequency requirements"
-> >
-> > During the discussion of the RFC, Dave reported another use case for media
-> > bus parameter negotiation on his platform:
-> > https://patchwork.kernel.org/patch/10855923/#22569149
-> >
-> > Another possible use case is for parallel bus multiplexing, where multiple image
-> > sensor share the parallel bus lines and they get activated alternatively through
-> > an enable signal. While this might not be most clever design, it's often seen
-> > in the wild, and this operation allow receivers to re-configure their bus
-> > parameter in between streaming session.
->
-> Isn't this already supported today, with the bus configuration for each
-> source specified in the corresponding endpoint (on the receiver side) in
-> DT ?
->
+Changes:
 
-I think you're right.. One should probably cache each endpoint configuration
-parsed at probe time.. I was thinking at multiple connections to the
-same endpoint, but seems it's not possible.. good, I'll drop this
+[laurent.pinchart] ipa: Only sign IPA modules that are being installed
 
 
-> > Hyun is now using this series to configure GMSL devices.
-> > ------------------------------------------------------------------------------
-> >
-> > v1->v2:
-> > - Address Sakari's comment to use unsigned int in place of bools
-> > - Add two new patches to address documentation
-> > - Adjust rcar-csi2 patch as much as possible according to Niklas comments
-> > - Add Niklas's tags
-> >
-> > Jacopo Mondi (6):
-> >   media: v4l2-subdv: Introduce get_mbus_config pad op
-> >   media: v4l2-subdev: Deprecate g_mbus_config video op
-> >   media: v4l2-subdev: Expand get_mbus_config doc
-> >   media: i2c: adv748x: Adjust TXA data lanes number
-> >   media: i2c: adv748x: Implement get_mbus_config
-> >   media: rcar-csi2: Negotiate data lanes number
-> >
-> >  drivers/media/i2c/adv748x/adv748x-core.c    | 31 ++++++--
-> >  drivers/media/i2c/adv748x/adv748x-csi2.c    | 15 ++++
-> >  drivers/media/i2c/adv748x/adv748x.h         |  1 +
-> >  drivers/media/platform/rcar-vin/rcar-csi2.c | 53 ++++++++++++-
-> >  include/media/v4l2-subdev.h                 | 82 ++++++++++++++++++++-
-> >  5 files changed, 171 insertions(+), 11 deletions(-)
-> >
->
-> --
-> Regards,
->
-> Laurent Pinchart
+------------------------------------------
+Started by an SCM change
+Running as SYSTEM
+Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/libcamera.git
+ > git --version # timeout=10
+ > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/master^{commit} # timeout=10
+Checking out Revision 924778eb073c47a0defc7319e98029c712129ede (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 924778eb073c47a0defc7319e98029c712129ede # timeout=10
+Commit message: "ipa: Only sign IPA modules that are being installed"
+ > git rev-list --no-walk e8655c2161a97261971ef19621a34651980b76d6 # timeout=10
+[libcamera] $ /bin/sh -xe /tmp/jenkins15356621454705572211.sh
++ meson setup --wipe build
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/mesonbuild/mesonmain.py", line 112, in run
+    return options.run_func(options)
+  File "/usr/lib/python3/dist-packages/mesonbuild/msetup.py", line 229, in run
+    app = MesonApp(options)
+  File "/usr/lib/python3/dist-packages/mesonbuild/msetup.py", line 82, in __init__
+    mesonlib.windows_proof_rmtree(l)
+  File "/usr/lib/python3/dist-packages/mesonbuild/mesonlib.py", line 1116, in windows_proof_rmtree
+    shutil.rmtree(f)
+  File "/usr/lib/python3.7/shutil.py", line 501, in rmtree
+    onerror(os.path.islink, path, sys.exc_info())
+  File "/usr/lib/python3.7/shutil.py", line 499, in rmtree
+    raise OSError("Cannot call rmtree on a symbolic link")
+OSError: Cannot call rmtree on a symbolic link
++ true
++ meson configure build
+
+ERROR: No such build data file as "'<https://builder.linuxtv.org/job/libcamera/ws/build/meson-private/build.dat'".>
++ meson build
+The Meson build system
+Version: 0.49.2
+Source dir: <https://builder.linuxtv.org/job/libcamera/ws/>
+Build dir: <https://builder.linuxtv.org/job/libcamera/ws/build>
+Build type: native build
+Project name: libcamera
+Project version: 0.0.0
+Native C compiler: ccache cc (gcc 8.3.0 "cc (Debian 8.3.0-6) 8.3.0")
+Native C++ compiler: ccache c++ (gcc 8.3.0 "c++ (Debian 8.3.0-6) 8.3.0")
+Build machine cpu family: x86_64
+Build machine cpu: x86_64
+Header <execinfo.h> has symbol "backtrace" : YES
+Header <stdlib.h> has symbol "secure_getenv" : YES
+Compiler for C supports arguments -Wno-c99-designator -Wc99-designator: NO
+Configuring version.h using configuration
+Program openssl found: YES (/usr/bin/openssl)
+Library atomic found: YES
+Library dl found: YES
+Library gnutls found: YES
+Found pkg-config: /usr/bin/pkg-config (0.29)
+Dependency libudev found: YES 241
+Dependency threads found: YES 
+Dependency Boost found: NO 
+
+src/ipa/raspberrypi/meson.build:5:0: ERROR:  Dependency "boost" not found
+
+A full log can be found at <https://builder.linuxtv.org/job/libcamera/ws/build/meson-logs/meson-log.txt>
+Build step 'Execute shell' marked build as failure
