@@ -2,236 +2,395 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 837C11D125E
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 14:11:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AFC4D1D1296
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 14:25:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731826AbgEMMLD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 May 2020 08:11:03 -0400
-Received: from mail26.static.mailgun.info ([104.130.122.26]:62411 "EHLO
-        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731067AbgEMMLC (ORCPT
+        id S1731593AbgEMMZJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 May 2020 08:25:09 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:60491 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731489AbgEMMZJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 May 2020 08:11:02 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1589371861; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=LHQGqU4NAittweNmmebxB6GmxQZjf/uw2yt+R0pasps=; b=WJ9gloNgpmdgKwKt0tWciIB72qEzGhVvdofdei29oQnfbUauexfyKUy/yQ7xdr2r2ftVmg1E
- bCFmK5UQLZD+QVGnU5+t85DJS7aiCsTWSzI0XbEo4/mgE6tOuxK3ROjeeEn74DnRYW5ELVfR
- xJMqLZeUV5DyHHmYzuJ4Rbgaqlo=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5ebbe3ba.7f0123b53fb8-smtp-out-n01;
- Wed, 13 May 2020 12:10:34 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id E845BC44788; Wed, 13 May 2020 12:10:32 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.0.102] (unknown [183.83.139.238])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: charante)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id C25CEC433D2;
-        Wed, 13 May 2020 12:10:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C25CEC433D2
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=charante@codeaurora.org
-Subject: Re: [PATCH v2] dma-buf: fix use-after-free in dmabuffs_dname
-To:     Greg KH <greg@kroah.com>
-Cc:     sumit.semwal@linaro.org, ghackmann@google.com, fengc@google.com,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, vinmenon@codeaurora.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <1588920063-17624-1-git-send-email-charante@codeaurora.org>
- <20200512085221.GB3557007@kroah.com>
-From:   Charan Teja Kalla <charante@codeaurora.org>
-Message-ID: <a3cbf675-becc-1713-bcdc-664ddfe4a544@codeaurora.org>
-Date:   Wed, 13 May 2020 17:40:26 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Wed, 13 May 2020 08:25:09 -0400
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 9040920013;
+        Wed, 13 May 2020 12:25:02 +0000 (UTC)
+Date:   Wed, 13 May 2020 14:28:19 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        sakari.ailus@iki.fi, Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v9 1/4] dt-bindings: media: i2c: Add bindings for Maxim
+ Integrated MAX9286
+Message-ID: <20200513122819.olmg6bqhek6bmjgq@uno.localdomain>
+References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200512155105.1068064-2-kieran.bingham+renesas@ideasonboard.com>
+ <20200512223610.GB23701@bogus>
 MIME-Version: 1.0
-In-Reply-To: <20200512085221.GB3557007@kroah.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200512223610.GB23701@bogus>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Rob,
 
-Thank you Greg for the comments.
-On 5/12/2020 2:22 PM, Greg KH wrote:
-> On Fri, May 08, 2020 at 12:11:03PM +0530, Charan Teja Reddy wrote:
->> The following race occurs while accessing the dmabuf object exported as
->> file:
->> P1				P2
->> dma_buf_release()          dmabuffs_dname()
->> 			   [say lsof reading /proc/<P1 pid>/fd/<num>]
->>
->> 			   read dmabuf stored in dentry->d_fsdata
->> Free the dmabuf object
->> 			   Start accessing the dmabuf structure
->>
->> In the above description, the dmabuf object freed in P1 is being
->> accessed from P2 which is resulting into the use-after-free. Below is
->> the dump stack reported.
->>
->> We are reading the dmabuf object stored in the dentry->d_fsdata but
->> there is no binding between the dentry and the dmabuf which means that
->> the dmabuf can be freed while it is being read from ->d_fsdata and
->> inuse. Reviews on the patch V1 says that protecting the dmabuf inuse
->> with an extra refcount is not a viable solution as the exported dmabuf
->> is already under file's refcount and keeping the multiple refcounts on
->> the same object coordinated is not possible.
->>
->> As we are reading the dmabuf in ->d_fsdata just to get the user passed
->> name, we can directly store the name in d_fsdata thus can avoid the
->> reading of dmabuf altogether.
->>
->> Call Trace:
->>  kasan_report+0x12/0x20
->>  __asan_report_load8_noabort+0x14/0x20
->>  dmabuffs_dname+0x4f4/0x560
->>  tomoyo_realpath_from_path+0x165/0x660
->>  tomoyo_get_realpath
->>  tomoyo_check_open_permission+0x2a3/0x3e0
->>  tomoyo_file_open
->>  tomoyo_file_open+0xa9/0xd0
->>  security_file_open+0x71/0x300
->>  do_dentry_open+0x37a/0x1380
->>  vfs_open+0xa0/0xd0
->>  path_openat+0x12ee/0x3490
->>  do_filp_open+0x192/0x260
->>  do_sys_openat2+0x5eb/0x7e0
->>  do_sys_open+0xf2/0x180
->>
->> Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
->> Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
->> Cc: <stable@vger.kernel.org> [5.3+]
->> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
->> ---
->>
->> Changes in v2: 
->>
->> - Pass the user passed name in ->d_fsdata instead of dmabuf
->> - Improve the commit message
->>
->> Changes in v1: (https://patchwork.kernel.org/patch/11514063/)
->>
->>  drivers/dma-buf/dma-buf.c | 17 ++++++++++-------
->>  1 file changed, 10 insertions(+), 7 deletions(-)
->>
->> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->> index 01ce125..0071f7d 100644
->> --- a/drivers/dma-buf/dma-buf.c
->> +++ b/drivers/dma-buf/dma-buf.c
->> @@ -25,6 +25,7 @@
->>  #include <linux/mm.h>
->>  #include <linux/mount.h>
->>  #include <linux/pseudo_fs.h>
->> +#include <linux/dcache.h>
->>  
->>  #include <uapi/linux/dma-buf.h>
->>  #include <uapi/linux/magic.h>
->> @@ -40,15 +41,13 @@ struct dma_buf_list {
->>  
->>  static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
->>  {
->> -	struct dma_buf *dmabuf;
->>  	char name[DMA_BUF_NAME_LEN];
->>  	size_t ret = 0;
->>  
->> -	dmabuf = dentry->d_fsdata;
->> -	dma_resv_lock(dmabuf->resv, NULL);
->> -	if (dmabuf->name)
->> -		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
->> -	dma_resv_unlock(dmabuf->resv);
->> +	spin_lock(&dentry->d_lock);
-> 
-> Are you sure this lock always protects d_fsdata?
+On Tue, May 12, 2020 at 05:36:10PM -0500, Rob Herring wrote:
+> On Tue, May 12, 2020 at 04:51:02PM +0100, Kieran Bingham wrote:
+> > From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> >
+> > The MAX9286 deserializes video data received on up to 4 Gigabit
+> > Multimedia Serial Links (GMSL) and outputs them on a CSI-2 port using up
+> > to 4 data lanes.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Reviewed-by: Rob Herring <robh@kernel.org>
+> >
+> > ---
+> >
+> > v7:
+> >  - Collect Rob's RB tag
+> >  - Remove redundant maxItems from remote-endpoints
+> >  - Fix SPDX licence tag
+> >
+> >  .../bindings/media/i2c/maxim,max9286.yaml     | 287 ++++++++++++++++++
+> >  1 file changed, 287 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > new file mode 100644
+> > index 000000000000..f9d3e5712c59
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > @@ -0,0 +1,287 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +# Copyright (C) 2019 Renesas Electronics Corp.
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/maxim,max9286.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Maxim Integrated Quad GMSL Deserializer
+> > +
+> > +maintainers:
+> > +  - Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > +  - Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > +  - Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> > +  - Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > +
+> > +description: |
+> > +  The MAX9286 deserializer receives video data on up to 4 Gigabit Multimedia
+> > +  Serial Links (GMSL) and outputs them on a CSI-2 D-PHY port using up to 4 data
+> > +  lanes.
+> > +
+> > +  In addition to video data, the GMSL links carry a bidirectional control
+> > +  channel that encapsulates I2C messages. The MAX9286 forwards all I2C traffic
+> > +  not addressed to itself to the other side of the links, where a GMSL
+> > +  serializer will output it on a local I2C bus. In the other direction all I2C
+> > +  traffic received over GMSL by the MAX9286 is output on the local I2C bus.
+> > +
+> > +properties:
+> > +  '#address-cells':
+> > +    const: 1
+> > +
+> > +  '#size-cells':
+> > +    const: 0
+> > +
+> > +  compatible:
+> > +    const: maxim,max9286
+> > +
+> > +  reg:
+> > +    description: I2C device address
+> > +    maxItems: 1
+> > +
+> > +  poc-supply:
+> > +    description: Regulator providing Power over Coax to the cameras
+> > +    maxItems: 1
+> > +
+> > +  enable-gpios:
+> > +    description: GPIO connected to the \#PWDN pin with inverted polarity
+> > +    maxItems: 1
+> > +
+> > +  ports:
+> > +    type: object
+> > +    description: |
+> > +      The connections to the MAX9286 GMSL and its endpoint nodes are modelled
+> > +      using the OF graph bindings in accordance with the video interface
+> > +      bindings defined in
+> > +      Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > +
+> > +      The following table lists the port number corresponding to each device
+> > +      port.
+> > +
+> > +        Port            Description
+> > +        ----------------------------------------
+> > +        Port 0          GMSL Input 0
+> > +        Port 1          GMSL Input 1
+> > +        Port 2          GMSL Input 2
+> > +        Port 3          GMSL Input 3
+> > +        Port 4          CSI-2 Output
+> > +
+> > +    properties:
+> > +      '#address-cells':
+> > +        const: 1
+> > +
+> > +      '#size-cells':
+> > +        const: 0
+> > +
+> > +      port@[0-3]:
+> > +        type: object
+> > +        properties:
+> > +          reg:
+> > +            enum: [ 0, 1, 2, 3 ]
+> > +
+> > +          endpoint:
+> > +            type: object
+> > +
+> > +            properties:
+> > +              remote-endpoint:
+> > +                description: |
+> > +                 phandle to the remote GMSL source endpoint subnode in the
+> > +                 remote node port.
+> > +
+> > +            required:
+> > +              - remote-endpoint
+> > +
+> > +        required:
+> > +          - reg
+> > +          - endpoint
+> > +
+> > +        additionalProperties: false
+> > +
+> > +      port@4:
+> > +        type: object
+> > +        properties:
+> > +          reg:
+> > +            const: 4
+> > +
+> > +          endpoint:
+> > +            type: object
+> > +
+> > +            properties:
+> > +              remote-endpoint:
+> > +                description: phandle to the remote CSI-2 sink endpoint.
+> > +
+> > +              data-lanes:
+> > +                description: array of physical CSI-2 data lane indexes.
+> > +
+> > +            required:
+> > +              - remote-endpoint
+> > +              - data-lanes
+> > +
+> > +        required:
+> > +          - reg
+> > +          - endpoint
+> > +
+> > +        additionalProperties: false
+> > +
+> > +    required:
+> > +      - port@4
+> > +
+> > +  i2c-mux:
+> > +    type: object
+> > +    description: |
+> > +      Each GMSL link is modelled as a child bus of an i2c bus
+> > +      multiplexer/switch, in accordance with bindings described in
+> > +      Documentation/devicetree/bindings/i2c/i2c-mux.txt. The serializer
+> > +      device on the remote end of the GMSL link shall be modelled as a child
+> > +      node of the corresponding I2C bus.
+> > +
+> > +    properties:
+> > +      '#address-cells':
+> > +        const: 1
+> > +
+> > +      '#size-cells':
+> > +        const: 0
+> > +
+> > +  additionalProperties: false
+>
+> Wrong indentation. Should be 2 more or this is a DT property.
+>
 
-I think yes. In the dma-buf.c, I have to make sure that d_fsdata should
-always be under d_lock thus it will be protected. (In this posted patch
-there is one place(in dma_buf_set_name) that is missed, will update this
-in V3).
+Thanks, updating the dt tools helped spotting the error locally as
+well.
 
-> 
->> +	if (dentry->d_fsdata)
->> +		ret = strlcpy(name, dentry->d_fsdata, DMA_BUF_NAME_LEN);
->> +	spin_unlock(&dentry->d_lock);
->>  
->>  	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
->>  			     dentry->d_name.name, ret > 0 ? name : "");
-> 
-> If the above check fails the name will be what?  How could d_name.name
-> be valid but d_fsdata not be valid?
+This fixes the error reported in the previous email, now I get a
+Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml:
+gmsl-deserializer@2c: i2c-mux: 'i2c@0', 'i2c@1', 'i2c@2', 'i2c@3' do not match any of the regexes: 'pinctrl-[0-9]+'
 
-In case of check fails, empty string "" is appended to the name by the
-code, ret > 0 ? name : "", ret is initialized to zero. Thus the name
-string will be like "/dmabuf:".
+which makes me think the i2c-mux child nodes are under-specified in
+this bindings.
 
-Regarding the validity of d_fsdata, we are setting the dmabuf's
-dentry->d_fsdata to NULL in the dma_buf_release() thus can go invalid if
-that dmabuf is in the free path.
+I have expanded them and will reply with a fixup to be applied on top
+of this patch to ease review and eventually include in v10.
 
+Thanks
+  j
 
-> 
-> 
->> @@ -80,12 +79,16 @@ static int dma_buf_fs_init_context(struct fs_context *fc)
->>  static int dma_buf_release(struct inode *inode, struct file *file)
->>  {
->>  	struct dma_buf *dmabuf;
->> +	struct dentry *dentry = file->f_path.dentry;
->>  
->>  	if (!is_dma_buf_file(file))
->>  		return -EINVAL;
->>  
->>  	dmabuf = file->private_data;
->>  
->> +	spin_lock(&dentry->d_lock);
->> +	dentry->d_fsdata = NULL;
->> +	spin_unlock(&dentry->d_lock);
->>  	BUG_ON(dmabuf->vmapping_counter);
->>  
->>  	/*
->> @@ -343,6 +346,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
->>  	}
->>  	kfree(dmabuf->name);
->>  	dmabuf->name = name;
->> +	dmabuf->file->f_path.dentry->d_fsdata = name;
-> 
-> You are just changing the use of d_fsdata from being a pointer to the
-> dmabuf to being a pointer to the name string?  What's to keep that name
-> string around and not have the same reference counting issues that the
-> dmabuf structure itself has?  Who frees that string memory?
-> 
-
-Yes, I am just storing the name string in the d_fsdata in place of
-dmabuf and this helps to get rid of any extra refcount requirement.
-Because the user passed name carried in the d_fsdata is copied to the
-local buffer in dmabuffs_dname under spin_lock(d_lock) and the same
-d_fsdata is set to NULL(under the d_lock only) when that dmabuf is in
-the release path. So, when d_fsdata is NULL, name string is not accessed
-from the dmabuffs_dname thus extra count is not required.
-
-String memory, stored in the dmabuf->name, is released from the
-dma_buf_release(). Flow will be like, It fist sets d_fsdata=NULL and
-then free the dmabuf->name.
-
-However from your comments I have realized that there is a race in this
-patch when using the name string between dma_buf_set_name() and
-dmabuffs_dname(). But, If the idea of passing the name string inplace of
-dmabuf in d_fsdata looks fine, I can update this next patch.
-
-> thanks,
-> 
-> greg k-h
-> 
-
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
-Forum, a Linux Foundation Collaborative Project
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - ports
+> > +  - i2c-mux
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    i2c@e66d8000 {
+> > +      #address-cells = <1>;
+> > +      #size-cells = <0>;
+> > +
+> > +      reg = <0 0xe66d8000 0 0x40>;
+> > +
+> > +      gmsl-deserializer@2c {
+> > +        compatible = "maxim,max9286";
+> > +        reg = <0x2c>;
+> > +        poc-supply = <&camera_poc_12v>;
+> > +        enable-gpios = <&gpio 13 GPIO_ACTIVE_HIGH>;
+> > +
+> > +        ports {
+> > +          #address-cells = <1>;
+> > +          #size-cells = <0>;
+> > +
+> > +          port@0 {
+> > +            reg = <0>;
+> > +
+> > +            max9286_in0: endpoint {
+> > +              remote-endpoint = <&rdacm20_out0>;
+> > +            };
+> > +          };
+> > +
+> > +          port@1 {
+> > +            reg = <1>;
+> > +
+> > +            max9286_in1: endpoint {
+> > +              remote-endpoint = <&rdacm20_out1>;
+> > +            };
+> > +          };
+> > +
+> > +          port@2 {
+> > +            reg = <2>;
+> > +
+> > +            max9286_in2: endpoint {
+> > +              remote-endpoint = <&rdacm20_out2>;
+> > +            };
+> > +          };
+> > +
+> > +          port@3 {
+> > +            reg = <3>;
+> > +
+> > +            max9286_in3: endpoint {
+> > +              remote-endpoint = <&rdacm20_out3>;
+> > +            };
+> > +          };
+> > +
+> > +          port@4 {
+> > +            reg = <4>;
+> > +
+> > +            max9286_out: endpoint {
+> > +              data-lanes = <1 2 3 4>;
+> > +              remote-endpoint = <&csi40_in>;
+> > +            };
+> > +          };
+> > +        };
+> > +
+> > +        i2c-mux {
+> > +          #address-cells = <1>;
+> > +          #size-cells = <0>;
+> > +
+> > +          i2c@0 {
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +
+> > +            reg = <0>;
+> > +
+> > +            camera@51 {
+> > +              reg = <0x51>;
+> > +
+> > +              port {
+> > +                rdacm20_out0: endpoint {
+> > +                  remote-endpoint = <&max9286_in0>;
+> > +                };
+> > +              };
+> > +
+> > +            };
+> > +          };
+> > +
+> > +          i2c@1 {
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +            reg = <1>;
+> > +
+> > +            camera@52 {
+> > +              reg = <0x52>;
+> > +
+> > +              port {
+> > +                rdacm20_out1: endpoint {
+> > +                  remote-endpoint = <&max9286_in1>;
+> > +                };
+> > +              };
+> > +            };
+> > +          };
+> > +
+> > +          i2c@2 {
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +            reg = <2>;
+> > +
+> > +            camera@53 {
+> > +              reg = <0x53>;
+> > +
+> > +              port {
+> > +                rdacm20_out2: endpoint {
+> > +                  remote-endpoint = <&max9286_in2>;
+> > +                };
+> > +              };
+> > +            };
+> > +          };
+> > +
+> > +          i2c@3 {
+> > +            #address-cells = <1>;
+> > +            #size-cells = <0>;
+> > +            reg = <3>;
+> > +
+> > +            camera@54 {
+> > +              reg = <0x54>;
+> > +
+> > +              port {
+> > +                rdacm20_out3: endpoint {
+> > +                  remote-endpoint = <&max9286_in3>;
+> > +                };
+> > +              };
+> > +            };
+> > +          };
+> > +        };
+> > +      };
+> > +    };
+> > --
+> > 2.25.1
+> >
