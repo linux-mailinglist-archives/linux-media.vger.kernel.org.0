@@ -2,159 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 044321D0988
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 09:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 08A161D0AA8
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 10:16:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730254AbgEMHIA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 May 2020 03:08:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52286 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730127AbgEMHIA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 May 2020 03:08:00 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA9D2C061A0F
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2020 00:07:59 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id t3so12633021otp.3
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2020 00:07:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=U5dnCZ5YNvHzHQjGscrcpq9MiALGgU67N8Jq5EBQuzw=;
-        b=OZiU+kRVCLk5/6W0St2OK5Xb+p5aH38bGDJXr1TsF9faLdtdBKQuGuJ7Zp5SiMdew7
-         euECR2vCo6+/20wE4jAyKXi43lO8iX735T4hub/MDAh5jbFqtfScDmRenqpoSLVd8NNf
-         g8jnREjHPAvO3tUS/62IwHmPFGNzojTApT+lE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=U5dnCZ5YNvHzHQjGscrcpq9MiALGgU67N8Jq5EBQuzw=;
-        b=WNnvc3nOm/wZsn90SzJnBFb7ghTJPJB0XQpF482ScfJNH1CgiNMWlykK+azxWKgwl9
-         XOaQMYfdQw97Z0Wn4R/PPCZOIK3duCZMKhJpj8V/PKGcbnqParoT400/VW95Lkbw0azc
-         rPgHCpsCtsCMIqIStDSq36Wuram/81S6R+Wr+kEkQBYcvh2RFb+QbaLjcEI8PJ2blO2t
-         1HvoRNxRoUxJQX+QxesEe6EAnaRWKQFptBxRA7Gs5f6TNXz08t8P0yBrMMMlDCOIlUPl
-         bgFNuAZxb4TS0JYxNtu/KYLEszSxrZLbD/jc9bCpwznj5qLsOLC3j5J7vxUMEPWzajgy
-         R07Q==
-X-Gm-Message-State: AGi0PuYTAtpgZeQGaUxtXZy7vgycHDAW8QYqlI0fUt+NK8sizB+keihS
-        NjE0r7X7oYfOSMEVnFyuQox4bIe45TYsnuutWchzOQ==
-X-Google-Smtp-Source: APiQypLDDUNEGNzAQQ9b8u81ZQsefjAzdi6bm0eh+UnIE80cVeBpyFUq2uSk3Y7c5QYPc5UTCXnFi072V/n20RqH3kg=
-X-Received: by 2002:a9d:7c92:: with SMTP id q18mr20636927otn.281.1589353679188;
- Wed, 13 May 2020 00:07:59 -0700 (PDT)
+        id S1732080AbgEMIQu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 May 2020 04:16:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38788 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730127AbgEMIQu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 May 2020 04:16:50 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B14F320673;
+        Wed, 13 May 2020 08:16:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589357809;
+        bh=rsI2U+x4/Gm7XrR6f6K48fiAR9xJmXIbk7lQHBey9NY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KckMHzdeYY8VBZ9gq5pTkCg8Zsv1VTSYRlHTSJ383KMas0WwCVioNSPh/LXgwlIwS
+         HiB+Bq+4rNBRXejqNLQsWAtbItGmEAhwMlG3N6m1uX/PF6jYRBFmCDmNXAV7ZNxCwa
+         rzlnGyzn5nA407CH51kAb1L3TVbvStXwaiKJgfrg=
+Date:   Wed, 13 May 2020 10:16:46 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Sean Young <sean@mess.org>
+Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/3] input: serio: allow more than one byte to be sent at
+ once
+Message-ID: <20200513081646.GA770255@kroah.com>
+References: <20200507135337.2343-1-sean@mess.org>
+ <20200507135337.2343-2-sean@mess.org>
+ <20200507202546.GM89269@dtor-ws>
+ <20200507205918.GA13370@gofer.mess.org>
+ <20200511065118.GA1293993@kroah.com>
+ <20200512090724.GA31990@gofer.mess.org>
 MIME-Version: 1.0
-References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
- <20200512085944.222637-10-daniel.vetter@ffwll.ch> <6cfd324e-0443-3a12-6a2c-25a546c68643@gmail.com>
-In-Reply-To: <6cfd324e-0443-3a12-6a2c-25a546c68643@gmail.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Wed, 13 May 2020 09:07:48 +0200
-Message-ID: <CAKMK7uEwrf=CqswANbKzF1veFER5mHPHcQxR1avLXJROOGpUvg@mail.gmail.com>
-Subject: Re: [RFC 09/17] drm/amdgpu: use dma-fence annotations in cs_submit()
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        intel-gfx <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200512090724.GA31990@gofer.mess.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 13, 2020 at 9:02 AM Christian K=C3=B6nig
-<ckoenig.leichtzumerken@gmail.com> wrote:
->
-> Am 12.05.20 um 10:59 schrieb Daniel Vetter:
-> > This is a bit tricky, since ->notifier_lock is held while calling
-> > dma_fence_wait we must ensure that also the read side (i.e.
-> > dma_fence_begin_signalling) is on the same side. If we mix this up
-> > lockdep complaints, and that's again why we want to have these
-> > annotations.
-> >
-> > A nice side effect of this is that because of the fs_reclaim priming
-> > for dma_fence_enable lockdep now automatically checks for us that
-> > nothing in here allocates memory, without even running any userptr
-> > workloads.
-> >
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > Cc: linux-rdma@vger.kernel.org
-> > Cc: amd-gfx@lists.freedesktop.org
-> > Cc: intel-gfx@lists.freedesktop.org
-> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 5 +++++
-> >   1 file changed, 5 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/a=
-md/amdgpu/amdgpu_cs.c
-> > index 7653f62b1b2d..6db3f3c629b0 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> > @@ -1213,6 +1213,7 @@ static int amdgpu_cs_submit(struct amdgpu_cs_pars=
-er *p,
-> >       struct amdgpu_job *job;
-> >       uint64_t seq;
-> >       int r;
-> > +     bool fence_cookie;
-> >
-> >       job =3D p->job;
-> >       p->job =3D NULL;
-> > @@ -1227,6 +1228,8 @@ static int amdgpu_cs_submit(struct amdgpu_cs_pars=
-er *p,
-> >        */
-> >       mutex_lock(&p->adev->notifier_lock);
-> >
-> > +     fence_cookie =3D dma_fence_begin_signalling();
-> > +
-> >       /* If userptr are invalidated after amdgpu_cs_parser_bos(), retur=
-n
-> >        * -EAGAIN, drmIoctl in libdrm will restart the amdgpu_cs_ioctl.
-> >        */
-> > @@ -1264,12 +1267,14 @@ static int amdgpu_cs_submit(struct amdgpu_cs_pa=
-rser *p,
-> >       amdgpu_vm_move_to_lru_tail(p->adev, &fpriv->vm);
-> >
-> >       ttm_eu_fence_buffer_objects(&p->ticket, &p->validated, p->fence);
-> > +     dma_fence_end_signalling(fence_cookie);
->
-> Mhm, this could come earlier in theory. E.g. after pushing the job to
-> the scheduler.
+On Tue, May 12, 2020 at 10:07:24AM +0100, Sean Young wrote:
+> On Mon, May 11, 2020 at 08:51:18AM +0200, Greg KH wrote:
+> > On Thu, May 07, 2020 at 09:59:18PM +0100, Sean Young wrote:
+> > > On Thu, May 07, 2020 at 01:25:46PM -0700, Dmitry Torokhov wrote:
+> > > > On Thu, May 07, 2020 at 02:53:36PM +0100, Sean Young wrote:
+> > > > > serio drivers can only send one byte at a time. If the underlying tty
+> > > > > is a usb serial port, then each byte will be put into separate usb
+> > > > > urbs, which is not efficient.
+> > > > > 
+> > > > > Additionally, the Infrared Toy device refuses to transmit IR if the
+> > > > > IR data is sent one byte at a time. IR data is formatted in u16 values,
+> > > > > and the firmware expects complete u16 values in the packet.
+> > > > > 
+> > > > > https://github.com/DangerousPrototypes/USB_IR_Toy/blob/master/Firmware-main/IRs.c#L240
+> > > > 
+> > > > Ummm, serial protocol data size is at most 9 bits so I have no earthly
+> > > > idea how they expect to get 16.
+> > > 
+> > > serio is a layer on top several serial protocols, including ttys. ttys allow
+> > > more than one byte to be written at a time, see struct tty_operations:
+> > > 
+> > >         int  (*write)(struct tty_struct * tty,
+> > >                       const unsigned char *buf, int count);
+> > > 
+> > > ttys would be very inefficient if you could only write one byte at a time,
+> > > and they are very serial.
+> > > 
+> > > This patch exposes the underlying tty write() functionality to serio. When
+> > > the underlying tty is a usb serial port this makes for far fewer usb packets
+> > > being used to send the same data, and fixes my driver problem, and it
+> > > would reduce the number of calls in a few other cases too.
+> > > 
+> > > I'm happy to rework the patch if there are comments on the style or
+> > > approach.
+> > 
+> > Why not just use the ir-usb.c driver for this device instead?
+> 
+> So this device is the infrared kind which rc-core (in drivers/media/rc/)
+> supports, remotes and such things (not for serial IR). So by using a 
+> rc-core driver, it can use kernel IR decoding, BPF decoding, lirc chardev
+> and rc keymaps, etc.
 
-Yeah, I have not much clue about how amdgpu works :-) In practice it
-doesn't matter much, since the enclosing adev->notifier_lock is a lot
-more strict about what it allows than the dma_fence signalling fake
-lock.
--Daniel
+So why do you want to user serio for this?  serio should only be for
+input devices with a serial protocol.
 
->
-> Christian.
->
-> >       mutex_unlock(&p->adev->notifier_lock);
-> >
-> >       return 0;
-> >
-> >   error_abort:
-> >       drm_sched_job_cleanup(&job->base);
-> > +     dma_fence_end_signalling(fence_cookie);
-> >       mutex_unlock(&p->adev->notifier_lock);
-> >
-> >   error_unlock:
->
+> This device is a PIC18F2550 type device, which is a usb serial port
+> microcontroller type with some firmware and IR diodes:
+> 	http://dangerousprototypes.com/docs/USB_IR_Toy_v2
+> 
+> serio supports a whole bunch of usb serial devices which can be attached
+> via inputattach(1). Not all of these are input devices, for example there
+> are two cec devices too.
+> 
+> Now, in many of these drivers, multiple bytes need to be written to the
+> device in order to send it a command, for example in
+> drivers/input/touchscreen/elo.c:
+> 
+>         for (i = 0; i < ELO10_PACKET_LEN; i++) {
+>                 csum += packet[i];
+>                 if (serio_write(elo->serio, packet[i]))
+>                         goto out;
+>         }
+> 
+> So if serio had an interface for sending a buffer, that would be less
+> call overhead. In fact, if the underlying serio is a serial usb port,
+> that would much more efficient on the usb layer too (one usb roundtrips in
+> stead of ELO10_PACKET_LEN roundtrips), like so:
+> 
+> 	serio_write_buf(elo->serio, packet, ELO10_PACKET_LEN);
+> 
+> So what I'm suggesting is extending the serio interface to allow sending
+> a buffer of bytes. Of course serio isn't just usb serial ports. There quite
+> a few instances of serio_register_port() in the kernel. Many of them
+> can be extended to support sending a buffer rather than a single byte,
+> if this makes sense. For example the ps2 serio port takes a mutex for every
+> byte, so this could be more efficient by reducing it to one mutex lock
+> per buffer.
+> 
+> Now it would be nice to have a discussion about this rather than being
+> dismissed with:
 
+I think a custom usb driver that exposes the interfaces as input devices
+is going to be the simplest thing for you to do here as you will have
+full control over the packet size and format much easier.  Odds are it
+will be less work overall for this.
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+thanks,
+
+greg k-h
