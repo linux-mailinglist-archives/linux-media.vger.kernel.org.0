@@ -2,138 +2,271 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08A161D0AA8
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 10:16:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C943A1D0AE1
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 10:30:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732080AbgEMIQu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 May 2020 04:16:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38788 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730127AbgEMIQu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 May 2020 04:16:50 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B14F320673;
-        Wed, 13 May 2020 08:16:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589357809;
-        bh=rsI2U+x4/Gm7XrR6f6K48fiAR9xJmXIbk7lQHBey9NY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KckMHzdeYY8VBZ9gq5pTkCg8Zsv1VTSYRlHTSJ383KMas0WwCVioNSPh/LXgwlIwS
-         HiB+Bq+4rNBRXejqNLQsWAtbItGmEAhwMlG3N6m1uX/PF6jYRBFmCDmNXAV7ZNxCwa
-         rzlnGyzn5nA407CH51kAb1L3TVbvStXwaiKJgfrg=
-Date:   Wed, 13 May 2020 10:16:46 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Sean Young <sean@mess.org>
-Cc:     Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/3] input: serio: allow more than one byte to be sent at
- once
-Message-ID: <20200513081646.GA770255@kroah.com>
-References: <20200507135337.2343-1-sean@mess.org>
- <20200507135337.2343-2-sean@mess.org>
- <20200507202546.GM89269@dtor-ws>
- <20200507205918.GA13370@gofer.mess.org>
- <20200511065118.GA1293993@kroah.com>
- <20200512090724.GA31990@gofer.mess.org>
+        id S1732291AbgEMIad (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 May 2020 04:30:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36834 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732289AbgEMIac (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 May 2020 04:30:32 -0400
+Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B194C061A0C
+        for <linux-media@vger.kernel.org>; Wed, 13 May 2020 01:30:31 -0700 (PDT)
+Received: by mail-oo1-xc43.google.com with SMTP id u190so3289821ooa.10
+        for <linux-media@vger.kernel.org>; Wed, 13 May 2020 01:30:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=P/cQOw5xN+TfOYRkXBpG74KgaYsRxjssQU8OCSQs0lw=;
+        b=ZYqNT7S96JIC/2QUMWjtKF68s7Mlj31GoqTmd/vNnuROLIyB0kD9KQbJGZzvzwvUbA
+         E3luqZwNVfQvG5bGKUij9LW4w7tisfb2ZjPEK2MdxiXprewxdAOya4VpMVU2y0meest4
+         Fp2TkQzADhnoZpBxsZgu12qAiKzzJR0VP+umY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=P/cQOw5xN+TfOYRkXBpG74KgaYsRxjssQU8OCSQs0lw=;
+        b=fwALJjIe0MP96sPixARf9c64978SzN1y9CjEbtI6hl7tcJenSIx155m/PDUlYIduj3
+         GSVxQEiiN+d5HA8eleBjh03idMZOI+9ZWh1YCONecWKVPnQk/1Dj9NN6KTvS9OdSP+mZ
+         K1jmY/1abeOefN7L3CqQe6/yl0tEVv9IspCzm44a3WzjLaqIUlR4ukgrli/MHNGD05cD
+         01m0q4RH+Zm7/fJ1rVmo/RmpCGLJJN3AxUPskB/riLfVyF9HF5Rp/iKmV695ommFhVDy
+         jD+npF8LH95gV6sr6ADmLK4RAss04ORTnUpOQau7uBjh94LV7je1nmng+EX4ua433d7Z
+         i6bw==
+X-Gm-Message-State: AGi0PuYAlhIWqNiw5vGxVcJ04oEX1s+B9amKTTsAA23FXjBhV9TGhLgj
+        rGGlT9MAZqVwSXCbxz4M4Z3XrAuNtwrno0QLXp7J5w==
+X-Google-Smtp-Source: APiQypK721eLmXQ6tEOq0sY7098uVZ1/1lnGE6R9IvcYdjA6Ym65merSRHvKBROuVGmkJOSrpR7fmIYoiLovJ+FPnQA=
+X-Received: by 2002:a4a:d136:: with SMTP id n22mr21115688oor.85.1589358630346;
+ Wed, 13 May 2020 01:30:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200512090724.GA31990@gofer.mess.org>
+References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
+ <20200512085944.222637-3-daniel.vetter@ffwll.ch> <158927426244.15653.14406159524439944950@build.alporthouse.com>
+ <20200512090847.GF206103@phenom.ffwll.local> <158927519651.15653.17392305363363808831@build.alporthouse.com>
+In-Reply-To: <158927519651.15653.17392305363363808831@build.alporthouse.com>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Wed, 13 May 2020 10:30:19 +0200
+Message-ID: <CAKMK7uGnFhbpuurRsnZ4dvRV9gQ_3-rmSJaoqSFY=+Kvepz_CA@mail.gmail.com>
+Subject: Re: [RFC 02/17] dma-fence: basic lockdep annotations
+To:     Chris Wilson <chris@chris-wilson.co.uk>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Dave Airlie <airlied@redhat.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 12, 2020 at 10:07:24AM +0100, Sean Young wrote:
-> On Mon, May 11, 2020 at 08:51:18AM +0200, Greg KH wrote:
-> > On Thu, May 07, 2020 at 09:59:18PM +0100, Sean Young wrote:
-> > > On Thu, May 07, 2020 at 01:25:46PM -0700, Dmitry Torokhov wrote:
-> > > > On Thu, May 07, 2020 at 02:53:36PM +0100, Sean Young wrote:
-> > > > > serio drivers can only send one byte at a time. If the underlying tty
-> > > > > is a usb serial port, then each byte will be put into separate usb
-> > > > > urbs, which is not efficient.
-> > > > > 
-> > > > > Additionally, the Infrared Toy device refuses to transmit IR if the
-> > > > > IR data is sent one byte at a time. IR data is formatted in u16 values,
-> > > > > and the firmware expects complete u16 values in the packet.
-> > > > > 
-> > > > > https://github.com/DangerousPrototypes/USB_IR_Toy/blob/master/Firmware-main/IRs.c#L240
-> > > > 
-> > > > Ummm, serial protocol data size is at most 9 bits so I have no earthly
-> > > > idea how they expect to get 16.
-> > > 
-> > > serio is a layer on top several serial protocols, including ttys. ttys allow
-> > > more than one byte to be written at a time, see struct tty_operations:
-> > > 
-> > >         int  (*write)(struct tty_struct * tty,
-> > >                       const unsigned char *buf, int count);
-> > > 
-> > > ttys would be very inefficient if you could only write one byte at a time,
-> > > and they are very serial.
-> > > 
-> > > This patch exposes the underlying tty write() functionality to serio. When
-> > > the underlying tty is a usb serial port this makes for far fewer usb packets
-> > > being used to send the same data, and fixes my driver problem, and it
-> > > would reduce the number of calls in a few other cases too.
-> > > 
-> > > I'm happy to rework the patch if there are comments on the style or
-> > > approach.
-> > 
-> > Why not just use the ir-usb.c driver for this device instead?
-> 
-> So this device is the infrared kind which rc-core (in drivers/media/rc/)
-> supports, remotes and such things (not for serial IR). So by using a 
-> rc-core driver, it can use kernel IR decoding, BPF decoding, lirc chardev
-> and rc keymaps, etc.
+On Tue, May 12, 2020 at 11:19 AM Chris Wilson <chris@chris-wilson.co.uk> wr=
+ote:
+> Quoting Daniel Vetter (2020-05-12 10:08:47)
+> > On Tue, May 12, 2020 at 10:04:22AM +0100, Chris Wilson wrote:
+> > > Quoting Daniel Vetter (2020-05-12 09:59:29)
+> > > > Design is similar to the lockdep annotations for workers, but with
+> > > > some twists:
+> > > >
+> > > > - We use a read-lock for the execution/worker/completion side, so t=
+hat
+> > > >   this explicit annotation can be more liberally sprinkled around.
+> > > >   With read locks lockdep isn't going to complain if the read-side
+> > > >   isn't nested the same way under all circumstances, so ABBA deadlo=
+cks
+> > > >   are ok. Which they are, since this is an annotation only.
+> > > >
+> > > > - We're using non-recursive lockdep read lock mode, since in recurs=
+ive
+> > > >   read lock mode lockdep does not catch read side hazards. And we
+> > > >   _very_ much want read side hazards to be caught. For full details=
+ of
+> > > >   this limitation see
+> > > >
+> > > >   commit e91498589746065e3ae95d9a00b068e525eec34f
+> > > >   Author: Peter Zijlstra <peterz@infradead.org>
+> > > >   Date:   Wed Aug 23 13:13:11 2017 +0200
+> > > >
+> > > >       locking/lockdep/selftests: Add mixed read-write ABBA tests
+> > > >
+> > > > - To allow nesting of the read-side explicit annotations we explici=
+tly
+> > > >   keep track of the nesting. lock_is_held() allows us to do that.
+> > > >
+> > > > - The wait-side annotation is a write lock, and entirely done withi=
+n
+> > > >   dma_fence_wait() for everyone by default.
+> > > >
+> > > > - To be able to freely annotate helper functions I want to make it =
+ok
+> > > >   to call dma_fence_begin/end_signalling from soft/hardirq context.
+> > > >   First attempt was using the hardirq locking context for the write
+> > > >   side in lockdep, but this forces all normal spinlocks nested with=
+in
+> > > >   dma_fence_begin/end_signalling to be spinlocks. That bollocks.
+> > > >
+> > > >   The approach now is to simple check in_atomic(), and for these ca=
+ses
+> > > >   entirely rely on the might_sleep() check in dma_fence_wait(). Tha=
+t
+> > > >   will catch any wrong nesting against spinlocks from soft/hardirq
+> > > >   contexts.
+> > > >
+> > > > The idea here is that every code path that's critical for eventuall=
+y
+> > > > signalling a dma_fence should be annotated with
+> > > > dma_fence_begin/end_signalling. The annotation ideally starts right
+> > > > after a dma_fence is published (added to a dma_resv, exposed as a
+> > > > sync_file fd, attached to a drm_syncobj fd, or anything else that
+> > > > makes the dma_fence visible to other kernel threads), up to and
+> > > > including the dma_fence_wait(). Examples are irq handlers, the
+> > > > scheduler rt threads, the tail of execbuf (after the corresponding
+> > > > fences are visible), any workers that end up signalling dma_fences =
+and
+> > > > really anything else. Not annotated should be code paths that only
+> > > > complete fences opportunistically as the gpu progresses, like e.g.
+> > > > shrinker/eviction code.
+> > > >
+> > > > The main class of deadlocks this is supposed to catch are:
+> > > >
+> > > > Thread A:
+> > > >
+> > > >         mutex_lock(A);
+> > > >         mutex_unlock(A);
+> > > >
+> > > >         dma_fence_signal();
+> > > >
+> > > > Thread B:
+> > > >
+> > > >         mutex_lock(A);
+> > > >         dma_fence_wait();
+> > > >         mutex_unlock(A);
+> > > >
+> > > > Thread B is blocked on A signalling the fence, but A never gets aro=
+und
+> > > > to that because it cannot acquire the lock A.
+> > > >
+> > > > Note that dma_fence_wait() is allowed to be nested within
+> > > > dma_fence_begin/end_signalling sections. To allow this to happen th=
+e
+> > > > read lock needs to be upgraded to a write lock, which means that an=
+y
+> > > > other lock is acquired between the dma_fence_begin_signalling() cal=
+l and
+> > > > the call to dma_fence_wait(), and still held, this will result in a=
+n
+> > > > immediate lockdep complaint. The only other option would be to not
+> > > > annotate such calls, defeating the point. Therefore these annotatio=
+ns
+> > > > cannot be sprinkled over the code entirely mindless to avoid false
+> > > > positives.
+> > > >
+> > > > v2: handle soft/hardirq ctx better against write side and dont forg=
+et
+> > > > EXPORT_SYMBOL, drivers can't use this otherwise.
+> > > >
+> > > > Cc: linux-media@vger.kernel.org
+> > > > Cc: linaro-mm-sig@lists.linaro.org
+> > > > Cc: linux-rdma@vger.kernel.org
+> > > > Cc: amd-gfx@lists.freedesktop.org
+> > > > Cc: intel-gfx@lists.freedesktop.org
+> > > > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > > > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > > > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > > ---
+> > > >  drivers/dma-buf/dma-fence.c | 53 +++++++++++++++++++++++++++++++++=
+++++
+> > > >  include/linux/dma-fence.h   | 12 +++++++++
+> > > >  2 files changed, 65 insertions(+)
+> > > >
+> > > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fenc=
+e.c
+> > > > index 6802125349fb..d5c0fd2efc70 100644
+> > > > --- a/drivers/dma-buf/dma-fence.c
+> > > > +++ b/drivers/dma-buf/dma-fence.c
+> > > > @@ -110,6 +110,52 @@ u64 dma_fence_context_alloc(unsigned num)
+> > > >  }
+> > > >  EXPORT_SYMBOL(dma_fence_context_alloc);
+> > > >
+> > > > +#ifdef CONFIG_LOCKDEP
+> > > > +struct lockdep_map     dma_fence_lockdep_map =3D {
+> > > > +       .name =3D "dma_fence_map"
+> > > > +};
+> > >
+> > > Not another false global sharing lockmap.
+> >
+> > It's a global contract, it needs a global lockdep map. And yes a big
+> > reason for the motivation here is that i915-gem has a tremendous urge t=
+o
+> > just redefine all these global locks to fit to some local interpretatio=
+n
+> > of what's going on.
+>
+> No, you can build the global contract out of the actual contracts
+> between fence drivers. If you introduce a struct lockdep_map *map into
+> the fence_ops (so the fence_ops can remain const), you gain correctness
+> at the cost of having to run through all possible interactions once.
+> You can also then do if ops->lockmap ?: &global_fence_lockmap for
+> piecemeal conversion of drivers that do not already use lockmaps for
+> contract enforcement of their fence waits.
 
-So why do you want to user serio for this?  serio should only be for
-input devices with a serial protocol.
+I'm not quite sure whether you're actually proposing to have locking
+contracts per drivers, since that seems rather out of ... I dunno. But
+if that's what you want, that just doesn't make any sense at all:
 
-> This device is a PIC18F2550 type device, which is a usb serial port
-> microcontroller type with some firmware and IR diodes:
-> 	http://dangerousprototypes.com/docs/USB_IR_Toy_v2
-> 
-> serio supports a whole bunch of usb serial devices which can be attached
-> via inputattach(1). Not all of these are input devices, for example there
-> are two cec devices too.
-> 
-> Now, in many of these drivers, multiple bytes need to be written to the
-> device in order to send it a command, for example in
-> drivers/input/touchscreen/elo.c:
-> 
->         for (i = 0; i < ELO10_PACKET_LEN; i++) {
->                 csum += packet[i];
->                 if (serio_write(elo->serio, packet[i]))
->                         goto out;
->         }
-> 
-> So if serio had an interface for sending a buffer, that would be less
-> call overhead. In fact, if the underlying serio is a serial usb port,
-> that would much more efficient on the usb layer too (one usb roundtrips in
-> stead of ELO10_PACKET_LEN roundtrips), like so:
-> 
-> 	serio_write_buf(elo->serio, packet, ELO10_PACKET_LEN);
-> 
-> So what I'm suggesting is extending the serio interface to allow sending
-> a buffer of bytes. Of course serio isn't just usb serial ports. There quite
-> a few instances of serio_register_port() in the kernel. Many of them
-> can be extended to support sending a buffer rather than a single byte,
-> if this makes sense. For example the ps2 serio port takes a mutex for every
-> byte, so this could be more efficient by reducing it to one mutex lock
-> per buffer.
-> 
-> Now it would be nice to have a discussion about this rather than being
-> dismissed with:
+- Locking is rather core to kernel programming, aside from a few other
+things like hard/softirq/preempt/... disabled sections and how
+recursion works for these, or where and what you're allowed to
+allocate memory. Lockdep, might_sleep and a bunch of other such debug
+checks help us enforce that. If you instead go with every driver does
+what they please yolo, then you don't have an abstraction, all you
+have is smashing a rose and rose and Rose into one thing because they
+have the same 4 letter name. It's just an interface that can be used
+only when understanding every single implementation in detail - really
+not something that's an abstraction. Yes I've seen some of these
+dubious abstractions in i915, merged fairly recently, that doesn't
+make them a good idea.
 
-I think a custom usb driver that exposes the interfaces as input devices
-is going to be the simplest thing for you to do here as you will have
-full control over the packet size and format much easier.  Odds are it
-will be less work overall for this.
+- You need to test the full NxN matrix (yes you need to test the
+driver against itself in this world, since testing against something
+fake like vgem doesn't cut it). That's nuts. Strike that, that's
+impossible.
 
-thanks,
+- Review is impossible, because the documentation can be summed up as
+"yolo". Without clear rules all review can do is check every code
+against every other piece of code, on every change. That's impossible,
+because we humans are mere mortals, and we're left with push&pray
+engineering, which really isn't.
 
-greg k-h
+The other issue with this approach is that it's full on platform
+problem in extremis. Instead of extending the shared abstraction or
+adding new useful functionality, i915-gem has resorted to reinpreting
+rules to fix local problems. That leads to stuff like roughly
+
+if (mutex_lock_timeout(HZ*10) =3D=3D -ETIME) {
+    /* I guess we deadlocked, try to bail out */
+}
+
+except it's for fences. That's neither solid engineering - we don't
+generally let the kernel deadlock on itself to test whether maybe it
+was a deadlock or not, nor is this solid upstreaming in a open source
+project - we fix the problems where they are, not work around them
+just in our own driver.
+-Daniel
+--
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
