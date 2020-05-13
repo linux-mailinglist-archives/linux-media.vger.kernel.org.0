@@ -2,343 +2,251 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDC751D12DA
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 14:36:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 760901D1329
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 14:51:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729646AbgEMMgu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 May 2020 08:36:50 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:59204 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729975AbgEMMgt (ORCPT
+        id S1729857AbgEMMvU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 May 2020 08:51:20 -0400
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:54299 "EHLO
+        wout2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728172AbgEMMvT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 May 2020 08:36:49 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37EBB51F;
-        Wed, 13 May 2020 14:36:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1589373406;
-        bh=jcJsOYb5kgYeF6xyzqVsga0ZSnFWv2H3wqCZpKyAk0g=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Hs5g2yIkmM8USXraq0/FtGXwNdq94ewxyIoSIh+vu2zweyrvOY5CCuiTLMafVzEbT
-         RXYD1xkHr302s0dkNiziFcBvkkgURwE8WCndnZW9V4K1zDvhXNYx9vn36PwV+JFDsM
-         ZoJefYRIq1M3z59Bv0440gl/drxL9Em9J0XK+AZ0=
-Date:   Wed, 13 May 2020 15:36:40 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: i2c: Add driver for On Semiconductor MT9M114
- camera sensor
-Message-ID: <20200513123640.GE5945@pendragon.ideasonboard.com>
-References: <20200511233456.9722-1-laurent.pinchart@ideasonboard.com>
- <20200511233456.9722-2-laurent.pinchart@ideasonboard.com>
- <20200512225529.GB867@valkosipuli.retiisi.org.uk>
- <20200513000027.GL28527@pendragon.ideasonboard.com>
- <20200513115356.GC867@valkosipuli.retiisi.org.uk>
+        Wed, 13 May 2020 08:51:19 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailout.west.internal (Postfix) with ESMTP id D10997E3;
+        Wed, 13 May 2020 08:51:17 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Wed, 13 May 2020 08:51:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=aeqv2tw69Ou73Ks80LeYEsoBf/9
+        Sf5jfqw/n6jWNiu8=; b=SXLj0aP6PySWVLoEkMErwoCIBG+JjYjz58KGTwK1jYV
+        OAXUgL7/JgHQJoS5YT6tYDmeXt6Yah6LLk9d2rJljbTrxYBt/3kIn4miy5E9nbcH
+        C4CYx6MWJIiqMQLEAAgDhWFzEBNNNXts1t+WNOY3Z7Ygs4MFJdMUC3e+UbgZtMR9
+        vpeAffBK9MrrfNtonxB15jRfjOr+Cfc1n4a761+i4QeUUV0vo6FFDe/4MMhzoHI7
+        xILmvnZ/8aH3KSWA+nUMau4amQ6vZiiC3oVu+fppJLTKwjDXS4NTLBji+868lyUp
+        /z9trypv5BEZN1MFDyjzASHqCFlh9AXjdwCNoTY1mdQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=aeqv2t
+        w69Ou73Ks80LeYEsoBf/9Sf5jfqw/n6jWNiu8=; b=VxSOX7XO3Luoc6SGQ8yML1
+        wQm8wqEySAq7L37HSqmMGUUIhGcp2Lx94/389Q/Odx/q5EZao5rKNaAgvn4yIK74
+        pB1Egez1vLGUNTtHOqlG+wvYQs1momAIJ8B+sFhTanqxczznriMIBp6Qeo/oiUpA
+        0KK4cJVk0srCT1zI4ngnr/hEgS4QX0OiRYoN5W50zdJ0W2vIiJhGy/1AQ7L6DdQ8
+        GWlTF6in56wR2dh8qnc7TNZpL+2k6gzaxP7zqMh/TpJmAJUcMLCO4GkjS9frleKK
+        0i+mGRW3C7E3WaIFHSaRHZ22NSKIPpJ1nfLRpgJPGkrdvZw1jZJyJhmFjWs38Uzg
+        ==
+X-ME-Sender: <xms:Re27XuilwUPxPKx6DMenaG_3Vn6lN5yxWRuM9NPQ1AM2CzUMPpVbiA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrleeggdehiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghgucfm
+    jfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepueelledthe
+    ekleethfeludduvdfhffeuvdffudevgeehkeegieffveehgeeftefgnecuffhomhgrihhn
+    pehkvghrnhgvlhdrohhrghenucfkphepkeefrdekiedrkeelrddutdejnecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghh
+    rdgtohhm
+X-ME-Proxy: <xmx:Re27XvAvWD7I2NeDu3pksH7bdl1q2JVCN1tTGXKCAF1HgQKmUmkRkA>
+    <xmx:Re27XmFhPg8X-I6bdXiE67fszAM5wOP79uk2EyfIY8mzyJWo7k1eOg>
+    <xmx:Re27XnQIXLEcTicx_crz3QqYk8YsFK0MSidNs1hUNM6pKNBm4t_4JA>
+    <xmx:Re27XilVBJDe2n5T5CpedX62uSXSDqJigAHQCLl3ryn9aKgYPMMC4Q>
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        by mail.messagingengine.com (Postfix) with ESMTPA id CE6B83066309;
+        Wed, 13 May 2020 08:51:16 -0400 (EDT)
+Date:   Wed, 13 May 2020 14:51:12 +0200
+From:   Greg KH <greg@kroah.com>
+To:     Charan Teja Kalla <charante@codeaurora.org>
+Cc:     sumit.semwal@linaro.org, ghackmann@google.com, fengc@google.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, vinmenon@codeaurora.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] dma-buf: fix use-after-free in dmabuffs_dname
+Message-ID: <20200513125112.GC1083139@kroah.com>
+References: <1588920063-17624-1-git-send-email-charante@codeaurora.org>
+ <20200512085221.GB3557007@kroah.com>
+ <a3cbf675-becc-1713-bcdc-664ddfe4a544@codeaurora.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200513115356.GC867@valkosipuli.retiisi.org.uk>
+In-Reply-To: <a3cbf675-becc-1713-bcdc-664ddfe4a544@codeaurora.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-On Wed, May 13, 2020 at 02:53:56PM +0300, Sakari Ailus wrote:
-> On Wed, May 13, 2020 at 03:00:27AM +0300, Laurent Pinchart wrote:
-> > On Wed, May 13, 2020 at 01:55:29AM +0300, Sakari Ailus wrote:
-> > > On Tue, May 12, 2020 at 02:34:56AM +0300, Laurent Pinchart wrote:
-> > > > The MT9M114 is a CMOS camera sensor that combines a 1296x976 pixel array
-> > > > with a 10-bit dynamic range together with an internal ISP. The driver
-> > > > exposes two subdevs, one for the pixel array and one for the ISP (named
-> > > > IFP for Image Flow Processor). Major supported features are
-> > > > 
-> > > > - Full configuration of analog crop and binning in the pixel array
-> > > > - Full configuration of scaling in the ISP
-> > > > - Automatic exposure and white balance
-> > > > - Manual exposure and analog gain
-> > > > - Horizontal and vertical flip
-> > > > 
-> > > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > ---
-> > > >  MAINTAINERS                 |    1 +
-> > > >  drivers/media/i2c/Kconfig   |   10 +
-> > > >  drivers/media/i2c/Makefile  |    1 +
-> > > >  drivers/media/i2c/mt9m114.c | 2161 +++++++++++++++++++++++++++++++++++
-> > > >  4 files changed, 2173 insertions(+)
-> > > >  create mode 100644 drivers/media/i2c/mt9m114.c
-> > 
-> > [snip]
-> > 
-> > > > diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-> > > > new file mode 100644
-> > > > index 000000000000..7f70ae2865b8
-> > > > --- /dev/null
-> > > > +++ b/drivers/media/i2c/mt9m114.c
-> > 
-> > [snip]
-> > 
-> > > > +static int mt9m114_pa_s_ctrl(struct v4l2_ctrl *ctrl)
-> > > > +{
-> > > > +	struct mt9m114 *sensor = pa_ctrl_to_mt9m114(ctrl);
-> > > > +	int ret = 0;
-> > > > +
-> > > > +	switch (ctrl->id) {
-> > > > +	case V4L2_CID_EXPOSURE_ABSOLUTE:
-> > > > +		mt9m114_write(sensor,
-> > > > +			      MT9M114_CAM_SENSOR_CONTROL_COARSE_INTEGRATION_TIME,
-> > > > +			      ctrl->val / MT9M114_LINE_LENGTH, &ret);
-> > > 
-> > > Hmm. I'd introduce a separate control for the fine exposure time. We'll
-> > > need it in any case, and this would also allow setting just the coarse
-> > > exposure time.
-> > > 
-> > > What do you think?
-> > 
-> > I've re-read the documentation of the V4L2_CID_EXPOSURE_ABSOLUTE
-> > control, and it's documented as being expressed in multiples of 100µs.
+On Wed, May 13, 2020 at 05:40:26PM +0530, Charan Teja Kalla wrote:
 > 
-> It says "should". Indeed this is not the case for raw sensors. We could
-> update the documentation, I think.
-> 
-> > Clearly not a good fit here :-S The ov9650 driver suffers from the same
-> > problem. All the other sensor drievrs use V4L2_CID_EXPOSURE, whose unit
-> > is not defined. Do we need to introduce V4L2_CID_EXPOSURE_COARSE and
-> > V4L2_CID_EXPOSURE_FINE ? It would get messy with so many ways to control
-> 
-> I'm not opposed to that in principle. But what do we do with all the
-> current drivers in that case? They use V4L2_CID_EXPOSURE_ABSOLUTE.
-
-No, all sensor drivers except one use V4L2_CID_EXPOSURE, not
-V4L2_CID_EXPOSURE_ABSOLUTE. It's thus V4L2_CID_EXPOSURE that we would
-need to document as being expressed in lines for sensors (but in that
-case we'll likely have a large number of drivers that misuse it).
-
-> > the exposure time :-S Or should we document V4L2_CID_EXPOSURE as being
-> > expressed in lines for new drivers, and add V4L2_CID_EXPOSURE_FINE to be
-> > expressed in pixels ? What would two separate control for coarse and
-> > fine exposures bring us, compared to expressing the exposure time in
-> > pixels ?
-> 
-> It takes time to do the writes over the I²C bus. At higher frame rates it
-> become increasingly risky, and the least risk is indeed often preferred.
-
-What do you propose then ? Adding V4L2_CID_EXPOSURE_FINE ? In addition
-to V4L2_CID_EXPOSURE ? How should V4L2_CID_EXPOSURE be documented ? And
-how should V4L2_CID_EXPOSURE_FINE be documented for that matter ?
-
-> > > > +		mt9m114_write(sensor,
-> > > > +			      MT9M114_CAM_SENSOR_CONTROL_FINE_INTEGRATION_TIME,
-> > > > +			      ctrl->val % MT9M114_LINE_LENGTH, &ret);
-> > > > +		break;
-> > > > +
-> > > > +	case V4L2_CID_ANALOGUE_GAIN:
-> > > > +		/*
-> > > > +		 * The CAM_SENSOR_CONTROL_ANALOG_GAIN contains linear analog
-> > > > +		 * gain values that are mapped to the GLOBAL_GAIN register
-> > > > +		 * values by the sensor firmware.
-> > > > +		 */
-> > > > +		mt9m114_write(sensor, MT9M114_CAM_SENSOR_CONTROL_ANALOG_GAIN,
-> > > > +			      ctrl->val, &ret);
-> > > > +		break;
-> > > > +
-> > > > +	default:
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	return ret;
-> > > > +}
+> Thank you Greg for the comments.
+> On 5/12/2020 2:22 PM, Greg KH wrote:
+> > On Fri, May 08, 2020 at 12:11:03PM +0530, Charan Teja Reddy wrote:
+> >> The following race occurs while accessing the dmabuf object exported as
+> >> file:
+> >> P1				P2
+> >> dma_buf_release()          dmabuffs_dname()
+> >> 			   [say lsof reading /proc/<P1 pid>/fd/<num>]
+> >>
+> >> 			   read dmabuf stored in dentry->d_fsdata
+> >> Free the dmabuf object
+> >> 			   Start accessing the dmabuf structure
+> >>
+> >> In the above description, the dmabuf object freed in P1 is being
+> >> accessed from P2 which is resulting into the use-after-free. Below is
+> >> the dump stack reported.
+> >>
+> >> We are reading the dmabuf object stored in the dentry->d_fsdata but
+> >> there is no binding between the dentry and the dmabuf which means that
+> >> the dmabuf can be freed while it is being read from ->d_fsdata and
+> >> inuse. Reviews on the patch V1 says that protecting the dmabuf inuse
+> >> with an extra refcount is not a viable solution as the exported dmabuf
+> >> is already under file's refcount and keeping the multiple refcounts on
+> >> the same object coordinated is not possible.
+> >>
+> >> As we are reading the dmabuf in ->d_fsdata just to get the user passed
+> >> name, we can directly store the name in d_fsdata thus can avoid the
+> >> reading of dmabuf altogether.
+> >>
+> >> Call Trace:
+> >>  kasan_report+0x12/0x20
+> >>  __asan_report_load8_noabort+0x14/0x20
+> >>  dmabuffs_dname+0x4f4/0x560
+> >>  tomoyo_realpath_from_path+0x165/0x660
+> >>  tomoyo_get_realpath
+> >>  tomoyo_check_open_permission+0x2a3/0x3e0
+> >>  tomoyo_file_open
+> >>  tomoyo_file_open+0xa9/0xd0
+> >>  security_file_open+0x71/0x300
+> >>  do_dentry_open+0x37a/0x1380
+> >>  vfs_open+0xa0/0xd0
+> >>  path_openat+0x12ee/0x3490
+> >>  do_filp_open+0x192/0x260
+> >>  do_sys_openat2+0x5eb/0x7e0
+> >>  do_sys_open+0xf2/0x180
+> >>
+> >> Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
+> >> Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
+> >> Cc: <stable@vger.kernel.org> [5.3+]
+> >> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+> >> ---
+> >>
+> >> Changes in v2: 
+> >>
+> >> - Pass the user passed name in ->d_fsdata instead of dmabuf
+> >> - Improve the commit message
+> >>
+> >> Changes in v1: (https://patchwork.kernel.org/patch/11514063/)
+> >>
+> >>  drivers/dma-buf/dma-buf.c | 17 ++++++++++-------
+> >>  1 file changed, 10 insertions(+), 7 deletions(-)
+> >>
+> >> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> >> index 01ce125..0071f7d 100644
+> >> --- a/drivers/dma-buf/dma-buf.c
+> >> +++ b/drivers/dma-buf/dma-buf.c
+> >> @@ -25,6 +25,7 @@
+> >>  #include <linux/mm.h>
+> >>  #include <linux/mount.h>
+> >>  #include <linux/pseudo_fs.h>
+> >> +#include <linux/dcache.h>
+> >>  
+> >>  #include <uapi/linux/dma-buf.h>
+> >>  #include <uapi/linux/magic.h>
+> >> @@ -40,15 +41,13 @@ struct dma_buf_list {
+> >>  
+> >>  static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+> >>  {
+> >> -	struct dma_buf *dmabuf;
+> >>  	char name[DMA_BUF_NAME_LEN];
+> >>  	size_t ret = 0;
+> >>  
+> >> -	dmabuf = dentry->d_fsdata;
+> >> -	dma_resv_lock(dmabuf->resv, NULL);
+> >> -	if (dmabuf->name)
+> >> -		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+> >> -	dma_resv_unlock(dmabuf->resv);
+> >> +	spin_lock(&dentry->d_lock);
 > > 
-> > [snip]
-> > 
-> > > > +static int mt9m114_pa_get_fmt(struct v4l2_subdev *sd,
-> > > > +			      struct v4l2_subdev_pad_config *cfg,
-> > > > +			      struct v4l2_subdev_format *fmt)
-> > > > +{
-> > > > +	struct mt9m114 *sensor = pa_to_mt9m114(sd);
-> > > > +
-> > > > +	fmt->format = *__mt9m114_pa_get_pad_format(sensor, cfg, fmt->pad,
-> > > > +						   fmt->which);
-> > > 
-> > > I believe these need to be serialised with e.g. a mutex. Same for set
-> > > below.
-> > 
-> > You're right, I'll fix that. All this is a bit inefficient though, as
-> > the ioctl are already serialized in subdev_do_ioctl_lock(), so there
+> > Are you sure this lock always protects d_fsdata?
 > 
-> They are not, as lock is always NULL. Drivers are still responsible for
-> doing this. This would seem to need some kind of a rework; acquiring a
-> mutex should be done to the calls independently of whether they are done
-> through IOCTLs or from other drivers.
-
-My point is that there are two layers of locking, which isn't a nice
-implementation. Locking in subdev drivers is too complicated in general.
-Out of scope for this patch series of course.
-
-> > would be double-locking, but that's required when the subdev operations
-> > are called within the kernel. Oh well... :-(
-> > 
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +static int mt9m114_pa_set_fmt(struct v4l2_subdev *sd,
-> > > > +			      struct v4l2_subdev_pad_config *cfg,
-> > > > +			      struct v4l2_subdev_format *fmt)
-> > > > +{
-> > > > +	struct mt9m114 *sensor = pa_to_mt9m114(sd);
-> > > > +	struct v4l2_mbus_framefmt *format;
-> > > > +	struct v4l2_rect *crop;
-> > > > +	unsigned int hscale;
-> > > > +	unsigned int vscale;
-> > > > +
-> > > > +	crop = __mt9m114_pa_get_pad_crop(sensor, cfg, fmt->pad, fmt->which);
-> > > > +	format = __mt9m114_pa_get_pad_format(sensor, cfg, fmt->pad, fmt->which);
-> > > > +
-> > > > +	/* The sensor can bin horizontally and vertically. */
-> > > > +	hscale = DIV_ROUND_CLOSEST(crop->width, fmt->format.width ? : 1);
-> > > > +	vscale = DIV_ROUND_CLOSEST(crop->height, fmt->format.height ? : 1);
-> > > > +	format->width = crop->width / clamp(hscale, 1U, 2U);
-> > > > +	format->height = crop->height / clamp(vscale, 1U, 2U);
-> > > > +
-> > > > +	fmt->format = *format;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +static int mt9m114_pa_get_selection(struct v4l2_subdev *sd,
-> > > > +				    struct v4l2_subdev_pad_config *cfg,
-> > > > +				    struct v4l2_subdev_selection *sel)
-> > > > +{
-> > > > +	struct mt9m114 *sensor = pa_to_mt9m114(sd);
-> > > > +
-> > > > +	switch (sel->target) {
-> > > > +	case V4L2_SEL_TGT_CROP:
-> > > > +		sel->r = *__mt9m114_pa_get_pad_crop(sensor, cfg, sel->pad,
-> > > > +						    sel->which);
-> > > > +		return 0;
-> > > > +
-> > > > +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> > > > +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> > > > +		sel->r.left = 0;
-> > > > +		sel->r.top = 0;
-> > > > +		sel->r.width = MT9M114_PIXEL_ARRAY_WIDTH;
-> > > > +		sel->r.height = MT9M114_PIXEL_ARRAY_HEIGHT;
-> > > > +		return 0;
-> > > > +
-> > > 
-> > > Could you add NATIVE_SIZE target?
-> > 
-> > Sure. The sensor has optical dark pixels, but I don't see a way in the
-> > datasheet to read the dark lines out (they're used by the internal ISP).
-> > I will thus set the native size as equal to the crop bounds.
-> > 
-> > The V4L2 documentation could really benefit from clarifying the native
-> > size and crop bounds targets by the way, it's awfully underspecified
-> > (and as a result I would guess that 99% of the drivers get it wrong).
+> I think yes. In the dma-buf.c, I have to make sure that d_fsdata should
+> always be under d_lock thus it will be protected. (In this posted patch
+> there is one place(in dma_buf_set_name) that is missed, will update this
+> in V3).
 > 
-> The crop bounds are effectively the same in this case. But the crop bounds
-> (and crop) targets are used in a lot of different cases, too.
-> 
-> This is indeed a little grey area as sensor implementations differ. Those
-> black pixels may still affect timing, but some devices probably don't even
-> document them.
-
-That doesn't tell me how you think the crop bounds and native size
-should be defined when there are dark pixels :-) We can discuss it
-separately, but I think it requires a discussion.
-
-> ...
-> 
-> > > > +static int mt9m114_parse_dt(struct mt9m114 *sensor)
-> > > > +{
-> > > > +	struct fwnode_handle *fwnode = dev_fwnode(&sensor->client->dev);
-> > > > +	struct fwnode_handle *ep;
-> > > > +	int ret;
-> > > > +
-> > > > +	if (!fwnode)
-> > > > +		return -ENXIO;
-> > > > +
-> > > > +	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
-> > > > +	if (!ep) {
-> > > > +		dev_err(&sensor->client->dev, "No endpoint found\n");
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &sensor->bus_cfg);
-> > > 
-> > > Please initialise the bus type.
 > > 
-> > Are you fine initializing it to V4L2_MBUS_UNKNOWN ? I don't want to loop
-> > over v4l2_fwnode_endpoint_alloc_parse() for all supported bus types.
-> 
-> Feel free to propose alternatives. Either way, that is probably the most
-> simple thing you can do in a driver.
-> 
-> We don't want to add DT properties just to cover deficiencies in driver
-> implementation.
-
-The implementation here doesn't depend on additional DT properties as
-far as I can tell. I thus don't see the problem with the current code.
-
-> > > > +	fwnode_handle_put(ep);
-> > > > +	if (ret < 0) {
-> > > > +		dev_err(&sensor->client->dev, "Failed to parse endpoint\n");
-> > > > +		goto error;
-> > > > +	}
-> > > > +
-> > > > +	switch (sensor->bus_cfg.bus_type) {
-> > > > +	case V4L2_MBUS_CSI2_DPHY:
-> > > > +	case V4L2_MBUS_PARALLEL:
-> > > > +		break;
-> > > > +
-> > > > +	default:
-> > > > +		dev_err(&sensor->client->dev, "unsupported bus type %u\n",
-> > > > +			sensor->bus_cfg.bus_type);
-> > > > +		ret = -EINVAL;
-> > > > +		goto error;
-> > > > +	}
-> > > > +
-> > > > +	return 0;
-> > > > +
-> > > > +error:
-> > > > +	v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
-> > > > +	return ret;
-> > > > +}
+> >> +	if (dentry->d_fsdata)
+> >> +		ret = strlcpy(name, dentry->d_fsdata, DMA_BUF_NAME_LEN);
+> >> +	spin_unlock(&dentry->d_lock);
+> >>  
+> >>  	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
+> >>  			     dentry->d_name.name, ret > 0 ? name : "");
 > > 
-> > [snip]
-> > 
-> > > > +static const struct i2c_device_id mt9m114_id[] = {
-> > > > +	{ "mt9m114", 0 },
-> > > > +	{ },
-> > > > +};
-> > > > +
-> > > > +MODULE_DEVICE_TABLE(i2c, mt9m114_id);
-> > > > +
-> > > > +static struct i2c_driver mt9m114_driver = {
-> > > > +	.driver = {
-> > > > +		.owner	= THIS_MODULE,
-> > > > +		.name	= "mt9m114",
-> > > > +	},
-> > > > +	.probe		= mt9m114_probe,
-> > > > +	.remove		= mt9m114_remove,
-> > > > +	.id_table	= mt9m114_id,
-> > > 
-> > > No OF or ACPI ID table? Really?
-> > 
-> > I have no idea what ACPI IDs this device would have, and OF isn't
-> > required, the I2C subsystem strips the vendor prefix from the compatible
-> > string and matches against i2c_driver.id_table.
+> > If the above check fails the name will be what?  How could d_name.name
+> > be valid but d_fsdata not be valid?
 > 
-> If this driver is intended to work on a DT based system, it needs to have a
-> compatible string associated with it. The I²C ID table is meant to be used
-> with e.g. platform data.
+> In case of check fails, empty string "" is appended to the name by the
+> code, ret > 0 ? name : "", ret is initialized to zero. Thus the name
+> string will be like "/dmabuf:".
 
-The driver works as-is on DT-based systems, that's what I have tested it
-with :-)
+So multiple objects can have the same "name" if this happens to multiple
+ones at once?
 
--- 
-Regards,
+> Regarding the validity of d_fsdata, we are setting the dmabuf's
+> dentry->d_fsdata to NULL in the dma_buf_release() thus can go invalid if
+> that dmabuf is in the free path.
 
-Laurent Pinchart
+Why are we allowing the name to be set if the dmabuf is on the free path
+at all?  Shouldn't that be the real fix here?
+
+> >> @@ -80,12 +79,16 @@ static int dma_buf_fs_init_context(struct fs_context *fc)
+> >>  static int dma_buf_release(struct inode *inode, struct file *file)
+> >>  {
+> >>  	struct dma_buf *dmabuf;
+> >> +	struct dentry *dentry = file->f_path.dentry;
+> >>  
+> >>  	if (!is_dma_buf_file(file))
+> >>  		return -EINVAL;
+> >>  
+> >>  	dmabuf = file->private_data;
+> >>  
+> >> +	spin_lock(&dentry->d_lock);
+> >> +	dentry->d_fsdata = NULL;
+> >> +	spin_unlock(&dentry->d_lock);
+> >>  	BUG_ON(dmabuf->vmapping_counter);
+> >>  
+> >>  	/*
+> >> @@ -343,6 +346,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+> >>  	}
+> >>  	kfree(dmabuf->name);
+> >>  	dmabuf->name = name;
+> >> +	dmabuf->file->f_path.dentry->d_fsdata = name;
+> > 
+> > You are just changing the use of d_fsdata from being a pointer to the
+> > dmabuf to being a pointer to the name string?  What's to keep that name
+> > string around and not have the same reference counting issues that the
+> > dmabuf structure itself has?  Who frees that string memory?
+> > 
+> 
+> Yes, I am just storing the name string in the d_fsdata in place of
+> dmabuf and this helps to get rid of any extra refcount requirement.
+> Because the user passed name carried in the d_fsdata is copied to the
+> local buffer in dmabuffs_dname under spin_lock(d_lock) and the same
+> d_fsdata is set to NULL(under the d_lock only) when that dmabuf is in
+> the release path. So, when d_fsdata is NULL, name string is not accessed
+> from the dmabuffs_dname thus extra count is not required.
+> 
+> String memory, stored in the dmabuf->name, is released from the
+> dma_buf_release(). Flow will be like, It fist sets d_fsdata=NULL and
+> then free the dmabuf->name.
+> 
+> However from your comments I have realized that there is a race in this
+> patch when using the name string between dma_buf_set_name() and
+> dmabuffs_dname(). But, If the idea of passing the name string inplace of
+> dmabuf in d_fsdata looks fine, I can update this next patch.
+
+I'll leave that to the dmabuf authors/maintainers, but it feels odd to
+me...
+
+thanks,
+
+greg k-h
