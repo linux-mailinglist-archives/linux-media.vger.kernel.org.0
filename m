@@ -2,160 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E6E81D121F
-	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 14:01:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 837C11D125E
+	for <lists+linux-media@lfdr.de>; Wed, 13 May 2020 14:11:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731493AbgEMMBr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 May 2020 08:01:47 -0400
-Received: from mga03.intel.com ([134.134.136.65]:27531 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728165AbgEMMBr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 May 2020 08:01:47 -0400
-IronPort-SDR: dXaXZDcHkZGz9JvVy9qV/Aut8r9Nj+tQQzJ++xHQM/DODry7xparkxPLa5Nm0RKBCI6xxL3J/9
- mikJcdBw3jMA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2020 05:01:38 -0700
-IronPort-SDR: SyXMo6HzRErgjS7rZ6n20RSqoIxXtM4P355JyqBbBnl2WxpDV8mhuNwxOaPESGjZivOTW0tBGN
- OvBMF+lTzKSg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,387,1583222400"; 
-   d="scan'208";a="287005321"
-Received: from fmsmsx108.amr.corp.intel.com ([10.18.124.206])
-  by fmsmga004.fm.intel.com with ESMTP; 13 May 2020 05:01:38 -0700
-Received: from fmsmsx119.amr.corp.intel.com (10.18.124.207) by
- FMSMSX108.amr.corp.intel.com (10.18.124.206) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Wed, 13 May 2020 05:01:38 -0700
-Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.60]) by
- FMSMSX119.amr.corp.intel.com ([169.254.14.63]) with mapi id 14.03.0439.000;
- Wed, 13 May 2020 05:01:38 -0700
-From:   "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-CC:     Pawel Osciak <pawel@osciak.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        David Airlie <airlied@linux.ie>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Christoph Hellwig <hch@lst.de>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: RE: [PATCH v4 38/38] videobuf2: use sgtable-based scatterlist
- wrappers
-Thread-Topic: [PATCH v4 38/38] videobuf2: use sgtable-based scatterlist
- wrappers
-Thread-Index: AQHWKDwP0fqa3BxGckm0EsGy+4sAaqikud8QgACkUACAAIvJEA==
-Date:   Wed, 13 May 2020 12:01:37 +0000
-Message-ID: <14063C7AD467DE4B82DEDB5C278E8663010E211B19@FMSMSX108.amr.corp.intel.com>
-References: <20200512085710.14688-1-m.szyprowski@samsung.com>
-        <20200512090058.14910-1-m.szyprowski@samsung.com>
-        <CGME20200512090130eucas1p2eb86c5d34be56bbc81032bc0b6927d1e@eucas1p2.samsung.com>
-        <20200512090058.14910-38-m.szyprowski@samsung.com>
-        <14063C7AD467DE4B82DEDB5C278E8663010E210FAC@FMSMSX108.amr.corp.intel.com>
- <f6242137-82a5-0e33-f1a2-9e73dc679aa9@samsung.com>
-In-Reply-To: <f6242137-82a5-0e33-f1a2-9e73dc679aa9@samsung.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.107]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1731826AbgEMMLD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 May 2020 08:11:03 -0400
+Received: from mail26.static.mailgun.info ([104.130.122.26]:62411 "EHLO
+        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731067AbgEMMLC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 May 2020 08:11:02 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1589371861; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=LHQGqU4NAittweNmmebxB6GmxQZjf/uw2yt+R0pasps=; b=WJ9gloNgpmdgKwKt0tWciIB72qEzGhVvdofdei29oQnfbUauexfyKUy/yQ7xdr2r2ftVmg1E
+ bCFmK5UQLZD+QVGnU5+t85DJS7aiCsTWSzI0XbEo4/mgE6tOuxK3ROjeeEn74DnRYW5ELVfR
+ xJMqLZeUV5DyHHmYzuJ4Rbgaqlo=
+X-Mailgun-Sending-Ip: 104.130.122.26
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
+ by mxa.mailgun.org with ESMTP id 5ebbe3ba.7f0123b53fb8-smtp-out-n01;
+ Wed, 13 May 2020 12:10:34 -0000 (UTC)
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id E845BC44788; Wed, 13 May 2020 12:10:32 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.0.102] (unknown [183.83.139.238])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: charante)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id C25CEC433D2;
+        Wed, 13 May 2020 12:10:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org C25CEC433D2
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=charante@codeaurora.org
+Subject: Re: [PATCH v2] dma-buf: fix use-after-free in dmabuffs_dname
+To:     Greg KH <greg@kroah.com>
+Cc:     sumit.semwal@linaro.org, ghackmann@google.com, fengc@google.com,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, vinmenon@codeaurora.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <1588920063-17624-1-git-send-email-charante@codeaurora.org>
+ <20200512085221.GB3557007@kroah.com>
+From:   Charan Teja Kalla <charante@codeaurora.org>
+Message-ID: <a3cbf675-becc-1713-bcdc-664ddfe4a544@codeaurora.org>
+Date:   Wed, 13 May 2020 17:40:26 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <20200512085221.GB3557007@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogTWFyZWsgU3p5cHJvd3NraSA8bS5z
-enlwcm93c2tpQHNhbXN1bmcuY29tPg0KPlNlbnQ6IFR1ZXNkYXksIE1heSAxMiwgMjAyMCA0OjM0
-IFBNDQo+VG86IFJ1aGwsIE1pY2hhZWwgSiA8bWljaGFlbC5qLnJ1aGxAaW50ZWwuY29tPjsgZHJp
-LQ0KPmRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgaW9tbXVAbGlzdHMubGludXgtZm91bmRh
-dGlvbi5vcmc7IGxpbmFyby1tbS0NCj5zaWdAbGlzdHMubGluYXJvLm9yZzsgbGludXgta2VybmVs
-QHZnZXIua2VybmVsLm9yZw0KPkNjOiBQYXdlbCBPc2NpYWsgPHBhd2VsQG9zY2lhay5jb20+OyBC
-YXJ0bG9taWVqIFpvbG5pZXJraWV3aWN6DQo+PGIuem9sbmllcmtpZUBzYW1zdW5nLmNvbT47IERh
-dmlkIEFpcmxpZSA8YWlybGllZEBsaW51eC5pZT47IGxpbnV4LQ0KPm1lZGlhQHZnZXIua2VybmVs
-Lm9yZzsgSGFucyBWZXJrdWlsIDxodmVya3VpbC1jaXNjb0B4czRhbGwubmw+OyBNYXVybw0KPkNh
-cnZhbGhvIENoZWhhYiA8bWNoZWhhYkBrZXJuZWwub3JnPjsgUm9iaW4gTXVycGh5DQo+PHJvYmlu
-Lm11cnBoeUBhcm0uY29tPjsgQ2hyaXN0b3BoIEhlbGx3aWcgPGhjaEBsc3QuZGU+OyBsaW51eC1h
-cm0tDQo+a2VybmVsQGxpc3RzLmluZnJhZGVhZC5vcmcNCj5TdWJqZWN0OiBSZTogW1BBVENIIHY0
-IDM4LzM4XSB2aWRlb2J1ZjI6IHVzZSBzZ3RhYmxlLWJhc2VkIHNjYXR0ZXJsaXN0DQo+d3JhcHBl
-cnMNCj4NCj5IaSBNaWNoYWVsLA0KPg0KPk9uIDEyLjA1LjIwMjAgMTk6NTIsIFJ1aGwsIE1pY2hh
-ZWwgSiB3cm90ZToNCj4+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPj4+IEZyb206IGRy
-aS1kZXZlbCA8ZHJpLWRldmVsLWJvdW5jZXNAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPiBPbiBCZWhh
-bGYgT2YNCj4+PiBNYXJlayBTenlwcm93c2tpDQo+Pj4gU2VudDogVHVlc2RheSwgTWF5IDEyLCAy
-MDIwIDU6MDEgQU0NCj4+PiBUbzogZHJpLWRldmVsQGxpc3RzLmZyZWVkZXNrdG9wLm9yZzsgaW9t
-bXVAbGlzdHMubGludXgtZm91bmRhdGlvbi5vcmc7DQo+Pj4gbGluYXJvLW1tLXNpZ0BsaXN0cy5s
-aW5hcm8ub3JnOyBsaW51eC1rZXJuZWxAdmdlci5rZXJuZWwub3JnDQo+Pj4gQ2M6IFBhd2VsIE9z
-Y2lhayA8cGF3ZWxAb3NjaWFrLmNvbT47IEJhcnRsb21pZWogWm9sbmllcmtpZXdpY3oNCj4+PiA8
-Yi56b2xuaWVya2llQHNhbXN1bmcuY29tPjsgRGF2aWQgQWlybGllIDxhaXJsaWVkQGxpbnV4Lmll
-PjsgbGludXgtDQo+Pj4gbWVkaWFAdmdlci5rZXJuZWwub3JnOyBIYW5zIFZlcmt1aWwgPGh2ZXJr
-dWlsLWNpc2NvQHhzNGFsbC5ubD47IE1hdXJvDQo+Pj4gQ2FydmFsaG8gQ2hlaGFiIDxtY2hlaGFi
-QGtlcm5lbC5vcmc+OyBSb2JpbiBNdXJwaHkNCj4+PiA8cm9iaW4ubXVycGh5QGFybS5jb20+OyBD
-aHJpc3RvcGggSGVsbHdpZyA8aGNoQGxzdC5kZT47IGxpbnV4LWFybS0NCj4+PiBrZXJuZWxAbGlz
-dHMuaW5mcmFkZWFkLm9yZzsgTWFyZWsgU3p5cHJvd3NraQ0KPj4+IDxtLnN6eXByb3dza2lAc2Ft
-c3VuZy5jb20+DQo+Pj4gU3ViamVjdDogW1BBVENIIHY0IDM4LzM4XSB2aWRlb2J1ZjI6IHVzZSBz
-Z3RhYmxlLWJhc2VkIHNjYXR0ZXJsaXN0DQo+d3JhcHBlcnMNCj4+Pg0KPj4+IFVzZSByZWNlbnRs
-eSBpbnRyb2R1Y2VkIGNvbW1vbiB3cmFwcGVycyBvcGVyYXRpbmcgZGlyZWN0bHkgb24gdGhlIHN0
-cnVjdA0KPj4+IHNnX3RhYmxlIG9iamVjdHMgYW5kIHNjYXR0ZXJsaXN0IHBhZ2UgaXRlcmF0b3Jz
-IHRvIG1ha2UgdGhlIGNvZGUgYSBiaXQNCj4+PiBtb3JlIGNvbXBhY3QsIHJvYnVzdCwgZWFzaWVy
-IHRvIGZvbGxvdyBhbmQgY29weS9wYXN0ZSBzYWZlLg0KPj4+DQo+Pj4gTm8gZnVuY3Rpb25hbCBj
-aGFuZ2UsIGJlY2F1c2UgdGhlIGNvZGUgYWxyZWFkeSBwcm9wZXJseSBkaWQgYWxsIHRoZQ0KPj4+
-IHNjYXRlcmxpc3QgcmVsYXRlZCBjYWxscy4NCj4+Pg0KPj4+IFNpZ25lZC1vZmYtYnk6IE1hcmVr
-IFN6eXByb3dza2kgPG0uc3p5cHJvd3NraUBzYW1zdW5nLmNvbT4NCj4+PiAtLS0NCj4+PiBGb3Ig
-bW9yZSBpbmZvcm1hdGlvbiwgc2VlICdbUEFUQ0ggdjQgMDAvMzhdIERSTTogZml4IHN0cnVjdCBz
-Z190YWJsZSBuZW50cw0KPj4+IHZzLiBvcmlnX25lbnRzIG1pc3VzZScgdGhyZWFkOg0KPj4+IGh0
-dHBzOi8vbG9yZS5rZXJuZWwub3JnL2RyaS1kZXZlbC8yMDIwMDUxMjA4NTcxMC4xNDY4OC0xLQ0K
-Pj4+IG0uc3p5cHJvd3NraUBzYW1zdW5nLmNvbS9ULw0KPj4+IC0tLQ0KPj4+IC4uLi9tZWRpYS9j
-b21tb24vdmlkZW9idWYyL3ZpZGVvYnVmMi1kbWEtY29udGlnLmMgIHwgNDEgKysrKysrKysrKy0N
-Cj4tLS0NCj4+PiAtLS0tLS0tLQ0KPj4+IGRyaXZlcnMvbWVkaWEvY29tbW9uL3ZpZGVvYnVmMi92
-aWRlb2J1ZjItZG1hLXNnLmMgIHwgMzIgKysrKysrKy0tLS0tDQo+LS0tDQo+Pj4gLS0NCj4+PiBk
-cml2ZXJzL21lZGlhL2NvbW1vbi92aWRlb2J1ZjIvdmlkZW9idWYyLXZtYWxsb2MuYyB8IDEyICsr
-Ky0tLS0NCj4+PiAzIGZpbGVzIGNoYW5nZWQsIDM0IGluc2VydGlvbnMoKyksIDUxIGRlbGV0aW9u
-cygtKQ0KPj4+DQo+Pj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvY29tbW9uL3ZpZGVvYnVm
-Mi92aWRlb2J1ZjItZG1hLWNvbnRpZy5jDQo+Pj4gYi9kcml2ZXJzL21lZGlhL2NvbW1vbi92aWRl
-b2J1ZjIvdmlkZW9idWYyLWRtYS1jb250aWcuYw0KPj4+IGluZGV4IGQzYTNlZTUuLmJmMzFhOWQg
-MTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVycy9tZWRpYS9jb21tb24vdmlkZW9idWYyL3ZpZGVvYnVm
-Mi1kbWEtY29udGlnLmMNCj4+PiArKysgYi9kcml2ZXJzL21lZGlhL2NvbW1vbi92aWRlb2J1ZjIv
-dmlkZW9idWYyLWRtYS1jb250aWcuYw0KPj4+IEBAIC00OCwxNiArNDgsMTUgQEAgc3RydWN0IHZi
-Ml9kY19idWYgew0KPj4+DQo+Pj4gc3RhdGljIHVuc2lnbmVkIGxvbmcgdmIyX2RjX2dldF9jb250
-aWd1b3VzX3NpemUoc3RydWN0IHNnX3RhYmxlICpzZ3QpDQo+Pj4gew0KPj4+IC0Jc3RydWN0IHNj
-YXR0ZXJsaXN0ICpzOw0KPj4+IAlkbWFfYWRkcl90IGV4cGVjdGVkID0gc2dfZG1hX2FkZHJlc3Mo
-c2d0LT5zZ2wpOw0KPj4+IC0JdW5zaWduZWQgaW50IGk7DQo+Pj4gKwlzdHJ1Y3Qgc2dfZG1hX3Bh
-Z2VfaXRlciBkbWFfaXRlcjsNCj4+PiAJdW5zaWduZWQgbG9uZyBzaXplID0gMDsNCj4+Pg0KPj4+
-IC0JZm9yX2VhY2hfc2coc2d0LT5zZ2wsIHMsIHNndC0+bmVudHMsIGkpIHsNCj4+PiAtCQlpZiAo
-c2dfZG1hX2FkZHJlc3MocykgIT0gZXhwZWN0ZWQpDQo+Pj4gKwlmb3JfZWFjaF9zZ3RhYmxlX2Rt
-YV9wYWdlKHNndCwgJmRtYV9pdGVyLCAwKSB7DQo+Pj4gKwkJaWYgKHNnX3BhZ2VfaXRlcl9kbWFf
-YWRkcmVzcygmZG1hX2l0ZXIpICE9IGV4cGVjdGVkKQ0KPj4+IAkJCWJyZWFrOw0KPj4+IC0JCWV4
-cGVjdGVkID0gc2dfZG1hX2FkZHJlc3MocykgKyBzZ19kbWFfbGVuKHMpOw0KPj4+IC0JCXNpemUg
-Kz0gc2dfZG1hX2xlbihzKTsNCj4+PiArCQlleHBlY3RlZCArPSBQQUdFX1NJWkU7DQo+Pj4gKwkJ
-c2l6ZSArPSBQQUdFX1NJWkU7DQo+PiBUaGlzIGNvZGUgaW4gZHJtX3ByaW1lX3RfY29udGlndW91
-c19zaXplIGFuZCBoZXJlLiAgSSBzZWVtIHRvIHJlbWVtYmVyDQo+c2VlaW5nDQo+PiB0aGUgc2Ft
-ZSBwYXR0ZXJuIGluIG90aGVyIGRyaXZlcnMuDQo+Pg0KPj4gV291bGQgaXQgd29ydGh3aGlsZSB0
-byBtYWtlIHRoaXMgYSBoZWxwZXIgYXMgd2VsbD8NCj5JIHRoaW5rIEkndmUgaWRlbnRpZmllZCBz
-dWNoIHBhdHRlcm5zIGluIGFsbCBEUk0gZHJpdmVycyBhbmQgcmVwbGFjZWQNCj53aXRoIGEgY29t
-bW9uIGhlbHBlci4gU28gZmFyIEkgaGF2ZSBubyBpZGVhIHdoZXJlIHRvIHB1dCBzdWNoIGhlbHBl
-ciB0bw0KPm1ha2UgaXQgYXZhaWxhYmxlIGZvciBtZWRpYS92aWRlb2J1ZjIsIHNvIHRob3NlIGEg
-ZmV3IGxpbmVzIGFyZSBpbmRlZWQNCj5kdXBsaWNhdGVkIGhlcmUuDQoNCkkgd2FzIHRoaW5raW5n
-IG9mIGRyaXZlcnMgb3V0c2lkZSBvZiBEUk0vbWVkaWEuICBTcGVjaWZpY2FsbHkgUkRNQS4NCg0K
-SG93ZXZlciwgbG9va2luZyBhdCB0aGF0IGNvZGUsIEkgc2VlIHRoYXQgbXkgbWVtb3J5IHdhcyBh
-IGxpdHRsZSBvZmYuDQpJdCBpcyB3b3JraW5nIHdpdGggY29udGludW91cyBwYWdlcywgIGJ1dCBu
-b3QgZmluZGluZyB0aGUgc2l6ZS4NCg0KPj4gQWxzbywgaXNuJ3QgdGhlIHNnX2RtYV9sZW4oKSB0
-aGUgYWN0dWFsIGxlbmd0aCBvZiB0aGUgY2h1bmsgd2UgYXJlIGxvb2tpbmcNCj5hdD8NCj4+DQo+
-PiBJZiBpdHMgSSBub3QgUEFHRV9TSVpFIChpZS4gZG1hIGNodW5rIGlzIDQgKiBQQUdFX1NJWkU/
-KSwgZG9lcyB5b3VyDQo+bG9vcC9jYWxjdWxhdGlvbiBzdGlsbCB3b3JrPw0KPg0KPnNjYXRlcmxp
-c3QgcGFnZSBpdGVyYXRvcnMgKGZvcl9lYWNoX3NnX3BhZ2UvZm9yX2VhY2hfc2dfZG1hX3BhZ2Ug
-YW5kDQo+dGhlaXIgc2d0YWJsZSB2YXJpYW50cykgYWx3YXlzIG9wZXJhdGVzIG9uIFBBR0VfU0la
-RSB1bml0cy4gVGhleQ0KPmNvcnJlY3RseSBoYW5kbGUgbGFyZ2VyIHNnX2RtYV9sZW4oKS4NCg0K
-QWhoLCBvaywgSSBzZWUuIA0KDQpUaGFuayB5b3UhDQoNCk1pa2UNCg0KPg0KPkJlc3QgcmVnYXJk
-cw0KPi0tDQo+TWFyZWsgU3p5cHJvd3NraSwgUGhEDQo+U2Ftc3VuZyBSJkQgSW5zdGl0dXRlIFBv
-bGFuZA0KDQo=
+
+Thank you Greg for the comments.
+On 5/12/2020 2:22 PM, Greg KH wrote:
+> On Fri, May 08, 2020 at 12:11:03PM +0530, Charan Teja Reddy wrote:
+>> The following race occurs while accessing the dmabuf object exported as
+>> file:
+>> P1				P2
+>> dma_buf_release()          dmabuffs_dname()
+>> 			   [say lsof reading /proc/<P1 pid>/fd/<num>]
+>>
+>> 			   read dmabuf stored in dentry->d_fsdata
+>> Free the dmabuf object
+>> 			   Start accessing the dmabuf structure
+>>
+>> In the above description, the dmabuf object freed in P1 is being
+>> accessed from P2 which is resulting into the use-after-free. Below is
+>> the dump stack reported.
+>>
+>> We are reading the dmabuf object stored in the dentry->d_fsdata but
+>> there is no binding between the dentry and the dmabuf which means that
+>> the dmabuf can be freed while it is being read from ->d_fsdata and
+>> inuse. Reviews on the patch V1 says that protecting the dmabuf inuse
+>> with an extra refcount is not a viable solution as the exported dmabuf
+>> is already under file's refcount and keeping the multiple refcounts on
+>> the same object coordinated is not possible.
+>>
+>> As we are reading the dmabuf in ->d_fsdata just to get the user passed
+>> name, we can directly store the name in d_fsdata thus can avoid the
+>> reading of dmabuf altogether.
+>>
+>> Call Trace:
+>>  kasan_report+0x12/0x20
+>>  __asan_report_load8_noabort+0x14/0x20
+>>  dmabuffs_dname+0x4f4/0x560
+>>  tomoyo_realpath_from_path+0x165/0x660
+>>  tomoyo_get_realpath
+>>  tomoyo_check_open_permission+0x2a3/0x3e0
+>>  tomoyo_file_open
+>>  tomoyo_file_open+0xa9/0xd0
+>>  security_file_open+0x71/0x300
+>>  do_dentry_open+0x37a/0x1380
+>>  vfs_open+0xa0/0xd0
+>>  path_openat+0x12ee/0x3490
+>>  do_filp_open+0x192/0x260
+>>  do_sys_openat2+0x5eb/0x7e0
+>>  do_sys_open+0xf2/0x180
+>>
+>> Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
+>> Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
+>> Cc: <stable@vger.kernel.org> [5.3+]
+>> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+>> ---
+>>
+>> Changes in v2: 
+>>
+>> - Pass the user passed name in ->d_fsdata instead of dmabuf
+>> - Improve the commit message
+>>
+>> Changes in v1: (https://patchwork.kernel.org/patch/11514063/)
+>>
+>>  drivers/dma-buf/dma-buf.c | 17 ++++++++++-------
+>>  1 file changed, 10 insertions(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>> index 01ce125..0071f7d 100644
+>> --- a/drivers/dma-buf/dma-buf.c
+>> +++ b/drivers/dma-buf/dma-buf.c
+>> @@ -25,6 +25,7 @@
+>>  #include <linux/mm.h>
+>>  #include <linux/mount.h>
+>>  #include <linux/pseudo_fs.h>
+>> +#include <linux/dcache.h>
+>>  
+>>  #include <uapi/linux/dma-buf.h>
+>>  #include <uapi/linux/magic.h>
+>> @@ -40,15 +41,13 @@ struct dma_buf_list {
+>>  
+>>  static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+>>  {
+>> -	struct dma_buf *dmabuf;
+>>  	char name[DMA_BUF_NAME_LEN];
+>>  	size_t ret = 0;
+>>  
+>> -	dmabuf = dentry->d_fsdata;
+>> -	dma_resv_lock(dmabuf->resv, NULL);
+>> -	if (dmabuf->name)
+>> -		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+>> -	dma_resv_unlock(dmabuf->resv);
+>> +	spin_lock(&dentry->d_lock);
+> 
+> Are you sure this lock always protects d_fsdata?
+
+I think yes. In the dma-buf.c, I have to make sure that d_fsdata should
+always be under d_lock thus it will be protected. (In this posted patch
+there is one place(in dma_buf_set_name) that is missed, will update this
+in V3).
+
+> 
+>> +	if (dentry->d_fsdata)
+>> +		ret = strlcpy(name, dentry->d_fsdata, DMA_BUF_NAME_LEN);
+>> +	spin_unlock(&dentry->d_lock);
+>>  
+>>  	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
+>>  			     dentry->d_name.name, ret > 0 ? name : "");
+> 
+> If the above check fails the name will be what?  How could d_name.name
+> be valid but d_fsdata not be valid?
+
+In case of check fails, empty string "" is appended to the name by the
+code, ret > 0 ? name : "", ret is initialized to zero. Thus the name
+string will be like "/dmabuf:".
+
+Regarding the validity of d_fsdata, we are setting the dmabuf's
+dentry->d_fsdata to NULL in the dma_buf_release() thus can go invalid if
+that dmabuf is in the free path.
+
+
+> 
+> 
+>> @@ -80,12 +79,16 @@ static int dma_buf_fs_init_context(struct fs_context *fc)
+>>  static int dma_buf_release(struct inode *inode, struct file *file)
+>>  {
+>>  	struct dma_buf *dmabuf;
+>> +	struct dentry *dentry = file->f_path.dentry;
+>>  
+>>  	if (!is_dma_buf_file(file))
+>>  		return -EINVAL;
+>>  
+>>  	dmabuf = file->private_data;
+>>  
+>> +	spin_lock(&dentry->d_lock);
+>> +	dentry->d_fsdata = NULL;
+>> +	spin_unlock(&dentry->d_lock);
+>>  	BUG_ON(dmabuf->vmapping_counter);
+>>  
+>>  	/*
+>> @@ -343,6 +346,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+>>  	}
+>>  	kfree(dmabuf->name);
+>>  	dmabuf->name = name;
+>> +	dmabuf->file->f_path.dentry->d_fsdata = name;
+> 
+> You are just changing the use of d_fsdata from being a pointer to the
+> dmabuf to being a pointer to the name string?  What's to keep that name
+> string around and not have the same reference counting issues that the
+> dmabuf structure itself has?  Who frees that string memory?
+> 
+
+Yes, I am just storing the name string in the d_fsdata in place of
+dmabuf and this helps to get rid of any extra refcount requirement.
+Because the user passed name carried in the d_fsdata is copied to the
+local buffer in dmabuffs_dname under spin_lock(d_lock) and the same
+d_fsdata is set to NULL(under the d_lock only) when that dmabuf is in
+the release path. So, when d_fsdata is NULL, name string is not accessed
+from the dmabuffs_dname thus extra count is not required.
+
+String memory, stored in the dmabuf->name, is released from the
+dma_buf_release(). Flow will be like, It fist sets d_fsdata=NULL and
+then free the dmabuf->name.
+
+However from your comments I have realized that there is a race in this
+patch when using the name string between dma_buf_set_name() and
+dmabuffs_dname(). But, If the idea of passing the name string inplace of
+dmabuf in d_fsdata looks fine, I can update this next patch.
+
+> thanks,
+> 
+> greg k-h
+> 
+
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
+Forum, a Linux Foundation Collaborative Project
