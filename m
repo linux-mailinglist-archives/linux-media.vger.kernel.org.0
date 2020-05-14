@@ -2,102 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 520751D3571
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 17:44:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21E431D35CD
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 18:02:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726190AbgENPnz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 May 2020 11:43:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47162 "EHLO
+        id S1727861AbgENQCH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 May 2020 12:02:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726056AbgENPnz (ORCPT
+        with ESMTP id S1726037AbgENQCG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 May 2020 11:43:55 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E36F9C061A0C;
-        Thu, 14 May 2020 08:43:54 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id 08A7D2A2F7B
-Message-ID: <9082c3117b9e9e65f35fc7ad91009c6ce412a842.camel@collabora.com>
-Subject: Re: [PATCH] media: cedrus: Propagate OUTPUT resolution to CAPTURE
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc:     stable@vger.kernel.org, kernel@collabora.com,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Chen-Yu Tsai <wens@csie.org>, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Date:   Thu, 14 May 2020 11:43:40 -0400
-In-Reply-To: <20200514153903.341287-1-nicolas.dufresne@collabora.com>
-References: <20200514153903.341287-1-nicolas.dufresne@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.1 (3.36.1-1.fc32) 
+        Thu, 14 May 2020 12:02:06 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77F26C061A0E;
+        Thu, 14 May 2020 09:02:05 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id r10so1417388pgv.8;
+        Thu, 14 May 2020 09:02:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ys6uruWLmmajm881cZgrjF9W81hQdSvS46fmomUyzjo=;
+        b=CgWXF/MXwCn2w3TSRNi2r+wFdBkV0K1VgxC817ni5dQmY3U58163CbXnrvQ64GbSMo
+         FZiugkdh4SofkruOZwivkScwqcH+1AwjhXWnuY2EGXDr1C+tl9LlyApxu1BEpn5oqmFe
+         4JAhSnL6O7AOqgJbjbi0SoKNTE5X78u6TmYIRxgmDaQEv2wWTPmgbHtVz5zH1e3b42Mh
+         MGdS9/kL6mZ6nvfsCnFjwQ8Uv0+broFoaVt/B1uLa/9+OnHjAd8pM7WPVCQUtgvEQqoL
+         +ZYtjzzqx5Z/cXeiiiRjHZQLQSUQ8g7wt+WViiGJWeGGynGFElaCOcxLBXM6M4FOQwZm
+         Rd4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ys6uruWLmmajm881cZgrjF9W81hQdSvS46fmomUyzjo=;
+        b=VEOqR09R4LVJ/1XCQiGAJl3Yzm44Aw1f2UgW2JX+qnYuOjb8atUwnBaaMi+YXCXr/k
+         4GQUqfNp+weyOU1i+GfrAKnc9k2lDd6V2DdhrkpYdS/B0h0iK18iALi3CcLwAfKEbxRD
+         lU2FggrhSVPwFjPN+nZ0e2k3VCrLLpZo9b6mn1R3QpBGqY6Dmtf8GT2NMW5C//R45OM4
+         f3kqwqaGOFi3d8eFKL73DHchV2wMuEY6HJGWkmPysypsUezhFmDbqq69XYUO+LfCR6LD
+         r94gYvS2JuVa133HMCOd+9K8iznKoIPji/M+JpN16ehMyGJxfSClVTxDOJJCTSzgJkI6
+         01Qg==
+X-Gm-Message-State: AOAM531Zi6mfLRpuUq5tTmDCYLRZViO1j7u/y44Ghph3h0RPnKHC9mdV
+        mM5Sy6suznrlVK85qUEBFH+O7MeP
+X-Google-Smtp-Source: ABdhPJyza+VXEqoRG2/lL5TjJj3s2szUktetaGac8j7OOrwcoJ9sr5LjmxrR8NTZX9OtppMW7wEzRA==
+X-Received: by 2002:a62:7912:: with SMTP id u18mr4774754pfc.239.1589472124662;
+        Thu, 14 May 2020 09:02:04 -0700 (PDT)
+Received: from localhost.localdomain ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
+        by smtp.gmail.com with ESMTPSA id y6sm18178691pjw.15.2020.05.14.09.02.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2020 09:02:02 -0700 (PDT)
+From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+To:     Hans Verkuil <hans.verkuil@cisco.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Subject: [PATCH v6 00/14] Implement V4L2_BUF_FLAG_NO_CACHE_* flags
+Date:   Fri, 15 May 2020 01:01:39 +0900
+Message-Id: <20200514160153.3646-1-sergey.senozhatsky@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 14 mai 2020 à 11:39 -0400, Nicolas Dufresne a écrit :
-> As per spec, the CAPTURE resolution should be automatically set based on
-> the OTUPUT resolution. This patch properly propagate width/height to the
-> capture when the OUTPUT format is set and override the user provided
-> width/height with configured OUTPUT resolution when the CAPTURE fmt is
-> updated.
-> 
-> This also prevents userspace from selecting a CAPTURE resolution that is
-> too small, avoiding unwanted page faults.
+Hello
 
-Side note, this patch is based on top of "Samuel Holland <samuel@sholland.org>"
-patches:
+v6 changes:
+The design has been slightly reworked. The cache-hints capability has
+been renamed to SUPPORTS_MMAP_CACHE_HINTS and is reported for all queues
+that support MMAP and allow cache hints. However, the actual hints and
+memory consistency are ignored unless the queue is used for the MMAP
+streaming I/O. Plus some cleanups, documentation updates, and so on.
 
-	[PATCH v3 1/2] media: cedrus: Program output format during each run
-	[PATCH v3 2/2] media: cedrus: Implement runtime PM
+Previous versions:
+v5 link: https://lore.kernel.org/lkml/20200424092920.4801-1-sergey.senozhatsky@gmail.com
+v4 link: https://lore.kernel.org/lkml/20200302041213.27662-1-senozhatsky@chromium.org/
+v3 link: https://lore.kernel.org/lkml/20200226111529.180197-1-senozhatsky@chromium.org
+v2 link: https://lore.kernel.org/lkml/20200204025641.218376-1-senozhatsky@chromium.org/
+v1 link: https://lore.kernel.org/lkml/20191217032034.54897-1-senozhatsky@chromium.org/
 
-As the patchset also fixes concurrent decoding issues. This was tested using
-GStreamer implementation, which strictly follow the Stateless CODEC spec and
-expect OUTPUT to CAPTURE width/height propagation.
+Series Intro
+========================================================================
 
-> 
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_video.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> index 16d82309e7b6..a6d6b15adc2e 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> @@ -247,6 +247,8 @@ static int cedrus_try_fmt_vid_cap(struct file *file, void
-> *priv,
->  		return -EINVAL;
->  
->  	pix_fmt->pixelformat = fmt->pixelformat;
-> +	pix_fmt->width = ctx->src_fmt.width;
-> +	pix_fmt->height = ctx->src_fmt.height;
->  	cedrus_prepare_format(pix_fmt);
->  
->  	return 0;
-> @@ -319,11 +321,14 @@ static int cedrus_s_fmt_vid_out(struct file *file, void
-> *priv,
->  		break;
->  	}
->  
-> -	/* Propagate colorspace information to capture. */
-> +	/* Propagate format information to capture. */
->  	ctx->dst_fmt.colorspace = f->fmt.pix.colorspace;
->  	ctx->dst_fmt.xfer_func = f->fmt.pix.xfer_func;
->  	ctx->dst_fmt.ycbcr_enc = f->fmt.pix.ycbcr_enc;
->  	ctx->dst_fmt.quantization = f->fmt.pix.quantization;
-> +	ctx->dst_fmt.width = ctx->src_fmt.width;
-> +	ctx->dst_fmt.height = ctx->src_fmt.height;
-> +	cedrus_prepare_format(&ctx->dst_fmt);
->  
->  	return 0;
->  }
+        This is a reworked version of the vb2 cache hints
+(V4L2_BUF_FLAG_NO_CACHE_INVALIDATE / V4L2_BUF_FLAG_NO_CACHE_CLEAN)
+support patch series which previsouly was developed by Sakari and
+Laurent [0].
+
+The patch set attempts to preserve the existing behvaiour - cache
+sync is performed in ->prepare() and ->finish() (unless the buffer
+is DMA exported). User space can request “default behavior” override
+with cache management hints, which are handled on a per-buffer basis
+and should be supplied with v4l2_buffer ->flags during buffer
+preparation. There are two possible hints:
+
+- V4L2_BUF_FLAG_NO_CACHE_INVALIDATE
+        No cache sync on ->finish()
+
+- V4L2_BUF_FLAG_NO_CACHE_CLEAN
+        No cache sync on ->prepare()
+
+In order to keep things on the safe side, we also require driver
+to explicitly state which of its queues (if any) support user space
+cache management hints (such queues should have ->allow_cache_hints
+bit set).
+
+The patch set also (to some extent) simplifies allocators' ->prepare()
+and ->finish() callbacks. Namely, we move cache management decision
+making to the upper - core - layer. For example, if, previously, we
+would have something like this
+
+        vb2_buffer_done()
+          vb2_dc_finish()
+            if (buf->db_attach)
+              return;
+
+where each allocators' ->finish() callback would either bail
+out (DMA exported buffer, for instance) or sync, now that "bail
+out or sync" decision is made before we call into the allocator.
+
+Along with cache management hints, user space is also able to
+adjust queue's memory consistency attributes. Memory consistency
+attribute (dma_attrs) is per-queue, yet it plays its role on the
+allocator level, when we allocate buffers’ private memory (planes).
+For the time being, only one consistency attribute is supported:
+DMA_ATTR_NON_CONSISTENT.
+
+[0] https://www.mail-archive.com/linux-media@vger.kernel.org/msg112459.html
+
+Sergey Senozhatsky (14):
+  videobuf2: use explicit unsigned int in vb2_queue
+  videobuf2: add cache management members
+  videobuf2: handle V4L2 buffer cache flags
+  videobuf2: add V4L2_FLAG_MEMORY_NON_CONSISTENT flag
+  videobuf2: add queue memory consistency parameter
+  videobuf2: handle V4L2_FLAG_MEMORY_NON_CONSISTENT flag
+  videobuf2: factor out planes prepare/finish functions
+  videobuf2: do not sync caches when we are allowed not to
+  videobuf2: check ->synced flag in prepare() and finish()
+  videobuf2: add begin/end cpu_access callbacks to dma-contig
+  videobuf2: add begin/end cpu_access callbacks to dma-sg
+  videobuf2: don't test db_attach in dma-contig prepare and finish
+  videobuf2: remove redundant if-statement
+  media: vivid: add cache_hints module param
+
+ Documentation/admin-guide/media/vivid.rst     |   9 ++
+ .../userspace-api/media/v4l/buffer.rst        |  40 +++++-
+ .../media/v4l/vidioc-create-bufs.rst          |   7 +-
+ .../media/v4l/vidioc-reqbufs.rst              |  21 ++-
+ .../media/common/videobuf2/videobuf2-core.c   | 121 +++++++++++++-----
+ .../common/videobuf2/videobuf2-dma-contig.c   |  44 ++++++-
+ .../media/common/videobuf2/videobuf2-dma-sg.c |  38 ++++--
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  72 ++++++++++-
+ drivers/media/dvb-core/dvb_vb2.c              |   2 +-
+ drivers/media/test-drivers/vivid/vivid-core.c |   9 ++
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c |  10 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   5 +-
+ include/media/videobuf2-core.h                |  47 +++++--
+ include/uapi/linux/videodev2.h                |  14 +-
+ 14 files changed, 366 insertions(+), 73 deletions(-)
+
+-- 
+2.26.2
 
