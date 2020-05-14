@@ -2,166 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 085B71D2FA9
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 14:27:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 649E11D2FAF
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 14:28:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726160AbgENM1L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 May 2020 08:27:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44474 "EHLO
+        id S1726160AbgENM26 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 May 2020 08:28:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44754 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725955AbgENM1K (ORCPT
+        by vger.kernel.org with ESMTP id S1726050AbgENM25 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 May 2020 08:27:10 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B2B6C061A0C;
-        Thu, 14 May 2020 05:27:10 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14BE6259;
-        Thu, 14 May 2020 14:27:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1589459228;
-        bh=btE1eVa9M+PTyTG0zSQKjBum77rELHGcyKNXhLNO7+E=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=A8VlOmA/MqAVrQ0L6KdEaU1bkZCWiNuwBlKFsnO1DtgH9kw8dEhjQn2WvBhHk14m1
-         Vf1NbZtDZ/AUIPj0q4Qh9jV8nMGkPl6iX+o8QubH9ta6KE55mbfxVMf/DXhIQ+BXpk
-         qlVjp0/4RbR5V7hZTe/wiYl207CMGNcETqlsvQwQ=
-Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
-To:     kieran.bingham+renesas@ideasonboard.com,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        sakari.ailus@iki.fi, Hans Verkuil <hverkuil@xs4all.nl>,
-        Hyun Kwon <hyunk@xilinx.com>, Rob Herring <robh+dt@kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
- <20200512155105.1068064-3-kieran.bingham+renesas@ideasonboard.com>
- <20200512181706.GA21014@Mani-XPS-13-9360>
- <11aca587-9438-4fba-081c-b82631e96989@ideasonboard.com>
- <20200514101356.GF2877@Mani-XPS-13-9360>
- <f46ed5fc-4eb0-8841-25b8-ef6c45e7ac87@ideasonboard.com>
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
- 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
- WZw01QYHU/GUV/zHJSFk
-Organization: Ideas on Board
-Message-ID: <d4d0e298-b863-8c6e-c9d7-ba861a98359e@ideasonboard.com>
-Date:   Thu, 14 May 2020 13:27:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Thu, 14 May 2020 08:28:57 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18FBDC061A0E
+        for <linux-media@vger.kernel.org>; Thu, 14 May 2020 05:28:56 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id l18so3804754wrn.6
+        for <linux-media@vger.kernel.org>; Thu, 14 May 2020 05:28:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=MhSXdQmfGHknlE+HXPCeR7P0ZV8ATRBftwFVeEaaAyc=;
+        b=Y7Vf7sChBCU2rfY8xBEExV0I7QnH8MFNWEbOMktjW3Gqlslx3DnyxK4la9SJtQSxKI
+         qA++/9v8+v5pkkRVDBpP4CdBvWBlirOOedPFWd8Aq1yzrLg/tcnPNWRJcRikJ/+OFVkM
+         VlrAr49vd56PtJvX3vY9cjGnsRty23kLF2Xlo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=MhSXdQmfGHknlE+HXPCeR7P0ZV8ATRBftwFVeEaaAyc=;
+        b=G6cMNrxTvbLsumAJlrG+36JsJL9DJ9c8/hqLswbj2eK3162I0aai92wpStwwDpPJHw
+         iB6pRmWMddGrFeGYzWoscRd6OgqOmZuunT5QQg+sKUq+/XcGYknnlKv7I7S67DATsshz
+         PHudlczR/CEjHClxVYRvzsMmu7AxYbFh/gIZC65bF+anJ3aF+wjJJSRaS/ekBOyf8WXk
+         cm3MhnPqEf+9LiAvWcUjfvmst75CkIiKy1TlmLOQkIA+kqvLoHMNRt1/m7jeVuTpi9l7
+         294ISxesrlvWwwh6pr6041Gy5aI3v6Rtb3RzzCfNY5Og2q4Jx8JsAu8m/UTygqx1ZTqX
+         NSLQ==
+X-Gm-Message-State: AOAM533nRoJn1frfGIrrXH2ioKBdTGqRCXBhDMsre8KWvadj1FU9QHUi
+        ibqFsHk4dquihyIeekSdrLx1Ag==
+X-Google-Smtp-Source: ABdhPJyi0dv4TvrSEI6BLeM7V23XeYGER8KAK6n/kWqLKYuPlyYwM4QLzJwBgLkyP3bhqCn4hd3iBw==
+X-Received: by 2002:adf:f38b:: with SMTP id m11mr5136675wro.65.1589459334793;
+        Thu, 14 May 2020 05:28:54 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id b2sm4451847wrm.30.2020.05.14.05.28.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2020 05:28:53 -0700 (PDT)
+Date:   Thu, 14 May 2020 14:28:51 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     David Stevens <stevensd@chromium.org>
+Cc:     Daniel Vetter <daniel@ffwll.ch>, Tomasz Figa <tfiga@chromium.org>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:VIRTIO CORE, NET..." 
+        <virtualization@lists.linux-foundation.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, virtio-dev@lists.oasis-open.org
+Subject: Re: [PATCH v3 1/4] dma-buf: add support for virtio exported objects
+Message-ID: <20200514122851.GO206103@phenom.ffwll.local>
+Mail-Followup-To: David Stevens <stevensd@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>, Gerd Hoffmann <kraxel@redhat.com>,
+        David Airlie <airlied@linux.ie>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+        virtio-dev@lists.oasis-open.org
+References: <20200311112004.47138-1-stevensd@chromium.org>
+ <20200311112004.47138-2-stevensd@chromium.org>
+ <CAKMK7uHFgiHLe9oiFBr-VR-6rU9-hLTpBTEVNh0ezyj54u70jw@mail.gmail.com>
+ <CAD=HUj6d9gdZegTGad6thKdHv5b+qOZnkCv5VcWo9AcHifR9uA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <f46ed5fc-4eb0-8841-25b8-ef6c45e7ac87@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAD=HUj6d9gdZegTGad6thKdHv5b+qOZnkCv5VcWo9AcHifR9uA@mail.gmail.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mani,
-
-On 14/05/2020 12:47, Kieran Bingham wrote:
-> On 14/05/2020 11:13, Manivannan Sadhasivam wrote:
->> Hi Kieran,
-<snip>
-
->>>>> +static int max9286_parse_dt(struct max9286_priv *priv)
->>>>> +{
->>>>> +	struct device *dev = &priv->client->dev;
->>>>> +	struct device_node *i2c_mux;
->>>>> +	struct device_node *node = NULL;
->>>>> +	unsigned int i2c_mux_mask = 0;
->>>>> +
->>>>> +	of_node_get(dev->of_node);
->>>>
->>>> Why this is needed?
->>>
->>> Hrm .. I recall adding it to solve dt reference balancing.
->>>
->>> I wish I'd added a comment at the time ... as I can't recall the details
->>> now.
->>>
->>
->> I understand that it is for the refcount balancing but I certainly don't see
->> a need for it.
+On Thu, May 14, 2020 at 11:08:52AM +0900, David Stevens wrote:
+> On Thu, May 14, 2020 at 12:45 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > On Wed, Mar 11, 2020 at 12:20 PM David Stevens <stevensd@chromium.org> wrote:
+> > >
+> > > This change adds a new dma-buf operation that allows dma-bufs to be used
+> > > by virtio drivers to share exported objects. The new operation allows
+> > > the importing driver to query the exporting driver for the UUID which
+> > > identifies the underlying exported object.
+> > >
+> > > Signed-off-by: David Stevens <stevensd@chromium.org>
+> >
+> > Adding Tomasz Figa, I've discussed this with him at elce last year I
+> > think. Just to make sure.
+> >
+> > Bunch of things:
+> > - obviously we need the users of this in a few drivers, can't really
+> > review anything stand-alone
 > 
-> I'll go through and try to validate this again now.
+> Here is a link to the usage of this feature by the currently under
+> development virtio-video driver:
+> https://markmail.org/thread/j4xlqaaim266qpks
+> 
+> > - adding very specific ops to the generic interface is rather awkward,
+> > eventually everyone wants that and we end up in a mess. I think the
+> > best solution here would be if we create a struct virtio_dma_buf which
+> > subclasses dma-buf, add a (hopefully safe) runtime upcasting
+> > functions, and then a virtio_dma_buf_get_uuid() function. Just storing
+> > the uuid should be doable (assuming this doesn't change during the
+> > lifetime of the buffer), so no need for a callback.
+> 
+> So you would prefer a solution similar to the original version of this
+> patchset? https://markmail.org/message/z7if4u56q5fmaok4
 
-Aha, that's why:
-
- *	of_find_node_by_name - Find a node by its "name" property
- *	@from:	The node to start searching from or NULL; the node
- *		you pass will not be searched, only the next one
- *		will. Typically, you pass what the previous call
- *		returned. of_node_put() will be called on @from.
- *	@name:	The name string to match against
-
-I'll add a comment to state that it is to balance the of_node_put during
-of_find_node_by_name().
-
---
-Kieran
-
-
->>>>> +	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
->>>>> +	if (!i2c_mux) {
->>>>> +		dev_err(dev, "Failed to find i2c-mux node\n");
->>>>> +		of_node_put(dev->of_node);
->>>>> +		return -EINVAL;
->>>>> +	}
->>>>> +
->> [...]
->>>>
+yup.
+-Daniel
 -- 
-Regards
---
-Kieran
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
