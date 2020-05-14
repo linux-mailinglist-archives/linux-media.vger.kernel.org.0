@@ -2,101 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 795CD1D329C
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 16:21:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9363A1D3394
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 16:52:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726240AbgENOVN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 May 2020 10:21:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34086 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726051AbgENOVM (ORCPT
+        id S1727918AbgENOvI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 May 2020 10:51:08 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60952 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726176AbgENOvH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 May 2020 10:21:12 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA2B9C061A0C
-        for <linux-media@vger.kernel.org>; Thu, 14 May 2020 07:21:12 -0700 (PDT)
+        Thu, 14 May 2020 10:51:07 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 8C4622A2EDD
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org, dafna.hirschfeld@collabora.com,
-        helen.koike@collabora.com, ezequiel@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, laurent.pinchart@ideasonboard.com
-Subject: [PATCH] media: staging: rkisp1: set more precise size errors in debugfs
-Date:   Thu, 14 May 2020 16:21:02 +0200
-Message-Id: <20200514142102.16111-1-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
+        (Authenticated sender: nicolas)
+        with ESMTPSA id AA0282A2B4B
+Message-ID: <7cd2e6ba4da315ba61878db9e80a10cda8daeb12.camel@collabora.com>
+Subject: Re: [PATCH v3 1/3] media: rkvdec: Fix .buf_prepare
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        gustavo.padovan@collabora.com
+Date:   Thu, 14 May 2020 10:50:53 -0400
+In-Reply-To: <20200505134110.3435-2-ezequiel@collabora.com>
+References: <20200505134110.3435-1-ezequiel@collabora.com>
+         <20200505134110.3435-2-ezequiel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.1 (3.36.1-1.fc32) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When a size error is signaled, it is possible to read a register
-to see where the error comes from. So, in debugfs the general
-error 'pic_size_err' can be replaced with 3 more precise errors.
+Le mardi 05 mai 2020 à 10:41 -0300, Ezequiel Garcia a écrit :
+> The driver should only set the payload on .buf_prepare
+> if the buffer is CAPTURE type, or if an OUTPUT buffer
+> has a zeroed payload.
+> 
+> Fix it.
+> 
+> Fixes: cd33c830448ba ("media: rkvdec: Add the rkvdec driver")
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+>  drivers/staging/media/rkvdec/rkvdec.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/rkvdec/rkvdec.c
+> b/drivers/staging/media/rkvdec/rkvdec.c
+> index 225eeca73356..4df2a248ab96 100644
+> --- a/drivers/staging/media/rkvdec/rkvdec.c
+> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+> @@ -456,7 +456,15 @@ static int rkvdec_buf_prepare(struct vb2_buffer *vb)
+>  		if (vb2_plane_size(vb, i) < sizeimage)
+>  			return -EINVAL;
+>  	}
+> -	vb2_set_plane_payload(vb, 0, f->fmt.pix_mp.plane_fmt[0].sizeimage);
+> +
+> +	/*
+> +	 * Buffer's bytesused is written by the driver for CAPTURE buffers,
+> +	 * or if the application passed zero bytesused on an OUTPUT buffer.
+> +	 */
+> +	if (!V4L2_TYPE_IS_OUTPUT(vq->type) ||
+> +	    (V4L2_TYPE_IS_OUTPUT(vq->type) && !vb2_get_plane_payload(vb, 0)))
+> +		vb2_set_plane_payload(vb, 0,
+> +				      f->fmt.pix_mp.plane_fmt[0].sizeimage);
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- drivers/staging/media/rkisp1/rkisp1-common.h | 4 +++-
- drivers/staging/media/rkisp1/rkisp1-dev.c    | 8 ++++++--
- drivers/staging/media/rkisp1/rkisp1-isp.c    | 7 ++++++-
- 3 files changed, 15 insertions(+), 4 deletions(-)
+I believe the spec lacks a bit of a clarification. Converting from 0 to
+sizeimage should only be allowed for RAW images. So I would like to suggest to
+change this fix into:
 
-diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
-index 0c4fe503adc9..95d54306bae6 100644
---- a/drivers/staging/media/rkisp1/rkisp1-common.h
-+++ b/drivers/staging/media/rkisp1/rkisp1-common.h
-@@ -226,7 +226,9 @@ struct rkisp1_resizer {
- struct rkisp1_debug {
- 	struct dentry *debugfs_dir;
- 	unsigned long data_loss;
--	unsigned long pic_size_error;
-+	unsigned long outform_size_error;
-+	unsigned long is_size_error;
-+	unsigned long inform_size_error;
- 	unsigned long mipi_error;
- 	unsigned long stats_error;
- 	unsigned long stop_timeout[2];
-diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
-index 9ac38bafb839..2298d3ae5950 100644
---- a/drivers/staging/media/rkisp1/rkisp1-dev.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
-@@ -438,8 +438,12 @@ static void rkisp1_debug_init(struct rkisp1_device *rkisp1)
- 	}
- 	debugfs_create_ulong("data_loss", 0444, debug->debugfs_dir,
- 			     &debug->data_loss);
--	debugfs_create_ulong("pic_size_error", 0444,  debug->debugfs_dir,
--			     &debug->pic_size_error);
-+	debugfs_create_ulong("outform_size_err", 0444,  debug->debugfs_dir,
-+			     &debug->outform_size_error);
-+	debugfs_create_ulong("is_size_error", 0444,  debug->debugfs_dir,
-+			     &debug->is_size_error);
-+	debugfs_create_ulong("inform_size_error", 0444,  debug->debugfs_dir,
-+			     &debug->inform_size_error);
- 	debugfs_create_ulong("mipi_error", 0444, debug->debugfs_dir,
- 			     &debug->mipi_error);
- 	debugfs_create_ulong("stats_error", 0444, debug->debugfs_dir,
-diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
-index dc2b59a0160a..a7e5461e25a5 100644
---- a/drivers/staging/media/rkisp1/rkisp1-isp.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
-@@ -1123,8 +1123,13 @@ void rkisp1_isp_isr(struct rkisp1_device *rkisp1)
- 	if (status & RKISP1_CIF_ISP_PIC_SIZE_ERROR) {
- 		/* Clear pic_size_error */
- 		isp_err = rkisp1_read(rkisp1, RKISP1_CIF_ISP_ERR);
-+		if (isp_err & RKISP1_CIF_ISP_ERR_INFORM_SIZE)
-+			rkisp1->debug.inform_size_error++;
-+		if (isp_err & RKISP1_CIF_ISP_ERR_IS_SIZE)
-+			rkisp1->debug.is_size_error++;
-+		if (isp_err & RKISP1_CIF_ISP_ERR_OUTFORM_SIZE)
-+			rkisp1->debug.outform_size_error++;
- 		rkisp1_write(rkisp1, isp_err, RKISP1_CIF_ISP_ERR_CLR);
--		rkisp1->debug.pic_size_error++;
- 	} else if (status & RKISP1_CIF_ISP_DATA_LOSS) {
- 		/* keep track of data_loss in debugfs */
- 		rkisp1->debug.data_loss++;
--- 
-2.17.1
+-	vb2_set_plane_payload(vb, 0, f->fmt.pix_mp.plane_fmt[0].sizeimage);
++
++	/* Buffer's bytesused is written by the driver for CAPTURE buffers */
++	if (!V4L2_TYPE_IS_OUTPUT(vq->type))
++		vb2_set_plane_payload(vb, 0,
++				      f->fmt.pix_mp.plane_fmt[0].sizeimage);
+
+And then we can fix the spec accordingly. Note that neighter FFMPEG or GStreamer
+will pass empty (zero sized) payload at the moment, and if it did, it would be a
+bug, and the payload should instead be ignored.
+
+>  	return 0;
+>  }
+>  
+> -- 
+> 2.26.0.rc2
+> 
+> 
 
