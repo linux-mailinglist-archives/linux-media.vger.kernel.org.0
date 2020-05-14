@@ -2,97 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EC161D3EDD
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 22:18:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 78A4B1D3F98
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 23:06:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727853AbgENUSO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 May 2020 16:18:14 -0400
-Received: from mail-io1-f69.google.com ([209.85.166.69]:33639 "EHLO
-        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725975AbgENUSN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 May 2020 16:18:13 -0400
-Received: by mail-io1-f69.google.com with SMTP id w4so214332iol.0
-        for <linux-media@vger.kernel.org>; Thu, 14 May 2020 13:18:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=IPg2EsJITZG2pHDONJjjBuxNwGIW/PzUBwTlpT6HwaI=;
-        b=RveouOqa0ZhtF77O7t2fl7FBkIVdtATJfyLQpgkMGPLyuBf+stMoLs7VvB0WRfNotZ
-         Bx+35scA5ROVL50uVI+z8pPn5pau9p+WMiuVl/JTa5A2YERShzMQT4tglCm8/BryQWtG
-         uakkLahL9nkYxJr60n87QW9VZbWFZT2GbVElU5L0BGPxdYABcEaNesiJwQEUtZfeYfRx
-         +GUXAuFd0uW8MbYK/YarFrCA4Dbbgr2HN8SrD4s/C2ELyoOwm5j3A1uxhRWVawcemwwH
-         xIDqwLEu1ObA64c2gQw2RtohkV7yf/NTwSCEr5VAZ8X+nDdAGZJx9zkDRLPm/0dOQLqk
-         KYQA==
-X-Gm-Message-State: AOAM5313xnTWVdeeGHSraG8w+f5qwzNIib2CyloXFaGhNfMAl+1Xm/YR
-        ilGK+b8LCAzMCQscWdJnK1arVUGrDaKtYTsd1DcET4yQiJej
-X-Google-Smtp-Source: ABdhPJxGuvQnbzRJzfnK1FrWkVtW7RepuEfB4roh2OBItqjGz5Gf9NiC+nAr4jfLh94bvRFGGTUGVduyzpa5zafKq1Fxl8+THd+a
+        id S1728046AbgENVGJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 May 2020 17:06:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42248 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727942AbgENVGJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 14 May 2020 17:06:09 -0400
+Received: from kernel.org (unknown [104.132.0.74])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 36852206F1;
+        Thu, 14 May 2020 21:06:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589490368;
+        bh=UY4fp0mnf5dW1wUh0nDLNnXc+3+KQou78sP+055n/7o=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=iGkC1CT3zmGMq2uKjMheCCTkkAmJnKrHaH1Vcq/IXoUTAC4qgU+jRimYwS8hlmz7h
+         YUJ3vwEGdKVFhOoTI08Vy4zHsOq1emOLEwbBqZKOjr72brCADdK0sIpIp9aJj6PgpW
+         09KeR8l/UL60hPXHKOk6xLczM2j324/3jR1YkKjM=
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-Received: by 2002:a5d:8b8e:: with SMTP id p14mr5755453iol.110.1589487491247;
- Thu, 14 May 2020 13:18:11 -0700 (PDT)
-Date:   Thu, 14 May 2020 13:18:11 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000004a72f505a5a16525@google.com>
-Subject: WARNING in media_create_pad_link
-From:   syzbot <syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200511195534.1207927-2-lkundrak@v3.sk>
+References: <20200511195534.1207927-1-lkundrak@v3.sk> <20200511195534.1207927-2-lkundrak@v3.sk>
+Subject: Re: [PATCH 1/2] dt-bindings: sound: Add Marvell MMP Audio Clock Controller binding
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-clk@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>
+To:     Lubomir Rintel <lkundrak@v3.sk>,
+        Michael Turquette <mturquette@baylibre.com>
+Date:   Thu, 14 May 2020 14:06:07 -0700
+Message-ID: <158949036750.215346.11234071140104055350@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Quoting Lubomir Rintel (2020-05-11 12:55:33)
+> diff --git a/Documentation/devicetree/bindings/clock/marvell,mmp2-audio-c=
+lock.yaml b/Documentation/devicetree/bindings/clock/marvell,mmp2-audio-cloc=
+k.yaml
+> new file mode 100644
+> index 000000000000..b86e9fbfa56d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/clock/marvell,mmp2-audio-clock.ya=
+ml
+> @@ -0,0 +1,73 @@
+> +# SPDX-License-Identifier: (GPL-2.0+ OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/clock/marvell,mmp2-audio-clock.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Marvell MMP2 Audio Clock Controller
+> +
+> +maintainers:
+> +  - Lubomir Rintel <lkundrak@v3.sk>
+> +
+> +description: |
+> +  The audio clock controller generates and supplies the clocks to the au=
+dio
+> +  codec.
+> +
+> +  Each clock is assigned an identifier and client nodes use this identif=
+ier
+> +  to specify the clock which they consume.
+> +
+> +  All these identifiers could be found in <dt-bindings/clock/marvell,mmp=
+2.h>.
 
-syzbot found the following crash on:
+Is this right? The patch puts them in mmp2-audio.h
 
-HEAD commit:    059e7e0f usb: raw-gadget: fix typo in uapi headers
-git tree:       https://github.com/google/kasan.git usb-fuzzer
-console output: https://syzkaller.appspot.com/x/log.txt?x=10e77dfa100000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=b484a6e53b2b06ad
-dashboard link: https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
-compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16cd44ac100000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17b12b92100000
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - marvell,mmp2-audio-clock
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Audio subsystem clock
+> +      - description: The crystal oscillator clock
+> +      - description: First I2S clock
+> +      - description: Second I2S clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: audio
+> +      - const: vctcxo
+> +      - const: i2s0
+> +      - const: i2s1
+> +
+> +  '#clock-cells':
+> +    const: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - '#clock-cells'
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/marvell,mmp2.h>
+> +    #include <dt-bindings/power/marvell,mmp2.h>
+> +
+> +    clocks@d42a0c30 {
 
-IMPORTANT: if you fix the bug, please add the following tag to the commit:
-Reported-by: syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
+clock-controller@d42a0c30
 
-uvcvideo 1-1:0.0: Entity type for entity Processing 1 was not initialized!
-uvcvideo 1-1:0.0: Entity type for entity Input 255 was not initialized!
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 163 at drivers/media/mc/mc-entity.c:669 media_create_pad_link+0x500/0x650 drivers/media/mc/mc-entity.c:669
-Kernel panic - not syncing: panic_on_warn set ...
-CPU: 0 PID: 163 Comm: kworker/0:3 Not tainted 5.7.0-rc1-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0xef/0x16e lib/dump_stack.c:118
- panic+0x2aa/0x6e1 kernel/panic.c:221
- __warn.cold+0x2f/0x30 kernel/panic.c:582
- report_bug+0x27b/0x2f0 lib/bug.c:195
- fixup_bug arch/x86/kernel/traps.c:175 [inline]
- fixup_bug arch/x86/kernel/traps.c:170 [inline]
- do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:267
- do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:286
- invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
-RIP: 0010:media_create_pad_link+0x500/0x650 drivers/media/mc/mc-entity.c:669
-Code: bc ea ff ff ff eb da e8 ee e0 37 fd 0f 0b 41 bc ea ff ff ff eb cb e8 df e0 37 fd 0f 0b 41 bc ea ff ff ff eb bc e8 d0 e0 37 fd <0f> 0b 41 bc ea ff ff ff eb ad e8 c1 e0 37 fd 0f 0b 41 bc ea ff ff
-RSP: 0018:ffff8881ce48ef70 EFLAGS: 00010293
-RAX: ff
+> +      compatible =3D "marvell,mmp2-audio-clock";
+> +      reg =3D <0xd42a0c30 0x10>;
 
+That is a very specific and tiny region. Presumably this is part of a
+larger hardware block and thus shouldn't be described in DT this way.
+Instead there should be one clock-controller node and a driver that
+controls all the clks that it wants to inside that hardware block.
 
----
-This bug is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+> +      clock-names =3D "audio", "vctcxo", "i2s0", "i2s1";
+> +      clocks =3D <&soc_clocks MMP2_CLK_AUDIO>,
+> +               <&soc_clocks MMP2_CLK_VCTCXO>,
+> +               <&soc_clocks MMP2_CLK_I2S0>,
+> +               <&soc_clocks MMP2_CLK_I2S1>;
+> +      power-domains =3D <&soc_clocks MMP2_POWER_DOMAIN_AUDIO>;
+> +      #clock-cells =3D <1>;
+> +    };
+> diff --git a/include/dt-bindings/clock/marvell,mmp2-audio.h b/include/dt-=
+bindings/clock/marvell,mmp2-audio.h
+> new file mode 100644
+> index 000000000000..127b48ec0f0a
+> --- /dev/null
+> +++ b/include/dt-bindings/clock/marvell,mmp2-audio.h
+> @@ -0,0 +1,8 @@
+> +/* SPDX-License-Identifier: (GPL-2.0+ OR BSD-2-Clause) */
+> +#ifndef __DT_BINDINGS_CLOCK_MARVELL_MMP2_AUDIO_H
+> +#define __DT_BINDINGS_CLOCK_MARVELL_MMP2_AUDIO_H
+> +
+> +#define MMP2_CLK_AUDIO_SYSCLK          1
 
-syzbot will keep track of this bug report. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-syzbot can test patches for this bug, for details see:
-https://goo.gl/tpsmEJ#testing-patches
+Any reason to start at 1 vs. 0?
+
+> +#define MMP2_CLK_AUDIO_SSPA0           2
+> +#define MMP2_CLK_AUDIO_SSPA1           3
+> +#endif
+> --=20
+> 2.26.2
+>
