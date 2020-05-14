@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C2CD1D2EA9
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 13:47:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C890B1D2EAE
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 13:47:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726199AbgENLrL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 May 2020 07:47:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38230 "EHLO
+        id S1726197AbgENLrl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 May 2020 07:47:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726037AbgENLrK (ORCPT
+        with ESMTP id S1726037AbgENLrl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 May 2020 07:47:10 -0400
+        Thu, 14 May 2020 07:47:41 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 698A6C061A0C;
-        Thu, 14 May 2020 04:47:10 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB95BC061A0C;
+        Thu, 14 May 2020 04:47:40 -0700 (PDT)
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 583929A8;
-        Thu, 14 May 2020 13:47:06 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91D8C9A8;
+        Thu, 14 May 2020 13:47:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1589456827;
-        bh=eLfueJYNU5P8wHTQCo7DsH/fKMPy1pOanOb2qKNl0uc=;
+        s=mail; t=1589456859;
+        bh=Zr6kJjf4W5Hjcm57PaJPXghzi9Krv99yDkMaWzA3YEY=;
         h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=dEhJFvWNlRx419OnhJEdrdcc40eArhU9QJtMDJDglEXYzoZqe6lqbPtnfgq9uuQ4y
-         YsIGywPxTwJRXkF+IAH1oBCJ8EQv1tOcsPuC4DPVfqOpAQMvHB+E36SfMTYgmdp5yT
-         11Q140fPujKkvZ57vzZkO3ERBhokAg8Q6wJRp9tg=
+        b=cwdhDpb/VIHHi2fCZSHrlQef6Y9aY8Mfg9NK4cM4JW/Gt9/pauPGZVZ2TPVjWza2A
+         uQWl2BJ+/qyedygZ4sHD1MyGPrLAHl8vyqN1R01ZeZl2O8LTm5ccIo6NeSSNoFrTxF
+         JgaC0g2nvy+HC8jzfQy3yoKsjPrEYIM+5+GYSFuI=
 Reply-To: kieran.bingham+renesas@ideasonboard.com
 Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
 To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
@@ -48,8 +48,8 @@ References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
  <20200514101356.GF2877@Mani-XPS-13-9360>
 From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Organization: Ideas on Board
-Message-ID: <d492cbcb-3b13-82b8-8e5d-0f49320170a2@ideasonboard.com>
-Date:   Thu, 14 May 2020 12:47:02 +0100
+Message-ID: <f46ed5fc-4eb0-8841-25b8-ef6c45e7ac87@ideasonboard.com>
+Date:   Thu, 14 May 2020 12:47:35 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
@@ -61,8 +61,6 @@ Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
-
-Hi Mani,
 
 On 14/05/2020 11:13, Manivannan Sadhasivam wrote:
 > Hi Kieran,
@@ -457,25 +455,8 @@ On 14/05/2020 11:13, Manivannan Sadhasivam wrote:
 >> Ah yes, that's a good point, and I think I've even seen that.
 >>
 >> I'll fix it now.
-
-Oh, in fact actually this doesn't.
-
-gpiodetect prints:
-
-gpiochip10 [4-004c] (2 lines)
-gpiochip11 [4-006c] (2 lines)
-
-and mostly references them as gpiochip10 and gpiochip11.
-
-However,
-
-> [    2.318533] gpio gpiochip11: Detected name collision for GPIO name 'GPIO0OUT'
-> [    2.325739] gpio gpiochip11: Detected name collision for GPIO name 'GPIO1OUT'
-
-That seems to be more of a problem for the gpio library, so I think I'll
-just drop the const names. I don't think they add much value.
-
-
+>>
+>>>
 >>>> +	gpio->parent = dev;
 >>>> +	gpio->owner = THIS_MODULE;
 >>>> +	gpio->of_node = dev->of_node;
@@ -518,6 +499,9 @@ just drop the const names. I don't think they add much value.
 > 
 > I understand that it is for the refcount balancing but I certainly don't see
 > a need for it.
+
+I'll go through and try to validate this again now.
+
 >  
 >>>> +	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
 >>>> +	if (!i2c_mux) {
@@ -558,6 +542,15 @@ just drop the const names. I don't think they add much value.
 >>
 > 
 > Hmm, I didn't think of this usecase. Let's keep it as it is.
+
+Aha indeed it's not clear (especially as the variable is just
+'regulator'). The regulator being controlled here does not power the
+max9286, but the cameras attached to the max9286 which can be powered up
+/ down separately to the max9286.
+
+--
+Kieran
+
 > 
 > Thanks,
 > Mani
