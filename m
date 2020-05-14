@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 898D01D35DB
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 18:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA9841D35DE
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 18:04:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728031AbgENQCg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 May 2020 12:02:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50092 "EHLO
+        id S1728052AbgENQCl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 May 2020 12:02:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726037AbgENQCg (ORCPT
+        with ESMTP id S1726037AbgENQCk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 May 2020 12:02:36 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CD5AC061A0C;
-        Thu, 14 May 2020 09:02:35 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id j21so1419644pgb.7;
-        Thu, 14 May 2020 09:02:35 -0700 (PDT)
+        Thu, 14 May 2020 12:02:40 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4B2FC061A0C;
+        Thu, 14 May 2020 09:02:40 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id n18so1503156pfa.2;
+        Thu, 14 May 2020 09:02:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=vwJyITKEVXnMG6mFro4Xh1aHdbJJWlaAkPfP68KC+ao=;
-        b=ftg73vC/C2RQz+U+lQuZehttZceGeq4he48FTrC3MZmAZQMEfWsg03sfz/nSMMMlmF
-         ZGOfthD/9l8zZZYr5msSCN8ZzDLR8ANKigMImwhcHhw6p5rl9E3jUCHlg/gBS2w4LjmB
-         nWxy7Z/xYNgDaXe4EcmSTE/olzxCG2eH2l+HgGc0xu88A868ZaKVpJQbqEAnmkC4j44A
-         XOVFipEF93im/bGdyYKbjoqVoJUs6ovfZmlHNlW6sEivn8B076htuC0IBhzL+/KgUoGB
-         e8o/x/vupSfsEKpGlY9fvD4TIRYyl5QLgS555ETAoeDPDdtKF8Hhgd5WmRqXZ05Zdlpl
-         GWuA==
+        bh=/nDwNvXr4FS6HqLEsFTMtUWrI4iLPFgT1txuDcLdyIs=;
+        b=MBJye/egwR6TxGrbtL0w/Q4nb5bnV4gLNqPzm/2vbO1WM9hA3pTewxdbboZSYN+aO6
+         oFqjfW4XgVVK3FkOSfBSZfsCg6ELdGhCuGVHnc6ha3iEIerTE04xtCQiUfEQMRcDxY3s
+         ZwJT4wyLkLdAg2Y0/tezBeH6xhM7rmT07kDowv9NxCEx/cyQBp8EWWK6xnWw/RyLBXhS
+         BVm/0NsH/HjxUgOiDle6lojI4uxOXIsTpkC+yfuJeH+0ojrjMUWaMjK2gZv47FNzdPMw
+         yYw+UHRLBE/dN4jvzHMeFRiuM/R1ddDlBgj7v3HpLNVqdM49mWfeFeze69G78SnchiHi
+         b+hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=vwJyITKEVXnMG6mFro4Xh1aHdbJJWlaAkPfP68KC+ao=;
-        b=QvlajVWNUWplQlScy5u9yExcRgFDTG15rsPD76a1x7/Al4cvdw8pI0YQQpz/IauqAO
-         fpdrC/uIgpNDomZ2JhPxWuGnSbuJYoriMtXZV+kG9p5zseI4oKPKCNHklYShZZf1FS6s
-         B1aMKijATvcA0VhwknMXQpLi1cHVaCINuMoQTYQAiJLfzAiyu1WkJ/+S+/cuCRrxjtK6
-         FEIbhKZf6/LNxcZFns/zqfFTMBvFas/5xxOb2dizaH1u5R22kZWWioSydTThtaOchuli
-         c9J7nerVehMxzNObmvvrnpQzqXJ11pto26RofFNCUrSFur+HsO9dac/dYoc8YelglIBB
-         3vFA==
-X-Gm-Message-State: AOAM533jXhyW0yreqA/HTjfegdm+losE5dDBVIHGxzd303zIKk0tvM9c
-        jPUdOybecPKHAIVkXSLrefJ2Ih23
-X-Google-Smtp-Source: ABdhPJxFh1SOgNhYUmxplVc05/kr4BawL/0usSxEBORTvzZwXQGYG3aD4Dkwyxf3+qPWoo1Sli9HUg==
-X-Received: by 2002:a05:6a00:2b4:: with SMTP id q20mr5041086pfs.104.1589472154650;
-        Thu, 14 May 2020 09:02:34 -0700 (PDT)
+        bh=/nDwNvXr4FS6HqLEsFTMtUWrI4iLPFgT1txuDcLdyIs=;
+        b=HaJ+kSk9PHbJTWplholcgibpyyo/aPT4DwfJjtbFwdF3GdJVD4+Bmz1ETc6KE9ct62
+         IAZ19fZ7bJUVR/M2fq2gMmCaE88n4guUsoNZ96faUUhu+LvD9fnEtJ0yt41yGoatxksz
+         gvbKrinE/sEogInKvSZd3IqnHtaD01HgB/E6CbSZWH18NlcXw3f4O43sO0XLrqO3S2uw
+         Z4hXHOq2bFCyX+xBX1axvk25M8TK3p+dzy5hHC30SXIJ86WdkUN78HUNx8Jgh4oYe82t
+         IWiMvcmZm2jIran0entTcWxc9Ds+R1/8rZeX3UpzieZmrYORv1xM9olUhtf5rIfhRXnl
+         j5cw==
+X-Gm-Message-State: AOAM531thfpTGRhPVhkhwaEs5KPdFS4L/lw7NXYtw3nZkRQTe1kdiCOa
+        0EbnTqeDDACZSpGF+habSDo=
+X-Google-Smtp-Source: ABdhPJy9V7+BBnL1yo2cmrr5jKObiD1Fls7tfCvJ8hi9EaEnNuM3iD9psR/hqlXAircY1GqwTkNI+Q==
+X-Received: by 2002:a63:f242:: with SMTP id d2mr923438pgk.212.1589472159758;
+        Thu, 14 May 2020 09:02:39 -0700 (PDT)
 Received: from localhost.localdomain ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
-        by smtp.gmail.com with ESMTPSA id y6sm18178691pjw.15.2020.05.14.09.02.31
+        by smtp.gmail.com with ESMTPSA id y6sm18178691pjw.15.2020.05.14.09.02.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 May 2020 09:02:33 -0700 (PDT)
+        Thu, 14 May 2020 09:02:38 -0700 (PDT)
 From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
 To:     Hans Verkuil <hans.verkuil@cisco.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -55,9 +55,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org,
         Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
         Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [PATCH v6 05/14] videobuf2: add queue memory consistency parameter
-Date:   Fri, 15 May 2020 01:01:44 +0900
-Message-Id: <20200514160153.3646-6-sergey.senozhatsky@gmail.com>
+Subject: [PATCH v6 06/14] videobuf2: handle V4L2_FLAG_MEMORY_NON_CONSISTENT flag
+Date:   Fri, 15 May 2020 01:01:45 +0900
+Message-Id: <20200514160153.3646-7-sergey.senozhatsky@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200514160153.3646-1-sergey.senozhatsky@gmail.com>
 References: <20200514160153.3646-1-sergey.senozhatsky@gmail.com>
@@ -70,224 +70,279 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Sergey Senozhatsky <senozhatsky@chromium.org>
 
-Preparations for future V4L2_FLAG_MEMORY_NON_CONSISTENT support.
+This patch lets user-space to request a non-consistent memory
+allocation during CREATE_BUFS and REQBUFS ioctl calls.
 
-Extend vb2_core_reqbufs() parameters list to accept requests'
-->flags, which will be used for memory consistency configuration.
+= CREATE_BUFS
 
-An attempt to allocate a buffer with consistency requirements
-which don't match queue's consistency model will fail.
+  struct v4l2_create_buffers has seven 4-byte reserved areas,
+  so reserved[0] is renamed to ->flags. The struct, thus, now
+  has six reserved 4-byte regions.
+
+= CREATE_BUFS32
+
+  struct v4l2_create_buffers32 has seven 4-byte reserved areas,
+  so reserved[0] is renamed to ->flags. The struct, thus, now
+  has six reserved 4-byte regions.
+
+= REQBUFS
+
+ We use one bit of a ->reserved[1] member of struct v4l2_requestbuffers,
+ which is now renamed to ->flags. Unlike v4l2_create_buffers, struct
+ v4l2_requestbuffers does not have enough reserved room. Therefore for
+ backward compatibility  ->reserved and ->flags were put into anonymous
+ union.
 
 Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 ---
- .../media/common/videobuf2/videobuf2-core.c   | 52 +++++++++++++++----
- .../media/common/videobuf2/videobuf2-v4l2.c   |  6 +--
- drivers/media/dvb-core/dvb_vb2.c              |  2 +-
- include/media/videobuf2-core.h                |  8 ++-
- 4 files changed, 52 insertions(+), 16 deletions(-)
+ .../media/v4l/vidioc-create-bufs.rst          |  7 +++++-
+ .../media/v4l/vidioc-reqbufs.rst              | 11 +++++++--
+ .../media/common/videobuf2/videobuf2-core.c   |  6 +++++
+ .../media/common/videobuf2/videobuf2-v4l2.c   | 24 +++++++++++++++----
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 10 ++++++--
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  5 +---
+ include/uapi/linux/videodev2.h                | 11 +++++++--
+ 7 files changed, 59 insertions(+), 15 deletions(-)
 
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
+index e1afc5b504c2..f2a702870fad 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
+@@ -121,7 +121,12 @@ than the number requested.
+ 	other changes, then set ``count`` to 0, ``memory`` to
+ 	``V4L2_MEMORY_MMAP`` and ``format.type`` to the buffer type.
+     * - __u32
+-      - ``reserved``\ [7]
++      - ``flags``
++      - Specifies additional buffer management attributes.
++	See :ref:`memory-flags`.
++
++    * - __u32
++      - ``reserved``\ [6]
+       - A place holder for future extensions. Drivers and applications
+ 	must set the array to zero.
+ 
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+index 96a59793d857..75d894d9c36c 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+@@ -112,10 +112,17 @@ aborting or finishing any DMA in progress, an implicit
+ 	``V4L2_MEMORY_MMAP`` and ``type`` set to the buffer type. This will
+ 	free any previously allocated buffers, so this is typically something
+ 	that will be done at the start of the application.
++    * - union {
++      - (anonymous)
++    * - __u32
++      - ``flags``
++      - Specifies additional buffer management attributes.
++	See :ref:`memory-flags`.
+     * - __u32
+       - ``reserved``\ [1]
+-      - A place holder for future extensions. Drivers and applications
+-	must set the array to zero.
++      - Kept for backwards compatibility. Use ``flags`` instead.
++    * - }
++      -
+ 
+ .. tabularcolumns:: |p{6.1cm}|p{2.2cm}|p{8.7cm}|
+ 
 diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index 44d65f5be845..b1332f7f1aad 100644
+index b1332f7f1aad..6efac531006f 100644
 --- a/drivers/media/common/videobuf2/videobuf2-core.c
 +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -664,11 +664,34 @@ int vb2_verify_memory_type(struct vb2_queue *q,
- }
- EXPORT_SYMBOL(vb2_verify_memory_type);
- 
-+static void set_queue_consistency(struct vb2_queue *q, bool consistent_mem)
-+{
-+	if (!vb2_queue_allows_cache_hints(q))
-+		return;
-+
-+	if (consistent_mem)
-+		q->dma_attrs &= ~DMA_ATTR_NON_CONSISTENT;
-+	else
-+		q->dma_attrs |= DMA_ATTR_NON_CONSISTENT;
-+}
-+
-+static bool verify_consistency_attr(struct vb2_queue *q, bool consistent_mem)
-+{
-+	bool queue_is_consistent = !(q->dma_attrs & DMA_ATTR_NON_CONSISTENT);
-+
-+	if (consistent_mem != queue_is_consistent) {
-+		dprintk(1, "memory consistency model mismatch\n");
-+		return false;
-+	}
-+	return true;
-+}
-+
- int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
--		unsigned int *count)
-+		     unsigned int flags, unsigned int *count)
- {
- 	unsigned int num_buffers, allocated_buffers, num_planes = 0;
- 	unsigned plane_sizes[VB2_MAX_PLANES] = { };
-+	bool consistent_mem = true;
+@@ -695,6 +695,9 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
  	unsigned int i;
  	int ret;
  
-@@ -683,7 +706,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- 	}
- 
- 	if (*count == 0 || q->num_buffers != 0 ||
--	    (q->memory != VB2_MEMORY_UNKNOWN && q->memory != memory)) {
-+	    (q->memory != VB2_MEMORY_UNKNOWN && q->memory != memory) ||
-+	    !verify_consistency_attr(q, consistent_mem)) {
- 		/*
- 		 * We already have buffers allocated, so first check if they
- 		 * are not in use and can be freed.
-@@ -720,6 +744,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- 	num_buffers = min_t(unsigned int, num_buffers, VB2_MAX_FRAME);
- 	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
- 	q->memory = memory;
-+	set_queue_consistency(q, consistent_mem);
- 
- 	/*
- 	 * Ask the driver how many buffers and planes per buffer it requires.
-@@ -804,11 +829,13 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
- 
- int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
--		unsigned int *count, unsigned requested_planes,
--		const unsigned requested_sizes[])
-+			 unsigned int flags, unsigned int *count,
-+			 unsigned int requested_planes,
-+			 const unsigned int requested_sizes[])
- {
- 	unsigned int num_planes = 0, num_buffers, allocated_buffers;
- 	unsigned plane_sizes[VB2_MAX_PLANES] = { };
-+	bool consistent_mem = true;
++	if (flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
++		consistent_mem = false;
++
+ 	if (q->streaming) {
+ 		dprintk(1, "streaming active\n");
+ 		return -EBUSY;
+@@ -838,6 +841,9 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	bool consistent_mem = true;
  	int ret;
  
++	if (flags & V4L2_FLAG_MEMORY_NON_CONSISTENT)
++		consistent_mem = false;
++
  	if (q->num_buffers == VB2_MAX_FRAME) {
-@@ -823,10 +850,15 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
- 		}
- 		memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
- 		q->memory = memory;
-+		set_queue_consistency(q, consistent_mem);
- 		q->waiting_for_buffers = !q->is_output;
--	} else if (q->memory != memory) {
--		dprintk(1, "memory model mismatch\n");
--		return -EINVAL;
-+	} else {
-+		if (q->memory != memory) {
-+			dprintk(1, "memory model mismatch\n");
-+			return -EINVAL;
-+		}
-+		if (!verify_consistency_attr(q, consistent_mem))
-+			return -EINVAL;
- 	}
- 
- 	num_buffers = min(*count, VB2_MAX_FRAME - q->num_buffers);
-@@ -2498,7 +2530,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
- 	fileio->memory = VB2_MEMORY_MMAP;
- 	fileio->type = q->type;
- 	q->fileio = fileio;
--	ret = vb2_core_reqbufs(q, fileio->memory, &fileio->count);
-+	ret = vb2_core_reqbufs(q, fileio->memory, 0, &fileio->count);
- 	if (ret)
- 		goto err_kfree;
- 
-@@ -2555,7 +2587,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
- 
- err_reqbufs:
- 	fileio->count = 0;
--	vb2_core_reqbufs(q, fileio->memory, &fileio->count);
-+	vb2_core_reqbufs(q, fileio->memory, 0, &fileio->count);
- 
- err_kfree:
- 	q->fileio = NULL;
-@@ -2575,7 +2607,7 @@ static int __vb2_cleanup_fileio(struct vb2_queue *q)
- 		vb2_core_streamoff(q, q->type);
- 		q->fileio = NULL;
- 		fileio->count = 0;
--		vb2_core_reqbufs(q, fileio->memory, &fileio->count);
-+		vb2_core_reqbufs(q, fileio->memory, 0, &fileio->count);
- 		kfree(fileio);
- 		dprintk(3, "file io emulator closed\n");
- 	}
+ 		dprintk(1, "maximum number of buffers already allocated\n");
+ 		return -ENOBUFS;
 diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index e4b4354b42b8..26a3ec333bb7 100644
+index 26a3ec333bb7..559a229cac41 100644
 --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
 +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -723,7 +723,7 @@ int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
+@@ -718,12 +718,22 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
+ #endif
+ }
+ 
++static void clear_consistency_attr(struct vb2_queue *q,
++				   int memory,
++				   unsigned int *flags)
++{
++	if (!q->allow_cache_hints || memory != V4L2_MEMORY_MMAP)
++		*flags &= ~V4L2_FLAG_MEMORY_NON_CONSISTENT;
++}
++
+ int vb2_reqbufs(struct vb2_queue *q, struct v4l2_requestbuffers *req)
+ {
  	int ret = vb2_verify_memory_type(q, req->memory, req->type);
  
  	fill_buf_caps(q, &req->capabilities);
--	return ret ? ret : vb2_core_reqbufs(q, req->memory, &req->count);
-+	return ret ? ret : vb2_core_reqbufs(q, req->memory, 0, &req->count);
+-	return ret ? ret : vb2_core_reqbufs(q, req->memory, 0, &req->count);
++	clear_consistency_attr(q, req->memory, &req->flags);
++	return ret ? ret : vb2_core_reqbufs(q, req->memory,
++					    req->flags, &req->count);
  }
  EXPORT_SYMBOL_GPL(vb2_reqbufs);
  
-@@ -797,7 +797,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
+@@ -755,6 +765,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
+ 	unsigned i;
+ 
+ 	fill_buf_caps(q, &create->capabilities);
++	clear_consistency_attr(q, create->memory, &create->flags);
+ 	create->index = q->num_buffers;
+ 	if (create->count == 0)
+ 		return ret != -EBUSY ? ret : 0;
+@@ -797,8 +808,11 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
  	for (i = 0; i < requested_planes; i++)
  		if (requested_sizes[i] == 0)
  			return -EINVAL;
--	return ret ? ret : vb2_core_create_bufs(q, create->memory,
-+	return ret ? ret : vb2_core_create_bufs(q, create->memory, 0,
- 		&create->count, requested_planes, requested_sizes);
+-	return ret ? ret : vb2_core_create_bufs(q, create->memory, 0,
+-		&create->count, requested_planes, requested_sizes);
++	return ret ? ret : vb2_core_create_bufs(q, create->memory,
++						create->flags,
++						&create->count,
++						requested_planes,
++						requested_sizes);
  }
  EXPORT_SYMBOL_GPL(vb2_create_bufs);
-@@ -973,7 +973,7 @@ int vb2_ioctl_reqbufs(struct file *file, void *priv,
+ 
+@@ -969,11 +983,12 @@ int vb2_ioctl_reqbufs(struct file *file, void *priv,
+ 	int res = vb2_verify_memory_type(vdev->queue, p->memory, p->type);
+ 
+ 	fill_buf_caps(vdev->queue, &p->capabilities);
++	clear_consistency_attr(vdev->queue, p->memory, &p->flags);
+ 	if (res)
  		return res;
  	if (vb2_queue_is_busy(vdev, file))
  		return -EBUSY;
--	res = vb2_core_reqbufs(vdev->queue, p->memory, &p->count);
-+	res = vb2_core_reqbufs(vdev->queue, p->memory, 0, &p->count);
+-	res = vb2_core_reqbufs(vdev->queue, p->memory, 0, &p->count);
++	res = vb2_core_reqbufs(vdev->queue, p->memory, p->flags, &p->count);
  	/* If count == 0, then the owner has released all buffers and he
  	   is no longer owner of the queue. Otherwise we have a new owner. */
  	if (res == 0)
-diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
-index 6974f1731529..959d110407a4 100644
---- a/drivers/media/dvb-core/dvb_vb2.c
-+++ b/drivers/media/dvb-core/dvb_vb2.c
-@@ -342,7 +342,7 @@ int dvb_vb2_reqbufs(struct dvb_vb2_ctx *ctx, struct dmx_requestbuffers *req)
+@@ -991,6 +1006,7 @@ int vb2_ioctl_create_bufs(struct file *file, void *priv,
  
- 	ctx->buf_siz = req->size;
- 	ctx->buf_cnt = req->count;
--	ret = vb2_core_reqbufs(&ctx->vb_q, VB2_MEMORY_MMAP, &req->count);
-+	ret = vb2_core_reqbufs(&ctx->vb_q, VB2_MEMORY_MMAP, 0, &req->count);
- 	if (ret) {
- 		ctx->state = DVB_VB2_STATE_NONE;
- 		dprintk(1, "[%s] count=%d size=%d errno=%d\n", ctx->name,
-diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index ccc5c498d3e3..9e68fe043a6c 100644
---- a/include/media/videobuf2-core.h
-+++ b/include/media/videobuf2-core.h
-@@ -740,6 +740,8 @@ void vb2_core_querybuf(struct vb2_queue *q, unsigned int index, void *pb);
-  * vb2_core_reqbufs() - Initiate streaming.
-  * @q:		pointer to &struct vb2_queue with videobuf2 queue.
-  * @memory:	memory type, as defined by &enum vb2_memory.
-+ * @flags:	auxiliary queue/buffer management flags. Currently, the only
-+ *		used flag is %V4L2_FLAG_MEMORY_NON_CONSISTENT.
-  * @count:	requested buffer count.
-  *
-  * Videobuf2 core helper to implement VIDIOC_REQBUF() operation. It is called
-@@ -764,12 +766,13 @@ void vb2_core_querybuf(struct vb2_queue *q, unsigned int index, void *pb);
-  * Return: returns zero on success; an error code otherwise.
+ 	p->index = vdev->queue->num_buffers;
+ 	fill_buf_caps(vdev->queue, &p->capabilities);
++	clear_consistency_attr(vdev->queue, p->memory, &p->flags);
+ 	/*
+ 	 * If count == 0, then just check if memory and type are valid.
+ 	 * Any -EBUSY result from vb2_verify_memory_type can be mapped to 0.
+diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+index a99e82ec9ab6..593bcf6c3735 100644
+--- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
++++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+@@ -246,6 +246,9 @@ struct v4l2_format32 {
+  * @memory:	buffer memory type
+  * @format:	frame format, for which buffers are requested
+  * @capabilities: capabilities of this buffer type.
++ * @flags:	additional buffer management attributes (ignored unless the
++ *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability and
++ *		configured for MMAP streaming I/O).
+  * @reserved:	future extensions
   */
- int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
--		unsigned int *count);
-+		    unsigned int flags, unsigned int *count);
+ struct v4l2_create_buffers32 {
+@@ -254,7 +257,8 @@ struct v4l2_create_buffers32 {
+ 	__u32			memory;	/* enum v4l2_memory */
+ 	struct v4l2_format32	format;
+ 	__u32			capabilities;
+-	__u32			reserved[7];
++	__u32			flags;
++	__u32			reserved[6];
+ };
  
- /**
-  * vb2_core_create_bufs() - Allocate buffers and any required auxiliary structs
-  * @q: pointer to &struct vb2_queue with videobuf2 queue.
-  * @memory: memory type, as defined by &enum vb2_memory.
-+ * @flags: auxiliary queue/buffer management flags.
-  * @count: requested buffer count.
-  * @requested_planes: number of planes requested.
-  * @requested_sizes: array with the size of the planes.
-@@ -787,7 +790,8 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
-  * Return: returns zero on success; an error code otherwise.
+ static int __bufsize_v4l2_format(struct v4l2_format32 __user *p32, u32 *size)
+@@ -355,7 +359,8 @@ static int get_v4l2_create32(struct v4l2_create_buffers __user *p64,
+ {
+ 	if (!access_ok(p32, sizeof(*p32)) ||
+ 	    copy_in_user(p64, p32,
+-			 offsetof(struct v4l2_create_buffers32, format)))
++			 offsetof(struct v4l2_create_buffers32, format)) ||
++	    assign_in_user(&p64->flags, &p32->flags))
+ 		return -EFAULT;
+ 	return __get_v4l2_format32(&p64->format, &p32->format,
+ 				   aux_buf, aux_space);
+@@ -417,6 +422,7 @@ static int put_v4l2_create32(struct v4l2_create_buffers __user *p64,
+ 	    copy_in_user(p32, p64,
+ 			 offsetof(struct v4l2_create_buffers32, format)) ||
+ 	    assign_in_user(&p32->capabilities, &p64->capabilities) ||
++	    assign_in_user(&p32->flags, &p64->flags) ||
+ 	    copy_in_user(p32->reserved, p64->reserved, sizeof(p64->reserved)))
+ 		return -EFAULT;
+ 	return __put_v4l2_format32(&p64->format, &p32->format);
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 2322f08a98be..02bfef0da76d 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -2038,9 +2038,6 @@ static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
+ 
+ 	if (ret)
+ 		return ret;
+-
+-	CLEAR_AFTER_FIELD(p, capabilities);
+-
+ 	return ops->vidioc_reqbufs(file, fh, p);
+ }
+ 
+@@ -2080,7 +2077,7 @@ static int v4l_create_bufs(const struct v4l2_ioctl_ops *ops,
+ 	if (ret)
+ 		return ret;
+ 
+-	CLEAR_AFTER_FIELD(create, capabilities);
++	CLEAR_AFTER_FIELD(create, flags);
+ 
+ 	v4l_sanitize_format(&create->format);
+ 
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 34ba1017b89b..fec2607a07e3 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -946,7 +946,10 @@ struct v4l2_requestbuffers {
+ 	__u32			type;		/* enum v4l2_buf_type */
+ 	__u32			memory;		/* enum v4l2_memory */
+ 	__u32			capabilities;
+-	__u32			reserved[1];
++	union {
++		__u32		flags;
++		__u32		reserved[1];
++	};
+ };
+ 
+ /* capabilities for struct v4l2_requestbuffers and v4l2_create_buffers */
+@@ -2450,6 +2453,9 @@ struct v4l2_dbg_chip_info {
+  * @memory:	enum v4l2_memory; buffer memory type
+  * @format:	frame format, for which buffers are requested
+  * @capabilities: capabilities of this buffer type.
++ * @flags:	additional buffer management attributes (ignored unless the
++ *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
++ *		and configured for MMAP streaming I/O).
+  * @reserved:	future extensions
   */
- int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
--			 unsigned int *count, unsigned int requested_planes,
-+			 unsigned int flags, unsigned int *count,
-+			 unsigned int requested_planes,
- 			 const unsigned int requested_sizes[]);
+ struct v4l2_create_buffers {
+@@ -2458,7 +2464,8 @@ struct v4l2_create_buffers {
+ 	__u32			memory;
+ 	struct v4l2_format	format;
+ 	__u32			capabilities;
+-	__u32			reserved[7];
++	__u32			flags;
++	__u32			reserved[6];
+ };
  
- /**
+ /*
 -- 
 2.26.2
 
