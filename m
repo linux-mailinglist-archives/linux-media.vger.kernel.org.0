@@ -2,80 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03FD91D3132
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 15:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A54911D31CA
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 15:50:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726225AbgENNYI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 May 2020 09:24:08 -0400
-Received: from mail-oi1-f194.google.com ([209.85.167.194]:34500 "EHLO
-        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726011AbgENNYI (ORCPT
+        id S1726088AbgENNug (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 May 2020 09:50:36 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38040 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726037AbgENNuf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 May 2020 09:24:08 -0400
-Received: by mail-oi1-f194.google.com with SMTP id c12so23507494oic.1;
-        Thu, 14 May 2020 06:24:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=sSamf2egw4mSH0QveGzXce+Ec2ZXIVCWEyzE7zx5koo=;
-        b=ufBg/RF2OdkhR5O5PFOlXLoq+pSKv7/3kb0ZgESlTDm+FJnC0FkVZXtcrgiw+740S6
-         280Tf1Lz44vPOLCIR+1iFiST9oOxO7p7au6KNxtQ9cN1vFkYB6xaPlfbLRJQVhhC53UY
-         usyoBMGwR+etOk0sJuCQGkA/iY2j5d6Rshk8fMUQGqfNr6/MHmyhYR+nXrofaobMJy2f
-         xYZi84t8eOGeBgJEljOUiYbgUPHx+udnV+r1QF0IC/gq2rMC6xb40VF39C8bDGJTC3Nh
-         zPZABkMekGSyQumpzrAY5m8bEtfOnncGa9C0p+YVaI+GhzPYrJD63aHf4nEQXFq77EE7
-         6gwg==
-X-Gm-Message-State: AGi0PuZMhhh/jte7hm2F+rXZ7yg70GuOiP1q3wP6ts/GzAeXwdbJ077R
-        K7hDKiCuj1sfgMToOalrAMth06Ck/KrxZTLcf60=
-X-Google-Smtp-Source: APiQypIRjs+5ZguLChX2CNoHXK9sTuzFIWqm/7PJ80eA/g5b0j1Bj3CFy/GBcv83VDyEJJ+o5z4ZH+rK8ac3DuVbIGQ=
-X-Received: by 2002:aca:cd93:: with SMTP id d141mr7906712oig.148.1589462647044;
- Thu, 14 May 2020 06:24:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200506120304.31550-1-geert+renesas@glider.be> <CAPY8ntDwffdgQadkBLSdJr0q7nThFHEBO_nPmja1EUVhnRa7YQ@mail.gmail.com>
-In-Reply-To: <CAPY8ntDwffdgQadkBLSdJr0q7nThFHEBO_nPmja1EUVhnRa7YQ@mail.gmail.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Thu, 14 May 2020 15:23:55 +0200
-Message-ID: <CAMuHMdUP8sT5G9TruLcJC8CoXTUrFZGKr07C3sqbbm0sXbjJbQ@mail.gmail.com>
-Subject: Re: [PATCH] media: i2c: imx219: Drop <linux/clk-provider.h> and <linux/clkdev.h>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thu, 14 May 2020 09:50:35 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F2C0259;
+        Thu, 14 May 2020 15:50:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1589464232;
+        bh=57FjFvG/SssRG+W/xhAVtBZHMRugzREFdjSdETfXt6k=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=aBTl4rsPkZxZs/ah6v+P+aXuEqAFh/pNQXMb235hHpcC0NacbkpwJsXq7zijt4hIR
+         qtkNVQvobueazyIxOkErh/HWKgB5HtPI15D2SsnxkJWDz3RRUMfQqOtCAAFNE+TqBz
+         nD0gS4YkD4V98uHNIvUJo3NXpUXD8tyYgdTNQzyY=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
+To:     Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>, Rob Herring <robh+dt@kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200512155105.1068064-3-kieran.bingham+renesas@ideasonboard.com>
+ <20200512181706.GA21014@Mani-XPS-13-9360>
+ <11aca587-9438-4fba-081c-b82631e96989@ideasonboard.com>
+ <20200514101356.GF2877@Mani-XPS-13-9360>
+ <d492cbcb-3b13-82b8-8e5d-0f49320170a2@ideasonboard.com>
+ <CAMuHMdWSEY2q1f1iobrSXHYWzweV9yjk4i1ROj2Yde7DJMiabQ@mail.gmail.com>
+ <20200514124831.GG2877@Mani-XPS-13-9360>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <8f1b0a8a-35b2-1d00-c156-74d9ec3058d6@ideasonboard.com>
+Date:   Thu, 14 May 2020 14:50:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+MIME-Version: 1.0
+In-Reply-To: <20200514124831.GG2877@Mani-XPS-13-9360>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave
+On 14/05/2020 13:48, Manivannan Sadhasivam wrote:
+> On Thu, May 14, 2020 at 01:59:35PM +0200, Geert Uytterhoeven wrote:
+>> Hi Kieran,
+>>
+>> On Thu, May 14, 2020 at 1:47 PM Kieran Bingham
+>> <kieran.bingham+renesas@ideasonboard.com> wrote:
+>>> On 14/05/2020 11:13, Manivannan Sadhasivam wrote:
+>>>> On Thu, May 14, 2020 at 11:02:53AM +0100, Kieran Bingham wrote:
+>>>>> On 12/05/2020 19:17, Manivannan Sadhasivam wrote:
+>>>>>> On Tue, May 12, 2020 at 04:51:03PM +0100, Kieran Bingham wrote:
+>>>>>>> The MAX9286 is a 4-channel GMSL deserializer with coax or STP input and
+>>>>>>> CSI-2 output. The device supports multicamera streaming applications,
+>>>>>>> and features the ability to synchronise the attached cameras.
+>>>>>>>
+>>>>>>> CSI-2 output can be configured with 1 to 4 lanes, and a control channel
+>>>>>>> is supported over I2C, which implements an I2C mux to facilitate
+>>>>>>> communications with connected cameras across the reverse control
+>>>>>>> channel.
+>>>>>>>
+>>>>>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>>>>>> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+>>>>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+>>>>>>> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+>>
+>>>>>>> --- /dev/null
+>>>>>>> +++ b/drivers/media/i2c/max9286.c
+>>
+>>>>>>> +static int max9286_register_gpio(struct max9286_priv *priv)
+>>>>>>> +{
+>>>>>>> +  struct device *dev = &priv->client->dev;
+>>>>>>> +  struct gpio_chip *gpio = &priv->gpio;
+>>>>>>> +  int ret;
+>>>>>>> +
+>>>>>>> +  static const char * const names[] = {
+>>>>>>> +          "GPIO0OUT",
+>>>>>>> +          "GPIO1OUT",
+>>>>>>> +  };
+>>>>>>> +
+>>>>>>> +  /* Configure the GPIO */
+>>>>>>> +  gpio->label = dev_name(dev);
+>>>>>>
+>>>>>> So if you have more than one MAX9286 in a system, all gpiochips will appear
+>>>>>> with the same name. I'd recommend to append the index to distinguish properly.
+>>>>>
+>>>>> Ah yes, that's a good point, and I think I've even seen that.
+>>>>>
+>>>>> I'll fix it now.
+>>>
+>>> Oh, in fact actually this doesn't.
+>>>
+>>> gpiodetect prints:
+>>>
+>>> gpiochip10 [4-004c] (2 lines)
+>>> gpiochip11 [4-006c] (2 lines)
+>>>
+>>> and mostly references them as gpiochip10 and gpiochip11.
+>>
+>> Indeed, dev_name() should be different for each instance.
+>>
+> 
+> Ah, my bad! Somehow I got confused that this delivers static name... Sorry for
+> the noise, Kieran.
+> 
+>>> However,
+>>>
+>>>> [    2.318533] gpio gpiochip11: Detected name collision for GPIO name 'GPIO0OUT'
+>>>> [    2.325739] gpio gpiochip11: Detected name collision for GPIO name 'GPIO1OUT'
+>>>
+>>> That seems to be more of a problem for the gpio library, so I think I'll
+>>> just drop the const names. I don't think they add much value.
+>>
+> 
+> Well, I should've pointed this instead of above...
+> 
+> (lack of coffee)
+> 
+>> These are the line names.  If they're not unique, a warning is printed,
+>> but they are still registered.
+>> So probably you want to use kasprintf("%s.%s", dev_name(dev), names[i]) to
+>> generate names.
+>>
+> 
+> Ack.
+> 
+> I think you should CC Linus W for next iteration to get review for gpiolib
+> implementation.
 
-On Thu, May 14, 2020 at 3:12 PM Dave Stevenson
-<dave.stevenson@raspberrypi.com> wrote:
-> On Wed, 6 May 2020 at 13:03, Geert Uytterhoeven <geert+renesas@glider.be> wrote:
-> > The IMX219 camera driver is not a clock provider, but merely a clock
-> > consumer, and thus does not need to include <linux/clk-provider.h> and
-> > <linux/clkdev.h>.
-> >
-> > Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
->
-> I'm no expert on the clock frameworks, but that seems logical.
-> Acked-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Good idea. I think I'll drop the names though for now.
 
-Thank you.
+--
+Kieran
 
-> The same appears to be true for drivers/media/i2c/ov5640.c unless it's
-> been fixed since 5.7-rc5.
 
-Quite possible: I did a sweep a while ago, and looked at recently introduced
-offenders, but I may have missed some.
+> 
+> Thanks,
+> Mani
+> 
+>> See "[PATCH] gpiolib: Document that GPIO line names are not globally unique"
+>> (https://lore.kernel.org/linux-gpio/20200511101828.30046-1-geert+renesas@glider.be/)
+>> to clear up the details.
+>>
+>> Gr{oetje,eeting}s,
+>>
+>>                         Geert
+>>
+>> -- 
+>> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+>>
+>> In personal conversations with technical people, I call myself a hacker. But
+>> when I'm talking to journalists I just say "programmer" or something like that.
+>>                                 -- Linus Torvalds
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
