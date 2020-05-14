@@ -2,65 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 639771D2337
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 01:43:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 12A931D24B9
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 03:32:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732728AbgEMXnr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 May 2020 19:43:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38616 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1732456AbgEMXnq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 May 2020 19:43:46 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F1D9C061A0C
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2020 16:43:46 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id d16so854671edq.7
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2020 16:43:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=cSQtp/nOYLotNsNkXXY6oyibp+1oVU/cPnGkEldRkFU=;
-        b=QqPjO14nimgQBo0J/0dpwAPP39ue6oukpdNctSZvAzcdUmdTA6tgGP/9T/S00eRmJ6
-         MNrITgEuznY56lwVXzgJAwtLynqBd8zinpQJ9O9/ibPSasoDen69ZV1tapgDct6J8Cni
-         KaAgSWce+IYOL4IOcn/hbTQ7KwP5zYvuvFET75mUimNXWHd6BlClf5nKOg5ZLVluuh/n
-         9v9XkGQDwQOAmTvjvEF1vS8qUzBIY8ohfjwsD4Bb35y4KhZC4UiwvvcoHFKqASYdSFdT
-         uqFOcqHVxZPREtAezhfQT48D9VRit0Ze8B7xpmHhaJVHz8N6qbUV+xbqmhZMmEGIZijS
-         MdQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=cSQtp/nOYLotNsNkXXY6oyibp+1oVU/cPnGkEldRkFU=;
-        b=qSNB4ZnLQVbsJ99+1RyXWEmZ3FkljWp/6+1XVt6eEC+lUqT3XqtDBVDZiRvc4QJQjq
-         jNu0Psxq5D4sMiI0iifK0l9NfAvSRtIy2zC/0J01e/nTrwnCoVdxleq0VIbmJ/vmeA6o
-         /oSfXk0qmf4mALI1vw5WYIB7YXsxAreoTHcvCI/vR/+MynuE3nWb1szYF1P/LFfp4xZ8
-         WeOMh13Q6rQ1kfkPOSL7nvPHraqUtvXn5/L1Fv/YeXL08HlBqsaMY3CP6zVaUexoHzsQ
-         6zV8p12IwyxI5Tw+NqMhbtF7Yv6a4IBbqIu58xO+wth1+W4tC2L1DsmO9du6PLWJ/Gh8
-         AIzg==
-X-Gm-Message-State: AOAM533gDFc6Ng3LTmcw3jEQmfHMcaFtWD5JsSBf3kiIV1s6OLydgkJF
-        /WWBjtU78jh3TqMxUVUazfEV9+qc273kMX18M8Y=
-X-Google-Smtp-Source: ABdhPJy0KdqZiQRkexcJi/dAK/HCnL/PpLfmKTb2G7z+WQZI+6yS/pHBhD5V75xQhMxCw5/x9oq4BcBiWlGGm+9YqHE=
-X-Received: by 2002:aa7:d342:: with SMTP id m2mr1790264edr.341.1589413425052;
- Wed, 13 May 2020 16:43:45 -0700 (PDT)
+        id S1727097AbgENBcp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 May 2020 21:32:45 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:47036 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725925AbgENBcp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 13 May 2020 21:32:45 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+        by Forcepoint Email with ESMTP id 8766BF7CB335548C3F05;
+        Thu, 14 May 2020 09:32:43 +0800 (CST)
+Received: from [127.0.0.1] (10.166.215.101) by DGGEMS402-HUB.china.huawei.com
+ (10.3.19.202) with Microsoft SMTP Server id 14.3.487.0; Thu, 14 May 2020
+ 09:32:40 +0800
+Subject: Re: [PATCH] [media] tw686x: add a missing newline when printing
+ parameter 'dma_mode'
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <1589186626-17243-1-git-send-email-wangxiongfeng2@huawei.com>
+ <CAAEAJfAzcRTLE3HWHJqWvuENYnPCU-E6TdaDWXc+WNHOaUqdyA@mail.gmail.com>
+From:   Xiongfeng Wang <wangxiongfeng2@huawei.com>
+Message-ID: <c8b781aa-da2b-5aa7-aadc-a1980c84bd0d@huawei.com>
+Date:   Thu, 14 May 2020 09:32:40 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.4.1
 MIME-Version: 1.0
-Received: by 2002:a17:906:8299:0:0:0:0 with HTTP; Wed, 13 May 2020 16:43:44
- -0700 (PDT)
-Reply-To: pmaurice187@gmail.com
-From:   Peace maurice <jadam8746@gmail.com>
-Date:   Wed, 13 May 2020 23:43:44 +0000
-Message-ID: <CAA-iaaixgLH9j9o3up_-E0aPh5sfkdMAOWfazR1LtwnBAyhjdA@mail.gmail.com>
-Subject: Dear
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAAEAJfAzcRTLE3HWHJqWvuENYnPCU-E6TdaDWXc+WNHOaUqdyA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.166.215.101]
+X-CFilter-Loop: Reflected
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
-Please can we talk?
-Something just came up and it's very urgent,please i need your attention.
+Hi Ezequiel,
 
-Regards
-Peace.
+Thanks for your reply !
+
+On 2020/5/14 3:32, Ezequiel Garcia wrote:
+> On Mon, 11 May 2020 at 05:49, Xiongfeng Wang <wangxiongfeng2@huawei.com> wrote:
+>>
+>> When I cat module parameter 'dma_mode' by sysfs, it displays as follows.
+>> It is better to add a newline for easy reading.
+>>
+>> [root@hulk-202 ~]# cat /sys/module/tw686x/parameters/dma_mode
+>> memcpy[root@hulk-202 ~]#
+>>
+>> Signed-off-by: Xiongfeng Wang <wangxiongfeng2@huawei.com>
+> 
+> I don't mind this change, but I don't think this is standard.
+> The lack of newline follows what other drivers are doing.
+> 
+> # hexdump -c /sys/module/acpi/parameters/ec_event_clearing
+> 0000000   q   u   e   r   y
+> 0000005
+> 
+> Is it really an issue for you?
+
+It's not an issue for me. It's just that if the result is in a separate line, it
+reads more easily. I am also planning to fix the parameters below
+'/sys/module/acpi/parameters'.
+
+Thanks,
+Xiongfeng
+
+> 
+> Thanks,
+> Ezequiel
+> 
+>> ---
+>>  drivers/media/pci/tw686x/tw686x-core.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/pci/tw686x/tw686x-core.c b/drivers/media/pci/tw686x/tw686x-core.c
+>> index 74ae4f0..bfc61da 100644
+>> --- a/drivers/media/pci/tw686x/tw686x-core.c
+>> +++ b/drivers/media/pci/tw686x/tw686x-core.c
+>> @@ -71,7 +71,7 @@ static const char *dma_mode_name(unsigned int mode)
+>>
+>>  static int tw686x_dma_mode_get(char *buffer, const struct kernel_param *kp)
+>>  {
+>> -       return sprintf(buffer, "%s", dma_mode_name(dma_mode));
+>> +       return sprintf(buffer, "%s\n", dma_mode_name(dma_mode));
+>>  }
+>>
+>>  static int tw686x_dma_mode_set(const char *val, const struct kernel_param *kp)
+>> --
+>> 1.7.12.4
+>>
+> 
+
