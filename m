@@ -2,129 +2,268 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 975CC1D2C45
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 12:13:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F3751D2C5B
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 12:17:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726073AbgENKNc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 May 2020 06:13:32 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:52475 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725999AbgENKNc (ORCPT
+        id S1726051AbgENKRj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 May 2020 06:17:39 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:37743 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725925AbgENKRi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 May 2020 06:13:32 -0400
+        Thu, 14 May 2020 06:17:38 -0400
 X-Originating-IP: 2.224.242.101
 Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 902F2FF808;
-        Thu, 14 May 2020 10:13:27 +0000 (UTC)
-Date:   Thu, 14 May 2020 12:16:43 +0200
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 3A1FEE0014;
+        Thu, 14 May 2020 10:17:31 +0000 (UTC)
+Date:   Thu, 14 May 2020 12:20:48 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
-        niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 2/6] media: v4l2-subdev: Deprecate g_mbus_config video
- op
-Message-ID: <20200514101643.6a4xqhdiegukmltk@uno.localdomain>
-References: <20200415105004.2497356-1-jacopo+renesas@jmondi.org>
- <20200415105004.2497356-3-jacopo+renesas@jmondi.org>
- <20200420014846.GB15673@pendragon.ideasonboard.com>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        Rob Herring <robh+dt@kernel.org>,
+        linux-renesas-soc@vger.kernel.org,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund@ragnatech.se, Hans Verkuil <hverkuil@xs4all.nl>,
+        sakari.ailus@iki.fi, mchehab@kernel.org,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Hyun Kwon <hyunk@xilinx.com>
+Subject: Re: [PATCH] fixup! dt-bindings: media: i2c: Add bindings for Maxima
+ Integrated MAX9286
+Message-ID: <20200514102048.mwwzoxhgsy3uldrc@uno.localdomain>
+References: <20200512223329.GA23701@bogus>
+ <20200513125445.54132-1-jacopo+renesas@jmondi.org>
+ <bd648891-67c2-098b-3a0e-72bf4e938535@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200420014846.GB15673@pendragon.ideasonboard.com>
+In-Reply-To: <bd648891-67c2-098b-3a0e-72bf4e938535@ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent, Hans, Sakari
+Hi Kieran,
 
-On Mon, Apr 20, 2020 at 04:48:46AM +0300, Laurent Pinchart wrote:
+On Thu, May 14, 2020 at 10:43:10AM +0100, Kieran Bingham wrote:
 > Hi Jacopo,
 >
-> Thank you for the patch.
->
-> On Wed, Apr 15, 2020 at 12:49:59PM +0200, Jacopo Mondi wrote:
-> > Deprecate 'g_mbus_config' video operation in favor of the newly
-> > introduced 'get_mbus_config' pad operation.
+> On 13/05/2020 13:54, Jacopo Mondi wrote:
+> > Subject: [PATCH] fixup! dt-bindings: media: i2c: Add bindings for Maxima Integrated MAX9286
 > >
-> > Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Temporary fixup to ease review. To be squashed into v10 if accepted.
+> >
 > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-> Not necessarily a blocker for this series, but it would be nice to
-> convert the handful of users of this API (you can leave soc-camera
-> untouched as it's on its way out of the kernel).
-
-I'm trying to, but I'm having an hard time fixing the new operations
-semantic, specifically on set_mbus_config, as if I have to deprecate
-the existing users, a replacement for s_mbus_config is required.
-
-In particular, the old API seems to work as follows:
-1) Report all supported config options through g_mbus_config
-2) Apply the requested ones (assumed to be in the set of configurable
-ones) though s_mbus_config.
-
-There is no mention of how to treat unsupported configuration
-parameters, no mention of how handle configuration errors, if
-s_mbus_config should behave like set_fmt (update the received
-configuration to reflect the current status and don't fail if the
-configuration cannot be applied).
-
-The new operation has a different semantic (which still has to be
-defined) particularly:
-1) get_mbus_config() reports the -current- media bus configuration, not the
-list of supported options that could be tweaked.
-2) set_mbus_config() has the following behavior specified:
-  - Do not fail if received config is unsupported, update it to
-    reflect the current configuration
-  - Apply changes to the supported configuration options, ignore the
-    non supported one, but do not fail.
-
-I'm still trying to understand if a new set_mbus_config() is actually
-welcome or not, but apart from this, I think porting existing users to
-the new API, even if it could be made to compile successfully will
-change quite some behaviour, and honestly I'm not sure we want to go
-that way, or keep both the existing operations and only deprecate the
-existing one in the documentation.
-
-For reference ov6650.c is the only mainline user of s_mbus_config I
-can see as well pxa_camera is the only platform driver using
-g_mbus_config. Porting both to the new API would require testing I
-cannot perform probably, or would you be ok with just compile testing
-it ?
-
-Thanks
-   j
-
->
 > > ---
-> >  include/media/v4l2-subdev.h | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
 > >
-> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > index d1a5e9d1ea63..9bf14c41626d 100644
-> > --- a/include/media/v4l2-subdev.h
-> > +++ b/include/media/v4l2-subdev.h
-> > @@ -466,7 +466,9 @@ struct v4l2_mbus_pad_config {
-> >   *
-> >   * @query_dv_timings: callback for VIDIOC_QUERY_DV_TIMINGS() ioctl handler code.
-> >   *
-> > - * @g_mbus_config: get supported mediabus configurations
-> > + * @g_mbus_config: get supported mediabus configurations. This operation is
-> > + *		   deprecated in favour of the get_mbus_config() pad operation
-> > + *		   and should not be used by new software.
-> >   *
-> >   * @s_mbus_config: set a certain mediabus configuration. This operation is added
-> >   *	for compatibility with soc-camera drivers and should not be used by new
+> > While fixing Rob's reported bug on v9 I realized thanks to a
+> > dt_binding_check warning that the i2c-mux child nodes where under-specified.
+> >
+> > This fixup epxands the i2c-mux child nodes description and updates the
+> > example to match our currently-out-of-tree DTS files for GMSL platforms.
+> >
+> > dt_binding_check still reports a warning:
+> >
+> > Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml: camera@51: reg: [[81, 97]] is too short
+> > Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml: camera@52: reg: [[82, 98]] is too short
+> > Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml: camera@53: reg: [[83, 99]] is too short
+> > Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml: camera@54: reg: [[84, 100]] is too short
 >
-> --
-> Regards,
+> Is too short? That seems odd. We accept 1, 2, or 3 values in the reg
+> (for the serializer, camera, mcu addresses) but those values are
+> specific to the camera device, and are managed by that driver and
+> shouldn't be validated here.
+
+I think it's expected them to be validated against this schema, not
+sure what's the warning about though.
+
 >
-> Laurent Pinchart
+>
+> >
+> > Which I was not able to silence.
+> > ---
+> >  .../bindings/media/i2c/maxim,max9286.yaml     | 86 +++++++++++++++++--
+> >  1 file changed, 77 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > index f9d3e5712c59..d9bd19caed2f 100644
+> > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > @@ -130,9 +130,7 @@ properties:
+> >      description: |
+> >        Each GMSL link is modelled as a child bus of an i2c bus
+> >        multiplexer/switch, in accordance with bindings described in
+> > -      Documentation/devicetree/bindings/i2c/i2c-mux.txt. The serializer
+> > -      device on the remote end of the GMSL link shall be modelled as a child
+> > -      node of the corresponding I2C bus.
+> > +      Documentation/devicetree/bindings/i2c/i2c-mux.txt.
+> >
+> >      properties:
+> >        '#address-cells':
+> > @@ -141,7 +139,74 @@ properties:
+> >        '#size-cells':
+> >          const: 0
+> >
+> > -  additionalProperties: false
+> > +    patternProperties:
+> > +      "^i2c@[0-3]$":
+> > +        type: object
+> > +        description: |
+> > +          Child node of the i2c bus multiplexer which represents a GMSL link.
+> > +          Each serializer device on the GMSL link remote end is represented with
+> > +          an i2c-mux child node. The MAX9286 chip supports up to 4 GMSL
+> > +          channels.
+> > +
+> > +        properties:
+> > +          '#address-cells':
+> > +            const: 1
+> > +
+> > +          '#size-cells':
+> > +            const: 0
+> > +
+> > +          reg:
+> > +            description: The index of the GMSL channel.
+> > +            maxItems: 1
+> > +
+> > +        patternProperties:
+> > +          "^camera@[0-9]+":
+>
+> This value after @ represents a non 0x prefixed hex value, where your
+> regex will only match numerical values.
+>
+> 	"^camera@[a-f0-9]+":
+>
+>
+>
+> is likely therefore required.
+>
+
+Uh, correct
+
+> I see other uses of this patternProperties also terminate the regex with
+> a $ (end of line) but that confuses me, as the node is often presented
+> with the opening brace after the name and identifier:
+>
+>  (i.e.)
+>    camera@52 {
+>
+> But perhaps the validator extracts the node name and reg and matches on
+> that directly in which case it would be
+>
+> 	"^camera@[a-f0-9]+$":
+
+I've initially used '$' as well then removed it for the same reason.
+MAybe the patter is only matched against the node name, leaving out the
+rest of the line.
+
+>
+>
+>
+> > +            type: object
+> > +            description: |
+> > +              The remote camera device, composed by a GMSL serializer and a
+> > +              connected video source.
+> > +
+> > +            properties:
+> > +              compatible:
+> > +                description: The remote device compatible string.
+> > +
+> > +              reg:
+> > +                description: |
+> > +                  The I2C addresses to be assigned to the remote devices through
+> > +                  address reprogramming. The number of entries depends on the
+> > +                  requirements of the currently connected remote device.
+> > +
+> > +              port:
+> > +                type: object
+> > +
+> > +                properties:
+> > +                  endpoint:
+> > +                    type: object
+> > +
+> > +                    properties:
+> > +                      remote-endpoint:
+> > +                        description: phandle to the MAX9286 sink endpoint.
+> > +
+> > +                    required:
+> > +                      - remote-endpoint
+> > +
+> > +                    additionalProperties: false
+> > +
+> > +                required:
+> > +                  - endpoint
+> > +
+> > +                additionalProperties: false
+> > +
+> > +            required:
+> > +              - compatible
+> > +              - reg
+> > +              - port
+> > +
+> > +            additionalProperties: false
+> > +
+> > +        additionalProperties: false
+> > +
+> > +    additionalProperties: false
+> >
+>
+>
+> Wow, is it required to specify additionalProperties: false quite so many
+> times?
+
+I -think- so, it's one per section, and unless it's by default it
+makes sense to have it there ?
+
+>
+>
+> >  required:
+> >    - compatible
+> > @@ -220,11 +285,11 @@ examples:
+> >            i2c@0 {
+> >              #address-cells = <1>;
+> >              #size-cells = <0>;
+> > -
+> >              reg = <0>;
+> >
+> >              camera@51 {
+> > -              reg = <0x51>;
+> > +              compatible = "imi,rdacm20";
+> > +              reg = <0x51 0x61>;
+> >
+> >                port {
+> >                  rdacm20_out0: endpoint {
+> > @@ -241,7 +306,8 @@ examples:
+> >              reg = <1>;
+> >
+> >              camera@52 {
+> > -              reg = <0x52>;
+> > +              compatible = "imi,rdacm20";
+> > +              reg = <0x52 0x62>;
+> >
+> >                port {
+> >                  rdacm20_out1: endpoint {
+> > @@ -257,7 +323,8 @@ examples:
+> >              reg = <2>;
+> >
+> >              camera@53 {
+> > -              reg = <0x53>;
+> > +              compatible = "imi,rdacm20";
+> > +              reg = <0x53 0x63>;
+> >
+> >                port {
+> >                  rdacm20_out2: endpoint {
+> > @@ -273,7 +340,8 @@ examples:
+> >              reg = <3>;
+> >
+> >              camera@54 {
+> > -              reg = <0x54>;
+> > +              compatible = "imi,rdacm20";
+> > +              reg = <0x54 0x64>;
+> >
+> >                port {
+> >                  rdacm20_out3: endpoint {
+> > --
+> > 2.26.2
+> >
+>
