@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 345AD1D36C7
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 18:43:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B9B71D36C9
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 18:43:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726367AbgENQmw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726383AbgENQmw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 14 May 2020 12:42:52 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:37853 "EHLO
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:52969 "EHLO
         relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726037AbgENQmw (ORCPT
+        with ESMTP id S1726304AbgENQmw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 14 May 2020 12:42:52 -0400
 X-Originating-IP: 93.34.118.233
 Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 4F1791C0002;
-        Thu, 14 May 2020 16:42:47 +0000 (UTC)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 500821C000C;
+        Thu, 14 May 2020 16:42:49 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
@@ -25,9 +25,9 @@ Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
         kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
         hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v3 4/8] media: pxa_camera: Use the new set_mbus_config op
-Date:   Thu, 14 May 2020 18:45:36 +0200
-Message-Id: <20200514164540.507233-6-jacopo+renesas@jmondi.org>
+Subject: [PATCH v3 5/8] media: v4l2-subdev: Deprecate g_mbus_config video op
+Date:   Thu, 14 May 2020 18:45:37 +0200
+Message-Id: <20200514164540.507233-7-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20200514164540.507233-1-jacopo+renesas@jmondi.org>
 References: <20200514164540.507233-1-jacopo+renesas@jmondi.org>
@@ -38,277 +38,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move the PXA camera driver to use the new set_mbus_config pad operation.
-For this platform the change is not only cosmetic, as the pxa driver is
-currently the only driver in mainline to make use of the g_mbus_config
-and s_mbus_config video operations.
+Deprecate 'g_mbus_config' video operation in favor of the newly
+introduced 'get_mbus_config' pad operation.
 
-The existing driver semantic is the following:
-- Collect all supported mbus config flags from the remote end
-- Match them with the supported PXA mbus configuration flags
-- If the remote subdevice allows multiple options for for VSYNC, HSYNC
-  and PCLK polarity, use platform data requested settings
-
-The semantic of the new get_mbus_config and set_mbus_config differs from
-the corresponding video ops, particularly in the fact get_mbus_config
-reprorts the current mbus configuration and not the set of supported
-configuration options, and set_mbus_config always reporting the actual
-mbus configuration applied to the remote subdevice.
-
-Adapt the driver to perform the following
-- Set the remote subdevice mbus configuration according to the PXA
-  platform data preferences.
-- If the applied configuration differs from the requested one (i.e. the
-  remote subdevice does not allow changing one setting) make sure that
-  - The remote end does not claim for DATA_ACTIVE_LOW, which seems not
-    supported by the platform
-  - The bus mastering role are not equal (i.e. if one operates as slave, the
-    other one as to operate as master)
-
-While at there remove a few checks performed on the media bus
-configuration at get_format() time as they do not belong there.
-
+Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 ---
- drivers/media/platform/pxa_camera.c | 184 +++++++---------------------
- 1 file changed, 45 insertions(+), 139 deletions(-)
+ include/media/v4l2-subdev.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/pxa_camera.c b/drivers/media/platform/pxa_camera.c
-index 3c5fe737d36f..c008a7a9b62f 100644
---- a/drivers/media/platform/pxa_camera.c
-+++ b/drivers/media/platform/pxa_camera.c
-@@ -605,42 +605,6 @@ static const struct pxa_mbus_pixelfmt *pxa_mbus_get_fmtdesc(
- 	return pxa_mbus_find_fmtdesc(code, mbus_fmt, ARRAY_SIZE(mbus_fmt));
- }
- 
--static unsigned int pxa_mbus_config_compatible(const struct v4l2_mbus_config *cfg,
--					unsigned int flags)
--{
--	unsigned long common_flags;
--	bool hsync = true, vsync = true, pclk, data, mode;
--	bool mipi_lanes, mipi_clock;
--
--	common_flags = cfg->flags & flags;
--
--	switch (cfg->type) {
--	case V4L2_MBUS_PARALLEL:
--		hsync = common_flags & (V4L2_MBUS_HSYNC_ACTIVE_HIGH |
--					V4L2_MBUS_HSYNC_ACTIVE_LOW);
--		vsync = common_flags & (V4L2_MBUS_VSYNC_ACTIVE_HIGH |
--					V4L2_MBUS_VSYNC_ACTIVE_LOW);
--		/* fall through */
--	case V4L2_MBUS_BT656:
--		pclk = common_flags & (V4L2_MBUS_PCLK_SAMPLE_RISING |
--				       V4L2_MBUS_PCLK_SAMPLE_FALLING);
--		data = common_flags & (V4L2_MBUS_DATA_ACTIVE_HIGH |
--				       V4L2_MBUS_DATA_ACTIVE_LOW);
--		mode = common_flags & (V4L2_MBUS_MASTER | V4L2_MBUS_SLAVE);
--		return (!hsync || !vsync || !pclk || !data || !mode) ?
--			0 : common_flags;
--	case V4L2_MBUS_CSI2_DPHY:
--		mipi_lanes = common_flags & V4L2_MBUS_CSI2_LANES;
--		mipi_clock = common_flags & (V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK |
--					     V4L2_MBUS_CSI2_CONTINUOUS_CLOCK);
--		return (!mipi_lanes || !mipi_clock) ? 0 : common_flags;
--	default:
--		WARN_ON(1);
--		return -EINVAL;
--	}
--	return 0;
--}
--
- /**
-  * struct pxa_camera_format_xlate - match between host and sensor formats
-  * @code: code of a sensor provided format
-@@ -1231,31 +1195,6 @@ static irqreturn_t pxa_camera_irq(int irq, void *data)
- 	return IRQ_HANDLED;
- }
- 
--static int test_platform_param(struct pxa_camera_dev *pcdev,
--			       unsigned char buswidth, unsigned long *flags)
--{
--	/*
--	 * Platform specified synchronization and pixel clock polarities are
--	 * only a recommendation and are only used during probing. The PXA270
--	 * quick capture interface supports both.
--	 */
--	*flags = (pcdev->platform_flags & PXA_CAMERA_MASTER ?
--		  V4L2_MBUS_MASTER : V4L2_MBUS_SLAVE) |
--		V4L2_MBUS_HSYNC_ACTIVE_HIGH |
--		V4L2_MBUS_HSYNC_ACTIVE_LOW |
--		V4L2_MBUS_VSYNC_ACTIVE_HIGH |
--		V4L2_MBUS_VSYNC_ACTIVE_LOW |
--		V4L2_MBUS_DATA_ACTIVE_HIGH |
--		V4L2_MBUS_PCLK_SAMPLE_RISING |
--		V4L2_MBUS_PCLK_SAMPLE_FALLING;
--
--	/* If requested data width is supported by the platform, use it */
--	if ((1 << (buswidth - 1)) & pcdev->width_flags)
--		return 0;
--
--	return -EINVAL;
--}
--
- static void pxa_camera_setup_cicr(struct pxa_camera_dev *pcdev,
- 				  unsigned long flags, __u32 pixfmt)
- {
-@@ -1598,99 +1537,71 @@ static int pxa_camera_init_videobuf2(struct pxa_camera_dev *pcdev)
-  */
- static int pxa_camera_set_bus_param(struct pxa_camera_dev *pcdev)
- {
-+	unsigned int bus_width = pcdev->current_fmt->host_fmt->fourcc;
- 	struct v4l2_mbus_config cfg = {.type = V4L2_MBUS_PARALLEL,};
- 	u32 pixfmt = pcdev->current_fmt->host_fmt->fourcc;
--	unsigned long bus_flags, common_flags;
-+	int mbus_config;
- 	int ret;
- 
--	ret = test_platform_param(pcdev,
--				  pcdev->current_fmt->host_fmt->bits_per_sample,
--				  &bus_flags);
--	if (ret < 0)
--		return ret;
--
--	ret = sensor_call(pcdev, video, g_mbus_config, &cfg);
--	if (!ret) {
--		common_flags = pxa_mbus_config_compatible(&cfg,
--							  bus_flags);
--		if (!common_flags) {
--			dev_warn(pcdev_to_dev(pcdev),
--				 "Flags incompatible: camera 0x%x, host 0x%lx\n",
--				 cfg.flags, bus_flags);
--			return -EINVAL;
--		}
--	} else if (ret != -ENOIOCTLCMD) {
--		return ret;
--	} else {
--		common_flags = bus_flags;
-+	if (!((1 << (bus_width - 1)) & pcdev->width_flags)) {
-+		dev_err(pcdev_to_dev(pcdev), "Unsupported bus width %u",
-+			bus_width);
-+		return -EINVAL;
- 	}
- 
- 	pcdev->channels = 1;
- 
- 	/* Make choices, based on platform preferences */
--	if ((common_flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH) &&
--	    (common_flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)) {
--		if (pcdev->platform_flags & PXA_CAMERA_HSP)
--			common_flags &= ~V4L2_MBUS_HSYNC_ACTIVE_HIGH;
--		else
--			common_flags &= ~V4L2_MBUS_HSYNC_ACTIVE_LOW;
--	}
-+	mbus_config = 0;
-+	if (pcdev->platform_flags & PXA_CAMERA_HSP)
-+		mbus_config |= V4L2_MBUS_HSYNC_ACTIVE_HIGH;
-+	else
-+		mbus_config |= V4L2_MBUS_HSYNC_ACTIVE_LOW;
- 
--	if ((common_flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH) &&
--	    (common_flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)) {
--		if (pcdev->platform_flags & PXA_CAMERA_VSP)
--			common_flags &= ~V4L2_MBUS_VSYNC_ACTIVE_HIGH;
--		else
--			common_flags &= ~V4L2_MBUS_VSYNC_ACTIVE_LOW;
--	}
-+	if (pcdev->platform_flags & PXA_CAMERA_VSP)
-+		mbus_config |= V4L2_MBUS_VSYNC_ACTIVE_HIGH;
-+	else
-+		mbus_config |= V4L2_MBUS_VSYNC_ACTIVE_LOW;
- 
--	if ((common_flags & V4L2_MBUS_PCLK_SAMPLE_RISING) &&
--	    (common_flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)) {
--		if (pcdev->platform_flags & PXA_CAMERA_PCP)
--			common_flags &= ~V4L2_MBUS_PCLK_SAMPLE_RISING;
--		else
--			common_flags &= ~V4L2_MBUS_PCLK_SAMPLE_FALLING;
--	}
-+	if (pcdev->platform_flags & PXA_CAMERA_PCP)
-+		mbus_config |= V4L2_MBUS_PCLK_SAMPLE_RISING;
-+	else
-+		mbus_config |= V4L2_MBUS_PCLK_SAMPLE_FALLING;
- 
--	cfg.flags = common_flags;
--	ret = sensor_call(pcdev, video, s_mbus_config, &cfg);
-+	cfg.flags = mbus_config;
-+	ret = sensor_call(pcdev, pad, set_mbus_config, 0, &cfg);
- 	if (ret < 0 && ret != -ENOIOCTLCMD) {
--		dev_dbg(pcdev_to_dev(pcdev),
--			"camera s_mbus_config(0x%lx) returned %d\n",
--			common_flags, ret);
-+		dev_err(pcdev_to_dev(pcdev),
-+			"Failed to call set_mbus_config: %d\n", ret);
- 		return ret;
- 	}
- 
--	pxa_camera_setup_cicr(pcdev, common_flags, pixfmt);
--
--	return 0;
--}
--
--static int pxa_camera_try_bus_param(struct pxa_camera_dev *pcdev,
--				    unsigned char buswidth)
--{
--	struct v4l2_mbus_config cfg = {.type = V4L2_MBUS_PARALLEL,};
--	unsigned long bus_flags, common_flags;
--	int ret = test_platform_param(pcdev, buswidth, &bus_flags);
--
--	if (ret < 0)
--		return ret;
--
--	ret = sensor_call(pcdev, video, g_mbus_config, &cfg);
--	if (!ret) {
--		common_flags = pxa_mbus_config_compatible(&cfg,
--							  bus_flags);
--		if (!common_flags) {
--			dev_warn(pcdev_to_dev(pcdev),
--				 "Flags incompatible: camera 0x%x, host 0x%lx\n",
--				 cfg.flags, bus_flags);
-+	/*
-+	 * If the requested media bus configuration has not been fully applied
-+	 * make sure it is supported by the platform.
-+	 *
-+	 * PXA does not support V4L2_MBUS_DATA_ACTIVE_LOW and the bus mastering
-+	 * roles should differ.
-+	 */
-+	if (cfg.flags != mbus_config) {
-+		unsigned int pxa_flags;
-+
-+		pxa_flags = pcdev->platform_flags & PXA_CAMERA_MASTER
-+			  ? V4L2_MBUS_MASTER : V4L2_MBUS_SLAVE;
-+
-+		if ((cfg.flags & V4L2_MBUS_DATA_ACTIVE_LOW) ||
-+		    ((pxa_flags & (V4L2_MBUS_MASTER | V4L2_MBUS_SLAVE)) ==
-+		     (cfg.flags & (V4L2_MBUS_MASTER | V4L2_MBUS_SLAVE)))) {
-+			dev_err(pcdev_to_dev(pcdev),
-+				"Failed to apply platform requested mbus configuration %u",
-+				mbus_config);
- 			return -EINVAL;
- 		}
--	} else if (ret == -ENOIOCTLCMD) {
--		ret = 0;
- 	}
- 
--	return ret;
-+	pxa_camera_setup_cicr(pcdev, mbus_config, pixfmt);
-+
-+	return 0;
- }
- 
- static const struct pxa_mbus_pixelfmt pxa_camera_formats[] = {
-@@ -1738,11 +1649,6 @@ static int pxa_camera_get_formats(struct v4l2_device *v4l2_dev,
- 		return 0;
- 	}
- 
--	/* This also checks support for the requested bits-per-sample */
--	ret = pxa_camera_try_bus_param(pcdev, fmt->bits_per_sample);
--	if (ret < 0)
--		return 0;
--
- 	switch (code.code) {
- 	case MEDIA_BUS_FMT_UYVY8_2X8:
- 		formats++;
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index 8d5f4a255b87..7c77092ae9b7 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -402,7 +402,9 @@ struct v4l2_mbus_frame_desc {
+  *
+  * @query_dv_timings: callback for VIDIOC_QUERY_DV_TIMINGS() ioctl handler code.
+  *
+- * @g_mbus_config: get supported mediabus configurations
++ * @g_mbus_config: get supported mediabus configurations. This operation is
++ *		   deprecated in favour of the get_mbus_config() pad operation
++ *		   and should not be used by new software.
+  *
+  * @s_mbus_config: set a certain mediabus configuration. This operation is added
+  *	for compatibility with soc-camera drivers and should not be used by new
 -- 
 2.26.2
 
