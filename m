@@ -2,673 +2,260 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E9FA1D3FCF
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 23:15:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C4D01D41C0
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2020 01:38:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727819AbgENVPX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 May 2020 17:15:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45518 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726201AbgENVPX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 May 2020 17:15:23 -0400
-Received: from kernel.org (unknown [104.132.0.74])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EF0042065C;
-        Thu, 14 May 2020 21:15:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589490921;
-        bh=cIrW1apDcIn0hmKtW8dVFxzMGNgBn0WktMObcrcu3r4=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=GnmIdRH581xRpG67PyphnzYWof0VwVUhH01lvW0Q4G9t0LSksP0RtymU/DYqP+1sf
-         2krmAkr7V/lpS28CJkHXPUDPz8VJFQnOomwe/QA1017s/K8UTUnJPpIKECYeF1CABH
-         8baH61lOZKnNL2ctcmOpXv5aDkZ0gfFHPFXeUqdk=
-Content-Type: text/plain; charset="utf-8"
+        id S1728286AbgENXiz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 May 2020 19:38:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36696 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726163AbgENXiy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 14 May 2020 19:38:54 -0400
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 856DAC061A0C
+        for <linux-media@vger.kernel.org>; Thu, 14 May 2020 16:38:54 -0700 (PDT)
+Received: by mail-qk1-x741.google.com with SMTP id i5so720339qkl.12
+        for <linux-media@vger.kernel.org>; Thu, 14 May 2020 16:38:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=jbaw0/cMUjrfO1oPa3pk+E2eiJXTX1fTABBIaC6wiG0=;
+        b=gvv/e0onhd4GR/067vRbxkw9u0RX/1J4zBNfS0YVKR0ggPZDdb/p6dM8f3H0bVo4VH
+         jeKivWdZdR2xa7nvPk0XFBE5dMy89ktaFA+1ItwD8VWLdGUG94rIOi4q3kKrXwS0oDi+
+         2tJWiI2uljSZm4CnIMf3x7HHde1gxR3Rw3QAbfiJGE4/dj2Er+OnDiuPn8KH3EGsbKPt
+         6oAe4RRWnECJH3Rb0IT658gGfNf6FSPtjS8iZehOFwrvgdXKRL404ZeqClhqe3j9VQvP
+         Qw0BuJy60hbwF2z8XPyAEin3p1Wq63PDsAMsz8CrKXVBzKYoqxugAfzEVNprCYJqTQMC
+         McxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=jbaw0/cMUjrfO1oPa3pk+E2eiJXTX1fTABBIaC6wiG0=;
+        b=em5uTOuv2ID28sG/pEzYuwa+5hVcobixVGmhdX5TloU3Vb7mGikDUifsJPop+zIRAh
+         j3IASPI6jW0yJEEqAVFkLG6eqlIT+7wLWqLSeIyccD/dciEHN5Oru6Km85YdaahhU7G8
+         UFU4yesz4BEfKxbFzwA2vBWElXi4Ghz3G84dSkefeBlZn40ZPfS2MBD6bR1dLevE34Pm
+         R4XDYBS4MQAAeGpaVZEKOhbPMmPr4jqMGbKo54Fg6vzrqG0IywWRedNOOGqeWefWiBEW
+         RxSq8zUmyBZfWa/9PUg+C/ZHAudnqGT1+O0OYeFMEC0/YzLG7Zc92JurAqNOik5zboC4
+         pJQA==
+X-Gm-Message-State: AOAM532lsy9eA2Boj9QFSv+eGAwC7EzzylJjtvWfGjeWB/ZUJLTtnOUP
+        iUeVbf37vxSMi51sog7qN1vq8g==
+X-Google-Smtp-Source: ABdhPJy+L+4w17J7N+kp96fQxmIlAp+BUXSTQzD0+1cHnNL6jCVgbxsBjQgTpy5Gx9qSx5mYkB9Cww==
+X-Received: by 2002:a37:a917:: with SMTP id s23mr797338qke.443.1589499533668;
+        Thu, 14 May 2020 16:38:53 -0700 (PDT)
+Received: from nicolas-tpx395 ([192.222.193.21])
+        by smtp.gmail.com with ESMTPSA id t130sm327724qka.14.2020.05.14.16.38.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 14 May 2020 16:38:52 -0700 (PDT)
+Message-ID: <67e1ba850c5fbf84b09ec8266ab70dd08a10c2e3.camel@ndufresne.ca>
+Subject: Re: [virtio-dev] Re: Fwd: Qemu Support for Virtio Video V4L2 driver
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Keiichi Watanabe <keiichiw@chromium.org>,
+        Dmitry Sepp <dmitry.sepp@opensynergy.com>
+Cc:     Saket Sinha <saket.sinha89@gmail.com>,
+        Kiran Pawar <Kiran.Pawar@opensynergy.com>,
+        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
+        qemu-devel@nongnu.org, virtio-dev@lists.oasis-open.org,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Emil Velikov <emil.velikov@collabora.com>
+Date:   Thu, 14 May 2020 19:38:50 -0400
+In-Reply-To: <CAD90VcYeF7drbYNDiEioPBHcQcifqDYUia_CKqNLv_5VAMjPKw@mail.gmail.com>
+References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
+         <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
+         <CAK25hWM-hLdk=MSKgceumOUo9ZNBrrmM8qSe7MvTUAPGmur_HQ@mail.gmail.com>
+         <2515515.r9knKAEANn@os-lin-dmo>
+         <CAD90VcYeF7drbYNDiEioPBHcQcifqDYUia_CKqNLv_5VAMjPKw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.1 (3.36.1-1.fc32) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20200511195534.1207927-3-lkundrak@v3.sk>
-References: <20200511195534.1207927-1-lkundrak@v3.sk> <20200511195534.1207927-3-lkundrak@v3.sk>
-Subject: Re: [PATCH 2/2] clk: mmp2: Add audio clock controller driver
-From:   Stephen Boyd <sboyd@kernel.org>
-Cc:     Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-clk@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>
-To:     Lubomir Rintel <lkundrak@v3.sk>,
-        Michael Turquette <mturquette@baylibre.com>
-Date:   Thu, 14 May 2020 14:15:20 -0700
-Message-ID: <158949092023.215346.2636797537388292572@swboyd.mtv.corp.google.com>
-User-Agent: alot/0.9
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Lubomir Rintel (2020-05-11 12:55:34)
-> diff --git a/drivers/clk/mmp/clk-audio.c b/drivers/clk/mmp/clk-audio.c
-> new file mode 100644
-> index 000000000000..ee89b97dc09a
-> --- /dev/null
-> +++ b/drivers/clk/mmp/clk-audio.c
-> @@ -0,0 +1,563 @@
-> +// SPDX-License-Identifier: GPL-2.0-or-later
-> +/*
-> + * MMP Audio Clock Controller driver
-> + *
-> + * Copyright (C) 2020 Lubomir Rintel <lkundrak@v3.sk>
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/clk-provider.h>
+Le lundi 11 mai 2020 à 20:49 +0900, Keiichi Watanabe a écrit :
+> Hi,
+> 
+> Thanks Saket for your feedback. As Dmitry mentioned, we're focusing on
+> video encoding and decoding, not camera. So, my reply was about how to
+> implement paravirtualized video codec devices.
+> 
+> On Mon, May 11, 2020 at 8:25 PM Dmitry Sepp <dmitry.sepp@opensynergy.com>
+> wrote:
+> > Hi Saket,
+> > 
+> > On Montag, 11. Mai 2020 13:05:53 CEST Saket Sinha wrote:
+> > > Hi Keiichi,
+> > > 
+> > > I do not support the approach of  QEMU implementation forwarding
+> > > requests to the host's vicodec module since  this can limit the scope
+> > > of the virtio-video device only for testing,
+> > 
+> > That was my understanding as well.
+> 
+> Not really because the API which the vicodec provides is V4L2 stateful
+> decoder interface [1], which are also used by other video drivers on
+> Linux.
+> The difference between vicodec and actual device drivers is that
+> vicodec performs decoding in the kernel space without using special
+> video devices. In other words, vicodec is a software decoder in kernel
+> space which provides the same interface with actual video drivers.
+> Thus, if the QEMU implementation can forward virtio-video requests to
+> vicodec, it can forward them to the actual V4L2 video decoder devices
+> as well and VM gets access to a paravirtualized video device.
+> 
+> The reason why we discussed vicodec in the previous thread was it'll
+> allow us to test the virtio-video driver without hardware requirement.
+> 
+> [1] https://www.kernel.org/doc/html/latest/media/uapi/v4l/dev-decoder.html
+> 
+> > > which instead can be used with multiple use cases such as -
+> > > 
+> > > 1. VM gets access to paravirtualized  camera devices which shares the
+> > > video frames input through actual HW camera attached to Host.
+> > 
+> > This use-case is out of the scope of virtio-video. Initially I had a plan to
+> > support capture-only streams like camera as well, but later the decision was
+> > made upstream that camera should be implemented as separate device type. We
+> > still plan to implement a simple frame capture capability as a downstream
+> > patch though.
+> > 
+> > > 2. If Host has multiple video devices (especially in ARM SOCs over
+> > > MIPI interfaces or USB), different VM can be started or hotplugged
+> > > with selective video streams from actual HW video devices.
+> > 
+> > We do support this in our device implementation. But spec in general has no
+> > requirements or instructions regarding this. And it is in fact flexible
+> > enough
+> > to provide abstraction on top of several HW devices.
+> > 
+> > > Also instead of using libraries like Gstreamer in Host userspace, they
+> > > can also be used inside the VM userspace after getting access to
+> > > paravirtualized HW camera devices .
+> 
+> Regarding Gstreamer, I intended this video decoding API [2]. If QEMU
+> can translate virtio-video requests to this API, we can easily support
+> multiple platforms.
+> I'm not sure how feasible it is though, as I have no experience of
+> using this API by myself...
 
-Preferably this isn't a clk consumer and a clk provider. If a clk is
-needed to read/write registers then look at using pm_clk code to make
-this driver runtime PM aware and turn on clks when necessary.
+Not sure which API you aim exactly, but what one need to remember is that
+mapping virtio-video CODEC on top of VAAPI, V4L2 Stateless, NVDEC or other type
+of "stateless" CODEC is not trivial and can't be done without userspace. Notably
+because we don't want to do bitstream parsing in the kernel on the main CPU as
+security would otherwise be very hard to guaranty. The other driver using same
+API as virtio-video do bitstream parsing on a dedicated co-processor (through
+firmware blobs though).
 
-> +#include <linux/io.h>
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/slab.h>
-> +#include <dt-bindings/clock/marvell,mmp2-audio.h>
-> +
-> +enum {
-> +       SSPA_AUD_CTRL           =3D 0x04,
-> +       SSPA_AUD_PLL_CTRL0      =3D 0x08,
-> +       SSPA_AUD_PLL_CTRL1      =3D 0x0c,
-> +};
+Having bridges between virtio-video, qemu and some abstraction library like
+FFMPEG or GStreamer is certainly the best solution if you want to virtualize any
+type of HW accelerated decoder or if you need to virtualized something
+proprietary (like NVDEC). Please shout if you need help.
 
-Just make defines instead of enum please.
+> 
+> [2] 
+> https://gstreamer.freedesktop.org/documentation/tutorials/playback/hardware-accelerated-video-decoding.html
+> 
+> Best regards,
+> Keiichi
+> 
+> > 
+> > Regarding the cameras, unfortunately same as above.
+> > 
+> > Best regards,
+> > Dmitry.
+> > 
+> > > Regards,
+> > > Saket Sinha
+> > > 
+> > > On Mon, May 11, 2020 at 12:20 PM Keiichi Watanabe <keiichiw@chromium.org>
+> > wrote:
+> > > > Hi Dmitry,
+> > > > 
+> > > > On Mon, May 11, 2020 at 6:40 PM Dmitry Sepp <dmitry.sepp@opensynergy.com
+> > > > >
+> > wrote:
+> > > > > Hi Saket and all,
+> > > > > 
+> > > > > As we are working with automotive platforms, unfortunately we don't
+> > > > > plan
+> > > > > any Qemu reference implementation so far.
+> > > > > 
+> > > > > Of course we are ready to support the community if any help is needed.
+> > > > > Is
+> > > > > there interest in support for the FWHT format only for testing purpose
+> > > > > or you want a full-featured implementation on the QEMU side?
+> > > > 
+> > > > I guess we don't need to implement the codec algorithm in QEMU.
+> > > > Rather, QEMU forwards virtio-video requests to the host video device
+> > > > or a software library such as GStreamer or ffmpeg.
+> > > > So, what we need to implement in QEMU is a kind of API translation,
+> > > > which shouldn't care about actual video formats so much.
+> > > > 
+> > > > Regarding the FWHT format discussed in the patch thread [1], in my
+> > > > understanding, Hans suggested to have QEMU implementation forwarding
+> > > > requests to the host's vicodec module [2].
+> > > > Then, we'll be able to test the virtio-video driver on QEMU on Linux
+> > > > even if the host Linux has no hardware video decoder.
+> > > > (Please correct me if I'm wrong.)
+> > > > 
+> > > > Let me add Hans and Linux media ML in CC.
+> > > > 
+> > > > [1]  https://patchwork.linuxtv.org/patch/61717/
+> > > > [2] https://lwn.net/Articles/760650/
+> > > > 
+> > > > Best regards,
+> > > > Keiichi
+> > > > 
+> > > > > Please note that the spec is not finalized yet and a major update is
+> > > > > now
+> > > > > discussed with upstream and the Chrome OS team, which is also
+> > > > > interested
+> > > > > and deeply involved in the process. The update mostly implies some
+> > > > > rewording and reorganization of data structures, but for sure will
+> > > > > require a driver rework.
+> > > > > 
+> > > > > Best regards,
+> > > > > Dmitry.
+> > > > > 
+> > > > > On Samstag, 9. Mai 2020 16:11:43 CEST Saket Sinha wrote:
+> > > > > > Hi,
+> > > > > > 
+> > > > > > As suggested on #qemu-devel IRC channel, I am including virtio-dev,
+> > > > > > Gerd and Michael to point in the right direction how to move forward
+> > > > > > with Qemu support for Virtio Video V4L2 driver
+> > > > > > posted in [1].
+> > > > > > 
+> > > > > > [1]: https://patchwork.linuxtv.org/patch/61717/
+> > > > > > 
+> > > > > > Regards,
+> > > > > > Saket Sinha
+> > > > > > 
+> > > > > > On Sat, May 9, 2020 at 1:09 AM Saket Sinha <saket.sinha89@gmail.com>
+> > wrote:
+> > > > > > > Hi ,
+> > > > > > > 
+> > > > > > > This is to inquire about Qemu support for Virtio Video V4L2 driver
+> > > > > > > posted in [1].
+> > > > > > > I am currently not aware of any upstream effort for Qemu reference
+> > > > > > > implementation and would like to discuss how to proceed with the
+> > > > > > > same.
+> > > > > > > 
+> > > > > > > [1]: https://patchwork.linuxtv.org/patch/61717/
+> > > > > > > 
+> > > > > > > Regards,
+> > > > > > > Saket Sinha
+> > > > > 
+> > > > > ---------------------------------------------------------------------
+> > > > > To unsubscribe, e-mail: virtio-dev-unsubscribe@lists.oasis-open.org
+> > > > > For additional commands, e-mail: virtio-dev-help@lists.oasis-open.org
 
-> +
-> +/* SSPA Audio Control Register */
-> +#define SSPA_AUD_CTRL_SYSCLK_SHIFT             0
-> +#define SSPA_AUD_CTRL_SSPA0_MUX_SHIFT          7
-> +#define SSPA_AUD_CTRL_SSPA0_SHIFT              8
-> +#define SSPA_AUD_CTRL_SSPA1_SHIFT              16
-> +#define SSPA_AUD_CTRL_SSPA1_MUX_SHIFT          23
-> +#define SSPA_AUD_CTRL_DIV_MASK                 0x7e
-> +
-> +/* SSPA Audio PLL Control 0 Register */
-> +#define SSPA_AUD_PLL_CTRL0_DIV_OCLK_MODULO_MASK (0x7 << 28)
-> +#define SSPA_AUD_PLL_CTRL0_DIV_OCLK_MODULO(x)  ((x) << 28)
-> +#define SSPA_AUD_PLL_CTRL0_FRACT_MASK          (0xfffff << 8)
-> +#define SSPA_AUD_PLL_CTRL0_FRACT(x)            ((x) << 8)
-> +#define SSPA_AUD_PLL_CTRL0_ENA_DITHER          (1 << 7)
-> +#define SSPA_AUD_PLL_CTRL0_ICP_2UA             (0 << 5)
-> +#define SSPA_AUD_PLL_CTRL0_ICP_5UA             (1 << 5)
-> +#define SSPA_AUD_PLL_CTRL0_ICP_7UA             (2 << 5)
-> +#define SSPA_AUD_PLL_CTRL0_ICP_10UA            (3 << 5)
-> +#define SSPA_AUD_PLL_CTRL0_DIV_FBCCLK_MASK     (0x3 << 3)
-> +#define SSPA_AUD_PLL_CTRL0_DIV_FBCCLK(x)       ((x) << 3)
-> +#define SSPA_AUD_PLL_CTRL0_DIV_MCLK_MASK       (0x1 << 2)
-> +#define SSPA_AUD_PLL_CTRL0_DIV_MCLK(x)         ((x) << 2)
-> +#define SSPA_AUD_PLL_CTRL0_PD_OVPROT_DIS       (1 << 1)
-> +#define SSPA_AUD_PLL_CTRL0_PU                  (1 << 0)
-> +
-> +/* SSPA Audio PLL Control 1 Register */
-> +#define SSPA_AUD_PLL_CTRL1_SEL_FAST_CLK                (1 << 24)
-> +#define SSPA_AUD_PLL_CTRL1_CLK_SEL_MASK                (1 << 11)
-> +#define SSPA_AUD_PLL_CTRL1_CLK_SEL_AUDIO_PLL   (1 << 11)
-> +#define SSPA_AUD_PLL_CTRL1_CLK_SEL_VCXO                (0 << 11)
-> +#define SSPA_AUD_PLL_CTRL1_DIV_OCLK_PATTERN_MASK (0x7ff << 0)
-> +#define SSPA_AUD_PLL_CTRL1_DIV_OCLK_PATTERN(x) ((x) << 0)
-> +
-> +struct mmp_audio_mux {
-> +       struct clk_hw hw;
-> +       struct mmp2_audio_clk *priv;
-> +       u8 shift;
-> +       u8 flags;
-> +       int index;
-
-unsigned int index?
-
-> +};
-> +
-> +#define to_mmp_audio_mux(_hw) container_of(_hw, struct mmp_audio_mux, hw)
-> +
-> +struct mmp_audio_div {
-> +       struct clk_hw hw;
-> +       struct mmp2_audio_clk *priv;
-> +       u8 shift;
-> +       int value;
-
-unsigned int value?
-
-> +};
-> +
-> +#define to_mmp_audio_div(_hw) container_of(_hw, struct mmp_audio_div, hw)
-> +
-> +struct mmp_audio_pll {
-> +       struct clk_hw hw;
-> +       struct mmp2_audio_clk *priv;
-> +       u32 ctrl0;
-> +       u32 ctrl1;
-> +};
-> +
-> +#define to_mmp_audio_pll(_hw) container_of(_hw, struct mmp_audio_pll, hw)
-> +
-> +struct mmp2_audio_clk {
-> +       void __iomem *mmio_base;
-> +
-> +       struct clk *audio_clk;
-> +       struct clk *vctcxo_clk;
-> +       struct clk *i2s0_clk;
-> +       struct clk *i2s1_clk;
-> +
-> +       struct mmp_audio_pll audio_pll;
-> +       struct mmp_audio_mux sspa_mux;
-> +       struct mmp_audio_mux sspa1_mux;
-> +       struct mmp_audio_div sysclk;
-> +       struct mmp_audio_div sspa0;
-> +       struct mmp_audio_div sspa1;
-> +
-> +       struct clk *clk_table[3];
-> +       struct clk_onecell_data clk_data;
-> +
-> +       spinlock_t lock;
-> +};
-> +
-> +static struct {
-
-Can this be const?
-
-> +       unsigned long parent_rate;
-> +       unsigned long freq_vco;
-> +       unsigned char mclk;
-> +       unsigned char fbcclk;
-> +       unsigned short fract;
-> +} predivs[] =3D {
-> +       { 26000000, 135475200, 0, 0, 0x8a18 },
-> +       { 26000000, 147456000, 0, 1, 0x0da1 },
-> +       { 38400000, 135475200, 1, 2, 0x8208 },
-> +       { 38400000, 147456000, 1, 3, 0xaaaa },
-> +};
-> +
-> +static struct {
-
-Can this be const?
-
-> +       unsigned char divisor;
-> +       unsigned char modulo;
-> +       unsigned char pattern;
-> +} postdivs[] =3D {
-> +       {   1,  3,  0, },
-> +       {   2,  5,  0, },
-> +       {   4,  0,  0, },
-> +       {   6,  1,  1, },
-> +       {   8,  1,  0, },
-> +       {   9,  1,  2, },
-> +       {  12,  2,  1, },
-> +       {  16,  2,  0, },
-> +       {  18,  2,  2, },
-> +       {  24,  4,  1, },
-> +       {  36,  4,  2, },
-> +       {  48,  6,  1, },
-> +       {  72,  6,  2, },
-> +};
-> +
-> +static unsigned long mmp_audio_pll_recalc_rate(struct clk_hw *hw,
-> +                                              unsigned long parent_rate)
-> +{
-> +       struct mmp_audio_pll *pll =3D to_mmp_audio_pll(hw);
-> +       unsigned int prediv;
-> +       unsigned int postdiv;
-> +
-> +       for (prediv =3D 0; prediv < ARRAY_SIZE(predivs); prediv++) {
-> +               if (predivs[prediv].parent_rate !=3D parent_rate)
-> +                       continue;
-> +               for (postdiv =3D 0; postdiv < ARRAY_SIZE(postdivs); postd=
-iv++) {
-> +                       unsigned long freq;
-> +                       u32 val;
-> +
-> +                       val =3D SSPA_AUD_PLL_CTRL0_ENA_DITHER;
-> +                       val |=3D SSPA_AUD_PLL_CTRL0_PU;
-> +                       val |=3D SSPA_AUD_PLL_CTRL0_DIV_OCLK_MODULO(postd=
-ivs[postdiv].modulo);
-> +                       val |=3D SSPA_AUD_PLL_CTRL0_FRACT(predivs[prediv]=
-.fract);
-> +                       val |=3D SSPA_AUD_PLL_CTRL0_DIV_FBCCLK(predivs[pr=
-ediv].fbcclk);
-> +                       val |=3D SSPA_AUD_PLL_CTRL0_DIV_MCLK(predivs[pred=
-iv].mclk);
-> +                       if (val !=3D pll->ctrl0)
-> +                               continue;
-> +
-> +                       val =3D SSPA_AUD_PLL_CTRL1_CLK_SEL_AUDIO_PLL;
-> +                       val |=3D SSPA_AUD_PLL_CTRL1_DIV_OCLK_PATTERN(post=
-divs[postdiv].pattern);
-> +                       if (val !=3D pll->ctrl1)
-> +                               continue;
-> +
-> +                       freq =3D predivs[prediv].freq_vco;
-> +                       freq /=3D postdivs[postdiv].divisor;
-> +                       return freq;
-> +               }
-> +       }
-> +
-> +       return 0;
-> +}
-> +
-> +static long mmp_audio_pll_round_rate(struct clk_hw *hw, unsigned long ra=
-te,
-> +                                    unsigned long *parent_rate)
-> +{
-> +       unsigned int prediv;
-> +       unsigned int postdiv;
-> +       long rounded =3D 0;
-> +
-> +       for (prediv =3D 0; prediv < ARRAY_SIZE(predivs); prediv++) {
-> +               if (predivs[prediv].parent_rate !=3D *parent_rate)
-> +                       continue;
-> +               for (postdiv =3D 0; postdiv < ARRAY_SIZE(postdivs); postd=
-iv++) {
-> +                       long freq =3D predivs[prediv].freq_vco;
-> +
-> +                       freq /=3D postdivs[postdiv].divisor;
-> +                       if (freq =3D=3D rate)
-> +                               return rate;
-> +                       if (freq < rate)
-> +                               continue;
-> +                       if (rounded && freq > rounded)
-> +                               continue;
-> +                       rounded =3D freq;
-> +               }
-> +       }
-> +
-> +       return rounded;
-> +}
-> +
-> +static void mmp_audio_pll_write_rate(struct mmp_audio_pll *pll)
-> +{
-> +       struct mmp2_audio_clk *priv =3D pll->priv;
-> +
-> +       __raw_writel(pll->ctrl0, priv->mmio_base + SSPA_AUD_PLL_CTRL0);
-> +       __raw_writel(pll->ctrl1, priv->mmio_base + SSPA_AUD_PLL_CTRL1);
-> +}
-> +
-> +static int mmp_audio_pll_set_rate(struct clk_hw *hw, unsigned long rate,
-> +                                 unsigned long parent_rate)
-> +{
-> +       struct mmp_audio_pll *pll =3D to_mmp_audio_pll(hw);
-> +       struct mmp2_audio_clk *priv =3D pll->priv;
-> +       unsigned int prediv;
-> +       unsigned int postdiv;
-> +
-> +       for (prediv =3D 0; prediv < ARRAY_SIZE(predivs); prediv++) {
-> +               if (predivs[prediv].parent_rate !=3D parent_rate)
-> +                       continue;
-> +
-> +               for (postdiv =3D 0; postdiv < ARRAY_SIZE(postdivs); postd=
-iv++) {
-> +                       if (rate * postdivs[postdiv].divisor !=3D predivs=
-[prediv].freq_vco)
-> +                               continue;
-> +
-> +                       pll->ctrl0 =3D SSPA_AUD_PLL_CTRL0_ENA_DITHER;
-> +                       pll->ctrl0 |=3D SSPA_AUD_PLL_CTRL0_PU;
-> +                       pll->ctrl0 |=3D SSPA_AUD_PLL_CTRL0_DIV_OCLK_MODUL=
-O(postdivs[postdiv].modulo);
-> +                       pll->ctrl0 |=3D SSPA_AUD_PLL_CTRL0_FRACT(predivs[=
-prediv].fract);
-> +                       pll->ctrl0 |=3D SSPA_AUD_PLL_CTRL0_DIV_FBCCLK(pre=
-divs[prediv].fbcclk);
-> +                       pll->ctrl0 |=3D SSPA_AUD_PLL_CTRL0_DIV_MCLK(predi=
-vs[prediv].mclk);
-> +
-> +                       pll->ctrl1 =3D SSPA_AUD_PLL_CTRL1_CLK_SEL_AUDIO_P=
-LL;
-> +                       pll->ctrl1 |=3D SSPA_AUD_PLL_CTRL1_DIV_OCLK_PATTE=
-RN(postdivs[postdiv].pattern);
-> +
-> +                       if (__clk_is_enabled(priv->audio_clk))
-> +                               mmp_audio_pll_write_rate(pll);
-> +
-> +                       return 0;
-> +               }
-> +       }
-> +
-> +       return -ERANGE;
-> +}
-> +
-> +static int mmp_audio_pll_enable(struct clk_hw *hw)
-> +{
-> +       struct mmp_audio_pll *pll =3D to_mmp_audio_pll(hw);
-> +       struct mmp2_audio_clk *priv =3D pll->priv;
-> +
-> +       clk_prepare_enable(priv->audio_clk);
-> +       mmp_audio_pll_write_rate(pll);
-> +       return 0;
-> +}
-> +
-> +static void mmp_audio_pll_disable(struct clk_hw *hw)
-> +{
-> +       struct mmp_audio_pll *pll =3D to_mmp_audio_pll(hw);
-> +       struct mmp2_audio_clk *priv =3D pll->priv;
-> +
-> +       clk_disable_unprepare(priv->audio_clk);
-> +}
-> +
-> +const struct clk_ops mmp_audio_pll_ops =3D {
-> +       .enable =3D mmp_audio_pll_enable,
-> +       .disable =3D mmp_audio_pll_disable,
-> +       .recalc_rate =3D mmp_audio_pll_recalc_rate,
-> +       .round_rate =3D mmp_audio_pll_round_rate,
-> +       .set_rate =3D mmp_audio_pll_set_rate,
-> +};
-> +
-> +static u8 mmp_audio_mux_get_parent(struct clk_hw *hw)
-> +{
-> +       struct mmp_audio_mux *mux =3D to_mmp_audio_mux(hw);
-> +       struct mmp2_audio_clk *priv =3D mux->priv;
-> +       u32 val;
-> +
-> +       if (__clk_is_enabled(priv->audio_clk)) {
-> +               val =3D __raw_readl(priv->mmio_base + SSPA_AUD_CTRL);
-> +               val >>=3D mux->shift;
-> +               val &=3D 1;
-> +       } else {
-> +               val =3D 0;
-> +       }
-> +       mux->index =3D val;
-> +
-> +       return mux->index;
-> +}
-> +
-> +static void mmp_audio_mux_write_parent(struct mmp_audio_mux *mux)
-> +{
-> +       struct mmp2_audio_clk *priv =3D mux->priv;
-> +       unsigned long flags =3D 0;
-> +       u32 reg;
-> +
-> +       spin_lock_irqsave(&priv->lock, flags);
-> +       reg =3D __raw_readl(priv->mmio_base + SSPA_AUD_CTRL);
-> +       reg &=3D ~(1 << mux->shift);
-> +       reg |=3D mux->index << mux->shift;
-> +       __raw_writel(reg, priv->mmio_base + SSPA_AUD_CTRL);
-> +       spin_unlock_irqrestore(&priv->lock, flags);
-> +}
-> +
-> +static int mmp_audio_mux_set_parent(struct clk_hw *hw, u8 index)
-> +{
-> +       struct mmp_audio_mux *mux =3D to_mmp_audio_mux(hw);
-> +       struct mmp2_audio_clk *priv =3D mux->priv;
-> +
-> +       mux->index =3D index;
-> +       if (__clk_is_enabled(priv->audio_clk))
-> +               mmp_audio_mux_write_parent(mux);
-> +
-> +       return 0;
-> +}
-> +
-> +static int mmp_audio_mux_determine_rate(struct clk_hw *hw,
-> +                                       struct clk_rate_request *req)
-> +{
-> +       return clk_mux_determine_rate_flags(hw, req, 0);
-> +}
-> +
-> +static int mmp_audio_mux_enable(struct clk_hw *hw)
-> +{
-> +       struct mmp_audio_mux *mux =3D to_mmp_audio_mux(hw);
-> +       struct mmp2_audio_clk *priv =3D mux->priv;
-> +
-> +       clk_prepare_enable(priv->audio_clk);
-> +       mmp_audio_mux_write_parent(mux);
-> +       return 0;
-> +}
-> +
-> +static void mmp_audio_mux_disable(struct clk_hw *hw)
-> +{
-> +       struct mmp_audio_mux *mux =3D to_mmp_audio_mux(hw);
-> +       struct mmp2_audio_clk *priv =3D mux->priv;
-> +
-> +       clk_disable_unprepare(priv->audio_clk);
-> +}
-> +
-> +const struct clk_ops mmp_audio_mux_ops =3D {
-
-static?
-
-> +       .enable =3D mmp_audio_mux_enable,
-> +       .disable =3D mmp_audio_mux_disable,
-> +
-> +       .get_parent =3D mmp_audio_mux_get_parent,
-> +       .set_parent =3D mmp_audio_mux_set_parent,
-> +       .determine_rate =3D mmp_audio_mux_determine_rate,
-> +};
-> +
-[...]
-> +
-> +static void mmp_audio_div_write_rate(struct mmp_audio_div *div, int enab=
-le)
-> +{
-> +       struct mmp2_audio_clk *priv =3D div->priv;
-> +       u32 val;
-> +
-> +       clk_prepare_enable(priv->audio_clk);
-> +       val =3D __raw_readl(priv->mmio_base + SSPA_AUD_CTRL);
-
-Please don't use __raw IO accessors as they don't do proper endian
-swaps and are thus not portable. Use the relaxed accessors if you're
-trying to avoid the barrier semantics, but most likely that is overkill
-too and can just be readl()/writel().
-
-> +       val &=3D ~(SSPA_AUD_CTRL_DIV_MASK << div->shift);
-> +       val |=3D (u32)div->value << (div->shift + 1);
-
-Why cast to u32? Should it be a u32 already?
-
-> +       val |=3D enable << div->shift;
-> +       __raw_writel(val, priv->mmio_base + SSPA_AUD_CTRL);
-> +       clk_disable_unprepare(priv->audio_clk);
-> +}
-> +
-> +static int mmp_audio_div_enable(struct clk_hw *hw)
-> +{
-> +       struct mmp_audio_div *div =3D to_mmp_audio_div(hw);
-> +       struct mmp2_audio_clk *priv =3D div->priv;
-> +
-> +       clk_prepare_enable(priv->audio_clk);
-
-What is this clk being enabled and prepared for? Is it needed to access
-registers inside the device?
-
-> +       mmp_audio_div_write_rate(div, 1);
-> +       return 0;
-> +}
-> +
-> +static void mmp_audio_div_disable(struct clk_hw *hw)
-> +{
-> +       struct mmp_audio_div *div =3D to_mmp_audio_div(hw);
-> +       struct mmp2_audio_clk *priv =3D div->priv;
-> +       unsigned long flags =3D 0;
-
-Please drop assignment to 0.
-
-> +       u32 val;
-> +
-> +       spin_lock_irqsave(&priv->lock, flags);
-> +       val =3D __raw_readl(priv->mmio_base + SSPA_AUD_CTRL);
-> +       val &=3D ~(1 << div->shift);
-> +       __raw_writel(val, priv->mmio_base + SSPA_AUD_CTRL);
-> +       spin_unlock_irqrestore(&priv->lock, flags);
-> +       clk_disable_unprepare(priv->audio_clk);
-> +}
-> +
-> +static int mmp_audio_div_set_rate(struct clk_hw *hw, unsigned long rate,
-> +                               unsigned long parent_rate)
-> +{
-> +       struct mmp_audio_div *div =3D to_mmp_audio_div(hw);
-> +       struct mmp2_audio_clk *priv =3D div->priv;
-> +       int value;
-> +
-> +       if (rate =3D=3D 0) {
-> +               value =3D 0;
-> +       } else {
-> +               value =3D divider_get_val(rate, parent_rate, NULL, 6,
-> +                                       CLK_DIVIDER_ONE_BASED |
-> +                                       CLK_DIVIDER_ROUND_CLOSEST |
-> +                                       CLK_DIVIDER_ALLOW_ZERO);
-> +               if (value < 0)
-> +                       return value;
-> +       }
-> +
-> +       div->value =3D value;
-> +       if (__clk_is_enabled(priv->audio_clk))
-> +               mmp_audio_div_write_rate(div, 0);
-> +
-> +       return 0;
-> +}
-> +
-> +const struct clk_ops mmp_audio_div_ops =3D {
-
-static?
-
-> +       .enable =3D mmp_audio_div_enable,
-> +       .disable =3D mmp_audio_div_disable,
-> +
-> +       .recalc_rate =3D mmp_audio_div_recalc_rate,
-> +       .round_rate =3D mmp_audio_div_round_rate,
-> +       .set_rate =3D mmp_audio_div_set_rate,
-> +};
-> +
-> +static int mmp2_audio_clk_probe(struct platform_device *pdev)
-> +{
-> +       const struct clk_hw *sspa_mux_parents[2];
-> +       const struct clk_hw *sspa1_mux_parents[2];
-> +       struct mmp2_audio_clk *priv;
-> +       int ret;
-> +
-> +       priv =3D devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
-> +       if (!priv)
-> +               return -ENOMEM;
-> +
-> +       spin_lock_init(&priv->lock);
-> +
-> +       priv->mmio_base =3D devm_platform_ioremap_resource(pdev, 0);
-> +       if (IS_ERR(priv->mmio_base))
-> +               return PTR_ERR(priv->mmio_base);
-> +
-> +       priv->audio_clk =3D devm_clk_get(&pdev->dev, "audio");
-> +       if (IS_ERR(priv->audio_clk))
-> +               return PTR_ERR(priv->audio_clk);
-> +
-> +       priv->i2s0_clk =3D devm_clk_get(&pdev->dev, "i2s0");
-> +       if (IS_ERR(priv->i2s0_clk))
-> +               return PTR_ERR(priv->i2s0_clk);
-> +
-> +       priv->i2s1_clk =3D devm_clk_get(&pdev->dev, "i2s1");
-> +       if (IS_ERR(priv->i2s1_clk))
-> +               return PTR_ERR(priv->i2s1_clk);
-> +
-> +       priv->vctcxo_clk =3D devm_clk_get(&pdev->dev, "vctcxo");
-> +       if (IS_ERR(priv->vctcxo_clk))
-> +               return PTR_ERR(priv->vctcxo_clk);
-> +
-> +       priv->audio_pll.hw.init =3D
-> +               CLK_HW_INIT_HW("audio_pll", __clk_get_hw(priv->vctcxo_clk=
-),
-
-Usage of __clk_get_hw() is probably wrong here. Are these clks provided
-outside this node in DT? Please specify them as .fw_name parents so clk
-core can match up clks to their parents at runtime.
-
-> +                              &mmp_audio_pll_ops, CLK_SET_RATE_PARENT);
-> +       priv->audio_pll.priv =3D priv;
-> +       ret =3D devm_clk_hw_register(&pdev->dev, &priv->audio_pll.hw);
-> +       if (ret)
-> +               return ret;
-> +
-> +       sspa_mux_parents[0] =3D &priv->audio_pll.hw;
-> +       sspa_mux_parents[1] =3D __clk_get_hw(priv->i2s0_clk);
-> +       priv->sspa_mux.hw.init =3D
-> +               CLK_HW_INIT_PARENTS_HW("sspa_mux", sspa_mux_parents,
-> +                                      &mmp_audio_mux_ops, CLK_SET_RATE_P=
-ARENT);
-> +       priv->sspa_mux.priv =3D priv;
-> +       priv->sspa_mux.shift =3D SSPA_AUD_CTRL_SSPA0_MUX_SHIFT;
-> +       ret =3D devm_clk_hw_register(&pdev->dev, &priv->sspa_mux.hw);
-> +       if (ret)
-> +               return ret;
-> +
-> +       priv->sysclk.hw.init =3D
-> +               CLK_HW_INIT_HW("sysclk", &priv->sspa_mux.hw,
-> +                              &mmp_audio_div_ops, CLK_SET_RATE_PARENT);
-> +       priv->sysclk.priv =3D priv;
-> +       priv->sysclk.shift =3D SSPA_AUD_CTRL_SYSCLK_SHIFT;
-> +       ret =3D devm_clk_hw_register(&pdev->dev, &priv->sysclk.hw);
-> +       if (ret)
-> +               return ret;
-> +
-> +       priv->sspa0.hw.init =3D
-> +               CLK_HW_INIT_HW("sspa0", &priv->sspa_mux.hw,
-> +                              &mmp_audio_div_ops, 0);
-> +       priv->sspa0.priv =3D priv;
-> +       priv->sspa0.shift =3D SSPA_AUD_CTRL_SSPA0_SHIFT;
-> +       ret =3D devm_clk_hw_register(&pdev->dev, &priv->sspa0.hw);
-> +       if (ret)
-> +               return ret;
-> +
-> +       sspa1_mux_parents[0] =3D &priv->audio_pll.hw;
-> +       sspa1_mux_parents[1] =3D __clk_get_hw(priv->i2s1_clk);
-> +       priv->sspa1_mux.hw.init =3D
-> +               CLK_HW_INIT_PARENTS_HW("sspa1_mux", sspa1_mux_parents,
-> +                                      &mmp_audio_mux_ops, CLK_SET_RATE_P=
-ARENT);
-> +       priv->sspa1_mux.priv =3D priv;
-> +       priv->sspa1_mux.shift =3D SSPA_AUD_CTRL_SSPA1_MUX_SHIFT;
-> +       ret =3D devm_clk_hw_register(&pdev->dev, &priv->sspa1_mux.hw);
-> +       if (ret)
-> +               return ret;
-> +
-> +       priv->sspa1.hw.init =3D
-> +               CLK_HW_INIT_HW("sspa1", &priv->sspa1_mux.hw,
-> +                              &mmp_audio_div_ops, 0);
-> +       priv->sspa1.priv =3D priv;
-> +       priv->sspa1.shift =3D SSPA_AUD_CTRL_SSPA1_SHIFT;
-> +       ret =3D devm_clk_hw_register(&pdev->dev, &priv->sspa1.hw);
-> +       if (ret)
-> +               return ret;
-> +
-> +       priv->clk_table[MMP2_CLK_AUDIO_SYSCLK] =3D priv->sysclk.hw.clk;
-> +       priv->clk_table[MMP2_CLK_AUDIO_SSPA0] =3D priv->sspa0.hw.clk;
-> +       priv->clk_table[MMP2_CLK_AUDIO_SSPA1] =3D priv->sspa1.hw.clk;
-> +       priv->clk_data.clks =3D priv->clk_table;
-> +       priv->clk_data.clk_num =3D ARRAY_SIZE(priv->clk_table);
-> +
-> +       return of_clk_add_provider(pdev->dev.of_node, of_clk_src_onecell_=
-get,
-
-Please add a clk_hw provider and not a clk provider. We're trying to
-remove that API.
-
-> +                                  &priv->clk_data);
-> +}
-> +
-> +static const struct of_device_id mmp2_audio_clk_of_match[] =3D {
-> +       { .compatible =3D "marvell,mmp2-audio-clock" },
-> +       {},
-
-Nitpick: Drop comma so nothing can come after this.
-
-> +};
-> +
-> +MODULE_DEVICE_TABLE(of, mmp2_audio_clk_of_match);
-> +
-> +static struct platform_driver mmp2_audio_clk_driver =3D {
-> +       .driver =3D {
-> +               .name =3D "mmp2-audio-clock",
-> +               .of_match_table =3D of_match_ptr(mmp2_audio_clk_of_match),
-> +       },
-> +       .probe =3D mmp2_audio_clk_probe,
-> +};
-> +
-
-Nitpick: Drop newline here so it sits next to the driver.
-
-> +module_platform_driver(mmp2_audio_clk_driver);
-> +
-> +MODULE_AUTHOR("Lubomir Rintel <lkundrak@v3.sk>");
-> +MODULE_DESCRIPTION("Clock driver for MMP2 Audio subsystem");
-> +MODULE_LICENSE("GPL");
