@@ -2,268 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F3751D2C5B
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 12:17:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D98E1D2CF9
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 12:36:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726051AbgENKRj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 May 2020 06:17:39 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:37743 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725925AbgENKRi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 May 2020 06:17:38 -0400
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 3A1FEE0014;
-        Thu, 14 May 2020 10:17:31 +0000 (UTC)
-Date:   Thu, 14 May 2020 12:20:48 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        linux-renesas-soc@vger.kernel.org,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund@ragnatech.se, Hans Verkuil <hverkuil@xs4all.nl>,
-        sakari.ailus@iki.fi, mchehab@kernel.org,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Hyun Kwon <hyunk@xilinx.com>
-Subject: Re: [PATCH] fixup! dt-bindings: media: i2c: Add bindings for Maxima
- Integrated MAX9286
-Message-ID: <20200514102048.mwwzoxhgsy3uldrc@uno.localdomain>
-References: <20200512223329.GA23701@bogus>
- <20200513125445.54132-1-jacopo+renesas@jmondi.org>
- <bd648891-67c2-098b-3a0e-72bf4e938535@ideasonboard.com>
+        id S1726005AbgENKgL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 May 2020 06:36:11 -0400
+Received: from ni.piap.pl ([195.187.100.5]:46536 "EHLO ni.piap.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725925AbgENKgL (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 14 May 2020 06:36:11 -0400
+Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
+        (using TLSv1.2 with cipher AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ni.piap.pl (Postfix) with ESMTPSA id BDC1644334B;
+        Thu, 14 May 2020 12:36:08 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl BDC1644334B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=piap.pl; s=mail;
+        t=1589452568; bh=P6nSXf2tbniKu7It57rJcA9N0dxpYHC7AWpD48u7uwI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=oDUbU3JAO9SnHaIuDGNFp/eOo8PyKu0/fUwrUhpq1u3iPLMI/S2ggzMZdCFTivYW5
+         teg3T3RKaJXhOfbJbSMYVHY+hObbdAtsIXCfIhPRryndCRBChWE5ij+UsSCp9+MvdT
+         ZeKotydhAtbDHgwY89+jD241GSmq3+SNxwk0oqKk=
+From:   khalasa@piap.pl (Krzysztof =?utf-8?Q?Ha=C5=82asa?=)
+To:     Philipp Zabel <p.zabel@pengutronix.de>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [PATCH] MEDIA: i.MX6: Support 16-bit BT.1120 video input
+Date:   Thu, 14 May 2020 12:36:07 +0200
+Message-ID: <m3tv0ivm5k.fsf@t19.piap.pl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <bd648891-67c2-098b-3a0e-72bf4e938535@ideasonboard.com>
+Content-Transfer-Encoding: quoted-printable
+X-KLMS-Rule-ID: 4
+X-KLMS-Message-Action: skipped
+X-KLMS-AntiSpam-Status: not scanned, whitelist
+X-KLMS-AntiPhishing: not scanned, whitelist
+X-KLMS-AntiVirus: Kaspersky Security 8.0 for Linux Mail Server, version 8.0.1.721, not scanned, whitelist
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+This patch adds support for BT.1120 mode (16-bit version of BT.656)
+on i.MX6.
 
-On Thu, May 14, 2020 at 10:43:10AM +0100, Kieran Bingham wrote:
-> Hi Jacopo,
->
-> On 13/05/2020 13:54, Jacopo Mondi wrote:
-> > Subject: [PATCH] fixup! dt-bindings: media: i2c: Add bindings for Maxima Integrated MAX9286
-> >
-> > Temporary fixup to ease review. To be squashed into v10 if accepted.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >
-> > While fixing Rob's reported bug on v9 I realized thanks to a
-> > dt_binding_check warning that the i2c-mux child nodes where under-specified.
-> >
-> > This fixup epxands the i2c-mux child nodes description and updates the
-> > example to match our currently-out-of-tree DTS files for GMSL platforms.
-> >
-> > dt_binding_check still reports a warning:
-> >
-> > Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml: camera@51: reg: [[81, 97]] is too short
-> > Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml: camera@52: reg: [[82, 98]] is too short
-> > Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml: camera@53: reg: [[83, 99]] is too short
-> > Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml: camera@54: reg: [[84, 100]] is too short
->
-> Is too short? That seems odd. We accept 1, 2, or 3 values in the reg
-> (for the serializer, camera, mcu addresses) but those values are
-> specific to the camera device, and are managed by that driver and
-> shouldn't be validated here.
+Basically, BT.1120 sends Y data over one set of 8 lines, and at the same
+time sends multiplexed U/V data over another set of 8 lines. Everything
+uses the same single clock input. DE signal may optionally be used,
+H and V syncs are not used. The start and stop codes are the same as in
+BT.656 mode, and are transmitted in both Y and U/V channels.
 
-I think it's expected them to be validated against this schema, not
-sure what's the warning about though.
+It appears the proper format designation for this mode is
+MEDIA_BUS_FMT_YUYV8_1X16. It could be extended to support 10-bit data as
+well (YUYV10_1X20), but I don't have necessary hardware to easily test
+it.
 
->
->
-> >
-> > Which I was not able to silence.
-> > ---
-> >  .../bindings/media/i2c/maxim,max9286.yaml     | 86 +++++++++++++++++--
-> >  1 file changed, 77 insertions(+), 9 deletions(-)
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> > index f9d3e5712c59..d9bd19caed2f 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> > @@ -130,9 +130,7 @@ properties:
-> >      description: |
-> >        Each GMSL link is modelled as a child bus of an i2c bus
-> >        multiplexer/switch, in accordance with bindings described in
-> > -      Documentation/devicetree/bindings/i2c/i2c-mux.txt. The serializer
-> > -      device on the remote end of the GMSL link shall be modelled as a child
-> > -      node of the corresponding I2C bus.
-> > +      Documentation/devicetree/bindings/i2c/i2c-mux.txt.
-> >
-> >      properties:
-> >        '#address-cells':
-> > @@ -141,7 +139,74 @@ properties:
-> >        '#size-cells':
-> >          const: 0
-> >
-> > -  additionalProperties: false
-> > +    patternProperties:
-> > +      "^i2c@[0-3]$":
-> > +        type: object
-> > +        description: |
-> > +          Child node of the i2c bus multiplexer which represents a GMSL link.
-> > +          Each serializer device on the GMSL link remote end is represented with
-> > +          an i2c-mux child node. The MAX9286 chip supports up to 4 GMSL
-> > +          channels.
-> > +
-> > +        properties:
-> > +          '#address-cells':
-> > +            const: 1
-> > +
-> > +          '#size-cells':
-> > +            const: 0
-> > +
-> > +          reg:
-> > +            description: The index of the GMSL channel.
-> > +            maxItems: 1
-> > +
-> > +        patternProperties:
-> > +          "^camera@[0-9]+":
->
-> This value after @ represents a non 0x prefixed hex value, where your
-> regex will only match numerical values.
->
-> 	"^camera@[a-f0-9]+":
->
->
->
-> is likely therefore required.
->
+Note that both these 8-bit (tested) and 10-bit modes, according to the
+docs, can be used directly, without the so called "passthrough".
+Also note the hardware bus width should not be used when determining the
+exact transfer mode - data format should be used for this (we can have
+a "narrow" device connected to a "wide" bus).
 
-Uh, correct
+This patch assumes BT.1120 uses SDR signaling. It will need to be
+modified if/when there is hw using DDR.
 
-> I see other uses of this patternProperties also terminate the regex with
-> a $ (end of line) but that confuses me, as the node is often presented
-> with the opening brace after the name and identifier:
->
->  (i.e.)
->    camera@52 {
->
-> But perhaps the validator extracts the node name and reg and matches on
-> that directly in which case it would be
->
-> 	"^camera@[a-f0-9]+$":
+Signed-off-by: Krzysztof Halasa <khalasa@piap.pl>
 
-I've initially used '$' as well then removed it for the same reason.
-MAybe the patter is only matched against the node name, leaving out the
-rest of the line.
+diff --git a/drivers/gpu/ipu-v3/ipu-csi.c b/drivers/gpu/ipu-v3/ipu-csi.c
+index 658c173bebdf..e352757f3f0f 100644
+--- a/drivers/gpu/ipu-v3/ipu-csi.c
++++ b/drivers/gpu/ipu-v3/ipu-csi.c
+@@ -250,22 +250,18 @@ static int mbus_code_to_bus_cfg(struct ipu_csi_bus_co=
+nfig *cfg, u32 mbus_code,
+ 		cfg->mipi_dt =3D MIPI_DT_RGB888;
+ 		cfg->data_width =3D IPU_CSI_DATA_WIDTH_8;
+ 		break;
++	case MEDIA_BUS_FMT_UYVY8_1X16:
+ 	case MEDIA_BUS_FMT_UYVY8_2X8:
+ 		cfg->data_fmt =3D CSI_SENS_CONF_DATA_FMT_YUV422_UYVY;
+ 		cfg->mipi_dt =3D MIPI_DT_YUV422;
+ 		cfg->data_width =3D IPU_CSI_DATA_WIDTH_8;
+ 		break;
++	case MEDIA_BUS_FMT_YUYV8_1X16:
+ 	case MEDIA_BUS_FMT_YUYV8_2X8:
+ 		cfg->data_fmt =3D CSI_SENS_CONF_DATA_FMT_YUV422_YUYV;
+ 		cfg->mipi_dt =3D MIPI_DT_YUV422;
+ 		cfg->data_width =3D IPU_CSI_DATA_WIDTH_8;
+ 		break;
+-	case MEDIA_BUS_FMT_UYVY8_1X16:
+-	case MEDIA_BUS_FMT_YUYV8_1X16:
+-		cfg->data_fmt =3D CSI_SENS_CONF_DATA_FMT_BAYER;
+-		cfg->mipi_dt =3D MIPI_DT_YUV422;
+-		cfg->data_width =3D IPU_CSI_DATA_WIDTH_16;
+-		break;
+ 	case MEDIA_BUS_FMT_SBGGR8_1X8:
+ 	case MEDIA_BUS_FMT_SGBRG8_1X8:
+ 	case MEDIA_BUS_FMT_SGRBG8_1X8:
+@@ -352,7 +348,7 @@ static int fill_csi_bus_cfg(struct ipu_csi_bus_config *=
+csicfg,
+ 			    const struct v4l2_mbus_config *mbus_cfg,
+ 			    const struct v4l2_mbus_framefmt *mbus_fmt)
+ {
+-	int ret;
++	int ret, is_bt1120;
+=20
+ 	memset(csicfg, 0, sizeof(*csicfg));
+=20
+@@ -373,11 +369,18 @@ static int fill_csi_bus_cfg(struct ipu_csi_bus_config=
+ *csicfg,
+ 		break;
+ 	case V4L2_MBUS_BT656:
+ 		csicfg->ext_vsync =3D 0;
++		/* UYVY10_1X20 etc. could be supported as well */
++		is_bt1120 =3D mbus_fmt->code =3D=3D MEDIA_BUS_FMT_UYVY8_1X16 ||
++			mbus_fmt->code =3D=3D MEDIA_BUS_FMT_YUYV8_1X16;
+ 		if (V4L2_FIELD_HAS_BOTH(mbus_fmt->field) ||
+ 		    mbus_fmt->field =3D=3D V4L2_FIELD_ALTERNATE)
+-			csicfg->clk_mode =3D IPU_CSI_CLK_MODE_CCIR656_INTERLACED;
++			csicfg->clk_mode =3D is_bt1120 ?
++				IPU_CSI_CLK_MODE_CCIR1120_INTERLACED_SDR :
++				IPU_CSI_CLK_MODE_CCIR656_INTERLACED;
+ 		else
+-			csicfg->clk_mode =3D IPU_CSI_CLK_MODE_CCIR656_PROGRESSIVE;
++			csicfg->clk_mode =3D is_bt1120 ?
++				IPU_CSI_CLK_MODE_CCIR1120_PROGRESSIVE_SDR :
++				IPU_CSI_CLK_MODE_CCIR656_PROGRESSIVE;
+ 		break;
+ 	case V4L2_MBUS_CSI2_DPHY:
+ 		/*
+diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/me=
+dia/imx/imx-media-csi.c
+index d9e5388ffeb5..3d1d184a0ba7 100644
+--- a/drivers/staging/media/imx/imx-media-csi.c
++++ b/drivers/staging/media/imx/imx-media-csi.c
+@@ -123,27 +123,21 @@ static inline bool is_parallel_bus(struct v4l2_fwnode=
+_endpoint *ep)
+ 	return ep->bus_type !=3D V4L2_MBUS_CSI2_DPHY;
+ }
+=20
+-static inline bool is_parallel_16bit_bus(struct v4l2_fwnode_endpoint *ep)
+-{
+-	return is_parallel_bus(ep) && ep->bus.parallel.bus_width >=3D 16;
+-}
+-
+ /*
+  * Check for conditions that require the IPU to handle the
+  * data internally as generic data, aka passthrough mode:
+  * - raw bayer media bus formats, or
+- * - the CSI is receiving from a 16-bit parallel bus, or
+- * - the CSI is receiving from an 8-bit parallel bus and the incoming
+- *   media bus format is other than UYVY8_2X8/YUYV8_2X8.
++ * - other unsupported modes such as JPEG, Y8 etc.
+  */
+ static inline bool requires_passthrough(struct v4l2_fwnode_endpoint *ep,
+ 					struct v4l2_mbus_framefmt *infmt,
+ 					const struct imx_media_pixfmt *incc)
+ {
+-	return incc->bayer || is_parallel_16bit_bus(ep) ||
+-		(is_parallel_bus(ep) &&
++	return incc->bayer || (is_parallel_bus(ep) &&
+ 		 infmt->code !=3D MEDIA_BUS_FMT_UYVY8_2X8 &&
+-		 infmt->code !=3D MEDIA_BUS_FMT_YUYV8_2X8);
++		 infmt->code !=3D MEDIA_BUS_FMT_UYVY8_1X16 &&
++		 infmt->code !=3D MEDIA_BUS_FMT_YUYV8_2X8 &&
++		 infmt->code !=3D MEDIA_BUS_FMT_YUYV8_1X16);
+ }
+=20
+ /*
 
->
->
->
-> > +            type: object
-> > +            description: |
-> > +              The remote camera device, composed by a GMSL serializer and a
-> > +              connected video source.
-> > +
-> > +            properties:
-> > +              compatible:
-> > +                description: The remote device compatible string.
-> > +
-> > +              reg:
-> > +                description: |
-> > +                  The I2C addresses to be assigned to the remote devices through
-> > +                  address reprogramming. The number of entries depends on the
-> > +                  requirements of the currently connected remote device.
-> > +
-> > +              port:
-> > +                type: object
-> > +
-> > +                properties:
-> > +                  endpoint:
-> > +                    type: object
-> > +
-> > +                    properties:
-> > +                      remote-endpoint:
-> > +                        description: phandle to the MAX9286 sink endpoint.
-> > +
-> > +                    required:
-> > +                      - remote-endpoint
-> > +
-> > +                    additionalProperties: false
-> > +
-> > +                required:
-> > +                  - endpoint
-> > +
-> > +                additionalProperties: false
-> > +
-> > +            required:
-> > +              - compatible
-> > +              - reg
-> > +              - port
-> > +
-> > +            additionalProperties: false
-> > +
-> > +        additionalProperties: false
-> > +
-> > +    additionalProperties: false
-> >
->
->
-> Wow, is it required to specify additionalProperties: false quite so many
-> times?
+--=20
+Krzysztof Halasa
 
-I -think- so, it's one per section, and unless it's by default it
-makes sense to have it there ?
-
->
->
-> >  required:
-> >    - compatible
-> > @@ -220,11 +285,11 @@ examples:
-> >            i2c@0 {
-> >              #address-cells = <1>;
-> >              #size-cells = <0>;
-> > -
-> >              reg = <0>;
-> >
-> >              camera@51 {
-> > -              reg = <0x51>;
-> > +              compatible = "imi,rdacm20";
-> > +              reg = <0x51 0x61>;
-> >
-> >                port {
-> >                  rdacm20_out0: endpoint {
-> > @@ -241,7 +306,8 @@ examples:
-> >              reg = <1>;
-> >
-> >              camera@52 {
-> > -              reg = <0x52>;
-> > +              compatible = "imi,rdacm20";
-> > +              reg = <0x52 0x62>;
-> >
-> >                port {
-> >                  rdacm20_out1: endpoint {
-> > @@ -257,7 +323,8 @@ examples:
-> >              reg = <2>;
-> >
-> >              camera@53 {
-> > -              reg = <0x53>;
-> > +              compatible = "imi,rdacm20";
-> > +              reg = <0x53 0x63>;
-> >
-> >                port {
-> >                  rdacm20_out2: endpoint {
-> > @@ -273,7 +340,8 @@ examples:
-> >              reg = <3>;
-> >
-> >              camera@54 {
-> > -              reg = <0x54>;
-> > +              compatible = "imi,rdacm20";
-> > +              reg = <0x54 0x64>;
-> >
-> >                port {
-> >                  rdacm20_out3: endpoint {
-> > --
-> > 2.26.2
-> >
->
+=C5=81UKASIEWICZ Research Network
+Industrial Research Institute for Automation and Measurements PIAP
+Al. Jerozolimskie 202, 02-486 Warsaw, Poland
