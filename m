@@ -2,61 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BD5B1D36B0
+	by mail.lfdr.de (Postfix) with ESMTP id A53CE1D36B1
 	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 18:41:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726090AbgENQlN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726165AbgENQlN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 14 May 2020 12:41:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56134 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725975AbgENQlL (ORCPT
+        with ESMTP id S1725999AbgENQlM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 May 2020 12:41:11 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CAC0C061A0C
-        for <linux-media@vger.kernel.org>; Thu, 14 May 2020 09:41:11 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id c3so2827366otr.12
-        for <linux-media@vger.kernel.org>; Thu, 14 May 2020 09:41:11 -0700 (PDT)
+        Thu, 14 May 2020 12:41:12 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 068D6C061A0E
+        for <linux-media@vger.kernel.org>; Thu, 14 May 2020 09:41:12 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id x7so24173291oic.3
+        for <linux-media@vger.kernel.org>; Thu, 14 May 2020 09:41:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=nextdimension-cc.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=T24OJxLCQmccEskUa+yaBFBSp6H96Ho4ljjuaUAcWVw=;
-        b=MXlImvgARPm7NqVIv4hZAVZz583aPWrYDrThZwntN9wvgNr+AHcTdAj9AQGqszOm2l
-         3lino+wcpzDZTlJEynNmKDfq64RlhkEwEdUbxjiFCglyE+i5pldA9kXMLH2eouFqt2dD
-         1mMmCAR+f5qH8tOatRMHnahnSmclKU+yR/8G2akr8wWYlcHNwOSwOmWuP2j4MN89a8TC
-         xUEvvtw1wX08nHks8UNNJNU6vpWD0t0kw0NYcagCdFzlnBM8xmYED6xJesYJyP1JEeFD
-         GmM6QPx/mfLjn/YkBtlj5QHq7BCIQzeqXhQZBLit2xAtvm0lYOUSQfvx9H75N+Y+vuGm
-         3i6g==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=Z1Vzd/AjvDfa010XOD+9e80f63wGYmgrOp0YxCKeuAk=;
+        b=L6o8mILfdqjL1B6fV5y4ABd4esjbs5oOFzHdTKl/pfT2HwXTTA5N/XTQ2UJwC+EKbM
+         biLcweoIV39XQ5vPoJC7ao2f4VJ2V4Jbh/pYmAJDJg0WUVHCTjyMiYQhNVjcKGLQJW+Z
+         v985LhHtm4yLDnvqxX25EWjqfVswKLQWK5Oo7EtijGLXUo/DTBIHxjOlrA3hrHwyswDk
+         gm+EFsCLNI8ISzpgTepAz9Q1Q2JrcNcPetSeRNXfw0s1DPVW9/a3h0ICtncayuR0uWwI
+         uGEVDHXFGkIDJwe1WsTRvPSainbdeJIDZatV1N9mWPUTXDvGHzBZPkr0AdNpZgZ+uIKg
+         PC9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=T24OJxLCQmccEskUa+yaBFBSp6H96Ho4ljjuaUAcWVw=;
-        b=PeH/41iPHmhHdzlcRz5QDWMNriEfQ1BtqIYeQv2TNITpboOiIAX+ss+59OnjlcQlpP
-         9Qunv5WXf9pIXvd2IRriAcsxf10iHppY/FpkZjHfkSdYJftaWo5wvmamNIBbQB7eEhHQ
-         47aBYTASETbNdV1z34nDbQgh6hTgDHU6ny9zm5xtJJrlGzDKxeIujCFxaG3sUqJyvNO7
-         7K/jB6olxSK+98jox9vOF19XqxMuoAKcKPBbqCVUrF1TSn2q7AHgEh0llEn2uKtr49Im
-         uUYelVzyIJza1shtjhdVF7p19OqMQZbIa62rvBoqMrAlTbwPq/2y70zJeWoZ/uMWMVD/
-         q8Pg==
-X-Gm-Message-State: AOAM531Hubd687h/va2+gegazXIV5ONoG8qrlARyLUfTBgwf+TLzcKdF
-        dYwWyrKzu8c5I4UtKIG3uWA7ZKQ95t5fng==
-X-Google-Smtp-Source: ABdhPJwohLWf8KqnAqRZsz7uCZb4ww0iQcbZ5CJSuTjf15JfT+I0UwqSV1cm4AaYY8lRSkc7z9+e1w==
-X-Received: by 2002:a9d:4e5:: with SMTP id 92mr3905285otm.146.1589474469788;
-        Thu, 14 May 2020 09:41:09 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=Z1Vzd/AjvDfa010XOD+9e80f63wGYmgrOp0YxCKeuAk=;
+        b=ubRNl9l/+FOG5V53Eej4p8xgwlVTpXoWexm7NHoBKnFgJNV4VLaS9fdoxyeuF74XC6
+         web00e5P53AMAEouQFs6fALYBmtz4Rmifq4E58/34YfyRy7KLrVmwy2k8o5OCgYqsECe
+         M8jSCVt/F+EV2dFnmuGxCCnX8wSbdWJoLRLVOKTx6i5Ob45OVvAb2Cg+mMbVXiz0Umxs
+         ZEhLnol1DoJlf1LA/VmqChJ79Oj8AHaC0sEGRfUTXAiGs0mXoWhfW1TCllbKgPnkKO8h
+         cg+Ct4qVzPR83dUXyKzg9DoLDq5iBqtq6lpQ54AJObv7urr/hDF90iUAXnr2/syvQoRD
+         csLw==
+X-Gm-Message-State: AGi0PuZHM0f99v1tKgRmwn7izCcVTVgD6kpbiakHAphKTDYQ3o4mBNia
+        C3h/JrvhkQr9ROsAJoXqtxT6KxEMxHSD9Q==
+X-Google-Smtp-Source: APiQypL4GUOHWqnRtgiRbdyn9oLRBqedOUSyJT5iUnb+4IpMwTQk+3StjoY3GTuXRK2NRdWcUlZE1w==
+X-Received: by 2002:aca:5b83:: with SMTP id p125mr21635025oib.95.1589474470936;
+        Thu, 14 May 2020 09:41:10 -0700 (PDT)
 Received: from localhost (66-90-181-52.dyn.grandenetworks.net. [66.90.181.52])
-        by smtp.gmail.com with ESMTPSA id u197sm6762692oie.7.2020.05.14.09.41.09
+        by smtp.gmail.com with ESMTPSA id 33sm900819otx.31.2020.05.14.09.41.10
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 14 May 2020 09:41:09 -0700 (PDT)
+        Thu, 14 May 2020 09:41:10 -0700 (PDT)
 From:   Brad Love <brad@nextdimension.cc>
 To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
         mchehab@kernel.org, sean@mess.org,
         laurent.pinchart@ideasonboard.com
 Cc:     Brad Love <brad@nextdimension.cc>
-Subject: [PATCH 0/1] [BUG] dvbdev: Fix tuner->demod media controller link
-Date:   Thu, 14 May 2020 11:40:42 -0500
-Message-Id: <20200514164043.8756-1-3126054018@nextdimension.cc>
+Subject: [PATCH 1/1] dvbdev: Fix tuner->demod media controller link
+Date:   Thu, 14 May 2020 11:40:43 -0500
+Message-Id: <20200514164043.8756-2-3126054018@nextdimension.cc>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200514164043.8756-1-3126054018@nextdimension.cc>
+References: <20200514164043.8756-1-3126054018@nextdimension.cc>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -64,12 +66,9 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
 Fixes bug exposed by:
 
 [a3fbc2e6bb0: media: mc-entity.c: use WARN_ON, validate link pads]
-
-Which essentially breaks over a dozen different affected DVB devices.
 
 The dvbdev incorrectly requests a tuner sink pad to connect to a demux
 sink pad. The media controller failure percolates back and the dvb device
@@ -183,12 +182,28 @@ les x_tables autofs4 vfio_pci irqbypass vfio_virqfd vfio_iommu_type1 vfio hid_ge
 [  234.915896] ---[ end trace a60f19c54aa96ec3 ]---
 
 
-Brad Love (1):
-  dvbdev: Fix tuner->demod media controller link
-
+Signed-off-by: Brad Love <brad@nextdimension.cc>
+---
  drivers/media/dvb-core/dvbdev.c | 5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index 80b6a71aa33e..1cd2dc7e4168 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -707,9 +707,10 @@ int dvb_create_media_graph(struct dvb_adapter *adap,
+ 	}
+ 
+ 	if (ntuner && ndemod) {
+-		pad_source = media_get_pad_index(tuner, true,
++		/* NOTE: first found tuner source pad presumed correct */
++		pad_source = media_get_pad_index(tuner, false,
+ 						 PAD_SIGNAL_ANALOG);
+-		if (pad_source)
++		if (pad_source < 0)
+ 			return -EINVAL;
+ 		ret = media_create_pad_links(mdev,
+ 					     MEDIA_ENT_F_TUNER,
 -- 
 2.23.0
 
