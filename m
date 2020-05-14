@@ -2,105 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D0BB1D2506
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 04:09:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B9F61D2580
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 05:41:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728379AbgENCJG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 13 May 2020 22:09:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32936 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726061AbgENCJG (ORCPT
+        id S1725943AbgENDlG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 13 May 2020 23:41:06 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:47079 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725932AbgENDlG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 13 May 2020 22:09:06 -0400
-Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A91C9C061A0E
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2020 19:09:04 -0700 (PDT)
-Received: by mail-qv1-xf43.google.com with SMTP id 59so948034qva.13
-        for <linux-media@vger.kernel.org>; Wed, 13 May 2020 19:09:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iwY0Acbl9lzYaC/I7H5xpC4oYprSXfs6U4SArioBGuQ=;
-        b=P3DlHD88DQf0dE0yDif2sw8Rynd10kLlNJTPW+b9QzdH57TyxXfF5ZNS/0Fw6PFJCG
-         QW3kwdavSpCzJ1MTCu5QDGOqFbkR1lWztvohYFPSV6iT0JGQlY5iifKdUt621KTCAsGm
-         9eeWjr+VlkkDTRsgo5ySgNBAgv+vYZS8h+BUs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iwY0Acbl9lzYaC/I7H5xpC4oYprSXfs6U4SArioBGuQ=;
-        b=DJ5HYRwNhKCpQ8E6S5VWKuE/l5y1853FC8GhVchzV29xbCv/YO8AjGurkToJ7BleRW
-         o8Jhib0vGzsyQJ37bJSOLSZjP73YVOeJH9FBKkXvhBMawuA5c9UbSpIxpE23nvWyVTZH
-         NhPZRVaRka+19smRUXNRp7wpVzSIKqzZA7FMv2oPJvRpLkFFe1iPK/jQEk3KWAyz3OGp
-         wyUqqkTAoF8XC0yRYTcUc96iXdby93aO49Su47pM8tKNVu0fUfNBrQNuwer5T1pGqc7H
-         /mzuVtsmgHTqYDaxZbdwAqcKF0XiVnJt6ShJofVIYfQ66CMfywoOzyBpNqFTlT1MRhOy
-         Z2rQ==
-X-Gm-Message-State: AOAM533ZG/v46yXw9ajM7Aerym6HjwF8tiowYoYPyyma/3eatv8KBALz
-        jBI95w7RrRJbVxUcYK0jRei+SthjQzJFLpuUWmma4Q==
-X-Google-Smtp-Source: ABdhPJx+twxQTtW8B+vhkz+0GPec5WaIV3J1v01kZlo95nTGu9ZPy4033fzgt5ebh+V0OgPHFEM+9syC1+lXQmTric4=
-X-Received: by 2002:a05:6214:506:: with SMTP id v6mr2657680qvw.70.1589422143646;
- Wed, 13 May 2020 19:09:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200311112004.47138-1-stevensd@chromium.org> <20200311112004.47138-2-stevensd@chromium.org>
- <CAKMK7uHFgiHLe9oiFBr-VR-6rU9-hLTpBTEVNh0ezyj54u70jw@mail.gmail.com>
-In-Reply-To: <CAKMK7uHFgiHLe9oiFBr-VR-6rU9-hLTpBTEVNh0ezyj54u70jw@mail.gmail.com>
-From:   David Stevens <stevensd@chromium.org>
-Date:   Thu, 14 May 2020 11:08:52 +0900
-Message-ID: <CAD=HUj6d9gdZegTGad6thKdHv5b+qOZnkCv5VcWo9AcHifR9uA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/4] dma-buf: add support for virtio exported objects
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        David Airlie <airlied@linux.ie>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "open list:VIRTIO CORE, NET..." 
-        <virtualization@lists.linux-foundation.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, virtio-dev@lists.oasis-open.org
-Content-Type: text/plain; charset="UTF-8"
+        Wed, 13 May 2020 23:41:06 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id Z4k1jWEBg8hmdZ4k3jW2o3; Thu, 14 May 2020 05:41:03 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1589427663; bh=2J9hlTuO2sWWSnvdvtmzqnYSBSoP1U0kMEcGAdjlov0=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=iD40qJgodl239vp8dSffapl67LJHIlLB2HekuQj2FeexGJknBEMj8joVthJys8Fnd
+         wBlhAgYXkZkU6ENZrejw7VzO4vkyF5YpQvW4GvIct24xRXpKbtQar4aFR9XIhZ6q77
+         ESYFNz1ZyZRHefYeeRBwFISi+PIh3in6JYEoN2Mt2Dyi5uSyw2n1fCpHU+oNUAI8Sb
+         5ZmQvYteNU+xhGkMhql6Uaie3lm7JcSXbKK1StnSPBpmC7sSiVATh7xA2UL2l4lar7
+         EvUPobphuxs04khAPC+YvYBq9zJufC5ZtQOv/HKNQ8CgvNRHEnVYreHPtEflobTAhP
+         P4YNOfToUbo4A==
+Message-ID: <bddfcbd928a1f2bf9b72df54420fa0bf@smtp-cloud9.xs4all.net>
+Date:   Thu, 14 May 2020 05:41:01 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfGFDg6Iqx1o7+u/TvKk6unVW/pKzf9vzuqnjRdB3j5O4UMnTxGyozgWtpUMEBiio+pzgPl7rd8eGfkK6tnuxLtO/4ShsiQ4OBwZ45+tek+H6n4IFaAMw
+ 5D43Qw1A8GNIGAo4PF5ocMvvdnwg2sDFfhYXHYTfRZlwzV16bLB27g7bvjSjC0wxaBU/H0pckMf3QVzcd4W/ZFJn2E0nJBw9sz6O4usRvIPNv3BbeICi0Nfl
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 14, 2020 at 12:45 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Wed, Mar 11, 2020 at 12:20 PM David Stevens <stevensd@chromium.org> wrote:
-> >
-> > This change adds a new dma-buf operation that allows dma-bufs to be used
-> > by virtio drivers to share exported objects. The new operation allows
-> > the importing driver to query the exporting driver for the UUID which
-> > identifies the underlying exported object.
-> >
-> > Signed-off-by: David Stevens <stevensd@chromium.org>
->
-> Adding Tomasz Figa, I've discussed this with him at elce last year I
-> think. Just to make sure.
->
-> Bunch of things:
-> - obviously we need the users of this in a few drivers, can't really
-> review anything stand-alone
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Here is a link to the usage of this feature by the currently under
-development virtio-video driver:
-https://markmail.org/thread/j4xlqaaim266qpks
+Results of the daily build of media_tree:
 
-> - adding very specific ops to the generic interface is rather awkward,
-> eventually everyone wants that and we end up in a mess. I think the
-> best solution here would be if we create a struct virtio_dma_buf which
-> subclasses dma-buf, add a (hopefully safe) runtime upcasting
-> functions, and then a virtio_dma_buf_get_uuid() function. Just storing
-> the uuid should be doable (assuming this doesn't change during the
-> lifetime of the buffer), so no need for a callback.
+date:			Thu May 14 05:00:09 CEST 2020
+media-tree git hash:	43c4dc3f59e75f3a8b726c4c90cb894c3780e91c
+media_build git hash:	2f75e0d4330da180166ebcd104560d471a1599b6
+v4l-utils git hash:	bbdc0269bf49aa8dd8259d0c31efff2366f6647f
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 7bc5ca34b446a30a7e19688e9a1e68e905cb8ff4
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-So you would prefer a solution similar to the original version of this
-patchset? https://markmail.org/message/z7if4u56q5fmaok4
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7-rc1-i686: OK
+linux-5.7-rc1-x86_64: OK
+apps: WARNINGS
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: OK: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 0
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
