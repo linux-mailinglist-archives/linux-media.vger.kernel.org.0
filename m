@@ -2,137 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A86B1D3E77
-	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 22:07:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EC161D3EDD
+	for <lists+linux-media@lfdr.de>; Thu, 14 May 2020 22:18:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728632AbgENUHO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 May 2020 16:07:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60140 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726035AbgENUHO (ORCPT
+        id S1727853AbgENUSO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 May 2020 16:18:14 -0400
+Received: from mail-io1-f69.google.com ([209.85.166.69]:33639 "EHLO
+        mail-io1-f69.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725975AbgENUSN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 May 2020 16:07:14 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28C1CC061A0C;
-        Thu, 14 May 2020 13:07:14 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id c21so3736325lfb.3;
-        Thu, 14 May 2020 13:07:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=WOuH1XOmPM4H+myJnWGIPlv/GSLKGvRLHlRm+1oHjes=;
-        b=OVYKlyo5tYXCFqG9R7Ge9W7iXoaap3TbWVuCOzDYbfkzO4yLw2nn4s/mPYZX39Ux8P
-         lFNGzLPtGV36ZU/XRsJ/b8wLh89m89ZNxrbWAfw7dhCB5DYaX437icl0syKPyPU9y6cv
-         GOf4OqlcxzxK2qxduTZnPEGkJ5gudwR+BI+K1XOIjCSsVc7zFtsRw42RJv+A0VxmVprF
-         Z/oR4RSUAo5dcE19PFCNWSPkwwFFSAckWWBLXv7yJ6KBOnbI5nIyFa0N2Dg1RhKKg6Km
-         HV3XTRJC/mYTvuXUcWKv37AvIXqwUY0V5fVE7ciEbqB1wBc6ySSDl+xWctJrTYCOgk/M
-         cdEg==
+        Thu, 14 May 2020 16:18:13 -0400
+Received: by mail-io1-f69.google.com with SMTP id w4so214332iol.0
+        for <linux-media@vger.kernel.org>; Thu, 14 May 2020 13:18:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=WOuH1XOmPM4H+myJnWGIPlv/GSLKGvRLHlRm+1oHjes=;
-        b=ZGG/COsS50qXn8AOdHrYa2DZcjZqDiJ/9kgLKaEbtK128WnRfWwjAzD1bsTR0F5PSb
-         /tmB0PuYWz8We0dT2Ie5BvnpixYBxXAw2sfpAJn1wGM5KUdQv9JBKejtge4GZflENPvC
-         MKRdrzbnogyPe7cYoZ/a+LydUN4nhvX86AoVtqS13xWuUnqR3+u+RaQ1Vu73uwYJSEQA
-         qMEaOhSoVb9gWR7V6tzmtu+ETWHQCtMXpwQQjjVUKIJf30aZDiobotRAVqp7rExgG+eI
-         C0WnCIW7iA3sx22ELnVSc69qB7G5+HXpgcAEwRByrBAQ0D4rhSFKO9g1mLWDLz8bTVtN
-         W4vw==
-X-Gm-Message-State: AOAM530tJguHR1pRedUj54yHTJHVa+6fR6D2prZWgBiOyFQRON4ndzAY
-        S8t3ETKum8XbCMFECjQTdaM=
-X-Google-Smtp-Source: ABdhPJwTHexR/oCXDgBD97x5phSocPsVO5cLCrpN3UyXH7i+q+PwOPK8LeMXp5gf2iMucRKwwCs9rg==
-X-Received: by 2002:a19:4f1b:: with SMTP id d27mr4462819lfb.81.1589486832616;
-        Thu, 14 May 2020 13:07:12 -0700 (PDT)
-Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
-        by smtp.googlemail.com with ESMTPSA id v16sm2428150lfi.49.2020.05.14.13.07.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 14 May 2020 13:07:11 -0700 (PDT)
-Subject: Re: [PATCH v5 33/38] staging: tegra-vde: fix common struct sg_table
- related issues
-To:     Marek Szyprowski <m.szyprowski@samsung.com>,
-        dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Cc:     Christoph Hellwig <hch@lst.de>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org
-References: <20200513132114.6046-1-m.szyprowski@samsung.com>
- <20200513133245.6408-1-m.szyprowski@samsung.com>
- <CGME20200513133321eucas1p13acea3aa6219ce5f7076c7677ef9eae3@eucas1p1.samsung.com>
- <20200513133245.6408-33-m.szyprowski@samsung.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <43f9f3cc-2afa-cec3-0dd4-335746ec886e@gmail.com>
-Date:   Thu, 14 May 2020 23:07:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=IPg2EsJITZG2pHDONJjjBuxNwGIW/PzUBwTlpT6HwaI=;
+        b=RveouOqa0ZhtF77O7t2fl7FBkIVdtATJfyLQpgkMGPLyuBf+stMoLs7VvB0WRfNotZ
+         Bx+35scA5ROVL50uVI+z8pPn5pau9p+WMiuVl/JTa5A2YERShzMQT4tglCm8/BryQWtG
+         uakkLahL9nkYxJr60n87QW9VZbWFZT2GbVElU5L0BGPxdYABcEaNesiJwQEUtZfeYfRx
+         +GUXAuFd0uW8MbYK/YarFrCA4Dbbgr2HN8SrD4s/C2ELyoOwm5j3A1uxhRWVawcemwwH
+         xIDqwLEu1ObA64c2gQw2RtohkV7yf/NTwSCEr5VAZ8X+nDdAGZJx9zkDRLPm/0dOQLqk
+         KYQA==
+X-Gm-Message-State: AOAM5313xnTWVdeeGHSraG8w+f5qwzNIib2CyloXFaGhNfMAl+1Xm/YR
+        ilGK+b8LCAzMCQscWdJnK1arVUGrDaKtYTsd1DcET4yQiJej
+X-Google-Smtp-Source: ABdhPJxGuvQnbzRJzfnK1FrWkVtW7RepuEfB4roh2OBItqjGz5Gf9NiC+nAr4jfLh94bvRFGGTUGVduyzpa5zafKq1Fxl8+THd+a
 MIME-Version: 1.0
-In-Reply-To: <20200513133245.6408-33-m.szyprowski@samsung.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a5d:8b8e:: with SMTP id p14mr5755453iol.110.1589487491247;
+ Thu, 14 May 2020 13:18:11 -0700 (PDT)
+Date:   Thu, 14 May 2020 13:18:11 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000004a72f505a5a16525@google.com>
+Subject: WARNING in media_create_pad_link
+From:   syzbot <syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, laurent.pinchart@ideasonboard.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-usb@vger.kernel.org, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-13.05.2020 16:32, Marek Szyprowski пишет:
-> The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
-> returns the number of the created entries in the DMA address space.
-> However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
-> dma_unmap_sg must be called with the original number of the entries
-> passed to the dma_map_sg().
-> 
-> struct sg_table is a common structure used for describing a non-contiguous
-> memory buffer, used commonly in the DRM and graphics subsystems. It
-> consists of a scatterlist with memory pages and DMA addresses (sgl entry),
-> as well as the number of scatterlist entries: CPU pages (orig_nents entry)
-> and DMA mapped pages (nents entry).
-> 
-> It turned out that it was a common mistake to misuse nents and orig_nents
-> entries, calling DMA-mapping functions with a wrong number of entries or
-> ignoring the number of mapped entries returned by the dma_map_sg()
-> function.
-> 
-> To avoid such issues, lets use a common dma-mapping wrappers operating
-> directly on the struct sg_table objects and use scatterlist page
-> iterators where possible. This, almost always, hides references to the
-> nents and orig_nents entries, making the code robust, easier to follow
-> and copy/paste safe.
-> 
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
-> For more information, see '[PATCH v5 00/38] DRM: fix struct sg_table nents
-> vs. orig_nents misuse' thread:
-> https://lore.kernel.org/linux-iommu/20200513132114.6046-1-m.szyprowski@samsung.com/T/
-> ---
->  drivers/staging/media/tegra-vde/iommu.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/tegra-vde/iommu.c b/drivers/staging/media/tegra-vde/iommu.c
-> index 6af863d..adf8dc7 100644
-> --- a/drivers/staging/media/tegra-vde/iommu.c
-> +++ b/drivers/staging/media/tegra-vde/iommu.c
-> @@ -36,8 +36,8 @@ int tegra_vde_iommu_map(struct tegra_vde *vde,
->  
->  	addr = iova_dma_addr(&vde->iova, iova);
->  
-> -	size = iommu_map_sg(vde->domain, addr, sgt->sgl, sgt->nents,
-> -			    IOMMU_READ | IOMMU_WRITE);
-> +	size = iommu_map_sgtable(vde->domain, addr, sgt,
-> +				 IOMMU_READ | IOMMU_WRITE);
->  	if (!size) {
->  		__free_iova(&vde->iova, iova);
->  		return -ENXIO;
-> 
+Hello,
 
-Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+syzbot found the following crash on:
+
+HEAD commit:    059e7e0f usb: raw-gadget: fix typo in uapi headers
+git tree:       https://github.com/google/kasan.git usb-fuzzer
+console output: https://syzkaller.appspot.com/x/log.txt?x=10e77dfa100000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=b484a6e53b2b06ad
+dashboard link: https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
+compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16cd44ac100000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17b12b92100000
+
+IMPORTANT: if you fix the bug, please add the following tag to the commit:
+Reported-by: syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
+
+uvcvideo 1-1:0.0: Entity type for entity Processing 1 was not initialized!
+uvcvideo 1-1:0.0: Entity type for entity Input 255 was not initialized!
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 163 at drivers/media/mc/mc-entity.c:669 media_create_pad_link+0x500/0x650 drivers/media/mc/mc-entity.c:669
+Kernel panic - not syncing: panic_on_warn set ...
+CPU: 0 PID: 163 Comm: kworker/0:3 Not tainted 5.7.0-rc1-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0xef/0x16e lib/dump_stack.c:118
+ panic+0x2aa/0x6e1 kernel/panic.c:221
+ __warn.cold+0x2f/0x30 kernel/panic.c:582
+ report_bug+0x27b/0x2f0 lib/bug.c:195
+ fixup_bug arch/x86/kernel/traps.c:175 [inline]
+ fixup_bug arch/x86/kernel/traps.c:170 [inline]
+ do_error_trap+0x12b/0x1e0 arch/x86/kernel/traps.c:267
+ do_invalid_op+0x32/0x40 arch/x86/kernel/traps.c:286
+ invalid_op+0x23/0x30 arch/x86/entry/entry_64.S:1027
+RIP: 0010:media_create_pad_link+0x500/0x650 drivers/media/mc/mc-entity.c:669
+Code: bc ea ff ff ff eb da e8 ee e0 37 fd 0f 0b 41 bc ea ff ff ff eb cb e8 df e0 37 fd 0f 0b 41 bc ea ff ff ff eb bc e8 d0 e0 37 fd <0f> 0b 41 bc ea ff ff ff eb ad e8 c1 e0 37 fd 0f 0b 41 bc ea ff ff
+RSP: 0018:ffff8881ce48ef70 EFLAGS: 00010293
+RAX: ff
+
+
+---
+This bug is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this bug report. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this bug, for details see:
+https://goo.gl/tpsmEJ#testing-patches
