@@ -2,111 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8F8E1D42E5
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2020 03:24:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C41C81D43C3
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2020 04:52:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728287AbgEOBYz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 14 May 2020 21:24:55 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54678 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728228AbgEOBYy (ORCPT
+        id S1728198AbgEOCwG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 14 May 2020 22:52:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38188 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726345AbgEOCwG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 14 May 2020 21:24:54 -0400
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 871339C5;
-        Fri, 15 May 2020 03:24:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1589505888;
-        bh=ar8B5Xez/Hz/EUg7PRIHf5/uMtm6g8ntgLFGbVcFHWs=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=E4s5IF0QvJhsBjelrC0qxPcnnhCstfRgzkJGmQsrpmzSCtUNc4UcZF/DkKXXcRUI6
-         rQGf7zQsCNCj7rVfWrrQWtt3SWrIkcoZv73rHUijrH93hQJAijQoWsDboy1Qm98map
-         CfyR9UUj6WCjURzpI52gu1QySFHsMMRYAk9KuKRo=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH 8/8] dt-bindings: media: renesas,vsp1: Add power-domains and resets
-Date:   Fri, 15 May 2020 04:24:32 +0300
-Message-Id: <20200515012432.31326-9-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200515012432.31326-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20200515012432.31326-1-laurent.pinchart+renesas@ideasonboard.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Thu, 14 May 2020 22:52:06 -0400
+Received: from mail-qt1-x84a.google.com (mail-qt1-x84a.google.com [IPv6:2607:f8b0:4864:20::84a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 205BDC05BD09
+        for <linux-media@vger.kernel.org>; Thu, 14 May 2020 19:52:06 -0700 (PDT)
+Received: by mail-qt1-x84a.google.com with SMTP id u38so874881qtc.0
+        for <linux-media@vger.kernel.org>; Thu, 14 May 2020 19:52:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=NAyaejGrf93nt8pW36yE2fNFkiHLtUAH63j40bBmenI=;
+        b=ZQhRm5S1cEg3649XV8qDQfM7xNWtqqmevcu401ZzYJJzZAXPmJno+266EDY5uEKtkw
+         ifZTmFUHsOUEDT6VYK8UFoyaPole5rIJ+0+ygxasn8rfSso/WKZ2lUzXP9tSISABoFQz
+         qVcMvlIngJmaQX4mAhOjKntXui+zHGW4cr8ivUL141QCsPt0brMzwWNXuSUW1U/JLC94
+         LA6rYGhODdHMII7BTX6JP4IkCs1oaH2SSwzEPwPcLschCgMLgPVVarfm3zSv0Va3xkL8
+         lyD2N4mLq8hyVwYfx8IxevDQgM4f/vKv/MZwHcKtAnuagdc4Qgvcd/v2oGgOXuqupX7y
+         XrZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=NAyaejGrf93nt8pW36yE2fNFkiHLtUAH63j40bBmenI=;
+        b=ExVJwbkKQ53i97ra3E6cMUvJSEtbizzWjY10jrLnE6qV/mJPHNVnRz8oEOMEzLppLz
+         eIaVMoyMxx9t8arooHDfhDapO65wVaqsn+oE5lApyFqjI8qljrg9LPO79xJgvp5VK1AF
+         6LKzor8zYQFT2WpO9txtlQrmuZOxpLn1uAxMaQ8bJusMaw6q/4URKdFiVFAEcx3s6e9B
+         bHwwXICwEyAGDMpMmy3FVmdTp7yWmheYjfdw9IrvSNVfgSUm++UPhGfOLYFVwpvXT6or
+         enolZt2GB1xT6AxMlsLcYD7muofE3lO2vV8xPzn5K6BuhEVwnrJp8tQ2KHPoJ9d37+J8
+         vPfw==
+X-Gm-Message-State: AOAM532r2EZ5Wu1zmS/Vs2DbDJR/tOFRCTqgwkuJzSzyeT6OqV9KVXV4
+        lbqow7Hoy6cOeyldOIPBtccCsA6reDs9J+c2j54E1rqsknYmuVlz6TyC3tf01ZJFSKGJihxvYrF
+        vvAO5iM11ulFQgYAnNaXQEk1pVKwH/1gTzKoO1ASRG/CW5BGblY6nNNEVtDXF3wcVm7LYG5M=
+X-Google-Smtp-Source: ABdhPJzVF7glSMtfobwUtKu/g8RRnTn+EXn8JI6tlCrq5/XbZH99kq3gAROFhsNb3fT5Mdpr3CNz7GlT0hLd
+X-Received: by 2002:ad4:4c4f:: with SMTP id cs15mr1397904qvb.117.1589511124983;
+ Thu, 14 May 2020 19:52:04 -0700 (PDT)
+Date:   Thu, 14 May 2020 22:51:57 -0400
+Message-Id: <20200515025159.101081-1-jnchase@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.26.2.761.g0e0b3e54be-goog
+Subject: [PATCH v2 0/2] CH7322 CEC controller driver
+From:   Jeff Chase <jnchase@google.com>
+To:     linux-media@vger.kernel.org
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, Jeff Chase <jnchase@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The power-domains and resets properties are used in all DT sources in
-the kernel but are absent from the bindings. Document them and make them
-mandatory.
+Add device driver and device tree bindings for a Chrontel CEC
+conroller. This is an I2C device that can send and receive CEC
+messages.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
----
- .../devicetree/bindings/media/renesas,vsp1.yaml    | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Changes from v1:
+- fix formatpatch.pl --strict errors
+- additional comments
+- enable and program logical address register
+- add flags to aid interpreting transmit done status
+- move ch7322 out of devicetree trivial devices
 
-diff --git a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-index 54b130de3ae2..ed52888baa4d 100644
---- a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-@@ -29,6 +29,12 @@ properties:
-   clocks:
-     maxItems: 1
- 
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-   renesas,fcp:
-     $ref: /schemas/types.yaml#/definitions/phandle
-     description:
-@@ -39,6 +45,8 @@ required:
-   - reg
-   - interrupts
-   - clocks
-+  - power-domains
-+  - resets
- 
- additionalProperties: false
- 
-@@ -59,24 +67,30 @@ examples:
-   - |
-     #include <dt-bindings/clock/renesas-cpg-mssr.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/r8a7790-sysc.h>
- 
-     vsp@fe928000 {
-         compatible = "renesas,vsp1";
-         reg = <0xfe928000 0x8000>;
-         interrupts = <GIC_SPI 267 IRQ_TYPE_LEVEL_HIGH>;
-         clocks = <&cpg CPG_MOD 131>;
-+        power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-+        resets = <&cpg 131>;
-     };
- 
-   # R8A77951 (R-Car H3) VSP2-BC
-   - |
-     #include <dt-bindings/clock/renesas-cpg-mssr.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/r8a7795-sysc.h>
- 
-     vsp@fe920000 {
-         compatible = "renesas,vsp2";
-         reg = <0xfe920000 0x8000>;
-         interrupts = <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>;
-         clocks = <&cpg CPG_MOD 624>;
-+        power-domains = <&sysc R8A7795_PD_A3VP>;
-+        resets = <&cpg 624>;
- 
-         renesas,fcp = <&fcpvb1>;
-     };
+Jeff Chase (2):
+  dt-bindings: Add ch7322 media i2c device
+  media: cec: i2c: ch7322: Add ch7322 CEC controller driver
+
+ .../bindings/media/i2c/chrontel,ch7322.yaml   |  65 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   8 +
+ drivers/media/cec/Kconfig                     |   1 +
+ drivers/media/cec/Makefile                    |   2 +-
+ drivers/media/cec/i2c/Kconfig                 |  14 +
+ drivers/media/cec/i2c/Makefile                |   5 +
+ drivers/media/cec/i2c/ch7322.c                | 501 ++++++++++++++++++
+ 8 files changed, 597 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
+ create mode 100644 drivers/media/cec/i2c/Kconfig
+ create mode 100644 drivers/media/cec/i2c/Makefile
+ create mode 100644 drivers/media/cec/i2c/ch7322.c
+
 -- 
-Regards,
-
-Laurent Pinchart
+2.26.2.761.g0e0b3e54be-goog
 
