@@ -2,94 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D2411D45AE
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2020 08:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A5B451D4709
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2020 09:26:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726444AbgEOGQV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 May 2020 02:16:21 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:39644 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726137AbgEOGQV (ORCPT
+        id S1726720AbgEOH0d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 May 2020 03:26:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53068 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726434AbgEOH03 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 May 2020 02:16:21 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 4AF372A31F3
-Subject: Re: [PATCH] media: staging: rkisp1: cap: change RGB24 format to
- XBGR32
-To:     Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org, ezequiel@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, laurent.pinchart@ideasonboard.com
-References: <20200328135311.21221-1-dafna.hirschfeld@collabora.com>
- <7d387293-5fc8-6d6e-bc5a-03138a247d50@collabora.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <e9b91595-be82-c0d6-339c-daf61faa9821@collabora.com>
-Date:   Fri, 15 May 2020 08:16:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Fri, 15 May 2020 03:26:29 -0400
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37414C05BD09
+        for <linux-media@vger.kernel.org>; Fri, 15 May 2020 00:26:28 -0700 (PDT)
+Received: by mail-qv1-xf43.google.com with SMTP id z5so623186qvw.4
+        for <linux-media@vger.kernel.org>; Fri, 15 May 2020 00:26:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yQ+8bQqVXCGgiMZpHhx8CRsJZ+7vvYouTuTdyPbncmE=;
+        b=QDWBz3RUFZANTCfesmQRxLfudLR6lDXvkwQiP0JZK/Zi3SINJJlPUbU6EqOQgQFhj3
+         jneZ5wcaAmgNP6xRm91oVntIzCcCm4+IDgxkpG7k2AMTSmKapOyCRKa6SzRWtAkIlknt
+         3Vjoy1l/UAQSqOIQpSYl083UGeHjb01hQBypU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yQ+8bQqVXCGgiMZpHhx8CRsJZ+7vvYouTuTdyPbncmE=;
+        b=PCX7Vv+waFAlFm6Rl5IU4u2Ky7s/PdgmPXmzNpxHNyKqSU4szU+/NKTaKPjzCX4Gdl
+         +RKSeSLsYlC4HVokOxs5BrDxrS0wI28HVdJbuT44cco0ELW77I/+v8BQnRQbEg0qGV1z
+         6Js0SxwrC6gypD+uX4eUKm9RJ+fSCEf8E4ynBSKai6ivXsYcqBkj0kaQ84dhhT3uYXDZ
+         oGnvpTNoKu+Yrgi3OR3of545+50Dxk1psZYs8HA8K894X2/zcRg18OknvKvzeEDSJfBB
+         42Pt0Re88GN/5tUmixnbaiInxqFP27is2RKdkUBISVi7fHAFVH7irsyYhwd8VzYywgM3
+         7jUg==
+X-Gm-Message-State: AOAM532vUjT8eRVWRty4p1TbzhUkJbh8gCXOoJrbqmibCFQrA5HN6EEI
+        hYI/NObhjSe+zmTC2NUOkn5D8tdVKRZksKsYJgaZLQ==
+X-Google-Smtp-Source: ABdhPJx1EFKHl7a6Wvqqoe4z/fgmS4Q3vrumNb01ocuJbWu2dJGymSisslGXpi2Jk+BTqytlgb0JT5aqQU+B+OWZaAw=
+X-Received: by 2002:ad4:580b:: with SMTP id dd11mr2192873qvb.145.1589527587111;
+ Fri, 15 May 2020 00:26:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <7d387293-5fc8-6d6e-bc5a-03138a247d50@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200311112004.47138-1-stevensd@chromium.org> <20200311112004.47138-5-stevensd@chromium.org>
+ <20200513123326-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20200513123326-mutt-send-email-mst@kernel.org>
+From:   David Stevens <stevensd@chromium.org>
+Date:   Fri, 15 May 2020 16:26:15 +0900
+Message-ID: <CAD=HUj5qcMLw__LfJizR6nzCR9Qmu21Sjk3i0j_8+=rxt1Hk=w@mail.gmail.com>
+Subject: Re: [PATCH v3 4/4] drm/virtio: Support virtgpu exported resources
+To:     "Michael S. Tsirkin" <mst@redhat.com>
+Cc:     Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jason Wang <jasowang@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        open list <linux-kernel@vger.kernel.org>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:VIRTIO GPU DRIVER" 
+        <virtualization@lists.linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, virtio-dev@lists.oasis-open.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-hi,
-thanks for the review
+> > +     if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_UUID)) {
+> > +             vgdev->has_resource_assign_uuid = true;
+> > +     }
+>
+>
+> Just a question: this relies on DMA bufs so I assume it is
+> not really assumed to work when DMA API is bypassed, right?
+> Rather than worry what does it mean, how about just
+> disabling  this feature without PLATFORM_DMA for now?
 
-On 30.03.20 22:19, Helen Koike wrote:
-> 
-> 
-> On 3/28/20 10:53 AM, Dafna Hirschfeld wrote:
->> According to the manual, the YUV->RGB conversion outputs
-> 
-> s/manual/datasheet
-It is actually from the TRM
-> 
->> "24 bit word" that means that each pixel is 4 byte but the last
->> one should be ignored. This matches format V4L2_PIX_FMT_XBGR32.
-> 
-> I think you can re-word this a bit, since 24bits is 3 bytes, and this doesn't mean 4 bytes are used.
-> 
-> I guess you meant that datasheet says 4 bytes are used, with 24bits for the RGB and the last byte is ignored.
-indeed, i'll change that
-> 
->>
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> ---
->> The patch rebased on to of the patch
->> "media: staging: rkisp1: cap: remove field fmt_type from struct rkisp1_capture_fmt_cfg"
->>
->>   drivers/staging/media/rkisp1/rkisp1-capture.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
->> index 3abf38362f5a..5f248b68190e 100644
->> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
->> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
->> @@ -281,7 +281,7 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
->>   	},
->>   	/* rgb */
->>   	{
->> -		.fourcc = V4L2_PIX_FMT_RGB24,
->> +		.fourcc = V4L2_PIX_FMT_XBGR32,
-> 
-> Shouldn't it be V4L2_PIX_FMT_RGBX32 ?> 
-> Or the colors are inverted as well?
-yes, the bytes are inverted
+By PLATFORM_DMA, do you mean CONFIG_DMA_SHARED_BUFFER? Virtio-gpu
+depends on DRM, which selects that feature. So I think DMA bufs should
+always be available when virtio-gpu is present.
 
-Thanks,
-Dafna
-> 
-> Regards,
-> Helen
-> 
->>   		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
->>   		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_RGB888,
->>   	}, {
->>
+-David
