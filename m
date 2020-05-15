@@ -2,42 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F06C31D4799
-	for <lists+linux-media@lfdr.de>; Fri, 15 May 2020 10:01:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E429B1D479E
+	for <lists+linux-media@lfdr.de>; Fri, 15 May 2020 10:02:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727803AbgEOIBy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 15 May 2020 04:01:54 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:33932 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726694AbgEOIBy (ORCPT
+        id S1727072AbgEOICh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 15 May 2020 04:02:37 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:46113 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726821AbgEOICh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 15 May 2020 04:01:54 -0400
-Received: by mail-ot1-f66.google.com with SMTP id 72so1255346otu.1;
-        Fri, 15 May 2020 01:01:54 -0700 (PDT)
+        Fri, 15 May 2020 04:02:37 -0400
+Received: by mail-oi1-f196.google.com with SMTP id p127so1431136oia.13;
+        Fri, 15 May 2020 01:02:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=No2JaVz5PL9MmPbAv0tHg6IM3vHIPX+5t5AsaHw9gns=;
-        b=XtdFSGCFyPsO8gL/CESxJBP/ctxmtLWSoRSlKE68yXIRCgvSeU/tY3mom+8NDdHJ7m
-         fuI88+zMmkKqYe50yevgZJjr6UrGjGqLuIUf/2OfCRRmEv3uDjsbn9bAzn6ysntqR9fQ
-         NH8nc6JUCRd6OeqWImA/porrT2iSr4taRdRkPIjfJN/XJnWZsr/cmUM9mYzPpKjzxEax
-         oBkt/ZMH0WI9TVjzQh3Tcly1YP/a0LG6j0QS9N/rHktHwl4S+USrnnEvt3uZUTwoWD0s
-         nekHkIKKxhIg/Kq0on2fa6mAUA27EUJH6gdb92Kq+4WbYoc/dLCUuhRZS+Ey+MkK2faI
-         9nsA==
-X-Gm-Message-State: AOAM533yrvnVOO1RYZMN+RNUiiFfSxJZiuGSpGlnYKiIriIkdSZHtJ9X
-        ZE2iPCvGXMxN9iBY5cVNxOAQMNmdwonZYMrXC90=
-X-Google-Smtp-Source: ABdhPJwCq6Y/lOs53RDggLTbS01RRScdoE3P0pVdRcRsT6E+Llk//ag9J6IDyB3C9hS6lPP/nYJ2mm4UVfS8s0ycXAc=
-X-Received: by 2002:a9d:7e92:: with SMTP id m18mr1308992otp.145.1589529713631;
- Fri, 15 May 2020 01:01:53 -0700 (PDT)
+        bh=ZZ6vQ622AaV/0HEime7/TJpo5Nl9rILDzhMaaomGY/U=;
+        b=RV4mKTYakWpJYV4wbWO5RZfbo9FU7jGDdVdKdMeC/mIDvv/vPqgr8DLbE8r75f45xH
+         CqKDQBDBFKZzMNXoiiOOmQ3zzlw71ww0pPK1cv3/faeYrAYGerRqjF3B56qOkaXFgh5f
+         SRuB48JGhOpB3QaSLSdcX4/L15hWweXOmC88Nix6ax4jt7oqgDmr5UO9fPSPJsojExa+
+         c4mbQ8UeALTv4gj6sLIFCejUEJzGZXJzj5A+xwtcV6M/n367Tfwp2LQt1bcPj0gpUbyw
+         LiKkznrgRVP4AnUyRFTHLaYDr0fEuc/tFjEcamH5S0PhMxxCSrSYk8DZXUsASdAnJR+d
+         y0Rw==
+X-Gm-Message-State: AOAM532ANftY28XMQ/Tq+Ikf8gy+TgVEywThgOoQ3ZSWtLynJdfppYn/
+        7JlOMOYAQHrKyDRcNDcCNQHcw0lJE0XqF9MFqiM=
+X-Google-Smtp-Source: ABdhPJzN8vLde9ZUe9S+qS5BonElYeoTqoiGm2rI6IOYvfC6AUI+uzWHSOmSDDQBakSFOgcFTv+oQlC2M0atUYWMYEA=
+X-Received: by 2002:aca:d50f:: with SMTP id m15mr1265980oig.54.1589529756623;
+ Fri, 15 May 2020 01:02:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200515012432.31326-1-laurent.pinchart+renesas@ideasonboard.com> <20200515012432.31326-4-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20200515012432.31326-4-laurent.pinchart+renesas@ideasonboard.com>
+References: <20200515012432.31326-1-laurent.pinchart+renesas@ideasonboard.com> <20200515012432.31326-7-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20200515012432.31326-7-laurent.pinchart+renesas@ideasonboard.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 15 May 2020 10:01:42 +0200
-Message-ID: <CAMuHMdUtZOB4_mZ56C-12ir3RjtMp1S13WN6PMcQYN1yj_XyKQ@mail.gmail.com>
-Subject: Re: [PATCH 3/8] dt-bindings: media: renesas,fcp: Add resets and
- iommus properties
+Date:   Fri, 15 May 2020 10:02:25 +0200
+Message-ID: <CAMuHMdWngTHUP=_kwTFsvjLt+7ciEfNhBYz8xXFOktt+gJg5Jg@mail.gmail.com>
+Subject: Re: [PATCH 6/8] dt-bindings: media: renesas,fdp1: Add resets property
 To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
@@ -49,11 +48,13 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 15, 2020 at 3:45 AM Laurent Pinchart
+On Fri, May 15, 2020 at 3:42 AM Laurent Pinchart
 <laurent.pinchart+renesas@ideasonboard.com> wrote:
-> The resets and iommus properties are used in DT sources in the kernel
-> tree. Document them, and make resets mandatory. The iommus property is
-> optional as not all platforms wire the FCP to a functional IOMMU.
+> The resets property ise used in DT sources in the kernel tree. Document
+
+is
+
+> it and make it mandatory.
 >
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
