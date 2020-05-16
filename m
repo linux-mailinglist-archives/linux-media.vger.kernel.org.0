@@ -2,102 +2,306 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 491591D6096
-	for <lists+linux-media@lfdr.de>; Sat, 16 May 2020 13:53:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 638061D643A
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2020 23:26:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726206AbgEPLxs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 16 May 2020 07:53:48 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:38473 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726197AbgEPLxr (ORCPT
+        id S1726671AbgEPV0l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 16 May 2020 17:26:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42770 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726668AbgEPV0l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 16 May 2020 07:53:47 -0400
-Received: from [10.0.0.6] ([120.156.36.44]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Ml3ym-1ioWt22sSS-00lWT0 for <linux-media@vger.kernel.org>; Sat, 16 May 2020
- 13:53:45 +0200
-Subject: Re: [GIT,PULL] Ressurect the atomisp staging driver
-To:     linux-media@vger.kernel.org
-References: <7fa44621-963f-2d55-ab91-0fee483a94f5@rayment.fr>
- <20200516115459.4a24063b@coco.lan>
-From:   Finn Rayment <finn@rayment.fr>
-Message-ID: <be10190f-d87a-aa9e-3fd9-747f7715a108@rayment.fr>
-Date:   Sat, 16 May 2020 21:53:14 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.8.0
+        Sat, 16 May 2020 17:26:41 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C43FC061A0C
+        for <linux-media@vger.kernel.org>; Sat, 16 May 2020 14:26:41 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38140258;
+        Sat, 16 May 2020 23:26:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1589664397;
+        bh=eC/H0V7ShjWG5Ijc32CkI13TB9yloa1FbQSPxWrTQAc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JU5DhZc1Qbp5gLeYduc0dFxn2Zne9PVduCyqIlyrK4U3A0O6VKoA2k42nel7Nwm+q
+         nGMoHKz+jY3c5o+pzW3bS2YxQuNZipRIxbVCoI3RnsWP+vbSyct+y+jKfIwz/be0WU
+         tPz2nA9Eev5h4+5uepHaa8biX492tqAD3/lRtATE=
+Date:   Sun, 17 May 2020 00:26:28 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
+Subject: Re: [PATCH 1/2] media: dt-bindings: media: i2c: Add MT9M114 camera
+ sensor binding
+Message-ID: <20200516212628.GC17970@pendragon.ideasonboard.com>
+References: <20200511233456.9722-1-laurent.pinchart@ideasonboard.com>
+ <20200516143208.p2vvnrltlyejs2w5@uno.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20200516115459.4a24063b@coco.lan>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-AU
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:n9Zw8WWapqBQDKeU5BCQXdsn0AX7RCtdBj+YhziRQhDiIDYtuHw
- PH99k8xmcGj+VzuEU8uaGKKqDir64q3/bLiWEjUnfEzIb9Yl2zhzUTeR0MSU2FE5tf5g5dy
- rLj6aW8o0c8DWKNV4H++FfBrvsqTOq5cnoOFTCTBRKppPzIx74EcO5l1JDGXeCjdZ/tZ1Fc
- Soq7XHmjgX6bVFhPADkjw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BIq9dvBSAys=:1C/ZNGybz+5UuWY3GfJTYl
- 3ojMlYDZgHQWzq+doxMIL+afKug7yhSKJHrslo1cPtOhA+9L8n8TpX3SgkhJdp9gTowr7BtP6
- 0lulI2DgoeIgdtHrhggoSdPuYUTutqF8tXrLhRp5mxBPdJ2kC17R3xLXBKwHIqmV9mkPf8RbV
- s4I5l64b8BzO8hgB+np3YZMk+bL01jYOZ0LP65CmN5MYsgcsTWUWi/9mKRDB3lgnbVo3SFyub
- zeR1zy0GuI2a/4sSMjcEaD2ObsoHFhmNwoHFOR55mC6unuquy27CYQ9TVwrXCYpX5LgF0cJQ4
- zZta8Um2ZHD6qZ84MXlkDbGMEtO1X5XX6jimlhiwryIdSTozOrdDU/99MNpDuAdZUEbjHFzw9
- Doi7eljiWOawyYmFu4YwBGhPVpMVzjq3yxlA+0xgKl9e8rQbe/EP/nl6M6XVwe+KMndHK8Im7
- Ii8nIqZdHn5myVI6HrHHQlZ4tibn+FOwcA9EPc5jcqg9SreG1e4cHvm9REQVD1OxXUcNuqph9
- cOFml9q0FlMH8z9OYT1Qlc0z6RhYGxE3k/pBBkOpWcDC9QRqIqNLNaK4r2Xh/2pd1isGW+XFV
- EA8dW121iLKFINdvtrcZsuordYNr8cImkUP6SBvR4o/Cr5goGCwsrPp9D9O23N3I3ChdIxXbI
- VjpVCtgPI2JROqLRRLF4iAlVxaAar5ubaZ32HuK8mdO5e4vOdZpkbJXUj3Cd0Xk2kKuoxJBk/
- xgdDy0kOv0QqjGiKMHit+uUx/KO0Ra5hEoxkNbaNKp07NMlDXCs3rOoxZhKNfmzxSfeuYGPlA
- cnGsf7hKXNpKT1ftaU1iW2MNgJuGWp2ni77ox3x6eGHg6Mg4RxQNvWqVFKj0dNNLb6U/yr1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200516143208.p2vvnrltlyejs2w5@uno.localdomain>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/5/20 11:54, Mauro Carvalho Chehab wrote:
-> Em Sat, 16 May 2020 15:23:57 +0200
-> Finn Rayment <finn@rayment.fr> escreveu:
-> 
->> Hello,
->>
->> I've cloned HEAD from atomisp_v2 (commit bb1407f0d...), tried to compile
->> it on a T100TA and have received the following error:
->>
->> arch/x86/kvm/../../../virt/kvm/kvm_main.c: In function
->> __kvm_gfn_to_hva_cache_init:
->> arch/x86/kvm/../../../virt/kvm/kvm_main.c:2442:42: error: nr_pages_avail
->> may be used uninitialized in this function [-Werror=maybe-uninitialized]
->>
->> Commenting out the third line in arch/x86/kvm/Makefile has solved this
->> for me. Aside from warnings, this is the only error I receive during
->> compilation.
->>
->> After installing the kernel and booting to Arch Linux, it gets stuck at
->> "Loading initial ramdisk" with no extra information even with
->> `loglevel=7` set. I will try to diagnose the issue and ensure I haven't
->> incorrectly installed the kernel - will also try to compile on another
->> computer.
->>
->> Let me know if I can offer any other help or more information, I would
->> love to contribute to the development of these drivers.
->>
->> Regards,
->> Finn.
-> 
-> Let me enclose the .config file I used here. Perhaps using the same one
-> as a starting point would help building it.
-> 
-> Thanks,
-> Mauro
-> 
+Hi Jacopo,
 
-Thank you for the config. I've tried compiling on the T100TA itself and 
-a second computer and on both I am receiving this error now:
+On Sat, May 16, 2020 at 04:32:08PM +0200, Jacopo Mondi wrote:
+> On Tue, May 12, 2020 at 02:34:55AM +0300, Laurent Pinchart wrote:
+> > Add device tree binding for the ON Semiconductor MT9M114 CMOS camera
+> > sensor.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  .../bindings/media/i2c/onnn,mt9m114.yaml      | 188 ++++++++++++++++++
+> >  MAINTAINERS                                   |   7 +
+> >  2 files changed, 195 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> > new file mode 100644
+> > index 000000000000..2c3c691aacfd
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> > @@ -0,0 +1,188 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/onnn,mt9m114.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: ON Semiconductor 1/6-inch 720p CMOS Digital Image Sensor
+> > +
+> > +maintainers:
+> > +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > +
+> > +description: |-
+> > +  The ON Semiconductor MT9M114 is a 1/6-inch 720p (1.26 Mp) CMOS digital image
+> > +  sensor with an active pixel-array size of 1296H x 976V. It is programmable
+> > +  through an I2C interface and outputs image data over a 8-bit parallel or
+> > +  1-lane MIPI CSI-2 connection.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: onnn,mt9m114
+> > +
+> > +  reg:
+> > +    description: I2C device address
+> > +    enum:
+> > +      - 0x48
+> > +      - 0x5d
+> > +
+> > +  clocks:
+> > +    description: EXTCLK clock signal
+> > +    maxItems: 1
+> > +
+> > +  vdd-supply:
+> > +    description:
+> > +      Core digital voltage supply, 1.8V
+> > +
+> > +  vddio-supply:
+> > +    description:
+> > +      I/O digital voltage supply, 1.8V or 2.8V
+> > +
+> > +  vaa-supply:
+> > +    description:
+> > +      Analog voltage supply, 2.8V
+> > +
+> > +  reset-gpios:
+> > +    description: |-
+> > +      Reference to the GPIO connected to the RESET_BAR pin, if any (active
+> > +      low).
+> > +
+> > +  # See ../video-interfaces.txt for more details
+> > +  port:
+> > +    type: object
+> > +    properties:
+> > +      endpoint:
+> > +        type: object
+> > +        properties:
+> > +          bus-type:
+> > +            enum: [4, 5, 6]
+> > +
+> > +          clock-lanes:
+> > +            items:
+> > +              - const: 0
+> > +
+> > +          data-lanes:
+> > +            items:
+> > +              - const: 1
+> 
+> Does it make sense with a single data lane ?
 
-make[1]: *** [kernel/Makefile:136: kernel/kheaders_data.tar.xz] Error 127
-make: *** [Makefile:1722: kernel] Error 2
-make: *** Waiting for unfinished jobs....
+That's an open question, which Sakari has raised too. As the value is
+fixed for this particular device, I didn't make the property mandatory.
+Should it be disallowed completely ? I see pros and cons, and there are
+cases where properties that may vary but are fixed for a particular
+device are still required in DT to help with generic parsing code.
+However, making the property optional means that generic code can't rely
+on it anyway, so it probably has little value.
 
-I am unable to finish generating the modules because of this.
+I'd like to hear from Rob about a general policy for this type of
+situation.
 
+> > +
+> > +          bus-width:
+> > +            items:
+> > +              - const: 8
+> 
+> Same question if the bus width is fixed to 8.
+> 
+> > +
+> > +          hsync-active:
+> > +            items:
+> > +              - const: 1
+> > +
+> > +          vsync-active:
+> > +            items:
+> > +              - const: 1
+> > +
+> > +        required:
+> > +          - bus-type
+> > +
+> > +        allOf:
+> > +          - if:
+> > +              properties:
+> > +                bus-type:
+> > +                  const: 4
+> > +            then:
+> > +              properties:
+> > +                bus-width: false
+> > +                hsync-active: false
+> > +                vsync-active: false
+> > +
+> > +          - if:
+> > +              properties:
+> > +                bus-type:
+> > +                  const: 5
+> > +            then:
+> > +              properties:
+> > +                clock-lanes: false
+> > +                data-lanes: false
+> > +
+> > +          - if:
+> > +              properties:
+> > +                bus-type:
+> > +                  const: 6
+> > +            then:
+> > +              properties:
+> > +                clock-lanes: false
+> > +                data-lanes: false
+> > +                hsync-active: false
+> > +                vsync-active: false
+> > +
+> > +        unevaluatedProperties: false
+> 
+>     required:
+>       endpoint
+> ?
+
+Endpoints are not generally required, as ports can be left unconnected.
+There probably little use for this in this particular case, but I could
+imagine a system with two sensors and only one of them being connected
+to the SoC (with 0Ω resistors to implement a cheap and hardwired mux).
+We could have both sensors in DT, with only the endpoints being
+dependent on the board mounting options. This could simplify writing
+more generic DT. I'd thus rather not make the endpoint mandatory.
+
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - vdd-supply
+> > +  - vddio-supply
+> > +  - vaa-supply
+> > +  - port
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    i2c0 {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        sensor@48 {
+> > +            compatible = "onnn,mt9m114";
+> > +            reg = <0x48>;
+> > +
+> > +            clocks = <&clk24m 0>;
+> > +
+> > +            reset-gpios = <&gpio5 21 GPIO_ACTIVE_LOW>;
+> > +
+> > +            vddio-supply = <&reg_cam_1v8>;
+> > +            vdd-supply = <&reg_cam_1v8>;
+> > +            vaa-supply = <&reg_2p8v>;
+> > +
+> > +            port {
+> > +                endpoint {
+> > +                    bus-type = <4>;
+> > +                    clock-lanes = <0>;
+> > +                    data-lanes = <1>;
+> > +                    remote-endpoint = <&mipi_csi_in>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    i2c0 {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        sensor@5d {
+> > +            compatible = "onnn,mt9m114";
+> > +            reg = <0x5d>;
+> > +
+> > +            clocks = <&clk24m 0>;
+> > +
+> > +            reset-gpios = <&gpio5 21 GPIO_ACTIVE_LOW>;
+> > +
+> > +            vddio-supply = <&reg_cam_1v8>;
+> > +            vdd-supply = <&reg_cam_1v8>;
+> > +            vaa-supply = <&reg_2p8v>;
+> > +
+> > +            port {
+> > +                endpoint {
+> > +                    bus-type = <5>;
+> > +                    bus-width = <8>;
+> > +                    hsync-active = <1>;
+> > +                    vsync-active = <1>;
+> > +                    remote-endpoint = <&parallel_in>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 091ec22c1a23..61d2fb6d049e 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -11457,6 +11457,13 @@ T:	git git://linuxtv.org/media_tree.git
+> >  F:	drivers/media/i2c/mt9m032.c
+> >  F:	include/media/i2c/mt9m032.h
+> >
+> > +MT9M114 ON SEMICONDUCTOR SENSOR DRIVER
+> > +M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > +L:	linux-media@vger.kernel.org
+> > +S:	Maintained
+> > +T:	git git://linuxtv.org/media_tree.git
+> > +F:	Documentation/devicetree/bindings/media/i2c.onnn,mt9m114.yaml
+> > +
+> >  MT9P031 APTINA CAMERA SENSOR
+> >  M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >  L:	linux-media@vger.kernel.org
+
+-- 
 Regards,
-Finn.
+
+Laurent Pinchart
