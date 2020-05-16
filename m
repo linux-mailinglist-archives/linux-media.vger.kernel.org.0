@@ -2,306 +2,237 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 638061D643A
-	for <lists+linux-media@lfdr.de>; Sat, 16 May 2020 23:26:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A30A1D6451
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2020 23:51:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726671AbgEPV0l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 16 May 2020 17:26:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42770 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726668AbgEPV0l (ORCPT
+        id S1726703AbgEPVvL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 16 May 2020 17:51:11 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:54420 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726668AbgEPVvL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 16 May 2020 17:26:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C43FC061A0C
-        for <linux-media@vger.kernel.org>; Sat, 16 May 2020 14:26:41 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38140258;
-        Sat, 16 May 2020 23:26:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1589664397;
-        bh=eC/H0V7ShjWG5Ijc32CkI13TB9yloa1FbQSPxWrTQAc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=JU5DhZc1Qbp5gLeYduc0dFxn2Zne9PVduCyqIlyrK4U3A0O6VKoA2k42nel7Nwm+q
-         nGMoHKz+jY3c5o+pzW3bS2YxQuNZipRIxbVCoI3RnsWP+vbSyct+y+jKfIwz/be0WU
-         tPz2nA9Eev5h4+5uepHaa8biX492tqAD3/lRtATE=
-Date:   Sun, 17 May 2020 00:26:28 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     linux-media@vger.kernel.org, Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH 1/2] media: dt-bindings: media: i2c: Add MT9M114 camera
- sensor binding
-Message-ID: <20200516212628.GC17970@pendragon.ideasonboard.com>
-References: <20200511233456.9722-1-laurent.pinchart@ideasonboard.com>
- <20200516143208.p2vvnrltlyejs2w5@uno.localdomain>
+        Sat, 16 May 2020 17:51:11 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 5153E634C87;
+        Sun, 17 May 2020 00:51:03 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1ja4hz-0000O6-9a; Sun, 17 May 2020 00:51:03 +0300
+Date:   Sun, 17 May 2020 00:51:03 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
+Message-ID: <20200516215103.GA857@valkosipuli.retiisi.org.uk>
+References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200512155105.1068064-3-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200516143208.p2vvnrltlyejs2w5@uno.localdomain>
+In-Reply-To: <20200512155105.1068064-3-kieran.bingham+renesas@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Kieran,
 
-On Sat, May 16, 2020 at 04:32:08PM +0200, Jacopo Mondi wrote:
-> On Tue, May 12, 2020 at 02:34:55AM +0300, Laurent Pinchart wrote:
-> > Add device tree binding for the ON Semiconductor MT9M114 CMOS camera
-> > sensor.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  .../bindings/media/i2c/onnn,mt9m114.yaml      | 188 ++++++++++++++++++
-> >  MAINTAINERS                                   |   7 +
-> >  2 files changed, 195 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > new file mode 100644
-> > index 000000000000..2c3c691aacfd
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > @@ -0,0 +1,188 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/onnn,mt9m114.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: ON Semiconductor 1/6-inch 720p CMOS Digital Image Sensor
-> > +
-> > +maintainers:
-> > +  - Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > +
-> > +description: |-
-> > +  The ON Semiconductor MT9M114 is a 1/6-inch 720p (1.26 Mp) CMOS digital image
-> > +  sensor with an active pixel-array size of 1296H x 976V. It is programmable
-> > +  through an I2C interface and outputs image data over a 8-bit parallel or
-> > +  1-lane MIPI CSI-2 connection.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: onnn,mt9m114
-> > +
-> > +  reg:
-> > +    description: I2C device address
-> > +    enum:
-> > +      - 0x48
-> > +      - 0x5d
-> > +
-> > +  clocks:
-> > +    description: EXTCLK clock signal
-> > +    maxItems: 1
-> > +
-> > +  vdd-supply:
-> > +    description:
-> > +      Core digital voltage supply, 1.8V
-> > +
-> > +  vddio-supply:
-> > +    description:
-> > +      I/O digital voltage supply, 1.8V or 2.8V
-> > +
-> > +  vaa-supply:
-> > +    description:
-> > +      Analog voltage supply, 2.8V
-> > +
-> > +  reset-gpios:
-> > +    description: |-
-> > +      Reference to the GPIO connected to the RESET_BAR pin, if any (active
-> > +      low).
-> > +
-> > +  # See ../video-interfaces.txt for more details
-> > +  port:
-> > +    type: object
-> > +    properties:
-> > +      endpoint:
-> > +        type: object
-> > +        properties:
-> > +          bus-type:
-> > +            enum: [4, 5, 6]
-> > +
-> > +          clock-lanes:
-> > +            items:
-> > +              - const: 0
-> > +
-> > +          data-lanes:
-> > +            items:
-> > +              - const: 1
-> 
-> Does it make sense with a single data lane ?
+Thanks for the update.
 
-That's an open question, which Sakari has raised too. As the value is
-fixed for this particular device, I didn't make the property mandatory.
-Should it be disallowed completely ? I see pros and cons, and there are
-cases where properties that may vary but are fixed for a particular
-device are still required in DT to help with generic parsing code.
-However, making the property optional means that generic code can't rely
-on it anyway, so it probably has little value.
+On Tue, May 12, 2020 at 04:51:03PM +0100, Kieran Bingham wrote:
 
-I'd like to hear from Rob about a general policy for this type of
-situation.
+...
 
-> > +
-> > +          bus-width:
-> > +            items:
-> > +              - const: 8
-> 
-> Same question if the bus width is fixed to 8.
-> 
-> > +
-> > +          hsync-active:
-> > +            items:
-> > +              - const: 1
-> > +
-> > +          vsync-active:
-> > +            items:
-> > +              - const: 1
-> > +
-> > +        required:
-> > +          - bus-type
-> > +
-> > +        allOf:
-> > +          - if:
-> > +              properties:
-> > +                bus-type:
-> > +                  const: 4
-> > +            then:
-> > +              properties:
-> > +                bus-width: false
-> > +                hsync-active: false
-> > +                vsync-active: false
-> > +
-> > +          - if:
-> > +              properties:
-> > +                bus-type:
-> > +                  const: 5
-> > +            then:
-> > +              properties:
-> > +                clock-lanes: false
-> > +                data-lanes: false
-> > +
-> > +          - if:
-> > +              properties:
-> > +                bus-type:
-> > +                  const: 6
-> > +            then:
-> > +              properties:
-> > +                clock-lanes: false
-> > +                data-lanes: false
-> > +                hsync-active: false
-> > +                vsync-active: false
-> > +
-> > +        unevaluatedProperties: false
-> 
->     required:
->       endpoint
-> ?
+> +static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+> +				  struct v4l2_subdev_pad_config *cfg,
+> +				  struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	if (code->pad || code->index > 0)
+> +		return -EINVAL;
+> +
+> +	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
 
-Endpoints are not generally required, as ports can be left unconnected.
-There probably little use for this in this particular case, but I could
-imagine a system with two sensors and only one of them being connected
-to the SoC (with 0Ω resistors to implement a cheap and hardwired mux).
-We could have both sensors in DT, with only the endpoints being
-dependent on the board mounting options. This could simplify writing
-more generic DT. I'd thus rather not make the endpoint mandatory.
+Why UYVY8_2X8 and not UYVY8_1X16? In general, the single sample / pixel
+variant of the format is generally used on the serial busses. This choice
+was made when serial busses were introduced.
 
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> > +  - vdd-supply
-> > +  - vddio-supply
-> > +  - vaa-supply
-> > +  - port
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    i2c0 {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        sensor@48 {
-> > +            compatible = "onnn,mt9m114";
-> > +            reg = <0x48>;
-> > +
-> > +            clocks = <&clk24m 0>;
-> > +
-> > +            reset-gpios = <&gpio5 21 GPIO_ACTIVE_LOW>;
-> > +
-> > +            vddio-supply = <&reg_cam_1v8>;
-> > +            vdd-supply = <&reg_cam_1v8>;
-> > +            vaa-supply = <&reg_2p8v>;
-> > +
-> > +            port {
-> > +                endpoint {
-> > +                    bus-type = <4>;
-> > +                    clock-lanes = <0>;
-> > +                    data-lanes = <1>;
-> > +                    remote-endpoint = <&mipi_csi_in>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    i2c0 {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        sensor@5d {
-> > +            compatible = "onnn,mt9m114";
-> > +            reg = <0x5d>;
-> > +
-> > +            clocks = <&clk24m 0>;
-> > +
-> > +            reset-gpios = <&gpio5 21 GPIO_ACTIVE_LOW>;
-> > +
-> > +            vddio-supply = <&reg_cam_1v8>;
-> > +            vdd-supply = <&reg_cam_1v8>;
-> > +            vaa-supply = <&reg_2p8v>;
-> > +
-> > +            port {
-> > +                endpoint {
-> > +                    bus-type = <5>;
-> > +                    bus-width = <8>;
-> > +                    hsync-active = <1>;
-> > +                    vsync-active = <1>;
-> > +                    remote-endpoint = <&parallel_in>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +
-> > +...
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 091ec22c1a23..61d2fb6d049e 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -11457,6 +11457,13 @@ T:	git git://linuxtv.org/media_tree.git
-> >  F:	drivers/media/i2c/mt9m032.c
-> >  F:	include/media/i2c/mt9m032.h
-> >
-> > +MT9M114 ON SEMICONDUCTOR SENSOR DRIVER
-> > +M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > +L:	linux-media@vger.kernel.org
-> > +S:	Maintained
-> > +T:	git git://linuxtv.org/media_tree.git
-> > +F:	Documentation/devicetree/bindings/media/i2c.onnn,mt9m114.yaml
-> > +
-> >  MT9P031 APTINA CAMERA SENSOR
-> >  M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >  L:	linux-media@vger.kernel.org
+> +
+> +	return 0;
+> +}
+> +
+> +static struct v4l2_mbus_framefmt *
+> +max9286_get_pad_format(struct max9286_priv *priv,
+> +		       struct v4l2_subdev_pad_config *cfg,
+> +		       unsigned int pad, u32 which)
+> +{
+> +	switch (which) {
+> +	case V4L2_SUBDEV_FORMAT_TRY:
+> +		return v4l2_subdev_get_try_format(&priv->sd, cfg, pad);
+> +	case V4L2_SUBDEV_FORMAT_ACTIVE:
+> +		return &priv->fmt[pad];
+> +	default:
+> +		return NULL;
+> +	}
+> +}
+> +
+> +static int max9286_set_fmt(struct v4l2_subdev *sd,
+> +			   struct v4l2_subdev_pad_config *cfg,
+> +			   struct v4l2_subdev_format *format)
+> +{
+> +	struct max9286_priv *priv = sd_to_max9286(sd);
+> +	struct v4l2_mbus_framefmt *cfg_fmt;
+> +
+> +	if (format->pad >= MAX9286_SRC_PAD)
+> +		return -EINVAL;
+
+You can remove these checks; it's been already done by the caller.
+
+...
+
+> +static int max9286_parse_dt(struct max9286_priv *priv)
+> +{
+> +	struct device *dev = &priv->client->dev;
+> +	struct device_node *i2c_mux;
+> +	struct device_node *node = NULL;
+> +	unsigned int i2c_mux_mask = 0;
+> +
+> +	of_node_get(dev->of_node);
+> +	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
+> +	if (!i2c_mux) {
+> +		dev_err(dev, "Failed to find i2c-mux node\n");
+> +		of_node_put(dev->of_node);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Identify which i2c-mux channels are enabled */
+> +	for_each_child_of_node(i2c_mux, node) {
+> +		u32 id = 0;
+> +
+> +		of_property_read_u32(node, "reg", &id);
+> +		if (id >= MAX9286_NUM_GMSL)
+> +			continue;
+> +
+> +		if (!of_device_is_available(node)) {
+> +			dev_dbg(dev, "Skipping disabled I2C bus port %u\n", id);
+> +			continue;
+> +		}
+> +
+> +		i2c_mux_mask |= BIT(id);
+> +	}
+> +	of_node_put(node);
+> +	of_node_put(i2c_mux);
+> +
+> +	/* Parse the endpoints */
+> +	for_each_endpoint_of_node(dev->of_node, node) {
+> +		struct max9286_source *source;
+> +		struct of_endpoint ep;
+> +
+> +		of_graph_parse_endpoint(node, &ep);
+> +		dev_dbg(dev, "Endpoint %pOF on port %d",
+> +			ep.local_node, ep.port);
+> +
+> +		if (ep.port > MAX9286_NUM_GMSL) {
+> +			dev_err(dev, "Invalid endpoint %s on port %d",
+> +				of_node_full_name(ep.local_node), ep.port);
+> +			continue;
+> +		}
+> +
+> +		/* For the source endpoint just parse the bus configuration. */
+> +		if (ep.port == MAX9286_SRC_PAD) {
+> +			struct v4l2_fwnode_endpoint vep = {
+> +				.bus_type = V4L2_MBUS_CSI2_DPHY
+> +			};
+> +			int ret;
+> +
+> +			ret = v4l2_fwnode_endpoint_parse(
+> +					of_fwnode_handle(node), &vep);
+> +			if (ret) {
+> +				of_node_put(node);
+> +				of_node_put(dev->of_node);
+> +				return ret;
+> +			}
+> +
+> +			if (vep.bus_type != V4L2_MBUS_CSI2_DPHY) {
+
+This won't happen, the bus type will stay if you set it to a non-zero
+value.
+
+> +				dev_err(dev,
+> +					"Media bus %u type not supported\n",
+> +					vep.bus_type);
+> +				v4l2_fwnode_endpoint_free(&vep);
+> +				of_node_put(node);
+> +				of_node_put(dev->of_node);
+> +				return -EINVAL;
+> +			}
+> +
+> +			priv->csi2_data_lanes =
+> +				vep.bus.mipi_csi2.num_data_lanes;
+> +			v4l2_fwnode_endpoint_free(&vep);
+
+No need to call this unless you use v4l2_fwnode_endpoint_alloc_parse().
+
+And as you don't, you also won't know which frequencies are known to be
+safe to use. That said, perhaps where this device is used having a random
+frequency on that bus could not be an issue. Perhaps.
+
+> +
+> +			continue;
+> +		}
+> +
+> +		/* Skip if the corresponding GMSL link is unavailable. */
+> +		if (!(i2c_mux_mask & BIT(ep.port)))
+> +			continue;
+> +
+> +		if (priv->sources[ep.port].fwnode) {
+> +			dev_err(dev,
+> +				"Multiple port endpoints are not supported: %d",
+> +				ep.port);
+> +
+> +			continue;
+> +		}
+> +
+> +		source = &priv->sources[ep.port];
+> +		source->fwnode = fwnode_graph_get_remote_endpoint(
+> +						of_fwnode_handle(node));
+> +		if (!source->fwnode) {
+> +			dev_err(dev,
+> +				"Endpoint %pOF has no remote endpoint connection\n",
+> +				ep.local_node);
+> +
+> +			continue;
+> +		}
+> +
+> +		priv->source_mask |= BIT(ep.port);
+> +		priv->nsources++;
+> +	}
+> +	of_node_put(node);
+> +	of_node_put(dev->of_node);
+> +
+> +	priv->route_mask = priv->source_mask;
+> +
+> +	return 0;
+> +}
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
