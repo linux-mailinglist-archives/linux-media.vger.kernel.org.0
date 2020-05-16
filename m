@@ -2,96 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2EC81D6136
-	for <lists+linux-media@lfdr.de>; Sat, 16 May 2020 15:10:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D88FE1D5EE6
+	for <lists+linux-media@lfdr.de>; Sat, 16 May 2020 07:24:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726362AbgEPNKB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 16 May 2020 09:10:01 -0400
-Received: from gofer.mess.org ([88.97.38.141]:51641 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726341AbgEPNKB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 16 May 2020 09:10:01 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id DA2F9C636B; Sat, 16 May 2020 14:09:59 +0100 (BST)
-From:   Sean Young <sean@mess.org>
+        id S1725997AbgEPFY0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 16 May 2020 01:24:26 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:56293 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725275AbgEPFY0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 16 May 2020 01:24:26 -0400
+Received: from [10.0.0.6] ([120.156.36.44]) by mrelayeu.kundenserver.de
+ (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1MnItm-1iqpzQ26q4-00jLLz for <linux-media@vger.kernel.org>; Sat, 16 May 2020
+ 07:24:25 +0200
 To:     linux-media@vger.kernel.org
-Cc:     Ralf Schmidt <rds2@gmx.de>
-Subject: [PATCH v4l-utils] keytable: "-p all" should not attempt BPF decodes that don't exist
-Date:   Sat, 16 May 2020 14:09:59 +0100
-Message-Id: <20200516130959.2593-1-sean@mess.org>
-X-Mailer: git-send-email 2.20.1
+From:   Finn Rayment <finn@rayment.fr>
+Subject: [GIT,PULL] Ressurect the atomisp staging driver
+Message-ID: <7fa44621-963f-2d55-ab91-0fee483a94f5@rayment.fr>
+Date:   Sat, 16 May 2020 15:23:57 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-AU
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:gnzipYFh/+dsXczJ+lvfdjzkDZzDShHWrswt1dI1b9GVR3pKi0B
+ 866Df6IvscbVGGwr/sekOTG7OPq3mxu6f/++a3dAvf8WtriIyTdj5WhNCt6Egk0SbjfHUQa
+ x/4rgzwg6pK9VPVsr7Vx1gzzzXQz3eRpmJli1L5odnSaaFRzW+p7XpCVPSS58UFOzO4En8j
+ inqVsrz+Qj67Z3kUQG66w==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xbsDBycmjJo=:bT1i6OZ8P3RztnfRV7xvHt
+ 5Njq4vQ+XOucx7lcv6JVZyjb3X7WAfre6lfxKL7tBgUnM1VO47nyuS6RD955N2TJmfEz/Y623
+ d9+UKoAXaPRH104CVoV9m5AAzhAo+zBFUPLHObBTUMNRRe3fz+JLGeWHHTdy0b8gt1FE+upzG
+ qH1jdKYvluagXBVec4oZSULA9V34DgDqNeOIzh8bN34T4NPAwnlO1abZHeKVEahBcq9CBUGqs
+ +9QQfK1cRl6juNNHJ+vljADycVtQpd/4hz1NW3rgbxTDLFRqxvTncVdhEX6rDcasE4b0jPFWx
+ sjqNSjRia40lntEGwdp/mJTGH/SZZrOcIBNXYB292J2pU9y3hp3gtVgGDzOdCMkQLaygKL2rF
+ O9QXR12gvMbJwnDP9sHL/MbFHW5mg7qplMv1CBrsqy3zGWHVcrEc97sQo1VgOj3zBBNMEsW0u
+ S215Pe076m53y08OihYepnEZG8F7uzYEX+KeXH+aZddvS5W6It0lU789DvktkBx/LXitjd2jP
+ 9q+RFQEQ9f0X9QlTpXYONTYZjWxDETFM6qFUMGhVpp18XveWzCGiwx/GSiZ69yc9d1KlDEN/o
+ bAXYPzySJPEk/DIV38pObhjInmFwd+SMQvlkQyxts0mvP0aNncTr90e7X2y6Fvfhw+O4XKTSl
+ uW6Ppwuf5PxNQfhSd4e/UQKWhoEJq3FJrCJW3rLdg25R9JDKov96NHmJczKrBYFz3TeQ+zZve
+ /ZXjIOpXcCzzZ3hDqzzHCkGuPj/6BT2ftnhZhCshXi/vJFlvpDsGjTVhTWILGZ6xt1BGO40Fd
+ 9Jk3VUAHg1wOoNJgDd6zhAsdDDuU2SYcG385R6wOOVpRMtqviENWQdpIk7CF1qNM6OYooIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently we only have a BPF decoder for xbox_dvd. Other decoders
-should not be attempted.
+Hello,
 
-Reported-by: Ralf Schmidt <rds2@gmx.de>
-Signed-off-by: Sean Young <sean@mess.org>
----
- utils/keytable/keytable.c | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+I've cloned HEAD from atomisp_v2 (commit bb1407f0d...), tried to compile 
+it on a T100TA and have received the following error:
 
-diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
-index 4db91267..3df5fcf2 100644
---- a/utils/keytable/keytable.c
-+++ b/utils/keytable/keytable.c
-@@ -945,12 +945,21 @@ static struct sysfs_names *find_device(char *name)
- 	return names;
- }
- 
-+/*
-+ * If an rcdev does not have a decoder for a protocol, try to load a bpf
-+ * replacement.
-+ */
- static enum sysfs_protocols load_bpf_for_unsupported(enum sysfs_protocols protocols, enum sysfs_protocols supported)
- {
- 	const struct protocol_map_entry *pme;
- 	struct bpf_protocol *b;
- 
- 	for (pme = protocol_map; pme->name; pme++) {
-+		// So far, we only have a replacement for the xbox_dvd
-+		// protocol
-+		if (pme->sysfs_protocol != SYSFS_XBOX_DVD)
-+			continue;
-+
- 		if (!(protocols & pme->sysfs_protocol) ||
- 		    (supported & pme->sysfs_protocol))
- 			continue;
-@@ -1156,7 +1165,7 @@ static int v2_set_protocols(struct rc_device *rc_dev)
- 
- 	if (!stat(name, &st) && !(st.st_mode & 0222)) {
- 		fprintf(stderr, _("Protocols for device can not be changed\n"));
--		return 0;
-+		return EINVAL;
- 	}
- 
- 	fp = fopen(name, "w");
-@@ -1323,8 +1332,7 @@ static int set_proto(struct rc_device *rc_dev)
- 	int rc = 0;
- 
- 	if (rc_dev->version == VERSION_2) {
--		rc = v2_set_protocols(rc_dev);
--		return rc;
-+		return v2_set_protocols(rc_dev);
- 	}
- 
- 	rc_dev->current &= rc_dev->supported;
-@@ -2151,9 +2159,7 @@ int main(int argc, char *argv[])
- 
- 		rc_dev.current = load_bpf_for_unsupported(ch_proto, rc_dev.supported);
- 
--		if (set_proto(&rc_dev))
--			fprintf(stderr, _("Couldn't change the IR protocols\n"));
--		else {
-+		if (!set_proto(&rc_dev)) {
- 			fprintf(stderr, _("Protocols changed to "));
- 			write_sysfs_protocols(rc_dev.current, stderr, "%s ");
- 			fprintf(stderr, "\n");
--- 
-2.26.2
+arch/x86/kvm/../../../virt/kvm/kvm_main.c: In function 
+__kvm_gfn_to_hva_cache_init:
+arch/x86/kvm/../../../virt/kvm/kvm_main.c:2442:42: error: nr_pages_avail 
+may be used uninitialized in this function [-Werror=maybe-uninitialized]
 
+Commenting out the third line in arch/x86/kvm/Makefile has solved this 
+for me. Aside from warnings, this is the only error I receive during 
+compilation.
+
+After installing the kernel and booting to Arch Linux, it gets stuck at 
+"Loading initial ramdisk" with no extra information even with 
+`loglevel=7` set. I will try to diagnose the issue and ensure I haven't 
+incorrectly installed the kernel - will also try to compile on another 
+computer.
+
+Let me know if I can offer any other help or more information, I would 
+love to contribute to the development of these drivers.
+
+Regards,
+Finn.
