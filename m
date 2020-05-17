@@ -2,171 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44F1D1D6C62
-	for <lists+linux-media@lfdr.de>; Sun, 17 May 2020 21:35:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A3D51D6E2D
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 01:56:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726610AbgEQTe5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 May 2020 15:34:57 -0400
-Received: from v6.sk ([167.172.42.174]:57012 "EHLO v6.sk"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726269AbgEQTe5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 May 2020 15:34:57 -0400
-Received: from localhost (v6.sk [IPv6:::1])
-        by v6.sk (Postfix) with ESMTP id 82082610A8;
-        Sun, 17 May 2020 19:34:53 +0000 (UTC)
-Date:   Sun, 17 May 2020 21:34:51 +0200
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Marc Zyngier <maz@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mark Brown <broonie@kernel.org>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Gregory Clement <gregory.clement@bootlin.com>,
-        Daniel Mack <daniel@zonque.org>,
-        Haojian Zhuang <haojian.zhuang@gmail.com>,
-        Robert Jarzmik <robert.jarzmik@free.fr>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mmc@vger.kernel.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 28/28] dt-bindings: usb: Convert ehci-mv to json-schema
-Message-ID: <20200517193451.GG1695525@furthur.local>
-References: <20200317093922.20785-1-lkundrak@v3.sk>
- <20200317093922.20785-29-lkundrak@v3.sk>
- <20200327195520.GA2235@bogus>
+        id S1726863AbgEQX4W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 May 2020 19:56:22 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:1781 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726656AbgEQX4W (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 17 May 2020 19:56:22 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ec1cf190000>; Sun, 17 May 2020 16:56:09 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Sun, 17 May 2020 16:56:22 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Sun, 17 May 2020 16:56:22 -0700
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 17 May
+ 2020 23:56:21 +0000
+Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Sun, 17 May 2020 23:56:21 +0000
+Received: from sandstorm.nvidia.com (Not Verified[10.2.48.175]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5ec1cf250000>; Sun, 17 May 2020 16:56:21 -0700
+From:   John Hubbard <jhubbard@nvidia.com>
+To:     LKML <linux-kernel@vger.kernel.org>
+CC:     John Hubbard <jhubbard@nvidia.com>,
+        Matt Porter <mporter@kernel.crashing.org>,
+        Alexandre Bounine <alex.bou9@gmail.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        <linux-media@vger.kernel.org>
+Subject: [PATCH 0/2] rapidio: convert to pin_user_pages(), plus a small fix
+Date:   Sun, 17 May 2020 16:56:18 -0700
+Message-ID: <20200517235620.205225-1-jhubbard@nvidia.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200327195520.GA2235@bogus>
+X-NVConfidentiality: public
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1589759769; bh=WygXQq7COfHXYUNFNVJbqoqXk/fDsRWGbCYJDmciCZY=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
+         Content-Type;
+        b=Av50MoMnmPmDKeqjGTkSknWAg9YKnSYXVgyvUplqSqBVVUKJ09SzcIUYuWgjIJBOR
+         m8s6E8CQ6ZXKCzJN3DLPaa4MeCwhA4vh+nD+AuPBOKEOmVff3Frdr9UT0BF01afKt/
+         NF5/b82MzHbBa2kCyS6tmA52FKtEgN9JD4Ftkk8+vish81pT9ZsNV05BsLy36scvTh
+         8XRn683/8kwOsBEJRJarzv+gDVbAGm7u6IqDQDAARzeR9r3oC5jLaVldKkDd6WvPUh
+         MZz3dj9xULeBnqlOBcZ2x0UxXlMcg9TnNd7zvEWOfattE0hX/bizEa/aU6KwL6SWpp
+         NakKVu9vCcJEw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Mar 27, 2020 at 01:55:20PM -0600, Rob Herring wrote:
-> On Tue, Mar 17, 2020 at 10:39:22AM +0100, Lubomir Rintel wrote:
-> > A straightforward conversion of the ehci-mv binding to DT schema format
-> > using json-schema.
-> > 
-> > Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-> > ---
-> >  .../devicetree/bindings/usb/ehci-mv.txt       | 23 -------
-> >  .../bindings/usb/marvell,pxau2o-ehci.yaml     | 60 +++++++++++++++++++
-> >  2 files changed, 60 insertions(+), 23 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/usb/ehci-mv.txt
-> >  create mode 100644 Documentation/devicetree/bindings/usb/marvell,pxau2o-ehci.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/usb/ehci-mv.txt b/Documentation/devicetree/bindings/usb/ehci-mv.txt
-> > deleted file mode 100644
-> > index 335589895763e..0000000000000
-> > --- a/Documentation/devicetree/bindings/usb/ehci-mv.txt
-> > +++ /dev/null
-> > @@ -1,23 +0,0 @@
-> > -* Marvell PXA/MMP EHCI controller.
-> > -
-> > -Required properties:
-> > -
-> > -- compatible: must be "marvell,pxau2o-ehci"
-> > -- reg: physical base addresses of the controller and length of memory mapped region
-> > -- interrupts: one EHCI controller interrupt should be described here
-> > -- clocks: phandle list of usb clocks
-> > -- clock-names: should be "USBCLK"
-> > -- phys: phandle for the PHY device
-> > -- phy-names: should be "usb"
-> > -
-> > -Example:
-> > -
-> > -	ehci0: usb-ehci@d4208000 {
-> > -		compatible = "marvell,pxau2o-ehci";
-> > -		reg = <0xd4208000 0x200>;
-> > -		interrupts = <44>;
-> > -		clocks = <&soc_clocks MMP2_CLK_USB>;
-> > -		clock-names = "USBCLK";
-> > -		phys = <&usb_otg_phy>;
-> > -		phy-names = "usb";
-> > -	};
-> > diff --git a/Documentation/devicetree/bindings/usb/marvell,pxau2o-ehci.yaml b/Documentation/devicetree/bindings/usb/marvell,pxau2o-ehci.yaml
-> > new file mode 100644
-> > index 0000000000000..189025ef1e92e
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/usb/marvell,pxau2o-ehci.yaml
-> > @@ -0,0 +1,60 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
-> 
-> Same license comment.
+While converting rapidio from get_user_pages() to pin_user_pages(),
+I noticed a small problem in the error handling, so that is fixed
+first. As such, the fix has -stable on CC, and can be separately
+applied.
 
-I wrote that binding document and chose that license.
+Note that I have only compile-tested these patches, although that does
+also include cross-compiling for half a dozen arches.
 
-> > +# Copyright 2019,2020 Lubomir Rintel <lkundrak@v3.sk>
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/usb/marvell,pxau2o-ehci.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Marvell PXA/MMP EHCI bindings
-> > +
-> > +maintainers:
-> > +  - Lubomir Rintel <lkundrak@v3.sk>
-> > +
-> > +allOf:
-> > +  - $ref: usb-hcd.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: marvell,pxau2o-ehci
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +  clock-names:
-> > +    const: USBCLK
-> > +
-> > +  phys:
-> > +    maxItems: 1
-> > +
-> > +  phy-names:
-> > +    const: usb
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - clock-names
-> > +  - phys
-> > +  - phy-names
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/marvell,mmp2.h>
-> > +    usb@d4208000 {
-> > +        compatible = "marvell,pxau2o-ehci";
-> > +        reg = <0xd4208000 0x200>;
-> > +        interrupts = <44>;
-> > +        clocks = <&soc_clocks MMP2_CLK_USB>;
-> > +        clock-names = "USBCLK";
-> > +        phys = <&usb_otg_phy>;
-> > +        phy-names = "usb";
-> > +    };
-> > +
-> > +...
-> > -- 
-> > 2.25.1
-> > 
+John Hubbard (2):
+  rapidio: fix an error in get_user_pages_fast() error handling
+  rapidio: convert get_user_pages() --> pin_user_pages()
+
+ drivers/rapidio/devices/rio_mport_cdev.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+Cc: Matt Porter <mporter@kernel.crashing.org>
+Cc: Alexandre Bounine <alex.bou9@gmail.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Dan Carpenter <dan.carpenter@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-media@vger.kernel.org
+
+John Hubbard (2):
+  rapidio: fix an error in get_user_pages_fast() error handling
+  rapidio: convert get_user_pages() --> pin_user_pages()
+
+ drivers/rapidio/devices/rio_mport_cdev.c | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+
+
+base-commit: 5a9ffb954a3933d7867f4341684a23e008d6839b
+--=20
+2.26.2
+
