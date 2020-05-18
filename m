@@ -2,120 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E28531D85D8
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 20:21:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4762E1D876F
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 20:44:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387717AbgERSVZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 May 2020 14:21:25 -0400
-Received: from mail-io1-f65.google.com ([209.85.166.65]:40331 "EHLO
-        mail-io1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731473AbgERSVV (ORCPT
+        id S1729065AbgERSos (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 May 2020 14:44:48 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:40614 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728396AbgERSos (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 May 2020 14:21:21 -0400
-Received: by mail-io1-f65.google.com with SMTP id s10so11690841iog.7;
-        Mon, 18 May 2020 11:21:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=G+w12N+B2PiHESokDoCntmAJD2nRnefuc3D2jDiR3h8=;
-        b=fR9YE5SwKFbgrMXSqvAuaKVTyo2fSwMkEYOZPpwnHAcWQh99N5jXa5ezScA09ihfr7
-         SjJ3IxgXAIgpxEYmzETxgEFeijcnfAcyat+qX3VgFUDPnpBPXM+FRDFhVPkgoli8sVOb
-         IvVdyvxACxEXW8jkfXQNAO3VeywOKq9adpPlR430d2fFgVqfLFklycrN5FFmbK9mRcXS
-         LPGFbxu0rJ7sBX1rPyBlIXumTJRAlL5JUm2AvMJU6D02IS4h/HKUyURdZ65DLKTzV+UD
-         94DaSoWPQYIH7rYxqLVNHO3rNT0I8tymoeop4nL7zvacySvo3eHUZZ79nUpMgyzX9DU4
-         0n6Q==
-X-Gm-Message-State: AOAM530uU6xcDGKiG5D3Nu6A7REI5wG2Ih7Fu0u3o629+vOoFmz3lHyf
-        D3RyGe+Ed6SLkFqbgH53QwkxFto=
-X-Google-Smtp-Source: ABdhPJx72FnMnqBhY0ES/xdixMmYlsaeGaOPaJzpYhhzZYE1ew/CeuMZ+1kDJ3srj1k4VHm7DIoKMA==
-X-Received: by 2002:a6b:dc11:: with SMTP id s17mr15908502ioc.42.1589826079993;
-        Mon, 18 May 2020 11:21:19 -0700 (PDT)
-Received: from rob-hp-laptop ([64.188.179.252])
-        by smtp.gmail.com with ESMTPSA id m17sm5062222ilh.51.2020.05.18.11.21.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 May 2020 11:21:19 -0700 (PDT)
-Received: (nullmailer pid 27724 invoked by uid 1000);
-        Mon, 18 May 2020 18:21:18 -0000
-Date:   Mon, 18 May 2020 12:21:18 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>, libcamera-devel@lists.libcamera.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tfiga@google.com, pavel@ucw.cz, devicetree@vger.kernel.org
-Subject: Re: [PATCH v11 13/13] dt-bindings: Add media properties
-Message-ID: <20200518182118.GA24090@bogus>
-References: <20200509090456.3496481-1-jacopo@jmondi.org>
- <20200509090456.3496481-14-jacopo@jmondi.org>
+        Mon, 18 May 2020 14:44:48 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 494E5258;
+        Mon, 18 May 2020 20:44:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1589827485;
+        bh=2OSQqdkIa3Grof311B8PMTBFkqU9R4KAIbRio4bvUC0=;
+        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
+        b=rGZkJG7ZOSEzBlVOX+ZdWXusQkXrPjxO9/ws9ba1n+kdZ5ljn7Cldftygxi7aoZIu
+         gHMy2k6NscPcKrUBatvgSE9w3yKaxFYAkGwpjg3MIwaubeMcyEdJ/MehD7f08t3IQP
+         eB/krimKijVISoNzMtqoxnnoZJzj621vYX1Q2NPc=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH] fixes! [max9286]: Validate link formats
+To:     Jacopo Mondi <jacopo@jmondi.org>, sakari.ailus@iki.fi,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <e898b72f-f793-6c0d-27a8-5a34c61f763e@ideasonboard.com>
+ <20200518161159.2185855-1-kieran.bingham+renesas@ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <d09c4eef-ebeb-8577-18ed-233bc7f33786@ideasonboard.com>
+Date:   Mon, 18 May 2020 19:44:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200509090456.3496481-14-jacopo@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200518161159.2185855-1-kieran.bingham+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, May 09, 2020 at 11:04:56AM +0200, Jacopo Mondi wrote:
-> Add a DT header file to contain definitions for standard media properties.
+Hi Kieran
+
+On 18/05/2020 17:11, Kieran Bingham wrote:
+> Disallow setting a format on the source link, but enable link validation
+> by returning the format of the first bound source when getting the
+> format of the source pad.
 > 
-> The file is named after:
-> Documentation/devicetree/bindings/media/video-interfaces.txt
-> which contains the standard media properties definitions.
-> 
-> Initially add three macros to define the supported 'orientation'
-> property values.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 > ---
+>  drivers/media/i2c/max9286.c | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
 > 
-> I currently don't have users in mainline for this, I understand this implies
-> this is probably not going to be accepted. At the same time we don't have a
-> common place for media-related definitions, which support properties defined in
-> video-interfaces.txt
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index ef824d2b26b8..6c01595936d7 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -711,7 +711,10 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+>  	struct max9286_priv *priv = sd_to_max9286(sd);
+>  	struct v4l2_mbus_framefmt *cfg_fmt;
+>  
+> -	if (format->pad >= MAX9286_SRC_PAD)
+> +	/* \todo: Multiplexed streams support
+> +	 * Prevent setting the format on the shared multiplexed bus.
+> +	 */
+> +	if (format->pad == MAX9286_SRC_PAD)
+>  		return -EINVAL;
+>  
+>  	/* Refuse non YUV422 formats as we hardcode DT to 8 bit YUV422 */
+> @@ -743,11 +746,17 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
+>  {
+>  	struct max9286_priv *priv = sd_to_max9286(sd);
+>  	struct v4l2_mbus_framefmt *cfg_fmt;
+> +	unsigned int pad = format->pad;
+>  
+> -	if (format->pad >= MAX9286_SRC_PAD)
+> -		return -EINVAL;
+> +	/* \todo: Multiplexed Stream Support
+> +	 * Support link validation by returning the format of the first bound
+> +	 * link. All links must have the same format, as we do not support
+> +	 * mixing, and matching of cameras connected to the max9286.
+> +	 */
+> +	if (format->pad == MAX9286_SRC_PAD)
+> +		pad = ffs(priv->bound_sources);
 
-Fine for me with no users if values already defined in binding.
+of course this would have to be (ffs(priv->bound_sources) - 1) as the
+first pad index is 0 ;-)
 
+>  
+> -	cfg_fmt = max9286_get_pad_format(priv, cfg, format->pad, format->which);
+> +	cfg_fmt = max9286_get_pad_format(priv, cfg, pad, format->which);
+>  	if (!cfg_fmt)
+>  		return -EINVAL;
+>  
 > 
-> I leave it here at the end of the series for discussions, but I'm fine dropping
-> it from the series.
-> 
-> Thanks
->   j
-> 
-> ---
->  include/dt-bindings/media/video-interfaces.h | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->  create mode 100644 include/dt-bindings/media/video-interfaces.h
-> 
-> diff --git a/include/dt-bindings/media/video-interfaces.h b/include/dt-bindings/media/video-interfaces.h
-> new file mode 100644
-> index 0000000000000..404c697d6bd6e
-> --- /dev/null
-> +++ b/include/dt-bindings/media/video-interfaces.h
-> @@ -0,0 +1,15 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
 
-Dual license please.
-
-> +/*
-> + * include/dt-bindings/media/video-interfaces.h
-> + *
-> + * Copyright (C) 2020 Jacopo Mondi <jacopo@jmondi.org>
-> + */
-> +
-> +#ifndef __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
-> +#define __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
-> +
-> +#define FRONT_CAMERA		<0>
-> +#define BACK_CAMERA		<1>
-> +#define EXTERNAL_CAMERA		<2>
-> +
-> +#endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__ */
-> --
-> 2.26.1
-> 
