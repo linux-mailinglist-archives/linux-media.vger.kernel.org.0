@@ -2,36 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F5911D7E05
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 18:12:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 874F31D8090
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 19:40:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728292AbgERQMG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 May 2020 12:12:06 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:36954 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727006AbgERQMG (ORCPT
+        id S1729073AbgERRk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 May 2020 13:40:28 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42800 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729029AbgERRk0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 May 2020 12:12:06 -0400
-Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A57E6258;
-        Mon, 18 May 2020 18:12:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1589818324;
-        bh=3KOO56tvSe4Uzbml8wVaWf6Cx3GmcFPTgACUgJyykQY=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=g/tfbolp3NoUepBm9dwEUzWb/x0r1LfzkxEGQMCzDkQfRnaA1j5BaGPHoxWsazCCZ
-         6SMmqiNrjROoXL2WNapZIIYdb5ulNPTanl5BaPmiILVtuTj2xYSnpzjjel9op51VtD
-         0UXYjne3omFETNRuvuAtGkJ7Ah2yFhBx/WrBnipk=
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>, sakari.ailus@iki.fi,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Subject: [PATCH] fixes! [max9286]: Validate link formats
-Date:   Mon, 18 May 2020 17:11:59 +0100
-Message-Id: <20200518161159.2185855-1-kieran.bingham+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <e898b72f-f793-6c0d-27a8-5a34c61f763e@ideasonboard.com>
-References: <e898b72f-f793-6c0d-27a8-5a34c61f763e@ideasonboard.com>
+        Mon, 18 May 2020 13:40:26 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 0978C2A0C85
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        gustavo.padovan@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v4 0/3] media: rkvdec: Add a VP9 backend
+Date:   Mon, 18 May 2020 14:40:08 -0300
+Message-Id: <20200518174011.15543-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.26.0.rc2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -39,52 +38,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Disallow setting a format on the source link, but enable link validation
-by returning the format of the first bound source when getting the
-format of the source pad.
+Fourth iteration of the VP9 stateless codec uAPI, plus
+support for Rockchip VDEC, just minor changes since v3.
 
-Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
- drivers/media/i2c/max9286.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+Thanks!
+Ezequiel
 
-diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-index ef824d2b26b8..6c01595936d7 100644
---- a/drivers/media/i2c/max9286.c
-+++ b/drivers/media/i2c/max9286.c
-@@ -711,7 +711,10 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
- 	struct max9286_priv *priv = sd_to_max9286(sd);
- 	struct v4l2_mbus_framefmt *cfg_fmt;
- 
--	if (format->pad >= MAX9286_SRC_PAD)
-+	/* \todo: Multiplexed streams support
-+	 * Prevent setting the format on the shared multiplexed bus.
-+	 */
-+	if (format->pad == MAX9286_SRC_PAD)
- 		return -EINVAL;
- 
- 	/* Refuse non YUV422 formats as we hardcode DT to 8 bit YUV422 */
-@@ -743,11 +746,17 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
- {
- 	struct max9286_priv *priv = sd_to_max9286(sd);
- 	struct v4l2_mbus_framefmt *cfg_fmt;
-+	unsigned int pad = format->pad;
- 
--	if (format->pad >= MAX9286_SRC_PAD)
--		return -EINVAL;
-+	/* \todo: Multiplexed Stream Support
-+	 * Support link validation by returning the format of the first bound
-+	 * link. All links must have the same format, as we do not support
-+	 * mixing, and matching of cameras connected to the max9286.
-+	 */
-+	if (format->pad == MAX9286_SRC_PAD)
-+		pad = ffs(priv->bound_sources);
- 
--	cfg_fmt = max9286_get_pad_format(priv, cfg, format->pad, format->which);
-+	cfg_fmt = max9286_get_pad_format(priv, cfg, pad, format->which);
- 	if (!cfg_fmt)
- 		return -EINVAL;
- 
+Changelog
+---------
+
+v4:
+
+* Drop color_space field from the VP9 interface.
+  V4L2 API should be used for it.
+* Clarified Segment-ID comments.
+* Moved motion vector probabilities to a separate
+  struct.
+
+v3:
+
+* Fix documentation issues found by Hans.
+* Fix smatch detected issues as pointed out by Hans.
+* Added patch to fix wrong bytesused set on .buf_prepare.
+
+v2:
+
+* Documentation style issues pointed out by Nicolas internally.
+* s/VP9_PROFILE_MAX/V4L2_VP9_PROFILE_MAX/
+* Fix wrong kfree(ctx).
+* constify a couple structs on rkvdec-vp9.c
+
+
+*** BLURB HERE ***
+
+Boris Brezillon (2):
+  media: uapi: Add VP9 stateless decoder controls
+  media: rkvdec: Add the VP9 backend
+
+Ezequiel Garcia (1):
+  media: rkvdec: Fix .buf_prepare
+
+ .../userspace-api/media/v4l/biblio.rst        |   10 +
+ .../media/v4l/ext-ctrls-codec.rst             |  550 ++++++
+ drivers/media/v4l2-core/v4l2-ctrls.c          |  239 +++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+ drivers/staging/media/rkvdec/Makefile         |    2 +-
+ drivers/staging/media/rkvdec/rkvdec-vp9.c     | 1577 +++++++++++++++++
+ drivers/staging/media/rkvdec/rkvdec.c         |   66 +-
+ drivers/staging/media/rkvdec/rkvdec.h         |    6 +
+ include/media/v4l2-ctrls.h                    |    1 +
+ include/media/vp9-ctrls.h                     |  485 +++++
+ 10 files changed, 2932 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
+ create mode 100644 include/media/vp9-ctrls.h
+
 -- 
-2.25.1
+2.26.0.rc2
 
