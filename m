@@ -2,281 +2,2716 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64AF61D779C
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 13:45:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA8EC1D7810
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 14:02:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727803AbgERLp1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 May 2020 07:45:27 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:33444 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726557AbgERLp0 (ORCPT
+        id S1726526AbgERMCr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 May 2020 08:02:47 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:35959 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726413AbgERMCr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 May 2020 07:45:26 -0400
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9DF74258;
-        Mon, 18 May 2020 13:45:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1589802323;
-        bh=1kluJnAc7GtmqSdWsc8UnPl9ntkFPKBdNDqtTvR3daM=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=g5cU7Peoxd6PV/66YuoMKvY/50rRaE6PJEmy4JdNJe41q3iwxUAh+10n6+T3K7mNe
-         Pxx7OovFpk8qOY+Kp1ytH4vVVNbj6XmKcZmGvtr0vITJF9QuInaf7Io/5iG4FfvSAv
-         qwqguj8W47sZ98ZE+EQG3wuOAP23J9phr0jnnx1c=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mon, 18 May 2020 08:02:47 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id aeTVjycpBhEkraeTZjeffp; Mon, 18 May 2020 14:02:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1589803353; bh=PQuZqScGXuuNuUve0GHWDP1E0x3fH7ZkwBRbJTPwU/4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=W4kOXr05SWIDWv963oit3xtNjInN7uODC3H+E0puaBrkMCuwjzRfF91KXkOMJleNH
+         iN6M0h0x1eETkNncECcBCUOT+4XaMeMjyaRz9Yp8Q3rsHmsGb542lI1+IxBTKVCTmj
+         CN+K796cqiBHpBTyQdQi2gTheAhtXv9Sd3/oovP3pzyD7+bUzaM+SuhxVo0NESWcml
+         2XMK/Eaa8hjJf57ZbXsotQgTH+1N0iQ3/j4GaTct686XHP6fwj+9Yiofz9y7KmKrnQ
+         dZZF+b85JHhOqFm5iz30OHRZi4Qp6+fcWv/VvlrmN/l1tRutGYacL6pQEqnOk8B0S8
+         vLhkGEg7IJeDA==
+Subject: Re: [PATCH v2 33/34] staging: bcm2835-isp: Add support for BC2835 ISP
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Jacopo Mondi <jacopo@jmondi.org>,
         =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
- <20200512155105.1068064-3-kieran.bingham+renesas@ideasonboard.com>
- <20200516215103.GA857@valkosipuli.retiisi.org.uk>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <930009cd-d887-752a-4f1f-567c795101ee@ideasonboard.com>
-Date:   Mon, 18 May 2020 12:45:18 +0100
+        Naushir Patuck <naush@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
+ <20200504092611.9798-34-laurent.pinchart@ideasonboard.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <3de6ce28-1089-19c2-cdac-64796a46638f@xs4all.nl>
+Date:   Mon, 18 May 2020 14:02:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <20200516215103.GA857@valkosipuli.retiisi.org.uk>
+In-Reply-To: <20200504092611.9798-34-laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfLXri2jMG/vCuwBJy/UHx0GxYhaKyuSeKX9F5bc0FiZ+cQErRW58eigKpHUm0aSCqv/CB2PV3Bb1s1UpCNYpjiAb3aoW4vfxI3JE0+0zbI6Gyy2T84To
+ khc3JqP1aTRlebJdIrM5HQ8s96iVJiOqQ3d9toteoNeHbBj3K4xUldrPrZx752HeW3WTmxI6Sr3diLJq/vUOT3pNOBXk/orhT6j0uSEzA1cxs7IIMLUZ44GW
+ ekPNNrkkcr8vAc8Ft4vZxxEthlAITmU6vx7tqvXKeUm1WPxEpLUn6JmYP4BF6QdKcziKvMdEy+909jo69vclYS/h1RhSWuAvVfQg0ABux7tar0VAyrXbEICJ
+ FhaFA/ktGaRrdLBsm1vFB3/HGpit5gR4o9DB9YnaMXpOs4eawXjBNm+7TW2MIXntGCmr5Jk8
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-There are only fairly minor comments here, fix ups will be included in a
-v10.
-
-Is there anything major blocking integration?
-
-Regards
-
-Kieran
-
-
-
-On 16/05/2020 22:51, Sakari Ailus wrote:
-> Hi Kieran,
+On 04/05/2020 11:26, Laurent Pinchart wrote:
+> From: Naushir Patuck <naush@raspberrypi.com>
 > 
-> Thanks for the update.
+> Port the V4L2 compatible driver for the ISP unit found on Broadcom BCM2835
+> chips.
 > 
-> On Tue, May 12, 2020 at 04:51:03PM +0100, Kieran Bingham wrote:
+> The driver interfaces though the VideoCore unit using the VCHIQ MMAL
+> interface.
 > 
-> ...
+> ISP driver upported from from RaspberryPi BSP at revision:
+> 6c3505be6c3e ("staging: vc04_services: isp: Make all references to bcm2835_isp_fmt const")
 > 
->> +static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
->> +				  struct v4l2_subdev_pad_config *cfg,
->> +				  struct v4l2_subdev_mbus_code_enum *code)
->> +{
->> +	if (code->pad || code->index > 0)
->> +		return -EINVAL;
->> +
->> +	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
-> 
-> Why UYVY8_2X8 and not UYVY8_1X16? In general, the single sample / pixel
-> variant of the format is generally used on the serial busses. This choice
-> was made when serial busses were introduced.
-
-Ok - I presume this doesn't really have much effect anyway, they just
-have to match for the transmitter/receiver?
-
-But it makes sense to me, so I'll update to the 1x16 variant.
-
->> +
->> +	return 0;
->> +}
->> +
->> +static struct v4l2_mbus_framefmt *
->> +max9286_get_pad_format(struct max9286_priv *priv,
->> +		       struct v4l2_subdev_pad_config *cfg,
->> +		       unsigned int pad, u32 which)
->> +{
->> +	switch (which) {
->> +	case V4L2_SUBDEV_FORMAT_TRY:
->> +		return v4l2_subdev_get_try_format(&priv->sd, cfg, pad);
->> +	case V4L2_SUBDEV_FORMAT_ACTIVE:
->> +		return &priv->fmt[pad];
->> +	default:
->> +		return NULL;
->> +	}
->> +}
->> +
->> +static int max9286_set_fmt(struct v4l2_subdev *sd,
->> +			   struct v4l2_subdev_pad_config *cfg,
->> +			   struct v4l2_subdev_format *format)
->> +{
->> +	struct max9286_priv *priv = sd_to_max9286(sd);
->> +	struct v4l2_mbus_framefmt *cfg_fmt;
->> +
->> +	if (format->pad >= MAX9286_SRC_PAD)
->> +		return -EINVAL;
-> 
-> You can remove these checks; it's been already done by the caller.
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> [Adapt to staging by moving all modifications that in the BSP are scattered
+> in core components inside this directory]
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  .../v4l/pixfmt-meta-bcm2835-isp-stats.rst     |   41 +
+>  drivers/staging/vc04_services/Kconfig         |    2 +
+>  drivers/staging/vc04_services/Makefile        |    1 +
+>  .../staging/vc04_services/bcm2835-isp/Kconfig |   14 +
+>  .../vc04_services/bcm2835-isp/Makefile        |   10 +
+>  .../bcm2835-isp/bcm2835-v4l2-isp.c            | 1632 +++++++++++++++++
+>  .../bcm2835-isp/bcm2835_isp_ctrls.h           |   67 +
+>  .../bcm2835-isp/bcm2835_isp_fmts.h            |  301 +++
+>  .../include/uapi/linux/bcm2835-isp.h          |  333 ++++
+>  .../staging/vc04_services/vchiq-mmal/Kconfig  |    3 +-
+>  .../vc04_services/vchiq-mmal/mmal-encodings.h |    4 +
+>  .../vchiq-mmal/mmal-parameters.h              |  153 +-
+>  12 files changed, 2559 insertions(+), 2 deletions(-)
+>  create mode 100644 drivers/staging/vc04_services/Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-isp-stats.rst
+>  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Kconfig
+>  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Makefile
+>  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
+>  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835_isp_ctrls.h
+>  create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835_isp_fmts.h
+>  create mode 100644 drivers/staging/vc04_services/include/uapi/linux/bcm2835-isp.h
 > 
 
-Ok.
+<snip>
 
+> diff --git a/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c b/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
+> new file mode 100644
+> index 000000000000..a32faab4b8dc
+> --- /dev/null
+> +++ b/drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
+> @@ -0,0 +1,1632 @@
 
-> ...
+<snip>
+
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Broadcom BCM2835 ISP driver
+> + *
+> + * Copyright © 2019-2020 Raspberry Pi (Trading) Ltd.
+> + *
+> + * Author: Naushir Patuck (naush@raspberrypi.com)
+> + *
+> + */
+> +
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-ioctl.h>
+> +#include <media/videobuf2-dma-contig.h>
+> +
+> +#include "vchiq-mmal/mmal-msg.h"
+> +#include "vchiq-mmal/mmal-parameters.h"
+> +#include "vchiq-mmal/mmal-vchiq.h"
+> +
+> +#include "bcm2835_isp_ctrls.h"
+> +#include "bcm2835_isp_fmts.h"
+> +
+> +static unsigned int debug;
+> +module_param(debug, uint, 0644);
+> +MODULE_PARM_DESC(debug, "activates debug info");
+> +
+> +static unsigned int video_nr = 13;
+> +module_param(video_nr, uint, 0644);
+> +MODULE_PARM_DESC(video_nr, "base video device number");
+> +
+> +#define BCM2835_ISP_NAME "bcm2835-isp"
+> +#define BCM2835_ISP_ENTITY_NAME_LEN 32
+> +
+> +#define BCM2835_ISP_NUM_OUTPUTS 1
+> +#define BCM2835_ISP_NUM_CAPTURES 2
+> +#define BCM2835_ISP_NUM_METADATA 1
+> +
+> +#define BCM2835_ISP_NUM_NODES						\
+> +		(BCM2835_ISP_NUM_OUTPUTS + BCM2835_ISP_NUM_CAPTURES +	\
+> +		 BCM2835_ISP_NUM_METADATA)
+> +
+> +/* Default frame dimension of 1280 pixels. */
+> +#define DEFAULT_DIM 1280U
+> +/*
+> + * Maximum frame dimension of 16384 pixels.  Even though the ISP runs in tiles,
+> + * have a sensible limit so that we do not create an excessive number of tiles
+> + * to process.
+> + */
+> +#define MAX_DIM 16384U
+> +/*
+> + * Minimum frame dimension of 64 pixels.  Anything lower, and the tiling
+> + * algorihtm may not be able to cope when applying filter context.
+> + */
+> +#define MIN_DIM 64U
+> +
+> +/* Per-queue, driver-specific private data */
+> +struct bcm2835_isp_q_data {
+> +	/*
+> +	 * These parameters should be treated as gospel, with everything else
+> +	 * being determined from them.
+> +	 */
+> +	unsigned int bytesperline;
+> +	unsigned int width;
+> +	unsigned int height;
+> +	unsigned int sizeimage;
+> +	const struct bcm2835_isp_fmt *fmt;
+> +};
+> +
+> +/*
+> + * Structure to describe a single node /dev/video<N> which represents a single
+> + * input or output queue to the ISP device.
+> + */
+> +struct bcm2835_isp_node {
+> +	int vfl_dir;
+> +	unsigned int id;
+> +	const char *name;
+> +	struct video_device vfd;
+> +	struct media_pad pad;
+> +	struct media_intf_devnode *intf_devnode;
+> +	struct media_link *intf_link;
+> +	struct mutex lock; /* top level device node lock */
+> +	struct mutex queue_lock;
+> +
+> +	struct vb2_queue queue;
+> +	unsigned int sequence;
+> +
+> +	/* The list of formats supported on the node. */
+> +	struct bcm2835_isp_fmt_list supported_fmts;
+> +
+> +	struct bcm2835_isp_q_data q_data;
+> +
+> +	/* Parent device structure */
+> +	struct bcm2835_isp_dev *dev;
+> +
+> +	bool registered;
+> +	bool media_node_registered;
+> +	bool queue_init;
+> +};
+> +
+> +/*
+> + * Structure representing the entire ISP device, comprising several input and
+> + * output nodes /dev/video<N>.
+> + */
+> +struct bcm2835_isp_dev {
+> +	struct v4l2_device v4l2_dev;
+> +	struct device *dev;
+> +	struct v4l2_ctrl_handler ctrl_handler;
+> +	struct media_device mdev;
+> +	struct media_entity entity;
+> +	bool media_device_registered;
+> +	bool media_entity_registered;
+> +	struct vchiq_mmal_instance *mmal_instance;
+> +	struct vchiq_mmal_component *component;
+> +	struct completion frame_cmplt;
+> +
+> +	struct bcm2835_isp_node node[BCM2835_ISP_NUM_NODES];
+> +	struct media_pad pad[BCM2835_ISP_NUM_NODES];
+> +	atomic_t num_streaming;
+> +
+> +	/* Image pipeline controls. */
+> +	int r_gain;
+> +	int b_gain;
+> +};
+> +
+> +struct bcm2835_isp_buffer {
+> +	struct vb2_v4l2_buffer vb;
+> +	struct mmal_buffer mmal;
+> +};
+> +
+> +static
+> +inline struct bcm2835_isp_dev *node_get_dev(struct bcm2835_isp_node *node)
+> +{
+> +	return node->dev;
+> +}
+> +
+> +static inline bool node_is_output(struct bcm2835_isp_node *node)
+> +{
+> +	return node->queue.type == V4L2_BUF_TYPE_VIDEO_OUTPUT;
+> +}
+> +
+> +static inline bool node_is_capture(struct bcm2835_isp_node *node)
+> +{
+> +	return node->queue.type == V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> +}
+> +
+> +static inline bool node_is_stats(struct bcm2835_isp_node *node)
+> +{
+> +	return node->queue.type == V4L2_BUF_TYPE_META_CAPTURE;
+> +}
+> +
+> +static inline enum v4l2_buf_type index_to_queue_type(int index)
+> +{
+> +	if (index < BCM2835_ISP_NUM_OUTPUTS)
+> +		return V4L2_BUF_TYPE_VIDEO_OUTPUT;
+> +	else if (index < BCM2835_ISP_NUM_OUTPUTS + BCM2835_ISP_NUM_CAPTURES)
+> +		return V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> +	else
+> +		return V4L2_BUF_TYPE_META_CAPTURE;
+> +}
+> +
+> +static struct vchiq_mmal_port *get_port_data(struct bcm2835_isp_node *node)
+> +{
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +
+> +	if (!dev->component)
+> +		return NULL;
+> +
+> +	switch (node->queue.type) {
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+> +		return &dev->component->input[node->id];
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+> +	case V4L2_BUF_TYPE_META_CAPTURE:
+> +		return &dev->component->output[node->id];
+> +	default:
+> +		v4l2_err(&dev->v4l2_dev, "%s: Invalid queue type %u\n",
+> +			 __func__, node->queue.type);
+> +		break;
+> +	}
+> +	return NULL;
+> +}
+> +
+> +static int set_isp_param(struct bcm2835_isp_node *node, u32 parameter,
+> +			 void *value, u32 value_size)
+> +{
+> +	struct vchiq_mmal_port *port = get_port_data(node);
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +
+> +	return vchiq_mmal_port_parameter_set(dev->mmal_instance, port,
+> +					     parameter, value, value_size);
+> +}
+> +
+> +static int set_wb_gains(struct bcm2835_isp_node *node)
+> +{
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +	struct mmal_parameter_awbgains gains = {
+> +		.r_gain = { dev->r_gain, 1000 },
+> +		.b_gain = { dev->b_gain, 1000 }
+> +	};
+> +
+> +	return set_isp_param(node, MMAL_PARAMETER_CUSTOM_AWB_GAINS,
+> +			     &gains, sizeof(gains));
+> +}
+> +
+> +static int set_digital_gain(struct bcm2835_isp_node *node, uint32_t gain)
+> +{
+> +	struct mmal_parameter_rational digital_gain = {
+> +		.num = gain,
+> +		.den = 1000
+> +	};
+> +
+> +	return set_isp_param(node, MMAL_PARAMETER_DIGITAL_GAIN,
+> +			     &digital_gain, sizeof(digital_gain));
+> +}
+> +
+> +static const struct bcm2835_isp_fmt *get_fmt(u32 mmal_fmt)
+> +{
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(supported_formats); i++) {
+> +		if (supported_formats[i].mmal_fmt == mmal_fmt)
+> +			return &supported_formats[i];
+> +	}
+> +	return NULL;
+> +}
+> +
+> +static const
+> +struct bcm2835_isp_fmt *find_format_by_fourcc(unsigned int fourcc,
+> +					      struct bcm2835_isp_node *node)
+> +{
+> +	struct bcm2835_isp_fmt_list *fmts = &node->supported_fmts;
+> +	const struct bcm2835_isp_fmt *fmt;
+> +	unsigned int i;
+> +
+> +	for (i = 0; i < fmts->num_entries; i++) {
+> +		fmt = fmts->list[i];
+> +		if (fmt->fourcc == fourcc)
+> +			return fmt;
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +static const
+> +struct bcm2835_isp_fmt *find_format(struct v4l2_format *f,
+> +				    struct bcm2835_isp_node *node)
+> +{
+> +	return find_format_by_fourcc(node_is_stats(node) ?
+> +				     f->fmt.meta.dataformat :
+> +				     f->fmt.pix.pixelformat,
+> +				     node);
+> +}
+> +
+> +/* vb2_to_mmal_buffer() - converts vb2 buffer header to MMAL
+> + *
+> + * Copies all the required fields from a VB2 buffer to the MMAL buffer header,
+> + * ready for sending to the VPU.
+> + */
+> +static void vb2_to_mmal_buffer(struct mmal_buffer *buf,
+> +			       struct vb2_v4l2_buffer *vb2)
+> +{
+> +	u64 pts;
+> +
+> +	buf->mmal_flags = 0;
+> +	if (vb2->flags & V4L2_BUF_FLAG_KEYFRAME)
+> +		buf->mmal_flags |= MMAL_BUFFER_HEADER_FLAG_KEYFRAME;
+> +
+> +	/* Data must be framed correctly as one frame per buffer. */
+> +	buf->mmal_flags |= MMAL_BUFFER_HEADER_FLAG_FRAME_END;
+> +
+> +	buf->length = vb2->vb2_buf.planes[0].bytesused;
+> +	/*
+> +	 * Minor ambiguity in the V4L2 spec as to whether passing in a 0 length
+> +	 * buffer, or one with V4L2_BUF_FLAG_LAST set denotes end of stream.
+> +	 * Handle either.
+> +	 */
+> +	if (!buf->length || vb2->flags & V4L2_BUF_FLAG_LAST)
+> +		buf->mmal_flags |= MMAL_BUFFER_HEADER_FLAG_EOS;
+> +
+> +	/* vb2 timestamps in nsecs, mmal in usecs */
+> +	pts = vb2->vb2_buf.timestamp;
+> +	do_div(pts, 1000);
+> +	buf->pts = pts;
+> +	buf->dts = MMAL_TIME_UNKNOWN;
+> +}
+> +
+> +static void mmal_buffer_cb(struct vchiq_mmal_instance *instance,
+> +			   struct vchiq_mmal_port *port, int status,
+> +			   struct mmal_buffer *mmal_buf)
+> +{
+> +	struct bcm2835_isp_buffer *q_buf;
+> +	struct bcm2835_isp_node *node = port->cb_ctx;
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +	struct vb2_v4l2_buffer *vb2;
+> +
+> +	q_buf = container_of(mmal_buf, struct bcm2835_isp_buffer, mmal);
+> +	vb2 = &q_buf->vb;
+> +	v4l2_dbg(2, debug, &dev->v4l2_dev,
+> +		 "%s: port:%s[%d], status:%d, buf:%p, dmabuf:%p, length:%lu, flags %u, pts %lld\n",
+> +		 __func__, node_is_output(node) ? "input" : "output", node->id,
+> +		 status, mmal_buf, mmal_buf->dma_buf, mmal_buf->length,
+> +		 mmal_buf->mmal_flags, mmal_buf->pts);
+> +
+> +	if (mmal_buf->cmd)
+> +		v4l2_err(&dev->v4l2_dev,
+> +			 "%s: Unexpected event on output callback - %08x\n",
+> +			 __func__, mmal_buf->cmd);
+> +
+> +	if (status) {
+> +		/* error in transfer */
+> +		if (vb2) {
+> +			/* there was a buffer with the error so return it */
+> +			vb2_buffer_done(&vb2->vb2_buf, VB2_BUF_STATE_ERROR);
+> +		}
+> +		return;
+> +	}
+> +
+> +	/* vb2 timestamps in nsecs, mmal in usecs */
+> +	vb2->vb2_buf.timestamp = mmal_buf->pts * 1000;
+> +	vb2->sequence = node->sequence++;
+> +	vb2_set_plane_payload(&vb2->vb2_buf, 0, mmal_buf->length);
+> +	vb2_buffer_done(&vb2->vb2_buf, VB2_BUF_STATE_DONE);
+> +
+> +	if (!port->enabled)
+> +		complete(&dev->frame_cmplt);
+> +}
+> +
+> +static void setup_mmal_port_format(struct bcm2835_isp_node *node,
+> +				   struct vchiq_mmal_port *port)
+> +{
+> +	struct bcm2835_isp_q_data *q_data = &node->q_data;
+> +
+> +	port->format.encoding = q_data->fmt->mmal_fmt;
+> +	/* Raw image format - set width/height */
+> +	port->es.video.width = (q_data->bytesperline << 3) / q_data->fmt->depth;
+> +	port->es.video.height = q_data->height;
+> +	port->es.video.crop.width = q_data->width;
+> +	port->es.video.crop.height = q_data->height;
+> +	port->es.video.crop.x = 0;
+> +	port->es.video.crop.y = 0;
+> +};
+> +
+> +static int setup_mmal_port(struct bcm2835_isp_node *node)
+> +{
+> +	struct vchiq_mmal_port *port = get_port_data(node);
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +	unsigned int enable = 1;
+> +	int ret;
+> +
+> +	v4l2_dbg(2, debug, &dev->v4l2_dev, "%s: setup %s[%d]\n", __func__,
+> +		 node->name, node->id);
+> +
+> +	vchiq_mmal_port_parameter_set(dev->mmal_instance, port,
+> +				      MMAL_PARAMETER_ZERO_COPY, &enable,
+> +				      sizeof(enable));
+> +	setup_mmal_port_format(node, port);
+> +	ret = vchiq_mmal_port_set_format(dev->mmal_instance, port);
+> +	if (ret < 0) {
+> +		v4l2_dbg(1, debug, &dev->v4l2_dev,
+> +			 "%s: vchiq_mmal_port_set_format failed\n",
+> +			 __func__);
+> +		return ret;
+> +	}
+> +
+> +	if (node->q_data.sizeimage < port->minimum_buffer.size) {
+> +		v4l2_err(&dev->v4l2_dev,
+> +			 "buffer size mismatch sizeimage %u < min size %u\n",
+> +			 node->q_data.sizeimage, port->minimum_buffer.size);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int bcm2835_isp_mmal_buf_cleanup(struct mmal_buffer *mmal_buf)
+> +{
+> +	mmal_vchi_buffer_cleanup(mmal_buf);
+> +
+> +	if (mmal_buf->dma_buf) {
+> +		dma_buf_put(mmal_buf->dma_buf);
+> +		mmal_buf->dma_buf = NULL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int bcm2835_isp_node_queue_setup(struct vb2_queue *q,
+> +					unsigned int *nbuffers,
+> +					unsigned int *nplanes,
+> +					unsigned int sizes[],
+> +					struct device *alloc_devs[])
+> +{
+> +	struct bcm2835_isp_node *node = vb2_get_drv_priv(q);
+> +	struct vchiq_mmal_port *port;
+> +	unsigned int size;
+> +
+> +	if (setup_mmal_port(node))
+> +		return -EINVAL;
+> +
+> +	size = node->q_data.sizeimage;
+> +	if (size == 0) {
+> +		v4l2_info(&node_get_dev(node)->v4l2_dev,
+> +			  "%s: Image size unset in queue_setup for node %s[%d]\n",
+> +			  __func__, node->name, node->id);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (*nplanes)
+> +		return sizes[0] < size ? -EINVAL : 0;
+> +
+> +	*nplanes = 1;
+> +	sizes[0] = size;
+> +
+> +	port = get_port_data(node);
+> +	port->current_buffer.size = size;
+> +
+> +	if (*nbuffers < port->minimum_buffer.num)
+> +		*nbuffers = port->minimum_buffer.num;
+> +
+> +	port->current_buffer.num = *nbuffers;
+> +
+> +	v4l2_dbg(2, debug, &node_get_dev(node)->v4l2_dev,
+> +		 "%s: Image size %u, nbuffers %u for node %s[%d]\n",
+> +		 __func__, sizes[0], *nbuffers, node->name, node->id);
+> +	return 0;
+> +}
+> +
+> +static int bcm2835_isp_buf_init(struct vb2_buffer *vb)
+> +{
+> +	struct bcm2835_isp_node *node = vb2_get_drv_priv(vb->vb2_queue);
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +	struct vb2_v4l2_buffer *vb2 = to_vb2_v4l2_buffer(vb);
+> +	struct bcm2835_isp_buffer *buf =
+> +		container_of(vb2, struct bcm2835_isp_buffer, vb);
+> +
+> +	v4l2_dbg(3, debug, &dev->v4l2_dev, "%s: vb %p\n", __func__, vb);
+> +
+> +	buf->mmal.buffer = vb2_plane_vaddr(&buf->vb.vb2_buf, 0);
+> +	buf->mmal.buffer_size = vb2_plane_size(&buf->vb.vb2_buf, 0);
+> +	mmal_vchi_buffer_init(dev->mmal_instance, &buf->mmal);
+> +	return 0;
+> +}
+> +
+> +static int bcm2835_isp_buf_prepare(struct vb2_buffer *vb)
+> +{
+> +	struct bcm2835_isp_node *node = vb2_get_drv_priv(vb->vb2_queue);
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +	struct vb2_v4l2_buffer *vb2 = to_vb2_v4l2_buffer(vb);
+> +	struct bcm2835_isp_buffer *buf =
+> +		container_of(vb2, struct bcm2835_isp_buffer, vb);
+> +	struct dma_buf *dma_buf;
+> +	int ret;
+> +
+> +	v4l2_dbg(3, debug, &dev->v4l2_dev, "%s: type: %d ptr %p\n",
+> +		 __func__, vb->vb2_queue->type, vb);
+> +
+> +	if (V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type)) {
+> +		if (vb2->field == V4L2_FIELD_ANY)
+> +			vb2->field = V4L2_FIELD_NONE;
+> +		if (vb2->field != V4L2_FIELD_NONE) {
+> +			v4l2_err(&dev->v4l2_dev,
+> +				 "%s field isn't supported\n", __func__);
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+> +	if (vb2_plane_size(vb, 0) < node->q_data.sizeimage) {
+> +		v4l2_err(&dev->v4l2_dev,
+> +			 "%s data will not fit into plane (%lu < %lu)\n",
+> +			 __func__, vb2_plane_size(vb, 0),
+> +			 (long)node->q_data.sizeimage);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (!V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type))
+> +		vb2_set_plane_payload(vb, 0, node->q_data.sizeimage);
+> +
+> +	switch (vb->memory) {
+> +	case VB2_MEMORY_DMABUF:
+> +		dma_buf = dma_buf_get(vb->planes[0].m.fd);
+> +
+> +		if (dma_buf != buf->mmal.dma_buf) {
+> +			/*
+> +			 * dmabuf either hasn't already been mapped, or it has
+> +			 * changed.
+> +			 */
+> +			if (buf->mmal.dma_buf) {
+> +				v4l2_err(&dev->v4l2_dev,
+> +					 "%s Buffer changed - why did the core not call cleanup?\n",
+> +					 __func__);
+> +				bcm2835_isp_mmal_buf_cleanup(&buf->mmal);
+> +			}
+> +
+> +			buf->mmal.dma_buf = dma_buf;
+> +		} else {
+> +			/*
+> +			 * Already have a reference to the buffer, so release it
+> +			 * here.
+> +			 */
+> +			dma_buf_put(dma_buf);
+> +		}
+> +		ret = 0;
+> +		break;
+> +	case VB2_MEMORY_MMAP:
+> +		/*
+> +		 * We want to do this at init, but vb2_core_expbuf checks that
+> +		 * the index < q->num_buffers, and q->num_buffers only gets
+> +		 * updated once all the buffers are allocated.
+> +		 */
+> +		if (!buf->mmal.dma_buf) {
+> +			ret = vb2_core_expbuf_dmabuf(vb->vb2_queue,
+> +						     vb->vb2_queue->type,
+> +						     vb->index, 0, O_CLOEXEC,
+> +						     &buf->mmal.dma_buf);
+> +			v4l2_dbg(3, debug, &dev->v4l2_dev,
+> +				 "%s: exporting ptr %p to dmabuf %p\n",
+> +				 __func__, vb, buf->mmal.dma_buf);
+> +			if (ret)
+> +				v4l2_err(&dev->v4l2_dev,
+> +					 "%s: Failed to expbuf idx %d, ret %d\n",
+> +					 __func__, vb->index, ret);
+> +		} else {
+> +			ret = 0;
+> +		}
+> +		break;
+> +	default:
+> +		ret = -EINVAL;
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static void bcm2835_isp_node_buffer_queue(struct vb2_buffer *buf)
+> +{
+> +	struct bcm2835_isp_node *node = vb2_get_drv_priv(buf->vb2_queue);
+> +	struct vb2_v4l2_buffer *vbuf =
+> +		container_of(buf, struct vb2_v4l2_buffer, vb2_buf);
+> +	struct bcm2835_isp_buffer *buffer =
+> +		container_of(vbuf, struct bcm2835_isp_buffer, vb);
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +
+> +	v4l2_dbg(3, debug, &dev->v4l2_dev, "%s: node %s[%d], buffer %p\n",
+> +		 __func__, node->name, node->id, buffer);
+> +
+> +	vb2_to_mmal_buffer(&buffer->mmal, &buffer->vb);
+> +	v4l2_dbg(3, debug, &dev->v4l2_dev,
+> +		 "%s: node %s[%d] - submitting  mmal dmabuf %p\n", __func__,
+> +		 node->name, node->id, buffer->mmal.dma_buf);
+> +	vchiq_mmal_submit_buffer(dev->mmal_instance, get_port_data(node),
+> +				 &buffer->mmal);
+> +}
+> +
+> +static void bcm2835_isp_buffer_cleanup(struct vb2_buffer *vb)
+> +{
+> +	struct vb2_v4l2_buffer *vb2 = to_vb2_v4l2_buffer(vb);
+> +	struct bcm2835_isp_buffer *buffer =
+> +		container_of(vb2, struct bcm2835_isp_buffer, vb);
+> +
+> +	bcm2835_isp_mmal_buf_cleanup(&buffer->mmal);
+> +}
+> +
+> +static int bcm2835_isp_node_start_streaming(struct vb2_queue *q,
+> +					    unsigned int count)
+> +{
+> +	struct bcm2835_isp_node *node = vb2_get_drv_priv(q);
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +	struct vchiq_mmal_port *port = get_port_data(node);
+> +	int ret;
+> +
+> +	v4l2_dbg(1, debug, &dev->v4l2_dev, "%s: node %s[%d] (count %u)\n",
+> +		 __func__, node->name, node->id, count);
+> +
+> +	ret = vchiq_mmal_component_enable(dev->mmal_instance, dev->component);
+> +	if (ret) {
+> +		v4l2_err(&dev->v4l2_dev, "%s: Failed enabling component, ret %d\n",
+> +			 __func__, ret);
+> +		return -EIO;
+> +	}
+> +
+> +	node->sequence = 0;
+> +	port->cb_ctx = node;
+> +	ret = vchiq_mmal_port_enable(dev->mmal_instance, port,
+> +				     mmal_buffer_cb);
+> +	if (!ret)
+> +		atomic_inc(&dev->num_streaming);
+> +	else
+> +		v4l2_err(&dev->v4l2_dev,
+> +			 "%s: Failed enabling port, ret %d\n", __func__, ret);
+> +
+
+It's not obvious from this code what happens with outstanding buffers if there
+is an error. They should be returned to vb2 with state VB2_BUF_STATE_QUEUED.
+Does that happen?
+
+> +	return ret;
+> +}
+> +
+> +static void bcm2835_isp_node_stop_streaming(struct vb2_queue *q)
+> +{
+> +	struct bcm2835_isp_node *node = vb2_get_drv_priv(q);
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +	struct vchiq_mmal_port *port = get_port_data(node);
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	v4l2_dbg(1, debug, &dev->v4l2_dev, "%s: node %s[%d], mmal port %p\n",
+> +		 __func__, node->name, node->id, port);
+> +
+> +	init_completion(&dev->frame_cmplt);
+> +
+> +	/* Disable MMAL port - this will flush buffers back */
+> +	ret = vchiq_mmal_port_disable(dev->mmal_instance, port);
+> +	if (ret)
+> +		v4l2_err(&dev->v4l2_dev,
+> +			 "%s: Failed disabling %s port, ret %d\n", __func__,
+> +			 node_is_output(node) ? "i/p" : "o/p",
+> +			 ret);
+> +
+> +	while (atomic_read(&port->buffers_with_vpu)) {
+> +		v4l2_dbg(1, debug, &dev->v4l2_dev,
+> +			 "%s: Waiting for buffers to be returned - %d outstanding\n",
+> +			 __func__, atomic_read(&port->buffers_with_vpu));
+> +		ret = wait_for_completion_timeout(&dev->frame_cmplt, HZ);
+> +		if (ret <= 0) {
+> +			v4l2_err(&dev->v4l2_dev,
+> +				 "%s: Timeout waiting for buffers to be returned - %d outstanding\n",
+> +				 __func__,
+> +				 atomic_read(&port->buffers_with_vpu));
+> +			break;
+> +		}
+> +	}
+> +
+> +	/* Release the VCSM handle here to release the associated dmabuf */
+> +	for (i = 0; i < q->num_buffers; i++) {
+> +		struct vb2_v4l2_buffer *vb2 = to_vb2_v4l2_buffer(q->bufs[i]);
+> +		struct bcm2835_isp_buffer *buf =
+> +			container_of(vb2, struct bcm2835_isp_buffer, vb);
+> +		bcm2835_isp_mmal_buf_cleanup(&buf->mmal);
+> +	}
+> +
+> +	atomic_dec(&dev->num_streaming);
+> +	/* If all ports disabled, then disable the component */
+> +	if (atomic_read(&dev->num_streaming) == 0) {
+> +		ret = vchiq_mmal_component_disable(dev->mmal_instance,
+> +						   dev->component);
+> +		if (ret) {
+> +			v4l2_err(&dev->v4l2_dev,
+> +				 "%s: Failed disabling component, ret %d\n",
+> +				 __func__, ret);
+> +		}
+> +	}
+> +
+> +	/*
+> +	 * Simply wait for any vb2 buffers to finish. We could take steps to
+> +	 * make them complete more quickly if we care, or even return them
+> +	 * ourselves.
+> +	 */
+> +	vb2_wait_for_all_buffers(&node->queue);
+> +}
+> +
+> +static const struct vb2_ops bcm2835_isp_node_queue_ops = {
+> +	.queue_setup		= bcm2835_isp_node_queue_setup,
+> +	.buf_init		= bcm2835_isp_buf_init,
+> +	.buf_prepare		= bcm2835_isp_buf_prepare,
+> +	.buf_queue		= bcm2835_isp_node_buffer_queue,
+> +	.buf_cleanup		= bcm2835_isp_buffer_cleanup,
+> +	.start_streaming	= bcm2835_isp_node_start_streaming,
+> +	.stop_streaming		= bcm2835_isp_node_stop_streaming,
+> +};
+> +
+> +static const
+> +struct bcm2835_isp_fmt *get_default_format(struct bcm2835_isp_node *node)
+> +{
+> +	return node->supported_fmts.list[0];
+> +}
+> +
+> +static inline unsigned int get_bytesperline(int width,
+> +					    const struct bcm2835_isp_fmt *fmt)
+> +{
+> +	return ALIGN((width * fmt->depth) >> 3, fmt->bytesperline_align);
+> +}
+> +
+> +static inline unsigned int get_sizeimage(int bpl, int width, int height,
+> +					 const struct bcm2835_isp_fmt *fmt)
+> +{
+> +	return (bpl * height * fmt->size_multiplier_x2) >> 1;
+> +}
+> +
+> +static int bcm2835_isp_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct bcm2835_isp_dev *dev =
+> +	      container_of(ctrl->handler, struct bcm2835_isp_dev, ctrl_handler);
+> +	struct bcm2835_isp_node *node = &dev->node[0];
+> +	int ret = 0;
+> +
+> +	/*
+> +	 * The ISP firmware driver will ensure these settings are applied on
+> +	 * a frame boundary, so we are safe to write them as they come in.
+> +	 *
+> +	 * Note that the bcm2835_isp_* param structures are identical to the
+> +	 * mmal-parameters.h definitions.  This avoids the need for unnecessary
+> +	 * field-by-field copying between structures.
+> +	 */
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_RED_BALANCE:
+> +		dev->r_gain = ctrl->val;
+> +		ret = set_wb_gains(node);
+> +		break;
+> +	case V4L2_CID_BLUE_BALANCE:
+> +		dev->b_gain = ctrl->val;
+> +		ret = set_wb_gains(node);
+> +		break;
+> +	case V4L2_CID_DIGITAL_GAIN:
+> +		ret = set_digital_gain(node, ctrl->val);
+> +		break;
+> +	case V4L2_CID_USER_BCM2835_ISP_CC_MATRIX:
+> +		ret = set_isp_param(node, MMAL_PARAMETER_CUSTOM_CCM,
+> +				    ctrl->p_new.p_u8,
+> +				    sizeof(struct bcm2835_isp_custom_ccm));
+> +		break;
+> +	case V4L2_CID_USER_BCM2835_ISP_LENS_SHADING:
+> +		ret = set_isp_param(node, MMAL_PARAMETER_LENS_SHADING_OVERRIDE,
+> +				    ctrl->p_new.p_u8,
+> +				    sizeof(struct bcm2835_isp_lens_shading));
+> +		break;
+> +	case V4L2_CID_USER_BCM2835_ISP_BLACK_LEVEL:
+> +		ret = set_isp_param(node, MMAL_PARAMETER_BLACK_LEVEL,
+> +				    ctrl->p_new.p_u8,
+> +				    sizeof(struct bcm2835_isp_black_level));
+> +		break;
+> +	case V4L2_CID_USER_BCM2835_ISP_GEQ:
+> +		ret = set_isp_param(node, MMAL_PARAMETER_GEQ,
+> +				    ctrl->p_new.p_u8,
+> +				    sizeof(struct bcm2835_isp_geq));
+> +		break;
+> +	case V4L2_CID_USER_BCM2835_ISP_GAMMA:
+> +		ret = set_isp_param(node, MMAL_PARAMETER_GAMMA,
+> +				    ctrl->p_new.p_u8,
+> +				    sizeof(struct bcm2835_isp_gamma));
+> +		break;
+> +	case V4L2_CID_USER_BCM2835_ISP_DENOISE:
+> +		ret = set_isp_param(node, MMAL_PARAMETER_DENOISE,
+> +				    ctrl->p_new.p_u8,
+> +				    sizeof(struct bcm2835_isp_denoise));
+> +		break;
+> +	case V4L2_CID_USER_BCM2835_ISP_SHARPEN:
+> +		ret = set_isp_param(node, MMAL_PARAMETER_SHARPEN,
+> +				    ctrl->p_new.p_u8,
+> +				    sizeof(struct bcm2835_isp_sharpen));
+> +		break;
+> +	case V4L2_CID_USER_BCM2835_ISP_DPC:
+> +		ret = set_isp_param(node, MMAL_PARAMETER_DPC,
+> +				    ctrl->p_new.p_u8,
+> +				    sizeof(struct bcm2835_isp_dpc));
+> +		break;
+> +	default:
+> +		v4l2_info(&dev->v4l2_dev, "Unrecognised control\n");
+> +		ret = -EINVAL;
+> +	}
+> +
+> +	if (ret) {
+> +		v4l2_err(&dev->v4l2_dev, "%s: Failed setting ctrl \"%s\" (%08x), err %d\n",
+> +			 __func__, ctrl->name, ctrl->id, ret);
+> +		ret = -EIO;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops bcm2835_isp_ctrl_ops = {
+> +	.s_ctrl = bcm2835_isp_s_ctrl,
+> +};
+> +
+> +static const struct v4l2_file_operations bcm2835_isp_fops = {
+> +	.owner		= THIS_MODULE,
+> +	.open		= v4l2_fh_open,
+> +	.release	= vb2_fop_release,
+> +	.poll		= vb2_fop_poll,
+> +	.unlocked_ioctl = video_ioctl2,
+> +	.mmap		= vb2_fop_mmap
+> +};
+> +
+> +static int populate_qdata_fmt(struct v4l2_format *f,
+> +			      struct bcm2835_isp_node *node)
+> +{
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +	struct bcm2835_isp_q_data *q_data = &node->q_data;
+> +	struct vchiq_mmal_port *port;
+> +	int ret;
+> +
+> +	if (!node_is_stats(node)) {
+> +		v4l2_dbg(1, debug, &dev->v4l2_dev,
+> +			 "%s: Setting pix format for type %d, wxh: %ux%u, fmt: %08x, size %u\n",
+> +			 __func__, f->type, f->fmt.pix.width, f->fmt.pix.height,
+> +			 f->fmt.pix.pixelformat, f->fmt.pix.sizeimage);
+> +
+> +		q_data->fmt = find_format(f, node);
+> +		q_data->width = f->fmt.pix.width;
+> +		q_data->height = f->fmt.pix.height;
+> +		q_data->height = f->fmt.pix.height;
+> +
+> +		/* All parameters should have been set correctly by try_fmt */
+> +		q_data->bytesperline = f->fmt.pix.bytesperline;
+> +		q_data->sizeimage = f->fmt.pix.sizeimage;
+> +	} else {
+> +		v4l2_dbg(1, debug, &dev->v4l2_dev,
+> +			 "%s: Setting meta format for fmt: %08x, size %u\n",
+> +			 __func__, f->fmt.meta.dataformat,
+> +			 f->fmt.meta.buffersize);
+> +
+> +		q_data->fmt = find_format(f, node);
+> +		q_data->width = 0;
+> +		q_data->height = 0;
+> +		q_data->bytesperline = 0;
+> +		q_data->sizeimage = f->fmt.meta.buffersize;
+> +	}
+> +
+> +	v4l2_dbg(1, debug, &dev->v4l2_dev,
+> +		 "%s: Calculated bpl as %u, size %u\n", __func__,
+> +		 q_data->bytesperline, q_data->sizeimage);
+> +
+> +	/* If we have a component then setup the port as well */
+> +	port = get_port_data(node);
+> +	setup_mmal_port_format(node, port);
+> +	ret = vchiq_mmal_port_set_format(dev->mmal_instance, port);
+> +	if (ret) {
+> +		v4l2_err(&dev->v4l2_dev,
+> +			 "%s: Failed vchiq_mmal_port_set_format on port, ret %d\n",
+> +			 __func__, ret);
+> +		ret = -EINVAL;
+> +	}
+> +
+> +	if (q_data->sizeimage < port->minimum_buffer.size) {
+> +		v4l2_err(&dev->v4l2_dev,
+> +			 "%s: Current buffer size of %u < min buf size %u - driver mismatch to MMAL\n",
+> +			 __func__,
+> +			 q_data->sizeimage,
+> +			 port->minimum_buffer.size);
+> +	}
+> +
+> +	v4l2_dbg(1, debug, &dev->v4l2_dev,
+> +		 "%s: Set format for type %d, wxh: %dx%d, fmt: %08x, size %u\n",
+> +		 __func__, f->type, q_data->width, q_data->height,
+> +		 q_data->fmt->fourcc, q_data->sizeimage);
+> +
+> +	return ret;
+> +}
+> +
+> +static int bcm2835_isp_node_querycap(struct file *file, void *priv,
+> +				     struct v4l2_capability *cap)
+> +{
+> +	strscpy(cap->driver, BCM2835_ISP_NAME, sizeof(cap->driver));
+> +	strscpy(cap->card, BCM2835_ISP_NAME, sizeof(cap->card));
+> +	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+> +		 BCM2835_ISP_NAME);
+> +
+> +	return 0;
+> +}
+> +
+> +static int bcm2835_isp_node_g_fmt(struct file *file, void *priv,
+> +				  struct v4l2_format *f)
+> +{
+> +	struct bcm2835_isp_node *node = video_drvdata(file);
+> +
+> +	if (f->type != node->queue.type)
+> +		return -EINVAL;
+> +
+> +	if (node_is_stats(node)) {
+> +		f->fmt.meta.dataformat = V4L2_META_FMT_BCM2835_ISP_STATS;
+> +		f->fmt.meta.buffersize =
+> +			get_port_data(node)->minimum_buffer.size;
+> +	} else {
+> +		struct bcm2835_isp_q_data *q_data = &node->q_data;
+> +
+> +		f->fmt.pix.width = q_data->width;
+> +		f->fmt.pix.height = q_data->height;
+> +		f->fmt.pix.field = V4L2_FIELD_NONE;
+> +		f->fmt.pix.pixelformat = q_data->fmt->fourcc;
+> +		f->fmt.pix.bytesperline = q_data->bytesperline;
+> +		f->fmt.pix.sizeimage = q_data->sizeimage;
+> +		f->fmt.pix.colorspace = q_data->fmt->colorspace;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int bcm2835_isp_node_enum_fmt(struct file *file, void  *priv,
+> +				     struct v4l2_fmtdesc *f)
+> +{
+> +	struct bcm2835_isp_node *node = video_drvdata(file);
+> +	struct bcm2835_isp_fmt_list *fmts = &node->supported_fmts;
+> +
+> +	if (f->type != node->queue.type)
+> +		return -EINVAL;
+> +
+> +	if (f->index < fmts->num_entries) {
+> +		/* Format found */
+> +		f->pixelformat = fmts->list[f->index]->fourcc;
+> +		f->flags = fmts->list[f->index]->flags;
+> +		return 0;
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int bcm2835_isp_enum_framesizes(struct file *file, void *priv,
+> +				       struct v4l2_frmsizeenum *fsize)
+> +{
+> +	struct bcm2835_isp_node *node = video_drvdata(file);
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +	const struct bcm2835_isp_fmt *fmt;
+> +
+> +	if (node_is_stats(node) || fsize->index)
+> +		return -EINVAL;
+> +
+> +	fmt = find_format_by_fourcc(fsize->pixel_format, node);
+> +	if (!fmt) {
+> +		v4l2_err(&dev->v4l2_dev, "Invalid pixel code: %x\n",
+> +			 fsize->pixel_format);
+> +		return -EINVAL;
+> +	}
+> +
+> +	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
+> +	fsize->stepwise.min_width = MIN_DIM;
+> +	fsize->stepwise.max_width = MAX_DIM;
+> +	fsize->stepwise.step_width = fmt->step_size;
+> +
+> +	fsize->stepwise.min_height = MIN_DIM;
+> +	fsize->stepwise.max_height = MAX_DIM;
+> +	fsize->stepwise.step_height = fmt->step_size;
+> +
+> +	return 0;
+> +}
+> +
+> +static int bcm2835_isp_node_try_fmt(struct file *file, void *priv,
+> +				    struct v4l2_format *f)
+> +{
+> +	struct bcm2835_isp_node *node = video_drvdata(file);
+> +	const struct bcm2835_isp_fmt *fmt;
+> +
+> +	if (f->type != node->queue.type)
+> +		return -EINVAL;
+> +
+> +	fmt = find_format(f, node);
+> +	if (!fmt)
+> +		fmt = get_default_format(node);
+> +
+> +	if (!node_is_stats(node)) {
+> +		f->fmt.pix.width = max(min(f->fmt.pix.width, MAX_DIM),
+> +				       MIN_DIM);
+> +		f->fmt.pix.height = max(min(f->fmt.pix.height, MAX_DIM),
+> +					MIN_DIM);
+> +
+> +		f->fmt.pix.pixelformat = fmt->fourcc;
+> +		f->fmt.pix.colorspace = fmt->colorspace;
+> +		f->fmt.pix.bytesperline = get_bytesperline(f->fmt.pix.width,
+> +							   fmt);
+> +		f->fmt.pix.field = V4L2_FIELD_NONE;
+> +		f->fmt.pix.sizeimage =
+> +			get_sizeimage(f->fmt.pix.bytesperline, f->fmt.pix.width,
+> +				      f->fmt.pix.height, fmt);
+> +	} else {
+> +		f->fmt.meta.dataformat = fmt->fourcc;
+> +		f->fmt.meta.buffersize =
+> +				get_port_data(node)->minimum_buffer.size;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int bcm2835_isp_node_s_fmt(struct file *file, void *priv,
+> +				  struct v4l2_format *f)
+> +{
+> +	struct bcm2835_isp_node *node = video_drvdata(file);
+> +	int ret;
+> +
+> +	if (f->type != node->queue.type)
+> +		return -EINVAL;
+> +
+> +	ret = bcm2835_isp_node_try_fmt(file, priv, f);
+> +	if (ret)
+> +		return ret;
+> +
+> +	v4l2_dbg(1, debug, &node_get_dev(node)->v4l2_dev,
+> +		 "%s: Set format for node %s[%d]\n",
+> +		 __func__, node->name, node->id);
+> +
+> +	return populate_qdata_fmt(f, node);
+> +}
+> +
+> +static int bcm2835_isp_node_s_selection(struct file *file, void *fh,
+> +					struct v4l2_selection *s)
+> +{
+> +	struct mmal_parameter_crop crop;
+> +	struct bcm2835_isp_node *node = video_drvdata(file);
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +	struct vchiq_mmal_port *port = get_port_data(node);
+> +
+> +	/* This return value is required fro V4L2 compliance. */
+> +	if (node_is_stats(node))
+> +		return -ENOTTY;
+> +
+> +	if (!s->r.width || !s->r.height)
+> +		return -EINVAL;
+
+I'm missing a check for s->target.
+
+> +
+> +	/* Adjust the crop window if goes outside the frame dimensions. */
+> +	s->r.left = min((unsigned int)max(s->r.left, 0),
+> +			node->q_data.width - MIN_DIM);
+> +	s->r.top = min((unsigned int)max(s->r.top, 0),
+> +		       node->q_data.height - MIN_DIM);
+> +	s->r.width = max(min(s->r.width, node->q_data.width - s->r.left),
+> +			 MIN_DIM);
+> +	s->r.height = max(min(s->r.height, node->q_data.height - s->r.top),
+> +			  MIN_DIM);
+> +
+> +	crop.rect.x = s->r.left;
+> +	crop.rect.y = s->r.top;
+> +	crop.rect.width = s->r.width;
+> +	crop.rect.height = s->r.height;
+> +
+> +	return vchiq_mmal_port_parameter_set(dev->mmal_instance, port,
+> +					     MMAL_PARAMETER_CROP,
+> +					     &crop, sizeof(crop));
+> +}
+> +
+> +static int bcm2835_isp_node_g_selection(struct file *file, void *fh,
+> +					struct v4l2_selection *s)
+> +{
+> +	struct bcm2835_isp_node *node = video_drvdata(file);
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +	struct vchiq_mmal_port *port = get_port_data(node);
+> +	struct mmal_parameter_crop crop;
+> +	u32 crop_size = sizeof(crop);
+> +	int ret;
+> +
+> +	/* This return value is required for V4L2 compliance. */
+> +	if (node_is_stats(node))
+> +		return -ENOTTY;
+> +
+> +	/* We can only return out an input crop. */
+> +	if (s->target != V4L2_SEL_TGT_CROP)
+> +		return -EINVAL;
+
+No support for _TGT_CROP_DEFAULT/BOUNDS? Those are usually supported
+by drivers and are typically set to the width/height of the current
+format.
+
+I recommend adding support for these targets.
+
+> +
+> +	ret = vchiq_mmal_port_parameter_get(dev->mmal_instance, port,
+> +					    MMAL_PARAMETER_CROP,
+> +					    &crop, &crop_size);
+> +	if (!ret)
+> +		return -EINVAL;
+> +
+> +	s->r.left = crop.rect.x;
+> +	s->r.top = crop.rect.y;
+> +	s->r.width = crop.rect.width;
+> +	s->r.height = crop.rect.height;
+> +
+> +	return 0;
+> +}
+> +
+> +static int bcm3285_isp_subscribe_event(struct v4l2_fh *fh,
+> +				       const struct v4l2_event_subscription *s)
+> +{
+> +	switch (s->type) {
+> +	/* Cannot change source parameters dynamically at runtime. */
+> +	case V4L2_EVENT_SOURCE_CHANGE:
+> +		return -EINVAL;
+> +	case V4L2_EVENT_CTRL:
+> +		return v4l2_ctrl_subscribe_event(fh, s);
+> +	default:
+> +		return v4l2_event_subscribe(fh, s, 4, NULL);
+> +	}
+> +}
+> +
+> +static const struct v4l2_ioctl_ops bcm2835_isp_node_ioctl_ops = {
+> +	.vidioc_querycap		= bcm2835_isp_node_querycap,
+> +	.vidioc_g_fmt_vid_cap		= bcm2835_isp_node_g_fmt,
+> +	.vidioc_g_fmt_vid_out		= bcm2835_isp_node_g_fmt,
+> +	.vidioc_g_fmt_meta_cap		= bcm2835_isp_node_g_fmt,
+> +	.vidioc_s_fmt_vid_cap		= bcm2835_isp_node_s_fmt,
+> +	.vidioc_s_fmt_vid_out		= bcm2835_isp_node_s_fmt,
+> +	.vidioc_s_fmt_meta_cap		= bcm2835_isp_node_s_fmt,
+> +	.vidioc_try_fmt_vid_cap		= bcm2835_isp_node_try_fmt,
+> +	.vidioc_try_fmt_vid_out		= bcm2835_isp_node_try_fmt,
+> +	.vidioc_try_fmt_meta_cap	= bcm2835_isp_node_try_fmt,
+> +	.vidioc_s_selection		= bcm2835_isp_node_s_selection,
+> +	.vidioc_g_selection		= bcm2835_isp_node_g_selection,
+> +
+> +	.vidioc_enum_fmt_vid_cap	= bcm2835_isp_node_enum_fmt,
+> +	.vidioc_enum_fmt_vid_out	= bcm2835_isp_node_enum_fmt,
+> +	.vidioc_enum_fmt_meta_cap	= bcm2835_isp_node_enum_fmt,
+> +	.vidioc_enum_framesizes		= bcm2835_isp_enum_framesizes,
+> +
+> +	.vidioc_reqbufs			= vb2_ioctl_reqbufs,
+> +	.vidioc_querybuf		= vb2_ioctl_querybuf,
+> +	.vidioc_qbuf			= vb2_ioctl_qbuf,
+> +	.vidioc_dqbuf			= vb2_ioctl_dqbuf,
+> +	.vidioc_expbuf			= vb2_ioctl_expbuf,
+> +	.vidioc_create_bufs		= vb2_ioctl_create_bufs,
+> +	.vidioc_prepare_buf		= vb2_ioctl_prepare_buf,
+> +
+> +	.vidioc_streamon		= vb2_ioctl_streamon,
+> +	.vidioc_streamoff		= vb2_ioctl_streamoff,
+> +
+> +	.vidioc_subscribe_event		= bcm3285_isp_subscribe_event,
+> +	.vidioc_unsubscribe_event	= v4l2_event_unsubscribe,
+> +};
+> +
+> +/*
+> + * Size of the array to provide to the VPU when asking for the list of supported
+> + * formats.
+> + *
+> + * The ISP component currently advertises 33 input formats, so add a small
+> + * overhead on that.
+> + */
+> +#define MAX_SUPPORTED_ENCODINGS 40
+> +
+> +/* Populate node->supported_fmts with the formats supported by those ports. */
+> +static int bcm2835_isp_get_supported_fmts(struct bcm2835_isp_node *node)
+> +{
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +	struct bcm2835_isp_fmt const **list;
+> +	unsigned int i, j, num_encodings;
+> +	u32 fourccs[MAX_SUPPORTED_ENCODINGS];
+> +	u32 param_size = sizeof(fourccs);
+> +	int ret;
+> +
+> +	ret = vchiq_mmal_port_parameter_get(dev->mmal_instance,
+> +					    get_port_data(node),
+> +					    MMAL_PARAMETER_SUPPORTED_ENCODINGS,
+> +					    &fourccs, &param_size);
+> +
+> +	if (ret) {
+> +		if (ret == MMAL_MSG_STATUS_ENOSPC) {
+> +			v4l2_err(&dev->v4l2_dev,
+> +				 "%s: port has more encoding than we provided space for. Some are dropped.\n",
+> +				 __func__);
+> +			num_encodings = MAX_SUPPORTED_ENCODINGS;
+> +		} else {
+> +			v4l2_err(&dev->v4l2_dev, "%s: get_param ret %u.\n",
+> +				 __func__, ret);
+> +			return -EINVAL;
+> +		}
+> +	} else {
+> +		num_encodings = param_size / sizeof(u32);
+> +	}
+> +
+> +	/*
+> +	 * Assume at this stage that all encodings will be supported in V4L2.
+> +	 * Any that aren't supported will waste a very small amount of memory.
+> +	 */
+> +	list = devm_kzalloc(dev->dev,
+> +			    sizeof(struct bcm2835_isp_fmt *) * num_encodings,
+> +			    GFP_KERNEL);
+> +	if (!list)
+> +		return -ENOMEM;
+> +	node->supported_fmts.list = list;
+> +
+> +	for (i = 0, j = 0; i < num_encodings; i++) {
+> +		const struct bcm2835_isp_fmt *fmt = get_fmt(fourccs[i]);
+> +
+> +		if (fmt) {
+> +			list[j] = fmt;
+> +			j++;
+> +		}
+> +	}
+> +	node->supported_fmts.num_entries = j;
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Register a device node /dev/video<N> to go along with one of the ISP's input
+> + * or output nodes.
+> + */
+> +static int register_node(struct bcm2835_isp_dev *dev,
+> +			 struct bcm2835_isp_node *node,
+> +			 int index)
+> +{
+> +	struct video_device *vfd;
+> +	struct vb2_queue *queue;
+> +	int ret;
+> +
+> +	mutex_init(&node->lock);
+> +
+> +	node->dev = dev;
+> +	vfd = &node->vfd;
+> +	queue = &node->queue;
+> +	queue->type = index_to_queue_type(index);
+> +	/*
+> +	 * Setup the node type-specific params.
+> +	 *
+> +	 * Only the OUTPUT node can set controls and crop windows. However,
+> +	 * we must allow the s/g_selection ioctl on the stats node as v4l2
+> +	 * compliance expects it to return a -ENOTTY, and the framework
+> +	 * does not handle it if the ioctl is disabled.
+> +	 */
+> +	switch (queue->type) {
+> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+> +		vfd->device_caps = V4L2_CAP_VIDEO_OUTPUT | V4L2_CAP_STREAMING;
+> +		node->id = index;
+> +		node->vfl_dir = VFL_DIR_TX;
+> +		node->name = "output";
+> +		break;
+> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+> +		vfd->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING;
+> +		/* First Capture node starts at id 0, etc. */
+> +		node->id = index - BCM2835_ISP_NUM_OUTPUTS;
+> +		node->vfl_dir = VFL_DIR_RX;
+> +		node->name = "capture";
+> +		v4l2_disable_ioctl(&node->vfd, VIDIOC_S_CTRL);
+> +		v4l2_disable_ioctl(&node->vfd, VIDIOC_S_SELECTION);
+> +		v4l2_disable_ioctl(&node->vfd, VIDIOC_G_SELECTION);
+> +		break;
+> +	case V4L2_BUF_TYPE_META_CAPTURE:
+> +		vfd->device_caps = V4L2_CAP_META_CAPTURE | V4L2_CAP_STREAMING;
+> +		node->id = index - BCM2835_ISP_NUM_OUTPUTS;
+> +		node->vfl_dir = VFL_DIR_RX;
+> +		node->name = "stats";
+> +		v4l2_disable_ioctl(&node->vfd, VIDIOC_S_CTRL);
+
+Why not disable S/G_SELECTION for meta capture here rather than test for it
+in the op functions?
+
+> +		break;
+> +	}
+> +
+> +	/* We use the selection API instead of the old crop API. */
+> +	v4l2_disable_ioctl(vfd, VIDIOC_CROPCAP);
+> +	v4l2_disable_ioctl(vfd, VIDIOC_G_CROP);
+> +	v4l2_disable_ioctl(vfd, VIDIOC_S_CROP);
+
+No need for this: the core handles this and will disable these ioctls
+automatically.
+
+> +
+> +	ret = bcm2835_isp_get_supported_fmts(node);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Initialise the the video node. */
+> +	vfd->vfl_type	= VFL_TYPE_VIDEO;
+> +	vfd->fops	= &bcm2835_isp_fops,
+> +	vfd->ioctl_ops	= &bcm2835_isp_node_ioctl_ops,
+> +	vfd->minor	= -1,
+> +	vfd->release	= video_device_release_empty,
+> +	vfd->queue	= &node->queue;
+> +	vfd->lock	= &node->lock;
+> +	vfd->v4l2_dev	= &dev->v4l2_dev;
+> +	vfd->vfl_dir	= node->vfl_dir;
+> +
+> +	node->q_data.fmt = get_default_format(node);
+> +	node->q_data.width = DEFAULT_DIM;
+> +	node->q_data.height = DEFAULT_DIM;
+> +	node->q_data.bytesperline =
+> +		get_bytesperline(DEFAULT_DIM, node->q_data.fmt);
+> +	node->q_data.sizeimage = node_is_stats(node) ?
+> +				 get_port_data(node)->recommended_buffer.size :
+> +				 get_sizeimage(node->q_data.bytesperline,
+> +					       node->q_data.width,
+> +					       node->q_data.height,
+> +					       node->q_data.fmt);
+> +
+> +	queue->io_modes = VB2_MMAP | VB2_DMABUF;
+> +	queue->drv_priv = node;
+> +	queue->ops = &bcm2835_isp_node_queue_ops;
+> +	queue->mem_ops = &vb2_dma_contig_memops;
+> +	queue->buf_struct_size = sizeof(struct bcm2835_isp_buffer);
+> +	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
+> +	queue->dev = dev->dev;
+> +	queue->lock = &node->queue_lock;
+> +
+> +	ret = vb2_queue_init(queue);
+> +	if (ret < 0) {
+> +		v4l2_info(&dev->v4l2_dev, "vb2_queue_init failed\n");
+> +		return ret;
+> +	}
+> +	node->queue_init = true;
+> +
+> +	/* Define the device names */
+> +	snprintf(vfd->name, sizeof(node->vfd.name), "%s-%s%d", BCM2835_ISP_NAME,
+> +		 node->name, node->id);
+> +
+> +	ret = video_register_device(vfd, VFL_TYPE_VIDEO, video_nr + index);
+> +	if (ret) {
+> +		v4l2_err(&dev->v4l2_dev,
+> +			 "Failed to register video %s[%d] device node\n",
+> +			 node->name, node->id);
+> +		return ret;
+> +	}
+
+Move registering the video device to the end of this function.
+Otherwise the output video device would be created (and available for
+userspace) before the controls are added.
+
+> +
+> +	node->registered = true;
+> +	video_set_drvdata(vfd, node);
+> +
+> +	/* Set some controls and defaults, but only on the VIDEO_OUTPUT node. */
+> +	if (node_is_output(node)) {
+> +		unsigned int i;
+> +
+> +		/* Use this ctrl template to assign all out ISP custom ctrls. */
+> +		struct v4l2_ctrl_config ctrl_template = {
+> +			.ops		= &bcm2835_isp_ctrl_ops,
+> +			.type		= V4L2_CTRL_TYPE_U8,
+> +			.def		= 0,
+> +			.min		= 0x00,
+> +			.max		= 0xff,
+> +			.step		= 1,
+> +		};
+> +
+> +		v4l2_ctrl_handler_init(&dev->ctrl_handler, 4);
+> +
+> +		dev->r_gain = 1000;
+> +		dev->b_gain = 1000;
+> +
+> +		v4l2_ctrl_new_std(&dev->ctrl_handler,  &bcm2835_isp_ctrl_ops,
+> +				  V4L2_CID_RED_BALANCE, 1, 0xffff, 1,
+> +				  dev->r_gain);
+> +
+> +		v4l2_ctrl_new_std(&dev->ctrl_handler, &bcm2835_isp_ctrl_ops,
+> +				  V4L2_CID_BLUE_BALANCE, 1, 0xffff, 1,
+> +				  dev->b_gain);
+> +
+> +		v4l2_ctrl_new_std(&dev->ctrl_handler, &bcm2835_isp_ctrl_ops,
+> +				  V4L2_CID_DIGITAL_GAIN, 1, 0xffff, 1, 1000);
+> +
+> +		for (i = 0; i < ARRAY_SIZE(custom_ctrls); i++) {
+> +			ctrl_template.name = custom_ctrls[i].name;
+> +			ctrl_template.id = custom_ctrls[i].id;
+> +			ctrl_template.dims[0] = custom_ctrls[i].size;
+> +			ctrl_template.flags = custom_ctrls[i].flags;
+> +			v4l2_ctrl_new_custom(&dev->ctrl_handler,
+> +					     &ctrl_template, NULL);
+> +		}
+> +
+> +		node->vfd.ctrl_handler = &dev->ctrl_handler;
+
+Missing error check.
+
+> +	}
+> +
+> +	v4l2_info(&dev->v4l2_dev,
+> +		  "Device node %s[%d] registered as /dev/video%d\n",
+> +		  node->name, node->id, vfd->num);
+> +
+> +	return 0;
+> +}
+> +
+> +/* Unregister one of the /dev/video<N> nodes associated with the ISP. */
+> +static void unregister_node(struct bcm2835_isp_node *node)
+> +{
+> +	struct bcm2835_isp_dev *dev = node_get_dev(node);
+> +
+> +	v4l2_info(&dev->v4l2_dev,
+> +		  "Unregistering node %s[%d] device node /dev/video%d\n",
+> +		  node->name, node->id, node->vfd.num);
+> +
+> +	if (node->queue_init)
+> +		vb2_queue_release(&node->queue);
+> +
+> +	if (node->registered) {
+> +		video_unregister_device(&node->vfd);
+> +		if (node_is_output(node))
+> +			v4l2_ctrl_handler_free(&dev->ctrl_handler);
+> +	}
+> +
+> +	/*
+> +	 * node->supported_fmts.list is free'd automatically
+> +	 * as a managed resource.
+> +	 */
+> +	node->supported_fmts.list = NULL;
+> +	node->supported_fmts.num_entries = 0;
+> +	node->vfd.ctrl_handler = NULL;
+> +	node->registered = false;
+> +	node->queue_init = false;
+> +}
+> +
+> +static void media_controller_unregister(struct bcm2835_isp_dev *dev)
+> +{
+> +	unsigned int i;
+> +
+> +	v4l2_info(&dev->v4l2_dev, "Unregister from media controller\n");
+> +
+> +	if (dev->media_device_registered) {
+> +		media_device_unregister(&dev->mdev);
+> +		media_device_cleanup(&dev->mdev);
+> +		dev->media_device_registered = false;
+> +	}
+> +
+> +	kfree(dev->entity.name);
+> +	dev->entity.name = NULL;
+> +
+> +	if (dev->media_entity_registered) {
+> +		media_device_unregister_entity(&dev->entity);
+> +		dev->media_entity_registered = false;
+> +	}
+> +
+> +	for (i = 0; i < BCM2835_ISP_NUM_NODES; i++) {
+> +		struct bcm2835_isp_node *node = &dev->node[i];
+> +
+> +		if (node->media_node_registered) {
+> +			media_remove_intf_links(node->intf_link->intf);
+> +			media_entity_remove_links(&dev->node[i].vfd.entity);
+> +			media_devnode_remove(node->intf_devnode);
+> +			media_device_unregister_entity(&node->vfd.entity);
+> +			kfree(node->vfd.entity.name);
+> +		}
+> +		node->media_node_registered = false;
+> +	}
+> +
+> +	dev->v4l2_dev.mdev = NULL;
+> +}
+> +
+> +static int media_controller_register_node(struct bcm2835_isp_dev *dev, int num)
+> +{
+> +	struct bcm2835_isp_node *node = &dev->node[num];
+> +	struct media_entity *entity = &node->vfd.entity;
+> +	int output = node_is_output(node);
+> +	char *name;
+> +	int ret;
+> +
+> +	v4l2_info(&dev->v4l2_dev,
+> +		  "Register %s node %d with media controller\n",
+> +		  output ? "output" : "capture", num);
+> +	entity->obj_type = MEDIA_ENTITY_TYPE_VIDEO_DEVICE;
+> +	entity->function = MEDIA_ENT_F_IO_V4L;
+> +	entity->info.dev.major = VIDEO_MAJOR;
+> +	entity->info.dev.minor = node->vfd.minor;
+> +	name = kmalloc(BCM2835_ISP_ENTITY_NAME_LEN, GFP_KERNEL);
+> +	if (!name) {
+> +		ret = -ENOMEM;
+> +		goto error_no_mem;
+> +	}
+> +	snprintf(name, BCM2835_ISP_ENTITY_NAME_LEN, "%s0-%s%d",
+> +		 BCM2835_ISP_NAME, output ? "output" : "capture", num);
+> +	entity->name = name;
+> +	node->pad.flags = output ? MEDIA_PAD_FL_SOURCE : MEDIA_PAD_FL_SINK;
+> +	ret = media_entity_pads_init(entity, 1, &node->pad);
+> +	if (ret)
+> +		goto error_pads_init;
+> +	ret = media_device_register_entity(&dev->mdev, entity);
+> +	if (ret)
+> +		goto error_register_entity;
+> +
+> +	node->intf_devnode = media_devnode_create(&dev->mdev,
+> +						  MEDIA_INTF_T_V4L_VIDEO, 0,
+> +						  VIDEO_MAJOR, node->vfd.minor);
+> +	if (!node->intf_devnode) {
+> +		ret = -ENOMEM;
+> +		goto error_devnode_create;
+> +	}
+> +
+> +	node->intf_link = media_create_intf_link(entity,
+> +						 &node->intf_devnode->intf,
+> +						 MEDIA_LNK_FL_IMMUTABLE |
+> +						 MEDIA_LNK_FL_ENABLED);
+> +	if (!node->intf_link) {
+> +		ret = -ENOMEM;
+> +		goto error_create_intf_link;
+> +	}
+> +
+> +	if (output)
+> +		ret = media_create_pad_link(entity, 0, &dev->entity, num,
+> +					    MEDIA_LNK_FL_IMMUTABLE |
+> +						    MEDIA_LNK_FL_ENABLED);
+> +	else
+> +		ret = media_create_pad_link(&dev->entity, num, entity, 0,
+> +					    MEDIA_LNK_FL_IMMUTABLE |
+> +					    MEDIA_LNK_FL_ENABLED);
+> +	if (ret)
+> +		goto error_create_pad_link;
+> +
+> +	dev->node[num].media_node_registered = true;
+> +	return 0;
+> +
+> +error_create_pad_link:
+> +	media_remove_intf_links(&node->intf_devnode->intf);
+> +error_create_intf_link:
+> +	media_devnode_remove(node->intf_devnode);
+> +error_devnode_create:
+> +	media_device_unregister_entity(&node->vfd.entity);
+> +error_register_entity:
+> +error_pads_init:
+> +	kfree(entity->name);
+> +	entity->name = NULL;
+> +error_no_mem:
+> +	if (ret)
+> +		v4l2_info(&dev->v4l2_dev, "Error registering node\n");
+> +
+> +	return ret;
+> +}
+> +
+> +static int media_controller_register(struct bcm2835_isp_dev *dev)
+> +{
+> +	char *name;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	v4l2_dbg(2, debug, &dev->v4l2_dev, "Registering with media controller\n");
+> +	dev->mdev.dev = dev->dev;
+> +	strscpy(dev->mdev.model, "bcm2835-isp",
+> +		sizeof(dev->mdev.model));
+> +	strscpy(dev->mdev.bus_info, "platform:bcm2835-isp",
+> +		sizeof(dev->mdev.bus_info));
+> +	media_device_init(&dev->mdev);
+> +	dev->v4l2_dev.mdev = &dev->mdev;
+> +
+> +	v4l2_dbg(2, debug, &dev->v4l2_dev, "Register entity for nodes\n");
+> +
+> +	name = kmalloc(BCM2835_ISP_ENTITY_NAME_LEN, GFP_KERNEL);
+> +	if (!name) {
+> +		ret = -ENOMEM;
+> +		goto done;
+> +	}
+> +	snprintf(name, BCM2835_ISP_ENTITY_NAME_LEN, "bcm2835_isp0");
+> +	dev->entity.name = name;
+> +	dev->entity.obj_type = MEDIA_ENTITY_TYPE_BASE;
+> +	dev->entity.function = MEDIA_ENT_F_PROC_VIDEO_SCALER;
+> +
+> +	for (i = 0; i < BCM2835_ISP_NUM_NODES; i++) {
+> +		dev->pad[i].flags = node_is_output(&dev->node[i]) ?
+> +					MEDIA_PAD_FL_SINK : MEDIA_PAD_FL_SOURCE;
+> +	}
+> +
+> +	ret = media_entity_pads_init(&dev->entity, BCM2835_ISP_NUM_NODES,
+> +				     dev->pad);
+> +	if (ret)
+> +		goto done;
+> +
+> +	ret = media_device_register_entity(&dev->mdev, &dev->entity);
+> +	if (ret)
+> +		goto done;
+> +
+> +	dev->media_entity_registered = true;
+> +	for (i = 0; i < BCM2835_ISP_NUM_NODES; i++) {
+> +		ret = media_controller_register_node(dev, i);
+> +		if (ret)
+> +			goto done;
+> +	}
+> +
+> +	ret = media_device_register(&dev->mdev);
+> +	if (!ret)
+> +		dev->media_device_registered = true;
+> +done:
+> +	return ret;
+> +}
+> +
+> +static int bcm2835_isp_remove(struct platform_device *pdev)
+> +{
+> +	struct bcm2835_isp_dev *dev = platform_get_drvdata(pdev);
+> +	unsigned int i;
+> +
+> +	media_controller_unregister(dev);
+> +
+> +	for (i = 0; i < BCM2835_ISP_NUM_NODES; i++)
+> +		unregister_node(&dev->node[i]);
+> +
+> +	v4l2_device_unregister(&dev->v4l2_dev);
+> +
+> +	if (dev->component)
+> +		vchiq_mmal_component_finalise(dev->mmal_instance,
+> +					      dev->component);
+> +
+> +	vchiq_mmal_finalise(dev->mmal_instance);
+> +
+> +	return 0;
+> +}
+> +
+> +static int bcm2835_isp_probe(struct platform_device *pdev)
+> +{
+> +	struct bcm2835_isp_dev *dev;
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
+> +	if (!dev)
+> +		return -ENOMEM;
+> +
+> +	dev->dev = &pdev->dev;
+> +
+> +	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = vchiq_mmal_init(&dev->mmal_instance);
+> +	if (ret) {
+> +		v4l2_device_unregister(&dev->v4l2_dev);
+> +		return ret;
+> +	}
+> +
+> +	ret = vchiq_mmal_component_init(dev->mmal_instance, "ril.isp",
+> +					&dev->component);
+> +	if (ret) {
+> +		v4l2_err(&dev->v4l2_dev,
+> +			 "%s: failed to create ril.isp component\n", __func__);
+> +		goto error;
+> +	}
+> +
+> +	if ((dev->component->inputs != BCM2835_ISP_NUM_OUTPUTS) ||
+> +	    (dev->component->outputs != BCM2835_ISP_NUM_CAPTURES +
+> +					BCM2835_ISP_NUM_METADATA)) {
+> +		v4l2_err(&dev->v4l2_dev,
+> +			 "%s: ril.isp returned %d i/p (%d expected), %d o/p (%d expected) ports\n",
+> +			  __func__, dev->component->inputs,
+> +			  BCM2835_ISP_NUM_OUTPUTS,
+> +			  dev->component->outputs,
+> +			  BCM2835_ISP_NUM_CAPTURES + BCM2835_ISP_NUM_METADATA);
+> +		goto error;
+> +	}
+> +
+> +	atomic_set(&dev->num_streaming, 0);
+> +
+> +	for (i = 0; i < BCM2835_ISP_NUM_NODES; i++) {
+> +		struct bcm2835_isp_node *node = &dev->node[i];
+> +
+> +		ret = register_node(dev, node, i);
+> +		if (ret)
+> +			goto error;
+> +	}
+> +
+> +	ret = media_controller_register(dev);
+> +	if (ret)
+> +		goto error;
+> +
+> +	platform_set_drvdata(pdev, dev);
+> +	v4l2_info(&dev->v4l2_dev, "Loaded V4L2 %s\n", BCM2835_ISP_NAME);
+> +	return 0;
+> +
+> +error:
+> +	bcm2835_isp_remove(pdev);
+> +
+> +	return ret;
+> +}
+> +
+> +static struct platform_driver bcm2835_isp_pdrv = {
+> +	.probe = bcm2835_isp_probe,
+> +	.remove = bcm2835_isp_remove,
+> +	.driver = {
+> +			.name = BCM2835_ISP_NAME,
+> +		  },
+> +};
+> +
+> +module_platform_driver(bcm2835_isp_pdrv);
+> +
+> +MODULE_DESCRIPTION("BCM2835 ISP driver");
+> +MODULE_AUTHOR("Naushir Patuck <naush@raspberrypi.com>");
+> +MODULE_LICENSE("GPL");
+> +MODULE_VERSION("1.0");
+> +MODULE_ALIAS("platform:bcm2835-isp");
+> diff --git a/drivers/staging/vc04_services/bcm2835-isp/bcm2835_isp_ctrls.h b/drivers/staging/vc04_services/bcm2835-isp/bcm2835_isp_ctrls.h
+> new file mode 100644
+> index 000000000000..cfbb1063aad1
+> --- /dev/null
+> +++ b/drivers/staging/vc04_services/bcm2835-isp/bcm2835_isp_ctrls.h
+> @@ -0,0 +1,67 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Broadcom BCM2835 ISP driver
+> + *
+> + * Copyright © 2019-2020 Raspberry Pi (Trading) Ltd.
+> + *
+> + * Author: Naushir Patuck (naush@raspberrypi.com)
+> + *
+> + */
+> +
+> +#ifndef BCM2835_ISP_CTRLS
+> +#define BCM2835_ISP_CTRLS
+> +
+> +#include <linux/bcm2835-isp.h>
+> +
+> +struct bcm2835_isp_custom_ctrl {
+> +	const char *name;
+> +	u32 id;
+> +	u32 size;
+> +	u32 flags;
+> +};
+> +
+> +static const struct bcm2835_isp_custom_ctrl custom_ctrls[] = {
+> +	{
+> +		.name	= "Colour Correction Matrix",
+> +		.id	= V4L2_CID_USER_BCM2835_ISP_CC_MATRIX,
+> +		.size	= sizeof(struct bcm2835_isp_custom_ccm),
+> +		.flags  = 0
+> +	}, {
+> +		.name	= "Lens Shading",
+> +		.id	= V4L2_CID_USER_BCM2835_ISP_LENS_SHADING,
+> +		.size	= sizeof(struct bcm2835_isp_lens_shading),
+> +		.flags  = V4L2_CTRL_FLAG_EXECUTE_ON_WRITE
+> +	}, {
+> +		.name	= "Black Level",
+> +		.id	= V4L2_CID_USER_BCM2835_ISP_BLACK_LEVEL,
+> +		.size	= sizeof(struct bcm2835_isp_black_level),
+> +		.flags  = 0
+> +	}, {
+> +		.name	= "Green Equalisation",
+> +		.id	= V4L2_CID_USER_BCM2835_ISP_GEQ,
+> +		.size	= sizeof(struct bcm2835_isp_geq),
+> +		.flags  = 0
+> +	}, {
+> +		.name	= "Gamma",
+> +		.id	= V4L2_CID_USER_BCM2835_ISP_GAMMA,
+> +		.size	= sizeof(struct bcm2835_isp_gamma),
+> +		.flags  = 0
+> +	}, {
+> +		.name	= "Sharpen",
+> +		.id	= V4L2_CID_USER_BCM2835_ISP_SHARPEN,
+> +		.size	= sizeof(struct bcm2835_isp_sharpen),
+> +		.flags  = 0
+> +	}, {
+> +		.name	= "Denoise",
+> +		.id	= V4L2_CID_USER_BCM2835_ISP_DENOISE,
+> +		.size	= sizeof(struct bcm2835_isp_denoise),
+> +		.flags  = 0
+> +	}, {
+> +		.name	= "Defective Pixel Correction",
+> +		.id	= V4L2_CID_USER_BCM2835_ISP_DPC,
+> +		.size	= sizeof(struct bcm2835_isp_dpc),
+> +		.flags  = 0
+> +	}
+> +};
+> +
+> +#endif
+> diff --git a/drivers/staging/vc04_services/bcm2835-isp/bcm2835_isp_fmts.h b/drivers/staging/vc04_services/bcm2835-isp/bcm2835_isp_fmts.h
+> new file mode 100644
+> index 000000000000..af3bde152bb2
+> --- /dev/null
+> +++ b/drivers/staging/vc04_services/bcm2835-isp/bcm2835_isp_fmts.h
+> @@ -0,0 +1,301 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Broadcom BCM2835 ISP driver
+> + *
+> + * Copyright © 2019-2020 Raspberry Pi (Trading) Ltd.
+> + *
+> + * Author: Naushir Patuck (naush@raspberrypi.com)
+> + *
+> + */
+> +
+> +#ifndef BCM2835_ISP_FMTS
+> +#define BCM2835_ISP_FMTS
+> +
+> +#include <linux/videodev2.h>
+> +#include "vchiq-mmal/mmal-encodings.h"
+> +
+> +struct bcm2835_isp_fmt {
+> +	u32 fourcc;
+> +	int depth;
+> +	int bytesperline_align;
+> +	u32 flags;
+> +	u32 mmal_fmt;
+> +	int size_multiplier_x2;
+> +	enum v4l2_colorspace colorspace;
+> +	unsigned int step_size;
+> +};
+> +
+> +struct bcm2835_isp_fmt_list {
+> +	struct bcm2835_isp_fmt const **list;
+> +	unsigned int num_entries;
+> +};
+> +
+> +static const struct bcm2835_isp_fmt supported_formats[] = {
+> +	{
+> +		/* YUV formats */
+> +		.fourcc		    = V4L2_PIX_FMT_YUV420,
+> +		.depth		    = 8,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_I420,
+> +		.size_multiplier_x2 = 3,
+> +		.colorspace	    = V4L2_COLORSPACE_SMPTE170M,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_YVU420,
+> +		.depth		    = 8,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_YV12,
+> +		.size_multiplier_x2 = 3,
+> +		.colorspace	    = V4L2_COLORSPACE_SMPTE170M,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_NV12,
+> +		.depth		    = 8,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_NV12,
+> +		.size_multiplier_x2 = 3,
+> +		.colorspace	    = V4L2_COLORSPACE_SMPTE170M,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_NV21,
+> +		.depth		    = 8,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_NV21,
+> +		.size_multiplier_x2 = 3,
+> +		.colorspace	    = V4L2_COLORSPACE_SMPTE170M,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_YUYV,
+> +		.depth		    = 16,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_YUYV,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_SMPTE170M,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_UYVY,
+> +		.depth		    = 16,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_UYVY,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_SMPTE170M,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_YVYU,
+> +		.depth		    = 16,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_YVYU,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_SMPTE170M,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_VYUY,
+> +		.depth		    = 16,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_VYUY,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_SMPTE170M,
+> +		.step_size	    = 2,
+> +	}, {
+> +		/* RGB formats */
+> +		.fourcc		    = V4L2_PIX_FMT_RGB24,
+> +		.depth		    = 24,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_RGB24,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_SRGB,
+> +		.step_size	    = 1,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_RGB565,
+> +		.depth		    = 16,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_RGB16,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_SRGB,
+> +		.step_size	    = 1,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_BGR24,
+> +		.depth		    = 24,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BGR24,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_SRGB,
+> +		.step_size	    = 1,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_ABGR32,
+> +		.depth		    = 32,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BGRA,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_SRGB,
+> +		.step_size	    = 1,
+> +	}, {
+> +		/* Bayer formats */
+> +		/* 8 bit */
+> +		.fourcc		    = V4L2_PIX_FMT_SRGGB8,
+> +		.depth		    = 8,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SRGGB8,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_SBGGR8,
+> +		.depth		    = 8,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SBGGR8,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_SGRBG8,
+> +		.depth		    = 8,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SGRBG8,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_SGBRG8,
+> +		.depth		    = 8,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SGBRG8,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		/* 10 bit */
+> +		.fourcc		    = V4L2_PIX_FMT_SRGGB10P,
+> +		.depth		    = 10,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SRGGB10P,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_SBGGR10P,
+> +		.depth		    = 10,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SBGGR10P,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_SGRBG10P,
+> +		.depth		    = 10,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SGRBG10P,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_SGBRG10P,
+> +		.depth		    = 10,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SGBRG10P,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		/* 12 bit */
+> +		.fourcc		    = V4L2_PIX_FMT_SRGGB12P,
+> +		.depth		    = 12,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SRGGB12P,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_SBGGR12P,
+> +		.depth		    = 12,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SBGGR12P,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_SGRBG12P,
+> +		.depth		    = 12,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SGRBG12P,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_SGBRG12P,
+> +		.depth		    = 12,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SGBRG12P,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		/* 16 bit */
+> +		.fourcc		    = V4L2_PIX_FMT_SRGGB16,
+> +		.depth		    = 16,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SRGGB16,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_SBGGR16,
+> +		.depth		    = 16,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SBGGR16,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_SGRBG16,
+> +		.depth		    = 16,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SGRBG16,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		.fourcc		    = V4L2_PIX_FMT_SGBRG16,
+> +		.depth		    = 16,
+> +		.bytesperline_align = 32,
+> +		.flags		    = 0,
+> +		.mmal_fmt	    = MMAL_ENCODING_BAYER_SGBRG16,
+> +		.size_multiplier_x2 = 2,
+> +		.colorspace	    = V4L2_COLORSPACE_RAW,
+> +		.step_size	    = 2,
+> +	}, {
+> +		/* ISP statistics format */
+> +		.fourcc		    = V4L2_META_FMT_BCM2835_ISP_STATS,
+> +		.mmal_fmt	    = MMAL_ENCODING_BRCM_STATS,
+> +		/* The rest are not valid fields for stats. */
+> +	}
+> +};
+> +
+> +#endif
+> diff --git a/drivers/staging/vc04_services/include/uapi/linux/bcm2835-isp.h b/drivers/staging/vc04_services/include/uapi/linux/bcm2835-isp.h
+> new file mode 100644
+> index 000000000000..edc452fa8318
+> --- /dev/null
+> +++ b/drivers/staging/vc04_services/include/uapi/linux/bcm2835-isp.h
+> @@ -0,0 +1,333 @@
+> +/* SPDX-License-Identifier: ((GPL-2.0+ WITH Linux-syscall-note) OR BSD-3-Clause) */
+> +/*
+> + * bcm2835-isp.h
+> + *
+> + * BCM2835 ISP driver - user space header file.
+> + *
+> + * Copyright © 2019-2020 Raspberry Pi (Trading) Ltd.
+> + *
+> + * Author: Naushir Patuck (naush@raspberrypi.com)
+> + *
+> + */
+> +
+> +#ifndef __BCM2835_ISP_H_
+> +#define __BCM2835_ISP_H_
+> +
+> +#include <linux/v4l2-controls.h>
+> +
+> +/* TODO: move the control IDs definitions to v4l2-controls.h */
+> +#define V4L2_CID_USER_BCM2835_ISP_BASE         (V4L2_CID_USER_BASE + 0x10c0)
+
+As the TODO says: move this to v4l2-controls.h. Currently the 0x10c0 offset
+clashes with V4L2_CID_USER_ATMEL_ISC_BASE, so that certainly should be fixed.
+
+> +
+> +/* TODO: move the formats definitions to videodev2.h */
+> +/* 12  Y/CbCr 4:2:0 128 pixel wide column */
+> +#define V4L2_PIX_FMT_NV12_COL128 v4l2_fourcc('N', 'C', '1', '2')
+> +/* Y/CbCr 4:2:0 10bpc, 3x10 packed as 4 bytes in a 128 bytes / 96 pixel wide column */
+> +#define V4L2_PIX_FMT_NV12_10_COL128 v4l2_fourcc('N', 'C', '3', '0')
+> +/* Sensor Ancillary metadata */
+> +#define V4L2_META_FMT_SENSOR_DATA v4l2_fourcc('S', 'E', 'N', 'S')
+> +/* BCM2835 ISP image statistics output */
+> +#define V4L2_META_FMT_BCM2835_ISP_STATS v4l2_fourcc('B', 'S', 'T', 'A')
+> +
+> +#define V4L2_CID_USER_BCM2835_ISP_CC_MATRIX	\
+> +				(V4L2_CID_USER_BCM2835_ISP_BASE + 0x0001)
+> +#define V4L2_CID_USER_BCM2835_ISP_LENS_SHADING	\
+> +				(V4L2_CID_USER_BCM2835_ISP_BASE + 0x0002)
+> +#define V4L2_CID_USER_BCM2835_ISP_BLACK_LEVEL	\
+> +				(V4L2_CID_USER_BCM2835_ISP_BASE + 0x0003)
+> +#define V4L2_CID_USER_BCM2835_ISP_GEQ		\
+> +				(V4L2_CID_USER_BCM2835_ISP_BASE + 0x0004)
+> +#define V4L2_CID_USER_BCM2835_ISP_GAMMA		\
+> +				(V4L2_CID_USER_BCM2835_ISP_BASE + 0x0005)
+> +#define V4L2_CID_USER_BCM2835_ISP_DENOISE	\
+> +				(V4L2_CID_USER_BCM2835_ISP_BASE + 0x0006)
+> +#define V4L2_CID_USER_BCM2835_ISP_SHARPEN	\
+> +				(V4L2_CID_USER_BCM2835_ISP_BASE + 0x0007)
+> +#define V4L2_CID_USER_BCM2835_ISP_DPC		\
+> +				(V4L2_CID_USER_BCM2835_ISP_BASE + 0x0008)
+
+There is no documentation for these controls. Specifically, it doesn't
+tell you which struct should be used.
+
+> +
+> +/*
+> + * All structs below are directly mapped onto the equivalent structs in
+> + * drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h
+> + * for convenience.
+> + */
+> +
+> +/**
+> + * struct bcm2835_isp_rational - Rational value type.
+> + *
+> + * @num:	Numerator.
+> + * @den:	Denominator.
+> + */
+> +struct bcm2835_isp_rational {
+> +	__s32 num;
+> +	__s32 den;
+
+Wouldn't it make more sense if den is a __u32?
+
+> +};
+> +
+> +/**
+> + * struct bcm2835_isp_ccm - Colour correction matrix.
+> + *
+> + * @ccm:	3x3 correction matrix coefficients.
+> + * @offsets:	1x3 correction offsets.
+> + */
+> +struct bcm2835_isp_ccm {
+> +	struct bcm2835_isp_rational ccm[3][3];
+> +	__s32 offsets[3];
+> +};
+> +
+> +/**
+> + * struct bcm2835_isp_custom_ccm - Custom CCM applied with the
+> + *				   V4L2_CID_USER_BCM2835_ISP_CC_MATRIX ctrl.
+> + *
+> + * @enabled:	Enable custom CCM.
+> + * @ccm:	Custom CCM coefficients and offsets.
+> + */
+> +struct bcm2835_isp_custom_ccm {
+> +	__u32 enabled;
+> +	struct bcm2835_isp_ccm ccm;
+> +};
+> +
+> +/**
+> + * enum bcm2835_isp_gain_format - format of the gains in the lens shading
+> + *				  tables used with the
+> + *				  V4L2_CID_USER_BCM2835_ISP_LENS_SHADING ctrl.
+> + *
+> + * @GAIN_FORMAT_U0P8_1:		Gains are u0.8 format, starting at 1.0
+> + * @GAIN_FORMAT_U1P7_0:		Gains are u1.7 format, starting at 0.0
+> + * @GAIN_FORMAT_U1P7_1:		Gains are u1.7 format, starting at 1.0
+> + * @GAIN_FORMAT_U2P6_0:		Gains are u2.6 format, starting at 0.0
+> + * @GAIN_FORMAT_U2P6_1:		Gains are u2.6 format, starting at 1.0
+> + * @GAIN_FORMAT_U3P5_0:		Gains are u3.5 format, starting at 0.0
+> + * @GAIN_FORMAT_U3P5_1:		Gains are u3.5 format, starting at 1.0
+> + * @GAIN_FORMAT_U4P10:		Gains are u4.10 format, starting at 0.0
+> + */
+> +enum bcm2835_isp_gain_format {
+> +	GAIN_FORMAT_U0P8_1 = 0,
+> +	GAIN_FORMAT_U1P7_0 = 1,
+> +	GAIN_FORMAT_U1P7_1 = 2,
+> +	GAIN_FORMAT_U2P6_0 = 3,
+> +	GAIN_FORMAT_U2P6_1 = 4,
+> +	GAIN_FORMAT_U3P5_0 = 5,
+> +	GAIN_FORMAT_U3P5_1 = 6,
+> +	GAIN_FORMAT_U4P10  = 7,
+> +};
+> +
+> +/**
+> + * struct bcm2835_isp_lens_shading - Lens shading tables supplied with the
+> + *				     V4L2_CID_USER_BCM2835_ISP_LENS_SHADING
+> + *				     ctrl.
+> + *
+> + * @enabled:		Enable lens shading.
+> + * @grid_cell_size:	Size of grid cells in samples (16, 32, 64, 128 or 256).
+> + * @grid_width:		Width of lens shading tables in grid cells.
+> + * @grid_stride:	Row to row distance (in grid cells) between grid cells
+> + *			in the same horizontal location.
+> + * @grid_height:	Height of lens shading tables in grid cells.
+> + * @mem_handle_table:	Memory handle to the tables.
+
+What sort of handle is this? I.e. where does it come from?
+
+> + * @ref_transform:	Reference transform - unsupported, please pass zero.
+> + * @corner_sampled:	Whether the gains are sampled at the corner points
+> + *			of the grid cells or in the cell centres.
+> + * @gain_format:	Format of the gains (see enum &bcm2835_isp_gain_format).
+> + */
+> +struct bcm2835_isp_lens_shading {
+> +	__u32 enabled;
+> +	__u32 grid_cell_size;
+> +	__u32 grid_width;
+> +	__u32 grid_stride;
+> +	__u32 grid_height;
+> +	__u32 mem_handle_table;
+> +	__u32 ref_transform;
+> +	__u32 corner_sampled;
+> +	__u32 gain_format;
+> +};
+> +
+> +/**
+> + * struct bcm2835_isp_black_level - Sensor black level set with the
+> + *				    V4L2_CID_USER_BCM2835_ISP_BLACK_LEVEL ctrl.
+> + *
+> + * @enabled:		Enable black level.
+> + * @black_level_r:	Black level for red channel.
+> + * @black_level_g:	Black level for green channels.
+> + * @black_level_b:	Black level for blue channel.
+> + */
+> +struct bcm2835_isp_black_level {
+> +	__u32 enabled;
+> +	__u16 black_level_r;
+> +	__u16 black_level_g;
+> +	__u16 black_level_b;
+> +	__u8 pad_[2]; /* Unused */
+
+I prefer 'padding' over 'pad_'.
+
+> +};
+> +
+> +/**
+> + * struct bcm2835_isp_geq - Green equalisation parameters set with the
+> + *			    V4L2_CID_USER_BCM2835_ISP_GEQ ctrl.
+> + *
+> + * @enabled:	Enable green equalisation.
+> + * @offset:	Fixed offset of the green equalisation threshold.
+> + * @slope:	Slope of the green equalisation threshold.
+> + */
+> +struct bcm2835_isp_geq {
+> +	__u32 enabled;
+> +	__u32 offset;
+> +	struct bcm2835_isp_rational slope;
+> +};
+> +
+> +#define BCM2835_NUM_GAMMA_PTS 33
+> +
+> +/**
+> + * struct bcm2835_isp_gamma - Gamma parameters set with the
+> + *			      V4L2_CID_USER_BCM2835_ISP_GAMMA ctrl.
+> + *
+> + * @enabled:	Enable gamma adjustment.
+> + * @X:		X values of the points defining the gamma curve.
+> + *		Values should be scaled to 16 bits.
+> + * @Y:		Y values of the points defining the gamma curve.
+> + *		Values should be scaled to 16 bits.
+
+I assume 0 == black and 0xffff == white (or max luminance)?
+
+And so typically x[0] == y[0] == 0 and x[32] == y[32] == 0xffff?
+
+> + */
+> +struct bcm2835_isp_gamma {
+> +	__u32 enabled;
+> +	__u16 x[BCM2835_NUM_GAMMA_PTS];
+> +	__u16 y[BCM2835_NUM_GAMMA_PTS];
+> +};
+> +
+> +/**
+> + * struct bcm2835_isp_denoise - Denoise parameters set with the
+> + *				V4L2_CID_USER_BCM2835_ISP_DENOISE ctrl.
+> + *
+> + * @enabled:	Enable denoise.
+> + * @constant:	Fixed offset of the noise threshold.
+> + * @slope:	Slope of the noise threshold.
+> + * @strength:	Denoise strength between 0.0 (off) and 1.0 (maximum).
+> + */
+> +struct bcm2835_isp_denoise {
+> +	__u32 enabled;
+> +	__u32 constant;
+> +	struct bcm2835_isp_rational slope;
+> +	struct bcm2835_isp_rational strength;
+> +};
+> +
+> +/**
+> + * struct bcm2835_isp_sharpen - Sharpen parameters set with the
+> + *				V4L2_CID_USER_BCM2835_ISP_SHARPEN ctrl.
+> + *
+> + * @enabled:	Enable sharpening.
+> + * @threshold:	Threshold at which to start sharpening pixels.
+> + * @strength:	Strength with which pixel sharpening increases.
+> + * @limit:	Limit to the amount of sharpening applied.
+> + */
+> +struct bcm2835_isp_sharpen {
+> +	__u32 enabled;
+> +	struct bcm2835_isp_rational threshold;
+> +	struct bcm2835_isp_rational strength;
+> +	struct bcm2835_isp_rational limit;
+> +};
+> +
+> +/**
+> + * enum bcm2835_isp_dpc_mode - defective pixel correction (DPC) strength.
+> + *
+> + * @DPC_MODE_OFF:		No DPC.
+> + * @DPC_MODE_NORMAL:		Normal DPC.
+> + * @DPC_MODE_STRONG:		Strong DPC.
+> + */
+> +enum bcm2835_isp_dpc_mode {
+> +	DPC_MODE_OFF = 0,
+> +	DPC_MODE_NORMAL = 1,
+> +	DPC_MODE_STRONG = 2,
+> +};
+> +
+> +/**
+> + * struct bcm2835_isp_dpc - Defective pixel correction (DPC) parameters set
+> + *			    with the V4L2_CID_USER_BCM2835_ISP_DPC ctrl.
+> + *
+> + * @enabled:	Enable DPC.
+> + * @strength:	DPC strength (see enum &bcm2835_isp_dpc_mode).
+
+Isn't DPC_MODE_OFF equal to just setting 'enabled' to false? If so,
+wouldn't the 'strength' field be sufficient?
+
+> + */
+> +struct bcm2835_isp_dpc {
+> +	__u32 enabled;
+> +	__u32 strength;
+> +};
+> +
+> +/*
+> + * ISP statistics structures.
+> + *
+> + * The bcm2835_isp_stats structure is generated at the output of the
+> + * statistics node.  Note that this does not directly map onto the statistics
+> + * output of the ISP HW.  Instead, the MMAL firmware code maps the HW statistics
+> + * to the bcm2835_isp_stats structure.
+> + */
+> +#define DEFAULT_AWB_REGIONS_X 16
+> +#define DEFAULT_AWB_REGIONS_Y 12
+> +
+> +#define NUM_HISTOGRAMS 2
+> +#define NUM_HISTOGRAM_BINS 128
+> +#define AWB_REGIONS (DEFAULT_AWB_REGIONS_X * DEFAULT_AWB_REGIONS_Y)
+> +#define FLOATING_REGIONS 16
+> +#define AGC_REGIONS 16
+> +#define FOCUS_REGIONS 12
+> +
+> +/**
+> + * struct bcm2835_isp_stats_hist - Histogram statistics
+> + *
+> + * @r_hist:	Red channel histogram.
+> + * @g_hist:	Combined green channel histogram.
+> + * @b_hist:	Blue channel histogram.
+> + */
+> +struct bcm2835_isp_stats_hist {
+> +	__u32 r_hist[NUM_HISTOGRAM_BINS];
+> +	__u32 g_hist[NUM_HISTOGRAM_BINS];
+> +	__u32 b_hist[NUM_HISTOGRAM_BINS];
+> +};
+> +
+> +/**
+> + * struct bcm2835_isp_stats_region - Region sums.
+> + *
+> + * @counted:	The number of 2x2 bayer tiles accumulated.
+> + * @notcounted:	The number of 2x2 bayer tiles not accumulated.
+> + * @r_sum:	Total sum of counted pixels in the red channel for a region.
+> + * @g_sum:	Total sum of counted pixels in the green channel for a region.
+> + * @b_sum:	Total sum of counted pixels in the blue channel for a region.
+> + */
+> +struct bcm2835_isp_stats_region {
+> +	__u32 counted;
+> +	__u32 notcounted;
+> +	__u64 r_sum;
+> +	__u64 g_sum;
+> +	__u64 b_sum;
+> +};
+> +
+> +/**
+> + * struct bcm2835_isp_stats_focus - Focus statistics.
+> + *
+> + * @contrast_val:	Focus measure - accumulated output of the focus filter.
+> + *			In the first dimension, index [0] counts pixels below a
+> + *			preset threshold, and index [1] counts pixels above the
+> + *			threshold.  In the second dimension, index [0] uses the
+> + *			first predefined filter, and index [1] uses the second
+> + *			predefined filter.
+> + * @contrast_val_num:	The number of counted pixels in the above accumulation.
+> + */
+> +struct bcm2835_isp_stats_focus {
+> +	__u64 contrast_val[2][2];
+> +	__u32 contrast_val_num[2][2];
+> +};
+> +
+> +/**
+> + * struct bcm2835_isp_stats - ISP statistics.
+> + *
+> + * @version:		Version of the bcm2835_isp_stats structure.
+> + * @size:		Size of the bcm2835_isp_stats structure.
+> + * @hist:		Histogram statistics for the entire image.
+> + * @awb_stats:		Statistics for the regions defined for AWB calculations.
+> + * @floating_stats:	Statistics for arbitrarily placed (floating) regions.
+> + * @agc_stats:		Statistics for the regions defined for AGC calculations.
+> + * @focus_stats:	Focus filter statistics for the focus regions.
+> + */
+> +struct bcm2835_isp_stats {
+> +	__u32 version;
+> +	__u32 size;
+> +	struct bcm2835_isp_stats_hist hist[NUM_HISTOGRAMS];
+> +	struct bcm2835_isp_stats_region awb_stats[AWB_REGIONS];
+> +	struct bcm2835_isp_stats_region floating_stats[FLOATING_REGIONS];
+> +	struct bcm2835_isp_stats_region agc_stats[AGC_REGIONS];
+> +	struct bcm2835_isp_stats_focus focus_stats[FOCUS_REGIONS];
+> +};
+> +
+> +#endif /* __BCM2835_ISP_H_ */
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/Kconfig b/drivers/staging/vc04_services/vchiq-mmal/Kconfig
+> index 106f71e709df..072f3c755a68 100644
+> --- a/drivers/staging/vc04_services/vchiq-mmal/Kconfig
+> +++ b/drivers/staging/vc04_services/vchiq-mmal/Kconfig
+> @@ -5,4 +5,5 @@ config BCM2835_VCHIQ_MMAL
+>  	help
+>  	  Enables the MMAL API over VCHIQ interface as used for the
+>  	  majority of the multimedia services on VideoCore.
+> -	  Defaults to Y when the Broadcomd BCM2835 camera host is selected.
+> +	  Defaults to Y when the Broadcomd BCM2835 camera host or ISP are
+> +	  selected.
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-encodings.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-encodings.h
+> index 44ba91aa6d47..8d904fcce388 100644
+> --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-encodings.h
+> +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-encodings.h
+> @@ -100,6 +100,10 @@
+>   */
+>  #define MMAL_ENCODING_EGL_IMAGE        MMAL_FOURCC('E', 'G', 'L', 'I')
+>  
+> +/** ISP image statistics format
+> + */
+> +#define MMAL_ENCODING_BRCM_STATS       MMAL_FOURCC('S', 'T', 'A', 'T')
+> +
+>  /* }@ */
+>  
+>  /** \name Pre-defined audio encodings */
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h
+> index 1793103b18fd..b3552af5cf8f 100644
+> --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h
+> +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-parameters.h
+> @@ -221,6 +221,62 @@ enum mmal_parameter_camera_type {
+>  	MMAL_PARAMETER_SHUTTER_SPEED,
+>  		/**< Takes a @ref MMAL_PARAMETER_AWB_GAINS_T */
+>  	MMAL_PARAMETER_CUSTOM_AWB_GAINS,
+> +		/**< Takes a @ref MMAL_PARAMETER_CAMERA_SETTINGS_T */
+> +	MMAL_PARAMETER_CAMERA_SETTINGS,
+> +		/**< Takes a @ref MMAL_PARAMETER_PRIVACY_INDICATOR_T */
+> +	MMAL_PARAMETER_PRIVACY_INDICATOR,
+> +		/**< Takes a @ref MMAL_PARAMETER_BOOLEAN_T */
+> +	MMAL_PARAMETER_VIDEO_DENOISE,
+> +		/**< Takes a @ref MMAL_PARAMETER_BOOLEAN_T */
+> +	MMAL_PARAMETER_STILLS_DENOISE,
+> +		/**< Takes a @ref MMAL_PARAMETER_CAMERA_ANNOTATE_T */
+> +	MMAL_PARAMETER_ANNOTATE,
+> +		/**< Takes a @ref MMAL_PARAMETER_STEREOSCOPIC_MODE_T */
+> +	MMAL_PARAMETER_STEREOSCOPIC_MODE,
+> +		/**< Takes a @ref MMAL_PARAMETER_CAMERA_INTERFACE_T */
+> +	MMAL_PARAMETER_CAMERA_INTERFACE,
+> +		/**< Takes a @ref MMAL_PARAMETER_CAMERA_CLOCKING_MODE_T */
+> +	MMAL_PARAMETER_CAMERA_CLOCKING_MODE,
+> +		/**< Takes a @ref MMAL_PARAMETER_CAMERA_RX_CONFIG_T */
+> +	MMAL_PARAMETER_CAMERA_RX_CONFIG,
+> +		/**< Takes a @ref MMAL_PARAMETER_CAMERA_RX_TIMING_T */
+> +	MMAL_PARAMETER_CAMERA_RX_TIMING,
+> +		/**< Takes a @ref MMAL_PARAMETER_UINT32_T */
+> +	MMAL_PARAMETER_DPF_CONFIG,
+> +
+> +	/* 0x50 */
+> +		/**< Takes a @ref MMAL_PARAMETER_UINT32_T */
+> +	MMAL_PARAMETER_JPEG_RESTART_INTERVAL,
+> +		/**< Takes a @ref MMAL_PARAMETER_UINT32_T */
+> +	MMAL_PARAMETER_CAMERA_ISP_BLOCK_OVERRIDE,
+> +		/**< Takes a @ref MMAL_PARAMETER_LENS_SHADING_T */
+> +	MMAL_PARAMETER_LENS_SHADING_OVERRIDE,
+> +		/**< Takes a @ref MMAL_PARAMETER_UINT32_T */
+> +	MMAL_PARAMETER_BLACK_LEVEL,
+> +		/**< Takes a @ref MMAL_PARAMETER_RESIZE_T */
+> +	MMAL_PARAMETER_RESIZE_PARAMS,
+> +		/**< Takes a @ref MMAL_PARAMETER_CROP_T */
+> +	MMAL_PARAMETER_CROP,
+> +		/**< Takes a @ref MMAL_PARAMETER_INT32_T */
+> +	MMAL_PARAMETER_OUTPUT_SHIFT,
+> +		/**< Takes a @ref MMAL_PARAMETER_INT32_T */
+> +	MMAL_PARAMETER_CCM_SHIFT,
+> +		/**< Takes a @ref MMAL_PARAMETER_CUSTOM_CCM_T */
+> +	MMAL_PARAMETER_CUSTOM_CCM,
+> +		/**< Takes a @ref MMAL_PARAMETER_RATIONAL_T */
+> +	MMAL_PARAMETER_ANALOG_GAIN,
+> +		/**< Takes a @ref MMAL_PARAMETER_RATIONAL_T */
+> +	MMAL_PARAMETER_DIGITAL_GAIN,
+> +		/**< Takes a @ref MMAL_PARAMETER_DENOISE_T */
+> +	MMAL_PARAMETER_DENOISE,
+> +		/**< Takes a @ref MMAL_PARAMETER_SHARPEN_T */
+> +	MMAL_PARAMETER_SHARPEN,
+> +		/**< Takes a @ref MMAL_PARAMETER_GEQ_T */
+> +	MMAL_PARAMETER_GEQ,
+> +		/**< Tales a @ref MMAP_PARAMETER_DPC_T */
+> +	MMAL_PARAMETER_DPC,
+> +		/**< Tales a @ref MMAP_PARAMETER_GAMMA_T */
+> +	MMAL_PARAMETER_GAMMA,
+>  };
+>  
+>  struct mmal_parameter_rational {
+> @@ -779,7 +835,102 @@ struct mmal_parameter_camera_info {
+>  	struct mmal_parameter_camera_info_camera
+>  		cameras[MMAL_PARAMETER_CAMERA_INFO_MAX_CAMERAS];
+>  	struct mmal_parameter_camera_info_flash
+> -				flashes[MMAL_PARAMETER_CAMERA_INFO_MAX_FLASHES];
+> +		flashes[MMAL_PARAMETER_CAMERA_INFO_MAX_FLASHES];
+> +};
+> +
+> +struct mmal_parameter_ccm {
+> +	struct mmal_parameter_rational ccm[3][3];
+> +	s32 offsets[3];
+> +};
+> +
+> +struct mmal_parameter_custom_ccm {
+> +	u32 enabled; /**< Enable the custom CCM. */
+> +	struct mmal_parameter_ccm ccm; /**< CCM to be used. */
+> +};
+> +
+> +struct mmal_parameter_lens_shading {
+> +	u32 enabled;
+> +	u32 grid_cell_size;
+> +	u32 grid_width;
+> +	u32 grid_stride;
+> +	u32 grid_height;
+> +	u32 mem_handle_table;
+> +	u32 ref_transform;
+> +};
+> +
+> +enum mmal_parameter_ls_gain_format_type {
+> +	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U0P8_1 = 0,
+> +	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U1P7_0 = 1,
+> +	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U1P7_1 = 2,
+> +	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U2P6_0 = 3,
+> +	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U2P6_1 = 4,
+> +	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U3P5_0 = 5,
+> +	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U3P5_1 = 6,
+> +	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_U4P10  = 7,
+> +	MMAL_PARAMETER_LS_GAIN_FORMAT_TYPE_DUMMY  = 0x7FFFFFFF
+> +};
+> +
+> +struct mmal_parameter_lens_shading_v2 {
+> +	u32 enabled;
+> +	u32 grid_cell_size;
+> +	u32 grid_width;
+> +	u32 grid_stride;
+> +	u32 grid_height;
+> +	u32 mem_handle_table;
+> +	u32 ref_transform;
+> +	u32 corner_sampled;
+> +	enum mmal_parameter_ls_gain_format_type gain_format;
+> +};
+> +
+> +struct mmal_parameter_black_level {
+> +	u32 enabled;
+> +	u16 black_level_r;
+> +	u16 black_level_g;
+> +	u16 black_level_b;
+> +	u8 pad_[2]; /* Unused */
+> +};
+> +
+> +struct mmal_parameter_geq {
+> +	u32 enabled;
+> +	u32 offset;
+> +	struct mmal_parameter_rational slope;
+> +};
+> +
+> +#define MMAL_NUM_GAMMA_PTS 33
+> +struct mmal_parameter_gamma {
+> +	u32 enabled;
+> +	u16 x[MMAL_NUM_GAMMA_PTS];
+> +	u16 y[MMAL_NUM_GAMMA_PTS];
+> +};
+> +
+> +struct mmal_parameter_denoise {
+> +	u32 enabled;
+> +	u32 constant;
+> +	struct mmal_parameter_rational slope;
+> +	struct mmal_parameter_rational strength;
+> +};
+> +
+> +struct mmal_parameter_sharpen {
+> +	u32 enabled;
+> +	struct mmal_parameter_rational threshold;
+> +	struct mmal_parameter_rational strength;
+> +	struct mmal_parameter_rational limit;
+> +};
+> +
+> +enum mmal_dpc_mode {
+> +	MMAL_DPC_MODE_OFF = 0,
+> +	MMAL_DPC_MODE_NORMAL = 1,
+> +	MMAL_DPC_MODE_STRONG = 2,
+> +	MMAL_DPC_MODE_MAX = 0x7FFFFFFF,
+> +};
+> +
+> +struct mmal_parameter_dpc {
+> +	u32 enabled;
+> +	u32 strength;
+> +};
+> +
+> +struct mmal_parameter_crop {
+> +	struct vchiq_mmal_rect rect;
+>  };
+>  
+>  #endif
 > 
->> +static int max9286_parse_dt(struct max9286_priv *priv)
->> +{
->> +	struct device *dev = &priv->client->dev;
->> +	struct device_node *i2c_mux;
->> +	struct device_node *node = NULL;
->> +	unsigned int i2c_mux_mask = 0;
->> +
->> +	of_node_get(dev->of_node);
->> +	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
->> +	if (!i2c_mux) {
->> +		dev_err(dev, "Failed to find i2c-mux node\n");
->> +		of_node_put(dev->of_node);
->> +		return -EINVAL;
->> +	}
->> +
->> +	/* Identify which i2c-mux channels are enabled */
->> +	for_each_child_of_node(i2c_mux, node) {
->> +		u32 id = 0;
->> +
->> +		of_property_read_u32(node, "reg", &id);
->> +		if (id >= MAX9286_NUM_GMSL)
->> +			continue;
->> +
->> +		if (!of_device_is_available(node)) {
->> +			dev_dbg(dev, "Skipping disabled I2C bus port %u\n", id);
->> +			continue;
->> +		}
->> +
->> +		i2c_mux_mask |= BIT(id);
->> +	}
->> +	of_node_put(node);
->> +	of_node_put(i2c_mux);
->> +
->> +	/* Parse the endpoints */
->> +	for_each_endpoint_of_node(dev->of_node, node) {
->> +		struct max9286_source *source;
->> +		struct of_endpoint ep;
->> +
->> +		of_graph_parse_endpoint(node, &ep);
->> +		dev_dbg(dev, "Endpoint %pOF on port %d",
->> +			ep.local_node, ep.port);
->> +
->> +		if (ep.port > MAX9286_NUM_GMSL) {
->> +			dev_err(dev, "Invalid endpoint %s on port %d",
->> +				of_node_full_name(ep.local_node), ep.port);
->> +			continue;
->> +		}
->> +
->> +		/* For the source endpoint just parse the bus configuration. */
->> +		if (ep.port == MAX9286_SRC_PAD) {
->> +			struct v4l2_fwnode_endpoint vep = {
->> +				.bus_type = V4L2_MBUS_CSI2_DPHY
->> +			};
->> +			int ret;
->> +
->> +			ret = v4l2_fwnode_endpoint_parse(
->> +					of_fwnode_handle(node), &vep);
->> +			if (ret) {
->> +				of_node_put(node);
->> +				of_node_put(dev->of_node);
->> +				return ret;
->> +			}
->> +
->> +			if (vep.bus_type != V4L2_MBUS_CSI2_DPHY) {
-> 
-> This won't happen, the bus type will stay if you set it to a non-zero
-> value.
 
+Regards,
 
-Ok - I'll remove this check.
-
-
-> 
->> +				dev_err(dev,
->> +					"Media bus %u type not supported\n",
->> +					vep.bus_type);
->> +				v4l2_fwnode_endpoint_free(&vep);
->> +				of_node_put(node);
->> +				of_node_put(dev->of_node);
->> +				return -EINVAL;
->> +			}
->> +
->> +			priv->csi2_data_lanes =
->> +				vep.bus.mipi_csi2.num_data_lanes;
->> +			v4l2_fwnode_endpoint_free(&vep);
-> 
-> No need to call this unless you use v4l2_fwnode_endpoint_alloc_parse().
-> 
-> And as you don't, you also won't know which frequencies are known to be
-> safe to use. That said, perhaps where this device is used having a random
-> frequency on that bus could not be an issue. Perhaps.
-
-Does this generate a range? or a list of static supported frequencies?
-
-We configure the pixel clock based upon the number of cameras connected,
-and their pixel rates etc ...
-
-Are you saying that the frequency of this clock should be validated to
-be a specific range? or are you talking about a different frequency?
-
-
-For now I'll remove the v4l2_fwnode_endpoint_alloc_parse().
-
-
-
->> +
->> +			continue;
->> +		}
->> +
->> +		/* Skip if the corresponding GMSL link is unavailable. */
->> +		if (!(i2c_mux_mask & BIT(ep.port)))
->> +			continue;
->> +
->> +		if (priv->sources[ep.port].fwnode) {
->> +			dev_err(dev,
->> +				"Multiple port endpoints are not supported: %d",
->> +				ep.port);
->> +
->> +			continue;
->> +		}
->> +
->> +		source = &priv->sources[ep.port];
->> +		source->fwnode = fwnode_graph_get_remote_endpoint(
->> +						of_fwnode_handle(node));
->> +		if (!source->fwnode) {
->> +			dev_err(dev,
->> +				"Endpoint %pOF has no remote endpoint connection\n",
->> +				ep.local_node);
->> +
->> +			continue;
->> +		}
->> +
->> +		priv->source_mask |= BIT(ep.port);
->> +		priv->nsources++;
->> +	}
->> +	of_node_put(node);
->> +	of_node_put(dev->of_node);
->> +
->> +	priv->route_mask = priv->source_mask;
->> +
->> +	return 0;
->> +}
-> 
-
+	Hans
