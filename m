@@ -2,164 +2,287 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 027361D781B
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 14:06:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CC331D78B9
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 14:35:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726940AbgERMGP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 May 2020 08:06:15 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:38087 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726448AbgERMGO (ORCPT
+        id S1727827AbgERMe7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 May 2020 08:34:59 -0400
+Received: from relay10.mail.gandi.net ([217.70.178.230]:57519 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726797AbgERMe6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 May 2020 08:06:14 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id aeX2jyeMjhEkraeX6jegmB; Mon, 18 May 2020 14:06:12 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1589803572; bh=Aix+sL8aZ1hfIyMkWAREUgDqPnTdJrfg2H3UNGW1I7E=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=cHAfXMgr4M7IDbkjjfXnCQ4L2BN1llrqZcFWaw78yhxAQuO4lXHDFt4XvoH6397wS
-         3xcTewK1GS8PpXD6L9oOV7xs7meRJxNXycsdziSj5XWvZaTnJD0+JiWAoGk+7QLnb5
-         xOzADM0XPo8/rXK8yQ4Q0hug8vvy+c8S69N1BNahKu/2YdVoxlJxlvUzz0ohg77bRg
-         ZkoCgyarLbxWmi8NqxVhdDBcJUHgT58eAeX4aUwAYnynJLMsac0NlDzYJww82RqpWC
-         WGO06a6H8Ux+zXnL0kzyPpsaVxk/o1SyPW+/RDCOhJpxWfeo/2cb6seSSou8LHHhBo
-         iD1Umls/FnRUw==
-Subject: Re: [PATCH v2 06/34] staging: vc04_services: Add new vc-sm-cma driver
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        Mon, 18 May 2020 08:34:58 -0400
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 7AED1240017;
+        Mon, 18 May 2020 12:34:51 +0000 (UTC)
+Date:   Mon, 18 May 2020 14:38:10 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Naushir Patuck <naush@raspberrypi.com>
-References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
- <20200504092611.9798-7-laurent.pinchart@ideasonboard.com>
- <4e42a593f16614e913613150a90e851acbfcaa8c.camel@suse.de>
- <CAPY8ntB3RCwzCzj+v0QEQp19f-X7tgfhFZ_DK3-LUiWXGK0eNA@mail.gmail.com>
- <20200508001119.GI5838@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <4057ae9a-eccb-1f7f-254e-54ac2c49a4f7@xs4all.nl>
-Date:   Mon, 18 May 2020 14:06:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
+Message-ID: <20200518123810.wsqg2a3lbbme36e7@uno.localdomain>
+References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200512155105.1068064-3-kieran.bingham+renesas@ideasonboard.com>
+ <20200516215103.GA857@valkosipuli.retiisi.org.uk>
+ <930009cd-d887-752a-4f1f-567c795101ee@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20200508001119.GI5838@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfME+txAun8PtJCBF5DSxVrWHaFaSlWt5CSWJ6iNxwPuVyqwk2xOWqSSkQU47vnIgJ/p4oneZNklUNBiWjnx4rLYQonA51qyPVBdZ++T/1uuan8hhaYRW
- LXeqJV3So4zNhKe3mLRtZWfCBF5xfAaZYP3NldDYr/xbNfzCWHXEo7xcm9GCP2IEkrx8VsPbg1pIsujmiu9GGywlnTMQC8NStOKmi1LZtCmbvsqTCSGF+Sbi
- JHvNeIJqm5A3XNB2g9D63qi+roF1vCd36fuLiloQuD6ce3lmVRHmXDqUk0XkGllIxZzQfaS2ft5UBQqeycbP08GttcOkxwpg3FzBrKcBJ6a5D+cs5mLGRq+r
- /17SFNAmvaoutefwe7suUT4KUzNPSqUWTGpyqIONcel9sMtMPfH2LZGlKrAE+kz/urq8WMWIvY0LtaFaWJ4k7vkmEfcK1wh4jA2pwCXWQywj/NaJHEoMGKAE
- xo/zzm7cG6J7za5xM1g7n9+q9uOpFh9R9qssHQ==
+Content-Disposition: inline
+In-Reply-To: <930009cd-d887-752a-4f1f-567c795101ee@ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/05/2020 02:11, Laurent Pinchart wrote:
-> Hi Dave,
-> 
-> On Wed, May 06, 2020 at 08:24:38PM +0100, Dave Stevenson wrote:
->> On Wed, 6 May 2020 at 19:04, Nicolas Saenz Julienne wrote:
->>> On Mon, 2020-05-04 at 12:25 +0300, Laurent Pinchart wrote:
->>>> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
->>>>
->>>> Add Broadcom VideoCore Shared Memory support.
->>>>
->>>> This new driver allows contiguous memory blocks to be imported
->>>> into the VideoCore VPU memory map, and manages the lifetime of
->>>> those objects, only releasing the source dmabuf once the VPU has
->>>> confirmed it has finished with it.
->>>
->>> I'm still digesting all this, but a question came up, who is using the
->>> ioctls?
->>
->> We have a userspace library that uses it [1].
->> It is used by things like MMAL to share buffers between the VPU and
->> ARM, rather than having to get VCHI to copy all the data between
->> mirrored buffers.
->>
->> I think what has happened here is that Laurent has picked up the
->> version of the driver from the top of our downstream kernel tree.
->> For libcamera and the ISP driver, we need a significantly smaller
->> feature set, basically import of dmabufs only, no allocations or cache
->> management. For the ISP driver it's mainly dmabuf import from
->> videobuf2 for the image buffers, but there's also a need to pass in
->> lens shading tables which are relatively large. With a small amount of
->> rework in libcamera, we can make it so that we use dma-buf heaps to do
->> the allocation, and pass in a dmabuf fd to the ISP driver to then map
->> onto the VPU. That removes all the ioctls handling from this driver.
->>
->> Downstream we do have other use cases that want to be able to do other
->> functions on shared memory, but that too should be reworkable into
->> using dma-buf heaps for allocations, and vcsm only handles importing
->> dmabufs via an ioctl. All that can be hidden away in the vcsm library,
->> so applications don't care.
->> We've also got some legacy code kicking around, as there was
->> originally a version of the driver that mapped the VPU's memory blocks
->> to the ARM. That's why the vcsm library has two code paths through
->> almost every function - one for each driver.
->>
->> Laurent: What's your view? Halt the review this particular patch for
->> now and rework, or try and get this all integrated?
->> Mainline obviously already has dma-buf heaps merged, whilst I have a
->> PR cherry-picking it back into our downstream 5.4. The main reason it
->> hasn't been merged is that I haven't had a test case to prove it
->> works. The rework should be relatively simple, but will need small
->> updates to both libcamera and ISP driver.
-> 
-> My preference would be to go for a solution based on dma-buf heap right
-> away for mainline, to minimize the code going into staging. There's no
-> hurry there, and I can help integrating the changes in libcamera if
-> needed.
+Hi Kieran, Sakari
 
-So just to be clear, these vc-sm-cma ioctls will disappear in the next version?
+On Mon, May 18, 2020 at 12:45:18PM +0100, Kieran Bingham wrote:
+> Hi Sakari,
+>
+> There are only fairly minor comments here, fix ups will be included in a
+> v10.
+>
+> Is there anything major blocking integration?
+>
+> Regards
+>
+> Kieran
+>
+>
+>
+> On 16/05/2020 22:51, Sakari Ailus wrote:
+> > Hi Kieran,
+> >
+> > Thanks for the update.
+> >
+> > On Tue, May 12, 2020 at 04:51:03PM +0100, Kieran Bingham wrote:
+> >
+> > ...
+> >
+> >> +static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+> >> +				  struct v4l2_subdev_pad_config *cfg,
+> >> +				  struct v4l2_subdev_mbus_code_enum *code)
+> >> +{
+> >> +	if (code->pad || code->index > 0)
+> >> +		return -EINVAL;
+> >> +
+> >> +	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
+> >
+> > Why UYVY8_2X8 and not UYVY8_1X16? In general, the single sample / pixel
+> > variant of the format is generally used on the serial busses. This choice
+> > was made when serial busses were introduced.
+>
+> Ok - I presume this doesn't really have much effect anyway, they just
+> have to match for the transmitter/receiver?
+>
+> But it makes sense to me, so I'll update to the 1x16 variant.
+>
+> >> +
+> >> +	return 0;
+> >> +}
+> >> +
+> >> +static struct v4l2_mbus_framefmt *
+> >> +max9286_get_pad_format(struct max9286_priv *priv,
+> >> +		       struct v4l2_subdev_pad_config *cfg,
+> >> +		       unsigned int pad, u32 which)
+> >> +{
+> >> +	switch (which) {
+> >> +	case V4L2_SUBDEV_FORMAT_TRY:
+> >> +		return v4l2_subdev_get_try_format(&priv->sd, cfg, pad);
+> >> +	case V4L2_SUBDEV_FORMAT_ACTIVE:
+> >> +		return &priv->fmt[pad];
+> >> +	default:
+> >> +		return NULL;
+> >> +	}
+> >> +}
+> >> +
+> >> +static int max9286_set_fmt(struct v4l2_subdev *sd,
+> >> +			   struct v4l2_subdev_pad_config *cfg,
+> >> +			   struct v4l2_subdev_format *format)
+> >> +{
+> >> +	struct max9286_priv *priv = sd_to_max9286(sd);
+> >> +	struct v4l2_mbus_framefmt *cfg_fmt;
+> >> +
+> >> +	if (format->pad >= MAX9286_SRC_PAD)
+> >> +		return -EINVAL;
+> >
+> > You can remove these checks; it's been already done by the caller.
+> >
+>
+> Ok.
+>
 
-I had the same question while reviewing this as Nicolas had :-)
+I think this shold be kept. The core validates that the pad number is
+valid, but we're here checking that set_fmt has been called on a sink
+pad [0-3], returning -EINVAL if set_fmt (and get_ftm as well) are
+called on the source one.
 
-Regards,
+My question now is how does link validation work, if get_fmt() is not
+allowed on the source pad :/ ? Anyway, I would keep this check for
+set_fmt (maybe make it an == to address Sakari's comment).
 
-	Hans
+Thanks
+  j
 
-> 
->> [1] https://github.com/raspberrypi/userland/tree/master/host_applications/linux/libs/sm
->>
->>>> Driver upported from the RaspberryPi BSP at revision:
->>>> 890691d1c996 ("staging: vc04_services: Fix vcsm overflow bug when
->>>> counting transactions")
->>>> forward ported to recent mainline kernel version.
->>>>
->>>> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
->>>> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
->>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
->>>> ---
->>>>  drivers/staging/vc04_services/Kconfig         |    2 +
->>>>  drivers/staging/vc04_services/Makefile        |    1 +
->>>>  .../include/linux/broadcom/vc_sm_cma_ioctl.h  |  114 ++
->>>>  .../staging/vc04_services/vc-sm-cma/Kconfig   |   10 +
->>>>  .../staging/vc04_services/vc-sm-cma/Makefile  |   13 +
->>>>  drivers/staging/vc04_services/vc-sm-cma/TODO  |    1 +
->>>>  .../staging/vc04_services/vc-sm-cma/vc_sm.c   | 1732 +++++++++++++++++
->>>>  .../staging/vc04_services/vc-sm-cma/vc_sm.h   |   84 +
->>>>  .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.c  |  505 +++++
->>>>  .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.h  |   63 +
->>>>  .../vc04_services/vc-sm-cma/vc_sm_defs.h      |  300 +++
->>>>  .../vc04_services/vc-sm-cma/vc_sm_knl.h       |   28 +
->>>>  12 files changed, 2853 insertions(+)
->>>>  create mode 100644
->>>> drivers/staging/vc04_services/include/linux/broadcom/vc_sm_cma_ioctl.h
->>>>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Kconfig
->>>>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Makefile
->>>>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/TODO
->>>>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.c
->>>>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.h
->>>>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
->>>>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.h
->>>>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_defs.h
->>>>  create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_knl.h
-> 
-
+>
+> > ...
+> >
+> >> +static int max9286_parse_dt(struct max9286_priv *priv)
+> >> +{
+> >> +	struct device *dev = &priv->client->dev;
+> >> +	struct device_node *i2c_mux;
+> >> +	struct device_node *node = NULL;
+> >> +	unsigned int i2c_mux_mask = 0;
+> >> +
+> >> +	of_node_get(dev->of_node);
+> >> +	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
+> >> +	if (!i2c_mux) {
+> >> +		dev_err(dev, "Failed to find i2c-mux node\n");
+> >> +		of_node_put(dev->of_node);
+> >> +		return -EINVAL;
+> >> +	}
+> >> +
+> >> +	/* Identify which i2c-mux channels are enabled */
+> >> +	for_each_child_of_node(i2c_mux, node) {
+> >> +		u32 id = 0;
+> >> +
+> >> +		of_property_read_u32(node, "reg", &id);
+> >> +		if (id >= MAX9286_NUM_GMSL)
+> >> +			continue;
+> >> +
+> >> +		if (!of_device_is_available(node)) {
+> >> +			dev_dbg(dev, "Skipping disabled I2C bus port %u\n", id);
+> >> +			continue;
+> >> +		}
+> >> +
+> >> +		i2c_mux_mask |= BIT(id);
+> >> +	}
+> >> +	of_node_put(node);
+> >> +	of_node_put(i2c_mux);
+> >> +
+> >> +	/* Parse the endpoints */
+> >> +	for_each_endpoint_of_node(dev->of_node, node) {
+> >> +		struct max9286_source *source;
+> >> +		struct of_endpoint ep;
+> >> +
+> >> +		of_graph_parse_endpoint(node, &ep);
+> >> +		dev_dbg(dev, "Endpoint %pOF on port %d",
+> >> +			ep.local_node, ep.port);
+> >> +
+> >> +		if (ep.port > MAX9286_NUM_GMSL) {
+> >> +			dev_err(dev, "Invalid endpoint %s on port %d",
+> >> +				of_node_full_name(ep.local_node), ep.port);
+> >> +			continue;
+> >> +		}
+> >> +
+> >> +		/* For the source endpoint just parse the bus configuration. */
+> >> +		if (ep.port == MAX9286_SRC_PAD) {
+> >> +			struct v4l2_fwnode_endpoint vep = {
+> >> +				.bus_type = V4L2_MBUS_CSI2_DPHY
+> >> +			};
+> >> +			int ret;
+> >> +
+> >> +			ret = v4l2_fwnode_endpoint_parse(
+> >> +					of_fwnode_handle(node), &vep);
+> >> +			if (ret) {
+> >> +				of_node_put(node);
+> >> +				of_node_put(dev->of_node);
+> >> +				return ret;
+> >> +			}
+> >> +
+> >> +			if (vep.bus_type != V4L2_MBUS_CSI2_DPHY) {
+> >
+> > This won't happen, the bus type will stay if you set it to a non-zero
+> > value.
+>
+>
+> Ok - I'll remove this check.
+>
+>
+> >
+> >> +				dev_err(dev,
+> >> +					"Media bus %u type not supported\n",
+> >> +					vep.bus_type);
+> >> +				v4l2_fwnode_endpoint_free(&vep);
+> >> +				of_node_put(node);
+> >> +				of_node_put(dev->of_node);
+> >> +				return -EINVAL;
+> >> +			}
+> >> +
+> >> +			priv->csi2_data_lanes =
+> >> +				vep.bus.mipi_csi2.num_data_lanes;
+> >> +			v4l2_fwnode_endpoint_free(&vep);
+> >
+> > No need to call this unless you use v4l2_fwnode_endpoint_alloc_parse().
+> >
+> > And as you don't, you also won't know which frequencies are known to be
+> > safe to use. That said, perhaps where this device is used having a random
+> > frequency on that bus could not be an issue. Perhaps.
+>
+> Does this generate a range? or a list of static supported frequencies?
+>
+> We configure the pixel clock based upon the number of cameras connected,
+> and their pixel rates etc ...
+>
+> Are you saying that the frequency of this clock should be validated to
+> be a specific range? or are you talking about a different frequency?
+>
+>
+> For now I'll remove the v4l2_fwnode_endpoint_alloc_parse().
+>
+>
+>
+> >> +
+> >> +			continue;
+> >> +		}
+> >> +
+> >> +		/* Skip if the corresponding GMSL link is unavailable. */
+> >> +		if (!(i2c_mux_mask & BIT(ep.port)))
+> >> +			continue;
+> >> +
+> >> +		if (priv->sources[ep.port].fwnode) {
+> >> +			dev_err(dev,
+> >> +				"Multiple port endpoints are not supported: %d",
+> >> +				ep.port);
+> >> +
+> >> +			continue;
+> >> +		}
+> >> +
+> >> +		source = &priv->sources[ep.port];
+> >> +		source->fwnode = fwnode_graph_get_remote_endpoint(
+> >> +						of_fwnode_handle(node));
+> >> +		if (!source->fwnode) {
+> >> +			dev_err(dev,
+> >> +				"Endpoint %pOF has no remote endpoint connection\n",
+> >> +				ep.local_node);
+> >> +
+> >> +			continue;
+> >> +		}
+> >> +
+> >> +		priv->source_mask |= BIT(ep.port);
+> >> +		priv->nsources++;
+> >> +	}
+> >> +	of_node_put(node);
+> >> +	of_node_put(dev->of_node);
+> >> +
+> >> +	priv->route_mask = priv->source_mask;
+> >> +
+> >> +	return 0;
+> >> +}
+> >
+>
