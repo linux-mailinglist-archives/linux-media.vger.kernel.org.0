@@ -2,258 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 260261D7CA0
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 17:19:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 826811D7CA8
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 17:20:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728055AbgERPT6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 May 2020 11:19:58 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:8867 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727063AbgERPT5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 May 2020 11:19:57 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ec2a70f0002>; Mon, 18 May 2020 08:17:35 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Mon, 18 May 2020 08:19:57 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Mon, 18 May 2020 08:19:57 -0700
-Received: from [10.2.164.184] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 18 May
- 2020 15:19:56 +0000
-Subject: Re: [PATCH 1/1] Documentation: media: Document how to write camera
- sensor drivers
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-CC:     <linux-media@vger.kernel.org>, <laurent.pinchart@ideasonboard.com>,
-        <bingbu.cao@intel.com>, Maxime Ripard <maxime@cerno.tech>
-References: <20200512105914.9948-1-sakari.ailus@linux.intel.com>
- <ab436563-9b22-ee4d-5c96-84857720f2f7@xs4all.nl>
- <20200518103524.GB20066@paasikivi.fi.intel.com>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <823ddac0-5ac1-b27e-a408-b0763b7fe5d8@nvidia.com>
-Date:   Mon, 18 May 2020 08:19:55 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1728311AbgERPU1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 May 2020 11:20:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:57988 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727063AbgERPU0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 18 May 2020 11:20:26 -0400
+Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com [209.85.210.42])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1BE2F20709;
+        Mon, 18 May 2020 15:20:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1589815225;
+        bh=tSws2kjDhXaAFNWN68OWyjCdK+4AcxFyLFLzGGQxyNU=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=kZz+KHtEmx4LXcyztl4rmU2EAXazJQFb7E8mHywQvhoHn1/5wVi5TmH9zFMDLS4W/
+         MiKmt+x10Jms6pej2MZzFDOjkYSYEcoSMNblOS5IKOq3bv9ecuPNIZRnnJBSu7GCXv
+         mI5P/vnVxOyhBlbFI4Ezj8NA2S5v8JeiuE3LjRFQ=
+Received: by mail-ot1-f42.google.com with SMTP id x22so4751556otq.4;
+        Mon, 18 May 2020 08:20:25 -0700 (PDT)
+X-Gm-Message-State: AOAM532AXu2+ODHrVl/USjh57gFEjBKY3Xj6/SQBQi8niO4Abx/WAKpk
+        JP4+SsdoEdntaT89YyW0M+vGxKJxzww1f7hjMQ==
+X-Google-Smtp-Source: ABdhPJzAqhRdGybXpwpC/ZOQ7F9CQ8eOmJxxxyRMv1ENHmR6X3dhaIAFrOd3PP9Ko0YHK3CdCi+5NlS47TBiLzZklxs=
+X-Received: by 2002:a9d:5c8a:: with SMTP id a10mr8596315oti.129.1589815224353;
+ Mon, 18 May 2020 08:20:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200518103524.GB20066@paasikivi.fi.intel.com>
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1589815056; bh=btZRPu55zgZ4HyvPu16m+Etc6Y98GKgx7zF6QpxW7kA=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=Dk2nOA1ZJDyNK/8TpfdC7ciZS2bKoaBIQqOfw+tRBKDi9TRQU3AZMBRDxRk5WnCkL
-         KmI3woUt5cnVMvby4Fwoj6pqMtEFKvOj6+Op1mwE9kqKdwwkyMoM5obXzMR+O63Ehl
-         MvCydF7abXafKmfzOlIw9DJkHOG7Y/2/KOSsyqcRC6OiQeLQR5fP2XxS/Q7FHYVL9/
-         AGMhhzHMYJQI7XRUbZMRQiEDZ3a1s/wzpp4ChrNDZmg1LoQFBjjFQEu8G0GVnycazb
-         qLQAPtEO8W7rp7KDk95psi2Fd2ObpGo54VGPvBLTaHkXHMIR8QoxFERX8FvdiHl45b
-         oduPoR7egyFYQ==
+References: <20200317093922.20785-1-lkundrak@v3.sk> <20200317093922.20785-29-lkundrak@v3.sk>
+ <20200327195520.GA2235@bogus> <20200517193451.GG1695525@furthur.local>
+In-Reply-To: <20200517193451.GG1695525@furthur.local>
+From:   Rob Herring <robh@kernel.org>
+Date:   Mon, 18 May 2020 09:20:13 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+oQSk=xGBiQ73SyGggo=gBOmH6xvTv1QBAUfbnt42E0A@mail.gmail.com>
+Message-ID: <CAL_Jsq+oQSk=xGBiQ73SyGggo=gBOmH6xvTv1QBAUfbnt42E0A@mail.gmail.com>
+Subject: Re: [PATCH 28/28] dt-bindings: usb: Convert ehci-mv to json-schema
+To:     Lubomir Rintel <lkundrak@v3.sk>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Marc Zyngier <maz@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Gregory Clement <gregory.clement@bootlin.com>,
+        Daniel Mack <daniel@zonque.org>,
+        Haojian Zhuang <haojian.zhuang@gmail.com>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        Linux I2C <linux-i2c@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        "open list:REAL TIME CLOCK (RTC) SUBSYSTEM" 
+        <linux-rtc@vger.kernel.org>,
+        "open list:SERIAL DRIVERS" <linux-serial@vger.kernel.org>,
+        linux-spi <linux-spi@vger.kernel.org>,
+        Linux USB List <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-On 5/18/20 3:35 AM, Sakari Ailus wrote:
-> Hi Hans,
+On Sun, May 17, 2020 at 1:34 PM Lubomir Rintel <lkundrak@v3.sk> wrote:
 >
-> Thanks for the review.
+> On Fri, Mar 27, 2020 at 01:55:20PM -0600, Rob Herring wrote:
+> > On Tue, Mar 17, 2020 at 10:39:22AM +0100, Lubomir Rintel wrote:
+> > > A straightforward conversion of the ehci-mv binding to DT schema format
+> > > using json-schema.
+> > >
+> > > Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
+> > > ---
+> > >  .../devicetree/bindings/usb/ehci-mv.txt       | 23 -------
+> > >  .../bindings/usb/marvell,pxau2o-ehci.yaml     | 60 +++++++++++++++++++
+> > >  2 files changed, 60 insertions(+), 23 deletions(-)
+> > >  delete mode 100644 Documentation/devicetree/bindings/usb/ehci-mv.txt
+> > >  create mode 100644 Documentation/devicetree/bindings/usb/marvell,pxau2o-ehci.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/usb/ehci-mv.txt b/Documentation/devicetree/bindings/usb/ehci-mv.txt
+> > > deleted file mode 100644
+> > > index 335589895763e..0000000000000
+> > > --- a/Documentation/devicetree/bindings/usb/ehci-mv.txt
+> > > +++ /dev/null
+> > > @@ -1,23 +0,0 @@
+> > > -* Marvell PXA/MMP EHCI controller.
+> > > -
+> > > -Required properties:
+> > > -
+> > > -- compatible: must be "marvell,pxau2o-ehci"
+> > > -- reg: physical base addresses of the controller and length of memory mapped region
+> > > -- interrupts: one EHCI controller interrupt should be described here
+> > > -- clocks: phandle list of usb clocks
+> > > -- clock-names: should be "USBCLK"
+> > > -- phys: phandle for the PHY device
+> > > -- phy-names: should be "usb"
+> > > -
+> > > -Example:
+> > > -
+> > > -   ehci0: usb-ehci@d4208000 {
+> > > -           compatible = "marvell,pxau2o-ehci";
+> > > -           reg = <0xd4208000 0x200>;
+> > > -           interrupts = <44>;
+> > > -           clocks = <&soc_clocks MMP2_CLK_USB>;
+> > > -           clock-names = "USBCLK";
+> > > -           phys = <&usb_otg_phy>;
+> > > -           phy-names = "usb";
+> > > -   };
+> > > diff --git a/Documentation/devicetree/bindings/usb/marvell,pxau2o-ehci.yaml b/Documentation/devicetree/bindings/usb/marvell,pxau2o-ehci.yaml
+> > > new file mode 100644
+> > > index 0000000000000..189025ef1e92e
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/usb/marvell,pxau2o-ehci.yaml
+> > > @@ -0,0 +1,60 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-or-later OR BSD-2-Clause)
+> >
+> > Same license comment.
 >
-> On Mon, May 18, 2020 at 11:50:34AM +0200, Hans Verkuil wrote:
->> On 12/05/2020 12:59, Sakari Ailus wrote:
->>> While we have had some example drivers, there has been up to date no
->>> formal documentation on how camera sensor drivers should be written; what
->>> are the practices, why, and where they apply.
->>>
->>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->>> ---
->>> The HTML documentation can be found here:
->>>
->>> <URL:https://www.retiisi.eu/~sailus/v4l2/tmp/doc/output/driver-api/media/camera-sensor.html>
->>>
->>>   .../driver-api/media/camera-sensor.rst        | 98 +++++++++++++++++++
->>>   Documentation/driver-api/media/csi2.rst       |  2 +
->>>   Documentation/driver-api/media/index.rst      |  1 +
->>>   3 files changed, 101 insertions(+)
->>>   create mode 100644 Documentation/driver-api/media/camera-sensor.rst
->>>
->>> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
->>> new file mode 100644
->>> index 000000000000..345e3ae30340
->>> --- /dev/null
->>> +++ b/Documentation/driver-api/media/camera-sensor.rst
->>> @@ -0,0 +1,98 @@
->>> +.. SPDX-License-Identifier: GPL-2.0
->>> +
->>> +Writing camera sensor drivers
->>> +=============================
->>> +
->>> +CSI-2
->>> +-----
->>> +
->>> +Please see what is written on :ref:`MIPI_CSI_2`.
->>> +
->>> +Handling clocks
->>> +---------------
->>> +
->>> +Camera sensors have an internal clock tree including a PLL and a number of
->>> +divisors. The clock tree is generally configured by the driver based on a few
->>> +input parameters that are specific to the hardware:: the external clock frequency
->>> +and the link frequency. The two parameters generally are obtained from system
->>> +firmware. No other frequencies should be used in any circumstances.
->>> +
->>> +The reason why the clock frequencies are so important is that the clock signals
->>> +come out of the SoC, and in many cases a specific frequency is designed to be
->>> +used in the system. Using another frequency may cause harmful effects
->>> +elsewhere. Therefore only the pre-determined frequencies are configurable by the
->>> +user.
->>> +
->>> +Frame size
->>> +----------
->>> +
->>> +There are two distinct ways to configure the frame size produced by camera
->>> +sensors.
->>> +
->>> +Freely configurable camera sensor drivers
->>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>> +
->>> +Freely configurable camera sensor drivers expose the device's internal
->>> +processing pipeline as one or more sub-devices with different cropping and
->>> +scaling configurations. The output size of the device is the result of a series
->>> +of cropping and scaling operations from the device's pixel array's size.
->>> +
->>> +An example of such a driver is the smiapp driver (see drivers/media/i2c/smiapp).
->>> +
->>> +Register list based drivers
->>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>> +
->>> +Register list based drivers generally, instead of able to configure the device
->>> +they control based on user requests, are limited to a number of preset
->>> +configurations that combine a number of different parameters that on hardware
->>> +level are independent. How a driver picks such configuration is based on the
->>> +format set on a source pad at the end of the device's internal pipeline.
->>> +
->>> +Most sensor drivers are implemented this way, see e.g.
->>> +drivers/media/i2c/imx319.c for an example.
->>> +
->>> +Frame interval configuration
->>> +----------------------------
->>> +
->>> +There are two different methods for obtaining possibilities for different frame
->>> +intervals as well as configuring the frame interval. Which one to implement
->>> +depends on the type of the device.
->>> +
->>> +Raw camera sensors
->>> +~~~~~~~~~~~~~~~~~~
->>> +
->>> +Instead of a high level parameter such as frame interval, the frame interval is
->>> +a result of the configuration of a number of camera sensor implementation
->>> +specific parameters. Luckily, these parameters tend to be the same for more or
->>> +less all modern raw camera sensors.
->>> +
->>> +The frame interval is calculated using the following equation::
->>> +
->>> +	frame interval = (analogue crop width + horizontal blanking) *
->>> +			 (analogue crop height + vertical blanking) / pixel rate
->>> +
->>> +The formula is bus independent and is applicable for raw timing parameters on
->>> +large variety of devices beyond camera sensors. Devices that have no analogue
->>> +crop, use the full source image size, i.e. pixel array size.
->>> +
->>> +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
->>> +``V4L2_CID_VBLANK``, respectively. The unit of these controls are lines. The
->>> +pixel rate is specified by ``V4L2_CID_PIXEL_RATE`` in the same sub-device. The
->>> +unit of that control is Hz.
->>> +
->>> +Register list based drivers need to implement read-only sub-device nodes for the
->>> +purpose. Devices that are not register list based need these to configure the
->>> +device's internal processing pipeline.
->>> +
->>> +The first entity in the linear pipeline is the pixel array. The pixel array may
->>> +be followed by other entities that are there to allow configuring binning,
->>> +skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
->>> +
->>> +USB cameras etc. devices
->>> +~~~~~~~~~~~~~~~~~~~~~~~~
->>> +
->>> +USB video class hardware, as well as many cameras offering a higher level
->>> +control interface, generally use the concept of frame interval (or frame rate)
->>> +on the level of device hardware interface. This means lower level controls
->>> +exposed by raw cameras may not be used as an interface to control the frame
->>> +interval on these devices.
->>> diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/csi2.rst
->>> index e111ff7bfd3d..da8b356389f0 100644
->>> --- a/Documentation/driver-api/media/csi2.rst
->>> +++ b/Documentation/driver-api/media/csi2.rst
->>> @@ -1,5 +1,7 @@
->>>   .. SPDX-License-Identifier: GPL-2.0
->>>   
->>> +.. _MIPI_CSI_2:
->>> +
->>>   MIPI CSI-2
->>>   ==========
->>>   
->>> diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
->>> index 328350924853..c140692454b1 100644
->>> --- a/Documentation/driver-api/media/index.rst
->>> +++ b/Documentation/driver-api/media/index.rst
->>> @@ -34,6 +34,7 @@ Please see:
->>>       mc-core
->>>       cec-core
->>>       csi2
->>> +    camera-sensor
->>>   
->>>       drivers/index
->>>   
->>>
->> Can you add a section on power management? I've CC-ed Sowjanya as well, since she
->> had some questions about that (off-line), and I don't know the answer on the right
->> way to handle power management for sensors.
-> Sure. There's nothing special in here per se, but given the history and
-> interaction with the control framework it's worth documenting that
-> separately. Many drivers are also being used on both ACPI and DT that makes
-> the drivers somewhat more convoluted.
+> I wrote that binding document and chose that license.
 
+Okay, but please make it GPL-2.0-only instead of or-later. If everyone
+was attentive to licensing picking their own variations would be fine,
+but they aren't and just copy-n-paste. So there's 2 choices
+GPL-2.0-only (for converted bindings) or (GPL-2.0-only OR
+BSD-2-Clause) for new or re-licensed bindings.
 
-Hi Sakari,
-
-Are there any generic implementation guidelines for sensor drivers 
-regarding keeping pads in LP-11 when they are powered on and not being used?
-
-Also is it mandatory for sensor drivers to implement s_power callback 
-where during on time it powers on and keeps pads in LP-11 state?
-
-I see some sensor drivers have RPM enabled and keep sensor power on only 
-when they are being used during configuring and during streaming other 
-wise sensor power will be off and also not all drivers have s_power 
-callback implemented and some drivers with s_power implemented does only 
-power on but does not keep pads in LP-11.
-
-Reason for asking is for Tegra CSI receiver, we need to perform pads 
-calibration after every power on of Tegra CSI MIPI Pads.
-
-Calibration will be done only when link is is LP-11 state.
-
-Would like to have proper implementation for Tegra CSI MIPI pads 
-calibration based on this.
-
-Thanks
-
-Sowjanya
-
-
-
------------------------------------------------------------------------------------
-This email message is for the sole use of the intended recipient(s) and may contain
-confidential information.  Any unauthorized review, use, disclosure or distribution
-is prohibited.  If you are not the intended recipient, please contact the sender by
-reply email and destroy all copies of the original message.
------------------------------------------------------------------------------------
+Rob
