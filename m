@@ -2,137 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32B631D7504
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 12:20:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F2A71D754B
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 12:35:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726292AbgERKT7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 May 2020 06:19:59 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:42901 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726127AbgERKT5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 May 2020 06:19:57 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id acsBjtCgitKAsacsEjKwVy; Mon, 18 May 2020 12:19:54 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1589797194; bh=76pF00Wv0juosHXkvoedVD/uuV5yDbseXxvDrLn36gs=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=EEvrd8hlFQLLLRPPECT9lSXuMvC1crEGVW0cRyouTjL46ueQeY3RT9zZOSjOmJBSW
-         Q0MhD6UthOVj1b4DTfi29JJhMeApOTVsa0qAcHo8C4uiPg/9KTO4Kvg6qxaZdTqNTh
-         JkkFh6z+DRAfWWrg7mUnEnudErverZ8o48zGuGPLmkOvu474Bo5nwvzwIj1tnGHcPJ
-         UdBpZQIX/1GRWhWeJjcQvDa/vtqI1sJHWq74jJwJqc+ECUPzzxNvqnAgGkXQHf99AZ
-         4jc25B/lNmDui+LktFown3iVru1+6N9c5SLW80VH5pDS8C0SqTm+Y9QKpRANn9VUqm
-         MD/ozjB/MpdaQ==
-Subject: Re: [PATCH v2 16/34] staging: mmal-vchiq: Fix client_component for 64
- bit kernel
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        Naushir Patuck <naush@raspberrypi.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>
-References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
- <20200504092611.9798-17-laurent.pinchart@ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <dc9b0b12-1d99-549d-5189-4dc56ddfaa11@xs4all.nl>
-Date:   Mon, 18 May 2020 12:19:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1726279AbgERKfg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 May 2020 06:35:36 -0400
+Received: from mga01.intel.com ([192.55.52.88]:49077 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726180AbgERKfg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 18 May 2020 06:35:36 -0400
+IronPort-SDR: 5/apjnpVWQ17mhsleyp2lOciqFIQLhmq3Gs3ojd68i6AM3rDRETgDuL6lvM5KwBZjham+4XPI9
+ obfRsFVZAWwA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2020 03:35:31 -0700
+IronPort-SDR: OUWCbgipT/1/d7pXb1RM1/XiQxYEaunvRRCFfvBQYvf3hM+aYYiLRDJcfb+aQ4laZ+k7dBgNlV
+ vs6AXreEbL4A==
+X-IronPort-AV: E=Sophos;i="5.73,406,1583222400"; 
+   d="scan'208";a="373345144"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2020 03:35:27 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 024CD20D04; Mon, 18 May 2020 13:35:24 +0300 (EEST)
+Date:   Mon, 18 May 2020 13:35:24 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        bingbu.cao@intel.com, Maxime Ripard <maxime@cerno.tech>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>
+Subject: Re: [PATCH 1/1] Documentation: media: Document how to write camera
+ sensor drivers
+Message-ID: <20200518103524.GB20066@paasikivi.fi.intel.com>
+References: <20200512105914.9948-1-sakari.ailus@linux.intel.com>
+ <ab436563-9b22-ee4d-5c96-84857720f2f7@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <20200504092611.9798-17-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfL1cHsbJvT18J7NfqPIY5Y1b1S9ZF/+5WBWI4NvSgHgLqgDItgZxXWBr+Y8LTpdwKhc/Y4hxJflDiIr84vtJAccQk9uYuHpJLqTDRfBXkn74rSiX4zhQ
- 7qiZZUdOudN1JGQBI3oxb1RQjCmWJAyFUC6Kc8oPMJ+124kq9akGFxBlf3wKccA+1KE0SMWvUud6dVq7/JqQ3XhnZDmJMV06nDbO74wheTzCoYyahosZCeUi
- oeSlmbh+bkzX0kKACTGNwe/9MOnkd1GBIwKoX+KxwYEZxEK7flqGV7CXS5j20aCi78eZC7jm0/vrqfll9pCAvaeNoaIu9MO3AvEZgq3v2QNwCKNpS3X+aYok
- TfgYOLlcpcIaYkqz9o0QY+vDKdi4k+Yenl+tXgHeEdZ/LT8zNKG9OoYl3cdOLhmAv4bC1kH4LGMmib2nbOoGf8IpETdvB2OJQWk0WrVG1ad+CePQyFg=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ab436563-9b22-ee4d-5c96-84857720f2f7@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/05/2020 11:25, Laurent Pinchart wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> 
-> The MMAL client_component field is used with the event
-> mechanism to allow the client to identify the component for
-> which the event is generated.
-> The field is only 32bits in size, therefore we can't use a
-> pointer to the component in a 64 bit kernel.
-> 
-> Component handles are already held in an array per VCHI
-> instance, so use the array index as the client_component handle
-> to avoid having to create a new IDR for this purpose.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  .../staging/vc04_services/vchiq-mmal/mmal-vchiq.c    | 12 +++++++++---
->  .../staging/vc04_services/vchiq-mmal/mmal-vchiq.h    |  1 +
->  2 files changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> index c65c262cffbb..5872690b404d 100644
-> --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.c
-> @@ -467,9 +467,9 @@ buffer_from_host(struct vchiq_mmal_instance *instance,
->  static void event_to_host_cb(struct vchiq_mmal_instance *instance,
->  			     struct mmal_msg *msg, u32 msg_len)
->  {
-> -	/* FIXME: Not going to work on 64 bit */
-> +	int comp_idx = msg->u.event_to_host.client_component;
->  	struct vchiq_mmal_component *component =
-> -		(struct vchiq_mmal_component *)msg->u.event_to_host.client_component;
-> +					&instance->component[comp_idx];
->  	struct vchiq_mmal_port *port = NULL;
->  	struct mmal_msg_context *msg_context;
->  	u32 port_num = msg->u.event_to_host.port_num;
-> @@ -1068,7 +1068,7 @@ static int create_component(struct vchiq_mmal_instance *instance,
->  
->  	/* build component create message */
->  	m.h.type = MMAL_MSG_TYPE_COMPONENT_CREATE;
-> -	m.u.component_create.client_component = (u32)(unsigned long)component;
-> +	m.u.component_create.client_component = component->client_component;
->  	strncpy(m.u.component_create.name, name,
->  		sizeof(m.u.component_create.name));
+Hi Hans,
 
-I recommend that another patch is made that replaces any strcpy/strlcpy/strncpy
-calls to strscpy (since that's the standard for media drivers).
+Thanks for the review.
 
-Regards,
-
-	Hans
-
->  
-> @@ -1863,6 +1863,12 @@ int vchiq_mmal_component_init(struct vchiq_mmal_instance *instance,
->  		goto unlock;
->  	}
->  
-> +	/* We need a handle to reference back to our component structure.
-> +	 * Use the array index in instance->component rather than rolling
-> +	 * another IDR.
-> +	 */
-> +	component->client_component = idx;
-> +
->  	ret = create_component(instance, component, name);
->  	if (ret < 0) {
->  		pr_err("%s: failed to create component %d (Not enough GPU mem?)\n",
-> diff --git a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-> index ae6c69ba16ee..247521fbcc1d 100644
-> --- a/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-> +++ b/drivers/staging/vc04_services/vchiq-mmal/mmal-vchiq.h
-> @@ -97,6 +97,7 @@ struct vchiq_mmal_component {
->  	struct vchiq_mmal_port input[MAX_PORT_COUNT]; /* input ports */
->  	struct vchiq_mmal_port output[MAX_PORT_COUNT]; /* output ports */
->  	struct vchiq_mmal_port clock[MAX_PORT_COUNT]; /* clock ports */
-> +	u32 client_component;	/* Used to ref back to client struct */
->  };
->  
->  int vchiq_mmal_init(struct vchiq_mmal_instance **out_instance);
+On Mon, May 18, 2020 at 11:50:34AM +0200, Hans Verkuil wrote:
+> On 12/05/2020 12:59, Sakari Ailus wrote:
+> > While we have had some example drivers, there has been up to date no
+> > formal documentation on how camera sensor drivers should be written; what
+> > are the practices, why, and where they apply.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> > The HTML documentation can be found here:
+> > 
+> > <URL:https://www.retiisi.eu/~sailus/v4l2/tmp/doc/output/driver-api/media/camera-sensor.html>
+> > 
+> >  .../driver-api/media/camera-sensor.rst        | 98 +++++++++++++++++++
+> >  Documentation/driver-api/media/csi2.rst       |  2 +
+> >  Documentation/driver-api/media/index.rst      |  1 +
+> >  3 files changed, 101 insertions(+)
+> >  create mode 100644 Documentation/driver-api/media/camera-sensor.rst
+> > 
+> > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > new file mode 100644
+> > index 000000000000..345e3ae30340
+> > --- /dev/null
+> > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > @@ -0,0 +1,98 @@
+> > +.. SPDX-License-Identifier: GPL-2.0
+> > +
+> > +Writing camera sensor drivers
+> > +=============================
+> > +
+> > +CSI-2
+> > +-----
+> > +
+> > +Please see what is written on :ref:`MIPI_CSI_2`.
+> > +
+> > +Handling clocks
+> > +---------------
+> > +
+> > +Camera sensors have an internal clock tree including a PLL and a number of
+> > +divisors. The clock tree is generally configured by the driver based on a few
+> > +input parameters that are specific to the hardware:: the external clock frequency
+> > +and the link frequency. The two parameters generally are obtained from system
+> > +firmware. No other frequencies should be used in any circumstances.
+> > +
+> > +The reason why the clock frequencies are so important is that the clock signals
+> > +come out of the SoC, and in many cases a specific frequency is designed to be
+> > +used in the system. Using another frequency may cause harmful effects
+> > +elsewhere. Therefore only the pre-determined frequencies are configurable by the
+> > +user.
+> > +
+> > +Frame size
+> > +----------
+> > +
+> > +There are two distinct ways to configure the frame size produced by camera
+> > +sensors.
+> > +
+> > +Freely configurable camera sensor drivers
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +Freely configurable camera sensor drivers expose the device's internal
+> > +processing pipeline as one or more sub-devices with different cropping and
+> > +scaling configurations. The output size of the device is the result of a series
+> > +of cropping and scaling operations from the device's pixel array's size.
+> > +
+> > +An example of such a driver is the smiapp driver (see drivers/media/i2c/smiapp).
+> > +
+> > +Register list based drivers
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +Register list based drivers generally, instead of able to configure the device
+> > +they control based on user requests, are limited to a number of preset
+> > +configurations that combine a number of different parameters that on hardware
+> > +level are independent. How a driver picks such configuration is based on the
+> > +format set on a source pad at the end of the device's internal pipeline.
+> > +
+> > +Most sensor drivers are implemented this way, see e.g. 
+> > +drivers/media/i2c/imx319.c for an example.
+> > +
+> > +Frame interval configuration
+> > +----------------------------
+> > +
+> > +There are two different methods for obtaining possibilities for different frame
+> > +intervals as well as configuring the frame interval. Which one to implement
+> > +depends on the type of the device.
+> > +
+> > +Raw camera sensors
+> > +~~~~~~~~~~~~~~~~~~
+> > +
+> > +Instead of a high level parameter such as frame interval, the frame interval is
+> > +a result of the configuration of a number of camera sensor implementation
+> > +specific parameters. Luckily, these parameters tend to be the same for more or
+> > +less all modern raw camera sensors.
+> > +
+> > +The frame interval is calculated using the following equation::
+> > +
+> > +	frame interval = (analogue crop width + horizontal blanking) *
+> > +			 (analogue crop height + vertical blanking) / pixel rate
+> > +
+> > +The formula is bus independent and is applicable for raw timing parameters on
+> > +large variety of devices beyond camera sensors. Devices that have no analogue
+> > +crop, use the full source image size, i.e. pixel array size.
+> > +
+> > +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> > +``V4L2_CID_VBLANK``, respectively. The unit of these controls are lines. The
+> > +pixel rate is specified by ``V4L2_CID_PIXEL_RATE`` in the same sub-device. The
+> > +unit of that control is Hz.
+> > +
+> > +Register list based drivers need to implement read-only sub-device nodes for the
+> > +purpose. Devices that are not register list based need these to configure the
+> > +device's internal processing pipeline.
+> > +
+> > +The first entity in the linear pipeline is the pixel array. The pixel array may
+> > +be followed by other entities that are there to allow configuring binning,
+> > +skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
+> > +
+> > +USB cameras etc. devices
+> > +~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +USB video class hardware, as well as many cameras offering a higher level
+> > +control interface, generally use the concept of frame interval (or frame rate)
+> > +on the level of device hardware interface. This means lower level controls
+> > +exposed by raw cameras may not be used as an interface to control the frame
+> > +interval on these devices.
+> > diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/csi2.rst
+> > index e111ff7bfd3d..da8b356389f0 100644
+> > --- a/Documentation/driver-api/media/csi2.rst
+> > +++ b/Documentation/driver-api/media/csi2.rst
+> > @@ -1,5 +1,7 @@
+> >  .. SPDX-License-Identifier: GPL-2.0
+> >  
+> > +.. _MIPI_CSI_2:
+> > +
+> >  MIPI CSI-2
+> >  ==========
+> >  
+> > diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
+> > index 328350924853..c140692454b1 100644
+> > --- a/Documentation/driver-api/media/index.rst
+> > +++ b/Documentation/driver-api/media/index.rst
+> > @@ -34,6 +34,7 @@ Please see:
+> >      mc-core
+> >      cec-core
+> >      csi2
+> > +    camera-sensor
+> >  
+> >      drivers/index
+> >  
+> > 
 > 
+> Can you add a section on power management? I've CC-ed Sowjanya as well, since she
+> had some questions about that (off-line), and I don't know the answer on the right
+> way to handle power management for sensors.
 
+Sure. There's nothing special in here per se, but given the history and
+interaction with the control framework it's worth documenting that
+separately. Many drivers are also being used on both ACPI and DT that makes
+the drivers somewhat more convoluted.
+
+-- 
+Kind regards,
+
+Sakari Ailus
