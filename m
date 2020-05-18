@@ -2,163 +2,258 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B0C41D7C91
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 17:18:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 260261D7CA0
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 17:19:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728110AbgERPSl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 18 May 2020 11:18:41 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:34243 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726918AbgERPSl (ORCPT
+        id S1728055AbgERPT6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 18 May 2020 11:19:58 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:8867 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727063AbgERPT5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 18 May 2020 11:18:41 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id ahXGjvLYt8hmdahXKjhJ8z; Mon, 18 May 2020 17:18:38 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1589815118; bh=n0fFGCGdi818S+XdCRml9VArGU71ZuuWGQf3y8cVenM=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=MzvkyNhR3+1xg9AJ1h0OcyOrrxCoEWkSUTzgh5VuX3AoGLhjn1B0dqZAeS/cFc6pI
-         kWBr3VTRLnsRgQe6HvGJMYqkkEOkIRE3DhyzxZzpC/m+pufUpCfFPfFGz9Vh1kpVja
-         1GQg/86BG71p7CkX601+bKjh3esf/3MYj1mWsZjBC8BaMe1Rqlk+2U6lmGdl6zgTIo
-         8XCv/fYlzAkZdF5jiylQSOtUiTOUq4LYMZb8Mk/R0RSCCbTwE/NKZFtx4sTBQEHCAy
-         /C8zSqiUYTwbwv0e82I3eZTh3s/wVaVN6r86EMtRX+MaVjt2MAVuS5YEO7UyWs41ZM
-         5Z4cgBEOAmvZg==
-Subject: Re: [PATCH v6 00/14] Implement V4L2_BUF_FLAG_NO_CACHE_* flags
-To:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200514160153.3646-1-sergey.senozhatsky@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <3fee9a3d-30fe-826a-7a36-b4c9720a94db@xs4all.nl>
-Date:   Mon, 18 May 2020 17:18:34 +0200
+        Mon, 18 May 2020 11:19:57 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ec2a70f0002>; Mon, 18 May 2020 08:17:35 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Mon, 18 May 2020 08:19:57 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Mon, 18 May 2020 08:19:57 -0700
+Received: from [10.2.164.184] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 18 May
+ 2020 15:19:56 +0000
+Subject: Re: [PATCH 1/1] Documentation: media: Document how to write camera
+ sensor drivers
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>, <laurent.pinchart@ideasonboard.com>,
+        <bingbu.cao@intel.com>, Maxime Ripard <maxime@cerno.tech>
+References: <20200512105914.9948-1-sakari.ailus@linux.intel.com>
+ <ab436563-9b22-ee4d-5c96-84857720f2f7@xs4all.nl>
+ <20200518103524.GB20066@paasikivi.fi.intel.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <823ddac0-5ac1-b27e-a408-b0763b7fe5d8@nvidia.com>
+Date:   Mon, 18 May 2020 08:19:55 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200514160153.3646-1-sergey.senozhatsky@gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200518103524.GB20066@paasikivi.fi.intel.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL101.nvidia.com (172.20.187.10) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfI6Lht0ujiOXn8w5y/udiDLlkwMRqX60HUf+iJ7HJGUpwLICDz656fqMWX//dHjq1DNJuQh7kF3onp42CadT3ClOKvouGOMf5oKLKuIeja2xByT9mRdh
- WKXrOGq72IFFDv1SEeMOQs0ZEwqEY7RjYh3senwLjJEjLaYB6WJHezFte8Lb/ns/erZ5w2Dnvt2mc9w8n33seQAbw+D66kWiBDl+cchpqeUsALXPN1GE8ljF
- PygvybUsvwXN0RFiuA6hX2xoOLhQO6yRN3UgB90to+OYrqOSXciaHs3uEISQ84dR1mNe0egY0JnLygyvaOIQ/Ih8SgjEtr3e5itS7dL8lV1Yi+tQzjYGAuB7
- Bk5ZDrl8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1589815056; bh=btZRPu55zgZ4HyvPu16m+Etc6Y98GKgx7zF6QpxW7kA=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=Dk2nOA1ZJDyNK/8TpfdC7ciZS2bKoaBIQqOfw+tRBKDi9TRQU3AZMBRDxRk5WnCkL
+         KmI3woUt5cnVMvby4Fwoj6pqMtEFKvOj6+Op1mwE9kqKdwwkyMoM5obXzMR+O63Ehl
+         MvCydF7abXafKmfzOlIw9DJkHOG7Y/2/KOSsyqcRC6OiQeLQR5fP2XxS/Q7FHYVL9/
+         AGMhhzHMYJQI7XRUbZMRQiEDZ3a1s/wzpp4ChrNDZmg1LoQFBjjFQEu8G0GVnycazb
+         qLQAPtEO8W7rp7KDk95psi2Fd2ObpGo54VGPvBLTaHkXHMIR8QoxFERX8FvdiHl45b
+         oduPoR7egyFYQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sergey,
 
-On 14/05/2020 18:01, Sergey Senozhatsky wrote:
-> Hello
-> 
-> v6 changes:
-> The design has been slightly reworked. The cache-hints capability has
-> been renamed to SUPPORTS_MMAP_CACHE_HINTS and is reported for all queues
-> that support MMAP and allow cache hints. However, the actual hints and
-> memory consistency are ignored unless the queue is used for the MMAP
-> streaming I/O. Plus some cleanups, documentation updates, and so on.
+On 5/18/20 3:35 AM, Sakari Ailus wrote:
+> Hi Hans,
+>
+> Thanks for the review.
+>
+> On Mon, May 18, 2020 at 11:50:34AM +0200, Hans Verkuil wrote:
+>> On 12/05/2020 12:59, Sakari Ailus wrote:
+>>> While we have had some example drivers, there has been up to date no
+>>> formal documentation on how camera sensor drivers should be written; what
+>>> are the practices, why, and where they apply.
+>>>
+>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>> ---
+>>> The HTML documentation can be found here:
+>>>
+>>> <URL:https://www.retiisi.eu/~sailus/v4l2/tmp/doc/output/driver-api/media/camera-sensor.html>
+>>>
+>>>   .../driver-api/media/camera-sensor.rst        | 98 +++++++++++++++++++
+>>>   Documentation/driver-api/media/csi2.rst       |  2 +
+>>>   Documentation/driver-api/media/index.rst      |  1 +
+>>>   3 files changed, 101 insertions(+)
+>>>   create mode 100644 Documentation/driver-api/media/camera-sensor.rst
+>>>
+>>> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+>>> new file mode 100644
+>>> index 000000000000..345e3ae30340
+>>> --- /dev/null
+>>> +++ b/Documentation/driver-api/media/camera-sensor.rst
+>>> @@ -0,0 +1,98 @@
+>>> +.. SPDX-License-Identifier: GPL-2.0
+>>> +
+>>> +Writing camera sensor drivers
+>>> +=============================
+>>> +
+>>> +CSI-2
+>>> +-----
+>>> +
+>>> +Please see what is written on :ref:`MIPI_CSI_2`.
+>>> +
+>>> +Handling clocks
+>>> +---------------
+>>> +
+>>> +Camera sensors have an internal clock tree including a PLL and a number of
+>>> +divisors. The clock tree is generally configured by the driver based on a few
+>>> +input parameters that are specific to the hardware:: the external clock frequency
+>>> +and the link frequency. The two parameters generally are obtained from system
+>>> +firmware. No other frequencies should be used in any circumstances.
+>>> +
+>>> +The reason why the clock frequencies are so important is that the clock signals
+>>> +come out of the SoC, and in many cases a specific frequency is designed to be
+>>> +used in the system. Using another frequency may cause harmful effects
+>>> +elsewhere. Therefore only the pre-determined frequencies are configurable by the
+>>> +user.
+>>> +
+>>> +Frame size
+>>> +----------
+>>> +
+>>> +There are two distinct ways to configure the frame size produced by camera
+>>> +sensors.
+>>> +
+>>> +Freely configurable camera sensor drivers
+>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> +
+>>> +Freely configurable camera sensor drivers expose the device's internal
+>>> +processing pipeline as one or more sub-devices with different cropping and
+>>> +scaling configurations. The output size of the device is the result of a series
+>>> +of cropping and scaling operations from the device's pixel array's size.
+>>> +
+>>> +An example of such a driver is the smiapp driver (see drivers/media/i2c/smiapp).
+>>> +
+>>> +Register list based drivers
+>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>> +
+>>> +Register list based drivers generally, instead of able to configure the device
+>>> +they control based on user requests, are limited to a number of preset
+>>> +configurations that combine a number of different parameters that on hardware
+>>> +level are independent. How a driver picks such configuration is based on the
+>>> +format set on a source pad at the end of the device's internal pipeline.
+>>> +
+>>> +Most sensor drivers are implemented this way, see e.g.
+>>> +drivers/media/i2c/imx319.c for an example.
+>>> +
+>>> +Frame interval configuration
+>>> +----------------------------
+>>> +
+>>> +There are two different methods for obtaining possibilities for different frame
+>>> +intervals as well as configuring the frame interval. Which one to implement
+>>> +depends on the type of the device.
+>>> +
+>>> +Raw camera sensors
+>>> +~~~~~~~~~~~~~~~~~~
+>>> +
+>>> +Instead of a high level parameter such as frame interval, the frame interval is
+>>> +a result of the configuration of a number of camera sensor implementation
+>>> +specific parameters. Luckily, these parameters tend to be the same for more or
+>>> +less all modern raw camera sensors.
+>>> +
+>>> +The frame interval is calculated using the following equation::
+>>> +
+>>> +	frame interval = (analogue crop width + horizontal blanking) *
+>>> +			 (analogue crop height + vertical blanking) / pixel rate
+>>> +
+>>> +The formula is bus independent and is applicable for raw timing parameters on
+>>> +large variety of devices beyond camera sensors. Devices that have no analogue
+>>> +crop, use the full source image size, i.e. pixel array size.
+>>> +
+>>> +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+>>> +``V4L2_CID_VBLANK``, respectively. The unit of these controls are lines. The
+>>> +pixel rate is specified by ``V4L2_CID_PIXEL_RATE`` in the same sub-device. The
+>>> +unit of that control is Hz.
+>>> +
+>>> +Register list based drivers need to implement read-only sub-device nodes for the
+>>> +purpose. Devices that are not register list based need these to configure the
+>>> +device's internal processing pipeline.
+>>> +
+>>> +The first entity in the linear pipeline is the pixel array. The pixel array may
+>>> +be followed by other entities that are there to allow configuring binning,
+>>> +skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
+>>> +
+>>> +USB cameras etc. devices
+>>> +~~~~~~~~~~~~~~~~~~~~~~~~
+>>> +
+>>> +USB video class hardware, as well as many cameras offering a higher level
+>>> +control interface, generally use the concept of frame interval (or frame rate)
+>>> +on the level of device hardware interface. This means lower level controls
+>>> +exposed by raw cameras may not be used as an interface to control the frame
+>>> +interval on these devices.
+>>> diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/csi2.rst
+>>> index e111ff7bfd3d..da8b356389f0 100644
+>>> --- a/Documentation/driver-api/media/csi2.rst
+>>> +++ b/Documentation/driver-api/media/csi2.rst
+>>> @@ -1,5 +1,7 @@
+>>>   .. SPDX-License-Identifier: GPL-2.0
+>>>   
+>>> +.. _MIPI_CSI_2:
+>>> +
+>>>   MIPI CSI-2
+>>>   ==========
+>>>   
+>>> diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
+>>> index 328350924853..c140692454b1 100644
+>>> --- a/Documentation/driver-api/media/index.rst
+>>> +++ b/Documentation/driver-api/media/index.rst
+>>> @@ -34,6 +34,7 @@ Please see:
+>>>       mc-core
+>>>       cec-core
+>>>       csi2
+>>> +    camera-sensor
+>>>   
+>>>       drivers/index
+>>>   
+>>>
+>> Can you add a section on power management? I've CC-ed Sowjanya as well, since she
+>> had some questions about that (off-line), and I don't know the answer on the right
+>> way to handle power management for sensors.
+> Sure. There's nothing special in here per se, but given the history and
+> interaction with the control framework it's worth documenting that
+> separately. Many drivers are also being used on both ACPI and DT that makes
+> the drivers somewhat more convoluted.
 
-This looks good. If there are no new comments then I plan to make a PR for 5.9 in
-two weeks.
 
-Thank you for all your work on this!
+Hi Sakari,
 
-Regards,
+Are there any generic implementation guidelines for sensor drivers 
+regarding keeping pads in LP-11 when they are powered on and not being used?
 
-	Hans
+Also is it mandatory for sensor drivers to implement s_power callback 
+where during on time it powers on and keeps pads in LP-11 state?
 
-> 
-> Previous versions:
-> v5 link: https://lore.kernel.org/lkml/20200424092920.4801-1-sergey.senozhatsky@gmail.com
-> v4 link: https://lore.kernel.org/lkml/20200302041213.27662-1-senozhatsky@chromium.org/
-> v3 link: https://lore.kernel.org/lkml/20200226111529.180197-1-senozhatsky@chromium.org
-> v2 link: https://lore.kernel.org/lkml/20200204025641.218376-1-senozhatsky@chromium.org/
-> v1 link: https://lore.kernel.org/lkml/20191217032034.54897-1-senozhatsky@chromium.org/
-> 
-> Series Intro
-> ========================================================================
-> 
->         This is a reworked version of the vb2 cache hints
-> (V4L2_BUF_FLAG_NO_CACHE_INVALIDATE / V4L2_BUF_FLAG_NO_CACHE_CLEAN)
-> support patch series which previsouly was developed by Sakari and
-> Laurent [0].
-> 
-> The patch set attempts to preserve the existing behvaiour - cache
-> sync is performed in ->prepare() and ->finish() (unless the buffer
-> is DMA exported). User space can request “default behavior” override
-> with cache management hints, which are handled on a per-buffer basis
-> and should be supplied with v4l2_buffer ->flags during buffer
-> preparation. There are two possible hints:
-> 
-> - V4L2_BUF_FLAG_NO_CACHE_INVALIDATE
->         No cache sync on ->finish()
-> 
-> - V4L2_BUF_FLAG_NO_CACHE_CLEAN
->         No cache sync on ->prepare()
-> 
-> In order to keep things on the safe side, we also require driver
-> to explicitly state which of its queues (if any) support user space
-> cache management hints (such queues should have ->allow_cache_hints
-> bit set).
-> 
-> The patch set also (to some extent) simplifies allocators' ->prepare()
-> and ->finish() callbacks. Namely, we move cache management decision
-> making to the upper - core - layer. For example, if, previously, we
-> would have something like this
-> 
->         vb2_buffer_done()
->           vb2_dc_finish()
->             if (buf->db_attach)
->               return;
-> 
-> where each allocators' ->finish() callback would either bail
-> out (DMA exported buffer, for instance) or sync, now that "bail
-> out or sync" decision is made before we call into the allocator.
-> 
-> Along with cache management hints, user space is also able to
-> adjust queue's memory consistency attributes. Memory consistency
-> attribute (dma_attrs) is per-queue, yet it plays its role on the
-> allocator level, when we allocate buffers’ private memory (planes).
-> For the time being, only one consistency attribute is supported:
-> DMA_ATTR_NON_CONSISTENT.
-> 
-> [0] https://www.mail-archive.com/linux-media@vger.kernel.org/msg112459.html
-> 
-> Sergey Senozhatsky (14):
->   videobuf2: use explicit unsigned int in vb2_queue
->   videobuf2: add cache management members
->   videobuf2: handle V4L2 buffer cache flags
->   videobuf2: add V4L2_FLAG_MEMORY_NON_CONSISTENT flag
->   videobuf2: add queue memory consistency parameter
->   videobuf2: handle V4L2_FLAG_MEMORY_NON_CONSISTENT flag
->   videobuf2: factor out planes prepare/finish functions
->   videobuf2: do not sync caches when we are allowed not to
->   videobuf2: check ->synced flag in prepare() and finish()
->   videobuf2: add begin/end cpu_access callbacks to dma-contig
->   videobuf2: add begin/end cpu_access callbacks to dma-sg
->   videobuf2: don't test db_attach in dma-contig prepare and finish
->   videobuf2: remove redundant if-statement
->   media: vivid: add cache_hints module param
-> 
->  Documentation/admin-guide/media/vivid.rst     |   9 ++
->  .../userspace-api/media/v4l/buffer.rst        |  40 +++++-
->  .../media/v4l/vidioc-create-bufs.rst          |   7 +-
->  .../media/v4l/vidioc-reqbufs.rst              |  21 ++-
->  .../media/common/videobuf2/videobuf2-core.c   | 121 +++++++++++++-----
->  .../common/videobuf2/videobuf2-dma-contig.c   |  44 ++++++-
->  .../media/common/videobuf2/videobuf2-dma-sg.c |  38 ++++--
->  .../media/common/videobuf2/videobuf2-v4l2.c   |  72 ++++++++++-
->  drivers/media/dvb-core/dvb_vb2.c              |   2 +-
->  drivers/media/test-drivers/vivid/vivid-core.c |   9 ++
->  drivers/media/v4l2-core/v4l2-compat-ioctl32.c |  10 +-
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   5 +-
->  include/media/videobuf2-core.h                |  47 +++++--
->  include/uapi/linux/videodev2.h                |  14 +-
->  14 files changed, 366 insertions(+), 73 deletions(-)
-> 
+I see some sensor drivers have RPM enabled and keep sensor power on only 
+when they are being used during configuring and during streaming other 
+wise sensor power will be off and also not all drivers have s_power 
+callback implemented and some drivers with s_power implemented does only 
+power on but does not keep pads in LP-11.
 
+Reason for asking is for Tegra CSI receiver, we need to perform pads 
+calibration after every power on of Tegra CSI MIPI Pads.
+
+Calibration will be done only when link is is LP-11 state.
+
+Would like to have proper implementation for Tegra CSI MIPI pads 
+calibration based on this.
+
+Thanks
+
+Sowjanya
+
+
+
+-----------------------------------------------------------------------------------
+This email message is for the sole use of the intended recipient(s) and may contain
+confidential information.  Any unauthorized review, use, disclosure or distribution
+is prohibited.  If you are not the intended recipient, please contact the sender by
+reply email and destroy all copies of the original message.
+-----------------------------------------------------------------------------------
