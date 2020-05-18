@@ -2,245 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DACE61D6E8E
-	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 03:22:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE0AC1D6F5E
+	for <lists+linux-media@lfdr.de>; Mon, 18 May 2020 05:39:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727782AbgERBWK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 17 May 2020 21:22:10 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:17148 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727006AbgERBWA (ORCPT
+        id S1727777AbgERDjg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 17 May 2020 23:39:36 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:60755 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726680AbgERDjg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 17 May 2020 21:22:00 -0400
-Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ec1e2aa0002>; Sun, 17 May 2020 18:19:38 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate102.nvidia.com (PGP Universal service);
-  Sun, 17 May 2020 18:21:59 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate102.nvidia.com on Sun, 17 May 2020 18:21:59 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 18 May
- 2020 01:21:59 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 18 May 2020 01:21:59 +0000
-Received: from sandstorm.nvidia.com (Not Verified[10.2.48.175]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ec1e3370002>; Sun, 17 May 2020 18:21:59 -0700
-From:   John Hubbard <jhubbard@nvidia.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-CC:     Andy Walls <awalls@md.metrocast.net>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        <linux-mm@kvack.org>, John Hubbard <jhubbard@nvidia.com>
-Subject: [PATCH 2/2] ivtv: convert get_user_pages() --> pin_user_pages()
-Date:   Sun, 17 May 2020 18:21:57 -0700
-Message-ID: <20200518012157.1178336-3-jhubbard@nvidia.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200518012157.1178336-1-jhubbard@nvidia.com>
-References: <20200518012157.1178336-1-jhubbard@nvidia.com>
-MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1589764778; bh=xH5C6dG4bePEiW5mi0F4Wccp6bZO0ppe4EGiUHwyKL4=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:MIME-Version:X-NVConfidentiality:
-         Content-Transfer-Encoding:Content-Type;
-        b=CX1C6gQ3Uc4S7SSx/ZsxTBahVSnoaDpWC3l01HcZefatkGC66AlShWq5rJKl8AifA
-         vmW5VlhQ+4xVmr4wRskks+yW0d/6wd8ctYDfKqIVJNwkmEjThrCDShyUhqjvK1PyYF
-         1OdpyULk2UJckuFPpW3kXEuVt2CidPkPfH6LzRJhNUI0scO09uClU/UcEUjwHD9J0T
-         fQcr50jUUVPfi8XG6JThpmWKhEUKScyCEW4gI0754E5+rtHXPqHsekQkFnEkZzAIB5
-         FQsBTB9Dmtwpjx0KZeyPtowlZVDTtViOoniPMR//5lVfjA1TLHuHZnMnIKvreTJXLp
-         YZgjH86pydYVg==
+        Sun, 17 May 2020 23:39:36 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id aWcmjrrfG8hmdaWcnjf8vd; Mon, 18 May 2020 05:39:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1589773173; bh=++MdutR5M32nQVGRU0GdKSWIX6wMFeXxMsNtefERzeo=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=d4A1eNJ/MlLWz4ajAvYyDouTIkCtRcAkvZgEdgHJmCE/0K35MW3dDuYhlgJ+YkF6y
+         IPV4IbQD18DIeNPv7MGqV27d8sGuSdQI3nQZr3Dd82rfreo2FNaQQ1piqHOPw6Fa1M
+         qPBcxKVjAV+B6mrPYIrCNHjVKfyUjwFiftxE+W9j4RNDjNR8Nlj4r/OQo7X2ehQgld
+         T/+FbrtsJEoiv9b8HhE4nT1ZoUg6OnrcMqa3uHOdjcyqir9ZhkDCFTC/HvRBA0i5I9
+         cqqLgxpxMsENhXd8aTY/i4RLG/mVMWbXMbMJvJkTfo9TWofhXT5nYIZCVpR+xk4GLt
+         eqblCRO5ZE+MQ==
+Message-ID: <d96c6388a14bc1b0f16a1bcf8f7f83c9@smtp-cloud9.xs4all.net>
+Date:   Mon, 18 May 2020 05:39:32 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfFJrIVJDJiVY4Mv3RX8eikBAhsYc91dUFD+mU8JatOygreNhogDN8DN5W7++LOw1ZjWNgNUz/vh0YCRjA3GnieViI6J4zvIda3Y0Mg9L2VeXPqLc946u
+ 6zQSmdonzMRw4wQCt5GeElnukSlPpxuGfJ0sZfSiZu1srh/3zyJmaHta/TT9Im44/ezOjcOn8MUFmi2USdglIDeVdhzGioAchPxL1WX3oIgvpOuP9EHT+X/G
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This code was using get_user_pages*(), in a "Case 2" scenario
-(DMA/RDMA), using the categorization from [1]. That means that it's
-time to convert the get_user_pages*() + put_page() calls to
-pin_user_pages*() + unpin_user_pages() calls.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-There is some helpful background in [2]: basically, this is a small
-part of fixing a long-standing disconnect between pinning pages, and
-file systems' use of those pages.
+Results of the daily build of media_tree:
 
-[1] Documentation/core-api/pin_user_pages.rst
+date:			Mon May 18 05:00:10 CEST 2020
+media-tree git hash:	35dd70b4c4935012ee02b4296618e56bd6ae3040
+media_build git hash:	2f75e0d4330da180166ebcd104560d471a1599b6
+v4l-utils git hash:	b6463b0f37905fc8df67bdfaa61924a3b32215fb
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0accb575719caa47d8fbc866b11e6f7e7e7787cd
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-[2] "Explicit pinning of user-space pages":
-    https://lwn.net/Articles/807108/
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7-rc1-i686: OK
+linux-5.7-rc1-x86_64: OK
+apps: WARNINGS
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
+sparse: OK
+smatch: OK
 
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
----
- drivers/media/pci/ivtv/ivtv-udma.c | 19 ++++++-------------
- drivers/media/pci/ivtv/ivtv-yuv.c  | 17 ++++++-----------
- drivers/media/pci/ivtv/ivtvfb.c    |  4 ++--
- 3 files changed, 14 insertions(+), 26 deletions(-)
+Detailed results are available here:
 
-diff --git a/drivers/media/pci/ivtv/ivtv-udma.c b/drivers/media/pci/ivtv/iv=
-tv-udma.c
-index 5f8883031c9c..0d8372cc364a 100644
---- a/drivers/media/pci/ivtv/ivtv-udma.c
-+++ b/drivers/media/pci/ivtv/ivtv-udma.c
-@@ -92,7 +92,7 @@ int ivtv_udma_setup(struct ivtv *itv, unsigned long ivtv_=
-dest_addr,
- {
- 	struct ivtv_dma_page_info user_dma;
- 	struct ivtv_user_dma *dma =3D &itv->udma;
--	int i, err;
-+	int err;
-=20
- 	IVTV_DEBUG_DMA("ivtv_udma_setup, dst: 0x%08x\n", (unsigned int)ivtv_dest_=
-addr);
-=20
-@@ -111,16 +111,15 @@ int ivtv_udma_setup(struct ivtv *itv, unsigned long i=
-vtv_dest_addr,
- 		return -EINVAL;
- 	}
-=20
--	/* Get user pages for DMA Xfer */
--	err =3D get_user_pages_unlocked(user_dma.uaddr, user_dma.page_count,
-+	/* Pin user pages for DMA Xfer */
-+	err =3D pin_user_pages_unlocked(user_dma.uaddr, user_dma.page_count,
- 			dma->map, FOLL_FORCE);
-=20
- 	if (user_dma.page_count !=3D err) {
- 		IVTV_DEBUG_WARN("failed to map user pages, returned %d instead of %d\n",
- 			   err, user_dma.page_count);
- 		if (err >=3D 0) {
--			for (i =3D 0; i < err; i++)
--				put_page(dma->map[i]);
-+			unpin_user_pages(dma->map, err);
- 			return -EINVAL;
- 		}
- 		return err;
-@@ -130,9 +129,7 @@ int ivtv_udma_setup(struct ivtv *itv, unsigned long ivt=
-v_dest_addr,
-=20
- 	/* Fill SG List with new values */
- 	if (ivtv_udma_fill_sg_list(dma, &user_dma, 0) < 0) {
--		for (i =3D 0; i < dma->page_count; i++) {
--			put_page(dma->map[i]);
--		}
-+		unpin_user_pages(dma->map, dma->page_count);
- 		dma->page_count =3D 0;
- 		return -ENOMEM;
- 	}
-@@ -153,7 +150,6 @@ int ivtv_udma_setup(struct ivtv *itv, unsigned long ivt=
-v_dest_addr,
- void ivtv_udma_unmap(struct ivtv *itv)
- {
- 	struct ivtv_user_dma *dma =3D &itv->udma;
--	int i;
-=20
- 	IVTV_DEBUG_INFO("ivtv_unmap_user_dma\n");
-=20
-@@ -169,10 +165,7 @@ void ivtv_udma_unmap(struct ivtv *itv)
- 	/* sync DMA */
- 	ivtv_udma_sync_for_cpu(itv);
-=20
--	/* Release User Pages */
--	for (i =3D 0; i < dma->page_count; i++) {
--		put_page(dma->map[i]);
--	}
-+	unpin_user_pages(dma->map, dma->page_count);
- 	dma->page_count =3D 0;
- }
-=20
-diff --git a/drivers/media/pci/ivtv/ivtv-yuv.c b/drivers/media/pci/ivtv/ivt=
-v-yuv.c
-index cd2fe2d444c0..5f7dc9771f8d 100644
---- a/drivers/media/pci/ivtv/ivtv-yuv.c
-+++ b/drivers/media/pci/ivtv/ivtv-yuv.c
-@@ -30,7 +30,6 @@ static int ivtv_yuv_prep_user_dma(struct ivtv *itv, struc=
-t ivtv_user_dma *dma,
- 	struct yuv_playback_info *yi =3D &itv->yuv_info;
- 	u8 frame =3D yi->draw_frame;
- 	struct yuv_frame_info *f =3D &yi->new_frame_info[frame];
--	int i;
- 	int y_pages, uv_pages;
- 	unsigned long y_buffer_offset, uv_buffer_offset;
- 	int y_decode_height, uv_decode_height, y_size;
-@@ -62,12 +61,12 @@ static int ivtv_yuv_prep_user_dma(struct ivtv *itv, str=
-uct ivtv_user_dma *dma,
- 	ivtv_udma_get_page_info (&y_dma, (unsigned long)args->y_source, 720 * y_d=
-ecode_height);
- 	ivtv_udma_get_page_info (&uv_dma, (unsigned long)args->uv_source, 360 * u=
-v_decode_height);
-=20
--	/* Get user pages for DMA Xfer */
--	y_pages =3D get_user_pages_unlocked(y_dma.uaddr,
-+	/* Pin user pages for DMA Xfer */
-+	y_pages =3D pin_user_pages_unlocked(y_dma.uaddr,
- 			y_dma.page_count, &dma->map[0], FOLL_FORCE);
- 	uv_pages =3D 0; /* silence gcc. value is set and consumed only if: */
- 	if (y_pages =3D=3D y_dma.page_count) {
--		uv_pages =3D get_user_pages_unlocked(uv_dma.uaddr,
-+		uv_pages =3D pin_user_pages_unlocked(uv_dma.uaddr,
- 				uv_dma.page_count, &dma->map[y_pages],
- 				FOLL_FORCE);
- 	}
-@@ -81,8 +80,7 @@ static int ivtv_yuv_prep_user_dma(struct ivtv *itv, struc=
-t ivtv_user_dma *dma,
- 				 uv_pages, uv_dma.page_count);
-=20
- 			if (uv_pages >=3D 0) {
--				for (i =3D 0; i < uv_pages; i++)
--					put_page(dma->map[y_pages + i]);
-+				unpin_user_pages(&dma->map[y_pages], uv_pages);
- 				rc =3D -EFAULT;
- 			} else {
- 				rc =3D uv_pages;
-@@ -93,8 +91,7 @@ static int ivtv_yuv_prep_user_dma(struct ivtv *itv, struc=
-t ivtv_user_dma *dma,
- 				 y_pages, y_dma.page_count);
- 		}
- 		if (y_pages >=3D 0) {
--			for (i =3D 0; i < y_pages; i++)
--				put_page(dma->map[i]);
-+			unpin_user_pages(dma->map, y_pages);
- 			/*
- 			 * Inherit the -EFAULT from rc's
- 			 * initialization, but allow it to be
-@@ -112,9 +109,7 @@ static int ivtv_yuv_prep_user_dma(struct ivtv *itv, str=
-uct ivtv_user_dma *dma,
- 	/* Fill & map SG List */
- 	if (ivtv_udma_fill_sg_list (dma, &uv_dma, ivtv_udma_fill_sg_list (dma, &y=
-_dma, 0)) < 0) {
- 		IVTV_DEBUG_WARN("could not allocate bounce buffers for highmem userspace=
- buffers\n");
--		for (i =3D 0; i < dma->page_count; i++) {
--			put_page(dma->map[i]);
--		}
-+		unpin_user_pages(dma->map, dma->page_count);
- 		dma->page_count =3D 0;
- 		return -ENOMEM;
- 	}
-diff --git a/drivers/media/pci/ivtv/ivtvfb.c b/drivers/media/pci/ivtv/ivtvf=
-b.c
-index 0c2859844081..e2d56dca5be4 100644
---- a/drivers/media/pci/ivtv/ivtvfb.c
-+++ b/drivers/media/pci/ivtv/ivtvfb.c
-@@ -281,10 +281,10 @@ static int ivtvfb_prep_dec_dma_to_device(struct ivtv =
-*itv,
- 	/* Map User DMA */
- 	if (ivtv_udma_setup(itv, ivtv_dest_addr, userbuf, size_in_bytes) <=3D 0) =
-{
- 		mutex_unlock(&itv->udma.lock);
--		IVTVFB_WARN("ivtvfb_prep_dec_dma_to_device, Error with get_user_pages: %=
-d bytes, %d pages returned\n",
-+		IVTVFB_WARN("ivtvfb_prep_dec_dma_to_device, Error with pin_user_pages: %=
-d bytes, %d pages returned\n",
- 			       size_in_bytes, itv->udma.page_count);
-=20
--		/* get_user_pages must have failed completely */
-+		/* pin_user_pages must have failed completely */
- 		return -EIO;
- 	}
-=20
---=20
-2.26.2
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
 
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
