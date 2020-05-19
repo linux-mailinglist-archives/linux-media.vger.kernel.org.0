@@ -2,58 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB1351D953D
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 13:25:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F00BA1D95AB
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 13:51:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726595AbgESLZN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 07:25:13 -0400
-Received: from mga12.intel.com ([192.55.52.136]:15477 "EHLO mga12.intel.com"
+        id S1728691AbgESLvN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 07:51:13 -0400
+Received: from mga07.intel.com ([134.134.136.100]:15818 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726157AbgESLZM (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 07:25:12 -0400
-IronPort-SDR: K4dfbNArHqOzyoUZhPPHPkTFy7NpwPyRgEZ/aO9df4LEPUcsA+J8G0GGLw2wyLGgesbpQqlU9l
- 78Ol5OOx7tVg==
+        id S1726880AbgESLvN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 May 2020 07:51:13 -0400
+IronPort-SDR: 8BVxFzWq5czlc5DqfUJUBCOCpUg4yAJQ50dkpFeS4N5I7B/sTt13A6RlCHqJKVIcbJ/BS0mjEU
+ EpVVSRa3TyNA==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 04:25:12 -0700
-IronPort-SDR: 9nyzWw96Ht9HgVs+FIaBB/ib8ZHFnTmvOEKZhRtmNVXpwo2Eb8N9URJGfutCvVjT+c7YVlObUS
- 8G5efdz+hKWA==
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 04:51:12 -0700
+IronPort-SDR: AnY//32YLbelSgs7Tx6USgNj/zyg3fy8LBnHosoRWIWCL81pNMywog2n8l8xb++psXhjnNMvDM
+ t5s2pJPdXOiA==
 X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; 
-   d="scan'208";a="282293485"
+   d="scan'208";a="373704897"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 04:25:11 -0700
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 04:51:08 -0700
 Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 5720220CEF; Tue, 19 May 2020 14:25:09 +0300 (EEST)
-Date:   Tue, 19 May 2020 14:25:09 +0300
+        id C497F20CEF; Tue, 19 May 2020 14:51:06 +0300 (EEST)
+Date:   Tue, 19 May 2020 14:51:06 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v3 1/1] Documentation: media: Refer to mbus format
- documentation from CSI-2 docs
-Message-ID: <20200519112509.GH20066@paasikivi.fi.intel.com>
-References: <20200519112136.6122-1-sakari.ailus@linux.intel.com>
- <e5efc462-ff47-e6d4-8395-8786a68ac794@xs4all.nl>
+To:     Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Luis Oliveira <lolivei@synopsys.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, Jacopo Mondi <jacopo@jmondi.org>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Adam Ford <aford173@gmail.com>,
+        Todor Tomov <todor.tomov@linaro.org>,
+        Suresh Udipi <sudipi@jp.adit-jv.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>
+Subject: Re: [PATCH v2 5/6] media: dt-bindings: ov5647: Add property for PWDN
+ control
+Message-ID: <20200519115106.GI20066@paasikivi.fi.intel.com>
+References: <cover.1589850165.git.roman.kovalivskyi@globallogic.com>
+ <c81da93a9aa97c3cfd208a84d0391c856e5fcbcd.1589850165.git.roman.kovalivskyi@globallogic.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e5efc462-ff47-e6d4-8395-8786a68ac794@xs4all.nl>
+In-Reply-To: <c81da93a9aa97c3cfd208a84d0391c856e5fcbcd.1589850165.git.roman.kovalivskyi@globallogic.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 19, 2020 at 01:23:51PM +0200, Hans Verkuil wrote:
-> On 19/05/2020 13:21, Sakari Ailus wrote:
-> > The media bus formats to be used on serial busses are documented but there
-> > was no reference from CSI-2 documentation. Add that now.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Hi Roman,
 
-Thanks!
+On Tue, May 19, 2020 at 04:16:20AM +0300, Roman Kovalivskyi wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> 
+> Add optional GPIO pwdn to connect to the PWDN line on the sensor.
+> 
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> Signed-off-by: Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+
+This patch should precede the corresponding driver patch.
 
 -- 
 Sakari Ailus
