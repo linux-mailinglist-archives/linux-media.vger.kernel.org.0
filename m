@@ -2,59 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40A301D9197
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 10:03:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3DD71D91B1
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 10:08:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728388AbgESIDZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 04:03:25 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:41114 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726943AbgESIDZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 04:03:25 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jaxAC-00Dpcr-W8; Tue, 19 May 2020 07:59:48 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jaxFd-0004Jy-4J; Tue, 19 May 2020 08:05:25 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.8] move rockchip dphy rx0 bindings out of staging (#63916)
-Date:   Tue, 19 May 2020 08:05:24 +0000
-Message-Id: <20200519080524.16567-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <8de4c526-ef2c-51db-ac5f-17a240612df7@xs4all.nl>
-References: 
+        id S1728615AbgESIGd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 04:06:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53378 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728611AbgESIGc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 May 2020 04:06:32 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EEF1C061A0C;
+        Tue, 19 May 2020 01:06:32 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id f6so6041751pgm.1;
+        Tue, 19 May 2020 01:06:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=uQMpGjbYoWk8uaOr+TgHDPlcC+gHeyUprHQUVNojJpI=;
+        b=JtDAr4x6+sGs4Vho3Ks43qUAaQFgbO23DZUISshK5z95XihBDafEDULQwQ1ucUC7sf
+         Zqv4gdaUjvsmfe5iA9ArvtRv5uykcljqPZMZP1LUnmjLe5p/4oVXTtlSIbycFIa72M+D
+         oAT8bh4IsfuppPwFyLj2oD/n3NChc9bdFWhei2ZtnyxC7QSuHmWFaDADXV13M8AbR6WH
+         tNmbYTBO8hGeXSN11nBS2i+QFBpHb2Aa8YHYv/6l6qbIck4Rf1wI2gDSCiAE08Wyr4q+
+         b997nnz1a/jdxgc5hHi1U/gbvNYhEw2Ajb70eDGR82MC45S2d7nMSvFdGsmLVak5megp
+         5Pvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=uQMpGjbYoWk8uaOr+TgHDPlcC+gHeyUprHQUVNojJpI=;
+        b=lZTXBWqAnU26qloe4vLj4/qk6cUMDIKNEGNUnMtDBklbevSc0jEJYPpQIjKliNrsTy
+         auo9OSsetQefrbPR5pbqGF6NuMiwi29cxBMKV1yvExQXINUb9u1CSjS/ftVzBUYyLWlo
+         bDWY0uFDE4Ab8fT8Tt0FXRCjc0hJdIpt7EATT1XPGF4xn7KDczIeSXvqDsaR+DtJPYXs
+         FteqIHp/y//taC3+mVAkw1IA4rFclvjCWidlXWe7ZTyTH6QLCX5iYh2xcqz53w8G2Zp7
+         2bgVqDAUxJtKLYCL2on4zDU4sokLvG5Y5UQjI2Hx/rF5isAgR0uvIxLQu9M4waxAtzU0
+         lLwQ==
+X-Gm-Message-State: AOAM532PV7hsqsUyRWESrc8jRIyo0/YiVjDeNtYVZO1P05zWjCdjjF7i
+        nFhz+vOB9U8CPldyr2nX3OTaz2pk
+X-Google-Smtp-Source: ABdhPJzMM6CxEuSd8Yc1s6dUx2b6h5j5Ni7eBCPNcPreIEshV2siHmyTbYzNoXiqPPbi776cSf1WTQ==
+X-Received: by 2002:a63:3546:: with SMTP id c67mr17968004pga.379.1589875591626;
+        Tue, 19 May 2020 01:06:31 -0700 (PDT)
+Received: from localhost ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
+        by smtp.gmail.com with ESMTPSA id p4sm1985920pff.159.2020.05.19.01.06.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 May 2020 01:06:30 -0700 (PDT)
+Date:   Tue, 19 May 2020 17:06:28 +0900
+From:   Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 00/14] Implement V4L2_BUF_FLAG_NO_CACHE_* flags
+Message-ID: <20200519080628.GB161827@google.com>
+References: <20200514160153.3646-1-sergey.senozhatsky@gmail.com>
+ <3fee9a3d-30fe-826a-7a36-b4c9720a94db@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3fee9a3d-30fe-826a-7a36-b4c9720a94db@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Hi Hans,
 
-Pull request: https://patchwork.linuxtv.org/patch/63916/
-Build log: https://builder.linuxtv.org/job/patchwork/51603/
-Build time: 00:14:46
-Link: https://lore.kernel.org/linux-media/8de4c526-ef2c-51db-ac5f-17a240612df7@xs4all.nl
+On (20/05/18 17:18), Hans Verkuil wrote:
+> Hi Sergey,
+> 
+> On 14/05/2020 18:01, Sergey Senozhatsky wrote:
+> > Hello
+> > 
+> > v6 changes:
+> > The design has been slightly reworked. The cache-hints capability has
+> > been renamed to SUPPORTS_MMAP_CACHE_HINTS and is reported for all queues
+> > that support MMAP and allow cache hints. However, the actual hints and
+> > memory consistency are ignored unless the queue is used for the MMAP
+> > streaming I/O. Plus some cleanups, documentation updates, and so on.
+> 
+> This looks good. If there are no new comments then I plan to make a PR for 5.9 in
+> two weeks.
+> 
+> Thank you for all your work on this!
 
-gpg: Signature made Tue 19 May 2020 07:43:23 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Hans, Tomasz, Ezequiel, thanks for all the help and guidance.
 
-Summary: 2 patches and/or PDF generation with issues, being 0 at build time
-
-Error/warnings:
-
-
-Error #256 when running cat patches/0002-dt-bindings-phy-phy-rockchip-dphy-rx0-move-rockchip-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
-$ cat patches/0002-dt-bindings-phy-phy-rockchip-dphy-rx0-move-rockchip-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
--:6: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
--:17: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
+	-ss
