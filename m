@@ -2,75 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F28251DA164
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 21:53:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D8E8E1DA231
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 22:03:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727990AbgESTxE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 15:53:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56896 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727854AbgESTxB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 15:53:01 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0BCD3207E8;
-        Tue, 19 May 2020 19:53:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589917981;
-        bh=rdizb6054sUWQ6fZD+89J2wGwwMQkGnOG0/yiHK/LbE=;
-        h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-        b=ZKhevx5QN2OPN7XottC5bZLJlVfh5Rg8EfQxBPu3lxMvDVX6sXczyiVzISI71VjLL
-         k1gSSXozLucDwKGyaSo4zyvh8jAmRxyTB9p8TSuGonDZnKCHl2NKFO4P5U1DuCHRqZ
-         DNn+LI1kutOg3GO4GnQIaJA4Ody/rIKlZmAUjl1k=
-Date:   Tue, 19 May 2020 20:52:58 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Liam Girdwood <lgirdwood@gmail.com>,
-        Lubomir Rintel <lkundrak@v3.sk>
-Cc:     Michael Turquette <mturquette@baylibre.com>,
-        linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-        Stephen Boyd <sboyd@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-In-Reply-To: <20200511210134.1224532-2-lkundrak@v3.sk>
-References: <20200511210134.1224532-1-lkundrak@v3.sk> <20200511210134.1224532-2-lkundrak@v3.sk>
-Subject: Re: [PATCH 01/11] ASoC: mmp-sspa: Flip SNDRV_PCM_FMTBIT_S24_3LE on
-Message-Id: <158991797896.23137.453146749205778028.b4-ty@kernel.org>
+        id S1728073AbgESUDE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 16:03:04 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:10958 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726545AbgESUDD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 May 2020 16:03:03 -0400
+Received: from hqpgpgate102.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ec43b280001>; Tue, 19 May 2020 13:01:44 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate102.nvidia.com (PGP Universal service);
+  Tue, 19 May 2020 13:03:03 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate102.nvidia.com on Tue, 19 May 2020 13:03:03 -0700
+Received: from [10.2.90.179] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 May
+ 2020 20:03:02 +0000
+Subject: Re: [PATCH] tee: convert convert get_user_pages() -->
+ pin_user_pages()
+To:     LKML <linux-kernel@vger.kernel.org>
+CC:     Jens Wiklander <jens.wiklander@linaro.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        <tee-dev@lists.linaro.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
+References: <20200519051850.2845561-1-jhubbard@nvidia.com>
+X-Nvconfidentiality: public
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <ad103c96-0b84-97cd-48eb-67f5e01e0349@nvidia.com>
+Date:   Tue, 19 May 2020 13:03:02 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+MIME-Version: 1.0
+In-Reply-To: <20200519051850.2845561-1-jhubbard@nvidia.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1589918504; bh=I+orG+7rEdCJPZjUgf5aOsrGlbkMUn9fDowKMSsoZ2g=;
+        h=X-PGP-Universal:Subject:To:CC:References:X-Nvconfidentiality:From:
+         Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+         X-Originating-IP:X-ClientProxiedBy:Content-Type:Content-Language:
+         Content-Transfer-Encoding;
+        b=OeA0URDdDEoYmrSyeZbmNSjYkOHX/p9wy63Apbm2XjDHgq3miJl/i0na08Vfn43RI
+         YJi/E7JgJgoXCBwYik7RTdeSvY0bKSpoOinqqc+CK+NUow8VpXp3nz1wbytGFfkjN1
+         /2PyM61mbRSTw5aBh2po+7pSRo9zdFS3H+0b+8b7EHERtfPNskX7FcDvsyA2sWwjHg
+         jAor6efO7gcQ8b6mDVRwikI8RefZr+5pssUoEpJQ3UMBkBTqLknnxmMKSilKMNGQos
+         Pj5dDsBREkofQTJtBKeQFyv7wSW2CWQi7c09i+a2cQ0twqJbn0N6hitYffyPmO4hRw
+         XOflF6r7EqEXw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 11 May 2020 23:01:24 +0200, Lubomir Rintel wrote:
-> The hw_params() callback handles the 3-byte format, not
-> SNDRV_PCM_FMTBIT_S24_LE.
+On 2020-05-18 22:18, John Hubbard wrote:
+> This code was using get_user_pages*(), in a "Case 2" scenario
+> (DMA/RDMA), using the categorization from [1]. That means that it's
+> time to convert the get_user_pages*() + put_page() calls to
+> pin_user_pages*() + unpin_user_pages() calls.
+> 
 
-Applied to
+Looks like I accidentally doubled a word on the subject line:
+"convert convert". :)
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git for-5.8
+I'd appreciate it a maintainer could remove one of those for
+me, while applying the patch, assuming that we don't need a
+v2 for other reasons.
 
-Thanks!
 
-[1/2] ASoC: Add Marvell MMP SSPA binding
-      commit: d81bb8726c247c3e7719d21bf213c5400de29e03
-[2/2] ASoC: mmp-sspa: Add Device Tree support
-      commit: a97e384ba78fd8bf7ba8c32718424d8a7536416e
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
+thanks,
+-- 
+John Hubbard
+NVIDIA
