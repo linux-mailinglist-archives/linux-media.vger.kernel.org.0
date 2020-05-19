@@ -2,109 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 039471D9171
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 09:52:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2B5A1D9180
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 09:57:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728668AbgESHwq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 03:52:46 -0400
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:32973 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727057AbgESHwq (ORCPT
+        id S1728515AbgESH4K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 03:56:10 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:57569 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728439AbgESH4K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 03:52:46 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 948E1E0003;
-        Tue, 19 May 2020 07:52:43 +0000 (UTC)
-Date:   Tue, 19 May 2020 09:56:01 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     sakari.ailus@iki.fi, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH] fixes! [max9286]: Validate link formats
-Message-ID: <20200519075601.wdykflbxgvqvfl3x@uno.localdomain>
-References: <e898b72f-f793-6c0d-27a8-5a34c61f763e@ideasonboard.com>
- <20200518161159.2185855-1-kieran.bingham+renesas@ideasonboard.com>
+        Tue, 19 May 2020 03:56:10 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id ax6aj0jpntKAsax6ejPLXs; Tue, 19 May 2020 09:56:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1589874968; bh=af6uyNGBX294+loJXQvBmBMWU8SIJH1yzuokUpZVrPE=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=vHPA+j83VKFVjAf4BvJkXpu/wlBDV0+9RzsEMyZw5Y8yzZ1rS5e2pUscfPgGVvyKQ
+         e8/zOHwbRBt8YyuXBDGc1waPAKZ7xRnBUwipMnXUvr27D3ngSRYIfLwfSiRI/Fbl2P
+         9zGyYX120raEm0R0gEOzfPeMZA6a5bryTqclAtox/w47yGxqVAncmOFjL0V+unGy6i
+         jXOCjpeJar4wBYgVcMh42kd32PGE6anj4Fq3zp6bGMVwiUbIk2io6cd5mQZFh7U7nr
+         7dEb/emB7IN2EZL29YLzR4ISaiVG7Yex2vyF42dEfJETJlI+Y8+EbNytD+4FLkt4aV
+         WfhZl+ju96/sQ==
+Subject: Re: [PATCH 1/1] Documentation: media: Document media bus codes to use
+ on serial busses
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com
+References: <20200519072148.28071-1-sakari.ailus@linux.intel.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <aede80cc-f891-c861-8ba3-f733088e5694@xs4all.nl>
+Date:   Tue, 19 May 2020 09:56:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
+In-Reply-To: <20200519072148.28071-1-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200518161159.2185855-1-kieran.bingham+renesas@ideasonboard.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfNPYQXXxmmJLMW7xaXe2Vo8A3OfHxt7VNYFq/Tp5Fd4jvavSLc5QUioj66VZnDr1FEQOZYZ42Zx+fhw4nJ/RM0083NdqTh0GtkapE7FoSFvDnBCXRVxZ
+ OeXKc4aps8cozIQ2E49oEiogBj+PBIpla0OgrE75xGzdu4K0Sag4y7wy3V6zfbakbdXN1NXkWlHJAs1u6QOwbE7b0bFBZvtTJaSq0FAlk6CKU1UfAJazNMCJ
+ Gh5fVohUOoo8yLEgfztOJBO0nJXC31hqgur47o7jP28=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
-
-On Mon, May 18, 2020 at 05:11:59PM +0100, Kieran Bingham wrote:
-> Disallow setting a format on the source link, but enable link validation
-> by returning the format of the first bound source when getting the
-> format of the source pad.
->
-> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+On 19/05/2020 09:21, Sakari Ailus wrote:
+> Document media bus codes on serial busses. The single sample per pixel
+> variant is to be chosen from all the possible variants. While this has
+> been the practice since the introduction of CSI-2 support, it never was
+> written down. Do it now.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  drivers/media/i2c/max9286.c | 17 +++++++++++++----
->  1 file changed, 13 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index ef824d2b26b8..6c01595936d7 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -711,7 +711,10 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
->  	struct max9286_priv *priv = sd_to_max9286(sd);
->  	struct v4l2_mbus_framefmt *cfg_fmt;
->
-> -	if (format->pad >= MAX9286_SRC_PAD)
-> +	/* \todo: Multiplexed streams support
+>  Documentation/driver-api/media/csi2.rst | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+> 
+> diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/csi2.rst
+> index da8b356389f0..af078ac927bd 100644
+> --- a/Documentation/driver-api/media/csi2.rst
+> +++ b/Documentation/driver-api/media/csi2.rst
+> @@ -10,6 +10,16 @@ the host SoC. It is defined by the `MIPI alliance`_.
+>  
+>  .. _`MIPI alliance`: http://www.mipi.org/
+>  
+> +Media bus formats
+> +-----------------
+> +
+> +Always use single sample per pixel formats on the CSI-2 bus.
+> +
+> +No new media bus formats were created when the support for serial busses were
 
-I know where \todo comes from, but it's usually TODO.
-Also
-        /*
-         * TODO:
+busses -> buses
 
-if the comment is multiline
+(actually, both spellings are used in about equal measures in the kernel, but
+the official spelling is 'buses').
 
-> +	 * Prevent setting the format on the shared multiplexed bus.
-> +	 */
-> +	if (format->pad == MAX9286_SRC_PAD)
->  		return -EINVAL;
->
->  	/* Refuse non YUV422 formats as we hardcode DT to 8 bit YUV422 */
-> @@ -743,11 +746,17 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
->  {
->  	struct max9286_priv *priv = sd_to_max9286(sd);
->  	struct v4l2_mbus_framefmt *cfg_fmt;
-> +	unsigned int pad = format->pad;
->
-> -	if (format->pad >= MAX9286_SRC_PAD)
-> -		return -EINVAL;
-> +	/* \todo: Multiplexed Stream Support
-> +	 * Support link validation by returning the format of the first bound
-> +	 * link. All links must have the same format, as we do not support
-> +	 * mixing, and matching of cameras connected to the max9286.
-> +	 */
-> +	if (format->pad == MAX9286_SRC_PAD)
+were -> was
 
-You can use pad
+(the support was added, 'support' is singular)
 
-> +		pad = ffs(priv->bound_sources);
->
-> -	cfg_fmt = max9286_get_pad_format(priv, cfg, format->pad, format->which);
-> +	cfg_fmt = max9286_get_pad_format(priv, cfg, pad, format->which);
+> +added. To avoid using different media bus codes to describe the same format, the
+> +practice is to use a format that has a single sample per pixel on the parallel
+> +bus.
 
-Or you could add one entry to struct max9286_priv.fmt for the source
-pad format, set the format there when is set on one sink, and just
-drop the check on the pad index in get_fmt. Up to you.
+To be honest, I'm confused by this text. Probably because I don't know enough
+about CSI. I'm not really sure what you mean with 'single sample per pixel'.
 
-Please squash in v10
+Regards,
 
-Thanks
-  j
+	Hans
 
->  	if (!cfg_fmt)
->  		return -EINVAL;
->
-> --
-> 2.25.1
->
+> +
+>  Transmitter drivers
+>  -------------------
+>  
+> 
+
