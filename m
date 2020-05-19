@@ -2,100 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7030F1D913A
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 09:42:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 616601D9142
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 09:45:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727987AbgESHmh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 03:42:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49628 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726893AbgESHmh (ORCPT
+        id S1728494AbgESHpA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 03:45:00 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:58833 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725996AbgESHo7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 03:42:37 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 995B2C05BD0A
-        for <linux-media@vger.kernel.org>; Tue, 19 May 2020 00:42:36 -0700 (PDT)
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:918e:b928:22c1:d715])
-        by andre.telenet-ops.be with bizsmtp
-        id gXiW2200Q4CPMDc01XiWgj; Tue, 19 May 2020 09:42:34 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jawtS-0008Ff-GR; Tue, 19 May 2020 09:42:30 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jawtS-0005qr-Dv; Tue, 19 May 2020 09:42:30 +0200
-From:   Geert Uytterhoeven <geert+renesas@glider.be>
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] dt-bindings: media: Add missing clock domain description
-Date:   Tue, 19 May 2020 09:42:29 +0200
-Message-Id: <20200519074229.22308-1-geert+renesas@glider.be>
-X-Mailer: git-send-email 2.17.1
+        Tue, 19 May 2020 03:44:59 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id awvmj0dyNtKAsawvqjPFlP; Tue, 19 May 2020 09:44:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1589874298; bh=US7x2zFnszlTJLEyKr/sGvnjG56WYqkMaLAeyUrPh5s=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=tDsR5GqDPjzyGpTv/4/oyi4L5uYPXnyjiJvDy8YTDfj0ajveLkPZJBVrDD7DBDbWL
+         Ch1o/n2KNQBz34aA/i4t1QoekOo6T6vtBdSL/X/7EnZqtJF8+8uqPM0g7ZPUXkg00N
+         O8nNWam/Rgw6lmIxL7YT5yfJO0UsCjYo8crdbGd/haXytfQiTBO2auev1Vv7zfI2tp
+         cK/T7HTji8MEnyhMdJazikRX5+lmg6Zs5h9nqku/Y06SXJI18/BFoFohcN0GSmPniO
+         SJRAT/AHLvrnPtq30bIexKXnrQ1W9KSc27mZBRAghf7MCu7UvBoZdxC8lFFCZSRVZm
+         1c8n5rjXH/KuA==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Helen Koike <helen.koike@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.8] move rockchip dphy rx0 bindings out of staging
+Message-ID: <8de4c526-ef2c-51db-ac5f-17a240612df7@xs4all.nl>
+Date:   Tue, 19 May 2020 09:44:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfNjG2RkaTuTG/YINdfevc09uKG8quNejl4Xdzrn2jzW1onvjHgabVLQtDEMdnM8rhgWB2vYYtmMeFYYwdpuj/5J2h2gJR+V2ym8VKS0Fcc63UUWix57t
+ a++XFu424a0CO4ga02gHRg6Eflu4MoXzAOjbG/F7N3qfEuV4rhVE6ZfD4l8DmrvlG5HYWpC0ONLYk0Y3wtaDwrBoxPo+Lmgkt2NHJTS/h1xtsBygbnudNK3N
+ VB5qPnxHubzw3M3EN9/vOA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-make dtbs_check:
+As requested by Ezequiel.
 
-    arch/arm/boot/dts/r7s72100-genmai.dt.yaml: camera@e8210000: 'clocks', 'power-domains' do not match any of the regexes: 'pinctrl-[0-9]+'
+Regards,
 
-Fix this by documenting the missing properties.
-Update the example to match reality.
+	Hans
 
-Fixes: 7f464532b05dadc8 ("dt-bindings: Add missing 'additionalProperties: false'")
-Fixes: 58361eaa11d561f3 ("dt-bindings: media: renesas,ceu: Convert to yaml")
-Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- .../devicetree/bindings/media/renesas,ceu.yaml        | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+The following changes since commit ad3a44cbd1b2e1559c6b93e80dc0c9c29632969a:
 
-diff --git a/Documentation/devicetree/bindings/media/renesas,ceu.yaml b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-index f2393458814ee08f..c7e1e4fe67e6696b 100644
---- a/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-@@ -27,6 +27,12 @@ properties:
-   interrupts:
-     maxItems: 1
- 
-+  clocks:
-+    maxItems: 1
-+
-+  power-domains:
-+    maxItems: 1
-+
-   port:
-     type: object
-     additionalProperties: false
-@@ -57,6 +63,8 @@ required:
-   - compatible
-   - reg
-   - interrupts
-+  - clocks
-+  - power-domains
-   - port
- 
- additionalProperties: false
-@@ -64,11 +72,14 @@ additionalProperties: false
- examples:
-   - |
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/clock/r7s72100-clock.h>
- 
-     ceu: ceu@e8210000 {
-         reg = <0xe8210000 0x209c>;
-         compatible = "renesas,r7s72100-ceu";
-         interrupts = <GIC_SPI 332 IRQ_TYPE_LEVEL_HIGH>;
-+        clocks = <&mstp6_clks R7S72100_CLK_CEU>;
-+        power-domains = <&cpg_clocks>;
- 
-         port {
-             ceu_in: endpoint {
--- 
-2.17.1
+  media: i2c: imx219: Parse and register properties (2020-05-18 15:37:16 +0200)
 
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.8j
+
+for you to fetch changes up to dd65421c7353b1d31804902630db88ada8eecff9:
+
+  dt-bindings: phy: phy-rockchip-dphy-rx0: move rockchip dphy rx0 bindings out of staging (2020-05-18 18:48:00 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Helen Koike (2):
+      media: staging: dt-bindings: phy-rockchip-dphy-rx0: remove non-used reg property
+      dt-bindings: phy: phy-rockchip-dphy-rx0: move rockchip dphy rx0 bindings out of staging
+
+ .../Documentation => Documentation}/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml                   | 3 ---
+ 1 file changed, 3 deletions(-)
+ rename {drivers/staging/media/phy-rockchip-dphy-rx0/Documentation => Documentation}/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml (98%)
