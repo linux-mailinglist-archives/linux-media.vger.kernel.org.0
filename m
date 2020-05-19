@@ -2,93 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3DD71D91B1
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 10:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35AD61D91C1
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 10:11:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728615AbgESIGd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 04:06:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53378 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728611AbgESIGc (ORCPT
+        id S1728359AbgESIKi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 04:10:38 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:46684 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726892AbgESIKh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 04:06:32 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EEF1C061A0C;
-        Tue, 19 May 2020 01:06:32 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id f6so6041751pgm.1;
-        Tue, 19 May 2020 01:06:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=uQMpGjbYoWk8uaOr+TgHDPlcC+gHeyUprHQUVNojJpI=;
-        b=JtDAr4x6+sGs4Vho3Ks43qUAaQFgbO23DZUISshK5z95XihBDafEDULQwQ1ucUC7sf
-         Zqv4gdaUjvsmfe5iA9ArvtRv5uykcljqPZMZP1LUnmjLe5p/4oVXTtlSIbycFIa72M+D
-         oAT8bh4IsfuppPwFyLj2oD/n3NChc9bdFWhei2ZtnyxC7QSuHmWFaDADXV13M8AbR6WH
-         tNmbYTBO8hGeXSN11nBS2i+QFBpHb2Aa8YHYv/6l6qbIck4Rf1wI2gDSCiAE08Wyr4q+
-         b997nnz1a/jdxgc5hHi1U/gbvNYhEw2Ajb70eDGR82MC45S2d7nMSvFdGsmLVak5megp
-         5Pvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=uQMpGjbYoWk8uaOr+TgHDPlcC+gHeyUprHQUVNojJpI=;
-        b=lZTXBWqAnU26qloe4vLj4/qk6cUMDIKNEGNUnMtDBklbevSc0jEJYPpQIjKliNrsTy
-         auo9OSsetQefrbPR5pbqGF6NuMiwi29cxBMKV1yvExQXINUb9u1CSjS/ftVzBUYyLWlo
-         bDWY0uFDE4Ab8fT8Tt0FXRCjc0hJdIpt7EATT1XPGF4xn7KDczIeSXvqDsaR+DtJPYXs
-         FteqIHp/y//taC3+mVAkw1IA4rFclvjCWidlXWe7ZTyTH6QLCX5iYh2xcqz53w8G2Zp7
-         2bgVqDAUxJtKLYCL2on4zDU4sokLvG5Y5UQjI2Hx/rF5isAgR0uvIxLQu9M4waxAtzU0
-         lLwQ==
-X-Gm-Message-State: AOAM532PV7hsqsUyRWESrc8jRIyo0/YiVjDeNtYVZO1P05zWjCdjjF7i
-        nFhz+vOB9U8CPldyr2nX3OTaz2pk
-X-Google-Smtp-Source: ABdhPJzMM6CxEuSd8Yc1s6dUx2b6h5j5Ni7eBCPNcPreIEshV2siHmyTbYzNoXiqPPbi776cSf1WTQ==
-X-Received: by 2002:a63:3546:: with SMTP id c67mr17968004pga.379.1589875591626;
-        Tue, 19 May 2020 01:06:31 -0700 (PDT)
-Received: from localhost ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
-        by smtp.gmail.com with ESMTPSA id p4sm1985920pff.159.2020.05.19.01.06.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 May 2020 01:06:30 -0700 (PDT)
-Date:   Tue, 19 May 2020 17:06:28 +0900
-From:   Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
+        Tue, 19 May 2020 04:10:37 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 45B65634C87;
+        Tue, 19 May 2020 11:10:19 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jaxKN-000167-9K; Tue, 19 May 2020 11:10:19 +0300
+Date:   Tue, 19 May 2020 11:10:19 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 00/14] Implement V4L2_BUF_FLAG_NO_CACHE_* flags
-Message-ID: <20200519080628.GB161827@google.com>
-References: <20200514160153.3646-1-sergey.senozhatsky@gmail.com>
- <3fee9a3d-30fe-826a-7a36-b4c9720a94db@xs4all.nl>
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
+Message-ID: <20200519081019.GB3877@valkosipuli.retiisi.org.uk>
+References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200512155105.1068064-3-kieran.bingham+renesas@ideasonboard.com>
+ <20200516215103.GA857@valkosipuli.retiisi.org.uk>
+ <930009cd-d887-752a-4f1f-567c795101ee@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3fee9a3d-30fe-826a-7a36-b4c9720a94db@xs4all.nl>
+In-Reply-To: <930009cd-d887-752a-4f1f-567c795101ee@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Kieran,
 
-On (20/05/18 17:18), Hans Verkuil wrote:
-> Hi Sergey,
+On Mon, May 18, 2020 at 12:45:18PM +0100, Kieran Bingham wrote:
+> Hi Sakari,
 > 
-> On 14/05/2020 18:01, Sergey Senozhatsky wrote:
-> > Hello
+> There are only fairly minor comments here, fix ups will be included in a
+> v10.
+> 
+> Is there anything major blocking integration?
+
+Not that I can see. But please see my comments below.
+
+> 
+> Regards
+> 
+> Kieran
+> 
+> 
+> 
+> On 16/05/2020 22:51, Sakari Ailus wrote:
+> > Hi Kieran,
 > > 
-> > v6 changes:
-> > The design has been slightly reworked. The cache-hints capability has
-> > been renamed to SUPPORTS_MMAP_CACHE_HINTS and is reported for all queues
-> > that support MMAP and allow cache hints. However, the actual hints and
-> > memory consistency are ignored unless the queue is used for the MMAP
-> > streaming I/O. Plus some cleanups, documentation updates, and so on.
+> > Thanks for the update.
+> > 
+> > On Tue, May 12, 2020 at 04:51:03PM +0100, Kieran Bingham wrote:
+> > 
+> > ...
+> > 
+> >> +static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+> >> +				  struct v4l2_subdev_pad_config *cfg,
+> >> +				  struct v4l2_subdev_mbus_code_enum *code)
+> >> +{
+> >> +	if (code->pad || code->index > 0)
+> >> +		return -EINVAL;
+> >> +
+> >> +	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
+> > 
+> > Why UYVY8_2X8 and not UYVY8_1X16? In general, the single sample / pixel
+> > variant of the format is generally used on the serial busses. This choice
+> > was made when serial busses were introduced.
 > 
-> This looks good. If there are no new comments then I plan to make a PR for 5.9 in
-> two weeks.
+> Ok - I presume this doesn't really have much effect anyway, they just
+> have to match for the transmitter/receiver?
+
+In this case, yes. But it's harder to change later, so let's indeed do that
+now.
+
 > 
-> Thank you for all your work on this!
+> But it makes sense to me, so I'll update to the 1x16 variant.
 
-Hans, Tomasz, Ezequiel, thanks for all the help and guidance.
+...
 
-	-ss
+> 
+> > And as you don't, you also won't know which frequencies are known to be
+> > safe to use. That said, perhaps where this device is used having a random
+> > frequency on that bus could not be an issue. Perhaps.
+> 
+> Does this generate a range? or a list of static supported frequencies?
+> 
+> We configure the pixel clock based upon the number of cameras connected,
+> and their pixel rates etc ...
+> 
+> Are you saying that the frequency of this clock should be validated to
+> be a specific range? or are you talking about a different frequency?
+
+It depends on the system. In general, only frequencies known to be safe
+should be used. If this one has enough shielding to guarantee there won't
+be problems in using a random frequency in the entire range, is there a
+guarantee that will be the case for all systems with this chip?
+
+-- 
+Kind regards,
+
+Sakari Ailus
