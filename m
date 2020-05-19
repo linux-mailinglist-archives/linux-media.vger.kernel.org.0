@@ -2,73 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 927541D9974
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 16:23:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E55E1D9C3E
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 18:17:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729107AbgESOXt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 10:23:49 -0400
-Received: from mga01.intel.com ([192.55.52.88]:15040 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728725AbgESOXt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 10:23:49 -0400
-IronPort-SDR: moXqU/te8TobRbUL9Inv/AR+vGBjzqGfh/ATVeUFDBlDe+xDiVNPneaITpca4kYKE7VGc8OOb/
- /oOq1YcJ26cw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 07:23:31 -0700
-IronPort-SDR: 4BLMKXs6TUymRZTLs9cRKGDwetCFmm5oV05DEDGhEcjMfPV/l1/KSB6Aok+/2ZV9S3V7NGmn5w
- gvLE01oBS1ig==
-X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; 
-   d="scan'208";a="253367282"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 07:23:29 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id E62DA2072F; Tue, 19 May 2020 17:23:26 +0300 (EEST)
-Date:   Tue, 19 May 2020 17:23:26 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>
-Subject: Re: [PATCH 1/1] MAINTAINERS: Mark ov5647 driver as "Orphan"
-Message-ID: <20200519142326.GN20066@paasikivi.fi.intel.com>
-References: <20200519120105.7930-1-sakari.ailus@linux.intel.com>
- <CAPY8ntAjaOFDxnFjg4G0nnfXruw-hoQdPJmLy3kY8M7R-NPBKA@mail.gmail.com>
+        id S1729238AbgESQRW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 12:17:22 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:54842 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728689AbgESQRW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 May 2020 12:17:22 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id C3E642A00A3
+Subject: Re: [PATCH] media: staging: rkisp1: set more precise size errors in
+ debugfs
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org, ezequiel@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, laurent.pinchart@ideasonboard.com
+References: <20200514142102.16111-1-dafna.hirschfeld@collabora.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <d78fd01c-6044-4c09-dc44-9df449eb051e@collabora.com>
+Date:   Tue, 19 May 2020 13:17:13 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPY8ntAjaOFDxnFjg4G0nnfXruw-hoQdPJmLy3kY8M7R-NPBKA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200514142102.16111-1-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+Hi Dafna,
 
-On Tue, May 19, 2020 at 01:31:57PM +0100, Dave Stevenson wrote:
-> Hi Sakari
+Thanks for the patch.
+
+On 5/14/20 11:21 AM, Dafna Hirschfeld wrote:
+> When a size error is signaled, it is possible to read a register
+> to see where the error comes from. So, in debugfs the general
+> error 'pic_size_err' can be replaced with 3 more precise errors.
 > 
-> On Tue, 19 May 2020 at 13:02, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> >
-> > The old maintainer's e-mail address is no longer working. Mark the driver
-> > as orphan.
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  drivers/staging/media/rkisp1/rkisp1-common.h | 4 +++-
+>  drivers/staging/media/rkisp1/rkisp1-dev.c    | 8 ++++++--
+>  drivers/staging/media/rkisp1/rkisp1-isp.c    | 7 ++++++-
+>  3 files changed, 15 insertions(+), 4 deletions(-)
 > 
-> If you're wanting someone to pick up ownership for that one, then I'll
-> volunteer as it is the Pi v1 camera module.
-> We now have it working with libcamera which required a number of
-> extensions and improvements. Those should be upstreamed soon via Ideas
-> On Board.
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
+> index 0c4fe503adc9..95d54306bae6 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
+> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
+> @@ -226,7 +226,9 @@ struct rkisp1_resizer {
+>  struct rkisp1_debug {
+>  	struct dentry *debugfs_dir;
+>  	unsigned long data_loss;
+> -	unsigned long pic_size_error;
+> +	unsigned long outform_size_error;
+> +	unsigned long is_size_error;
 
-Nice!
+I would just do s/is/img_stabilization
 
-Could you send a patch, please? I.e. on top of the master branch, I'll
-abandon this one.
+otherwise it is easy to read it as a verb, and it feels it's a boolean, and not a counter.
 
--- 
+With this:
+
+Acked-by: Helen Koike <helen.koike@collabora.com>
+
 Regards,
+Helen
 
-Sakari Ailus
+> +	unsigned long inform_size_error;
+>  	unsigned long mipi_error;
+>  	unsigned long stats_error;
+>  	unsigned long stop_timeout[2];
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
+> index 9ac38bafb839..2298d3ae5950 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-dev.c
+> +++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
+> @@ -438,8 +438,12 @@ static void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+>  	}
+>  	debugfs_create_ulong("data_loss", 0444, debug->debugfs_dir,
+>  			     &debug->data_loss);
+> -	debugfs_create_ulong("pic_size_error", 0444,  debug->debugfs_dir,
+> -			     &debug->pic_size_error);
+> +	debugfs_create_ulong("outform_size_err", 0444,  debug->debugfs_dir,
+> +			     &debug->outform_size_error);
+> +	debugfs_create_ulong("is_size_error", 0444,  debug->debugfs_dir,
+> +			     &debug->is_size_error);
+> +	debugfs_create_ulong("inform_size_error", 0444,  debug->debugfs_dir,
+> +			     &debug->inform_size_error);
+>  	debugfs_create_ulong("mipi_error", 0444, debug->debugfs_dir,
+>  			     &debug->mipi_error);
+>  	debugfs_create_ulong("stats_error", 0444, debug->debugfs_dir,
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
+> index dc2b59a0160a..a7e5461e25a5 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
+> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
+> @@ -1123,8 +1123,13 @@ void rkisp1_isp_isr(struct rkisp1_device *rkisp1)
+>  	if (status & RKISP1_CIF_ISP_PIC_SIZE_ERROR) {
+>  		/* Clear pic_size_error */
+>  		isp_err = rkisp1_read(rkisp1, RKISP1_CIF_ISP_ERR);
+> +		if (isp_err & RKISP1_CIF_ISP_ERR_INFORM_SIZE)
+> +			rkisp1->debug.inform_size_error++;
+> +		if (isp_err & RKISP1_CIF_ISP_ERR_IS_SIZE)
+> +			rkisp1->debug.is_size_error++;
+> +		if (isp_err & RKISP1_CIF_ISP_ERR_OUTFORM_SIZE)
+> +			rkisp1->debug.outform_size_error++;
+>  		rkisp1_write(rkisp1, isp_err, RKISP1_CIF_ISP_ERR_CLR);
+> -		rkisp1->debug.pic_size_error++;
+>  	} else if (status & RKISP1_CIF_ISP_DATA_LOSS) {
+>  		/* keep track of data_loss in debugfs */
+>  		rkisp1->debug.data_loss++;
+> 
