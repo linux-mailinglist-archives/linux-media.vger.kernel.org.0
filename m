@@ -2,215 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 711EB1D929A
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 10:54:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB28D1D92A6
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 10:55:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728476AbgESIyC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 04:54:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60788 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728419AbgESIyC (ORCPT
+        id S1728573AbgESIzc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 04:55:32 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:55470 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726388AbgESIzb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 04:54:02 -0400
-Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 371CCC061A0C
-        for <linux-media@vger.kernel.org>; Tue, 19 May 2020 01:54:02 -0700 (PDT)
-Received: from lanttu.localdomain (lanttu.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::c1:2])
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTP id 160F3634C87;
-        Tue, 19 May 2020 11:53:45 +0300 (EEST)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
-Subject: [PATCH v2 1/1] Documentation: media: Document how to write camera sensor drivers
-Date:   Tue, 19 May 2020 11:52:50 +0300
-Message-Id: <20200519085250.32318-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
+        Tue, 19 May 2020 04:55:31 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8803B30C;
+        Tue, 19 May 2020 10:55:27 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1589878528;
+        bh=5E5kdHtg8HwlXJSc6jOly3iQtH1Uqe/vd3xbGoNnfJg=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=cPAZTj1i5klrl5mz6J1Kj5Iv817BrE78mWpsTFs/85C0tYwK9Xo6EvU6P0tM5EciH
+         IskEj7HGbJ8mdWqvUt2+0HbHN1e8xgJkgbS/qIT/l+ov3Acc9h9AlpaTj8zjOfbouN
+         PUCe6ZBaua9OfkUMrSdjAJ8TMxRZbokr7UjLV7Z4=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
+To:     Sakari Ailus <sakari.ailus@iki.fi>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
+ <20200512155105.1068064-3-kieran.bingham+renesas@ideasonboard.com>
+ <20200516215103.GA857@valkosipuli.retiisi.org.uk>
+ <930009cd-d887-752a-4f1f-567c795101ee@ideasonboard.com>
+ <20200519081019.GB3877@valkosipuli.retiisi.org.uk>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <8932699a-b321-2308-8903-31268af774cb@ideasonboard.com>
+Date:   Tue, 19 May 2020 09:55:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200519081019.GB3877@valkosipuli.retiisi.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-While we have had some example drivers, there has been up to date no
-formal documentation on how camera sensor drivers should be written; what
-are the practices, why, and where they apply.
+Hi Sakari,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
-since v1:
+On 19/05/2020 09:10, Sakari Ailus wrote:
+> Hi Kieran,
+> 
+> On Mon, May 18, 2020 at 12:45:18PM +0100, Kieran Bingham wrote:
+>> Hi Sakari,
+>>
+>> There are only fairly minor comments here, fix ups will be included in a
+>> v10.
+>>
+>> Is there anything major blocking integration?
+> 
+> Not that I can see. But please see my comments below.
 
-- Added power management documentation.
+Thanks,
 
-The HTML docs are here:
+We might have some more work tidying up the DT validation anyway which
+has come too late, and perhaps is going to bump this to v5.9 now anyway.
 
-<URL:https://www.retiisi.eu/~sailus/v4l2/tmp/doc2/output/>
+I can still try but ... ;-S
 
- .../driver-api/media/camera-sensor.rst        | 129 ++++++++++++++++++
- Documentation/driver-api/media/csi2.rst       |   2 +
- Documentation/driver-api/media/index.rst      |   1 +
- 3 files changed, 132 insertions(+)
- create mode 100644 Documentation/driver-api/media/camera-sensor.rst
+At least hopefully now we /can/ see a path to integration though.
 
-diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-new file mode 100644
-index 000000000000..fa71f07731a0
---- /dev/null
-+++ b/Documentation/driver-api/media/camera-sensor.rst
-@@ -0,0 +1,129 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Writing camera sensor drivers
-+=============================
-+
-+CSI-2
-+-----
-+
-+Please see what is written on :ref:`MIPI_CSI_2`.
-+
-+Handling clocks
-+---------------
-+
-+Camera sensors have an internal clock tree including a PLL and a number of
-+divisors. The clock tree is generally configured by the driver based on a few
-+input parameters that are specific to the hardware:: the external clock frequency
-+and the link frequency. The two parameters generally are obtained from system
-+firmware. No other frequencies should be used in any circumstances.
-+
-+The reason why the clock frequencies are so important is that the clock signals
-+come out of the SoC, and in many cases a specific frequency is designed to be
-+used in the system. Using another frequency may cause harmful effects
-+elsewhere. Therefore only the pre-determined frequencies are configurable by the
-+user.
-+
-+Frame size
-+----------
-+
-+There are two distinct ways to configure the frame size produced by camera
-+sensors.
-+
-+Freely configurable camera sensor drivers
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Freely configurable camera sensor drivers expose the device's internal
-+processing pipeline as one or more sub-devices with different cropping and
-+scaling configurations. The output size of the device is the result of a series
-+of cropping and scaling operations from the device's pixel array's size.
-+
-+An example of such a driver is the smiapp driver (see drivers/media/i2c/smiapp).
-+
-+Register list based drivers
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Register list based drivers generally, instead of able to configure the device
-+they control based on user requests, are limited to a number of preset
-+configurations that combine a number of different parameters that on hardware
-+level are independent. How a driver picks such configuration is based on the
-+format set on a source pad at the end of the device's internal pipeline.
-+
-+Most sensor drivers are implemented this way, see e.g.
-+drivers/media/i2c/imx319.c for an example.
-+
-+Frame interval configuration
-+----------------------------
-+
-+There are two different methods for obtaining possibilities for different frame
-+intervals as well as configuring the frame interval. Which one to implement
-+depends on the type of the device.
-+
-+Raw camera sensors
-+~~~~~~~~~~~~~~~~~~
-+
-+Instead of a high level parameter such as frame interval, the frame interval is
-+a result of the configuration of a number of camera sensor implementation
-+specific parameters. Luckily, these parameters tend to be the same for more or
-+less all modern raw camera sensors.
-+
-+The frame interval is calculated using the following equation::
-+
-+	frame interval = (analogue crop width + horizontal blanking) *
-+			 (analogue crop height + vertical blanking) / pixel rate
-+
-+The formula is bus independent and is applicable for raw timing parameters on
-+large variety of devices beyond camera sensors. Devices that have no analogue
-+crop, use the full source image size, i.e. pixel array size.
-+
-+Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
-+``V4L2_CID_VBLANK``, respectively. The unit of these controls are lines. The
-+pixel rate is specified by ``V4L2_CID_PIXEL_RATE`` in the same sub-device. The
-+unit of that control is Hz.
-+
-+Register list based drivers need to implement read-only sub-device nodes for the
-+purpose. Devices that are not register list based need these to configure the
-+device's internal processing pipeline.
-+
-+The first entity in the linear pipeline is the pixel array. The pixel array may
-+be followed by other entities that are there to allow configuring binning,
-+skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
-+
-+USB cameras etc. devices
-+~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+USB video class hardware, as well as many cameras offering a higher level
-+control interface, generally use the concept of frame interval (or frame rate)
-+on the level of device hardware interface. This means lower level controls
-+exposed by raw cameras may not be used as an interface to control the frame
-+interval on these devices.
-+
-+Power management
-+----------------
-+
-+Always use runtime PM to manage the power states of your device.
-+
-+Existing camera sensor drivers may rely on the old
-+:c:type:`v4l2_subdev_core_ops`->s_power() callback for bridge or ISP drivers to
-+manage their power state. This is however **deprecated**. If you feel you need
-+to begin calling an s_power from an ISP or a bridge driver, instead please add
-+runtime PM support to the sensor driver you are using. Likewise, new drivers
-+should not use s_power.
-+
-+Please see examples in e.g. ``drivers/media/i2c/ov8856.c`` and
-+``drivers/media/i2c/smiapp/smiapp-core.c``. The two drivers work in both ACPI
-+and DT based systems.
-+
-+Control framework
-+~~~~~~~~~~~~~~~~~
-+
-+``v4l2_ctrl_handler_setup()`` function may not be used in the device's runtime PM
-+``resume`` callback currently, as it has no way to figure out the power state of
-+the device. As callback is required to figure out the device's power state, it
-+can only know when the device is fully powered. This can be done using
-+
-+.. c:function::
-+	int pm_runtime_get_if_in_use(struct device *dev);
-+
-+The function returns a non-zero value if it succeeded getting the power count or
-+runtime PM was disabled, in either of which cases the driver may proceed to
-+access the device.
-diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/csi2.rst
-index e111ff7bfd3d..da8b356389f0 100644
---- a/Documentation/driver-api/media/csi2.rst
-+++ b/Documentation/driver-api/media/csi2.rst
-@@ -1,5 +1,7 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+.. _MIPI_CSI_2:
-+
- MIPI CSI-2
- ==========
- 
-diff --git a/Documentation/driver-api/media/index.rst b/Documentation/driver-api/media/index.rst
-index 328350924853..c140692454b1 100644
---- a/Documentation/driver-api/media/index.rst
-+++ b/Documentation/driver-api/media/index.rst
-@@ -34,6 +34,7 @@ Please see:
-     mc-core
-     cec-core
-     csi2
-+    camera-sensor
- 
-     drivers/index
- 
--- 
-2.20.1
+I probably don't care if it's 5.8 or 5.9 as long as it's not 8.5 ;-)
+
+>>
+>> Regards
+>>
+>> Kieran
+>>
+>>
+>>
+>> On 16/05/2020 22:51, Sakari Ailus wrote:
+>>> Hi Kieran,
+>>>
+>>> Thanks for the update.
+>>>
+>>> On Tue, May 12, 2020 at 04:51:03PM +0100, Kieran Bingham wrote:
+>>>
+>>> ...
+>>>
+>>>> +static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
+>>>> +				  struct v4l2_subdev_pad_config *cfg,
+>>>> +				  struct v4l2_subdev_mbus_code_enum *code)
+>>>> +{
+>>>> +	if (code->pad || code->index > 0)
+>>>> +		return -EINVAL;
+>>>> +
+>>>> +	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
+>>>
+>>> Why UYVY8_2X8 and not UYVY8_1X16? In general, the single sample / pixel
+>>> variant of the format is generally used on the serial busses. This choice
+>>> was made when serial busses were introduced.
+>>
+>> Ok - I presume this doesn't really have much effect anyway, they just
+>> have to match for the transmitter/receiver?
+> 
+> In this case, yes. But it's harder to change later, so let's indeed do that
+> now.
+
+Yes indeed, I have to change my test scripts for the new configuration
+(or we should update the scripts to get the configuration from the
+device ;D)
+
+
+>> But it makes sense to me, so I'll update to the 1x16 variant.
+> 
+> ...
+
+done anyway ;-)
+
+I see the ADV748x is using the 2x8 variants though ... (all the more
+reason for our scripts to /get/ the correct version when propagating
+formats).
+
+Perhaps I should/could add the 1x16 formats to the ADV748x too. (later)
+
+
+>>> And as you don't, you also won't know which frequencies are known to be
+>>> safe to use. That said, perhaps where this device is used having a random
+>>> frequency on that bus could not be an issue. Perhaps.
+>>
+>> Does this generate a range? or a list of static supported frequencies?
+>>
+>> We configure the pixel clock based upon the number of cameras connected,
+>> and their pixel rates etc ...
+>>
+>> Are you saying that the frequency of this clock should be validated to
+>> be a specific range? or are you talking about a different frequency?
+> 
+> It depends on the system. In general, only frequencies known to be safe
+> should be used. If this one has enough shielding to guarantee there won't
+> be problems in using a random frequency in the entire range, is there a
+> guarantee that will be the case for all systems with this chip?
+
+I have no idea here... Maybe Niklas knows more having dealt more with
+the RCar-VIN/CSI parts.
+
+It seems like this is something we can add later if necessary, by
+extending the descriptions in the DT?
+
+--
+Kieran
+
 
