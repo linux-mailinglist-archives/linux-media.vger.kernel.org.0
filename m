@@ -2,187 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D7EB1D903F
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 08:46:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A81A81D905A
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 08:54:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727987AbgESGpx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 02:45:53 -0400
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:36105 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726881AbgESGpw (ORCPT
+        id S1728159AbgESGxP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 02:53:15 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:58061 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726841AbgESGxP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 02:45:52 -0400
+        Tue, 19 May 2020 02:53:15 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id aw0Vj0CAPtKAsaw0YjOtUV; Tue, 19 May 2020 08:45:50 +0200
+        id aw7hj0Ey2tKAsaw7kjOvD7; Tue, 19 May 2020 08:53:13 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1589870750; bh=/VOpZ6S5UVapFcGjI/tkSgoLzsnF7u2DxT+PCaSgZAs=;
+        t=1589871193; bh=Ua/Rh1jOjXzr3/TuekSvHN/AoVWwSnLpt91fLWvkvRQ=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=Omln4iNvDCkowrmBrxoFuZxauf8hoieAv2zaw+S8GdfJIUy2C+0tlABUzxF9laSJG
-         4wRjYCEdhtDVornz0427DFDil2/WMpqTydc5WEfToflqmbt2ajRuL/DM16Awy2FN84
-         KipzlqLRrdHacmmUQ+gaHjLFSo+9hs+d/fMSUQSDn32yU2ikdo6GYm5DfNJfdGDhP/
-         l0Tf8KQMsLGXQztWknpwVriPc3DgaOD3pQJOLNslfFjSUOwDqD5YQDyCMAZlths/Cx
-         Ol2s9shMeQkUAd7J9KidLkqUi1Mn6JSurnX43tMOgRkRuRGGx4T5mdpyVEOPgpCAZy
-         G8Xal0LUClUlg==
-Subject: Re: [PATCH] media: v4l2-ctrls: Add encoded frame quality controls
-To:     majja@codeaurora.org, mchehab@kernel.org,
-        paul.kocialkowski@bootlin.com, p.zabel@pengutronix.de,
-        ezequiel@collabora.com, jonas@kwiboo.se,
-        boris.brezillon@collabora.com, posciak@chromium.org,
-        ribalda@kernel.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     tglx@linutronix.de, sumitg@nvidia.com
-References: <1589836035-16579-1-git-send-email-majja@codeaurora.org>
- <11481ef8fcee02aba17ef527c56c78d2@codeaurora.org>
+        b=L+oC/Jmjh2cFpViFqxKFurLG7iiTd+9gLDUXeMbolCH4lXYIiL4ALwmyqG5EZLCnd
+         8mhpwp+PG3Y360zqPOMhNNm/Gc/sKxe5TKNbmwvNArCMiALAFKxNt5nVqC2Edu3gJN
+         k4VCN1C6RoMeySee8kjvUHPA4RO2ho+cJXt5HflxHdAqof/RGTUi69aEbqncNsSd/k
+         rqYk8diCyTv4GdgtSjHOsxAUu8AonrXXVveOhn3k/f91gDTG3jiF3daQJQ+uv42xRj
+         UZb+gpEZpscL2SFm9um+jCYKy5GwAVeVi/zeLZk40OCZhxXx+B6fRrPyt76Yss2dS6
+         DdpPeaOPvW5aA==
+Subject: Re: [PATCH] media: v4l2-ctrls: add encoder skip frames control
+To:     Maheshwar Ajja <majja@codeaurora.org>, mchehab@kernel.org,
+        ezequiel@collabora.com, p.zabel@pengutronix.de,
+        paul.kocialkowski@bootlin.com, jonas@kwiboo.se,
+        posciak@chromium.org, boris.brezillon@collabora.com,
+        ribalda@kernel.org, tglx@linutronix.de, sumitg@nvidia.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <1589853951-27948-1-git-send-email-majja@codeaurora.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <b35cca3a-6444-1124-41da-2982a7711cff@xs4all.nl>
-Date:   Tue, 19 May 2020 08:45:43 +0200
+Message-ID: <ba650d43-2d1d-bba7-383a-db55e9ce4f8a@xs4all.nl>
+Date:   Tue, 19 May 2020 08:53:09 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <11481ef8fcee02aba17ef527c56c78d2@codeaurora.org>
+In-Reply-To: <1589853951-27948-1-git-send-email-majja@codeaurora.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFPrzoysGY0oSfo+El4WQoJo3tBRZCLZ0GdVi8air8jUHFd1lc1VGdDWiT/GNQWK1JV9Q+rOMSnttJj94G771ar6kdUVL5jGw3LEqQ2oXeLCl2UqkYic
- du14aqbJ5syQRAdhtJJD3dbEYeYRyYO7PApgfnTg8SohnqeVsFAkP4NrKyuhMKTgnyAkCNg6WIGVIYOqRVlEdVqQ8hOzcfXy34wb8CHy1BaWGeH7BY9AgCPB
- kTaKImKdj1uvmvzMGx1kNOVwYhe+CbnkP/pf1bGQDR3/TDLNOZk3g7RuT91xqJBJPbkrW/4H2j4KL2w62Ar5JvNbgzwANp6QqlQY+P23rG6hiktb6lrXAe28
- ATiXgpbIecTJnP7wl+zjvj3c21DblozzuKt3MpGOWhIjrMmsXos4qBJjrVpkvDU9L1P29d3PrA3stsOF2dVIzFSiyvtHEkm/U1C3ACiijiW9c4SfMuz9OX8G
- X08RxACuQ+7E33kcYGSfybdV7h+J83xM6McMFycQZTrPfn716UMbnkvur7vCTLmFGwrt1oDvkbqkEajphaVB0w4hlKbQ4iSMfgM+FKdxACEG3Uh67DZEmv0j
- lco=
+X-CMAE-Envelope: MS4wfBdGLGyDxqJBDhS4e1zv0v3mcuFZ3y4Tg1jyH0FDCqJs3x5d04ojQqEHC1xdyvODYpHRanzoCnfo6paJpmIeNZANOqQxM4a3CnU89qHsyoQcXYdPJyNt
+ Bl+1zahgUy6nYGflF2HRpW1ZAzWclHG42GZD6BpD0MZ7Ytfzb9RmvBLbUt9NRNjvrG7aOmajIhRt9WVIzehFp2zCpZh+m3/Sp6q35+oTFdpO/ym5uc+VGkk5
+ z/svh8k3hj/xIzLgwOeROGqqMBkS9JK+5e0CvyC1s5THeJ9zT0ytRm6GPjTEMBZv1fbjCWr85XQcTxHLgvd4DFz8dooMvkRVhekw9DbA7TXixNn5hueez/Fe
+ EKZAA38iBr7QrcdCpsSnOubQkRLgWNqU3QnhDOTzVmre3yMqxyd/p0Hwvgf6hc5sfZi9aOu+BSeXy9KYl8VSn8zIK1raV67KTNQRHfS4vHepglyI901jy3rG
+ l6uG1HtZPeE1ez+Ua/0NdubrXpXXh4uEU8QPa5I5oEuggfjB8p6ycVrE34bOIWsBfWjCVcvPhwPtsSkL4zKo0Phz8tGc/1zJa7TSEn3xF/a0XMhZ2tYOCQOS
+ LdQ=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Maheshwar,
-
-On 18/05/2020 23:09, majja@codeaurora.org wrote:
-> Hi,
+On 19/05/2020 04:05, Maheshwar Ajja wrote:
+> If V4L2_CID_MPEG_VIDEO_ENC_SKIP_FRAMES control is enabled
+> encoder can drop frames, if required, to achieve target bitrate
+> instead of modifying the quantization parameter which lowers
+> the encoded frame quality.
 > 
-> Regarding below patch -
+> Reference: 4.3.8.1 OMX_Video_ControlRateConstantSkipFrames
+> https://www.khronos.org/registry/OpenMAX-IL/specs/OpenMAX_IL_1_1_2_Specification.pdf
 > 
-> HEIF/HEIC image encoding uses HEVC/AVC encoders and client can set image 
-> quality level using
-> V4L2_CID_MPEG_VIDEO_FRAME_QUALITY control.
+> Signed-off-by: Maheshwar Ajja <majja@codeaurora.org>
+> ---
+>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 7 +++++++
+>  drivers/media/v4l2-core/v4l2-ctrls.c                      | 2 ++
+>  include/uapi/linux/v4l2-controls.h                        | 1 +
+>  3 files changed, 10 insertions(+)
 > 
-> Reference BITRATE_MODE_CQ at
-> https://developer.android.com/reference/android/media/MediaCodecInfo.EncoderCapabilities#BITRATE_MODE_CQ
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index d0d506a..bc9265d 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -1081,6 +1081,13 @@ enum v4l2_mpeg_video_h264_entropy_mode -
+>      Macroblock level rate control enable. Applicable to the MPEG4 and
+>      H264 encoders.
+>  
+> +``V4L2_CID_MPEG_VIDEO_ENC_SKIP_FRAMES (boolean)``
+> +    Encoder skip frames enable. This control is applicable only if
+> +    ``V4L2_CID_MPEG_VIDEO_BITRATE_MODE`` control is set. If this control
+> +    is enabled encoder can drop frames, if required, to achieve target
+> +    bitrate instead of modifying the quantization parameter which lowers
+> +    the encoded frame quality.
 
-So what you are really introducing here is a new enum v4l2_mpeg_video_bitrate_mode
-mode: V4L2_MPEG_VIDEO_BITRATE_MODE_CQ.
+It's a bit unclear for which bitrate modes this control is valid: only for
+MODE_CBR, or also for the constant quality bitrate mode? Or both?
 
-Why not just add that new mode, then add V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY
-which is only used if the bitrate mode is MODE_CQ.
+The phrase 'control is set' is meaningless for a menu control: it really is
+always 'set'. So that needs to be reworked so it is more explicit.
 
-That builds nicely on top of the already existing V4L2_CID_MPEG_VIDEO_BITRATE_MODE
-control.
+Also note that there is an Exynos MFC control that appears to do something
+similar: V4L2_CID_MPEG_MFC51_VIDEO_FRAME_SKIP_MODE.
+
+To what extent does that overlap with the functionality proposed here?
+
+It looks like this proposed control is basically the equivalent of setting
+V4L2_CID_MPEG_MFC51_VIDEO_FRAME_SKIP_MODE to V4L2_MPEG_MFC51_FRAME_SKIP_MODE_LEVEL_LIMIT.
+
+So perhaps this MFC control should be promoted to a standard MPEG control instead
+of inventing a new control?
 
 Regards,
 
 	Hans
 
+> +
+>  ``V4L2_CID_MPEG_VIDEO_MPEG4_QPEL (boolean)``
+>      Quarter pixel motion estimation for MPEG4. Applicable to the MPEG4
+>      encoder.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index 1c617b4..d2cb766 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -914,6 +914,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:			return "FWHT Stateless Parameters";
+>  	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
+>  	case V4L2_CID_FWHT_P_FRAME_QP:				return "FWHT P-Frame QP Value";
+> +	case V4L2_CID_MPEG_VIDEO_ENC_SKIP_FRAMES:		return "Encoder Skip Frames";
+>  
+>  	/* VPX controls */
+>  	case V4L2_CID_MPEG_VIDEO_VPX_NUM_PARTITIONS:		return "VPX Number of Partitions";
+> @@ -1180,6 +1181,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE:
+>  	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:
+>  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:
+> +	case V4L2_CID_MPEG_VIDEO_ENC_SKIP_FRAMES:
+>  	case V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM:
+>  	case V4L2_CID_MPEG_VIDEO_H264_VUI_SAR_ENABLE:
+>  	case V4L2_CID_MPEG_VIDEO_MPEG4_QPEL:
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index 0ba1005..d3bc015 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -742,6 +742,7 @@ enum v4l2_cid_mpeg_video_hevc_size_of_length_field {
+>  #define V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_L6_BR	(V4L2_CID_MPEG_BASE + 642)
+>  #define V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES	(V4L2_CID_MPEG_BASE + 643)
+>  #define V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR	(V4L2_CID_MPEG_BASE + 644)
+> +#define V4L2_CID_MPEG_VIDEO_ENC_SKIP_FRAMES		(V4L2_CID_MPEG_BASE + 645)
+>  
+>  /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
+>  #define V4L2_CID_MPEG_CX2341X_BASE				(V4L2_CTRL_CLASS_MPEG | 0x1000)
 > 
-> Regards,
->      Maheshwar.
-> 
-> 
-> On 2020-05-18 14:07, Maheshwar Ajja wrote:
->> When frame quality control is enabled encoder will choose
->> the appropriate quantization parameter and bitrate to
->> produce the client requested frame quality level.
->> When frame quality control is disabled then frame quality
->> is decided based on appropriate controls (i.e.
->> V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE and/or
->> V4L2_CID_MPEG_VIDEO_BITRATE_MODE)
->>
->> Signed-off-by: Maheshwar Ajja <majja@codeaurora.org>
->> ---
->>  .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 16 
->> ++++++++++++++++
->>  drivers/media/v4l2-core/v4l2-ctrls.c                     |  3 +++
->>  include/uapi/linux/v4l2-controls.h                       |  2 ++
->>  3 files changed, 21 insertions(+)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> index d0d506a..495b39b 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> @@ -1081,6 +1081,22 @@ enum v4l2_mpeg_video_h264_entropy_mode -
->>      Macroblock level rate control enable. Applicable to the MPEG4 and
->>      H264 encoders.
->>
->> +``V4L2_CID_MPEG_VIDEO_FRAME_QUALITY_ENABLE (boolean)``
->> +    Encoded frame quality control enable. If this control is enabled 
->> then
->> +    the quality level of the encoded frame is set with control
->> +    ``V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY``. If this control is 
->> disabled
->> +    then the quality level of encoded frame is adjusted with 
->> appropriate
->> +    controls (e.g. ``V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE`` or
->> +    ``V4L2_CID_MPEG_VIDEO_BITRATE_MODE``). Applicable to encoders.
->> +
->> +``V4L2_CID_MPEG_VIDEO_FRAME_QUALITY (integer)``
->> +    Encoded frame quality control. If the control
->> +    ``V4L2_CID_MPEG_VIDEO_FRAME_QUALITY_ENABLE`` is enabled then the
->> +    quality of encoded frame is set with this control. Valid range is 
->> 1 to
->> +    100 where 1 indicates lowest quality and 100 indicates highest 
->> quality.
->> +    Encoder will decide the appropriate quantization parameter and 
->> bitrate
->> +    to produce requested frame quality. Applicable to encoders.
->> +
->>  ``V4L2_CID_MPEG_VIDEO_MPEG4_QPEL (boolean)``
->>      Quarter pixel motion estimation for MPEG4. Applicable to the MPEG4
->>      encoder.
->> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c
->> b/drivers/media/v4l2-core/v4l2-ctrls.c
->> index 1c617b4..1477198 100644
->> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
->> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
->> @@ -982,6 +982,8 @@ const char *v4l2_ctrl_get_name(u32 id)
->>  	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:		return "HEVC Slice 
->> Parameters";
->>  	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode 
->> Mode";
->>  	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
->> +	case V4L2_CID_MPEG_VIDEO_FRAME_QUALITY_ENABLE:		return "Frame Quality 
->> Enable";
->> +	case V4L2_CID_MPEG_VIDEO_FRAME_QUALITY:			return "Frame Quality";
->>
->>  	/* CAMERA controls */
->>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
->> @@ -1178,6 +1180,7 @@ void v4l2_ctrl_fill(u32 id, const char **name,
->> enum v4l2_ctrl_type *type,
->>  	case V4L2_CID_FLASH_READY:
->>  	case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:
->>  	case V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE:
->> +	case V4L2_CID_MPEG_VIDEO_FRAME_QUALITY_ENABLE:
->>  	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:
->>  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:
->>  	case V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM:
->> diff --git a/include/uapi/linux/v4l2-controls.h
->> b/include/uapi/linux/v4l2-controls.h
->> index 0ba1005..d97a934 100644
->> --- a/include/uapi/linux/v4l2-controls.h
->> +++ b/include/uapi/linux/v4l2-controls.h
->> @@ -742,6 +742,8 @@ enum v4l2_cid_mpeg_video_hevc_size_of_length_field 
->> {
->>  #define V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_L6_BR	(V4L2_CID_MPEG_BASE 
->> + 642)
->>  #define V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES	(V4L2_CID_MPEG_BASE 
->> + 643)
->>  #define V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR	(V4L2_CID_MPEG_BASE 
->> + 644)
->> +#define V4L2_CID_MPEG_VIDEO_FRAME_QUALITY_ENABLE	(V4L2_CID_MPEG_BASE + 
->> 645)
->> +#define V4L2_CID_MPEG_VIDEO_FRAME_QUALITY		(V4L2_CID_MPEG_BASE + 646)
->>
->>  /*  MPEG-class control IDs specific to the CX2341x driver as defined 
->> by V4L2 */
->>  #define V4L2_CID_MPEG_CX2341X_BASE				(V4L2_CTRL_CLASS_MPEG | 0x1000)
 
