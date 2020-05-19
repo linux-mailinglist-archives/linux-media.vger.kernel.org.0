@@ -2,93 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CF5C11D9D1A
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 18:44:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 195F61D9D63
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 19:00:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729406AbgESQon (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 12:44:43 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:55172 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728689AbgESQon (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 12:44:43 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 25BE32A23FD
-Subject: Re: [PATCH 2/2] media: staging: rkisp1: stats: don't set stats flags
- in rkisp1_stats_send_measurement
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Cc:     ezequiel@collabora.com, dafna3@gmail.com, kernel@collabora.com,
-        hverkuil@xs4all.nl, sakari.ailus@linux.intel.com,
-        mchehab@kernel.org, laurent.pinchart@ideasonboard.com
-References: <20200509152904.26348-1-dafna.hirschfeld@collabora.com>
- <20200509152904.26348-2-dafna.hirschfeld@collabora.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <ffacc00e-6bf7-2905-4f2b-7cff139bffde@collabora.com>
-Date:   Tue, 19 May 2020 13:44:33 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1729238AbgESRAr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 13:00:47 -0400
+Received: from mout.gmx.net ([212.227.15.19]:55225 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728725AbgESRAq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 May 2020 13:00:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1589907565;
+        bh=3kGcF2WlvSw8bGxCId+mveFxPfrt8ZeCxWDEYopxkLg=;
+        h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+        b=lFVFyUueNYbCYsI0ZHKMplHkSj7COiLcPsjC5WeypZ85z5RuwMJoLXrNagwHjaLt/
+         6pHKCXDP5KNdQTjLIFvtOlekjuJR/4y16giJA0ru822y73F9FxLRK6EOsN7DkPw1u/
+         X02r1LjB+YBY5wDyKGFxulFg8y//f4lPhEePY4Dg=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from ubuntu ([83.52.229.196]) by mail.gmx.com (mrgmx004
+ [212.227.17.184]) with ESMTPSA (Nemesis) id 1M7b6l-1jgrPk0ZEj-007zZt; Tue, 19
+ May 2020 18:59:25 +0200
+Date:   Tue, 19 May 2020 18:59:11 +0200
+From:   Oscar Carter <oscar.carter@gmx.com>
+To:     "Lev R. Oshvang ." <levonshe@gmail.com>
+Cc:     Oscar Carter <oscar.carter@gmx.com>,
+        Kees Cook <keescook@chromium.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Clemens Ladisch <clemens@ladisch.de>,
+        Takashi Sakamoto <o-takashi@sakamocchi.jp>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        kernel-hardening@lists.openwall.com,
+        linux1394-devel@lists.sourceforge.net,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        alsa-devel@alsa-project.org
+Subject: Re: [PATCH] firewire: Remove function callback casts
+Message-ID: <20200519165910.GA3187@ubuntu>
+References: <20200516173934.31527-1-oscar.carter@gmx.com>
+ <CAP22eLF2Q3O+=tnHRKE5q=jn9gw2G1rjAKiewM4qGsf4WYvP0Q@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200509152904.26348-2-dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAP22eLF2Q3O+=tnHRKE5q=jn9gw2G1rjAKiewM4qGsf4WYvP0Q@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Provags-ID: V03:K1:0J0WtcfxzxFR84Tcrgx30v/9Nawjh8IZRpCrftihGrTqQzOKRSG
+ PitIITQ6EIR4P7ZxPWADYT+xpl4GjpOv305jmagTza1M8Smuw8See9+u4kx7K1qZ81u10vx
+ XaV4hQ6f6gcisxdp+ifA0bu5KH39ciBB/QtgLw7+JCSSpvr3Nv1T4keImRi+O3dI8l3yqtl
+ mNS3zOx8oYUGTJUa7u2+A==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eD9m8/+8xhQ=:+q/C9d6cPE4qJiSZKCXvO4
+ hWf4bTDr2rlIi6H5bRDj/GDab724U/FkITmQ/UloFTuJOV3Mbz4mzbFsQTskz8772li9wi/Hi
+ E4sgR45NS5HBJfRIkcA4JYYVU65xsTQ4ugZLWCOi+vPuGC+v3i9acpkWGIBbMFi1HV/4Gva0a
+ p0fD221QzTcOpecD/5MjeQPAaxWp9ICimNaGg5UD2XOQYu6O5zAicpI1OSBCbSf7QJ3w5Ap7j
+ mT3zTR8ytagSBDuQG/7u80PhUhcv5g2Kizu0gJ+/X2kt9yPgT1F9jpKeAFPs1imn0uHX3Ip/s
+ VWgtCNhP8+LSGBGQsPE0pCry5S7p0XWVqAYDDtRT6gMQvQE1QqXbe2QB6YPqLEJSIj0XqM5vV
+ gft2LtAVZJ+Pbd5lzlKXHgYA3TZTsNBrHJHy+xvY5+t7jyP19zpKadRyfWCep2yGfuY/dg7Uz
+ sgBQ+sL/kEGzNn6iYf5wok67j0xrYmEncwuDspB6H/AYbgw65md4p/Swqh48p0ddm0CaqfN+U
+ edtsUZXYXyBZ367B2DLmtJMQQDk6uZeZ8KuPmKpWL6vKFKmJxV8a0VCXUVgfEXfosV5k0yD85
+ AMdv2BDbY72OgD6FRARq/qp1+vbzXfndCRh9LieUeZAzgZy1tC+oPjB/B4xuzSpr3Kca5tR+C
+ 5IElLwr4XTb/83IW6f2SZWHakY/7AgBjdxS15audEE+mStXOoOmWW2fg39O2L7QoYuC3M46ky
+ 8mUEILgywUyiHFFHokEUiGtajfr3JghGqvISBS3raZX15r76DkNBIt63OpuiQL0wJMBAJE4ue
+ eyC+TH8S3AfhZLGxjKyDve9XvVm02agPaJU+hEsKMMPtYpikeNx/QRUTm2wxcFzEl45WpxnYO
+ N/ZOmCvEu6ui6i8j8I7PPuxDim2r49HUwbnByQOnikctTz8B4p7rJdKEmXfyfUfTxpQKmNkPx
+ 1JMM4Xcqu8rQGswIwaCy4AU8PS2YLng32qVg/+SdCycp2q1TLo/XWJ5VRUa0NulIYVpevya2j
+ 3k+26flYB4idzhAzjVrXeRlYRpkqzCGbModPIj0Dx9N1I1NAJ69ED+//SazqHz1HtK8DcHGN0
+ F9IK+DXYYbJgD40g2uIL0J+BLNbk2LL+j6zCakssiYjbP6eIAJmJaI3cQqwWlKTRHzPSqqP4U
+ 8YntOafyXiCt8Sc4llHHjcMNlkaIB1N0JoQkW9Yk/9j1tc2RiXr4rBv17nCleJ6Br9VQm2n8Q
+ 0Q6DtG455oyXZtWN4
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Sun, May 17, 2020 at 07:43:21PM +0300, Lev R. Oshvang . wrote:
+>
+> Hi Oscar,
+> I would recommend to explicitly set NULL to _cb and use if elif to
+> exclude the case where botm _cb paraneters are passed as NULLs :
+> > +
+>   ctx->callback.mc =3DNULL:
+>   ctx->callback.sc =3D NULL;
+> > +       if (cb_sc)
+> > +               ctx->callback.sc =3D cb_sc;
+>
+> > +       elif (cb_ms)
+> > +               ctx->callback.mc =3D cb_mc;
+> > +         else
+>                     return -EINVAL;
 
+Ok, I will do the changes you suggested and I will resend a new version.
 
-On 5/9/20 12:29 PM, Dafna Hirschfeld wrote:
-> The flags that indicate which statistics are read are already
-> set in the functions that read them so there is no need to
-> set them in the function rkisp1_stats_send_measurement.
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> Hope you get the point.
+> Lev
 
-Acked-by: Helen Koike <helen.koike@collabora.com>
-
-Thanks
-Helen
-
-> ---
->  drivers/staging/media/rkisp1/rkisp1-stats.c | 13 +++----------
->  1 file changed, 3 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-stats.c b/drivers/staging/media/rkisp1/rkisp1-stats.c
-> index 8351bda0be03..0616793ae395 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-stats.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-stats.c
-> @@ -356,26 +356,19 @@ rkisp1_stats_send_measurement(struct rkisp1_stats *stats,
->  	cur_stat_buf =
->  		(struct rkisp1_stat_buffer *)(cur_buf->vaddr[0]);
->  
-> -	if (meas_work->isp_ris & RKISP1_CIF_ISP_AWB_DONE) {
-> +	if (meas_work->isp_ris & RKISP1_CIF_ISP_AWB_DONE)
->  		rkisp1_stats_get_awb_meas(stats, cur_stat_buf);
-> -		cur_stat_buf->meas_type |= RKISP1_CIF_ISP_STAT_AWB;
-> -	}
->  
-> -	if (meas_work->isp_ris & RKISP1_CIF_ISP_AFM_FIN) {
-> +	if (meas_work->isp_ris & RKISP1_CIF_ISP_AFM_FIN)
->  		rkisp1_stats_get_afc_meas(stats, cur_stat_buf);
-> -		cur_stat_buf->meas_type |= RKISP1_CIF_ISP_STAT_AFM_FIN;
-> -	}
->  
->  	if (meas_work->isp_ris & RKISP1_CIF_ISP_EXP_END) {
->  		rkisp1_stats_get_aec_meas(stats, cur_stat_buf);
->  		rkisp1_stats_get_bls_meas(stats, cur_stat_buf);
-> -		cur_stat_buf->meas_type |= RKISP1_CIF_ISP_STAT_AUTOEXP;
->  	}
->  
-> -	if (meas_work->isp_ris & RKISP1_CIF_ISP_HIST_MEASURE_RDY) {
-> +	if (meas_work->isp_ris & RKISP1_CIF_ISP_HIST_MEASURE_RDY)
->  		rkisp1_stats_get_hst_meas(stats, cur_stat_buf);
-> -		cur_stat_buf->meas_type |= RKISP1_CIF_ISP_STAT_HIST;
-> -	}
->  
->  	vb2_set_plane_payload(&cur_buf->vb.vb2_buf, 0,
->  			      sizeof(struct rkisp1_stat_buffer));
-> 
+Thanks,
+Oscar Carter
