@@ -2,146 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C7F81D8F20
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 07:18:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D7EB1D903F
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 08:46:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726626AbgESFSy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 01:18:54 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:1575 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726323AbgESFSy (ORCPT
+        id S1727987AbgESGpx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 02:45:53 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:36105 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726881AbgESGpw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 01:18:54 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ec36bef0000>; Mon, 18 May 2020 22:17:35 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 18 May 2020 22:18:53 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 18 May 2020 22:18:53 -0700
-Received: from HQMAIL105.nvidia.com (172.20.187.12) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 May
- 2020 05:18:53 +0000
-Received: from hqnvemgw03.nvidia.com (10.124.88.68) by HQMAIL105.nvidia.com
- (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Tue, 19 May 2020 05:18:53 +0000
-Received: from sandstorm.nvidia.com (Not Verified[10.2.55.90]) by hqnvemgw03.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ec36c3d0002>; Mon, 18 May 2020 22:18:53 -0700
-From:   John Hubbard <jhubbard@nvidia.com>
-To:     LKML <linux-kernel@vger.kernel.org>
-CC:     John Hubbard <jhubbard@nvidia.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        <tee-dev@lists.linaro.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH] tee: convert convert get_user_pages() --> pin_user_pages()
-Date:   Mon, 18 May 2020 22:18:50 -0700
-Message-ID: <20200519051850.2845561-1-jhubbard@nvidia.com>
-X-Mailer: git-send-email 2.26.2
+        Tue, 19 May 2020 02:45:52 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id aw0Vj0CAPtKAsaw0YjOtUV; Tue, 19 May 2020 08:45:50 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1589870750; bh=/VOpZ6S5UVapFcGjI/tkSgoLzsnF7u2DxT+PCaSgZAs=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Omln4iNvDCkowrmBrxoFuZxauf8hoieAv2zaw+S8GdfJIUy2C+0tlABUzxF9laSJG
+         4wRjYCEdhtDVornz0427DFDil2/WMpqTydc5WEfToflqmbt2ajRuL/DM16Awy2FN84
+         KipzlqLRrdHacmmUQ+gaHjLFSo+9hs+d/fMSUQSDn32yU2ikdo6GYm5DfNJfdGDhP/
+         l0Tf8KQMsLGXQztWknpwVriPc3DgaOD3pQJOLNslfFjSUOwDqD5YQDyCMAZlths/Cx
+         Ol2s9shMeQkUAd7J9KidLkqUi1Mn6JSurnX43tMOgRkRuRGGx4T5mdpyVEOPgpCAZy
+         G8Xal0LUClUlg==
+Subject: Re: [PATCH] media: v4l2-ctrls: Add encoded frame quality controls
+To:     majja@codeaurora.org, mchehab@kernel.org,
+        paul.kocialkowski@bootlin.com, p.zabel@pengutronix.de,
+        ezequiel@collabora.com, jonas@kwiboo.se,
+        boris.brezillon@collabora.com, posciak@chromium.org,
+        ribalda@kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     tglx@linutronix.de, sumitg@nvidia.com
+References: <1589836035-16579-1-git-send-email-majja@codeaurora.org>
+ <11481ef8fcee02aba17ef527c56c78d2@codeaurora.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <b35cca3a-6444-1124-41da-2982a7711cff@xs4all.nl>
+Date:   Tue, 19 May 2020 08:45:43 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1589865455; bh=HOuCeH00Hb2OOmtkXh64pdeD2QbQHkyVvjYj2E3uEb0=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
-         Content-Type;
-        b=mb3OaNFQ10WkB15WwAhedhrO8Cgn+eMbUGC71oOyJQQXRvPYSnq9gXNLB1ikmE8bz
-         1mE5oay3UAzRAgWTVrQ1i992uuXlZTpE3UQBDBJ0vpEymxONKvuK/TC3Rqz4xcyggs
-         iBxOA4w7qcMZieTQxzG7CPELd/ht3j8JcfF1BfVup3xxZVvem4q7JXUynr5MNRQp1F
-         UIMTmBPigzGmw0nL490aNS8MZSIgotf3eoLqW2FtBGGYrMlTG66weF8FwIeobdZehk
-         2WSppxHXytUZkdQu1VMcdSGY030X6vV4qN0fUWSbFPTyDLnYLo2truFc5w7EeqHv2Q
-         iG6MlgGNrcg1g==
+In-Reply-To: <11481ef8fcee02aba17ef527c56c78d2@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfFPrzoysGY0oSfo+El4WQoJo3tBRZCLZ0GdVi8air8jUHFd1lc1VGdDWiT/GNQWK1JV9Q+rOMSnttJj94G771ar6kdUVL5jGw3LEqQ2oXeLCl2UqkYic
+ du14aqbJ5syQRAdhtJJD3dbEYeYRyYO7PApgfnTg8SohnqeVsFAkP4NrKyuhMKTgnyAkCNg6WIGVIYOqRVlEdVqQ8hOzcfXy34wb8CHy1BaWGeH7BY9AgCPB
+ kTaKImKdj1uvmvzMGx1kNOVwYhe+CbnkP/pf1bGQDR3/TDLNOZk3g7RuT91xqJBJPbkrW/4H2j4KL2w62Ar5JvNbgzwANp6QqlQY+P23rG6hiktb6lrXAe28
+ ATiXgpbIecTJnP7wl+zjvj3c21DblozzuKt3MpGOWhIjrMmsXos4qBJjrVpkvDU9L1P29d3PrA3stsOF2dVIzFSiyvtHEkm/U1C3ACiijiW9c4SfMuz9OX8G
+ X08RxACuQ+7E33kcYGSfybdV7h+J83xM6McMFycQZTrPfn716UMbnkvur7vCTLmFGwrt1oDvkbqkEajphaVB0w4hlKbQ4iSMfgM+FKdxACEG3Uh67DZEmv0j
+ lco=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This code was using get_user_pages*(), in a "Case 2" scenario
-(DMA/RDMA), using the categorization from [1]. That means that it's
-time to convert the get_user_pages*() + put_page() calls to
-pin_user_pages*() + unpin_user_pages() calls.
+Hi Maheshwar,
 
-There is some helpful background in [2]: basically, this is a small
-part of fixing a long-standing disconnect between pinning pages, and
-file systems' use of those pages.
+On 18/05/2020 23:09, majja@codeaurora.org wrote:
+> Hi,
+> 
+> Regarding below patch -
+> 
+> HEIF/HEIC image encoding uses HEVC/AVC encoders and client can set image 
+> quality level using
+> V4L2_CID_MPEG_VIDEO_FRAME_QUALITY control.
+> 
+> Reference BITRATE_MODE_CQ at
+> https://developer.android.com/reference/android/media/MediaCodecInfo.EncoderCapabilities#BITRATE_MODE_CQ
 
-[1] Documentation/core-api/pin_user_pages.rst
+So what you are really introducing here is a new enum v4l2_mpeg_video_bitrate_mode
+mode: V4L2_MPEG_VIDEO_BITRATE_MODE_CQ.
 
-[2] "Explicit pinning of user-space pages":
-    https://lwn.net/Articles/807108/
+Why not just add that new mode, then add V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY
+which is only used if the bitrate mode is MODE_CQ.
 
-Cc: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: tee-dev@lists.linaro.org
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
----
+That builds nicely on top of the already existing V4L2_CID_MPEG_VIDEO_BITRATE_MODE
+control.
 
-Note that I have only compile-tested this patch, although that does
-also include cross-compiling for a few other arches.
+Regards,
 
-thanks,
-John Hubbard
-NVIDIA
+	Hans
 
- drivers/tee/tee_shm.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-index bd679b72bd05..7dffc42d8d5a 100644
---- a/drivers/tee/tee_shm.c
-+++ b/drivers/tee/tee_shm.c
-@@ -31,16 +31,13 @@ static void tee_shm_release(struct tee_shm *shm)
-=20
- 		poolm->ops->free(poolm, shm);
- 	} else if (shm->flags & TEE_SHM_REGISTER) {
--		size_t n;
- 		int rc =3D teedev->desc->ops->shm_unregister(shm->ctx, shm);
-=20
- 		if (rc)
- 			dev_err(teedev->dev.parent,
- 				"unregister shm %p failed: %d", shm, rc);
-=20
--		for (n =3D 0; n < shm->num_pages; n++)
--			put_page(shm->pages[n]);
--
-+		unpin_user_pages(shm->pages, shm->num_pages);
- 		kfree(shm->pages);
- 	}
-=20
-@@ -226,7 +223,7 @@ struct tee_shm *tee_shm_register(struct tee_context *ct=
-x, unsigned long addr,
- 		goto err;
- 	}
-=20
--	rc =3D get_user_pages_fast(start, num_pages, FOLL_WRITE, shm->pages);
-+	rc =3D pin_user_pages_fast(start, num_pages, FOLL_WRITE, shm->pages);
- 	if (rc > 0)
- 		shm->num_pages =3D rc;
- 	if (rc !=3D num_pages) {
-@@ -271,16 +268,13 @@ struct tee_shm *tee_shm_register(struct tee_context *=
-ctx, unsigned long addr,
- 	return shm;
- err:
- 	if (shm) {
--		size_t n;
--
- 		if (shm->id >=3D 0) {
- 			mutex_lock(&teedev->mutex);
- 			idr_remove(&teedev->idr, shm->id);
- 			mutex_unlock(&teedev->mutex);
- 		}
- 		if (shm->pages) {
--			for (n =3D 0; n < shm->num_pages; n++)
--				put_page(shm->pages[n]);
-+			unpin_user_pages(shm->pages, shm->num_pages);
- 			kfree(shm->pages);
- 		}
- 	}
---=20
-2.26.2
+> 
+> Regards,
+>      Maheshwar.
+> 
+> 
+> On 2020-05-18 14:07, Maheshwar Ajja wrote:
+>> When frame quality control is enabled encoder will choose
+>> the appropriate quantization parameter and bitrate to
+>> produce the client requested frame quality level.
+>> When frame quality control is disabled then frame quality
+>> is decided based on appropriate controls (i.e.
+>> V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE and/or
+>> V4L2_CID_MPEG_VIDEO_BITRATE_MODE)
+>>
+>> Signed-off-by: Maheshwar Ajja <majja@codeaurora.org>
+>> ---
+>>  .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 16 
+>> ++++++++++++++++
+>>  drivers/media/v4l2-core/v4l2-ctrls.c                     |  3 +++
+>>  include/uapi/linux/v4l2-controls.h                       |  2 ++
+>>  3 files changed, 21 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> index d0d506a..495b39b 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> @@ -1081,6 +1081,22 @@ enum v4l2_mpeg_video_h264_entropy_mode -
+>>      Macroblock level rate control enable. Applicable to the MPEG4 and
+>>      H264 encoders.
+>>
+>> +``V4L2_CID_MPEG_VIDEO_FRAME_QUALITY_ENABLE (boolean)``
+>> +    Encoded frame quality control enable. If this control is enabled 
+>> then
+>> +    the quality level of the encoded frame is set with control
+>> +    ``V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY``. If this control is 
+>> disabled
+>> +    then the quality level of encoded frame is adjusted with 
+>> appropriate
+>> +    controls (e.g. ``V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE`` or
+>> +    ``V4L2_CID_MPEG_VIDEO_BITRATE_MODE``). Applicable to encoders.
+>> +
+>> +``V4L2_CID_MPEG_VIDEO_FRAME_QUALITY (integer)``
+>> +    Encoded frame quality control. If the control
+>> +    ``V4L2_CID_MPEG_VIDEO_FRAME_QUALITY_ENABLE`` is enabled then the
+>> +    quality of encoded frame is set with this control. Valid range is 
+>> 1 to
+>> +    100 where 1 indicates lowest quality and 100 indicates highest 
+>> quality.
+>> +    Encoder will decide the appropriate quantization parameter and 
+>> bitrate
+>> +    to produce requested frame quality. Applicable to encoders.
+>> +
+>>  ``V4L2_CID_MPEG_VIDEO_MPEG4_QPEL (boolean)``
+>>      Quarter pixel motion estimation for MPEG4. Applicable to the MPEG4
+>>      encoder.
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c
+>> b/drivers/media/v4l2-core/v4l2-ctrls.c
+>> index 1c617b4..1477198 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+>> @@ -982,6 +982,8 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>  	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:		return "HEVC Slice 
+>> Parameters";
+>>  	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode 
+>> Mode";
+>>  	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
+>> +	case V4L2_CID_MPEG_VIDEO_FRAME_QUALITY_ENABLE:		return "Frame Quality 
+>> Enable";
+>> +	case V4L2_CID_MPEG_VIDEO_FRAME_QUALITY:			return "Frame Quality";
+>>
+>>  	/* CAMERA controls */
+>>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+>> @@ -1178,6 +1180,7 @@ void v4l2_ctrl_fill(u32 id, const char **name,
+>> enum v4l2_ctrl_type *type,
+>>  	case V4L2_CID_FLASH_READY:
+>>  	case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:
+>>  	case V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE:
+>> +	case V4L2_CID_MPEG_VIDEO_FRAME_QUALITY_ENABLE:
+>>  	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:
+>>  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:
+>>  	case V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM:
+>> diff --git a/include/uapi/linux/v4l2-controls.h
+>> b/include/uapi/linux/v4l2-controls.h
+>> index 0ba1005..d97a934 100644
+>> --- a/include/uapi/linux/v4l2-controls.h
+>> +++ b/include/uapi/linux/v4l2-controls.h
+>> @@ -742,6 +742,8 @@ enum v4l2_cid_mpeg_video_hevc_size_of_length_field 
+>> {
+>>  #define V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_L6_BR	(V4L2_CID_MPEG_BASE 
+>> + 642)
+>>  #define V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES	(V4L2_CID_MPEG_BASE 
+>> + 643)
+>>  #define V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR	(V4L2_CID_MPEG_BASE 
+>> + 644)
+>> +#define V4L2_CID_MPEG_VIDEO_FRAME_QUALITY_ENABLE	(V4L2_CID_MPEG_BASE + 
+>> 645)
+>> +#define V4L2_CID_MPEG_VIDEO_FRAME_QUALITY		(V4L2_CID_MPEG_BASE + 646)
+>>
+>>  /*  MPEG-class control IDs specific to the CX2341x driver as defined 
+>> by V4L2 */
+>>  #define V4L2_CID_MPEG_CX2341X_BASE				(V4L2_CTRL_CLASS_MPEG | 0x1000)
 
