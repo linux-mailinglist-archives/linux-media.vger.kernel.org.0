@@ -2,76 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 616601D9142
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 09:45:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 039471D9171
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 09:52:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728494AbgESHpA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 03:45:00 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:58833 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725996AbgESHo7 (ORCPT
+        id S1728668AbgESHwq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 03:52:46 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:32973 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727057AbgESHwq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 03:44:59 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id awvmj0dyNtKAsawvqjPFlP; Tue, 19 May 2020 09:44:58 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1589874298; bh=US7x2zFnszlTJLEyKr/sGvnjG56WYqkMaLAeyUrPh5s=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=tDsR5GqDPjzyGpTv/4/oyi4L5uYPXnyjiJvDy8YTDfj0ajveLkPZJBVrDD7DBDbWL
-         Ch1o/n2KNQBz34aA/i4t1QoekOo6T6vtBdSL/X/7EnZqtJF8+8uqPM0g7ZPUXkg00N
-         O8nNWam/Rgw6lmIxL7YT5yfJO0UsCjYo8crdbGd/haXytfQiTBO2auev1Vv7zfI2tp
-         cK/T7HTji8MEnyhMdJazikRX5+lmg6Zs5h9nqku/Y06SXJI18/BFoFohcN0GSmPniO
-         SJRAT/AHLvrnPtq30bIexKXnrQ1W9KSc27mZBRAghf7MCu7UvBoZdxC8lFFCZSRVZm
-         1c8n5rjXH/KuA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Helen Koike <helen.koike@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.8] move rockchip dphy rx0 bindings out of staging
-Message-ID: <8de4c526-ef2c-51db-ac5f-17a240612df7@xs4all.nl>
-Date:   Tue, 19 May 2020 09:44:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Tue, 19 May 2020 03:52:46 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 948E1E0003;
+        Tue, 19 May 2020 07:52:43 +0000 (UTC)
+Date:   Tue, 19 May 2020 09:56:01 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     sakari.ailus@iki.fi, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] fixes! [max9286]: Validate link formats
+Message-ID: <20200519075601.wdykflbxgvqvfl3x@uno.localdomain>
+References: <e898b72f-f793-6c0d-27a8-5a34c61f763e@ideasonboard.com>
+ <20200518161159.2185855-1-kieran.bingham+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNjG2RkaTuTG/YINdfevc09uKG8quNejl4Xdzrn2jzW1onvjHgabVLQtDEMdnM8rhgWB2vYYtmMeFYYwdpuj/5J2h2gJR+V2ym8VKS0Fcc63UUWix57t
- a++XFu424a0CO4ga02gHRg6Eflu4MoXzAOjbG/F7N3qfEuV4rhVE6ZfD4l8DmrvlG5HYWpC0ONLYk0Y3wtaDwrBoxPo+Lmgkt2NHJTS/h1xtsBygbnudNK3N
- VB5qPnxHubzw3M3EN9/vOA==
+Content-Disposition: inline
+In-Reply-To: <20200518161159.2185855-1-kieran.bingham+renesas@ideasonboard.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As requested by Ezequiel.
+Hi Kieran,
 
-Regards,
+On Mon, May 18, 2020 at 05:11:59PM +0100, Kieran Bingham wrote:
+> Disallow setting a format on the source link, but enable link validation
+> by returning the format of the first bound source when getting the
+> format of the source pad.
+>
+> Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> ---
+>  drivers/media/i2c/max9286.c | 17 +++++++++++++----
+>  1 file changed, 13 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index ef824d2b26b8..6c01595936d7 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -711,7 +711,10 @@ static int max9286_set_fmt(struct v4l2_subdev *sd,
+>  	struct max9286_priv *priv = sd_to_max9286(sd);
+>  	struct v4l2_mbus_framefmt *cfg_fmt;
+>
+> -	if (format->pad >= MAX9286_SRC_PAD)
+> +	/* \todo: Multiplexed streams support
 
-	Hans
+I know where \todo comes from, but it's usually TODO.
+Also
+        /*
+         * TODO:
 
-The following changes since commit ad3a44cbd1b2e1559c6b93e80dc0c9c29632969a:
+if the comment is multiline
 
-  media: i2c: imx219: Parse and register properties (2020-05-18 15:37:16 +0200)
+> +	 * Prevent setting the format on the shared multiplexed bus.
+> +	 */
+> +	if (format->pad == MAX9286_SRC_PAD)
+>  		return -EINVAL;
+>
+>  	/* Refuse non YUV422 formats as we hardcode DT to 8 bit YUV422 */
+> @@ -743,11 +746,17 @@ static int max9286_get_fmt(struct v4l2_subdev *sd,
+>  {
+>  	struct max9286_priv *priv = sd_to_max9286(sd);
+>  	struct v4l2_mbus_framefmt *cfg_fmt;
+> +	unsigned int pad = format->pad;
+>
+> -	if (format->pad >= MAX9286_SRC_PAD)
+> -		return -EINVAL;
+> +	/* \todo: Multiplexed Stream Support
+> +	 * Support link validation by returning the format of the first bound
+> +	 * link. All links must have the same format, as we do not support
+> +	 * mixing, and matching of cameras connected to the max9286.
+> +	 */
+> +	if (format->pad == MAX9286_SRC_PAD)
 
-are available in the Git repository at:
+You can use pad
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.8j
+> +		pad = ffs(priv->bound_sources);
+>
+> -	cfg_fmt = max9286_get_pad_format(priv, cfg, format->pad, format->which);
+> +	cfg_fmt = max9286_get_pad_format(priv, cfg, pad, format->which);
 
-for you to fetch changes up to dd65421c7353b1d31804902630db88ada8eecff9:
+Or you could add one entry to struct max9286_priv.fmt for the source
+pad format, set the format there when is set on one sink, and just
+drop the check on the pad index in get_fmt. Up to you.
 
-  dt-bindings: phy: phy-rockchip-dphy-rx0: move rockchip dphy rx0 bindings out of staging (2020-05-18 18:48:00 +0200)
+Please squash in v10
 
-----------------------------------------------------------------
-Tag branch
+Thanks
+  j
 
-----------------------------------------------------------------
-Helen Koike (2):
-      media: staging: dt-bindings: phy-rockchip-dphy-rx0: remove non-used reg property
-      dt-bindings: phy: phy-rockchip-dphy-rx0: move rockchip dphy rx0 bindings out of staging
-
- .../Documentation => Documentation}/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml                   | 3 ---
- 1 file changed, 3 deletions(-)
- rename {drivers/staging/media/phy-rockchip-dphy-rx0/Documentation => Documentation}/devicetree/bindings/phy/rockchip-mipi-dphy-rx0.yaml (98%)
+>  	if (!cfg_fmt)
+>  		return -EINVAL;
+>
+> --
+> 2.25.1
+>
