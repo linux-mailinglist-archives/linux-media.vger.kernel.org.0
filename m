@@ -2,93 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5D801D9536
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 13:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AF9671D953A
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 13:24:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728286AbgESLX5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 07:23:57 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:60665 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726859AbgESLX4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 07:23:56 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id b0Lfj05Nt8hmdb0LijjNBe; Tue, 19 May 2020 13:23:55 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1589887435; bh=KN6NyCNbXh9LmtRn9agmTxdAjy7eAvE4KoFhJ/M9E6s=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=exbSsYJffTngD0duCBCZ84Vd+Et97Hb92/gfIGD1QhtcXOZzlKWpFaGy8EsK8bzbr
-         ZDQsy9GA21mfyqrhEyIzC2xixcpvS9kdNGjsXZ4XBtTPV1ZWtCDerI7iI/3D+HYiVl
-         wPicGYs32JqEwAcFXGu/tzV9YiHyHRyV7TICF9OytHV1MY6M05WuZDcpoEPipC+HpG
-         cnXeNAUkFYXOLbeftraOdnQpJpASvt7+q29QwPAZpt3uGcwp5ApESjtSRnUv0pJ8RP
-         lJkBN/oe8njaIly4SMbTpU7aF6g8yn3UhYZdWDPFy2CjAYG07swiUCl1+1DIbp6VKD
-         Cc/pBxxwlbJvA==
-Subject: Re: [PATCH v3 1/1] Documentation: media: Refer to mbus format
- documentation from CSI-2 docs
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com
-References: <20200519112136.6122-1-sakari.ailus@linux.intel.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <e5efc462-ff47-e6d4-8395-8786a68ac794@xs4all.nl>
-Date:   Tue, 19 May 2020 13:23:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1728650AbgESLYK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 07:24:10 -0400
+Received: from mga11.intel.com ([192.55.52.93]:19307 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726157AbgESLYJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 May 2020 07:24:09 -0400
+IronPort-SDR: 2xWwAKQsABQaIgQP/t/nG8nuRoHdBE6qLIN6LapMjWui62JYeWQWCFLUSmGz5Fn6LMx+Ly9fY/
+ ZzTGX4p9ZJiQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 04:24:09 -0700
+IronPort-SDR: oaZ8nk8yTbKOxBkv8QTVzCSAKKDxb40mum2qLj2Mjp5rgKJYNpXxQFX1l6Gbr6kVZ8lyGMZuO5
+ soybODBCSujA==
+X-IronPort-AV: E=Sophos;i="5.73,410,1583222400"; 
+   d="scan'208";a="300076326"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 04:24:05 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 322D720CEF; Tue, 19 May 2020 14:24:03 +0300 (EEST)
+Date:   Tue, 19 May 2020 14:24:03 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Luis Oliveira <lolivei@synopsys.com>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>, Jacopo Mondi <jacopo@jmondi.org>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Adam Ford <aford173@gmail.com>,
+        Todor Tomov <todor.tomov@linaro.org>,
+        Suresh Udipi <sudipi@jp.adit-jv.com>,
+        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>
+Subject: Re: [PATCH v2 1/6] media: ov5647: Add set_fmt and get_fmt calls.
+Message-ID: <20200519112403.GG20066@paasikivi.fi.intel.com>
+References: <cover.1589850165.git.roman.kovalivskyi@globallogic.com>
+ <8a4c0d157d26251c9916b32866e6a4a91c023ef9.1589850165.git.roman.kovalivskyi@globallogic.com>
 MIME-Version: 1.0
-In-Reply-To: <20200519112136.6122-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfDeGnj5CBg43BMD72svolJdDDCW/zeLN+86NxeTCet/c/hjgeIdH3Eln5OjqFHv30ykGKUmTfyMZa57D53u6i7yTA9bPxjODmrsGyqIFt6XEJkSjm7CG
- zv68VTmbOCdzDxmfXiE02bVbtPtFBuYl4Xfm0oOFHhdY667arusgA5Y1rYbpQxsDzSiepnDroYyUpCJk4cLLGsMSD4qujCFYaMVWaKIUI4FI9gxMDkR96Qo/
- FTteiv75Zir/OLdacDP4dJI80u86YPhXdp0tdUF0ngA=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8a4c0d157d26251c9916b32866e6a4a91c023ef9.1589850165.git.roman.kovalivskyi@globallogic.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/05/2020 13:21, Sakari Ailus wrote:
-> The media bus formats to be used on serial busses are documented but there
-> was no reference from CSI-2 documentation. Add that now.
+Hi Dave,
+
+Thanks for the patchset.
+
+On Tue, May 19, 2020 at 04:16:16AM +0300, Roman Kovalivskyi wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Regards,
-
-	Hans
-
+> There's no way to query the subdevice for the supported
+> resolutions. Add set_fmt and get_fmt implementations. Since there's
+> only one format supported set_fmt does nothing and get returns single
+> format.
+> 
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+> Signed-off-by: Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
+> Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
-> since v2:
+>  drivers/media/i2c/ov5647.c | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
 > 
-> - Refer to mbus formats.
-> 
-> - Remove other elaboration on formats.
-> 
-> - Fix subject (format vs. code)
-> 
->  Documentation/driver-api/media/csi2.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/csi2.rst
-> index da8b356389f0..310849d53d05 100644
-> --- a/Documentation/driver-api/media/csi2.rst
-> +++ b/Documentation/driver-api/media/csi2.rst
-> @@ -10,6 +10,12 @@ the host SoC. It is defined by the `MIPI alliance`_.
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index e7d2e5b4ad4b..3e587eb0a30e 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -463,8 +463,30 @@ static int ov5647_enum_mbus_code(struct v4l2_subdev *sd,
+>  	return 0;
+>  }
 >  
->  .. _`MIPI alliance`: http://www.mipi.org/
->  
-> +Media bus formats
-> +-----------------
+> +static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
+> +			      struct v4l2_subdev_pad_config *cfg,
+> +			      struct v4l2_subdev_format *format)
+> +{
+> +	struct v4l2_mbus_framefmt *fmt = &format->format;
 > +
-> +See :ref:`v4l2-mbus-pixelcode` for details on which media bus formats should   
-> +be used for CSI-2 interfaces.
-> +
->  Transmitter drivers
->  -------------------
->  
-> 
+> +	if (format->pad != 0)
+> +		return -EINVAL;
 
+No need to check the pad, the caller already has checked for it.
+
+> +
+> +	/* Only one format is supported, so return that */
+> +	memset(fmt, 0, sizeof(*fmt));
+> +	fmt->code = MEDIA_BUS_FMT_SBGGR8_1X8;
+> +	fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> +	fmt->field = V4L2_FIELD_NONE;
+> +	fmt->width = 640;
+> +	fmt->height = 480;
+> +
+> +	return 0;
+> +}
+> +
+>  static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
+>  	.enum_mbus_code = ov5647_enum_mbus_code,
+> +	.set_fmt =	  ov5647_set_get_fmt,
+> +	.get_fmt =	  ov5647_set_get_fmt,
+>  };
+>  
+>  static const struct v4l2_subdev_ops ov5647_subdev_ops = {
+
+-- 
+Kind regards,
+
+Sakari Ailus
