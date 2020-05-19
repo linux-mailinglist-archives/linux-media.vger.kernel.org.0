@@ -2,106 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 073EA1D9350
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 11:28:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A2981D9389
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 11:41:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727057AbgESJ2y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 05:28:54 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:40299 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726605AbgESJ2y (ORCPT
+        id S1728475AbgESJlh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 05:41:37 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:46291 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727873AbgESJlh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 05:28:54 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id ayYKjzUhr8hmdayYNjj17c; Tue, 19 May 2020 11:28:52 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1589880532; bh=owAAYqeeE3Z288iHS21IFk0SUNXS/jYDTfQF2Jr9M8Q=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=K1eUPKjZuLzZy1RdnN3tsbtu4EfSxE5b0uA0KxhLPTvGVtHUgNNyaBY+uRRfRfZ5k
-         CzbObL/8zDM45xpDr0xkBqX3vvCfnr+tKMsZEh5V3Tl1mVSKpk7MlNXRp/ki8gfI+5
-         /9G9N8L94pRudvRDjtWc6qYxrtX7ro85nzB85B3cHA/IFW2vxTWMflLYz1CRFpPPwm
-         q4mly0Sx2uRcKxdzggrWK03uQS1gk8S0h57ErRX8nIKdvfe/ge5URJC1sQrNgyfOEN
-         oVtZ++gT0QvGp3LQYtSR8TpnE5tkYBsmGJPD3SsYb2jq9AocTqWCbkzZTLG4ZLkIJh
-         mMO1QuDQkSG+w==
-Subject: Re: [PATCH v2 1/1] Documentation: media: Refer to mbus code
- documentation from CSI-2 docs
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-References: <20200519085014.32163-1-sakari.ailus@linux.intel.com>
- <7f303ad0-305c-595c-dfdd-4d5a0dd85157@xs4all.nl>
- <20200519091738.GE20066@paasikivi.fi.intel.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <6fbbe377-0164-1c6c-a1f6-70112a105772@xs4all.nl>
-Date:   Tue, 19 May 2020 11:28:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Tue, 19 May 2020 05:41:37 -0400
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04J9bCoK002859;
+        Tue, 19 May 2020 11:41:13 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=8umFBsqpXSyvV7P7Pt39jOOMGvMU9GE2G14TF8W9jgU=;
+ b=CjcChvegMRR43kcF7VLmveYY3LeTbNP17nhluegroU/5+HEvQtGYduaZa4aBSWaz6hbm
+ jZkaPjuVERGrfu3I5Yzf2SpMK08NSarRsty9Ffp1fxTff6Y9ykpSKjGNjQ+Fm1gsk5JX
+ a5r0LvSOqXWI6MVOOIv45q9zV1YlsTKD6p5udChBW/fCXtow3Arj7pG2JAAlDk1wZopb
+ g+ZOGREMtPrvN2goEFx4njwzqBHI12NAb5+vQVcm2rm1xKbqJrHKVRV09x8D1HHetv6r
+ nzHbked10gKBadtATbbVKu2HXMNM1edJW6VQxNNNvfdTBXoB+UQa8Uv1wz3xLmcvikNB 8A== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 3125xxs1b2-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 19 May 2020 11:41:13 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D257310002A;
+        Tue, 19 May 2020 11:41:10 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id BD9F12B1881;
+        Tue, 19 May 2020 11:41:10 +0200 (CEST)
+Received: from localhost (10.75.127.47) by SFHDAG3NODE1.st.com (10.75.127.7)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 19 May 2020 11:41:10
+ +0200
+From:   Erwan Le Ray <erwan.leray@st.com>
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jiri Slaby <jslaby@suse.com>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+CC:     <linux-serial@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        Erwan Le Ray <erwan.leray@st.com>,
+        Fabrice Gasnier <fabrice.gasnier@st.com>
+Subject: [PATCH 1/1] serial: stm32: add no_console_suspend support
+Date:   Tue, 19 May 2020 11:41:04 +0200
+Message-ID: <20200519094104.27082-1-erwan.leray@st.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20200519091738.GE20066@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJFnYFXNVvW0EHXjaQ3FY/bqgnwCbpUQ9UBcHjDPeguX6a99DL06N9PPy2WfhfZDDOFjwxC6QXaF0nC88CRLv25G39SCm09CJaEe/ksTjBSQtRI4SM+/
- 6cS5qK7XKFA8Ecj7QnxRXSrA22CihboIlVSwrLx+4WdzyGjMP+bJMrUm7KtriI3HsZQo0iPykxh5jyNpCVnQo4iSyFP+S7MKNHLBaiyoA7k7kxst9atdkif+
- 64jpoJ1UicG0BpZKKMjRK4wxJZXqB2540qj2BT6bb6c=
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.47]
+X-ClientProxiedBy: SFHDAG5NODE3.st.com (10.75.127.15) To SFHDAG3NODE1.st.com
+ (10.75.127.7)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.676
+ definitions=2020-05-19_03:2020-05-19,2020-05-19 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/05/2020 11:17, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Tue, May 19, 2020 at 11:05:31AM +0200, Hans Verkuil wrote:
->> On 19/05/2020 10:50, Sakari Ailus wrote:
->>> The media bus codes to be used on serial busses are documented but there
->>> was no reference from CSI-2 documentation. Add that now.
->>>
->>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->>> ---
->>>  Documentation/driver-api/media/csi2.rst | 7 +++++++
->>>  1 file changed, 7 insertions(+)
->>>
->>> diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/csi2.rst
->>> index da8b356389f0..1653a51d2a6e 100644
->>> --- a/Documentation/driver-api/media/csi2.rst
->>> +++ b/Documentation/driver-api/media/csi2.rst
->>> @@ -10,6 +10,13 @@ the host SoC. It is defined by the `MIPI alliance`_.
->>>  
->>>  .. _`MIPI alliance`: http://www.mipi.org/
->>>  
->>> +Media bus formats
->>> +-----------------
->>> +
->>> +Always use the media bus pixel code that describes a parallel format that
->>> +transfers a sample on a single clock cycle. See :ref:`v4l2-mbus-format` for more
->>
->> How about: "transfers the pixel data as a single sample in one clock cycle"
-> 
-> The text is from mbus format documentation. Note that this might not be
-> pixel data; it may be metadata as well.
+In order to display console messages in low power mode, console pins
+must be kept active after suspend call.
 
-My problem with 'a sample' is that all parallel media bus formats transfer 'a sample'
-in a single clock cycle. It is not clearly defined what 'a sample' is.
+---
+Initial patch "serial: stm32: add support for no_console_suspend" was part
+of "STM32 usart power improvement" series, but as dependancy to
+console_suspend pinctl state has been removed to fit with Rob comment [1],
+this patch has no more dependancy with any other patch of this series.
 
-Either the text needs to be improved, or an example should be added here as well
-since an example clarifies what is meant.
+[1] https://lkml.org/lkml/2019/7/9/451
 
-> 
->>
->> Possibly with an example: "So use e.g. MEDIA_BUS_FMT_SBGGR10_1X10 instead of
->> MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_BE."
-> 
-> There's an example in mbus format documentation. I'm fine adding one here,
-> too, but the purpose of this bit is to mainly refer to mbus format
-> documentation. Mbus format documentation uses MEDIA_BUS_FMT_BGR888_1X24 and
-> MEDIA_BUS_FMT_BGR888_3X8 as the example.
-> 
+Signed-off-by: Erwan Le Ray <erwan.leray@st.com>
 
-Ah, I see. But then the reference to v4l2-mbus-format is confusing, I'd
-change that to v4l2-mbus-pixelcode. That's where the example is.
+diff --git a/drivers/tty/serial/stm32-usart.c b/drivers/tty/serial/stm32-usart.c
+index 9cfcf355567a..5afd29162f6c 100644
+--- a/drivers/tty/serial/stm32-usart.c
++++ b/drivers/tty/serial/stm32-usart.c
+@@ -1425,7 +1425,18 @@ static int __maybe_unused stm32_serial_suspend(struct device *dev)
+ 	else
+ 		stm32_serial_enable_wakeup(port, false);
+ 
+-	pinctrl_pm_select_sleep_state(dev);
++	/*
++	 * When "no_console_suspend" is enabled, keep the pinctrl default state
++	 * and rely on bootloader stage to restore this state upon resume.
++	 * Otherwise, apply the idle or sleep states depending on wakeup
++	 * capabilities.
++	 */
++	if (console_suspend_enabled || !uart_console(port)) {
++		if (device_may_wakeup(dev))
++			pinctrl_pm_select_idle_state(dev);
++		else
++			pinctrl_pm_select_sleep_state(dev);
++	}
+ 
+ 	return 0;
+ }
+-- 
+2.17.1
 
-Regards,
-
-	Hans
