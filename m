@@ -2,299 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA4501D93EA
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 12:02:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00C191D9415
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 12:08:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727050AbgESKCv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 06:02:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43268 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726121AbgESKCu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 06:02:50 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 322E4C061A0C
-        for <linux-media@vger.kernel.org>; Tue, 19 May 2020 03:02:50 -0700 (PDT)
-Received: from gallifrey.ext.pengutronix.de ([2001:67c:670:201:5054:ff:fe8d:eefb] helo=localhost)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <l.stach@pengutronix.de>)
-        id 1jaz4V-0000x4-QB; Tue, 19 May 2020 12:02:03 +0200
-Message-ID: <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
-Subject: Re: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in
- probe
-From:   Lucas Stach <l.stach@pengutronix.de>
-To:     Shengjiu Wang <shengjiu.wang@nxp.com>, timur@kernel.org,
-        nicoleotsuka@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
-        tiwai@suse.com, shawnguo@kernel.org, s.hauer@pengutronix.de,
-        kernel@pengutronix.de, linux-imx@nxp.com, sumit.semwal@linaro.org,
-        alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Date:   Tue, 19 May 2020 12:01:59 +0200
-In-Reply-To: <1589881301-4143-1-git-send-email-shengjiu.wang@nxp.com>
-References: <1589881301-4143-1-git-send-email-shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
+        id S1726494AbgESKIz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 06:08:55 -0400
+Received: from mga14.intel.com ([192.55.52.115]:43298 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726412AbgESKIz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 19 May 2020 06:08:55 -0400
+IronPort-SDR: DvNM4jzdSU7Xq05HT3PD3Zug9bfblvECD7cKHg+u/GJh1fAOPpAVO74Ve6JW4qZ8PSYn+TCaez
+ a1yIYrl6Sn3g==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 03:08:54 -0700
+IronPort-SDR: zxAYIjWfDt+lntJW2eQVQOyys8yYMUBElIO6K5lqEny0ehJKBbEeQjY7YpH7NXRG0YRbAY0e/0
+ qRJCdlunCBoQ==
+X-IronPort-AV: E=Sophos;i="5.73,409,1583222400"; 
+   d="scan'208";a="439564849"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2020 03:08:53 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id EE26E20CEF; Tue, 19 May 2020 13:08:50 +0300 (EEST)
+Date:   Tue, 19 May 2020 13:08:50 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH v2 1/1] Documentation: media: Refer to mbus code
+ documentation from CSI-2 docs
+Message-ID: <20200519100850.GF20066@paasikivi.fi.intel.com>
+References: <20200519085014.32163-1-sakari.ailus@linux.intel.com>
+ <7f303ad0-305c-595c-dfdd-4d5a0dd85157@xs4all.nl>
+ <20200519091738.GE20066@paasikivi.fi.intel.com>
+ <6fbbe377-0164-1c6c-a1f6-70112a105772@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2001:67c:670:201:5054:ff:fe8d:eefb
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6fbbe377-0164-1c6c-a1f6-70112a105772@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Dienstag, den 19.05.2020, 17:41 +0800 schrieb Shengjiu Wang:
-> There are two requirements that we need to move the request
-> of dma channel from probe to open.
-
-How do you handle -EPROBE_DEFER return code from the channel request if
-you don't do it in probe?
-
-> - When dma device binds with power-domains, the power will
-> be enabled when we request dma channel. If the request of dma
-> channel happen on probe, then the power-domains will be always
-> enabled after kernel boot up,  which is not good for power
-> saving,  so we need to move the request of dma channel to .open();
-
-This is certainly something which could be fixed in the dmaengine
-driver.
-
-> - With FE-BE case, if the dma channel is requested in probe,
-> then there will be below issue, which is caused by that the
-> dma channel will be requested duplicately
-
-Why is this requested a second time? Is this just some missing cleanup
-on a deferred probe path?
-
-Regards,
-Lucas
-
-> [  638.906268] sysfs: cannot create duplicate filename '/devices/soc0/soc/2000000.bus/2000000.spba-bus/2024000.esai/dma:tx'
-> [  638.919061] CPU: 1 PID: 673 Comm: aplay Not tainted 5.7.0-rc1-12956-gfc64b2585593 #287
-> [  638.927113] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
-> [  638.933690] [<c0110dd8>] (unwind_backtrace) from [<c010b8ec>] (show_stack+0x10/0x14)
-> [  638.941464] [<c010b8ec>] (show_stack) from [<c0557fc0>] (dump_stack+0xe4/0x118)
-> [  638.948808] [<c0557fc0>] (dump_stack) from [<c032aeb4>] (sysfs_warn_dup+0x50/0x64)
-> [  638.956406] [<c032aeb4>] (sysfs_warn_dup) from [<c032b1a8>] (sysfs_do_create_link_sd+0xc8/0xd4)
-> [  638.965134] [<c032b1a8>] (sysfs_do_create_link_sd) from [<c05dc668>] (dma_request_chan+0xb0/0x210)
-> [  638.974120] [<c05dc668>] (dma_request_chan) from [<c05dc7d0>] (dma_request_slave_channel+0x8/0x14)
-> [  638.983111] [<c05dc7d0>] (dma_request_slave_channel) from [<c09d5548>] (fsl_asrc_dma_hw_params+0x1e0/0x438)
-> [  638.992881] [<c09d5548>] (fsl_asrc_dma_hw_params) from [<c09c1654>] (soc_pcm_hw_params+0x4a0/0x6a8)
-> [  639.001952] [<c09c1654>] (soc_pcm_hw_params) from [<c09c39d4>] (dpcm_fe_dai_hw_params+0x70/0xe4)
-> [  639.010765] [<c09c39d4>] (dpcm_fe_dai_hw_params) from [<c099b274>] (snd_pcm_hw_params+0x158/0x418)
-> [  639.019750] [<c099b274>] (snd_pcm_hw_params) from [<c099c5a0>] (snd_pcm_ioctl+0x734/0x183c)
-> [  639.028129] [<c099c5a0>] (snd_pcm_ioctl) from [<c029ff94>] (ksys_ioctl+0x2ac/0xb98)
-> [  639.035812] [<c029ff94>] (ksys_ioctl) from [<c0100080>] (ret_fast_syscall+0x0/0x28)
-> [  639.043490] Exception stack(0xec529fa8 to 0xec529ff0)
-> [  639.048565] 9fa0:                   bee84650 01321870 00000004 c25c4111 bee84650 0002000f
-> [  639.056766] 9fc0: bee84650 01321870 01321820 00000036 00001f40 00000000 0002c2f8 00000003
-> [  639.064964] 9fe0: b6f483fc bee8451c b6ee2655 b6e1dcf8
-> [  639.070339] fsl-esai-dai 2024000.esai: Cannot create DMA dma:tx symlink
+On Tue, May 19, 2020 at 11:28:48AM +0200, Hans Verkuil wrote:
+> On 19/05/2020 11:17, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > On Tue, May 19, 2020 at 11:05:31AM +0200, Hans Verkuil wrote:
+> >> On 19/05/2020 10:50, Sakari Ailus wrote:
+> >>> The media bus codes to be used on serial busses are documented but there
+> >>> was no reference from CSI-2 documentation. Add that now.
+> >>>
+> >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >>> ---
+> >>>  Documentation/driver-api/media/csi2.rst | 7 +++++++
+> >>>  1 file changed, 7 insertions(+)
+> >>>
+> >>> diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/csi2.rst
+> >>> index da8b356389f0..1653a51d2a6e 100644
+> >>> --- a/Documentation/driver-api/media/csi2.rst
+> >>> +++ b/Documentation/driver-api/media/csi2.rst
+> >>> @@ -10,6 +10,13 @@ the host SoC. It is defined by the `MIPI alliance`_.
+> >>>  
+> >>>  .. _`MIPI alliance`: http://www.mipi.org/
+> >>>  
+> >>> +Media bus formats
+> >>> +-----------------
+> >>> +
+> >>> +Always use the media bus pixel code that describes a parallel format that
+> >>> +transfers a sample on a single clock cycle. See :ref:`v4l2-mbus-format` for more
+> >>
+> >> How about: "transfers the pixel data as a single sample in one clock cycle"
+> > 
+> > The text is from mbus format documentation. Note that this might not be
+> > pixel data; it may be metadata as well.
 > 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> ---
->  sound/soc/fsl/imx-pcm-dma.c | 173 +++++++++++++++++++++++++++++++++---
->  1 file changed, 159 insertions(+), 14 deletions(-)
+> My problem with 'a sample' is that all parallel media bus formats transfer 'a sample'
+> in a single clock cycle. It is not clearly defined what 'a sample' is.
 > 
-> diff --git a/sound/soc/fsl/imx-pcm-dma.c b/sound/soc/fsl/imx-pcm-dma.c
-> index 04a9bc749016..dae53b384df4 100644
-> --- a/sound/soc/fsl/imx-pcm-dma.c
-> +++ b/sound/soc/fsl/imx-pcm-dma.c
-> @@ -11,6 +11,7 @@
->  #include <linux/dmaengine.h>
->  #include <linux/types.h>
->  #include <linux/module.h>
-> +#include <linux/dma-mapping.h>
->  
->  #include <sound/core.h>
->  #include <sound/pcm.h>
-> @@ -29,24 +30,168 @@ static bool filter(struct dma_chan *chan, void *param)
->  	return true;
->  }
->  
-> -static const struct snd_dmaengine_pcm_config imx_dmaengine_pcm_config = {
-> -	.prepare_slave_config = snd_dmaengine_pcm_prepare_slave_config,
-> -	.compat_filter_fn = filter,
-> -};
-> +static int imx_pcm_hw_params(struct snd_soc_component *component,
-> +			     struct snd_pcm_substream *substream,
-> +			     struct snd_pcm_hw_params *params)
-> +{
-> +	struct snd_pcm_runtime *runtime = substream->runtime;
-> +	struct snd_soc_pcm_runtime *rtd = substream->private_data;
-> +	struct snd_soc_dai *cpu_dai = asoc_rtd_to_cpu(rtd, 0);
-> +	struct snd_dmaengine_dai_dma_data *dma_data;
-> +	struct dma_slave_config config;
-> +	struct dma_chan *chan;
-> +	int ret = 0;
->  
-> -int imx_pcm_dma_init(struct platform_device *pdev, size_t size)
-> +	snd_pcm_set_runtime_buffer(substream, &substream->dma_buffer);
-> +	runtime->dma_bytes = params_buffer_bytes(params);
-> +
-> +	chan = snd_dmaengine_pcm_get_chan(substream);
-> +	if (!chan)
-> +		return -EINVAL;
-> +
-> +	ret = snd_hwparams_to_dma_slave_config(substream, params, &config);
-> +	if (ret)
-> +		return ret;
-> +
-> +	dma_data = snd_soc_dai_get_dma_data(cpu_dai, substream);
-> +	if (!dma_data)
-> +		return -EINVAL;
-> +
-> +	snd_dmaengine_pcm_set_config_from_dai_data(substream,
-> +						   dma_data,
-> +						   &config);
-> +	return dmaengine_slave_config(chan, &config);
-> +}
-> +
-> +static int imx_pcm_hw_free(struct snd_soc_component *component,
-> +			   struct snd_pcm_substream *substream)
->  {
-> -	struct snd_dmaengine_pcm_config *config;
-> +	snd_pcm_set_runtime_buffer(substream, NULL);
-> +	return 0;
-> +}
-> +
-> +static snd_pcm_uframes_t imx_pcm_pointer(struct snd_soc_component *component,
-> +					 struct snd_pcm_substream *substream)
-> +{
-> +	return snd_dmaengine_pcm_pointer(substream);
-> +}
-> +
-> +static int imx_pcm_trigger(struct snd_soc_component *component,
-> +			   struct snd_pcm_substream *substream, int cmd)
-> +{
-> +	return snd_dmaengine_pcm_trigger(substream, cmd);
-> +}
-> +
-> +static int imx_pcm_open(struct snd_soc_component *component,
-> +			struct snd_pcm_substream *substream)
-> +{
-> +	struct snd_soc_pcm_runtime *rtd = substream->private_data;
-> +	bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
-> +	struct snd_soc_dai *cpu_dai = asoc_rtd_to_cpu(rtd, 0);
-> +	struct snd_dmaengine_dai_dma_data *dma_data;
-> +	struct device *dev = component->dev;
-> +	struct snd_pcm_hardware hw;
-> +	struct dma_chan *chan;
-> +	int ret;
-> +
-> +	ret = snd_pcm_hw_constraint_integer(substream->runtime,
-> +					    SNDRV_PCM_HW_PARAM_PERIODS);
-> +	if (ret < 0) {
-> +		dev_err(dev, "failed to set pcm hw params periods\n");
-> +		return ret;
-> +	}
-> +
-> +	dma_data = snd_soc_dai_get_dma_data(cpu_dai, substream);
-> +	if (!dma_data)
-> +		return -EINVAL;
-> +
-> +	chan = dma_request_slave_channel(cpu_dai->dev, tx ? "tx" : "rx");
-> +	if (!chan) {
-> +		/* Try to request channel using compat_filter_fn */
-> +		chan = snd_dmaengine_pcm_request_channel(filter,
-> +							 dma_data->filter_data);
-> +		if (!chan)
-> +			return -ENXIO;
-> +	}
->  
-> -	config = devm_kzalloc(&pdev->dev,
-> -			sizeof(struct snd_dmaengine_pcm_config), GFP_KERNEL);
-> -	if (!config)
-> -		return -ENOMEM;
-> -	*config = imx_dmaengine_pcm_config;
-> +	ret = snd_dmaengine_pcm_open(substream, chan);
-> +	if (ret)
-> +		goto pcm_open_fail;
->  
-> -	return devm_snd_dmaengine_pcm_register(&pdev->dev,
-> -		config,
-> -		SND_DMAENGINE_PCM_FLAG_COMPAT);
-> +	memset(&hw, 0, sizeof(hw));
-> +	hw.info = SNDRV_PCM_INFO_MMAP | SNDRV_PCM_INFO_MMAP_VALID |
-> +			SNDRV_PCM_INFO_INTERLEAVED;
-> +	hw.periods_min = 2;
-> +	hw.periods_max = UINT_MAX;
-> +	hw.period_bytes_min = 256;
-> +	hw.period_bytes_max = dma_get_max_seg_size(chan->device->dev);
-> +	hw.buffer_bytes_max = IMX_DEFAULT_DMABUF_SIZE;
-> +	hw.fifo_size = dma_data->fifo_size;
-> +
-> +	/* Refine the hw according to caps of DMA. */
-> +	ret = snd_dmaengine_pcm_refine_runtime_hwparams(substream,
-> +							dma_data,
-> +							&hw,
-> +							chan);
-> +	if (ret < 0)
-> +		goto refine_runtime_hwparams_fail;
-> +
-> +	snd_soc_set_runtime_hwparams(substream, &hw);
-> +
-> +	/* Support allocate memory from IRAM */
-> +	ret = snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV_IRAM,
-> +				  chan->device->dev,
-> +				  hw.buffer_bytes_max,
-> +				  &substream->dma_buffer);
-> +	if (ret < 0)
-> +		goto alloc_pagas_fail;
-> +
-> +	return 0;
-> +
-> +alloc_pagas_fail:
-> +refine_runtime_hwparams_fail:
-> +	snd_dmaengine_pcm_close(substream);
-> +pcm_open_fail:
-> +	dma_release_channel(chan);
-> +
-> +	return ret;
-> +}
-> +
-> +static int imx_pcm_close(struct snd_soc_component *component,
-> +			 struct snd_pcm_substream *substream)
-> +{
-> +	if (substream) {
-> +		snd_dma_free_pages(&substream->dma_buffer);
-> +		substream->dma_buffer.area = NULL;
-> +		substream->dma_buffer.addr = 0;
-> +	}
-> +
-> +	return snd_dmaengine_pcm_close_release_chan(substream);
-> +}
-> +
-> +static int imx_pcm_new(struct snd_soc_component *component,
-> +		       struct snd_soc_pcm_runtime *rtd)
-> +{
-> +	struct snd_card *card = rtd->card->snd_card;
-> +
-> +	return dma_coerce_mask_and_coherent(card->dev, DMA_BIT_MASK(32));
-> +}
-> +
-> +static const struct snd_soc_component_driver imx_pcm_component = {
-> +	.name           = "imx-pcm-dma",
-> +	.pcm_construct	= imx_pcm_new,
-> +	.open		= imx_pcm_open,
-> +	.close		= imx_pcm_close,
-> +	.hw_params	= imx_pcm_hw_params,
-> +	.hw_free	= imx_pcm_hw_free,
-> +	.trigger	= imx_pcm_trigger,
-> +	.pointer	= imx_pcm_pointer,
-> +};
-> +
-> +int imx_pcm_dma_init(struct platform_device *pdev, size_t size)
-> +{
-> +	return devm_snd_soc_register_component(&pdev->dev,
-> +					       &imx_pcm_component, NULL, 0);
->  }
->  EXPORT_SYMBOL_GPL(imx_pcm_dma_init);
->  
+> Either the text needs to be improved, or an example should be added here as well
+> since an example clarifies what is meant.
+> 
+> > 
+> >>
+> >> Possibly with an example: "So use e.g. MEDIA_BUS_FMT_SBGGR10_1X10 instead of
+> >> MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_BE."
+> > 
+> > There's an example in mbus format documentation. I'm fine adding one here,
+> > too, but the purpose of this bit is to mainly refer to mbus format
+> > documentation. Mbus format documentation uses MEDIA_BUS_FMT_BGR888_1X24 and
+> > MEDIA_BUS_FMT_BGR888_3X8 as the example.
+> > 
+> 
+> Ah, I see. But then the reference to v4l2-mbus-format is confusing, I'd
+> change that to v4l2-mbus-pixelcode. That's where the example is.
 
+Ah, that's a better label indeed. I'll use that. With this, do you prefer
+having the example here as well?
+
+-- 
+Sakari Ailus
