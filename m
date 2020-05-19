@@ -2,145 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A81A81D905A
-	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 08:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E4E31D90BD
+	for <lists+linux-media@lfdr.de>; Tue, 19 May 2020 09:13:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728159AbgESGxP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 02:53:15 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:58061 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726841AbgESGxP (ORCPT
+        id S1728286AbgESHNM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 03:13:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44976 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726881AbgESHNM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 02:53:15 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id aw7hj0Ey2tKAsaw7kjOvD7; Tue, 19 May 2020 08:53:13 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1589871193; bh=Ua/Rh1jOjXzr3/TuekSvHN/AoVWwSnLpt91fLWvkvRQ=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=L+oC/Jmjh2cFpViFqxKFurLG7iiTd+9gLDUXeMbolCH4lXYIiL4ALwmyqG5EZLCnd
-         8mhpwp+PG3Y360zqPOMhNNm/Gc/sKxe5TKNbmwvNArCMiALAFKxNt5nVqC2Edu3gJN
-         k4VCN1C6RoMeySee8kjvUHPA4RO2ho+cJXt5HflxHdAqof/RGTUi69aEbqncNsSd/k
-         rqYk8diCyTv4GdgtSjHOsxAUu8AonrXXVveOhn3k/f91gDTG3jiF3daQJQ+uv42xRj
-         UZb+gpEZpscL2SFm9um+jCYKy5GwAVeVi/zeLZk40OCZhxXx+B6fRrPyt76Yss2dS6
-         DdpPeaOPvW5aA==
-Subject: Re: [PATCH] media: v4l2-ctrls: add encoder skip frames control
-To:     Maheshwar Ajja <majja@codeaurora.org>, mchehab@kernel.org,
-        ezequiel@collabora.com, p.zabel@pengutronix.de,
-        paul.kocialkowski@bootlin.com, jonas@kwiboo.se,
-        posciak@chromium.org, boris.brezillon@collabora.com,
-        ribalda@kernel.org, tglx@linutronix.de, sumitg@nvidia.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <1589853951-27948-1-git-send-email-majja@codeaurora.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <ba650d43-2d1d-bba7-383a-db55e9ce4f8a@xs4all.nl>
-Date:   Tue, 19 May 2020 08:53:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Tue, 19 May 2020 03:13:12 -0400
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7CF8C061A0C
+        for <linux-media@vger.kernel.org>; Tue, 19 May 2020 00:13:11 -0700 (PDT)
+Received: by mail-qt1-x82e.google.com with SMTP id l1so10327233qtp.6
+        for <linux-media@vger.kernel.org>; Tue, 19 May 2020 00:13:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:message-id:in-reply-to:references:subject
+         :mime-version:content-transfer-encoding:content-disposition;
+        bh=gfrfWaOZkm+lseM0+Bvjs6y+xukYp67el0Y4CWHnZUQ=;
+        b=b0ftFJE+1Kbvt2EcJL8XpS9a5ExwNsTDEiEOnTqOPYr8y+xJ3Mr+oImwRmzGjlp//v
+         CmCFK7j7Tfd1kpwmqw3LhxBKdCnJagToDgHsicBVGo/oByXv4X8VLQWwkzmLsZg78sas
+         M0eRaXxMMjmTBHAOd/XhUgwkWJifR+raQ96ZeibY+55upKIQeWUvDFyh5hYoPpG8cLyP
+         dmQBBbbtUPgypL0LMYtpD31p1e6spiyXfrPoPxvdIY1m2a/jChmnqVIUtwIwfYTVDEAm
+         PSBA+e3U+kjPOtaHuEdJCTXB+P90YJXTFEicGLb/6FNht38avRz0dyQ6+z8N3Vupnc8N
+         mV/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
+         :references:subject:mime-version:content-transfer-encoding
+         :content-disposition;
+        bh=gfrfWaOZkm+lseM0+Bvjs6y+xukYp67el0Y4CWHnZUQ=;
+        b=JyaRoY8Yj2UaUFVCxhjyaWeH3VrFwsqEmeMTEuOjBTBJL9blMx3vYlIzIUXXwn5Qkj
+         SnUh1JES/YPwwYgoiSnQ8uWYdl2Oyz9+mxdbF/v/oU1iCkOpxJzitj0/uO5bMg30lbrT
+         jddLcmkJL/BP2d+nRpEKYkwvBNwR86iy/WRUVTv4Qomqm5B/Xs5kU/5KcdbN+1z2Myrw
+         tetmzhHSKolBEvik3DSlv9yiNSsDNxvqLCw31mj1b6BG2eHJBkIV53lul/OYqf+BRvdC
+         khr5rnNRWCJH/g5WYsxFskePuVVIA+la9lo1yqb/q/+RpxyS/F70kqrDIt+JigXWg4Vs
+         UZwg==
+X-Gm-Message-State: AOAM533rCYLv6EFYmk2kXGURVFA9ytbvls7w9WLQmXLiqO6u2lSGOYu5
+        2YemFgNdBHC+D8ntxRzIVM0=
+X-Google-Smtp-Source: ABdhPJzbE6fW6tR2E4L6m4GsHIiwHGdav4WMcMxfECGS94oEMTElNSWQ/VDyXWvAcctxnZt8hmd8UQ==
+X-Received: by 2002:ac8:4e53:: with SMTP id e19mr20328428qtw.277.1589872390952;
+        Tue, 19 May 2020 00:13:10 -0700 (PDT)
+Received: from dwls-dell ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
+        by smtp.gmail.com with ESMTPSA id k93sm8840111qte.74.2020.05.19.00.13.08
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 19 May 2020 00:13:10 -0700 (PDT)
+Date:   Tue, 19 May 2020 04:13:07 -0300
+From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     "=?utf-8?Q?skhan=40linuxfoundation.org?=" <skhan@linuxfoundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "=?utf-8?Q?linux-kernel-mentees=40lists.linuxfoundation.org=22=22?=" 
+        <linux-kernel-mentees@lists.linuxfoundation.org>
+Message-ID: <C564849C-4E08-4994-A694-A736626548E2@getmailspring.com>
+In-Reply-To: <20200517022115.5ce8136c@coco.lan>
+References: <20200517022115.5ce8136c@coco.lan>
+Subject: Re: modprobing 'vidtv' doesn't really do anything
+X-Mailer: Mailspring
 MIME-Version: 1.0
-In-Reply-To: <1589853951-27948-1-git-send-email-majja@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfBdGLGyDxqJBDhS4e1zv0v3mcuFZ3y4Tg1jyH0FDCqJs3x5d04ojQqEHC1xdyvODYpHRanzoCnfo6paJpmIeNZANOqQxM4a3CnU89qHsyoQcXYdPJyNt
- Bl+1zahgUy6nYGflF2HRpW1ZAzWclHG42GZD6BpD0MZ7Ytfzb9RmvBLbUt9NRNjvrG7aOmajIhRt9WVIzehFp2zCpZh+m3/Sp6q35+oTFdpO/ym5uc+VGkk5
- z/svh8k3hj/xIzLgwOeROGqqMBkS9JK+5e0CvyC1s5THeJ9zT0ytRm6GPjTEMBZv1fbjCWr85XQcTxHLgvd4DFz8dooMvkRVhekw9DbA7TXixNn5hueez/Fe
- EKZAA38iBr7QrcdCpsSnOubQkRLgWNqU3QnhDOTzVmre3yMqxyd/p0Hwvgf6hc5sfZi9aOu+BSeXy9KYl8VSn8zIK1raV67KTNQRHfS4vHepglyI901jy3rG
- l6uG1HtZPeE1ez+Ua/0NdubrXpXXh4uEU8QPa5I5oEuggfjB8p6ycVrE34bOIWsBfWjCVcvPhwPtsSkL4zKo0Phz8tGc/1zJa7TSEn3xF/a0XMhZ2tYOCQOS
- LdQ=
+Content-Disposition: inline
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/05/2020 04:05, Maheshwar Ajja wrote:
-> If V4L2_CID_MPEG_VIDEO_ENC_SKIP_FRAMES control is enabled
-> encoder can drop frames, if required, to achieve target bitrate
-> instead of modifying the quantization parameter which lowers
-> the encoded frame quality.
-> 
-> Reference: 4.3.8.1 OMX_Video_ControlRateConstantSkipFrames
-> https://www.khronos.org/registry/OpenMAX-IL/specs/OpenMAX_IL_1_1_2_Specification.pdf
-> 
-> Signed-off-by: Maheshwar Ajja <majja@codeaurora.org>
-> ---
->  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 7 +++++++
->  drivers/media/v4l2-core/v4l2-ctrls.c                      | 2 ++
->  include/uapi/linux/v4l2-controls.h                        | 1 +
->  3 files changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index d0d506a..bc9265d 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -1081,6 +1081,13 @@ enum v4l2_mpeg_video_h264_entropy_mode -
->      Macroblock level rate control enable. Applicable to the MPEG4 and
->      H264 encoders.
->  
-> +``V4L2_CID_MPEG_VIDEO_ENC_SKIP_FRAMES (boolean)``
-> +    Encoder skip frames enable. This control is applicable only if
-> +    ``V4L2_CID_MPEG_VIDEO_BITRATE_MODE`` control is set. If this control
-> +    is enabled encoder can drop frames, if required, to achieve target
-> +    bitrate instead of modifying the quantization parameter which lowers
-> +    the encoded frame quality.
+With your current patch the probing code is actually called now, Mauro. Thanks!
 
-It's a bit unclear for which bitrate modes this control is valid: only for
-MODE_CBR, or also for the constant quality bitrate mode? Or both?
+As for the sparse errors you've pointed out earlier, I'm at a loss. Yes,
+I have noticed them, but let's look at an example (they're all mostly
+the same)
 
-The phrase 'control is set' is meaningless for a menu control: it really is
-always 'set'. So that needs to be reworked so it is more explicit.
+>SPARSE:drivers/media/test-drivers/vidtv/vidtv_psi.c
+>drivers/media/test-drivers/vidtv/vidtv_psi.c:174:43: warning: Using plain
+>integer as NULL pointer
 
-Also note that there is an Exynos MFC control that appears to do something
-similar: V4L2_CID_MPEG_MFC51_VIDEO_FRAME_SKIP_MODE.
+This actually refers to this line:
 
-To what extent does that overlap with the functionality proposed here?
+>struct psi_write_args psi_args = {0}
 
-It looks like this proposed control is basically the equivalent of setting
-V4L2_CID_MPEG_MFC51_VIDEO_FRAME_SKIP_MODE to V4L2_MPEG_MFC51_FRAME_SKIP_MODE_LEVEL_LIMIT.
+Which seems to me like a valid way to zero-initialize a struct in C? 
 
-So perhaps this MFC control should be promoted to a standard MPEG control instead
-of inventing a new control?
+Next up is...
 
-Regards,
+>SPARSE:drivers/media/test-drivers/vidtv/vidtv_pes.c
+>drivers/media/test-drivers/vidtv/vidtv_pes.c:80:54: warning: missing
+>braces around initializer
 
-	Hans
+I assume this refers to the following line, which is the same deal as above.
 
-> +
->  ``V4L2_CID_MPEG_VIDEO_MPEG4_QPEL (boolean)``
->      Quarter pixel motion estimation for MPEG4. Applicable to the MPEG4
->      encoder.
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index 1c617b4..d2cb766 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -914,6 +914,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:			return "FWHT Stateless Parameters";
->  	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
->  	case V4L2_CID_FWHT_P_FRAME_QP:				return "FWHT P-Frame QP Value";
-> +	case V4L2_CID_MPEG_VIDEO_ENC_SKIP_FRAMES:		return "Encoder Skip Frames";
->  
->  	/* VPX controls */
->  	case V4L2_CID_MPEG_VIDEO_VPX_NUM_PARTITIONS:		return "VPX Number of Partitions";
-> @@ -1180,6 +1181,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_MPEG_VIDEO_DECODER_SLICE_INTERFACE:
->  	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:
->  	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:
-> +	case V4L2_CID_MPEG_VIDEO_ENC_SKIP_FRAMES:
->  	case V4L2_CID_MPEG_VIDEO_H264_8X8_TRANSFORM:
->  	case V4L2_CID_MPEG_VIDEO_H264_VUI_SAR_ENABLE:
->  	case V4L2_CID_MPEG_VIDEO_MPEG4_QPEL:
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 0ba1005..d3bc015 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -742,6 +742,7 @@ enum v4l2_cid_mpeg_video_hevc_size_of_length_field {
->  #define V4L2_CID_MPEG_VIDEO_HEVC_HIER_CODING_L6_BR	(V4L2_CID_MPEG_BASE + 642)
->  #define V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES	(V4L2_CID_MPEG_BASE + 643)
->  #define V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR	(V4L2_CID_MPEG_BASE + 644)
-> +#define V4L2_CID_MPEG_VIDEO_ENC_SKIP_FRAMES		(V4L2_CID_MPEG_BASE + 645)
->  
->  /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
->  #define V4L2_CID_MPEG_CX2341X_BASE				(V4L2_CTRL_CLASS_MPEG | 0x1000)
-> 
+>struct vidtv_pes_optional_pts pts         = {0};
 
+
+And then there's this, which is an actual mistake. I have mostly
+eliminated these, but this guy has slipped by.
+
+>SPARSE:drivers/media/test-drivers/vidtv/vidtv_s302m.c
+>drivers/media/test-drivers/vidtv/vidtv_s302m.c:430:36: warning:
+>incorrect type in assignment (different base types)
+
+
+Just one more thing. This change on vidtv_bridge.c:
+
+>vidtv_bridge_check_demod_lock(struct vidtv_dvb *dvb, u32 n)
+>
+>dvb->fe[n]->ops.read_status(dvb->fe[n], &status);
+>
+>-	return status == (FE_HAS_SIGNAL |
+>-	FE_HAS_CARRIER |
+>-	FE_HAS_VITERBI |
+>-	FE_HAS_SYNC |
+>-	FE_HAS_LOCK);
+>+	status = FE_HAS_SIGNAL |
+>+	FE_HAS_CARRIER |
+>+	FE_HAS_VITERBI |
+>+	FE_HAS_SYNC |
+>+	FE_HAS_LOCK;
+>+
+>+	return status;
+>}
+
+I did not understand that. Why was the boolean expression replaced by an
+assignment? This was so eventually we could drop packets or simulate
+some sort of noise in the event that one of these flags was not set, as
+we've discussed at some point.
+
+Thanks,
+
+- Daniel
