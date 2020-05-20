@@ -2,172 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 302311DA8B5
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 05:47:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7FA01DAA95
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 08:24:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728176AbgETDrM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 23:47:12 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:44717 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726379AbgETDrM (ORCPT
+        id S1726463AbgETGYO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 02:24:14 -0400
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:59685 "EHLO
+        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725998AbgETGYO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 23:47:12 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id bFhEjferJDazBbFhFj99qj; Wed, 20 May 2020 05:47:09 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1589946429; bh=MbSR5M/3zvgWMuMKuWpNifG+btjLVQc54jP7KCuQUgc=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=HOqeO8q3LnxGIMMoVGeACbuRmldNReTjsEc8fWlLlYZupdTGRbm9PvolynjSD+rfp
-         srof+j2cggOsOi4yoZGmPNoOVTz+ggZSes8JblLWxG+5M3vFF/twaGC0ebLGdRoAI4
-         P+90LRraU012xNZKiXgOjRECxGKZwuq3X+qGJ7ISeJYD2fFMzmnVb4ToFYjL/oFkkB
-         gItDK4YqYfVm7DwOzQc6SY7dEvdcozIRz7Got4WbvbvTvXNRSioEdl1H1zo7FrmQFj
-         SYK0UopRJQXkUbzUlQG6qG0M5M8TDpIZdNhMRWIKnN4ltuwugOZuqMHaZsw3EiJ2b7
-         DFi9c0ddJYBSA==
-Message-ID: <c9d371143c72e2c24c6b728db779ad14@smtp-cloud7.xs4all.net>
-Date:   Wed, 20 May 2020 05:47:08 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfGs+gJVyXGYI9x8KLuozNx4offMQtTbSb3dwYVMO4klzbA9EB2JET/0Inmzsvwj2JsIe9JmrhJAQoEeGSzZzHLrrFx7QlvVPX/uBAoQDgMBD3sMmzAO9
- p6Z6Q8GnoFpJkXbmvZwjK3HMS9uw+f1WYR52DYE6jsjGOnD7hvTa8WDlvY/1v1LcLMtuH9Q4KMKEf5R7IXeHmMX9lC5Quvrm5c3SX5o8C9uGONvLkGbkvyZc
+        Wed, 20 May 2020 02:24:14 -0400
+X-Greylist: delayed 457 seconds by postgrey-1.27 at vger.kernel.org; Wed, 20 May 2020 02:24:13 EDT
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
+        by mailnew.west.internal (Postfix) with ESMTP id 4A81EC4E;
+        Wed, 20 May 2020 02:16:35 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute2.internal (MEProxy); Wed, 20 May 2020 02:16:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+         h=date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=3XNYaKnp2YGCe91EplwF85srPK8
+        6i5OIm/TZfO+r/A4=; b=boZgr2GGEoSCPOnQyY7adWYwLGs6cKNwB4tPIHroF9Q
+        6nBi0D14HFNTaPEDK3mIToWgpFD/SoE7jIoA7nd1Ehuqfj2nkYSu+jP+xit2P2md
+        XyTPT8i1+WR8EI2wlndxzZ0JCoY2jwiZnEzCWg0NvPuRyoDazEcAnX0KRzebYOeh
+        EVRIWQ0WD1GjnazMVjqf/Ab6PxSId5ikiYxDPAipIlx+4a5HXOeE1cQFGijcK+4Z
+        ro7MyN64kh82CxC5mgEKPkcegXkk23zwMsIVa12ZzhglXUSQa+C08eKEbhYQ3M8h
+        svQd995a84sj/zPAqYjaoID1dZyUcdtTmLgXBJ1n/1g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=3XNYaK
+        np2YGCe91EplwF85srPK86i5OIm/TZfO+r/A4=; b=kvz2/WezRA3U7KeAYIoye/
+        GsK/JdQkFZfgnTnjy2U5r+nWxYV6BqcjDpSfSvImK33U8NDqHQjjWgIddB9ItzE5
+        VQoDX9qFU83BCNZmvLoTQJxyRMkt/SBkeuaDt6CGdf22EfiLsSvhWCjXL0WoaOWk
+        G5jP6/vgh7y54m0i6/oDos61fHKztdduCD99IIrEyuVmehl96QhRMEnhO2T+4zxM
+        mrEi/nZR2z10IjvG0j3QEp6j/7Tf+5KyCS0BRWTIBwlN0LIkwsudGJ9r4vB+Kz9F
+        mWRnnA6e+WTUa1SICCmLKb+BxjRygr+OCe+Nvn1RFo54RJDyhj0Q4OjeYX7twCiw
+        ==
+X-ME-Sender: <xms:PMvEXtybO761tUOfUtM1Uqz2bHplKGTEmVGoIF0G3kzcLSXeGp8BQQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedruddtkedguddtvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepvfgrkhgr
+    shhhihcuufgrkhgrmhhothhouceoohdqthgrkhgrshhhihesshgrkhgrmhhotggthhhird
+    hjpheqnecuggftrfgrthhtvghrnheplefhueegvdejgfejgfdukeefudetvddtuddtueei
+    vedttdegteejkedvfeegfefhnecukfhppedukedtrddvfeehrdefrdehgeenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehoqdhtrghkrghshhhi
+    sehsrghkrghmohgttghhihdrjhhp
+X-ME-Proxy: <xmx:PMvEXtQgL0xVSCOkaJchdgOBsjqZ2eLoEvsuUCzy-o2rOR9gqAeSCg>
+    <xmx:PMvEXnXKX9pr1U5wgNkSMjZe8QCjXPg31XSMjzBCpwtmJubMfnKZXw>
+    <xmx:PMvEXvi9bWn-4QBYxqXPK1RYyfQElyNhwIe9R9yz2xMB1_c_Ji2mjg>
+    <xmx:QsvEXrtMztEFg7yl7BxqGmfpINuyC9xWvXo4xPA7p_oJD80NbveZlEi0-BA>
+Received: from workstation (ad003054.dynamic.ppp.asahi-net.or.jp [180.235.3.54])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 42D9C3066434;
+        Wed, 20 May 2020 02:16:26 -0400 (EDT)
+Date:   Wed, 20 May 2020 15:16:24 +0900
+From:   Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To:     Oscar Carter <oscar.carter@gmx.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Clemens Ladisch <clemens@ladisch.de>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        kernel-hardening@lists.openwall.com,
+        linux1394-devel@lists.sourceforge.net,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        alsa-devel@alsa-project.org,
+        "Lev R . Oshvang ." <levonshe@gmail.com>
+Subject: Re: [PATCH v2] firewire: Remove function callback casts
+Message-ID: <20200520061624.GA25690@workstation>
+Mail-Followup-To: Oscar Carter <oscar.carter@gmx.com>,
+        Kees Cook <keescook@chromium.org>,
+        Stefan Richter <stefanr@s5r6.in-berlin.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Clemens Ladisch <clemens@ladisch.de>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        kernel-hardening@lists.openwall.com,
+        linux1394-devel@lists.sourceforge.net, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, alsa-devel@alsa-project.org,
+        "Lev R . Oshvang ." <levonshe@gmail.com>
+References: <20200519173425.4724-1-oscar.carter@gmx.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200519173425.4724-1-oscar.carter@gmx.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi,
 
-Results of the daily build of media_tree:
+On Tue, May 19, 2020 at 07:34:25PM +0200, Oscar Carter wrote:
+> In an effort to enable -Wcast-function-type in the top-level Makefile to
+> support Control Flow Integrity builds, remove all the function callback
+> casts.
+> 
+> To do this, modify the "fw_iso_context_create" function prototype adding
+> a new parameter for the multichannel callback. Also, fix all the
+> function calls accordingly.
+> 
+> In the "fw_iso_context_create" function return an error code if both
+> callback parameters are NULL and also set the "ctx->callback.sc"
+> explicity to NULL in this case. It is not necessary set to NULL the
+> "ctx->callback.mc" variable because this and "ctx->callback.sc" are an
+> union and setting one implies setting the other one to the same value.
+> 
+> Signed-off-by: Oscar Carter <oscar.carter@gmx.com>
+> ---
+> Changelog v1->v2
+> -Set explicity to NULL the "ctx->callback.sc" variable and return an error
+>  code in "fw_iso_context_create" function if both callback parameters are
+>  NULL as Lev R. Oshvang suggested.
+> -Modify the commit changelog accordingly.
+> 
+>  drivers/firewire/core-cdev.c        | 12 +++++++-----
+>  drivers/firewire/core-iso.c         | 14 ++++++++++++--
+>  drivers/firewire/net.c              |  2 +-
+>  drivers/media/firewire/firedtv-fw.c |  3 ++-
+>  include/linux/firewire.h            |  3 ++-
+>  sound/firewire/amdtp-stream.c       |  2 +-
+>  sound/firewire/isight.c             |  4 ++--
+>  7 files changed, 27 insertions(+), 13 deletions(-)
 
-date:			Wed May 20 05:00:10 CEST 2020
-media-tree git hash:	ad3a44cbd1b2e1559c6b93e80dc0c9c29632969a
-media_build git hash:	28a109580ca69b3cc1c2f2ae62248e9fe067cb4c
-v4l-utils git hash:	b6463b0f37905fc8df67bdfaa61924a3b32215fb
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0accb575719caa47d8fbc866b11e6f7e7e7787cd
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+I'm an author of ALSA firewire stack and thanks for the patch. I agree with
+your intention to remove the cast of function callback toward CFI build.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: WARNINGS
-linux-4.13.16-x86_64: WARNINGS
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: WARNINGS
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
-sparse: OK
-smatch: OK
+Practically, the isochronous context with FW_ISO_CONTEXT_RECEIVE_MULTICHANNEL
+is never used by in-kernel drivers. Here, I propose to leave current
+kernel API (fw_iso_context_create() with fw_iso_callback_t) as is.
+Alternatively, a new kernel API for the context (e.g.
+fw_iso_mc_context_create() with fw_iso_mc_callback_t). This idea leaves
+current drivers as is and the change is done inner firewire-core driver,
+therefore existent kernel API is not changed.
 
-Detailed results are available here:
+Later I post two patches for the proposal. I'd like you to review it and
+I'm glad to receive your comments.
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
-Detailed regression test results are available here:
+Regards
 
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Takashi Sakamoto
