@@ -2,78 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D8B21DAFC0
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 12:12:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36C181DAF93
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 12:02:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726748AbgETKMU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 06:12:20 -0400
-Received: from aliyun-cloud.icoremail.net ([47.90.73.12]:43526 "HELO
-        aliyun-sdnproxy-4.icoremail.net" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with SMTP id S1726224AbgETKMU (ORCPT
+        id S1726836AbgETKCG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 06:02:06 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:33771 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726729AbgETKCF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 06:12:20 -0400
-X-Greylist: delayed 725 seconds by postgrey-1.27 at vger.kernel.org; Wed, 20 May 2020 06:12:19 EDT
-Received: from localhost.localdomain (unknown [222.205.77.158])
-        by mail-app2 (Coremail) with SMTP id by_KCgDnzpG1_cRe4SSMAQ--.43211S4;
-        Wed, 20 May 2020 17:51:53 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Dmitry Osipenko <digetx@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: staging: tegra-vde: fix runtime pm imbalance on error
-Date:   Wed, 20 May 2020 17:51:48 +0800
-Message-Id: <20200520095148.10995-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: by_KCgDnzpG1_cRe4SSMAQ--.43211S4
-X-Coremail-Antispam: 1UD129KBjvdXoWrKrW5ZF15Jr17CrWrKFy7trb_yoW3KFc_Cr
-        s0qw1xu345Ar4xtr17K3W3ZrySvFWDua18tF1SyrW3Gw4jvFy3GrykZrnrC3ZrXay2gry2
-        vr93uF1Syr4fAjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbT8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
-        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
-        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
-        Jr4lYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
-        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK
-        67AK6r4fMxAIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxV
-        CFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r10
-        6r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxV
-        WUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG
-        6rWUJVWrZr1UMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
-        1j6F4UJbIYCTnIWIevJa73UjIFyTuYvjfU8KZXUUUUU
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/
+        Wed, 20 May 2020 06:02:05 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id bLXzjmaqPFjnUbLY3jXnV8; Wed, 20 May 2020 12:02:03 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1589968923; bh=F6dNqo0JpBgUDVWBOlxOwirjy3/+V4+DwtBLPzyWc5M=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type:From:
+         Subject;
+        b=LiZcA0uLnkyRBvzaszYvQGeAfbRxci2nZq3aU4jO736coTuRiZ8HfpQJPUBbfxfnU
+         q5Ss9BUdHklT4hLckoDzZdYTVIlV8omiP5j3PayBgYEQI5uO6XaTynCPACfwt3e2Li
+         GdYbRD481ggSL9SHWozub7SIkDJJUu32HuszxtfmBnf7fQsx3XmdPIwRgMBi6YcznP
+         nk5aSP+5jrMIShKfBZuLtKQpuOlQTP34BqPyLNbC1Cq/Ocmeggi88uhHH6Y+iUtfy8
+         pSYNzmfGXkyhQSjXAAHyoIUg/t8LZPTqpgTr//dwk1kIsnv3i3FQmFtigMSsjageJe
+         ycOfdhv4x4iHw==
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Cc:     Michael Tretter <m.tretter@pengutronix.de>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Tomasz Figa <tfiga@chromium.org>
+Subject: [PATCHv2 0/2] Stateful Encoding: final bits
+Date:   Wed, 20 May 2020 12:01:57 +0200
+Message-Id: <20200520100159.2094831-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfCs9/CCYUK+6+QKsuPFHPr7qEQUpFHs/KBz8Hj/ouWTUnkZmOcmE7BG41rAONqh7UlwbQEgceu8Y3+6MQMG4KfwTQ2VCNnM531a4dAFnbIddkoQS64qS
+ ffu+BUUGHmXuhSvjG/PSxHoKyd8LOTWhd2AL3yLz/Yfpa89lplvNHPFcjlSqJ1jZjKztaoD2jfO90nuGdre+0/a/V462wQQCV0Jsem/jg/enUl1bXfJ/l9RX
+ Tnhk3vqL6fLu0iu5yRSPjTQPU+PZLuxwwJ6ACrgO2ULRcyZvfar5LZv2LL4HoVl6
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-pm_runtime_get_sync() increments the runtime PM usage counter even
-it returns an error code. Thus a pairing decrement is needed on
-the error handling path to keep the counter balanced.
+This series adds the encoder spec and updates the VIDIOC_G/S_PARM
+documentation.
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
- drivers/staging/media/tegra-vde/vde.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This is a follow-up of the original "Stateful Encoding: final bits"
+series (1). 
 
-diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
-index d3e63512a765..dd134a3a15c7 100644
---- a/drivers/staging/media/tegra-vde/vde.c
-+++ b/drivers/staging/media/tegra-vde/vde.c
-@@ -777,7 +777,7 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+The patches in that series that add support for V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE
+and V4L2_BUF_FLAG_TOO_SMALL have been dropped (the first is not necessary
+and the second can be skipped for now, see the irc discussion with
+Nicolas [3]).
+
+The encoder spec has been updated since [2] with the following
+changes:
+
+- Document the optional VIDIOC_ENUM_FRAMEINTERVALS ioctl.
+
+- Document how to use VIDIOC_S_PARM:
+
+  1) calling S_PARM for the OUTPUT queue sets both the raw frame interval
+     (this is a hint only) and the coded frame interval.
+
+  2) calling S_PARM for the CAPTURE queue sets the coded frame interval
+     only. This is optional and can be used for off-line encoding. In
+     that case the OUTPUT frame interval can be used by the driver to
+     schedule multiple encoders.
  
- 	ret = pm_runtime_get_sync(dev);
- 	if (ret < 0)
--		goto unlock;
-+		goto put_runtime_pm;
- 
- 	/*
- 	 * We rely on the VDE registers reset value, otherwise VDE
+  Ideally S_PARM for the OUTPUT queue would just provide a hint, but
+  existing encoder drivers all use S_PARM for the OUTPUT queue to
+  define the coded frame interval, and that can't be changed.
+
+- Added a note that if a capture buffer is too small it will be
+  returned with V4L2_BUF_FLAG_ERROR and that more work has to be
+  done to properly support this corner case.
+
+- Clarify in the 'Encoding' section that there are more reasons
+  why 'a buffer queued to OUTPUT may result in more than one buffer
+  produced on CAPTURE'.
+
+I think that with these changes this stateful encoder spec is ready
+to be merged.
+
+Regards,
+
+	Hans
+
+[1] https://lore.kernel.org/linux-media/20191119113457.57833-6-hverkuil-cisco@xs4all.nl/T/
+[2] https://www.mail-archive.com/linux-media@vger.kernel.org/msg149211.html
+[3] https://linuxtv.org/irc/irclogger_log/v4l?date=2020-05-19,Tue
+
+Hans Verkuil (1):
+  vidioc-g-parm.rst: update the VIDIOC_G/S_PARM documentation
+
+Tomasz Figa (1):
+  media: docs-rst: Document memory-to-memory video encoder interface
+
+ .../userspace-api/media/v4l/dev-encoder.rst   | 727 ++++++++++++++++++
+ .../userspace-api/media/v4l/dev-mem2mem.rst   |   1 +
+ .../userspace-api/media/v4l/pixfmt-v4l2.rst   |   5 +
+ .../userspace-api/media/v4l/v4l2.rst          |   2 +
+ .../media/v4l/vidioc-encoder-cmd.rst          |  51 +-
+ .../userspace-api/media/v4l/vidioc-g-parm.rst |  51 +-
+ 6 files changed, 798 insertions(+), 39 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/dev-encoder.rst
+
 -- 
-2.17.1
+2.25.1
 
