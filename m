@@ -2,219 +2,274 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49F631DB087
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 12:48:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AC0C1DB0B8
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 12:54:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726733AbgETKsQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 06:48:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49780 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726224AbgETKsP (ORCPT
+        id S1726729AbgETKyK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 06:54:10 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:57222 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726403AbgETKyK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 06:48:15 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80BF2C061A0E;
-        Wed, 20 May 2020 03:48:15 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id s21so3231134ejd.2;
-        Wed, 20 May 2020 03:48:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=BJ/UCzsi6VWkG3ZZDu+33O2d2bF1wj81EEaZB1Z7K30=;
-        b=WEPQ8MJrWaSjujdfKushADVupApSDARb7vrKJ/fPzUsc3mC/ujYkoHlzhlGNkA308s
-         8QlM2py1RTW3ThJuqL16Dpm1nPcK2exZHYTewSxgEmvnBX8O73WjrhSWRPP0hp7qqKfW
-         NbQHSbLaGDcilmMiDH6e6NwoD7qWS80mADr92pxpSZYaDKfCSgT0euPlX2HhzHki488r
-         g5uQmhh21dl5sC0qN5bsGNktaK5rHkVXszDrtbSsBuxkKRcSA+thic04zS4eH6+Xbrwq
-         PTAE7Nk0wBp+2n35cDhBohVR1UyNtmIR8pSjt57EXmTRH7q+SThhRTT0BzCiW4he0NaY
-         g5MA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:reply-to:subject:to:cc:references:from
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-transfer-encoding:content-language;
-        bh=BJ/UCzsi6VWkG3ZZDu+33O2d2bF1wj81EEaZB1Z7K30=;
-        b=Mi8J9u3Ql0muuzXcoyeH7MOWFLBGs55jq3oDXmtci1cFU/c+07XjHymYEadWBac9+/
-         HAS7sxeOMkl0hOZDX7bsHOAhYPoNHSLQOFC4UZCvzDHaLZweT0uRCYzNksiyG89/g/8h
-         m/z+lKcavODDZ6AIHO6rSGSnUNfrpCoSjm3g44G5bbQwqQRQ9e6PK95n/oXQV7t2FSOh
-         chQ7swEWJQWIOrH+xpzU+pVLLvWX+qb8fNSv+ElHC+Zn/m89mzDkBa6lw83rsaourSWu
-         ha7YtZeoo2Tu40hzxOqk8kBZktyjdZVZKMtOem2x0/7j/1u/4KU7Pbc4oBkL9GFc+/iL
-         jiqQ==
-X-Gm-Message-State: AOAM5310fZ/vqPHxWEONxCZynTmFgnMHABFB87fLu2FKTDEE+RzAotoa
-        FKQJTBqh/+bg1mgJ7bF+1tcWp1Fi
-X-Google-Smtp-Source: ABdhPJwl6ENc60zjPf1yS0B2rvn9LuXNOLk4I5UDfSAupLCD7BKpxI1kC22/RvD9+6+rp/IyTh2rFg==
-X-Received: by 2002:a17:906:8514:: with SMTP id i20mr3004443ejx.298.1589971693861;
-        Wed, 20 May 2020 03:48:13 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
-        by smtp.gmail.com with ESMTPSA id m3sm1558631ede.58.2020.05.20.03.48.12
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Wed, 20 May 2020 03:48:13 -0700 (PDT)
-Reply-To: christian.koenig@amd.com
-Subject: Re: [PATCH v1 13/25] dma-buf: Use sequence counter with associated
- wound/wait mutex
-To:     "Ahmed S. Darwish" <a.darwish@linutronix.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>
-Cc:     "David (ChunMing) Zhou" <David1.Zhou@amd.com>,
-        amd-gfx@lists.freedesktop.org,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        David Airlie <airlied@linux.ie>,
-        "Sebastian A. Siewior" <bigeasy@linutronix.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        dri-devel@lists.freedesktop.org, Daniel Vetter <daniel@ffwll.ch>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Felix Kuehling <Felix.Kuehling@amd.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        linux-media@vger.kernel.org
-References: <20200519214547.352050-1-a.darwish@linutronix.de>
- <20200519214547.352050-14-a.darwish@linutronix.de>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <e28c251e-5771-598c-37dd-c6be2de4b9e1@gmail.com>
-Date:   Wed, 20 May 2020 12:48:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Thunderbird/60.9.0
+        Wed, 20 May 2020 06:54:10 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D38224D;
+        Wed, 20 May 2020 12:54:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1589972047;
+        bh=UmFKv/BfQ6WA6C20Fp6co1nzwScgCdWe6WMT87Nq+MM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=MO7RSKtWgQhlGYnEe1R6djsLE34XHQZBfe4YtD/m8wsEQlGtMsy/HD0SXeh6KMJe/
+         rsotOdxA5X0sZ8Lvb8g45dI86v0CmrO8AS6R0VVd6350p9sZBrlvpVZ1v8hFrGujx2
+         lMhGn4nfAQBAuLOqbtyynb6M2EIYbT6Mq7xPboWQ=
+Date:   Wed, 20 May 2020 13:53:55 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl
+Subject: Re: [PATCH v2 1/1] Documentation: media: Document how to write
+ camera sensor drivers
+Message-ID: <20200520105355.GC5852@pendragon.ideasonboard.com>
+References: <20200519085250.32318-1-sakari.ailus@linux.intel.com>
+ <20200520001108.GK3820@pendragon.ideasonboard.com>
+ <20200520091437.GW20066@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20200519214547.352050-14-a.darwish@linutronix.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200520091437.GW20066@paasikivi.fi.intel.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 19.05.20 um 23:45 schrieb Ahmed S. Darwish:
-> A sequence counter write side critical section must be protected by some
-> form of locking to serialize writers. If the serialization primitive is
-> not disabling preemption implicitly, preemption has to be explicitly
-> disabled before entering the sequence counter write side critical
-> section.
->
-> The dma-buf reservation subsystem uses plain sequence counters to manage
-> updates to reservations. Writer serialization is accomplished through a
-> wound/wait mutex.
->
-> Acquiring a wound/wait mutex does not disable preemption, so this needs
-> to be done manually before and after the write side critical section.
->
-> Use the newly-added seqcount_ww_mutex_t instead:
->
->    - It associates the ww_mutex with the sequence count, which enables
->      lockdep to validate that the write side critical section is properly
->      serialized.
->
->    - It removes the need to explicitly add preempt_disable/enable()
->      around the write side critical section because the write_begin/end()
->      functions for this new data type automatically do this.
->
-> If lockdep is disabled this ww_mutex lock association is compiled out
-> and has neither storage size nor runtime overhead.
+Hi Sakari,
 
-Mhm, is the dma_resv object the only user of this new seqcount_ww_mutex 
-variant ?
+On Wed, May 20, 2020 at 12:14:37PM +0300, Sakari Ailus wrote:
+> On Wed, May 20, 2020 at 03:11:08AM +0300, Laurent Pinchart wrote:
+> > On Tue, May 19, 2020 at 11:52:50AM +0300, Sakari Ailus wrote:
+> > > While we have had some example drivers, there has been up to date no
+> > > formal documentation on how camera sensor drivers should be written; what
+> > > are the practices, why, and where they apply.
+> > > 
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > > since v1:
+> > > 
+> > > - Added power management documentation.
+> > 
+> > I've reviewed v1, and most of the comments still apply. I'll comment on
+> > the new section below.
+> > 
+> > > 
+> > > The HTML docs are here:
+> > > 
+> > > <URL:https://www.retiisi.eu/~sailus/v4l2/tmp/doc2/output/>
+> > > 
+> > >  .../driver-api/media/camera-sensor.rst        | 129 ++++++++++++++++++
+> > >  Documentation/driver-api/media/csi2.rst       |   2 +
+> > >  Documentation/driver-api/media/index.rst      |   1 +
+> > >  3 files changed, 132 insertions(+)
+> > >  create mode 100644 Documentation/driver-api/media/camera-sensor.rst
+> > > 
+> > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > > new file mode 100644
+> > > index 000000000000..fa71f07731a0
+> > > --- /dev/null
+> > > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > > @@ -0,0 +1,129 @@
+> > > +.. SPDX-License-Identifier: GPL-2.0
+> > > +
+> > > +Writing camera sensor drivers
+> > > +=============================
+> > > +
+> > > +CSI-2
+> > > +-----
+> > > +
+> > > +Please see what is written on :ref:`MIPI_CSI_2`.
+> > > +
+> > > +Handling clocks
+> > > +---------------
+> > > +
+> > > +Camera sensors have an internal clock tree including a PLL and a number of
+> > > +divisors. The clock tree is generally configured by the driver based on a few
+> > > +input parameters that are specific to the hardware:: the external clock frequency
+> > > +and the link frequency. The two parameters generally are obtained from system
+> > > +firmware. No other frequencies should be used in any circumstances.
+> > > +
+> > > +The reason why the clock frequencies are so important is that the clock signals
+> > > +come out of the SoC, and in many cases a specific frequency is designed to be
+> > > +used in the system. Using another frequency may cause harmful effects
+> > > +elsewhere. Therefore only the pre-determined frequencies are configurable by the
+> > > +user.
+> > > +
+> > > +Frame size
+> > > +----------
+> > > +
+> > > +There are two distinct ways to configure the frame size produced by camera
+> > > +sensors.
+> > > +
+> > > +Freely configurable camera sensor drivers
+> > > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > +
+> > > +Freely configurable camera sensor drivers expose the device's internal
+> > > +processing pipeline as one or more sub-devices with different cropping and
+> > > +scaling configurations. The output size of the device is the result of a series
+> > > +of cropping and scaling operations from the device's pixel array's size.
+> > > +
+> > > +An example of such a driver is the smiapp driver (see drivers/media/i2c/smiapp).
+> > > +
+> > > +Register list based drivers
+> > > +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > +
+> > > +Register list based drivers generally, instead of able to configure the device
+> > > +they control based on user requests, are limited to a number of preset
+> > > +configurations that combine a number of different parameters that on hardware
+> > > +level are independent. How a driver picks such configuration is based on the
+> > > +format set on a source pad at the end of the device's internal pipeline.
+> > > +
+> > > +Most sensor drivers are implemented this way, see e.g.
+> > > +drivers/media/i2c/imx319.c for an example.
+> > > +
+> > > +Frame interval configuration
+> > > +----------------------------
+> > > +
+> > > +There are two different methods for obtaining possibilities for different frame
+> > > +intervals as well as configuring the frame interval. Which one to implement
+> > > +depends on the type of the device.
+> > > +
+> > > +Raw camera sensors
+> > > +~~~~~~~~~~~~~~~~~~
+> > > +
+> > > +Instead of a high level parameter such as frame interval, the frame interval is
+> > > +a result of the configuration of a number of camera sensor implementation
+> > > +specific parameters. Luckily, these parameters tend to be the same for more or
+> > > +less all modern raw camera sensors.
+> > > +
+> > > +The frame interval is calculated using the following equation::
+> > > +
+> > > +	frame interval = (analogue crop width + horizontal blanking) *
+> > > +			 (analogue crop height + vertical blanking) / pixel rate
+> > > +
+> > > +The formula is bus independent and is applicable for raw timing parameters on
+> > > +large variety of devices beyond camera sensors. Devices that have no analogue
+> > > +crop, use the full source image size, i.e. pixel array size.
+> > > +
+> > > +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> > > +``V4L2_CID_VBLANK``, respectively. The unit of these controls are lines. The
+> > > +pixel rate is specified by ``V4L2_CID_PIXEL_RATE`` in the same sub-device. The
+> > > +unit of that control is Hz.
+> > > +
+> > > +Register list based drivers need to implement read-only sub-device nodes for the
+> > > +purpose. Devices that are not register list based need these to configure the
+> > > +device's internal processing pipeline.
+> > > +
+> > > +The first entity in the linear pipeline is the pixel array. The pixel array may
+> > > +be followed by other entities that are there to allow configuring binning,
+> > > +skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
+> > > +
+> > > +USB cameras etc. devices
+> > > +~~~~~~~~~~~~~~~~~~~~~~~~
+> > > +
+> > > +USB video class hardware, as well as many cameras offering a higher level
+> > > +control interface, generally use the concept of frame interval (or frame rate)
+> > > +on the level of device hardware interface. This means lower level controls
+> > > +exposed by raw cameras may not be used as an interface to control the frame
+> > > +interval on these devices.
+> > > +
+> > > +Power management
+> > > +----------------
+> > > +
+> > > +Always use runtime PM to manage the power states of your device.
+> > > +
+> > > +Existing camera sensor drivers may rely on the old
+> > > +:c:type:`v4l2_subdev_core_ops`->s_power() callback for bridge or ISP drivers to
+> > > +manage their power state. This is however **deprecated**. If you feel you need
+> > > +to begin calling an s_power from an ISP or a bridge driver, instead please add
+> > > +runtime PM support to the sensor driver you are using. Likewise, new drivers
+> > > +should not use s_power.
+> > 
+> > This should explain how runtime PM should be used. .s_power() provides
+> > an explicit API to control power of the sensor. From a sensor driver
+> 
+> In general, how to exactly implement power management is specific to the
+> driver, and a responsibility of the driver. The sensor drivers are not
+> special in this respect.
 
-If yes we are trying to get rid of this sequence counter for quite some 
-time, so I would rather invest the additional time to finish this.
+Sure, but we're moving away from a model that is well known
+(.s_power()), how to do so needs to be explained.
 
+> > point of view, one may wonder when to call pm_runtime_get(_sync)() and
+> > pm_runtime_put(_sync)() if there's no explicit operation. From a
+> > receiver point of view, one may wonder how to control the sensor power
+> > state. I'm pretty sure someone could try to call the runtime PM get/put
+> > functions on the struct device corresponding to the sensor from an ISP
+> > driver. To avoid that, this section needs to explain why explicit power
+> > management from the ISP side is not needed.
+> 
+> I can add explicit note on calling runtime PM functions on other devices is
+> not allowed for this is what the s_power callback did, but this not where
+> runtime PM should be documented.
+> 
+> Runtime PM documentation could perhaps be improved but that does not belong
+> here.
+
+Sure, but if you want to deprecate .s_power(), you need to provide
+precise guidelines on what to do instead. Just saying "use runtime PM"
+isn't enough, even I wasn't sure how to handle that.
+
+> The examples should be helpful for driver writers.
+> 
+> > > +
+> > > +Please see examples in e.g. ``drivers/media/i2c/ov8856.c`` and
+> > > +``drivers/media/i2c/smiapp/smiapp-core.c``. The two drivers work in both ACPI
+> > > +and DT based systems.
+> > > +
+> > > +Control framework
+> > > +~~~~~~~~~~~~~~~~~
+> > > +
+> > > +``v4l2_ctrl_handler_setup()`` function may not be used in the device's runtime PM
+> > > +``resume`` callback currently, as it has no way to figure out the power state of
+
+resume or runtime_resume ?
+
+> > > +the device. As callback is required to figure out the device's power state, it
+> > > +can only know when the device is fully powered. This can be done using
+> > 
+> > I don't understand the previous sentence.
+> 
+> How about rephrasing it as:
+> 
+> 	The callback need to know the device is in ``RPM_ACTIVE`` state,
+
+s/need/needs/
+
+s/the device is/if the device is/ ?
+
+> 	and that information is only available after the resume callback
+> 	has finished.
+>
+> > > +
+> > > +.. c:function::
+> > > +	int pm_runtime_get_if_in_use(struct device *dev);
+> > > +
+> > > +The function returns a non-zero value if it succeeded getting the power count or
+> > > +runtime PM was disabled, in either of which cases the driver may proceed to
+> > > +access the device.
+> > 
+> > This requires more explanation too, it's not clear to me.
+> 
+> How about:
+> 
+> 	The function returns a non-zero value if the device is in
+> 	RPM_ACTIVE state or runtime PM is disabled. The caller is required
+> 	to put the usage_count using ``pm_runtime_put()`` or one of its
+> 	variants.
+
+What is not clear is where to use pm_runtime_get_if_in_use(). You
+started by saying v4l2_ctrl_handler_setup() can't be used in
+.runtime_resume(), but where should it be used instead, and how does it
+relate to pm_runtime_get_if_in_use() ?
+
+-- 
 Regards,
-Christian.
 
->
-> Signed-off-by: Ahmed S. Darwish <a.darwish@linutronix.de>
-> ---
->   drivers/dma-buf/dma-resv.c                       | 8 +-------
->   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c | 2 --
->   include/linux/dma-resv.h                         | 2 +-
->   3 files changed, 2 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
-> index 590ce7ad60a0..3aba2b2bfc48 100644
-> --- a/drivers/dma-buf/dma-resv.c
-> +++ b/drivers/dma-buf/dma-resv.c
-> @@ -128,7 +128,7 @@ subsys_initcall(dma_resv_lockdep);
->   void dma_resv_init(struct dma_resv *obj)
->   {
->   	ww_mutex_init(&obj->lock, &reservation_ww_class);
-> -	seqcount_init(&obj->seq);
-> +	seqcount_ww_mutex_init(&obj->seq, &obj->lock);
->   
->   	RCU_INIT_POINTER(obj->fence, NULL);
->   	RCU_INIT_POINTER(obj->fence_excl, NULL);
-> @@ -259,7 +259,6 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
->   	fobj = dma_resv_get_list(obj);
->   	count = fobj->shared_count;
->   
-> -	preempt_disable();
->   	write_seqcount_begin(&obj->seq);
->   
->   	for (i = 0; i < count; ++i) {
-> @@ -281,7 +280,6 @@ void dma_resv_add_shared_fence(struct dma_resv *obj, struct dma_fence *fence)
->   	smp_store_mb(fobj->shared_count, count);
->   
->   	write_seqcount_end(&obj->seq);
-> -	preempt_enable();
->   	dma_fence_put(old);
->   }
->   EXPORT_SYMBOL(dma_resv_add_shared_fence);
-> @@ -308,14 +306,12 @@ void dma_resv_add_excl_fence(struct dma_resv *obj, struct dma_fence *fence)
->   	if (fence)
->   		dma_fence_get(fence);
->   
-> -	preempt_disable();
->   	write_seqcount_begin(&obj->seq);
->   	/* write_seqcount_begin provides the necessary memory barrier */
->   	RCU_INIT_POINTER(obj->fence_excl, fence);
->   	if (old)
->   		old->shared_count = 0;
->   	write_seqcount_end(&obj->seq);
-> -	preempt_enable();
->   
->   	/* inplace update, no shared fences */
->   	while (i--)
-> @@ -393,13 +389,11 @@ int dma_resv_copy_fences(struct dma_resv *dst, struct dma_resv *src)
->   	src_list = dma_resv_get_list(dst);
->   	old = dma_resv_get_excl(dst);
->   
-> -	preempt_disable();
->   	write_seqcount_begin(&dst->seq);
->   	/* write_seqcount_begin provides the necessary memory barrier */
->   	RCU_INIT_POINTER(dst->fence_excl, new);
->   	RCU_INIT_POINTER(dst->fence, dst_list);
->   	write_seqcount_end(&dst->seq);
-> -	preempt_enable();
->   
->   	dma_resv_list_free(src_list);
->   	dma_fence_put(old);
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> index 9dff792c9290..87fd32aae8f9 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd_gpuvm.c
-> @@ -258,11 +258,9 @@ static int amdgpu_amdkfd_remove_eviction_fence(struct amdgpu_bo *bo,
->   	new->shared_count = k;
->   
->   	/* Install the new fence list, seqcount provides the barriers */
-> -	preempt_disable();
->   	write_seqcount_begin(&resv->seq);
->   	RCU_INIT_POINTER(resv->fence, new);
->   	write_seqcount_end(&resv->seq);
-> -	preempt_enable();
->   
->   	/* Drop the references to the removed fences or move them to ef_list */
->   	for (i = j, k = 0; i < old->shared_count; ++i) {
-> diff --git a/include/linux/dma-resv.h b/include/linux/dma-resv.h
-> index a6538ae7d93f..d44a77e8a7e3 100644
-> --- a/include/linux/dma-resv.h
-> +++ b/include/linux/dma-resv.h
-> @@ -69,7 +69,7 @@ struct dma_resv_list {
->    */
->   struct dma_resv {
->   	struct ww_mutex lock;
-> -	seqcount_t seq;
-> +	seqcount_ww_mutex_t seq;
->   
->   	struct dma_fence __rcu *fence_excl;
->   	struct dma_resv_list __rcu *fence;
-
+Laurent Pinchart
