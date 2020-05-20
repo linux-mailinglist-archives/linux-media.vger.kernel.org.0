@@ -2,179 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 35C2D1DB0EA
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 13:03:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC1B41DB0EE
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 13:03:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726835AbgETLD1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 07:03:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52176 "EHLO
+        id S1726747AbgETLDi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 07:03:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726403AbgETLD0 (ORCPT
+        with ESMTP id S1726435AbgETLDi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 07:03:26 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F89DC05BD43
-        for <linux-media@vger.kernel.org>; Wed, 20 May 2020 04:03:25 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id e1so2694765wrt.5
-        for <linux-media@vger.kernel.org>; Wed, 20 May 2020 04:03:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=ct4iwtkqSx7W80DKvDt8WvEkiq9KjVIacJ0yr7BAVII=;
-        b=gCn4N7N304bnLXil/a63o+C7lXWE4O+dUD5kr4U/QwkYok3WIYIss7MpTiwkIvDJDu
-         Yb14/i8NGGvtiwnPpTQWB1oc/MHjv9gyvs+HjkbrsA9GEiFTSWKwCkg07hWlb9e22xpX
-         cG1iXAAYqHj6N5FDXXS8FFy8ELfjoCREHTKlM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=ct4iwtkqSx7W80DKvDt8WvEkiq9KjVIacJ0yr7BAVII=;
-        b=G9AT02RT28ZqBolnRO2xdXRNqlmGtQOtEsFKeaLx0O2toNaboIta3IlXrTBcKwCjO9
-         Pt4dIH2fAyXB6mBEX1ecqcOr3DMTug7vhdWCyozeajES7fuOeldnvakTms7hZvsmISO3
-         6/LGlzChCdnxGo1nmxOpYjecvzb1qfehBhHpZQbAKekD118YM09odEpdAjvPEfp9lSwx
-         ic6+ypbdjij7xUfua6VhdQ//pb3zvTdgU1O7eS6g0xtUGTST8c8OnZdeIf6rob/AQfOG
-         oaInxudFOFKMvputp1UUK75Vc34Sq4aRbDp4hRLQaldeJR0u+2PcMo6lB9j2PdIPdOdv
-         +h0Q==
-X-Gm-Message-State: AOAM532L3mqChtDXyExyHtFr1QGt2To+R5SExLA4cv7gdvk/ra7GBomg
-        6fbDC6epdyluunXL3ZU31l66nQ==
-X-Google-Smtp-Source: ABdhPJzCd29Xl/wTekkJzbG2hFf7ELniw9c+535re3/QWPV7VzmtBOKv2TwjIms44WqcPc+fmic+SA==
-X-Received: by 2002:adf:fe90:: with SMTP id l16mr3672440wrr.222.1589972604221;
-        Wed, 20 May 2020 04:03:24 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id u65sm2743050wmg.8.2020.05.20.04.03.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 May 2020 04:03:23 -0700 (PDT)
-Date:   Wed, 20 May 2020 13:03:20 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Oded Gabbay <oded.gabbay@gmail.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        linux-rdma@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Subject: Re: [PATCH] dma-fence: add might_sleep annotation to _wait()
-Message-ID: <20200520110320.GT206103@phenom.ffwll.local>
-Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Oded Gabbay <oded.gabbay@gmail.com>, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-References: <20200519132756.682888-1-daniel.vetter@ffwll.ch>
- <be86b73c-2fb3-a6c0-5a12-004af051210f@amd.com>
+        Wed, 20 May 2020 07:03:38 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C80AC061A0E
+        for <linux-media@vger.kernel.org>; Wed, 20 May 2020 04:03:38 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 4CC7D2A1EBB
+Subject: Re: [PATCH 2/5] media: staging: rkisp1: use a macro for the
+ statistics flags mask
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com
+References: <20200512120522.25960-1-dafna.hirschfeld@collabora.com>
+ <20200512120522.25960-3-dafna.hirschfeld@collabora.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <0e4f479e-5768-c916-e80f-ff2b605f2975@collabora.com>
+Date:   Wed, 20 May 2020 08:03:30 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <be86b73c-2fb3-a6c0-5a12-004af051210f@amd.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200512120522.25960-3-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 20, 2020 at 08:54:36AM +0200, Christian König wrote:
-> Am 19.05.20 um 15:27 schrieb Daniel Vetter:
-> > Do it uncontionally, there's a separate peek function with
-> > dma_fence_is_signalled() which can be called from atomic context.
-> > 
-> > v2: Consensus calls for an unconditional might_sleep (Chris,
-> > Christian)
-> > 
-> > Full audit:
-> > - dma-fence.h: Uses MAX_SCHEDULE_TIMOUT, good chance this sleeps
-> > - dma-resv.c: Timeout always at least 1
-> > - st-dma-fence.c: Save to sleep in testcases
-> > - amdgpu_cs.c: Both callers are for variants of the wait ioctl
-> > - amdgpu_device.c: Two callers in vram recover code, both right next
-> >    to mutex_lock.
-> > - amdgpu_vm.c: Use in the vm_wait ioctl, next to _reserve/unreserve
-> > - remaining functions in amdgpu: All for test_ib implementations for
-> >    various engines, caller for that looks all safe (debugfs, driver
-> >    load, reset)
-> > - etnaviv: another wait ioctl
-> > - habanalabs: another wait ioctl
-> > - nouveau_fence.c: hardcoded 15*HZ ... glorious
-> > - nouveau_gem.c: hardcoded 2*HZ ... so not even super consistent, but
-> >    this one does have a WARN_ON :-/ At least this one is only a
-> >    fallback path for when kmalloc fails. Maybe this should be put onto
-> >    some worker list instead, instead of a work per unamp ...
-> > - i915/selftests: Hardecoded HZ / 4 or HZ / 8
-> > - i915/gt/selftests: Going up the callchain looks safe looking at
-> >    nearby callers
-> > - i915/gt/intel_gt_requests.c. Wrapped in a mutex_lock
-> > - i915/gem_i915_gem_wait.c: The i915-version which is called instead
-> >    for i915 fences already has a might_sleep() annotation, so all good
-> > 
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: Lucas Stach <l.stach@pengutronix.de>
-> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-> > Cc: Ben Skeggs <bskeggs@redhat.com>
-> > Cc: "VMware Graphics" <linux-graphics-maintainer@vmware.com>
-> > Cc: Oded Gabbay <oded.gabbay@gmail.com>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > Cc: linux-rdma@vger.kernel.org
-> > Cc: amd-gfx@lists.freedesktop.org
-> > Cc: intel-gfx@lists.freedesktop.org
-> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Christian König <christian.koenig@amd.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> 
-> Reviewed-by: Christian König <christian.koenig@amd.com>
+Hi Dafna,
 
-intel-gfx-ci approves too, thanks to both of you for reviews, patch merged
-to drm-misc-next.
--Daniel
-
+On 5/12/20 9:05 AM, Dafna Hirschfeld wrote:
+> The mask of the ready statistics flags is used in
+> several places in the code using bitwise-or.
+> Use a macro for that to make the code more readable.
 > 
-> > ---
-> >   drivers/dma-buf/dma-fence.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> > 
-> > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> > index 90edf2b281b0..656e9ac2d028 100644
-> > --- a/drivers/dma-buf/dma-fence.c
-> > +++ b/drivers/dma-buf/dma-fence.c
-> > @@ -208,6 +208,8 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
-> >   	if (WARN_ON(timeout < 0))
-> >   		return -EINVAL;
-> > +	might_sleep();
-> > +
-> >   	trace_dma_fence_wait_start(fence);
-> >   	if (fence->ops->wait)
-> >   		ret = fence->ops->wait(fence, intr, timeout);
-> 
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Acked-by: Helen Koike <helen.koike@collabora.com>
+
+Thanks
+Helen
+
+> ---
+>  drivers/staging/media/rkisp1/rkisp1-common.h |  4 ++++
+>  drivers/staging/media/rkisp1/rkisp1-isp.c    |  5 +----
+>  drivers/staging/media/rkisp1/rkisp1-stats.c  | 12 +++---------
+>  3 files changed, 8 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
+> index 33dffe21c769..c0ab16c6b3db 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
+> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
+> @@ -42,6 +42,10 @@
+>  
+>  #define RKISP1_MAX_BUS_CLK	8
+>  
+> +#define RKISP1_STATS_MEAS_MASK		(RKISP1_CIF_ISP_AWB_DONE |	\
+> +					 RKISP1_CIF_ISP_AFM_FIN |	\
+> +					 RKISP1_CIF_ISP_EXP_END |	\
+> +					 RKISP1_CIF_ISP_HIST_MEASURE_RDY)
+>  enum rkisp1_rsz_pad {
+>  	RKISP1_RSZ_PAD_SINK,
+>  	RKISP1_RSZ_PAD_SRC,
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
+> index 19ab0ed323aa..49b47e1734b0 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
+> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
+> @@ -1137,10 +1137,7 @@ irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1)
+>  
+>  		/* New frame from the sensor received */
+>  		isp_ris = rkisp1_read(rkisp1, RKISP1_CIF_ISP_RIS);
+> -		if (isp_ris & (RKISP1_CIF_ISP_AWB_DONE |
+> -			       RKISP1_CIF_ISP_AFM_FIN |
+> -			       RKISP1_CIF_ISP_EXP_END |
+> -			       RKISP1_CIF_ISP_HIST_MEASURE_RDY))
+> +		if (isp_ris & RKISP1_STATS_MEAS_MASK)
+>  			rkisp1_stats_isr(&rkisp1->stats, isp_ris);
+>  	}
+>  
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-stats.c b/drivers/staging/media/rkisp1/rkisp1-stats.c
+> index 6dfcbdc3deb8..12998db955e6 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-stats.c
+> +++ b/drivers/staging/media/rkisp1/rkisp1-stats.c
+> @@ -407,22 +407,16 @@ void rkisp1_stats_isr(struct rkisp1_stats *stats, u32 isp_ris)
+>  
+>  	spin_lock(&stats->irq_lock);
+>  
+> -	val = RKISP1_CIF_ISP_AWB_DONE | RKISP1_CIF_ISP_AFM_FIN |
+> -	      RKISP1_CIF_ISP_EXP_END | RKISP1_CIF_ISP_HIST_MEASURE_RDY;
+> +	val = RKISP1_STATS_MEAS_MASK;
+>  	rkisp1_write(rkisp1, val, RKISP1_CIF_ISP_ICR);
+>  
+>  	isp_mis_tmp = rkisp1_read(rkisp1, RKISP1_CIF_ISP_MIS);
+> -	if (isp_mis_tmp &
+> -	    (RKISP1_CIF_ISP_AWB_DONE | RKISP1_CIF_ISP_AFM_FIN |
+> -	     RKISP1_CIF_ISP_EXP_END | RKISP1_CIF_ISP_HIST_MEASURE_RDY))
+> +	if (isp_mis_tmp & RKISP1_STATS_MEAS_MASK)
+>  		rkisp1->debug.stats_error++;
+>  
+>  	if (!stats->is_streaming)
+>  		goto unlock;
+> -	if (isp_ris & (RKISP1_CIF_ISP_AWB_DONE |
+> -		       RKISP1_CIF_ISP_AFM_FIN |
+> -		       RKISP1_CIF_ISP_EXP_END |
+> -		       RKISP1_CIF_ISP_HIST_MEASURE_RDY)) {
+> +	if (isp_ris & RKISP1_STATS_MEAS_MASK) {
+>  		work = kzalloc(sizeof(*work), GFP_ATOMIC);
+>  		if (work) {
+>  			INIT_WORK(&work->work,
+> 
