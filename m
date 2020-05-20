@@ -2,155 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3F1C1DAF94
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 12:02:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8EE461DAFDD
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 12:15:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726839AbgETKCH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 06:02:07 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:37547 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726810AbgETKCG (ORCPT
+        id S1727004AbgETKPt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 06:15:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44682 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726868AbgETKPs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 06:02:06 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id bLXzjmaqPFjnUbLY4jXnVV; Wed, 20 May 2020 12:02:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1589968924; bh=xANaQzoI3Pw/9XN4Rvp4pqqAXzEKyWlrC0dtz6VHYc4=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=BPtGqrCuYk46TjYilUSTY07qdHErw2gNOXu1YraRTrOi19wsoJGBG5gAVQeqJ+Szj
-         2tcab4aEIRJJQSFaOq+A81xdC7GzSH9QAmXbYLrFch6NX2xs34hZN7JZ6mgSutdGCr
-         PPRvVsz6K+B/QqsOHvBDebi72HlrNhi8H0S2pEWJtbjj0pgZGE8Ior8T8+So42LRDQ
-         u3ua90kvRfGzpxecBlSNlsU1aZreJaH4ne3gol28Ya+yQqm3JYrj4BtQ1ehMsbHYnR
-         Mf3UQ4OwjDp1nEN++P6/Y3D6aQL48YGc5HKiuA6+i3tfzQCw0F5w8pvqwXKt2Ym5kT
-         oxXC/Puxabpfg==
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Michael Tretter <m.tretter@pengutronix.de>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv2 2/2] vidioc-g-parm.rst: update the VIDIOC_G/S_PARM documentation
-Date:   Wed, 20 May 2020 12:01:59 +0200
-Message-Id: <20200520100159.2094831-3-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200520100159.2094831-1-hverkuil-cisco@xs4all.nl>
-References: <20200520100159.2094831-1-hverkuil-cisco@xs4all.nl>
+        Wed, 20 May 2020 06:15:48 -0400
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B04DC061A0E;
+        Wed, 20 May 2020 03:15:48 -0700 (PDT)
+Received: by mail-lj1-x243.google.com with SMTP id c11so783722ljn.2;
+        Wed, 20 May 2020 03:15:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=A3jQcfTwH9hgQh8/O+gwx3D7oktbfMKBaopqhaIQ9pM=;
+        b=laJRdkCg5aDI16TZ1iNoVJGsUFhWvSlm178lY/+RHopW12Q2J7mmdgB6w0g8cGTluo
+         NyfqqZB/UFewKnqM9xNSZGvRlvJu3z4TraMkdnlMWjncZEJ08R6Z3wbMXpYg3UoZQRH3
+         EJjLYMZuy3TgpaDDFi4PF4PjALVzyl6D+bZlGbd5Xmzug4suTqtw1ObsRh7oUZGE35Br
+         mxtzAoz6z59+ay+Iy7DY6711RgTlSd2W9viHDU1k5G19rO3aEvRRWy2IuazDAZ6rcWSs
+         M7YqPPj+3AsoEF4VWFI/qksCk/03a5tuMHNCpyo/CK9oQirN4egx6vO2szy6pnR0knSC
+         C20w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=A3jQcfTwH9hgQh8/O+gwx3D7oktbfMKBaopqhaIQ9pM=;
+        b=d+3aqzeobTOh60HXXSB9JVxoH2Ic9FaulL+Y/HExuhberqjUEKSkveK3yzbORdrb5X
+         N1dTSNfu0ufoWUztETXTutKInvjcDGVjHoD/hTYNIwl6PCaR4u08Xn8g8XbyedBy19rU
+         TPwjKwWeQLGMX7PiCN+CIu6pnHxx0Ez/w0iFQ5bryJixpgY0jWboarBn+eFeImlIAZ85
+         GmQHxyTPhbk2HQjGxskfVoLq+T1DQjrl777TZgE/AVHPuK2YkdlFFnZZkrwDkG3hiVNO
+         F6Vbmex2Dcqj0zBMzG7C+UrClbsocdumygOZMlTmA9vtDbFB6e/GUANYkrrH3OZRXgoA
+         +n3Q==
+X-Gm-Message-State: AOAM533LDl8RlyKfV3WdyROn73qykMGq8dQfhQkC0tlJ6y5RHXe/bM6O
+        w+PaLnr/KKhdacXMRAscbPoDEN+Y
+X-Google-Smtp-Source: ABdhPJylLv5WcZffcN6CY6DHsMMWEVlMasl60xHsskEX1iigxx3HLyXQuuOF/A2C+wOMqTnRqvSxqg==
+X-Received: by 2002:a2e:b891:: with SMTP id r17mr2455976ljp.58.1589969746390;
+        Wed, 20 May 2020 03:15:46 -0700 (PDT)
+Received: from [192.168.2.145] (ppp91-78-208-152.pppoe.mtu-net.ru. [91.78.208.152])
+        by smtp.googlemail.com with ESMTPSA id d22sm960520lfi.31.2020.05.20.03.15.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 20 May 2020 03:15:45 -0700 (PDT)
+Subject: Re: [PATCH] media: staging: tegra-vde: fix runtime pm imbalance on
+ error
+To:     Dinghao Liu <dinghao.liu@zju.edu.cn>, kjlu@umn.edu
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+References: <20200520095148.10995-1-dinghao.liu@zju.edu.cn>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <2b5d64f5-825f-c081-5d03-02655c2d9491@gmail.com>
+Date:   Wed, 20 May 2020 13:15:44 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200520095148.10995-1-dinghao.liu@zju.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfNWZnJQcJi46SO/h6mzDZ2gBjc5RBO2ohWpiqjbN224vLYyxQxRjqlrBcFnoQ+1iibRv/SLUo01GIlccPVMIgjdmu67R6iXPz9+50eECAKDEkcYxFfeq
- x6YG7qlwCYDn8HUx7uRXBZdMrHgM/zObdiCBY3NmmrVZfHr0wzm1WzTDd0XaEc+sH5Sgs3iVrGGcm+dnFPdsmp42byQiiJIF4S3cAY9NA796wwllXERF3TMj
- ClCF2UUYqPTxCCFa5FV27KlZSef13WZzEyq5a7SXWMzz9DPlaYYMPeClLbpjCRw/RM9gG+UOPoLPrTB1HS2Q+Bj+rdF5X5PSWVWx3FqSzOQ=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This documentation is very outdated. In particular, it is
-not obvious at all that this is used to change the framerate of
-sensors.
+20.05.2020 12:51, Dinghao Liu пишет:
+> pm_runtime_get_sync() increments the runtime PM usage counter even
+> it returns an error code. Thus a pairing decrement is needed on
+> the error handling path to keep the counter balanced.
+> 
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> ---
+>  drivers/staging/media/tegra-vde/vde.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
+> index d3e63512a765..dd134a3a15c7 100644
+> --- a/drivers/staging/media/tegra-vde/vde.c
+> +++ b/drivers/staging/media/tegra-vde/vde.c
+> @@ -777,7 +777,7 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+>  
+>  	ret = pm_runtime_get_sync(dev);
+>  	if (ret < 0)
+> -		goto unlock;
+> +		goto put_runtime_pm;
+>  
+>  	/*
+>  	 * We rely on the VDE registers reset value, otherwise VDE
+> 
 
-Fix it, and include references to the stateful encoder API where
-this works slightly different.
+Hello Dinghao,
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- .../userspace-api/media/v4l/vidioc-g-parm.rst | 51 ++++++++++++-------
- 1 file changed, 32 insertions(+), 19 deletions(-)
+Thank you for the patch. I sent out a similar patch a week ago [1].
 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-parm.rst b/Documentation/userspace-api/media/v4l/vidioc-g-parm.rst
-index 42e9f6ee7a59..0524f1e4458e 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-g-parm.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-g-parm.rst
-@@ -42,12 +42,13 @@ Arguments
- Description
- ===========
- 
--The current video standard determines a nominal number of frames per
--second. If less than this number of frames is to be captured or output,
--applications can request frame skipping or duplicating on the driver
--side. This is especially useful when using the :ref:`read() <func-read>` or
--:ref:`write() <func-write>`, which are not augmented by timestamps or sequence
--counters, and to avoid unnecessary data copying.
-+Applications can request a different frame interval. The capture or
-+output device will be reconfigured to support the requested frame
-+interval if possible. Optionally drivers may choose to skip or
-+repeat frames to achieve the requested frame interval.
-+
-+For stateful encoders (see :ref:`encoder`) this represents the
-+frame interval that is typically embedded in the encoded video stream.
- 
- Changing the frame interval shall never change the format. Changing the
- format, on the other hand, may change the frame interval.
-@@ -57,7 +58,8 @@ internally by a driver in read/write mode. For implications see the
- section discussing the :ref:`read() <func-read>` function.
- 
- To get and set the streaming parameters applications call the
--:ref:`VIDIOC_G_PARM <VIDIOC_G_PARM>` and :ref:`VIDIOC_S_PARM <VIDIOC_G_PARM>` ioctl, respectively. They take a
-+:ref:`VIDIOC_G_PARM <VIDIOC_G_PARM>` and
-+:ref:`VIDIOC_S_PARM <VIDIOC_G_PARM>` ioctl, respectively. They take a
- pointer to a struct :c:type:`v4l2_streamparm` which contains a
- union holding separate parameters for input and output devices.
- 
-@@ -113,14 +115,21 @@ union holding separate parameters for input and output devices.
-     * - struct :c:type:`v4l2_fract`
-       - ``timeperframe``
-       - This is the desired period between successive frames captured by
--	the driver, in seconds. The field is intended to skip frames on
--	the driver side, saving I/O bandwidth.
-+	the driver, in seconds.
-+    * - :cspan:`2`
-+
-+	This will configure the speed at which the video source (e.g. a sensor)
-+	generates video frames. If the speed is fixed, then the driver may
-+	choose to skip or repeat frames in order to achieve the requested
-+	frame rate.
-+
-+        For stateful encoders (see :ref:`encoder`) this represents the
-+	frame interval that is typically embedded in the encoded video stream.
- 
- 	Applications store here the desired frame period, drivers return
--	the actual frame period, which must be greater or equal to the
--	nominal frame period determined by the current video standard
--	(struct :c:type:`v4l2_standard` ``frameperiod``
--	field). Changing the video standard (also implicitly by switching
-+	the actual frame period.
-+
-+	Changing the video standard (also implicitly by switching
- 	the video input) may reset this parameter to the nominal frame
- 	period. To reset manually applications can just set this field to
- 	zero.
-@@ -173,11 +182,15 @@ union holding separate parameters for input and output devices.
- 	:ref:`write() <func-write>` mode (in streaming mode timestamps
- 	can be used to throttle the output), saving I/O bandwidth.
- 
-+        For stateful encoders (see :ref:`encoder`) this represents the
-+	frame interval that is typically embedded in the encoded video stream
-+	and it provides a hint to the encoder of the speed at which raw
-+	frames are queued up to the encoder.
-+
- 	Applications store here the desired frame period, drivers return
--	the actual frame period, which must be greater or equal to the
--	nominal frame period determined by the current video standard
--	(struct :c:type:`v4l2_standard` ``frameperiod``
--	field). Changing the video standard (also implicitly by switching
-+	the actual frame period.
-+
-+	Changing the video standard (also implicitly by switching
- 	the video output) may reset this parameter to the nominal frame
- 	period. To reset manually applications can just set this field to
- 	zero.
-@@ -216,8 +229,8 @@ union holding separate parameters for input and output devices.
- 
-     * - ``V4L2_CAP_TIMEPERFRAME``
-       - 0x1000
--      - The frame skipping/repeating controlled by the ``timeperframe``
--	field is supported.
-+      - The frame period can be modified by settings the ``timeperframe``
-+	field.
- 
- 
- 
--- 
-2.25.1
+[1]
+https://patchwork.ozlabs.org/project/linux-tegra/patch/20200514210847.9269-2-digetx@gmail.com/
 
+The pm_runtime_put_noidle() should have the same effect as yours
+variant, although my variant won't change the last_busy RPM time, which
+I think is a bit more appropriate behavior.
