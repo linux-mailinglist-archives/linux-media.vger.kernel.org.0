@@ -2,109 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02EA21DC20E
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 00:31:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 197C01DC216
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 00:35:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728550AbgETWbC convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 20 May 2020 18:31:02 -0400
-Received: from mailoutvs40.siol.net ([185.57.226.231]:51865 "EHLO
-        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728270AbgETWbC (ORCPT
+        id S1728505AbgETWfE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 18:35:04 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:41768 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728019AbgETWfE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 18:31:02 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTP id 5F0AD521CA5;
-        Thu, 21 May 2020 00:30:58 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta09.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta09.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id WVPCA-mzMnE8; Thu, 21 May 2020 00:30:58 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Postfix) with ESMTPS id E1B7A521CA2;
-        Thu, 21 May 2020 00:30:57 +0200 (CEST)
-Received: from jernej-laptop.localnet (cpe-194-152-20-232.static.triera.net [194.152.20.232])
-        (Authenticated sender: jernej.skrabec@siol.net)
-        by mail.siol.net (Postfix) with ESMTPA id 6D5FC521C9C;
-        Thu, 21 May 2020 00:30:57 +0200 (CEST)
-From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-To:     mripard@kernel.org, paul.kocialkowski@bootlin.com,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        hverkuil-cisco@xs4all.nl, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH] media: cedrus: Add support for VP8 decoding
-Date:   Thu, 21 May 2020 00:30:56 +0200
-Message-ID: <2875977.BS6FNRR2HQ@jernej-laptop>
-In-Reply-To: <ee0aa12fdf1655c4e563b8fc9753a5ab5e52f4cf.camel@ndufresne.ca>
-References: <20200520210129.132816-1-jernej.skrabec@siol.net> <ee0aa12fdf1655c4e563b8fc9753a5ab5e52f4cf.camel@ndufresne.ca>
+        Wed, 20 May 2020 18:35:04 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 29D912A1B13
+Subject: Re: [PATCH v2 4/4] media: staging: rkisp1: cap: remove support of
+ BGR666 format
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org, ezequiel@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, laurent.pinchart@ideasonboard.com
+References: <20200515142952.20163-1-dafna.hirschfeld@collabora.com>
+ <20200515142952.20163-5-dafna.hirschfeld@collabora.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <fc4dbc40-ab57-0ca4-4ac7-5ffdb7f0ad81@collabora.com>
+Date:   Wed, 20 May 2020 19:34:55 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Type: text/plain; charset="iso-8859-1"
+In-Reply-To: <20200515142952.20163-5-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dne sreda, 20. maj 2020 ob 23:43:40 CEST je Nicolas Dufresne napisal(a):
-> Le mercredi 20 mai 2020 à 23:01 +0200, Jernej Skrabec a écrit :
-> > VP8 in Cedrus shares same engine as H264.
-> > 
-> > Note that it seems necessary to call bitstream parsing functions,
-> > to parse frame header, otherwise decoded image is garbage. This is
-> > contrary to what is driver supposed to do. However, values are not
-> > really used, so this might be acceptable. It's possible that bitstream
-> 
-> Have you verified that all values passed through controls are not used
-> ? To remain a stateless driver, there is no requirement for parsed data
-> to be used, the only requirement is that the reference are used.
-> Otherwise doing parallel decoding of two stream of different stream
-> would be broken. Have you verified that parallel decoding is working as
-> expected ?
 
-I'm not sure if you understand what I meant. Although userspace app parses 
-frame header and fills all data in VP8 control, driver parses frame header 
-again, using HW bitstream parsing functionality in cedrus_read_header(). 
-Without that second header parsing in HW, decoded image is garbage. Note that 
-cedrus_read_header() discards all parsed values and relies on those provided 
-in controls.
 
-This parsing doesn't cause any problems with parallel decoding or anything. 
-It's done during frame decoding job, so it doesn't affect any state. It's just 
-that we shouldn't need to parse header in driver because all data is already 
-provided in controls. It seems that Cedrus core was never tested without that 
-HW frame header parsing. I found out that HEVC and H264 frames can sometimes 
-also be wrongly decoded if no bitstream parsing function is triggered in HW 
-before final decoding.
+On 5/15/20 11:29 AM, Dafna Hirschfeld wrote:
+> The rkisp1 supports RGB encoding with 6 bits per
+> color with the following format:
+> - - b5 b4 b3 b2 b1 b0 - - g5 g4 g3 g2 g1 g0 - - r5 r4 r3 r2 r1 r0 - - - - - - - -
 
-I spend a lot of time trying to avoid that header parsing, but I couldn't find 
-any way around it.
+Is this the same as V4L2_PIX_FMT_XBGR32 format, but with colors range from 0 to 63 ?
 
-In another words, Cedrus VPU provides two functionalities - HW bitstream 
-parsing (to speed up header parsing) and video decoding. One would thought 
-that video decoding can be used independently, if all data from header is 
-already known, but it can't be.
+I was wondering what is the usage of such a format. If it is useful, then I'm sad
+to see this being removed from the driver, since this is a v4l2 api limitation, and not
+a hw limitation.
 
-Best regards,
-Jernej
+Regards,
+Helen
 
 > 
-> > parsing functions set some internal VPU state, which is later necessary
-> > for proper decoding. Biggest suspect is "VP8 probs update" trigger.
-> > 
-> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > ---
-> > 
-> >  drivers/staging/media/sunxi/cedrus/Makefile   |   3 +-
-> >  drivers/staging/media/sunxi/cedrus/cedrus.c   |   8 +
-> >  drivers/staging/media/sunxi/cedrus/cedrus.h   |  15 +
-> >  .../staging/media/sunxi/cedrus/cedrus_dec.c   |   5 +
-> >  .../staging/media/sunxi/cedrus/cedrus_hw.c    |   1 +
-> >  .../staging/media/sunxi/cedrus/cedrus_regs.h  |  80 ++
-> >  .../staging/media/sunxi/cedrus/cedrus_video.c |   9 +
-> >  .../staging/media/sunxi/cedrus/cedrus_vp8.c   | 699 ++++++++++++++++++
-> >  8 files changed, 819 insertions(+), 1 deletion(-)
-> >  create mode 100644 drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-
-
-
+> This is not how V4L2_PIX_FMT_BGR666 is defined, so remove
+> this format from the driver's formats list.
+> 
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  drivers/staging/media/rkisp1/rkisp1-capture.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
+> index 61b9ebe577b2..2660e44eda88 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
+> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
+> @@ -283,10 +283,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
+>  		.fourcc = V4L2_PIX_FMT_RGB565,
+>  		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
+>  		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_RGB565,
+> -	}, {
+> -		.fourcc = V4L2_PIX_FMT_BGR666,
+> -		.write_format = RKISP1_MI_CTRL_SP_WRITE_PLA,
+> -		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_RGB666,
+>  	},
+>  };
+>  
+> 
