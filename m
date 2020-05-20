@@ -2,99 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A34A1DB4AD
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 15:12:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3787E1DB4B1
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 15:13:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726548AbgETNMw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 09:12:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44250 "EHLO
+        id S1726443AbgETNNZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 09:13:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726435AbgETNMw (ORCPT
+        with ESMTP id S1726435AbgETNNY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 09:12:52 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3400C061A0E;
-        Wed, 20 May 2020 06:12:51 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 110E02A2C40
-Message-ID: <4182e7477c43e6b5d93311de4b86f8274a0913a6.camel@collabora.com>
-Subject: Re: [PATCH v4 1/3] media: rkvdec: Fix .buf_prepare
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        gustavo.padovan@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Date:   Wed, 20 May 2020 10:12:40 -0300
-In-Reply-To: <2c69a8d6-3402-15e8-1b19-49b8591ae1d8@xs4all.nl>
-References: <20200518174011.15543-1-ezequiel@collabora.com>
-         <20200518174011.15543-2-ezequiel@collabora.com>
-         <2c69a8d6-3402-15e8-1b19-49b8591ae1d8@xs4all.nl>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.0-1 
+        Wed, 20 May 2020 09:13:24 -0400
+Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92904C061A0E
+        for <linux-media@vger.kernel.org>; Wed, 20 May 2020 06:13:24 -0700 (PDT)
+Received: by mail-vs1-xe43.google.com with SMTP id 62so1788118vsi.2
+        for <linux-media@vger.kernel.org>; Wed, 20 May 2020 06:13:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xkbaa594c8hv+diM8KSwVgXKuqqnjj5zKvkKBeTJ7Y8=;
+        b=bIQJC7j5R8fNWSzcDnZyiArEu05iGkkV808NYTZQsP9ZndMtm0jSwoxGTbP1wEWlWS
+         xRvVuUoC+ICgjPaSL9GOuBMvRvhCz/oV11aDNMykz7McJBAePHxFzcKEm2csk/abeviv
+         D3/0I/daBMJyLnVyrTZXwrFlsu6Qr030DDT0pm/tTkAog+FNfcyyKnrcz7kUH4hSQVk/
+         shmMRTf+d19IX2eqzvEZZYNj2OAevUZTfFu4jEivt8IjMA8fzzIJVvzJtEPJSWpi1EAk
+         CzAit9S+UCd0ryi7WKOLuuzIQJyTdbAPBwV3Oql+f+L7D1hgLkcYWjM8GYghy4CBAvv9
+         C1jQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xkbaa594c8hv+diM8KSwVgXKuqqnjj5zKvkKBeTJ7Y8=;
+        b=DItA8G9L3rDu0b2+ky44lu340NNTjK4tbeB9XJ1V6Y7ya7rkrwX5xb9tO1CtAQAK7y
+         LW/f7iEG9iiEGRhC/3de1FH9hnw4mdeqwZesD1IOaEmA9ZO7boovghp7CoGQHB5u4KWd
+         lhS74oL5vvml+c6s9Zh1UmlgJN9NmnEL/Nx47jz7cvgAnAzPfhFjW8Y7eAmaPsGkRycK
+         SmKs6hancQE2PNX8hToKyo5tMiHtgj6Ypzj6l/QWh+cLdFQhmjkjUwOBDk2oBmGd0QqM
+         saQ/fO4vjfWe7ps1BFUPzzbB7+ge4UhEv0UJwIE5elQAPxPWftJCrf5qVmhB5vGQI718
+         iNnw==
+X-Gm-Message-State: AOAM531S6gkZUoW/qbpyYPDq/aG2OLx2sreRedhrRpGp/EDWFdOA8k3r
+        p5MH71YLram0tvBbtwcriVqr8aLVtf97/2TxIroRjQ==
+X-Google-Smtp-Source: ABdhPJyBnsXW7Elj1e8OEgBZBEgxJLFpJTtMLDkfQr6wABx8JXZgMSvMsz5k8oJKRDs/Q8pbKQxMRDH70/p2o51PWso=
+X-Received: by 2002:a67:be05:: with SMTP id x5mr3092492vsq.35.1589980403704;
+ Wed, 20 May 2020 06:13:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <CGME20200520090109eucas1p17270805f81f6958cd5084a7b910efc6c@eucas1p1.samsung.com>
+ <a9df7155-dd7a-752b-6d1c-3426837756b1@ti.com> <e9674719-0c86-63be-04a3-ee98bd884901@samsung.com>
+ <f3c58dcd-b806-95ef-2434-3084e65e1afb@ti.com> <e3fa0b35-7cca-1e37-c2fa-63cc07e6bfda@samsung.com>
+ <227465a5-c6e6-5b4d-abbd-7789727843a6@ti.com> <29a21e64-a63f-6721-c938-d713488767c1@samsung.com>
+In-Reply-To: <29a21e64-a63f-6721-c938-d713488767c1@samsung.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 20 May 2020 15:12:47 +0200
+Message-ID: <CAPDyKFq8-JYA_tKZmUZOY3mT-jeoWMHNpdj8SDGkqYmX7jJHVQ@mail.gmail.com>
+Subject: Re: Bad kfree of dma_parms in v5.7-rc5
+To:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2020-05-20 at 15:07 +0200, Hans Verkuil wrote:
-> On 18/05/2020 19:40, Ezequiel Garcia wrote:
-> > The driver should only set the payload on .buf_prepare
-> > if the buffer is CAPTURE type, or if an OUTPUT buffer
-> > has a zeroed payload.
-> > 
-> > Fix it.
-> > 
-> > Fixes: cd33c830448ba ("media: rkvdec: Add the rkvdec driver")
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > ---
-> >  drivers/staging/media/rkvdec/rkvdec.c | 10 +++++++++-
-> >  1 file changed, 9 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> > index 225eeca73356..4df2a248ab96 100644
-> > --- a/drivers/staging/media/rkvdec/rkvdec.c
-> > +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> > @@ -456,7 +456,15 @@ static int rkvdec_buf_prepare(struct vb2_buffer *vb)
-> >  		if (vb2_plane_size(vb, i) < sizeimage)
-> >  			return -EINVAL;
-> >  	}
-> > -	vb2_set_plane_payload(vb, 0, f->fmt.pix_mp.plane_fmt[0].sizeimage);
-> > +
-> > +	/*
-> > +	 * Buffer's bytesused is written by the driver for CAPTURE buffers,
-> > +	 * or if the application passed zero bytesused on an OUTPUT buffer.
-> > +	 */
-> > +	if (!V4L2_TYPE_IS_OUTPUT(vq->type) ||
-> > +	    (V4L2_TYPE_IS_OUTPUT(vq->type) && !vb2_get_plane_payload(vb, 0)))
-> > +		vb2_set_plane_payload(vb, 0,
-> > +				      f->fmt.pix_mp.plane_fmt[0].sizeimage);
-> 
-> This should just be:
-> 
-> 	if (!V4L2_TYPE_IS_OUTPUT(vq->type))
-> 		vb2_set_plane_payload(vb, 0, f->fmt.pix_mp.plane_fmt[0].sizeimage);
-> 
-> If the application passes 0 as bytesused, then 1) a warning will be generated
-> by the v4l2 core and 2) the v4l2 core will set bytesused to the length of the
-> buffer. See vb2_fill_vb2_v4l2_buffer() in videobuf2-v4l2.c.
-> 
-> Some old drivers explicitly allow bytesused to be 0 for an output queue to
-> signal end-of-stream, but that's only supported if the allow_zero_bytesused
-> flag is set in the vb2_queue, and that shall not be used for new drivers
-> since it is deprecated functionality.
-> 
++ Greg
 
-Ah, good catch. I'll get you a v5.
+On Wed, 20 May 2020 at 14:54, Marek Szyprowski <m.szyprowski@samsung.com> wrote:
+>
+> Hi Tomi,
+>
+> On 20.05.2020 14:43, Tomi Valkeinen wrote:
+> > On 20/05/2020 12:22, Marek Szyprowski wrote:
+> >> On 20.05.2020 11:18, Tomi Valkeinen wrote:
+> >>> On 20/05/2020 12:13, Marek Szyprowski wrote:
+> >>>> On 20.05.2020 11:00, Tomi Valkeinen wrote:
+> >>>>> Commit 9495b7e92f716ab2bd6814fab5e97ab4a39adfdd ("driver core:
+> >>>>> platform: Initialize dma_parms for platform devices") v5.7-rc5 causes
+> >>>>> at least some v4l2 platform drivers to break when freeing resources.
+> >>>>>
+> >>>>> E.g. drivers/media/platform/ti-vpe/cal.c uses
+> >>>>> vb2_dma_contig_set_max_seg_size() and
+> >>>>> vb2_dma_contig_clear_max_seg_size() to manage the dma_params, and
+> >>>>> similar pattern is seen in other drivers too.
+> >>>>>
+> >>>>> After 9495b7e92f716ab2, vb2_dma_contig_set_max_seg_size() will not
+> >>>>> allocate anything, but vb2_dma_contig_clear_max_seg_size() will still
+> >>>>> kfree the dma_params.
+> >>>>>
+> >>>>> I'm not sure what's the proper fix here. A flag somewhere to indicate
+> >>>>> that vb2_dma_contig_set_max_seg_size() did allocate, and thus
+> >>>>> vb2_dma_contig_clear_max_seg_size() must free?
+> >>>>>
+> >>>>> Or drop the kzalloc and kfree totally, if dma_params is now supposed
+> >>>>> to always be there?
+> >>>>
+> >>>> Thanks for reporting this issue!
+> >>>>
+> >>>> Once the mentioned commit has been merged, the code should assume that
+> >>>> the platform devices does have a struct dma_params allocated, so the
+> >>>> proper fix is to alloc dma_params only if the bus is not a platform
+> >>>> bus:
+> >>>>
+> >>>> if (!dev_is_platform(dev) && !dev->dma_parms) {
+> >>>>        dev->dma_parms = kzalloc(sizeof(*dev->dma_parms), GFP_KERNEL);
+> >>>>
+> >>>> same check for the free path.
+> >>>
+> >>> There is also "amba: Initialize dma_parms for amba devices". And the
+> >>> commit message says PCI devices do this too.
+> >>>
+> >>> Guessing this based on the device type doesn't sound like a good idea
+> >>> to me.
+> >>
+> >> Indeed. Then replace the allocation with a simple check for NULL
+> >> dma_parms and return an error in such case. This should be enough for
+> >> v5.8. Later we can simply get rid of those helpers and inline setting
+> >> max segment size directly to the drivers.
 
-Thanks,
-Ezequiel
+That seems like a good idea, in the long run.
 
+> >
+> > Is that valid either? Then we assume that dma_parms is always set up
+> > by someone else. That's true for platform devices and apparently some
+> > other devices, but is it true for all devices now?
+>
+> # git grep vb2_dma_contig_set_max_seg_size | wc -l
+>
+> 18
+>
+> I've checked all clients of the vb2_dma_contig_set_max_seg_size
+> function. There are only 9 drivers, all of them are platform device
+> drivers. We don't care about off-tree users, so the proposed approach is
+> imho fine.
+
+Thanks for reporting and for looking into this. I apologize for the mess!
+
+There is one case, where the above solution could be a problem (unless
+I am wrong). That is, s5p_mfc_configure_2port_memory() that calls
+s5p_mfc_alloc_memdev(), which allocates/initializes an internal struct
+*device. Thus, this doesn't have the dev->dma_parms
+allocated/assigned.
+
+In other words, we would need to manage alloc/free for the
+dev->dma_parms to have a complete fix. Maybe in
+s5p_mfc_configure|unconfigure_2port_memory()!?
+
+Additionally, I think reverting the offending commit, as discussed
+above, could cause even more issues, as it's even included for
+v5.6-stable kernels. I will go through all cases, more carefully this
+time, of how ->dma_parms is managed, to be sure there are no more
+conflicting cases.
+
+Kind regards
+Uffe
