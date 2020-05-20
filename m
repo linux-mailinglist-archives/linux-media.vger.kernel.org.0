@@ -2,194 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 447771DB73F
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 16:41:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB9071DB7A4
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 17:03:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726619AbgETOlG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 10:41:06 -0400
-Received: from mx2.suse.de ([195.135.220.15]:54596 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726439AbgETOlF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 10:41:05 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id B977BAD7C;
-        Wed, 20 May 2020 14:41:06 +0000 (UTC)
-Message-ID: <a18a3f213b7d26a0f9a420dbda7eb739d3aab1d9.camel@suse.de>
-Subject: Re: [PATCH v2 06/34] staging: vc04_services: Add new vc-sm-cma
- driver
-From:   Nicolas Saenz Julienne <nsaenzjulienne@suse.de>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?ISO-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>,
-        Naushir Patuck <naush@raspberrypi.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>
-Date:   Wed, 20 May 2020 16:41:02 +0200
-In-Reply-To: <CAPY8ntCZsFtko4LMUsfSEUV9LwtJ9bdjXK4ZVJ3KFd18vzRp5A@mail.gmail.com>
-References: <20200504092611.9798-1-laurent.pinchart@ideasonboard.com>
-         <20200504092611.9798-7-laurent.pinchart@ideasonboard.com>
-         <9b42ad8c4c39ac3873e7c3ea2951bea1caef8bd1.camel@suse.de>
-         <CAPY8ntCZsFtko4LMUsfSEUV9LwtJ9bdjXK4ZVJ3KFd18vzRp5A@mail.gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha256";
-        protocol="application/pgp-signature"; boundary="=-BpkGeRPNg88WPpM/E/kL"
-User-Agent: Evolution 3.36.2 
+        id S1726944AbgETPDJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 11:03:09 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:48778 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726525AbgETPDJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 May 2020 11:03:09 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04KEvG3s045853;
+        Wed, 20 May 2020 15:02:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
+ bh=bP+cMvdzxHbOp4/kQJ7d2LwPqN/I8FVf/8zsS1gA1f4=;
+ b=x86o//a+N7sUAMQyKvyRC0wBFiyV77EMWjWVN/dvnkhMVZ4wU4iVAn88oqMp84gAouIm
+ keFU98X+h+UHkob/rIpEI6K69DYND4SSbrGkb7bRdR8/0zP8zKnc3XYVyevMHkrvb9Vg
+ Tts6oGcty537eqVTExN/JdbCYxB57kwfu168GmTiQygzHYKa8oADoK9AokYdHnzu1DBF
+ kevyPCKqY5YkIzMsC9EjXR7LOkIaJmcMqMUQCUcbLNHxVNfACqksLqoJZit+Vxfkganp
+ 0O26RwODFqFy0kd0uyZ2bdmoaDmTrgkRg0jFrG644gGIT3Q+uU7l3CKmtC1t7TEcJNe8 ew== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 3127krbntq-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 20 May 2020 15:02:50 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04KF2fg2037820;
+        Wed, 20 May 2020 15:02:49 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3030.oracle.com with ESMTP id 313gj3p64t-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 20 May 2020 15:02:49 +0000
+Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 04KF2dcD010490;
+        Wed, 20 May 2020 15:02:40 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 20 May 2020 08:02:39 -0700
+Date:   Wed, 20 May 2020 18:02:30 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Dinghao Liu <dinghao.liu@zju.edu.cn>, kjlu@umn.edu,
+        devel@driverdev.osuosl.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-tegra@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
+        linux-pm@vger.kernel.org
+Subject: Re: [PATCH] media: staging: tegra-vde: fix runtime pm imbalance on
+ error
+Message-ID: <20200520150230.GC30374@kadam>
+References: <20200520095148.10995-1-dinghao.liu@zju.edu.cn>
+ <2b5d64f5-825f-c081-5d03-02655c2d9491@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2b5d64f5-825f-c081-5d03-02655c2d9491@gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9626 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0 malwarescore=0
+ mlxscore=0 adultscore=0 bulkscore=0 suspectscore=1 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005200124
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9626 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 spamscore=0
+ bulkscore=0 clxscore=1011 priorityscore=1501 mlxscore=0 impostorscore=0
+ suspectscore=1 mlxlogscore=999 malwarescore=0 cotscore=-2147483648
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2005200123
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, May 20, 2020 at 01:15:44PM +0300, Dmitry Osipenko wrote:
+> 20.05.2020 12:51, Dinghao Liu пишет:
+> > pm_runtime_get_sync() increments the runtime PM usage counter even
+> > it returns an error code. Thus a pairing decrement is needed on
+> > the error handling path to keep the counter balanced.
+> > 
+> > Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> > ---
+> >  drivers/staging/media/tegra-vde/vde.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
+> > index d3e63512a765..dd134a3a15c7 100644
+> > --- a/drivers/staging/media/tegra-vde/vde.c
+> > +++ b/drivers/staging/media/tegra-vde/vde.c
+> > @@ -777,7 +777,7 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+> >  
+> >  	ret = pm_runtime_get_sync(dev);
+> >  	if (ret < 0)
+> > -		goto unlock;
+> > +		goto put_runtime_pm;
+> >  
+> >  	/*
+> >  	 * We rely on the VDE registers reset value, otherwise VDE
+> > 
+> 
+> Hello Dinghao,
+> 
+> Thank you for the patch. I sent out a similar patch a week ago [1].
+> 
+> [1]
+> https://patchwork.ozlabs.org/project/linux-tegra/patch/20200514210847.9269-2-digetx@gmail.com/
+> 
+> The pm_runtime_put_noidle() should have the same effect as yours
+> variant, although my variant won't change the last_busy RPM time, which
+> I think is a bit more appropriate behavior.
 
---=-BpkGeRPNg88WPpM/E/kL
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I don't think either patch is correct.  The right thing to do is to fix
+__pm_runtime_resume() so it doesn't leak a reference count on error.
 
-On Mon, 2020-05-18 at 16:48 +0100, Dave Stevenson wrote:
-> Hi Nicolas
-> > > +     exp_info.ops =3D &dma_buf_import_ops;
-> > > +     exp_info.size =3D import.size;
-> > > +     exp_info.flags =3D O_RDWR;
-> > > +     exp_info.priv =3D buffer;
-> > > +
-> > > +     buffer->dma_buf =3D dma_buf_export(&exp_info);
-> >=20
-> > Could you comment on the need for this second dma_buf? I've only review=
-ed
-> > code
-> > related to mmal-vchiq imports, but it seems to me that it would be sane=
-r to
-> > do
-> > the unmapping and unattaching explicitly as opposed to having this seco=
-nd
-> > buffer refcount hit 0. Although, I can imagine this being needed for th=
-e
-> > userspace interface.
->=20
-> Indeed, as it is needed for the userspace interface it seemed to make
-> more sense to have common handling rather than two code paths doing
-> nearly the same thing but in different ways.
-> Downstream we need a userspace import at least to allow MMAL to set up
-> zero copy, so unless it raises any real objections then it would be
-> useful to keep it.
->=20
-> > When you talk about moving to dmabuf heaps, I've pictured a specific dm=
-abuf
-> > heap for vc4 that takes care of all the importing and unimporting (asid=
-e
-> > from
-> > cma allocations). Am I right? If so, I'm pretty confident we can do awa=
-y
-> > with
-> > this.
->=20
-> (Note I'm talking about the VideoCore4 VPU and other blocks, and not
-> the vc4 DRM/KMS and V3D drivers)
->=20
-> No, I'm looking at using the existing cma_heap driver to do the
-> allocations, and then this driver will import them and handle the
-> lifetime on behalf of the VPU. There's no need for VPU allocations to
-> be split off into yet another heap.
+The problem is that a lot of functions don't check the return so
+possibly we are relying on that behavior.  We may need to introduce a
+new function which cleans up properly instead of leaking reference
+counts?
 
-Fair enough.
+Also it's not documented that pm_runtime_get_sync() returns 1 sometimes
+on success so it leads to a few bugs.
 
-> One of the things we are trying to get away from is having the gpu_mem
-> reserved lump that Linux can't get access to at all, so allocating
-> from the CMA heap and importing to the VPU avoids that.
+drivers/gpu/drm/stm/ltdc.c:             ret = pm_runtime_get_sync(ddev->dev);
+drivers/gpu/drm/stm/ltdc.c-             if (ret) {
+--
+drivers/gpu/drm/stm/ltdc.c:             ret = pm_runtime_get_sync(ddev->dev);
+drivers/gpu/drm/stm/ltdc.c-             if (ret) {
 
-That's great! Will this also apply at some point to the GPU side of things?=
- I
-vaguely recall having to reserve up to 300M on rpi3 to get mesa to work on =
-a
-desktop environment.
+drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c:  ret = pm_runtime_get_sync(pm->dev);
+drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c-  if (ret)
 
-> I'll give some history here, which also hopefully covers your query
-> over switching mmal-vchiq to zero copy.
->=20
-> Almost all the VC4 blocks need contiguous memory, so fragmentation was
-> an issue. To resolve that we (back in Broadcom days) had the
-> "relocatable heap" - allocations that needed to be locked before
-> access and unlocked after. Unlocked blocks could be copied and moved
-> around to free up larger contiguous blocks. These allocations use a
-> handle instead of a pointer, and have internal refcounting etc.
-> Basically providing some of the features of an MMU when you don't have
-> one.
->=20
-> The original VCSM driver allowed userspace to make a relocatable heap
-> allocation, lock it, and the kernel to map the relevant pages into the
-> ARM memory space. Now you have a shared buffer, and VCHIQ no longer
-> has to copy the data back and forth. (Cache flushing was also
-> handled).
-> So MMAL in zero copy mode passes the VPU relocatable heap handle
-> across in the VCHIQ message, not a pointer to the actual data. VCSM
-> did the allocation on behalf of the MMAL client, and provides the
-> mapping and VPU handle to the buffer. This still leaves the allocation
-> being made from gpu_mem though.
->=20
-> The rewrite (vc-sm-cma) was to make use of an import feature into the
-> relocatable heap, termed internally as mem wrapping. Take a CMA
-> allocation made by something, pass the DMA address and size across to
-> the VPU, and it can insert it as a relocatable heap object that can be
-> used in exactly the same way gpu_mem allocations. gpu_mem can now be
-> shrunk in size :-) It was using a dma-buf as a convenient object to
-> manage the allocation, and handle importing buffers allocated by other
-> subsystems
-> Note that we still have refcounting internally to the relocatable
-> heap, so at the point the client says it has finished with it, the VPU
-> may not have done. When the last relocatable heap reference is
-> released, the kernel gets a callback (VC_SM_MSG_TYPE_RELEASED), and it
-> is only at that point that it is safe to drop the reference to the
-> imported dmabuf.
->=20
-> V4L2 can do the relevant import and wrapping to a relocatable heap
-> handle as part of the buffer passing. MMAL needs to do it manually
-> from userspace as VCHIQ is the only in-kernel service that it uses,
-> hence we need an import ioctl and free mechanism (if the handle is a
-> dmabuf, then that's close).
->=20
->=20
-> From a platform level it would be nice to have the userspace ioctl for
-> importing a dmabuf in mainline, however it isn't necessary for the
-> V4L2 use cases that we're trying to upstream here. The driver without
-> userspace API would look pretty much like the one in [1]. I'll try and
-> update that to include the basic import userspace API to give a
-> comparison.
-> I don't mind which way this goes as to whether the userspace ioctl
-> remains as downstream patches, but losing the dmabuf as the handle
-> within vc-sm-cma will make that patch huge, and they're almost
-> guaranteed to diverge.
-> Ignore the caching ioctls - they're irrelevant.
->=20
-> I hope that makes the situation a little clearer.
+drivers/media/platform/ti-vpe/cal.c:    ret = pm_runtime_get_sync(&pdev->dev);
+drivers/media/platform/ti-vpe/cal.c-    if (ret)
 
-Thanks a lot for the in-depth explanation, it does indeed. Actually, it
-wouldn't hurt to add a subset of this into a text file alongside with the n=
-ew
-driver.
+drivers/mfd/arizona-core.c:                     ret = pm_runtime_get_sync(arizona->dev);
+drivers/mfd/arizona-core.c-                     if (ret != 0)
 
-Regards,
-Nicolas
+drivers/remoteproc/qcom_q6v5_adsp.c:    ret = pm_runtime_get_sync(adsp->dev);
+drivers/remoteproc/qcom_q6v5_adsp.c-    if (ret)
 
+drivers/spi/spi-img-spfi.c:     ret = pm_runtime_get_sync(dev);
+drivers/spi/spi-img-spfi.c-     if (ret)
 
---=-BpkGeRPNg88WPpM/E/kL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+drivers/usb/dwc3/dwc3-pci.c:    ret = pm_runtime_get_sync(&dwc3->dev);
+drivers/usb/dwc3/dwc3-pci.c-    if (ret)
 
------BEGIN PGP SIGNATURE-----
+drivers/watchdog/rti_wdt.c:     ret = pm_runtime_get_sync(dev);
+drivers/watchdog/rti_wdt.c-     if (ret) {
 
-iQEzBAABCAAdFiEErOkkGDHCg2EbPcGjlfZmHno8x/4FAl7FQX4ACgkQlfZmHno8
-x/4p5gf+NZ0BpBHYuHd4Xtv+d6FHlDwwFOWZvpOQTZZPlwEB72JdxvZISOm/heGH
-idvDPiAUvghfsEK42UDebn2oVarydc8R9W3ZVOXf+gACw4WgJTBOx0FN9HP5atwp
-yyoER3uF0zW1zWDoyxs2J8JhczvCOShYfLnt1YuqBAjJ5Ej0D3CUmGGwN/h0nDce
-ePz2o5M6DR4syZmJ6/iBBAheRnxovDQOQkjq4wj2FSOkLcrsPMD0ria8TWB4gTvt
-h6ITSHW9dE3sDr+CjEGDj8UUX0iAC2gjYp9IlxQLp3FW0IpCY9p4QwYDlHnH0ciw
-J+pcnS+Cx12TrFAf1kTtgsF3iXEcHQ==
-=Tdfe
------END PGP SIGNATURE-----
+regards,
+dan carpenter
 
---=-BpkGeRPNg88WPpM/E/kL--
-
+diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
+index 99c7da112c95..e280991a977d 100644
+--- a/drivers/base/power/runtime.c
++++ b/drivers/base/power/runtime.c
+@@ -1082,6 +1082,9 @@ int __pm_runtime_resume(struct device *dev, int rpmflags)
+ 	retval = rpm_resume(dev, rpmflags);
+ 	spin_unlock_irqrestore(&dev->power.lock, flags);
+ 
++	if (retval < 0 && rpmflags & RPM_GET_PUT)
++		atomic_dec(&dev->power.usage_count);
++
+ 	return retval;
+ }
+ EXPORT_SYMBOL_GPL(__pm_runtime_resume);
