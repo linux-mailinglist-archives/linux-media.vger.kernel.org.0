@@ -2,176 +2,162 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB9071DB7A4
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 17:03:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83F6D1DB7AF
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 17:06:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726944AbgETPDJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 11:03:09 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:48778 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726525AbgETPDJ (ORCPT
+        id S1726812AbgETPGx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 11:06:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33846 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726486AbgETPGw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 11:03:09 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04KEvG3s045853;
-        Wed, 20 May 2020 15:02:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- content-transfer-encoding : in-reply-to; s=corp-2020-01-29;
- bh=bP+cMvdzxHbOp4/kQJ7d2LwPqN/I8FVf/8zsS1gA1f4=;
- b=x86o//a+N7sUAMQyKvyRC0wBFiyV77EMWjWVN/dvnkhMVZ4wU4iVAn88oqMp84gAouIm
- keFU98X+h+UHkob/rIpEI6K69DYND4SSbrGkb7bRdR8/0zP8zKnc3XYVyevMHkrvb9Vg
- Tts6oGcty537eqVTExN/JdbCYxB57kwfu168GmTiQygzHYKa8oADoK9AokYdHnzu1DBF
- kevyPCKqY5YkIzMsC9EjXR7LOkIaJmcMqMUQCUcbLNHxVNfACqksLqoJZit+Vxfkganp
- 0O26RwODFqFy0kd0uyZ2bdmoaDmTrgkRg0jFrG644gGIT3Q+uU7l3CKmtC1t7TEcJNe8 ew== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2130.oracle.com with ESMTP id 3127krbntq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 20 May 2020 15:02:50 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04KF2fg2037820;
-        Wed, 20 May 2020 15:02:49 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by aserp3030.oracle.com with ESMTP id 313gj3p64t-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 20 May 2020 15:02:49 +0000
-Received: from abhmp0006.oracle.com (abhmp0006.oracle.com [141.146.116.12])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 04KF2dcD010490;
-        Wed, 20 May 2020 15:02:40 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 20 May 2020 08:02:39 -0700
-Date:   Wed, 20 May 2020 18:02:30 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Dinghao Liu <dinghao.liu@zju.edu.cn>, kjlu@umn.edu,
-        devel@driverdev.osuosl.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-tegra@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-        linux-pm@vger.kernel.org
-Subject: Re: [PATCH] media: staging: tegra-vde: fix runtime pm imbalance on
- error
-Message-ID: <20200520150230.GC30374@kadam>
-References: <20200520095148.10995-1-dinghao.liu@zju.edu.cn>
- <2b5d64f5-825f-c081-5d03-02655c2d9491@gmail.com>
+        Wed, 20 May 2020 11:06:52 -0400
+Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com [IPv6:2607:f8b0:4864:20::941])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5474C061A0F
+        for <linux-media@vger.kernel.org>; Wed, 20 May 2020 08:06:50 -0700 (PDT)
+Received: by mail-ua1-x941.google.com with SMTP id b13so1373549uav.3
+        for <linux-media@vger.kernel.org>; Wed, 20 May 2020 08:06:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+gDCGjMZWEdVRUtQZYVp+UsS6eran4MdaLZDqVTRgpg=;
+        b=G0+brP9dlZpegWEIl+cnjiVVn5DswkuPLM+7RKlGLuvwQ7VXzZwOVqSjLeLkymu8K3
+         tfV/Kao2rLHgzpU+kGExrnVNJPZGH06uyjiJH9y6H7/aSp1gDdqSLfAvmlC6G/qTZoxX
+         ZSkWO9v3aq0UpE1hbsxaNaKRNopKOBX7u/Ik2oTzjQh8E3CutJ/LBKG/xvz2rrbpd2Fy
+         FAg6A8sbESNl0Tu3Y68cN1WOB0Mq0yF44znLqivgb7q759oGOB7aZ5HP5Lynzfc5oACP
+         nQRYXLnAGy9aa0waFP0AvnwPPKaKPl4+gybhMVBgvsFpODjx6bsku1f8kJMpDUxtvWpd
+         xMnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+gDCGjMZWEdVRUtQZYVp+UsS6eran4MdaLZDqVTRgpg=;
+        b=WFH4SVvm7OMb94JA4hA1SK9wzMsLn/ES7cFP1Sb60PO8gZ1wkaNZ3h9uGyfW9+M52e
+         sN84QzMP59MT31UX7aaII9tlT7BEGkMRk4AasQelJ5pvoI8aEAOFN/Q3A1WE9PHeb+Hp
+         SoCdCTuJ1QQIM0HkDoQi4vO6Cah8DVSuyRNDVCUlcaG3cQRz04kj7NWS+zTmpglqqgkd
+         pdyrLvntbeIZCg/S/5tAwvm6WEp3N2MQNnt/tGXuNEnwaCEoH1gWDPlLnai+3K68CoMW
+         UqdEtT6TKxh9F4OZ5RaqAbkV7+jmNXzlN9bqtyYYi8b1l3wYZvEZEdDkEzwt3KRte8/4
+         kpxw==
+X-Gm-Message-State: AOAM533WmswxSHwELjYCGn0sY4IKquiJwUUYcxAxEPS3n9QynSsVj6GG
+        w8dEAtoPF/zICwymgfO2s2rz2z+GBgz+Zxz+Outqjw==
+X-Google-Smtp-Source: ABdhPJxnSeb02kPxObDs2fmjf476jjjMKwRYDCatBC3QMeFvNrUaWLWHMkqRN59R82Lzhtmwp5HY1nR/ZzasLnprsqY=
+X-Received: by 2002:a9f:37c3:: with SMTP id q61mr4034114uaq.100.1589987209658;
+ Wed, 20 May 2020 08:06:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2b5d64f5-825f-c081-5d03-02655c2d9491@gmail.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9626 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0 malwarescore=0
- mlxscore=0 adultscore=0 bulkscore=0 suspectscore=1 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005200124
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9626 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0 spamscore=0
- bulkscore=0 clxscore=1011 priorityscore=1501 mlxscore=0 impostorscore=0
- suspectscore=1 mlxlogscore=999 malwarescore=0 cotscore=-2147483648
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2005200123
+References: <20200520131558.23009-1-tomi.valkeinen@ti.com>
+In-Reply-To: <20200520131558.23009-1-tomi.valkeinen@ti.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Wed, 20 May 2020 17:06:12 +0200
+Message-ID: <CAPDyKFpxSYE9G=Hy61cWmj1fGdfnzqg5DLraD7_o462bZg_oCw@mail.gmail.com>
+Subject: Re: [PATCH] media: videobuf2-dma-contig: fix bad kfree in vb2_dma_contig_clear_max_seg_size
+To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        LKML <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 20, 2020 at 01:15:44PM +0300, Dmitry Osipenko wrote:
-> 20.05.2020 12:51, Dinghao Liu пишет:
-> > pm_runtime_get_sync() increments the runtime PM usage counter even
-> > it returns an error code. Thus a pairing decrement is needed on
-> > the error handling path to keep the counter balanced.
-> > 
-> > Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
-> > ---
-> >  drivers/staging/media/tegra-vde/vde.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
-> > index d3e63512a765..dd134a3a15c7 100644
-> > --- a/drivers/staging/media/tegra-vde/vde.c
-> > +++ b/drivers/staging/media/tegra-vde/vde.c
-> > @@ -777,7 +777,7 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
-> >  
-> >  	ret = pm_runtime_get_sync(dev);
-> >  	if (ret < 0)
-> > -		goto unlock;
-> > +		goto put_runtime_pm;
-> >  
-> >  	/*
-> >  	 * We rely on the VDE registers reset value, otherwise VDE
-> > 
-> 
-> Hello Dinghao,
-> 
-> Thank you for the patch. I sent out a similar patch a week ago [1].
-> 
-> [1]
-> https://patchwork.ozlabs.org/project/linux-tegra/patch/20200514210847.9269-2-digetx@gmail.com/
-> 
-> The pm_runtime_put_noidle() should have the same effect as yours
-> variant, although my variant won't change the last_busy RPM time, which
-> I think is a bit more appropriate behavior.
+On Wed, 20 May 2020 at 15:16, Tomi Valkeinen <tomi.valkeinen@ti.com> wrote:
+>
+> Commit 9495b7e92f716ab2bd6814fab5e97ab4a39adfdd ("driver core: platform:
+> Initialize dma_parms for platform devices") in v5.7-rc5 causes
+> vb2_dma_contig_clear_max_seg_size() to kfree memory that was not
+> allocated by vb2_dma_contig_set_max_seg_size().
+>
+> The assumption in vb2_dma_contig_set_max_seg_size() seems to be that
+> dev->dma_parms is always NULL when the driver is probed, and the case
+> where dev->dma_parms has bee initialized by someone else than the driver
+> (by calling vb2_dma_contig_set_max_seg_size) will cause a failure.
+>
+> All the current users of these functions are platform devices, which now
+> always have dma_parms set by the driver core. To fix the issue for v5.7,
+> make vb2_dma_contig_set_max_seg_size() return an error if dma_parms is
+> NULL to be on the safe side, and remove the kfree code from
+> vb2_dma_contig_clear_max_seg_size().
 
-I don't think either patch is correct.  The right thing to do is to fix
-__pm_runtime_resume() so it doesn't leak a reference count on error.
+Not entirely true I believe, see more below.
 
-The problem is that a lot of functions don't check the return so
-possibly we are relying on that behavior.  We may need to introduce a
-new function which cleans up properly instead of leaking reference
-counts?
+>
+> For v5.8 we should remove the two functions and move the
+> dma_set_max_seg_size() calls into the drivers.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> ---
+>
+> Note: I have only fully tested this on linux-next, as the capture driver
+> I use doesn't support unloading modules in v5.7.
+>
+>  drivers/media/common/videobuf2/videobuf2-dma-contig.c | 7 ++-----
+>  1 file changed, 2 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index d3a3ee5b597b..24f80b62ef94 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -726,9 +726,8 @@ EXPORT_SYMBOL_GPL(vb2_dma_contig_memops);
+>  int vb2_dma_contig_set_max_seg_size(struct device *dev, unsigned int size)
+>  {
+>         if (!dev->dma_parms) {
+> -               dev->dma_parms = kzalloc(sizeof(*dev->dma_parms), GFP_KERNEL);
+> -               if (!dev->dma_parms)
+> -                       return -ENOMEM;
+> +               dev_err(dev, "Failed to set max_seg_size: dma_parms is NULL\n");
+> +               return -ENODEV;
+>         }
+>         if (dma_get_max_seg_size(dev) < size)
+>                 return dma_set_max_seg_size(dev, size);
+> @@ -747,8 +746,6 @@ EXPORT_SYMBOL_GPL(vb2_dma_contig_set_max_seg_size);
+>   */
+>  void vb2_dma_contig_clear_max_seg_size(struct device *dev)
+>  {
+> -       kfree(dev->dma_parms);
+> -       dev->dma_parms = NULL;
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_dma_contig_clear_max_seg_size);
 
-Also it's not documented that pm_runtime_get_sync() returns 1 sometimes
-on success so it leads to a few bugs.
+I think you need something along the lines of this as well:
 
-drivers/gpu/drm/stm/ltdc.c:             ret = pm_runtime_get_sync(ddev->dev);
-drivers/gpu/drm/stm/ltdc.c-             if (ret) {
---
-drivers/gpu/drm/stm/ltdc.c:             ret = pm_runtime_get_sync(ddev->dev);
-drivers/gpu/drm/stm/ltdc.c-             if (ret) {
-
-drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c:  ret = pm_runtime_get_sync(pm->dev);
-drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c-  if (ret)
-
-drivers/media/platform/ti-vpe/cal.c:    ret = pm_runtime_get_sync(&pdev->dev);
-drivers/media/platform/ti-vpe/cal.c-    if (ret)
-
-drivers/mfd/arizona-core.c:                     ret = pm_runtime_get_sync(arizona->dev);
-drivers/mfd/arizona-core.c-                     if (ret != 0)
-
-drivers/remoteproc/qcom_q6v5_adsp.c:    ret = pm_runtime_get_sync(adsp->dev);
-drivers/remoteproc/qcom_q6v5_adsp.c-    if (ret)
-
-drivers/spi/spi-img-spfi.c:     ret = pm_runtime_get_sync(dev);
-drivers/spi/spi-img-spfi.c-     if (ret)
-
-drivers/usb/dwc3/dwc3-pci.c:    ret = pm_runtime_get_sync(&dwc3->dev);
-drivers/usb/dwc3/dwc3-pci.c-    if (ret)
-
-drivers/watchdog/rti_wdt.c:     ret = pm_runtime_get_sync(dev);
-drivers/watchdog/rti_wdt.c-     if (ret) {
-
-regards,
-dan carpenter
-
-diff --git a/drivers/base/power/runtime.c b/drivers/base/power/runtime.c
-index 99c7da112c95..e280991a977d 100644
---- a/drivers/base/power/runtime.c
-+++ b/drivers/base/power/runtime.c
-@@ -1082,6 +1082,9 @@ int __pm_runtime_resume(struct device *dev, int rpmflags)
- 	retval = rpm_resume(dev, rpmflags);
- 	spin_unlock_irqrestore(&dev->power.lock, flags);
- 
-+	if (retval < 0 && rpmflags & RPM_GET_PUT)
-+		atomic_dec(&dev->power.usage_count);
-+
- 	return retval;
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc.c
+b/drivers/media/platform/s5p-mfc/s5p_mfc.c
+index 5c2a23b953a4..7acf2a03812d 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc.c
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc.c
+@@ -1070,6 +1070,7 @@ static const struct v4l2_file_operations s5p_mfc_fops = {
+ /* DMA memory related helper functions */
+ static void s5p_mfc_memdev_release(struct device *dev)
+ {
++       kfree(dev->dma_parms);
+        of_reserved_mem_device_release(dev);
  }
- EXPORT_SYMBOL_GPL(__pm_runtime_resume);
+
+@@ -1090,6 +1091,10 @@ static struct device
+*s5p_mfc_alloc_memdev(struct device *dev,
+        child->dma_mask = dev->dma_mask;
+        child->release = s5p_mfc_memdev_release;
+
++       child->dma_parms = kzalloc(sizeof(*child->dma_parms), GFP_KERNEL);
++       if (!child->dma_parms)
++               goto err;
++
+        /*
+         * The memdevs are not proper OF platform devices, so in order for them
+         * to be treated as valid DMA masters we need a bit of a hack to force
+@@ -1105,6 +1110,7 @@ static struct device
+*s5p_mfc_alloc_memdev(struct device *dev,
+                device_del(child);
+        }
+
++err:
+        put_device(child);
+        return NULL;
+ }
+
+Also, please tag the patch for stable.
+
+Kind regards
+Uffe
