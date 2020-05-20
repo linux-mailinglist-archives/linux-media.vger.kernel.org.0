@@ -2,197 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C42C51DAD3D
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 10:26:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C6CB1DAD49
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 10:27:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726566AbgETI0N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 04:26:13 -0400
-Received: from mga07.intel.com ([134.134.136.100]:64444 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726435AbgETI0N (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 04:26:13 -0400
-IronPort-SDR: Xl6gyPwmsHyE0YYQju1lEevUZGnMXHLXpzcT8v5c24QIeSI9tUDEBIK6xKg+Iag8kSo5wyohEc
- a1boT9Mjot4A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2020 01:26:12 -0700
-IronPort-SDR: fOdyvZfFoxSsjCLz4GVlgnbsT5Bb9Q9WY5a1hxnX0Ns8PwopbUhSxCNCSEBC4r31H5+87bt0r1
- ZFX3WF85w8Pw==
-X-IronPort-AV: E=Sophos;i="5.73,413,1583222400"; 
-   d="scan'208";a="253532669"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2020 01:26:11 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 06D4D20CEF; Wed, 20 May 2020 11:26:09 +0300 (EEST)
-Date:   Wed, 20 May 2020 11:26:08 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devel@driverdev.osuosl.org
-Subject: Re: [PATCH] media: ipu3: add a module to probe sensors via ACPI
-Message-ID: <20200520082608.GV20066@paasikivi.fi.intel.com>
-References: <12fbe3f5c6a16c5f3447adbc09fe27ceb2b16823.1589625807.git.mchehab+huawei@kernel.org>
- <20200517103659.GS17578@paasikivi.fi.intel.com>
- <20200520094400.5137e7f2@coco.lan>
+        id S1726548AbgETI1o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 04:27:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55994 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726435AbgETI1n (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 May 2020 04:27:43 -0400
+Received: from mail-pl1-x630.google.com (mail-pl1-x630.google.com [IPv6:2607:f8b0:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6EFFDC061A0F
+        for <linux-media@vger.kernel.org>; Wed, 20 May 2020 01:27:43 -0700 (PDT)
+Received: by mail-pl1-x630.google.com with SMTP id m7so1024122plt.5
+        for <linux-media@vger.kernel.org>; Wed, 20 May 2020 01:27:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W2TWoJ++yCYlqy8IovrEqTMl5U//d+cGmQ0zGQQyDsY=;
+        b=TJbE5e7IxHnNUAvEVy2/RQIeUCM4MNlNOXUaTmuJYTmjEpUVqMfOAYJYRSgpSKNSoW
+         TkZC1UZ3hEr4bePFqABOBKLFsMiKT2D3lp2fQ3aVG/ruYaWCMnveW+d/F4hL5a7E1htw
+         9JP89xPealRW2AuM10T0r5XIx6ymvmsifSmxE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=W2TWoJ++yCYlqy8IovrEqTMl5U//d+cGmQ0zGQQyDsY=;
+        b=rUF/t/b8TlzjI961ViTlBqmKFR8n9fHz5MySwDIleZ+37ueMGGG+/hYdPKIcxAU48v
+         +4AxqGTyrd5QOzZBgMDp6t/9LamhuG9fFr3FWWOFE1M977Ba9MSKZr8thh9ghCxv+4/3
+         xgDKv+k0TXy7r2edHxujsq5fcNb/jSNF9/XcL6uD+xS8+nluzRx+8rIRL9psdm7HP+Cq
+         dp1697LxPDb/C88zLrH9hVW4LOEc3UaFbHPhd4THndl9zdu56jaO4ViSoXVmZcnAMmcV
+         MjHZ1TeZz4r/JvRD1n/3+jyH6fA+xIZ4alV4FW4ZhCv8PGocpehCg5IbVFnL9jwzIRYc
+         3Hbg==
+X-Gm-Message-State: AOAM532g3BuPdHi73NZMPfHdc9dBwIjGEfRBdTSNp2ixdKQOW8wdoPr7
+        MNhwWPhBQdDvF1hrNZelY1JSnA==
+X-Google-Smtp-Source: ABdhPJzkPFl6N48LcAsZjEnXY2hRPodn8awaoLgxgwKuQhYsJD9GptcjVbLdJYnmBFtDqE2ZvKBcRQ==
+X-Received: by 2002:a17:90a:3563:: with SMTP id q90mr4254436pjb.0.1589963262833;
+        Wed, 20 May 2020 01:27:42 -0700 (PDT)
+Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:93d9:de4d:e834:3086])
+        by smtp.gmail.com with ESMTPSA id gg8sm1447775pjb.39.2020.05.20.01.27.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2020 01:27:42 -0700 (PDT)
+From:   Alexandre Courbot <acourbot@chromium.org>
+To:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Rui Wang <gtk_ruiwang@mediatek.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Pi-Hsun Shih <pihsun@chromium.org>,
+        Maoguang Meng <maoguang.meng@mediatek.com>
+Cc:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>
+Subject: [PATCH 00/10] media: mtk-vcodec: venc: support for MT8183
+Date:   Wed, 20 May 2020 17:27:13 +0900
+Message-Id: <20200520082723.96136-1-acourbot@chromium.org>
+X-Mailer: git-send-email 2.26.2.761.g0e0b3e54be-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200520094400.5137e7f2@coco.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+This series adds support for the encoder present on MT8183. It is very similar
+to the one in MT8173, but with different capabilities and using a new firmware
+interface (SCP, while MT8173 talked to the VPU).
 
-On Wed, May 20, 2020 at 09:44:00AM +0200, Mauro Carvalho Chehab wrote:
-> Hi Sakari,
-> 
-> Em Sun, 17 May 2020 13:36:59 +0300
-> Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
-> 
-> > Hi Mauro,
-> > 
-> > Thanks for the patch.
-> 
-> Thanks for reviewing it.
-> 
-> > 
-> > On Sat, May 16, 2020 at 12:43:39PM +0200, Mauro Carvalho Chehab wrote:
-> > > On devices without ACPI, or which ACPI is not prepared to
-> > > export sensor data via DT, we need a different probing
-> > > method.
-> > > 
-> > > This little driver adds initial support to probe the
-> > > sensors found on a Dell Latitude 7285.
-> > > 
-> > > For now, it just detects the hardware and use request_module()
-> > > to load a sensor driver.
-> > > 
-> > > In the specific case of this device, the ACPI DTST dable
-> > > describes 2 camera sensors for this module, but the
-> > > current upstream doesn't have yet drivers for such
-> > > sensors. So, this patch just detects the PMIC used on
-> > > this device and tries to load a sensor.
-> > > 
-> > > Once the sensor gets added, some additional code will
-> > > be needed to pass via platform_data other details, like
-> > > callbacks for PMIC's command to turn the sensor on/off
-> > > and other sensor-specific settings.
-> > > 
-> > > The idea of this patch was inspired on how the sensors
-> > > are probed by the staging atomisp driver.
-> > > 
-> > > The current result of this driver with the Dell
-> > > Latitude 7285 is:
-> > > 
-> > > 	ipu3_acpi i2c-INT3477:00: ipu3_acpi_probe: ACPI detected it on bus ID=LNK1, HID=INT3477
-> > > 	ipu3_acpi i2c-INT3477:00: Found DMI entry for 'Latitude 7285' with sensor INT3477
-> > > 	ipu3_acpi i2c-INT3477:00: Loading sensor module ov8858
-> > > 	ipu3_acpi i2c-OVTI9234:00: ipu3_acpi_probe: ACPI detected it on bus ID=LNK2, HID=OVTI9234
-> > > 	ipu3_acpi i2c-OVTI9234:00: Found DMI entry for 'Latitude 7285' with sensor OVTI9234
-> > > 	ipu3_acpi i2c-OVTI9234:00: Loading sensor module ov9234
-> > > 
-> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
-> 
-> With regards to the approach this patch took: it is currently
-> incomplete: the I2C core doesn't currently allow to have two 
-> drivers for the same I2C address at the same bus. So, if we end by having
-> some ancillary drivers to help the I2C core to work with media devs,
-> we may need some changes at I2C core (or to use an I2C virtual mux).
+So this series starts with some preparatory work by putting the firmware
+interface behind a small abstraction layer instead of directly talking to the
+VPU, and by adding support for the SCP firmware. Next platform data is completed
+with features that differ between the chips, like supported formats and bitrate,
+before support for MT8183 is added.
 
-Are the two really on the same bus with the same address? Both sensors
-support address selection in hardware...
+Alexandre Courbot (6):
+  media: mtk-vcodec: venc: handle firmware version field
+  media: mtk-vcodec: venc: specify bitrate range per-chip
+  media: mtk-vcodec: venc: specify supported formats per-chip
+  media: mtk-vcodec: venc: remove redundant code
+  media: dt-bindings: mtk-vcodec: specify SCP node
+  media: dt-bindings: mtk-vcodec: document mediatek,mt8183-vcodec-enc
 
-> 
-> > ...
-> > 
-> > > +/*
-> > > + * Should list known sensor devices found at DSDT table as "CAM0", "CAM1", ...
-> > > + *
-> > > + * The table below is probably incomplete. It came from the DSDT table found
-> > > + * at a Dell Latitude 7285 (Method HCID).
-> > > + */
-> > > +static const struct acpi_device_id ipu3_acpi_acpi_match[] = {
-> > > +	{"INT3471"},
-> > > +	{"INT33BE"},
-> > > +	{"INT3476"},
-> > > +	{"INT3477"},
-> > > +	{"INT3474"},
-> > > +	{"INT3473"},
-> > > +	{"INT3475"},
-> > > +	{"INT3478"},
-> > > +	{"INT3479"},
-> > > +	{"INT347A"},
-> > > +	{"INT347B"},
-> > > +	{"OVTI9234"},
-> > > +	{"OVTI9734"},
-> > > +	{"OVTI8856"},
-> > > +	{"OVTIF860"},
-> > > +	{},
-> > > +};
-> > > +MODULE_DEVICE_TABLE(acpi, ipu3_acpi_acpi_match);  
-> > 
-> > Instead of creating a new way to probe drivers on ACPI systems, please add
-> > the appropriate ACPI device IDs to the respective drivers. E.g.
-> > drivers/media/i2c/imx319.c implements this.
-> 
-> The ACPI code at imx319 is incomplete. I mean, it will only tell the I2C
-> core that the driver should be probed via ACPI, but it tells nothing
-> how to power up the device. It just assumes that the driver will work
-> using pm_runtime support.
+Yunfei Dong (4):
+  media: mtk-vcodec: abstract firmware interface
+  media: mtk-vcodec: add SCP firmware ops
+  media: mtk-vcodec: venc: support SCP firmware
+  media: mtk-vcodec: add support for MT8183 encoder
 
-The driver is complete; this is how it is supposed to work with ACPI.
+ .../bindings/media/mediatek-vcodec.txt        |   9 +-
+ drivers/media/platform/Kconfig                |   2 +
+ drivers/media/platform/mtk-vcodec/Makefile    |   4 +-
+ .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |  53 ++--
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   |   1 -
+ .../platform/mtk-vcodec/mtk_vcodec_drv.h      |  38 ++-
+ .../platform/mtk-vcodec/mtk_vcodec_enc.c      | 141 ++++-------
+ .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  | 149 ++++++++----
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   |   2 -
+ .../media/platform/mtk-vcodec/mtk_vcodec_fw.c | 228 ++++++++++++++++++
+ .../media/platform/mtk-vcodec/mtk_vcodec_fw.h |  38 +++
+ .../platform/mtk-vcodec/mtk_vcodec_util.c     |   1 -
+ .../platform/mtk-vcodec/vdec/vdec_h264_if.c   |   1 -
+ .../platform/mtk-vcodec/vdec/vdec_vp8_if.c    |   1 -
+ .../platform/mtk-vcodec/vdec/vdec_vp9_if.c    |   1 -
+ .../media/platform/mtk-vcodec/vdec_drv_base.h |   2 -
+ .../media/platform/mtk-vcodec/vdec_drv_if.c   |   1 -
+ .../media/platform/mtk-vcodec/vdec_vpu_if.c   |  12 +-
+ .../media/platform/mtk-vcodec/vdec_vpu_if.h   |  11 +-
+ .../platform/mtk-vcodec/venc/venc_h264_if.c   |  80 ++++--
+ .../platform/mtk-vcodec/venc/venc_vp8_if.c    |  11 +-
+ .../media/platform/mtk-vcodec/venc_drv_if.c   |   1 -
+ .../media/platform/mtk-vcodec/venc_drv_if.h   |   6 +
+ .../media/platform/mtk-vcodec/venc_ipi_msg.h  |  24 +-
+ .../media/platform/mtk-vcodec/venc_vpu_if.c   | 141 ++++++++---
+ .../media/platform/mtk-vcodec/venc_vpu_if.h   |   8 +-
+ 26 files changed, 711 insertions(+), 255 deletions(-)
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h
 
-Also note that there are systems where this works at the moment, using the
-the above ACPI HIDs. Those must not be broken.
+--
+2.26.2.761.g0e0b3e54be-goog
 
-> 
-> It also doesn't tell how to get device-specific platform data from
-> the BIOS (with is machine-specific).
-
-In some systems that is the case, yes. It means system specific drivers or
-fixups at least to some extent.
-
-> 
-> Also, at least in the case of the atomisp approach, a single code
-> to parse BIOS for devices with ISP2300/ISP2400/ISP2401/ISP2500 should
-> work with all sensors supported by those models.
-> 
-> Copying those inside all sensor drivers is probably a bad idea.
-> I mean, we should likely need a core support for parsing it, as
-> the code is the same for a given set of PCI IDs.
-
-Agreed. The more we can keep that away from the sensor drivers, the better.
-
-> 
-> -
-> 
-> As the atomisp driver is now minimally working, my plan is to merge
-> it upstream, under staging.
-
-How is it "minimally working" for you?
-
-> 
-> Before going ahead and fixing other troubles there at atomisp,
-> I may try to port the needed ACPI bits from the atomisp-ov2880 
-> staging driver into the mainline one. This should be an interesting 
-> exercise to check what's missing there.
-> 
-> Even if the atomisp never gets out of staging, doing that will help
-> to identify what it would take for a sensor to be able to work with
-> more than one different ISP. As as result, we may design something
-> that will properly support ACPI at the media subsystem.
-
-Hmm. Generally ACPI based devices are supported, there are no issues as
-such there. The ACPI tables in some systems, though, are a problem.
-
--- 
-Regards,
-
-Sakari Ailus
