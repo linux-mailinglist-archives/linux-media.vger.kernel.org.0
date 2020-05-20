@@ -2,241 +2,1071 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1220C1DC0B4
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 22:58:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA0441DC0B6
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 22:59:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728003AbgETU6j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 16:58:39 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:35318 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727018AbgETU6i (ORCPT
+        id S1728023AbgETU7E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 16:59:04 -0400
+Received: from mailoutvs56.siol.net ([185.57.226.247]:55962 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727018AbgETU7E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 16:58:38 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0ADFC24D;
-        Wed, 20 May 2020 22:58:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1590008316;
-        bh=ECGnkIhC9duuXzbqUdeLIp+8NacWvk0sxE555u91ZmM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GPdK0cKvGMBval3Trrlpv/Ik4FXGiq4xRxXvhEYGF+bW85jFQKH7ZOedGvB9hU8/r
-         h0RiC4N0VQ7pUYfQ3dKso+zoNcFnSkTFsTew2wx6uaOnNYc1Y4+SiiG78ZwMWOXS99
-         9X6zrpVopvBnJhHlQFLsLBSRDCZ4bfsvjscMAI6Y=
-Date:   Wed, 20 May 2020 23:58:25 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org, ezequiel@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org
-Subject: Re: [PATCH 1/5] media: staging: rkisp1: return IRQ_NONE in isr when
- irq isn't for ISP
-Message-ID: <20200520205825.GA25474@pendragon.ideasonboard.com>
-References: <20200512120522.25960-1-dafna.hirschfeld@collabora.com>
- <20200512120522.25960-2-dafna.hirschfeld@collabora.com>
- <33703448-c89b-b1ba-eedb-3ac769beaca3@collabora.com>
+        Wed, 20 May 2020 16:59:04 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Zimbra) with ESMTP id DD7C25215C3;
+        Wed, 20 May 2020 22:58:53 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta12.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta12.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id uLlvVeda4tVC; Wed, 20 May 2020 22:58:51 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Zimbra) with ESMTPS id 52A0C521527;
+        Wed, 20 May 2020 22:58:51 +0200 (CEST)
+Received: from kista.localdomain (cpe-194-152-20-232.static.triera.net [194.152.20.232])
+        (Authenticated sender: 031275009)
+        by mail.siol.net (Zimbra) with ESMTPSA id B6B3452140A;
+        Wed, 20 May 2020 22:58:50 +0200 (CEST)
+From:   Jernej Skrabec <jernej.skrabec@siol.net>
+To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
+Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
+        hverkuil-cisco@xs4all.nl, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: cedrus: Add support for VP8 decoding
+Date:   Wed, 20 May 2020 23:01:29 +0200
+Message-Id: <20200520210129.132816-1-jernej.skrabec@siol.net>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <33703448-c89b-b1ba-eedb-3ac769beaca3@collabora.com>
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+VP8 in Cedrus shares same engine as H264.
 
-Thank you for the patch.
+Note that it seems necessary to call bitstream parsing functions,
+to parse frame header, otherwise decoded image is garbage. This is
+contrary to what is driver supposed to do. However, values are not
+really used, so this might be acceptable. It's possible that bitstream
+parsing functions set some internal VPU state, which is later necessary
+for proper decoding. Biggest suspect is "VP8 probs update" trigger.
 
-On Wed, May 20, 2020 at 07:58:41AM -0300, Helen Koike wrote:
-> On 5/12/20 9:05 AM, Dafna Hirschfeld wrote:
-> > From: Helen Koike <helen.koike@collabora.com>
-> > 
-> > rkisp1 shares the interrupt line, then it shouldn't always return
-> > IRQ_HANDLED, otherwise it can flag as handled an interrupt that wans't
-> > meant for ISP.
-> > 
-> > return IRQ_NONE when the interrupt wans't meant for ISP
-> > 
-> > Fixes: d65dd85281fb ("media: staging: rkisp1: add Rockchip ISP1 base driver")
-> > 
-> > Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> > ---
-> >  drivers/staging/media/rkisp1/rkisp1-capture.c |  7 ++++++-
-> >  drivers/staging/media/rkisp1/rkisp1-common.h  |  6 +++---
-> >  drivers/staging/media/rkisp1/rkisp1-dev.c     | 14 ++++++++++----
-> >  drivers/staging/media/rkisp1/rkisp1-isp.c     | 12 ++++++++----
-> >  4 files changed, 27 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> > index f69235f82c45..19021875e8a9 100644
-> > --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-> > +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> > @@ -649,12 +649,15 @@ static void rkisp1_handle_buffer(struct rkisp1_capture *cap)
-> >  	rkisp1_set_next_buf(cap);
-> >  }
-> >  
-> > -void rkisp1_capture_isr(struct rkisp1_device *rkisp1)
-> > +irqreturn_t rkisp1_capture_isr(struct rkisp1_device *rkisp1)
-> >  {
-> >  	unsigned int i;
-> >  	u32 status;
-> >  
-> >  	status = rkisp1_read(rkisp1, RKISP1_CIF_MI_MIS);
-> > +	if (!status)
-> > +		return IRQ_NONE;
-> > +
-> >  	rkisp1_write(rkisp1, status, RKISP1_CIF_MI_ICR);
-> >  
-> >  	for (i = 0; i < ARRAY_SIZE(rkisp1->capture_devs); ++i) {
-> > @@ -682,6 +685,8 @@ void rkisp1_capture_isr(struct rkisp1_device *rkisp1)
-> >  		cap->is_streaming = false;
-> >  		wake_up(&cap->done);
-> >  	}
-> > +
-> > +	return IRQ_HANDLED;
-> >  }
-> >  
-> >  /* ----------------------------------------------------------------------------
-> > diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
-> > index 0c4fe503adc9..33dffe21c769 100644
-> > --- a/drivers/staging/media/rkisp1/rkisp1-common.h
-> > +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
-> > @@ -305,9 +305,9 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1);
-> >  
-> >  const struct rkisp1_isp_mbus_info *rkisp1_isp_mbus_info_get(u32 mbus_code);
-> >  
-> > -void rkisp1_isp_isr(struct rkisp1_device *rkisp1);
-> > -void rkisp1_mipi_isr(struct rkisp1_device *rkisp1);
-> > -void rkisp1_capture_isr(struct rkisp1_device *rkisp1);
-> > +irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1);
-> > +irqreturn_t rkisp1_mipi_isr(struct rkisp1_device *rkisp1);
-> > +irqreturn_t rkisp1_capture_isr(struct rkisp1_device *rkisp1);
-> >  void rkisp1_stats_isr(struct rkisp1_stats *stats, u32 isp_ris);
-> >  void rkisp1_params_isr(struct rkisp1_device *rkisp1, u32 isp_mis);
-> >  
-> > diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
-> > index 9ac38bafb839..b7f43dab71c8 100644
-> > --- a/drivers/staging/media/rkisp1/rkisp1-dev.c
-> > +++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
-> > @@ -387,10 +387,13 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
-> >  	return ret;
-> >  }
-> >  
-> > -static irqreturn_t rkisp1_isr(int irq, void *ctx)
-> > +irqreturn_t rkisp1_isr(int irq, void *ctx)
-> >  {
-> >  	struct device *dev = ctx;
-> >  	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
-> > +	irqreturn_t isp_ret;
-> > +	irqreturn_t cap_ret;
-> > +	irqreturn_t mipi_ret;
-> 
-> Just cosmetics, you could declare them in a single line
-> 
-> 	irqreturn_t cap_ret, isp_ret, mipi_ret;
-> 
-> With or without this change:
-> 
-> Acked-by: Helen Koike <helen.koike@collabora.com>
-> 
-> >  
-> >  	/*
-> >  	 * Call rkisp1_capture_isr() first to handle the frame that
-> > @@ -398,9 +401,12 @@ static irqreturn_t rkisp1_isr(int irq, void *ctx)
-> >  	 * it is potentially incremented by rkisp1_isp_isr() in the vertical
-> >  	 * sync.
-> >  	 */
-> > -	rkisp1_capture_isr(rkisp1);
-> > -	rkisp1_isp_isr(rkisp1);
-> > -	rkisp1_mipi_isr(rkisp1);
-> > +	cap_ret = rkisp1_capture_isr(rkisp1);
-> > +	isp_ret = rkisp1_isp_isr(rkisp1);
-> > +	mipi_ret = rkisp1_mipi_isr(rkisp1);
-> > +
-> > +	if (isp_ret == IRQ_NONE && cap_ret == IRQ_NONE && mipi_ret == IRQ_NONE)
-> > +		return IRQ_NONE;
+Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+---
+ drivers/staging/media/sunxi/cedrus/Makefile   |   3 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |   8 +
+ drivers/staging/media/sunxi/cedrus/cedrus.h   |  15 +
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |   5 +
+ .../staging/media/sunxi/cedrus/cedrus_hw.c    |   1 +
+ .../staging/media/sunxi/cedrus/cedrus_regs.h  |  80 ++
+ .../staging/media/sunxi/cedrus/cedrus_video.c |   9 +
+ .../staging/media/sunxi/cedrus/cedrus_vp8.c   | 699 ++++++++++++++++++
+ 8 files changed, 819 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
 
-Another cosmetic change proposal:
+diff --git a/drivers/staging/media/sunxi/cedrus/Makefile b/drivers/stagin=
+g/media/sunxi/cedrus/Makefile
+index 1bce49d3e7e2..a647b3690bf8 100644
+--- a/drivers/staging/media/sunxi/cedrus/Makefile
++++ b/drivers/staging/media/sunxi/cedrus/Makefile
+@@ -2,4 +2,5 @@
+ obj-$(CONFIG_VIDEO_SUNXI_CEDRUS) +=3D sunxi-cedrus.o
+=20
+ sunxi-cedrus-y =3D cedrus.o cedrus_video.o cedrus_hw.o cedrus_dec.o \
+-		 cedrus_mpeg2.o cedrus_h264.o cedrus_h265.o
++		 cedrus_mpeg2.o cedrus_h264.o cedrus_h265.o \
++		 cedrus_vp8.o
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/stagin=
+g/media/sunxi/cedrus/cedrus.c
+index b320aa058f74..e6b864f05364 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -142,6 +142,13 @@ static const struct cedrus_control cedrus_controls[]=
+ =3D {
+ 		.codec		=3D CEDRUS_CODEC_H265,
+ 		.required	=3D false,
+ 	},
++	{
++		.cfg =3D {
++			.id		=3D V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER,
++		},
++		.codec		=3D CEDRUS_CODEC_VP8,
++		.required	=3D true,
++	},
+ };
+=20
+ #define CEDRUS_CONTROLS_COUNT	ARRAY_SIZE(cedrus_controls)
+@@ -388,6 +395,7 @@ static int cedrus_probe(struct platform_device *pdev)
+ 	dev->dec_ops[CEDRUS_CODEC_MPEG2] =3D &cedrus_dec_ops_mpeg2;
+ 	dev->dec_ops[CEDRUS_CODEC_H264] =3D &cedrus_dec_ops_h264;
+ 	dev->dec_ops[CEDRUS_CODEC_H265] =3D &cedrus_dec_ops_h265;
++	dev->dec_ops[CEDRUS_CODEC_VP8] =3D &cedrus_dec_ops_vp8;
+=20
+ 	mutex_init(&dev->dev_mutex);
+=20
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/stagin=
+g/media/sunxi/cedrus/cedrus.h
+index f8264953dd04..353cb04b4ce5 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.h
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
+@@ -35,6 +35,7 @@ enum cedrus_codec {
+ 	CEDRUS_CODEC_MPEG2,
+ 	CEDRUS_CODEC_H264,
+ 	CEDRUS_CODEC_H265,
++	CEDRUS_CODEC_VP8,
+ 	CEDRUS_CODEC_LAST,
+ };
+=20
+@@ -76,6 +77,10 @@ struct cedrus_h265_run {
+ 	const struct v4l2_ctrl_hevc_scaling_matrix	*scaling_matrix;
+ };
+=20
++struct cedrus_vp8_run {
++	const struct v4l2_ctrl_vp8_frame_header		*slice_params;
++};
++
+ struct cedrus_run {
+ 	struct vb2_v4l2_buffer	*src;
+ 	struct vb2_v4l2_buffer	*dst;
+@@ -84,6 +89,7 @@ struct cedrus_run {
+ 		struct cedrus_h264_run	h264;
+ 		struct cedrus_mpeg2_run	mpeg2;
+ 		struct cedrus_h265_run	h265;
++		struct cedrus_vp8_run	vp8;
+ 	};
+ };
+=20
+@@ -141,6 +147,14 @@ struct cedrus_ctx {
+ 			void		*entry_points_buf;
+ 			dma_addr_t	entry_points_buf_addr;
+ 		} h265;
++		struct {
++			unsigned int	last_frame_p_type;
++			unsigned int	last_filter_type;
++			unsigned int	last_sharpness_level;
++
++			u8		*entropy_probs_buf;
++			dma_addr_t	entropy_probs_buf_dma;
++		} vp8;
+ 	} codec;
+ };
+=20
+@@ -188,6 +202,7 @@ struct cedrus_dev {
+ extern struct cedrus_dec_ops cedrus_dec_ops_mpeg2;
+ extern struct cedrus_dec_ops cedrus_dec_ops_h264;
+ extern struct cedrus_dec_ops cedrus_dec_ops_h265;
++extern struct cedrus_dec_ops cedrus_dec_ops_vp8;
+=20
+ static inline void cedrus_write(struct cedrus_dev *dev, u32 reg, u32 val=
+)
+ {
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/st=
+aging/media/sunxi/cedrus/cedrus_dec.c
+index 38c0bd7cf672..740b738fdde6 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+@@ -70,6 +70,11 @@ void cedrus_device_run(void *priv)
+ 			V4L2_CID_MPEG_VIDEO_HEVC_SCALING_MATRIX);
+ 		break;
+=20
++	case V4L2_PIX_FMT_VP8_FRAME:
++		run.vp8.slice_params =3D cedrus_find_control_data(ctx,
++			V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER);
++		break;
++
+ 	default:
+ 		break;
+ 	}
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/sta=
+ging/media/sunxi/cedrus/cedrus_hw.c
+index fb0cf8adcf1e..7c0ab4015e8f 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
+@@ -48,6 +48,7 @@ int cedrus_engine_enable(struct cedrus_ctx *ctx, enum c=
+edrus_codec codec)
+ 		break;
+=20
+ 	case CEDRUS_CODEC_H264:
++	case CEDRUS_CODEC_VP8:
+ 		reg |=3D VE_MODE_DEC_H264;
+ 		break;
+=20
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h b/drivers/s=
+taging/media/sunxi/cedrus/cedrus_regs.h
+index 150eae2d92d2..6cb1c279790f 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_regs.h
+@@ -552,6 +552,7 @@
+ #define VE_H264_SHS_QP_SCALING_MATRIX_DEFAULT	BIT(24)
+=20
+ #define VE_H264_CTRL			0x220
++#define VE_H264_CTRL_VP8			BIT(29)
+ #define VE_H264_CTRL_VLD_DATA_REQ_INT		BIT(2)
+ #define VE_H264_CTRL_DECODE_ERR_INT		BIT(1)
+ #define VE_H264_CTRL_SLICE_DECODE_INT		BIT(0)
+@@ -561,7 +562,12 @@
+ 					 VE_H264_CTRL_SLICE_DECODE_INT)
+=20
+ #define VE_H264_TRIGGER_TYPE		0x224
++#define VE_H264_TRIGGER_TYPE_PROBABILITY(x)	SHIFT_AND_MASK_BITS(x, 31, 2=
+4)
++#define VE_H264_TRIGGER_TYPE_BIN_LENS(x)	SHIFT_AND_MASK_BITS((x) - 1, 18=
+, 16)
+ #define VE_H264_TRIGGER_TYPE_N_BITS(x)		(((x) & 0x3f) << 8)
++#define VE_H264_TRIGGER_TYPE_VP8_GET_BITS	(15 << 0)
++#define VE_H264_TRIGGER_TYPE_VP8_UPDATE_COEF	(14 << 0)
++#define VE_H264_TRIGGER_TYPE_VP8_SLICE_DECODE	(10 << 0)
+ #define VE_H264_TRIGGER_TYPE_AVC_SLICE_DECODE	(8 << 0)
+ #define VE_H264_TRIGGER_TYPE_INIT_SWDEC		(7 << 0)
+ #define VE_H264_TRIGGER_TYPE_FLUSH_BITS		(3 << 0)
+@@ -571,6 +577,7 @@
+ #define VE_H264_STATUS_DECODE_ERR_INT		VE_H264_CTRL_DECODE_ERR_INT
+ #define VE_H264_STATUS_SLICE_DECODE_INT		VE_H264_CTRL_SLICE_DECODE_INT
+ #define VE_H264_STATUS_VLD_BUSY			BIT(8)
++#define VE_H264_STATUS_VP8_UPPROB_BUSY		BIT(17)
+=20
+ #define VE_H264_STATUS_INT_MASK			VE_H264_CTRL_INT_MASK
+=20
+@@ -589,10 +596,83 @@
+ #define VE_H264_OUTPUT_FRAME_IDX	0x24c
+ #define VE_H264_EXTRA_BUFFER1		0x250
+ #define VE_H264_EXTRA_BUFFER2		0x254
++#define VE_H264_MB_ADDR			0x260
++#define VE_H264_ERROR_CASE		0x2b8
+ #define VE_H264_BASIC_BITS		0x2dc
+ #define VE_AVC_SRAM_PORT_OFFSET		0x2e0
+ #define VE_AVC_SRAM_PORT_DATA		0x2e4
+=20
++#define VE_VP8_PPS			0x214
++#define VE_VP8_PPS_PIC_TYPE_P_FRAME		BIT(31)
++#define VE_VP8_PPS_LAST_SHARPNESS_LEVEL(v)	SHIFT_AND_MASK_BITS(v, 30, 28=
+)
++#define VE_VP8_PPS_LAST_PIC_TYPE_P_FRAME	BIT(27)
++#define VE_VP8_PPS_ALTREF_SIGN_BIAS		BIT(26)
++#define VE_VP8_PPS_GOLDEN_SIGN_BIAS		BIT(25)
++#define VE_VP8_PPS_RELOAD_ENTROPY_PROBS		BIT(24)
++#define VE_VP8_PPS_REFRESH_ENTROPY_PROBS	BIT(23)
++#define VE_VP8_PPS_MB_NO_COEFF_SKIP		BIT(22)
++#define VE_VP8_PPS_TOKEN_PARTITION(v)		SHIFT_AND_MASK_BITS(v, 21, 20)
++#define VE_VP8_PPS_MODE_REF_LF_DELTA_UPDATE	BIT(19)
++#define VE_VP8_PPS_MODE_REF_LF_DELTA_ENABLE	BIT(18)
++#define VE_VP8_PPS_LOOP_FILTER_LEVEL(v)		SHIFT_AND_MASK_BITS(v, 17, 12)
++#define VE_VP8_PPS_LOOP_FILTER_SIMPLE		BIT(11)
++#define VE_VP8_PPS_SHARPNESS_LEVEL(v)		SHIFT_AND_MASK_BITS(v, 10, 8)
++#define VE_VP8_PPS_LAST_LOOP_FILTER_SIMPLE	BIT(7)
++#define VE_VP8_PPS_SEGMENTATION_ENABLE		BIT(6)
++#define VE_VP8_PPS_MB_SEGMENT_ABS_DELTA		BIT(5)
++#define VE_VP8_PPS_UPDATE_MB_SEGMENTATION_MAP	BIT(4)
++#define VE_VP8_PPS_FULL_PIXEL			BIT(3)
++#define VE_VP8_PPS_BILINEAR_MC_FILTER		BIT(2)
++#define VE_VP8_PPS_FILTER_TYPE_SIMPLE		BIT(1)
++#define VE_VP8_PPS_LPF_DISABLE			BIT(0)
++
++#define VE_VP8_QP_INDEX_DELTA		0x218
++#define VE_VP8_QP_INDEX_DELTA_UVAC(v)		SHIFT_AND_MASK_BITS(v, 31, 27)
++#define VE_VP8_QP_INDEX_DELTA_UVDC(v)		SHIFT_AND_MASK_BITS(v, 26, 22)
++#define VE_VP8_QP_INDEX_DELTA_Y2AC(v)		SHIFT_AND_MASK_BITS(v, 21, 17)
++#define VE_VP8_QP_INDEX_DELTA_Y2DC(v)		SHIFT_AND_MASK_BITS(v, 16, 12)
++#define VE_VP8_QP_INDEX_DELTA_Y1DC(v)		SHIFT_AND_MASK_BITS(v, 11, 7)
++#define VE_VP8_QP_INDEX_DELTA_BASE_QINDEX(v)	SHIFT_AND_MASK_BITS(v, 6, 0=
+)
++
++#define VE_VP8_PART_SIZE_OFFSET		0x21c
++#define VE_VP8_ENTROPY_PROBS_ADDR	0x250
++#define VE_VP8_FIRST_DATA_PART_LEN	0x254
++
++#define VE_VP8_FSIZE			0x258
++#define VE_VP8_FSIZE_WIDTH(w) \
++	SHIFT_AND_MASK_BITS(DIV_ROUND_UP(w, 16), 15, 8)
++#define VE_VP8_FSIZE_HEIGHT(h) \
++	SHIFT_AND_MASK_BITS(DIV_ROUND_UP(h, 16), 7, 0)
++
++#define VE_VP8_PICSIZE			0x25c
++#define VE_VP8_PICSIZE_WIDTH(w)			SHIFT_AND_MASK_BITS(w, 27, 16)
++#define VE_VP8_PICSIZE_HEIGHT(h)		SHIFT_AND_MASK_BITS(h, 11, 0)
++
++#define VE_VP8_REC_LUMA			0x2ac
++#define VE_VP8_FWD_LUMA			0x2b0
++#define VE_VP8_BWD_LUMA			0x2b4
++#define VE_VP8_REC_CHROMA		0x2d0
++#define VE_VP8_FWD_CHROMA		0x2d4
++#define VE_VP8_BWD_CHROMA		0x2d8
++#define VE_VP8_ALT_LUMA			0x2e8
++#define VE_VP8_ALT_CHROMA		0x2ec
++
++#define VE_VP8_SEGMENT_FEAT_MB_LV0	0x2f0
++#define VE_VP8_SEGMENT_FEAT_MB_LV1	0x2f4
++
++#define VE_VP8_SEGMENT3(v)			SHIFT_AND_MASK_BITS(v, 31, 24)
++#define VE_VP8_SEGMENT2(v)			SHIFT_AND_MASK_BITS(v, 23, 16)
++#define VE_VP8_SEGMENT1(v)			SHIFT_AND_MASK_BITS(v, 15, 8)
++#define VE_VP8_SEGMENT0(v)			SHIFT_AND_MASK_BITS(v, 7, 0)
++
++#define VE_VP8_REF_LF_DELTA		0x2f8
++#define VE_VP8_MODE_LF_DELTA		0x2fc
++
++#define VE_VP8_LF_DELTA3(v)			SHIFT_AND_MASK_BITS(v, 30, 24)
++#define VE_VP8_LF_DELTA2(v)			SHIFT_AND_MASK_BITS(v, 22, 16)
++#define VE_VP8_LF_DELTA1(v)			SHIFT_AND_MASK_BITS(v, 14, 8)
++#define VE_VP8_LF_DELTA0(v)			SHIFT_AND_MASK_BITS(v, 6, 0)
++
+ #define VE_ISP_INPUT_SIZE		0xa00
+ #define VE_ISP_INPUT_STRIDE		0xa04
+ #define VE_ISP_CTRL			0xa08
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/=
+staging/media/sunxi/cedrus/cedrus_video.c
+index a78d6b1a3b64..6801ffa77a6b 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
+@@ -48,6 +48,10 @@ static struct cedrus_format cedrus_formats[] =3D {
+ 		.directions	=3D CEDRUS_DECODE_SRC,
+ 		.capabilities	=3D CEDRUS_CAPABILITY_H265_DEC,
+ 	},
++	{
++		.pixelformat	=3D V4L2_PIX_FMT_VP8_FRAME,
++		.directions	=3D CEDRUS_DECODE_SRC,
++	},
+ 	{
+ 		.pixelformat	=3D V4L2_PIX_FMT_SUNXI_TILED_NV12,
+ 		.directions	=3D CEDRUS_DECODE_DST,
+@@ -125,6 +129,7 @@ void cedrus_prepare_format(struct v4l2_pix_format *pi=
+x_fmt, int extended)
+ 	case V4L2_PIX_FMT_MPEG2_SLICE:
+ 	case V4L2_PIX_FMT_H264_SLICE:
+ 	case V4L2_PIX_FMT_HEVC_SLICE:
++	case V4L2_PIX_FMT_VP8_FRAME:
+ 		/* Zero bytes per line for encoded source. */
+ 		bytesperline =3D 0;
+ 		/* Choose some minimum size since this can't be 0 */
+@@ -499,6 +504,10 @@ static int cedrus_start_streaming(struct vb2_queue *=
+vq, unsigned int count)
+ 		ctx->current_codec =3D CEDRUS_CODEC_H265;
+ 		break;
+=20
++	case V4L2_PIX_FMT_VP8_FRAME:
++		ctx->current_codec =3D CEDRUS_CODEC_VP8;
++		break;
++
+ 	default:
+ 		return -EINVAL;
+ 	}
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c b/drivers/st=
+aging/media/sunxi/cedrus/cedrus_vp8.c
+new file mode 100644
+index 000000000000..93beffd07c35
+--- /dev/null
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
+@@ -0,0 +1,699 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * Cedrus VPU driver
++ *
++ * Copyright (c) 2019 Jernej Skrabec <jernej.skrabec@siol.net>
++ */
++
++#include <linux/delay.h>
++#include <linux/types.h>
++
++#include <media/videobuf2-dma-contig.h>
++
++#include "cedrus.h"
++#include "cedrus_hw.h"
++#include "cedrus_regs.h"
++
++#define CEDRUS_ENTROPY_PROBS_SIZE 0x2400
++#define VP8_PROB_HALF 128
++
++static const u8 prob_table_init[] =3D {
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xB0, 0xF6, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xDF, 0xF1, 0xFC, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xF9, 0xFD, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xF4, 0xFC, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xEA, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xF6, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xEF, 0xFD, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFE, 0xFF, 0xFE, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xF8, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFB, 0xFF, 0xFE, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFD, 0xFE, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFB, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFE, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFE, 0xFD, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFA, 0xFF, 0xFE, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFE, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xD9, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xE1, 0xFC, 0xF1, 0xFD, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xEA, 0xFA, 0xF1, 0xFA, 0xFD, 0xFF, 0xFD, 0xFE,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xDF, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xEE, 0xFD, 0xFE, 0xFE,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xF8, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF9, 0xFE, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFD, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xF7, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFD, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFC, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFD, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFE, 0xFD, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFA, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xBA, 0xFB, 0xFA, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xEA, 0xFB, 0xF4, 0xFE,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFB, 0xFB, 0xF3, 0xFD, 0xFE, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFD, 0xFE, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xEC, 0xFD, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFB, 0xFD, 0xFD, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFE, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFE, 0xFE, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xF8, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFA, 0xFE, 0xFC, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF8, 0xFE, 0xF9, 0xFD,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFD, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF6, 0xFD, 0xFD, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFC, 0xFE, 0xFB, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFE, 0xFC, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xF8, 0xFE, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFD, 0xFF, 0xFE, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFB, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xF5, 0xFB, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFD, 0xFD, 0xFE, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFB, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFC, 0xFD, 0xFE, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFC, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xF9, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFE, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFF, 0xFD, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFA, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFE, 0xFF, 0xFF, 0xFF,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x91, 0x9C, 0xA3, 0x80,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x6E, 0x6F, 0x96, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x78, 0x5A, 0x4F, 0x85, 0x57, 0x55, 0x50, 0x6F,
++	0x97, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x93, 0x88, 0x12, 0x00, 0x6A, 0x91, 0x01, 0x00, 0xB3, 0x79, 0x01, 0x00,
++	0xDF, 0x01, 0x22, 0x00, 0xD0, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x07, 0x01, 0x01, 0x8F,
++	0x0E, 0x12, 0x0E, 0x6B, 0x87, 0x40, 0x39, 0x44, 0x3C, 0x38, 0x80, 0x41,
++	0x9F, 0x86, 0x80, 0x22, 0xEA, 0xBC, 0x80, 0x1C, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x84, 0x02, 0x04, 0x06, 0x80, 0x81, 0x82, 0x83, 0x80, 0x02, 0x04, 0x06,
++	0x81, 0x82, 0x83, 0x84, 0x80, 0x02, 0x81, 0x04, 0x82, 0x83, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x08,
++	0x04, 0x06, 0x80, 0x81, 0x82, 0x83, 0x0A, 0x0C, 0x84, 0x85, 0x86, 0x87,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x08, 0x04, 0x06, 0x80, 0x81,
++	0x82, 0x83, 0x0A, 0x0C, 0x84, 0x85, 0x86, 0x87, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x83, 0x02, 0x82, 0x04, 0x80, 0x81, 0x00, 0x00, 0x80, 0x02, 0x81, 0x04,
++	0x82, 0x06, 0x08, 0x0C, 0x83, 0x0A, 0x85, 0x86, 0x84, 0x0E, 0x87, 0x10,
++	0x88, 0x89, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x8A, 0x02, 0x8B, 0x04, 0x8C, 0x8D, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
++	0x87, 0x02, 0x85, 0x04, 0x86, 0x06, 0x88, 0x89,
++};
++
++static const u8 vp8_mv_update_prob[2][19] =3D {
++	{ 237, 246, 253, 253, 254, 254, 254, 254, 254,
++	  254, 254, 254, 254, 254, 250, 250, 252, 254, 254 },
++	{ 231, 243, 245, 253, 254, 254, 254, 254, 254,
++	  254, 254, 254, 254, 254, 251, 251, 254, 254, 254 }
++};
++
++static uint8_t read_bits(struct cedrus_dev *dev, unsigned int bits_count=
+,
++			 unsigned int probability)
++{
++	cedrus_write(dev, VE_H264_TRIGGER_TYPE,
++		     VE_H264_TRIGGER_TYPE_VP8_GET_BITS |
++		     VE_H264_TRIGGER_TYPE_BIN_LENS(bits_count) |
++		     VE_H264_TRIGGER_TYPE_PROBABILITY(probability));
++
++	while (cedrus_read(dev, VE_H264_STATUS) & VE_H264_STATUS_VLD_BUSY)
++		;
++
++	return cedrus_read(dev, VE_H264_BASIC_BITS);
++}
++
++static void get_delta_q(struct cedrus_dev *dev)
++{
++	if (read_bits(dev, 1, VP8_PROB_HALF)) {
++		read_bits(dev, 4, VP8_PROB_HALF);
++		read_bits(dev, 1, VP8_PROB_HALF);
++	}
++}
++
++static void process_segmentation_info(struct cedrus_dev *dev)
++{
++	int update =3D read_bits(dev, 1, VP8_PROB_HALF);
++	int i;
++
++	if (read_bits(dev, 1, VP8_PROB_HALF)) {
++		read_bits(dev, 1, VP8_PROB_HALF);
++
++		for (i =3D 0; i < 4; i++)
++			if (read_bits(dev, 1, VP8_PROB_HALF)) {
++				read_bits(dev, 7, VP8_PROB_HALF);
++				read_bits(dev, 1, VP8_PROB_HALF);
++			}
++
++		for (i =3D 0; i < 4; i++)
++			if (read_bits(dev, 1, VP8_PROB_HALF)) {
++				read_bits(dev, 6, VP8_PROB_HALF);
++				read_bits(dev, 1, VP8_PROB_HALF);
++			}
++	}
++
++	if (update)
++		for (i =3D 0; i < 3; i++)
++			if (read_bits(dev, 1, VP8_PROB_HALF))
++				read_bits(dev, 8, VP8_PROB_HALF);
++}
++
++static void process_ref_lf_delta_info(struct cedrus_dev *dev)
++{
++	if (read_bits(dev, 1, VP8_PROB_HALF)) {
++		int i;
++
++		for (i =3D 0; i < 4; i++)
++			if (read_bits(dev, 1, VP8_PROB_HALF)) {
++				read_bits(dev, 6, VP8_PROB_HALF);
++				read_bits(dev, 1, VP8_PROB_HALF);
++			}
++
++		for (i =3D 0; i < 4; i++)
++			if (read_bits(dev, 1, VP8_PROB_HALF)) {
++				read_bits(dev, 6, VP8_PROB_HALF);
++				read_bits(dev, 1, VP8_PROB_HALF);
++			}
++	}
++}
++
++static void process_ref_frame_info(struct cedrus_dev *dev)
++{
++	u8 refresh_golden_frame =3D read_bits(dev, 1, VP8_PROB_HALF);
++	u8 refresh_alt_ref_frame =3D read_bits(dev, 1, VP8_PROB_HALF);
++
++	if (!refresh_golden_frame)
++		read_bits(dev, 2, VP8_PROB_HALF);
++
++	if (!refresh_alt_ref_frame)
++		read_bits(dev, 2, VP8_PROB_HALF);
++
++	read_bits(dev, 1, VP8_PROB_HALF);
++	read_bits(dev, 1, VP8_PROB_HALF);
++}
++
++static void cedrus_read_header(struct cedrus_dev *dev,
++			       const struct v4l2_ctrl_vp8_frame_header *slice)
++{
++	int i, j;
++
++	if (VP8_FRAME_IS_KEY_FRAME(slice)) {
++		read_bits(dev, 1, VP8_PROB_HALF);
++		read_bits(dev, 1, VP8_PROB_HALF);
++	}
++
++	if (read_bits(dev, 1, VP8_PROB_HALF))
++		process_segmentation_info(dev);
++
++	read_bits(dev, 1, VP8_PROB_HALF);
++	read_bits(dev, 6, VP8_PROB_HALF);
++	read_bits(dev, 3, VP8_PROB_HALF);
++
++	if (read_bits(dev, 1, VP8_PROB_HALF))
++		process_ref_lf_delta_info(dev);
++
++	read_bits(dev, 2, VP8_PROB_HALF);
++	read_bits(dev, 7, VP8_PROB_HALF);
++
++	get_delta_q(dev);
++	get_delta_q(dev);
++	get_delta_q(dev);
++	get_delta_q(dev);
++	get_delta_q(dev);
++
++	if (!VP8_FRAME_IS_KEY_FRAME(slice))
++		process_ref_frame_info(dev);
++
++	read_bits(dev, 1, VP8_PROB_HALF);
++
++	if (!VP8_FRAME_IS_KEY_FRAME(slice))
++		read_bits(dev, 1, VP8_PROB_HALF);
++
++	cedrus_write(dev, VE_H264_TRIGGER_TYPE, VE_H264_TRIGGER_TYPE_VP8_UPDATE=
+_COEF);
++	while (cedrus_read(dev, VE_H264_STATUS) & VE_H264_STATUS_VP8_UPPROB_BUS=
+Y)
++		;
++
++	cedrus_write(dev, VE_H264_STATUS, VE_H264_CTRL_INT_MASK);
++
++	if (read_bits(dev, 1, VP8_PROB_HALF))
++		read_bits(dev, 8, VP8_PROB_HALF);
++
++	if (!VP8_FRAME_IS_KEY_FRAME(slice)) {
++		read_bits(dev, 8, VP8_PROB_HALF);
++		read_bits(dev, 8, VP8_PROB_HALF);
++		read_bits(dev, 8, VP8_PROB_HALF);
++
++		if (read_bits(dev, 1, VP8_PROB_HALF)) {
++			read_bits(dev, 8, VP8_PROB_HALF);
++			read_bits(dev, 8, VP8_PROB_HALF);
++			read_bits(dev, 8, VP8_PROB_HALF);
++			read_bits(dev, 8, VP8_PROB_HALF);
++		}
++
++		if (read_bits(dev, 1, VP8_PROB_HALF)) {
++			read_bits(dev, 8, VP8_PROB_HALF);
++			read_bits(dev, 8, VP8_PROB_HALF);
++			read_bits(dev, 8, VP8_PROB_HALF);
++		}
++
++		for (i =3D 0; i < 2; i++)
++			for (j =3D 0; j < 19; j++)
++				if (read_bits(dev, 1, vp8_mv_update_prob[i][j]))
++					read_bits(dev, 7, VP8_PROB_HALF);
++	}
++}
++
++static void cedrus_vp8_update_probs(const struct v4l2_ctrl_vp8_frame_hea=
+der *slice,
++				    u8 *prob_table)
++{
++	int i, j, k;
++
++	memcpy(&prob_table[0x1008], slice->entropy_header.y_mode_probs, 4);
++	memcpy(&prob_table[0x1010], slice->entropy_header.uv_mode_probs, 3);
++
++	memcpy(&prob_table[0x1018], slice->segment_header.segment_probs, 3);
++
++	prob_table[0x101c] =3D slice->prob_skip_false;
++	prob_table[0x101d] =3D slice->prob_intra;
++	prob_table[0x101e] =3D slice->prob_last;
++	prob_table[0x101f] =3D slice->prob_gf;
++
++	memcpy(&prob_table[0x1020], slice->entropy_header.mv_probs[0], 19);
++	memcpy(&prob_table[0x1040], slice->entropy_header.mv_probs[1], 19);
++
++	for (i =3D 0; i < 4; ++i)
++		for (j =3D 0; j < 8; ++j)
++			for (k =3D 0; k < 3; ++k)
++				memcpy(&prob_table[i * 512 + j * 64 + k * 16],
++				       slice->entropy_header.coeff_probs[i][j][k], 11);
++}
++
++static enum cedrus_irq_status
++cedrus_vp8_irq_status(struct cedrus_ctx *ctx)
++{
++	struct cedrus_dev *dev =3D ctx->dev;
++	u32 reg =3D cedrus_read(dev, VE_H264_STATUS);
++
++	if (reg & (VE_H264_STATUS_DECODE_ERR_INT |
++		   VE_H264_STATUS_VLD_DATA_REQ_INT))
++		return CEDRUS_IRQ_ERROR;
++
++	if (reg & VE_H264_CTRL_SLICE_DECODE_INT)
++		return CEDRUS_IRQ_OK;
++
++	return CEDRUS_IRQ_NONE;
++}
++
++static void cedrus_vp8_irq_clear(struct cedrus_ctx *ctx)
++{
++	struct cedrus_dev *dev =3D ctx->dev;
++
++	cedrus_write(dev, VE_H264_STATUS,
++		     VE_H264_STATUS_INT_MASK);
++}
++
++static void cedrus_vp8_irq_disable(struct cedrus_ctx *ctx)
++{
++	struct cedrus_dev *dev =3D ctx->dev;
++	u32 reg =3D cedrus_read(dev, VE_H264_CTRL);
++
++	cedrus_write(dev, VE_H264_CTRL,
++		     reg & ~VE_H264_CTRL_INT_MASK);
++}
++
++static void cedrus_vp8_setup(struct cedrus_ctx *ctx,
++			     struct cedrus_run *run)
++{
++	const struct v4l2_ctrl_vp8_frame_header *slice =3D run->vp8.slice_param=
+s;
++	struct vb2_queue *cap_q =3D &ctx->fh.m2m_ctx->cap_q_ctx.q;
++	struct vb2_buffer *src_buf =3D &run->src->vb2_buf;
++	struct cedrus_dev *dev =3D ctx->dev;
++	dma_addr_t luma_addr, chroma_addr;
++	dma_addr_t src_buf_addr;
++	int header_size;
++	int qindex;
++	u32 reg;
++
++	cedrus_engine_enable(ctx, CEDRUS_CODEC_VP8);
++
++	cedrus_write(dev, VE_H264_CTRL, VE_H264_CTRL_VP8);
++
++	cedrus_vp8_update_probs(slice, ctx->codec.vp8.entropy_probs_buf);
++
++	reg =3D slice->first_part_size * 8;
++	cedrus_write(dev, VE_VP8_FIRST_DATA_PART_LEN, reg);
++
++	header_size =3D VP8_FRAME_IS_KEY_FRAME(slice) ? 10 : 3;
++
++	reg =3D slice->first_part_size + header_size;
++	cedrus_write(dev, VE_VP8_PART_SIZE_OFFSET, reg);
++
++	reg =3D vb2_plane_size(src_buf, 0) * 8;
++	cedrus_write(dev, VE_H264_VLD_LEN, reg);
++
++	/*
++	 * FIXME: There is a problem if frame header is skipped (adding
++	 * first_part_header_bits to offset). It seems that functions
++	 * for parsing bitstreams change internal state of VPU in some
++	 * way that can't be otherwise set. Maybe this can be bypassed
++	 * by somehow fixing probability table buffer?
++	 */
++	reg =3D header_size * 8;
++	cedrus_write(dev, VE_H264_VLD_OFFSET, reg);
++
++	src_buf_addr =3D vb2_dma_contig_plane_dma_addr(src_buf, 0);
++	cedrus_write(dev, VE_H264_VLD_END,
++		     src_buf_addr + vb2_get_plane_payload(src_buf, 0));
++	cedrus_write(dev, VE_H264_VLD_ADDR,
++		     VE_H264_VLD_ADDR_VAL(src_buf_addr) |
++		     VE_H264_VLD_ADDR_FIRST | VE_H264_VLD_ADDR_VALID |
++		     VE_H264_VLD_ADDR_LAST);
++
++	cedrus_write(dev, VE_H264_TRIGGER_TYPE,
++		     VE_H264_TRIGGER_TYPE_INIT_SWDEC);
++
++	cedrus_write(dev, VE_VP8_ENTROPY_PROBS_ADDR,
++		     ctx->codec.vp8.entropy_probs_buf_dma);
++
++	reg =3D 0;
++	switch (slice->version) {
++	case 1:
++		reg |=3D VE_VP8_PPS_FILTER_TYPE_SIMPLE;
++		reg |=3D VE_VP8_PPS_BILINEAR_MC_FILTER;
++		break;
++	case 2:
++		reg |=3D VE_VP8_PPS_LPF_DISABLE;
++		reg |=3D VE_VP8_PPS_BILINEAR_MC_FILTER;
++		break;
++	case 3:
++		reg |=3D VE_VP8_PPS_LPF_DISABLE;
++		reg |=3D VE_VP8_PPS_FULL_PIXEL;
++		break;
++	}
++	if (slice->segment_header.flags & V4L2_VP8_SEGMENT_HEADER_FLAG_UPDATE_M=
+AP)
++		reg |=3D VE_VP8_PPS_UPDATE_MB_SEGMENTATION_MAP;
++	if (!(slice->segment_header.flags & V4L2_VP8_SEGMENT_HEADER_FLAG_DELTA_=
+VALUE_MODE))
++		reg |=3D VE_VP8_PPS_MB_SEGMENT_ABS_DELTA;
++	if (slice->segment_header.flags & V4L2_VP8_SEGMENT_HEADER_FLAG_ENABLED)
++		reg |=3D VE_VP8_PPS_SEGMENTATION_ENABLE;
++	if (ctx->codec.vp8.last_filter_type)
++		reg |=3D VE_VP8_PPS_LAST_LOOP_FILTER_SIMPLE;
++	reg |=3D VE_VP8_PPS_SHARPNESS_LEVEL(slice->lf_header.sharpness_level);
++	if (slice->lf_header.flags & V4L2_VP8_LF_FILTER_TYPE_SIMPLE)
++		reg |=3D VE_VP8_PPS_LOOP_FILTER_SIMPLE;
++	reg |=3D VE_VP8_PPS_LOOP_FILTER_LEVEL(slice->lf_header.level);
++	if (slice->lf_header.flags & V4L2_VP8_LF_HEADER_ADJ_ENABLE)
++		reg |=3D VE_VP8_PPS_MODE_REF_LF_DELTA_ENABLE;
++	if (slice->lf_header.flags & V4L2_VP8_LF_HEADER_DELTA_UPDATE)
++		reg |=3D VE_VP8_PPS_MODE_REF_LF_DELTA_UPDATE;
++	reg |=3D VE_VP8_PPS_TOKEN_PARTITION(ilog2(slice->num_dct_parts));
++	if (slice->flags & V4L2_VP8_FRAME_HEADER_FLAG_MB_NO_SKIP_COEFF)
++		reg |=3D VE_VP8_PPS_MB_NO_COEFF_SKIP;
++	reg |=3D VE_VP8_PPS_RELOAD_ENTROPY_PROBS;
++	if (slice->flags & V4L2_VP8_FRAME_HEADER_FLAG_SIGN_BIAS_GOLDEN)
++		reg |=3D VE_VP8_PPS_GOLDEN_SIGN_BIAS;
++	if (slice->flags & V4L2_VP8_FRAME_HEADER_FLAG_SIGN_BIAS_ALT)
++		reg |=3D VE_VP8_PPS_ALTREF_SIGN_BIAS;
++	if (ctx->codec.vp8.last_frame_p_type)
++		reg |=3D VE_VP8_PPS_LAST_PIC_TYPE_P_FRAME;
++	reg |=3D VE_VP8_PPS_LAST_SHARPNESS_LEVEL(ctx->codec.vp8.last_sharpness_=
+level);
++	if (!(slice->flags & V4L2_VP8_FRAME_HEADER_FLAG_KEY_FRAME))
++		reg |=3D VE_VP8_PPS_PIC_TYPE_P_FRAME;
++	cedrus_write(dev, VE_VP8_PPS, reg);
++
++	cedrus_read_header(dev, slice);
++
++	/* reset registers changed by HW */
++	cedrus_write(dev, VE_H264_CUR_MB_NUM, 0);
++	cedrus_write(dev, VE_H264_MB_ADDR, 0);
++	cedrus_write(dev, VE_H264_ERROR_CASE, 0);
++
++	reg =3D 0;
++	reg |=3D VE_VP8_QP_INDEX_DELTA_UVAC(slice->quant_header.uv_ac_delta);
++	reg |=3D VE_VP8_QP_INDEX_DELTA_UVDC(slice->quant_header.uv_dc_delta);
++	reg |=3D VE_VP8_QP_INDEX_DELTA_Y2AC(slice->quant_header.y2_ac_delta);
++	reg |=3D VE_VP8_QP_INDEX_DELTA_Y2DC(slice->quant_header.y2_dc_delta);
++	reg |=3D VE_VP8_QP_INDEX_DELTA_Y1DC(slice->quant_header.y_dc_delta);
++	reg |=3D VE_VP8_QP_INDEX_DELTA_BASE_QINDEX(slice->quant_header.y_ac_qi)=
+;
++	cedrus_write(dev, VE_VP8_QP_INDEX_DELTA, reg);
++
++	reg =3D 0;
++	reg |=3D VE_VP8_FSIZE_WIDTH(slice->width);
++	reg |=3D VE_VP8_FSIZE_HEIGHT(slice->height);
++	cedrus_write(dev, VE_VP8_FSIZE, reg);
++
++	reg =3D 0;
++	reg |=3D VE_VP8_PICSIZE_WIDTH(slice->width);
++	reg |=3D VE_VP8_PICSIZE_HEIGHT(slice->height);
++	cedrus_write(dev, VE_VP8_PICSIZE, reg);
++
++	reg =3D 0;
++	reg |=3D VE_VP8_SEGMENT3(slice->segment_header.quant_update[3]);
++	reg |=3D VE_VP8_SEGMENT2(slice->segment_header.quant_update[2]);
++	reg |=3D VE_VP8_SEGMENT1(slice->segment_header.quant_update[1]);
++	reg |=3D VE_VP8_SEGMENT0(slice->segment_header.quant_update[0]);
++	cedrus_write(dev, VE_VP8_SEGMENT_FEAT_MB_LV0, reg);
++
++	reg =3D 0;
++	reg |=3D VE_VP8_SEGMENT3(slice->segment_header.lf_update[3]);
++	reg |=3D VE_VP8_SEGMENT2(slice->segment_header.lf_update[2]);
++	reg |=3D VE_VP8_SEGMENT1(slice->segment_header.lf_update[1]);
++	reg |=3D VE_VP8_SEGMENT0(slice->segment_header.lf_update[0]);
++	cedrus_write(dev, VE_VP8_SEGMENT_FEAT_MB_LV1, reg);
++
++	reg =3D 0;
++	reg |=3D VE_VP8_LF_DELTA3(slice->lf_header.ref_frm_delta[3]);
++	reg |=3D VE_VP8_LF_DELTA2(slice->lf_header.ref_frm_delta[2]);
++	reg |=3D VE_VP8_LF_DELTA1(slice->lf_header.ref_frm_delta[1]);
++	reg |=3D VE_VP8_LF_DELTA0(slice->lf_header.ref_frm_delta[0]);
++	cedrus_write(dev, VE_VP8_REF_LF_DELTA, reg);
++
++	reg =3D 0;
++	reg |=3D VE_VP8_LF_DELTA3(slice->lf_header.mb_mode_delta[3]);
++	reg |=3D VE_VP8_LF_DELTA2(slice->lf_header.mb_mode_delta[2]);
++	reg |=3D VE_VP8_LF_DELTA1(slice->lf_header.mb_mode_delta[1]);
++	reg |=3D VE_VP8_LF_DELTA0(slice->lf_header.mb_mode_delta[0]);
++	cedrus_write(dev, VE_VP8_MODE_LF_DELTA, reg);
++
++	luma_addr =3D cedrus_dst_buf_addr(ctx, run->dst->vb2_buf.index, 0);
++	chroma_addr =3D cedrus_dst_buf_addr(ctx, run->dst->vb2_buf.index, 1);
++	cedrus_write(dev, VE_VP8_REC_LUMA, luma_addr);
++	cedrus_write(dev, VE_VP8_REC_CHROMA, chroma_addr);
++
++	qindex =3D vb2_find_timestamp(cap_q, slice->last_frame_ts, 0);
++	if (qindex >=3D 0) {
++		luma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 0);
++		chroma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 1);
++		cedrus_write(dev, VE_VP8_FWD_LUMA, luma_addr);
++		cedrus_write(dev, VE_VP8_FWD_CHROMA, chroma_addr);
++	} else {
++		cedrus_write(dev, VE_VP8_FWD_LUMA, 0);
++		cedrus_write(dev, VE_VP8_FWD_CHROMA, 0);
++	}
++
++	qindex =3D vb2_find_timestamp(cap_q, slice->golden_frame_ts, 0);
++	if (qindex >=3D 0) {
++		luma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 0);
++		chroma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 1);
++		cedrus_write(dev, VE_VP8_BWD_LUMA, luma_addr);
++		cedrus_write(dev, VE_VP8_BWD_CHROMA, chroma_addr);
++	} else {
++		cedrus_write(dev, VE_VP8_BWD_LUMA, 0);
++		cedrus_write(dev, VE_VP8_BWD_CHROMA, 0);
++	}
++
++	qindex =3D vb2_find_timestamp(cap_q, slice->alt_frame_ts, 0);
++	if (qindex >=3D 0) {
++		luma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 0);
++		chroma_addr =3D cedrus_dst_buf_addr(ctx, qindex, 1);
++		cedrus_write(dev, VE_VP8_ALT_LUMA, luma_addr);
++		cedrus_write(dev, VE_VP8_ALT_CHROMA, chroma_addr);
++	} else {
++		cedrus_write(dev, VE_VP8_ALT_LUMA, 0);
++		cedrus_write(dev, VE_VP8_ALT_CHROMA, 0);
++	}
++
++	cedrus_write(dev, VE_H264_CTRL, VE_H264_CTRL_VP8 |
++		     VE_H264_CTRL_DECODE_ERR_INT |
++		     VE_H264_CTRL_SLICE_DECODE_INT);
++
++	if (slice->lf_header.level) {
++		ctx->codec.vp8.last_filter_type =3D
++			!!(slice->lf_header.flags & V4L2_VP8_LF_FILTER_TYPE_SIMPLE);
++		ctx->codec.vp8.last_frame_p_type =3D
++			!VP8_FRAME_IS_KEY_FRAME(slice);
++		ctx->codec.vp8.last_sharpness_level =3D
++			slice->lf_header.sharpness_level;
++	}
++}
++
++static int cedrus_vp8_start(struct cedrus_ctx *ctx)
++{
++	struct cedrus_dev *dev =3D ctx->dev;
++
++	ctx->codec.vp8.entropy_probs_buf =3D
++		dma_alloc_coherent(dev->dev, CEDRUS_ENTROPY_PROBS_SIZE,
++				   &ctx->codec.vp8.entropy_probs_buf_dma,
++				   GFP_KERNEL);
++	if (!ctx->codec.vp8.entropy_probs_buf)
++		return -ENOMEM;
++
++	memcpy(&ctx->codec.vp8.entropy_probs_buf[2048],
++	       prob_table_init, sizeof(prob_table_init));
++
++	return 0;
++}
++
++static void cedrus_vp8_stop(struct cedrus_ctx *ctx)
++{
++	struct cedrus_dev *dev =3D ctx->dev;
++
++	cedrus_engine_disable(dev);
++
++	dma_free_coherent(dev->dev, CEDRUS_ENTROPY_PROBS_SIZE,
++			  ctx->codec.vp8.entropy_probs_buf,
++			  ctx->codec.vp8.entropy_probs_buf_dma);
++}
++
++static void cedrus_vp8_trigger(struct cedrus_ctx *ctx)
++{
++	struct cedrus_dev *dev =3D ctx->dev;
++
++	cedrus_write(dev, VE_H264_TRIGGER_TYPE,
++		     VE_H264_TRIGGER_TYPE_VP8_SLICE_DECODE);
++}
++
++struct cedrus_dec_ops cedrus_dec_ops_vp8 =3D {
++	.irq_clear	=3D cedrus_vp8_irq_clear,
++	.irq_disable	=3D cedrus_vp8_irq_disable,
++	.irq_status	=3D cedrus_vp8_irq_status,
++	.setup		=3D cedrus_vp8_setup,
++	.start		=3D cedrus_vp8_start,
++	.stop		=3D cedrus_vp8_stop,
++	.trigger	=3D cedrus_vp8_trigger,
++};
+--=20
+2.26.2
 
-	irqreturn_t ret = IRQ_NONE;
-	...
 
-	if (rkisp1_capture_isr(rkisp1) == IRQ_HANDLED)
-		ret = IRQ_HANDLED;
-
-	if (rkisp1_isp_isr(rkisp1) == IRQ_HANDLED)
-		ret = IRQ_HANDLED;
-
-	if (rkisp1_mipi_isr(rkisp1) == IRQ_HANDLED)
-		ret = IRQ_HANDLED;
-
-	return ret;
-
-With or without it,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> >  
-> >  	return IRQ_HANDLED;
-> >  }
-> > diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> > index dc2b59a0160a..19ab0ed323aa 100644
-> > --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
-> > +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> > @@ -1046,13 +1046,13 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
-> >   * Interrupt handlers
-> >   */
-> >  
-> > -void rkisp1_mipi_isr(struct rkisp1_device *rkisp1)
-> > +irqreturn_t rkisp1_mipi_isr(struct rkisp1_device *rkisp1)
-> >  {
-> >  	u32 val, status;
-> >  
-> >  	status = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_MIS);
-> >  	if (!status)
-> > -		return;
-> > +		return IRQ_NONE;
-> >  
-> >  	rkisp1_write(rkisp1, status, RKISP1_CIF_MIPI_ICR);
-> >  
-> > @@ -1087,6 +1087,8 @@ void rkisp1_mipi_isr(struct rkisp1_device *rkisp1)
-> >  	} else {
-> >  		rkisp1->debug.mipi_error++;
-> >  	}
-> > +
-> > +	return IRQ_HANDLED;
-> >  }
-> >  
-> >  static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
-> > @@ -1106,13 +1108,13 @@ static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
-> >  	v4l2_event_queue(isp->sd.devnode, &event);
-> >  }
-> >  
-> > -void rkisp1_isp_isr(struct rkisp1_device *rkisp1)
-> > +irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1)
-> >  {
-> >  	u32 status, isp_err;
-> >  
-> >  	status = rkisp1_read(rkisp1, RKISP1_CIF_ISP_MIS);
-> >  	if (!status)
-> > -		return;
-> > +		return IRQ_NONE;
-> >  
-> >  	rkisp1_write(rkisp1, status, RKISP1_CIF_ISP_ICR);
-> >  
-> > @@ -1148,4 +1150,6 @@ void rkisp1_isp_isr(struct rkisp1_device *rkisp1)
-> >  	 * Do the updates in the order of the processing flow.
-> >  	 */
-> >  	rkisp1_params_isr(rkisp1, status);
-> > +
-> > +	return IRQ_HANDLED;
-> >  }
-> > 
-
--- 
-Regards,
-
-Laurent Pinchart
