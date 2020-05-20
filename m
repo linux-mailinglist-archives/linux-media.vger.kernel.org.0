@@ -2,346 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B5E01DAD22
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 10:21:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C42C51DAD3D
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 10:26:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726525AbgETIVU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 04:21:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55000 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726425AbgETIVU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 04:21:20 -0400
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53876C061A0E;
-        Wed, 20 May 2020 01:21:20 -0700 (PDT)
-Received: by mail-qk1-x741.google.com with SMTP id 190so2783087qki.1;
-        Wed, 20 May 2020 01:21:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=GeohJKPS7M9KB2Z0UOMQZ+VWn+6x4apfiV2ZaqWSAWU=;
-        b=aP5ju1bhRU9QWpsnVmHodgx/YH9viaoIrlq53IbD2Oo8bVgsZcgqSFu0+VkLaB+mu6
-         XjIcAbcBDX3+4rgxSNwaI66rluDudwmhw23fcrx0iFCLDrn4INeGj5xt4W69uC22LT+z
-         zshvuydRZkPnBqKzWH9AppzFimSHJKYcILP/R9Ar7C8BsDmhca6LyPhw/XShvC8eCyNE
-         fRjr7auJGGf8NS0NI+0+gkFEZ224Yu3baS1r4nHx6g9W2qIWHGlVELDtT0k5CU6YKHWl
-         gW7UwZqZVA8gDwrk4E6ZkocUMzlJKBJxzKhClLHIdY4LDe8mRLoSVBaAWSZDNUznsZJ/
-         FNbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=GeohJKPS7M9KB2Z0UOMQZ+VWn+6x4apfiV2ZaqWSAWU=;
-        b=ftoFRDZK4vCwq8c4GS4hN19uTtKPbERflMtxXDR39dKzhu1nlXTwHhmKHk2oho/f+K
-         UmVeUuctlQFOBlEfI9YA8jxMDdbc6rAGxUvlmd7NRpqLDo3Oc4q544ozoOCaqthG2UXZ
-         tc6e+9pXqgjrPR88vZupjv2FJC2+x1TVHbQbdsaeFIRMJCIL3rZSnYVR/GoaB0h57IJt
-         NWgvrXiqP6+kYxPSaCCiYkmDZAxpr255qaxe5f6Q6KR2XQMIOKryG747T9FhHIdAG8EW
-         w1KFh08vuaS9tXz+bNlrtX9hbLSXbqJDuVF0OnI45EeLrJD+6dltIda+yynLmczCZo93
-         tbBw==
-X-Gm-Message-State: AOAM532K7XbAWEXWmsyTy4VSLod9dO55vcM2TnNn6zsD83BGUtPUZ6Xf
-        J0nj1othPi+ag5RQGWva22SM6eBTY72ohP39f+4=
-X-Google-Smtp-Source: ABdhPJzYY7WX5SvpZjR2Le4eqs31NSOpqqDD+AIItDcDtsc4sttLE1mqOlXDIimV9KUzSfqtbLesZ/hM8pwJaCmVgpM=
-X-Received: by 2002:a37:a50d:: with SMTP id o13mr3477552qke.121.1589962879446;
- Wed, 20 May 2020 01:21:19 -0700 (PDT)
+        id S1726566AbgETI0N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 04:26:13 -0400
+Received: from mga07.intel.com ([134.134.136.100]:64444 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726435AbgETI0N (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 May 2020 04:26:13 -0400
+IronPort-SDR: Xl6gyPwmsHyE0YYQju1lEevUZGnMXHLXpzcT8v5c24QIeSI9tUDEBIK6xKg+Iag8kSo5wyohEc
+ a1boT9Mjot4A==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2020 01:26:12 -0700
+IronPort-SDR: fOdyvZfFoxSsjCLz4GVlgnbsT5Bb9Q9WY5a1hxnX0Ns8PwopbUhSxCNCSEBC4r31H5+87bt0r1
+ ZFX3WF85w8Pw==
+X-IronPort-AV: E=Sophos;i="5.73,413,1583222400"; 
+   d="scan'208";a="253532669"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2020 01:26:11 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 06D4D20CEF; Wed, 20 May 2020 11:26:09 +0300 (EEST)
+Date:   Wed, 20 May 2020 11:26:08 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devel@driverdev.osuosl.org
+Subject: Re: [PATCH] media: ipu3: add a module to probe sensors via ACPI
+Message-ID: <20200520082608.GV20066@paasikivi.fi.intel.com>
+References: <12fbe3f5c6a16c5f3447adbc09fe27ceb2b16823.1589625807.git.mchehab+huawei@kernel.org>
+ <20200517103659.GS17578@paasikivi.fi.intel.com>
+ <20200520094400.5137e7f2@coco.lan>
 MIME-Version: 1.0
-References: <1589881301-4143-1-git-send-email-shengjiu.wang@nxp.com> <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
-In-Reply-To: <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
-From:   Shengjiu Wang <shengjiu.wang@gmail.com>
-Date:   Wed, 20 May 2020 16:20:58 +0800
-Message-ID: <CAA+D8APhHvA39wmCayeCsAEKmOJ0n7qOQiT1tZmFHr4+yASgTw@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in probe
-To:     Lucas Stach <l.stach@pengutronix.de>
-Cc:     Shengjiu Wang <shengjiu.wang@nxp.com>,
-        Timur Tabi <timur@kernel.org>,
-        Nicolin Chen <nicoleotsuka@gmail.com>,
-        Xiubo Li <Xiubo.Lee@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>, perex@perex.cz,
-        Takashi Iwai <tiwai@suse.com>, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, linux-imx@nxp.com,
-        sumit.semwal@linaro.org, Linux-ALSA <alsa-devel@alsa-project.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200520094400.5137e7f2@coco.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+Hi Mauro,
 
-On Tue, May 19, 2020 at 6:04 PM Lucas Stach <l.stach@pengutronix.de> wrote:
->
-> Am Dienstag, den 19.05.2020, 17:41 +0800 schrieb Shengjiu Wang:
-> > There are two requirements that we need to move the request
-> > of dma channel from probe to open.
->
-> How do you handle -EPROBE_DEFER return code from the channel request if
-> you don't do it in probe?
+On Wed, May 20, 2020 at 09:44:00AM +0200, Mauro Carvalho Chehab wrote:
+> Hi Sakari,
+> 
+> Em Sun, 17 May 2020 13:36:59 +0300
+> Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
+> 
+> > Hi Mauro,
+> > 
+> > Thanks for the patch.
+> 
+> Thanks for reviewing it.
+> 
+> > 
+> > On Sat, May 16, 2020 at 12:43:39PM +0200, Mauro Carvalho Chehab wrote:
+> > > On devices without ACPI, or which ACPI is not prepared to
+> > > export sensor data via DT, we need a different probing
+> > > method.
+> > > 
+> > > This little driver adds initial support to probe the
+> > > sensors found on a Dell Latitude 7285.
+> > > 
+> > > For now, it just detects the hardware and use request_module()
+> > > to load a sensor driver.
+> > > 
+> > > In the specific case of this device, the ACPI DTST dable
+> > > describes 2 camera sensors for this module, but the
+> > > current upstream doesn't have yet drivers for such
+> > > sensors. So, this patch just detects the PMIC used on
+> > > this device and tries to load a sensor.
+> > > 
+> > > Once the sensor gets added, some additional code will
+> > > be needed to pass via platform_data other details, like
+> > > callbacks for PMIC's command to turn the sensor on/off
+> > > and other sensor-specific settings.
+> > > 
+> > > The idea of this patch was inspired on how the sensors
+> > > are probed by the staging atomisp driver.
+> > > 
+> > > The current result of this driver with the Dell
+> > > Latitude 7285 is:
+> > > 
+> > > 	ipu3_acpi i2c-INT3477:00: ipu3_acpi_probe: ACPI detected it on bus ID=LNK1, HID=INT3477
+> > > 	ipu3_acpi i2c-INT3477:00: Found DMI entry for 'Latitude 7285' with sensor INT3477
+> > > 	ipu3_acpi i2c-INT3477:00: Loading sensor module ov8858
+> > > 	ipu3_acpi i2c-OVTI9234:00: ipu3_acpi_probe: ACPI detected it on bus ID=LNK2, HID=OVTI9234
+> > > 	ipu3_acpi i2c-OVTI9234:00: Found DMI entry for 'Latitude 7285' with sensor OVTI9234
+> > > 	ipu3_acpi i2c-OVTI9234:00: Loading sensor module ov9234
+> > > 
+> > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>  
+> 
+> With regards to the approach this patch took: it is currently
+> incomplete: the I2C core doesn't currently allow to have two 
+> drivers for the same I2C address at the same bus. So, if we end by having
+> some ancillary drivers to help the I2C core to work with media devs,
+> we may need some changes at I2C core (or to use an I2C virtual mux).
 
-I use the dma_request_slave_channel or dma_request_channel instead
-of dmaengine_pcm_request_chan_of. so there should be not -EPROBE_DEFER
-return code.
+Are the two really on the same bus with the same address? Both sensors
+support address selection in hardware...
 
->
-> > - When dma device binds with power-domains, the power will
-> > be enabled when we request dma channel. If the request of dma
-> > channel happen on probe, then the power-domains will be always
-> > enabled after kernel boot up,  which is not good for power
-> > saving,  so we need to move the request of dma channel to .open();
->
-> This is certainly something which could be fixed in the dmaengine
-> driver.
+> 
+> > ...
+> > 
+> > > +/*
+> > > + * Should list known sensor devices found at DSDT table as "CAM0", "CAM1", ...
+> > > + *
+> > > + * The table below is probably incomplete. It came from the DSDT table found
+> > > + * at a Dell Latitude 7285 (Method HCID).
+> > > + */
+> > > +static const struct acpi_device_id ipu3_acpi_acpi_match[] = {
+> > > +	{"INT3471"},
+> > > +	{"INT33BE"},
+> > > +	{"INT3476"},
+> > > +	{"INT3477"},
+> > > +	{"INT3474"},
+> > > +	{"INT3473"},
+> > > +	{"INT3475"},
+> > > +	{"INT3478"},
+> > > +	{"INT3479"},
+> > > +	{"INT347A"},
+> > > +	{"INT347B"},
+> > > +	{"OVTI9234"},
+> > > +	{"OVTI9734"},
+> > > +	{"OVTI8856"},
+> > > +	{"OVTIF860"},
+> > > +	{},
+> > > +};
+> > > +MODULE_DEVICE_TABLE(acpi, ipu3_acpi_acpi_match);  
+> > 
+> > Instead of creating a new way to probe drivers on ACPI systems, please add
+> > the appropriate ACPI device IDs to the respective drivers. E.g.
+> > drivers/media/i2c/imx319.c implements this.
+> 
+> The ACPI code at imx319 is incomplete. I mean, it will only tell the I2C
+> core that the driver should be probed via ACPI, but it tells nothing
+> how to power up the device. It just assumes that the driver will work
+> using pm_runtime support.
 
-Dma driver always call the pm_runtime_get_sync in
-device_alloc_chan_resources, the device_alloc_chan_resources is
-called when channel is requested. so power is enabled on channel
-request.
+The driver is complete; this is how it is supposed to work with ACPI.
 
->
-> > - With FE-BE case, if the dma channel is requested in probe,
-> > then there will be below issue, which is caused by that the
-> > dma channel will be requested duplicately
->
-> Why is this requested a second time? Is this just some missing cleanup
-> on a deferred probe path?
+Also note that there are systems where this works at the moment, using the
+the above ACPI HIDs. Those must not be broken.
 
-Not relate with deferred probe.  With DMA1->ASRC->DMA2->ESAI case,
-the DMA1->ASRC->DMA2 is in FE,  ESAI is in BE.  When ESAI drvier
-probe,  DMA3 channel is created with ESAI's "dma:tx" (DMA3 channel
-is not used in this FE-BE case).    When FE-BE startup, DMA2
-channel is created, it needs the ESAI's "dma:tx", so below warning
-comes out.
+> 
+> It also doesn't tell how to get device-specific platform data from
+> the BIOS (with is machine-specific).
 
->
-> Regards,
-> Lucas
->
-> > [  638.906268] sysfs: cannot create duplicate filename '/devices/soc0/soc/2000000.bus/2000000.spba-bus/2024000.esai/dma:tx'
-> > [  638.919061] CPU: 1 PID: 673 Comm: aplay Not tainted 5.7.0-rc1-12956-gfc64b2585593 #287
-> > [  638.927113] Hardware name: Freescale i.MX6 Quad/DualLite (Device Tree)
-> > [  638.933690] [<c0110dd8>] (unwind_backtrace) from [<c010b8ec>] (show_stack+0x10/0x14)
-> > [  638.941464] [<c010b8ec>] (show_stack) from [<c0557fc0>] (dump_stack+0xe4/0x118)
-> > [  638.948808] [<c0557fc0>] (dump_stack) from [<c032aeb4>] (sysfs_warn_dup+0x50/0x64)
-> > [  638.956406] [<c032aeb4>] (sysfs_warn_dup) from [<c032b1a8>] (sysfs_do_create_link_sd+0xc8/0xd4)
-> > [  638.965134] [<c032b1a8>] (sysfs_do_create_link_sd) from [<c05dc668>] (dma_request_chan+0xb0/0x210)
-> > [  638.974120] [<c05dc668>] (dma_request_chan) from [<c05dc7d0>] (dma_request_slave_channel+0x8/0x14)
-> > [  638.983111] [<c05dc7d0>] (dma_request_slave_channel) from [<c09d5548>] (fsl_asrc_dma_hw_params+0x1e0/0x438)
-> > [  638.992881] [<c09d5548>] (fsl_asrc_dma_hw_params) from [<c09c1654>] (soc_pcm_hw_params+0x4a0/0x6a8)
-> > [  639.001952] [<c09c1654>] (soc_pcm_hw_params) from [<c09c39d4>] (dpcm_fe_dai_hw_params+0x70/0xe4)
-> > [  639.010765] [<c09c39d4>] (dpcm_fe_dai_hw_params) from [<c099b274>] (snd_pcm_hw_params+0x158/0x418)
-> > [  639.019750] [<c099b274>] (snd_pcm_hw_params) from [<c099c5a0>] (snd_pcm_ioctl+0x734/0x183c)
-> > [  639.028129] [<c099c5a0>] (snd_pcm_ioctl) from [<c029ff94>] (ksys_ioctl+0x2ac/0xb98)
-> > [  639.035812] [<c029ff94>] (ksys_ioctl) from [<c0100080>] (ret_fast_syscall+0x0/0x28)
-> > [  639.043490] Exception stack(0xec529fa8 to 0xec529ff0)
-> > [  639.048565] 9fa0:                   bee84650 01321870 00000004 c25c4111 bee84650 0002000f
-> > [  639.056766] 9fc0: bee84650 01321870 01321820 00000036 00001f40 00000000 0002c2f8 00000003
-> > [  639.064964] 9fe0: b6f483fc bee8451c b6ee2655 b6e1dcf8
-> > [  639.070339] fsl-esai-dai 2024000.esai: Cannot create DMA dma:tx symlink
-> >
-> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > ---
-> >  sound/soc/fsl/imx-pcm-dma.c | 173 +++++++++++++++++++++++++++++++++---
-> >  1 file changed, 159 insertions(+), 14 deletions(-)
-> >
-> > diff --git a/sound/soc/fsl/imx-pcm-dma.c b/sound/soc/fsl/imx-pcm-dma.c
-> > index 04a9bc749016..dae53b384df4 100644
-> > --- a/sound/soc/fsl/imx-pcm-dma.c
-> > +++ b/sound/soc/fsl/imx-pcm-dma.c
-> > @@ -11,6 +11,7 @@
-> >  #include <linux/dmaengine.h>
-> >  #include <linux/types.h>
-> >  #include <linux/module.h>
-> > +#include <linux/dma-mapping.h>
-> >
-> >  #include <sound/core.h>
-> >  #include <sound/pcm.h>
-> > @@ -29,24 +30,168 @@ static bool filter(struct dma_chan *chan, void *param)
-> >       return true;
-> >  }
-> >
-> > -static const struct snd_dmaengine_pcm_config imx_dmaengine_pcm_config = {
-> > -     .prepare_slave_config = snd_dmaengine_pcm_prepare_slave_config,
-> > -     .compat_filter_fn = filter,
-> > -};
-> > +static int imx_pcm_hw_params(struct snd_soc_component *component,
-> > +                          struct snd_pcm_substream *substream,
-> > +                          struct snd_pcm_hw_params *params)
-> > +{
-> > +     struct snd_pcm_runtime *runtime = substream->runtime;
-> > +     struct snd_soc_pcm_runtime *rtd = substream->private_data;
-> > +     struct snd_soc_dai *cpu_dai = asoc_rtd_to_cpu(rtd, 0);
-> > +     struct snd_dmaengine_dai_dma_data *dma_data;
-> > +     struct dma_slave_config config;
-> > +     struct dma_chan *chan;
-> > +     int ret = 0;
-> >
-> > -int imx_pcm_dma_init(struct platform_device *pdev, size_t size)
-> > +     snd_pcm_set_runtime_buffer(substream, &substream->dma_buffer);
-> > +     runtime->dma_bytes = params_buffer_bytes(params);
-> > +
-> > +     chan = snd_dmaengine_pcm_get_chan(substream);
-> > +     if (!chan)
-> > +             return -EINVAL;
-> > +
-> > +     ret = snd_hwparams_to_dma_slave_config(substream, params, &config);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     dma_data = snd_soc_dai_get_dma_data(cpu_dai, substream);
-> > +     if (!dma_data)
-> > +             return -EINVAL;
-> > +
-> > +     snd_dmaengine_pcm_set_config_from_dai_data(substream,
-> > +                                                dma_data,
-> > +                                                &config);
-> > +     return dmaengine_slave_config(chan, &config);
-> > +}
-> > +
-> > +static int imx_pcm_hw_free(struct snd_soc_component *component,
-> > +                        struct snd_pcm_substream *substream)
-> >  {
-> > -     struct snd_dmaengine_pcm_config *config;
-> > +     snd_pcm_set_runtime_buffer(substream, NULL);
-> > +     return 0;
-> > +}
-> > +
-> > +static snd_pcm_uframes_t imx_pcm_pointer(struct snd_soc_component *component,
-> > +                                      struct snd_pcm_substream *substream)
-> > +{
-> > +     return snd_dmaengine_pcm_pointer(substream);
-> > +}
-> > +
-> > +static int imx_pcm_trigger(struct snd_soc_component *component,
-> > +                        struct snd_pcm_substream *substream, int cmd)
-> > +{
-> > +     return snd_dmaengine_pcm_trigger(substream, cmd);
-> > +}
-> > +
-> > +static int imx_pcm_open(struct snd_soc_component *component,
-> > +                     struct snd_pcm_substream *substream)
-> > +{
-> > +     struct snd_soc_pcm_runtime *rtd = substream->private_data;
-> > +     bool tx = substream->stream == SNDRV_PCM_STREAM_PLAYBACK;
-> > +     struct snd_soc_dai *cpu_dai = asoc_rtd_to_cpu(rtd, 0);
-> > +     struct snd_dmaengine_dai_dma_data *dma_data;
-> > +     struct device *dev = component->dev;
-> > +     struct snd_pcm_hardware hw;
-> > +     struct dma_chan *chan;
-> > +     int ret;
-> > +
-> > +     ret = snd_pcm_hw_constraint_integer(substream->runtime,
-> > +                                         SNDRV_PCM_HW_PARAM_PERIODS);
-> > +     if (ret < 0) {
-> > +             dev_err(dev, "failed to set pcm hw params periods\n");
-> > +             return ret;
-> > +     }
-> > +
-> > +     dma_data = snd_soc_dai_get_dma_data(cpu_dai, substream);
-> > +     if (!dma_data)
-> > +             return -EINVAL;
-> > +
-> > +     chan = dma_request_slave_channel(cpu_dai->dev, tx ? "tx" : "rx");
-> > +     if (!chan) {
-> > +             /* Try to request channel using compat_filter_fn */
-> > +             chan = snd_dmaengine_pcm_request_channel(filter,
-> > +                                                      dma_data->filter_data);
-> > +             if (!chan)
-> > +                     return -ENXIO;
-> > +     }
-> >
-> > -     config = devm_kzalloc(&pdev->dev,
-> > -                     sizeof(struct snd_dmaengine_pcm_config), GFP_KERNEL);
-> > -     if (!config)
-> > -             return -ENOMEM;
-> > -     *config = imx_dmaengine_pcm_config;
-> > +     ret = snd_dmaengine_pcm_open(substream, chan);
-> > +     if (ret)
-> > +             goto pcm_open_fail;
-> >
-> > -     return devm_snd_dmaengine_pcm_register(&pdev->dev,
-> > -             config,
-> > -             SND_DMAENGINE_PCM_FLAG_COMPAT);
-> > +     memset(&hw, 0, sizeof(hw));
-> > +     hw.info = SNDRV_PCM_INFO_MMAP | SNDRV_PCM_INFO_MMAP_VALID |
-> > +                     SNDRV_PCM_INFO_INTERLEAVED;
-> > +     hw.periods_min = 2;
-> > +     hw.periods_max = UINT_MAX;
-> > +     hw.period_bytes_min = 256;
-> > +     hw.period_bytes_max = dma_get_max_seg_size(chan->device->dev);
-> > +     hw.buffer_bytes_max = IMX_DEFAULT_DMABUF_SIZE;
-> > +     hw.fifo_size = dma_data->fifo_size;
-> > +
-> > +     /* Refine the hw according to caps of DMA. */
-> > +     ret = snd_dmaengine_pcm_refine_runtime_hwparams(substream,
-> > +                                                     dma_data,
-> > +                                                     &hw,
-> > +                                                     chan);
-> > +     if (ret < 0)
-> > +             goto refine_runtime_hwparams_fail;
-> > +
-> > +     snd_soc_set_runtime_hwparams(substream, &hw);
-> > +
-> > +     /* Support allocate memory from IRAM */
-> > +     ret = snd_dma_alloc_pages(SNDRV_DMA_TYPE_DEV_IRAM,
-> > +                               chan->device->dev,
-> > +                               hw.buffer_bytes_max,
-> > +                               &substream->dma_buffer);
-> > +     if (ret < 0)
-> > +             goto alloc_pagas_fail;
-> > +
-> > +     return 0;
-> > +
-> > +alloc_pagas_fail:
-> > +refine_runtime_hwparams_fail:
-> > +     snd_dmaengine_pcm_close(substream);
-> > +pcm_open_fail:
-> > +     dma_release_channel(chan);
-> > +
-> > +     return ret;
-> > +}
-> > +
-> > +static int imx_pcm_close(struct snd_soc_component *component,
-> > +                      struct snd_pcm_substream *substream)
-> > +{
-> > +     if (substream) {
-> > +             snd_dma_free_pages(&substream->dma_buffer);
-> > +             substream->dma_buffer.area = NULL;
-> > +             substream->dma_buffer.addr = 0;
-> > +     }
-> > +
-> > +     return snd_dmaengine_pcm_close_release_chan(substream);
-> > +}
-> > +
-> > +static int imx_pcm_new(struct snd_soc_component *component,
-> > +                    struct snd_soc_pcm_runtime *rtd)
-> > +{
-> > +     struct snd_card *card = rtd->card->snd_card;
-> > +
-> > +     return dma_coerce_mask_and_coherent(card->dev, DMA_BIT_MASK(32));
-> > +}
-> > +
-> > +static const struct snd_soc_component_driver imx_pcm_component = {
-> > +     .name           = "imx-pcm-dma",
-> > +     .pcm_construct  = imx_pcm_new,
-> > +     .open           = imx_pcm_open,
-> > +     .close          = imx_pcm_close,
-> > +     .hw_params      = imx_pcm_hw_params,
-> > +     .hw_free        = imx_pcm_hw_free,
-> > +     .trigger        = imx_pcm_trigger,
-> > +     .pointer        = imx_pcm_pointer,
-> > +};
-> > +
-> > +int imx_pcm_dma_init(struct platform_device *pdev, size_t size)
-> > +{
-> > +     return devm_snd_soc_register_component(&pdev->dev,
-> > +                                            &imx_pcm_component, NULL, 0);
-> >  }
-> >  EXPORT_SYMBOL_GPL(imx_pcm_dma_init);
-> >
->
+In some systems that is the case, yes. It means system specific drivers or
+fixups at least to some extent.
+
+> 
+> Also, at least in the case of the atomisp approach, a single code
+> to parse BIOS for devices with ISP2300/ISP2400/ISP2401/ISP2500 should
+> work with all sensors supported by those models.
+> 
+> Copying those inside all sensor drivers is probably a bad idea.
+> I mean, we should likely need a core support for parsing it, as
+> the code is the same for a given set of PCI IDs.
+
+Agreed. The more we can keep that away from the sensor drivers, the better.
+
+> 
+> -
+> 
+> As the atomisp driver is now minimally working, my plan is to merge
+> it upstream, under staging.
+
+How is it "minimally working" for you?
+
+> 
+> Before going ahead and fixing other troubles there at atomisp,
+> I may try to port the needed ACPI bits from the atomisp-ov2880 
+> staging driver into the mainline one. This should be an interesting 
+> exercise to check what's missing there.
+> 
+> Even if the atomisp never gets out of staging, doing that will help
+> to identify what it would take for a sensor to be able to work with
+> more than one different ISP. As as result, we may design something
+> that will properly support ACPI at the media subsystem.
+
+Hmm. Generally ACPI based devices are supported, there are no issues as
+such there. The ACPI tables in some systems, though, are a problem.
+
+-- 
+Regards,
+
+Sakari Ailus
