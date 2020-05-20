@@ -2,291 +2,272 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33F911DA6C8
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 02:50:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 10F361DA889
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 05:19:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726595AbgETAud (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 19 May 2020 20:50:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41454 "EHLO
+        id S1728287AbgETDTb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 19 May 2020 23:19:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36304 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726318AbgETAud (ORCPT
+        with ESMTP id S1726379AbgETDTb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 19 May 2020 20:50:33 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AE72C061A0E;
-        Tue, 19 May 2020 17:50:33 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7184330C;
-        Wed, 20 May 2020 02:50:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1589935831;
-        bh=TOmzP22SIGV/a8c3Jvf3dFaO83IOFowTmTJZLReFhFc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ornY/va4NB6Alqny2AnXzUSQj53n90/F/oNX3ROukai8yj9ltbmcNxVk12TKqEhSM
-         dgnTBYoCi4aDQiJuDn1warrD2UOVRzPguNWU9Oa4le25dvjMcprK04vGjNzx3NlQFN
-         /5i1oBNvMRGHQWvPYoxo5DV3tQaXq50QW5qg1kus=
-Date:   Wed, 20 May 2020 03:50:20 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v9 2/4] media: i2c: Add MAX9286 driver
-Message-ID: <20200520005020.GQ3820@pendragon.ideasonboard.com>
-References: <20200512155105.1068064-1-kieran.bingham+renesas@ideasonboard.com>
- <20200512155105.1068064-3-kieran.bingham+renesas@ideasonboard.com>
- <20200516215103.GA857@valkosipuli.retiisi.org.uk>
- <930009cd-d887-752a-4f1f-567c795101ee@ideasonboard.com>
+        Tue, 19 May 2020 23:19:31 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C027C061A0E
+        for <linux-media@vger.kernel.org>; Tue, 19 May 2020 20:19:30 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id z3so1342440otp.9
+        for <linux-media@vger.kernel.org>; Tue, 19 May 2020 20:19:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=6TLItYFdmLhLv8377X8Q79d5QCaK908HiuEnRS/pI7U=;
+        b=Py/oK423a9fblk27GVPLDrEfx+5NS+wWBi8gO+k4eeO43RqPU4mD+5T39nTl8pG+Uv
+         eYcD9XUasb6xje8IqXyMiU03xLKDcDwcBiULAhVRQmfPIcdiZdDQ/kT6LVzh63KW6RVK
+         AEtnVaQ7B4FS3eCsRW9A+Guh9J48MwkU4YuzY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=6TLItYFdmLhLv8377X8Q79d5QCaK908HiuEnRS/pI7U=;
+        b=rjD17MZRSnpefq9Wb8yDMtOxbJJb+FZJ7afwl4zdbiaRvNf5cPMFRsg4ZVXLMDgPVh
+         3uzWIV4xxxM5mTknl6JgmELCQmw+LBlXlWan44Tn4AmNiOUDEwxPcA2STgRqICWNLmIm
+         Btvh0telyTsOACNYw0VVfxVmBZrKBQyoyJd7znCjQ33xqAmB8DcliZl9mWFHtArmXrsv
+         PwDC4mTvok16BTso/mtF/S1edio4TLHF8EMUTlIYTTAyqKs1HD0reYvx/sb7+O4/Ng+w
+         9udzfb4CGTQ6Iguy+12oMcZ1z/WxYYzjG44JCD2u1ZDdnj6kkg+9Qe/YRAd76b4ovmi8
+         ajCw==
+X-Gm-Message-State: AOAM5323YW7nhS13E4qv6i4+doDSqqyqIX/JEoZfWlVYC/KEyJbxJaQR
+        bZx+cFSUKhvLgsMt7Hy1ejpsxDAvInc=
+X-Google-Smtp-Source: ABdhPJy0mdNYDcpnCei196C7VXJdUQN7BrqO4R/k2WBwH81o21ZZw/iBrwkOrXlNMhl3xONoT6PgtQ==
+X-Received: by 2002:a9d:3ae:: with SMTP id f43mr1825956otf.232.1589944768386;
+        Tue, 19 May 2020 20:19:28 -0700 (PDT)
+Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com. [209.85.167.174])
+        by smtp.gmail.com with ESMTPSA id x143sm468171oif.58.2020.05.19.20.19.26
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 19 May 2020 20:19:26 -0700 (PDT)
+Received: by mail-oi1-f174.google.com with SMTP id o24so1758358oic.0
+        for <linux-media@vger.kernel.org>; Tue, 19 May 2020 20:19:26 -0700 (PDT)
+X-Received: by 2002:aca:3a55:: with SMTP id h82mr1790729oia.71.1589944765505;
+ Tue, 19 May 2020 20:19:25 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <930009cd-d887-752a-4f1f-567c795101ee@ideasonboard.com>
+References: <CAK25hWN3kJcW-dcpryFrvZ50t7Y0Z=MZM66-8NMuhwjRpNo2aQ@mail.gmail.com>
+ <CAD90Vcb-x1KV++fWrmx+fLV5eNc2DiTtn8=OjQi7aUf7B0ULdA@mail.gmail.com>
+ <CAK25hWM-hLdk=MSKgceumOUo9ZNBrrmM8qSe7MvTUAPGmur_HQ@mail.gmail.com>
+ <2515515.r9knKAEANn@os-lin-dmo> <CAD90VcYeF7drbYNDiEioPBHcQcifqDYUia_CKqNLv_5VAMjPKw@mail.gmail.com>
+ <67e1ba850c5fbf84b09ec8266ab70dd08a10c2e3.camel@ndufresne.ca>
+ <CAD90VcaqE7PsLV=-xwWHXkct61wsiAuOCH78aLGSObfX9LqGsw@mail.gmail.com> <92ac2db087ccf8fae853284ecc8bdf187e292097.camel@ndufresne.ca>
+In-Reply-To: <92ac2db087ccf8fae853284ecc8bdf187e292097.camel@ndufresne.ca>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Wed, 20 May 2020 12:19:14 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MXUsMtNhxEPAdn4aTN8kNgt1eL8oLDDyNtXrD9bew_kMA@mail.gmail.com>
+Message-ID: <CAPBb6MXUsMtNhxEPAdn4aTN8kNgt1eL8oLDDyNtXrD9bew_kMA@mail.gmail.com>
+Subject: Re: [virtio-dev] Re: Fwd: Qemu Support for Virtio Video V4L2 driver
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Keiichi Watanabe <keiichiw@chromium.org>,
+        Dmitry Sepp <dmitry.sepp@opensynergy.com>,
+        Saket Sinha <saket.sinha89@gmail.com>,
+        Kiran Pawar <Kiran.Pawar@opensynergy.com>,
+        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
+        qemu-devel@nongnu.org, virtio-dev@lists.oasis-open.org,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alex Lau <alexlau@chromium.org>,
+        Pawel Osciak <posciak@chromium.org>,
+        Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+On Wed, May 20, 2020 at 2:29 AM Nicolas Dufresne <nicolas@ndufresne.ca> wro=
+te:
+>
+> Le mardi 19 mai 2020 =C3=A0 17:37 +0900, Keiichi Watanabe a =C3=A9crit :
+> > Hi Nicolas,
+> >
+> > On Fri, May 15, 2020 at 8:38 AM Nicolas Dufresne <
+> > nicolas@ndufresne.ca
+> > > wrote:
+> > > Le lundi 11 mai 2020 =C3=A0 20:49 +0900, Keiichi Watanabe a =C3=A9cri=
+t :
+> > > > Hi,
+> > > >
+> > > > Thanks Saket for your feedback. As Dmitry mentioned, we're focusing=
+ on
+> > > > video encoding and decoding, not camera. So, my reply was about how=
+ to
+> > > > implement paravirtualized video codec devices.
+> > > >
+> > > > On Mon, May 11, 2020 at 8:25 PM Dmitry Sepp <
+> > > > dmitry.sepp@opensynergy.com
+> > > > >
+> > > > wrote:
+> > > > > Hi Saket,
+> > > > >
+> > > > > On Montag, 11. Mai 2020 13:05:53 CEST Saket Sinha wrote:
+> > > > > > Hi Keiichi,
+> > > > > >
+> > > > > > I do not support the approach of  QEMU implementation forwardin=
+g
+> > > > > > requests to the host's vicodec module since  this can limit the=
+ scope
+> > > > > > of the virtio-video device only for testing,
+> > > > >
+> > > > > That was my understanding as well.
+> > > >
+> > > > Not really because the API which the vicodec provides is V4L2 state=
+ful
+> > > > decoder interface [1], which are also used by other video drivers o=
+n
+> > > > Linux.
+> > > > The difference between vicodec and actual device drivers is that
+> > > > vicodec performs decoding in the kernel space without using special
+> > > > video devices. In other words, vicodec is a software decoder in ker=
+nel
+> > > > space which provides the same interface with actual video drivers.
+> > > > Thus, if the QEMU implementation can forward virtio-video requests =
+to
+> > > > vicodec, it can forward them to the actual V4L2 video decoder devic=
+es
+> > > > as well and VM gets access to a paravirtualized video device.
+> > > >
+> > > > The reason why we discussed vicodec in the previous thread was it'l=
+l
+> > > > allow us to test the virtio-video driver without hardware requireme=
+nt.
+> > > >
+> > > > [1]
+> > > > https://www.kernel.org/doc/html/latest/media/uapi/v4l/dev-decoder.h=
+tml
+> > > >
+> > > >
+> > > > > > which instead can be used with multiple use cases such as -
+> > > > > >
+> > > > > > 1. VM gets access to paravirtualized  camera devices which shar=
+es the
+> > > > > > video frames input through actual HW camera attached to Host.
+> > > > >
+> > > > > This use-case is out of the scope of virtio-video. Initially I ha=
+d a plan to
+> > > > > support capture-only streams like camera as well, but later the d=
+ecision was
+> > > > > made upstream that camera should be implemented as separate devic=
+e type. We
+> > > > > still plan to implement a simple frame capture capability as a do=
+wnstream
+> > > > > patch though.
+> > > > >
+> > > > > > 2. If Host has multiple video devices (especially in ARM SOCs o=
+ver
+> > > > > > MIPI interfaces or USB), different VM can be started or hotplug=
+ged
+> > > > > > with selective video streams from actual HW video devices.
+> > > > >
+> > > > > We do support this in our device implementation. But spec in gene=
+ral has no
+> > > > > requirements or instructions regarding this. And it is in fact fl=
+exible
+> > > > > enough
+> > > > > to provide abstraction on top of several HW devices.
+> > > > >
+> > > > > > Also instead of using libraries like Gstreamer in Host userspac=
+e, they
+> > > > > > can also be used inside the VM userspace after getting access t=
+o
+> > > > > > paravirtualized HW camera devices .
+> > > >
+> > > > Regarding Gstreamer, I intended this video decoding API [2]. If QEM=
+U
+> > > > can translate virtio-video requests to this API, we can easily supp=
+ort
+> > > > multiple platforms.
+> > > > I'm not sure how feasible it is though, as I have no experience of
+> > > > using this API by myself...
+> > >
+> > > Not sure which API you aim exactly, but what one need to remember is =
+that
+> > > mapping virtio-video CODEC on top of VAAPI, V4L2 Stateless, NVDEC or =
+other type
+> > > of "stateless" CODEC is not trivial and can't be done without userspa=
+ce. Notably
+> > > because we don't want to do bitstream parsing in the kernel on the ma=
+in CPU as
+> > > security would otherwise be very hard to guaranty. The other driver u=
+sing same
+> > > API as virtio-video do bitstream parsing on a dedicated co-processor =
+(through
+> > > firmware blobs though).
+> > >
+> > > Having bridges between virtio-video, qemu and some abstraction librar=
+y like
+> > > FFMPEG or GStreamer is certainly the best solution if you want to vir=
+tualize any
+> > > type of HW accelerated decoder or if you need to virtualized somethin=
+g
+> > > proprietary (like NVDEC). Please shout if you need help.
+> > >
+> >
+> > Yeah, I meant we should map virtio-video commands to a set of
+> > abstracted userspace APIs to avoid having many platform-dependent code
+> > in QEMU.
+> > This is the same with what we implemented in crosvm, a VMM on
+> > ChromiumOS. Crosvm's video device translates virtio-video commands
+> > into our own video decoding APIs [1, 2] which supports VAAPI, V4L2
+> > stateful and V4L2 stateless. Unfortunately, since our library is
+> > highly depending on Chrome, we cannot reuse this for QEMU.
+> >
+> > So, I agree that using FFMPEG or GStreamer is a good idea. Probably,
+> > APIs in my previous link weren't for this purpose.
+> > Nicolas, do you know any good references for FFMPEG or GStreamer's
+> > abstracted video decoding APIs? Then, I may be able to think about how
+> > virtio-video protocols can be mapped to them.
+>
+> The FFMpeg API for libavcodec can be found here:
+>
+>   http://git.videolan.org/?p=3Dffmpeg.git;a=3Dblob;f=3Dlibavcodec/avcodec=
+.h
+>
+> GStreamer does not really have such a low level CODEC API. So while
+> it's possible to use it (Wine project uses it for it's parsers as an
+> example, and Firefox use to have CODEC support wrapping GStreamer
+> CODEC), there will not be any one-to-one mapping. GStreamer is often
+> chosen as it's LGPL code does not carry directly any patented
+> implementation. It instead rely on plugins, which maybe provided as
+> third party, allowing to distribute your project while giving uses the
+> option to install potentially non-free technologies.
+>
+> But overall, I can describe GStreamer API for CODEC wrapping (pipeline
+> less) as:
+>
+>   - Push GstCaps describing the stream format
+>   - Push bitstream buffer on sink pad
+>   - When ready, buffers will be pushed through the push function
+>     callback on src pad
+>
+> Of course nothing prevent adding something like the vda abstraction in
+> qemu and make this multi-backend capable.
 
-On Mon, May 18, 2020 at 12:45:18PM +0100, Kieran Bingham wrote:
-> Hi Sakari,
-> 
-> There are only fairly minor comments here, fix ups will be included in a
-> v10.
-> 
-> Is there anything major blocking integration?
-> 
-> On 16/05/2020 22:51, Sakari Ailus wrote:
-> > On Tue, May 12, 2020 at 04:51:03PM +0100, Kieran Bingham wrote:
-> > 
-> > ...
-> > 
-> >> +static int max9286_enum_mbus_code(struct v4l2_subdev *sd,
-> >> +				  struct v4l2_subdev_pad_config *cfg,
-> >> +				  struct v4l2_subdev_mbus_code_enum *code)
-> >> +{
-> >> +	if (code->pad || code->index > 0)
-> >> +		return -EINVAL;
-> >> +
-> >> +	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
-> > 
-> > Why UYVY8_2X8 and not UYVY8_1X16? In general, the single sample / pixel
-> > variant of the format is generally used on the serial busses. This choice
-> > was made when serial busses were introduced.
+My understanding is that we don't need a particularly low-level API to
+interact with. The host virtual device is receiving the whole encoded
+data, and can thus easily reconstruct the original stream (minus the
+container) and pass it to ffmpeg/gstreamer. So we can be pretty
+high-level here.
 
-This is a bit of a tricky one. On the camera size, for the RDACM20, the
-O10635 sensor outputs UYVY8_2X8. This if fed to the MAX9271 serializer,
-which doesn't care about the data type. The MAX9271 has a 16-bit input
-bus, with 10 bits reserved for data, 2 bits dynamically configurable
-to carry H/V sync or extra data, and 4 bits dynamically configurable to
-carry GPIOs or extra data. The 16-bit words are then serialized (it's a
-bit more complicated, when using the H/V sync signals they are
-transmitted in a different way, and the MAX9271 also supports a DDR mode
-that makes the "serial link word" carry up to 30 bits). Effectively, the
-two samples of UYVY8_2X8 are serialized in a 16-bit word each.
+Now the choice of API will also determine whether we want to allow
+emulation of codec devices, or whether we stay on a purely
+para-virtual track. If we use e.g. gstreamer, then the host can
+provide a virtual device that is backed by a purely software
+implementation. This can be useful for testing purposes, but for
+real-life usage the guest would be just as well using gstreamer
+itself.
 
-Sakari, with this information in mind, what would you recommend ?
-
-> Ok - I presume this doesn't really have much effect anyway, they just
-> have to match for the transmitter/receiver?
-> 
-> But it makes sense to me, so I'll update to the 1x16 variant.
-> 
-> >> +
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static struct v4l2_mbus_framefmt *
-> >> +max9286_get_pad_format(struct max9286_priv *priv,
-> >> +		       struct v4l2_subdev_pad_config *cfg,
-> >> +		       unsigned int pad, u32 which)
-> >> +{
-> >> +	switch (which) {
-> >> +	case V4L2_SUBDEV_FORMAT_TRY:
-> >> +		return v4l2_subdev_get_try_format(&priv->sd, cfg, pad);
-> >> +	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> >> +		return &priv->fmt[pad];
-> >> +	default:
-> >> +		return NULL;
-> >> +	}
-> >> +}
-> >> +
-> >> +static int max9286_set_fmt(struct v4l2_subdev *sd,
-> >> +			   struct v4l2_subdev_pad_config *cfg,
-> >> +			   struct v4l2_subdev_format *format)
-> >> +{
-> >> +	struct max9286_priv *priv = sd_to_max9286(sd);
-> >> +	struct v4l2_mbus_framefmt *cfg_fmt;
-> >> +
-> >> +	if (format->pad >= MAX9286_SRC_PAD)
-> >> +		return -EINVAL;
-> > 
-> > You can remove these checks; it's been already done by the caller.
-> > 
-> 
-> Ok.
-> 
-> 
-> > ...
-> > 
-> >> +static int max9286_parse_dt(struct max9286_priv *priv)
-> >> +{
-> >> +	struct device *dev = &priv->client->dev;
-> >> +	struct device_node *i2c_mux;
-> >> +	struct device_node *node = NULL;
-> >> +	unsigned int i2c_mux_mask = 0;
-> >> +
-> >> +	of_node_get(dev->of_node);
-> >> +	i2c_mux = of_find_node_by_name(dev->of_node, "i2c-mux");
-> >> +	if (!i2c_mux) {
-> >> +		dev_err(dev, "Failed to find i2c-mux node\n");
-> >> +		of_node_put(dev->of_node);
-> >> +		return -EINVAL;
-> >> +	}
-> >> +
-> >> +	/* Identify which i2c-mux channels are enabled */
-> >> +	for_each_child_of_node(i2c_mux, node) {
-> >> +		u32 id = 0;
-> >> +
-> >> +		of_property_read_u32(node, "reg", &id);
-> >> +		if (id >= MAX9286_NUM_GMSL)
-> >> +			continue;
-> >> +
-> >> +		if (!of_device_is_available(node)) {
-> >> +			dev_dbg(dev, "Skipping disabled I2C bus port %u\n", id);
-> >> +			continue;
-> >> +		}
-> >> +
-> >> +		i2c_mux_mask |= BIT(id);
-> >> +	}
-> >> +	of_node_put(node);
-> >> +	of_node_put(i2c_mux);
-> >> +
-> >> +	/* Parse the endpoints */
-> >> +	for_each_endpoint_of_node(dev->of_node, node) {
-> >> +		struct max9286_source *source;
-> >> +		struct of_endpoint ep;
-> >> +
-> >> +		of_graph_parse_endpoint(node, &ep);
-> >> +		dev_dbg(dev, "Endpoint %pOF on port %d",
-> >> +			ep.local_node, ep.port);
-> >> +
-> >> +		if (ep.port > MAX9286_NUM_GMSL) {
-> >> +			dev_err(dev, "Invalid endpoint %s on port %d",
-> >> +				of_node_full_name(ep.local_node), ep.port);
-> >> +			continue;
-> >> +		}
-> >> +
-> >> +		/* For the source endpoint just parse the bus configuration. */
-> >> +		if (ep.port == MAX9286_SRC_PAD) {
-> >> +			struct v4l2_fwnode_endpoint vep = {
-> >> +				.bus_type = V4L2_MBUS_CSI2_DPHY
-> >> +			};
-> >> +			int ret;
-> >> +
-> >> +			ret = v4l2_fwnode_endpoint_parse(
-> >> +					of_fwnode_handle(node), &vep);
-> >> +			if (ret) {
-> >> +				of_node_put(node);
-> >> +				of_node_put(dev->of_node);
-> >> +				return ret;
-> >> +			}
-> >> +
-> >> +			if (vep.bus_type != V4L2_MBUS_CSI2_DPHY) {
-> > 
-> > This won't happen, the bus type will stay if you set it to a non-zero
-> > value.
-> 
-> 
-> Ok - I'll remove this check.
-> 
-> 
-> > 
-> >> +				dev_err(dev,
-> >> +					"Media bus %u type not supported\n",
-> >> +					vep.bus_type);
-> >> +				v4l2_fwnode_endpoint_free(&vep);
-> >> +				of_node_put(node);
-> >> +				of_node_put(dev->of_node);
-> >> +				return -EINVAL;
-> >> +			}
-> >> +
-> >> +			priv->csi2_data_lanes =
-> >> +				vep.bus.mipi_csi2.num_data_lanes;
-> >> +			v4l2_fwnode_endpoint_free(&vep);
-> > 
-> > No need to call this unless you use v4l2_fwnode_endpoint_alloc_parse().
-> > 
-> > And as you don't, you also won't know which frequencies are known to be
-> > safe to use. That said, perhaps where this device is used having a random
-> > frequency on that bus could not be an issue. Perhaps.
-> 
-> Does this generate a range? or a list of static supported frequencies?
-> 
-> We configure the pixel clock based upon the number of cameras connected,
-> and their pixel rates etc ...
-> 
-> Are you saying that the frequency of this clock should be validated to
-> be a specific range? or are you talking about a different frequency?
-> 
-> 
-> For now I'll remove the v4l2_fwnode_endpoint_alloc_parse().
-> 
-> 
-> 
-> >> +
-> >> +			continue;
-> >> +		}
-> >> +
-> >> +		/* Skip if the corresponding GMSL link is unavailable. */
-> >> +		if (!(i2c_mux_mask & BIT(ep.port)))
-> >> +			continue;
-> >> +
-> >> +		if (priv->sources[ep.port].fwnode) {
-> >> +			dev_err(dev,
-> >> +				"Multiple port endpoints are not supported: %d",
-> >> +				ep.port);
-> >> +
-> >> +			continue;
-> >> +		}
-> >> +
-> >> +		source = &priv->sources[ep.port];
-> >> +		source->fwnode = fwnode_graph_get_remote_endpoint(
-> >> +						of_fwnode_handle(node));
-> >> +		if (!source->fwnode) {
-> >> +			dev_err(dev,
-> >> +				"Endpoint %pOF has no remote endpoint connection\n",
-> >> +				ep.local_node);
-> >> +
-> >> +			continue;
-> >> +		}
-> >> +
-> >> +		priv->source_mask |= BIT(ep.port);
-> >> +		priv->nsources++;
-> >> +	}
-> >> +	of_node_put(node);
-> >> +	of_node_put(dev->of_node);
-> >> +
-> >> +	priv->route_mask = priv->source_mask;
-> >> +
-> >> +	return 0;
-> >> +}
-> > 
-> 
-
--- 
-Regards,
-
-Laurent Pinchart
+If we want to make sure that there is hardware on the host side, then
+an API like libva might make more sense, but it would be more
+complicated and may not support all hardware (I don't know if the V4L2
+backends are usable for instance).
