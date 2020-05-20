@@ -2,357 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4B831DB154
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 13:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 780A51DB16C
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 13:22:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726733AbgETLSf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 07:18:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60198 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726403AbgETLSf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 07:18:35 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 5420E207D3;
-        Wed, 20 May 2020 11:18:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589973514;
-        bh=xmiH2GGliKbCenb8wGbOl9pYxqp6+Trt9CCWyk2HTwI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=IhiEU8SY37AE1P/HERI2SLcU+kpzoOmeItXJ2Eln5Ba6O51DNplk1bUkWV/xwjvQr
-         asFO7keRVuT36C/KWtC2aqI8XwhX900YdevBzIrGRRYnTufGJdaQXU2MSlZ5hgJc9a
-         d3fSCT125YpY1xmZO57i08prruyQ91JM7BZ+N9iU=
-Date:   Wed, 20 May 2020 13:18:30 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        devel@driverdev.osuosl.org
-Subject: Re: [PATCH] media: ipu3: add a module to probe sensors via ACPI
-Message-ID: <20200520131830.3ff45919@coco.lan>
-In-Reply-To: <20200520082608.GV20066@paasikivi.fi.intel.com>
-References: <12fbe3f5c6a16c5f3447adbc09fe27ceb2b16823.1589625807.git.mchehab+huawei@kernel.org>
-        <20200517103659.GS17578@paasikivi.fi.intel.com>
-        <20200520094400.5137e7f2@coco.lan>
-        <20200520082608.GV20066@paasikivi.fi.intel.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726525AbgETLWm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 07:22:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55194 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726403AbgETLWl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 May 2020 07:22:41 -0400
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84E79C061A0E;
+        Wed, 20 May 2020 04:22:41 -0700 (PDT)
+Received: by mail-qk1-x742.google.com with SMTP id f83so3029080qke.13;
+        Wed, 20 May 2020 04:22:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=ZjqVhvVauJwxzdubRCxzpwyDgNZsr/jK/zmF2UGqkm0=;
+        b=LzRhD8IVgnmIVQzzoYcQc9SGvryKW9AvjBv+5xt1U5TlXPqkgWZYhhLZ+fDOiIMJVE
+         j8fn5+fABxBNdukYPVM+l0vF16UvWxzpEJBJLKCW56Z4DkC5xa0rvUGkgFzj9G0Agcbl
+         CR4ePEwCrdO65XTKv1Q7qKPo1V5T2jQjs+MOPyTun845of6hg3kQqItmtboNDlREjJcu
+         Z2pKrl+oLt5umJH0Z+pIMp+EXFb7tOaN6BDew0UWwQ+/7bg+moQfUGPSduuzZJPyI5/X
+         2YFdC3nAFQopV7V8BMDEMRy8CAn1JlcOebH4yDfMrImRBq3nMNW49Dcoe93t2TjTRQsi
+         5qvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=ZjqVhvVauJwxzdubRCxzpwyDgNZsr/jK/zmF2UGqkm0=;
+        b=tGKfvQOLbYU/CCvevpp/elZsTM7jW2xKsLaADafhQe+knI3smKvwcOGAaZ+Vm+A4I/
+         VUF5yGRw2wmZ8G+jz6LpMGsbWmPi7M+w7yvwfPBLr0wMTYZC2K1yVBSrEF0pefuHaehF
+         0VmXDY0KIIPqj2xQeI0qGhQrc7tcktsceAhq2P2/9YrsUR+2Z0+gbbgTb7qCCIl69Jbc
+         Wa12BS5zRf/QzTvFKR1162IKOeUZK50fCX8VcsdFQ0gaOaLwot1y1Lr08MH7JTJa1Fun
+         uqNJnq05p2q+nAZneJjjBpvOmmkIAytpzfQLzAB32nmy4tLgxBTazuTFuhcPvL8IfZDW
+         XqIw==
+X-Gm-Message-State: AOAM532jmsvr7fhp83fnG/0ifx+WTD/JtVFX/YK7qkPl8+ForL6i7RsG
+        3LfwpUMPIOJAD2UO8FoFmoxxg82yspwqdbu9AhI=
+X-Google-Smtp-Source: ABdhPJxBdmgJNCR88xlbXPGclNlO2GaIwRkfV+dyapGMbu4Q9RuUthOHvMqPP4yv8y1KdCvdCmqnj7BHtLVZZI62f64=
+X-Received: by 2002:a37:a50d:: with SMTP id o13mr4087174qke.121.1589973760794;
+ Wed, 20 May 2020 04:22:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+References: <1589881301-4143-1-git-send-email-shengjiu.wang@nxp.com>
+ <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
+ <CAA+D8APhHvA39wmCayeCsAEKmOJ0n7qOQiT1tZmFHr4+yASgTw@mail.gmail.com> <53258cd99caaf1199036737f8fad6cc097939567.camel@pengutronix.de>
+In-Reply-To: <53258cd99caaf1199036737f8fad6cc097939567.camel@pengutronix.de>
+From:   Shengjiu Wang <shengjiu.wang@gmail.com>
+Date:   Wed, 20 May 2020 19:22:19 +0800
+Message-ID: <CAA+D8APAMRwtVneqFsuBgAhozmQo3R0AQi0bVdUCQO4Af4xVfw@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in probe
+To:     Lucas Stach <l.stach@pengutronix.de>
+Cc:     Shengjiu Wang <shengjiu.wang@nxp.com>,
+        Timur Tabi <timur@kernel.org>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        Xiubo Li <Xiubo.Lee@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>, perex@perex.cz,
+        Takashi Iwai <tiwai@suse.com>, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, linux-imx@nxp.com,
+        sumit.semwal@linaro.org, Linux-ALSA <alsa-devel@alsa-project.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 20 May 2020 11:26:08 +0300
-Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
+Hi
 
-> Hi Mauro,
->=20
-> On Wed, May 20, 2020 at 09:44:00AM +0200, Mauro Carvalho Chehab wrote:
-> > Hi Sakari,
-> >=20
-> > Em Sun, 17 May 2020 13:36:59 +0300
-> > Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
-> >  =20
-> > > Hi Mauro,
-> > >=20
-> > > Thanks for the patch. =20
-> >=20
-> > Thanks for reviewing it.
-> >  =20
-> > >=20
-> > > On Sat, May 16, 2020 at 12:43:39PM +0200, Mauro Carvalho Chehab wrote=
-: =20
-> > > > On devices without ACPI, or which ACPI is not prepared to
-> > > > export sensor data via DT, we need a different probing
-> > > > method.
-> > > >=20
-> > > > This little driver adds initial support to probe the
-> > > > sensors found on a Dell Latitude 7285.
-> > > >=20
-> > > > For now, it just detects the hardware and use request_module()
-> > > > to load a sensor driver.
-> > > >=20
-> > > > In the specific case of this device, the ACPI DTST dable
-> > > > describes 2 camera sensors for this module, but the
-> > > > current upstream doesn't have yet drivers for such
-> > > > sensors. So, this patch just detects the PMIC used on
-> > > > this device and tries to load a sensor.
-> > > >=20
-> > > > Once the sensor gets added, some additional code will
-> > > > be needed to pass via platform_data other details, like
-> > > > callbacks for PMIC's command to turn the sensor on/off
-> > > > and other sensor-specific settings.
-> > > >=20
-> > > > The idea of this patch was inspired on how the sensors
-> > > > are probed by the staging atomisp driver.
-> > > >=20
-> > > > The current result of this driver with the Dell
-> > > > Latitude 7285 is:
-> > > >=20
-> > > > 	ipu3_acpi i2c-INT3477:00: ipu3_acpi_probe: ACPI detected it on bus=
- ID=3DLNK1, HID=3DINT3477
-> > > > 	ipu3_acpi i2c-INT3477:00: Found DMI entry for 'Latitude 7285' with=
- sensor INT3477
-> > > > 	ipu3_acpi i2c-INT3477:00: Loading sensor module ov8858
-> > > > 	ipu3_acpi i2c-OVTI9234:00: ipu3_acpi_probe: ACPI detected it on bu=
-s ID=3DLNK2, HID=3DOVTI9234
-> > > > 	ipu3_acpi i2c-OVTI9234:00: Found DMI entry for 'Latitude 7285' wit=
-h sensor OVTI9234
-> > > > 	ipu3_acpi i2c-OVTI9234:00: Loading sensor module ov9234
-> > > >=20
-> > > > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>   =
-=20
-> >=20
-> > With regards to the approach this patch took: it is currently
-> > incomplete: the I2C core doesn't currently allow to have two=20
-> > drivers for the same I2C address at the same bus. So, if we end by havi=
-ng
-> > some ancillary drivers to help the I2C core to work with media devs,
-> > we may need some changes at I2C core (or to use an I2C virtual mux). =20
->=20
-> Are the two really on the same bus with the same address? Both sensors
-> support address selection in hardware...
+On Wed, May 20, 2020 at 5:42 PM Lucas Stach <l.stach@pengutronix.de> wrote:
+>
+> Am Mittwoch, den 20.05.2020, 16:20 +0800 schrieb Shengjiu Wang:
+> > Hi
+> >
+> > On Tue, May 19, 2020 at 6:04 PM Lucas Stach <l.stach@pengutronix.de> wr=
+ote:
+> > > Am Dienstag, den 19.05.2020, 17:41 +0800 schrieb Shengjiu Wang:
+> > > > There are two requirements that we need to move the request
+> > > > of dma channel from probe to open.
+> > >
+> > > How do you handle -EPROBE_DEFER return code from the channel request =
+if
+> > > you don't do it in probe?
+> >
+> > I use the dma_request_slave_channel or dma_request_channel instead
+> > of dmaengine_pcm_request_chan_of. so there should be not -EPROBE_DEFER
+> > return code.
+>
+> This is a pretty weak argument. The dmaengine device might probe after
+> you try to get the channel. Using a function to request the channel
+> that doesn't allow you to handle probe deferral is IMHO a bug and
+> should be fixed, instead of building even more assumptions on top of
+> it.
+>
 
-What I tried to do is to have an ACPI-probed driver loading a "normal"=20
-non-ACPI driver.
+I see some driver also request dma channel in open() or hw_params().
+how can they avoid the defer probe issue?
+for example=EF=BC=9A
+sound/arm/pxa2xx-pcm-lib.c
+sound/soc/sprd/sprd-pcm-dma.c
 
-> > > > +/*
-> > > > + * Should list known sensor devices found at DSDT table as "CAM0",=
- "CAM1", ...
-> > > > + *
-> > > > + * The table below is probably incomplete. It came from the DSDT t=
-able found
-> > > > + * at a Dell Latitude 7285 (Method HCID).
-> > > > + */
-> > > > +static const struct acpi_device_id ipu3_acpi_acpi_match[] =3D {
-> > > > +	{"INT3471"},
-> > > > +	{"INT33BE"},
-> > > > +	{"INT3476"},
-> > > > +	{"INT3477"},
-> > > > +	{"INT3474"},
-> > > > +	{"INT3473"},
-> > > > +	{"INT3475"},
-> > > > +	{"INT3478"},
-> > > > +	{"INT3479"},
-> > > > +	{"INT347A"},
-> > > > +	{"INT347B"},
-> > > > +	{"OVTI9234"},
-> > > > +	{"OVTI9734"},
-> > > > +	{"OVTI8856"},
-> > > > +	{"OVTIF860"},
-> > > > +	{},
-> > > > +};
-> > > > +MODULE_DEVICE_TABLE(acpi, ipu3_acpi_acpi_match);   =20
-> > >=20
-> > > Instead of creating a new way to probe drivers on ACPI systems, pleas=
-e add
-> > > the appropriate ACPI device IDs to the respective drivers. E.g.
-> > > drivers/media/i2c/imx319.c implements this. =20
-> >=20
-> > The ACPI code at imx319 is incomplete. I mean, it will only tell the I2C
-> > core that the driver should be probed via ACPI, but it tells nothing
-> > how to power up the device. It just assumes that the driver will work
-> > using pm_runtime support. =20
->=20
-> The driver is complete; this is how it is supposed to work with ACPI.
->=20
-> Also note that there are systems where this works at the moment, using the
-> the above ACPI HIDs. Those must not be broken.
+> > > > - When dma device binds with power-domains, the power will
+> > > > be enabled when we request dma channel. If the request of dma
+> > > > channel happen on probe, then the power-domains will be always
+> > > > enabled after kernel boot up,  which is not good for power
+> > > > saving,  so we need to move the request of dma channel to .open();
+> > >
+> > > This is certainly something which could be fixed in the dmaengine
+> > > driver.
+> >
+> > Dma driver always call the pm_runtime_get_sync in
+> > device_alloc_chan_resources, the device_alloc_chan_resources is
+> > called when channel is requested. so power is enabled on channel
+> > request.
+>
+> So why can't you fix the dmaengine driver to do that RPM call at a
+> later time when the channel is actually going to be used? This will
+> allow further power savings with other slave devices than the audio
+> PCM.
+>
+> Regards,
+> Lucas
+>
 
-If Atomisp driver would be using the sensor, what's there won't make
-it work.
+It seems the best place for calling pm_runtime_get_sync is the
+device_alloc_chan_resources, and calling pm_runtime_put_sync
+in the .device_free_chan_resources
 
-For example, this is the sensor driver for the device I'm using here to
-test the atomisp driver:
+For the slave_sg mode, the .device_prep_slave_sg and
+.device_issue_pending  will be called many times after
+.device_alloc_chan_resources. so it is not good to call
+pm_runtime_get_sync in .device_prep_slave_sg or
+.device_issue_pending
 
-	https://git.linuxtv.org/media_tree.git/tree/drivers/staging/media/atomisp/=
-i2c/atomisp-ov2680.c
-
-It does contain an ACPI table at the end:
-
-	static const struct acpi_device_id ov2680_acpi_match[] =3D {
-		{"XXOV2680"},
-		{"OVTI2680"},
-		{},
-	};
-	MODULE_DEVICE_TABLE(acpi, ov2680_acpi_match);
-
-Which causes the driver to be properly probed via ACPI.
-
-However, this sensor driver (and all other sensor drivers meant to work
-with ISP2xxx chipsets) require this ancillary code:
-
-	https://git.linuxtv.org/media_tree.git/tree/drivers/staging/media/atomisp/=
-pci/atomisp_gmin_platform.c
-
-Which parses the BIOS shipped on such devices.
-
-The code there needs to identify if one of those I2C PMIC drivers
-were also loaded:
-
-	#define PMIC_ACPI_AXP		"INT33F4:00"	/* XPower AXP288 PMIC */
-	#define PMIC_ACPI_TI		"INT33F5:00"	/* Dollar Cove TI PMIC */
-	#define PMIC_ACPI_CRYSTALCOVE	"INT33FD:00"	/* Crystal Cove PMIC */
-
-As those 3 different PMICs may control the sensor power up/down.
-Some devices may also use a regulator driver. The ancillary routines
-have some logic to detect the PMIC type (with can very from different
-versions of the Atom CPU).
-
-The driver also need to get sensor-specific platform data.
-
-For the sensor I have, it need those:
-
-	{"OVTI2680:00_CsiPort", "1"},
-	{"OVTI2680:00_CsiLanes", "1"},
-	{"OVTI2680:00_CsiFmt", "15"},
-	{"OVTI2680:00_CsiBayer", "0"},
-	{"OVTI2680:00_CamClk", "1"},
-
-=46rom some tests and from the comments at the atomisp driver, there are
-3 ways used by BIOS developers to store those information:
-
-1) via this EFI variable:
-
-	#define GMIN_CFG_VAR_EFI_GUID EFI_GUID(0xecb54cd9, 0xe5ae, 0x4fdc, \
-					        0xa9, 0x71, 0xe8, 0x77,     \
-					        0x75, 0x60, 0x68, 0xf7)
-
-2) by reading _DSM from the camera information:
-
-        Device (CAM1)
-        {
-            Name (_ADR, Zero)  // _ADR: Address
-            Name (_HID, "OVTI2680")  // _HID: Hardware ID
-	...
-            Name (C1CD, Buffer (0x0220){})
-            Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
-            {
-                If ((Arg0 =3D=3D ToUUID ("dc2f6c4f-045b-4f1d-97b9-882a6860a=
-4be")))
-                {
-                    Local0 =3D Package (0x12)
-                        {
-                            "CamId",=20
-                            "ov2680",=20
-                            "CamType",=20
-                            "1",=20
-                            "CsiPort",=20
-                            "0",=20
-                            "CsiLanes",=20
-                            "1",=20
-                            "CsiFmt",=20
-                            "15",=20
-                            "CsiBayer",=20
-                            "0",=20
-                            "CamClk",=20
-                            "1",=20
-                            "Regulator1p8v",=20
-                            "0",=20
-                            "Regulator2p8v",=20
-                            "0"
-                        }
-                    Return (Local0)
-                }
-	...
-
-   (The current version of atomisp driver doesn't parse it yet)
-
-3) Still, some devices don't have neither of them, so the driver needs
-   to have their values hardcoded.
-
-It sounds to me that (2) is actually an evolution of (1). So, older BIOS
-would use GMIN_CFG_VAR_EFI_GUID way, while newer would use the _DSM
-way, and others may just hardcode it inside the driver or at the
-Windows .INF files.
-
-So we need some code to parse device-specific ACPI stuff.
-
-As I mentioned above, in the case of ISP2xxx, a single parser is used
-for all atomisp-based devices.
-
-So, except if all BIOS manufacturers started to provide an unified
-reliable way to store camera data for IPU3 and newer versions
-(with I seriously doubt), we'll need to add a parser for those
-ACPI-specific things.
-
-Such code could be added directly at the sensor drivers, but I
-suspect that this will generate a lot of code duplication, making
-it very painful to maintain.
-
-So, IMHO, we should work on some code that would be parsing it
-outside the sensor driver itself.
-
->=20
-> >=20
-> > It also doesn't tell how to get device-specific platform data from
-> > the BIOS (with is machine-specific). =20
->=20
-> In some systems that is the case, yes. It means system specific drivers or
-> fixups at least to some extent.
->=20
-> >=20
-> > Also, at least in the case of the atomisp approach, a single code
-> > to parse BIOS for devices with ISP2300/ISP2400/ISP2401/ISP2500 should
-> > work with all sensors supported by those models.
-> >=20
-> > Copying those inside all sensor drivers is probably a bad idea.
-> > I mean, we should likely need a core support for parsing it, as
-> > the code is the same for a given set of PCI IDs. =20
->=20
-> Agreed. The more we can keep that away from the sensor drivers, the bette=
-r.
->=20
-> >=20
-> > -
-> >=20
-> > As the atomisp driver is now minimally working, my plan is to merge
-> > it upstream, under staging. =20
->=20
-> How is it "minimally working" for you?
-
-- Atomisp driver probes fine and detects its associated hardware;
-- Atomisp firmware code loads and runs properly (as far as we were
-  able to test it);
-- Sensor and ISP are properly powered up;
-- v4l2-ctl and qv4l2 can read from device's controls;
-- If set to the sensor resolution and format, streaming causes
-  the driver code to receive IRQ as frame buffers arrive;
-
-There are still lots of issues:
-
-- the memory allocation code there is very suspicious, and
-  it cause troubles, depending on what userspace does
-  (for example, using the scaler);
-
-- right now, VIDIOC_DQBUF doesn't return anything (using
-  a very simple app with the absolute minimum set of ioctls
-  needed to start streaming).
-  Yet, the driver receives IRQs notifying that new frames
-  arrived. So, from the chipset PoV, streaming is working.
-  I suspect that the current driver is waiting for userspace
-  to receive V4L2 events before releasing buffers via DQBUF.
-
-> > Before going ahead and fixing other troubles there at atomisp,
-> > I may try to port the needed ACPI bits from the atomisp-ov2880=20
-> > staging driver into the mainline one. This should be an interesting=20
-> > exercise to check what's missing there.
-> >=20
-> > Even if the atomisp never gets out of staging, doing that will help
-> > to identify what it would take for a sensor to be able to work with
-> > more than one different ISP. As as result, we may design something
-> > that will properly support ACPI at the media subsystem. =20
->=20
-> Hmm. Generally ACPI based devices are supported, there are no issues as
-> such there. The ACPI tables in some systems, though, are a problem.
-
-As I said, the problem is not probing the sensor via ACPI, but, instead,
-to be able receive platform-specific data.
-
-Thanks,
-Mauro
+best regards
+wang shengjiu
