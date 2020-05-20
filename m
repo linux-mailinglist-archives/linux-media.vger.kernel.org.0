@@ -2,212 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 492DF1DB0CA
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 12:58:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 35C2D1DB0EA
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 13:03:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726452AbgETK6v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 06:58:51 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35940 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726436AbgETK6u (ORCPT
+        id S1726835AbgETLD1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 07:03:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52176 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726403AbgETLD0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 06:58:50 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 339E52A2B48
-Subject: Re: [PATCH 1/5] media: staging: rkisp1: return IRQ_NONE in isr when
- irq isn't for ISP
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com
-References: <20200512120522.25960-1-dafna.hirschfeld@collabora.com>
- <20200512120522.25960-2-dafna.hirschfeld@collabora.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <33703448-c89b-b1ba-eedb-3ac769beaca3@collabora.com>
-Date:   Wed, 20 May 2020 07:58:41 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Wed, 20 May 2020 07:03:26 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F89DC05BD43
+        for <linux-media@vger.kernel.org>; Wed, 20 May 2020 04:03:25 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id e1so2694765wrt.5
+        for <linux-media@vger.kernel.org>; Wed, 20 May 2020 04:03:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=ct4iwtkqSx7W80DKvDt8WvEkiq9KjVIacJ0yr7BAVII=;
+        b=gCn4N7N304bnLXil/a63o+C7lXWE4O+dUD5kr4U/QwkYok3WIYIss7MpTiwkIvDJDu
+         Yb14/i8NGGvtiwnPpTQWB1oc/MHjv9gyvs+HjkbrsA9GEiFTSWKwCkg07hWlb9e22xpX
+         cG1iXAAYqHj6N5FDXXS8FFy8ELfjoCREHTKlM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=ct4iwtkqSx7W80DKvDt8WvEkiq9KjVIacJ0yr7BAVII=;
+        b=G9AT02RT28ZqBolnRO2xdXRNqlmGtQOtEsFKeaLx0O2toNaboIta3IlXrTBcKwCjO9
+         Pt4dIH2fAyXB6mBEX1ecqcOr3DMTug7vhdWCyozeajES7fuOeldnvakTms7hZvsmISO3
+         6/LGlzChCdnxGo1nmxOpYjecvzb1qfehBhHpZQbAKekD118YM09odEpdAjvPEfp9lSwx
+         ic6+ypbdjij7xUfua6VhdQ//pb3zvTdgU1O7eS6g0xtUGTST8c8OnZdeIf6rob/AQfOG
+         oaInxudFOFKMvputp1UUK75Vc34Sq4aRbDp4hRLQaldeJR0u+2PcMo6lB9j2PdIPdOdv
+         +h0Q==
+X-Gm-Message-State: AOAM532L3mqChtDXyExyHtFr1QGt2To+R5SExLA4cv7gdvk/ra7GBomg
+        6fbDC6epdyluunXL3ZU31l66nQ==
+X-Google-Smtp-Source: ABdhPJzCd29Xl/wTekkJzbG2hFf7ELniw9c+535re3/QWPV7VzmtBOKv2TwjIms44WqcPc+fmic+SA==
+X-Received: by 2002:adf:fe90:: with SMTP id l16mr3672440wrr.222.1589972604221;
+        Wed, 20 May 2020 04:03:24 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id u65sm2743050wmg.8.2020.05.20.04.03.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 May 2020 04:03:23 -0700 (PDT)
+Date:   Wed, 20 May 2020 13:03:20 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        Oded Gabbay <oded.gabbay@gmail.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        linux-rdma@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>
+Subject: Re: [PATCH] dma-fence: add might_sleep annotation to _wait()
+Message-ID: <20200520110320.GT206103@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Ben Skeggs <bskeggs@redhat.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        Oded Gabbay <oded.gabbay@gmail.com>, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>
+References: <20200519132756.682888-1-daniel.vetter@ffwll.ch>
+ <be86b73c-2fb3-a6c0-5a12-004af051210f@amd.com>
 MIME-Version: 1.0
-In-Reply-To: <20200512120522.25960-2-dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <be86b73c-2fb3-a6c0-5a12-004af051210f@amd.com>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
-
-Thanks for the patch.
-
-On 5/12/20 9:05 AM, Dafna Hirschfeld wrote:
-> From: Helen Koike <helen.koike@collabora.com>
+On Wed, May 20, 2020 at 08:54:36AM +0200, Christian König wrote:
+> Am 19.05.20 um 15:27 schrieb Daniel Vetter:
+> > Do it uncontionally, there's a separate peek function with
+> > dma_fence_is_signalled() which can be called from atomic context.
+> > 
+> > v2: Consensus calls for an unconditional might_sleep (Chris,
+> > Christian)
+> > 
+> > Full audit:
+> > - dma-fence.h: Uses MAX_SCHEDULE_TIMOUT, good chance this sleeps
+> > - dma-resv.c: Timeout always at least 1
+> > - st-dma-fence.c: Save to sleep in testcases
+> > - amdgpu_cs.c: Both callers are for variants of the wait ioctl
+> > - amdgpu_device.c: Two callers in vram recover code, both right next
+> >    to mutex_lock.
+> > - amdgpu_vm.c: Use in the vm_wait ioctl, next to _reserve/unreserve
+> > - remaining functions in amdgpu: All for test_ib implementations for
+> >    various engines, caller for that looks all safe (debugfs, driver
+> >    load, reset)
+> > - etnaviv: another wait ioctl
+> > - habanalabs: another wait ioctl
+> > - nouveau_fence.c: hardcoded 15*HZ ... glorious
+> > - nouveau_gem.c: hardcoded 2*HZ ... so not even super consistent, but
+> >    this one does have a WARN_ON :-/ At least this one is only a
+> >    fallback path for when kmalloc fails. Maybe this should be put onto
+> >    some worker list instead, instead of a work per unamp ...
+> > - i915/selftests: Hardecoded HZ / 4 or HZ / 8
+> > - i915/gt/selftests: Going up the callchain looks safe looking at
+> >    nearby callers
+> > - i915/gt/intel_gt_requests.c. Wrapped in a mutex_lock
+> > - i915/gem_i915_gem_wait.c: The i915-version which is called instead
+> >    for i915 fences already has a might_sleep() annotation, so all good
+> > 
+> > Cc: Alex Deucher <alexander.deucher@amd.com>
+> > Cc: Lucas Stach <l.stach@pengutronix.de>
+> > Cc: Jani Nikula <jani.nikula@linux.intel.com>
+> > Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+> > Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
+> > Cc: Ben Skeggs <bskeggs@redhat.com>
+> > Cc: "VMware Graphics" <linux-graphics-maintainer@vmware.com>
+> > Cc: Oded Gabbay <oded.gabbay@gmail.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > Cc: linux-rdma@vger.kernel.org
+> > Cc: amd-gfx@lists.freedesktop.org
+> > Cc: intel-gfx@lists.freedesktop.org
+> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Christian König <christian.koenig@amd.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 > 
-> rkisp1 shares the interrupt line, then it shouldn't always return
-> IRQ_HANDLED, otherwise it can flag as handled an interrupt that wans't
-> meant for ISP.
+> Reviewed-by: Christian König <christian.koenig@amd.com>
+
+intel-gfx-ci approves too, thanks to both of you for reviews, patch merged
+to drm-misc-next.
+-Daniel
+
 > 
-> return IRQ_NONE when the interrupt wans't meant for ISP
+> > ---
+> >   drivers/dma-buf/dma-fence.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> > index 90edf2b281b0..656e9ac2d028 100644
+> > --- a/drivers/dma-buf/dma-fence.c
+> > +++ b/drivers/dma-buf/dma-fence.c
+> > @@ -208,6 +208,8 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+> >   	if (WARN_ON(timeout < 0))
+> >   		return -EINVAL;
+> > +	might_sleep();
+> > +
+> >   	trace_dma_fence_wait_start(fence);
+> >   	if (fence->ops->wait)
+> >   		ret = fence->ops->wait(fence, intr, timeout);
 > 
-> Fixes: d65dd85281fb ("media: staging: rkisp1: add Rockchip ISP1 base driver")
-> 
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/rkisp1/rkisp1-capture.c |  7 ++++++-
->  drivers/staging/media/rkisp1/rkisp1-common.h  |  6 +++---
->  drivers/staging/media/rkisp1/rkisp1-dev.c     | 14 ++++++++++----
->  drivers/staging/media/rkisp1/rkisp1-isp.c     | 12 ++++++++----
->  4 files changed, 27 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> index f69235f82c45..19021875e8a9 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> @@ -649,12 +649,15 @@ static void rkisp1_handle_buffer(struct rkisp1_capture *cap)
->  	rkisp1_set_next_buf(cap);
->  }
->  
-> -void rkisp1_capture_isr(struct rkisp1_device *rkisp1)
-> +irqreturn_t rkisp1_capture_isr(struct rkisp1_device *rkisp1)
->  {
->  	unsigned int i;
->  	u32 status;
->  
->  	status = rkisp1_read(rkisp1, RKISP1_CIF_MI_MIS);
-> +	if (!status)
-> +		return IRQ_NONE;
-> +
->  	rkisp1_write(rkisp1, status, RKISP1_CIF_MI_ICR);
->  
->  	for (i = 0; i < ARRAY_SIZE(rkisp1->capture_devs); ++i) {
-> @@ -682,6 +685,8 @@ void rkisp1_capture_isr(struct rkisp1_device *rkisp1)
->  		cap->is_streaming = false;
->  		wake_up(&cap->done);
->  	}
-> +
-> +	return IRQ_HANDLED;
->  }
->  
->  /* ----------------------------------------------------------------------------
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
-> index 0c4fe503adc9..33dffe21c769 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
-> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
-> @@ -305,9 +305,9 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1);
->  
->  const struct rkisp1_isp_mbus_info *rkisp1_isp_mbus_info_get(u32 mbus_code);
->  
-> -void rkisp1_isp_isr(struct rkisp1_device *rkisp1);
-> -void rkisp1_mipi_isr(struct rkisp1_device *rkisp1);
-> -void rkisp1_capture_isr(struct rkisp1_device *rkisp1);
-> +irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1);
-> +irqreturn_t rkisp1_mipi_isr(struct rkisp1_device *rkisp1);
-> +irqreturn_t rkisp1_capture_isr(struct rkisp1_device *rkisp1);
->  void rkisp1_stats_isr(struct rkisp1_stats *stats, u32 isp_ris);
->  void rkisp1_params_isr(struct rkisp1_device *rkisp1, u32 isp_mis);
->  
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
-> index 9ac38bafb839..b7f43dab71c8 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-dev.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
-> @@ -387,10 +387,13 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
->  	return ret;
->  }
->  
-> -static irqreturn_t rkisp1_isr(int irq, void *ctx)
-> +irqreturn_t rkisp1_isr(int irq, void *ctx)
->  {
->  	struct device *dev = ctx;
->  	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
-> +	irqreturn_t isp_ret;
-> +	irqreturn_t cap_ret;
-> +	irqreturn_t mipi_ret;
 
-Just cosmetics, you could declare them in a single line
-
-	irqreturn_t cap_ret, isp_ret, mipi_ret;
-
-With or without this change:
-
-Acked-by: Helen Koike <helen.koike@collabora.com>
-
-Thanks
-Helen
-
->  
->  	/*
->  	 * Call rkisp1_capture_isr() first to handle the frame that
-> @@ -398,9 +401,12 @@ static irqreturn_t rkisp1_isr(int irq, void *ctx)
->  	 * it is potentially incremented by rkisp1_isp_isr() in the vertical
->  	 * sync.
->  	 */
-> -	rkisp1_capture_isr(rkisp1);
-> -	rkisp1_isp_isr(rkisp1);
-> -	rkisp1_mipi_isr(rkisp1);
-> +	cap_ret = rkisp1_capture_isr(rkisp1);
-> +	isp_ret = rkisp1_isp_isr(rkisp1);
-> +	mipi_ret = rkisp1_mipi_isr(rkisp1);
-> +
-> +	if (isp_ret == IRQ_NONE && cap_ret == IRQ_NONE && mipi_ret == IRQ_NONE)
-> +		return IRQ_NONE;
->  
->  	return IRQ_HANDLED;
->  }
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> index dc2b59a0160a..19ab0ed323aa 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> @@ -1046,13 +1046,13 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
->   * Interrupt handlers
->   */
->  
-> -void rkisp1_mipi_isr(struct rkisp1_device *rkisp1)
-> +irqreturn_t rkisp1_mipi_isr(struct rkisp1_device *rkisp1)
->  {
->  	u32 val, status;
->  
->  	status = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_MIS);
->  	if (!status)
-> -		return;
-> +		return IRQ_NONE;
->  
->  	rkisp1_write(rkisp1, status, RKISP1_CIF_MIPI_ICR);
->  
-> @@ -1087,6 +1087,8 @@ void rkisp1_mipi_isr(struct rkisp1_device *rkisp1)
->  	} else {
->  		rkisp1->debug.mipi_error++;
->  	}
-> +
-> +	return IRQ_HANDLED;
->  }
->  
->  static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
-> @@ -1106,13 +1108,13 @@ static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
->  	v4l2_event_queue(isp->sd.devnode, &event);
->  }
->  
-> -void rkisp1_isp_isr(struct rkisp1_device *rkisp1)
-> +irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1)
->  {
->  	u32 status, isp_err;
->  
->  	status = rkisp1_read(rkisp1, RKISP1_CIF_ISP_MIS);
->  	if (!status)
-> -		return;
-> +		return IRQ_NONE;
->  
->  	rkisp1_write(rkisp1, status, RKISP1_CIF_ISP_ICR);
->  
-> @@ -1148,4 +1150,6 @@ void rkisp1_isp_isr(struct rkisp1_device *rkisp1)
->  	 * Do the updates in the order of the processing flow.
->  	 */
->  	rkisp1_params_isr(rkisp1, status);
-> +
-> +	return IRQ_HANDLED;
->  }
-> 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
