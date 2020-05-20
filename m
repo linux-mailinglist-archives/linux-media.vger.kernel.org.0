@@ -2,96 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FCDA1DB3BE
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 14:39:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C313D1DB3EA
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 14:43:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727066AbgETMiz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 08:38:55 -0400
-Received: from mail.kernel.org ([198.145.29.99]:39436 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727018AbgETMix (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 08:38:53 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E16B320758;
-        Wed, 20 May 2020 12:38:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1589978332;
-        bh=g7mq7A46A2rwnilYsWelJzFIzIUJhVoiPiT9cEmHRqM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=y05unyyJD7TNaV987OdTJu89O1CnVTvMOJXBtUxxhoRdPpPwrGFOLAsPQdIHmglCZ
-         /TdnyHJTd4wnRuuEc9rHwD1xbrOzJV3PPWqVGYYRc76P5MIZ6Tiib5JDErJJuforA+
-         evfuyTPGebwbAc8o+UKJkiW+ST3XQhvcR1GdBas8=
-Date:   Wed, 20 May 2020 13:38:50 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc:     Lucas Stach <l.stach@pengutronix.de>,
-        Shengjiu Wang <shengjiu.wang@nxp.com>,
-        Timur Tabi <timur@kernel.org>,
-        Nicolin Chen <nicoleotsuka@gmail.com>,
-        Xiubo Li <Xiubo.Lee@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, perex@perex.cz,
-        Takashi Iwai <tiwai@suse.com>, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, linux-imx@nxp.com,
-        sumit.semwal@linaro.org, Linux-ALSA <alsa-devel@alsa-project.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in
- probe
-Message-ID: <20200520123850.GE4823@sirena.org.uk>
-References: <1589881301-4143-1-git-send-email-shengjiu.wang@nxp.com>
- <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
- <CAA+D8APhHvA39wmCayeCsAEKmOJ0n7qOQiT1tZmFHr4+yASgTw@mail.gmail.com>
- <53258cd99caaf1199036737f8fad6cc097939567.camel@pengutronix.de>
- <CAA+D8APAMRwtVneqFsuBgAhozmQo3R0AQi0bVdUCQO4Af4xVfw@mail.gmail.com>
+        id S1726899AbgETMno (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 08:43:44 -0400
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:53236 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726224AbgETMnn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 May 2020 08:43:43 -0400
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04KChcBe050883;
+        Wed, 20 May 2020 07:43:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1589978618;
+        bh=zxx7ZiFM9eDWZAFgKqDStYi6M6MG5cO3PtSDRr0Kcmw=;
+        h=Subject:To:References:From:Date:In-Reply-To;
+        b=GN6NVp1AXN38VvX2fVgSmWEbeMH6PUTtGZ7x3siZv0PgAkr5OrZYVjZhTndSHCvGs
+         9CfVURfSxaKaoqSyU7roPVmoud+AssIqjELelN/T1sdcLggZ17jamfJ8hLg6hIk5Jd
+         fggNc1OClAXWKHpN3XTQPT4inDs0rleQFgDwh7Oc=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04KChcxK046229;
+        Wed, 20 May 2020 07:43:38 -0500
+Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 20
+ May 2020 07:43:38 -0500
+Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Wed, 20 May 2020 07:43:38 -0500
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04KChbt4024072;
+        Wed, 20 May 2020 07:43:37 -0500
+Subject: Re: Bad kfree of dma_parms in v5.7-rc5
+To:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        LKML <linux-kernel@vger.kernel.org>
+References: <CGME20200520090109eucas1p17270805f81f6958cd5084a7b910efc6c@eucas1p1.samsung.com>
+ <a9df7155-dd7a-752b-6d1c-3426837756b1@ti.com>
+ <e9674719-0c86-63be-04a3-ee98bd884901@samsung.com>
+ <f3c58dcd-b806-95ef-2434-3084e65e1afb@ti.com>
+ <e3fa0b35-7cca-1e37-c2fa-63cc07e6bfda@samsung.com>
+From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <227465a5-c6e6-5b4d-abbd-7789727843a6@ti.com>
+Date:   Wed, 20 May 2020 15:43:36 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="lteA1dqeVaWQ9QQl"
-Content-Disposition: inline
-In-Reply-To: <CAA+D8APAMRwtVneqFsuBgAhozmQo3R0AQi0bVdUCQO4Af4xVfw@mail.gmail.com>
-X-Cookie: You can't get there from here.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <e3fa0b35-7cca-1e37-c2fa-63cc07e6bfda@samsung.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 20/05/2020 12:22, Marek Szyprowski wrote:
+> Hi Tomi,
+> 
+> On 20.05.2020 11:18, Tomi Valkeinen wrote:
+>> On 20/05/2020 12:13, Marek Szyprowski wrote:
+>>> On 20.05.2020 11:00, Tomi Valkeinen wrote:
+>>>> Commit 9495b7e92f716ab2bd6814fab5e97ab4a39adfdd ("driver core:
+>>>> platform: Initialize dma_parms for platform devices") v5.7-rc5 causes
+>>>> at least some v4l2 platform drivers to break when freeing resources.
+>>>>
+>>>> E.g. drivers/media/platform/ti-vpe/cal.c uses
+>>>> vb2_dma_contig_set_max_seg_size() and
+>>>> vb2_dma_contig_clear_max_seg_size() to manage the dma_params, and
+>>>> similar pattern is seen in other drivers too.
+>>>>
+>>>> After 9495b7e92f716ab2, vb2_dma_contig_set_max_seg_size() will not
+>>>> allocate anything, but vb2_dma_contig_clear_max_seg_size() will still
+>>>> kfree the dma_params.
+>>>>
+>>>> I'm not sure what's the proper fix here. A flag somewhere to indicate
+>>>> that vb2_dma_contig_set_max_seg_size() did allocate, and thus
+>>>> vb2_dma_contig_clear_max_seg_size() must free?
+>>>>
+>>>> Or drop the kzalloc and kfree totally, if dma_params is now supposed
+>>>> to always be there?
+>>>
+>>> Thanks for reporting this issue!
+>>>
+>>> Once the mentioned commit has been merged, the code should assume that
+>>> the platform devices does have a struct dma_params allocated, so the
+>>> proper fix is to alloc dma_params only if the bus is not a platform bus:
+>>>
+>>> if (!dev_is_platform(dev) && !dev->dma_parms) {
+>>>        dev->dma_parms = kzalloc(sizeof(*dev->dma_parms), GFP_KERNEL);
+>>>
+>>> same check for the free path.
+>>
+>> There is also "amba: Initialize dma_parms for amba devices". And the
+>> commit message says PCI devices do this too.
+>>
+>> Guessing this based on the device type doesn't sound like a good idea
+>> to me.
+> 
+> Indeed. Then replace the allocation with a simple check for NULL
+> dma_parms and return an error in such case. This should be enough for
+> v5.8. Later we can simply get rid of those helpers and inline setting
+> max segment size directly to the drivers.
 
---lteA1dqeVaWQ9QQl
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Is that valid either? Then we assume that dma_parms is always set up by someone else. That's true 
+for platform devices and apparently some other devices, but is it true for all devices now?
 
-On Wed, May 20, 2020 at 07:22:19PM +0800, Shengjiu Wang wrote:
+  Tomi
 
-> I see some driver also request dma channel in open() or hw_params().
-> how can they avoid the defer probe issue?
-> for example=EF=BC=9A
-> sound/arm/pxa2xx-pcm-lib.c
-> sound/soc/sprd/sprd-pcm-dma.c
-
-Other drivers having problems means those drivers should be fixed, not
-that we should copy the problems.  In the case of the PXA driver that's
-very old code which predates deferred probe by I'd guess a decade.
-
---lteA1dqeVaWQ9QQl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl7FJNkACgkQJNaLcl1U
-h9CQxAf/XWB/BDAkTjyNyif7eAXkZvu58koo16rODvQZScO1qMJDv7rgM7PAY3cp
-oA8PM6mc2y9ilW+8iJcaRBUazw743WsZy4B8+4zgZ4S+16WavSbW/TcgoP1XHKmn
-45dF0NFIESHhxVhwdmHAhRrolV6ukd4taibnCUbPFBbG3AgT7XjvOl8gQmwY5Xbr
-4WC83n6SHn8es9HF2g733RvA8jAFMr+biVQ7FnsyxEhi3oMgOYF7LOQ+ZrBM69xC
-49iQbno7b5fQ8cPQLKmdt5mzBp0n5anoHWFvvk1zi1RPqM+7gGMv/DBvAB8u7o+F
-l8Qr1SUzhOsG/j0FDFUIriQktZ4TEw==
-=CLfU
------END PGP SIGNATURE-----
-
---lteA1dqeVaWQ9QQl--
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
