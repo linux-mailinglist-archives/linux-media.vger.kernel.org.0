@@ -2,128 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B0651DBB13
-	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 19:20:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A43161DBC2B
+	for <lists+linux-media@lfdr.de>; Wed, 20 May 2020 20:00:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726804AbgETRUJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 13:20:09 -0400
-Received: from mailoutvs8.siol.net ([185.57.226.199]:37794 "EHLO mail.siol.net"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726436AbgETRUI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 13:20:08 -0400
-X-Greylist: delayed 462 seconds by postgrey-1.27 at vger.kernel.org; Wed, 20 May 2020 13:20:07 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mail.siol.net (Zimbra) with ESMTP id 7177252262E;
-        Wed, 20 May 2020 19:12:23 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at psrvmta12.zcs-production.pri
-Received: from mail.siol.net ([127.0.0.1])
-        by localhost (psrvmta12.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Zb2kWSo0VfZD; Wed, 20 May 2020 19:12:23 +0200 (CEST)
-Received: from mail.siol.net (localhost [127.0.0.1])
-        by mail.siol.net (Zimbra) with ESMTPS id 0DB3E5227F4;
-        Wed, 20 May 2020 19:12:23 +0200 (CEST)
-Received: from kista.localdomain (cpe-194-152-20-232.static.triera.net [194.152.20.232])
-        (Authenticated sender: 031275009)
-        by mail.siol.net (Zimbra) with ESMTPSA id 1D040522746;
-        Wed, 20 May 2020 19:12:17 +0200 (CEST)
-From:   Jernej Skrabec <jernej.skrabec@siol.net>
-To:     mripard@kernel.org, paul.kocialkowski@bootlin.com
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, wens@csie.org,
-        hverkuil-cisco@xs4all.nl, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: cedrus: Add support for additional output formats
-Date:   Wed, 20 May 2020 19:14:57 +0200
-Message-Id: <20200520171457.11937-1-jernej.skrabec@siol.net>
+        id S1726806AbgETSAb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 14:00:31 -0400
+Received: from v6.sk ([167.172.42.174]:33032 "EHLO v6.sk"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726560AbgETSAb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 May 2020 14:00:31 -0400
+Received: from localhost (v6.sk [IPv6:::1])
+        by v6.sk (Postfix) with ESMTP id 89076610B3;
+        Wed, 20 May 2020 18:00:29 +0000 (UTC)
+From:   Lubomir Rintel <lkundrak@v3.sk>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>
+Subject: [RESEND PATCH] media: marvell-ccic: Add support for runtime PM
+Date:   Wed, 20 May 2020 20:00:22 +0200
+Message-Id: <20200520180022.2130777-1-lkundrak@v3.sk>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If VPU supports untiled output, it actually supports several different
-YUV 4:2:0 layouts, namely NV12, NV21, YUV420 and YVU420.
+On MMP3, the camera block lives on na separate power island. We want to
+turn it off if the CCIC is not in use to conserve power.
 
-Add support for all of them.
-
-Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus_hw.c | 18 +++++++++++++++++-
- .../staging/media/sunxi/cedrus/cedrus_video.c  | 18 ++++++++++++++++++
- 2 files changed, 35 insertions(+), 1 deletion(-)
+ drivers/media/platform/marvell-ccic/mcam-core.c  |  3 +++
+ drivers/media/platform/marvell-ccic/mmp-driver.c | 12 ++++++++----
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/sta=
-ging/media/sunxi/cedrus/cedrus_hw.c
-index daf5f244f93b..c119fd8c4b92 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-@@ -83,9 +83,25 @@ void cedrus_dst_format_set(struct cedrus_dev *dev,
-=20
- 	switch (fmt->pixelformat) {
- 	case V4L2_PIX_FMT_NV12:
-+	case V4L2_PIX_FMT_NV21:
-+	case V4L2_PIX_FMT_YUV420:
-+	case V4L2_PIX_FMT_YVU420:
- 		chroma_size =3D ALIGN(width, 16) * ALIGN(height, 16) / 2;
-=20
--		reg =3D VE_PRIMARY_OUT_FMT_NV12;
-+		switch (fmt->pixelformat) {
-+		case V4L2_PIX_FMT_NV12:
-+			reg =3D VE_PRIMARY_OUT_FMT_NV12;
-+			break;
-+		case V4L2_PIX_FMT_NV21:
-+			reg =3D VE_PRIMARY_OUT_FMT_NV21;
-+			break;
-+		case V4L2_PIX_FMT_YUV420:
-+			reg =3D VE_PRIMARY_OUT_FMT_YU12;
-+			break;
-+		case V4L2_PIX_FMT_YVU420:
-+			reg =3D VE_PRIMARY_OUT_FMT_YV12;
-+			break;
-+		}
- 		cedrus_write(dev, VE_PRIMARY_OUT_FMT, reg);
-=20
- 		reg =3D chroma_size / 2;
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/=
-staging/media/sunxi/cedrus/cedrus_video.c
-index 15cf1f10221b..016021d71df2 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -55,6 +55,21 @@ static struct cedrus_format cedrus_formats[] =3D {
- 		.directions	=3D CEDRUS_DECODE_DST,
- 		.capabilities	=3D CEDRUS_CAPABILITY_UNTILED,
- 	},
-+	{
-+		.pixelformat	=3D V4L2_PIX_FMT_NV21,
-+		.directions	=3D CEDRUS_DECODE_DST,
-+		.capabilities	=3D CEDRUS_CAPABILITY_UNTILED,
-+	},
-+	{
-+		.pixelformat	=3D V4L2_PIX_FMT_YUV420,
-+		.directions	=3D CEDRUS_DECODE_DST,
-+		.capabilities	=3D CEDRUS_CAPABILITY_UNTILED,
-+	},
-+	{
-+		.pixelformat	=3D V4L2_PIX_FMT_YVU420,
-+		.directions	=3D CEDRUS_DECODE_DST,
-+		.capabilities	=3D CEDRUS_CAPABILITY_UNTILED,
-+	},
- };
-=20
- #define CEDRUS_FORMATS_COUNT	ARRAY_SIZE(cedrus_formats)
-@@ -130,6 +145,9 @@ void cedrus_prepare_format(struct v4l2_pix_format *pi=
-x_fmt)
- 		break;
-=20
- 	case V4L2_PIX_FMT_NV12:
-+	case V4L2_PIX_FMT_NV21:
-+	case V4L2_PIX_FMT_YUV420:
-+	case V4L2_PIX_FMT_YVU420:
- 		/* 16-aligned stride. */
- 		bytesperline =3D ALIGN(width, 16);
-=20
---=20
+diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/media/platform/marvell-ccic/mcam-core.c
+index 09775b6624c6..c2cd1d461bd0 100644
+--- a/drivers/media/platform/marvell-ccic/mcam-core.c
++++ b/drivers/media/platform/marvell-ccic/mcam-core.c
+@@ -24,6 +24,7 @@
+ #include <linux/clk.h>
+ #include <linux/clk-provider.h>
+ #include <linux/videodev2.h>
++#include <linux/pm_runtime.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ioctl.h>
+ #include <media/v4l2-ctrls.h>
+@@ -901,6 +902,7 @@ static void mcam_clk_enable(struct mcam_camera *mcam)
+ {
+ 	unsigned int i;
+ 
++	pm_runtime_get_sync(mcam->dev);
+ 	for (i = 0; i < NR_MCAM_CLK; i++) {
+ 		if (!IS_ERR(mcam->clk[i]))
+ 			clk_prepare_enable(mcam->clk[i]);
+@@ -915,6 +917,7 @@ static void mcam_clk_disable(struct mcam_camera *mcam)
+ 		if (!IS_ERR(mcam->clk[i]))
+ 			clk_disable_unprepare(mcam->clk[i]);
+ 	}
++	pm_runtime_put(mcam->dev);
+ }
+ 
+ /* ---------------------------------------------------------------------- */
+diff --git a/drivers/media/platform/marvell-ccic/mmp-driver.c b/drivers/media/platform/marvell-ccic/mmp-driver.c
+index 92b92255dac6..eec482d16805 100644
+--- a/drivers/media/platform/marvell-ccic/mmp-driver.c
++++ b/drivers/media/platform/marvell-ccic/mmp-driver.c
+@@ -24,6 +24,7 @@
+ #include <linux/list.h>
+ #include <linux/pm.h>
+ #include <linux/clk.h>
++#include <linux/pm_runtime.h>
+ 
+ #include "mcam-core.h"
+ 
+@@ -313,10 +314,12 @@ static int mmpcam_probe(struct platform_device *pdev)
+ 	cam->irq = res->start;
+ 	ret = devm_request_irq(&pdev->dev, cam->irq, mmpcam_irq, IRQF_SHARED,
+ 					"mmp-camera", mcam);
+-	if (ret == 0) {
+-		mmpcam_add_device(cam);
+-		return 0;
+-	}
++	if (ret)
++		goto out;
++
++	mmpcam_add_device(cam);
++	pm_runtime_enable(&pdev->dev);
++	return 0;
+ 
+ out:
+ 	fwnode_handle_put(mcam->asd.match.fwnode);
+@@ -332,6 +335,7 @@ static int mmpcam_remove(struct mmp_camera *cam)
+ 
+ 	mmpcam_remove_device(cam);
+ 	mccic_shutdown(mcam);
++	pm_runtime_force_suspend(mcam->dev);
+ 	return 0;
+ }
+ 
+-- 
 2.26.2
 
