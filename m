@@ -2,105 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 684921DCC87
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 14:02:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA4AF1DCC9C
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 14:06:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729118AbgEUMCK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 08:02:10 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:43723 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729080AbgEUMCJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 08:02:09 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 9272E1C000E;
-        Thu, 21 May 2020 12:02:05 +0000 (UTC)
-Date:   Thu, 21 May 2020 14:05:25 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Geert Uytterhoeven <geert+renesas@glider.be>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: media: Add missing clock domain description
-Message-ID: <20200521120525.m7wskfvgrp572z7t@uno.localdomain>
-References: <20200519074229.22308-1-geert+renesas@glider.be>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200519074229.22308-1-geert+renesas@glider.be>
+        id S1728043AbgEUMGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 08:06:41 -0400
+Received: from spam.zju.edu.cn ([61.164.42.155]:12008 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727905AbgEUMGl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 21 May 2020 08:06:41 -0400
+Received: from localhost.localdomain (unknown [222.205.77.158])
+        by mail-app2 (Coremail) with SMTP id by_KCgCXlTC9bsZeH1KdAQ--.33787S4;
+        Thu, 21 May 2020 20:06:25 +0800 (CST)
+From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
+To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
+Cc:     Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: camss: ispif: Fix runtime PM imbalance on error
+Date:   Thu, 21 May 2020 20:06:21 +0800
+Message-Id: <20200521120621.2658-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: by_KCgCXlTC9bsZeH1KdAQ--.33787S4
+X-Coremail-Antispam: 1UD129KBjvdXoWrKrW7ZFW3Gr18JF1xWF4UArb_yoWftFb_ur
+        s5XrWfXF4Ygr1vvr4Utw43urWIqaykZw18u3WftFWay3yjyFykGrykZr98ZrnxZw1jyF17
+        GFZ8ZFyfCr97ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbIAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
+        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_
+        JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6ryUMxAIw28IcxkI7VAKI48J
+        MxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
+        GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+        CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE
+        14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyT
+        uYvjfUeWlkDUUUU
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0HBlZdtOPdcwAEs4
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert,
+pm_runtime_get_sync() increments the runtime PM usage counter even
+when it returns an error code. Thus a pairing decrement is needed on
+the error handling path to keep the counter balanced.
 
-On Tue, May 19, 2020 at 09:42:29AM +0200, Geert Uytterhoeven wrote:
-> make dtbs_check:
->
->     arch/arm/boot/dts/r7s72100-genmai.dt.yaml: camera@e8210000: 'clocks', 'power-domains' do not match any of the regexes: 'pinctrl-[0-9]+'
->
-> Fix this by documenting the missing properties.
-> Update the example to match reality.
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
+ drivers/media/platform/qcom/camss/camss-ispif.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Thanks for fixing this!
+diff --git a/drivers/media/platform/qcom/camss/camss-ispif.c b/drivers/media/platform/qcom/camss/camss-ispif.c
+index 1f33b4eb198c..5722e971b184 100644
+--- a/drivers/media/platform/qcom/camss/camss-ispif.c
++++ b/drivers/media/platform/qcom/camss/camss-ispif.c
+@@ -344,8 +344,10 @@ static int ispif_set_power(struct v4l2_subdev *sd, int on)
+ 		}
+ 
+ 		ret = pm_runtime_get_sync(dev);
+-		if (ret < 0)
++		if (ret < 0) {
++			pm_runtime_put_sync(dev);
+ 			goto exit;
++		}
+ 
+ 		ret = camss_enable_clocks(ispif->nclocks, ispif->clock, dev);
+ 		if (ret < 0) {
+-- 
+2.17.1
 
-Acked-by: Jacopo Mondi <jacopo@jmondi.org>
-
-Thanks
-  j
-
->
-> Fixes: 7f464532b05dadc8 ("dt-bindings: Add missing 'additionalProperties: false'")
-> Fixes: 58361eaa11d561f3 ("dt-bindings: media: renesas,ceu: Convert to yaml")
-> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
-> ---
->  .../devicetree/bindings/media/renesas,ceu.yaml        | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/media/renesas,ceu.yaml b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-> index f2393458814ee08f..c7e1e4fe67e6696b 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,ceu.yaml
-> @@ -27,6 +27,12 @@ properties:
->    interrupts:
->      maxItems: 1
->
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
->    port:
->      type: object
->      additionalProperties: false
-> @@ -57,6 +63,8 @@ required:
->    - compatible
->    - reg
->    - interrupts
-> +  - clocks
-> +  - power-domains
->    - port
->
->  additionalProperties: false
-> @@ -64,11 +72,14 @@ additionalProperties: false
->  examples:
->    - |
->      #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/r7s72100-clock.h>
->
->      ceu: ceu@e8210000 {
->          reg = <0xe8210000 0x209c>;
->          compatible = "renesas,r7s72100-ceu";
->          interrupts = <GIC_SPI 332 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&mstp6_clks R7S72100_CLK_CEU>;
-> +        power-domains = <&cpg_clocks>;
->
->          port {
->              ceu_in: endpoint {
-> --
-> 2.17.1
->
