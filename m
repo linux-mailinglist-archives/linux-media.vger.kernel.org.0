@@ -2,315 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D45DA1DCD55
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 14:53:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACFAB1DCDCC
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 15:16:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729405AbgEUMxN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 08:53:13 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:48742 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729296AbgEUMxN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 08:53:13 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 9F43B2A0807
-Subject: Re: [PATCH v3 2/4] media: v4l2-common: add helper functions to call
- s_stream() callbacks
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     kernel@collabora.com, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, hans.verkuil@cisco.com,
-        skhan@linuxfoundation.org, niklas.soderlund@ragnatech.se,
-        mchehab@kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-References: <20200415013044.1778572-1-helen.koike@collabora.com>
- <20200415013044.1778572-3-helen.koike@collabora.com>
- <31557623-2b8c-6cfe-19f7-7854ed51bc86@collabora.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <8223dc91-6299-8835-c397-74246bd8c54a@collabora.com>
-Date:   Thu, 21 May 2020 09:53:02 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        id S1729296AbgEUNQL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 09:16:11 -0400
+Received: from mga06.intel.com ([134.134.136.31]:64554 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727846AbgEUNQK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 21 May 2020 09:16:10 -0400
+IronPort-SDR: 0xm2fl6k5ySv6L8TiKMomdnczSofI2gHd6oowIm6+duyF8lE/neObw8R3JgMiLHlrzOJuUxs0+
+ ZgPEv99I5PZA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2020 06:16:09 -0700
+IronPort-SDR: Lc981Qj/mJ5bMzGVbvKTjGSCj05orASUrJj40IOm5s/ljzJOtYNZU8dLPMpAKRof9KjIOgIl4O
+ FqiEjfj2ZgoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,417,1583222400"; 
+   d="scan'208";a="253969590"
+Received: from lkp-server01.sh.intel.com (HELO lkp-server01) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 21 May 2020 06:16:08 -0700
+Received: from kbuild by lkp-server01 with local (Exim 4.89)
+        (envelope-from <lkp@intel.com>)
+        id 1jbl3O-0007t2-7D; Thu, 21 May 2020 21:16:06 +0800
+Date:   Thu, 21 May 2020 21:15:04 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ 960b2dee908b0fc51cf670841de13b40b44aaaae
+Message-ID: <5ec67ed8.ughoMPSnmtTsvgoz%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <31557623-2b8c-6cfe-19f7-7854ed51bc86@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+tree/branch: git://git.ragnatech.se/linux  media-tree
+branch HEAD: 960b2dee908b0fc51cf670841de13b40b44aaaae  media: dt-bindings: phy: phy-rockchip-dphy-rx0: move rockchip dphy rx0 bindings out of staging
 
-On 5/21/20 9:03 AM, Dafna Hirschfeld wrote:
-> Hi
-> 
-> On 15.04.20 03:30, Helen Koike wrote:
->> Add v4l2_pipeline_stream_{enable,disable} helper functions to iterate
->> through the subdevices in a given stream (i.e following links from sink
->> to source) and call .s_stream() callback.
->>
->> Add stream_count on the subdevice object for simultaneous streaming from
->> different video devices which shares subdevices.
->>
->> Prevent calling .s_stream(true) if it was already called previously by
->> another stream.
->>
->> Prevent calling .s_stream(false) from one stream when there are still
->> others active.
->>
->> If .s_stream(true) fails, call .s_stream(false) in the reverse order.
->>
->> Signed-off-by: Helen Koike <helen.koike@collabora.com>
->> ---
->>
->> Changes in v3:
->> - re-write helpers to use media walkers as in v1, but with
->> v4l2_pipeline_subdevs_get() to reverse the order we call s_stream(true)
->> in subdevices.
->> - rename size to max_size (and update docs) in v4l2_pipeline_subdevs_get() to
->> reflect the meaning of the argument.
->> - add if defined(CONFIG_MEDIA_CONTROLLER) around helpers
->>
->> Changes in v2:
->> - re-write helpers to not use media walkers
->>
->>   drivers/media/v4l2-core/v4l2-common.c | 125 ++++++++++++++++++++++++++
->>   include/media/v4l2-common.h           |  43 +++++++++
->>   include/media/v4l2-subdev.h           |   2 +
->>   3 files changed, 170 insertions(+)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
->> index 9e8eb45a5b03c..2f991a1a57d7c 100644
->> --- a/drivers/media/v4l2-core/v4l2-common.c
->> +++ b/drivers/media/v4l2-core/v4l2-common.c
->> @@ -442,3 +442,128 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
->>       return 0;
->>   }
->>   EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
->> +
->> +#if defined(CONFIG_MEDIA_CONTROLLER)
->> +
->> +/*
->> + * v4l2_pipeline_subdevs_get - Assemble a list of subdevices in a pipeline
->> + * @subdevs: the array to be filled.
->> + * @max_size: max number of elements that can fit in subdevs array.
->> + *
->> + * Walk from a video node, following links from sink to source and fill the
->> + * array with subdevices in the path.
->> + * The walker performs a depth-first traversal, which means that, in a topology
->> + * sd1->sd2->sd3->vdev, sd1 will be the first element placed in the array.
->> + *
->> + * Return the number of subdevices filled in the array.
->> + */
->> +static int v4l2_pipeline_subdevs_get(struct video_device *vdev,
->> +                     struct media_pipeline *pipe,
->> +                     struct v4l2_subdev **subdevs,
->> +                     unsigned int max_size)
->> +{
->> +    struct media_entity *entity = &vdev->entity;
->> +    struct media_device *mdev = entity->graph_obj.mdev;
->> +    int idx = 0;
->> +    int ret;
->> +
->> +    mutex_lock(&mdev->graph_mutex);
->> +
->> +    if (!pipe->streaming_count) {
->> +        ret = media_graph_walk_init(&pipe->graph, mdev);
->> +        if (ret) {
->> +            mutex_unlock(&mdev->graph_mutex);
->> +            return ret;
->> +        }
->> +    }
->> +
->> +    media_graph_walk_start(&pipe->graph, entity);
->> +
->> +    while ((entity = media_graph_walk_next_stream(&pipe->graph))) {
->> +        if (!is_media_entity_v4l2_subdev(entity))
->> +            continue;
->> +        if (WARN_ON(idx >= max_size)) {
->> +            mutex_unlock(&mdev->graph_mutex);
->> +            return -EINVAL;
->> +        }
->> +        subdevs[idx++] = media_entity_to_v4l2_subdev(entity);
->> +    }
->> +
->> +    if (!pipe->streaming_count)
->> +        media_graph_walk_cleanup(&pipe->graph);
->> +
->> +    mutex_unlock(&mdev->graph_mutex);
->> +
->> +    return idx;
->> +}
->> +
->> +__must_check int v4l2_pipeline_stream_enable(struct video_device *vdev,
->> +                         struct media_pipeline *pipe)
->> +{
->> +    struct media_device *mdev = vdev->entity.graph_obj.mdev;
->> +    struct v4l2_subdev *subdevs[MEDIA_ENTITY_ENUM_MAX_DEPTH];
->> +    struct v4l2_subdev *sd;
->> +    int i, size, ret;
->> +
->> +    size = v4l2_pipeline_subdevs_get(vdev, pipe,
->> +                     subdevs, ARRAY_SIZE(subdevs));
->> +    if (size <= 0)
->> +        return size;
->> +
->> +    /* Call s_stream() in reverse order to enable sensors last */
->> +    for (i = size - 1; i >= 0; i--) {
->> +        sd = subdevs[i];
->> +        if (sd->stream_count++)
->> +            continue;
->> +        dev_dbg(mdev->dev,
->> +            "enabling stream for '%s'\n", sd->entity.name);
->> +        ret = v4l2_subdev_call(sd, video, s_stream, true);
->> +        if (ret && ret != -ENOIOCTLCMD) {
->> +            sd->stream_count = 0;
->> +            goto err_stream_disable;
->> +        }
->> +    }
->> +
->> +    return 0;
->> +
->> +err_stream_disable:
->> +    for (i++; i < size; i++) {
->> +        sd = subdevs[i];
->> +        if (--sd->stream_count)
->> +            continue;
->> +        dev_dbg(mdev->dev,
->> +            "disabling stream for '%s'\n", sd->entity.name);
->> +        v4l2_subdev_call(sd, video, s_stream, false);
->> +    };
->> +
->> +    return ret;
->> +}
->> +EXPORT_SYMBOL_GPL(v4l2_pipeline_stream_enable);
->> +
->> +void v4l2_pipeline_stream_disable(struct video_device *vdev,
->> +                  struct media_pipeline *pipe)
->> +{
->> +    struct media_device *mdev = vdev->entity.graph_obj.mdev;
->> +    struct v4l2_subdev *subdevs[MEDIA_ENTITY_ENUM_MAX_DEPTH];
->> +    unsigned int i;
->> +    int size;
->> +
->> +    size = v4l2_pipeline_subdevs_get(vdev, pipe,
->> +                     subdevs, ARRAY_SIZE(subdevs));
->> +    if (WARN_ON(size < 0))
->> +        return;
->> +
->> +    /* Call s_stream() in order to disable sensors first */
->> +    for (i = 0; i < size; i++) {
->> +        struct v4l2_subdev *sd = subdevs[i];
->> +
->> +        if (--sd->stream_count)
->> +            continue;
->> +        dev_dbg(mdev->dev,
->> +            "disabling stream for '%s'\n", sd->entity.name);
->> +        v4l2_subdev_call(sd, video, s_stream, false);
->> +    }
->> +}
->> +EXPORT_SYMBOL_GPL(v4l2_pipeline_stream_disable);
->> +
->> +#endif /* CONFIG_MEDIA_CONTROLLER */
->> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
->> index 150ee16ebd811..dc46812120cdc 100644
->> --- a/include/media/v4l2-common.h
->> +++ b/include/media/v4l2-common.h
->> @@ -539,4 +539,47 @@ static inline void v4l2_buffer_set_timestamp(struct v4l2_buffer *buf,
->>       buf->timestamp.tv_usec = ts.tv_nsec / NSEC_PER_USEC;
->>   }
->>   +#if defined(CONFIG_MEDIA_CONTROLLER)
->> +
->> +/**
->> + * v4l2_pipeline_stream_enable - Call .s_stream(true) callbacks in the stream
->> + * @vdev: Starting video device.
->> + * @pipe: Pipeline this entity belongs to.
->> + *
->> + * Call .s_stream(true) callback in all the subdevices participating in the
->> + * stream, i.e. following links from sink to source.
->> + *
->> + * .s_stream(true) is also called from sink to source, i.e. in a topology
->> + * sd1->sd2->sd3->vdev, .s_stream(true) of sd3 is called first.
->> + *
->> + * Calls to this function can be nested, in which case the same number of
->> + * v4l2_pipeline_stream_disable() calls will be required to disable streaming
->> + * through subdevices in the pipeline.
->> + * The  pipeline pointer must be identical for all nested calls to
->> + * v4l2_pipeline_stream_enable().
->> + */
->> +__must_check int v4l2_pipeline_stream_enable(struct video_device *vdev,
->> +                         struct media_pipeline *pipe);
->> +
->> +/**
->> + * v4l2_pipeline_stream_disable - Call .s_stream(false) callbacks in the stream
->> + * @vdev: Starting video device.
->> + * @pipe: Pipeline this entity belongs to.
->> + *
->> + * Call .s_stream(false) callback in all the subdevices participating in the
->> + * stream, i.e. following links from sink to source.
->> + *
->> + * s_stream(false) is called in a reverse order from
->> + * v4l2_pipeline_stream_enable(), i.e. in a topology sd1->sd2->sd3->vdev,
->> + * .s_stream(false) of sd1 is called first.
->> + *
->> + * If multiple calls to v4l2_pipeline_stream_enable() have been made, the same
->> + * number of calls to this function are required to disable streaming through
->> + * subdevices in the pipeline.
->> + */
->> +void v4l2_pipeline_stream_disable(struct video_device *vdev,
->> +                  struct media_pipeline *pipe);
->> +
->> +#endif /* CONFIG_MEDIA_CONTROLLER */
->> +
->>   #endif /* V4L2_COMMON_H_ */
->> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->> index a4848de598521..20f913a9f70c5 100644
->> --- a/include/media/v4l2-subdev.h
->> +++ b/include/media/v4l2-subdev.h
->> @@ -838,6 +838,7 @@ struct v4l2_subdev_platform_data {
->>    * @subdev_notifier: A sub-device notifier implicitly registered for the sub-
->>    *             device using v4l2_device_register_sensor_subdev().
->>    * @pdata: common part of subdevice platform data
->> + * @stream_count: Stream count for the subdevice.
->>    *
->>    * Each instance of a subdev driver should create this struct, either
->>    * stand-alone or embedded in a larger struct.
->> @@ -869,6 +870,7 @@ struct v4l2_subdev {
->>       struct v4l2_async_notifier *notifier;
->>       struct v4l2_async_notifier *subdev_notifier;
->>       struct v4l2_subdev_platform_data *pdata;
->> +    unsigned int stream_count;
-> I wonder if it is worth it to add a new field to v4l2_subdev that is used only
-> for the specific case, it seems that except of rkisp1 and vimc, the other drivers you pointed to that
-> could use the helpers don't need this counter and they call s_stream without checking if it was already called.
-> This counter is updated only by the new introduced functions and not when s_stream is called from other places.
+Warning in current branch:
 
-Other drivers implement their own loop that navigates through the pipeline calling .s_stream().
-They are very similar. The only difference from rkisp1/vimc is that they don't support simultaneous streaming from different
-capture nodes.
+drivers/staging/media/atomisp/pci/sh_css_firmware.h:41:38: warning: 'struct device' declared inside parameter list will not be visible outside of this definition or declaration
 
-Also, drivers usually don't handle errors very well, in cases of failures where .s_stream() should be called in reversed order.
+Warning ids grouped by kconfigs:
 
-Adding this counter + helpers allows a common generic implementation that can be used for both cases.
-So we re-use a code that should be well tested in the core and avoid re-implementing it.
+recent_errors
+`-- i386-allyesconfig
+    `-- drivers-staging-media-atomisp-pci-sh_css_firmware.h:warning:struct-device-declared-inside-parameter-list-will-not-be-visible-outside-of-this-definition-or-declaration
 
-> Maybe we can add a helper that just return the next subdevice connected to the current entity as a source, and drivers can
-> iterate it and can decide themselves if s_stream should be called or not
+elapsed time: 1401m
 
-Patch 1/4 in the series provides this iterator :)
-Unless if you think we could add helpers to make things easier.
+configs tested: 118
+configs skipped: 2
 
-Regards,
-Helen
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-> 
-> Thanks,
-> Dafna
-> 
->>   };
->>    
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+m68k                             allyesconfig
+sparc                            allyesconfig
+mips                             allyesconfig
+arm                         shannon_defconfig
+arm                            zeus_defconfig
+riscv                            alldefconfig
+arm                        multi_v5_defconfig
+microblaze                      mmu_defconfig
+arm                     eseries_pxa_defconfig
+riscv                    nommu_virt_defconfig
+powerpc                     mpc83xx_defconfig
+arm                          imote2_defconfig
+powerpc                         ps3_defconfig
+sh                          r7780mp_defconfig
+arm                           sama5_defconfig
+sh                           se7712_defconfig
+arm                          iop32x_defconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+i386                              debian-10.3
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                              allnoconfig
+m68k                           sun3_defconfig
+m68k                                defconfig
+nios2                               defconfig
+nios2                            allyesconfig
+openrisc                            defconfig
+c6x                              allyesconfig
+c6x                               allnoconfig
+openrisc                         allyesconfig
+nds32                               defconfig
+nds32                             allnoconfig
+csky                             allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+h8300                            allmodconfig
+xtensa                              defconfig
+arc                                 defconfig
+arc                              allyesconfig
+sh                               allmodconfig
+sh                                allnoconfig
+microblaze                        allnoconfig
+mips                              allnoconfig
+mips                             allmodconfig
+parisc                            allnoconfig
+parisc                              defconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+powerpc                          allyesconfig
+powerpc                          rhel-kconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+i386                 randconfig-a001-20200520
+i386                 randconfig-a004-20200520
+i386                 randconfig-a006-20200520
+i386                 randconfig-a003-20200520
+i386                 randconfig-a002-20200520
+i386                 randconfig-a005-20200520
+x86_64               randconfig-a013-20200520
+x86_64               randconfig-a015-20200520
+x86_64               randconfig-a016-20200520
+x86_64               randconfig-a012-20200520
+x86_64               randconfig-a014-20200520
+x86_64               randconfig-a011-20200520
+i386                 randconfig-a013-20200521
+i386                 randconfig-a012-20200521
+i386                 randconfig-a015-20200521
+i386                 randconfig-a011-20200521
+i386                 randconfig-a016-20200521
+i386                 randconfig-a014-20200521
+i386                 randconfig-a013-20200520
+i386                 randconfig-a012-20200520
+i386                 randconfig-a015-20200520
+i386                 randconfig-a011-20200520
+i386                 randconfig-a016-20200520
+i386                 randconfig-a014-20200520
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             allmodconfig
+s390                                defconfig
+x86_64                              defconfig
+sparc                               defconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+um                                allnoconfig
+um                                  defconfig
+um                               allmodconfig
+um                               allyesconfig
+x86_64                                   rhel
+x86_64                               rhel-7.6
+x86_64                    rhel-7.6-kselftests
+x86_64                         rhel-7.2-clear
+x86_64                                    lkp
+x86_64                              fedora-25
+x86_64                                  kexec
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
