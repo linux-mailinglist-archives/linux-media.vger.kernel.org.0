@@ -2,101 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C0631DCC76
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 13:56:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F6641DCC7E
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 13:59:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729135AbgEUL42 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 07:56:28 -0400
-Received: from mail.zju.edu.cn ([61.164.42.155]:11258 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729002AbgEUL42 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 07:56:28 -0400
-Received: from localhost.localdomain (unknown [222.205.77.158])
-        by mail-app4 (Coremail) with SMTP id cS_KCgA3jwlYbMZeX4LtAQ--.44757S4;
-        Thu, 21 May 2020 19:56:13 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: camss: vfe: Fix runtime PM imbalance on error
-Date:   Thu, 21 May 2020 19:56:07 +0800
-Message-Id: <20200521115607.32733-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cS_KCgA3jwlYbMZeX4LtAQ--.44757S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWkur1fury5tFWrJFWUJwb_yoW8Xw4rpr
-        40q3s3Cr1xXrWjqw1Utr1Duas5G393tasrKrWYk3WfAws5CF97GF48KFyFqFWjkrWIy3W7
-        Ja17Xa43ZF1Y9FJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUvS1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
-        Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r10
-        6r15McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
-        vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8KwCF04k20xvY0x0EwIxG
-        rwCF04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
-        Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q
-        6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
-        kF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv
-        67AKxVW8JVWxJwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43
-        ZEXa7VUbjYLPUUUUU==
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0HBlZdtOPdcwACs+
+        id S1729139AbgEUL7G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 07:59:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59634 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729002AbgEUL7F (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 21 May 2020 07:59:05 -0400
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BB18C061A0E
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 04:59:05 -0700 (PDT)
+Received: by mail-ed1-x52d.google.com with SMTP id g9so6467066edw.10
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 04:59:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20161025;
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=/0cSOqQOtATxbOaNPAOcfsLwxJ0O4gpdXivQ0WydxDQ=;
+        b=gM9beF8q53GmO58wKHizsfjZmg9Odme6gdeor0lzQRw6rDgtzYQRL+J4PU6txydjlK
+         hrrXZkRdXTH97VDhRC/UYelCuX9RpdTGg5/BD5G2h5JxaGYWt7+qPtocwHiZXAbuBq5b
+         /P2gYfTs2cPB4a+rqQIm3n/i967eWgQ/Kbf3wBagipBACzelQUZCpAxkzLN2ho1uXjYD
+         Lm/n7TY5+pYh7Plx3b2X+9kI1fTAgxnBe1XPSbicxklvLej9YdWDEPEm24m+egbRhtWA
+         nv0T8abDTALGIg7xgvwRm8aWMjbX7vByRl0NxNwE7ycpj+vp9MCEzlQxTxs7EmR83n7F
+         WSkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=/0cSOqQOtATxbOaNPAOcfsLwxJ0O4gpdXivQ0WydxDQ=;
+        b=k4MAMnhYCWCkpjEhu70mk+2ozmU5SXD/NWZ+tXt50QoRb8XFmWuiU4kSc5YqgyvTI0
+         tIiXiEpHwxNVWSIYgi2BGiNS3CkkYhYeaiWYsqSuEnh+yUZw9m/O5edQgaI28RJ+RU7Y
+         liiicFJyrQ3/HSyIANi7WL5CKgYNTKTZyQ7QjHlNit/0QWdFzcVLbzrP2jFq7BFq7ufP
+         4MBf9l5daHiO0nRBJAxUGve3AIthNUnqNiHroVRvfdlvFpm+Wjf0PRpS0dCUt3S6XGus
+         sfxk3ZMw4n5FaTHd8rmHJIua9b/SyNCU8sTU+VsNRywNL9fPETRwSAQL7+sLo7St/Dc0
+         hgdg==
+X-Gm-Message-State: AOAM530ycMkihHHowVAPPUuKCFhfOtFG2asEi2dYIWQrXMNxk46YodYA
+        eZeKO6aOrg2sQ7N8iBOOHio3ob/+
+X-Google-Smtp-Source: ABdhPJzGi1zt/Njf93LI0+aFxidQjT1I8zbt7v32jXQD8Fhoq4RKcT3D9ULWEwCPiABrlLzVdn2wwA==
+X-Received: by 2002:aa7:d312:: with SMTP id p18mr4674124edq.88.1590062344106;
+        Thu, 21 May 2020 04:59:04 -0700 (PDT)
+Received: from ?IPv6:2a02:810a:8300:1c48:e13e:e99:f3a2:acc4? ([2a02:810a:8300:1c48:e13e:e99:f3a2:acc4])
+        by smtp.gmail.com with ESMTPSA id m2sm4740746ejb.33.2020.05.21.04.59.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 May 2020 04:59:03 -0700 (PDT)
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+From:   Gregor Jasny <gjasny@googlemail.com>
+Subject: v4l-utils: how to solve troff warning: "cannot adjust line"
+Message-ID: <aafd4840-a7c5-558f-7bf9-fe56c95e7bb8@googlemail.com>
+Date:   Thu, 21 May 2020 13:59:02 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.8.0
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-pm_runtime_get_sync() increments the runtime PM usage counter even
-when it returns an error code. Thus a pairing decrement is needed on
-the error handling path to keep the counter balanced.
+Hello,
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
- drivers/media/platform/qcom/camss/camss-vfe.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+while packaging v4l-utils 1.20 I noticed the lintian warning about the 
+cec-ctl.1 manpage. It is easily reproduced by calling:
 
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index a8c542fa647d..fc31c2c169cd 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -1265,12 +1265,12 @@ static int vfe_get(struct vfe_device *vfe)
- 
- 		ret = vfe_set_clock_rates(vfe);
- 		if (ret < 0)
--			goto error_clocks;
-+			goto error_pm_runtime_get;
- 
- 		ret = camss_enable_clocks(vfe->nclocks, vfe->clock,
- 					  vfe->camss->dev);
- 		if (ret < 0)
--			goto error_clocks;
-+			goto error_pm_runtime_get;
- 
- 		ret = vfe_reset(vfe);
- 		if (ret < 0)
-@@ -1282,7 +1282,7 @@ static int vfe_get(struct vfe_device *vfe)
- 	} else {
- 		ret = vfe_check_clock_rates(vfe);
- 		if (ret < 0)
--			goto error_clocks;
-+			goto error_pm_runtime_get;
- 	}
- 	vfe->power_count++;
- 
-@@ -1293,10 +1293,8 @@ static int vfe_get(struct vfe_device *vfe)
- error_reset:
- 	camss_disable_clocks(vfe->nclocks, vfe->clock);
- 
--error_clocks:
--	pm_runtime_put_sync(vfe->camss->dev);
--
- error_pm_runtime_get:
-+	pm_runtime_put_sync(vfe->camss->dev);
- 	camss_pm_domain_off(vfe->camss, vfe->id);
- 
- error_pm_domain:
--- 
-2.17.1
+LC_ALL=en_US.UTF-8 MANROFFSEQ='' MANWIDTH=80 man --warnings -E UTF-8 -l 
+-Tutf8 -Z cec-ctl.1 >/dev/null
+troff: <standard input>:264: warning [p 5, 0.5i, div 'an-div', 0.2i]: 
+cannot adjust line
 
+It is caused by this overlong command-line options line:
+https://git.linuxtv.org/v4l-utils.git/tree/utils/cec-ctl/cec-ctl.1.in?id=ae8dd398baf927bc5bc18abd1677a5c4e118034e#n264
+
+Does anyone have an idea how to fix this error (while staying 
+syntactivally correct)? I tried adding zero-width break points with \: 
+but the warning did not vanish.
+
+Thanks,
+Gregor
