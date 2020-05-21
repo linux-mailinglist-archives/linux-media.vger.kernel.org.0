@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A299E1DD24A
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 17:50:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DA971DD29E
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 18:01:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727098AbgEUPuD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 11:50:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39324 "EHLO
+        id S1728679AbgEUQAv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 12:00:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726814AbgEUPuC (ORCPT
+        with ESMTP id S1728432AbgEUQAu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 11:50:02 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA1CC05BD43
-        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 08:50:02 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id l17so7141035wrr.4
-        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 08:50:02 -0700 (PDT)
+        Thu, 21 May 2020 12:00:50 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 912C9C061A0F
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 09:00:50 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id v19so200122wmj.0
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 09:00:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=I5QXaX52IPaG+95gPfmlZ0rD63JTAUJslTJmrnwNjQc=;
-        b=ID1dvrYmYK5R1R7a0Cw6H9ckAbwIgzD1jEh8cLijWGS6z4cOVQD8npfgacuW3YzbTR
-         6p53ASb2F8xqyBMI8KhptHeaQt1pyG6j16NzI19RwIF22j7IKpB1vdhv2vKICxvPmIGS
-         L9IwRDjpD8PgKAcggZu7EgMhLsHQK5hYnPirU=
+        bh=l1/7oVopGR8ZQd6NaIEuCXZDCOqHLrR/3N7LZWtpNqA=;
+        b=GeTX2t72tcZNw5Q1Vq3bxOOwmr927HcyIkpXvBpKk0ZxuhWAwrGZ2fRvHtBA+vCd0a
+         shiz7RMixnasTu8+CYC9VSFQPu/XFvPZUYSqT+77V10ReU/ZVMLAWMEwJi0ovuk6Cshd
+         DWBNncRW5nBLTOcjfC9jlB3vujEzgdkgNY/1Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=I5QXaX52IPaG+95gPfmlZ0rD63JTAUJslTJmrnwNjQc=;
-        b=ulojXbYU1JOcfpI2fZ5gbrDgcUdrByEN2AxvZOoYp+eD8tpwK08XTP4SV+9RdaE5nV
-         WRSXNa8/1/cfzR54KdTCu5IcCaGrpaeL3g2tDVZy20sHPfIbE2oZkZfMJt+0Lc0ZjlIc
-         U3u6upG4fcmyL7Pq6VV2C8QWpb2MRMbOfl299oJbY8MkIqPOltxn/BTJTni6nqAnW6wv
-         wrRDJPn9D6x/lzdH+7TFHNHgZzCVJkWN56T2G2bTDtas0VpV/x9scm1cx7lr4QfHLQYp
-         jr8TiuwAfb76zrnKthr3ba7VWx4PeE+uUmJEELox8KAqYl0oNYyOIpMpF6OXd4KeuEZI
-         camQ==
-X-Gm-Message-State: AOAM531mFhqDuX2dE8nd/0j7QGf6YLPAn4/pNCmbabRQMLkU0xT9Y0tU
-        OrmzugnyGzQ1x2+9tJ+kjOSmNg==
-X-Google-Smtp-Source: ABdhPJw5KfY6ZCQuAckjsE5E7cfiDb7ScpWMpUV7bgUyKbpKFR20CCu1lyQfVtv8YMw85K8xToqg9w==
-X-Received: by 2002:adf:ec87:: with SMTP id z7mr9942589wrn.149.1590076200716;
-        Thu, 21 May 2020 08:50:00 -0700 (PDT)
+        bh=l1/7oVopGR8ZQd6NaIEuCXZDCOqHLrR/3N7LZWtpNqA=;
+        b=kXDDJpudbJnWdvEo/te1EQ8ZqVQrpd9kmyVNSJ2M8a3TX+arO0pax3Gm6eWrHub3FD
+         6Hk1ZHTzPMYnZe7PUkUxMH3XmCC60RUCDTL0JhpezfXpSHnD/U+NuBnO9w7teSYEl4J1
+         ptlMhiOslTIzsoJGc+9QpSyIfZ6zD9Puhxp7MYcJJG2Ogg3o+nsPQD+q3Hlmith2wXpL
+         TsSaKsIicS0ziQASCXmUbjEpSW6E/d1qKHmIZV4GJMzam8DePu04KVLZ+Z3KFwMrtsKJ
+         dCX1zde3vfztf3WgWuZOIgxwRb2TnfHxFDYppeIPTTAykrUsKrmpbdKq22iIu3iy4O9x
+         QKzw==
+X-Gm-Message-State: AOAM533OxaV8K/QptkKYNyLl6taOVvQfzhMuNb/DaM08+6bVsGwk7/qj
+        ur2dn4te9OzhV+/+EUZtmz64/A==
+X-Google-Smtp-Source: ABdhPJwBbbkzQM0pkq+XJy1eUeL/VqXKXEJpvr6yzQ+SOqXN0RpdIlsOxlmRNdPbmgSFjRlsFB6ApA==
+X-Received: by 2002:a7b:c3da:: with SMTP id t26mr8868032wmj.146.1590076848935;
+        Thu, 21 May 2020 09:00:48 -0700 (PDT)
 Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id r3sm6663037wmh.48.2020.05.21.08.50.00
+        by smtp.gmail.com with ESMTPSA id y207sm7661823wmd.7.2020.05.21.09.00.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2020 08:50:00 -0700 (PDT)
-Date:   Thu, 21 May 2020 15:49:58 +0000
+        Thu, 21 May 2020 09:00:48 -0700 (PDT)
+Date:   Thu, 21 May 2020 16:00:46 +0000
 From:   Tomasz Figa <tfiga@chromium.org>
 To:     Xia Jiang <xia.jiang@mediatek.com>
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -59,16 +59,17 @@ Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
         srv_heupstream@mediatek.com, senozhatsky@chromium.org,
         mojahsu@chromium.org, drinkcat@chromium.org,
-        maoguang.meng@mediatek.com, sj.huang@mediatek.com
-Subject: Re: [PATCH v8 10/14] media: platform: Delete redundant code for
- improving code quality
-Message-ID: <20200521154958.GI209565@chromium.org>
+        maoguang.meng@mediatek.com, sj.huang@mediatek.com,
+        yong.wu@mediatek.com
+Subject: Re: [PATCH v8 11/14] media: dt-bindings: Add jpeg enc device tree
+ node document
+Message-ID: <20200521160046.GJ209565@chromium.org>
 References: <20200403094033.8288-1-xia.jiang@mediatek.com>
- <20200403094033.8288-11-xia.jiang@mediatek.com>
+ <20200403094033.8288-12-xia.jiang@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200403094033.8288-11-xia.jiang@mediatek.com>
+In-Reply-To: <20200403094033.8288-12-xia.jiang@mediatek.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -76,96 +77,90 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Xia,
 
-On Fri, Apr 03, 2020 at 05:40:29PM +0800, Xia Jiang wrote:
-> Delete unused member variables annotation.
-> Delete unused variable definition.
-> Delete redundant log print, because V4L2 debug logs already print it.
+On Fri, Apr 03, 2020 at 05:40:30PM +0800, Xia Jiang wrote:
+> Add jpeg enc device tree node document
 > 
+> Reviewed-by: Rob Herring <robh@kernel.org>
 > Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
 > ---
 > v8: no changes
+> 
+> v7: no changes
+> 
+> v6: no changes
+> 
+> v5: no changes
+> 
+> v4: no changes
+> 
+> v3: change compatible to SoC specific compatible
+> 
+> v2: no changes
 > ---
->  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 16 ++--------------
->  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h |  5 +++--
->  2 files changed, 5 insertions(+), 16 deletions(-)
+>  .../bindings/media/mediatek-jpeg-encoder.txt  | 37 +++++++++++++++++++
+>  1 file changed, 37 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
 > 
 
 Thank you for the patch. Please see my comments inline.
 
-> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-> index 4e64046a6854..9e59b9a51ef0 100644
-> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-> @@ -182,7 +182,6 @@ static int mtk_jpeg_try_fmt_mplane(struct v4l2_format *f,
->  				   struct mtk_jpeg_ctx *ctx, int q_type)
->  {
->  	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
-> -	struct mtk_jpeg_dev *jpeg = ctx->jpeg;
->  	int i;
->  
->  	memset(pix_mp->reserved, 0, sizeof(pix_mp->reserved));
-> @@ -190,7 +189,7 @@ static int mtk_jpeg_try_fmt_mplane(struct v4l2_format *f,
->  
->  	if (ctx->state != MTK_JPEG_INIT) {
->  		mtk_jpeg_adjust_fmt_mplane(ctx, f);
-> -		goto end;
-> +		return 0;
->  	}
->  
->  	pix_mp->num_planes = fmt->colplanes;
-> @@ -210,7 +209,7 @@ static int mtk_jpeg_try_fmt_mplane(struct v4l2_format *f,
->  		pfmt->sizeimage = round_up(pfmt->sizeimage, 128);
->  		if (pfmt->sizeimage == 0)
->  			pfmt->sizeimage = MTK_JPEG_DEFAULT_SIZEIMAGE;
-> -		goto end;
-> +		return 0;
->  	}
->  
->  	/* type is MTK_JPEG_FMT_TYPE_CAPTURE */
-> @@ -224,20 +223,9 @@ static int mtk_jpeg_try_fmt_mplane(struct v4l2_format *f,
->  		u32 stride = pix_mp->width * fmt->h_sample[i] / 4;
->  		u32 h = pix_mp->height * fmt->v_sample[i] / 4;
->  
-> -		memset(pfmt->reserved, 0, sizeof(pfmt->reserved));
+> diff --git a/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt b/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
+> new file mode 100644
+> index 000000000000..fa8da699493b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek-jpeg-encoder.txt
+> @@ -0,0 +1,37 @@
+> +* MediaTek JPEG Encoder
+> +
+> +MediaTek JPEG Encoder is the JPEG encode hardware present in MediaTek SoCs
+> +
+> +Required properties:
+> +- compatible : should be one of:
+> +               "mediatek,mt2701-jpgenc"
+> +               ...
 
-This change is not mentioned in the description. I'd suggest moving it
-to a separate patch, because it's a functional change.
+What does this "..." mean?
 
->  		pfmt->bytesperline = stride;
->  		pfmt->sizeimage = stride * h;
->  	}
-> -end:
-> -	v4l2_dbg(2, debug, &jpeg->v4l2_dev, "wxh:%ux%u\n",
-> -		 pix_mp->width, pix_mp->height);
-> -	for (i = 0; i < pix_mp->num_planes; i++) {
-> -		v4l2_dbg(2, debug, &jpeg->v4l2_dev,
-> -			 "plane[%d] bpl=%u, size=%u\n",
-> -			 i,
-> -			 pix_mp->plane_fmt[i].bytesperline,
-> -			 pix_mp->plane_fmt[i].sizeimage);
-> -	}
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
-> index 64a731261214..9bbd615b1067 100644
-> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
-> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
-> @@ -30,6 +30,9 @@
->  
->  #define MTK_JPEG_DEFAULT_SIZEIMAGE	(1 * 1024 * 1024)
->  
-> +/**
-> + * enum mtk_jpeg_ctx_state - contex state of jpeg
+> +               followed by "mediatek,mtk-jpgenc"
+> +- reg : physical base address of the JPEG encoder registers and length of
+> +  memory mapped region.
+> +- interrupts : interrupt number to the interrupt controller.
+> +- clocks: device clocks, see
+> +  Documentation/devicetree/bindings/clock/clock-bindings.txt for details.
+> +- clock-names: must contain "jpgenc". It is the clock of JPEG encoder.
 
-typo: s/contex/context/
+nit: In principle the clocks should be named after the function the clock
+performs on the consumer side, i.e. the JPEG block in this case, I guess
+here it's just a generic clock that does everything, but I guess it comes
+from somewhere. Is it the AHB clock or something? In that case it would
+normally be called "ahb".
 
-But I'd rephrase it to "states of the context state machine".
+> +- power-domains: a phandle to the power domain, see
+> +  Documentation/devicetree/bindings/power/power_domain.txt for details.
+> +- mediatek,larb: must contain the local arbiters in the current SoCs, see
+> +  Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb.txt
+> +  for details.
 
-> + */
+I believe this isn't necessary anymore, because larbs are added
+automatically by the MTK IOMMU driver using device links. +CC Yong who
+worked on that.
 
-Not mentioned in the description. Also, the documentation of an enum
-should have descriptions for the values.
+> +- iommus: should point to the respective IOMMU block with master port as
+> +  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.txt
+> +  for details.
+> +
+> +Example:
+> +	jpegenc: jpegenc@1500a000 {
+> +		compatible = "mediatek,mt2701-jpgenc",
+> +			     "mediatek,mtk-jpgenc";
+> +		reg = <0 0x1500a000 0 0x1000>;
+> +		interrupts = <GIC_SPI 141 IRQ_TYPE_LEVEL_LOW>;
+> +		clocks =  <&imgsys CLK_IMG_VENC>;
+> +		clock-names = "jpgenc";
+> +		power-domains = <&scpsys MT2701_POWER_DOMAIN_ISP>;
+> +		mediatek,larb = <&larb2>;
+
+Ditto.
 
 Best regards,
 Tomasz
