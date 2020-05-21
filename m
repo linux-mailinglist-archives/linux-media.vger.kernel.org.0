@@ -2,91 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C65361DCC03
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 13:22:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 535C81DCC1F
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 13:30:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729010AbgEULV6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 07:21:58 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:53948 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728887AbgEULV6 (ORCPT
+        id S1728999AbgEULa1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 07:30:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55208 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728348AbgEULa1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 07:21:58 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04LBLoa1142341;
-        Thu, 21 May 2020 11:21:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=zDxy18VJXMKyiEMNyaTfSbB5Ym8PfYq9SfswI99nuIA=;
- b=c8xNMDVGL5RMNeM39+tJAoMXk61kOfDm6zMxA/j0tZsCRqNUtiMH6D2UTI9ClNeGryYv
- k9YoOQB7CerLJnfoiPsdAn0gfS5pG8zYqIr5EUlbi5ueeL/dHlp/GBwETFklSIfV9pJ+
- dbu+meo1r0gD7QeJ5pA+ASByn/dZnCJRWBpnSPhrLsA0/Gf/4AHwlJVzJZIpEYyeUXY1
- 4lFat/mZ6aE9ZhVmXAjJRU+qLrhKcnBw7lrDLYtwIQ8xE/jRI8vY6ldQVO8pZYRaipKY
- HHlIb94xydQH35jtGhh84yHPN1QgaYEamAg/3Na9Wkt1POoN2dOeBmSNIw7o+pxHcB0I iQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 31284m7y7h-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 21 May 2020 11:21:50 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04LBDFVv176434;
-        Thu, 21 May 2020 11:21:46 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3020.oracle.com with ESMTP id 3150226mmf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 21 May 2020 11:21:46 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 04LBLdYS005721;
-        Thu, 21 May 2020 11:21:39 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 21 May 2020 04:21:39 -0700
-Date:   Thu, 21 May 2020 14:21:31 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
-Cc:     kjlu@umn.edu, devel@driverdev.osuosl.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-kernel@vger.kernel.org,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] [v2] media: staging: tegra-vde: fix runtime pm imbalance
- on error
-Message-ID: <20200521112131.GG30374@kadam>
-References: <20200521062746.6656-1-dinghao.liu@zju.edu.cn>
+        Thu, 21 May 2020 07:30:27 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 019A2C061A0E;
+        Thu, 21 May 2020 04:30:27 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id f13so6849383qkh.2;
+        Thu, 21 May 2020 04:30:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=mVnGuA/c41po031/Zyo9z05iki6LpXCl3bw26UlV5Og=;
+        b=MqYN+vMiHTEaW4UwLRy16WRoYfu+LJ4pOncpItD4O1GRnxH8TmktN6T6b2PcHxyEwB
+         /Ls2IApWVfXgN0RNquNulhQ49MIzfMO2KbQlpew/gmesTLhSAFACIhd9NN5hvF8aTXrJ
+         9dGZyhMELfyMK2fbiMTxbSKpZ8EVlDN75FSZjN4lYOI29EfHTi0l6te+3DGNqlishUcI
+         ufFCYzDFtCRCTDhyOG4tSbItgT3oIdpuWbG9YF8aGWnFAtPl3K8qizsCVOk3/weuXndt
+         nd8yUP/5mHGC7HDR1cjV9fJCWbl4EUH4bqfDeIq+Fhmmrdj99nMfB4lAH2i7rVf5TT9v
+         sLsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=mVnGuA/c41po031/Zyo9z05iki6LpXCl3bw26UlV5Og=;
+        b=W2kAtqGW2dRvsLrZ0jB1slglZmphugBxcwgen9anGSLCNPfDVIUBHfC2UYhJ+N252B
+         /W6F8ARcrA4faoPcu6g7AY/AvmLE3fqldPf4bUok9BfIOXAtz9si2FPL7M5u93niK+uB
+         dXC153ZY5f9wXgadiPtymO96gz9HSUTtBDrmtw8x0Yy3ztPFw5clEr1Eb2upYPjITeLb
+         3ihghww8oaZBdBZYxm9ekfBvxFSQMhfLKP6N0vGaqKGu/Yw+avKluR67CyVwMGUekZ/F
+         g3KfGUqMV/QWXes5/p9XnezHdjiqphHn7OrDqyxHS2SXqGxVDeuZPYUnx0dnq13i+T4Y
+         funw==
+X-Gm-Message-State: AOAM533sY+DYAlODFV9ixHUVnvqpnU1wvoZy7s7rg6WUiqnamT9uZzbA
+        DuuqUS7Mg8tccPb+lLUOu+IVRxSBESN9T+Upt0U=
+X-Google-Smtp-Source: ABdhPJyt/PrPu0HyLCBNIAlcBPVwQP3EdSaZpX3l0+ThMZQ3Nc11G0djVdAg3aM+jm8BukBsG/8Iq0VgME50WXdM3Aw=
+X-Received: by 2002:a37:a50d:: with SMTP id o13mr9327701qke.121.1590060626064;
+ Thu, 21 May 2020 04:30:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200521062746.6656-1-dinghao.liu@zju.edu.cn>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9627 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 mlxscore=0 mlxlogscore=999
- adultscore=0 bulkscore=0 suspectscore=18 phishscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005210084
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9627 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=18 mlxscore=0
- cotscore=-2147483648 impostorscore=0 malwarescore=0 mlxlogscore=999
- lowpriorityscore=0 phishscore=0 spamscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 clxscore=1015 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2005210085
+References: <1589881301-4143-1-git-send-email-shengjiu.wang@nxp.com>
+ <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
+ <CAA+D8APhHvA39wmCayeCsAEKmOJ0n7qOQiT1tZmFHr4+yASgTw@mail.gmail.com>
+ <53258cd99caaf1199036737f8fad6cc097939567.camel@pengutronix.de>
+ <CAA+D8APAMRwtVneqFsuBgAhozmQo3R0AQi0bVdUCQO4Af4xVfw@mail.gmail.com> <20200520123850.GE4823@sirena.org.uk>
+In-Reply-To: <20200520123850.GE4823@sirena.org.uk>
+From:   Shengjiu Wang <shengjiu.wang@gmail.com>
+Date:   Thu, 21 May 2020 19:30:04 +0800
+Message-ID: <CAA+D8AOiVVi3B4dzU8r=rCMz=6w9R=wxBkzAQ=0=RAQLKCWy8Q@mail.gmail.com>
+Subject: Re: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in probe
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Lucas Stach <l.stach@pengutronix.de>,
+        Shengjiu Wang <shengjiu.wang@nxp.com>,
+        Timur Tabi <timur@kernel.org>,
+        Nicolin Chen <nicoleotsuka@gmail.com>,
+        Xiubo Li <Xiubo.Lee@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        Liam Girdwood <lgirdwood@gmail.com>, perex@perex.cz,
+        Takashi Iwai <tiwai@suse.com>, shawnguo@kernel.org,
+        s.hauer@pengutronix.de, kernel@pengutronix.de, linux-imx@nxp.com,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Linux-ALSA <alsa-devel@alsa-project.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 21, 2020 at 02:27:45PM +0800, Dinghao Liu wrote:
-> pm_runtime_get_sync() increments the runtime PM usage counter even
-> the call returns an error code. Thus a pairing decrement is needed
-> on the error handling path to keep the counter balanced.
-> 
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+On Wed, May 20, 2020 at 8:38 PM Mark Brown <broonie@kernel.org> wrote:
+>
+> On Wed, May 20, 2020 at 07:22:19PM +0800, Shengjiu Wang wrote:
+>
+> > I see some driver also request dma channel in open() or hw_params().
+> > how can they avoid the defer probe issue?
+> > for example=EF=BC=9A
+> > sound/arm/pxa2xx-pcm-lib.c
+> > sound/soc/sprd/sprd-pcm-dma.c
+>
+> Other drivers having problems means those drivers should be fixed, not
+> that we should copy the problems.  In the case of the PXA driver that's
+> very old code which predates deferred probe by I'd guess a decade.
 
-Let's stop working around the bug in pm_runtime_get_sync() and write
-a replacement for it instead.
+Thanks.
 
-regards,
-dan carpenter
+For the FE-BE case, do you have any suggestion for how fix it?
 
+With DMA1->ASRC->DMA2->ESAI case, the DMA1->ASRC->DMA2
+is in FE,  ESAI is in BE.  When ESAI drvier probe,  DMA3 channel is
+created with ESAI's "dma:tx" (DMA3 channel
+is not used in this FE-BE case).    When FE-BE startup, DMA2
+channel is created, it needs the ESAI's "dma:tx", so the warning
+comes out.
+
+best regards
+wang shengjiu
