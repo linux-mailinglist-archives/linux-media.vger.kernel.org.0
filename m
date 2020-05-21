@@ -2,77 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EA4AF1DCC9C
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 14:06:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5AD41DCCBF
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 14:22:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728043AbgEUMGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 08:06:41 -0400
-Received: from spam.zju.edu.cn ([61.164.42.155]:12008 "EHLO zju.edu.cn"
+        id S1729160AbgEUMWS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 08:22:18 -0400
+Received: from mail.zju.edu.cn ([61.164.42.155]:13300 "EHLO zju.edu.cn"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727905AbgEUMGl (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 08:06:41 -0400
-Received: from localhost.localdomain (unknown [222.205.77.158])
-        by mail-app2 (Coremail) with SMTP id by_KCgCXlTC9bsZeH1KdAQ--.33787S4;
-        Thu, 21 May 2020 20:06:25 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: camss: ispif: Fix runtime PM imbalance on error
-Date:   Thu, 21 May 2020 20:06:21 +0800
-Message-Id: <20200521120621.2658-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: by_KCgCXlTC9bsZeH1KdAQ--.33787S4
-X-Coremail-Antispam: 1UD129KBjvdXoWrKrW7ZFW3Gr18JF1xWF4UArb_yoWftFb_ur
-        s5XrWfXF4Ygr1vvr4Utw43urWIqaykZw18u3WftFWay3yjyFykGrykZr98ZrnxZw1jyF17
-        GFZ8ZFyfCr97ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbIAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
-        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
-        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_
-        JrylYx0Ex4A2jsIE14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
-        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6ryUMxAIw28IcxkI7VAKI48J
-        MxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
-        GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-        CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE
-        14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyT
-        uYvjfUeWlkDUUUU
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0HBlZdtOPdcwAEs4
+        id S1727969AbgEUMWS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 21 May 2020 08:22:18 -0400
+Received: by ajax-webmail-mail-app4 (Coremail) ; Thu, 21 May 2020 20:21:38
+ +0800 (GMT+08:00)
+X-Originating-IP: [222.205.77.158]
+Date:   Thu, 21 May 2020 20:21:38 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   dinghao.liu@zju.edu.cn
+To:     "Dan Carpenter" <dan.carpenter@oracle.com>
+Cc:     devel@driverdev.osuosl.org,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, kjlu@umn.edu,
+        linux-kernel@vger.kernel.org,
+        "Jonathan Hunter" <jonathanh@nvidia.com>,
+        "Thierry Reding" <thierry.reding@gmail.com>,
+        linux-tegra@vger.kernel.org, "Dmitry Osipenko" <digetx@gmail.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-pm@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: Re: Re: [PATCH] [v2] media: staging: tegra-vde: fix runtime pm
+ imbalance on error
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190906(84e8bf8f)
+ Copyright (c) 2002-2020 www.mailtech.cn zju.edu.cn
+In-Reply-To: <20200521120344.GH30374@kadam>
+References: <20200521062746.6656-1-dinghao.liu@zju.edu.cn>
+ <20200521112131.GG30374@kadam>
+ <4b400526.bbc83.172370b23a0.Coremail.dinghao.liu@zju.edu.cn>
+ <20200521120344.GH30374@kadam>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
+MIME-Version: 1.0
+Message-ID: <10fd55e1.bbe50.172372e9216.Coremail.dinghao.liu@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cS_KCgBHf3hScsZeyebtAQ--.38289W
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0HBlZdtOPdcwAIs0
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJTRUUUbK0S07vEb7Iv0x
+        C_Cr1lV2xY67kC6x804xWlV2xY67CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DMIAI
+        bVAFxVCF77xC64kEw24lV2xY67C26IkvcIIF6IxKo4kEV4ylV2xY628lY4IE4IxF12IF4w
+        CS07vE84x0c7CEj48ve4kI8wCS07vE84ACjcxK6xIIjxv20xvE14v26w1j6s0DMIAIbVA2
+        z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIAIbVA2z4x0Y4vEx4A2jsIE14v26r
+        xl6s0DMIAIbVA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1lV2xY62AIxVAIcxkEcVAq
+        07x20xvEncxIr21lV2xY6c02F40EFcxC0VAKzVAqx4xG6I80ewCS07vEYx0E2Ix0cI8IcV
+        AFwI0_Jr0_Jr4lV2xY6cIj6I8E87Iv67AKxVW8JVWxJwCS07vEOx8S6xCaFVCjc4AY6r1j
+        6r4UMIAIbVACI402YVCY1x02628vn2kIc2xKxwCS07vE7I0Y64k_MIAIbVCY02Avz4vE14
+        v_Xr1lV2xY6xkI7II2jI8vz4vEwIxGrwCS07vE42xK82IY6x8ErcxFaVAv8VW8uw4UJr1U
+        MIAIbVCF72vE77IF4wCS07vE4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lV2xY6I8I3I0E5I8CrV
+        AFwI0_Jr0_Jr4lV2xY6I8I3I0E7480Y4vE14v26r106r1rMIAIbVC2zVAF1VAY17CE14v2
+        6r1q6r43MIAIbVCI42IY6xIIjxv20xvE14v26r1j6r1xMIAIbVCI42IY6xIIjxv20xvEc7
+        CjxVAFwI0_Gr0_Cr1lV2xY6IIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCS07vEIxAI
+        cVC2z280aVAFwI0_Gr0_Cr1lV2xY6IIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCT
+        nIWIevJa73U
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-pm_runtime_get_sync() increments the runtime PM usage counter even
-when it returns an error code. Thus a pairing decrement is needed on
-the error handling path to keep the counter balanced.
-
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
- drivers/media/platform/qcom/camss/camss-ispif.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/qcom/camss/camss-ispif.c b/drivers/media/platform/qcom/camss/camss-ispif.c
-index 1f33b4eb198c..5722e971b184 100644
---- a/drivers/media/platform/qcom/camss/camss-ispif.c
-+++ b/drivers/media/platform/qcom/camss/camss-ispif.c
-@@ -344,8 +344,10 @@ static int ispif_set_power(struct v4l2_subdev *sd, int on)
- 		}
- 
- 		ret = pm_runtime_get_sync(dev);
--		if (ret < 0)
-+		if (ret < 0) {
-+			pm_runtime_put_sync(dev);
- 			goto exit;
-+		}
- 
- 		ret = camss_enable_clocks(ispif->nclocks, ispif->clock, dev);
- 		if (ret < 0) {
--- 
-2.17.1
-
+U29ycnksIEkgbWlzdW5kZXJzdG9vZCB5b3VyIGlkZWEgYmVmb3JlLiBBIG5ldyBmdW5jdGlvbiBp
+cyAKdGhlIGJlc3Qgc29sdXRpb24gZm9yIHRoaXMgcHJvYmxlbS4KClJlZ2FyZHMsCkRpbmdoYW8K
+CiZxdW90O0RhbiBDYXJwZW50ZXImcXVvdDsgJmx0O2Rhbi5jYXJwZW50ZXJAb3JhY2xlLmNvbSZn
+dDvlhpnpgZPvvJoKPiBPbiBUaHUsIE1heSAyMSwgMjAyMCBhdCAwNzo0Mjo1NlBNICswODAwLCBk
+aW5naGFvLmxpdUB6anUuZWR1LmNuIHdyb3RlOg0KPiA+IFdlIG5lZWQgdG8gbWFrZSBzdXJlIGlm
+IHBtX3J1bnRpbWVfZ2V0X3N5bmMoKSBpcyBkZXNpZ25lZCB3aXRoDQo+ID4gc3VjaCBiZWhhdmlv
+ciBiZWZvcmUgbW9kaWZ5aW5nIGl0LiAgDQo+ID4gDQo+ID4gSSByZWNlaXZlZCBhIHJlc3BvbnNl
+IGZyb20gUmFmYWVsIHdoZW4gSSBjb21taXRlZCBhIHNpbWlsYXIgcGF0Y2g6DQo+ID4gaHR0cHM6
+Ly9sa21sLm9yZy9sa21sLzIwMjAvNS8yMC8xMTAwDQo+ID4gSXQgc2VlbXMgdGhhdCB0aGlzIGJl
+aGF2aW9yIGlzIGludGVudGlvbmFsIGFuZCBuZWVkcyB0byBiZSBrZXB0Lg0KPiANCj4gWWVzLiAg
+VGhpcyBpcyB3aHkgSSBoYXZlIHNhaWQgdHdpY2Ugb3IgdGhyZWUgdGltZXMgdG8gbm90IGNoYW5n
+ZQ0KPiBwbV9ydW50aW1lX2dldF9zeW5jKCkgYnV0IGluc3RlYWQgdG8gd3JpdGUgYSByZXBsYWNl
+bWVudC4NCj4gDQo+IEEgbGFyZ2UgcGVyY2VudCBvZiB0aGUgY2FsbGVycyBhcmUgYnVnZ3kuICBU
+aGUgcG1fcnVudGltZV9nZXRfc3luYygpIGlzDQo+IGEgLTQgb24gUnVzdHkncyBBUEkgc2NhbGUu
+DQo+IGh0dHA6Ly9zd2VuZy50aGUtZGF2aWVzLm5ldC9Ib21lL3J1c3R5cy1hcGktZGVzaWduLW1h
+bmlmZXN0bw0KPiBPbmUgY291bGQgYXJndWUgdGhhdCBhbnl0aGluZyBhYm92ZSBhIC00IGlzIHJl
+YWxseSBhIDIgaWYgeW91IHJlYWQNCj4gdGhlIGltcGxlbWVudGF0aW9uIHRob3Vyb3VnaGx5IGVu
+b3VnaC4uLg0KPiANCj4gcmVnYXJkcywNCj4gZGFuIGNhcnBlbnRlcg0KPiANCg==
