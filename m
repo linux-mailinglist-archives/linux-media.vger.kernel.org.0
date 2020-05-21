@@ -2,72 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA8591DD763
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 21:38:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44A421DD785
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 21:44:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729397AbgEUTiE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 15:38:04 -0400
-Received: from mail-il1-f197.google.com ([209.85.166.197]:42465 "EHLO
-        mail-il1-f197.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728635AbgEUTiE (ORCPT
+        id S1729326AbgEUToi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 15:44:38 -0400
+Received: from youngberry.canonical.com ([91.189.89.112]:33794 "EHLO
+        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728635AbgEUToi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 15:38:04 -0400
-Received: by mail-il1-f197.google.com with SMTP id a13so6591834ila.9
-        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 12:38:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=NkM41cRyykyrTcXhuRq+Uqt1euBLz5q82M1iSb3aSkc=;
-        b=CgQJxOpfD8Q7StFxWjXwUoi+jEek4TObxL0SlBiNc9RJgnEnQe7JC0sYTUxiH9yCBq
-         WpikLzMoFPmEYM1/4KC5Siqjfy5X8dE8sJJVzOISWsbHPMJJTA75k1bmMV/fKkXAmABu
-         Ror/Hzb86YlRm9S5ATuZxINoXzuJW7jQTH0ltIBrUNQW8AeF76ODUVU4/vfRuIvcsUoO
-         Dwsb0dK4tAQmSt5TUqETVyYeu0lg9ZuH/WWxqycbZ7ZpG0/n5wWiEgG+vZ1if+Q4k4oV
-         orCnt+PfEWpwR9MHy7MP6bdyzBJrxL54S/LODr+8iiAS6RwyqnRDSTor3G/vz6xsJsTb
-         xLFA==
-X-Gm-Message-State: AOAM531gyqYc4hS6ycvsmCal20lXQA0tH/Fv5ZL1rXiwtnhYo83kbhGV
-        BssnTf6fUWDVUm4g+avFR1iP7RyxQf/EDmo6bGsJ2ssdxw3R
-X-Google-Smtp-Source: ABdhPJz1FMid2HBzS6OeC8X8s51lXhWDo/4NiVC0UQXz/KcfgeapJlPG+XCp1SR4JS6Dx+SAezbEtWn4NTX3HiGc7Kjpjzv7X1zA
+        Thu, 21 May 2020 15:44:38 -0400
+Received: from 1.general.cking.uk.vpn ([10.172.193.212] helo=localhost)
+        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+        (Exim 4.86_2)
+        (envelope-from <colin.king@canonical.com>)
+        id 1jbr7I-00085v-KW; Thu, 21 May 2020 19:44:32 +0000
+From:   Colin King <colin.king@canonical.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org
+Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH][next] media: atomisp: fix a handful of spelling mistakes
+Date:   Thu, 21 May 2020 20:44:32 +0100
+Message-Id: <20200521194432.357572-1-colin.king@canonical.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Received: by 2002:a92:40ca:: with SMTP id d71mr10291945ill.200.1590089883386;
- Thu, 21 May 2020 12:38:03 -0700 (PDT)
-Date:   Thu, 21 May 2020 12:38:03 -0700
-In-Reply-To: <0000000000004a72f505a5a16525@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000a9080105a62da6e4@google.com>
-Subject: Re: WARNING in media_create_pad_link
-From:   syzbot <syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, balbi@kernel.org,
-        gregkh@linuxfoundation.org, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot has bisected this bug to:
+From: Colin Ian King <colin.king@canonical.com>
 
-commit f2c2e717642c66f7fe7e5dd69b2e8ff5849f4d10
-Author: Andrey Konovalov <andreyknvl@google.com>
-Date:   Mon Feb 24 16:13:03 2020 +0000
+There are several spelling mistakes in various messages and literal
+strings. Fix these.
 
-    usb: gadget: add raw-gadget interface
+Signed-off-by: Colin Ian King <colin.king@canonical.com>
+---
+ .../staging/media/atomisp/pci/base/refcount/src/refcount.c  | 2 +-
+ .../media/atomisp/pci/css_2401_system/host/csi_rx_private.h | 4 ++--
+ .../atomisp/pci/css_2401_system/host/pixelgen_private.h     | 4 ++--
+ drivers/staging/media/atomisp/pci/sh_css.c                  | 6 +++---
+ 4 files changed, 8 insertions(+), 8 deletions(-)
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=126d2b81100000
-start commit:   b85051e7 Merge tag 'fixes-for-5.7-rc6' of git://git.kernel..
-git tree:       upstream
-final crash:    https://syzkaller.appspot.com/x/report.txt?x=116d2b81100000
-console output: https://syzkaller.appspot.com/x/log.txt?x=166d2b81100000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=c33c7f7c5471fd39
-dashboard link: https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16accd06100000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1680ce5e100000
+diff --git a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
+index e39cc2132953..8f0c94449ec9 100644
+--- a/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
++++ b/drivers/staging/media/atomisp/pci/base/refcount/src/refcount.c
+@@ -46,7 +46,7 @@ static struct ia_css_refcount_entry *refcount_find_entry(hrt_vaddress ptr,
+ 		return NULL;
+ 	if (!myrefcount.items) {
+ 		ia_css_debug_dtrace(IA_CSS_DEBUG_ERROR,
+-				    "refcount_find_entry(): Ref count not initiliazed!\n");
++				    "refcount_find_entry(): Ref count not initialized!\n");
+ 		return NULL;
+ 	}
+ 
+diff --git a/drivers/staging/media/atomisp/pci/css_2401_system/host/csi_rx_private.h b/drivers/staging/media/atomisp/pci/css_2401_system/host/csi_rx_private.h
+index 3fa3c3a487ab..97ad67e438f0 100644
+--- a/drivers/staging/media/atomisp/pci/css_2401_system/host/csi_rx_private.h
++++ b/drivers/staging/media/atomisp/pci/css_2401_system/host/csi_rx_private.h
+@@ -289,12 +289,12 @@ static inline void csi_rx_be_ctrl_dump_state(
+ 	 * lut.
+ 	 */
+ 	for (i = 0; i < N_SHORT_PACKET_LUT_ENTRIES[ID]; i++) {
+-		ia_css_print("CSI RX BE STATE Controller ID %d Short packat entry %d shart packet lut id 0x%x\n",
++		ia_css_print("CSI RX BE STATE Controller ID %d Short packet entry %d short packet lut id 0x%x\n",
+ 			     ID, i,
+ 			     state->short_packet_lut_entry[i]);
+ 	}
+ 	for (i = 0; i < N_LONG_PACKET_LUT_ENTRIES[ID]; i++) {
+-		ia_css_print("CSI RX BE STATE Controller ID %d Long packat entry %d Long packet lut id 0x%x\n",
++		ia_css_print("CSI RX BE STATE Controller ID %d Long packet entry %d long packet lut id 0x%x\n",
+ 			     ID, i,
+ 			     state->long_packet_lut_entry[i]);
+ 	}
+diff --git a/drivers/staging/media/atomisp/pci/css_2401_system/host/pixelgen_private.h b/drivers/staging/media/atomisp/pci/css_2401_system/host/pixelgen_private.h
+index 65ea23604479..5d4ffe03d13b 100644
+--- a/drivers/staging/media/atomisp/pci/css_2401_system/host/pixelgen_private.h
++++ b/drivers/staging/media/atomisp/pci/css_2401_system/host/pixelgen_private.h
+@@ -97,9 +97,9 @@ STORAGE_CLASS_PIXELGEN_C void pixelgen_ctrl_dump_state(
+     pixelgen_ctrl_state_t *state)
+ {
+ 	ia_css_print("Pixel Generator ID %d Enable  0x%x\n", ID, state->com_enable);
+-	ia_css_print("Pixel Generator ID %d PRBS reset vlue 0 0x%x\n", ID,
++	ia_css_print("Pixel Generator ID %d PRBS reset value 0 0x%x\n", ID,
+ 		     state->prbs_rstval0);
+-	ia_css_print("Pixel Generator ID %d PRBS reset vlue 1 0x%x\n", ID,
++	ia_css_print("Pixel Generator ID %d PRBS reset value 1 0x%x\n", ID,
+ 		     state->prbs_rstval1);
+ 	ia_css_print("Pixel Generator ID %d SYNC SID 0x%x\n", ID, state->syng_sid);
+ 	ia_css_print("Pixel Generator ID %d syng free run 0x%x\n", ID,
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index d77432254a2c..fee91b542c65 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -1324,7 +1324,7 @@ static void print_pc_histogram(void)
+ 		sh_css_print(" pc_histogram for binary %d\n", metrics->id);
+ 		print_pc_histo("  ISP", &metrics->isp_histogram);
+ 		print_pc_histo("  SP",   &metrics->sp_histogram);
+-		sh_css_print("print_pc_histogram() done for binay->id = %d, done.\n",
++		sh_css_print("print_pc_histogram() done for binary->id = %d, done.\n",
+ 			     metrics->id);
+ 	}
+ 
+@@ -5335,7 +5335,7 @@ static enum ia_css_err sh_css_pipe_configure_output(
+ {
+ 	enum ia_css_err err = IA_CSS_SUCCESS;
+ 
+-	IA_CSS_ENTER_PRIVATE("pipe = %p, width = %d, height = %d, paddaed width = %d, format = %d, idx = %d",
++	IA_CSS_ENTER_PRIVATE("pipe = %p, width = %d, height = %d, padded width = %d, format = %d, idx = %d",
+ 			     pipe, width, height, padded_width, format, idx);
+ 	if (!pipe) {
+ 		IA_CSS_LEAVE_ERR_PRIVATE(IA_CSS_ERR_INVALID_ARGUMENTS);
+@@ -10705,7 +10705,7 @@ ia_css_unlock_raw_frame(struct ia_css_stream *stream, uint32_t exp_id) {
+ 	if (exp_id > IA_CSS_ISYS_MAX_EXPOSURE_ID ||
+ 	    exp_id < IA_CSS_ISYS_MIN_EXPOSURE_ID)
+ 	{
+-		IA_CSS_ERROR("invalid expsure ID: %d\n", exp_id);
++		IA_CSS_ERROR("invalid exposure ID: %d\n", exp_id);
+ 		return IA_CSS_ERR_INVALID_ARGUMENTS;
+ 	}
+ 
+-- 
+2.25.1
 
-Reported-by: syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
-Fixes: f2c2e717642c ("usb: gadget: add raw-gadget interface")
-
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
