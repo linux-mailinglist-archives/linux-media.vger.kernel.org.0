@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DF851DCE83
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 15:48:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 908061DCECB
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 15:59:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729630AbgEUNrf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 09:47:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48232 "EHLO
+        id S1729591AbgEUN7m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 09:59:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50142 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729431AbgEUNrf (ORCPT
+        with ESMTP id S1729544AbgEUN7l (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 09:47:35 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC6F4C061A0F
-        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 06:47:34 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id z4so5635839wmi.2
-        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 06:47:34 -0700 (PDT)
+        Thu, 21 May 2020 09:59:41 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76050C061A0F
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 06:59:41 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id k13so6788418wrx.3
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 06:59:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=WigAm6R3JnrkS0bWmUO3ZB1tWo9KDMYSlwhtkqHAIps=;
-        b=jyfLBevZAiI3qkkBfstEElorOWNvUcbZe8+NYJX9vsFk4WpXks+gPfEuN04Ws3MixW
-         1mt8vxFWFKxT/FwXh70xQ7l9mzqNXQq5l4CvApuE0h0xAxvzt9GxF+lHFlAYvUYwaNDC
-         XcFDRdRO+IS0Xt+i8dnhvNyGG05gut8vNkPUk=
+        bh=fd27zalAyz5wmnk1UFuL/3CVJVB2Mbru00pqm3YvwKU=;
+        b=TZEsQQmRmAtlsPZ6hEPx1lfN+WVfX9faQiHdd1FC5rdGKNoEokI5y6RqM2R5AunejI
+         u538EoIRYq37DBlxBdB5BCNFnYNB9Adj3e0xFr5JZI02zmw4mzuluXYm9cnjbvpKyKgs
+         AgA/U/12lSi6ar8khG8bQKCe9ydhwDp5gYliM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=WigAm6R3JnrkS0bWmUO3ZB1tWo9KDMYSlwhtkqHAIps=;
-        b=ZZaLIId4nr2a7qzjKCzzUdnyF5w1kGHQVHylk+OP4G2FYWx3dJ9DFrSFxDsf3mgdVB
-         qaGJ12C8xTAlXhaCxMBwSAS73CbHE31AfUgMVgBxbiiz41v9fnHljnfvrpgQcnKqhu/x
-         VCfGxG1D+QXg8lyTdo7Q4x5poPtCBNwrIVoL1Zl0JWdi+dPS6vBh2XZJ79cY8Eg4fZfP
-         BS5NKizTlnh+RFgIZUntMiwZ4mEy4gOXfPoroIJc1q1TtLNiKA1YkaJK6gvivKeA7EmZ
-         rXrMBI3u+69Y1NTtglfGN4YLEowwRPJbvlggvr5yRpE1+5rsUAmlEG1pgTLfT9oa6los
-         vgLQ==
-X-Gm-Message-State: AOAM530Ed6sD0Yt+Mj4Es48UtaF6aFeEXayaG+fgMaqVSu5WXRbcZS1/
-        is6JmA/nh2d9WR/6u89SfM89kg==
-X-Google-Smtp-Source: ABdhPJycudi/4ZFEocfK7FGUn/bFSMM2TZDaR2Ql4yDG5QBmvorZtq7f/VZXArUqQ7+SPm0CNXRP+w==
-X-Received: by 2002:a1c:2e46:: with SMTP id u67mr8770259wmu.156.1590068853633;
-        Thu, 21 May 2020 06:47:33 -0700 (PDT)
+        bh=fd27zalAyz5wmnk1UFuL/3CVJVB2Mbru00pqm3YvwKU=;
+        b=YQoyJOmrBLsntH04yzXs5O0oy6QqTNoIoaB7MwcOlfh4h2PKk+00F5GdLTHWpUcmar
+         +U8/eOq1Qu4r04QJ/oSQLbLVf/rkd1IeBJYrRppgGt1My35MSK1Kip21XWuJesJ/PLUl
+         3niqk38NeAjmDAoJDdyRydhWgcPh7mKmRAhr73A+hCYhrUCqv/IKZS/j/glsLJy6ClMD
+         iErvMD0fnhPvW/sGtKV/JSrZgaVWkiU995Wi+S6GWe+3bVJybIFL+r4Ha8kht1qnVGuB
+         bjRogXCOMya+etNxNHmp929syT6EPgyIiqwtimd6KL2rlFuKhy+vgjWKzGpljwtg11rB
+         1Oug==
+X-Gm-Message-State: AOAM532bOGDTLJjkIchp0OhYHCyQbM+brQyEo6ffC8UhUFXTHz5ItLUF
+        Kn7PiYAWhl0rmbhIB414xn/GQg==
+X-Google-Smtp-Source: ABdhPJzYH1Ehd7L4WwVhzu2u//nGcgv2AbmGEgmxLvE9GqtTmu1vDDGQKL8r/UbPrLf9oXWCdRfLAA==
+X-Received: by 2002:a5d:68cb:: with SMTP id p11mr8426488wrw.349.1590069580276;
+        Thu, 21 May 2020 06:59:40 -0700 (PDT)
 Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id q4sm6733605wma.9.2020.05.21.06.47.32
+        by smtp.gmail.com with ESMTPSA id c17sm6505348wrn.59.2020.05.21.06.59.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2020 06:47:32 -0700 (PDT)
-Date:   Thu, 21 May 2020 13:47:31 +0000
+        Thu, 21 May 2020 06:59:39 -0700 (PDT)
+Date:   Thu, 21 May 2020 13:59:37 +0000
 From:   Tomasz Figa <tfiga@chromium.org>
 To:     Xia Jiang <xia.jiang@mediatek.com>
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -60,32 +60,37 @@ Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         srv_heupstream@mediatek.com, senozhatsky@chromium.org,
         mojahsu@chromium.org, drinkcat@chromium.org,
         maoguang.meng@mediatek.com, sj.huang@mediatek.com
-Subject: Re: [PATCH v8 03/14] media: platform: Improve getting and requesting
- irq flow for bug fixing
-Message-ID: <20200521134731.GC209565@chromium.org>
+Subject: Re: [PATCH v8 04/14] media: platform: Change the fixed device node
+ number to unfixed value
+Message-ID: <20200521135937.GD209565@chromium.org>
 References: <20200403094033.8288-1-xia.jiang@mediatek.com>
- <20200403094033.8288-4-xia.jiang@mediatek.com>
+ <20200403094033.8288-5-xia.jiang@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200403094033.8288-4-xia.jiang@mediatek.com>
+In-Reply-To: <20200403094033.8288-5-xia.jiang@mediatek.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Apr 03, 2020 at 05:40:22PM +0800, Xia Jiang wrote:
-> Delete platform_get_resource operation for irq.
-> Return actual value rather than EINVAL when fail to get and request
-> irq.
-> 
-> Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
-> ---
->  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
+Hi Xia,
+
+On Fri, Apr 03, 2020 at 05:40:23PM +0800, Xia Jiang wrote:
+> Change device node number from 3 to -1 because that the driver will
+> also support jpeg encoder.
 > 
 
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+Thanks for the patch. The change is correct, but I think the commit
+message doesn't really explain the real reason for it. Perhaps something
+like
+
+"The driver can be instantiated multiple times, e.g. for a decoder and
+an encoder. Moreover, other drivers could coexist on the same system.
+This makes the static video node number assignment pointless, so switch
+to automatic assignment instead."
+
+WDYT?
 
 Best regards,
 Tomasz
