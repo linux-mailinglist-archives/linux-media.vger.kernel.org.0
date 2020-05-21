@@ -2,125 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C176C1DCDF4
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 15:28:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C09AE1DCE02
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 15:30:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729473AbgEUN2w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 09:28:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45298 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729464AbgEUN2u (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 09:28:50 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32F8BC08C5C2
-        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 06:28:49 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id se13so8780494ejb.9
-        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 06:28:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Oemz0y6Halgxd9K+njjbf/y07mF1lR81JfjGGt4j8Io=;
-        b=nMD0EIe5pwuwbaGtt+YKylaDfXVeuM3SSMz35IkwGeZ3RzPyukApV97BYrsygvYGrI
-         Qeag6fiiSxZD0rcFZ1y3l8o6xADyUNjthcSVHwceGTi17XxVN119y+j7Q5ZJIofycdwB
-         vm9tB2ISdX+2kiNihCQhIL+bTIuuUvVPny85PtKbRoXFGMX9jSCt856joZMsoCBw3DAT
-         f/l2c8vVYP9Qbr12YDpzKbgIq2WE9hAbFISv3Qyt4sREanHeGsm5ZhsdcNnJ77LfdXnz
-         8+3fvpgKHAiZxdXsvwh0sBsWn0h9xpatuoi1o7Ei9BlHkLCvRxZdP7f2L7gHrxLel/fb
-         dJqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=Oemz0y6Halgxd9K+njjbf/y07mF1lR81JfjGGt4j8Io=;
-        b=D6cjwCNZvoVT6Wn/4ub15pvpjBra30FuKUbp4jPUOX3BsmkIihG3THoSvNabi+vtrN
-         gfe2qkdVBCT59o01D3vKsxjQXUHwSlM9jyzAIDqZG5EQ08lhE8gPl+MokAVTl6oVFGUp
-         EWt+bbzneVROvYXSYGRzqZh1uvZ+XjHqXB81xS3foCKKPVnRoBX3K6xpWEG4p+sv9Xs5
-         YmG+kuy8QvBzxucc/1nJCbKH5JQafnBU6uozXUWe+oEvSL1fOvDCqfS2UvXslbDAbW1q
-         jt9VT9TP46j3xcgpz3pyjStn55iVA0QeloG7PXKpZfcFOcG/t3YNY20Kd8y7HzQ3Aaon
-         PjJA==
-X-Gm-Message-State: AOAM5314aCpWh1wPnSYGyuo7uFda7xXE6ixVMGjudOgaskEgZnhyGGoU
-        aBkNyVyf4NWoosXjkPdkp2gryyktr7QYsg==
-X-Google-Smtp-Source: ABdhPJzqPpehc4EJbiEYVJOb9tCKG1eBQrdNEZwZIjNyPU0CCPxG3RCXYMfPpZ4UgqkchHuv6iCQKw==
-X-Received: by 2002:a17:906:c785:: with SMTP id cw5mr3399668ejb.543.1590067727620;
-        Thu, 21 May 2020 06:28:47 -0700 (PDT)
-Received: from localhost.localdomain (212-5-158-12.ip.btc-net.bg. [212.5.158.12])
-        by smtp.gmail.com with ESMTPSA id lr21sm4980580ejb.117.2020.05.21.06.28.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 May 2020 06:28:47 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        id S1729446AbgEUN3z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 09:29:55 -0400
+Received: from spam.zju.edu.cn ([61.164.42.155]:18992 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728208AbgEUN3z (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 21 May 2020 09:29:55 -0400
+Received: from localhost.localdomain (unknown [222.205.77.158])
+        by mail-app3 (Coremail) with SMTP id cC_KCgBnb4s+gsZeAGHpAA--.12833S4;
+        Thu, 21 May 2020 21:29:38 +0800 (CST)
+From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
+To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
+Cc:     Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v2 3/3] venus: Add a debugfs file for SSR trigger
-Date:   Thu, 21 May 2020 16:28:16 +0300
-Message-Id: <20200521132816.31111-4-stanimir.varbanov@linaro.org>
+Subject: [PATCH] media: platform: s3c-camif: Fix runtime PM imbalance on error
+Date:   Thu, 21 May 2020 21:29:33 +0800
+Message-Id: <20200521132933.16450-1-dinghao.liu@zju.edu.cn>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200521132816.31111-1-stanimir.varbanov@linaro.org>
-References: <20200521132816.31111-1-stanimir.varbanov@linaro.org>
+X-CM-TRANSID: cC_KCgBnb4s+gsZeAGHpAA--.12833S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWkur1furWrGw17XFyrZwb_yoW8GrykpF
+        4UGFyIkFW0g3yjyw1DJw17Xas5Ca9aqrZrWr9rWwnxZr1DCF9rtr4rAa4jqF1UJrWkta43
+        Zr1YqFW7Aa1rAFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUva1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
+        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
+        Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
+        6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
+        vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW5GwCF04k20xvY0x0EwIxG
+        rwCF04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
+        Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r12
+        6r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
+        kF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE
+        14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyT
+        uYvjfU1NVyUUUUU
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0HBlZdtOPdcwAKs2
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The SSR (SubSystem Restart) is used to simulate an error on FW
-side of Venus. We support following type of triggers - fatal error,
-div by zero and watchdog IRQ.
+pm_runtime_get_sync() increments the runtime PM usage counter even
+when it returns an error code. Thus a pairing decrement is needed on
+the error handling path to keep the counter balanced.
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Also, call pm_runtime_disable() when pm_runtime_get_sync() returns
+an error code.
+
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
 ---
- drivers/media/platform/qcom/venus/dbgfs.c | 31 +++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ drivers/media/platform/s3c-camif/camif-core.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/dbgfs.c b/drivers/media/platform/qcom/venus/dbgfs.c
-index a2465fe8e20b..59d52e5af64a 100644
---- a/drivers/media/platform/qcom/venus/dbgfs.c
-+++ b/drivers/media/platform/qcom/venus/dbgfs.c
-@@ -9,6 +9,35 @@
+diff --git a/drivers/media/platform/s3c-camif/camif-core.c b/drivers/media/platform/s3c-camif/camif-core.c
+index c6fbcd7036d6..ee624804862e 100644
+--- a/drivers/media/platform/s3c-camif/camif-core.c
++++ b/drivers/media/platform/s3c-camif/camif-core.c
+@@ -464,7 +464,7 @@ static int s3c_camif_probe(struct platform_device *pdev)
  
- extern int venus_fw_debug;
+ 	ret = camif_media_dev_init(camif);
+ 	if (ret < 0)
+-		goto err_alloc;
++		goto err_pm;
  
-+static int trigger_ssr_open(struct inode *inode, struct file *file)
-+{
-+	file->private_data = inode->i_private;
-+	return 0;
-+}
-+
-+static ssize_t trigger_ssr_write(struct file *filp, const char __user *buf,
-+				 size_t count, loff_t *ppos)
-+{
-+	struct venus_core *core = filp->private_data;
-+	u32 ssr_type;
-+	int ret;
-+
-+	ret = kstrtou32_from_user(buf, count, 4, &ssr_type);
-+	if (ret)
-+		return ret;
-+
-+	ret = hfi_core_trigger_ssr(core, ssr_type);
-+	if (ret < 0)
-+		return ret;
-+
-+	return count;
-+}
-+
-+static const struct file_operations ssr_fops = {
-+	.open = trigger_ssr_open,
-+	.write = trigger_ssr_write,
-+};
-+
- int venus_dbgfs_init(struct venus_core *core)
- {
- 	core->root = debugfs_create_dir("venus", NULL);
-@@ -17,6 +46,8 @@ int venus_dbgfs_init(struct venus_core *core)
- 
- 	debugfs_create_x32("fw_level", 0644, core->root, &venus_fw_debug);
- 
-+	debugfs_create_file("trigger_ssr", 0200, core->root, core, &ssr_fops);
-+
- 	return 0;
- }
- 
+ 	ret = camif_register_sensor(camif);
+ 	if (ret < 0)
+@@ -498,10 +498,9 @@ static int s3c_camif_probe(struct platform_device *pdev)
+ 	media_device_unregister(&camif->media_dev);
+ 	media_device_cleanup(&camif->media_dev);
+ 	camif_unregister_media_entities(camif);
+-err_alloc:
++err_pm:
+ 	pm_runtime_put(dev);
+ 	pm_runtime_disable(dev);
+-err_pm:
+ 	camif_clk_put(camif);
+ err_clk:
+ 	s3c_camif_unregister_subdev(camif);
 -- 
 2.17.1
 
