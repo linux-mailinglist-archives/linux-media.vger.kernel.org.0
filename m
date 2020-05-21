@@ -2,107 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 535C81DCC1F
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 13:30:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B5D41DCC4C
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 13:43:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728999AbgEULa1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 07:30:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55208 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728348AbgEULa1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 07:30:27 -0400
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 019A2C061A0E;
-        Thu, 21 May 2020 04:30:27 -0700 (PDT)
-Received: by mail-qk1-x744.google.com with SMTP id f13so6849383qkh.2;
-        Thu, 21 May 2020 04:30:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=mVnGuA/c41po031/Zyo9z05iki6LpXCl3bw26UlV5Og=;
-        b=MqYN+vMiHTEaW4UwLRy16WRoYfu+LJ4pOncpItD4O1GRnxH8TmktN6T6b2PcHxyEwB
-         /Ls2IApWVfXgN0RNquNulhQ49MIzfMO2KbQlpew/gmesTLhSAFACIhd9NN5hvF8aTXrJ
-         9dGZyhMELfyMK2fbiMTxbSKpZ8EVlDN75FSZjN4lYOI29EfHTi0l6te+3DGNqlishUcI
-         ufFCYzDFtCRCTDhyOG4tSbItgT3oIdpuWbG9YF8aGWnFAtPl3K8qizsCVOk3/weuXndt
-         nd8yUP/5mHGC7HDR1cjV9fJCWbl4EUH4bqfDeIq+Fhmmrdj99nMfB4lAH2i7rVf5TT9v
-         sLsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=mVnGuA/c41po031/Zyo9z05iki6LpXCl3bw26UlV5Og=;
-        b=W2kAtqGW2dRvsLrZ0jB1slglZmphugBxcwgen9anGSLCNPfDVIUBHfC2UYhJ+N252B
-         /W6F8ARcrA4faoPcu6g7AY/AvmLE3fqldPf4bUok9BfIOXAtz9si2FPL7M5u93niK+uB
-         dXC153ZY5f9wXgadiPtymO96gz9HSUTtBDrmtw8x0Yy3ztPFw5clEr1Eb2upYPjITeLb
-         3ihghww8oaZBdBZYxm9ekfBvxFSQMhfLKP6N0vGaqKGu/Yw+avKluR67CyVwMGUekZ/F
-         g3KfGUqMV/QWXes5/p9XnezHdjiqphHn7OrDqyxHS2SXqGxVDeuZPYUnx0dnq13i+T4Y
-         funw==
-X-Gm-Message-State: AOAM533sY+DYAlODFV9ixHUVnvqpnU1wvoZy7s7rg6WUiqnamT9uZzbA
-        DuuqUS7Mg8tccPb+lLUOu+IVRxSBESN9T+Upt0U=
-X-Google-Smtp-Source: ABdhPJyt/PrPu0HyLCBNIAlcBPVwQP3EdSaZpX3l0+ThMZQ3Nc11G0djVdAg3aM+jm8BukBsG/8Iq0VgME50WXdM3Aw=
-X-Received: by 2002:a37:a50d:: with SMTP id o13mr9327701qke.121.1590060626064;
- Thu, 21 May 2020 04:30:26 -0700 (PDT)
+        id S1729073AbgEULnY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 07:43:24 -0400
+Received: from mail.zju.edu.cn ([61.164.42.155]:10160 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1729027AbgEULnY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 21 May 2020 07:43:24 -0400
+Received: by ajax-webmail-mail-app4 (Coremail) ; Thu, 21 May 2020 19:42:56
+ +0800 (GMT+08:00)
+X-Originating-IP: [222.205.77.158]
+Date:   Thu, 21 May 2020 19:42:56 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   dinghao.liu@zju.edu.cn
+To:     "Dan Carpenter" <dan.carpenter@oracle.com>
+Cc:     kjlu@umn.edu, devel@driverdev.osuosl.org,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        "Jonathan Hunter" <jonathanh@nvidia.com>,
+        "Thierry Reding" <thierry.reding@gmail.com>,
+        linux-tegra@vger.kernel.org, "Dmitry Osipenko" <digetx@gmail.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: Re: [PATCH] [v2] media: staging: tegra-vde: fix runtime pm
+ imbalance on error
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190906(84e8bf8f)
+ Copyright (c) 2002-2020 www.mailtech.cn zju.edu.cn
+In-Reply-To: <20200521112131.GG30374@kadam>
+References: <20200521062746.6656-1-dinghao.liu@zju.edu.cn>
+ <20200521112131.GG30374@kadam>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-References: <1589881301-4143-1-git-send-email-shengjiu.wang@nxp.com>
- <0866cd8cdb0c22f0b2a6814c4dafa29202aad5f3.camel@pengutronix.de>
- <CAA+D8APhHvA39wmCayeCsAEKmOJ0n7qOQiT1tZmFHr4+yASgTw@mail.gmail.com>
- <53258cd99caaf1199036737f8fad6cc097939567.camel@pengutronix.de>
- <CAA+D8APAMRwtVneqFsuBgAhozmQo3R0AQi0bVdUCQO4Af4xVfw@mail.gmail.com> <20200520123850.GE4823@sirena.org.uk>
-In-Reply-To: <20200520123850.GE4823@sirena.org.uk>
-From:   Shengjiu Wang <shengjiu.wang@gmail.com>
-Date:   Thu, 21 May 2020 19:30:04 +0800
-Message-ID: <CAA+D8AOiVVi3B4dzU8r=rCMz=6w9R=wxBkzAQ=0=RAQLKCWy8Q@mail.gmail.com>
-Subject: Re: [PATCH] ASoC: fsl: imx-pcm-dma: Don't request dma channel in probe
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Lucas Stach <l.stach@pengutronix.de>,
-        Shengjiu Wang <shengjiu.wang@nxp.com>,
-        Timur Tabi <timur@kernel.org>,
-        Nicolin Chen <nicoleotsuka@gmail.com>,
-        Xiubo Li <Xiubo.Lee@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>, perex@perex.cz,
-        Takashi Iwai <tiwai@suse.com>, shawnguo@kernel.org,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, linux-imx@nxp.com,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Linux-ALSA <alsa-devel@alsa-project.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-ID: <4b400526.bbc83.172370b23a0.Coremail.dinghao.liu@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cS_KCgCnjwpAacZerVjtAQ--.39871W
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0HBlZdtOPdcwAAs8
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJTRUUUbK0S07vEb7Iv0x
+        C_Cr1lV2xY67kC6x804xWlV2xY67CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DMIAI
+        bVAFxVCF77xC64kEw24lV2xY67C26IkvcIIF6IxKo4kEV4ylV2xY628lY4IE4IxF12IF4w
+        CS07vE84x0c7CEj48ve4kI8wCS07vE84ACjcxK6xIIjxv20xvE14v26w1j6s0DMIAIbVA2
+        z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UMIAIbVA2z4x0Y4vEx4A2jsIE14v26r
+        xl6s0DMIAIbVA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1lV2xY62AIxVAIcxkEcVAq
+        07x20xvEncxIr21lV2xY6c02F40EFcxC0VAKzVAqx4xG6I80ewCS07vEYx0E2Ix0cI8IcV
+        AFwI0_Jr0_Jr4lV2xY6cIj6I8E87Iv67AKxVW8JVWxJwCS07vEOx8S6xCaFVCjc4AY6r1j
+        6r4UMIAIbVACI402YVCY1x02628vn2kIc2xKxwCS07vE7I0Y64k_MIAIbVCY02Avz4vE14
+        v_Gw4lV2xY6xkI7II2jI8vz4vEwIxGrwCS07vE42xK82IY6x8ErcxFaVAv8VW8uw4UJr1U
+        MIAIbVCF72vE77IF4wCS07vE4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lV2xY6I8I3I0E5I8CrV
+        AFwI0_Jr0_Jr4lV2xY6I8I3I0E7480Y4vE14v26r106r1rMIAIbVC2zVAF1VAY17CE14v2
+        6r1q6r43MIAIbVCI42IY6xIIjxv20xvE14v26r1j6r1xMIAIbVCI42IY6xIIjxv20xvEc7
+        CjxVAFwI0_Gr0_Cr1lV2xY6IIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCS07vEIxAI
+        cVC2z280aVAFwI0_Gr0_Cr1lV2xY6IIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCT
+        nIWIevJa73U
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, May 20, 2020 at 8:38 PM Mark Brown <broonie@kernel.org> wrote:
->
-> On Wed, May 20, 2020 at 07:22:19PM +0800, Shengjiu Wang wrote:
->
-> > I see some driver also request dma channel in open() or hw_params().
-> > how can they avoid the defer probe issue?
-> > for example=EF=BC=9A
-> > sound/arm/pxa2xx-pcm-lib.c
-> > sound/soc/sprd/sprd-pcm-dma.c
->
-> Other drivers having problems means those drivers should be fixed, not
-> that we should copy the problems.  In the case of the PXA driver that's
-> very old code which predates deferred probe by I'd guess a decade.
-
-Thanks.
-
-For the FE-BE case, do you have any suggestion for how fix it?
-
-With DMA1->ASRC->DMA2->ESAI case, the DMA1->ASRC->DMA2
-is in FE,  ESAI is in BE.  When ESAI drvier probe,  DMA3 channel is
-created with ESAI's "dma:tx" (DMA3 channel
-is not used in this FE-BE case).    When FE-BE startup, DMA2
-channel is created, it needs the ESAI's "dma:tx", so the warning
-comes out.
-
-best regards
-wang shengjiu
+V2UgbmVlZCB0byBtYWtlIHN1cmUgaWYgcG1fcnVudGltZV9nZXRfc3luYygpIGlzIGRlc2lnbmVk
+IHdpdGgKc3VjaCBiZWhhdmlvciBiZWZvcmUgbW9kaWZ5aW5nIGl0LiAgCgpJIHJlY2VpdmVkIGEg
+cmVzcG9uc2UgZnJvbSBSYWZhZWwgd2hlbiBJIGNvbW1pdGVkIGEgc2ltaWxhciBwYXRjaDoKaHR0
+cHM6Ly9sa21sLm9yZy9sa21sLzIwMjAvNS8yMC8xMTAwCkl0IHNlZW1zIHRoYXQgdGhpcyBiZWhh
+dmlvciBpcyBpbnRlbnRpb25hbCBhbmQgbmVlZHMgdG8gYmUga2VwdC4KClJlZ2FyZHMsCkRpbmdo
+YW8KCiZxdW90O0RhbiBDYXJwZW50ZXImcXVvdDsgJmx0O2Rhbi5jYXJwZW50ZXJAb3JhY2xlLmNv
+bSZndDvlhpnpgZPvvJoKPiBPbiBUaHUsIE1heSAyMSwgMjAyMCBhdCAwMjoyNzo0NVBNICswODAw
+LCBEaW5naGFvIExpdSB3cm90ZToNCj4gPiBwbV9ydW50aW1lX2dldF9zeW5jKCkgaW5jcmVtZW50
+cyB0aGUgcnVudGltZSBQTSB1c2FnZSBjb3VudGVyIGV2ZW4NCj4gPiB0aGUgY2FsbCByZXR1cm5z
+IGFuIGVycm9yIGNvZGUuIFRodXMgYSBwYWlyaW5nIGRlY3JlbWVudCBpcyBuZWVkZWQNCj4gPiBv
+biB0aGUgZXJyb3IgaGFuZGxpbmcgcGF0aCB0byBrZWVwIHRoZSBjb3VudGVyIGJhbGFuY2VkLg0K
+PiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IERpbmdoYW8gTGl1IDxkaW5naGFvLmxpdUB6anUuZWR1
+LmNuPg0KPiANCj4gTGV0J3Mgc3RvcCB3b3JraW5nIGFyb3VuZCB0aGUgYnVnIGluIHBtX3J1bnRp
+bWVfZ2V0X3N5bmMoKSBhbmQgd3JpdGUNCj4gYSByZXBsYWNlbWVudCBmb3IgaXQgaW5zdGVhZC4N
+Cj4gDQo+IHJlZ2FyZHMsDQo+IGRhbiBjYXJwZW50ZXINCg==
