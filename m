@@ -2,88 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C09AE1DCE02
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 15:30:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 048081DCE5F
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 15:45:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729446AbgEUN3z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 09:29:55 -0400
-Received: from spam.zju.edu.cn ([61.164.42.155]:18992 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728208AbgEUN3z (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 09:29:55 -0400
-Received: from localhost.localdomain (unknown [222.205.77.158])
-        by mail-app3 (Coremail) with SMTP id cC_KCgBnb4s+gsZeAGHpAA--.12833S4;
-        Thu, 21 May 2020 21:29:38 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Sylwester Nawrocki <sylvester.nawrocki@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: platform: s3c-camif: Fix runtime PM imbalance on error
-Date:   Thu, 21 May 2020 21:29:33 +0800
-Message-Id: <20200521132933.16450-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgBnb4s+gsZeAGHpAA--.12833S4
-X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWkur1furWrGw17XFyrZwb_yoW8GrykpF
-        4UGFyIkFW0g3yjyw1DJw17Xas5Ca9aqrZrWr9rWwnxZr1DCF9rtr4rAa4jqF1UJrWkta43
-        Zr1YqFW7Aa1rAFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDU0xBIdaVrnRJUUUva1xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
-        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
-        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2
-        z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcV
-        Aq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j
-        6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64
-        vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW5GwCF04k20xvY0x0EwIxG
-        rwCF04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxV
-        Aqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r12
-        6r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6x
-        kF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWrZr1j6s0DMIIF0xvEx4A2jsIE
-        14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr1j6F4UJbIYCTnIWIevJa73UjIFyT
-        uYvjfU1NVyUUUUU
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg0HBlZdtOPdcwAKs2
+        id S1729466AbgEUNpb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 09:45:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47900 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727079AbgEUNpb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 21 May 2020 09:45:31 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BED8BC05BD43
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 06:45:29 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id g14so2283224wme.1
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 06:45:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=MIZbow6oCp6jhBPcKsqdy9EnMAR8LQb1Wb+CIClZf0I=;
+        b=dGmoucgrWl3fcaqDll9a/qRPLlA7s730yc2z/WBzNFxuL2a+M1qwz4OOCwGd++fhKy
+         p8H1ZqTfH5xn8dw70XzKJISp6Vd7YqNQ/dPn7g8DE4Th7Ys7glQVxU1ajIvWn44+3/e0
+         7gWzJKL3HsAPQXv9L62UgO6S71k5LFILN3dbQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=MIZbow6oCp6jhBPcKsqdy9EnMAR8LQb1Wb+CIClZf0I=;
+        b=GMYat8JUyKd2lrJtDZNfLSqAlzzoFB74Yvxeve6yOTq3HLKIj52f1vxG22VIqVoCT8
+         p3xhww+YneGCx5MBxztq4ejNgRHr4dOUb589TcnJNfXTcQ3ubQcaE7v1KxEFJNgrgVIL
+         n9YZkhrtu23Nh/1c+/4DoYsPcxmdR0VLRO/c7M8+QwsrnrRaiqDxfQ0v5ZB7gMVhsOXK
+         aB9GsRIl6BqqETJZUFoOAhkz0z5BmGvs/iRYyvvdhHnybE1cWYxRQQTuHfN5N/SBX3EC
+         FacxGvd1l/KsPT1RbXhMbzdnEGLtVaCePSLH41lwo3KAwPkgnAkWlQzbNoWZ7ucFeSms
+         1O9g==
+X-Gm-Message-State: AOAM533S8zelIiLckYM2nKPiL/8hTm2RKVC5EzxOCbRtnMQDjLcA/bar
+        0q3OVmoxTh3FYW4ozJ11hL+O1g==
+X-Google-Smtp-Source: ABdhPJzga0snvqqhabMrMb1GYaE9P70IQw0mFqh2Y8F+1nN0c5PVJEQNf6mkgxlQ/6SKai9ltVpOxA==
+X-Received: by 2002:a7b:c4cc:: with SMTP id g12mr8844805wmk.168.1590068728336;
+        Thu, 21 May 2020 06:45:28 -0700 (PDT)
+Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
+        by smtp.gmail.com with ESMTPSA id e29sm296309wra.7.2020.05.21.06.45.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2020 06:45:27 -0700 (PDT)
+Date:   Thu, 21 May 2020 13:45:26 +0000
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Xia Jiang <xia.jiang@mediatek.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rick Chang <rick.chang@mediatek.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        srv_heupstream@mediatek.com, senozhatsky@chromium.org,
+        mojahsu@chromium.org, drinkcat@chromium.org,
+        maoguang.meng@mediatek.com, sj.huang@mediatek.com
+Subject: Re: [PATCH v8 01/14] media: platform: Improve subscribe event flow
+ for bug fixing
+Message-ID: <20200521134526.GA209565@chromium.org>
+References: <20200403094033.8288-1-xia.jiang@mediatek.com>
+ <20200403094033.8288-2-xia.jiang@mediatek.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200403094033.8288-2-xia.jiang@mediatek.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-pm_runtime_get_sync() increments the runtime PM usage counter even
-when it returns an error code. Thus a pairing decrement is needed on
-the error handling path to keep the counter balanced.
+Hi Xia,
 
-Also, call pm_runtime_disable() when pm_runtime_get_sync() returns
-an error code.
+On Fri, Apr 03, 2020 at 05:40:20PM +0800, Xia Jiang wrote:
+> Let v4l2_ctrl_subscribe_event() do the job for other types except
+> V4L2_EVENT_SOURCE_CHANGE.
+> 
+> Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
+> ---
+> v8: no changes
+> ---
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
- drivers/media/platform/s3c-camif/camif-core.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
 
-diff --git a/drivers/media/platform/s3c-camif/camif-core.c b/drivers/media/platform/s3c-camif/camif-core.c
-index c6fbcd7036d6..ee624804862e 100644
---- a/drivers/media/platform/s3c-camif/camif-core.c
-+++ b/drivers/media/platform/s3c-camif/camif-core.c
-@@ -464,7 +464,7 @@ static int s3c_camif_probe(struct platform_device *pdev)
- 
- 	ret = camif_media_dev_init(camif);
- 	if (ret < 0)
--		goto err_alloc;
-+		goto err_pm;
- 
- 	ret = camif_register_sensor(camif);
- 	if (ret < 0)
-@@ -498,10 +498,9 @@ static int s3c_camif_probe(struct platform_device *pdev)
- 	media_device_unregister(&camif->media_dev);
- 	media_device_cleanup(&camif->media_dev);
- 	camif_unregister_media_entities(camif);
--err_alloc:
-+err_pm:
- 	pm_runtime_put(dev);
- 	pm_runtime_disable(dev);
--err_pm:
- 	camif_clk_put(camif);
- err_clk:
- 	s3c_camif_unregister_subdev(camif);
--- 
-2.17.1
-
+Best regards,
+Tomasz
