@@ -2,102 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1C771DCC99
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 14:06:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AF111DCC94
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 14:05:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729135AbgEUMGL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 08:06:11 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:48352 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727905AbgEUMGL (ORCPT
+        id S1729072AbgEUMF1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 08:05:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60640 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727905AbgEUMF1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 08:06:11 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04LC3kQ4031241;
-        Thu, 21 May 2020 12:06:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=/dSwQBMQ9edVQjkiT3Bt0WIXXVOZp3v9OdMj2sZjdRM=;
- b=e4L267jwZlTFvTG9JpcIULqEeEQocx0mw6IjjEz8r1uelXohYCcNYQWm63MmNdFiJFMC
- YifX1o3XyvBF6x/rZGDZ1mNd9Y1laKRbFpuSPYp1EzuE/I9zJY1WGqS9TXAK4MfHwu+Y
- 0gwJ13GqRKQEYr5LTnoW4lijkInJxlkDlN/zCILV0qkW95J8mSbAFLWIIohhAEiib35A
- Y/bMYNVm4Xa9beWQRWNjcqLR8ClhlV50qsVlmYjOXJePHIFHQEXRT5LiKmECMpc0vjBp
- 5li9q5LQEEvdqCcWoouQxJbifnkjTbx7ZT7gt9sO7vG9RX0dbxqdA90NKV04CK6UYKiV FA== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by userp2120.oracle.com with ESMTP id 31501ren20-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 21 May 2020 12:06:00 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04LC3D2E106767;
-        Thu, 21 May 2020 12:03:59 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 312t3ay20b-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 21 May 2020 12:03:59 +0000
-Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 04LC3rgH020890;
-        Thu, 21 May 2020 12:03:53 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 21 May 2020 05:03:53 -0700
-Date:   Thu, 21 May 2020 15:03:45 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     dinghao.liu@zju.edu.cn
-Cc:     devel@driverdev.osuosl.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kjlu@umn.edu,
-        linux-kernel@vger.kernel.org,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-pm@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: Re: [PATCH] [v2] media: staging: tegra-vde: fix runtime pm
- imbalance on error
-Message-ID: <20200521120344.GH30374@kadam>
-References: <20200521062746.6656-1-dinghao.liu@zju.edu.cn>
- <20200521112131.GG30374@kadam>
- <4b400526.bbc83.172370b23a0.Coremail.dinghao.liu@zju.edu.cn>
+        Thu, 21 May 2020 08:05:27 -0400
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C950C061A0E
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 05:05:26 -0700 (PDT)
+Received: by mail-ej1-x62e.google.com with SMTP id x1so8482219ejd.8
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 05:05:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20161025;
+        h=subject:from:to:references:message-id:date:user-agent:mime-version
+         :in-reply-to:content-language:content-transfer-encoding;
+        bh=D+ahkrOQ5qLDEqopu3LYhfJbc1OVq0i2VB9qJXkV3GM=;
+        b=A0xr16QVH5lEJb4H60vyD97lK76AI9l2krtmyWj1Wp5P63CW98tegWI902P/8xkwvM
+         AoP/mDONUQLrCINbNFPCkTl5uDkQOj9UEDBN5LlWBwEpVnZmX5ibNdK8LuAR+xcXdiku
+         hQqPfohEJwwyDKckUHXU/yubOIIloFfAF+lTetqYa/lRqwjij47ybi94y4yKhrSJ8bwk
+         +PpVBFde++kmtvGOvyhF0JSImwHTmCCoCUJQLFv3EjYxPojVPK2ipz4lxrlZu7op+VDG
+         nvNvrJbRSZo8pYHfwwAt8GcYZyloUYvducCPKISsYosxWsx0QyzIAhg+/99GImtKKWqI
+         AOVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=D+ahkrOQ5qLDEqopu3LYhfJbc1OVq0i2VB9qJXkV3GM=;
+        b=obyiAtCzfMgKaEow0bKIbx+8qMMmJKV2RYRjudwwKW6YgdFNjylgl0YhtcOoa4TUOx
+         3p+apQUe1v94tLb7hneCygDmSMWFyLBmGLiH1jUrh8dvCAA9mPwnggXdy5+dwaPpFAs2
+         s+oZmUkBMUrjIfYsXz0jcn5hidpzy1m7SdC+TCQXmsaXDXgEUA+9G2f+TzFTJv1xFh3R
+         xEIS79HJB2dpXtnGInGnoA3wJZVu29NT1OgPSzm7i0xRkXwkK5PLYVsWk6a+OsaXoXpy
+         PjWwe/xe610dZNwVO+kEU/E6TbxZQ2x4CwYM2j0DHwz5LW78CCZC4Izzksto9BctNAQu
+         OwPw==
+X-Gm-Message-State: AOAM533na7Oxo6q2thvqO9SiNHFsiTi+ftAdKdktTWOG2tq84Wqc/NNS
+        ay7deUCv2imrUlKi+IGcl+/pU7zg
+X-Google-Smtp-Source: ABdhPJx0NL6loaocHlQ0ezoXzoxql/qMZcIqko9c8qbAmVOlsqOaf5n4gfzMWoUn6+fhdgsnSVHpMg==
+X-Received: by 2002:a17:906:add7:: with SMTP id lb23mr3131912ejb.6.1590062723921;
+        Thu, 21 May 2020 05:05:23 -0700 (PDT)
+Received: from ?IPv6:2a02:810a:8300:1c48:e13e:e99:f3a2:acc4? ([2a02:810a:8300:1c48:e13e:e99:f3a2:acc4])
+        by smtp.gmail.com with ESMTPSA id oe21sm4660640ejb.69.2020.05.21.05.05.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 21 May 2020 05:05:22 -0700 (PDT)
+Subject: Re: How about a v4l-utils-1.20 release?
+From:   Gregor Jasny <gjasny@googlemail.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Sean Young <sean@mess.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <818465d4-3665-5af0-0136-2090edbb4eb1@googlemail.com>
+Message-ID: <823e89b1-5148-4e9a-6ffa-7e07fed9e25c@googlemail.com>
+Date:   Thu, 21 May 2020 14:05:19 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4b400526.bbc83.172370b23a0.Coremail.dinghao.liu@zju.edu.cn>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9627 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 mlxlogscore=999
- phishscore=0 mlxscore=0 malwarescore=0 suspectscore=2 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2005210091
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9627 signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 spamscore=0
- mlxlogscore=999 clxscore=1015 priorityscore=1501 cotscore=-2147483648
- impostorscore=0 bulkscore=0 adultscore=0 malwarescore=0 phishscore=0
- mlxscore=0 suspectscore=2 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2005210091
+In-Reply-To: <818465d4-3665-5af0-0136-2090edbb4eb1@googlemail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 21, 2020 at 07:42:56PM +0800, dinghao.liu@zju.edu.cn wrote:
-> We need to make sure if pm_runtime_get_sync() is designed with
-> such behavior before modifying it.  
-> 
-> I received a response from Rafael when I commited a similar patch:
-> https://lkml.org/lkml/2020/5/20/1100
-> It seems that this behavior is intentional and needs to be kept.
+Hello,
 
-Yes.  This is why I have said twice or three times to not change
-pm_runtime_get_sync() but instead to write a replacement.
+On 20.04.20 14:05, Gregor Jasny wrote:
+> It's been a while since we released v4l-utils 1.18. How about a 1.20 
+> release?
 
-A large percent of the callers are buggy.  The pm_runtime_get_sync() is
-a -4 on Rusty's API scale.
-http://sweng.the-davies.net/Home/rustys-api-design-manifesto
-One could argue that anything above a -4 is really a 2 if you read
-the implementation thouroughly enough...
+After fixing the build problems on Ubuntu 16.04 and also some "make 
+dist" issues I finally found time to release v4l-utils 1.20.0 today.
 
-regards,
-dan carpenter
+The Debian package has been uploaded and the change should also land in 
+Ubuntu Groovy within the next days.
 
+I'll also update the v4l-utils stable Ubuntu PPA with the new versions: 
+https://launchpad.net/~libv4l/+archive/ubuntu/stable
 
+Thanks,
+Gregor
