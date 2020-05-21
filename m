@@ -2,297 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 969501DCC8D
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 14:03:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1C771DCC99
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 14:06:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729283AbgEUMDg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 08:03:36 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:48312 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729100AbgEUMDf (ORCPT
+        id S1729135AbgEUMGL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 08:06:11 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:48352 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727905AbgEUMGL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 08:03:35 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 2E32D2A333F
-Subject: Re: [PATCH v3 2/4] media: v4l2-common: add helper functions to call
- s_stream() callbacks
-To:     Helen Koike <helen.koike@collabora.com>,
+        Thu, 21 May 2020 08:06:11 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04LC3kQ4031241;
+        Thu, 21 May 2020 12:06:00 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=/dSwQBMQ9edVQjkiT3Bt0WIXXVOZp3v9OdMj2sZjdRM=;
+ b=e4L267jwZlTFvTG9JpcIULqEeEQocx0mw6IjjEz8r1uelXohYCcNYQWm63MmNdFiJFMC
+ YifX1o3XyvBF6x/rZGDZ1mNd9Y1laKRbFpuSPYp1EzuE/I9zJY1WGqS9TXAK4MfHwu+Y
+ 0gwJ13GqRKQEYr5LTnoW4lijkInJxlkDlN/zCILV0qkW95J8mSbAFLWIIohhAEiib35A
+ Y/bMYNVm4Xa9beWQRWNjcqLR8ClhlV50qsVlmYjOXJePHIFHQEXRT5LiKmECMpc0vjBp
+ 5li9q5LQEEvdqCcWoouQxJbifnkjTbx7ZT7gt9sO7vG9RX0dbxqdA90NKV04CK6UYKiV FA== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+        by userp2120.oracle.com with ESMTP id 31501ren20-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 21 May 2020 12:06:00 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04LC3D2E106767;
+        Thu, 21 May 2020 12:03:59 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 312t3ay20b-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 21 May 2020 12:03:59 +0000
+Received: from abhmp0001.oracle.com (abhmp0001.oracle.com [141.146.116.7])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 04LC3rgH020890;
+        Thu, 21 May 2020 12:03:53 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 21 May 2020 05:03:53 -0700
+Date:   Thu, 21 May 2020 15:03:45 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     dinghao.liu@zju.edu.cn
+Cc:     devel@driverdev.osuosl.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>, kjlu@umn.edu,
+        linux-kernel@vger.kernel.org,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        linux-tegra@vger.kernel.org, Dmitry Osipenko <digetx@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>, linux-pm@vger.kernel.org,
         linux-media@vger.kernel.org
-Cc:     kernel@collabora.com, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, hans.verkuil@cisco.com,
-        skhan@linuxfoundation.org, niklas.soderlund@ragnatech.se,
-        mchehab@kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-References: <20200415013044.1778572-1-helen.koike@collabora.com>
- <20200415013044.1778572-3-helen.koike@collabora.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <31557623-2b8c-6cfe-19f7-7854ed51bc86@collabora.com>
-Date:   Thu, 21 May 2020 14:03:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+Subject: Re: Re: [PATCH] [v2] media: staging: tegra-vde: fix runtime pm
+ imbalance on error
+Message-ID: <20200521120344.GH30374@kadam>
+References: <20200521062746.6656-1-dinghao.liu@zju.edu.cn>
+ <20200521112131.GG30374@kadam>
+ <4b400526.bbc83.172370b23a0.Coremail.dinghao.liu@zju.edu.cn>
 MIME-Version: 1.0
-In-Reply-To: <20200415013044.1778572-3-helen.koike@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4b400526.bbc83.172370b23a0.Coremail.dinghao.liu@zju.edu.cn>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9627 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 mlxlogscore=999
+ phishscore=0 mlxscore=0 malwarescore=0 suspectscore=2 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005210091
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9627 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 spamscore=0
+ mlxlogscore=999 clxscore=1015 priorityscore=1501 cotscore=-2147483648
+ impostorscore=0 bulkscore=0 adultscore=0 malwarescore=0 phishscore=0
+ mlxscore=0 suspectscore=2 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2005210091
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+On Thu, May 21, 2020 at 07:42:56PM +0800, dinghao.liu@zju.edu.cn wrote:
+> We need to make sure if pm_runtime_get_sync() is designed with
+> such behavior before modifying it.  
+> 
+> I received a response from Rafael when I commited a similar patch:
+> https://lkml.org/lkml/2020/5/20/1100
+> It seems that this behavior is intentional and needs to be kept.
 
-On 15.04.20 03:30, Helen Koike wrote:
-> Add v4l2_pipeline_stream_{enable,disable} helper functions to iterate
-> through the subdevices in a given stream (i.e following links from sink
-> to source) and call .s_stream() callback.
-> 
-> Add stream_count on the subdevice object for simultaneous streaming from
-> different video devices which shares subdevices.
-> 
-> Prevent calling .s_stream(true) if it was already called previously by
-> another stream.
-> 
-> Prevent calling .s_stream(false) from one stream when there are still
-> others active.
-> 
-> If .s_stream(true) fails, call .s_stream(false) in the reverse order.
-> 
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> ---
-> 
-> Changes in v3:
-> - re-write helpers to use media walkers as in v1, but with
-> v4l2_pipeline_subdevs_get() to reverse the order we call s_stream(true)
-> in subdevices.
-> - rename size to max_size (and update docs) in v4l2_pipeline_subdevs_get() to
-> reflect the meaning of the argument.
-> - add if defined(CONFIG_MEDIA_CONTROLLER) around helpers
-> 
-> Changes in v2:
-> - re-write helpers to not use media walkers
-> 
->   drivers/media/v4l2-core/v4l2-common.c | 125 ++++++++++++++++++++++++++
->   include/media/v4l2-common.h           |  43 +++++++++
->   include/media/v4l2-subdev.h           |   2 +
->   3 files changed, 170 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index 9e8eb45a5b03c..2f991a1a57d7c 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -442,3 +442,128 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
->   	return 0;
->   }
->   EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
-> +
-> +#if defined(CONFIG_MEDIA_CONTROLLER)
-> +
-> +/*
-> + * v4l2_pipeline_subdevs_get - Assemble a list of subdevices in a pipeline
-> + * @subdevs: the array to be filled.
-> + * @max_size: max number of elements that can fit in subdevs array.
-> + *
-> + * Walk from a video node, following links from sink to source and fill the
-> + * array with subdevices in the path.
-> + * The walker performs a depth-first traversal, which means that, in a topology
-> + * sd1->sd2->sd3->vdev, sd1 will be the first element placed in the array.
-> + *
-> + * Return the number of subdevices filled in the array.
-> + */
-> +static int v4l2_pipeline_subdevs_get(struct video_device *vdev,
-> +				     struct media_pipeline *pipe,
-> +				     struct v4l2_subdev **subdevs,
-> +				     unsigned int max_size)
-> +{
-> +	struct media_entity *entity = &vdev->entity;
-> +	struct media_device *mdev = entity->graph_obj.mdev;
-> +	int idx = 0;
-> +	int ret;
-> +
-> +	mutex_lock(&mdev->graph_mutex);
-> +
-> +	if (!pipe->streaming_count) {
-> +		ret = media_graph_walk_init(&pipe->graph, mdev);
-> +		if (ret) {
-> +			mutex_unlock(&mdev->graph_mutex);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	media_graph_walk_start(&pipe->graph, entity);
-> +
-> +	while ((entity = media_graph_walk_next_stream(&pipe->graph))) {
-> +		if (!is_media_entity_v4l2_subdev(entity))
-> +			continue;
-> +		if (WARN_ON(idx >= max_size)) {
-> +			mutex_unlock(&mdev->graph_mutex);
-> +			return -EINVAL;
-> +		}
-> +		subdevs[idx++] = media_entity_to_v4l2_subdev(entity);
-> +	}
-> +
-> +	if (!pipe->streaming_count)
-> +		media_graph_walk_cleanup(&pipe->graph);
-> +
-> +	mutex_unlock(&mdev->graph_mutex);
-> +
-> +	return idx;
-> +}
-> +
-> +__must_check int v4l2_pipeline_stream_enable(struct video_device *vdev,
-> +					     struct media_pipeline *pipe)
-> +{
-> +	struct media_device *mdev = vdev->entity.graph_obj.mdev;
-> +	struct v4l2_subdev *subdevs[MEDIA_ENTITY_ENUM_MAX_DEPTH];
-> +	struct v4l2_subdev *sd;
-> +	int i, size, ret;
-> +
-> +	size = v4l2_pipeline_subdevs_get(vdev, pipe,
-> +					 subdevs, ARRAY_SIZE(subdevs));
-> +	if (size <= 0)
-> +		return size;
-> +
-> +	/* Call s_stream() in reverse order to enable sensors last */
-> +	for (i = size - 1; i >= 0; i--) {
-> +		sd = subdevs[i];
-> +		if (sd->stream_count++)
-> +			continue;
-> +		dev_dbg(mdev->dev,
-> +			"enabling stream for '%s'\n", sd->entity.name);
-> +		ret = v4l2_subdev_call(sd, video, s_stream, true);
-> +		if (ret && ret != -ENOIOCTLCMD) {
-> +			sd->stream_count = 0;
-> +			goto err_stream_disable;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +
-> +err_stream_disable:
-> +	for (i++; i < size; i++) {
-> +		sd = subdevs[i];
-> +		if (--sd->stream_count)
-> +			continue;
-> +		dev_dbg(mdev->dev,
-> +			"disabling stream for '%s'\n", sd->entity.name);
-> +		v4l2_subdev_call(sd, video, s_stream, false);
-> +	};
-> +
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_pipeline_stream_enable);
-> +
-> +void v4l2_pipeline_stream_disable(struct video_device *vdev,
-> +				  struct media_pipeline *pipe)
-> +{
-> +	struct media_device *mdev = vdev->entity.graph_obj.mdev;
-> +	struct v4l2_subdev *subdevs[MEDIA_ENTITY_ENUM_MAX_DEPTH];
-> +	unsigned int i;
-> +	int size;
-> +
-> +	size = v4l2_pipeline_subdevs_get(vdev, pipe,
-> +					 subdevs, ARRAY_SIZE(subdevs));
-> +	if (WARN_ON(size < 0))
-> +		return;
-> +
-> +	/* Call s_stream() in order to disable sensors first */
-> +	for (i = 0; i < size; i++) {
-> +		struct v4l2_subdev *sd = subdevs[i];
-> +
-> +		if (--sd->stream_count)
-> +			continue;
-> +		dev_dbg(mdev->dev,
-> +			"disabling stream for '%s'\n", sd->entity.name);
-> +		v4l2_subdev_call(sd, video, s_stream, false);
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(v4l2_pipeline_stream_disable);
-> +
-> +#endif /* CONFIG_MEDIA_CONTROLLER */
-> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> index 150ee16ebd811..dc46812120cdc 100644
-> --- a/include/media/v4l2-common.h
-> +++ b/include/media/v4l2-common.h
-> @@ -539,4 +539,47 @@ static inline void v4l2_buffer_set_timestamp(struct v4l2_buffer *buf,
->   	buf->timestamp.tv_usec = ts.tv_nsec / NSEC_PER_USEC;
->   }
->   
-> +#if defined(CONFIG_MEDIA_CONTROLLER)
-> +
-> +/**
-> + * v4l2_pipeline_stream_enable - Call .s_stream(true) callbacks in the stream
-> + * @vdev: Starting video device.
-> + * @pipe: Pipeline this entity belongs to.
-> + *
-> + * Call .s_stream(true) callback in all the subdevices participating in the
-> + * stream, i.e. following links from sink to source.
-> + *
-> + * .s_stream(true) is also called from sink to source, i.e. in a topology
-> + * sd1->sd2->sd3->vdev, .s_stream(true) of sd3 is called first.
-> + *
-> + * Calls to this function can be nested, in which case the same number of
-> + * v4l2_pipeline_stream_disable() calls will be required to disable streaming
-> + * through subdevices in the pipeline.
-> + * The  pipeline pointer must be identical for all nested calls to
-> + * v4l2_pipeline_stream_enable().
-> + */
-> +__must_check int v4l2_pipeline_stream_enable(struct video_device *vdev,
-> +					     struct media_pipeline *pipe);
-> +
-> +/**
-> + * v4l2_pipeline_stream_disable - Call .s_stream(false) callbacks in the stream
-> + * @vdev: Starting video device.
-> + * @pipe: Pipeline this entity belongs to.
-> + *
-> + * Call .s_stream(false) callback in all the subdevices participating in the
-> + * stream, i.e. following links from sink to source.
-> + *
-> + * s_stream(false) is called in a reverse order from
-> + * v4l2_pipeline_stream_enable(), i.e. in a topology sd1->sd2->sd3->vdev,
-> + * .s_stream(false) of sd1 is called first.
-> + *
-> + * If multiple calls to v4l2_pipeline_stream_enable() have been made, the same
-> + * number of calls to this function are required to disable streaming through
-> + * subdevices in the pipeline.
-> + */
-> +void v4l2_pipeline_stream_disable(struct video_device *vdev,
-> +				  struct media_pipeline *pipe);
-> +
-> +#endif /* CONFIG_MEDIA_CONTROLLER */
-> +
->   #endif /* V4L2_COMMON_H_ */
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index a4848de598521..20f913a9f70c5 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -838,6 +838,7 @@ struct v4l2_subdev_platform_data {
->    * @subdev_notifier: A sub-device notifier implicitly registered for the sub-
->    *		     device using v4l2_device_register_sensor_subdev().
->    * @pdata: common part of subdevice platform data
-> + * @stream_count: Stream count for the subdevice.
->    *
->    * Each instance of a subdev driver should create this struct, either
->    * stand-alone or embedded in a larger struct.
-> @@ -869,6 +870,7 @@ struct v4l2_subdev {
->   	struct v4l2_async_notifier *notifier;
->   	struct v4l2_async_notifier *subdev_notifier;
->   	struct v4l2_subdev_platform_data *pdata;
-> +	unsigned int stream_count;
-I wonder if it is worth it to add a new field to v4l2_subdev that is used only
-for the specific case, it seems that except of rkisp1 and vimc, the other drivers you pointed to that
-could use the helpers don't need this counter and they call s_stream without checking if it was already called.
-This counter is updated only by the new introduced functions and not when s_stream is called from other places.
-Maybe we can add a helper that just return the next subdevice connected to the current entity as a source, and drivers can
-iterate it and can decide themselves if s_stream should be called or not
+Yes.  This is why I have said twice or three times to not change
+pm_runtime_get_sync() but instead to write a replacement.
 
-Thanks,
-Dafna
+A large percent of the callers are buggy.  The pm_runtime_get_sync() is
+a -4 on Rusty's API scale.
+http://sweng.the-davies.net/Home/rustys-api-design-manifesto
+One could argue that anything above a -4 is really a 2 if you read
+the implementation thouroughly enough...
 
->   };
->   
->   
-> 
+regards,
+dan carpenter
+
+
