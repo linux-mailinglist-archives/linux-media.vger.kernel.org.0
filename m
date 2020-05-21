@@ -2,508 +2,409 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6278D1DD2C7
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 18:08:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B7571DD2D0
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 18:09:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729768AbgEUQIH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 12:08:07 -0400
-Received: from smtprelay0161.hostedemail.com ([216.40.44.161]:47196 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726282AbgEUQIH (ORCPT
+        id S1728399AbgEUQJD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 12:09:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42320 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728431AbgEUQJC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 12:08:07 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id ABABE180A8450;
-        Thu, 21 May 2020 16:08:04 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:4:41:355:379:599:800:960:966:967:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1593:1594:1605:1719:1730:1747:1777:1792:1981:2194:2196:2199:2200:2393:2525:2553:2560:2563:2682:2685:2693:2828:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3622:3865:3867:3868:3870:3873:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4250:4321:4385:4605:5007:6119:7903:8957:9025:9036:10004:10848:11026:11218:11232:11473:11657:11658:11914:12043:12048:12294:12296:12297:12438:12555:12679:12740:12760:12895:12986:13439:13845:13972:14659:21080:21433:21451:21611:21627:21773:21987:21990:30045:30054:30080:30090:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:14,LUA_SUMMARY:none
-X-HE-Tag: van66_2d0a8fb26d1f
-X-Filterd-Recvd-Size: 17421
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf19.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 21 May 2020 16:08:03 +0000 (UTC)
-Message-ID: <c4cad4f243988d214208a4903aa311a64f9b4531.camel@perches.com>
-Subject: Re: [PATCH v2 2/3] venus: Make debug infrastructure more flexible
-From:   Joe Perches <joe@perches.com>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jason Baron <jbaron@akamai.com>
-Cc:     Vikash Garodia <vgarodia@codeaurora.org>
-Date:   Thu, 21 May 2020 09:08:01 -0700
-In-Reply-To: <20200521132816.31111-3-stanimir.varbanov@linaro.org>
-References: <20200521132816.31111-1-stanimir.varbanov@linaro.org>
-         <20200521132816.31111-3-stanimir.varbanov@linaro.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.1-2 
+        Thu, 21 May 2020 12:09:02 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 792E5C061A0F
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 09:09:02 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id i15so7153483wrx.10
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 09:09:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=RaC8loFLlcSNg14GKqnFZxfWstB46ZrSBfPhwjQfG8c=;
+        b=bCXDsCgYV0CSrRRnuf5+7lTo0NBYDtuebWPY6hj3INHvJK561Jp7QFDckmYmGUfS/t
+         DhG4y89ElZE34sqQC9yQ78tUvgI7ZIpCs1MBy0bgzwhLAr3obg12vh/jJjPL9xpNK7n3
+         pJwSKDTCDokUZ+6mGVdJ2EnB4VspWLFJ4gotY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=RaC8loFLlcSNg14GKqnFZxfWstB46ZrSBfPhwjQfG8c=;
+        b=Roc333blQ1NEEF72hosZ8IbW3/67ReSD6QWqV9CgS3qxwfe5WHPN3ewxnByIQGNcv9
+         OmgtztH3N0x2/GjA1kW2ryIVlFMzqW0nFERb7q8FkVEeicx1q8EGdRLZp0a6rtWW35+w
+         ijIanESYpMEZrTxK/ZF6ye3s9EvMd+gOhN/o1Fw5gK9/g4iWWunKb4qop3db0LFww+6R
+         KGOf8M6x7iriR0Ype6DJs/n36wrIRYszttDlL2QjWq7T4RHUTygI9ZmKhaHBCUBVeVLZ
+         6Hq5dVcASyeuEHPczl00i/UgfDe8UjBJpQABWeVhiJ43FTiPobnXN5At89rgWEqjJPTv
+         ZXig==
+X-Gm-Message-State: AOAM532q5cErDmeMOw4D0txdKGsubsuephDMoJvrXaJKrvUkUZ/20n1c
+        NQ1O7Zofcg5/XA15E79DV6/cRg==
+X-Google-Smtp-Source: ABdhPJxofDwgei5nJILFlmeUVYT5sPEg4Co9C6L/QHzh+MWc0ciLfVXyWKXT+NreFg41NQoX52BzBQ==
+X-Received: by 2002:adf:d4c6:: with SMTP id w6mr9583901wrk.92.1590077340874;
+        Thu, 21 May 2020 09:09:00 -0700 (PDT)
+Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
+        by smtp.gmail.com with ESMTPSA id c143sm7134776wmd.43.2020.05.21.09.09.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2020 09:09:00 -0700 (PDT)
+Date:   Thu, 21 May 2020 16:08:58 +0000
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Xia Jiang <xia.jiang@mediatek.com>
+Cc:     Xia Jiang <xia.jiang@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rick Chang <rick.chang@mediatek.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        srv_heupstream@mediatek.com, senozhatsky@chromium.org,
+        mojahsu@chromium.org, drinkcat@chromium.org,
+        maoguang.meng@mediatek.com, sj.huang@mediatek.com
+Subject: Re: [PATCH v8 14/14] media: platform: Add jpeg dec/enc feature
+Message-ID: <20200521160858.GL209565@chromium.org>
+References: <20200403094033.8288-1-xia.jiang@mediatek.com>
+ <20200403094033.8288-15-xia.jiang@mediatek.com>
+ <b62b303c-10cd-fdf6-52fa-90d63124487a@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b62b303c-10cd-fdf6-52fa-90d63124487a@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2020-05-21 at 16:28 +0300, Stanimir Varbanov wrote:
-> Here we introduce few debug macros with levels (low, medium and
-> high) and debug macro for firmware. Enabling the particular level
-> will be done by dynamic debug.
-
-I'd rather make the logging level facility generic in
-dynamic debug than prefix all formats with what could
-be non-specific content.
-
-From a long time ago:
-
-https://groups.google.com/forum/#!msg/linux.kernel/VlWbno-ZAFw/k_fFadhNHXcJ
-
-> For example to enable debug messages with low level:
-> echo 'format "VENUSL" +p' > debugfs/dynamic_debug/control
+On Mon, May 11, 2020 at 11:04:19AM +0200, Hans Verkuil wrote:
+> On 03/04/2020 11:40, Xia Jiang wrote:
+> > Add mtk jpeg encode v4l2 driver based on jpeg decode, because that jpeg
+> > decode and encode have great similarities with function operation.
+> > 
+> > Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
+> > ---
+> > v8:jpeg encoder and decoder use separate callbacks instead of repeating
+> >    the if/else in every callback.
+> >    improve vidioc_try_fmt() implementation that can be shared by jpeg
+> >    encoder and decoder.
+> >    fix the bug of jpeg encoder s_selection implementation.
+> >    cancel the state of the jpeg encoder.
+> >    improve jpeg encoder and decoder set default params flow.
+> >    put the clock names and other datas in a match_data struct.
+> >    fix the bug of geting correctly quality value.
+> >    do the all the bits' settings of one register in one function.
+> >    move the code of mtk_jpeg_enc_reg.h to mtk_jpeg_enc_hw.h and delete
+> >    mtk_jpeg_enc_reg.h.
+> > 
+> > v7: reverse spin lock and unlock operation in device run function for
+> >     multi-instance.
+> > 
+> > v6: add space to arounding '+'.
+> >     alignment 'struct mtk_jpeg_fmt *fmt' match open parenthesis.
+> >     change 'mtk_jpeg_enc_set_encFormat' to 'mtk_jpeg_enc_set_enc_format'.
+> >     make 'mtk_jpeg_ctrls_setup' to static prototype.
+> >     delete unused variables 'jpeg'/'align_h'/'align_w'/'flags'.
+> >     initialize 'yuv_format'/'enc_quality' variables.
+> >     
+> > v5: support crop for encoder and compose for decoder in s_selection and
+> >     g_selection function.
+> >     use clamp() to replace mtk_jpeg_bound_align_image() and round_up()
+> >     to replace mtk_jpeg_align().
+> >     delete jpeg_enc_param/mtk_jpeg_enc_param structure and
+> >     mtk_jpeg_set_param(), program the registers directly based on
+> >     the original V4L2 values.
+> >     move macro definition about hw to mtk_jpeg_enc_reg.h.
+> >     delete unnecessary V4L2 logs in driver.
+> >     cancel spin lock and unlock operation in deviec run function.
+> >     change jpeg enc register offset hex numberals from upercase to lowercase.
+> > 
+> > v4: split mtk_jpeg_try_fmt_mplane() to two functions, one for encoder,                                                      
+> >     one for decoder.                                                          
+> >     split mtk_jpeg_set_default_params() to two functions, one for                                                          
+> >     encoder, one for decoder.                                                          
+> >     add cropping support for encoder in g/s_selection ioctls.                                                          
+> >     change exif mode support by using V4L2_JPEG_ACTIVE_MARKER_APP1.                                                         
+> >     change MTK_JPEG_MAX_WIDTH/MTK_JPEG_MAX_HEIGH from 8192 to 65535 by                                                      
+> >     specification.                                                          
+> >     move width shifting operation behind aligning operation in                                                          
+> >     mtk_jpeg_try_enc_fmt_mplane() for bug fix.                                                          
+> >     fix user abuseing data_offset issue for DMABUF in                                                          
+> >     mtk_jpeg_set_enc_src().                                                          
+> >     fix kbuild warings: change MTK_JPEG_MIN_HEIGHT/MTK_JPEG_MAX_HEIGHT                                                      
+> >                         and MTK_JPEG_MIN_WIDTH/MTK_JPEG_MAX_WIDTH from                                                      
+> >                         'int' type to 'unsigned int' type.                                                          
+> >                         fix msleadingly indented of 'else'.                                                                                                              
+> > v3: delete Change-Id.                                                          
+> >     only test once handler->error after the last v4l2_ctrl_new_std().                                                       
+> >     seperate changes of v4l2-ctrls.c and v4l2-controls.h to new patch.                                                      
+> > v2: fix compliance test fail, check created buffer size in driver.
+> > ---
+> >  drivers/media/platform/mtk-jpeg/Makefile      |    5 +-
+> >  .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 1038 +++++++++++++----
+> >  .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |   51 +-
+> >  .../media/platform/mtk-jpeg/mtk_jpeg_dec_hw.h |    7 +-
+> >  .../media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c |  193 +++
+> >  .../media/platform/mtk-jpeg/mtk_jpeg_enc_hw.h |  123 ++
+> >  6 files changed, 1188 insertions(+), 229 deletions(-)
+> >  create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
+> >  create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.h
+> > 
+> > diff --git a/drivers/media/platform/mtk-jpeg/Makefile b/drivers/media/platform/mtk-jpeg/Makefile
+> > index 48516dcf96e6..76c33aad0f3f 100644
+> > --- a/drivers/media/platform/mtk-jpeg/Makefile
+> > +++ b/drivers/media/platform/mtk-jpeg/Makefile
+> > @@ -1,3 +1,6 @@
+> >  # SPDX-License-Identifier: GPL-2.0-only
+> > -mtk_jpeg-objs := mtk_jpeg_core.o mtk_jpeg_dec_hw.o mtk_jpeg_dec_parse.o
+> > +mtk_jpeg-objs := mtk_jpeg_core.o \
+> > +		 mtk_jpeg_dec_hw.o \
+> > +		 mtk_jpeg_dec_parse.o \
+> > +		 mtk_jpeg_enc_hw.o
+> >  obj-$(CONFIG_VIDEO_MEDIATEK_JPEG) += mtk_jpeg.o
+> > diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> > index 77a95185584c..18a759ce2c46 100644
+> > --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> > +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> > @@ -3,6 +3,7 @@
+> >   * Copyright (c) 2016 MediaTek Inc.
+> >   * Author: Ming Hsiu Tsai <minghsiu.tsai@mediatek.com>
+> >   *         Rick Chang <rick.chang@mediatek.com>
+> > + *         Xia Jiang <xia.jiang@mediatek.com>
+> >   */
+> >  
+> >  #include <linux/clk.h>
+> > @@ -23,11 +24,60 @@
+> >  #include <media/videobuf2-dma-contig.h>
+> >  #include <soc/mediatek/smi.h>
+> >  
+> > +#include "mtk_jpeg_enc_hw.h"
+> >  #include "mtk_jpeg_dec_hw.h"
+> >  #include "mtk_jpeg_core.h"
+> >  #include "mtk_jpeg_dec_parse.h"
+> >  
+> > -static struct mtk_jpeg_fmt mtk_jpeg_formats[] = {
+> > +static struct mtk_jpeg_fmt mtk_jpeg_enc_formats[] = {
+> > +	{
+> > +		.fourcc		= V4L2_PIX_FMT_JPEG,
+> > +		.colplanes	= 1,
+> > +		.flags		= MTK_JPEG_FMT_FLAG_ENC_CAPTURE,
+> > +	},
+> > +	{
+> > +		.fourcc		= V4L2_PIX_FMT_NV12M,
+> > +		.hw_format	= JPEG_ENC_YUV_FORMAT_NV12,
+> > +		.h_sample	= {4, 4},
+> > +		.v_sample	= {4, 2},
+> > +		.colplanes	= 2,
+> > +		.h_align	= 4,
+> > +		.v_align	= 4,
+> > +		.flags		= MTK_JPEG_FMT_FLAG_ENC_OUTPUT,
+> > +	},
+> > +	{
+> > +		.fourcc		= V4L2_PIX_FMT_NV21M,
+> > +		.hw_format	= JEPG_ENC_YUV_FORMAT_NV21,
+> > +		.h_sample	= {4, 4},
+> > +		.v_sample	= {4, 2},
+> > +		.colplanes	= 2,
+> > +		.h_align	= 4,
+> > +		.v_align	= 4,
+> > +		.flags		= MTK_JPEG_FMT_FLAG_ENC_OUTPUT,
+> > +	},
+> > +	{
+> > +		.fourcc		= V4L2_PIX_FMT_YUYV,
+> > +		.hw_format	= JPEG_ENC_YUV_FORMAT_YUYV,
+> > +		.h_sample	= {8},
+> > +		.v_sample	= {4},
+> > +		.colplanes	= 1,
+> > +		.h_align	= 5,
+> > +		.v_align	= 3,
+> > +		.flags		= MTK_JPEG_FMT_FLAG_ENC_OUTPUT,
+> > +	},
+> > +	{
+> > +		.fourcc		= V4L2_PIX_FMT_YVYU,
+> > +		.hw_format	= JPEG_ENC_YUV_FORMAT_YVYU,
+> > +		.h_sample	= {8},
+> > +		.v_sample	= {4},
+> > +		.colplanes	= 1,
+> > +		.h_align	= 5,
+> > +		.v_align	= 3,
+> > +		.flags		= MTK_JPEG_FMT_FLAG_ENC_OUTPUT,
+> > +	},
+> > +};
+> > +
+> > +static struct mtk_jpeg_fmt mtk_jpeg_dec_formats[] = {
+> >  	{
+> >  		.fourcc		= V4L2_PIX_FMT_JPEG,
+> >  		.colplanes	= 1,
+> > @@ -53,7 +103,8 @@ static struct mtk_jpeg_fmt mtk_jpeg_formats[] = {
+> >  	},
+> >  };
+> >  
+> > -#define MTK_JPEG_NUM_FORMATS ARRAY_SIZE(mtk_jpeg_formats)
+> > +#define MTK_JPEG_ENC_NUM_FORMATS ARRAY_SIZE(mtk_jpeg_enc_formats)
+> > +#define MTK_JPEG_DEC_NUM_FORMATS ARRAY_SIZE(mtk_jpeg_dec_formats)
+> >  
+> >  enum {
+> >  	MTK_JPEG_BUF_FLAGS_INIT			= 0,
+> > @@ -70,6 +121,11 @@ struct mtk_jpeg_src_buf {
+> >  static int debug;
+> >  module_param(debug, int, 0644);
+> >  
+> > +static inline struct mtk_jpeg_ctx *ctrl_to_ctx(struct v4l2_ctrl *ctrl)
+> > +{
+> > +	return container_of(ctrl->handler, struct mtk_jpeg_ctx, ctrl_hdl);
+> > +}
+> > +
+> >  static inline struct mtk_jpeg_ctx *mtk_jpeg_fh_to_ctx(struct v4l2_fh *fh)
+> >  {
+> >  	return container_of(fh, struct mtk_jpeg_ctx, fh);
+> > @@ -81,12 +137,25 @@ static inline struct mtk_jpeg_src_buf *mtk_jpeg_vb2_to_srcbuf(
+> >  	return container_of(to_vb2_v4l2_buffer(vb), struct mtk_jpeg_src_buf, b);
+> >  }
+> >  
+> > -static int mtk_jpeg_querycap(struct file *file, void *priv,
+> > -			     struct v4l2_capability *cap)
+> > +static int mtk_jpeg_enc_querycap(struct file *file, void *priv,
+> > +				 struct v4l2_capability *cap)
+> > +{
+> > +	struct mtk_jpeg_dev *jpeg = video_drvdata(file);
+> > +
+> > +	strscpy(cap->driver, MTK_JPEG_NAME, sizeof(cap->driver));
+> > +	strscpy(cap->card, MTK_JPEG_NAME " encoder", sizeof(cap->card));
+> > +	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+> > +		 dev_name(jpeg->dev));
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int mtk_jpeg_dec_querycap(struct file *file, void *priv,
+> > +				 struct v4l2_capability *cap)
+> >  {
+> >  	struct mtk_jpeg_dev *jpeg = video_drvdata(file);
+> >  
+> > -	strscpy(cap->driver, MTK_JPEG_NAME " decoder", sizeof(cap->driver));
+> > +	strscpy(cap->driver, MTK_JPEG_NAME, sizeof(cap->driver));
+> >  	strscpy(cap->card, MTK_JPEG_NAME " decoder", sizeof(cap->card));
+> >  	snprintf(cap->bus_info, sizeof(cap->bus_info), "platform:%s",
+> >  		 dev_name(jpeg->dev));
+> > @@ -94,6 +163,54 @@ static int mtk_jpeg_querycap(struct file *file, void *priv,
+> >  	return 0;
+> >  }
+> >  
+> > +static int vidioc_jpeg_enc_s_ctrl(struct v4l2_ctrl *ctrl)
+> > +{
+> > +	struct mtk_jpeg_ctx *ctx = ctrl_to_ctx(ctrl);
+> > +
+> > +	switch (ctrl->id) {
+> > +	case V4L2_CID_JPEG_RESTART_INTERVAL:
+> > +		ctx->restart_interval = ctrl->val;
+> > +		break;
+> > +	case V4L2_CID_JPEG_COMPRESSION_QUALITY:
+> > +		ctx->enc_quality = ctrl->val;
+> > +		break;
+> > +	case V4L2_CID_JPEG_ACTIVE_MARKER:
+> > +		ctx->enable_exif = ctrl->val & V4L2_JPEG_ACTIVE_MARKER_APP1 ?
+> > +				   true : false;
+> > +		break;
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct v4l2_ctrl_ops mtk_jpeg_enc_ctrl_ops = {
+> > +	.s_ctrl = vidioc_jpeg_enc_s_ctrl,
+> > +};
+> > +
+> > +static int mtk_jpeg_enc_ctrls_setup(struct mtk_jpeg_ctx *ctx)
+> > +{
+> > +	const struct v4l2_ctrl_ops *ops = &mtk_jpeg_enc_ctrl_ops;
+> > +	struct v4l2_ctrl_handler *handler = &ctx->ctrl_hdl;
+> > +
+> > +	v4l2_ctrl_handler_init(handler, 3);
+> > +
+> > +	v4l2_ctrl_new_std(handler, ops, V4L2_CID_JPEG_RESTART_INTERVAL, 0, 100,
+> > +			  1, 0);
+> > +	v4l2_ctrl_new_std(handler, ops, V4L2_CID_JPEG_COMPRESSION_QUALITY, 48,
+> > +			  100, 1, 90);
+> > +	v4l2_ctrl_new_std(handler, ops, V4L2_CID_JPEG_ACTIVE_MARKER, 0,
+> > +			  V4L2_JPEG_ACTIVE_MARKER_APP1, 0, 0);
+> > +
+> > +	if (handler->error) {
+> > +		v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+> > +		return handler->error;
+> > +	}
+> > +
+> > +	v4l2_ctrl_handler_setup(&ctx->ctrl_hdl);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int mtk_jpeg_enum_fmt(struct mtk_jpeg_fmt *mtk_jpeg_formats, int n,
+> >  			     struct v4l2_fmtdesc *f, u32 type)
+> >  {
+> > @@ -115,117 +232,105 @@ static int mtk_jpeg_enum_fmt(struct mtk_jpeg_fmt *mtk_jpeg_formats, int n,
+> >  	return 0;
+> >  }
+> >  
+> > -static int mtk_jpeg_enum_fmt_vid_cap(struct file *file, void *priv,
+> > -				     struct v4l2_fmtdesc *f)
+> > +static int mtk_jpeg_enc_enum_fmt_vid_cap(struct file *file, void *priv,
+> > +					 struct v4l2_fmtdesc *f)
+> >  {
+> > -	return mtk_jpeg_enum_fmt(mtk_jpeg_formats, MTK_JPEG_NUM_FORMATS, f,
+> > +	return mtk_jpeg_enum_fmt(mtk_jpeg_enc_formats,
+> > +				 MTK_JPEG_ENC_NUM_FORMATS, f,
+> > +				 MTK_JPEG_FMT_FLAG_ENC_CAPTURE);
+> > +}
+> > +
+> > +static int mtk_jpeg_dec_enum_fmt_vid_cap(struct file *file, void *priv,
+> > +					 struct v4l2_fmtdesc *f)
+> > +{
+> > +	return mtk_jpeg_enum_fmt(mtk_jpeg_dec_formats,
+> > +				 MTK_JPEG_DEC_NUM_FORMATS, f,
+> >  				 MTK_JPEG_FMT_FLAG_DEC_CAPTURE);
+> >  }
+> >  
+> > -static int mtk_jpeg_enum_fmt_vid_out(struct file *file, void *priv,
+> > -				     struct v4l2_fmtdesc *f)
+> > +static int mtk_jpeg_enc_enum_fmt_vid_out(struct file *file, void *priv,
+> > +					 struct v4l2_fmtdesc *f)
+> > +{
+> > +	return mtk_jpeg_enum_fmt(mtk_jpeg_enc_formats,
+> > +				 MTK_JPEG_ENC_NUM_FORMATS, f,
+> > +				 MTK_JPEG_FMT_FLAG_ENC_OUTPUT);
+> > +}
+> > +
+> > +static int mtk_jpeg_dec_enum_fmt_vid_out(struct file *file, void *priv,
+> > +					 struct v4l2_fmtdesc *f)
+> >  {
+> > -	return mtk_jpeg_enum_fmt(mtk_jpeg_formats, MTK_JPEG_NUM_FORMATS, f,
+> > -				 MTK_JPEG_FMT_FLAG_DEC_OUTPUT);
+> > +	return mtk_jpeg_enum_fmt(mtk_jpeg_dec_formats, MTK_JPEG_DEC_NUM_FORMATS,
+> > +				 f, MTK_JPEG_FMT_FLAG_DEC_OUTPUT);
+> >  }
 > 
-> If you want to enable all levels:
-> echo 'format "VENUS" +p' > debugfs/dynamic_debug/control
+> OK, so this patch is very hard to read because there are two independent changes
+> taking place:
 > 
-> All the features which dynamic debugging provide are preserved.
+> 1) rename existing functions/defines/variables with a _dec prefix to prepare
+>    for the addition of the encoder feature.
 > 
-> And finaly all dev_dbg are translated to VDBGX with appropriate
-> debug levels.
+> 2) add the encoder feature.
 > 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> ---
->  drivers/media/platform/qcom/venus/core.h      |  5 ++
->  drivers/media/platform/qcom/venus/helpers.c   |  2 +-
->  drivers/media/platform/qcom/venus/hfi_msgs.c  | 30 ++++-----
->  drivers/media/platform/qcom/venus/hfi_venus.c | 20 ++++--
->  .../media/platform/qcom/venus/pm_helpers.c    |  3 +-
->  drivers/media/platform/qcom/venus/vdec.c      | 63 +++++++++++++++++--
->  drivers/media/platform/qcom/venus/venc.c      |  4 ++
->  7 files changed, 96 insertions(+), 31 deletions(-)
+> Please split up this patch into two parts: one that does the rename and as much of
+> the preparation to support both decoder and encoder without changing the
+> functionality, and a second one that actually adds the new encoder feature.
 > 
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index b48782f9aa95..82438f19afba 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -15,6 +15,11 @@
->  #include "dbgfs.h"
->  #include "hfi.h"
->  
-> +#define VDBGL(fmt, args...)	pr_debug("VENUSL: " fmt, ##args)
-> +#define VDBGM(fmt, args...)	pr_debug("VENUSM: " fmt, ##args)
-> +#define VDBGH(fmt, args...)	pr_debug("VENUSH: " fmt, ##args)
-> +#define VDBGFW(fmt, args...)	pr_debug("VENUSFW: " fmt, ##args)
-> +
->  #define VIDC_CLKS_NUM_MAX		4
->  #define VIDC_VCODEC_CLKS_NUM_MAX	2
->  #define VIDC_PMDOMAINS_NUM_MAX		3
-> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> index 0143af7822b2..115a9a2af1d6 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.c
-> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> @@ -396,7 +396,7 @@ put_ts_metadata(struct venus_inst *inst, struct vb2_v4l2_buffer *vbuf)
->  	}
->  
->  	if (slot == -1) {
-> -		dev_dbg(inst->core->dev, "%s: no free slot\n", __func__);
-> +		VDBGH("no free slot for timestamp\n");
->  		return;
->  	}
->  
-> diff --git a/drivers/media/platform/qcom/venus/hfi_msgs.c b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> index 279a9d6fe737..36986d402c96 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_msgs.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_msgs.c
-> @@ -138,10 +138,9 @@ static void event_sys_error(struct venus_core *core, u32 event,
->  			    struct hfi_msg_event_notify_pkt *pkt)
->  {
->  	if (pkt)
-> -		dev_dbg(core->dev,
-> -			"sys error (session id:%x, data1:%x, data2:%x)\n",
-> -			pkt->shdr.session_id, pkt->event_data1,
-> -			pkt->event_data2);
-> +		VDBGH("sys error (session id: %x, data1: %x, data2: %x)\n",
-> +		      pkt->shdr.session_id, pkt->event_data1,
-> +		      pkt->event_data2);
->  
->  	core->core_ops->event_notify(core, event);
->  }
-> @@ -152,8 +151,8 @@ event_session_error(struct venus_core *core, struct venus_inst *inst,
->  {
->  	struct device *dev = core->dev;
->  
-> -	dev_dbg(dev, "session error: event id:%x, session id:%x\n",
-> -		pkt->event_data1, pkt->shdr.session_id);
-> +	VDBGH("session error: event id: %x, session id: %x\n",
-> +	      pkt->event_data1, pkt->shdr.session_id);
->  
->  	if (!inst)
->  		return;
-> @@ -236,8 +235,7 @@ static void hfi_sys_init_done(struct venus_core *core, struct venus_inst *inst,
->  }
->  
->  static void
-> -sys_get_prop_image_version(struct device *dev,
-> -			   struct hfi_msg_sys_property_info_pkt *pkt)
-> +sys_get_prop_image_version(struct hfi_msg_sys_property_info_pkt *pkt)
->  {
->  	int req_bytes;
->  
-> @@ -247,26 +245,25 @@ sys_get_prop_image_version(struct device *dev,
->  		/* bad packet */
->  		return;
->  
-> -	dev_dbg(dev, "F/W version: %s\n", (u8 *)&pkt->data[1]);
-> +	VDBGL("F/W version: %s\n", (u8 *)&pkt->data[1]);
->  }
->  
->  static void hfi_sys_property_info(struct venus_core *core,
->  				  struct venus_inst *inst, void *packet)
->  {
->  	struct hfi_msg_sys_property_info_pkt *pkt = packet;
-> -	struct device *dev = core->dev;
->  
->  	if (!pkt->num_properties) {
-> -		dev_dbg(dev, "%s: no properties\n", __func__);
-> +		VDBGM("no properties\n");
->  		return;
->  	}
->  
->  	switch (pkt->data[0]) {
->  	case HFI_PROPERTY_SYS_IMAGE_VERSION:
-> -		sys_get_prop_image_version(dev, pkt);
-> +		sys_get_prop_image_version(pkt);
->  		break;
->  	default:
-> -		dev_dbg(dev, "%s: unknown property data\n", __func__);
-> +		VDBGM("unknown property data\n");
->  		break;
->  	}
->  }
-> @@ -297,7 +294,7 @@ static void hfi_sys_ping_done(struct venus_core *core, struct venus_inst *inst,
->  static void hfi_sys_idle_done(struct venus_core *core, struct venus_inst *inst,
->  			      void *packet)
->  {
-> -	dev_dbg(core->dev, "sys idle\n");
-> +	VDBGL("sys idle\n");
->  }
->  
->  static void hfi_sys_pc_prepare_done(struct venus_core *core,
-> @@ -305,7 +302,7 @@ static void hfi_sys_pc_prepare_done(struct venus_core *core,
->  {
->  	struct hfi_msg_sys_pc_prep_done_pkt *pkt = packet;
->  
-> -	dev_dbg(core->dev, "pc prepare done (error %x)\n", pkt->error_type);
-> +	VDBGL("pc prepare done (error %x)\n", pkt->error_type);
->  }
->  
->  static unsigned int
-> @@ -387,8 +384,7 @@ static void hfi_session_prop_info(struct venus_core *core,
->  	case HFI_PROPERTY_CONFIG_VDEC_ENTROPY:
->  		break;
->  	default:
-> -		dev_dbg(dev, "%s: unknown property id:%x\n", __func__,
-> -			pkt->data[0]);
-> +		VDBGH("unknown property id: %x\n", pkt->data[0]);
->  		return;
->  	}
->  
-> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-> index 3a04b08ab85a..9aef62f9b59a 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-> @@ -467,7 +467,6 @@ static int venus_boot_core(struct venus_hfi_device *hdev)
->  
->  static u32 venus_hwversion(struct venus_hfi_device *hdev)
->  {
-> -	struct device *dev = hdev->core->dev;
->  	u32 ver = venus_readl(hdev, WRAPPER_HW_VERSION);
->  	u32 major, minor, step;
->  
-> @@ -477,7 +476,7 @@ static u32 venus_hwversion(struct venus_hfi_device *hdev)
->  	minor = minor >> WRAPPER_HW_VERSION_MINOR_VERSION_SHIFT;
->  	step = ver & WRAPPER_HW_VERSION_STEP_VERSION_MASK;
->  
-> -	dev_dbg(dev, "venus hw version %x.%x.%x\n", major, minor, step);
-> +	VDBGL("venus hw version %x.%x.%x\n", major, minor, step);
->  
->  	return major;
->  }
-> @@ -897,7 +896,6 @@ static int venus_session_cmd(struct venus_inst *inst, u32 pkt_type)
->  
->  static void venus_flush_debug_queue(struct venus_hfi_device *hdev)
->  {
-> -	struct device *dev = hdev->core->dev;
->  	void *packet = hdev->dbg_buf;
->  
->  	while (!venus_iface_dbgq_read(hdev, packet)) {
-> @@ -906,7 +904,7 @@ static void venus_flush_debug_queue(struct venus_hfi_device *hdev)
->  		if (pkt->hdr.pkt_type != HFI_MSG_SYS_COV) {
->  			struct hfi_msg_sys_debug_pkt *pkt = packet;
->  
-> -			dev_dbg(dev, "%s", pkt->msg_data);
-> +			VDBGFW("%s", pkt->msg_data);
->  		}
->  	}
->  }
-> @@ -1230,6 +1228,11 @@ static int venus_session_etb(struct venus_inst *inst,
->  		ret = -EINVAL;
->  	}
->  
-> +	VDBGM("etb: %s: itag: %u, flen: %u, addr: %x\n",
-> +	      session_type == VIDC_SESSION_TYPE_DEC ? "dec" : "enc",
-> +	      in_frame->clnt_data, in_frame->filled_len,
-> +	      in_frame->device_addr);
-> +
->  	return ret;
->  }
->  
-> @@ -1244,7 +1247,14 @@ static int venus_session_ftb(struct venus_inst *inst,
->  	if (ret)
->  		return ret;
->  
-> -	return venus_iface_cmdq_write(hdev, &pkt);
-> +	ret = venus_iface_cmdq_write(hdev, &pkt);
-> +
-> +	VDBGM("ftb: %s: otag: %u, flen: %u, addr: %x\n",
-> +	      inst->session_type == VIDC_SESSION_TYPE_DEC ? "dec" : "enc",
-> +	      out_frame->clnt_data, out_frame->filled_len,
-> +	      out_frame->device_addr);
-> +
-> +	return ret;
->  }
->  
->  static int venus_session_set_buffers(struct venus_inst *inst,
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index abf93158857b..ec7394615ef8 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -212,8 +212,7 @@ static int load_scale_bw(struct venus_core *core)
->  	}
->  	mutex_unlock(&core->lock);
->  
-> -	dev_dbg(core->dev, "total: avg_bw: %u, peak_bw: %u\n",
-> -		total_avg, total_peak);
-> +	VDBGL("total: avg_bw: %u, peak_bw: %u\n", total_avg, total_peak);
->  
->  	return icc_set_bw(core->video_path, total_avg, total_peak);
->  }
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index 7c4c483d5438..7959e452fbf3 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -225,7 +225,7 @@ static int vdec_check_src_change(struct venus_inst *inst)
->  
->  	if (!(inst->codec_state == VENUS_DEC_STATE_CAPTURE_SETUP) ||
->  	    !inst->reconfig)
-> -		dev_dbg(inst->core->dev, "%s: wrong state\n", __func__);
-> +		VDBGM("wrong codec state %u\n", inst->codec_state);
->  
->  done:
->  	return 0;
-> @@ -790,6 +790,10 @@ static int vdec_queue_setup(struct vb2_queue *q,
->  	unsigned int in_num, out_num;
->  	int ret = 0;
->  
-> +	VDBGM("vb2: queue_setup: %s: begin (codec_state: %u)\n",
-> +	      V4L2_TYPE_IS_OUTPUT(q->type) ? "out" : "cap",
-> +	      inst->codec_state);
-> +
->  	if (*num_planes) {
->  		unsigned int output_buf_size = venus_helper_get_opb_size(inst);
->  
-> @@ -859,6 +863,10 @@ static int vdec_queue_setup(struct vb2_queue *q,
->  		break;
->  	}
->  
-> +	VDBGM("vb2: queue_setup: %s: end (codec_state: %u, ret: %d)\n",
-> +	      V4L2_TYPE_IS_OUTPUT(q->type) ? "out" : "cap",
-> +	      inst->codec_state, ret);
-> +
->  	return ret;
->  
->  put_power:
-> @@ -897,6 +905,8 @@ static int vdec_start_capture(struct venus_inst *inst)
->  {
->  	int ret;
->  
-> +	VDBGM("on: cap: begin (codec_state: %u)\n", inst->codec_state);
-> +
->  	if (!inst->streamon_out)
->  		return 0;
->  
-> @@ -955,11 +965,16 @@ static int vdec_start_capture(struct venus_inst *inst)
->  	inst->sequence_cap = 0;
->  	inst->reconfig = false;
->  
-> +	VDBGM("on: cap: end (codec_state: %u)\n", inst->codec_state);
-> +
->  	return 0;
->  
->  free_dpb_bufs:
->  	venus_helper_free_dpb_bufs(inst);
->  err:
-> +	VDBGM("on: cap: end (codec_state: %u, ret: %d)\n",
-> +	      inst->codec_state, ret);
-> +
->  	return ret;
->  }
->  
-> @@ -967,6 +982,8 @@ static int vdec_start_output(struct venus_inst *inst)
->  {
->  	int ret;
->  
-> +	VDBGM("on: out: begin (codec_state: %u)\n", inst->codec_state);
-> +
->  	if (inst->codec_state == VENUS_DEC_STATE_SEEK) {
->  		ret = venus_helper_process_initial_out_bufs(inst);
->  		inst->codec_state = VENUS_DEC_STATE_DECODING;
-> @@ -1015,6 +1032,10 @@ static int vdec_start_output(struct venus_inst *inst)
->  
->  done:
->  	inst->streamon_out = 1;
-> +
-> +	VDBGM("on: out: end (codec_state: %u, ret: %d)\n",
-> +	      inst->codec_state, ret);
-> +
->  	return ret;
->  }
->  
-> @@ -1069,6 +1090,8 @@ static int vdec_stop_capture(struct venus_inst *inst)
->  {
->  	int ret = 0;
->  
-> +	VDBGM("off: cap: begin (codec_state: %u)\n", inst->codec_state);
-> +
->  	switch (inst->codec_state) {
->  	case VENUS_DEC_STATE_DECODING:
->  		ret = hfi_session_flush(inst, HFI_FLUSH_ALL, true);
-> @@ -1090,6 +1113,9 @@ static int vdec_stop_capture(struct venus_inst *inst)
->  
->  	INIT_LIST_HEAD(&inst->registeredbufs);
->  
-> +	VDBGM("off: cap: end (codec_state: %u, ret: %d)\n",
-> +	      inst->codec_state, ret);
-> +
->  	return ret;
->  }
->  
-> @@ -1097,6 +1123,8 @@ static int vdec_stop_output(struct venus_inst *inst)
->  {
->  	int ret = 0;
->  
-> +	VDBGM("off: out: begin (codec_state: %u)\n", inst->codec_state);
-> +
->  	switch (inst->codec_state) {
->  	case VENUS_DEC_STATE_DECODING:
->  	case VENUS_DEC_STATE_DRAIN:
-> @@ -1112,6 +1140,9 @@ static int vdec_stop_output(struct venus_inst *inst)
->  		break;
->  	}
->  
-> +	VDBGM("off: out: end (codec_state: %u, ret %d)\n",
-> +	      inst->codec_state, ret);
-> +
->  	return ret;
->  }
->  
-> @@ -1146,6 +1177,8 @@ static void vdec_session_release(struct venus_inst *inst)
->  	struct venus_core *core = inst->core;
->  	int ret, abort = 0;
->  
-> +	VDBGM("rel: begin (codec_state: %u)\n", inst->codec_state);
-> +
->  	vdec_pm_get(inst);
->  
->  	mutex_lock(&inst->lock);
-> @@ -1175,15 +1208,23 @@ static void vdec_session_release(struct venus_inst *inst)
->  
->  	venus_pm_release_core(inst);
->  	vdec_pm_put(inst, false);
-> +
-> +	VDBGM("rel: end (codec_state: %u)\n", inst->codec_state);
->  }
->  
->  static int vdec_buf_init(struct vb2_buffer *vb)
->  {
->  	struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
-> +	int ret;
->  
->  	inst->buf_count++;
->  
-> -	return venus_helper_vb2_buf_init(vb);
-> +	ret = venus_helper_vb2_buf_init(vb);
-> +
-> +	VDBGM("vb2: buf_init: %s: done (codec_state: %u)\n",
-> +	      V4L2_TYPE_IS_OUTPUT(vb->type) ? "out" : "cap", inst->codec_state);
-> +
-> +	return ret;
->  }
->  
->  static void vdec_buf_cleanup(struct vb2_buffer *vb)
-> @@ -1193,6 +1234,9 @@ static void vdec_buf_cleanup(struct vb2_buffer *vb)
->  	inst->buf_count--;
->  	if (!inst->buf_count)
->  		vdec_session_release(inst);
-> +
-> +	VDBGM("vb2: buf_cleanup: %s: done (codec_state: %u)\n",
-> +	      V4L2_TYPE_IS_OUTPUT(vb->type) ? "out" : "cap", inst->codec_state);
->  }
->  
->  static void vdec_vb2_buf_queue(struct vb2_buffer *vb)
-> @@ -1281,6 +1325,10 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
->  	}
->  
->  	v4l2_m2m_buf_done(vbuf, state);
-> +
-> +	VDBGH("done: %s, idx: %02u, flen: %08u, flags: hfi: %08x, v4l2: %08x\n",
-> +	      V4L2_TYPE_IS_OUTPUT(type) ? "out" : "cap",
-> +	      vbuf->vb2_buf.index, bytesused, hfi_flags, vbuf->flags);
->  }
->  
->  static void vdec_event_change(struct venus_inst *inst,
-> @@ -1289,7 +1337,6 @@ static void vdec_event_change(struct venus_inst *inst,
->  	static const struct v4l2_event ev = {
->  		.type = V4L2_EVENT_SOURCE_CHANGE,
->  		.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION };
-> -	struct device *dev = inst->core->dev_dec;
->  	struct v4l2_format format = {};
->  
->  	mutex_lock(&inst->lock);
-> @@ -1310,8 +1357,12 @@ static void vdec_event_change(struct venus_inst *inst,
->  	if (inst->bit_depth != ev_data->bit_depth)
->  		inst->bit_depth = ev_data->bit_depth;
->  
-> -	dev_dbg(dev, "event %s sufficient resources (%ux%u)\n",
-> -		sufficient ? "" : "not", ev_data->width, ev_data->height);
-> +	VDBGH("event: %s sufficient resources (%ux%u)\n",
-> +	      sufficient ? "" : "not", ev_data->width, ev_data->height);
-> +
-> +	if (ev_data->buf_count)
-> +		VDBGH("event: buf_count: %u, old: %u\n",
-> +		      ev_data->buf_count, inst->num_output_bufs);
->  
->  	if (sufficient) {
->  		hfi_session_continue(inst);
-> @@ -1344,7 +1395,7 @@ static void vdec_event_change(struct venus_inst *inst,
->  
->  		ret = hfi_session_flush(inst, HFI_FLUSH_OUTPUT, false);
->  		if (ret)
-> -			dev_dbg(dev, "flush output error %d\n", ret);
-> +			VDBGH("flush output error (%d)\n", ret);
->  	}
->  
->  	inst->reconfig = true;
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index feed648550d1..c591d00ee0a7 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -1074,6 +1074,10 @@ static void venc_buf_done(struct venus_inst *inst, unsigned int buf_type,
->  	}
->  
->  	v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
-> +
-> +	VDBGH("done: %s, idx: %02u, flen: %08u, flags: hfi: %08x, v4l2: %08x\n",
-> +	      V4L2_TYPE_IS_OUTPUT(type) ? "out" : "cap",
-> +	      vbuf->vb2_buf.index, bytesused, hfi_flags, vbuf->flags);
->  }
->  
->  static void venc_event_notify(struct venus_inst *inst, u32 event,
+> In fact, once that's done it is likely that most of this patch series can be
+> merged, even if there are still things that need to be changed for the last
+> patch adding the encoder support. I see nothing objectionable in patches 1-10
+> and 13. So merging those together with a new rename patch wouldn't be an issue,
+> I think.
+> 
+> In any case, the diffs should be a lot cleaner and easier to review by splitting
+> it up like that.
 
+Agreed with Hans. The split will make it much easier to review this one
+for me, so I'll wait for it. Thanks in advance.
+
+Best regards,
+Tomasz
