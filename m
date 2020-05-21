@@ -2,79 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F01D81DD11B
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 17:22:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EA1CD1DD11F
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 17:23:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729954AbgEUPWV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 11:22:21 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:33521 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727898AbgEUPWU (ORCPT
+        id S1729786AbgEUPW5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 11:22:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35040 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729633AbgEUPW4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 11:22:20 -0400
-Received: by mail-ot1-f65.google.com with SMTP id v17so5830848ote.0;
-        Thu, 21 May 2020 08:22:20 -0700 (PDT)
+        Thu, 21 May 2020 11:22:56 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86ABFC061A0F
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 08:22:56 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id v19so94617wmj.0
+        for <linux-media@vger.kernel.org>; Thu, 21 May 2020 08:22:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=BAKLcpITx/3kGgWTBYxDEZTohF/5xKJj7rJDCLE80Zo=;
+        b=jO1m0/v5PI18i/EX4FCyeJ0cr5KPOWycKpGnRQGN0bSwCpxt8XWGDKkwubaWb0doVL
+         QFggHPhQuapuwFk2GcAO/sFU/5KXmx6tmurSe+maOk6IxIvLE1mzL7tSB5gKF1y76rqk
+         6N5xVsZYZakqqegyFos4roVrtKTae2J8IVQO8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=uw/ECKoYgz/YxRjuJpnhpsZS31S0r5IQsD1sVVnFwsk=;
-        b=aATRAxRprz6cP3SJWzCbj6vv5f5/aWhXdwGGlhXlq41jqU+FEmgtxviTj6MR0imbUV
-         xoN5Ov1RqrzIA7Ea2vpshUsoqshXANhmL0SOUHZ0Sidpbe96vRv6/NHgumz0Q/0R02OF
-         mzBlpdj4cuxASDz2NSxAm96UqU/unyXNYi1ouc42Io5haqPWynj4NZm6EktEDa+h3YqA
-         KMQruSltnEGwl2+e0FpyW+FOD+wNPu4m6no68c3QyaUJPvU1NWX30suephwnlv8Q+0Z7
-         tP8Hd+WY7DRyrB1BB8USJdd0mVsQaRsMkeQ5yjH0e30mh0OyUs7oHL74eH0sotUg+/ny
-         lSDw==
-X-Gm-Message-State: AOAM532fZAGLkPY3QrV2yAdX2sIMobqqJg1CLoPRuIIa3gL+xUGfX4dB
-        R77Bv2j4lownfYVjYMvDiHdkdYvyRTh9iqU9CqQ=
-X-Google-Smtp-Source: ABdhPJySYHHfJZQzmSAFX4YreFFQLn9SDcqp+e2Kz8pIAQ/fKPfh6o6bUIqNhlRZ/GFZaNjXxDQc9ZETXw93O7R/z84=
-X-Received: by 2002:a9d:3d05:: with SMTP id a5mr7537138otc.262.1590074539694;
- Thu, 21 May 2020 08:22:19 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=BAKLcpITx/3kGgWTBYxDEZTohF/5xKJj7rJDCLE80Zo=;
+        b=dc47gy3eZe/eWpkDwSNZeC9SXuru4ZGp4t7OJKUplWhlvxiTHkAwxAYFRApGFasuBv
+         2pKqW5uFf9Wc346au0NKyWO8EPtq10f2YsWqheh+CzXmgOxp4LejhteI2L8n4gEO2+6W
+         F/4c7JIY7ghxnlW3qZWIDHL/lC/0H8HtxsDJH9i0nXo7XEWpvuvbDGcwpGkjRQqHjisz
+         Rh6ie8yjY6UauaPHADEEgT1WBzPlpWcsNnT/LWRl+8tY/Xw2atmuMSvHFaY6S1Rf/TnQ
+         Rv6Jeq0szwwOVKkdJ0pRcnpi1o4gMmfQ50AxvYqBLhtP0hwDJCJVBIR9PffflA/1QrlZ
+         GTdQ==
+X-Gm-Message-State: AOAM530mIG6VbdwQxemMZHAZjBvcrAantvBpNa7FDfl+bci7IVl1X0HY
+        7quEWInx6KNnkczf+9w/dU/fkQ==
+X-Google-Smtp-Source: ABdhPJwMue+mt+thE6n7MP8xM0aOjfshOU4d1sP9ElGBs9Eu1VhZydaalBi9QV0v2+BvJeu8Riv4sg==
+X-Received: by 2002:a1c:a74a:: with SMTP id q71mr9177584wme.23.1590074575192;
+        Thu, 21 May 2020 08:22:55 -0700 (PDT)
+Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
+        by smtp.gmail.com with ESMTPSA id j190sm7073152wmb.33.2020.05.21.08.22.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 May 2020 08:22:54 -0700 (PDT)
+Date:   Thu, 21 May 2020 15:22:53 +0000
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Xia Jiang <xia.jiang@mediatek.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rick Chang <rick.chang@mediatek.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        srv_heupstream@mediatek.com, senozhatsky@chromium.org,
+        mojahsu@chromium.org, drinkcat@chromium.org,
+        maoguang.meng@mediatek.com, sj.huang@mediatek.com
+Subject: Re: [PATCH v8 05/14] media: platform: Improve power on and power off
+ flow
+Message-ID: <20200521152253.GE209565@chromium.org>
+References: <20200403094033.8288-1-xia.jiang@mediatek.com>
+ <20200403094033.8288-6-xia.jiang@mediatek.com>
 MIME-Version: 1.0
-References: <20200520095148.10995-1-dinghao.liu@zju.edu.cn>
- <2b5d64f5-825f-c081-5d03-02655c2d9491@gmail.com> <20200520150230.GC30374@kadam>
- <2a46539d.b977f.1723553aa81.Coremail.dinghao.liu@zju.edu.cn> <20200521091505.GF30374@kadam>
-In-Reply-To: <20200521091505.GF30374@kadam>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Thu, 21 May 2020 17:22:05 +0200
-Message-ID: <CAJZ5v0irLayBUPRWNT1tcZivz9inS1YbUgGj5WXvucLKKwRQAw@mail.gmail.com>
-Subject: Re: Re: [PATCH] media: staging: tegra-vde: fix runtime pm imbalance
- on error
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     dinghao.liu@zju.edu.cn, devel@driverdev.osuosl.org,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <len.brown@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux PM <linux-pm@vger.kernel.org>, Kangjie Lu <kjlu@umn.edu>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200403094033.8288-6-xia.jiang@mediatek.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 21, 2020 at 11:15 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
->
-> On Thu, May 21, 2020 at 11:42:55AM +0800, dinghao.liu@zju.edu.cn wrote:
-> > Hi, Dan,
-> >
-> > I agree the best solution is to fix __pm_runtime_resume(). But there are also
-> > many cases that assume pm_runtime_get_sync() will change PM usage
-> > counter on error. According to my static analysis results, the number of these
-> > "right" cases are larger. Adjusting __pm_runtime_resume() directly will introduce
-> > more new bugs. Therefore I think we should resolve the "bug" cases individually.
-> >
->
-> That's why I was saying that we may need to introduce a new replacement
-> function for pm_runtime_get_sync() that works as expected.
->
-> There is no reason why we have to live with the old behavior.
+Hi Xia,
 
-What exactly do you mean by "the old behavior"?
+On Fri, Apr 03, 2020 at 05:40:24PM +0800, Xia Jiang wrote:
+> Call pm_runtime_get_sync() before starting a frame and then
+> pm_runtime_put() after completing it. This can save power for the time
+> between processing two frames.
+> 
+> Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
+> ---
+>  .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 27 +++++--------------
+>  1 file changed, 6 insertions(+), 21 deletions(-)
+> 
+
+Thank you for the patch. Please see my comments inline.
+
+> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> index a536fa95b3d6..dd5cadd101ef 100644
+> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> @@ -710,23 +710,6 @@ static struct vb2_v4l2_buffer *mtk_jpeg_buf_remove(struct mtk_jpeg_ctx *ctx,
+>  		return v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
+>  }
+>  
+> -static int mtk_jpeg_start_streaming(struct vb2_queue *q, unsigned int count)
+> -{
+> -	struct mtk_jpeg_ctx *ctx = vb2_get_drv_priv(q);
+> -	struct vb2_v4l2_buffer *vb;
+> -	int ret = 0;
+> -
+> -	ret = pm_runtime_get_sync(ctx->jpeg->dev);
+> -	if (ret < 0)
+> -		goto err;
+> -
+> -	return 0;
+> -err:
+> -	while ((vb = mtk_jpeg_buf_remove(ctx, q->type)))
+> -		v4l2_m2m_buf_done(vb, VB2_BUF_STATE_QUEUED);
+> -	return ret;
+> -}
+> -
+>  static void mtk_jpeg_stop_streaming(struct vb2_queue *q)
+>  {
+>  	struct mtk_jpeg_ctx *ctx = vb2_get_drv_priv(q);
+> @@ -751,8 +734,6 @@ static void mtk_jpeg_stop_streaming(struct vb2_queue *q)
+>  
+>  	while ((vb = mtk_jpeg_buf_remove(ctx, q->type)))
+>  		v4l2_m2m_buf_done(vb, VB2_BUF_STATE_ERROR);
+> -
+> -	pm_runtime_put_sync(ctx->jpeg->dev);
+>  }
+>  
+>  static const struct vb2_ops mtk_jpeg_qops = {
+> @@ -761,7 +742,6 @@ static const struct vb2_ops mtk_jpeg_qops = {
+>  	.buf_queue          = mtk_jpeg_buf_queue,
+>  	.wait_prepare       = vb2_ops_wait_prepare,
+>  	.wait_finish        = vb2_ops_wait_finish,
+> -	.start_streaming    = mtk_jpeg_start_streaming,
+>  	.stop_streaming     = mtk_jpeg_stop_streaming,
+>  };
+>  
+> @@ -812,7 +792,7 @@ static void mtk_jpeg_device_run(void *priv)
+>  	struct mtk_jpeg_src_buf *jpeg_src_buf;
+>  	struct mtk_jpeg_bs bs;
+>  	struct mtk_jpeg_fb fb;
+> -	int i;
+> +	int i, ret;
+>  
+>  	src_buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+>  	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+> @@ -832,6 +812,10 @@ static void mtk_jpeg_device_run(void *priv)
+>  		return;
+>  	}
+>  
+> +	ret = pm_runtime_get_sync(jpeg->dev);
+> +	if (ret < 0)
+> +		goto dec_end;
+> +
+>  	mtk_jpeg_set_dec_src(ctx, &src_buf->vb2_buf, &bs);
+>  	if (mtk_jpeg_set_dec_dst(ctx, &jpeg_src_buf->dec_param, &dst_buf->vb2_buf, &fb))
+>  		goto dec_end;
+> @@ -957,6 +941,7 @@ static irqreturn_t mtk_jpeg_dec_irq(int irq, void *priv)
+>  	v4l2_m2m_buf_done(src_buf, buf_state);
+>  	v4l2_m2m_buf_done(dst_buf, buf_state);
+>  	v4l2_m2m_job_finish(jpeg->m2m_dev, ctx->fh.m2m_ctx);
+> +	pm_runtime_put_sync(ctx->jpeg->dev);
+
+The _sync variant explicitly waits until the asynchronous PM operation
+completes. This is usually undesired, because the CPU stays blocked for
+no good reason. In this context it is actually a bug, because this is an
+interrupt handler and it's not allowed to sleep. I wonder why this
+actually didn't crash in your testing. Please change to the regular
+pm_runtime_put().
+
+Best regards,
+Tomasz
