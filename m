@@ -2,281 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61A9C1DC4CE
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 03:36:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3752D1DC5CD
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 05:43:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727983AbgEUBg5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 21:36:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47818 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727969AbgEUBg4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 21:36:56 -0400
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D980C061A0E
-        for <linux-media@vger.kernel.org>; Wed, 20 May 2020 18:36:56 -0700 (PDT)
-Received: by mail-qv1-xf44.google.com with SMTP id fb16so2381549qvb.5
-        for <linux-media@vger.kernel.org>; Wed, 20 May 2020 18:36:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=oUriGfgjkQX3LYY7wtj+RwTpaaRdDlt+3hTHB1vDTro=;
-        b=qUG0/EH6XgLuxNXbQdJGezJbSQnq0Y0S/9ctlrDqDZzBmDJvsxq7FBzhGpk11Ot+cT
-         UsLryIJ+nLWIYzsIV6Gu/Gb2PxgGUbjh0zqQVnPG4bzFl45QemjVJQaDawNLUKoLvCC9
-         QJ8VqGPOjpv3ayUyQtnOU0LD/9bRdnFGsbRl64BkFPt8mD+QhsPumB/jzYiHyLkVE4B0
-         902XwQS+EUOGGd8kT064L7blhtHZHmZ24U4MraCQJQSV6gr+SfKf9DRh/zaCfYbaRUPl
-         uuGzpzGRkVx78pLUo5Smp49BsBnHwC+RAjbVqMp24UtmQT38yD4UGvKQGeuitvt76b7K
-         MitQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=oUriGfgjkQX3LYY7wtj+RwTpaaRdDlt+3hTHB1vDTro=;
-        b=fYM0v2fvKLOt1f3XS5cM1IaRjArnacSLpdeEQbsG4s+VwyAg9liU1JP9JlTO7aibKf
-         8biEOqmsl0ckV4dOy9H1b5aD3y//r99Uv1kBaZyD7pY6uUq60Gx83NurLCvi9fUetiQC
-         qiBhIZsPFTFNULDc2m2Mre0IOWwduuHJQa5OuQDWaj17ImjMoyqlFFzx5K/JalzynfHR
-         VLeyoMcVjeO2paI/SMhX6zdWCiarWWi2BNmTZMqaPQIwYYcGTcBTjV09XHR8lebAWxYM
-         XDmjG5tWtUzq8YA/r33BwK3/WqikUwCP/CocU7FsTxtmgaaaTlNaYG2hCfPlulfotgw8
-         awYw==
-X-Gm-Message-State: AOAM532D4nYHTAKI9jCoEWBTW4Q6c/ZrvJT4ScXcHYwtLaa9gHtRysXW
-        4MQ0CfEilOJH/7vAxn00MRjMkU2YHm9qV41HArn5Iw==
-X-Google-Smtp-Source: ABdhPJy4C/+klK8xF4IEwT19w/09g+zR+6lWSkQvG6oshEgv9u7seIlkLrXJWcxPACRQ5P+F/R97+CzyHpQhoOhPB0E=
-X-Received: by 2002:a0c:ed21:: with SMTP id u1mr7831281qvq.206.1590025015219;
- Wed, 20 May 2020 18:36:55 -0700 (PDT)
+        id S1728317AbgEUDnc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 20 May 2020 23:43:32 -0400
+Received: from spam.zju.edu.cn ([61.164.42.155]:14028 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728327AbgEUDnb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 20 May 2020 23:43:31 -0400
+X-Greylist: delayed 72007 seconds by postgrey-1.27 at vger.kernel.org; Wed, 20 May 2020 23:43:28 EDT
+Received: by ajax-webmail-mail-app4 (Coremail) ; Thu, 21 May 2020 11:42:55
+ +0800 (GMT+08:00)
+X-Originating-IP: [222.205.77.158]
+Date:   Thu, 21 May 2020 11:42:55 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   dinghao.liu@zju.edu.cn
+To:     "Dan Carpenter" <dan.carpenter@oracle.com>
+Cc:     "Dmitry Osipenko" <digetx@gmail.com>, kjlu@umn.edu,
+        devel@driverdev.osuosl.org,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org,
+        "Jonathan Hunter" <jonathanh@nvidia.com>,
+        "Thierry Reding" <thierry.reding@gmail.com>,
+        linux-tegra@vger.kernel.org,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        "Pavel Machek" <pavel@ucw.cz>, "Len Brown" <len.brown@intel.com>,
+        linux-pm@vger.kernel.org
+Subject: Re: Re: [PATCH] media: staging: tegra-vde: fix runtime pm imbalance
+ on error
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190906(84e8bf8f)
+ Copyright (c) 2002-2020 www.mailtech.cn zju.edu.cn
+In-Reply-To: <20200520150230.GC30374@kadam>
+References: <20200520095148.10995-1-dinghao.liu@zju.edu.cn>
+ <2b5d64f5-825f-c081-5d03-02655c2d9491@gmail.com>
+ <20200520150230.GC30374@kadam>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-References: <20200506084039.249977-1-eizan@chromium.org> <20200506184018.v2.2.I87cf35a058328c780bd3b8b2191209a5011b7016@changeid>
- <CAFqH_50_Py7Diu5bwmjLBPGiy3F5J5qNGmtrbH7i7aTUaHif9A@mail.gmail.com>
-In-Reply-To: <CAFqH_50_Py7Diu5bwmjLBPGiy3F5J5qNGmtrbH7i7aTUaHif9A@mail.gmail.com>
-From:   Eizan Miyamoto <eizan@google.com>
-Date:   Thu, 21 May 2020 11:36:43 +1000
-Message-ID: <CAOak1e-U8kxocZWUV=e9zWHzdfLg0=cnvjtX-Wq0G9Cw=Bcq0g@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] [media] mtk-mdp: use pm_runtime in MDP component driver
-To:     Enric Balletbo Serra <eballetbo@gmail.com>
-Cc:     Eizan Miyamoto <eizan@chromium.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-        Houlong Wei <houlong.wei@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Message-ID: <2a46539d.b977f.1723553aa81.Coremail.dinghao.liu@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cS_KCgBHkD6_+MVeENzlAQ--.38589W
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgUHBlZdtOOvVwAHsl
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJTRUUUbtIS07vEb7Iv0x
+        C_Cr1lV2xY67kC6x804xWlV2xY67CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DMIAI
+        bVAFxVCF77xC64kEw24lV2xY67C26IkvcIIF6IxKo4kEV4ylV2xY628lY4IE4IxF12IF4w
+        CS07vE84x0c7CEj48ve4kI8wCS07vE84ACjcxK6xIIjxv20xvE14v26w1j6s0DMIAIbVA2
+        z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW0oVCq3wCS07vE84ACjcxK6I8E87Iv67AKxVW0oV
+        Cq3wCS07vE84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DMIAIbVAS0I0E0xvYzxvE52x0
+        82IY62kv0487MIAIbVAqx4xG64xvF2IEw4CE5I8CrVC2j2WlV2xY6cIj6xIIjxv20xvE14
+        v26r1j6r18MIAIbVAv7VC2z280aVAFwI0_Jr0_Gr1lV2xY6cvjeVCFs4IE7xkEbVWUJVW8
+        JwCS07vEFIxGxcIEc7CjxVA2Y2ka0xkIwI1lV2xY6x02cVAKzwCS07vEc2xSY4AK67AK6r
+        48MIAIbVCY0x0Ix7I2Y4AK64vIr41lV2xY6xAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCS
+        07vE4x8a6x804xWlV2xY6xC20s026xCaFVCjc4AY6r1j6r4UMIAIbVC20s026c02F40E14
+        v26r1j6r18MIAIbVC20s026x8GjcxK67AKxVWUGVWUWwCS07vEx4CE17CEb7AF67AKxVWU
+        tVW8ZwCS07vEIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCS07vEIxAIcVC0I7IYx2IY6xkF7I
+        0E14v26r4j6F4UMIAIbVCI42IY6xAIw20EY4v20xvaj40_Wr1j6rW3Jr1lV2xY6IIF0xvE
+        x4A2jsIE14v26r1j6r4UMIAIbVCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWI
+        evJa73U
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 7, 2020 at 3:07 AM Enric Balletbo Serra <eballetbo@gmail.com> wrote:
->
-> Hi Eizan,
->
-> Thank you for the patch.
->
-> Missatge de Eizan Miyamoto <eizan@chromium.org> del dia dc., 6 de maig
-> 2020 a les 10:42:
-> >
-> > Without this change, the MDP components are not fully integrated into
-> > the runtime power management subsystem, and the MDP driver does not
-> > work.
-> >
-> > For each of the component device drivers to be able to call
-> > pm_runtime_get/put_sync() a pointer to the component's device struct
-> > had to be added to struct mtk_mdp_comp, set by mtk_mdp_comp_init().
-> >
-> > Note that the dev argument to mtk_mdp_comp_clock_on/off() has been
-> > removed. Those functions used to be called from the "master" mdp driver
-> > in mtk_mdp_core.c, but the component's device pointer no longer
-> > corresponds to the mdp master device pointer, which is not the right
-> > device to pass to pm_runtime_put/get_sync() which we had to add to get
-> > the driver to work properly.
-> >
-> > Signed-off-by: Eizan Miyamoto <eizan@chromium.org>
-> > ---
-> >
-> > Changes in v2:
->
-> Ah, I guess this change log corresponds to the first patch.
->
-> > - remove empty mtk_mdp_comp_init
-> > - update documentation for enum mtk_mdp_comp_type
-> > - remove comma after last element of mtk_mdp_comp_driver_dt_match
-> >
-> >  drivers/media/platform/mtk-mdp/mtk_mdp_comp.c | 22 ++++++++++++++-----
-> >  drivers/media/platform/mtk-mdp/mtk_mdp_comp.h |  6 +++--
-> >  drivers/media/platform/mtk-mdp/mtk_mdp_core.c |  6 ++---
-> >  3 files changed, 23 insertions(+), 11 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> > index 5b4d482df778..228c58f92c8c 100644
-> > --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> > +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.c
-> > @@ -15,6 +15,7 @@
-> >  #include <linux/of_platform.h>
-> >  #include <soc/mediatek/smi.h>
-> >  #include <linux/platform_device.h>
-> > +#include <linux/pm_runtime.h>
-> >
-> >  #include "mtk_mdp_comp.h"
-> >  #include "mtk_mdp_core.h"
-> > @@ -53,7 +54,7 @@ static const struct of_device_id mtk_mdp_comp_driver_dt_match[] = {
-> >  };
-> >  MODULE_DEVICE_TABLE(of, mtk_mdp_comp_driver_dt_match);
-> >
-> > -void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp)
-> > +void mtk_mdp_comp_clock_on(struct mtk_mdp_comp *comp)
-> >  {
-> >         int i, err;
-> >
-> > @@ -62,25 +63,31 @@ void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp)
-> >                 if (err) {
-> >                         enum mtk_mdp_comp_type comp_type =
-> >                                 (enum mtk_mdp_comp_type)
-> > -                               of_device_get_match_data(dev);
-> > -                       dev_err(dev,
-> > +                               of_device_get_match_data(comp->dev);
-> > +                       dev_err(comp->dev,
-> >                                 "failed to get larb, err %d. type:%d\n",
-> >                                 err, comp_type);
-> >                 }
-> >         }
-> >
-> > +       err = pm_runtime_get_sync(comp->dev);
-> > +       if (err < 0)
-> > +               dev_err(comp->dev,
-> > +                       "failed to runtime get, err %d.\n",
-> > +                       err);
->
-> Should you really ignore this error? If that's the case I'd just call
-> pm_runtime_get_sync() without adding the logic to just print an error
-> message.
-
-This is mostly consistent with style elsewhere, e.g., in mtk_mdp_m2m.c
-mtk_mdp_m2m_start_streaming and mtk_mdp_m2m_stop_streaming.
-
->
-> > +
-> >         for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
-> >                 if (IS_ERR(comp->clk[i]))
-> >                         continue;
-> >                 err = clk_prepare_enable(comp->clk[i]);
-> >                 if (err)
-> > -                       dev_err(dev,
-> > +                       dev_err(comp->dev,
-> >                                 "failed to enable clock, err %d. i:%d\n",
-> >                                 err, i);
->
-> Although ignoring errors seems to be a common pattern in this file and
-> I know you did not introduce this.
-
-Maybe the issue is that since no action is taken, logging at the 'error' log
-level is not the right thing? IOW, should it be changed to an informational
-message instead? Nevertheless, I think we should defer these changes to a
-follow-up patch instead.
-
->
-> >         }
-> >  }
-> >
-> > -void mtk_mdp_comp_clock_off(struct device *dev, struct mtk_mdp_comp *comp)
-> > +void mtk_mdp_comp_clock_off(struct mtk_mdp_comp *comp)
-> >  {
-> >         int i;
-> >
-> > @@ -92,6 +99,8 @@ void mtk_mdp_comp_clock_off(struct device *dev, struct mtk_mdp_comp *comp)
-> >
-> >         if (comp->larb_dev)
-> >                 mtk_smi_larb_put(comp->larb_dev);
-> > +
-> > +       pm_runtime_put_sync(comp->dev);
-> >  }
-> >
-> >  static int mtk_mdp_comp_bind(struct device *dev, struct device *master,
-> > @@ -101,6 +110,7 @@ static int mtk_mdp_comp_bind(struct device *dev, struct device *master,
-> >         struct mtk_mdp_dev *mdp = data;
-> >
-> >         mtk_mdp_register_component(mdp, comp);
-> > +       pm_runtime_enable(dev);
-> >
-> >         return 0;
-> >  }
-> > @@ -111,6 +121,7 @@ static void mtk_mdp_comp_unbind(struct device *dev, struct device *master,
-> >         struct mtk_mdp_dev *mdp = data;
-> >         struct mtk_mdp_comp *comp = dev_get_drvdata(dev);
-> >
-> > +       pm_runtime_disable(dev);
-> >         mtk_mdp_unregister_component(mdp, comp);
-> >  }
-> >
-> > @@ -129,6 +140,7 @@ int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct device *dev)
-> >                  (enum mtk_mdp_comp_type)of_device_get_match_data(dev);
-> >
-> >         INIT_LIST_HEAD(&comp->node);
-> > +       comp->dev = dev;
-> >
-> >         for (i = 0; i < ARRAY_SIZE(comp->clk); i++) {
-> >                 comp->clk[i] = of_clk_get(node, i);
-> > diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-> > index b5a18fe567aa..de158d3712f6 100644
-> > --- a/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-> > +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_comp.h
-> > @@ -12,17 +12,19 @@
-> >   * @node:      list node to track sibing MDP components
-> >   * @clk:       clocks required for component
-> >   * @larb_dev:  SMI device required for component
-> > + * @dev:       component's device
-> >   */
-> >  struct mtk_mdp_comp {
-> >         struct list_head        node;
-> >         struct clk              *clk[2];
-> >         struct device           *larb_dev;
-> > +       struct device           *dev;
-> >  };
-> >
-> >  int mtk_mdp_comp_init(struct mtk_mdp_comp *comp, struct device *dev);
-> >
-> > -void mtk_mdp_comp_clock_on(struct device *dev, struct mtk_mdp_comp *comp);
-> > -void mtk_mdp_comp_clock_off(struct device *dev, struct mtk_mdp_comp *comp);
-> > +void mtk_mdp_comp_clock_on(struct mtk_mdp_comp *comp);
-> > +void mtk_mdp_comp_clock_off(struct mtk_mdp_comp *comp);
-> >
-> >  extern struct platform_driver mtk_mdp_component_driver;
-> >
-> > diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> > index 539a7942e3cb..133d107aa4e6 100644
-> > --- a/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> > +++ b/drivers/media/platform/mtk-mdp/mtk_mdp_core.c
-> > @@ -52,20 +52,18 @@ MODULE_DEVICE_TABLE(of, mtk_mdp_of_ids);
-> >
-> >  static void mtk_mdp_clock_on(struct mtk_mdp_dev *mdp)
-> >  {
-> > -       struct device *dev = &mdp->pdev->dev;
-> >         struct mtk_mdp_comp *comp_node;
-> >
-> >         list_for_each_entry(comp_node, &mdp->comp_list, node)
-> > -               mtk_mdp_comp_clock_on(dev, comp_node);
-> > +               mtk_mdp_comp_clock_on(comp_node);
-> >  }
-> >
-> >  static void mtk_mdp_clock_off(struct mtk_mdp_dev *mdp)
-> >  {
-> > -       struct device *dev = &mdp->pdev->dev;
-> >         struct mtk_mdp_comp *comp_node;
-> >
-> >         list_for_each_entry(comp_node, &mdp->comp_list, node)
-> > -               mtk_mdp_comp_clock_off(dev, comp_node);
-> > +               mtk_mdp_comp_clock_off(comp_node);
-> >  }
-> >
-> >  static void mtk_mdp_wdt_worker(struct work_struct *work)
-> > --
-> > 2.26.2.526.g744177e7f7-goog
-> >
-> >
-> > _______________________________________________
-> > Linux-mediatek mailing list
-> > Linux-mediatek@lists.infradead.org
-> > http://lists.infradead.org/mailman/listinfo/linux-mediatek
+SGksIERhbiwKCkkgYWdyZWUgdGhlIGJlc3Qgc29sdXRpb24gaXMgdG8gZml4IF9fcG1fcnVudGlt
+ZV9yZXN1bWUoKS4gQnV0IHRoZXJlIGFyZSBhbHNvIAptYW55IGNhc2VzIHRoYXQgYXNzdW1lIHBt
+X3J1bnRpbWVfZ2V0X3N5bmMoKSB3aWxsIGNoYW5nZSBQTSB1c2FnZSAKY291bnRlciBvbiBlcnJv
+ci4gQWNjb3JkaW5nIHRvIG15IHN0YXRpYyBhbmFseXNpcyByZXN1bHRzLCB0aGUgbnVtYmVyIG9m
+IHRoZXNlIAoicmlnaHQiIGNhc2VzIGFyZSBsYXJnZXIuIEFkanVzdGluZyBfX3BtX3J1bnRpbWVf
+cmVzdW1lKCkgZGlyZWN0bHkgd2lsbCBpbnRyb2R1Y2UgCm1vcmUgbmV3IGJ1Z3MuIFRoZXJlZm9y
+ZSBJIHRoaW5rIHdlIHNob3VsZCByZXNvbHZlIHRoZSAiYnVnIiBjYXNlcyBpbmRpdmlkdWFsbHku
+CgpJIHRoaW5rIHRoYXQgRG1pdHJ5J3MgcGF0Y2ggaXMgbW9yZSByZWFzb25hYmxlIHRoYW4gbWlu
+ZS4gCgpEaW5naGFvCgomcXVvdDtEYW4gQ2FycGVudGVyJnF1b3Q7ICZsdDtkYW4uY2FycGVudGVy
+QG9yYWNsZS5jb20mZ3Q75YaZ6YGT77yaCj4gT24gV2VkLCBNYXkgMjAsIDIwMjAgYXQgMDE6MTU6
+NDRQTSArMDMwMCwgRG1pdHJ5IE9zaXBlbmtvIHdyb3RlOg0KPiA+IDIwLjA1LjIwMjAgMTI6NTEs
+IERpbmdoYW8gTGl1INC/0LjRiNC10YI6DQo+ID4gPiBwbV9ydW50aW1lX2dldF9zeW5jKCkgaW5j
+cmVtZW50cyB0aGUgcnVudGltZSBQTSB1c2FnZSBjb3VudGVyIGV2ZW4NCj4gPiA+IGl0IHJldHVy
+bnMgYW4gZXJyb3IgY29kZS4gVGh1cyBhIHBhaXJpbmcgZGVjcmVtZW50IGlzIG5lZWRlZCBvbg0K
+PiA+ID4gdGhlIGVycm9yIGhhbmRsaW5nIHBhdGggdG8ga2VlcCB0aGUgY291bnRlciBiYWxhbmNl
+ZC4NCj4gPiA+IA0KPiA+ID4gU2lnbmVkLW9mZi1ieTogRGluZ2hhbyBMaXUgPGRpbmdoYW8ubGl1
+QHpqdS5lZHUuY24+DQo+ID4gPiAtLS0NCj4gPiA+ICBkcml2ZXJzL3N0YWdpbmcvbWVkaWEvdGVn
+cmEtdmRlL3ZkZS5jIHwgMiArLQ0KPiA+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigr
+KSwgMSBkZWxldGlvbigtKQ0KPiA+ID4gDQo+ID4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9zdGFn
+aW5nL21lZGlhL3RlZ3JhLXZkZS92ZGUuYyBiL2RyaXZlcnMvc3RhZ2luZy9tZWRpYS90ZWdyYS12
+ZGUvdmRlLmMNCj4gPiA+IGluZGV4IGQzZTYzNTEyYTc2NS4uZGQxMzRhM2ExNWM3IDEwMDY0NA0K
+PiA+ID4gLS0tIGEvZHJpdmVycy9zdGFnaW5nL21lZGlhL3RlZ3JhLXZkZS92ZGUuYw0KPiA+ID4g
+KysrIGIvZHJpdmVycy9zdGFnaW5nL21lZGlhL3RlZ3JhLXZkZS92ZGUuYw0KPiA+ID4gQEAgLTc3
+Nyw3ICs3NzcsNyBAQCBzdGF0aWMgaW50IHRlZ3JhX3ZkZV9pb2N0bF9kZWNvZGVfaDI2NChzdHJ1
+Y3QgdGVncmFfdmRlICp2ZGUsDQo+ID4gPiAgDQo+ID4gPiAgCXJldCA9IHBtX3J1bnRpbWVfZ2V0
+X3N5bmMoZGV2KTsNCj4gPiA+ICAJaWYgKHJldCA8IDApDQo+ID4gPiAtCQlnb3RvIHVubG9jazsN
+Cj4gPiA+ICsJCWdvdG8gcHV0X3J1bnRpbWVfcG07DQo+ID4gPiAgDQo+ID4gPiAgCS8qDQo+ID4g
+PiAgCSAqIFdlIHJlbHkgb24gdGhlIFZERSByZWdpc3RlcnMgcmVzZXQgdmFsdWUsIG90aGVyd2lz
+ZSBWREUNCj4gPiA+IA0KPiA+IA0KPiA+IEhlbGxvIERpbmdoYW8sDQo+ID4gDQo+ID4gVGhhbmsg
+eW91IGZvciB0aGUgcGF0Y2guIEkgc2VudCBvdXQgYSBzaW1pbGFyIHBhdGNoIGEgd2VlayBhZ28g
+WzFdLg0KPiA+IA0KPiA+IFsxXQ0KPiA+IGh0dHBzOi8vcGF0Y2h3b3JrLm96bGFicy5vcmcvcHJv
+amVjdC9saW51eC10ZWdyYS9wYXRjaC8yMDIwMDUxNDIxMDg0Ny45MjY5LTItZGlnZXR4QGdtYWls
+LmNvbS8NCj4gPiANCj4gPiBUaGUgcG1fcnVudGltZV9wdXRfbm9pZGxlKCkgc2hvdWxkIGhhdmUg
+dGhlIHNhbWUgZWZmZWN0IGFzIHlvdXJzDQo+ID4gdmFyaWFudCwgYWx0aG91Z2ggbXkgdmFyaWFu
+dCB3b24ndCBjaGFuZ2UgdGhlIGxhc3RfYnVzeSBSUE0gdGltZSwgd2hpY2gNCj4gPiBJIHRoaW5r
+IGlzIGEgYml0IG1vcmUgYXBwcm9wcmlhdGUgYmVoYXZpb3IuDQo+IA0KPiBJIGRvbid0IHRoaW5r
+IGVpdGhlciBwYXRjaCBpcyBjb3JyZWN0LiAgVGhlIHJpZ2h0IHRoaW5nIHRvIGRvIGlzIHRvIGZp
+eA0KPiBfX3BtX3J1bnRpbWVfcmVzdW1lKCkgc28gaXQgZG9lc24ndCBsZWFrIGEgcmVmZXJlbmNl
+IGNvdW50IG9uIGVycm9yLg0KPiANCj4gVGhlIHByb2JsZW0gaXMgdGhhdCBhIGxvdCBvZiBmdW5j
+dGlvbnMgZG9uJ3QgY2hlY2sgdGhlIHJldHVybiBzbw0KPiBwb3NzaWJseSB3ZSBhcmUgcmVseWlu
+ZyBvbiB0aGF0IGJlaGF2aW9yLiAgV2UgbWF5IG5lZWQgdG8gaW50cm9kdWNlIGENCj4gbmV3IGZ1
+bmN0aW9uIHdoaWNoIGNsZWFucyB1cCBwcm9wZXJseSBpbnN0ZWFkIG9mIGxlYWtpbmcgcmVmZXJl
+bmNlDQo+IGNvdW50cz8NCj4gDQo+IEFsc28gaXQncyBub3QgZG9jdW1lbnRlZCB0aGF0IHBtX3J1
+bnRpbWVfZ2V0X3N5bmMoKSByZXR1cm5zIDEgc29tZXRpbWVzDQo+IG9uIHN1Y2Nlc3Mgc28gaXQg
+bGVhZHMgdG8gYSBmZXcgYnVncy4NCj4gDQo+IGRyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jOiAg
+ICAgICAgICAgICByZXQgPSBwbV9ydW50aW1lX2dldF9zeW5jKGRkZXYtPmRldik7DQo+IGRyaXZl
+cnMvZ3B1L2RybS9zdG0vbHRkYy5jLSAgICAgICAgICAgICBpZiAocmV0KSB7DQo+IC0tDQo+IGRy
+aXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jOiAgICAgICAgICAgICByZXQgPSBwbV9ydW50aW1lX2dl
+dF9zeW5jKGRkZXYtPmRldik7DQo+IGRyaXZlcnMvZ3B1L2RybS9zdG0vbHRkYy5jLSAgICAgICAg
+ICAgICBpZiAocmV0KSB7DQo+IA0KPiBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay12Y29kZWMv
+bXRrX3Zjb2RlY19kZWNfcG0uYzogIHJldCA9IHBtX3J1bnRpbWVfZ2V0X3N5bmMocG0tPmRldik7
+DQo+IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vbXRrLXZjb2RlYy9tdGtfdmNvZGVjX2RlY19wbS5j
+LSAgaWYgKHJldCkNCj4gDQo+IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vdGktdnBlL2NhbC5jOiAg
+ICByZXQgPSBwbV9ydW50aW1lX2dldF9zeW5jKCZwZGV2LT5kZXYpOw0KPiBkcml2ZXJzL21lZGlh
+L3BsYXRmb3JtL3RpLXZwZS9jYWwuYy0gICAgaWYgKHJldCkNCj4gDQo+IGRyaXZlcnMvbWZkL2Fy
+aXpvbmEtY29yZS5jOiAgICAgICAgICAgICAgICAgICAgIHJldCA9IHBtX3J1bnRpbWVfZ2V0X3N5
+bmMoYXJpem9uYS0+ZGV2KTsNCj4gZHJpdmVycy9tZmQvYXJpem9uYS1jb3JlLmMtICAgICAgICAg
+ICAgICAgICAgICAgaWYgKHJldCAhPSAwKQ0KPiANCj4gZHJpdmVycy9yZW1vdGVwcm9jL3Fjb21f
+cTZ2NV9hZHNwLmM6ICAgIHJldCA9IHBtX3J1bnRpbWVfZ2V0X3N5bmMoYWRzcC0+ZGV2KTsNCj4g
+ZHJpdmVycy9yZW1vdGVwcm9jL3Fjb21fcTZ2NV9hZHNwLmMtICAgIGlmIChyZXQpDQo+IA0KPiBk
+cml2ZXJzL3NwaS9zcGktaW1nLXNwZmkuYzogICAgIHJldCA9IHBtX3J1bnRpbWVfZ2V0X3N5bmMo
+ZGV2KTsNCj4gZHJpdmVycy9zcGkvc3BpLWltZy1zcGZpLmMtICAgICBpZiAocmV0KQ0KPiANCj4g
+ZHJpdmVycy91c2IvZHdjMy9kd2MzLXBjaS5jOiAgICByZXQgPSBwbV9ydW50aW1lX2dldF9zeW5j
+KCZkd2MzLT5kZXYpOw0KPiBkcml2ZXJzL3VzYi9kd2MzL2R3YzMtcGNpLmMtICAgIGlmIChyZXQp
+DQo+IA0KPiBkcml2ZXJzL3dhdGNoZG9nL3J0aV93ZHQuYzogICAgIHJldCA9IHBtX3J1bnRpbWVf
+Z2V0X3N5bmMoZGV2KTsNCj4gZHJpdmVycy93YXRjaGRvZy9ydGlfd2R0LmMtICAgICBpZiAocmV0
+KSB7DQo+IA0KPiByZWdhcmRzLA0KPiBkYW4gY2FycGVudGVyDQo+IA0KPiBkaWZmIC0tZ2l0IGEv
+ZHJpdmVycy9iYXNlL3Bvd2VyL3J1bnRpbWUuYyBiL2RyaXZlcnMvYmFzZS9wb3dlci9ydW50aW1l
+LmMNCj4gaW5kZXggOTljN2RhMTEyYzk1Li5lMjgwOTkxYTk3N2QgMTAwNjQ0DQo+IC0tLSBhL2Ry
+aXZlcnMvYmFzZS9wb3dlci9ydW50aW1lLmMNCj4gKysrIGIvZHJpdmVycy9iYXNlL3Bvd2VyL3J1
+bnRpbWUuYw0KPiBAQCAtMTA4Miw2ICsxMDgyLDkgQEAgaW50IF9fcG1fcnVudGltZV9yZXN1bWUo
+c3RydWN0IGRldmljZSAqZGV2LCBpbnQgcnBtZmxhZ3MpDQo+ICAJcmV0dmFsID0gcnBtX3Jlc3Vt
+ZShkZXYsIHJwbWZsYWdzKTsNCj4gIAlzcGluX3VubG9ja19pcnFyZXN0b3JlKCZkZXYtPnBvd2Vy
+LmxvY2ssIGZsYWdzKTsNCj4gIA0KPiArCWlmIChyZXR2YWwgPCAwICYmIHJwbWZsYWdzICYgUlBN
+X0dFVF9QVVQpDQo+ICsJCWF0b21pY19kZWMoJmRldi0+cG93ZXIudXNhZ2VfY291bnQpOw0KPiAr
+DQo+ICAJcmV0dXJuIHJldHZhbDsNCj4gIH0NCj4gIEVYUE9SVF9TWU1CT0xfR1BMKF9fcG1fcnVu
+dGltZV9yZXN1bWUpOw0K
