@@ -2,104 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B529B1DD01E
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 16:36:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F01D81DD11B
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 17:22:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728103AbgEUOgd convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 21 May 2020 10:36:33 -0400
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:6293 "EHLO
-        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729821AbgEUOgd (ORCPT
+        id S1729954AbgEUPWV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 11:22:21 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:33521 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727898AbgEUPWU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 10:36:33 -0400
-IronPort-SDR: Cmq6BQom5OqmqpUC0JqGLYIZtUKSGdPPXOSPV7RK/kwqLaLOdxj2sVpltN0QmGQqQklwG40ClJ
- dIVyu040zRqCim+D4ejVGdlnNsYpXFgW3huqFzRZhFUeyWlRjnMzWO12TU/CYlofBaCqHn3ies
- JPAK0ymEA9S0MKBO3YgZQWzq34igx3GCqh/A6bUcIFF2B0/XuUafLnE2mTzRg6rEaeeJqrBjLB
- iwgcw/rzmAaarlFPdq2LF9pAl2lkRWm1EYA0FoPl7Hemy2m4JOAHgZVg4Fx8oPLe7C7GJDGWOI
- Tsc=
-X-IronPort-AV: E=Sophos;i="5.73,417,1583222400"; 
-   d="scan'208";a="49132383"
-Received: from orw-gwy-01-in.mentorg.com ([192.94.38.165])
-  by esa4.mentor.iphmx.com with ESMTP; 21 May 2020 06:36:32 -0800
-IronPort-SDR: GOY+U8IpcZVGXz0NJChDt2qGoXZQwJCexspTiJAMrvDMaTnVahVcrauaBnztkeCLZyMo8GEaIW
- lfbxmTaEF5/tQV+JUyGrz6+pfBkP4rWSG+cVLjzTh7C0WtIs0xHi9N1SiGSFWwfne619J5/zXv
- /a6pNZS7DFHY+WZo+VunW5j9MTFX8Kj2Qa1zRHvRA95j5D69AZMkAqk9HXRYIF65/+UEZ8DC0A
- 5o76M6TZIEjC477NBXN/VBE0MXaPPXtNh4nyVHC1zUJZcfqiWjd2n5D4ipXIo094AVthIbji1C
- X+w=
-From:   "Surachari, Bhuvanesh" <Bhuvanesh_Surachari@mentor.com>
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-CC:     "Surachari, Bhuvanesh" <Bhuvanesh_Surachari@mentor.com>
-Subject: RE: [v4l-utils] Error in `media-ctl': double free or corruption
- (fasttop)
-Thread-Topic: [v4l-utils] Error in `media-ctl': double free or corruption
- (fasttop)
-Thread-Index: AdYux0+ElC5nWFbRTJ2KBnkFxFHJNQAs/gCA
-Date:   Thu, 21 May 2020 14:36:25 +0000
-Message-ID: <56d4e9d795d743d4845afcf9ee24b23e@SVR-IES-MBX-03.mgc.mentorg.com>
-Accept-Language: en-US, en-IE
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [137.202.0.90]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: 8BIT
+        Thu, 21 May 2020 11:22:20 -0400
+Received: by mail-ot1-f65.google.com with SMTP id v17so5830848ote.0;
+        Thu, 21 May 2020 08:22:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uw/ECKoYgz/YxRjuJpnhpsZS31S0r5IQsD1sVVnFwsk=;
+        b=aATRAxRprz6cP3SJWzCbj6vv5f5/aWhXdwGGlhXlq41jqU+FEmgtxviTj6MR0imbUV
+         xoN5Ov1RqrzIA7Ea2vpshUsoqshXANhmL0SOUHZ0Sidpbe96vRv6/NHgumz0Q/0R02OF
+         mzBlpdj4cuxASDz2NSxAm96UqU/unyXNYi1ouc42Io5haqPWynj4NZm6EktEDa+h3YqA
+         KMQruSltnEGwl2+e0FpyW+FOD+wNPu4m6no68c3QyaUJPvU1NWX30suephwnlv8Q+0Z7
+         tP8Hd+WY7DRyrB1BB8USJdd0mVsQaRsMkeQ5yjH0e30mh0OyUs7oHL74eH0sotUg+/ny
+         lSDw==
+X-Gm-Message-State: AOAM532fZAGLkPY3QrV2yAdX2sIMobqqJg1CLoPRuIIa3gL+xUGfX4dB
+        R77Bv2j4lownfYVjYMvDiHdkdYvyRTh9iqU9CqQ=
+X-Google-Smtp-Source: ABdhPJySYHHfJZQzmSAFX4YreFFQLn9SDcqp+e2Kz8pIAQ/fKPfh6o6bUIqNhlRZ/GFZaNjXxDQc9ZETXw93O7R/z84=
+X-Received: by 2002:a9d:3d05:: with SMTP id a5mr7537138otc.262.1590074539694;
+ Thu, 21 May 2020 08:22:19 -0700 (PDT)
 MIME-Version: 1.0
+References: <20200520095148.10995-1-dinghao.liu@zju.edu.cn>
+ <2b5d64f5-825f-c081-5d03-02655c2d9491@gmail.com> <20200520150230.GC30374@kadam>
+ <2a46539d.b977f.1723553aa81.Coremail.dinghao.liu@zju.edu.cn> <20200521091505.GF30374@kadam>
+In-Reply-To: <20200521091505.GF30374@kadam>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Thu, 21 May 2020 17:22:05 +0200
+Message-ID: <CAJZ5v0irLayBUPRWNT1tcZivz9inS1YbUgGj5WXvucLKKwRQAw@mail.gmail.com>
+Subject: Re: Re: [PATCH] media: staging: tegra-vde: fix runtime pm imbalance
+ on error
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     dinghao.liu@zju.edu.cn, devel@driverdev.osuosl.org,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Len Brown <len.brown@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux PM <linux-pm@vger.kernel.org>, Kangjie Lu <kjlu@umn.edu>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Thu, May 21, 2020 at 11:15 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+>
+> On Thu, May 21, 2020 at 11:42:55AM +0800, dinghao.liu@zju.edu.cn wrote:
+> > Hi, Dan,
+> >
+> > I agree the best solution is to fix __pm_runtime_resume(). But there are also
+> > many cases that assume pm_runtime_get_sync() will change PM usage
+> > counter on error. According to my static analysis results, the number of these
+> > "right" cases are larger. Adjusting __pm_runtime_resume() directly will introduce
+> > more new bugs. Therefore I think we should resolve the "bug" cases individually.
+> >
+>
+> That's why I was saying that we may need to introduce a new replacement
+> function for pm_runtime_get_sync() that works as expected.
+>
+> There is no reason why we have to live with the old behavior.
 
-         When executing command "media-ctl -d /dev/media0 -p" crash is observed very rarely in media_enum_links() while freeing memory with the below backtrace:
-
-****** EXCEPTION in process PID=1682 (media-ctl) ******* Command line: media-ctl -d /dev/media0 -p exception trigger PROCESS_SIGNAL signal "SIGABRT"
-Signal info:
-               si_signo:6
-               si_errno:0
-               si_code:0xfffffffa
-====== processor registers:
-x0-x9:   0000000000000000 0000ffffcc0c7780 0000000000000000 0000000000000008 0000000000000000 0000ffffcc0c7780 ffffffffffffffff ffffffffffffffff 0000000000000087 ffffffffffffffff
-x10-x19: ffffffffffffffff ffffffffffffffff ffffffffffffffff ffffffffffffffff 0000000000000000 0000000000000000 0000ffff817b8f70 0000ffff816af8e0 0000ffff81787a70 0000000000000006
-x20-x29: 0000ffff817fc010 0000ffff817fb000 0000ffffcc0c79b0 0000000000000002 0000000000000001 0000ffff8175d8b8 0000000000000002 0000ffffcc0c79e0 0000000000000001 0000ffffcc0c7760
-x30: 0000ffff8166b038 sp: 0000ffffcc0c7760 pc: 0000ffff8166b0ac pstate: 0000000000000000 orig_x0: 0000000000000002 syscallno: 00000000ffffffff
-
-backtrace:
----
-Extracted from stack:
-/lib64/libc-2.27.so(raise+0x9c)[0xffff8166b0ac]
-/lib64/libc-2.27.so(abort+0x140)[0xffff8166c160]
-/lib64/libc-2.27.so(abort+0x9c)[0xffff8166c0bc]
-/lib64/libc-2.27.so(__fsetlocking+0x2e8)[0xffff816a4730]
-/lib64/ld-2.27.so(_dl_rtld_di_serinfo+0xf70)[0xffff817df428]
-/lib64/libc-2.27.so(__fsetlocking+0x2b8)[0xffff816a4700]
-/lib64/libc-2.27.so(__libc_thread_freeres+0x17be8)[0xffff8175d8b8]
-/lib64/libc-2.27.so(__libc_thread_freeres+0x1bf9a)[0xffff81761c6a]
-/lib64/libc-2.27.so(__libc_thread_freeres+0x1bf9a)[0xffff81761c6a]
-/lib64/ld-2.27.so(_dl_rtld_di_serinfo+0x4cc4)[0xffff817e317c]
-/lib64/libc-2.27.so(__libc_thread_freeres+0x17be8)[0xffff8175d8b8]
-/lib64/libc-2.27.so(_IO_str_seekoff+0x4938)[0xffff816aead0]
-/lib64/libc-2.27.so(_IO_str_seekoff+0x88c)[0xffff816aaa24]
-/lib64/libc-2.27.so(__libc_thread_freeres+0x17be8)[0xffff8175d8b8]
-/lib64/libc-2.27.so(_IO_str_seekoff+0x21a0)[0xffff816ac338]
-/usr/lib64/libmediactl.so.0.0.0(media_device_enumerate+0x45c)[0xffff817a74ac]
-/usr/lib64/libmediactl.so.0.0.0(media_device_enumerate+0x360)[0xffff817a73b0]
-/usr/lib64/libmediactl.so.0.0.0(media_device_enumerate+0x45c)[0xffff817a74ac]
-/usr/bin/media-ctl(_init+0x3b0)[0x401738]
-RA: 0x0000000000000000 BP: 0x0000ffffcc0c7760 SP: 0x0000ffffcc0c9000 Saved registers and local vars (0xffffcc0c8f98 - 0xffffcc0c8ff0):
-<0000ffffcc0c8f90>                  5f4452414f420065 4d5f4749464e4f43 6f623d444f485445 636570732d647261 6e79642d63696669 6d6f632d63696d61 0073746e656e6f70         
-<0000ffffcc0c8fd0> 622f7273752f3d5f 616964656d2f6e69 73752f006c74632d 656d2f6e69622f72 006c74632d616964
-
-The above crash could be related to commit id 112c52c3495713bad522cdf40f285a8e7b38674b ("libmediactl: Don't free an already freed address if no links")
-which was applied. But the commit id 314a19002e7244e4b8d5576f48cb9198ea8294c6 ("Revert "libmediactl: Don't free an already freed address if no links"")
-reverts the above patch.
-
-The  commit 112c52c3495713bad522cdf40f285a8e7b38674b ("libmediactl: Don't free an already freed address if no links")
-seems to help the crash we're seeing, but it was reverted the same day it was applied. Was that by accident or for some other reason?.
-
-I have resent the message since I didn't mention the commit id details in the last message.
-
-Thank you,
-Regards,
-Bhuvanesh
+What exactly do you mean by "the old behavior"?
