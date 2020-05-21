@@ -2,172 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52ECC1DC5CB
-	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 05:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7838D1DC707
+	for <lists+linux-media@lfdr.de>; Thu, 21 May 2020 08:28:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728316AbgEUDna (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 20 May 2020 23:43:30 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49873 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728228AbgEUDnV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 20 May 2020 23:43:21 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id bc73jg9tKdPgTbc74jOWf5; Thu, 21 May 2020 05:43:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1590032598; bh=tvq9txR4S0sIdRRuCd3Cgl+QJQOxbxKs53iPjJcl7f8=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=wOyGBLawE5SYcwe2A+lv8LVvbrx22Kl9ZEb2hQIN7w7UgC4HG1LyHd+ino8OUPzq/
-         oIkGCpeMwtQl+76kYXR20BMp2nQtVqzJWwRm/iH6/MWfGKuYdrFn/nc/9IBtNdhaNW
-         pVpDJtjaTTO0K+4fchX2DT7lFpqKSU5z0SY/VALJJ9shGNP41Mwc0xGcuuwYRDZkBN
-         iePvARVGrRrfXIltOVsxGNLZNfeC9bV1zrs/o7aSnx47PfkOMeb6ir9hSQY5/8+pYM
-         CNeZthuxB1xwweXvI7nvDjQOS/4+VL5SaI/J8VYO5+wND9xGNWpgGyUnNxNSp+sOtP
-         3PHW/Wm/gyOYw==
-Message-ID: <d98d239c5bd873c150c7a93b040ce4cf@smtp-cloud8.xs4all.net>
-Date:   Thu, 21 May 2020 05:43:17 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfK6uJKbtPCKnL7F54yhmBDnM/4KG/BvhygSsZrBzAeW7pvc7lncCiVNHFXJEyTRxXzDy6z/U6Sye0Fcj9WLpnEWZWtErAxar8CCoLzyB/Hd9ye5Q9+8U
- dcUyf3BoOu/a/1VCnOFh4yi07ys+HnH6PYC6E9+gPvJSs97f8g9d5gacRiIxiYvO9QLRLlc25v/qZiG5UtPjDT4Vz2Bl9XZHkqinYrHZc4qNY6wPiI92rGl0
+        id S1728086AbgEUG2J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 02:28:09 -0400
+Received: from spam.zju.edu.cn ([61.164.42.155]:33482 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726506AbgEUG2J (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 21 May 2020 02:28:09 -0400
+Received: from localhost.localdomain (unknown [222.205.77.158])
+        by mail-app3 (Coremail) with SMTP id cC_KCgCnr0NjH8Ze2nbmAA--.28907S4;
+        Thu, 21 May 2020 14:27:51 +0800 (CST)
+From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
+To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
+Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] [v2] media: staging: tegra-vde: fix runtime pm imbalance on error
+Date:   Thu, 21 May 2020 14:27:45 +0800
+Message-Id: <20200521062746.6656-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cC_KCgCnr0NjH8Ze2nbmAA--.28907S4
+X-Coremail-Antispam: 1UD129KBjvdXoWrKrWrZF15CFyUGr4xXF1UKFg_yoWkAwc_Cr
+        s0gwnru34Yyw4xtw17K3W5ZrySvFWDWF40qa1FyF43Gw4jvFy3GrykZr1DCa1Duay29342
+        vrZ3uF1avrn3CjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbaAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
+        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
+        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl6s0DM28EF7xvwVC2z280
+        aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07
+        x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17
+        McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr4
+        1lF7I21c0EjII2zVCS5cI20VAGYxC7M4IIrI8v6xkF7I0E8cxan2IY04v7MxkIecxEwVAF
+        wVW8AwCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I0E4I
+        kC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWU
+        WwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr
+        0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVW8
+        JVW3JwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJr
+        UvcSsGvfC2KfnxnUUI43ZEXa7VUjY0PDUUUUU==
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgsHBlZdtOPFuAACsr
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+pm_runtime_get_sync() increments the runtime PM usage counter even
+the call returns an error code. Thus a pairing decrement is needed
+on the error handling path to keep the counter balanced.
 
-Results of the daily build of media_tree:
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
 
-date:			Thu May 21 05:00:10 CEST 2020
-media-tree git hash:	960b2dee908b0fc51cf670841de13b40b44aaaae
-media_build git hash:	28a109580ca69b3cc1c2f2ae62248e9fe067cb4c
-v4l-utils git hash:	131840f30c48b0f63d4a065fca628248d8fc0eda
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0accb575719caa47d8fbc866b11e6f7e7e7787cd
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+Changelog:
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.212-i686: ERRORS
-linux-4.4.212-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.212-i686: ERRORS
-linux-4.9.212-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.169-i686: ERRORS
-linux-4.14.169-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.101-i686: ERRORS
-linux-4.19.101-x86_64: ERRORS
-linux-4.20.15-i686: ERRORS
-linux-4.20.15-x86_64: ERRORS
-linux-5.0.15-i686: ERRORS
-linux-5.0.15-x86_64: ERRORS
-linux-5.1.1-i686: ERRORS
-linux-5.1.1-x86_64: ERRORS
-linux-5.2.1-i686: ERRORS
-linux-5.2.1-x86_64: ERRORS
-linux-5.3.1-i686: ERRORS
-linux-5.3.1-x86_64: ERRORS
-linux-5.4.17-i686: ERRORS
-linux-5.4.17-x86_64: ERRORS
-linux-5.5.1-i686: ERRORS
-linux-5.5.1-x86_64: ERRORS
-linux-5.6.1-i686: ERRORS
-linux-5.6.1-x86_64: ERRORS
-linux-5.7-rc1-i686: ERRORS
-linux-5.7-rc1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 5
-virtme-32: ERRORS: Final Summary: 2779, Succeeded: 2778, Failed: 1, Warnings: 1
-sparse: OK
-smatch: OK
+v2: - Remove unused label 'unlock'
+---
+ drivers/staging/media/tegra-vde/vde.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-Detailed results are available here:
+diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
+index d3e63512a765..3fdf2cd0b99e 100644
+--- a/drivers/staging/media/tegra-vde/vde.c
++++ b/drivers/staging/media/tegra-vde/vde.c
+@@ -777,7 +777,7 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+ 
+ 	ret = pm_runtime_get_sync(dev);
+ 	if (ret < 0)
+-		goto unlock;
++		goto put_runtime_pm;
+ 
+ 	/*
+ 	 * We rely on the VDE registers reset value, otherwise VDE
+@@ -843,8 +843,6 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+ put_runtime_pm:
+ 	pm_runtime_mark_last_busy(dev);
+ 	pm_runtime_put_autosuspend(dev);
+-
+-unlock:
+ 	mutex_unlock(&vde->lock);
+ 
+ release_dpb_frames:
+-- 
+2.17.1
 
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
