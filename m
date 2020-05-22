@@ -2,243 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C75B1DE5B6
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 13:42:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB8AC1DE5F1
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 13:56:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729535AbgEVLmJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 May 2020 07:42:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:44144 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728469AbgEVLmI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 May 2020 07:42:08 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1728413AbgEVL4o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 May 2020 07:56:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58098 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728356AbgEVL4o (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 22 May 2020 07:56:44 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A811C061A0E
+        for <linux-media@vger.kernel.org>; Fri, 22 May 2020 04:56:44 -0700 (PDT)
+Received: from localhost.localdomain (p200300cb871f5b00cd18bb271f42fad5.dip0.t-ipconnect.de [IPv6:2003:cb:871f:5b00:cd18:bb27:1f42:fad5])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 66EA1206C3;
-        Fri, 22 May 2020 11:42:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590147727;
-        bh=r07N7AfzHK599ZkKEMSSxoBsfiAcnc5E5medDwadxAs=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=FZ3Kq09MX0RjJv8NJbR7tF8T+/J8lUvcJWsKgO38tUPOr43uLdPbTK+0rPGiTZCy6
-         tNjKtVtqQ8uZzEStIYIFuls4KiPzIyhqUkLcwJJWEVWhW245YQdb08W8ip53/EXQMb
-         Q+B6sPmYb24qMUuW8gVEEd5lphlgJiafmviNJB3I=
-Date:   Fri, 22 May 2020 13:42:03 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Patrik Gfeller <patrik.gfeller@gmail.com>,
-        Francescodario Cuzzocrea 
-        <francescodario.cuzzocrea@mail.polimi.it>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [GIT PULL] Ressurect the atomisp staging driver
-Message-ID: <20200522134203.0fe139d6@coco.lan>
-In-Reply-To: <4dd760d6-6445-f3b5-cb14-1705e05820bc@redhat.com>
-References: <20200501215741.3be05695@coco.lan>
-        <3f551a8f87808ee7828dc03d41c7a23faac89f3c.camel@mail.polimi.it>
-        <20200503173213.78ae6aaa@coco.lan>
-        <CADnVkj96W0QfthukTKQ0a-i2fH1buooH3BEgfy22J9H9=_PcKA@mail.gmail.com>
-        <20200503180751.0b1e29c4@ASUS>
-        <20200504101628.0f632bf2@ASUS>
-        <20200504104934.7873cee3@coco.lan>
-        <20200504124539.77eac397@ASUS>
-        <20200504140833.11dd5622@coco.lan>
-        <20200504154420.5dcf505f@ASUS>
-        <20200515103232.47b2a35e@coco.lan>
-        <be0935ce-4d88-e7de-5013-6651b8c4edac@redhat.com>
-        <20200515114245.266a6fc8@coco.lan>
-        <20200519093920.7bb22161@coco.lan>
-        <20200519193635.14e806b6@coco.lan>
-        <4dd760d6-6445-f3b5-cb14-1705e05820bc@redhat.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 27D5C2A05AD;
+        Fri, 22 May 2020 12:56:42 +0100 (BST)
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
+        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com, tfiga@chromium.org
+Subject: [PATCH] media: staging: rkisp1: fix dev param for dev_* debugs
+Date:   Fri, 22 May 2020 13:56:33 +0200
+Message-Id: <20200522115633.3166-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 22 May 2020 12:46:07 +0200
-Hans de Goede <hdegoede@redhat.com> escreveu:
+In some debug prints a wrong 'dev' argument is used
+for the dev_(dbg/err/warn), this cause a prefix
+"(NULL device *)" to the prints.
+In some prints the 'dev' of the sensor subdevice is used
+which is also wrong.
 
-> Hi,
-> 
-> On 5/19/20 7:36 PM, Mauro Carvalho Chehab wrote:
-> 
-> <snip>
-> 
-> > I did a lot of progress today. After identified the above bug, which
-> > was turning down the ISP device, causing the firmware load to fail
-> > (as the turn on code is not OK), I solved several other issues there.
-> > 
-> > The current status is that:
-> > 
-> > - the ISP firmware is properly loading;
-> > - it can properly communicate with the camera sensor;
-> > - Userspace can read video controls (tested with v4l2-ctl and qv4l2);
-> > - set a video format is now working;
-> > - buffers are being queued, and per-frame IRQs are arriving.
-> > 
-> > I did a really quick test today of trying to get a video from it,
-> > using a simple tool I developed for such kind of tests (v4l2grab
-> > from v4l-utils package, changed to work with the only format that
-> > my camera sensor supports). This tool needs uses a bare minimum
-> > set of ioctls, with would avoid hitting a bug somewhere else.
-> > 
-> > Running it makes the device to start receiving frames from the
-> > hardware. Yet, there's something wrong at the part with stores
-> > the data into the video frame buffers. This driver has a weird
-> > mm/DMA code, based on a fork of get_user_pages() taken probably
-> > during Kernel 3.10 old days.
-> > 
-> > Addressing it has a high chance of grabbing some image from it.
-> > 
-> > Ok, driver is at staging quality: there are lots of crap there that
-> > will require changes, but it seems we're getting there.  
-> 
-> This is very good news. Hopefully you will get an actual image
-> out of these soon. That would be awesome.
-> 
-> I happened to notice an advert for a second-hand Asus T101HA
-> locally, for not too much money. So now I'm the happy owner of
-> an Asus T101HA myself.
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+---
+ drivers/staging/media/rkisp1/rkisp1-dev.c     |  2 +-
+ drivers/staging/media/rkisp1/rkisp1-isp.c     | 17 ++++++++++-------
+ drivers/staging/media/rkisp1/rkisp1-params.c  |  2 +-
+ drivers/staging/media/rkisp1/rkisp1-resizer.c |  2 +-
+ 4 files changed, 13 insertions(+), 10 deletions(-)
 
-Great!
+diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
+index 9ac38bafb839..f38801fea10d 100644
+--- a/drivers/staging/media/rkisp1/rkisp1-dev.c
++++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
+@@ -129,7 +129,7 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
+ 		ret = media_entity_get_fwnode_pad(&sd->entity, sd->fwnode,
+ 						  MEDIA_PAD_FL_SOURCE);
+ 		if (ret < 0) {
+-			dev_err(sd->dev, "failed to find src pad for %s\n",
++			dev_err(rkisp1->dev, "failed to find src pad for %s\n",
+ 				sd->name);
+ 			return ret;
+ 		}
+diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
+index dc2b59a0160a..ec061b997bb4 100644
+--- a/drivers/staging/media/rkisp1/rkisp1-isp.c
++++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
+@@ -203,10 +203,8 @@ static struct v4l2_subdev *rkisp1_get_remote_sensor(struct v4l2_subdev *sd)
+ 
+ 	local = &sd->entity.pads[RKISP1_ISP_PAD_SINK_VIDEO];
+ 	remote = media_entity_remote_pad(local);
+-	if (!remote) {
+-		dev_warn(sd->dev, "No link between isp and sensor\n");
++	if (!remote)
+ 		return NULL;
+-	}
+ 
+ 	sensor_me = remote->entity;
+ 	return media_entity_to_v4l2_subdev(sensor_me);
+@@ -889,18 +887,20 @@ static const struct v4l2_subdev_pad_ops rkisp1_isp_pad_ops = {
+ static int rkisp1_mipi_csi2_start(struct rkisp1_isp *isp,
+ 				  struct rkisp1_sensor_async *sensor)
+ {
++	struct rkisp1_device *rkisp1 =
++		container_of(isp->sd.v4l2_dev, struct rkisp1_device, v4l2_dev);
+ 	union phy_configure_opts opts;
+ 	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
+ 	s64 pixel_clock;
+ 
+ 	if (!sensor->pixel_rate_ctrl) {
+-		dev_warn(sensor->sd->dev, "No pixel rate control in subdev\n");
++		dev_warn(rkisp1->dev, "No pixel rate control in subdev\n");
+ 		return -EPIPE;
+ 	}
+ 
+ 	pixel_clock = v4l2_ctrl_g_ctrl_int64(sensor->pixel_rate_ctrl);
+ 	if (!pixel_clock) {
+-		dev_err(sensor->sd->dev, "Invalid pixel rate value\n");
++		dev_err(rkisp1->dev, "Invalid pixel rate value\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -933,8 +933,11 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
+ 	}
+ 
+ 	sensor_sd = rkisp1_get_remote_sensor(sd);
+-	if (!sensor_sd)
++	if (!sensor_sd) {
++		dev_warn(rkisp1->dev, "No link between isp and sensor\n");
+ 		return -ENODEV;
++	}
++
+ 	rkisp1->active_sensor = container_of(sensor_sd->asd,
+ 					     struct rkisp1_sensor_async, asd);
+ 
+@@ -1021,7 +1024,7 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
+ 
+ 	ret = v4l2_device_register_subdev(v4l2_dev, sd);
+ 	if (ret) {
+-		dev_err(sd->dev, "Failed to register isp subdev\n");
++		dev_err(rkisp1->dev, "Failed to register isp subdev\n");
+ 		goto err_cleanup_media_entity;
+ 	}
+ 
+diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
+index 44d542caf32b..797e79de659c 100644
+--- a/drivers/staging/media/rkisp1/rkisp1-params.c
++++ b/drivers/staging/media/rkisp1/rkisp1-params.c
+@@ -1607,7 +1607,7 @@ int rkisp1_params_register(struct rkisp1_params *params,
+ 		goto err_release_queue;
+ 	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+ 	if (ret) {
+-		dev_err(&vdev->dev,
++		dev_err(rkisp1->dev,
+ 			"failed to register %s, ret=%d\n", vdev->name, ret);
+ 		goto err_cleanup_media_entity;
+ 	}
+diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+index d049374413dc..26fb41053f56 100644
+--- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
++++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+@@ -639,7 +639,7 @@ static int rkisp1_rsz_set_selection(struct v4l2_subdev *sd,
+ 	if (sel->target != V4L2_SEL_TGT_CROP || sel->pad == RKISP1_RSZ_PAD_SRC)
+ 		return -EINVAL;
+ 
+-	dev_dbg(sd->dev, "%s: pad: %d sel(%d,%d)/%dx%d\n", __func__,
++	dev_dbg(rsz->rkisp1->dev, "%s: pad: %d sel(%d,%d)/%dx%d\n", __func__,
+ 		sel->pad, sel->r.left, sel->r.top, sel->r.width, sel->r.height);
+ 
+ 	mutex_lock(&rsz->ops_lock);
+-- 
+2.17.1
 
-> So once you have something working I can
-> try to reproduce your work on identical hardware then as time
-> permits help with cleaning things up.   Although I might focus
-> at first on trying to get your work to run on more Cherry Trail
-> based models, to find out what bits we need to make configurable
-> and if we can get the info from ACPI or if we need to have a
-> DMI based table with model specific info.
-
-The main ACPI related code is at this file:
-
-	drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-
-Originally, this was a platform driver. Now, it is just an ancillary
-driver.
-
-Inside the sensor drivers, there's just the ACPI tables, in order
-for them to be probed.
-
-I updated the driver's TODO list, but there are probably more to be
-said than what's there.
-
-Let me list the things I remember that should be done:
-
-1) The atomisp doesn't rely at the usual i2c stuff to discover the
-sensors. Instead, it calls a function from atomisp_gmin_platform.c.
-There are some hacks I added there for it to wait for sensors to be
-probed (with a timeout of 2 seconds or so). This should be converted 
-to the usual way, using V4L2 async subdev framework to wait for cameras 
-to be probed;
-
-2) The Asus T101HA support (and other board-specific data) uses the a
-DMI match table to retrieve sensor's data, using hard-coded values. 
-I did some research last week: it sounds possible to retrieve those
-data directly from ACPI via this _DSM table, associated with CAM1
-sensor (UUID: dc2f6c4f-045b-4f1d-97b9-882a6860a4be):
-
-            Name (C1CD, Buffer (0x0220){})
-            Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
-            {
-                If ((Arg0 == ToUUID ("dc2f6c4f-045b-4f1d-97b9-882a6860a4be")))
-                {
-                    Local0 = Package (0x12)
-                        {
-                            "CamId", 
-                            "ov2680", 
-                            "CamType", 
-                            "1", 
-                            "CsiPort", 
-                            "0", 
-                            "CsiLanes", 
-                            "1", 
-                            "CsiFmt", 
-                            "15", 
-                            "CsiBayer", 
-                            "0", 
-                            "CamClk", 
-                            "1", 
-                            "Regulator1p8v", 
-                            "0", 
-                            "Regulator2p8v", 
-                            "0"
-                        }
-                    Return (Local0)
-                }
-
-The code there at atomisp_gmin_platform has an EFI parser, but it assumes
-that the information would be stored on a different way.
-
-Kernel has support for reading data from _DSM, via acpi_evaluate_dsm().
-
-I suspect that it should be doable to use such infra and remove the
-TA101HA DMI match. This will likely allow covering more devices that
-could also be using the same EFI UUID.
-
-3) Switch the driver to use pm_runtime stuff. Right now, it probes the
-existing PMIC code and sensors call it directly.
-
-4) There's a problem at the sensor drivers (I hacked the ov2880
-to avoid that): when trying to set a video format, atomisp calls 
-the sensor drivers with the sensor turned off. This causes them
-to fail.
-
-I guess the right fix would be to power on the sensor when a video
-device is opened (or at the first VIDIOC_ ioctl - except for
-VIDIOC_QUERYCAP), powering it down at close() syscall.
-
-5) There are several issues related to memory management, causing
-crashes. This is probably something that we need to fix asap.
-
-The atomisp splits the memory management on three separate regions:
-
-	- dynamic pool;
-	- reserved pool;
-	- generic pool
-
-The code implementing it is at:
-
-	drivers/staging/media/atomisp/pci/hmm/
-
-It also has a separate code for managing DMA buffers at:
-	
-	drivers/staging/media/atomisp/pci/mmu/
-
-The code there is really dirty, ugly and probably wrong. I fixed
-one bug there already, but the best would be to just trash it and use
-something else. Maybe the code from the newer intel driver could
-serve as a model:
-
-	drivers/staging/media/ipu3/ipu3-mmu.c
-
-But converting it to use something like that is painful and may
-cause some breakages.
-
-6) there is some issue at the frame receive logic. This is currently
-my main focus.
-
-Btw, this is the branch I'm using on my tests:
-
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=atomisp_v3
-
-It has basically the stuff from linux-media, plus the ACPI patch
-that enables the OpRegion:
-
-	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=atomisp_v3&id=d8613fcbb3c9cb21b6818b0245e320054ecb5deb
-
-(I didn't cherry-picked the Kconfig ones here, since I have already
-everything enabled at the .config file I'm using here).
-
-Besides that, it has some patches that I'm working to address (5) and
-(6).
-
-PS.: I'm constantly rebasing the stuff there (specially the patches with
-weird names, like "foo" and "HACK").
-
-Thanks,
-Mauro
