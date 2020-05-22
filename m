@@ -2,69 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE78D1DE0D8
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 09:26:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACFA71DE15B
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 09:56:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728544AbgEVHZj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 May 2020 03:25:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44354 "EHLO
+        id S1728512AbgEVH4K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 May 2020 03:56:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728778AbgEVHZf (ORCPT
+        with ESMTP id S1728152AbgEVH4J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 May 2020 03:25:35 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B3FDC08C5C0;
-        Fri, 22 May 2020 00:25:35 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id s8so9118069wrt.9;
-        Fri, 22 May 2020 00:25:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Eb0Vvf67rVnazNcMPHX6Y7dfwQbwJ0jDZhP20gwkoLk=;
-        b=De7wwE5fF3blXyTuC4cSp42NJzC6yaCj0CKN8qQCbbuP2gBYuQq5StBCdCkAnCeenW
-         yF4KFHvpiO6QWroo2Gnj+wW+jSlzyTaIfcBXEIE8Etf6NoAsD8s/Z2Q02gHLWNrCxtDx
-         IhMDc1SEpGGvTWA8rQLU3ebrP6CpP1aHUEFdDv5pWXoSTdJUlMsFYhmQzPC3+vzCAB0a
-         e8LJeNpfno01shi8glSUbGVAi8PLGrkavaNDBy0mkkvXPdYrDyur9xqmM9ZC1LodglG0
-         9v2p/oo19igMvpvqcvUP4Lstfhnemd02fdzdTOTqttLa+hkuzU5oxbhGHkpCGI11opeT
-         fL8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Eb0Vvf67rVnazNcMPHX6Y7dfwQbwJ0jDZhP20gwkoLk=;
-        b=KxInQrAf7p+j/8R3NNpN9GbAh1H4604B8fVd1be92tyGz97R98IufDElf9JkF+oNqR
-         laDTJpu3c/eJ4Nv5A9g4lSqacdrLZJVKcdy5ypDrGZhKTX4hL/ggh+NCUBsi6s+xOcRO
-         Uittf406vmnv2xnKMmmGrZ7nlVy6Hxt/8c7fdcmO+HZOa2Gl+yJHNt8WV+jn5Wk9F42L
-         uS9R/bxBr3PS1O7CJWMvOT6Rq6t22sg3ACkC8MwDKQII9vH4OO/Y2NMXEa0qDNmDamiQ
-         18Ko88MWBIBs91bPkktHgL626WFGA1visuT7Rwaxj7Nai0CnwZDGFNhgmAY8ML+bAaTx
-         3Xcg==
-X-Gm-Message-State: AOAM533/8r/MnVzLSyqjcj164ey1aWx/3mVqQu6GzUP23+GITXWVC/6i
-        R2vJakjcIMCJIK8mkUsJpAjS/5dayfM=
-X-Google-Smtp-Source: ABdhPJwr2iUwrOYo5UFxFKNzSAHgDmpzK4R2WJ2xeTruftnuJH1G+oIOnRpZkHlFx8+bGdpZRNCDDw==
-X-Received: by 2002:adf:ef47:: with SMTP id c7mr2372820wrp.57.1590132333608;
-        Fri, 22 May 2020 00:25:33 -0700 (PDT)
-Received: from skynet.lan (159.red-83-44-12.dynamicip.rima-tde.net. [83.44.12.159])
-        by smtp.gmail.com with ESMTPSA id f128sm9299898wme.1.2020.05.22.00.25.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2020 00:25:33 -0700 (PDT)
-From:   =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>
-To:     computersforpeace@gmail.com, kdasu.kdev@gmail.com,
-        miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-        sumit.semwal@linaro.org, linux-mtd@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
-        <noltari@gmail.com>
-Subject: [PATCH v3 5/5] nand: brcmnand: support v2.1-v2.2 controllers
-Date:   Fri, 22 May 2020 09:25:25 +0200
-Message-Id: <20200522072525.3919332-6-noltari@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200522072525.3919332-1-noltari@gmail.com>
-References: <20200512073329.742893-1-noltari@gmail.com>
- <20200522072525.3919332-1-noltari@gmail.com>
+        Fri, 22 May 2020 03:56:09 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C231C061A0E
+        for <linux-media@vger.kernel.org>; Fri, 22 May 2020 00:56:09 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 6FDF72A0870
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
+        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        tfiga@chromium.org, skhan@linuxfoundation.org,
+        niklas.soderlund@ragnatech.se--annotate
+Subject: [PATCH v4 0/5] media: add v4l2_pipeline_stream_{enable,disable}
+Date:   Fri, 22 May 2020 09:55:17 +0200
+Message-Id: <20200522075522.6190-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -73,195 +38,196 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-v2.1: tested on Netgear DGND3700v1 (BCM6368)
-v2.2: tested on Netgear DGND3700v2 (BCM6362)
+Hi,
+This is v4 of the patchset that was sent by Helen Koike.
 
-Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
----
- v3: fix page size shift for v2.1 controllers.
- v2: split page sizes rename into a different patch.
-     name all block and page sizes versions.
+Media drivers need to iterate through the pipeline and call .s_stream()
+callbacks in the subdevices.
 
- drivers/mtd/nand/raw/brcmnand/brcmnand.c | 85 +++++++++++++++++++++---
- 1 file changed, 76 insertions(+), 9 deletions(-)
+Instead of repeating code, add helpers for this.
 
-diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-index ef60dbbeac2b..2c8a468c2e38 100644
---- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-+++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-@@ -264,6 +264,7 @@ struct brcmnand_controller {
- 	const unsigned int	*block_sizes;
- 	unsigned int		max_page_size;
- 	const unsigned int	*page_sizes;
-+	unsigned int		page_size_shift;
- 	unsigned int		max_oob;
- 	u32			features;
- 
-@@ -338,6 +339,36 @@ enum brcmnand_reg {
- 	BRCMNAND_FC_BASE,
- };
- 
-+/* BRCMNAND v2.1-v2.2 */
-+static const u16 brcmnand_regs_v21[] = {
-+	[BRCMNAND_CMD_START]		=  0x04,
-+	[BRCMNAND_CMD_EXT_ADDRESS]	=  0x08,
-+	[BRCMNAND_CMD_ADDRESS]		=  0x0c,
-+	[BRCMNAND_INTFC_STATUS]		=  0x5c,
-+	[BRCMNAND_CS_SELECT]		=  0x14,
-+	[BRCMNAND_CS_XOR]		=  0x18,
-+	[BRCMNAND_LL_OP]		=     0,
-+	[BRCMNAND_CS0_BASE]		=  0x40,
-+	[BRCMNAND_CS1_BASE]		=     0,
-+	[BRCMNAND_CORR_THRESHOLD]	=     0,
-+	[BRCMNAND_CORR_THRESHOLD_EXT]	=     0,
-+	[BRCMNAND_UNCORR_COUNT]		=     0,
-+	[BRCMNAND_CORR_COUNT]		=     0,
-+	[BRCMNAND_CORR_EXT_ADDR]	=  0x60,
-+	[BRCMNAND_CORR_ADDR]		=  0x64,
-+	[BRCMNAND_UNCORR_EXT_ADDR]	=  0x68,
-+	[BRCMNAND_UNCORR_ADDR]		=  0x6c,
-+	[BRCMNAND_SEMAPHORE]		=  0x50,
-+	[BRCMNAND_ID]			=  0x54,
-+	[BRCMNAND_ID_EXT]		=     0,
-+	[BRCMNAND_LL_RDATA]		=     0,
-+	[BRCMNAND_OOB_READ_BASE]	=  0x20,
-+	[BRCMNAND_OOB_READ_10_BASE]	=     0,
-+	[BRCMNAND_OOB_WRITE_BASE]	=  0x30,
-+	[BRCMNAND_OOB_WRITE_10_BASE]	=     0,
-+	[BRCMNAND_FC_BASE]		= 0x200,
-+};
-+
- /* BRCMNAND v3.3-v4.0 */
- static const u16 brcmnand_regs_v33[] = {
- 	[BRCMNAND_CMD_START]		=  0x04,
-@@ -536,6 +567,9 @@ enum {
- 	CFG_BUS_WIDTH			= BIT(CFG_BUS_WIDTH_SHIFT),
- 	CFG_DEVICE_SIZE_SHIFT		= 24,
- 
-+	/* Only for v2.1 */
-+	CFG_PAGE_SIZE_SHIFT_v2_1	= 30,
-+
- 	/* Only for pre-v7.1 (with no CFG_EXT register) */
- 	CFG_PAGE_SIZE_SHIFT		= 20,
- 	CFG_BLK_SIZE_SHIFT		= 28,
-@@ -571,12 +605,16 @@ static int brcmnand_revision_init(struct brcmnand_controller *ctrl)
- {
- 	static const unsigned int block_sizes_v6[] = { 8, 16, 128, 256, 512, 1024, 2048, 0 };
- 	static const unsigned int block_sizes_v4[] = { 16, 128, 8, 512, 256, 1024, 2048, 0 };
-+	static const unsigned int block_sizes_v2_2[] = { 16, 128, 8, 512, 256, 0 };
-+	static const unsigned int block_sizes_v2_1[] = { 16, 128, 8, 512, 0 };
- 	static const unsigned int page_sizes_v3_4[] = { 512, 2048, 4096, 8192, 0 };
-+	static const unsigned int page_sizes_v2_2[] = { 512, 2048, 4096, 0 };
-+	static const unsigned int page_sizes_v2_1[] = { 512, 2048, 0 };
- 
- 	ctrl->nand_version = nand_readreg(ctrl, 0) & 0xffff;
- 
--	/* Only support v4.0+? */
--	if (ctrl->nand_version < 0x0400) {
-+	/* Only support v2.1+ */
-+	if (ctrl->nand_version < 0x0201) {
- 		dev_err(ctrl->dev, "version %#x not supported\n",
- 			ctrl->nand_version);
- 		return -ENODEV;
-@@ -593,6 +631,8 @@ static int brcmnand_revision_init(struct brcmnand_controller *ctrl)
- 		ctrl->reg_offsets = brcmnand_regs_v50;
- 	else if (ctrl->nand_version >= 0x0303)
- 		ctrl->reg_offsets = brcmnand_regs_v33;
-+	else if (ctrl->nand_version >= 0x0201)
-+		ctrl->reg_offsets = brcmnand_regs_v21;
- 
- 	/* Chip-select stride */
- 	if (ctrl->nand_version >= 0x0701)
-@@ -618,14 +658,32 @@ static int brcmnand_revision_init(struct brcmnand_controller *ctrl)
- 		ctrl->max_page_size = 16 * 1024;
- 		ctrl->max_block_size = 2 * 1024 * 1024;
- 	} else {
--		ctrl->page_sizes = page_sizes_v3_4;
-+		if (ctrl->nand_version >= 0x0304)
-+			ctrl->page_sizes = page_sizes_v3_4;
-+		else if (ctrl->nand_version >= 0x0202)
-+			ctrl->page_sizes = page_sizes_v2_2;
-+		else
-+			ctrl->page_sizes = page_sizes_v2_1;
-+
-+		if (ctrl->nand_version >= 0x0202)
-+			ctrl->page_size_shift = CFG_PAGE_SIZE_SHIFT;
-+		else
-+			ctrl->page_size_shift = CFG_PAGE_SIZE_SHIFT_v2_1;
-+
- 		if (ctrl->nand_version >= 0x0600)
- 			ctrl->block_sizes = block_sizes_v6;
--		else
-+		else if (ctrl->nand_version >= 0x0400)
- 			ctrl->block_sizes = block_sizes_v4;
-+		else if (ctrl->nand_version >= 0x0202)
-+			ctrl->block_sizes = block_sizes_v2_2;
-+		else
-+			ctrl->block_sizes = block_sizes_v2_1;
- 
- 		if (ctrl->nand_version < 0x0400) {
--			ctrl->max_page_size = 4096;
-+			if (ctrl->nand_version < 0x0202)
-+				ctrl->max_page_size = 2048;
-+			else
-+				ctrl->max_page_size = 4096;
- 			ctrl->max_block_size = 512 * 1024;
- 		}
- 	}
-@@ -811,6 +869,9 @@ static void brcmnand_wr_corr_thresh(struct brcmnand_host *host, u8 val)
- 	enum brcmnand_reg reg = BRCMNAND_CORR_THRESHOLD;
- 	int cs = host->cs;
- 
-+	if (!ctrl->reg_offsets[reg])
-+		return;
-+
- 	if (ctrl->nand_version == 0x0702)
- 		bits = 7;
- 	else if (ctrl->nand_version >= 0x0600)
-@@ -869,8 +930,10 @@ static inline u32 brcmnand_spare_area_mask(struct brcmnand_controller *ctrl)
- 		return GENMASK(7, 0);
- 	else if (ctrl->nand_version >= 0x0600)
- 		return GENMASK(6, 0);
--	else
-+	else if (ctrl->nand_version >= 0x0303)
- 		return GENMASK(5, 0);
-+	else
-+		return GENMASK(4, 0);
- }
- 
- #define NAND_ACC_CONTROL_ECC_SHIFT	16
-@@ -2378,7 +2441,7 @@ static int brcmnand_set_cfg(struct brcmnand_host *host,
- 		(!!(cfg->device_width == 16) << CFG_BUS_WIDTH_SHIFT) |
- 		(device_size << CFG_DEVICE_SIZE_SHIFT);
- 	if (cfg_offs == cfg_ext_offs) {
--		tmp |= (page_size << CFG_PAGE_SIZE_SHIFT) |
-+		tmp |= (page_size << ctrl->page_size_shift) |
- 		       (block_size << CFG_BLK_SIZE_SHIFT);
- 		nand_writereg(ctrl, cfg_offs, tmp);
- 	} else {
-@@ -2390,9 +2453,11 @@ static int brcmnand_set_cfg(struct brcmnand_host *host,
- 
- 	tmp = nand_readreg(ctrl, acc_control_offs);
- 	tmp &= ~brcmnand_ecc_level_mask(ctrl);
--	tmp |= cfg->ecc_level << NAND_ACC_CONTROL_ECC_SHIFT;
- 	tmp &= ~brcmnand_spare_area_mask(ctrl);
--	tmp |= cfg->spare_area_size;
-+	if (ctrl->nand_version >= 0x0302) {
-+		tmp |= cfg->ecc_level << NAND_ACC_CONTROL_ECC_SHIFT;
-+		tmp |= cfg->spare_area_size;
-+	}
- 	nand_writereg(ctrl, acc_control_offs, tmp);
- 
- 	brcmnand_set_sector_size_1k(host, cfg->sector_size_1k);
-@@ -2766,6 +2831,8 @@ const struct dev_pm_ops brcmnand_pm_ops = {
- EXPORT_SYMBOL_GPL(brcmnand_pm_ops);
- 
- static const struct of_device_id brcmnand_of_match[] = {
-+	{ .compatible = "brcm,brcmnand-v2.1" },
-+	{ .compatible = "brcm,brcmnand-v2.2" },
- 	{ .compatible = "brcm,brcmnand-v4.0" },
- 	{ .compatible = "brcm,brcmnand-v5.0" },
- 	{ .compatible = "brcm,brcmnand-v6.0" },
+These helpers will go walk through the pipeline only visiting entities
+that participates in the stream, i.e. it follows links from sink to source
+(and not the opposite).
+For example, in a topology like this https://bit.ly/3b2MxjI
+calling v4l2_pipeline_stream_enable() from rkisp1_mainpath won't call
+.s_stream(true) for rkisp1_resizer_selfpath.
+
+stream_count variable was added in v4l2_subdevice to handle nested calls
+to the helpers.
+This is useful when the driver allows streaming from more then one
+capture device sharing subdevices.
+
+This patchset was tested on rkisp1 and vimc drivers.
+
+Other cleanup might be possible (but I won't add in this patchset as I
+don't have the hw to test):
+	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/qcom/camss/camss-video.c#n430
+	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/omap3isp/isp.c#n697
+	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/stm32/stm32-dcmi.c#n680
+	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/xilinx/xilinx-dma.c#n97
+
+Testing:
+--------
+
+SEN_DEV=/dev/v4l-subdev3
+ISP_DEV=/dev/v4l-subdev0
+RSZ_SP_DEV=/dev/v4l-subdev2
+RSZ_MP_DEV=/dev/v4l-subdev1
+CAP_SP_DEV=/dev/video1
+CAP_MP_DEV=/dev/video0
+
+WIDTH=1920
+HEIGHT=1080
+RAW_CODE=SRGGB10_1X10
+YUV_CODE=YUYV8_2X8
+
+v4l2-ctl --set-subdev-fmt pad=0,width=$WIDTH,height=$HEIGHT,code=$RAW_CODE -d $SEN_DEV
+
+v4l2-ctl --set-subdev-fmt pad=0,width=$WIDTH,height=$HEIGHT,code=$RAW_CODE -d $ISP_DEV
+v4l2-ctl --set-subdev-selection pad=0,target=crop,top=0,left=0,width=$WIDTH,height=$HEIGHT -d $ISP_DEV
+
+v4l2-ctl --set-subdev-selection pad=2,target=crop,top=0,left=0,width=$WIDTH,height=$HEIGHT -d $ISP_DEV
+v4l2-ctl --set-subdev-fmt pad=2,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $ISP_DEV
+
+v4l2-ctl --set-subdev-fmt pad=0,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $RSZ_SP_DEV
+v4l2-ctl --set-subdev-fmt pad=1,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $RSZ_SP_DEV
+
+v4l2-ctl --set-subdev-selection pad=0,target=crop,top=0,left=0,width=$WIDTH,height=$HEIGHT -d $RSZ_SP_DEV
+
+v4l2-ctl --set-subdev-fmt pad=0,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $RSZ_MP_DEV
+v4l2-ctl --set-subdev-fmt pad=1,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $RSZ_MP_DEV
+
+v4l2-ctl --set-subdev-selection pad=0,target=crop,top=0,left=0,width=$WIDTH,height=$HEIGHT -d $RSZ_MP_DEV
+
+v4l2-ctl -v width=$WIDTH,height=$HEIGHT,pixelformat=NV12 -d $CAP_SP_DEV
+v4l2-ctl -v width=$WIDTH,height=$HEIGHT,pixelformat=NV12 -d $CAP_MP_DEV
+
+sleep 1
+
+v4l2-ctl --stream-mmap --stream-count=100 -d $CAP_SP_DEV --stream-to=/tmp/test_sp.raw &
+v4l2-ctl --stream-mmap --stream-count=100 -d $CAP_MP_DEV --stream-to=/tmp/test_mp.raw &
+
+wait
+echo "Completed"
+
+
+Changes in v4:
+==============
+patch 1: fix coding style issues
+
+patch 2:
+- in function v4l2_pipeline_subdevs_get, use a local media_graph to walk on the topology so a lock is not needed
+and also the pipe parameter is not needed.
+- adding a function v4l2_subdevs_stream_disable to avoid code duplication
+- change v4l2_pipeline_stream_disable to return an error code if failed
+- don't add a new field to subdevice "stream_counter" when calling s_stream, since this counter is updated only in
+the helper functions, and might be confusing that it is generally not an indication of the number of calls to s_stream.
+Also, except of rkisp1, and vimc, it seems that the other drivers that might use the new helpers don't use a counter.
+
+new added - patch 3: the call to media_pipeline_start should be called before calling s_stream on the subdevices in order
+to validate the links and prevents them from changing, this patch fixes it.
+
+patch 4: (use the helpers in rkisp1). The helpers now don't have a counter for the number of calls to s_stream, so rkisp1
+should check if the other capture is streaming and in that case call s_stream only for its resizer.
+
+patch 5: - (use the helpers in vimc)
+- test the return value of v4l2_pipeline_stream_disable
+- the call to the helerps now doesn't need the pipe parameter.
+
+Overview of patches in V3:
+--------------------------
+
+Patch 1/5 adds a new iterator function in media-controller to follow links from sink to
+source only.
+
+Patch 2/5 adds the helpers in v4l2-common.c,
+
+Patch 3/5 calles media_pipeline_start before calling s_stream on the subdevices
+
+Patch 4/5 cleanup rkisp1 driver to use the helpers.
+
+Patch 5/5 cleanup vimc driver to use the helpers.
+
+Changes in V3:
+====================
+Following up Niklas' comments in V2 https://patchwork.kernel.org/patch/11473681/#23270823
+
+* I removed the limitation in topologies with entities with multiple enabled
+links to its sink pads in the topology.
+Now it enables all subdevs in the pipeline that have an enabled link going
+from sink to source while walking from the video device, so it can be
+also useful for rcar-vin driver.
+
+To implement this, I added back in the series the patch from v1:
+    "media: mc-entity.c: add media_graph_walk_next_stream()"
+
+* "size" was renamed to "max_size" in function v4l2_pipeline_subdevs_get()
+to reflect the maximum number of elements that can fit in the subdevs array,
+with proper documentation.
+
+* v4l2_pipeline_subdevs_get() returns a negative number for error, instead
+of returning 0 and printing a warning.
+
+* I also add if defined(CONFIG_MEDIA_CONTROLLER) around helpers to avoid
+compiling errors.
+
+Overview of patches in V3:
+--------------------------
+
+Patch 1/4 adds a new iterator function in media-controller to follow links from sink to
+source only.
+
+Patch 2/4 adds the helpers in v4l2-common.c, allowing nested calls by
+adding stream_count in the subdevice struct.
+
+Patch 3/4 cleanup rkisp1 driver to use the helpers.
+
+Patch 4/4 cleanup vimc driver to use the helpers.
+
+Changes in V2:
+====================
+The first version was calling the s_stream() callbacks from sensor to
+capture.
+
+This was generating errors in the Scarlet Chromebook, when the sensor
+was being enabled before the ISP.
+
+It make sense to enable subdevices from capture to sensor instead (which
+is what most drivers do already).
+
+This v2 drops the changes from mc-entity.c, and re-implement helpers in
+v4l2-common.c
+
+Overview of patches in V2:
+--------------------------
+
+Path 1/3 adds the helpers in v4l2-common.c, allowing nested calls by
+adding stream_count in the subdevice struct.
+
+Patch 2/3 cleanup rkisp1 driver to use the helpers.
+
+Patch 3/3 cleanup vimc driver to use the helpers.
+
+Dafna Hirschfeld (1):
+  media: staging: rkisp1: validate links before powering and streaming
+
+Helen Koike (4):
+  media: mc-entity.c: add media_graph_walk_next_stream()
+  media: v4l2-common: add helper functions to call s_stream() callbacks
+  media: staging: rkisp1: cap: use v4l2_pipeline_stream_{enable,disable}
+    helpers
+  media: vimc: use v4l2_pipeline_stream_{enable,disable} helpers
+
+ drivers/media/mc/mc-entity.c                  |  34 ++++-
+ .../media/test-drivers/vimc/vimc-capture.c    |  31 +++--
+ .../media/test-drivers/vimc/vimc-streamer.c   |  49 +------
+ drivers/media/v4l2-core/v4l2-common.c         |  99 ++++++++++++++
+ drivers/staging/media/rkisp1/rkisp1-capture.c | 125 ++++++------------
+ include/media/media-entity.h                  |  15 +++
+ include/media/v4l2-common.h                   |  39 ++++++
+ 7 files changed, 253 insertions(+), 139 deletions(-)
+
 -- 
-2.26.2
+2.17.1
 
