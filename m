@@ -2,120 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 136491DDC52
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 02:50:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C7FCE1DDE30
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 05:38:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726737AbgEVAuR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 21 May 2020 20:50:17 -0400
-Received: from vsp-unauthed02.binero.net ([195.74.38.227]:39653 "EHLO
-        vsp-unauthed02.binero.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726335AbgEVAuR (ORCPT
+        id S1727996AbgEVDiM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 21 May 2020 23:38:12 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:60379 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727940AbgEVDiL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 21 May 2020 20:50:17 -0400
-X-Halon-ID: 274cec5b-9bc6-11ea-a73e-0050569116f7
-Authorized-sender: niklas@soderlund.pp.se
-Received: from bismarck.berto.se (p4fca2392.dip0.t-ipconnect.de [79.202.35.146])
-        by bin-vsp-out-03.atm.binero.net (Halon) with ESMTPA
-        id 274cec5b-9bc6-11ea-a73e-0050569116f7;
-        Fri, 22 May 2020 02:49:59 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Cc:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH] doc-rst: Fix typos in packed Bayer raw14 pixel formats diagram
-Date:   Fri, 22 May 2020 02:50:07 +0200
-Message-Id: <20200522005007.314491-1-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+        Thu, 21 May 2020 23:38:11 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id byVbjwd7NDazBbyVcjJEzC; Fri, 22 May 2020 05:38:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1590118688; bh=Yeq6n75fbAPwJWikW/Xn4HfLGYkN7dnLlUoo3tg3534=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=WrHs1nB7ghzOkp0RAENUYZqXv5xpBAyc7zs1V7GFMfaoYnNETWkbRx6/YLnDKLd4j
+         r3v3jvg+IbWOnkcVHYDLetDGrQiPfpQAiXoBNyxiOnjZa9BHw3Udv/Hi8PFEo2rOfD
+         JOnxBgSeElDy096nx7pp0aHvNLaNNj0JZZUetI3DjNWDABamB3hZdYQu/K38LJz+XG
+         6V0xKmCo8TIyrjbLvkIgnF6sIXApumMvkPT0aBoQfrSfeNntOQN6R89rG4y9gqKrgM
+         1Q5cuX7IfxDngvM+Vv0XvKdZV2ipj94kKNW8my1QsdpEoFg1O4gKuK5ItRxa2AwA6f
+         iMAR5UtN/PFJg==
+Message-ID: <577b8145c60ae9ff595dccf7d26c5aad@smtp-cloud7.xs4all.net>
+Date:   Fri, 22 May 2020 05:38:06 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfDdSi0anaoDBwuaSvjKTfbBP3ctRzDEvQIV68J7UVEMNbfSrHcHh8wqjop4sGuVEo8RVpcqye0xnedjJsZLzgwDjq2ro8JjATKaCwU0C+3hUXHQaV+zs
+ AEUMxelzSaL99MgeO42zDaOtiyGRfccy8IeTIntV+6X/pjEYZK7eweBucRlB3wdtEVdTCYdOigritiuaOufquISb/o/82IT67CNvT+j4g2rxZzVyUIVEr8TZ
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are two typos in the byte order diagram. On row 1 and 3 the low
-bits for the 3rd pixel B02 and B22 are labeled as R02 and R22. On row 2
-the row index is 0 for all pixels where it should be 1.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- .../media/v4l/pixfmt-srggb14p.rst             | 28 +++++++++----------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+Results of the daily build of media_tree:
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-srggb14p.rst b/Documentation/userspace-api/media/v4l/pixfmt-srggb14p.rst
-index ec1239ada316fa49..e2f5a2b360921315 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-srggb14p.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-srggb14p.rst
-@@ -69,37 +69,37 @@ Each cell is one byte.
- 
- 	  B\ :sub:`00low bits 5--0`\ (bits 5--0)
- 
--       -  R\ :sub:`02low bits 3--0`\ (bits 7--4)
-+       -  B\ :sub:`02low bits 3--0`\ (bits 7--4)
- 
- 	  G\ :sub:`01low bits 5--2`\ (bits 3--0)
- 
-        -  G\ :sub:`03low bits 5--0`\ (bits 7--2)
- 
--	  R\ :sub:`02low bits 5--4`\ (bits 1--0)
-+	  B\ :sub:`02low bits 5--4`\ (bits 1--0)
- 
-     -  .. row 2
- 
-        -  start + 7
- 
--       -  G\ :sub:`00high`
-+       -  G\ :sub:`10high`
- 
--       -  R\ :sub:`01high`
-+       -  R\ :sub:`11high`
- 
--       -  G\ :sub:`02high`
-+       -  G\ :sub:`12high`
- 
--       -  R\ :sub:`03high`
-+       -  R\ :sub:`13high`
- 
--       -  R\ :sub:`01low bits 1--0`\ (bits 7--6)
-+       -  R\ :sub:`11low bits 1--0`\ (bits 7--6)
- 
--	  G\ :sub:`00low bits 5--0`\ (bits 5--0)
-+	  G\ :sub:`10low bits 5--0`\ (bits 5--0)
- 
--       -  G\ :sub:`02low bits 3--0`\ (bits 7--4)
-+       -  G\ :sub:`12low bits 3--0`\ (bits 7--4)
- 
--	  R\ :sub:`01low bits 5--2`\ (bits 3--0)
-+	  R\ :sub:`11low bits 5--2`\ (bits 3--0)
- 
--       -  R\ :sub:`03low bits 5--0`\ (bits 7--2)
-+       -  R\ :sub:`13low bits 5--0`\ (bits 7--2)
- 
--	  G\ :sub:`02low bits 5--4`\ (bits 1--0)
-+	  G\ :sub:`12low bits 5--4`\ (bits 1--0)
- 
-     -  .. row 3
- 
-@@ -117,13 +117,13 @@ Each cell is one byte.
- 
- 	  B\ :sub:`20low bits 5--0`\ (bits 5--0)
- 
--       -  R\ :sub:`22low bits 3--0`\ (bits 7--4)
-+       -  B\ :sub:`22low bits 3--0`\ (bits 7--4)
- 
- 	  G\ :sub:`21low bits 5--2`\ (bits 3--0)
- 
-        -  G\ :sub:`23low bits 5--0`\ (bits 7--2)
- 
--	  R\ :sub:`22low bits 5--4`\ (bits 1--0)
-+	  B\ :sub:`22low bits 5--4`\ (bits 1--0)
- 
-     -  .. row 4
- 
--- 
-2.26.2
+date:			Fri May 22 05:00:09 CEST 2020
+media-tree git hash:	960b2dee908b0fc51cf670841de13b40b44aaaae
+media_build git hash:	28a109580ca69b3cc1c2f2ae62248e9fe067cb4c
+v4l-utils git hash:	ae8dd398baf927bc5bc18abd1677a5c4e118034e
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0accb575719caa47d8fbc866b11e6f7e7e7787cd
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.212-i686: ERRORS
+linux-4.4.212-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.212-i686: ERRORS
+linux-4.9.212-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.169-i686: ERRORS
+linux-4.14.169-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.101-i686: ERRORS
+linux-4.19.101-x86_64: ERRORS
+linux-4.20.15-i686: ERRORS
+linux-4.20.15-x86_64: ERRORS
+linux-5.0.15-i686: ERRORS
+linux-5.0.15-x86_64: ERRORS
+linux-5.1.1-i686: ERRORS
+linux-5.1.1-x86_64: ERRORS
+linux-5.2.1-i686: ERRORS
+linux-5.2.1-x86_64: ERRORS
+linux-5.3.1-i686: ERRORS
+linux-5.3.1-x86_64: ERRORS
+linux-5.4.17-i686: ERRORS
+linux-5.4.17-x86_64: ERRORS
+linux-5.5.1-i686: ERRORS
+linux-5.5.1-x86_64: ERRORS
+linux-5.6.1-i686: ERRORS
+linux-5.6.1-x86_64: ERRORS
+linux-5.7-rc1-i686: ERRORS
+linux-5.7-rc1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 4
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 5
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
