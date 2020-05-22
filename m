@@ -2,263 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6692B1DE293
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 11:06:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EB8831DE309
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 11:27:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729322AbgEVJGx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 May 2020 05:06:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60122 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728424AbgEVJGx (ORCPT
+        id S1729322AbgEVJ1x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 May 2020 05:27:53 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:49888 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728845AbgEVJ1x (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 May 2020 05:06:53 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF08CC061A0E
-        for <linux-media@vger.kernel.org>; Fri, 22 May 2020 02:06:52 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 232362A098F
-Subject: Re: [PATCH v4 0/5] media: add v4l2_pipeline_stream_{enable,disable}
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        tfiga@chromium.org, skhan@linuxfoundation.org,
-        niklas.soderlund@ragnatech.se--annotate
-References: <20200522075522.6190-1-dafna.hirschfeld@collabora.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <1c8bd467-5a9c-7285-ec23-d0d864a5f938@collabora.com>
-Date:   Fri, 22 May 2020 06:06:41 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        Fri, 22 May 2020 05:27:53 -0400
+X-UUID: 7b64a3a05aa942a78a78a87878209bfb-20200522
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=hepUThaabfGUaHmDa2AneBNj6YVAHDrku45pJkqhJeQ=;
+        b=dmWushCpg647SzPfU4TDBhnnynHvSymCQQWl8GrvjhLPRZ7ulZUayXryH9l+Ipaa30MJ71ypsFqPoYKa+oFRE/tZHPFh+xJM68UHK4DhHFDo3bkcm7JQafK+wVNBCFjCPxgYA0gFkqkNMpuhb2X+4NZG6KKjmOyg7kmlxr8D994=;
+X-UUID: 7b64a3a05aa942a78a78a87878209bfb-20200522
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 305383591; Fri, 22 May 2020 17:27:37 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N1.mediatek.inc
+ (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 22 May
+ 2020 17:27:36 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 22 May 2020 17:27:34 +0800
+Message-ID: <1590139561.8804.390.camel@mhfsdcap03>
+Subject: Re: [V6, 2/2] media: i2c: dw9768: Add DW9768 VCM driver
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     <linus.walleij@linaro.org>, <bgolaszewski@baylibre.com>,
+        <mchehab@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <sakari.ailus@linux.intel.com>, <drinkcat@chromium.org>,
+        <matthias.bgg@gmail.com>, <bingbu.cao@intel.com>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>,
+        <dongchun.zhu@mediatek.com>
+Date:   Fri, 22 May 2020 17:26:01 +0800
+In-Reply-To: <20200521195113.GC14214@chromium.org>
+References: <20200518132731.20855-1-dongchun.zhu@mediatek.com>
+         <20200518132731.20855-3-dongchun.zhu@mediatek.com>
+         <20200521195113.GC14214@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-In-Reply-To: <20200522075522.6190-1-dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-TM-SNTS-SMTP: C375D294F8C3D466CDBF9572F1CDB2C97B12F5CF0762092D09378AB0F1CADBCA2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+SGkgVG9tYXN6LA0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXcuIE15IHJlcGxpZXMgYXJlIGFzIGJl
+bG93Lg0KDQpPbiBUaHUsIDIwMjAtMDUtMjEgYXQgMTk6NTEgKzAwMDAsIFRvbWFzeiBGaWdhIHdy
+b3RlOg0KPiBIaSBEb25nY2h1biwgU2FrYXJpLA0KPiANCj4gT24gTW9uLCBNYXkgMTgsIDIwMjAg
+YXQgMDk6Mjc6MzFQTSArMDgwMCwgRG9uZ2NodW4gWmh1IHdyb3RlOg0KPiA+IEFkZCBhIFY0TDIg
+c3ViLWRldmljZSBkcml2ZXIgZm9yIERXOTc2OCB2b2ljZSBjb2lsIG1vdG9yLCBwcm92aWRpbmcN
+Cj4gPiBjb250cm9sIHRvIHNldCB0aGUgZGVzaXJlZCBmb2N1cyB2aWEgSUlDIHNlcmlhbCBpbnRl
+cmZhY2UuDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogRG9uZ2NodW4gWmh1IDxkb25nY2h1bi56
+aHVAbWVkaWF0ZWsuY29tPg0KPiA+IC0tLQ0KPiA+ICBNQUlOVEFJTkVSUyAgICAgICAgICAgICAg
+ICB8ICAgMSArDQo+ID4gIGRyaXZlcnMvbWVkaWEvaTJjL0tjb25maWcgIHwgIDEzICsrDQo+ID4g
+IGRyaXZlcnMvbWVkaWEvaTJjL01ha2VmaWxlIHwgICAxICsNCj4gPiAgZHJpdmVycy9tZWRpYS9p
+MmMvZHc5NzY4LmMgfCA1MTUgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
+KysrKysrDQo+ID4gIDQgZmlsZXMgY2hhbmdlZCwgNTMwIGluc2VydGlvbnMoKykNCj4gPiAgY3Jl
+YXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvaTJjL2R3OTc2OC5jDQo+IFtzbmlwXQ0KPiA+
+ICsvKg0KPiA+ICsgKiBEVzk3NjhfQUFDX1BSRVNDX1JFRyAmIERXOTc2OF9BQUNfVElNRV9SRUcg
+ZGV0ZXJtaW5lIFZDTSBvcGVyYXRpb24gdGltZS4NCj4gPiArICogSWYgRFc5NzY4X0FBQ19QUkVT
+Q19SRUcgaXMgMHg0MSwgYW5kIERXOTc2OF9BQUNfVElNRV9SRUcgaXMgMHgzOSwgVkNNIG1vZGUN
+Cj4gPiArICogd291bGQgYmUgQUFDMywgT3BlcmF0aW9uIFRpbWUgd291bGQgYmUgMC43MHhUdmli
+LCB0aGF0IGlzIDguNDBtcy4NCj4gPiArICovDQo+ID4gKyNkZWZpbmUgRFc5NzY4X01PVkVfREVM
+QVlfVVMJCQk4NDAwDQo+ID4gKyNkZWZpbmUgRFc5NzY4X1NUQUJMRV9USU1FX1VTCQkJMjAwMDAN
+Cj4gDQo+IFRoZXNlIHRpbWVzIGFyZSBvbmx5IHZhbGlkIHdpdGggdGhlIHNwZWNpZmljIHNldHRp
+bmdzIG1lbnRpb25lZCBpbiB0aGUNCj4gY29tbWVudC4gSWYgb25lIHNldHMgZGlmZmVyZW50IHNl
+dHRpbmdzIGluIERULCB0aGUgZHJpdmVyIHdvdWxkIGFwcGx5DQo+IGluY29ycmVjdCBkZWxheXMu
+IFJhdGhlciB0aGFuIGhhcmRjb2RlZCwgdGhleSBzaG91bGQgYmUgY29tcHV0ZWQgYmFzZWQNCj4g
+b24gdGhlIGNvbmZpZ3VyZWQgdmFsdWVzLg0KPiANCj4gVGhhdCBzYWlkLCBJIHdvbmRlciBpZiB3
+ZSdyZSBub3QgZGlnZ2luZyB0b28gZGVlcCBub3cuIFNha2FyaSwgZG8geW91DQo+IHRoaW5rIHdl
+IGNvdWxkIHRha2UgYSBzdGVwIGJhY2ssIHJlbW92ZSB0aGUgb3B0aW9uYWwgRFQgcHJvcGVydGll
+cyBhbmQNCj4ganVzdCBzdXBwb3J0IHRoZSBmaXhlZCB2YWx1ZXMgZm9yIG5vdywgc28gdGhhdCB3
+ZSBjYW4gZ2V0IGEgYmFzaWMgZHJpdmVyDQo+IHVwc3RyZWFtIGZpcnN0IHdpdGhvdXQgZG91Ymxp
+bmcgdGhlIGVmZm9ydD8NCj4gDQoNClRoYW5rcyBmb3IgdGhlIHJlbWluZGVyLg0KWWVzLCBoZXJl
+IERXOTc2OF9NT1ZFX0RFTEFZX1VTIGFjdHVhbGx5IHJlcHJlc2VudHMgT3BlcmF0aW9uIFRpbWUs
+DQp3aGljaCBpcyBkZXBlbmRlbnQgdXBvbiBib2FyZC1zcGVjaWZpYyBzZXR0aW5ncyB0aGF0IGRl
+ZmluZWQgaW4gRFQuDQpGb3IgaW5zdGFuY2UsIGZvciBvbmUgZ2l2ZW4gYm9hcmQsIGlmIGFhYy1t
+b2RlIGlzIDIsIGFhYy10aW1pbmcgaXMgMHgzOSwNCmNsb2NrLXByZXNjIGlzIDEsIHRoZW4gT3Bl
+cmF0aW9uIFRpbWUgd291bGQgYmUgMC43MCooNi4zbXMrNTcqMC4xbXMpKjEgPQ0KOC40bXMuDQoN
+Cj4gPiArDQo+ID4gK3N0YXRpYyBjb25zdCBjaGFyICogY29uc3QgZHc5NzY4X3N1cHBseV9uYW1l
+c1tdID0gew0KPiA+ICsJInZpbiIsCS8qIEkyQyBJL08gaW50ZXJmYWNlIHBvd2VyICovDQo+ID4g
+KwkidmRkIiwJLyogVkNNIHBvd2VyICovDQo+ID4gK307DQo+ID4gKw0KPiA+ICsvKiBkdzk3Njgg
+ZGV2aWNlIHN0cnVjdHVyZSAqLw0KPiA+ICtzdHJ1Y3QgZHc5NzY4IHsNCj4gPiArCXN0cnVjdCBy
+ZWd1bGF0b3JfYnVsa19kYXRhIHN1cHBsaWVzW0FSUkFZX1NJWkUoZHc5NzY4X3N1cHBseV9uYW1l
+cyldOw0KPiA+ICsJc3RydWN0IHY0bDJfY3RybF9oYW5kbGVyIGN0cmxzOw0KPiA+ICsJc3RydWN0
+IHY0bDJfY3RybAkqZm9jdXM7DQo+ID4gKwlzdHJ1Y3QgdjRsMl9zdWJkZXYJc2Q7DQo+ID4gKw0K
+PiA+ICsJdTMyCQkJYWFjX21vZGU7DQo+ID4gKwl1MzIJCQlhYWNfdGltaW5nOw0KPiA+ICsJdTMy
+CQkJY2xvY2tfZGl2aWRpbmdfcmF0ZTsNCj4gPiArCWJvb2wJCQlhYWNfbW9kZV9jb250cm9sX2Vu
+YWJsZTsNCj4gPiArCWJvb2wJCQlhYWN0X2NudF9zZWxlY3RfZW5hYmxlOw0KPiA+ICsJYm9vbAkJ
+CWNsb2NrX2RpdmlkaW5nX3JhdGVfc2VsZWN0X2VuYWJsZTsNCj4gDQo+IG5pdDogU2VwYXJhdGUg
+dHlwZXMgZnJvbSBuYW1lcyB3aXRoIGp1c3QgMSBzcGFjZS4NCj4gDQoNCkZpeGVkIGluIG5leHQg
+cmVsZWFzZS4NCg0KPiA+ICt9Ow0KPiA+ICsNCj4gPiArc3RhdGljIGlubGluZSBzdHJ1Y3QgZHc5
+NzY4ICpzZF90b19kdzk3Njgoc3RydWN0IHY0bDJfc3ViZGV2ICpzdWJkZXYpDQo+ID4gK3sNCj4g
+PiArCXJldHVybiBjb250YWluZXJfb2Yoc3ViZGV2LCBzdHJ1Y3QgZHc5NzY4LCBzZCk7DQo+ID4g
+K30NCj4gPiArDQo+ID4gK3N0cnVjdCByZWd2YWxfbGlzdCB7DQo+ID4gKwl1OCByZWdfbnVtOw0K
+PiA+ICsJdTggdmFsdWU7DQo+ID4gK307DQo+ID4gKw0KPiA+ICtzdGF0aWMgaW50IGR3OTc2OF9y
+ZWFkX3NtYnVzKHN0cnVjdCBkdzk3NjggKmR3OTc2OCwgdW5zaWduZWQgY2hhciByZWcsDQo+ID4g
+KwkJCSAgICAgdW5zaWduZWQgY2hhciAqdmFsKQ0KPiA+ICt7DQo+ID4gKwlzdHJ1Y3QgaTJjX2Ns
+aWVudCAqY2xpZW50ID0gdjRsMl9nZXRfc3ViZGV2ZGF0YSgmZHc5NzY4LT5zZCk7DQo+ID4gKwlp
+bnQgcmV0Ow0KPiA+ICsNCj4gPiArCXJldCA9IGkyY19zbWJ1c19yZWFkX2J5dGVfZGF0YShjbGll
+bnQsIHJlZyk7DQo+ID4gKw0KPiA+ICsJaWYgKHJldCA8IDApDQo+ID4gKwkJcmV0dXJuIHJldDsN
+Cj4gPiArDQo+ID4gKwkqdmFsID0gKHVuc2lnbmVkIGNoYXIpcmV0Ow0KPiA+ICsNCj4gPiArCXJl
+dHVybiAwOw0KPiA+ICt9DQo+IA0KPiBXaHkgZG8gd2UgbmVlZCB0aGlzIGZ1bmN0aW9uPyBDb3Vs
+ZG4ndCB3ZSBqdXN0IGNhbGwNCj4gaTJjX3NtYnVzX3JlYWRfYnl0ZV9kYXRhKCkgZGlyZWN0bHk/
+DQo+IA0KDQpGaXhlZCBpbiBuZXh0IHJlbGVhc2UuDQoNCj4gW3NuaXBdDQo+ID4gK3N0YXRpYyBp
+bnQgZHc5NzY4X3Byb2JlKHN0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQpDQo+ID4gK3sNCj4gPiAr
+CXN0cnVjdCBkZXZpY2UgKmRldiA9ICZjbGllbnQtPmRldjsNCj4gPiArCXN0cnVjdCBkdzk3Njgg
+KmR3OTc2ODsNCj4gPiArCXVuc2lnbmVkIGludCBhYWNfbW9kZV9zZWxlY3Q7DQo+ID4gKwl1bnNp
+Z25lZCBpbnQgYWFjX3RpbWluZ19zZWxlY3Q7DQo+ID4gKwl1bnNpZ25lZCBpbnQgY2xvY2tfZGl2
+aWRpbmdfcmF0ZV9zZWxlY3Q7DQo+ID4gKwl1bnNpZ25lZCBpbnQgaTsNCj4gPiArCWludCByZXQ7
+DQo+ID4gKw0KPiA+ICsJZHc5NzY4ID0gZGV2bV9remFsbG9jKGRldiwgc2l6ZW9mKCpkdzk3Njgp
+LCBHRlBfS0VSTkVMKTsNCj4gPiArCWlmICghZHc5NzY4KQ0KPiA+ICsJCXJldHVybiAtRU5PTUVN
+Ow0KPiA+ICsNCj4gPiArCXY0bDJfaTJjX3N1YmRldl9pbml0KCZkdzk3NjgtPnNkLCBjbGllbnQs
+ICZkdzk3Njhfb3BzKTsNCj4gPiArCWR3OTc2OC0+YWFjX21vZGVfY29udHJvbF9lbmFibGUgPSBm
+YWxzZTsNCj4gPiArCWR3OTc2OC0+YWFjdF9jbnRfc2VsZWN0X2VuYWJsZSA9IGZhbHNlOw0KPiA+
+ICsJZHc5NzY4LT5jbG9ja19kaXZpZGluZ19yYXRlX3NlbGVjdF9lbmFibGUgPSBmYWxzZTsNCj4g
+DQo+IGRldm1fa3phbGxvYygpIGluaXRpYWxpemVzIHRoZSBtZW1vcnkgdG8gemVybywgc28gbm8g
+bmVlZCB0byBzZXQgYW55dGhpbmcNCj4gdG8gZmFsc2UgZXhwbGljaXRseS4NCj4gDQoNClRoYW5r
+cyBmb3IgdGhlIHJlbWluZGVyLg0KWWVzLCB0aGVzZSBwYXJhbWV0ZXJzIHNoYWxsIG5vdCBiZSBu
+ZWVkZWQgdG8gaW5pdGlhbGl6ZWQgYXMgemVyb3MuDQoNCj4gPiArDQo+ID4gKwkvKiBPcHRpb25h
+bCBpbmRpY2F0aW9uIG9mIEFBQyBtb2RlIHNlbGVjdCAqLw0KPiA+ICsJcmV0ID0gZndub2RlX3By
+b3BlcnR5X3JlYWRfdTMyKGRldl9md25vZGUoZGV2KSwgImRvbmd3b29uLGFhYy1tb2RlIiwNCj4g
+PiArCQkJCSAgICAgICAmYWFjX21vZGVfc2VsZWN0KTsNCj4gPiArDQo+ID4gKwlpZiAoIXJldCkg
+ew0KPiA+ICsJCWR3OTc2OC0+YWFjX21vZGVfY29udHJvbF9lbmFibGUgPSB0cnVlOw0KPiA+ICsJ
+CWR3OTc2OC0+YWFjX21vZGUgPSBhYWNfbW9kZV9zZWxlY3Q7DQo+IA0KPiBIb3cgYWJvdXQgbWFr
+aW5nIGFhY19tb2RlIGEgc2lnbmVkIGludCBhbmQgYXNzaWduaW5nIC0xIGJ5DQo+IGRlZmF1bHQ/
+IFRoZW4gd2UgZG9uJ3QgbmVlZCB0d28gc2VwYXJhdGUgZmllbGRzIGluIHRoZSBzdHJ1Y3QuDQo+
+IA0KDQpHb29kIGlkZWEuDQoNCj4gPiArCX0NCj4gPiArDQo+ID4gKwkvKiBPcHRpb25hbCBpbmRp
+Y2F0aW9uIG9mIFZDTSBpbnRlcm5hbCBjbG9jayBkaXZpZGluZyByYXRlIHNlbGVjdCAqLw0KPiA+
+ICsJcmV0ID0gZndub2RlX3Byb3BlcnR5X3JlYWRfdTMyKGRldl9md25vZGUoZGV2KSwNCj4gPiAr
+CQkJCSAgICAgICAiZG9uZ3dvb24sY2xvY2stZGl2aWRpbmctcmF0ZSIsDQo+ID4gKwkJCQkgICAg
+ICAgJmNsb2NrX2RpdmlkaW5nX3JhdGVfc2VsZWN0KTsNCj4gPiArDQo+ID4gKwlpZiAoIXJldCkg
+ew0KPiA+ICsJCWR3OTc2OC0+Y2xvY2tfZGl2aWRpbmdfcmF0ZV9zZWxlY3RfZW5hYmxlID0gdHJ1
+ZTsNCj4gPiArCQlkdzk3NjgtPmNsb2NrX2RpdmlkaW5nX3JhdGUgPSBjbG9ja19kaXZpZGluZ19y
+YXRlX3NlbGVjdDsNCj4gDQo+IERpdHRvLg0KPiANCg0KR290IGl0Lg0KDQo+ID4gKwl9DQo+ID4g
+Kw0KPiA+ICsJLyogT3B0aW9uYWwgaW5kaWNhdGlvbiBvZiBBQUMgVGltaW5nICovDQo+ID4gKwly
+ZXQgPSBmd25vZGVfcHJvcGVydHlfcmVhZF91MzIoZGV2X2Z3bm9kZShkZXYpLCAiZG9uZ3dvb24s
+YWFjLXRpbWluZyIsDQo+ID4gKwkJCQkgICAgICAgJmFhY190aW1pbmdfc2VsZWN0KTsNCj4gPiAr
+DQo+ID4gKwlpZiAoIXJldCkgew0KPiA+ICsJCWR3OTc2OC0+YWFjdF9jbnRfc2VsZWN0X2VuYWJs
+ZSA9IHRydWU7DQo+ID4gKwkJZHc5NzY4LT5hYWNfdGltaW5nID0gYWFjX3RpbWluZ19zZWxlY3Q7
+DQo+IA0KPiBEaXR0by4NCj4gDQoNCkdvdCBpdC4NCg0KPiA+ICsJfQ0KPiA+ICsNCj4gPiArCWZv
+ciAoaSA9IDA7IGkgPCBBUlJBWV9TSVpFKGR3OTc2OF9zdXBwbHlfbmFtZXMpOyBpKyspDQo+ID4g
+KwkJZHc5NzY4LT5zdXBwbGllc1tpXS5zdXBwbHkgPSBkdzk3Njhfc3VwcGx5X25hbWVzW2ldOw0K
+PiA+ICsNCj4gPiArCXJldCA9IGRldm1fcmVndWxhdG9yX2J1bGtfZ2V0KGRldiwgQVJSQVlfU0la
+RShkdzk3Njhfc3VwcGx5X25hbWVzKSwNCj4gPiArCQkJCSAgICAgIGR3OTc2OC0+c3VwcGxpZXMp
+Ow0KPiA+ICsJaWYgKHJldCkgew0KPiA+ICsJCWRldl9lcnIoZGV2LCAiZmFpbGVkIHRvIGdldCBy
+ZWd1bGF0b3JzXG4iKTsNCj4gPiArCQlyZXR1cm4gcmV0Ow0KPiA+ICsJfQ0KPiA+ICsNCj4gPiAr
+CXJldCA9IGR3OTc2OF9pbml0X2NvbnRyb2xzKGR3OTc2OCk7DQo+ID4gKwlpZiAocmV0KQ0KPiA+
+ICsJCWdvdG8gZW50aXR5X2NsZWFudXA7DQo+ID4gKw0KPiA+ICsJZHc5NzY4LT5zZC5mbGFncyB8
+PSBWNEwyX1NVQkRFVl9GTF9IQVNfREVWTk9ERTsNCj4gPiArCWR3OTc2OC0+c2QuaW50ZXJuYWxf
+b3BzID0gJmR3OTc2OF9pbnRfb3BzOw0KPiA+ICsNCj4gPiArCXJldCA9IG1lZGlhX2VudGl0eV9w
+YWRzX2luaXQoJmR3OTc2OC0+c2QuZW50aXR5LCAwLCBOVUxMKTsNCj4gPiArCWlmIChyZXQgPCAw
+KQ0KPiA+ICsJCWdvdG8gZW50aXR5X2NsZWFudXA7DQo+ID4gKw0KPiA+ICsJZHc5NzY4LT5zZC5l
+bnRpdHkuZnVuY3Rpb24gPSBNRURJQV9FTlRfRl9MRU5TOw0KPiA+ICsNCj4gPiArCXBtX3J1bnRp
+bWVfZW5hYmxlKGRldik7DQo+ID4gKwlpZiAoIXBtX3J1bnRpbWVfZW5hYmxlZChkZXYpKSB7DQo+
+ID4gKwkJcmV0ID0gZHc5NzY4X3J1bnRpbWVfcmVzdW1lKGRldik7DQo+ID4gKwkJaWYgKHJldCA8
+IDApIHsNCj4gPiArCQkJZGV2X2VycihkZXYsICJmYWlsZWQgdG8gcG93ZXIgb246ICVkXG4iLCBy
+ZXQpOw0KPiA+ICsJCQlnb3RvIGVudGl0eV9jbGVhbnVwOw0KPiA+ICsJCX0NCj4gPiArCX0NCj4g
+PiArDQo+ID4gKwlyZXQgPSB2NGwyX2FzeW5jX3JlZ2lzdGVyX3N1YmRldigmZHc5NzY4LT5zZCk7
+DQo+ID4gKwlpZiAocmV0IDwgMCkNCj4gPiArCQlnb3RvIGVudGl0eV9jbGVhbnVwOw0KPiA+ICsN
+Cj4gPiArCXJldHVybiAwOw0KPiA+ICsNCj4gPiArZW50aXR5X2NsZWFudXA6DQo+IA0KPiBOZWVk
+IHRvIHBvd2VyIG9mZiBpZiB0aGUgY29kZSBhYm92ZSBwb3dlcmVkIG9uLg0KPiANCg0KVGhhbmtz
+IGZvciB0aGUgcmVtaW5kZXIuDQpJZiB0aGVyZSBpcyBzb21ldGhpbmcgd3Jvbmcgd2l0aCBydW50
+aW1lIFBNLCBhY3R1YXRvciBpcyB0byBiZSBwb3dlcmVkDQpvbiB2aWEgZHc5NzY4X3J1bnRpbWVf
+cmVzdW1lKCkgQVBJLg0KV2hlbiBhY3R1YXRvciBzdWItZGV2aWNlIGlzIHBvd2VyZWQgb24gY29t
+cGxldGVseSBhbmQgYXN5bmMgcmVnaXN0ZXJlZA0Kc3VjY2Vzc2Z1bGx5LCB3ZSBzaGFsbCBwb3dl
+ciBvZmYgaXQgYWZ0ZXJ3YXJkcy4NCg0KPiA+ICsJdjRsMl9jdHJsX2hhbmRsZXJfZnJlZSgmZHc5
+NzY4LT5jdHJscyk7DQo+ID4gKwltZWRpYV9lbnRpdHlfY2xlYW51cCgmZHc5NzY4LT5zZC5lbnRp
+dHkpOw0KPiA+ICsJcmV0dXJuIHJldDsNCj4gPiArfQ0KPiA+ICsNCj4gPiArc3RhdGljIGludCBk
+dzk3NjhfcmVtb3ZlKHN0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQpDQo+ID4gK3sNCj4gPiArCXN0
+cnVjdCB2NGwyX3N1YmRldiAqc2QgPSBpMmNfZ2V0X2NsaWVudGRhdGEoY2xpZW50KTsNCj4gPiAr
+CXN0cnVjdCBkdzk3NjggKmR3OTc2OCA9IHNkX3RvX2R3OTc2OChzZCk7DQo+ID4gKw0KPiA+ICsJ
+cG1fcnVudGltZV9kaXNhYmxlKCZjbGllbnQtPmRldik7DQo+IA0KPiBGaXJzdCB0aGUgZGV2aWNl
+IG11c3QgYmUgdW5yZWdpc3RlcmVkIGZyb20gdGhlIHVzZXJzcGFjZS4gT3RoZXJ3aXNlIHRoZXJl
+DQo+IGlzIGEgcmFjZSBjb25kaXRpb24gdGhhdCByaXNrcyB0aGUgdXNlcnNwYWNlIGFjY2Vzc2lu
+ZyB0aGUgZGV2aWNlIHdoaWxlIHRoZQ0KPiBkZWluaXRpYWxpemF0aW9uIGlzIGhhcHBlbmluZy4N
+Cj4gDQoNCkZpeGVkIGluIG5leHQgcmVsZWFzZSBieSBhZGp1c3RpbmcgdGhlIHNlcXVlbmNlIG9m
+IHVucmVnaXN0ZXJpbmcgYW5kDQpydW50aW1lIFBNIGRpc2FibGUuDQoNCj4gQmVzdCByZWdhcmRz
+LA0KPiBUb21hc3oNCg0K
 
-Thanks for working on this.
-
-On 5/22/20 4:55 AM, Dafna Hirschfeld wrote:
-> Hi,
-> This is v4 of the patchset that was sent by Helen Koike.
-> 
-> Media drivers need to iterate through the pipeline and call .s_stream()
-> callbacks in the subdevices.
-> 
-> Instead of repeating code, add helpers for this.
-> 
-> These helpers will go walk through the pipeline only visiting entities
-> that participates in the stream, i.e. it follows links from sink to source
-> (and not the opposite).
-> For example, in a topology like this https://bit.ly/3b2MxjI
-> calling v4l2_pipeline_stream_enable() from rkisp1_mainpath won't call
-> .s_stream(true) for rkisp1_resizer_selfpath.
-> 
-> stream_count variable was added in v4l2_subdevice to handle nested calls
-> to the helpers.
-> This is useful when the driver allows streaming from more then one
-> capture device sharing subdevices.
-
-If I understand correctly, this isn't  true anymore right? Nested calls aren't
-possible anymore since this version doesn't contain stream_count in struct v4l2_subdevice.
-
-Documentation of v4l2_pipeline_stream_*() should also be updated.
-
-Just to be clear, without the nested call, vimc will require to add its own
-counters, patch https://patchwork.kernel.org/patch/10948833/ will be
-required again to allow multi streaming.
-
-Also, patch "media: staging: rkisp1: cap: use v4l2_pipeline_stream_{enable,disable}"
-is cleaner in the previous version (with stream_count in struct v4l2_subdevice).
-
-All drivers that allows multi streaming will need to implement some special handling.
-
-Adding stream_count in struct v4l2_subdevice still seems cleaner to me. I'd like to hear
-what others think.
-
-> 
-> This patchset was tested on rkisp1 and vimc drivers.
-> 
-> Other cleanup might be possible (but I won't add in this patchset as I
-> don't have the hw to test):
-> 	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/qcom/camss/camss-video.c#n430
-> 	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/omap3isp/isp.c#n697
-> 	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/stm32/stm32-dcmi.c#n680
-> 	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/xilinx/xilinx-dma.c#n97
-> 
-> Testing:
-> --------
-> 
-> SEN_DEV=/dev/v4l-subdev3
-> ISP_DEV=/dev/v4l-subdev0
-> RSZ_SP_DEV=/dev/v4l-subdev2
-> RSZ_MP_DEV=/dev/v4l-subdev1
-> CAP_SP_DEV=/dev/video1
-> CAP_MP_DEV=/dev/video0
-> 
-> WIDTH=1920
-> HEIGHT=1080
-> RAW_CODE=SRGGB10_1X10
-> YUV_CODE=YUYV8_2X8
-> 
-> v4l2-ctl --set-subdev-fmt pad=0,width=$WIDTH,height=$HEIGHT,code=$RAW_CODE -d $SEN_DEV
-> 
-> v4l2-ctl --set-subdev-fmt pad=0,width=$WIDTH,height=$HEIGHT,code=$RAW_CODE -d $ISP_DEV
-> v4l2-ctl --set-subdev-selection pad=0,target=crop,top=0,left=0,width=$WIDTH,height=$HEIGHT -d $ISP_DEV
-> 
-> v4l2-ctl --set-subdev-selection pad=2,target=crop,top=0,left=0,width=$WIDTH,height=$HEIGHT -d $ISP_DEV
-> v4l2-ctl --set-subdev-fmt pad=2,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $ISP_DEV
-> 
-> v4l2-ctl --set-subdev-fmt pad=0,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $RSZ_SP_DEV
-> v4l2-ctl --set-subdev-fmt pad=1,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $RSZ_SP_DEV
-> 
-> v4l2-ctl --set-subdev-selection pad=0,target=crop,top=0,left=0,width=$WIDTH,height=$HEIGHT -d $RSZ_SP_DEV
-> 
-> v4l2-ctl --set-subdev-fmt pad=0,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $RSZ_MP_DEV
-> v4l2-ctl --set-subdev-fmt pad=1,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $RSZ_MP_DEV
-> 
-> v4l2-ctl --set-subdev-selection pad=0,target=crop,top=0,left=0,width=$WIDTH,height=$HEIGHT -d $RSZ_MP_DEV
-> 
-> v4l2-ctl -v width=$WIDTH,height=$HEIGHT,pixelformat=NV12 -d $CAP_SP_DEV
-> v4l2-ctl -v width=$WIDTH,height=$HEIGHT,pixelformat=NV12 -d $CAP_MP_DEV
-> 
-> sleep 1
-> 
-> v4l2-ctl --stream-mmap --stream-count=100 -d $CAP_SP_DEV --stream-to=/tmp/test_sp.raw &
-> v4l2-ctl --stream-mmap --stream-count=100 -d $CAP_MP_DEV --stream-to=/tmp/test_mp.raw &
-> 
-> wait
-> echo "Completed"
-> 
-> 
-> Changes in v4:
-> ==============
-> patch 1: fix coding style issues
-> 
-> patch 2:
-> - in function v4l2_pipeline_subdevs_get, use a local media_graph to walk on the topology so a lock is not needed
-> and also the pipe parameter is not needed.
-
-You are assuming that media_pipeline_start() will always be called before v4l2_pipeline_stream_enable().
-I think this is fine, but it should reflect in the docs.
-
-Regards,
-Helen
-
-> - adding a function v4l2_subdevs_stream_disable to avoid code duplication
-> - change v4l2_pipeline_stream_disable to return an error code if failed
-> - don't add a new field to subdevice "stream_counter" when calling s_stream, since this counter is updated only in
-> the helper functions, and might be confusing that it is generally not an indication of the number of calls to s_stream.
-> Also, except of rkisp1, and vimc, it seems that the other drivers that might use the new helpers don't use a counter.
-> 
-> new added - patch 3: the call to media_pipeline_start should be called before calling s_stream on the subdevices in order
-> to validate the links and prevents them from changing, this patch fixes it.
-> 
-> patch 4: (use the helpers in rkisp1). The helpers now don't have a counter for the number of calls to s_stream, so rkisp1
-> should check if the other capture is streaming and in that case call s_stream only for its resizer.
-> 
-> patch 5: - (use the helpers in vimc)
-> - test the return value of v4l2_pipeline_stream_disable
-> - the call to the helerps now doesn't need the pipe parameter.
-> 
-> Overview of patches in V3:
-> --------------------------
-> 
-> Patch 1/5 adds a new iterator function in media-controller to follow links from sink to
-> source only.
-> 
-> Patch 2/5 adds the helpers in v4l2-common.c,
-> 
-> Patch 3/5 calles media_pipeline_start before calling s_stream on the subdevices
-> 
-> Patch 4/5 cleanup rkisp1 driver to use the helpers.
-> 
-> Patch 5/5 cleanup vimc driver to use the helpers.
-> 
-> Changes in V3:
-> ====================
-> Following up Niklas' comments in V2 https://patchwork.kernel.org/patch/11473681/#23270823
-> 
-> * I removed the limitation in topologies with entities with multiple enabled
-> links to its sink pads in the topology.
-> Now it enables all subdevs in the pipeline that have an enabled link going
-> from sink to source while walking from the video device, so it can be
-> also useful for rcar-vin driver.
-> 
-> To implement this, I added back in the series the patch from v1:
->     "media: mc-entity.c: add media_graph_walk_next_stream()"
-> 
-> * "size" was renamed to "max_size" in function v4l2_pipeline_subdevs_get()
-> to reflect the maximum number of elements that can fit in the subdevs array,
-> with proper documentation.
-> 
-> * v4l2_pipeline_subdevs_get() returns a negative number for error, instead
-> of returning 0 and printing a warning.
-> 
-> * I also add if defined(CONFIG_MEDIA_CONTROLLER) around helpers to avoid
-> compiling errors.
-> 
-> Overview of patches in V3:
-> --------------------------
-> 
-> Patch 1/4 adds a new iterator function in media-controller to follow links from sink to
-> source only.
-> 
-> Patch 2/4 adds the helpers in v4l2-common.c, allowing nested calls by
-> adding stream_count in the subdevice struct.
-> 
-> Patch 3/4 cleanup rkisp1 driver to use the helpers.
-> 
-> Patch 4/4 cleanup vimc driver to use the helpers.
-> 
-> Changes in V2:
-> ====================
-> The first version was calling the s_stream() callbacks from sensor to
-> capture.
-> 
-> This was generating errors in the Scarlet Chromebook, when the sensor
-> was being enabled before the ISP.
-> 
-> It make sense to enable subdevices from capture to sensor instead (which
-> is what most drivers do already).
-> 
-> This v2 drops the changes from mc-entity.c, and re-implement helpers in
-> v4l2-common.c
-> 
-> Overview of patches in V2:
-> --------------------------
-> 
-> Path 1/3 adds the helpers in v4l2-common.c, allowing nested calls by
-> adding stream_count in the subdevice struct.
-> 
-> Patch 2/3 cleanup rkisp1 driver to use the helpers.
-> 
-> Patch 3/3 cleanup vimc driver to use the helpers.
-> 
-> Dafna Hirschfeld (1):
->   media: staging: rkisp1: validate links before powering and streaming
-> 
-> Helen Koike (4):
->   media: mc-entity.c: add media_graph_walk_next_stream()
->   media: v4l2-common: add helper functions to call s_stream() callbacks
->   media: staging: rkisp1: cap: use v4l2_pipeline_stream_{enable,disable}
->     helpers
->   media: vimc: use v4l2_pipeline_stream_{enable,disable} helpers
-> 
->  drivers/media/mc/mc-entity.c                  |  34 ++++-
->  .../media/test-drivers/vimc/vimc-capture.c    |  31 +++--
->  .../media/test-drivers/vimc/vimc-streamer.c   |  49 +------
->  drivers/media/v4l2-core/v4l2-common.c         |  99 ++++++++++++++
->  drivers/staging/media/rkisp1/rkisp1-capture.c | 125 ++++++------------
->  include/media/media-entity.h                  |  15 +++
->  include/media/v4l2-common.h                   |  39 ++++++
->  7 files changed, 253 insertions(+), 139 deletions(-)
-> 
