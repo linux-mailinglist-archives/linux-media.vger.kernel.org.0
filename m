@@ -2,241 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92F821DE545
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 13:22:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3C75B1DE5B6
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 13:42:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728871AbgEVLWU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 22 May 2020 07:22:20 -0400
-Received: from relay12.mail.gandi.net ([217.70.178.232]:48083 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728281AbgEVLWU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 May 2020 07:22:20 -0400
-Received: from xps13 (unknown [91.224.148.103])
-        (Authenticated sender: miquel.raynal@bootlin.com)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id C9369200009;
-        Fri, 22 May 2020 11:22:15 +0000 (UTC)
-Date:   Fri, 22 May 2020 13:22:11 +0200
-From:   Miquel Raynal <miquel.raynal@bootlin.com>
-To:     =?UTF-8?B?w4FsdmFybyBGZXJuw6FuZGV6?= Rojas <noltari@gmail.com>
-Cc:     computersforpeace@gmail.com, kdasu.kdev@gmail.com, richard@nod.at,
-        vigneshr@ti.com, sumit.semwal@linaro.org,
-        linux-mtd@lists.infradead.org,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v3 5/5] nand: brcmnand: support v2.1-v2.2 controllers
-Message-ID: <20200522132211.16c657aa@xps13>
-In-Reply-To: <20200522072525.3919332-6-noltari@gmail.com>
-References: <20200512073329.742893-1-noltari@gmail.com>
-        <20200522072525.3919332-1-noltari@gmail.com>
-        <20200522072525.3919332-6-noltari@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+        id S1729535AbgEVLmJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 May 2020 07:42:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44144 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728469AbgEVLmI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 22 May 2020 07:42:08 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 66EA1206C3;
+        Fri, 22 May 2020 11:42:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590147727;
+        bh=r07N7AfzHK599ZkKEMSSxoBsfiAcnc5E5medDwadxAs=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=FZ3Kq09MX0RjJv8NJbR7tF8T+/J8lUvcJWsKgO38tUPOr43uLdPbTK+0rPGiTZCy6
+         tNjKtVtqQ8uZzEStIYIFuls4KiPzIyhqUkLcwJJWEVWhW245YQdb08W8ip53/EXQMb
+         Q+B6sPmYb24qMUuW8gVEEd5lphlgJiafmviNJB3I=
+Date:   Fri, 22 May 2020 13:42:03 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Patrik Gfeller <patrik.gfeller@gmail.com>,
+        Francescodario Cuzzocrea 
+        <francescodario.cuzzocrea@mail.polimi.it>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [GIT PULL] Ressurect the atomisp staging driver
+Message-ID: <20200522134203.0fe139d6@coco.lan>
+In-Reply-To: <4dd760d6-6445-f3b5-cb14-1705e05820bc@redhat.com>
+References: <20200501215741.3be05695@coco.lan>
+        <3f551a8f87808ee7828dc03d41c7a23faac89f3c.camel@mail.polimi.it>
+        <20200503173213.78ae6aaa@coco.lan>
+        <CADnVkj96W0QfthukTKQ0a-i2fH1buooH3BEgfy22J9H9=_PcKA@mail.gmail.com>
+        <20200503180751.0b1e29c4@ASUS>
+        <20200504101628.0f632bf2@ASUS>
+        <20200504104934.7873cee3@coco.lan>
+        <20200504124539.77eac397@ASUS>
+        <20200504140833.11dd5622@coco.lan>
+        <20200504154420.5dcf505f@ASUS>
+        <20200515103232.47b2a35e@coco.lan>
+        <be0935ce-4d88-e7de-5013-6651b8c4edac@redhat.com>
+        <20200515114245.266a6fc8@coco.lan>
+        <20200519093920.7bb22161@coco.lan>
+        <20200519193635.14e806b6@coco.lan>
+        <4dd760d6-6445-f3b5-cb14-1705e05820bc@redhat.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Álvaro,
+Em Fri, 22 May 2020 12:46:07 +0200
+Hans de Goede <hdegoede@redhat.com> escreveu:
 
-Álvaro Fernández Rojas <noltari@gmail.com> wrote on Fri, 22 May 2020
-09:25:25 +0200:
-
-> v2.1: tested on Netgear DGND3700v1 (BCM6368)
-> v2.2: tested on Netgear DGND3700v2 (BCM6362)
+> Hi,
 > 
-> Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
-> ---
->  v3: fix page size shift for v2.1 controllers.
-
-You changed the subject title too which is not accurate anymore, any
-reason to do that? Anything else changed in this series that I am not
-aware of?
-
->  v2: split page sizes rename into a different patch.
->      name all block and page sizes versions.
+> On 5/19/20 7:36 PM, Mauro Carvalho Chehab wrote:
 > 
->  drivers/mtd/nand/raw/brcmnand/brcmnand.c | 85 +++++++++++++++++++++---
->  1 file changed, 76 insertions(+), 9 deletions(-)
+> <snip>
 > 
-> diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> index ef60dbbeac2b..2c8a468c2e38 100644
-> --- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> +++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> @@ -264,6 +264,7 @@ struct brcmnand_controller {
->  	const unsigned int	*block_sizes;
->  	unsigned int		max_page_size;
->  	const unsigned int	*page_sizes;
-> +	unsigned int		page_size_shift;
->  	unsigned int		max_oob;
->  	u32			features;
->  
-> @@ -338,6 +339,36 @@ enum brcmnand_reg {
->  	BRCMNAND_FC_BASE,
->  };
->  
-> +/* BRCMNAND v2.1-v2.2 */
-> +static const u16 brcmnand_regs_v21[] = {
-> +	[BRCMNAND_CMD_START]		=  0x04,
-> +	[BRCMNAND_CMD_EXT_ADDRESS]	=  0x08,
-> +	[BRCMNAND_CMD_ADDRESS]		=  0x0c,
-> +	[BRCMNAND_INTFC_STATUS]		=  0x5c,
-> +	[BRCMNAND_CS_SELECT]		=  0x14,
-> +	[BRCMNAND_CS_XOR]		=  0x18,
-> +	[BRCMNAND_LL_OP]		=     0,
-> +	[BRCMNAND_CS0_BASE]		=  0x40,
-> +	[BRCMNAND_CS1_BASE]		=     0,
-> +	[BRCMNAND_CORR_THRESHOLD]	=     0,
-> +	[BRCMNAND_CORR_THRESHOLD_EXT]	=     0,
-> +	[BRCMNAND_UNCORR_COUNT]		=     0,
-> +	[BRCMNAND_CORR_COUNT]		=     0,
-> +	[BRCMNAND_CORR_EXT_ADDR]	=  0x60,
-> +	[BRCMNAND_CORR_ADDR]		=  0x64,
-> +	[BRCMNAND_UNCORR_EXT_ADDR]	=  0x68,
-> +	[BRCMNAND_UNCORR_ADDR]		=  0x6c,
-> +	[BRCMNAND_SEMAPHORE]		=  0x50,
-> +	[BRCMNAND_ID]			=  0x54,
-> +	[BRCMNAND_ID_EXT]		=     0,
-> +	[BRCMNAND_LL_RDATA]		=     0,
-> +	[BRCMNAND_OOB_READ_BASE]	=  0x20,
-> +	[BRCMNAND_OOB_READ_10_BASE]	=     0,
-> +	[BRCMNAND_OOB_WRITE_BASE]	=  0x30,
-> +	[BRCMNAND_OOB_WRITE_10_BASE]	=     0,
-> +	[BRCMNAND_FC_BASE]		= 0x200,
-> +};
-> +
->  /* BRCMNAND v3.3-v4.0 */
->  static const u16 brcmnand_regs_v33[] = {
->  	[BRCMNAND_CMD_START]		=  0x04,
-> @@ -536,6 +567,9 @@ enum {
->  	CFG_BUS_WIDTH			= BIT(CFG_BUS_WIDTH_SHIFT),
->  	CFG_DEVICE_SIZE_SHIFT		= 24,
->  
-> +	/* Only for v2.1 */
-> +	CFG_PAGE_SIZE_SHIFT_v2_1	= 30,
-> +
->  	/* Only for pre-v7.1 (with no CFG_EXT register) */
->  	CFG_PAGE_SIZE_SHIFT		= 20,
->  	CFG_BLK_SIZE_SHIFT		= 28,
-> @@ -571,12 +605,16 @@ static int brcmnand_revision_init(struct brcmnand_controller *ctrl)
->  {
->  	static const unsigned int block_sizes_v6[] = { 8, 16, 128, 256, 512, 1024, 2048, 0 };
->  	static const unsigned int block_sizes_v4[] = { 16, 128, 8, 512, 256, 1024, 2048, 0 };
-> +	static const unsigned int block_sizes_v2_2[] = { 16, 128, 8, 512, 256, 0 };
-> +	static const unsigned int block_sizes_v2_1[] = { 16, 128, 8, 512, 0 };
->  	static const unsigned int page_sizes_v3_4[] = { 512, 2048, 4096, 8192, 0 };
-> +	static const unsigned int page_sizes_v2_2[] = { 512, 2048, 4096, 0 };
-> +	static const unsigned int page_sizes_v2_1[] = { 512, 2048, 0 };
->  
->  	ctrl->nand_version = nand_readreg(ctrl, 0) & 0xffff;
->  
-> -	/* Only support v4.0+? */
-> -	if (ctrl->nand_version < 0x0400) {
-> +	/* Only support v2.1+ */
-> +	if (ctrl->nand_version < 0x0201) {
->  		dev_err(ctrl->dev, "version %#x not supported\n",
->  			ctrl->nand_version);
->  		return -ENODEV;
-> @@ -593,6 +631,8 @@ static int brcmnand_revision_init(struct brcmnand_controller *ctrl)
->  		ctrl->reg_offsets = brcmnand_regs_v50;
->  	else if (ctrl->nand_version >= 0x0303)
->  		ctrl->reg_offsets = brcmnand_regs_v33;
-> +	else if (ctrl->nand_version >= 0x0201)
-> +		ctrl->reg_offsets = brcmnand_regs_v21;
->  
->  	/* Chip-select stride */
->  	if (ctrl->nand_version >= 0x0701)
-> @@ -618,14 +658,32 @@ static int brcmnand_revision_init(struct brcmnand_controller *ctrl)
->  		ctrl->max_page_size = 16 * 1024;
->  		ctrl->max_block_size = 2 * 1024 * 1024;
->  	} else {
-> -		ctrl->page_sizes = page_sizes_v3_4;
-> +		if (ctrl->nand_version >= 0x0304)
-> +			ctrl->page_sizes = page_sizes_v3_4;
-> +		else if (ctrl->nand_version >= 0x0202)
-> +			ctrl->page_sizes = page_sizes_v2_2;
-> +		else
-> +			ctrl->page_sizes = page_sizes_v2_1;
-> +
-> +		if (ctrl->nand_version >= 0x0202)
-> +			ctrl->page_size_shift = CFG_PAGE_SIZE_SHIFT;
-> +		else
-> +			ctrl->page_size_shift = CFG_PAGE_SIZE_SHIFT_v2_1;
-> +
->  		if (ctrl->nand_version >= 0x0600)
->  			ctrl->block_sizes = block_sizes_v6;
-> -		else
-> +		else if (ctrl->nand_version >= 0x0400)
->  			ctrl->block_sizes = block_sizes_v4;
-> +		else if (ctrl->nand_version >= 0x0202)
-> +			ctrl->block_sizes = block_sizes_v2_2;
-> +		else
-> +			ctrl->block_sizes = block_sizes_v2_1;
->  
->  		if (ctrl->nand_version < 0x0400) {
-> -			ctrl->max_page_size = 4096;
-> +			if (ctrl->nand_version < 0x0202)
-> +				ctrl->max_page_size = 2048;
-> +			else
-> +				ctrl->max_page_size = 4096;
->  			ctrl->max_block_size = 512 * 1024;
->  		}
->  	}
-> @@ -811,6 +869,9 @@ static void brcmnand_wr_corr_thresh(struct brcmnand_host *host, u8 val)
->  	enum brcmnand_reg reg = BRCMNAND_CORR_THRESHOLD;
->  	int cs = host->cs;
->  
-> +	if (!ctrl->reg_offsets[reg])
-> +		return;
-> +
->  	if (ctrl->nand_version == 0x0702)
->  		bits = 7;
->  	else if (ctrl->nand_version >= 0x0600)
-> @@ -869,8 +930,10 @@ static inline u32 brcmnand_spare_area_mask(struct brcmnand_controller *ctrl)
->  		return GENMASK(7, 0);
->  	else if (ctrl->nand_version >= 0x0600)
->  		return GENMASK(6, 0);
-> -	else
-> +	else if (ctrl->nand_version >= 0x0303)
->  		return GENMASK(5, 0);
-> +	else
-> +		return GENMASK(4, 0);
->  }
->  
->  #define NAND_ACC_CONTROL_ECC_SHIFT	16
-> @@ -2378,7 +2441,7 @@ static int brcmnand_set_cfg(struct brcmnand_host *host,
->  		(!!(cfg->device_width == 16) << CFG_BUS_WIDTH_SHIFT) |
->  		(device_size << CFG_DEVICE_SIZE_SHIFT);
->  	if (cfg_offs == cfg_ext_offs) {
-> -		tmp |= (page_size << CFG_PAGE_SIZE_SHIFT) |
-> +		tmp |= (page_size << ctrl->page_size_shift) |
->  		       (block_size << CFG_BLK_SIZE_SHIFT);
->  		nand_writereg(ctrl, cfg_offs, tmp);
->  	} else {
-> @@ -2390,9 +2453,11 @@ static int brcmnand_set_cfg(struct brcmnand_host *host,
->  
->  	tmp = nand_readreg(ctrl, acc_control_offs);
->  	tmp &= ~brcmnand_ecc_level_mask(ctrl);
-> -	tmp |= cfg->ecc_level << NAND_ACC_CONTROL_ECC_SHIFT;
->  	tmp &= ~brcmnand_spare_area_mask(ctrl);
-> -	tmp |= cfg->spare_area_size;
-> +	if (ctrl->nand_version >= 0x0302) {
-> +		tmp |= cfg->ecc_level << NAND_ACC_CONTROL_ECC_SHIFT;
-> +		tmp |= cfg->spare_area_size;
-> +	}
->  	nand_writereg(ctrl, acc_control_offs, tmp);
->  
->  	brcmnand_set_sector_size_1k(host, cfg->sector_size_1k);
-> @@ -2766,6 +2831,8 @@ const struct dev_pm_ops brcmnand_pm_ops = {
->  EXPORT_SYMBOL_GPL(brcmnand_pm_ops);
->  
->  static const struct of_device_id brcmnand_of_match[] = {
-> +	{ .compatible = "brcm,brcmnand-v2.1" },
-> +	{ .compatible = "brcm,brcmnand-v2.2" },
->  	{ .compatible = "brcm,brcmnand-v4.0" },
->  	{ .compatible = "brcm,brcmnand-v5.0" },
->  	{ .compatible = "brcm,brcmnand-v6.0" },
+> > I did a lot of progress today. After identified the above bug, which
+> > was turning down the ISP device, causing the firmware load to fail
+> > (as the turn on code is not OK), I solved several other issues there.
+> > 
+> > The current status is that:
+> > 
+> > - the ISP firmware is properly loading;
+> > - it can properly communicate with the camera sensor;
+> > - Userspace can read video controls (tested with v4l2-ctl and qv4l2);
+> > - set a video format is now working;
+> > - buffers are being queued, and per-frame IRQs are arriving.
+> > 
+> > I did a really quick test today of trying to get a video from it,
+> > using a simple tool I developed for such kind of tests (v4l2grab
+> > from v4l-utils package, changed to work with the only format that
+> > my camera sensor supports). This tool needs uses a bare minimum
+> > set of ioctls, with would avoid hitting a bug somewhere else.
+> > 
+> > Running it makes the device to start receiving frames from the
+> > hardware. Yet, there's something wrong at the part with stores
+> > the data into the video frame buffers. This driver has a weird
+> > mm/DMA code, based on a fork of get_user_pages() taken probably
+> > during Kernel 3.10 old days.
+> > 
+> > Addressing it has a high chance of grabbing some image from it.
+> > 
+> > Ok, driver is at staging quality: there are lots of crap there that
+> > will require changes, but it seems we're getting there.  
+> 
+> This is very good news. Hopefully you will get an actual image
+> out of these soon. That would be awesome.
+> 
+> I happened to notice an advert for a second-hand Asus T101HA
+> locally, for not too much money. So now I'm the happy owner of
+> an Asus T101HA myself.
+
+Great!
+
+> So once you have something working I can
+> try to reproduce your work on identical hardware then as time
+> permits help with cleaning things up.   Although I might focus
+> at first on trying to get your work to run on more Cherry Trail
+> based models, to find out what bits we need to make configurable
+> and if we can get the info from ACPI or if we need to have a
+> DMI based table with model specific info.
+
+The main ACPI related code is at this file:
+
+	drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+
+Originally, this was a platform driver. Now, it is just an ancillary
+driver.
+
+Inside the sensor drivers, there's just the ACPI tables, in order
+for them to be probed.
+
+I updated the driver's TODO list, but there are probably more to be
+said than what's there.
+
+Let me list the things I remember that should be done:
+
+1) The atomisp doesn't rely at the usual i2c stuff to discover the
+sensors. Instead, it calls a function from atomisp_gmin_platform.c.
+There are some hacks I added there for it to wait for sensors to be
+probed (with a timeout of 2 seconds or so). This should be converted 
+to the usual way, using V4L2 async subdev framework to wait for cameras 
+to be probed;
+
+2) The Asus T101HA support (and other board-specific data) uses the a
+DMI match table to retrieve sensor's data, using hard-coded values. 
+I did some research last week: it sounds possible to retrieve those
+data directly from ACPI via this _DSM table, associated with CAM1
+sensor (UUID: dc2f6c4f-045b-4f1d-97b9-882a6860a4be):
+
+            Name (C1CD, Buffer (0x0220){})
+            Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
+            {
+                If ((Arg0 == ToUUID ("dc2f6c4f-045b-4f1d-97b9-882a6860a4be")))
+                {
+                    Local0 = Package (0x12)
+                        {
+                            "CamId", 
+                            "ov2680", 
+                            "CamType", 
+                            "1", 
+                            "CsiPort", 
+                            "0", 
+                            "CsiLanes", 
+                            "1", 
+                            "CsiFmt", 
+                            "15", 
+                            "CsiBayer", 
+                            "0", 
+                            "CamClk", 
+                            "1", 
+                            "Regulator1p8v", 
+                            "0", 
+                            "Regulator2p8v", 
+                            "0"
+                        }
+                    Return (Local0)
+                }
+
+The code there at atomisp_gmin_platform has an EFI parser, but it assumes
+that the information would be stored on a different way.
+
+Kernel has support for reading data from _DSM, via acpi_evaluate_dsm().
+
+I suspect that it should be doable to use such infra and remove the
+TA101HA DMI match. This will likely allow covering more devices that
+could also be using the same EFI UUID.
+
+3) Switch the driver to use pm_runtime stuff. Right now, it probes the
+existing PMIC code and sensors call it directly.
+
+4) There's a problem at the sensor drivers (I hacked the ov2880
+to avoid that): when trying to set a video format, atomisp calls 
+the sensor drivers with the sensor turned off. This causes them
+to fail.
+
+I guess the right fix would be to power on the sensor when a video
+device is opened (or at the first VIDIOC_ ioctl - except for
+VIDIOC_QUERYCAP), powering it down at close() syscall.
+
+5) There are several issues related to memory management, causing
+crashes. This is probably something that we need to fix asap.
+
+The atomisp splits the memory management on three separate regions:
+
+	- dynamic pool;
+	- reserved pool;
+	- generic pool
+
+The code implementing it is at:
+
+	drivers/staging/media/atomisp/pci/hmm/
+
+It also has a separate code for managing DMA buffers at:
+	
+	drivers/staging/media/atomisp/pci/mmu/
+
+The code there is really dirty, ugly and probably wrong. I fixed
+one bug there already, but the best would be to just trash it and use
+something else. Maybe the code from the newer intel driver could
+serve as a model:
+
+	drivers/staging/media/ipu3/ipu3-mmu.c
+
+But converting it to use something like that is painful and may
+cause some breakages.
+
+6) there is some issue at the frame receive logic. This is currently
+my main focus.
+
+Btw, this is the branch I'm using on my tests:
+
+	https://git.linuxtv.org/mchehab/experimental.git/log/?h=atomisp_v3
+
+It has basically the stuff from linux-media, plus the ACPI patch
+that enables the OpRegion:
+
+	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=atomisp_v3&id=d8613fcbb3c9cb21b6818b0245e320054ecb5deb
+
+(I didn't cherry-picked the Kconfig ones here, since I have already
+everything enabled at the .config file I'm using here).
+
+Besides that, it has some patches that I'm working to address (5) and
+(6).
+
+PS.: I'm constantly rebasing the stuff there (specially the patches with
+weird names, like "foo" and "HACK").
+
+Thanks,
+Mauro
