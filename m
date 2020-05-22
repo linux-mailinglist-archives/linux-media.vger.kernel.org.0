@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ACFA71DE15B
+	by mail.lfdr.de (Postfix) with ESMTP id 3E4D81DE15A
 	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 09:56:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728512AbgEVH4K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1728468AbgEVH4K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 22 May 2020 03:56:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49126 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728152AbgEVH4J (ORCPT
+        with ESMTP id S1728319AbgEVH4J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 22 May 2020 03:56:09 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C231C061A0E
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 732D7C05BD43
         for <linux-media@vger.kernel.org>; Fri, 22 May 2020 00:56:09 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: dafna)
-        with ESMTPSA id 6FDF72A0870
+        with ESMTPSA id 443A22A3537
 From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 To:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
 Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
@@ -26,10 +26,12 @@ Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
         linux-rockchip@lists.infradead.org, mchehab@kernel.org,
         tfiga@chromium.org, skhan@linuxfoundation.org,
         niklas.soderlund@ragnatech.se--annotate
-Subject: [PATCH v4 0/5] media: add v4l2_pipeline_stream_{enable,disable}
-Date:   Fri, 22 May 2020 09:55:17 +0200
-Message-Id: <20200522075522.6190-1-dafna.hirschfeld@collabora.com>
+Subject: [PATCH v4 1/5] media: mc-entity.c: add media_graph_walk_next_stream()
+Date:   Fri, 22 May 2020 09:55:18 +0200
+Message-Id: <20200522075522.6190-2-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200522075522.6190-1-dafna.hirschfeld@collabora.com>
+References: <20200522075522.6190-1-dafna.hirschfeld@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -38,196 +40,133 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-This is v4 of the patchset that was sent by Helen Koike.
+From: Helen Koike <helen.koike@collabora.com>
 
-Media drivers need to iterate through the pipeline and call .s_stream()
-callbacks in the subdevices.
+Add media_graph_walk_next_stream() function to follow links only from
+sink to source (not the opposite) to allow iteration only through the
+entities participating in a given stream.
 
-Instead of repeating code, add helpers for this.
+This is useful to allow calling .s_stream() callback only in the
+subdevices that requires to be enabled/disabled, and avoid calling this
+callback when not required.
 
-These helpers will go walk through the pipeline only visiting entities
-that participates in the stream, i.e. it follows links from sink to source
-(and not the opposite).
-For example, in a topology like this https://bit.ly/3b2MxjI
-calling v4l2_pipeline_stream_enable() from rkisp1_mainpath won't call
-.s_stream(true) for rkisp1_resizer_selfpath.
+Signed-off-by: Helen Koike <helen.koike@collabora.com>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+[Dafna: fixing coding style issues]
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+---
+ drivers/media/mc/mc-entity.c | 34 +++++++++++++++++++++++++++++++---
+ include/media/media-entity.h | 15 +++++++++++++++
+ 2 files changed, 46 insertions(+), 3 deletions(-)
 
-stream_count variable was added in v4l2_subdevice to handle nested calls
-to the helpers.
-This is useful when the driver allows streaming from more then one
-capture device sharing subdevices.
-
-This patchset was tested on rkisp1 and vimc drivers.
-
-Other cleanup might be possible (but I won't add in this patchset as I
-don't have the hw to test):
-	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/qcom/camss/camss-video.c#n430
-	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/omap3isp/isp.c#n697
-	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/stm32/stm32-dcmi.c#n680
-	https://git.linuxtv.org/media_tree.git/tree/drivers/media/platform/xilinx/xilinx-dma.c#n97
-
-Testing:
---------
-
-SEN_DEV=/dev/v4l-subdev3
-ISP_DEV=/dev/v4l-subdev0
-RSZ_SP_DEV=/dev/v4l-subdev2
-RSZ_MP_DEV=/dev/v4l-subdev1
-CAP_SP_DEV=/dev/video1
-CAP_MP_DEV=/dev/video0
-
-WIDTH=1920
-HEIGHT=1080
-RAW_CODE=SRGGB10_1X10
-YUV_CODE=YUYV8_2X8
-
-v4l2-ctl --set-subdev-fmt pad=0,width=$WIDTH,height=$HEIGHT,code=$RAW_CODE -d $SEN_DEV
-
-v4l2-ctl --set-subdev-fmt pad=0,width=$WIDTH,height=$HEIGHT,code=$RAW_CODE -d $ISP_DEV
-v4l2-ctl --set-subdev-selection pad=0,target=crop,top=0,left=0,width=$WIDTH,height=$HEIGHT -d $ISP_DEV
-
-v4l2-ctl --set-subdev-selection pad=2,target=crop,top=0,left=0,width=$WIDTH,height=$HEIGHT -d $ISP_DEV
-v4l2-ctl --set-subdev-fmt pad=2,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $ISP_DEV
-
-v4l2-ctl --set-subdev-fmt pad=0,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $RSZ_SP_DEV
-v4l2-ctl --set-subdev-fmt pad=1,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $RSZ_SP_DEV
-
-v4l2-ctl --set-subdev-selection pad=0,target=crop,top=0,left=0,width=$WIDTH,height=$HEIGHT -d $RSZ_SP_DEV
-
-v4l2-ctl --set-subdev-fmt pad=0,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $RSZ_MP_DEV
-v4l2-ctl --set-subdev-fmt pad=1,width=$WIDTH,height=$HEIGHT,code=$YUV_CODE -d $RSZ_MP_DEV
-
-v4l2-ctl --set-subdev-selection pad=0,target=crop,top=0,left=0,width=$WIDTH,height=$HEIGHT -d $RSZ_MP_DEV
-
-v4l2-ctl -v width=$WIDTH,height=$HEIGHT,pixelformat=NV12 -d $CAP_SP_DEV
-v4l2-ctl -v width=$WIDTH,height=$HEIGHT,pixelformat=NV12 -d $CAP_MP_DEV
-
-sleep 1
-
-v4l2-ctl --stream-mmap --stream-count=100 -d $CAP_SP_DEV --stream-to=/tmp/test_sp.raw &
-v4l2-ctl --stream-mmap --stream-count=100 -d $CAP_MP_DEV --stream-to=/tmp/test_mp.raw &
-
-wait
-echo "Completed"
-
-
-Changes in v4:
-==============
-patch 1: fix coding style issues
-
-patch 2:
-- in function v4l2_pipeline_subdevs_get, use a local media_graph to walk on the topology so a lock is not needed
-and also the pipe parameter is not needed.
-- adding a function v4l2_subdevs_stream_disable to avoid code duplication
-- change v4l2_pipeline_stream_disable to return an error code if failed
-- don't add a new field to subdevice "stream_counter" when calling s_stream, since this counter is updated only in
-the helper functions, and might be confusing that it is generally not an indication of the number of calls to s_stream.
-Also, except of rkisp1, and vimc, it seems that the other drivers that might use the new helpers don't use a counter.
-
-new added - patch 3: the call to media_pipeline_start should be called before calling s_stream on the subdevices in order
-to validate the links and prevents them from changing, this patch fixes it.
-
-patch 4: (use the helpers in rkisp1). The helpers now don't have a counter for the number of calls to s_stream, so rkisp1
-should check if the other capture is streaming and in that case call s_stream only for its resizer.
-
-patch 5: - (use the helpers in vimc)
-- test the return value of v4l2_pipeline_stream_disable
-- the call to the helerps now doesn't need the pipe parameter.
-
-Overview of patches in V3:
---------------------------
-
-Patch 1/5 adds a new iterator function in media-controller to follow links from sink to
-source only.
-
-Patch 2/5 adds the helpers in v4l2-common.c,
-
-Patch 3/5 calles media_pipeline_start before calling s_stream on the subdevices
-
-Patch 4/5 cleanup rkisp1 driver to use the helpers.
-
-Patch 5/5 cleanup vimc driver to use the helpers.
-
-Changes in V3:
-====================
-Following up Niklas' comments in V2 https://patchwork.kernel.org/patch/11473681/#23270823
-
-* I removed the limitation in topologies with entities with multiple enabled
-links to its sink pads in the topology.
-Now it enables all subdevs in the pipeline that have an enabled link going
-from sink to source while walking from the video device, so it can be
-also useful for rcar-vin driver.
-
-To implement this, I added back in the series the patch from v1:
-    "media: mc-entity.c: add media_graph_walk_next_stream()"
-
-* "size" was renamed to "max_size" in function v4l2_pipeline_subdevs_get()
-to reflect the maximum number of elements that can fit in the subdevs array,
-with proper documentation.
-
-* v4l2_pipeline_subdevs_get() returns a negative number for error, instead
-of returning 0 and printing a warning.
-
-* I also add if defined(CONFIG_MEDIA_CONTROLLER) around helpers to avoid
-compiling errors.
-
-Overview of patches in V3:
---------------------------
-
-Patch 1/4 adds a new iterator function in media-controller to follow links from sink to
-source only.
-
-Patch 2/4 adds the helpers in v4l2-common.c, allowing nested calls by
-adding stream_count in the subdevice struct.
-
-Patch 3/4 cleanup rkisp1 driver to use the helpers.
-
-Patch 4/4 cleanup vimc driver to use the helpers.
-
-Changes in V2:
-====================
-The first version was calling the s_stream() callbacks from sensor to
-capture.
-
-This was generating errors in the Scarlet Chromebook, when the sensor
-was being enabled before the ISP.
-
-It make sense to enable subdevices from capture to sensor instead (which
-is what most drivers do already).
-
-This v2 drops the changes from mc-entity.c, and re-implement helpers in
-v4l2-common.c
-
-Overview of patches in V2:
---------------------------
-
-Path 1/3 adds the helpers in v4l2-common.c, allowing nested calls by
-adding stream_count in the subdevice struct.
-
-Patch 2/3 cleanup rkisp1 driver to use the helpers.
-
-Patch 3/3 cleanup vimc driver to use the helpers.
-
-Dafna Hirschfeld (1):
-  media: staging: rkisp1: validate links before powering and streaming
-
-Helen Koike (4):
-  media: mc-entity.c: add media_graph_walk_next_stream()
-  media: v4l2-common: add helper functions to call s_stream() callbacks
-  media: staging: rkisp1: cap: use v4l2_pipeline_stream_{enable,disable}
-    helpers
-  media: vimc: use v4l2_pipeline_stream_{enable,disable} helpers
-
- drivers/media/mc/mc-entity.c                  |  34 ++++-
- .../media/test-drivers/vimc/vimc-capture.c    |  31 +++--
- .../media/test-drivers/vimc/vimc-streamer.c   |  49 +------
- drivers/media/v4l2-core/v4l2-common.c         |  99 ++++++++++++++
- drivers/staging/media/rkisp1/rkisp1-capture.c | 125 ++++++------------
- include/media/media-entity.h                  |  15 +++
- include/media/v4l2-common.h                   |  39 ++++++
- 7 files changed, 253 insertions(+), 139 deletions(-)
-
+diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
+index 12b45e669bcc..555f9dd9f7f2 100644
+--- a/drivers/media/mc/mc-entity.c
++++ b/drivers/media/mc/mc-entity.c
+@@ -228,6 +228,11 @@ EXPORT_SYMBOL_GPL(media_entity_pads_init);
+  * Graph traversal
+  */
+ 
++enum media_graph_walk_type {
++	MEDIA_GRAPH_WALK_CONNECTED_NODES,
++	MEDIA_GRAPH_WALK_STREAM_NODES,
++};
++
+ static struct media_entity *
+ media_entity_other(struct media_entity *entity, struct media_link *link)
+ {
+@@ -305,7 +310,8 @@ void media_graph_walk_start(struct media_graph *graph,
+ }
+ EXPORT_SYMBOL_GPL(media_graph_walk_start);
+ 
+-static void media_graph_walk_iter(struct media_graph *graph)
++static void media_graph_walk_iter(struct media_graph *graph,
++				  enum media_graph_walk_type type)
+ {
+ 	struct media_entity *entity = stack_top(graph);
+ 	struct media_link *link;
+@@ -326,6 +332,15 @@ static void media_graph_walk_iter(struct media_graph *graph)
+ 	/* Get the entity in the other end of the link . */
+ 	next = media_entity_other(entity, link);
+ 
++	if (type == MEDIA_GRAPH_WALK_STREAM_NODES &&
++	    next == link->sink->entity) {
++		link_top(graph) = link_top(graph)->next;
++		dev_dbg(entity->graph_obj.mdev->dev,
++			"walk: skipping '%s' (outside of the stream path)\n",
++			link->sink->entity->name);
++		return;
++	}
++
+ 	/* Has the entity already been visited? */
+ 	if (media_entity_enum_test_and_set(&graph->ent_enum, next)) {
+ 		link_top(graph) = link_top(graph)->next;
+@@ -342,7 +357,9 @@ static void media_graph_walk_iter(struct media_graph *graph)
+ 		next->name);
+ }
+ 
+-struct media_entity *media_graph_walk_next(struct media_graph *graph)
++static struct media_entity *
++__media_graph_walk_next(struct media_graph *graph,
++			enum media_graph_walk_type type)
+ {
+ 	struct media_entity *entity;
+ 
+@@ -355,7 +372,7 @@ struct media_entity *media_graph_walk_next(struct media_graph *graph)
+ 	 * found.
+ 	 */
+ 	while (link_top(graph) != &stack_top(graph)->links)
+-		media_graph_walk_iter(graph);
++		media_graph_walk_iter(graph, type);
+ 
+ 	entity = stack_pop(graph);
+ 	dev_dbg(entity->graph_obj.mdev->dev,
+@@ -363,8 +380,19 @@ struct media_entity *media_graph_walk_next(struct media_graph *graph)
+ 
+ 	return entity;
+ }
++
++struct media_entity *media_graph_walk_next(struct media_graph *graph)
++{
++	return __media_graph_walk_next(graph, MEDIA_GRAPH_WALK_CONNECTED_NODES);
++}
+ EXPORT_SYMBOL_GPL(media_graph_walk_next);
+ 
++struct media_entity *media_graph_walk_next_stream(struct media_graph *graph)
++{
++	return __media_graph_walk_next(graph, MEDIA_GRAPH_WALK_STREAM_NODES);
++}
++EXPORT_SYMBOL_GPL(media_graph_walk_next_stream);
++
+ int media_entity_get_fwnode_pad(struct media_entity *entity,
+ 				struct fwnode_handle *fwnode,
+ 				unsigned long direction_flags)
+diff --git a/include/media/media-entity.h b/include/media/media-entity.h
+index cde80ad029b7..9035a36e9442 100644
+--- a/include/media/media-entity.h
++++ b/include/media/media-entity.h
+@@ -928,6 +928,21 @@ void media_graph_walk_start(struct media_graph *graph,
+  */
+ struct media_entity *media_graph_walk_next(struct media_graph *graph);
+ 
++/**
++ * media_graph_walk_next_stream - Get the next entity in the graph
++ * @graph: Media graph structure
++ *
++ * Perform a depth-first traversal of the given media entities graph only
++ * following links from sink to source (and not the opposite).
++ *
++ * The graph structure must have been previously initialized with a call to
++ * media_graph_walk_start().
++ *
++ * Return: returns the next entity in the graph in the stream path
++ * or %NULL if the whole stream path have been traversed.
++ */
++struct media_entity *media_graph_walk_next_stream(struct media_graph *graph);
++
+ /**
+  * media_pipeline_start - Mark a pipeline as streaming
+  * @entity: Starting entity
 -- 
 2.17.1
 
