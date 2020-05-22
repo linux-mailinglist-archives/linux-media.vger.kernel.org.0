@@ -2,83 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82D301DE396
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 11:57:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D52671DE4BC
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 12:46:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728356AbgEVJ5n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 May 2020 05:57:43 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51984 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728212AbgEVJ5m (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 May 2020 05:57:42 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4276320757;
-        Fri, 22 May 2020 09:57:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590141462;
-        bh=KEVEAMKui9dM46qWPS1eCS3vSufvNFJQBVZBx7XBZWU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=unuPe1AVm/sh5kCyf0Utk4Ztg8DISyKoqpwxCjbPWpho4RvaFHWyyNmyTXYV11dh3
-         IOO6YCgKItBcYpne8i8GsbikIyWG3pgY2AgJQ+VmC9J8QhLRsZxi0InB+zHCLONkMW
-         B+UTRHZlhspJvSXsnkwHBnutIefy8HtK0gZV5kE4=
-Date:   Fri, 22 May 2020 11:57:36 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>
-Subject: Re: [PATCH] media: ipu3: add a module to probe sensors via ACPI
-Message-ID: <20200522115736.10cca8eb@coco.lan>
-In-Reply-To: <CAHp75VduEGyzobm0hkXzWmFfZb-uMAEWG-wc89b7M7zVzZ_4LA@mail.gmail.com>
-References: <12fbe3f5c6a16c5f3447adbc09fe27ceb2b16823.1589625807.git.mchehab+huawei@kernel.org>
-        <20200517103659.GS17578@paasikivi.fi.intel.com>
-        <20200520094400.5137e7f2@coco.lan>
-        <20200520082608.GV20066@paasikivi.fi.intel.com>
-        <20200520131830.3ff45919@coco.lan>
-        <CAHp75VduEGyzobm0hkXzWmFfZb-uMAEWG-wc89b7M7zVzZ_4LA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1729056AbgEVKqQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 May 2020 06:46:16 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:53314 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728606AbgEVKqP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 22 May 2020 06:46:15 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1590144373;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=Trji5Xaa18O0L2sXoHjLZxS8mlUJs/p3GigjT8THDjU=;
+        b=OUT0+hDnCx2SGcxwtlC9DnvMP4c4enu1Gu2FXvBaLCUSw0utG5BAxiZwIKcPibk5KrShj7
+        nPCi4lG1XcEJlhKDbb6PrIte0xsrijnB7TuEMn/0ACQkiEe1j5FDtjP76UIuwZuauvG5ja
+        GKQaMCNt3P3XJRzGX7E3HfBmMV7ohT8=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-55-9ia7u5sjOQKKdD41IrG_cA-1; Fri, 22 May 2020 06:46:09 -0400
+X-MC-Unique: 9ia7u5sjOQKKdD41IrG_cA-1
+Received: by mail-ej1-f71.google.com with SMTP id f17so4432201ejc.7
+        for <linux-media@vger.kernel.org>; Fri, 22 May 2020 03:46:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=Trji5Xaa18O0L2sXoHjLZxS8mlUJs/p3GigjT8THDjU=;
+        b=cv3U5UPE2+GmgH10FyUAI5Zn1de/U4WvnakvwJUuNiK2yOuegLSPhNxh1GtEM4WFks
+         SuohYdh7d95JbVFFPw9q836lcDtuBE0nBmxeyveMoM2EGNrvOnAKFwx8XAl7nDXNA6iA
+         /I1ET2GYiXnaEtm3IRLG/cW28KaDMoYnoD1uukIxMuzw+wOFh5Q3zb5BKRHIsXAnK8sM
+         osK5dJlN+rOJ12Bwz75wsTMcVdIP4pMtIsmM96gp9k3rWd8mZxwvyeeUVdQzgDhaHmCT
+         5iQvjqnf0wUuT59whscZMbAtlB075fqE6Knn24y00yr0OvNRzWUNbpvxYArM1Xg9jLXq
+         nUWA==
+X-Gm-Message-State: AOAM531hxje0YyYL9LU8MwSLNDvpLQRqxH8EbxwBF07r/nPkwfuu0tIK
+        QjHEXeVzvwYT3vE9qOI8rLqlZhNSXl1SNutgD5BEGGOKVdxT1OQtF19qDV+95bQ/ar2D2pBwfUQ
+        HzChlOQNe2UmSRwGqM7zGOsg=
+X-Received: by 2002:a17:906:6a18:: with SMTP id o24mr7515409ejr.66.1590144368630;
+        Fri, 22 May 2020 03:46:08 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwAsZkmAJT29bYdUkwMjJ6XEfq3n6bmytWJxe45LivHA8M2lZ5fPrDEisyrO4T4erg3MIFUfA==
+X-Received: by 2002:a17:906:6a18:: with SMTP id o24mr7515394ejr.66.1590144368426;
+        Fri, 22 May 2020 03:46:08 -0700 (PDT)
+Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
+        by smtp.gmail.com with ESMTPSA id a18sm6946783edb.44.2020.05.22.03.46.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 22 May 2020 03:46:07 -0700 (PDT)
+Subject: Re: [GIT PULL] Ressurect the atomisp staging driver
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Patrik Gfeller <patrik.gfeller@gmail.com>,
+        Francescodario Cuzzocrea 
+        <francescodario.cuzzocrea@mail.polimi.it>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+References: <20200501215741.3be05695@coco.lan>
+ <3f551a8f87808ee7828dc03d41c7a23faac89f3c.camel@mail.polimi.it>
+ <20200503173213.78ae6aaa@coco.lan>
+ <CADnVkj96W0QfthukTKQ0a-i2fH1buooH3BEgfy22J9H9=_PcKA@mail.gmail.com>
+ <20200503180751.0b1e29c4@ASUS> <20200504101628.0f632bf2@ASUS>
+ <20200504104934.7873cee3@coco.lan> <20200504124539.77eac397@ASUS>
+ <20200504140833.11dd5622@coco.lan> <20200504154420.5dcf505f@ASUS>
+ <20200515103232.47b2a35e@coco.lan>
+ <be0935ce-4d88-e7de-5013-6651b8c4edac@redhat.com>
+ <20200515114245.266a6fc8@coco.lan> <20200519093920.7bb22161@coco.lan>
+ <20200519193635.14e806b6@coco.lan>
+From:   Hans de Goede <hdegoede@redhat.com>
+Message-ID: <4dd760d6-6445-f3b5-cb14-1705e05820bc@redhat.com>
+Date:   Fri, 22 May 2020 12:46:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200519193635.14e806b6@coco.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 21 May 2020 11:00:19 +0300
-Andy Shevchenko <andy.shevchenko@gmail.com> escreveu:
+Hi,
 
-> +Cc: Heikki (swnode expert)
-> 
-> On Wed, May 20, 2020 at 2:19 PM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> > Em Wed, 20 May 2020 11:26:08 +0300
-> > Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:  
-> 
-> ...
-> 
-> > As I said, the problem is not probing the sensor via ACPI, but, instead,
-> > to be able receive platform-specific data.  
-> 
-> There is no problem with swnodes, except missing parts (*).
-> I have Skylake laptop with IPU3 and with half-baked ACPI tables, but
-> since we have drivers in place with fwnode support, we only need to
-> recreate fwnode graph in some board file to compensate the gap in
-> ACPI.
-> 
-> *) Missing part is graph support for swnodes. With that done it will
-> be feasible to achieve the rest.
-> I forgot if we have anything for this already done. Heikki?
+On 5/19/20 7:36 PM, Mauro Carvalho Chehab wrote:
 
-Hmm... I guess I should try this approach. I never heard about swnodes
-before. Do you have already some patch with the needed swnodes setup,
-and the missing parts to recreate the fwnode graph?
+<snip>
 
-Thanks,
-Mauro
+> I did a lot of progress today. After identified the above bug, which
+> was turning down the ISP device, causing the firmware load to fail
+> (as the turn on code is not OK), I solved several other issues there.
+> 
+> The current status is that:
+> 
+> - the ISP firmware is properly loading;
+> - it can properly communicate with the camera sensor;
+> - Userspace can read video controls (tested with v4l2-ctl and qv4l2);
+> - set a video format is now working;
+> - buffers are being queued, and per-frame IRQs are arriving.
+> 
+> I did a really quick test today of trying to get a video from it,
+> using a simple tool I developed for such kind of tests (v4l2grab
+> from v4l-utils package, changed to work with the only format that
+> my camera sensor supports). This tool needs uses a bare minimum
+> set of ioctls, with would avoid hitting a bug somewhere else.
+> 
+> Running it makes the device to start receiving frames from the
+> hardware. Yet, there's something wrong at the part with stores
+> the data into the video frame buffers. This driver has a weird
+> mm/DMA code, based on a fork of get_user_pages() taken probably
+> during Kernel 3.10 old days.
+> 
+> Addressing it has a high chance of grabbing some image from it.
+> 
+> Ok, driver is at staging quality: there are lots of crap there that
+> will require changes, but it seems we're getting there.
+
+This is very good news. Hopefully you will get an actual image
+out of these soon. That would be awesome.
+
+I happened to notice an advert for a second-hand Asus T101HA
+locally, for not too much money. So now I'm the happy owner of
+an Asus T101HA myself. So once you have something working I can
+try to reproduce your work on identical hardware then as time
+permits help with cleaning things up.   Although I might focus
+at first on trying to get your work to run on more Cherry Trail
+based models, to find out what bits we need to make configurable
+and if we can get the info from ACPI or if we need to have a
+DMI based table with model specific info.
+
+Regards,
+
+Hans
+
