@@ -2,104 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7CEF51DE0AB
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 09:11:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A7271DE0D5
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 09:26:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728455AbgEVHL4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 May 2020 03:11:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42218 "EHLO
+        id S1728672AbgEVHZb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 May 2020 03:25:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728437AbgEVHL4 (ORCPT
+        with ESMTP id S1728409AbgEVHZa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 May 2020 03:11:56 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36DF3C061A0E
-        for <linux-media@vger.kernel.org>; Fri, 22 May 2020 00:11:53 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id t11so4610269pgg.2
-        for <linux-media@vger.kernel.org>; Fri, 22 May 2020 00:11:53 -0700 (PDT)
+        Fri, 22 May 2020 03:25:30 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBA2FC061A0E;
+        Fri, 22 May 2020 00:25:29 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id h4so7714534wmb.4;
+        Fri, 22 May 2020 00:25:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=KrAu9c7HI3tm64GJUzPuUL84G8UAjLUaFrddGBaQxRE=;
-        b=W9RzfBvxrXEHJYxnSECp46QOeLQ1Sawo2Kzb6wXbPc+H+t/7wteHtOmeJqEPgQ2gmy
-         87LydWqAmQiEYU4Otz5l5MUnDrKqSeBCuPiq1dBBesg3UWjNNRcuD1tIDJZbUPrCya4v
-         3JRUNHkXg/CZZJzydj3UyCrA0V9o9CvTKlaRSEwdPcanrlN4cz8PugMCyKoilvzSgRCj
-         Wozbf9m54kJKeVnkgPibH2KoZqjhryWRUjYp/f/41Ox58jxQ4+1lYN8/ofuVo7Gwh1+U
-         r+qLDb1IYP3WLBqNkZ24J2KXeNL54NLmhgZpJjNqqwvuHARt7usTQnqEXCcITMlcSvNW
-         y3qg==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=ZLZqiPmSDvovjhwGm4w627YXSjaGWbzcz2M2rVZdomQ=;
+        b=oATR3FF6mh22GdA5Shgwzt7kSFsqqxk32t2cCBJuGQZUet9G3vkl+fJD6Eg5tKiK70
+         lLKjarlUi1zCwgNx+s04jZ8UJkc1xGzejYUMsUbh/edZONvt9eSiqFrz7YBmeAItHsvE
+         yo0pnKdrth0FO0mK/b/bgT7jAQG8J79ezXVlZHZO6JVu1aMv4HLixbeTKUuHeKpg6D5v
+         YUoWbhjRLUin+sGsfwIfmmASbyr0xTSFJVOwPLiuhwJm4x8EPOiFf/UV44jvlaG5SagS
+         8Ac+YtQLVgC5Hi5uM24l6/v57CoflPE/RSiNBaJyMS5MxyA7A5LsMzUHRFqdpI4a0OYl
+         wBGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=KrAu9c7HI3tm64GJUzPuUL84G8UAjLUaFrddGBaQxRE=;
-        b=UB+FYarkjDfsW8bi58Zq4X/M1rvJDsdYqE9kbaHIKpOtqPCsA8lDQ+auR5EePP76rq
-         8F1mN71kC2/pvfbXXMKaj0QfqteM7pVsM+xCfqf72cfhrAJmY66py1QBkXxtWrtYi2zL
-         LRvAo3VN1AxTPNCZMaT1/Q9pqvfdUxP0U/OkO/KYQXgthz/V9N7CIwEl/YEKF5Ka3Nge
-         18XMxPT5BXVeEoZz4O0LGXfDuvOk4t7IiNYv6iauQTapNEHhsZygntzTdF9XkZ6s/mcf
-         WpocviI0tQ/1Qwu7DcPQ0/pLXZcFeao5GaDy/Tj1thXfPLRVbRcnDPR4oqDKmJEx+BVs
-         rDkA==
-X-Gm-Message-State: AOAM530Wr4FpLrAhX9btPoN/SN4Yady1b9N7w4Jh0Ub5M2S6g/VMiNmX
-        UGtmlfTsTEWW9M8eMOVVJ6zFqc/lYYiTUA==
-X-Google-Smtp-Source: ABdhPJzHXzAAH9qKcJl5pJjL9aKuGvTyeZf2pspV63w9zgjSD9rZqz7DQs0aZM5fPqp+Hug8Rr54aQ==
-X-Received: by 2002:a63:5f41:: with SMTP id t62mr12728010pgb.252.1590131512519;
-        Fri, 22 May 2020 00:11:52 -0700 (PDT)
-Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.155])
-        by smtp.gmail.com with ESMTPSA id v27sm6208530pfi.61.2020.05.22.00.11.50
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 22 May 2020 00:11:52 -0700 (PDT)
-Date:   Fri, 22 May 2020 12:41:46 +0530
-From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
-To:     linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH] media: vimc: Apply right blue and red channels to BGR
-Message-ID: <20200522071145.GA17375@kaaira-HP-Pavilion-Notebook>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=ZLZqiPmSDvovjhwGm4w627YXSjaGWbzcz2M2rVZdomQ=;
+        b=L4Vx242/K93dYEVxpTtEL8lIrSv6rYBIXma7p4TIvsqm9308hmbjnEtV+wzOr+/9am
+         xReWI/AlWWRut6ER+DT1Tn4lgmqjCK5yFQEJSv9g4xaEjsA8fLvrl7RvFSTWdgqZlqG7
+         7lWgYrUCgaQPXMg6TZj3836ir9PmXloMCnhd+6yTYarYTO1T3D3SKwTdw5uNFDihwIif
+         PEpAg2eJJ5qysRrwIgqMPEl7qt2NsQ1kgRCihBopAJb6LynuYW7tSeGOvygnnityCZi6
+         xy4cfZ/qE6PjlCaxjXJX+EPTLkqnvkxmzQXp+EvPXbm/1BKe4lzyCO3Wqv1oa66jMhcm
+         x/Ow==
+X-Gm-Message-State: AOAM530BRF7SjX/ClfoTSfWnTlA8fiEfS+vJJTKuntaZA8XErw64z708
+        dbOZs/p3BTop4ejxSJqzTgU=
+X-Google-Smtp-Source: ABdhPJwu42LmV04Uv0SXsBsA+CPRsY5XoQxYdUKzxlKZnRrbArAX7FQTVSP60lbhmk3O4xW9mgutLQ==
+X-Received: by 2002:a1c:6784:: with SMTP id b126mr6601248wmc.80.1590132328483;
+        Fri, 22 May 2020 00:25:28 -0700 (PDT)
+Received: from skynet.lan (159.red-83-44-12.dynamicip.rima-tde.net. [83.44.12.159])
+        by smtp.gmail.com with ESMTPSA id f128sm9299898wme.1.2020.05.22.00.25.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 May 2020 00:25:28 -0700 (PDT)
+From:   =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
+        <noltari@gmail.com>
+To:     computersforpeace@gmail.com, kdasu.kdev@gmail.com,
+        miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+        sumit.semwal@linaro.org, linux-mtd@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
+        <noltari@gmail.com>
+Subject: [PATCH v3 0/5] mtd: rawnand: brcmnand: support v2.1-v2.2 controllers
+Date:   Fri, 22 May 2020 09:25:20 +0200
+Message-Id: <20200522072525.3919332-1-noltari@gmail.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200512073329.742893-1-noltari@gmail.com>
+References: <20200512073329.742893-1-noltari@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-rgb[] is already calculated in the right order, there is no need to swap
-the blue and red channels in it for BGR images. Hence give right rgb
-channels to the src_frame.
+Add support for v2.1 and v2.2 NAND controllers.
 
-Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
----
- drivers/media/test-drivers/vimc/vimc-debayer.c | 14 ++------------
- 1 file changed, 2 insertions(+), 12 deletions(-)
+v3: fix v2.1 page size shift
+v2: introduce changes suggested by Miquèl.
 
-diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
-index c3f6fef34f68..d41d9f6180df 100644
---- a/drivers/media/test-drivers/vimc/vimc-debayer.c
-+++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
-@@ -318,21 +318,11 @@ static void vimc_deb_process_rgb_frame(struct vimc_deb_device *vdeb,
- 				       unsigned int col,
- 				       unsigned int rgb[3])
- {
--	const struct vimc_pix_map *vpix;
- 	unsigned int i, index;
- 
--	vpix = vimc_pix_map_by_code(vdeb->src_code);
- 	index = VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
--	for (i = 0; i < 3; i++) {
--		switch (vpix->pixelformat) {
--		case V4L2_PIX_FMT_RGB24:
--			vdeb->src_frame[index + i] = rgb[i];
--			break;
--		case V4L2_PIX_FMT_BGR24:
--			vdeb->src_frame[index + i] = rgb[2 - i];
--			break;
--		}
--	}
-+	for (i = 0; i < 3; i++)
-+		vdeb->src_frame[index + i] = rgb[i];
- }
- 
- static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
+Álvaro Fernández Rojas (5):
+  mtd: rawnand: brcmnand: rename v4 registers
+  mtd: rawnand: brcmnand: fix CS0 layout
+  mtd: rawnand: brcmnand: rename page sizes
+  dt: bindings: brcmnand: add v2.1 and v2.2 support
+  nand: brcmnand: support v2.1-v2.2 controllers
+
+ .../devicetree/bindings/mtd/brcm,brcmnand.txt |   2 +
+ drivers/mtd/nand/raw/brcmnand/brcmnand.c      | 100 +++++++++++++++---
+ 2 files changed, 86 insertions(+), 16 deletions(-)
+
 -- 
-2.17.1
+2.26.2
 
