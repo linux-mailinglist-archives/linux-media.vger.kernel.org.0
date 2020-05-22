@@ -2,246 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20A271DE92B
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 16:43:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6E541DEA8F
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 16:56:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729961AbgEVOnS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 May 2020 10:43:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55922 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729868AbgEVOnR (ORCPT
+        id S1731338AbgEVOyb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 May 2020 10:54:31 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:49496 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731036AbgEVOy2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 May 2020 10:43:17 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AAB7C061A0E;
-        Fri, 22 May 2020 07:43:17 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id k19so9434611edv.9;
-        Fri, 22 May 2020 07:43:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=pEMnosclMENELxtgkfNlqnRlbAPuv7/WGXXU3o+3Wgk=;
-        b=qKkCPN704QYXuch7cQD5KsRch8SM+Fq9IMwTFvTcpf3kTg9cv+vqBfsXxt8gM8j3Ck
-         Z/5F24AEHclpbrV533kWoRNzD8W/PoJ1/F8OMl5/gkA6fQ5kFMT0x0EVK+HlFxnEyw5A
-         9A/+BuuLZYZ5B3ULz6GxHOD/Xsu7SL9y3PwtgpWz3j7OmG1OIk9eHlrwfl48yzdxwEez
-         N8c+nA2nTGE+TC5t4C8meFkKsC1sgs62kFquqYj3uVPPezktkThNmH9JMhblVQ3Kzrb6
-         x05tyFSQccbls+scPBrEeI7pNjNRycpdGUWrnFlw/QpC4bb0RohfFJIT9nd0nQoChgZZ
-         UqBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=pEMnosclMENELxtgkfNlqnRlbAPuv7/WGXXU3o+3Wgk=;
-        b=puaWe5Y7rPc22ThDCgJJZSAbnbia+FwHtmG4DOK3YD8zwdU/Nd+KApcJ9ZbAl6DK4c
-         MStV/aveQjoBrsUEsMHrRoynhb5iIjoFZKTS2BV3yS3cN/bJi04TqlvN/CsFFgrzc/Pl
-         vyhl4MuL5bCnQkWeVOAVkz/3KLtRxvfl/AaPhYei+sAjWu2dUYsU1koMrYpDrn5m+Drz
-         vl5eHiCDcUmtcy1vlArXS6EaZYf3lH9rtUECRRbSBDRCEmNal5SzRxjjo7mBkYQ/hwCC
-         DEgnzalvkSsN0pIBUrsr+GnTAf5m6CsG+XrQxm2eKyzbPp8eRbBJmbbTB48TIrIKTo81
-         aoqg==
-X-Gm-Message-State: AOAM530x01cIiyjIV9tl4Z93ygi181+dlxEuXTUz2QrUj0h6uecHuwtH
-        rwYP6UOhmj/d3hrq+09D3dU=
-X-Google-Smtp-Source: ABdhPJxQKMSVP7UsCOBRlGM0TjNDYKXZhvaGaCnYahr/v+jJ65GzxqvZSy31ohwwlHMRkM8jH6VSTg==
-X-Received: by 2002:a05:6402:946:: with SMTP id h6mr3309459edz.245.1590158595504;
-        Fri, 22 May 2020 07:43:15 -0700 (PDT)
-Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
-        by smtp.gmail.com with ESMTPSA id w14sm8284896ejk.13.2020.05.22.07.43.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 May 2020 07:43:13 -0700 (PDT)
-Date:   Fri, 22 May 2020 16:43:12 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     devel@driverdev.osuosl.org, Len Brown <len.brown@intel.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux PM <linux-pm@vger.kernel.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-tegra <linux-tegra@vger.kernel.org>,
-        dinghao.liu@zju.edu.cn, Kangjie Lu <kjlu@umn.edu>,
-        Dmitry Osipenko <digetx@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: Re: [PATCH] media: staging: tegra-vde: fix runtime pm imbalance
- on error
-Message-ID: <20200522144312.GA2374603@ulmo>
-References: <20200520095148.10995-1-dinghao.liu@zju.edu.cn>
- <2b5d64f5-825f-c081-5d03-02655c2d9491@gmail.com>
- <20200520150230.GC30374@kadam>
- <2a46539d.b977f.1723553aa81.Coremail.dinghao.liu@zju.edu.cn>
- <20200521091505.GF30374@kadam>
- <CAJZ5v0irLayBUPRWNT1tcZivz9inS1YbUgGj5WXvucLKKwRQAw@mail.gmail.com>
- <20200521173901.GA22310@kadam>
- <20200522131031.GL2163848@ulmo>
- <20200522132318.GM30374@kadam>
+        Fri, 22 May 2020 10:54:28 -0400
+Received: from [IPv6:2003:cb:871f:5b00:cd18:bb27:1f42:fad5] (p200300cb871f5b00cd18bb271f42fad5.dip0.t-ipconnect.de [IPv6:2003:cb:871f:5b00:cd18:bb27:1f42:fad5])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 006062A39EB;
+        Fri, 22 May 2020 15:54:26 +0100 (BST)
+Subject: Re: [PATCH v2 2/4] media: staging: rkisp1: rsz: use hdiv, vdiv of
+ yuv422 instead of macros
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        linux-media@vger.kernel.org, ezequiel@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, Tomasz Figa <tfiga@chromium.org>
+References: <20200515142952.20163-1-dafna.hirschfeld@collabora.com>
+ <20200515142952.20163-3-dafna.hirschfeld@collabora.com>
+ <2606d729-7418-109b-f514-3b9eb834187c@collabora.com>
+ <4bd94509-79af-16db-3721-2553508a6c42@collabora.com>
+ <d0c93454-8a51-a28c-639d-948041fc602a@collabora.com>
+ <20200522135750.GA5824@pendragon.ideasonboard.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <48b7ac22-a8c3-a5e9-56b9-e81e6e072251@collabora.com>
+Date:   Fri, 22 May 2020 16:54:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="sdtB3X0nJg68CQEu"
-Content-Disposition: inline
-In-Reply-To: <20200522132318.GM30374@kadam>
-User-Agent: Mutt/1.13.1 (2019-12-14)
+In-Reply-To: <20200522135750.GA5824@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---sdtB3X0nJg68CQEu
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 22, 2020 at 04:23:18PM +0300, Dan Carpenter wrote:
-> On Fri, May 22, 2020 at 03:10:31PM +0200, Thierry Reding wrote:
-> > On Thu, May 21, 2020 at 08:39:02PM +0300, Dan Carpenter wrote:
-> > > On Thu, May 21, 2020 at 05:22:05PM +0200, Rafael J. Wysocki wrote:
-> > > > On Thu, May 21, 2020 at 11:15 AM Dan Carpenter <dan.carpenter@oracl=
-e.com> wrote:
-> > > > >
-> > > > > On Thu, May 21, 2020 at 11:42:55AM +0800, dinghao.liu@zju.edu.cn =
-wrote:
-> > > > > > Hi, Dan,
-> > > > > >
-> > > > > > I agree the best solution is to fix __pm_runtime_resume(). But =
-there are also
-> > > > > > many cases that assume pm_runtime_get_sync() will change PM usa=
-ge
-> > > > > > counter on error. According to my static analysis results, the =
-number of these
-> > > > > > "right" cases are larger. Adjusting __pm_runtime_resume() direc=
-tly will introduce
-> > > > > > more new bugs. Therefore I think we should resolve the "bug" ca=
-ses individually.
-> > > > > >
-> > > > >
-> > > > > That's why I was saying that we may need to introduce a new repla=
-cement
-> > > > > function for pm_runtime_get_sync() that works as expected.
-> > > > >
-> > > > > There is no reason why we have to live with the old behavior.
-> > > >=20
-> > > > What exactly do you mean by "the old behavior"?
-> > >=20
-> > > I'm suggesting we leave pm_runtime_get_sync() alone but we add a new
-> > > function which called pm_runtime_get_sync_resume() which does somethi=
-ng
-> > > like this:
-> > >=20
-> > > static inline int pm_runtime_get_sync_resume(struct device *dev)
-> > > {
-> > > 	int ret;
-> > >=20
-> > > 	ret =3D __pm_runtime_resume(dev, RPM_GET_PUT);
-> > > 	if (ret < 0) {
-> > > 		pm_runtime_put(dev);
-> > > 		return ret;
-> > > 	}
-> > > 	return 0;
-> > > }
-> > >=20
-> > > I'm not sure if pm_runtime_put() is the correct thing to do?  The oth=
-er
-> > > thing is that this always returns zero on success.  I don't know that
-> > > drivers ever care to differentiate between one and zero returns.
-> > >=20
-> > > Then if any of the caller expect that behavior we update them to use =
-the
-> > > new function.
-> >=20
-> > Does that really have many benefits, though? I understand that this
-> > would perhaps be easier to use because it is more in line with how other
-> > functions operate. On the other hand, in some cases you may want to call
-> > a different version of pm_runtime_put() on failure, as discussed in
-> > other threads.
->=20
-> I wasn't CC'd on the other threads so I don't know.  :/
+On 22.05.20 15:57, Laurent Pinchart wrote:
+> Hi Dafna,
+> 
+> On Fri, May 22, 2020 at 02:11:22PM +0200, Dafna Hirschfeld wrote:
+>> On 21.05.20 00:08, Helen Koike wrote:
+>>> On 5/20/20 6:54 PM, Helen Koike wrote:
+>>>> On 5/15/20 11:29 AM, Dafna Hirschfeld wrote:
+>>>>> The resize block of rkisp1 always get the input as yuv422.
+>>>>> Instead of defining the default hdiv, vdiv as macros, the
+>>>>> code is more clear if it takes the (hv)div from the YUV422P
+>>>>> info. This makes it clear where those values come from.
+>>>>> The patch also adds documentation to explain that.
+>>>>>
+>>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>>>
+>>>> Acked-by: Helen Koike <helen.koike@collabora.com>
+>>>>
+>>>>> ---
+>>>>>    drivers/staging/media/rkisp1/rkisp1-resizer.c | 25 +++++++++----------
+>>>>>    1 file changed, 12 insertions(+), 13 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+>>>>> index d049374413dc..04a29af8cc92 100644
+>>>>> --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
+>>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+>>>>> @@ -16,9 +16,6 @@
+>>>>>    #define RKISP1_DEF_FMT MEDIA_BUS_FMT_YUYV8_2X8
+>>>>>    #define RKISP1_DEF_PIXEL_ENC V4L2_PIXEL_ENC_YUV
+>>>>>    
+>>>>> -#define RKISP1_MBUS_FMT_HDIV 2
+>>>>> -#define RKISP1_MBUS_FMT_VDIV 1
+>>>>> -
+>>>>>    enum rkisp1_shadow_regs_when {
+>>>>>    	RKISP1_SHADOW_REGS_SYNC,
+>>>>>    	RKISP1_SHADOW_REGS_ASYNC,
+>>>>> @@ -361,11 +358,12 @@ static void rkisp1_rsz_config_regs(struct rkisp1_resizer *rsz,
+>>>>>    static void rkisp1_rsz_config(struct rkisp1_resizer *rsz,
+>>>>>    			      enum rkisp1_shadow_regs_when when)
+>>>>>    {
+>>>>> -	u8 hdiv = RKISP1_MBUS_FMT_HDIV, vdiv = RKISP1_MBUS_FMT_VDIV;
+>>>>>    	struct v4l2_rect sink_y, sink_c, src_y, src_c;
+>>>>>    	struct v4l2_mbus_framefmt *src_fmt;
+>>>>>    	struct v4l2_rect *sink_crop;
+>>>>>    	struct rkisp1_capture *cap = &rsz->rkisp1->capture_devs[rsz->id];
+>>>>> +	const struct v4l2_format_info *yuv422_info =
+>>>>> +		v4l2_format_info(V4L2_PIX_FMT_YUV422P);
+>>>>>    
+>>>>>    	sink_crop = rkisp1_rsz_get_pad_crop(rsz, NULL, RKISP1_RSZ_PAD_SINK,
+>>>>>    					    V4L2_SUBDEV_FORMAT_ACTIVE);
+>>>>> @@ -386,8 +384,9 @@ static void rkisp1_rsz_config(struct rkisp1_resizer *rsz,
+>>>>>    	src_y.width = src_fmt->width;
+>>>>>    	src_y.height = src_fmt->height;
+>>>>>    
+>>>>> -	sink_c.width = sink_y.width / RKISP1_MBUS_FMT_HDIV;
+>>>>> -	sink_c.height = sink_y.height / RKISP1_MBUS_FMT_VDIV;
+>>>>> +	/* The input format of the resizer is always yuv422 */
+>>>>> +	sink_c.width = sink_y.width / yuv422_info->hdiv;
+>>>>> +	sink_c.height = sink_y.height / yuv422_info->vdiv;
+>>>>>    
+>>>>>    	/*
+>>>>>    	 * The resizer is used not only to change the dimensions of the frame
+>>>>> @@ -395,17 +394,17 @@ static void rkisp1_rsz_config(struct rkisp1_resizer *rsz,
+>>>>>    	 * (4:2:2 -> 4:2:0 for example). So the width/height of the CbCr
+>>>>>    	 * streams should be set according to the pixel format in the capture.
+>>>>>    	 * The resizer always gets the input as YUV422. If the capture format
+>>>>> -	 * is RGB then the memory input should be YUV422 so we don't change the
+>>>>> -	 * default hdiv, vdiv in that case.
+>>>>> +	 * is RGB then the memory input (the resizer output) should be YUV422
+>>>>> +	 * so we use the hdiv, vdiv of the YUV422 info in this case.
+>>>>>    	 */
+>>>>>    	if (v4l2_is_format_yuv(cap->pix.info)) {
+>>>>> -		hdiv = cap->pix.info->hdiv;
+>>>>> -		vdiv = cap->pix.info->vdiv;
+>>>>> +		src_c.width = cap->pix.info->hdiv;
+>>>>> +		src_c.height = cap->pix.info->vdiv;
+>>>
+>>> Sorry, I just noticed you are assigning hdiv and vdiv directly to width and height, which looks wrong.
+>>>
+>>> It should be:
+>>>
+>>> src_c.width = src_y.width / cap->pix.info->hdiv;
+>>> src_c.height = src_y.height / cap->pix.info->vdiv;
+>>
+>> autch, thanks for finding it,  I probably concentrated only on testing the new RGB formats
+> 
+> Please make sure to test all supported formats :-)Yes, I don't how I missed that :/
 
-It was actually earlier in this thread, see here for example:
+> 
+> I really, really recommend writing a small set of test scripts that will
+> automate the tests for you. It can be as simple as wrapping media-ctl +
+> yavta (or v4l2-ctl), or the libcamera cam utility if it offers all the
+> features you need, and run them for all supported formats.
 
-	http://patchwork.ozlabs.org/project/linux-tegra/patch/20200520095148.10995=
--1-dinghao.liu@zju.edu.cn/#2438776
+We already have python scripts that wrap media-ctl/v4l2-ctl
+https://gitlab.collabora.com/dafna/v4l-utils/-/blob/rkisp1-simult-stream/contrib/test/test-rkisp1.py
 
-> I have always assumed it was something like this but I don't know the
-> details and there is no documentation.
+For example, you can run
+python3 test-rkisp1.py -t CUSTOM_RKISP1_TEST_stream -o /root -m YUYV8_2X8 -p sp -P YU12 -S  -v -c --isp-dim 1300x1500 --resizer-dim 1200x700
 
-Now, I don't know more than you do, but it sounds to me like there are
-multiple valid ways that we can use to drop the runtime PM reference and
-whatever we choose to do in this new function may not always be the
-right thing.
+Then:
+'-m YUYV8_2X8' is the media bus for the output of the isp
+'-p sp' is for streaming from selfpath video node
+'-P YU12' is for format yuv420p
+'--sip-dim 1300x1500' is the values to set the sensor and the crop of the sink pad of the isp entity
+'--resizer-dim 1200x700' is the output dimensions of the resizer
 
-> http://sweng.the-davies.net/Home/rustys-api-design-manifesto
-> You're essentially arguing that it's a #1 on Rusty's scale but ideally
-> we would want to be at #7.
+Thanks,
+Dafna
 
-I think we could probably get it to at least a 3 or a 4 on that list if
-we add a bit of documentation and fix all existing users.
-
-Yes, 7 would be better than that, but I think we have to weigh the cost
-of the added fragmentation versus the benefits that it gives us.
-
-> > Even ignoring that issue, any existing callsites that are leaking the
-> > reference would have to be updated to call the new function, which would
-> > be pretty much the same amount of work as updating the callsites to fix
-> > the leak, right?
->=20
-> With the current API we're constantly adding bugs.  I imagine that once
-> we add a straight forward default and some documentation then we will
-> solve this.
-
-In my experience this stuff is often copy/pasted, so once we fix up all
-of the bugs (and perhaps even add a coccinelle script) we shoudl be
-seeing less bugs added all the time.
-
-That said, I'm not opposed to adding a new function if we can make it
-actually result in an overall improvement. What I'd hate to do is add a
-new API that we all think is superior but then ends up not being usable
-in half of the cases.
-
-> > So if instead we just fix up the leaks, we might have a case of an API
-> > that doesn't work as some of us (myself included) expected it, but at
-> > least it would be consistent. If we add another variant things become
-> > fragmented and therefore even more complicated to use and review.
->=20
-> That's the approach that we've been trying and it's clearly not working.
-
-I think this is something we can likely solve through education and
-documentation. Runtime PM is still a fairly new topic that not a lot of
-people have experience with (at least if I extrapolate from the many
-issues I've run into lately related to runtime PM), so I think it just
-takes time for everyone to catch up. This looks similar to me to how we
-used to have every allocation failure print out an error, even though
-the allocator already complains pretty loudly when things go wrong. Now
-we've removed most (if not all) of the redundant error messages and it's
-become common knowledge among most maintainers, so new instances
-typically get caught during review.
-
-But again, if you can come up with a good alternative that works for the
-majority of cases I think that would also be fine. Getting things right
-without actually knowing any of the background is obviously better than
-having to actually educate people. =3D)
-
-Thierry
-
---sdtB3X0nJg68CQEu
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7H5P4ACgkQ3SOs138+
-s6Fm5xAAuyo73K+oaTfn9V3Xq+33bmmc26jVlg+RaqH4wb7uGlyZ3RnfCrpZ5no2
-UsfcaSG3gQjWqMjRIUDFTt4n7upoJVkQ4LnWHOxOTKE6z1dtzdm0b+U29MuGeEnj
-ETKlbh9FBF+uQtyoPW+5KL2msrgBW8Wt5xRhWcN7W6Mkzg90urOK91+QpZlnuc8a
-B2ENjxDrUhhnMll00CkvbvQ+ihH53MpkVJ+3L8fOO5pC9yHrZkM71lPOH5obfuCh
-bYzHLEN9Hy3np3VSTavM0PJCqQVzx8b9cwk0PN+hSx/hd2HWzn1jWp822UmFotJu
-hUQV+epUX9Y99tdJXQQwYAET0oqC9vm9kQ8xdhmSRUKi5srwtEnzmlvIhMlYoqSf
-JO8iJcOVUFJdiYL9Uv+JsVnhIU4l8vSLwz7vhpHOJIwgR8AJOKcQ55+9H+jucqD7
-ozeXdsOxiVjskuHH5Qv8UYHXqtWrMI+PL8CIFsGw2P75NgUEW7UXWHijCsgC7dqC
-vAe6ya6sEtZleXp1eE1k93sAW6CVi1ZyCOGweZBeJyUE9TqnjHzWJJWwr+4gfoii
-0Iz93Q29sVVaLlPyT0LTlELr4+bXtDL2PstGn5NHxhGxW2yyG2gLkt5ua3lOlDmx
-1rWK9TFElvt2Of4CXSUU/XXvpMYcDjsRdL7miZ8rwFVyh66aIIU=
-=l737
------END PGP SIGNATURE-----
-
---sdtB3X0nJg68CQEu--
+> 
+>>>>> +	} else {
+>>>>> +		src_c.width = src_y.width / yuv422_info->hdiv;
+>>>>> +		src_c.height = src_y.height / yuv422_info->vdiv;
+>>>>>    	}
+>>>>>    
+>>>>> -	src_c.width = src_y.width / hdiv;
+>>>>> -	src_c.height = src_y.height / vdiv;
+>>>>> -
+>>>>>    	if (sink_c.width == src_c.width && sink_c.height == src_c.height) {
+>>>>>    		rkisp1_rsz_disable(rsz, when);
+>>>>>    		return;
+>>>>>
+> 
