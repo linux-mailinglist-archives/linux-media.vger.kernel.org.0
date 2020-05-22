@@ -2,182 +2,246 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FB9D1DE8FF
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 16:31:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 20A271DE92B
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 16:43:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729888AbgEVObm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 May 2020 10:31:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54104 "EHLO
+        id S1729961AbgEVOnS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 May 2020 10:43:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729851AbgEVObl (ORCPT
+        with ESMTP id S1729868AbgEVOnR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 May 2020 10:31:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B33B9C061A0E
-        for <linux-media@vger.kernel.org>; Fri, 22 May 2020 07:31:41 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1EE3324D;
-        Fri, 22 May 2020 16:31:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1590157900;
-        bh=2lhX6lyy7lL0s5wAIBNSBghCgq1dinL1DspXHygbQkU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kY/xlx+PQzCbi4c6VZqnbH9t1fmHSKgLlK0fu0hQFvPK3gwG56DX+QrOWiB6CL+Uc
-         Kj2MufFfMOp+zsaOOnizZFxZVLDPn2L4neQh9u0XZHic+V06erI/amXuq/OrFGcL/2
-         c/IeD2oCbAchSo3OyQWhlACcQ+LCwoXhIMHk1xIY=
-Date:   Fri, 22 May 2020 17:31:28 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        tfiga@chromium.org
-Subject: Re: [PATCH] media: staging: rkisp1: fix dev param for dev_* debugs
-Message-ID: <20200522143128.GB5824@pendragon.ideasonboard.com>
-References: <20200522115633.3166-1-dafna.hirschfeld@collabora.com>
+        Fri, 22 May 2020 10:43:17 -0400
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AAB7C061A0E;
+        Fri, 22 May 2020 07:43:17 -0700 (PDT)
+Received: by mail-ed1-x544.google.com with SMTP id k19so9434611edv.9;
+        Fri, 22 May 2020 07:43:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=pEMnosclMENELxtgkfNlqnRlbAPuv7/WGXXU3o+3Wgk=;
+        b=qKkCPN704QYXuch7cQD5KsRch8SM+Fq9IMwTFvTcpf3kTg9cv+vqBfsXxt8gM8j3Ck
+         Z/5F24AEHclpbrV533kWoRNzD8W/PoJ1/F8OMl5/gkA6fQ5kFMT0x0EVK+HlFxnEyw5A
+         9A/+BuuLZYZ5B3ULz6GxHOD/Xsu7SL9y3PwtgpWz3j7OmG1OIk9eHlrwfl48yzdxwEez
+         N8c+nA2nTGE+TC5t4C8meFkKsC1sgs62kFquqYj3uVPPezktkThNmH9JMhblVQ3Kzrb6
+         x05tyFSQccbls+scPBrEeI7pNjNRycpdGUWrnFlw/QpC4bb0RohfFJIT9nd0nQoChgZZ
+         UqBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=pEMnosclMENELxtgkfNlqnRlbAPuv7/WGXXU3o+3Wgk=;
+        b=puaWe5Y7rPc22ThDCgJJZSAbnbia+FwHtmG4DOK3YD8zwdU/Nd+KApcJ9ZbAl6DK4c
+         MStV/aveQjoBrsUEsMHrRoynhb5iIjoFZKTS2BV3yS3cN/bJi04TqlvN/CsFFgrzc/Pl
+         vyhl4MuL5bCnQkWeVOAVkz/3KLtRxvfl/AaPhYei+sAjWu2dUYsU1koMrYpDrn5m+Drz
+         vl5eHiCDcUmtcy1vlArXS6EaZYf3lH9rtUECRRbSBDRCEmNal5SzRxjjo7mBkYQ/hwCC
+         DEgnzalvkSsN0pIBUrsr+GnTAf5m6CsG+XrQxm2eKyzbPp8eRbBJmbbTB48TIrIKTo81
+         aoqg==
+X-Gm-Message-State: AOAM530x01cIiyjIV9tl4Z93ygi181+dlxEuXTUz2QrUj0h6uecHuwtH
+        rwYP6UOhmj/d3hrq+09D3dU=
+X-Google-Smtp-Source: ABdhPJxQKMSVP7UsCOBRlGM0TjNDYKXZhvaGaCnYahr/v+jJ65GzxqvZSy31ohwwlHMRkM8jH6VSTg==
+X-Received: by 2002:a05:6402:946:: with SMTP id h6mr3309459edz.245.1590158595504;
+        Fri, 22 May 2020 07:43:15 -0700 (PDT)
+Received: from localhost (pd9e51079.dip0.t-ipconnect.de. [217.229.16.121])
+        by smtp.gmail.com with ESMTPSA id w14sm8284896ejk.13.2020.05.22.07.43.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 May 2020 07:43:13 -0700 (PDT)
+Date:   Fri, 22 May 2020 16:43:12 +0200
+From:   Thierry Reding <thierry.reding@gmail.com>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     devel@driverdev.osuosl.org, Len Brown <len.brown@intel.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        dinghao.liu@zju.edu.cn, Kangjie Lu <kjlu@umn.edu>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: Re: [PATCH] media: staging: tegra-vde: fix runtime pm imbalance
+ on error
+Message-ID: <20200522144312.GA2374603@ulmo>
+References: <20200520095148.10995-1-dinghao.liu@zju.edu.cn>
+ <2b5d64f5-825f-c081-5d03-02655c2d9491@gmail.com>
+ <20200520150230.GC30374@kadam>
+ <2a46539d.b977f.1723553aa81.Coremail.dinghao.liu@zju.edu.cn>
+ <20200521091505.GF30374@kadam>
+ <CAJZ5v0irLayBUPRWNT1tcZivz9inS1YbUgGj5WXvucLKKwRQAw@mail.gmail.com>
+ <20200521173901.GA22310@kadam>
+ <20200522131031.GL2163848@ulmo>
+ <20200522132318.GM30374@kadam>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="sdtB3X0nJg68CQEu"
 Content-Disposition: inline
-In-Reply-To: <20200522115633.3166-1-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20200522132318.GM30374@kadam>
+User-Agent: Mutt/1.13.1 (2019-12-14)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
 
-Thank you for the patch.
+--sdtB3X0nJg68CQEu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 22, 2020 at 01:56:33PM +0200, Dafna Hirschfeld wrote:
-> In some debug prints a wrong 'dev' argument is used
-> for the dev_(dbg/err/warn), this cause a prefix
-> "(NULL device *)" to the prints.
-> In some prints the 'dev' of the sensor subdevice is used
-> which is also wrong.
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/rkisp1/rkisp1-dev.c     |  2 +-
->  drivers/staging/media/rkisp1/rkisp1-isp.c     | 17 ++++++++++-------
->  drivers/staging/media/rkisp1/rkisp1-params.c  |  2 +-
->  drivers/staging/media/rkisp1/rkisp1-resizer.c |  2 +-
->  4 files changed, 13 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
-> index 9ac38bafb839..f38801fea10d 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-dev.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
-> @@ -129,7 +129,7 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
->  		ret = media_entity_get_fwnode_pad(&sd->entity, sd->fwnode,
->  						  MEDIA_PAD_FL_SOURCE);
->  		if (ret < 0) {
-> -			dev_err(sd->dev, "failed to find src pad for %s\n",
-> +			dev_err(rkisp1->dev, "failed to find src pad for %s\n",
->  				sd->name);
->  			return ret;
->  		}
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> index dc2b59a0160a..ec061b997bb4 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> @@ -203,10 +203,8 @@ static struct v4l2_subdev *rkisp1_get_remote_sensor(struct v4l2_subdev *sd)
->  
->  	local = &sd->entity.pads[RKISP1_ISP_PAD_SINK_VIDEO];
->  	remote = media_entity_remote_pad(local);
-> -	if (!remote) {
-> -		dev_warn(sd->dev, "No link between isp and sensor\n");
-> +	if (!remote)
->  		return NULL;
-> -	}
->  
->  	sensor_me = remote->entity;
->  	return media_entity_to_v4l2_subdev(sensor_me);
-> @@ -889,18 +887,20 @@ static const struct v4l2_subdev_pad_ops rkisp1_isp_pad_ops = {
->  static int rkisp1_mipi_csi2_start(struct rkisp1_isp *isp,
->  				  struct rkisp1_sensor_async *sensor)
->  {
-> +	struct rkisp1_device *rkisp1 =
-> +		container_of(isp->sd.v4l2_dev, struct rkisp1_device, v4l2_dev);
+On Fri, May 22, 2020 at 04:23:18PM +0300, Dan Carpenter wrote:
+> On Fri, May 22, 2020 at 03:10:31PM +0200, Thierry Reding wrote:
+> > On Thu, May 21, 2020 at 08:39:02PM +0300, Dan Carpenter wrote:
+> > > On Thu, May 21, 2020 at 05:22:05PM +0200, Rafael J. Wysocki wrote:
+> > > > On Thu, May 21, 2020 at 11:15 AM Dan Carpenter <dan.carpenter@oracl=
+e.com> wrote:
+> > > > >
+> > > > > On Thu, May 21, 2020 at 11:42:55AM +0800, dinghao.liu@zju.edu.cn =
+wrote:
+> > > > > > Hi, Dan,
+> > > > > >
+> > > > > > I agree the best solution is to fix __pm_runtime_resume(). But =
+there are also
+> > > > > > many cases that assume pm_runtime_get_sync() will change PM usa=
+ge
+> > > > > > counter on error. According to my static analysis results, the =
+number of these
+> > > > > > "right" cases are larger. Adjusting __pm_runtime_resume() direc=
+tly will introduce
+> > > > > > more new bugs. Therefore I think we should resolve the "bug" ca=
+ses individually.
+> > > > > >
+> > > > >
+> > > > > That's why I was saying that we may need to introduce a new repla=
+cement
+> > > > > function for pm_runtime_get_sync() that works as expected.
+> > > > >
+> > > > > There is no reason why we have to live with the old behavior.
+> > > >=20
+> > > > What exactly do you mean by "the old behavior"?
+> > >=20
+> > > I'm suggesting we leave pm_runtime_get_sync() alone but we add a new
+> > > function which called pm_runtime_get_sync_resume() which does somethi=
+ng
+> > > like this:
+> > >=20
+> > > static inline int pm_runtime_get_sync_resume(struct device *dev)
+> > > {
+> > > 	int ret;
+> > >=20
+> > > 	ret =3D __pm_runtime_resume(dev, RPM_GET_PUT);
+> > > 	if (ret < 0) {
+> > > 		pm_runtime_put(dev);
+> > > 		return ret;
+> > > 	}
+> > > 	return 0;
+> > > }
+> > >=20
+> > > I'm not sure if pm_runtime_put() is the correct thing to do?  The oth=
+er
+> > > thing is that this always returns zero on success.  I don't know that
+> > > drivers ever care to differentiate between one and zero returns.
+> > >=20
+> > > Then if any of the caller expect that behavior we update them to use =
+the
+> > > new function.
+> >=20
+> > Does that really have many benefits, though? I understand that this
+> > would perhaps be easier to use because it is more in line with how other
+> > functions operate. On the other hand, in some cases you may want to call
+> > a different version of pm_runtime_put() on failure, as discussed in
+> > other threads.
+>=20
+> I wasn't CC'd on the other threads so I don't know.  :/
 
-The driver uses container_of() on the v4l2_dev in several places to get
-the rkisp1_device in contexts where you only have the rkisp1_isp.
-Wouldn't it be simpler to add a pointer to rkisp1_device in rkisp1_isp,
-like there's one in rkisp1_capture and rkisp1_resizer ? It's not a
-prerequisite for this patch.
+It was actually earlier in this thread, see here for example:
 
->  	union phy_configure_opts opts;
->  	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
->  	s64 pixel_clock;
->  
->  	if (!sensor->pixel_rate_ctrl) {
-> -		dev_warn(sensor->sd->dev, "No pixel rate control in subdev\n");
-> +		dev_warn(rkisp1->dev, "No pixel rate control in subdev\n");
+	http://patchwork.ozlabs.org/project/linux-tegra/patch/20200520095148.10995=
+-1-dinghao.liu@zju.edu.cn/#2438776
 
-Maybe s/in subdev/in sensor subdev/ ?
+> I have always assumed it was something like this but I don't know the
+> details and there is no documentation.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Now, I don't know more than you do, but it sounds to me like there are
+multiple valid ways that we can use to drop the runtime PM reference and
+whatever we choose to do in this new function may not always be the
+right thing.
 
->  		return -EPIPE;
->  	}
->  
->  	pixel_clock = v4l2_ctrl_g_ctrl_int64(sensor->pixel_rate_ctrl);
->  	if (!pixel_clock) {
-> -		dev_err(sensor->sd->dev, "Invalid pixel rate value\n");
-> +		dev_err(rkisp1->dev, "Invalid pixel rate value\n");
->  		return -EINVAL;
->  	}
->  
-> @@ -933,8 +933,11 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
->  	}
->  
->  	sensor_sd = rkisp1_get_remote_sensor(sd);
-> -	if (!sensor_sd)
-> +	if (!sensor_sd) {
-> +		dev_warn(rkisp1->dev, "No link between isp and sensor\n");
->  		return -ENODEV;
-> +	}
-> +
->  	rkisp1->active_sensor = container_of(sensor_sd->asd,
->  					     struct rkisp1_sensor_async, asd);
->  
-> @@ -1021,7 +1024,7 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
->  
->  	ret = v4l2_device_register_subdev(v4l2_dev, sd);
->  	if (ret) {
-> -		dev_err(sd->dev, "Failed to register isp subdev\n");
-> +		dev_err(rkisp1->dev, "Failed to register isp subdev\n");
->  		goto err_cleanup_media_entity;
->  	}
->  
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
-> index 44d542caf32b..797e79de659c 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-params.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-params.c
-> @@ -1607,7 +1607,7 @@ int rkisp1_params_register(struct rkisp1_params *params,
->  		goto err_release_queue;
->  	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
->  	if (ret) {
-> -		dev_err(&vdev->dev,
-> +		dev_err(rkisp1->dev,
->  			"failed to register %s, ret=%d\n", vdev->name, ret);
->  		goto err_cleanup_media_entity;
->  	}
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> index d049374413dc..26fb41053f56 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> @@ -639,7 +639,7 @@ static int rkisp1_rsz_set_selection(struct v4l2_subdev *sd,
->  	if (sel->target != V4L2_SEL_TGT_CROP || sel->pad == RKISP1_RSZ_PAD_SRC)
->  		return -EINVAL;
->  
-> -	dev_dbg(sd->dev, "%s: pad: %d sel(%d,%d)/%dx%d\n", __func__,
-> +	dev_dbg(rsz->rkisp1->dev, "%s: pad: %d sel(%d,%d)/%dx%d\n", __func__,
->  		sel->pad, sel->r.left, sel->r.top, sel->r.width, sel->r.height);
->  
->  	mutex_lock(&rsz->ops_lock);
+> http://sweng.the-davies.net/Home/rustys-api-design-manifesto
+> You're essentially arguing that it's a #1 on Rusty's scale but ideally
+> we would want to be at #7.
 
--- 
-Regards,
+I think we could probably get it to at least a 3 or a 4 on that list if
+we add a bit of documentation and fix all existing users.
 
-Laurent Pinchart
+Yes, 7 would be better than that, but I think we have to weigh the cost
+of the added fragmentation versus the benefits that it gives us.
+
+> > Even ignoring that issue, any existing callsites that are leaking the
+> > reference would have to be updated to call the new function, which would
+> > be pretty much the same amount of work as updating the callsites to fix
+> > the leak, right?
+>=20
+> With the current API we're constantly adding bugs.  I imagine that once
+> we add a straight forward default and some documentation then we will
+> solve this.
+
+In my experience this stuff is often copy/pasted, so once we fix up all
+of the bugs (and perhaps even add a coccinelle script) we shoudl be
+seeing less bugs added all the time.
+
+That said, I'm not opposed to adding a new function if we can make it
+actually result in an overall improvement. What I'd hate to do is add a
+new API that we all think is superior but then ends up not being usable
+in half of the cases.
+
+> > So if instead we just fix up the leaks, we might have a case of an API
+> > that doesn't work as some of us (myself included) expected it, but at
+> > least it would be consistent. If we add another variant things become
+> > fragmented and therefore even more complicated to use and review.
+>=20
+> That's the approach that we've been trying and it's clearly not working.
+
+I think this is something we can likely solve through education and
+documentation. Runtime PM is still a fairly new topic that not a lot of
+people have experience with (at least if I extrapolate from the many
+issues I've run into lately related to runtime PM), so I think it just
+takes time for everyone to catch up. This looks similar to me to how we
+used to have every allocation failure print out an error, even though
+the allocator already complains pretty loudly when things go wrong. Now
+we've removed most (if not all) of the redundant error messages and it's
+become common knowledge among most maintainers, so new instances
+typically get caught during review.
+
+But again, if you can come up with a good alternative that works for the
+majority of cases I think that would also be fine. Getting things right
+without actually knowing any of the background is obviously better than
+having to actually educate people. =3D)
+
+Thierry
+
+--sdtB3X0nJg68CQEu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl7H5P4ACgkQ3SOs138+
+s6Fm5xAAuyo73K+oaTfn9V3Xq+33bmmc26jVlg+RaqH4wb7uGlyZ3RnfCrpZ5no2
+UsfcaSG3gQjWqMjRIUDFTt4n7upoJVkQ4LnWHOxOTKE6z1dtzdm0b+U29MuGeEnj
+ETKlbh9FBF+uQtyoPW+5KL2msrgBW8Wt5xRhWcN7W6Mkzg90urOK91+QpZlnuc8a
+B2ENjxDrUhhnMll00CkvbvQ+ihH53MpkVJ+3L8fOO5pC9yHrZkM71lPOH5obfuCh
+bYzHLEN9Hy3np3VSTavM0PJCqQVzx8b9cwk0PN+hSx/hd2HWzn1jWp822UmFotJu
+hUQV+epUX9Y99tdJXQQwYAET0oqC9vm9kQ8xdhmSRUKi5srwtEnzmlvIhMlYoqSf
+JO8iJcOVUFJdiYL9Uv+JsVnhIU4l8vSLwz7vhpHOJIwgR8AJOKcQ55+9H+jucqD7
+ozeXdsOxiVjskuHH5Qv8UYHXqtWrMI+PL8CIFsGw2P75NgUEW7UXWHijCsgC7dqC
+vAe6ya6sEtZleXp1eE1k93sAW6CVi1ZyCOGweZBeJyUE9TqnjHzWJJWwr+4gfoii
+0Iz93Q29sVVaLlPyT0LTlELr4+bXtDL2PstGn5NHxhGxW2yyG2gLkt5ua3lOlDmx
+1rWK9TFElvt2Of4CXSUU/XXvpMYcDjsRdL7miZ8rwFVyh66aIIU=
+=l737
+-----END PGP SIGNATURE-----
+
+--sdtB3X0nJg68CQEu--
