@@ -2,155 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EB8AC1DE5F1
-	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 13:56:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 840F61DE65D
+	for <lists+linux-media@lfdr.de>; Fri, 22 May 2020 14:10:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728413AbgEVL4o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 22 May 2020 07:56:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58098 "EHLO
+        id S1728680AbgEVMJq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 22 May 2020 08:09:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728356AbgEVL4o (ORCPT
+        with ESMTP id S1728495AbgEVMJp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 22 May 2020 07:56:44 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A811C061A0E
-        for <linux-media@vger.kernel.org>; Fri, 22 May 2020 04:56:44 -0700 (PDT)
-Received: from localhost.localdomain (p200300cb871f5b00cd18bb271f42fad5.dip0.t-ipconnect.de [IPv6:2003:cb:871f:5b00:cd18:bb27:1f42:fad5])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 27D5C2A05AD;
-        Fri, 22 May 2020 12:56:42 +0100 (BST)
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        laurent.pinchart@ideasonboard.com, tfiga@chromium.org
-Subject: [PATCH] media: staging: rkisp1: fix dev param for dev_* debugs
-Date:   Fri, 22 May 2020 13:56:33 +0200
-Message-Id: <20200522115633.3166-1-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
+        Fri, 22 May 2020 08:09:45 -0400
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32903C061A0E;
+        Fri, 22 May 2020 05:09:45 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id z4so8438206wmi.2;
+        Fri, 22 May 2020 05:09:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=0aJqkYrdM+sgbvUusxT8hDNKtBoLOQG92w0wNo7M1w4=;
+        b=r+FNl2KwIQ7JgjPzvrnUaW17rVNutC2CTeAMUaRHvvsnpUtCkm2JjIRnFLtESPgc98
+         bWET8r1VtyWvDebFioaQQdSqQywAIbHbtgWvJCboIHty4zcCRsHDLPEUVn206M/Y/lnC
+         L1XGN0wmoFwCyTs5yYSag1A0IG431c3PHrdm9Qz2iQLbemMw7CkeUtG8zXO3x+wt6Saa
+         rYi/yzSDTQervbLrgj2+Xr4TS4PITujdbP4xgZ1QXafnuii+JTLb/S1JAhpKwiQbq7ir
+         s3qXFCpg/IzTKu9btruMwy1c9ljrzeWgvJHZnKXBTE4hZJk2EWBzK3bIV5Wpg1ZyxbLe
+         jFIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+         :content-transfer-encoding:message-id:references:to;
+        bh=0aJqkYrdM+sgbvUusxT8hDNKtBoLOQG92w0wNo7M1w4=;
+        b=ZMtzLrvK4E4vldRJcop5/DKYul1CVSbgH2JqCHL+J4nivBZHm6pJX9iun441JPPi9X
+         Nm8rUO6maGuMkFGrbo3qwLpg0zofiM/TlPKgUTAnerMu+kuhtu3Jbj43XfyrVq/pN2+2
+         qwqzTPveJLGxor5Vg98j1vkJCx848AFT1aqTX7fcg0nj/xaghSgsXwOVFdtevBxtdp0O
+         Qj/trGnFplzUL3BVxhNWbCM7lM4nU01XaUxRueWWtVLRofVnmERFHplpP6kcJhLSWgkF
+         zurUxqQSYRZmEZdm8fLRul3kFobj8I0optiGWAECMznL6T3h8ilLUvf1aHOURmaSL7Dy
+         BEYQ==
+X-Gm-Message-State: AOAM533ewwu+mJC3vGfKveZwXtPAp5A1nLMLeGpUN43CXVH4Utq0sxKc
+        pXIok8czj+MouVFgfTpJG7Q=
+X-Google-Smtp-Source: ABdhPJwcDofe/8iI1LchV/4xbq+fLSJ7DSsUdZR+A9tox/LGZa0X/bncsOu4qrCpcFWpKdta9zQA7Q==
+X-Received: by 2002:a1c:2013:: with SMTP id g19mr3470829wmg.143.1590149383522;
+        Fri, 22 May 2020 05:09:43 -0700 (PDT)
+Received: from macbook-pro-alvaro-eth.lan (159.red-83-44-12.dynamicip.rima-tde.net. [83.44.12.159])
+        by smtp.gmail.com with ESMTPSA id x17sm9259500wrp.71.2020.05.22.05.09.42
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 22 May 2020 05:09:42 -0700 (PDT)
+Content-Type: text/plain;
+        charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.80.23.2.2\))
+Subject: Re: [PATCH v3 5/5] nand: brcmnand: support v2.1-v2.2 controllers
+From:   =?utf-8?Q?=C3=81lvaro_Fern=C3=A1ndez_Rojas?= <noltari@gmail.com>
+In-Reply-To: <20200522132211.16c657aa@xps13>
+Date:   Fri, 22 May 2020 14:09:42 +0200
+Cc:     computersforpeace@gmail.com, kdasu.kdev@gmail.com, richard@nod.at,
+        vigneshr@ti.com, sumit.semwal@linaro.org,
+        linux-mtd@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <4153A581-0894-4A4F-AE8D-22E5A976FE06@gmail.com>
+References: <20200512073329.742893-1-noltari@gmail.com>
+ <20200522072525.3919332-1-noltari@gmail.com>
+ <20200522072525.3919332-6-noltari@gmail.com> <20200522132211.16c657aa@xps13>
+To:     Miquel Raynal <miquel.raynal@bootlin.com>
+X-Mailer: Apple Mail (2.3608.80.23.2.2)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In some debug prints a wrong 'dev' argument is used
-for the dev_(dbg/err/warn), this cause a prefix
-"(NULL device *)" to the prints.
-In some prints the 'dev' of the sensor subdevice is used
-which is also wrong.
+Hello Miquel,
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- drivers/staging/media/rkisp1/rkisp1-dev.c     |  2 +-
- drivers/staging/media/rkisp1/rkisp1-isp.c     | 17 ++++++++++-------
- drivers/staging/media/rkisp1/rkisp1-params.c  |  2 +-
- drivers/staging/media/rkisp1/rkisp1-resizer.c |  2 +-
- 4 files changed, 13 insertions(+), 10 deletions(-)
+No, nothing else changed.
+I will change it again with the proper subject, sorry for that.
 
-diff --git a/drivers/staging/media/rkisp1/rkisp1-dev.c b/drivers/staging/media/rkisp1/rkisp1-dev.c
-index 9ac38bafb839..f38801fea10d 100644
---- a/drivers/staging/media/rkisp1/rkisp1-dev.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-dev.c
-@@ -129,7 +129,7 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
- 		ret = media_entity_get_fwnode_pad(&sd->entity, sd->fwnode,
- 						  MEDIA_PAD_FL_SOURCE);
- 		if (ret < 0) {
--			dev_err(sd->dev, "failed to find src pad for %s\n",
-+			dev_err(rkisp1->dev, "failed to find src pad for %s\n",
- 				sd->name);
- 			return ret;
- 		}
-diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
-index dc2b59a0160a..ec061b997bb4 100644
---- a/drivers/staging/media/rkisp1/rkisp1-isp.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
-@@ -203,10 +203,8 @@ static struct v4l2_subdev *rkisp1_get_remote_sensor(struct v4l2_subdev *sd)
- 
- 	local = &sd->entity.pads[RKISP1_ISP_PAD_SINK_VIDEO];
- 	remote = media_entity_remote_pad(local);
--	if (!remote) {
--		dev_warn(sd->dev, "No link between isp and sensor\n");
-+	if (!remote)
- 		return NULL;
--	}
- 
- 	sensor_me = remote->entity;
- 	return media_entity_to_v4l2_subdev(sensor_me);
-@@ -889,18 +887,20 @@ static const struct v4l2_subdev_pad_ops rkisp1_isp_pad_ops = {
- static int rkisp1_mipi_csi2_start(struct rkisp1_isp *isp,
- 				  struct rkisp1_sensor_async *sensor)
- {
-+	struct rkisp1_device *rkisp1 =
-+		container_of(isp->sd.v4l2_dev, struct rkisp1_device, v4l2_dev);
- 	union phy_configure_opts opts;
- 	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
- 	s64 pixel_clock;
- 
- 	if (!sensor->pixel_rate_ctrl) {
--		dev_warn(sensor->sd->dev, "No pixel rate control in subdev\n");
-+		dev_warn(rkisp1->dev, "No pixel rate control in subdev\n");
- 		return -EPIPE;
- 	}
- 
- 	pixel_clock = v4l2_ctrl_g_ctrl_int64(sensor->pixel_rate_ctrl);
- 	if (!pixel_clock) {
--		dev_err(sensor->sd->dev, "Invalid pixel rate value\n");
-+		dev_err(rkisp1->dev, "Invalid pixel rate value\n");
- 		return -EINVAL;
- 	}
- 
-@@ -933,8 +933,11 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
- 	}
- 
- 	sensor_sd = rkisp1_get_remote_sensor(sd);
--	if (!sensor_sd)
-+	if (!sensor_sd) {
-+		dev_warn(rkisp1->dev, "No link between isp and sensor\n");
- 		return -ENODEV;
-+	}
-+
- 	rkisp1->active_sensor = container_of(sensor_sd->asd,
- 					     struct rkisp1_sensor_async, asd);
- 
-@@ -1021,7 +1024,7 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
- 
- 	ret = v4l2_device_register_subdev(v4l2_dev, sd);
- 	if (ret) {
--		dev_err(sd->dev, "Failed to register isp subdev\n");
-+		dev_err(rkisp1->dev, "Failed to register isp subdev\n");
- 		goto err_cleanup_media_entity;
- 	}
- 
-diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
-index 44d542caf32b..797e79de659c 100644
---- a/drivers/staging/media/rkisp1/rkisp1-params.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-params.c
-@@ -1607,7 +1607,7 @@ int rkisp1_params_register(struct rkisp1_params *params,
- 		goto err_release_queue;
- 	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
- 	if (ret) {
--		dev_err(&vdev->dev,
-+		dev_err(rkisp1->dev,
- 			"failed to register %s, ret=%d\n", vdev->name, ret);
- 		goto err_cleanup_media_entity;
- 	}
-diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-index d049374413dc..26fb41053f56 100644
---- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-@@ -639,7 +639,7 @@ static int rkisp1_rsz_set_selection(struct v4l2_subdev *sd,
- 	if (sel->target != V4L2_SEL_TGT_CROP || sel->pad == RKISP1_RSZ_PAD_SRC)
- 		return -EINVAL;
- 
--	dev_dbg(sd->dev, "%s: pad: %d sel(%d,%d)/%dx%d\n", __func__,
-+	dev_dbg(rsz->rkisp1->dev, "%s: pad: %d sel(%d,%d)/%dx%d\n", __func__,
- 		sel->pad, sel->r.left, sel->r.top, sel->r.width, sel->r.height);
- 
- 	mutex_lock(&rsz->ops_lock);
--- 
-2.17.1
+Best regards,
+=C3=81lvaro.
+
+> El 22 may 2020, a las 13:22, Miquel Raynal <miquel.raynal@bootlin.com> =
+escribi=C3=B3:
+>=20
+>> v2.1: tested on Netgear DGND3700v1 (BCM6368)
 
