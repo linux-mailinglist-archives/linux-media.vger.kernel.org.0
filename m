@@ -2,151 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05F161DF5FC
-	for <lists+linux-media@lfdr.de>; Sat, 23 May 2020 10:14:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 676F41DF60E
+	for <lists+linux-media@lfdr.de>; Sat, 23 May 2020 10:42:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387685AbgEWIOE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 May 2020 04:14:04 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:46584 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387471AbgEWIOD (ORCPT
+        id S2387687AbgEWImy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 May 2020 04:42:54 -0400
+Received: from mailgw01.mediatek.com ([210.61.82.183]:63054 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2387500AbgEWImv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 May 2020 04:14:03 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id A3B733C04C1;
-        Sat, 23 May 2020 10:13:59 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id FXhyqC6y9xiR; Sat, 23 May 2020 10:13:53 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id A96693C001F;
-        Sat, 23 May 2020 10:13:53 +0200 (CEST)
-Received: from lxhi-065.adit-jv.com (10.72.94.4) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Sat, 23 May
- 2020 10:13:53 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>, <stable@vger.kernel.org>
-Subject: [PATCH] media: vsp1: dl: Fix NULL pointer dereference on unbind
-Date:   Sat, 23 May 2020 10:13:34 +0200
-Message-ID: <20200523081334.23531-1-erosca@de.adit-jv.com>
-X-Mailer: git-send-email 2.26.2
+        Sat, 23 May 2020 04:42:51 -0400
+X-UUID: cfa01a54503943edae9a7ad49a7819c6-20200523
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=geMgDXW7+y5x9NHSgNuLpSBU2HC0fIuZRZ1XDMQaq+U=;
+        b=HyDEfmcicYVo1vQgVyNL2OM4IxuppxhmHNY0KJn7PnVFp5HmXHk4Qyhym1G8u4Rot/1RDOwGxyu+q/O5JTsLTXCWsqSwaVmJOrwac5T8ppMv4S31A0jtrjCNilH5PbB0B7/51BbcAgbEdItLZQ/12a6EGzrESv122As5DJZb79E=;
+X-UUID: cfa01a54503943edae9a7ad49a7819c6-20200523
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw01.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 1927283339; Sat, 23 May 2020 16:42:44 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Sat, 23 May 2020 16:42:42 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 23 May 2020 16:42:41 +0800
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     <linus.walleij@linaro.org>, <bgolaszewski@baylibre.com>,
+        <mchehab@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <sakari.ailus@linux.intel.com>, <drinkcat@chromium.org>,
+        <tfiga@chromium.org>, <matthias.bgg@gmail.com>,
+        <bingbu.cao@intel.com>
+CC:     <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>,
+        <dongchun.zhu@mediatek.com>
+Subject: [V9, 0/2] media: i2c: Add support for OV02A10 sensor
+Date:   Sat, 23 May 2020 16:41:01 +0800
+Message-ID: <20200523084103.31276-1-dongchun.zhu@mediatek.com>
+X-Mailer: git-send-email 2.9.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.72.94.4]
+Content-Type: text/plain
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-v4.19 commit f3b98e3c4d2e16 ("media: vsp1: Provide support for extended
-command pools") introduced below issue [*], consistently reproduced.
-
-In order to fix it, inspire from the sibling/predecessor v4.18-rc1
-commit 5de0473982aab2 ("media: vsp1: Provide a body pool"), which saves
-the vsp1 instance address in vsp1_dl_body_pool_create().
-
-[*] h3ulcb-kf #>
-echo fea28000.vsp > /sys/bus/platform/devices/fea28000.vsp/driver/unbind
- Unable to handle kernel NULL pointer dereference at virtual address 0000000000000028
- Mem abort info:
-   ESR = 0x96000006
-   EC = 0x25: DABT (current EL), IL = 32 bits
-   SET = 0, FnV = 0
-   EA = 0, S1PTW = 0
- Data abort info:
-   ISV = 0, ISS = 0x00000006
-   CM = 0, WnR = 0
- user pgtable: 4k pages, 48-bit VAs, pgdp=00000007318be000
- [0000000000000028] pgd=00000007333a1003, pud=00000007333a6003, pmd=0000000000000000
- Internal error: Oops: 96000006 [#1] PREEMPT SMP
- Modules linked in:
- CPU: 1 PID: 486 Comm: sh Not tainted 5.7.0-rc6-arm64-renesas-00118-ge644645abf47 #185
- Hardware name: Renesas H3ULCB Kingfisher board based on r8a77951 (DT)
- pstate: 40000005 (nZcv daif -PAN -UAO)
- pc : vsp1_dlm_destroy+0xe4/0x11c
- lr : vsp1_dlm_destroy+0xc8/0x11c
- sp : ffff800012963b60
- x29: ffff800012963b60 x28: ffff0006f83fc440
- x27: 0000000000000000 x26: ffff0006f5e13e80
- x25: ffff0006f5e13ed0 x24: ffff0006f5e13ed0
- x23: ffff0006f5e13ed0 x22: dead000000000122
- x21: ffff0006f5e3a080 x20: ffff0006f5df2938
- x19: ffff0006f5df2980 x18: 0000000000000003
- x17: 0000000000000000 x16: 0000000000000016
- x15: 0000000000000003 x14: 00000000000393c0
- x13: ffff800011a5ec18 x12: ffff800011d8d000
- x11: ffff0006f83fcc68 x10: ffff800011a53d70
- x9 : ffff8000111f3000 x8 : 0000000000000000
- x7 : 0000000000210d00 x6 : 0000000000000000
- x5 : ffff800010872e60 x4 : 0000000000000004
- x3 : 0000000078068000 x2 : ffff800012781000
- x1 : 0000000000002c00 x0 : 0000000000000000
- Call trace:
-  vsp1_dlm_destroy+0xe4/0x11c
-  vsp1_wpf_destroy+0x10/0x20
-  vsp1_entity_destroy+0x24/0x4c
-  vsp1_destroy_entities+0x54/0x130
-  vsp1_remove+0x1c/0x40
-  platform_drv_remove+0x28/0x50
-  __device_release_driver+0x178/0x220
-  device_driver_detach+0x44/0xc0
-  unbind_store+0xe0/0x104
-  drv_attr_store+0x20/0x30
-  sysfs_kf_write+0x48/0x70
-  kernfs_fop_write+0x148/0x230
-  __vfs_write+0x18/0x40
-  vfs_write+0xdc/0x1c4
-  ksys_write+0x68/0xf0
-  __arm64_sys_write+0x18/0x20
-  el0_svc_common.constprop.0+0x70/0x170
-  do_el0_svc+0x20/0x80
-  el0_sync_handler+0x134/0x1b0
-  el0_sync+0x140/0x180
- Code: b40000c2 f9403a60 d2800084 a9400663 (f9401400)
- ---[ end trace 3875369841fb288a ]---
-
-Fixes: f3b98e3c4d2e16 ("media: vsp1: Provide support for extended command pools")
-Cc: stable@vger.kernel.org # v4.19+
-Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
----
-
-How about adding a new unit test perfoming unbind/rebind to
-http://git.ideasonboard.com/renesas/vsp-tests.git, to avoid
-such issues in future? 
-
-Locally, below command has been used to identify the problem:
-
-for f in $(find /sys/bus/platform/devices/ -name "*vsp*" -o -name "*fdp*"); do \
-     b=$(basename $f); \
-     echo $b > $f/driver/unbind; \
-done
-
----
- drivers/media/platform/vsp1/vsp1_dl.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/vsp1/vsp1_dl.c
-index d7b43037e500..e07b135613eb 100644
---- a/drivers/media/platform/vsp1/vsp1_dl.c
-+++ b/drivers/media/platform/vsp1/vsp1_dl.c
-@@ -431,6 +431,8 @@ vsp1_dl_cmd_pool_create(struct vsp1_device *vsp1, enum vsp1_extcmd_type type,
- 	if (!pool)
- 		return NULL;
- 
-+	pool->vsp1 = vsp1;
-+
- 	spin_lock_init(&pool->lock);
- 	INIT_LIST_HEAD(&pool->free);
- 
--- 
-2.26.2
+DQpIZWxsbywNCg0KVGhpcyBzZXJpZXMgYWRkcyBEVCBiaW5kaW5ncyBpbiBZQU1MIGFuZCBWNEwy
+IHN1Yi1kZXZpY2UgZHJpdmVyIGZvciBPbW5pdmlzaW9uJ3MNCk9WMDJBMTAgMiBtZWdhcGl4ZWwg
+Q01PUyAxLzUiIHNlbnNvciwgd2hpY2ggaGFzIGEgc2luZ2xlIE1JUEkgbGFuZSBpbnRlcmZhY2Uo
+SS9GKQ0KYW5kIG91dHB1dCBmb3JtYXQgb2YgMTAtYml0IFJBVy4NCg0KVGhlIGRyaXZlciBpcyBp
+bXBsZW1lbnRlZCB3aXRoIFY0TDIgRnJhbWV3b3JrLg0KIC0gQXN5bmMgcmVnaXN0ZXJlZCBhcyBv
+bmUgVjRMMiBzdWItZGV2aWNlLg0KIC0gQXMgdGhlIGZpcnN0IGNvbXBvbmVudCBvZiBjYW1lcmEg
+c3lzdGVtIGluY2x1ZGluZyBTZW5pbmYvSVNQIHByb2Nlc3NpbmcgcGlwZWxpbmUuDQogLSBBIG1l
+ZGlhIGVudGl0eSB0aGF0IHByb3ZpZGVzIG9uZSBzb3VyY2UgcGFkIGluIGNvbW1vbiBhbmQgdHdv
+IGZvciBkdWFsIGNhbWVyYS4NCiANClByZXZpb3VzIHZlcnNpb25zIG9mIHRoaXMgcGF0Y2gtc2V0
+IGNhbiBiZSBmb3VuZCBoZXJlOg0KIHY4OiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51eC1t
+ZWRpYS8yMDIwMDUwOTA4MDYyNy4yMzIyMi0xLWRvbmdjaHVuLnpodUBtZWRpYXRlay5jb20vDQog
+djc6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LW1lZGlhLzIwMjAwNDMwMDgwOTI0LjEx
+NDAtMS1kb25nY2h1bi56aHVAbWVkaWF0ZWsuY29tLw0KIHY2OiBodHRwczovL2xvcmUua2VybmVs
+Lm9yZy9saW51eC1tZWRpYS8yMDE5MTIxMTExMjg0OS4xNjcwNS0xLWRvbmdjaHVuLnpodUBtZWRp
+YXRlay5jb20vDQogdjU6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LW1lZGlhLzIwMTkx
+MTA0MTA1NzEzLjI0MzExLTEtZG9uZ2NodW4uemh1QG1lZGlhdGVrLmNvbS8NCiB2NDogaHR0cHM6
+Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtbWVkaWEvMjAxOTA5MDcwOTI3MjguMjM4OTctMS1kb25n
+Y2h1bi56aHVAbWVkaWF0ZWsuY29tLw0KIHYzOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9saW51
+eC1tZWRpYS8yMDE5MDgxOTAzNDMzMS4xMzA5OC0xLWRvbmdjaHVuLnpodUBtZWRpYXRlay5jb20v
+DQogdjI6IGh0dHBzOi8vbG9yZS5rZXJuZWwub3JnL2xpbnV4LW1lZGlhLzIwMTkwNzA0MDg0NjUx
+LjMxMDUtMS1kb25nY2h1bi56aHVAbWVkaWF0ZWsuY29tLw0KIHYxOiBodHRwczovL2xvcmUua2Vy
+bmVsLm9yZy9saW51eC1tZWRpYS8yMDE5MDUyMzEwMjIwNC4yNDExMi0xLWRvbmdjaHVuLnpodUBt
+ZWRpYXRlay5jb20vDQoNCkNoYW5nZXMgb2YgdjkgbWFpbmx5IGFkZHJlc3MgY29tbWVudHMgZnJv
+bSBSb2IsIFNha2FyaSwgVG9tYXN6LCBBbmR5Lg0KSW5jbHVkaW5nOg0KIC0gQWRkIG1vcmUgZGV0
+YWlsZWQgZGVzY3JpcHRpb25zIGZvciBwb3dlcmRvd24tZ3Bpb3MgYW5kIHJlc2V0LWdwaW9zIGlu
+IERUDQogLSBTZXQgZGVmYXVsdCB0byBwcm9wZXJ0aWVzOiAicm90YXRpb24iIGFuZCAib3Z0aSxt
+aXBpLXR4LXNwZWVkIg0KIC0gUmVtb3ZlIHJlc2VydmVkIHZhbHVlcyBvZiAib3Z0aSxtaXBpLXR4
+LXNwZWVkIg0KIC0gVXNlIEFSUkFZX1NJWkUoKSBkaXJlY3RseSB0byByZXBsYWNlIG9mIGRlZmlu
+aW5nIG1hY3JvIGZ1bmN0aW9uDQogLSBSZW1vdmUgX19tYXliZV91bnVzZWQgc3BlY2lmaWVyIGZv
+ciBvdjAyYTEwX3Bvd2VyX29uIGFuZCBvdjAyYTEwX3Bvd2VyX29mZg0KIC0gUmVmaW5lIGRyaXZl
+ciBieSByZW1vdmluZyB1bm5lY2Vzc2FyeSBsb2dzIGFuZCB1bnVzZWQgbWFjcm9zIG9yIGZpZWxk
+cy4NCiAtIFBvd2VyIG9mZiBzZW5zb3Igd2hlbiBhc3luYyByZWdpc3RlciBzdWJkZXYgZmFpbGVk
+IGFuZCAhcG1fcnVudGltZV9lbmFibGVkKCkNCiAtIEZpeCBvdGhlciByZXZpZXcgY29tbWVudHMg
+aW4gdjgNCg0KUGxlYXNlIHJldmlldy4NClRoYW5rcy4NCg0KRG9uZ2NodW4gWmh1ICgyKToNCiAg
+bWVkaWE6IGR0LWJpbmRpbmdzOiBtZWRpYTogaTJjOiBEb2N1bWVudCBPVjAyQTEwIGJpbmRpbmdz
+DQogIG1lZGlhOiBpMmM6IG92MDJhMTA6IEFkZCBPVjAyQTEwIGltYWdlIHNlbnNvciBkcml2ZXIN
+Cg0KIC4uLi9iaW5kaW5ncy9tZWRpYS9pMmMvb3Z0aSxvdjAyYTEwLnlhbWwgICAgICAgICAgIHwg
+IDE3MiArKysrDQogTUFJTlRBSU5FUlMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgfCAgICA4ICsNCiBkcml2ZXJzL21lZGlhL2kyYy9LY29uZmlnICAgICAgICAgICAgICAg
+ICAgICAgICAgICB8ICAgMTMgKw0KIGRyaXZlcnMvbWVkaWEvaTJjL01ha2VmaWxlICAgICAgICAg
+ICAgICAgICAgICAgICAgIHwgICAgMSArDQogZHJpdmVycy9tZWRpYS9pMmMvb3YwMmExMC5jICAg
+ICAgICAgICAgICAgICAgICAgICAgfCAxMDI1ICsrKysrKysrKysrKysrKysrKysrDQogNSBmaWxl
+cyBjaGFuZ2VkLCAxMjE5IGluc2VydGlvbnMoKykNCiBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL2kyYy9vdnRpLG92MDJhMTAueWFtbA0K
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL2kyYy9vdjAyYTEwLmMNCg0KLS0gDQoy
+LjkuMg0K
 
