@@ -2,77 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77A241DF6FC
-	for <lists+linux-media@lfdr.de>; Sat, 23 May 2020 13:54:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C66B31DF7BD
+	for <lists+linux-media@lfdr.de>; Sat, 23 May 2020 16:04:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387753AbgEWLyi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 May 2020 07:54:38 -0400
-Received: from mail.zju.edu.cn ([61.164.42.155]:21770 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728749AbgEWLyi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 May 2020 07:54:38 -0400
-Received: from localhost.localdomain (unknown [222.205.77.158])
-        by mail-app3 (Coremail) with SMTP id cC_KCgC3TkHyDslepNH5AA--.6321S4;
-        Sat, 23 May 2020 19:54:30 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: vsp1: Fix runtime PM imbalance in vsp1_probe
-Date:   Sat, 23 May 2020 19:54:26 +0800
-Message-Id: <20200523115426.19285-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cC_KCgC3TkHyDslepNH5AA--.6321S4
-X-Coremail-Antispam: 1UD129KBjvdXoWrKrW7ZFW3Gr18JF1xWF4UArb_yoWftFX_Wr
-        s8ZF47Wr4rGr1vqr1UKFy3ZrySqFZ8Wr18C3Z3tF1ay3yUu3WvqryUZr98uw47Z3yUZFy8
-        JFZ3WFy7Cr9a9jkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbIkFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
-        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
-        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK6I8E
-        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
-        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_JrI_
-        JrylYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
-        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r4kMxAIw28IcxkI7VAKI48J
-        MxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
-        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
-        GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-        CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6rWUJVWrZr1UMIIF0xvEx4A2jsIE
-        14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
-        9x0JUHv38UUUUU=
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgoJBlZdtORR7AACsj
+        id S2387815AbgEWODB convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 23 May 2020 10:03:01 -0400
+Received: from mx001.dclux.xion.oxcs.net ([185.27.181.16]:52997 "EHLO
+        mx001.dclux.xion.oxcs.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387529AbgEWODA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 23 May 2020 10:03:00 -0400
+X-Greylist: delayed 581 seconds by postgrey-1.27 at vger.kernel.org; Sat, 23 May 2020 10:02:58 EDT
+Received: from mail.frimfram.ch (unknown [84.254.109.191])
+        by mta-1-out.mta.xion.oxcs.net (Postfix) with ESMTPA id 1A99859A35B
+        for <linux-media@vger.kernel.org>; Sat, 23 May 2020 13:53:15 +0000 (UTC)
+Received: from nuc2 (localhost [IPv6:::1])
+        by mail.frimfram.ch (Postfix) with ESMTP id 76E0B2E0489
+        for <linux-media@vger.kernel.org>; Sat, 23 May 2020 15:53:14 +0200 (CEST)
+Received: by nuc2 (kopano-spooler) with MAPI; Sat, 23 May 2020 15:53:14 +0200
+Subject: em28xx (card=68), tvp5150: S-Video not working
+From:   =?utf-8?Q?Thomas_G=2E_Schiele?= <schiele@frimfram.ch>
+To:     =?utf-8?Q?linux-media=40vger=2Ekernel=2Eorg?= 
+        <linux-media@vger.kernel.org>
+Date:   Sat, 23 May 2020 13:53:14 +0000
+Mime-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+X-Priority: 3 (Normal)
+X-Mailer: Kopano 8.7.80
+Message-Id: <kcis.0622EB4351AB40399987737B98D00397@nuc2>
+X-VADE-STATUS: LEGIT
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-pm_runtime_get_sync() increments the runtime PM usage counter even
-when it returns an error code. Thus a pairing decrement is needed on
-the error handling path to keep the counter balanced.
+To whom it may concern
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+
+I am a first time poster to linux-media. I have read about mailing to this list in the wiki of linuxtv.org. Please excuse me if this post is inappropriate.
+
+This is about the USB device that I recently bought new:
+  - Model: TerraTec Grabster AV 350 MX
+  - Vendor Id/Product Id: 0ccd:0084
+  
+Tests made:
+  - Composite: working (using the composite connector on the device)
+  - S-Video: not working (using the S-Video connector on the device)
+  - Audio: working (using the two audio connectors on the device)
+
+I am using Linux 5.4.0-31-generic #35-Ubuntu SMP. The program qv4l2 (Qt V4L2 Test Bench) can capture a composite source with Input=Composite (under "Input Settings" in tab "General Settings"), but it can not capture a source with Input=S-Video. I made sure that both the composite and S-Video sources and the device are working using a different operating system and different software.
+
+I opened the device and found the following major components on the PCB (labeled "AV350 V04"):
+  - eMPIA EM2860 (USB Video Capture Device)
+  - 24C02 (256 X 8 BIT EEPROM)
+  - TI TVP5150 (Ultralow-Power NTSC/PAL Video Decoder)
+  - eMPIA EMP202 (Single-Chip Dual-Channel AC’97 Audio Codec)
+  - 2 times HC4052 (Dual 4-Channel Analog Multiplexer)
+  - SKC 14.318
+  - SKC 12.000
+
+Below you can find output from dmesg.
+
+I don't know the cause of the above descibed behaviour. Is S-Video functionality not yet implemented or tested? Do I do something wrong? The device has quality chips in comparison to cheaper solutions. So it makes sense to support such a device.
+
+I would like to help, specially with testing. Please advice. 
+
+Thank you.
+
+
+Regards,
+Thomas
+
+
 ---
- drivers/media/platform/vsp1/vsp1_drv.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-index c650e45bb0ad..017a54f2fdd8 100644
---- a/drivers/media/platform/vsp1/vsp1_drv.c
-+++ b/drivers/media/platform/vsp1/vsp1_drv.c
-@@ -846,8 +846,10 @@ static int vsp1_probe(struct platform_device *pdev)
- 	pm_runtime_enable(&pdev->dev);
- 
- 	ret = pm_runtime_get_sync(&pdev->dev);
--	if (ret < 0)
-+	if (ret < 0) {
-+		pm_runtime_put_sync(&pdev->dev);
- 		goto done;
-+	}
- 
- 	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
- 	pm_runtime_put_sync(&pdev->dev);
--- 
-2.17.1
+output from dmesg:
+[150869.973867] usb 1-2: new high-speed USB device number 15 using xhci_hcd
+[150869.994295] usb 1-2: config 1 interface 0 altsetting 1 endpoint 0x82 has invalid wMaxPacketSize 0
+[150869.994298] usb 1-2: config 1 interface 0 altsetting 1 endpoint 0x84 has invalid wMaxPacketSize 0
+[150869.994301] usb 1-2: config 1 interface 0 altsetting 2 endpoint 0x84 has invalid wMaxPacketSize 0
+[150869.994303] usb 1-2: config 1 interface 0 altsetting 3 endpoint 0x84 has invalid wMaxPacketSize 0
+[150869.994305] usb 1-2: config 1 interface 0 altsetting 4 endpoint 0x84 has invalid wMaxPacketSize 0
+[150869.994307] usb 1-2: config 1 interface 0 altsetting 5 endpoint 0x84 has invalid wMaxPacketSize 0
+[150869.994309] usb 1-2: config 1 interface 0 altsetting 6 endpoint 0x84 has invalid wMaxPacketSize 0
+[150869.994311] usb 1-2: config 1 interface 0 altsetting 7 endpoint 0x84 has invalid wMaxPacketSize 0
+[150869.997314] usb 1-2: New USB device found, idVendor=0ccd, idProduct=0084, bcdDevice= 1.00
+[150869.997317] usb 1-2: New USB device strings: Mfr=0, Product=1, SerialNumber=0
+[150869.997319] usb 1-2: Product: Grabster AV 350
+[150869.999059] em28xx 1-2:1.0: New device  Grabster AV 350 @ 480 Mbps (0ccd:0084, interface 0, class 0)
+[150869.999061] em28xx 1-2:1.0: Video interface 0 found: isoc
+[150870.058119] em28xx 1-2:1.0: chip ID is em2860
+[150870.267223] em28xx 1-2:1.0: EEPROM ID = 1a eb 67 95, EEPROM hash = 0x618085a2
+[150870.267227] em28xx 1-2:1.0: EEPROM info:
+[150870.267230] em28xx 1-2:1.0: AC97 audio (5 sample rates)
+[150870.267232] em28xx 1-2:1.0: 500mA max power
+[150870.267236] em28xx 1-2:1.0: Table at offset 0x04, strings=0x226a, 0x0000, 0x0000
+[150870.358004] em28xx 1-2:1.0: Identified as Terratec AV350 (card=68)
+[150870.358010] em28xx 1-2:1.0: analog set to isoc mode.
+[150870.358077] em28xx 1-2:1.0: Registering V4L2 extension
+[150870.358486] em28xx 1-2:1.1: audio device (0ccd:0084): interface 1, class 1
+[150870.430298] tvp5150 7-005c: tvp5150 (4.0) chip found @ 0xb8 (1-2:1.0)
+[150870.430300] tvp5150 7-005c: tvp5150am1 detected.
+[150873.238176] em28xx 1-2:1.0: Config register raw data: 0x50
+[150873.273859] em28xx 1-2:1.0: AC97 vendor ID = 0xffffffff
+[150873.289840] em28xx 1-2:1.0: AC97 features = 0x6a90
+[150873.289844] em28xx 1-2:1.0: Empia 202 AC97 audio processor detected
 
