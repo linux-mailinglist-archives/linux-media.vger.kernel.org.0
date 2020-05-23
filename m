@@ -2,261 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5E851DF5DF
-	for <lists+linux-media@lfdr.de>; Sat, 23 May 2020 10:00:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05F161DF5FC
+	for <lists+linux-media@lfdr.de>; Sat, 23 May 2020 10:14:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387768AbgEWIAG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 23 May 2020 04:00:06 -0400
-Received: from mail.kernel.org ([198.145.29.99]:47766 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387500AbgEWIAG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 23 May 2020 04:00:06 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S2387685AbgEWIOE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 23 May 2020 04:14:04 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:46584 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387471AbgEWIOD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 23 May 2020 04:14:03 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id A3B733C04C1;
+        Sat, 23 May 2020 10:13:59 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id FXhyqC6y9xiR; Sat, 23 May 2020 10:13:53 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B5BD8206C3;
-        Sat, 23 May 2020 08:00:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590220805;
-        bh=d7Ao16My27MuxcUf1nkxMrVZxdYt0Bn6+tSUhQxGogE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=nOKDIJvmVOobNp+HlP4xRf4bCjWxNaUNBngJK2FNx2l68t6mFTo2/t1cuMt6isbU7
-         /f+MVys8xUHtje2aRZ4uD1s5FiM1PwhBaMlbMxxzFVJnsSsXexdW8wy7htMCjw1+l1
-         Ne366bM919dAujkTsrmx/v/rvJW1oCvtU+uAYtIM=
-Date:   Sat, 23 May 2020 10:00:00 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     Patrik Gfeller <patrik.gfeller@gmail.com>,
-        Francescodario Cuzzocrea 
-        <francescodario.cuzzocrea@mail.polimi.it>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [GIT PULL] Ressurect the atomisp staging driver
-Message-ID: <20200523100000.1131bd29@coco.lan>
-In-Reply-To: <20200522134203.0fe139d6@coco.lan>
-References: <20200501215741.3be05695@coco.lan>
-        <3f551a8f87808ee7828dc03d41c7a23faac89f3c.camel@mail.polimi.it>
-        <20200503173213.78ae6aaa@coco.lan>
-        <CADnVkj96W0QfthukTKQ0a-i2fH1buooH3BEgfy22J9H9=_PcKA@mail.gmail.com>
-        <20200503180751.0b1e29c4@ASUS>
-        <20200504101628.0f632bf2@ASUS>
-        <20200504104934.7873cee3@coco.lan>
-        <20200504124539.77eac397@ASUS>
-        <20200504140833.11dd5622@coco.lan>
-        <20200504154420.5dcf505f@ASUS>
-        <20200515103232.47b2a35e@coco.lan>
-        <be0935ce-4d88-e7de-5013-6651b8c4edac@redhat.com>
-        <20200515114245.266a6fc8@coco.lan>
-        <20200519093920.7bb22161@coco.lan>
-        <20200519193635.14e806b6@coco.lan>
-        <4dd760d6-6445-f3b5-cb14-1705e05820bc@redhat.com>
-        <20200522134203.0fe139d6@coco.lan>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id A96693C001F;
+        Sat, 23 May 2020 10:13:53 +0200 (CEST)
+Received: from lxhi-065.adit-jv.com (10.72.94.4) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Sat, 23 May
+ 2020 10:13:53 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>,
+        Eugeniu Rosca <erosca@de.adit-jv.com>, <stable@vger.kernel.org>
+Subject: [PATCH] media: vsp1: dl: Fix NULL pointer dereference on unbind
+Date:   Sat, 23 May 2020 10:13:34 +0200
+Message-ID: <20200523081334.23531-1-erosca@de.adit-jv.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.72.94.4]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 22 May 2020 13:42:03 +0200
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+v4.19 commit f3b98e3c4d2e16 ("media: vsp1: Provide support for extended
+command pools") introduced below issue [*], consistently reproduced.
 
-> Em Fri, 22 May 2020 12:46:07 +0200
-> Hans de Goede <hdegoede@redhat.com> escreveu:
->=20
-> > Hi,
-> >=20
-> > On 5/19/20 7:36 PM, Mauro Carvalho Chehab wrote:
-> >=20
-> > <snip>
-> >  =20
-> > > I did a lot of progress today. After identified the above bug, which
-> > > was turning down the ISP device, causing the firmware load to fail
-> > > (as the turn on code is not OK), I solved several other issues there.
-> > >=20
-> > > The current status is that:
-> > >=20
-> > > - the ISP firmware is properly loading;
-> > > - it can properly communicate with the camera sensor;
-> > > - Userspace can read video controls (tested with v4l2-ctl and qv4l2);
-> > > - set a video format is now working;
-> > > - buffers are being queued, and per-frame IRQs are arriving.
-> > >=20
-> > > I did a really quick test today of trying to get a video from it,
-> > > using a simple tool I developed for such kind of tests (v4l2grab
-> > > from v4l-utils package, changed to work with the only format that
-> > > my camera sensor supports). This tool needs uses a bare minimum
-> > > set of ioctls, with would avoid hitting a bug somewhere else.
-> > >=20
-> > > Running it makes the device to start receiving frames from the
-> > > hardware. Yet, there's something wrong at the part with stores
-> > > the data into the video frame buffers. This driver has a weird
-> > > mm/DMA code, based on a fork of get_user_pages() taken probably
-> > > during Kernel 3.10 old days.
-> > >=20
-> > > Addressing it has a high chance of grabbing some image from it.
-> > >=20
-> > > Ok, driver is at staging quality: there are lots of crap there that
-> > > will require changes, but it seems we're getting there.   =20
-> >=20
-> > This is very good news. Hopefully you will get an actual image
-> > out of these soon. That would be awesome.
-> >=20
-> > I happened to notice an advert for a second-hand Asus T101HA
-> > locally, for not too much money. So now I'm the happy owner of
-> > an Asus T101HA myself. =20
->=20
-> Great!
->=20
-> > So once you have something working I can
-> > try to reproduce your work on identical hardware then as time
-> > permits help with cleaning things up.   Although I might focus
-> > at first on trying to get your work to run on more Cherry Trail
-> > based models, to find out what bits we need to make configurable
-> > and if we can get the info from ACPI or if we need to have a
-> > DMI based table with model specific info. =20
->=20
-> The main ACPI related code is at this file:
->=20
-> 	drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
->=20
-> Originally, this was a platform driver. Now, it is just an ancillary
-> driver.
->=20
-> Inside the sensor drivers, there's just the ACPI tables, in order
-> for them to be probed.
->=20
-> I updated the driver's TODO list, but there are probably more to be
-> said than what's there.
->=20
-> Let me list the things I remember that should be done:
->=20
-> 1) The atomisp doesn't rely at the usual i2c stuff to discover the
-> sensors. Instead, it calls a function from atomisp_gmin_platform.c.
-> There are some hacks I added there for it to wait for sensors to be
-> probed (with a timeout of 2 seconds or so). This should be converted=20
-> to the usual way, using V4L2 async subdev framework to wait for cameras=20
-> to be probed;
->=20
-> 2) The Asus T101HA support (and other board-specific data) uses the a
-> DMI match table to retrieve sensor's data, using hard-coded values.=20
-> I did some research last week: it sounds possible to retrieve those
-> data directly from ACPI via this _DSM table, associated with CAM1
-> sensor (UUID: dc2f6c4f-045b-4f1d-97b9-882a6860a4be):
->=20
->             Name (C1CD, Buffer (0x0220){})
->             Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Met=
-hod
->             {
->                 If ((Arg0 =3D=3D ToUUID ("dc2f6c4f-045b-4f1d-97b9-882a686=
-0a4be")))
->                 {
->                     Local0 =3D Package (0x12)
->                         {
->                             "CamId",=20
->                             "ov2680",=20
->                             "CamType",=20
->                             "1",=20
->                             "CsiPort",=20
->                             "0",=20
->                             "CsiLanes",=20
->                             "1",=20
->                             "CsiFmt",=20
->                             "15",=20
->                             "CsiBayer",=20
->                             "0",=20
->                             "CamClk",=20
->                             "1",=20
->                             "Regulator1p8v",=20
->                             "0",=20
->                             "Regulator2p8v",=20
->                             "0"
->                         }
->                     Return (Local0)
->                 }
->=20
-> The code there at atomisp_gmin_platform has an EFI parser, but it assumes
-> that the information would be stored on a different way.
->=20
-> Kernel has support for reading data from _DSM, via acpi_evaluate_dsm().
->=20
-> I suspect that it should be doable to use such infra and remove the
-> TA101HA DMI match. This will likely allow covering more devices that
-> could also be using the same EFI UUID.
->=20
-> 3) Switch the driver to use pm_runtime stuff. Right now, it probes the
-> existing PMIC code and sensors call it directly.
->=20
-> 4) There's a problem at the sensor drivers (I hacked the ov2880
-> to avoid that): when trying to set a video format, atomisp calls=20
-> the sensor drivers with the sensor turned off. This causes them
-> to fail.
->=20
-> I guess the right fix would be to power on the sensor when a video
-> device is opened (or at the first VIDIOC_ ioctl - except for
-> VIDIOC_QUERYCAP), powering it down at close() syscall.
->=20
-> 5) There are several issues related to memory management, causing
-> crashes. This is probably something that we need to fix asap.
->=20
-> The atomisp splits the memory management on three separate regions:
->=20
-> 	- dynamic pool;
-> 	- reserved pool;
-> 	- generic pool
->=20
-> The code implementing it is at:
->=20
-> 	drivers/staging/media/atomisp/pci/hmm/
->=20
-> It also has a separate code for managing DMA buffers at:
-> =09
-> 	drivers/staging/media/atomisp/pci/mmu/
->=20
-> The code there is really dirty, ugly and probably wrong. I fixed
-> one bug there already, but the best would be to just trash it and use
-> something else. Maybe the code from the newer intel driver could
-> serve as a model:
->=20
-> 	drivers/staging/media/ipu3/ipu3-mmu.c
->=20
-> But converting it to use something like that is painful and may
-> cause some breakages.
->=20
-> 6) there is some issue at the frame receive logic. This is currently
-> my main focus.
->=20
-> Btw, this is the branch I'm using on my tests:
->=20
-> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=3Datomisp_v3
->=20
-> It has basically the stuff from linux-media, plus the ACPI patch
-> that enables the OpRegion:
->=20
-> 	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=3Datomisp_v3&=
-id=3Dd8613fcbb3c9cb21b6818b0245e320054ecb5deb
+In order to fix it, inspire from the sibling/predecessor v4.18-rc1
+commit 5de0473982aab2 ("media: vsp1: Provide a body pool"), which saves
+the vsp1 instance address in vsp1_dl_body_pool_create().
 
-Btw, this can also be useful:
+[*] h3ulcb-kf #>
+echo fea28000.vsp > /sys/bus/platform/devices/fea28000.vsp/driver/unbind
+ Unable to handle kernel NULL pointer dereference at virtual address 0000000000000028
+ Mem abort info:
+   ESR = 0x96000006
+   EC = 0x25: DABT (current EL), IL = 32 bits
+   SET = 0, FnV = 0
+   EA = 0, S1PTW = 0
+ Data abort info:
+   ISV = 0, ISS = 0x00000006
+   CM = 0, WnR = 0
+ user pgtable: 4k pages, 48-bit VAs, pgdp=00000007318be000
+ [0000000000000028] pgd=00000007333a1003, pud=00000007333a6003, pmd=0000000000000000
+ Internal error: Oops: 96000006 [#1] PREEMPT SMP
+ Modules linked in:
+ CPU: 1 PID: 486 Comm: sh Not tainted 5.7.0-rc6-arm64-renesas-00118-ge644645abf47 #185
+ Hardware name: Renesas H3ULCB Kingfisher board based on r8a77951 (DT)
+ pstate: 40000005 (nZcv daif -PAN -UAO)
+ pc : vsp1_dlm_destroy+0xe4/0x11c
+ lr : vsp1_dlm_destroy+0xc8/0x11c
+ sp : ffff800012963b60
+ x29: ffff800012963b60 x28: ffff0006f83fc440
+ x27: 0000000000000000 x26: ffff0006f5e13e80
+ x25: ffff0006f5e13ed0 x24: ffff0006f5e13ed0
+ x23: ffff0006f5e13ed0 x22: dead000000000122
+ x21: ffff0006f5e3a080 x20: ffff0006f5df2938
+ x19: ffff0006f5df2980 x18: 0000000000000003
+ x17: 0000000000000000 x16: 0000000000000016
+ x15: 0000000000000003 x14: 00000000000393c0
+ x13: ffff800011a5ec18 x12: ffff800011d8d000
+ x11: ffff0006f83fcc68 x10: ffff800011a53d70
+ x9 : ffff8000111f3000 x8 : 0000000000000000
+ x7 : 0000000000210d00 x6 : 0000000000000000
+ x5 : ffff800010872e60 x4 : 0000000000000004
+ x3 : 0000000078068000 x2 : ffff800012781000
+ x1 : 0000000000002c00 x0 : 0000000000000000
+ Call trace:
+  vsp1_dlm_destroy+0xe4/0x11c
+  vsp1_wpf_destroy+0x10/0x20
+  vsp1_entity_destroy+0x24/0x4c
+  vsp1_destroy_entities+0x54/0x130
+  vsp1_remove+0x1c/0x40
+  platform_drv_remove+0x28/0x50
+  __device_release_driver+0x178/0x220
+  device_driver_detach+0x44/0xc0
+  unbind_store+0xe0/0x104
+  drv_attr_store+0x20/0x30
+  sysfs_kf_write+0x48/0x70
+  kernfs_fop_write+0x148/0x230
+  __vfs_write+0x18/0x40
+  vfs_write+0xdc/0x1c4
+  ksys_write+0x68/0xf0
+  __arm64_sys_write+0x18/0x20
+  el0_svc_common.constprop.0+0x70/0x170
+  do_el0_svc+0x20/0x80
+  el0_sync_handler+0x134/0x1b0
+  el0_sync+0x140/0x180
+ Code: b40000c2 f9403a60 d2800084 a9400663 (f9401400)
+ ---[ end trace 3875369841fb288a ]---
 
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=3Dyocto_intel_aero=
-_ported_v2
+Fixes: f3b98e3c4d2e16 ("media: vsp1: Provide support for extended command pools")
+Cc: stable@vger.kernel.org # v4.19+
+Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+---
 
-This is basically the Yocto Aero patchset from:
+How about adding a new unit test perfoming unbind/rebind to
+http://git.ideasonboard.com/renesas/vsp-tests.git, to avoid
+such issues in future? 
 
-	https://github.com/intel-aero/meta-intel-aero-base
+Locally, below command has been used to identify the problem:
 
-applied on the top of Kernel 4.4.76 and then ported to=20
-Kernel 5.7-rc2, making it run there.
+for f in $(find /sys/bus/platform/devices/ -name "*vsp*" -o -name "*fdp*"); do \
+     b=$(basename $f); \
+     echo $b > $f/driver/unbind; \
+done
 
-On such version, I tried to preserve the patch history as much
-as possible and minimize the changes, while not touching at the media
-framework. This version contains 3 new I2C sensor drivers.
+---
+ drivers/media/platform/vsp1/vsp1_dl.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-=46rom the new sensors, I ported only the ov8858 code to be built
-on the top of v5.7-rc2, but aiming another device I have here,
-using ipu3. So, it got removed from all atomisp-dependent code.
+diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/vsp1/vsp1_dl.c
+index d7b43037e500..e07b135613eb 100644
+--- a/drivers/media/platform/vsp1/vsp1_dl.c
++++ b/drivers/media/platform/vsp1/vsp1_dl.c
+@@ -431,6 +431,8 @@ vsp1_dl_cmd_pool_create(struct vsp1_device *vsp1, enum vsp1_extcmd_type type,
+ 	if (!pool)
+ 		return NULL;
+ 
++	pool->vsp1 = vsp1;
++
+ 	spin_lock_init(&pool->lock);
+ 	INIT_LIST_HEAD(&pool->free);
+ 
+-- 
+2.26.2
 
-Thanks,
-Mauro
