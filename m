@@ -2,62 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4FE8B1E0181
-	for <lists+linux-media@lfdr.de>; Sun, 24 May 2020 20:39:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC5731E01A1
+	for <lists+linux-media@lfdr.de>; Sun, 24 May 2020 21:04:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387951AbgEXSjo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 May 2020 14:39:44 -0400
-Received: from mxs.msl.ua ([185.128.235.3]:48130 "EHLO mxs.msl.ua"
+        id S2388091AbgEXTD3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 24 May 2020 15:03:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44302 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387656AbgEXSjn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 May 2020 14:39:43 -0400
-X-Greylist: delayed 2396 seconds by postgrey-1.27 at vger.kernel.org; Sun, 24 May 2020 14:39:42 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by mxs.msl.ua (Postfix) with ESMTP id 03E935D4FFA;
-        Sun, 24 May 2020 20:57:07 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=msl.ua; h=
-        message-id:reply-to:date:from:to:subject:content-description
-        :content-transfer-encoding:mime-version:content-type; s=dkim; t=
-        1590343026; bh=lVmqvJvUiFqa6qLeWANj8Je/lK5X7z4VhB1Yqprfafo=; b=p
-        8uQAJdKWw2uBw4vTpynzybgOvZXSY0hf28t2j3KipWMmQJYRykWXV/tZ/NumbQdC
-        LqgZDAzuT1GCcs+QTz6VMcFdnvGx6W62tp3vGadeinJhgNDfUf1CyPS+AENO52sV
-        FmsryU/E452JBHgJlyX+9p76xVN1FFUxZ5oswxK9VQ=
-X-Virus-Scanned: amavisd-new at msl.ua
-Content-Type: text/plain; charset="utf-8"
+        id S2388085AbgEXTD3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 24 May 2020 15:03:29 -0400
+Received: from [192.168.0.50] (89-70-52-201.dynamic.chello.pl [89.70.52.201])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7BF6E2076C;
+        Sun, 24 May 2020 19:03:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590347008;
+        bh=Mq59j8ehq3CwHIvV0e9bLb39zHdc2gtg/vFQ35A74Xc=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=TuUTZ9suN+FFAN3w+WA2Bkdzw0y7tuhWEIUHtcnflF7x0lao+v5s+KRhz07qfY6F9
+         hRcbcOS/amhv1LcGlUX1ABdQHcG1aZH5PTuV4uVNvAA+j3dqhj4EJ0O65upC8TjvAM
+         Mb+47d7mJ1+nVlnjEwNJGay6wrujIW/9m1Ah+q34=
+Subject: Re: [PATCH V2] media: s3c-camif: fix missing disable in
+ tegra_adma_probe().
+To:     wu000273@umn.edu
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kjlu@umn.edu
+References: <20200524034616.31625-1-wu000273@umn.edu>
+From:   Sylwester Nawrocki <snawrocki@kernel.org>
+Message-ID: <9b1cdd76-1fbf-c66b-a8e1-929ce2aba791@kernel.org>
+Date:   Sun, 24 May 2020 21:03:23 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: =?utf-8?q?GL=C3=9CCKWUNSCH=2C_3_MILLIONEN_EURO_F=C3=9CR_SIE_UND_IHRE_GEME?=
- =?utf-8?q?INDE_AUS_MEINEN_LOTTERIEGEWINNEN=2E_=23Helfen_Sie_den_Bed=C3=BC?=
- =?utf-8?q?rftigen!!!?=
-To:     Recipients <o.sapelkin@msl.ua>
-From:   "MANUEL FRANCO" <o.sapelkin@msl.ua>
-Date:   Sun, 24 May 2020 19:56:40 +0200
-Reply-To: s.manuelfranco95@gmail.com
-X-Antivirus: Avast (VPS 200524-0, 05/24/2020), Outbound message
-X-Antivirus-Status: Clean
-Message-Id: <20200524175657.4FD5D6E2B74D4@zimbra.msl.intranet>
+In-Reply-To: <20200524034616.31625-1-wu000273@umn.edu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Ich bin Manuel Franco. Ich bin der Gewinner des 776-millionsten Lotterie-Ja=
-ckpots. Ich beschloss, 5 zuf=C3=A4llig ausgew=C3=A4hlte Personen auszuw=C3=
-=A4hlen, die im Rahmen meines Wohlt=C3=A4tigkeitsprojekts und um den Mensch=
-en Gutes zu tun, jeweils 3.000.000,00 =E2=82=AC erhalten werden. Sie wurden=
- ausgew=C3=A4hlt, jeweils 3.000.000,00 =E2=82=AC aus meinem Wohlt=C3=A4tigk=
-eitsfonds =C3=BCber die Suchmaschine Google zu erhalten. Visit these pages =
-below for an interview about my lottery win: https://www.youtube.com/watch?=
-v=3DMMC3DHoGhP8.
+Hi,
 
-Kontaktieren Sie mich, um die Gelder f=C3=BCr Polen zu sammeln.
+On 5/24/20 05:46, wu000273@umn.edu wrote:
+> From: Qiushi Wu <wu000273@umn.edu>
+> 
+> "pm_runtime_enable()" was not handled by "pm_runtime_disable()"
+> after a call of the function “pm_runtime_get_sync()” failed.
+> Thus move the jump target “err_pm” before calling function
+> "calling pm_runtime_disable()".
+> 
+> Fixes: babde1c243b2 ("[media] V4L: Add driver for S3C24XX/S3C64XX SoC series camera interface")
+> Signed-off-by: Qiushi Wu <wu000273@umn.edu>
+> ---
+> 
+> V2: improving commit messages.
 
-Seien Sie sicher und geborgen,
-MANUEL FRANCO
-+ 1 754-231-3468 (nur Whatsapp)
+Thanks for the patch. It seems you have got typo in the subject line.
+With tegra_adma_probe changed to s3c_camif_probe feel free to add:
 
--- 
-This email has been checked for viruses by Avast antivirus software.
-https://www.avast.com/antivirus
-
+Reviewed-by: Sylwester Nawrocki <s.nawrocki@samsung.com>
