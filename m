@@ -2,135 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0151B1E1179
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2020 17:16:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62E4C1E11BF
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2020 17:31:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391082AbgEYPPp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 May 2020 11:15:45 -0400
-Received: from mout.web.de ([212.227.15.3]:40297 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391078AbgEYPPp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 May 2020 11:15:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1590419719;
-        bh=G5ZC3hkiNNLw8VXok8dxp9CrF/rmQS0pYa2GIW0XHA4=;
-        h=X-UI-Sender-Class:To:Cc:Subject:From:Date;
-        b=HOrHzc547fsb2vvr8FqdPFbSW/3M/2qQXSazoDA+lLhLkEv7cG2D5jVoaFfDUI0Uk
-         jz/wFYa0Ut1ViWxrvs2Xj0AfAtlkvfV5eloAR0hU0fO7b2JkWQ6pH8Q9QbfagXYeZ7
-         KjgXdtHGWhq70RA68H1KfOA0Vh96hfvgz/hfyCLU=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.135.186.124]) by smtp.web.de (mrweb003
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0MPpD8-1jh6hw3hMg-0052ic; Mon, 25
- May 2020 17:15:19 +0200
-To:     Dinghao Liu <dinghao.liu@zju.edu.cn>, linux-media@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org, Kangjie Lu <kjlu@umn.edu>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Subject: Re: [PATCH v2] media: coda: Fix runtime PM imbalance in coda_probe()
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <783be816-9e46-057c-47e6-ccc26abfe1a8@web.de>
-Date:   Mon, 25 May 2020 17:15:08 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S2404040AbgEYPbL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 May 2020 11:31:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56140 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403996AbgEYPbL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 25 May 2020 11:31:11 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAA50C05BD43
+        for <linux-media@vger.kernel.org>; Mon, 25 May 2020 08:31:10 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id c3so14018197otr.12
+        for <linux-media@vger.kernel.org>; Mon, 25 May 2020 08:31:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=bAUJzoc7IqUjSn+yo0peq2R8rxLuXszL8v1+SHoHNg4=;
+        b=Tr5Is/tFfhBcNvoJFDbRu5Ln8A76+CnG+YDW2gJrWDvyNGkCXJ7tLlLksMoNneiC/G
+         JQcpPGhoKYZL1sU8qtPMsxurg5u2WpN3lkX8GcIcMGy67IE5X9Z/KXbl7mWg/wzgEVa5
+         0YNI55NOQ1RqN/Ren3NRDgb8W+ScMuN+eyqoU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=bAUJzoc7IqUjSn+yo0peq2R8rxLuXszL8v1+SHoHNg4=;
+        b=sA519+SmiGAGAFss4ItcjuKjRKNIqU52ODUIIidP/QQWFff8Q+qIintVgpA2rWKhBT
+         k7U/ck+Yfk8PUJ97a9LgYLMAqhheQ8c9qowPhWG68DvsWmcmuFTniznUX9BFvYyi5z24
+         bdEZRD4TNXVyjmt9xV8xfPZk6Me01Vz/d3pD8UcZEzg6RBqyR5UIwmHAEYtKZGgGOlLJ
+         vtqrFk9k+0Np2NhL0EHi0a1Dmb5qGlsuU4iVd1e5rSXeDHVLlyHu8kv0EsiH1c2p9xYk
+         D/NTBJsAfdRDM400E7R3hIWoyRFGeCmLWXxR/HY5i0Fwdi3A1mGlu0uKoJYzvnvWkxGe
+         nD2A==
+X-Gm-Message-State: AOAM531FmBnv7EgEq7iK9SB+lkeHHPUNGkNMKu1g4M9qkaCWS11xgDIC
+        bV7jBp7IlfkqNszdADzusJwT4ZUtR6lzb8t39ppNvA==
+X-Google-Smtp-Source: ABdhPJzkcrR3yAMwEAELXE9cys4iQedV/n7q7FwrzlUwqN0x19DN2aghlSLeBpaRXuxxoHbrXZYQHIFlGr+0T8f9mVM=
+X-Received: by 2002:a9d:768a:: with SMTP id j10mr5068453otl.188.1590420670094;
+ Mon, 25 May 2020 08:31:10 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+References: <20200512085944.222637-1-daniel.vetter@ffwll.ch> <20200512085944.222637-9-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200512085944.222637-9-daniel.vetter@ffwll.ch>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Mon, 25 May 2020 17:30:59 +0200
+Message-ID: <CAKMK7uHXjFcVZuV-gF-mGYZVG8CbosoxWKN5MKV+rBXwEr3JZw@mail.gmail.com>
+Subject: Re: [RFC 08/17] drm/scheduler: use dma-fence annotations in main thread
+To:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Qiang Yu <yuq825@gmail.com>, Rob Herring <robh@kernel.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Steven Price <Steven.Price@arm.com>,
+        Alyssa Rosenzweig <alyssa@rosenzweig.io>,
+        "Anholt, Eric" <eric@anholt.net>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:zsQZJ5ssGoBfiMMZSCDKzioMzQ8k9YCM+wz0RmYbQ5U5bw0BbUk
- vhtOYyheQKKUxJKfMB5siZmCpifiwQ0fLGHOXGDVuIkUfT2QxlwlyKJduu2sxb0t0ztBdbR
- C9TM201czh9lXNMB8M1b75VoYT0fdpyeFR56PrNmwtEGp4CL3tcbUis8YFXY24EbAWfjHq9
- RZTEZJcEiu2f4NEQGZpUw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:wOa/2wGkpk4=:hnxn41nOUEdGWV1nsM22L3
- zv0ColYGWRfsjK6AYI6lnxnmPe6AajgI6PE2H0Jdt1AbKGCEGd3BeuNC708AlmeYJhhMWoK3m
- iGn+gdSJGraw/psFdsBtX4heNiVpWAyUeLbuvoSO68yub4XXHLkGPI4IcSkA+5tW3C041W4Yc
- 1kLENjTUCzNayqnmMyngsNccA/ofK7S+2F+V402yk7hgX/nwFFd14u1Wy7wLpuVlXfBODyxag
- vUxQxDMayhWFpsHFgvTfcZ4eif5dthkwgF62dXTLHcn49mNm78l+CbDgERusraLClWF6UBIfr
- U3NWAVHERQyxC+eG3l7lj2MvRQVz8OXcC+ZUwu3MadvU0CLeSIzSYXpprWmfUgJGEvtWn+LD7
- 0mD8PnywndQGJzaL63HcmjiPKFvYsJLfgAhTQXnlSR6h4EWwu/rdoJLeXlxuvTEE9d/PMUS3B
- +BDgurwQE/MQ2tPxPT9r5WcUs/A1SQM+rgftegHqMHpoWEGOkOHeQ1mVrxkl/kJE2BfdLW3T6
- duLmRIEu/Oj+kb5a3QArnwS6iCLB8hIeqGylgLi811JJdpLWAZIhI5/neDYRNaOhPjac0NynR
- FVFL5Cl3qyBbx4BbN86xtgtX+nI/9QDMLs2UtJrfMinX0tFOoMdxz+e5Mk2IfcxQuKxk/kjeq
- oJ0H5zy9Yos8oeSrYGxooixmJuvFez+i6DCUx2smV4lXobFWYFFEAzJu95Kz7W/DaOjTmAOa6
- udq66fZulk9Pc7str2WXGbctL3FUkSFQZ3wbP3rjHWvG/Ir2Jd3UY1k24bdGjH8VreQ9/GI36
- EpNpYoSXclOXYV7fhQB1RAQPvSerXs025FYhcwyIY6qYn/qR4OP8bQLIR8FH8YSimMymnrPUc
- xrayjCGrbB7j+p7trop3bR54rKb93vC/dQwa38IaVJqHipWUPkttWZx1Q4LBeIteibnPMcUeD
- fpMe36E1bhrCjlC5wl7gJeG1mmdmUrHE7OK5w5HeBZ/X31Z5/R/38uUIDYtIddOJVaiYqf8hn
- v1q5+YuN5LDtLOKc/CIZ/3fHTeuN0i3aWz3oOrSO8EtoWMNOcj+M4+7lG6OptP6pXJLu7QeS5
- KbXMduESZgzQKWSz13ZuZ51veJrf/9Z1EpanBhAVMD0gsCLfaYyc1Cd2L2qaTLPo6I9/5kwhK
- iWTnIK7wN4oq/9wZuoe7xfTOcp61qA6cdfB8E0GRV76Qp6R/Jw2CZUQ71GhzDap2Iv9sP5H5i
- PQ+DEbMqRBwxJ4l/k
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> When coda_firmware_request() returns an error code,
-> a pairing runtime PM usage counter decrement is needed
-> to keep the counter balanced.
+On Tue, May 12, 2020 at 11:00 AM Daniel Vetter <daniel.vetter@ffwll.ch> wro=
+te:
+>
+> If the scheduler rt thread gets stuck on a mutex that we're holding
+> while waiting for gpu workloads to complete, we have a problem.
+>
+> Add dma-fence annotations so that lockdep can check this for us.
+>
+> I've tried to quite carefully review this, and I think it's at the
+> right spot. But obviosly no expert on drm scheduler.
+>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: linux-rdma@vger.kernel.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
-* I suggest to add an imperative wording.
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/=
-Documentation/process/submitting-patches.rst?id=3D9cb1fd0efd195590b828b9b8=
-65421ad345a4a145#n151
+Adding a bunch more people from drivers using the drm/scheduler (so
+that's maintainers for etnaviv, lima, panfrost, and v3d on top of
+amdgpu folks arlready on cc). Any takes or testing on this and well
+the entire series very much appreciated, there's also another patch to
+anotate the tdr work in this series. Plus ofc the prep work.
 
-* Would you like to add the tag =E2=80=9CFixes=E2=80=9D to the commit mess=
-age?
-
-
-> Changelog:
-
-I propose to omit this line.
-
+Thanks, Daniel
 
 > ---
->  drivers/media/platform/coda/coda-common.c | 2 ++
+>  drivers/gpu/drm/scheduler/sched_main.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/sch=
+eduler/sched_main.c
+> index 2f319102ae9f..06a736e506ad 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -763,9 +763,12 @@ static int drm_sched_main(void *param)
+>         struct sched_param sparam =3D {.sched_priority =3D 1};
+>         struct drm_gpu_scheduler *sched =3D (struct drm_gpu_scheduler *)p=
+aram;
+>         int r;
+> +       bool fence_cookie;
+>
+>         sched_setscheduler(current, SCHED_FIFO, &sparam);
+>
+> +       fence_cookie =3D dma_fence_begin_signalling();
+> +
+>         while (!kthread_should_stop()) {
+>                 struct drm_sched_entity *entity =3D NULL;
+>                 struct drm_sched_fence *s_fence;
+> @@ -823,6 +826,9 @@ static int drm_sched_main(void *param)
+>
+>                 wake_up(&sched->job_scheduled);
+>         }
+> +
+> +       dma_fence_end_signalling(fence_cookie);
+> +
+>         return 0;
+>  }
+>
+> --
+> 2.26.2
+>
 
-I find it nicer to replace the triple dashes before this diffstat
-by a blank line.
 
-Regards,
-Markus
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
