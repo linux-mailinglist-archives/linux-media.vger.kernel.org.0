@@ -2,272 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ED191E0F2F
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2020 15:14:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EA821E0F44
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2020 15:19:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403792AbgEYNOT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 May 2020 09:14:19 -0400
-Received: from hostingweb31-40.netsons.net ([89.40.174.40]:57137 "EHLO
-        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2390674AbgEYNOS (ORCPT
+        id S2403812AbgEYNTJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 May 2020 09:19:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35338 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390688AbgEYNTJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 May 2020 09:14:18 -0400
-Received: from [78.134.112.142] (port=42672 helo=[192.168.77.62])
-        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.93)
-        (envelope-from <luca@lucaceresoli.net>)
-        id 1jdCvk-0072GJ-Oc; Mon, 25 May 2020 15:14:12 +0200
-Subject: Re: [PATCH v13 2/2] media: v4l: xilinx: Add Xilinx MIPI CSI-2 Rx
- Subsystem driver
-To:     Vishal Sagar <vishal.sagar@xilinx.com>,
-        Hyun Kwon <hyunk@xilinx.com>,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        robh+dt@kernel.org, mark.rutland@arm.com,
-        Michal Simek <michals@xilinx.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, hans.verkuil@cisco.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Dinesh Kumar <dineshk@xilinx.com>,
-        Sandip Kothari <sandipk@xilinx.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Hyun Kwon <hyun.kwon@xilinx.com>
-References: <20200512151947.120348-1-vishal.sagar@xilinx.com>
- <20200512151947.120348-3-vishal.sagar@xilinx.com>
-From:   Luca Ceresoli <luca@lucaceresoli.net>
-Message-ID: <e3ccf942-0a0d-1c4c-30bf-db9f127126f4@lucaceresoli.net>
-Date:   Mon, 25 May 2020 15:14:07 +0200
+        Mon, 25 May 2020 09:19:09 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01DEDC061A0E;
+        Mon, 25 May 2020 06:19:09 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C415724D;
+        Mon, 25 May 2020 15:19:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1590412745;
+        bh=LC8ysV2b9bTGuLITct/UwUGjPS8MrRakOH70P7jIc5A=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=DbaOp9GW/rTRqvFzPZnflWpDnhkpJnlP1KlYU3D0Yxug4EOvZ9BtFRldHCQKJjvd9
+         Ep0o/r0REulCaIgyJfel8PoUlXyHL1YYmo+sTeK9OYN+L4eE9ZApca8/Gi+2dem7mL
+         Bmmr+6DO/3B+XAP6KIT1+17DwU/6kJR4i0MaDtZ0=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH] media: vsp1: dl: Fix NULL pointer dereference on unbind
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>, stable@vger.kernel.org
+References: <20200523081334.23531-1-erosca@de.adit-jv.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <d4544b1b-a695-bd70-0ccb-e2fb1838f3f8@ideasonboard.com>
+Date:   Mon, 25 May 2020 14:19:02 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200512151947.120348-3-vishal.sagar@xilinx.com>
+In-Reply-To: <20200523081334.23531-1-erosca@de.adit-jv.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - lucaceresoli.net
-X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
-X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Vishal,
+Hi Eugeniu,
 
-thanks. I have only a few minor nitpicking comments.
+Yeouch. Looks like I really missed a trick there!
 
-On 12/05/20 17:19, Vishal Sagar wrote:
-> The Xilinx MIPI CSI-2 Rx Subsystem soft IP is used to capture images
-> from MIPI CSI-2 camera sensors and output AXI4-Stream video data ready
-> for image processing. Please refer to PG232 for details.
+We should probably update the $SUBJECT to match what is performed in the
+patch, which is perhaps more like:
+
+"media: vsp1: dl: Store VSP reference when creating cmd pools"
+
+On 23/05/2020 09:13, Eugeniu Rosca wrote:
+
+And then we can explain here:
+
+In commit f3b98e3c4d2e16 ("media: vsp1: Provide support for extended
+command pools"), the vsp pointer used for referencing the VSP1 device
+structure from a command pool during vsp1_dl_ext_cmd_pool_destroy() was
+not populated.
+
+Correctly assign the pointer to prevent the following
+null-pointer-dereference when removing the device:
+
+> v4.19 commit f3b98e3c4d2e16 ("media: vsp1: Provide support for extended
+> command pools") introduced below issue [*], consistently reproduced.
 > 
-> The CSI2 Rx controller filters out all packets except for the packets
-> with data type fixed in hardware. RAW8 packets are always allowed to
-> pass through.
+> In order to fix it, inspire from the sibling/predecessor v4.18-rc1
+> commit 5de0473982aab2 ("media: vsp1: Provide a body pool"), which saves
+> the vsp1 instance address in vsp1_dl_body_pool_create().
 > 
-> It is also used to setup and handle interrupts and enable the core. It
-> logs all the events in respective counters between streaming on and off.
+> [*] h3ulcb-kf #>
+> echo fea28000.vsp > /sys/bus/platform/devices/fea28000.vsp/driver/unbind
+>  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000028
+>  Mem abort info:
+>    ESR = 0x96000006
+>    EC = 0x25: DABT (current EL), IL = 32 bits
+>    SET = 0, FnV = 0
+>    EA = 0, S1PTW = 0
+>  Data abort info:
+>    ISV = 0, ISS = 0x00000006
+>    CM = 0, WnR = 0
+>  user pgtable: 4k pages, 48-bit VAs, pgdp=00000007318be000
+>  [0000000000000028] pgd=00000007333a1003, pud=00000007333a6003, pmd=0000000000000000
+>  Internal error: Oops: 96000006 [#1] PREEMPT SMP
+>  Modules linked in:
+>  CPU: 1 PID: 486 Comm: sh Not tainted 5.7.0-rc6-arm64-renesas-00118-ge644645abf47 #185
+>  Hardware name: Renesas H3ULCB Kingfisher board based on r8a77951 (DT)
+>  pstate: 40000005 (nZcv daif -PAN -UAO)
+>  pc : vsp1_dlm_destroy+0xe4/0x11c
+>  lr : vsp1_dlm_destroy+0xc8/0x11c
+>  sp : ffff800012963b60
+>  x29: ffff800012963b60 x28: ffff0006f83fc440
+>  x27: 0000000000000000 x26: ffff0006f5e13e80
+>  x25: ffff0006f5e13ed0 x24: ffff0006f5e13ed0
+>  x23: ffff0006f5e13ed0 x22: dead000000000122
+>  x21: ffff0006f5e3a080 x20: ffff0006f5df2938
+>  x19: ffff0006f5df2980 x18: 0000000000000003
+>  x17: 0000000000000000 x16: 0000000000000016
+>  x15: 0000000000000003 x14: 00000000000393c0
+>  x13: ffff800011a5ec18 x12: ffff800011d8d000
+>  x11: ffff0006f83fcc68 x10: ffff800011a53d70
+>  x9 : ffff8000111f3000 x8 : 0000000000000000
+>  x7 : 0000000000210d00 x6 : 0000000000000000
+>  x5 : ffff800010872e60 x4 : 0000000000000004
+>  x3 : 0000000078068000 x2 : ffff800012781000
+>  x1 : 0000000000002c00 x0 : 0000000000000000
+>  Call trace:
+>   vsp1_dlm_destroy+0xe4/0x11c
+>   vsp1_wpf_destroy+0x10/0x20
+>   vsp1_entity_destroy+0x24/0x4c
+>   vsp1_destroy_entities+0x54/0x130
+>   vsp1_remove+0x1c/0x40
+>   platform_drv_remove+0x28/0x50
+>   __device_release_driver+0x178/0x220
+>   device_driver_detach+0x44/0xc0
+>   unbind_store+0xe0/0x104
+>   drv_attr_store+0x20/0x30
+>   sysfs_kf_write+0x48/0x70
+>   kernfs_fop_write+0x148/0x230
+>   __vfs_write+0x18/0x40
+>   vfs_write+0xdc/0x1c4
+>   ksys_write+0x68/0xf0
+>   __arm64_sys_write+0x18/0x20
+>   el0_svc_common.constprop.0+0x70/0x170
+>   do_el0_svc+0x20/0x80
+>   el0_sync_handler+0x134/0x1b0
+>   el0_sync+0x140/0x180
+>  Code: b40000c2 f9403a60 d2800084 a9400663 (f9401400)
+>  ---[ end trace 3875369841fb288a ]---
 > 
-> The driver supports only the video format bridge enabled configuration.
-> Some data types like YUV 422 10bpc, RAW16, RAW20 are supported when the
-> CSI v2.0 feature is enabled in design. When the VCX feature is enabled,
-> the maximum number of virtual channels becomes 16 from 4.
+> Fixes: f3b98e3c4d2e16 ("media: vsp1: Provide support for extended command pools")
+> Cc: stable@vger.kernel.org # v4.19+
+> Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> ---
 > 
-> Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
-> Reviewed-by: Hyun Kwon <hyun.kwon@xilinx.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> How about adding a new unit test perfoming unbind/rebind to
+> http://git.ideasonboard.com/renesas/vsp-tests.git, to avoid
+> such issues in future? 
 
-[...]
+Yes, now I wish I had done so back at 4.19! I hope this wasn't too
+painful to diagnose and fix, and thank you for being so thorough in your
+report!
 
-> +static int xcsi2rxss_start_stream(struct xcsi2rxss_state *state)
-> +{
-> +	int ret = 0;
-> +
-> +	/* enable core */
-> +	xcsi2rxss_set(state, XCSI_CCR_OFFSET, XCSI_CCR_ENABLE);
-> +
-> +	ret = xcsi2rxss_soft_reset(state);
-> +	if (ret < 0) {
 
-'if (ret)' is enough, it's a classic nonzero-on-error return value.
+> Locally, below command has been used to identify the problem:
+> 
+> for f in $(find /sys/bus/platform/devices/ -name "*vsp*" -o -name "*fdp*"); do \
+>      b=$(basename $f); \
+>      echo $b > $f/driver/unbind; \
+> done
+> 
 
-> +/**
-> + * xcsi2rxss_irq_handler - Interrupt handler for CSI-2
-> + * @irq: IRQ number
-> + * @data: Pointer to device state
-> + *
-> + * In the interrupt handler, a list of event counters are updated for
-> + * corresponding interrupts. This is useful to get status / debug.
-> + *
-> + * Return: IRQ_HANDLED after handling interrupts
-> + */
-> +static irqreturn_t xcsi2rxss_irq_handler(int irq, void *data)
-> +{
-> +	struct xcsi2rxss_state *state = (struct xcsi2rxss_state *)data;
-> +	struct device *dev = state->dev;
-> +	u32 status;
-> +
-> +	status = xcsi2rxss_read(state, XCSI_ISR_OFFSET) & XCSI_ISR_ALLINTR_MASK;
-> +	xcsi2rxss_write(state, XCSI_ISR_OFFSET, status);
-> +
-> +	/* Received a short packet */
-> +	if (status & XCSI_ISR_SPFIFONE) {
-> +		u32 count = 0;
-> +
-> +		/*
-> +		 * Drain generic short packet FIFO by reading max 31
-> +		 * (fifo depth) short packets from fifo or till fifo is empty.
-> +		 */
-> +		for (count = 0; count < XCSI_SPKT_FIFO_DEPTH; ++count) {
-> +			u32 spfifostat, spkt;
-> +
-> +			spkt = xcsi2rxss_read(state, XCSI_SPKTR_OFFSET);
-> +			dev_dbg(dev, "Short packet = 0x%08x\n", spkt);
-> +			spfifostat = xcsi2rxss_read(state, XCSI_ISR_OFFSET);
-> +			spfifostat &= XCSI_ISR_SPFIFONE;
-> +			if (!spfifostat)
-> +				break;
-> +			xcsi2rxss_write(state, XCSI_ISR_OFFSET, spfifostat);
-> +		}
-> +	}
-> +
-> +	/* Short packet FIFO overflow */
-> +	if (status & XCSI_ISR_SPFIFOF)
-> +		dev_dbg_ratelimited(dev, "Short packet FIFO overflowed\n");
-> +
-> +	/*
-> +	 * Stream line buffer full
-> +	 * This means there is a backpressure from downstream IP
-> +	 */
-> +	if (status & XCSI_ISR_SLBF) {
-> +		dev_alert_ratelimited(dev, "Stream Line Buffer Full!\n");
-> +
-> +		/* disable interrupts */
-> +		xcsi2rxss_clr(state, XCSI_IER_OFFSET, XCSI_IER_INTR_MASK);
-> +		xcsi2rxss_clr(state, XCSI_GIER_OFFSET, XCSI_GIER_GIE);
-> +
-> +		/* disable core */
-> +		xcsi2rxss_clr(state, XCSI_CCR_OFFSET, XCSI_CCR_ENABLE);
-> +		state->streaming = false;
-> +
-> +		/*
-> +		 * The IP needs to be hard reset before it can be used now.
-> +		 * This will be done in streamoff.
-> +		 */
-> +
-> +		/*
-> +		 * TODO: Notify the whole pipeline with v4l2_subdev_notify() to
-> +		 * inform userspace.
-> +		 */
-> +	}
-> +
-> +	/* Increment event counters */
-> +	if (status & XCSI_ISR_ALLINTR_MASK) {
-> +		unsigned int i;
-> +
-> +		for (i = 0; i < XCSI_NUM_EVENTS; i++) {
-> +			if (!(status & xcsi2rxss_events[i].mask))
-> +				continue;
-> +			state->events[i]++;
-> +			dev_dbg_ratelimited(dev, "%s: %u\n",
-> +					    xcsi2rxss_events[i].name,
-> +					    state->events[i]);
-> +		}
-> +
-> +		if (status & XCSI_ISR_VCXFE && state->en_vcx) {
-> +			u32 vcxstatus;
-> +
-> +			vcxstatus = xcsi2rxss_read(state, XCSI_VCXR_OFFSET);
-> +			vcxstatus &= XCSI_VCXR_VCERR;
-> +			for (i = 0; i < XCSI_VCX_NUM_EVENTS; i++) {
-> +				if (!(vcxstatus & (1 << i)))
+I've created a test to add to vsp-tests, which I'll post next, thank you
+for the suggestion.
 
-You can use BIT(i) instead of (1 << i).
+Before your patch is applied, I experience the same crash you have seen,
+and after your patch - I can successfully unbind/bind all of the VSP1
+instances.
 
-> +/**
-> + * xcsi2rxss_set_format - This is used to set the pad format
-> + * @sd: Pointer to V4L2 Sub device structure
-> + * @cfg: Pointer to sub device pad information structure
-> + * @fmt: Pointer to pad level media bus format
-> + *
-> + * This function is used to set the pad format. Since the pad format is fixed
-> + * in hardware, it can't be modified on run time. So when a format set is
-> + * requested by application, all parameters except the format type is saved
-> + * for the pad and the original pad format is sent back to the application.
-> + *
-> + * Return: 0 on success
-> + */
-> +static int xcsi2rxss_set_format(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_pad_config *cfg,
-> +				struct v4l2_subdev_format *fmt)
-> +{
-> +	struct xcsi2rxss_state *xcsi2rxss = to_xcsi2rxssstate(sd);
-> +	struct v4l2_mbus_framefmt *__format;
-> +	u32 dt;
+So I think you can have this too:
+
+Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> ---
+>  drivers/media/platform/vsp1/vsp1_dl.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/vsp1/vsp1_dl.c
+> index d7b43037e500..e07b135613eb 100644
+> --- a/drivers/media/platform/vsp1/vsp1_dl.c
+> +++ b/drivers/media/platform/vsp1/vsp1_dl.c
+> @@ -431,6 +431,8 @@ vsp1_dl_cmd_pool_create(struct vsp1_device *vsp1, enum vsp1_extcmd_type type,
+>  	if (!pool)
+>  		return NULL;
+>  
+> +	pool->vsp1 = vsp1;
 > +
-> +	/* only sink pad format can be updated */
+>  	spin_lock_init(&pool->lock);
+>  	INIT_LIST_HEAD(&pool->free);
+>  
+> 
 
-This comment should be placed...
-
-> +	mutex_lock(&xcsi2rxss->lock);
-> +
-> +	/*
-> +	 * Only the format->code parameter matters for CSI as the
-> +	 * CSI format cannot be changed at runtime.
-> +	 * Ensure that format to set is copied to over to CSI pad format
-> +	 */
-> +	__format = __xcsi2rxss_get_pad_format(xcsi2rxss, cfg,
-> +					      fmt->pad, fmt->which);
-> +
-
-...here.
-
-> +	if (fmt->pad == XVIP_PAD_SOURCE) {
-> +		fmt->format = *__format;
-> +		mutex_unlock(&xcsi2rxss->lock);
-> +		return 0;
-> +	}
-> +
-> +	/*
-> +	 * RAW8 is supported in all datatypes. So if requested media bus format
-> +	 * is of RAW8 type, then allow to be set. In case core is configured to
-> +	 * other RAW, YUV422 8/10 or RGB888, set appropriate media bus format.
-> +	 */
-> +	dt = xcsi2rxss_get_dt(fmt->format.code);
-> +	if (dt != xcsi2rxss->datatype && dt != XCSI_DT_RAW8) {
-> +		dev_dbg(xcsi2rxss->dev, "Unsupported media bus format");
-> +		/* set the default format for the data type */
-> +		fmt->format.code = xcsi2rxss_get_nth_mbus(xcsi2rxss->datatype,
-> +							  0);
-> +	}
-> +
-> +	*__format = fmt->format;
-> +	mutex_unlock(&xcsi2rxss->lock);
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * xcsi2rxss_enum_mbus_code - Handle pixel format enumeration
-> + * @sd : pointer to v4l2 subdev structure
-> + * @cfg: V4L2 subdev pad configuration
-> + * @code : pointer to v4l2_subdev_mbus_code_enum structure
-
-Remove space before colon here.
-
-Looks good otherwise, and my comments are minor details so:
-Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
-
-I tried to runtime test this driver as well replacing the v10 driver
-that I'm using at the moment, but ran into many problems, apparently in
-the media entity navigation. The diff between v10 and v13 does not
-justify these problems, so I'm assuming v13 needs a more recent kernel
-than the 4.19 I'm currentl stuck on.
-
--- 
-Luca Ceresoli
