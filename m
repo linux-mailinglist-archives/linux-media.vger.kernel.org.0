@@ -2,172 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 972CE1E0534
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2020 05:37:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B6E51E084E
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2020 09:59:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388523AbgEYDhA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 24 May 2020 23:37:00 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:44773 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388397AbgEYDhA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 24 May 2020 23:37:00 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id d3v6jJ71KDazBd3v7jWXX4; Mon, 25 May 2020 05:36:57 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1590377817; bh=g92jMaSN1RxTyyZOhHMywOzzGRyc8akSyelW2lEntaI=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=inQT0FdhKvWDRGjHC+3RqJod9AP35aXGfYNsVsfuhPU/mtoGmp/vn+7m8DfyX+Htz
-         uchy6VlochEzOJGoQ80leIEjl4QhtRk1gkn+lc6S3HWKG2FACm0pk+6s1FCC0AVbpj
-         iSxxxAqbP/g8VGMXoqdyURv0iIBEGFL0JxzxRtlCJtaAuJOBtCS18jgf2w63xGPYFg
-         ZcBAk4RwDFYmBJBfr4mX9FDAUH3Tr4hayqtHVD8sESOrFuA5DuQVZMrUf6sYqTiIfS
-         UqZ+82w7EReg5HFt9LtkiLiqFDuVAJRTNjM1NuzlwWeNJQ0+GVnHG1PG+r6KINPu8j
-         AYGeVYx8KAwzw==
-Message-ID: <d2fb774b809a5af247acec1f3230cebd@smtp-cloud7.xs4all.net>
-Date:   Mon, 25 May 2020 05:36:56 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfBFXguj6I5H+q7KnH4bB+r6TLF/VqvzjfPTuPcQCxUBRu2GhTGy2ZCsH3WHtAXULpmKSh+2zdErp6pKyV2olgtalJ0FrwmgYcYMqC5OG7a/QDaAS060X
- 1i1Bf0ty92zdjfYZRdWe8pdPeg08R9gs+WW3cIVzo1gKo2Zbfqy3pdMVPdL0OgA2rjyq+0hcxwHfOfzMkwLKnJ8e6DE12R6LBGIv2eCZSDxqzSWtsLLcvbEG
+        id S1728477AbgEYH7X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 May 2020 03:59:23 -0400
+Received: from mga18.intel.com ([134.134.136.126]:13128 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725809AbgEYH7X (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 25 May 2020 03:59:23 -0400
+IronPort-SDR: /Mn2wvImWOP+FhV7cG4IdRSEVTPFtBf0dQ82/Gnu1blFmRUYGcRU6SjS24H7wZfRNXTFkpZZs8
+ m7yvWGOhXqmw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 May 2020 00:59:22 -0700
+IronPort-SDR: JCflhIxsquaU9jhCHP8S8Po3dtELmDzOwNyYpv6d/pEWqukzelsjKP1kXl6JsOwTICJ595Zn0q
+ sqklKAb4vz8A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,432,1583222400"; 
+   d="scan'208";a="375366423"
+Received: from kuha.fi.intel.com ([10.237.72.162])
+  by fmsmga001.fm.intel.com with SMTP; 25 May 2020 00:59:19 -0700
+Received: by kuha.fi.intel.com (sSMTP sendmail emulation); Mon, 25 May 2020 10:59:18 +0300
+Date:   Mon, 25 May 2020 10:59:18 +0300
+From:   Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>
+Subject: Re: [PATCH] media: ipu3: add a module to probe sensors via ACPI
+Message-ID: <20200525075918.GE1910854@kuha.fi.intel.com>
+References: <12fbe3f5c6a16c5f3447adbc09fe27ceb2b16823.1589625807.git.mchehab+huawei@kernel.org>
+ <20200517103659.GS17578@paasikivi.fi.intel.com>
+ <20200520094400.5137e7f2@coco.lan>
+ <20200520082608.GV20066@paasikivi.fi.intel.com>
+ <20200520131830.3ff45919@coco.lan>
+ <CAHp75VduEGyzobm0hkXzWmFfZb-uMAEWG-wc89b7M7zVzZ_4LA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VduEGyzobm0hkXzWmFfZb-uMAEWG-wc89b7M7zVzZ_4LA@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Thu, May 21, 2020 at 11:00:19AM +0300, Andy Shevchenko wrote:
+> +Cc: Heikki (swnode expert)
+> 
+> On Wed, May 20, 2020 at 2:19 PM Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
+> > Em Wed, 20 May 2020 11:26:08 +0300
+> > Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
+> 
+> ...
+> 
+> > As I said, the problem is not probing the sensor via ACPI, but, instead,
+> > to be able receive platform-specific data.
+> 
+> There is no problem with swnodes, except missing parts (*).
+> I have Skylake laptop with IPU3 and with half-baked ACPI tables, but
+> since we have drivers in place with fwnode support, we only need to
+> recreate fwnode graph in some board file to compensate the gap in
+> ACPI.
+> 
+> *) Missing part is graph support for swnodes. With that done it will
+> be feasible to achieve the rest.
+> I forgot if we have anything for this already done. Heikki?
 
-Results of the daily build of media_tree:
+I did implement the fwnode_graph* callbacks for swnodes, but I need to
+rebase that patch on top of Dmitry's reference property changes.
 
-date:			Mon May 25 05:00:09 CEST 2020
-media-tree git hash:	960b2dee908b0fc51cf670841de13b40b44aaaae
-media_build git hash:	28a109580ca69b3cc1c2f2ae62248e9fe067cb4c
-v4l-utils git hash:	ae8dd398baf927bc5bc18abd1677a5c4e118034e
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0accb575719caa47d8fbc866b11e6f7e7e7787cd
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+thanks,
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.212-i686: ERRORS
-linux-4.4.212-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.212-i686: ERRORS
-linux-4.9.212-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.169-i686: ERRORS
-linux-4.14.169-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.101-i686: ERRORS
-linux-4.19.101-x86_64: ERRORS
-linux-4.20.15-i686: ERRORS
-linux-4.20.15-x86_64: ERRORS
-linux-5.0.15-i686: ERRORS
-linux-5.0.15-x86_64: ERRORS
-linux-5.1.1-i686: ERRORS
-linux-5.1.1-x86_64: ERRORS
-linux-5.2.1-i686: ERRORS
-linux-5.2.1-x86_64: ERRORS
-linux-5.3.1-i686: ERRORS
-linux-5.3.1-x86_64: ERRORS
-linux-5.4.17-i686: ERRORS
-linux-5.4.17-x86_64: ERRORS
-linux-5.5.1-i686: ERRORS
-linux-5.5.1-x86_64: ERRORS
-linux-5.6.1-i686: ERRORS
-linux-5.6.1-x86_64: ERRORS
-linux-5.7-rc1-i686: ERRORS
-linux-5.7-rc1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: OK: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+heikki
