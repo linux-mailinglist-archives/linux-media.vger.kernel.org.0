@@ -2,103 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03F2B1E08A4
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2020 10:20:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 917F41E08BB
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2020 10:24:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731384AbgEYIUn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 May 2020 04:20:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44848 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730015AbgEYIUn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 May 2020 04:20:43 -0400
-Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CAB8C03E96D
-        for <linux-media@vger.kernel.org>; Mon, 25 May 2020 01:20:43 -0700 (PDT)
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id E5FDA634C87
-        for <linux-media@vger.kernel.org>; Mon, 25 May 2020 11:19:58 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1jd8L1-0002HY-1q
-        for linux-media@vger.kernel.org; Mon, 25 May 2020 11:19:59 +0300
-Date:   Mon, 25 May 2020 11:19:59 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL v2 for 5.8] More camera sensor, documentation patches
-Message-ID: <20200525081959.GB8214@valkosipuli.retiisi.org.uk>
+        id S1731284AbgEYIY3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 May 2020 04:24:29 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:39944 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725849AbgEYIY2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 25 May 2020 04:24:28 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jd8Ll-0045HO-Mk; Mon, 25 May 2020 08:20:45 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jd8RK-0002sO-QJ; Mon, 25 May 2020 08:26:30 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for 5.8] More camera sensor, documentation patches (#64035)
+Date:   Mon, 25 May 2020 08:26:30 +0000
+Message-Id: <20200525082630.11015-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200525081642.GA8214@valkosipuli.retiisi.org.uk>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+From: builder@linuxtv.org
 
-Here's a set of camera sensor patches and a lone documentation patch for
-5.8. In particular, there's a driver for ov2740 and DT support for ov8856.
-It'd be nice to get this in to 5.8 if it's still possible.
+Pull request: https://patchwork.linuxtv.org/patch/64035/
+Build log: https://builder.linuxtv.org/job/patchwork/52470/
+Build time: 00:06:15
+Link: https://lore.kernel.org/linux-media/20200525081642.GA8214@valkosipuli.retiisi.org.uk
 
-Please pull.
+gpg: Signature made Mon 25 May 2020 08:14:38 AM UTC
+gpg:                using DSA key F0D0377A0D4F25A79238EFE56D40361B6E28C193
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
 
-since v1:
+Summary: 2 patches and/or PDF generation with issues, being 0 at build time
 
-- Fixed trailing whitespaces in docs.
+Error/warnings:
 
 
-The following changes since commit 960b2dee908b0fc51cf670841de13b40b44aaaae:
+Error #256 when running cat patches/0007-Documentation-media-Refer-to-mbus-format-documentati.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0007-Documentation-media-Refer-to-mbus-format-documentati.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:27: ERROR: trailing whitespace
 
-  media: dt-bindings: phy: phy-rockchip-dphy-rx0: move rockchip dphy rx0 bindings out of staging (2020-05-20 15:22:27 +0200)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-5.8-4.1-signed
-
-for you to fetch changes up to 0b62b41321497ad0e11e7162184b5a2c6512bac0:
-
-  Documentation: media: Refer to mbus format documentation from CSI-2 docs (2020-05-25 11:18:21 +0300)
-
-----------------------------------------------------------------
-More camera sensor patches for 5.8
-
-----------------------------------------------------------------
-Bingbu Cao (1):
-      media: i2c: Add ov2740 image sensor driver
-
-Dongchun Zhu (1):
-      media: dt-bindings: ov8856: Document YAML bindings
-
-Geert Uytterhoeven (1):
-      media: i2c: imx219: Drop <linux/clk-provider.h> and <linux/clkdev.h>
-
-Gustavo A. R. Silva (1):
-      media: s5k5baf: Replace zero-length array with flexible-array
-
-Robert Foss (2):
-      media: ov8856: Add devicetree support
-      media: ov8856: Implement sensor module revision identification
-
-Sakari Ailus (1):
-      Documentation: media: Refer to mbus format documentation from CSI-2 docs
-
- .../devicetree/bindings/media/i2c/ov8856.yaml      |  142 +++
- Documentation/driver-api/media/csi2.rst            |    6 +
- MAINTAINERS                                        |   12 +-
- drivers/media/i2c/Kconfig                          |   13 +
- drivers/media/i2c/Makefile                         |    1 +
- drivers/media/i2c/imx219.c                         |    2 -
- drivers/media/i2c/ov2740.c                         | 1016 ++++++++++++++++++++
- drivers/media/i2c/ov8856.c                         |  191 +++-
- drivers/media/i2c/s5k5baf.c                        |    2 +-
- 9 files changed, 1367 insertions(+), 18 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
- create mode 100644 drivers/media/i2c/ov2740.c
-
--- 
-Sakari Ailus
