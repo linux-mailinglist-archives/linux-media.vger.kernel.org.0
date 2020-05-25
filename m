@@ -2,77 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1206F1E089F
-	for <lists+linux-media@lfdr.de>; Mon, 25 May 2020 10:20:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03F2B1E08A4
+	for <lists+linux-media@lfdr.de>; Mon, 25 May 2020 10:20:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729469AbgEYIUT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 May 2020 04:20:19 -0400
-Received: from spam.zju.edu.cn ([61.164.42.155]:47066 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725849AbgEYIUT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 May 2020 04:20:19 -0400
-Received: from localhost.localdomain (unknown [222.205.77.158])
-        by mail-app4 (Coremail) with SMTP id cS_KCgCnUQWvf8teDEgEAA--.12433S4;
-        Mon, 25 May 2020 16:20:03 +0800 (CST)
-From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
-To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] [v2] media: smiapp: Fix runtime PM imbalance on error
-Date:   Mon, 25 May 2020 16:19:58 +0800
-Message-Id: <20200525081958.3525-1-dinghao.liu@zju.edu.cn>
-X-Mailer: git-send-email 2.17.1
-X-CM-TRANSID: cS_KCgCnUQWvf8teDEgEAA--.12433S4
-X-Coremail-Antispam: 1UD129KBjvdXoWrKw4UCw4UCF45tr1UJw1fJFb_yoWfAFb_Gr
-        sxXw1xWrWrtFn3Kw1DZa45Zry2gFyDWF4kXr1Fq3yay3y2y3WDGrZ8ur98Aw4jvrsFva4Y
-        qwn8WF1xAr9rGjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-        9fnUUIcSsGvfJTRUUUbI8Fc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
-        wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
-        vE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26rxl6s0DM28EF7xvwVC2z280
-        aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07
-        x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15
-        McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr4
-        1lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8ZwCF04k20xvY0x0EwIxGrwCF
-        04k20xvE74AGY7Cv6cx26r4fKr1UJr1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4
-        xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1D
-        MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I
-        0E14v26r4j6F4UMIIF0xvE42xK8VAvwI8IcIk0rVWrJr0_WFyUJwCI42IY6I8E87Iv67AK
-        xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj
-        fUOnmRUUUUU
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgEJBlZdtORShQAwsw
+        id S1731384AbgEYIUn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 May 2020 04:20:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44848 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730015AbgEYIUn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 25 May 2020 04:20:43 -0400
+Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CAB8C03E96D
+        for <linux-media@vger.kernel.org>; Mon, 25 May 2020 01:20:43 -0700 (PDT)
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id E5FDA634C87
+        for <linux-media@vger.kernel.org>; Mon, 25 May 2020 11:19:58 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jd8L1-0002HY-1q
+        for linux-media@vger.kernel.org; Mon, 25 May 2020 11:19:59 +0300
+Date:   Mon, 25 May 2020 11:19:59 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL v2 for 5.8] More camera sensor, documentation patches
+Message-ID: <20200525081959.GB8214@valkosipuli.retiisi.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When v4l2_async_register_subdev_sensor_common() returns
-an error code, a pairing runtime PM usage counter
-decrement is needed to keep the counter balanced.
+Hi Mauro,
 
-Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
----
+Here's a set of camera sensor patches and a lone documentation patch for
+5.8. In particular, there's a driver for ov2740 and DT support for ov8856.
+It'd be nice to get this in to 5.8 if it's still possible.
 
-Changelog:
+Please pull.
 
-v2: - Use pm_runtime_put_noidle() insead of
-      pm_runtime_put_autosuspend().
----
- drivers/media/i2c/smiapp/smiapp-core.c | 1 +
- 1 file changed, 1 insertion(+)
+since v1:
 
-diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
-index 5e4f6a2ef78e..0a8d27481bd1 100644
---- a/drivers/media/i2c/smiapp/smiapp-core.c
-+++ b/drivers/media/i2c/smiapp/smiapp-core.c
-@@ -3103,6 +3103,7 @@ static int smiapp_probe(struct i2c_client *client)
- 	return 0;
- 
- out_disable_runtime_pm:
-+	pm_runtime_put_noidle(&client->dev);
- 	pm_runtime_disable(&client->dev);
- 
- out_media_entity_cleanup:
+- Fixed trailing whitespaces in docs.
+
+
+The following changes since commit 960b2dee908b0fc51cf670841de13b40b44aaaae:
+
+  media: dt-bindings: phy: phy-rockchip-dphy-rx0: move rockchip dphy rx0 bindings out of staging (2020-05-20 15:22:27 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.8-4.1-signed
+
+for you to fetch changes up to 0b62b41321497ad0e11e7162184b5a2c6512bac0:
+
+  Documentation: media: Refer to mbus format documentation from CSI-2 docs (2020-05-25 11:18:21 +0300)
+
+----------------------------------------------------------------
+More camera sensor patches for 5.8
+
+----------------------------------------------------------------
+Bingbu Cao (1):
+      media: i2c: Add ov2740 image sensor driver
+
+Dongchun Zhu (1):
+      media: dt-bindings: ov8856: Document YAML bindings
+
+Geert Uytterhoeven (1):
+      media: i2c: imx219: Drop <linux/clk-provider.h> and <linux/clkdev.h>
+
+Gustavo A. R. Silva (1):
+      media: s5k5baf: Replace zero-length array with flexible-array
+
+Robert Foss (2):
+      media: ov8856: Add devicetree support
+      media: ov8856: Implement sensor module revision identification
+
+Sakari Ailus (1):
+      Documentation: media: Refer to mbus format documentation from CSI-2 docs
+
+ .../devicetree/bindings/media/i2c/ov8856.yaml      |  142 +++
+ Documentation/driver-api/media/csi2.rst            |    6 +
+ MAINTAINERS                                        |   12 +-
+ drivers/media/i2c/Kconfig                          |   13 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/imx219.c                         |    2 -
+ drivers/media/i2c/ov2740.c                         | 1016 ++++++++++++++++++++
+ drivers/media/i2c/ov8856.c                         |  191 +++-
+ drivers/media/i2c/s5k5baf.c                        |    2 +-
+ 9 files changed, 1367 insertions(+), 18 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+ create mode 100644 drivers/media/i2c/ov2740.c
+
 -- 
-2.17.1
-
+Sakari Ailus
