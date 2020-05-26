@@ -2,226 +2,263 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 987E31E1F32
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2020 11:59:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 697B51E1F3F
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2020 12:01:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728750AbgEZJ7W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 May 2020 05:59:22 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:48720 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726804AbgEZJ7V (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 May 2020 05:59:21 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id BFA48634C87;
-        Tue, 26 May 2020 12:58:33 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1jdWLx-0002S7-SN; Tue, 26 May 2020 12:58:33 +0300
-Date:   Tue, 26 May 2020 12:58:33 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     mchehab@kernel.org, manivannan.sadhasivam@linaro.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        c.barrett@framos.com, a.brela@framos.com, peter.griffin@linaro.org
-Subject: Re: [PATCH v3 05/10] media: i2c: imx290: Add configurable link
- frequency and pixel rate
-Message-ID: <20200526095833.GK8214@valkosipuli.retiisi.org.uk>
-References: <20200524192505.20682-1-andrey.konovalov@linaro.org>
- <20200524192505.20682-6-andrey.konovalov@linaro.org>
- <20200526091234.GH8214@valkosipuli.retiisi.org.uk>
- <91992bdb-deb1-0355-e61f-78c38a68f6d1@linaro.org>
+        id S1731823AbgEZKAt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 May 2020 06:00:49 -0400
+Received: from mga07.intel.com ([134.134.136.100]:7376 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728750AbgEZKAt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 26 May 2020 06:00:49 -0400
+IronPort-SDR: QXutgV/0Q+mHdu53akFoIETTVusVPK1QzrpFBSRltKrNVKnP7RtaL+yo+nNh2OU+/uRIBaHJnD
+ xpSI2nLUFrLw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2020 03:00:48 -0700
+IronPort-SDR: szVmd2xzDbIDlo7gUFSjYUShiKVCYp56FziRag+KZ6gbDC5OwzLyffnZz0AKb9i9jHctkfUiq3
+ 3rNTw+NznYKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,436,1583222400"; 
+   d="scan'208";a="310212894"
+Received: from unknown (HELO [10.252.61.10]) ([10.252.61.10])
+  by FMSMGA003.fm.intel.com with ESMTP; 26 May 2020 03:00:45 -0700
+Subject: Re: [RFC 02/17] dma-fence: basic lockdep annotations
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@intel.com>
+References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
+ <20200512085944.222637-3-daniel.vetter@ffwll.ch>
+From:   Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Message-ID: <22c105a0-2c29-a609-2043-905093158215@linux.intel.com>
+Date:   Tue, 26 May 2020 12:00:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <91992bdb-deb1-0355-e61f-78c38a68f6d1@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200512085944.222637-3-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andrey,
+Op 12-05-2020 om 10:59 schreef Daniel Vetter:
+> Design is similar to the lockdep annotations for workers, but with
+> some twists:
+>
+> - We use a read-lock for the execution/worker/completion side, so that
+>   this explicit annotation can be more liberally sprinkled around.
+>   With read locks lockdep isn't going to complain if the read-side
+>   isn't nested the same way under all circumstances, so ABBA deadlocks
+>   are ok. Which they are, since this is an annotation only.
+>
+> - We're using non-recursive lockdep read lock mode, since in recursive
+>   read lock mode lockdep does not catch read side hazards. And we
+>   _very_ much want read side hazards to be caught. For full details of
+>   this limitation see
+>
+>   commit e91498589746065e3ae95d9a00b068e525eec34f
+>   Author: Peter Zijlstra <peterz@infradead.org>
+>   Date:   Wed Aug 23 13:13:11 2017 +0200
+>
+>       locking/lockdep/selftests: Add mixed read-write ABBA tests
+>
+> - To allow nesting of the read-side explicit annotations we explicitly
+>   keep track of the nesting. lock_is_held() allows us to do that.
+>
+> - The wait-side annotation is a write lock, and entirely done within
+>   dma_fence_wait() for everyone by default.
+>
+> - To be able to freely annotate helper functions I want to make it ok
+>   to call dma_fence_begin/end_signalling from soft/hardirq context.
+>   First attempt was using the hardirq locking context for the write
+>   side in lockdep, but this forces all normal spinlocks nested within
+>   dma_fence_begin/end_signalling to be spinlocks. That bollocks.
+>
+>   The approach now is to simple check in_atomic(), and for these cases
+>   entirely rely on the might_sleep() check in dma_fence_wait(). That
+>   will catch any wrong nesting against spinlocks from soft/hardirq
+>   contexts.
+>
+> The idea here is that every code path that's critical for eventually
+> signalling a dma_fence should be annotated with
+> dma_fence_begin/end_signalling. The annotation ideally starts right
+> after a dma_fence is published (added to a dma_resv, exposed as a
+> sync_file fd, attached to a drm_syncobj fd, or anything else that
+> makes the dma_fence visible to other kernel threads), up to and
+> including the dma_fence_wait(). Examples are irq handlers, the
+> scheduler rt threads, the tail of execbuf (after the corresponding
+> fences are visible), any workers that end up signalling dma_fences and
+> really anything else. Not annotated should be code paths that only
+> complete fences opportunistically as the gpu progresses, like e.g.
+> shrinker/eviction code.
+>
+> The main class of deadlocks this is supposed to catch are:
+>
+> Thread A:
+>
+> 	mutex_lock(A);
+> 	mutex_unlock(A);
+>
+> 	dma_fence_signal();
+>
+> Thread B:
+>
+> 	mutex_lock(A);
+> 	dma_fence_wait();
+> 	mutex_unlock(A);
+>
+> Thread B is blocked on A signalling the fence, but A never gets around
+> to that because it cannot acquire the lock A.
+>
+> Note that dma_fence_wait() is allowed to be nested within
+> dma_fence_begin/end_signalling sections. To allow this to happen the
+> read lock needs to be upgraded to a write lock, which means that any
+> other lock is acquired between the dma_fence_begin_signalling() call and
+> the call to dma_fence_wait(), and still held, this will result in an
+> immediate lockdep complaint. The only other option would be to not
+> annotate such calls, defeating the point. Therefore these annotations
+> cannot be sprinkled over the code entirely mindless to avoid false
+> positives.
+>
+> v2: handle soft/hardirq ctx better against write side and dont forget
+> EXPORT_SYMBOL, drivers can't use this otherwise.
+>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: linux-rdma@vger.kernel.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
 
-On Tue, May 26, 2020 at 12:27:17PM +0300, Andrey Konovalov wrote:
-> Hi Sakari,
-> 
-> Thank you for the review!
+This is something we definitely need, all drivers need to follow the same rules, in order to put some light in the darkness. :)
 
-You're welcome!
+Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
-> 
-> On 26.05.2020 12:12, Sakari Ailus wrote:
-> > Hi Andrey,
-> > 
-> > On Sun, May 24, 2020 at 10:25:00PM +0300, Andrey Konovalov wrote:
-> > > From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > > 
-> > > IMX290 operates with multiple link frequency and pixel rate combinations.
-> > > The initial driver used a single setting for both but since we now have
-> > > the lane count support in place, let's add configurable link frequency
-> > > and pixel rate.
-> > > 
-> > > Signed-off-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-> > > Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-> > > ---
-> > >   drivers/media/i2c/imx290.c | 100 ++++++++++++++++++++++++-------------
-> > >   1 file changed, 66 insertions(+), 34 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> > > index a361c9ac8bd5..e800557cf423 100644
-> > > --- a/drivers/media/i2c/imx290.c
-> > > +++ b/drivers/media/i2c/imx290.c
-> > > @@ -38,8 +38,6 @@
-> > >   #define IMX290_HMAX_2_720 0x19C8
-> > >   #define IMX290_HMAX_4_720 0x0CE4
-> > > -#define IMX290_DEFAULT_LINK_FREQ 445500000
-> > > -
-> > >   static const char * const imx290_supply_name[] = {
-> > >   	"vdda",
-> > >   	"vddd",
-> > > @@ -56,8 +54,6 @@ struct imx290_regval {
-> > >   struct imx290_mode {
-> > >   	u32 width;
-> > >   	u32 height;
-> > > -	u32 pixel_rate;
-> > > -	u32 link_freq_index;
-> > >   	const struct imx290_regval *data;
-> > >   	u32 data_size;
-> > > @@ -248,8 +244,13 @@ static const struct imx290_regval imx290_10bit_settings[] = {
-> > >   };
-> > >   /* supported link frequencies */
-> > > -static const s64 imx290_link_freq[] = {
-> > > -	IMX290_DEFAULT_LINK_FREQ,
-> > > +static const s64 imx290_link_freq_2lanes[] = {
-> > > +	891000000, /* 1920x1080 -  2 lane */
-> > > +	594000000, /* 1280x720  -  2 lane */
-> > > +};
-> > > +static const s64 imx290_link_freq_4lanes[] = {
-> > > +	445500000, /* 1920x1080 -  4 lane */
-> > > +	297000000, /* 1280x720  -  4 lane */
-> > >   };
-> > >   /* Mode configs */
-> > > @@ -259,16 +260,12 @@ static const struct imx290_mode imx290_modes[] = {
-> > >   		.height = 1080,
-> > >   		.data = imx290_1080p_settings,
-> > >   		.data_size = ARRAY_SIZE(imx290_1080p_settings),
-> > > -		.pixel_rate = 178200000,
-> > > -		.link_freq_index = 0,
-> > >   	},
-> > >   	{
-> > >   		.width = 1280,
-> > >   		.height = 720,
-> > >   		.data = imx290_720p_settings,
-> > >   		.data_size = ARRAY_SIZE(imx290_720p_settings),
-> > > -		.pixel_rate = 178200000,
-> > > -		.link_freq_index = 0,
-> > >   	},
-> > >   };
-> > > @@ -442,6 +439,32 @@ static int imx290_get_fmt(struct v4l2_subdev *sd,
-> > >   	return 0;
-> > >   }
-> > > +static u8 imx290_get_link_freq_index(struct imx290 *imx290)
-> > > +{
-> > > +	const struct imx290_mode *cur_mode = imx290->current_mode;
-> > > +
-> > > +	return (cur_mode->width == 1920) ? 0 : 1;
-> > 
-> > Could you use (imx290->current_mode - imx290_modes) / sizeof(*imx290_modes)
-> > or something like that? It'd have fewer chances of breaking if new modes
-> > are added.
-> > 
-> > > +}
-> > > +
-> > > +static s64 imx290_get_link_freq(struct imx290 *imx290)
-> > > +{
-> > > +	u8 index = imx290_get_link_freq_index(imx290);
-> > > +
-> > > +	if (imx290->nlanes == 4)
-> > > +		return imx290_link_freq_4lanes[index];
-> > > +	else
-> > > +		return imx290_link_freq_2lanes[index];
-> > 
-> > Or even better: store the link frequencies to the modes themselves. They
-> > are a property of the modes after all.
-> 
-> Then we will get two sets (for 2 lanes and for 4 lanes) of two modes (1080p and 720p), right?
+>  drivers/dma-buf/dma-fence.c | 53 +++++++++++++++++++++++++++++++++++++
+>  include/linux/dma-fence.h   | 12 +++++++++
+>  2 files changed, 65 insertions(+)
+>
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index 6802125349fb..d5c0fd2efc70 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -110,6 +110,52 @@ u64 dma_fence_context_alloc(unsigned num)
+>  }
+>  EXPORT_SYMBOL(dma_fence_context_alloc);
+>  
+> +#ifdef CONFIG_LOCKDEP
+> +struct lockdep_map	dma_fence_lockdep_map = {
+> +	.name = "dma_fence_map"
+> +};
+> +
+> +bool dma_fence_begin_signalling(void)
+> +{
+> +	/* explicitly nesting ... */
+> +	if (lock_is_held_type(&dma_fence_lockdep_map, 1))
+> +		return true;
+> +
+> +	/* rely on might_sleep check for soft/hardirq locks */
+> +	if (in_atomic())
+> +		return true;
+> +
+> +	/* ... and non-recursive readlock */
+> +	lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _RET_IP_);
+> +
+> +	return false;
+> +}
+> +EXPORT_SYMBOL(dma_fence_begin_signalling);
+> +
+> +void dma_fence_end_signalling(bool cookie)
+> +{
+> +	if (cookie)
+> +		return;
+> +
+> +	lock_release(&dma_fence_lockdep_map, _RET_IP_);
+> +}
+> +EXPORT_SYMBOL(dma_fence_end_signalling);
+> +
+> +void __dma_fence_might_wait(void)
+> +{
+> +	bool tmp;
+> +
+> +	tmp = lock_is_held_type(&dma_fence_lockdep_map, 1);
+> +	if (tmp)
+> +		lock_release(&dma_fence_lockdep_map, _THIS_IP_);
+> +	lock_map_acquire(&dma_fence_lockdep_map);
+> +	lock_map_release(&dma_fence_lockdep_map);
+> +	if (tmp)
+> +		lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _THIS_IP_);
+> +}
+> +#endif
+> +
+> +
+>  /**
+>   * dma_fence_signal_locked - signal completion of a fence
+>   * @fence: the fence to signal
+> @@ -170,14 +216,19 @@ int dma_fence_signal(struct dma_fence *fence)
+>  {
+>  	unsigned long flags;
+>  	int ret;
+> +	bool tmp;
+>  
+>  	if (!fence)
+>  		return -EINVAL;
+>  
+> +	tmp = dma_fence_begin_signalling();
+> +
+>  	spin_lock_irqsave(fence->lock, flags);
+>  	ret = dma_fence_signal_locked(fence);
+>  	spin_unlock_irqrestore(fence->lock, flags);
+>  
+> +	dma_fence_end_signalling(tmp);
+> +
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL(dma_fence_signal);
+> @@ -211,6 +262,8 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+>  	if (timeout > 0)
+>  		might_sleep();
+>  
+> +	__dma_fence_might_wait();
+> +
+>  	trace_dma_fence_wait_start(fence);
+>  	if (fence->ops->wait)
+>  		ret = fence->ops->wait(fence, intr, timeout);
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index 3347c54f3a87..3f288f7db2ef 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -357,6 +357,18 @@ dma_fence_get_rcu_safe(struct dma_fence __rcu **fencep)
+>  	} while (1);
+>  }
+>  
+> +#ifdef CONFIG_LOCKDEP
+> +bool dma_fence_begin_signalling(void);
+> +void dma_fence_end_signalling(bool cookie);
+> +#else
+> +static inline bool dma_fence_begin_signalling(void)
+> +{
+> +	return true;
+> +}
+> +static inline void dma_fence_end_signalling(bool cookie) {}
+> +static inline void __dma_fence_might_wait(void) {}
+> +#endif
+> +
+>  int dma_fence_signal(struct dma_fence *fence);
+>  int dma_fence_signal_locked(struct dma_fence *fence);
+>  signed long dma_fence_default_wait(struct dma_fence *fence,
 
-Correct.
 
-> 
-> > > +}
-> > > +
-> > > +static u64 imx290_calc_pixel_rate(struct imx290 *imx290)
-> > > +{
-> > > +	s64 link_freq = imx290_get_link_freq(imx290);
-> > > +	u8 nlanes = imx290->nlanes;
-> > > +
-> > > +	/* pixel rate = link_freq * 2 * nr_of_lanes / bits_per_sample */
-> > > +	return (link_freq * 2 * nlanes / 10);
-> > > +}
-> > > +
-> > >   static int imx290_set_fmt(struct v4l2_subdev *sd,
-> > >   			  struct v4l2_subdev_pad_config *cfg,
-> > >   		      struct v4l2_subdev_format *fmt)
-> > > @@ -475,10 +498,14 @@ static int imx290_set_fmt(struct v4l2_subdev *sd,
-> > >   		format = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
-> > >   	} else {
-> > >   		format = &imx290->current_format;
-> > > -		__v4l2_ctrl_s_ctrl(imx290->link_freq, mode->link_freq_index);
-> > > -		__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate, mode->pixel_rate);
-> > > -
-> > >   		imx290->current_mode = mode;
-> > > +
-> > > +		if (imx290->link_freq)
-> > > +			__v4l2_ctrl_s_ctrl(imx290->link_freq,
-> > > +					   imx290_get_link_freq_index(imx290));
-> > > +		if (imx290->pixel_rate)
-> > > +			__v4l2_ctrl_s_ctrl_int64(imx290->pixel_rate,
-> > > +						 imx290_calc_pixel_rate(imx290));
-> > >   	}
-> > >   	*format = fmt->format;
-> > > @@ -502,12 +529,11 @@ static int imx290_entity_init_cfg(struct v4l2_subdev *subdev,
-> > >   	return 0;
-> > >   }
-> > > -static int imx290_write_current_format(struct imx290 *imx290,
-> > > -				       struct v4l2_mbus_framefmt *format)
-> > > +static int imx290_write_current_format(struct imx290 *imx290)
-> > >   {
-> > >   	int ret;
-> > > -	switch (format->code) {
-> > > +	switch (imx290->current_format.code) {
-> > >   	case MEDIA_BUS_FMT_SRGGB10_1X10:
-> > >   		ret = imx290_set_register_array(imx290, imx290_10bit_settings,
-> > >   						ARRAY_SIZE(
-> > > @@ -558,8 +584,8 @@ static int imx290_start_streaming(struct imx290 *imx290)
-> > >   		return ret;
-> > >   	}
-> > > -	/* Set current frame format */
-> > > -	ret = imx290_write_current_format(imx290, &imx290->current_format);
-> > > +	/* Apply the register values related to current frame format */
-> > > +	ret = imx290_write_current_format(imx290);
-> > >   	if (ret < 0) {
-> > >   		dev_err(imx290->dev, "Could not set frame format\n");
-> > >   		return ret;
-> > > @@ -821,12 +847,6 @@ static int imx290_probe(struct i2c_client *client)
-> > >   		goto free_err;
-> > >   	}
-> > > -	if (imx290->ep.link_frequencies[0] != IMX290_DEFAULT_LINK_FREQ) {
-> > 
-> > This check needs to be modified to correspond to the driver's new
-> > capabilities, not removed.
-> 
-> Agreed.
-> Do I understand correct that as the driver uses two link frequencies
-> for a given number of lanes now, it must check that *the both* frequencies
-> (for the given number of lanes) are listed in the device tree node?
-
-Yes. The smiapp driver does this, for example.
-
--- 
-Sakari Ailus
