@@ -2,112 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8882A1E2AB6
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2020 20:58:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5733C1E3183
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2020 23:53:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390278AbgEZS6P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 May 2020 14:58:15 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45640 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390261AbgEZS6K (ORCPT
+        id S2389033AbgEZVxK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 May 2020 17:53:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59768 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726858AbgEZVxJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 May 2020 14:58:10 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90094814;
-        Tue, 26 May 2020 20:58:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1590519487;
-        bh=mK4ie8ARldRAo4vx2hQ/9AxMRRPVVEkg+ihU48dAit0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EW27tooP7QutWZQonvmR5h0C7QFQm6puQ38EDdSLsVHsMEYZ3y7Ojsgngxd42jb9Z
-         HGeRezGi5tIFl9udCqpUA4Zt49sbKsvNS9JKZTZiFswohEl0Q3pywGxDjA+sSsNeei
-         TRefN8oGcT1tuwLj22R89rahk3FaDVpGrNNdcawo=
-Date:   Tue, 26 May 2020 21:57:54 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tue, 26 May 2020 17:53:09 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 543B7C061A0F
+        for <linux-media@vger.kernel.org>; Tue, 26 May 2020 14:53:09 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id c71so1135540wmd.5
+        for <linux-media@vger.kernel.org>; Tue, 26 May 2020 14:53:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=DtoiVIeHWERaSBEx78ia06b9zdq9g6cht2Ue69Q2Jik=;
+        b=vebJv3oP2lnh/sFEpz8fOASD5UbPYep6VTqCHBS+JHprGL0YBJZxGAcPm4k7J62QE4
+         p/M/2/mPnBpg/wsAkf9VHafckjeksiFC+8Q48XtKW13lFDI2aPka+bIgITPJX770f7uO
+         1p1QqcK0D98ytVH6wHmEf2G5EYXB2+qu13e75MGXCuHQbiGdv7CNeHEZDeSRwFfPaVcZ
+         VQg5yPNeqeadUR05lUYtYZ3kqOTDWsg2e+JQnnA7oXEbdF+fNWcXckAoPUmWfd2iNBSR
+         b69Ic6rUqc6vd0Lc9ZA0hpWP8cQ8L0n/C1AOt99gjyMsoyUEUesEhDryb8kXBL6YQJ8Y
+         4CBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=DtoiVIeHWERaSBEx78ia06b9zdq9g6cht2Ue69Q2Jik=;
+        b=bjAA+tH/pxFggu4bzLVBch9aYlQGl1Jn90wb0y3g6zzn73xVWDob8jPlNo/Z3kq+A6
+         1KgBbpfuRB2dLMTHf+xdoOXN+wX6UAhNNfVAHl3HTgpitB9Gfa3/NxIg0iriMTF4zA5H
+         njxXUkgVtAins39z74fygGoLKKz5P7RKhxXDUZ5Oz8R9ivvofKp3NYZQVOUkp96sphsj
+         qTKrjvLpiOhhyk+ygkGTGf2ycg48JbkfyuveMjZvi5V/MzYVRJtTiIkkOJ6fyc88fxiN
+         MoOhvqC1nXsu+sckXLGL4SsO6gUSRig13OV4vMy6w9aTt1Mkis7J/zv7TrU1upHW5AM9
+         P4pQ==
+X-Gm-Message-State: AOAM5329HNuozDU67E68Vs8oSRyOYtcYZGvHIgtYNqQzSpTRT98nmPki
+        PWbVnVhm0oXvkWdvhKiKamZKlA==
+X-Google-Smtp-Source: ABdhPJztCSiQx52Bn3irhLyDl9tQ7W4IQbKMQ5dRf5diXRXZnGzoFQgLhALLR8gbkLwfMPc+sdzTug==
+X-Received: by 2002:a05:600c:4401:: with SMTP id u1mr1141071wmn.36.1590529987975;
+        Tue, 26 May 2020 14:53:07 -0700 (PDT)
+Received: from [192.168.1.9] (hst-221-24.medicom.bg. [84.238.221.24])
+        by smtp.googlemail.com with ESMTPSA id l5sm719844wml.27.2020.05.26.14.53.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 May 2020 14:53:07 -0700 (PDT)
+Subject: Re: [PATCH] v4l2-ctrl: add control for thumnails
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
         Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        niklas.soderlund@ragnatech.se--annotate
-Subject: Re: [PATCH v4 0/5] media: add v4l2_pipeline_stream_{enable,disable}
-Message-ID: <20200526185754.GA25880@pendragon.ideasonboard.com>
-References: <20200522075522.6190-1-dafna.hirschfeld@collabora.com>
- <1c8bd467-5a9c-7285-ec23-d0d864a5f938@collabora.com>
- <CAAFQd5BW9TF0iMRPCUwk3oZn-WrisMW794EuwfqZRTkmNqeKoA@mail.gmail.com>
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Tomasz Figa <tfiga@chromium.org>
+References: <20200526085446.30956-1-stanimir.varbanov@linaro.org>
+ <65ac9697-a43f-7025-e6fe-69c4a44c6d9a@xs4all.nl>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <ce28a840-a763-6700-16dd-d708e570d55c@linaro.org>
+Date:   Wed, 27 May 2020 00:53:06 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <65ac9697-a43f-7025-e6fe-69c4a44c6d9a@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5BW9TF0iMRPCUwk3oZn-WrisMW794EuwfqZRTkmNqeKoA@mail.gmail.com>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
+Hi Hans,
 
-On Tue, May 26, 2020 at 06:11:00PM +0200, Tomasz Figa wrote:
-> On Fri, May 22, 2020 at 11:06 AM Helen Koike <helen.koike@collabora.com> wrote:
-> > On 5/22/20 4:55 AM, Dafna Hirschfeld wrote:
-> > > Hi,
-> > > This is v4 of the patchset that was sent by Helen Koike.
-> > >
-> > > Media drivers need to iterate through the pipeline and call .s_stream()
-> > > callbacks in the subdevices.
-> > >
-> > > Instead of repeating code, add helpers for this.
-> > >
-> > > These helpers will go walk through the pipeline only visiting entities
-> > > that participates in the stream, i.e. it follows links from sink to source
-> > > (and not the opposite).
-> > > For example, in a topology like this https://bit.ly/3b2MxjI
-> > > calling v4l2_pipeline_stream_enable() from rkisp1_mainpath won't call
-> > > .s_stream(true) for rkisp1_resizer_selfpath.
-> > >
-> > > stream_count variable was added in v4l2_subdevice to handle nested calls
-> > > to the helpers.
-> > > This is useful when the driver allows streaming from more then one
-> > > capture device sharing subdevices.
-> >
-> > If I understand correctly, this isn't  true anymore right? Nested calls aren't
-> > possible anymore since this version doesn't contain stream_count in struct v4l2_subdevice.
-> >
-> > Documentation of v4l2_pipeline_stream_*() should also be updated.
-> >
-> > Just to be clear, without the nested call, vimc will require to add its own
-> > counters, patch https://patchwork.kernel.org/patch/10948833/ will be
-> > required again to allow multi streaming.
-> >
-> > Also, patch "media: staging: rkisp1: cap: use v4l2_pipeline_stream_{enable,disable}"
-> > is cleaner in the previous version (with stream_count in struct v4l2_subdevice).
-> >
-> > All drivers that allows multi streaming will need to implement some special handling.
-> >
-> > Adding stream_count in struct v4l2_subdevice still seems cleaner to me. I'd like to hear
-> > what others think.
+On 5/26/20 3:04 PM, Hans Verkuil wrote:
+> On 26/05/2020 10:54, Stanimir Varbanov wrote:
+>> Add v4l2 control for decoder thumbnail.
+>>
+>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> ---
+>>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 7 +++++++
+>>  drivers/media/v4l2-core/v4l2-ctrls.c                      | 2 ++
+>>  include/uapi/linux/v4l2-controls.h                        | 2 ++
+>>  3 files changed, 11 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> index d0d506a444b1..e838e410651b 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> @@ -3726,6 +3726,13 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>      disables generating SPS and PPS at every IDR. Setting it to one enables
+>>      generating SPS and PPS at every IDR.
+>>  
+>> +``V4L2_CID_MPEG_VIDEO_DECODER_THUMBNAIL (button)``
+>> +    Instructs the decoder to produce immediate output. The decoder should
+>> +    consume first input buffer for progressive stream (or first two buffers
+>> +    for interlace). Decoder should not allocate more output buffers that it
+>> +    is required to consume one input frame. Usually the decoder input
+>> +    buffers will contain only I/IDR frames but it is not mandatory.
 > 
-> I certainly would see this reference counting done in generic code,
-> because requiring every driver to do it simply adds to the endless
-> amount of boiler plate that V4L2 currently requires from the drivers.
-> :(
-> 
-> I wonder if it wouldn't be possible to redesign the framework so that
-> .s_stream() at the subdev level is only called when it's expected to
-> either start or stop this particular subdev and driver's
-> implementation can simply execute the requested action.
+> This is very vague. It doesn't explain why the control is called 'THUMBNAIL',
+> but more importantly it doesn't explain how this relates to normal decoding.
 
-I'd very much like that. Note that I think a few drivers abuse the on
-parameter to the function to pass other values than 0 or 1. We'd have to
-fix those first (or maybe it has been done already, it's been a long
-time since I last checked).
+If in the normal decode the capture queue buffers are 5, in the
+thumbnail mode the number of buffers will be only 1 (if the bitstream is
+progressive) and this will guarantee low memory usage. The other
+difference is that the decoder will produce decoded frames (without
+errors) only for I/IDR (sync frames).
+
+> 
+> I.e. if you are decoding and 'press' this control, what happens then?
+
+Might be the button type wasn't great idea. In fact the control should
+be set before streamon so that the driver returns min_capture_bufs 1.
+
+> 
+> What exactly is the use-case?
+
+It could be used to generate thumbnails of all video clips in a folder
+or when you open a Gallery application on your phone.
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>> +
+>>  .. _v4l2-mpeg-hevc:
+>>  
+>>  ``V4L2_CID_MPEG_VIDEO_HEVC_SPS (struct)``
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+>> index b188577db40f..cb2554404c63 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+>> @@ -991,6 +991,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>  	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:		return "HEVC Slice Parameters";
+>>  	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
+>>  	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
+>> +	case V4L2_CID_MPEG_VIDEO_DECODER_THUMBNAIL:		return "Thumbnail generation";
+>>  
+>>  	/* CAMERA controls */
+>>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+>> @@ -1234,6 +1235,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>>  	case V4L2_CID_AUTO_FOCUS_START:
+>>  	case V4L2_CID_AUTO_FOCUS_STOP:
+>>  	case V4L2_CID_DO_WHITE_BALANCE:
+>> +	case V4L2_CID_MPEG_VIDEO_DECODER_THUMBNAIL:
+>>  		*type = V4L2_CTRL_TYPE_BUTTON;
+>>  		*flags |= V4L2_CTRL_FLAG_WRITE_ONLY |
+>>  			  V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
+>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>> index 62271418c1be..7e44a2779863 100644
+>> --- a/include/uapi/linux/v4l2-controls.h
+>> +++ b/include/uapi/linux/v4l2-controls.h
+>> @@ -743,6 +743,8 @@ enum v4l2_cid_mpeg_video_hevc_size_of_length_field {
+>>  #define V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES	(V4L2_CID_MPEG_BASE + 643)
+>>  #define V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR	(V4L2_CID_MPEG_BASE + 644)
+>>  
+>> +#define V4L2_CID_MPEG_VIDEO_DECODER_THUMBNAIL		(V4L2_CID_MPEG_BASE + 645)
+>> +
+>>  /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
+>>  #define V4L2_CID_MPEG_CX2341X_BASE				(V4L2_CTRL_CLASS_MPEG | 0x1000)
+>>  #define V4L2_CID_MPEG_CX2341X_VIDEO_SPATIAL_FILTER_MODE		(V4L2_CID_MPEG_CX2341X_BASE+0)
+>>
+> 
 
 -- 
-Regards,
-
-Laurent Pinchart
+regards,
+Stan
