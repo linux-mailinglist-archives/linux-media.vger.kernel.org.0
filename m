@@ -2,80 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A4CE1E326D
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 00:25:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CBFA81E3270
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 00:26:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390476AbgEZWZQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 May 2020 18:25:16 -0400
-Received: from o1.b.az.sendgrid.net ([208.117.55.133]:47535 "EHLO
-        o1.b.az.sendgrid.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390051AbgEZWZP (ORCPT
+        id S2389755AbgEZW0W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 May 2020 18:26:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36726 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389628AbgEZW0W (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 May 2020 18:25:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
-        h=from:subject:to:cc:content-type:content-transfer-encoding;
-        s=001; bh=gYebp9rzYUVBATcyaT/NfFRbcFQwq1Ai5f6uhR6SvfA=;
-        b=Df8GllViA4xdGWlSI7AzAilMI50SV8LNsHjpdMBiDjx076/Wb5G8nZ2SjYfPKuQgXPij
-        0TX+paptKResOztyP7Bb/hnwYBl/7l/Uy4/IsXWWy8wZ6GsyvG2b9rL5FUuyxviLE7kUyS
-        loxU517BiJ/EoXHTQIKqTqmpcBo+SgOxk=
-Received: by filterdrecv-p3iad2-8ddf98858-4fqk8 with SMTP id filterdrecv-p3iad2-8ddf98858-4fqk8-19-5ECD974A-54
-        2020-05-26 22:25:15.015279878 +0000 UTC m=+5347060.449712244
-Received: from bionic.localdomain (unknown)
-        by ismtpd0007p1lon1.sendgrid.net (SG) with ESMTP
-        id pOuU-hH5TrqIU--iWX2dZg
-        Tue, 26 May 2020 22:25:14.675 +0000 (UTC)
-From:   Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH] media: v4l2-ctrls: Unset correct HEVC loop filter flag
-Date:   Tue, 26 May 2020 22:25:15 +0000 (UTC)
-Message-Id: <20200526222511.19250-1-jonas@kwiboo.se>
-X-Mailer: git-send-email 2.17.1
-X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h4NucujZqb2jdTqOb?=
- =?us-ascii?Q?eyTrc=2F1=2Fgi0sEhPbGFU5ou9bsWpLl0pN10UM=2FX8?=
- =?us-ascii?Q?siVB8aR03r7zPmISozzjuB+5kGzEgfvfDYHE44z?=
- =?us-ascii?Q?TBSx9Qta2L9=2FRjT+Sf=2FffRhAYyclwBqcLSNSFH=2F?=
- =?us-ascii?Q?h0F=2Fdo6GTK6ktahwoHDOTD3tjay1A4W3KZx4SU2?=
- =?us-ascii?Q?Xu+1Agb8XZRGQ7iYeXr8Q=3D=3D?=
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tue, 26 May 2020 18:26:22 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3FFCC061A0F
+        for <linux-media@vger.kernel.org>; Tue, 26 May 2020 15:26:20 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id k19so19018257edv.9
+        for <linux-media@vger.kernel.org>; Tue, 26 May 2020 15:26:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=QQW0K1swTiwj5Gcu5iuhS+qDsYzT0alcFdI4CL3m41I=;
+        b=bDPSov4ysDsc+cciSnP0jHTbAmW4Ywk+WvbT5YpTQWJe5uK8IAl47+OBwmAYv8/k2s
+         Y3O+KVfiioPBGgN9OHBCpwKks7r55Lz6jtbG2pAbjnjoYsIL+49T9xm54YCn2Kr2kyFb
+         ecFNXZKThl9Ogd+XVLmRA+xEp2sjgsSgho/2I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=QQW0K1swTiwj5Gcu5iuhS+qDsYzT0alcFdI4CL3m41I=;
+        b=LJvMz90d4sX2mRriKj847lKy7MkioF+nIaKvPUOEHXFToq3y8cmz2XcQL2ckfuOUjx
+         JuaYvkozyd3hlEYvyhGbwK/wDfKyOfn9UMWEjdcIZRFMf2N6GOqUAhHwLdXrfc+++JXW
+         5HJlEhczRiZzKl3Gypij8IFLjschhOhof0GReLycKDTkZfK4sgFzcuvQGktfvPaQNwGE
+         fMY4jtJLEWUrCppOHU6SQc0Zhyf45dFs8i2edNR7xeVHPOW1Ceh3BU0eId2cKbk7ldce
+         EscfRRoWMhsUm3vOtBaHGKPDT0Sii6Z7CvfK8YlZ9w/FzJvVDtLihRY4Diy1Lodk8apJ
+         WTyg==
+X-Gm-Message-State: AOAM533wlbkbsK7AO7k1T/KQAMAsCF2v1BjdjjWkbKt1CRuhuvsY6aJ4
+        VnE4jWziSemHyVHY8+3z2cF3sjd6xaJCDg==
+X-Google-Smtp-Source: ABdhPJzMUIiHZkRHXXI4u/1kBMurDdqrwGYxmriLNMeSK2HfmAcH2iIgjDoE5aJZWO9b7Th9HnwuSw==
+X-Received: by 2002:a05:6402:b91:: with SMTP id cf17mr21445832edb.148.1590531979128;
+        Tue, 26 May 2020 15:26:19 -0700 (PDT)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com. [209.85.128.44])
+        by smtp.gmail.com with ESMTPSA id p10sm869558ejn.64.2020.05.26.15.26.17
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 May 2020 15:26:18 -0700 (PDT)
+Received: by mail-wm1-f44.google.com with SMTP id n5so1196330wmd.0
+        for <linux-media@vger.kernel.org>; Tue, 26 May 2020 15:26:17 -0700 (PDT)
+X-Received: by 2002:a7b:c622:: with SMTP id p2mr1221914wmk.55.1590531977253;
+ Tue, 26 May 2020 15:26:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200515142952.20163-1-dafna.hirschfeld@collabora.com>
+ <20200515142952.20163-3-dafna.hirschfeld@collabora.com> <2606d729-7418-109b-f514-3b9eb834187c@collabora.com>
+ <4bd94509-79af-16db-3721-2553508a6c42@collabora.com> <d0c93454-8a51-a28c-639d-948041fc602a@collabora.com>
+ <9a0a91d50bdaa19378ef21de5c81abeef476429a.camel@collabora.com>
+ <f8fa01a3-c0f1-9fc5-1fb8-b4fe91e8fc74@collabora.com> <5a4e994d9b5b702205301a9b72bef2d013d4e106.camel@collabora.com>
+In-Reply-To: <5a4e994d9b5b702205301a9b72bef2d013d4e106.camel@collabora.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 27 May 2020 00:26:05 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5Di0hJKMo1NB6DJSRL5FMnK1sVtuhD0BhcKSUGTXd66sQ@mail.gmail.com>
+Message-ID: <CAAFQd5Di0hJKMo1NB6DJSRL5FMnK1sVtuhD0BhcKSUGTXd66sQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/4] media: staging: rkisp1: rsz: use hdiv, vdiv of
+ yuv422 instead of macros
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonas Karlman <jonas@kwiboo.se>
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Wrong loop filter flag is unset when tiles enabled flag is not set,
-this cause HEVC decoding issues with Rockchip Video Decoder.
+On Fri, May 22, 2020 at 5:05 PM Ezequiel Garcia <ezequiel@collabora.com> wrote:
+>
+> On Fri, 2020-05-22 at 16:15 +0200, Dafna Hirschfeld wrote:
+> >
+> > On 22.05.20 15:31, Ezequiel Garcia wrote:
+> > > Hi Dafna, Helen,
+> > >
+> > > On Fri, 2020-05-22 at 14:11 +0200, Dafna Hirschfeld wrote:
+> > > > On 21.05.20 00:08, Helen Koike wrote:
+> > > > > On 5/20/20 6:54 PM, Helen Koike wrote:
+> > > > > > Hi Dafna,
+> > > > > >
+> > > > > > On 5/15/20 11:29 AM, Dafna Hirschfeld wrote:
+> > > > > > > The resize block of rkisp1 always get the input as yuv422.
+> > > > > > > Instead of defining the default hdiv, vdiv as macros, the
+> > > > > > > code is more clear if it takes the (hv)div from the YUV422P
+> > > > > > > info. This makes it clear where those values come from.
+> > > > > > > The patch also adds documentation to explain that.
+> > > > > > >
+> > > > > > > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> > > > > >
+> > > > > > Acked-by: Helen Koike <helen.koike@collabora.com>
+> > > > > >
+> > > > > > Thanks!
+> > > > > > Helen
+> > > > > >
+> > > > > > > ---
+> > > > > > >    drivers/staging/media/rkisp1/rkisp1-resizer.c | 25 +++++++++----------
+> > > > > > >    1 file changed, 12 insertions(+), 13 deletions(-)
+> > > > > > >
+> > > > > > > diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+> > > > > > > index d049374413dc..04a29af8cc92 100644
+> > > > > > > --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
+> > > > > > > +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+> > > > > > > @@ -16,9 +16,6 @@
+> > > > > > >    #define RKISP1_DEF_FMT MEDIA_BUS_FMT_YUYV8_2X8
+> > > > > > >    #define RKISP1_DEF_PIXEL_ENC V4L2_PIXEL_ENC_YUV
+> > > > > > >
+> > > > > > > -#define RKISP1_MBUS_FMT_HDIV 2
+> > > > > > > -#define RKISP1_MBUS_FMT_VDIV 1
+> > > > > > > -
+> > > > > > >    enum rkisp1_shadow_regs_when {
+> > > > > > >     RKISP1_SHADOW_REGS_SYNC,
+> > > > > > >     RKISP1_SHADOW_REGS_ASYNC,
+> > > > > > > @@ -361,11 +358,12 @@ static void rkisp1_rsz_config_regs(struct rkisp1_resizer *rsz,
+> > > > > > >    static void rkisp1_rsz_config(struct rkisp1_resizer *rsz,
+> > > > > > >                           enum rkisp1_shadow_regs_when when)
+> > > > > > >    {
+> > > > > > > -   u8 hdiv = RKISP1_MBUS_FMT_HDIV, vdiv = RKISP1_MBUS_FMT_VDIV;
+> > > > > > >     struct v4l2_rect sink_y, sink_c, src_y, src_c;
+> > > > > > >     struct v4l2_mbus_framefmt *src_fmt;
+> > > > > > >     struct v4l2_rect *sink_crop;
+> > > > > > >     struct rkisp1_capture *cap = &rsz->rkisp1->capture_devs[rsz->id];
+> > > > > > > +   const struct v4l2_format_info *yuv422_info =
+> > > > > > > +           v4l2_format_info(V4L2_PIX_FMT_YUV422P);
+> > > > > > >
+> > >
+> > > Instead of hardcoding this fourcc, is there any way we can
+> > > retrieve it from a configured format?
+> > >
+> > What do you mean?
+> > If the configured format is bayer then the resizer is disabled.
+> > Otherwise the resizer always get the input as yuv422, this is why it is hard coded.
+> >
+>
+> I don't like to rely on these assumptions/knowledge.
+> It's much cleaner to retrieve the format, and avoiding
+> hardcoding things as much as you can.
 
-Fix this by unsetting the loop filter across tiles enabled flag instead of
-the pps loop filter across slices enabled flag when tiles are disabled.
+It would indeed be cleaner if we could retrieve this format from
+somewhere, but where would that be? In theory we could assign a
+YUV4:2:2 mbus format to the resizer input pad, but I think there is no
+similar data available for mbs formats, is there?
 
-Fixes: 256fa3920874 ("media: v4l: Add definitions for HEVC stateless decoding")
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
----
- drivers/media/v4l2-core/v4l2-ctrls.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Actually, if we look at this a bit more strictly, V4L2_PIX_FMT_YUV422P
+is not exactly what the resizer gets at its input.
+V4L2_PIX_FMT_YUV422P is a specific memory representation and the
+corresponding v4l2_format_info struct contains data about the memory
+layout. The resizer gets an unspecified YUV 4:2:2 pixel stream. Making
+the code suggest that it's V4L2_PIX_FMT_YUV422P might make it more
+confusing in another way.
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index b2e5804f1aa9..ebd7054d18ac 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -2081,7 +2081,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
- 			       sizeof(p_hevc_pps->row_height_minus1));
- 
- 			p_hevc_pps->flags &=
--				~V4L2_HEVC_PPS_FLAG_PPS_LOOP_FILTER_ACROSS_SLICES_ENABLED;
-+				~V4L2_HEVC_PPS_FLAG_LOOP_FILTER_ACROSS_TILES_ENABLED;
- 		}
- 
- 		if (p_hevc_pps->flags &
--- 
-2.17.1
+Perhaps the way forward would be to simply add a comment explaining
+where the 2 and 1 dividers come from?
 
+Best regards,
+Tomasz
