@@ -2,149 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F2A41E183F
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2020 01:32:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 015611E1A0A
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2020 05:39:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387882AbgEYXcv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 25 May 2020 19:32:51 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:8708 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387766AbgEYXcu (ORCPT
+        id S2388579AbgEZDjv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 25 May 2020 23:39:51 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:44449 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388497AbgEZDjv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 25 May 2020 19:32:50 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ecc55500000>; Mon, 25 May 2020 16:31:28 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Mon, 25 May 2020 16:32:50 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Mon, 25 May 2020 16:32:50 -0700
-Received: from HQMAIL107.nvidia.com (172.20.187.13) by HQMAIL101.nvidia.com
- (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 25 May
- 2020 23:32:50 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Mon, 25 May 2020 23:32:50 +0000
-Received: from sandstorm.nvidia.com (Not Verified[10.2.58.199]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ecc55a10000>; Mon, 25 May 2020 16:32:49 -0700
-From:   John Hubbard <jhubbard@nvidia.com>
-To:     LKML <linux-kernel@vger.kernel.org>
-CC:     John Hubbard <jhubbard@nvidia.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        <tee-dev@lists.linaro.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v2] tee: convert get_user_pages() --> pin_user_pages()
-Date:   Mon, 25 May 2020 16:32:48 -0700
-Message-ID: <20200525233248.434636-1-jhubbard@nvidia.com>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1590449488; bh=VbhMJzzhtLwECOt/zkVs5tvYqSm7aKeF2zHBBFaqTGM=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         MIME-Version:X-NVConfidentiality:Content-Transfer-Encoding:
-         Content-Type;
-        b=nUf1saWOS7mb/lnsvWb+B21oDh2NRXZqPgX4xJUgmzam4KPf9nZaCoy/X0bwzBYrY
-         Zebfr779q3I/dmH4EKycVJH1ILsnuGqwlduZbjJIkWAL4XEHE8ydyNlr7S39B+3xbG
-         ZmAMWdFbzBNxH+nqLUULtEyOMt9DIw11bO8iL45LdlOZi9+k1qwzmuPHBu84GIsQ0E
-         OLjifKUXBRiZWydx1RMXL5WoWRtvQylgA6UrUO3JIrn8ONHbBCVcLZMv4AIHtErqV+
-         5TGz4dsidr5Ay8zAHeCd69/BvWX3bveRL/gmJmMI8NyPDX8Mi+1BRtFrWTKH1TpdW7
-         O+gppcemBUZag==
+        Mon, 25 May 2020 23:39:51 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id dQRPjDOqTdPgTdQRQjgnOY; Tue, 26 May 2020 05:39:48 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1590464388; bh=VyshyehPBTLbM22r5aMxHUfRoTbiz22LrKY3oyJOIgI=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=WuHM0zlBhFioLSNWps8GuSsYVSlusFL0tflYvlwsp+1sT3fK6RNJPh1llpLzQW4io
+         M51gl1fimQe8NvYRCePGKuEqIGShxgTomcPSGf9yO2gB1DTXZasEFLYX89KikY/ejo
+         +Sq3th1FcfZ+YZIYoij3eUROeYFGXRNraWZBjxa9w10KnLBqRLQjdecEWQkIh/IZeD
+         KhBtETuFfMzWxZs/Y1HArrBmdSCVG4x+Y2xh+jt7gU153xCSVCGPTSKwYuD9JzSJiN
+         ZRigdfdt4WOFKBp26jRKDFkzLt9D8G3uTBR8Fmmj2p8kqzeGcNd93IedkR83pu8mE0
+         uC4SbLFh1pzKw==
+Message-ID: <4443cadaf7ab7a4831c2190d2d8fce4c@smtp-cloud8.xs4all.net>
+Date:   Tue, 26 May 2020 05:39:47 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfPJ4cRV2xdv79GaIs05Imjve13DxolQvXrhs1lDviFkHp+ir+V7ZIu4AfmeRPYx+J7+IZVI3uY07MA44tSFuTemnvpruTynOnSU7x9rJxosWeYLifXPm
+ 0w/IxyD9j+omsCDcOkYFT3B5OEu1IZNto+8OvIDHwIqIptW/U2rlv1lJtEE02gUVfO4Hln+Q+JMg/vecaFRMlND7QOcbjKUADJG3LPE0rxuxCRs+/OiE+kQm
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This code was using get_user_pages*(), in a "Case 2" scenario
-(DMA/RDMA), using the categorization from [1]. That means that it's
-time to convert the get_user_pages*() + put_page() calls to
-pin_user_pages*() + unpin_user_pages() calls.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-There is some helpful background in [2]: basically, this is a small
-part of fixing a long-standing disconnect between pinning pages, and
-file systems' use of those pages.
+Results of the daily build of media_tree:
 
-[1] Documentation/core-api/pin_user_pages.rst
+date:			Tue May 26 05:00:10 CEST 2020
+media-tree git hash:	938b29db3aa9c293c7c1366b16e55e308f1a1ddd
+media_build git hash:	7379d9e55aa05cd53f3dceaa5e0278e93db357bd
+v4l-utils git hash:	ae8dd398baf927bc5bc18abd1677a5c4e118034e
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0accb575719caa47d8fbc866b11e6f7e7e7787cd
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-[2] "Explicit pinning of user-space pages":
-    https://lwn.net/Articles/807108/
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.212-i686: ERRORS
+linux-4.4.212-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.212-i686: ERRORS
+linux-4.9.212-x86_64: ERRORS
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: WARNINGS
+linux-4.13.16-x86_64: WARNINGS
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7-rc1-i686: OK
+linux-5.7-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 4
+virtme-32: ERRORS: Final Summary: 2779, Succeeded: 2778, Failed: 1, Warnings: 3
+sparse: OK
+smatch: OK
 
-Cc: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: tee-dev@lists.linaro.org
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
----
+Detailed results are available here:
 
-Hi,
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
 
-This fixes the typo ("convert convert") in the subject line, but
-otherwise no changes.
+Detailed regression test results are available here:
 
-thanks,
-John Hubbard
-NVIDIA
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
 
+Full logs are available here:
 
- drivers/tee/tee_shm.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
 
-diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
-index bd679b72bd05..7dffc42d8d5a 100644
---- a/drivers/tee/tee_shm.c
-+++ b/drivers/tee/tee_shm.c
-@@ -31,16 +31,13 @@ static void tee_shm_release(struct tee_shm *shm)
-=20
- 		poolm->ops->free(poolm, shm);
- 	} else if (shm->flags & TEE_SHM_REGISTER) {
--		size_t n;
- 		int rc =3D teedev->desc->ops->shm_unregister(shm->ctx, shm);
-=20
- 		if (rc)
- 			dev_err(teedev->dev.parent,
- 				"unregister shm %p failed: %d", shm, rc);
-=20
--		for (n =3D 0; n < shm->num_pages; n++)
--			put_page(shm->pages[n]);
--
-+		unpin_user_pages(shm->pages, shm->num_pages);
- 		kfree(shm->pages);
- 	}
-=20
-@@ -226,7 +223,7 @@ struct tee_shm *tee_shm_register(struct tee_context *ct=
-x, unsigned long addr,
- 		goto err;
- 	}
-=20
--	rc =3D get_user_pages_fast(start, num_pages, FOLL_WRITE, shm->pages);
-+	rc =3D pin_user_pages_fast(start, num_pages, FOLL_WRITE, shm->pages);
- 	if (rc > 0)
- 		shm->num_pages =3D rc;
- 	if (rc !=3D num_pages) {
-@@ -271,16 +268,13 @@ struct tee_shm *tee_shm_register(struct tee_context *=
-ctx, unsigned long addr,
- 	return shm;
- err:
- 	if (shm) {
--		size_t n;
--
- 		if (shm->id >=3D 0) {
- 			mutex_lock(&teedev->mutex);
- 			idr_remove(&teedev->idr, shm->id);
- 			mutex_unlock(&teedev->mutex);
- 		}
- 		if (shm->pages) {
--			for (n =3D 0; n < shm->num_pages; n++)
--				put_page(shm->pages[n]);
-+			unpin_user_pages(shm->pages, shm->num_pages);
- 			kfree(shm->pages);
- 		}
- 	}
---=20
-2.26.2
+The Media Infrastructure API from this daily build is here:
 
+http://www.xs4all.nl/~hverkuil/spec/index.html
