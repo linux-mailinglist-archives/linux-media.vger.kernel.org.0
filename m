@@ -2,124 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB6101E2539
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2020 17:17:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 332C51E2613
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2020 17:53:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729425AbgEZPRS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 May 2020 11:17:18 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:38500 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728205AbgEZPRR (ORCPT
+        id S1730532AbgEZPx1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 May 2020 11:53:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59590 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727862AbgEZPx1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 May 2020 11:17:17 -0400
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04QFDG8V007562;
-        Tue, 26 May 2020 17:16:29 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type; s=STMicroelectronics;
- bh=f15cWn5l7+qnePYQkKeXeKN4S4ucsruNAsfQ5NRJgnw=;
- b=zpX6gM+963osYSTNm0NetVZRMoM9e8ye4AfJof65ff2WaNs3AZWKAyCrGWZ0mKNa0avq
- M7epb9sAZb7vr4G3rGWmmRxm0NJeqUtG6ytTtelsiMqU2jglLeE4cRICnyvF5Kwyk+QZ
- tRJ3PGRxR0XyqVESMIk1WuoNpUriT4FZmybFnruS3bZJRjXOstoRO4YlqGTAxZtQjZ+J
- /Q9riOB8lFLuumg1MJkP2ytirbUl9PF/y71J+NeNorKQorPZApwmkq85xXZIzEeyFOUC
- vg4mNSYsJRSPFUJp2nUdLUEGN0JLxixtZ8ogBlFJgTPT0Lrxjrz+4h1bjyrOezGuEINn rg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 316tqh04wa-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 26 May 2020 17:16:29 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0AB3410002A;
-        Tue, 26 May 2020 17:16:29 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id EE0F02C1DA0;
-        Tue, 26 May 2020 17:16:28 +0200 (CEST)
-Received: from localhost (10.75.127.50) by SFHDAG3NODE3.st.com (10.75.127.9)
- with Microsoft SMTP Server (TLS) id 15.0.1347.2; Tue, 26 May 2020 17:16:28
- +0200
-From:   Benjamin Gaignard <benjamin.gaignard@st.com>
-To:     <rjw@rjwysocki.net>, <viresh.kumar@linaro.org>,
-        <hugues.fruchet@st.com>, <mchehab@kernel.org>,
-        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>,
-        <pavel@ucw.cz>, <len.brown@intel.com>,
-        <valentin.schneider@arm.com>, <vincent.guittot@linaro.org>
-CC:     <linux-pm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: [RFC 3/3] media: stm32-dcmi: Inform cpufreq governors about cpu load needs
-Date:   Tue, 26 May 2020 17:16:19 +0200
-Message-ID: <20200526151619.8779-4-benjamin.gaignard@st.com>
-X-Mailer: git-send-email 2.15.0
-In-Reply-To: <20200526151619.8779-1-benjamin.gaignard@st.com>
-References: <20200526151619.8779-1-benjamin.gaignard@st.com>
+        Tue, 26 May 2020 11:53:27 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E56D9C03E96D
+        for <linux-media@vger.kernel.org>; Tue, 26 May 2020 08:53:26 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id i16so18079992edv.1
+        for <linux-media@vger.kernel.org>; Tue, 26 May 2020 08:53:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=2+YCVxXRzSpuqAVQmezkaPdjvZxG3n6eGNczGrFBVKQ=;
+        b=RaDRF2N6fT6tTHJfeP1bcxjK/BixXWLRPquOH0J+N2D5a8wfpYm53MMdfurtuH/LPS
+         xN2Mlf5Dv3BMNTvYfjXAIxKlUbfygV7/DVUjRhwrUQXwiq/8dW+Bvp9IKvY1FBbEUcLQ
+         eiutx4G20PAIp7NsOza0LphP4SF/tvb9OzBHY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=2+YCVxXRzSpuqAVQmezkaPdjvZxG3n6eGNczGrFBVKQ=;
+        b=DPHlvjPd01UIWxRAM47ZcDi6ofsVtk5EU4CQE22ZKTFoFpoq7ihcngHYKVxjZ8Dpl0
+         AE2LZoypcEyzvLrIO4bGzRVfmcmv2U1Ys4GbRNU1dZ85MaKzVYxPtS0NtAviaYuB9On9
+         xuZ9Ksdtye3LixFtw0qyqXCDIQnOaQMUwFJnaGpjQkHsqgLQerAeLxVUU1BtBWjkKwod
+         cLByE0YstvF7rOAvEM/v/jWYM5Ya/5FkxY/xDmPo+hwPmDuthSGSnfm4++YIoAeXedfU
+         XEnoTknQRvUATiQUt8uXDRPp3RdZs/WeiLf//j/DG3jdMOMN4btY4Jvj6NNJBwMsi8ef
+         FmpQ==
+X-Gm-Message-State: AOAM531jNYVWxSpi5TH6xSQNZ+ymCRaUKqfTKWSOclLoXw9m5+ZClxj8
+        9ymlK8OPp6qqJAgXXLaCMunhq9TDkN4=
+X-Google-Smtp-Source: ABdhPJyN9nSBm7eJnv2wdP5XDu6dC+33Bx3ZyxShQf3muAeP155//bjUA+PDna7CA2/Cf+mDFIIIcQ==
+X-Received: by 2002:a05:6402:177c:: with SMTP id da28mr20266220edb.378.1590508405424;
+        Tue, 26 May 2020 08:53:25 -0700 (PDT)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
+        by smtp.gmail.com with ESMTPSA id r1sm241896eja.57.2020.05.26.08.53.24
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 26 May 2020 08:53:24 -0700 (PDT)
+Received: by mail-wr1-f47.google.com with SMTP id y17so12495546wrn.11
+        for <linux-media@vger.kernel.org>; Tue, 26 May 2020 08:53:24 -0700 (PDT)
+X-Received: by 2002:a5d:6750:: with SMTP id l16mr20701906wrw.295.1590508403671;
+ Tue, 26 May 2020 08:53:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.50]
-X-ClientProxiedBy: SFHDAG2NODE3.st.com (10.75.127.6) To SFHDAG3NODE3.st.com
- (10.75.127.9)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
- definitions=2020-05-26_02:2020-05-26,2020-05-26 signatures=0
+References: <20200430113809.14872-1-stanimir.varbanov@linaro.org> <3052f24c-18ee-1c7d-111b-ffe15ca71fcb@xs4all.nl>
+In-Reply-To: <3052f24c-18ee-1c7d-111b-ffe15ca71fcb@xs4all.nl>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 26 May 2020 17:53:11 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5BwCZm3SDE4DdntrzTAyeshWxsAmFh011tAjiWXrh8wug@mail.gmail.com>
+Message-ID: <CAAFQd5BwCZm3SDE4DdntrzTAyeshWxsAmFh011tAjiWXrh8wug@mail.gmail.com>
+Subject: Re: [RFC] docs: dev-decoder: Add two more reasons for dynamic change
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When start streaming the CPU load could remain very low because almost
-all the capture pipeline is done in hardware (i.e. without using the CPU)
-and let believe to cpufreq governor that it could use lower frequencies.
-If the governor decides to use a too low frequency that becomes a problem
-when we need to acknowledge the interrupt during the blanking time.
+On Tue, May 26, 2020 at 12:26 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> On 30/04/2020 13:38, Stanimir Varbanov wrote:
+> > Here we add two more reasons for dynamic-resolution-change state
+> > (I think the name is misleading espesially "resolution" word, maybe
+>
+> espesially -> especially
+>
+> > dynamic-bitstream-change is better to describe).
+> >
+> > The first one which could change in the middle of the stream is the
+> > bit-depth. For worst example the stream is 8bit at the begging but
+> > later in the bitstream it changes to 10bit. That change should be
+> > propagated to the client so that it can take appropriate  action. In
+> > this case most probably it has to stop the streaming on the capture
+> > queue and re-negotiate the pixel format and start the streaming
+> > again.
+> >
+> > The second new reason is colorspace change. I'm not sure what action
+> > client should take but at least it should be notified for such change.
+> > One possible action is to notify the display entity that the colorspace
+> > and its parameters (y'cbcr encoding and so on) has been changed.
+> >
+> > Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> > ---
+> >  Documentation/userspace-api/media/v4l/dev-decoder.rst | 6 +++++-
+> >  1 file changed, 5 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/dev-decoder.rst b/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> > index 606b54947e10..bf10eda6125c 100644
+> > --- a/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> > +++ b/Documentation/userspace-api/media/v4l/dev-decoder.rst
+> > @@ -906,7 +906,11 @@ reflected by corresponding queries):
+> >
+> >  * visible resolution (selection rectangles),
+> >
+> > -* the minimum number of buffers needed for decoding.
+> > +* the minimum number of buffers needed for decoding,
+> > +
+> > +* bit-depth of the bitstream has been changed,
+> > +
+> > +* colorspace (and its properties) has been changed.
+>
+> For this I want to have a new source change flag:
+>
+> V4L2_EVENT_SRC_CH_COLORIMETRY
+>
+> Changing colorimetry without changing resolution/bit depth does not
+> require buffers to be re-allocated, it just changes how the pixel
+> data is interpreted w.r.t. color. And that is important to know.
 
-To avoid this problem, DCMI driver informs the cpufreq governors by adding
-a cpufreq minimum load QoS resquest.
+FWIW, the visible resolution (i.e. compose rectangle) change that is
+already defined doesn't require buffers to be re-allocated either.
+Backwards compatibility requires V4L2_EVENT_SRC_CH_RESOLUTION to be
+set, but perhaps we could have further flags introduced, which would
+mean visible resolution and stream format (pixelformat, resolution)
+exclusively?
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
----
- drivers/media/platform/stm32/stm32-dcmi.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
-index b8931490b83b..774f2506b2f1 100644
---- a/drivers/media/platform/stm32/stm32-dcmi.c
-+++ b/drivers/media/platform/stm32/stm32-dcmi.c
-@@ -24,6 +24,7 @@
- #include <linux/of_graph.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_qos.h>
- #include <linux/pm_runtime.h>
- #include <linux/reset.h>
- #include <linux/videodev2.h>
-@@ -173,6 +174,8 @@ struct stm32_dcmi {
- 	struct media_device		mdev;
- 	struct media_pad		vid_cap_pad;
- 	struct media_pipeline		pipeline;
-+
-+	struct pm_qos_request		qos_request;
- };
- 
- static inline struct stm32_dcmi *notifier_to_dcmi(struct v4l2_async_notifier *n)
-@@ -827,6 +830,9 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	else
- 		reg_set(dcmi->regs, DCMI_IER, IT_OVR | IT_ERR);
- 
-+	cpufreq_minload_qos_add_request(&dcmi->qos_request,
-+					CPUFREQ_GOV_QOS_MIN_LOAD_MAX_VALUE);
-+
- 	return 0;
- 
- err_pipeline_stop:
-@@ -859,6 +865,8 @@ static void dcmi_stop_streaming(struct vb2_queue *vq)
- 	struct stm32_dcmi *dcmi = vb2_get_drv_priv(vq);
- 	struct dcmi_buf *buf, *node;
- 
-+	cpufreq_minload_qos_remove_request(&dcmi->qos_request);
-+
- 	dcmi_pipeline_stop(dcmi);
- 
- 	media_pipeline_stop(&dcmi->vdev->entity);
--- 
-2.15.0
-
+Best regards,
+Tomasz
