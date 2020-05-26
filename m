@@ -2,159 +2,309 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D20181E1D5C
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2020 10:33:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 055FB1E1D80
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2020 10:40:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728516AbgEZIc7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 May 2020 04:32:59 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:39225 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726926AbgEZIc7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 May 2020 04:32:59 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id dV13jEnQPdPgTdV17jijEt; Tue, 26 May 2020 10:32:57 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1590481977; bh=9O+i6TRtUx6ixpRLWerGcPPtFe28tijxyUSUexCLzp8=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=epQJ6VvO1Tu9Lv3GEsL7li1OTWYjaG6fIz9l1UyNWlp4KQvi83QdT0rrEbrUuBVil
-         wjBJ4I9t4Y6cWGzSf69qdrufMuo+npw/ZKtmMMdY++Mg5XaSgXmAz3DvjTsNoqSoxP
-         M5P9QUxf49UhGsT1SWmcP7NkLpRUlXkKAe1PiO6+Zllw90VdFk7gePZKTsx/oI6RW7
-         xCe1HpOs7rWqPanafMcvFleAjwyh3/ArW08fAqdTsPWzvKwFSNKo0BxDvqWA+7AaRK
-         pl+nC78LBFgz+ZskdFYz6RREvhuRQkAwNbDE4IPnatkf8Ed1Ckj4ZgBxOXg9X53owJ
-         KMe89pZ940gJw==
-Subject: Re: [PATCHv2 1/2] media: docs-rst: Document memory-to-memory video
- encoder interface
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        linux-media@vger.kernel.org
-Cc:     Michael Tretter <m.tretter@pengutronix.de>,
-        Tomasz Figa <tfiga@chromium.org>
-References: <20200520100159.2094831-1-hverkuil-cisco@xs4all.nl>
- <20200520100159.2094831-2-hverkuil-cisco@xs4all.nl>
- <a14b50176ae678904f9dd39c1bb8edbc5801a030.camel@ndufresne.ca>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <6caf4e56-2cb3-b193-3760-3a9b3c31bfb0@xs4all.nl>
-Date:   Tue, 26 May 2020 10:32:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1731549AbgEZIkQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 May 2020 04:40:16 -0400
+Received: from mga07.intel.com ([134.134.136.100]:28530 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726926AbgEZIkQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 26 May 2020 04:40:16 -0400
+IronPort-SDR: y50WTqnnu3I39cCP2P8psKq4eyytQGNh3T8vIpqGUGUvqS032fNEvh4P1AatMbUJH4YCVkhmxC
+ ZqjTsxt7HCCQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2020 01:40:13 -0700
+IronPort-SDR: l2w/Hxm7VIWYWLjsENTS3NLn1pGJmwauzNAKxlAgdFxmT8EAXBWQqB3EZWZAKe5rJBWeDIH/hL
+ R5nxwBEYvTHw==
+X-IronPort-AV: E=Sophos;i="5.73,436,1583222400"; 
+   d="scan'208";a="284359365"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2020 01:40:12 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 6BA16208B5; Tue, 26 May 2020 11:40:10 +0300 (EEST)
+Date:   Tue, 26 May 2020 11:40:10 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl
+Subject: Re: [PATCH v2 1/1] Documentation: media: Document how to write
+ camera sensor drivers
+Message-ID: <20200526084010.GM7618@paasikivi.fi.intel.com>
+References: <20200519085250.32318-1-sakari.ailus@linux.intel.com>
+ <20200520001108.GK3820@pendragon.ideasonboard.com>
+ <20200520091437.GW20066@paasikivi.fi.intel.com>
+ <20200520105355.GC5852@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <a14b50176ae678904f9dd39c1bb8edbc5801a030.camel@ndufresne.ca>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfCEcEh9BkKKYij9cW774okmcvKAmdHEg21bIzLjtc9TCDlkuU5nEI2G6bAKFOdlRXxTnOlrpjhVrFacwDG9C1FHQqIRM016rFyjgcpDDCZQz1vdycuLq
- I0C8YtYLiAUN6g4gkHSDNF+/NG290wpjvSbvAs8vMMoMPDGYmoVUfmRNNwGkElGoRoV47mCdDUeZy/fqDTqd2c6C57dslnNuoxJq5D20pYSg5iCHICQvDz31
- Z3vYiDglKN1uKrnI5jjUf/CO5va3C79F4tSgRb8NO68+TFDIG4mjCbO4lYQvCm2r
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200520105355.GC5852@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/05/2020 22:32, Nicolas Dufresne wrote:
-> Le mercredi 20 mai 2020 à 12:01 +0200, Hans Verkuil a écrit :
->> From: Tomasz Figa <tfiga@chromium.org>
->>
->> Due to complexity of the video encoding process, the V4L2 drivers of
->> stateful encoder hardware require specific sequences of V4L2 API calls
->> to be followed. These include capability enumeration, initialization,
->> encoding, encode parameters change, drain and reset.
->>
->> Specifics of the above have been discussed during Media Workshops at
->> LinuxCon Europe 2012 in Barcelona and then later Embedded Linux
->> Conference Europe 2014 in Düsseldorf. The de facto Codec API that
->> originated at those events was later implemented by the drivers we already
->> have merged in mainline, such as s5p-mfc or coda.
->>
->> The only thing missing was the real specification included as a part of
->> Linux Media documentation. Fix it now and document the encoder part of
->> the Codec API.
->>
->> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> ---
->>  .../userspace-api/media/v4l/dev-encoder.rst   | 727 ++++++++++++++++++
->>  .../userspace-api/media/v4l/dev-mem2mem.rst   |   1 +
->>  .../userspace-api/media/v4l/pixfmt-v4l2.rst   |   5 +
->>  .../userspace-api/media/v4l/v4l2.rst          |   2 +
->>  .../media/v4l/vidioc-encoder-cmd.rst          |  51 +-
->>  5 files changed, 766 insertions(+), 20 deletions(-)
->>  create mode 100644 Documentation/userspace-api/media/v4l/dev-encoder.rst
->>
->> diff --git a/Documentation/userspace-api/media/v4l/dev-encoder.rst b/Documentation/userspace-api/media/v4l/dev-encoder.rst
+Hi Laurent,
 
-<snip>
-
->> +5. **Optional** Set the coded frame interval on the ``CAPTURE`` queue via
->> +   :c:func:`VIDIOC_S_PARM`. This is only necessary if the coded frame
->> +   interval is different from the raw frame interval, which is typically
->> +   the case for off-line encoding.
->> +
->> +   * ** Required fields:**
->> +
->> +     ``type``
->> +	 a ``V4L2_BUF_TYPE_*`` enum appropriate for ``CAPTURE``.
->> +
->> +     ``parm.capture``
->> +	 set all fields except ``parm.capture.timeperframe`` to 0.
->> +
->> +     ``parm.capture.timeperframe``
->> +	 the desired coded frame interval; the encoder may adjust it to
->> +	 match hardware requirements.
->> +
->> +   * **Return fields:**
->> +
->> +     ``parm.capture.timeperframe``
->> +	 the adjusted frame interval.
->> +
->> +   .. important::
->> +
->> +      Changing the ``CAPTURE`` frame interval sets the framerate for the
->> +      coded video. It does *not* set the rate at which buffers arrive on the
->> +      ``CAPTURE`` queue, that depends on how fast the encoder is and how
->> +      fast raw frames are queued on the ``OUTPUT`` queue.
->> +
->> +   .. important::
->> +
->> +      ``timeperframe`` deals with *frames*, not fields. So for interlaced
->> +      formats this is the time per two fields, since a frame consists of
->> +      a top and a bottom field.
->> +
->> +   .. note::
->> +
->> +      Not all drivers support this functionality, in that case just set
->> +      the desired coded frame interval for the ``OUTPUT`` queue.
+On Wed, May 20, 2020 at 01:53:55PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> There is a slight contorsion in the resulting user-space API. When I
-> read this, the logical thing to do for live streams would be to just
-> set the OUTPUT and the driver will take care of CAPTURE for me.
+> On Wed, May 20, 2020 at 12:14:37PM +0300, Sakari Ailus wrote:
+> > On Wed, May 20, 2020 at 03:11:08AM +0300, Laurent Pinchart wrote:
+> > > On Tue, May 19, 2020 at 11:52:50AM +0300, Sakari Ailus wrote:
+> > > > While we have had some example drivers, there has been up to date no
+> > > > formal documentation on how camera sensor drivers should be written; what
+> > > > are the practices, why, and where they apply.
+> > > > 
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > > since v1:
+> > > > 
+> > > > - Added power management documentation.
+> > > 
+> > > I've reviewed v1, and most of the comments still apply. I'll comment on
+> > > the new section below.
+> > > 
+> > > > 
+> > > > The HTML docs are here:
+> > > > 
+> > > > <URL:https://www.retiisi.eu/~sailus/v4l2/tmp/doc2/output/>
+> > > > 
+> > > >  .../driver-api/media/camera-sensor.rst        | 129 ++++++++++++++++++
+> > > >  Documentation/driver-api/media/csi2.rst       |   2 +
+> > > >  Documentation/driver-api/media/index.rst      |   1 +
+> > > >  3 files changed, 132 insertions(+)
+> > > >  create mode 100644 Documentation/driver-api/media/camera-sensor.rst
+> > > > 
+> > > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > > > new file mode 100644
+> > > > index 000000000000..fa71f07731a0
+> > > > --- /dev/null
+> > > > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > > > @@ -0,0 +1,129 @@
+> > > > +.. SPDX-License-Identifier: GPL-2.0
+> > > > +
+> > > > +Writing camera sensor drivers
+> > > > +=============================
+> > > > +
+> > > > +CSI-2
+> > > > +-----
+> > > > +
+> > > > +Please see what is written on :ref:`MIPI_CSI_2`.
+> > > > +
+> > > > +Handling clocks
+> > > > +---------------
+> > > > +
+> > > > +Camera sensors have an internal clock tree including a PLL and a number of
+> > > > +divisors. The clock tree is generally configured by the driver based on a few
+> > > > +input parameters that are specific to the hardware:: the external clock frequency
+> > > > +and the link frequency. The two parameters generally are obtained from system
+> > > > +firmware. No other frequencies should be used in any circumstances.
+> > > > +
+> > > > +The reason why the clock frequencies are so important is that the clock signals
+> > > > +come out of the SoC, and in many cases a specific frequency is designed to be
+> > > > +used in the system. Using another frequency may cause harmful effects
+> > > > +elsewhere. Therefore only the pre-determined frequencies are configurable by the
+> > > > +user.
+> > > > +
+> > > > +Frame size
+> > > > +----------
+> > > > +
+> > > > +There are two distinct ways to configure the frame size produced by camera
+> > > > +sensors.
+> > > > +
+> > > > +Freely configurable camera sensor drivers
+> > > > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > +
+> > > > +Freely configurable camera sensor drivers expose the device's internal
+> > > > +processing pipeline as one or more sub-devices with different cropping and
+> > > > +scaling configurations. The output size of the device is the result of a series
+> > > > +of cropping and scaling operations from the device's pixel array's size.
+> > > > +
+> > > > +An example of such a driver is the smiapp driver (see drivers/media/i2c/smiapp).
+> > > > +
+> > > > +Register list based drivers
+> > > > +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > +
+> > > > +Register list based drivers generally, instead of able to configure the device
+> > > > +they control based on user requests, are limited to a number of preset
+> > > > +configurations that combine a number of different parameters that on hardware
+> > > > +level are independent. How a driver picks such configuration is based on the
+> > > > +format set on a source pad at the end of the device's internal pipeline.
+> > > > +
+> > > > +Most sensor drivers are implemented this way, see e.g.
+> > > > +drivers/media/i2c/imx319.c for an example.
+> > > > +
+> > > > +Frame interval configuration
+> > > > +----------------------------
+> > > > +
+> > > > +There are two different methods for obtaining possibilities for different frame
+> > > > +intervals as well as configuring the frame interval. Which one to implement
+> > > > +depends on the type of the device.
+> > > > +
+> > > > +Raw camera sensors
+> > > > +~~~~~~~~~~~~~~~~~~
+> > > > +
+> > > > +Instead of a high level parameter such as frame interval, the frame interval is
+> > > > +a result of the configuration of a number of camera sensor implementation
+> > > > +specific parameters. Luckily, these parameters tend to be the same for more or
+> > > > +less all modern raw camera sensors.
+> > > > +
+> > > > +The frame interval is calculated using the following equation::
+> > > > +
+> > > > +	frame interval = (analogue crop width + horizontal blanking) *
+> > > > +			 (analogue crop height + vertical blanking) / pixel rate
+> > > > +
+> > > > +The formula is bus independent and is applicable for raw timing parameters on
+> > > > +large variety of devices beyond camera sensors. Devices that have no analogue
+> > > > +crop, use the full source image size, i.e. pixel array size.
+> > > > +
+> > > > +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
+> > > > +``V4L2_CID_VBLANK``, respectively. The unit of these controls are lines. The
+> > > > +pixel rate is specified by ``V4L2_CID_PIXEL_RATE`` in the same sub-device. The
+> > > > +unit of that control is Hz.
+> > > > +
+> > > > +Register list based drivers need to implement read-only sub-device nodes for the
+> > > > +purpose. Devices that are not register list based need these to configure the
+> > > > +device's internal processing pipeline.
+> > > > +
+> > > > +The first entity in the linear pipeline is the pixel array. The pixel array may
+> > > > +be followed by other entities that are there to allow configuring binning,
+> > > > +skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
+> > > > +
+> > > > +USB cameras etc. devices
+> > > > +~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > +
+> > > > +USB video class hardware, as well as many cameras offering a higher level
+> > > > +control interface, generally use the concept of frame interval (or frame rate)
+> > > > +on the level of device hardware interface. This means lower level controls
+> > > > +exposed by raw cameras may not be used as an interface to control the frame
+> > > > +interval on these devices.
+> > > > +
+> > > > +Power management
+> > > > +----------------
+> > > > +
+> > > > +Always use runtime PM to manage the power states of your device.
+> > > > +
+> > > > +Existing camera sensor drivers may rely on the old
+> > > > +:c:type:`v4l2_subdev_core_ops`->s_power() callback for bridge or ISP drivers to
+> > > > +manage their power state. This is however **deprecated**. If you feel you need
+> > > > +to begin calling an s_power from an ISP or a bridge driver, instead please add
+> > > > +runtime PM support to the sensor driver you are using. Likewise, new drivers
+> > > > +should not use s_power.
+> > > 
+> > > This should explain how runtime PM should be used. .s_power() provides
+> > > an explicit API to control power of the sensor. From a sensor driver
+> > 
+> > In general, how to exactly implement power management is specific to the
+> > driver, and a responsibility of the driver. The sensor drivers are not
+> > special in this respect.
 > 
-> While if I want to do offline, I don't know if this is supported or
-> not. So the flow would be a bit special:
+> Sure, but we're moving away from a model that is well known
+> (.s_power()), how to do so needs to be explained.
+
+I'd say runtime PM is at least as well known, also among those not familiar
+with historical V4L2 subdev ops. This is also why we point to examples,
+something we haven't done before, leading people pick drivers that aren't
+in any great shape.
+
+I could add where a typical camera sensor driver might use runtime PM API,
+but this would be probably no better than providing an example. The most
+difficult part to get right is described below in any case.
+
 > 
->   S_PARM(OUTPUT) with coded video frame rate
->   S_PARM(CAPTURE) width coded video
->   if ^ worked:
->      S_PARM(OUTPUT) with fastest rate possible
+> > > point of view, one may wonder when to call pm_runtime_get(_sync)() and
+> > > pm_runtime_put(_sync)() if there's no explicit operation. From a
+> > > receiver point of view, one may wonder how to control the sensor power
+> > > state. I'm pretty sure someone could try to call the runtime PM get/put
+> > > functions on the struct device corresponding to the sensor from an ISP
+> > > driver. To avoid that, this section needs to explain why explicit power
+> > > management from the ISP side is not needed.
+> > 
+> > I can add explicit note on calling runtime PM functions on other devices is
+> > not allowed for this is what the s_power callback did, but this not where
+> > runtime PM should be documented.
+> > 
+> > Runtime PM documentation could perhaps be improved but that does not belong
+> > here.
 > 
-> Ideally I would have preferred if there was a more straight forward way
-> to configure offline encoding for fastest performance with specific
-> coded framerate. I don't think it's a blocker though, performance is
-> not critical at all here. Maybe I'm missing something that allow to
-> check if this is supported or not without trying it ?
+> Sure, but if you want to deprecate .s_power(), you need to provide
+> precise guidelines on what to do instead. Just saying "use runtime PM"
+> isn't enough, even I wasn't sure how to handle that.
+> 
+> > The examples should be helpful for driver writers.
+> > 
+> > > > +
+> > > > +Please see examples in e.g. ``drivers/media/i2c/ov8856.c`` and
+> > > > +``drivers/media/i2c/smiapp/smiapp-core.c``. The two drivers work in both ACPI
+> > > > +and DT based systems.
+> > > > +
+> > > > +Control framework
+> > > > +~~~~~~~~~~~~~~~~~
+> > > > +
+> > > > +``v4l2_ctrl_handler_setup()`` function may not be used in the device's runtime PM
+> > > > +``resume`` callback currently, as it has no way to figure out the power state of
+> 
+> resume or runtime_resume ?
 
-Good point. I considered adding a flag for the v4l2_fmtdesc struct that
-reports whether you can set the capture framerate independently from the
-OUTPUT framerate. Perhaps V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL?
+runtime_resume, yes.
 
-I actually think it would be best if that's added. It is not enough to
-rely on whether S_PARM(CAPTURE) works to determine this feature since
-at least one encoder drivers supports both OUTPUT and CAPTURE with S_PARM,
-but CAPTURE does the same as OUTPUT, so that would be a red herring.
+> 
+> > > > +the device. As callback is required to figure out the device's power state, it
+> > > > +can only know when the device is fully powered. This can be done using
+> > > 
+> > > I don't understand the previous sentence.
+> > 
+> > How about rephrasing it as:
+> > 
+> > 	The callback need to know the device is in ``RPM_ACTIVE`` state,
+> 
+> s/need/needs/
 
-I'll add this flag for v3.
+Yes.
 
+> 
+> s/the device is/if the device is/ ?
+
+How about "whether"?
+
+> 
+> > 	and that information is only available after the resume callback
+> > 	has finished.
+> >
+> > > > +
+> > > > +.. c:function::
+> > > > +	int pm_runtime_get_if_in_use(struct device *dev);
+> > > > +
+> > > > +The function returns a non-zero value if it succeeded getting the power count or
+> > > > +runtime PM was disabled, in either of which cases the driver may proceed to
+> > > > +access the device.
+> > > 
+> > > This requires more explanation too, it's not clear to me.
+> > 
+> > How about:
+> > 
+> > 	The function returns a non-zero value if the device is in
+> > 	RPM_ACTIVE state or runtime PM is disabled. The caller is required
+> > 	to put the usage_count using ``pm_runtime_put()`` or one of its
+> > 	variants.
+> 
+> What is not clear is where to use pm_runtime_get_if_in_use(). You
+> started by saying v4l2_ctrl_handler_setup() can't be used in
+> .runtime_resume(), but where should it be used instead, and how does it
+> relate to pm_runtime_get_if_in_use() ?
+
+pm_runtime_get_if_in_use() returns non-zero if it acquires device's power
+count. As explained above, this can only happen when the device is in
+RPM_ACTIVE state, i.e. not during the runtime_resume callback.
+
+Have you read Documentation/power/runtime_pm.rst ? It perhaps doesn't
+explain a driver's role in the whole picture very clearly, but documenting
+that does not belong to V4L2 documentation either.
+
+-- 
 Regards,
 
-	Hans
+Sakari Ailus
