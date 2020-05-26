@@ -2,362 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0FC661E1D36
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2020 10:24:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D20181E1D5C
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2020 10:33:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728949AbgEZIYY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 May 2020 04:24:24 -0400
-Received: from mga11.intel.com ([192.55.52.93]:60986 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727879AbgEZIYX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 May 2020 04:24:23 -0400
-IronPort-SDR: JRnmDR+uMreddcjcxdIaWj6QYU6eh3gN0pZ3R/WvvSSu9cGRqQ8w2Q45xi1WZGIg7m60T1aZC3
- 8fgMAY+GWn9A==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2020 01:23:52 -0700
-IronPort-SDR: lii2J4O9tOMqeHsnipIK9Q486sYLkPdX8qWM7J1Mxst5MY166glqwt4ML928L/Mdlx++ONYbKp
- 5l8/lEgkMuPQ==
-X-IronPort-AV: E=Sophos;i="5.73,436,1583222400"; 
-   d="scan'208";a="255100958"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2020 01:23:51 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 78DEC208B5; Tue, 26 May 2020 11:23:48 +0300 (EEST)
-Date:   Tue, 26 May 2020 11:23:48 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        bingbu.cao@intel.com, Maxime Ripard <maxime@cerno.tech>
-Subject: Re: [PATCH 1/1] Documentation: media: Document how to write camera
- sensor drivers
-Message-ID: <20200526082348.GL7618@paasikivi.fi.intel.com>
-References: <20200512105914.9948-1-sakari.ailus@linux.intel.com>
- <20200520000130.GJ3820@pendragon.ideasonboard.com>
+        id S1728516AbgEZIc7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 May 2020 04:32:59 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:39225 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726926AbgEZIc7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 26 May 2020 04:32:59 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id dV13jEnQPdPgTdV17jijEt; Tue, 26 May 2020 10:32:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1590481977; bh=9O+i6TRtUx6ixpRLWerGcPPtFe28tijxyUSUexCLzp8=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=epQJ6VvO1Tu9Lv3GEsL7li1OTWYjaG6fIz9l1UyNWlp4KQvi83QdT0rrEbrUuBVil
+         wjBJ4I9t4Y6cWGzSf69qdrufMuo+npw/ZKtmMMdY++Mg5XaSgXmAz3DvjTsNoqSoxP
+         M5P9QUxf49UhGsT1SWmcP7NkLpRUlXkKAe1PiO6+Zllw90VdFk7gePZKTsx/oI6RW7
+         xCe1HpOs7rWqPanafMcvFleAjwyh3/ArW08fAqdTsPWzvKwFSNKo0BxDvqWA+7AaRK
+         pl+nC78LBFgz+ZskdFYz6RREvhuRQkAwNbDE4IPnatkf8Ed1Ckj4ZgBxOXg9X53owJ
+         KMe89pZ940gJw==
+Subject: Re: [PATCHv2 1/2] media: docs-rst: Document memory-to-memory video
+ encoder interface
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        linux-media@vger.kernel.org
+Cc:     Michael Tretter <m.tretter@pengutronix.de>,
+        Tomasz Figa <tfiga@chromium.org>
+References: <20200520100159.2094831-1-hverkuil-cisco@xs4all.nl>
+ <20200520100159.2094831-2-hverkuil-cisco@xs4all.nl>
+ <a14b50176ae678904f9dd39c1bb8edbc5801a030.camel@ndufresne.ca>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <6caf4e56-2cb3-b193-3760-3a9b3c31bfb0@xs4all.nl>
+Date:   Tue, 26 May 2020 10:32:53 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200520000130.GJ3820@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <a14b50176ae678904f9dd39c1bb8edbc5801a030.camel@ndufresne.ca>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfCEcEh9BkKKYij9cW774okmcvKAmdHEg21bIzLjtc9TCDlkuU5nEI2G6bAKFOdlRXxTnOlrpjhVrFacwDG9C1FHQqIRM016rFyjgcpDDCZQz1vdycuLq
+ I0C8YtYLiAUN6g4gkHSDNF+/NG290wpjvSbvAs8vMMoMPDGYmoVUfmRNNwGkElGoRoV47mCdDUeZy/fqDTqd2c6C57dslnNuoxJq5D20pYSg5iCHICQvDz31
+ Z3vYiDglKN1uKrnI5jjUf/CO5va3C79F4tSgRb8NO68+TFDIG4mjCbO4lYQvCm2r
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On 20/05/2020 22:32, Nicolas Dufresne wrote:
+> Le mercredi 20 mai 2020 à 12:01 +0200, Hans Verkuil a écrit :
+>> From: Tomasz Figa <tfiga@chromium.org>
+>>
+>> Due to complexity of the video encoding process, the V4L2 drivers of
+>> stateful encoder hardware require specific sequences of V4L2 API calls
+>> to be followed. These include capability enumeration, initialization,
+>> encoding, encode parameters change, drain and reset.
+>>
+>> Specifics of the above have been discussed during Media Workshops at
+>> LinuxCon Europe 2012 in Barcelona and then later Embedded Linux
+>> Conference Europe 2014 in Düsseldorf. The de facto Codec API that
+>> originated at those events was later implemented by the drivers we already
+>> have merged in mainline, such as s5p-mfc or coda.
+>>
+>> The only thing missing was the real specification included as a part of
+>> Linux Media documentation. Fix it now and document the encoder part of
+>> the Codec API.
+>>
+>> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> ---
+>>  .../userspace-api/media/v4l/dev-encoder.rst   | 727 ++++++++++++++++++
+>>  .../userspace-api/media/v4l/dev-mem2mem.rst   |   1 +
+>>  .../userspace-api/media/v4l/pixfmt-v4l2.rst   |   5 +
+>>  .../userspace-api/media/v4l/v4l2.rst          |   2 +
+>>  .../media/v4l/vidioc-encoder-cmd.rst          |  51 +-
+>>  5 files changed, 766 insertions(+), 20 deletions(-)
+>>  create mode 100644 Documentation/userspace-api/media/v4l/dev-encoder.rst
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/dev-encoder.rst b/Documentation/userspace-api/media/v4l/dev-encoder.rst
 
-Thanks for the comments.
+<snip>
 
-On Wed, May 20, 2020 at 03:01:30AM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
+>> +5. **Optional** Set the coded frame interval on the ``CAPTURE`` queue via
+>> +   :c:func:`VIDIOC_S_PARM`. This is only necessary if the coded frame
+>> +   interval is different from the raw frame interval, which is typically
+>> +   the case for off-line encoding.
+>> +
+>> +   * ** Required fields:**
+>> +
+>> +     ``type``
+>> +	 a ``V4L2_BUF_TYPE_*`` enum appropriate for ``CAPTURE``.
+>> +
+>> +     ``parm.capture``
+>> +	 set all fields except ``parm.capture.timeperframe`` to 0.
+>> +
+>> +     ``parm.capture.timeperframe``
+>> +	 the desired coded frame interval; the encoder may adjust it to
+>> +	 match hardware requirements.
+>> +
+>> +   * **Return fields:**
+>> +
+>> +     ``parm.capture.timeperframe``
+>> +	 the adjusted frame interval.
+>> +
+>> +   .. important::
+>> +
+>> +      Changing the ``CAPTURE`` frame interval sets the framerate for the
+>> +      coded video. It does *not* set the rate at which buffers arrive on the
+>> +      ``CAPTURE`` queue, that depends on how fast the encoder is and how
+>> +      fast raw frames are queued on the ``OUTPUT`` queue.
+>> +
+>> +   .. important::
+>> +
+>> +      ``timeperframe`` deals with *frames*, not fields. So for interlaced
+>> +      formats this is the time per two fields, since a frame consists of
+>> +      a top and a bottom field.
+>> +
+>> +   .. note::
+>> +
+>> +      Not all drivers support this functionality, in that case just set
+>> +      the desired coded frame interval for the ``OUTPUT`` queue.
 > 
-> Thank you for the patch.
+> There is a slight contorsion in the resulting user-space API. When I
+> read this, the logical thing to do for live streams would be to just
+> set the OUTPUT and the driver will take care of CAPTURE for me.
 > 
-> On Tue, May 12, 2020 at 01:59:14PM +0300, Sakari Ailus wrote:
-> > While we have had some example drivers, there has been up to date no
-> > formal documentation on how camera sensor drivers should be written; what
-> > are the practices, why, and where they apply.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> > The HTML documentation can be found here:
-> > 
-> > <URL:https://www.retiisi.eu/~sailus/v4l2/tmp/doc/output/driver-api/media/camera-sensor.html>
-> > 
-> >  .../driver-api/media/camera-sensor.rst        | 98 +++++++++++++++++++
-> >  Documentation/driver-api/media/csi2.rst       |  2 +
-> >  Documentation/driver-api/media/index.rst      |  1 +
-> >  3 files changed, 101 insertions(+)
-> >  create mode 100644 Documentation/driver-api/media/camera-sensor.rst
-> > 
-> > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> > new file mode 100644
-> > index 000000000000..345e3ae30340
-> > --- /dev/null
-> > +++ b/Documentation/driver-api/media/camera-sensor.rst
-> > @@ -0,0 +1,98 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +Writing camera sensor drivers
-> > +=============================
-> > +
-> > +CSI-2
-> > +-----
-> > +
-> > +Please see what is written on :ref:`MIPI_CSI_2`.
+> While if I want to do offline, I don't know if this is supported or
+> not. So the flow would be a bit special:
 > 
-> That document mentions:
+>   S_PARM(OUTPUT) with coded video frame rate
+>   S_PARM(CAPTURE) width coded video
+>   if ^ worked:
+>      S_PARM(OUTPUT) with fastest rate possible
 > 
->   CSI-2 transmitter, such as a sensor or a TV tuner, drivers need to
->   provide the CSI-2 receiver with information on the CSI-2 bus
->   configuration. These include the V4L2_CID_LINK_FREQ and
->   V4L2_CID_PIXEL_RATE controls and
->   (:c:type:`v4l2_subdev_video_ops`->s_stream() callback). These
->   interface elements must be present on the sub-device represents the
->   CSI-2 transmitter.
->   
->   The V4L2_CID_LINK_FREQ control is used to tell the receiver driver the
->   frequency (and not the symbol rate) of the link. The
->   V4L2_CID_PIXEL_RATE is may be used by the receiver to obtain the pixel
->   rate the transmitter uses. The
->   :c:type:`v4l2_subdev_video_ops`->s_stream() callback provides an
->   ability to start and stop the stream.
-> 
-> Is that still up to date ? I thought V4L2_CID_LINK_FREQ was meant for
-> userspace to pick a frequency, and CSI-2 receivers were expected to use
-> the V4L2_CID_PIXEL_RATE control only to query the transmitter's rate.
+> Ideally I would have preferred if there was a more straight forward way
+> to configure offline encoding for fastest performance with specific
+> coded framerate. I don't think it's a blocker though, performance is
+> not critical at all here. Maybe I'm missing something that allow to
+> check if this is supported or not without trying it ?
 
-Good question. I think it is up-to-date.
+Good point. I considered adding a flag for the v4l2_fmtdesc struct that
+reports whether you can set the capture framerate independently from the
+OUTPUT framerate. Perhaps V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL?
 
-The ipu3-cio2 driver uses the LINK_FREQ control, that's what most CSI-2
-receiver drivers are interested in. I guess it could use PIXEL_RATE, too.
-Using either would probably make sense, and there seems to be a single
-sensor driver using LINK_FREQ that does not implement PIXEL_RATE.
+I actually think it would be best if that's added. It is not enough to
+rely on whether S_PARM(CAPTURE) works to determine this feature since
+at least one encoder drivers supports both OUTPUT and CAPTURE with S_PARM,
+but CAPTURE does the same as OUTPUT, so that would be a red herring.
 
-That's a separate issue though, I can send a patch soonish. Ping me if I
-forget.
+I'll add this flag for v3.
 
-> 
-> > +
-> > +Handling clocks
-> > +---------------
-> > +
-> > +Camera sensors have an internal clock tree including a PLL and a number of
-> > +divisors. The clock tree is generally configured by the driver based on a few
-> > +input parameters that are specific to the hardware:: the external clock frequency
-> > +and the link frequency. The two parameters generally are obtained from system
-> > +firmware. No other frequencies should be used in any circumstances.
-> 
-> Does the last sentence try to explain that drivers shall not pick values
-> for the input clock frequency and the link frequency other than the ones
-> obtained from the firmware ? I had initially interpreted it as meaning
-> no other parameters than those two frequencies shall be used to
-> configure the clock tree. It should be rephrased to make it clearer.
-> 
-> Another issue is that you mention the two frequencies are *generally*
-> obtained from the firmware, and then state that no other values may be
-> used, but you don't explain what should be done when the values are not
-> provided by the firmware in the non-general case.
+Regards,
 
-That is actually explained below. I'll see if some of the below text could
-be used.
-
-The problem is that the driver does not know in what kind of a system the
-device may be used in, and whether random frequencies would be workable
-there or not. Also some drivers in practice currently need a set of
-frequencies to work with, rather than a range.
-
-Using higher link frequencies than specified in firmware would also bring a
-new problem: the sensor driver might configure the transmitter at a
-frequency (or data rate) the receiver does not support. This would also
-need to be solved for any frequency to work.
-
-In principle we could also add a frequency range to firmware, using a
-different property. I'm not sure what the gain from that would be though.
-
-> 
-> > +
-> > +The reason why the clock frequencies are so important is that the clock signals
-> > +come out of the SoC, and in many cases a specific frequency is designed to be
-> 
-> The clock input to the sensor doesn't always come out of the SoC. Do you
-> really mean the sensor input clock here, or should the text talk about
-> the sensor output clock instead ? The main source of electro-magnetic
-> emissions will be the sensor output, not its input.
-
-Probably so, but the former is affected by the latter. How about:
-
-The reason why the clock frequencies are so important is that the clock
-signals may travel long distances on the PCB, and in many cases only a
-specific frequency is known not to cause interference.
-
-> 
-> > +used in the system. Using another frequency may cause harmful effects
-> > +elsewhere. Therefore only the pre-determined frequencies are configurable by the
-> > +user.
-> > +
-> > +Frame size
-> > +----------
-> > +
-> > +There are two distinct ways to configure the frame size produced by camera
-> > +sensors.
-> > +
-> > +Freely configurable camera sensor drivers
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +Freely configurable camera sensor drivers expose the device's internal
-> > +processing pipeline as one or more sub-devices with different cropping and
-> > +scaling configurations. The output size of the device is the result of a series
-> > +of cropping and scaling operations from the device's pixel array's size.
-> > +
-> > +An example of such a driver is the smiapp driver (see drivers/media/i2c/smiapp).
-> > +
-> > +Register list based drivers
-> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +Register list based drivers generally, instead of able to configure the device
-> 
-> s/able/being able/
-
-Yes.
-
-> 
-> What's the non-general case here ?
-
-There could be (and are) drivers that are only partially based on register
-lists.
-
-> 
-> > +they control based on user requests, are limited to a number of preset
-> > +configurations that combine a number of different parameters that on hardware
-> > +level are independent. How a driver picks such configuration is based on the
-> 
-> The parameters are usually not independent, as they are usually
-> expressed in registers as sizes, and thus depend on the previous
-> pipeline stages. This should be rephrased.
-
-Their value range does depend on previous processing steps but the
-configuration of the consecutive processing steps is still independent;
-configuring one does not require a particular configuration on the other.
-In that sense they are independent.
-
-> 
-> > +format set on a source pad at the end of the device's internal pipeline.
-> > +
-> > +Most sensor drivers are implemented this way, see e.g. 
-> > +drivers/media/i2c/imx319.c for an example.
-> > +
-> > +Frame interval configuration
-> > +----------------------------
-> > +
-> > +There are two different methods for obtaining possibilities for different frame
-> > +intervals as well as configuring the frame interval. Which one to implement
-> > +depends on the type of the device.
-> > +
-> > +Raw camera sensors
-> > +~~~~~~~~~~~~~~~~~~
-> 
-> This isn't limited to raw sensors.
-
-I guess there's a class of devices that contain an ISP but still expose the
-raw timing values to the driver.
-
-How about:
-
-"Raw camera sensors and other devices with close to hardware control parameters"
-
-> 
-> > +
-> > +Instead of a high level parameter such as frame interval, the frame interval is
-> 
-> Drop "Instead of a high level parameter such as frame interval, ".
-
-Ack.
-
-> 
-> > +a result of the configuration of a number of camera sensor implementation
-> > +specific parameters. Luckily, these parameters tend to be the same for more or
-> > +less all modern raw camera sensors.
-> 
-> Drop "luckily".
-
-Hmm. I think it probably should be there but I can remove it, too.
-
-> 
-> > +
-> > +The frame interval is calculated using the following equation::
-> > +
-> > +	frame interval = (analogue crop width + horizontal blanking) *
-> > +			 (analogue crop height + vertical blanking) / pixel rate
-> > +
-> > +The formula is bus independent and is applicable for raw timing parameters on
-> > +large variety of devices beyond camera sensors. Devices that have no analogue
-> > +crop, use the full source image size, i.e. pixel array size.
-> 
-> s/crop, /crop /
-
-Yes.
-
-> 
-> > +
-> > +Horizontal and vertical blanking are specified by ``V4L2_CID_HBLANK`` and
-> > +``V4L2_CID_VBLANK``, respectively. The unit of these controls are lines. The
-> > +pixel rate is specified by ``V4L2_CID_PIXEL_RATE`` in the same sub-device. The
-> > +unit of that control is Hz.
-> 
-> I think you should turn this text around, it's not very clear for
-> someone who doesn't have lots of background in this field. It would be
-> better to explain that
-> 
-> - sensors perform pixel sampling and scanning out with a fixed rate
-> - each frame is scanned out line by line, with a line comprising active
->   image data and blanking
-> - blanking lines also occur at the end of the frame
-> - the frame rate is thus the result of the h/v total and pixel rate
-> - the active period is the result of analog crop configuration, and the
->   h/v blanking are then added with fixed or variable values depending on
->   the sensor
-> - the frame rate for a given analog crop can thus be influenced by the
->   amount of h/v blanking.
-> 
-> That's a more logical flow I believe, explaining how sensors work and
-> then explaining how the frame rate derives from that.
-
-I don't question the usefulness of such documentation, but note this is
-driver API documentation. I think such description would be better placed
-in uAPI documentation.
-
-I actually wonder whether much of the above would be better placed there.
-We have some bits of this in the control documentation but it assumes some
-knowledge of the camera sensors.
-
-> 
-> > +
-> > +Register list based drivers need to implement read-only sub-device nodes for the
-> > +purpose. Devices that are not register list based need these to configure the
-> 
-> What is "the purpose" ?
-
-How about adding: " of conveying this information to the user space".
-
-> 
-> > +device's internal processing pipeline.
-> > +
-> > +The first entity in the linear pipeline is the pixel array. The pixel array may
-> > +be followed by other entities that are there to allow configuring binning,
-> > +skipping, scaling or digital crop :ref:`v4l2-subdev-selections`.
-> 
-> I think this should be split to a different section about sensor
-> pipelines.
-> 
-> > +
-> > +USB cameras etc. devices
-> > +~~~~~~~~~~~~~~~~~~~~~~~~
-> > +
-> > +USB video class hardware, as well as many cameras offering a higher level
-> > +control interface, generally use the concept of frame interval (or frame rate)
-> > +on the level of device hardware interface. This means lower level controls
-> > +exposed by raw cameras may not be used as an interface to control the frame
-> > +interval on these devices.
-> 
-> It's not limited to these devices, it's also applicable to some camera
-> sensors that include an ISP, they can expose a frame interval/rate
-> control. As this file is named camera-sensor.rst, I think we should talk
-> about those. It's then typical for the analog crop and blanking to be
-> manually controllable when AEC is disabled, and for the AEC to take a
-> frame interval/rate parameter (or min/max values thereof).
-
-That's why the "etc." is there. :-) But perhaps it could be expressed
-better. How about:
-
-USB cameras and other devices using frame interval natively~
-
-> 
-> Should this also explain what APIs should be exposed by sensor drivers
-> in that case ?
-
-Probably yes.
-
--- 
-Sakari Ailus
+	Hans
