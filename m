@@ -2,263 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 697B51E1F3F
-	for <lists+linux-media@lfdr.de>; Tue, 26 May 2020 12:01:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 009E01E1F5E
+	for <lists+linux-media@lfdr.de>; Tue, 26 May 2020 12:09:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731823AbgEZKAt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 May 2020 06:00:49 -0400
-Received: from mga07.intel.com ([134.134.136.100]:7376 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728750AbgEZKAt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 May 2020 06:00:49 -0400
-IronPort-SDR: QXutgV/0Q+mHdu53akFoIETTVusVPK1QzrpFBSRltKrNVKnP7RtaL+yo+nNh2OU+/uRIBaHJnD
- xpSI2nLUFrLw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 May 2020 03:00:48 -0700
-IronPort-SDR: szVmd2xzDbIDlo7gUFSjYUShiKVCYp56FziRag+KZ6gbDC5OwzLyffnZz0AKb9i9jHctkfUiq3
- 3rNTw+NznYKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,436,1583222400"; 
-   d="scan'208";a="310212894"
-Received: from unknown (HELO [10.252.61.10]) ([10.252.61.10])
-  by FMSMGA003.fm.intel.com with ESMTP; 26 May 2020 03:00:45 -0700
-Subject: Re: [RFC 02/17] dma-fence: basic lockdep annotations
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
- <20200512085944.222637-3-daniel.vetter@ffwll.ch>
-From:   Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Message-ID: <22c105a0-2c29-a609-2043-905093158215@linux.intel.com>
-Date:   Tue, 26 May 2020 12:00:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1731859AbgEZKJj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 May 2020 06:09:39 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:46337 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728799AbgEZKJj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 26 May 2020 06:09:39 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id dWWajU9GZDazBdWWejeM92; Tue, 26 May 2020 12:09:36 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1590487776; bh=Fd2wtWKsTOX8ZabhZKVTzNhwCYWrqSGq0nY+z6uYHIY=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type:From:
+         Subject;
+        b=L7oJlAaeMs60YIMu6gBk0bqgbB38nGrvdMorC7NmZpPrzvLlibMzFJh1dquK9N2A2
+         wuVdq3KfSWdHKqKax/GjFFWz0tG8km6Oq5dGbwvo7UrVSfJryAQkqrwndgAHTbuvDZ
+         QjHPxqZGcqotRMEUd6JOHKXk2LCrUxp2VCHiO5nV0lZhapX9cYE0uRIIbyNUkn9p8N
+         W0CrdtBAFxMC/seAqHcbbTxAIW5N8dCkhTUJHUvVlsDNiSvQ7SaLv/D+Tiwb0NIJoZ
+         rnH+PrCcMz0tDEIPsy//SKnhYQSox+0GcRkDXGVH7Z3ST0jxCsypO4SPudU+sjpHWn
+         y+VkIRwIxhhBQ==
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Michael Tretter <m.tretter@pengutronix.de>
+Subject: [PATCHv3 0/5] Stateful Encoding: final bits
+Date:   Tue, 26 May 2020 12:09:27 +0200
+Message-Id: <20200526100932.2626420-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200512085944.222637-3-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-CMAE-Envelope: MS4wfNw29mmW3/J4npWRVe+AkVhJVLy+YKY5aZKlW0sjPPNEqfCXvsNuv/ueAoW0/SuJDJ5yTwzVs8XuDXUK4M+mn2D5JN2hcUaMYydasMwJCoPIrdW7x8W/
+ zw63bcAGr5mEEn2yPBcH9kVOBzR1VuO8glUP1awy0f9saiNujISdICoqU4G3TvYnKb9gU04QUE1vuFf73SwvPPmdnYhb5zG7ByY+DTVM3kU19bgjAcM9yYj5
+ qoo4mATxRbrTK2TPmnegd1m4FufVAyU/bdJucVsiKbDzJzQuHS7Tqb2+Z7H7FdsC
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Op 12-05-2020 om 10:59 schreef Daniel Vetter:
-> Design is similar to the lockdep annotations for workers, but with
-> some twists:
->
-> - We use a read-lock for the execution/worker/completion side, so that
->   this explicit annotation can be more liberally sprinkled around.
->   With read locks lockdep isn't going to complain if the read-side
->   isn't nested the same way under all circumstances, so ABBA deadlocks
->   are ok. Which they are, since this is an annotation only.
->
-> - We're using non-recursive lockdep read lock mode, since in recursive
->   read lock mode lockdep does not catch read side hazards. And we
->   _very_ much want read side hazards to be caught. For full details of
->   this limitation see
->
->   commit e91498589746065e3ae95d9a00b068e525eec34f
->   Author: Peter Zijlstra <peterz@infradead.org>
->   Date:   Wed Aug 23 13:13:11 2017 +0200
->
->       locking/lockdep/selftests: Add mixed read-write ABBA tests
->
-> - To allow nesting of the read-side explicit annotations we explicitly
->   keep track of the nesting. lock_is_held() allows us to do that.
->
-> - The wait-side annotation is a write lock, and entirely done within
->   dma_fence_wait() for everyone by default.
->
-> - To be able to freely annotate helper functions I want to make it ok
->   to call dma_fence_begin/end_signalling from soft/hardirq context.
->   First attempt was using the hardirq locking context for the write
->   side in lockdep, but this forces all normal spinlocks nested within
->   dma_fence_begin/end_signalling to be spinlocks. That bollocks.
->
->   The approach now is to simple check in_atomic(), and for these cases
->   entirely rely on the might_sleep() check in dma_fence_wait(). That
->   will catch any wrong nesting against spinlocks from soft/hardirq
->   contexts.
->
-> The idea here is that every code path that's critical for eventually
-> signalling a dma_fence should be annotated with
-> dma_fence_begin/end_signalling. The annotation ideally starts right
-> after a dma_fence is published (added to a dma_resv, exposed as a
-> sync_file fd, attached to a drm_syncobj fd, or anything else that
-> makes the dma_fence visible to other kernel threads), up to and
-> including the dma_fence_wait(). Examples are irq handlers, the
-> scheduler rt threads, the tail of execbuf (after the corresponding
-> fences are visible), any workers that end up signalling dma_fences and
-> really anything else. Not annotated should be code paths that only
-> complete fences opportunistically as the gpu progresses, like e.g.
-> shrinker/eviction code.
->
-> The main class of deadlocks this is supposed to catch are:
->
-> Thread A:
->
-> 	mutex_lock(A);
-> 	mutex_unlock(A);
->
-> 	dma_fence_signal();
->
-> Thread B:
->
-> 	mutex_lock(A);
-> 	dma_fence_wait();
-> 	mutex_unlock(A);
->
-> Thread B is blocked on A signalling the fence, but A never gets around
-> to that because it cannot acquire the lock A.
->
-> Note that dma_fence_wait() is allowed to be nested within
-> dma_fence_begin/end_signalling sections. To allow this to happen the
-> read lock needs to be upgraded to a write lock, which means that any
-> other lock is acquired between the dma_fence_begin_signalling() call and
-> the call to dma_fence_wait(), and still held, this will result in an
-> immediate lockdep complaint. The only other option would be to not
-> annotate such calls, defeating the point. Therefore these annotations
-> cannot be sprinkled over the code entirely mindless to avoid false
-> positives.
->
-> v2: handle soft/hardirq ctx better against write side and dont forget
-> EXPORT_SYMBOL, drivers can't use this otherwise.
->
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: linux-rdma@vger.kernel.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> ---
+This series adds the encoder spec and updates the VIDIOC_G/S_PARM
+documentation.
 
-This is something we definitely need, all drivers need to follow the same rules, in order to put some light in the darkness. :)
+This is a follow-up of the original "Stateful Encoding: final bits"
+series (1). 
 
-Reviewed-by: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+The patches in that series that add support for V4L2_CID_MPEG_VIDEO_ENC_FRAME_RATE
+and V4L2_BUF_FLAG_TOO_SMALL have been dropped (the first is not necessary
+and the second can be skipped for now, see the irc discussion with
+Nicolas [3]).
 
->  drivers/dma-buf/dma-fence.c | 53 +++++++++++++++++++++++++++++++++++++
->  include/linux/dma-fence.h   | 12 +++++++++
->  2 files changed, 65 insertions(+)
->
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 6802125349fb..d5c0fd2efc70 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -110,6 +110,52 @@ u64 dma_fence_context_alloc(unsigned num)
->  }
->  EXPORT_SYMBOL(dma_fence_context_alloc);
->  
-> +#ifdef CONFIG_LOCKDEP
-> +struct lockdep_map	dma_fence_lockdep_map = {
-> +	.name = "dma_fence_map"
-> +};
-> +
-> +bool dma_fence_begin_signalling(void)
-> +{
-> +	/* explicitly nesting ... */
-> +	if (lock_is_held_type(&dma_fence_lockdep_map, 1))
-> +		return true;
-> +
-> +	/* rely on might_sleep check for soft/hardirq locks */
-> +	if (in_atomic())
-> +		return true;
-> +
-> +	/* ... and non-recursive readlock */
-> +	lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _RET_IP_);
-> +
-> +	return false;
-> +}
-> +EXPORT_SYMBOL(dma_fence_begin_signalling);
-> +
-> +void dma_fence_end_signalling(bool cookie)
-> +{
-> +	if (cookie)
-> +		return;
-> +
-> +	lock_release(&dma_fence_lockdep_map, _RET_IP_);
-> +}
-> +EXPORT_SYMBOL(dma_fence_end_signalling);
-> +
-> +void __dma_fence_might_wait(void)
-> +{
-> +	bool tmp;
-> +
-> +	tmp = lock_is_held_type(&dma_fence_lockdep_map, 1);
-> +	if (tmp)
-> +		lock_release(&dma_fence_lockdep_map, _THIS_IP_);
-> +	lock_map_acquire(&dma_fence_lockdep_map);
-> +	lock_map_release(&dma_fence_lockdep_map);
-> +	if (tmp)
-> +		lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _THIS_IP_);
-> +}
-> +#endif
-> +
-> +
->  /**
->   * dma_fence_signal_locked - signal completion of a fence
->   * @fence: the fence to signal
-> @@ -170,14 +216,19 @@ int dma_fence_signal(struct dma_fence *fence)
->  {
->  	unsigned long flags;
->  	int ret;
-> +	bool tmp;
->  
->  	if (!fence)
->  		return -EINVAL;
->  
-> +	tmp = dma_fence_begin_signalling();
-> +
->  	spin_lock_irqsave(fence->lock, flags);
->  	ret = dma_fence_signal_locked(fence);
->  	spin_unlock_irqrestore(fence->lock, flags);
->  
-> +	dma_fence_end_signalling(tmp);
-> +
->  	return ret;
->  }
->  EXPORT_SYMBOL(dma_fence_signal);
-> @@ -211,6 +262,8 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
->  	if (timeout > 0)
->  		might_sleep();
->  
-> +	__dma_fence_might_wait();
-> +
->  	trace_dma_fence_wait_start(fence);
->  	if (fence->ops->wait)
->  		ret = fence->ops->wait(fence, intr, timeout);
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 3347c54f3a87..3f288f7db2ef 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -357,6 +357,18 @@ dma_fence_get_rcu_safe(struct dma_fence __rcu **fencep)
->  	} while (1);
->  }
->  
-> +#ifdef CONFIG_LOCKDEP
-> +bool dma_fence_begin_signalling(void);
-> +void dma_fence_end_signalling(bool cookie);
-> +#else
-> +static inline bool dma_fence_begin_signalling(void)
-> +{
-> +	return true;
-> +}
-> +static inline void dma_fence_end_signalling(bool cookie) {}
-> +static inline void __dma_fence_might_wait(void) {}
-> +#endif
-> +
->  int dma_fence_signal(struct dma_fence *fence);
->  int dma_fence_signal_locked(struct dma_fence *fence);
->  signed long dma_fence_default_wait(struct dma_fence *fence,
+The encoder spec has been updated since [2] with the following
+changes:
 
+- Document the optional VIDIOC_ENUM_FRAMEINTERVALS ioctl.
+
+- Document how to use VIDIOC_S_PARM:
+
+  1) calling S_PARM for the OUTPUT queue sets both the raw frame interval
+     (this is a hint only) and the coded frame interval.
+
+  2) calling S_PARM for the CAPTURE queue sets the coded frame interval
+     only. This is optional and can be used for off-line encoding. In
+     that case the OUTPUT frame interval can be used by the driver to
+     schedule multiple encoders.
+ 
+  Ideally S_PARM for the OUTPUT queue would just provide a hint, but
+  existing encoder drivers all use S_PARM for the OUTPUT queue to
+  define the coded frame interval, and that can't be changed.
+
+- Added a note that if a capture buffer is too small it will be
+  returned with V4L2_BUF_FLAG_ERROR and that more work has to be
+  done to properly support this corner case.
+
+- Clarify in the 'Encoding' section that there are more reasons
+  why 'a buffer queued to OUTPUT may result in more than one buffer
+  produced on CAPTURE'.
+
+Added in v3:
+
+- Fix some minor typos.
+
+- Make it more explicit that setting S_PARM(OUTPUT) also sets the
+  CAPTURE frame interval.
+
+- Added a new V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL flag to indicate
+  that S_PARM(CAPTURE) can be set separately.
+
+I think that with these changes this stateful encoder spec is ready
+to be merged.
+
+Regards,
+
+	Hans
+
+[1] https://lore.kernel.org/linux-media/20191119113457.57833-6-hverkuil-cisco@xs4all.nl/T/
+[2] https://www.mail-archive.com/linux-media@vger.kernel.org/msg149211.html
+[3] https://linuxtv.org/irc/irclogger_log/v4l?date=2020-05-19,Tue
+
+Hans Verkuil (4):
+  vidioc-g-parm.rst: update the VIDIOC_G/S_PARM documentation
+  dev-decoder.rst: small fixes
+  videodev2.h: add V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL flag
+  dev-encoder.rst: add reference to V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL
+
+Tomasz Figa (1):
+  media: docs-rst: Document memory-to-memory video encoder interface
+
+ .../userspace-api/media/v4l/dev-decoder.rst   |   6 +-
+ .../userspace-api/media/v4l/dev-encoder.rst   | 729 ++++++++++++++++++
+ .../userspace-api/media/v4l/dev-mem2mem.rst   |   1 +
+ .../userspace-api/media/v4l/pixfmt-v4l2.rst   |   5 +
+ .../userspace-api/media/v4l/v4l2.rst          |   2 +
+ .../media/v4l/vidioc-encoder-cmd.rst          |  51 +-
+ .../media/v4l/vidioc-enum-fmt.rst             |  30 +-
+ .../userspace-api/media/v4l/vidioc-g-parm.rst |  51 +-
+ .../media/videodev2.h.rst.exceptions          |   1 +
+ include/uapi/linux/videodev2.h                |   1 +
+ 10 files changed, 830 insertions(+), 47 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/dev-encoder.rst
+
+-- 
+2.25.1
 
