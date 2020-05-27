@@ -2,98 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2DF381E46FF
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 17:06:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 161E81E4718
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 17:16:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389647AbgE0PG2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 May 2020 11:06:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50276 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389316AbgE0PG1 (ORCPT
+        id S2389448AbgE0PQb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 May 2020 11:16:31 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:2642 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S2388922AbgE0PQb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 May 2020 11:06:27 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69A13C05BD1E;
-        Wed, 27 May 2020 08:06:27 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id t11so11873937pgg.2;
-        Wed, 27 May 2020 08:06:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KoZe606OflP+pqwc544DH0O+4ssFpqgDgsR2zurkW6E=;
-        b=fTHq9CNaoO/Gi4/N0riUfko+pG34aq7YNbAwwUvsFRuBb5GAhsWZLr9xfV4mcZcRsU
-         QnglNUdToL3uMhDaPuOEy3wOxmwCTN5ogN4KlsGkmntq1LZFQlZyiCuy7YiUSvPrrsZe
-         pV7BSEcUNIO6NelYjVS62q5JL52V55lud3Yn3KMiQyVldN5CwsKtPPynE8Dc4LKOgAvQ
-         dGwJQRQCzdkPzOF7Gn3tEJhPNpcqNp2iiBwR7AIQS/TawJ38jZ1adMhcwl3f2OKkmd1K
-         EL1f9JSLCmIHUTI09LohN7PXo9o9L6P2YKhq+MjSPtUFEOqjqmmQ5QBbjn9bN/oysqgh
-         jpKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=KoZe606OflP+pqwc544DH0O+4ssFpqgDgsR2zurkW6E=;
-        b=rpaLkRm8d884MSo8MrMoN38o07CjK3QO+0lEOzWwcyMYJhS+dPnA07DwikU1w1TjuG
-         uF9VoFKih7FeuwghkrZr7rzt9/kdzopmZarsSo3m4KdnF6QwKrVOua5sk3qBI5d8M+xe
-         lF4lIyareu5TLk9RWT0pLFra8medq8wkNEKZ2RfbpuCI+Idogldd2Ceg4bckXJjQzCe8
-         hufRgUoZcX7faxq853FM5+Z3KzKOs2cKvWWQ7Px7Da9ErE4ryMx6lYB5BGhSeFYSe688
-         XoThvUXWzLI5qafNCrd/cXY5mWpf40A+gnrrVddqPEFAjsqrp33MDf6b6CHBkMfleb8V
-         4vbA==
-X-Gm-Message-State: AOAM533R4iDu4Dq6Rl8KviMc6aJKPvP0coJipn1qP/l3sO7K9sDKYN4K
-        Y7flXniOgeKGNyoStjg169k=
-X-Google-Smtp-Source: ABdhPJxgEH3iDLHEIuRn42o6PH92ZI2uivVSnqhr8WUdlOF6ENTJ/r+yXck2jN01wrAUDOVHsdU/nA==
-X-Received: by 2002:aa7:8c53:: with SMTP id e19mr4381417pfd.264.1590591986809;
-        Wed, 27 May 2020 08:06:26 -0700 (PDT)
-Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
-        by smtp.gmail.com with ESMTPSA id a16sm2465326pfl.167.2020.05.27.08.06.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2020 08:06:26 -0700 (PDT)
-From:   Chuhong Yuan <hslester96@gmail.com>
-Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Chuhong Yuan <hslester95@gmail.com>,
-        Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH] media: exynos4-is: add the missed check for pinctrl_lookup_state
-Date:   Wed, 27 May 2020 23:06:20 +0800
-Message-Id: <20200527150620.539247-1-hslester96@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        Wed, 27 May 2020 11:16:31 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04RF88gA021896;
+        Wed, 27 May 2020 17:16:19 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=P+9oKFVvctxteNakurd2HftE8vay3BJJGfZ7uNvjGoY=;
+ b=ntTTyD9qpXKInxrhvJk9S0iljCU5qaI/yKj0KgZiYEeLnCyFOQq7bNPzi7WTnSYeIqUY
+ JL/Cs06ovMR0iYAJamwO8dho58HQvPXgRyGoXkMqSDNSIaJsCH9PN2WBPYaLRJ/ZWTpq
+ 6+FyEbEKTaV2esxVpQgIP0srJ5IxP5mQ2yFc3LymRYnsfLFqiSbShD+kYH2KIiFuljjn
+ NdkYWFLsiPqZR6UjjvwqZDak7641YTf5dcceMCOAMW8loK3M4jsA/w0Tk97WdQKRhgwR
+ q5OdvXy8enpe8dfCjdW8Lx1ccbEPKtcPAUUqhlLOTOxm/i/NJ3ddBNCQtHhv3VOJP8vL 1w== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 319mfaj603-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 27 May 2020 17:16:18 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B2F4D100034;
+        Wed, 27 May 2020 17:16:16 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 99EAE2C02D7;
+        Wed, 27 May 2020 17:16:16 +0200 (CEST)
+Received: from localhost (10.75.127.45) by SFHDAG3NODE3.st.com (10.75.127.9)
+ with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 27 May 2020 17:16:15
+ +0200
+From:   Benjamin Gaignard <benjamin.gaignard@st.com>
+To:     <hugues.fruchet@st.com>, <mchehab@kernel.org>,
+        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>
+CC:     <linux-media@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <vincent.guittot@linaro.org>,
+        <valentin.schneider@arm.com>, <rjw@rjwysocki.net>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: [PATCH] media: stm32-dcmi: Set minimum cpufreq requirement
+Date:   Wed, 27 May 2020 17:16:13 +0200
+Message-ID: <20200527151613.16083-1-benjamin.gaignard@st.com>
+X-Mailer: git-send-email 2.15.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.45]
+X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG3NODE3.st.com
+ (10.75.127.9)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-05-27_03:2020-05-27,2020-05-27 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Chuhong Yuan <hslester95@gmail.com>
+Before start streaming set cpufreq minimum frequency requirement.
+The cpufreq governor will adapt the frequencies and we will have
+no latency for handling interrupts.
 
-fimc_md_get_pinctrl() misses a check for pinctrl_lookup_state().
-Add the missed check to fix it.
-
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
 ---
- drivers/media/platform/exynos4-is/media-dev.c | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/media/platform/stm32/stm32-dcmi.c | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
-index 9aaf3b8060d5..9c31d950cddf 100644
---- a/drivers/media/platform/exynos4-is/media-dev.c
-+++ b/drivers/media/platform/exynos4-is/media-dev.c
-@@ -1270,6 +1270,9 @@ static int fimc_md_get_pinctrl(struct fimc_md *fmd)
+diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
+index b8931490b83b..97c342351569 100644
+--- a/drivers/media/platform/stm32/stm32-dcmi.c
++++ b/drivers/media/platform/stm32/stm32-dcmi.c
+@@ -13,6 +13,7 @@
  
- 	pctl->state_idle = pinctrl_lookup_state(pctl->pinctrl,
- 					PINCTRL_STATE_IDLE);
-+	if (IS_ERR(pctl->state_idle))
-+		return PTR_ERR(pctl->state_idle);
+ #include <linux/clk.h>
+ #include <linux/completion.h>
++#include <linux/cpufreq.h>
+ #include <linux/delay.h>
+ #include <linux/dmaengine.h>
+ #include <linux/init.h>
+@@ -99,6 +100,8 @@ enum state {
+ 
+ #define OVERRUN_ERROR_THRESHOLD	3
+ 
++#define DCMI_MIN_FREQ	650000 /* in KHz */
 +
- 	return 0;
- }
+ struct dcmi_graph_entity {
+ 	struct v4l2_async_subdev asd;
  
+@@ -173,6 +176,10 @@ struct stm32_dcmi {
+ 	struct media_device		mdev;
+ 	struct media_pad		vid_cap_pad;
+ 	struct media_pipeline		pipeline;
++
++	/* CPU freq contraint */
++	struct cpufreq_policy		*policy;
++	struct freq_qos_request		qos_req;
+ };
+ 
+ static inline struct stm32_dcmi *notifier_to_dcmi(struct v4l2_async_notifier *n)
+@@ -736,11 +743,20 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 		goto err_release_buffers;
+ 	}
+ 
++	if (dcmi->policy) {
++		ret = freq_qos_add_request(&dcmi->policy->constraints,
++					   &dcmi->qos_req, FREQ_QOS_MIN,
++					   DCMI_MIN_FREQ);
++
++		if (ret < 0)
++			goto err_pm_put;
++	}
++
+ 	ret = media_pipeline_start(&dcmi->vdev->entity, &dcmi->pipeline);
+ 	if (ret < 0) {
+ 		dev_err(dcmi->dev, "%s: Failed to start streaming, media pipeline start error (%d)\n",
+ 			__func__, ret);
+-		goto err_pm_put;
++		goto err_drop_qos;
+ 	}
+ 
+ 	ret = dcmi_pipeline_start(dcmi);
+@@ -835,6 +851,9 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
+ err_media_pipeline_stop:
+ 	media_pipeline_stop(&dcmi->vdev->entity);
+ 
++err_drop_qos:
++	if (dcmi->policy)
++		freq_qos_remove_request(&dcmi->qos_req);
+ err_pm_put:
+ 	pm_runtime_put(dcmi->dev);
+ 
+@@ -863,6 +882,9 @@ static void dcmi_stop_streaming(struct vb2_queue *vq)
+ 
+ 	media_pipeline_stop(&dcmi->vdev->entity);
+ 
++	if (dcmi->policy)
++		freq_qos_remove_request(&dcmi->qos_req);
++
+ 	spin_lock_irq(&dcmi->irqlock);
+ 
+ 	/* Disable interruptions */
+@@ -2020,6 +2042,8 @@ static int dcmi_probe(struct platform_device *pdev)
+ 		goto err_cleanup;
+ 	}
+ 
++	dcmi->policy = cpufreq_cpu_get(0);
++
+ 	dev_info(&pdev->dev, "Probe done\n");
+ 
+ 	platform_set_drvdata(pdev, dcmi);
+@@ -2049,6 +2073,9 @@ static int dcmi_remove(struct platform_device *pdev)
+ 
+ 	pm_runtime_disable(&pdev->dev);
+ 
++	if (dcmi->policy)
++		cpufreq_cpu_put(dcmi->policy);
++
+ 	v4l2_async_notifier_unregister(&dcmi->notifier);
+ 	v4l2_async_notifier_cleanup(&dcmi->notifier);
+ 	media_entity_cleanup(&dcmi->vdev->entity);
 -- 
-2.26.2
+2.15.0
 
