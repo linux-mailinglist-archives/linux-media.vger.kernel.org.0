@@ -2,116 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E47E01E41CA
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 14:14:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5653B1E41D6
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 14:16:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728365AbgE0MOe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 May 2020 08:14:34 -0400
-Received: from foss.arm.com ([217.140.110.172]:37600 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725766AbgE0MOe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 May 2020 08:14:34 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 52F8755D;
-        Wed, 27 May 2020 05:14:33 -0700 (PDT)
-Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3B21C3F305;
-        Wed, 27 May 2020 05:14:31 -0700 (PDT)
-References: <20200526151619.8779-1-benjamin.gaignard@st.com> <jhjk10xu1tq.mognet@arm.com> <ab4340c0-bda3-e752-9073-e162e6325bb1@st.com>
-User-agent: mu4e 0.9.17; emacs 26.3
-From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     Benjamin GAIGNARD <benjamin.gaignard@st.com>
-Cc:     "rjw\@rjwysocki.net" <rjw@rjwysocki.net>,
-        "viresh.kumar\@linaro.org" <viresh.kumar@linaro.org>,
-        Hugues FRUCHET <hugues.fruchet@st.com>,
-        "mchehab\@kernel.org" <mchehab@kernel.org>,
-        "mcoquelin.stm32\@gmail.com" <mcoquelin.stm32@gmail.com>,
-        Alexandre TORGUE <alexandre.torgue@st.com>,
-        "pavel\@ucw.cz" <pavel@ucw.cz>,
-        "len.brown\@intel.com" <len.brown@intel.com>,
-        "vincent.guittot\@linaro.org" <vincent.guittot@linaro.org>,
-        "linux-pm\@vger.kernel.org" <linux-pm@vger.kernel.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-media\@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-stm32\@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel\@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [RFC RESEND 0/3] Introduce cpufreq minimum load QoS
-In-reply-to: <ab4340c0-bda3-e752-9073-e162e6325bb1@st.com>
-Date:   Wed, 27 May 2020 13:14:24 +0100
-Message-ID: <jhjwo4xinhb.mognet@arm.com>
+        id S1728723AbgE0MQ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 May 2020 08:16:58 -0400
+Received: from relmlor1.renesas.com ([210.160.252.171]:48188 "EHLO
+        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725900AbgE0MQ6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 May 2020 08:16:58 -0400
+X-IronPort-AV: E=Sophos;i="5.73,441,1583161200"; 
+   d="scan'208";a="48154563"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 27 May 2020 21:16:56 +0900
+Received: from localhost.localdomain (unknown [10.226.36.204])
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 22FED42BA9EB;
+        Wed, 27 May 2020 21:16:54 +0900 (JST)
+From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v5 0/3] media: rcar-vin: Enable MEDIA_BUS_FMT_SRGGB8_1X8 format
+Date:   Wed, 27 May 2020 13:16:47 +0100
+Message-Id: <1590581810-19317-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi,
 
-On 27/05/20 12:17, Benjamin GAIGNARD wrote:
-> On 5/27/20 12:09 PM, Valentin Schneider wrote:
->> Hi Benjamin,
->>
->> On 26/05/20 16:16, Benjamin Gaignard wrote:
->>> A first round [1] of discussions and suggestions have already be done on
->>> this series but without found a solution to the problem. I resend it to
->>> progress on this topic.
->>>
->> Apologies for sleeping on that previous thread.
->>
->> So what had been suggested over there was to use uclamp to boost the
->> frequency of the handling thread; however if you use threaded IRQs you
->> get RT threads, which already get the max frequency by default (at least
->> with schedutil).
->>
->> Does that not work for you, and if so, why?
->
-> That doesn't work because almost everything is done by the hardware blocks
-> without charge the CPU so the thread isn't running.
+This patch series adds support for MEDIA_BUS_FMT_SRGGB8_1X8 format for vin
 
-I'm not sure I follow; the frequency of the CPU doesn't matter while
-your hardware blocks are spinning, right? AIUI what matters is running
-your interrupt handler / action at max freq, which you get if you use
-threaded IRQs and schedutil.
+Cheers,
+Prabhakar
 
-I think it would help if you could clarify which tasks / parts of your
-pipeline you need running at high frequencies. The point is that setting
-a QoS request affects all tasks, whereas we could be smarter and only
-boost the required tasks.
+Changes for v5:
+* Made sure raw mbus fmt results in raw pixel format for
+  MEDIA_BUS_FMT_SRGGB8_1X8
 
-> I have done the
-> tests with schedutil
-> and ondemand scheduler (which is the one I'm targeting). I have no
-> issues when using
-> performance scheduler because it always keep the highest frequencies.
->
->
->>
->>> When start streaming from the sensor the CPU load could remain very low
->>> because almost all the capture pipeline is done in hardware (i.e. without
->>> using the CPU) and let believe to cpufreq governor that it could use lower
->>> frequencies. If the governor decides to use a too low frequency that
->>> becomes a problem when we need to acknowledge the interrupt during the
->>> blanking time.
->>> The delay to ack the interrupt and perform all the other actions before
->>> the next frame is very short and doesn't allow to the cpufreq governor to
->>> provide the required burst of power. That led to drop the half of the frames.
->>>
->>> To avoid this problem, DCMI driver informs the cpufreq governors by adding
->>> a cpufreq minimum load QoS resquest.
->>>
->>> Benjamin
->>>
->>> [1] https://lkml.org/lkml/2020/4/24/360
->>>
->>> Benjamin Gaignard (3):
->>>    PM: QoS: Introduce cpufreq minimum load QoS
->>>    cpufreq: governor: Use minimum load QoS
->>>    media: stm32-dcmi: Inform cpufreq governors about cpu load needs
->>>
->>>   drivers/cpufreq/cpufreq_governor.c        |   5 +
->>>   drivers/media/platform/stm32/stm32-dcmi.c |   8 ++
->>>   include/linux/pm_qos.h                    |  12 ++
->>>   kernel/power/qos.c                        | 213 ++++++++++++++++++++++++++++++
->>>   4 files changed, 238 insertions(+)
+Changed for v4:
+* patch 1/3 is new patch which adds a check for conversion from input to
+  output.
+* patch 2/3 added a comment while setting VNIS_REG for RAW format as
+  suggested by Niklas
+
+Changes for v3:
+* Dropped patch 1/1 from v2 as this handled neatly by patches
+  https://patchwork.linuxtv.org/project/linux-media/list/?series=1974
+* Included Ack from Niklas for patch 2/2
+* Updated commit message for patch 1/1.
+
+Changes for v2:
+* Added support for matching fwnode against endpoints/nodes.
+* Separated patch for rcar-vin and rcar-csi2.c which added
+  MEDIA_BUS_FMT_SRGGB8_1X8.
+
+Lad Prabhakar (3):
+  media: rcar-vin: Invalidate pipeline if conversion is not possible on
+    input formats
+  media: rcar-vin: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
+  media: rcar-csi2: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
+
+ drivers/media/platform/rcar-vin/rcar-csi2.c |  1 +
+ drivers/media/platform/rcar-vin/rcar-dma.c  | 21 +++++++++++++++++++--
+ drivers/media/platform/rcar-vin/rcar-v4l2.c | 15 ++++++++++++---
+ 3 files changed, 32 insertions(+), 5 deletions(-)
+
+-- 
+2.17.1
+
