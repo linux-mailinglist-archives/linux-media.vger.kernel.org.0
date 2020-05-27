@@ -2,125 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D1B91E3517
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 03:58:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E8D21E369D
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 05:37:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728048AbgE0B57 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 26 May 2020 21:57:59 -0400
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:47631 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725271AbgE0B57 (ORCPT
+        id S1728523AbgE0Df4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 26 May 2020 23:35:56 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:45109 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725893AbgE0Dfz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 26 May 2020 21:57:59 -0400
-X-UUID: 2d4d4ee9b12f44809e2b4bc452fe3a49-20200527
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=ZKrqKJ1L5uEpCnzzklpqeT5Qk2zFyQCkc/heYv9ITnM=;
-        b=XUpTR3U9I2ql6YbBD1AN1sf+a1IszagSd55v/wuip50S9/YIF8rA9dVIwyETT7qsAB4UioxxjiJl2jorkFc3bTQscHdkOM5PYG3KJALZhcLw5rs7aCpEHTRlLV/5R55JuwVqICKGca09ozObWc59DmiNt3f5/kisqeSm05yxpfA=;
-X-UUID: 2d4d4ee9b12f44809e2b4bc452fe3a49-20200527
-Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <xia.jiang@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLS)
-        with ESMTP id 938018215; Wed, 27 May 2020 09:57:51 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31DR.mediatek.inc
- (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 27 May
- 2020 09:53:46 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Wed, 27 May 2020 09:53:45 +0800
-Message-ID: <1590544320.12671.10.camel@mhfsdcap03>
-Subject: Re: [PATCH v8 06/14] media: platform: Improve the implementation of
- the system PM ops
-From:   Xia Jiang <xia.jiang@mediatek.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-CC:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        "Matthias Brugger" <matthias.bgg@gmail.com>,
-        Rick Chang <rick.chang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        <srv_heupstream@mediatek.com>, <senozhatsky@chromium.org>,
-        <mojahsu@chromium.org>, <drinkcat@chromium.org>,
-        <maoguang.meng@mediatek.com>, <sj.huang@mediatek.com>
-Date:   Wed, 27 May 2020 09:52:00 +0800
-In-Reply-To: <20200521153257.GF209565@chromium.org>
-References: <20200403094033.8288-1-xia.jiang@mediatek.com>
-         <20200403094033.8288-7-xia.jiang@mediatek.com>
-         <20200521153257.GF209565@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
-MIME-Version: 1.0
-X-TM-SNTS-SMTP: 31B56BA102CB296BF42975F3308432FBE35B5776613BCF49476A31BDC9D305D32000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+        Tue, 26 May 2020 23:35:55 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id dmr9jKUh0dPgTdmrBjqSss; Wed, 27 May 2020 05:35:53 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1590550553; bh=UK30/t+mWUSr/Sr37Etzn8N4/fxu3bFZQgzspREtNb0=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=EzQ550BazNrGHrjz9IuuyUG2kTFLF+O+UIpLiCkosfMRJam35QXaP14/FBch59spv
+         IePs9bxu5O8fgnNIuqSAjRHJikVDOV4kebaFRYbzpxx3/wcSrfcgTr1v1NJL6ws1ar
+         1rIvWh2paeFsTn62uoS4cEFiN7aT/VZzLkw6+5K/6KHHTbLatnjtf0CUM3EkxaJFJR
+         QYGJ84gF/KzdEcJzC+RybJtTYfOk/Jc3w/QkCJRFFxOc6cJ3oBF+6wVTNX4dIB3E+p
+         PxS3zG0u7GIVG6e3ph7Hnewe1xRVqo5qTZS8T3SexxzmUBHTjWU/7HH5V+tZ5q3MYc
+         6aQZ54bCZOhKg==
+Message-ID: <4897b070200944c36648ef74cfc572a2@smtp-cloud8.xs4all.net>
+Date:   Wed, 27 May 2020 05:35:51 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfNCUiUbiU0fVKV6a5vO30PECPetrxeBZKAVjMSAOao94SRezAgliuMTs3OZ0kodAzVisKrHNQonm5ptb349p/oD+qL2Iqn5uZJuoSlNUJpwFKqribDCf
+ dsgoDTKHx2rSW3KMyoPTG0GShboEpoinNcSbwweMq6qHqQH3Q8Ckl/3pHftXLs9TPs7gXAYzgsEmWqvPiBQZajkKIHQaAwWTd3feO9tXHDdSY+45Bkbny34e
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gVGh1LCAyMDIwLTA1LTIxIGF0IDE1OjMyICswMDAwLCBUb21hc3ogRmlnYSB3cm90ZToNCj4g
-SGkgWGlhLA0KPiANCj4gT24gRnJpLCBBcHIgMDMsIDIwMjAgYXQgMDU6NDA6MjVQTSArMDgwMCwg
-WGlhIEppYW5nIHdyb3RlOg0KPiA+IENhbmNlbCByZXNldCBodyBvcGVyYXRpb24gaW4gc3VzcGVu
-ZCBhbmQgcmVzdW1lIGZ1bmN0aW9uIGJlY2F1c2UgdGhpcw0KPiA+IHdpbGwgYmUgZG9uZSBpbiBk
-ZXZpY2VfcnVuKCkuDQo+IA0KPiBUaGlzIGFuZC4uLg0KPiANCj4gPiBBZGQgc3Bpbl9sb2NrIGFu
-ZCB1bmxvY2sgb3BlcmF0aW9uIGluIGlycSBhbmQgcmVzdW1lIGZ1bmN0aW9uIHRvIG1ha2UNCj4g
-PiBzdXJlIHRoYXQgdGhlIGN1cnJlbnQgZnJhbWUgaXMgcHJvY2Vzc2VkIGNvbXBsZXRlbHkgYmVm
-b3JlIHN1c3BlbmQuDQo+IA0KPiAuLi50aGlzIGFyZSB0d28gc2VwYXJhdGUgY2hhbmdlcy4gUGxl
-YXNlIHNwbGl0Lg0KPiANCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBYaWEgSmlhbmcgPHhpYS5q
-aWFuZ0BtZWRpYXRlay5jb20+DQo+ID4gLS0tDQo+ID4gIGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0v
-bXRrLWpwZWcvbXRrX2pwZWdfY29yZS5jIHwgMTEgKysrKysrKysrLS0NCj4gPiAgMSBmaWxlIGNo
-YW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCj4gPiANCj4gPiBkaWZmIC0t
-Z2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstanBlZy9tdGtfanBlZ19jb3JlLmMgYi9k
-cml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay1qcGVnL210a19qcGVnX2NvcmUuYw0KPiA+IGluZGV4
-IGRkNWNhZGQxMDFlZi4uMmZhMzcxMWZkYzliIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvbWVk
-aWEvcGxhdGZvcm0vbXRrLWpwZWcvbXRrX2pwZWdfY29yZS5jDQo+ID4gKysrIGIvZHJpdmVycy9t
-ZWRpYS9wbGF0Zm9ybS9tdGstanBlZy9tdGtfanBlZ19jb3JlLmMNCj4gPiBAQCAtOTExLDYgKzkx
-MSw4IEBAIHN0YXRpYyBpcnFyZXR1cm5fdCBtdGtfanBlZ19kZWNfaXJxKGludCBpcnEsIHZvaWQg
-KnByaXYpDQo+ID4gIAl1MzIgZGVjX3JldDsNCj4gPiAgCWludCBpOw0KPiA+ICANCj4gPiArCXNw
-aW5fbG9jaygmanBlZy0+aHdfbG9jayk7DQo+ID4gKw0KPiANCj4gbml0OiBGb3IgY29uc2lzdGVu
-Y3ksIGl0IGlzIHJlY29tbWVuZGVkIHRvIGFsd2F5cyB1c2UgdGhlIHNhbWUsIGkuZS4gdGhlDQo+
-IHN0cm9uZ2VzdCwgc3Bpbl8odW4pbG9ja18gcHJpbWl0aXZlcyB3aGVuIG9wZXJhdGluZyBvbiB0
-aGUgc2FtZSBzcGlubG9jay4NCj4gSW4gdGhpcyBjYXNlIGl0IHdvdWxkIGJlIHRoZSBpcnFzYXZl
-KHJlc3RvcmUpIHZhcmlhbnRzLg0KPiANCj4gPiAgCWRlY19yZXQgPSBtdGtfanBlZ19kZWNfZ2V0
-X2ludF9zdGF0dXMoanBlZy0+ZGVjX3JlZ19iYXNlKTsNCj4gPiAgCWRlY19pcnFfcmV0ID0gbXRr
-X2pwZWdfZGVjX2VudW1fcmVzdWx0KGRlY19yZXQpOw0KPiA+ICAJY3R4ID0gdjRsMl9tMm1fZ2V0
-X2N1cnJfcHJpdihqcGVnLT5tMm1fZGV2KTsNCj4gPiBAQCAtOTQxLDYgKzk0Myw3IEBAIHN0YXRp
-YyBpcnFyZXR1cm5fdCBtdGtfanBlZ19kZWNfaXJxKGludCBpcnEsIHZvaWQgKnByaXYpDQo+ID4g
-IAl2NGwyX20ybV9idWZfZG9uZShzcmNfYnVmLCBidWZfc3RhdGUpOw0KPiA+ICAJdjRsMl9tMm1f
-YnVmX2RvbmUoZHN0X2J1ZiwgYnVmX3N0YXRlKTsNCj4gPiAgCXY0bDJfbTJtX2pvYl9maW5pc2go
-anBlZy0+bTJtX2RldiwgY3R4LT5maC5tMm1fY3R4KTsNCj4gPiArCXNwaW5fdW5sb2NrKCZqcGVn
-LT5od19sb2NrKTsNCj4gPiAgCXBtX3J1bnRpbWVfcHV0X3N5bmMoY3R4LT5qcGVnLT5kZXYpOw0K
-PiA+ICAJcmV0dXJuIElSUV9IQU5ETEVEOw0KPiA+ICB9DQo+ID4gQEAgLTExOTEsNyArMTE5NCw2
-IEBAIHN0YXRpYyBfX21heWJlX3VudXNlZCBpbnQgbXRrX2pwZWdfcG1fc3VzcGVuZChzdHJ1Y3Qg
-ZGV2aWNlICpkZXYpDQo+ID4gIHsNCj4gPiAgCXN0cnVjdCBtdGtfanBlZ19kZXYgKmpwZWcgPSBk
-ZXZfZ2V0X2RydmRhdGEoZGV2KTsNCj4gPiAgDQo+ID4gLQltdGtfanBlZ19kZWNfcmVzZXQoanBl
-Zy0+ZGVjX3JlZ19iYXNlKTsNCj4gPiAgCW10a19qcGVnX2Nsa19vZmYoanBlZyk7DQo+ID4gIA0K
-PiA+ICAJcmV0dXJuIDA7DQo+ID4gQEAgLTEyMDIsMTkgKzEyMDQsMjQgQEAgc3RhdGljIF9fbWF5
-YmVfdW51c2VkIGludCBtdGtfanBlZ19wbV9yZXN1bWUoc3RydWN0IGRldmljZSAqZGV2KQ0KPiA+
-ICAJc3RydWN0IG10a19qcGVnX2RldiAqanBlZyA9IGRldl9nZXRfZHJ2ZGF0YShkZXYpOw0KPiA+
-ICANCj4gPiAgCW10a19qcGVnX2Nsa19vbihqcGVnKTsNCj4gPiAtCW10a19qcGVnX2RlY19yZXNl
-dChqcGVnLT5kZWNfcmVnX2Jhc2UpOw0KPiA+ICANCj4gPiAgCXJldHVybiAwOw0KPiA+ICB9DQo+
-ID4gIA0KPiA+ICBzdGF0aWMgX19tYXliZV91bnVzZWQgaW50IG10a19qcGVnX3N1c3BlbmQoc3Ry
-dWN0IGRldmljZSAqZGV2KQ0KPiA+ICB7DQo+ID4gKwlzdHJ1Y3QgbXRrX2pwZWdfZGV2ICpqcGVn
-ID0gZGV2X2dldF9kcnZkYXRhKGRldik7DQo+ID4gKwl1bnNpZ25lZCBsb25nIGZsYWdzOw0KPiA+
-ICAJaW50IHJldDsNCj4gPiAgDQo+ID4gIAlpZiAocG1fcnVudGltZV9zdXNwZW5kZWQoZGV2KSkN
-Cj4gPiAgCQlyZXR1cm4gMDsNCj4gPiAgDQo+ID4gKwlzcGluX2xvY2tfaXJxc2F2ZSgmanBlZy0+
-aHdfbG9jaywgZmxhZ3MpOw0KPiANCj4gV2hhdCBkb2VzIHRoaXMgc3BpbmxvY2sgcHJvdGVjdCB1
-cyBmcm9tPyBJIGNhbiBzZWUgdGhhdCBpdCB3b3VsZCBwcmV2ZW50DQo+IHRoZSBpbnRlcnJ1cHQg
-aGFuZGxlciBmcm9tIGJlaW5nIGNhbGxlZCwgYnV0IGlzIGl0IG9rYXkgdG8gc3VzcGVuZCB0aGUN
-Cj4gc3lzdGVtIHdpdGhvdXQgaGFuZGxpbmcgdGhlIGludGVycnVwdD8NCkRlYXIgVG9tYXN6LA0K
-SSBtZWFuIHRoYXQgaWYgY3VycmVudCBpbWFnZSBpcyBwcm9jZXNzZWQgaW4gaXJxIGhhbmRsZXIs
-c3VzcGVuZA0KZnVuY3Rpb24gY2FuIG5vdCBnZXQgdGhlIGxvY2soaXQgd2FzIGxvY2tlZCBpbiBp
-cnEgaGFuZGxlcikuU2hvdWxkIEkNCm1vdmUgdGhlIHNwaW5fbG9ja19pcnFzYXZlKCZqcGVnLT5o
-d19sb2NrLCBmbGFncykgdG8gdGhlIHN0YXJ0IGxvY2F0aW9uDQpvZiBzdXNwZW5kIGZ1bmN0aW9u
-IG9yIHVzZSB3YWl0X2V2ZW50X3RpbWVvdXQoKSB0byBoYW5kbGUgdGhlIGludGVycnVwdA0KYmVm
-b3JlIHN1c3BlbmQ/DQoNCkJlc3QgUmVnYXJkcywNClhpYSBKaWFuZw0KPiANCj4gPiArDQo+ID4g
-IAlyZXQgPSBtdGtfanBlZ19wbV9zdXNwZW5kKGRldik7DQo+ID4gKw0KPiANCj4gTG9va2luZyBh
-dCB0aGUgaW1wbGVtZW50YXRpb24gb2YgbXRrX2pwZWdfcG1fc3VzcGVuZCgpLCBhbGwgaXQgZG9l
-cyBpcw0KPiBkaXNhYmxpbmcgdGhlIGNsb2NrLiBIb3cgZG8gd2UgbWFrZSBzdXJlIHRoYXQgdGhl
-cmUgaXMgbm8gZnJhbWUgY3VycmVudGx5DQo+IGJlaW5nIHByb2Nlc3NlZCBieSB0aGUgaGFyZHdh
-cmU/DQo+IA0KPiBCZXN0IHJlZ2FyZHMsDQo+IFRvbWFzeg0KDQo=
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
+Results of the daily build of media_tree:
+
+date:			Wed May 27 05:00:11 CEST 2020
+media-tree git hash:	938b29db3aa9c293c7c1366b16e55e308f1a1ddd
+media_build git hash:	7379d9e55aa05cd53f3dceaa5e0278e93db357bd
+v4l-utils git hash:	e63855e6bd385fc7278234aa6e3cf9731390003c
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0accb575719caa47d8fbc866b11e6f7e7e7787cd
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.212-i686: ERRORS
+linux-4.4.212-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.212-i686: ERRORS
+linux-4.9.212-x86_64: ERRORS
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: WARNINGS
+linux-4.13.16-x86_64: WARNINGS
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7-rc1-i686: OK
+linux-5.7-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
