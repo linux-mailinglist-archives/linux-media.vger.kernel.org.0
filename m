@@ -2,69 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03BE21E46D1
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 17:04:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 670611E46F5
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 17:06:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389485AbgE0PD5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 May 2020 11:03:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49850 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388922AbgE0PD4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 May 2020 11:03:56 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2FA2C03E96E;
-        Wed, 27 May 2020 08:03:55 -0700 (PDT)
+        id S2389621AbgE0PGI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 May 2020 11:06:08 -0400
+Received: from gofer.mess.org ([88.97.38.141]:51467 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2389316AbgE0PGH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 May 2020 11:06:07 -0400
 Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 0A69CC6405; Wed, 27 May 2020 16:03:53 +0100 (BST)
+        id 438CEC635E; Wed, 27 May 2020 16:06:06 +0100 (BST)
+Date:   Wed, 27 May 2020 16:06:06 +0100
 From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Oliver Neukum <oneukum@suse.com>
-Subject: [PATCH v3 3/3] MAINTAINERS: rc core and lirc maintainership
-Date:   Wed, 27 May 2020 16:03:52 +0100
-Message-Id: <20200527150352.18840-4-sean@mess.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200527150352.18840-1-sean@mess.org>
-References: <20200527150352.18840-1-sean@mess.org>
+To:     Oliver Neukum <oneukum@suse.com>
+Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        Greg KH <gregkh@linuxfoundation.org>
+Subject: Re: [PATCH v2 1/3] media: rc: add support for Infrared Toy and IR
+ Droid devices
+Message-ID: <20200527150606.GA18902@gofer.mess.org>
+References: <20200527094107.11936-1-sean@mess.org>
+ <20200527094107.11936-2-sean@mess.org>
+ <1590578201.2838.69.camel@suse.com>
+ <20200527122822.GA14488@gofer.mess.org>
+ <1590584422.2838.76.camel@suse.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1590584422.2838.76.camel@suse.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This has been maintained for some time, update MAINTAINERS to reflect.
+Hi,
 
-Signed-off-by: Sean Young <sean@mess.org>
----
- MAINTAINERS | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+On Wed, May 27, 2020 at 03:00:22PM +0200, Oliver Neukum wrote:
+> Am Mittwoch, den 27.05.2020, 13:28 +0100 schrieb Sean Young:
+> > > This violates the DMA coherency rules. The buffers must be
+> > > allocated separately with kmalloc().
+> > 
+> > Right, I'll fix this and send out a v3. There are other usb drivers in
+> > drivers/media/rc/.. that break this rule too.
+> 
+> Unfortunately.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 791d2a862e41..73f97fea8ba8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14190,6 +14190,19 @@ L:	linux-wireless@vger.kernel.org
- S:	Orphan
- F:	drivers/net/wireless/ray*
- 
-+RC CORE / LIRC FRAMEWORK
-+M:	Sean Young <sean@mess.org>
-+L:	linux-media@vger.kernel.org
-+S:	Supported
-+W:	http://linuxtv.org
-+T:	git git://linuxtv.org/media_tree.git
-+F:	Documentation/driver-api/media/rc-core.rst
-+F:	Documentation/userspace-api/media/rc/
-+F:	drivers/media/rc/
-+F:	include/media/rc-map.h
-+F:	include/media/rc-core.h
-+F:	include/uapi/linux/lirc.h
-+
- RCMM REMOTE CONTROLS DECODER
- M:	Patrick Lerda <patrick9876@free.fr>
- S:	Maintained
--- 
-2.26.2
+Yes, I'll go through them in the near future and makes fixes based on this
+thread -- thanks!
 
+
+Sean
