@@ -2,167 +2,254 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 161E81E4718
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 17:16:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E1E41E474C
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 17:27:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389448AbgE0PQb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 May 2020 11:16:31 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:2642 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2388922AbgE0PQb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 May 2020 11:16:31 -0400
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04RF88gA021896;
-        Wed, 27 May 2020 17:16:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=P+9oKFVvctxteNakurd2HftE8vay3BJJGfZ7uNvjGoY=;
- b=ntTTyD9qpXKInxrhvJk9S0iljCU5qaI/yKj0KgZiYEeLnCyFOQq7bNPzi7WTnSYeIqUY
- JL/Cs06ovMR0iYAJamwO8dho58HQvPXgRyGoXkMqSDNSIaJsCH9PN2WBPYaLRJ/ZWTpq
- 6+FyEbEKTaV2esxVpQgIP0srJ5IxP5mQ2yFc3LymRYnsfLFqiSbShD+kYH2KIiFuljjn
- NdkYWFLsiPqZR6UjjvwqZDak7641YTf5dcceMCOAMW8loK3M4jsA/w0Tk97WdQKRhgwR
- q5OdvXy8enpe8dfCjdW8Lx1ccbEPKtcPAUUqhlLOTOxm/i/NJ3ddBNCQtHhv3VOJP8vL 1w== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 319mfaj603-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 27 May 2020 17:16:18 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id B2F4D100034;
-        Wed, 27 May 2020 17:16:16 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 99EAE2C02D7;
-        Wed, 27 May 2020 17:16:16 +0200 (CEST)
-Received: from localhost (10.75.127.45) by SFHDAG3NODE3.st.com (10.75.127.9)
- with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 27 May 2020 17:16:15
- +0200
-From:   Benjamin Gaignard <benjamin.gaignard@st.com>
-To:     <hugues.fruchet@st.com>, <mchehab@kernel.org>,
-        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>
-CC:     <linux-media@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <vincent.guittot@linaro.org>,
-        <valentin.schneider@arm.com>, <rjw@rjwysocki.net>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: [PATCH] media: stm32-dcmi: Set minimum cpufreq requirement
-Date:   Wed, 27 May 2020 17:16:13 +0200
-Message-ID: <20200527151613.16083-1-benjamin.gaignard@st.com>
-X-Mailer: git-send-email 2.15.0
+        id S2388140AbgE0P1g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 May 2020 11:27:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42604 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725971AbgE0P1g (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 May 2020 11:27:36 -0400
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 370DB208E4;
+        Wed, 27 May 2020 15:27:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1590593255;
+        bh=xAFJoL70d9ptR2NlMMkE9/iL0C+dD4a1o8Ji7U0Hb74=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=meKNxFtFPc8ejIUrmHPjvQMpux3lpz4nVSfwAHxcfmqFZ3ffOKRtZjEPFrDdeI51n
+         0cpc8RWD9qbwCysQC9ittfZSPQk7aOa49Y69A+/XEqOTxoaUO0uG5DBBrkFbDGaxIM
+         MKc9Hgg4/rrqQm3VTvEar4SzP9NNHGMqntCLgOSw=
+Received: by mail-ot1-f41.google.com with SMTP id f18so19447289otq.11;
+        Wed, 27 May 2020 08:27:35 -0700 (PDT)
+X-Gm-Message-State: AOAM531uEG9K8oUYltWeYX+9jB4THQDnBkdAaykstiFJ+C/ZrsB6lhq2
+        Iu3GkQeDcZI4J79MinXHE7vAUD1BT17nMwoqwQ==
+X-Google-Smtp-Source: ABdhPJwAUmHkMY1nUf8HbXBqDXmvGKeOnwn9QC9NkyEmRMRdlXEbaZqugbcVRvRSQNkjP5kSY2sfkSI9xI4FKt86cmQ=
+X-Received: by 2002:a05:6830:3104:: with SMTP id b4mr5098223ots.192.1590593254440;
+ Wed, 27 May 2020 08:27:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.45]
-X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG3NODE3.st.com
- (10.75.127.9)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
- definitions=2020-05-27_03:2020-05-27,2020-05-27 signatures=0
+References: <20200523084103.31276-1-dongchun.zhu@mediatek.com>
+ <20200523084103.31276-2-dongchun.zhu@mediatek.com> <20200526182847.GA92449@bogus>
+ <1590569355.8804.448.camel@mhfsdcap03>
+In-Reply-To: <1590569355.8804.448.camel@mhfsdcap03>
+From:   Rob Herring <robh@kernel.org>
+Date:   Wed, 27 May 2020 09:27:22 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+sN0SVidTrY0ODXEkzkxYFvG1FTnL0oRQBSKf=ynLdyQ@mail.gmail.com>
+Message-ID: <CAL_Jsq+sN0SVidTrY0ODXEkzkxYFvG1FTnL0oRQBSKf=ynLdyQ@mail.gmail.com>
+Subject: Re: [V9, 1/2] media: dt-bindings: media: i2c: Document OV02A10 bindings
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org, Louis Kuo <louis.kuo@mediatek.com>,
+        =?UTF-8?B?U2hlbmduYW4gV2FuZyAo546L5Zyj55S3KQ==?= 
+        <shengnan.wang@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Before start streaming set cpufreq minimum frequency requirement.
-The cpufreq governor will adapt the frequencies and we will have
-no latency for handling interrupts.
+On Wed, May 27, 2020 at 2:51 AM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
+>
+> Hi Rob,
+>
+> Thanks for the review. Please see my replies below.
+>
+> On Tue, 2020-05-26 at 12:28 -0600, Rob Herring wrote:
+> > On Sat, May 23, 2020 at 04:41:02PM +0800, Dongchun Zhu wrote:
+> > > Add DT bindings documentation for Omnivision OV02A10 image sensor.
+> > >
+> > > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > ---
+> > >  .../bindings/media/i2c/ovti,ov02a10.yaml           | 172 +++++++++++++++++++++
+> > >  MAINTAINERS                                        |   7 +
+> > >  2 files changed, 179 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+> > > new file mode 100644
+> > > index 0000000..56f31b5
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+> > > @@ -0,0 +1,172 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> > > +# Copyright (c) 2020 MediaTek Inc.
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/ovti,ov02a10.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Omnivision OV02A10 CMOS Sensor Device Tree Bindings
+> > > +
+> > > +maintainers:
+> > > +  - Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > +
+> > > +description: |-
+> > > +  The Omnivision OV02A10 is a low-cost, high performance, 1/5-inch, 2 megapixel
+> > > +  image sensor, which is the latest production derived from Omnivision's CMOS
+> > > +  image sensor technology. Ihis chip supports high frame rate speeds up to 30fps
+> > > +  @ 1600x1200 (UXGA) resolution transferred over a 1-lane MIPI interface. The
+> > > +  sensor output is available via CSI-2 serial data output.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: ovti,ov02a10
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    items:
+> > > +      - description: top mux camtg clock
+> > > +      - description: divider clock
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: eclk
+> > > +      - const: freq_mux
+> > > +
+> > > +  clock-frequency:
+> > > +    description:
+> > > +      Frequency of the eclk clock in Hertz.
+> > > +
+>
+> Rob, shall we use 'maxItems: 1' to constrain property: clock-frequency?
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
----
- drivers/media/platform/stm32/stm32-dcmi.c | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
+No, because it is a scalar, not an array.
 
-diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
-index b8931490b83b..97c342351569 100644
---- a/drivers/media/platform/stm32/stm32-dcmi.c
-+++ b/drivers/media/platform/stm32/stm32-dcmi.c
-@@ -13,6 +13,7 @@
- 
- #include <linux/clk.h>
- #include <linux/completion.h>
-+#include <linux/cpufreq.h>
- #include <linux/delay.h>
- #include <linux/dmaengine.h>
- #include <linux/init.h>
-@@ -99,6 +100,8 @@ enum state {
- 
- #define OVERRUN_ERROR_THRESHOLD	3
- 
-+#define DCMI_MIN_FREQ	650000 /* in KHz */
-+
- struct dcmi_graph_entity {
- 	struct v4l2_async_subdev asd;
- 
-@@ -173,6 +176,10 @@ struct stm32_dcmi {
- 	struct media_device		mdev;
- 	struct media_pad		vid_cap_pad;
- 	struct media_pipeline		pipeline;
-+
-+	/* CPU freq contraint */
-+	struct cpufreq_policy		*policy;
-+	struct freq_qos_request		qos_req;
- };
- 
- static inline struct stm32_dcmi *notifier_to_dcmi(struct v4l2_async_notifier *n)
-@@ -736,11 +743,20 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
- 		goto err_release_buffers;
- 	}
- 
-+	if (dcmi->policy) {
-+		ret = freq_qos_add_request(&dcmi->policy->constraints,
-+					   &dcmi->qos_req, FREQ_QOS_MIN,
-+					   DCMI_MIN_FREQ);
-+
-+		if (ret < 0)
-+			goto err_pm_put;
-+	}
-+
- 	ret = media_pipeline_start(&dcmi->vdev->entity, &dcmi->pipeline);
- 	if (ret < 0) {
- 		dev_err(dcmi->dev, "%s: Failed to start streaming, media pipeline start error (%d)\n",
- 			__func__, ret);
--		goto err_pm_put;
-+		goto err_drop_qos;
- 	}
- 
- 	ret = dcmi_pipeline_start(dcmi);
-@@ -835,6 +851,9 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
- err_media_pipeline_stop:
- 	media_pipeline_stop(&dcmi->vdev->entity);
- 
-+err_drop_qos:
-+	if (dcmi->policy)
-+		freq_qos_remove_request(&dcmi->qos_req);
- err_pm_put:
- 	pm_runtime_put(dcmi->dev);
- 
-@@ -863,6 +882,9 @@ static void dcmi_stop_streaming(struct vb2_queue *vq)
- 
- 	media_pipeline_stop(&dcmi->vdev->entity);
- 
-+	if (dcmi->policy)
-+		freq_qos_remove_request(&dcmi->qos_req);
-+
- 	spin_lock_irq(&dcmi->irqlock);
- 
- 	/* Disable interruptions */
-@@ -2020,6 +2042,8 @@ static int dcmi_probe(struct platform_device *pdev)
- 		goto err_cleanup;
- 	}
- 
-+	dcmi->policy = cpufreq_cpu_get(0);
-+
- 	dev_info(&pdev->dev, "Probe done\n");
- 
- 	platform_set_drvdata(pdev, dcmi);
-@@ -2049,6 +2073,9 @@ static int dcmi_remove(struct platform_device *pdev)
- 
- 	pm_runtime_disable(&pdev->dev);
- 
-+	if (dcmi->policy)
-+		cpufreq_cpu_put(dcmi->policy);
-+
- 	v4l2_async_notifier_unregister(&dcmi->notifier);
- 	v4l2_async_notifier_cleanup(&dcmi->notifier);
- 	media_entity_cleanup(&dcmi->vdev->entity);
--- 
-2.15.0
+> Or could we adopt 'clock-frequency: true' directly here?
 
+As-is is fine.
+
+> > > +  dovdd-supply:
+> > > +    description:
+> > > +      Definition of the regulator used as Digital I/O voltage supply.
+> > > +
+>
+> Shall we add 'maxItems: 1' here?
+
+No, supplies are always singular.
+
+
+>
+> > > +  avdd-supply:
+> > > +    description:
+> > > +      Definition of the regulator used as Analog voltage supply.
+> > > +
+>
+> Ditto.
+>
+> > > +  dvdd-supply:
+> > > +    description:
+> > > +      Definition of the regulator used as Digital core voltage supply.
+> > > +
+>
+> Ditto.
+>
+> > > +  powerdown-gpios:
+> > > +    description:
+> > > +      Must be the device tree identifier of the GPIO connected to the
+> > > +      PD_PAD pin. This pin is used to place the OV02A10 into Standby mode
+> > > +      or Shutdown mode. As the line is active low, it should be
+> > > +      marked GPIO_ACTIVE_LOW.
+> >
+> > Need to define how many GPIOs ('maxItems: 1')
+> >
+>
+> It would be fixed like this in next release.
+> powerdown-gpios:
+>   maxItems: 1
+>   description:
+>     Must be the device tree identifier of the GPIO connected to the
+>     PD_PAD pin. This pin is used to place the OV02A10 into Standby mode
+>     or Shutdown mode. As the line is active low, it should be
+>     marked GPIO_ACTIVE_LOW.
+>
+> > > +
+> > > +  reset-gpios:
+> > > +    description:
+> > > +      Must be the device tree identifier of the GPIO connected to the
+> > > +      RST_PD pin. If specified, it will be asserted during driver probe.
+> > > +      As the line is active high, it should be marked GPIO_ACTIVE_HIGH.
+> >
+> > Here too.
+> >
+>
+> Similar as 'powerdown-gpios'.
+> Fixed in next release.
+>
+> > > +
+> > > +  rotation:
+> > > +    description:
+> > > +      Definition of the sensor's placement.
+> > > +    allOf:
+> > > +      - $ref: "/schemas/types.yaml#/definitions/uint32"
+> > > +      - enum:
+> > > +          - 0    # Sensor Mounted Upright
+> > > +          - 180  # Sensor Mounted Upside Down
+> > > +        default: 0
+> > > +
+> > > +  ovti,mipi-tx-speed:
+> > > +    description:
+> > > +      Indication of MIPI transmission speed select, which is to control D-PHY
+> > > +      timing setting by adjusting MIPI clock voltage to improve the clock
+> > > +      driver capability.
+> > > +    allOf:
+> > > +      - $ref: "/schemas/types.yaml#/definitions/uint32"
+> > > +      - enum:
+> > > +          - 0    #  20MHz -  30MHz
+> > > +          - 1    #  30MHz -  50MHz
+> > > +          - 2    #  50MHz -  75MHz
+> > > +          - 3    #  75MHz - 100MHz
+> > > +          - 4    # 100MHz - 130MHz
+> > > +        default: 3
+> > > +
+> > > +  # See ../video-interfaces.txt for details
+> > > +  port:
+> > > +    type: object
+> > > +    additionalProperties: false
+> >
+> > Should have a description of what data the port has.
+> >
+>
+> It would be updated as below in next release.
+> port:
+>   type: object
+>   additionalProperties: false
+>   description:
+>     Input port node, single endpoint describing the CSI-2 transmitter.
+
+Output?
+
+>
+> > > +
+> > > +    properties:
+> > > +      endpoint:
+> > > +        type: object
+> > > +        additionalProperties: false
+> > > +
+> > > +        properties:
+>
+> Actually I wonder whether we need to declare 'clock-lanes' here?
+
+Yes, if you are using it.
+
+Rob
