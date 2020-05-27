@@ -2,126 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 535E71E49E9
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 18:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A7E51E4AB2
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 18:45:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391054AbgE0QYF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 May 2020 12:24:05 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:53668 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2391026AbgE0QYA (ORCPT
+        id S2391453AbgE0Qp0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 May 2020 12:45:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37452 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387952AbgE0QpZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 May 2020 12:24:00 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1590596638;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Rr6Bc7xecPh/xypHfhD32p7uN7phjbkmI0iUtFgeEO4=;
-        b=S2DZ1Il8/TrzkBoz/FvGuJE+d2YwBfZyQzg3tt1JS/qNz3Oa2Y7edbOlx4r+CAQa5zv5fe
-        4pq1ZwjbUkh23Z3sqnYk+cqdKgxoNPZkTsLOdfhv1FEvVITswUbqRrK2bHOPiGCB87DSGB
-        m1rtyl45eWnbEsPSJP98IOfIsCPeqaw=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-392-CjGwLG4oMvWbyjRl2uSavw-1; Wed, 27 May 2020 12:23:29 -0400
-X-MC-Unique: CjGwLG4oMvWbyjRl2uSavw-1
-Received: by mail-ed1-f69.google.com with SMTP id ba29so6060660edb.16
-        for <linux-media@vger.kernel.org>; Wed, 27 May 2020 09:23:28 -0700 (PDT)
+        Wed, 27 May 2020 12:45:25 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C17A3C05BD1E;
+        Wed, 27 May 2020 09:45:24 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id fs4so1743114pjb.5;
+        Wed, 27 May 2020 09:45:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=HOBnpx8HZKNA2mYIrdIzHPO79IIq+OTFtfJlgxpJynw=;
+        b=p4Ckd5waAaTuvezAffm07NRV85HZodPW8wNla6B8uK/gXbUpwtX5HwUMRwlRt3Fdfh
+         q2Giqjv+VG1ScvnivS3X3fmz31jXmDS8roFzNGnrS/HiWq4o8MSg+UyNhvKCbCsQv4vy
+         FtPuEoMZSz1dZ7J4ExxMdMRMPIc2OOJiB5+mnuGh5KbMyuqRgRDnFgVlUIb/DoqtyC1I
+         um+HfeHStBaBKv54odL4+T7QBiDqyR3cntNfh9Y+8us1fkWTCMz7Hk8KQCyhqH2EAGjP
+         9GWSvpiZGfyqffIG24RHMBYKSuKLiAR9TGMuhGwYrfr9IwDxVlFuqDBtCi3JGA1g0DZb
+         nqDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Rr6Bc7xecPh/xypHfhD32p7uN7phjbkmI0iUtFgeEO4=;
-        b=HuRTx/MxkK/kkFGRWEiXG9Ft5Mx+j9mq3qePKYyIyjcfgMlKLnMfWBOydKnJihP/5J
-         3QGEYJmlwAuqzr9oprnoLbThyzM2B5Q882l2m+Ow9OBWlw48x1XreRh3+8L0ambNsqku
-         iCthzgRq0cJVVDregou1OfUhdd571mwivC7Y6qnvAMiUHAcqq9cu+sYMa5hwxc2wpJ4h
-         3nk1iPRfP2pHooPyUVykrEapXzg/NNaqnSyqSObUsUfzMgmqivsmw8wiuoq7M2gWHO0Z
-         98E0BPe9IfF9IUxLrA/wRVosyxaBcdMDIlJSVllE+739cM2Pi76XS1VHArcPq/j4xvEr
-         jUHg==
-X-Gm-Message-State: AOAM532TyGPojiJtQjQCvMJ8CS9cNGq41i9V9W3FL9Fufm2ddriUnZf3
-        HJp4sWCfpMjk3No4HNUehr1Q6Rl0ne7lcZJPcOFOFf0Ils6j1hsOMRq38mxeCI8ZguyH+TxwUQh
-        bvvrS0PMhf6uqq3l3AQkPYXQ=
-X-Received: by 2002:aa7:d71a:: with SMTP id t26mr19860984edq.123.1590596607529;
-        Wed, 27 May 2020 09:23:27 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyFlDYlSBxyF8cSN4gQszUWVXFtPfDT54Wr465MluY+Z//c6ywyQn9ZTpUnlnqMyaOk7NRipg==
-X-Received: by 2002:aa7:d71a:: with SMTP id t26mr19860965edq.123.1590596607366;
-        Wed, 27 May 2020 09:23:27 -0700 (PDT)
-Received: from x1.localdomain (2001-1c00-0c0c-fe00-d2ea-f29d-118b-24dc.cable.dynamic.v6.ziggo.nl. [2001:1c00:c0c:fe00:d2ea:f29d:118b:24dc])
-        by smtp.gmail.com with ESMTPSA id i9sm2882006ejv.44.2020.05.27.09.23.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 27 May 2020 09:23:26 -0700 (PDT)
-Subject: Re: [GIT PULL] Ressurect the atomisp staging driver
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Patrik Gfeller <patrik.gfeller@gmail.com>,
-        Francescodario Cuzzocrea 
-        <francescodario.cuzzocrea@mail.polimi.it>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-References: <20200501215741.3be05695@coco.lan>
- <3f551a8f87808ee7828dc03d41c7a23faac89f3c.camel@mail.polimi.it>
- <20200503173213.78ae6aaa@coco.lan>
- <CADnVkj96W0QfthukTKQ0a-i2fH1buooH3BEgfy22J9H9=_PcKA@mail.gmail.com>
- <20200503180751.0b1e29c4@ASUS> <20200504101628.0f632bf2@ASUS>
- <20200504104934.7873cee3@coco.lan> <20200504124539.77eac397@ASUS>
- <20200504140833.11dd5622@coco.lan> <20200504154420.5dcf505f@ASUS>
- <20200515103232.47b2a35e@coco.lan>
- <be0935ce-4d88-e7de-5013-6651b8c4edac@redhat.com>
- <20200515114245.266a6fc8@coco.lan> <20200519093920.7bb22161@coco.lan>
- <20200519193635.14e806b6@coco.lan>
- <4dd760d6-6445-f3b5-cb14-1705e05820bc@redhat.com>
- <20200522134203.0fe139d6@coco.lan> <20200523100000.1131bd29@coco.lan>
-From:   Hans de Goede <hdegoede@redhat.com>
-Message-ID: <bb6c2d97-1614-246a-35b1-ee1531115734@redhat.com>
-Date:   Wed, 27 May 2020 18:23:26 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=HOBnpx8HZKNA2mYIrdIzHPO79IIq+OTFtfJlgxpJynw=;
+        b=Lw3F1ykj/alalyaG5ccwoeCnzkyIz8xQWRkgRECJ+7CkPj1jA8Vx5jFlkk+45ZdwOI
+         vpSL/ySISKADeMDYYaZ1bmVMDenmwJIs+R3qC6X6BtvekESDxGGR5J2PBvpxikZFWFIS
+         Ui6Qb6RYkXhO1NpjZiaLamF9JXGmVmCI9e2hyK2GJ/CcJkc7kKKOdC6cYOTm8I0n8l3a
+         3Jbv3gBTn+9IejhHIice2WrVzovqL/ouN7QtJ9AOrxJIH/4Rd/MbneKILZ4ofzyyIDDi
+         c61kwqWvOfNZ0+aF6krBu5rstxl3AEF+0y52PebsIQ7IozRT2xph+asV0YAbWcRCiPmc
+         BvdQ==
+X-Gm-Message-State: AOAM533nhhM1Tlx8HFgyOmNK16gETI6a8vDYdAS0B2kYKaxGlb82YgLw
+        +nUl8GUzTpkb5sh8EB+urSI=
+X-Google-Smtp-Source: ABdhPJxqHB/iYSQ/+IIgLYnRKb0OQneD8BTKop/Sw/gGN6GWtWYe7tcz1W0KOcQOXoNpZgVtiC+KMQ==
+X-Received: by 2002:a17:902:a584:: with SMTP id az4mr6717595plb.201.1590597924251;
+        Wed, 27 May 2020 09:45:24 -0700 (PDT)
+Received: from ubuntu-s3-xlarge-x86 ([2604:1380:4111:8b00::1])
+        by smtp.gmail.com with ESMTPSA id c12sm3147692pjm.46.2020.05.27.09.45.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 May 2020 09:45:23 -0700 (PDT)
+Date:   Wed, 27 May 2020 09:45:21 -0700
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: Re: [PATCH 0/7] media: atomisp: Address several clang warnings
+Message-ID: <20200527164521.GA1239557@ubuntu-s3-xlarge-x86>
+References: <20200527071150.3381228-1-natechancellor@gmail.com>
+ <20200527104525.5e6cd93b@coco.lan>
 MIME-Version: 1.0
-In-Reply-To: <20200523100000.1131bd29@coco.lan>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200527104525.5e6cd93b@coco.lan>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 5/23/20 10:00 AM, Mauro Carvalho Chehab wrote:
-
-<snip>
-
-> Btw, this can also be useful:
+On Wed, May 27, 2020 at 10:45:25AM +0200, Mauro Carvalho Chehab wrote:
+> Em Wed, 27 May 2020 00:11:43 -0700
+> Nathan Chancellor <natechancellor@gmail.com> escreveu:
 > 
-> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=yocto_intel_aero_ported_v2
+> > Hi all,
+> > 
+> > This series aims to clean up the code while addressing the majority of
+> > clang warnings in this driver, some found by the 0day bot and others
+> > found by me.
+> > 
+> > There are several enum conversion warnings that happen, which I do not
+> > really know how to solve without understanding how exactly this driver
+> > works. I would appreciate some guidance or a solution. Below are the
+> > warnings, sorry for not wrapping them but they would be hard to read
+> > otherwise.
 > 
-> This is basically the Yocto Aero patchset from:
+> ... 
+> > ../drivers/staging/media/atomisp//pci/atomisp_compat_css20.h:117:22: note: expanded from macro 'CSS_ID'
+> > #define CSS_ID(val)     (IA_ ## val)
+> ...
 > 
-> 	https://github.com/intel-aero/meta-intel-aero-base
+> I actually wrote a patch getting rid of this ugly thing:
 > 
-> applied on the top of Kernel 4.4.76 and then ported to
-> Kernel 5.7-rc2, making it run there.
+> 	https://git.linuxtv.org/mchehab/experimental.git/commit/?h=atomisp_v3&id=cf6a15543ace1e99364911c0b7a2f6b8f2f43021
 > 
-> On such version, I tried to preserve the patch history as much
-> as possible and minimize the changes, while not touching at the media
-> framework. This version contains 3 new I2C sensor drivers.
-> 
->  From the new sensors, I ported only the ov8858 code to be built
-> on the top of v5.7-rc2, but aiming another device I have here,
-> using ipu3. So, it got removed from all atomisp-dependent code.
+> This one was already submitted upstream (not merged yet), but there
+> are also lots of other patches on my working tree.
 
-Thanks for the info, that might be useful later.
+Ah excellent, that makes the warnings a lot more readable. I am still
+not sure how to reconcile the differences, it might be easier to just
+change the types in the struct to int.
 
-Note ATM I'm swamped with a lot of other stuff, so I have no idea
-when I will have time to scratch my itch wrt to looking at this.
+../drivers/staging/media/atomisp/pci/atomisp_subdev.c:49:68: warning: implicit conversion from enumeration type 'enum ia_css_frame_format' to different enumeration type 'enum atomisp_input_format' [-Wenum-conversion]
+        { V4L2_MBUS_FMT_CUSTOM_NV21, 12, 12, IA_CSS_FRAME_FORMAT_NV21, 0, IA_CSS_FRAME_FORMAT_NV21 },
+        ~                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+../drivers/staging/media/atomisp/pci/atomisp_subdev.c:49:39: warning: implicit conversion from enumeration type 'enum ia_css_frame_format' to different enumeration type 'enum atomisp_input_format' [-Wenum-conversion]
+        { V4L2_MBUS_FMT_CUSTOM_NV21, 12, 12, IA_CSS_FRAME_FORMAT_NV21, 0, IA_CSS_FRAME_FORMAT_NV21 },
+        ~                                    ^~~~~~~~~~~~~~~~~~~~~~~~
+../drivers/staging/media/atomisp/pci/atomisp_subdev.c:48:68: warning: implicit conversion from enumeration type 'enum ia_css_frame_format' to different enumeration type 'enum atomisp_input_format' [-Wenum-conversion]
+        { V4L2_MBUS_FMT_CUSTOM_NV12, 12, 12, IA_CSS_FRAME_FORMAT_NV12, 0, IA_CSS_FRAME_FORMAT_NV12 },
+        ~                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~
+../drivers/staging/media/atomisp/pci/atomisp_subdev.c:48:39: warning: implicit conversion from enumeration type 'enum ia_css_frame_format' to different enumeration type 'enum atomisp_input_format' [-Wenum-conversion]
+        { V4L2_MBUS_FMT_CUSTOM_NV12, 12, 12, IA_CSS_FRAME_FORMAT_NV12, 0, IA_CSS_FRAME_FORMAT_NV12 },
+        ~                                    ^~~~~~~~~~~~~~~~~~~~~~~~
+../drivers/staging/media/atomisp/pci/atomisp_subdev.c:47:34: warning: implicit conversion from enumeration type 'enum ia_css_frame_format' to different enumeration type 'enum atomisp_input_format' [-Wenum-conversion]
+        { MEDIA_BUS_FMT_JPEG_1X8, 8, 8, IA_CSS_FRAME_FORMAT_BINARY_8, 0, ATOMISP_INPUT_FORMAT_BINARY_8 },
+        ~                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+5 warnings generated.
 
-And TBH I'm waiting for you to reach that all important milestone
-of actually getting some sort of picture outside of the sensor
-before I start sinking time into this :)
+> I'll try to apply your patch series on it, once I'll be able to
+> fix a bug with mmap support.
 
-Regards,
+It looks like all of them apply to your experimental branch aside from
+patch 3, which you handled in a different way.
 
-Hans
-
+Cheers,
+Nathan
