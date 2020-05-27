@@ -2,1428 +2,389 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55A0B1E44DA
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 15:58:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7428E1E4561
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 16:13:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389041AbgE0N6D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 May 2020 09:58:03 -0400
-Received: from mail-bn7nam10on2078.outbound.protection.outlook.com ([40.107.92.78]:33248
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
+        id S1729461AbgE0ONJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 May 2020 10:13:09 -0400
+Received: from mail-dm6nam12on2062.outbound.protection.outlook.com ([40.107.243.62]:4673
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S2388594AbgE0N6B (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 May 2020 09:58:01 -0400
+        id S1726069AbgE0ONI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 27 May 2020 10:13:08 -0400
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PljkP330tVPQUGjFBEPkERbLgn9TXYbXY3ulMhgxu5+ZSYnUkLuhOlfDHG9JfwUiAP/Gizx1aVuMrmtQa3IqFJ4CH97Mlrrikn28ojUtIWaF3bZ1HHgP7uBayxznropHlwIZMQgAyJuJyd5DNm2Q3KXrrOJ/FYcBGVzuT9DLCnfY2YnzKf7CQLCFIBT6ZdQjYIFOW0Pz+0vtdJNcBHNnGYRt/ydYNAquzuUbKux/vocCL00Yw3jxW1R5aVYOkrrxGWp7kZKCAOTi20hFkHBvE+W7stadkPUocD28nznKb+ej1izj+npJBIWZRmpiMgI+/OiSVvIaddKJ14yyQiYf6Q==
+ b=Cu+IKm0GDu2ugP1zrfDZCU5vadfgMe9cSStTqWAJTgwmlOa155WRxlGM+ohWpFigTPwCqYRkXuo4aGVtfcRdna8XMNdHc5VGrtPUC9rsZ/rD+T5lJMm/OmZtiQccPOiBhdfUnpzzYW/SjpJElgrjUg03F+a9R1ZI/zCPHqCwDslZS1xJLqaduAkxy3wQWJr0R9koCV6m4b8rvg4eUEas0ezpvhjNNyV5t6jLV7rzJjYCyTwYavl4hrHYBfq89tHo74LRYA0Z0Y7GmmXi4Jlo8n7PpjoLY24pVLlP9KPXbn32FGTtErLT5xsPw+ullEAKzZVK+ibvDomlpuwEETDgdg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+E40cZctgMgOSk/OoM+ddwemIdva73BxP+5aOuMqrWY=;
- b=iFnN8TCbIP5BtLhji9dVgf1DKrSwxKI1iIkpbFiMNArJo1lBt3CcUJhvacQFa1tWEWCjFk9K8+/LprM6fUpUTPpQKbHcQJaVy3H+5oHFHbaTlh1JZmDV6ZQzM73Zv6AGMg93kBCSxbj2VM/NsNHTBxJ0/Z8+bSGDUaI52wm50JNLa9LbgUgxa6+vyY6xtnfvK3P+9fsotyZ8bqIRSliZgPXjW7n2dqL8wDTmaCHUXWxZNVL+emB2dG4JzJ4vsEauTmx0ZrpWmJ8edK7hil17fPjHD59iM7dmUDDnFjl4rU6wHK4ClxkSrgxhGA0NawQrcJ0givEWcmk1MvP6Uhozew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=jmondi.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
+ bh=/o2tae7R4E22TlXPOqtgrXvjZPkYdgQIEYMhqYHC0Tw=;
+ b=kXxFokhxhbNwiEwqu/SBa68NzObtuNr2eE/aU1dyYKe07cZhu3aRjF/VDuyn/LBT/mQ/yg9WT3KOJIVj9K644NqqMW5N0y54QFSjc7jvKDOcXPn0NFD2kIug6NT/Q1x34aLmWTIG8fRHtULjDyLaToxGCU2h1aB9Emhv5rTE6QQRAQZ2zWpk8ceaHVbCslWRwAxYiwTz3PFDGCxauA6l4sbN87YyouJ4YQzmrx/Gb9iRL0qVEQBnDWxpd/Xfe7MxvM96wFlc23GNSKX2wiZFS8Fyq1x880Dba3vbh2p80bS7RsLKRoHrt3eEH1BQT3XeR9oGk4RRvXPYXBW235ME6A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+E40cZctgMgOSk/OoM+ddwemIdva73BxP+5aOuMqrWY=;
- b=RNbs9yFw6UiX8WYhumCMiykfco9yPUpRScUaHRUuGepa0tGcKLDDDH0oJa7VrI9FXTankCFzpx8GSImlS6tvEWQren++VcFH6almTHf2lcRbqWINn7clIs/zxpvP2qjXsR0K+GP+zO17V0V4HTc/j9YymitV4B1OEOFnzG/OJxU=
-Received: from SN4PR0201CA0064.namprd02.prod.outlook.com
- (2603:10b6:803:20::26) by DM5PR02MB2491.namprd02.prod.outlook.com
- (2603:10b6:3:3c::9) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3021.26; Wed, 27 May
- 2020 13:57:48 +0000
-Received: from SN1NAM02FT060.eop-nam02.prod.protection.outlook.com
- (2603:10b6:803:20:cafe::77) by SN4PR0201CA0064.outlook.office365.com
- (2603:10b6:803:20::26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.19 via Frontend
- Transport; Wed, 27 May 2020 13:57:48 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; jmondi.org; dkim=none (message not signed)
- header.d=none;jmondi.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- SN1NAM02FT060.mail.protection.outlook.com (10.152.72.192) with Microsoft SMTP
- Server id 15.20.3021.23 via Frontend Transport; Wed, 27 May 2020 13:57:47
- +0000
-Received: from [149.199.38.66] (port=35490 helo=xsj-pvapsmtp01)
-        by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
-        (envelope-from <vishal.sagar@xilinx.com>)
-        id 1jdwYP-0001of-Ip; Wed, 27 May 2020 06:57:09 -0700
-Received: from [127.0.0.1] (helo=localhost)
-        by xsj-pvapsmtp01 with smtp (Exim 4.63)
-        (envelope-from <vishal.sagar@xilinx.com>)
-        id 1jdwYz-0007RU-UX; Wed, 27 May 2020 06:57:45 -0700
-Received: from xsj-pvapsmtp01 (xsj-mail.xilinx.com [149.199.38.66])
-        by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id 04RDvfQj025262;
-        Wed, 27 May 2020 06:57:41 -0700
-Received: from [172.23.82.133] (helo=xhdvsagar40x.xilinx.com)
-        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-        (envelope-from <vishal.sagar@xilinx.com>)
-        id 1jdwYv-0007P3-7r; Wed, 27 May 2020 06:57:41 -0700
-From:   Vishal Sagar <vishal.sagar@xilinx.com>
-To:     Hyun Kwon <hyunk@xilinx.com>, laurent.pinchart@ideasonboard.com,
-        mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        Michal Simek <michals@xilinx.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, hans.verkuil@cisco.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ bh=/o2tae7R4E22TlXPOqtgrXvjZPkYdgQIEYMhqYHC0Tw=;
+ b=PGoOwVJtMoldzYzqMuWSthq5BtW8XNaPuRBnloChuZbyEShG97O9lS/adloTftTX/TKsEtbwIy/SzSsuiK41nZT21Wh/q0eKIcLd/4mY60n21N5tfledQq4I0oCM7zbBeac8pk0U7KTIzgnpRgptDPLXElr0olG5p92Nsq5L8qE=
+Received: from DM6PR02MB6876.namprd02.prod.outlook.com (2603:10b6:5:22c::11)
+ by DM6PR02MB4377.namprd02.prod.outlook.com (2603:10b6:5:22::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.17; Wed, 27 May
+ 2020 14:13:01 +0000
+Received: from DM6PR02MB6876.namprd02.prod.outlook.com
+ ([fe80::ad68:d392:e519:f671]) by DM6PR02MB6876.namprd02.prod.outlook.com
+ ([fe80::ad68:d392:e519:f671%9]) with mapi id 15.20.3021.029; Wed, 27 May 2020
+ 14:13:01 +0000
+From:   Vishal Sagar <vsagar@xilinx.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Hyun Kwon <hyunk@xilinx.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        Michal Simek <michals@xilinx.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
         Dinesh Kumar <dineshk@xilinx.com>,
         Sandip Kothari <sandipk@xilinx.com>,
         Luca Ceresoli <luca@lucaceresoli.net>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Vishal Sagar <vishal.sagar@xilinx.com>
-Subject: [PATCH v14 2/2] media: v4l: xilinx: Add Xilinx MIPI CSI-2 Rx Subsystem driver
-Date:   Wed, 27 May 2020 19:27:19 +0530
-Message-Id: <1590587839-129558-3-git-send-email-vishal.sagar@xilinx.com>
-X-Mailer: git-send-email 2.1.1
-In-Reply-To: <1590587839-129558-1-git-send-email-vishal.sagar@xilinx.com>
-References: <1590587839-129558-1-git-send-email-vishal.sagar@xilinx.com>
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapsmtpgw01;PTR:unknown-60-83.xilinx.com;CAT:NONE;SFTY:;SFS:(396003)(39860400002)(346002)(376002)(136003)(46966005)(36756003)(8936002)(70206006)(110136005)(47076004)(7416002)(7696005)(82740400003)(6666004)(30864003)(26005)(186003)(5660300002)(316002)(2906002)(356005)(82310400002)(426003)(70586007)(2616005)(336012)(9786002)(8676002)(81166007)(44832011)(4326008)(83380400001)(478600001)(107886003)(921003)(579004);DIR:OUT;SFP:1101;
-X-MS-PublicTrafficType: Email
-MIME-Version: 1.0
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 61b88029-048d-4ff8-1e48-08d80245effa
-X-MS-TrafficTypeDiagnostic: DM5PR02MB2491:
-X-Microsoft-Antispam-PRVS: <DM5PR02MB2491D893F1E0BE18CF811622A7B10@DM5PR02MB2491.namprd02.prod.outlook.com>
+        Jacopo Mondi <jacopo@jmondi.org>, Rob Herring <robh@kernel.org>
+Subject: RE: [PATCH v13 1/2] media: dt-bindings: media: xilinx: Add Xilinx
+ MIPI CSI-2 Rx Subsystem
+Thread-Topic: [PATCH v13 1/2] media: dt-bindings: media: xilinx: Add Xilinx
+ MIPI CSI-2 Rx Subsystem
+Thread-Index: AQHWKHDc6Gvs+SWyz0SjP54hjxgjuai2jc4AgAVYrQCAABy6AIAAC31g
+Date:   Wed, 27 May 2020 14:13:01 +0000
+Message-ID: <DM6PR02MB6876967667A2FDFA4ABD8AEFA7B10@DM6PR02MB6876.namprd02.prod.outlook.com>
+References: <20200512151947.120348-1-vishal.sagar@xilinx.com>
+ <20200512151947.120348-2-vishal.sagar@xilinx.com>
+ <20200524020214.GB6026@pendragon.ideasonboard.com>
+ <DM6PR02MB68762DFB8F24E485B9B302B6A7B10@DM6PR02MB6876.namprd02.prod.outlook.com>
+ <20200527132344.GC6171@pendragon.ideasonboard.com>
+In-Reply-To: <20200527132344.GC6171@pendragon.ideasonboard.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:163;
-X-Forefront-PRVS: 04163EF38A
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 07Ri1bx1PdPbFW4G6OvwwIhF5Lb/ELkPtjNtEgBKaR1TCWdgkmREKZZrpqHI1dAuGXqq4YwH/Xqx/tBQkFyYZmC9Y/B5APu/n5E+Rjgr55ol4rLGFVrhhT7GWG30tFxpIFSCCqmG/TJNRmWP26d27CQjJpQTklzjIRGj8VQwM8rLKock+OHjyjDjplD/sPNsHIujL0iTSLCaLhaLjVlI2Fwc+sZe1rzZh3qOPT/CN9czU4DSjEURl8UMu0spX3RlxneqwjdHIfniv/IiTxQ+siaS+VzswAZyrIrBGkKA2fyzm9rtoAjA06pZJjGvO2It+k74SUcN6cXZJYKQzcXuovwTSmSKS3yia3bL/A3R9ZHqM9Xbh/RMIvbb8Wjx0Yfe01NOqOwOzZAn5+/ycoGuhceew7kriN47yozQDqRCtfc=
+X-MS-TNEF-Correlator: 
+authentication-results: ideasonboard.com; dkim=none (message not signed)
+ header.d=none;ideasonboard.com; dmarc=none action=none
+ header.from=xilinx.com;
+x-originating-ip: [149.199.50.130]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 8c5fee14-7846-45b9-8a9a-08d8024810e8
+x-ms-traffictypediagnostic: DM6PR02MB4377:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <DM6PR02MB4377C91BE94B515CA062AF04A7B10@DM6PR02MB4377.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 04163EF38A
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: u1qcx6ul8PWGR+dYl0gRg654cHSGgItypzd+Ey9KJTdfXzhMznQmeW+QMD5ZjmY8zfZ9lKcxf/UyV53qMlnah35YCTsPFewF9Yx9ERINoQ6F5zxyOEzbuMLZLs3j+FlvGn3K+/Uwy3yKgG3JP9U2UAKWuNzGyKuuQtaW/r9hn3pAr20mDU5tdpAmCTk8VZiBwmKMgdmDLY4fxyDEJiGf8PCVUWvOnRM6xnch8szG1Wk9u1T2gK8XWVXC0ZLM3PMRbHAdwhXxM9cAhMSNFX/3hierw1d1R+zXr8A6G1bmBIgDCbP7VCJdztPcNDjHkKjMTk5iRfHvJ7SIVxPt1qJfOxPckz1jWteaLBrBegGpCMkLVrkpYvdDMQnj0VvoYd1WPJPnHY4M5fGXZNNrBQcyDg==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR02MB6876.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(376002)(346002)(39860400002)(136003)(366004)(396003)(8936002)(55016002)(478600001)(9686003)(71200400001)(6916009)(83380400001)(76116006)(52536014)(86362001)(66476007)(66446008)(66946007)(66556008)(64756008)(30864003)(5660300002)(966005)(26005)(8676002)(7416002)(4326008)(53546011)(316002)(33656002)(186003)(7696005)(54906003)(6506007)(2906002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: x1Y9S3anAXr5KvOhyf3jEiKmLAUT10heutnC9VGtd6+wrQ6BX+rKxxssNwSqpkcO9SbIkl1qFC29gD0YUj/Yky/a/Ecpb8uUizV0NSJPhe/poKaskODJmpC2rbRCOLxybiDHbTqYiFVXK0ygZL9px+Af/jf2UC2br4lyT2Iwa2p0M4DcJArgA9tsa/kf0PB/SDbLZtIEECSsAm1b0czBHAYigN/A2gihHszb6kDByepSMU0ihuBcwhhHWYT5U1PN79Ui9G8240eouGCgXWGfRTVd41Nq6oFqs7EZAXWgjn2KyI8yY1KMH0t7ND0XiIQzOi9xFFBuS/+sb2CABF5b0dvAOKLDqhehhZyQnn+yLd3lbs3FqPVWbHDLht+raZekWmPLnortr+KHvlxF07ovlr4OGrHmXQmw0OhSKJqYmi22aXP4KBb+HtL/iMwvDnseNTt5Uhr9PIiTC76hh+mx6cBOEpCh6kk2fwzXO/r8RKyfYrHCHZ+6Uf1jYHlPwb1X
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 May 2020 13:57:47.4820
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8c5fee14-7846-45b9-8a9a-08d8024810e8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 May 2020 14:13:01.6017
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61b88029-048d-4ff8-1e48-08d80245effa
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB2491
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tVjPqxsbPCBn/Yd4WX+ebiqmmeI2xWmk8zpna2/cSlTUYJJ1JsNB15Syb0dcXNJqQMHbthTGwJd0rEm9Sf7ITQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB4377
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Xilinx MIPI CSI-2 Rx Subsystem soft IP is used to capture images
-from MIPI CSI-2 camera sensors and output AXI4-Stream video data ready
-for image processing. Please refer to PG232 for details.
-
-The CSI2 Rx controller filters out all packets except for the packets
-with data type fixed in hardware. RAW8 packets are always allowed to
-pass through.
-
-It is also used to setup and handle interrupts and enable the core. It
-logs all the events in respective counters between streaming on and off.
-
-The driver supports only the video format bridge enabled configuration.
-Some data types like YUV 422 10bpc, RAW16, RAW20 are supported when the
-CSI v2.0 feature is enabled in design. When the VCX feature is enabled,
-the maximum number of virtual channels becomes 16 from 4.
-
-Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
-Reviewed-by: Hyun Kwon <hyun.kwon@xilinx.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
----
-v14
- - Fixed condition to check ret in xcsi2rxss_start_stream
- - Use BIT(i) instead of (1 << i)
- - Moved "only sink pad format can be updated" in xcsi2rxss_set_format
- - Added Reviewed by Luca Ceresoli
- - Replace "tr" and "fa" to "true" and "false" in xcsi2rxss_log_status
- - Remove setting streaming state to false in SLBF case. The app should
-   stop the streaming in case of SLBF.
- - Made xcsi2rxss_enum_mbus_code() static as reported by kbuild bot
- - Added Reviewed by Laurent
-
-v13
-- Based on Laurent's suggestions
-- Removed unnecessary debug statement for vep
-- Added TODO for clock to enable disable at streamon/off
-- Fix for index to start from 0 for get_nth_mbus_format
-- Removed macro XCSI_TIMEOUT_VAL
-- Remove ndelay from hard reset
-- Remove hard reset from irq handler
-- Fix short packet fifo clear
-- Add TODO for v4l2_subdev_notify for SLBF error
-- Fix the enable condition in s_stream
-- Fix condition in xcsi2rxss_set_format
-- Fix enum_mbus_code for double enumeration of RAW8 Data type
-- Removed core struct
-- Added reviewed by Laurent
-
-v12
-- Changes done as suggested by Laurent Pinchart and Luca Ceresoli
-- Removed unused macros
-- No local storage of supported formats
-- Dropped init mbus fmts and removed xcsi2rxss_init_mbus_fmts()
-- XCSI_GET_BITSET_STR removed
-- Add data type and mbus LUT
-  - Added xcsi2rxss_get_nth_mbus() and xcsi2rxss_get_dt()
-- Replaced all core->dev with dev in dev_dbg() and related debug prints
-- Replaced xcsi2rxss_log_ipconfig() with single line
-- Removed small functions to enable/disable interrupts and core
-- Now save remote subdev in state struct before streaming on
-- Made xcsi2rxss_reset as soft_reset()
-- Added hard reset using video-reset gpio
-  - 2 modes one with delay and another sleep
-- Instead of reset-gpios it is not video-reset-gpios
-- In irq handler
-  - Moved clearing of ISR up
-  - Dump / empty short packet fifo
-  - Irq handler is now threaded 
-- Added init_cfg pad ops and removed open()
-- Updated xcsi2rxss_set_format(), xcsi2rxss_enum_mbus_code() to use the dt mbus lut
-- xcsi2rxss_set_default_format() updated
-- Moved mutex_init()
-- Updated graph handling
-- Removed unnecessary prints
-- Use devm_platform_ioremap_resource() and platform_get_irq()
-- Update KConfig description
-
-v11
-- Fixed changes as suggested by Sakari Ailus
-- Removed VIDEO_XILINX from KConfig
-- Minor formatting
-- Start / Stop upstream sub-device in xcsi2rxss_start_stream()
-  and xcsi2rxss_stop_stream()
-- Added v4l2_subdev_link_validate_default() in v4l2_subdev_pad_ops()
-- Use fwnode_graph_get_endpoint_by_id() instead of parsing by self
-- Set bus type as V4L2_MBUS_CSI2_DPHY in struct v4l2_fwnode_endpoint
-- Remove num_clks from core. Instead use ARRAY_SIZE()
-- Fixed SPDX header to GPL-2.0
-- Update copyright year to 2020
-
-v10
-- Removed all V4L2 controls and events based on Sakari's comments.
-- Now stop_stream() before toggling rst_gpio
-- Updated init_mbus() to throw error on array out of bound access
-- Make events and vcx_events as counters instead of structures
-- Minor fixes in set_format() enum_mbus_code() as suggested by Sakari
-
-v9
-- Moved all controls and events to xilinx-csi2rxss.h
-- Updated name and description of controls and events
-- Get control base address from v4l2-controls.h (0x10c0)
-- Fix KConfig for dependency on VIDEO_XILINX
-- Added enum_mbus_code() support
-- Added default format to be returned on open()
-- Mark variables are const
-- Remove references to short packet in comments
-- Add check for streaming before setting active lanes control
-- strlcpy -> strscpy
-- Fix xcsi2rxss_set_format()
-
-v8
-- Use clk_bulk* APIs
-- Add gpio reset for asserting video_aresetn when stream line buffer occurs
-- Removed short packet related events and irq handling
-  - V4L2_EVENT_XLNXCSIRX_SPKT and V4L2_EVENT_XLNXCSIRX_SPKT_OVF removed
-- Removed frame counter control V4L2_CID_XILINX_MIPICSISS_FRAME_COUNTER
-  and xcsi2rxss_g_volatile_ctrl()
-- Minor formatting fixes
-
-v7
-- No change
-
-v6
-- No change
-
-v5
-- Removed bayer and updated related parts like set default format based
-  on Luca Cersoli's comments.
-- Added correct YUV422 10bpc media bus format
-
-v4
-- Removed irq member from core structure
-- Consolidated IP config prints in xcsi2rxss_log_ipconfig()
-- Return -EINVAL in case of invalid ioctl
-- Code formatting
-- Added reviewed by Hyun Kwon
-
-v3
-- Fixed comments given by Hyun.
-- Removed DPHY 200 MHz clock. This will be controlled by DPHY driver
-- Minor code formatting
-- en_csi_v20 and vfb members removed from struct and made local to dt parsing
-- lock description updated
-- changed to ratelimited type for all dev prints in irq handler
-- Removed YUV 422 10bpc media format
-
-v2
-- Fixed comments given by Hyun and Sakari.
-- Made all bitmask using BIT() and GENMASK()
-- Removed unused definitions
-- Removed DPHY access. This will be done by separate DPHY PHY driver.
-- Added support for CSI v2.0 for YUV 422 10bpc, RAW16, RAW20 and extra
-  virtual channels
-- Fixed the ports as sink and source
-- Now use the v4l2fwnode API to get number of data-lanes
-- Added clock framework support
-- Removed the close() function
-- updated the set format function
-- support only VFB enabled configuration
-
- drivers/media/platform/xilinx/Kconfig           |    7 +
- drivers/media/platform/xilinx/Makefile          |    1 +
- drivers/media/platform/xilinx/xilinx-csi2rxss.c | 1111 +++++++++++++++++++++++
- 3 files changed, 1119 insertions(+)
- create mode 100644 drivers/media/platform/xilinx/xilinx-csi2rxss.c
-
-diff --git a/drivers/media/platform/xilinx/Kconfig b/drivers/media/platform/xilinx/Kconfig
-index 01c96fb..44587dc 100644
---- a/drivers/media/platform/xilinx/Kconfig
-+++ b/drivers/media/platform/xilinx/Kconfig
-@@ -12,6 +12,13 @@ config VIDEO_XILINX
- 
- if VIDEO_XILINX
- 
-+config VIDEO_XILINX_CSI2RXSS
-+	tristate "Xilinx CSI-2 Rx Subsystem"
-+	help
-+	  Driver for Xilinx MIPI CSI-2 Rx Subsystem. This is a V4L sub-device
-+	  based driver that takes input from CSI-2 Tx source and converts
-+	  it into an AXI4-Stream.
-+
- config VIDEO_XILINX_TPG
- 	tristate "Xilinx Video Test Pattern Generator"
- 	depends on VIDEO_XILINX
-diff --git a/drivers/media/platform/xilinx/Makefile b/drivers/media/platform/xilinx/Makefile
-index 4cdc0b1..6119a34 100644
---- a/drivers/media/platform/xilinx/Makefile
-+++ b/drivers/media/platform/xilinx/Makefile
-@@ -3,5 +3,6 @@
- xilinx-video-objs += xilinx-dma.o xilinx-vip.o xilinx-vipp.o
- 
- obj-$(CONFIG_VIDEO_XILINX) += xilinx-video.o
-+obj-$(CONFIG_VIDEO_XILINX_CSI2RXSS) += xilinx-csi2rxss.o
- obj-$(CONFIG_VIDEO_XILINX_TPG) += xilinx-tpg.o
- obj-$(CONFIG_VIDEO_XILINX_VTC) += xilinx-vtc.o
-diff --git a/drivers/media/platform/xilinx/xilinx-csi2rxss.c b/drivers/media/platform/xilinx/xilinx-csi2rxss.c
-new file mode 100644
-index 0000000..fff7dde
---- /dev/null
-+++ b/drivers/media/platform/xilinx/xilinx-csi2rxss.c
-@@ -0,0 +1,1111 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Driver for Xilinx MIPI CSI-2 Rx Subsystem
-+ *
-+ * Copyright (C) 2016 - 2020 Xilinx, Inc.
-+ *
-+ * Contacts: Vishal Sagar <vishal.sagar@xilinx.com>
-+ *
-+ */
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/of.h>
-+#include <linux/of_irq.h>
-+#include <linux/platform_device.h>
-+#include <linux/v4l2-subdev.h>
-+#include <media/media-entity.h>
-+#include <media/v4l2-common.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-fwnode.h>
-+#include <media/v4l2-subdev.h>
-+#include "xilinx-vip.h"
-+
-+/* Register register map */
-+#define XCSI_CCR_OFFSET		0x00
-+#define XCSI_CCR_SOFTRESET	BIT(1)
-+#define XCSI_CCR_ENABLE		BIT(0)
-+
-+#define XCSI_PCR_OFFSET		0x04
-+#define XCSI_PCR_MAXLANES_MASK	GENMASK(4, 3)
-+#define XCSI_PCR_ACTLANES_MASK	GENMASK(1, 0)
-+
-+#define XCSI_CSR_OFFSET		0x10
-+#define XCSI_CSR_PKTCNT		GENMASK(31, 16)
-+#define XCSI_CSR_SPFIFOFULL	BIT(3)
-+#define XCSI_CSR_SPFIFONE	BIT(2)
-+#define XCSI_CSR_SLBF		BIT(1)
-+#define XCSI_CSR_RIPCD		BIT(0)
-+
-+#define XCSI_GIER_OFFSET	0x20
-+#define XCSI_GIER_GIE		BIT(0)
-+
-+#define XCSI_ISR_OFFSET		0x24
-+#define XCSI_IER_OFFSET		0x28
-+
-+#define XCSI_ISR_FR		BIT(31)
-+#define XCSI_ISR_VCXFE		BIT(30)
-+#define XCSI_ISR_WCC		BIT(22)
-+#define XCSI_ISR_ILC		BIT(21)
-+#define XCSI_ISR_SPFIFOF	BIT(20)
-+#define XCSI_ISR_SPFIFONE	BIT(19)
-+#define XCSI_ISR_SLBF		BIT(18)
-+#define XCSI_ISR_STOP		BIT(17)
-+#define XCSI_ISR_SOTERR		BIT(13)
-+#define XCSI_ISR_SOTSYNCERR	BIT(12)
-+#define XCSI_ISR_ECC2BERR	BIT(11)
-+#define XCSI_ISR_ECC1BERR	BIT(10)
-+#define XCSI_ISR_CRCERR		BIT(9)
-+#define XCSI_ISR_DATAIDERR	BIT(8)
-+#define XCSI_ISR_VC3FSYNCERR	BIT(7)
-+#define XCSI_ISR_VC3FLVLERR	BIT(6)
-+#define XCSI_ISR_VC2FSYNCERR	BIT(5)
-+#define XCSI_ISR_VC2FLVLERR	BIT(4)
-+#define XCSI_ISR_VC1FSYNCERR	BIT(3)
-+#define XCSI_ISR_VC1FLVLERR	BIT(2)
-+#define XCSI_ISR_VC0FSYNCERR	BIT(1)
-+#define XCSI_ISR_VC0FLVLERR	BIT(0)
-+
-+#define XCSI_ISR_ALLINTR_MASK	(0xc07e3fff)
-+
-+/*
-+ * Removed VCXFE mask as it doesn't exist in IER
-+ * Removed STOP state irq as this will keep driver in irq handler only
-+ */
-+#define XCSI_IER_INTR_MASK	(XCSI_ISR_ALLINTR_MASK &\
-+				 ~(XCSI_ISR_STOP | XCSI_ISR_VCXFE))
-+
-+#define XCSI_SPKTR_OFFSET	0x30
-+#define XCSI_SPKTR_DATA		GENMASK(23, 8)
-+#define XCSI_SPKTR_VC		GENMASK(7, 6)
-+#define XCSI_SPKTR_DT		GENMASK(5, 0)
-+#define XCSI_SPKT_FIFO_DEPTH	31
-+
-+#define XCSI_VCXR_OFFSET	0x34
-+#define XCSI_VCXR_VCERR		GENMASK(23, 0)
-+#define XCSI_VCXR_FSYNCERR	BIT(1)
-+#define XCSI_VCXR_FLVLERR	BIT(0)
-+
-+#define XCSI_CLKINFR_OFFSET	0x3C
-+#define XCSI_CLKINFR_STOP	BIT(1)
-+
-+#define XCSI_DLXINFR_OFFSET	0x40
-+#define XCSI_DLXINFR_STOP	BIT(5)
-+#define XCSI_DLXINFR_SOTERR	BIT(1)
-+#define XCSI_DLXINFR_SOTSYNCERR	BIT(0)
-+#define XCSI_MAXDL_COUNT	0x4
-+
-+#define XCSI_VCXINF1R_OFFSET		0x60
-+#define XCSI_VCXINF1R_LINECOUNT		GENMASK(31, 16)
-+#define XCSI_VCXINF1R_LINECOUNT_SHIFT	16
-+#define XCSI_VCXINF1R_BYTECOUNT		GENMASK(15, 0)
-+
-+#define XCSI_VCXINF2R_OFFSET	0x64
-+#define XCSI_VCXINF2R_DT	GENMASK(5, 0)
-+#define XCSI_MAXVCX_COUNT	16
-+
-+/*
-+ * Sink pad connected to sensor source pad.
-+ * Source pad connected to next module like demosaic.
-+ */
-+#define XCSI_MEDIA_PADS		2
-+#define XCSI_DEFAULT_WIDTH	1920
-+#define XCSI_DEFAULT_HEIGHT	1080
-+
-+/* MIPI CSI-2 Data Types from spec */
-+#define XCSI_DT_YUV4228B	0x1e
-+#define XCSI_DT_YUV42210B	0x1f
-+#define XCSI_DT_RGB444		0x20
-+#define XCSI_DT_RGB555		0x21
-+#define XCSI_DT_RGB565		0x22
-+#define XCSI_DT_RGB666		0x23
-+#define XCSI_DT_RGB888		0x24
-+#define XCSI_DT_RAW6		0x28
-+#define XCSI_DT_RAW7		0x29
-+#define XCSI_DT_RAW8		0x2a
-+#define XCSI_DT_RAW10		0x2b
-+#define XCSI_DT_RAW12		0x2c
-+#define XCSI_DT_RAW14		0x2d
-+#define XCSI_DT_RAW16		0x2e
-+#define XCSI_DT_RAW20		0x2f
-+
-+#define XCSI_VCX_START		4
-+#define XCSI_MAX_VC		4
-+#define XCSI_MAX_VCX		16
-+
-+#define XCSI_NEXTREG_OFFSET	4
-+
-+/* There are 2 events frame sync and frame level error per VC */
-+#define XCSI_VCX_NUM_EVENTS	((XCSI_MAX_VCX - XCSI_MAX_VC) * 2)
-+
-+/**
-+ * struct xcsi2rxss_event - Event log structure
-+ * @mask: Event mask
-+ * @name: Name of the event
-+ */
-+struct xcsi2rxss_event {
-+	u32 mask;
-+	const char *name;
-+};
-+
-+static const struct xcsi2rxss_event xcsi2rxss_events[] = {
-+	{ XCSI_ISR_FR, "Frame Received" },
-+	{ XCSI_ISR_VCXFE, "VCX Frame Errors" },
-+	{ XCSI_ISR_WCC, "Word Count Errors" },
-+	{ XCSI_ISR_ILC, "Invalid Lane Count Error" },
-+	{ XCSI_ISR_SPFIFOF, "Short Packet FIFO OverFlow Error" },
-+	{ XCSI_ISR_SPFIFONE, "Short Packet FIFO Not Empty" },
-+	{ XCSI_ISR_SLBF, "Streamline Buffer Full Error" },
-+	{ XCSI_ISR_STOP, "Lane Stop State" },
-+	{ XCSI_ISR_SOTERR, "SOT Error" },
-+	{ XCSI_ISR_SOTSYNCERR, "SOT Sync Error" },
-+	{ XCSI_ISR_ECC2BERR, "2 Bit ECC Unrecoverable Error" },
-+	{ XCSI_ISR_ECC1BERR, "1 Bit ECC Recoverable Error" },
-+	{ XCSI_ISR_CRCERR, "CRC Error" },
-+	{ XCSI_ISR_DATAIDERR, "Data Id Error" },
-+	{ XCSI_ISR_VC3FSYNCERR, "Virtual Channel 3 Frame Sync Error" },
-+	{ XCSI_ISR_VC3FLVLERR, "Virtual Channel 3 Frame Level Error" },
-+	{ XCSI_ISR_VC2FSYNCERR, "Virtual Channel 2 Frame Sync Error" },
-+	{ XCSI_ISR_VC2FLVLERR, "Virtual Channel 2 Frame Level Error" },
-+	{ XCSI_ISR_VC1FSYNCERR, "Virtual Channel 1 Frame Sync Error" },
-+	{ XCSI_ISR_VC1FLVLERR, "Virtual Channel 1 Frame Level Error" },
-+	{ XCSI_ISR_VC0FSYNCERR, "Virtual Channel 0 Frame Sync Error" },
-+	{ XCSI_ISR_VC0FLVLERR, "Virtual Channel 0 Frame Level Error" }
-+};
-+
-+#define XCSI_NUM_EVENTS		ARRAY_SIZE(xcsi2rxss_events)
-+
-+/*
-+ * This table provides a mapping between CSI-2 Data type
-+ * and media bus formats
-+ */
-+static const u32 xcsi2dt_mbus_lut[][2] = {
-+	{ XCSI_DT_YUV4228B, MEDIA_BUS_FMT_UYVY8_1X16 },
-+	{ XCSI_DT_YUV42210B, MEDIA_BUS_FMT_UYVY10_1X20 },
-+	{ XCSI_DT_RGB444, 0 },
-+	{ XCSI_DT_RGB555, 0 },
-+	{ XCSI_DT_RGB565, 0 },
-+	{ XCSI_DT_RGB666, 0 },
-+	{ XCSI_DT_RGB888, MEDIA_BUS_FMT_RBG888_1X24 },
-+	{ XCSI_DT_RAW6, 0 },
-+	{ XCSI_DT_RAW7, 0 },
-+	{ XCSI_DT_RAW8, MEDIA_BUS_FMT_SRGGB8_1X8 },
-+	{ XCSI_DT_RAW8, MEDIA_BUS_FMT_SBGGR8_1X8 },
-+	{ XCSI_DT_RAW8, MEDIA_BUS_FMT_SGBRG8_1X8 },
-+	{ XCSI_DT_RAW8, MEDIA_BUS_FMT_SGRBG8_1X8 },
-+	{ XCSI_DT_RAW10, MEDIA_BUS_FMT_SRGGB10_1X10 },
-+	{ XCSI_DT_RAW10, MEDIA_BUS_FMT_SBGGR10_1X10 },
-+	{ XCSI_DT_RAW10, MEDIA_BUS_FMT_SGBRG10_1X10 },
-+	{ XCSI_DT_RAW10, MEDIA_BUS_FMT_SGRBG10_1X10 },
-+	{ XCSI_DT_RAW12, MEDIA_BUS_FMT_SRGGB12_1X12 },
-+	{ XCSI_DT_RAW12, MEDIA_BUS_FMT_SBGGR12_1X12 },
-+	{ XCSI_DT_RAW12, MEDIA_BUS_FMT_SGBRG12_1X12 },
-+	{ XCSI_DT_RAW12, MEDIA_BUS_FMT_SGRBG12_1X12 },
-+	{ XCSI_DT_RAW16, MEDIA_BUS_FMT_SRGGB16_1X16 },
-+	{ XCSI_DT_RAW16, MEDIA_BUS_FMT_SBGGR16_1X16 },
-+	{ XCSI_DT_RAW16, MEDIA_BUS_FMT_SGBRG16_1X16 },
-+	{ XCSI_DT_RAW16, MEDIA_BUS_FMT_SGRBG16_1X16 },
-+	{ XCSI_DT_RAW20, 0 },
-+};
-+
-+/**
-+ * struct xcsi2rxss_state - CSI-2 Rx Subsystem device structure
-+ * @subdev: The v4l2 subdev structure
-+ * @format: Active V4L2 formats on each pad
-+ * @default_format: Default V4L2 format
-+ * @events: counter for events
-+ * @vcx_events: counter for vcx_events
-+ * @dev: Platform structure
-+ * @rsubdev: Remote subdev connected to sink pad
-+ * @rst_gpio: reset to video_aresetn
-+ * @clks: array of clocks
-+ * @iomem: Base address of subsystem
-+ * @max_num_lanes: Maximum number of lanes present
-+ * @datatype: Data type filter
-+ * @lock: mutex for accessing this structure
-+ * @pads: media pads
-+ * @streaming: Flag for storing streaming state
-+ * @enable_active_lanes: If number of active lanes can be modified
-+ * @en_vcx: If more than 4 VC are enabled
-+ *
-+ * This structure contains the device driver related parameters
-+ */
-+struct xcsi2rxss_state {
-+	struct v4l2_subdev subdev;
-+	struct v4l2_mbus_framefmt format;
-+	struct v4l2_mbus_framefmt default_format;
-+	u32 events[XCSI_NUM_EVENTS];
-+	u32 vcx_events[XCSI_VCX_NUM_EVENTS];
-+	struct device *dev;
-+	struct v4l2_subdev *rsubdev;
-+	struct gpio_desc *rst_gpio;
-+	struct clk_bulk_data *clks;
-+	void __iomem *iomem;
-+	u32 max_num_lanes;
-+	u32 datatype;
-+	/* used to protect access to this struct */
-+	struct mutex lock;
-+	struct media_pad pads[XCSI_MEDIA_PADS];
-+	bool streaming;
-+	bool enable_active_lanes;
-+	bool en_vcx;
-+};
-+
-+static const struct clk_bulk_data xcsi2rxss_clks[] = {
-+	{ .id = "lite_aclk" },
-+	{ .id = "video_aclk" },
-+};
-+
-+static inline struct xcsi2rxss_state *
-+to_xcsi2rxssstate(struct v4l2_subdev *subdev)
-+{
-+	return container_of(subdev, struct xcsi2rxss_state, subdev);
-+}
-+
-+/*
-+ * Register related operations
-+ */
-+static inline u32 xcsi2rxss_read(struct xcsi2rxss_state *xcsi2rxss, u32 addr)
-+{
-+	return ioread32(xcsi2rxss->iomem + addr);
-+}
-+
-+static inline void xcsi2rxss_write(struct xcsi2rxss_state *xcsi2rxss, u32 addr,
-+				   u32 value)
-+{
-+	iowrite32(value, xcsi2rxss->iomem + addr);
-+}
-+
-+static inline void xcsi2rxss_clr(struct xcsi2rxss_state *xcsi2rxss, u32 addr,
-+				 u32 clr)
-+{
-+	xcsi2rxss_write(xcsi2rxss, addr,
-+			xcsi2rxss_read(xcsi2rxss, addr) & ~clr);
-+}
-+
-+static inline void xcsi2rxss_set(struct xcsi2rxss_state *xcsi2rxss, u32 addr,
-+				 u32 set)
-+{
-+	xcsi2rxss_write(xcsi2rxss, addr, xcsi2rxss_read(xcsi2rxss, addr) | set);
-+}
-+
-+/*
-+ * This function returns the nth mbus for a data type.
-+ * In case of error, mbus code returned is 0.
-+ */
-+static u32 xcsi2rxss_get_nth_mbus(u32 dt, u32 n)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(xcsi2dt_mbus_lut); i++) {
-+		if (xcsi2dt_mbus_lut[i][0] == dt) {
-+			if (n-- == 0)
-+				return xcsi2dt_mbus_lut[i][1];
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+/* This returns the data type for a media bus format else 0 */
-+static u32 xcsi2rxss_get_dt(u32 mbus)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(xcsi2dt_mbus_lut); i++) {
-+		if (xcsi2dt_mbus_lut[i][1] == mbus)
-+			return xcsi2dt_mbus_lut[i][0];
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * xcsi2rxss_soft_reset - Does a soft reset of the MIPI CSI-2 Rx Subsystem
-+ * @state: Xilinx CSI-2 Rx Subsystem structure pointer
-+ *
-+ * Core takes less than 100 video clock cycles to reset.
-+ * So a larger timeout value is chosen for margin.
-+ *
-+ * Return: 0 - on success OR -ETIME if reset times out
-+ */
-+static int xcsi2rxss_soft_reset(struct xcsi2rxss_state *state)
-+{
-+	u32 timeout = 1000; /* us */
-+
-+	xcsi2rxss_set(state, XCSI_CCR_OFFSET, XCSI_CCR_SOFTRESET);
-+
-+	while (xcsi2rxss_read(state, XCSI_CSR_OFFSET) & XCSI_CSR_RIPCD) {
-+		if (timeout == 0) {
-+			dev_err(state->dev, "soft reset timed out!\n");
-+			return -ETIME;
-+		}
-+
-+		timeout--;
-+		udelay(1);
-+	}
-+
-+	xcsi2rxss_clr(state, XCSI_CCR_OFFSET, XCSI_CCR_SOFTRESET);
-+	return 0;
-+}
-+
-+static void xcsi2rxss_hard_reset(struct xcsi2rxss_state *state)
-+{
-+	if (!state->rst_gpio)
-+		return;
-+
-+	/* minimum of 40 dphy_clk_200M cycles */
-+	gpiod_set_value_cansleep(state->rst_gpio, 1);
-+	usleep_range(1, 2);
-+	gpiod_set_value_cansleep(state->rst_gpio, 0);
-+}
-+
-+static void xcsi2rxss_reset_event_counters(struct xcsi2rxss_state *state)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < XCSI_NUM_EVENTS; i++)
-+		state->events[i] = 0;
-+
-+	for (i = 0; i < XCSI_VCX_NUM_EVENTS; i++)
-+		state->vcx_events[i] = 0;
-+}
-+
-+/* Print event counters */
-+static void xcsi2rxss_log_counters(struct xcsi2rxss_state *state)
-+{
-+	struct device *dev = state->dev;
-+	unsigned int i;
-+
-+	for (i = 0; i < XCSI_NUM_EVENTS; i++) {
-+		if (state->events[i] > 0) {
-+			dev_info(dev, "%s events: %d\n",
-+				 xcsi2rxss_events[i].name,
-+				 state->events[i]);
-+		}
-+	}
-+
-+	if (state->en_vcx) {
-+		for (i = 0; i < XCSI_VCX_NUM_EVENTS; i++) {
-+			if (state->vcx_events[i] > 0) {
-+				dev_info(dev,
-+					 "VC %d Frame %s err vcx events: %d\n",
-+					 (i / 2) + XCSI_VCX_START,
-+					 i & 1 ? "Sync" : "Level",
-+					 state->vcx_events[i]);
-+			}
-+		}
-+	}
-+}
-+
-+/**
-+ * xcsi2rxss_log_status - Logs the status of the CSI-2 Receiver
-+ * @sd: Pointer to V4L2 subdevice structure
-+ *
-+ * This function prints the current status of Xilinx MIPI CSI-2
-+ *
-+ * Return: 0 on success
-+ */
-+static int xcsi2rxss_log_status(struct v4l2_subdev *sd)
-+{
-+	struct xcsi2rxss_state *xcsi2rxss = to_xcsi2rxssstate(sd);
-+	struct device *dev = xcsi2rxss->dev;
-+	u32 reg, data;
-+	unsigned int i, max_vc;
-+
-+	mutex_lock(&xcsi2rxss->lock);
-+
-+	xcsi2rxss_log_counters(xcsi2rxss);
-+
-+	dev_info(dev, "***** Core Status *****\n");
-+	data = xcsi2rxss_read(xcsi2rxss, XCSI_CSR_OFFSET);
-+	dev_info(dev, "Short Packet FIFO Full = %s\n",
-+		 data & XCSI_CSR_SPFIFOFULL ? "true" : "false");
-+	dev_info(dev, "Short Packet FIFO Not Empty = %s\n",
-+		 data & XCSI_CSR_SPFIFONE ? "true" : "false");
-+	dev_info(dev, "Stream line buffer full = %s\n",
-+		 data & XCSI_CSR_SLBF ? "true" : "false");
-+	dev_info(dev, "Soft reset/Core disable in progress = %s\n",
-+		 data & XCSI_CSR_RIPCD ? "true" : "false");
-+
-+	/* Clk & Lane Info  */
-+	dev_info(dev, "******** Clock Lane Info *********\n");
-+	data = xcsi2rxss_read(xcsi2rxss, XCSI_CLKINFR_OFFSET);
-+	dev_info(dev, "Clock Lane in Stop State = %s\n",
-+		 data & XCSI_CLKINFR_STOP ? "true" : "false");
-+
-+	dev_info(dev, "******** Data Lane Info *********\n");
-+	dev_info(dev, "Lane\tSoT Error\tSoT Sync Error\tStop State\n");
-+	reg = XCSI_DLXINFR_OFFSET;
-+	for (i = 0; i < XCSI_MAXDL_COUNT; i++) {
-+		data = xcsi2rxss_read(xcsi2rxss, reg);
-+
-+		dev_info(dev, "%d\t%s\t\t%s\t\t%s\n", i,
-+			 data & XCSI_DLXINFR_SOTERR ? "true" : "false",
-+			 data & XCSI_DLXINFR_SOTSYNCERR ? "true" : "false",
-+			 data & XCSI_DLXINFR_STOP ? "true" : "false");
-+
-+		reg += XCSI_NEXTREG_OFFSET;
-+	}
-+
-+	/* Virtual Channel Image Information */
-+	dev_info(dev, "********** Virtual Channel Info ************\n");
-+	dev_info(dev, "VC\tLine Count\tByte Count\tData Type\n");
-+	if (xcsi2rxss->en_vcx)
-+		max_vc = XCSI_MAX_VCX;
-+	else
-+		max_vc = XCSI_MAX_VC;
-+
-+	reg = XCSI_VCXINF1R_OFFSET;
-+	for (i = 0; i < max_vc; i++) {
-+		u32 line_count, byte_count, data_type;
-+
-+		/* Get line and byte count from VCXINFR1 Register */
-+		data = xcsi2rxss_read(xcsi2rxss, reg);
-+		byte_count = data & XCSI_VCXINF1R_BYTECOUNT;
-+		line_count = data & XCSI_VCXINF1R_LINECOUNT;
-+		line_count >>= XCSI_VCXINF1R_LINECOUNT_SHIFT;
-+
-+		/* Get data type from VCXINFR2 Register */
-+		reg += XCSI_NEXTREG_OFFSET;
-+		data = xcsi2rxss_read(xcsi2rxss, reg);
-+		data_type = data & XCSI_VCXINF2R_DT;
-+
-+		dev_info(dev, "%d\t%d\t\t%d\t\t0x%x\n", i, line_count,
-+			 byte_count, data_type);
-+
-+		/* Move to next pair of VC Info registers */
-+		reg += XCSI_NEXTREG_OFFSET;
-+	}
-+
-+	mutex_unlock(&xcsi2rxss->lock);
-+
-+	return 0;
-+}
-+
-+static struct v4l2_subdev *xcsi2rxss_get_remote_subdev(struct media_pad *local)
-+{
-+	struct media_pad *remote;
-+
-+	remote = media_entity_remote_pad(local);
-+	if (!remote || !is_media_entity_v4l2_subdev(remote->entity))
-+		return NULL;
-+
-+	return media_entity_to_v4l2_subdev(remote->entity);
-+}
-+
-+static int xcsi2rxss_start_stream(struct xcsi2rxss_state *state)
-+{
-+	int ret = 0;
-+
-+	/* enable core */
-+	xcsi2rxss_set(state, XCSI_CCR_OFFSET, XCSI_CCR_ENABLE);
-+
-+	ret = xcsi2rxss_soft_reset(state);
-+	if (ret) {
-+		state->streaming = false;
-+		return ret;
-+	}
-+
-+	/* enable interrupts */
-+	xcsi2rxss_clr(state, XCSI_GIER_OFFSET, XCSI_GIER_GIE);
-+	xcsi2rxss_write(state, XCSI_IER_OFFSET, XCSI_IER_INTR_MASK);
-+	xcsi2rxss_set(state, XCSI_GIER_OFFSET, XCSI_GIER_GIE);
-+
-+	state->streaming = true;
-+
-+	state->rsubdev =
-+		xcsi2rxss_get_remote_subdev(&state->pads[XVIP_PAD_SINK]);
-+
-+	ret = v4l2_subdev_call(state->rsubdev, video, s_stream, 1);
-+	if (ret) {
-+		/* disable interrupts */
-+		xcsi2rxss_clr(state, XCSI_IER_OFFSET, XCSI_IER_INTR_MASK);
-+		xcsi2rxss_clr(state, XCSI_GIER_OFFSET, XCSI_GIER_GIE);
-+
-+		/* disable core */
-+		xcsi2rxss_clr(state, XCSI_CCR_OFFSET, XCSI_CCR_ENABLE);
-+		state->streaming = false;
-+	}
-+
-+	return ret;
-+}
-+
-+static void xcsi2rxss_stop_stream(struct xcsi2rxss_state *state)
-+{
-+	v4l2_subdev_call(state->rsubdev, video, s_stream, 0);
-+
-+	/* disable interrupts */
-+	xcsi2rxss_clr(state, XCSI_IER_OFFSET, XCSI_IER_INTR_MASK);
-+	xcsi2rxss_clr(state, XCSI_GIER_OFFSET, XCSI_GIER_GIE);
-+
-+	/* disable core */
-+	xcsi2rxss_clr(state, XCSI_CCR_OFFSET, XCSI_CCR_ENABLE);
-+	state->streaming = false;
-+}
-+
-+/**
-+ * xcsi2rxss_irq_handler - Interrupt handler for CSI-2
-+ * @irq: IRQ number
-+ * @data: Pointer to device state
-+ *
-+ * In the interrupt handler, a list of event counters are updated for
-+ * corresponding interrupts. This is useful to get status / debug.
-+ *
-+ * Return: IRQ_HANDLED after handling interrupts
-+ */
-+static irqreturn_t xcsi2rxss_irq_handler(int irq, void *data)
-+{
-+	struct xcsi2rxss_state *state = (struct xcsi2rxss_state *)data;
-+	struct device *dev = state->dev;
-+	u32 status;
-+
-+	status = xcsi2rxss_read(state, XCSI_ISR_OFFSET) & XCSI_ISR_ALLINTR_MASK;
-+	xcsi2rxss_write(state, XCSI_ISR_OFFSET, status);
-+
-+	/* Received a short packet */
-+	if (status & XCSI_ISR_SPFIFONE) {
-+		u32 count = 0;
-+
-+		/*
-+		 * Drain generic short packet FIFO by reading max 31
-+		 * (fifo depth) short packets from fifo or till fifo is empty.
-+		 */
-+		for (count = 0; count < XCSI_SPKT_FIFO_DEPTH; ++count) {
-+			u32 spfifostat, spkt;
-+
-+			spkt = xcsi2rxss_read(state, XCSI_SPKTR_OFFSET);
-+			dev_dbg(dev, "Short packet = 0x%08x\n", spkt);
-+			spfifostat = xcsi2rxss_read(state, XCSI_ISR_OFFSET);
-+			spfifostat &= XCSI_ISR_SPFIFONE;
-+			if (!spfifostat)
-+				break;
-+			xcsi2rxss_write(state, XCSI_ISR_OFFSET, spfifostat);
-+		}
-+	}
-+
-+	/* Short packet FIFO overflow */
-+	if (status & XCSI_ISR_SPFIFOF)
-+		dev_dbg_ratelimited(dev, "Short packet FIFO overflowed\n");
-+
-+	/*
-+	 * Stream line buffer full
-+	 * This means there is a backpressure from downstream IP
-+	 */
-+	if (status & XCSI_ISR_SLBF) {
-+		dev_alert_ratelimited(dev, "Stream Line Buffer Full!\n");
-+
-+		/* disable interrupts */
-+		xcsi2rxss_clr(state, XCSI_IER_OFFSET, XCSI_IER_INTR_MASK);
-+		xcsi2rxss_clr(state, XCSI_GIER_OFFSET, XCSI_GIER_GIE);
-+
-+		/* disable core */
-+		xcsi2rxss_clr(state, XCSI_CCR_OFFSET, XCSI_CCR_ENABLE);
-+
-+		/*
-+		 * The IP needs to be hard reset before it can be used now.
-+		 * This will be done in streamoff.
-+		 */
-+
-+		/*
-+		 * TODO: Notify the whole pipeline with v4l2_subdev_notify() to
-+		 * inform userspace.
-+		 */
-+	}
-+
-+	/* Increment event counters */
-+	if (status & XCSI_ISR_ALLINTR_MASK) {
-+		unsigned int i;
-+
-+		for (i = 0; i < XCSI_NUM_EVENTS; i++) {
-+			if (!(status & xcsi2rxss_events[i].mask))
-+				continue;
-+			state->events[i]++;
-+			dev_dbg_ratelimited(dev, "%s: %u\n",
-+					    xcsi2rxss_events[i].name,
-+					    state->events[i]);
-+		}
-+
-+		if (status & XCSI_ISR_VCXFE && state->en_vcx) {
-+			u32 vcxstatus;
-+
-+			vcxstatus = xcsi2rxss_read(state, XCSI_VCXR_OFFSET);
-+			vcxstatus &= XCSI_VCXR_VCERR;
-+			for (i = 0; i < XCSI_VCX_NUM_EVENTS; i++) {
-+				if (!(vcxstatus & BIT(i)))
-+					continue;
-+				state->vcx_events[i]++;
-+			}
-+			xcsi2rxss_write(state, XCSI_VCXR_OFFSET, vcxstatus);
-+		}
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
-+/**
-+ * xcsi2rxss_s_stream - It is used to start/stop the streaming.
-+ * @sd: V4L2 Sub device
-+ * @enable: Flag (True / False)
-+ *
-+ * This function controls the start or stop of streaming for the
-+ * Xilinx MIPI CSI-2 Rx Subsystem.
-+ *
-+ * Return: 0 on success, errors otherwise
-+ */
-+static int xcsi2rxss_s_stream(struct v4l2_subdev *sd, int enable)
-+{
-+	struct xcsi2rxss_state *xcsi2rxss = to_xcsi2rxssstate(sd);
-+	int ret = 0;
-+
-+	mutex_lock(&xcsi2rxss->lock);
-+
-+	if (enable == xcsi2rxss->streaming)
-+		goto stream_done;
-+
-+	if (enable) {
-+		xcsi2rxss_reset_event_counters(xcsi2rxss);
-+		ret = xcsi2rxss_start_stream(xcsi2rxss);
-+	} else {
-+		xcsi2rxss_stop_stream(xcsi2rxss);
-+		xcsi2rxss_hard_reset(xcsi2rxss);
-+	}
-+
-+stream_done:
-+	mutex_unlock(&xcsi2rxss->lock);
-+	return ret;
-+}
-+
-+static struct v4l2_mbus_framefmt *
-+__xcsi2rxss_get_pad_format(struct xcsi2rxss_state *xcsi2rxss,
-+			   struct v4l2_subdev_pad_config *cfg,
-+			   unsigned int pad, u32 which)
-+{
-+	switch (which) {
-+	case V4L2_SUBDEV_FORMAT_TRY:
-+		return v4l2_subdev_get_try_format(&xcsi2rxss->subdev, cfg, pad);
-+	case V4L2_SUBDEV_FORMAT_ACTIVE:
-+		return &xcsi2rxss->format;
-+	default:
-+		return NULL;
-+	}
-+}
-+
-+/**
-+ * xcsi2rxss_init_cfg - Initialise the pad format config to default
-+ * @sd: Pointer to V4L2 Sub device structure
-+ * @cfg: Pointer to sub device pad information structure
-+ *
-+ * This function is used to initialize the pad format with the default
-+ * values.
-+ *
-+ * Return: 0 on success
-+ */
-+static int xcsi2rxss_init_cfg(struct v4l2_subdev *sd,
-+			      struct v4l2_subdev_pad_config *cfg)
-+{
-+	struct xcsi2rxss_state *xcsi2rxss = to_xcsi2rxssstate(sd);
-+	struct v4l2_mbus_framefmt *format;
-+	unsigned int i;
-+
-+	mutex_lock(&xcsi2rxss->lock);
-+	for (i = 0; i < XCSI_MEDIA_PADS; i++) {
-+		format = v4l2_subdev_get_try_format(sd, cfg, i);
-+		*format = xcsi2rxss->default_format;
-+	}
-+	mutex_unlock(&xcsi2rxss->lock);
-+
-+	return 0;
-+}
-+
-+/**
-+ * xcsi2rxss_get_format - Get the pad format
-+ * @sd: Pointer to V4L2 Sub device structure
-+ * @cfg: Pointer to sub device pad information structure
-+ * @fmt: Pointer to pad level media bus format
-+ *
-+ * This function is used to get the pad format information.
-+ *
-+ * Return: 0 on success
-+ */
-+static int xcsi2rxss_get_format(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_pad_config *cfg,
-+				struct v4l2_subdev_format *fmt)
-+{
-+	struct xcsi2rxss_state *xcsi2rxss = to_xcsi2rxssstate(sd);
-+
-+	mutex_lock(&xcsi2rxss->lock);
-+	fmt->format = *__xcsi2rxss_get_pad_format(xcsi2rxss, cfg, fmt->pad,
-+						  fmt->which);
-+	mutex_unlock(&xcsi2rxss->lock);
-+
-+	return 0;
-+}
-+
-+/**
-+ * xcsi2rxss_set_format - This is used to set the pad format
-+ * @sd: Pointer to V4L2 Sub device structure
-+ * @cfg: Pointer to sub device pad information structure
-+ * @fmt: Pointer to pad level media bus format
-+ *
-+ * This function is used to set the pad format. Since the pad format is fixed
-+ * in hardware, it can't be modified on run time. So when a format set is
-+ * requested by application, all parameters except the format type is saved
-+ * for the pad and the original pad format is sent back to the application.
-+ *
-+ * Return: 0 on success
-+ */
-+static int xcsi2rxss_set_format(struct v4l2_subdev *sd,
-+				struct v4l2_subdev_pad_config *cfg,
-+				struct v4l2_subdev_format *fmt)
-+{
-+	struct xcsi2rxss_state *xcsi2rxss = to_xcsi2rxssstate(sd);
-+	struct v4l2_mbus_framefmt *__format;
-+	u32 dt;
-+
-+	mutex_lock(&xcsi2rxss->lock);
-+
-+	/*
-+	 * Only the format->code parameter matters for CSI as the
-+	 * CSI format cannot be changed at runtime.
-+	 * Ensure that format to set is copied to over to CSI pad format
-+	 */
-+	__format = __xcsi2rxss_get_pad_format(xcsi2rxss, cfg,
-+					      fmt->pad, fmt->which);
-+
-+	/* only sink pad format can be updated */
-+	if (fmt->pad == XVIP_PAD_SOURCE) {
-+		fmt->format = *__format;
-+		mutex_unlock(&xcsi2rxss->lock);
-+		return 0;
-+	}
-+
-+	/*
-+	 * RAW8 is supported in all datatypes. So if requested media bus format
-+	 * is of RAW8 type, then allow to be set. In case core is configured to
-+	 * other RAW, YUV422 8/10 or RGB888, set appropriate media bus format.
-+	 */
-+	dt = xcsi2rxss_get_dt(fmt->format.code);
-+	if (dt != xcsi2rxss->datatype && dt != XCSI_DT_RAW8) {
-+		dev_dbg(xcsi2rxss->dev, "Unsupported media bus format");
-+		/* set the default format for the data type */
-+		fmt->format.code = xcsi2rxss_get_nth_mbus(xcsi2rxss->datatype,
-+							  0);
-+	}
-+
-+	*__format = fmt->format;
-+	mutex_unlock(&xcsi2rxss->lock);
-+
-+	return 0;
-+}
-+
-+/*
-+ * xcsi2rxss_enum_mbus_code - Handle pixel format enumeration
-+ * @sd: pointer to v4l2 subdev structure
-+ * @cfg: V4L2 subdev pad configuration
-+ * @code: pointer to v4l2_subdev_mbus_code_enum structure
-+ *
-+ * Return: -EINVAL or zero on success
-+ */
-+static int xcsi2rxss_enum_mbus_code(struct v4l2_subdev *sd,
-+				    struct v4l2_subdev_pad_config *cfg,
-+				    struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	struct xcsi2rxss_state *state = to_xcsi2rxssstate(sd);
-+	u32 dt, n;
-+	int ret = 0;
-+
-+	/* RAW8 dt packets are available in all DT configurations */
-+	if (code->index < 4) {
-+		n = code->index;
-+		dt = XCSI_DT_RAW8;
-+	} else if (state->datatype != XCSI_DT_RAW8) {
-+		n = code->index - 4;
-+		dt = state->datatype;
-+	} else {
-+		return -EINVAL;
-+	}
-+
-+	code->code = xcsi2rxss_get_nth_mbus(dt, n);
-+	if (!code->code)
-+		ret = -EINVAL;
-+
-+	return ret;
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * Media Operations
-+ */
-+
-+static const struct media_entity_operations xcsi2rxss_media_ops = {
-+	.link_validate = v4l2_subdev_link_validate
-+};
-+
-+static const struct v4l2_subdev_core_ops xcsi2rxss_core_ops = {
-+	.log_status = xcsi2rxss_log_status,
-+};
-+
-+static const struct v4l2_subdev_video_ops xcsi2rxss_video_ops = {
-+	.s_stream = xcsi2rxss_s_stream
-+};
-+
-+static const struct v4l2_subdev_pad_ops xcsi2rxss_pad_ops = {
-+	.init_cfg = xcsi2rxss_init_cfg,
-+	.get_fmt = xcsi2rxss_get_format,
-+	.set_fmt = xcsi2rxss_set_format,
-+	.enum_mbus_code = xcsi2rxss_enum_mbus_code,
-+	.link_validate = v4l2_subdev_link_validate_default,
-+};
-+
-+static const struct v4l2_subdev_ops xcsi2rxss_ops = {
-+	.core = &xcsi2rxss_core_ops,
-+	.video = &xcsi2rxss_video_ops,
-+	.pad = &xcsi2rxss_pad_ops
-+};
-+
-+static int xcsi2rxss_parse_of(struct xcsi2rxss_state *xcsi2rxss)
-+{
-+	struct device *dev = xcsi2rxss->dev;
-+	struct device_node *node = dev->of_node;
-+
-+	struct fwnode_handle *ep;
-+	struct v4l2_fwnode_endpoint vep = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY
-+	};
-+	bool en_csi_v20, vfb;
-+	int ret;
-+
-+	en_csi_v20 = of_property_read_bool(node, "xlnx,en-csi-v2-0");
-+	if (en_csi_v20)
-+		xcsi2rxss->en_vcx = of_property_read_bool(node, "xlnx,en-vcx");
-+
-+	xcsi2rxss->enable_active_lanes =
-+		of_property_read_bool(node, "xlnx,en-active-lanes");
-+
-+	ret = of_property_read_u32(node, "xlnx,csi-pxl-format",
-+				   &xcsi2rxss->datatype);
-+	if (ret < 0) {
-+		dev_err(dev, "missing xlnx,csi-pxl-format property\n");
-+		return ret;
-+	}
-+
-+	switch (xcsi2rxss->datatype) {
-+	case XCSI_DT_YUV4228B:
-+	case XCSI_DT_RGB444:
-+	case XCSI_DT_RGB555:
-+	case XCSI_DT_RGB565:
-+	case XCSI_DT_RGB666:
-+	case XCSI_DT_RGB888:
-+	case XCSI_DT_RAW6:
-+	case XCSI_DT_RAW7:
-+	case XCSI_DT_RAW8:
-+	case XCSI_DT_RAW10:
-+	case XCSI_DT_RAW12:
-+	case XCSI_DT_RAW14:
-+		break;
-+	case XCSI_DT_YUV42210B:
-+	case XCSI_DT_RAW16:
-+	case XCSI_DT_RAW20:
-+		if (!en_csi_v20) {
-+			ret = -EINVAL;
-+			dev_dbg(dev, "enable csi v2 for this pixel format");
-+		}
-+		break;
-+	default:
-+		ret = -EINVAL;
-+	}
-+	if (ret < 0) {
-+		dev_err(dev, "invalid csi-pxl-format property!\n");
-+		return ret;
-+	}
-+
-+	vfb = of_property_read_bool(node, "xlnx,vfb");
-+	if (!vfb) {
-+		dev_err(dev, "operation without VFB is not supported\n");
-+		return -EINVAL;
-+	}
-+
-+	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
-+					     XVIP_PAD_SINK, 0,
-+					     FWNODE_GRAPH_ENDPOINT_NEXT);
-+	if (!ep) {
-+		dev_err(dev, "no sink port found");
-+		return -EINVAL;
-+	}
-+
-+	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
-+	fwnode_handle_put(ep);
-+	if (ret) {
-+		dev_err(dev, "error parsing sink port");
-+		return ret;
-+	}
-+
-+	dev_dbg(dev, "mipi number lanes = %d\n",
-+		vep.bus.mipi_csi2.num_data_lanes);
-+
-+	xcsi2rxss->max_num_lanes = vep.bus.mipi_csi2.num_data_lanes;
-+
-+	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
-+					     XVIP_PAD_SOURCE, 0,
-+					     FWNODE_GRAPH_ENDPOINT_NEXT);
-+	if (!ep) {
-+		dev_err(dev, "no source port found");
-+		return -EINVAL;
-+	}
-+
-+	fwnode_handle_put(ep);
-+
-+	dev_dbg(dev, "vcx %s, %u data lanes (%s), data type 0x%02x\n",
-+		xcsi2rxss->en_vcx ? "enabled" : "disabled",
-+		xcsi2rxss->max_num_lanes,
-+		xcsi2rxss->enable_active_lanes ? "dynamic" : "static",
-+		xcsi2rxss->datatype);
-+
-+	return 0;
-+}
-+
-+static int xcsi2rxss_probe(struct platform_device *pdev)
-+{
-+	struct v4l2_subdev *subdev;
-+	struct xcsi2rxss_state *xcsi2rxss;
-+	int num_clks = ARRAY_SIZE(xcsi2rxss_clks);
-+	struct device *dev = &pdev->dev;
-+	int irq, ret;
-+
-+	xcsi2rxss = devm_kzalloc(dev, sizeof(*xcsi2rxss), GFP_KERNEL);
-+	if (!xcsi2rxss)
-+		return -ENOMEM;
-+
-+	xcsi2rxss->dev = dev;
-+
-+	xcsi2rxss->clks = devm_kmemdup(dev, xcsi2rxss_clks,
-+				       sizeof(xcsi2rxss_clks), GFP_KERNEL);
-+	if (!xcsi2rxss->clks)
-+		return -ENOMEM;
-+
-+	/* Reset GPIO */
-+	xcsi2rxss->rst_gpio = devm_gpiod_get_optional(dev, "video-reset",
-+						      GPIOD_OUT_HIGH);
-+	if (IS_ERR(xcsi2rxss->rst_gpio)) {
-+		if (PTR_ERR(xcsi2rxss->rst_gpio) != -EPROBE_DEFER)
-+			dev_err(dev, "Video Reset GPIO not setup in DT");
-+		return PTR_ERR(xcsi2rxss->rst_gpio);
-+	}
-+
-+	ret = xcsi2rxss_parse_of(xcsi2rxss);
-+	if (ret < 0)
-+		return ret;
-+
-+	xcsi2rxss->iomem = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(xcsi2rxss->iomem))
-+		return PTR_ERR(xcsi2rxss->iomem);
-+
-+	irq = platform_get_irq(pdev, 0);
-+	if (irq < 0)
-+		return irq;
-+
-+	ret = devm_request_threaded_irq(dev, irq, NULL,
-+					xcsi2rxss_irq_handler, IRQF_ONESHOT,
-+					dev_name(dev), xcsi2rxss);
-+	if (ret) {
-+		dev_err(dev, "Err = %d Interrupt handler reg failed!\n", ret);
-+		return ret;
-+	}
-+
-+	ret = clk_bulk_get(dev, num_clks, xcsi2rxss->clks);
-+	if (ret)
-+		return ret;
-+
-+	/* TODO: Enable/disable clocks at stream on/off time. */
-+	ret = clk_bulk_prepare_enable(num_clks, xcsi2rxss->clks);
-+	if (ret)
-+		goto err_clk_put;
-+
-+	mutex_init(&xcsi2rxss->lock);
-+
-+	xcsi2rxss_hard_reset(xcsi2rxss);
-+	xcsi2rxss_soft_reset(xcsi2rxss);
-+
-+	/* Initialize V4L2 subdevice and media entity */
-+	xcsi2rxss->pads[XVIP_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
-+	xcsi2rxss->pads[XVIP_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
-+
-+	/* Initialize the default format */
-+	xcsi2rxss->default_format.code =
-+		xcsi2rxss_get_nth_mbus(xcsi2rxss->datatype, 0);
-+	xcsi2rxss->default_format.field = V4L2_FIELD_NONE;
-+	xcsi2rxss->default_format.colorspace = V4L2_COLORSPACE_SRGB;
-+	xcsi2rxss->default_format.width = XCSI_DEFAULT_WIDTH;
-+	xcsi2rxss->default_format.height = XCSI_DEFAULT_HEIGHT;
-+	xcsi2rxss->format = xcsi2rxss->default_format;
-+
-+	/* Initialize V4L2 subdevice and media entity */
-+	subdev = &xcsi2rxss->subdev;
-+	v4l2_subdev_init(subdev, &xcsi2rxss_ops);
-+	subdev->dev = dev;
-+	strscpy(subdev->name, dev_name(dev), sizeof(subdev->name));
-+	subdev->flags |= V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	subdev->entity.ops = &xcsi2rxss_media_ops;
-+	v4l2_set_subdevdata(subdev, xcsi2rxss);
-+
-+	ret = media_entity_pads_init(&subdev->entity, XCSI_MEDIA_PADS,
-+				     xcsi2rxss->pads);
-+	if (ret < 0)
-+		goto error;
-+
-+	platform_set_drvdata(pdev, xcsi2rxss);
-+
-+	ret = v4l2_async_register_subdev(subdev);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to register subdev\n");
-+		goto error;
-+	}
-+
-+	return 0;
-+error:
-+	media_entity_cleanup(&subdev->entity);
-+	mutex_destroy(&xcsi2rxss->lock);
-+	clk_bulk_disable_unprepare(num_clks, xcsi2rxss->clks);
-+err_clk_put:
-+	clk_bulk_put(num_clks, xcsi2rxss->clks);
-+	return ret;
-+}
-+
-+static int xcsi2rxss_remove(struct platform_device *pdev)
-+{
-+	struct xcsi2rxss_state *xcsi2rxss = platform_get_drvdata(pdev);
-+	struct v4l2_subdev *subdev = &xcsi2rxss->subdev;
-+	int num_clks = ARRAY_SIZE(xcsi2rxss_clks);
-+
-+	v4l2_async_unregister_subdev(subdev);
-+	media_entity_cleanup(&subdev->entity);
-+	mutex_destroy(&xcsi2rxss->lock);
-+	clk_bulk_disable_unprepare(num_clks, xcsi2rxss->clks);
-+	clk_bulk_put(num_clks, xcsi2rxss->clks);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id xcsi2rxss_of_id_table[] = {
-+	{ .compatible = "xlnx,mipi-csi2-rx-subsystem-5.0", },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, xcsi2rxss_of_id_table);
-+
-+static struct platform_driver xcsi2rxss_driver = {
-+	.driver = {
-+		.name		= "xilinx-csi2rxss",
-+		.of_match_table	= xcsi2rxss_of_id_table,
-+	},
-+	.probe			= xcsi2rxss_probe,
-+	.remove			= xcsi2rxss_remove,
-+};
-+
-+module_platform_driver(xcsi2rxss_driver);
-+
-+MODULE_AUTHOR("Vishal Sagar <vsagar@xilinx.com>");
-+MODULE_DESCRIPTION("Xilinx MIPI CSI-2 Rx Subsystem Driver");
-+MODULE_LICENSE("GPL v2");
--- 
-2.1.1
-
+SGkgTGF1cmVudCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBMYXVy
+ZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+DQo+IFNlbnQ6
+IFdlZG5lc2RheSwgTWF5IDI3LCAyMDIwIDY6NTQgUE0NCj4gVG86IFZpc2hhbCBTYWdhciA8dnNh
+Z2FyQHhpbGlueC5jb20+DQo+IENjOiBIeXVuIEt3b24gPGh5dW5rQHhpbGlueC5jb20+OyBtY2hl
+aGFiQGtlcm5lbC5vcmc7DQo+IHJvYmgrZHRAa2VybmVsLm9yZzsgbWFyay5ydXRsYW5kQGFybS5j
+b207IE1pY2hhbCBTaW1law0KPiA8bWljaGFsc0B4aWxpbnguY29tPjsgbGludXgtbWVkaWFAdmdl
+ci5rZXJuZWwub3JnOw0KPiBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsgaGFucy52ZXJrdWls
+QGNpc2NvLmNvbTsgbGludXgtYXJtLQ0KPiBrZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZzsgbGlu
+dXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgRGluZXNoIEt1bWFyDQo+IDxkaW5lc2hrQHhpbGlu
+eC5jb20+OyBTYW5kaXAgS290aGFyaSA8c2FuZGlwa0B4aWxpbnguY29tPjsgTHVjYSBDZXJlc29s
+aQ0KPiA8bHVjYUBsdWNhY2VyZXNvbGkubmV0PjsgSmFjb3BvIE1vbmRpIDxqYWNvcG9Aam1vbmRp
+Lm9yZz47IFJvYiBIZXJyaW5nDQo+IDxyb2JoQGtlcm5lbC5vcmc+DQo+IFN1YmplY3Q6IFJlOiBb
+UEFUQ0ggdjEzIDEvMl0gbWVkaWE6IGR0LWJpbmRpbmdzOiBtZWRpYTogeGlsaW54OiBBZGQgWGls
+aW54IE1JUEkNCj4gQ1NJLTIgUnggU3Vic3lzdGVtDQo+IA0KPiBIaSBWaXNoYWwsDQo+IA0KPiBP
+biBXZWQsIE1heSAyNywgMjAyMCBhdCAxMTo1MzowMUFNICswMDAwLCBWaXNoYWwgU2FnYXIgd3Jv
+dGU6DQo+ID4gT24gU3VuZGF5LCBNYXkgMjQsIDIwMjAgNzozMiBBTSwgTGF1cmVudCBQaW5jaGFy
+dCB3cm90ZToNCj4gPiA+IE9uIFR1ZSwgTWF5IDEyLCAyMDIwIGF0IDA4OjQ5OjQ2UE0gKzA1MzAs
+IFZpc2hhbCBTYWdhciB3cm90ZToNCj4gPiA+ID4gQWRkIGJpbmRpbmdzIGRvY3VtZW50YXRpb24g
+Zm9yIFhpbGlueCBNSVBJIENTSS0yIFJ4IFN1YnN5c3RlbS4NCj4gPiA+ID4NCj4gPiA+ID4gVGhl
+IFhpbGlueCBNSVBJIENTSS0yIFJ4IFN1YnN5c3RlbSBjb25zaXN0cyBvZiBhIENTSS0yIFJ4DQo+
+ID4gPiA+IGNvbnRyb2xsZXIsIGEgRC1QSFkgaW4gUnggbW9kZSBhbmQgYSBWaWRlbyBGb3JtYXQg
+QnJpZGdlLg0KPiA+ID4gPg0KPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBWaXNoYWwgU2FnYXIgPHZp
+c2hhbC5zYWdhckB4aWxpbnguY29tPg0KPiA+ID4gPiBSZXZpZXdlZC1ieTogSHl1biBLd29uIDxo
+eXVuLmt3b25AeGlsaW54LmNvbT4NCj4gPiA+ID4gUmV2aWV3ZWQtYnk6IFJvYiBIZXJyaW5nIDxy
+b2JoQGtlcm5lbC5vcmc+DQo+ID4gPiA+IFJldmlld2VkLWJ5OiBMdWNhIENlcmVzb2xpIDxsdWNh
+QGx1Y2FjZXJlc29saS5uZXQ+DQo+ID4gPiA+IFJldmlld2VkLWJ5OiBMYXVyZW50IFBpbmNoYXJ0
+IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+DQo+ID4gPiA+IC0tLQ0KPiA+ID4g
+PiB2MTMNCj4gPiA+ID4gLSBCYXNlZCBvbiBMYXVyZW50J3Mgc3VnZ2VzdGlvbnMNCj4gPiA+ID4g
+LSBGaXhlZCB0aGUgZGF0YXR5cGVzIHZhbHVlcyBhcyBtaW5pbXVtIGFuZCBtYXhpbXVtDQo+ID4g
+PiA+IC0gY29uZGl0aW9uIGFkZGVkIGZvciBlbi12Y3ggcHJvcGVydHkNCj4gPiA+ID4NCj4gPiA+
+ID4gdjEyDQo+ID4gPiA+IC0gTW92ZWQgdG8geWFtbCBmb3JtYXQNCj4gPiA+ID4gLSBVcGRhdGUg
+Q1NJLTIgYW5kIEQtUEhZDQo+ID4gPiA+IC0gTWVudGlvbiB0aGF0IGJpbmRpbmdzIGZvciBELVBI
+WSBub3QgaGVyZQ0KPiA+ID4gPiAtIHJlc2V0IC0+IHZpZGVvLXJlc2V0DQo+ID4gPiA+DQo+ID4g
+PiA+IHYxMQ0KPiA+ID4gPiAtIE1vZGlmeSBjb21wYXRpYmxlIHN0cmluZyBmcm9tIDQuMCB0byA1
+LjANCj4gPiA+ID4NCj4gPiA+ID4gdjEwDQo+ID4gPiA+IC0gTm8gY2hhbmdlcw0KPiA+ID4gPg0K
+PiA+ID4gPiB2OQ0KPiA+ID4gPiAtIEZpeCB4bG54LHZmYiBkZXNjcmlwdGlvbi4NCj4gPiA+ID4g
+LSBzL09wdGlvbmFsL1JlcXVpcmVkIGVuZHBvaW50IHByb3BlcnR5Lg0KPiA+ID4gPiAtIE1vdmUg
+ZGF0YS1sYW5lcyBkZXNjcmlwdGlvbiBmcm9tIFBvcnRzIHRvIGVuZHBvaW50IHByb3BlcnR5IHNl
+Y3Rpb24uDQo+ID4gPiA+DQo+ID4gPiA+IHY4DQo+ID4gPiA+IC0gQWRkZWQgcmVzZXQtZ3Bpb3Mg
+b3B0aW9uYWwgcHJvcGVydHkgdG8gYXNzZXJ0IHZpZGVvX2FyZXNldG4NCj4gPiA+ID4NCj4gPiA+
+ID4gdjcNCj4gPiA+ID4gLSBSZW1vdmVkIHRoZSBjb250cm9sIG5hbWUgZnJvbSBkdCBiaW5kaW5n
+cw0KPiA+ID4gPiAtIFVwZGF0ZWQgdGhlIGV4YW1wbGUgZHQgbm9kZSBuYW1lIHRvIGNzaTJyeA0K
+PiA+ID4gPg0KPiA+ID4gPiB2Ng0KPiA+ID4gPiAtIEFkZGVkICJjb250cm9sIiBhZnRlciBWNEwy
+X0NJRF9YSUxJTlhfTUlQSUNTSVNTX0FDVF9MQU5FUyBhcw0KPiA+ID4gPiBzdWdnZXN0ZWQgYnkg
+THVjYQ0KPiA+ID4gPiAtIEFkZGVkIHJldmlld2VkIGJ5IFJvYiBIZXJyaW5nDQo+ID4gPiA+DQo+
+ID4gPiA+IHY1DQo+ID4gPiA+IC0gSW5jb3Jwb3JhdGVkIGNvbW1lbnRzIGJ5IEx1Y2EgQ2Vyc29s
+aQ0KPiA+ID4gPiAtIFJlbW92ZWQgRFBIWSBjbG9jayBmcm9tIGRlc2NyaXB0aW9uIGFuZCBleGFt
+cGxlDQo+ID4gPiA+IC0gUmVtb3ZlZCBiYXllciBwYXR0ZXJuIGZyb20gZGV2aWNlIHRyZWUgTUlQ
+SSBDU0kgSVANCj4gPiA+ID4gICBkb2Vzbid0IGRlYWwgd2l0aCBiYXllciBwYXR0ZXJuLg0KPiA+
+ID4gPg0KPiA+ID4gPiB2NA0KPiA+ID4gPiAtIEFkZGVkIHJldmlld2VkIGJ5IEh5dW4gS3dvbg0K
+PiA+ID4gPg0KPiA+ID4gPiB2Mw0KPiA+ID4gPiAtIHJlbW92ZWQgaW50ZXJydXB0IHBhcmVudCBh
+cyBzdWdnZXN0ZWQgYnkgUm9iDQo+ID4gPiA+IC0gcmVtb3ZlZCBkcGh5IGNsb2NrDQo+ID4gPiA+
+IC0gbW92ZWQgdmZiIHRvIG9wdGlvbmFsIHByb3BlcnRpZXMNCj4gPiA+ID4gLSBBZGRlZCByZXF1
+aXJlZCBhbmQgb3B0aW9uYWwgcG9ydCBwcm9wZXJ0aWVzIHNlY3Rpb24NCj4gPiA+ID4gLSBBZGRl
+ZCBlbmRwb2ludCBwcm9wZXJ0eSBzZWN0aW9uDQo+ID4gPiA+DQo+ID4gPiA+IHYyDQo+ID4gPiA+
+IC0gdXBkYXRlZCB0aGUgY29tcGF0aWJsZSBzdHJpbmcgdG8gbGF0ZXN0IHZlcnNpb24gc3VwcG9y
+dGVkDQo+ID4gPiA+IC0gcmVtb3ZlZCBEUEhZIHJlbGF0ZWQgcGFyYW1ldGVycw0KPiA+ID4gPiAt
+IGFkZGVkIENTSSB2Mi4wIHJlbGF0ZWQgcHJvcGVydHkgKGluY2x1ZGluZyBWQ1ggZm9yIHN1cHBv
+cnRpbmcgdXB0byAxNg0KPiA+ID4gPiAgIHZpcnR1YWwgY2hhbm5lbHMpLg0KPiA+ID4gPiAtIG1v
+ZGlmaWVkIGNzaS1weGwtZm9ybWF0IGZyb20gc3RyaW5nIHRvIHVuc2lnbmVkIGludCB0eXBlIHdo
+ZXJlIHRoZSB2YWx1ZQ0KPiA+ID4gPiAgIGlzIGFzIHBlciB0aGUgQ1NJIHNwZWNpZmljYXRpb24N
+Cj4gPiA+ID4gLSBEZWZpbmVkIHBvcnQgMCBhbmQgcG9ydCAxIGFzIHNpbmsgYW5kIHNvdXJjZSBw
+b3J0cy4NCj4gPiA+ID4gLSBSZW1vdmVkIG1heC1sYW5lcyBwcm9wZXJ0eSBhcyBzdWdnZXN0ZWQg
+YnkgUm9iIGFuZCBTYWthcmkNCj4gPiA+ID4gLi4uL2JpbmRpbmdzL21lZGlhL3hpbGlueC94bG54
+LGNzaTJyeHNzLnlhbWwgIHwgMjI2DQo+ID4gPiA+ICsrKysrKysrKysrKysrKysrKw0KPiA+ID4g
+PiAgMSBmaWxlIGNoYW5nZWQsIDIyNiBpbnNlcnRpb25zKCspICBjcmVhdGUgbW9kZSAxMDA2NDQN
+Cj4gPiA+ID4gRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3hpbGlueC94
+bG54LGNzaTJyeHNzLnlhbWwNCj4gPiA+ID4NCj4gPiA+ID4gZGlmZiAtLWdpdA0KPiA+ID4gPiBh
+L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS94aWxpbngveGxueCxjc2ky
+cnhzcy55YW0NCj4gPiA+ID4gbA0KPiA+ID4gPiBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9i
+aW5kaW5ncy9tZWRpYS94aWxpbngveGxueCxjc2kycnhzcy55YW0NCj4gPiA+ID4gbA0KPiA+ID4g
+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+ID4gPiBpbmRleCAwMDAwMDAwMDAwMDAuLmIwODg1
+ZjQ2MTc4NQ0KPiA+ID4gPiAtLS0gL2Rldi9udWxsDQo+ID4gPiA+ICsrKyBiL0RvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS94aWxpbngveGxueCxjc2kycnhzcw0KPiA+ID4g
+PiArKysgLnlhbQ0KPiA+ID4gPiArKysgbA0KPiA+ID4gPiBAQCAtMCwwICsxLDIyNiBAQA0KPiA+
+ID4gPiArIyBTUERYLUxpY2Vuc2UtSWRlbnRpZmllcjogKEdQTC0yLjAtb25seSBPUiBCU0QtMi1D
+bGF1c2UpICVZQU1MDQo+ID4gPiA+ICsxLjINCj4gPiA+ID4gKy0tLQ0KPiA+ID4gPiArJGlkOg0K
+PiA+ID4gPiAraHR0cDovL2RldmljZXRyZWUub3JnL3NjaGVtYXMvbWVkaWEveGlsaW54L3hsbngs
+Y3NpMnJ4c3MueWFtbCMNCj4gPiA+ID4gKyRzY2hlbWE6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9t
+ZXRhLXNjaGVtYXMvY29yZS55YW1sIw0KPiA+ID4gPiArDQo+ID4gPiA+ICt0aXRsZTogWGlsaW54
+IE1JUEkgQ1NJLTIgUmVjZWl2ZXIgU3Vic3lzdGVtDQo+ID4gPiA+ICsNCj4gPiA+ID4gK21haW50
+YWluZXJzOg0KPiA+ID4gPiArICAtIFZpc2hhbCBTYWdhciA8dmlzaGFsLnNhZ2FyQHhpbGlueC5j
+b20+DQo+ID4gPiA+ICsNCj4gPiA+ID4gK2Rlc2NyaXB0aW9uOiB8DQo+ID4gPiA+ICsgIFRoZSBY
+aWxpbnggTUlQSSBDU0ktMiBSZWNlaXZlciBTdWJzeXN0ZW0gaXMgdXNlZCB0byBjYXB0dXJlDQo+
+ID4gPiA+ICtNSVBJDQo+ID4gPiA+ICtDU0ktMg0KPiA+ID4gPiArICB0cmFmZmljIGZyb20gY29t
+cGxpYW50IGNhbWVyYSBzZW5zb3JzIGFuZCBzZW5kIHRoZSBvdXRwdXQgYXMNCj4gPiA+ID4gK0FY
+STQgU3RyZWFtDQo+ID4gPiA+ICsgIHZpZGVvIGRhdGEgZm9yIGltYWdlIHByb2Nlc3NpbmcuDQo+
+ID4gPiA+ICsgIFRoZSBzdWJzeXN0ZW0gY29uc2lzdHMgb2YgYSBNSVBJIEQtUEhZIGluIHNsYXZl
+IG1vZGUgd2hpY2gNCj4gPiA+ID4gK2NhcHR1cmVzIHRoZQ0KPiA+ID4gPiArICBkYXRhIHBhY2tl
+dHMuIFRoaXMgaXMgcGFzc2VkIGFsb25nIHRoZSBNSVBJIENTSS0yIFJ4IElQIHdoaWNoDQo+ID4g
+PiA+ICtleHRyYWN0cyB0aGUNCj4gPiA+ID4gKyAgcGFja2V0IGRhdGEuIFRoZSBvcHRpb25hbCBW
+aWRlbyBGb3JtYXQgQnJpZGdlIChWRkIpIGNvbnZlcnRzDQo+ID4gPiA+ICt0aGlzIGRhdGEgdG8N
+Cj4gPiA+ID4gKyAgQVhJNCBTdHJlYW0gdmlkZW8gZGF0YS4NCj4gPiA+ID4gKyAgRm9yIG1vcmUg
+ZGV0YWlscywgcGxlYXNlIHJlZmVyIHRvIFBHMjMyIFhpbGlueCBNSVBJIENTSS0yDQo+ID4gPiA+
+ICtSZWNlaXZlcg0KPiA+ID4gU3Vic3lzdGVtLg0KPiA+ID4gPiArICBQbGVhc2Ugbm90ZSB0aGF0
+IHRoaXMgYmluZGluZ3MgaW5jbHVkZXMgb25seSB0aGUgTUlQSSBDU0ktMiBSeA0KPiA+ID4gPiAr
+Y29udHJvbGxlcg0KPiA+ID4gPiArICBhbmQgVmlkZW8gRm9ybWF0IEJyaWRnZSBhbmQgbm90IEQt
+UEhZLg0KPiA+ID4gPiArDQo+ID4gPiA+ICtwcm9wZXJ0aWVzOg0KPiA+ID4gPiArICBjb21wYXRp
+YmxlOg0KPiA+ID4gPiArICAgIGl0ZW1zOg0KPiA+ID4gPiArICAgICAgLSBlbnVtOg0KPiA+ID4g
+PiArICAgICAgICAtIHhsbngsbWlwaS1jc2kyLXJ4LXN1YnN5c3RlbS01LjANCj4gPiA+ID4gKw0K
+PiA+ID4gPiArICByZWc6DQo+ID4gPiA+ICsgICAgbWF4SXRlbXM6IDENCj4gPiA+ID4gKw0KPiA+
+ID4gPiArICBpbnRlcnJ1cHRzOg0KPiA+ID4gPiArICAgIG1heEl0ZW1zOiAxDQo+ID4gPiA+ICsN
+Cj4gPiA+ID4gKyAgY2xvY2tzOg0KPiA+ID4gPiArICAgIGRlc2NyaXB0aW9uOiBMaXN0IG9mIGNs
+b2NrIHNwZWNpZmllcnMNCj4gPiA+ID4gKyAgICBpdGVtczoNCj4gPiA+ID4gKyAgICAgIC0gZGVz
+Y3JpcHRpb246IEFYSSBMaXRlIGNsb2NrDQo+ID4gPiA+ICsgICAgICAtIGRlc2NyaXB0aW9uOiBW
+aWRlbyBjbG9jaw0KPiA+ID4gPiArDQo+ID4gPiA+ICsgIGNsb2NrLW5hbWVzOg0KPiA+ID4gPiAr
+ICAgIGl0ZW1zOg0KPiA+ID4gPiArICAgICAgLSBjb25zdDogbGl0ZV9hY2xrDQo+ID4gPiA+ICsg
+ICAgICAtIGNvbnN0OiB2aWRlb19hY2xrDQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgeGxueCxjc2kt
+cHhsLWZvcm1hdDoNCj4gPiA+ID4gKyAgICBkZXNjcmlwdGlvbjogfA0KPiA+ID4gPiArICAgICAg
+VGhpcyBkZW5vdGVzIHRoZSBDU0kgRGF0YSB0eXBlIHNlbGVjdGVkIGluIGh3IGRlc2lnbi4NCj4g
+PiA+ID4gKyAgICAgIFBhY2tldHMgb3RoZXIgdGhhbiB0aGlzIGRhdGEgdHlwZSAoZXhjZXB0IGZv
+ciBSQVc4IGFuZA0KPiA+ID4gPiArICAgICAgVXNlciBkZWZpbmVkIGRhdGEgdHlwZXMpIHdpbGwg
+YmUgZmlsdGVyZWQgb3V0Lg0KPiA+ID4gPiArICAgICAgUG9zc2libGUgdmFsdWVzIGFyZSBhcyBi
+ZWxvdyAtDQo+ID4gPiA+ICsgICAgICAweDFlIC0gWVVWNDIyOEINCj4gPiA+ID4gKyAgICAgIDB4
+MWYgLSBZVVY0MjIxMEINCj4gPiA+ID4gKyAgICAgIDB4MjAgLSBSR0I0NDQNCj4gPiA+ID4gKyAg
+ICAgIDB4MjEgLSBSR0I1NTUNCj4gPiA+ID4gKyAgICAgIDB4MjIgLSBSR0I1NjUNCj4gPiA+ID4g
+KyAgICAgIDB4MjMgLSBSR0I2NjYNCj4gPiA+ID4gKyAgICAgIDB4MjQgLSBSR0I4ODgNCj4gPiA+
+ID4gKyAgICAgIDB4MjggLSBSQVc2DQo+ID4gPiA+ICsgICAgICAweDI5IC0gUkFXNw0KPiA+ID4g
+PiArICAgICAgMHgyYSAtIFJBVzgNCj4gPiA+ID4gKyAgICAgIDB4MmIgLSBSQVcxMA0KPiA+ID4g
+PiArICAgICAgMHgyYyAtIFJBVzEyDQo+ID4gPiA+ICsgICAgICAweDJkIC0gUkFXMTQNCj4gPiA+
+ID4gKyAgICAgIDB4MmUgLSBSQVcxNg0KPiA+ID4gPiArICAgICAgMHgyZiAtIFJBVzIwDQo+ID4g
+PiA+ICsgICAgYWxsT2Y6DQo+ID4gPiA+ICsgICAgICAtICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlh
+bWwjL2RlZmluaXRpb25zL3VpbnQzMg0KPiA+ID4gPiArICAgICAgLSBhbnlPZjoNCj4gPiA+ID4g
+KyAgICAgICAgLSBtaW5pbXVtOiAweDFlDQo+ID4gPiA+ICsgICAgICAgIC0gbWF4aW11bTogMHgy
+NA0KPiA+ID4gPiArICAgICAgICAtIG1pbmltdW06IDB4MjgNCj4gPiA+ID4gKyAgICAgICAgLSBt
+YXhpbXVtOiAweDJmDQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgeGxueCx2ZmI6DQo+ID4gPiA+ICsg
+ICAgdHlwZTogYm9vbGVhbg0KPiA+ID4gPiArICAgIGRlc2NyaXB0aW9uOiBQcmVzZW50IHdoZW4g
+VmlkZW8gRm9ybWF0IEJyaWRnZSBpcyBlbmFibGVkIGluDQo+ID4gPiA+ICsgSVAgY29uZmlndXJh
+dGlvbg0KPiA+ID4gPiArDQo+ID4gPiA+ICsgIHhsbngsZW4tY3NpLXYyLTA6DQo+ID4gPiA+ICsg
+ICAgdHlwZTogYm9vbGVhbg0KPiA+ID4gPiArICAgIGRlc2NyaXB0aW9uOiBQcmVzZW50IGlmIENT
+SSB2MiBpcyBlbmFibGVkIGluIElQIGNvbmZpZ3VyYXRpb24uDQo+ID4gPiA+ICsNCj4gPiA+ID4g
+KyAgeGxueCxlbi12Y3g6DQo+ID4gPiA+ICsgICAgdHlwZTogYm9vbGVhbg0KPiA+ID4gPiArICAg
+IGRlc2NyaXB0aW9uOiB8DQo+ID4gPiA+ICsgICAgICBXaGVuIHByZXNlbnQsIHRoZXJlIGFyZSBt
+YXhpbXVtIDE2IHZpcnR1YWwgY2hhbm5lbHMsIGVsc2Ugb25seSA0Lg0KPiA+ID4gPiArDQo+ID4g
+PiA+ICsgIHhsbngsZW4tYWN0aXZlLWxhbmVzOg0KPiA+ID4gPiArICAgIHR5cGU6IGJvb2xlYW4N
+Cj4gPiA+ID4gKyAgICBkZXNjcmlwdGlvbjogfA0KPiA+ID4gPiArICAgICAgUHJlc2VudCBpZiB0
+aGUgbnVtYmVyIG9mIGFjdGl2ZSBsYW5lcyBjYW4gYmUgcmUtY29uZmlndXJlZCBhdA0KPiA+ID4g
+PiArICAgICAgcnVudGltZSBpbiB0aGUgUHJvdG9jb2wgQ29uZmlndXJhdGlvbiBSZWdpc3Rlci4g
+T3RoZXJ3aXNlIGFsbCBsYW5lcywNCj4gPiA+ID4gKyAgICAgIGFzIHNldCBpbiBJUCBjb25maWd1
+cmF0aW9uLCBhcmUgYWx3YXlzIGFjdGl2ZS4NCj4gPiA+ID4gKw0KPiA+ID4gPiArICB2aWRlby1y
+ZXNldC1ncGlvczoNCj4gPiA+ID4gKyAgICBkZXNjcmlwdGlvbjogT3B0aW9uYWwgc3BlY2lmaWVy
+IGZvciBhIEdQSU8gdGhhdCBhc3NlcnRzIHZpZGVvX2FyZXNldG4uDQo+ID4gPiA+ICsgICAgbWF4
+SXRlbXM6IDENCj4gPiA+ID4gKw0KPiA+ID4gPiArICBwb3J0czoNCj4gPiA+ID4gKyAgICB0eXBl
+OiBvYmplY3QNCj4gPiA+ID4gKw0KPiA+ID4gPiArICAgIHByb3BlcnRpZXM6DQo+ID4gPiA+ICsg
+ICAgICBwb3J0QDA6DQo+ID4gPiA+ICsgICAgICAgIHR5cGU6IG9iamVjdA0KPiA+ID4gPiArICAg
+ICAgICBkZXNjcmlwdGlvbjogfA0KPiA+ID4gPiArICAgICAgICAgIElucHV0IC8gc2luayBwb3J0
+IG5vZGUsIHNpbmdsZSBlbmRwb2ludCBkZXNjcmliaW5nIHRoZQ0KPiA+ID4gPiArICAgICAgICAg
+IENTSS0yIHRyYW5zbWl0dGVyLg0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgICAgIHByb3BlcnRp
+ZXM6DQo+ID4gPiA+ICsgICAgICAgICAgcmVnOg0KPiA+ID4gPiArICAgICAgICAgICAgY29uc3Q6
+IDANCj4gPiA+ID4gKw0KPiA+ID4gPiArICAgICAgICAgIGVuZHBvaW50Og0KPiA+ID4gPiArICAg
+ICAgICAgICAgdHlwZTogb2JqZWN0DQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgICAgICAgIHBy
+b3BlcnRpZXM6DQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgICAgICAgICAgZGF0YS1sYW5lczoN
+Cj4gPiA+ID4gKyAgICAgICAgICAgICAgICBkZXNjcmlwdGlvbjogfA0KPiA+ID4gPiArICAgICAg
+ICAgICAgICAgICAgVGhpcyBpcyByZXF1aXJlZCBvbmx5IGluIHRoZSBzaW5rIHBvcnQgMCBlbmRw
+b2ludCB3aGljaA0KPiA+ID4gPiArICAgICAgICAgICAgICAgICAgY29ubmVjdHMgdG8gTUlQSSBD
+U0ktMiBzb3VyY2UgbGlrZSBzZW5zb3IuDQo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICBUaGUg
+cG9zc2libGUgdmFsdWVzIGFyZSAtDQo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAxICAgICAg
+IC0gRm9yIDEgbGFuZSBlbmFibGVkIGluIElQLg0KPiA+ID4gPiArICAgICAgICAgICAgICAgICAg
+MSAyICAgICAtIEZvciAyIGxhbmVzIGVuYWJsZWQgaW4gSVAuDQo+ID4gPiA+ICsgICAgICAgICAg
+ICAgICAgICAxIDIgMyAgIC0gRm9yIDMgbGFuZXMgZW5hYmxlZCBpbiBJUC4NCj4gPiA+ID4gKyAg
+ICAgICAgICAgICAgICAgIDEgMiAzIDQgLSBGb3IgNCBsYW5lcyBlbmFibGVkIGluIElQLg0KPiA+
+ID4gPiArICAgICAgICAgICAgICAgIGl0ZW1zOg0KPiA+ID4gPiArICAgICAgICAgICAgICAgICAg
+LSBjb25zdDogMQ0KPiA+ID4gPiArICAgICAgICAgICAgICAgICAgLSBjb25zdDogMg0KPiA+ID4g
+PiArICAgICAgICAgICAgICAgICAgLSBjb25zdDogMw0KPiA+ID4gPiArICAgICAgICAgICAgICAg
+ICAgLSBjb25zdDogNA0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgICAgICAgICAgIHJlbW90ZS1l
+bmRwb2ludDogdHJ1ZQ0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgICAgICAgICByZXF1aXJlZDoN
+Cj4gPiA+ID4gKyAgICAgICAgICAgICAgLSBkYXRhLWxhbmVzDQo+ID4gPiA+ICsgICAgICAgICAg
+ICAgIC0gcmVtb3RlLWVuZHBvaW50DQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgICAgICAgIGFk
+ZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQ0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgICAgIGFk
+ZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQ0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgICBwb3J0
+QDE6DQo+ID4gPiA+ICsgICAgICAgIHR5cGU6IG9iamVjdA0KPiA+ID4gPiArICAgICAgICBkZXNj
+cmlwdGlvbjogfA0KPiA+ID4gPiArICAgICAgICAgIE91dHB1dCAvIHNvdXJjZSBwb3J0IG5vZGUs
+IGVuZHBvaW50IGRlc2NyaWJpbmcgbW9kdWxlcw0KPiA+ID4gPiArICAgICAgICAgIGNvbm5lY3Rl
+ZCB0aGUgQ1NJLTIgcmVjZWl2ZXIuDQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgICAgcHJvcGVy
+dGllczoNCj4gPiA+ID4gKw0KPiA+ID4gPiArICAgICAgICAgIHJlZzoNCj4gPiA+ID4gKyAgICAg
+ICAgICAgIGNvbnN0OiAxDQo+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgICAgICBlbmRwb2ludDoN
+Cj4gPiA+ID4gKyAgICAgICAgICAgIHR5cGU6IG9iamVjdA0KPiA+ID4gPiArDQo+ID4gPiA+ICsg
+ICAgICAgICAgICBwcm9wZXJ0aWVzOg0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgICAgICAgICAg
+IHJlbW90ZS1lbmRwb2ludDogdHJ1ZQ0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgICAgICAgICBy
+ZXF1aXJlZDoNCj4gPiA+ID4gKyAgICAgICAgICAgICAgLSByZW1vdGUtZW5kcG9pbnQNCj4gPiA+
+ID4gKw0KPiA+ID4gPiArICAgICAgICAgICAgYWRkaXRpb25hbFByb3BlcnRpZXM6IGZhbHNlDQo+
+ID4gPiA+ICsNCj4gPiA+ID4gKyAgICAgICAgYWRkaXRpb25hbFByb3BlcnRpZXM6IGZhbHNlDQo+
+ID4gPiA+ICsNCj4gPiA+ID4gK3JlcXVpcmVkOg0KPiA+ID4gPiArICAtIGNvbXBhdGlibGUNCj4g
+PiA+ID4gKyAgLSByZWcNCj4gPiA+ID4gKyAgLSBpbnRlcnJ1cHRzDQo+ID4gPiA+ICsgIC0gY2xv
+Y2tzDQo+ID4gPiA+ICsgIC0gY2xvY2stbmFtZXMNCj4gPiA+ID4gKyAgLSB4bG54LGNzaS1weGwt
+Zm9ybWF0DQo+ID4gPiA+ICsgIC0gcG9ydHMNCj4gPiA+ID4gKw0KPiA+ID4gPiAraWY6DQo+ID4g
+PiA+ICsgIG5vdDoNCj4gPiA+ID4gKyAgICByZXF1aXJlZDoNCj4gPiA+ID4gKyAgICAgIC0geGxu
+eCxlbi1jc2ktdjItMA0KPiA+ID4gPiArdGhlbjoNCj4gPiA+ID4gKyAgcHJvcGVydGllczoNCj4g
+PiA+ID4gKyAgICB4bG54LGVuLXZjeDogZmFsc2UNCj4gPiA+DQo+ID4gPiBBcyBJJ3ZlIGp1c3Qg
+Y29tbWVudGVkIG9uIHYxMiwgSSB0aGluayB3ZSBzaG91bGQgY29uZGl0aW9uIHRoZQ0KPiA+ID4g
+eGxueCxjc2ktcHhsLSBmb3JtYXQgcHJvcGVydHkgdG8geGxueCx2ZmIgYmVpbmcgc2V0Lg0KPiA+
+ID4geGxueCxjc2ktcHhsLWZvcm1hdCBzaG91bGQgYmUgcmVtb3ZlZCBmcm9tIHRoZSByZXF1aXJl
+ZCBwcm9wZXJ0aWVzIGFib3ZlLA0KPiBhbmQgdGhlIGZvbGxvd2luZyBjb25kaXRpb25zIGFkZGVk
+Og0KPiA+ID4NCj4gPiA+IGFsbE9mOg0KPiA+ID4gICAtIGlmOg0KPiA+ID4gICAgICAgcmVxdWly
+ZWQ6DQo+ID4gPiAgICAgICAgIC0geGxueCx2ZmINCj4gPiA+ICAgICB0aGVuOg0KPiA+ID4gICAg
+ICAgcmVxdWlyZWQ6DQo+ID4gPiAgICAgICAgIC0geGxueCxjc2ktcHhsLWZvcm1hdA0KPiA+ID4g
+ICAgIGVsc2U6DQo+ID4gPiAgICAgICBwcm9wZXJ0aWVzOg0KPiA+ID4gICAgICAgICB4bG54LGNz
+aS1weGwtZm9ybWF0OiBmYWxzZQ0KPiA+ID4NCj4gPiA+ICAgLSBpZjoNCj4gPiA+ICAgICAgIG5v
+dDoNCj4gPiA+ICAgICAgICAgcmVxdWlyZWQ6DQo+ID4gPiAgICAgICAgICAgLSB4bG54LGVuLWNz
+aS12Mi0wDQo+ID4gPiAgICAgdGhlbjoNCj4gPiA+ICAgICAgIHByb3BlcnRpZXM6DQo+ID4gPiAg
+ICAgICAgIHhsbngsZW4tdmN4OiBmYWxzZQ0KPiA+ID4NCj4gPiA+IFRoZSAnYWxsT2YnIGlzIG5l
+ZWRlZCBhcyB5b3UgY2FuJ3QgaGF2ZSB0d28gJ2lmJyBjb25zdHJ1Y3RzIGF0IHRoZSB0b3AgbGV2
+ZWwuDQo+ID4gPg0KPiA+IFRoYW5rcyBmb3Igc2hhcmluZyB0aGUgZXhwbGFuYXRpb24gZm9yIHRo
+aXMuDQo+ID4gQ2FuIHlvdSBwbGVhc2Ugc2hhcmUgd2hlcmUgSSBjYW4gZ2V0IHRoaXMgaW5mbz8N
+Cj4gDQo+IFRoZSBqc29uLXNjaGVtYSBzcGVjaWZpY2F0aW9uIGlzIGF2YWlsYWJsZSBhdCBodHRw
+czovL2pzb24tDQo+IHNjaGVtYS5vcmcvc3BlY2lmaWNhdGlvbi5odG1sLiBhbGxPZiBpcyBkZWZp
+bmVkIGluIGh0dHBzOi8vanNvbi0NCj4gc2NoZW1hLm9yZy9kcmFmdC8yMDE5LTA5L2pzb24tc2No
+ZW1hLWNvcmUuaHRtbCNhbGxPZi4NCj4gDQo+IEpTT04gc2NoZW1hcyBhcmUgZXhwcmVzc2VkIGlu
+IEpTT04gZm9ybWF0LCBhbmQgWUFNTCBpcyBhIChtb3JlIHJlYWRhYmxlKQ0KPiBzdXBlcnNldCBz
+eW50YXggb2YgSlNPTi4gQSBZQU1MIGRvY3VtZW50IGNvbnRhaW5zIGxpc3RzIGFuZCBvYmplY3Rz
+Og0KPiANCj4gLSB0aGlzDQo+IC0gaXMNCj4gLSBhDQo+IC0gbGlzdA0KPiANCj4gb2JqZWN0Og0K
+PiAgIGNhbjogaGF2ZQ0KPiAgIHByb3BlcnRpZXM6DQo+ICAgICB0aGF0OiBjYW4NCj4gICAgIGJl
+OiBvdGhlcg0KPiAgICAgb2JqZWN0cw0KPiANCj4gQW4gb2JqZWN0IGlzIHNpbWlsYXIgdG8gYSBQ
+eXRob24gZGljdGlvbmFyeSwgaXQgY2FuJ3QgaGF2ZSBtdWx0aXBsZSBlbnRyaWVzIHdpdGgNCj4g
+dGhlIHNhbWUga2V5LiBTbyBoYXZpbmcNCj4gDQo+IGlmOg0KPiAgIHJlcXVpcmVkOg0KPiAgICAg
+LSB4bG54LHZmYg0KPiB0aGVuOg0KPiAgIHJlcXVpcmVkOg0KPiAgICAgLSB4bG54LGNzaS1weGwt
+Zm9ybWF0DQo+IGVsc2U6DQo+ICAgcHJvcGVydGllczoNCj4gICAgIHhsbngsY3NpLXB4bC1mb3Jt
+YXQ6IGZhbHNlDQo+IA0KPiBpZjoNCj4gICBub3Q6DQo+ICAgICByZXF1aXJlZDoNCj4gICAgICAg
+LSB4bG54LGVuLWNzaS12Mi0wDQo+IHRoZW46DQo+ICAgcHJvcGVydGllczoNCj4gICAgIHhsbngs
+ZW4tdmN4OiBmYWxzZQ0KPiANCj4gYXQgdGhlIHRvcCBsZXZlbCBpcyBub3QgdmFsaWQsIHRoZSBz
+YW1lIHdheSB0aGF0DQo+IA0KPiBwcm9wZXJ0aWVzOg0KPiAgIHJlZzoNCj4gICAgIG1heEl0ZW1z
+OiAxDQo+ICAgcmVnOg0KPiAgICAgbWF4SXRlbXM6IDENCj4gDQo+IHdvdWxkbid0IGJlIHZhbGlk
+LiBUaGUgYWxsT2Ygb2JqZWN0IGhhcyBhIHZhbHVlIHRoYXQgaXMgYSBsaXN0IG9mDQo+IHNjaGVt
+YXM6DQo+IA0KPiBhbGxPZjoNCj4gICAtIHNjaGVtYTENCj4gICAtIHNjaGVtYTINCj4gICAtIHNj
+aGVtYTMNCj4gDQo+IGFuZCBpbiB0aGlzIGNhc2UsIHdlIHVzZSBpdCB3aXRoIGEgaWYuLi50aGVu
+Li4uZWxzZSBmb3IgZWFjaCBvZiB0aGUgc2NoZW1hcy4gQXMNCj4gZG9jdW1lbnRlZCBpbiB0aGUg
+c3BlYywgIkFuIGluc3RhbmNlIHZhbGlkYXRlcyBzdWNjZXNzZnVsbHkgYWdhaW5zdCBbYWxsT2Zd
+IGlmIGl0DQo+IHZhbGlkYXRlcyBzdWNjZXNzZnVsbHkgYWdhaW5zdCBhbGwgc2NoZW1hcyBkZWZp
+bmVkIGJ5IFthbGxPZl0ncyB2YWx1ZSIuDQo+IA0KPiBhbGxPZiBpcyBhbHNvIHVzZWQgdG8gaW5j
+bHVkZSBzdWItc2NoZW1hcywgYXMgZXhwbGFpbmVkIGluDQo+IERvY3VtZW50YXRpb24vZGV2aWNl
+dHJlZS9iaW5kaW5ncy9leGFtcGxlLXNjaGVtYS55YW1sLg0KPiANCj4gICB2ZW5kb3IsaW50LXBy
+b3BlcnR5Og0KPiAgICAgZGVzY3JpcHRpb246IFZlbmRvciBzcGVjaWZpYyBwcm9wZXJ0aWVzIG11
+c3QgaGF2ZSBhIGRlc2NyaXB0aW9uDQo+ICAgICAjICdhbGxPZicgaXMgdGhlIGpzb24tc2NoZW1h
+IHdheSBvZiBzdWJjbGFzc2luZyBhIHNjaGVtYS4gSGVyZSB0aGUgYmFzZQ0KPiAgICAgIyB0eXBl
+IHNjaGVtYSBpcyByZWZlcmVuY2VkIGFuZCB0aGVuIGFkZGl0aW9uYWwgY29uc3RyYWludHMgb24g
+dGhlIHZhbHVlcw0KPiAgICAgIyBhcmUgYWRkZWQuDQo+ICAgICBhbGxPZjoNCj4gICAgICAgLSAk
+cmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzINCj4gICAgICAgLSBl
+bnVtOiBbMiwgNCwgNiwgOCwgMTBdDQo+IA0KPiBJZiB0aGlzIHdhcyB3cml0dGVuDQo+IA0KPiAg
+IHZlbmRvcixpbnQtcHJvcGVydHk6DQo+ICAgICAkcmVmOiAvc2NoZW1hcy90eXBlcy55YW1sIy9k
+ZWZpbml0aW9ucy91aW50MzINCj4gICAgIGVudW06IFsyLCA0LCA2LCA4LCAxMF0NCj4gDQo+IHdl
+IHdvdWxkIGhhdmUgYW4gaXNzdWUgKGFtb25nIG90aGVyIHByb2JsZW1zKSBpZg0KPiAvc2NoZW1h
+cy90eXBlcy55YW1sIy9kZWZpbml0aW9ucy91aW50MzIgY29udGFpbmVkIGFuIGVudW0sIGFzIHRo
+ZXJlIHdvdWxkDQo+IGJlIHR3byBlbnVtIHByb3BlcnRpZXMgZm9yIHZlbmRvcixpbnQtcHJvcGVy
+dHkuDQo+IA0KDQpUaGFua3MgZm9yIHRoZSBkZXRhaWxlZCBleHBsYW5hdGlvbiBMYXVyZW50ISAN
+Cg0KPiA+ID4gUGxlYXNlIGhvd2V2ZXIgbGV0IG1lIGtub3cgaWYgbXkgdW5kZXJzdGFuZGluZyBp
+cyB3cm9uZyBhbmQNCj4gPiA+IHhsbngsY3NpLXB4bC0gZm9ybWF0IGlzIG5lZWRlZCBldmVuIHdo
+ZW4geGxueCx2ZmIgaXMgbm90IHNldC4gSW4NCj4gPiA+IHRoYXQgY2FzZSBwbGVhc2UgaWdub3Jl
+IHRoaXMgY2hhbmdlIChidXQgcGxlYXNlIGFkZCB0aGUgLi4uIGJlbG93KS4NCj4gPg0KPiA+IE9r
+LiBJIHdpbGwgYWRkIC4uLiBpbiB0aGUgZW5kLg0KPiA+DQo+ID4gPiA+ICsNCj4gPiA+ID4gK2Fk
+ZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQ0KPiA+ID4gPiArDQo+ID4gPiA+ICtleGFtcGxlczoN
+Cj4gPiA+ID4gKyAgLSB8DQo+ID4gPiA+ICsgICAgI2luY2x1ZGUgPGR0LWJpbmRpbmdzL2dwaW8v
+Z3Bpby5oPg0KPiA+ID4gPiArICAgIHhjc2kycnhzc18xOiBjc2kycnhAYTAwMjAwMDAgew0KPiA+
+ID4gPiArICAgICAgICBjb21wYXRpYmxlID0gInhsbngsbWlwaS1jc2kyLXJ4LXN1YnN5c3RlbS01
+LjAiOw0KPiA+ID4gPiArICAgICAgICByZWcgPSA8MHgwIDB4YTAwMjAwMDAgMHgwIDB4MTAwMDA+
+Ow0KPiA+ID4gPiArICAgICAgICBpbnRlcnJ1cHQtcGFyZW50ID0gPCZnaWM+Ow0KPiA+ID4gPiAr
+ICAgICAgICBpbnRlcnJ1cHRzID0gPDAgOTUgND47DQo+ID4gPiA+ICsgICAgICAgIHhsbngsY3Np
+LXB4bC1mb3JtYXQgPSA8MHgyYT47DQo+ID4gPiA+ICsgICAgICAgIHhsbngsdmZiOw0KPiA+ID4g
+PiArICAgICAgICB4bG54LGVuLWFjdGl2ZS1sYW5lczsNCj4gPiA+ID4gKyAgICAgICAgeGxueCxl
+bi1jc2ktdjItMDsNCj4gPiA+ID4gKyAgICAgICAgeGxueCxlbi12Y3g7DQo+ID4gPiA+ICsgICAg
+ICAgIGNsb2NrLW5hbWVzID0gImxpdGVfYWNsayIsICJ2aWRlb19hY2xrIjsNCj4gPiA+ID4gKyAg
+ICAgICAgY2xvY2tzID0gPCZtaXNjX2Nsa18wPiwgPCZtaXNjX2Nsa18xPjsNCj4gPiA+ID4gKyAg
+ICAgICAgdmlkZW8tcmVzZXQtZ3Bpb3MgPSA8JmdwaW8gODYgR1BJT19BQ1RJVkVfTE9XPjsNCj4g
+PiA+ID4gKw0KPiA+ID4gPiArICAgICAgICBwb3J0cyB7DQo+ID4gPiA+ICsgICAgICAgICAgICAj
+YWRkcmVzcy1jZWxscyA9IDwxPjsNCj4gPiA+ID4gKyAgICAgICAgICAgICNzaXplLWNlbGxzID0g
+PDA+Ow0KPiA+ID4gPiArDQo+ID4gPiA+ICsgICAgICAgICAgICBwb3J0QDAgew0KPiA+ID4gPiAr
+ICAgICAgICAgICAgICAgIC8qIFNpbmsgcG9ydCAqLw0KPiA+ID4gPiArICAgICAgICAgICAgICAg
+IHJlZyA9IDwwPjsNCj4gPiA+ID4gKyAgICAgICAgICAgICAgICBjc2lzc19pbjogZW5kcG9pbnQg
+ew0KPiA+ID4gPiArICAgICAgICAgICAgICAgICAgICBkYXRhLWxhbmVzID0gPDEgMiAzIDQ+Ow0K
+PiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAvKiBNSVBJIENTSS0yIENhbWVyYSBoYW5kbGUg
+Ki8NCj4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZjYW1l
+cmFfb3V0PjsNCj4gPiA+ID4gKyAgICAgICAgICAgICAgICB9Ow0KPiA+ID4gPiArICAgICAgICAg
+ICAgfTsNCj4gPiA+ID4gKyAgICAgICAgICAgIHBvcnRAMSB7DQo+ID4gPiA+ICsgICAgICAgICAg
+ICAgICAgLyogU291cmNlIHBvcnQgKi8NCj4gPiA+ID4gKyAgICAgICAgICAgICAgICByZWcgPSA8
+MT47DQo+ID4gPiA+ICsgICAgICAgICAgICAgICAgY3Npc3Nfb3V0OiBlbmRwb2ludCB7DQo+ID4g
+PiA+ICsgICAgICAgICAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmdnByb2NfaW4+Ow0K
+PiA+ID4gPiArICAgICAgICAgICAgICAgIH07DQo+ID4gPiA+ICsgICAgICAgICAgICB9Ow0KPiA+
+ID4gPiArICAgICAgICB9Ow0KPiA+ID4gPiArICAgIH07DQo+ID4gPg0KPiA+ID4gWUFNTCBmaWxl
+cyB1c3VhbGx5IGVuZCB3aXRoDQo+ID4gPg0KPiA+ID4gLi4uDQo+ID4gPg0KPiA+ID4gb24gdGhl
+IGxhc3QgbGluZSB0byBtYXJrIHRoZSBlbmQgb2YgZmlsZS4NCj4gPiA+DQo+ID4NCj4gPiBPayBJ
+IHdpbGwgYWRkIHRoaXMgdG8gdGhlIGVuZCBvZiB0aGUgZmlsZS4NCj4gPg0KPiA+ID4gUmV2aWV3
+ZWQtYnk6IExhdXJlbnQgUGluY2hhcnQgPGxhdXJlbnQucGluY2hhcnRAaWRlYXNvbmJvYXJkLmNv
+bT4NCj4gDQo+IC0tDQo+IFJlZ2FyZHMsDQo+IA0KPiBMYXVyZW50IFBpbmNoYXJ0DQoNClJlZ2Fy
+ZHMNClZpc2hhbCBTYWdhcg0KDQo=
