@@ -2,103 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E93081E41E5
+	by mail.lfdr.de (Postfix) with ESMTP id 0EAF81E41E3
 	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 14:17:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728583AbgE0MR1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 May 2020 08:17:27 -0400
+        id S1729396AbgE0MRa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 May 2020 08:17:30 -0400
 Received: from relmlor2.renesas.com ([210.160.252.172]:5558 "EHLO
         relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1727798AbgE0MR1 (ORCPT
+        by vger.kernel.org with ESMTP id S1727798AbgE0MR2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 May 2020 08:17:27 -0400
+        Wed, 27 May 2020 08:17:28 -0400
 X-IronPort-AV: E=Sophos;i="5.73,441,1583161200"; 
-   d="scan'208";a="47942586"
+   d="scan'208";a="47942591"
 Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie6.idc.renesas.com with ESMTP; 27 May 2020 21:17:25 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 27 May 2020 21:17:27 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 8230A42BA9F4;
-        Wed, 27 May 2020 21:17:24 +0900 (JST)
+        by relmlir6.idc.renesas.com (Postfix) with ESMTP id 5B61142BA9F4;
+        Wed, 27 May 2020 21:17:26 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v5 1/3] media: rcar-vin: Invalidate pipeline if conversion is not possible on input formats
-Date:   Wed, 27 May 2020 13:16:48 +0100
-Message-Id: <1590581810-19317-2-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v5 2/3] media: rcar-vin: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
+Date:   Wed, 27 May 2020 13:16:49 +0100
+Message-Id: <1590581810-19317-3-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1590581810-19317-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
 References: <1590581810-19317-1-git-send-email-prabhakar.mahadev-lad.rj@bp.renesas.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Up until now the VIN was capable to convert any of its supported input mbus
-formats to any of it's supported output pixel formats. With the addition of
-RAW formats this is no longer true.
-
-This patch invalidates the pipeline by adding a check if given vin input
-format can be converted to supported output pixel format.
+Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format in rcar-vin by setting
+format type to RAW8 in VNMC register and appropriately setting the bpp
+and bytesperline to enable V4L2_PIX_FMT_SRGGB8.
 
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/media/platform/rcar-vin/rcar-dma.c  |  6 +++++-
- drivers/media/platform/rcar-vin/rcar-v4l2.c | 11 ++++++++---
- 2 files changed, 13 insertions(+), 4 deletions(-)
+ drivers/media/platform/rcar-vin/rcar-dma.c  | 15 ++++++++++++++-
+ drivers/media/platform/rcar-vin/rcar-v4l2.c |  4 ++++
+ 2 files changed, 18 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index 1a30cd036371..2b26204910fd 100644
+index 2b26204910fd..a5dbb90c5210 100644
 --- a/drivers/media/platform/rcar-vin/rcar-dma.c
 +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -1110,11 +1110,15 @@ static int rvin_mc_validate_format(struct rvin_dev *vin, struct v4l2_subdev *sd,
- 	case MEDIA_BUS_FMT_UYVY8_2X8:
- 	case MEDIA_BUS_FMT_UYVY10_2X10:
- 	case MEDIA_BUS_FMT_RGB888_1X24:
--		vin->mbus_code = fmt.format.code;
-+		break;
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+		if (vin->format.pixelformat != V4L2_PIX_FMT_SRGGB8)
-+			return -EPIPE;
- 		break;
- 	default:
- 		return -EPIPE;
- 	}
-+	vin->mbus_code = fmt.format.code;
+@@ -85,6 +85,7 @@
+ #define VNMC_INF_YUV8_BT601	(1 << 16)
+ #define VNMC_INF_YUV10_BT656	(2 << 16)
+ #define VNMC_INF_YUV10_BT601	(3 << 16)
++#define VNMC_INF_RAW8		(4 << 16)
+ #define VNMC_INF_YUV16		(5 << 16)
+ #define VNMC_INF_RGB888		(6 << 16)
+ #define VNMC_VUP		(1 << 10)
+@@ -587,13 +588,19 @@ void rvin_crop_scale_comp(struct rvin_dev *vin)
+ 	rvin_write(vin, vin->crop.top, VNSLPRC_REG);
+ 	rvin_write(vin, vin->crop.top + vin->crop.height - 1, VNELPRC_REG);
  
- 	switch (fmt.format.field) {
- 	case V4L2_FIELD_TOP:
+-
+ 	/* TODO: Add support for the UDS scaler. */
+ 	if (vin->info->model != RCAR_GEN3)
+ 		rvin_crop_scale_comp_gen2(vin);
+ 
+ 	fmt = rvin_format_from_pixel(vin, vin->format.pixelformat);
+ 	stride = vin->format.bytesperline / fmt->bpp;
++
++	/* For RAW8 format bpp is 1, but the hardware process RAW8
++	 * format in 2 pixel unit hence configure VNIS_REG as stride / 2.
++	 */
++	if (vin->format.pixelformat == V4L2_PIX_FMT_SRGGB8)
++		stride /= 2;
++
+ 	rvin_write(vin, stride, VNIS_REG);
+ }
+ 
+@@ -676,6 +683,9 @@ static int rvin_setup(struct rvin_dev *vin)
+ 
+ 		input_is_yuv = true;
+ 		break;
++	case MEDIA_BUS_FMT_SRGGB8_1X8:
++		vnmc |= VNMC_INF_RAW8;
++		break;
+ 	default:
+ 		break;
+ 	}
+@@ -737,6 +747,9 @@ static int rvin_setup(struct rvin_dev *vin)
+ 	case V4L2_PIX_FMT_ABGR32:
+ 		dmr = VNDMR_A8BIT(vin->alpha) | VNDMR_EXRGB | VNDMR_DTMD_ARGB;
+ 		break;
++	case V4L2_PIX_FMT_SRGGB8:
++		dmr = 0;
++		break;
+ 	default:
+ 		vin_err(vin, "Invalid pixelformat (0x%x)\n",
+ 			vin->format.pixelformat);
 diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-index f421e2584875..d3b6a992b4a2 100644
+index d3b6a992b4a2..0e066bba747e 100644
 --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
 +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-@@ -350,9 +350,9 @@ static int rvin_enum_fmt_vid_cap(struct file *file, void *priv,
- 	 * all of the related pixel formats. If mbus_code is not set enumerate
- 	 * all possible pixelformats.
- 	 *
--	 * TODO: Once raw capture formats are added to the driver this needs
--	 * to be extended so raw media bus codes only result in raw pixel
--	 * formats.
-+	 * TODO: Once raw MEDIA_BUS_FMT_SRGGB12_1X12 format is added to the
-+	 * driver this needs to be extended so raw media bus code only result in
-+	 * raw pixel format.
- 	 */
- 	switch (f->mbus_code) {
- 	case 0:
-@@ -362,6 +362,11 @@ static int rvin_enum_fmt_vid_cap(struct file *file, void *priv,
- 	case MEDIA_BUS_FMT_UYVY10_2X10:
- 	case MEDIA_BUS_FMT_RGB888_1X24:
- 		break;
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+		if (f->index)
-+			return -EINVAL;
-+		f->pixelformat = V4L2_PIX_FMT_SRGGB8;
-+		return 0;
- 	default:
- 		return -EINVAL;
- 	}
+@@ -66,6 +66,10 @@ static const struct rvin_video_format rvin_formats[] = {
+ 		.fourcc			= V4L2_PIX_FMT_ABGR32,
+ 		.bpp			= 4,
+ 	},
++	{
++		.fourcc			= V4L2_PIX_FMT_SRGGB8,
++		.bpp			= 1,
++	},
+ };
+ 
+ const struct rvin_video_format *rvin_format_from_pixel(struct rvin_dev *vin,
 -- 
 2.17.1
 
