@@ -2,62 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27E641E39FF
+	by mail.lfdr.de (Postfix) with ESMTP id 932921E3A00
 	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 09:13:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729120AbgE0HMR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1729102AbgE0HMR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 27 May 2020 03:12:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33028 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728303AbgE0HMO (ORCPT
+        with ESMTP id S1729098AbgE0HMQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 May 2020 03:12:14 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 549F3C061A0F;
-        Wed, 27 May 2020 00:12:13 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id u5so11377230pgn.5;
-        Wed, 27 May 2020 00:12:13 -0700 (PDT)
+        Wed, 27 May 2020 03:12:16 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1450BC03E97A;
+        Wed, 27 May 2020 00:12:15 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id q8so11447902pfu.5;
+        Wed, 27 May 2020 00:12:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Qw/QOLBu9d2B+96STuqYNI0AftO5l6SG5yefrjTDHdQ=;
-        b=rAvssvWz49+fXzXPapINBcDmFBTZ01RO2hMId+vgCJN3AG63BmjX55x7SQCy71kRyl
-         Aq0VWotduyCwmPny7lrc0pWTiCgpE0weYmufy41TJVpo1hIV/C2GkMOzqcQzhjRhKz1+
-         r/3q1R8nKhc3wAdHpKSCi/CO48ZFFlGTCM2OUa+PNJbGUpzypAhFiqxYq7rnduqbTk4j
-         PJz2M1SmoOlh5WLkVTvtL/NyMWz2pHepmil5fNaJhItpgj4fT/Zb4biKCGcYNTRp32lA
-         tR+jWjuGDJ+jG9ggkd6y1wPjtHhMpR0j8LjE7SWvY/P4Xf3NvfZ4WG+bPRHcSt04qoZr
-         86SA==
+        bh=TS7T0GnvahIo34Ueh1mEB91ydpyvQ6Kv78CuMyjghNI=;
+        b=TF+ZnVGlHYlycvaTVaXADyYL0RJeFIrCgBOXxgVjtkEbW1aFo47roQVqe4rimM5XaO
+         0jyPywtYKRd5OylJ6q2ztpi5amDIDSk4F/HP1rcZS61pV+2bP3Et1MOVRJECN4eq3V8K
+         FhE0s9dL0s1W8dAdY7kR8nRl9Cae8qgIRE7TTpJvULSdbuSW46zLeHNOj6acvZ2i0BfU
+         pyr8DtUCyPOWPD0v9PLq5XCcVmfBlD0cEbSbuEt9ikkbHzhXwLtO6p2lZgfzYwu/t6dL
+         vDoVwfTgGtDeyjnENBL9+L74uybPBlYZvUrtsfs5J6Wrz90fcfapibK46F9n+2Hs1C3F
+         Tw6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Qw/QOLBu9d2B+96STuqYNI0AftO5l6SG5yefrjTDHdQ=;
-        b=GpQTR7+78/WT7niShc+vwd1HlMZ3SxvS9J04OwuMvVEYdaEhyTHtSDCEMJj8K5Enzt
-         yostugGE+dsoh48LbGTqcjAXgtgNJov1+hcOslifkT75/fsA1jp0ufek2H6/z9HzcjpX
-         tX4oDmsE3yEpvN/ghPIU6Y1noi/+V6DPXLyFXivxPRck1urkaOgcuQ0xD4zswC53xND4
-         1TpUBelTCx7mMe+fEUV9ER/ptTEbAo/xge6ETZVBte3AVPO7JaYPFooXPPfkIPPMQ7NO
-         dgCS4yWtvc2bysQOmG1c6RV46egt18itV3qZ3Ix4OffhE62Eocsw6d3CIbv5Alour/RV
-         bA0Q==
-X-Gm-Message-State: AOAM533tKtVMXTfHc4Hl6CENW2k95o2sIoo6IIJiWYf7UD6P11Da7rAv
-        cEbRiHvq/aAtdEqBK6q5EFA=
-X-Google-Smtp-Source: ABdhPJwiMdlTneuDy4qlJ6WknGzBgbOnwG5sxxkqaefuDqkk6jhGJu9u7DEVNg4VjcPowgRDxL0hMg==
-X-Received: by 2002:a63:3c0a:: with SMTP id j10mr2734873pga.35.1590563532903;
-        Wed, 27 May 2020 00:12:12 -0700 (PDT)
+        bh=TS7T0GnvahIo34Ueh1mEB91ydpyvQ6Kv78CuMyjghNI=;
+        b=rxFiqbjxXCVynAGPeCGXwlgT0Wr9dRpJkbxGmHBsn1hpBJip75sFjp9fPmAzce8eEu
+         n6EzjVsQy5ts4Wv5Om45lnuzt1INXhsOJVq9BRE8E4QbwvknGXyS26U8eRu7F4t3QSHZ
+         5GJiQs+kLHONbRmdnolUN2uFbzFoUVErAR3NHQ0Ehg+g5HbSQSOoWQqOXbdfBDJoExMl
+         DLG9pMbrUmk1R4qYT7ITcJK7yy4PEf9BezyGISiFAnHA7Y12qvabQyh6YKEJTvfjnZF0
+         IAXqhKCuTuLNg7/fIRdeQALUEbycfsxGEKu3G8oTe72IOZOIAvT6azPN06jyib9cIw/q
+         Yoeg==
+X-Gm-Message-State: AOAM531ZC9ijKxYdQDEWrHIvob9MEKZQ4Wc+0E35RjXhQ4Vdx+qmgCnB
+        uZwj6cYtiVtO8c0Mrd5FVPQ=
+X-Google-Smtp-Source: ABdhPJwQC4jQeNUEVSfWcbDH8TBVkeO48J33ab8uL53x2ElsZaurgFDeuYMlkbqz8HFBeHrwQ0mRWQ==
+X-Received: by 2002:a62:a50a:: with SMTP id v10mr2720546pfm.134.1590563535044;
+        Wed, 27 May 2020 00:12:15 -0700 (PDT)
 Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
-        by smtp.gmail.com with ESMTPSA id 10sm1306431pfx.138.2020.05.27.00.12.11
+        by smtp.gmail.com with ESMTPSA id 10sm1306431pfx.138.2020.05.27.00.12.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2020 00:12:12 -0700 (PDT)
+        Wed, 27 May 2020 00:12:14 -0700 (PDT)
 From:   Nathan Chancellor <natechancellor@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        kbuild test robot <lkp@intel.com>
-Subject: [PATCH 2/7] media: atomisp: Remove second increment of count in atomisp_subdev_probe
-Date:   Wed, 27 May 2020 00:11:45 -0700
-Message-Id: <20200527071150.3381228-3-natechancellor@gmail.com>
+        Nathan Chancellor <natechancellor@gmail.com>
+Subject: [PATCH 3/7] media: atomisp: Add stub for atomisp_mrfld_power
+Date:   Wed, 27 May 2020 00:11:46 -0700
+Message-Id: <20200527071150.3381228-4-natechancellor@gmail.com>
 X-Mailer: git-send-email 2.27.0.rc0
 In-Reply-To: <20200527071150.3381228-1-natechancellor@gmail.com>
 References: <20200527071150.3381228-1-natechancellor@gmail.com>
@@ -71,33 +70,63 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Clang warns:
 
-../drivers/staging/media/atomisp/pci/atomisp_v4l2.c:1097:3: warning:
-variable 'count' is incremented both in the loop header and in the loop
-body [-Wfor-loop-analysis]
-                count++;
-                ^
+../drivers/staging/media/atomisp/pci/atomisp_v4l2.c:764:12: warning:
+unused function 'atomisp_mrfld_power' [-Wunused-function]
+static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+           ^
 
-This was probably unintentional, remove it.
+Use an '#if 0' preprocessor define to hide the broken code, leaving the
+FIXME comment intact, and creating an atomisp_mrfld_power stub function
+that just returns 0.
 
+Fixes: 95d1f398c4dc ("media: atomisp: keep the ISP powered on when setting it")
 Link: https://github.com/ClangBuiltLinux/linux/issues/1036
-Reported-by: kbuild test robot <lkp@intel.com>
 Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index 694268d133c0..c42999a55303 100644
+index c42999a55303..41aa6018d254 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -1094,7 +1094,6 @@ static int atomisp_subdev_probe(struct atomisp_device *isp)
- 		if (camera_count)
- 			break;
- 		msleep(SUBDEV_WAIT_TIMEOUT);
--		count++;
- 	}
- 	/* Wait more time to give more time for subdev init code to finish */
- 	msleep(5 * SUBDEV_WAIT_TIMEOUT);
+@@ -736,6 +736,8 @@ static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
+ * WA for DDR DVFS enable/disable
+ * By default, ISP will force DDR DVFS 1600MHz before disable DVFS
+ */
++/* FIXME: at least with ISP2401, the code below causes the driver to break */
++#if 0
+ static void punit_ddr_dvfs_enable(bool enable)
+ {
+ 	int door_bell = 1 << 8;
+@@ -820,20 +822,23 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
+ 	dev_err(isp->dev, "IUNIT power-%s timeout.\n", enable ? "on" : "off");
+ 	return -EBUSY;
+ }
++#else
++static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
++{
++	return 0;
++}
++#endif
+ 
+ /* Workaround for pmu_nc_set_power_state not ready in MRFLD */
+ int atomisp_mrfld_power_down(struct atomisp_device *isp)
+ {
+-	return 0;
+-// FIXME: at least with ISP2401, the code below causes the driver to break
+-//	return atomisp_mrfld_power(isp, false);
++	return atomisp_mrfld_power(isp, false);
+ }
+ 
+ /* Workaround for pmu_nc_set_power_state not ready in MRFLD */
+ int atomisp_mrfld_power_up(struct atomisp_device *isp)
+ {
+ 	return 0;
+-// FIXME: at least with ISP2401, the code below causes the driver to break
+ //	return atomisp_mrfld_power(isp, true);
+ }
+ 
 -- 
 2.27.0.rc0
 
