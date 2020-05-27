@@ -2,366 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A2021E4240
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 14:28:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 503C21E42A3
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 14:49:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729683AbgE0M20 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 May 2020 08:28:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53770 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725872AbgE0M20 (ORCPT
+        id S1730098AbgE0MtW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 May 2020 08:49:22 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:14046 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728964AbgE0MtW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 May 2020 08:28:26 -0400
-X-Greylist: delayed 10036 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 27 May 2020 05:28:26 PDT
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 046EBC08C5C1;
-        Wed, 27 May 2020 05:28:26 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id E4785C635E; Wed, 27 May 2020 13:28:22 +0100 (BST)
-Date:   Wed, 27 May 2020 13:28:22 +0100
-From:   Sean Young <sean@mess.org>
-To:     Oliver Neukum <oneukum@suse.com>
-Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 1/3] media: rc: add support for Infrared Toy and IR
- Droid devices
-Message-ID: <20200527122822.GA14488@gofer.mess.org>
-References: <20200527094107.11936-1-sean@mess.org>
- <20200527094107.11936-2-sean@mess.org>
- <1590578201.2838.69.camel@suse.com>
+        Wed, 27 May 2020 08:49:22 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 04RCm1ie006236;
+        Wed, 27 May 2020 14:48:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=26IMlLvf/Y93jh9yA1Ns2+y1tGX2JVHjVd/Qs0j7tx0=;
+ b=Y19tcPxK/czXOsbRcP6sSkKPo3NkL5FNgJBrp8S/XYQ+NFurz30lZ4/GvLPUjWolo1rj
+ DfAOay8gU8SyqtKDzI1ZNDgmcmwYJWQBjmJc5SfnIr6bDJfgiLWC+DZ+xcKxDM2KXBea
+ uDPeOcvmgPLZti7JGTtcgRo6bk/qHvc5jB0ZlnIeaAKE6M2eCH/MxxeuCAJm2cbhNSSr
+ YCQ8JGYhdvmNRMe/8Bgwj46XYzOBX7DBOSbpcdTqa3uXKFE4ByeXqQhGbOiPzjWptEGK
+ hRNUip9zAnIGxdb3a/VMG1UYj6tsPqtFfnP5Qd9/ma5UGLllAkmC9BXmV9ILKwaHvf8p zQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 316sa25rd5-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 27 May 2020 14:48:46 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5768910002A;
+        Wed, 27 May 2020 14:48:45 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1C95D2B7620;
+        Wed, 27 May 2020 14:48:45 +0200 (CEST)
+Received: from SFHDAG3NODE3.st.com (10.75.127.9) by SFHDAG3NODE3.st.com
+ (10.75.127.9) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 27 May
+ 2020 14:48:44 +0200
+Received: from SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476]) by
+ SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476%20]) with mapi id
+ 15.00.1347.000; Wed, 27 May 2020 14:48:44 +0200
+From:   Benjamin GAIGNARD <benjamin.gaignard@st.com>
+To:     Vincent Guittot <vincent.guittot@linaro.org>
+CC:     Valentin Schneider <valentin.schneider@arm.com>,
+        "rjw@rjwysocki.net" <rjw@rjwysocki.net>,
+        "viresh.kumar@linaro.org" <viresh.kumar@linaro.org>,
+        Hugues FRUCHET <hugues.fruchet@st.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
+        "pavel@ucw.cz" <pavel@ucw.cz>,
+        "len.brown@intel.com" <len.brown@intel.com>,
+        "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [RFC RESEND 0/3] Introduce cpufreq minimum load QoS
+Thread-Topic: [RFC RESEND 0/3] Introduce cpufreq minimum load QoS
+Thread-Index: AQHWM3CeA6bTrCFpTUymlrJxXTw8j6i7lUyAgAATBICAABI/gIAAB1gA
+Date:   Wed, 27 May 2020 12:48:44 +0000
+Message-ID: <51917583-f8ff-3933-7783-2eedc91484a4@st.com>
+References: <20200526151619.8779-1-benjamin.gaignard@st.com>
+ <jhjk10xu1tq.mognet@arm.com> <ab4340c0-bda3-e752-9073-e162e6325bb1@st.com>
+ <CAKfTPtBt6Ju-CnETnn6_FkgR0CAJ+jYnySz9OHP9X2hmxWHM7w@mail.gmail.com>
+In-Reply-To: <CAKfTPtBt6Ju-CnETnn6_FkgR0CAJ+jYnySz9OHP9X2hmxWHM7w@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.48]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A1EFABD517AC9847AA7C19D754960F2E@st.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1590578201.2838.69.camel@suse.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-05-27_03:2020-05-27,2020-05-27 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Oliver,
-
-On Wed, May 27, 2020 at 01:16:41PM +0200, Oliver Neukum wrote:
-> Am Mittwoch, den 27.05.2020, 10:41 +0100 schrieb Sean Young:
-> 
-> Hi,
-> 
-> thank you for the driver. Much cleaner than routing this through
-> CDC_ACM.
-
-Yes, it certainly is. It took some time for that insight to sink in (for me).
-
-> I am afraid there are a few issues though. Nothing major.
-> I've added remarks directly to the code. Would you care to
-> fix them up?
-
-Of course, thank you for reviewing it. The driver is much better for it.
-
-I'll send out a v3 shortly, response and a question below.
-
-Thanks,
-
-Sean
-
-> 
-> 	Regards
-> 		Oliver
-> 
-> > +static const u8 COMMAND_VERSION[] = { 'v' };
-> > +// End transmit and repeat reset command so we exit sump mode
-> > +static const u8 COMMAND_RESET[] = { 0xff, 0xff, 0, 0, 0, 0, 0 };
-> > +static const u8 COMMAND_SMODE_ENTER[] = { 's' };
-> > +static const u8 COMMAND_TXSTART[] = { 0x26, 0x24, 0x25, 0x03 };
-> 
-> Using these directly as buffers is based on the assuption that the
-> kernel code is accessable by DMA. On some architectures that is
-> false. You need to use a bounce buffer.
-
-This is true, however these arrays are not directly accessed, they're
-memcpy'ed into irtoy->out.
-
-> 
-> > +
-> > +#define REPLY_XMITCOUNT 't'
-> > +#define REPLY_XMITSUCCESS 'C'
-> > +#define REPLY_VERSION 'V'
-> > +#define REPLY_SAMPLEMODEPROTO 'S'
-> > +
-> > +#define TIMEOUT 500
-> > +
-> > +#define LEN_XMITRES 3
-> > +#define LEN_VERSION 4
-> > +#define LEN_SAMPLEMODEPROTO 3
-> > +
-> > +#define MIN_FW_VERSION 20
-> > +#define UNIT_NS 21333
-> > +#define MAX_TIMEOUT_NS (UNIT_NS * U16_MAX)
-> > +
-> > +#define MAX_PACKET 64
-> > +
-> > +enum state {
-> > +	STATE_IRDATA,
-> > +	STATE_RESET,
-> > +	STATE_COMMAND,
-> > +	STATE_TX,
-> > +};
-> > +
-> > +struct irtoy {
-> > +	struct device *dev;
-> > +	struct usb_device *usbdev;
-> > +
-> > +	struct rc_dev *rc;
-> > +	struct urb *urb_in, *urb_out;
-> > +
-> > +	u8 in[MAX_PACKET];
-> > +	u8 out[MAX_PACKET];
-> 
-> This violates the DMA coherency rules. The buffers must be
-> allocated separately with kmalloc().
-
-Right, I'll fix this and send out a v3. There are other usb drivers in
-drivers/media/rc/.. that break this rule too.
-
-> > +	case STATE_IRDATA: {
-> > +		struct ir_raw_event rawir = { .pulse = irtoy->pulse };
-> > +		__be16 *in = (__be16 *)irtoy->in;
-> > +		int i;
-> > +
-> > +		for (i = 0; i < len / sizeof(__be16); i++) {
-> > +			u32 v = be16_to_cpup(in + i);
-> 
-> Is this 16 or 32 bit?
-
-It's 16 bit but I would like it up-cast so that v * UNIT_NS is a 32 bit
-multiply. This could do with a comment. Also could be be16_to_cpu(in[i]).
-
-> 
-> > +
-> > +			if (v == 0xffff) {
-> > +				rawir.pulse = false;
-> > +			} else {
-> > +				rawir.duration = v * UNIT_NS;
-> > +				ir_raw_event_store_with_timeout(irtoy->rc,
-> > +								&rawir);
-> > +			}
-> > +
-> > +			rawir.pulse = !rawir.pulse;
-> > +		}
-> > +
-> > +		irtoy->pulse = rawir.pulse;
-> > +
-> > +		ir_raw_event_handle(irtoy->rc);
-> > +		break;
-> > +	}
-> > +	case STATE_TX:
-> > +		if (irtoy->tx_len == 0) {
-> > +			if (len == LEN_XMITRES &&
-> > +			    irtoy->in[0] == REPLY_XMITCOUNT) {
-> 
-> Endianness?
-
-Single byte.
-
-> > +				__be16 *emitted = (__be16 *)(irtoy->in + 1);
-> > +
-> > +				irtoy->emitted = be16_to_cpup(emitted);
-> 
-> Reason you are using cpup versions?
-
-emitted is not aligned. So, I'm wrong and this should be get_unaligned_be16().
-
-> 
-> > +			} else if (len == 1 &&
-> > +				   irtoy->in[0] == REPLY_XMITSUCCESS) {
-> > +				complete(&irtoy->rx_done);
-> > +				irtoy->state = STATE_IRDATA;
-> 
-> Race condition. Whoever you wake up with that complete could read
-> the old state.
-
-irtoy->state is only read in this function, the urb callback handler. However,
-as you noticed, this is looks wrong so it should be re-ordered.
-
-> > +			}
-> > +		} else {
-> > +			// send next part of tx buffer
-> > +			uint max_send = irtoy->in[0];
-> > +			uint buf_len = min(max_send, irtoy->tx_len);
-> > +			int err;
-> > +
-> > +			dev_dbg(irtoy->dev, "ready to receive: 0x%02x\n",
-> > +				max_send);
-> > +
-> > +			memcpy(irtoy->out, irtoy->tx_buf, buf_len);
-> > +			irtoy->urb_out->transfer_buffer_length = buf_len;
-> > +			err = usb_submit_urb(irtoy->urb_out, GFP_ATOMIC);
-> > +			if (err != 0) {
-> > +				dev_err(irtoy->dev, "fail to submit tx buf urb: %d\n",
-> > +					err);
-> > +				complete(&irtoy->rx_done);
-> > +				irtoy->state = STATE_IRDATA;
-> 
-> Same race condition as above.
-> 
-> > +			}
-> > +
-> > +			irtoy->tx_buf += buf_len;
-> > +			irtoy->tx_len -= buf_len;
-> > +			break;
-> > +		}
-> > +		break;
-> > +	case STATE_RESET:
-> > +		dev_err(irtoy->dev, "unexpected response to reset: %*phN\n",
-> > +			len, irtoy->in);
-> > +	}
-> > +}
-> > +
-> > +static void irtoy_out_callback(struct urb *urb)
-> > +{
-> > +	struct irtoy *irtoy = urb->context;
-> > +
-> > +	switch (urb->status) {
-> > +	case 0:
-> > +		if (irtoy->state == STATE_RESET)
-> > +			complete(&irtoy->rx_done);
-> > +		break;
-> > +
-> > +	case -ECONNRESET:
-> > +	case -ENOENT:
-> > +	case -ESHUTDOWN:
-> > +	case -EPROTO:
-> > +		usb_unlink_urb(urb);
-> 
-> Redundant.
-
-Removed, thanks.
-
-> > +		return;
-> > +
-> > +	default:
-> > +		dev_warn(irtoy->dev, "out urb status: %d\n", urb->status);
-> > +	}
-> > +}
-> > +
-> > +static void irtoy_in_callback(struct urb *urb)
-> > +{
-> > +	struct irtoy *irtoy = urb->context;
-> > +	int ret;
-> > +
-> > +	switch (urb->status) {
-> > +	case 0:
-> > +		irtoy_response(irtoy, urb->actual_length);
-> > +		break;
-> > +
-> > +	case -ECONNRESET:
-> > +	case -ENOENT:
-> > +	case -ESHUTDOWN:
-> > +	case -EPROTO:
-> > +		usb_unlink_urb(urb);
-> 
-> Redundant.
-
-Removed, thanks.
-
-> > +		return;
-> > +
-> > +	default:
-> > +		dev_warn(irtoy->dev, "in urb status: %d\n", urb->status);
-> > +	}
-> > +
-> > +	ret = usb_submit_urb(urb, GFP_ATOMIC);
-> > +	if (ret && ret != -ENODEV)
-> > +		dev_warn(irtoy->dev, "failed to resubmit urb: %d\n", ret);
-> > +}
-> > +
-> > +static int irtoy_command(struct irtoy *irtoy, const u8 *cmd, int cmd_len)
-> > +{
-> > +	int err;
-> > +
-> > +	init_completion(&irtoy->rx_done);
-> > +
-> > +	memcpy(irtoy->out, cmd, cmd_len);
-> > +	irtoy->urb_out->transfer_buffer_length = cmd_len;
-> > +
-> > +	err = usb_submit_urb(irtoy->urb_out, GFP_KERNEL);
-> > +	if (err != 0)
-> > +		return err;
-> > +
-> > +	if (!wait_for_completion_timeout(&irtoy->rx_done,
-> > +					 msecs_to_jiffies(TIMEOUT)))
-> > +		return -ETIMEDOUT;
-> 
-> Wrong error handling. The URB is still active. You cannot free the
-> buffer. The caller has no idea when that is safe to do so. You must
-> kill the URB in the timeout case.
-
-Good point, fixed.
-
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/*
-> > + * When sending IR, it is imperative that we send the IR data as quickly
-> > + * as possible to the device, so it does not run out of IR data and
-> > + * introduce gaps. So, we feed the data from the urb callback handler
-> > + */
-> > +static int irtoy_tx(struct rc_dev *rc, uint *txbuf, uint count)
-> > +{
-> > +	struct irtoy *irtoy = rc->priv;
-> > +	unsigned int i, size;
-> > +	__be16 *buf;
-> > +	int err;
-> > +
-> > +	size = sizeof(u16) * (count + 1);
-> > +	buf = kmalloc(size, GFP_KERNEL);
-> 
-> This is incompatible with the comment. If you are potentially in
-> interrupt, you must use GFP_ATOMIC. Please clarify.
-
-This function is called in process context, from a write() on a lirc chardev.
-However, this buffer is stored in irtoy->tx_buf. It is then sent, in packets,
-to the device (memcpy'ed to irtoy->out). This handled in irtoy_response() in
-a response to the device sending a "you may send X bytes irdata now" message. 
-
-I'll update the comment.
-
-> > +static int irtoy_suspend(struct usb_interface *intf, pm_message_t message)
-> > +{
-> > +	struct irtoy *irtoy = usb_get_intfdata(intf);
-> > +
-> > +	usb_kill_urb(irtoy->urb_in);
-> > +	usb_kill_urb(irtoy->urb_out);
-> 
-> That is brutal. It could fail commands. Do you really want to
-> do that?
-
-Commands can only be sent during 1) device probe and 2) ir transmit. During
-ir transmit we are non-interruptable process context, so we should not end up
-here unless I'm mistaken.
-
-When we're not issuing commands we're waiting for ir receive; should that
-urb be killed for the duration of suspend?
-
-> 
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int irtoy_resume(struct usb_interface *intf)
-> > +{
-> > +	struct irtoy *irtoy = usb_get_intfdata(intf);
-> > +	int err;
-> > +
-> > +	err = usb_submit_urb(irtoy->urb_in, GFP_KERNEL);
-> 
-> That should technically be GFP_NOIO
-
-Fixed.
-
-> 
-> > +	if (err)
-> > +		dev_warn(&intf->dev, "failed to submit urb: %d\n", err);
-> > +
-> > +	return err;
-> > +}
+DQoNCk9uIDUvMjcvMjAgMjoyMiBQTSwgVmluY2VudCBHdWl0dG90IHdyb3RlOg0KPiBPbiBXZWQs
+IDI3IE1heSAyMDIwIGF0IDEzOjE3LCBCZW5qYW1pbiBHQUlHTkFSRA0KPiA8YmVuamFtaW4uZ2Fp
+Z25hcmRAc3QuY29tPiB3cm90ZToNCj4+DQo+Pg0KPj4gT24gNS8yNy8yMCAxMjowOSBQTSwgVmFs
+ZW50aW4gU2NobmVpZGVyIHdyb3RlOg0KPj4+IEhpIEJlbmphbWluLA0KPj4+DQo+Pj4gT24gMjYv
+MDUvMjAgMTY6MTYsIEJlbmphbWluIEdhaWduYXJkIHdyb3RlOg0KPj4+PiBBIGZpcnN0IHJvdW5k
+IFsxXSBvZiBkaXNjdXNzaW9ucyBhbmQgc3VnZ2VzdGlvbnMgaGF2ZSBhbHJlYWR5IGJlIGRvbmUg
+b24NCj4+Pj4gdGhpcyBzZXJpZXMgYnV0IHdpdGhvdXQgZm91bmQgYSBzb2x1dGlvbiB0byB0aGUg
+cHJvYmxlbS4gSSByZXNlbmQgaXQgdG8NCj4+Pj4gcHJvZ3Jlc3Mgb24gdGhpcyB0b3BpYy4NCj4+
+Pj4NCj4+PiBBcG9sb2dpZXMgZm9yIHNsZWVwaW5nIG9uIHRoYXQgcHJldmlvdXMgdGhyZWFkLg0K
+Pj4+DQo+Pj4gU28gd2hhdCBoYWQgYmVlbiBzdWdnZXN0ZWQgb3ZlciB0aGVyZSB3YXMgdG8gdXNl
+IHVjbGFtcCB0byBib29zdCB0aGUNCj4+PiBmcmVxdWVuY3kgb2YgdGhlIGhhbmRsaW5nIHRocmVh
+ZDsgaG93ZXZlciBpZiB5b3UgdXNlIHRocmVhZGVkIElSUXMgeW91DQo+Pj4gZ2V0IFJUIHRocmVh
+ZHMsIHdoaWNoIGFscmVhZHkgZ2V0IHRoZSBtYXggZnJlcXVlbmN5IGJ5IGRlZmF1bHQgKGF0IGxl
+YXN0DQo+Pj4gd2l0aCBzY2hlZHV0aWwpLg0KPj4+DQo+Pj4gRG9lcyB0aGF0IG5vdCB3b3JrIGZv
+ciB5b3UsIGFuZCBpZiBzbywgd2h5Pw0KPj4gVGhhdCBkb2Vzbid0IHdvcmsgYmVjYXVzZSBhbG1v
+c3QgZXZlcnl0aGluZyBpcyBkb25lIGJ5IHRoZSBoYXJkd2FyZSBibG9ja3MNCj4+IHdpdGhvdXQg
+Y2hhcmdlIHRoZSBDUFUgc28gdGhlIHRocmVhZCBpc24ndCBydW5uaW5nLiBJIGhhdmUgZG9uZSB0
+aGUNCj4+IHRlc3RzIHdpdGggc2NoZWR1dGlsDQo+PiBhbmQgb25kZW1hbmQgc2NoZWR1bGVyICh3
+aGljaCBpcyB0aGUgb25lIEknbSB0YXJnZXRpbmcpLiBJIGhhdmUgbm8NCj4+IGlzc3VlcyB3aGVu
+IHVzaW5nDQo+PiBwZXJmb3JtYW5jZSBzY2hlZHVsZXIgYmVjYXVzZSBpdCBhbHdheXMga2VlcCB0
+aGUgaGlnaGVzdCBmcmVxdWVuY2llcy4NCj4gSU1ITywgdGhlIG9ubHkgd2F5IHRvIGVuc3VyZSBh
+IG1pbiBmcmVxdWVuY3kgZm9yIGFueXRoaW5nIGVsc2UgdGhhbiBhDQo+IHRocmVhZCBpcyB0byB1
+c2UgZnJlcV9xb3NfYWRkX3JlcXVlc3QoKSBqdXN0IGxpa2UgY3B1ZnJlcSBjb29saW5nDQo+IGRl
+dmljZSBidXQgZm9yIHRoZSBvcHBvc2l0ZSBRb1MuIFRoaXMgY2FuIGJlIGFwcGxpZWQgb25seSBv
+biB0aGUNCj4gZnJlcXVlbmN5IGRvbWFpbiBvZiB0aGUgQ1BVIHdoaWNoIGhhbmRsZXMgdGhlIGlu
+dGVycnVwdC4NCkkgd2lsbCBnaXZlIGEgdHJ5IHdpdGggdGhpcyBpZGVhLg0KVGhhbmtzLg0KPiBI
+YXZlIHlvdSBhbHNvIGNoZWNrZWQgdGhlIHdha2V1cCBsYXRlbmN5IG9mIHlvdXIgaWRsZSBzdGF0
+ZSA/DQpJdCBqdXN0IGNvdWxkIGdvIGluIFdGSSBzbyBsYXRlbmN5IHNob3VsZCBiZSBtaW5pbWFs
+Lg0KPg0KPj4NCj4+Pj4gV2hlbiBzdGFydCBzdHJlYW1pbmcgZnJvbSB0aGUgc2Vuc29yIHRoZSBD
+UFUgbG9hZCBjb3VsZCByZW1haW4gdmVyeSBsb3cNCj4+Pj4gYmVjYXVzZSBhbG1vc3QgYWxsIHRo
+ZSBjYXB0dXJlIHBpcGVsaW5lIGlzIGRvbmUgaW4gaGFyZHdhcmUgKGkuZS4gd2l0aG91dA0KPj4+
+PiB1c2luZyB0aGUgQ1BVKSBhbmQgbGV0IGJlbGlldmUgdG8gY3B1ZnJlcSBnb3Zlcm5vciB0aGF0
+IGl0IGNvdWxkIHVzZSBsb3dlcg0KPj4+PiBmcmVxdWVuY2llcy4gSWYgdGhlIGdvdmVybm9yIGRl
+Y2lkZXMgdG8gdXNlIGEgdG9vIGxvdyBmcmVxdWVuY3kgdGhhdA0KPj4+PiBiZWNvbWVzIGEgcHJv
+YmxlbSB3aGVuIHdlIG5lZWQgdG8gYWNrbm93bGVkZ2UgdGhlIGludGVycnVwdCBkdXJpbmcgdGhl
+DQo+Pj4+IGJsYW5raW5nIHRpbWUuDQo+Pj4+IFRoZSBkZWxheSB0byBhY2sgdGhlIGludGVycnVw
+dCBhbmQgcGVyZm9ybSBhbGwgdGhlIG90aGVyIGFjdGlvbnMgYmVmb3JlDQo+Pj4+IHRoZSBuZXh0
+IGZyYW1lIGlzIHZlcnkgc2hvcnQgYW5kIGRvZXNuJ3QgYWxsb3cgdG8gdGhlIGNwdWZyZXEgZ292
+ZXJub3IgdG8NCj4+Pj4gcHJvdmlkZSB0aGUgcmVxdWlyZWQgYnVyc3Qgb2YgcG93ZXIuIFRoYXQg
+bGVkIHRvIGRyb3AgdGhlIGhhbGYgb2YgdGhlIGZyYW1lcy4NCj4+Pj4NCj4+Pj4gVG8gYXZvaWQg
+dGhpcyBwcm9ibGVtLCBEQ01JIGRyaXZlciBpbmZvcm1zIHRoZSBjcHVmcmVxIGdvdmVybm9ycyBi
+eSBhZGRpbmcNCj4+Pj4gYSBjcHVmcmVxIG1pbmltdW0gbG9hZCBRb1MgcmVzcXVlc3QuDQo+Pj4+
+DQo+Pj4+IEJlbmphbWluDQo+Pj4+DQo+Pj4+IFsxXSBodHRwczovL2xrbWwub3JnL2xrbWwvMjAy
+MC80LzI0LzM2MA0KPj4+Pg0KPj4+PiBCZW5qYW1pbiBHYWlnbmFyZCAoMyk6DQo+Pj4+ICAgICBQ
+TTogUW9TOiBJbnRyb2R1Y2UgY3B1ZnJlcSBtaW5pbXVtIGxvYWQgUW9TDQo+Pj4+ICAgICBjcHVm
+cmVxOiBnb3Zlcm5vcjogVXNlIG1pbmltdW0gbG9hZCBRb1MNCj4+Pj4gICAgIG1lZGlhOiBzdG0z
+Mi1kY21pOiBJbmZvcm0gY3B1ZnJlcSBnb3Zlcm5vcnMgYWJvdXQgY3B1IGxvYWQgbmVlZHMNCj4+
+Pj4NCj4+Pj4gICAgZHJpdmVycy9jcHVmcmVxL2NwdWZyZXFfZ292ZXJub3IuYyAgICAgICAgfCAg
+IDUgKw0KPj4+PiAgICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0bTMyL3N0bTMyLWRjbWkuYyB8
+ICAgOCArKw0KPj4+PiAgICBpbmNsdWRlL2xpbnV4L3BtX3Fvcy5oICAgICAgICAgICAgICAgICAg
+ICB8ICAxMiArKw0KPj4+PiAgICBrZXJuZWwvcG93ZXIvcW9zLmMgICAgICAgICAgICAgICAgICAg
+ICAgICB8IDIxMyArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCj4+Pj4gICAgNCBmaWxl
+cyBjaGFuZ2VkLCAyMzggaW5zZXJ0aW9ucygrKQ0K
