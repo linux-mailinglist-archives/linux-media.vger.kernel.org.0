@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 932921E3A00
-	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 09:13:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9170C1E3A0A
+	for <lists+linux-media@lfdr.de>; Wed, 27 May 2020 09:13:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729102AbgE0HMR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 May 2020 03:12:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33036 "EHLO
+        id S1729235AbgE0HMf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 May 2020 03:12:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33044 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729098AbgE0HMQ (ORCPT
+        with ESMTP id S1729126AbgE0HMS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 May 2020 03:12:16 -0400
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1450BC03E97A;
-        Wed, 27 May 2020 00:12:15 -0700 (PDT)
-Received: by mail-pf1-x441.google.com with SMTP id q8so11447902pfu.5;
-        Wed, 27 May 2020 00:12:15 -0700 (PDT)
+        Wed, 27 May 2020 03:12:18 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12F8FC03E979;
+        Wed, 27 May 2020 00:12:18 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id k22so9806036pls.10;
+        Wed, 27 May 2020 00:12:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=TS7T0GnvahIo34Ueh1mEB91ydpyvQ6Kv78CuMyjghNI=;
-        b=TF+ZnVGlHYlycvaTVaXADyYL0RJeFIrCgBOXxgVjtkEbW1aFo47roQVqe4rimM5XaO
-         0jyPywtYKRd5OylJ6q2ztpi5amDIDSk4F/HP1rcZS61pV+2bP3Et1MOVRJECN4eq3V8K
-         FhE0s9dL0s1W8dAdY7kR8nRl9Cae8qgIRE7TTpJvULSdbuSW46zLeHNOj6acvZ2i0BfU
-         pyr8DtUCyPOWPD0v9PLq5XCcVmfBlD0cEbSbuEt9ikkbHzhXwLtO6p2lZgfzYwu/t6dL
-         vDoVwfTgGtDeyjnENBL9+L74uybPBlYZvUrtsfs5J6Wrz90fcfapibK46F9n+2Hs1C3F
-         Tw6Q==
+        bh=o9MqodWCLjikP8AmTG/rqhpi4jiJNC1PbUROm6v1d2Y=;
+        b=cJB55FZzIe+wbZbOjO4+gkJQe15YMlmFQTxt+DZL0GpogJ10Wqsx3OHLygNdzhlD5t
+         qE7H8Jj4R+LviV2dMs8V7qO5bBlsYuG68ANB7g0XTKFzNNeT0SXRE6zDFXFCxmznfA0v
+         mN5KMi5gIwI48uC8b0Kcgk4k/59LITp4LV3NEwAqBrNzC7VqiBGxnIumjWCigThafMq3
+         B6nQmRcMCtEBFe8j8GqQkP9nw6oMqmMpWAHy/oAYFQnqJTvKLst21e2EXIA7wlvDmudE
+         U2eAYVMwlIYwiraTrd8FmigcrRtv/pRy5jFwCFoJ5eV++L8RCEmfTVmIq6A1BuASY/d+
+         6ORA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=TS7T0GnvahIo34Ueh1mEB91ydpyvQ6Kv78CuMyjghNI=;
-        b=rxFiqbjxXCVynAGPeCGXwlgT0Wr9dRpJkbxGmHBsn1hpBJip75sFjp9fPmAzce8eEu
-         n6EzjVsQy5ts4Wv5Om45lnuzt1INXhsOJVq9BRE8E4QbwvknGXyS26U8eRu7F4t3QSHZ
-         5GJiQs+kLHONbRmdnolUN2uFbzFoUVErAR3NHQ0Ehg+g5HbSQSOoWQqOXbdfBDJoExMl
-         DLG9pMbrUmk1R4qYT7ITcJK7yy4PEf9BezyGISiFAnHA7Y12qvabQyh6YKEJTvfjnZF0
-         IAXqhKCuTuLNg7/fIRdeQALUEbycfsxGEKu3G8oTe72IOZOIAvT6azPN06jyib9cIw/q
-         Yoeg==
-X-Gm-Message-State: AOAM531ZC9ijKxYdQDEWrHIvob9MEKZQ4Wc+0E35RjXhQ4Vdx+qmgCnB
-        uZwj6cYtiVtO8c0Mrd5FVPQ=
-X-Google-Smtp-Source: ABdhPJwQC4jQeNUEVSfWcbDH8TBVkeO48J33ab8uL53x2ElsZaurgFDeuYMlkbqz8HFBeHrwQ0mRWQ==
-X-Received: by 2002:a62:a50a:: with SMTP id v10mr2720546pfm.134.1590563535044;
-        Wed, 27 May 2020 00:12:15 -0700 (PDT)
+        bh=o9MqodWCLjikP8AmTG/rqhpi4jiJNC1PbUROm6v1d2Y=;
+        b=htm1jZ9zFvSDzi85pUCoUDZB5aIAhaVh2/VJNwZ3N93vig+xomt0HOFk0uWiEn/DVR
+         HqiYiFZsdCAqK3YTDKvljqx53eEaC3w+REM7/SZeL2jXUccnIh9KGy6PK7z+e8m9Ql/f
+         HW3SxwLHdumgEbDV6udnciXYGMZ4m48VL3KZO9yzbKbmfXGEcmeGYzKxCPEvcil7Xd+b
+         c3zM9driQzbpLJhANsXzBiFW6mbIWxxO/A1m+4ZRolsUO4utH4bVT++rTTk43BcWG1K/
+         64I2kCAUz+fVWCBUzr9pM9rAcIlCcpFa7hSC1/0wud9VTHYDXB8EfyNrjdwmDFKSJbc3
+         ayIQ==
+X-Gm-Message-State: AOAM531XSKKDxShFU/IicWFxEzFoiptf4Ds1qysqESomZU2upjLgh6Mp
+        Zsy+tu3JcH63VxBpKCfxcYF4zcpnniY=
+X-Google-Smtp-Source: ABdhPJxoHRdGCzwo58GDaHJ6G/BJrSAN4ab49i2zjyZzqDrlxy7DIG+b4ZCydP80auPUjGxfCvGnNg==
+X-Received: by 2002:a17:902:8d8d:: with SMTP id v13mr4730527plo.67.1590563537552;
+        Wed, 27 May 2020 00:12:17 -0700 (PDT)
 Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
-        by smtp.gmail.com with ESMTPSA id 10sm1306431pfx.138.2020.05.27.00.12.13
+        by smtp.gmail.com with ESMTPSA id 10sm1306431pfx.138.2020.05.27.00.12.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 May 2020 00:12:14 -0700 (PDT)
+        Wed, 27 May 2020 00:12:16 -0700 (PDT)
 From:   Nathan Chancellor <natechancellor@gmail.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-kernel@vger.kernel.org, clang-built-linux@googlegroups.com,
         Nathan Chancellor <natechancellor@gmail.com>
-Subject: [PATCH 3/7] media: atomisp: Add stub for atomisp_mrfld_power
-Date:   Wed, 27 May 2020 00:11:46 -0700
-Message-Id: <20200527071150.3381228-4-natechancellor@gmail.com>
+Subject: [PATCH 4/7] media: atomisp: Remove unnecessary NULL checks in ia_css_pipe_load_extension
+Date:   Wed, 27 May 2020 00:11:47 -0700
+Message-Id: <20200527071150.3381228-5-natechancellor@gmail.com>
 X-Mailer: git-send-email 2.27.0.rc0
 In-Reply-To: <20200527071150.3381228-1-natechancellor@gmail.com>
 References: <20200527071150.3381228-1-natechancellor@gmail.com>
@@ -70,63 +70,57 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Clang warns:
 
-../drivers/staging/media/atomisp/pci/atomisp_v4l2.c:764:12: warning:
-unused function 'atomisp_mrfld_power' [-Wunused-function]
-static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
-           ^
+../drivers/staging/media/atomisp/pci/sh_css.c:8537:14: warning: address
+of 'pipe->output_stage' will always evaluate to 'true'
+[-Wpointer-bool-conversion]
+                if (&pipe->output_stage)
+                ~~   ~~~~~~^~~~~~~~~~~~
+../drivers/staging/media/atomisp/pci/sh_css.c:8545:14: warning: address
+of 'pipe->vf_stage' will always evaluate to 'true'
+[-Wpointer-bool-conversion]
+                if (&pipe->vf_stage)
+                ~~   ~~~~~~^~~~~~~~
 
-Use an '#if 0' preprocessor define to hide the broken code, leaving the
-FIXME comment intact, and creating an atomisp_mrfld_power stub function
-that just returns 0.
+output_stage and vf_stage are pointers in the middle of a struct, their
+addresses cannot be NULL if pipe is not NULL and pipe is already checked
+for NULL in this function. Simplify this if block.
 
-Fixes: 95d1f398c4dc ("media: atomisp: keep the ISP powered on when setting it")
 Link: https://github.com/ClangBuiltLinux/linux/issues/1036
 Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_v4l2.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ drivers/staging/media/atomisp/pci/sh_css.c | 19 +++----------------
+ 1 file changed, 3 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-index c42999a55303..41aa6018d254 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_v4l2.c
-@@ -736,6 +736,8 @@ static int atomisp_mrfld_pre_power_down(struct atomisp_device *isp)
- * WA for DDR DVFS enable/disable
- * By default, ISP will force DDR DVFS 1600MHz before disable DVFS
- */
-+/* FIXME: at least with ISP2401, the code below causes the driver to break */
-+#if 0
- static void punit_ddr_dvfs_enable(bool enable)
- {
- 	int door_bell = 1 << 8;
-@@ -820,20 +822,23 @@ static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
- 	dev_err(isp->dev, "IUNIT power-%s timeout.\n", enable ? "on" : "off");
- 	return -EBUSY;
- }
-+#else
-+static int atomisp_mrfld_power(struct atomisp_device *isp, bool enable)
-+{
-+	return 0;
-+}
-+#endif
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index d77432254a2c..b8626cdb2436 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -8533,22 +8533,9 @@ ia_css_pipe_load_extension(struct ia_css_pipe *pipe,
+ 	}
  
- /* Workaround for pmu_nc_set_power_state not ready in MRFLD */
- int atomisp_mrfld_power_down(struct atomisp_device *isp)
- {
--	return 0;
--// FIXME: at least with ISP2401, the code below causes the driver to break
--//	return atomisp_mrfld_power(isp, false);
-+	return atomisp_mrfld_power(isp, false);
- }
+ 	if (firmware->info.isp.type == IA_CSS_ACC_OUTPUT)
+-	{
+-		if (&pipe->output_stage)
+-			append_firmware(&pipe->output_stage, firmware);
+-		else {
+-			IA_CSS_LEAVE_ERR_PRIVATE(IA_CSS_ERR_INTERNAL_ERROR);
+-			return IA_CSS_ERR_INTERNAL_ERROR;
+-		}
+-	} else if (firmware->info.isp.type == IA_CSS_ACC_VIEWFINDER)
+-	{
+-		if (&pipe->vf_stage)
+-			append_firmware(&pipe->vf_stage, firmware);
+-		else {
+-			IA_CSS_LEAVE_ERR_PRIVATE(IA_CSS_ERR_INTERNAL_ERROR);
+-			return IA_CSS_ERR_INTERNAL_ERROR;
+-		}
+-	}
++		append_firmware(&pipe->output_stage, firmware);
++	else if (firmware->info.isp.type == IA_CSS_ACC_VIEWFINDER)
++		append_firmware(&pipe->vf_stage, firmware);
+ 	err = acc_load_extension(firmware);
  
- /* Workaround for pmu_nc_set_power_state not ready in MRFLD */
- int atomisp_mrfld_power_up(struct atomisp_device *isp)
- {
- 	return 0;
--// FIXME: at least with ISP2401, the code below causes the driver to break
- //	return atomisp_mrfld_power(isp, true);
- }
- 
+ 	IA_CSS_LEAVE_ERR_PRIVATE(err);
 -- 
 2.27.0.rc0
 
