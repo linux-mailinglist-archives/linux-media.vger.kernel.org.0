@@ -2,324 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBDF01E5880
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2020 09:25:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC1521E5946
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2020 09:44:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726330AbgE1HZV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 May 2020 03:25:21 -0400
-Received: from mail-bn8nam11on2045.outbound.protection.outlook.com ([40.107.236.45]:54624
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725747AbgE1HZT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 May 2020 03:25:19 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=my39ibxLLpXGWuCQv0HlLpVjhkK1pWCHSUb6Ya0ZN2dr64uBIelBnF71tVWrvF3YcEBiMkfAao/LvW5wUOQUPR7ShnqUpY0CedpTKB4wRJGoXMV2hi7Khqlr/hZJUG9x3Jq/54T4Z3xEKsF9DUmnOFyA5YIN/ESZFmenyYLpZQldUxH7iqamz9BbwFHmOMwSkyWy+inDl1efMp8vzvCjDbo63umnaQ8WStLpgu/AfhuxAuOvWWnHECaTpJXUaLlXTArIBDkmIjeDmBDYlN0LuHp5vpG7yQhEw6ASdaaQlSOcO92Uno84txXnyOj5rpAfZeMY0OuCoIZ2uUW0NN/gng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yTpVFWJF87WYRRgtMa/eAkGFcOWyC1ag5+t5M6WUBts=;
- b=hqp9EotXAwUiKcM3/lcVItYqEs8jHLDvJtW9twyLGj0otYW6Gn+etVZDC3ZW6+PLp4AuyluULdCiJb7jjN5KNWn+BZtDDCtycl3I4dtcMtnhi34apJ/QOEOeIvA93QtwPWFEGvzqB31Rnsd0nFq+xdo7kH5wWENdzYnQXPAAq4rrQNqMKJMhQ3dDUqTC+CJfGCdpvHGXt2BHYKSM02ZfOR11at80D4lBUQsqcEuJ/T+AeBE39LVwhjWy56tLUAE4uCmRzWE14ZB/2y3wH8rPUx5X/PU3MVLorYMNo1hEXyawfL6VWCmuqdKugRmjuEAKRamjiTvEeK7PG5HeWOgocw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yTpVFWJF87WYRRgtMa/eAkGFcOWyC1ag5+t5M6WUBts=;
- b=SCgSfzMTTLswMWAkQuARpfoeV1R70+RtdcIi2s9c9szsw1A+Mg2ZoJHSjjerZIbmx9yzsozyxoqG7pGdt2o949s4hTdQTJ4o/22m+6w16++Gejgmgjzg9lMfVXg5uDgBFBakmJQTksUHuxYiIEYChZ8h9Y+jLg62XiVhnd4maqw=
-Received: from DM6PR02MB6876.namprd02.prod.outlook.com (2603:10b6:5:22c::11)
- by DM6PR02MB4396.namprd02.prod.outlook.com (2603:10b6:5:21::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3045.19; Thu, 28 May
- 2020 07:25:12 +0000
-Received: from DM6PR02MB6876.namprd02.prod.outlook.com
- ([fe80::ad68:d392:e519:f671]) by DM6PR02MB6876.namprd02.prod.outlook.com
- ([fe80::ad68:d392:e519:f671%9]) with mapi id 15.20.3021.029; Thu, 28 May 2020
- 07:25:12 +0000
-From:   Vishal Sagar <vsagar@xilinx.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Hyun Kwon <hyunk@xilinx.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        Michal Simek <michals@xilinx.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Dinesh Kumar <dineshk@xilinx.com>,
-        Sandip Kothari <sandipk@xilinx.com>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Subject: RE: [PATCH v14 1/2] media: dt-bindings: media: xilinx: Add Xilinx
- MIPI CSI-2 Rx Subsystem
-Thread-Topic: [PATCH v14 1/2] media: dt-bindings: media: xilinx: Add Xilinx
- MIPI CSI-2 Rx Subsystem
-Thread-Index: AQHWNC7SPjgdVRRG3EKpmIv0XtK+wqi8GqQAgAD9xKA=
-Date:   Thu, 28 May 2020 07:25:12 +0000
-Message-ID: <DM6PR02MB6876427592203524D810D338A78E0@DM6PR02MB6876.namprd02.prod.outlook.com>
-References: <1590587839-129558-1-git-send-email-vishal.sagar@xilinx.com>
- <1590587839-129558-2-git-send-email-vishal.sagar@xilinx.com>
- <20200527161140.GF6171@pendragon.ideasonboard.com>
-In-Reply-To: <20200527161140.GF6171@pendragon.ideasonboard.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: ideasonboard.com; dkim=none (message not signed)
- header.d=none;ideasonboard.com; dmarc=none action=none
- header.from=xilinx.com;
-x-originating-ip: [122.170.225.235]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 667e0551-e6d6-43e8-447a-08d802d84254
-x-ms-traffictypediagnostic: DM6PR02MB4396:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <DM6PR02MB43964F8E24040583F4E3D615A78E0@DM6PR02MB4396.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0417A3FFD2
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: F7PttgPpqiySZZIB7zWERLy8bVvddrQwK98b6eh/m/aOvahx8wFaZrqkkP8eWDtSiji65o8XrUR516tJQUcbgsHzVk9au/B+D6jAG/+coRnyDzL+LgMzlAK+cykVVmi+7bq+Uxcufkq+LV2raLCU/KBXGOMaXbwNIwCZ8XRbPwoDNcyJ+G+XfaPugqm5OFW3vOFTj7MS6OjJeimaLlFzT/fOKRAsBDkQHVnC7X/vTWEUdqPjmI4zsknI13icDDZ4X0asC0iSOY32DJWfJVq9+A4RWe0bMOqMXzPtzaYLDwgEGVVf2p732zYjWujUKGVu+xbQ7eiy70ctpCvPnBFfNe1iBJ9nsnJ8Vjw/wdIdjZ+33YIdIbmkSaf3Vs/72vzM/e9rwEXPFjEtpEn6KsCVpA==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR02MB6876.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(39860400002)(366004)(376002)(396003)(346002)(53546011)(71200400001)(55016002)(9686003)(6506007)(4326008)(26005)(316002)(30864003)(7416002)(5660300002)(52536014)(186003)(66476007)(966005)(54906003)(76116006)(66446008)(66556008)(64756008)(55236004)(7696005)(66946007)(33656002)(6916009)(83380400001)(86362001)(8676002)(2906002)(478600001)(8936002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: 0HYE2T5RzWl6JMhQXvrnwS28pdnEr/2rP8BtZ2tAMax8ruLCj6Dc8iwJneEG8c7ZelOf5inLCJ7Ss9jqIohK9czpiU4chO0Sbtuei9LIjMUu1yU2CSt4gksJUVt0MCRCYxTKTIK24XAGRvriDulcTO4DQ+bO9sOcDcAQgrL90UaRJCD2+1gqX4uefCns2uTPglX/JDSJZXRKvsWm4efsp52a/gVKslunOeAYmp1nUil1qprOqW8xTk5NqofQWQ/S1jMFnvvLuE+bOyuj5iFfYnV+W60f3rrzgKtplrAS/i3X1XBo8f5A11GUyuCeuvFS6C4P0lrG7AypyhF83S2v/xwYWxYD4vX/CKcUUWz9v0TNZIC9fqOl8j6PjPhpqUnT7tdz72KbD7l/M/9TtDUb97c5+T/y0u2BqjPTeGZSJFEUBpvX+O5wPkWoC0U8zbx38AX4M2hEsiBvZhGvR9YAN5/QCrB7lt/AM3zxdAEOGLKNtxMjVTeqfqQPfUNN252n
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        id S1726701AbgE1Hoc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 May 2020 03:44:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35588 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725811AbgE1Hob (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 28 May 2020 03:44:31 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C2EDC05BD1E
+        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 00:44:31 -0700 (PDT)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1jeDDJ-0007wG-50; Thu, 28 May 2020 09:44:29 +0200
+Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1jeDDI-00032P-D0; Thu, 28 May 2020 09:44:28 +0200
+Date:   Thu, 28 May 2020 09:44:28 +0200
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [PATCHv2 1/2] media: docs-rst: Document memory-to-memory video
+ encoder interface
+Message-ID: <20200528074428.GB19211@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <20200520100159.2094831-1-hverkuil-cisco@xs4all.nl>
+ <20200520100159.2094831-2-hverkuil-cisco@xs4all.nl>
+ <a14b50176ae678904f9dd39c1bb8edbc5801a030.camel@ndufresne.ca>
+ <6caf4e56-2cb3-b193-3760-3a9b3c31bfb0@xs4all.nl>
+ <CAAFQd5AveRXvi6GO42qeLXMRLAHiE43tiNvjCKNi2WTZHkVbzQ@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 667e0551-e6d6-43e8-447a-08d802d84254
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 May 2020 07:25:12.1238
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ephLQ5hgqSIONNGzIpz+UXmy5fcFBkbc7RFbqycJ7U7Qfx/ygt3LZN6CuHgOE3z5o4a89PVHNerupVmXEbPoMQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB4396
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAFQd5AveRXvi6GO42qeLXMRLAHiE43tiNvjCKNi2WTZHkVbzQ@mail.gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 08:40:31 up 98 days, 14:11, 107 users,  load average: 0.61, 0.27,
+ 0.19
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgTGF1cmVudCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBMYXVy
-ZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+DQo+IFNlbnQ6
-IFdlZG5lc2RheSwgTWF5IDI3LCAyMDIwIDk6NDIgUE0NCj4gVG86IFZpc2hhbCBTYWdhciA8dnNh
-Z2FyQHhpbGlueC5jb20+DQo+IENjOiBIeXVuIEt3b24gPGh5dW5rQHhpbGlueC5jb20+OyBtY2hl
-aGFiQGtlcm5lbC5vcmc7DQo+IHJvYmgrZHRAa2VybmVsLm9yZzsgbWFyay5ydXRsYW5kQGFybS5j
-b207IE1pY2hhbCBTaW1law0KPiA8bWljaGFsc0B4aWxpbnguY29tPjsgbGludXgtbWVkaWFAdmdl
-ci5rZXJuZWwub3JnOw0KPiBkZXZpY2V0cmVlQHZnZXIua2VybmVsLm9yZzsgaGFucy52ZXJrdWls
-QGNpc2NvLmNvbTsgbGludXgtYXJtLQ0KPiBrZXJuZWxAbGlzdHMuaW5mcmFkZWFkLm9yZzsgbGlu
-dXgta2VybmVsQHZnZXIua2VybmVsLm9yZzsgRGluZXNoIEt1bWFyDQo+IDxkaW5lc2hrQHhpbGlu
-eC5jb20+OyBTYW5kaXAgS290aGFyaSA8c2FuZGlwa0B4aWxpbnguY29tPjsgTHVjYSBDZXJlc29s
-aQ0KPiA8bHVjYUBsdWNhY2VyZXNvbGkubmV0PjsgSmFjb3BvIE1vbmRpIDxqYWNvcG9Aam1vbmRp
-Lm9yZz4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MTQgMS8yXSBtZWRpYTogZHQtYmluZGluZ3M6
-IG1lZGlhOiB4aWxpbng6IEFkZCBYaWxpbnggTUlQSQ0KPiBDU0ktMiBSeCBTdWJzeXN0ZW0NCj4g
-DQo+IEhpIFZpc2hhbCwNCj4gDQo+IFRoYW5rIHlvdSBmb3IgdGhlIHBhdGNoLg0KPiANCj4gT24g
-V2VkLCBNYXkgMjcsIDIwMjAgYXQgMDc6Mjc6MThQTSArMDUzMCwgVmlzaGFsIFNhZ2FyIHdyb3Rl
-Og0KPiA+IEFkZCBiaW5kaW5ncyBkb2N1bWVudGF0aW9uIGZvciBYaWxpbnggTUlQSSBDU0ktMiBS
-eCBTdWJzeXN0ZW0uDQo+ID4NCj4gPiBUaGUgWGlsaW54IE1JUEkgQ1NJLTIgUnggU3Vic3lzdGVt
-IGNvbnNpc3RzIG9mIGEgQ1NJLTIgUnggY29udHJvbGxlciwNCj4gPiBhIEQtUEhZIGluIFJ4IG1v
-ZGUgYW5kIGEgVmlkZW8gRm9ybWF0IEJyaWRnZS4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFZp
-c2hhbCBTYWdhciA8dmlzaGFsLnNhZ2FyQHhpbGlueC5jb20+DQo+ID4gUmV2aWV3ZWQtYnk6IEh5
-dW4gS3dvbiA8aHl1bi5rd29uQHhpbGlueC5jb20+DQo+ID4gUmV2aWV3ZWQtYnk6IFJvYiBIZXJy
-aW5nIDxyb2JoQGtlcm5lbC5vcmc+DQo+ID4gUmV2aWV3ZWQtYnk6IEx1Y2EgQ2VyZXNvbGkgPGx1
-Y2FAbHVjYWNlcmVzb2xpLm5ldD4NCj4gPiBSZXZpZXdlZC1ieTogTGF1cmVudCBQaW5jaGFydCA8
-bGF1cmVudC5waW5jaGFydEBpZGVhc29uYm9hcmQuY29tPg0KPiA+IC0tLQ0KPiA+IHYxNA0KPiA+
-IC0gUmVtb3ZlZCB4bG54LGNzaS1weGwtZm9ybWF0IGZyb20gcmVxdWlyZWQgcHJvcGVydGllcw0K
-PiA+IC0gQWRkZWQgZGVwZW5kZW5jeSBvZiB4bG54LGNzaS1weGwtZm9ybWF0IG9uIHhsbngsdmZi
-DQo+ID4gLSBFbmQgdGhlIHlhbWwgZmlsZSB3aXRoIC4uLg0KPiA+IC0gQWRkZWQgUmV2aWV3ZWQg
-YnkgTGF1cmVudA0KPiA+DQo+ID4gdjEzDQo+ID4gLSBCYXNlZCBvbiBMYXVyZW50J3Mgc3VnZ2Vz
-dGlvbnMNCj4gPiAtIEZpeGVkIHRoZSBkYXRhdHlwZXMgdmFsdWVzIGFzIG1pbmltdW0gYW5kIG1h
-eGltdW0NCj4gPiAtIGNvbmRpdGlvbiBhZGRlZCBmb3IgZW4tdmN4IHByb3BlcnR5DQo+ID4NCj4g
-PiB2MTINCj4gPiAtIE1vdmVkIHRvIHlhbWwgZm9ybWF0DQo+ID4gLSBVcGRhdGUgQ1NJLTIgYW5k
-IEQtUEhZDQo+ID4gLSBNZW50aW9uIHRoYXQgYmluZGluZ3MgZm9yIEQtUEhZIG5vdCBoZXJlDQo+
-ID4gLSByZXNldCAtPiB2aWRlby1yZXNldA0KPiA+DQo+ID4gdjExDQo+ID4gLSBNb2RpZnkgY29t
-cGF0aWJsZSBzdHJpbmcgZnJvbSA0LjAgdG8gNS4wDQo+ID4NCj4gPiB2MTANCj4gPiAtIE5vIGNo
-YW5nZXMNCj4gPg0KPiA+IHY5DQo+ID4gLSBGaXggeGxueCx2ZmIgZGVzY3JpcHRpb24uDQo+ID4g
-LSBzL09wdGlvbmFsL1JlcXVpcmVkIGVuZHBvaW50IHByb3BlcnR5Lg0KPiA+IC0gTW92ZSBkYXRh
-LWxhbmVzIGRlc2NyaXB0aW9uIGZyb20gUG9ydHMgdG8gZW5kcG9pbnQgcHJvcGVydHkgc2VjdGlv
-bi4NCj4gPg0KPiA+IHY4DQo+ID4gLSBBZGRlZCByZXNldC1ncGlvcyBvcHRpb25hbCBwcm9wZXJ0
-eSB0byBhc3NlcnQgdmlkZW9fYXJlc2V0bg0KPiA+DQo+ID4gdjcNCj4gPiAtIFJlbW92ZWQgdGhl
-IGNvbnRyb2wgbmFtZSBmcm9tIGR0IGJpbmRpbmdzDQo+ID4gLSBVcGRhdGVkIHRoZSBleGFtcGxl
-IGR0IG5vZGUgbmFtZSB0byBjc2kycngNCj4gPg0KPiA+IHY2DQo+ID4gLSBBZGRlZCAiY29udHJv
-bCIgYWZ0ZXIgVjRMMl9DSURfWElMSU5YX01JUElDU0lTU19BQ1RfTEFORVMgYXMNCj4gPiBzdWdn
-ZXN0ZWQgYnkgTHVjYQ0KPiA+IC0gQWRkZWQgcmV2aWV3ZWQgYnkgUm9iIEhlcnJpbmcNCj4gPg0K
-PiA+IHY1DQo+ID4gLSBJbmNvcnBvcmF0ZWQgY29tbWVudHMgYnkgTHVjYSBDZXJzb2xpDQo+ID4g
-LSBSZW1vdmVkIERQSFkgY2xvY2sgZnJvbSBkZXNjcmlwdGlvbiBhbmQgZXhhbXBsZQ0KPiA+IC0g
-UmVtb3ZlZCBiYXllciBwYXR0ZXJuIGZyb20gZGV2aWNlIHRyZWUgTUlQSSBDU0kgSVANCj4gPiAg
-IGRvZXNuJ3QgZGVhbCB3aXRoIGJheWVyIHBhdHRlcm4uDQo+ID4NCj4gPiB2NA0KPiA+IC0gQWRk
-ZWQgcmV2aWV3ZWQgYnkgSHl1biBLd29uDQo+ID4NCj4gPiB2Mw0KPiA+IC0gcmVtb3ZlZCBpbnRl
-cnJ1cHQgcGFyZW50IGFzIHN1Z2dlc3RlZCBieSBSb2INCj4gPiAtIHJlbW92ZWQgZHBoeSBjbG9j
-aw0KPiA+IC0gbW92ZWQgdmZiIHRvIG9wdGlvbmFsIHByb3BlcnRpZXMNCj4gPiAtIEFkZGVkIHJl
-cXVpcmVkIGFuZCBvcHRpb25hbCBwb3J0IHByb3BlcnRpZXMgc2VjdGlvbg0KPiA+IC0gQWRkZWQg
-ZW5kcG9pbnQgcHJvcGVydHkgc2VjdGlvbg0KPiA+DQo+ID4gdjINCj4gPiAtIHVwZGF0ZWQgdGhl
-IGNvbXBhdGlibGUgc3RyaW5nIHRvIGxhdGVzdCB2ZXJzaW9uIHN1cHBvcnRlZA0KPiA+IC0gcmVt
-b3ZlZCBEUEhZIHJlbGF0ZWQgcGFyYW1ldGVycw0KPiA+IC0gYWRkZWQgQ1NJIHYyLjAgcmVsYXRl
-ZCBwcm9wZXJ0eSAoaW5jbHVkaW5nIFZDWCBmb3Igc3VwcG9ydGluZyB1cHRvIDE2DQo+ID4gICB2
-aXJ0dWFsIGNoYW5uZWxzKS4NCj4gPiAtIG1vZGlmaWVkIGNzaS1weGwtZm9ybWF0IGZyb20gc3Ry
-aW5nIHRvIHVuc2lnbmVkIGludCB0eXBlIHdoZXJlIHRoZSB2YWx1ZQ0KPiA+ICAgaXMgYXMgcGVy
-IHRoZSBDU0kgc3BlY2lmaWNhdGlvbg0KPiA+IC0gRGVmaW5lZCBwb3J0IDAgYW5kIHBvcnQgMSBh
-cyBzaW5rIGFuZCBzb3VyY2UgcG9ydHMuDQo+ID4gLSBSZW1vdmVkIG1heC1sYW5lcyBwcm9wZXJ0
-eSBhcyBzdWdnZXN0ZWQgYnkgUm9iIGFuZCBTYWthcmkNCj4gPg0KPiA+ICAuLi4vYmluZGluZ3Mv
-bWVkaWEveGlsaW54L3hsbngsY3NpMnJ4c3MueWFtbCAgICAgICB8IDIzNw0KPiArKysrKysrKysr
-KysrKysrKysrKysNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDIzNyBpbnNlcnRpb25zKCspDQo+ID4g
-IGNyZWF0ZSBtb2RlIDEwMDY0NA0KPiA+IERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5n
-cy9tZWRpYS94aWxpbngveGxueCxjc2kycnhzcy55YW1sDQo+ID4NCj4gPiBkaWZmIC0tZ2l0DQo+
-ID4gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEveGlsaW54L3hsbngs
-Y3NpMnJ4c3MueWFtbA0KPiA+IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21l
-ZGlhL3hpbGlueC94bG54LGNzaTJyeHNzLnlhbWwNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0K
-PiA+IGluZGV4IDAwMDAwMDAuLjIyODIyMzENCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIv
-RG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL3hpbGlueC94bG54LGNzaTJy
-eHNzLnlhbQ0KPiA+ICsrKyBsDQo+ID4gQEAgLTAsMCArMSwyMzcgQEANCj4gPiArIyBTUERYLUxp
-Y2Vuc2UtSWRlbnRpZmllcjogKEdQTC0yLjAtb25seSBPUiBCU0QtMi1DbGF1c2UpICVZQU1MIDEu
-Mg0KPiA+ICstLS0NCj4gPiArJGlkOiBodHRwOi8vZGV2aWNldHJlZS5vcmcvc2NoZW1hcy9tZWRp
-YS94aWxpbngveGxueCxjc2kycnhzcy55YW1sIw0KPiA+ICskc2NoZW1hOiBodHRwOi8vZGV2aWNl
-dHJlZS5vcmcvbWV0YS1zY2hlbWFzL2NvcmUueWFtbCMNCj4gPiArDQo+ID4gK3RpdGxlOiBYaWxp
-bnggTUlQSSBDU0ktMiBSZWNlaXZlciBTdWJzeXN0ZW0NCj4gPiArDQo+ID4gK21haW50YWluZXJz
-Og0KPiA+ICsgIC0gVmlzaGFsIFNhZ2FyIDx2aXNoYWwuc2FnYXJAeGlsaW54LmNvbT4NCj4gPiAr
-DQo+ID4gK2Rlc2NyaXB0aW9uOiB8DQo+ID4gKyAgVGhlIFhpbGlueCBNSVBJIENTSS0yIFJlY2Vp
-dmVyIFN1YnN5c3RlbSBpcyB1c2VkIHRvIGNhcHR1cmUgTUlQSQ0KPiA+ICtDU0ktMg0KPiA+ICsg
-IHRyYWZmaWMgZnJvbSBjb21wbGlhbnQgY2FtZXJhIHNlbnNvcnMgYW5kIHNlbmQgdGhlIG91dHB1
-dCBhcyBBWEk0DQo+ID4gK1N0cmVhbQ0KPiA+ICsgIHZpZGVvIGRhdGEgZm9yIGltYWdlIHByb2Nl
-c3NpbmcuDQo+ID4gKyAgVGhlIHN1YnN5c3RlbSBjb25zaXN0cyBvZiBhIE1JUEkgRC1QSFkgaW4g
-c2xhdmUgbW9kZSB3aGljaCBjYXB0dXJlcw0KPiA+ICt0aGUNCj4gPiArICBkYXRhIHBhY2tldHMu
-IFRoaXMgaXMgcGFzc2VkIGFsb25nIHRoZSBNSVBJIENTSS0yIFJ4IElQIHdoaWNoDQo+ID4gK2V4
-dHJhY3RzIHRoZQ0KPiA+ICsgIHBhY2tldCBkYXRhLiBUaGUgb3B0aW9uYWwgVmlkZW8gRm9ybWF0
-IEJyaWRnZSAoVkZCKSBjb252ZXJ0cyB0aGlzDQo+ID4gK2RhdGEgdG8NCj4gPiArICBBWEk0IFN0
-cmVhbSB2aWRlbyBkYXRhLg0KPiA+ICsgIEZvciBtb3JlIGRldGFpbHMsIHBsZWFzZSByZWZlciB0
-byBQRzIzMiBYaWxpbnggTUlQSSBDU0ktMiBSZWNlaXZlcg0KPiBTdWJzeXN0ZW0uDQo+ID4gKyAg
-UGxlYXNlIG5vdGUgdGhhdCB0aGlzIGJpbmRpbmdzIGluY2x1ZGVzIG9ubHkgdGhlIE1JUEkgQ1NJ
-LTIgUngNCj4gPiArY29udHJvbGxlcg0KPiA+ICsgIGFuZCBWaWRlbyBGb3JtYXQgQnJpZGdlIGFu
-ZCBub3QgRC1QSFkuDQo+ID4gKw0KPiA+ICtwcm9wZXJ0aWVzOg0KPiA+ICsgIGNvbXBhdGlibGU6
-DQo+ID4gKyAgICBpdGVtczoNCj4gPiArICAgICAgLSBlbnVtOg0KPiA+ICsgICAgICAgIC0geGxu
-eCxtaXBpLWNzaTItcngtc3Vic3lzdGVtLTUuMA0KPiA+ICsNCj4gPiArICByZWc6DQo+ID4gKyAg
-ICBtYXhJdGVtczogMQ0KPiA+ICsNCj4gPiArICBpbnRlcnJ1cHRzOg0KPiA+ICsgICAgbWF4SXRl
-bXM6IDENCj4gPiArDQo+ID4gKyAgY2xvY2tzOg0KPiA+ICsgICAgZGVzY3JpcHRpb246IExpc3Qg
-b2YgY2xvY2sgc3BlY2lmaWVycw0KPiA+ICsgICAgaXRlbXM6DQo+ID4gKyAgICAgIC0gZGVzY3Jp
-cHRpb246IEFYSSBMaXRlIGNsb2NrDQo+ID4gKyAgICAgIC0gZGVzY3JpcHRpb246IFZpZGVvIGNs
-b2NrDQo+ID4gKw0KPiA+ICsgIGNsb2NrLW5hbWVzOg0KPiA+ICsgICAgaXRlbXM6DQo+ID4gKyAg
-ICAgIC0gY29uc3Q6IGxpdGVfYWNsaw0KPiA+ICsgICAgICAtIGNvbnN0OiB2aWRlb19hY2xrDQo+
-ID4gKw0KPiA+ICsgIHhsbngsY3NpLXB4bC1mb3JtYXQ6DQo+ID4gKyAgICBkZXNjcmlwdGlvbjog
-fA0KPiA+ICsgICAgICBUaGlzIGRlbm90ZXMgdGhlIENTSSBEYXRhIHR5cGUgc2VsZWN0ZWQgaW4g
-aHcgZGVzaWduLg0KPiA+ICsgICAgICBQYWNrZXRzIG90aGVyIHRoYW4gdGhpcyBkYXRhIHR5cGUg
-KGV4Y2VwdCBmb3IgUkFXOCBhbmQNCj4gPiArICAgICAgVXNlciBkZWZpbmVkIGRhdGEgdHlwZXMp
-IHdpbGwgYmUgZmlsdGVyZWQgb3V0Lg0KPiA+ICsgICAgICBQb3NzaWJsZSB2YWx1ZXMgYXJlIGFz
-IGJlbG93IC0NCj4gPiArICAgICAgMHgxZSAtIFlVVjQyMjhCDQo+ID4gKyAgICAgIDB4MWYgLSBZ
-VVY0MjIxMEINCj4gPiArICAgICAgMHgyMCAtIFJHQjQ0NA0KPiA+ICsgICAgICAweDIxIC0gUkdC
-NTU1DQo+ID4gKyAgICAgIDB4MjIgLSBSR0I1NjUNCj4gPiArICAgICAgMHgyMyAtIFJHQjY2Ng0K
-PiA+ICsgICAgICAweDI0IC0gUkdCODg4DQo+ID4gKyAgICAgIDB4MjggLSBSQVc2DQo+ID4gKyAg
-ICAgIDB4MjkgLSBSQVc3DQo+ID4gKyAgICAgIDB4MmEgLSBSQVc4DQo+ID4gKyAgICAgIDB4MmIg
-LSBSQVcxMA0KPiA+ICsgICAgICAweDJjIC0gUkFXMTINCj4gPiArICAgICAgMHgyZCAtIFJBVzE0
-DQo+ID4gKyAgICAgIDB4MmUgLSBSQVcxNg0KPiA+ICsgICAgICAweDJmIC0gUkFXMjANCj4gPiAr
-ICAgIGFsbE9mOg0KPiA+ICsgICAgICAtICRyZWY6IC9zY2hlbWFzL3R5cGVzLnlhbWwjL2RlZmlu
-aXRpb25zL3VpbnQzMg0KPiA+ICsgICAgICAtIGFueU9mOg0KPiA+ICsgICAgICAgIC0gbWluaW11
-bTogMHgxZQ0KPiA+ICsgICAgICAgIC0gbWF4aW11bTogMHgyNA0KPiA+ICsgICAgICAgIC0gbWlu
-aW11bTogMHgyOA0KPiA+ICsgICAgICAgIC0gbWF4aW11bTogMHgyZg0KPiA+ICsNCj4gPiArICB4
-bG54LHZmYjoNCj4gPiArICAgIHR5cGU6IGJvb2xlYW4NCj4gPiArICAgIGRlc2NyaXB0aW9uOiBQ
-cmVzZW50IHdoZW4gVmlkZW8gRm9ybWF0IEJyaWRnZSBpcyBlbmFibGVkIGluIElQDQo+ID4gKyBj
-b25maWd1cmF0aW9uDQo+ID4gKw0KPiA+ICsgIHhsbngsZW4tY3NpLXYyLTA6DQo+ID4gKyAgICB0
-eXBlOiBib29sZWFuDQo+ID4gKyAgICBkZXNjcmlwdGlvbjogUHJlc2VudCBpZiBDU0kgdjIgaXMg
-ZW5hYmxlZCBpbiBJUCBjb25maWd1cmF0aW9uLg0KPiA+ICsNCj4gPiArICB4bG54LGVuLXZjeDoN
-Cj4gPiArICAgIHR5cGU6IGJvb2xlYW4NCj4gPiArICAgIGRlc2NyaXB0aW9uOiB8DQo+ID4gKyAg
-ICAgIFdoZW4gcHJlc2VudCwgdGhlcmUgYXJlIG1heGltdW0gMTYgdmlydHVhbCBjaGFubmVscywg
-ZWxzZSBvbmx5IDQuDQo+ID4gKw0KPiA+ICsgIHhsbngsZW4tYWN0aXZlLWxhbmVzOg0KPiA+ICsg
-ICAgdHlwZTogYm9vbGVhbg0KPiA+ICsgICAgZGVzY3JpcHRpb246IHwNCj4gPiArICAgICAgUHJl
-c2VudCBpZiB0aGUgbnVtYmVyIG9mIGFjdGl2ZSBsYW5lcyBjYW4gYmUgcmUtY29uZmlndXJlZCBh
-dA0KPiA+ICsgICAgICBydW50aW1lIGluIHRoZSBQcm90b2NvbCBDb25maWd1cmF0aW9uIFJlZ2lz
-dGVyLiBPdGhlcndpc2UgYWxsIGxhbmVzLA0KPiA+ICsgICAgICBhcyBzZXQgaW4gSVAgY29uZmln
-dXJhdGlvbiwgYXJlIGFsd2F5cyBhY3RpdmUuDQo+ID4gKw0KPiA+ICsgIHZpZGVvLXJlc2V0LWdw
-aW9zOg0KPiA+ICsgICAgZGVzY3JpcHRpb246IE9wdGlvbmFsIHNwZWNpZmllciBmb3IgYSBHUElP
-IHRoYXQgYXNzZXJ0cyB2aWRlb19hcmVzZXRuLg0KPiA+ICsgICAgbWF4SXRlbXM6IDENCj4gPiAr
-DQo+ID4gKyAgcG9ydHM6DQo+ID4gKyAgICB0eXBlOiBvYmplY3QNCj4gPiArDQo+ID4gKyAgICBw
-cm9wZXJ0aWVzOg0KPiA+ICsgICAgICBwb3J0QDA6DQo+ID4gKyAgICAgICAgdHlwZTogb2JqZWN0
-DQo+ID4gKyAgICAgICAgZGVzY3JpcHRpb246IHwNCj4gPiArICAgICAgICAgIElucHV0IC8gc2lu
-ayBwb3J0IG5vZGUsIHNpbmdsZSBlbmRwb2ludCBkZXNjcmliaW5nIHRoZQ0KPiA+ICsgICAgICAg
-ICAgQ1NJLTIgdHJhbnNtaXR0ZXIuDQo+ID4gKw0KPiA+ICsgICAgICAgIHByb3BlcnRpZXM6DQo+
-ID4gKyAgICAgICAgICByZWc6DQo+ID4gKyAgICAgICAgICAgIGNvbnN0OiAwDQo+ID4gKw0KPiA+
-ICsgICAgICAgICAgZW5kcG9pbnQ6DQo+ID4gKyAgICAgICAgICAgIHR5cGU6IG9iamVjdA0KPiA+
-ICsNCj4gPiArICAgICAgICAgICAgcHJvcGVydGllczoNCj4gPiArDQo+ID4gKyAgICAgICAgICAg
-ICAgZGF0YS1sYW5lczoNCj4gPiArICAgICAgICAgICAgICAgIGRlc2NyaXB0aW9uOiB8DQo+ID4g
-KyAgICAgICAgICAgICAgICAgIFRoaXMgaXMgcmVxdWlyZWQgb25seSBpbiB0aGUgc2luayBwb3J0
-IDAgZW5kcG9pbnQgd2hpY2gNCj4gPiArICAgICAgICAgICAgICAgICAgY29ubmVjdHMgdG8gTUlQ
-SSBDU0ktMiBzb3VyY2UgbGlrZSBzZW5zb3IuDQo+ID4gKyAgICAgICAgICAgICAgICAgIFRoZSBw
-b3NzaWJsZSB2YWx1ZXMgYXJlIC0NCj4gPiArICAgICAgICAgICAgICAgICAgMSAgICAgICAtIEZv
-ciAxIGxhbmUgZW5hYmxlZCBpbiBJUC4NCj4gPiArICAgICAgICAgICAgICAgICAgMSAyICAgICAt
-IEZvciAyIGxhbmVzIGVuYWJsZWQgaW4gSVAuDQo+ID4gKyAgICAgICAgICAgICAgICAgIDEgMiAz
-ICAgLSBGb3IgMyBsYW5lcyBlbmFibGVkIGluIElQLg0KPiA+ICsgICAgICAgICAgICAgICAgICAx
-IDIgMyA0IC0gRm9yIDQgbGFuZXMgZW5hYmxlZCBpbiBJUC4NCj4gPiArICAgICAgICAgICAgICAg
-IGl0ZW1zOg0KPiA+ICsgICAgICAgICAgICAgICAgICAtIGNvbnN0OiAxDQo+ID4gKyAgICAgICAg
-ICAgICAgICAgIC0gY29uc3Q6IDINCj4gPiArICAgICAgICAgICAgICAgICAgLSBjb25zdDogMw0K
-PiA+ICsgICAgICAgICAgICAgICAgICAtIGNvbnN0OiA0DQo+ID4gKw0KPiA+ICsgICAgICAgICAg
-ICAgIHJlbW90ZS1lbmRwb2ludDogdHJ1ZQ0KPiA+ICsNCj4gPiArICAgICAgICAgICAgcmVxdWly
-ZWQ6DQo+ID4gKyAgICAgICAgICAgICAgLSBkYXRhLWxhbmVzDQo+ID4gKyAgICAgICAgICAgICAg
-LSByZW1vdGUtZW5kcG9pbnQNCj4gPiArDQo+ID4gKyAgICAgICAgICAgIGFkZGl0aW9uYWxQcm9w
-ZXJ0aWVzOiBmYWxzZQ0KPiA+ICsNCj4gPiArICAgICAgICBhZGRpdGlvbmFsUHJvcGVydGllczog
-ZmFsc2UNCj4gPiArDQo+ID4gKyAgICAgIHBvcnRAMToNCj4gPiArICAgICAgICB0eXBlOiBvYmpl
-Y3QNCj4gPiArICAgICAgICBkZXNjcmlwdGlvbjogfA0KPiA+ICsgICAgICAgICAgT3V0cHV0IC8g
-c291cmNlIHBvcnQgbm9kZSwgZW5kcG9pbnQgZGVzY3JpYmluZyBtb2R1bGVzDQo+ID4gKyAgICAg
-ICAgICBjb25uZWN0ZWQgdGhlIENTSS0yIHJlY2VpdmVyLg0KPiA+ICsNCj4gPiArICAgICAgICBw
-cm9wZXJ0aWVzOg0KPiA+ICsNCj4gPiArICAgICAgICAgIHJlZzoNCj4gPiArICAgICAgICAgICAg
-Y29uc3Q6IDENCj4gPiArDQo+ID4gKyAgICAgICAgICBlbmRwb2ludDoNCj4gPiArICAgICAgICAg
-ICAgdHlwZTogb2JqZWN0DQo+ID4gKw0KPiA+ICsgICAgICAgICAgICBwcm9wZXJ0aWVzOg0KPiA+
-ICsNCj4gPiArICAgICAgICAgICAgICByZW1vdGUtZW5kcG9pbnQ6IHRydWUNCj4gPiArDQo+ID4g
-KyAgICAgICAgICAgIHJlcXVpcmVkOg0KPiA+ICsgICAgICAgICAgICAgIC0gcmVtb3RlLWVuZHBv
-aW50DQo+ID4gKw0KPiA+ICsgICAgICAgICAgICBhZGRpdGlvbmFsUHJvcGVydGllczogZmFsc2UN
-Cj4gPiArDQo+ID4gKyAgICAgICAgYWRkaXRpb25hbFByb3BlcnRpZXM6IGZhbHNlDQo+ID4gKw0K
-PiA+ICtyZXF1aXJlZDoNCj4gPiArICAtIGNvbXBhdGlibGUNCj4gPiArICAtIHJlZw0KPiA+ICsg
-IC0gaW50ZXJydXB0cw0KPiA+ICsgIC0gY2xvY2tzDQo+ID4gKyAgLSBjbG9jay1uYW1lcw0KPiA+
-ICsgIC0gcG9ydHMNCj4gPiArDQo+ID4gK2FsbE9mOg0KPiA+ICsgIC0gaWY6DQo+ID4gKyAgICBy
-ZXF1aXJlZDoNCj4gPiArICAgICAgLSB4bG54LHZmYg0KPiA+ICsgICAgdGhlbjoNCj4gPiArICAg
-ICAgcmVxdWlyZWQ6DQo+ID4gKyAgICAgICAgLSB4bG54LGNzaS1weGwtZm9ybWF0DQo+ID4gKyAg
-ICBlbHNlOg0KPiA+ICsgICAgICBwcm9wZXJ0aWVzOg0KPiA+ICsgICAgICAgIHhsbngsY3NpLXB4
-bC1mb3JtYXQ6IGZhbHNlDQo+ID4gKw0KPiA+ICsgIC0gaWY6DQo+ID4gKyAgICBub3Q6DQo+ID4g
-KyAgICAgIHJlcXVpcmVkOg0KPiA+ICsgICAgICAgIC0geGxueCxlbi1jc2ktdjItMA0KPiA+ICsg
-ICAgdGhlbjoNCj4gPiArICAgICAgcHJvcGVydGllczoNCj4gPiArICAgICAgICB4bG54LGVuLXZj
-eDogZmFsc2UNCj4gDQo+IFRoZXJlJ3MgYW4gaW5kZW50YXRpb24gcHJvYmxlbSBoZXJlLCBpdCBz
-aG91bGQgYmUNCj4gDQo+IGFsbE9mOg0KPiAgIC0gaWY6DQo+ICAgICAgIHJlcXVpcmVkOg0KPiAg
-ICAgICAgIC0geGxueCx2ZmINCj4gICAgIHRoZW46DQo+ICAgICAgIHJlcXVpcmVkOg0KPiAgICAg
-ICAgIC0geGxueCxjc2ktcHhsLWZvcm1hdA0KPiAgICAgZWxzZToNCj4gICAgICAgcHJvcGVydGll
-czoNCj4gICAgICAgICB4bG54LGNzaS1weGwtZm9ybWF0OiBmYWxzZQ0KPiANCj4gICAtIGlmOg0K
-PiAgICAgICBub3Q6DQo+ICAgICAgICAgcmVxdWlyZWQ6DQo+ICAgICAgICAgICAtIHhsbngsZW4t
-Y3NpLXYyLTANCj4gICAgIHRoZW46DQo+ICAgICAgIHByb3BlcnRpZXM6DQo+ICAgICAgICAgeGxu
-eCxlbi12Y3g6IGZhbHNlDQo+IA0KPiBIYXZlIHlvdSBydW4gdGhlIGJpbmRpbmdzIGNoZWNrcyA/
-DQo+IA0KPiBtYWtlDQo+IERUX1NDSEVNQV9GSUxFUz1Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUv
-YmluZGluZ3MvbWVkaWEveGlsaW54L3hsbngsY3NpDQo+IDJyeHNzLnlhbWwgZHRfYmluZGluZ19j
-aGVjaw0KPiANCj4gSXQgd291bGQgaGF2ZSBjYXVnaHQgdGhlIGlzc3VlLg0KPiANCg0KQnkgbWlz
-dGFrZSB0aGUgaW5jb3JyZWN0IHBhdGNoIHdhcyBzZW50LiBBcG9sb2dpZXMgZm9yIHRoaXMuDQoN
-Cj4gPiArDQo+ID4gK2FkZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQ0KPiA+ICsNCj4gPiArZXhh
-bXBsZXM6DQo+ID4gKyAgLSB8DQo+ID4gKyAgICAjaW5jbHVkZSA8ZHQtYmluZGluZ3MvZ3Bpby9n
-cGlvLmg+DQo+ID4gKyAgICB4Y3NpMnJ4c3NfMTogY3NpMnJ4QGEwMDIwMDAwIHsNCj4gPiArICAg
-ICAgICBjb21wYXRpYmxlID0gInhsbngsbWlwaS1jc2kyLXJ4LXN1YnN5c3RlbS01LjAiOw0KPiA+
-ICsgICAgICAgIHJlZyA9IDwweDAgMHhhMDAyMDAwMCAweDAgMHgxMDAwMD47DQo+IA0KPiBJIHRo
-aW5rIEkgbWVudGlvbmVkIGluIGEgcHJldmlvdXMgcmV2aWV3IHRoYXQgdGhpcyBzaG91bGQgYmUN
-Cj4gDQo+ICAgICAgICAgcmVnID0gPDB4YTAwMjAwMDAgMHgxMDAwMD47DQo+IA0KPiBldmVuIGlm
-IGl0IGRvZXNuJ3QgbWF0Y2ggd2hhdCB0aGUgcmVhbCB2YWx1ZXMsIGFzIGR0X2JpbmRpbmdfY2hl
-Y2sgY29tcGlsZXMNCj4gdGhlIGV4YW1wbGVzIGluIHRoZSBjb250ZXh0IG9mIGEgYnVzIHRoYXQg
-aGFzICNhZGRyZXNzLWNlbGxzID0gPDE+IGFuZCAjc2l6ZS0NCj4gY2VsbHMgPSA8MT4uDQo+IA0K
-PiBJIGNhbiBmaXggdGhlc2Ugd2hlbiBhcHBseWluZyB0aGUgcGF0Y2hlcyB0byBteSB0cmVlIGlm
-IHRoYXQncyBPSyB3aXRoIHlvdSwgYW5kDQo+IHNlbmQgYSBwdWxsIHJlcXVlc3QuDQo+IA0KDQpZ
-ZXMgdGhhdCBpcyBmaW5lLiBUaGFua3MhDQoNCj4gPiArICAgICAgICBpbnRlcnJ1cHQtcGFyZW50
-ID0gPCZnaWM+Ow0KPiA+ICsgICAgICAgIGludGVycnVwdHMgPSA8MCA5NSA0PjsNCj4gPiArICAg
-ICAgICB4bG54LGNzaS1weGwtZm9ybWF0ID0gPDB4MmE+Ow0KPiA+ICsgICAgICAgIHhsbngsdmZi
-Ow0KPiA+ICsgICAgICAgIHhsbngsZW4tYWN0aXZlLWxhbmVzOw0KPiA+ICsgICAgICAgIHhsbngs
-ZW4tY3NpLXYyLTA7DQo+ID4gKyAgICAgICAgeGxueCxlbi12Y3g7DQo+ID4gKyAgICAgICAgY2xv
-Y2stbmFtZXMgPSAibGl0ZV9hY2xrIiwgInZpZGVvX2FjbGsiOw0KPiA+ICsgICAgICAgIGNsb2Nr
-cyA9IDwmbWlzY19jbGtfMD4sIDwmbWlzY19jbGtfMT47DQo+ID4gKyAgICAgICAgdmlkZW8tcmVz
-ZXQtZ3Bpb3MgPSA8JmdwaW8gODYgR1BJT19BQ1RJVkVfTE9XPjsNCj4gPiArDQo+ID4gKyAgICAg
-ICAgcG9ydHMgew0KPiA+ICsgICAgICAgICAgICAjYWRkcmVzcy1jZWxscyA9IDwxPjsNCj4gPiAr
-ICAgICAgICAgICAgI3NpemUtY2VsbHMgPSA8MD47DQo+ID4gKw0KPiA+ICsgICAgICAgICAgICBw
-b3J0QDAgew0KPiA+ICsgICAgICAgICAgICAgICAgLyogU2luayBwb3J0ICovDQo+ID4gKyAgICAg
-ICAgICAgICAgICByZWcgPSA8MD47DQo+ID4gKyAgICAgICAgICAgICAgICBjc2lzc19pbjogZW5k
-cG9pbnQgew0KPiA+ICsgICAgICAgICAgICAgICAgICAgIGRhdGEtbGFuZXMgPSA8MSAyIDMgND47
-DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgLyogTUlQSSBDU0ktMiBDYW1lcmEgaGFuZGxlICov
-DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVuZHBvaW50ID0gPCZjYW1lcmFfb3V0
-PjsNCj4gPiArICAgICAgICAgICAgICAgIH07DQo+ID4gKyAgICAgICAgICAgIH07DQo+ID4gKyAg
-ICAgICAgICAgIHBvcnRAMSB7DQo+ID4gKyAgICAgICAgICAgICAgICAvKiBTb3VyY2UgcG9ydCAq
-Lw0KPiA+ICsgICAgICAgICAgICAgICAgcmVnID0gPDE+Ow0KPiA+ICsgICAgICAgICAgICAgICAg
-Y3Npc3Nfb3V0OiBlbmRwb2ludCB7DQo+ID4gKyAgICAgICAgICAgICAgICAgICAgcmVtb3RlLWVu
-ZHBvaW50ID0gPCZ2cHJvY19pbj47DQo+ID4gKyAgICAgICAgICAgICAgICB9Ow0KPiA+ICsgICAg
-ICAgICAgICB9Ow0KPiA+ICsgICAgICAgIH07DQo+ID4gKyAgICB9Ow0KPiA+ICsuLi4NCj4gDQo+
-IC0tDQo+IFJlZ2FyZHMsDQo+IA0KPiBMYXVyZW50IFBpbmNoYXJ0DQoNClJlZ2FyZHMNClZpc2hh
-bCBTYWdhcg0KDQo=
+On Tue, May 26, 2020 at 06:01:35PM +0200, Tomasz Figa wrote:
+> On Tue, May 26, 2020 at 10:32 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> >
+> > On 20/05/2020 22:32, Nicolas Dufresne wrote:
+> > > Le mercredi 20 mai 2020 à 12:01 +0200, Hans Verkuil a écrit :
+> > >> From: Tomasz Figa <tfiga@chromium.org>
+> > >>
+> > >> Due to complexity of the video encoding process, the V4L2 drivers of
+> > >> stateful encoder hardware require specific sequences of V4L2 API calls
+> > >> to be followed. These include capability enumeration, initialization,
+> > >> encoding, encode parameters change, drain and reset.
+> > >>
+> > >> Specifics of the above have been discussed during Media Workshops at
+> > >> LinuxCon Europe 2012 in Barcelona and then later Embedded Linux
+> > >> Conference Europe 2014 in Düsseldorf. The de facto Codec API that
+> > >> originated at those events was later implemented by the drivers we already
+> > >> have merged in mainline, such as s5p-mfc or coda.
+> > >>
+> > >> The only thing missing was the real specification included as a part of
+> > >> Linux Media documentation. Fix it now and document the encoder part of
+> > >> the Codec API.
+> > >>
+> > >> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+> > >> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > >> ---
+> > >>  .../userspace-api/media/v4l/dev-encoder.rst   | 727 ++++++++++++++++++
+> > >>  .../userspace-api/media/v4l/dev-mem2mem.rst   |   1 +
+> > >>  .../userspace-api/media/v4l/pixfmt-v4l2.rst   |   5 +
+> > >>  .../userspace-api/media/v4l/v4l2.rst          |   2 +
+> > >>  .../media/v4l/vidioc-encoder-cmd.rst          |  51 +-
+> > >>  5 files changed, 766 insertions(+), 20 deletions(-)
+> > >>  create mode 100644 Documentation/userspace-api/media/v4l/dev-encoder.rst
+> > >>
+> > >> diff --git a/Documentation/userspace-api/media/v4l/dev-encoder.rst b/Documentation/userspace-api/media/v4l/dev-encoder.rst
+> >
+> > <snip>
+> >
+> > >> +5. **Optional** Set the coded frame interval on the ``CAPTURE`` queue via
+> > >> +   :c:func:`VIDIOC_S_PARM`. This is only necessary if the coded frame
+> > >> +   interval is different from the raw frame interval, which is typically
+> > >> +   the case for off-line encoding.
+> > >> +
+> > >> +   * ** Required fields:**
+> > >> +
+> > >> +     ``type``
+> > >> +     a ``V4L2_BUF_TYPE_*`` enum appropriate for ``CAPTURE``.
+> > >> +
+> > >> +     ``parm.capture``
+> > >> +     set all fields except ``parm.capture.timeperframe`` to 0.
+> > >> +
+> > >> +     ``parm.capture.timeperframe``
+> > >> +     the desired coded frame interval; the encoder may adjust it to
+> > >> +     match hardware requirements.
+> > >> +
+> > >> +   * **Return fields:**
+> > >> +
+> > >> +     ``parm.capture.timeperframe``
+> > >> +     the adjusted frame interval.
+> > >> +
+> > >> +   .. important::
+> > >> +
+> > >> +      Changing the ``CAPTURE`` frame interval sets the framerate for the
+> > >> +      coded video. It does *not* set the rate at which buffers arrive on the
+> > >> +      ``CAPTURE`` queue, that depends on how fast the encoder is and how
+> > >> +      fast raw frames are queued on the ``OUTPUT`` queue.
+> > >> +
+> > >> +   .. important::
+> > >> +
+> > >> +      ``timeperframe`` deals with *frames*, not fields. So for interlaced
+> > >> +      formats this is the time per two fields, since a frame consists of
+> > >> +      a top and a bottom field.
+> > >> +
+> > >> +   .. note::
+> > >> +
+> > >> +      Not all drivers support this functionality, in that case just set
+> > >> +      the desired coded frame interval for the ``OUTPUT`` queue.
+> > >
+> > > There is a slight contorsion in the resulting user-space API. When I
+> > > read this, the logical thing to do for live streams would be to just
+> > > set the OUTPUT and the driver will take care of CAPTURE for me.
+> > >
+> > > While if I want to do offline, I don't know if this is supported or
+> > > not. So the flow would be a bit special:
+> > >
+> > >   S_PARM(OUTPUT) with coded video frame rate
+> > >   S_PARM(CAPTURE) width coded video
+> > >   if ^ worked:
+> > >      S_PARM(OUTPUT) with fastest rate possible
+> > >
+> > > Ideally I would have preferred if there was a more straight forward way
+> > > to configure offline encoding for fastest performance with specific
+> > > coded framerate. I don't think it's a blocker though, performance is
+> > > not critical at all here. Maybe I'm missing something that allow to
+> > > check if this is supported or not without trying it ?
+> >
+> > Good point. I considered adding a flag for the v4l2_fmtdesc struct that
+> > reports whether you can set the capture framerate independently from the
+> > OUTPUT framerate. Perhaps V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL?
+> >
+> > I actually think it would be best if that's added. It is not enough to
+> > rely on whether S_PARM(CAPTURE) works to determine this feature since
+> > at least one encoder drivers supports both OUTPUT and CAPTURE with S_PARM,
+> > but CAPTURE does the same as OUTPUT, so that would be a red herring.
+> >
+> > I'll add this flag for v3.
+> 
+> Now if I think of it again, this behavior might be problematic for
+> existing userspace, which I believe assumes encoding as fast as
+> possible, because of how mem2mem devices were expected to behave.
+> Could we define this to always default to as fast as possible?
+> Otherwise we could end up regressing the encoding latency on latency
+> sensitive applications, such as video conferencing.
+
+I see your point regarding the latency, but I don't think that this justifies
+"as fast as possible" as a default in the API. Adjusting the encoding speed
+based on a user space hint is usually a trade-off that the driver must make.
+If the trade-off results in a reduced latency, it is a regression in the
+individual driver and the trade-offs must be discussed per driver.
+
+> 
+> For example, we could define the rates of both queues the other way
+> around. The OUTPUT queue, which seems to be where the existing user
+> space currently sets the desired stream frame rate, could be
+> interpreted as the frame rate of the video to be encoded, while the
+> CAPTURE queue would control the desired output rate of the encoded
+> video, which would kind of match the V4L2 definition of CAPTURE frame
+> interval.
+
+Setting the desired stream frame rate on CAPTURE does not work with frame
+reordering. In that case driver returns the CAPTURE buffers, whenever a coded
+buffer is finished, and not necessarily at a certain frame rate. Strictly
+following the V4L2 definition for CAPTURE frame interval, the driver would
+need to produce repeated frames if the decode order differs from the display
+order.
+
+Setting the stream frame rate on the OUTPUT makes a lot of more sense to me,
+because that is the rate at which we can feed buffers to the encoder. This
+rate differs, if we use another V4L2 CAPTURE device as a live source or a file
+as an offline source for the frames to be encoded, and determines the maximum
+rate at which the encoder can produce CAPTURE buffers.
+
+Michael
