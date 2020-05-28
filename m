@@ -2,256 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18BF41E622A
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2020 15:26:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A24011E6289
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2020 15:43:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390318AbgE1N0v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 May 2020 09:26:51 -0400
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:47472 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390161AbgE1N0p (ORCPT
+        id S2390513AbgE1Nnh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 May 2020 09:43:37 -0400
+Received: from pio-pvt-msa3.bahnhof.se ([79.136.2.42]:33920 "EHLO
+        pio-pvt-msa3.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390468AbgE1Nng (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 May 2020 09:26:45 -0400
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 04SDQeeY044468;
-        Thu, 28 May 2020 08:26:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1590672400;
-        bh=CQDsbg/jFuS5k0DW0oWnhu9lZUDH1T4RRr1IgvWyVMI=;
-        h=From:To:CC:Subject:Date:In-Reply-To:References;
-        b=rP94FCfu/Quunv8302JF4J+ab3soikaYlQJgzIgJ8E+I1FnaXsnsHxKR+xFHEFi12
-         v2f9Jiqu504r4fI03N/xoTYNFjwlpCtNzThA8CSirp0+0hzB0fwQiA9FIZtDfJmsv4
-         t/bDJEgSguContJDjurtkqDzRy2+0NzNsSZq/CRw=
-Received: from DLEE112.ent.ti.com (dlee112.ent.ti.com [157.170.170.23])
-        by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04SDQeBc099522;
-        Thu, 28 May 2020 08:26:40 -0500
-Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 28
- May 2020 08:26:40 -0500
-Received: from fllv0040.itg.ti.com (10.64.41.20) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Thu, 28 May 2020 08:26:40 -0500
-Received: from ula0869644.dal.design.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 04SDQWxT130696;
-        Thu, 28 May 2020 08:26:39 -0500
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Prabhakar Lad <prabhakar.csengg@gmail.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-        Jacek Anaszewski <jacek.anaszewski@gmail.com>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Benoit Parrot <bparrot@ti.com>
-Subject: [Patch 2/2] media: use v4l2_rect_enclosed helper
-Date:   Thu, 28 May 2020 08:26:05 -0500
-Message-ID: <20200528132605.18339-3-bparrot@ti.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200528132605.18339-1-bparrot@ti.com>
-References: <20200528132605.18339-1-bparrot@ti.com>
+        Thu, 28 May 2020 09:43:36 -0400
+X-Greylist: delayed 352 seconds by postgrey-1.27 at vger.kernel.org; Thu, 28 May 2020 09:43:35 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id D92C53F3E6;
+        Thu, 28 May 2020 15:37:40 +0200 (CEST)
+Authentication-Results: pio-pvt-msa3.bahnhof.se;
+        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=i8189QXo;
+        dkim-atps=neutral
+X-Virus-Scanned: Debian amavisd-new at bahnhof.se
+X-Spam-Flag: NO
+X-Spam-Score: -2.099
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
+        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
+        autolearn=ham autolearn_force=no
+Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
+        by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id tWEVle6VlQ0m; Thu, 28 May 2020 15:37:36 +0200 (CEST)
+Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+        (Authenticated sender: mb878879)
+        by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id 4772F3F398;
+        Thu, 28 May 2020 15:37:33 +0200 (CEST)
+Received: from Gunillas-MacBook-Pro.local (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
+        by mail1.shipmail.org (Postfix) with ESMTPSA id 5B030360165;
+        Thu, 28 May 2020 15:37:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+        t=1590673053; bh=hzBvGtdMVY1yFDhX6vHBpO0alm4n63ua22McT7gZosc=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=i8189QXoVaRwcn+moTSIMQD7TJ7H9n0I1yFj2IMYL7PullzNred3UO8BAAnz2DeMq
+         j/VrfOha1hYBt/0oje3SsVmDflH1Wva31htryiedFwwGczZJYD1NmbCNmJNQfVSK5z
+         6PWj3YdF/MSpTB+pJ0H/4RhVF8RvgNw2PZv4Ful4=
+Subject: Re: [RFC 02/17] dma-fence: basic lockdep annotations
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     linux-rdma@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        linaro-mm-sig@lists.linaro.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org
+References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
+ <20200512085944.222637-3-daniel.vetter@ffwll.ch>
+From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>
+Message-ID: <81b3a3be-b818-9e7c-e93e-ecf161bec94c@shipmail.org>
+Date:   Thu, 28 May 2020 15:36:56 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
+ Gecko/20100101 Thunderbird/68.8.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20200512085944.222637-3-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Several drivers implement the same enclosed_rectangle() function to
-check if a rectangle is enclosed into another. Replace this with the
-newly added v4l2_rect_enclosed() helper function.
+On 2020-05-12 10:59, Daniel Vetter wrote:
+> Design is similar to the lockdep annotations for workers, but with
+> some twists:
+>
+> - We use a read-lock for the execution/worker/completion side, so that
+>    this explicit annotation can be more liberally sprinkled around.
+>    With read locks lockdep isn't going to complain if the read-side
+>    isn't nested the same way under all circumstances, so ABBA deadlocks
+>    are ok. Which they are, since this is an annotation only.
+>
+> - We're using non-recursive lockdep read lock mode, since in recursive
+>    read lock mode lockdep does not catch read side hazards. And we
+>    _very_ much want read side hazards to be caught. For full details of
+>    this limitation see
+>
+>    commit e91498589746065e3ae95d9a00b068e525eec34f
+>    Author: Peter Zijlstra <peterz@infradead.org>
+>    Date:   Wed Aug 23 13:13:11 2017 +0200
+>
+>        locking/lockdep/selftests: Add mixed read-write ABBA tests
+>
+> - To allow nesting of the read-side explicit annotations we explicitly
+>    keep track of the nesting. lock_is_held() allows us to do that.
+>
+> - The wait-side annotation is a write lock, and entirely done within
+>    dma_fence_wait() for everyone by default.
+>
+> - To be able to freely annotate helper functions I want to make it ok
+>    to call dma_fence_begin/end_signalling from soft/hardirq context.
+>    First attempt was using the hardirq locking context for the write
+>    side in lockdep, but this forces all normal spinlocks nested within
+>    dma_fence_begin/end_signalling to be spinlocks. That bollocks.
+>
+>    The approach now is to simple check in_atomic(), and for these cases
+>    entirely rely on the might_sleep() check in dma_fence_wait(). That
+>    will catch any wrong nesting against spinlocks from soft/hardirq
+>    contexts.
+>
+> The idea here is that every code path that's critical for eventually
+> signalling a dma_fence should be annotated with
+> dma_fence_begin/end_signalling. The annotation ideally starts right
+> after a dma_fence is published (added to a dma_resv, exposed as a
+> sync_file fd, attached to a drm_syncobj fd, or anything else that
+> makes the dma_fence visible to other kernel threads), up to and
+> including the dma_fence_wait(). Examples are irq handlers, the
+> scheduler rt threads, the tail of execbuf (after the corresponding
+> fences are visible), any workers that end up signalling dma_fences and
+> really anything else. Not annotated should be code paths that only
+> complete fences opportunistically as the gpu progresses, like e.g.
+> shrinker/eviction code.
+>
+> The main class of deadlocks this is supposed to catch are:
+>
+> Thread A:
+>
+> 	mutex_lock(A);
+> 	mutex_unlock(A);
+>
+> 	dma_fence_signal();
+>
+> Thread B:
+>
+> 	mutex_lock(A);
+> 	dma_fence_wait();
+> 	mutex_unlock(A);
+>
+> Thread B is blocked on A signalling the fence, but A never gets around
+> to that because it cannot acquire the lock A.
+>
+> Note that dma_fence_wait() is allowed to be nested within
+> dma_fence_begin/end_signalling sections. To allow this to happen the
+> read lock needs to be upgraded to a write lock, which means that any
+> other lock is acquired between the dma_fence_begin_signalling() call and
+> the call to dma_fence_wait(), and still held, this will result in an
+> immediate lockdep complaint. The only other option would be to not
+> annotate such calls, defeating the point. Therefore these annotations
+> cannot be sprinkled over the code entirely mindless to avoid false
+> positives.
+>
+> v2: handle soft/hardirq ctx better against write side and dont forget
+> EXPORT_SYMBOL, drivers can't use this otherwise.
+>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: linux-rdma@vger.kernel.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 
-Signed-off-by: Benoit Parrot <bparrot@ti.com>
----
- drivers/media/platform/am437x/am437x-vpfe.c   | 19 +++----------------
- .../media/platform/exynos4-is/fimc-capture.c  | 18 +++---------------
- drivers/media/platform/exynos4-is/fimc-lite.c | 18 +++---------------
- drivers/media/platform/s5p-jpeg/jpeg-core.c   | 16 ++--------------
- 4 files changed, 11 insertions(+), 60 deletions(-)
+LGTM. Perhaps some in-code documentation on how to use the new functions 
+are called.
 
-diff --git a/drivers/media/platform/am437x/am437x-vpfe.c b/drivers/media/platform/am437x/am437x-vpfe.c
-index 66079cc41f38..0fb9f9ba1219 100644
---- a/drivers/media/platform/am437x/am437x-vpfe.c
-+++ b/drivers/media/platform/am437x/am437x-vpfe.c
-@@ -26,6 +26,7 @@
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-event.h>
- #include <media/v4l2-fwnode.h>
-+#include <media/v4l2-rect.h>
- 
- #include "am437x-vpfe.h"
- 
-@@ -1987,20 +1988,6 @@ vpfe_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
- 	return 0;
- }
- 
--static int enclosed_rectangle(struct v4l2_rect *a, struct v4l2_rect *b)
--{
--	if (a->left < b->left || a->top < b->top)
--		return 0;
--
--	if (a->left + a->width > b->left + b->width)
--		return 0;
--
--	if (a->top + a->height > b->top + b->height)
--		return 0;
--
--	return 1;
--}
--
- static int
- vpfe_s_selection(struct file *file, void *fh, struct v4l2_selection *s)
- {
-@@ -2025,10 +2012,10 @@ vpfe_s_selection(struct file *file, void *fh, struct v4l2_selection *s)
- 	r.left = clamp_t(unsigned int, r.left, 0, cr.width - r.width);
- 	r.top  = clamp_t(unsigned int, r.top, 0, cr.height - r.height);
- 
--	if (s->flags & V4L2_SEL_FLAG_LE && !enclosed_rectangle(&r, &s->r))
-+	if (s->flags & V4L2_SEL_FLAG_LE && !v4l2_rect_enclosed(&r, &s->r))
- 		return -ERANGE;
- 
--	if (s->flags & V4L2_SEL_FLAG_GE && !enclosed_rectangle(&s->r, &r))
-+	if (s->flags & V4L2_SEL_FLAG_GE && !v4l2_rect_enclosed(&s->r, &r))
- 		return -ERANGE;
- 
- 	s->r = vpfe->crop = r;
-diff --git a/drivers/media/platform/exynos4-is/fimc-capture.c b/drivers/media/platform/exynos4-is/fimc-capture.c
-index 705f182330ca..8b10741a847a 100644
---- a/drivers/media/platform/exynos4-is/fimc-capture.c
-+++ b/drivers/media/platform/exynos4-is/fimc-capture.c
-@@ -21,6 +21,7 @@
- #include <media/v4l2-device.h>
- #include <media/v4l2-ioctl.h>
- #include <media/v4l2-mem2mem.h>
-+#include <media/v4l2-rect.h>
- #include <media/videobuf2-v4l2.h>
- #include <media/videobuf2-dma-contig.h>
- 
-@@ -1299,19 +1300,6 @@ static int fimc_cap_g_selection(struct file *file, void *fh,
- 	return -EINVAL;
- }
- 
--/* Return 1 if rectangle a is enclosed in rectangle b, or 0 otherwise. */
--static int enclosed_rectangle(struct v4l2_rect *a, struct v4l2_rect *b)
--{
--	if (a->left < b->left || a->top < b->top)
--		return 0;
--	if (a->left + a->width > b->left + b->width)
--		return 0;
--	if (a->top + a->height > b->top + b->height)
--		return 0;
--
--	return 1;
--}
--
- static int fimc_cap_s_selection(struct file *file, void *fh,
- 				struct v4l2_selection *s)
- {
-@@ -1334,11 +1322,11 @@ static int fimc_cap_s_selection(struct file *file, void *fh,
- 	fimc_capture_try_selection(ctx, &rect, s->target);
- 
- 	if (s->flags & V4L2_SEL_FLAG_LE &&
--	    !enclosed_rectangle(&rect, &s->r))
-+	    !v4l2_rect_enclosed(&rect, &s->r))
- 		return -ERANGE;
- 
- 	if (s->flags & V4L2_SEL_FLAG_GE &&
--	    !enclosed_rectangle(&s->r, &rect))
-+	    !v4l2_rect_enclosed(&s->r, &rect))
- 		return -ERANGE;
- 
- 	s->r = rect;
-diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
-index 394e0818f2d5..9c666f663ab4 100644
---- a/drivers/media/platform/exynos4-is/fimc-lite.c
-+++ b/drivers/media/platform/exynos4-is/fimc-lite.c
-@@ -25,6 +25,7 @@
- #include <media/v4l2-device.h>
- #include <media/v4l2-ioctl.h>
- #include <media/v4l2-mem2mem.h>
-+#include <media/v4l2-rect.h>
- #include <media/videobuf2-v4l2.h>
- #include <media/videobuf2-dma-contig.h>
- #include <media/drv-intf/exynos-fimc.h>
-@@ -868,19 +869,6 @@ static int fimc_lite_reqbufs(struct file *file, void *priv,
- 	return ret;
- }
- 
--/* Return 1 if rectangle a is enclosed in rectangle b, or 0 otherwise. */
--static int enclosed_rectangle(struct v4l2_rect *a, struct v4l2_rect *b)
--{
--	if (a->left < b->left || a->top < b->top)
--		return 0;
--	if (a->left + a->width > b->left + b->width)
--		return 0;
--	if (a->top + a->height > b->top + b->height)
--		return 0;
--
--	return 1;
--}
--
- static int fimc_lite_g_selection(struct file *file, void *fh,
- 				 struct v4l2_selection *sel)
- {
-@@ -922,11 +910,11 @@ static int fimc_lite_s_selection(struct file *file, void *fh,
- 	fimc_lite_try_compose(fimc, &rect);
- 
- 	if ((sel->flags & V4L2_SEL_FLAG_LE) &&
--	    !enclosed_rectangle(&rect, &sel->r))
-+	    !v4l2_rect_enclosed(&rect, &sel->r))
- 		return -ERANGE;
- 
- 	if ((sel->flags & V4L2_SEL_FLAG_GE) &&
--	    !enclosed_rectangle(&sel->r, &rect))
-+	    !v4l2_rect_enclosed(&sel->r, &rect))
- 		return -ERANGE;
- 
- 	sel->r = rect;
-diff --git a/drivers/media/platform/s5p-jpeg/jpeg-core.c b/drivers/media/platform/s5p-jpeg/jpeg-core.c
-index 86bda3947110..9b22dd8e34f4 100644
---- a/drivers/media/platform/s5p-jpeg/jpeg-core.c
-+++ b/drivers/media/platform/s5p-jpeg/jpeg-core.c
-@@ -24,6 +24,7 @@
- #include <media/v4l2-event.h>
- #include <media/v4l2-mem2mem.h>
- #include <media/v4l2-ioctl.h>
-+#include <media/v4l2-rect.h>
- #include <media/videobuf2-v4l2.h>
- #include <media/videobuf2-dma-contig.h>
- 
-@@ -1735,19 +1736,6 @@ static int exynos3250_jpeg_try_downscale(struct s5p_jpeg_ctx *ctx,
- 	return 0;
- }
- 
--/* Return 1 if rectangle a is enclosed in rectangle b, or 0 otherwise. */
--static int enclosed_rectangle(struct v4l2_rect *a, struct v4l2_rect *b)
--{
--	if (a->left < b->left || a->top < b->top)
--		return 0;
--	if (a->left + a->width > b->left + b->width)
--		return 0;
--	if (a->top + a->height > b->top + b->height)
--		return 0;
--
--	return 1;
--}
--
- static int exynos3250_jpeg_try_crop(struct s5p_jpeg_ctx *ctx,
- 				   struct v4l2_rect *r)
- {
-@@ -1780,7 +1768,7 @@ static int exynos3250_jpeg_try_crop(struct s5p_jpeg_ctx *ctx,
- 	r->left = round_down(r->left, 2);
- 	r->top = round_down(r->top, 2);
- 
--	if (!enclosed_rectangle(r, &base_rect))
-+	if (!v4l2_rect_enclosed(r, &base_rect))
- 		return -EINVAL;
- 
- 	ctx->crop_rect.left = r->left;
--- 
-2.17.1
+Otherwise for patch 2 and 3,
+
+Reviewed-by: Thomas Hellstrom <thomas.hellstrom@intel.com>
+
 
