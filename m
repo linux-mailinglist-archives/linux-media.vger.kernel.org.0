@@ -2,129 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B52731E674E
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2020 18:21:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 57DEF1E69DA
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2020 20:57:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404924AbgE1QVV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 May 2020 12:21:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59598 "EHLO
+        id S2406057AbgE1S5h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 May 2020 14:57:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404861AbgE1QVT (ORCPT
+        with ESMTP id S2406053AbgE1S5f (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 May 2020 12:21:19 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4269FC08C5C6
-        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 09:21:19 -0700 (PDT)
-Received: from [IPv6:2003:cb:871f:5b00:609a:762:a83:77bf] (p200300cb871f5b00609a07620a8377bf.dip0.t-ipconnect.de [IPv6:2003:cb:871f:5b00:609a:762:a83:77bf])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 9074D2A4043;
-        Thu, 28 May 2020 17:21:17 +0100 (BST)
-Subject: Re: [PATCH v4 0/5] media: add v4l2_pipeline_stream_{enable,disable}
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thu, 28 May 2020 14:57:35 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74876C08C5C7
+        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 11:57:34 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id q8so14037468pfu.5
+        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 11:57:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=FcxPXv7lMSnkbfuF5IpZvU50JAaETNG6VtQePJ1/NG8=;
+        b=jH6czmqZwLgTkDACw4nodGYybIvPDvoHwCsK3ejje2snXWETCY3loNJk46qo80XeCy
+         OJDd/SGzoGbhE0PHFXHp84nvKB1pAnBFkRp+vT+KYTLSlJCeIO9iCBU3YHMJ9oK1x83l
+         bB5x5tcs5CD27zZuBsKfxPL1CwI83r62nG/zKSQXdgS1/s/CtLJBfhNbuWcolpK69Rdj
+         liNj1RgELny+IwRms7pMf0MpmPAlJAfM0SBimjPuk/uMAGeNPUgJGJwzueUAkn/LEBeX
+         elmGVUuDMu3IxLqkeRtxMZ5etexc7LMkQ1BdOSNw2b7+O1AjQfZltnCms/HAU8Bfk/fQ
+         lM+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=FcxPXv7lMSnkbfuF5IpZvU50JAaETNG6VtQePJ1/NG8=;
+        b=h7BjnLlv2D3egliz9Z59eUMBao631/q2U5T1Z6RRS5i9tzJhhBuXZh9I2T6H9XwS0Q
+         WHPQVObv6VmpMjOpyvJi0o/vkKgmTj6c8Wh04MSfC0o2GZZ9quKAyz1y2kbcS/uYt8t7
+         rtadOvqvCU071smK7+PRzzKZROBWGHQt6sd5o2bRUtCsUBQt+q4quLwevwlY7iqGJr6B
+         QK8wvoVvMk1GRgEJ8SbfkH77EvMfWWzfv9aF3NKIN7guuaMzOp+4CQ/B5xcJBNHgMyiU
+         udvICSM0l1aqj/B3pA8pciV63BSMUVLU2YOIjUl2+olJbGhfNcIvSMxemdi3niQQSr0I
+         c1pA==
+X-Gm-Message-State: AOAM532bfkc3LlCzAra5ImiCI5sVxfjuaFvE8+5a5ELLH4yK1Kjj79JI
+        H6PlVP1797a56O831HiauCHVjg==
+X-Google-Smtp-Source: ABdhPJwwhx996SxbCG6CvZLOmM3vt07TE8u+BH79YhZel8MmI+ihU2UQRo1zbY7vZjoOjUPezUHzWQ==
+X-Received: by 2002:a63:4906:: with SMTP id w6mr4405339pga.79.1590692253805;
+        Thu, 28 May 2020 11:57:33 -0700 (PDT)
+Received: from kaaira-HP-Pavilion-Notebook ([2401:4900:4172:de15:68e5:53c9:1b21:586d])
+        by smtp.gmail.com with ESMTPSA id x22sm2538194pfr.188.2020.05.28.11.57.28
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Thu, 28 May 2020 11:57:33 -0700 (PDT)
+Date:   Fri, 29 May 2020 00:27:17 +0530
+From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
+To:     Helen Koike <helen.koike@collabora.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
-        niklas.soderlund@ragnatech.se--annotate
-References: <20200522075522.6190-1-dafna.hirschfeld@collabora.com>
- <1c8bd467-5a9c-7285-ec23-d0d864a5f938@collabora.com>
- <CAAFQd5BW9TF0iMRPCUwk3oZn-WrisMW794EuwfqZRTkmNqeKoA@mail.gmail.com>
- <20200526185754.GA25880@pendragon.ideasonboard.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <50929a55-a071-aa09-eb1a-96776c61c147@collabora.com>
-Date:   Thu, 28 May 2020 18:21:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kieran.bingham@ideasonboard.com
+Subject: [PATCH] vimc: debayer: Add support for ARGB format
+Message-ID: <20200528185717.GA20581@kaaira-HP-Pavilion-Notebook>
 MIME-Version: 1.0
-In-Reply-To: <20200526185754.GA25880@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz, Helen, Laurent
+Running qcam for pixelformat 0x34324142 showed that vimc debayer does
+not support it. Hence, add the support for Alpha (255).
 
-On 26.05.20 20:57, Laurent Pinchart wrote:
-> Hi Tomasz,
-> 
-> On Tue, May 26, 2020 at 06:11:00PM +0200, Tomasz Figa wrote:
->> On Fri, May 22, 2020 at 11:06 AM Helen Koike <helen.koike@collabora.com> wrote:
->>> On 5/22/20 4:55 AM, Dafna Hirschfeld wrote:
->>>> Hi,
->>>> This is v4 of the patchset that was sent by Helen Koike.
->>>>
->>>> Media drivers need to iterate through the pipeline and call .s_stream()
->>>> callbacks in the subdevices.
->>>>
->>>> Instead of repeating code, add helpers for this.
->>>>
->>>> These helpers will go walk through the pipeline only visiting entities
->>>> that participates in the stream, i.e. it follows links from sink to source
->>>> (and not the opposite).
->>>> For example, in a topology like this https://bit.ly/3b2MxjI
->>>> calling v4l2_pipeline_stream_enable() from rkisp1_mainpath won't call
->>>> .s_stream(true) for rkisp1_resizer_selfpath.
->>>>
->>>> stream_count variable was added in v4l2_subdevice to handle nested calls
->>>> to the helpers.
->>>> This is useful when the driver allows streaming from more then one
->>>> capture device sharing subdevices.
->>>
->>> If I understand correctly, this isn't  true anymore right? Nested calls aren't
->>> possible anymore since this version doesn't contain stream_count in struct v4l2_subdevice.
->>>
->>> Documentation of v4l2_pipeline_stream_*() should also be updated.
->>>
->>> Just to be clear, without the nested call, vimc will require to add its own
->>> counters, patch https://patchwork.kernel.org/patch/10948833/ will be
->>> required again to allow multi streaming.
->>>
->>> Also, patch "media: staging: rkisp1: cap: use v4l2_pipeline_stream_{enable,disable}"
->>> is cleaner in the previous version (with stream_count in struct v4l2_subdevice).
->>>
->>> All drivers that allows multi streaming will need to implement some special handling.
->>>
->>> Adding stream_count in struct v4l2_subdevice still seems cleaner to me. I'd like to hear
->>> what others think.
->>
->> I certainly would see this reference counting done in generic code,
->> because requiring every driver to do it simply adds to the endless
+Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+---
+ .../media/test-drivers/vimc/vimc-debayer.c    | 27 ++++++++++++-------
+ 1 file changed, 18 insertions(+), 9 deletions(-)
 
-It is required only for drivers that support multistreaming. I don't know much
-about other driver except of the ones I am working on, is it a common case?
+diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
+index c3f6fef34f68..f34148717a40 100644
+--- a/drivers/media/test-drivers/vimc/vimc-debayer.c
++++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
+@@ -62,6 +62,7 @@ static const u32 vimc_deb_src_mbus_codes[] = {
+ 	MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+ 	MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
+ 	MEDIA_BUS_FMT_RGB888_1X32_PADHI,
++	MEDIA_BUS_FMT_ARGB8888_1X32
+ };
+ 
+ static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] = {
+@@ -322,15 +323,23 @@ static void vimc_deb_process_rgb_frame(struct vimc_deb_device *vdeb,
+ 	unsigned int i, index;
+ 
+ 	vpix = vimc_pix_map_by_code(vdeb->src_code);
+-	index = VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
+-	for (i = 0; i < 3; i++) {
+-		switch (vpix->pixelformat) {
+-		case V4L2_PIX_FMT_RGB24:
+-			vdeb->src_frame[index + i] = rgb[i];
+-			break;
+-		case V4L2_PIX_FMT_BGR24:
+-			vdeb->src_frame[index + i] = rgb[2 - i];
+-			break;
++
++	if (vpix->pixelformat == V4L2_PIX_FMT_ARGB32) {
++		index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 4);
++		vdeb->src_frame[index] = 255;
++		for (i = 0; i < 3; i++)
++			vdeb->src_frame[index + i + 1] = rgb[i];
++	} else {
++		index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
++		for (i = 0; i < 3; i++) {
++			switch (vpix->pixelformat) {
++			case V4L2_PIX_FMT_RGB24:
++				vdeb->src_frame[index + i] = rgb[i];
++				break;
++			case V4L2_PIX_FMT_BGR24:
++				vdeb->src_frame[index + i] = rgb[2 - i];
++				break;
++			}
+ 		}
+ 	}
+ }
+-- 
+2.17.1
 
->> amount of boiler plate that V4L2 currently requires from the drivers.
->> :(
->>
->> I wonder if it wouldn't be possible to redesign the framework so that
->> .s_stream() at the subdev level is only called when it's expected to
->> either start or stop this particular subdev and driver's
->> implementation can simply execute the requested action.
-
-You mean that a generic code similar to the helper functions in this patchset
-will be used for all drivers, so that drivers don't call s_stream for subdevices
-anymore?
-Anyway, this patchset just adds helper functions, it does not redesign the code.
-Maybe the stream_count can be updated in the v4l2_subdev_call macro ?
-This why it can be used not just for the helper functions.
-
-Thanks,
-Dafna
-
-> 
-> I'd very much like that. Note that I think a few drivers abuse the on
-> parameter to the function to pass other values than 0 or 1. We'd have to
-> fix those first (or maybe it has been done already, it's been a long
-> time since I last checked).
-> 
