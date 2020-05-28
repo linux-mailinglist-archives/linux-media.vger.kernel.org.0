@@ -2,121 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 012CA1E5298
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2020 03:03:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F19D71E54AA
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2020 05:33:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725941AbgE1BCa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 27 May 2020 21:02:30 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:48056 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725819AbgE1BCa (ORCPT
+        id S1726942AbgE1Ddw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 27 May 2020 23:33:52 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:52463 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726530AbgE1Ddw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 27 May 2020 21:02:30 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 066332A3B03
-Message-ID: <ded561992900a23e9a0135855e9455a07c67ddaf.camel@collabora.com>
-Subject: Re: [PATCH v6 3/4] arm64: dts: imx8mq: enable Hantro G1/G2 VPU
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>, linux-media@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>, kernel@pengutronix.de,
-        devicetree@vger.kernel.org
-Date:   Wed, 27 May 2020 22:02:17 -0300
-In-Reply-To: <58431830e527c8acb873487f5173e437bee712a6.camel@pengutronix.de>
-References: <20200320131256.23294-1-p.zabel@pengutronix.de>
-         <20200320131256.23294-4-p.zabel@pengutronix.de>
-         <58431830e527c8acb873487f5173e437bee712a6.camel@pengutronix.de>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.0-1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        Wed, 27 May 2020 23:33:52 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id e9Iijii6tDazBe9Ijjo5bb; Thu, 28 May 2020 05:33:49 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1590636829; bh=TabQvl9bmJgIQzZJctvn1l1iX+4XyPIidu1af5V7Mgs=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=u27B7MI/GCxqMU9u6xtsCAQLJ7/1GxFmnyvOACze3N3SprjypZmUuEUHYHwKnqxgE
+         V5H1vIg3ckKCeCRG6NDGF5C/xHLVtgHF3XMDVgRJwnGlnfpzynHTHqcntW75RYwQOs
+         LRNGC+MCKcHmvaZTdt3R78ap9bsCUdjEOfOl6UrWBfSYux+8gR6XGaTyfLth0AHATL
+         d/8m3iUm5RjYqG4su0zNBHHpR+6+CmJ8bn/ZLXfR2PnfJpmHVhj+A5FBW76uCZW0r/
+         CE4aBSfurjmndgbycL7TvtFH0bpsBY0eLLI0s7mVXHyuX7NT13hbP5+BREabeOX1nD
+         7EiNiE4ooOlbA==
+Message-ID: <1fcb78e2c543a051f6b198affc957d17@smtp-cloud7.xs4all.net>
+Date:   Thu, 28 May 2020 05:33:48 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfBjZG0odbmxu6T9CV0Gk751Ux/hecvuJK6N5hbHfDothgo0znIE7CFcPMOlgRQ8HL1JOo2LW5ufXhADKrbK9Bco5V2hIg824Clu+7JMNJ7HRHlh+hCU7
+ ENbCss6/mM4lwKp3ymPjvk6paUd0GFPT88rO8TVqMCNVUPeey0/AXpjzAsxwYX8MHSPrvPpP9N6/8JpnBpCYQ52ZzX5a8CiaD89GzP/06RUpZp+bSGXewPYv
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2020-05-27 at 18:19 +0200, Philipp Zabel wrote:
-> Hi Shawn,
-> 
-> On Fri, 2020-03-20 at 14:12 +0100, Philipp Zabel wrote:
-> > Add the i.MX8MQ VPU module which comprises Hantro G1 and G2 video
-> > decoder cores and a reset/control block.
-> > 
-> > Hook up the bus clock to the VPU power domain to enable handshakes, and
-> > configure the core clocks to 600 MHz and the bus clock to 800 MHz by
-> > default.
-> > 
-> > Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> 
-> could you pick up this patch? The driver and binding parts have been
-> merged in media/master.
-> 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-Tested-by: Ezequiel Garcia <ezequiel@collabora.com>
+Results of the daily build of media_tree:
 
-It looks good and it matches the downstream device tree.
+date:			Thu May 28 05:00:09 CEST 2020
+media-tree git hash:	938b29db3aa9c293c7c1366b16e55e308f1a1ddd
+media_build git hash:	7379d9e55aa05cd53f3dceaa5e0278e93db357bd
+v4l-utils git hash:	74377da4f5f3b63203c599d5dd75db6af91fdbb9
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0accb575719caa47d8fbc866b11e6f7e7e7787cd
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-Thanks,
-Ezequiel
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.212-i686: ERRORS
+linux-4.4.212-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.212-i686: ERRORS
+linux-4.9.212-x86_64: ERRORS
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: WARNINGS
+linux-4.13.16-x86_64: WARNINGS
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7-rc1-i686: OK
+linux-5.7-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+virtme-32: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
+sparse: OK
+smatch: OK
 
-> regards
-> Philipp
-> 
-> > ---
-> > New in v6.
-> > ---
-> >  arch/arm64/boot/dts/freescale/imx8mq.dtsi | 27 +++++++++++++++++++++++
-> >  1 file changed, 27 insertions(+)
-> > 
-> > diff --git a/arch/arm64/boot/dts/freescale/imx8mq.dtsi b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > index 6a1e83922c71..98e464ecb68a 100644
-> > --- a/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > +++ b/arch/arm64/boot/dts/freescale/imx8mq.dtsi
-> > @@ -666,6 +666,7 @@
-> >  					pgc_vpu: power-domain@6 {
-> >  						#power-domain-cells = <0>;
-> >  						reg = <IMX8M_POWER_DOMAIN_VPU>;
-> > +						clocks = <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-> >  					};
-> >  
-> >  					pgc_disp: power-domain@7 {
-> > @@ -1130,6 +1131,32 @@
-> >  			status = "disabled";
-> >  		};
-> >  
-> > +		vpu: video-codec@38300000 {
-> > +			compatible = "nxp,imx8mq-vpu";
-> > +			reg = <0x38300000 0x10000>,
-> > +			      <0x38310000 0x10000>,
-> > +			      <0x38320000 0x10000>;
-> > +			reg-names = "g1", "g2", "ctrl";
-> > +			interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>,
-> > +				     <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>;
-> > +			interrupt-names = "g1", "g2";
-> > +			clocks = <&clk IMX8MQ_CLK_VPU_G1_ROOT>,
-> > +				 <&clk IMX8MQ_CLK_VPU_G2_ROOT>,
-> > +				 <&clk IMX8MQ_CLK_VPU_DEC_ROOT>;
-> > +			clock-names = "g1", "g2", "bus";
-> > +			assigned-clocks = <&clk IMX8MQ_CLK_VPU_G1>,
-> > +					  <&clk IMX8MQ_CLK_VPU_G2>,
-> > +					  <&clk IMX8MQ_CLK_VPU_BUS>,
-> > +					  <&clk IMX8MQ_VPU_PLL_BYPASS>;
-> > +			assigned-clock-parents = <&clk IMX8MQ_VPU_PLL_OUT>,
-> > +						 <&clk IMX8MQ_VPU_PLL_OUT>,
-> > +						 <&clk IMX8MQ_SYS1_PLL_800M>,
-> > +						 <&clk IMX8MQ_VPU_PLL>;
-> > +			assigned-clock-rates = <600000000>, <600000000>,
-> > +					       <800000000>, <0>;
-> > +			power-domains = <&pgc_vpu>;
-> > +		};
-> > +
-> >  		pcie0: pcie@33800000 {
-> >  			compatible = "fsl,imx8mq-pcie";
-> >  			reg = <0x33800000 0x400000>,
+Detailed results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
