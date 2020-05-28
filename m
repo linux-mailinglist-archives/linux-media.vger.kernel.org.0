@@ -2,68 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 629371E5B7A
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2020 11:10:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE9031E5B93
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2020 11:14:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728173AbgE1JKg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 May 2020 05:10:36 -0400
-Received: from sonic301-2.consmr.mail.bf2.yahoo.com ([74.6.129.41]:37142 "EHLO
-        sonic301-2.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728040AbgE1JKf (ORCPT
+        id S1728150AbgE1JO4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 May 2020 05:14:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49570 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728108AbgE1JO4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 May 2020 05:10:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1590657034; bh=OCp2NQ1DG8WDrE2HT9ykXjnTFISlxhUILAf78oJl1As=; h=Date:From:Reply-To:Subject:References:From:Subject; b=RSyhO88CaWPhODjo3sWPhlYM3aGiZ2F0oquyOE/o41kXrI+ZDWtklFRSzzJOz0OnDxjiuXqUjA3xMCWHYiDC5Ja0/yRQAGnulpMXLAUNurA8W2UIpgZEj9qDbX01n/wP5JvN3K+hdWVxwzBrI3Isc5mWRHQisc+LeW2NNvlLQw2Ii5/vzEMN3j60gj5vg3SxQRE+CZl4B3DGpXNX4fOWuXx4lXh0PDTLF+6pQqSNc3ZXoLETziIguaB0DAp6FcW9zaUmzoIjdYSbc1BQhyoMocObxsRjGqrljYOQYOE9CrkZIWMKo4tyFMlEbjsKlBtgjmfXiw8tDEISLaT71wIjRw==
-X-YMail-OSG: rRRcsM8VM1nMezYiAc94Rzy7WaiAk._r3Yew6OJ7Hnf784f580Ov1v.AMsituLp
- VAoR43wkORzZZ_HNhgQcm1osGwvMB5Tsy_CgjB5Jzc4SOVg31ber5u9icLxX3rLbqFx5mOh2R1jI
- 6IrI.cEmk9xPhQCj_nbKNb6VNk5wDe_DpLkeWA9JH6kI1DlN1jpZGKkDcmexZubi7Wtzp0VQYuyz
- CmmZvKhtHIqwQHsgdaCWqPj9UlSm18S4xre0lIxDW35abZ9Ph3vTaqqrbpGUItMkmvOPk42YIAVM
- LxQrG6nuLUd8u51WAkMnNoDg0uAeIy3MYdY3fpVy6UqCqOFH4e2K7R5C3JDjCz1NvJXg7lBeFRgu
- ibcQTo9nVd5qEmhZQt0nUi29QFUSqvlh6l3f4na3s9EO1PpLj173TQWEfAJpwa3HCc5uJsuTSls5
- ozdhdiiNYrhoDImrsDVQ6fwKb3Yycs1IYyAmBiBGYBp0aOGuQU4nVr44i7e7hIhrdoObGzDPV5rb
- 7gpCjUxl4xxQykwGdFxbFx8PBIb8oxryzpRM6h4YHBMrjIQPC12tVVxLusovhjr8rtvAzqm9tcdR
- uj8LKkML3qjtuRBpo6V1Lr2UoVo8ufDiKjvDtiipJ5QvIQPLqrBCKwbsh_gnBRwQ2VhksdD.7uSx
- ZYEZFXJtA7C.kOZ.icLFgFSATSXP5OfK_7r0KuSSuZPxbwQA8LZ6qpEslRZPHD9mhPnFdZgwahna
- YzJ3C6.TP4i7FG9qkF_2krBqLueCZVdpsE1POUrfkLlCvWkq076a_0KLZsuBK24XNBwD1TLtr5ZR
- iiFp34rCeQ6KGXxJtOI.EXqUW89f9MB.tGFjcsIzgOvfJqBKa1L5DjirIk2cFmXTEYXChwEdsj5J
- oFQSQ7_nxG7Dt3bzIvjkIw4yZFpVqa649OSMBBHC4tqAfKlHkKFgHWaJgTfAE_X3ccxh6tc1SIjw
- 1rNIT.UoCfGmcPVBHm53yDWeScStvm74PkaMwMgGP_22MXOsAegjmrXQC_YDjBc7TS2ODdRrdvuF
- _kWRkExB1D95cPRcSJd5O5HQRjZF.N5p.RR6aHWlYj9DG2wdvOsP581d6YF0jtDGjERJ.3c.253J
- i9JAHPgEy6sOSS.pu.ZwzLZFkMyopr3pu5sa9TqFjJdaR2x6aN1EazpH_MkjFZ8hdKJlXrh_pLAs
- 7.2NdtgN3JbCaMwLjCrDQOUBCwcAZ9Ka3B.JB908mpLnkscWl33x8oPPtAkb4GJeclgXOnvF3Lzr
- _QXbKH7HnXATL0Us4mEtaXWuAkRueensSocGOx4NzbK1aiicWkuG2KfPWLaQ6u0PzuFkYn5A-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.bf2.yahoo.com with HTTP; Thu, 28 May 2020 09:10:34 +0000
-Date:   Thu, 28 May 2020 09:10:30 +0000 (UTC)
-From:   Mrs Elodie Antoine <elodieanto9777@gmail.com>
-Reply-To: antoinm93@yahoo.com
-Message-ID: <2100449141.613181.1590657030852@mail.yahoo.com>
-Subject: Greetings from Mrs Elodie Antoine,
+        Thu, 28 May 2020 05:14:56 -0400
+Received: from mail-ua1-x941.google.com (mail-ua1-x941.google.com [IPv6:2607:f8b0:4864:20::941])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D80B3C08C5C4
+        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 02:14:55 -0700 (PDT)
+Received: by mail-ua1-x941.google.com with SMTP id b13so9436206uav.3
+        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 02:14:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/bUPBRUsoGA3duyrH2TeZMw5+oOeqgZqPYVv5N0Bp8E=;
+        b=Ne//iH640h/EEBEtqoCGfuf9pMzYa08gUSFPet3nUiWCMFf0CC/Gr2oVUm+Mf1G5pW
+         7I+c1si80x3o3epEQxzm7aObeVrftr8ivjyXsU0NJLnA6nlvfoZTIVtA94ZOOXhi8eY2
+         KaVs/FyPxbO3ByDFxkdYun2tB6/rHrXt7tlFKQzbSED4KznRDQMndxc/5jEe/eS9oibp
+         DphU8kmMLxd4jpPNExEYWjWzLiyT4OUBFwHyJj5kvH12rkSlaK7khY7SfOshYCYl61AT
+         yiPZjzm1mK5EqW9n3cipObQ28qNzKmCAS+U3Jml+uAqujflKxeH72CxxBdNIKtd0O2Bj
+         W7Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/bUPBRUsoGA3duyrH2TeZMw5+oOeqgZqPYVv5N0Bp8E=;
+        b=UPE6+AzC3gwcXMbJQyaeAFlxr6nPWrC+wu/KPmve1xxwwks0Xe6Yqhpzus7h8+44Xu
+         TwT22AAzOtZvqoaJ3rW9zjb3MX6STJA6EfE/u1Bf4u4mJDfREiJUcGNO4NiFBNm+MZHM
+         0ilx3pRSo7qdspZQ8kWe/XTqaj+VqU3gjzYm/q1DrQznjtfdvQRKlqLGD7yrB4VBdLbl
+         p3AuyhOgZIce//Knf8jIUY/2wQxJwlXrC7Y+6z4tFqjG9JzvYPX3g/iqikrNCWx2PIRB
+         6kRggaqs6DFHu6i6cnUwCyGmmYMc6n0xjIXzT/udJ29nt/FjPd+hvv5h5trbaq/rktp4
+         1gtQ==
+X-Gm-Message-State: AOAM533UE3JsnFvBIgXSDjrfT45Stvpg3B/RZqq/MNCHBxRS3P24xHsO
+        hU3cClX4605EYW7R1ylsUpLgZQYutpTJFC+GjEgQ/g==
+X-Google-Smtp-Source: ABdhPJyeBZDK+eRHDc8CWLgi/p/haWLcwq2ltlK4wv91Z0M2J35aG++4G2ilnQYUpjJaJ7F+JSrxGwE2JExC7SMR47U=
+X-Received: by 2002:ab0:13f2:: with SMTP id n47mr1188594uae.129.1590657294933;
+ Thu, 28 May 2020 02:14:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-References: <2100449141.613181.1590657030852.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.15959 YMailNodin Mozilla/5.0 (Windows NT 6.1; rv:76.0) Gecko/20100101 Firefox/76.0
-To:     unlisted-recipients:; (no To-header on input)
+References: <20200527082334.20774-1-tomi.valkeinen@ti.com>
+In-Reply-To: <20200527082334.20774-1-tomi.valkeinen@ti.com>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 28 May 2020 11:14:18 +0200
+Message-ID: <CAPDyKFqRa81q9EYFKB52kr6+EPJBK5u+4_hC0+ZnxU_axbxAZQ@mail.gmail.com>
+Subject: Re: [PATCHv2] media: videobuf2-dma-contig: fix bad kfree in vb2_dma_contig_clear_max_seg_size
+To:     Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "# 4.0+" <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, 27 May 2020 at 10:23, Tomi Valkeinen <tomi.valkeinen@ti.com> wrote:
+>
+> Commit 9495b7e92f716ab2bd6814fab5e97ab4a39adfdd ("driver core: platform:
+> Initialize dma_parms for platform devices") in v5.7-rc5 causes
+> vb2_dma_contig_clear_max_seg_size() to kfree memory that was not
+> allocated by vb2_dma_contig_set_max_seg_size().
+>
+> The assumption in vb2_dma_contig_set_max_seg_size() seems to be that
+> dev->dma_parms is always NULL when the driver is probed, and the case
+> where dev->dma_parms has bee initialized by someone else than the driver
+> (by calling vb2_dma_contig_set_max_seg_size) will cause a failure.
+>
+> All the current users of these functions are platform devices, which now
+> always have dma_parms set by the driver core. To fix the issue for v5.7,
+> make vb2_dma_contig_set_max_seg_size() return an error if dma_parms is
+> NULL to be on the safe side, and remove the kfree code from
+> vb2_dma_contig_clear_max_seg_size().
+>
+> For v5.8 we should remove the two functions and move the
+> dma_set_max_seg_size() calls into the drivers.
+>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+> Fixes: 9495b7e92f71 ("driver core: platform: Initialize dma_parms for platform devices")
+> Cc: stable@vger.kernel.org
+
+Thanks for fixing this!
+
+However, as I tried to point out in v1, don't you need to care about
+drivers/media/platform/s5p-mfc/s5p_mfc.c, which allocates its own type
+of struct device (non-platform). No?
+
+Kind regards
+Uffe
 
 
-Greetings from Mrs Elodie Antoine,
-
-Calvary Greetings in the name of the LORD Almighty and Our LORD JESUS CHRIST the giver of every good thing. Good day,i know this letter will definitely come to you as a huge surprise, but I implore you to take the time to go through it carefully as the decision you make will go off a long way to determine my future and continued existence. I am Mrs Elodie Antoine
-aging widow of 59 years old suffering from long time illness. I have some funds I inherited from my late husband,
-
-The sum of (US$4.5 Million Dollars) and I needed a very honest and God fearing who can withdraw this money then use the funds for Charity works. I WISH TO GIVE THIS FUNDS TO YOU FOR CHARITY WORKS. I found your email address from the internet after honest prayers to the LORD to bring me a helper and i decided to contact you if you may be willing and interested to handle these trust funds in good faith before anything happens to me.
-I accept this decision because I do not have any child who will inherit this money after I die. I want your urgent reply to me so that I will give you the deposit receipt which the COMPANY issued to me as next of kin for immediate transfer of the money to your account in your country, to start the good work of God, I want you to use the 15/percent of the total amount to help yourself in doing the project.
-
-
-I am desperately in keen need of assistance and I have summoned up courage to contact you for this task, you must not fail me and the millions of the poor people in our todays WORLD. This is no stolen money and there are no dangers involved,100% RISK FREE with full legal proof. Please if you would be able to use the funds for the Charity works kindly let me know immediately.I will appreciate your utmost confidentiality and trust in this matter to accomplish my heart desire, as I don't want anything that will jeopardize my last wish. I want you to take 15 percent of the total money for your personal use while 85% of the money will go to charity.I will appreciate your utmost confidentiality and trust in this matter to accomplish my heart desire, as I don't want anything that will jeopardize my last wish.
-
-
-kindly respond for further details.
-
-Thanks and God bless you,
-
-Mrs Elodie Antoine
+> ---
+>
+> Changes in v2:
+> * vb2_dma_contig_clear_max_seg_size to empty static inline
+> * Added cc: stable and fixes tag
+>
+>  .../common/videobuf2/videobuf2-dma-contig.c   | 20 ++-----------------
+>  include/media/videobuf2-dma-contig.h          |  2 +-
+>  2 files changed, 3 insertions(+), 19 deletions(-)
+>
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index d3a3ee5b597b..f4b4a7c135eb 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -726,9 +726,8 @@ EXPORT_SYMBOL_GPL(vb2_dma_contig_memops);
+>  int vb2_dma_contig_set_max_seg_size(struct device *dev, unsigned int size)
+>  {
+>         if (!dev->dma_parms) {
+> -               dev->dma_parms = kzalloc(sizeof(*dev->dma_parms), GFP_KERNEL);
+> -               if (!dev->dma_parms)
+> -                       return -ENOMEM;
+> +               dev_err(dev, "Failed to set max_seg_size: dma_parms is NULL\n");
+> +               return -ENODEV;
+>         }
+>         if (dma_get_max_seg_size(dev) < size)
+>                 return dma_set_max_seg_size(dev, size);
+> @@ -737,21 +736,6 @@ int vb2_dma_contig_set_max_seg_size(struct device *dev, unsigned int size)
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_dma_contig_set_max_seg_size);
+>
+> -/*
+> - * vb2_dma_contig_clear_max_seg_size() - release resources for DMA parameters
+> - * @dev:       device for configuring DMA parameters
+> - *
+> - * This function releases resources allocated to configure DMA parameters
+> - * (see vb2_dma_contig_set_max_seg_size() function). It should be called from
+> - * device drivers on driver remove.
+> - */
+> -void vb2_dma_contig_clear_max_seg_size(struct device *dev)
+> -{
+> -       kfree(dev->dma_parms);
+> -       dev->dma_parms = NULL;
+> -}
+> -EXPORT_SYMBOL_GPL(vb2_dma_contig_clear_max_seg_size);
+> -
+>  MODULE_DESCRIPTION("DMA-contig memory handling routines for videobuf2");
+>  MODULE_AUTHOR("Pawel Osciak <pawel@osciak.com>");
+>  MODULE_LICENSE("GPL");
+> diff --git a/include/media/videobuf2-dma-contig.h b/include/media/videobuf2-dma-contig.h
+> index 5604818d137e..5be313cbf7d7 100644
+> --- a/include/media/videobuf2-dma-contig.h
+> +++ b/include/media/videobuf2-dma-contig.h
+> @@ -25,7 +25,7 @@ vb2_dma_contig_plane_dma_addr(struct vb2_buffer *vb, unsigned int plane_no)
+>  }
+>
+>  int vb2_dma_contig_set_max_seg_size(struct device *dev, unsigned int size);
+> -void vb2_dma_contig_clear_max_seg_size(struct device *dev);
+> +static inline void vb2_dma_contig_clear_max_seg_size(struct device *dev) { }
+>
+>  extern const struct vb2_mem_ops vb2_dma_contig_memops;
+>
+> --
+> Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+> Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+>
