@@ -2,611 +2,500 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EE401E7067
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2020 01:26:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 070E11E7078
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2020 01:39:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437499AbgE1X0q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 May 2020 19:26:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41304 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437428AbgE1X0p (ORCPT
+        id S2437616AbgE1Xjk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 May 2020 19:39:40 -0400
+Received: from mail-il1-f196.google.com ([209.85.166.196]:35585 "EHLO
+        mail-il1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2436651AbgE1Xjh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 May 2020 19:26:45 -0400
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D522EC08C5C6
-        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 16:26:44 -0700 (PDT)
-Received: by mail-oi1-x243.google.com with SMTP id a7so494584oic.6
-        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 16:26:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=bWA3ja/4mIcCBBHTYutcLrsmmQI3CPN8D7mZQZVgNL0=;
-        b=ZXQvDwkKQAQyCvZraSEf/6zcXGVIAHK9oPJfbXo3sXvjfJWUNBCunzvbGWwF1WctCh
-         V5XUAxGXw5yKDh9LYoZuFslhD+8cghe3+pDkIA2lNprsu3UcuKiKlgeIhO8h+QmshL5L
-         JBTgcdQY2bnqBY+hVqquK4xDjIJEKVRTsY/bI=
+        Thu, 28 May 2020 19:39:37 -0400
+Received: by mail-il1-f196.google.com with SMTP id a14so757383ilk.2;
+        Thu, 28 May 2020 16:39:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=bWA3ja/4mIcCBBHTYutcLrsmmQI3CPN8D7mZQZVgNL0=;
-        b=ZAa8dkNB6srkSa79rFwIR/k5XsBKvBVsMmFauF8g8Y012l0CF0O84VFXbfks9BwIIS
-         G9a4j8YnkLiR5FWXJeIq43iV+/FBGjf/AnCA0VtQcCstW5nn0M7q8oMEK6jQYzPYR20g
-         fH36ihOxiaGcODnnPOBVnB1ZR+Ftdql17FAfTNAfEglzH4JFDtnjGRez9j2vyR1i61eM
-         KPN75Ti50hdqex4PitMENCCwPbHigF/6gscTxBYE7diaVlClK7ZbPGmzpcNg5YRD0e2/
-         7HwQ3zA0+JyOXyBxkGsl68nszO+Jt3GqwhfhWdzPna+zzi8iIDbcCeqzjVMyiPPXb0Wb
-         6DeA==
-X-Gm-Message-State: AOAM532HVSiJ2v9pTRgwENUkzgOrBqLoWBV769iAP0EeM1c17mquQbyX
-        2M9958rRcSCDPczQGfgkaYi/HA==
-X-Google-Smtp-Source: ABdhPJwak+opDIHzue/IOPIIaDji/VK7bRp2Yo9KWmIj7qxFG4kJt0wdxqcL9ugfwGFxVOqTlJJClg==
-X-Received: by 2002:aca:c34d:: with SMTP id t74mr4058488oif.88.1590708403986;
-        Thu, 28 May 2020 16:26:43 -0700 (PDT)
-Received: from [192.168.1.112] (c-24-9-64-241.hsd1.co.comcast.net. [24.9.64.241])
-        by smtp.gmail.com with ESMTPSA id 6sm2030101otg.36.2020.05.28.16.26.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 May 2020 16:26:43 -0700 (PDT)
-Subject: Re: [RFC, WIP, v6 02/10] media: vidtv: implement a tuner driver
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        mchehab+huawei@kernel.org, sean@mess.org,
-        kstewart@linuxfoundation.org, allison@lohutok.net,
-        tglx@linutronix.de
-Cc:     linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-References: <20200520070334.1778751-1-dwlsalmeida@gmail.com>
- <20200520070334.1778751-3-dwlsalmeida@gmail.com>
-From:   Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <deb6b49a-5f50-1d40-6577-84fe787150ec@linuxfoundation.org>
-Date:   Thu, 28 May 2020 17:26:41 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=gE1gDgNBuPi5e0HAMpJgQzNFeQcNvPdfUcm6V9XeQmo=;
+        b=Ay/LyBcDERE7aW5Shn46urRbaruHJs5itOoXNNsF1OKYeDz1xfQYDSiTM92cu1AuQG
+         XIh8GSSJZ8UIV+MO1WBjs/YjnoRfRpPlvNtVHmAZ735T+sRMmcJEpGgUmQMrunJcYsQp
+         3pXKgpYfaW2ZCWVG85F5ZYMFmsWhM3FYXz+DOPpYH/04MQFswDtn0coMgdv1jZe//tVf
+         5rOPqPeEGpIl3MC95N1MT1TCbarKUAGsnJ1TpcgkdR2H1aUKfcX5xDJ0LHwlYwawkFbE
+         5xQUhAsXeAyI4427RcqB94bq2eDZORCnDxhushMqJJIefCjmaSFMtfY6g4/RLpLtUrRH
+         UakA==
+X-Gm-Message-State: AOAM530o4o1OTLSxro005ozYB1xds5ei38XkAZzuuD3uVD4o35kQa7yY
+        eMdZBbDxI/SX5v+1CUWgzQ==
+X-Google-Smtp-Source: ABdhPJyM9YlCkS92lCjJmzQHVB/H6PKgNGcZG3mzPkzhF4k1gMD6AAzX6dTtlYYpCzcOJU7uD2R3dA==
+X-Received: by 2002:a92:4885:: with SMTP id j5mr4705899ilg.35.1590709174706;
+        Thu, 28 May 2020 16:39:34 -0700 (PDT)
+Received: from xps15 ([64.188.179.252])
+        by smtp.gmail.com with ESMTPSA id l16sm3901738ils.64.2020.05.28.16.39.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 May 2020 16:39:34 -0700 (PDT)
+Received: (nullmailer pid 890559 invoked by uid 1000);
+        Thu, 28 May 2020 23:39:33 -0000
+Date:   Thu, 28 May 2020 17:39:33 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [Patch 1/2] dt-binbings: media: ti-vpe: Document the VIP driver
+Message-ID: <20200528233933.GA881467@bogus>
+References: <20200522225412.29440-1-bparrot@ti.com>
+ <20200522225412.29440-2-bparrot@ti.com>
 MIME-Version: 1.0
-In-Reply-To: <20200520070334.1778751-3-dwlsalmeida@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200522225412.29440-2-bparrot@ti.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 5/20/20 1:03 AM, Daniel W. S. Almeida wrote:
-> From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+On Fri, May 22, 2020 at 05:54:11PM -0500, Benoit Parrot wrote:
+> Device Tree bindings for the Video Input Port (VIP) driver.
 
-Are you using git send-email to send patches. Why do have this
- From line in here? Same comment on all other patches in this series.
+Bindings document h/w, not drivers.
 
 > 
-> The virtual DVB test driver serves as a reference DVB driver and helps
-> validate the existing APIs in the media subsystem. It can also aid developers
-> working on userspace applications.
-> 
-> This dummy tuner should support common TV standards such as DVB-T/T2/S/S2,
-> ISDB-T and ATSC when completed.
-> 
-> Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
 > ---
->   drivers/media/test-drivers/vidtv/Makefile     |   3 +
->   .../media/test-drivers/vidtv/vidtv_tuner.c    | 408 ++++++++++++++++++
->   .../media/test-drivers/vidtv/vidtv_tuner.h    |  26 ++
->   3 files changed, 437 insertions(+)
->   create mode 100644 drivers/media/test-drivers/vidtv/vidtv_tuner.c
->   create mode 100644 drivers/media/test-drivers/vidtv/vidtv_tuner.h
+>  .../devicetree/bindings/media/ti,vip.yaml     | 394 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 395 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/ti,vip.yaml
 > 
-> diff --git a/drivers/media/test-drivers/vidtv/Makefile b/drivers/media/test-drivers/vidtv/Makefile
-> index d1558d84eeaed..58e022c094e5e 100644
-> --- a/drivers/media/test-drivers/vidtv/Makefile
-> +++ b/drivers/media/test-drivers/vidtv/Makefile
-> @@ -1,2 +1,5 @@
->   # SPDX-License-Identifier: GPL-2.0
->   
-> +dvb-vidtv-tuner-objs := vidtv_tuner.o
-> +
-> +obj-$(CONFIG_DVB_VIDTV)	+= dvb-vidtv-tuner.o
-> diff --git a/drivers/media/test-drivers/vidtv/vidtv_tuner.c b/drivers/media/test-drivers/vidtv/vidtv_tuner.c
+> diff --git a/Documentation/devicetree/bindings/media/ti,vip.yaml b/Documentation/devicetree/bindings/media/ti,vip.yaml
 > new file mode 100644
-> index 0000000000000..3f2b4b9a6d568
+> index 000000000000..8a9084e42329
 > --- /dev/null
-> +++ b/drivers/media/test-drivers/vidtv/vidtv_tuner.c
-> @@ -0,0 +1,408 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * The Virtual DVB test driver serves as a reference DVB driver and helps
-> + * validate the existing APIs in the media subsystem. It can also aid
-> + * developers working on userspace applications.
-> + *
-> + * The vidtv tuner should support common TV standards such as
-> + * DVB-T/T2/S/S2, ISDB-T and ATSC when completed.
-> + *
-> + * Written by Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-
-Use Copyright (C) 2020 Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-
-Check other drivers for reference. Do the same in all other files
-in this series.
-
-> + */
+> +++ b/Documentation/devicetree/bindings/media/ti,vip.yaml
+> @@ -0,0 +1,394 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/ti,vip.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +#define pr_fmt(fmt) KBUILD_MODNAME ":%s, %d: " fmt, __func__, __LINE__
+> +title: Texas Instruments DRA7x VIDEO INPUT PORT (VIP) Device Tree Bindings
 > +
-> +#include <linux/errno.h>
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/slab.h>
-> +#include <linux/types.h>
-> +#include <media/dvb_frontend.h>
-> +#include <linux/printk.h>
-> +#include <linux/ratelimit.h>
+> +maintainers:
+> +  - Benoit Parrot <bparrot@ti.com>
 > +
-> +#include "vidtv_tuner.h"
+> +description: |-
+> +  The Video Input Port (VIP) is a key component for image capture
+> +  applications. The capture module provides the system interface and the
+> +  processing capability to connect parallel image-sensor as well as
+> +  BT.656/1120 capable encoder chip to DRA7x device.
 > +
-> +MODULE_DESCRIPTION("Virtual DVB Tuner");
-> +MODULE_AUTHOR("Daniel W. S. Almeida");
-> +MODULE_LICENSE("GPL");
+> +  Each VIP instance supports 2 independently configurable external video
+> +  input capture slices (Slice 0 and Slice 1) each providing up to two video
+> +  input ports (Port A and Port B) where Port A can be configured as
+> +  24/16/8-bit port and Port B is fixed as 8-bit port.
+> +  Here these ports a represented as follows
+> +    port@0 -> Slice 0 Port A
+> +    port@1 -> Slice 0 Port B
+> +    port@2 -> Slice 1 Port A
+> +    port@3 -> Slice 1 Port B
 > +
-> +struct vidtv_tuner_cnr_to_qual_s {
-> +	/* attempt to use the same values as libdvbv5 */
-> +	u32 modulation;
-> +	u32 fec;
-> +	u32 cnr_ok, cnr_good;
+> +  Each camera port nodes should contain a 'port' child node with child
+> +  'endpoint' node. Please refer to the bindings defined in
+> +  Documentation/devicetree/bindings/media/video-interfaces.txt.
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,dra7-vip
+> +
+> +  label:
+> +    description: Instance name
 
-Add cnr_good on a separate line.
-	u32 cnr_good;
-> +};
-
-Add a comment for each of these fields describing
-what they are for.
+Kind of odd for this type of binding. Are there a define set or pattern 
+of values.
 
 > +
-> +static const struct vidtv_tuner_cnr_to_qual_s vidtv_tuner_c_cnr_2_qual[] = {
-> +	/* from libdvbv5 source code, in milli db */
-> +	{ QAM_256, FEC_NONE,  34000, 38000},
-> +	{ QAM_64,  FEC_NONE,  30000, 34000},
-> +};
+> +  reg:
+> +    items:
+> +      - description: The VIP main register region
+> +      - description: Video Data Parser (PARSER) register region for Slice0
+> +      - description: Color Space Conversion (CSC) register region for Slice0
+> +      - description: Scaler (SC) register region for Slice0
+> +      - description: Video Data Parser (PARSER) register region for Slice1
+> +      - description: Color Space Conversion (CSC) register region for Slice1
+> +      - description: Scaler (SC) register region for Slice1
+> +      - description: Video Port Direct Memory Access (VPDMA) register region
 > +
-> +static const struct vidtv_tuner_cnr_to_qual_s vidtv_tuner_s_cnr_2_qual[] = {
-> +	/* from libdvbv5 source code, in milli db */
-> +	{ QPSK, FEC_1_2,  7000, 10000},
+> +  reg-names:
+> +    items:
+> +      - const: vip
+> +      - const: parser0
+> +      - const: csc0
+> +      - const: sc0
+> +      - const: parser1
+> +      - const: csc1
+> +      - const: sc1
+> +      - const: vpdma
 > +
+> +  interrupts:
+> +    minItems: 2
+> +    description:
+> +      IRQ index 0 is used for Slice0 interrupts
+> +      IRQ index 1 is used for Slice1 interrupts
+> +
+> +  ti,vip-clk-polarity:
+> +    $ref: "/schemas/types.yaml#/definitions/phandle-array"
+> +    description:
+> +      phandle to the device control module. The 1st argument should
+> +      contain the register offset to the CTRL_CORE_SMA_SW_1 register.
+> +      2nd argument contains the bit field to slice 0 port A,
+> +      3rd argument contains the bit field to slice 0 port B,
+> +      4th argument contains the bit field to slice 1 port A,
+> +      5th argument contains the bit field to slice 1 port B.
+> +
+> +  # See ./video-interfaces.txt for details
+> +  ports:
+> +    type: object
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      port@0:
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +            description: Slice 0 Port A
+> +
+> +          label:
+> +            description: Port name. Usually the pin group name
+> +
+> +        patternProperties:
+> +          endpoint:
+> +            type: object
+> +            additionalProperties: false
+> +
+> +            properties:
+> +              hsync-active:
+> +                maxItems: 1
 
-Any reason for this blank line here?
+Not an array. Just:
 
-> +	{ QPSK, FEC_2_3,  9000, 12000},
-> +	{ QPSK, FEC_3_4, 10000, 13000},
-> +	{ QPSK, FEC_5_6, 11000, 14000},
-> +
-
-Any reason for this blank line here?
-
-> +	{ QPSK, FEC_7_8, 12000, 15000},
-> +};
-> +
-> +static const struct vidtv_tuner_cnr_to_qual_s vidtv_tuner_s2_cnr_2_qual[] = {
-> +	/* from libdvbv5 source code, in milli db */
-> +	{ QPSK,  FEC_1_2,   9000,  12000},
-> +	{ QPSK,  FEC_2_3,  11000,  14000},
-> +	{ QPSK,  FEC_3_4,  12000,  15000},
-> +	{ QPSK,  FEC_5_6,  12000,  15000},
-> +	{ QPSK,  FEC_8_9,  13000,  16000},
-> +	{ QPSK,  FEC_9_10, 13500,  16500},
-> +	{ PSK_8, FEC_2_3,  14500,  17500},
-> +	{ PSK_8, FEC_3_4,  16000,  19000},
-> +	{ PSK_8, FEC_5_6,  17500,  20500},
-> +	{ PSK_8, FEC_8_9,  19000,  22000},
-> +};
-> +
-> +static const struct vidtv_tuner_cnr_to_qual_s vidtv_tuner_t_cnr_2_qual[] = {
-> +	/* from libdvbv5 source code, in milli db*/
-> +	{   QPSK, FEC_1_2,  4100,  5900},
-> +	{   QPSK, FEC_2_3,  6100,  9600},
-> +	{   QPSK, FEC_3_4,  7200, 12400},
-> +	{   QPSK, FEC_5_6,  8500, 15600},
-> +	{   QPSK, FEC_7_8,  9200, 17500},
-> +
-> +	{ QAM_16, FEC_1_2,  9800, 11800},
-> +	{ QAM_16, FEC_2_3, 12100, 15300},
-> +	{ QAM_16, FEC_3_4, 13400, 18100},
-> +	{ QAM_16, FEC_5_6, 14800, 21300},
-> +	{ QAM_16, FEC_7_8, 15700, 23600},
-> +
-> +	{ QAM_64, FEC_1_2, 14000, 16000},
-> +	{ QAM_64, FEC_2_3, 19900, 25400},
-> +	{ QAM_64, FEC_3_4, 24900, 27900},
-> +	{ QAM_64, FEC_5_6, 21300, 23300},
-> +	{ QAM_64, FEC_7_8, 22000, 24000},
-> +};
-> +
-> +struct vidtv_tuner_hardware_state {
-> +	bool asleep;
-> +	u32 lock_status;
-> +	u32 if_frequency;
-> +	u32 tuned_frequency;
-> +	u32 bandwidth;
-> +};
-> +
-
-Add a comment for each of these fields describing
-what they are for.
-
-> +struct vidtv_tuner_dev {
-> +	struct dvb_frontend *fe;
-> +	struct vidtv_tuner_hardware_state hw_state;
-> +	struct vidtv_tuner_config config;
-> +};
-> +
-
-Add a comment for each of these fields describing
-what they are for.
-
-> +static struct vidtv_tuner_dev*
-> +vidtv_tuner_get_dev(struct dvb_frontend *fe)
-> +{
-> +	struct i2c_client *client = fe->tuner_priv;
-> +
-> +	return i2c_get_clientdata(client);
-
-Why not simplfy this to just return i2c_get_clientdata(fe->tuner_priv)
-Safer to check if tuner_priv is valid.
-
-> +}
-> +
-> +static s32 vidtv_tuner_check_frequency_shift(struct dvb_frontend *fe)
-> +{
-> +	struct vidtv_tuner_dev *tuner_dev = vidtv_tuner_get_dev(fe);
-> +	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
-> +	struct vidtv_tuner_config config  = tuner_dev->config;
-> +	u32    *valid_freqs               = NULL;
-> +	u32    array_sz                   = 0;
-> +	u32 i;
-> +	u32 shift;
-
-Align i and shift with the rest of the variables.
+hsync-active: true
 
 > +
-> +	switch (c->delivery_system) {
+> +              vsync-active:
+> +                maxItems: 1
+> +
+> +              pclk-sample:
+> +                maxItems: 1
+> +
+> +              bus-width:
+> +                maxItems: 1
 
-Add indetation for the below:
-
-> +	case SYS_DVBT:
-> +	case SYS_DVBT2:
-> +		valid_freqs = config.vidtv_valid_dvb_t_freqs;
-> +		array_sz    = ARRAY_SIZE(config.vidtv_valid_dvb_t_freqs);
-> +		break;
-> +	case SYS_DVBS:
-> +	case SYS_DVBS2:
-> +		valid_freqs = config.vidtv_valid_dvb_s_freqs;
-> +		array_sz    = ARRAY_SIZE(config.vidtv_valid_dvb_s_freqs);
-> +		break;
-> +	case SYS_DVBC_ANNEX_A:
-> +		valid_freqs = config.vidtv_valid_dvb_c_freqs;
-> +		array_sz    = ARRAY_SIZE(config.vidtv_valid_dvb_c_freqs);
-> +		break;
-> +
-> +	default:
-> +		pr_warn("%s: unsupported delivery system: %u\n",
-> +			__func__,
-> +			c->delivery_system);
-> +
-> +		return -EINVAL;
-> +	}
-> +
-> +	for (i = 0; i < array_sz; i++) {
-> +		shift = abs(c->frequency - valid_freqs[i]);
-> +
-> +		if (!shift)
-> +			return 0;
-> +
-> +		/*
-> +		 * This will provide a value from 0 to 100 that would
-> +		 * indicate how far is the tuned frequency from the
-> +		 * right one.
-> +		 */
-> +		if (shift < config.max_frequency_shift_hz)
-> +			return shift * 100 / config.max_frequency_shift_hz;
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static int
-> +vidtv_tuner_get_signal_strength(struct dvb_frontend *fe, u16 *strength)
-> +{
-> +	struct dtv_frontend_properties *c          = &fe->dtv_property_cache;
-
-Why do you need white spaces between *c and assignment?
-
-> +	const struct vidtv_tuner_cnr_to_qual_s *cnr2qual = NULL;
-> +	u32    array_size                          = 0;
-
-Same here. Don't align them when it doesn't make sense. This makes
-it not readable.
-
-> +	s32 shift;
-> +	u32 i;
-> +
-> +	shift = vidtv_tuner_check_frequency_shift(fe);
-> +
-> +	switch (c->delivery_system) {
-
-Ident.
-
-> +	case SYS_DVBT:
-> +	case SYS_DVBT2:
-> +		cnr2qual   = vidtv_tuner_t_cnr_2_qual;
-> +		array_size = ARRAY_SIZE(vidtv_tuner_t_cnr_2_qual);
-> +		break;
-> +
-> +	case SYS_DVBS:
-> +		cnr2qual   = vidtv_tuner_s_cnr_2_qual;
-> +		array_size = ARRAY_SIZE(vidtv_tuner_s_cnr_2_qual);
-> +		break;
-> +
-> +	case SYS_DVBS2:
-> +		cnr2qual   = vidtv_tuner_s2_cnr_2_qual;
-> +		array_size = ARRAY_SIZE(vidtv_tuner_s2_cnr_2_qual);
-> +		break;
-> +
-> +	case SYS_DVBC_ANNEX_A:
-> +		cnr2qual   = vidtv_tuner_c_cnr_2_qual;
-> +		array_size = ARRAY_SIZE(vidtv_tuner_c_cnr_2_qual);
-> +		break;
-> +
-> +	default:
-> +		pr_warn_ratelimited("%s: unsupported delivery system: %u\n",
-> +				    __func__,
-> +				    c->delivery_system);
-> +		return -EINVAL;
-> +	}
-> +
-> +	for (i = 0; i <= array_size; i++) {
-> +		if (cnr2qual[i].modulation != c->modulation ||
-> +		    cnr2qual[i].fec != c->fec_inner)
-> +			continue;
-> +
-> +		if (!shift) {
-> +			*strength = cnr2qual[i].cnr_good;
-> +			return 0;
-> +		}
-> +		if (shift < 0) {	/* Channel not tuned */
-> +			*strength = 0;
-> +			return 0;
-> +		}
-> +		/*
-> +		 * Channel tuned at wrong frequency. Simulate that the
-> +		 * Carrier S/N ratio is not too good.
-> +		 */
-> +
-> +		*strength = cnr2qual[i].cnr_ok -
-> +			    (cnr2qual[i].cnr_good - cnr2qual[i].cnr_ok);
-> +		return 0;
-> +	}
-> +
-> +	/*
-> +	 * do a linear interpolation between 34dB and 10dB if we can't
-> +	 * match against the table
-> +	 */
-> +	*strength = 34 - 24 * shift / 100;
-> +	return 0;
-> +}
-> +
-> +static int vidtv_tuner_init(struct dvb_frontend *fe)
-> +{
-> +	struct vidtv_tuner_dev *tuner_dev = vidtv_tuner_get_dev(fe);
-> +	struct vidtv_tuner_config config  = tuner_dev->config;
-> +
-> +	msleep_interruptible(config.mock_power_up_delay_msec);
-> +
-> +	tuner_dev->hw_state.asleep       = false;
-> +	tuner_dev->hw_state.if_frequency = 5000;
-
-There is no need to align these.
+Not an array. What subset of values are allowed?
 
 > +
-> +	return 0;
-> +}
+> +              ti,vip-pixel-mux:
+> +                type: boolean
+> +                description:
+> +                  In BT656/1120 mode, this enable pixel-muxing if
+> +                  the number of channels is either 1, 2 or 4. If this
+> +                  property is present then pixel-muxing is enabled
+> +                  otherwise it will use line-muxing.
 > +
-> +static int vidtv_tuner_sleep(struct dvb_frontend *fe)
-> +{
-> +	struct vidtv_tuner_dev *tuner_dev = vidtv_tuner_get_dev(fe);
+> +              ti,vip-channels:
+> +                $ref: "/schemas/types.yaml#definitions/uint8-array"
+> +                minItems: 1
+> +                maxItems: 16
+> +                description: |-
+> +                  In BT656/1120 mode, list of channel ids to be captured.
+> +                  If the property is not present then 1 channel is assumed.
 > +
-> +	tuner_dev->hw_state.asleep = true;
-> +	return 0;
-> +}
+> +              remote-endpoint: true
 > +
-> +static int vidtv_tuner_suspend(struct dvb_frontend *fe)
-> +{
-> +	struct vidtv_tuner_dev *tuner_dev = vidtv_tuner_get_dev(fe);
+> +        required:
+> +          - reg
+> +          - label
 > +
-> +	tuner_dev->hw_state.asleep = true;
-> +	return 0;
-> +}
+> +      port@1:
+> +        type: object
+> +        additionalProperties: false
 > +
-> +static int vidtv_tuner_resume(struct dvb_frontend *fe)
-> +{
-> +	struct vidtv_tuner_dev *tuner_dev = vidtv_tuner_get_dev(fe);
+> +        properties:
+> +          reg:
+> +            const: 1
+> +            description: Slice 0 Port B
 > +
-> +	tuner_dev->hw_state.asleep = false;
-> +	return 0;
-> +}
+> +          label:
+> +            description: Port name. Usually the pin group name
 > +
-> +static int vidtv_tuner_set_params(struct dvb_frontend *fe)
-> +{
-> +	struct vidtv_tuner_dev *tuner_dev = vidtv_tuner_get_dev(fe);
-> +	struct vidtv_tuner_config config  = tuner_dev->config;
-> +	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
+> +        patternProperties:
+> +          endpoint:
+> +            type: object
+> +            additionalProperties: false
+> +
+> +            properties:
+> +              hsync-active:
+> +                maxItems: 1
+> +
+> +              vsync-active:
+> +                maxItems: 1
+> +
+> +              pclk-sample:
+> +                maxItems: 1
+> +
+> +              bus-width:
+> +                maxItems: 1
+> +
+> +              ti,vip-pixel-mux:
+> +                type: boolean
+> +                description:
+> +                  In BT656/1120 mode, this enable pixel-muxing if
+> +                  the number of channels is either 1, 2 or 4. If this
+> +                  property is present then pixel-muxing is enabled
+> +                  otherwise it will use line-muxing.
+> +
+> +              ti,vip-channels:
+> +                $ref: "/schemas/types.yaml#definitions/uint8-array"
+> +                minItems: 1
+> +                maxItems: 16
+> +                description:
+> +                  In BT656/1120 mode, list of channel ids to be captured.
+> +                  If the property is not present then 1 channel is assumed.
+> +
+> +              remote-endpoint: true
+> +
+> +        required:
+> +          - reg
+> +          - label
+> +
+> +      port@2:
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        properties:
+> +          reg:
+> +            const: 2
+> +            description: Slice 1 Port A
+> +
+> +          label:
+> +            description: Port name. Usually the pin group name
+> +
+> +        patternProperties:
+> +          endpoint:
+> +            type: object
+> +            additionalProperties: false
+> +
+> +            properties:
+> +              hsync-active:
+> +                maxItems: 1
+> +
+> +              vsync-active:
+> +                maxItems: 1
+> +
+> +              pclk-sample:
+> +                maxItems: 1
+> +
+> +              bus-width:
+> +                maxItems: 1
+> +
+> +              ti,vip-pixel-mux:
+> +                type: boolean
+> +                description:
+> +                  In BT656/1120 mode, this enable pixel-muxing if
+> +                  the number of channels is either 1, 2 or 4. If this
+> +                  property is present then pixel-muxing is enabled
+> +                  otherwise it will use line-muxing.
+> +
+> +              ti,vip-channels:
+> +                $ref: "/schemas/types.yaml#definitions/uint8-array"
+> +                minItems: 1
+> +                maxItems: 16
+> +                description:
+> +                  In BT656/1120 mode, list of channel ids to be captured.
+> +                  If the property is not present then 1 channel is assumed.
+> +
+> +              remote-endpoint: true
+> +
+> +        required:
+> +          - reg
+> +          - label
+> +
+> +      port@3:
+> +        type: object
+> +        additionalProperties: false
+> +
+> +        properties:
+> +          reg:
+> +            const: 3
+> +            description: Slice 1 Port B
+> +
+> +          label:
+> +            description: Port name. Usually the pin group name
+> +
+> +        patternProperties:
+> +          endpoint:
+> +            type: object
+> +            additionalProperties: false
+> +
+> +            properties:
+> +              hsync-active:
+> +                maxItems: 1
+> +
+> +              vsync-active:
+> +                maxItems: 1
+> +
+> +              pclk-sample:
+> +                maxItems: 1
+> +
+> +              bus-width:
+> +                maxItems: 1
+> +
+> +              ti,vip-pixel-mux:
+> +                type: boolean
+> +                description:
+> +                  In BT656/1120 mode, this enable pixel-muxing if
+> +                  the number of channels is either 1, 2 or 4. If this
+> +                  property is present then pixel-muxing is enabled
+> +                  otherwise it will use line-muxing.
+> +
+> +              ti,vip-channels:
+> +                $ref: "/schemas/types.yaml#definitions/uint8-array"
+> +                minItems: 1
+> +                maxItems: 16
+> +                description:
+> +                  In BT656/1120 mode, list of channel ids to be captured.
+> +                  If the property is not present then 1 channel is assumed.
+> +
+> +              remote-endpoint: true
 
-Add a blank line and don't try to align these. Looks very odd.
+If all the properties are the same across ports, then do a 
+patternProperties with '^port@' and define them there. You'll still need 
+'port@0', etc. to define what each port is.
 
-> +	u32    min_freq               = fe->ops.tuner_ops.info.frequency_min_hz;
-> +	u32    max_freq               = fe->ops.tuner_ops.info.frequency_max_hz;
-> +	u32    min_bw                 = fe->ops.tuner_ops.info.bandwidth_min;
-> +	u32    max_bw                 = fe->ops.tuner_ops.info.bandwidth_max;
 > +
-> +	if (c->frequency < min_freq  || c->frequency > max_freq  ||
-> +	    c->bandwidth_hz < min_bw || c->bandwidth_hz > max_bw) {
-> +		tuner_dev->hw_state.lock_status = 0;
-> +		return -EINVAL;
-> +	}
+> +        required:
+> +          - reg
+> +          - label
 > +
-> +	tuner_dev->hw_state.tuned_frequency = c->frequency;
-> +	tuner_dev->hw_state.bandwidth       = c->bandwidth_hz;
-> +	tuner_dev->hw_state.lock_status     = TUNER_STATUS_LOCKED;
+> +    required:
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +      - port@0
 > +
-> +	msleep_interruptible(config.mock_tune_delay_msec);
-> +	return 0;
-> +}
+> +required:
+> +  - compatible
+> +  - label
+> +  - reg
+> +  - reg-names
+> +  - interrupts
+> +  - ti,vip-clk-polarity
 > +
-> +static int vidtv_tuner_set_config(struct dvb_frontend *fe,
-> +				  void *priv_cfg)
-> +{
-> +	struct vidtv_tuner_dev *tuner_dev = vidtv_tuner_get_dev(fe);
+> +additionalProperties: false
 > +
-> +	memcpy(&tuner_dev->config, priv_cfg, sizeof(tuner_dev->config));
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
 > +
-> +	return 0;
-> +}
+> +    vip1: vip@48970000 {
+> +        compatible = "ti,dra7-vip";
+> +        label = "vip1";
+> +        reg = <0x48970000 0x114>,
+> +              <0x48975500 0xD8>,
+> +              <0x48975700 0x18>,
+> +              <0x48975800 0x80>,
+> +              <0x48975a00 0xD8>,
+> +              <0x48975c00 0x18>,
+> +              <0x48975d00 0x80>,
+> +              <0x4897d000 0x400>;
+> +        reg-names = "vip",
+> +                    "parser0",
+> +                    "csc0",
+> +                    "sc0",
+> +                    "parser1",
+> +                    "csc1",
+> +                    "sc1",
+> +                    "vpdma";
+> +        interrupts = <GIC_SPI 351 IRQ_TYPE_LEVEL_HIGH>,
+> +                     <GIC_SPI 392 IRQ_TYPE_LEVEL_HIGH>;
+> +        ti,vip-clk-polarity = <&scm_conf 0x534 0x1 0x4 0x2 0x8>;
 > +
-> +static int vidtv_tuner_get_frequency(struct dvb_frontend *fe,
-> +				     u32 *frequency)
-> +{
-> +	struct vidtv_tuner_dev *tuner_dev = vidtv_tuner_get_dev(fe);
+> +        ports {
+> +              #address-cells = <1>;
+> +              #size-cells = <0>;
 > +
-> +	*frequency = tuner_dev->hw_state.tuned_frequency;
+> +              vin1a: port@0 {
+> +                    reg = <0>;
+> +                    label = "vin1a";
 > +
-> +	return 0;
-> +}
+> +                    vin1a_ep: endpoint {
+> +                           remote-endpoint = <&camera1>;
+> +                           hsync-active = <1>;
+> +                           vsync-active = <1>;
+> +                           pclk-sample = <0>;
+> +                           bus-width = <8>;
+> +                    };
+> +              };
+> +              vin1b: port@1 {
+> +                    reg = <1>;
+> +                    label = "vin1b";
+> +              };
+> +              vin2a: port@2 {
+> +                    reg = <2>;
+> +                    label = "vin2a";
+> +              };
+> +              vin2b: port@3 {
+> +                    reg = <3>;
+> +                    label = "vin2b";
+> +              };
+> +         };
+> +    };
 > +
-> +static int vidtv_tuner_get_bandwidth(struct dvb_frontend *fe,
-> +				     u32 *bandwidth)
-> +{
-> +	struct vidtv_tuner_dev *tuner_dev = vidtv_tuner_get_dev(fe);
+> +    i2c {
+> +        clock-frequency = <400000>;
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
 > +
-> +	*bandwidth = tuner_dev->hw_state.bandwidth;
+> +         camera@37 {
+> +              compatible = "ovti,ov10633";
+> +              reg = <0x37>;
 > +
-> +	return 0;
-> +}
+> +              clocks = <&fixed_clock>;
+> +              clocks-names = "xvclk";
 > +
-> +static int vidtv_tuner_get_if_frequency(struct dvb_frontend *fe,
-> +					u32 *frequency)
-> +{
-> +	struct vidtv_tuner_dev *tuner_dev = vidtv_tuner_get_dev(fe);
+> +              port {
+> +                   camera1: endpoint {
+> +                           remote-endpoint = <&vin1a_ep>;
+> +                           hsync-active = <1>;
+> +                           vsync-active = <1>;
+> +                           pclk-sample = <0>;
+> +                           bus-width = <8>;
+> +                   };
+> +              };
+> +         };
+> +    };
 > +
-> +	*frequency = tuner_dev->hw_state.if_frequency;
-> +
-> +	return 0;
-> +}
-> +
-> +static int vidtv_tuner_get_status(struct dvb_frontend *fe, u32 *status)
-> +{
-> +	struct vidtv_tuner_dev *tuner_dev = vidtv_tuner_get_dev(fe);
-> +
-> +	*status = tuner_dev->hw_state.lock_status;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct dvb_tuner_ops vidtv_tuner_ops = {
-> +	.init             = vidtv_tuner_init,
-> +	.sleep            = vidtv_tuner_sleep,
-> +	.suspend          = vidtv_tuner_suspend,
-> +	.resume           = vidtv_tuner_resume,
-> +	.set_params       = vidtv_tuner_set_params,
-> +	.set_config       = vidtv_tuner_set_config,
-> +	.get_bandwidth    = vidtv_tuner_get_bandwidth,
-> +	.get_frequency    = vidtv_tuner_get_frequency,
-> +	.get_if_frequency = vidtv_tuner_get_if_frequency,
-> +	.get_status       = vidtv_tuner_get_status,
-> +	.get_rf_strength  = vidtv_tuner_get_signal_strength
-> +};
-> +
-> +static const struct i2c_device_id vidtv_tuner_i2c_id_table[] = {
-> +	{"vidtv_tuner", 0},
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(i2c, vidtv_tuner_i2c_id_table);
-> +
-> +static int vidtv_tuner_i2c_probe(struct i2c_client *client,
-> +				 const struct i2c_device_id *id)
-> +{
-> +	struct vidtv_tuner_config *config = client->dev.platform_data;
-> +	struct dvb_frontend *fe           = config->fe;
-> +	struct vidtv_tuner_dev *tuner_dev = NULL;
-> +
-> +	tuner_dev = kzalloc(sizeof(*tuner_dev), GFP_KERNEL);
-> +	if (!tuner_dev)
-> +		return -ENOMEM;
-> +
-> +	tuner_dev->fe = config->fe;
-> +	i2c_set_clientdata(client, tuner_dev);
-> +
-> +	memcpy(&fe->ops.tuner_ops,
-> +	       &vidtv_tuner_ops,
-> +	       sizeof(struct dvb_tuner_ops));
-> +
-> +	fe->tuner_priv = client;
-> +
-> +	return 0;
-> +}
-> +
-> +static int vidtv_tuner_i2c_remove(struct i2c_client *client)
-> +{
-> +	struct vidtv_tuner_dev *tuner_dev = i2c_get_clientdata(client);
-> +	struct dvb_frontend *fe           = tuner_dev->fe;
-> +
-> +	memset(&fe->ops.tuner_ops, 0, sizeof(struct dvb_tuner_ops));
-> +	fe->tuner_priv = NULL;
-> +	kfree(tuner_dev);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct i2c_driver vidtv_tuner_i2c_driver = {
-> +	.driver = {
-> +		.name                = "vidtv_tuner",
-> +		.suppress_bind_attrs = true,
-> +	},
-> +	.probe    = vidtv_tuner_i2c_probe,
-> +	.remove   = vidtv_tuner_i2c_remove,
-> +	.id_table = vidtv_tuner_i2c_id_table,
-> +};
-> +module_i2c_driver(vidtv_tuner_i2c_driver);
-> diff --git a/drivers/media/test-drivers/vidtv/vidtv_tuner.h b/drivers/media/test-drivers/vidtv/vidtv_tuner.h
-> new file mode 100644
-> index 0000000000000..46407739f5d44
-> --- /dev/null
-> +++ b/drivers/media/test-drivers/vidtv/vidtv_tuner.h
-> @@ -0,0 +1,26 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * The Virtual DTV test driver serves as a reference DVB driver and helps
-> + * validate the existing APIs in the media subsystem. It can also aid
-> + * developers working on userspace applications.
-> + *
-> + * Written by Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-> + */
-> +
-> +#ifndef VIDTV_TUNER_H
-> +#define VIDTV_TUNER_H
-> +
-> +#include <linux/types.h>
-> +#include <media/dvb_frontend.h>
-> +
-> +struct vidtv_tuner_config {
-> +	struct dvb_frontend *fe;
-> +	u32 mock_power_up_delay_msec;
-> +	u32 mock_tune_delay_msec;
-> +	u32 vidtv_valid_dvb_t_freqs[8];
-> +	u32 vidtv_valid_dvb_c_freqs[8];
-> +	u32 vidtv_valid_dvb_s_freqs[8];
-
-Don't hrd code these. Add defines for them.
-
-> +	u8  max_frequency_shift_hz;
-> +};
-> +
-> +#endif //VIDTV_TUNER_H
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 2e9a5f6e4ff7..06856d05b53b 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -16947,6 +16947,7 @@ S:	Maintained
+>  W:	http://linuxtv.org/
+>  Q:	http://patchwork.linuxtv.org/project/linux-media/list/
+>  F:	Documentation/devicetree/bindings/media/ti,cal.yaml
+> +F:	Documentation/devicetree/bindings/media/ti,vip.yaml
+>  F:	Documentation/devicetree/bindings/media/ti,vpe.yaml
+>  F:	drivers/media/platform/ti-vpe/
+>  
+> -- 
+> 2.17.1
 > 
-
-thanks,
--- Shuah
