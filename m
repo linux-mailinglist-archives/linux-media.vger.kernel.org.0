@@ -2,173 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A24011E6289
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2020 15:43:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC03D1E632A
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2020 16:03:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390513AbgE1Nnh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 May 2020 09:43:37 -0400
-Received: from pio-pvt-msa3.bahnhof.se ([79.136.2.42]:33920 "EHLO
-        pio-pvt-msa3.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390468AbgE1Nng (ORCPT
+        id S2390800AbgE1ODl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 May 2020 10:03:41 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:39505 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390779AbgE1ODj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 May 2020 09:43:36 -0400
-X-Greylist: delayed 352 seconds by postgrey-1.27 at vger.kernel.org; Thu, 28 May 2020 09:43:35 EDT
-Received: from localhost (localhost [127.0.0.1])
-        by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id D92C53F3E6;
-        Thu, 28 May 2020 15:37:40 +0200 (CEST)
-Authentication-Results: pio-pvt-msa3.bahnhof.se;
-        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=i8189QXo;
-        dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
-        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
-        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
-        autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
-        by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id tWEVle6VlQ0m; Thu, 28 May 2020 15:37:36 +0200 (CEST)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        (Authenticated sender: mb878879)
-        by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id 4772F3F398;
-        Thu, 28 May 2020 15:37:33 +0200 (CEST)
-Received: from Gunillas-MacBook-Pro.local (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        by mail1.shipmail.org (Postfix) with ESMTPSA id 5B030360165;
-        Thu, 28 May 2020 15:37:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
-        t=1590673053; bh=hzBvGtdMVY1yFDhX6vHBpO0alm4n63ua22McT7gZosc=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=i8189QXoVaRwcn+moTSIMQD7TJ7H9n0I1yFj2IMYL7PullzNred3UO8BAAnz2DeMq
-         j/VrfOha1hYBt/0oje3SsVmDflH1Wva31htryiedFwwGczZJYD1NmbCNmJNQfVSK5z
-         6PWj3YdF/MSpTB+pJ0H/4RhVF8RvgNw2PZv4Ful4=
-Subject: Re: [RFC 02/17] dma-fence: basic lockdep annotations
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     linux-rdma@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        linaro-mm-sig@lists.linaro.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org
-References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
- <20200512085944.222637-3-daniel.vetter@ffwll.ch>
-From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
-        <thomas_os@shipmail.org>
-Message-ID: <81b3a3be-b818-9e7c-e93e-ecf161bec94c@shipmail.org>
-Date:   Thu, 28 May 2020 15:36:56 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
- Gecko/20100101 Thunderbird/68.8.1
-MIME-Version: 1.0
-In-Reply-To: <20200512085944.222637-3-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+        Thu, 28 May 2020 10:03:39 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200528140337euoutp01a9c70f596783d4c5cc5e1dbade4f8792~TNiMjSazt2909329093euoutp01-
+        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 14:03:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200528140337euoutp01a9c70f596783d4c5cc5e1dbade4f8792~TNiMjSazt2909329093euoutp01-
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1590674617;
+        bh=BoBpzWtQk0bQcFWn1Zb2vxzp/8/yk26E0UGKv9aCJSo=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=XecfCbPHF5bLQNxvT6fZyIUa+UszSUKVUIXwvi/J5NwPW5oHsuuuYzF7aVIxgHC9+
+         y6h4VzR0akHuJa0Y0nFlK+cdnvn4HNShF+GqUqN20cd9qKbTfXqVhJQJbCajRRwggi
+         n2tSsJ1DCNhMAsacYelPdgAuercBy6N49WmFX4bQ=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20200528140337eucas1p19cd023d3486e172d7496c49f21dd7f0e~TNiMPY7tb1292012920eucas1p1K;
+        Thu, 28 May 2020 14:03:37 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges2new.samsung.com (EUCPMTA) with SMTP id 1E.6F.60679.9B4CFCE5; Thu, 28
+        May 2020 15:03:37 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200528140337eucas1p2499a623f10d9bedf568f3a9bf55320f7~TNiL7ONs93205532055eucas1p2a;
+        Thu, 28 May 2020 14:03:37 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20200528140337eusmtrp1ba85f890c39986f4c037b6f1d4bdcf79~TNiL6k3I40180301803eusmtrp1m;
+        Thu, 28 May 2020 14:03:37 +0000 (GMT)
+X-AuditID: cbfec7f4-0cbff7000001ed07-53-5ecfc4b929a2
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 51.C1.07950.9B4CFCE5; Thu, 28
+        May 2020 15:03:37 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200528140336eusmtip2fdcb6bfbd262b20784ff45201ae2a627~TNiLfEGfU2018020180eusmtip2k;
+        Thu, 28 May 2020 14:03:36 +0000 (GMT)
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+To:     linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Andrzej Hajda <a.hajda@samsung.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Ulf Hansson <ulf.hansson@linaro.org>
+Subject: [PATCH] media: s5p-mfc: Properly handle dma_parms for the allocated
+ devices
+Date:   Thu, 28 May 2020 16:03:26 +0200
+Message-Id: <20200528140326.5215-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFIsWRmVeSWpSXmKPExsWy7djPc7o7j5yPM5jZq2hxa905VoueDVtZ
+        LWac38dksfbIXXaLw2/aWS3Wz7/FZnF8bbgDu8eda3vYPPq2rGL0OH5jO5PH501yASxRXDYp
+        qTmZZalF+nYJXBlHDzxnKvjAUzH17Eb2BsYvXF2MnBwSAiYSPyZtYgaxhQRWMErMe+DXxcgF
+        ZH9hlJjbuJoNwvnMKHHi7HMmmI6vf6ewQiSWM0o0zH/DDNeybv4RVpAqNgFDia63XWwgtoiA
+        k8TCWX/ZQYqYBS4zSlzf94wdJCEsECbx4/QcFhCbRUBV4taTT2AreAVsJM7O28QKsU5eYvWG
+        A2AbJATOsEm0XHjMDpFwkTj//TbUTcISr45vgYrLSJye3MMC0dDMKPHw3Fp2CKeHUeJy0wxG
+        iCpriTvnfgHdxwF0k6bE+l36EGFHiQVn97CDhCUE+CRuvBUECTMDmZO2TWeGCPNKdLQJQVSr
+        Scw6vg5u7cELl5ghbA+Jzg//mSCBGiuxddlF5gmMcrMQdi1gZFzFKJ5aWpybnlpslJdarlec
+        mFtcmpeul5yfu4kRmAJO/zv+ZQfjrj9JhxgFOBiVeHg3zDwfJ8SaWFZcmXuIUYKDWUmE1+ns
+        6Tgh3pTEyqrUovz4otKc1OJDjNIcLErivMaLXsYKCaQnlqRmp6YWpBbBZJk4OKUaGANn/GyN
+        WS+29+76d1f/WHm8ZX0g9KDK1MpQ03d/d+lRU49GIeX1t788E7MP+JKb83ta9c1eh5Nvg9j+
+        G979r+HqnPfXky38ifz2HxOZDEyFVlpvmFRytdGc24dvx+bqm2fUlZxLfC1VX1+ousK6mstg
+        xoRf+x7cYzkfwvVu3Y2dOz3PJk7k81BiKc5INNRiLipOBAAwvHGm/QIAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrALMWRmVeSWpSXmKPExsVy+t/xe7o7j5yPM5h0mcfi1rpzrBY9G7ay
+        Wsw4v4/JYu2Ru+wWh9+0s1qsn3+LzeL42nAHdo871/awefRtWcXocfzGdiaPz5vkAlii9GyK
+        8ktLUhUy8otLbJWiDS2M9AwtLfSMTCz1DI3NY62MTJX07WxSUnMyy1KL9O0S9DKOHnjOVPCB
+        p2Lq2Y3sDYxfuLoYOTkkBEwkvv6dwtrFyMUhJLCUUeLUrIPMEAkZiZPTGlghbGGJP9e62CCK
+        PjFK/Ji3hA0kwSZgKNH1tgvMFhFwkdi/5ykzSBGzwHVGiVtv34F1CwuESDzZ+ZYJxGYRUJW4
+        9eQTmM0rYCNxdt4mqA3yEqs3HGCewMizgJFhFaNIamlxbnpusZFecWJucWleul5yfu4mRmDo
+        bTv2c8sOxq53wYcYBTgYlXh4N8w8HyfEmlhWXJl7iFGCg1lJhNfp7Ok4Id6UxMqq1KL8+KLS
+        nNTiQ4ymQMsnMkuJJucD4yKvJN7Q1NDcwtLQ3Njc2MxCSZy3Q+BgjJBAemJJanZqakFqEUwf
+        EwenVAOjt1+otWo9U8WswMyUfdr9604z612YYjbfe331vDsnXBQy5wrqLV8lHfDl0Z69YVkZ
+        lu8PsG/xfJ1m3/a73tCb3ZHPO9TtVI3E/fiPJU+PT1m25PW/z/kOCXaRNS/YNXkMGh/G/0lj
+        ybop+XDhMj2xm3curP/6PnmR5qfFMhZTXSuKvM4fT2VWYinOSDTUYi4qTgQACnNFPFMCAAA=
+X-CMS-MailID: 20200528140337eucas1p2499a623f10d9bedf568f3a9bf55320f7
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200528140337eucas1p2499a623f10d9bedf568f3a9bf55320f7
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200528140337eucas1p2499a623f10d9bedf568f3a9bf55320f7
+References: <CGME20200528140337eucas1p2499a623f10d9bedf568f3a9bf55320f7@eucas1p2.samsung.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-05-12 10:59, Daniel Vetter wrote:
-> Design is similar to the lockdep annotations for workers, but with
-> some twists:
->
-> - We use a read-lock for the execution/worker/completion side, so that
->    this explicit annotation can be more liberally sprinkled around.
->    With read locks lockdep isn't going to complain if the read-side
->    isn't nested the same way under all circumstances, so ABBA deadlocks
->    are ok. Which they are, since this is an annotation only.
->
-> - We're using non-recursive lockdep read lock mode, since in recursive
->    read lock mode lockdep does not catch read side hazards. And we
->    _very_ much want read side hazards to be caught. For full details of
->    this limitation see
->
->    commit e91498589746065e3ae95d9a00b068e525eec34f
->    Author: Peter Zijlstra <peterz@infradead.org>
->    Date:   Wed Aug 23 13:13:11 2017 +0200
->
->        locking/lockdep/selftests: Add mixed read-write ABBA tests
->
-> - To allow nesting of the read-side explicit annotations we explicitly
->    keep track of the nesting. lock_is_held() allows us to do that.
->
-> - The wait-side annotation is a write lock, and entirely done within
->    dma_fence_wait() for everyone by default.
->
-> - To be able to freely annotate helper functions I want to make it ok
->    to call dma_fence_begin/end_signalling from soft/hardirq context.
->    First attempt was using the hardirq locking context for the write
->    side in lockdep, but this forces all normal spinlocks nested within
->    dma_fence_begin/end_signalling to be spinlocks. That bollocks.
->
->    The approach now is to simple check in_atomic(), and for these cases
->    entirely rely on the might_sleep() check in dma_fence_wait(). That
->    will catch any wrong nesting against spinlocks from soft/hardirq
->    contexts.
->
-> The idea here is that every code path that's critical for eventually
-> signalling a dma_fence should be annotated with
-> dma_fence_begin/end_signalling. The annotation ideally starts right
-> after a dma_fence is published (added to a dma_resv, exposed as a
-> sync_file fd, attached to a drm_syncobj fd, or anything else that
-> makes the dma_fence visible to other kernel threads), up to and
-> including the dma_fence_wait(). Examples are irq handlers, the
-> scheduler rt threads, the tail of execbuf (after the corresponding
-> fences are visible), any workers that end up signalling dma_fences and
-> really anything else. Not annotated should be code paths that only
-> complete fences opportunistically as the gpu progresses, like e.g.
-> shrinker/eviction code.
->
-> The main class of deadlocks this is supposed to catch are:
->
-> Thread A:
->
-> 	mutex_lock(A);
-> 	mutex_unlock(A);
->
-> 	dma_fence_signal();
->
-> Thread B:
->
-> 	mutex_lock(A);
-> 	dma_fence_wait();
-> 	mutex_unlock(A);
->
-> Thread B is blocked on A signalling the fence, but A never gets around
-> to that because it cannot acquire the lock A.
->
-> Note that dma_fence_wait() is allowed to be nested within
-> dma_fence_begin/end_signalling sections. To allow this to happen the
-> read lock needs to be upgraded to a write lock, which means that any
-> other lock is acquired between the dma_fence_begin_signalling() call and
-> the call to dma_fence_wait(), and still held, this will result in an
-> immediate lockdep complaint. The only other option would be to not
-> annotate such calls, defeating the point. Therefore these annotations
-> cannot be sprinkled over the code entirely mindless to avoid false
-> positives.
->
-> v2: handle soft/hardirq ctx better against write side and dont forget
-> EXPORT_SYMBOL, drivers can't use this otherwise.
->
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: linux-rdma@vger.kernel.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Commit 9495b7e92f71 ("driver core: platform: Initialize dma_parms for
+platform devices") in v5.7-rc5 added allocation of dma_parms structure to
+all platform devices. Then vb2_dma_contig_set_max_seg_size() have been
+changed not to allocate dma_parms structure and rely on the one allocated
+by the device core. Lets allocate the needed structure also for the
+devices created for the 2 MFC device memory ports.
 
-LGTM. Perhaps some in-code documentation on how to use the new functions 
-are called.
+Reported-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Suggested-by: Ulf Hansson <ulf.hansson@linaro.org>
+Fixes: 9495b7e92f71 ("driver core: platform: Initialize dma_parms for platform devices")
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ drivers/media/platform/s5p-mfc/s5p_mfc.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Otherwise for patch 2 and 3,
-
-Reviewed-by: Thomas Hellstrom <thomas.hellstrom@intel.com>
-
+diff --git a/drivers/media/platform/s5p-mfc/s5p_mfc.c b/drivers/media/platform/s5p-mfc/s5p_mfc.c
+index 5c2a23b953a4..eba2b9f040df 100644
+--- a/drivers/media/platform/s5p-mfc/s5p_mfc.c
++++ b/drivers/media/platform/s5p-mfc/s5p_mfc.c
+@@ -1089,6 +1089,10 @@ static struct device *s5p_mfc_alloc_memdev(struct device *dev,
+ 	child->coherent_dma_mask = dev->coherent_dma_mask;
+ 	child->dma_mask = dev->dma_mask;
+ 	child->release = s5p_mfc_memdev_release;
++	child->dma_parms = devm_kzalloc(dev, sizeof(*child->dma_parms),
++					GFP_KERNEL);
++	if (!child->dma_parms)
++		goto err;
+ 
+ 	/*
+ 	 * The memdevs are not proper OF platform devices, so in order for them
+@@ -1104,7 +1108,7 @@ static struct device *s5p_mfc_alloc_memdev(struct device *dev,
+ 			return child;
+ 		device_del(child);
+ 	}
+-
++err:
+ 	put_device(child);
+ 	return NULL;
+ }
+-- 
+2.17.1
 
