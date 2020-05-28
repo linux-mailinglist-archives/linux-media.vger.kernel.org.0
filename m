@@ -2,271 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 82E551E5F96
-	for <lists+linux-media@lfdr.de>; Thu, 28 May 2020 14:04:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07AF91E603E
+	for <lists+linux-media@lfdr.de>; Thu, 28 May 2020 14:09:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389085AbgE1MC6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 May 2020 08:02:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47422 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389044AbgE1MC4 (ORCPT
+        id S2389590AbgE1MI4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 28 May 2020 08:08:56 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:33690 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388769AbgE1MIx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 May 2020 08:02:56 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B7A6C08C5C5
-        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 05:02:56 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id e2so31736177eje.13
-        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 05:02:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=tlw1KiNC4cnClwU5YlwcjjU4Hgb5JZ0fTSl0Htfv7nU=;
-        b=mNnB0g7PRxkwbO7X8YsiQwtxM71w/1C4N7DsgA8gOzb0+mpz8jVF7c8+of0HIJB+nT
-         W44DWTjVl1T41K0rkBIo2ZhR1m8uvoK2lse6Nkb5SgRisu98Z07AdZI+ea67tbKPilf2
-         acxo4aLPGbLOImvvDVoxk3uKV5rvql4CXAURk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=tlw1KiNC4cnClwU5YlwcjjU4Hgb5JZ0fTSl0Htfv7nU=;
-        b=jJv0cBoU6JHWBnwmq7k/xXzbQ0tSo9zzsjqLuJQSPUyrNAycGgT1Xc9Su5prwDz3vn
-         UzrzoAF7IjbySJIV38JfGbazmUYEUdw5j7jt/RZVsbzU/bEx492rw5Dn1Qr2pK15lL2S
-         URa89XIZS6Wf+Y2mB9Ec9aDoBzrmJ9n4wbs4EzZpDYjtJkLkXycls7eGAn6E5pplCAz0
-         1h+aKz25TJFkV9DZIjD5YFjq1wB3POPMJn74vuQhhcSGIIXHexO2PJ4RUF3hARHFX4hb
-         CNdI/IE4pRuzNKFVY6vGjfNqlSoM+mc8pPi3LkFy9ttCRnrP7zvZw8v7YNwxP+tXxqIy
-         Gu9A==
-X-Gm-Message-State: AOAM532LSt1g2CQ6Y84wtgmo2D9JU9HkZFXMjnhZJ7aDSzNwWT7+8iQH
-        e8uttZzfT9/+ZrZotG+Ma/kBLcCWgX4=
-X-Google-Smtp-Source: ABdhPJyILUHorsLPDSW+Q0Qck32zx18taHH+3apIbQ2RCmcgCUL8aoi97MRlajx/SiM9UreX+QmNIQ==
-X-Received: by 2002:a17:906:538d:: with SMTP id g13mr2656418ejo.194.1590667373651;
-        Thu, 28 May 2020 05:02:53 -0700 (PDT)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
-        by smtp.gmail.com with ESMTPSA id o18sm5196933eje.40.2020.05.28.05.02.52
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 May 2020 05:02:52 -0700 (PDT)
-Received: by mail-wr1-f47.google.com with SMTP id t18so13548031wru.6
-        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 05:02:52 -0700 (PDT)
-X-Received: by 2002:a05:6000:d:: with SMTP id h13mr3134061wrx.17.1590667371953;
- Thu, 28 May 2020 05:02:51 -0700 (PDT)
+        Thu, 28 May 2020 08:08:53 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04SC7eHU096738;
+        Thu, 28 May 2020 12:08:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=qcIsNVi0wvZGA81ns5t/6g7btQGknY8Bh4yUt78pyTY=;
+ b=nUj6qZ87t7W5q+Ao5Jo7TVPU46xmgqP6A3Ok65J42ozQFt6pjh9M4ga4GcvvdWU/b1s9
+ aSnmlyOLDlYkALrr6oR5HbtiPheeCXP+XSwpBjZ8VfsV5e84MYQ7ne83NWcz3yLYpa3U
+ YTIgdHYuF+fz00IC1FLnucuY+zvixh/xJRjWGcbpYEPa9MogmECfL598HG2NfbIwzvXH
+ MpW8q1abR/2TSDQ5zwmavuUXgJMm4IfJRwIg+bcpUST4xYAwmjvFJPt48gP4xaFYze/n
+ Bju3SPGT01K5bNGr059rgkFoKQkSMfUzOQ7FK3/SHa752kCBjxTnkk9J0/Cy9N4GV5uR IA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2130.oracle.com with ESMTP id 316u8r4kjk-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 28 May 2020 12:08:39 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 04SC38KS124411;
+        Thu, 28 May 2020 12:08:38 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+        by aserp3030.oracle.com with ESMTP id 317ddsnvd6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 28 May 2020 12:08:38 +0000
+Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
+        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 04SC8TXf014768;
+        Thu, 28 May 2020 12:08:29 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 28 May 2020 05:08:28 -0700
+Date:   Thu, 28 May 2020 15:08:18 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     devel@driverdev.osuosl.org, Len Brown <len.brown@intel.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Linux PM <linux-pm@vger.kernel.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-tegra <linux-tegra@vger.kernel.org>,
+        dinghao.liu@zju.edu.cn, Kangjie Lu <kjlu@umn.edu>,
+        Dmitry Osipenko <digetx@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: Re: [PATCH] media: staging: tegra-vde: fix runtime pm imbalance
+ on error
+Message-ID: <20200528120818.GO22511@kadam>
+References: <20200520095148.10995-1-dinghao.liu@zju.edu.cn>
+ <2b5d64f5-825f-c081-5d03-02655c2d9491@gmail.com>
+ <20200520150230.GC30374@kadam>
+ <2a46539d.b977f.1723553aa81.Coremail.dinghao.liu@zju.edu.cn>
+ <20200521091505.GF30374@kadam>
+ <CAJZ5v0irLayBUPRWNT1tcZivz9inS1YbUgGj5WXvucLKKwRQAw@mail.gmail.com>
+ <20200521173901.GA22310@kadam>
+ <20200522131031.GL2163848@ulmo>
+ <20200522132318.GM30374@kadam>
+ <20200522144312.GA2374603@ulmo>
 MIME-Version: 1.0
-References: <20200520100159.2094831-1-hverkuil-cisco@xs4all.nl>
- <20200520100159.2094831-2-hverkuil-cisco@xs4all.nl> <a14b50176ae678904f9dd39c1bb8edbc5801a030.camel@ndufresne.ca>
- <6caf4e56-2cb3-b193-3760-3a9b3c31bfb0@xs4all.nl> <CAAFQd5AveRXvi6GO42qeLXMRLAHiE43tiNvjCKNi2WTZHkVbzQ@mail.gmail.com>
- <20200528074428.GB19211@pengutronix.de>
-In-Reply-To: <20200528074428.GB19211@pengutronix.de>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 28 May 2020 14:02:38 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5A2ogPO24eAa59mppLTLtpbEDRv7EqDxRx1Lxs9btvqUg@mail.gmail.com>
-Message-ID: <CAAFQd5A2ogPO24eAa59mppLTLtpbEDRv7EqDxRx1Lxs9btvqUg@mail.gmail.com>
-Subject: Re: [PATCHv2 1/2] media: docs-rst: Document memory-to-memory video
- encoder interface
-To:     Michael Tretter <m.tretter@pengutronix.de>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200522144312.GA2374603@ulmo>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9634 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ phishscore=0 adultscore=0 suspectscore=21 spamscore=0 malwarescore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2005280084
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9634 signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0
+ priorityscore=1501 spamscore=0 cotscore=-2147483648 suspectscore=21
+ phishscore=0 clxscore=1015 mlxlogscore=999 bulkscore=0 adultscore=0
+ lowpriorityscore=0 impostorscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2004280000 definitions=main-2005280084
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 28, 2020 at 9:44 AM Michael Tretter
-<m.tretter@pengutronix.de> wrote:
->
-> On Tue, May 26, 2020 at 06:01:35PM +0200, Tomasz Figa wrote:
-> > On Tue, May 26, 2020 at 10:32 AM Hans Verkuil <hverkuil-cisco@xs4all.nl=
-> wrote:
-> > >
-> > > On 20/05/2020 22:32, Nicolas Dufresne wrote:
-> > > > Le mercredi 20 mai 2020 =C3=A0 12:01 +0200, Hans Verkuil a =C3=A9cr=
-it :
-> > > >> From: Tomasz Figa <tfiga@chromium.org>
-> > > >>
-> > > >> Due to complexity of the video encoding process, the V4L2 drivers =
-of
-> > > >> stateful encoder hardware require specific sequences of V4L2 API c=
-alls
-> > > >> to be followed. These include capability enumeration, initializati=
-on,
-> > > >> encoding, encode parameters change, drain and reset.
-> > > >>
-> > > >> Specifics of the above have been discussed during Media Workshops =
-at
-> > > >> LinuxCon Europe 2012 in Barcelona and then later Embedded Linux
-> > > >> Conference Europe 2014 in D=C3=BCsseldorf. The de facto Codec API =
-that
-> > > >> originated at those events was later implemented by the drivers we=
- already
-> > > >> have merged in mainline, such as s5p-mfc or coda.
-> > > >>
-> > > >> The only thing missing was the real specification included as a pa=
-rt of
-> > > >> Linux Media documentation. Fix it now and document the encoder par=
-t of
-> > > >> the Codec API.
-> > > >>
-> > > >> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-> > > >> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > > >> ---
-> > > >>  .../userspace-api/media/v4l/dev-encoder.rst   | 727 +++++++++++++=
-+++++
-> > > >>  .../userspace-api/media/v4l/dev-mem2mem.rst   |   1 +
-> > > >>  .../userspace-api/media/v4l/pixfmt-v4l2.rst   |   5 +
-> > > >>  .../userspace-api/media/v4l/v4l2.rst          |   2 +
-> > > >>  .../media/v4l/vidioc-encoder-cmd.rst          |  51 +-
-> > > >>  5 files changed, 766 insertions(+), 20 deletions(-)
-> > > >>  create mode 100644 Documentation/userspace-api/media/v4l/dev-enco=
-der.rst
-> > > >>
-> > > >> diff --git a/Documentation/userspace-api/media/v4l/dev-encoder.rst=
- b/Documentation/userspace-api/media/v4l/dev-encoder.rst
-> > >
-> > > <snip>
-> > >
-> > > >> +5. **Optional** Set the coded frame interval on the ``CAPTURE`` q=
-ueue via
-> > > >> +   :c:func:`VIDIOC_S_PARM`. This is only necessary if the coded f=
-rame
-> > > >> +   interval is different from the raw frame interval, which is ty=
-pically
-> > > >> +   the case for off-line encoding.
-> > > >> +
-> > > >> +   * ** Required fields:**
-> > > >> +
-> > > >> +     ``type``
-> > > >> +     a ``V4L2_BUF_TYPE_*`` enum appropriate for ``CAPTURE``.
-> > > >> +
-> > > >> +     ``parm.capture``
-> > > >> +     set all fields except ``parm.capture.timeperframe`` to 0.
-> > > >> +
-> > > >> +     ``parm.capture.timeperframe``
-> > > >> +     the desired coded frame interval; the encoder may adjust it =
-to
-> > > >> +     match hardware requirements.
-> > > >> +
-> > > >> +   * **Return fields:**
-> > > >> +
-> > > >> +     ``parm.capture.timeperframe``
-> > > >> +     the adjusted frame interval.
-> > > >> +
-> > > >> +   .. important::
-> > > >> +
-> > > >> +      Changing the ``CAPTURE`` frame interval sets the framerate =
-for the
-> > > >> +      coded video. It does *not* set the rate at which buffers ar=
-rive on the
-> > > >> +      ``CAPTURE`` queue, that depends on how fast the encoder is =
-and how
-> > > >> +      fast raw frames are queued on the ``OUTPUT`` queue.
-> > > >> +
-> > > >> +   .. important::
-> > > >> +
-> > > >> +      ``timeperframe`` deals with *frames*, not fields. So for in=
-terlaced
-> > > >> +      formats this is the time per two fields, since a frame cons=
-ists of
-> > > >> +      a top and a bottom field.
-> > > >> +
-> > > >> +   .. note::
-> > > >> +
-> > > >> +      Not all drivers support this functionality, in that case ju=
-st set
-> > > >> +      the desired coded frame interval for the ``OUTPUT`` queue.
-> > > >
-> > > > There is a slight contorsion in the resulting user-space API. When =
-I
-> > > > read this, the logical thing to do for live streams would be to jus=
-t
-> > > > set the OUTPUT and the driver will take care of CAPTURE for me.
-> > > >
-> > > > While if I want to do offline, I don't know if this is supported or
-> > > > not. So the flow would be a bit special:
-> > > >
-> > > >   S_PARM(OUTPUT) with coded video frame rate
-> > > >   S_PARM(CAPTURE) width coded video
-> > > >   if ^ worked:
-> > > >      S_PARM(OUTPUT) with fastest rate possible
-> > > >
-> > > > Ideally I would have preferred if there was a more straight forward=
- way
-> > > > to configure offline encoding for fastest performance with specific
-> > > > coded framerate. I don't think it's a blocker though, performance i=
-s
-> > > > not critical at all here. Maybe I'm missing something that allow to
-> > > > check if this is supported or not without trying it ?
-> > >
-> > > Good point. I considered adding a flag for the v4l2_fmtdesc struct th=
-at
-> > > reports whether you can set the capture framerate independently from =
-the
-> > > OUTPUT framerate. Perhaps V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL?
-> > >
-> > > I actually think it would be best if that's added. It is not enough t=
-o
-> > > rely on whether S_PARM(CAPTURE) works to determine this feature since
-> > > at least one encoder drivers supports both OUTPUT and CAPTURE with S_=
-PARM,
-> > > but CAPTURE does the same as OUTPUT, so that would be a red herring.
-> > >
-> > > I'll add this flag for v3.
-> >
-> > Now if I think of it again, this behavior might be problematic for
-> > existing userspace, which I believe assumes encoding as fast as
-> > possible, because of how mem2mem devices were expected to behave.
-> > Could we define this to always default to as fast as possible?
-> > Otherwise we could end up regressing the encoding latency on latency
-> > sensitive applications, such as video conferencing.
->
-> I see your point regarding the latency, but I don't think that this justi=
-fies
-> "as fast as possible" as a default in the API. Adjusting the encoding spe=
-ed
-> based on a user space hint is usually a trade-off that the driver must ma=
-ke.
-> If the trade-off results in a reduced latency, it is a regression in the
-> individual driver and the trade-offs must be discussed per driver.
+On Fri, May 22, 2020 at 04:43:12PM +0200, Thierry Reding wrote:
+> On Fri, May 22, 2020 at 04:23:18PM +0300, Dan Carpenter wrote:
+> > On Fri, May 22, 2020 at 03:10:31PM +0200, Thierry Reding wrote:
+> > > On Thu, May 21, 2020 at 08:39:02PM +0300, Dan Carpenter wrote:
+> > > > On Thu, May 21, 2020 at 05:22:05PM +0200, Rafael J. Wysocki wrote:
+> > > > > On Thu, May 21, 2020 at 11:15 AM Dan Carpenter <dan.carpenter@oracle.com> wrote:
+> > > > > >
+> > > > > > On Thu, May 21, 2020 at 11:42:55AM +0800, dinghao.liu@zju.edu.cn wrote:
+> > > > > > > Hi, Dan,
+> > > > > > >
+> > > > > > > I agree the best solution is to fix __pm_runtime_resume(). But there are also
+> > > > > > > many cases that assume pm_runtime_get_sync() will change PM usage
+> > > > > > > counter on error. According to my static analysis results, the number of these
+> > > > > > > "right" cases are larger. Adjusting __pm_runtime_resume() directly will introduce
+> > > > > > > more new bugs. Therefore I think we should resolve the "bug" cases individually.
+> > > > > > >
+> > > > > >
+> > > > > > That's why I was saying that we may need to introduce a new replacement
+> > > > > > function for pm_runtime_get_sync() that works as expected.
+> > > > > >
+> > > > > > There is no reason why we have to live with the old behavior.
+> > > > > 
+> > > > > What exactly do you mean by "the old behavior"?
+> > > > 
+> > > > I'm suggesting we leave pm_runtime_get_sync() alone but we add a new
+> > > > function which called pm_runtime_get_sync_resume() which does something
+> > > > like this:
+> > > > 
+> > > > static inline int pm_runtime_get_sync_resume(struct device *dev)
+> > > > {
+> > > > 	int ret;
+> > > > 
+> > > > 	ret = __pm_runtime_resume(dev, RPM_GET_PUT);
+> > > > 	if (ret < 0) {
+> > > > 		pm_runtime_put(dev);
+> > > > 		return ret;
+> > > > 	}
+> > > > 	return 0;
+> > > > }
+> > > > 
+> > > > I'm not sure if pm_runtime_put() is the correct thing to do?  The other
+> > > > thing is that this always returns zero on success.  I don't know that
+> > > > drivers ever care to differentiate between one and zero returns.
+> > > > 
+> > > > Then if any of the caller expect that behavior we update them to use the
+> > > > new function.
+> > > 
+> > > Does that really have many benefits, though? I understand that this
+> > > would perhaps be easier to use because it is more in line with how other
+> > > functions operate. On the other hand, in some cases you may want to call
+> > > a different version of pm_runtime_put() on failure, as discussed in
+> > > other threads.
+> > 
+> > I wasn't CC'd on the other threads so I don't know.  :/
+> 
+> It was actually earlier in this thread, see here for example:
+> 
+> 	http://patchwork.ozlabs.org/project/linux-tegra/patch/20200520095148.10995-1-dinghao.liu@zju.edu.cn/#2438776
 
-I have to disagree. This is not a driver-specific interface and
-consistent behavior must be exposed to the userspace regardless of the
-underlying driver.
+I'm not seeing what you're talking about.
 
-However, I guess that making it "as fast as possible" by default would
-fix it for some of the users, while breaking it for the others, who
-assumed "according to the frame rate", because of the behavior being
-unspecified. On our (Chromium) side we won't have much of an issue to
-just update the code to set both frame rates, so I guess I'm fine with
-the proposed behavior.
+The only thing I see in this thread is that we don't want to call
+pm_runtime_mark_last_busy(dev) which updates the last_busy time that is
+used for autosuspend.
 
-+Alexandre Courbot +Jeffrey Kardatzke for awareness.
+The other thing that was discussed was pm_runtime_put_noidle() vs
+pm_runtime_put_autosuspend().  "The pm_runtime_put_noidle() should have
+the same effect as yours variant".  So apparently they are equivalent
+in this situation.  How should we choose one vs the other?
 
->
-> >
-> > For example, we could define the rates of both queues the other way
-> > around. The OUTPUT queue, which seems to be where the existing user
-> > space currently sets the desired stream frame rate, could be
-> > interpreted as the frame rate of the video to be encoded, while the
-> > CAPTURE queue would control the desired output rate of the encoded
-> > video, which would kind of match the V4L2 definition of CAPTURE frame
-> > interval.
->
-> Setting the desired stream frame rate on CAPTURE does not work with frame
-> reordering. In that case driver returns the CAPTURE buffers, whenever a c=
-oded
-> buffer is finished, and not necessarily at a certain frame rate. Strictly
-> following the V4L2 definition for CAPTURE frame interval, the driver woul=
-d
-> need to produce repeated frames if the decode order differs from the disp=
-lay
-> order.
+I'm not trying to be obtuse.  I understand that probably if I worked in
+PM then I wouldn't need documentation...  :/
 
-Good point. I haven't thought about this as I don't recall seeing any
-encoder driver which could actually do frame reordering.
-
-Best regards,
-Tomasz
+regards,
+dan carpenter
