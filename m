@@ -2,125 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A229E1E81F0
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2020 17:36:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B4641E8251
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2020 17:44:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727088AbgE2Pgi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 May 2020 11:36:38 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42790 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726838AbgE2Pgi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 May 2020 11:36:38 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1727035AbgE2PoC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 May 2020 11:44:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52284 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727023AbgE2PoB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 29 May 2020 11:44:01 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1C94C03E969;
+        Fri, 29 May 2020 08:44:01 -0700 (PDT)
+Received: from [IPv6:2003:cb:871f:5b00:5488:ffc1:6399:a6c0] (p200300cb871f5b005488ffc16399a6c0.dip0.t-ipconnect.de [IPv6:2003:cb:871f:5b00:5488:ffc1:6399:a6c0])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EB00E20776;
-        Fri, 29 May 2020 15:36:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590766597;
-        bh=+8XbA9yfRvYd3WH4x+WNAh3iFVXHLrKuuWpb9+uRTDY=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=IQbN0x3MKDxIQ9KeRlyuQqNWVm9aGh4djJnftYgl2nhoXhCgWFM0B6BQvBbRnP0uo
-         nr0Hne1P/drq7sX2HNzWpvd7bwQxB76pO9B+E4n6FAhmBBCZbMSyam9kqsJBGgolc9
-         b41rk9zrXN/N45Osgwb2i/1Zowcskz8phwZuQzrA=
-Date:   Fri, 29 May 2020 17:36:34 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [bug report] Revert "media: staging: atomisp: Remove driver"
-Message-ID: <20200529173634.20056578@coco.lan>
-In-Reply-To: <20200529104107.GA1306497@mwanda>
-References: <20200529104107.GA1306497@mwanda>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F34212A440E;
+        Fri, 29 May 2020 16:43:59 +0100 (BST)
+Subject: Re: [PATCH] vimc: debayer: Add support for ARGB format
+To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
+        Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kieran.bingham@ideasonboard.com,
+        dafna Hirschfeld <dafna3@gmail.com>
+References: <20200528185717.GA20581@kaaira-HP-Pavilion-Notebook>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <0ab57863-935d-3ab5-dfea-80a44c63ae18@collabora.com>
+Date:   Fri, 29 May 2020 17:43:57 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20200528185717.GA20581@kaaira-HP-Pavilion-Notebook>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 29 May 2020 13:41:07 +0300
-Dan Carpenter <dan.carpenter@oracle.com> escreveu:
+Hi,
+Thanks for the patch
 
-> Hello Mauro Carvalho Chehab,
-> 
-> The patch ad85094b293e: "Revert "media: staging: atomisp: Remove
-> driver"" from Apr 19, 2020, leads to the following static checker
-> warning:
-> 
-> 	drivers/staging/media/atomisp/pci/atomisp_acc.c:207 atomisp_acc_load_to_pipe()
-> 	warn: pointer comes from user 'acc_fw->fw->blob.code'
-> 
-> drivers/staging/media/atomisp/pci/atomisp_acc.c
->    168  
->    169          acc_fw = acc_alloc_fw(user_fw->size);
->    170          if (!acc_fw)
->    171                  return -ENOMEM;
->    172  
->    173          if (copy_from_user(acc_fw->fw, user_fw->data, user_fw->size)) {
->                                    ^^^^^^^^^^
-> The acc_fw->fw->blob.code pointer isn't annotated as __user data.
-> Eventually it gets passed as "data" to int hmm_store() and treated as
-> a kernel pointer.
-> 
-> Presumably only privileged users can load new firmware so this isn't
-> a serious security bug...
-
-Yeah, the firmware file is received only at the device probe's time
-(or at open).
-
-On a side note, after looking on some things today, I'm not even sure if the
-code under atomisp_acc is ever called. The firmware file is actually a
-container with several binaries of different types: "normal" files,
-and 3 types of "accel" files (used by this _acc code). At least at the
-two firmware files I'm using on my tests, the only binaries available
-are from the "normal" type.
-
-In any case, except if someone write it first, I'll try to write a
-patch for it (as the upcoming merge window would permit).
-
->    174                  acc_free_fw(acc_fw);
->    175                  return -EFAULT;
->    176          }
->    177  
->    178          handle = ida_alloc(&asd->acc.ida, GFP_KERNEL);
->    179          if (handle < 0) {
->    180                  acc_free_fw(acc_fw);
->    181                  return -ENOSPC;
->    182          }
->    183  
->    184          user_fw->fw_handle = handle;
->    185          acc_fw->handle = handle;
->    186          acc_fw->flags = user_fw->flags;
->    187          acc_fw->type = user_fw->type;
->    188          acc_fw->fw->handle = handle;
->    189  
->    190          /*
->    191           * correct isp firmware type in order ISP firmware can be appended
->    192           * to correct pipe properly
->    193           */
->    194          if (acc_fw->fw->type == ia_css_isp_firmware) {
->    195                  static const int type_to_css[] = {
->    196                          [ATOMISP_ACC_FW_LOAD_TYPE_OUTPUT] =
->    197                          IA_CSS_ACC_OUTPUT,
->    198                          [ATOMISP_ACC_FW_LOAD_TYPE_VIEWFINDER] =
->    199                          IA_CSS_ACC_VIEWFINDER,
->    200                          [ATOMISP_ACC_FW_LOAD_TYPE_STANDALONE] =
->    201                          IA_CSS_ACC_STANDALONE,
->    202                  };
->    203                  acc_fw->fw->info.isp.type = type_to_css[acc_fw->type];
->    204          }
->    205  
->    206          list_add_tail(&acc_fw->list, &asd->acc.fw);
->    207          return 0;
->    208  }
-> 
-> regards,
-> dan carpenter
+I don't know how real devices handle ARGB formats,
+I wonder if it should be the part of the debayer.
 
 
+On 28.05.20 20:57, Kaaira Gupta wrote:
+> Running qcam for pixelformat 0x34324142 showed that vimc debayer does
+> not support it. Hence, add the support for Alpha (255).
+
+I would change the commit log to:
+
+Add support for V4L2_PIX_FMT_RGB24 format in the debayer
+and set the alpha channel to constant 255.
 
 Thanks,
-Mauro
+Dafna
+
+> 
+> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+> ---
+>   .../media/test-drivers/vimc/vimc-debayer.c    | 27 ++++++++++++-------
+>   1 file changed, 18 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
+> index c3f6fef34f68..f34148717a40 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-debayer.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
+> @@ -62,6 +62,7 @@ static const u32 vimc_deb_src_mbus_codes[] = {
+>   	MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+>   	MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
+>   	MEDIA_BUS_FMT_RGB888_1X32_PADHI,
+> +	MEDIA_BUS_FMT_ARGB8888_1X32
+>   };
+>   
+>   static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] = {
+> @@ -322,15 +323,23 @@ static void vimc_deb_process_rgb_frame(struct vimc_deb_device *vdeb,
+>   	unsigned int i, index;
+>   
+>   	vpix = vimc_pix_map_by_code(vdeb->src_code);
+> -	index = VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
+> -	for (i = 0; i < 3; i++) {
+> -		switch (vpix->pixelformat) {
+> -		case V4L2_PIX_FMT_RGB24:
+> -			vdeb->src_frame[index + i] = rgb[i];
+> -			break;
+> -		case V4L2_PIX_FMT_BGR24:
+> -			vdeb->src_frame[index + i] = rgb[2 - i];
+> -			break;
+> +
+> +	if (vpix->pixelformat == V4L2_PIX_FMT_ARGB32) {
+> +		index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 4);
+> +		vdeb->src_frame[index] = 255;
+> +		for (i = 0; i < 3; i++)
+> +			vdeb->src_frame[index + i + 1] = rgb[i];
+> +	} else {
+> +		index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
+> +		for (i = 0; i < 3; i++) {
+> +			switch (vpix->pixelformat) {
+> +			case V4L2_PIX_FMT_RGB24:
+> +				vdeb->src_frame[index + i] = rgb[i];
+> +				break;
+> +			case V4L2_PIX_FMT_BGR24:
+> +				vdeb->src_frame[index + i] = rgb[2 - i];
+> +				break;
+> +			}
+>   		}
+>   	}
+>   }
+> 
