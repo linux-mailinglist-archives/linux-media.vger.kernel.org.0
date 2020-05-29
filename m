@@ -2,100 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 106BD1E7C81
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2020 14:01:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 79D1F1E7D0F
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2020 14:21:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726476AbgE2MBR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 May 2020 08:01:17 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:48959 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725775AbgE2MBQ (ORCPT
+        id S1726593AbgE2MVj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 May 2020 08:21:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48778 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725865AbgE2MVj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 May 2020 08:01:16 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id edhGjcgpjdPgTedhJjDXFM; Fri, 29 May 2020 14:01:14 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1590753674; bh=ZO+Ovlnua++hBFv9+UDMBx46AxdYoQ+jNl/2tbUseB4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=usAGhpVos51u7CqOpVa+RE79Fhd8k/XX42QtDi3Wwx9L4kaI/MaJ5NxmFjJPXzUuv
-         T0yf6f1dVNYykqhpoHFQIpkHQXwI1mZ6mtkT5F0SadRipcXbEbW1OrDvLpj9d4Vu8B
-         0snD8xTvlM0DgY/XQaTTlTXY4rpdoKlbc0YIUNnRiok9IyJJUjMb3FwV53+TCLuhaj
-         x0H+SC8oo6ip5XTuffY662u5/MaIWrQAqbA9By73sJQ2gKnbyzfzWuWfNI75CMuu+M
-         MBvKFioufaSgshGXuthqaMXVey8cRB5hbOfqCErLhKflB1AQPzA8KsJOAFbzWaqWVg
-         96YhmC35rQy2w==
-Subject: Re: Fwd: [PATCH v3 2/2] media: cec: i2c: ch7322: Add ch7322 CEC
- controller driver
-To:     Jeff Chase <jnchase@google.com>, linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, devicetree@vger.kernel.org
-References: <20200529030012.254592-1-jnchase@google.com>
- <20200529030012.254592-3-jnchase@google.com>
- <CALTkaQ2OR+bc2QGeucA5aP3SiM5HLnx5=DoZQ51E_1d99Hb5Uw@mail.gmail.com>
- <CALTkaQ0NLgjS7H7De=7jy9jRG1xMFSbzdmxrFNerNU+o1rRzpg@mail.gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <d7e759d1-9bdf-0ab3-143a-f0e374667f04@xs4all.nl>
-Date:   Fri, 29 May 2020 14:01:10 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Fri, 29 May 2020 08:21:39 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9CF1C03E969
+        for <linux-media@vger.kernel.org>; Fri, 29 May 2020 05:21:38 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id c35so1573277edf.5
+        for <linux-media@vger.kernel.org>; Fri, 29 May 2020 05:21:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=WB1duW01Zo9au19Tu6rSA7f02gS0cxMAUbfSPg0NV4c=;
+        b=gx5zxQWV+Y6eG8F4uEEW6Td6z1HzHaPpgBMd1b2MIahe9XO7+JpRSRbUyxQZ6Zj6B3
+         NlkRliuLWtqMeyPF01Xb8XaVT84LsAqZVsG6J/NXtDZ6EnZ6YN7MAnRdEqqAqgT8EYte
+         Mzn5u/D57I82pyCqCQ1qgmQLvdc9fsoZeYz0I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=WB1duW01Zo9au19Tu6rSA7f02gS0cxMAUbfSPg0NV4c=;
+        b=YIB+iv2psMp/vCbnS/tj+wy7xYBOuOv1HXksCvr1ufgPnJg+8fF/75ES9BSPLlmFpv
+         0i/4ypdW2ZvFsoUpk0OTFATgZ4Tz2DnRp8VOGwrypeYkYXYBp/qHEqXPfRExOIuXipIP
+         COlejGVJzcTSDnvkjxDQwTVGk1WjvZ/lbgEj3xycS2gP/jIrRDP+7ASkTyaPYTRq1/Iv
+         LEZ69JeVUUxBF5fJS9DrWIqblGUXCT6AvGQfomJ2S3moqvKEZI2TY/WlbnIz8rY5m0yy
+         g3gmrc85ftnVenGcie1s0jchbl8etXtRglaE37hEtJxGVrWbCBYw/7jfy9DGpPqRMbhz
+         /ZnQ==
+X-Gm-Message-State: AOAM531ufnhARvC4FBhDBFlwcirB6CSEYDQ/ZLhco/8Mr1nhfrjw1qje
+        isalvmAsYNXn698jCvOm853XlxdD7QdVNQ==
+X-Google-Smtp-Source: ABdhPJx97QU6nNChUH9ZsLM1KYFjlBuuByTHnVgexOmFQQ8WRy52586mXSd/5l6TWJsmhGlPkTYc8g==
+X-Received: by 2002:a50:bf04:: with SMTP id f4mr7632955edk.91.1590754897045;
+        Fri, 29 May 2020 05:21:37 -0700 (PDT)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com. [209.85.128.43])
+        by smtp.gmail.com with ESMTPSA id dt7sm7148145ejb.33.2020.05.29.05.21.35
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 29 May 2020 05:21:36 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id h4so3016209wmb.4
+        for <linux-media@vger.kernel.org>; Fri, 29 May 2020 05:21:35 -0700 (PDT)
+X-Received: by 2002:a7b:c622:: with SMTP id p2mr8347882wmk.55.1590754895353;
+ Fri, 29 May 2020 05:21:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CALTkaQ0NLgjS7H7De=7jy9jRG1xMFSbzdmxrFNerNU+o1rRzpg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfA4WEQQaSpTxqoVzO5MrZE8ZXaWtwLVL1BTv23YT389yYkODRh7A1sdvdfn6PAwLOOHjcRbPbwug3QRxbwRdpu2FNp3zPadZAZ8Jq18pcMhzTB4iMzXR
- SizGCUBSSRSeyxXb1aNx4fRMUbbnuG0S3MRq6FYlKp7X8qgOlHB3Ln+vxD8vImxkt5hEmZMeqn22FSskRZvcb3UhTWwTyM2XwGcHTJ2Pg6rw7msvuSsu1hpF
- 1jJDUSlwUR2r+qx1xFmLqtDG7XXJkD92/2SYGgWBbI5bscKzcCIWhc8wlK49eq/dosNl0wUopxr3A0qXObbQ1Q==
+References: <20200526100932.2626420-1-hverkuil-cisco@xs4all.nl>
+ <20200526100932.2626420-2-hverkuil-cisco@xs4all.nl> <15e979fa-f782-a8af-5bf3-d39e6c245b36@linaro.org>
+In-Reply-To: <15e979fa-f782-a8af-5bf3-d39e6c245b36@linaro.org>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 29 May 2020 14:21:23 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5DW_DNkQqoYhWDHp2bdzCcNg-eDFkXLeSmwrhOGhbs_2g@mail.gmail.com>
+Message-ID: <CAAFQd5DW_DNkQqoYhWDHp2bdzCcNg-eDFkXLeSmwrhOGhbs_2g@mail.gmail.com>
+Subject: Re: [PATCHv3 1/5] media: docs-rst: Document memory-to-memory video
+ encoder interface
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Michael Tretter <m.tretter@pengutronix.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/05/2020 08:10, Jeff Chase wrote:
-> (Resending as plain text, sorry)
-> 
->> +static int ch7322_cec_adap_enable(struct cec_adapter *adap, bool enable)
->> +{
->> +       struct ch7322 *ch7322 = cec_get_drvdata(adap);
->> +       int ret;
->> +
->> +       if (enable)
->> +               ret = ch7322_unmask_interrupt(ch7322);
->> +       else
->> +               ret = ch7322_mask_interrupt(ch7322);
->> +
->> +       return ret;
->> +}
->> +
-> 
-> I just realized that doing this here is broken -- the driver depends
-> on the interrupt to detect when the physical address changes. I could
-> mask only the tx/rx interrupt here instead but that is starting to
-> feel a bit pointless.
+On Fri, May 29, 2020 at 11:57 AM Stanimir Varbanov
+<stanimir.varbanov@linaro.org> wrote:
+>
+>
+>
+> On 5/26/20 1:09 PM, Hans Verkuil wrote:
+> > From: Tomasz Figa <tfiga@chromium.org>
+> >
+> > Due to complexity of the video encoding process, the V4L2 drivers of
+> > stateful encoder hardware require specific sequences of V4L2 API calls
+> > to be followed. These include capability enumeration, initialization,
+> > encoding, encode parameters change, drain and reset.
+> >
+> > Specifics of the above have been discussed during Media Workshops at
+> > LinuxCon Europe 2012 in Barcelona and then later Embedded Linux
+> > Conference Europe 2014 in D=C3=BCsseldorf. The de facto Codec API that
+> > originated at those events was later implemented by the drivers we alre=
+ady
+> > have merged in mainline, such as s5p-mfc or coda.
+> >
+> > The only thing missing was the real specification included as a part of
+> > Linux Media documentation. Fix it now and document the encoder part of
+> > the Codec API.
+> >
+> > Signed-off-by: Tomasz Figa <tfiga@chromium.org>
+> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > ---
+> >  .../userspace-api/media/v4l/dev-encoder.rst   | 728 ++++++++++++++++++
+> >  .../userspace-api/media/v4l/dev-mem2mem.rst   |   1 +
+> >  .../userspace-api/media/v4l/pixfmt-v4l2.rst   |   5 +
+> >  .../userspace-api/media/v4l/v4l2.rst          |   2 +
+> >  .../media/v4l/vidioc-encoder-cmd.rst          |  51 +-
+> >  5 files changed, 767 insertions(+), 20 deletions(-)
+> >  create mode 100644 Documentation/userspace-api/media/v4l/dev-encoder.r=
+st
+> >
+>
+> <cut>
+>
+> > +
+> > +Reset
+> > +=3D=3D=3D=3D=3D
+> > +
+> > +The client may want to request the encoder to reinitialize the encodin=
+g, so
+> > +that the following stream data becomes independent from the stream dat=
+a
+> > +generated before. Depending on the coded format, that may imply that:
+> > +
+> > +* encoded frames produced after the restart must not reference any fra=
+mes
+> > +  produced before the stop, e.g. no long term references for H.264/HEV=
+C,
+> > +
+> > +* any headers that must be included in a standalone stream must be pro=
+duced
+> > +  again, e.g. SPS and PPS for H.264/HEVC.
+> > +
+> > +This can be achieved by performing the reset sequence.
+> > +
+> > +1. Perform the `Drain` sequence to ensure all the in-flight encoding f=
+inishes
+> > +   and respective buffers are dequeued.
+> > +
+> > +2. Stop streaming on the ``CAPTURE`` queue via :c:func:`VIDIOC_STREAMO=
+FF`. This
+> > +   will return all currently queued ``CAPTURE`` buffers to the client,=
+ without
+> > +   valid frame data.
+> > +
+> > +3. Start streaming on the ``CAPTURE`` queue via :c:func:`VIDIOC_STREAM=
+ON` and
+> > +   continue with regular encoding sequence. The encoded frames produce=
+d into
+> > +   ``CAPTURE`` buffers from now on will contain a standalone stream th=
+at can be
+> > +   decoded without the need for frames encoded before the reset sequen=
+ce,
+> > +   starting at the first ``OUTPUT`` buffer queued after issuing the
+> > +   `V4L2_ENC_CMD_STOP` of the `Drain` sequence.
+> > +
+> > +This sequence may be also used to change encoding parameters for encod=
+ers
+> > +without the ability to change the parameters on the fly.
+>
+> How the v4l2 client knows which parameters could be changed on the fly
+> and which cannot? Controls should return -EBUSY?
 
-Ah, OK. Just drop this then.
+Yes, but I guess you found the answer already. :) I guess we could add
+a reference to the "Encoding Parameter Changes" section.
 
-> 
-> I haven't looked into the cec notifier mechanism yet but would it be
-> better to try to use that instead if possible and just ignore this
-> device's physical address detection? Then I could do more of a proper
-> reset in this enable op. But I'm not sure if I can properly associate
-> the device with an HDMI port on my platform unless I make some changes
-> to coreboot.
+>
+> Also could that Reset be used to change the pixel format and probably
+> colorspace?
 
-I don't think this is useful: it's nice to have the CEC adapter do the
-physical address detection.
+I guess it would indeed have to be used for any changes that would
+affect the parameters of the encoded stream, e.g. coded resolution or
+coded colorspace.
 
-One question about that though: if there is no physical address, can this
-driver still transmit CEC messages? Specifically Image View On. This is
-important to wake up displays that pull down the HPD when in standby.
+For any changes which wouldn't affect the encoded stream, e.g. a
+source format change with the same crop size or a source colorspace
+change while keeping the coded colorspace the same (i.e. hardware
+doing the conversion), the OUTPUT queue could be reconfigured on its
+own without the need to do anything to the CAPTURE queue.
 
-The easiest way to test this is with a Pulse-Eight CEC adapter.
-
-See also the section "CEC Without HPD" here:
-
-https://hverkuil.home.xs4all.nl/cec-status.txt
-
-Regards,
-
-	Hans
+Best regards,
+Tomasz
