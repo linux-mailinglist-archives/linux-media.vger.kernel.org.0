@@ -2,335 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8463B1E7592
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2020 07:49:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B76C1E75C6
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2020 08:10:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725768AbgE2FtP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 May 2020 01:49:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44256 "EHLO
+        id S1725790AbgE2GKY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 May 2020 02:10:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725355AbgE2FtO (ORCPT
+        with ESMTP id S1725601AbgE2GKY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 May 2020 01:49:14 -0400
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 490F8C08C5C6
-        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 22:49:14 -0700 (PDT)
-Received: by mail-oi1-x244.google.com with SMTP id m67so1604068oif.4
-        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 22:49:14 -0700 (PDT)
+        Fri, 29 May 2020 02:10:24 -0400
+Received: from mail-yb1-xb32.google.com (mail-yb1-xb32.google.com [IPv6:2607:f8b0:4864:20::b32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC71EC08C5C8
+        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 23:10:23 -0700 (PDT)
+Received: by mail-yb1-xb32.google.com with SMTP id s7so588987ybo.9
+        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 23:10:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=GwPTcodFrxyo6ma4eVz3wTAE48j9kX0xKI9NPcHg3+Y=;
-        b=g7c8phrQOHUbjmhEiH1WaiZ1ynwv7l8bGG0INitQ4WPavylOnmjSOorKtp00skaFkC
-         OznTnDNw77kWfXlyzgGTJy7zf94suVZrOnm3RVNMArQ0jgcN/N11ZPOz4POFpT2QoIIf
-         GCXS4yH+9IzvvLeppOxZjpO4kWcwbINiDyDo8=
+         :cc;
+        bh=P2nBGdPlsWRCWwz9C54BrqMhSnzVHF9pPpLpGAMC3UU=;
+        b=O8lfgxkjb5WR31oIufsKmCgR0RXJD0+bBpmHJoOsGxw7evXX1GYYvx6gjpXXq/VVs/
+         zg169dlblh4WbfJVT3QgVQ0BoduCOGUpZu8kBzC0BMDKv2L/NONRMsgkLCgTYrJ6ttbu
+         wBJkHHw6+/hfmz6+UMgrJ19lMQDBVcOZ0oX+lPL9th15Mfn/MUpL3ruNOIi7JDk090In
+         YTNXnLQ62K+wyGB7Nfl9wp8cPXWYf2cVtR976UsVbI/ZJbmqt33kisZ4ouKAiGzcj7Tu
+         ohyiB/c1stAtRiJ+7q+xWoTIiHx6YXowHh/gwV6Ta9Fg6iEavCBgZv9VZPp3k5hT0Zn7
+         c1hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=GwPTcodFrxyo6ma4eVz3wTAE48j9kX0xKI9NPcHg3+Y=;
-        b=hk5Tqg+Ky3QrizfWfNjdFkYbL6IdTkzhZGMn5GH996pGhnO045UWR0TLCi20BG21mS
-         K7C0ULOd/XNCByxBK4mHvUqwU8fcUCDvFQ0Km9pGM6UUs8Y/OT9JZlw/Bic0/BX/U4uH
-         HDxxkYG/2rNwECC8jXXbnAIuo8Fs0HOjDL7KrBpN4+ymvY4CMlujgI91prpOYzVylC2P
-         RC6+2VRadcRcXVMeBBUCgNqX7Z6GD0x99JpHWYU0wVfQaNUTj2B2DngCgEA+BeHADDwR
-         dxx7IbhEkES1e/OB0VNyc3jhQ5KKONL4IWs3JH1PC0lNdLOJlR6VzUubhJ3OpPcZk0HK
-         OeCA==
-X-Gm-Message-State: AOAM533VKX59H+nBxWPvTP3UvUl0uwHwasBj7ndDOW75shycCR4K8OuL
-        SThecFSsBNvevsCzLg7dDo2dZeZwVKagVmiWrwhXhQ==
-X-Google-Smtp-Source: ABdhPJzpgZX/J2XciC692mAlVJg1GyBwp0rDuY4jUgXHZHfgFIx4R9W4uWgMuhUonjr74hDaQmZX+gO4Vj23YZD/mGg=
-X-Received: by 2002:a05:6808:282:: with SMTP id z2mr4257884oic.101.1590731353651;
- Thu, 28 May 2020 22:49:13 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=P2nBGdPlsWRCWwz9C54BrqMhSnzVHF9pPpLpGAMC3UU=;
+        b=iRq+uSRbM+Jk2JJLpb/6B7NLqeua1a57t/0py5gkqGqzoK0z4RrNnjRnchbBXvkyJe
+         AbEFtF95T6A4JX2iUsToHkI2c3Tff1zKUPgpDm267m7a7RNEejvCKGwyzlfuJ6wUUhIf
+         ClO2AY8C448Fi0LWMHj9vcGhFGeNMd39GN5iDkcVezs2mv+ScT/ak06xKq2VUF+0IfK7
+         gz6f0F+6H+LvEaTv6iMUIQT1iwuxs72LTafftEktifJyVzjHlsc3UktPoJlRePEgWTF9
+         th+/HaR8ZJ6qTWaALP3e7NFO7dJ03s3WScuW8c3X/PXLwKMk3NWqvGr1Ri836x/c92Do
+         o8Vg==
+X-Gm-Message-State: AOAM533w++Xq5zkHQRqud2c+UPKw+B8W9UXjeDQf2xrae3GIAiQGURJl
+        TDdAIZoubpbVs8zbPCy+alpYizL8nT04o4LzUtfcR/R3
+X-Google-Smtp-Source: ABdhPJz2Uo8OrbmMgdMlGpmHGp+6cso/2EXGuVofumuIcendMf7zvOHKG9MNc/X4vCTynXfldSDdgB3Pyi2z5THqJ7I=
+X-Received: by 2002:a25:ba8f:: with SMTP id s15mr10984024ybg.34.1590732622543;
+ Thu, 28 May 2020 23:10:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
- <20200512085944.222637-3-daniel.vetter@ffwll.ch> <190e5572-fc29-612d-87e0-a4f0151abcc6@amd.com>
-In-Reply-To: <190e5572-fc29-612d-87e0-a4f0151abcc6@amd.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Fri, 29 May 2020 07:49:02 +0200
-Message-ID: <CAKMK7uH7WM_FMHkn4+yBhDCqLRg2Hak6YXup1twRwky_5TmiGw@mail.gmail.com>
-Subject: Re: [RFC 02/17] dma-fence: basic lockdep annotations
-To:     Luben Tuikov <luben.tuikov@amd.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        intel-gfx <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
+References: <20200529030012.254592-1-jnchase@google.com> <20200529030012.254592-3-jnchase@google.com>
+ <CALTkaQ2OR+bc2QGeucA5aP3SiM5HLnx5=DoZQ51E_1d99Hb5Uw@mail.gmail.com>
+In-Reply-To: <CALTkaQ2OR+bc2QGeucA5aP3SiM5HLnx5=DoZQ51E_1d99Hb5Uw@mail.gmail.com>
+From:   Jeff Chase <jnchase@google.com>
+Date:   Fri, 29 May 2020 02:10:11 -0400
+Message-ID: <CALTkaQ0NLgjS7H7De=7jy9jRG1xMFSbzdmxrFNerNU+o1rRzpg@mail.gmail.com>
+Subject: Fwd: [PATCH v3 2/2] media: cec: i2c: ch7322: Add ch7322 CEC
+ controller driver
+To:     linux-media@vger.kernel.org
+Cc:     mchehab@kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        robh+dt@kernel.org, devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, May 28, 2020 at 11:54 PM Luben Tuikov <luben.tuikov@amd.com> wrote:
->
-> On 2020-05-12 4:59 a.m., Daniel Vetter wrote:
-> > Design is similar to the lockdep annotations for workers, but with
-> > some twists:
-> >
-> > - We use a read-lock for the execution/worker/completion side, so that
-> >   this explicit annotation can be more liberally sprinkled around.
-> >   With read locks lockdep isn't going to complain if the read-side
-> >   isn't nested the same way under all circumstances, so ABBA deadlocks
-> >   are ok. Which they are, since this is an annotation only.
-> >
-> > - We're using non-recursive lockdep read lock mode, since in recursive
-> >   read lock mode lockdep does not catch read side hazards. And we
-> >   _very_ much want read side hazards to be caught. For full details of
-> >   this limitation see
-> >
-> >   commit e91498589746065e3ae95d9a00b068e525eec34f
-> >   Author: Peter Zijlstra <peterz@infradead.org>
-> >   Date:   Wed Aug 23 13:13:11 2017 +0200
-> >
-> >       locking/lockdep/selftests: Add mixed read-write ABBA tests
-> >
-> > - To allow nesting of the read-side explicit annotations we explicitly
-> >   keep track of the nesting. lock_is_held() allows us to do that.
-> >
-> > - The wait-side annotation is a write lock, and entirely done within
-> >   dma_fence_wait() for everyone by default.
-> >
-> > - To be able to freely annotate helper functions I want to make it ok
-> >   to call dma_fence_begin/end_signalling from soft/hardirq context.
-> >   First attempt was using the hardirq locking context for the write
-> >   side in lockdep, but this forces all normal spinlocks nested within
-> >   dma_fence_begin/end_signalling to be spinlocks. That bollocks.
-> >
-> >   The approach now is to simple check in_atomic(), and for these cases
-> >   entirely rely on the might_sleep() check in dma_fence_wait(). That
-> >   will catch any wrong nesting against spinlocks from soft/hardirq
-> >   contexts.
-> >
-> > The idea here is that every code path that's critical for eventually
-> > signalling a dma_fence should be annotated with
-> > dma_fence_begin/end_signalling. The annotation ideally starts right
-> > after a dma_fence is published (added to a dma_resv, exposed as a
-> > sync_file fd, attached to a drm_syncobj fd, or anything else that
-> > makes the dma_fence visible to other kernel threads), up to and
-> > including the dma_fence_wait(). Examples are irq handlers, the
-> > scheduler rt threads, the tail of execbuf (after the corresponding
-> > fences are visible), any workers that end up signalling dma_fences and
-> > really anything else. Not annotated should be code paths that only
-> > complete fences opportunistically as the gpu progresses, like e.g.
-> > shrinker/eviction code.
-> >
-> > The main class of deadlocks this is supposed to catch are:
-> >
-> > Thread A:
-> >
-> >       mutex_lock(A);
-> >       mutex_unlock(A);
-> >
-> >       dma_fence_signal();
-> >
-> > Thread B:
-> >
-> >       mutex_lock(A);
-> >       dma_fence_wait();
-> >       mutex_unlock(A);
-> >
-> > Thread B is blocked on A signalling the fence, but A never gets around
-> > to that because it cannot acquire the lock A.
-> >
-> > Note that dma_fence_wait() is allowed to be nested within
-> > dma_fence_begin/end_signalling sections. To allow this to happen the
-> > read lock needs to be upgraded to a write lock, which means that any
-> > other lock is acquired between the dma_fence_begin_signalling() call an=
-d
-> > the call to dma_fence_wait(), and still held, this will result in an
-> > immediate lockdep complaint. The only other option would be to not
-> > annotate such calls, defeating the point. Therefore these annotations
-> > cannot be sprinkled over the code entirely mindless to avoid false
-> > positives.
-> >
-> > v2: handle soft/hardirq ctx better against write side and dont forget
-> > EXPORT_SYMBOL, drivers can't use this otherwise.
-> >
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > Cc: linux-rdma@vger.kernel.org
-> > Cc: amd-gfx@lists.freedesktop.org
-> > Cc: intel-gfx@lists.freedesktop.org
-> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > ---
-> >  drivers/dma-buf/dma-fence.c | 53 +++++++++++++++++++++++++++++++++++++
-> >  include/linux/dma-fence.h   | 12 +++++++++
-> >  2 files changed, 65 insertions(+)
-> >
-> > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> > index 6802125349fb..d5c0fd2efc70 100644
-> > --- a/drivers/dma-buf/dma-fence.c
-> > +++ b/drivers/dma-buf/dma-fence.c
-> > @@ -110,6 +110,52 @@ u64 dma_fence_context_alloc(unsigned num)
-> >  }
-> >  EXPORT_SYMBOL(dma_fence_context_alloc);
-> >
-> > +#ifdef CONFIG_LOCKDEP
-> > +struct lockdep_map   dma_fence_lockdep_map =3D {
-> > +     .name =3D "dma_fence_map"
-> > +};
-> > +
-> > +bool dma_fence_begin_signalling(void)
-> > +{
-> > +     /* explicitly nesting ... */
-> > +     if (lock_is_held_type(&dma_fence_lockdep_map, 1))
-> > +             return true;
-> > +
-> > +     /* rely on might_sleep check for soft/hardirq locks */
-> > +     if (in_atomic())
-> > +             return true;
-> > +
-> > +     /* ... and non-recursive readlock */
-> > +     lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _RET_IP_);
-> > +
-> > +     return false;
-> > +}
-> > +EXPORT_SYMBOL(dma_fence_begin_signalling);
->
-> Hi Daniel,
->
-> This is great work and could help a lot.
->
-> If you invert the result of dma_fence_begin_signalling()
-> then it would naturally mean "locked", i.e. whether we need to
-> later release "dma_fence_lockedep_map". Then,
-> in dma_fence_end_signalling(), you can call the "cookie"
-> argument "locked" and simply do:
->
-> void dma_fence_end_signalling(bool locked)
-> {
->         if (locked)
->                 lock_release(&dma_fence_lockdep_map, _RET_IP_);
-> }
-> EXPORT_SYMBOL(dma_fence_end_signalling);
->
-> It'll be more natural to understand as well.
+(Resending as plain text, sorry)
 
-It's intentionally called cookie so callers don't start doing funny
-stuff with it. The thing is, after begin_signalling you are _always_
-in the locked state. It's just that because of limitations with
-lockdep we need to play a few tricks, and in some cases we do not take
-the lockdep map. There's 2 cases:
-- lockdep map already taken - we want recursive readlock semantics for
-this, but lockdep does not correctly check recursive read locks. Hence
-we only use readlock, and make sure we do not actually nest upon
-ourselves with this explicit check.
-- when we're in atomic sections - lockdep gets pissed at us if we take
-the read lock in hard/softirq sections because of hard/softirq ctx
-mismatch (lockdep thinks it's a real lock, but we don't treat it as
-one). Simplest fix was to rely on the might_sleep check in patch 1
-(already merged)
+> +static int ch7322_cec_adap_enable(struct cec_adapter *adap, bool enable)
+> +{
+> +       struct ch7322 *ch7322 = cec_get_drvdata(adap);
+> +       int ret;
+> +
+> +       if (enable)
+> +               ret = ch7322_unmask_interrupt(ch7322);
+> +       else
+> +               ret = ch7322_mask_interrupt(ch7322);
+> +
+> +       return ret;
+> +}
+> +
 
-The commit message mentions this already a bit, but I'll try to
-explain this implementation detail tersely in the kerneldoc too in the
-next round.
+I just realized that doing this here is broken -- the driver depends
+on the interrupt to detect when the physical address changes. I could
+mask only the tx/rx interrupt here instead but that is starting to
+feel a bit pointless.
 
-Thanks, Daniel
+I haven't looked into the cec notifier mechanism yet but would it be
+better to try to use that instead if possible and just ignore this
+device's physical address detection? Then I could do more of a proper
+reset in this enable op. But I'm not sure if I can properly associate
+the device with an HDMI port on my platform unless I make some changes
+to coreboot.
 
->
-> Regards,
-> Luben
->
-> > +
-> > +void dma_fence_end_signalling(bool cookie)
-> > +{
-> > +     if (cookie)
-> > +             return;
-> > +
-> > +     lock_release(&dma_fence_lockdep_map, _RET_IP_);
-> > +}
-> > +EXPORT_SYMBOL(dma_fence_end_signalling);
-> > +
-> > +void __dma_fence_might_wait(void)
-> > +{
-> > +     bool tmp;
-> > +
-> > +     tmp =3D lock_is_held_type(&dma_fence_lockdep_map, 1);
-> > +     if (tmp)
-> > +             lock_release(&dma_fence_lockdep_map, _THIS_IP_);
-> > +     lock_map_acquire(&dma_fence_lockdep_map);
-> > +     lock_map_release(&dma_fence_lockdep_map);
-> > +     if (tmp)
-> > +             lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _T=
-HIS_IP_);
-> > +}
-> > +#endif
-> > +
-> > +
-> >  /**
-> >   * dma_fence_signal_locked - signal completion of a fence
-> >   * @fence: the fence to signal
-> > @@ -170,14 +216,19 @@ int dma_fence_signal(struct dma_fence *fence)
-> >  {
-> >       unsigned long flags;
-> >       int ret;
-> > +     bool tmp;
-> >
-> >       if (!fence)
-> >               return -EINVAL;
-> >
-> > +     tmp =3D dma_fence_begin_signalling();
-> > +
-> >       spin_lock_irqsave(fence->lock, flags);
-> >       ret =3D dma_fence_signal_locked(fence);
-> >       spin_unlock_irqrestore(fence->lock, flags);
-> >
-> > +     dma_fence_end_signalling(tmp);
-> > +
-> >       return ret;
-> >  }
-> >  EXPORT_SYMBOL(dma_fence_signal);
-> > @@ -211,6 +262,8 @@ dma_fence_wait_timeout(struct dma_fence *fence, boo=
-l intr, signed long timeout)
-> >       if (timeout > 0)
-> >               might_sleep();
-> >
-> > +     __dma_fence_might_wait();
-> > +
-> >       trace_dma_fence_wait_start(fence);
-> >       if (fence->ops->wait)
-> >               ret =3D fence->ops->wait(fence, intr, timeout);
-> > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> > index 3347c54f3a87..3f288f7db2ef 100644
-> > --- a/include/linux/dma-fence.h
-> > +++ b/include/linux/dma-fence.h
-> > @@ -357,6 +357,18 @@ dma_fence_get_rcu_safe(struct dma_fence __rcu **fe=
-ncep)
-> >       } while (1);
-> >  }
-> >
-> > +#ifdef CONFIG_LOCKDEP
-> > +bool dma_fence_begin_signalling(void);
-> > +void dma_fence_end_signalling(bool cookie);
-> > +#else
-> > +static inline bool dma_fence_begin_signalling(void)
-> > +{
-> > +     return true;
-> > +}
-> > +static inline void dma_fence_end_signalling(bool cookie) {}
-> > +static inline void __dma_fence_might_wait(void) {}
-> > +#endif
-> > +
-> >  int dma_fence_signal(struct dma_fence *fence);
-> >  int dma_fence_signal_locked(struct dma_fence *fence);
-> >  signed long dma_fence_default_wait(struct dma_fence *fence,
-> >
->
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-+41 (0) 79 365 57 48 - http://blog.ffwll.ch
+Thanks,
+Jeff
