@@ -2,275 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB6671E811C
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2020 17:02:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A229E1E81F0
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2020 17:36:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727025AbgE2PB6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 29 May 2020 11:01:58 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38186 "EHLO mail.kernel.org"
+        id S1727088AbgE2Pgi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 May 2020 11:36:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:42790 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726476AbgE2PB5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 29 May 2020 11:01:57 -0400
-Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        id S1726838AbgE2Pgi (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 29 May 2020 11:36:38 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 753AA20776;
-        Fri, 29 May 2020 15:01:56 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id EB00E20776;
+        Fri, 29 May 2020 15:36:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1590764516;
-        bh=OkGr1wyY4tvroJ3UDFTTFl/XE5q2AgcowgjQvdCNFUY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=L6+WZb5fsbnG1o1SSyv+j4PuZHaz/aPo97ofpBnjY40eU3mGBtHcXXCxoU2NQQD1f
-         0uhBXQb+dvRBmpHlxXt8zVhHrctF4GEFU22OvFj6bUduLcHCiBfDRUVUONYkA64RyL
-         Xs7OQ/aNkArjHjXTPd650VlG+JywR8GgVNsoLqiI=
-Received: from mchehab by mail.kernel.org with local (Exim 4.93)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jegWA-001c0A-2q; Fri, 29 May 2020 17:01:54 +0200
+        s=default; t=1590766597;
+        bh=+8XbA9yfRvYd3WH4x+WNAh3iFVXHLrKuuWpb9+uRTDY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=IQbN0x3MKDxIQ9KeRlyuQqNWVm9aGh4djJnftYgl2nhoXhCgWFM0B6BQvBbRnP0uo
+         nr0Hne1P/drq7sX2HNzWpvd7bwQxB76pO9B+E4n6FAhmBBCZbMSyam9kqsJBGgolc9
+         b41rk9zrXN/N45Osgwb2i/1Zowcskz8phwZuQzrA=
+Date:   Fri, 29 May 2020 17:36:34 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>
-Subject: [PATCH] media: atomisp: get rid of set_fs() dirty hacks
-Date:   Fri, 29 May 2020 17:01:50 +0200
-Message-Id: <4b9033cb779d5efef4193ceb15f4614f9960a104.1590764497.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [bug report] Revert "media: staging: atomisp: Remove driver"
+Message-ID: <20200529173634.20056578@coco.lan>
+In-Reply-To: <20200529104107.GA1306497@mwanda>
+References: <20200529104107.GA1306497@mwanda>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This file was based on an older version of the V4L2 compat32
-code, which had this ugly hack.
+Em Fri, 29 May 2020 13:41:07 +0300
+Dan Carpenter <dan.carpenter@oracle.com> escreveu:
 
-Change the code to remove the hack. Yet, the entire compat32
-code is currently commented out. So, let's add a FIXME note
-at the code, as we may need to check if some of the atomisp
-specific ioctls would require it.
+> Hello Mauro Carvalho Chehab,
+> 
+> The patch ad85094b293e: "Revert "media: staging: atomisp: Remove
+> driver"" from Apr 19, 2020, leads to the following static checker
+> warning:
+> 
+> 	drivers/staging/media/atomisp/pci/atomisp_acc.c:207 atomisp_acc_load_to_pipe()
+> 	warn: pointer comes from user 'acc_fw->fw->blob.code'
+> 
+> drivers/staging/media/atomisp/pci/atomisp_acc.c
+>    168  
+>    169          acc_fw = acc_alloc_fw(user_fw->size);
+>    170          if (!acc_fw)
+>    171                  return -ENOMEM;
+>    172  
+>    173          if (copy_from_user(acc_fw->fw, user_fw->data, user_fw->size)) {
+>                                    ^^^^^^^^^^
+> The acc_fw->fw->blob.code pointer isn't annotated as __user data.
+> Eventually it gets passed as "data" to int hmm_store() and treated as
+> a kernel pointer.
+> 
+> Presumably only privileged users can load new firmware so this isn't
+> a serious security bug...
 
-It is not worth to do such checks now, as we may get rid
-of several of them while cleaning up other things while
-at staging.
+Yeah, the firmware file is received only at the device probe's time
+(or at open).
 
-Reported-by: Christoph Hellwig <hch@lst.de>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/staging/media/atomisp/TODO            |  3 +
- .../atomisp/pci/atomisp_compat_ioctl32.c      | 89 ++++++++++---------
- 2 files changed, 52 insertions(+), 40 deletions(-)
+On a side note, after looking on some things today, I'm not even sure if the
+code under atomisp_acc is ever called. The firmware file is actually a
+container with several binaries of different types: "normal" files,
+and 3 types of "accel" files (used by this _acc code). At least at the
+two firmware files I'm using on my tests, the only binaries available
+are from the "normal" type.
 
-diff --git a/drivers/staging/media/atomisp/TODO b/drivers/staging/media/atomisp/TODO
-index e58643a9de43..9e46015ebcd5 100644
---- a/drivers/staging/media/atomisp/TODO
-+++ b/drivers/staging/media/atomisp/TODO
-@@ -161,6 +161,9 @@ TODO
-     for this driver until the other work is done, as there will be a lot
-     of code churn until this driver becomes functional again.
- 
-+16. Fix the compat32 code and remove the comment preventing it to be
-+    called.
-+
- Limitations
- ===========
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_ioctl32.c b/drivers/staging/media/atomisp/pci/atomisp_compat_ioctl32.c
-index 3079043f1fac..e2e3a242b95d 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_ioctl32.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_ioctl32.c
-@@ -847,9 +847,17 @@ static long atomisp_do_compat_ioctl(struct file *file,
- 		struct atomisp_metadata_with_type md_with_type;
- 		struct atomisp_sensor_ae_bracketing_lut lut;
- 	} karg;
--	mm_segment_t old_fs;
--	void __user *up = compat_ptr(arg);
-+	void __user *p32 = compat_ptr(arg);
-+	void __user *new_p64 = NULL;
- 	long err = -ENOIOCTLCMD;
-+	int compatible_arg = 1;
-+
-+	/*
-+	 * FIXME: should verify if any of the functions below will be
-+	 * setting a pointer. If so, compatible_arg should be zeroed.
-+	 *
-+	 * Please see v4l2-compat-ioctl32.c for more details
-+	 */
- 
- 	/* First, convert the command. */
- 	switch (cmd) {
-@@ -936,130 +944,131 @@ static long atomisp_do_compat_ioctl(struct file *file,
- 	switch (cmd) {
- 	case ATOMISP_IOC_G_HISTOGRAM:
- 	case ATOMISP_IOC_S_HISTOGRAM:
--		err = get_atomisp_histogram32(&karg.his, up);
-+		err = get_atomisp_histogram32(&karg.his, p32);
- 		break;
- 	case ATOMISP_IOC_G_DIS_STAT:
--		err = get_atomisp_dis_statistics32(&karg.dis_s, up);
-+		err = get_atomisp_dis_statistics32(&karg.dis_s, p32);
- 		break;
- 	case ATOMISP_IOC_S_DIS_COEFS:
--		err = get_atomisp_dis_coefficients32(&karg.dis_c, up);
-+		err = get_atomisp_dis_coefficients32(&karg.dis_c, p32);
- 		break;
- 	case ATOMISP_IOC_S_DIS_VECTOR:
--		err = get_atomisp_dvs_6axis_config32(&karg.dvs_c, up);
-+		err = get_atomisp_dvs_6axis_config32(&karg.dvs_c, p32);
- 		break;
- 	case ATOMISP_IOC_G_3A_STAT:
--		err = get_atomisp_3a_statistics32(&karg.s3a_s, up);
-+		err = get_atomisp_3a_statistics32(&karg.s3a_s, p32);
- 		break;
- 	case ATOMISP_IOC_G_ISP_GDC_TAB:
- 	case ATOMISP_IOC_S_ISP_GDC_TAB:
--		err = get_atomisp_morph_table32(&karg.mor_t, up);
-+		err = get_atomisp_morph_table32(&karg.mor_t, p32);
- 		break;
- 	case ATOMISP_IOC_S_ISP_FPN_TABLE:
--		err = get_v4l2_framebuffer32(&karg.v4l2_buf, up);
-+		err = get_v4l2_framebuffer32(&karg.v4l2_buf, p32);
- 		break;
- 	case ATOMISP_IOC_G_ISP_OVERLAY:
- 	case ATOMISP_IOC_S_ISP_OVERLAY:
--		err = get_atomisp_overlay32(&karg.overlay, up);
-+		err = get_atomisp_overlay32(&karg.overlay, p32);
- 		break;
- 	case ATOMISP_IOC_G_SENSOR_CALIBRATION_GROUP:
--		err = get_atomisp_calibration_group32(&karg.cal_grp, up);
-+		err = get_atomisp_calibration_group32(&karg.cal_grp, p32);
- 		break;
- 	case ATOMISP_IOC_ACC_LOAD:
--		err = get_atomisp_acc_fw_load32(&karg.acc_fw_load, up);
-+		err = get_atomisp_acc_fw_load32(&karg.acc_fw_load, p32);
- 		break;
- 	case ATOMISP_IOC_ACC_S_ARG:
- 	case ATOMISP_IOC_ACC_DESTAB:
--		err = get_atomisp_acc_fw_arg32(&karg.acc_fw_arg, up);
-+		err = get_atomisp_acc_fw_arg32(&karg.acc_fw_arg, p32);
- 		break;
- 	case ATOMISP_IOC_G_SENSOR_PRIV_INT_DATA:
- 	case ATOMISP_IOC_G_MOTOR_PRIV_INT_DATA:
--		err = get_v4l2_private_int_data32(&karg.v4l2_pri_data, up);
-+		err = get_v4l2_private_int_data32(&karg.v4l2_pri_data, p32);
- 		break;
- 	case ATOMISP_IOC_S_ISP_SHD_TAB:
--		err = get_atomisp_shading_table32(&karg.shd_tbl, up);
-+		err = get_atomisp_shading_table32(&karg.shd_tbl, p32);
- 		break;
- 	case ATOMISP_IOC_ACC_MAP:
- 	case ATOMISP_IOC_ACC_UNMAP:
--		err = get_atomisp_acc_map32(&karg.acc_map, up);
-+		err = get_atomisp_acc_map32(&karg.acc_map, p32);
- 		break;
- 	case ATOMISP_IOC_ACC_S_MAPPED_ARG:
--		err = get_atomisp_acc_s_mapped_arg32(&karg.acc_map_arg, up);
-+		err = get_atomisp_acc_s_mapped_arg32(&karg.acc_map_arg, p32);
- 		break;
- 	case ATOMISP_IOC_S_PARAMETERS:
--		err = get_atomisp_parameters32(&karg.param, up);
-+		err = get_atomisp_parameters32(&karg.param, p32);
- 		break;
- 	case ATOMISP_IOC_ACC_LOAD_TO_PIPE:
- 		err = get_atomisp_acc_fw_load_to_pipe32(&karg.acc_fw_to_pipe,
--							up);
-+							p32);
- 		break;
- 	case ATOMISP_IOC_G_METADATA:
--		err = get_atomisp_metadata_stat32(&karg.md, up);
-+		err = get_atomisp_metadata_stat32(&karg.md, p32);
- 		break;
- 	case ATOMISP_IOC_G_METADATA_BY_TYPE:
- 		err = get_atomisp_metadata_by_type_stat32(&karg.md_with_type,
--			up);
-+			p32);
- 		break;
- 	case ATOMISP_IOC_S_SENSOR_AE_BRACKETING_LUT:
--		err = get_atomisp_sensor_ae_bracketing_lut(&karg.lut, up);
-+		err = get_atomisp_sensor_ae_bracketing_lut(&karg.lut, p32);
- 		break;
- 	}
- 	if (err)
- 		return err;
- 
--	old_fs = get_fs();
--	set_fs(KERNEL_DS);
--	err = native_ioctl(file, cmd, (unsigned long)&karg);
--	set_fs(old_fs);
-+	if (compatible_arg)
-+		err = native_ioctl(file, cmd, (unsigned long)p32);
-+	else
-+		err = native_ioctl(file, cmd, (unsigned long)new_p64);
-+
- 	if (err)
- 		return err;
- 
- 	switch (cmd) {
- 	case ATOMISP_IOC_G_HISTOGRAM:
--		err = put_atomisp_histogram32(&karg.his, up);
-+		err = put_atomisp_histogram32(&karg.his, p32);
- 		break;
- 	case ATOMISP_IOC_G_DIS_STAT:
--		err = put_atomisp_dis_statistics32(&karg.dis_s, up);
-+		err = put_atomisp_dis_statistics32(&karg.dis_s, p32);
- 		break;
- 	case ATOMISP_IOC_G_3A_STAT:
--		err = put_atomisp_3a_statistics32(&karg.s3a_s, up);
-+		err = put_atomisp_3a_statistics32(&karg.s3a_s, p32);
- 		break;
- 	case ATOMISP_IOC_G_ISP_GDC_TAB:
--		err = put_atomisp_morph_table32(&karg.mor_t, up);
-+		err = put_atomisp_morph_table32(&karg.mor_t, p32);
- 		break;
- 	case ATOMISP_IOC_G_ISP_OVERLAY:
--		err = put_atomisp_overlay32(&karg.overlay, up);
-+		err = put_atomisp_overlay32(&karg.overlay, p32);
- 		break;
- 	case ATOMISP_IOC_G_SENSOR_CALIBRATION_GROUP:
--		err = put_atomisp_calibration_group32(&karg.cal_grp, up);
-+		err = put_atomisp_calibration_group32(&karg.cal_grp, p32);
- 		break;
- 	case ATOMISP_IOC_ACC_LOAD:
--		err = put_atomisp_acc_fw_load32(&karg.acc_fw_load, up);
-+		err = put_atomisp_acc_fw_load32(&karg.acc_fw_load, p32);
- 		break;
- 	case ATOMISP_IOC_ACC_S_ARG:
- 	case ATOMISP_IOC_ACC_DESTAB:
--		err = put_atomisp_acc_fw_arg32(&karg.acc_fw_arg, up);
-+		err = put_atomisp_acc_fw_arg32(&karg.acc_fw_arg, p32);
- 		break;
- 	case ATOMISP_IOC_G_SENSOR_PRIV_INT_DATA:
- 	case ATOMISP_IOC_G_MOTOR_PRIV_INT_DATA:
--		err = put_v4l2_private_int_data32(&karg.v4l2_pri_data, up);
-+		err = put_v4l2_private_int_data32(&karg.v4l2_pri_data, p32);
- 		break;
- 	case ATOMISP_IOC_ACC_MAP:
- 	case ATOMISP_IOC_ACC_UNMAP:
--		err = put_atomisp_acc_map32(&karg.acc_map, up);
-+		err = put_atomisp_acc_map32(&karg.acc_map, p32);
- 		break;
- 	case ATOMISP_IOC_ACC_S_MAPPED_ARG:
--		err = put_atomisp_acc_s_mapped_arg32(&karg.acc_map_arg, up);
-+		err = put_atomisp_acc_s_mapped_arg32(&karg.acc_map_arg, p32);
- 		break;
- 	case ATOMISP_IOC_ACC_LOAD_TO_PIPE:
- 		err = put_atomisp_acc_fw_load_to_pipe32(&karg.acc_fw_to_pipe,
--							up);
-+							p32);
- 		break;
- 	case ATOMISP_IOC_G_METADATA:
--		err = put_atomisp_metadata_stat32(&karg.md, up);
-+		err = put_atomisp_metadata_stat32(&karg.md, p32);
- 		break;
- 	case ATOMISP_IOC_G_METADATA_BY_TYPE:
- 		err = put_atomisp_metadata_by_type_stat32(&karg.md_with_type,
--			up);
-+			p32);
- 		break;
- 	}
- 
--- 
-2.26.2
+In any case, except if someone write it first, I'll try to write a
+patch for it (as the upcoming merge window would permit).
 
+>    174                  acc_free_fw(acc_fw);
+>    175                  return -EFAULT;
+>    176          }
+>    177  
+>    178          handle = ida_alloc(&asd->acc.ida, GFP_KERNEL);
+>    179          if (handle < 0) {
+>    180                  acc_free_fw(acc_fw);
+>    181                  return -ENOSPC;
+>    182          }
+>    183  
+>    184          user_fw->fw_handle = handle;
+>    185          acc_fw->handle = handle;
+>    186          acc_fw->flags = user_fw->flags;
+>    187          acc_fw->type = user_fw->type;
+>    188          acc_fw->fw->handle = handle;
+>    189  
+>    190          /*
+>    191           * correct isp firmware type in order ISP firmware can be appended
+>    192           * to correct pipe properly
+>    193           */
+>    194          if (acc_fw->fw->type == ia_css_isp_firmware) {
+>    195                  static const int type_to_css[] = {
+>    196                          [ATOMISP_ACC_FW_LOAD_TYPE_OUTPUT] =
+>    197                          IA_CSS_ACC_OUTPUT,
+>    198                          [ATOMISP_ACC_FW_LOAD_TYPE_VIEWFINDER] =
+>    199                          IA_CSS_ACC_VIEWFINDER,
+>    200                          [ATOMISP_ACC_FW_LOAD_TYPE_STANDALONE] =
+>    201                          IA_CSS_ACC_STANDALONE,
+>    202                  };
+>    203                  acc_fw->fw->info.isp.type = type_to_css[acc_fw->type];
+>    204          }
+>    205  
+>    206          list_add_tail(&acc_fw->list, &asd->acc.fw);
+>    207          return 0;
+>    208  }
+> 
+> regards,
+> dan carpenter
+
+
+
+Thanks,
+Mauro
