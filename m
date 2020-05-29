@@ -2,172 +2,335 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DB1B1E73AA
-	for <lists+linux-media@lfdr.de>; Fri, 29 May 2020 05:37:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8463B1E7592
+	for <lists+linux-media@lfdr.de>; Fri, 29 May 2020 07:49:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436594AbgE2DhH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 28 May 2020 23:37:07 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:50601 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2436471AbgE2DhH (ORCPT
+        id S1725768AbgE2FtP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 29 May 2020 01:49:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44256 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725355AbgE2FtO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 28 May 2020 23:37:07 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id eVpPjZlM7dPgTeVpQj9xyE; Fri, 29 May 2020 05:37:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1590723424; bh=4DLls/tmNsgZHhvgQy6ddIwCk7ZrKU4PnIeyEkkRrIg=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=OmmhrDH3T0+gWVVDPYAhtc4ocZc9bTySn3J3aadBB85abSVE7W8p5MhKBn2SLZEOl
-         8On0inNuIptuRdNHPZmmWyf1hxEbc+fvAwDXSgmzjyzgEQN31VzT3PlxYiefnMXMGc
-         zr46367u2mqSK4zZFzg0SukqTjCHaRdmVZwxxGvWkqUmI8RBcZTtQe47Uy8JsTdkS2
-         D0Waaa3bQpN8qr08KOBNYr99iF3yCYZVlYJ1cNdNF+uTljuHow4q7n1enC4JvV7TMO
-         Pqs5+TRhBAVDh5F+4xWj0Z9NXFSTbwyNDR4fAyRQ/XkHAB1oucrr2dHPfrXej4rZKS
-         Y8q8XopAcbP1g==
-Message-ID: <0988a89cb8982f43b0fba30617f5678c@smtp-cloud8.xs4all.net>
-Date:   Fri, 29 May 2020 05:37:03 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfEzXA9sPLMAZMHlHXORHSBRMSyV5HDZF8lJ3tEdrIV//Z6y07UgPHPlQ9+dsloq6jnzKl/U4U+Dw3cD57fMCiIUfLd6PzjUiYB9z0q3KQjz8C/bCf99x
- 9EIajGCL7GcCqz5wCYNzCBIrrx77RfEYY7iaOYoVcdPFEDZFtI50XfxnVHrwuz4BeWBO8wUWbbaCY/Nh4ukTVfeRpFAfnNB7/jwRCRtVLWyHwF1On69h0wc9
+        Fri, 29 May 2020 01:49:14 -0400
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 490F8C08C5C6
+        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 22:49:14 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id m67so1604068oif.4
+        for <linux-media@vger.kernel.org>; Thu, 28 May 2020 22:49:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=GwPTcodFrxyo6ma4eVz3wTAE48j9kX0xKI9NPcHg3+Y=;
+        b=g7c8phrQOHUbjmhEiH1WaiZ1ynwv7l8bGG0INitQ4WPavylOnmjSOorKtp00skaFkC
+         OznTnDNw77kWfXlyzgGTJy7zf94suVZrOnm3RVNMArQ0jgcN/N11ZPOz4POFpT2QoIIf
+         GCXS4yH+9IzvvLeppOxZjpO4kWcwbINiDyDo8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=GwPTcodFrxyo6ma4eVz3wTAE48j9kX0xKI9NPcHg3+Y=;
+        b=hk5Tqg+Ky3QrizfWfNjdFkYbL6IdTkzhZGMn5GH996pGhnO045UWR0TLCi20BG21mS
+         K7C0ULOd/XNCByxBK4mHvUqwU8fcUCDvFQ0Km9pGM6UUs8Y/OT9JZlw/Bic0/BX/U4uH
+         HDxxkYG/2rNwECC8jXXbnAIuo8Fs0HOjDL7KrBpN4+ymvY4CMlujgI91prpOYzVylC2P
+         RC6+2VRadcRcXVMeBBUCgNqX7Z6GD0x99JpHWYU0wVfQaNUTj2B2DngCgEA+BeHADDwR
+         dxx7IbhEkES1e/OB0VNyc3jhQ5KKONL4IWs3JH1PC0lNdLOJlR6VzUubhJ3OpPcZk0HK
+         OeCA==
+X-Gm-Message-State: AOAM533VKX59H+nBxWPvTP3UvUl0uwHwasBj7ndDOW75shycCR4K8OuL
+        SThecFSsBNvevsCzLg7dDo2dZeZwVKagVmiWrwhXhQ==
+X-Google-Smtp-Source: ABdhPJzpgZX/J2XciC692mAlVJg1GyBwp0rDuY4jUgXHZHfgFIx4R9W4uWgMuhUonjr74hDaQmZX+gO4Vj23YZD/mGg=
+X-Received: by 2002:a05:6808:282:: with SMTP id z2mr4257884oic.101.1590731353651;
+ Thu, 28 May 2020 22:49:13 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
+ <20200512085944.222637-3-daniel.vetter@ffwll.ch> <190e5572-fc29-612d-87e0-a4f0151abcc6@amd.com>
+In-Reply-To: <190e5572-fc29-612d-87e0-a4f0151abcc6@amd.com>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Fri, 29 May 2020 07:49:02 +0200
+Message-ID: <CAKMK7uH7WM_FMHkn4+yBhDCqLRg2Hak6YXup1twRwky_5TmiGw@mail.gmail.com>
+Subject: Re: [RFC 02/17] dma-fence: basic lockdep annotations
+To:     Luben Tuikov <luben.tuikov@amd.com>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Thu, May 28, 2020 at 11:54 PM Luben Tuikov <luben.tuikov@amd.com> wrote:
+>
+> On 2020-05-12 4:59 a.m., Daniel Vetter wrote:
+> > Design is similar to the lockdep annotations for workers, but with
+> > some twists:
+> >
+> > - We use a read-lock for the execution/worker/completion side, so that
+> >   this explicit annotation can be more liberally sprinkled around.
+> >   With read locks lockdep isn't going to complain if the read-side
+> >   isn't nested the same way under all circumstances, so ABBA deadlocks
+> >   are ok. Which they are, since this is an annotation only.
+> >
+> > - We're using non-recursive lockdep read lock mode, since in recursive
+> >   read lock mode lockdep does not catch read side hazards. And we
+> >   _very_ much want read side hazards to be caught. For full details of
+> >   this limitation see
+> >
+> >   commit e91498589746065e3ae95d9a00b068e525eec34f
+> >   Author: Peter Zijlstra <peterz@infradead.org>
+> >   Date:   Wed Aug 23 13:13:11 2017 +0200
+> >
+> >       locking/lockdep/selftests: Add mixed read-write ABBA tests
+> >
+> > - To allow nesting of the read-side explicit annotations we explicitly
+> >   keep track of the nesting. lock_is_held() allows us to do that.
+> >
+> > - The wait-side annotation is a write lock, and entirely done within
+> >   dma_fence_wait() for everyone by default.
+> >
+> > - To be able to freely annotate helper functions I want to make it ok
+> >   to call dma_fence_begin/end_signalling from soft/hardirq context.
+> >   First attempt was using the hardirq locking context for the write
+> >   side in lockdep, but this forces all normal spinlocks nested within
+> >   dma_fence_begin/end_signalling to be spinlocks. That bollocks.
+> >
+> >   The approach now is to simple check in_atomic(), and for these cases
+> >   entirely rely on the might_sleep() check in dma_fence_wait(). That
+> >   will catch any wrong nesting against spinlocks from soft/hardirq
+> >   contexts.
+> >
+> > The idea here is that every code path that's critical for eventually
+> > signalling a dma_fence should be annotated with
+> > dma_fence_begin/end_signalling. The annotation ideally starts right
+> > after a dma_fence is published (added to a dma_resv, exposed as a
+> > sync_file fd, attached to a drm_syncobj fd, or anything else that
+> > makes the dma_fence visible to other kernel threads), up to and
+> > including the dma_fence_wait(). Examples are irq handlers, the
+> > scheduler rt threads, the tail of execbuf (after the corresponding
+> > fences are visible), any workers that end up signalling dma_fences and
+> > really anything else. Not annotated should be code paths that only
+> > complete fences opportunistically as the gpu progresses, like e.g.
+> > shrinker/eviction code.
+> >
+> > The main class of deadlocks this is supposed to catch are:
+> >
+> > Thread A:
+> >
+> >       mutex_lock(A);
+> >       mutex_unlock(A);
+> >
+> >       dma_fence_signal();
+> >
+> > Thread B:
+> >
+> >       mutex_lock(A);
+> >       dma_fence_wait();
+> >       mutex_unlock(A);
+> >
+> > Thread B is blocked on A signalling the fence, but A never gets around
+> > to that because it cannot acquire the lock A.
+> >
+> > Note that dma_fence_wait() is allowed to be nested within
+> > dma_fence_begin/end_signalling sections. To allow this to happen the
+> > read lock needs to be upgraded to a write lock, which means that any
+> > other lock is acquired between the dma_fence_begin_signalling() call an=
+d
+> > the call to dma_fence_wait(), and still held, this will result in an
+> > immediate lockdep complaint. The only other option would be to not
+> > annotate such calls, defeating the point. Therefore these annotations
+> > cannot be sprinkled over the code entirely mindless to avoid false
+> > positives.
+> >
+> > v2: handle soft/hardirq ctx better against write side and dont forget
+> > EXPORT_SYMBOL, drivers can't use this otherwise.
+> >
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> > Cc: linux-rdma@vger.kernel.org
+> > Cc: amd-gfx@lists.freedesktop.org
+> > Cc: intel-gfx@lists.freedesktop.org
+> > Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > ---
+> >  drivers/dma-buf/dma-fence.c | 53 +++++++++++++++++++++++++++++++++++++
+> >  include/linux/dma-fence.h   | 12 +++++++++
+> >  2 files changed, 65 insertions(+)
+> >
+> > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> > index 6802125349fb..d5c0fd2efc70 100644
+> > --- a/drivers/dma-buf/dma-fence.c
+> > +++ b/drivers/dma-buf/dma-fence.c
+> > @@ -110,6 +110,52 @@ u64 dma_fence_context_alloc(unsigned num)
+> >  }
+> >  EXPORT_SYMBOL(dma_fence_context_alloc);
+> >
+> > +#ifdef CONFIG_LOCKDEP
+> > +struct lockdep_map   dma_fence_lockdep_map =3D {
+> > +     .name =3D "dma_fence_map"
+> > +};
+> > +
+> > +bool dma_fence_begin_signalling(void)
+> > +{
+> > +     /* explicitly nesting ... */
+> > +     if (lock_is_held_type(&dma_fence_lockdep_map, 1))
+> > +             return true;
+> > +
+> > +     /* rely on might_sleep check for soft/hardirq locks */
+> > +     if (in_atomic())
+> > +             return true;
+> > +
+> > +     /* ... and non-recursive readlock */
+> > +     lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _RET_IP_);
+> > +
+> > +     return false;
+> > +}
+> > +EXPORT_SYMBOL(dma_fence_begin_signalling);
+>
+> Hi Daniel,
+>
+> This is great work and could help a lot.
+>
+> If you invert the result of dma_fence_begin_signalling()
+> then it would naturally mean "locked", i.e. whether we need to
+> later release "dma_fence_lockedep_map". Then,
+> in dma_fence_end_signalling(), you can call the "cookie"
+> argument "locked" and simply do:
+>
+> void dma_fence_end_signalling(bool locked)
+> {
+>         if (locked)
+>                 lock_release(&dma_fence_lockdep_map, _RET_IP_);
+> }
+> EXPORT_SYMBOL(dma_fence_end_signalling);
+>
+> It'll be more natural to understand as well.
 
-Results of the daily build of media_tree:
+It's intentionally called cookie so callers don't start doing funny
+stuff with it. The thing is, after begin_signalling you are _always_
+in the locked state. It's just that because of limitations with
+lockdep we need to play a few tricks, and in some cases we do not take
+the lockdep map. There's 2 cases:
+- lockdep map already taken - we want recursive readlock semantics for
+this, but lockdep does not correctly check recursive read locks. Hence
+we only use readlock, and make sure we do not actually nest upon
+ourselves with this explicit check.
+- when we're in atomic sections - lockdep gets pissed at us if we take
+the read lock in hard/softirq sections because of hard/softirq ctx
+mismatch (lockdep thinks it's a real lock, but we don't treat it as
+one). Simplest fix was to rely on the might_sleep check in patch 1
+(already merged)
 
-date:			Fri May 29 05:00:10 CEST 2020
-media-tree git hash:	938b29db3aa9c293c7c1366b16e55e308f1a1ddd
-media_build git hash:	7379d9e55aa05cd53f3dceaa5e0278e93db357bd
-v4l-utils git hash:	74377da4f5f3b63203c599d5dd75db6af91fdbb9
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0accb575719caa47d8fbc866b11e6f7e7e7787cd
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+The commit message mentions this already a bit, but I'll try to
+explain this implementation detail tersely in the kerneldoc too in the
+next round.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.212-i686: ERRORS
-linux-4.4.212-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.212-i686: ERRORS
-linux-4.9.212-x86_64: ERRORS
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: WARNINGS
-linux-4.13.16-x86_64: WARNINGS
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
+Thanks, Daniel
 
-Detailed results are available here:
+>
+> Regards,
+> Luben
+>
+> > +
+> > +void dma_fence_end_signalling(bool cookie)
+> > +{
+> > +     if (cookie)
+> > +             return;
+> > +
+> > +     lock_release(&dma_fence_lockdep_map, _RET_IP_);
+> > +}
+> > +EXPORT_SYMBOL(dma_fence_end_signalling);
+> > +
+> > +void __dma_fence_might_wait(void)
+> > +{
+> > +     bool tmp;
+> > +
+> > +     tmp =3D lock_is_held_type(&dma_fence_lockdep_map, 1);
+> > +     if (tmp)
+> > +             lock_release(&dma_fence_lockdep_map, _THIS_IP_);
+> > +     lock_map_acquire(&dma_fence_lockdep_map);
+> > +     lock_map_release(&dma_fence_lockdep_map);
+> > +     if (tmp)
+> > +             lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _T=
+HIS_IP_);
+> > +}
+> > +#endif
+> > +
+> > +
+> >  /**
+> >   * dma_fence_signal_locked - signal completion of a fence
+> >   * @fence: the fence to signal
+> > @@ -170,14 +216,19 @@ int dma_fence_signal(struct dma_fence *fence)
+> >  {
+> >       unsigned long flags;
+> >       int ret;
+> > +     bool tmp;
+> >
+> >       if (!fence)
+> >               return -EINVAL;
+> >
+> > +     tmp =3D dma_fence_begin_signalling();
+> > +
+> >       spin_lock_irqsave(fence->lock, flags);
+> >       ret =3D dma_fence_signal_locked(fence);
+> >       spin_unlock_irqrestore(fence->lock, flags);
+> >
+> > +     dma_fence_end_signalling(tmp);
+> > +
+> >       return ret;
+> >  }
+> >  EXPORT_SYMBOL(dma_fence_signal);
+> > @@ -211,6 +262,8 @@ dma_fence_wait_timeout(struct dma_fence *fence, boo=
+l intr, signed long timeout)
+> >       if (timeout > 0)
+> >               might_sleep();
+> >
+> > +     __dma_fence_might_wait();
+> > +
+> >       trace_dma_fence_wait_start(fence);
+> >       if (fence->ops->wait)
+> >               ret =3D fence->ops->wait(fence, intr, timeout);
+> > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> > index 3347c54f3a87..3f288f7db2ef 100644
+> > --- a/include/linux/dma-fence.h
+> > +++ b/include/linux/dma-fence.h
+> > @@ -357,6 +357,18 @@ dma_fence_get_rcu_safe(struct dma_fence __rcu **fe=
+ncep)
+> >       } while (1);
+> >  }
+> >
+> > +#ifdef CONFIG_LOCKDEP
+> > +bool dma_fence_begin_signalling(void);
+> > +void dma_fence_end_signalling(bool cookie);
+> > +#else
+> > +static inline bool dma_fence_begin_signalling(void)
+> > +{
+> > +     return true;
+> > +}
+> > +static inline void dma_fence_end_signalling(bool cookie) {}
+> > +static inline void __dma_fence_might_wait(void) {}
+> > +#endif
+> > +
+> >  int dma_fence_signal(struct dma_fence *fence);
+> >  int dma_fence_signal_locked(struct dma_fence *fence);
+> >  signed long dma_fence_default_wait(struct dma_fence *fence,
+> >
+>
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
 
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
