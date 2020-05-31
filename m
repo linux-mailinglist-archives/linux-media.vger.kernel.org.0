@@ -2,156 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8104C1E98BD
-	for <lists+linux-media@lfdr.de>; Sun, 31 May 2020 18:07:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2E671E9927
+	for <lists+linux-media@lfdr.de>; Sun, 31 May 2020 19:02:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727815AbgEaQHW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 31 May 2020 12:07:22 -0400
-Received: from mout.web.de ([212.227.15.3]:38077 "EHLO mout.web.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725912AbgEaQHV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 31 May 2020 12:07:21 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
-        s=dbaedf251592; t=1590941207;
-        bh=vOrM0uWQIJc26fYdgszEhsgU2uFU+0knpZn9MTMqFO0=;
-        h=X-UI-Sender-Class:Cc:Subject:To:From:Date;
-        b=XeXA68G6vpm5R91zxudgNtnAtcZrryh280aO1dJ5JVMZNBKFDC9OK9jgGSbd52LXa
-         woFTCYqrjR/219cJrZ2ZAD3pRwq7pszUG8x6wvYJOKvf07JiwQ5sTFiGx2xXNc40Kd
-         Op01eUQLmAavC3oa+IU3cBanCFevx/Wz25a1LSrg=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from [192.168.1.2] ([93.131.19.10]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MPrLL-1jIW2e1uhH-00Mt9i; Sun, 31
- May 2020 18:06:47 +0200
-Cc:     kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kangjie Lu <kjlu@umn.edu>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] media: exynos4-is: Fix runtime PM imbalance in
- isp_video_open()
-To:     Dinghao Liu <dinghao.liu@zju.edu.cn>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-samsung-soc@vger.kernel.org
-From:   Markus Elfring <Markus.Elfring@web.de>
-Autocrypt: addr=Markus.Elfring@web.de; prefer-encrypt=mutual; keydata=
- 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 FEE=
-Message-ID: <3b8459ce-114b-f69a-b671-4f4cc0127fd6@web.de>
-Date:   Sun, 31 May 2020 18:06:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.1
+        id S1728031AbgEaRCz convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sun, 31 May 2020 13:02:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58912 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725912AbgEaRCz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 31 May 2020 13:02:55 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DBD6C061A0E
+        for <linux-media@vger.kernel.org>; Sun, 31 May 2020 10:02:54 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 3489BC6429; Sun, 31 May 2020 18:02:51 +0100 (BST)
+Date:   Sun, 31 May 2020 18:02:51 +0100
+From:   Sean Young <sean@mess.org>
+To:     Johan Claude-Breuninger <johan.claudebreuninger@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: em28xx driver issue kernel 5.7.0
+Message-ID: <20200531170251.GA6124@gofer.mess.org>
+References: <3329904.flSn8SIOqe@johan-pc>
+ <20200529103453.GA27598@gofer.mess.org>
+ <2170285.lfiVHom0a2@johan-pc>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Iqb1YqZFmNyxXRJYB1dTeDkFbw3LpMXZQm7FMyRq8G+4hObAibP
- v3A5AoHvKkkibTT6HoVXfscrtcYJVKHzzvlBmGPN7kbX0uEyKoX7Yco2Ogo57axQsw/QFeW
- Ony4DSylZEe5b/I5LoIcHdtWKIH4Toe5rSX8G9pBTCGrsU9824wgsqv6D+Y8bnB/1mP0OiQ
- cJRLQpcVKtLNdyA+BaEfg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:eH/AxAQ0MPQ=:W+SF6UAcADoPQv+PS16g51
- GNENNi6yomYx8OcR2ouUJH3EZ7PEw4ZWOnSRy4mNQIPcP2ASJdOMcsL8rbCKRJjY0h7kKa1Ko
- XhXQheggZyUCvhs9BhjQhBgWfJGLBNLiMaZdAS4taF1sZcES1dFdYFhvH9FkBPQR5T8tIkVeS
- 4RzOasdS2MXxtGE5OotRPDYbZ6Qzi8OHtDEtkea0u/cmNAfUvKZjwLOVZ7zOlLRdzC7w0bjy3
- 7m7Ktao9/eYggiksmDPJxtjbB4+ZYQvJgldUPzxdrybtfXExQ0QRFRLybf6BoiQT2l2lm3Omr
- tllnm0XL3nJBhcdIWcG3/RCVJAndlOdN7Pl6wQ/qKV7dq/cRk/MV0U5HpKUuzLhls5AToxQqP
- Vp/3pVPeOrk5m4i6JjT0Lrlc9xxCftDxlvRJ/a20+m8tjhubwukkqMzdyGJkxnIX8Br3tCFB1
- JqwPJU6MypqcZAHWFw3HdVTm5X0wyfeFDr6/G5Q14ia776TaWHJmBfhF203rpjOBlw8VqGeYI
- KvoZEdfGf5tdHvQxMN009gbGwYjUO5JmRcHuRNVN9fwEBVgNz/wOv8VwhrA/++SOjLGzYZnyw
- eRuTYiBVH+5LYjsT63ZFkUGOUacpi/JTEq8O/vv0pmU7kYTU3KopiMMGfxMUcdj7AUPLw2+tw
- 1rU0XCB9pajtUAGT8vWzDRk5tJMlfWm2kKR3NhFyLN2IHlMpOUVCIp9mOOC1u2j0oVnhVHGBO
- vROP39sZIq6U6vGkNZWtprOw29+JduDPK7zjBZoMNy973FiBdfSeNUJOyfsltuHQUuZcgsXhq
- Arl/0qmU1OqwdcG09KoOoJ4ssyzEjqBiGG7Q+lh2Yw8L/9L57GwgIjsVw2Xx3tBJfEJsOgYpN
- xo9TO7l97Kg65ea7x0gnu6p9MRCHL0HqfXkx0RqaJyHynghsnbjYAZ5BYG+jbPgATJG6TCQBx
- j4dh3J0kCwBwHQOglxHRtwlCTNptezu79GeMvlNgHJk8aQHGsO4flDnxT5Y0CuPBK4rGOib7m
- bzkB778bJvwWUTMa0mR7elxxJoU9a0dp2cHa6fEUhrlfNIdusxN4Su+fD+V+67XX5FXDLUaHD
- juPAOsP5iEu7HfkrT5+cGcBiNd9tJSQoA8jvvpg95poOR9SZV4v3y6FNLmJ5b040socfGTF3/
- zfmwpHM8T+OW8CMMGOk5LnQFD3twl14aeM8HNQ3C5Y4zHQm5an0OCMrM7Vb926hEOBCCV4XBo
- rlzfiGrXpIxauARHL
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8BIT
+In-Reply-To: <2170285.lfiVHom0a2@johan-pc>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> pm_runtime_get_sync() increments the runtime PM usage counter even
-> when it returns an error code. Thus a pairing decrement is needed on
-> the error handling path to keep the counter balanced.
+Hi Johan,
 
-How do you think about a wording variant like the following?
+On Fri, May 29, 2020 at 12:42:00PM +0200, Johan Claude-Breuninger wrote:
+> I am using following kernel version:
+> 
+> Linux Johan-PC 5.7.0-rc7-1-mainline #1 SMP PREEMPT Mon, 25 May 2020 17:29:37 +0000 x86_64 GNU/Linux
+> 
+> from Arch Linux' AUR.
+> 
+> 
+> Will your mentioned patch be included in the final 5.7.0 release?
 
-   Change description:
-   The PM runtime usage counter is incremented even if a call of
-   the function =E2=80=9Cpm_runtime_get_sync=E2=80=9D failed. Thus decreme=
-nt it also
-   in an error case so that the reference counting is kept consistent.
+You are right, this patch should have been included in 5.7.0, but I
+think we've missed the cut-off for that (with it probably being released
+today).
 
+Having said that, the warning is harmless and hopefully we'll get the
+fix into 5.7-stable (so 5.7.1 or so).
 
-Would you like to add the tag =E2=80=9CFixes=E2=80=9D to the commit messag=
-e?
+Thank you for reporting this.
 
+Sean
 
-Can it make sense to combine the software adjustment with the
-update step =E2=80=9Cmedia: exynos4-is: Fix runtime PM imbalance in fimc_i=
-s_probe=E2=80=9D?
-https://lore.kernel.org/linux-arm-kernel/20200524025903.17219-1-dinghao.li=
-u@zju.edu.cn/
-https://lore.kernel.org/patchwork/patch/1246424/
-
-
-=E2=80=A6
-+++ b/drivers/media/platform/exynos4-is/fimc-isp-video.c
-@@ -293,6 +293,7 @@  static int isp_video_open(struct file *file)
- 	if (!ret)
- 		goto unlock;
- rel_fh:
-+	pm_runtime_put_noidle(&isp->pdev->dev);
- 	v4l2_fh_release(file);
- unlock:
-=E2=80=A6
-
-Is there a need to use a label like =E2=80=9Cput_pm=E2=80=9D?
-
-Regards,
-Markus
+> 
+> 
+> Thanks
+> 
+> Johan
+> 
+> 
+> Le vendredi 29 mai 2020, 12:34:53 CEST Sean Young a écrit :
+> > On Fri, May 29, 2020 at 10:32:38AM +0200, Johan Claude-Breuninger wrote:
+> > > Good morning,
+> > > 
+> > > 
+> > > I hope that this is the right place to report a bug for the em28xx driver as I did not have success on the kernel bug tracker.
+> > > 
+> > > Since I started using the 5.7.0 rcs I am getting following call trace with a Hauppauge WinTV-soloHD using the em28xx driver. Other tuners work as expected.
+> > 
+> > What kernel version are you using exactly? I would not expect this on a
+> > v5.7.0-rc* version, without patches.
+> > 
+> > There is a fix for this here: https://git.linuxtv.org/media_tree.git/commit/?id=9f984cacf4f4d53fd8a3f44d7f13528b81c1f6a8
+> > 
+> > Thanks
+> > 
+> > Sean
+> > 
+> > > 
+> > > 
+> > > Dmesg output:
+> > > 
+> > > [    4.576429] ------------[ cut here ]------------
+> > > [    4.576438] WARNING: CPU: 4 PID: 891 at drivers/media/mc/mc-entity.c:669 media_create_pad_link+0x1cd/0x200 [mc]
+> > > [    4.576439] Modules linked in: si2157 si2168 i2c_mux em28xx_dvb(+) dvb_core cmac algif_hash algif_skcipher af_alg bnep btusb btrtl btbcm btintel bluetooth snd_usb_audio uvcvideo videobuf2_vmalloc videobuf2_memops snd_usbmidi_lib videobuf2_v4l2 snd_rawmidi videobuf2_common ecdh_generic snd_seq_device ecc em28xx tveeprom videodev mousedev input_leds joydev mc rfkill lm92 it87 hwmon_vid hid_generic usbhid hid edac_mce_amd amdgpu kvm_amd kvm nls_iso8859_1 nls_cp437 vfat snd_hda_codec_realtek fat snd_hda_codec_generic irqbypass ledtrig_audio snd_hda_codec_hdmi snd_hda_intel snd_intel_dspcfg gpu_sched snd_hda_codec ttm crct10dif_pclmul crc32_pclmul snd_hda_core ghash_clmulni_intel wmi_bmof mxm_wmi drm_kms_helper snd_hwdep snd_pcm igb cec aesni_intel rc_core snd_timer ccp snd sp5100_tco crypto_simd syscopyarea sysfillrect cryptd i2c_algo_bit sysimgblt pcspkr k10temp i2c_piix4 glue_helper dca fb_sys_fops soundcore rng_core wmi evdev pinctrl_amd mac_hid acpi_cpufreq vboxnetflt(OE) vboxnetadp(OE)
+> > > [    4.576486]  drm vboxdrv(OE) crypto_user agpgart ip_tables x_tables ext4 crc32c_generic crc16 mbcache jbd2 crc32c_intel xhci_pci xhci_hcd
+> > > [    4.576496] CPU: 4 PID: 891 Comm: modprobe Tainted: G           OE     5.7.0-rc7-1-mainline #1
+> > > [    4.576497] Hardware name: Gigabyte Technology Co., Ltd. X570 AORUS PRO/X570 AORUS PRO, BIOS F12e 03/06/2020
+> > > [    4.576502] RIP: 0010:media_create_pad_link+0x1cd/0x200 [mc]
+> > > [    4.576505] Code: 5f c3 0f 0b 48 83 c4 10 b8 ea ff ff ff 5b 5d 41 5c 41 5d 41 5e 41 5f c3 0f 0b b8 ea ff ff ff eb d2 0f 0b b8 ea ff ff ff eb c9 <0f> 0b b8 ea ff ff ff eb c0 0f 0b b8 ea ff ff ff eb b7 b8 f4 ff ff
+> > > [    4.576507] RSP: 0018:ffffa670411d3af8 EFLAGS: 00010246
+> > > [    4.576509] RAX: 0000000000000000 RBX: ffffa0f9a7d75400 RCX: 0000000000000000
+> > > [    4.576510] RDX: ffffa0f9a97cd310 RSI: 0000000000000000 RDI: ffffa0f9a97cd290
+> > > [    4.576512] RBP: ffffa0f9a97cd290 R08: 0000000000000001 R09: 0000000000000000
+> > > [    4.576513] R10: 0000000000000001 R11: 0000000000000001 R12: 0000000000000000
+> > > [    4.576514] R13: ffffa0f9c13b0cc8 R14: ffffa0f9cbca1038 R15: 0000000000000000
+> > > [    4.576516] FS:  00007f6781ea2740(0000) GS:ffffa0f9ceb00000(0000) knlGS:0000000000000000
+> > > [    4.576517] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > [    4.576518] CR2: 00007f5db8b8ccb0 CR3: 00000003df630000 CR4: 0000000000340ee0
+> > > [    4.576520] Call Trace:
+> > > [    4.576533]  dvb_create_media_graph+0x48a/0x590 [dvb_core]
+> > > [    4.576540]  em28xx_dvb_init.cold+0x1028/0x25e4 [em28xx_dvb]
+> > > [    4.576550]  em28xx_register_extension+0x5a/0xb0 [em28xx]
+> > > [    4.576554]  ? 0xffffffffc03dd000
+> > > [    4.576558]  do_one_initcall+0x59/0x240
+> > > [    4.576564]  do_init_module+0x5c/0x260
+> > > [    4.576567]  load_module+0x2137/0x23a0
+> > > [    4.576574]  __do_sys_init_module+0x172/0x1a0
+> > > [    4.576580]  do_syscall_64+0x49/0x90
+> > > [    4.576584]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> > > [    4.576586] RIP: 0033:0x7f6781fcf73e
+> > > [    4.576589] Code: 48 8b 0d 55 f7 0b 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 49 89 ca b8 af 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 22 f7 0b 00 f7 d8 64 89 01 48
+> > > [    4.576591] RSP: 002b:00007ffcbe457b48 EFLAGS: 00000246 ORIG_RAX: 00000000000000af
+> > > [    4.576593] RAX: ffffffffffffffda RBX: 000056363963fff0 RCX: 00007f6781fcf73e
+> > > [    4.576594] RDX: 00005636389fd368 RSI: 000000000000e158 RDI: 0000563639e4e4e0
+> > > [    4.576595] RBP: 0000563639e4e4e0 R08: 0000000000000000 R09: 00007ffcbe455b48
+> > > [    4.576596] R10: 0000000000000001 R11: 0000000000000246 R12: 00005636389fd368
+> > > [    4.576598] R13: 0000000000000000 R14: 0000563639640070 R15: 000056363963fff0
+> > > [    4.576601] ---[ end trace 12d333b621a2a68c ]---
+> > > 
+> > > 
+> > > Thanks
+> > > 
+> > > Johan Breuninger
+> > > 
+> > > 
+> > 
+> 
