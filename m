@@ -2,136 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2E671E9927
-	for <lists+linux-media@lfdr.de>; Sun, 31 May 2020 19:02:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 92E441E9AA1
+	for <lists+linux-media@lfdr.de>; Sun, 31 May 2020 23:56:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728031AbgEaRCz convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sun, 31 May 2020 13:02:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58912 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725912AbgEaRCz (ORCPT
+        id S1727915AbgEaV4x convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sun, 31 May 2020 17:56:53 -0400
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:35994 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727084AbgEaV4x (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 31 May 2020 13:02:55 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DBD6C061A0E
-        for <linux-media@vger.kernel.org>; Sun, 31 May 2020 10:02:54 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 3489BC6429; Sun, 31 May 2020 18:02:51 +0100 (BST)
-Date:   Sun, 31 May 2020 18:02:51 +0100
-From:   Sean Young <sean@mess.org>
-To:     Johan Claude-Breuninger <johan.claudebreuninger@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: em28xx driver issue kernel 5.7.0
-Message-ID: <20200531170251.GA6124@gofer.mess.org>
-References: <3329904.flSn8SIOqe@johan-pc>
- <20200529103453.GA27598@gofer.mess.org>
- <2170285.lfiVHom0a2@johan-pc>
+        Sun, 31 May 2020 17:56:53 -0400
+Received: from [88.147.21.212] (port=45656 helo=[192.168.77.62])
+        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1jfVwn-00EHeG-1E; Sun, 31 May 2020 23:56:49 +0200
+Subject: Re: IMX274 driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        hverkuil-cisco@xs4all.nl, Frank Chen <frankc@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        linux-media@vger.kernel.org
+References: <4184f80b-eab3-c512-dd99-d24c7af4b45c@nvidia.com>
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+Message-ID: <afd8fdb8-e359-5aee-ba3e-54a5217b2aee@lucaceresoli.net>
+Date:   Sun, 31 May 2020 23:56:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <4184f80b-eab3-c512-dd99-d24c7af4b45c@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8BIT
-In-Reply-To: <2170285.lfiVHom0a2@johan-pc>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Johan,
+Hi Sowjanya,
 
-On Fri, May 29, 2020 at 12:42:00PM +0200, Johan Claude-Breuninger wrote:
-> I am using following kernel version:
+On 29/05/20 04:07, Sowjanya Komatineni wrote:
+> Hi Luca,
 > 
-> Linux Johan-PC 5.7.0-rc7-1-mainline #1 SMP PREEMPT Mon, 25 May 2020 17:29:37 +0000 x86_64 GNU/Linux
-> 
-> from Arch Linux' AUR.
-> 
-> 
-> Will your mentioned patch be included in the final 5.7.0 release?
+> Quick question regarding IMX274 driver that was up streamed by you.
 
-You are right, this patch should have been included in 5.7.0, but I
-think we've missed the cut-off for that (with it probably being released
-today).
+Well, to be fair I only added cropping and made some improvements.
 
-Having said that, the warning is harmless and hopefully we'll get the
-fix into 5.7-stable (so 5.7.1 or so).
+> Upstream IMX274 driver programs Y_OUT_SIZE correctly based on IMX274
+> datasheet and register mode table for Y_OUT_SIZE where it includes 6
+> ignored area of effective pixels + 8 effective margin for color
+> processing pixels.
+> 
+> So, Y_OUT_SIZE register value = height + 14
+> 
+> But somehow with this we are not seeing full frame on CSI.
+> 
+> In our internal NVIDIA IMX274 driver, we are programming Y_OUT_SIZE to
+> exact heightÂ  Y_OUT_SIZE = height
+> 
+> So for debug, followed the same and updated upstream IMX274 driver to
+> program Y_OUT_SIZE = crop.height locally and I see all resolutions
+> working fine with this.
+> 
+> Checking with Sony on whats causing sensor not to send full frame when
+> Y_OUT_SIZE is set to height + 14.
+> 
+> But thought to check with you in parallel if there are any known issues
 
-Thank you for reporting this.
+That's strange. Unfortunately I'm not using imx274 anymore since a long
+time and don't remember the details, but definitely I did test it and if
+there had been 14 missing lines I'm pretty sure I would have noticed.
 
-Sean
+I'll see if I can remember anything useful, and in case I'll update you.
+I would be glad if you can update me on any findings too, maybe they
+will help in understanding the problem better.
 
-> 
-> 
-> Thanks
-> 
-> Johan
-> 
-> 
-> Le vendredi 29 mai 2020, 12:34:53 CEST Sean Young a écrit :
-> > On Fri, May 29, 2020 at 10:32:38AM +0200, Johan Claude-Breuninger wrote:
-> > > Good morning,
-> > > 
-> > > 
-> > > I hope that this is the right place to report a bug for the em28xx driver as I did not have success on the kernel bug tracker.
-> > > 
-> > > Since I started using the 5.7.0 rcs I am getting following call trace with a Hauppauge WinTV-soloHD using the em28xx driver. Other tuners work as expected.
-> > 
-> > What kernel version are you using exactly? I would not expect this on a
-> > v5.7.0-rc* version, without patches.
-> > 
-> > There is a fix for this here: https://git.linuxtv.org/media_tree.git/commit/?id=9f984cacf4f4d53fd8a3f44d7f13528b81c1f6a8
-> > 
-> > Thanks
-> > 
-> > Sean
-> > 
-> > > 
-> > > 
-> > > Dmesg output:
-> > > 
-> > > [    4.576429] ------------[ cut here ]------------
-> > > [    4.576438] WARNING: CPU: 4 PID: 891 at drivers/media/mc/mc-entity.c:669 media_create_pad_link+0x1cd/0x200 [mc]
-> > > [    4.576439] Modules linked in: si2157 si2168 i2c_mux em28xx_dvb(+) dvb_core cmac algif_hash algif_skcipher af_alg bnep btusb btrtl btbcm btintel bluetooth snd_usb_audio uvcvideo videobuf2_vmalloc videobuf2_memops snd_usbmidi_lib videobuf2_v4l2 snd_rawmidi videobuf2_common ecdh_generic snd_seq_device ecc em28xx tveeprom videodev mousedev input_leds joydev mc rfkill lm92 it87 hwmon_vid hid_generic usbhid hid edac_mce_amd amdgpu kvm_amd kvm nls_iso8859_1 nls_cp437 vfat snd_hda_codec_realtek fat snd_hda_codec_generic irqbypass ledtrig_audio snd_hda_codec_hdmi snd_hda_intel snd_intel_dspcfg gpu_sched snd_hda_codec ttm crct10dif_pclmul crc32_pclmul snd_hda_core ghash_clmulni_intel wmi_bmof mxm_wmi drm_kms_helper snd_hwdep snd_pcm igb cec aesni_intel rc_core snd_timer ccp snd sp5100_tco crypto_simd syscopyarea sysfillrect cryptd i2c_algo_bit sysimgblt pcspkr k10temp i2c_piix4 glue_helper dca fb_sys_fops soundcore rng_core wmi evdev pinctrl_amd mac_hid acpi_cpufreq vboxnetflt(OE) vboxnetadp(OE)
-> > > [    4.576486]  drm vboxdrv(OE) crypto_user agpgart ip_tables x_tables ext4 crc32c_generic crc16 mbcache jbd2 crc32c_intel xhci_pci xhci_hcd
-> > > [    4.576496] CPU: 4 PID: 891 Comm: modprobe Tainted: G           OE     5.7.0-rc7-1-mainline #1
-> > > [    4.576497] Hardware name: Gigabyte Technology Co., Ltd. X570 AORUS PRO/X570 AORUS PRO, BIOS F12e 03/06/2020
-> > > [    4.576502] RIP: 0010:media_create_pad_link+0x1cd/0x200 [mc]
-> > > [    4.576505] Code: 5f c3 0f 0b 48 83 c4 10 b8 ea ff ff ff 5b 5d 41 5c 41 5d 41 5e 41 5f c3 0f 0b b8 ea ff ff ff eb d2 0f 0b b8 ea ff ff ff eb c9 <0f> 0b b8 ea ff ff ff eb c0 0f 0b b8 ea ff ff ff eb b7 b8 f4 ff ff
-> > > [    4.576507] RSP: 0018:ffffa670411d3af8 EFLAGS: 00010246
-> > > [    4.576509] RAX: 0000000000000000 RBX: ffffa0f9a7d75400 RCX: 0000000000000000
-> > > [    4.576510] RDX: ffffa0f9a97cd310 RSI: 0000000000000000 RDI: ffffa0f9a97cd290
-> > > [    4.576512] RBP: ffffa0f9a97cd290 R08: 0000000000000001 R09: 0000000000000000
-> > > [    4.576513] R10: 0000000000000001 R11: 0000000000000001 R12: 0000000000000000
-> > > [    4.576514] R13: ffffa0f9c13b0cc8 R14: ffffa0f9cbca1038 R15: 0000000000000000
-> > > [    4.576516] FS:  00007f6781ea2740(0000) GS:ffffa0f9ceb00000(0000) knlGS:0000000000000000
-> > > [    4.576517] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > [    4.576518] CR2: 00007f5db8b8ccb0 CR3: 00000003df630000 CR4: 0000000000340ee0
-> > > [    4.576520] Call Trace:
-> > > [    4.576533]  dvb_create_media_graph+0x48a/0x590 [dvb_core]
-> > > [    4.576540]  em28xx_dvb_init.cold+0x1028/0x25e4 [em28xx_dvb]
-> > > [    4.576550]  em28xx_register_extension+0x5a/0xb0 [em28xx]
-> > > [    4.576554]  ? 0xffffffffc03dd000
-> > > [    4.576558]  do_one_initcall+0x59/0x240
-> > > [    4.576564]  do_init_module+0x5c/0x260
-> > > [    4.576567]  load_module+0x2137/0x23a0
-> > > [    4.576574]  __do_sys_init_module+0x172/0x1a0
-> > > [    4.576580]  do_syscall_64+0x49/0x90
-> > > [    4.576584]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> > > [    4.576586] RIP: 0033:0x7f6781fcf73e
-> > > [    4.576589] Code: 48 8b 0d 55 f7 0b 00 f7 d8 64 89 01 48 83 c8 ff c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 49 89 ca b8 af 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 22 f7 0b 00 f7 d8 64 89 01 48
-> > > [    4.576591] RSP: 002b:00007ffcbe457b48 EFLAGS: 00000246 ORIG_RAX: 00000000000000af
-> > > [    4.576593] RAX: ffffffffffffffda RBX: 000056363963fff0 RCX: 00007f6781fcf73e
-> > > [    4.576594] RDX: 00005636389fd368 RSI: 000000000000e158 RDI: 0000563639e4e4e0
-> > > [    4.576595] RBP: 0000563639e4e4e0 R08: 0000000000000000 R09: 00007ffcbe455b48
-> > > [    4.576596] R10: 0000000000000001 R11: 0000000000000246 R12: 00005636389fd368
-> > > [    4.576598] R13: 0000000000000000 R14: 0000563639640070 R15: 000056363963fff0
-> > > [    4.576601] ---[ end trace 12d333b621a2a68c ]---
-> > > 
-> > > 
-> > > Thanks
-> > > 
-> > > Johan Breuninger
-> > > 
-> > > 
-> > 
-> 
+Regards,
+-- 
+Luca
+
