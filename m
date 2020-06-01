@@ -2,137 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D1151EA3FF
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2020 14:37:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BCD51EA501
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2020 15:30:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727989AbgFAMhZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Jun 2020 08:37:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41736 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727983AbgFAMhX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jun 2020 08:37:23 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB587C061A0E;
-        Mon,  1 Jun 2020 05:37:22 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2C925304;
-        Mon,  1 Jun 2020 14:37:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591015040;
-        bh=oHa+01cZUbHFTHWDvd9ezAEuDyQWSSM5aS2DS4SQadE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=L+Q/ukkbBhQCw0sLrkRlYVeERNSo+/TsBBCsL/1Vd36huQeJvwOYo9ngZWcXiRa/s
-         AnQo7kOuT++wSVMLwQBFzQJj8yEG7KTA9ov83C9ih6jjfHZpVKa7FzNPjR9ux2M/x6
-         MRzFtC3vB7UH8M7ejeEpS/vYuY/Yi2TgazPkwzwA=
-Date:   Mon, 1 Jun 2020 15:37:05 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kaaira Gupta <kgupta@es.iitr.ac.in>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kieran.bingham@ideasonboard.com,
-        dafna Hirschfeld <dafna3@gmail.com>
-Subject: Re: [PATCH] vimc: debayer: Add support for ARGB format
-Message-ID: <20200601123705.GE5886@pendragon.ideasonboard.com>
-References: <20200528185717.GA20581@kaaira-HP-Pavilion-Notebook>
- <0ab57863-935d-3ab5-dfea-80a44c63ae18@collabora.com>
- <20200601121626.GA13308@kaaira-HP-Pavilion-Notebook>
+        id S1725976AbgFANao (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Jun 2020 09:30:44 -0400
+Received: from mga03.intel.com ([134.134.136.65]:58020 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725847AbgFANan (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Jun 2020 09:30:43 -0400
+IronPort-SDR: psXc3DC5ScGpZKTS6+O7gjNh6sunwNZvOkhyicm1h0tiPvjm/dMgHxBfwmQA1c4W0Gmp2UKCkG
+ wYeZm7jNYxyQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2020 06:30:42 -0700
+IronPort-SDR: E9kSzJuTGQVdlF0FsHAxrAu0EYXhu4JmywkifDOXpDyKgNcSeGA2W9uOTVLiQRwRBNADNwiONY
+ jGqAQDepUgAw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,460,1583222400"; 
+   d="scan'208";a="470325453"
+Received: from lkp-server01.sh.intel.com (HELO 78d03bb9d680) ([10.239.97.150])
+  by fmsmga005.fm.intel.com with ESMTP; 01 Jun 2020 06:30:39 -0700
+Received: from kbuild by 78d03bb9d680 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1jfkWW-00002v-5L; Mon, 01 Jun 2020 13:30:40 +0000
+Date:   Mon, 01 Jun 2020 21:29:54 +0800
+From:   kbuild test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-next] BUILD SUCCESS
+ 83fac9617e226725b6e2db4a086465cdba2db1a5
+Message-ID: <5ed502d2.9WC99qnzUKZQ+evU%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200601121626.GA13308@kaaira-HP-Pavilion-Notebook>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 01, 2020 at 05:46:26PM +0530, Kaaira Gupta wrote:
-> On Fri, May 29, 2020 at 05:43:57PM +0200, Dafna Hirschfeld wrote:
-> > Hi,
-> > Thanks for the patch
-> > 
-> > I don't know how real devices handle ARGB formats,
-> > I wonder if it should be the part of the debayer.
-> 
-> Hi! qcam tries to support BA24 as it is one of the formats that vimc
-> lists as its supported formats wih --list-formats. Shouldn't BA24 be
-> possible to capture with vimc?
-> 
-> If yes, which entity should support it, if not debayer? Should there be
-> a separate conversion entity, or should we keep the support in debayer
-> itself for efficiency issues?
+tree/branch: git://git.ragnatech.se/linux  media-next
+branch HEAD: 83fac9617e226725b6e2db4a086465cdba2db1a5  media: atomisp comment an unused code
 
-At the hardware level, the de-bayering block usually produces RGB with 8
-or more bits per colour components (so 3xn, 24 bits for 8-bit depths).
-The conversion to 32-bit ARGB usually happens at the DMA engine level,
-in the formatter right in front of the DMA engine. Ideally the vimc
-pipeline should expose the same.
+elapsed time: 1658m
 
-From a performance point of view, it makes little sense to process the
-image in vimc through multiple steps. I think it would be best to
-generate the final image directly at the output of the pipeline.
+configs tested: 125
+configs skipped: 7
 
-> > On 28.05.20 20:57, Kaaira Gupta wrote:
-> > > Running qcam for pixelformat 0x34324142 showed that vimc debayer does
-> > > not support it. Hence, add the support for Alpha (255).
-> > 
-> > I would change the commit log to:
-> > 
-> > Add support for V4L2_PIX_FMT_RGB24 format in the debayer
-> > and set the alpha channel to constant 255.
-> > 
-> > > Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
-> > > ---
-> > >   .../media/test-drivers/vimc/vimc-debayer.c    | 27 ++++++++++++-------
-> > >   1 file changed, 18 insertions(+), 9 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
-> > > index c3f6fef34f68..f34148717a40 100644
-> > > --- a/drivers/media/test-drivers/vimc/vimc-debayer.c
-> > > +++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
-> > > @@ -62,6 +62,7 @@ static const u32 vimc_deb_src_mbus_codes[] = {
-> > >   	MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-> > >   	MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
-> > >   	MEDIA_BUS_FMT_RGB888_1X32_PADHI,
-> > > +	MEDIA_BUS_FMT_ARGB8888_1X32
-> > >   };
-> > >   static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] = {
-> > > @@ -322,15 +323,23 @@ static void vimc_deb_process_rgb_frame(struct vimc_deb_device *vdeb,
-> > >   	unsigned int i, index;
-> > >   	vpix = vimc_pix_map_by_code(vdeb->src_code);
-> > > -	index = VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
-> > > -	for (i = 0; i < 3; i++) {
-> > > -		switch (vpix->pixelformat) {
-> > > -		case V4L2_PIX_FMT_RGB24:
-> > > -			vdeb->src_frame[index + i] = rgb[i];
-> > > -			break;
-> > > -		case V4L2_PIX_FMT_BGR24:
-> > > -			vdeb->src_frame[index + i] = rgb[2 - i];
-> > > -			break;
-> > > +
-> > > +	if (vpix->pixelformat == V4L2_PIX_FMT_ARGB32) {
-> > > +		index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 4);
-> > > +		vdeb->src_frame[index] = 255;
-> > > +		for (i = 0; i < 3; i++)
-> > > +			vdeb->src_frame[index + i + 1] = rgb[i];
-> > > +	} else {
-> > > +		index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
-> > > +		for (i = 0; i < 3; i++) {
-> > > +			switch (vpix->pixelformat) {
-> > > +			case V4L2_PIX_FMT_RGB24:
-> > > +				vdeb->src_frame[index + i] = rgb[i];
-> > > +				break;
-> > > +			case V4L2_PIX_FMT_BGR24:
-> > > +				vdeb->src_frame[index + i] = rgb[2 - i];
-> > > +				break;
-> > > +			}
-> > >   		}
-> > >   	}
-> > >   }
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
--- 
-Regards,
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+powerpc                      mgcoge_defconfig
+nds32                             allnoconfig
+s390                              allnoconfig
+arm                         vf610m4_defconfig
+arm                          pxa168_defconfig
+arm                         shannon_defconfig
+powerpc                      ppc6xx_defconfig
+powerpc64                        alldefconfig
+microblaze                    nommu_defconfig
+x86_64                              defconfig
+sh                           cayman_defconfig
+arm                       mainstone_defconfig
+arm                            hisi_defconfig
+powerpc                     mpc83xx_defconfig
+m68k                          multi_defconfig
+m68k                             allyesconfig
+c6x                         dsk6455_defconfig
+riscv                    nommu_virt_defconfig
+sh                        apsh4ad0a_defconfig
+sh                           se7343_defconfig
+nios2                            alldefconfig
+nds32                               defconfig
+mips                      pic32mzda_defconfig
+xtensa                          iss_defconfig
+mips                          rm200_defconfig
+arm                        mvebu_v5_defconfig
+arm                         assabet_defconfig
+xtensa                           alldefconfig
+powerpc                       maple_defconfig
+powerpc                      chrp32_defconfig
+arm                      footbridge_defconfig
+arm                          ixp4xx_defconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+i386                              debian-10.3
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                              allnoconfig
+m68k                           sun3_defconfig
+m68k                                defconfig
+nios2                               defconfig
+nios2                            allyesconfig
+openrisc                            defconfig
+c6x                              allyesconfig
+c6x                               allnoconfig
+openrisc                         allyesconfig
+csky                             allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+h8300                            allmodconfig
+xtensa                              defconfig
+arc                                 defconfig
+arc                              allyesconfig
+sh                               allmodconfig
+sh                                allnoconfig
+microblaze                        allnoconfig
+mips                             allyesconfig
+mips                              allnoconfig
+mips                             allmodconfig
+parisc                            allnoconfig
+parisc                              defconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+powerpc                          allyesconfig
+powerpc                          rhel-kconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+x86_64               randconfig-a002-20200601
+x86_64               randconfig-a006-20200601
+x86_64               randconfig-a001-20200601
+x86_64               randconfig-a003-20200601
+x86_64               randconfig-a004-20200601
+x86_64               randconfig-a005-20200601
+i386                 randconfig-a001-20200601
+i386                 randconfig-a006-20200601
+i386                 randconfig-a002-20200601
+i386                 randconfig-a005-20200601
+i386                 randconfig-a003-20200601
+i386                 randconfig-a004-20200601
+i386                 randconfig-a013-20200531
+i386                 randconfig-a012-20200531
+i386                 randconfig-a015-20200531
+i386                 randconfig-a011-20200531
+i386                 randconfig-a016-20200531
+i386                 randconfig-a014-20200531
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+s390                             allyesconfig
+s390                             allmodconfig
+s390                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+um                                allnoconfig
+um                                  defconfig
+um                               allmodconfig
+um                               allyesconfig
+x86_64                                   rhel
+x86_64                               rhel-7.6
+x86_64                    rhel-7.6-kselftests
+x86_64                         rhel-7.2-clear
+x86_64                                    lkp
+x86_64                              fedora-25
+x86_64                                  kexec
 
-Laurent Pinchart
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
