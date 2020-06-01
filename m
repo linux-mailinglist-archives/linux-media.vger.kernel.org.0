@@ -2,196 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E81E41E9EF3
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2020 09:19:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECD951EA01A
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2020 10:31:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726005AbgFAHTS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Jun 2020 03:19:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49034 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725886AbgFAHTR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jun 2020 03:19:17 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E718C061A0E
-        for <linux-media@vger.kernel.org>; Mon,  1 Jun 2020 00:19:17 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id o7so2775705oti.9
-        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2020 00:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=fCkuLnsjTNiZfCkRMfdS6q4uo3NkOFURSk/jIvqYtho=;
-        b=QTUHczJTQz6MDWYuw02FKeTj6ZR8puMhcBTTKSHfVwWfkvOjezr/Q96lDH2+GFoN7o
-         ySz2NXUIfuPf3fhCI3aLdSEcXeZoUnyli8Gr7kr9Phm1C+ZUl/xtQS4Z+eqLvpkQhNUo
-         ED543M2yzXrH+fDmX8LPBOYM07SI1kkbLMSjs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=fCkuLnsjTNiZfCkRMfdS6q4uo3NkOFURSk/jIvqYtho=;
-        b=nyKW48fl0l5sRVSOAZpgQn9Apd9ohWfj0lS13RVPajeLK/HMJ8RlFMkz6Vmfv6nYJn
-         sItGrJxz3myyrD+QGRGoCxZXzDUVTFczEowgW7LF/6ZiXRF5KV21fQNujekuA1i8btiX
-         9T7aEkOqZ1kpLai7lWp8mQaNsbYLX+YxT/cnXhxql+sJp26Oao/hp4iICvVmj7h6rj50
-         RHrPygQHyv7wzkPGhtyX8WoxWe0TTAEMaJ8AKZelyFzULVyct0OO2N8ufUHIE6bZtqcJ
-         TU4VR+E05dYBf6TnBruYbnh4UymyJ9Rwty1fh+maTQBVnPdxP0HdhHgIlMxWfpu/8eFQ
-         3sIw==
-X-Gm-Message-State: AOAM532419AwfXwp/mVaYf0b5h9izvtVrhK/CjVrrzIjdMwrBGeQ+VgN
-        ChcLAR07a9TWZEPh8M6VeDx0oydhOTA=
-X-Google-Smtp-Source: ABdhPJxgtzlgbaRNCiSDsnNN+4cyuNhtbc9xhjgxp+CYFJIZBa42z9wZ7fViuP1uG3w59FXDU/z53A==
-X-Received: by 2002:a9d:6ad5:: with SMTP id m21mr4430712otq.307.1590995956043;
-        Mon, 01 Jun 2020 00:19:16 -0700 (PDT)
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com. [209.85.167.173])
-        by smtp.gmail.com with ESMTPSA id 10sm2244118otq.52.2020.06.01.00.19.13
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Jun 2020 00:19:14 -0700 (PDT)
-Received: by mail-oi1-f173.google.com with SMTP id j189so695735oih.10
-        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2020 00:19:13 -0700 (PDT)
-X-Received: by 2002:aca:2316:: with SMTP id e22mr13106574oie.71.1590995953018;
- Mon, 01 Jun 2020 00:19:13 -0700 (PDT)
+        id S1728162AbgFAIbn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Jun 2020 04:31:43 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:42991 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725999AbgFAIbn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Jun 2020 04:31:43 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id ffr7jYVmtnv5nffrBjmzZ7; Mon, 01 Jun 2020 10:31:41 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1591000301; bh=FPgi8skndYa3qQMqUunZhM5UrRolNIv8NENdRLO7R24=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=bxNFUoUQHz15Ntyie6LP6ZaFNMeAZ/UNFWaMoOEqkwRJfATAK0Y3B+FTOAJU2EkwT
+         UhMg1+aEcsq19L/zYYEPJV8EqxjAu8PwkZuFeyBaIh9UkypovGnxv67PllknIpV6u+
+         InvAfuZ+84/IFN05HCM7dAohrmA6iI4LnG5GUDskrIb+dTWwy3Id3j/A3RZsdvZKe/
+         GZMYNbExhoij9JWfiywuJgsqlL7soQYg/dUugpi8MCSee5wLrUsP7jwPiptuLpb5ZT
+         Af+rdjfPaHcwH4/+tqNPd1soukHsGWGjFNZ0tZQ6rMjkABVoxeJ5aTJYPcsm7BE2d+
+         1gfININ0aGRYg==
+Subject: Re: IMX274 driver
+To:     Luca Ceresoli <luca@lucaceresoli.net>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Frank Chen <frankc@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        linux-media@vger.kernel.org
+References: <4184f80b-eab3-c512-dd99-d24c7af4b45c@nvidia.com>
+ <afd8fdb8-e359-5aee-ba3e-54a5217b2aee@lucaceresoli.net>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <d81c6fec-e7de-1282-9e17-1fc0f5dea9eb@xs4all.nl>
+Date:   Mon, 1 Jun 2020 10:31:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <20200206102058.247258-1-keiichiw@chromium.org>
- <20200206102058.247258-2-keiichiw@chromium.org> <CAD90Vca6=AGq6aN8voNyQ7Lh69LeDZzCxebGQ+sv_mU+mqRGLA@mail.gmail.com>
- <3754945.rEp4dnK8H5@os-lin-dmo> <CAD90VcZuvDj+-fdM89w-gYH=v4vc7x=R3sn032An4-vAX6hN0A@mail.gmail.com>
-In-Reply-To: <CAD90VcZuvDj+-fdM89w-gYH=v4vc7x=R3sn032An4-vAX6hN0A@mail.gmail.com>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Mon, 1 Jun 2020 16:19:00 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MXPgqYskDJr=PFb5LCWh1bV2R-FWXokCoDrmN+sEow5Xg@mail.gmail.com>
-Message-ID: <CAPBb6MXPgqYskDJr=PFb5LCWh1bV2R-FWXokCoDrmN+sEow5Xg@mail.gmail.com>
-Subject: Re: [PATCH v3 1/2] virtio-video: Add virtio video device specification
-To:     Keiichi Watanabe <keiichiw@chromium.org>
-Cc:     Dmitry Sepp <dmitry.sepp@opensynergy.com>,
-        virtio-dev@lists.oasis-open.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Alex Lau <alexlau@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Dylan Reid <dgreid@chromium.org>,
-        David Staessens <dstaessens@chromium.org>,
-        Enrico Granata <egranata@google.com>,
-        Frediano Ziglio <fziglio@redhat.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        =?UTF-8?Q?St=C3=A9phane_Marchesin?= <marcheu@chromium.org>,
-        Pawel Osciak <posciak@chromium.org>,
-        spice-devel@lists.freedesktop.org,
-        David Stevens <stevensd@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>, uril@redhat.com,
-        Samiullah Khawaja <samiullah.khawaja@opensynergy.com>,
-        Kiran Pawar <kiran.pawar@opensynergy.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <afd8fdb8-e359-5aee-ba3e-54a5217b2aee@lucaceresoli.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfA5/uyH9DxjvaDcEXtZMJDUhVH1gPXID100ymPqi+I54qTyTELhcfK+t3kmDQBgOJYmWxgLpbd8x0ZQ7Geosr/3KSqtMLtDSOINRzDLLHVwdmzBM5zR+
+ UWsxfyIuDm/vrJt5xzVC/GG3zXESJGzvHU8s4t4sLW4ePQ4Je8DpZvmjuGPowVvCd/W6ja28Xf6T3qBj8agJuS7fr+74cgt9zNx61dyv5I69xq388nLqenjL
+ 1aDblx+VZQB3AlieBwRrs39pEWO5fsg29CpPAr6jtaQh+iauU+3+PMj/OSUBHRenBgEGsjQCi/aysMrqNattpw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 29, 2020 at 11:22 PM Keiichi Watanabe <keiichiw@chromium.org> wrote:
->
-> Hi Dmitry,
->
-> On Wed, May 27, 2020 at 9:12 PM Dmitry Sepp <dmitry.sepp@opensynergy.com> wrote:
-> >
-> > Hi Keiichi,
-> >
-> > On Montag, 18. Mai 2020 07:17:53 CEST Keiichi Watanabe wrote:
-> > > > +struct virtio_video_stream_create {
-> > > > +        struct virtio_video_cmd_hdr hdr;
-> > > > +        le32 in_mem_type; /* One of VIRTIO_VIDEO_MEM_TYPE_* types */
-> > > > +        le32 out_mem_type; /* One of VIRTIO_VIDEO_MEM_TYPE_* types */
-> > > > +        le32 coded_format; /* One of VIRTIO_VIDEO_FORMAT_* types */
-> > > > +        u8 padding[4];
-> > > > +        u8 tag[64];
-> > > > +};
-> > > > +\end{lstlisting}
-> > > > +\begin{description}
-> > > > +\item[\field{in_mem_type, out_mem_type}] is a type of buffer
-> > > > +  management for input /output buffers. The driver MUST set a value in
-> > > > +  \field{enum virtio_video_mem_type} that the device reported a
-> > > > +  corresponding feature bit.
-> > > > +\begin{description}
-> > > > +\item[\field{VIRTIO_VIDEO_MEM_TYPE_GUEST_PAGES}] Use guest pages.
-> > > > +\end{description}
-> > > > +\item[\field{coded_format}] is the encoded format that will be
-> > > > +  processed.
-> > > > +\item[\field{tag}] is the name associated with this stream. The tag
-> > > > +  MUST be encoded in UTF-8 and NUL-terminated.
-> > >
-> > > I wonder why we need this "tag" field. I have kept this field from
-> > > Dmitry's first proposal, where this was called "char debug_name[64]".
-> > > However, on second thought, I have no idea what is the necessity to
-> > > have this field. Our VMM implementation in ChromeOS simply ignores
-> > > this field.
-> > > If OpenSynergy's implementation relies on this field, I'm curious
-> > > about the usage. We might want to have an enum value instead of this
-> > > field where arbitrary values can be stored.
-> > >
-> >
-> > The use of this field is not so clear because it was renamed. In fact, one can
-> > have an idea how it is used by simply looking at the driver code: the field is
-> > useful to know about the guest client app that uses the context. If someone
-> > wants to store arbitrary values, they have 64 bytes to do so with this so-
-> > called tag.
->
-> Hmm, though I understand this can be useful for you, I don't think we
-> should support it in the standard.
-> For the first example, I feel something is not abstracted well if you
-> want to send some information from a user app to the host device. User
-> applications shouldn't have a way to send messages to hardware
-> directly.
+Hi Luca,
 
-I am also a bit uncomfortable with having fields whose usage is not
-clearly defined in the kernel. How would user-space specify the value
-it wants to set there?
+On 31/05/2020 23:56, Luca Ceresoli wrote:
+> Hi Sowjanya,
+> 
+> On 29/05/20 04:07, Sowjanya Komatineni wrote:
+>> Hi Luca,
+>>
+>> Quick question regarding IMX274 driver that was up streamed by you.
+> 
+> Well, to be fair I only added cropping and made some improvements.
+> 
+>> Upstream IMX274 driver programs Y_OUT_SIZE correctly based on IMX274
+>> datasheet and register mode table for Y_OUT_SIZE where it includes 6
+>> ignored area of effective pixels + 8 effective margin for color
+>> processing pixels.
+>>
+>> So, Y_OUT_SIZE register value = height + 14
+>>
+>> But somehow with this we are not seeing full frame on CSI.
+>>
+>> In our internal NVIDIA IMX274 driver, we are programming Y_OUT_SIZE to
+>> exact height  Y_OUT_SIZE = height
+>>
+>> So for debug, followed the same and updated upstream IMX274 driver to
+>> program Y_OUT_SIZE = crop.height locally and I see all resolutions
+>> working fine with this.
+>>
+>> Checking with Sony on whats causing sensor not to send full frame when
+>> Y_OUT_SIZE is set to height + 14.
+>>
+>> But thought to check with you in parallel if there are any known issues
+> 
+> That's strange. Unfortunately I'm not using imx274 anymore since a long
+> time and don't remember the details, but definitely I did test it and if
+> there had been 14 missing lines I'm pretty sure I would have noticed.
+> 
+> I'll see if I can remember anything useful, and in case I'll update you.
+> I would be glad if you can update me on any findings too, maybe they
+> will help in understanding the problem better.
 
-> For the second example, who is "someone"? Driver or device? In any
-> case, I don't think it's the right way. They should extend existing
-> structs or add commands or feature flags, I think. Also, if arbitrary
-> values are allowed, the field won't be used correctly except in cases
-> where both driver implementation and device implementation are
-> available. This is against what the spec should be: virtio protocol
-> must work independently from the implementations.
-> Of course, it's obviously okay to have it as a downstream extension in
-> your product's local repository.
->
-> >
-> > > > +\end{description}
-> > > > +
-> > > > +The driver MUST set \field{stream_id} in \field{virtio_video_cmd_hdr}
-> > > > +to an integer that is not used before. If a used value is passed as
-> > > > +\field{stream_id}, the device MUST reports an error with
-> > > > +VIRTIO_VIDEO_RESP_ERR_INVALID_STREAM_ID.
-> > >
-> > > I'm wondering if we can't generate stream_id in the host side so that
-> > > we will have less error control code. In the current design, both the
-> > > device and the driver have error checks; the device must check that a
-> > > given ID is available and the driver must check if the device didn't
-> > > return the INVALID_STREAM_ID error. Instead, by generating IDs in the
-> > > device, we will be free from this type of failure. Same for
-> > > resource_id in RESOURCE_CREATE.
-> > >
-> > > I guess this design originally came from the virtio-gpu protocol.
-> > > However, I couldn't find a benefit of adopting the same design here.
-> > >
-> >
-> > Honestly I don't see too much difference: device still needs to check whether
-> > the id provided by the driver within some particular command is correct. If it
-> > is not, it will return an error. The driver needs to check (or skip checking)
-> > for an error either way as long as it is possible for the driver code to send
-> > a wrong number.
->
-> I'm talking about creation commands only. So, other commands won't be affected.
->
-> Let me try to explain my idea in a different way. The relationship
-> between the driver and the device can be seen as a client-server
-> model.
-> The client (driver) sends a request and the server (device) sends a
-> response by processing or generating some data.
-> Thus, I feel it's more natural that new data, including IDs, are
-> generated and provided by the device.
+The '+ 14' makes no sense. I wonder if this was perhaps to compensate for
+some problem in the bridge driver that this sensor was connected to.
+Which bridge driver did you use for testing? Do you remember where you got
+the '+ 14' from?
 
-This also results in one less check on the device side: when creating
-a stream it just needs to pick the first available ID, instead of
-checking whether the client provided something valid. This also
-removes the burden of managing stream IDs from the driver, since the
-device is entirely in charge of it (something it would have to do
-anyway in both cases since it would still need to check that the
-client-provided ID is valid).
+Regards,
+
+	Hans
