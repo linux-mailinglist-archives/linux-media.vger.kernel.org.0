@@ -2,107 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 701411EAF86
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2020 21:22:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 977201EB107
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2020 23:39:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728289AbgFATWC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Jun 2020 15:22:02 -0400
-Received: from v6.sk ([167.172.42.174]:45480 "EHLO v6.sk"
+        id S1728806AbgFAVil (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Jun 2020 17:38:41 -0400
+Received: from gloria.sntech.de ([185.11.138.130]:34530 "EHLO gloria.sntech.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726751AbgFATWB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Jun 2020 15:22:01 -0400
-Received: from localhost (v6.sk [IPv6:::1])
-        by v6.sk (Postfix) with ESMTP id D5A2761306;
-        Mon,  1 Jun 2020 19:21:29 +0000 (UTC)
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Lubomir Rintel <lkundrak@v3.sk>
-Subject: [RESEND 2 PATCH] media: marvell-ccic: Add support for runtime PM
-Date:   Mon,  1 Jun 2020 21:21:24 +0200
-Message-Id: <20200601192124.172650-1-lkundrak@v3.sk>
-X-Mailer: git-send-email 2.26.2
+        id S1728182AbgFAVil (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Jun 2020 17:38:41 -0400
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=diego.localnet)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1jfs8h-00050b-1D; Mon, 01 Jun 2020 23:38:35 +0200
+From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Maxime Chevallier <maxime.chevallier@bootlin.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-devicetree <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v2 0/3] media: rockchip: Introduce driver for the camera interface on PX30
+Date:   Mon, 01 Jun 2020 23:38:34 +0200
+Message-ID: <1779471.kMuJgyiE6z@diego>
+In-Reply-To: <CAAFQd5AVD+LhYZziqNUfga1sCp98MMu+ESgBMagS1n6++ae=pg@mail.gmail.com>
+References: <20200529130405.929429-1-maxime.chevallier@bootlin.com> <CAAFQd5AVD+LhYZziqNUfga1sCp98MMu+ESgBMagS1n6++ae=pg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On MMP3, the camera block lives on na separate power island. We want to
-turn it off if the CCIC is not in use to conserve power.
+Hi Tomasz,
 
-Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
----
- drivers/media/platform/marvell-ccic/mcam-core.c  |  3 +++
- drivers/media/platform/marvell-ccic/mmp-driver.c | 12 ++++++++----
- 2 files changed, 11 insertions(+), 4 deletions(-)
+Am Montag, 1. Juni 2020, 20:45:14 CEST schrieb Tomasz Figa:
+> On Fri, May 29, 2020 at 3:04 PM Maxime Chevallier
+> <maxime.chevallier@bootlin.com> wrote:
+> >
+> > Hello everyone,
+> >
+> > Here's a V2 of the series adding very basic support for the camera interface on
+> > the Rockchip PX30 SoC.
+> >
+> > Thanks to everyone that commented on the first series, your reviews were
+> > very helpful :)
+> >
+> > This Camera Interface is also supported on other Rockchip SoC such as
+> > the RK1808, RK3128, RK3288 and RK3288, but for now I've only been able to
+> > test it on the PX30, using a PAL format.
+> 
+> How does this hardware relate to the one handled by the rkisp1 driver
+> that is available under staging/media/rkisp1? It was written with
+> RK3399 in mind, but I have a loose recollection that the hardware in
+> RK3288 was roughly the same.
 
-diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/media/platform/marvell-ccic/mcam-core.c
-index 09775b6624c6b..c2cd1d461bd06 100644
---- a/drivers/media/platform/marvell-ccic/mcam-core.c
-+++ b/drivers/media/platform/marvell-ccic/mcam-core.c
-@@ -24,6 +24,7 @@
- #include <linux/clk.h>
- #include <linux/clk-provider.h>
- #include <linux/videodev2.h>
-+#include <linux/pm_runtime.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-ioctl.h>
- #include <media/v4l2-ctrls.h>
-@@ -901,6 +902,7 @@ static void mcam_clk_enable(struct mcam_camera *mcam)
- {
- 	unsigned int i;
- 
-+	pm_runtime_get_sync(mcam->dev);
- 	for (i = 0; i < NR_MCAM_CLK; i++) {
- 		if (!IS_ERR(mcam->clk[i]))
- 			clk_prepare_enable(mcam->clk[i]);
-@@ -915,6 +917,7 @@ static void mcam_clk_disable(struct mcam_camera *mcam)
- 		if (!IS_ERR(mcam->clk[i]))
- 			clk_disable_unprepare(mcam->clk[i]);
- 	}
-+	pm_runtime_put(mcam->dev);
- }
- 
- /* ---------------------------------------------------------------------- */
-diff --git a/drivers/media/platform/marvell-ccic/mmp-driver.c b/drivers/media/platform/marvell-ccic/mmp-driver.c
-index 92b92255dac66..eec482d16805b 100644
---- a/drivers/media/platform/marvell-ccic/mmp-driver.c
-+++ b/drivers/media/platform/marvell-ccic/mmp-driver.c
-@@ -24,6 +24,7 @@
- #include <linux/list.h>
- #include <linux/pm.h>
- #include <linux/clk.h>
-+#include <linux/pm_runtime.h>
- 
- #include "mcam-core.h"
- 
-@@ -313,10 +314,12 @@ static int mmpcam_probe(struct platform_device *pdev)
- 	cam->irq = res->start;
- 	ret = devm_request_irq(&pdev->dev, cam->irq, mmpcam_irq, IRQF_SHARED,
- 					"mmp-camera", mcam);
--	if (ret == 0) {
--		mmpcam_add_device(cam);
--		return 0;
--	}
-+	if (ret)
-+		goto out;
-+
-+	mmpcam_add_device(cam);
-+	pm_runtime_enable(&pdev->dev);
-+	return 0;
- 
- out:
- 	fwnode_handle_put(mcam->asd.match.fwnode);
-@@ -332,6 +335,7 @@ static int mmpcam_remove(struct mmp_camera *cam)
- 
- 	mmpcam_remove_device(cam);
- 	mccic_shutdown(mcam);
-+	pm_runtime_force_suspend(mcam->dev);
- 	return 0;
- }
- 
--- 
-2.26.2
+(un-)educated guess would be that the rk3288 has both.
+
+When introducing new IPs Rockchip often keeps the previous incarnation
+around - probably as a fallback.
+
+From a bit of digging around manuals and vendor-dtsi [0] I found:
+
+in rk3288.dtsi both:
+- isp: isp@ff910000
+- cif_isp0: cif_isp@ff910000
+
+- grf_con_disable_isp in GRF_SOC_CON6
+- dphy_rx1_src_sel (1: isp, 0: csi host) in GRF_SOC_CON14
+
+
+Heiko
+
+
+[0] https://github.com/rockchip-linux/kernel/blob/develop-4.4/arch/arm/boot/dts/rk3288.dtsi
+
+
+> +Helen Koike +Dafna Hirschfeld working on the rkisp1 driver.
+> 
+> Best regards,
+> Tomasz
+> 
+> >
+> > This driver is mostly based on the driver found in Rockchip's BSP, that
+> > has been trimmed down to support the set of features that I was able to test,
+> > that is pretty much a very basic one-frame capture and video streaming
+> > with GStreamer.
+> >
+> > This first draft only supports the Parallel interface, although the
+> > controller has support for BT656 and CSI2.
+> >
+> > Finally, this controller has an iommu that could be used in this driver,
+> > but as of today I've not been able to get it to work.
+> >
+> > Any review is welcome.
+> >
+> > Thanks,
+> >
+> > Maxime
+> >
+> > --- Changes since V1 ---
+> >
+> >  - Took reviews from Rob, Hans, Robin and Heiko into account :
+> >   - Renamed the clocks in the binding
+> >   - Fixed the DT schema compiling
+> >   - Fixed a few typos
+> >   - Used the clk bulk API
+> >   - Used the reset array API
+> >   - Changed a few helpers for more suitable ones
+> >   - Rebased on 5.7-rc7
+> >
+> >
+> >
+> > Maxime Chevallier (3):
+> >   media: dt-bindings: media: Document Rockchip CIF bindings
+> >   media: rockchip: Introduce driver for Rockhip's camera interface
+> >   arm64: dts: rockchip: Add the camera interface description of the PX30
+> >
+> >  .../bindings/media/rockchip-cif.yaml          |  100 ++
+> >  arch/arm64/boot/dts/rockchip/px30.dtsi        |   12 +
+> >  drivers/media/platform/Kconfig                |   13 +
+> >  drivers/media/platform/Makefile               |    1 +
+> >  drivers/media/platform/rockchip/cif/Makefile  |    3 +
+> >  drivers/media/platform/rockchip/cif/capture.c | 1170 +++++++++++++++++
+> >  drivers/media/platform/rockchip/cif/dev.c     |  358 +++++
+> >  drivers/media/platform/rockchip/cif/dev.h     |  213 +++
+> >  drivers/media/platform/rockchip/cif/regs.h    |  256 ++++
+> >  9 files changed, 2126 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/rockchip-cif.yaml
+> >  create mode 100644 drivers/media/platform/rockchip/cif/Makefile
+> >  create mode 100644 drivers/media/platform/rockchip/cif/capture.c
+> >  create mode 100644 drivers/media/platform/rockchip/cif/dev.c
+> >  create mode 100644 drivers/media/platform/rockchip/cif/dev.h
+> >  create mode 100644 drivers/media/platform/rockchip/cif/regs.h
+> >
+> > --
+> > 2.25.4
+> >
+> 
+
+
+
 
