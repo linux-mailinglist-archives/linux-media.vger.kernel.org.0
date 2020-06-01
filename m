@@ -2,152 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 977201EB107
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2020 23:39:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD12E1EB178
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 00:04:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728806AbgFAVil (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Jun 2020 17:38:41 -0400
-Received: from gloria.sntech.de ([185.11.138.130]:34530 "EHLO gloria.sntech.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728182AbgFAVil (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Jun 2020 17:38:41 -0400
-Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=diego.localnet)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1jfs8h-00050b-1D; Mon, 01 Jun 2020 23:38:35 +0200
-From:   Heiko =?ISO-8859-1?Q?St=FCbner?= <heiko@sntech.de>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        id S1728817AbgFAWDs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Jun 2020 18:03:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47516 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728488AbgFAWDr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jun 2020 18:03:47 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 561F5C08C5C0
+        for <linux-media@vger.kernel.org>; Mon,  1 Jun 2020 15:03:47 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id v24so482019plo.6
+        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2020 15:03:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XFnIQB7ncVF63T1pY2NMmD5MUjtRKH/Cyt/vduuOCr4=;
+        b=fek/fKkwjOdhsv+J8geTqfhekmIfVg31GBFgDaJGfViiSS3F/TsrEDBUE9wVv/9R8E
+         SLECz+XjlLL63WPLyFxiSgONAHsFBoColGWxAzWM9st+Pt4+fuDZvusd10ecebte6xxm
+         cZP+Te8MKz3ySAe3gVd2jr865slvk2yVvi9Hg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=XFnIQB7ncVF63T1pY2NMmD5MUjtRKH/Cyt/vduuOCr4=;
+        b=NWu/lNhUoIPc41e++yM2ZBPsxoPYnw2bQKyHVY/r+XnEIAwZfmyNs/brljJgR/XXzC
+         YQYp68/fnkR4dkfFsEE13EjKvNjGtZu/JCCFbHHUa3AW/FNGkOcsJva8qmy5bhx57i9i
+         Lp+uHJm6ud1TFwDONpMuDSeXIGm6ayPisZ8jWfzVYGtaiXuyFwtlsxwdLXKBX0Zy9G7r
+         Mg4zMBG/W9JMR6aX94bioLxZi0gJ8tovXS+zDk67hM2yjdexX+ClQcvKOGoCRbiPG54V
+         joG1ls+lnRi+dK0u2FAYRijUVH67JAQ+KWHU4nMY5uI8Rbfdf9YpMzy8IEeFCs3N37PK
+         qb/g==
+X-Gm-Message-State: AOAM531rOZ8AAdLvxi2Vm5M1uOaulZtezNZTbLB81VSFRRRS9PdtBeoq
+        UmiCqGKsMPMA6OtZtAy8ncQi5A==
+X-Google-Smtp-Source: ABdhPJweeLR8G4rZkKaY74PZV+ncoWYY84wN8268AueoBMTYcuSWzeDoqapxC9otqNOiOJ4igNbeRg==
+X-Received: by 2002:a17:902:7041:: with SMTP id h1mr22988066plt.169.1591049026875;
+        Mon, 01 Jun 2020 15:03:46 -0700 (PDT)
+Received: from tictac2.mtv.corp.google.com ([2620:15c:202:1:24fa:e766:52c9:e3b2])
+        by smtp.gmail.com with ESMTPSA id 67sm346948pfg.84.2020.06.01.15.03.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jun 2020 15:03:46 -0700 (PDT)
+From:   Douglas Anderson <dianders@chromium.org>
+To:     amasule@codeaurora.org, stanimir.varbanov@linaro.org
+Cc:     swboyd@chromium.org, jkardatzke@google.com, mka@chromium.org,
+        Douglas Anderson <dianders@chromium.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>
-Subject: Re: [PATCH v2 0/3] media: rockchip: Introduce driver for the camera interface on PX30
-Date:   Mon, 01 Jun 2020 23:38:34 +0200
-Message-ID: <1779471.kMuJgyiE6z@diego>
-In-Reply-To: <CAAFQd5AVD+LhYZziqNUfga1sCp98MMu+ESgBMagS1n6++ae=pg@mail.gmail.com>
-References: <20200529130405.929429-1-maxime.chevallier@bootlin.com> <CAAFQd5AVD+LhYZziqNUfga1sCp98MMu+ESgBMagS1n6++ae=pg@mail.gmail.com>
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [RFC PATCH] media: venus: Fix NULL pointer dereference in core selection
+Date:   Mon,  1 Jun 2020 15:03:22 -0700
+Message-Id: <20200601150314.RFC.1.I1e40623bbe8fa43ff1415fc273cba66503b9b048@changeid>
+X-Mailer: git-send-email 2.27.0.rc2.251.g90737beb825-goog
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
+The newly-introduced function min_loaded_core() iterates over all of
+the venus instances an tries to figure out how much load each instance
+is putting on each core.  Not all instances, however, might be fully
+initialized.  Specifically the "codec_freq_data" is initialized as
+part of vdec_queue_setup(), but an instance may already be in the list
+of all instances before that time.
 
-Am Montag, 1. Juni 2020, 20:45:14 CEST schrieb Tomasz Figa:
-> On Fri, May 29, 2020 at 3:04 PM Maxime Chevallier
-> <maxime.chevallier@bootlin.com> wrote:
-> >
-> > Hello everyone,
-> >
-> > Here's a V2 of the series adding very basic support for the camera interface on
-> > the Rockchip PX30 SoC.
-> >
-> > Thanks to everyone that commented on the first series, your reviews were
-> > very helpful :)
-> >
-> > This Camera Interface is also supported on other Rockchip SoC such as
-> > the RK1808, RK3128, RK3288 and RK3288, but for now I've only been able to
-> > test it on the PX30, using a PAL format.
-> 
-> How does this hardware relate to the one handled by the rkisp1 driver
-> that is available under staging/media/rkisp1? It was written with
-> RK3399 in mind, but I have a loose recollection that the hardware in
-> RK3288 was roughly the same.
+Let's band-aid this by checking to see if codec_freq_data is NULL
+before dereferencing.
 
-(un-)educated guess would be that the rk3288 has both.
+NOTE: without this fix I was running into a crash.  Specifically there
+were two venus instances.  One was doing start_streaming.  The other
+was midway through queue_setup but hadn't yet gotten to initting
+"codec_freq_data".
 
-When introducing new IPs Rockchip often keeps the previous incarnation
-around - probably as a fallback.
+Fixes: eff82f79c562 ("media: venus: introduce core selection")
+Signed-off-by: Douglas Anderson <dianders@chromium.org>
+---
+I'm not massively happy about this commit but it's the best I could
+come up with without being much more of an expert in the venus codec.
+If someone has a better patch then please just consider this one to be
+a bug report and feel free to submit a better fix!  :-)
 
-From a bit of digging around manuals and vendor-dtsi [0] I found:
+In general I wonder a little bit about whether it's safe to be peeking
+at all the instances without grabbing the "inst->lock" on each one.  I
+guess it is since we do it both here and in load_scale_v4() but I
+don't know why.
 
-in rk3288.dtsi both:
-- isp: isp@ff910000
-- cif_isp0: cif_isp@ff910000
+One thought I had was that we could fully avoid accessing the other
+instances, at least in min_loaded_core(), by just keeping track of
+"core1_load" and "core2_load" in "struct venus_core".  Whenever we add
+a new instance we could add to the relevant variables and whenever we
+release an instance we could remove.  Such a change seems cleaner but
+would require someone to test to make sure we didn't miss any case
+(AKA we always properly added/removed our load from the globals).
 
-- grf_con_disable_isp in GRF_SOC_CON6
-- dphy_rx1_src_sel (1: isp, 0: csi host) in GRF_SOC_CON14
+ drivers/media/platform/qcom/venus/pm_helpers.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-
-Heiko
-
-
-[0] https://github.com/rockchip-linux/kernel/blob/develop-4.4/arch/arm/boot/dts/rk3288.dtsi
-
-
-> +Helen Koike +Dafna Hirschfeld working on the rkisp1 driver.
-> 
-> Best regards,
-> Tomasz
-> 
-> >
-> > This driver is mostly based on the driver found in Rockchip's BSP, that
-> > has been trimmed down to support the set of features that I was able to test,
-> > that is pretty much a very basic one-frame capture and video streaming
-> > with GStreamer.
-> >
-> > This first draft only supports the Parallel interface, although the
-> > controller has support for BT656 and CSI2.
-> >
-> > Finally, this controller has an iommu that could be used in this driver,
-> > but as of today I've not been able to get it to work.
-> >
-> > Any review is welcome.
-> >
-> > Thanks,
-> >
-> > Maxime
-> >
-> > --- Changes since V1 ---
-> >
-> >  - Took reviews from Rob, Hans, Robin and Heiko into account :
-> >   - Renamed the clocks in the binding
-> >   - Fixed the DT schema compiling
-> >   - Fixed a few typos
-> >   - Used the clk bulk API
-> >   - Used the reset array API
-> >   - Changed a few helpers for more suitable ones
-> >   - Rebased on 5.7-rc7
-> >
-> >
-> >
-> > Maxime Chevallier (3):
-> >   media: dt-bindings: media: Document Rockchip CIF bindings
-> >   media: rockchip: Introduce driver for Rockhip's camera interface
-> >   arm64: dts: rockchip: Add the camera interface description of the PX30
-> >
-> >  .../bindings/media/rockchip-cif.yaml          |  100 ++
-> >  arch/arm64/boot/dts/rockchip/px30.dtsi        |   12 +
-> >  drivers/media/platform/Kconfig                |   13 +
-> >  drivers/media/platform/Makefile               |    1 +
-> >  drivers/media/platform/rockchip/cif/Makefile  |    3 +
-> >  drivers/media/platform/rockchip/cif/capture.c | 1170 +++++++++++++++++
-> >  drivers/media/platform/rockchip/cif/dev.c     |  358 +++++
-> >  drivers/media/platform/rockchip/cif/dev.h     |  213 +++
-> >  drivers/media/platform/rockchip/cif/regs.h    |  256 ++++
-> >  9 files changed, 2126 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/rockchip-cif.yaml
-> >  create mode 100644 drivers/media/platform/rockchip/cif/Makefile
-> >  create mode 100644 drivers/media/platform/rockchip/cif/capture.c
-> >  create mode 100644 drivers/media/platform/rockchip/cif/dev.c
-> >  create mode 100644 drivers/media/platform/rockchip/cif/dev.h
-> >  create mode 100644 drivers/media/platform/rockchip/cif/regs.h
-> >
-> > --
-> > 2.25.4
-> >
-> 
-
-
-
+diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+index abf93158857b..a1d998f62cf2 100644
+--- a/drivers/media/platform/qcom/venus/pm_helpers.c
++++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+@@ -496,6 +496,8 @@ min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load)
+ 	list_for_each_entry(inst_pos, &core->instances, list) {
+ 		if (inst_pos == inst)
+ 			continue;
++		if (!inst_pos->clk_data.codec_freq_data)
++			continue;
+ 		vpp_freq = inst_pos->clk_data.codec_freq_data->vpp_freq;
+ 		coreid = inst_pos->clk_data.core_id;
+ 
+-- 
+2.27.0.rc2.251.g90737beb825-goog
 
