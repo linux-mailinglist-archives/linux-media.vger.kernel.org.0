@@ -2,184 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BCD51EA501
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2020 15:30:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D727F1EA558
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2020 15:53:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725976AbgFANao (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Jun 2020 09:30:44 -0400
-Received: from mga03.intel.com ([134.134.136.65]:58020 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725847AbgFANan (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Jun 2020 09:30:43 -0400
-IronPort-SDR: psXc3DC5ScGpZKTS6+O7gjNh6sunwNZvOkhyicm1h0tiPvjm/dMgHxBfwmQA1c4W0Gmp2UKCkG
- wYeZm7jNYxyQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Jun 2020 06:30:42 -0700
-IronPort-SDR: E9kSzJuTGQVdlF0FsHAxrAu0EYXhu4JmywkifDOXpDyKgNcSeGA2W9uOTVLiQRwRBNADNwiONY
- jGqAQDepUgAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,460,1583222400"; 
-   d="scan'208";a="470325453"
-Received: from lkp-server01.sh.intel.com (HELO 78d03bb9d680) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 01 Jun 2020 06:30:39 -0700
-Received: from kbuild by 78d03bb9d680 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1jfkWW-00002v-5L; Mon, 01 Jun 2020 13:30:40 +0000
-Date:   Mon, 01 Jun 2020 21:29:54 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-next] BUILD SUCCESS
- 83fac9617e226725b6e2db4a086465cdba2db1a5
-Message-ID: <5ed502d2.9WC99qnzUKZQ+evU%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1726667AbgFANxs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Jun 2020 09:53:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54720 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726094AbgFANxs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 1 Jun 2020 09:53:48 -0400
+Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33958C05BD43
+        for <linux-media@vger.kernel.org>; Mon,  1 Jun 2020 06:53:48 -0700 (PDT)
+Received: by mail-pg1-x52b.google.com with SMTP id 185so3520605pgb.10
+        for <linux-media@vger.kernel.org>; Mon, 01 Jun 2020 06:53:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
+        h=from:date:to:cc:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=SZrz5OEZuL69zhlVxu/gDMyHuEwJA705SVbQpnoa6SU=;
+        b=Jqd5qTrJwQtjPiRCa3L2dQXPAk4DZ45z7LjMqJc7kEaY0fdF+6rOdLgZw+pExmyi2j
+         fb2KrXyaWLooQ6xJMr6//Q2HOMGFsNPYeM5Dx+J9qcvMes6DswsNjr294DgAx2Oiv2E2
+         M602R0Eys+u4PcQCyJOf0QFdxBpECxA3xRx00kPoZBziFrHfyHxfl/mn/41KFm4m0hjs
+         LV0IRZNEsiWep2b2FHfJ391VQCw6U2dX7bXvNwymJUU0wOGx4W+UXQajQ5JXkkfl6/Mh
+         MOeIcsY/RLo9GpjM/F7kBm3aBuYaE3zi0cIdnIWDwCR1zolHmiwoXLVlVVCEn63SkTIv
+         +WVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=SZrz5OEZuL69zhlVxu/gDMyHuEwJA705SVbQpnoa6SU=;
+        b=YdI4sUEKXVUQNQOluww86PRzWvgt4RtFP6mvA7/9sAW2/z4O+XOY5MS1frDu62FakG
+         1Nszw4JLl9tKYAbGDhOPJIqtN3aEzcbNdobe0dez+umKuEnzlaT3o+XmDeIFkP4392Mi
+         5l7Gf6we+vURL8cNxUOUq777MnLUmwhH+UOkPvR4tG+SZg/MNOweZUW76SguRA5Nk6Ti
+         cmiUXLWe7zl9yhCmfel8SU1NIqfyEng+WAWgFfthem72JUpZwFYIb68yUXWDf8gaOkbo
+         8QprkrjUhmZJSO3KJ23rwff8uMNc+RgcQ5YcLeowy5VTe5CXQdOs5m3OZgxZjS5FcFQC
+         URrQ==
+X-Gm-Message-State: AOAM531pOIKuaBSuWx+c441VWBep3nXsjQMBxdmAZWh+rv4vnjIOCoT9
+        kVK/MbjRzuRIovg+St6ojLphNIvrSRXxIg==
+X-Google-Smtp-Source: ABdhPJx1saSdKxYBA1+wFV3vg/9rJU20mkZx7xGGEh79RribFC9u1tV7OHw0yAyP8dhpDI5/zaYN1w==
+X-Received: by 2002:a62:c185:: with SMTP id i127mr16090762pfg.132.1591019627440;
+        Mon, 01 Jun 2020 06:53:47 -0700 (PDT)
+Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.174])
+        by smtp.gmail.com with ESMTPSA id 6sm14713325pfj.54.2020.06.01.06.53.43
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 01 Jun 2020 06:53:46 -0700 (PDT)
+From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
+X-Google-Original-From: Kaaira Gupta <Kaairakgupta@es.iitr.ac.in>
+Date:   Mon, 1 Jun 2020 19:23:39 +0530
+To:     linux-media@vger.kernel.org
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Subject: vimc: Add color descriptions to test image
+Message-ID: <20200601135339.GA16606@kaaira-HP-Pavilion-Notebook>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-next
-branch HEAD: 83fac9617e226725b6e2db4a086465cdba2db1a5  media: atomisp comment an unused code
+Hi!
 
-elapsed time: 1658m
+Currently there is no method to know if the test image generated by vimc
+is correct (except for comparing it with a known 'correct' image). So, I
+wanted to investigate about a possibility to add text to each color bar
+of the generated pattern. I think currently vivid supports this
+functionality as an optional control, so can we move it to a common 
+platform so that both VIVID and VIMC can supoort it?
 
-configs tested: 125
-configs skipped: 7
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-powerpc                      mgcoge_defconfig
-nds32                             allnoconfig
-s390                              allnoconfig
-arm                         vf610m4_defconfig
-arm                          pxa168_defconfig
-arm                         shannon_defconfig
-powerpc                      ppc6xx_defconfig
-powerpc64                        alldefconfig
-microblaze                    nommu_defconfig
-x86_64                              defconfig
-sh                           cayman_defconfig
-arm                       mainstone_defconfig
-arm                            hisi_defconfig
-powerpc                     mpc83xx_defconfig
-m68k                          multi_defconfig
-m68k                             allyesconfig
-c6x                         dsk6455_defconfig
-riscv                    nommu_virt_defconfig
-sh                        apsh4ad0a_defconfig
-sh                           se7343_defconfig
-nios2                            alldefconfig
-nds32                               defconfig
-mips                      pic32mzda_defconfig
-xtensa                          iss_defconfig
-mips                          rm200_defconfig
-arm                        mvebu_v5_defconfig
-arm                         assabet_defconfig
-xtensa                           alldefconfig
-powerpc                       maple_defconfig
-powerpc                      chrp32_defconfig
-arm                      footbridge_defconfig
-arm                          ixp4xx_defconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-nios2                               defconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-openrisc                         allyesconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-xtensa                              defconfig
-arc                                 defconfig
-arc                              allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-mips                             allyesconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                              defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                          allyesconfig
-powerpc                          rhel-kconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-x86_64               randconfig-a002-20200601
-x86_64               randconfig-a006-20200601
-x86_64               randconfig-a001-20200601
-x86_64               randconfig-a003-20200601
-x86_64               randconfig-a004-20200601
-x86_64               randconfig-a005-20200601
-i386                 randconfig-a001-20200601
-i386                 randconfig-a006-20200601
-i386                 randconfig-a002-20200601
-i386                 randconfig-a005-20200601
-i386                 randconfig-a003-20200601
-i386                 randconfig-a004-20200601
-i386                 randconfig-a013-20200531
-i386                 randconfig-a012-20200531
-i386                 randconfig-a015-20200531
-i386                 randconfig-a011-20200531
-i386                 randconfig-a016-20200531
-i386                 randconfig-a014-20200531
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                             allmodconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                                allnoconfig
-um                                  defconfig
-um                               allmodconfig
-um                               allyesconfig
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Thanks,
+Kaaira
