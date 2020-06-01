@@ -2,246 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87C271E9ABC
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2020 00:48:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A1C11E9BBF
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2020 04:35:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728428AbgEaWsc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 31 May 2020 18:48:32 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:4854 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727915AbgEaWsb (ORCPT
+        id S1727013AbgFACfr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 31 May 2020 22:35:47 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:31248 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726218AbgFACfq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 31 May 2020 18:48:31 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ed434320000>; Sun, 31 May 2020 15:48:18 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Sun, 31 May 2020 15:48:30 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Sun, 31 May 2020 15:48:30 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 31 May
- 2020 22:48:29 +0000
-Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
- Transport; Sun, 31 May 2020 22:48:29 +0000
-Received: from sandstorm.nvidia.com (Not Verified[10.2.56.10]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
-        id <B5ed4343d0001>; Sun, 31 May 2020 15:48:29 -0700
-From:   John Hubbard <jhubbard@nvidia.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-CC:     Andy Walls <awalls@md.metrocast.net>,
+        Sun, 31 May 2020 22:35:46 -0400
+X-UUID: e5aecf64bacd48bca0677d00994bc663-20200601
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=8KXVcKiNS9g9+0ZRyD+sPi3/ylxB1CS4SKdXzmdFHCQ=;
+        b=Chbdik9xjEftINHP/AKnbEcyhMCsgtuzeLOxHkTUf1m/HiNSOFMb7Xa6QIOA/3VisYbFTvpQF+DUXtyEk7ifphltHkmEB3JA4IjacW4XB6b68ge7o/w2T3BI0z+ps5PIuw6KhMThtMOmWavHNI/LlgLDRTOkXM/4IzMv5DekTzg=;
+X-UUID: e5aecf64bacd48bca0677d00994bc663-20200601
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 998980182; Mon, 01 Jun 2020 10:35:38 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N2.mediatek.inc
+ (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 1 Jun
+ 2020 10:35:32 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 1 Jun 2020 10:35:31 +0800
+Message-ID: <1590978816.8804.523.camel@mhfsdcap03>
+Subject: Re: [V9, 1/2] media: dt-bindings: media: i2c: Document OV02A10
+ bindings
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Rob Herring <robh@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Bartosz Golaszewski" <bgolaszewski@baylibre.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Souptick Joarder <jrdr.linux@gmail.com>,
-        <linux-media@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        <linux-mm@kvack.org>, John Hubbard <jhubbard@nvidia.com>
-Subject: [PATCH v2 2/2] ivtv: convert get_user_pages() --> pin_user_pages()
-Date:   Sun, 31 May 2020 15:48:27 -0700
-Message-ID: <20200531224827.769427-3-jhubbard@nvidia.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200531224827.769427-1-jhubbard@nvidia.com>
-References: <20200531224827.769427-1-jhubbard@nvidia.com>
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        "Cao Bing Bu" <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
+        <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-devicetree <devicetree@vger.kernel.org>,
+        Louis Kuo <louis.kuo@mediatek.com>,
+        "Shengnan Wang =?UTF-8?Q?=28=E7=8E=8B=E5=9C=A3=E7=94=B7=29?=" 
+        <shengnan.wang@mediatek.com>, <dongchun.zhu@mediatek.com>
+Date:   Mon, 1 Jun 2020 10:33:36 +0800
+In-Reply-To: <CAAFQd5AuHDpQN8xZsWgnAt6m2reAYJbs9nBp0+mBo7_FS81LbQ@mail.gmail.com>
+References: <20200523084103.31276-1-dongchun.zhu@mediatek.com>
+         <20200523084103.31276-2-dongchun.zhu@mediatek.com>
+         <20200526182847.GA92449@bogus> <1590569355.8804.448.camel@mhfsdcap03>
+         <CAL_Jsq+sN0SVidTrY0ODXEkzkxYFvG1FTnL0oRQBSKf=ynLdyQ@mail.gmail.com>
+         <20200527211628.GT7618@paasikivi.fi.intel.com>
+         <1590636882.8804.474.camel@mhfsdcap03>
+         <20200528072332.GW7618@paasikivi.fi.intel.com>
+         <1590653082.8804.517.camel@mhfsdcap03>
+         <CAAFQd5AuHDpQN8xZsWgnAt6m2reAYJbs9nBp0+mBo7_FS81LbQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-X-NVConfidentiality: public
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1590965298; bh=xH5C6dG4bePEiW5mi0F4Wccp6bZO0ppe4EGiUHwyKL4=;
-        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
-         In-Reply-To:References:MIME-Version:X-NVConfidentiality:
-         Content-Transfer-Encoding:Content-Type;
-        b=EPYECVgKWlvBx7tKYa81xMDO35Ip6n41Q8Q3Db4HXLPfCm3EYZO9rz9Ob/ieJmp6/
-         66OnusV+qlnv37ZNAoFdRqkxNjXZFwGwQKABQwbRECaPIjmHCsCX5ojsM3NP5CzFkq
-         lKxje8mwJugXFM1noM0aFme0oWXvHLn0rd5q1sQ8nxAsBive1ELKTDydUYE0QRnEae
-         QrD5CXPO2SYEaISjKo96Ac3D+gpJC0cOweclCpoXKzocWoKFiRWcqn5lz27hh+EAJD
-         wQYUUQSISX3zPOpM3IglFGGImq9pfCTItPHlqlR6gcfviCjfsH+4wLRgVhKjKY3xVx
-         vgw5Jpq02Iazg==
+X-TM-SNTS-SMTP: DCC16DA201AA794175D589CDB204CA0D2D14521CE435DCDA57662523486617452000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This code was using get_user_pages*(), in a "Case 2" scenario
-(DMA/RDMA), using the categorization from [1]. That means that it's
-time to convert the get_user_pages*() + put_page() calls to
-pin_user_pages*() + unpin_user_pages() calls.
-
-There is some helpful background in [2]: basically, this is a small
-part of fixing a long-standing disconnect between pinning pages, and
-file systems' use of those pages.
-
-[1] Documentation/core-api/pin_user_pages.rst
-
-[2] "Explicit pinning of user-space pages":
-    https://lwn.net/Articles/807108/
-
-Signed-off-by: John Hubbard <jhubbard@nvidia.com>
----
- drivers/media/pci/ivtv/ivtv-udma.c | 19 ++++++-------------
- drivers/media/pci/ivtv/ivtv-yuv.c  | 17 ++++++-----------
- drivers/media/pci/ivtv/ivtvfb.c    |  4 ++--
- 3 files changed, 14 insertions(+), 26 deletions(-)
-
-diff --git a/drivers/media/pci/ivtv/ivtv-udma.c b/drivers/media/pci/ivtv/iv=
-tv-udma.c
-index 5f8883031c9c..0d8372cc364a 100644
---- a/drivers/media/pci/ivtv/ivtv-udma.c
-+++ b/drivers/media/pci/ivtv/ivtv-udma.c
-@@ -92,7 +92,7 @@ int ivtv_udma_setup(struct ivtv *itv, unsigned long ivtv_=
-dest_addr,
- {
- 	struct ivtv_dma_page_info user_dma;
- 	struct ivtv_user_dma *dma =3D &itv->udma;
--	int i, err;
-+	int err;
-=20
- 	IVTV_DEBUG_DMA("ivtv_udma_setup, dst: 0x%08x\n", (unsigned int)ivtv_dest_=
-addr);
-=20
-@@ -111,16 +111,15 @@ int ivtv_udma_setup(struct ivtv *itv, unsigned long i=
-vtv_dest_addr,
- 		return -EINVAL;
- 	}
-=20
--	/* Get user pages for DMA Xfer */
--	err =3D get_user_pages_unlocked(user_dma.uaddr, user_dma.page_count,
-+	/* Pin user pages for DMA Xfer */
-+	err =3D pin_user_pages_unlocked(user_dma.uaddr, user_dma.page_count,
- 			dma->map, FOLL_FORCE);
-=20
- 	if (user_dma.page_count !=3D err) {
- 		IVTV_DEBUG_WARN("failed to map user pages, returned %d instead of %d\n",
- 			   err, user_dma.page_count);
- 		if (err >=3D 0) {
--			for (i =3D 0; i < err; i++)
--				put_page(dma->map[i]);
-+			unpin_user_pages(dma->map, err);
- 			return -EINVAL;
- 		}
- 		return err;
-@@ -130,9 +129,7 @@ int ivtv_udma_setup(struct ivtv *itv, unsigned long ivt=
-v_dest_addr,
-=20
- 	/* Fill SG List with new values */
- 	if (ivtv_udma_fill_sg_list(dma, &user_dma, 0) < 0) {
--		for (i =3D 0; i < dma->page_count; i++) {
--			put_page(dma->map[i]);
--		}
-+		unpin_user_pages(dma->map, dma->page_count);
- 		dma->page_count =3D 0;
- 		return -ENOMEM;
- 	}
-@@ -153,7 +150,6 @@ int ivtv_udma_setup(struct ivtv *itv, unsigned long ivt=
-v_dest_addr,
- void ivtv_udma_unmap(struct ivtv *itv)
- {
- 	struct ivtv_user_dma *dma =3D &itv->udma;
--	int i;
-=20
- 	IVTV_DEBUG_INFO("ivtv_unmap_user_dma\n");
-=20
-@@ -169,10 +165,7 @@ void ivtv_udma_unmap(struct ivtv *itv)
- 	/* sync DMA */
- 	ivtv_udma_sync_for_cpu(itv);
-=20
--	/* Release User Pages */
--	for (i =3D 0; i < dma->page_count; i++) {
--		put_page(dma->map[i]);
--	}
-+	unpin_user_pages(dma->map, dma->page_count);
- 	dma->page_count =3D 0;
- }
-=20
-diff --git a/drivers/media/pci/ivtv/ivtv-yuv.c b/drivers/media/pci/ivtv/ivt=
-v-yuv.c
-index cd2fe2d444c0..5f7dc9771f8d 100644
---- a/drivers/media/pci/ivtv/ivtv-yuv.c
-+++ b/drivers/media/pci/ivtv/ivtv-yuv.c
-@@ -30,7 +30,6 @@ static int ivtv_yuv_prep_user_dma(struct ivtv *itv, struc=
-t ivtv_user_dma *dma,
- 	struct yuv_playback_info *yi =3D &itv->yuv_info;
- 	u8 frame =3D yi->draw_frame;
- 	struct yuv_frame_info *f =3D &yi->new_frame_info[frame];
--	int i;
- 	int y_pages, uv_pages;
- 	unsigned long y_buffer_offset, uv_buffer_offset;
- 	int y_decode_height, uv_decode_height, y_size;
-@@ -62,12 +61,12 @@ static int ivtv_yuv_prep_user_dma(struct ivtv *itv, str=
-uct ivtv_user_dma *dma,
- 	ivtv_udma_get_page_info (&y_dma, (unsigned long)args->y_source, 720 * y_d=
-ecode_height);
- 	ivtv_udma_get_page_info (&uv_dma, (unsigned long)args->uv_source, 360 * u=
-v_decode_height);
-=20
--	/* Get user pages for DMA Xfer */
--	y_pages =3D get_user_pages_unlocked(y_dma.uaddr,
-+	/* Pin user pages for DMA Xfer */
-+	y_pages =3D pin_user_pages_unlocked(y_dma.uaddr,
- 			y_dma.page_count, &dma->map[0], FOLL_FORCE);
- 	uv_pages =3D 0; /* silence gcc. value is set and consumed only if: */
- 	if (y_pages =3D=3D y_dma.page_count) {
--		uv_pages =3D get_user_pages_unlocked(uv_dma.uaddr,
-+		uv_pages =3D pin_user_pages_unlocked(uv_dma.uaddr,
- 				uv_dma.page_count, &dma->map[y_pages],
- 				FOLL_FORCE);
- 	}
-@@ -81,8 +80,7 @@ static int ivtv_yuv_prep_user_dma(struct ivtv *itv, struc=
-t ivtv_user_dma *dma,
- 				 uv_pages, uv_dma.page_count);
-=20
- 			if (uv_pages >=3D 0) {
--				for (i =3D 0; i < uv_pages; i++)
--					put_page(dma->map[y_pages + i]);
-+				unpin_user_pages(&dma->map[y_pages], uv_pages);
- 				rc =3D -EFAULT;
- 			} else {
- 				rc =3D uv_pages;
-@@ -93,8 +91,7 @@ static int ivtv_yuv_prep_user_dma(struct ivtv *itv, struc=
-t ivtv_user_dma *dma,
- 				 y_pages, y_dma.page_count);
- 		}
- 		if (y_pages >=3D 0) {
--			for (i =3D 0; i < y_pages; i++)
--				put_page(dma->map[i]);
-+			unpin_user_pages(dma->map, y_pages);
- 			/*
- 			 * Inherit the -EFAULT from rc's
- 			 * initialization, but allow it to be
-@@ -112,9 +109,7 @@ static int ivtv_yuv_prep_user_dma(struct ivtv *itv, str=
-uct ivtv_user_dma *dma,
- 	/* Fill & map SG List */
- 	if (ivtv_udma_fill_sg_list (dma, &uv_dma, ivtv_udma_fill_sg_list (dma, &y=
-_dma, 0)) < 0) {
- 		IVTV_DEBUG_WARN("could not allocate bounce buffers for highmem userspace=
- buffers\n");
--		for (i =3D 0; i < dma->page_count; i++) {
--			put_page(dma->map[i]);
--		}
-+		unpin_user_pages(dma->map, dma->page_count);
- 		dma->page_count =3D 0;
- 		return -ENOMEM;
- 	}
-diff --git a/drivers/media/pci/ivtv/ivtvfb.c b/drivers/media/pci/ivtv/ivtvf=
-b.c
-index 0c2859844081..e2d56dca5be4 100644
---- a/drivers/media/pci/ivtv/ivtvfb.c
-+++ b/drivers/media/pci/ivtv/ivtvfb.c
-@@ -281,10 +281,10 @@ static int ivtvfb_prep_dec_dma_to_device(struct ivtv =
-*itv,
- 	/* Map User DMA */
- 	if (ivtv_udma_setup(itv, ivtv_dest_addr, userbuf, size_in_bytes) <=3D 0) =
-{
- 		mutex_unlock(&itv->udma.lock);
--		IVTVFB_WARN("ivtvfb_prep_dec_dma_to_device, Error with get_user_pages: %=
-d bytes, %d pages returned\n",
-+		IVTVFB_WARN("ivtvfb_prep_dec_dma_to_device, Error with pin_user_pages: %=
-d bytes, %d pages returned\n",
- 			       size_in_bytes, itv->udma.page_count);
-=20
--		/* get_user_pages must have failed completely */
-+		/* pin_user_pages must have failed completely */
- 		return -EIO;
- 	}
-=20
---=20
-2.26.2
+SGkgVG9tYXN6LA0KDQpPbiBGcmksIDIwMjAtMDUtMjkgYXQgMTU6NDMgKzAyMDAsIFRvbWFzeiBG
+aWdhIHdyb3RlOg0KPiBPbiBUaHUsIE1heSAyOCwgMjAyMCBhdCAxMDowNiBBTSBEb25nY2h1biBa
+aHUgPGRvbmdjaHVuLnpodUBtZWRpYXRlay5jb20+IHdyb3RlOg0KPiA+DQo+ID4gSGkgU2FrYXJp
+LA0KPiA+DQo+ID4gT24gVGh1LCAyMDIwLTA1LTI4IGF0IDEwOjIzICswMzAwLCBTYWthcmkgQWls
+dXMgd3JvdGU6DQo+ID4gPiBIaSBEb25nY2h1biwNCj4gPiA+DQo+ID4gPiBPbiBUaHUsIE1heSAy
+OCwgMjAyMCBhdCAxMTozNDo0MkFNICswODAwLCBEb25nY2h1biBaaHUgd3JvdGU6DQo+ID4gPiA+
+IEhpIFNha2FyaSwgUm9iLA0KPiA+ID4gPg0KPiA+ID4gPiBPbiBUaHUsIDIwMjAtMDUtMjggYXQg
+MDA6MTYgKzAzMDAsIFNha2FyaSBBaWx1cyB3cm90ZToNCj4gPiA+ID4gPiBIaSBSb2IsIERvbmdj
+aHVuLA0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gT24gV2VkLCBNYXkgMjcsIDIwMjAgYXQgMDk6Mjc6
+MjJBTSAtMDYwMCwgUm9iIEhlcnJpbmcgd3JvdGU6DQo+ID4gPiA+ID4gPiA+ID4gPiArICAgIHBy
+b3BlcnRpZXM6DQo+ID4gPiA+ID4gPiA+ID4gPiArICAgICAgZW5kcG9pbnQ6DQo+ID4gPiA+ID4g
+PiA+ID4gPiArICAgICAgICB0eXBlOiBvYmplY3QNCj4gPiA+ID4gPiA+ID4gPiA+ICsgICAgICAg
+IGFkZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQ0KPiA+ID4gPiA+ID4gPiA+ID4gKw0KPiA+ID4g
+PiA+ID4gPiA+ID4gKyAgICAgICAgcHJvcGVydGllczoNCj4gPiA+ID4gPiA+ID4NCj4gPiA+ID4g
+PiA+ID4gQWN0dWFsbHkgSSB3b25kZXIgd2hldGhlciB3ZSBuZWVkIHRvIGRlY2xhcmUgJ2Nsb2Nr
+LWxhbmVzJyBoZXJlPw0KPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IFllcywgaWYgeW91IGFyZSB1
+c2luZyBpdC4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IERvbmdjaHVuLCBjYW4geW91IGNvbmZpcm0g
+dGhlIGNoaXAgaGFzIGEgc2luZ2xlIGRhdGEgYW5kIGEgc2luZ2xlIGNsb2NrDQo+ID4gPiA+ID4g
+bGFuZSBhbmQgdGhhdCBpdCBkb2VzIG5vdCBzdXBwb3J0IGxhbmUgcmVvcmRlcmluZz8NCj4gPiA+
+ID4gPg0KPiA+ID4gPg0KPiA+ID4gPiBGcm9tIHRoZSBkYXRhc2hlZXQsICdNSVBJIGluc2lkZSB0
+aGUgT1YwMkExMCBwcm92aWRlcyBvbmUgc2luZ2xlDQo+ID4gPiA+IHVuaS1kaXJlY3Rpb25hbCBj
+bG9jayBsYW5lIGFuZCBvbmUgYmktZGlyZWN0aW9uYWwgZGF0YSBsYW5lIHNvbHV0aW9uIGZvcg0K
+PiA+ID4gPiBjb21tdW5pY2F0aW9uIGxpbmtzIGJldHdlZW4gY29tcG9uZW50cyBpbnNpZGUgYSBt
+b2JpbGUgZGV2aWNlLg0KPiA+ID4gPiBUaGUgZGF0YSBsYW5lIGhhcyBmdWxsIHN1cHBvcnQgZm9y
+IEhTKHVuaS1kaXJlY3Rpb25hbCkgYW5kDQo+ID4gPiA+IExQKGJpLWRpcmVjdGlvbmFsKSBkYXRh
+IHRyYW5zZmVyIG1vZGUuJw0KPiA+ID4gPg0KPiA+ID4gPiBUaGUgc2Vuc29yIGRvZXNuJ3Qgc3Vw
+cG9ydCBsYW5lIHJlb3JkZXJpbmcsIHNvICdjbG9jay1sYW5lcycgcHJvcGVydHkNCj4gPiA+ID4g
+d291bGQgbm90IGJlIGFkZGVkIGluIG5leHQgcmVsZWFzZS4NCj4gPiA+ID4NCj4gPiA+ID4gPiBT
+byBpZiB0aGVyZSdzIG5vdGhpbmcgdG8gY29udmV5IHRvIHRoZSBkcml2ZXIsIGFsc28gdGhlIGRh
+dGEtbGFuZXMgc2hvdWxkDQo+ID4gPiA+ID4gYmUgcmVtb3ZlZCBJTU8uDQo+ID4gPiA+ID4NCj4g
+PiA+ID4NCj4gPiA+ID4gSG93ZXZlciwgJ2RhdGEtbGFuZXMnIHByb3BlcnR5IG1heSBzdGlsbCBi
+ZSByZXF1aXJlZC4NCj4gPiA+ID4gSXQgaXMga25vd24gdGhhdCBlaXRoZXIgZGF0YS1sYW5lcyBv
+ciBjbG9jay1sYW5lcyBpcyBhbiBhcnJheSBvZg0KPiA+ID4gPiBwaHlzaWNhbCBkYXRhIGxhbmUg
+aW5kZXhlcy4gUG9zaXRpb24gb2YgYW4gZW50cnkgZGV0ZXJtaW5lcyB0aGUgbG9naWNhbA0KPiA+
+ID4gPiBsYW5lIG51bWJlciwgd2hpbGUgdGhlIHZhbHVlIG9mIGFuIGVudHJ5IGluZGljYXRlcyBw
+aHlzaWNhbCBsYW5lLCBlLmcuLA0KPiA+ID4gPiBmb3IgMS1sYW5lIE1JUEkgQ1NJLTIgYnVzIHdl
+IGNvdWxkIGhhdmUgImRhdGEtbGFuZXMgPSA8MT47IiwgYXNzdW1pbmcNCj4gPiA+ID4gdGhlIGNs
+b2NrIGxhbmUgaXMgb24gaGFyZHdhcmUgbGFuZSAwLg0KPiA+ID4gPg0KPiA+ID4gPiBBcyBtZW50
+aW9uZWQgZWFybGllciwgdGhlIE9WMDJBMTAgc2Vuc29yIHN1cHBvcnRzIG9ubHkgMUMxRCBhbmQg
+ZG9lcyBub3QNCj4gPiA+ID4gc3VwcG9ydCBsYW5lIHJlb3JkZXJpbmcsIHNvIGhlcmUgd2Ugc2hh
+bGwgdXNlICdkYXRhLWxhbmVzID0gPDE+JyBhcw0KPiA+ID4gPiB0aGVyZSBpcyBvbmx5IGEgY2xv
+Y2sgbGFuZSBmb3IgT1YwMkExMC4NCj4gPiA+ID4NCj4gPiA+ID4gUmVtaW5kZXI6DQo+ID4gPiA+
+IElmICdkYXRhLWxhbmVzJyBwcm9wZXJ0eSBpcyBub3QgcHJlc2VudCwgdGhlIGRyaXZlciB3b3Vs
+ZCBhc3N1bWUNCj4gPiA+ID4gZm91ci1sYW5lIG9wZXJhdGlvbi4gVGhpcyBtZWFucyBmb3Igb25l
+LWxhbmUgb3IgdHdvLWxhbmUgb3BlcmF0aW9uLCB0aGlzDQo+ID4gPiA+IHByb3BlcnR5IG11c3Qg
+YmUgcHJlc2VudCBhbmQgc2V0IHRvIHRoZSByaWdodCBwaHlzaWNhbCBsYW5lIGluZGV4ZXMuDQo+
+ID4gPiA+IElmIHRoZSBoYXJkd2FyZSBkb2VzIG5vdCBzdXBwb3J0IGxhbmUgcmVvcmRlcmluZywg
+bW9ub3RvbmljYWxseQ0KPiA+ID4gPiBpbmNyZW1lbnRlZCB2YWx1ZXMgc2hhbGwgYmUgdXNlZCBm
+cm9tIDAgb3IgMSBvbndhcmRzLCBkZXBlbmRpbmcgb24NCj4gPiA+ID4gd2hldGhlciBvciBub3Qg
+dGhlcmUgaXMgYWxzbyBhIGNsb2NrIGxhbmUuDQo+ID4gPg0KPiA+ID4gSG93IGNhbiB0aGUgZHJp
+dmVyIHVzZSBmb3VyIGxhbmVzLCBjb25zaWRlcmluZyB0aGUgZGV2aWNlIG9ubHkgc3VwcG9ydHMg
+YQ0KPiA+ID4gc2luZ2xlIGxhbmU/Pw0KPiA+ID4NCj4gPg0KPiA+IEkgdW5kZXJzdG9vZCB5b3Vy
+IG1lYW5pbmcuDQo+ID4gSWYgd2Ugb21pdCB0aGUgcHJvcGVydHkgJ2RhdGEtbGFuZXMnLCB0aGUg
+c2Vuc29yIHNob3VsZCB3b3JrIHN0aWxsLg0KPiA+IEJ1dCB0aGVuIHdoYXQncyB0aGUgbWVhbmlu
+ZyBvZiB0aGUgZXhpc3RlbmNlIG9mICdkYXRhLWxhbmVzJz8NCj4gPiBJZiB0aGlzIHByb3BlcnR5
+ICdkYXRhLWxhbmVzJyBpcyBhbHdheXMgb3B0aW9uYWwsIHRoZW4gd2h5IGR0LWJpbmRpbmdzDQo+
+ID4gcHJvdmlkZSB0aGUgaW50ZXJmYWNlPw0KPiA+DQo+ID4gSW4gdGhlIG1lYW50aW1lLCBpZiBv
+bWl0dGluZyAnZGF0YS1sYW5lcycgZm9yIG9uZSBzZW5zb3IodHJhbnNtaXR0ZXIpDQo+ID4gdGhh
+dCBoYXMgb25seSBvbmUgcGh5c2ljYWwgZGF0YSBsYW5lLCBNSVBJIHJlY2VpdmVyKGUuZy4sIE1J
+UEkgQ1NJLTIpDQo+ID4gc2hhbGwgZW5hYmxlIGZvdXItbGFuZSBjb25maWd1cmF0aW9uLCB3aGlj
+aCBtYXkgaW5jcmVhc2UgY29uc3VtcHRpb24gb2YNCj4gPiBib3RoIHBvd2VyIGFuZCByZXNvdXJj
+ZSBpbiB0aGUgcHJvY2VzcyBvZiBJSUMgY29tbXVuaWNhdGlvbi4NCj4gDQo+IFdvdWxkbid0IHRo
+ZSByZWNlaXZlciBzdGlsbCBoYXZlIHRoZSBkYXRhLWxhbmVzIHByb3BlcnR5IHVuZGVyIGl0cw0K
+PiBlbmRwb2ludCBub2RlLCB0ZWxsaW5nIGl0IGhvdyBtYW55IGxhbmVzIGFuZCBpbiB3aGljaCBv
+cmRlciBzaG91bGQgYmUNCj4gdXNlZD8NCj4gDQoNClRoZSBNSVBJIHJlY2VpdmVyKFJYKSBzaGFs
+bCB1c2UNCnY0bDJfYXN5bmNfbm90aWZpZXJfYWRkX2Z3bm9kZV9yZW1vdGVfc3ViZGV2KCkgQVBJ
+IHRvIHBhcnNlIHRoZSBwcm9wZXJ0eQ0KImRhdGEtbGFuZXMiIHVuZGVyIHNlbnNvciBvdXRwdXQg
+cG9ydC4NCg0KPiBCZXN0IHJlZ2FyZHMsDQo+IFRvbWFzeg0KDQo=
 
