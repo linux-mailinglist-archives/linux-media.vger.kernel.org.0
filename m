@@ -2,193 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB1391E9D17
-	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2020 07:18:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D97CC1E9D9A
+	for <lists+linux-media@lfdr.de>; Mon,  1 Jun 2020 07:56:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726033AbgFAFRv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 1 Jun 2020 01:17:51 -0400
-Received: from mga17.intel.com ([192.55.52.151]:47255 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725838AbgFAFRu (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 1 Jun 2020 01:17:50 -0400
-IronPort-SDR: YuoLtrL/rFONrs+WHS0CAKeWRlPSx6bwsCG22PU+9igoFc6yutfIVRKB0ym0DYqSr8ciGjI8XA
- T4EVGw8DEHZA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 May 2020 22:17:50 -0700
-IronPort-SDR: w+GY71Y0RFpMAkMx+8zgYZOg1lcYqLgJ+70U7zDTmBNEu4hkbBqPbk6f2Bn7kGVftLF8jm5tYy
- lNUMOfsx9ONA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,459,1583222400"; 
-   d="scan'208";a="470195252"
-Received: from lkp-server01.sh.intel.com (HELO 49d03d9b0ee7) ([10.239.97.150])
-  by fmsmga005.fm.intel.com with ESMTP; 31 May 2020 22:17:49 -0700
-Received: from kbuild by 49d03d9b0ee7 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1jfcpY-0000DJ-AC; Mon, 01 Jun 2020 05:17:48 +0000
-Date:   Mon, 01 Jun 2020 13:16:37 +0800
-From:   kbuild test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-next] BUILD SUCCESS
- 7d398a74c789941b36646d1b27cada97a8b58b06
-Message-ID: <5ed48f35.52tWFJG71hWWXBu6%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1726825AbgFAF40 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 1 Jun 2020 01:56:26 -0400
+Received: from mail27.static.mailgun.info ([104.130.122.27]:27381 "EHLO
+        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726105AbgFAF4Z (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 1 Jun 2020 01:56:25 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1590990984; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=qxNlodpscBoxykFUAQVlHFmPOZvwy8cggIcifiL/Li0=; b=D/d0Pdx7++EZ98IpES8ZtuJk/7rsh76hgEBNusgjEXU9ts217WVLSvzM6KpwJqkrExwpBZcS
+ Gw3oYIfkjNtRTR4wm5tg0Lk+MXtB5xmgVPnHH5r5Nl/bXEj79VLyrM2kPUpHKQ+qNrSYVGzh
+ D7/XIj3xW/oAzg2cZlf9ltXuTBY=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
+ 5ed498832dd9e15ae345e86c (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 01 Jun 2020 05:56:18
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 454CEC433CB; Mon,  1 Jun 2020 05:56:18 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [10.50.34.11] (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: rnayak)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 51DA3C433C9;
+        Mon,  1 Jun 2020 05:56:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 51DA3C433C9
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=rnayak@codeaurora.org
+Subject: Re: [PATCH v2] dt-bindings: media: venus: Add an optional power
+ domain for perf voting
+To:     Rob Herring <robh@kernel.org>
+Cc:     stanimir.varbanov@linaro.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, mka@chromium.org
+References: <1589349807-10163-1-git-send-email-rnayak@codeaurora.org>
+ <20200527193638.GA2604206@bogus>
+From:   Rajendra Nayak <rnayak@codeaurora.org>
+Message-ID: <448cc4c0-0714-dc62-df19-7fa8fba91758@codeaurora.org>
+Date:   Mon, 1 Jun 2020 11:26:11 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20200527193638.GA2604206@bogus>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-next
-branch HEAD: 7d398a74c789941b36646d1b27cada97a8b58b06  media: atomisp: get rid of sh_css_pipe.c
 
-elapsed time: 2041m
+On 5/28/2020 1:06 AM, Rob Herring wrote:
+> On Wed, May 13, 2020 at 11:33:27AM +0530, Rajendra Nayak wrote:
+>> Add an optional power domain which when specified can be used for
+>> setting the performance state of Venus.
+>>
+>> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
+>> ---
+>>   Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml    | 6 +++++-
+>>   Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml | 6 +++++-
+>>   2 files changed, 10 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
+>> index 764affa..ac1ed64 100644
+>> --- a/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
+>> +++ b/Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml
+>> @@ -25,12 +25,16 @@ properties:
+>>       maxItems: 1
+>>   
+>>     power-domains:
+>> -    maxItems: 2
+>> +    minItems: 2
+>> +    maxItems: 3
+>>   
+>>     power-domain-names:
+>> +    minItems: 2
+>> +    maxItems: 3
+>>       items:
+>>         - const: venus
+>>         - const: vcodec0
+>> +      - const: opp-pd
+> 
+> Humm, looks suspicious. This is a phyical power island in this block?
 
-configs tested: 134
-configs skipped: 8
+yes, this is used to represent the physical 'cx' power island in the SoC
+(Its a shared power island, not a power island specific to this block)
+that can be scaled to different 'performance levels' based on the frequency
+the codec is expected to run at.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> Because that's what 'power-domains' are supposed to represent. Not $os
+> pm-domain construct.
+> 
+> Rob
+> 
 
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-powerpc                      mgcoge_defconfig
-arm                         vf610m4_defconfig
-arm                          pxa168_defconfig
-nds32                             allnoconfig
-s390                              allnoconfig
-mips                           ip27_defconfig
-arc                 nsimosci_hs_smp_defconfig
-mips                           mtx1_defconfig
-sh                            shmin_defconfig
-microblaze                          defconfig
-um                           x86_64_defconfig
-mips                         db1xxx_defconfig
-sh                          sdk7780_defconfig
-arm                       aspeed_g5_defconfig
-sh                   secureedge5410_defconfig
-arm                         assabet_defconfig
-arm                         shannon_defconfig
-powerpc                      ppc6xx_defconfig
-powerpc64                        alldefconfig
-microblaze                    nommu_defconfig
-arm                       mainstone_defconfig
-arm                            hisi_defconfig
-powerpc                     mpc83xx_defconfig
-m68k                          multi_defconfig
-m68k                             allyesconfig
-mips                     decstation_defconfig
-arm                        spear6xx_defconfig
-c6x                                 defconfig
-mips                        bcm63xx_defconfig
-nds32                            alldefconfig
-arm                         s3c6400_defconfig
-m68k                        mvme16x_defconfig
-powerpc                       ppc64_defconfig
-mips                      pistachio_defconfig
-c6x                         dsk6455_defconfig
-riscv                    nommu_virt_defconfig
-sh                        apsh4ad0a_defconfig
-sh                           se7343_defconfig
-mips                          rm200_defconfig
-arm                        mvebu_v5_defconfig
-xtensa                           alldefconfig
-sh                          landisk_defconfig
-sh                          rsk7264_defconfig
-mips                       markeins_defconfig
-arm                         lpc32xx_defconfig
-um                               alldefconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                              allnoconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-nios2                               defconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-openrisc                         allyesconfig
-nds32                               defconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-xtensa                              defconfig
-arc                                 defconfig
-arc                              allyesconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-mips                             allyesconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                              defconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                          allyesconfig
-powerpc                          rhel-kconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-powerpc                             defconfig
-i386                 randconfig-a004-20200531
-i386                 randconfig-a003-20200531
-i386                 randconfig-a006-20200531
-i386                 randconfig-a002-20200531
-i386                 randconfig-a005-20200531
-i386                 randconfig-a001-20200531
-i386                 randconfig-a013-20200531
-i386                 randconfig-a012-20200531
-i386                 randconfig-a015-20200531
-i386                 randconfig-a011-20200531
-i386                 randconfig-a016-20200531
-i386                 randconfig-a014-20200531
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                             allmodconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-sparc64                             defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                                allnoconfig
-um                                  defconfig
-um                               allmodconfig
-um                               allyesconfig
-x86_64                                   rhel
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-x86_64                                  kexec
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
