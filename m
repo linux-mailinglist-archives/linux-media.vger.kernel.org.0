@@ -2,218 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4742F1EB49E
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 06:36:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 566A11EB577
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 07:48:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725944AbgFBEgw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jun 2020 00:36:52 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:47120 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725787AbgFBEgw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jun 2020 00:36:52 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id D61292A2924
-Message-ID: <0aef6cd5cc7019912a973ad8c5ba5e7b6105baf9.camel@collabora.com>
-Subject: Re: [PATCH] media: rkvdec: Fix H264 scaling list order
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Jonas Karlman <jonas@kwiboo.se>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Date:   Tue, 02 Jun 2020 01:36:37 -0300
-In-Reply-To: <20200522202130.13306-1-jonas@kwiboo.se>
-References: <20200522202130.13306-1-jonas@kwiboo.se>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.0-1 
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+        id S1726023AbgFBFsu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Jun 2020 01:48:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35024 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725921AbgFBFsu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jun 2020 01:48:50 -0400
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDC51C061A0E;
+        Mon,  1 Jun 2020 22:48:48 -0700 (PDT)
+Received: by mail-il1-x141.google.com with SMTP id z2so3462278ilq.0;
+        Mon, 01 Jun 2020 22:48:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=k9I8ETp57ehY+cewlXxiibzOu/2WehbLAtG+rirGofY=;
+        b=PTTy3Jc1hh5d7OAQOhMTiWNWJ4RspVKcuazsI9Qgbx+DVn0MAAadyVf3uR+SewUl1w
+         gqIcebnNBkhmqGbGqm5Fg4dRdKaeeX1SeyH1eiSkGZyofFaoVkQ2VOLVzhcTza5F3uOa
+         5Ij9D+nRUzuz4QO1wb6XWri6RH6ozWyuLsPSKcXJ4iuPX0de1IrYswiCNZAWCQdaI3Zt
+         1S9Fq6wCHjKOulSz3m7wqNOxsEP+ldTR1c+QrzPqFx5hiWA92V2kosaJls13rcfClr4B
+         0iEXswWzLMyYx7L4aM16VXMLHYczOkLn+7fC+706rUgVriAWcroR+dhT3kUhW51ejeFj
+         agyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=k9I8ETp57ehY+cewlXxiibzOu/2WehbLAtG+rirGofY=;
+        b=Bu9aanQYQeiZFG1DF5hlFDzl7tUS7BTEnD8/Jq9TV9d44SxeSGWNa9PR23Rj224bVr
+         v+1sXxnhXqhvY1KJrMk4AXqWVa/Ryjot3x1NQwAotqzono+k6gCJQSt2v44lcMIM+NNE
+         6aB9M2oTWVmtbT+cJXMDxOGLxIdbo7LEJQ3Wm+I/H7ndhK9ErfIslztaMV6ZtSNMgo5K
+         DS/n+Ho3XP+ocDqI9LVOB6So/MOku24iJYn2ZDoKSQqDLxs0kLfFIznOISuWPoHjphIL
+         XSNQqqqZ/iIIcJ0vxbVIqE71o2R7uGwnbwMTqq1odLQymVYl/pXXjgMIkMCklGpO2WY1
+         s8xg==
+X-Gm-Message-State: AOAM5337HjMgd+Ky123YFeWwQGKhYjlhdW1NWT9I+oLyjTYGzKreGsVp
+        s4atjdrRNnCP5HBqIMwEDt4=
+X-Google-Smtp-Source: ABdhPJxaffrkPss8NMfyN5duhlcFxRD0Zwf2ag1xzDGUschjC6B9gf0XBShNKhn+Lw1PGm6gXIEycA==
+X-Received: by 2002:a92:5e07:: with SMTP id s7mr24998837ilb.266.1591076928307;
+        Mon, 01 Jun 2020 22:48:48 -0700 (PDT)
+Received: from cs-u-kase.dtc.umn.edu (cs-u-kase.cs.umn.edu. [160.94.64.2])
+        by smtp.googlemail.com with ESMTPSA id z4sm911293ilm.72.2020.06.01.22.48.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Jun 2020 22:48:47 -0700 (PDT)
+From:   Navid Emamdoost <navid.emamdoost@gmail.com>
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Cc:     emamd001@umn.edu, wu000273@umn.edu, kjlu@umn.edu, smccaman@umn.edu,
+        Navid Emamdoost <navid.emamdoost@gmail.com>
+Subject: [PATCH] media: staging: tegra-vde: add missing pm_runtime_put_autosuspend
+Date:   Tue,  2 Jun 2020 00:48:41 -0500
+Message-Id: <20200602054841.15746-1-navid.emamdoost@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jonas,
+Call to pm_runtime_get_sync increments counter even in case of
+failure leading to incorrect ref count.
+Call pm_runtime_put_autosuspend if pm_runtime_get_sync fails.
 
-Thanks a lot for the fix! Indeed it fixes
-a few bitstream that had artifacts :)
+Signed-off-by: Navid Emamdoost <navid.emamdoost@gmail.com>
+---
+ drivers/staging/media/tegra-vde/vde.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-On Fri, 2020-05-22 at 20:21 +0000, Jonas Karlman wrote:
-> The Rockchip Video Decoder driver is expecting that the values in a
-> scaling list are in zig-zag order and applies the inverse scanning process
-> to get the values in matrix order.
-> 
-> Commit 0b0393d59eb4 ("media: uapi: h264: clarify expected
-> scaling_list_4x4/8x8 order") clarified that the values in the scaling list
-> should already be in matrix order.
-> 
-> Fix this by removing the reordering and change to use two memcpy.
-> 
-> Fixes: cd33c830448b ("media: rkvdec: Add the rkvdec driver")
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> ---
->  drivers/staging/media/rkvdec/rkvdec-h264.c | 70 +++++++---------------
->  1 file changed, 22 insertions(+), 48 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> index cd4980d06be7..2719f0c66a4a 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> @@ -18,11 +18,16 @@
->  /* Size with u32 units. */
->  #define RKV_CABAC_INIT_BUFFER_SIZE	(3680 + 128)
->  #define RKV_RPS_SIZE			((128 + 128) / 4)
-> -#define RKV_SCALING_LIST_SIZE		(6 * 16 + 6 * 64 + 128)
->  #define RKV_ERROR_INFO_SIZE		(256 * 144 * 4)
->  
->  #define RKVDEC_NUM_REFLIST		3
->  
-> +struct rkvdec_scaling_matrix {
-
-How about we call this rkvdec_scaling_list
-or even rkvdec_h264_scaling_list?
-
-It'll make code more readable and easier to grep.
-
-> +	u8 scaling_list_4x4[6][16];
-> +	u8 scaling_list_8x8[6][64];
-> +	u8 padding[128];
-
-Oops, something is wrong here, maybe some
-mistake when porting code around.
-
-Rockchip MPP defines the scaling list size as:
-
-#define RKV_SCALING_LIST_SIZE (6*16 + 2*64 + 128)
-
-Consistently with the fact that 4:4:4 sampling
-is not supported (chroma_format_idc == 3),
-only the first two scaling matrices are used.
-
-Moreover, given all these buffers are specified separately
-(see below), I bet not even the 128 padding bytes
-are needed.
+diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
+index d3e63512a765..52cdd4a91e93 100644
+--- a/drivers/staging/media/tegra-vde/vde.c
++++ b/drivers/staging/media/tegra-vde/vde.c
+@@ -776,8 +776,10 @@ static int tegra_vde_ioctl_decode_h264(struct tegra_vde *vde,
+ 		goto release_dpb_frames;
  
-> +};
-> +
->  struct rkvdec_sps_pps_packet {
->  	u32 info[8];
->  };
-> @@ -86,7 +91,7 @@ struct rkvdec_ps_field {
->  /* Data structure describing auxiliary buffer format. */
->  struct rkvdec_h264_priv_tbl {
->  	s8 cabac_table[4][464][2];
-
-As can be seen, all these buffers can be allocated
-independently, which perhaps could reduce the
-pressure on the DMA allocator.
-
-> -	u8 scaling_list[RKV_SCALING_LIST_SIZE];
-> +	struct rkvdec_scaling_matrix scaling_list;
->  	u32 rps[RKV_RPS_SIZE];
->  	struct rkvdec_sps_pps_packet param_set[256];
->  	u8 err_info[RKV_ERROR_INFO_SIZE];
-
-In particular, I wonder if the error info stuff
-is really required.
-
-I guess we'll want to merge a simple fix,
-so no need to address any of these questions
-for now.
-
-With the struct rkvdec_scaling_matrix rename:
-
-Reviewed-by: Ezequiel Garcia <ezequiel@collabora.com>
-
-Thanks,
-Ezequiel
-
-> @@ -785,56 +790,25 @@ static void assemble_hw_rps(struct rkvdec_ctx *ctx,
->  	}
->  }
->  
-> -/*
-> - * NOTE: The values in a scaling list are in zig-zag order, apply inverse
-> - * scanning process to get the values in matrix order.
-> - */
-> -static const u32 zig_zag_4x4[16] = {
-> -	0, 1, 4, 8, 5, 2, 3, 6, 9, 12, 13, 10, 7, 11, 14, 15
-> -};
-> -
-> -static const u32 zig_zag_8x8[64] = {
-> -	0,  1,  8, 16,  9,  2,  3, 10, 17, 24, 32, 25, 18, 11,  4,  5,
-> -	12, 19, 26, 33, 40, 48, 41, 34, 27, 20, 13,  6,  7, 14, 21, 28,
-> -	35, 42, 49, 56, 57, 50, 43, 36, 29, 22, 15, 23, 30, 37, 44, 51,
-> -	58, 59, 52, 45, 38, 31, 39, 46, 53, 60, 61, 54, 47, 55, 62, 63
-> -};
-> -
-> -static void reorder_scaling_list(struct rkvdec_ctx *ctx,
-> -				 struct rkvdec_h264_run *run)
-> +static void assemble_hw_scaling_list(struct rkvdec_ctx *ctx,
-> +				     struct rkvdec_h264_run *run)
->  {
->  	const struct v4l2_ctrl_h264_scaling_matrix *scaling = run->scaling_matrix;
-> -	const size_t num_list_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4);
-> -	const size_t list_len_4x4 = ARRAY_SIZE(scaling->scaling_list_4x4[0]);
-> -	const size_t num_list_8x8 = ARRAY_SIZE(scaling->scaling_list_8x8);
-> -	const size_t list_len_8x8 = ARRAY_SIZE(scaling->scaling_list_8x8[0]);
->  	struct rkvdec_h264_ctx *h264_ctx = ctx->priv;
->  	struct rkvdec_h264_priv_tbl *tbl = h264_ctx->priv_tbl.cpu;
-> -	u8 *dst = tbl->scaling_list;
-> -	const u8 *src;
-> -	int i, j;
-> -
-> -	BUILD_BUG_ON(ARRAY_SIZE(zig_zag_4x4) != list_len_4x4);
-> -	BUILD_BUG_ON(ARRAY_SIZE(zig_zag_8x8) != list_len_8x8);
-> -	BUILD_BUG_ON(ARRAY_SIZE(tbl->scaling_list) <
-> -		     num_list_4x4 * list_len_4x4 +
-> -		     num_list_8x8 * list_len_8x8);
-> -
-> -	src = &scaling->scaling_list_4x4[0][0];
-> -	for (i = 0; i < num_list_4x4; ++i) {
-> -		for (j = 0; j < list_len_4x4; ++j)
-> -			dst[zig_zag_4x4[j]] = src[j];
-> -		src += list_len_4x4;
-> -		dst += list_len_4x4;
-> -	}
->  
-> -	src = &scaling->scaling_list_8x8[0][0];
-> -	for (i = 0; i < num_list_8x8; ++i) {
-> -		for (j = 0; j < list_len_8x8; ++j)
-> -			dst[zig_zag_8x8[j]] = src[j];
-> -		src += list_len_8x8;
-> -		dst += list_len_8x8;
-> -	}
-> +	BUILD_BUG_ON(sizeof(tbl->scaling_list.scaling_list_4x4) !=
-> +		     sizeof(scaling->scaling_list_4x4));
-> +	BUILD_BUG_ON(sizeof(tbl->scaling_list.scaling_list_8x8) !=
-> +		     sizeof(scaling->scaling_list_8x8));
-> +
-> +	memcpy(tbl->scaling_list.scaling_list_4x4,
-> +	       scaling->scaling_list_4x4,
-> +	       sizeof(scaling->scaling_list_4x4));
-> +
-> +	memcpy(tbl->scaling_list.scaling_list_8x8,
-> +	       scaling->scaling_list_8x8,
-> +	       sizeof(scaling->scaling_list_8x8));
->  }
->  
->  /*
-> @@ -1126,7 +1100,7 @@ static int rkvdec_h264_run(struct rkvdec_ctx *ctx)
->  	v4l2_h264_build_b_ref_lists(&reflist_builder, h264_ctx->reflists.b0,
->  				    h264_ctx->reflists.b1);
->  
-> -	reorder_scaling_list(ctx, &run);
-> +	assemble_hw_scaling_list(ctx, &run);
->  	assemble_hw_pps(ctx, &run);
->  	assemble_hw_rps(ctx, &run);
->  	config_registers(ctx, &run);
-
+ 	ret = pm_runtime_get_sync(dev);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put_autosuspend(dev);
+ 		goto unlock;
++	}
+ 
+ 	/*
+ 	 * We rely on the VDE registers reset value, otherwise VDE
+-- 
+2.17.1
 
