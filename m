@@ -2,28 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F4201EBBFA
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 14:45:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BD3B1EBCC6
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 15:14:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726267AbgFBMpY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jun 2020 08:45:24 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58714 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725940AbgFBMpX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jun 2020 08:45:23 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 298752A4;
-        Tue,  2 Jun 2020 14:45:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591101919;
-        bh=8aW7VkrN21YrmNlY+yNp/tFnAc6lalvF/4E+/+IuRlg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=rdRhYJal7EXr+Ppe0fo/sidO0oDJ4JKAp9ZVjl492cvVWXsMJ213QSsL+HB3XNVIP
-         /7Dx5eQOAPXo6+JFkyK2iL15EKeGgkjqgTOCaHUxvQYoF1VwV6DtAvgn2zg173+xro
-         de7BGo6GEwHXiFgNowTPz++TXhrCONeFf6AwLEw0=
-Date:   Tue, 2 Jun 2020 15:45:04 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Helen Koike <helen.koike@collabora.com>
+        id S1726937AbgFBNN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Jun 2020 09:13:57 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:52332 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725958AbgFBNN4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jun 2020 09:13:56 -0400
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 9617A2A34DB
+Subject: Re: [PATCH] vimc: debayer: Add support for ARGB format
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     kieran.bingham@ideasonboard.com,
         Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         Kaaira Gupta <kgupta@es.iitr.ac.in>,
@@ -31,8 +23,6 @@ Cc:     kieran.bingham@ideasonboard.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         dafna Hirschfeld <dafna3@gmail.com>
-Subject: Re: [PATCH] vimc: debayer: Add support for ARGB format
-Message-ID: <20200602124504.GA12043@pendragon.ideasonboard.com>
 References: <20200528185717.GA20581@kaaira-HP-Pavilion-Notebook>
  <0ab57863-935d-3ab5-dfea-80a44c63ae18@collabora.com>
  <20200601121626.GA13308@kaaira-HP-Pavilion-Notebook>
@@ -40,163 +30,188 @@ References: <20200528185717.GA20581@kaaira-HP-Pavilion-Notebook>
  <f927c8e3-73de-598d-130d-97b5380579e5@collabora.com>
  <3b4c4447-677c-08b9-9366-95a012f8f018@ideasonboard.com>
  <cdcc42bf-b0dc-41b7-5104-eff8aa42feb2@collabora.com>
+ <20200602124504.GA12043@pendragon.ideasonboard.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <18f26dd2-9b86-9191-3dda-eb4490eb64d0@collabora.com>
+Date:   Tue, 2 Jun 2020 10:13:45 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <20200602124504.GA12043@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cdcc42bf-b0dc-41b7-5104-eff8aa42feb2@collabora.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
 
-On Tue, Jun 02, 2020 at 08:31:26AM -0300, Helen Koike wrote:
-> On 6/2/20 8:24 AM, Kieran Bingham wrote:
-> > On 02/06/2020 11:55, Helen Koike wrote:
-> >> On 6/2/20 7:52 AM, Dafna Hirschfeld wrote:
-> >>> On 01.06.20 14:16, Kaaira Gupta wrote:
-> >>>> On Fri, May 29, 2020 at 05:43:57PM +0200, Dafna Hirschfeld wrote:
-> >>>>> Hi,
-> >>>>> Thanks for the patch
-> >>>>>
-> >>>>> I don't know how real devices handle ARGB formats,
-> >>>>> I wonder if it should be the part of the debayer.
-> >>>>
-> >>>> Hi! qcam tries to support BA24 as it is one of the formats that vimc
-> >>>> lists as its supported formats wih --list-formats. Shouldn't BA24 be
-> >>>> possible to capture with vimc?
-> >>>
-> >>> Hi,
-> >>> Just to clarify, when listing the supported formats of a video node, the node lists
-> >>> the formats that the video node as an independent media entity support.
-> >>> It does not mean that the 'camera' as a whole (that is, the media topology graph) supports
-> >>> all the formats that the video node lists. When interacting with a video node or
-> >>> a subdevice node, one interacts only with that specific entity.
-> >>> In the case of vimc, the RGB video node as an independent entity supports BA24 so the format
-> >>> appears in the list of the its supported formats. But since the Debayer does not
-> >>> support it, the format can not be generated by the entire vimc topology.
-> >>> This is not a bug.
 
-Is here a valid configuration for the vimc pipeline that produces BA24 ?
-I agree that not all pipeline configurations need to support every
-format, but we shouldn't report a format that can't be produced at all.
-
-This being said, and as discussed before, the de-bayering subdev should
-just produce MEDIA_BUS_FMT_RGB888_1X24, and the video node should then
-implement the RGB pixel formats. BA24 should likely be one of the
-supported formats (or maybe BX24 ?).
-
-> >> This is also my understanding.
-> >>
-> >> You should have an -EPIPE error when start streaming though, it
-> >> shouldn't fail silently.
-> > 
-> > Yes, we had -EPIPE, and that is what I think we were trying to resolve.
-> > 
-> > How would userspace be expected to detect what formats to use ? Should
-> > the available formats on the capture node depend on the current linking
-> > of the media graph?
+On 6/2/20 9:45 AM, Laurent Pinchart wrote:
+> Hello,
 > 
-> This is a good question, I don't recall v4l2 API defining this.
+> On Tue, Jun 02, 2020 at 08:31:26AM -0300, Helen Koike wrote:
+>> On 6/2/20 8:24 AM, Kieran Bingham wrote:
+>>> On 02/06/2020 11:55, Helen Koike wrote:
+>>>> On 6/2/20 7:52 AM, Dafna Hirschfeld wrote:
+>>>>> On 01.06.20 14:16, Kaaira Gupta wrote:
+>>>>>> On Fri, May 29, 2020 at 05:43:57PM +0200, Dafna Hirschfeld wrote:
+>>>>>>> Hi,
+>>>>>>> Thanks for the patch
+>>>>>>>
+>>>>>>> I don't know how real devices handle ARGB formats,
+>>>>>>> I wonder if it should be the part of the debayer.
+>>>>>>
+>>>>>> Hi! qcam tries to support BA24 as it is one of the formats that vimc
+>>>>>> lists as its supported formats wih --list-formats. Shouldn't BA24 be
+>>>>>> possible to capture with vimc?
+>>>>>
+>>>>> Hi,
+>>>>> Just to clarify, when listing the supported formats of a video node, the node lists
+>>>>> the formats that the video node as an independent media entity support.
+>>>>> It does not mean that the 'camera' as a whole (that is, the media topology graph) supports
+>>>>> all the formats that the video node lists. When interacting with a video node or
+>>>>> a subdevice node, one interacts only with that specific entity.
+>>>>> In the case of vimc, the RGB video node as an independent entity supports BA24 so the format
+>>>>> appears in the list of the its supported formats. But since the Debayer does not
+>>>>> support it, the format can not be generated by the entire vimc topology.
+>>>>> This is not a bug.
+> 
+> Is here a valid configuration for the vimc pipeline that produces BA24 ?
 
-A recent extension to VIDIOC_ENUMFMT allows enumerating pixel formats
-for a given media bus code, I think that's the way forward.
+It should work when using the other capture nodes that doesn't contain the debayer
+in the pipeline.
 
-> It would be a bit hard to implement in Vimc, specially when we have configfs
-> for custom topology, since the capture would need to query all the pipeline.
-> But could be implemented.
-> 
-> > Otherwise, to know what formats are supported - userspace must first
-> > 'get a list of formats' then try to 'set' the formats to know what is
-> > possible?
-> 
-> At the moment yes.
-> 
-> > Or should (given VIMC is quite specialist anyway) userspace 'just know'
-> > what is capable all the same?
-> > 
-> > That's possibly fine, as we can simply remove support for the ARGB
-> > formats from the libcamera pipeline handler if it is never expected to
-> > be supported.
-> 
-> With the configfs feature, you could build a topology with sensor->capture,
-> and ARGB would be supported.
-> 
-> > But then as a further question - what formats will we expect VIMC to
-> > support? VIVID has a (very) wide range of formats.
-> > 
-> > Would we ever expect VIMC to be as configurable?
-> > Or is the scope limited to what we have today?
-> 
-> I know it is very limited atm, but I would like to increase the range,
-> I'm just with a limited bandwitdh to work on it.
->
-> >>>>
-> >>>> If yes, which entity should support it, if not debayer? Should there be
-> >>>> a separate conversion entity, or should we keep the support in debayer
-> >>>> itself for efficiency issues?
-> >>>>
-> >>>>> On 28.05.20 20:57, Kaaira Gupta wrote:
-> >>>>>> Running qcam for pixelformat 0x34324142 showed that vimc debayer does
-> >>>>>> not support it. Hence, add the support for Alpha (255).
-> >>>>>
-> >>>>> I would change the commit log to:
-> >>>>>
-> >>>>> Add support for V4L2_PIX_FMT_RGB24 format in the debayer
-> >>>>> and set the alpha channel to constant 255.
-> >>>>>
-> >>>>>> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
-> >>>>>> ---
-> >>>>>>    .../media/test-drivers/vimc/vimc-debayer.c    | 27 ++++++++++++-------
-> >>>>>>    1 file changed, 18 insertions(+), 9 deletions(-)
-> >>>>>>
-> >>>>>> diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
-> >>>>>> index c3f6fef34f68..f34148717a40 100644
-> >>>>>> --- a/drivers/media/test-drivers/vimc/vimc-debayer.c
-> >>>>>> +++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
-> >>>>>> @@ -62,6 +62,7 @@ static const u32 vimc_deb_src_mbus_codes[] = {
-> >>>>>>        MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
-> >>>>>>        MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
-> >>>>>>        MEDIA_BUS_FMT_RGB888_1X32_PADHI,
-> >>>>>> +    MEDIA_BUS_FMT_ARGB8888_1X32
-> >>>>>>    };
-> >>>>>>    static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] = {
-> >>>>>> @@ -322,15 +323,23 @@ static void vimc_deb_process_rgb_frame(struct vimc_deb_device *vdeb,
-> >>>>>>        unsigned int i, index;
-> >>>>>>        vpix = vimc_pix_map_by_code(vdeb->src_code);
-> >>>>>> -    index = VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
-> >>>>>> -    for (i = 0; i < 3; i++) {
-> >>>>>> -        switch (vpix->pixelformat) {
-> >>>>>> -        case V4L2_PIX_FMT_RGB24:
-> >>>>>> -            vdeb->src_frame[index + i] = rgb[i];
-> >>>>>> -            break;
-> >>>>>> -        case V4L2_PIX_FMT_BGR24:
-> >>>>>> -            vdeb->src_frame[index + i] = rgb[2 - i];
-> >>>>>> -            break;
-> >>>>>> +
-> >>>>>> +    if (vpix->pixelformat == V4L2_PIX_FMT_ARGB32) {
-> >>>>>> +        index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 4);
-> >>>>>> +        vdeb->src_frame[index] = 255;
-> >>>>>> +        for (i = 0; i < 3; i++)
-> >>>>>> +            vdeb->src_frame[index + i + 1] = rgb[i];
-> >>>>>> +    } else {
-> >>>>>> +        index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
-> >>>>>> +        for (i = 0; i < 3; i++) {
-> >>>>>> +            switch (vpix->pixelformat) {
-> >>>>>> +            case V4L2_PIX_FMT_RGB24:
-> >>>>>> +                vdeb->src_frame[index + i] = rgb[i];
-> >>>>>> +                break;
-> >>>>>> +            case V4L2_PIX_FMT_BGR24:
-> >>>>>> +                vdeb->src_frame[index + i] = rgb[2 - i];
-> >>>>>> +                break;
-> >>>>>> +            }
-> >>>>>>            }
-> >>>>>>        }
-> >>>>>>    }
+> I agree that not all pipeline configurations need to support every
+> format, but we shouldn't report a format that can't be produced at all.
 
--- 
-Regards,
+ok, this requires major changes in Vimc, unless we implement all the conversions
+in the capture.
 
-Laurent Pinchart
+> 
+> This being said, and as discussed before, the de-bayering subdev should
+> just produce MEDIA_BUS_FMT_RGB888_1X24, and the video node should then
+> implement the RGB pixel formats. BA24 should likely be one of the
+> supported formats (or maybe BX24 ?).
+
+We can implement the conversion in the capture node, we just need to
+distinguish when the pipeline generates it and when it requires conversion,
+but shouldn't be a problem.
+
+> 
+>>>> This is also my understanding.
+>>>>
+>>>> You should have an -EPIPE error when start streaming though, it
+>>>> shouldn't fail silently.
+>>>
+>>> Yes, we had -EPIPE, and that is what I think we were trying to resolve.
+>>>
+>>> How would userspace be expected to detect what formats to use ? Should
+>>> the available formats on the capture node depend on the current linking
+>>> of the media graph?
+>>
+>> This is a good question, I don't recall v4l2 API defining this.
+> 
+> A recent extension to VIDIOC_ENUMFMT allows enumerating pixel formats
+> for a given media bus code, I think that's the way forward.
+
+Nice, I'm not familiar with this extension, I'll take a look, thanks for
+the pointer.
+
+Thanks
+Helen
+
+> 
+>> It would be a bit hard to implement in Vimc, specially when we have configfs
+>> for custom topology, since the capture would need to query all the pipeline.
+>> But could be implemented.
+>>
+>>> Otherwise, to know what formats are supported - userspace must first
+>>> 'get a list of formats' then try to 'set' the formats to know what is
+>>> possible?
+>>
+>> At the moment yes.
+>>
+>>> Or should (given VIMC is quite specialist anyway) userspace 'just know'
+>>> what is capable all the same?
+>>>
+>>> That's possibly fine, as we can simply remove support for the ARGB
+>>> formats from the libcamera pipeline handler if it is never expected to
+>>> be supported.
+>>
+>> With the configfs feature, you could build a topology with sensor->capture,
+>> and ARGB would be supported.
+>>
+>>> But then as a further question - what formats will we expect VIMC to
+>>> support? VIVID has a (very) wide range of formats.
+>>>
+>>> Would we ever expect VIMC to be as configurable?
+>>> Or is the scope limited to what we have today?
+>>
+>> I know it is very limited atm, but I would like to increase the range,
+>> I'm just with a limited bandwitdh to work on it.
+>>
+>>>>>>
+>>>>>> If yes, which entity should support it, if not debayer? Should there be
+>>>>>> a separate conversion entity, or should we keep the support in debayer
+>>>>>> itself for efficiency issues?
+>>>>>>
+>>>>>>> On 28.05.20 20:57, Kaaira Gupta wrote:
+>>>>>>>> Running qcam for pixelformat 0x34324142 showed that vimc debayer does
+>>>>>>>> not support it. Hence, add the support for Alpha (255).
+>>>>>>>
+>>>>>>> I would change the commit log to:
+>>>>>>>
+>>>>>>> Add support for V4L2_PIX_FMT_RGB24 format in the debayer
+>>>>>>> and set the alpha channel to constant 255.
+>>>>>>>
+>>>>>>>> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+>>>>>>>> ---
+>>>>>>>>    .../media/test-drivers/vimc/vimc-debayer.c    | 27 ++++++++++++-------
+>>>>>>>>    1 file changed, 18 insertions(+), 9 deletions(-)
+>>>>>>>>
+>>>>>>>> diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
+>>>>>>>> index c3f6fef34f68..f34148717a40 100644
+>>>>>>>> --- a/drivers/media/test-drivers/vimc/vimc-debayer.c
+>>>>>>>> +++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
+>>>>>>>> @@ -62,6 +62,7 @@ static const u32 vimc_deb_src_mbus_codes[] = {
+>>>>>>>>        MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+>>>>>>>>        MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
+>>>>>>>>        MEDIA_BUS_FMT_RGB888_1X32_PADHI,
+>>>>>>>> +    MEDIA_BUS_FMT_ARGB8888_1X32
+>>>>>>>>    };
+>>>>>>>>    static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] = {
+>>>>>>>> @@ -322,15 +323,23 @@ static void vimc_deb_process_rgb_frame(struct vimc_deb_device *vdeb,
+>>>>>>>>        unsigned int i, index;
+>>>>>>>>        vpix = vimc_pix_map_by_code(vdeb->src_code);
+>>>>>>>> -    index = VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
+>>>>>>>> -    for (i = 0; i < 3; i++) {
+>>>>>>>> -        switch (vpix->pixelformat) {
+>>>>>>>> -        case V4L2_PIX_FMT_RGB24:
+>>>>>>>> -            vdeb->src_frame[index + i] = rgb[i];
+>>>>>>>> -            break;
+>>>>>>>> -        case V4L2_PIX_FMT_BGR24:
+>>>>>>>> -            vdeb->src_frame[index + i] = rgb[2 - i];
+>>>>>>>> -            break;
+>>>>>>>> +
+>>>>>>>> +    if (vpix->pixelformat == V4L2_PIX_FMT_ARGB32) {
+>>>>>>>> +        index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 4);
+>>>>>>>> +        vdeb->src_frame[index] = 255;
+>>>>>>>> +        for (i = 0; i < 3; i++)
+>>>>>>>> +            vdeb->src_frame[index + i + 1] = rgb[i];
+>>>>>>>> +    } else {
+>>>>>>>> +        index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
+>>>>>>>> +        for (i = 0; i < 3; i++) {
+>>>>>>>> +            switch (vpix->pixelformat) {
+>>>>>>>> +            case V4L2_PIX_FMT_RGB24:
+>>>>>>>> +                vdeb->src_frame[index + i] = rgb[i];
+>>>>>>>> +                break;
+>>>>>>>> +            case V4L2_PIX_FMT_BGR24:
+>>>>>>>> +                vdeb->src_frame[index + i] = rgb[2 - i];
+>>>>>>>> +                break;
+>>>>>>>> +            }
+>>>>>>>>            }
+>>>>>>>>        }
+>>>>>>>>    }
+> 
