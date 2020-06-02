@@ -2,102 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32A7F1EB90D
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 12:03:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 167821EB974
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 12:20:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726267AbgFBKDC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jun 2020 06:03:02 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:57727 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726139AbgFBKDC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Jun 2020 06:03:02 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id g3l0jWljfCKzeg3l4jIjCB; Tue, 02 Jun 2020 12:03:00 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1591092180; bh=aJj5kAnNbvdoWc+y8QdQsM9Lsb5y+OJNaY5Ima3ONew=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=O1eYJl2ELKfTEgDFwOXprI63XnxuuYb6SVsjcwOYlol+tpD/HNjYR+RHX8LK7BDqq
-         C5pju0NsAWBKNuN1qkzhXhtvn01tbFFBYJ2ewxmWVT7A3RgAkO+eJMeSy7QZlvPeFu
-         8kP6Yq9/Ge8Op9zKI50s/1CfIXRtzC1n2KJG+OZ1G7RbLe0XhxQxzW6MKH5c7P+r22
-         NNpyiIMbu72yxGxaFd8++VB/0obU7Q2gK1caPJ4oh5mqA1XPdy3RKBX3hzhPsHfT/H
-         ew6kb7YQwq7pHq9BlKi4V87G7HVBm/NCnZZh8WNEz72vaIrw1zUN1bk30b/L1Ev4Sw
-         WVkiag/OENvjw==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Michael Tretter <m.tretter@pengutronix.de>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [GIT PULL FOR v5.9] Finalize stateful encoder support
-Message-ID: <741fd4cb-1c56-9546-36da-1993474caf49@xs4all.nl>
-Date:   Tue, 2 Jun 2020 12:02:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1727924AbgFBKTH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Jun 2020 06:19:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48542 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728145AbgFBKSi (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jun 2020 06:18:38 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 374F6C061A0E;
+        Tue,  2 Jun 2020 03:18:38 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id y18so1173710plr.4;
+        Tue, 02 Jun 2020 03:18:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=PdIpbAszWwqcNgU29oDY/uFem+Fq3TsYDOXZbQ3Tv3w=;
+        b=rJm+Vu/a0+DiZdGgWDW/Cw4bDmxbYBa35aczL+ZkoNXQ0ffqQDyII9fTrhzXaVdb4x
+         HT6W5P8WlSzHArUTJpKB7X7P4wy5h3zpR+nc3AAF0M2UbrtRdJnV9es/J7zuIhZcyE0R
+         jPF2U/+rKHkuZLO9zFPex8OohsRSsrYymopGryq+Vtvnq8oYoTmExfa4fl64WQ+qq6XS
+         k31f3dGUyrcli6YX2eded/Lz+q/p9a7ODbaKvzN+/km+u6MfeiKBNvNR7mu18A4B7uy9
+         ME+skxLD5rueR7xcynJe9RCLZYI3h0rXE1mAE1E5FPyJ0hTzBea3Bjblh8FaojWkDmgk
+         g8VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=PdIpbAszWwqcNgU29oDY/uFem+Fq3TsYDOXZbQ3Tv3w=;
+        b=Ktwwu7NLDtPPSAq+EDlfhhSM/7uPCpykT97lp937HZD95/BQm4eCSfkFblnBVr9O5F
+         mn+dHgxcVgUcDVBU5/dbUBh2Ag0bPt6DA7Q6DsMBOOHVWfmGOMAkSxGnoNVigJkghrFb
+         7xEg3gFCcCpx/b1uTdXSNcS/3OBlRzWjTVBl1AnvqDYVSxoyAgb05zDIEttpHJobJHF1
+         su9wrmkr+ZOauYrujZn3QRKXv9UrNGu/4+UXkaQRi98RwVX11DiJEN3HfLnmoEXjaN7t
+         8A8qXlcK8e5t+2h1mYfvt15lOgdMEFq8IJigX52SAIedgbY54k9Ijm4MOgs8b3joAZUg
+         PHJQ==
+X-Gm-Message-State: AOAM532KFpuAmyNFH+oYZV0LKkESXXcM/uxsrbBL2qNDsh5jpTHXidls
+        ZfI6UAdinCTLRKJY1ZiLZ4o=
+X-Google-Smtp-Source: ABdhPJz8oSyfcSRFYN+JWD8lqfloLw69h52Zn84HsM5uJ0sl3yFPvCrw8jxSaUWnJX3OwLhrV8stJw==
+X-Received: by 2002:a17:902:c1cb:: with SMTP id c11mr22638009plc.299.1591093117695;
+        Tue, 02 Jun 2020 03:18:37 -0700 (PDT)
+Received: from localhost ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
+        by smtp.gmail.com with ESMTPSA id n19sm1983188pfa.216.2020.06.02.03.18.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Jun 2020 03:18:36 -0700 (PDT)
+From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+X-Google-Original-From: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+Date:   Tue, 2 Jun 2020 19:18:34 +0900
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH v6 03/14] videobuf2: handle V4L2 buffer cache flags
+Message-ID: <20200602101834.GA617@jagdpanzerIV.localdomain>
+References: <20200514160153.3646-1-sergey.senozhatsky@gmail.com>
+ <20200514160153.3646-4-sergey.senozhatsky@gmail.com>
+ <b34ae09b-7c20-7255-6adc-3370680555cd@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfMTSnIyelNujJqCxYeuuWEc2VRbbGs4E/GLm0qV/1myHwTD/tv3MUvJyaaLz/IQDwvhoeo4VEF18n7yPbfCXsiZgh674QsRiXMLYSJA6xszR8C0LM6O0
- 9ZChTobk84kL2RsIf9RW7FtItqX4UCVqVhjOO0LRjxY2efzaZVlvMaTRqstWAp92UTa42cJ13eO7SkPjiOnCaSHt97ieyESyLMfIV9FQpEFI3EmCoSOE2nj3
- tWfdiAoi3HZCceCXs98AtNcLfPe+uAF8V7XSWdeTk/Coj5lSILxkW+X48X9q4hUK
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b34ae09b-7c20-7255-6adc-3370680555cd@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Hans,
 
-This PR finalizes the stateful encoder support by adding the stateful encoder
-spec. It was delayed quite a bit and the main reason was how framerates should
-be handled given the constraints of what existing stateful encoder drivers
-implemented.
+On (20/06/02 11:51), Hans Verkuil wrote:
+> Hi Sergey,
+> 
+> While doing final testing for this patch series (together with the v4l-utils patch)
+> I found one remaining issue:
 
-Michael, can you make a allegro patch that sets the V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL
-flag in that driver and have it behave according to this updated spec?
+Thanks for the report.
 
-Many thanks to all who contributed, with honorable mention of Tomasz who wrote
-the original version of this spec.
+> > +static void set_buffer_cache_hints(struct vb2_queue *q,
+> > +				   struct vb2_buffer *vb,
+> > +				   struct v4l2_buffer *b)
+> > +{
+> > +	/*
+> > +	 * DMA exporter should take care of cache syncs, so we can avoid
+> > +	 * explicit ->prepare()/->finish() syncs. For other ->memory types
+> > +	 * we always need ->prepare() or/and ->finish() cache sync.
+> > +	 */
+> > +	if (q->memory == VB2_MEMORY_DMABUF) {
+> > +		vb->need_cache_sync_on_finish = 0;
+> > +		vb->need_cache_sync_on_prepare = 0;
+> > +		return;
+> > +	}
+> > +
+> > +	/*
+> > +	 * Cache sync/invalidation flags are set by default in order to
+> > +	 * preserve existing behaviour for old apps/drivers.
+> > +	 */
+> > +	vb->need_cache_sync_on_prepare = 1;
+> > +	vb->need_cache_sync_on_finish = 1;
+> > +
+> > +	if (!vb2_queue_allows_cache_hints(q)) {
+> > +		/*
+> > +		 * Clear buffer cache flags if queue does not support user
+> > +		 * space hints. That's to indicate to userspace that these
+> > +		 * flags won't work.
+> > +		 */
+> > +		b->flags &= ~V4L2_BUF_FLAG_NO_CACHE_INVALIDATE;
+> > +		b->flags &= ~V4L2_BUF_FLAG_NO_CACHE_CLEAN;
+> > +		return;
+> > +	}
+> 
+> These two flags need to be cleared for VB2_MEMORY_DMABUF as well in the test above.
+> This bug is causing v4l2-compliance failures (use the test-media script in contrib/test
+> in v4l-utils: 'sudo test-media vim2m').
 
-Regards,
+Sorry, Hans, do you suggest to have something like this:
 
-	Hans
+	if (q->memory == VB2_MEMORY_DMABUF) {
+		vb->need_cache_sync_on_finish = 0;
+		vb->need_cache_sync_on_prepare = 0;
+		b->flags &= ~V4L2_BUF_FLAG_NO_CACHE_INVALIDATE;
+		b->flags &= ~V4L2_BUF_FLAG_NO_CACHE_CLEAN;
+		return;
+	}
 
-The following changes since commit 938b29db3aa9c293c7c1366b16e55e308f1a1ddd:
+I didn't clear the ->flags there because we clear the vb flush/sync
+flags: ->need_cache_sync_on_finish/prepare are zeros for DMABUF memory
+type. Which is equivalent to passing V4L2_BUF_FLAG_NO_CACHE_INVALIDATE
+V4L2_BUF_FLAG_NO_CACHE_CLEAN. IOW we would clearing both "vb's do cache
+sync" and request's "do not cache sync".
 
-  media: Documentation: media: Refer to mbus format documentation from CSI-2 docs (2020-05-25 15:47:02 +0200)
+> It's enough to post a v6.1 for this patch, everything else is fine.
 
-are available in the Git repository at:
+Thanks!
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-stateful-enc
-
-for you to fetch changes up to f73d82aca17259d7409c3bb675c1def0d71041e0:
-
-  dev-encoder.rst: add reference to V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL (2020-06-02 11:05:51 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Hans Verkuil (4):
-      vidioc-g-parm.rst: update the VIDIOC_G/S_PARM documentation
-      dev-decoder.rst: small fixes
-      videodev2.h: add V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL flag
-      dev-encoder.rst: add reference to V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL
-
-Tomasz Figa (1):
-      media: docs-rst: Document memory-to-memory video encoder interface
-
- Documentation/userspace-api/media/v4l/dev-decoder.rst        |   6 +-
- Documentation/userspace-api/media/v4l/dev-encoder.rst        | 729 ++++++++++++++++++++++++++++++++++++++++
- Documentation/userspace-api/media/v4l/dev-mem2mem.rst        |   1 +
- Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst        |   5 +
- Documentation/userspace-api/media/v4l/v4l2.rst               |   2 +
- Documentation/userspace-api/media/v4l/vidioc-encoder-cmd.rst |  51 +--
- Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst    |  30 +-
- Documentation/userspace-api/media/v4l/vidioc-g-parm.rst      |  51 +--
- Documentation/userspace-api/media/videodev2.h.rst.exceptions |   1 +
- include/uapi/linux/videodev2.h                               |   1 +
- 10 files changed, 830 insertions(+), 47 deletions(-)
- create mode 100644 Documentation/userspace-api/media/v4l/dev-encoder.rst
+	-ss
