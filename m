@@ -2,108 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8E8C1EB895
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 11:32:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D51D01EB8C0
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 11:46:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726606AbgFBJb3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jun 2020 05:31:29 -0400
-Received: from foss.arm.com ([217.140.110.172]:48558 "EHLO foss.arm.com"
+        id S1726782AbgFBJpw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Jun 2020 05:45:52 -0400
+Received: from mga03.intel.com ([134.134.136.65]:57489 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725958AbgFBJb2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Jun 2020 05:31:28 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 45ACC55D;
-        Tue,  2 Jun 2020 02:31:28 -0700 (PDT)
-Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A47393F305;
-        Tue,  2 Jun 2020 02:31:26 -0700 (PDT)
-References: <20200527151613.16083-1-benjamin.gaignard@st.com>
-User-agent: mu4e 0.9.17; emacs 26.3
-From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     Benjamin Gaignard <benjamin.gaignard@st.com>
-Cc:     hugues.fruchet@st.com, mchehab@kernel.org,
-        mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
-        linux-media@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        vincent.guittot@linaro.org, rjw@rjwysocki.net
-Subject: Re: [PATCH] media: stm32-dcmi: Set minimum cpufreq requirement
-In-reply-to: <20200527151613.16083-1-benjamin.gaignard@st.com>
-Date:   Tue, 02 Jun 2020 10:31:21 +0100
-Message-ID: <jhjpnahizkm.mognet@arm.com>
+        id S1725958AbgFBJpw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 2 Jun 2020 05:45:52 -0400
+IronPort-SDR: V2KZU+ZrvMLpaWNMcs4+WJrS/6+9T9hGcNvglLMvLBXIpzdz6xNKJAJ3DyB7Nn8U3BXSNFLfN0
+ Mv9UFYF0o82A==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Jun 2020 02:45:51 -0700
+IronPort-SDR: GBrG+F5G1jx/CTfaA23KqXDTULHq5bmL+Kd+eUBrulPbQ9kir//xf+TwlY9tUtxNuQdyZwXE+J
+ 4m3k7i0X27cA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,463,1583222400"; 
+   d="scan'208";a="347353632"
+Received: from mhuther1-mobl.ger.corp.intel.com (HELO [10.252.44.107]) ([10.252.44.107])
+  by orsmga001.jf.intel.com with ESMTP; 02 Jun 2020 02:45:48 -0700
+Subject: Re: [RFC 01/17] dma-fence: add might_sleep annotation to _wait()
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, linux-rdma@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Daniel Vetter <daniel.vetter@intel.com>
+References: <20200512085944.222637-1-daniel.vetter@ffwll.ch>
+ <20200512085944.222637-2-daniel.vetter@ffwll.ch>
+ <0b1c65ec-adc2-9f02-da68-c398cf7ce80b@amd.com>
+From:   Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Message-ID: <105c02b5-f18d-cd08-bffa-93033c923365@linux.intel.com>
+Date:   Tue, 2 Jun 2020 11:45:48 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.1
 MIME-Version: 1.0
-Content-Type: text/plain
+In-Reply-To: <0b1c65ec-adc2-9f02-da68-c398cf7ce80b@amd.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Op 12-05-2020 om 11:08 schreef Christian König:
+> Am 12.05.20 um 10:59 schrieb Daniel Vetter:
+>> But only for non-zero timeout, to avoid false positives.
+>>
+>> One question here is whether the might_sleep should be unconditional,
+>> or only for real timeouts. I'm not sure, so went with the more
+>> defensive option. But in the interest of locking down the cross-driver
+>> dma_fence rules we might want to be more aggressive.
+>>
+>> Cc: linux-media@vger.kernel.org
+>> Cc: linaro-mm-sig@lists.linaro.org
+>> Cc: linux-rdma@vger.kernel.org
+>> Cc: amd-gfx@lists.freedesktop.org
+>> Cc: intel-gfx@lists.freedesktop.org
+>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+>> Cc: Christian König <christian.koenig@amd.com>
+>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+>> ---
+>>   drivers/dma-buf/dma-fence.c | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>> index 052a41e2451c..6802125349fb 100644
+>> --- a/drivers/dma-buf/dma-fence.c
+>> +++ b/drivers/dma-buf/dma-fence.c
+>> @@ -208,6 +208,9 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+>>       if (WARN_ON(timeout < 0))
+>>           return -EINVAL;
+>>   +    if (timeout > 0)
+>> +        might_sleep();
+>> +
+>
+> I would rather like to see might_sleep() called here all the time even with timeout==0.
+>
+> IIRC I removed the code in TTM abusing this in atomic context quite a while ago, but could be that some leaked in again or it is called in atomic context elsewhere as well. 
 
-Hi Benjamin,
 
-On 27/05/20 16:16, Benjamin Gaignard wrote:
-> Before start streaming set cpufreq minimum frequency requirement.
-> The cpufreq governor will adapt the frequencies and we will have
-> no latency for handling interrupts.
->
+Same, glad I'm not the only one who wants it. :)
 
-Few comments below from someone oblivious to your platform, they may not
-be all that relevant but I figured I'd pitch in anyway.
+~Maarten
 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
-> ---
->  drivers/media/platform/stm32/stm32-dcmi.c | 29 ++++++++++++++++++++++++++++-
->  1 file changed, 28 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
-> index b8931490b83b..97c342351569 100644
-> --- a/drivers/media/platform/stm32/stm32-dcmi.c
-> +++ b/drivers/media/platform/stm32/stm32-dcmi.c
-> @@ -13,6 +13,7 @@
->
->  #include <linux/clk.h>
->  #include <linux/completion.h>
-> +#include <linux/cpufreq.h>
->  #include <linux/delay.h>
->  #include <linux/dmaengine.h>
->  #include <linux/init.h>
-> @@ -99,6 +100,8 @@ enum state {
->
->  #define OVERRUN_ERROR_THRESHOLD	3
->
-> +#define DCMI_MIN_FREQ	650000 /* in KHz */
-> +
-
-This assumes the handling part is guaranteed to always run on the same CPU
-with the same performance profile (regardless of the platform). If that's
-not guaranteed, it feels like you'd want this to be configurable in some
-way.
-
->  struct dcmi_graph_entity {
->       struct v4l2_async_subdev asd;
->
-[...]
-> @@ -2020,6 +2042,8 @@ static int dcmi_probe(struct platform_device *pdev)
->               goto err_cleanup;
->       }
->
-> +	dcmi->policy = cpufreq_cpu_get(0);
-> +
-
-Ideally you'd want to fetch the policy of the CPU your IRQ (and handling
-thread) is affined to; The only compatible DTS I found describes a single
-A7, which is somewhat limited in the affinity area...
-
->       dev_info(&pdev->dev, "Probe done\n");
->
->       platform_set_drvdata(pdev, dcmi);
-> @@ -2049,6 +2073,9 @@ static int dcmi_remove(struct platform_device *pdev)
->
->       pm_runtime_disable(&pdev->dev);
->
-> +	if (dcmi->policy)
-> +		cpufreq_cpu_put(dcmi->policy);
-> +
->       v4l2_async_notifier_unregister(&dcmi->notifier);
->       v4l2_async_notifier_cleanup(&dcmi->notifier);
->       media_entity_cleanup(&dcmi->vdev->entity);
