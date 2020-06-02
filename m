@@ -2,147 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E36551EC32B
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 21:52:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 567121EC376
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 22:08:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728637AbgFBTwL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jun 2020 15:52:11 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:53741 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728275AbgFBTvD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jun 2020 15:51:03 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 3FF913C04C1;
-        Tue,  2 Jun 2020 21:50:59 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id sQ2OMu6SAg4D; Tue,  2 Jun 2020 21:50:53 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 80A043C00B5;
-        Tue,  2 Jun 2020 21:50:53 +0200 (CEST)
-Received: from lxhi-065.adit-jv.com (10.72.94.11) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 2 Jun 2020
- 21:50:53 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>, <stable@vger.kernel.org>
-Subject: [PATCH v2] media: vsp1: dl: Fix NULL pointer dereference on unbind
-Date:   Tue, 2 Jun 2020 21:50:16 +0200
-Message-ID: <20200602195016.803-1-erosca@de.adit-jv.com>
-X-Mailer: git-send-email 2.26.2
+        id S1728299AbgFBUIw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 2 Jun 2020 16:08:52 -0400
+Received: from hostingweb31-40.netsons.net ([89.40.174.40]:46794 "EHLO
+        hostingweb31-40.netsons.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726130AbgFBUIv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 2 Jun 2020 16:08:51 -0400
+Received: from [37.163.79.247] (port=4649 helo=[192.168.43.3])
+        by hostingweb31.netsons.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+        (Exim 4.93)
+        (envelope-from <luca@lucaceresoli.net>)
+        id 1jgDDL-00E1rZ-EF; Tue, 02 Jun 2020 22:08:47 +0200
+Subject: Re: IMX274 driver
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Frank Chen <frankc@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        linux-media@vger.kernel.org
+Cc:     Leon Luo <leonl@leopardimaging.com>
+References: <4184f80b-eab3-c512-dd99-d24c7af4b45c@nvidia.com>
+ <afd8fdb8-e359-5aee-ba3e-54a5217b2aee@lucaceresoli.net>
+ <d81c6fec-e7de-1282-9e17-1fc0f5dea9eb@xs4all.nl>
+ <cb3a6636-5d7d-c7b4-b0ad-f77444117efe@xs4all.nl>
+ <83e56659-0a4f-40e1-1dc4-02ac1cabbd3f@lucaceresoli.net>
+ <47d93f37-e44d-39da-53cb-eb69843b3a12@nvidia.com>
+ <1dd4f2a0-7087-6776-fb92-7eb0882cade0@nvidia.com>
+From:   Luca Ceresoli <luca@lucaceresoli.net>
+Message-ID: <637dd1d4-5473-4327-11fc-14b3723ce7b2@lucaceresoli.net>
+Date:   Tue, 2 Jun 2020 22:08:44 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.72.94.11]
+In-Reply-To: <1dd4f2a0-7087-6776-fb92-7eb0882cade0@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8BIT
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hostingweb31.netsons.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - lucaceresoli.net
+X-Get-Message-Sender-Via: hostingweb31.netsons.net: authenticated_id: luca@lucaceresoli.net
+X-Authenticated-Sender: hostingweb31.netsons.net: luca@lucaceresoli.net
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In commit f3b98e3c4d2e16 ("media: vsp1: Provide support for extended
-command pools"), the vsp pointer used for referencing the VSP1 device
-structure from a command pool during vsp1_dl_ext_cmd_pool_destroy() was
-not populated.
+Hi,
 
-Correctly assign the pointer to prevent the following
-null-pointer-dereference when removing the device:
+On 02/06/20 18:16, Sowjanya Komatineni wrote:
+> 
+> On 6/2/20 7:17 AM, Sowjanya Komatineni wrote:
+>>
+>> On 6/2/20 1:51 AM, Luca Ceresoli wrote:
+>>> Hi,
+>>>
+>>> [adding Leon Luo in Cc:, the maintainer and original driver author]
+>>>
+>>> On 01/06/20 10:47, Hans Verkuil wrote:
+>>>> On 01/06/2020 10:31, Hans Verkuil wrote:
+>>>>> Hi Luca,
+>>>>>
+>>>>> On 31/05/2020 23:56, Luca Ceresoli wrote:
+>>>>>> Hi Sowjanya,
+>>>>>>
+>>>>>> On 29/05/20 04:07, Sowjanya Komatineni wrote:
+>>>>>>> Hi Luca,
+>>>>>>>
+>>>>>>> Quick question regarding IMX274 driver that was up streamed by you.
+>>>>>> Well, to be fair I only added cropping and made some improvements.
+>>>>>>
+>>>>>>> Upstream IMX274 driver programs Y_OUT_SIZE correctly based on IMX274
+>>>>>>> datasheet and register mode table for Y_OUT_SIZE where it includes 6
+>>>>>>> ignored area of effective pixels + 8 effective margin for color
+>>>>>>> processing pixels.
+>>>>>>>
+>>>>>>> So, Y_OUT_SIZE register value = height + 14
+>>>>>>>
+>>>>>>> But somehow with this we are not seeing full frame on CSI.
+>>>>>>>
+>>>>>>> In our internal NVIDIA IMX274 driver, we are programming
+>>>>>>> Y_OUT_SIZE to
+>>>>>>> exact height  Y_OUT_SIZE = height
+>>>>>>>
+>>>>>>> So for debug, followed the same and updated upstream IMX274
+>>>>>>> driver to
+>>>>>>> program Y_OUT_SIZE = crop.height locally and I see all resolutions
+>>>>>>> working fine with this.
+>>>>>>>
+>>>>>>> Checking with Sony on whats causing sensor not to send full frame
+>>>>>>> when
+>>>>>>> Y_OUT_SIZE is set to height + 14.
+>>>>>>>
+>>>>>>> But thought to check with you in parallel if there are any known
+>>>>>>> issues
+>>>>>> That's strange. Unfortunately I'm not using imx274 anymore since a
+>>>>>> long
+>>>>>> time and don't remember the details, but definitely I did test it
+>>>>>> and if
+>>>>>> there had been 14 missing lines I'm pretty sure I would have noticed.
+>>>>>>
+>>>>>> I'll see if I can remember anything useful, and in case I'll
+>>>>>> update you.
+>>>>>> I would be glad if you can update me on any findings too, maybe they
+>>>>>> will help in understanding the problem better.
+>>>>> The '+ 14' makes no sense. I wonder if this was perhaps to
+>>>>> compensate for
+>>>>> some problem in the bridge driver that this sensor was connected to.
+>>>>> Which bridge driver did you use for testing? Do you remember where
+>>>>> you got
+>>>>> the '+ 14' from?
+>>>> Hmm, this comes from the first version of this driver where Y_OUT_SIZE
+>>>> was set to 0x87e (2160 + 14). This in turn comes from the datasheet
+>>>> ('Register
+>>>> Setting for Each Readout Drive Mode').
+>>>>
+>>>> Looking at the "Detailed Specification of Each Mode" (page 63 in my
+>>>> copy of
+>>>> the datasheet) I see three additional parameters: "Front ignore area of
+>>>> effective pixel", "Front effective margin for color processing" and
+>>>> "Rear
+>>>> effective margin for color processing", these are 6, 4 and 4, which
+>>>> is a
+>>>> total of 14.
+>>>>
+>>>> So I guess that's where the 14 comes from.
+>>> Double-checked, and I agree.
+>>>
+>>>> Knowing with which bridge driver this was tested will definitely be
+>>>> helpful.
+>>> The design was based on a Xilinx zcu106 and the sensor output went into
+>>> the Xilinx MIPI CSI-2 RX subsystem IP (currently being mainlined), an
+>>> ISP IP and a Xilinx video DMA IP block, I think it was the "Video Frame
+>>> Buffer Writer" IP. I did several experiments with similar setups, even
+>>> with basic a Xilinx debayer+CCM in place of the ISP, and don't remember
+>>> any problems with wrong lines.
+>>>
+>>> Wild guess: Sowjanya, are you using VFLIP? I never used that, but it
+>>> might influence the order of lines processing somehow.
+>>
+>> No I am not using VFLIP.
+>>
+>> Did quick experiment of keeping buffer as valid even in case of frame
+>> buffer write timeout to see so far captured image and I see full
+>> 3840x2160 image capture with both cases where Y_OUT_SIZE = height and
+>> also with Y_OUT_SIZE = height + 14
+>>
+>> Could be something during end of frame when using Y_OUT_SIZE = height
+>> + 14
+>>
+>> Provided all register settings being used to Sony and explained this
+>> observation. Will update when I hear from them.
+>>
+>> Also will check how these 14 lines (ignore + color processing
+>> effective margin) translates to CSI frame sent out..
+>>
+> Hi Luca,
+> 
+> Can you please provide exact set-fmt and crop settings you used for
+> imx274 pipeline for 3840X2160 mode1 testing?
 
-[*] h3ulcb-kf #>
-echo fea28000.vsp > /sys/bus/platform/devices/fea28000.vsp/driver/unbind
- Unable to handle kernel NULL pointer dereference at virtual address 0000000000000028
- Mem abort info:
-   ESR = 0x96000006
-   EC = 0x25: DABT (current EL), IL = 32 bits
-   SET = 0, FnV = 0
-   EA = 0, S1PTW = 0
- Data abort info:
-   ISV = 0, ISS = 0x00000006
-   CM = 0, WnR = 0
- user pgtable: 4k pages, 48-bit VAs, pgdp=00000007318be000
- [0000000000000028] pgd=00000007333a1003, pud=00000007333a6003, pmd=0000000000000000
- Internal error: Oops: 96000006 [#1] PREEMPT SMP
- Modules linked in:
- CPU: 1 PID: 486 Comm: sh Not tainted 5.7.0-rc6-arm64-renesas-00118-ge644645abf47 #185
- Hardware name: Renesas H3ULCB Kingfisher board based on r8a77951 (DT)
- pstate: 40000005 (nZcv daif -PAN -UAO)
- pc : vsp1_dlm_destroy+0xe4/0x11c
- lr : vsp1_dlm_destroy+0xc8/0x11c
- sp : ffff800012963b60
- x29: ffff800012963b60 x28: ffff0006f83fc440
- x27: 0000000000000000 x26: ffff0006f5e13e80
- x25: ffff0006f5e13ed0 x24: ffff0006f5e13ed0
- x23: ffff0006f5e13ed0 x22: dead000000000122
- x21: ffff0006f5e3a080 x20: ffff0006f5df2938
- x19: ffff0006f5df2980 x18: 0000000000000003
- x17: 0000000000000000 x16: 0000000000000016
- x15: 0000000000000003 x14: 00000000000393c0
- x13: ffff800011a5ec18 x12: ffff800011d8d000
- x11: ffff0006f83fcc68 x10: ffff800011a53d70
- x9 : ffff8000111f3000 x8 : 0000000000000000
- x7 : 0000000000210d00 x6 : 0000000000000000
- x5 : ffff800010872e60 x4 : 0000000000000004
- x3 : 0000000078068000 x2 : ffff800012781000
- x1 : 0000000000002c00 x0 : 0000000000000000
- Call trace:
-  vsp1_dlm_destroy+0xe4/0x11c
-  vsp1_wpf_destroy+0x10/0x20
-  vsp1_entity_destroy+0x24/0x4c
-  vsp1_destroy_entities+0x54/0x130
-  vsp1_remove+0x1c/0x40
-  platform_drv_remove+0x28/0x50
-  __device_release_driver+0x178/0x220
-  device_driver_detach+0x44/0xc0
-  unbind_store+0xe0/0x104
-  drv_attr_store+0x20/0x30
-  sysfs_kf_write+0x48/0x70
-  kernfs_fop_write+0x148/0x230
-  __vfs_write+0x18/0x40
-  vfs_write+0xdc/0x1c4
-  ksys_write+0x68/0xf0
-  __arm64_sys_write+0x18/0x20
-  el0_svc_common.constprop.0+0x70/0x170
-  do_el0_svc+0x20/0x80
-  el0_sync_handler+0x134/0x1b0
-  el0_sync+0x140/0x180
- Code: b40000c2 f9403a60 d2800084 a9400663 (f9401400)
- ---[ end trace 3875369841fb288a ]---
+I don't remember much anymore. But I forgot to mention I [almost] always
+worked with 1920x1080 capture, either with binning or with cropping. I
+don't think the will change much, as the '+14' is equal in readout modes
+1 and 3 (1920p and 3840p modes at 10 bits). Can you try that nevertheless?
 
-Fixes: f3b98e3c4d2e16 ("media: vsp1: Provide support for extended command pools")
-Cc: stable@vger.kernel.org # v4.19+
-Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
----
-
-Changes in v2:
- - Rephrased the description based on Kieran's proposal
- - Added the Reviewed-by/Tested-by signatures
- - No change in the contents
-
----
- drivers/media/platform/vsp1/vsp1_dl.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/vsp1/vsp1_dl.c
-index d7b43037e500..e07b135613eb 100644
---- a/drivers/media/platform/vsp1/vsp1_dl.c
-+++ b/drivers/media/platform/vsp1/vsp1_dl.c
-@@ -431,6 +431,8 @@ vsp1_dl_cmd_pool_create(struct vsp1_device *vsp1, enum vsp1_extcmd_type type,
- 	if (!pool)
- 		return NULL;
- 
-+	pool->vsp1 = vsp1;
-+
- 	spin_lock_init(&pool->lock);
- 	INIT_LIST_HEAD(&pool->free);
- 
 -- 
-2.26.2
+Luca
 
