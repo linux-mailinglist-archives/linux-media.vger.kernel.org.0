@@ -2,221 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3C301EBB95
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 14:24:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F4201EBBFA
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 14:45:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726130AbgFBMYt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jun 2020 08:24:49 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:51109 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725940AbgFBMYt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Jun 2020 08:24:49 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id g5yFjjTQAnv5ng5yIjpM3S; Tue, 02 Jun 2020 14:24:46 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1591100687; bh=QJyBxueTazKFkTqWF58Ggg0h2EATDIQfTVWKCSwHXGQ=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=MZWMXgP1pYS9MYeGlQn34cZqx2Lpx9MjjE+RaChodLv+m/f+9/HkrlUgJwhFztlkg
-         Q3aOanSfNPt5Ed9BGtvanGR8P53/JlaRgqSAhMK/nZEjSTMZ3E1KoA9hz9/UkuZjf/
-         ggFCzTnJ8HC4LjkhmGrsGB76lugFNWD85CLhI2jLelWLYeVZwlfIst5Fp6vbFSB5qQ
-         sl5IxPJZDkBSDDmYnyP1E48z8U4SEndBx4XLmKWKUbN6RdOZb5IAwBKGM5B2XzwIY2
-         MVjwihqWpujnCZrOB2tXdDSbVRVze+MxboLl/qJF1hA496IGLqaOuX4qrF6qp1VaE6
-         8S3bEQo9Ai27w==
-Subject: Re: [PATCH v6 03/14] videobuf2: handle V4L2 buffer cache flags
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
+        id S1726267AbgFBMpY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Jun 2020 08:45:24 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:58714 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725940AbgFBMpX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jun 2020 08:45:23 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 298752A4;
+        Tue,  2 Jun 2020 14:45:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1591101919;
+        bh=8aW7VkrN21YrmNlY+yNp/tFnAc6lalvF/4E+/+IuRlg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rdRhYJal7EXr+Ppe0fo/sidO0oDJ4JKAp9ZVjl492cvVWXsMJ213QSsL+HB3XNVIP
+         /7Dx5eQOAPXo6+JFkyK2iL15EKeGgkjqgTOCaHUxvQYoF1VwV6DtAvgn2zg173+xro
+         de7BGo6GEwHXiFgNowTPz++TXhrCONeFf6AwLEw0=
+Date:   Tue, 2 Jun 2020 15:45:04 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     kieran.bingham@ideasonboard.com,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Kaaira Gupta <kgupta@es.iitr.ac.in>,
+        Shuah Khan <skhan@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-References: <20200514160153.3646-1-sergey.senozhatsky@gmail.com>
- <20200514160153.3646-4-sergey.senozhatsky@gmail.com>
- <b34ae09b-7c20-7255-6adc-3370680555cd@xs4all.nl>
- <CAAFQd5Cu5ex=YcuVfmEC1uNA4DZBSAF04LYtrw3-q22ZMc7_DA@mail.gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <cfb54bb3-a7dd-fafd-6b33-5500d6728a8f@xs4all.nl>
-Date:   Tue, 2 Jun 2020 14:24:43 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dafna Hirschfeld <dafna3@gmail.com>
+Subject: Re: [PATCH] vimc: debayer: Add support for ARGB format
+Message-ID: <20200602124504.GA12043@pendragon.ideasonboard.com>
+References: <20200528185717.GA20581@kaaira-HP-Pavilion-Notebook>
+ <0ab57863-935d-3ab5-dfea-80a44c63ae18@collabora.com>
+ <20200601121626.GA13308@kaaira-HP-Pavilion-Notebook>
+ <273a36d8-fc87-f9d4-0cf2-15beddf1661c@collabora.com>
+ <f927c8e3-73de-598d-130d-97b5380579e5@collabora.com>
+ <3b4c4447-677c-08b9-9366-95a012f8f018@ideasonboard.com>
+ <cdcc42bf-b0dc-41b7-5104-eff8aa42feb2@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAFQd5Cu5ex=YcuVfmEC1uNA4DZBSAF04LYtrw3-q22ZMc7_DA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfEBfkBJht8YpQj63rNYopBeCmw9rfXwtK/dJdjGpdMJzx5R/vzwrQ+ttN9O5LlW+Na3PFMj+kz+JFK4t1tHjykFrHwc7yTOpFzBUkcdDCzv72VHLofT0
- 137elGGTAJLAAFV02Q2S6RS1HZg7W61RUevimOA2gX0npzSegrMF8IU7GZPXXTyeT5Mw3XtRxGNJYdupAbvqywJGZv45MO4HywGYRoNQKczbN9igCFh07R4K
- JThMaFP+FFOCyav32RCK5ZI8VOi9UprfwZWWgckzHeC5Mg62AK8Blqr653V++r8/5qVLj4fF2tpG50CkxiMq0T+KthRBzpEmr6BngFu18/IsJzmQqVtUoZHf
- UHQKGkllDJxaptxu4xqaAIS8vnOAYgiWtFjZ1Xa2h7gvBrUQgm8=
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <cdcc42bf-b0dc-41b7-5104-eff8aa42feb2@collabora.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/06/2020 14:22, Tomasz Figa wrote:
-> Hi Hans,
+Hello,
+
+On Tue, Jun 02, 2020 at 08:31:26AM -0300, Helen Koike wrote:
+> On 6/2/20 8:24 AM, Kieran Bingham wrote:
+> > On 02/06/2020 11:55, Helen Koike wrote:
+> >> On 6/2/20 7:52 AM, Dafna Hirschfeld wrote:
+> >>> On 01.06.20 14:16, Kaaira Gupta wrote:
+> >>>> On Fri, May 29, 2020 at 05:43:57PM +0200, Dafna Hirschfeld wrote:
+> >>>>> Hi,
+> >>>>> Thanks for the patch
+> >>>>>
+> >>>>> I don't know how real devices handle ARGB formats,
+> >>>>> I wonder if it should be the part of the debayer.
+> >>>>
+> >>>> Hi! qcam tries to support BA24 as it is one of the formats that vimc
+> >>>> lists as its supported formats wih --list-formats. Shouldn't BA24 be
+> >>>> possible to capture with vimc?
+> >>>
+> >>> Hi,
+> >>> Just to clarify, when listing the supported formats of a video node, the node lists
+> >>> the formats that the video node as an independent media entity support.
+> >>> It does not mean that the 'camera' as a whole (that is, the media topology graph) supports
+> >>> all the formats that the video node lists. When interacting with a video node or
+> >>> a subdevice node, one interacts only with that specific entity.
+> >>> In the case of vimc, the RGB video node as an independent entity supports BA24 so the format
+> >>> appears in the list of the its supported formats. But since the Debayer does not
+> >>> support it, the format can not be generated by the entire vimc topology.
+> >>> This is not a bug.
+
+Is here a valid configuration for the vimc pipeline that produces BA24 ?
+I agree that not all pipeline configurations need to support every
+format, but we shouldn't report a format that can't be produced at all.
+
+This being said, and as discussed before, the de-bayering subdev should
+just produce MEDIA_BUS_FMT_RGB888_1X24, and the video node should then
+implement the RGB pixel formats. BA24 should likely be one of the
+supported formats (or maybe BX24 ?).
+
+> >> This is also my understanding.
+> >>
+> >> You should have an -EPIPE error when start streaming though, it
+> >> shouldn't fail silently.
+> > 
+> > Yes, we had -EPIPE, and that is what I think we were trying to resolve.
+> > 
+> > How would userspace be expected to detect what formats to use ? Should
+> > the available formats on the capture node depend on the current linking
+> > of the media graph?
 > 
-> On Tue, Jun 2, 2020 at 11:51 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> Hi Sergey,
->>
->> While doing final testing for this patch series (together with the v4l-utils patch)
->> I found one remaining issue:
->>
->> On 14/05/2020 18:01, Sergey Senozhatsky wrote:
->>> From: Sergey Senozhatsky <senozhatsky@chromium.org>
->>>
->>> Set video buffer cache management flags corresponding to V4L2 cache
->>> flags.
->>>
->>> Both ->prepare() and ->finish() cache management hints should be
->>> passed during this stage (buffer preparation), because there is
->>> no other way for user-space to tell V4L2 to avoid ->finish() cache
->>> flush.
->>>
->>> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
->>> ---
->>>  .../media/common/videobuf2/videobuf2-v4l2.c   | 48 +++++++++++++++++++
->>>  include/media/videobuf2-core.h                | 11 +++++
->>>  2 files changed, 59 insertions(+)
->>>
->>> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>> index eb5d5db96552..f13851212cc8 100644
->>> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
->>> @@ -337,6 +337,53 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
->>>       return 0;
->>>  }
->>>
->>> +static void set_buffer_cache_hints(struct vb2_queue *q,
->>> +                                struct vb2_buffer *vb,
->>> +                                struct v4l2_buffer *b)
->>> +{
->>> +     /*
->>> +      * DMA exporter should take care of cache syncs, so we can avoid
->>> +      * explicit ->prepare()/->finish() syncs. For other ->memory types
->>> +      * we always need ->prepare() or/and ->finish() cache sync.
->>> +      */
->>> +     if (q->memory == VB2_MEMORY_DMABUF) {
->>> +             vb->need_cache_sync_on_finish = 0;
->>> +             vb->need_cache_sync_on_prepare = 0;
->>> +             return;
->>> +     }
->>> +
->>> +     /*
->>> +      * Cache sync/invalidation flags are set by default in order to
->>> +      * preserve existing behaviour for old apps/drivers.
->>> +      */
->>> +     vb->need_cache_sync_on_prepare = 1;
->>> +     vb->need_cache_sync_on_finish = 1;
->>> +
->>> +     if (!vb2_queue_allows_cache_hints(q)) {
->>> +             /*
->>> +              * Clear buffer cache flags if queue does not support user
->>> +              * space hints. That's to indicate to userspace that these
->>> +              * flags won't work.
->>> +              */
->>> +             b->flags &= ~V4L2_BUF_FLAG_NO_CACHE_INVALIDATE;
->>> +             b->flags &= ~V4L2_BUF_FLAG_NO_CACHE_CLEAN;
->>> +             return;
->>> +     }
->>
->> These two flags need to be cleared for VB2_MEMORY_DMABUF as well in the test above.
->> This bug is causing v4l2-compliance failures (use the test-media script in contrib/test
->> in v4l-utils: 'sudo test-media vim2m').
+> This is a good question, I don't recall v4l2 API defining this.
+
+A recent extension to VIDIOC_ENUMFMT allows enumerating pixel formats
+for a given media bus code, I think that's the way forward.
+
+> It would be a bit hard to implement in Vimc, specially when we have configfs
+> for custom topology, since the capture would need to query all the pipeline.
+> But could be implemented.
 > 
-> Would you be able to paste the failures, so that we know that we
-> reproduce the same problems? Thanks!
+> > Otherwise, to know what formats are supported - userspace must first
+> > 'get a list of formats' then try to 'set' the formats to know what is
+> > possible?
+> 
+> At the moment yes.
+> 
+> > Or should (given VIMC is quite specialist anyway) userspace 'just know'
+> > what is capable all the same?
+> > 
+> > That's possibly fine, as we can simply remove support for the ARGB
+> > formats from the libcamera pipeline handler if it is never expected to
+> > be supported.
+> 
+> With the configfs feature, you could build a topology with sensor->capture,
+> and ARGB would be supported.
+> 
+> > But then as a further question - what formats will we expect VIMC to
+> > support? VIVID has a (very) wide range of formats.
+> > 
+> > Would we ever expect VIMC to be as configurable?
+> > Or is the scope limited to what we have today?
+> 
+> I know it is very limited atm, but I would like to increase the range,
+> I'm just with a limited bandwitdh to work on it.
+>
+> >>>>
+> >>>> If yes, which entity should support it, if not debayer? Should there be
+> >>>> a separate conversion entity, or should we keep the support in debayer
+> >>>> itself for efficiency issues?
+> >>>>
+> >>>>> On 28.05.20 20:57, Kaaira Gupta wrote:
+> >>>>>> Running qcam for pixelformat 0x34324142 showed that vimc debayer does
+> >>>>>> not support it. Hence, add the support for Alpha (255).
+> >>>>>
+> >>>>> I would change the commit log to:
+> >>>>>
+> >>>>> Add support for V4L2_PIX_FMT_RGB24 format in the debayer
+> >>>>> and set the alpha channel to constant 255.
+> >>>>>
+> >>>>>> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+> >>>>>> ---
+> >>>>>>    .../media/test-drivers/vimc/vimc-debayer.c    | 27 ++++++++++++-------
+> >>>>>>    1 file changed, 18 insertions(+), 9 deletions(-)
+> >>>>>>
+> >>>>>> diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
+> >>>>>> index c3f6fef34f68..f34148717a40 100644
+> >>>>>> --- a/drivers/media/test-drivers/vimc/vimc-debayer.c
+> >>>>>> +++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
+> >>>>>> @@ -62,6 +62,7 @@ static const u32 vimc_deb_src_mbus_codes[] = {
+> >>>>>>        MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+> >>>>>>        MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
+> >>>>>>        MEDIA_BUS_FMT_RGB888_1X32_PADHI,
+> >>>>>> +    MEDIA_BUS_FMT_ARGB8888_1X32
+> >>>>>>    };
+> >>>>>>    static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] = {
+> >>>>>> @@ -322,15 +323,23 @@ static void vimc_deb_process_rgb_frame(struct vimc_deb_device *vdeb,
+> >>>>>>        unsigned int i, index;
+> >>>>>>        vpix = vimc_pix_map_by_code(vdeb->src_code);
+> >>>>>> -    index = VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
+> >>>>>> -    for (i = 0; i < 3; i++) {
+> >>>>>> -        switch (vpix->pixelformat) {
+> >>>>>> -        case V4L2_PIX_FMT_RGB24:
+> >>>>>> -            vdeb->src_frame[index + i] = rgb[i];
+> >>>>>> -            break;
+> >>>>>> -        case V4L2_PIX_FMT_BGR24:
+> >>>>>> -            vdeb->src_frame[index + i] = rgb[2 - i];
+> >>>>>> -            break;
+> >>>>>> +
+> >>>>>> +    if (vpix->pixelformat == V4L2_PIX_FMT_ARGB32) {
+> >>>>>> +        index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 4);
+> >>>>>> +        vdeb->src_frame[index] = 255;
+> >>>>>> +        for (i = 0; i < 3; i++)
+> >>>>>> +            vdeb->src_frame[index + i + 1] = rgb[i];
+> >>>>>> +    } else {
+> >>>>>> +        index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
+> >>>>>> +        for (i = 0; i < 3; i++) {
+> >>>>>> +            switch (vpix->pixelformat) {
+> >>>>>> +            case V4L2_PIX_FMT_RGB24:
+> >>>>>> +                vdeb->src_frame[index + i] = rgb[i];
+> >>>>>> +                break;
+> >>>>>> +            case V4L2_PIX_FMT_BGR24:
+> >>>>>> +                vdeb->src_frame[index + i] = rgb[2 - i];
+> >>>>>> +                break;
+> >>>>>> +            }
+> >>>>>>            }
+> >>>>>>        }
+> >>>>>>    }
 
-For vim2m (but looks the same for vivid/vimc/vicodec):
-
-Streaming ioctls:
-        test read/write: OK (Not Supported)
-        test blocking wait: OK
-        Video Capture: Captured 8 buffers
-        test MMAP (no poll): OK
-        Video Capture: Captured 8 buffers
-        test MMAP (select): OK
-        Video Capture: Captured 8 buffers
-        test MMAP (epoll): OK
-        Video Capture: Captured 8 buffers
-        test USERPTR (no poll): OK
-        Video Capture: Captured 8 buffers
-        test USERPTR (select): OK
-                fail: v4l2-test-buffers.cpp(1874): flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE
-                fail: v4l2-test-buffers.cpp(1937): setupDmaBuf(expbuf_node, node, q, exp_q)
-        test DMABUF (no poll): FAIL
-                fail: v4l2-test-buffers.cpp(1874): flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE
-                fail: v4l2-test-buffers.cpp(1937): setupDmaBuf(expbuf_node, node, q, exp_q)
-        test DMABUF (select): FAIL
-
+-- 
 Regards,
 
-	Hans
-
-
-> 
-> Best regards,
-> Tomasz
-> 
->>
->> It's enough to post a v6.1 for this patch, everything else is fine.
->>
->> Regards,
->>
->>         Hans
->>
->>> +
->>> +     /*
->>> +      * ->finish() cache sync can be avoided when queue direction is
->>> +      * TO_DEVICE.
->>> +      */
->>> +     if (q->dma_dir == DMA_TO_DEVICE)
->>> +             vb->need_cache_sync_on_finish = 0;
->>> +
->>> +     if (b->flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE)
->>> +             vb->need_cache_sync_on_finish = 0;
->>> +
->>> +     if (b->flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN)
->>> +             vb->need_cache_sync_on_prepare = 0;
->>> +}
->>> +
->>>  static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *mdev,
->>>                                   struct v4l2_buffer *b, bool is_prepare,
->>>                                   struct media_request **p_req)
->>> @@ -381,6 +428,7 @@ static int vb2_queue_or_prepare_buf(struct vb2_queue *q, struct media_device *md
->>>       }
->>>
->>>       if (!vb->prepared) {
->>> +             set_buffer_cache_hints(q, vb, b);
->>>               /* Copy relevant information provided by the userspace */
->>>               memset(vbuf->planes, 0,
->>>                      sizeof(vbuf->planes[0]) * vb->num_planes);
->>> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
->>> index 7f39d9fffc8c..ccc5c498d3e3 100644
->>> --- a/include/media/videobuf2-core.h
->>> +++ b/include/media/videobuf2-core.h
->>> @@ -635,6 +635,17 @@ struct vb2_queue {
->>>  #endif
->>>  };
->>>
->>> +/**
->>> + * vb2_queue_allows_cache_hints() - Return true if the queue allows cache
->>> + * and memory consistency hints.
->>> + *
->>> + * @q:               pointer to &struct vb2_queue with videobuf2 queue
->>> + */
->>> +static inline bool vb2_queue_allows_cache_hints(struct vb2_queue *q)
->>> +{
->>> +     return q->allow_cache_hints && q->memory == VB2_MEMORY_MMAP;
->>> +}
->>> +
->>>  /**
->>>   * vb2_plane_vaddr() - Return a kernel virtual address of a given plane.
->>>   * @vb:              pointer to &struct vb2_buffer to which the plane in
->>>
->>
-
+Laurent Pinchart
