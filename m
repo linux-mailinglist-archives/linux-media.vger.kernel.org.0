@@ -2,22 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BD3B1EBCC6
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 15:14:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B659B1EBCE4
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 15:17:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726937AbgFBNN5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jun 2020 09:13:57 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:52332 "EHLO
+        id S1728170AbgFBNQO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Jun 2020 09:16:14 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:52354 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725958AbgFBNN4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jun 2020 09:13:56 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 9617A2A34DB
+        with ESMTP id S1727013AbgFBNQN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jun 2020 09:16:13 -0400
+Received: from [IPv6:2003:cb:871f:5b00:b464:983c:2e91:eb78] (p200300cb871f5b00b464983c2e91eb78.dip0.t-ipconnect.de [IPv6:2003:cb:871f:5b00:b464:983c:2e91:eb78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B46C12A34DB;
+        Tue,  2 Jun 2020 14:16:06 +0100 (BST)
 Subject: Re: [PATCH] vimc: debayer: Add support for ARGB format
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Helen Koike <helen.koike@collabora.com>
 Cc:     kieran.bingham@ideasonboard.com,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         Kaaira Gupta <kgupta@es.iitr.ac.in>,
         Shuah Khan <skhan@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -31,14 +34,14 @@ References: <20200528185717.GA20581@kaaira-HP-Pavilion-Notebook>
  <3b4c4447-677c-08b9-9366-95a012f8f018@ideasonboard.com>
  <cdcc42bf-b0dc-41b7-5104-eff8aa42feb2@collabora.com>
  <20200602124504.GA12043@pendragon.ideasonboard.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <18f26dd2-9b86-9191-3dda-eb4490eb64d0@collabora.com>
-Date:   Tue, 2 Jun 2020 10:13:45 -0300
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <3ba24fe9-46e5-0b08-2335-41bd26ef1831@collabora.com>
+Date:   Tue, 2 Jun 2020 15:16:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
 In-Reply-To: <20200602124504.GA12043@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -48,7 +51,7 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 
-On 6/2/20 9:45 AM, Laurent Pinchart wrote:
+On 02.06.20 14:45, Laurent Pinchart wrote:
 > Hello,
 > 
 > On Tue, Jun 02, 2020 at 08:31:26AM -0300, Helen Koike wrote:
@@ -79,25 +82,20 @@ On 6/2/20 9:45 AM, Laurent Pinchart wrote:
 >>>>> This is not a bug.
 > 
 > Is here a valid configuration for the vimc pipeline that produces BA24 ?
-
-It should work when using the other capture nodes that doesn't contain the debayer
-in the pipeline.
+I think there isn't
 
 > I agree that not all pipeline configurations need to support every
 > format, but we shouldn't report a format that can't be produced at all.
-
-ok, this requires major changes in Vimc, unless we implement all the conversions
-in the capture.
-
 > 
 > This being said, and as discussed before, the de-bayering subdev should
 > just produce MEDIA_BUS_FMT_RGB888_1X24, and the video node should then
 > implement the RGB pixel formats. BA24 should likely be one of the
 > supported formats (or maybe BX24 ?).
-
-We can implement the conversion in the capture node, we just need to
-distinguish when the pipeline generates it and when it requires conversion,
-but shouldn't be a problem.
+So you mean that the video node should support it so when it receive RGB
+format in the source pad it converts it to BA24 or BX24 ?
+It makes sense. I guess both BA24 and BX24 can be added, I see in the
+pixfmt-rgb.html doc that probably the control  V4L2_CID_ALPHA_COMPONENT
+should then be added.
 
 > 
 >>>> This is also my understanding.
@@ -115,13 +113,6 @@ but shouldn't be a problem.
 > 
 > A recent extension to VIDIOC_ENUMFMT allows enumerating pixel formats
 > for a given media bus code, I think that's the way forward.
-
-Nice, I'm not familiar with this extension, I'll take a look, thanks for
-the pointer.
-
-Thanks
-Helen
-
 > 
 >> It would be a bit hard to implement in Vimc, specially when we have configfs
 >> for custom topology, since the capture would need to query all the pipeline.
@@ -130,6 +121,16 @@ Helen
 >>> Otherwise, to know what formats are supported - userspace must first
 >>> 'get a list of formats' then try to 'set' the formats to know what is
 >>> possible?
+Yes, there is a doc file that explains that it should be done in a "bottom-up" way
+,that is,  starting with configuring the sensor, then adjusting the debayer
+to the sensor output, then adjusting the scaler to the debayer outout and then
+adjusting the video node output to the scaler output. One should also use the
+'try' version of the setting at the stage of adjusting the final configuration.
+The detailed explanation is in Documentation/output/userspace-api/media/v4l/dev-subdev.html
+
+Thanks,
+Dafna
+
 >>
 >> At the moment yes.
 >>
@@ -168,23 +169,23 @@ Helen
 >>>>>>>
 >>>>>>>> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
 >>>>>>>> ---
->>>>>>>>    .../media/test-drivers/vimc/vimc-debayer.c    | 27 ++++++++++++-------
->>>>>>>>    1 file changed, 18 insertions(+), 9 deletions(-)
+>>>>>>>>     .../media/test-drivers/vimc/vimc-debayer.c    | 27 ++++++++++++-------
+>>>>>>>>     1 file changed, 18 insertions(+), 9 deletions(-)
 >>>>>>>>
 >>>>>>>> diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
 >>>>>>>> index c3f6fef34f68..f34148717a40 100644
 >>>>>>>> --- a/drivers/media/test-drivers/vimc/vimc-debayer.c
 >>>>>>>> +++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
 >>>>>>>> @@ -62,6 +62,7 @@ static const u32 vimc_deb_src_mbus_codes[] = {
->>>>>>>>        MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
->>>>>>>>        MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
->>>>>>>>        MEDIA_BUS_FMT_RGB888_1X32_PADHI,
+>>>>>>>>         MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+>>>>>>>>         MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
+>>>>>>>>         MEDIA_BUS_FMT_RGB888_1X32_PADHI,
 >>>>>>>> +    MEDIA_BUS_FMT_ARGB8888_1X32
->>>>>>>>    };
->>>>>>>>    static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] = {
+>>>>>>>>     };
+>>>>>>>>     static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] = {
 >>>>>>>> @@ -322,15 +323,23 @@ static void vimc_deb_process_rgb_frame(struct vimc_deb_device *vdeb,
->>>>>>>>        unsigned int i, index;
->>>>>>>>        vpix = vimc_pix_map_by_code(vdeb->src_code);
+>>>>>>>>         unsigned int i, index;
+>>>>>>>>         vpix = vimc_pix_map_by_code(vdeb->src_code);
 >>>>>>>> -    index = VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
 >>>>>>>> -    for (i = 0; i < 3; i++) {
 >>>>>>>> -        switch (vpix->pixelformat) {
@@ -211,7 +212,7 @@ Helen
 >>>>>>>> +                vdeb->src_frame[index + i] = rgb[2 - i];
 >>>>>>>> +                break;
 >>>>>>>> +            }
->>>>>>>>            }
->>>>>>>>        }
->>>>>>>>    }
+>>>>>>>>             }
+>>>>>>>>         }
+>>>>>>>>     }
 > 
