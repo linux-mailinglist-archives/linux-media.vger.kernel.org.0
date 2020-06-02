@@ -2,108 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD1201EB9C7
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 12:44:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C80C1EB9EB
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 12:53:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726962AbgFBKog (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jun 2020 06:44:36 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:59537 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726267AbgFBKoe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 2 Jun 2020 06:44:34 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id g4P6jXBaDCKzeg4PAjJ3Qt; Tue, 02 Jun 2020 12:44:32 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1591094672; bh=1WzPUPBIE0Uaz6t74C5WQPm2crJOnZO/Fn4WuxbrM0s=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Z4VUDVFHsqJqWJs8+DlWcTaWPdwdnw8gko60VMLYOilDzsUb3W8+durQUBUvL5+oP
-         Sthoq+4c1YJQUssMAIP8WtDOkOEttFDeVrrD6AZGYw8oYA+2yI2TQnBF2X6kmgWGV4
-         Zk0/NJHVeACTXGcWwimmntqZ3nYTeN+VDhP8Oa1q4nKJBQxh02kYO2Xza7ByPTIxqK
-         rLUZh0fwu14Db/HnVXJhj/fnwO+XXzH/c0reY9pENHv9o0NymHsHrKZSeL5ijvifZS
-         eqGQmISUDPh3UywOeyL0vtdLYH+uo/HdMuJoKr4p6EfTB7byOgX4OUYfl4MiXNISuo
-         6mq+X5GqEFaGg==
-Subject: Re: [PATCH v2 2/2] media: v4l: xilinx: Add Xilinx UHD-SDI Rx
- Subsystem driver
-To:     Vishal Sagar <vsagar@xilinx.com>, Hyun Kwon <hyunk@xilinx.com>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        Michal Simek <michals@xilinx.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Dinesh Kumar <dineshk@xilinx.com>,
-        Sandip Kothari <sandipk@xilinx.com>,
-        Joe Perches <joe@perches.com>
-References: <20200429141705.18755-1-vishal.sagar@xilinx.com>
- <20200429141705.18755-3-vishal.sagar@xilinx.com>
- <368b7efb-3faf-bb71-2bd0-826f2ab031e6@xs4all.nl>
- <DM6PR02MB6876F989682935D38AA9BF19A78A0@DM6PR02MB6876.namprd02.prod.outlook.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <d696e0ed-3e59-f6a6-1f8d-b1725083de84@xs4all.nl>
-Date:   Tue, 2 Jun 2020 12:44:20 +0200
+        id S1726625AbgFBKxG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Jun 2020 06:53:06 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:50470 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726110AbgFBKxF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jun 2020 06:53:05 -0400
+Received: from [IPv6:2003:cb:871f:5b00:b464:983c:2e91:eb78] (p200300cb871f5b00b464983c2e91eb78.dip0.t-ipconnect.de [IPv6:2003:cb:871f:5b00:b464:983c:2e91:eb78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id AC2B52A2D03;
+        Tue,  2 Jun 2020 11:53:02 +0100 (BST)
+Subject: Re: [PATCH] vimc: debayer: Add support for ARGB format
+To:     Kaaira Gupta <kgupta@es.iitr.ac.in>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        laurent.pinchart@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kieran.bingham@ideasonboard.com,
+        dafna Hirschfeld <dafna3@gmail.com>
+References: <20200528185717.GA20581@kaaira-HP-Pavilion-Notebook>
+ <0ab57863-935d-3ab5-dfea-80a44c63ae18@collabora.com>
+ <20200601121626.GA13308@kaaira-HP-Pavilion-Notebook>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <273a36d8-fc87-f9d4-0cf2-15beddf1661c@collabora.com>
+Date:   Tue, 2 Jun 2020 12:52:59 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <DM6PR02MB6876F989682935D38AA9BF19A78A0@DM6PR02MB6876.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20200601121626.GA13308@kaaira-HP-Pavilion-Notebook>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJcogKHJH5sedMLRm7iDVY5GJFXG6YtbvUoqEh55LOJH4zg6u1HF2mt9uivno374New6GAHucz89E7ee6JkqmobSD9+UdFIcUjJTBhrXxr5AdnMfRE74
- IMdRhfoZKwXJPM8ECuNkEsezBa6X1mvtV4C6MBu0ZomrW+4QlMaMTpqpLWO/6EYrP/2ckZFtKcBLQW5Ddzy88Wa35QCRf/48b9AMvCXQr8TW5ZgAEEJRKM3h
- bwY7Daae8yl4w/g8npNRVCkNpqSPm01e0HLBVkYDFnCWHqaD7LFxubGvdWsFmTpE/72ELPTClNJNNBt6Q5kBdPfNbiivna8seASaVVRG8sfFICbSJU3wqKrq
- pDYUz/72ubcrJrgkEB9hsNIN8Li4IpUqOhIZU44mmxGeX+GKtOz+SkXsD65pKw25YJXttlyij3MnBQoeDn1BNNeZrvieDrRfAlHbxAjyxro5a2xiEuMiQC7Y
- gart/4mzMjX0unDnfGYGtXhZIcbp3CWs+spCpm8pWVMkeTqok8tXkkWltkChM5/1Z3ocRSInar4we11HmjVoZi4S4+puW3Y74ROVUyvtZYeJM7rxIquIDwoK
- 4OBxnALO+J5qqW91BP7C5Bqz3Z13dtgsPoZLco6VYfTcWRIRuxe706YwxEytmsV1lK8=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01/06/2020 16:59, Vishal Sagar wrote:
-> Hi Hans,
-> 
-> Thanks for reviewing!
-> 
->>> +	case V4L2_CID_XILINX_SDIRX_TS_IS_INTERLACED:
->>> +		if (!xsdirxss->vidlocked) {
->>> +			dev_err(dev, "Can't get values when video not
->> locked!\n");
->>> +			return -EINVAL;
->>> +		}
->>> +		ctrl->val = xsdirxss->ts_is_interlaced;
+
+
+On 01.06.20 14:16, Kaaira Gupta wrote:
+> On Fri, May 29, 2020 at 05:43:57PM +0200, Dafna Hirschfeld wrote:
+>> Hi,
+>> Thanks for the patch
 >>
->> This control makes no sense: the v4l2_dv_timings struct will already tell you
->> if it is an interlaced format or not. Same for v4l2_mbus_framefmt.
+>> I don't know how real devices handle ARGB formats,
+>> I wonder if it should be the part of the debayer.
+> 
+> Hi! qcam tries to support BA24 as it is one of the formats that vimc
+> lists as its supported formats wih --list-formats. Shouldn't BA24 be
+> possible to capture with vimc?
+
+Hi,
+Just to clarify, when listing the supported formats of a video node, the node lists
+the formats that the video node as an independent media entity support.
+It does not mean that the 'camera' as a whole (that is, the media topology graph) supports
+all the formats that the video node lists. When interacting with a video node or
+a subdevice node, one interacts only with that specific entity.
+In the case of vimc, the RGB video node as an independent entity supports BA24 so the format
+appears in the list of the its supported formats. But since the Debayer does not
+support it, the format can not be generated by the entire vimc topology.
+This is not a bug.
+
+Hope t was helpful,
+Dafna
+  
+> 
+> If yes, which entity should support it, if not debayer? Should there be
+> a separate conversion entity, or should we keep the support in debayer
+> itself for efficiency issues?
+> 
 >>
-> 
-> The SDI has a concept of supporting progressive, interlaced (both as we know normally) and a progressive segmented frames(psf).
-> The progressive segmented frames have their video content in progressive format but the transport stream is interlaced.
-> This is distinguished using the bit 6 and 7 of Byte 2 in the 4 byte ST352 payload.
-> Refer to sec 5.3 in SMPTE ST 352:2010.
-> 
-> This control can be used by the application to distinguish normal interlaced and progressive segmented frames.
-
-Ah, interesting. So this relies on the receiver to reconstruct the progressive
-frame by combining the top and bottom field, right?
-
-I think this deserves a new v4l2_field value:
-
-V4L2_FIELD_ALTERNATE_PROG
-
-Basically this is identical to V4L2_FIELD_ALTERNATE, except that the two fields
-combine to a single progressive frame.
-
-Regards,
-
-	Hans
-
-PS: I'll look at your other comments separately
+>>
+>> On 28.05.20 20:57, Kaaira Gupta wrote:
+>>> Running qcam for pixelformat 0x34324142 showed that vimc debayer does
+>>> not support it. Hence, add the support for Alpha (255).
+>>
+>> I would change the commit log to:
+>>
+>> Add support for V4L2_PIX_FMT_RGB24 format in the debayer
+>> and set the alpha channel to constant 255.
+>>
+>> Thanks,
+>> Dafna
+>>
+>>>
+>>> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+>>> ---
+>>>    .../media/test-drivers/vimc/vimc-debayer.c    | 27 ++++++++++++-------
+>>>    1 file changed, 18 insertions(+), 9 deletions(-)
+>>>
+>>> diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
+>>> index c3f6fef34f68..f34148717a40 100644
+>>> --- a/drivers/media/test-drivers/vimc/vimc-debayer.c
+>>> +++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
+>>> @@ -62,6 +62,7 @@ static const u32 vimc_deb_src_mbus_codes[] = {
+>>>    	MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
+>>>    	MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
+>>>    	MEDIA_BUS_FMT_RGB888_1X32_PADHI,
+>>> +	MEDIA_BUS_FMT_ARGB8888_1X32
+>>>    };
+>>>    static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] = {
+>>> @@ -322,15 +323,23 @@ static void vimc_deb_process_rgb_frame(struct vimc_deb_device *vdeb,
+>>>    	unsigned int i, index;
+>>>    	vpix = vimc_pix_map_by_code(vdeb->src_code);
+>>> -	index = VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
+>>> -	for (i = 0; i < 3; i++) {
+>>> -		switch (vpix->pixelformat) {
+>>> -		case V4L2_PIX_FMT_RGB24:
+>>> -			vdeb->src_frame[index + i] = rgb[i];
+>>> -			break;
+>>> -		case V4L2_PIX_FMT_BGR24:
+>>> -			vdeb->src_frame[index + i] = rgb[2 - i];
+>>> -			break;
+>>> +
+>>> +	if (vpix->pixelformat == V4L2_PIX_FMT_ARGB32) {
+>>> +		index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 4);
+>>> +		vdeb->src_frame[index] = 255;
+>>> +		for (i = 0; i < 3; i++)
+>>> +			vdeb->src_frame[index + i + 1] = rgb[i];
+>>> +	} else {
+>>> +		index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
+>>> +		for (i = 0; i < 3; i++) {
+>>> +			switch (vpix->pixelformat) {
+>>> +			case V4L2_PIX_FMT_RGB24:
+>>> +				vdeb->src_frame[index + i] = rgb[i];
+>>> +				break;
+>>> +			case V4L2_PIX_FMT_BGR24:
+>>> +				vdeb->src_frame[index + i] = rgb[2 - i];
+>>> +				break;
+>>> +			}
+>>>    		}
+>>>    	}
+>>>    }
+>>>
