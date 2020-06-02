@@ -2,212 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 244A41EBA63
-	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 13:31:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F27A1EBA89
+	for <lists+linux-media@lfdr.de>; Tue,  2 Jun 2020 13:38:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725940AbgFBLbf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jun 2020 07:31:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59774 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725900AbgFBLbe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jun 2020 07:31:34 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61181C061A0E;
-        Tue,  2 Jun 2020 04:31:34 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 046472A17E6
-Subject: Re: [PATCH] vimc: debayer: Add support for ARGB format
-To:     kieran.bingham@ideasonboard.com,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Kaaira Gupta <kgupta@es.iitr.ac.in>
-Cc:     Shuah Khan <skhan@linuxfoundation.org>,
-        laurent.pinchart@ideasonboard.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dafna Hirschfeld <dafna3@gmail.com>
-References: <20200528185717.GA20581@kaaira-HP-Pavilion-Notebook>
- <0ab57863-935d-3ab5-dfea-80a44c63ae18@collabora.com>
- <20200601121626.GA13308@kaaira-HP-Pavilion-Notebook>
- <273a36d8-fc87-f9d4-0cf2-15beddf1661c@collabora.com>
- <f927c8e3-73de-598d-130d-97b5380579e5@collabora.com>
- <3b4c4447-677c-08b9-9366-95a012f8f018@ideasonboard.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <cdcc42bf-b0dc-41b7-5104-eff8aa42feb2@collabora.com>
-Date:   Tue, 2 Jun 2020 08:31:26 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-MIME-Version: 1.0
-In-Reply-To: <3b4c4447-677c-08b9-9366-95a012f8f018@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
+        id S1726012AbgFBLiB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Jun 2020 07:38:01 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:12448 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725919AbgFBLiB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 2 Jun 2020 07:38:01 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 052BW8ED005146;
+        Tue, 2 Jun 2020 13:37:40 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=zCgvAD2DnYOr6cNN/ctfmZUAkv+2YxaNhKI0IMJVfkE=;
+ b=v8kkOlsyPyNieJG4nr+2nQ1vF144Qa7s0rS59Pqqo2j3rSHaEJO45M0H4pEoMSq8B8CS
+ 1oecrhJFDDONdjO01uKRH6A2z94ikNRrBlvVYoTJBDpZzMOCDE4oiyBWLOEzvg9s3fIl
+ zcrAx+zuRUP6bsCtiu0MrjrrOmR07S5KrkFAdd5C7DL3ARzu/f+xavux99vZuwjyEVy5
+ wrjvsdwrM13ZNFZDx1q2cYGQCqSJ0RiHUnHyQXAKNtovBht9ffBZQQaeRxMdBk4Mdssw
+ G0hghBJU8K3yS0eSayQfL7CeeyWZPOHYoPFOXzvIlvWwJOit0N54YN6aXF6C0n7VIDdY XQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 31bcy0e6ph-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 02 Jun 2020 13:37:40 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 141D110002A;
+        Tue,  2 Jun 2020 13:37:39 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D53C72B5C35;
+        Tue,  2 Jun 2020 13:37:39 +0200 (CEST)
+Received: from SFHDAG3NODE3.st.com (10.75.127.9) by SFHDAG3NODE1.st.com
+ (10.75.127.7) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 2 Jun
+ 2020 13:37:39 +0200
+Received: from SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476]) by
+ SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476%20]) with mapi id
+ 15.00.1347.000; Tue, 2 Jun 2020 13:37:39 +0200
+From:   Benjamin GAIGNARD <benjamin.gaignard@st.com>
+To:     Valentin Schneider <valentin.schneider@arm.com>
+CC:     Hugues FRUCHET <hugues.fruchet@st.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+        "rjw@rjwysocki.net" <rjw@rjwysocki.net>
+Subject: Re: [PATCH] media: stm32-dcmi: Set minimum cpufreq requirement
+Thread-Topic: [PATCH] media: stm32-dcmi: Set minimum cpufreq requirement
+Thread-Index: AQHWNDnEPjQ+BLRck0Okhc2Oie/dNajE9yuAgAAjSoA=
+Date:   Tue, 2 Jun 2020 11:37:39 +0000
+Message-ID: <f95ce45f-7a1c-0feb-afa8-203ddb500f2f@st.com>
+References: <20200527151613.16083-1-benjamin.gaignard@st.com>
+ <jhjpnahizkm.mognet@arm.com>
+In-Reply-To: <jhjpnahizkm.mognet@arm.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.46]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <783800331E8056488681241E76EAEE3C@st.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-06-02_13:2020-06-02,2020-06-02 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-
-On 6/2/20 8:24 AM, Kieran Bingham wrote:
-> Hi Helen, Dafna,
-> 
-> On 02/06/2020 11:55, Helen Koike wrote:
->>
->> On 6/2/20 7:52 AM, Dafna Hirschfeld wrote:
->>>
->>> On 01.06.20 14:16, Kaaira Gupta wrote:
->>>> On Fri, May 29, 2020 at 05:43:57PM +0200, Dafna Hirschfeld wrote:
->>>>> Hi,
->>>>> Thanks for the patch
->>>>>
->>>>> I don't know how real devices handle ARGB formats,
->>>>> I wonder if it should be the part of the debayer.
->>>>
->>>> Hi! qcam tries to support BA24 as it is one of the formats that vimc
->>>> lists as its supported formats wih --list-formats. Shouldn't BA24 be
->>>> possible to capture with vimc?
->>>
->>> Hi,
->>> Just to clarify, when listing the supported formats of a video node, the node lists
->>> the formats that the video node as an independent media entity support.
->>> It does not mean that the 'camera' as a whole (that is, the media topology graph) supports
->>> all the formats that the video node lists. When interacting with a video node or
->>> a subdevice node, one interacts only with that specific entity.
->>> In the case of vimc, the RGB video node as an independent entity supports BA24 so the format
->>> appears in the list of the its supported formats. But since the Debayer does not
->>> support it, the format can not be generated by the entire vimc topology.
->>> This is not a bug.
->>
->> This is also my understanding.
->>
->> You should have an -EPIPE error when start streaming though, it shouldn't fail silently.
-> 
-> Yes, we had -EPIPE, and that is what I think we were trying to resolve.
-> 
-> How would userspace be expected to detect what formats to use ? Should
-> the available formats on the capture node depend on the current linking
-> of the media graph?
-
-This is a good question, I don't recall v4l2 API defining this.
-
-It would be a bit hard to implement in Vimc, specially when we have configfs
-for custom topology, since the capture would need to query all the pipeline.
-But could be implemented.
-
-> 
-> Otherwise, to know what formats are supported - userspace must first
-> 'get a list of formats' then try to 'set' the formats to know what is
-> possible?
-
-At the moment yes.
-
-> 
-> Or should (given VIMC is quite specialist anyway) userspace 'just know'
-> what is capable all the same?
-> 
-> That's possibly fine, as we can simply remove support for the ARGB
-> formats from the libcamera pipeline handler if it is never expected to
-> be supported.
-
-With the configfs feature, you could build a topology with sensor->capture,
-and ARGB would be supported.
-
-> 
-> But then as a further question - what formats will we expect VIMC to
-> support? VIVID has a (very) wide range of formats.
-> 
-> Would we ever expect VIMC to be as configurable?
-> Or is the scope limited to what we have today?
-
-I know it is very limited atm, but I would like to increase the range, I'm just
-with a limited bandwitdh to work on it.
-
-Thanks,
-Helen
-
-> 
-> --
-> Regards
-> 
-> Kieran
-> 
-> 
-> 
->> Regards,
->> Helen
->>
->>>
->>> Hope t was helpful,
->>> Dafna
->>>  
->>>>
->>>> If yes, which entity should support it, if not debayer? Should there be
->>>> a separate conversion entity, or should we keep the support in debayer
->>>> itself for efficiency issues?
->>>>
->>>>>
->>>>>
->>>>> On 28.05.20 20:57, Kaaira Gupta wrote:
->>>>>> Running qcam for pixelformat 0x34324142 showed that vimc debayer does
->>>>>> not support it. Hence, add the support for Alpha (255).
->>>>>
->>>>> I would change the commit log to:
->>>>>
->>>>> Add support for V4L2_PIX_FMT_RGB24 format in the debayer
->>>>> and set the alpha channel to constant 255.
->>>>>
->>>>> Thanks,
->>>>> Dafna
->>>>>
->>>>>>
->>>>>> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
->>>>>> ---
->>>>>>    .../media/test-drivers/vimc/vimc-debayer.c    | 27 ++++++++++++-------
->>>>>>    1 file changed, 18 insertions(+), 9 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
->>>>>> index c3f6fef34f68..f34148717a40 100644
->>>>>> --- a/drivers/media/test-drivers/vimc/vimc-debayer.c
->>>>>> +++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
->>>>>> @@ -62,6 +62,7 @@ static const u32 vimc_deb_src_mbus_codes[] = {
->>>>>>        MEDIA_BUS_FMT_RGB888_1X7X4_SPWG,
->>>>>>        MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA,
->>>>>>        MEDIA_BUS_FMT_RGB888_1X32_PADHI,
->>>>>> +    MEDIA_BUS_FMT_ARGB8888_1X32
->>>>>>    };
->>>>>>    static const struct vimc_deb_pix_map vimc_deb_pix_map_list[] = {
->>>>>> @@ -322,15 +323,23 @@ static void vimc_deb_process_rgb_frame(struct vimc_deb_device *vdeb,
->>>>>>        unsigned int i, index;
->>>>>>        vpix = vimc_pix_map_by_code(vdeb->src_code);
->>>>>> -    index = VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
->>>>>> -    for (i = 0; i < 3; i++) {
->>>>>> -        switch (vpix->pixelformat) {
->>>>>> -        case V4L2_PIX_FMT_RGB24:
->>>>>> -            vdeb->src_frame[index + i] = rgb[i];
->>>>>> -            break;
->>>>>> -        case V4L2_PIX_FMT_BGR24:
->>>>>> -            vdeb->src_frame[index + i] = rgb[2 - i];
->>>>>> -            break;
->>>>>> +
->>>>>> +    if (vpix->pixelformat == V4L2_PIX_FMT_ARGB32) {
->>>>>> +        index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 4);
->>>>>> +        vdeb->src_frame[index] = 255;
->>>>>> +        for (i = 0; i < 3; i++)
->>>>>> +            vdeb->src_frame[index + i + 1] = rgb[i];
->>>>>> +    } else {
->>>>>> +        index =  VIMC_FRAME_INDEX(lin, col, vdeb->sink_fmt.width, 3);
->>>>>> +        for (i = 0; i < 3; i++) {
->>>>>> +            switch (vpix->pixelformat) {
->>>>>> +            case V4L2_PIX_FMT_RGB24:
->>>>>> +                vdeb->src_frame[index + i] = rgb[i];
->>>>>> +                break;
->>>>>> +            case V4L2_PIX_FMT_BGR24:
->>>>>> +                vdeb->src_frame[index + i] = rgb[2 - i];
->>>>>> +                break;
->>>>>> +            }
->>>>>>            }
->>>>>>        }
->>>>>>    }
->>>>>>
-> 
+DQoNCk9uIDYvMi8yMCAxMTozMSBBTSwgVmFsZW50aW4gU2NobmVpZGVyIHdyb3RlOg0KPiBIaSBC
+ZW5qYW1pbiwNCj4NCj4gT24gMjcvMDUvMjAgMTY6MTYsIEJlbmphbWluIEdhaWduYXJkIHdyb3Rl
+Og0KPj4gQmVmb3JlIHN0YXJ0IHN0cmVhbWluZyBzZXQgY3B1ZnJlcSBtaW5pbXVtIGZyZXF1ZW5j
+eSByZXF1aXJlbWVudC4NCj4+IFRoZSBjcHVmcmVxIGdvdmVybm9yIHdpbGwgYWRhcHQgdGhlIGZy
+ZXF1ZW5jaWVzIGFuZCB3ZSB3aWxsIGhhdmUNCj4+IG5vIGxhdGVuY3kgZm9yIGhhbmRsaW5nIGlu
+dGVycnVwdHMuDQo+Pg0KPiBGZXcgY29tbWVudHMgYmVsb3cgZnJvbSBzb21lb25lIG9ibGl2aW91
+cyB0byB5b3VyIHBsYXRmb3JtLCB0aGV5IG1heSBub3QNCj4gYmUgYWxsIHRoYXQgcmVsZXZhbnQg
+YnV0IEkgZmlndXJlZCBJJ2QgcGl0Y2ggaW4gYW55d2F5Lg0KPg0KPj4gU2lnbmVkLW9mZi1ieTog
+QmVuamFtaW4gR2FpZ25hcmQgPGJlbmphbWluLmdhaWduYXJkQHN0LmNvbT4NCj4+IC0tLQ0KPj4g
+ICBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0bTMyL3N0bTMyLWRjbWkuYyB8IDI5ICsrKysrKysr
+KysrKysrKysrKysrKysrKysrKystDQo+PiAgIDEgZmlsZSBjaGFuZ2VkLCAyOCBpbnNlcnRpb25z
+KCspLCAxIGRlbGV0aW9uKC0pDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxh
+dGZvcm0vc3RtMzIvc3RtMzItZGNtaS5jIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9zdG0zMi9z
+dG0zMi1kY21pLmMNCj4+IGluZGV4IGI4OTMxNDkwYjgzYi4uOTdjMzQyMzUxNTY5IDEwMDY0NA0K
+Pj4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9zdG0zMi9zdG0zMi1kY21pLmMNCj4+ICsr
+KyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RtMzIvc3RtMzItZGNtaS5jDQo+PiBAQCAtMTMs
+NiArMTMsNyBAQA0KPj4NCj4+ICAgI2luY2x1ZGUgPGxpbnV4L2Nsay5oPg0KPj4gICAjaW5jbHVk
+ZSA8bGludXgvY29tcGxldGlvbi5oPg0KPj4gKyNpbmNsdWRlIDxsaW51eC9jcHVmcmVxLmg+DQo+
+PiAgICNpbmNsdWRlIDxsaW51eC9kZWxheS5oPg0KPj4gICAjaW5jbHVkZSA8bGludXgvZG1hZW5n
+aW5lLmg+DQo+PiAgICNpbmNsdWRlIDxsaW51eC9pbml0Lmg+DQo+PiBAQCAtOTksNiArMTAwLDgg
+QEAgZW51bSBzdGF0ZSB7DQo+Pg0KPj4gICAjZGVmaW5lIE9WRVJSVU5fRVJST1JfVEhSRVNIT0xE
+CTMNCj4+DQo+PiArI2RlZmluZSBEQ01JX01JTl9GUkVRCTY1MDAwMCAvKiBpbiBLSHogKi8NCj4+
+ICsNCj4gVGhpcyBhc3N1bWVzIHRoZSBoYW5kbGluZyBwYXJ0IGlzIGd1YXJhbnRlZWQgdG8gYWx3
+YXlzIHJ1biBvbiB0aGUgc2FtZSBDUFUNCj4gd2l0aCB0aGUgc2FtZSBwZXJmb3JtYW5jZSBwcm9m
+aWxlIChyZWdhcmRsZXNzIG9mIHRoZSBwbGF0Zm9ybSkuIElmIHRoYXQncw0KPiBub3QgZ3VhcmFu
+dGVlZCwgaXQgZmVlbHMgbGlrZSB5b3UnZCB3YW50IHRoaXMgdG8gYmUgY29uZmlndXJhYmxlIGlu
+IHNvbWUNCj4gd2F5Lg0KWWVzIEkgY291bGQgYWRkIGEgc3Qsc3RtMzItZGNtaS1taW4tZnJlcXVl
+bmN5IChpbiBLSHopIHBhcmFtZXRlciB0aGUgDQpkZXZpY2UgdHJlZSBub2RlLg0KDQo+DQo+PiAg
+IHN0cnVjdCBkY21pX2dyYXBoX2VudGl0eSB7DQo+PiAgICAgICAgc3RydWN0IHY0bDJfYXN5bmNf
+c3ViZGV2IGFzZDsNCj4+DQo+IFsuLi5dDQo+PiBAQCAtMjAyMCw2ICsyMDQyLDggQEAgc3RhdGlj
+IGludCBkY21pX3Byb2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+PiAgICAgICAg
+ICAgICAgICBnb3RvIGVycl9jbGVhbnVwOw0KPj4gICAgICAgIH0NCj4+DQo+PiArCWRjbWktPnBv
+bGljeSA9IGNwdWZyZXFfY3B1X2dldCgwKTsNCj4+ICsNCj4gSWRlYWxseSB5b3UnZCB3YW50IHRv
+IGZldGNoIHRoZSBwb2xpY3kgb2YgdGhlIENQVSB5b3VyIElSUSAoYW5kIGhhbmRsaW5nDQo+IHRo
+cmVhZCkgaXMgYWZmaW5lZCB0bzsgVGhlIG9ubHkgY29tcGF0aWJsZSBEVFMgSSBmb3VuZCBkZXNj
+cmliZXMgYSBzaW5nbGUNCj4gQTcsIHdoaWNoIGlzIHNvbWV3aGF0IGxpbWl0ZWQgaW4gdGhlIGFm
+ZmluaXR5IGFyZWEuLi4NCklmIEkgbW92ZSB0aGlzIGNvZGUganVzdCBiZWZvcmUgc3RhcnQgc3Ry
+ZWFtaW5nIGFuZCB1c2UgZ2V0X2NwdSgpLCB3b3VsZCANCml0IHdvcmtzID8NCg0KQmVuamFtaW4N
+Cj4NCj4+ICAgICAgICBkZXZfaW5mbygmcGRldi0+ZGV2LCAiUHJvYmUgZG9uZVxuIik7DQo+Pg0K
+Pj4gICAgICAgIHBsYXRmb3JtX3NldF9kcnZkYXRhKHBkZXYsIGRjbWkpOw0KPj4gQEAgLTIwNDks
+NiArMjA3Myw5IEBAIHN0YXRpYyBpbnQgZGNtaV9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2Rldmlj
+ZSAqcGRldikNCj4+DQo+PiAgICAgICAgcG1fcnVudGltZV9kaXNhYmxlKCZwZGV2LT5kZXYpOw0K
+Pj4NCj4+ICsJaWYgKGRjbWktPnBvbGljeSkNCj4+ICsJCWNwdWZyZXFfY3B1X3B1dChkY21pLT5w
+b2xpY3kpOw0KPj4gKw0KPj4gICAgICAgIHY0bDJfYXN5bmNfbm90aWZpZXJfdW5yZWdpc3Rlcigm
+ZGNtaS0+bm90aWZpZXIpOw0KPj4gICAgICAgIHY0bDJfYXN5bmNfbm90aWZpZXJfY2xlYW51cCgm
+ZGNtaS0+bm90aWZpZXIpOw0KPj4gICAgICAgIG1lZGlhX2VudGl0eV9jbGVhbnVwKCZkY21pLT52
+ZGV2LT5lbnRpdHkpOw0K
