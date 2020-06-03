@@ -2,109 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FA311ECC92
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2020 11:27:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E0FF1ECCC2
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2020 11:41:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726315AbgFCJ05 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jun 2020 05:26:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37468 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725943AbgFCJ05 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jun 2020 05:26:57 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB5F2C05BD43;
-        Wed,  3 Jun 2020 02:26:56 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id x22so1240095pfn.3;
-        Wed, 03 Jun 2020 02:26:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iFs/P0L8u0SRxxxhK/lyOIunYVt5h41AqSCalRyPGJI=;
-        b=COLRVPPa0xwQp41D2aytWhQaPlAnV8FWmDhJ0wTN5wYTYTVrgiitczPOaPHF8ybO9Z
-         4saX1DcAQckaL56o2a8dhcRem1Wr4MtGj4xWMwt+JxgI7aQnidew9jU0JYlPgGmThnYZ
-         hF4E1HoYYGJaVle2Iv/bxa0m/9I4JTqXlsRTTIULjLNkJu5EHV/asm9NrogEpxPOvBT8
-         qw3FFWWozK3qh5DZO6aScSQEpDaKG2f0JAWLAvbhA0BBf+i2BNClyA9MJt+LLVHwvd0G
-         Pm+xNYcrK8czzb+b/q49zfD64wOlhHIDD3TfPN1rV9As9ZC39LPb+VjK+TOtZ1w32jVZ
-         rrwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iFs/P0L8u0SRxxxhK/lyOIunYVt5h41AqSCalRyPGJI=;
-        b=cCgVkY8G+hn3A0QdtXbsMgZ9kQEWBaXwEEAk2YGS2T7yz1KDHeVkZsv7V4c9FwTbf+
-         7oNPqvYSb7zjsfwfFKbCuealj+akrkRk/DERZTDA0gRz0L6omnXsDWb2ajmEc/cLecFS
-         fLrsEztW2zya5OYvTR8kTOGKG6oiIgniOmW6cDiCA0XAxLCKpLkiK7J7h8bagbuPALOg
-         BXKDnKYRO3XwK7tcxGWYFMK0+7867b22R34k3Gkda8bW6dHI7Il/YMWwa/zMHYKIMz1k
-         6HiVYHXAS4UwF+tYzTvp8O0+M6z7UBwvEWhcFzoXHuFoLgOcsKPzyh3ia6thGMn3kXhm
-         MXQg==
-X-Gm-Message-State: AOAM531QO1x2mTLD2f6odIaWW5DHxUVh8/tWQEusK2eZ1sSlZuTpUptg
-        B5hD8dIxUQ2tzB0/vm6rGds=
-X-Google-Smtp-Source: ABdhPJyowqKTl3scWSLvJtESVWovnaENZ07yN8WVzVyDZ1+IheJhc+KCbYryvhHsYYlZ7HY7KSEafQ==
-X-Received: by 2002:a17:90b:2350:: with SMTP id ms16mr4621240pjb.163.1591176416494;
-        Wed, 03 Jun 2020 02:26:56 -0700 (PDT)
-Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
-        by smtp.gmail.com with ESMTPSA id 4sm1420546pfn.205.2020.06.03.02.26.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2020 02:26:56 -0700 (PDT)
-From:   Chuhong Yuan <hslester96@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH] media: budget-core: Add missed undo functions in budget_register()
-Date:   Wed,  3 Jun 2020 17:26:48 +0800
-Message-Id: <20200603092648.1424548-1-hslester96@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        id S1726569AbgFCJlx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jun 2020 05:41:53 -0400
+Received: from foss.arm.com ([217.140.110.172]:59190 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725854AbgFCJlx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 3 Jun 2020 05:41:53 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9DFD431B;
+        Wed,  3 Jun 2020 02:41:52 -0700 (PDT)
+Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0A3F93F305;
+        Wed,  3 Jun 2020 02:41:50 -0700 (PDT)
+References: <20200527151613.16083-1-benjamin.gaignard@st.com> <jhjpnahizkm.mognet@arm.com> <f95ce45f-7a1c-0feb-afa8-203ddb500f2f@st.com> <jhjo8q1io9o.mognet@arm.com> <1b0ace18-e7f8-0b75-f6fe-968a269626b0@st.com> <CAKfTPtCbM-w_0VrTB5tsSM5PKRtC44f3sSmAR=U=P3e3KQ+cMw@mail.gmail.com>
+User-agent: mu4e 0.9.17; emacs 26.3
+From:   Valentin Schneider <valentin.schneider@arm.com>
+To:     Vincent Guittot <vincent.guittot@linaro.org>
+Cc:     Benjamin GAIGNARD <benjamin.gaignard@st.com>,
+        Hugues FRUCHET <hugues.fruchet@st.com>,
+        "mchehab\@kernel.org" <mchehab@kernel.org>,
+        "mcoquelin.stm32\@gmail.com" <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
+        "linux-media\@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-stm32\@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel\@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "rjw\@rjwysocki.net" <rjw@rjwysocki.net>
+Subject: Re: [PATCH] media: stm32-dcmi: Set minimum cpufreq requirement
+In-reply-to: <CAKfTPtCbM-w_0VrTB5tsSM5PKRtC44f3sSmAR=U=P3e3KQ+cMw@mail.gmail.com>
+Date:   Wed, 03 Jun 2020 10:41:41 +0100
+Message-ID: <jhjmu5kiizu.mognet@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-budget_register() has no error handling after its failure.
-Add the missed undo functions for error handling to fix it.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
----
- drivers/media/pci/ttpci/budget-core.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+On 03/06/20 08:50, Vincent Guittot wrote:
+> On Wed, 3 Jun 2020 at 09:34, Benjamin GAIGNARD <benjamin.gaignard@st.com> wrote:
+>> On 6/2/20 3:35 PM, Valentin Schneider wrote:
+>> > AFAIA streaming_start() is not necessarily executing on the same CPU as the
+>> > one that will handle the interrupt. I was thinking you could use the IRQ's
+>> > effective affinity as a hint of which CPU(s) to boost, i.e. something like:
+>> >
+>> > ---
+>> >      struct cpumask_var_t visited;
+>> >      struct irq_data *d = irq_get_irq_data(irq);
+>> >
+>> >      err = alloc_cpumask_var(visited, GFP_KERNEL);
+>> >      /* ... */
+>> >      for_each_cpu(cpu, irq_data_get_effective_affinity_mask(d)) {
+>> >              /* check if not already spanned */
+>> >              if (cpumask_test_cpu(cpu, visited))
+>> >                      continue;
+>> >
+>> >              policy = cpufreq_cpu_get(cpu);
+>> >              cpumask_or(visited, visited, policy->cpus);
+>> >              /* do the boost for that policy here */
+>> >              /* ... */
+>> >              cpufreq_cpu_put(policy);
+>> >      }
+>> > ---
+>> >
+>> > That of course falls apart when hotplug gets involved, and the effective
+>> > affinity changes... There's irq_set_affinity_notifier() out there, but it
+>> > seems it's only about the affinity, not the effective_affinity, I'm not
+>> > sure how valid it would be to query the effective_affinity in that
+>> > notifier.
 
-diff --git a/drivers/media/pci/ttpci/budget-core.c b/drivers/media/pci/ttpci/budget-core.c
-index fadbdeeb4495..53aa34a3160b 100644
---- a/drivers/media/pci/ttpci/budget-core.c
-+++ b/drivers/media/pci/ttpci/budget-core.c
-@@ -369,20 +369,25 @@ static int budget_register(struct budget *budget)
- 	ret = dvbdemux->dmx.add_frontend(&dvbdemux->dmx, &budget->hw_frontend);
- 
- 	if (ret < 0)
--		return ret;
-+		goto err;
- 
- 	budget->mem_frontend.source = DMX_MEMORY_FE;
- 	ret = dvbdemux->dmx.add_frontend(&dvbdemux->dmx, &budget->mem_frontend);
- 	if (ret < 0)
--		return ret;
-+		goto err;
- 
- 	ret = dvbdemux->dmx.connect_frontend(&dvbdemux->dmx, &budget->hw_frontend);
- 	if (ret < 0)
--		return ret;
-+		goto err;
- 
- 	dvb_net_init(&budget->dvb_adapter, &budget->dvb_net, &dvbdemux->dmx);
- 
- 	return 0;
-+
-+err:
-+	dvb_dmxdev_release(&budget->dmxdev);
-+	dvb_dmx_release(&budget->demux);
-+	return ret;
- }
- 
- static void budget_unregister(struct budget *budget)
--- 
-2.26.2
+>> If I wait to be in the irq it will be too late so I think I will do a
+>> loop over all possible CPUs
+>> before start the streaming to change the policies.
+>
 
+Yes, that's what I was thinking as well.
+
+> Can't you use irq_get_affinity_mask  and loop over it ?
+>
+
+In the end that's the only usable option, I think.
+
+I was looking at alternatives because on arm64 (and AFAICT that applies
+to arm too; see irq-gic.c::gic_set_affinity()) the affinity mask spans
+all CPUs by default, while the effective affinity mask spans only the
+CPU that will actually handle the IRQ (+ where its thread should run).
+
+That said, using the effective mask that way does feel like an
+implementation leak. Sadly I couldn't find any better way to minimize
+the number of boosted frequency domains.
+
+> Also You should better use freq_qos_add/remove_request during probe
+> and remove of the driver and use freq_qos_update_request in
+> dcmi_start/stop_streaming to set/unset your constraint.
+>
