@@ -2,67 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7AFDC1ECEF0
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2020 13:48:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4A591ECF1F
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2020 13:56:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726219AbgFCLsm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jun 2020 07:48:42 -0400
-Received: from mga03.intel.com ([134.134.136.65]:46727 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725854AbgFCLsm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 3 Jun 2020 07:48:42 -0400
-IronPort-SDR: Um5sXVn3rqmRnqzoXxxbFWtFsWaBxyozStog0NnVF73pJMJuTQHFU6y219Mbi4A+xeoQpyUjRY
- 0l5gJuEE5ScQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2020 04:48:41 -0700
-IronPort-SDR: G53dfnvycYuAA60K16f4d1tOhax14fDJGEd42Qcg6LMFPqNVIbJH7JYEVDQBfs0WtOoPhGsnq4
- ZaZd1fMSlJjA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,467,1583222400"; 
-   d="scan'208";a="471047916"
-Received: from gklab-125-110.igk.intel.com ([10.91.125.110])
-  by fmsmga006.fm.intel.com with ESMTP; 03 Jun 2020 04:48:39 -0700
-From:   Piotr Stankiewicz <piotr.stankiewicz@intel.com>
-To:     Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org
-Cc:     Piotr Stankiewicz <piotr.stankiewicz@intel.com>,
+        id S1726041AbgFCL4Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jun 2020 07:56:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60766 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725855AbgFCL4P (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jun 2020 07:56:15 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D105DC08C5C0;
+        Wed,  3 Jun 2020 04:56:15 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id d10so1616557pgn.4;
+        Wed, 03 Jun 2020 04:56:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=noFQP+2LnGK3IhtCkedH6bBR+YgMi5pCjHRKaBjzpFk=;
+        b=l+EfDIR/9Qpt16sdjwSnvpFdSdgH2a3eQ2S2ZNjbsZ7+m6E8SB5kg4Sg53ItZoGemx
+         +L8o0V2Pi9GA9bANc5pAza3oR3tO9SuhNcicVexstvug7UAeiqdjbklUkzMnyJgv/Iev
+         aTLwS7fdVBnvuRkUW9wPu9yKz/En+6EH/ypqggEbQ5o6y1d5d+hHCgKQg/ReYxlp+ePF
+         rRykg4I0z/F2YBLO/cvxiR9VA1RI+ijlrZLtx/2UI+5a5v/S0FYgUcC712uWlO3jCHys
+         W+ftR9NumjQ/yDuSAAUWxzyELvR3Zt4HFBu55d5olC97ni4G9L8B0QW85DCwQ6IW3hLc
+         Abzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=noFQP+2LnGK3IhtCkedH6bBR+YgMi5pCjHRKaBjzpFk=;
+        b=CPATnw6BoKI1HWqPwY3wRIvrkcZyTgfk5JZU0G9jYOp94F/1ZoPZWKC1mA3oYa4dDz
+         fS++49zp4JcV/DxP6JtxlIgeaJqxqZhyZALRJQFHd6cAbbXWOZ9ps42N0s3TAOAf9IrQ
+         ZBIRLFqkw67LxoaG04yz9FEMojpIJsSDjzxaT0H9lv/QnggD41n7HB3HSe2+hP+FsTcx
+         KOBEKhtg5JCB1NGrbNlSNJHWriWxaCtMDyJREU1v/ZcQ+cPK+3jf99NvQmw2ylxONTwf
+         Ga3X814H9MVyOju4lA7Fb5SmHKuyBuOingrRu9icL+ioSlRDxJV6U0MGkYWjjdXldmVi
+         Qd8g==
+X-Gm-Message-State: AOAM533azMVxP5g9J2bpAFiY78UFZBpxqxFLklZP77BUDNjjDpOfUX7O
+        6duVpIR1tp81ZhD/tkQkSSwJDIAjfvE=
+X-Google-Smtp-Source: ABdhPJx3M9BEZNL4YskwZ54W06JbNrBgXGdVv0tDTxEYATiwyrAqLmZ6KK+qOGVdaCMDdK8Ukuw7eQ==
+X-Received: by 2002:a65:5206:: with SMTP id o6mr27238376pgp.16.1591185375393;
+        Wed, 03 Jun 2020 04:56:15 -0700 (PDT)
+Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
+        by smtp.gmail.com with ESMTPSA id w12sm2675542pjb.11.2020.06.03.04.56.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Jun 2020 04:56:14 -0700 (PDT)
+From:   Chuhong Yuan <hslester96@gmail.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 09/15] media: ddbridge: Use PCI_IRQ_MSI_TYPES where appropriate
-Date:   Wed,  3 Jun 2020 13:48:36 +0200
-Message-Id: <20200603114837.13460-1-piotr.stankiewicz@intel.com>
-X-Mailer: git-send-email 2.17.2
-In-Reply-To: <20200603114212.12525-1-piotr.stankiewicz@intel.com>
-References: <20200603114212.12525-1-piotr.stankiewicz@intel.com>
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chuhong Yuan <hslester96@gmail.com>
+Subject: [PATCH] media: marvell-ccic: Add missed v4l2_async_notifier_cleanup()
+Date:   Wed,  3 Jun 2020 19:56:05 +0800
+Message-Id: <20200603115605.1428636-1-hslester96@gmail.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Seeing as there is shorthand available to use when asking for any type
-of interrupt, or any type of message signalled interrupt, leverage it.
+mccic_register() forgets to cleanup the notifier in its error handler.
+Add the missed call to fix it.
 
-Signed-off-by: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+Fixes: 3eefe36cc00c ("media: marvell-ccic: use async notifier to get the sensor")
+Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
 ---
- drivers/media/pci/ddbridge/ddbridge-main.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/marvell-ccic/mcam-core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/pci/ddbridge/ddbridge-main.c b/drivers/media/pci/ddbridge/ddbridge-main.c
-index 03dc9924fa2c..ff5c33d7a736 100644
---- a/drivers/media/pci/ddbridge/ddbridge-main.c
-+++ b/drivers/media/pci/ddbridge/ddbridge-main.c
-@@ -106,7 +106,7 @@ static void ddb_irq_msi(struct ddb *dev, int nr)
- 
- 	if (msi && pci_msi_enabled()) {
- 		stat = pci_alloc_irq_vectors(dev->pdev, 1, nr,
--					     PCI_IRQ_MSI | PCI_IRQ_MSIX);
-+					     PCI_IRQ_MSI_TYPES);
- 		if (stat >= 1) {
- 			dev->msi = stat;
- 			dev_info(dev->dev, "using %d MSI interrupt(s)\n",
+diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/media/platform/marvell-ccic/mcam-core.c
+index 09775b6624c6..cf2a0119e679 100644
+--- a/drivers/media/platform/marvell-ccic/mcam-core.c
++++ b/drivers/media/platform/marvell-ccic/mcam-core.c
+@@ -1940,6 +1940,7 @@ int mccic_register(struct mcam_camera *cam)
+ out:
+ 	v4l2_async_notifier_unregister(&cam->notifier);
+ 	v4l2_device_unregister(&cam->v4l2_dev);
++	v4l2_async_notifier_cleanup(&cam->notifier);
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(mccic_register);
 -- 
-2.17.2
+2.26.2
 
