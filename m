@@ -2,103 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E0FF1ECCC2
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2020 11:41:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7AFDC1ECEF0
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2020 13:48:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726569AbgFCJlx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jun 2020 05:41:53 -0400
-Received: from foss.arm.com ([217.140.110.172]:59190 "EHLO foss.arm.com"
+        id S1726219AbgFCLsm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jun 2020 07:48:42 -0400
+Received: from mga03.intel.com ([134.134.136.65]:46727 "EHLO mga03.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725854AbgFCJlx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 3 Jun 2020 05:41:53 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9DFD431B;
-        Wed,  3 Jun 2020 02:41:52 -0700 (PDT)
-Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 0A3F93F305;
-        Wed,  3 Jun 2020 02:41:50 -0700 (PDT)
-References: <20200527151613.16083-1-benjamin.gaignard@st.com> <jhjpnahizkm.mognet@arm.com> <f95ce45f-7a1c-0feb-afa8-203ddb500f2f@st.com> <jhjo8q1io9o.mognet@arm.com> <1b0ace18-e7f8-0b75-f6fe-968a269626b0@st.com> <CAKfTPtCbM-w_0VrTB5tsSM5PKRtC44f3sSmAR=U=P3e3KQ+cMw@mail.gmail.com>
-User-agent: mu4e 0.9.17; emacs 26.3
-From:   Valentin Schneider <valentin.schneider@arm.com>
-To:     Vincent Guittot <vincent.guittot@linaro.org>
-Cc:     Benjamin GAIGNARD <benjamin.gaignard@st.com>,
-        Hugues FRUCHET <hugues.fruchet@st.com>,
-        "mchehab\@kernel.org" <mchehab@kernel.org>,
-        "mcoquelin.stm32\@gmail.com" <mcoquelin.stm32@gmail.com>,
-        Alexandre TORGUE <alexandre.torgue@st.com>,
-        "linux-media\@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-stm32\@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel\@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel\@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "rjw\@rjwysocki.net" <rjw@rjwysocki.net>
-Subject: Re: [PATCH] media: stm32-dcmi: Set minimum cpufreq requirement
-In-reply-to: <CAKfTPtCbM-w_0VrTB5tsSM5PKRtC44f3sSmAR=U=P3e3KQ+cMw@mail.gmail.com>
-Date:   Wed, 03 Jun 2020 10:41:41 +0100
-Message-ID: <jhjmu5kiizu.mognet@arm.com>
-MIME-Version: 1.0
-Content-Type: text/plain
+        id S1725854AbgFCLsm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 3 Jun 2020 07:48:42 -0400
+IronPort-SDR: Um5sXVn3rqmRnqzoXxxbFWtFsWaBxyozStog0NnVF73pJMJuTQHFU6y219Mbi4A+xeoQpyUjRY
+ 0l5gJuEE5ScQ==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Jun 2020 04:48:41 -0700
+IronPort-SDR: G53dfnvycYuAA60K16f4d1tOhax14fDJGEd42Qcg6LMFPqNVIbJH7JYEVDQBfs0WtOoPhGsnq4
+ ZaZd1fMSlJjA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,467,1583222400"; 
+   d="scan'208";a="471047916"
+Received: from gklab-125-110.igk.intel.com ([10.91.125.110])
+  by fmsmga006.fm.intel.com with ESMTP; 03 Jun 2020 04:48:39 -0700
+From:   Piotr Stankiewicz <piotr.stankiewicz@intel.com>
+To:     Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org
+Cc:     Piotr Stankiewicz <piotr.stankiewicz@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 09/15] media: ddbridge: Use PCI_IRQ_MSI_TYPES where appropriate
+Date:   Wed,  3 Jun 2020 13:48:36 +0200
+Message-Id: <20200603114837.13460-1-piotr.stankiewicz@intel.com>
+X-Mailer: git-send-email 2.17.2
+In-Reply-To: <20200603114212.12525-1-piotr.stankiewicz@intel.com>
+References: <20200603114212.12525-1-piotr.stankiewicz@intel.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Seeing as there is shorthand available to use when asking for any type
+of interrupt, or any type of message signalled interrupt, leverage it.
 
-On 03/06/20 08:50, Vincent Guittot wrote:
-> On Wed, 3 Jun 2020 at 09:34, Benjamin GAIGNARD <benjamin.gaignard@st.com> wrote:
->> On 6/2/20 3:35 PM, Valentin Schneider wrote:
->> > AFAIA streaming_start() is not necessarily executing on the same CPU as the
->> > one that will handle the interrupt. I was thinking you could use the IRQ's
->> > effective affinity as a hint of which CPU(s) to boost, i.e. something like:
->> >
->> > ---
->> >      struct cpumask_var_t visited;
->> >      struct irq_data *d = irq_get_irq_data(irq);
->> >
->> >      err = alloc_cpumask_var(visited, GFP_KERNEL);
->> >      /* ... */
->> >      for_each_cpu(cpu, irq_data_get_effective_affinity_mask(d)) {
->> >              /* check if not already spanned */
->> >              if (cpumask_test_cpu(cpu, visited))
->> >                      continue;
->> >
->> >              policy = cpufreq_cpu_get(cpu);
->> >              cpumask_or(visited, visited, policy->cpus);
->> >              /* do the boost for that policy here */
->> >              /* ... */
->> >              cpufreq_cpu_put(policy);
->> >      }
->> > ---
->> >
->> > That of course falls apart when hotplug gets involved, and the effective
->> > affinity changes... There's irq_set_affinity_notifier() out there, but it
->> > seems it's only about the affinity, not the effective_affinity, I'm not
->> > sure how valid it would be to query the effective_affinity in that
->> > notifier.
+Signed-off-by: Piotr Stankiewicz <piotr.stankiewicz@intel.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+---
+ drivers/media/pci/ddbridge/ddbridge-main.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->> If I wait to be in the irq it will be too late so I think I will do a
->> loop over all possible CPUs
->> before start the streaming to change the policies.
->
+diff --git a/drivers/media/pci/ddbridge/ddbridge-main.c b/drivers/media/pci/ddbridge/ddbridge-main.c
+index 03dc9924fa2c..ff5c33d7a736 100644
+--- a/drivers/media/pci/ddbridge/ddbridge-main.c
++++ b/drivers/media/pci/ddbridge/ddbridge-main.c
+@@ -106,7 +106,7 @@ static void ddb_irq_msi(struct ddb *dev, int nr)
+ 
+ 	if (msi && pci_msi_enabled()) {
+ 		stat = pci_alloc_irq_vectors(dev->pdev, 1, nr,
+-					     PCI_IRQ_MSI | PCI_IRQ_MSIX);
++					     PCI_IRQ_MSI_TYPES);
+ 		if (stat >= 1) {
+ 			dev->msi = stat;
+ 			dev_info(dev->dev, "using %d MSI interrupt(s)\n",
+-- 
+2.17.2
 
-Yes, that's what I was thinking as well.
-
-> Can't you use irq_get_affinity_mask  and loop over it ?
->
-
-In the end that's the only usable option, I think.
-
-I was looking at alternatives because on arm64 (and AFAICT that applies
-to arm too; see irq-gic.c::gic_set_affinity()) the affinity mask spans
-all CPUs by default, while the effective affinity mask spans only the
-CPU that will actually handle the IRQ (+ where its thread should run).
-
-That said, using the effective mask that way does feel like an
-implementation leak. Sadly I couldn't find any better way to minimize
-the number of boosted frequency domains.
-
-> Also You should better use freq_qos_add/remove_request during probe
-> and remove of the driver and use freq_qos_update_request in
-> dcmi_start/stop_streaming to set/unset your constraint.
->
