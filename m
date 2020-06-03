@@ -2,60 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87CA21ED476
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2020 18:41:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 431BD1ED479
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2020 18:41:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726099AbgFCQk7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 3 Jun 2020 12:40:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48658 "EHLO
+        id S1726141AbgFCQle (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 3 Jun 2020 12:41:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48744 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725904AbgFCQk7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jun 2020 12:40:59 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0623DC08C5C0;
-        Wed,  3 Jun 2020 09:40:58 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id a127so1940528pfa.12;
-        Wed, 03 Jun 2020 09:40:58 -0700 (PDT)
+        with ESMTP id S1725904AbgFCQld (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 3 Jun 2020 12:41:33 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0870C08C5C0;
+        Wed,  3 Jun 2020 09:41:33 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id w20so2113242pga.6;
+        Wed, 03 Jun 2020 09:41:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zSsRjQVeqzJlkafl/aYe8wKiajVfX5PGUdsv//gCtIc=;
-        b=bX+6Mu192lu/2h8881PNWPLVXQ3zIwZ6R9xI32RBvGsT6XZ9z0MTWynTG9bb4G/e15
-         S7vfIBLpXOnyc5xNijc5OCFEQH5AGXD3vNXubqDR4H8KL06gLp+QTH3WQs6IK9cYatTQ
-         kyjd8ZwsInHMPYJ6/dqasLi/MSYJQrbpRcranAO3LWYr0iUk057YYB/O6pYuGN+0ewSi
-         a9HBpGDmfqzdUvt6N2DBmpMs+Nw6Zh8mS/D8qVE6bR3OFgCLiHtJX6CrCeHrYzdE0Tqm
-         /pHN9h9XH23momKxov4QZi9WYMneXeUEMuVSnyHvg9laiEa4hQfQw+5P2ZD4ndDUE6Fc
-         3B6g==
+        bh=5qeeq/WvCOy3veY0hIZ3+eUbvUg0kAdam89g1JjiNiE=;
+        b=k85aiqJiYPd7Cx+MNgqMbxThzBdvBTiMjoFk9GXkKdgeqbaV5uPFbConATEMhGw44l
+         mJ/8zWabTNDORpj1RcH0ggt2v2s7gYNOpZt1SKIPZMI7gO20m7hXivdJ5x+aFO1seLjC
+         zzhs7I7OD9AF6WZya0X++48hhWwsgN0kr2zKOha6JDNwrFF8+VcX102yilOzxo+jvA2G
+         P4LP1aW4BBV9hh+/b/RnDkFcCSSLHTkaw7g/vyKsBHAd/4+74FEQe5NzPOltvjXjNrwu
+         I3qZsFDhef21hs1OARPg/aWHLKsl9BG7j213oy6NutW6vegcA3hS9M/BHBzxURuowtCl
+         FWmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=zSsRjQVeqzJlkafl/aYe8wKiajVfX5PGUdsv//gCtIc=;
-        b=BSfo0v9gMmocYXIKhpSAahnCG6RhmX/EMFjAMEET4gFSJ+6MxDKDn0btEtg/Z2ZtXD
-         ZtsgHbygcKCylNpu7Cu2yhXGcJWCBWZf1OwVdrsEwan+xZxRKutB2wGNvjnv1bESzqn/
-         p8qoJfj2B+b8K39ZNbgcZ+cXT1Nn961tXvfp0uyZUS4U2viAp0Tdb8tTYDcQqBbKY6AL
-         qJGoYRevtj+vO4lQKrE6vZU53WpfHIaxJeYyTs3Ys67TQY6U/0o3Bbx3r0UhG5vcj9ma
-         yQEl1IBTyZZDECosiwIpolKnNzrHewr6279ki4fyRioTQH8e65GEA4XbV5JIAF9yeMeL
-         4Nfg==
-X-Gm-Message-State: AOAM531S9UhoqPuQJ58MhgxIEcrJHo7gGo10v9/oeL/hwLeZLMnAOMST
-        J8geipCcnKbpMTLe0UeCGKw=
-X-Google-Smtp-Source: ABdhPJyAqM9NRasAmW/5DFt/1B7CD8A1GjXPL0PjhxkT2A5C6GdDP7OINYr0jjP8Ffvwg6T0HGl+sQ==
-X-Received: by 2002:a17:90a:642:: with SMTP id q2mr732481pje.71.1591202458251;
-        Wed, 03 Jun 2020 09:40:58 -0700 (PDT)
+        bh=5qeeq/WvCOy3veY0hIZ3+eUbvUg0kAdam89g1JjiNiE=;
+        b=AO0UsFSfyP+7B6nQv8L5M9yuBxebqkcm0BnTbc2tt9fuOBVtvNbkWeZse5qQ240TI/
+         lMZBds8HLMxaqlgJVm2OrF0EO3oJ3lSbr7C4p/FRUhhG3TcQ4kiWK3AVZ1K64c7hG0AU
+         /cbS0avt+glCXYzbsM4cO4K4fxDlPzum9hjoO+9Hz3q3Q46MG+eR9FjDvTkjyRQk25Kz
+         pD+DVSHKuuYwhabzLRphJLlwH5CmJDx+rXqr7ew3CljlzTQGe8vuzipHW/XwpMeYn1QO
+         Mwl9x0MIADZkv8Hz6gsbC65JbFySjIEfbVPnFr7WlTMvzcXD1kwtF9/ViuRB1eRjJ9mI
+         Abaw==
+X-Gm-Message-State: AOAM53396fvXhWEyaks3yC7tcW8RfXsPedMfW4fWcx2VT13cZkf3uvKV
+        ApNgE5zMpmn3aOe2PpO8/Kq8v8zBq5Y=
+X-Google-Smtp-Source: ABdhPJzfSoqndDAyAHLQK1Ufi2v2JA5ZBVCCbm8ikgGn64Rks3VKRkQdlNQypVNeAcMikeRHZUYkaQ==
+X-Received: by 2002:a63:d547:: with SMTP id v7mr225049pgi.413.1591202493095;
+        Wed, 03 Jun 2020 09:41:33 -0700 (PDT)
 Received: from suzukaze.ipads-lab.se.sjtu.edu.cn ([202.120.40.82])
-        by smtp.gmail.com with ESMTPSA id b14sm2086360pgb.32.2020.06.03.09.40.54
+        by smtp.gmail.com with ESMTPSA id v9sm2364969pfe.198.2020.06.03.09.41.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Jun 2020 09:40:57 -0700 (PDT)
+        Wed, 03 Jun 2020 09:41:32 -0700 (PDT)
 From:   Chuhong Yuan <hslester96@gmail.com>
-Cc:     Jonathan Corbet <corbet@lwn.net>,
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Lubomir Rintel <lkundrak@v3.sk>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Chuhong Yuan <hslester96@gmail.com>
-Subject: [PATCH v2] media: marvell-ccic: Add missed v4l2_async_notifier_cleanup()
-Date:   Thu,  4 Jun 2020 00:40:48 +0800
-Message-Id: <20200603164048.2101106-1-hslester96@gmail.com>
+        Ilkka Myllyperkio <ilkka.myllyperkio@sofica.fi>,
+        "Ivan T . Ivanov" <iivanov@mm-sol.com>,
+        Vimarsh Zutshi <vimarsh.zutshi@gmail.com>,
+        Stanimir Varbanov <svarbanov@mm-sol.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Chuhong Yuan <hslester96@gmail.com>
+Subject: [PATCH v2] media: omap3isp: Add missed v4l2_ctrl_handler_free() for preview_init_entities()
+Date:   Thu,  4 Jun 2020 00:41:22 +0800
+Message-Id: <20200603164122.2101162-1-hslester96@gmail.com>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -65,39 +68,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-mccic_register() forgets to cleanup the notifier in its error handler.
-mccic_shutdown() also misses calling v4l2_async_notifier_cleanup().
-Add the missed calls to fix them.
+preview_init_entities() does not call v4l2_ctrl_handler_free() when
+it fails.
+Add the missed function to fix it.
 
-Fixes: 3eefe36cc00c ("media: marvell-ccic: use async notifier to get the sensor")
+Fixes: de1135d44f4f ("[media] omap3isp: CCDC, preview engine and resizer]")
 Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
 ---
 Changes in v2:
-  - Also add v4l2_async_notifier_cleanup() for mccic_shutdown().
-  - Modify description.
+  - Fix the typo.
 
- drivers/media/platform/marvell-ccic/mcam-core.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/platform/omap3isp/isppreview.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/media/platform/marvell-ccic/mcam-core.c
-index 09775b6624c6..326e79b8531c 100644
---- a/drivers/media/platform/marvell-ccic/mcam-core.c
-+++ b/drivers/media/platform/marvell-ccic/mcam-core.c
-@@ -1940,6 +1940,7 @@ int mccic_register(struct mcam_camera *cam)
- out:
- 	v4l2_async_notifier_unregister(&cam->notifier);
- 	v4l2_device_unregister(&cam->v4l2_dev);
-+	v4l2_async_notifier_cleanup(&cam->notifier);
+diff --git a/drivers/media/platform/omap3isp/isppreview.c b/drivers/media/platform/omap3isp/isppreview.c
+index 4dbdf3180d10..607b7685c982 100644
+--- a/drivers/media/platform/omap3isp/isppreview.c
++++ b/drivers/media/platform/omap3isp/isppreview.c
+@@ -2287,7 +2287,7 @@ static int preview_init_entities(struct isp_prev_device *prev)
+ 	me->ops = &preview_media_ops;
+ 	ret = media_entity_pads_init(me, PREV_PADS_NUM, pads);
+ 	if (ret < 0)
+-		return ret;
++		goto error_handler_free;
+ 
+ 	preview_init_formats(sd, NULL);
+ 
+@@ -2320,6 +2320,8 @@ static int preview_init_entities(struct isp_prev_device *prev)
+ 	omap3isp_video_cleanup(&prev->video_in);
+ error_video_in:
+ 	media_entity_cleanup(&prev->subdev.entity);
++error_handler_free:
++	v4l2_ctrl_handler_free(&prev->ctrls);
  	return ret;
  }
- EXPORT_SYMBOL_GPL(mccic_register);
-@@ -1961,6 +1962,7 @@ void mccic_shutdown(struct mcam_camera *cam)
- 	v4l2_ctrl_handler_free(&cam->ctrl_handler);
- 	v4l2_async_notifier_unregister(&cam->notifier);
- 	v4l2_device_unregister(&cam->v4l2_dev);
-+	v4l2_async_notifier_cleanup(&cam->notifier);
- }
- EXPORT_SYMBOL_GPL(mccic_shutdown);
  
 -- 
 2.26.2
