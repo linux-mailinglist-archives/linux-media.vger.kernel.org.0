@@ -2,286 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B29E61EC686
-	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2020 03:14:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E7151EC7DA
+	for <lists+linux-media@lfdr.de>; Wed,  3 Jun 2020 05:42:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728461AbgFCBOB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 2 Jun 2020 21:14:01 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:39004 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728448AbgFCBN6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 2 Jun 2020 21:13:58 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0CF7529B;
-        Wed,  3 Jun 2020 03:13:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591146834;
-        bh=jEFcv3/fEbD4RqcDaT0zdOELskl9FL4fg65FTzTDU4s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Bh46lcPuOnAGHf+e9HSbh0ab17YVaCxHDyG0b82L0x3i0WbyVVnhVz1ivcviVdfIR
-         OGKcI1zP7xY2Psf8dSHrp+6tnPL2a8xtVDA4vyyeohQL9jCBA2iQx90Ua1SFg1VFP1
-         wgrmY/bFdnj64a/o/Mwxt+LYTw51XRoLGie88Kak=
-Date:   Wed, 3 Jun 2020 04:13:38 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Vishal Sagar <vsagar@xilinx.com>
-Cc:     Hyun Kwon <hyunk@xilinx.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        Michal Simek <michals@xilinx.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Dinesh Kumar <dineshk@xilinx.com>,
-        Sandip Kothari <sandipk@xilinx.com>,
-        Joe Perches <joe@perches.com>
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: media: xilinx: Add Xilinx
- UHD-SDI Receiver Subsystem
-Message-ID: <20200603011338.GX6547@pendragon.ideasonboard.com>
-References: <20200429141705.18755-1-vishal.sagar@xilinx.com>
- <20200429141705.18755-2-vishal.sagar@xilinx.com>
- <20200506130225.GD5946@pendragon.ideasonboard.com>
- <DM6PR02MB6876116CECBA49741FF57E79A78A0@DM6PR02MB6876.namprd02.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <DM6PR02MB6876116CECBA49741FF57E79A78A0@DM6PR02MB6876.namprd02.prod.outlook.com>
+        id S1725882AbgFCDmH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 2 Jun 2020 23:42:07 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:44493 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725876AbgFCDmH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 2 Jun 2020 23:42:07 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id gKHzjmsuSNp2zgKI0jnKAn; Wed, 03 Jun 2020 05:42:04 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1591155724; bh=XonfzJcMlPonGMJNw8+ANbCdpfm03lP9ziJm04YpizQ=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=qyjyHCKdWRpT8kqrgKQp9BdGMiLcH3rGK8abmCqF5f97+rrAIkQ8OwDDFv9Y/FWip
+         NcBUozF0nOwIbDPIRBppCBJoPjovVDjoFzohMklVOwWYFaS009bLAzOm5c4PimYx/S
+         coQmwd9/GUgeLmgjvulYhoojGFO3iG/ubScge+p6c9yKFQoc+uJDnTEvGm83VSGYJu
+         RGKoFxC6gbIjlZ3I1425cFZB3IOY7rAbd0tg0VVf1v/3q+X7ma2To9nW5WTDO3dF56
+         erf9u3vQCIpx8dYA6Le2kiFW6ddXybmFrdQBBAfhrIRDLDXcCxGf6yaMEDknG6YiOe
+         guFvS81rDpfPQ==
+Message-ID: <a54b1a50aedcd97733e473d3dc8915fc@smtp-cloud7.xs4all.net>
+Date:   Wed, 03 Jun 2020 05:42:03 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfFcJXqJ06eQHcbc1OFYEiX06lRv0rmymJphdAJizOyOtMxqdhgyzs+P/uXI3esqlxmFZJFEAul4YxJ2FtNi4yH0fN3DLCV0pILRjj30qDtdKw5JmJDWG
+ SfdV0lSaEynLQTD7+UbsqtJXg3eZzsvfUoj4n6GsRJ7KHvaKIRxCpIBvaZt3QLg99t9Ywj6W+tDxRKuzBvG2L8st8cNCcMv6TIr8NLLMN7DYTeUeezdpPHsm
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Vishal,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Mon, Jun 01, 2020 at 03:14:52PM +0000, Vishal Sagar wrote:
-> On Wednesday, May 6, 2020 6:32 PM, Laurent Pinchart wrote:
-> > On Wed, Apr 29, 2020 at 07:47:03PM +0530, Vishal Sagar wrote:
-> > > Add bindings documentation for Xilinx UHD-SDI Receiver Subsystem.
-> > >
-> > > The Xilinx UHD-SDI Receiver Subsystem consists of SMPTE UHD-SDI (RX) IP
-> > > core, an SDI RX to Video Bridge IP core to convert SDI video to native
-> > > video and a Video In to AXI4-Stream IP core to convert native video to
-> > > AXI4-Stream.
-> > >
-> > > Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
-> > > ---
-> > > v2
-> > > - Removed references to xlnx,video*
-> > > - Fixed as per Sakari Ailus and Rob Herring's comments
-> > > - Converted to yaml format
-> > >
-> > >  .../bindings/media/xilinx/xlnx,sdirxss.yaml   | 132 ++++++++++++++++++
-> > >  1 file changed, 132 insertions(+)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/xilinx/xlnx,sdirxss.yaml
-> > >
-> > > diff --git
-> > a/Documentation/devicetree/bindings/media/xilinx/xlnx,sdirxss.yaml
-> > b/Documentation/devicetree/bindings/media/xilinx/xlnx,sdirxss.yaml
-> > > new file mode 100644
-> > > index 000000000000..9133ad19df55
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/xilinx/xlnx,sdirxss.yaml
-> > > @@ -0,0 +1,132 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/xilinx/xlnx,sdirxss.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +
-> > > +title: Xilinx SMPTE UHD-SDI Receiver Subsystem
-> > > +
-> > > +maintainers:
-> > > +  - Vishal Sagar <vishal.sagar@xilinx.com>
-> > > +
-> > > +description: |
-> > > +  The SMPTE UHD-SDI Receiver (RX) Subsystem allows you to quickly create systems
-> > > +  based on SMPTE SDI protocols. It receives unaligned native SDI streams from
-> > > +  the SDI GT PHY and outputs an AXI4-Stream video stream, native video, or
-> > > +  native SDI using Xilinx transceivers as the physical layer.
-> > > +
-> > > +  The subsystem consists of
-> > > +  1 - SMPTE UHD-SDI Rx
-> > > +  2 - SDI Rx to Native Video Bridge
-> > > +  3 - Video In to AXI4-Stream Bridge
-> > > +
-> > > +  The subsystem can capture SDI streams in upto 12G mode 8 data streams and output
-> > 
-> > s/upto/up to/
-> 
-> I will fix this in next version. 
-> 
-> > > +  a dual pixel per clock RGB/YUV444,422/420 10/12 bits per component AXI4-Stream.
-> > > +
-> > > +properties:
-> > > +  compatible:
-> > > +    items:
-> > > +      - enum:
-> > > +        - xlnx,v-smpte-uhdsdi-rx-ss-2.0
-> > > +
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> > > +  interrupts:
-> > > +    maxItems: 1
-> > > +
-> > > +  clocks:
-> > > +    description: List of clock specifiers
-> > > +    items:
-> > > +      - description: AXI4-Lite clock
-> > > +      - description: SMPTE UHD-SDI Rx core clock
-> > > +      - description: Video clock
-> > > +
-> > > +  clock-names:
-> > > +    items:
-> > > +      - const: s_axi_aclk
-> > > +      - const: sdi_rx_clk
-> > > +      - const: video_out_clk
-> > > +
-> > > +  xlnx,bpp:
-> > > +    description: Bits per pixel supported. Can be 10 or 12 bits per pixel only.
-> > > +    allOf:
-> > > +      - $ref: "/schemas/types.yaml#/definitions/uint32"
-> > > +      - enum: [10, 12]
-> > 
-> > I don't see this as a design parameter in the documentation (pg290,
-> > v2.0). What does it correspond to ? All the BPC mentions in the
-> > documentation always state that 10-bit is the only supported value.
-> 
-> The new version of IP being released will have 10 and 12 bit support. It is already in the Xilinx linux-xlnx repo.
-> I will rename this to "xlnx,bpc" instead of "xlnx,bpp" to refer to bits per component.
+Results of the daily build of media_tree:
 
-Is the documentation for the new IP core version available ? Should this
-property only be allowed for the new version, given that in v2.0 the BPC
-is fixed to 10 ?
+date:			Wed Jun  3 05:00:14 CEST 2020
+media-tree git hash:	938b29db3aa9c293c7c1366b16e55e308f1a1ddd
+media_build git hash:	337283131d6117aa9b0c0c62d32e323da54a9359
+v4l-utils git hash:	74377da4f5f3b63203c599d5dd75db6af91fdbb9
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0accb575719caa47d8fbc866b11e6f7e7e7787cd
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-> > > +
-> > > +  xlnx,line-rate:
-> > > +    description: |
-> > > +      The maximum mode supported by the design. Possible values are as below
-> > > +      12G_SDI_8DS - 12G mode with 8 data streams
-> > > +      6G_SDI      -  6G mode
-> > > +      3G_SDI      -  3G mode
-> > > +    enum:
-> > > +      - 12G_SDI_8DS
-> > > +      - 6G_SDI
-> > > +      - 3G_SDI
-> > 
-> > How about making this an integer property, with #define in
-> > include/dt-bindings/media/xilinx-sdi.h ? As far as I understand, the SDI
-> > TX subsystem has the same parameter, so the #define could be shared
-> > between the two.
-> 
-> Yes that is ok with me. I will add this in the next version.
-> 
-> > > +
-> > > +  xlnx,include-edh:
-> > > +    type: boolean
-> > > +    description: |
-> > > +      This is present when the Error Detection and Handling processor is
-> > > +      enabled in design.
-> > > +
-> > > +  ports:
-> > > +    type: object
-> > > +    description: |
-> > > +      Generally the SDI port is connected to a device like SDI Broadcast camera
-> > > +      which is independently controlled. Hence port@0 is a source port which can be
-> > > +      connected to downstream IP which can work with AXI4 Stream data.
-> > 
-> > We should still have an input port. It can be connected to a DT node for
-> > a physical SDI connector, or any other component in the platform (I
-> > expect the former to be the common case). There are DT bindings for
-> > connectors in Documentation/devicetree/bindings/display/connector/, we
-> > should add one for SDI.
-> 
-> Yes the input port is a physical SDI connector connected to an equipment like broadcast camera.
-> But the camera/equipment can't be controlled by the V4L2 pipeline and SDI protocol is unidirectional.
-> 
-> If we add another dt node, then I think another dummy v4l subdev driver will need to implemented and loaded
-> to complete the pipe as Xilinx Video driver will need it.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7-rc1-i686: OK
+linux-5.7-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 4
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
 
-We don't necessarily need a driver for the connector (although it may be
-a good idea to do so, but that's a separate question). The sdi-rx driver
-could handle the SDI connector DT node by parsing its properties
-manually (assuming it would contain properties that need to be parsed).
+Detailed results are available here:
 
-> Could you please share the reason to have this input port in the SDI Rx driver?
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
-We try to make sure the whole pipeline is modelled in DT. This applies
-to both V4L2 and DRM/KMS. While the connector doesn't need to be
-controlled by software (it's just a connector), it may still have
-properties that matter from a software point of view. For instance the
-label property can be used to specify how the connector is labeled on
-the board or on the device's case, allowing applications to display the
-correct labels to the users. Another use case related to the 4-pin
-mini-DIN connectors typically used for S-Video. On some devices, they
-are also used for composite video, with multiple video sources connected
-to the same mini-DIN connector with a special cable. Kernel drivers need
-to know how signals are routed, and DT nodes help there.
+Detailed regression test results are available here:
 
-> > > +    properties:
-> > > +      port@0:
-> > > +        type: object
-> > > +        description: Source port
-> > > +        properties:
-> > > +          reg:
-> > > +            const: 0
-> > > +          endpoint:
-> > > +            type: object
-> > > +            properties:
-> > > +              remote-endpoint: true
-> > > +            required:
-> > > +              - remote-endpoint
-> > > +            additionalProperties: false
-> > > +        additionalProperties: false
-> > > +
-> > > +required:
-> > > +  - compatible
-> > > +  - reg
-> > > +  - interrupts
-> > > +  - clocks
-> > > +  - clock-names
-> > > +  - xlnx,line-rate
-> > > +  - xlnx,bpp
-> > > +  - ports
-> > > +
-> > > +additionalProperties: false
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    uhdsdirxss: v-smpte-uhdsdi-rxss@80000000 {
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
 
-I forgot to mention, you can drop the label as it's not used.
+Full logs are available here:
 
-> > > +      compatible = "xlnx,v-smpte-uhdsdi-rx-ss-2.0";
-> > > +      interrupt-parent = <&gic>;
-> > > +      interrupts = <0 89 4>;
-> > > +      reg = <0x0 0x80000000 0x0 0x10000>;
-> > > +      xlnx,include-edh;
-> > > +      xlnx,line-rate = "12G_SDI_8DS";
-> > > +      clocks = <&clk_1>, <&si570_1>, <&clk_2>;
-> > > +      clock-names = "s_axi_aclk", "sdi_rx_clk", "video_out_clk";
-> > > +      xlnx,bpp = <10>;
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
 
-And I would group the xlnx,* properties after the standard properties.
+The Media Infrastructure API from this daily build is here:
 
-> > > +
-> > > +      ports {
-> > > +        #address-cells = <1>;
-> > > +        #size-cells = <0>;
-> > > +        port@0 {
-> > > +          reg = <0>;
-> > > +          sdirx_out: endpoint {
-> > > +            remote-endpoint = <&vcap_sdirx_in>;
-> > > +          };
-> > > +        };
-> > > +      };
-> > > +    };
-
--- 
-Regards,
-
-Laurent Pinchart
+http://www.xs4all.nl/~hverkuil/spec/index.html
