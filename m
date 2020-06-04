@@ -2,181 +2,232 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C87C1EE4E0
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 14:58:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 49E9D1EE518
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 15:15:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727001AbgFDM6H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jun 2020 08:58:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39186 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726003AbgFDM6G (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jun 2020 08:58:06 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5509BC08C5C0
-        for <linux-media@vger.kernel.org>; Thu,  4 Jun 2020 05:58:06 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id q19so5973209eja.7
-        for <linux-media@vger.kernel.org>; Thu, 04 Jun 2020 05:58:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=i1sD5nsjWErhoOPpiUlLQ4uHWzuhyGOs7H0JtQng1CY=;
-        b=WWpNoL+SNH1Hw9+Gwm1Ak+QjVz0IerRxIEeJDL3Lo5aTpzOB1DL2eQ2MZLUGDzYkXt
-         wB9UNSZ8QVmYpoqQIdEXahA+f0XxOM9aPJneNVy704qnLz8JLpN4nSuN4q6XrrW8JvRP
-         +Q8qPzkuVW95yhPofoknBa491KN5X0pIUi240=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=i1sD5nsjWErhoOPpiUlLQ4uHWzuhyGOs7H0JtQng1CY=;
-        b=f5Kym9RLBGx7gqTecyxdi/cqdzAyoq0jDsLDdz7fozbGwTRTjgp7Vnr0ldz3HAge2I
-         +FTX+dBXqcuHeJDLDxM0PmjtubrApSx2xdgBeBJMAGIVj0KmCzP29rUAAOMcVv1Nulm1
-         4s2RzRJrPd+O7q1xHDgoInOS0zMuD74d26A9ISVZfFqvT7DL/fH8WdgUZXot1xG9EGnX
-         Ca3QrXQRSAQX27f2JIm9W9RI4yP6xnp4chOPKTnptI1y7Lx4HyibQi0ddnE/+TDvTZN+
-         CODwntvwfIwdh3Y0ahU2T3NTWwRc8MeOUd4L+OgM/qRlh6wC+p8W/u0uf5H/c/RPQmo9
-         bsTg==
-X-Gm-Message-State: AOAM531Tk+zqit34/BjS7YHb9Zwe5mM1M3pPKNbjUengTsIOGHWYrJtl
-        85LY8ZJyRD6JGX53NdJQ1WOpu2M/AmY=
-X-Google-Smtp-Source: ABdhPJwN9Xyfj8qZxc1dwp9w6iMhsiE5tOzHKN6MBQx5ZyMGj4yMPG6d16SUTe5m/kXf83rv5Wwh5w==
-X-Received: by 2002:a17:906:1804:: with SMTP id v4mr3669191eje.104.1591275484716;
-        Thu, 04 Jun 2020 05:58:04 -0700 (PDT)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com. [209.85.128.46])
-        by smtp.gmail.com with ESMTPSA id r1sm2098552eja.57.2020.06.04.05.58.03
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2020 05:58:04 -0700 (PDT)
-Received: by mail-wm1-f46.google.com with SMTP id d128so5519816wmc.1
-        for <linux-media@vger.kernel.org>; Thu, 04 Jun 2020 05:58:03 -0700 (PDT)
-X-Received: by 2002:a7b:c0c8:: with SMTP id s8mr4134715wmh.134.1591275483243;
- Thu, 04 Jun 2020 05:58:03 -0700 (PDT)
+        id S1728224AbgFDNPT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jun 2020 09:15:19 -0400
+Received: from mga14.intel.com ([192.55.52.115]:7290 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728093AbgFDNPS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Jun 2020 09:15:18 -0400
+IronPort-SDR: d3SlNGDNy1Aq8cMPxIaIu3mgC+zAp+Q95xFdQn3N8eXI2d/FbSiFh8zH/6MuVW7zubNKNIsOWa
+ 1v7YD6lqLSVg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Jun 2020 06:15:16 -0700
+IronPort-SDR: NHa4I8rqk/VBWdXSIdyhy53n3s7B7T24ZOA5sr8Rxw1DZWi+a3yxavDzv1zZ/R/dSWr8bnCd9H
+ UnFya4ptxBWw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,472,1583222400"; 
+   d="scan'208";a="257727059"
+Received: from lkp-server02.sh.intel.com (HELO 6de3076d9aaa) ([10.239.97.151])
+  by fmsmga007.fm.intel.com with ESMTP; 04 Jun 2020 06:15:15 -0700
+Received: from kbuild by 6de3076d9aaa with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1jgpiE-00000V-QJ; Thu, 04 Jun 2020 13:15:14 +0000
+Date:   Thu, 04 Jun 2020 21:14:20 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-next] BUILD REGRESSION
+ be4b9e888184bc10c16b180096ee2592cd42f5f1
+Message-ID: <5ed8f3ac.buw+A2kugKzbTgJr%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20200526085446.30956-1-stanimir.varbanov@linaro.org>
- <65ac9697-a43f-7025-e6fe-69c4a44c6d9a@xs4all.nl> <ce28a840-a763-6700-16dd-d708e570d55c@linaro.org>
- <d02c6cd0-a502-dc52-519e-54b6328d5373@linaro.org> <544b19dd-4883-bae0-b488-46c856eb207d@xs4all.nl>
- <6f71931a-9060-a399-835c-a1cf1f05dc79@linaro.org> <1bc10e88-8cbe-3da9-daeb-d015f42d7acc@xs4all.nl>
-In-Reply-To: <1bc10e88-8cbe-3da9-daeb-d015f42d7acc@xs4all.nl>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 4 Jun 2020 14:57:51 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5Aorm-O7OMcHsnRUEGQq2qoPDRtAuukiLHgC9g54oAW9Q@mail.gmail.com>
-Message-ID: <CAAFQd5Aorm-O7OMcHsnRUEGQq2qoPDRtAuukiLHgC9g54oAW9Q@mail.gmail.com>
-Subject: Re: [PATCH] v4l2-ctrl: add control for thumnails
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 4, 2020 at 2:56 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> On 04/06/2020 14:34, Stanimir Varbanov wrote:
-> > Hi Hans,
-> >
-> > On 6/4/20 12:08 PM, Hans Verkuil wrote:
-> >> On 04/06/2020 11:02, Stanimir Varbanov wrote:
-> >>> Hi Hans,
-> >>>
-> >>> On 5/27/20 12:53 AM, Stanimir Varbanov wrote:
-> >>>> Hi Hans,
-> >>>>
-> >>>> On 5/26/20 3:04 PM, Hans Verkuil wrote:
-> >>>>> On 26/05/2020 10:54, Stanimir Varbanov wrote:
-> >>>>>> Add v4l2 control for decoder thumbnail.
-> >>>>>>
-> >>>>>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> >>>>>> ---
-> >>>>>>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 7 +++++++
-> >>>>>>  drivers/media/v4l2-core/v4l2-ctrls.c                      | 2 ++
-> >>>>>>  include/uapi/linux/v4l2-controls.h                        | 2 ++
-> >>>>>>  3 files changed, 11 insertions(+)
-> >>>>>>
-> >>>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >>>>>> index d0d506a444b1..e838e410651b 100644
-> >>>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >>>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> >>>>>> @@ -3726,6 +3726,13 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
-> >>>>>>      disables generating SPS and PPS at every IDR. Setting it to one enables
-> >>>>>>      generating SPS and PPS at every IDR.
-> >>>>>>
-> >>>>>> +``V4L2_CID_MPEG_VIDEO_DECODER_THUMBNAIL (button)``
-> >>>>>> +    Instructs the decoder to produce immediate output. The decoder should
-> >>>>>> +    consume first input buffer for progressive stream (or first two buffers
-> >>>>>> +    for interlace). Decoder should not allocate more output buffers that it
-> >>>>>> +    is required to consume one input frame. Usually the decoder input
-> >>>>>> +    buffers will contain only I/IDR frames but it is not mandatory.
-> >>>>>
-> >>>>> This is very vague. It doesn't explain why the control is called 'THUMBNAIL',
-> >>>>> but more importantly it doesn't explain how this relates to normal decoding.
-> >>>>
-> >>>> If in the normal decode the capture queue buffers are 5, in the
-> >>>> thumbnail mode the number of buffers will be only 1 (if the bitstream is
-> >>>> progressive) and this will guarantee low memory usage. The other
-> >>>> difference is that the decoder will produce decoded frames (without
-> >>>> errors) only for I/IDR (sync frames).
-> >>
-> >> Isn't this really a "DECODE_SYNC_FRAMES_ONLY" control? That's what it does,
-> >> right? Skip any B/P frames and only decode sync frames.
-> >
-> > Yes, it is.
-> > To me V4L2_CID_MPEG_VIDEO_DECODE_SYNC_FRAMES sounds better. If you are
-> > fine I can send a new patch.
-> >
-> > The definition of "sync frames" is a bit difficult for codec-agnostic
-> > controls. Is it sound better "INTRA", DECODE_INTRA_FRAMES (ONLY)?
->
-> INTRA is better. DECODE_INTRA_FRAMES_ONLY is a good name, I think.
->
-> Thumbnail creation can be given as an example in the description of the
-> control, but that's just a use-case.
+tree/branch: git://git.ragnatech.se/linux  media-next
+branch HEAD: be4b9e888184bc10c16b180096ee2592cd42f5f1  media: atomisp: get rid of a string_support.h abstraction layer
 
-How about the other aspect of the behavior?
+Error/Warning in current branch:
 
-"Decoder should not allocate more output buffers that it
-is required to consume one input frame."
+cc1: warning: drivers/staging/media/atomisp//pci/hive_isp_css_include/memory_access/: No such file or directory [-Wmissing-include-dirs]
+drivers/staging/media/atomisp/pci/atomisp_cmd.c:2810:31: warning: variable 'stream_config' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:159:2: warning: function 'atomisp_css2_dbg_print' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:165:2: warning: function 'atomisp_css2_dbg_ftrace_print' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+drivers/staging/media/atomisp/pci/atomisp_compat_css20.c:171:2: warning: function 'atomisp_css2_err_print' might be a candidate for 'gnu_printf' format attribute [-Wsuggest-attribute=format]
+drivers/staging/media/atomisp/pci/atomisp_v4l2.c:1454:15: warning: variable 'a0_max_id' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/hmm/hmm.c:271:6: note: in expansion of macro 'dev_dbg'
+drivers/staging/media/atomisp/pci/hmm/hmm.c:272:6: warning: format '%ld' expects argument of type 'long int', but argument 6 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+drivers/staging/media/atomisp/pci/isp/kernels/dvs/dvs_1.0/ia_css_dvs.host.c:237:31: warning: variable 'isp_data_ptr' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_2/ia_css_sdis2.host.c:119:15: warning: variable 'hor_num_isp' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/isp/kernels/sdis/sdis_2/ia_css_sdis2.host.c:119:28: warning: variable 'ver_num_isp' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c:127:6: warning: variable 'err' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c:244:7: warning: variable 'succes' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/sh_css.c:10514:22: warning: variable 'pipe_id' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/sh_css.c:1371:24: warning: variable 'stream' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/sh_css.c:2735:22: warning: variable 'capture_pipe' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/sh_css.c:2864:7: warning: variable 'continuous' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/sh_css.c:3567:15: warning: variable 'num_output_pins' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/sh_css.c:3975:26: warning: variable 'me' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/sh_css.c:3976:24: warning: variable 'copy_binary' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/sh_css.c:3976:38: warning: variable 'preview_binary' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/sh_css.c:3976:55: warning: variable 'vf_pp_binary' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/sh_css.c:6072:7: warning: variable 'memory' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/sh_css.c:7521:26: warning: variable 'num_vf_pp_stage' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/sh_css_mipi.c:415:27: warning: variable 'mipi_intermediate_info' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/sh_css_param_shading.c:239:4: warning: variable 'padded_width' set but not used [-Wunused-but-set-variable]
+drivers/staging/media/atomisp/pci/sh_css_params.c:1637:36: warning: variable 'row_padding' set but not used [-Wunused-but-set-variable]
 
-Best regards,
-Tomasz
+Error/Warning ids grouped by kconfigs:
 
->
-> Regards,
->
->         Hans
->
-> >
-> >>
-> >> That this is useful for creating thumbnails is just a specific use-case.
-> >>
-> >> Regards,
-> >>
-> >>      Hans
-> >>
-> >>>>
-> >>>>>
-> >>>>> I.e. if you are decoding and 'press' this control, what happens then?
-> >>>>
-> >>>> Might be the button type wasn't great idea. In fact the control should
-> >>>> be set before streamon so that the driver returns min_capture_bufs 1.
-> >>>>
-> >>>>>
-> >>>>> What exactly is the use-case?
-> >>>>
-> >>>> It could be used to generate thumbnails of all video clips in a folder
-> >>>> or when you open a Gallery application on your phone.
-> >>>>
-> >>>
-> >>> What is your opinion on that control? I could consider to make it Venus
-> >>> custom control but from the use-case it looks other drivers also can
-> >>> benefit of it.
-> >>>
-> >>> I tried to make more generic one [1] but it looks it will be too difficult.
-> >>>
-> >>
-> >
->
+recent_errors
+`-- i386-allyesconfig
+    |-- cc1:warning:drivers-staging-media-atomisp-pci-hive_isp_css_include-memory_access:No-such-file-or-directory
+    |-- drivers-staging-media-atomisp-pci-atomisp_cmd.c:warning:variable-stream_config-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-atomisp_compat_css20.c:warning:function-atomisp_css2_dbg_ftrace_print-might-be-a-candidate-for-gnu_printf-format-attribute
+    |-- drivers-staging-media-atomisp-pci-atomisp_compat_css20.c:warning:function-atomisp_css2_dbg_print-might-be-a-candidate-for-gnu_printf-format-attribute
+    |-- drivers-staging-media-atomisp-pci-atomisp_compat_css20.c:warning:function-atomisp_css2_err_print-might-be-a-candidate-for-gnu_printf-format-attribute
+    |-- drivers-staging-media-atomisp-pci-atomisp_v4l2.c:warning:variable-a0_max_id-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-hmm-hmm.c:note:in-expansion-of-macro-dev_dbg
+    |-- drivers-staging-media-atomisp-pci-hmm-hmm.c:warning:format-ld-expects-argument-of-type-long-int-but-argument-has-type-size_t-aka-unsigned-int
+    |-- drivers-staging-media-atomisp-pci-isp-kernels-dvs-dvs_1.-ia_css_dvs.host.c:warning:variable-isp_data_ptr-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-isp-kernels-sdis-sdis_2-ia_css_sdis2.host.c:warning:variable-hor_num_isp-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-isp-kernels-sdis-sdis_2-ia_css_sdis2.host.c:warning:variable-ver_num_isp-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-isp-kernels-vf-vf_1.-ia_css_vf.host.c:warning:variable-err-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-runtime-rmgr-src-rmgr_vbuf.c:warning:variable-succes-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-sh_css.c:warning:variable-capture_pipe-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-sh_css.c:warning:variable-continuous-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-sh_css.c:warning:variable-copy_binary-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-sh_css.c:warning:variable-me-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-sh_css.c:warning:variable-memory-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-sh_css.c:warning:variable-num_output_pins-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-sh_css.c:warning:variable-num_vf_pp_stage-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-sh_css.c:warning:variable-pipe_id-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-sh_css.c:warning:variable-preview_binary-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-sh_css.c:warning:variable-stream-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-sh_css.c:warning:variable-vf_pp_binary-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-sh_css_mipi.c:warning:variable-mipi_intermediate_info-set-but-not-used
+    |-- drivers-staging-media-atomisp-pci-sh_css_param_shading.c:warning:variable-padded_width-set-but-not-used
+    `-- drivers-staging-media-atomisp-pci-sh_css_params.c:warning:variable-row_padding-set-but-not-used
+
+elapsed time: 1765m
+
+configs tested: 114
+configs skipped: 3
+
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+sh                        edosk7760_defconfig
+mips                          ath79_defconfig
+arm                            mps2_defconfig
+mips                 decstation_r4k_defconfig
+arm                          collie_defconfig
+arm                         shannon_defconfig
+mips                      bmips_stb_defconfig
+powerpc                  storcenter_defconfig
+arc                          axs103_defconfig
+arm                    vt8500_v6_v7_defconfig
+arm                           sama5_defconfig
+sh                           sh2007_defconfig
+arm                        trizeps4_defconfig
+nios2                            alldefconfig
+powerpc64                           defconfig
+arm                              zx_defconfig
+microblaze                    nommu_defconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+i386                              debian-10.3
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                              allnoconfig
+m68k                           sun3_defconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nds32                               defconfig
+nds32                             allnoconfig
+csky                             allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+nios2                               defconfig
+nios2                            allyesconfig
+openrisc                            defconfig
+c6x                              allyesconfig
+c6x                               allnoconfig
+openrisc                         allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+h8300                            allmodconfig
+xtensa                              defconfig
+arc                                 defconfig
+arc                              allyesconfig
+sh                               allmodconfig
+sh                                allnoconfig
+microblaze                        allnoconfig
+mips                             allyesconfig
+mips                              allnoconfig
+mips                             allmodconfig
+parisc                            allnoconfig
+parisc                              defconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+powerpc                          allyesconfig
+powerpc                          rhel-kconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+i386                 randconfig-a001-20200603
+i386                 randconfig-a006-20200603
+i386                 randconfig-a002-20200603
+i386                 randconfig-a005-20200603
+i386                 randconfig-a003-20200603
+i386                 randconfig-a004-20200603
+x86_64               randconfig-a002-20200603
+x86_64               randconfig-a006-20200603
+x86_64               randconfig-a001-20200603
+x86_64               randconfig-a003-20200603
+x86_64               randconfig-a004-20200603
+x86_64               randconfig-a005-20200603
+i386                 randconfig-a014-20200603
+i386                 randconfig-a015-20200603
+i386                 randconfig-a011-20200603
+i386                 randconfig-a016-20200603
+i386                 randconfig-a012-20200603
+i386                 randconfig-a013-20200603
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             allmodconfig
+s390                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+um                               allmodconfig
+um                                allnoconfig
+um                               allyesconfig
+um                                  defconfig
+x86_64                                   rhel
+x86_64                               rhel-7.6
+x86_64                    rhel-7.6-kselftests
+x86_64                         rhel-7.2-clear
+x86_64                                    lkp
+x86_64                              fedora-25
+x86_64                                  kexec
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
