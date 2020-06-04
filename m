@@ -2,117 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B9B451EEC56
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 22:47:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9B581EEDF6
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2020 00:50:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730072AbgFDUrL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jun 2020 16:47:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41028 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730008AbgFDUrK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Jun 2020 16:47:10 -0400
-Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DDEC7207F9;
-        Thu,  4 Jun 2020 20:47:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591303629;
-        bh=EpUoapDsHAy7sbPtW80ddehyw4Im20LRuhLaco5sdq4=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ZTi7nPKy6NlZdYGSLyK240eCUKAv0MdxqRIl+3hmzgZda3rI6lUuNF0lTYGit7jM9
-         LFFFiFzqTdWYD0J5WtUhFKP86L4cSb2ANcKzey2F8SNFGAcvdHJQcbQRB8h7iOlbO5
-         DmQ/sNctCVEN45PXCln2vKdDaqDhmivkbAJAgt4w=
-Received: from mchehab by mail.kernel.org with local (Exim 4.93)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jgwlW-0004Ap-Td; Thu, 04 Jun 2020 22:47:06 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH 5/5] media: atomisp: improve ACPI/DMI detection logs
-Date:   Thu,  4 Jun 2020 22:47:05 +0200
-Message-Id: <aca33f229a1cb2425df1bb6d08670ad982e9daa0.1591303518.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1591303518.git.mchehab+huawei@kernel.org>
-References: <cover.1591303518.git.mchehab+huawei@kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+        id S1727053AbgFDWuT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jun 2020 18:50:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46336 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726240AbgFDWuT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jun 2020 18:50:19 -0400
+Received: from shards.monkeyblade.net (shards.monkeyblade.net [IPv6:2620:137:e000::1:9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0ECCFC08C5C0;
+        Thu,  4 Jun 2020 15:50:19 -0700 (PDT)
+Received: from localhost (unknown [IPv6:2601:601:9f00:477::3d5])
+        (using TLSv1 with cipher AES256-SHA (256/256 bits))
+        (Client did not present a certificate)
+        (Authenticated sender: davem-davemloft)
+        by shards.monkeyblade.net (Postfix) with ESMTPSA id 3642E120ED481;
+        Thu,  4 Jun 2020 15:50:17 -0700 (PDT)
+Date:   Thu, 04 Jun 2020 15:50:16 -0700 (PDT)
+Message-Id: <20200604.155016.1381130025313726200.davem@davemloft.net>
+To:     a.darwish@linutronix.de
+Cc:     peterz@infradead.org, mingo@redhat.com, will@kernel.org,
+        tglx@linutronix.de, paulmck@kernel.org, bigeasy@linutronix.de,
+        rostedt@goodmis.org, linux-kernel@vger.kernel.org, kuba@kernel.org,
+        edumazet@google.com, axboe@kernel.dk, vgoyal@redhat.com,
+        linux-block@vger.kernel.org, airlied@linux.ie, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/6] seqlock: seqcount_t call sites bugfixes
+From:   David Miller <davem@davemloft.net>
+In-Reply-To: <20200603144949.1122421-1-a.darwish@linutronix.de>
+References: <20200603144949.1122421-1-a.darwish@linutronix.de>
+X-Mailer: Mew version 6.8 on Emacs 26.3
+Mime-Version: 1.0
+Content-Type: Text/Plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+X-Greylist: Sender succeeded SMTP AUTH, not delayed by milter-greylist-4.5.12 (shards.monkeyblade.net [149.20.54.216]); Thu, 04 Jun 2020 15:50:18 -0700 (PDT)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As there are several ways where the driver could possible
-retrieve sensor data, make the prints clearer about what
-was detected and from where.
+From: "Ahmed S. Darwish" <a.darwish@linutronix.de>
+Date: Wed,  3 Jun 2020 16:49:43 +0200
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../media/atomisp/pci/atomisp_gmin_platform.c  | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
+> Since patch #7 and #8 from the series:
+> 
+>    [PATCH v1 00/25] seqlock: Extend seqcount API with associated locks
+>    https://lore.kernel.org/lkml/20200519214547.352050-1-a.darwish@linutronix.de
+> 
+> are now pending on the lockdep/x86 IRQ state tracking patch series:
+> 
+>    [PATCH 00/14] x86/entry: disallow #DB more and x86/entry lockdep/nmi
+>    https://lkml.kernel.org/r/20200529212728.795169701@infradead.org
+> 
+>    [PATCH v3 0/5] lockdep: Change IRQ state tracking to use per-cpu variables
+>    https://lkml.kernel.org/r/20200529213550.683440625@infradead.org
+> 
+> This is a repost only of the seqcount_t call sites bugfixes that were on
+> top of the seqlock patch series.
+> 
+> These fixes are independent, and can thus be merged on their own. I'm
+> reposting them now so they can at least hit -rc2 or -rc3.
+> 
+> Changelog-v2:
+> 
+>   - patch #1: Add a missing up_read() on netdev_get_name() error path
+>               exit. Thanks to Dan/kbuild-bot report.
+> 
+>   - patch #4: new patch, invalid preemptible context found by the new
+>               lockdep checks added in the seqlock series + kbuild-bot.
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-index a14326111b26..1ba03448d348 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-@@ -936,7 +936,8 @@ int atomisp_gmin_register_vcm_control(struct camera_vcm_control *vcmCtrl)
- }
- EXPORT_SYMBOL_GPL(atomisp_gmin_register_vcm_control);
- 
--static int gmin_get_hardcoded_var(struct gmin_cfg_var *varlist,
-+static int gmin_get_hardcoded_var(struct device *dev,
-+				  struct gmin_cfg_var *varlist,
- 				  const char *var8, char *out, size_t *out_len)
- {
- 	struct gmin_cfg_var *gv;
-@@ -947,6 +948,8 @@ static int gmin_get_hardcoded_var(struct gmin_cfg_var *varlist,
- 		if (strcmp(var8, gv->name))
- 			continue;
- 
-+		dev_info(dev, "Found DMI entry for '%s'\n", var8);
-+
- 		vl = strlen(gv->val);
- 		if (vl > *out_len - 1)
- 			return -ENOSPC;
-@@ -1070,9 +1073,10 @@ static int gmin_get_config_var(struct device *maindev,
- 	 */
- 	id = dmi_first_match(gmin_vars);
- 	if (id) {
--		dev_info(maindev, "Found DMI entry for '%s'\n", var8);
--		return gmin_get_hardcoded_var(id->driver_data, var8, out,
--					      out_len);
-+		ret = gmin_get_hardcoded_var(maindev, id->driver_data, var8,
-+					     out, out_len);
-+		if (!ret)
-+			return 0;
- 	}
- 
- 	/* Our variable names are ASCII by construction, but EFI names
-@@ -1102,9 +1106,9 @@ static int gmin_get_config_var(struct device *maindev,
- 		*out_len = ev->var.DataSize;
- 		dev_info(maindev, "found EFI entry for '%s'\n", var8);
- 	} else if (is_gmin) {
--		dev_warn(maindev, "Failed to find gmin variable %s\n", var8);
-+		dev_info(maindev, "Failed to find EFI gmin variable %s\n", var8);
- 	} else {
--		dev_warn(maindev, "Failed to find variable %s\n", var8);
-+		dev_info(maindev, "Failed to find EFI variable %s\n", var8);
- 	}
- 
- 	kfree(ev);
-@@ -1123,6 +1127,8 @@ int gmin_get_var_int(struct device *dev, bool is_gmin, const char *var, int def)
- 	if (!ret) {
- 		val[len] = 0;
- 		ret = kstrtol(val, 0, &result);
-+	} else {
-+		dev_info(dev, "%s: using default (%d)\n", var, def);
- 	}
- 
- 	return ret ? def : result;
--- 
-2.26.2
-
+I'll apply patches 1-4 to the net tree.
