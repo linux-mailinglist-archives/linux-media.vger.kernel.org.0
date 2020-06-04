@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BDB11EE0B5
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 11:10:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AA2D1EE0D5
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 11:10:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728496AbgFDJIQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jun 2020 05:08:16 -0400
-Received: from mailgw01.mediatek.com ([210.61.82.183]:6741 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726923AbgFDJIO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jun 2020 05:08:14 -0400
-X-UUID: bfc8b85c4942475faf451791216453ca-20200604
+        id S1728611AbgFDJJi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jun 2020 05:09:38 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:45409 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728339AbgFDJIQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jun 2020 05:08:16 -0400
+X-UUID: a8b84398a83b42c28ca9e2b65e8b78ca-20200604
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=dZBa6I/HS2qauAyDcmCVL1X6IL3ygiBUPYAPKFwo7xo=;
-        b=nB2ZMqTurIivxyPRaKR4OTaXQXUvXPDN4FQur//S51Zvv7C30IdxAkAn0riViXJlEplhARsO1DQmgJ/tn6YbKdHQ7CUM6b604LF5/nNLPPw+UW5be0loYMMb1SGafKHL+W97wVMFMS6JmlsvckdBck0acs8gC9rUVzbxKZiD60Y=;
-X-UUID: bfc8b85c4942475faf451791216453ca-20200604
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw01.mediatek.com
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=vNTRRvj2mI0CwYUwHIUwitX832SWdGrxETBfN5PZOa0=;
+        b=Vr5FxqHVVkvPQ8An8jNS+Vl7diVrHhHKVGThCgsdlFcJ/djhHsRsEkMf6kWzHJA3RgfjumkwgD5ESlFET9jvsK8LM5ZibK22sTxacgPuBMgtinIr9FJTcGkAOJjngjERRGgsFtcmqjvBNSvrt2LxcitkY+TVaUHCVTmQPJ+/JtY=;
+X-UUID: a8b84398a83b42c28ca9e2b65e8b78ca-20200604
+Received: from mtkcas06.mediatek.inc [(172.21.101.30)] by mailgw02.mediatek.com
         (envelope-from <xia.jiang@mediatek.com>)
         (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 858684422; Thu, 04 Jun 2020 17:08:01 +0800
+        with ESMTP id 1466015862; Thu, 04 Jun 2020 17:08:02 +0800
 Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
  mtkmbs07n2.mediatek.inc (172.21.101.141) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Thu, 4 Jun 2020 17:07:58 +0800
+ 15.0.1497.2; Thu, 4 Jun 2020 17:07:59 +0800
 Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
  (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 4 Jun 2020 17:07:56 +0800
+ Transport; Thu, 4 Jun 2020 17:07:58 +0800
 From:   Xia Jiang <xia.jiang@mediatek.com>
 To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
@@ -40,11 +40,14 @@ CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
         Tomasz Figa <tfiga@chromium.org>,
         <srv_heupstream@mediatek.com>, <senozhatsky@chromium.org>,
         <mojahsu@chromium.org>, <drinkcat@chromium.org>,
-        <maoguang.meng@mediatek.com>, <sj.huang@mediatek.com>
+        <maoguang.meng@mediatek.com>, <sj.huang@mediatek.com>,
+        Xia Jiang <xia.jiang@mediatek.com>
 Subject: [PATCH RESEND v9 00/18] Add support for mt2701 JPEG ENC support
-Date:   Thu, 4 Jun 2020 17:05:34 +0800
-Message-ID: <20200604090553.10861-1-xia.jiang@mediatek.com>
+Date:   Thu, 4 Jun 2020 17:05:35 +0800
+Message-ID: <20200604090553.10861-2-xia.jiang@mediatek.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20200604090553.10861-1-xia.jiang@mediatek.com>
+References: <20200604090553.10861-1-xia.jiang@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-MTK:  N
@@ -393,7 +396,7 @@ b3JtOiBBZGQganBlZyBlbmMgZmVhdHVyZQ0KDQogLi4uL2JpbmRpbmdzL21lZGlhL21lZGlhdGVr
 LWpwZWctZW5jb2Rlci50eHQgIHwgICAzNyArDQogYXJjaC9hcm0vYm9vdC9kdHMvbXQyNzAxLmR0
 c2kgICAgICAgICAgICAgICAgIHwgICAxMyArDQogZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGst
 anBlZy9NYWtlZmlsZSAgICAgIHwgICAgNSArLQ0KIC4uLi9tZWRpYS9wbGF0Zm9ybS9tdGstanBl
-Zy9tdGtfanBlZ19jb3JlLmMgICB8IDExMzAgKysrKysrKysrKysrLS0tLS0NCiAuLi4vbWVkaWEv
+Zy9tdGtfanBlZ19jb3JlLmMgICB8IDExMzQgKysrKysrKysrKysrLS0tLS0NCiAuLi4vbWVkaWEv
 cGxhdGZvcm0vbXRrLWpwZWcvbXRrX2pwZWdfY29yZS5oICAgfCAgIDY2ICstDQogLi4uL3ttdGtf
 anBlZ19ody5jID0+IG10a19qcGVnX2RlY19ody5jfSAgICAgIHwgICAxMCArLQ0KIC4uLi97bXRr
 X2pwZWdfaHcuaCA9PiBtdGtfanBlZ19kZWNfaHcuaH0gICAgICB8ICAgMTQgKy0NCiAuLi57bXRr
@@ -402,7 +405,7 @@ a19qcGVnX3BhcnNlLmggPT4gbXRrX2pwZWdfZGVjX3BhcnNlLmh9IHwgICAgMiArLQ0KIC4uLi97
 bXRrX2pwZWdfcmVnLmggPT4gbXRrX2pwZWdfZGVjX3JlZy5ofSAgICB8ICAgMTkgKy0NCiAuLi4v
 bWVkaWEvcGxhdGZvcm0vbXRrLWpwZWcvbXRrX2pwZWdfZW5jX2h3LmMgfCAgMTkzICsrKw0KIC4u
 Li9tZWRpYS9wbGF0Zm9ybS9tdGstanBlZy9tdGtfanBlZ19lbmNfaHcuaCB8ICAxMjMgKysNCiAx
-MiBmaWxlcyBjaGFuZ2VkLCAxMjgyIGluc2VydGlvbnMoKyksIDMzMiBkZWxldGlvbnMoLSkNCiBj
+MiBmaWxlcyBjaGFuZ2VkLCAxMjg0IGluc2VydGlvbnMoKyksIDMzNCBkZWxldGlvbnMoLSkNCiBj
 cmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlh
 L21lZGlhdGVrLWpwZWctZW5jb2Rlci50eHQNCiByZW5hbWUgZHJpdmVycy9tZWRpYS9wbGF0Zm9y
 bS9tdGstanBlZy97bXRrX2pwZWdfaHcuYyA9PiBtdGtfanBlZ19kZWNfaHcuY30gKDk4JSkNCiBy
@@ -414,5 +417,5 @@ aCA9PiBtdGtfanBlZ19kZWNfcGFyc2UuaH0gKDkyJSkNCiByZW5hbWUgZHJpdmVycy9tZWRpYS9w
 bGF0Zm9ybS9tdGstanBlZy97bXRrX2pwZWdfcmVnLmggPT4gbXRrX2pwZWdfZGVjX3JlZy5ofSAo
 NzclKQ0KIGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay1qcGVn
 L210a19qcGVnX2VuY19ody5jDQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEvcGxh
-dGZvcm0vbXRrLWpwZWcvbXRrX2pwZWdfZW5jX2h3LmgNCg0KLS0gDQoyLjE4LjAgDQoNCg==
+dGZvcm0vbXRrLWpwZWcvbXRrX2pwZWdfZW5jX2h3LmgNCg0KLS0gDQoyLjE4LjANCg==
 
