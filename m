@@ -2,102 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36F271EE15B
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 11:33:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1310D1EE160
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 11:36:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726967AbgFDJdl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jun 2020 05:33:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35790 "EHLO
+        id S1726904AbgFDJgh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jun 2020 05:36:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726299AbgFDJdl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jun 2020 05:33:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21114C03E96D;
-        Thu,  4 Jun 2020 02:33:41 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEC2029B;
-        Thu,  4 Jun 2020 11:33:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591263218;
-        bh=gTw3pEhCifyYlfjL0QN+XuPaqqLDo4p/XZgfoRqObtM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=jR+M8HekG0TDjOM2zZDPy2PzFQZrm/lA17ts/R/QHD2ZgAla5VoGnexSodZaFBcSI
-         SxqS9cn+Eg5xu7/LIlvb7eMKIbkmDgZh7GgieJPF0p5jAb1toB+lvstYIcGI6nQOrG
-         S82o5Bo5/VlFuKsnhF4SPddOOn+4mWies0r+2kY8=
-Date:   Thu, 4 Jun 2020 12:33:21 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Chuhong Yuan <hslester96@gmail.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ilkka Myllyperkio <ilkka.myllyperkio@sofica.fi>,
-        "Ivan T . Ivanov" <iivanov@mm-sol.com>,
-        Vimarsh Zutshi <vimarsh.zutshi@gmail.com>,
-        Stanimir Varbanov <svarbanov@mm-sol.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@iki.fi>
-Subject: Re: [PATCH v2] media: omap3isp: Add missed v4l2_ctrl_handler_free()
- for preview_init_entities()
-Message-ID: <20200604093321.GE5829@pendragon.ideasonboard.com>
-References: <20200603164122.2101162-1-hslester96@gmail.com>
+        with ESMTP id S1726248AbgFDJgh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jun 2020 05:36:37 -0400
+Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com [IPv6:2607:f8b0:4864:20::c41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1107BC03E96D
+        for <linux-media@vger.kernel.org>; Thu,  4 Jun 2020 02:36:37 -0700 (PDT)
+Received: by mail-oo1-xc41.google.com with SMTP id e12so1116350oou.2
+        for <linux-media@vger.kernel.org>; Thu, 04 Jun 2020 02:36:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Z9Gmt7c5N9Wuf1xRRCeQ6LGP+x2nsJ1lC3QXqc/8Dhc=;
+        b=VXb0tquWgjUAVrjUQvBFkjElO+us0sp63/gsGT4muxVdIPXG+oOFyRdt5aJn92ZJCE
+         JEx8kDimDYdhzsWhF2WmVH5MN3MfzCxv74ky6abUFQGxx1keKlESVewu1Qc/kd4r6C/w
+         DTSeetaURTCVMFTRo+qfVX0P6p2YnA4RabcrA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Z9Gmt7c5N9Wuf1xRRCeQ6LGP+x2nsJ1lC3QXqc/8Dhc=;
+        b=JHg5NVR1FRyca7sQ7zlZ6zLszgxqX11FZfuNFHGKIc1it2qQndixbgbnue+EWczrAL
+         Wyli1du4vrfBVGDPRDhkcU59tlIVk6AEYbrdW0lq5Xc2Vy1Yx+7veS7Q4XE+I634IJZl
+         GTm9pOOylK0ZfwPVa7S1ncmN17vPA1FDFZ4Zbe4XOaq1dOuGtfxoT8fZSv7wUbDdnegv
+         Dl3eoI1v69e1FIWYOkXlrYT8sUQ0IWjjmTxCH76QMkDcmf52vR5d6DR7kH5NVS2v7hx3
+         OtyqUUbhx7wq7Vv53j8Rd6F7UduK3GJnbrPljYP75UylggX41rHqXwT71OoODUNgScxt
+         OPsA==
+X-Gm-Message-State: AOAM5321zBn2BTWOxo6JXujnT4800nEt/+HQh865v2FzBnWJ3rFbpGNe
+        jnd+rKWPSxYLQ0TZcVmg+OcJap0OpsnANuE0R5H2OA==
+X-Google-Smtp-Source: ABdhPJxAG9oiM1c1QpEnWLT/EWRbfMWy2gQklxD/IkomQ4LgpvxeJOMC+BW+nd+79+C1K6VQUmsFQCXuYgbPlpehCRs=
+X-Received: by 2002:a4a:311d:: with SMTP id k29mr3016059ooa.89.1591263396299;
+ Thu, 04 Jun 2020 02:36:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200603164122.2101162-1-hslester96@gmail.com>
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-4-daniel.vetter@ffwll.ch> <edbfc1aa-9297-8202-cef8-1facafaa0dfe@shipmail.org>
+ <CAKMK7uGLAPvvgHCCZhg0cea3Fz=Zqhf-GKS2OC3mZudYe3mKhw@mail.gmail.com> <159126281827.25109.3992161193069793005@build.alporthouse.com>
+In-Reply-To: <159126281827.25109.3992161193069793005@build.alporthouse.com>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Thu, 4 Jun 2020 11:36:24 +0200
+Message-ID: <CAKMK7uHOcH+rWhor7zzqqcjCUtxz_-5stLAOVD=4_ED+QjN8oQ@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 03/18] dma-fence: basic lockdep annotations
+To:     Chris Wilson <chris@chris-wilson.co.uk>
+Cc:     =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas_os@shipmail.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Chuhong,
+On Thu, Jun 4, 2020 at 11:27 AM Chris Wilson <chris@chris-wilson.co.uk> wro=
+te:
+>
+> Quoting Daniel Vetter (2020-06-04 10:21:46)
+> > On Thu, Jun 4, 2020 at 10:57 AM Thomas Hellstr=C3=B6m (Intel)
+> > <thomas_os@shipmail.org> wrote:
+> > >
+> > >
+> > > On 6/4/20 10:12 AM, Daniel Vetter wrote:
+> > > ...
+> > > > Thread A:
+> > > >
+> > > >       mutex_lock(A);
+> > > >       mutex_unlock(A);
+> > > >
+> > > >       dma_fence_signal();
+> > > >
+> > > > Thread B:
+> > > >
+> > > >       mutex_lock(A);
+> > > >       dma_fence_wait();
+> > > >       mutex_unlock(A);
+> > > >
+> > > > Thread B is blocked on A signalling the fence, but A never gets aro=
+und
+> > > > to that because it cannot acquire the lock A.
+> > > >
+> > > > Note that dma_fence_wait() is allowed to be nested within
+> > > > dma_fence_begin/end_signalling sections. To allow this to happen th=
+e
+> > > > read lock needs to be upgraded to a write lock, which means that an=
+y
+> > > > other lock is acquired between the dma_fence_begin_signalling() cal=
+l and
+> > > > the call to dma_fence_wait(), and still held, this will result in a=
+n
+> > > > immediate lockdep complaint. The only other option would be to not
+> > > > annotate such calls, defeating the point. Therefore these annotatio=
+ns
+> > > > cannot be sprinkled over the code entirely mindless to avoid false
+> > > > positives.
+> > >
+> > > Just realized, isn't that example actually a true positive, or at lea=
+st
+> > > a great candidate for a true positive, since if another thread reente=
+rs
+> > > that signaling path, it will block on that mutex, and the fence would
+> > > never be signaled unless there is another signaling path?
+> >
+> > Not sure I understand fully, but I think the answer is "it's complicate=
+d".
+>
+> See cd8084f91c02 ("locking/lockdep: Apply crossrelease to completions")
+>
+> dma_fence usage here is nothing but another name for a completion.
 
-(CC'ing Sakari Ailus)
+Quoting from my previous cover letter:
 
-Thank you for the patch.
+"I've dragged my feet for years on this, hoping that cross-release lockdep
+would do this for us, but well that never really happened unfortunately.
+So here we are."
 
-On Thu, Jun 04, 2020 at 12:41:22AM +0800, Chuhong Yuan wrote:
-> preview_init_entities() does not call v4l2_ctrl_handler_free() when
-> it fails.
-> Add the missed function to fix it.
-> 
-> Fixes: de1135d44f4f ("[media] omap3isp: CCDC, preview engine and resizer]")
+I discussed this with Peter, cross-release not getting in is pretty
+final it seems. The trouble is false positives without explicit
+begin/end annotations reviewed by humans - ime from just these few
+examples you just can't guess this stuff by computeres, you need real
+brains thinking about all the edge cases, and where exactly the
+critical section starts and ends. Without that you're just going to
+drown in a sea of false positives and yuck.
 
-There's an extra ']' at the end. Apart from that,
+So yeah I had hopes for cross-release too, unfortunately that was
+entirely in vain and a distraction.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Sakari, could you take this patch ?
-
-> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
-> ---
-> Changes in v2:
->   - Fix the typo.
-> 
->  drivers/media/platform/omap3isp/isppreview.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/omap3isp/isppreview.c b/drivers/media/platform/omap3isp/isppreview.c
-> index 4dbdf3180d10..607b7685c982 100644
-> --- a/drivers/media/platform/omap3isp/isppreview.c
-> +++ b/drivers/media/platform/omap3isp/isppreview.c
-> @@ -2287,7 +2287,7 @@ static int preview_init_entities(struct isp_prev_device *prev)
->  	me->ops = &preview_media_ops;
->  	ret = media_entity_pads_init(me, PREV_PADS_NUM, pads);
->  	if (ret < 0)
-> -		return ret;
-> +		goto error_handler_free;
->  
->  	preview_init_formats(sd, NULL);
->  
-> @@ -2320,6 +2320,8 @@ static int preview_init_entities(struct isp_prev_device *prev)
->  	omap3isp_video_cleanup(&prev->video_in);
->  error_video_in:
->  	media_entity_cleanup(&prev->subdev.entity);
-> +error_handler_free:
-> +	v4l2_ctrl_handler_free(&prev->ctrls);
->  	return ret;
->  }
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+Now I guess it would be nice if there's a per-class
+completion_begin/end annotation for the more generic problem. But then
+also most people don't have a cross-driver completion api contract
+like dma_fence is, with some of the most ridiculous over the top
+constraints of what's possible and what's not possible on each side of
+the cross-release. We do have a bit an outsized benefit (in pain
+reduction) vs cost ratio here.
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
++41 (0) 79 365 57 48 - http://blog.ffwll.ch
