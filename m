@@ -2,392 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60F7B1EE057
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 10:58:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 218A71EE063
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 11:00:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728434AbgFDI5o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jun 2020 04:57:44 -0400
-Received: from pio-pvt-msa3.bahnhof.se ([79.136.2.42]:51674 "EHLO
-        pio-pvt-msa3.bahnhof.se" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728127AbgFDI5o (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jun 2020 04:57:44 -0400
-Received: from localhost (localhost [127.0.0.1])
-        by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTP id 4097A3F4FD;
-        Thu,  4 Jun 2020 10:57:40 +0200 (CEST)
-Authentication-Results: pio-pvt-msa3.bahnhof.se;
-        dkim=pass (1024-bit key; unprotected) header.d=shipmail.org header.i=@shipmail.org header.b=HqWAuFbu;
-        dkim-atps=neutral
-X-Virus-Scanned: Debian amavisd-new at bahnhof.se
-X-Spam-Flag: NO
-X-Spam-Score: -2.099
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.099 tagged_above=-999 required=6.31
-        tests=[BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
-        DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, URIBL_BLOCKED=0.001]
-        autolearn=ham autolearn_force=no
-Received: from pio-pvt-msa3.bahnhof.se ([127.0.0.1])
-        by localhost (pio-pvt-msa3.bahnhof.se [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id gHnf6oPYo80P; Thu,  4 Jun 2020 10:57:38 +0200 (CEST)
-Received: from mail1.shipmail.org (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        (Authenticated sender: mb878879)
-        by pio-pvt-msa3.bahnhof.se (Postfix) with ESMTPA id 746563F401;
-        Thu,  4 Jun 2020 10:57:36 +0200 (CEST)
-Received: from localhost.localdomain (h-205-35.A357.priv.bahnhof.se [155.4.205.35])
-        by mail1.shipmail.org (Postfix) with ESMTPSA id B58D53600B0;
-        Thu,  4 Jun 2020 10:57:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
-        t=1591261055; bh=ZbyRQLsJUVnD4sxLkv+YhGfCJO1A8pOTwS8rf8tXIPM=;
-        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=HqWAuFbuD/1tYxevTgYV9ZLBLqLq7G9qxt9v27g1cacKcrYNBaYVkj5Xae1evnIlh
-         H6TGCwcpJnd9gcNafMXl0TVuPA6K6Drw+92JZ/tJqreAQpQMA/Jx8rhd7CBGQD6tWB
-         O01SuvAO1pwNm3uCrkHMc0NPwHPS7vYDj+0AWPKE=
-Subject: Re: [PATCH 03/18] dma-fence: basic lockdep annotations
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     linux-rdma@vger.kernel.org,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        linaro-mm-sig@lists.linaro.org,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        linux-media@vger.kernel.org,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
- <20200604081224.863494-4-daniel.vetter@ffwll.ch>
-From:   =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
-        <thomas_os@shipmail.org>
-Message-ID: <edbfc1aa-9297-8202-cef8-1facafaa0dfe@shipmail.org>
-Date:   Thu, 4 Jun 2020 10:57:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1728140AbgFDJAU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jun 2020 05:00:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58876 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726664AbgFDJAT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jun 2020 05:00:19 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3AFBC03E96D
+        for <linux-media@vger.kernel.org>; Thu,  4 Jun 2020 02:00:19 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id E0C27C643A; Thu,  4 Jun 2020 10:00:16 +0100 (BST)
+Date:   Thu, 4 Jun 2020 10:00:16 +0100
+From:   Sean Young <sean@mess.org>
+To:     stable@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Brad Love <brad@nextdimension.cc>, linux-media@vger.kernel.org,
+        hverkuil-cisco@xs4all.nl, mchehab@kernel.org,
+        laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH 1/1] dvbdev: Fix tuner->demod media controller link
+Message-ID: <20200604090016.GA20902@gofer.mess.org>
+References: <20200514164043.8756-1-3126054018@nextdimension.cc>
+ <20200514164043.8756-2-3126054018@nextdimension.cc>
 MIME-Version: 1.0
-In-Reply-To: <20200604081224.863494-4-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200514164043.8756-2-3126054018@nextdimension.cc>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Thu, May 14, 2020 at 11:40:43AM -0500, Brad Love wrote:
+> Fixes bug exposed by:
+> 
+> [a3fbc2e6bb0: media: mc-entity.c: use WARN_ON, validate link pads]
 
-On 6/4/20 10:12 AM, Daniel Vetter wrote:
-...
-> Thread A:
->
-> 	mutex_lock(A);
-> 	mutex_unlock(A);
->
-> 	dma_fence_signal();
->
-> Thread B:
->
-> 	mutex_lock(A);
-> 	dma_fence_wait();
-> 	mutex_unlock(A);
->
-> Thread B is blocked on A signalling the fence, but A never gets around
-> to that because it cannot acquire the lock A.
->
-> Note that dma_fence_wait() is allowed to be nested within
-> dma_fence_begin/end_signalling sections. To allow this to happen the
-> read lock needs to be upgraded to a write lock, which means that any
-> other lock is acquired between the dma_fence_begin_signalling() call and
-> the call to dma_fence_wait(), and still held, this will result in an
-> immediate lockdep complaint. The only other option would be to not
-> annotate such calls, defeating the point. Therefore these annotations
-> cannot be sprinkled over the code entirely mindless to avoid false
-> positives.
+This patch was merged for v5.8, but should have been merged for v5.7
+as well. Please can it be merged into v5.7 stable. The upstream
+commit is 9f984cacf4f4d53fd8a3f44d7f13528b81c1f6a8.
 
-Just realized, isn't that example actually a true positive, or at least 
-a great candidate for a true positive, since if another thread reenters 
-that signaling path, it will block on that mutex, and the fence would 
-never be signaled unless there is another signaling path?
+Thanks,
 
-Although I agree the conclusion is sound: These annotations cannot be 
-sprinkled mindlessly over the code.
-
-/Thomas
+Sean
 
 
-
-
-
-
->
-> v2: handle soft/hardirq ctx better against write side and dont forget
-> EXPORT_SYMBOL, drivers can't use this otherwise.
->
-> v3: Kerneldoc.
->
-> v4: Some spelling fixes from Mika
->
-> Cc: Mika Kuoppala <mika.kuoppala@intel.com>
-> Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: linux-rdma@vger.kernel.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Christian König <christian.koenig@amd.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> 
+> The dvbdev incorrectly requests a tuner sink pad to connect to a demux
+> sink pad. The media controller failure percolates back and the dvb device
+> creation fails. Fix this by requesting a tuner source pad. Instead of
+> forcing that pad to be index zero, check if a negative integer error
+> is returned. A note is added that first source pad found is chosen.
+> 
+> Affected bridges cx231xx and em28xx printed the below warning[s]
+> when a variety of media controller dvb enabled devices were connected.
+> The warning returns an error causing all affected devices to fail DVB
+> device creation.
+> 
+> 
+> [  253.138332] ------------[ cut here ]------------
+> [  253.138339] WARNING: CPU: 0 PID: 1550 at drivers/media/mc/mc-entity.c:669 media_create_pad_link+0x1e0/0x200 [mc]
+> [  253.138339] Modules linked in: si2168 em28xx_dvb(+) em28xx si2157 lgdt3306a cx231xx_dvb dvb_core cx231xx_alsa cx25840 cx231xx tveeprom cx2341x i2c_mux videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobuf2_common videodev mc ir_rc5_decoder rc_hauppauge mceusb rc_core eda
+> c_mce_amd kvm nls_iso8859_1 crct10dif_pclmul crc32_pclmul ghash_clmulni_intel aesni_intel crypto_simd cryptd glue_helper efi_pstore wmi_bmof k10temp asix usbnet mii nouveau snd_hda_codec_realtek snd_hda_codec_generic input_leds ledtrig_audio snd_hda_codec_hdmi mxm_wmi snd_hda_in
+> tel video snd_intel_dspcfg ttm snd_hda_codec drm_kms_helper snd_hda_core drm snd_hwdep snd_seq_midi snd_seq_midi_event i2c_algo_bit snd_pcm snd_rawmidi fb_sys_fops snd_seq syscopyarea sysfillrect snd_seq_device sysimgblt snd_timer snd soundcore ccp mac_hid sch_fq_codel parport_p
+> c ppdev lp parport ip_tables x_tables autofs4 vfio_pci irqbypass vfio_virqfd vfio_iommu_type1 vfio hid_generic usbhid hid i2c_piix4 ahci libahci wmi gpio_amdpt
+> [  253.138370]  gpio_generic
+> [  253.138372] CPU: 0 PID: 1550 Comm: modprobe Tainted: G        W         5.7.0-rc2+ #181
+> [  253.138373] Hardware name: MSI MS-7A39/B350M GAMING PRO (MS-7A39), BIOS 2.G0 04/27/2018
+> [  253.138376] RIP: 0010:media_create_pad_link+0x1e0/0x200 [mc]
+> [  253.138378] Code: 26 fd ff ff 44 8b 4d d0 eb d9 0f 0b 41 b9 ea ff ff ff 44 89 c8 c3 0f 0b 41 b9 ea ff ff ff eb f2 0f 0b 41 b9 ea ff ff ff eb e8 <0f> 0b 41 b9 ea ff ff ff eb af 0f 0b 41 b9 ea ff ff ff eb a5 66 90
+> [  253.138379] RSP: 0018:ffffb9ecc0ee7a78 EFLAGS: 00010246
+> [  253.138380] RAX: ffff943f706c99d8 RBX: 0000000000000000 RCX: 0000000000000000
+> [  253.138381] RDX: ffff943f613e0180 RSI: 0000000000000000 RDI: ffff943f706c9958
+> [  253.138381] RBP: ffffb9ecc0ee7ab0 R08: 0000000000000001 R09: ffff943f613e0180
+> [  253.138382] R10: ffff943f613e0180 R11: ffff943f706c9400 R12: 0000000000000000
+> [  253.138383] R13: 0000000000000001 R14: ffff943f706c9958 R15: 0000000000000001
+> [  253.138384] FS:  00007f3cd29ba540(0000) GS:ffff943f8ec00000(0000) knlGS:0000000000000000
+> [  253.138385] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [  253.138385] CR2: 000055f7de0ca830 CR3: 00000003dd208000 CR4: 00000000003406f0
+> [  253.138386] Call Trace:
+> [  253.138392]  media_create_pad_links+0x104/0x1b0 [mc]
+> [  253.138397]  dvb_create_media_graph+0x350/0x5f0 [dvb_core]
+> [  253.138402]  em28xx_dvb_init+0x5ea/0x2600 [em28xx_dvb]
+> [  253.138408]  em28xx_register_extension+0x63/0xc0 [em28xx]
+> [  253.138410]  ? 0xffffffffc039c000
+> [  253.138412]  em28xx_dvb_register+0x15/0x1000 [em28xx_dvb]
+> [  253.138416]  do_one_initcall+0x71/0x250
+> [  253.138418]  ? do_init_module+0x27/0x22e
+> [  253.138421]  ? _cond_resched+0x1a/0x50
+> [  253.138423]  ? kmem_cache_alloc_trace+0x1ec/0x270
+> [  253.138425]  ? __vunmap+0x1e3/0x240
+> [  253.138427]  do_init_module+0x5f/0x22e
+> [  253.138430]  load_module+0x2525/0x2d40
+> [  253.138436]  __do_sys_finit_module+0xe5/0x120
+> [  253.138438]  ? __do_sys_finit_module+0xe5/0x120
+> [  253.138442]  __x64_sys_finit_module+0x1a/0x20
+> [  253.138443]  do_syscall_64+0x57/0x1b0
+> [  253.138445]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> [  253.138446] RIP: 0033:0x7f3cd24dc839
+> [  253.138448] Code: 00 f3 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 1f f6 2c 00 f7 d8 64 89 01 48
+> [  253.138449] RSP: 002b:00007ffe4fc514d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+> [  253.138450] RAX: ffffffffffffffda RBX: 000055a9237f63f0 RCX: 00007f3cd24dc839
+> [  253.138451] RDX: 0000000000000000 RSI: 000055a922c3ad2e RDI: 0000000000000000
+> [  253.138451] RBP: 000055a922c3ad2e R08: 0000000000000000 R09: 0000000000000000
+> [  253.138452] R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+> [  253.138453] R13: 000055a9237f5550 R14: 0000000000040000 R15: 000055a9237f63f0
+> [  253.138456] ---[ end trace a60f19c54aa96ec4 ]---
+> 
+> 
+> [  234.915628] ------------[ cut here ]------------
+> [  234.915640] WARNING: CPU: 0 PID: 1502 at drivers/media/mc/mc-entity.c:669 media_create_pad_link+0x1e0/0x200 [mc]
+> [  234.915641] Modules linked in: si2157 lgdt3306a cx231xx_dvb(+) dvb_core cx231xx_alsa cx25840 cx231xx tveeprom cx2341x i2c_mux videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobuf2_common videodev mc ir_rc5_decoder rc_hauppauge mceusb rc_core edac_mce_amd kvm nls_iso8859
+> _1 crct10dif_pclmul crc32_pclmul ghash_clmulni_intel aesni_intel crypto_simd cryptd glue_helper efi_pstore wmi_bmof k10temp asix usbnet mii nouveau snd_hda_codec_realtek snd_hda_codec_generic input_leds ledtrig_audio snd_hda_codec_hdmi mxm_wmi snd_hda_intel video snd_intel_dspcf
+> g ttm snd_hda_codec drm_kms_helper snd_hda_core drm snd_hwdep snd_seq_midi snd_seq_midi_event i2c_algo_bit snd_pcm snd_rawmidi fb_sys_fops snd_seq syscopyarea sysfillrect snd_seq_device sysimgblt snd_timer snd soundcore ccp mac_hid sch_fq_codel parport_pc ppdev lp parport ip_tab
+> les x_tables autofs4 vfio_pci irqbypass vfio_virqfd vfio_iommu_type1 vfio hid_generic usbhid hid i2c_piix4 ahci libahci wmi gpio_amdpt gpio_generic
+> [  234.915700] CPU: 0 PID: 1502 Comm: modprobe Not tainted 5.7.0-rc2+ #181
+> [  234.915702] Hardware name: MSI MS-7A39/B350M GAMING PRO (MS-7A39), BIOS 2.G0 04/27/2018
+> [  234.915709] RIP: 0010:media_create_pad_link+0x1e0/0x200 [mc]
+> [  234.915712] Code: 26 fd ff ff 44 8b 4d d0 eb d9 0f 0b 41 b9 ea ff ff ff 44 89 c8 c3 0f 0b 41 b9 ea ff ff ff eb f2 0f 0b 41 b9 ea ff ff ff eb e8 <0f> 0b 41 b9 ea ff ff ff eb af 0f 0b 41 b9 ea ff ff ff eb a5 66 90
+> [  234.915714] RSP: 0018:ffffb9ecc1b6fa50 EFLAGS: 00010246
+> [  234.915717] RAX: ffff943f8c94a9d8 RBX: 0000000000000000 RCX: 0000000000000000
+> [  234.915719] RDX: ffff943f613e0900 RSI: 0000000000000000 RDI: ffff943f8c94a958
+> [  234.915721] RBP: ffffb9ecc1b6fa88 R08: 0000000000000001 R09: ffff943f613e0900
+> [  234.915723] R10: ffff943f613e0900 R11: ffff943f6b590c00 R12: 0000000000000000
+> [  234.915724] R13: 0000000000000001 R14: ffff943f8c94a958 R15: 0000000000000001
+> [  234.915727] FS:  00007f4ca3646540(0000) GS:ffff943f8ec00000(0000) knlGS:0000000000000000
+> [  234.915729] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [  234.915731] CR2: 00007fff7a53ba18 CR3: 00000003da614000 CR4: 00000000003406f0
+> [  234.915733] Call Trace:
+> [  234.915745]  media_create_pad_links+0x104/0x1b0 [mc]
+> [  234.915756]  dvb_create_media_graph+0x350/0x5f0 [dvb_core]
+> [  234.915766]  dvb_init.part.4+0x691/0x1360 [cx231xx_dvb]
+> [  234.915780]  dvb_init+0x1a/0x20 [cx231xx_dvb]
+> [  234.915787]  cx231xx_register_extension+0x71/0xa0 [cx231xx]
+> [  234.915791]  ? 0xffffffffc042f000
+> [  234.915796]  cx231xx_dvb_register+0x15/0x1000 [cx231xx_dvb]
+> [  234.915802]  do_one_initcall+0x71/0x250
+> [  234.915807]  ? do_init_module+0x27/0x22e
+> [  234.915811]  ? _cond_resched+0x1a/0x50
+> [  234.915816]  ? kmem_cache_alloc_trace+0x1ec/0x270
+> [  234.915820]  ? __vunmap+0x1e3/0x240
+> [  234.915826]  do_init_module+0x5f/0x22e
+> [  234.915831]  load_module+0x2525/0x2d40
+> [  234.915848]  __do_sys_finit_module+0xe5/0x120
+> [  234.915850]  ? __do_sys_finit_module+0xe5/0x120
+> [  234.915862]  __x64_sys_finit_module+0x1a/0x20
+> [  234.915865]  do_syscall_64+0x57/0x1b0
+> [  234.915870]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> [  234.915872] RIP: 0033:0x7f4ca3168839
+> [  234.915876] Code: 00 f3 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 1f f6 2c 00 f7 d8 64 89 01 48
+> [  234.915878] RSP: 002b:00007ffcea3db3b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
+> [  234.915881] RAX: ffffffffffffffda RBX: 000055af22c29340 RCX: 00007f4ca3168839
+> [  234.915882] RDX: 0000000000000000 RSI: 000055af22c38390 RDI: 0000000000000001
+> [  234.915884] RBP: 000055af22c38390 R08: 0000000000000000 R09: 0000000000000000
+> [  234.915885] R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000000
+> [  234.915887] R13: 000055af22c29060 R14: 0000000000040000 R15: 0000000000000000
+> [  234.915896] ---[ end trace a60f19c54aa96ec3 ]---
+> 
+> 
+> Signed-off-by: Brad Love <brad@nextdimension.cc>
 > ---
->   Documentation/driver-api/dma-buf.rst |  12 +-
->   drivers/dma-buf/dma-fence.c          | 161 +++++++++++++++++++++++++++
->   include/linux/dma-fence.h            |  12 ++
->   3 files changed, 182 insertions(+), 3 deletions(-)
->
-> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
-> index 63dec76d1d8d..05d856131140 100644
-> --- a/Documentation/driver-api/dma-buf.rst
-> +++ b/Documentation/driver-api/dma-buf.rst
-> @@ -100,11 +100,11 @@ CPU Access to DMA Buffer Objects
->   .. kernel-doc:: drivers/dma-buf/dma-buf.c
->      :doc: cpu access
->   
-> -Fence Poll Support
-> -~~~~~~~~~~~~~~~~~~
-> +Implicit Fence Poll Support
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   
->   .. kernel-doc:: drivers/dma-buf/dma-buf.c
-> -   :doc: fence polling
-> +   :doc: implicit fence polling
->   
->   Kernel Functions and Structures Reference
->   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> @@ -133,6 +133,12 @@ DMA Fences
->   .. kernel-doc:: drivers/dma-buf/dma-fence.c
->      :doc: DMA fences overview
->   
-> +DMA Fence Signalling Annotations
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> +   :doc: fence signalling annotation
-> +
->   DMA Fences Functions Reference
->   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->   
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 656e9ac2d028..0005bc002529 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -110,6 +110,160 @@ u64 dma_fence_context_alloc(unsigned num)
->   }
->   EXPORT_SYMBOL(dma_fence_context_alloc);
->   
-> +/**
-> + * DOC: fence signalling annotation
-> + *
-> + * Proving correctness of all the kernel code around &dma_fence through code
-> + * review and testing is tricky for a few reasons:
-> + *
-> + * * It is a cross-driver contract, and therefore all drivers must follow the
-> + *   same rules for lock nesting order, calling contexts for various functions
-> + *   and anything else significant for in-kernel interfaces. But it is also
-> + *   impossible to test all drivers in a single machine, hence brute-force N vs.
-> + *   N testing of all combinations is impossible. Even just limiting to the
-> + *   possible combinations is infeasible.
-> + *
-> + * * There is an enormous amount of driver code involved. For render drivers
-> + *   there's the tail of command submission, after fences are published,
-> + *   scheduler code, interrupt and workers to process job completion,
-> + *   and timeout, gpu reset and gpu hang recovery code. Plus for integration
-> + *   with core mm with have &mmu_notifier, respectively &mmu_interval_notifier,
-> + *   and &shrinker. For modesetting drivers there's the commit tail functions
-> + *   between when fences for an atomic modeset are published, and when the
-> + *   corresponding vblank completes, including any interrupt processing and
-> + *   related workers. Auditing all that code, across all drivers, is not
-> + *   feasible.
-> + *
-> + * * Due to how many other subsystems are involved and the locking hierarchies
-> + *   this pulls in there is extremely thin wiggle-room for driver-specific
-> + *   differences. &dma_fence interacts with almost all of the core memory
-> + *   handling through page fault handlers via &dma_resv, dma_resv_lock() and
-> + *   dma_resv_unlock(). On the other side it also interacts through all
-> + *   allocation sites through &mmu_notifier and &shrinker.
-> + *
-> + * Furthermore lockdep does not handle cross-release dependencies, which means
-> + * any deadlocks between dma_fence_wait() and dma_fence_signal() can't be caught
-> + * at runtime with some quick testing. The simplest example is one thread
-> + * waiting on a &dma_fence while holding a lock::
-> + *
-> + *     lock(A);
-> + *     dma_fence_wait(B);
-> + *     unlock(A);
-> + *
-> + * while the other thread is stuck trying to acquire the same lock, which
-> + * prevents it from signalling the fence the previous thread is stuck waiting
-> + * on::
-> + *
-> + *     lock(A);
-> + *     unlock(A);
-> + *     dma_fence_signal(B);
-> + *
-> + * By manually annotating all code relevant to signalling a &dma_fence we can
-> + * teach lockdep about these dependencies, which also helps with the validation
-> + * headache since now lockdep can check all the rules for us::
-> + *
-> + *    cookie = dma_fence_begin_signalling();
-> + *    lock(A);
-> + *    unlock(A);
-> + *    dma_fence_signal(B);
-> + *    dma_fence_end_signalling(cookie);
-> + *
-> + * For using dma_fence_begin_signalling() and dma_fence_end_signalling() to
-> + * annotate critical sections the following rules need to be observed:
-> + *
-> + * * All code necessary to complete a &dma_fence must be annotated, from the
-> + *   point where a fence is accessible to other threads, to the point where
-> + *   dma_fence_signal() is called. Un-annotated code can contain deadlock issues,
-> + *   and due to the very strict rules and many corner cases it is infeasible to
-> + *   catch these just with review or normal stress testing.
-> + *
-> + * * &struct dma_resv deserves a special note, since the readers are only
-> + *   protected by rcu. This means the signalling critical section starts as soon
-> + *   as the new fences are installed, even before dma_resv_unlock() is called.
-> + *
-> + * * The only exception are fast paths and opportunistic signalling code, which
-> + *   calls dma_fence_signal() purely as an optimization, but is not required to
-> + *   guarantee completion of a &dma_fence. The usual example is a wait IOCTL
-> + *   which calls dma_fence_signal(), while the mandatory completion path goes
-> + *   through a hardware interrupt and possible job completion worker.
-> + *
-> + * * To aid composability of code, the annotations can be freely nested, as long
-> + *   as the overall locking hierarchy is consistent. The annotations also work
-> + *   both in interrupt and process context. Due to implementation details this
-> + *   requires that callers pass an opaque cookie from
-> + *   dma_fence_begin_signalling() to dma_fence_end_signalling().
-> + *
-> + * * Validation against the cross driver contract is implemented by priming
-> + *   lockdep with the relevant hierarchy at boot-up. This means even just
-> + *   testing with a single device is enough to validate a driver, at least as
-> + *   far as deadlocks with dma_fence_wait() against dma_fence_signal() are
-> + *   concerned.
-> + */
-> +#ifdef CONFIG_LOCKDEP
-> +struct lockdep_map	dma_fence_lockdep_map = {
-> +	.name = "dma_fence_map"
-> +};
-> +
-> +/**
-> + * dma_fence_begin_signalling - begin a critical DMA fence signalling section
-> + *
-> + * Drivers should use this to annotate the beginning of any code section
-> + * required to eventually complete &dma_fence by calling dma_fence_signal().
-> + *
-> + * The end of these critical sections are annotated with
-> + * dma_fence_end_signalling().
-> + *
-> + * Returns:
-> + *
-> + * Opaque cookie needed by the implementation, which needs to be passed to
-> + * dma_fence_end_signalling().
-> + */
-> +bool dma_fence_begin_signalling(void)
-> +{
-> +	/* explicitly nesting ... */
-> +	if (lock_is_held_type(&dma_fence_lockdep_map, 1))
-> +		return true;
-> +
-> +	/* rely on might_sleep check for soft/hardirq locks */
-> +	if (in_atomic())
-> +		return true;
-> +
-> +	/* ... and non-recursive readlock */
-> +	lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _RET_IP_);
-> +
-> +	return false;
-> +}
-> +EXPORT_SYMBOL(dma_fence_begin_signalling);
-> +
-> +/**
-> + * dma_fence_end_signalling - end a critical DMA fence signalling section
-> + *
-> + * Closes a critical section annotation opened by dma_fence_begin_signalling().
-> + */
-> +void dma_fence_end_signalling(bool cookie)
-> +{
-> +	if (cookie)
-> +		return;
-> +
-> +	lock_release(&dma_fence_lockdep_map, _RET_IP_);
-> +}
-> +EXPORT_SYMBOL(dma_fence_end_signalling);
-> +
-> +void __dma_fence_might_wait(void)
-> +{
-> +	bool tmp;
-> +
-> +	tmp = lock_is_held_type(&dma_fence_lockdep_map, 1);
-> +	if (tmp)
-> +		lock_release(&dma_fence_lockdep_map, _THIS_IP_);
-> +	lock_map_acquire(&dma_fence_lockdep_map);
-> +	lock_map_release(&dma_fence_lockdep_map);
-> +	if (tmp)
-> +		lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _THIS_IP_);
-> +}
-> +#endif
-> +
-> +
->   /**
->    * dma_fence_signal_locked - signal completion of a fence
->    * @fence: the fence to signal
-> @@ -170,14 +324,19 @@ int dma_fence_signal(struct dma_fence *fence)
->   {
->   	unsigned long flags;
->   	int ret;
-> +	bool tmp;
->   
->   	if (!fence)
->   		return -EINVAL;
->   
-> +	tmp = dma_fence_begin_signalling();
-> +
->   	spin_lock_irqsave(fence->lock, flags);
->   	ret = dma_fence_signal_locked(fence);
->   	spin_unlock_irqrestore(fence->lock, flags);
->   
-> +	dma_fence_end_signalling(tmp);
-> +
->   	return ret;
->   }
->   EXPORT_SYMBOL(dma_fence_signal);
-> @@ -210,6 +369,8 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
->   
->   	might_sleep();
->   
-> +	__dma_fence_might_wait();
-> +
->   	trace_dma_fence_wait_start(fence);
->   	if (fence->ops->wait)
->   		ret = fence->ops->wait(fence, intr, timeout);
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 3347c54f3a87..3f288f7db2ef 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -357,6 +357,18 @@ dma_fence_get_rcu_safe(struct dma_fence __rcu **fencep)
->   	} while (1);
->   }
->   
-> +#ifdef CONFIG_LOCKDEP
-> +bool dma_fence_begin_signalling(void);
-> +void dma_fence_end_signalling(bool cookie);
-> +#else
-> +static inline bool dma_fence_begin_signalling(void)
-> +{
-> +	return true;
-> +}
-> +static inline void dma_fence_end_signalling(bool cookie) {}
-> +static inline void __dma_fence_might_wait(void) {}
-> +#endif
-> +
->   int dma_fence_signal(struct dma_fence *fence);
->   int dma_fence_signal_locked(struct dma_fence *fence);
->   signed long dma_fence_default_wait(struct dma_fence *fence,
+>  drivers/media/dvb-core/dvbdev.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+> index 80b6a71aa33e..1cd2dc7e4168 100644
+> --- a/drivers/media/dvb-core/dvbdev.c
+> +++ b/drivers/media/dvb-core/dvbdev.c
+> @@ -707,9 +707,10 @@ int dvb_create_media_graph(struct dvb_adapter *adap,
+>  	}
+>  
+>  	if (ntuner && ndemod) {
+> -		pad_source = media_get_pad_index(tuner, true,
+> +		/* NOTE: first found tuner source pad presumed correct */
+> +		pad_source = media_get_pad_index(tuner, false,
+>  						 PAD_SIGNAL_ANALOG);
+> -		if (pad_source)
+> +		if (pad_source < 0)
+>  			return -EINVAL;
+>  		ret = media_create_pad_links(mdev,
+>  					     MEDIA_ENT_F_TUNER,
+> -- 
+> 2.23.0
