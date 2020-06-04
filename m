@@ -2,83 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A03E1EDD1C
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 08:21:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A5B21EDE1C
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 09:29:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726809AbgFDGU5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jun 2020 02:20:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59504 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726603AbgFDGU4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Jun 2020 02:20:56 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 357E7206DC;
-        Thu,  4 Jun 2020 06:20:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591251656;
-        bh=+HdQImVDyrT99xu6InwjdgnGBee+vtpE89w1UlBanIE=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=asoXW0pWuATP8jFKvFvNgsCVYtB54v25YROE33i5jH5P/1UetYz8OtYr0eNqaFdig
-         /XwS0KlWwm1EgFLSBOb4XrFrqQC+KC3t2BDFpPC+CTKrErpagVmTeUlt8cCxagRgLC
-         z+kmUC6vfolwV6zu1yPLtOC8yQG9Cq8v1qZtuWOg=
-Date:   Thu, 4 Jun 2020 08:20:52 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: [GIT PULL for v5.8-rc1] media updates
-Message-ID: <20200604082052.298d534f@coco.lan>
-In-Reply-To: <CAHk-=wg0=J7VXoEL0eCNmguyj-z7G-iByHcUV02nrmw10GCZ3A@mail.gmail.com>
-References: <20200603100559.2718efba@coco.lan>
-        <CAHk-=wg0=J7VXoEL0eCNmguyj-z7G-iByHcUV02nrmw10GCZ3A@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728047AbgFDH30 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jun 2020 03:29:26 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:36044 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728035AbgFDH3Z (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jun 2020 03:29:25 -0400
+X-UUID: 79bd932093de4f64aa9a593ca6acca70-20200604
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=3sd83gbBi/bwcV9u6BojfPaejlbJ45wcsK+TIeYFX5U=;
+        b=bu5lt/kT+6hW/tiBwhpV5sVAXAnTdsdDFS9PkX7o+ysDBL0IkOomyE1jBHpbeC1ro7sLzqIVnGRSGAC1D23gbATDTXM8scNgtyxL32cRoDymBuX1ctp3erfyiiFPvsD/CbLY16Sls1VtjapNCmNz6VKwjoowARLRFLKEzIKiDRo=;
+X-UUID: 79bd932093de4f64aa9a593ca6acca70-20200604
+Received: from mtkcas11.mediatek.inc [(172.21.101.40)] by mailgw02.mediatek.com
+        (envelope-from <xia.jiang@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
+        with ESMTP id 564267766; Thu, 04 Jun 2020 15:29:22 +0800
+Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
+ mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 4 Jun 2020 15:29:21 +0800
+Received: from localhost.localdomain (10.17.3.153) by MTKCAS06.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Thu, 4 Jun 2020 15:29:19 +0800
+From:   Xia Jiang <xia.jiang@mediatek.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rick Chang <rick.chang@mediatek.com>
+CC:     <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        <srv_heupstream@mediatek.com>, <senozhatsky@chromium.org>,
+        <mojahsu@chromium.org>, <drinkcat@chromium.org>,
+        <maoguang.meng@mediatek.com>, <sj.huang@mediatek.com>,
+        Xia Jiang <xia.jiang@mediatek.com>
+Subject: [PATCH v9 06/18] media: platform: Delete the resetting hardware flow in the system PM ops
+Date:   Thu, 4 Jun 2020 15:26:56 +0800
+Message-ID: <20200604072708.9468-7-xia.jiang@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20200604072708.9468-1-xia.jiang@mediatek.com>
+References: <20200604072708.9468-1-xia.jiang@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 3 Jun 2020 21:21:06 -0700
-Linus Torvalds <torvalds@linux-foundation.org> escreveu:
+RGVsZXRlIHRoZSByZXNldHRpbmcgaGFyZHdhcmUgZmxvdyBpbiBzdXNwZW5kIGFuZCByZXN1bWUg
+ZnVuY3Rpb24NCmJlY2F1c2UgdGhhdCByZXNldHRpbmcgb3BlcmF0aW9uIHdpbGwgYmUgZG9uZSBp
+biBkZXZpY2VfcnVuKCkuDQoNClNpZ25lZC1vZmYtYnk6IFhpYSBKaWFuZyA8eGlhLmppYW5nQG1l
+ZGlhdGVrLmNvbT4NCi0tLQ0Kdjk6IG5ldyBwYXRjaA0KLS0tDQogY2hlY2sudHh0ICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAxMyArKysrKysrKysrKysrDQogZHJpdmVy
+cy9tZWRpYS9wbGF0Zm9ybS9tdGstanBlZy9tdGtfanBlZ19jb3JlLmMgfCAgMiAtLQ0KIDIgZmls
+ZXMgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkNCiBjcmVhdGUgbW9k
+ZSAxMDA2NDQgY2hlY2sudHh0DQoNCmRpZmYgLS1naXQgYS9jaGVjay50eHQgYi9jaGVjay50eHQN
+Cm5ldyBmaWxlIG1vZGUgMTAwNjQ0DQppbmRleCAwMDAwMDAwMDAwMDAuLmFlZDM5ZTVmNjJmMg0K
+LS0tIC9kZXYvbnVsbA0KKysrIGIvY2hlY2sudHh0DQpAQCAtMCwwICsxLDEzIEBADQorV0FSTklO
+RzpMT05HX0xJTkU6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzDQorIzgyMDogRklMRTogLi9kcml2
+ZXJzL21lZGlhL3BsYXRmb3JtL210ay1qcGVnL210a19qcGVnX2NvcmUuYzo4MjA6DQorKwlpZiAo
+bXRrX2pwZWdfc2V0X2RlY19kc3QoY3R4LCAmanBlZ19zcmNfYnVmLT5kZWNfcGFyYW0sICZkc3Rf
+YnVmLT52YjJfYnVmLCAmZmIpKQ0KKw0KK3RvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMTI3
+MSBsaW5lcyBjaGVja2VkDQorDQorTk9URTogRm9yIHNvbWUgb2YgdGhlIHJlcG9ydGVkIGRlZmVj
+dHMsIGNoZWNrcGF0Y2ggbWF5IGJlIGFibGUgdG8NCisgICAgICBtZWNoYW5pY2FsbHkgY29udmVy
+dCB0byB0aGUgdHlwaWNhbCBzdHlsZSB1c2luZyAtLWZpeCBvciAtLWZpeC1pbnBsYWNlLg0KKw0K
+Ky4vZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9tdGstanBlZy9tdGtfanBlZ19jb3JlLmMgaGFzIHN0
+eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3Lg0KKw0KK05PVEU6IElmIGFueSBvZiB0aGUgZXJy
+b3JzIGFyZSBmYWxzZSBwb3NpdGl2ZXMsIHBsZWFzZSByZXBvcnQNCisgICAgICB0aGVtIHRvIHRo
+ZSBtYWludGFpbmVyLCBzZWUgQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4NCmRpZmYgLS1naXQg
+YS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL210ay1qcGVnL210a19qcGVnX2NvcmUuYyBiL2RyaXZl
+cnMvbWVkaWEvcGxhdGZvcm0vbXRrLWpwZWcvbXRrX2pwZWdfY29yZS5jDQppbmRleCBmYjYyNDM4
+NTk2OWUuLjdmNzQ1OTcyNjJmYyAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0v
+bXRrLWpwZWcvbXRrX2pwZWdfY29yZS5jDQorKysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL210
+ay1qcGVnL210a19qcGVnX2NvcmUuYw0KQEAgLTExOTEsNyArMTE5MSw2IEBAIHN0YXRpYyBfX21h
+eWJlX3VudXNlZCBpbnQgbXRrX2pwZWdfcG1fc3VzcGVuZChzdHJ1Y3QgZGV2aWNlICpkZXYpDQog
+ew0KIAlzdHJ1Y3QgbXRrX2pwZWdfZGV2ICpqcGVnID0gZGV2X2dldF9kcnZkYXRhKGRldik7DQog
+DQotCW10a19qcGVnX2RlY19yZXNldChqcGVnLT5kZWNfcmVnX2Jhc2UpOw0KIAltdGtfanBlZ19j
+bGtfb2ZmKGpwZWcpOw0KIA0KIAlyZXR1cm4gMDsNCkBAIC0xMjAyLDcgKzEyMDEsNiBAQCBzdGF0
+aWMgX19tYXliZV91bnVzZWQgaW50IG10a19qcGVnX3BtX3Jlc3VtZShzdHJ1Y3QgZGV2aWNlICpk
+ZXYpDQogCXN0cnVjdCBtdGtfanBlZ19kZXYgKmpwZWcgPSBkZXZfZ2V0X2RydmRhdGEoZGV2KTsN
+CiANCiAJbXRrX2pwZWdfY2xrX29uKGpwZWcpOw0KLQltdGtfanBlZ19kZWNfcmVzZXQoanBlZy0+
+ZGVjX3JlZ19iYXNlKTsNCiANCiAJcmV0dXJuIDA7DQogfQ0KLS0gDQoyLjE4LjANCg==
 
-> On Wed, Jun 3, 2020 at 1:06 AM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> >
-> >   - The atomisp staging driver was resurrected. It is meant to work with
-> >     4 generations of cameras on Atom-based laptops, tablets and cell
-> >     phones. So, it seems worth investing time to cleanup this driver and
-> >     making it in good shape. =20
->=20
-> Hmm. It causes a warning for me:
->=20
->    drivers/staging/media/atomisp/pci/atomisp_v4l2.c:764:12: warning:
-> =E2=80=98atomisp_mrfld_power=E2=80=99 defined but not used [-Wunused-func=
-tion]
->=20
-> which is a bit annoying.
->=20
-> I can see the FIXME's there, but the warning still isn't acceptable.
->=20
-> I'll add a fixup commit. I was going to do it in the merge itself, but
-> decided that was a bit too subtle.
-
-OK!
-
-I have a patch like that already on a separate pile of patches,
-which address several other things. I opted to place them in
-separate, in order to give people some time to comment and review.
-
-My plan is to keep them on linux-next and submit you next week, if
-ok for you.
-
-The new series should drop all LLVM warnings and add SPDX headers,
-among other things.=20
-
-Thanks,
-Mauro
