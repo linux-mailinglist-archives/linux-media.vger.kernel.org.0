@@ -2,117 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2EA711EEBF3
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 22:27:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 063E91EEC5A
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 22:47:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729174AbgFDU1Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jun 2020 16:27:24 -0400
-Received: from v6.sk ([167.172.42.174]:46350 "EHLO v6.sk"
+        id S1730026AbgFDUrJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jun 2020 16:47:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:40996 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725883AbgFDU1Y (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 4 Jun 2020 16:27:24 -0400
-Received: from localhost (v6.sk [IPv6:::1])
-        by v6.sk (Postfix) with ESMTP id 0E4BC610D0;
-        Thu,  4 Jun 2020 20:26:52 +0000 (UTC)
-Date:   Thu, 4 Jun 2020 22:26:48 +0200
-From:   Lubomir Rintel <lkundrak@v3.sk>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Jonathan Corbet <corbet@lwn.net>, linux-media@vger.kernel.org,
+        id S1729174AbgFDUrJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Jun 2020 16:47:09 -0400
+Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A87D5206DC;
+        Thu,  4 Jun 2020 20:47:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591303628;
+        bh=Qo4iouPHpf3BJiYOoLSBBWarAnUgUp44p/1xY7iDdbs=;
+        h=From:To:Cc:Subject:Date:From;
+        b=p25+39YGs09UTDVBmtDmLT+oKJy/0KC1yHGPY4Y+AJ1smzRMuCUAR8S7ddNUsT0FY
+         Em8J36/ctZ4PMn7Yr7JNABCUOoKQVJAZq9brxC21U95Ff/tRDgQ/2aVeSnH3cGyh2s
+         Rsd8UvacHo8qieFeZ3XhD1w04be83FYMVtnxpKRQ=
+Received: from mchehab by mail.kernel.org with local (Exim 4.93)
+        (envelope-from <mchehab@kernel.org>)
+        id 1jgwlW-0004AW-ME; Thu, 04 Jun 2020 22:47:06 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [RESEND 2 PATCH] media: marvell-ccic: Add support for runtime PM
-Message-ID: <20200604202648.GA565781@furthur.local>
-References: <20200601192124.172650-1-lkundrak@v3.sk>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devel@driverdev.osuosl.org, linux-media@vger.kernel.org
+Subject: [PATCH 0/5] Improve ACPI detection code for atomisp
+Date:   Thu,  4 Jun 2020 22:47:00 +0200
+Message-Id: <cover.1591303518.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200601192124.172650-1-lkundrak@v3.sk>
+Content-Transfer-Encoding: 8bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Cc += Sakari. I'm wondering if you'd mind looking at this mmp ccic patch
-too.
+Add support to read the sensor configuration directly from the BIOS,
+instead of relying on DMI match tables.
 
-Thank you
-Lubo
+As we don't have the legacy models there which has their own
+DMI match tables, we can't remove them, but this change should
+make this driver to better detect unlisted devices.
 
-On Mon, Jun 01, 2020 at 09:21:24PM +0200, Lubomir Rintel wrote:
-> On MMP3, the camera block lives on na separate power island. We want to
-> turn it off if the CCIC is not in use to conserve power.
-> 
-> Signed-off-by: Lubomir Rintel <lkundrak@v3.sk>
-> ---
->  drivers/media/platform/marvell-ccic/mcam-core.c  |  3 +++
->  drivers/media/platform/marvell-ccic/mmp-driver.c | 12 ++++++++----
->  2 files changed, 11 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/marvell-ccic/mcam-core.c b/drivers/media/platform/marvell-ccic/mcam-core.c
-> index 09775b6624c6b..c2cd1d461bd06 100644
-> --- a/drivers/media/platform/marvell-ccic/mcam-core.c
-> +++ b/drivers/media/platform/marvell-ccic/mcam-core.c
-> @@ -24,6 +24,7 @@
->  #include <linux/clk.h>
->  #include <linux/clk-provider.h>
->  #include <linux/videodev2.h>
-> +#include <linux/pm_runtime.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-ioctl.h>
->  #include <media/v4l2-ctrls.h>
-> @@ -901,6 +902,7 @@ static void mcam_clk_enable(struct mcam_camera *mcam)
->  {
->  	unsigned int i;
->  
-> +	pm_runtime_get_sync(mcam->dev);
->  	for (i = 0; i < NR_MCAM_CLK; i++) {
->  		if (!IS_ERR(mcam->clk[i]))
->  			clk_prepare_enable(mcam->clk[i]);
-> @@ -915,6 +917,7 @@ static void mcam_clk_disable(struct mcam_camera *mcam)
->  		if (!IS_ERR(mcam->clk[i]))
->  			clk_disable_unprepare(mcam->clk[i]);
->  	}
-> +	pm_runtime_put(mcam->dev);
->  }
->  
->  /* ---------------------------------------------------------------------- */
-> diff --git a/drivers/media/platform/marvell-ccic/mmp-driver.c b/drivers/media/platform/marvell-ccic/mmp-driver.c
-> index 92b92255dac66..eec482d16805b 100644
-> --- a/drivers/media/platform/marvell-ccic/mmp-driver.c
-> +++ b/drivers/media/platform/marvell-ccic/mmp-driver.c
-> @@ -24,6 +24,7 @@
->  #include <linux/list.h>
->  #include <linux/pm.h>
->  #include <linux/clk.h>
-> +#include <linux/pm_runtime.h>
->  
->  #include "mcam-core.h"
->  
-> @@ -313,10 +314,12 @@ static int mmpcam_probe(struct platform_device *pdev)
->  	cam->irq = res->start;
->  	ret = devm_request_irq(&pdev->dev, cam->irq, mmpcam_irq, IRQF_SHARED,
->  					"mmp-camera", mcam);
-> -	if (ret == 0) {
-> -		mmpcam_add_device(cam);
-> -		return 0;
-> -	}
-> +	if (ret)
-> +		goto out;
-> +
-> +	mmpcam_add_device(cam);
-> +	pm_runtime_enable(&pdev->dev);
-> +	return 0;
->  
->  out:
->  	fwnode_handle_put(mcam->asd.match.fwnode);
-> @@ -332,6 +335,7 @@ static int mmpcam_remove(struct mmp_camera *cam)
->  
->  	mmpcam_remove_device(cam);
->  	mccic_shutdown(mcam);
-> +	pm_runtime_force_suspend(mcam->dev);
->  	return 0;
->  }
->  
-> -- 
-> 2.26.2
-> 
+Mauro Carvalho Chehab (5):
+  media: atomisp: improve sensor detection code to use _DSM table
+  Revert "media: atomisp: Add some ACPI detection info"
+  Revert "media: atomisp: add Asus Transform T101HA ACPI vars"
+  media: atomisp: change clock source default for ISP2401
+  media: atomisp: improve ACPI/DMI detection logs
+
+ drivers/staging/media/atomisp/TODO            |  43 +----
+ .../media/atomisp/i2c/atomisp-gc0310.c        |  11 --
+ .../media/atomisp/i2c/atomisp-gc2235.c        |  11 --
+ .../media/atomisp/i2c/atomisp-lm3554.c        |  11 --
+ .../media/atomisp/i2c/atomisp-mt9m114.c       |  11 --
+ .../media/atomisp/i2c/atomisp-ov2680.c        |  11 --
+ .../media/atomisp/i2c/atomisp-ov2722.c        |  11 --
+ .../media/atomisp/i2c/ov5693/atomisp-ov5693.c |  11 --
+ .../media/atomisp/pci/atomisp_gmin_platform.c | 157 ++++++++++++++----
+ 9 files changed, 129 insertions(+), 148 deletions(-)
+
+-- 
+2.26.2
+
+
