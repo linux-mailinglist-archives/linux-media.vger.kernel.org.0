@@ -2,121 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AA911EDF36
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 10:13:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4AABE1EDFEE
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 10:42:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727917AbgFDIM6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jun 2020 04:12:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51538 "EHLO
+        id S1728016AbgFDImJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jun 2020 04:42:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726819AbgFDIM4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jun 2020 04:12:56 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CF2CC03E96E
-        for <linux-media@vger.kernel.org>; Thu,  4 Jun 2020 01:12:56 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id q25so4636025wmj.0
-        for <linux-media@vger.kernel.org>; Thu, 04 Jun 2020 01:12:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=tFPcYYVPEczCJNqu565ZZzRL31Ro7iqoJLud+V9/W6s=;
-        b=MV7FJtoEKLyy0r+Z0KoFPEtyhRXEwQ/IbBpYLu8LO9Uc78Ax/2RYA4vzBMjtiJcK6p
-         AdKwrHzr6dzh+N3ms51V1I6le1IjLWDF+LcV9lCl9LStGwUptD8GwQ/Htx2fZJN8DVly
-         sAfPeJLEgUIdNH8S/XB9b4lCyMgUL5KbMtjSc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=tFPcYYVPEczCJNqu565ZZzRL31Ro7iqoJLud+V9/W6s=;
-        b=LXx2kN0IuBkgqBJlZ5Pgw6zJyuTCXrmguT4CNc0s6EjdGw6cumW8xKTUCjODQ83K7j
-         lnypHe4Y8DjdOBitI/Bs+VM3QtzxBjACdZ2uWZDCNp/Y66m37TtjXVTXnooS8g5cKJEl
-         SWf2o+a4uxCBF7rxDBWNLe/MhBfRDGdIc6RbpLUIpoBOul+9fFPrGPhUu5B6gsvov+tP
-         fiFd2JoHV+kqFsvEAbLAYtveZJgDFCWXYR0B2Zg/7FuYQHen9c38dckUD+C359QtcpyG
-         vghu8kh8z1/9FM5drbpz1OrS1MMO8B+hUzIHRrmcN8gcaAoOTFbyI3DaG/tDcizGrgu8
-         Cnng==
-X-Gm-Message-State: AOAM531R2XSPxQdjIN+nuQ5BsdFuslBmQi4rm4ptdft2QMWEIpLfqJw+
-        JpVrxrzi58lCcJf0cN5YuqNY1A==
-X-Google-Smtp-Source: ABdhPJwyTSsHObvqYxt5vjWFqYKxgNRr/Tg50mOhhgXdXRLp1pp0LpRagZgRAkv0R2QBG8+IZNWOoQ==
-X-Received: by 2002:a7b:c18a:: with SMTP id y10mr3020133wmi.73.1591258374887;
-        Thu, 04 Jun 2020 01:12:54 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id f11sm6873305wrj.2.2020.06.04.01.12.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Jun 2020 01:12:54 -0700 (PDT)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-rdma@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Subject: [PATCH 18/18] drm/i915: Annotate dma_fence_work
-Date:   Thu,  4 Jun 2020 10:12:24 +0200
-Message-Id: <20200604081224.863494-19-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+        with ESMTP id S1726802AbgFDImJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jun 2020 04:42:09 -0400
+Received: from Galois.linutronix.de (Galois.linutronix.de [IPv6:2a0a:51c0:0:12e:550::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 265C4C05BD1E;
+        Thu,  4 Jun 2020 01:42:09 -0700 (PDT)
+Received: from [5.158.153.53] (helo=debian-buster-darwi.lab.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+        (Exim 4.80)
+        (envelope-from <a.darwish@linutronix.de>)
+        id 1jglRV-0008RC-Pp; Thu, 04 Jun 2020 10:41:41 +0200
+Date:   Thu, 4 Jun 2020 10:41:40 +0200
+From:   "Ahmed S. Darwish" <a.darwish@linutronix.de>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@redhat.com>, Will Deacon <will@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
+        "Sebastian A. Siewior" <bigeasy@linutronix.de>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Eric Dumazet <edumazet@google.com>,
+        Jens Axboe <axboe@kernel.dk>, Vivek Goyal <vgoyal@redhat.com>,
+        linux-block@vger.kernel.org, David Airlie <airlied@linux.ie>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v2 0/6] seqlock: seqcount_t call sites bugfixes
+Message-ID: <20200604084139.GA1123871@debian-buster-darwi.lab.linutronix.de>
+References: <20200603144949.1122421-1-a.darwish@linutronix.de>
+ <20200604072841.GR20149@phenom.ffwll.local>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200604072841.GR20149@phenom.ffwll.local>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-i915 does tons of allocations from this worker, which lockdep catches.
+On Thu, Jun 04, 2020 at 09:28:41AM +0200, Daniel Vetter wrote:
+> On Wed, Jun 03, 2020 at 04:49:43PM +0200, Ahmed S. Darwish wrote:
+> > Hi,
+> >
+> > Since patch #7 and #8 from the series:
+> >
+> >    [PATCH v1 00/25] seqlock: Extend seqcount API with associated locks
+> >    https://lore.kernel.org/lkml/20200519214547.352050-1-a.darwish@linutronix.de
+> >
+> > are now pending on the lockdep/x86 IRQ state tracking patch series:
+> >
+> >    [PATCH 00/14] x86/entry: disallow #DB more and x86/entry lockdep/nmi
+> >    https://lkml.kernel.org/r/20200529212728.795169701@infradead.org
+> >
+> >    [PATCH v3 0/5] lockdep: Change IRQ state tracking to use per-cpu variables
+> >    https://lkml.kernel.org/r/20200529213550.683440625@infradead.org
+> >
+> > This is a repost only of the seqcount_t call sites bugfixes that were on
+> > top of the seqlock patch series.
+> >
+> > These fixes are independent, and can thus be merged on their own. I'm
+> > reposting them now so they can at least hit -rc2 or -rc3.
+>
+> I'm confused on what I should do with patch 6 here for dma-buf. Looks like
+> just a good cleanup/prep work, so I'd queue it for linux-next and 5.9, but
+> sounds like you want this in earlier. Do you need this in 5.8-rc for some
+> work meant for 5.9? Will this go in through some topic branch directly?
+> Should I apply it?
+>
+> Patch itself lgtm, I'm just confused what I should do with it.
+>
 
-Also generic infrastructure like this with big potential for how
-dma_fence or other cross driver contracts work, really should be
-reviewed on dri-devel. Implementing custom wheels for everything
-within the driver is a classic case of "platform problem" [1]. Which in
-upstream we really shouldn't have.
+My apologies for the confusion. The cover letter is indeed misleading
+w.r.t. the dma-buf patch.  It isn't a bugfix, so it shouldn't hit -rc.
 
-Since there's no quick way to solve these splats (dma_fence_work is
-used a bunch in basic buffer management and command submission) like
-for amdgpu, I'm giving up at this point here. Annotating i915
-scheduler and gpu reset could would be interesting, but since lockdep
-is one-shot we can't see what surprises would lurk there.
+Since without this patch compiling the seqcount series will fail, it
+will be best to merge it through tip instead.
 
-1: https://lwn.net/Articles/443531/
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: linux-rdma@vger.kernel.org
-Cc: amd-gfx@lists.freedesktop.org
-Cc: intel-gfx@lists.freedesktop.org
-Cc: Chris Wilson <chris@chris-wilson.co.uk>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Christian König <christian.koenig@amd.com>
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
----
- drivers/gpu/drm/i915/i915_sw_fence_work.c | 3 +++
- 1 file changed, 3 insertions(+)
+So all I need for now is a reviewed-by tag :) I will forwoard it to the
+tip tree afterwards.
 
-diff --git a/drivers/gpu/drm/i915/i915_sw_fence_work.c b/drivers/gpu/drm/i915/i915_sw_fence_work.c
-index a3a81bb8f2c3..5b74acadaef5 100644
---- a/drivers/gpu/drm/i915/i915_sw_fence_work.c
-+++ b/drivers/gpu/drm/i915/i915_sw_fence_work.c
-@@ -17,12 +17,15 @@ static void fence_work(struct work_struct *work)
- {
- 	struct dma_fence_work *f = container_of(work, typeof(*f), work);
- 	int err;
-+	bool fence_cookie;
- 
-+	fence_cookie = dma_fence_begin_signalling();
- 	err = f->ops->work(f);
- 	if (err)
- 		dma_fence_set_error(&f->dma, err);
- 
- 	fence_complete(f);
-+	dma_fence_end_signalling(fence_cookie);
- 	dma_fence_put(&f->dma);
- }
- 
--- 
-2.26.2
+Thanks,
 
+--
+Ahmed S. Darwish
+Linutronix GmbH
