@@ -2,63 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A2031EE180
-	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 11:40:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9DA21EE1D2
+	for <lists+linux-media@lfdr.de>; Thu,  4 Jun 2020 11:51:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728143AbgFDJke (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jun 2020 05:40:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36862 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727879AbgFDJke (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jun 2020 05:40:34 -0400
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C48F9C03E96E
-        for <linux-media@vger.kernel.org>; Thu,  4 Jun 2020 02:40:33 -0700 (PDT)
-Received: from ramsan ([IPv6:2a02:1810:ac12:ed60:c96f:783c:a430:4a5a])
-        by andre.telenet-ops.be with bizsmtp
-        id mxgX2200t0MBGRv01xgXJU; Thu, 04 Jun 2020 11:40:32 +0200
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan with esmtp (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jgmMR-0001SK-Rn; Thu, 04 Jun 2020 11:40:31 +0200
-Received: from geert by rox.of.borg with local (Exim 4.90_1)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1jgmMR-0003xi-Qh; Thu, 04 Jun 2020 11:40:31 +0200
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>
-Subject: [PATCH] media: Remove superfluous dependency for MEDIA_SUPPORT_FILTER
-Date:   Thu,  4 Jun 2020 11:40:30 +0200
-Message-Id: <20200604094030.14564-1-geert@linux-m68k.org>
-X-Mailer: git-send-email 2.17.1
+        id S1727971AbgFDJvw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jun 2020 05:51:52 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:57294 "EHLO
+        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726711AbgFDJvw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 4 Jun 2020 05:51:52 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 818B1634C87;
+        Thu,  4 Jun 2020 12:50:26 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jgmW2-00041I-Ke; Thu, 04 Jun 2020 12:50:26 +0300
+Date:   Thu, 4 Jun 2020 12:50:26 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Chuhong Yuan <hslester96@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ilkka Myllyperkio <ilkka.myllyperkio@sofica.fi>,
+        "Ivan T . Ivanov" <iivanov@mm-sol.com>,
+        Vimarsh Zutshi <vimarsh.zutshi@gmail.com>,
+        Stanimir Varbanov <svarbanov@mm-sol.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: omap3isp: Add missed v4l2_ctrl_handler_free()
+ for preview_init_entities()
+Message-ID: <20200604095026.GI9947@valkosipuli.retiisi.org.uk>
+References: <20200603164122.2101162-1-hslester96@gmail.com>
+ <20200604093321.GE5829@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200604093321.GE5829@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The MEDIA_SUPPORT_FILTER configuration option is located inside a block
-protected by "#if MEDIA_SUPPORT", so there is no need to have an
-explicit dependency on MEDIA_SUPPORT.  Drop it.
+On Thu, Jun 04, 2020 at 12:33:21PM +0300, Laurent Pinchart wrote:
+> Hi Chuhong,
+> 
+> (CC'ing Sakari Ailus)
+> 
+> Thank you for the patch.
+> 
+> On Thu, Jun 04, 2020 at 12:41:22AM +0800, Chuhong Yuan wrote:
+> > preview_init_entities() does not call v4l2_ctrl_handler_free() when
+> > it fails.
+> > Add the missed function to fix it.
+> > 
+> > Fixes: de1135d44f4f ("[media] omap3isp: CCDC, preview engine and resizer]")
+> 
+> There's an extra ']' at the end. Apart from that,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> Sakari, could you take this patch ?
 
-Fixes: c6774ee035dcb878 ("media: Kconfig: make filtering devices optional")
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
----
- drivers/media/Kconfig | 1 -
- 1 file changed, 1 deletion(-)
+Done; thank you!
 
-diff --git a/drivers/media/Kconfig b/drivers/media/Kconfig
-index a6d073f2e036aa34..6222b3ae220ba85b 100644
---- a/drivers/media/Kconfig
-+++ b/drivers/media/Kconfig
-@@ -24,7 +24,6 @@ if MEDIA_SUPPORT
- 
- config MEDIA_SUPPORT_FILTER
- 	bool "Filter media drivers"
--	depends on MEDIA_SUPPORT
- 	default y if !EMBEDDED && !EXPERT
- 	help
- 	   Configuring the media subsystem can be complex, as there are
 -- 
-2.17.1
-
+Sakari Ailus
