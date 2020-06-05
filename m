@@ -2,117 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9B04A1EFEC1
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2020 19:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07B961EFEB7
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2020 19:26:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727920AbgFER04 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Jun 2020 13:26:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50442 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727107AbgFER0z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jun 2020 13:26:55 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C7B7C08C5C2
-        for <linux-media@vger.kernel.org>; Fri,  5 Jun 2020 10:26:55 -0700 (PDT)
-Received: from localhost.localdomain (p200300cb871f5b0030b619f331cc239b.dip0.t-ipconnect.de [IPv6:2003:cb:871f:5b00:30b6:19f3:31cc:239b])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id E18062A5068;
-        Fri,  5 Jun 2020 18:26:52 +0100 (BST)
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        tfiga@chromium.org, skhan@linuxfoundation.org,
-        p.zabel@pengutronix.de
-Subject: [RFC v4 3/8] media: Documentation: v4l: move table of v4l2_pix_format(_mplane) flags to pixfmt-v4l2.rst
-Date:   Fri,  5 Jun 2020 19:26:20 +0200
-Message-Id: <20200605172625.19777-4-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200605172625.19777-1-dafna.hirschfeld@collabora.com>
-References: <20200605172625.19777-1-dafna.hirschfeld@collabora.com>
+        id S1726983AbgFER0Z convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 5 Jun 2020 13:26:25 -0400
+Received: from mailoutvs50.siol.net ([185.57.226.241]:34137 "EHLO
+        mail.siol.net" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1726939AbgFER0Z (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jun 2020 13:26:25 -0400
+Received: from localhost (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTP id 33D78521D26;
+        Fri,  5 Jun 2020 19:26:22 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at psrvmta10.zcs-production.pri
+Received: from mail.siol.net ([127.0.0.1])
+        by localhost (psrvmta10.zcs-production.pri [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id Hkdlf3xJ94FU; Fri,  5 Jun 2020 19:26:21 +0200 (CEST)
+Received: from mail.siol.net (localhost [127.0.0.1])
+        by mail.siol.net (Postfix) with ESMTPS id C0F03521D2D;
+        Fri,  5 Jun 2020 19:26:21 +0200 (CEST)
+Received: from jernej-laptop.localnet (cpe-194-152-20-232.static.triera.net [194.152.20.232])
+        (Authenticated sender: jernej.skrabec@siol.net)
+        by mail.siol.net (Postfix) with ESMTPA id C2B65521CA7;
+        Fri,  5 Jun 2020 19:26:20 +0200 (CEST)
+From:   Jernej =?utf-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
+To:     paul.kocialkowski@bootlin.com, mripard@kernel.org,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     mchehab@kernel.org, wens@csie.org, hverkuil-cisco@xs4all.nl,
+        gregkh@linuxfoundation.org, jonas@kwiboo.se,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 2/3] media: cedrus: h264: Properly configure reference field
+Date:   Fri, 05 Jun 2020 19:26:20 +0200
+Message-ID: <2479507.UA2pHCgT9S@jernej-laptop>
+In-Reply-To: <7e74e15b7b3f9fc765182f1a43cfcf1e0e9602fc.camel@ndufresne.ca>
+References: <20200604185745.23568-1-jernej.skrabec@siol.net> <20200604185745.23568-3-jernej.skrabec@siol.net> <7e74e15b7b3f9fc765182f1a43cfcf1e0e9602fc.camel@ndufresne.ca>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset="iso-8859-1"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The table of the flags of the structs
-v4l2_pix_format(_mplane) is currently in pixfmt-reserved.rst
-which is wrong, it should be in pixfmt-v4l2.rst
+Dne petek, 05. junij 2020 ob 19:16:35 CEST je Nicolas Dufresne napisal(a):
+> Le jeudi 04 juin 2020 à 20:57 +0200, Jernej Skrabec a écrit :
+> > When interlaced H264 content is being decoded, references must indicate
+> > which field is being referenced. Currently this was done by checking
+> > capture buffer flags. However, that is not correct because capture
+> > buffer may hold both fields.
+> > 
+> > Fix this by checking newly introduced flags in reference lists.
+> > 
+> > Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+> 
+> Perhaps an additional patch could cleanup the miss-leading comment in
+> v4l2_h264_dpb_entry definition.
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- .../userspace-api/media/v4l/pixfmt-reserved.rst | 17 -----------------
- .../userspace-api/media/v4l/pixfmt-v4l2.rst     | 17 +++++++++++++++++
- .../media/videodev2.h.rst.exceptions            |  2 +-
- 3 files changed, 18 insertions(+), 18 deletions(-)
+I missed that. I think this change actually belongs to patch 1. I'll fix it in 
+v2.
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-index 59b9e7238f90..74ab6b5ce294 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
-@@ -263,20 +263,3 @@ please make a proposal on the linux-media mailing list.
- 	of tiles, resulting in 32-aligned resolutions for the luminance plane
- 	and 16-aligned resolutions for the chrominance plane (with 2x2
- 	subsampling).
--
--.. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
--
--.. _format-flags:
--
--.. flat-table:: Format Flags
--    :header-rows:  0
--    :stub-columns: 0
--    :widths:       3 1 4
--
--    * - ``V4L2_PIX_FMT_FLAG_PREMUL_ALPHA``
--      - 0x00000001
--      - The color values are premultiplied by the alpha channel value. For
--	example, if a light blue pixel with 50% transparency was described
--	by RGBA values (128, 192, 255, 128), the same pixel described with
--	premultiplied colors would be described by RGBA values (64, 96,
--	128, 128)
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst b/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst
-index 759420a872d6..ffa539592822 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst
-@@ -169,3 +169,20 @@ Single-planar format structure
-         This information supplements the ``colorspace`` and must be set by
- 	the driver for capture streams and by the application for output
- 	streams, see :ref:`colorspaces`.
-+
-+.. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
-+
-+.. _format-flags:
-+
-+.. flat-table:: Format Flags
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       3 1 4
-+
-+    * - ``V4L2_PIX_FMT_FLAG_PREMUL_ALPHA``
-+      - 0x00000001
-+      - The color values are premultiplied by the alpha channel value. For
-+        example, if a light blue pixel with 50% transparency was described
-+	by RGBA values (128, 192, 255, 128), the same pixel described with
-+	premultiplied colors would be described by RGBA values (64, 96,
-+	128, 128)
-diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-index a625fb90e3a9..564a3bf5bc6d 100644
---- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-+++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-@@ -180,7 +180,7 @@ replace define V4L2_CAP_IO_MC device-capabilities
- 
- # V4L2 pix flags
- replace define V4L2_PIX_FMT_PRIV_MAGIC :c:type:`v4l2_pix_format`
--replace define V4L2_PIX_FMT_FLAG_PREMUL_ALPHA reserved-formats
-+replace define V4L2_PIX_FMT_FLAG_PREMUL_ALPHA format-flags
- 
- # V4L2 format flags
- replace define V4L2_FMT_FLAG_COMPRESSED fmtdesc-flags
--- 
-2.17.1
+Best regards,
+Jernej
+
+> 
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> 
+> > ---
+> > 
+> >  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 6 ++----
+> >  1 file changed, 2 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c index
+> > cce527bbdf86..c87717d17ec5 100644
+> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+> > @@ -183,7 +183,6 @@ static void _cedrus_write_ref_list(struct cedrus_ctx
+> > *ctx,> 
+> >  	for (i = 0; i < num_ref; i++) {
+> >  	
+> >  		const struct v4l2_h264_dpb_entry *dpb;
+> >  		const struct cedrus_buffer *cedrus_buf;
+> > 
+> > -		const struct vb2_v4l2_buffer *ref_buf;
+> > 
+> >  		unsigned int position;
+> >  		int buf_idx;
+> >  		u8 dpb_idx;
+> > 
+> > @@ -198,12 +197,11 @@ static void _cedrus_write_ref_list(struct cedrus_ctx
+> > *ctx,> 
+> >  		if (buf_idx < 0)
+> >  		
+> >  			continue;
+> > 
+> > -		ref_buf = to_vb2_v4l2_buffer(cap_q->bufs[buf_idx]);
+> > -		cedrus_buf = vb2_v4l2_to_cedrus_buffer(ref_buf);
+> > +		cedrus_buf = vb2_to_cedrus_buffer(cap_q->bufs[buf_idx]);
+> > 
+> >  		position = cedrus_buf->codec.h264.position;
+> >  		
+> >  		sram_array[i] |= position << 1;
+> > 
+> > -		if (ref_buf->field == V4L2_FIELD_BOTTOM)
+> > +		if (ref_list[i].flags & 
+V4L2_H264_REFERENCE_FLAG_BOTTOM_FIELD)
+> > 
+> >  			sram_array[i] |= BIT(0);
+> >  	
+> >  	}
+
+
+
 
