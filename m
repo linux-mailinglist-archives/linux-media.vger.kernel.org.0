@@ -2,112 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4DCD1EFDAF
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2020 18:27:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 218A31EFE7C
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2020 19:08:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728367AbgFEQ0z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Jun 2020 12:26:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40870 "EHLO
+        id S1726997AbgFERH7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Jun 2020 13:07:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728300AbgFEQ0o (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jun 2020 12:26:44 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D001C08C5C2;
-        Fri,  5 Jun 2020 09:26:43 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id v24so3825970plo.6;
-        Fri, 05 Jun 2020 09:26:43 -0700 (PDT)
+        with ESMTP id S1726044AbgFERH7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jun 2020 13:07:59 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EACD4C08C5C2;
+        Fri,  5 Jun 2020 10:07:57 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id t18so10506843wru.6;
+        Fri, 05 Jun 2020 10:07:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=s6oLxuZtz92MCMs+Rc0jAsvvKy4fsrw+h3fzX94hKHI=;
-        b=LC9xGG5Mpl7l9RocA+JmkF3GXVhNsllocgKi08w3I/rV5Pvheph3idCf9rJfkJF8gy
-         c7m05ERn1FldKvEFXHMxvLJl8BT/nIyf+QIMw6iNMcdl55IbZR8msVD2gZOxoIIiTl5c
-         +TNOJa8uLfw6SVEhHf23IWYJQZ7PNisgeQFKyQ6AHCEdkqddGzlViSu1PJeadPTxc1SB
-         k7bUzlJLicjyQlwYVVI88Sz+NXj2YxLFUY+5fxEyCjOjRUJJ5k44nhdLmifKv51p0FZH
-         pROVUBhPNRg5GClRhqXYL0L29RXYn761O+su/eqXL40VciugEtlWAz+quQv7sSI10Rtq
-         ItMA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rDqQJ0wEgnJldHfGesJHf9Wkye5+SA00t8jjMKl0QrU=;
+        b=MfmHhx/s/MTQcyaBDQ3BExt/ArOMQW+pjtqKR8qDzCdLrlOhZs5baL0eeGXWaOYUfY
+         zXmD41obhUqDcVNLvecHxsXpuXdSnAKrLFNKqrCcB/ZH+kSw7vjkfjbhljGI+F7FQ//Y
+         XgJCzLXSkN2JcXS3qmAy/3p4frjkltzSNj3nBxoacJ/axaEk45gcMBdX0CFsUNybuxzY
+         RpudbUm3VCdtS+IOZ5UPxPEpQ9FUB7PtJlIcU+mgMcuNHF6LpchQzs3DGzhMhjPLVGCc
+         FmDm6Q3Gua8ngZaNaFnW/S6G5JgXfU2SZncCrg/KQ60g712xnsoFZS6SW+9o9LLc3pv4
+         hRoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=s6oLxuZtz92MCMs+Rc0jAsvvKy4fsrw+h3fzX94hKHI=;
-        b=PQ9f9Ade/gUzyZy5S9Vo6KGNqSRI3aLOEzYtuUDr54I0cG8JkE9QgZl57A01/tDrYn
-         +HLGOlEpaGzJ2uS/jh474dYOf2ipJpqRGjB8ogX+Kt7tA6QZfI1H8me3c+ekbqQHFENL
-         CYWfAct77rlVM4t3QnpTJ/TpyHdo/Q502xotZ5k+1jrRvF2UeuFcr+KWPqoQOvR2g9zn
-         o/vUZrPFTxEdl11j8l3GgY2FtIYcBbKWJRDdHEd5+BR3AovQupx1yH0O1WRvZyMEFOlX
-         WtjJLocZ2yyz5us39xEyAzYAmrTrC1FYz4XNIO1wCNOOgL5KpgyM9GB/2X+CDy6/OZXc
-         KKSA==
-X-Gm-Message-State: AOAM530F358/FxuRXdvSKQmnWEB5nkTF5QMGR6f4CjkV3YwdvnqRQ+nN
-        czKPO8nTnLe5sHrYQI1Pb7yoFrz+
-X-Google-Smtp-Source: ABdhPJzGvAyLDr9UoI4bW8o5yZzXk+PoTpDmgdFNhxX7kuEbHzhX2mG+MBfWxqp5UKeyXBsErABbZw==
-X-Received: by 2002:a17:90a:d487:: with SMTP id s7mr3858502pju.37.1591374402616;
-        Fri, 05 Jun 2020 09:26:42 -0700 (PDT)
-Received: from localhost.localdomain ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id b29sm86205pff.176.2020.06.05.09.26.40
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=rDqQJ0wEgnJldHfGesJHf9Wkye5+SA00t8jjMKl0QrU=;
+        b=NFImlL0txZr5HAl/z7SRb3GkxRjDqyrUJTet4vSZxutNyPDyndhXWoOCX8yqxAscfF
+         FMDhk1eyg4X/EyYHzAY+FhhfHrKXDW1UQMekyj1XtB1/UxNGAE9N22EsN9VFyf1J5NrE
+         OQvIXYWDVbc6nnnRKwD1ozA1t/jm0A/cGJGZqpoOWDBWtnKbXyng9eRBrnVeaybZ5VZt
+         CKZ9xZYIAcnwPlF/ZoYeoWMmitt3WwHjAaz8kfJ9vl2nUt35tlxtpI0juYmgnPJPSLoL
+         zmcmIyRP34bwzLKI8aQUCRtdPNxNJ25aXjVpz1pM361rU+UKjExF6F5U5pNBweMDHI0J
+         6oQg==
+X-Gm-Message-State: AOAM531rhVvxgkDrgyw0h9y+Cv6B3W4PH+7qa/3OVvU31+1tN5SdlTD2
+        i3P8f9Blx5f3nZpKcSDl0Dc=
+X-Google-Smtp-Source: ABdhPJzDT5SK9P6EKvrzWRuo4fxLa13YPkg+G9cBgaVHHl8YQkloc/wJYK3pvB31wWuMlrG3msflAw==
+X-Received: by 2002:adf:f988:: with SMTP id f8mr11453118wrr.81.1591376876540;
+        Fri, 05 Jun 2020 10:07:56 -0700 (PDT)
+Received: from skynet.lan (28.red-83-49-61.dynamicip.rima-tde.net. [83.49.61.28])
+        by smtp.gmail.com with ESMTPSA id h7sm11820797wml.24.2020.06.05.10.07.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2020 09:26:41 -0700 (PDT)
-From:   Florian Fainelli <f.fainelli@gmail.com>
-X-Google-Original-From: Florian Fainelli <florian.fainelli@broadcom.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     stable@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@s-opensource.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Krufky <mkrufky@linuxtv.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Shuah Khan <shuah@kernel.org>,
-        Jaedon Shin <jaedon.shin@gmail.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Katsuhiro Suzuki <suzuki.katsuhiro@socionext.com>,
-        Satendra Singh Thakur <satendra.t@samsung.com>,
-        linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE
-        (V4L/DVB)),
-        linux-fsdevel@vger.kernel.org (open list:FILESYSTEMS (VFS and
-        infrastructure))
-Subject: [PATCH stable 4.9 21/21] media: dvb_frontend: fix return error code
-Date:   Fri,  5 Jun 2020 09:25:18 -0700
-Message-Id: <20200605162518.28099-22-florian.fainelli@broadcom.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200605162518.28099-1-florian.fainelli@broadcom.com>
-References: <20200605162518.28099-1-florian.fainelli@broadcom.com>
+        Fri, 05 Jun 2020 10:07:56 -0700 (PDT)
+From:   =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
+        <noltari@gmail.com>
+To:     computersforpeace@gmail.com, kdasu.kdev@gmail.com,
+        miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+        sumit.semwal@linaro.org, linux-mtd@lists.infradead.org,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Cc:     =?UTF-8?q?=C3=81lvaro=20Fern=C3=A1ndez=20Rojas?= 
+        <noltari@gmail.com>
+Subject: [PATCH] mtd: rawnand: brcmnand: force raw OOB writes
+Date:   Fri,  5 Jun 2020 19:07:20 +0200
+Message-Id: <20200605170720.2478262-1-noltari@gmail.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab@s-opensource.com>
+MTD_OPS_AUTO_OOB is writting OOB with ECC enabled, which changes all ECC bytes
+from an erased page to 0x00 when JFFS2 cleanmarkers are added with mtd-utils.
+         | BBI |   JFFS2   |   ECC   |   JFFS2   | Spare  |
+00000800  ff ff 19 85 20 03 00 00  00 00 00 00 08 ff ff ff
 
-commit 330dada5957e3ca0c8811b14c45e3ac42c694651 upstream
+However, if OOB is written with ECC disabled, the JFFS2 cleanmarkers are
+correctly written without changing the ECC bytes:
+         | BBI |   JFFS2   |   ECC   |   JFFS2   | Spare  |
+00000800  ff ff 19 85 20 03 ff ff  ff 00 00 00 08 ff ff ff
 
-The correct error code when a function is not defined is
--ENOTSUPP. It was typoed wrong as -EOPNOTSUPP, with,
-unfortunately, exists, but it is not used by the DVB core.
-
-Thanks-to: Geert Uytterhoeven <geert@linux-m68k.org>
-Thanks-to: Arnd Bergmann <arnd@arndb.de>
-
-To make me revisit this code.
-
-Fixes: a9cb97c3e628 ("media: dvb_frontend: be sure to init dvb_frontend_handle_ioctl() return code")
-Signed-off-by: Mauro Carvalho Chehab <mchehab@s-opensource.com>
-Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
+Signed-off-by: Álvaro Fernández Rojas <noltari@gmail.com>
 ---
- drivers/media/dvb-core/dvb_frontend.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/mtd/nand/raw/brcmnand/brcmnand.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
-index 740dedf03361..cd45b3894661 100644
---- a/drivers/media/dvb-core/dvb_frontend.c
-+++ b/drivers/media/dvb-core/dvb_frontend.c
-@@ -2265,7 +2265,7 @@ static int dvb_frontend_handle_ioctl(struct file *file,
- 	struct dvb_frontend *fe = dvbdev->priv;
- 	struct dvb_frontend_private *fepriv = fe->frontend_priv;
- 	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
--	int i, err = -EOPNOTSUPP;
-+	int i, err = -ENOTSUPP;
+diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+index 8f9ffb46a09f..566281770841 100644
+--- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
++++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+@@ -2279,13 +2279,6 @@ static int brcmnand_write_page_raw(struct nand_chip *chip, const uint8_t *buf,
+ 	return nand_prog_page_end_op(chip);
+ }
  
- 	dev_dbg(fe->dvb->device, "%s:\n", __func__);
+-static int brcmnand_write_oob(struct nand_chip *chip, int page)
+-{
+-	return brcmnand_write(nand_to_mtd(chip), chip,
+-			      (u64)page << chip->page_shift, NULL,
+-			      chip->oob_poi);
+-}
+-
+ static int brcmnand_write_oob_raw(struct nand_chip *chip, int page)
+ {
+ 	struct mtd_info *mtd = nand_to_mtd(chip);
+@@ -2642,7 +2635,7 @@ static int brcmnand_init_cs(struct brcmnand_host *host, struct device_node *dn)
+ 	chip->ecc.write_oob_raw = brcmnand_write_oob_raw;
+ 	chip->ecc.read_oob_raw = brcmnand_read_oob_raw;
+ 	chip->ecc.read_oob = brcmnand_read_oob;
+-	chip->ecc.write_oob = brcmnand_write_oob;
++	chip->ecc.write_oob = brcmnand_write_oob_raw;
+ 
+ 	chip->controller = &ctrl->controller;
  
 -- 
-2.17.1
+2.26.2
 
