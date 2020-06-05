@@ -2,160 +2,311 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 015361EFC9A
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2020 17:37:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06CE71EFCA9
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2020 17:40:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728033AbgFEPhU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Jun 2020 11:37:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33142 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726568AbgFEPhR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jun 2020 11:37:17 -0400
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 683D4C08C5C3
-        for <linux-media@vger.kernel.org>; Fri,  5 Jun 2020 08:37:16 -0700 (PDT)
-Received: by mail-qk1-x744.google.com with SMTP id s1so10052795qkf.9
-        for <linux-media@vger.kernel.org>; Fri, 05 Jun 2020 08:37:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=6dIRalDKukNHz3swE/kQj/FCPxkqgYRrJWqT5xc0928=;
-        b=Ws/vknZem3s0dSVcrFTtK798SXVRdP/M5djs99ILMOwUF3cYzeW1g9WXvvvNqkBz1c
-         2s0fX+GDycNfAm1Zk8aKEYTel3pvPQNw3TvZ5lSnSFJD/GaPBDFpDBlOSrfC+dS0GJpY
-         g1vQRbXfD0Bc8xzezZKeS8KF7wzKj4OHElgffB0AmLr4Bt866+sOb0ZW6wtN5r0LwPNl
-         tNBN4Icemp1Xad2Osx0yClhDGcvW8Ou6RoZmZlMTARp+a2j4iKY7VaS7pbLDFSIgLvs3
-         Ptj6JycT1S8cCe5/dq3TPnQKZK0nn67ia33gCcb8kvvPpd7R2zQ54A7OvbsFobVpromX
-         sqtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=6dIRalDKukNHz3swE/kQj/FCPxkqgYRrJWqT5xc0928=;
-        b=S8MFD1j+liAJJ7wdOo8tSU5/zki7cqERO0kJkH6JUeO8I/nbZFJIE99sszmdlwC/hM
-         IS/y6S1f5nG/c9KvuS6AIAYVB2qtUQL+X6uWnEYDXt3lNeeCoHgagWfEFxGjvMYJnbQV
-         ptKFEt5vBE7nqO8+oA6oU/zrTRDA8BXVko6svXq5mpehO5ceu6XPNKygFvW5hpm284AC
-         WpfTFt/MLHWTQ/2Wvi2pJruntROx88HL4+qFgrm0KdPJ4nGwHDGYuKnsIGqJgRuu5HQ1
-         V9JEJ9CnqVwLLrAmRSCISvMMNMgvaB19JBPWS6yF0ffUZt+uTDDbTuEFHAP/We0LgUm1
-         oA0Q==
-X-Gm-Message-State: AOAM533VS1alxvM0mvp8dAdzEACJEIolzXDuUJ89P8ZPf8Wpt8aFjgp+
-        8Z2OVARRWL/P8Bwj9dbid8QlL4ljVOZwBg==
-X-Google-Smtp-Source: ABdhPJwSva/8aulW2zIjT1mFgpKBNkLomhs6UlAbs0vzaebZnojmGDUsgoBL6g8XrramHpl+0a0UVg==
-X-Received: by 2002:a37:8ec3:: with SMTP id q186mr10814060qkd.231.1591371435604;
-        Fri, 05 Jun 2020 08:37:15 -0700 (PDT)
-Received: from skullcanyon ([192.222.193.21])
-        by smtp.gmail.com with ESMTPSA id h5sm67524qkk.108.2020.06.05.08.37.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2020 08:37:14 -0700 (PDT)
-Message-ID: <6be2b7794c469a434befc2f71f83cf918f4e1b4b.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/5] media: videodev2: add Compressed Framebuffer pixel
- formats
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Neil Armstrong <narmstrong@baylibre.com>, hverkuil-cisco@xs4all.nl
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Maxime Jourdan <mjourdan@baylibre.com>
-Date:   Fri, 05 Jun 2020 11:37:13 -0400
-In-Reply-To: <02aa06fd8397b77c9a75d3a8399cb55d3b4d39c1.camel@ndufresne.ca>
-References: <20200604135317.9235-1-narmstrong@baylibre.com>
-         <20200604135317.9235-2-narmstrong@baylibre.com>
-         <02aa06fd8397b77c9a75d3a8399cb55d3b4d39c1.camel@ndufresne.ca>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
+        id S1728143AbgFEPj4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Jun 2020 11:39:56 -0400
+Received: from foss.arm.com ([217.140.110.172]:57254 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728139AbgFEPj4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 5 Jun 2020 11:39:56 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8C67E31B;
+        Fri,  5 Jun 2020 08:39:55 -0700 (PDT)
+Received: from e113632-lin (e113632-lin.cambridge.arm.com [10.1.194.46])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC4873F305;
+        Fri,  5 Jun 2020 08:39:53 -0700 (PDT)
+References: <20200605130519.4184-1-benjamin.gaignard@st.com> <20200605130519.4184-3-benjamin.gaignard@st.com>
+User-agent: mu4e 0.9.17; emacs 26.3
+From:   Valentin Schneider <valentin.schneider@arm.com>
+To:     Benjamin Gaignard <benjamin.gaignard@st.com>
+Cc:     hugues.fruchet@st.com, mchehab@kernel.org,
+        mcoquelin.stm32@gmail.com, alexandre.torgue@st.com,
+        linux-media@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        vincent.guittot@linaro.org, rjw@rjwysocki.net
+Subject: Re: [PATCH v4 2/3] media: stm32-dcmi: Set minimum cpufreq requirement
+In-reply-to: <20200605130519.4184-3-benjamin.gaignard@st.com>
+Date:   Fri, 05 Jun 2020 16:39:51 +0100
+Message-ID: <jhj3679iks8.mognet@arm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le vendredi 05 juin 2020 à 11:35 -0400, Nicolas Dufresne a écrit :
-> Le jeudi 04 juin 2020 à 15:53 +0200, Neil Armstrong a écrit :
-> > From: Maxime Jourdan <mjourdan@baylibre.com>
-> > 
-> > Add two generic Compressed Framebuffer pixel formats to be used
-> > with a modifier when imported back in another subsystem like DRM/KMS.
-> > 
-> > These pixel formats represents generic 8bits and 10bits compressed buffers
-> > with a vendor specific layout.
-> > 
-> > These are aligned with the DRM_FORMAT_YUV420_8BIT and DRM_FORMAT_YUV420_10BIT
-> > used to describe the underlying compressed buffers used for ARM Framebuffer
-> > Compression. In the Amlogic case, the compression is different but the
-> > underlying buffer components is the same.
-> > 
-> > Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
-> > Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-ioctl.c | 2 ++
-> >  include/uapi/linux/videodev2.h       | 9 +++++++++
-> >  2 files changed, 11 insertions(+)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > index 2322f08a98be..8f14adfd5bc5 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > @@ -1447,6 +1447,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
-> >  		case V4L2_PIX_FMT_S5C_UYVY_JPG:	descr = "S5C73MX interleaved UYVY/JPEG"; break;
-> >  		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
-> >  		case V4L2_PIX_FMT_SUNXI_TILED_NV12: descr = "Sunxi Tiled NV12 Format"; break;
-> > +		case V4L2_PIX_FMT_YUV420_8BIT:	descr = "Compressed YUV 4:2:0 8-bit Format"; break;
-> > +		case V4L2_PIX_FMT_YUV420_10BIT:	descr = "Compressed YUV 4:2:0 10-bit Format"; break;
-> 
-> When I read the DRM documentation [0], I'm reading that YUV420_8BIT
-> definition matches V4L2_PIX_FMT_YVU420 and V4L2_PIX_FMT_YVU420M fully.
-> In fact, on DRM side, to represent that format you want to expose here,
-> they will strictly combine this generic format (documented un-
-> compressed) with a modifier generated with the macro
-> DRM_FORMAT_MOD_ARM_AFBC(*). And only the combination represent a unique
-> and share-able format.
 
-[0] https://www.kernel.org/doc/html/v5.5-rc1/gpu/afbc.html
+On 05/06/20 14:05, Benjamin Gaignard wrote:
+> Before start streaming set cpufreq minimum frequency requirement.
+> The cpufreq governor will adapt the frequencies and we will have
+> no latency for handling interrupts.
+> The frequency requirement is retrieved from the device-tree node.
+>
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
 
-> 
-> In absence of modifier in V4L2 API, this compressed format should be
-> named accordingly to the compressed algorithm used (something like
-> FMT_YUV420_8BIT_AML_FBC). So I believe these format name cannot be
-> copied as-is like this, as they can only introduce more ambiguity in
-> the already quite hard to follow naming of pixel formats. In fact, it
-> is very common to see multiple different vendor compressions on the
-> same SoC, so I don't really believe a "generic" compressed format make
-> sense. To site one, the IMX8M, which got Verrisillicon/Vivante DEC400
-> on the GPU, and the Hantro G2 compression format. Both will apply to
-> NV12 class of format so in DRM they would be NV12 + modifier, and the
-> combination forms the unique format. Now, in term of sharing, they must
-> be differiented by userspace, as support for compression/decompression
-> is heterogeneous (in that case the GPU does not support Hantro G2
-> decompression or compression, and the VPU does not support DEC400).
-> 
-> I'll remind that the modifier implementation has great value and is
-> much more scalable then the current V4L2 approach. There has been some
-> early proposal for this, maybe it's time to prioritize because this
-> list will starts growing with hundred or even thousands or format,
-> which is clearly indicated by the increase of modifier generator macro
-> on the DRM side.
-> 
-> >  		default:
-> >  			if (fmt->description[0])
-> >  				return;
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > index c3a1cf1c507f..90b9949acb8a 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -705,6 +705,15 @@ struct v4l2_pix_format {
-> >  #define V4L2_PIX_FMT_FWHT     v4l2_fourcc('F', 'W', 'H', 'T') /* Fast Walsh Hadamard Transform (vicodec) */
-> >  #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') /* Stateless FWHT (vicodec) */
-> >  
-> > +/*
-> > + * Compressed Luminance+Chrominance meta-formats
-> > + * In these formats, the component ordering is specified (Y, followed by U
-> > + * then V), but the exact Linear layout is undefined.
-> > + * These formats can only be used with a non-Linear modifier.
-> > + */
-> > +#define V4L2_PIX_FMT_YUV420_8BIT	v4l2_fourcc('Y', 'U', '0', '8') /* 1-plane YUV 4:2:0 8-bit */
-> > +#define V4L2_PIX_FMT_YUV420_10BIT	v4l2_fourcc('Y', 'U', '1', '0') /* 1-plane YUV 4:2:0 10-bit */
-> > +
-> >  /*  Vendor-specific formats   */
-> >  #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 YUV */
-> >  #define V4L2_PIX_FMT_WNVA     v4l2_fourcc('W', 'N', 'V', 'A') /* Winnov hw compress */
+It's all quite nicer without the dcmi_{get, put}_cpu_policy() functions!
+Sadly I was overzealous in trimming my previous reply, and I also trimmed
+some of my own comments, sorry about that.
 
+I've added the MIA comments down below, and with those taken into account:
+
+(for the IRQ affinity part):
+Reviewed-by: Valentin Schneider <valentin.schneider@arm.com>
+
+> ---
+> version 4:
+> - simplify irq affinity handling by using only dcmi_irq_notifier_notify()
+>
+>  drivers/media/platform/stm32/stm32-dcmi.c | 122 ++++++++++++++++++++++++++++--
+>  1 file changed, 114 insertions(+), 8 deletions(-)
+>
+> diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
+> index b8931490b83b..c2389776a958 100644
+> --- a/drivers/media/platform/stm32/stm32-dcmi.c
+> +++ b/drivers/media/platform/stm32/stm32-dcmi.c
+> @@ -13,10 +13,13 @@
+>
+>  #include <linux/clk.h>
+>  #include <linux/completion.h>
+> +#include <linux/cpufreq.h>
+> +#include <linux/cpumask.h>
+>  #include <linux/delay.h>
+>  #include <linux/dmaengine.h>
+>  #include <linux/init.h>
+>  #include <linux/interrupt.h>
+> +#include <linux/irq.h>
+>  #include <linux/kernel.h>
+>  #include <linux/module.h>
+>  #include <linux/of.h>
+> @@ -99,6 +102,8 @@ enum state {
+>
+>  #define OVERRUN_ERROR_THRESHOLD	3
+>
+> +static DEFINE_PER_CPU(struct freq_qos_request, qos_req);
+> +
+>  struct dcmi_graph_entity {
+>       struct v4l2_async_subdev asd;
+>
+> @@ -133,6 +138,7 @@ struct stm32_dcmi {
+>       struct resource			*res;
+>       struct reset_control		*rstc;
+>       int				sequence;
+> +	int				irq;
+>       struct list_head		buffers;
+>       struct dcmi_buf			*active;
+>
+> @@ -173,6 +179,10 @@ struct stm32_dcmi {
+>       struct media_device		mdev;
+>       struct media_pad		vid_cap_pad;
+>       struct media_pipeline		pipeline;
+> +
+> +	u32				min_frequency;
+> +	cpumask_var_t			boosted;
+> +	struct irq_affinity_notify	notify;
+>  };
+>
+>  static inline struct stm32_dcmi *notifier_to_dcmi(struct v4l2_async_notifier *n)
+> @@ -722,6 +732,90 @@ static void dcmi_pipeline_stop(struct stm32_dcmi *dcmi)
+>       dcmi_pipeline_s_stream(dcmi, 0);
+>  }
+>
+> +static void dcmi_get_min_frequency(struct stm32_dcmi *dcmi)
+> +{
+> +	struct device_node *np = dcmi->mdev.dev->of_node;
+> +
+> +	dcmi->min_frequency = FREQ_QOS_MIN_DEFAULT_VALUE;
+> +
+> +	of_property_read_u32(np, "st,stm32-dcmi-min-frequency",
+> +			     &dcmi->min_frequency);
+> +}
+> +
+> +static void dcmi_irq_notifier_notify(struct irq_affinity_notify *notify,
+> +				     const cpumask_t *mask)
+> +{
+> +	struct stm32_dcmi *dcmi = container_of(notify,
+> +					       struct stm32_dcmi,
+> +					       notify);
+> +	struct cpufreq_policy *p;
+> +	int cpu;
+> +
+> +	/*
+> +	 * For all boosted CPUs check if it is still the case
+> +	 * if not remove the request
+> +	 */
+> +	for_each_cpu(cpu, dcmi->boosted) {
+> +		if (cpumask_test_cpu(cpu, mask))
+> +			continue;
+> +
+> +		p = cpufreq_cpu_get(cpu);
+> +		if (!p)
+> +			continue;
+> +
+> +		freq_qos_remove_request(&per_cpu(qos_req, cpu));
+> +		cpumask_andnot(dcmi->boosted, dcmi->boosted, p->cpus);
+> +
+> +		cpufreq_cpu_put(p);
+> +	}
+> +
+> +	/*
+> +	 * For CPUs in the mask check if they are boosted if not add
+> +	 * a request
+> +	 */
+> +	for_each_cpu(cpu, mask) {
+> +		if (cpumask_test_cpu(cpu, dcmi->boosted))
+> +			continue;
+> +
+> +		p = cpufreq_cpu_get(cpu);
+> +		if (!p)
+> +			continue;
+> +
+> +		freq_qos_add_request(&p->constraints, &per_cpu(qos_req, cpu),
+> +				     FREQ_QOS_MIN, dcmi->min_frequency);
+> +		cpumask_or(dcmi->boosted, dcmi->boosted, p->cpus);
+> +		cpufreq_cpu_put(p);
+> +	}
+> +}
+> +
+> +static void dcmi_irq_notifier_release(struct kref *ref)
+> +{
+> +	/*
+> +	 * This is required by affinity notifier. We don't have anything to
+> +	 * free here.
+> +	 */
+> +}
+> +
+> +static void dcmi_set_min_frequency(struct stm32_dcmi *dcmi, s32 freq)
+> +{
+> +	struct irq_affinity_notify *notify = &dcmi->notify;
+> +
+> +	if (freq) {
+> +		dcmi_irq_notifier_notify(notify,
+> +					 irq_get_affinity_mask(dcmi->irq));
+> +
+> +		notify->notify = dcmi_irq_notifier_notify;
+> +		notify->release = dcmi_irq_notifier_release;
+
+Couldn't we set these at probe time?
+
+> +		irq_set_affinity_notifier(dcmi->irq, notify);
+
+I think you also want to do that before calling into
+dcmi_irq_notifier_notify(), in case the affinity changes in the middle of
+it (which wouldn't be detected because the notifier wouldn't be registered
+at that point). And because of that, you'd have to reinstore the
+mutex.
+
+Again, that was supposed to be in my previous email, sorry :(
+
+> +	} else {
+> +		struct cpumask clear;
+> +
+> +		irq_set_affinity_notifier(dcmi->irq, NULL);
+> +		cpumask_clear(&clear);
+> +		dcmi_irq_notifier_notify(notify, &clear);
+> +	}
+> +}
+> +
+>  static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  {
+>       struct stm32_dcmi *dcmi = vb2_get_drv_priv(vq);
+> @@ -736,11 +830,13 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
+>               goto err_release_buffers;
+>       }
+>
+> +	dcmi_set_min_frequency(dcmi, dcmi->min_frequency);
+> +
+>       ret = media_pipeline_start(&dcmi->vdev->entity, &dcmi->pipeline);
+>       if (ret < 0) {
+>               dev_err(dcmi->dev, "%s: Failed to start streaming, media pipeline start error (%d)\n",
+>                       __func__, ret);
+> -		goto err_pm_put;
+> +		goto err_drop_qos;
+>       }
+>
+>       ret = dcmi_pipeline_start(dcmi);
+> @@ -835,7 +931,8 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  err_media_pipeline_stop:
+>       media_pipeline_stop(&dcmi->vdev->entity);
+>
+> -err_pm_put:
+> +err_drop_qos:
+> +	dcmi_set_min_frequency(dcmi, FREQ_QOS_MIN_DEFAULT_VALUE);
+>       pm_runtime_put(dcmi->dev);
+>
+>  err_release_buffers:
+> @@ -863,6 +960,8 @@ static void dcmi_stop_streaming(struct vb2_queue *vq)
+>
+>       media_pipeline_stop(&dcmi->vdev->entity);
+>
+> +	dcmi_set_min_frequency(dcmi, FREQ_QOS_MIN_DEFAULT_VALUE);
+> +
+>       spin_lock_irq(&dcmi->irqlock);
+>
+>       /* Disable interruptions */
+> @@ -1838,7 +1937,6 @@ static int dcmi_probe(struct platform_device *pdev)
+>       struct vb2_queue *q;
+>       struct dma_chan *chan;
+>       struct clk *mclk;
+> -	int irq;
+>       int ret = 0;
+>
+>       match = of_match_device(of_match_ptr(stm32_dcmi_of_match), &pdev->dev);
+> @@ -1879,9 +1977,9 @@ static int dcmi_probe(struct platform_device *pdev)
+>       dcmi->bus.bus_width = ep.bus.parallel.bus_width;
+>       dcmi->bus.data_shift = ep.bus.parallel.data_shift;
+>
+> -	irq = platform_get_irq(pdev, 0);
+> -	if (irq <= 0)
+> -		return irq ? irq : -ENXIO;
+> +	dcmi->irq = platform_get_irq(pdev, 0);
+> +	if (dcmi->irq <= 0)
+> +		return dcmi->irq ? dcmi->irq : -ENXIO;
+>
+>       dcmi->res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>       if (!dcmi->res) {
+> @@ -1895,11 +1993,12 @@ static int dcmi_probe(struct platform_device *pdev)
+>               return PTR_ERR(dcmi->regs);
+>       }
+>
+> -	ret = devm_request_threaded_irq(&pdev->dev, irq, dcmi_irq_callback,
+> +	ret = devm_request_threaded_irq(&pdev->dev, dcmi->irq,
+> +					dcmi_irq_callback,
+>                                       dcmi_irq_thread, IRQF_ONESHOT,
+>                                       dev_name(&pdev->dev), dcmi);
+>       if (ret) {
+> -		dev_err(&pdev->dev, "Unable to request irq %d\n", irq);
+> +		dev_err(&pdev->dev, "Unable to request irq %d\n", dcmi->irq);
+>               return ret;
+>       }
+>
+> @@ -1930,6 +2029,9 @@ static int dcmi_probe(struct platform_device *pdev)
+>       dcmi->state = STOPPED;
+>       dcmi->dma_chan = chan;
+>
+> +	if (!alloc_cpumask_var(&dcmi->boosted, GFP_KERNEL))
+> +		return -ENODEV;
+> +
+>       q = &dcmi->queue;
+>
+>       dcmi->v4l2_dev.mdev = &dcmi->mdev;
+> @@ -2022,6 +2124,8 @@ static int dcmi_probe(struct platform_device *pdev)
+>
+>       dev_info(&pdev->dev, "Probe done\n");
+>
+> +	dcmi_get_min_frequency(dcmi);
+> +
+>       platform_set_drvdata(pdev, dcmi);
+>
+>       pm_runtime_enable(&pdev->dev);
+> @@ -2049,6 +2153,8 @@ static int dcmi_remove(struct platform_device *pdev)
+>
+>       pm_runtime_disable(&pdev->dev);
+>
+> +	free_cpumask_var(dcmi->boosted);
+> +
+>       v4l2_async_notifier_unregister(&dcmi->notifier);
+>       v4l2_async_notifier_cleanup(&dcmi->notifier);
+>       media_entity_cleanup(&dcmi->vdev->entity);
