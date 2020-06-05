@@ -2,179 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 552DF1EEF06
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2020 03:28:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97DE31EEFD7
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2020 05:21:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726099AbgFEB2y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 4 Jun 2020 21:28:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42472 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726060AbgFEB2y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jun 2020 21:28:54 -0400
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7F0CC08C5C1
-        for <linux-media@vger.kernel.org>; Thu,  4 Jun 2020 18:28:53 -0700 (PDT)
-Received: by mail-qk1-x741.google.com with SMTP id g28so8225829qkl.0
-        for <linux-media@vger.kernel.org>; Thu, 04 Jun 2020 18:28:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=y/nqmn16Yw0SQZqn88EIVGM4HFQd8IWQBv7BdFGkZBA=;
-        b=Djwuxcxs7hMaNuqV5sa0Qt4loVXVD289IkhwAUeoo9toxuTynSobzLXQofFQ/mxxmA
-         chX1YXEbRvziHsS2t9CF+sRs3hitooR08WRDXrroJv4P7KQvweF5vSAapRuCRXxcin75
-         AMdZf0yCjV6zh6r2M2eGqgwJQzS57I0WUDha8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=y/nqmn16Yw0SQZqn88EIVGM4HFQd8IWQBv7BdFGkZBA=;
-        b=hejNuGrw7UaO/jsZ+fb9vzKvExLplkdWE6rqfLiNtrS+ErOJ93H25qx6YtZLEjjMV5
-         gX2YNC3lOzW3vjjFRwA8Gj5iexVW815Fu/K4t+K/jpuTgyMSVljBQFLE4cpTT6hYfxdd
-         n2YMGQnGIl3ciVLqbNBG/cONFJQXmCzY8wL3KNTMOXpq0zal1tLag4yrl8A3pglDRMTI
-         loI62+qzzsiCexImf9e0yIUWSUqlCBDEC1KmHWJ9w73D/scnJvgReuVmCpyee/tIjygP
-         AwzzG5vTfX6/rTizFx1N+X94QCC+bBeH74Sp2+RWAtbS+HZPLzbfLLujv9Wk8Oyf294E
-         8uIA==
-X-Gm-Message-State: AOAM531MuGke8zUAC50LKJFYo9TE0rqikRZGe52EysFaCJo2wKg3utGG
-        StvMb9OzbR2UB2n/WNGwPjLHkhk1N/41OYVqeoIlLA==
-X-Google-Smtp-Source: ABdhPJzI3XPBWQSo123FOo+T+xLNNe5zY7aIfXdAy9YU7XblVgMgV74iVNrnVs1mdh7B4N8NJ72GXVJk+yl0MoIt45U=
-X-Received: by 2002:a05:620a:21cc:: with SMTP id h12mr7527247qka.194.1591320533032;
- Thu, 04 Jun 2020 18:28:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200526105811.30784-1-stevensd@chromium.org> <20200526105811.30784-2-stevensd@chromium.org>
- <20200604145620-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20200604145620-mutt-send-email-mst@kernel.org>
-From:   David Stevens <stevensd@chromium.org>
-Date:   Fri, 5 Jun 2020 10:28:42 +0900
-Message-ID: <CAD=HUj74mKs5AfcViD3CBva86E0Hvg_pmYChAJe3ny8jtnZ8Tw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] virtio: add dma-buf support for exported objects
-To:     "Michael S. Tsirkin" <mst@redhat.com>
-Cc:     Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Jason Wang <jasowang@redhat.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        open list <linux-kernel@vger.kernel.org>,
-        ML dri-devel <dri-devel@lists.freedesktop.org>,
-        "open list:VIRTIO GPU DRIVER" 
-        <virtualization@lists.linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, virtio-dev@lists.oasis-open.org
+        id S1726026AbgFEDVX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 4 Jun 2020 23:21:23 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:36377 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725954AbgFEDVX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 4 Jun 2020 23:21:23 -0400
+X-UUID: 7bfb038ff2134b2a9a596b5a348f6574-20200605
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=MHlq0MQzXxzGdzCp+WA3QekEd3SxtT46HLdvc3d72CY=;
+        b=KiRUwyi8GFs77wQMyZGENwImTmg9YtwVdfVcEYU7rSFutzLPn0ERROX81yHQsZsidpYrsigZRxCVxR04wFlHc4WOfoNqtMOTZaVQ2z5Vqj+mRhLWTafdHbbt7M9YSaDLY3iHEgvd4Vq68biSU1vtCQ2ZbS/MwEeC9FkhyPrYAq4=;
+X-UUID: 7bfb038ff2134b2a9a596b5a348f6574-20200605
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1340088784; Fri, 05 Jun 2020 11:21:12 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31DR.mediatek.inc
+ (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 5 Jun
+ 2020 11:21:11 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 5 Jun 2020 11:21:10 +0800
+Message-ID: <1591327147.8804.561.camel@mhfsdcap03>
+Subject: Re: [V9, 2/2] media: i2c: ov02a10: Add OV02A10 image sensor driver
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+CC:     <linus.walleij@linaro.org>, <bgolaszewski@baylibre.com>,
+        <mchehab@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <drinkcat@chromium.org>, <tfiga@chromium.org>,
+        <matthias.bgg@gmail.com>, <bingbu.cao@intel.com>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>
+Date:   Fri, 5 Jun 2020 11:19:07 +0800
+In-Reply-To: <20200604092616.GJ16711@paasikivi.fi.intel.com>
+References: <20200523084103.31276-1-dongchun.zhu@mediatek.com>
+         <20200523084103.31276-3-dongchun.zhu@mediatek.com>
+         <1591236845.8804.547.camel@mhfsdcap03>
+         <20200604092616.GJ16711@paasikivi.fi.intel.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+X-TM-SNTS-SMTP: 28F51B7C61836675CD5E7C0BB31C57102791D8C41924DC04BA6D5AB6E2499ABA2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 5, 2020 at 4:05 AM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> On Tue, May 26, 2020 at 07:58:09PM +0900, David Stevens wrote:
-> > This change adds a new flavor of dma-bufs that can be used by virtio
-> > drivers to share exported objects. A virtio dma-buf can be queried by
-> > virtio drivers to obtain the UUID which identifies the underlying
-> > exported object.
-> >
-> > Signed-off-by: David Stevens <stevensd@chromium.org>
->
-> Is this just for graphics? If yes I'd rather we put it in the graphics
-> driver. We can always move it later ...
+SGkgU2FrYXJpLA0KDQpPbiBUaHUsIDIwMjAtMDYtMDQgYXQgMTI6MjYgKzAzMDAsIFNha2FyaSBB
+aWx1cyB3cm90ZToNCj4gSGkgRG9uZ2NodW4sDQo+IA0KPiBPbiBUaHUsIEp1biAwNCwgMjAyMCBh
+dCAxMDoxNDowNUFNICswODAwLCBEb25nY2h1biBaaHUgd3JvdGU6DQo+ID4gSGkgVG9tYXN6LCBT
+YWthcmksIGFuZCBzaXJzLA0KPiA+IA0KPiA+IENvdWxkIGFueW9uZSBoZWxwIHRvIHJldmlldyB0
+aGlzIHBhdGNoPw0KPiA+IA0KPiA+IE9uIFNhdCwgMjAyMC0wNS0yMyBhdCAxNjo0MSArMDgwMCwg
+RG9uZ2NodW4gWmh1IHdyb3RlOg0KPiA+ID4gQWRkIGEgVjRMMiBzdWItZGV2aWNlIGRyaXZlciBm
+b3IgT1YwMkExMCBpbWFnZSBzZW5zb3IuDQo+ID4gPiANCj4gPiA+IFNpZ25lZC1vZmYtYnk6IERv
+bmdjaHVuIFpodSA8ZG9uZ2NodW4uemh1QG1lZGlhdGVrLmNvbT4NCj4gPiA+IC0tLQ0KPiA+ID4g
+IE1BSU5UQUlORVJTICAgICAgICAgICAgICAgICB8ICAgIDEgKw0KPiA+ID4gIGRyaXZlcnMvbWVk
+aWEvaTJjL0tjb25maWcgICB8ICAgMTMgKw0KPiA+ID4gIGRyaXZlcnMvbWVkaWEvaTJjL01ha2Vm
+aWxlICB8ICAgIDEgKw0KPiA+ID4gIGRyaXZlcnMvbWVkaWEvaTJjL292MDJhMTAuYyB8IDEwMjUg
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKw0KPiA+ID4gIDQgZmls
+ZXMgY2hhbmdlZCwgMTA0MCBpbnNlcnRpb25zKCspDQo+ID4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0
+IGRyaXZlcnMvbWVkaWEvaTJjL292MDJhMTAuYw0KPiA+ID4gDQo+ID4gDQo+ID4gW3NuaXBdDQo+
+ID4gDQo+ID4gPiArc3RhdGljIGludCBvdjAyYTEwX3Byb2JlKHN0cnVjdCBpMmNfY2xpZW50ICpj
+bGllbnQpDQo+ID4gPiArew0KPiA+ID4gKwlzdHJ1Y3QgZGV2aWNlICpkZXYgPSAmY2xpZW50LT5k
+ZXY7DQo+ID4gPiArCXN0cnVjdCBvdjAyYTEwICpvdjAyYTEwOw0KPiA+ID4gKwl1bnNpZ25lZCBp
+bnQgcm90YXRpb247DQo+ID4gPiArCXVuc2lnbmVkIGludCBjbG9ja19sYW5lX3R4X3NwZWVkOw0K
+PiA+ID4gKwl1bnNpZ25lZCBpbnQgaTsNCj4gPiA+ICsJaW50IHJldDsNCj4gPiA+ICsNCj4gPiA+
+ICsJb3YwMmExMCA9IGRldm1fa3phbGxvYyhkZXYsIHNpemVvZigqb3YwMmExMCksIEdGUF9LRVJO
+RUwpOw0KPiA+ID4gKwlpZiAoIW92MDJhMTApDQo+ID4gPiArCQlyZXR1cm4gLUVOT01FTTsNCj4g
+PiA+ICsNCj4gPiA+ICsJcmV0ID0gb3YwMmExMF9jaGVja19od2NmZyhkZXYsIG92MDJhMTApOw0K
+PiA+ID4gKwlpZiAocmV0KSB7DQo+ID4gPiArCQlkZXZfZXJyKGRldiwgImZhaWxlZCB0byBjaGVj
+ayBIVyBjb25maWd1cmF0aW9uOiAlZCIsIHJldCk7DQo+ID4gPiArCQlyZXR1cm4gcmV0Ow0KPiA+
+ID4gKwl9DQo+ID4gPiArDQo+ID4gPiArCXY0bDJfaTJjX3N1YmRldl9pbml0KCZvdjAyYTEwLT5z
+dWJkZXYsIGNsaWVudCwgJm92MDJhMTBfc3ViZGV2X29wcyk7DQo+ID4gPiArCW92MDJhMTAtPm1p
+cGlfY2xvY2tfdHhfc3BlZWQgPSBPVjAyQTEwX01JUElfVFhfU1BFRURfREVGQVVMVDsNCj4gPiA+
+ICsJb3YwMmExMC0+Zm10LmNvZGUgPSBNRURJQV9CVVNfRk1UX1NCR0dSMTBfMVgxMDsNCj4gPiA+
+ICsNCj4gPiA+ICsJLyogT3B0aW9uYWwgaW5kaWNhdGlvbiBvZiBwaHlzaWNhbCByb3RhdGlvbiBv
+ZiBzZW5zb3IgKi8NCj4gPiA+ICsJcmV0ID0gZndub2RlX3Byb3BlcnR5X3JlYWRfdTMyKGRldl9m
+d25vZGUoZGV2KSwgInJvdGF0aW9uIiwgJnJvdGF0aW9uKTsNCj4gPiA+ICsJaWYgKCFyZXQgJiYg
+cm90YXRpb24gPT0gMTgwKSB7DQo+ID4gPiArCQlvdjAyYTEwLT51cHNpZGVfZG93biA9IHRydWU7
+DQo+ID4gPiArCQlvdjAyYTEwLT5mbXQuY29kZSA9IE1FRElBX0JVU19GTVRfU1JHR0IxMF8xWDEw
+Ow0KPiA+ID4gKwl9DQo+ID4gPiArDQo+ID4gPiArCS8qIE9wdGlvbmFsIGluZGljYXRpb24gb2Yg
+bWlwaSBUWCBzcGVlZCAqLw0KPiA+ID4gKwlyZXQgPSBmd25vZGVfcHJvcGVydHlfcmVhZF91MzIo
+ZGV2X2Z3bm9kZShkZXYpLCAib3Z0aSxtaXBpLXR4LXNwZWVkIiwNCj4gPiA+ICsJCQkJICAgICAg
+ICZjbG9ja19sYW5lX3R4X3NwZWVkKTsNCj4gPiA+ICsNCj4gPiA+ICsJaWYgKCFyZXQpDQo+ID4g
+PiArCQlvdjAyYTEwLT5taXBpX2Nsb2NrX3R4X3NwZWVkID0gY2xvY2tfbGFuZV90eF9zcGVlZDsN
+Cj4gPiA+ICsNCj4gPiA+ICsJLyogR2V0IHN5c3RlbSBjbG9jayAoZWNsaykgKi8NCj4gPiA+ICsJ
+b3YwMmExMC0+ZWNsayA9IGRldm1fY2xrX2dldChkZXYsICJlY2xrIik7DQo+ID4gPiArCWlmIChJ
+U19FUlIob3YwMmExMC0+ZWNsaykpIHsNCj4gPiA+ICsJCXJldCA9IFBUUl9FUlIob3YwMmExMC0+
+ZWNsayk7DQo+ID4gPiArCQlkZXZfZXJyKGRldiwgImZhaWxlZCB0byBnZXQgZWNsayAlZFxuIiwg
+cmV0KTsNCj4gPiA+ICsJCXJldHVybiByZXQ7DQo+ID4gPiArCX0NCj4gPiA+ICsNCj4gPiA+ICsJ
+cmV0ID0gZndub2RlX3Byb3BlcnR5X3JlYWRfdTMyKGRldl9md25vZGUoZGV2KSwgImNsb2NrLWZy
+ZXF1ZW5jeSIsDQo+ID4gPiArCQkJCSAgICAgICAmb3YwMmExMC0+ZWNsa19mcmVxKTsNCj4gPiA+
+ICsJaWYgKHJldCkgew0KPiA+ID4gKwkJZGV2X2VycihkZXYsICJmYWlsZWQgdG8gZ2V0IGVjbGsg
+ZnJlcXVlbmN5XG4iKTsNCj4gPiA+ICsJCXJldHVybiByZXQ7DQo+ID4gPiArCX0NCj4gPiA+ICsN
+Cj4gPiA+ICsJcmV0ID0gY2xrX3NldF9yYXRlKG92MDJhMTAtPmVjbGssIG92MDJhMTAtPmVjbGtf
+ZnJlcSk7DQo+ID4gPiArCWlmIChyZXQpIHsNCj4gPiA+ICsJCWRldl9lcnIoZGV2LCAiZmFpbGVk
+IHRvIHNldCBlY2xrIGZyZXF1ZW5jeSAoMjRNSHopXG4iKTsNCj4gPiA+ICsJCXJldHVybiByZXQ7
+DQo+ID4gPiArCX0NCj4gPiA+ICsNCj4gPiA+ICsJaWYgKGNsa19nZXRfcmF0ZShvdjAyYTEwLT5l
+Y2xrKSAhPSBPVjAyQTEwX0VDTEtfRlJFUSkgew0KPiA+ID4gKwkJZGV2X3dhcm4oZGV2LCAid3Jv
+bmcgZWNsayBmcmVxdWVuY3kgJWQgSHosIGV4cGVjdGVkOiAlZCBIelxuIiwNCj4gPiA+ICsJCQkg
+b3YwMmExMC0+ZWNsa19mcmVxLCBPVjAyQTEwX0VDTEtfRlJFUSk7DQo+ID4gPiArCQlyZXR1cm4g
+LUVJTlZBTDsNCj4gPiA+ICsJfQ0KPiA+ID4gKw0KPiA+ID4gKwlvdjAyYTEwLT5wZF9ncGlvID0g
+ZGV2bV9ncGlvZF9nZXQoZGV2LCAicG93ZXJkb3duIiwgR1BJT0RfT1VUX0hJR0gpOw0KPiA+ID4g
+KwlpZiAoSVNfRVJSKG92MDJhMTAtPnBkX2dwaW8pKSB7DQo+ID4gPiArCQlyZXQgPSBQVFJfRVJS
+KG92MDJhMTAtPnBkX2dwaW8pOw0KPiA+ID4gKwkJZGV2X2VycihkZXYsICJmYWlsZWQgdG8gZ2V0
+IHBvd2VyZG93bi1ncGlvcyAlZFxuIiwgcmV0KTsNCj4gPiA+ICsJCXJldHVybiByZXQ7DQo+ID4g
+PiArCX0NCj4gPiA+ICsNCj4gPiA+ICsJb3YwMmExMC0+bl9yc3RfZ3BpbyA9IGRldm1fZ3Bpb2Rf
+Z2V0KGRldiwgInJlc2V0IiwgR1BJT0RfT1VUX0xPVyk7DQo+ID4gPiArCWlmIChJU19FUlIob3Yw
+MmExMC0+bl9yc3RfZ3BpbykpIHsNCj4gPiA+ICsJCXJldCA9IFBUUl9FUlIob3YwMmExMC0+bl9y
+c3RfZ3Bpbyk7DQo+ID4gPiArCQlkZXZfZXJyKGRldiwgImZhaWxlZCB0byBnZXQgcmVzZXQtZ3Bp
+b3MgJWRcbiIsIHJldCk7DQo+ID4gPiArCQlyZXR1cm4gcmV0Ow0KPiA+ID4gKwl9DQo+ID4gPiAr
+DQo+ID4gPiArCWZvciAoaSA9IDA7IGkgPCBBUlJBWV9TSVpFKG92MDJhMTBfc3VwcGx5X25hbWVz
+KTsgaSsrKQ0KPiA+ID4gKwkJb3YwMmExMC0+c3VwcGxpZXNbaV0uc3VwcGx5ID0gb3YwMmExMF9z
+dXBwbHlfbmFtZXNbaV07DQo+ID4gPiArDQo+ID4gPiArCXJldCA9IGRldm1fcmVndWxhdG9yX2J1
+bGtfZ2V0KGRldiwgQVJSQVlfU0laRShvdjAyYTEwX3N1cHBseV9uYW1lcyksDQo+ID4gPiArCQkJ
+CSAgICAgIG92MDJhMTAtPnN1cHBsaWVzKTsNCj4gPiA+ICsJaWYgKHJldCkgew0KPiA+ID4gKwkJ
+ZGV2X2VycihkZXYsICJmYWlsZWQgdG8gZ2V0IHJlZ3VsYXRvcnNcbiIpOw0KPiA+ID4gKwkJcmV0
+dXJuIHJldDsNCj4gPiA+ICsJfQ0KPiA+ID4gKw0KPiA+ID4gKwltdXRleF9pbml0KCZvdjAyYTEw
+LT5tdXRleCk7DQo+ID4gPiArCW92MDJhMTAtPmN1cl9tb2RlID0gJnN1cHBvcnRlZF9tb2Rlc1sw
+XTsNCj4gPiA+ICsJcmV0ID0gb3YwMmExMF9pbml0aWFsaXplX2NvbnRyb2xzKG92MDJhMTApOw0K
+PiA+ID4gKwlpZiAocmV0KSB7DQo+ID4gPiArCQlkZXZfZXJyKGRldiwgImZhaWxlZCB0byBpbml0
+aWFsaXplIGNvbnRyb2xzXG4iKTsNCj4gPiA+ICsJCWdvdG8gZXJyX2Rlc3Ryb3lfbXV0ZXg7DQo+
+ID4gPiArCX0NCj4gPiA+ICsNCj4gPiA+ICsJb3YwMmExMC0+c3ViZGV2LmZsYWdzIHw9IFY0TDJf
+U1VCREVWX0ZMX0hBU19ERVZOT0RFOw0KPiA+ID4gKwlvdjAyYTEwLT5zdWJkZXYuZW50aXR5Lm9w
+cyA9ICZvdjAyYTEwX3N1YmRldl9lbnRpdHlfb3BzOw0KPiA+ID4gKwlvdjAyYTEwLT5zdWJkZXYu
+ZW50aXR5LmZ1bmN0aW9uID0gTUVESUFfRU5UX0ZfQ0FNX1NFTlNPUjsNCj4gPiA+ICsJb3YwMmEx
+MC0+cGFkLmZsYWdzID0gTUVESUFfUEFEX0ZMX1NPVVJDRTsNCj4gPiA+ICsJcmV0ID0gbWVkaWFf
+ZW50aXR5X3BhZHNfaW5pdCgmb3YwMmExMC0+c3ViZGV2LmVudGl0eSwgMSwgJm92MDJhMTAtPnBh
+ZCk7DQo+ID4gPiArCWlmIChyZXQgPCAwKSB7DQo+ID4gPiArCQlkZXZfZXJyKGRldiwgImZhaWxl
+ZCB0byBpbml0IGVudGl0eSBwYWRzOiAlZCIsIHJldCk7DQo+ID4gPiArCQlnb3RvIGVycl9mcmVl
+X2hhbmRsZXI7DQo+ID4gPiArCX0NCj4gPiA+ICsNCj4gPiA+ICsJcG1fcnVudGltZV9lbmFibGUo
+ZGV2KTsNCj4gPiA+ICsJaWYgKCFwbV9ydW50aW1lX2VuYWJsZWQoZGV2KSkgew0KPiA+ID4gKwkJ
+cmV0ID0gb3YwMmExMF9wb3dlcl9vbihkZXYpOw0KPiA+ID4gKwkJaWYgKHJldCA8IDApIHsNCj4g
+PiA+ICsJCQlkZXZfZXJyKGRldiwgImZhaWxlZCB0byBwb3dlciBvbjogJWRcbiIsIHJldCk7DQo+
+ID4gPiArCQkJZ290byBlcnJfZnJlZV9oYW5kbGVyOw0KDQpUaGlzIGlzIGFjdHVhbGx5IHdyb25n
+LCB3aGljaCBzaG91bGQgYmUgcmVwbGFjZWQgb2YgImVycl9jbGVhbl9lbnRpdHkiLg0KDQo+ID4g
+PiArCQl9DQo+ID4gPiArCX0NCj4gPiA+ICsNCj4gPiA+ICsJcmV0ID0gdjRsMl9hc3luY19yZWdp
+c3Rlcl9zdWJkZXYoJm92MDJhMTAtPnN1YmRldik7DQo+ID4gPiArCWlmIChyZXQpIHsNCj4gPiA+
+ICsJCWRldl9lcnIoZGV2LCAiZmFpbGVkIHRvIHJlZ2lzdGVyIFY0TDIgc3ViZGV2OiAlZCIsIHJl
+dCk7DQo+ID4gPiArCQlpZiAoIXBtX3J1bnRpbWVfZW5hYmxlZChkZXYpKQ0KPiA+ID4gKwkJCW92
+MDJhMTBfcG93ZXJfb2ZmKGRldik7DQo+IA0KPiBUaGlzIHNob3VsZCBiZSBtb3ZlZCB0byBlcnJv
+ciBoYW5kbGluZyBzZWN0aW9uIGJlbG93Lg0KPiANCg0KRmluZS4NCkl0IHdvdWxkIGJlIGFic3Ry
+YWN0ZWQgYXMgImVycl9hc3luY19yZWdpc3RlciIgaW4gbmV4dCByZWxlYXNlLg0KU29tZXRoaW5n
+IGxpa2U6DQplcnJfYXN5bmNfcmVnaXN0ZXI6DQoJaWYgKCFwbV9ydW50aW1lX2VuYWJsZWQoZGV2
+KSkNCgkJb3YwMmExMF9wb3dlcl9vZmYoZGV2KTsNCmVycl9jbGVhbl9lbnRpdHk6DQoJbWVkaWFf
+ZW50aXR5X2NsZWFudXAoJm92MDJhMTAtPnN1YmRldi5lbnRpdHkpOw0KLi4uDQoNCj4gPiA+ICsJ
+CWdvdG8gZXJyX2NsZWFuX2VudGl0eTsNCj4gPiA+ICsJfQ0KPiA+IA0KPiA+IFRvbWFzeiwgU2Fr
+YXJpLCBpcyB0aGlzIG9rPw0KPiA+IG9yIGNvZGluZyBsaWtlIHRoaXM6DQo+ID4gDQo+ID4gcmV0
+ID0gdjRsMl9hc3luY19yZWdpc3Rlcl9zdWJkZXYoJm92MDJhMTAtPnN1YmRldik7DQo+ID4gaWYg
+KCFwbV9ydW50aW1lX2VuYWJsZWQoZGV2KSkNCj4gPiAJb3YwMmExMF9wb3dlcl9vZmYoZGV2KTsN
+Cj4gPiBpZiAocmV0KSB7DQo+ID4gCWRldl9lcnIoZGV2LCAiZmFpbGVkIHRvIHJlZ2lzdGVyIFY0
+TDIgc3ViZGV2OiAlZCIsIHJldCk7DQo+ID4gCWdvdG8gZXJyX2NsZWFuX2VudGl0eTsNCj4gPiB9
+DQo+ID4gDQo+ID4gV2hhdCdzIHlvdXIgb3BpbmlvbnMgYWJvdXQgdGhlIGNoYW5nZT8NCj4gDQo+
+IFRoaXMgdHVybnMgcG93ZXIgb2ZmIGlmIHJ1bnRpbWUgUE0gaXMgZGlzYWJsZWQuIEknZCBrZWVw
+IGl0IGFzLWlzLCBhcyBpdCdkDQo+IHJlcXVpcmUgcmUtaW1wbGVtZW50aW5nIHdoYXQgcnVudGlt
+ZSBQTSBpcyB1c2VkIGZvciBub3cgLS0tIGFuZCB0aGF0J3Mgbm90DQo+IGEgc2Vuc29yIGRyaXZl
+cidzIGpvYi4NCj4gDQo+ID4gDQo+ID4gPiArDQo+ID4gPiArCXJldHVybiAwOw0KPiA+ID4gKw0K
+PiA+ID4gK2Vycl9jbGVhbl9lbnRpdHk6DQo+ID4gPiArCW1lZGlhX2VudGl0eV9jbGVhbnVwKCZv
+djAyYTEwLT5zdWJkZXYuZW50aXR5KTsNCj4gPiA+ICtlcnJfZnJlZV9oYW5kbGVyOg0KPiA+ID4g
+Kwl2NGwyX2N0cmxfaGFuZGxlcl9mcmVlKG92MDJhMTAtPnN1YmRldi5jdHJsX2hhbmRsZXIpOw0K
+PiA+ID4gK2Vycl9kZXN0cm95X211dGV4Og0KPiA+ID4gKwltdXRleF9kZXN0cm95KCZvdjAyYTEw
+LT5tdXRleCk7DQo+ID4gPiArDQo+ID4gPiArCXJldHVybiByZXQ7DQo+ID4gPiArfQ0KPiA+ID4g
+Kw0KPiA+ID4gK3N0YXRpYyBpbnQgb3YwMmExMF9yZW1vdmUoc3RydWN0IGkyY19jbGllbnQgKmNs
+aWVudCkNCj4gPiA+ICt7DQo+ID4gPiArCXN0cnVjdCB2NGwyX3N1YmRldiAqc2QgPSBpMmNfZ2V0
+X2NsaWVudGRhdGEoY2xpZW50KTsNCj4gPiA+ICsJc3RydWN0IG92MDJhMTAgKm92MDJhMTAgPSB0
+b19vdjAyYTEwKHNkKTsNCj4gPiA+ICsNCj4gPiA+ICsJdjRsMl9hc3luY191bnJlZ2lzdGVyX3N1
+YmRldihzZCk7DQo+ID4gPiArCW1lZGlhX2VudGl0eV9jbGVhbnVwKCZzZC0+ZW50aXR5KTsNCj4g
+PiA+ICsJdjRsMl9jdHJsX2hhbmRsZXJfZnJlZShzZC0+Y3RybF9oYW5kbGVyKTsNCj4gPiA+ICsJ
+cG1fcnVudGltZV9kaXNhYmxlKCZjbGllbnQtPmRldik7DQo+ID4gPiArCWlmICghcG1fcnVudGlt
+ZV9zdGF0dXNfc3VzcGVuZGVkKCZjbGllbnQtPmRldikpDQo+ID4gPiArCQlvdjAyYTEwX3Bvd2Vy
+X29mZigmY2xpZW50LT5kZXYpOw0KPiA+ID4gKwlwbV9ydW50aW1lX3NldF9zdXNwZW5kZWQoJmNs
+aWVudC0+ZGV2KTsNCj4gPiA+ICsJbXV0ZXhfZGVzdHJveSgmb3YwMmExMC0+bXV0ZXgpOw0KPiA+
+ID4gKw0KPiA+ID4gKwlyZXR1cm4gMDsNCj4gPiA+ICt9DQo+ID4gPiArDQo+ID4gPiArc3RhdGlj
+IGNvbnN0IHN0cnVjdCBvZl9kZXZpY2VfaWQgb3YwMmExMF9vZl9tYXRjaFtdID0gew0KPiA+ID4g
+Kwl7IC5jb21wYXRpYmxlID0gIm92dGksb3YwMmExMCIgfSwNCj4gPiA+ICsJe30NCj4gPiA+ICt9
+Ow0KPiA+ID4gK01PRFVMRV9ERVZJQ0VfVEFCTEUob2YsIG92MDJhMTBfb2ZfbWF0Y2gpOw0KPiA+
+ID4gKw0KPiA+ID4gK3N0YXRpYyBzdHJ1Y3QgaTJjX2RyaXZlciBvdjAyYTEwX2kyY19kcml2ZXIg
+PSB7DQo+ID4gPiArCS5kcml2ZXIgPSB7DQo+ID4gPiArCQkubmFtZSA9ICJvdjAyYTEwIiwNCj4g
+PiA+ICsJCS5wbSA9ICZvdjAyYTEwX3BtX29wcywNCj4gPiA+ICsJCS5vZl9tYXRjaF90YWJsZSA9
+IG92MDJhMTBfb2ZfbWF0Y2gsDQo+ID4gPiArCX0sDQo+ID4gPiArCS5wcm9iZV9uZXcJPSAmb3Yw
+MmExMF9wcm9iZSwNCj4gPiA+ICsJLnJlbW92ZQkJPSAmb3YwMmExMF9yZW1vdmUsDQo+ID4gPiAr
+fTsNCj4gPiA+ICsNCj4gPiA+ICttb2R1bGVfaTJjX2RyaXZlcihvdjAyYTEwX2kyY19kcml2ZXIp
+Ow0KPiA+ID4gKw0KPiA+ID4gK01PRFVMRV9BVVRIT1IoIkRvbmdjaHVuIFpodSA8ZG9uZ2NodW4u
+emh1QG1lZGlhdGVrLmNvbT4iKTsNCj4gPiA+ICtNT0RVTEVfREVTQ1JJUFRJT04oIk9tbmlWaXNp
+b24gT1YwMkExMCBzZW5zb3IgZHJpdmVyIik7DQo+ID4gPiArTU9EVUxFX0xJQ0VOU0UoIkdQTCB2
+MiIpOw0KPiA+ID4gKw0KPiA+IA0KPiANCg0K
 
-As stated in the cover letter, this will be used by virtio-video.
-
-The proposed virtio-video patches: https://markmail.org/thread/p5d3k566srtdtute
-The patch which imports these dma-bufs (slightly out of data, uses v3
-of this patch set): https://markmail.org/thread/j4xlqaaim266qpks
-
-> > ---
-> >  drivers/virtio/Makefile         |  2 +-
-> >  drivers/virtio/virtio.c         |  6 +++
-> >  drivers/virtio/virtio_dma_buf.c | 89 +++++++++++++++++++++++++++++++++
-> >  include/linux/virtio.h          |  1 +
-> >  include/linux/virtio_dma_buf.h  | 58 +++++++++++++++++++++
-> >  5 files changed, 155 insertions(+), 1 deletion(-)
-> >  create mode 100644 drivers/virtio/virtio_dma_buf.c
-> >  create mode 100644 include/linux/virtio_dma_buf.h
-> >
-> > diff --git a/drivers/virtio/Makefile b/drivers/virtio/Makefile
-> > index 29a1386ecc03..ecdae5b596de 100644
-> > --- a/drivers/virtio/Makefile
-> > +++ b/drivers/virtio/Makefile
-> > @@ -1,5 +1,5 @@
-> >  # SPDX-License-Identifier: GPL-2.0
-> > -obj-$(CONFIG_VIRTIO) += virtio.o virtio_ring.o
-> > +obj-$(CONFIG_VIRTIO) += virtio.o virtio_ring.o virtio_dma_buf.o
-> >  obj-$(CONFIG_VIRTIO_MMIO) += virtio_mmio.o
-> >  obj-$(CONFIG_VIRTIO_PCI) += virtio_pci.o
-> >  virtio_pci-y := virtio_pci_modern.o virtio_pci_common.o
-> > diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-> > index a977e32a88f2..5d46f0ded92d 100644
-> > --- a/drivers/virtio/virtio.c
-> > +++ b/drivers/virtio/virtio.c
-> > @@ -357,6 +357,12 @@ int register_virtio_device(struct virtio_device *dev)
-> >  }
-> >  EXPORT_SYMBOL_GPL(register_virtio_device);
-> >
-> > +bool is_virtio_device(struct device *dev)
-> > +{
-> > +     return dev->bus == &virtio_bus;
-> > +}
-> > +EXPORT_SYMBOL_GPL(is_virtio_device);
-> > +
-> >  void unregister_virtio_device(struct virtio_device *dev)
-> >  {
-> >       int index = dev->index; /* save for after device release */
-> > diff --git a/drivers/virtio/virtio_dma_buf.c b/drivers/virtio/virtio_dma_buf.c
-> > new file mode 100644
-> > index 000000000000..23e3399b11ed
-> > --- /dev/null
-> > +++ b/drivers/virtio/virtio_dma_buf.c
-> > @@ -0,0 +1,89 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +/*
-> > + * dma-bufs for virtio exported objects
-> > + *
-> > + * Copyright (C) 2020 Google, Inc.
-> > + */
-> > +
-> > +#include <linux/virtio_dma_buf.h>
-> > +
-> > +/**
-> > + * virtio_dma_buf_export - Creates a new dma-buf for a virtio exported object
-> > + *
-> > + * This wraps dma_buf_export() to allow virtio drivers to create a dma-buf
-> > + * for an virtio exported object that can be queried by other virtio drivers
-> > + * for the object's UUID.
-> > + */
-> > +struct dma_buf *virtio_dma_buf_export(
-> > +             const struct virtio_dma_buf_export_info *virtio_exp_info)
-> > +{
-> > +     struct dma_buf_export_info exp_info;
-> > +
-> > +     if (!virtio_exp_info->ops
-> > +             || virtio_exp_info->ops->ops.attach != &virtio_dma_buf_attach
-> > +             || !virtio_exp_info->ops->get_uuid) {
-> > +             return ERR_PTR(-EINVAL);
-> > +     }
-> > +
-> > +     exp_info.exp_name = virtio_exp_info->exp_name;
-> > +     exp_info.owner = virtio_exp_info->owner;
-> > +     exp_info.ops = &virtio_exp_info->ops->ops;
-> > +     exp_info.size = virtio_exp_info->size;
-> > +     exp_info.flags = virtio_exp_info->flags;
-> > +     exp_info.resv = virtio_exp_info->resv;
-> > +     exp_info.priv = virtio_exp_info->priv;
-> > +     BUILD_BUG_ON(sizeof(struct virtio_dma_buf_export_info)
-> > +                  != sizeof(struct dma_buf_export_info));
->
-> This is the only part that gives me pause. Why do we need this hack?
-> What's wrong with just using dma_buf_export_info directly,
-> and if you want the virtio ops, just using container_off?
-
-This approach provides a more explicit type signature and a little
-more type safety, I think. If others don't think it's a worthwhile
-tradeoff, I can remove it.
-
--David
