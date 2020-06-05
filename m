@@ -2,195 +2,478 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1544B1EF8AE
-	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2020 15:10:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AE871EF908
+	for <lists+linux-media@lfdr.de>; Fri,  5 Jun 2020 15:30:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726872AbgFENKT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 5 Jun 2020 09:10:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37912 "EHLO
+        id S1726940AbgFENaD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 5 Jun 2020 09:30:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41040 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726553AbgFENKS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jun 2020 09:10:18 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71FFAC08C5C2
-        for <linux-media@vger.kernel.org>; Fri,  5 Jun 2020 06:10:17 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id x6so9654296wrm.13
-        for <linux-media@vger.kernel.org>; Fri, 05 Jun 2020 06:10:17 -0700 (PDT)
+        with ESMTP id S1726844AbgFENaC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 5 Jun 2020 09:30:02 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 459F8C08C5C3
+        for <linux-media@vger.kernel.org>; Fri,  5 Jun 2020 06:30:01 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id g10so8446979wmh.4
+        for <linux-media@vger.kernel.org>; Fri, 05 Jun 2020 06:30:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ONcVi0Nh167uW5jvnDAvvL/9nwO9qJvjZBb+j6gK/m0=;
-        b=F4Lgik0u6LwAU6Xf/6ApIw5It56BB+9tgE/OPpOJgLbUAtNYveMx4QPaScdOxL1Thc
-         RpJYQRZYjDuW2mc+1HKFtdJ9+uQlGvj0JhsyXDCKzS0WP9TCv/B+IOzx0DhE1GbQZlJj
-         FNwuohFAfHvUMOI8uAtrUY7s4RV6bFNs2MGic=
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=AAW0JxMOjimnxtn8mgtf2DnA/rdVogDvc5W7UlvXjmA=;
+        b=VJHszaTbskDniRewcmBR0T6myXCDbVw762sgB4Bgud1xoQxJeavwAjTu8LBn39VLuf
+         UHB39yhd4g0dW35J+F0fne7ZV4QQsvvtmwKgBGQHb6Xi83VZ0ksbLn9uyVARQ4SfekEf
+         6dTRpV2Ce4ncp0ACUHJCq3JaB6haMLzuYRK9U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ONcVi0Nh167uW5jvnDAvvL/9nwO9qJvjZBb+j6gK/m0=;
-        b=sLtXY5dIgNsMcB1QYnPbMOXZDSfjof+iFwaT5cJCo3m0iy4WYOn2izOQPUVzNke0mI
-         cxbCnyOYHuKyO361bk2AAZdBp3kVZ6FWs2DRveGKi+5hnT2eWUvUaWBalQTs1yTDvIsb
-         gsYPea2PE3xcBbXoxW2/bka/jcEsxMNz/s2XKubp0a6UaC+GWce+quQDkouF/h9Uixk4
-         laYGSi/BUWgXw8ZPH9fm8R56/enmHxIdjH3rK3WQK5157hac539whyIakYVQZxWAXnUs
-         K9C24ggzd2XglcxLnCMP4r8mhQjU43sq//Z5HXaYFt0aZUNvRouVd/VpozAkZRlCT1Kx
-         5D5w==
-X-Gm-Message-State: AOAM530xixpxC29JhIDWrPllOFu9EDoEkIWwPqWz7O5qOlWTE9o0uSCS
-        N7EdpqrCmw1Ja0oj0OETdg3uzQ==
-X-Google-Smtp-Source: ABdhPJxJLqnn0pRDZBM6sQWKB2YTytCBH8ALuyDGR/E1riv2Tvgz1fQv5KSxHLfxrKw0SsgRZUUGkQ==
-X-Received: by 2002:adf:ec0a:: with SMTP id x10mr9431590wrn.130.1591362614372;
-        Fri, 05 Jun 2020 06:10:14 -0700 (PDT)
-Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id b14sm11311111wmj.47.2020.06.05.06.10.13
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=AAW0JxMOjimnxtn8mgtf2DnA/rdVogDvc5W7UlvXjmA=;
+        b=B1Z7VJHywT3WjDIfNuJrOrfoYZMsMLqtBlazFpQyrh9LZGst1fb9XzfwHYdCXCOl2A
+         /RUkjS5ARhopdbYbEPzxnrzJ3mtIqHo2+gE1REpa+ZY5tWIf6qEKGSnUNw3cDcOaZt+r
+         NaRzdYCL/mk5+H0oNx+TJJUcM1fhIseoz85E4bMKce9MLYD2W4tSS2m2qQZsqvo7mLNS
+         lm+8Icvaw37ysQ7Ce0Q2xYLvY0wLMeR77PpewSKQEZJQMbkQw8sMuNnP+EVb6JfpqO78
+         yiYmbFjVkZwyxSzdoIQY0Q2gD6jikn2+3hAj7YeJScA6kVvkxmv4MzFjMA88eFGiXoqV
+         2KsQ==
+X-Gm-Message-State: AOAM5319svsoSoDnNXMdCWbigq6967szvhlPMF+nOUMVfTQhdO7pgY+D
+        Y+F5ajBMDA2Bmshnxd5CDCkXYQ==
+X-Google-Smtp-Source: ABdhPJzOuJ8Y/xZ3pbI/MRN/vFzTlvVjXwxCfrLqL9GIYh4qxyyEgVjfE504+KnSc/TRh0XYmGTQ4g==
+X-Received: by 2002:a1c:2c45:: with SMTP id s66mr2877077wms.40.1591363799778;
+        Fri, 05 Jun 2020 06:29:59 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id k21sm12606410wrd.24.2020.06.05.06.29.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 05 Jun 2020 06:10:13 -0700 (PDT)
-Date:   Fri, 5 Jun 2020 13:10:12 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, mchehab@kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, sakari.ailus@linux.intel.com,
-        drinkcat@chromium.org, matthias.bgg@gmail.com,
-        bingbu.cao@intel.com, srv_heupstream@mediatek.com,
-        linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [V7, 2/2] media: i2c: dw9768: Add DW9768 VCM driver
-Message-ID: <20200605131012.GB6303@chromium.org>
-References: <20200605105412.18813-1-dongchun.zhu@mediatek.com>
- <20200605105412.18813-3-dongchun.zhu@mediatek.com>
- <20200605124643.GG2428291@smile.fi.intel.com>
+        Fri, 05 Jun 2020 06:29:58 -0700 (PDT)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-rdma@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Mika Kuoppala <mika.kuoppala@intel.com>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@intel.com>
+Subject: [PATCH] dma-fence: basic lockdep annotations
+Date:   Fri,  5 Jun 2020 15:29:53 +0200
+Message-Id: <20200605132953.899664-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200604081224.863494-4-daniel.vetter@ffwll.ch>
+References: <20200604081224.863494-4-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200605124643.GG2428291@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+Design is similar to the lockdep annotations for workers, but with
+some twists:
 
-On Fri, Jun 05, 2020 at 03:46:43PM +0300, Andy Shevchenko wrote:
-> On Fri, Jun 05, 2020 at 06:54:12PM +0800, Dongchun Zhu wrote:
-> > Add a V4L2 sub-device driver for DW9768 voice coil motor, providing
-> > control to set the desired focus via IIC serial interface.
-> 
-> ...
-> 
-> > +config VIDEO_DW9768
-> > +	tristate "DW9768 lens voice coil support"
-> > +	depends on I2C && VIDEO_V4L2
-> 
-> No compile test?
-> 
-> > +	depends on PM
-> 
-> This is very strange dependency for ordinary driver.
-> 
-> > +	select MEDIA_CONTROLLER
-> > +	select VIDEO_V4L2_SUBDEV_API
-> > +	select V4L2_FWNODE
-> 
-> ...
-> 
-> > +/*
-> > + * DW9768 requires waiting time (delay time) of t_OPR after power-up,
-> > + * or in the case of PD reset taking place.
-> > + */
-> > +#define DW9768_T_OPR_US				1000
-> > +#define DW9768_Tvib_MS_BASE10			(64 - 1)
-> > +#define DW9768_AAC_MODE_DEFAULT			2
-> 
-> > +#define DW9768_AAC_TIME_DEFAULT			0x20
-> 
-> Hex? Why not decimal?
-> 
-> > +#define DW9768_CLOCK_PRE_SCALE_DEFAULT		1
-> 
-> ...
-> 
-> > +static int dw9768_mod_reg(struct dw9768 *dw9768, u8 reg, u8 mask, u8 val)
-> > +{
-> > +	struct i2c_client *client = v4l2_get_subdevdata(&dw9768->sd);
-> > +	int ret;
-> > +
-> > +	ret = i2c_smbus_read_byte_data(client, reg);
-> > +	if (ret < 0)
-> > +		return ret;
-> > +
-> 
-> > +	val = ((unsigned char)ret & ~mask) | (val & mask);
-> 
-> This cast is weird.
-> 
-> > +
-> > +	return i2c_smbus_write_byte_data(client, reg, val);
-> > +}
-> 
-> ...
-> 
-> > +			dev_err(&client->dev, "%s I2C failure: %d",
-> > +				__func__, ret);
-> 
-> One line?
-> 
-> ...
-> 
-> > +static int dw9768_release(struct dw9768 *dw9768)
-> > +{
-> > +	struct i2c_client *client = v4l2_get_subdevdata(&dw9768->sd);
-> > +	u32 move_delay_us = dw9768_cal_move_delay(dw9768->aac_mode,
-> > +						  dw9768->clock_presc,
-> > +						  dw9768->aac_timing) / 100;
-> > +	int ret, val;
-> > +
-> > +	val = round_down(dw9768->focus->val, DW9768_MOVE_STEPS);
-> > +	for ( ; val >= 0; val -= DW9768_MOVE_STEPS) {
-> > +		ret = dw9768_set_dac(dw9768, val);
-> > +		if (ret) {
-> > +			dev_err(&client->dev, "I2C write fail: %d", ret);
-> > +			return ret;
-> > +		}
-> > +		usleep_range(move_delay_us, move_delay_us + 1000);
-> > +	}
-> 
-> 
-> It will look more naturally in the multiplier kind of value.
-> 
-> 	unsigned int steps = DIV_ROUND_UP(...);
-> 
-> 	while (steps--) {
-> 		...(..., steps * ..._MOVE_STEPS);
-> 		...
-> 	}
-> 
-> but double check arithmetics.
-> 
+- We use a read-lock for the execution/worker/completion side, so that
+  this explicit annotation can be more liberally sprinkled around.
+  With read locks lockdep isn't going to complain if the read-side
+  isn't nested the same way under all circumstances, so ABBA deadlocks
+  are ok. Which they are, since this is an annotation only.
 
-First of all, thank for the review!
+- We're using non-recursive lockdep read lock mode, since in recursive
+  read lock mode lockdep does not catch read side hazards. And we
+  _very_ much want read side hazards to be caught. For full details of
+  this limitation see
 
-As for this particular change suggestion, I suspect this could be a
-subjective thing, because for me the current code looks more naturally
-and it's what the other VCM drivers do.
+  commit e91498589746065e3ae95d9a00b068e525eec34f
+  Author: Peter Zijlstra <peterz@infradead.org>
+  Date:   Wed Aug 23 13:13:11 2017 +0200
 
-> > +	return 0;
-> > +}
-> 
-> 
-> Also it seems we need to have writex_poll_timeout() implementation (see
-> iopoll.h).
+      locking/lockdep/selftests: Add mixed read-write ABBA tests
 
-What would it be supposed to do? readx_poll_timeout() repeats reading
-the same registers and sleeping until a condition becomes true, which is
-basically "polling". In this case we're not polling anything and we're
-not writing the same value, but it's an explicit algorithm of this
-driver to power down the VCM corectly.
+- To allow nesting of the read-side explicit annotations we explicitly
+  keep track of the nesting. lock_is_held() allows us to do that.
 
-However, given that it's quite common among VCMs to require this kind of
-phased power down - we could indeed provide some V4L2 VCM helpers for open
-and release.
+- The wait-side annotation is a write lock, and entirely done within
+  dma_fence_wait() for everyone by default.
 
-Best regards,
-Tomasz
+- To be able to freely annotate helper functions I want to make it ok
+  to call dma_fence_begin/end_signalling from soft/hardirq context.
+  First attempt was using the hardirq locking context for the write
+  side in lockdep, but this forces all normal spinlocks nested within
+  dma_fence_begin/end_signalling to be spinlocks. That bollocks.
+
+  The approach now is to simple check in_atomic(), and for these cases
+  entirely rely on the might_sleep() check in dma_fence_wait(). That
+  will catch any wrong nesting against spinlocks from soft/hardirq
+  contexts.
+
+The idea here is that every code path that's critical for eventually
+signalling a dma_fence should be annotated with
+dma_fence_begin/end_signalling. The annotation ideally starts right
+after a dma_fence is published (added to a dma_resv, exposed as a
+sync_file fd, attached to a drm_syncobj fd, or anything else that
+makes the dma_fence visible to other kernel threads), up to and
+including the dma_fence_wait(). Examples are irq handlers, the
+scheduler rt threads, the tail of execbuf (after the corresponding
+fences are visible), any workers that end up signalling dma_fences and
+really anything else. Not annotated should be code paths that only
+complete fences opportunistically as the gpu progresses, like e.g.
+shrinker/eviction code.
+
+The main class of deadlocks this is supposed to catch are:
+
+Thread A:
+
+	mutex_lock(A);
+	mutex_unlock(A);
+
+	dma_fence_signal();
+
+Thread B:
+
+	mutex_lock(A);
+	dma_fence_wait();
+	mutex_unlock(A);
+
+Thread B is blocked on A signalling the fence, but A never gets around
+to that because it cannot acquire the lock A.
+
+Note that dma_fence_wait() is allowed to be nested within
+dma_fence_begin/end_signalling sections. To allow this to happen the
+read lock needs to be upgraded to a write lock, which means that any
+other lock is acquired between the dma_fence_begin_signalling() call and
+the call to dma_fence_wait(), and still held, this will result in an
+immediate lockdep complaint. The only other option would be to not
+annotate such calls, defeating the point. Therefore these annotations
+cannot be sprinkled over the code entirely mindless to avoid false
+positives.
+
+Originally I hope that the cross-release lockdep extensions would
+alleviate the need for explicit annotations:
+
+https://lwn.net/Articles/709849/
+
+But there's a few reasons why that's not an option:
+
+- It's not happening in upstream, since it got reverted due to too
+  many false positives:
+
+	commit e966eaeeb623f09975ef362c2866fae6f86844f9
+	Author: Ingo Molnar <mingo@kernel.org>
+	Date:   Tue Dec 12 12:31:16 2017 +0100
+
+	    locking/lockdep: Remove the cross-release locking checks
+
+	    This code (CONFIG_LOCKDEP_CROSSRELEASE=y and CONFIG_LOCKDEP_COMPLETIONS=y),
+	    while it found a number of old bugs initially, was also causing too many
+	    false positives that caused people to disable lockdep - which is arguably
+	    a worse overall outcome.
+
+- cross-release uses the complete() call to annotate the end of
+  critical sections, for dma_fence that would be dma_fence_signal().
+  But we do not want all dma_fence_signal() calls to be treated as
+  critical, since many are opportunistic cleanup of gpu requests. If
+  these get stuck there's still the main completion interrupt and
+  workers who can unblock everyone. Automatically annotating all
+  dma_fence_signal() calls would hence cause false positives.
+
+- cross-release had some educated guesses for when a critical section
+  starts, like fresh syscall or fresh work callback. This would again
+  cause false positives without explicit annotations, since for
+  dma_fence the critical sections only starts when we publish a fence.
+
+- Furthermore there can be cases where a thread never does a
+  dma_fence_signal, but is still critical for reaching completion of
+  fences. One example would be a scheduler kthread which picks up jobs
+  and pushes them into hardware, where the interrupt handler or
+  another completion thread calls dma_fence_signal(). But if the
+  scheduler thread hangs, then all the fences hang, hence we need to
+  manually annotate it. cross-release aimed to solve this by chaining
+  cross-release dependencies, but the dependency from scheduler thread
+  to the completion interrupt handler goes through hw where
+  cross-release code can't observe it.
+
+In short, without manual annotations and careful review of the start
+and end of critical sections, cross-relese dependency tracking doesn't
+work. We need explicit annotations.
+
+v2: handle soft/hardirq ctx better against write side and dont forget
+EXPORT_SYMBOL, drivers can't use this otherwise.
+
+v3: Kerneldoc.
+
+v4: Some spelling fixes from Mika
+
+v5: Amend commit message to explain in detail why cross-release isn't
+the solution.
+
+Cc: Mika Kuoppala <mika.kuoppala@intel.com>
+Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-rdma@vger.kernel.org
+Cc: amd-gfx@lists.freedesktop.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: Chris Wilson <chris@chris-wilson.co.uk>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Christian König <christian.koenig@amd.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ Documentation/driver-api/dma-buf.rst |  12 +-
+ drivers/dma-buf/dma-fence.c          | 161 +++++++++++++++++++++++++++
+ include/linux/dma-fence.h            |  12 ++
+ 3 files changed, 182 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/driver-api/dma-buf.rst
+index 63dec76d1d8d..05d856131140 100644
+--- a/Documentation/driver-api/dma-buf.rst
++++ b/Documentation/driver-api/dma-buf.rst
+@@ -100,11 +100,11 @@ CPU Access to DMA Buffer Objects
+ .. kernel-doc:: drivers/dma-buf/dma-buf.c
+    :doc: cpu access
+ 
+-Fence Poll Support
+-~~~~~~~~~~~~~~~~~~
++Implicit Fence Poll Support
++~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+ .. kernel-doc:: drivers/dma-buf/dma-buf.c
+-   :doc: fence polling
++   :doc: implicit fence polling
+ 
+ Kernel Functions and Structures Reference
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@@ -133,6 +133,12 @@ DMA Fences
+ .. kernel-doc:: drivers/dma-buf/dma-fence.c
+    :doc: DMA fences overview
+ 
++DMA Fence Signalling Annotations
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++.. kernel-doc:: drivers/dma-buf/dma-fence.c
++   :doc: fence signalling annotation
++
+ DMA Fences Functions Reference
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 656e9ac2d028..0005bc002529 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -110,6 +110,160 @@ u64 dma_fence_context_alloc(unsigned num)
+ }
+ EXPORT_SYMBOL(dma_fence_context_alloc);
+ 
++/**
++ * DOC: fence signalling annotation
++ *
++ * Proving correctness of all the kernel code around &dma_fence through code
++ * review and testing is tricky for a few reasons:
++ *
++ * * It is a cross-driver contract, and therefore all drivers must follow the
++ *   same rules for lock nesting order, calling contexts for various functions
++ *   and anything else significant for in-kernel interfaces. But it is also
++ *   impossible to test all drivers in a single machine, hence brute-force N vs.
++ *   N testing of all combinations is impossible. Even just limiting to the
++ *   possible combinations is infeasible.
++ *
++ * * There is an enormous amount of driver code involved. For render drivers
++ *   there's the tail of command submission, after fences are published,
++ *   scheduler code, interrupt and workers to process job completion,
++ *   and timeout, gpu reset and gpu hang recovery code. Plus for integration
++ *   with core mm with have &mmu_notifier, respectively &mmu_interval_notifier,
++ *   and &shrinker. For modesetting drivers there's the commit tail functions
++ *   between when fences for an atomic modeset are published, and when the
++ *   corresponding vblank completes, including any interrupt processing and
++ *   related workers. Auditing all that code, across all drivers, is not
++ *   feasible.
++ *
++ * * Due to how many other subsystems are involved and the locking hierarchies
++ *   this pulls in there is extremely thin wiggle-room for driver-specific
++ *   differences. &dma_fence interacts with almost all of the core memory
++ *   handling through page fault handlers via &dma_resv, dma_resv_lock() and
++ *   dma_resv_unlock(). On the other side it also interacts through all
++ *   allocation sites through &mmu_notifier and &shrinker.
++ *
++ * Furthermore lockdep does not handle cross-release dependencies, which means
++ * any deadlocks between dma_fence_wait() and dma_fence_signal() can't be caught
++ * at runtime with some quick testing. The simplest example is one thread
++ * waiting on a &dma_fence while holding a lock::
++ *
++ *     lock(A);
++ *     dma_fence_wait(B);
++ *     unlock(A);
++ *
++ * while the other thread is stuck trying to acquire the same lock, which
++ * prevents it from signalling the fence the previous thread is stuck waiting
++ * on::
++ *
++ *     lock(A);
++ *     unlock(A);
++ *     dma_fence_signal(B);
++ *
++ * By manually annotating all code relevant to signalling a &dma_fence we can
++ * teach lockdep about these dependencies, which also helps with the validation
++ * headache since now lockdep can check all the rules for us::
++ *
++ *    cookie = dma_fence_begin_signalling();
++ *    lock(A);
++ *    unlock(A);
++ *    dma_fence_signal(B);
++ *    dma_fence_end_signalling(cookie);
++ *
++ * For using dma_fence_begin_signalling() and dma_fence_end_signalling() to
++ * annotate critical sections the following rules need to be observed:
++ *
++ * * All code necessary to complete a &dma_fence must be annotated, from the
++ *   point where a fence is accessible to other threads, to the point where
++ *   dma_fence_signal() is called. Un-annotated code can contain deadlock issues,
++ *   and due to the very strict rules and many corner cases it is infeasible to
++ *   catch these just with review or normal stress testing.
++ *
++ * * &struct dma_resv deserves a special note, since the readers are only
++ *   protected by rcu. This means the signalling critical section starts as soon
++ *   as the new fences are installed, even before dma_resv_unlock() is called.
++ *
++ * * The only exception are fast paths and opportunistic signalling code, which
++ *   calls dma_fence_signal() purely as an optimization, but is not required to
++ *   guarantee completion of a &dma_fence. The usual example is a wait IOCTL
++ *   which calls dma_fence_signal(), while the mandatory completion path goes
++ *   through a hardware interrupt and possible job completion worker.
++ *
++ * * To aid composability of code, the annotations can be freely nested, as long
++ *   as the overall locking hierarchy is consistent. The annotations also work
++ *   both in interrupt and process context. Due to implementation details this
++ *   requires that callers pass an opaque cookie from
++ *   dma_fence_begin_signalling() to dma_fence_end_signalling().
++ *
++ * * Validation against the cross driver contract is implemented by priming
++ *   lockdep with the relevant hierarchy at boot-up. This means even just
++ *   testing with a single device is enough to validate a driver, at least as
++ *   far as deadlocks with dma_fence_wait() against dma_fence_signal() are
++ *   concerned.
++ */
++#ifdef CONFIG_LOCKDEP
++struct lockdep_map	dma_fence_lockdep_map = {
++	.name = "dma_fence_map"
++};
++
++/**
++ * dma_fence_begin_signalling - begin a critical DMA fence signalling section
++ *
++ * Drivers should use this to annotate the beginning of any code section
++ * required to eventually complete &dma_fence by calling dma_fence_signal().
++ *
++ * The end of these critical sections are annotated with
++ * dma_fence_end_signalling().
++ *
++ * Returns:
++ *
++ * Opaque cookie needed by the implementation, which needs to be passed to
++ * dma_fence_end_signalling().
++ */
++bool dma_fence_begin_signalling(void)
++{
++	/* explicitly nesting ... */
++	if (lock_is_held_type(&dma_fence_lockdep_map, 1))
++		return true;
++
++	/* rely on might_sleep check for soft/hardirq locks */
++	if (in_atomic())
++		return true;
++
++	/* ... and non-recursive readlock */
++	lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _RET_IP_);
++
++	return false;
++}
++EXPORT_SYMBOL(dma_fence_begin_signalling);
++
++/**
++ * dma_fence_end_signalling - end a critical DMA fence signalling section
++ *
++ * Closes a critical section annotation opened by dma_fence_begin_signalling().
++ */
++void dma_fence_end_signalling(bool cookie)
++{
++	if (cookie)
++		return;
++
++	lock_release(&dma_fence_lockdep_map, _RET_IP_);
++}
++EXPORT_SYMBOL(dma_fence_end_signalling);
++
++void __dma_fence_might_wait(void)
++{
++	bool tmp;
++
++	tmp = lock_is_held_type(&dma_fence_lockdep_map, 1);
++	if (tmp)
++		lock_release(&dma_fence_lockdep_map, _THIS_IP_);
++	lock_map_acquire(&dma_fence_lockdep_map);
++	lock_map_release(&dma_fence_lockdep_map);
++	if (tmp)
++		lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _THIS_IP_);
++}
++#endif
++
++
+ /**
+  * dma_fence_signal_locked - signal completion of a fence
+  * @fence: the fence to signal
+@@ -170,14 +324,19 @@ int dma_fence_signal(struct dma_fence *fence)
+ {
+ 	unsigned long flags;
+ 	int ret;
++	bool tmp;
+ 
+ 	if (!fence)
+ 		return -EINVAL;
+ 
++	tmp = dma_fence_begin_signalling();
++
+ 	spin_lock_irqsave(fence->lock, flags);
+ 	ret = dma_fence_signal_locked(fence);
+ 	spin_unlock_irqrestore(fence->lock, flags);
+ 
++	dma_fence_end_signalling(tmp);
++
+ 	return ret;
+ }
+ EXPORT_SYMBOL(dma_fence_signal);
+@@ -210,6 +369,8 @@ dma_fence_wait_timeout(struct dma_fence *fence, bool intr, signed long timeout)
+ 
+ 	might_sleep();
+ 
++	__dma_fence_might_wait();
++
+ 	trace_dma_fence_wait_start(fence);
+ 	if (fence->ops->wait)
+ 		ret = fence->ops->wait(fence, intr, timeout);
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index 3347c54f3a87..3f288f7db2ef 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -357,6 +357,18 @@ dma_fence_get_rcu_safe(struct dma_fence __rcu **fencep)
+ 	} while (1);
+ }
+ 
++#ifdef CONFIG_LOCKDEP
++bool dma_fence_begin_signalling(void);
++void dma_fence_end_signalling(bool cookie);
++#else
++static inline bool dma_fence_begin_signalling(void)
++{
++	return true;
++}
++static inline void dma_fence_end_signalling(bool cookie) {}
++static inline void __dma_fence_might_wait(void) {}
++#endif
++
+ int dma_fence_signal(struct dma_fence *fence);
+ int dma_fence_signal_locked(struct dma_fence *fence);
+ signed long dma_fence_default_wait(struct dma_fence *fence,
+-- 
+2.26.2
+
