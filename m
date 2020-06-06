@@ -2,208 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F37BC1F0548
-	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2020 07:40:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFF7E1F0555
+	for <lists+linux-media@lfdr.de>; Sat,  6 Jun 2020 08:21:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726329AbgFFFkU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 6 Jun 2020 01:40:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51560 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726199AbgFFFkT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 6 Jun 2020 01:40:19 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 407FDC08C5C2
-        for <linux-media@vger.kernel.org>; Fri,  5 Jun 2020 22:40:18 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id p18so9072992eds.7
-        for <linux-media@vger.kernel.org>; Fri, 05 Jun 2020 22:40:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=wMJkhQnWLIK0t2nhWF/2eUs4TMDM1FwvFYEyzsHbS2k=;
-        b=oT9c+V5GfGutAJ8014uEjd++MW4JDywDazRZT9HiOfz/byK/B3E3HwW/7Be+dS9xhx
-         JF48qTS+1CbxoUufXNEWn/DXWjQmAf0GrTQg9cHMlSeQLe7TeKhvk8BGD7XFv54oVEMq
-         lcq4HZCIzNbchMlSci98gWrdFYNwBFSBHDu4KJJ0K8dNIl11lJhMRT80oaQNmpJ0JyaK
-         Rsn2CLKZs5i32GWDaDniLn8H4xg0Pi4vVqspYlmQiXwri71Ew/GjLPxCjcAV4Mb7hs2J
-         K0hjZ2S35SGjPcMZnqhl5h9/b8Tyl/9Zo87EGdVLFdju3320HRrskjJauYmNuvNZaGbY
-         7mDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=wMJkhQnWLIK0t2nhWF/2eUs4TMDM1FwvFYEyzsHbS2k=;
-        b=cJJY19k+QmEK8eLav5Ys7vjTiPU1t9qNZtfOTtbOJH/XTzIDBq4AtZC88aVdUJikZf
-         7ujpycj7pxOApiauzvAK+6pX/Wtw7Jbk2reW7Puiws+2Uu7/lhOFgriMvYKvu4sBmPnm
-         23XSZ3ba0PCqsqnUbMrWSfQBlEPge8qGWiUrm8S0RKIRbdhnyFaJmkr3AN97GN4one7a
-         vcC2gP7gAmRa2rsDseZHynn8zdG/HUGt20pFi3tN4rWTBF3eS+wzLCxJcnXP4j0emr4z
-         7bqCDcqe7qenJZk+goV9m17vb/eBtpu2l8Iv8PGy1PFPONZRn1z+OZk64oH/xf/Fz4Zz
-         3hJg==
-X-Gm-Message-State: AOAM530SNzAK6EfDqu0lzzk+uAI0rRIx+CrwK86HOCXpS+XOLnD7bjSv
-        Wilng2BRvpPij424oqPhImvGVyTuRaPnDzxKVMLgOUa4W+c=
-X-Google-Smtp-Source: ABdhPJypPEN+3QTtet+AfbpuEfd0Jqz2YHf3qVsFbXVSBjLFnbM9Sv84m0UmAGLyMZleeanm+YT2sFXqR7xqGXtfFpM=
-X-Received: by 2002:aa7:d483:: with SMTP id b3mr5079356edr.71.1591422016776;
- Fri, 05 Jun 2020 22:40:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200520171457.11937-1-jernej.skrabec@siol.net>
-In-Reply-To: <20200520171457.11937-1-jernej.skrabec@siol.net>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Sat, 6 Jun 2020 02:40:05 -0300
-Message-ID: <CAAEAJfD2MeaZrRqjYU9uD9cbJZE1JZUz0VeMw01YJSL+Vro-Hg@mail.gmail.com>
-Subject: Re: [PATCH] media: cedrus: Add support for additional output formats
-To:     Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media <linux-media@vger.kernel.org>,
-        devel@driverdev.osuosl.org,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        id S1726358AbgFFGVm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 6 Jun 2020 02:21:42 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:23218 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725765AbgFFGVl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 6 Jun 2020 02:21:41 -0400
+X-UUID: cd49d117a86f4e93ab92af78f5604b0b-20200606
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=RAIUVuLYgVuH/CCeUhIwCgt+EzgNoHQKrfHndQk9RvY=;
+        b=d8vF+8q3RA1y7ZPvnWi0P0LncAXT02q4+IoYIgo58GNQ5xhxz5ny1cPoIW1kJpqDojkACkM6A6qdQqSxD/MXW4nXuK907NuT/eYOHRJxAdeuPke3/9L5JE2AmZR5ToZjtROknc3Es4/2pP2tSlOuCEytggIV7zx5liNuzJx3DlE=;
+X-UUID: cd49d117a86f4e93ab92af78f5604b0b-20200606
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1469761171; Sat, 06 Jun 2020 14:21:29 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N1.mediatek.inc
+ (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Sat, 6 Jun
+ 2020 14:21:20 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Sat, 6 Jun 2020 14:21:23 +0800
+Message-ID: <1591424358.8804.599.camel@mhfsdcap03>
+Subject: Re: [V7, 2/2] media: i2c: dw9768: Add DW9768 VCM driver
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC:     <linus.walleij@linaro.org>, <bgolaszewski@baylibre.com>,
+        <mchehab@kernel.org>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <sakari.ailus@linux.intel.com>, <drinkcat@chromium.org>,
+        <tfiga@chromium.org>, <matthias.bgg@gmail.com>,
+        <bingbu.cao@intel.com>, <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>,
+        <dongchun.zhu@mediatek.com>
+Date:   Sat, 6 Jun 2020 14:19:18 +0800
+In-Reply-To: <20200605124643.GG2428291@smile.fi.intel.com>
+References: <20200605105412.18813-1-dongchun.zhu@mediatek.com>
+         <20200605105412.18813-3-dongchun.zhu@mediatek.com>
+         <20200605124643.GG2428291@smile.fi.intel.com>
 Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+X-TM-SNTS-SMTP: 935CFC8C3612F8EF46331B0CFDC7ACBCD9C86D19164ACD1A99FF20AA7B28C4202000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Jernej,
+SGkgQW5keSwNCg0KVGhhbmtzIGZvciB0aGUgcmV2aWV3LiBNeSByZXBsaWVzIGFyZSBhcyBiZWxv
+dy4NCg0KT24gRnJpLCAyMDIwLTA2LTA1IGF0IDE1OjQ2ICswMzAwLCBBbmR5IFNoZXZjaGVua28g
+d3JvdGU6DQo+IE9uIEZyaSwgSnVuIDA1LCAyMDIwIGF0IDA2OjU0OjEyUE0gKzA4MDAsIERvbmdj
+aHVuIFpodSB3cm90ZToNCj4gPiBBZGQgYSBWNEwyIHN1Yi1kZXZpY2UgZHJpdmVyIGZvciBEVzk3
+Njggdm9pY2UgY29pbCBtb3RvciwgcHJvdmlkaW5nDQo+ID4gY29udHJvbCB0byBzZXQgdGhlIGRl
+c2lyZWQgZm9jdXMgdmlhIElJQyBzZXJpYWwgaW50ZXJmYWNlLg0KPiANCj4gLi4uDQo+IA0KPiA+
+ICtjb25maWcgVklERU9fRFc5NzY4DQo+ID4gKwl0cmlzdGF0ZSAiRFc5NzY4IGxlbnMgdm9pY2Ug
+Y29pbCBzdXBwb3J0Ig0KPiA+ICsJZGVwZW5kcyBvbiBJMkMgJiYgVklERU9fVjRMMg0KPiANCj4g
+Tm8gY29tcGlsZSB0ZXN0Pw0KPiANCg0KU29ycnk/DQpLY29uZmlnIGhlcmUgaXMgYmFzZWQgb24g
+dGhlIGN1cnJlbnQgbWVkaWEgdHJlZSBtYXN0ZXIgYnJhbmNoLg0KSXQgaXMgYWxzbyB3aGF0IHRo
+ZSBvdGhlciBzaW1pbGFyIGRyaXZlcnMgZnJvbSBEb25nd29vbiBkby4gDQoNCj4gPiArCWRlcGVu
+ZHMgb24gUE0NCj4gDQo+IFRoaXMgaXMgdmVyeSBzdHJhbmdlIGRlcGVuZGVuY3kgZm9yIG9yZGlu
+YXJ5IGRyaXZlci4NCj4gDQoNClRoYW5rcyBmb3IgdGhlIHJlbWluZGVyLg0KVGhpcyB3b3VsZCBi
+ZSByZW1vdmVkIGluIG5leHQgcmVsZWFzZS4NCkFzIGR3OTc2OF9ydW50aW1lX3Jlc3VtZS9zdXNw
+ZW5kIHdvdWxkIGJlIGNhbGxlZCBpZiBydW50aW1lIFBNIGlzDQpkaXNhYmxlZC4NCg0KPiA+ICsJ
+c2VsZWN0IE1FRElBX0NPTlRST0xMRVINCj4gPiArCXNlbGVjdCBWSURFT19WNEwyX1NVQkRFVl9B
+UEkNCj4gPiArCXNlbGVjdCBWNEwyX0ZXTk9ERQ0KPiANCj4gLi4uDQo+IA0KPiA+ICsvKg0KPiA+
+ICsgKiBEVzk3NjggcmVxdWlyZXMgd2FpdGluZyB0aW1lIChkZWxheSB0aW1lKSBvZiB0X09QUiBh
+ZnRlciBwb3dlci11cCwNCj4gPiArICogb3IgaW4gdGhlIGNhc2Ugb2YgUEQgcmVzZXQgdGFraW5n
+IHBsYWNlLg0KPiA+ICsgKi8NCj4gPiArI2RlZmluZSBEVzk3NjhfVF9PUFJfVVMJCQkJMTAwMA0K
+PiA+ICsjZGVmaW5lIERXOTc2OF9UdmliX01TX0JBU0UxMAkJCSg2NCAtIDEpDQo+ID4gKyNkZWZp
+bmUgRFc5NzY4X0FBQ19NT0RFX0RFRkFVTFQJCQkyDQo+IA0KPiA+ICsjZGVmaW5lIERXOTc2OF9B
+QUNfVElNRV9ERUZBVUxUCQkJMHgyMA0KPiANCj4gSGV4PyBXaHkgbm90IGRlY2ltYWw/DQo+IA0K
+DQpUaGVyZSBpcyBvbmUgb3B0aW9uYWwgcHJvcGVydHkgJ2Rvbmd3b29uLGFhYy10aW1pbmcnIGRl
+ZmluZWQgaW4gRFQuDQpJIGRvbid0IGtub3cgd2hldGhlciB5b3UgaGF2ZSBub3RpY2VkIHRoYXQu
+DQoNCidEVzk3NjhfQUFDX1RJTUVfREVGQVVMVCcgaXMgdGhlIHZhbHVlIHNldCB0byBBQUNUWzU6
+MF0gcmVnaXN0ZXIuDQpJIHRob3VnaHQgdGhlIEhleCB1bml0IHNob3VsZCBiZSBwcm9wZXIgYXMg
+aXQgaXMgZGlyZWN0bHkgd3JpdHRlbiB0byB0aGUNCkhleCByZWdpc3Rlci4NCg0KPiA+ICsjZGVm
+aW5lIERXOTc2OF9DTE9DS19QUkVfU0NBTEVfREVGQVVMVAkJMQ0KPiANCj4gLi4uDQo+IA0KPiA+
+ICtzdGF0aWMgaW50IGR3OTc2OF9tb2RfcmVnKHN0cnVjdCBkdzk3NjggKmR3OTc2OCwgdTggcmVn
+LCB1OCBtYXNrLCB1OCB2YWwpDQo+ID4gK3sNCj4gPiArCXN0cnVjdCBpMmNfY2xpZW50ICpjbGll
+bnQgPSB2NGwyX2dldF9zdWJkZXZkYXRhKCZkdzk3NjgtPnNkKTsNCj4gPiArCWludCByZXQ7DQo+
+ID4gKw0KPiA+ICsJcmV0ID0gaTJjX3NtYnVzX3JlYWRfYnl0ZV9kYXRhKGNsaWVudCwgcmVnKTsN
+Cj4gPiArCWlmIChyZXQgPCAwKQ0KPiA+ICsJCXJldHVybiByZXQ7DQo+ID4gKw0KPiANCj4gPiAr
+CXZhbCA9ICgodW5zaWduZWQgY2hhcilyZXQgJiB+bWFzaykgfCAodmFsICYgbWFzayk7DQo+IA0K
+PiBUaGlzIGNhc3QgaXMgd2VpcmQuDQo+IA0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXcsIGJ1dCB0
+aGlzIGNhc3QgaXMgdXNpbmcgY2xhc3NpY2FsIHBhdHRlcm4gZnJvbQ0KeW91ciBzdWdnZXN0aW9u
+IG9uIE9WMDJBMTAgdjU6DQpodHRwczovL3BhdGNod29yay5saW51eHR2Lm9yZy9wYXRjaC81OTc4
+OC8NCg0KU28gSSB3b25kZXIgd2hldGhlciBpdCBpcyBzdGlsbCByZXF1aXJlZCB0byBiZSByZWZp
+bmVkIGN1cnJlbnRseS4NCk9yIHdoYXQgd291bGQgaXQgYmUgc3VwcG9zZWQgdG8gZG8gZm9yIHRo
+ZSBjYXN0Pw0KDQo+ID4gKw0KPiA+ICsJcmV0dXJuIGkyY19zbWJ1c193cml0ZV9ieXRlX2RhdGEo
+Y2xpZW50LCByZWcsIHZhbCk7DQo+ID4gK30NCj4gDQo+IC4uLg0KPiANCj4gPiArCQkJZGV2X2Vy
+cigmY2xpZW50LT5kZXYsICIlcyBJMkMgZmFpbHVyZTogJWQiLA0KPiA+ICsJCQkJX19mdW5jX18s
+IHJldCk7DQo+IA0KPiBPbmUgbGluZT8NCj4gDQoNClNwbGl0dGluZyB0aGUgc2VudGVuY2UgaW50
+byB0d28gbGluZXMgb3Igbm90IHNob3VsZCBib3RoIGJlIG9rYXkuDQpPZiBjb3Vyc2UsIEkgY291
+bGQgcHV0IHRoZW0gaW4gb25lIGxpbmUgaW4gbmV4dCByZWxlYXNlLg0KDQo+IC4uLg0KPiANCj4g
+PiArc3RhdGljIGludCBkdzk3NjhfcmVsZWFzZShzdHJ1Y3QgZHc5NzY4ICpkdzk3NjgpDQo+ID4g
+K3sNCj4gPiArCXN0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQgPSB2NGwyX2dldF9zdWJkZXZkYXRh
+KCZkdzk3NjgtPnNkKTsNCj4gPiArCXUzMiBtb3ZlX2RlbGF5X3VzID0gZHc5NzY4X2NhbF9tb3Zl
+X2RlbGF5KGR3OTc2OC0+YWFjX21vZGUsDQo+ID4gKwkJCQkJCSAgZHc5NzY4LT5jbG9ja19wcmVz
+YywNCj4gPiArCQkJCQkJICBkdzk3NjgtPmFhY190aW1pbmcpIC8gMTAwOw0KPiA+ICsJaW50IHJl
+dCwgdmFsOw0KPiA+ICsNCj4gPiArCXZhbCA9IHJvdW5kX2Rvd24oZHc5NzY4LT5mb2N1cy0+dmFs
+LCBEVzk3NjhfTU9WRV9TVEVQUyk7DQo+ID4gKwlmb3IgKCA7IHZhbCA+PSAwOyB2YWwgLT0gRFc5
+NzY4X01PVkVfU1RFUFMpIHsNCj4gPiArCQlyZXQgPSBkdzk3Njhfc2V0X2RhYyhkdzk3NjgsIHZh
+bCk7DQo+ID4gKwkJaWYgKHJldCkgew0KPiA+ICsJCQlkZXZfZXJyKCZjbGllbnQtPmRldiwgIkky
+QyB3cml0ZSBmYWlsOiAlZCIsIHJldCk7DQo+ID4gKwkJCXJldHVybiByZXQ7DQo+ID4gKwkJfQ0K
+PiA+ICsJCXVzbGVlcF9yYW5nZShtb3ZlX2RlbGF5X3VzLCBtb3ZlX2RlbGF5X3VzICsgMTAwMCk7
+DQo+ID4gKwl9DQo+IA0KPiANCj4gSXQgd2lsbCBsb29rIG1vcmUgbmF0dXJhbGx5IGluIHRoZSBt
+dWx0aXBsaWVyIGtpbmQgb2YgdmFsdWUuDQo+IA0KPiAJdW5zaWduZWQgaW50IHN0ZXBzID0gRElW
+X1JPVU5EX1VQKC4uLik7DQo+IA0KPiAJd2hpbGUgKHN0ZXBzLS0pIHsNCj4gCQkuLi4oLi4uLCBz
+dGVwcyAqIC4uLl9NT1ZFX1NURVBTKTsNCj4gCQkuLi4NCj4gCX0NCj4gDQo+IGJ1dCBkb3VibGUg
+Y2hlY2sgYXJpdGhtZXRpY3MuDQo+IA0KDQpUaGUgY3VycmVudCBjb2Rpbmcgc3R5bGUgaXMgYWN0
+dWFsbHkgdXBkYXRlZCB3aXRoIHJlZmVyZW5jZSB0byB5b3VyDQpwcmV2aW91cyBjb21tZW50cyBv
+biBEVzk3NjggdjM6DQpodHRwczovL3BhdGNod29yay5saW51eHR2Lm9yZy9wYXRjaC82MTg1Ni8N
+Cg0KPiA+ICsJcmV0dXJuIDA7DQo+ID4gK30NCj4gDQo+IA0KPiBBbHNvIGl0IHNlZW1zIHdlIG5l
+ZWQgdG8gaGF2ZSB3cml0ZXhfcG9sbF90aW1lb3V0KCkgaW1wbGVtZW50YXRpb24gKHNlZQ0KPiBp
+b3BvbGwuaCkuDQo+IA0KDQo=
 
-Thanks for the patch.
-
-On Wed, 20 May 2020 at 14:12, Jernej Skrabec <jernej.skrabec@siol.net> wrote:
->
-> If VPU supports untiled output, it actually supports several different
-> YUV 4:2:0 layouts, namely NV12, NV21, YUV420 and YVU420.
->
-> Add support for all of them.
->
-> Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_hw.c | 18 +++++++++++++++++-
->  .../staging/media/sunxi/cedrus/cedrus_video.c  | 18 ++++++++++++++++++
->  2 files changed, 35 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> index daf5f244f93b..c119fd8c4b92 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_hw.c
-> @@ -83,9 +83,25 @@ void cedrus_dst_format_set(struct cedrus_dev *dev,
->
->         switch (fmt->pixelformat) {
->         case V4L2_PIX_FMT_NV12:
-> +       case V4L2_PIX_FMT_NV21:
-> +       case V4L2_PIX_FMT_YUV420:
-> +       case V4L2_PIX_FMT_YVU420:
->                 chroma_size = ALIGN(width, 16) * ALIGN(height, 16) / 2;
->
-> -               reg = VE_PRIMARY_OUT_FMT_NV12;
-> +               switch (fmt->pixelformat) {
-> +               case V4L2_PIX_FMT_NV12:
-> +                       reg = VE_PRIMARY_OUT_FMT_NV12;
-> +                       break;
-> +               case V4L2_PIX_FMT_NV21:
-> +                       reg = VE_PRIMARY_OUT_FMT_NV21;
-> +                       break;
-> +               case V4L2_PIX_FMT_YUV420:
-> +                       reg = VE_PRIMARY_OUT_FMT_YU12;
-> +                       break;
-> +               case V4L2_PIX_FMT_YVU420:
-> +                       reg = VE_PRIMARY_OUT_FMT_YV12;
-> +                       break;
-> +               }
->                 cedrus_write(dev, VE_PRIMARY_OUT_FMT, reg);
->
-
-I think it would result in a cleaner code if you extend
-cedrus_format to include the hw_format.
-
-Something along these lines (not a complete patch):
-
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-index 15cf1f10221b..618daaa65a82 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-@@ -48,10 +48,12 @@ static struct cedrus_format cedrus_formats[] = {
-        },
-        {
-                .pixelformat    = V4L2_PIX_FMT_SUNXI_TILED_NV12,
-+               .hw_format      = VE_PRIMARY_OUT_FMT_TILED_32_NV12,
-                .directions     = CEDRUS_DECODE_DST,
-        },
-        {
-                .pixelformat    = V4L2_PIX_FMT_NV12,
-+               .hw_format      = VE_PRIMARY_OUT_FMT_NV12,
-                .directions     = CEDRUS_DECODE_DST,
-                .capabilities   = CEDRUS_CAPABILITY_UNTILED,
-        },
-@@ -274,6 +276,7 @@ static int cedrus_s_fmt_vid_cap(struct file *file,
-void *priv,
- {
-        struct cedrus_ctx *ctx = cedrus_file2ctx(file);
-        struct cedrus_dev *dev = ctx->dev;
-+       struct cedrus_format *fmt;
-        struct vb2_queue *vq;
-        int ret;
-
-@@ -287,7 +290,10 @@ static int cedrus_s_fmt_vid_cap(struct file
-*file, void *priv,
-
-        ctx->dst_fmt = f->fmt.pix;
-
--       cedrus_dst_format_set(dev, &ctx->dst_fmt);
-+       fmt = cedrus_find_format(ctx->dst_fmt.pixelformat,
-+                                CEDRUS_DECODE_DST,
-+                                dev->capabilities);
-+       cedrus_dst_format_set(dev, fmt);
-
-        return 0;
- }
-
-So then in cedrus_dst_format_set() you can just
-write VE_PRIMARY_OUT_FMT with fmt->hw_format.
-
->                 reg = chroma_size / 2;
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_video.c b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> index 15cf1f10221b..016021d71df2 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_video.c
-> @@ -55,6 +55,21 @@ static struct cedrus_format cedrus_formats[] = {
->                 .directions     = CEDRUS_DECODE_DST,
->                 .capabilities   = CEDRUS_CAPABILITY_UNTILED,
->         },
-> +       {
-> +               .pixelformat    = V4L2_PIX_FMT_NV21,
-> +               .directions     = CEDRUS_DECODE_DST,
-> +               .capabilities   = CEDRUS_CAPABILITY_UNTILED,
-> +       },
-> +       {
-> +               .pixelformat    = V4L2_PIX_FMT_YUV420,
-> +               .directions     = CEDRUS_DECODE_DST,
-> +               .capabilities   = CEDRUS_CAPABILITY_UNTILED,
-> +       },
-> +       {
-> +               .pixelformat    = V4L2_PIX_FMT_YVU420,
-> +               .directions     = CEDRUS_DECODE_DST,
-> +               .capabilities   = CEDRUS_CAPABILITY_UNTILED,
-> +       },
->  };
->
->  #define CEDRUS_FORMATS_COUNT   ARRAY_SIZE(cedrus_formats)
-> @@ -130,6 +145,9 @@ void cedrus_prepare_format(struct v4l2_pix_format *pix_fmt)
->                 break;
->
->         case V4L2_PIX_FMT_NV12:
-> +       case V4L2_PIX_FMT_NV21:
-> +       case V4L2_PIX_FMT_YUV420:
-> +       case V4L2_PIX_FMT_YVU420:
->                 /* 16-aligned stride. */
->                 bytesperline = ALIGN(width, 16);
->
-> --
-> 2.26.2
->
-
-Thanks,
-Ezequiel
