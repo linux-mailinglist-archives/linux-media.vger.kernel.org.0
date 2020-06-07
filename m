@@ -2,158 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E76861F095F
-	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2020 04:34:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBDF41F0973
+	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2020 05:40:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728918AbgFGCeP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 6 Jun 2020 22:34:15 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:46612 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728887AbgFGCeO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 6 Jun 2020 22:34:14 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB82B2C9;
-        Sun,  7 Jun 2020 04:34:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591497252;
-        bh=NpWXPS10+ohEZMhXHYjXEMfN0Xz7NQ87j917kW3LNb4=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=K/YbtXJke9/ZTqqNyPSms52HvYJngqI4TbvLkZrAzv3nciQAvEQ4TPNyzk/xMyKPx
-         CJatcGnMdW6VNL1UydcX4oVwCV+gkhyqH5dcTXhtjfjzH0UC5U7KPQdi7zNnUTDxYv
-         LCr98JaU5KYNz5jwbGrcJ7J7B5Ums1POTBZKRN7k=
-Date:   Sun, 7 Jun 2020 05:33:53 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v2] media: vsp1: dl: Fix NULL pointer dereference on
- unbind
-Message-ID: <20200607023353.GC7339@pendragon.ideasonboard.com>
-References: <20200602195016.803-1-erosca@de.adit-jv.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200602195016.803-1-erosca@de.adit-jv.com>
+        id S1725997AbgFGDkF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 6 Jun 2020 23:40:05 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:53159 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725818AbgFGDkF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 6 Jun 2020 23:40:05 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id hmADjEEkWNp2zhmAEjP2a1; Sun, 07 Jun 2020 05:40:03 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1591501203; bh=iDj8ERwQs672rfhEyVGb6jke/SfFD7w8roNWiLMb/Ok=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=D51b+l5uJ6aZDW7vheq2pMY5GQadhbhlbIv6biDj0Z9WG3VR94jU4Q3cPABLZV4CP
+         yoMNaHpBveB1ewqnSf8EFZEmzmKPOIbzAP4jS5p+CM7oI7GD+W4dpGB9wrJbF5tv6f
+         mTTPweJuJtb9NlIIqNcGLgbFSHsqjli4dDiQfInBwmXsCo8bGnaZdwwiWEXSn3wTNH
+         wbKSO2xP+Y4o6/DSgHBxKyT4Q3jnJm6dSvpdbumo8m+v3VXbkJixILWBvHOWpOx5Aa
+         4Gr9qfvjV8RMuc/CLG4hTlz2nzUMce2Ee+4Ik/Cvc6Pc4zHrFVbzbdnYPIEVjeq3ZI
+         lz9cDVPgKiOkw==
+Message-ID: <ba5aee756fb8942fdb812bead4e6f9e3@smtp-cloud7.xs4all.net>
+Date:   Sun, 07 Jun 2020 05:40:01 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfF5X4DEkVWfu52R+Yp6+ZWyr2I0vQXLtD6CPnuFXIP9soV6/r4DdZbN7hpPhS0jGv3NMDuhdXCeTqWb+wH+8ZBo1b2oMaSl0HXi9skG0fKeccG5OekSA
+ zUQ3jF3O2G0a57ksH3awfw8TfLrlf3tYQbv2P+nSZPIFfsNCiLl1DUHDjKB4ZIVNMM6bGFtDJFm+t54m4kifjZItglREqx6R2+4yLCSZ/VMRiptM+Hb88u/b
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugeniu,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thank you for the patch.
+Results of the daily build of media_tree:
 
-Mauro, there's a question for you below.
+date:			Sun Jun  7 05:00:09 CEST 2020
+media-tree git hash:	938b29db3aa9c293c7c1366b16e55e308f1a1ddd
+media_build git hash:	337283131d6117aa9b0c0c62d32e323da54a9359
+v4l-utils git hash:	74377da4f5f3b63203c599d5dd75db6af91fdbb9
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a0e63d2e6cdc689a8af8c9ae6df1674d0fe38c74
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-On Tue, Jun 02, 2020 at 09:50:16PM +0200, Eugeniu Rosca wrote:
-> In commit f3b98e3c4d2e16 ("media: vsp1: Provide support for extended
-> command pools"), the vsp pointer used for referencing the VSP1 device
-> structure from a command pool during vsp1_dl_ext_cmd_pool_destroy() was
-> not populated.
-> 
-> Correctly assign the pointer to prevent the following
-> null-pointer-dereference when removing the device:
-> 
-> [*] h3ulcb-kf #>
-> echo fea28000.vsp > /sys/bus/platform/devices/fea28000.vsp/driver/unbind
->  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000028
->  Mem abort info:
->    ESR = 0x96000006
->    EC = 0x25: DABT (current EL), IL = 32 bits
->    SET = 0, FnV = 0
->    EA = 0, S1PTW = 0
->  Data abort info:
->    ISV = 0, ISS = 0x00000006
->    CM = 0, WnR = 0
->  user pgtable: 4k pages, 48-bit VAs, pgdp=00000007318be000
->  [0000000000000028] pgd=00000007333a1003, pud=00000007333a6003, pmd=0000000000000000
->  Internal error: Oops: 96000006 [#1] PREEMPT SMP
->  Modules linked in:
->  CPU: 1 PID: 486 Comm: sh Not tainted 5.7.0-rc6-arm64-renesas-00118-ge644645abf47 #185
->  Hardware name: Renesas H3ULCB Kingfisher board based on r8a77951 (DT)
->  pstate: 40000005 (nZcv daif -PAN -UAO)
->  pc : vsp1_dlm_destroy+0xe4/0x11c
->  lr : vsp1_dlm_destroy+0xc8/0x11c
->  sp : ffff800012963b60
->  x29: ffff800012963b60 x28: ffff0006f83fc440
->  x27: 0000000000000000 x26: ffff0006f5e13e80
->  x25: ffff0006f5e13ed0 x24: ffff0006f5e13ed0
->  x23: ffff0006f5e13ed0 x22: dead000000000122
->  x21: ffff0006f5e3a080 x20: ffff0006f5df2938
->  x19: ffff0006f5df2980 x18: 0000000000000003
->  x17: 0000000000000000 x16: 0000000000000016
->  x15: 0000000000000003 x14: 00000000000393c0
->  x13: ffff800011a5ec18 x12: ffff800011d8d000
->  x11: ffff0006f83fcc68 x10: ffff800011a53d70
->  x9 : ffff8000111f3000 x8 : 0000000000000000
->  x7 : 0000000000210d00 x6 : 0000000000000000
->  x5 : ffff800010872e60 x4 : 0000000000000004
->  x3 : 0000000078068000 x2 : ffff800012781000
->  x1 : 0000000000002c00 x0 : 0000000000000000
->  Call trace:
->   vsp1_dlm_destroy+0xe4/0x11c
->   vsp1_wpf_destroy+0x10/0x20
->   vsp1_entity_destroy+0x24/0x4c
->   vsp1_destroy_entities+0x54/0x130
->   vsp1_remove+0x1c/0x40
->   platform_drv_remove+0x28/0x50
->   __device_release_driver+0x178/0x220
->   device_driver_detach+0x44/0xc0
->   unbind_store+0xe0/0x104
->   drv_attr_store+0x20/0x30
->   sysfs_kf_write+0x48/0x70
->   kernfs_fop_write+0x148/0x230
->   __vfs_write+0x18/0x40
->   vfs_write+0xdc/0x1c4
->   ksys_write+0x68/0xf0
->   __arm64_sys_write+0x18/0x20
->   el0_svc_common.constprop.0+0x70/0x170
->   do_el0_svc+0x20/0x80
->   el0_sync_handler+0x134/0x1b0
->   el0_sync+0x140/0x180
->  Code: b40000c2 f9403a60 d2800084 a9400663 (f9401400)
->  ---[ end trace 3875369841fb288a ]---
-> 
-> Fixes: f3b98e3c4d2e16 ("media: vsp1: Provide support for extended command pools")
-> Cc: stable@vger.kernel.org # v4.19+
-> Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7-rc1-i686: OK
+linux-5.7-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
+sparse: OK
+smatch: OK
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Detailed results are available here:
 
-Mauro, can this be applied as a v5.8 fix, or should I include it in a
-pull request for v5.9 ?
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
-> ---
-> 
-> Changes in v2:
->  - Rephrased the description based on Kieran's proposal
->  - Added the Reviewed-by/Tested-by signatures
->  - No change in the contents
-> 
-> ---
->  drivers/media/platform/vsp1/vsp1_dl.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/vsp1/vsp1_dl.c
-> index d7b43037e500..e07b135613eb 100644
-> --- a/drivers/media/platform/vsp1/vsp1_dl.c
-> +++ b/drivers/media/platform/vsp1/vsp1_dl.c
-> @@ -431,6 +431,8 @@ vsp1_dl_cmd_pool_create(struct vsp1_device *vsp1, enum vsp1_extcmd_type type,
->  	if (!pool)
->  		return NULL;
->  
-> +	pool->vsp1 = vsp1;
-> +
->  	spin_lock_init(&pool->lock);
->  	INIT_LIST_HEAD(&pool->free);
->  
+Detailed regression test results are available here:
 
--- 
-Regards,
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
 
-Laurent Pinchart
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
