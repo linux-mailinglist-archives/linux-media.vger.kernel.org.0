@@ -2,174 +2,482 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 788A91F0F9F
-	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2020 22:29:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BB3671F107D
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 01:36:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727783AbgFGU3n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Jun 2020 16:29:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43108 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726823AbgFGU3n (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Jun 2020 16:29:43 -0400
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0858EC08C5C4
-        for <linux-media@vger.kernel.org>; Sun,  7 Jun 2020 13:29:42 -0700 (PDT)
-Received: by mail-qk1-x744.google.com with SMTP id n11so15384235qkn.8
-        for <linux-media@vger.kernel.org>; Sun, 07 Jun 2020 13:29:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=Lz6rtZK9cjNPAtEwtLuwX/TSYzMGfXgJilYQqWDsi+k=;
-        b=qoEfppc4l1T7Tnteea4ezpFwHMv4wHuEtUnWK1i2WOujZ0/uUUZEV5JDjWhOQm0HM5
-         lmadO2e2RzPCpHob2PJQCUv8pduTvChQW5AB7tJolmxF+HYaMF+dYSYpllfmikA7wfWx
-         fO/vgHjOzLtTDAIj+9bg7i5F7L5/5012scP4UNidpfkLffOv9AlAuiMjUjHrD34hjeCj
-         0N59QLDrFIzqpCN8KC4XDuD6Vsby4PBF3VyR7YVUnc+hv3i0x2J8nvxGZGjxFSH7r+fu
-         ODBQnt0VqGo9ici5Mry9hDofKgpGRmJiWdat8GvmeLh0/1VHA81xYDIbIqtJlzcsXRzE
-         MAaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=Lz6rtZK9cjNPAtEwtLuwX/TSYzMGfXgJilYQqWDsi+k=;
-        b=OR92gBV6JI17hXOi4fMbhLHzjJuduArcTFP4MY6NeLkuGpVi7M7JtvcayyiSwerknJ
-         vHgyGgctqpdRkzb/7AYC3rwgBl3KzR0czionc5nsoKmbE6OHXwtDPJFBvdgnvcgMQeAn
-         ZM3Sm8N9Ofhnp2+ExanxqjN3Pb65+Ii9Ze8C2uahj6+mU7jSc7KC2fNrYu8edMjoCmga
-         4+/PzfsgqR3g0EX5YSgTNFCTzLXOWxjuxAtL5DUbF+Xy/TGCiH3U5yPQhWa63aDvsJsa
-         aWAz4LcCfVd+S8GVc/3wTDiTPCBqZNCo8XlE4/fouhHFDK69Hn8XmFEH+9rt1Fo4NCfR
-         5trg==
-X-Gm-Message-State: AOAM533SFRfWdK90sCjLF2Jsj59lODeE2Humn2dbfY7FXwH7C20Kem9p
-        w7mWxoIHPb6tZesdgs2+RQE0TA==
-X-Google-Smtp-Source: ABdhPJxBY2kuRju1y7Y4Wso16zjhQCkYP7wBN9y8dzrRiSnIbCCe0LSgRuYomUlAn2H++WcfunFvTA==
-X-Received: by 2002:a37:a504:: with SMTP id o4mr19036370qke.245.1591561782070;
-        Sun, 07 Jun 2020 13:29:42 -0700 (PDT)
-Received: from skullcanyon (marriott-chateau-champlain-montreal.sites.intello.com. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id z4sm5237262qkj.131.2020.06.07.13.29.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 07 Jun 2020 13:29:41 -0700 (PDT)
-Message-ID: <3b1150a327aa1e6810b153a4ba1fe32cf6c98f45.camel@ndufresne.ca>
-Subject: Re: [PATCH 0/3] media: uapi: cedrus: Fix decoding interlaced H264
- content
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Maxime Ripard <mripard@kernel.org>, devel@driverdev.osuosl.org,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-media <linux-media@vger.kernel.org>
-Date:   Sun, 07 Jun 2020 16:29:40 -0400
-In-Reply-To: <572f23d1945a685bf899e96de147454f31674ae1.camel@ndufresne.ca>
-References: <20200604185745.23568-1-jernej.skrabec@siol.net>
-         <CAAEAJfDFMzMkDkN7zzNvkwsmYzgQPNGkP=dhW7neycYYRBJzHA@mail.gmail.com>
-         <572f23d1945a685bf899e96de147454f31674ae1.camel@ndufresne.ca>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
+        id S1728065AbgFGXge (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 7 Jun 2020 19:36:34 -0400
+Received: from mail.kernel.org ([198.145.29.99]:36748 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727786AbgFGXge (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 7 Jun 2020 19:36:34 -0400
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A1B692073B;
+        Sun,  7 Jun 2020 23:36:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591572992;
+        bh=qxJ2WbBGyyRXKF377NjTd0svTf3GYbF3a9PC/hfYG7Q=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=kZwaAFTuzHdf2ud3jme9wklgQMFACma/ctBL1q3o2Zl0T7V044bDzPTzvho/1+4Vc
+         ruG079DN2TMapWEcwe0zARryhXPk7pRX6p6FWOS4TZ0EWqRub3F2MUl4127coy7rZf
+         j5570rvRO3YLJhXMWRtl0q6stLI98oEdJDUJjYLY=
+Received: by mail-ed1-f43.google.com with SMTP id c35so11940024edf.5;
+        Sun, 07 Jun 2020 16:36:31 -0700 (PDT)
+X-Gm-Message-State: AOAM532YPzzCL+CiBZndrb0k0uax4IaSG2eHC5v14GCe4Osd66v4Tm9Q
+        78wTtpmtXcOTm3d1SpyRp4e8t2xVzBk3NZ/Fog==
+X-Google-Smtp-Source: ABdhPJy4IedkE2VQrVxiBQxIbKudIZBVCcovK6ZCZVgKIjhVRnPXlFVIOAxGe7H3jHrTu4Ss9FKB6uHV5equa7+zAgM=
+X-Received: by 2002:aa7:c4c7:: with SMTP id p7mr20247364edr.271.1591572990077;
+ Sun, 07 Jun 2020 16:36:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200604090553.10861-1-xia.jiang@mediatek.com> <20200604090553.10861-20-xia.jiang@mediatek.com>
+In-Reply-To: <20200604090553.10861-20-xia.jiang@mediatek.com>
+From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date:   Mon, 8 Jun 2020 07:36:18 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_8dW2r-hZ7UyfOTMvH_RRXzO5uFSSU=HSoPenej7if2tQ@mail.gmail.com>
+Message-ID: <CAAOTY_8dW2r-hZ7UyfOTMvH_RRXzO5uFSSU=HSoPenej7if2tQ@mail.gmail.com>
+Subject: Re: [PATCH RESEND v9 18/18] media: platform: Add jpeg enc feature
+To:     Xia Jiang <xia.jiang@mediatek.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rick Chang <rick.chang@mediatek.com>,
+        maoguang.meng@mediatek.com, devicetree@vger.kernel.org,
+        mojahsu@chromium.org, srv_heupstream <srv_heupstream@mediatek.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, senozhatsky@chromium.org,
+        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>, linux-media@vger.kernel.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le dimanche 07 juin 2020 à 16:21 -0400, Nicolas Dufresne a écrit :
-> Le samedi 06 juin 2020 à 09:46 -0300, Ezequiel Garcia a écrit :
-> > Hi Jernej,
-> > 
-> > On Thu, 4 Jun 2020 at 15:55, Jernej Skrabec <jernej.skrabec@siol.net> wrote:
-> > > Currently H264 interlaced content it's not properly decoded on Cedrus.
-> > > There are two reasons for this:
-> > > 1. slice parameters control doesn't provide enough information
-> > > 2. bug in frame list construction in Cedrus driver
-> > > 
-> > > As described in commit message in patch 1, references stored in
-> > > reference lists should tell if reference targets top or bottom field.
-> > > However, this information is currently not provided. Patch 1 adds
-> > > it in form of flags which are set for each reference. Patch 2 then
-> > > uses those flags in Cedrus driver.
-> > > 
-> > > Frame list construction is fixed in patch 3.
-> > > 
-> > > This solution was extensively tested using Kodi on LibreELEC with A64,
-> > > H3, H5 and H6 SoCs in slightly different form (flags were transmitted
-> > > in MSB bits in index).
-> > > 
-> > 
-> > So, if I understand correctly the field needs to be passed per-reference,
-> > and the current per-DPB entry is not good?
-> 
-> For interlaced content we reference fields separately. That's the
-> reason there is 32 entries in l0/l1. Though, as we decode both fields
-> in the same buffer (interleaved), the DPB indice is not sufficient to
-> inform the decoder what we are referencing. Understand that a top field
-> can be used to decode the next bottom field. This even make sense as
-> they are closer on the capture timeline. This covers slice based
-> decoders.
-> 
-> The flags to indicate presence of top/bottom fields in DPB array seems
-> only useful to frame base decoders. This is so that decoder can avoid
-> using lost fields when constructing it's own l0/l1 internally.
-> 
-> > If you could point at the userspace code for this, it would be interesting
-> > to take a look.
-> > 
-> > > Note: I'm not 100% sure if flags for both, top and bottom fields are
-> > > needed. Any input here would be welcome.
-> > > 
-> > 
-> > Given enum v4l2_field is already part of the uAPI, perhaps it makes
-> > sense to just reuse that for the field type? Maybe it's an overkill,
-> > but it would make sense to reuse the concepts and types that
-> > already exist.
-> > 
-> > We can still add a reserved field to make this new reference type
-> > extensive.
-> 
-> I think it's fine to create new flag for this, as your solution would
-> require extending a reference to 24bit (this patch extend to 16bits).
-> Though indeed, we could combine frame and TOP and reserve more bits for
-> future use.
+Hi, Xia:
 
-Sorry for the oversight, the flags is 16bits, so we already use 24bits.
-But looking at "enum v4l2_field", which is not a flag, seems like a
-miss-fit. It would create such a confusion, as V4L2_FIELD_SEQ_TB/BT can
-still be used with this interface, even though we still need to say if
-we reference TOP or BOTTOM. Only V4L2_FIELD_ALTERNATE is not supported.
-But as you can see, "enum v4l2_fiel" is really meant to describe the
-layout of the interleaved frame rather then signalling a field
-directly.
+Xia Jiang <xia.jiang@mediatek.com> =E6=96=BC 2020=E5=B9=B46=E6=9C=884=E6=97=
+=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=885:21=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> Add mtk jpeg encode v4l2 driver based on jpeg decode, because that jpeg
+> decode and encode have great similarities with function operation.
+>
+> Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
+> ---
+> v9: add member variable(struct v4l2_rect) in out_q structure for storing
+>     the active crop information.
+>     move the renaming exsting functions/defines/variables to a separate p=
+atch.
+> ---
+>  drivers/media/platform/mtk-jpeg/Makefile      |   5 +-
+>  .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 845 +++++++++++++++---
+>  .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |  44 +-
+>  .../media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c | 193 ++++
+>  .../media/platform/mtk-jpeg/mtk_jpeg_enc_hw.h | 123 +++
+>  5 files changed, 1084 insertions(+), 126 deletions(-)
+>  create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.c
+>  create mode 100644 drivers/media/platform/mtk-jpeg/mtk_jpeg_enc_hw.h
+>
 
-> 
-> > Thanks,
-> > Ezequiel
-> > 
-> > 
-> > > Please take a look.
-> > > 
-> > > Best regards,
-> > > Jernej
-> > > 
-> > > Jernej Skrabec (3):
-> > >   media: uapi: h264: update reference lists
-> > >   media: cedrus: h264: Properly configure reference field
-> > >   media: cedrus: h264: Fix frame list construction
-> > > 
-> > >  .../media/v4l/ext-ctrls-codec.rst             | 40 ++++++++++++++++++-
-> > >  .../staging/media/sunxi/cedrus/cedrus_h264.c  | 27 +++++++------
-> > >  include/media/h264-ctrls.h                    | 12 +++++-
-> > >  3 files changed, 62 insertions(+), 17 deletions(-)
-> > > 
-> > > --
-> > > 2.27.0
-> > > 
-> > > 
-> > > _______________________________________________
-> > > linux-arm-kernel mailing list
-> > > linux-arm-kernel@lists.infradead.org
-> > > http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+[snip]
 
+>
+> +static void mtk_jpeg_set_enc_default_params(struct mtk_jpeg_ctx *ctx)
+> +{
+> +       struct mtk_jpeg_q_data *q =3D &ctx->out_q;
+> +       struct v4l2_pix_format_mplane *pix_mp;
+> +
+> +       pix_mp =3D kmalloc(sizeof(*pix_mp), GFP_KERNEL);
+> +
+> +       ctx->fh.ctrl_handler =3D &ctx->ctrl_hdl;
+> +       ctx->colorspace =3D V4L2_COLORSPACE_JPEG,
+> +       ctx->ycbcr_enc =3D V4L2_YCBCR_ENC_DEFAULT;
+> +       ctx->quantization =3D V4L2_QUANTIZATION_DEFAULT;
+> +       ctx->xfer_func =3D V4L2_XFER_FUNC_DEFAULT;
+> +       pix_mp->width =3D MTK_JPEG_MIN_WIDTH;
+> +       pix_mp->height =3D MTK_JPEG_MIN_HEIGHT;
+> +
+> +       q->fmt =3D mtk_jpeg_find_format(V4L2_PIX_FMT_YUYV,
+> +                                     MTK_JPEG_FMT_FLAG_ENC_OUTPUT);
+> +       vidioc_try_fmt(container_of(pix_mp, struct v4l2_format,
+> +                                   fmt.pix_mp), q->fmt);
+> +       q->w =3D pix_mp->width;
+> +       q->h =3D pix_mp->height;
+> +       q->crop_rect.width =3D pix_mp->width;
+> +       q->crop_rect.height =3D pix_mp->height;
+> +       q->sizeimage[0] =3D pix_mp->plane_fmt[0].sizeimage;
+> +       q->bytesperline[0] =3D pix_mp->plane_fmt[0].bytesperline;
+> +
+> +       q =3D &ctx->cap_q;
+> +       q->fmt =3D mtk_jpeg_find_format(V4L2_PIX_FMT_JPEG,
+> +                                     MTK_JPEG_FMT_FLAG_ENC_CAPTURE);
+> +       pix_mp->width =3D MTK_JPEG_MIN_WIDTH;
+> +       pix_mp->height =3D MTK_JPEG_MIN_HEIGHT;
+> +       vidioc_try_fmt(container_of(pix_mp, struct v4l2_format,
+> +                                   fmt.pix_mp), q->fmt);
+> +       q->w =3D pix_mp->width;
+> +       q->h =3D pix_mp->height;
+> +       q->sizeimage[0] =3D pix_mp->plane_fmt[0].sizeimage;
+> +       q->bytesperline[0] =3D pix_mp->plane_fmt[0].bytesperline;
+> +}
+> +
+>  static void mtk_jpeg_set_dec_default_params(struct mtk_jpeg_ctx *ctx)
+>  {
+>         struct mtk_jpeg_q_data *q =3D &ctx->out_q;
+> +       struct v4l2_pix_format_mplane *pix_mp;
+>         int i;
+>
+> +       pix_mp =3D kmalloc(sizeof(*pix_mp), GFP_KERNEL);
+> +
+> +       ctx->fh.ctrl_handler =3D &ctx->ctrl_hdl;
+>         ctx->colorspace =3D V4L2_COLORSPACE_JPEG,
+>         ctx->ycbcr_enc =3D V4L2_YCBCR_ENC_DEFAULT;
+>         ctx->quantization =3D V4L2_QUANTIZATION_DEFAULT;
+>         ctx->xfer_func =3D V4L2_XFER_FUNC_DEFAULT;
+> -
+> -       q->fmt =3D mtk_jpeg_find_format(ctx, V4L2_PIX_FMT_JPEG,
+> -                                             MTK_JPEG_FMT_TYPE_OUTPUT);
+> -       q->w =3D MTK_JPEG_MIN_WIDTH;
+> -       q->h =3D MTK_JPEG_MIN_HEIGHT;
+> -       q->bytesperline[0] =3D 0;
+> -       q->sizeimage[0] =3D MTK_JPEG_DEFAULT_SIZEIMAGE;
+> +       pix_mp->width =3D MTK_JPEG_MIN_WIDTH;
+> +       pix_mp->height =3D MTK_JPEG_MIN_HEIGHT;
+> +
+> +       q->fmt =3D mtk_jpeg_find_format(V4L2_PIX_FMT_JPEG,
+> +                                     MTK_JPEG_FMT_FLAG_DEC_OUTPUT);
+> +       vidioc_try_fmt(container_of(pix_mp, struct v4l2_format,
+> +                                   fmt.pix_mp), q->fmt);
+> +       q->w =3D pix_mp->width;
+> +       q->h =3D pix_mp->height;
+> +       q->sizeimage[0] =3D pix_mp->plane_fmt[0].sizeimage;
+> +       q->bytesperline[0] =3D pix_mp->plane_fmt[0].bytesperline;
+
+I would like non-jpeg-enc related modification to be another patch.
+
+>
+>         q =3D &ctx->cap_q;
+> -       q->fmt =3D mtk_jpeg_find_format(ctx, V4L2_PIX_FMT_YUV420M,
+> -                                             MTK_JPEG_FMT_TYPE_CAPTURE);
+> -       q->w =3D MTK_JPEG_MIN_WIDTH;
+> -       q->h =3D MTK_JPEG_MIN_HEIGHT;
+> -
+> +       q->fmt =3D mtk_jpeg_find_format(V4L2_PIX_FMT_YUV420M,
+> +                                     MTK_JPEG_FMT_FLAG_DEC_CAPTURE);
+> +       pix_mp->width =3D MTK_JPEG_MIN_WIDTH;
+> +       pix_mp->height =3D MTK_JPEG_MIN_HEIGHT;
+> +       vidioc_try_fmt(container_of(pix_mp, struct v4l2_format,
+> +                                   fmt.pix_mp), q->fmt);
+> +       q->w =3D pix_mp->width;
+> +       q->h =3D pix_mp->height;
+>         for (i =3D 0; i < q->fmt->colplanes; i++) {
+> -               u32 stride =3D q->w * q->fmt->h_sample[i] / 4;
+> -               u32 h =3D q->h * q->fmt->v_sample[i] / 4;
+> +               q->sizeimage[i] =3D pix_mp->plane_fmt[i].sizeimage;
+> +               q->bytesperline[i] =3D pix_mp->plane_fmt[i].bytesperline;
+> +       }
+> +}
+>
+> -               q->bytesperline[i] =3D stride;
+> -               q->sizeimage[i] =3D stride * h;
+> +static int mtk_jpeg_enc_open(struct file *file)
+> +{
+> +       struct mtk_jpeg_dev *jpeg =3D video_drvdata(file);
+> +       struct video_device *vfd =3D video_devdata(file);
+> +       struct mtk_jpeg_ctx *ctx;
+> +       int ret =3D 0;
+> +
+> +       ctx =3D kzalloc(sizeof(*ctx), GFP_KERNEL);
+> +       if (!ctx)
+> +               return -ENOMEM;
+> +
+> +       if (mutex_lock_interruptible(&jpeg->lock)) {
+> +               ret =3D -ERESTARTSYS;
+> +               goto free;
+> +       }
+> +
+> +       v4l2_fh_init(&ctx->fh, vfd);
+> +       file->private_data =3D &ctx->fh;
+> +       v4l2_fh_add(&ctx->fh);
+> +
+> +       ctx->jpeg =3D jpeg;
+> +       ctx->fh.m2m_ctx =3D v4l2_m2m_ctx_init(jpeg->m2m_dev, ctx,
+> +                                           mtk_jpeg_enc_queue_init);
+> +       if (IS_ERR(ctx->fh.m2m_ctx)) {
+> +               ret =3D PTR_ERR(ctx->fh.m2m_ctx);
+> +               goto error;
+>         }
+> +
+> +       ret =3D mtk_jpeg_enc_ctrls_setup(ctx);
+> +       if (ret) {
+> +               v4l2_err(&jpeg->v4l2_dev, "Failed to setup jpeg enc contr=
+ols\n");
+> +               goto error;
+> +       }
+> +       mtk_jpeg_set_enc_default_params(ctx);
+> +
+> +       mutex_unlock(&jpeg->lock);
+> +       return 0;
+> +
+> +error:
+> +       v4l2_fh_del(&ctx->fh);
+> +       v4l2_fh_exit(&ctx->fh);
+> +       mutex_unlock(&jpeg->lock);
+> +free:
+> +       kfree(ctx);
+> +       return ret;
+>  }
+>
+>  static int mtk_jpeg_dec_open(struct file *file)
+> @@ -953,6 +1507,12 @@ static int mtk_jpeg_dec_open(struct file *file)
+>                 goto error;
+>         }
+>
+> +       v4l2_ctrl_handler_init(&ctx->ctrl_hdl, 0);
+> +       ret =3D v4l2_ctrl_handler_setup(&ctx->ctrl_hdl);
+> +       if (ret) {
+> +               v4l2_err(&jpeg->v4l2_dev, "Failed to setup jpeg dec contr=
+ols\n");
+> +               goto error;
+> +       }
+>         mtk_jpeg_set_dec_default_params(ctx);
+>         mutex_unlock(&jpeg->lock);
+>         return 0;
+> @@ -973,6 +1533,7 @@ static int mtk_jpeg_release(struct file *file)
+>
+>         mutex_lock(&jpeg->lock);
+>         v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
+> +       v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
+>         v4l2_fh_del(&ctx->fh);
+>         v4l2_fh_exit(&ctx->fh);
+>         kfree(ctx);
+> @@ -980,6 +1541,15 @@ static int mtk_jpeg_release(struct file *file)
+>         return 0;
+>  }
+>
+> +static const struct v4l2_file_operations mtk_jpeg_enc_fops =3D {
+> +       .owner          =3D THIS_MODULE,
+> +       .open           =3D mtk_jpeg_enc_open,
+> +       .release        =3D mtk_jpeg_release,
+> +       .poll           =3D v4l2_m2m_fop_poll,
+> +       .unlocked_ioctl =3D video_ioctl2,
+> +       .mmap           =3D v4l2_m2m_fop_mmap,
+> +};
+> +
+>  static const struct v4l2_file_operations mtk_jpeg_dec_fops =3D {
+>         .owner          =3D THIS_MODULE,
+>         .open           =3D mtk_jpeg_dec_open,
+> @@ -993,6 +1563,7 @@ static int mtk_jpeg_clk_init(struct mtk_jpeg_dev *jp=
+eg)
+>  {
+>         struct device_node *node;
+>         struct platform_device *pdev;
+> +       int i;
+>
+>         node =3D of_parse_phandle(jpeg->dev->of_node, "mediatek,larb", 0)=
+;
+>         if (!node)
+> @@ -1006,12 +1577,17 @@ static int mtk_jpeg_clk_init(struct mtk_jpeg_dev =
+*jpeg)
+>
+>         jpeg->larb =3D &pdev->dev;
+>
+> -       jpeg->clk_jdec =3D devm_clk_get(jpeg->dev, "jpgdec");
+> -       if (IS_ERR(jpeg->clk_jdec))
+> -               return PTR_ERR(jpeg->clk_jdec);
+> +       for (i =3D 0; i < jpeg->variant->num_clocks; i++) {
+> +               jpeg->clocks[i] =3D devm_clk_get(jpeg->dev,
+> +                                              jpeg->variant->clk_names[i=
+]);
+> +               if (IS_ERR(jpeg->clocks[i])) {
+> +                       dev_err(&pdev->dev, "failed to get clock: %s\n",
+> +                               jpeg->variant->clk_names[i]);
+> +                       return PTR_ERR(jpeg->clocks[i]);
+> +               }
+> +       }
+>
+> -       jpeg->clk_jdec_smi =3D devm_clk_get(jpeg->dev, "jpgdec-smi");
+> -       return PTR_ERR_OR_ZERO(jpeg->clk_jdec_smi);
+> +       return 0;
+>  }
+>
+>  static int mtk_jpeg_probe(struct platform_device *pdev)
+> @@ -1028,6 +1604,7 @@ static int mtk_jpeg_probe(struct platform_device *p=
+dev)
+>         mutex_init(&jpeg->lock);
+>         spin_lock_init(&jpeg->hw_lock);
+>         jpeg->dev =3D &pdev->dev;
+> +       jpeg->variant =3D of_device_get_match_data(jpeg->dev);
+>
+>         res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+>         jpeg->reg_base =3D devm_ioremap_resource(&pdev->dev, res);
+> @@ -1042,8 +1619,12 @@ static int mtk_jpeg_probe(struct platform_device *=
+pdev)
+>                 return jpeg_irq;
+>         }
+>
+> -       ret =3D devm_request_irq(&pdev->dev, jpeg_irq, mtk_jpeg_dec_irq, =
+0,
+> -                              pdev->name, jpeg);
+> +       if (jpeg->variant->is_encoder)
+> +               ret =3D devm_request_irq(&pdev->dev, jpeg_irq, mtk_jpeg_e=
+nc_irq,
+> +                                      0, pdev->name, jpeg);
+> +       else
+> +               ret =3D devm_request_irq(&pdev->dev, jpeg_irq, mtk_jpeg_d=
+ec_irq,
+> +                                      0, pdev->name, jpeg);
+>         if (ret) {
+>                 dev_err(&pdev->dev, "Failed to request jpeg_irq %d (%d)\n=
+",
+>                         jpeg_irq, ret);
+> @@ -1063,7 +1644,10 @@ static int mtk_jpeg_probe(struct platform_device *=
+pdev)
+>                 goto err_dev_register;
+>         }
+>
+> -       jpeg->m2m_dev =3D v4l2_m2m_init(&mtk_jpeg_dec_m2m_ops);
+> +       if (jpeg->variant->is_encoder)
+> +               jpeg->m2m_dev =3D v4l2_m2m_init(&mtk_jpeg_enc_m2m_ops);
+> +       else
+> +               jpeg->m2m_dev =3D v4l2_m2m_init(&mtk_jpeg_dec_m2m_ops);
+>         if (IS_ERR(jpeg->m2m_dev)) {
+>                 v4l2_err(&jpeg->v4l2_dev, "Failed to init mem2mem device\=
+n");
+>                 ret =3D PTR_ERR(jpeg->m2m_dev);
+> @@ -1076,9 +1660,15 @@ static int mtk_jpeg_probe(struct platform_device *=
+pdev)
+>                 goto err_vfd_jpeg_alloc;
+>         }
+>         snprintf(jpeg->vdev->name, sizeof(jpeg->vdev->name),
+> -                "%s-dec", MTK_JPEG_NAME);
+> -       jpeg->vdev->fops =3D &mtk_jpeg_dec_fops;
+> -       jpeg->vdev->ioctl_ops =3D &mtk_jpeg_dec_ioctl_ops;
+> +                "%s-%s", MTK_JPEG_NAME,
+> +                jpeg->variant->is_encoder ? "enc" : "dec");
+> +       if (jpeg->variant->is_encoder) {
+> +               jpeg->vdev->fops =3D &mtk_jpeg_enc_fops;
+> +               jpeg->vdev->ioctl_ops =3D &mtk_jpeg_enc_ioctl_ops;
+> +       } else {
+> +               jpeg->vdev->fops =3D &mtk_jpeg_dec_fops;
+> +               jpeg->vdev->ioctl_ops =3D &mtk_jpeg_dec_ioctl_ops;
+> +       }
+>         jpeg->vdev->minor =3D -1;
+>         jpeg->vdev->release =3D video_device_release;
+>         jpeg->vdev->lock =3D &jpeg->lock;
+> @@ -1095,8 +1685,9 @@ static int mtk_jpeg_probe(struct platform_device *p=
+dev)
+>
+>         video_set_drvdata(jpeg->vdev, jpeg);
+>         v4l2_info(&jpeg->v4l2_dev,
+> -                 "decoder device registered as /dev/video%d (%d,%d)\n",
+> -                 jpeg->vdev->num, VIDEO_MAJOR, jpeg->vdev->minor);
+> +                 "jpeg %s device registered as /dev/video%d (%d,%d)\n",
+> +                 jpeg->variant->is_encoder ? "enc" : "dec", jpeg->vdev->=
+num,
+> +                 VIDEO_MAJOR, jpeg->vdev->minor);
+>
+>         platform_set_drvdata(pdev, jpeg);
+>
+> @@ -1187,14 +1778,36 @@ static const struct dev_pm_ops mtk_jpeg_pm_ops =
+=3D {
+>         SET_RUNTIME_PM_OPS(mtk_jpeg_pm_suspend, mtk_jpeg_pm_resume, NULL)
+>  };
+>
+> +static struct mtk_jpeg_variant mt8173_jpeg_drvdata =3D {
+> +       .is_encoder     =3D false,
+> +       .clk_names      =3D {"jpgdec-smi", "jpgdec"},
+> +       .num_clocks     =3D 2,
+> +};
+
+I would like non-jpeg-enc related modification to be another patch.
+
+> +
+> +static struct mtk_jpeg_variant mt2701_jpeg_drvdata =3D {
+> +       .is_encoder     =3D false,
+> +       .clk_names      =3D {"jpgdec-smi", "jpgdec"},
+> +       .num_clocks     =3D 2,
+> +};
+
+mt2701_jpeg_drvdata is equal to mt8173_jpeg_drvdata, so keep only
+mt8173_jpeg_drvdata.
+
+> +
+> +static struct mtk_jpeg_variant mtk_jpeg_drvdata =3D {
+> +       .is_encoder     =3D true,
+> +       .clk_names      =3D {"jpgenc"},
+> +       .num_clocks     =3D 1,
+> +};
+> +
+>  static const struct of_device_id mtk_jpeg_match[] =3D {
+>         {
+>                 .compatible =3D "mediatek,mt8173-jpgdec",
+> -               .data       =3D NULL,
+> +               .data =3D &mt8173_jpeg_drvdata,
+>         },
+>         {
+>                 .compatible =3D "mediatek,mt2701-jpgdec",
+> -               .data       =3D NULL,
+> +               .data =3D &mt2701_jpeg_drvdata,
+> +       },
+> +       {
+> +               .compatible =3D "mediatek,mtk-jpgenc",
+> +               .data =3D &mtk_jpeg_drvdata,
+>         },
+>         {},
+>  };
+> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h b/drivers/me=
+dia/platform/mtk-jpeg/mtk_jpeg_core.h
+> index 0b59e48495d5..9ec2c3350a16 100644
+> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
+> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.h
+> @@ -3,6 +3,7 @@
+>   * Copyright (c) 2016 MediaTek Inc.
+>   * Author: Ming Hsiu Tsai <minghsiu.tsai@mediatek.com>
+>   *         Rick Chang <rick.chang@mediatek.com>
+> + *         Xia Jiang <xia.jiang@mediatek.com>
+>   */
+>
+>  #ifndef _MTK_JPEG_CORE_H
+> @@ -16,19 +17,21 @@
+>  #define MTK_JPEG_NAME          "mtk-jpeg"
+>
+>  #define MTK_JPEG_COMP_MAX              3
+> +#define MTK_JPEG_MAX_CLOCKS            2
+> +
+>
+>  #define MTK_JPEG_FMT_FLAG_DEC_OUTPUT   BIT(0)
+>  #define MTK_JPEG_FMT_FLAG_DEC_CAPTURE  BIT(1)
+> -
+> -#define MTK_JPEG_FMT_TYPE_OUTPUT       1
+> -#define MTK_JPEG_FMT_TYPE_CAPTURE      2
+> +#define MTK_JPEG_FMT_FLAG_ENC_OUTPUT   BIT(2)
+> +#define MTK_JPEG_FMT_FLAG_ENC_CAPTURE  BIT(3)
+>
+>  #define MTK_JPEG_MIN_WIDTH     32U
+>  #define MTK_JPEG_MIN_HEIGHT    32U
+> -#define MTK_JPEG_MAX_WIDTH     8192U
+> -#define MTK_JPEG_MAX_HEIGHT    8192U
+> +#define MTK_JPEG_MAX_WIDTH     65535U
+> +#define MTK_JPEG_MAX_HEIGHT    65535U
+
+MT8173 use this definition, why do you change this?
+If the definition is wrong in MT8173, use a patch to fixup this.
+
+>
+>  #define MTK_JPEG_DEFAULT_SIZEIMAGE     (1 * 1024 * 1024)
+> +#define MTK_JPEG_MAX_EXIF_SIZE (64 * 1024)
+>
+>  /**
+>   * enum mtk_jpeg_ctx_state - states of the context state machine
+> @@ -42,6 +45,18 @@ enum mtk_jpeg_ctx_state {
+>         MTK_JPEG_SOURCE_CHANGE,
+>  };
+>
