@@ -2,106 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 975AE1F0956
-	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2020 04:28:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E76861F095F
+	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2020 04:34:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728920AbgFGC17 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 6 Jun 2020 22:27:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46024 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728887AbgFGC17 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 6 Jun 2020 22:27:59 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02E99C08C5C2
-        for <linux-media@vger.kernel.org>; Sat,  6 Jun 2020 19:21:11 -0700 (PDT)
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 653AF2C9
-        for <linux-media@vger.kernel.org>; Sun,  7 Jun 2020 04:21:09 +0200 (CEST)
+        id S1728918AbgFGCeP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 6 Jun 2020 22:34:15 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46612 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728887AbgFGCeO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 6 Jun 2020 22:34:14 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB82B2C9;
+        Sun,  7 Jun 2020 04:34:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591496469;
-        bh=mlyMuDZw3FoQvMOO4Wxgy9OvKT47GC0pbtdKjU1jmg4=;
-        h=From:To:Subject:Date:From;
-        b=b94yVX9euhvlYXcL4E8D41kd1EvHkE8fMWolkRDqRP139R2pFhdtJzZe0FF7Jf5Wj
-         SgVfuwSr0kBaTe/CRpo+lqVntwl3b82S7XthQcMVeYUfvz1Iq5dRjESE6UTpU6hZty
-         t4Cwvvu0rPSVkuAZ4M7KrPRnv1ONUBguawa6qSJ0=
+        s=mail; t=1591497252;
+        bh=NpWXPS10+ohEZMhXHYjXEMfN0Xz7NQ87j917kW3LNb4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=K/YbtXJke9/ZTqqNyPSms52HvYJngqI4TbvLkZrAzv3nciQAvEQ4TPNyzk/xMyKPx
+         CJatcGnMdW6VNL1UydcX4oVwCV+gkhyqH5dcTXhtjfjzH0UC5U7KPQdi7zNnUTDxYv
+         LCr98JaU5KYNz5jwbGrcJ7J7B5Ums1POTBZKRN7k=
+Date:   Sun, 7 Jun 2020 05:33:53 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH] media: uvcvideo: Set media controller entity functions
-Date:   Sun,  7 Jun 2020 05:20:47 +0300
-Message-Id: <20200607022047.29111-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
+To:     Eugeniu Rosca <erosca@de.adit-jv.com>
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2] media: vsp1: dl: Fix NULL pointer dereference on
+ unbind
+Message-ID: <20200607023353.GC7339@pendragon.ideasonboard.com>
+References: <20200602195016.803-1-erosca@de.adit-jv.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200602195016.803-1-erosca@de.adit-jv.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The media controller core prints a warning when an entity is registered
-without a function being set. This affect the uvcvideo driver, as the
-warning was added without first addressing the issue in existing
-drivers. The problem is harmless, but unnecessarily worries users. Fix
-it by mapping UVC entity types to MC entity functions as accurately as
-possible using the existing functions.
+Hi Eugeniu,
 
-Fixes: b50bde4e476d ("[media] v4l2-subdev: use MEDIA_ENT_T_UNKNOWN for new subdevs")
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/usb/uvc/uvc_entity.c | 35 ++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+Thank you for the patch.
 
-diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
-index b4499cddeffe..ca3a9c2eec27 100644
---- a/drivers/media/usb/uvc/uvc_entity.c
-+++ b/drivers/media/usb/uvc/uvc_entity.c
-@@ -73,10 +73,45 @@ static int uvc_mc_init_entity(struct uvc_video_chain *chain,
- 	int ret;
- 
- 	if (UVC_ENTITY_TYPE(entity) != UVC_TT_STREAMING) {
-+		u32 function;
-+
- 		v4l2_subdev_init(&entity->subdev, &uvc_subdev_ops);
- 		strscpy(entity->subdev.name, entity->name,
- 			sizeof(entity->subdev.name));
- 
-+		switch (UVC_ENTITY_TYPE(entity)) {
-+		case UVC_VC_SELECTOR_UNIT:
-+			function = MEDIA_ENT_F_VID_MUX;
-+			break;
-+		case UVC_VC_PROCESSING_UNIT:
-+		case UVC_VC_EXTENSION_UNIT:
-+			/* For lack of a better option. */
-+			function = MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER;
-+			break;
-+		case UVC_COMPOSITE_CONNECTOR:
-+		case UVC_COMPONENT_CONNECTOR:
-+			function = MEDIA_ENT_F_CONN_COMPOSITE;
-+			break;
-+		case UVC_SVIDEO_CONNECTOR:
-+			function = MEDIA_ENT_F_CONN_SVIDEO;
-+			break;
-+		case UVC_ITT_CAMERA:
-+			function = MEDIA_ENT_F_CAM_SENSOR;
-+			break;
-+		case UVC_TT_VENDOR_SPECIFIC:
-+		case UVC_ITT_VENDOR_SPECIFIC:
-+		case UVC_ITT_MEDIA_TRANSPORT_INPUT:
-+		case UVC_OTT_VENDOR_SPECIFIC:
-+		case UVC_OTT_DISPLAY:
-+		case UVC_OTT_MEDIA_TRANSPORT_OUTPUT:
-+		case UVC_EXTERNAL_VENDOR_SPECIFIC:
-+		default:
-+			function = MEDIA_ENT_F_V4L2_SUBDEV_UNKNOWN;
-+			break;
-+		}
-+
-+		entity->subdev.entity.function = function;
-+
- 		ret = media_entity_pads_init(&entity->subdev.entity,
- 					entity->num_pads, entity->pads);
- 
+Mauro, there's a question for you below.
+
+On Tue, Jun 02, 2020 at 09:50:16PM +0200, Eugeniu Rosca wrote:
+> In commit f3b98e3c4d2e16 ("media: vsp1: Provide support for extended
+> command pools"), the vsp pointer used for referencing the VSP1 device
+> structure from a command pool during vsp1_dl_ext_cmd_pool_destroy() was
+> not populated.
+> 
+> Correctly assign the pointer to prevent the following
+> null-pointer-dereference when removing the device:
+> 
+> [*] h3ulcb-kf #>
+> echo fea28000.vsp > /sys/bus/platform/devices/fea28000.vsp/driver/unbind
+>  Unable to handle kernel NULL pointer dereference at virtual address 0000000000000028
+>  Mem abort info:
+>    ESR = 0x96000006
+>    EC = 0x25: DABT (current EL), IL = 32 bits
+>    SET = 0, FnV = 0
+>    EA = 0, S1PTW = 0
+>  Data abort info:
+>    ISV = 0, ISS = 0x00000006
+>    CM = 0, WnR = 0
+>  user pgtable: 4k pages, 48-bit VAs, pgdp=00000007318be000
+>  [0000000000000028] pgd=00000007333a1003, pud=00000007333a6003, pmd=0000000000000000
+>  Internal error: Oops: 96000006 [#1] PREEMPT SMP
+>  Modules linked in:
+>  CPU: 1 PID: 486 Comm: sh Not tainted 5.7.0-rc6-arm64-renesas-00118-ge644645abf47 #185
+>  Hardware name: Renesas H3ULCB Kingfisher board based on r8a77951 (DT)
+>  pstate: 40000005 (nZcv daif -PAN -UAO)
+>  pc : vsp1_dlm_destroy+0xe4/0x11c
+>  lr : vsp1_dlm_destroy+0xc8/0x11c
+>  sp : ffff800012963b60
+>  x29: ffff800012963b60 x28: ffff0006f83fc440
+>  x27: 0000000000000000 x26: ffff0006f5e13e80
+>  x25: ffff0006f5e13ed0 x24: ffff0006f5e13ed0
+>  x23: ffff0006f5e13ed0 x22: dead000000000122
+>  x21: ffff0006f5e3a080 x20: ffff0006f5df2938
+>  x19: ffff0006f5df2980 x18: 0000000000000003
+>  x17: 0000000000000000 x16: 0000000000000016
+>  x15: 0000000000000003 x14: 00000000000393c0
+>  x13: ffff800011a5ec18 x12: ffff800011d8d000
+>  x11: ffff0006f83fcc68 x10: ffff800011a53d70
+>  x9 : ffff8000111f3000 x8 : 0000000000000000
+>  x7 : 0000000000210d00 x6 : 0000000000000000
+>  x5 : ffff800010872e60 x4 : 0000000000000004
+>  x3 : 0000000078068000 x2 : ffff800012781000
+>  x1 : 0000000000002c00 x0 : 0000000000000000
+>  Call trace:
+>   vsp1_dlm_destroy+0xe4/0x11c
+>   vsp1_wpf_destroy+0x10/0x20
+>   vsp1_entity_destroy+0x24/0x4c
+>   vsp1_destroy_entities+0x54/0x130
+>   vsp1_remove+0x1c/0x40
+>   platform_drv_remove+0x28/0x50
+>   __device_release_driver+0x178/0x220
+>   device_driver_detach+0x44/0xc0
+>   unbind_store+0xe0/0x104
+>   drv_attr_store+0x20/0x30
+>   sysfs_kf_write+0x48/0x70
+>   kernfs_fop_write+0x148/0x230
+>   __vfs_write+0x18/0x40
+>   vfs_write+0xdc/0x1c4
+>   ksys_write+0x68/0xf0
+>   __arm64_sys_write+0x18/0x20
+>   el0_svc_common.constprop.0+0x70/0x170
+>   do_el0_svc+0x20/0x80
+>   el0_sync_handler+0x134/0x1b0
+>   el0_sync+0x140/0x180
+>  Code: b40000c2 f9403a60 d2800084 a9400663 (f9401400)
+>  ---[ end trace 3875369841fb288a ]---
+> 
+> Fixes: f3b98e3c4d2e16 ("media: vsp1: Provide support for extended command pools")
+> Cc: stable@vger.kernel.org # v4.19+
+> Signed-off-by: Eugeniu Rosca <erosca@de.adit-jv.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Tested-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Mauro, can this be applied as a v5.8 fix, or should I include it in a
+pull request for v5.9 ?
+
+> ---
+> 
+> Changes in v2:
+>  - Rephrased the description based on Kieran's proposal
+>  - Added the Reviewed-by/Tested-by signatures
+>  - No change in the contents
+> 
+> ---
+>  drivers/media/platform/vsp1/vsp1_dl.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/platform/vsp1/vsp1_dl.c b/drivers/media/platform/vsp1/vsp1_dl.c
+> index d7b43037e500..e07b135613eb 100644
+> --- a/drivers/media/platform/vsp1/vsp1_dl.c
+> +++ b/drivers/media/platform/vsp1/vsp1_dl.c
+> @@ -431,6 +431,8 @@ vsp1_dl_cmd_pool_create(struct vsp1_device *vsp1, enum vsp1_extcmd_type type,
+>  	if (!pool)
+>  		return NULL;
+>  
+> +	pool->vsp1 = vsp1;
+> +
+>  	spin_lock_init(&pool->lock);
+>  	INIT_LIST_HEAD(&pool->free);
+>  
+
 -- 
 Regards,
 
 Laurent Pinchart
-
