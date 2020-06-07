@@ -2,172 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBDF41F0973
-	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2020 05:40:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E4EF1F0B88
+	for <lists+linux-media@lfdr.de>; Sun,  7 Jun 2020 15:53:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725997AbgFGDkF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 6 Jun 2020 23:40:05 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:53159 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725818AbgFGDkF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 6 Jun 2020 23:40:05 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id hmADjEEkWNp2zhmAEjP2a1; Sun, 07 Jun 2020 05:40:03 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1591501203; bh=iDj8ERwQs672rfhEyVGb6jke/SfFD7w8roNWiLMb/Ok=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=D51b+l5uJ6aZDW7vheq2pMY5GQadhbhlbIv6biDj0Z9WG3VR94jU4Q3cPABLZV4CP
-         yoMNaHpBveB1ewqnSf8EFZEmzmKPOIbzAP4jS5p+CM7oI7GD+W4dpGB9wrJbF5tv6f
-         mTTPweJuJtb9NlIIqNcGLgbFSHsqjli4dDiQfInBwmXsCo8bGnaZdwwiWEXSn3wTNH
-         wbKSO2xP+Y4o6/DSgHBxKyT4Q3jnJm6dSvpdbumo8m+v3VXbkJixILWBvHOWpOx5Aa
-         4Gr9qfvjV8RMuc/CLG4hTlz2nzUMce2Ee+4Ik/Cvc6Pc4zHrFVbzbdnYPIEVjeq3ZI
-         lz9cDVPgKiOkw==
-Message-ID: <ba5aee756fb8942fdb812bead4e6f9e3@smtp-cloud7.xs4all.net>
-Date:   Sun, 07 Jun 2020 05:40:01 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfF5X4DEkVWfu52R+Yp6+ZWyr2I0vQXLtD6CPnuFXIP9soV6/r4DdZbN7hpPhS0jGv3NMDuhdXCeTqWb+wH+8ZBo1b2oMaSl0HXi9skG0fKeccG5OekSA
- zUQ3jF3O2G0a57ksH3awfw8TfLrlf3tYQbv2P+nSZPIFfsNCiLl1DUHDjKB4ZIVNMM6bGFtDJFm+t54m4kifjZItglREqx6R2+4yLCSZ/VMRiptM+Hb88u/b
+        id S1726673AbgFGNxg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 7 Jun 2020 09:53:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38104 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726658AbgFGNxe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 7 Jun 2020 09:53:34 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B727C08C5C4
+        for <linux-media@vger.kernel.org>; Sun,  7 Jun 2020 06:53:34 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id 23so6424964pfw.10
+        for <linux-media@vger.kernel.org>; Sun, 07 Jun 2020 06:53:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=2vRbY4KOtns2itvV4Abjc+mSm6ew8Al41Vyl7F7LcdA=;
+        b=pkqJ9LWqDAS5lRiZQyChQWq4Ql4oVB7yZYVmVP9QEO2MGsIa59vlJgAsGzKAgfE3Jy
+         RHLPh+DxdnqnrKOA+dsbC+u5gow9pNytetMHbFV74Wb2hor7Uif26+wGX07mn3BVf5az
+         jx9FndQ7hd9l4HxGJWMDaDbVANiRUoDzyq9X0ip5Dipe2HiEV9rZQm88DfbCnvokZW7E
+         UXd6dXr/L0ViHgnBu8zW1IALGI62NRvXYP1qL0573prf7awQYay639gplEXUcz/ad/Hz
+         +bxvHEs1jhS4/U1RCHkzrxChD1xMPxeKANKwMfEj5i4hUjHgsaQ736oackQc7GsEDNwL
+         Y66w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=2vRbY4KOtns2itvV4Abjc+mSm6ew8Al41Vyl7F7LcdA=;
+        b=twWGI8iH5PXeUSrWu5W9s3vdF3PHMdVZOAbs2I2B5P1PRwLP55xTNF9Pt5GVVipIYV
+         zY1IeJuh5peG6CmHDCx+MXrEJICFfdpiWXS2VycHHO+FyMXLlzsMUxofPSsZSMsnWxCt
+         tJBNXMKmQaWf84cFjY4tc9dbM+y5QJgjl0UVPPdkBoYwI1o50tDLdwbs8UJ1lbVuUcuD
+         0WNr1Bb5QDzX8kQ/Zux5kUNClvK+tkWZRBZoRjDhi4jdsfKaJEW3GQaM8ixTdUXyJEkj
+         CybAyl2NZrJGvWC6H5+sdzj+oJa/l0MYqK1HVdOyAYkNq5nycgWKH9JGXFFzpAfHwxZE
+         vMEg==
+X-Gm-Message-State: AOAM531AH06qrBehKcNo+x0QbRM+l4wUuhwW2Egw2pz44TU5y/K/HfN7
+        WcLwi3wINxYNx7Y7mHiPIxoCm3VpHM4/GQ==
+X-Google-Smtp-Source: ABdhPJwdpj4ZwamU05hG0KQmIvoD0WamjgfDFFYtmjeTTgBJhoo3BbvUo29iRqr+j1rjX3ZTfJt4Mg==
+X-Received: by 2002:aa7:8506:: with SMTP id v6mr17711930pfn.303.1591538013449;
+        Sun, 07 Jun 2020 06:53:33 -0700 (PDT)
+Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.174])
+        by smtp.gmail.com with ESMTPSA id 77sm4610313pfu.139.2020.06.07.06.53.29
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sun, 07 Jun 2020 06:53:32 -0700 (PDT)
+Date:   Sun, 7 Jun 2020 19:23:25 +0530
+From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
+To:     linux-media@vger.kernel.org,
+        Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com,
+        laurent.pinchart@ideasonboard.com
+Subject: [RFC PATCH] vimc: Add colors' order over test image
+Message-ID: <20200607135325.GA16838@kaaira-HP-Pavilion-Notebook>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Currently there is no method to know if the test image generated by vimc
+is correct (except for comparing it with a known 'correct' image). Add
+text over the test image, representing the correct order of colors.
 
-Results of the daily build of media_tree:
+I have sent it as an RFC because we can add the text as an optional
+control, and maybe we can print some other useful information as well
+(like vivid does).
 
-date:			Sun Jun  7 05:00:09 CEST 2020
-media-tree git hash:	938b29db3aa9c293c7c1366b16e55e308f1a1ddd
-media_build git hash:	337283131d6117aa9b0c0c62d32e323da54a9359
-v4l-utils git hash:	74377da4f5f3b63203c599d5dd75db6af91fdbb9
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: a0e63d2e6cdc689a8af8c9ae6df1674d0fe38c74
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+---
+ drivers/media/test-drivers/vimc/Kconfig       | 2 ++
+ drivers/media/test-drivers/vimc/vimc-core.c   | 9 +++++++++
+ drivers/media/test-drivers/vimc/vimc-sensor.c | 8 ++++++++
+ 3 files changed, 19 insertions(+)
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
-sparse: OK
-smatch: OK
+diff --git a/drivers/media/test-drivers/vimc/Kconfig b/drivers/media/test-drivers/vimc/Kconfig
+index 4068a67585f9..da4b2ad6e40c 100644
+--- a/drivers/media/test-drivers/vimc/Kconfig
++++ b/drivers/media/test-drivers/vimc/Kconfig
+@@ -2,6 +2,8 @@
+ config VIDEO_VIMC
+ 	tristate "Virtual Media Controller Driver (VIMC)"
+ 	depends on VIDEO_DEV && VIDEO_V4L2
++	select FONT_SUPPORT
++	select FONT_8x16
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select VIDEOBUF2_VMALLOC
+diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
+index 11210aaa2551..8142bfbcbd49 100644
+--- a/drivers/media/test-drivers/vimc/vimc-core.c
++++ b/drivers/media/test-drivers/vimc/vimc-core.c
+@@ -5,10 +5,12 @@
+  * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
+  */
+ 
++#include <linux/font.h>
+ #include <linux/init.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <media/media-device.h>
++#include <media/tpg/v4l2-tpg.h>
+ #include <media/v4l2-device.h>
+ 
+ #include "vimc-common.h"
+@@ -265,7 +267,14 @@ static int vimc_probe(struct platform_device *pdev)
+ {
+ 	struct vimc_device *vimc;
+ 	int ret;
++	const struct font_desc *font = find_font("VGA8x16");
+ 
++	if (font == NULL) {
++		pr_err("vimc: could not find font\n");
++		return -ENODEV;
++	}
++
++	tpg_set_font(font->data);
+ 	dev_dbg(&pdev->dev, "probe");
+ 
+ 	vimc = kzalloc(sizeof(*vimc), GFP_KERNEL);
+diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
+index a2f09ac9a360..4b13955c502a 100644
+--- a/drivers/media/test-drivers/vimc/vimc-sensor.c
++++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
+@@ -185,10 +185,18 @@ static const struct v4l2_subdev_pad_ops vimc_sen_pad_ops = {
+ static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
+ 				    const void *sink_frame)
+ {
++	u8 *basep[TPG_MAX_PLANES][2];
++	char str[100];
+ 	struct vimc_sen_device *vsen = container_of(ved, struct vimc_sen_device,
+ 						    ved);
+ 
++	tpg_calc_text_basep(&vsen->tpg, basep, 0, vsen->frame);
+ 	tpg_fill_plane_buffer(&vsen->tpg, 0, 0, vsen->frame);
++
++	snprintf(str, sizeof(str),
++		 "Order: white, yellow, cyan, green, magenta, red, blue, black");
++	tpg_gen_text(&vsen->tpg, basep, 1, 1, str);
++
+ 	return vsen->frame;
+ }
+ 
+-- 
+2.17.1
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
