@@ -2,177 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AB191F1579
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 11:33:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6D411F15BA
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 11:43:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729191AbgFHJdg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jun 2020 05:33:36 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:38987 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729156AbgFHJdf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Jun 2020 05:33:35 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id iE9hjPpCYCKzeiE9ljlLi6; Mon, 08 Jun 2020 11:33:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1591608813; bh=cLw7g/W1n9Lz4PzgWG++xt7db/QIniJKRYrvzv+LmpI=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=XuiJE5tm7nJ65OCmEUYzzgv+oXWB1vTSt6ra9oMJCGoe5QaMdeF4/BXEHoMX1JwjE
-         DRrOYwqj//H5WEVET4D3WXCTFM3Il3TiTbURrs16T9GSMdcKCoKsQ1G8VutUG4aDNn
-         jsmVrfFkKEPdplEd7UVJdajPcpxTlpS9gbHMGfZVzK6ERC80RzfYRg2rNQiOpPiNGF
-         zvliVrVSW2f/MEKe5f2aobH2/Vu+sYgdLJ5xyCNXoCU4970V5tYOgLkI4x+xePDU1h
-         yezBA8w1O2KDyc22aYrcaInd04CTbENqj1A+s4Gpehr9DyZ1TPSAEpkNO6kvNDjCgV
-         Qs6W23YVGEwgQ==
-Subject: Re: [RFC PATCH] vimc: Add colors' order over test image
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Kaaira Gupta <kgupta@es.iitr.ac.in>,
-        linux-media@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com,
-        laurent.pinchart@ideasonboard.com
-References: <20200607135325.GA16838@kaaira-HP-Pavilion-Notebook>
- <5866f6c9-36c7-ffe3-41b3-94f184cd9e5d@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <38db03a4-6b22-c341-103c-ed0d4dcce856@xs4all.nl>
-Date:   Mon, 8 Jun 2020 11:33:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1729285AbgFHJni (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jun 2020 05:43:38 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:58247 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1729267AbgFHJng (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jun 2020 05:43:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1591609415;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=U5U6dQ9lCe7itmDsGxNs3cBdub7pl5VNIW2XNh4JFS0=;
+        b=in4Xqh0bprheN2mejL2opuVWZslUMYnP4BSpYhfMy4+JwIkqhOGH4GpDoKXhwMr2Mo7q6u
+        HBuqojjgHTu0dmIqcerwrxafsn+FAbejl86wKUNa75UrNkT0i0cLuh/fHp0xwA31D3w7UU
+        VeGJjFyE2msRwUfW5FXaWtry/N6W2/8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499-yiIfSruUO460eKTuy7fIkg-1; Mon, 08 Jun 2020 05:43:32 -0400
+X-MC-Unique: yiIfSruUO460eKTuy7fIkg-1
+Received: by mail-wm1-f71.google.com with SMTP id l2so3737214wmi.2
+        for <linux-media@vger.kernel.org>; Mon, 08 Jun 2020 02:43:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=U5U6dQ9lCe7itmDsGxNs3cBdub7pl5VNIW2XNh4JFS0=;
+        b=FIipPoUdeJAzUtVPp86Kq9qnns6OKLeM5KOTEL7KMwq12jw457E3/dii6tz/KidZP9
+         IYeeZF7XBfs1+OEoLb2KJD1LCxnVpUXp4XOUcH2jZdm0Xrby7fiwEMtZhlS0GlUyKW/K
+         3zUv/sIRxamI4LupFwVtROXVNzDmJQk057MgQ8gytjZe/4WXkFcwx8zWEBLGsjUeT1jv
+         7SaxUqSWxrYWqymfh8KBrOHfX+AttVot4A8IZcsX2CHOsFAWyFlY4Wm4gDUovCaX3FOg
+         pXk0ofTMP4UN7t17k9rLzOpkEXRLL0FiSxE1ifL25KZE06xLLTQZ9/U9ryEEtKsz03lV
+         0rGQ==
+X-Gm-Message-State: AOAM533qOa9eUjW8ri4Y/m06ihZYsgWmjxYHF5wIs5WvMhMaB6b6vmNz
+        90Z1tDvrDUqpxzYR9GwSKL2WKKbuN+ATUeozXh3a5pH5MFh4y4EZJfiYo3WJmn1Q95eqYtkwvk9
+        ID8oK0+XtagG37d7r1QNQK6g=
+X-Received: by 2002:a1c:7c0e:: with SMTP id x14mr15017570wmc.1.1591609411312;
+        Mon, 08 Jun 2020 02:43:31 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx9ub5wP+xupLuBkOQ4No1b88FQ9dkWFcatrNsLpDTfEgifdZsj9YIaaEa0/E6d/CL6f3lWtw==
+X-Received: by 2002:a1c:7c0e:: with SMTP id x14mr15017554wmc.1.1591609411160;
+        Mon, 08 Jun 2020 02:43:31 -0700 (PDT)
+Received: from redhat.com (bzq-109-64-41-91.red.bezeqint.net. [109.64.41.91])
+        by smtp.gmail.com with ESMTPSA id u9sm18951734wme.16.2020.06.08.02.43.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Jun 2020 02:43:30 -0700 (PDT)
+Date:   Mon, 8 Jun 2020 05:43:27 -0400
+From:   "Michael S. Tsirkin" <mst@redhat.com>
+To:     David Stevens <stevensd@chromium.org>
+Cc:     Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Jason Wang <jasowang@redhat.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        open list <linux-kernel@vger.kernel.org>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:VIRTIO GPU DRIVER" 
+        <virtualization@lists.linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, virtio-dev@lists.oasis-open.org
+Subject: Re: [PATCH v3 4/4] drm/virtio: Support virtgpu exported resources
+Message-ID: <20200608054234-mutt-send-email-mst@kernel.org>
+References: <20200311112004.47138-1-stevensd@chromium.org>
+ <20200311112004.47138-5-stevensd@chromium.org>
+ <20200513123326-mutt-send-email-mst@kernel.org>
+ <CAD=HUj5qcMLw__LfJizR6nzCR9Qmu21Sjk3i0j_8+=rxt1Hk=w@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <5866f6c9-36c7-ffe3-41b3-94f184cd9e5d@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFQ4iOic1wuAuKIkxtn75SWuT3pbstCQqhMnUJoY3nZSvaW4G/CIbIoeRFVYDFObkICjf1fqNLtzjYOz0UW3D9YP7ySYKza4BiUAFV994nen+SpIE/zo
- Yr12wvNrVMMu6ZGZ0NPfp9F8rj42k8PGdgl8tbqV8lnoiYSTgS3yZWLUFAw3+UcSXv+BuIFh6kiOGt75qBmwf5Iz7q357UZUO5mC00/UXO6Q71983AOreoxV
- 6blWO2aFtkvu//EgmC4yLdLZNAASk9EojAC4O+znlx6Gk14NW+9rIBO2nB1RiUgQPJusPuals7cZDm0tILCGta/L5Xc4VG3UlI28FJxavInXdyndasD5mHTT
- GInmdMgo39bW0tniMtAEFl0HuNVbXUPJeVRLrp8FZ1PDDUeFqW3IqH+NUNQ4/89+el2EIcsK5VbmXC3reIDP3NhBR6YROHi+fQnGc/XRCuy+XnJeyukYQgKS
- pkS/jj/2rsHSmowS8HjWHUZetgr19Jr5FMNeHQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAD=HUj5qcMLw__LfJizR6nzCR9Qmu21Sjk3i0j_8+=rxt1Hk=w@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/06/2020 09:10, Dafna Hirschfeld wrote:
-> Hi,
+On Fri, May 15, 2020 at 04:26:15PM +0900, David Stevens wrote:
+> > > +     if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_UUID)) {
+> > > +             vgdev->has_resource_assign_uuid = true;
+> > > +     }
+> >
+> >
+> > Just a question: this relies on DMA bufs so I assume it is
+> > not really assumed to work when DMA API is bypassed, right?
+> > Rather than worry what does it mean, how about just
+> > disabling  this feature without PLATFORM_DMA for now?
 > 
-> On 07.06.20 15:53, Kaaira Gupta wrote:
->> Currently there is no method to know if the test image generated by vimc
->> is correct (except for comparing it with a known 'correct' image). Add
->> text over the test image, representing the correct order of colors.
->>
->> I have sent it as an RFC because we can add the text as an optional
->> control, and maybe we can print some other useful information as well
->> (like vivid does).
-> 
-> Yes, it seems like a good idea to add it as a control of the sensor.
-> 
->>
->> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
->> --->   drivers/media/test-drivers/vimc/Kconfig       | 2 ++
->>   drivers/media/test-drivers/vimc/vimc-core.c   | 9 +++++++++
->>   drivers/media/test-drivers/vimc/vimc-sensor.c | 8 ++++++++
->>   3 files changed, 19 insertions(+)
->>
->> diff --git a/drivers/media/test-drivers/vimc/Kconfig b/drivers/media/test-drivers/vimc/Kconfig
->> index 4068a67585f9..da4b2ad6e40c 100644
->> --- a/drivers/media/test-drivers/vimc/Kconfig
->> +++ b/drivers/media/test-drivers/vimc/Kconfig
->> @@ -2,6 +2,8 @@
->>   config VIDEO_VIMC
->>   	tristate "Virtual Media Controller Driver (VIMC)"
->>   	depends on VIDEO_DEV && VIDEO_V4L2
->> +	select FONT_SUPPORT
->> +	select FONT_8x16
->>   	select MEDIA_CONTROLLER
->>   	select VIDEO_V4L2_SUBDEV_API
->>   	select VIDEOBUF2_VMALLOC
->> diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
->> index 11210aaa2551..8142bfbcbd49 100644
->> --- a/drivers/media/test-drivers/vimc/vimc-core.c
->> +++ b/drivers/media/test-drivers/vimc/vimc-core.c
->> @@ -5,10 +5,12 @@
->>    * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
->>    */
->>   
->> +#include <linux/font.h>
->>   #include <linux/init.h>
->>   #include <linux/module.h>
->>   #include <linux/platform_device.h>
->>   #include <media/media-device.h>
->> +#include <media/tpg/v4l2-tpg.h>
->>   #include <media/v4l2-device.h>
->>   
->>   #include "vimc-common.h"
->> @@ -265,7 +267,14 @@ static int vimc_probe(struct platform_device *pdev)
->>   {
->>   	struct vimc_device *vimc;
->>   	int ret;
->> +	const struct font_desc *font = find_font("VGA8x16");
->>   
->> +	if (font == NULL) {
->> +		pr_err("vimc: could not find font\n");
->> +		return -ENODEV;
->> +	}
->> +
->> +	tpg_set_font(font->data);
-> 
-> I think the code that set the format should move to the
-> code that registers the sensor in vimc-sensor.c
-> 
->>   	dev_dbg(&pdev->dev, "probe");
->>   
->>   	vimc = kzalloc(sizeof(*vimc), GFP_KERNEL);
->> diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
->> index a2f09ac9a360..4b13955c502a 100644
->> --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
->> +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
->> @@ -185,10 +185,18 @@ static const struct v4l2_subdev_pad_ops vimc_sen_pad_ops = {
->>   static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
->>   				    const void *sink_frame)
->>   {
->> +	u8 *basep[TPG_MAX_PLANES][2];
->> +	char str[100];
->>   	struct vimc_sen_device *vsen = container_of(ved, struct vimc_sen_device,
->>   						    ved);
->>   
->> +	tpg_calc_text_basep(&vsen->tpg, basep, 0, vsen->frame);
->>   	tpg_fill_plane_buffer(&vsen->tpg, 0, 0, vsen->frame);
->> +
->> +	snprintf(str, sizeof(str),
->> +		 "Order: white, yellow, cyan, green, magenta, red, blue, black");
-> The colors are generated by the tpg, so I think it should be a feature of the tpg to print the colors.
+> By PLATFORM_DMA, do you mean CONFIG_DMA_SHARED_BUFFER?
 
-I agree. The tpg knows where each color is and based on the width and height it can
-print the text. A tpg_gen_pattern_text() function that does the work would be very
-nice.
+Sorry, no. I mean VIRTIO_F_IOMMU_PLATFORM which in the
+future will be renamed to VIRTIO_F_PLATFORM_ACCESS.
 
-It also doesn't make sense for all patterns, so this is really a nice feature to
-incorporate into the TPG itself and enable it via a vivid and vimc control.
 
-Regards,
-
-	Hans
-
+> Virtio-gpu
+> depends on DRM, which selects that feature. So I think DMA bufs should
+> always be available when virtio-gpu is present.
 > 
-> For example, a function in v4l2-tpg-core.c that get the pattern as an argument and return
-> this string, or maybe returns a const pointer to the array of colors, or something like that.
-> Then maybe we can add a control in vivid for the same tpg feature.
-> 
-> Note also that the sensor has a control to change the pattern: vimc_sen_ctrl_test_pattern
-> So the string depends on that pattern.
-> 
-> Thanks,
-> Dafna
-> 
-> 
->> +	tpg_gen_text(&vsen->tpg, basep, 1, 1, str);
->> +
->>   	return vsen->frame;
->>   }
->>   
->>
+> -David
 
