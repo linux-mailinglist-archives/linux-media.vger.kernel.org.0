@@ -2,69 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D72421F11BC
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 05:33:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D8AB1F11DA
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 05:40:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728938AbgFHDdq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Jun 2020 23:33:46 -0400
-Received: from spam.zju.edu.cn ([61.164.42.155]:21694 "EHLO zju.edu.cn"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728065AbgFHDdq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 7 Jun 2020 23:33:46 -0400
-Received: by ajax-webmail-mail-app4 (Coremail) ; Mon, 8 Jun 2020 11:33:34
- +0800 (GMT+08:00)
-X-Originating-IP: [222.205.62.26]
-Date:   Mon, 8 Jun 2020 11:33:34 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From:   dinghao.liu@zju.edu.cn
-To:     "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>
-Cc:     kjlu@umn.edu,
-        "Kieran Bingham" <kieran.bingham+renesas@ideasonboard.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: Re: Re: [PATCH] media: vsp1: Fix runtime PM imbalance in
- vsp1_probe
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190906(84e8bf8f)
- Copyright (c) 2002-2020 www.mailtech.cn zju.edu.cn
-In-Reply-To: <20200608031134.GO22208@pendragon.ideasonboard.com>
-References: <20200523115426.19285-1-dinghao.liu@zju.edu.cn>
- <20200608015456.GJ22208@pendragon.ideasonboard.com>
- <20200608015753.GK22208@pendragon.ideasonboard.com>
- <7b79863f.f636d.17291e1ff94.Coremail.dinghao.liu@zju.edu.cn>
- <20200608031134.GO22208@pendragon.ideasonboard.com>
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
-MIME-Version: 1.0
-Message-ID: <769e1fbf.f668c.17291fd9673.Coremail.dinghao.liu@zju.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: cS_KCgC3WeSOsd1ewnfVAA--.20728W
-X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgYFBlZdtOhd1AACsb
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJTRUUUbX0S07vEb7Iv0x
-        C_Cr1lV2xY67kC6x804xWlV2xY67CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DMIAI
-        bVAFxVCF77xC64kEw24lV2xY67C26IkvcIIF6IxKo4kEV4ylV2xY628lY4IE4IxF12IF4w
-        CS07vE84x0c7CEj48ve4kI8wCS07vE84ACjcxK6xIIjxv20xvE14v26w1j6s0DMIAIbVA2
-        z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW0oVCq3wCS07vE84ACjcxK6I8E87Iv67AKxVW0oV
-        Cq3wCS07vE84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s0DMIAIbVAS0I0E0xvYzxvE52x0
-        82IY62kv0487MIAIbVAqx4xG64xvF2IEw4CE5I8CrVC2j2WlV2xY6cIj6xIIjxv20xvE14
-        v26r1j6r18MIAIbVAv7VC2z280aVAFwI0_Jr0_Gr1lV2xY6cvjeVCFs4IE7xkEbVWUJVW8
-        JwCS07vE7I0Y64k_MIAIbVCY02Avz4vE14v_Gr4lV2xY6xkI7II2jI8vz4vEwIxGrwCS07
-        vE42xK82IY6x8ErcxFaVAv8VW8uw4UJr1UMIAIbVCF72vE77IF4wCS07vE4I8I3I0E4IkC
-        6x0Yz7v_Jr0_Gr1lV2xY6I8I3I0E5I8CrVAFwI0_Jr0_Jr4lV2xY6I8I3I0E7480Y4vE14
-        v26r106r1rMIAIbVC2zVAF1VAY17CE14v26r126r1DMIAIbVCI42IY6xIIjxv20xvE14v2
-        6r1j6r1xMIAIbVCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lV2xY6IIF0xvE42xK8V
-        AvwI8IcIk0rVWrJr0_WFyUJwCS07vEIxAIcVC2z280aVAFwI0_Jr0_Gr1lV2xY6IIF0xvE
-        x4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU=
+        id S1728834AbgFHDkh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 7 Jun 2020 23:40:37 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:45137 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728773AbgFHDkh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sun, 7 Jun 2020 23:40:37 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id i8eHjLoIUnv5ni8eIj1KAn; Mon, 08 Jun 2020 05:40:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1591587634; bh=eLxxE7YonKvKfU0yjfB/bPNz7mXtxQcqINrSvv+71F8=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=ETstXJVyus4bAaJJK6WQZNi9EF9m0Qw1u/RJZN0ovQCN85pcxptmd9uYrSGw0XCMh
+         FGeWL12324OXrYKFyg6XTdGqdSoudViNLIuh56L4M/c4rGYibUCapps7A0D33vSkUR
+         qGgaSOUA4yvb6e7LGT8rnnZKDSxAsXya7nTJjTCJOXtAdI6IoAeCG/ay1Gknx2c9Xq
+         UouuUozll9KXgFo1pv64IyWvrwZ/hUFZGmyEh0QgVHq2S5y5e+PPqkLFbfRyW+woik
+         JMtveu2PsMfqj458MUJUrn10Sb0ryARXMg0EKdFZxyxFjkIxNAG1Zn+rfIUvMvNQaN
+         OZhdyezX/0Cew==
+Message-ID: <f7fafb55caaaf2548942cf871af071a7@smtp-cloud8.xs4all.net>
+Date:   Mon, 08 Jun 2020 05:40:33 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfPIf65Olr8dnmomlSP7xMNj4ams295NzB68PcayPwAvTzJTWlEjegOC0pp9kxZrQ7H9ld0oHqp/2JIeZ/yU2lS2Hupm/11HAznMXrnK67mhyjkq0xevv
+ 0TFBEmgGT/KL/WQ0hDbthDatDXOtepgf8dRQjmO3kHv/JGXaNJs6S3lPAwQPxh/tJgs9n99hcCU1FBIVR1WbjtRxClxJc/Ltc2vgm57P8V/b+x8lUmLtJzsg
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Cj4gCj4gVGhlIHZzcDFfcHJvYmUoKSBmdW5jdGlvbiBoYXMgYSBzdHJ1Y3QgdnNwMV9kZXZpY2Ug
-d2hvc2UgZGV2IGZpZWxkIGlzCj4gcG9wdWxhdGVkIGJ5IHRoZSB0aW1lIGl0IG5lZWRzIHRvIGNh
-bGwgcG1fcnVudGltZV9nZXRfc3luYygpIGFuZAo+IHBtX3J1bnRpbWVfZ2V0X3B1dCgpLCBzbyBJ
-IHRoaW5rIHlvdSBjYW4gdXNlIHZzcDFfZGV2aWNlX2dldCgpIGFuZAo+IHZzcDFfZGV2aWNlX3B1
-dCgpIGFzIGRyb3AtaW4gcmVwbGFjZW1lbnRzIHdpdGhvdXQgY2hhbmdpbmcgdGhlCj4gcGFyYW1l
-dGVycyB0byB0aGVzZSB0d28gZnVuY3Rpb25zLgo+IAoKSXQncyBjbGVhciB0byBtZSwgdGhhbmtz
-IQoKUmVnYXJkcywKRGluZ2hhbwo=
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
+
+Results of the daily build of media_tree:
+
+date:			Mon Jun  8 05:00:13 CEST 2020
+media-tree git hash:	938b29db3aa9c293c7c1366b16e55e308f1a1ddd
+media_build git hash:	337283131d6117aa9b0c0c62d32e323da54a9359
+v4l-utils git hash:	74377da4f5f3b63203c599d5dd75db6af91fdbb9
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a0e63d2e6cdc689a8af8c9ae6df1674d0fe38c74
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7-rc1-i686: OK
+linux-5.7-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 5
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
