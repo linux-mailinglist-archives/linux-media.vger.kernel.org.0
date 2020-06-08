@@ -2,149 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33AE11F1A02
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 15:27:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80D331F1A1C
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 15:32:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729775AbgFHN1Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jun 2020 09:27:25 -0400
-Received: from mga04.intel.com ([192.55.52.120]:48373 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728799AbgFHN1X (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Jun 2020 09:27:23 -0400
-IronPort-SDR: VKI/Ei8xGcDohHE7F3NU470by6Z3iwrVW/zqOKL/Jcj9Ve2BhSXkVqEBpEPD+CdBugwN5ImTi0
- edy2mm2kwYJQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2020 06:27:22 -0700
-IronPort-SDR: ungGUpT5j+d5S0pUhJNhA7Nxvt+IsR8LGvkXo/B4aaVix6dyYH7I2UOo7AgOF0aTiTk0zhzdfk
- GmsMBJ1M7v+w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,487,1583222400"; 
-   d="scan'208";a="270507472"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga003.jf.intel.com with ESMTP; 08 Jun 2020 06:27:17 -0700
-Received: from andy by smile with local (Exim 4.93)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1jiHo8-00Bgmg-5M; Mon, 08 Jun 2020 16:27:20 +0300
-Date:   Mon, 8 Jun 2020 16:27:20 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        sakari.ailus@linux.intel.com, drinkcat@chromium.org,
-        tfiga@chromium.org, matthias.bgg@gmail.com, bingbu.cao@intel.com,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [V7, 2/2] media: i2c: dw9768: Add DW9768 VCM driver
-Message-ID: <20200608132720.GS2428291@smile.fi.intel.com>
-References: <20200605105412.18813-1-dongchun.zhu@mediatek.com>
- <20200605105412.18813-3-dongchun.zhu@mediatek.com>
- <20200605124643.GG2428291@smile.fi.intel.com>
- <1591424358.8804.599.camel@mhfsdcap03>
+        id S1729801AbgFHNcA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jun 2020 09:32:00 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:55515 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729179AbgFHNcA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Jun 2020 09:32:00 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id iHsWjRRwwCKzeiHsajmTai; Mon, 08 Jun 2020 15:31:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1591623118; bh=hpssZSUA5d2m6FhPSGizkhqbO91xmOa36DTTnuhiAmM=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=bW6BOi/nlihoCKb/tDIpF4M/e/Tmp7K+4H8fvihHNiMTwf+jMVc4TrECALgUbXgFj
+         IwpsX1ypTd1cs50Nvq+cdbdec/W3S8eEodwLvek2MTgFU98pNinVda/kpgGlaNIpLq
+         I7dDf2Z5aYs/wCAfCI6AVICJfwf+Fv/dkcW8mmh2HcOP5z3xak77ehvXqyaC+AW7KF
+         lq8eRGEBK63+f7s53mH0tZEYOWIpaudNjXvxZTtFwmPvKp9U9qP4e44H2EkgxtqQKV
+         kE6NTl1mHGdPGacT5vItxdDZctemxdU07lLndgdAZufsoh5emECUxabV39xESfOq6t
+         5tm+XVGsE8PVg==
+Subject: Re: [PATCH] media: platform: sti: hva: Fix runtime PM imbalance on
+ error
+To:     Dinghao Liu <dinghao.liu@zju.edu.cn>, kjlu@umn.edu
+Cc:     Jean-Christophe Trotin <jean-christophe.trotin@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20200521100503.13454-1-dinghao.liu@zju.edu.cn>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <6d640a38-fc51-6a20-371c-336b246669a3@xs4all.nl>
+Date:   Mon, 8 Jun 2020 15:31:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1591424358.8804.599.camel@mhfsdcap03>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20200521100503.13454-1-dinghao.liu@zju.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfBUbpNcTLkj0DKFuv5gfPbHkUNH+du+C5pXmuTbe/icR1ZrKUn8YMkf5x7njs9KK0epSq39tQxOuaOKtNmQxC/4TWV4S2a8OIHgdLewCmAbOs3bMPTLi
+ dnywhzV0TYe3FAjYyARU2usd1kSaWBEh5rlfhjNgcko2aafaqvqZSzJ7KjW6wRev6v4gjeM8uZijZ9VFoOmrbrbfUVkWEt8RCz/oYmFFjjUUtV8ZLMWtN4sK
+ U5ODOFmiv5z0eisPVs1g/l2lfAPHpHG0zoTqnHykx0J26HgTPWGKNHDMTncD/i2OS8sbchO2aN5dChZabbFpZJh/5wgAmnkAzfRsXrXT9gcRYvw9M0Ej1Xkj
+ mDUlod49
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Jun 06, 2020 at 02:19:18PM +0800, Dongchun Zhu wrote:
-> On Fri, 2020-06-05 at 15:46 +0300, Andy Shevchenko wrote:
-> > On Fri, Jun 05, 2020 at 06:54:12PM +0800, Dongchun Zhu wrote:
-
-...
-
-> > > +	depends on I2C && VIDEO_V4L2
-> > 
-> > No compile test?
-> > 
+On 21/05/2020 12:05, Dinghao Liu wrote:
+> pm_runtime_get_sync() increments the runtime PM usage counter even
+> when it returns an error code. Thus a pairing decrement is needed on
+> the error handling path to keep the counter balanced.
 > 
-> Sorry?
-> Kconfig here is based on the current media tree master branch.
-> It is also what the other similar drivers from Dongwoon do. 
-
-COMPILE_TEST.
-I dunno if it's established or not practice in media subsystem.
-
-...
-
-> > > +/*
-> > > + * DW9768 requires waiting time (delay time) of t_OPR after power-up,
-> > > + * or in the case of PD reset taking place.
-> > > + */
-> > > +#define DW9768_T_OPR_US				1000
-> > > +#define DW9768_Tvib_MS_BASE10			(64 - 1)
-> > > +#define DW9768_AAC_MODE_DEFAULT			2
-> > 
-> > > +#define DW9768_AAC_TIME_DEFAULT			0x20
-> > 
-> > Hex? Why not decimal?
-> > 
+> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+> ---
+>  drivers/media/platform/sti/hva/hva-hw.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> There is one optional property 'dongwoon,aac-timing' defined in DT.
-> I don't know whether you have noticed that.
+> diff --git a/drivers/media/platform/sti/hva/hva-hw.c b/drivers/media/platform/sti/hva/hva-hw.c
+> index 401aaafa1710..8533d3bc6d5c 100644
+> --- a/drivers/media/platform/sti/hva/hva-hw.c
+> +++ b/drivers/media/platform/sti/hva/hva-hw.c
+> @@ -388,7 +388,7 @@ int hva_hw_probe(struct platform_device *pdev, struct hva_dev *hva)
+>  	ret = pm_runtime_get_sync(dev);
+>  	if (ret < 0) {
+>  		dev_err(dev, "%s     failed to set PM\n", HVA_PREFIX);
+> -		goto err_clk;
+> +		goto err_pm;
+>  	}
+>  
+>  	/* check IP hardware version */
 > 
-> 'DW9768_AAC_TIME_DEFAULT' is the value set to AACT[5:0] register.
-> I thought the Hex unit should be proper as it is directly written to the
-> Hex register.
 
-I see. I would rather put it like (BIT(6) / 2) to show explicitly that we
-choose half of the resolution.
+err_pm:
+        pm_runtime_put(dev);
 
-...
+Shouldn't that be pm_runtime_put_sync()?
 
-> > > +	val = ((unsigned char)ret & ~mask) | (val & mask);
-> > 
-> > This cast is weird.
-> > 
-> 
-> Thanks for the review, but this cast is using classical pattern from
-> your suggestion on OV02A10 v5:
-> https://patchwork.linuxtv.org/patch/59788/
-> 
-> So I wonder whether it is still required to be refined currently.
-> Or what would it be supposed to do for the cast?
+I'm not pm expert, but it does look odd.
 
-Okay, does it produce a warning w/o cast?
-If yes, replace it at least to be the same type as mask and val.
+Regards,
 
-...
-
-> > > +	for ( ; val >= 0; val -= DW9768_MOVE_STEPS) {
-> > > +		ret = dw9768_set_dac(dw9768, val);
-> > > +		if (ret) {
-> > > +			dev_err(&client->dev, "I2C write fail: %d", ret);
-> > > +			return ret;
-> > > +		}
-> > > +		usleep_range(move_delay_us, move_delay_us + 1000);
-> > > +	}
-> > 
-> > 
-> > It will look more naturally in the multiplier kind of value.
-> > 
-> > 	unsigned int steps = DIV_ROUND_UP(...);
-> > 
-> > 	while (steps--) {
-> > 		...(..., steps * ..._MOVE_STEPS);
-> > 		...
-> > 	}
-> > 
-> > but double check arithmetics.
-> 
-> The current coding style is actually updated with reference to your
-> previous comments on DW9768 v3:
-> https://patchwork.linuxtv.org/patch/61856/
-
-I understand, but can you consider to go further and see if the proposal works?
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+	Hans
