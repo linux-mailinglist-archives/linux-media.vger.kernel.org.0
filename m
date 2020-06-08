@@ -2,468 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9200A1F166C
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 12:09:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADBED1F166E
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 12:09:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729282AbgFHKJO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jun 2020 06:09:14 -0400
-Received: from mga09.intel.com ([134.134.136.24]:63881 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729259AbgFHKJN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Jun 2020 06:09:13 -0400
-IronPort-SDR: kNMyI6VWcLLHkkUBAsQmCteUH/qGJ4bkK/aem6q/MdDFD8Mt9s4Wr6Y87bEllPM5tOgNPWTsf+
- YlJtKLYtw7yg==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2020 03:09:08 -0700
-IronPort-SDR: 3hoq503CB203GgsJeiHodsHadP5DLaOolS9GC4umV1jiQAqfWAcSDYRr97BjVPsMvNcEJx/1yQ
- 2t9ZFOEd6dNg==
-X-IronPort-AV: E=Sophos;i="5.73,487,1583222400"; 
-   d="scan'208";a="270462924"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Jun 2020 03:09:05 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 4B7D720699; Mon,  8 Jun 2020 13:09:03 +0300 (EEST)
-Date:   Mon, 8 Jun 2020 13:09:03 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        tfiga@google.com, pavel@ucw.cz,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>, libcamera-devel@lists.libcamera.org,
-        robh@kernel.org, devicetree@vger.kernel.org,
-        Niklas Soderlund <niklas.soderlund@ragnatech.se>
-Subject: Re: [PATCH v7 03/11] dt-bindings: video-interface: Replace
- 'rotation' description
-Message-ID: <20200608100903.GZ16711@paasikivi.fi.intel.com>
-References: <20200318205034.949531-1-jacopo@jmondi.org>
- <20200318205034.949531-4-jacopo@jmondi.org>
+        id S1729302AbgFHKJp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jun 2020 06:09:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58686 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729259AbgFHKJn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jun 2020 06:09:43 -0400
+Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com [IPv6:2607:f8b0:4864:20::c44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D35FC08C5C4
+        for <linux-media@vger.kernel.org>; Mon,  8 Jun 2020 03:09:43 -0700 (PDT)
+Received: by mail-oo1-xc44.google.com with SMTP id v1so3355134ooh.0
+        for <linux-media@vger.kernel.org>; Mon, 08 Jun 2020 03:09:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=XYTtWcqohsgiBSt92FZ9EFsD017ojXHAAEEmBFsJP9g=;
+        b=rKA5UQc6yBmaHrXB+5A7oWr8ON5U2fYfWGnAgoEb3T1/HscD8Q5R7w+1U9HsIonqMj
+         TVgspc8YFamJX79l6MYfvI1VzQ+NTkqEotqYONQHSfsxCqMF7TXYaWjm+Z+g7LUufBAa
+         ZdFm/nbT0n9nHVHqlsrfpiMpyEgZeBWBilM+fo6obN/ADQiKjsGKb/RmN9JZMDpQek/t
+         4t1BCZDnnTgDBE3RjcWTyF9WFdC7nJn+nDTaVCVTWOSQpALuCTKX8Bc+VehddN0CTDWy
+         CeAPB/Rg6SACYrGLm4zLeLi3IK7HixaWDTavNdHF0QKewXW4R1F6nxqLm4iyWEOIko7F
+         iDmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=XYTtWcqohsgiBSt92FZ9EFsD017ojXHAAEEmBFsJP9g=;
+        b=IU/SqA9PQOwjMMuDc5Vro9OXlku/ZXsSlcDPbHEiME/jGI+0jQnIr3OJDYzyyvsQ/n
+         bdvx+7yvlDqT6VHKdDlQ+sEyaFY/NBjbXJsbmDSQZ269OX4gj0uIfMIVfV09nDG6Cukl
+         ubCZJS1z7HlhMVa3gBgOknLdTPDcksWAR30B2dwaHAN9i4USwGmrtoUK0hfzxNc2AL/A
+         uiuUDlvOdmzEJFWw4hFMx5XQC09uDoErwNaSSN+ao8OxKdLTVWjyjgg4okx2B33vQaQl
+         tFARexpsqcPk35iwL+J0cvEtRpoKTGhBsYh9O2LrRVCMky0QsEsB5wTiJ3J5p13qHXLd
+         CE7A==
+X-Gm-Message-State: AOAM533V9+bmQyEF5Mko131oS+9vGuf36i3AK8iseRBN14YH9gOnCzG1
+        pA+kdZ+pshK6uZNwIZkqre19fsqEOX72BH9llgE=
+X-Google-Smtp-Source: ABdhPJwQxlATBvhYjDQnBmbd5XoIz/hFsw/GcQDKBJ/zihe+zuQXYEV5XsctJyepdHdun/iOo9xd2SYaby/uBaev8I0=
+X-Received: by 2002:a4a:4904:: with SMTP id z4mr16624656ooa.63.1591610982886;
+ Mon, 08 Jun 2020 03:09:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200318205034.949531-4-jacopo@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Received: by 2002:ac9:4890:0:0:0:0:0 with HTTP; Mon, 8 Jun 2020 03:09:42 -0700 (PDT)
+Reply-To: ebrimsegun@yandex.com
+From:   Olusegun Ebrima <simtondjio@gmail.com>
+Date:   Mon, 8 Jun 2020 04:09:42 -0600
+Message-ID: <CACa+45rC31YmX3UEK7hGoWv-V=5ePv0WmdcEC8sFGYE=1kWV+Q@mail.gmail.com>
+Subject: The invitation need your response
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Greetings,
 
-Thank you for this great piece of ASCII art. Also my apologies for
-reviewing this so late. The latest version is 11 but I believe the content
-is the same on the commented matters.
+With due respect to your personality and much sincerity of this
+purpose, I make this contact with you believing that you can be of
+great assistance to me. I'm Mr. Olusegun Ebrima, from Burkina Faso,
+I'm the Chairman of FOREIGN PAYMENTS CONTRACT AWARD COMMITTEE and also
+I currently hold the post of Internal Audit Manager of our bank in
+Ouagadougou Branch, Please see this as a confidential message and do
+not reveal it to another person because it=E2=80=99s a top secret.
 
-On Wed, Mar 18, 2020 at 09:50:26PM +0100, Jacopo Mondi wrote:
-> Replace the 'rotation' property description by providing a definition
-> relative to the camera sensor pixel array coordinate system and the
-> captured scene.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Co-developed-by: Niklas Soderlund <niklas.soderlund@ragnatech.se>
-> 
-> ---
->  .../bindings/media/video-interfaces.txt       | 359 +++++++++++++++++-
->  1 file changed, 356 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.txt b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> index 1211bdf80722..36e61d599f34 100644
-> --- a/Documentation/devicetree/bindings/media/video-interfaces.txt
-> +++ b/Documentation/devicetree/bindings/media/video-interfaces.txt
-> @@ -85,9 +85,362 @@ Optional properties
-> 
->  - lens-focus: A phandle to the node of the focus lens controller.
-> 
-> -- rotation: The device, typically an image sensor, is not mounted upright,
-> -  but a number of degrees counter clockwise. Typical values are 0 and 180
-> -  (upside down).
-> +- rotation: The camera rotation is expressed as the angular difference in
-> +  degrees between two reference systems, one relative to the camera module, and
-> +  one defined on the external world scene to be captured when projected on the
-> +  image sensor pixel array.
-> +
-> +  A camera sensor has a 2-dimensional reference system 'Rc' defined by
-> +  its pixel array read-out order. The origin is set to the first pixel
-> +  being read out, the X-axis points along the column read-out direction
-> +  towards the last columns, and the Y-axis along the row read-out
-> +  direction towards the last row.
-> +
-> +  A typical example for a sensor with a 2592x1944 pixel array matrix
-> +  observed from the front is
-> +
-> +              2591       X-axis          0
-> +                <------------------------+ 0
-> +                .......... ... ..........!
-> +                .......... ... ..........! Y-axis
-> +                           ...           !
-> +                .......... ... ..........!
-> +                .......... ... ..........! 1943
-> +                                         V
-> +
-> +  The external world scene reference system 'Rs' is a 2-dimensional
-> +  reference system on the focal plane of the camera module. The origin is
-> +  placed on the top-left corner of the visible scene, the X-axis points
-> +  towards the right, and the Y-axis points towards the bottom of the
-> +  scene. The top, bottom, left and right directions are intentionally not
-> +  defined and depend on the environment in which the camera is used.
-> +
-> +  A typical example of a (very common) picture of a shark swimming from
-> +  left to right, as seen from the camera, is
+We are imposition to reclaim and inherit the sum of US $(38,850,000
+Million ) without any trouble, from a dormant account which remains
+unclaimed since 7 years the owner died. This is a U.S Dollars account
+and the beneficiary died without trace of his family to claim the
+fund.
 
-In the previous paragraph, it is stated that "top, bottom, left and right
-directions are intentionally not defined". How about something like
+Upon my personal audit investigation into the details of the account,
+I find out that the deceased is a foreigner, which makes it possible
+for you as a foreigner no matter your country to lay claim on the
+balance as the Foreign Business Partner or Extended Relative to the
+deceased, provided you are not from here.
 
-	A typical example of a (very common) pictore of a shark swimming in
-	the direction of X axis, as seen from the camera, is
+Your integrity and trustworthiness will make us succeed without any
+risk. Please if you think that the amount is too much to be
+transferred into your account, you have the right to ask our bank to
+transfer the fund into your account bit by bit after approval or you
+double the account. Once this fund is transferred into your account,
+we will share the fund accordingly. 45%, for you, 45%, for me, 5%, had
+been mapped out for the expense made in this transaction, 5% as a free
+will donation to charity and motherless babies homes in both our
+countries as sign of breakthrough and more blessings.
 
-> +
-> +               0               X-axis
-> +             0 +------------------------------------->
-> +               !
-> +               !
-> +               !
-> +               !           |\____)\___
-> +               !           ) _____  __`<
-> +               !           |/     )/
-> +               !
-> +               !
-> +               !
-> +               V
-> +             Y-axis
-> +
-> +  With the reference system 'Rs' placed on the camera focal plane.
-> +
-> +                                  ¸.·˙!
-> +                              ¸.·˙    !
-> +                  _       ¸.·˙        !
-> +               +-/ \-+¸.·˙            !
-> +               | (o) |                ! Camera focal plane
-> +               +-----+˙·.¸            !
-> +                          ˙·.¸        !
-> +                              ˙·.¸    !
-> +                                  ˙·.¸!
-> +
-> +  When projected on the sensor's pixel array, the image and the associated
-> +  reference system 'Rs' are typically (but not always) inverted, due to
-> +  the camera module's lens optical inversion effect.
-> +
-> +  Assuming the above represented scene of the swimming shark, the lens
-> +  inversion projects the scene and its reference system onto the sensor
-> +  pixel array, seen from the front of the camera sensor, as follow
-> +
-> +            Y-axis
-> +               ^
-> +               !
-> +               !
-> +               !
-> +               !            |\_____)\__
-> +               !            ) ____  ___.<
-> +               !            |/    )/
-> +               !
-> +               !
-> +               !
-> +             0 +------------------------------------->
-> +               0               X-axis
-> +
-> +  Note the shark being upside-down.
 
-As it's inverted, wouldn't the same happen on the X axis as well?
+If you are interested to help without disappointment or breach of
+trust, reply me, so that I will guide you on the proper banking
+guidelines to follow for the claim. After the transfer, I will fly to
+your country for sharing of funds according to our agreement.
+Assurance: Note that this transaction will never in any way harm or
+foiled your good post or reputation in your country, because
+everything will follow legal process.
 
-> +
-> +  The resulting projected reference system is named 'Rp'.
-> +
-> +  The camera rotation property is then defined as the angular difference
-> +  in the counter-clockwise direction between the camera reference system
-> +  'Rc' and the projected scene reference system 'Rp'. It is expressed in
-> +  degrees as a number in the range [0, 360[.
-> +
-> +  Examples
-> +
-> +  0 degrees camera rotation
-> +
-> +
-> +                    Y-Rp
-> +                     ^
-> +              Y-Rc   !
-> +               ^     !
-> +               !     !
-> +               !     !
-> +               !     !
-> +               !     !
-> +               !     !
-> +               !     !
-> +               !     !
-> +               !   0 +------------------------------------->
-> +               !     0               X-Rp
-> +             0 +------------------------------------->
-> +               0               X-Rc
-> +
-> +
-> +                                X-Rc                0
-> +               <------------------------------------+ 0
-> +                           X-Rp                 0   !
-> +           <------------------------------------+ 0 !
-> +                                                !   !
-> +                                                !   !
-> +                                                !   !
-> +                                                !   !
-> +                                                !   !
-> +                                                !   !
-> +                                                !   !
-> +                                                !   V
-> +                                                !  Y-Rc
-> +                                                V
-> +                                               Y-Rp
-> +
-> +  90 degrees camera rotation
-> +
-> +               0        Y-Rc
-> +             0 +-------------------->
-> +               !   Y-Rp
-> +               !    ^
-> +               !    !
-> +               !    !
-> +               !    !
-> +               !    !
-> +               !    !
-> +               !    !
-> +               !    !
-> +               !    !
-> +               !    !
-> +               !  0 +------------------------------------->
-> +               !    0              X-Rp
-> +               !
-> +               !
-> +               !
-> +               !
-> +               V
-> +              X-Rc
-> +
-> +  180 degrees camera rotation
-> +
-> +                                            0
-> +       <------------------------------------+ 0
-> +                        X-Rc                !
-> +              Y-Rp                          !
-> +               ^                            !
-> +               !                            !
-> +               !                            !
-> +               !                            !
-> +               !                            !
-> +               !                            !
-> +               !                            !
-> +               !                            V
-> +               !                           Y-Rc
-> +             0 +------------------------------------->
-> +               0              X-Rp
-> +
-> +  270 degrees camera rotation
-> +
-> +               0        Y-Rc
-> +             0 +-------------------->
-> +               !                                        0
-> +               !    <-----------------------------------+ 0
-> +               !                    X-Rp                !
-> +               !                                        !
-> +               !                                        !
-> +               !                                        !
-> +               !                                        !
-> +               !                                        !
-> +               !                                        !
-> +               !                                        !
-> +               !                                        !
-> +               !                                        V
-> +               !                                       Y-Rp
-> +               !
-> +               !
-> +               !
-> +               !
-> +               V
-> +              X-Rc
-> +
-> +
-> +  Example one - Webcam
-> +
-> +  A camera module installed on the user facing part of a laptop screen
-> +  casing used for video calls. The captured images are meant to be
-> +  displayed in landscape mode (width > height) on the laptop screen.
-> +
-> +  The camera is typically mounted upside-down to compensate the lens
-> +  optical inversion effect.
-> +
-> +                    Y-Rp
-> +              Y-Rc   ^
-> +               ^     !
-> +               !     !
-> +               !     !       |\_____)\__
-> +               !     !       ) ____  ___.<
-> +               !     !       |/    )/
-> +               !     !
-> +               !     !
-> +               !     !
-> +               !   0 +------------------------------------->
-> +               !     0           X-Rp
-> +             0 +------------------------------------->
-> +               0            X-Rc
-> +
-> +  The two reference systems are aligned, the resulting camera rotation is
-> +  0 degrees, no rotation correction needs to be applied to the resulting
-> +  image once captured to memory buffers to correctly display it to users.
-> +
-> +               +--------------------------------------+
-> +               !                                      !
-> +               !                                      !
-> +               !                                      !
-> +               !             |\____)\___              !
-> +               !             ) _____  __`<            !
-> +               !             |/     )/                !
-> +               !                                      !
-> +               !                                      !
-> +               !                                      !
-> +               +--------------------------------------+
-> +
-> +  If the camera sensor is not mounted upside-down to compensate for the
-> +  lens optical inversion, the two reference systems will not be aligned,
-> +  with 'Rp' being rotated 180 degrees relatively to 'Rc'.
-
-I'd say the camera is mounted upright (rotation 0) if the image it produces
-is read from the top-left corner towards the bottom. That is what the
-current rotation property refers to, and I don't think we can change that
-anymore.
-
-Note that the lens is a part of the camera (or camera module). Could this
-be defined for the camera module instead, to be compatible with the
-existing definition and to take the entire lens system in the module into
-account?
-
-> +
-> +
-> +                        X-Rc                0
-> +       <------------------------------------+ 0
-> +                                            !
-> +              Y-Rp                          !
-> +               ^                            !
-> +               !                            !
-> +               !       |\_____)\__          !
-> +               !       ) ____  ___.<        !
-> +               !       |/    )/             !
-> +               !                            !
-> +               !                            !
-> +               !                            V
-> +               !                           Y-Rc
-> +             0 +------------------------------------->
-> +               0            X-Rp
-> +
-> +  The image once captured to memory will then be rotated by 180 degrees
-> +
-> +               +--------------------------------------+
-> +               !                                      !
-> +               !                                      !
-> +               !                                      !
-> +               !              __/(_____/|             !
-> +               !            >.___  ____ (             !
-> +               !                 \(    \|             !
-> +               !                                      !
-> +               !                                      !
-> +               !                                      !
-> +               +--------------------------------------+
-> +
-> +  A software rotation correction of 180 degrees should be applied to
-> +  correctly display the image.
-> +
-> +               +--------------------------------------+
-> +               !                                      !
-> +               !                                      !
-> +               !                                      !
-> +               !             |\____)\___              !
-> +               !             ) _____  __`<            !
-> +               !             |/     )/                !
-> +               !                                      !
-> +               !                                      !
-> +               !                                      !
-> +               +--------------------------------------+
-> +
-> +  Example two - Phone camera
-> +
-> +  A camera installed on the back side of a mobile device facing away from
-> +  the user. The captured images are meant to be displayed in portrait mode
-> +  (height > width) to match the device screen orientation and the device
-> +  usage orientation used when taking the picture.
-> +
-> +  The camera sensor is typically mounted with its pixel array longer side
-> +  aligned to the device longer side, upside-down mounted to compensate for
-> +  the lens optical inversion effect.
-> +
-> +               0        Y-Rc
-> +             0 +-------------------->
-> +               !   Y-Rp
-> +               !    ^
-> +               !    !
-> +               !    !
-> +               !    !
-> +               !    !            |\_____)\__
-> +               !    !            ) ____  ___.<
-> +               !    !            |/    )/
-> +               !    !
-> +               !    !
-> +               !    !
-> +               !  0 +------------------------------------->
-> +               !    0                X-Rp
-> +               !
-> +               !
-> +               !
-> +               !
-> +               V
-> +              X-Rc
-> +
-> +  The two reference systems are not aligned and the 'Rp' reference
-> +  system is rotated by 90 degrees in the counter-clockwise direction
-> +  relatively to the 'Rc' reference system.
-> +
-> +  The image once captured to memory will be rotated.
-> +
-> +               +-------------------------------------+
-> +               |                 _ _                 |
-> +               |                \   /                |
-> +               |                 | |                 |
-> +               |                 | |                 |
-> +               |                 |  >                |
-> +               |                <  |                 |
-> +               |                 | |                 |
-> +               |                   .                 |
-> +               |                  V                  |
-> +               +-------------------------------------+
-> +
-> +  A correction of 90 degrees in counter-clockwise direction has to be
-> +  applied to correctly display the image in portrait mode on the device
-> +  screen.
-> +
-> +                        +--------------------+
-> +                        |                    |
-> +                        |                    |
-> +                        |                    |
-> +                        |                    |
-> +                        |                    |
-> +                        |                    |
-> +                        |   |\____)\___      |
-> +                        |   ) _____  __`<    |
-> +                        |   |/     )/        |
-> +                        |                    |
-> +                        |                    |
-> +                        |                    |
-> +                        |                    |
-> +                        |                    |
-> +                        +--------------------+
-> 
->  - location: The mount location of a device (typically an image sensor or a flash
->    LED) expressed as a position relative to the usage orientation of the system
-
--- 
-Kind regards,
-
-Sakari Ailus
+I am looking forward to hear from you soonest.
+Yours faithfully,
+Mr Olusegun Ebrima
