@@ -2,78 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5F0A1F13B2
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 09:40:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2B741F13CE
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 09:47:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729041AbgFHHkG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jun 2020 03:40:06 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:36036 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726009AbgFHHkF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jun 2020 03:40:05 -0400
-Received: by mail-ot1-f67.google.com with SMTP id 97so1498213otg.3;
-        Mon, 08 Jun 2020 00:40:03 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aDfs1F4OdafycBApWUDwkkf2j85MeirTmfPU3v1iT58=;
-        b=gNG5Mbw3UmCuTySLt83VBAhd8r9VPz7xnAJW1303GSE3htiAzdBaQPTYmpx+DTK9kQ
-         z9cSiAra/4GVlGqiMtYRz3GUhTOokgAFERBePf0vJEiwOK1cUHBJ0r1c231+NJFuW2DK
-         bm6osqyuchCy4YH2QTzYxRfw1BAeY3B3Oo210ETMcyC7KZ2ENRL42mdqB7updHJdCKfy
-         qx9RtkyoI37ioda4jVe4D6uBRa4A5GRO1txDHe2jNlYq9rA3KH1B0oAeFz15IT/A3yyR
-         fzkzG4tQCPCb1oHaA8xd4Tt6Efr8Sp/jN+7H8PlXVpnuHOWDPcwNx8MgpEbQmHuP1vRm
-         t4fw==
-X-Gm-Message-State: AOAM5317dVcrijgHPoSZJlP4a6yeq9c0Hezh313PqieNy45ZOwRSH6zz
-        1xgLmq6YMVhSA/TbCnCqVHvp6/F6Nwl7disC0hM=
-X-Google-Smtp-Source: ABdhPJw6LZWyQO6k6m3npgne3D8qld9e6+4z6U9SP4XxGKdCCB8U4lEcsrneeJ2rC4AB/koN4Y/A8y8u1I0/WujGk1A=
-X-Received: by 2002:a9d:c29:: with SMTP id 38mr15599146otr.107.1591602002975;
- Mon, 08 Jun 2020 00:40:02 -0700 (PDT)
+        id S1729067AbgFHHq5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jun 2020 03:46:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36384 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728993AbgFHHq5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jun 2020 03:46:57 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72DE7C08C5C3
+        for <linux-media@vger.kernel.org>; Mon,  8 Jun 2020 00:46:57 -0700 (PDT)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1jiCUc-0006ou-Jk; Mon, 08 Jun 2020 09:46:50 +0200
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1jiCUb-000511-Lj; Mon, 08 Jun 2020 09:46:49 +0200
+Date:   Mon, 8 Jun 2020 09:46:49 +0200
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Chuhong Yuan <hslester96@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: tvp5150: Add missed media_entity_cleanup()
+Message-ID: <20200608074649.bppdrdoxn6xig6jy@pengutronix.de>
+References: <20200606143918.2869528-1-hslester96@gmail.com>
 MIME-Version: 1.0
-References: <20200523115426.19285-1-dinghao.liu@zju.edu.cn>
- <20200608015456.GJ22208@pendragon.ideasonboard.com> <20200608015753.GK22208@pendragon.ideasonboard.com>
- <7b79863f.f636d.17291e1ff94.Coremail.dinghao.liu@zju.edu.cn>
-In-Reply-To: <7b79863f.f636d.17291e1ff94.Coremail.dinghao.liu@zju.edu.cn>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 8 Jun 2020 09:39:51 +0200
-Message-ID: <CAMuHMdUDcpCxmgdJtMRX7K9NvDxj+tDu33ebax0TOMBNZaygDw@mail.gmail.com>
-Subject: Re: Re: [PATCH] media: vsp1: Fix runtime PM imbalance in vsp1_probe
-To:     dinghao.liu@zju.edu.cn
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kangjie Lu <kjlu@umn.edu>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200606143918.2869528-1-hslester96@gmail.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 09:45:45 up 205 days, 23:04, 198 users,  load average: 0.11, 0.08,
+ 0.02
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dinghao,
+Hi,
 
-On Mon, Jun 8, 2020 at 5:03 AM <dinghao.liu@zju.edu.cn> wrote:
-> > > I wonder how many bugs we have today, and how many bugs will keep
-> > > appearing in the future, due to this historical design mistake :-(
->
-> Good question. It's hard to say if this is a design mistake (some use
-> of this API does not check its return value and expects it always to
-> increment the usage counter). But it does make developers misuse it easier.
+thanks for covering that. Appart of the fact that this function does
+nothing:
 
-On Renesas SoCs, I believe these can only fail if there's something
-seriously wrong, which means the system could never have gotten this far
-in the boot sequence anyway.  That's why I tend not to check the result
-of pm_runtime_get_sync() at all (on drivers for Renesas SoCs).
+Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
 
-Gr{oetje,eeting}s,
-
-                        Geert
+On 20-06-06 22:39, Chuhong Yuan wrote:
+> This driver does not call media_entity_cleanup() in the error handler
+> of tvp5150_registered() and tvp5150_remove(), while it has called
+> media_entity_pads_init() at first.
+> Add the missed calls to fix it.
+> 
+> Fixes: 0556f1d580d4 ("media: tvp5150: add input source selection of_graph support")
+> Signed-off-by: Chuhong Yuan <hslester96@gmail.com>
+> ---
+>  drivers/media/i2c/tvp5150.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
+> index eb39cf5ea089..9df575238952 100644
+> --- a/drivers/media/i2c/tvp5150.c
+> +++ b/drivers/media/i2c/tvp5150.c
+> @@ -1664,8 +1664,10 @@ static int tvp5150_registered(struct v4l2_subdev *sd)
+>  	return 0;
+>  
+>  err:
+> -	for (i = 0; i < decoder->connectors_num; i++)
+> +	for (i = 0; i < decoder->connectors_num; i++) {
+>  		media_device_unregister_entity(&decoder->connectors[i].ent);
+> +		media_entity_cleanup(&decoder->connectors[i].ent);
+> +	}
+>  	return ret;
+>  #endif
+>  
+> @@ -2248,8 +2250,10 @@ static int tvp5150_remove(struct i2c_client *c)
+>  
+>  	for (i = 0; i < decoder->connectors_num; i++)
+>  		v4l2_fwnode_connector_free(&decoder->connectors[i].base);
+> -	for (i = 0; i < decoder->connectors_num; i++)
+> +	for (i = 0; i < decoder->connectors_num; i++) {
+>  		media_device_unregister_entity(&decoder->connectors[i].ent);
+> +		media_entity_cleanup(&decoder->connectors[i].ent);
+> +	}
+>  	v4l2_async_unregister_subdev(sd);
+>  	v4l2_ctrl_handler_free(&decoder->hdl);
+>  	pm_runtime_disable(&c->dev);
+> -- 
+> 2.26.2
+> 
+> 
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
