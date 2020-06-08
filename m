@@ -2,97 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50D521F17E2
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 13:33:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4B731F1845
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 13:55:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729543AbgFHLdc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jun 2020 07:33:32 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:48327 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729310AbgFHLdb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Jun 2020 07:33:31 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id iG1tjQeHJCKzeiG1wjlvME; Mon, 08 Jun 2020 13:33:29 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1591616009; bh=2RM5mDdaGap2T8ENTy0eyuoJhcBfWd/GTOz/2yQh9nA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=FX7v5dVXhu47hdSnY6jpwwKX3BQMXN1TDeuN6wr0+E0knGIGMi2I9hI+PXqJjj4/s
-         BjBZbOpOdbBoakSPcjYpWigzcpSjxYsbTauNQ4uX3rpXhMJfXXX/OSNLw7MBgqXwRa
-         cogEIAl0sZ5bieqotx6Z879kbBDFNw0f9jYDQJbyUaaL0mnALNkbMz6Mr1tFHvDLa8
-         2tm3BXU0dYzNSBhQJmMIHIxmL2fCTML0+sH5ZfRobQUtiR/c+7FUct71JUrghazMey
-         kk6QByyYnDQkXOoUZh0JC0GaO4c+y3JIVK0htIxhNrtiWUnYS9tWnVVztkHrx3yeq3
-         WgirYbgZjI/PQ==
-Subject: Re: [RFC v4 1/8] media: staging: rkisp1: rsz: supported formats are
- the isp's src formats, not sink formats
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Cc:     helen.koike@collabora.com, ezequiel@collabora.com,
-        kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, tfiga@chromium.org, skhan@linuxfoundation.org,
-        p.zabel@pengutronix.de
-References: <20200605172625.19777-1-dafna.hirschfeld@collabora.com>
- <20200605172625.19777-2-dafna.hirschfeld@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <a929b94b-ab8b-42cc-6ffa-d7a3e8a8332b@xs4all.nl>
-Date:   Mon, 8 Jun 2020 13:33:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        id S1729704AbgFHLzV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jun 2020 07:55:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46678 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729615AbgFHLzU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jun 2020 07:55:20 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F27BC08C5C2;
+        Mon,  8 Jun 2020 04:55:20 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D0552C9;
+        Mon,  8 Jun 2020 13:55:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1591617316;
+        bh=1lj9FjuIipvGhcLtMC0uXaiiiMBYwOb9zRyCfR/27uw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HVQV+piKImt3IAI21N+NZKvdaNsADGQJ+OggKy6Jw8hF7GqRPeVVf0qvY+xkmGyVk
+         FKKKJOmGaL1i8VAo+4W9PwJAresMPWF+jlCS9aV6Yr6gYpmton4jniCarYAPsZ7RqG
+         +WfvBKQBuBT5CYAt4oYcM3LgCLTobKLnkjW6TO38=
+Date:   Mon, 8 Jun 2020 14:54:57 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     dinghao.liu@zju.edu.cn, Kangjie Lu <kjlu@umn.edu>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: Re: Re: [PATCH] media: vsp1: Fix runtime PM imbalance in vsp1_probe
+Message-ID: <20200608115457.GA5896@pendragon.ideasonboard.com>
+References: <20200523115426.19285-1-dinghao.liu@zju.edu.cn>
+ <20200608015456.GJ22208@pendragon.ideasonboard.com>
+ <20200608015753.GK22208@pendragon.ideasonboard.com>
+ <7b79863f.f636d.17291e1ff94.Coremail.dinghao.liu@zju.edu.cn>
+ <CAMuHMdUDcpCxmgdJtMRX7K9NvDxj+tDu33ebax0TOMBNZaygDw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200605172625.19777-2-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJj5s9wfhixK5lOkp6EP0wQpt5SKnIr5SeGyfJ2TMEBPC2pBLM94a/EQpM4uci5dNRz6PASytFFDpSdkh6IUCrIouardLtpLDnyAYz6OzVhurIV3YHLR
- bGg51BaLc1FQv0y2pwV/tJTemobVbh/3mo6t6xYBBfyLMS3H54K0si+wM3t8OW/6RQpSS+ZtVbn4LbawjcXcD/8WXOvKaZmVnpd2942sV0WPY7bvpV6MxwII
- W8huRh/A8vBlibVoIOphxwdhCJGfnSJLwnWVnolZwHYqRjGjbpx2OsQ+BCCds36wl+OjeCLqYODCHFFVoEGaPED0a809OY35yLrX1s+eJ7wwjH1um6q3uhP+
- jG4Y+gxOROHA6rM1Ti+bwj+QCX/vANoeSoVRDvwWUwL28hSDZ7E9mN8dBZHjchdbb4hQDJPIEMgnzB+Q7d51RLbbrdWvOs68t8eRBlV24M2Tw+MiHnsgAo1+
- T5JIk/ZbWHdB1D1YI9Co46PTKO9wvt6RoLO5ONcbLD+LOFXa7ozHoFbM3pZwYSuf+dhSw1yZCghMq+gNDh3NJCxPmSXvfFZ8qMwRHyCyluowSoUGoc3rQy8Q
- AhBG6BgBUpImlBksX6AJl47bEHazzgbjp3hVG7eMBqe98A==
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdUDcpCxmgdJtMRX7K9NvDxj+tDu33ebax0TOMBNZaygDw@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/06/2020 19:26, Dafna Hirschfeld wrote:
-> The rkisp1_resizer's enum callback 'rkisp1_rsz_enum_mbus_code'
-> calls the enum callback of the 'rkisp1_isp' on it's video sink pad.
-> This is a bug, the resizer should support the same formats
-> supported by the 'rkisp1_isp' on the source pad (not the sink pad).
+Hi Geert,
+
+On Mon, Jun 08, 2020 at 09:39:51AM +0200, Geert Uytterhoeven wrote:
+> Hi Dinghao,
 > 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> On Mon, Jun 8, 2020 at 5:03 AM <dinghao.liu@zju.edu.cn> wrote:
+> > > > I wonder how many bugs we have today, and how many bugs will keep
+> > > > appearing in the future, due to this historical design mistake :-(
+> >
+> > Good question. It's hard to say if this is a design mistake (some use
+> > of this API does not check its return value and expects it always to
+> > increment the usage counter). But it does make developers misuse it easier.
+> 
+> On Renesas SoCs, I believe these can only fail if there's something
+> seriously wrong, which means the system could never have gotten this far
+> in the boot sequence anyway.  That's why I tend not to check the result
+> of pm_runtime_get_sync() at all (on drivers for Renesas SoCs).
 
-Please include Helen's Ack when you post a v5.
+There are lots of return paths from rpm_resume() that return an error,
+more than just rpm_callback(). Do you consider that none of them are
+valid errors that drivers need to handle ?
 
-(https://patchwork.linuxtv.org/patch/64291/)
-
-For that matter, shouldn't this be a 'Fixes:' patch with a Cc to stable?
-
+-- 
 Regards,
 
-	Hans
-
-> ---
->  drivers/staging/media/rkisp1/rkisp1-resizer.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> index d049374413dc..d64c064bdb1d 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> @@ -437,8 +437,8 @@ static int rkisp1_rsz_enum_mbus_code(struct v4l2_subdev *sd,
->  	u32 pad = code->pad;
->  	int ret;
->  
-> -	/* supported mbus codes are the same in isp sink pad */
-> -	code->pad = RKISP1_ISP_PAD_SINK_VIDEO;
-> +	/* supported mbus codes are the same in isp video src pad */
-> +	code->pad = RKISP1_ISP_PAD_SOURCE_VIDEO;
->  	ret = v4l2_subdev_call(&rsz->rkisp1->isp.sd, pad, enum_mbus_code,
->  			       &dummy_cfg, code);
->  
-> 
-
+Laurent Pinchart
