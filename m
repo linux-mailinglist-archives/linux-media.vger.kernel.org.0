@@ -2,72 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 992A11F1F5E
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 20:59:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CD4351F1F8B
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 21:13:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726403AbgFHS7f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jun 2020 14:59:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55848 "EHLO
+        id S1726427AbgFHTNq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jun 2020 15:13:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58038 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726203AbgFHS7f (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jun 2020 14:59:35 -0400
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EABCDC08C5C3
-        for <linux-media@vger.kernel.org>; Mon,  8 Jun 2020 11:59:34 -0700 (PDT)
-Received: by mail-qt1-x842.google.com with SMTP id k22so15569498qtm.6
-        for <linux-media@vger.kernel.org>; Mon, 08 Jun 2020 11:59:34 -0700 (PDT)
+        with ESMTP id S1726203AbgFHTNp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jun 2020 15:13:45 -0400
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C94F8C08C5C2;
+        Mon,  8 Jun 2020 12:13:45 -0700 (PDT)
+Received: by mail-qk1-x742.google.com with SMTP id l17so4592548qki.9;
+        Mon, 08 Jun 2020 12:13:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=1LNXy0gulshDF6Am2ORMrlABkF4RBeFdpjJ6l6ghlxc=;
-        b=XKzY/dMoRNR8g2sNEYdfjb4hTfUUulqOlT+yf47tp2KJzcr32jQMJqtK5NJop2cINl
-         9Ebd8hsMhE+MWHwkXW/PjQHzQNVi+QxoJYp5ggn+JZbE6bIhHzJaCbg54yeBdVYaKhiU
-         GLOT0fN/40VD6Gf5soYESTPoFMs5u410zhTCtMMxSiTNAF1IeqSGJW4F19rGX+ddm8Lh
-         2XsHczdkDeRkyYoLm+k6ElJtv/2AnJKWR7j2B8380LonwThSgmeNaioKv+cKsl8yX/fK
-         v69JfJPGaD79z/9nCqUM3LDP+XzmX2bnG5R8IMygXAh/DNaCOzAO7QTc8Jl1vn0W6Czd
-         fQRA==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cWmbFi0hcTcT4k89gCyBcQqo96av2ZB4AgSQNGnp758=;
+        b=cYDBJJheYtCo5UkiDfuQ04M6kTfx+a2dCVKqkRzjk7+GUWxLkhHaH3/KtH4CO2t8wC
+         4gZ4K3O8gPKNaSDfIg1fDF5pfaPbU8ybG/8nPaEw/xIdkpP0seh0QT2aFi1axbx3iABT
+         RnG409YP8DPkIBNkPIXxjacSR3+1Yhqgkb5Li5GDog+4u0fGS3SX7C/r3kd1ryjBr1Ex
+         SvMzlobCOd6D5rrOlrBvYarHZub5IZ9sNTmKK1A2nIezByfSgHKp7k3zj6u2z5BezN9e
+         torW/aSZUYuzQptWT8OoUW6eLGIPLvKcwwuFM+5E03lHQ9ohSArTbbH8k1lJ86hPNwtP
+         /84Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=1LNXy0gulshDF6Am2ORMrlABkF4RBeFdpjJ6l6ghlxc=;
-        b=Z9Zino9U0nSVukBylwm3eEKWIqEnWZNwPinKsAfrPmB40m0zAoYoldQLLjaSVW0LNO
-         RN2IcFX2Q10z1VAcG+IQZgGXpgd4cCxkTaLQKZvEKUA/TaLqKU+0yyB6t3Kh72w6mocQ
-         NbTI2b03l4djuXWrga9bAQdB6EyTJfeWoQBPWWd2K2tvMrtXZdGKuvRPnzXnfoJZNEzm
-         CanmabqozzblcAocupZ5S97SPm3zbEYDs72v8QIFbtRmXZKwo2GTTK4Y1H3kvCRMn7Dx
-         TdGCo0sEzuP2m9UBD+usY05OeI1FNwamh2JDB0kmgWEqigl0KC3WdMqZArgQ4OxG6omh
-         tObw==
-X-Gm-Message-State: AOAM532KogE+l4Uf9umrt55sYGI4+NeP/dyk3lP2bM7NxIZLap9yqhXf
-        y2u9ZXsjxphY7V27ocfeKhmiDQ==
-X-Google-Smtp-Source: ABdhPJzsZQLMeKY0DCqtO/KRhmtkfC5lUzy0bMjqjQup+oWO9tomqEZelGqLBLNBAwZlmugb1j09Jg==
-X-Received: by 2002:ac8:7350:: with SMTP id q16mr24420939qtp.74.1591642773976;
-        Mon, 08 Jun 2020 11:59:33 -0700 (PDT)
-Received: from skullcanyon (marriott-chateau-champlain-montreal.sites.intello.com. [66.171.169.34])
-        by smtp.gmail.com with ESMTPSA id z194sm7357905qkb.73.2020.06.08.11.59.32
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=cWmbFi0hcTcT4k89gCyBcQqo96av2ZB4AgSQNGnp758=;
+        b=fm7iKgMVt/34edytVZDCP3ODddSF0tWxT4zkyFbZ3A266UPgQI7d8VQSZe12zc5xR/
+         unprAAB9XrzzlNQA3VYb6mEV1SmvepNcR4Y9aZnDhUhczTOZ7h1hlPV68Dm1jK9QA/+i
+         YEsQ3waw2dkJ1w6IihieuYnN0CZU+ogf+g9H17ZfFtuNX6EkxAzCszR0MLU3VV1UP8T5
+         XFvkY448t+F3miprGPfYeVN1vDP1Qwm9lW2dOlHzWE4TbCtl5xnS7H5eT6jf3u6kVWyP
+         iGSG0bG4U7ZdRtxK4VqFfncksAFb/jHgYCBLbKb9L8/bB07abrOLc0kmnfxJKjJnZQ1Z
+         3wmw==
+X-Gm-Message-State: AOAM531H3qOzIx6tPumTjBzGGmLXMLu+5UJ8xhMCL9oIRF9x69/pSRCC
+        9GoCtfyQlefMN39O8DTwSBA=
+X-Google-Smtp-Source: ABdhPJxxjTnPFLWVWYiq4UrEg/yReBjcsPSBXbQHhQ5/IuvHrX1X1RM2Fk2VJ5wLUMT0+k453Kjgsg==
+X-Received: by 2002:a37:ac03:: with SMTP id e3mr23741363qkm.350.1591643624661;
+        Mon, 08 Jun 2020 12:13:44 -0700 (PDT)
+Received: from localhost.localdomain ([2804:18:602e:f9c8:df8a:b245:7b29:c366])
+        by smtp.gmail.com with ESMTPSA id k20sm8461022qtu.16.2020.06.08.12.13.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2020 11:59:33 -0700 (PDT)
-Message-ID: <f6d35521b61da395528d6dd1164a9af6c3acd664.camel@ndufresne.ca>
-Subject: Re: [PATCH 1/5] media: videodev2: add Compressed Framebuffer pixel
- formats
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Neil Armstrong <narmstrong@baylibre.com>
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Maxime Jourdan <mjourdan@baylibre.com>,
-        Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 08 Jun 2020 14:59:32 -0400
-In-Reply-To: <2a0db0a4-9d04-f20c-39d8-ff25e07e64b7@xs4all.nl>
-References: <20200604135317.9235-1-narmstrong@baylibre.com>
-         <20200604135317.9235-2-narmstrong@baylibre.com>
-         <02aa06fd8397b77c9a75d3a8399cb55d3b4d39c1.camel@ndufresne.ca>
-         <4d22ff40-11ac-c77a-564d-af9a678f23af@baylibre.com>
-         <a15dea55-3ca4-2a65-5c56-6c1edd2de405@xs4all.nl>
-         <a4c5ae79-1d4d-4c1e-1535-c6c8b02d4b6f@baylibre.com>
-         <2a0db0a4-9d04-f20c-39d8-ff25e07e64b7@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.2 (3.36.2-1.fc32) 
+        Mon, 08 Jun 2020 12:13:43 -0700 (PDT)
+From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+X-Google-Original-From: Daniel W. S. Almeida
+To:     mchehab+huawei@kernel.org, sean@mess.org,
+        kstewart@linuxfoundation.org, allison@lohutok.net,
+        tglx@linutronix.de
+Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        linux-media@vger.kernel.org, skhan@linuxfoundation.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org
+Subject: [RFC, WIP, v7 0/4] media: vidtv: implement a virtual DVB driver
+Date:   Mon,  8 Jun 2020 16:13:29 -0300
+Message-Id: <20200608191333.1784963-1-dwlsalmeida@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -75,140 +67,360 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 08 juin 2020 à 16:43 +0200, Hans Verkuil a écrit :
-> On 08/06/2020 16:14, Neil Armstrong wrote:
-> > On 08/06/2020 11:26, Hans Verkuil wrote:
-> > > On 08/06/2020 10:16, Neil Armstrong wrote:
-> > > > Hi Nicolas,
-> > > > 
-> > > > On 05/06/2020 17:35, Nicolas Dufresne wrote:
-> > > > > Le jeudi 04 juin 2020 à 15:53 +0200, Neil Armstrong a écrit :
-> > > > > > From: Maxime Jourdan <mjourdan@baylibre.com>
-> > > > > > 
-> > > > > > Add two generic Compressed Framebuffer pixel formats to be used
-> > > > > > with a modifier when imported back in another subsystem like DRM/KMS.
-> > > > > > 
-> > > > > > These pixel formats represents generic 8bits and 10bits compressed buffers
-> > > > > > with a vendor specific layout.
-> > > > > > 
-> > > > > > These are aligned with the DRM_FORMAT_YUV420_8BIT and DRM_FORMAT_YUV420_10BIT
-> > > > > > used to describe the underlying compressed buffers used for ARM Framebuffer
-> > > > > > Compression. In the Amlogic case, the compression is different but the
-> > > > > > underlying buffer components is the same.
-> > > > > > 
-> > > > > > Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
-> > > > > > Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
-> > > > > > ---
-> > > > > >  drivers/media/v4l2-core/v4l2-ioctl.c | 2 ++
-> > > > > >  include/uapi/linux/videodev2.h       | 9 +++++++++
-> > > > > >  2 files changed, 11 insertions(+)
-> > > > > > 
-> > > > > > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > > > index 2322f08a98be..8f14adfd5bc5 100644
-> > > > > > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > > > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > > > > > @@ -1447,6 +1447,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
-> > > > > >  		case V4L2_PIX_FMT_S5C_UYVY_JPG:	descr = "S5C73MX interleaved UYVY/JPEG"; break;
-> > > > > >  		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
-> > > > > >  		case V4L2_PIX_FMT_SUNXI_TILED_NV12: descr = "Sunxi Tiled NV12 Format"; break;
-> > > > > > +		case V4L2_PIX_FMT_YUV420_8BIT:	descr = "Compressed YUV 4:2:0 8-bit Format"; break;
-> > > > > > +		case V4L2_PIX_FMT_YUV420_10BIT:	descr = "Compressed YUV 4:2:0 10-bit Format"; break;
-> > 
-> > [..]
-> > 
-> > > > > I'll remind that the modifier implementation has great value and is
-> > > > > much more scalable then the current V4L2 approach. There has been some
-> > > > > early proposal for this, maybe it's time to prioritize because this
-> > > > > list will starts growing with hundred or even thousands or format,
-> > > > > which is clearly indicated by the increase of modifier generator macro
-> > > > > on the DRM side.
-> > > > 
-> > > > Yes, but until the migration of drm_fourcc and v4l2 fourcc into a common one
-> > > > is decided, I'm stuck and this is the only intermediate solution I found.
-> > > 
-> > > We can safely assume that drm fourcc and v4l2 fourcc won't be merged.
-> > > 
-> > > There is too much divergence and not enough interest in creating common
-> > > fourccs.
-> > > 
-> > > But we *do* want to share the modifiers.
-> > > 
-> > > > We have a working solution with Boris's patchset with ext_fmt passing the
-> > > > modifier to user-space.
-> > > > 
-> > > > but anyway, since the goal is to merge the fourcc between DRM & V4L2, these YUV420_*BIT
-> > > > will still be needed if we pass the modifier with an extended format struct.
-> > > 
-> > > We tried merging fourccs but that ran into resistance. Frankly, I wouldn't
-> > > bother with this, it is much easier to just create a conversion table in the
-> > > kernel docs.
-> > > 
-> > > So don't block on this, I would really prefer if the ext_fmt series is picked
-> > > up again and rebased and reposted and then worked on. The stateless codec support
-> > > is taking less time (it's shaping up well) so there is more time to work on this.
-> > 
-> > Ok, I already starting discussing with Helen Koike about the ext_fnt re-spin.
-> > 
-> > Should I re-introduce different v4l2 pixfmt for these DRM YUV420_*BIT or I can keep this
-> > patch along the new ext_fmt and shared modifiers ?
-> 
-> So to be clear the DRM_FORMAT_YUV420_8BIT/10BIT fourccs define that this is a
-> buffer containing compressed YUV420 in 8 or 10 bit and the modifier tells userspace
-> which compression is used, right?
-> 
-> And we would add V4L2_PIX_FMT_YUV420_8BIT/_10BIT that, I assume, use the same
-> fourcc values as the DRM variants?
-> 
-> Since these fourccs are basically useless without V4L2 modifier support it would
-> only make sense in combination with the ext_fmt series.
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-I personally still think that adding these fourcc will just create a
-source of confusion and that fourcc should not be tried to be matched
-at the cost of tripling the already duplicated pixel formats. Userspace
-already need to implement translation anyway.
+This series is work in progress. It represents the current work done on a
+virtual DVB driver for the Linux media subsystem. I am new to the media
+subsystem and to kernel development in general.
 
-On DRM side, new fourcc was not create for NV12+modifier, I don't see
-why planar YUV420 has to be different, with or without ext_fmt.
+This driver aims to:
+	- Serve as template for new DVB driver writers
+	- Help userspace application writers in general
+	- Push fake audio/video to userspace for testing
+		purposes
+	- Push debug information to userspace via debugfs
+The Virtual Digital TV Driver (vidtv)
 
-Nicolas
- 
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > Neil
-> > 
-> > > I believe we really need this since v4l2_buffer and v4l2_format are a real mess.
-> > > 
-> > > Regards,
-> > > 
-> > > 	Hans
-> > > 
-> > > > > >  		default:
-> > > > > >  			if (fmt->description[0])
-> > > > > >  				return;
-> > > > > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > > > > > index c3a1cf1c507f..90b9949acb8a 100644
-> > > > > > --- a/include/uapi/linux/videodev2.h
-> > > > > > +++ b/include/uapi/linux/videodev2.h
-> > > > > > @@ -705,6 +705,15 @@ struct v4l2_pix_format {
-> > > > > >  #define V4L2_PIX_FMT_FWHT     v4l2_fourcc('F', 'W', 'H', 'T') /* Fast Walsh Hadamard Transform (vicodec) */
-> > > > > >  #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') /* Stateless FWHT (vicodec) */
-> > > > > >  
-> > > > > > +/*
-> > > > > > + * Compressed Luminance+Chrominance meta-formats
-> > > > > > + * In these formats, the component ordering is specified (Y, followed by U
-> > > > > > + * then V), but the exact Linear layout is undefined.
-> > > > > > + * These formats can only be used with a non-Linear modifier.
-> > > > > > + */
-> > > > > > +#define V4L2_PIX_FMT_YUV420_8BIT	v4l2_fourcc('Y', 'U', '0', '8') /* 1-plane YUV 4:2:0 8-bit */
-> > > > > > +#define V4L2_PIX_FMT_YUV420_10BIT	v4l2_fourcc('Y', 'U', '1', '0') /* 1-plane YUV 4:2:0 10-bit */
-> > > > > > +
-> > > > > >  /*  Vendor-specific formats   */
-> > > > > >  #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 YUV */
-> > > > > >  #define V4L2_PIX_FMT_WNVA     v4l2_fourcc('W', 'N', 'V', 'A') /* Winnov hw compress */
-> > > > 
-> > > > [1] https://patchwork.freedesktop.org/series/73722/#rev7
-> > > > 
+Background
+----------
+
+Vidtv is a virtual DVB driver that aims to serve as a reference for driver
+writers by serving as a template. It also validates the existing media DVB
+APIs, thus helping userspace application writers.
+
+Currently, it consists of:
+
+- A fake tuner driver, which will report a bad signal quality if the chosen
+  frequency is too far away from a table of valid frequencies for a
+  particular delivery system.
+
+- A fake demod driver, which will constantly poll the fake signal quality
+  returned by the tuner, simulating a device that can lose/reacquire a lock
+  on the signal depending on the CNR levels.
+
+- A fake bridge driver, which is the module responsible for modprobing the
+  fake tuner and demod modules and implementing the demux logic. This module
+  takes parameters at initialization that will dictate how the simulation
+  behaves.
+
+- Code reponsible for encoding a valid MPEG Transport Stream, which is then
+  passed to the bridge driver. This fake stream contains some hardcoded content.
+  For now, we have a single, audio-only channel containing a single MPEG
+  Elementary Stream, which in turn contains a SMPTE 302m encoded sine-wave.
+  Note that this particular encoder was chosen because it is the easiest
+  way to encode PCM audio data in a MPEG Transport Stream.
+
+Building vidtv
+--------------
+vidtv is a test driver and thus is **not** enabled by default when
+compiling the kernel.
+
+In order to enable compilation of vidtv:
+
+- Enable **DVB_TEST_DRIVERS**, then
+- Enable **DVB_VIDTV**
+
+When compiled as a module, expect the following .ko files:
+
+- dvb_vidtv_tuner.ko
+
+- dvb_vidtv_demod.ko
+
+- dvb_vidtv_bridge.ko
+
+Running vidtv
+-------------
+When compiled as a module, run::
+
+	modprobe dvb_vidtv_bridge
+
+That's it! The bridge driver will initialize the tuner and demod drivers as
+part of its own initialization.
+
+You can optionally define some command-line arguments to vidtv, see the
+documentation for more info.
+
+Testing vidtv with v4l-utils
+============================
+
+Start by installing v4l-utils and then modprobing vidtv::
+
+	modprobe dvb_vidtv_bridge
+
+If the driver is OK, it should load and its probing code will run. This will
+pull in the tuner and demod drivers.
+
+Using dvb-fe-tool
+-----------------
+
+The first step to check whether the demod loaded successfully is to run::
+
+	$ dvb-fe-tool
+
+This should return what is currently set up at the demod struct, i.e.::
+
+	static const struct dvb_frontend_ops vidtv_demod_ops = {
+		.delsys = {
+			SYS_DVBT,
+			SYS_DVBT2,
+			SYS_DVBC_ANNEX_A,
+			SYS_DVBS,
+			SYS_DVBS2,
+		},
+
+		.info = {
+			.name                   = "Dummy demod for DVB-T/T2/C/S/S2",
+			.frequency_min_hz       = 51 * MHz,
+			.frequency_max_hz       = 2150 * MHz,
+			.frequency_stepsize_hz  = 62500,
+			.frequency_tolerance_hz = 29500 * kHz,
+			.symbol_rate_min        = 1000000,
+			.symbol_rate_max        = 45000000,
+
+			.caps = FE_CAN_FEC_1_2 |
+				FE_CAN_FEC_2_3 |
+				FE_CAN_FEC_3_4 |
+				FE_CAN_FEC_4_5 |
+				FE_CAN_FEC_5_6 |
+				FE_CAN_FEC_6_7 |
+				FE_CAN_FEC_7_8 |
+				FE_CAN_FEC_8_9 |
+				FE_CAN_QAM_16 |
+				FE_CAN_QAM_64 |
+				FE_CAN_QAM_32 |
+				FE_CAN_QAM_128 |
+				FE_CAN_QAM_256 |
+				FE_CAN_QAM_AUTO |
+				FE_CAN_QPSK |
+				FE_CAN_FEC_AUTO |
+				FE_CAN_INVERSION_AUTO |
+				FE_CAN_TRANSMISSION_MODE_AUTO |
+				FE_CAN_GUARD_INTERVAL_AUTO |
+				FE_CAN_HIERARCHY_AUTO,
+		}
+
+		....
+
+Using dvb-scan
+--------------
+
+In order to tune into a channel and read the PSI tables, we can use dvb-scan.
+
+For this, one should provide a configuration file known as a 'scan file',
+here's an example::
+
+	[Channel]
+	FREQUENCY = 330000000
+	MODULATION = QAM/AUTO
+	SYMBOL_RATE = 6940000
+	INNER_FEC = AUTO
+	DELIVERY_SYSTEM = DVBC/ANNEX_A
+
+	NOTE:
+	The parameters depend on the video standard you're testing.
+
+	NOTE:
+	Vidtv is a fake driver and does not validate much of the information
+	in the scan file. Just specifying 'FREQUENCY' and 'DELIVERY_SYSTEM'
+	should be enough for DVB-T/DVB-T2. For DVB-S/DVB-C however, you
+	should also provide 'SYMBOL_RATE'.
+
+Assuming this channel is named 'channel.conf', you can then run::
+
+        $ dvbv5-scan dresden_dvbc_channel.conf
+
+Using dvb-zap
+-------------
+
+dvbv5-zap is a command line tool that can be used to record MPEG-TS to disk. The
+typical use is to tune into a channel and put it into record mode. The example
+below - which is taken from the documentation - illustrates that::
+
+        $ dvbv5-zap -c dvb_channel.conf "trilhas sonoras" -r
+        using demux '/dev/dvb/adapter0/demux0'
+        reading channels from file 'dvb_channel.conf'
+        service has pid type 05:  204
+        tuning to 573000000 Hz
+        audio pid 104
+          dvb_set_pesfilter 104
+        Lock   (0x1f) Quality= Good Signal= 100.00% C/N= -13.80dB UCB= 70 postBER= 3.14x10^-3 PER= 0
+        DVR interface '/dev/dvb/adapter0/dvr0' can now be opened
+
+The channel can be watched by playing the contents of the DVR interface, with
+some player that recognizes the MPEG-TS format, such as *mplayer* or *vlc*.
+
+By playing the contents of the stream one can visually inspect the workings of
+vidtv, e.g.::
+
+	$ mplayer /dev/dvb/adapter0/dvr0
+
+
+Changes in v7:
+	Collapse commits (10->4)
+	Add RestructuredText documentation
+	Fix checkpatch warnings
+	Add calls to dvb_module_release and i2c_del_adapter in the bridge driver
+	Add kernel-doc comments
+
+Changes in v6:
+	Addressed the following issues:
+	- Makefile was not actually compiling everything;
+	- The bridge driver should be a platform driver;
+	- There are lots of warnings and other errors produced
+	by the driver.
+
+Changes in v5:
+
+Removed all calls to WARN_ON in favor of pr_warn_ratelimited
+Add a #define for pr_fmt
+Reworked the byte swapping logic for big/little endian support:
+	big endian fields now prepended with __beXX for 'sparse' checks
+	bitfields now laid in reverse order if LITTLE_ENDIAN_BITFIELD
+		is set
+
+media: vidtv: implement a tuner driver
+	Return -EINVAL instead of -1 in vidtv_tuner_check_frequency_shift
+media: vidtv: implement a demodulator driver
+	Add POLL_THRD_TIME #define
+	Implement dvb_frontend_ops as a single struct instead of three
+media: vidtv: move config structs into a separate header
+	Removed this commit, configs are now in vidtv_tuner.h and vidtv_demod.h
+media: vidtv: add a bridge driver
+	module_param: all fs permissions set to 0
+	removed param 'chosen_delsys'
+	module_param: removed "optional" string: all module_params are optional
+	renamed vidtv_bridge -> vidtv_bridg: so the source code and module names
+		are different
+media: vidtv: add wrappers for memcpy and memset
+	Added kernel-docs
+	write address is now computed internally
+media: vidtv: add MPEG TS common code
+	Drop packets if the buffer is full
+media: vidtv: implement a PSI generator
+	Removed vidtv_psi_ts_psi_write_stuffing()
+	Forcibly align misaligned buffers
+	Drop packets if buffer is full
+media: vidtv: implement a PES packetizer
+	Remove vidtv_extract_bits() in favor of GENMASK() and bitwise &
+	Forcibly align misaligned buffers
+media: vidtv: Implement a SMPTE 302M encoder
+	Added kernel-docs for struct vidtv_encoder
+media: vidtv: Add a MPEG Transport Stream Multiplexer
+	Added check for minimum and maximum buffer size.
+	Drop packets if buffer is full
+
+
+Changes in v4:
+Added a PES packetizer
+Implemented a minimum version of the SMPTE 302m encoder for AES3 audio
+Fixed endianness in the PSI generator, converting fields to big endian where applicable
+Added a minimal TS mux abstraction
+
+Changes in v3:
+Added a bridge driver
+Renamed the driver to vidtv
+Renamed/reworked commits into smaller pieces
+Moved the driver into its own directory
+Fixed the code for the signal strength in the tuner
+Removed useless enums in the tuner driver (e.g. lock_status, power_status...)
+Reworked the logic for the poll_snr thread in the demodulator driver
+Moved MPEG related code to the bridge driver, as it controls the demux logic
+Changed literals to #defines, used sizeof in place of integer literals when
+computing the size of PSI structs
+Moved the MPEG PSI tables to the heap to reduce stack space usage
+Now using usleep_range in place of msleep_interruptible in the MPEG TS thread
+Wrapped memcpy and memset to protect against buffer overflow when writing to the
+MPEG TS buffer.
+
+Changes in v2:
+Attempted not to break assignments into multiple lines as much as possible.
+Code now passes checkpatch strict mode
+
+media: dvb_dummy_tuner: implement driver skeleton	
+Changed snr values to mili db
+Return value from 0-100 to indicate how far off the requested
+frequency is from a valid one
+
+Use the frequency shift to interpolate between 34dB and 10dB if
+we can not match against the SNR lookup table
+Remove sleep calls for suspend/resume
+
+Fix memcpy call for the config struct
+
+media: dvb_dummy_fe.c: lose TS lock on bad snr
+Randomly recover the TS lock if the signal quality improves
+
+media: dvb_dummy_fe.c: write PSI information into DMX buffer
+Split the patch into multiple header/source files
+
+Hexadecimal literals are now lower case
+
+Prefer short function names / reduce function signatures
+
+Add #defines for constants when computing section lengths
+
+Change signature for functions that take a dummy channel as
+argument (i.e. channels* is now channels[NUM_CHANNELS])
+Daniel W. S. Almeida (4):
+  media: vidtv: implement a tuner driver
+  media: vidtv: implement a demodulator driver
+  media: vidtv: add a bridge driver
+  media: Documentation: vidtv: Add ReST documentation for vidtv
+
+ .../driver-api/media/drivers/index.rst        |    1 +
+ .../driver-api/media/drivers/vidtv.rst        |  415 ++++++
+ MAINTAINERS                                   |    8 +
+ drivers/media/test-drivers/Kconfig            |   16 +
+ drivers/media/test-drivers/Makefile           |    1 +
+ drivers/media/test-drivers/vidtv/Kconfig      |   11 +
+ drivers/media/test-drivers/vidtv/Makefile     |    9 +
+ .../media/test-drivers/vidtv/vidtv_bridge.c   |  520 ++++++++
+ .../media/test-drivers/vidtv/vidtv_bridge.h   |   60 +
+ .../media/test-drivers/vidtv/vidtv_channel.c  |  327 +++++
+ .../media/test-drivers/vidtv/vidtv_channel.h  |   82 ++
+ .../media/test-drivers/vidtv/vidtv_common.c   |   86 ++
+ .../media/test-drivers/vidtv/vidtv_common.h   |   34 +
+ .../media/test-drivers/vidtv/vidtv_demod.c    |  440 +++++++
+ .../media/test-drivers/vidtv/vidtv_demod.h    |   73 ++
+ .../media/test-drivers/vidtv/vidtv_encoder.h  |  103 ++
+ drivers/media/test-drivers/vidtv/vidtv_mux.c  |  437 +++++++
+ drivers/media/test-drivers/vidtv/vidtv_mux.h  |  157 +++
+ drivers/media/test-drivers/vidtv/vidtv_pes.c  |  450 +++++++
+ drivers/media/test-drivers/vidtv/vidtv_pes.h  |  243 ++++
+ drivers/media/test-drivers/vidtv/vidtv_psi.c  | 1160 +++++++++++++++++
+ drivers/media/test-drivers/vidtv/vidtv_psi.h  |  674 ++++++++++
+ .../media/test-drivers/vidtv/vidtv_s302m.c    |  643 +++++++++
+ .../media/test-drivers/vidtv/vidtv_s302m.h    |  141 ++
+ drivers/media/test-drivers/vidtv/vidtv_ts.c   |  165 +++
+ drivers/media/test-drivers/vidtv/vidtv_ts.h   |  138 ++
+ .../media/test-drivers/vidtv/vidtv_tuner.c    |  427 ++++++
+ .../media/test-drivers/vidtv/vidtv_tuner.h    |   43 +
+ 28 files changed, 6864 insertions(+)
+ create mode 100644 Documentation/driver-api/media/drivers/vidtv.rst
+ create mode 100644 drivers/media/test-drivers/vidtv/Kconfig
+ create mode 100644 drivers/media/test-drivers/vidtv/Makefile
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_bridge.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_bridge.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_channel.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_channel.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_common.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_common.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_demod.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_demod.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_encoder.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_mux.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_mux.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_pes.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_pes.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_psi.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_psi.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_s302m.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_s302m.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_ts.h
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_tuner.c
+ create mode 100644 drivers/media/test-drivers/vidtv/vidtv_tuner.h
+
+-- 
+2.27.0
 
