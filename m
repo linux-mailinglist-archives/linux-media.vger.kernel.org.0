@@ -2,38 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1FED81F2FDC
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 02:54:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ACF3D1F2FD7
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 02:54:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728754AbgFIAyK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jun 2020 20:54:10 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55362 "EHLO mail.kernel.org"
+        id S1728459AbgFHXJi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jun 2020 19:09:38 -0400
+Received: from mail.kernel.org ([198.145.29.99]:55398 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726904AbgFHXJg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:09:36 -0400
+        id S1727115AbgFHXJh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Jun 2020 19:09:37 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9FFD3208B8;
-        Mon,  8 Jun 2020 23:09:34 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id F2EF920897;
+        Mon,  8 Jun 2020 23:09:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591657775;
-        bh=lo+IN4r4Bg9TSjj4yw/aqNpns9X/UoYTuCNNSVl6eSU=;
+        s=default; t=1591657776;
+        bh=IupQNesex1G6SUuR2nZDGISdq1rJoGT1/PvCdy8NC9s=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=w0DptA3knK0uweaUxcJFmOXSek+JBokg3HeUXUOHpH5fUrn2EvjLo8v7PvJEPZsAx
-         Hc5bGn7wQem0CEy9Mr5sAOsywZEykcnz/3QI3Q5f3WwihxoUtUs1L+HMb3lrzksupO
-         vOe0+Qe73xeFCOzmAm8reN2zO5pV/534SiAuWotM=
+        b=ZkKoznP8O3+U43v+J9ngmTcky4ycAxrH0fqmvD2u6WPatyEywui/CLk0ry5w3098f
+         MMw4pG7H2zFUAY12arvKGltsUyyi2SH9cClsK+axFO36A+ikuSCEsW6mpOZj4QeEJv
+         i1N3NcCz8++eRxIOg8YYlc2YQtB5Ff3C2G7iIi9c=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Chen-Yu Tsai <wens@csie.org>,
+Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.7 158/274] media: sun8i: Fix an error handling path in 'deinterlace_runtime_resume()'
-Date:   Mon,  8 Jun 2020 19:04:11 -0400
-Message-Id: <20200608230607.3361041-158-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.7 159/274] media: cec: silence shift wrapping warning in __cec_s_log_addrs()
+Date:   Mon,  8 Jun 2020 19:04:12 -0400
+Message-Id: <20200608230607.3361041-159-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608230607.3361041-1-sashal@kernel.org>
 References: <20200608230607.3361041-1-sashal@kernel.org>
@@ -46,55 +44,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+From: Dan Carpenter <dan.carpenter@oracle.com>
 
-[ Upstream commit 62eedb356188376acd0368384a9b294d5180c00b ]
+[ Upstream commit 3b5af3171e2d5a73ae6f04965ed653d039904eb6 ]
 
-It is spurious to call 'clk_disable_unprepare()' when
-'clk_prepare_enable()' has not been called yet.
-Re-order the error handling path to avoid it.
+The log_addrs->log_addr_type[i] value is a u8 which is controlled by
+the user and comes from the ioctl.  If it's over 31 then that results in
+undefined behavior (shift wrapping) and that leads to a Smatch static
+checker warning.  We already cap the value later so we can silence the
+warning just by re-ordering the existing checks.
 
-Fixes: a4260ea49547 ("media: sun4i: Add H3 deinterlace driver")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Acked-by: Chen-Yu Tsai <wens@csie.org>
+I think the UBSan checker will also catch this bug at runtime and
+generate a warning.  But otherwise the bug is harmless.
+
+Fixes: 9881fe0ca187 ("[media] cec: add HDMI CEC framework (adapter)")
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-[hverkuil-cisco@xs4all.nl: err_exlusive_rate -> err_exclusive_rate]
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/cec/cec-adap.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-index d78f6593ddd1..ba5d07886607 100644
---- a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-+++ b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-@@ -941,7 +941,7 @@ static int deinterlace_runtime_resume(struct device *device)
- 	if (ret) {
- 		dev_err(dev->dev, "Failed to enable bus clock\n");
+diff --git a/drivers/media/cec/cec-adap.c b/drivers/media/cec/cec-adap.c
+index 6c95dc471d4c..6a04d19a96b2 100644
+--- a/drivers/media/cec/cec-adap.c
++++ b/drivers/media/cec/cec-adap.c
+@@ -1734,6 +1734,10 @@ int __cec_s_log_addrs(struct cec_adapter *adap,
+ 		unsigned j;
  
--		goto err_exlusive_rate;
-+		goto err_exclusive_rate;
- 	}
- 
- 	ret = clk_prepare_enable(dev->mod_clk);
-@@ -969,14 +969,14 @@ static int deinterlace_runtime_resume(struct device *device)
- 
- 	return 0;
- 
--err_exlusive_rate:
--	clk_rate_exclusive_put(dev->mod_clk);
- err_ram_clk:
- 	clk_disable_unprepare(dev->ram_clk);
- err_mod_clk:
- 	clk_disable_unprepare(dev->mod_clk);
- err_bus_clk:
- 	clk_disable_unprepare(dev->bus_clk);
-+err_exclusive_rate:
-+	clk_rate_exclusive_put(dev->mod_clk);
- 
- 	return ret;
- }
+ 		log_addrs->log_addr[i] = CEC_LOG_ADDR_INVALID;
++		if (log_addrs->log_addr_type[i] > CEC_LOG_ADDR_TYPE_UNREGISTERED) {
++			dprintk(1, "unknown logical address type\n");
++			return -EINVAL;
++		}
+ 		if (type_mask & (1 << log_addrs->log_addr_type[i])) {
+ 			dprintk(1, "duplicate logical address type\n");
+ 			return -EINVAL;
+@@ -1754,10 +1758,6 @@ int __cec_s_log_addrs(struct cec_adapter *adap,
+ 			dprintk(1, "invalid primary device type\n");
+ 			return -EINVAL;
+ 		}
+-		if (log_addrs->log_addr_type[i] > CEC_LOG_ADDR_TYPE_UNREGISTERED) {
+-			dprintk(1, "unknown logical address type\n");
+-			return -EINVAL;
+-		}
+ 		for (j = 0; j < feature_sz; j++) {
+ 			if ((features[j] & 0x80) == 0) {
+ 				if (op_is_dev_features)
 -- 
 2.25.1
 
