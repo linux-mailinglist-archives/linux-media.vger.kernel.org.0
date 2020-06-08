@@ -2,74 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B4B731F1845
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 13:55:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37BA61F188E
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 14:13:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729704AbgFHLzV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jun 2020 07:55:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46678 "EHLO
+        id S1729715AbgFHMM7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jun 2020 08:12:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729615AbgFHLzU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jun 2020 07:55:20 -0400
+        with ESMTP id S1729644AbgFHMM7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jun 2020 08:12:59 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F27BC08C5C2;
-        Mon,  8 Jun 2020 04:55:20 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45350C08C5C2;
+        Mon,  8 Jun 2020 05:12:59 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D0552C9;
-        Mon,  8 Jun 2020 13:55:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AD32D2C9;
+        Mon,  8 Jun 2020 14:12:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591617316;
-        bh=1lj9FjuIipvGhcLtMC0uXaiiiMBYwOb9zRyCfR/27uw=;
+        s=mail; t=1591618377;
+        bh=v6RTJWuXMkECLHzVE4fQZJvBLgBCPytLELdCgrurFP8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HVQV+piKImt3IAI21N+NZKvdaNsADGQJ+OggKy6Jw8hF7GqRPeVVf0qvY+xkmGyVk
-         FKKKJOmGaL1i8VAo+4W9PwJAresMPWF+jlCS9aV6Yr6gYpmton4jniCarYAPsZ7RqG
-         +WfvBKQBuBT5CYAt4oYcM3LgCLTobKLnkjW6TO38=
-Date:   Mon, 8 Jun 2020 14:54:57 +0300
+        b=ijmXl/xy6GwWhq1m+5PG+qpIYp/wvWZpxKPyBCCs74wPMLPnwedA/UUlRWWyB+tYi
+         M/IcF3oSFqLXhuZvSVvqsViokYbSuTkYGAxqb5G8KAP1YpNG3Y/UI13XnQ0HjpE4VX
+         S7UNILCTCqdh0XZwZ8htghB2apaGTHQWVhMabWUQ=
+Date:   Mon, 8 Jun 2020 15:12:38 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
-Cc:     dinghao.liu@zju.edu.cn, Kangjie Lu <kjlu@umn.edu>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Kaaira Gupta <kgupta@es.iitr.ac.in>,
+        linux-media@vger.kernel.org,
+        Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: Re: Re: [PATCH] media: vsp1: Fix runtime PM imbalance in vsp1_probe
-Message-ID: <20200608115457.GA5896@pendragon.ideasonboard.com>
-References: <20200523115426.19285-1-dinghao.liu@zju.edu.cn>
- <20200608015456.GJ22208@pendragon.ideasonboard.com>
- <20200608015753.GK22208@pendragon.ideasonboard.com>
- <7b79863f.f636d.17291e1ff94.Coremail.dinghao.liu@zju.edu.cn>
- <CAMuHMdUDcpCxmgdJtMRX7K9NvDxj+tDu33ebax0TOMBNZaygDw@mail.gmail.com>
+        linux-kernel@vger.kernel.org, kieran.bingham@ideasonboard.com
+Subject: Re: [RFC PATCH] vimc: Add colors' order over test image
+Message-ID: <20200608121238.GB5896@pendragon.ideasonboard.com>
+References: <20200607135325.GA16838@kaaira-HP-Pavilion-Notebook>
+ <5866f6c9-36c7-ffe3-41b3-94f184cd9e5d@collabora.com>
+ <38db03a4-6b22-c341-103c-ed0d4dcce856@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdUDcpCxmgdJtMRX7K9NvDxj+tDu33ebax0TOMBNZaygDw@mail.gmail.com>
+In-Reply-To: <38db03a4-6b22-c341-103c-ed0d4dcce856@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Geert,
+Hello,
 
-On Mon, Jun 08, 2020 at 09:39:51AM +0200, Geert Uytterhoeven wrote:
-> Hi Dinghao,
+On Mon, Jun 08, 2020 at 11:33:21AM +0200, Hans Verkuil wrote:
+> On 08/06/2020 09:10, Dafna Hirschfeld wrote:
+> > On 07.06.20 15:53, Kaaira Gupta wrote:
+> >> Currently there is no method to know if the test image generated by vimc
+> >> is correct (except for comparing it with a known 'correct' image). Add
+> >> text over the test image, representing the correct order of colors.
+> >>
+> >> I have sent it as an RFC because we can add the text as an optional
+> >> control, and maybe we can print some other useful information as well
+> >> (like vivid does).
+> > 
+> > Yes, it seems like a good idea to add it as a control of the sensor.
+> > 
+> >> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+> >> --->   drivers/media/test-drivers/vimc/Kconfig       | 2 ++
+> >>   drivers/media/test-drivers/vimc/vimc-core.c   | 9 +++++++++
+> >>   drivers/media/test-drivers/vimc/vimc-sensor.c | 8 ++++++++
+> >>   3 files changed, 19 insertions(+)
+> >>
+> >> diff --git a/drivers/media/test-drivers/vimc/Kconfig b/drivers/media/test-drivers/vimc/Kconfig
+> >> index 4068a67585f9..da4b2ad6e40c 100644
+> >> --- a/drivers/media/test-drivers/vimc/Kconfig
+> >> +++ b/drivers/media/test-drivers/vimc/Kconfig
+> >> @@ -2,6 +2,8 @@
+> >>   config VIDEO_VIMC
+> >>   	tristate "Virtual Media Controller Driver (VIMC)"
+> >>   	depends on VIDEO_DEV && VIDEO_V4L2
+> >> +	select FONT_SUPPORT
+> >> +	select FONT_8x16
+> >>   	select MEDIA_CONTROLLER
+> >>   	select VIDEO_V4L2_SUBDEV_API
+> >>   	select VIDEOBUF2_VMALLOC
+> >> diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
+> >> index 11210aaa2551..8142bfbcbd49 100644
+> >> --- a/drivers/media/test-drivers/vimc/vimc-core.c
+> >> +++ b/drivers/media/test-drivers/vimc/vimc-core.c
+> >> @@ -5,10 +5,12 @@
+> >>    * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
+> >>    */
+> >>   
+> >> +#include <linux/font.h>
+> >>   #include <linux/init.h>
+> >>   #include <linux/module.h>
+> >>   #include <linux/platform_device.h>
+> >>   #include <media/media-device.h>
+> >> +#include <media/tpg/v4l2-tpg.h>
+> >>   #include <media/v4l2-device.h>
+> >>   
+> >>   #include "vimc-common.h"
+> >> @@ -265,7 +267,14 @@ static int vimc_probe(struct platform_device *pdev)
+> >>   {
+> >>   	struct vimc_device *vimc;
+> >>   	int ret;
+> >> +	const struct font_desc *font = find_font("VGA8x16");
+> >>   
+> >> +	if (font == NULL) {
+> >> +		pr_err("vimc: could not find font\n");
+> >> +		return -ENODEV;
+> >> +	}
+> >> +
+> >> +	tpg_set_font(font->data);
+> > 
+> > I think the code that set the format should move to the
+> > code that registers the sensor in vimc-sensor.c
+> > 
+> >>   	dev_dbg(&pdev->dev, "probe");
+> >>   
+> >>   	vimc = kzalloc(sizeof(*vimc), GFP_KERNEL);
+> >> diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
+> >> index a2f09ac9a360..4b13955c502a 100644
+> >> --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
+> >> +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
+> >> @@ -185,10 +185,18 @@ static const struct v4l2_subdev_pad_ops vimc_sen_pad_ops = {
+> >>   static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
+> >>   				    const void *sink_frame)
+> >>   {
+> >> +	u8 *basep[TPG_MAX_PLANES][2];
+> >> +	char str[100];
+> >>   	struct vimc_sen_device *vsen = container_of(ved, struct vimc_sen_device,
+> >>   						    ved);
+> >>   
+> >> +	tpg_calc_text_basep(&vsen->tpg, basep, 0, vsen->frame);
+> >>   	tpg_fill_plane_buffer(&vsen->tpg, 0, 0, vsen->frame);
+> >> +
+> >> +	snprintf(str, sizeof(str),
+> >> +		 "Order: white, yellow, cyan, green, magenta, red, blue, black");
+> > The colors are generated by the tpg, so I think it should be a feature of the tpg to print the colors.
 > 
-> On Mon, Jun 8, 2020 at 5:03 AM <dinghao.liu@zju.edu.cn> wrote:
-> > > > I wonder how many bugs we have today, and how many bugs will keep
-> > > > appearing in the future, due to this historical design mistake :-(
-> >
-> > Good question. It's hard to say if this is a design mistake (some use
-> > of this API does not check its return value and expects it always to
-> > increment the usage counter). But it does make developers misuse it easier.
-> 
-> On Renesas SoCs, I believe these can only fail if there's something
-> seriously wrong, which means the system could never have gotten this far
-> in the boot sequence anyway.  That's why I tend not to check the result
-> of pm_runtime_get_sync() at all (on drivers for Renesas SoCs).
+> I agree. The tpg knows where each color is and based on the width and height it can
+> print the text. A tpg_gen_pattern_text() function that does the work would be very
+> nice.
 
-There are lots of return paths from rpm_resume() that return an error,
-more than just rpm_callback(). Do you consider that none of them are
-valid errors that drivers need to handle ?
+Could we go one step further, and print the colour name on each colour
+bar ?
+
+> It also doesn't make sense for all patterns, so this is really a nice feature to
+> incorporate into the TPG itself and enable it via a vivid and vimc control.
+> 
+> > For example, a function in v4l2-tpg-core.c that get the pattern as an argument and return
+> > this string, or maybe returns a const pointer to the array of colors, or something like that.
+> > Then maybe we can add a control in vivid for the same tpg feature.
+> > 
+> > Note also that the sensor has a control to change the pattern: vimc_sen_ctrl_test_pattern
+> > So the string depends on that pattern.
+> > 
+> >> +	tpg_gen_text(&vsen->tpg, basep, 1, 1, str);
+> >> +
+> >>   	return vsen->frame;
+> >>   }
+> >>   
 
 -- 
 Regards,
