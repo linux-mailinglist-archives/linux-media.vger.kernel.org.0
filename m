@@ -2,35 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E6E11F2857
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 01:56:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D0861F2813
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 01:55:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732406AbgFHXvU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jun 2020 19:51:20 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51534 "EHLO mail.kernel.org"
+        id S1732494AbgFHXs0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jun 2020 19:48:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52540 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731753AbgFHXZH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:25:07 -0400
+        id S1731332AbgFHXZp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Jun 2020 19:25:45 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 67D7820842;
-        Mon,  8 Jun 2020 23:25:06 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 36B6E20812;
+        Mon,  8 Jun 2020 23:25:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591658707;
-        bh=2Q9Yr7e7ItrZAW0q4ARj2n/qHLvZhPdCDaCzDRgnIQQ=;
+        s=default; t=1591658745;
+        bh=gurwdtib4L861NscFcX0tABfxzET9woljcbtDY2AjP4=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=driqYrPFlGRJclcXWv4UnWSrMwpkEx0DwQdxCrrWHi2CPopsRw6hPZ92b2zcfkLcc
-         ka+2qC6X2pVHCR3qAXSMIUUlEIRJKmMxuJtJ4Knwa43abSUyPPOR11/EWEYjc91gTQ
-         kpMjXxlVhiLv5JmzAbEbci4wtv3bs3mpJFPCsuV8=
+        b=UJjd5vCRnVZM8opQB2aMIgc9oDwPrwADeQTlIw5NxVWN7kv6cJ6i1T2kI7C1Jilb9
+         4ivg0Z1y4elic79nDzXq9BPWGCEfHGY7lu3azYDlNacsNLwvKEFCmS467bxliodRmY
+         KqcmiRqh/fLDU0FVFsM1sgauvwfi1a3j73fN7TK0=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Brad Love <brad@nextdimension.cc>, Sean Young <sean@mess.org>,
+Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.14 05/72] media: si2157: Better check for running tuner in init
-Date:   Mon,  8 Jun 2020 19:23:53 -0400
-Message-Id: <20200608232500.3369581-5-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 31/72] media: platform: fcp: Set appropriate DMA parameters
+Date:   Mon,  8 Jun 2020 19:24:19 -0400
+Message-Id: <20200608232500.3369581-31-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20200608232500.3369581-1-sashal@kernel.org>
 References: <20200608232500.3369581-1-sashal@kernel.org>
@@ -43,59 +46,69 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Brad Love <brad@nextdimension.cc>
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-[ Upstream commit e955f959ac52e145f27ff2be9078b646d0352af0 ]
+[ Upstream commit dd844fb8e50b12e65bbdc5746c9876c6735500df ]
 
-Getting the Xtal trim property to check if running is less error prone.
-Reset if_frequency if state is unknown.
+Enabling CONFIG_DMA_API_DEBUG=y and CONFIG_DMA_API_DEBUG_SG=y will
+enable extra validation on DMA operations ensuring that the size
+restraints are met.
 
-Replaces the previous "garbage check".
+When using the FCP in conjunction with the VSP1/DU, and display frames,
+the size of the DMA operations is larger than the default maximum
+segment size reported by the DMA core (64K). With the DMA debug enabled,
+this produces a warning such as the following:
 
-Signed-off-by: Brad Love <brad@nextdimension.cc>
-Signed-off-by: Sean Young <sean@mess.org>
+"DMA-API: rcar-fcp fea27000.fcp: mapping sg segment longer than device
+claims to support [len=3145728] [max=65536]"
+
+We have no specific limitation on the segment size which isn't already
+handled by the VSP1/DU which actually handles the DMA allcoations and
+buffer management, so define a maximum segment size of up to 4GB (a 32
+bit mask).
+
+Reported-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Fixes: 7b49235e83b2 ("[media] v4l: Add Renesas R-Car FCP driver")
+Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/tuners/si2157.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ drivers/media/platform/rcar-fcp.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
-index e35b1faf0ddc..c826997f5433 100644
---- a/drivers/media/tuners/si2157.c
-+++ b/drivers/media/tuners/si2157.c
-@@ -84,24 +84,23 @@ static int si2157_init(struct dvb_frontend *fe)
- 	struct si2157_cmd cmd;
- 	const struct firmware *fw;
- 	const char *fw_name;
--	unsigned int uitmp, chip_id;
-+	unsigned int chip_id, xtal_trim;
+diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
+index 2988031d285d..0047d144c932 100644
+--- a/drivers/media/platform/rcar-fcp.c
++++ b/drivers/media/platform/rcar-fcp.c
+@@ -12,6 +12,7 @@
+  */
  
- 	dev_dbg(&client->dev, "\n");
+ #include <linux/device.h>
++#include <linux/dma-mapping.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+@@ -24,6 +25,7 @@
+ struct rcar_fcp_device {
+ 	struct list_head list;
+ 	struct device *dev;
++	struct device_dma_parameters dma_parms;
+ };
  
--	/* Returned IF frequency is garbage when firmware is not running */
--	memcpy(cmd.args, "\x15\x00\x06\x07", 4);
-+	/* Try to get Xtal trim property, to verify tuner still running */
-+	memcpy(cmd.args, "\x15\x00\x04\x02", 4);
- 	cmd.wlen = 4;
- 	cmd.rlen = 4;
- 	ret = si2157_cmd_execute(client, &cmd);
--	if (ret)
--		goto err;
+ static LIST_HEAD(fcp_devices);
+@@ -139,6 +141,9 @@ static int rcar_fcp_probe(struct platform_device *pdev)
  
--	uitmp = cmd.args[2] << 0 | cmd.args[3] << 8;
--	dev_dbg(&client->dev, "if_frequency kHz=%u\n", uitmp);
-+	xtal_trim = cmd.args[2] | (cmd.args[3] << 8);
+ 	fcp->dev = &pdev->dev;
  
--	if (uitmp == dev->if_frequency / 1000)
-+	if (ret == 0 && xtal_trim < 16)
- 		goto warm;
- 
-+	dev->if_frequency = 0; /* we no longer know current tuner state */
++	fcp->dev->dma_parms = &fcp->dma_parms;
++	dma_set_max_seg_size(fcp->dev, DMA_BIT_MASK(32));
 +
- 	/* power up */
- 	if (dev->chiptype == SI2157_CHIPTYPE_SI2146) {
- 		memcpy(cmd.args, "\xc0\x05\x01\x00\x00\x0b\x00\x00\x01", 9);
+ 	pm_runtime_enable(&pdev->dev);
+ 
+ 	mutex_lock(&fcp_lock);
 -- 
 2.25.1
 
