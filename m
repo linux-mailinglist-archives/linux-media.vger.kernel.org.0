@@ -2,280 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2C0F1F14F4
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 11:05:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF96F1F1521
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 11:13:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729079AbgFHJFw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jun 2020 05:05:52 -0400
-Received: from us-smtp-delivery-1.mimecast.com ([207.211.31.120]:39981 "EHLO
-        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728956AbgFHJFv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jun 2020 05:05:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1591607149;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=UBDBaofmkevoFUCcmp5LD2lbzL88KdyVVmDXS+KkN/E=;
-        b=Ibq40S+jbYxuHKg/DSUQ6NykjuYdRo774P68cboqdyCLKl1ZsPuIS1TzV1bac4LrR5/wJ4
-        VEh/CVZBeIr7UBf2agaXtk6HAr105alPVs052A/2Gf0eUTrmnVrWKzUYR8aKeFGCDzM5QT
-        YcDc9wswgG9BDbo/JlJiMR5rzEoPeLA=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-R78PSUh8M42qXSXYHtccoA-1; Mon, 08 Jun 2020 05:05:45 -0400
-X-MC-Unique: R78PSUh8M42qXSXYHtccoA-1
-Received: by mail-wr1-f72.google.com with SMTP id l18so6935761wrm.0
-        for <linux-media@vger.kernel.org>; Mon, 08 Jun 2020 02:05:45 -0700 (PDT)
+        id S1729201AbgFHJNz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jun 2020 05:13:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49956 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729167AbgFHJNw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jun 2020 05:13:52 -0400
+Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D70A9C08C5C3
+        for <linux-media@vger.kernel.org>; Mon,  8 Jun 2020 02:13:51 -0700 (PDT)
+Received: by mail-io1-xd42.google.com with SMTP id i25so3131143iog.0
+        for <linux-media@vger.kernel.org>; Mon, 08 Jun 2020 02:13:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=p6k//u9IyfURMSSvYTtCTtmgq/ka3OgzDHeI/eAGgrw=;
+        b=pSSJrZdtgd1NhYmuvXggzxnWJucm52RSj4jN7q431g5akPVX+pmlS9fPFYKrjwhm0v
+         axfL89VN2PpFBIYwXgGjjEejYayTlbuSmVKdMISfyiFNG7Nw5CIQsdngEaMCUMGBjqD2
+         ci4sHasOJIMxNiKzN/2a4+BKgabVdx4rCfIgc4AvGHS0U4mFA5t3RyQ22/X9UmjiZrEV
+         MqAhdmbZcD4hX8lfLjIUg78bOlnlfRkf9fatnSMJoIOgW/NQvc25nL+ts7/mBmojIdiL
+         u4ha/mcAXpYQO/id0SGpAP1U7GO3lIgKf8chYOkVmfFUohfZFrVdwRYi36YrTpIrkgyK
+         cY1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=UBDBaofmkevoFUCcmp5LD2lbzL88KdyVVmDXS+KkN/E=;
-        b=d5p666QBV+PLpr1fO7gs2qQBZm73gq7Ewll+ZjaiBhnOj0Oo16CaFstQiMJ/4slXLE
-         DEWHyDR97ucWBCloRQIQKrqxMHKzo+QZxBhgwnixKs2ATUXW4OG+C/fneVtTXcLG10HT
-         Z+QaF9gCxMpf1D0KD2Y6aKIq8gZlDJQRzrsW1xEjvwMVdnsLwaMaIvEeysD85fdKRiiC
-         80LWOXUHHd2pKZ/W3mjiSx8OVpE8Jmu8ar9E+NvpwBvy1I6nNQCS30X9PbEuxQo1yXxt
-         zcbu4iOc7ity8YY6KnsXxNtIFVxy+DGoFN+lbQXnsiIDFzbDPLlwYg1PutNnzjteibOT
-         OVQQ==
-X-Gm-Message-State: AOAM532o2G46JCdW4LtKasRaLPafZp9tR4Jco/B8osuM2hbhp7RMjOZh
-        yldbcMOJ3hQNsph2FPNX2U72YieeuQKGvsuto9NwHv/RKJpj6xTJoVJ3Y+o/qjuDbPqQdwZPNCX
-        CoerKrSxyM9lhLTQUrB2eViY=
-X-Received: by 2002:a5d:40d0:: with SMTP id b16mr22193302wrq.218.1591607144385;
-        Mon, 08 Jun 2020 02:05:44 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwfuPKvhBZLPjNX70m6bFQ/4dKhZwSBSaUmWOsS/atH5G6Zy/wGrgwuZyiRUNbKJnF51i6YoQ==
-X-Received: by 2002:a5d:40d0:: with SMTP id b16mr22193272wrq.218.1591607144101;
-        Mon, 08 Jun 2020 02:05:44 -0700 (PDT)
-Received: from redhat.com (bzq-109-64-41-91.red.bezeqint.net. [109.64.41.91])
-        by smtp.gmail.com with ESMTPSA id c65sm22490993wme.8.2020.06.08.02.05.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2020 02:05:43 -0700 (PDT)
-Date:   Mon, 8 Jun 2020 05:05:40 -0400
-From:   "Michael S. Tsirkin" <mst@redhat.com>
-To:     David Stevens <stevensd@chromium.org>
-Cc:     Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Jason Wang <jasowang@redhat.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        open list <linux-kernel@vger.kernel.org>,
-        ML dri-devel <dri-devel@lists.freedesktop.org>,
-        "open list:VIRTIO GPU DRIVER" 
-        <virtualization@lists.linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, virtio-dev@lists.oasis-open.org
-Subject: Re: [PATCH v4 1/3] virtio: add dma-buf support for exported objects
-Message-ID: <20200608045721-mutt-send-email-mst@kernel.org>
-References: <20200526105811.30784-1-stevensd@chromium.org>
- <20200526105811.30784-2-stevensd@chromium.org>
- <20200604145620-mutt-send-email-mst@kernel.org>
- <CAD=HUj74mKs5AfcViD3CBva86E0Hvg_pmYChAJe3ny8jtnZ8Tw@mail.gmail.com>
- <20200606160155-mutt-send-email-mst@kernel.org>
- <CAD=HUj5Jn+grQVfxmPSSnERdGwnu8RceDsdpWpoxXH+WL4k+qw@mail.gmail.com>
- <20200608015728-mutt-send-email-mst@kernel.org>
- <CAD=HUj68NfNK+0go7Z-XeZ2ckWJpYsym3G+-DfJyoUm+dJDznQ@mail.gmail.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=p6k//u9IyfURMSSvYTtCTtmgq/ka3OgzDHeI/eAGgrw=;
+        b=EjedRU42GkHWe9WQFcTmW+S85zqKOIe+RB5rIbrz+KtlAqunfq9wNRndowh8yQlmzk
+         /x7nghWYqNvueH0bVJOOzCoFu/hKGX9NXcdm7naVWsiSgQtdNLS+QuqV5QjMgD5AFJ9u
+         V/AKe8au7kLZ4MidH9zlaAUZ12nqR0bAxQPffbiA57AcUJCgzX3uoQHFP7LppFecTHxJ
+         YkfS2VE1vkLC5r5oLnK6R+nDvbt6E217bpH7rW+/d1vEAmWl7pRWVJzrOSow3FvsepQ0
+         gbdUdFm4ESbeKeWWUmGfY4vR8+8WxxljkiA7ejV8gtwdc0Rf85DFjLNTJ/klzHDK72P1
+         vsUg==
+X-Gm-Message-State: AOAM532w/+723MUJ2QUk5bU7fqIyRy317ouWNlHZSp+L/9QuH03nmE72
+        PDn2z4Ju9PWOpBCF2ivIGGfMV1yxyykv7g7lUZo=
+X-Google-Smtp-Source: ABdhPJwM843+RwK5xgLBiqnW0jg6tTfp5aA4hlpGhwilbUNmIts1B7j33uEADvhrX4QfUdxGOw82DetGL921Tz5gHCg=
+X-Received: by 2002:a5e:dd45:: with SMTP id u5mr20889826iop.118.1591607631198;
+ Mon, 08 Jun 2020 02:13:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAD=HUj68NfNK+0go7Z-XeZ2ckWJpYsym3G+-DfJyoUm+dJDznQ@mail.gmail.com>
+Received: by 2002:ac0:991a:0:0:0:0:0 with HTTP; Mon, 8 Jun 2020 02:13:50 -0700 (PDT)
+Reply-To: miss.katarinaherman@gmail.com
+From:   Mrs Katarina Herman <misslindaicoul@gmail.com>
+Date:   Mon, 8 Jun 2020 10:13:50 +0100
+Message-ID: <CAEJkWKD2fKfK4j3nKyyisiCQ61ENGr7Uxmnkn8n6+729kuAs5w@mail.gmail.com>
+Subject: =?UTF-8?Q?Gr=C3=BC=C3=9Fe_dich_sehr_geehrter?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 08, 2020 at 05:32:26PM +0900, David Stevens wrote:
-> On Mon, Jun 8, 2020 at 3:00 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Mon, Jun 08, 2020 at 10:33:09AM +0900, David Stevens wrote:
-> > > On Sun, Jun 7, 2020 at 5:04 AM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > >
-> > > > On Fri, Jun 05, 2020 at 10:28:42AM +0900, David Stevens wrote:
-> > > > > On Fri, Jun 5, 2020 at 4:05 AM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > > >
-> > > > > > On Tue, May 26, 2020 at 07:58:09PM +0900, David Stevens wrote:
-> > > > > > > This change adds a new flavor of dma-bufs that can be used by virtio
-> > > > > > > drivers to share exported objects. A virtio dma-buf can be queried by
-> > > > > > > virtio drivers to obtain the UUID which identifies the underlying
-> > > > > > > exported object.
-> > > > > > >
-> > > > > > > Signed-off-by: David Stevens <stevensd@chromium.org>
-> > > > > >
-> > > > > > Is this just for graphics? If yes I'd rather we put it in the graphics
-> > > > > > driver. We can always move it later ...
-> > > > >
-> > > > > As stated in the cover letter, this will be used by virtio-video.
-> > > > >
-> > > > > The proposed virtio-video patches: https://markmail.org/thread/p5d3k566srtdtute
-> > > > > The patch which imports these dma-bufs (slightly out of data, uses v3
-> > > > > of this patch set): https://markmail.org/thread/j4xlqaaim266qpks
-> > > > >
-> > > > > > > ---
-> > > > > > >  drivers/virtio/Makefile         |  2 +-
-> > > > > > >  drivers/virtio/virtio.c         |  6 +++
-> > > > > > >  drivers/virtio/virtio_dma_buf.c | 89 +++++++++++++++++++++++++++++++++
-> > > > > > >  include/linux/virtio.h          |  1 +
-> > > > > > >  include/linux/virtio_dma_buf.h  | 58 +++++++++++++++++++++
-> > > > > > >  5 files changed, 155 insertions(+), 1 deletion(-)
-> > > > > > >  create mode 100644 drivers/virtio/virtio_dma_buf.c
-> > > > > > >  create mode 100644 include/linux/virtio_dma_buf.h
-> > > > > > >
-> > > > > > > diff --git a/drivers/virtio/Makefile b/drivers/virtio/Makefile
-> > > > > > > index 29a1386ecc03..ecdae5b596de 100644
-> > > > > > > --- a/drivers/virtio/Makefile
-> > > > > > > +++ b/drivers/virtio/Makefile
-> > > > > > > @@ -1,5 +1,5 @@
-> > > > > > >  # SPDX-License-Identifier: GPL-2.0
-> > > > > > > -obj-$(CONFIG_VIRTIO) += virtio.o virtio_ring.o
-> > > > > > > +obj-$(CONFIG_VIRTIO) += virtio.o virtio_ring.o virtio_dma_buf.o
-> > > > > > >  obj-$(CONFIG_VIRTIO_MMIO) += virtio_mmio.o
-> > > > > > >  obj-$(CONFIG_VIRTIO_PCI) += virtio_pci.o
-> > > > > > >  virtio_pci-y := virtio_pci_modern.o virtio_pci_common.o
-> > > > > > > diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
-> > > > > > > index a977e32a88f2..5d46f0ded92d 100644
-> > > > > > > --- a/drivers/virtio/virtio.c
-> > > > > > > +++ b/drivers/virtio/virtio.c
-> > > > > > > @@ -357,6 +357,12 @@ int register_virtio_device(struct virtio_device *dev)
-> > > > > > >  }
-> > > > > > >  EXPORT_SYMBOL_GPL(register_virtio_device);
-> > > > > > >
-> > > > > > > +bool is_virtio_device(struct device *dev)
-> > > > > > > +{
-> > > > > > > +     return dev->bus == &virtio_bus;
-> > > > > > > +}
-> > > > > > > +EXPORT_SYMBOL_GPL(is_virtio_device);
-> > > > > > > +
-> > > > > > >  void unregister_virtio_device(struct virtio_device *dev)
-> > > > > > >  {
-> > > > > > >       int index = dev->index; /* save for after device release */
-> > > > > > > diff --git a/drivers/virtio/virtio_dma_buf.c b/drivers/virtio/virtio_dma_buf.c
-> > > > > > > new file mode 100644
-> > > > > > > index 000000000000..23e3399b11ed
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/drivers/virtio/virtio_dma_buf.c
-> > > > > > > @@ -0,0 +1,89 @@
-> > > > > > > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > > > > > > +/*
-> > > > > > > + * dma-bufs for virtio exported objects
-> > > > > > > + *
-> > > > > > > + * Copyright (C) 2020 Google, Inc.
-> > > > > > > + */
-> > > > > > > +
-> > > > > > > +#include <linux/virtio_dma_buf.h>
-> > > > > > > +
-> > > > > > > +/**
-> > > > > > > + * virtio_dma_buf_export - Creates a new dma-buf for a virtio exported object
-> > > > > > > + *
-> > > > > > > + * This wraps dma_buf_export() to allow virtio drivers to create a dma-buf
-> > > > > > > + * for an virtio exported object that can be queried by other virtio drivers
-> > > > > > > + * for the object's UUID.
-> > > > > > > + */
-> > > > > > > +struct dma_buf *virtio_dma_buf_export(
-> > > > > > > +             const struct virtio_dma_buf_export_info *virtio_exp_info)
-> > > > > > > +{
-> > > > > > > +     struct dma_buf_export_info exp_info;
-> > > > > > > +
-> > > > > > > +     if (!virtio_exp_info->ops
-> > > > > > > +             || virtio_exp_info->ops->ops.attach != &virtio_dma_buf_attach
-> > > > > > > +             || !virtio_exp_info->ops->get_uuid) {
-> > > > > > > +             return ERR_PTR(-EINVAL);
-> > > > > > > +     }
-> > > > > > > +
-> > > > > > > +     exp_info.exp_name = virtio_exp_info->exp_name;
-> > > > > > > +     exp_info.owner = virtio_exp_info->owner;
-> > > > > > > +     exp_info.ops = &virtio_exp_info->ops->ops;
-> > > > > > > +     exp_info.size = virtio_exp_info->size;
-> > > > > > > +     exp_info.flags = virtio_exp_info->flags;
-> > > > > > > +     exp_info.resv = virtio_exp_info->resv;
-> > > > > > > +     exp_info.priv = virtio_exp_info->priv;
-> > > > > > > +     BUILD_BUG_ON(sizeof(struct virtio_dma_buf_export_info)
-> > > > > > > +                  != sizeof(struct dma_buf_export_info));
-> > > > > >
-> > > > > > This is the only part that gives me pause. Why do we need this hack?
-> > > > > > What's wrong with just using dma_buf_export_info directly,
-> > > > > > and if you want the virtio ops, just using container_off?
-> > > > >
-> > > > > This approach provides a more explicit type signature and a little
-> > > > > more type safety, I think. If others don't think it's a worthwhile
-> > > > > tradeoff, I can remove it.
-> > > > >
-> > > > > -David
-> > > >
-> > > > The cost is that if dma_buf_export_info changes even slightly, we get
-> > > > weird crashes.
-> > >
-> > > I'm not sure I understand what types of changes you're referring to.
-> > > As this is written, virtio-dma-buf is just another client of the
-> > > dma-buf API. If this were rewritten to use dma-buf directly, then
-> > > whatever code calls virtio_dma_buf_export would become a client of the
-> > > dma-buf API. If the semantics of existing fields in the dma-buf API
-> > > were changed and virtio-dma-buf wasn't updated, then yes, you could
-> > > get weird crashes from virtio-dma-buf.
-> > > However, the same problem would
-> > > exist if virtio_dma_buf_export used dma-buf directly - changes to
-> > > dma-buf's semantics could cause weird crashes if the caller of
-> > > virtio_dma_buf_export wasn't updated properly. The only potential
-> > > source of problems I see is if virtio_dma_buf_export_info wasn't
-> > > updated properly, but virtio_dma_buf_export_info is dead simple, so I
-> > > don't know if that's really a problem.
-> > >
-> > > -David
-> >
-> > I think you can get weird crashes if fields in dma buf are reordered, or
-> > if a field size changes.  You have a build bug catching overall struct
-> > size changes but that can remain the same due do compiler padding or
-> > such.
-> 
-> Since it's manually copying the fields instead of trying something
-> clever like memcpy, I don't see how reordering the fields or changing
-> the size of the fields would cause problems. Right now,
-> virtio_dma_buf_export is just a regular client of dma_buf_export, no
-> different than any of the other call sites in the kernel.
-> 
-> Overall, I don't really think that this is a problem. If someone makes
-> breaking changes to the semantics of dma-buf, then they will need to
-> update this call site, just like they will need to update all of the
-> other call sites in the kernel. If someone adds new functionality to
-> dma-buf and adds another field to dma_buf_export_info, the build bug
-> is a reminder to add it to virtio_dma_buf_export_info. However, if the
-> struct padding happens to work out such that the build bug doesn't
-> trigger, that doesn't really matter - it just means that the new
-> dma-buf feature won't be exposed by virito-dma-buf until someone needs
-> it and notices that the new field is missing.
-> 
-> -David
+Gr=C3=BC=C3=9Fe dich sehr geehrter,
 
-Think about the reasons for the BUILD_BUG_ON being there, checking
-struct sizes like this is a clear sign of something strange going on.
+Ich schreibe diese Mail mit Tr=C3=A4nen und Trauer und bitte um Hilfe
+aufgrund meiner medizinischen Situation hier in London. Ich bin Frau
+Katarina Herman, finnische Staatsb=C3=BCrgerin und 72 Jahre alt. Ich war
+eine Waise und wurde meinem verstorbenen Vater Engr.  John Herman,
+Vorsitzender / CEO von Johnherman Oil and Gas Services. Nach dem Tod
+meines Vaters =C3=BCbernahm ich die Gesch=C3=A4ftsf=C3=BChrung und beschlos=
+s auch,
+nicht zu heiraten, da ich sein einziges Kind bin.
 
+Ich habe an einer Erkrankung der Herzkranzgef=C3=A4=C3=9Fe gelitten, die mi=
+ch
+viel gekostet hat und aufgrund von Komplikationen jeden Teil meines
+K=C3=B6rpers und meiner Gehirnzellen betroffen hat. Erst vor 5 Tagen sagten
+mir die britischen =C3=84rzte, dass ich jederzeit sterben k=C3=B6nnte, weil=
+ mein
+Zustand ein kritisches und lebensbedrohliches Stadium erreicht hatte.
+Nachdem ich meinen kritischen medizinischen Status gekannt hatte,
+beschloss ich, um Ihre dringende Hilfe / Zusammenarbeit zu bitten, um
+mein 16,5-Millionen-Dollar-Erbe f=C3=BCr den Bau von Waisenh=C3=A4usern in
+Erinnerung an mich zu nutzen, wenn ich weg bin.
 
-But really this is just unnecessary complexity anyway.
+Ich habe diese mutige Entscheidung getroffen, weil ich keinen Ehemann,
+keine Familie oder Kinder habe, die dieses Geld erben k=C3=B6nnten, wenn
+ich weg bin. Wenn Sie interessiert sind, erhalten Sie 25% des
+Gesamtbetrags f=C3=BCr Ihre Unterst=C3=BCtzung. Wenn Sie interessiert sind,
+melden Sie sich bitte dringend bei mir an, um weitere Informationen zu
+erhalten und fortzufahren. Sobald ich von Ihnen h=C3=B6re, werde ich die
+Einzahlungsbescheinigung und die Sterbeurkunde meines Vaters zur
+Best=C3=A4tigung ausstellen, bevor ich Sie als meinen gesetzlichen
+Beg=C3=BCnstigten f=C3=BCr den Erhalt des Geldes in meinem Namen benenne.
 
-The only difference with dma_buf is get_uuid and device_attacj, isn't it?
+Ich warte darauf, dringend von Ihnen zu h=C3=B6ren.
 
-And they are called like this:
-
-
-
-+ */
-+int virtio_dma_buf_get_uuid(struct dma_buf *dma_buf,
-+                           uuid_t *uuid)
-+{
-+       const struct virtio_dma_buf_ops *ops = container_of(
-+                       dma_buf->ops, const struct virtio_dma_buf_ops, ops);
-+       
-+       if (!is_virtio_dma_buf(dma_buf))
-+               return -EINVAL;
-+
-+       return ops->get_uuid(dma_buf, uuid);
-+}
-
-
-So you are doing the container_of trick anyway, the extra structure
-did not give us any type safety.
-
-
--- 
-MST
-
+Sch=C3=B6ne Gr=C3=BC=C3=9Fe,
+Frau Katarina Herman.
