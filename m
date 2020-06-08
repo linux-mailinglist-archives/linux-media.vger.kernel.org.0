@@ -2,39 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E36A1F28C8
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 01:57:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E6E11F2857
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 01:56:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732429AbgFHX4J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jun 2020 19:56:09 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49504 "EHLO mail.kernel.org"
+        id S1732406AbgFHXvU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jun 2020 19:51:20 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51534 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730201AbgFHXXs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 8 Jun 2020 19:23:48 -0400
+        id S1731753AbgFHXZH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Jun 2020 19:25:07 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B8E4C2072F;
-        Mon,  8 Jun 2020 23:23:47 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 67D7820842;
+        Mon,  8 Jun 2020 23:25:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591658628;
-        bh=c9lNOa5f4PM28KYvAvQhiHQM1QkkevK3wIQFfznxuAA=;
+        s=default; t=1591658707;
+        bh=2Q9Yr7e7ItrZAW0q4ARj2n/qHLvZhPdCDaCzDRgnIQQ=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=EQipey9U+/nOMQe7Ao0wtm7Pt6xfq3G7RqUHvDZKXA4/dIdTi3cPKXkAPZAcRtp9a
-         WwwHpIt2mNhkIHHVxun2eYiCK99TWODMQ/OItfpZTjL/oKdoA3l1IWKI3OkEpUYMEG
-         H62/lihtl+uQACPBDAiBHdY+0a22/eb08sV7maRw=
+        b=driqYrPFlGRJclcXWv4UnWSrMwpkEx0DwQdxCrrWHi2CPopsRw6hPZ92b2zcfkLcc
+         ka+2qC6X2pVHCR3qAXSMIUUlEIRJKmMxuJtJ4Knwa43abSUyPPOR11/EWEYjc91gTQ
+         kpMjXxlVhiLv5JmzAbEbci4wtv3bs3mpJFPCsuV8=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Brad Love <brad@nextdimension.cc>, Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 052/106] media: cec: silence shift wrapping warning in __cec_s_log_addrs()
-Date:   Mon,  8 Jun 2020 19:21:44 -0400
-Message-Id: <20200608232238.3368589-52-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.14 05/72] media: si2157: Better check for running tuner in init
+Date:   Mon,  8 Jun 2020 19:23:53 -0400
+Message-Id: <20200608232500.3369581-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200608232238.3368589-1-sashal@kernel.org>
-References: <20200608232238.3368589-1-sashal@kernel.org>
+In-Reply-To: <20200608232500.3369581-1-sashal@kernel.org>
+References: <20200608232500.3369581-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -44,54 +43,59 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: Brad Love <brad@nextdimension.cc>
 
-[ Upstream commit 3b5af3171e2d5a73ae6f04965ed653d039904eb6 ]
+[ Upstream commit e955f959ac52e145f27ff2be9078b646d0352af0 ]
 
-The log_addrs->log_addr_type[i] value is a u8 which is controlled by
-the user and comes from the ioctl.  If it's over 31 then that results in
-undefined behavior (shift wrapping) and that leads to a Smatch static
-checker warning.  We already cap the value later so we can silence the
-warning just by re-ordering the existing checks.
+Getting the Xtal trim property to check if running is less error prone.
+Reset if_frequency if state is unknown.
 
-I think the UBSan checker will also catch this bug at runtime and
-generate a warning.  But otherwise the bug is harmless.
+Replaces the previous "garbage check".
 
-Fixes: 9881fe0ca187 ("[media] cec: add HDMI CEC framework (adapter)")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Brad Love <brad@nextdimension.cc>
+Signed-off-by: Sean Young <sean@mess.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/cec/cec-adap.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/tuners/si2157.c | 15 +++++++--------
+ 1 file changed, 7 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/media/cec/cec-adap.c b/drivers/media/cec/cec-adap.c
-index ba7e976bf6dc..60b20ae02b05 100644
---- a/drivers/media/cec/cec-adap.c
-+++ b/drivers/media/cec/cec-adap.c
-@@ -1668,6 +1668,10 @@ int __cec_s_log_addrs(struct cec_adapter *adap,
- 		unsigned j;
+diff --git a/drivers/media/tuners/si2157.c b/drivers/media/tuners/si2157.c
+index e35b1faf0ddc..c826997f5433 100644
+--- a/drivers/media/tuners/si2157.c
++++ b/drivers/media/tuners/si2157.c
+@@ -84,24 +84,23 @@ static int si2157_init(struct dvb_frontend *fe)
+ 	struct si2157_cmd cmd;
+ 	const struct firmware *fw;
+ 	const char *fw_name;
+-	unsigned int uitmp, chip_id;
++	unsigned int chip_id, xtal_trim;
  
- 		log_addrs->log_addr[i] = CEC_LOG_ADDR_INVALID;
-+		if (log_addrs->log_addr_type[i] > CEC_LOG_ADDR_TYPE_UNREGISTERED) {
-+			dprintk(1, "unknown logical address type\n");
-+			return -EINVAL;
-+		}
- 		if (type_mask & (1 << log_addrs->log_addr_type[i])) {
- 			dprintk(1, "duplicate logical address type\n");
- 			return -EINVAL;
-@@ -1688,10 +1692,6 @@ int __cec_s_log_addrs(struct cec_adapter *adap,
- 			dprintk(1, "invalid primary device type\n");
- 			return -EINVAL;
- 		}
--		if (log_addrs->log_addr_type[i] > CEC_LOG_ADDR_TYPE_UNREGISTERED) {
--			dprintk(1, "unknown logical address type\n");
--			return -EINVAL;
--		}
- 		for (j = 0; j < feature_sz; j++) {
- 			if ((features[j] & 0x80) == 0) {
- 				if (op_is_dev_features)
+ 	dev_dbg(&client->dev, "\n");
+ 
+-	/* Returned IF frequency is garbage when firmware is not running */
+-	memcpy(cmd.args, "\x15\x00\x06\x07", 4);
++	/* Try to get Xtal trim property, to verify tuner still running */
++	memcpy(cmd.args, "\x15\x00\x04\x02", 4);
+ 	cmd.wlen = 4;
+ 	cmd.rlen = 4;
+ 	ret = si2157_cmd_execute(client, &cmd);
+-	if (ret)
+-		goto err;
+ 
+-	uitmp = cmd.args[2] << 0 | cmd.args[3] << 8;
+-	dev_dbg(&client->dev, "if_frequency kHz=%u\n", uitmp);
++	xtal_trim = cmd.args[2] | (cmd.args[3] << 8);
+ 
+-	if (uitmp == dev->if_frequency / 1000)
++	if (ret == 0 && xtal_trim < 16)
+ 		goto warm;
+ 
++	dev->if_frequency = 0; /* we no longer know current tuner state */
++
+ 	/* power up */
+ 	if (dev->chiptype == SI2157_CHIPTYPE_SI2146) {
+ 		memcpy(cmd.args, "\xc0\x05\x01\x00\x00\x0b\x00\x00\x01", 9);
 -- 
 2.25.1
 
