@@ -2,172 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D8AB1F11DA
-	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 05:40:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 415EF1F1275
+	for <lists+linux-media@lfdr.de>; Mon,  8 Jun 2020 07:29:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728834AbgFHDkh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 7 Jun 2020 23:40:37 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:45137 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728773AbgFHDkh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 7 Jun 2020 23:40:37 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id i8eHjLoIUnv5ni8eIj1KAn; Mon, 08 Jun 2020 05:40:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1591587634; bh=eLxxE7YonKvKfU0yjfB/bPNz7mXtxQcqINrSvv+71F8=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=ETstXJVyus4bAaJJK6WQZNi9EF9m0Qw1u/RJZN0ovQCN85pcxptmd9uYrSGw0XCMh
-         FGeWL12324OXrYKFyg6XTdGqdSoudViNLIuh56L4M/c4rGYibUCapps7A0D33vSkUR
-         qGgaSOUA4yvb6e7LGT8rnnZKDSxAsXya7nTJjTCJOXtAdI6IoAeCG/ay1Gknx2c9Xq
-         UouuUozll9KXgFo1pv64IyWvrwZ/hUFZGmyEh0QgVHq2S5y5e+PPqkLFbfRyW+woik
-         JMtveu2PsMfqj458MUJUrn10Sb0ryARXMg0EKdFZxyxFjkIxNAG1Zn+rfIUvMvNQaN
-         OZhdyezX/0Cew==
-Message-ID: <f7fafb55caaaf2548942cf871af071a7@smtp-cloud8.xs4all.net>
-Date:   Mon, 08 Jun 2020 05:40:33 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfPIf65Olr8dnmomlSP7xMNj4ams295NzB68PcayPwAvTzJTWlEjegOC0pp9kxZrQ7H9ld0oHqp/2JIeZ/yU2lS2Hupm/11HAznMXrnK67mhyjkq0xevv
- 0TFBEmgGT/KL/WQ0hDbthDatDXOtepgf8dRQjmO3kHv/JGXaNJs6S3lPAwQPxh/tJgs9n99hcCU1FBIVR1WbjtRxClxJc/Ltc2vgm57P8V/b+x8lUmLtJzsg
+        id S1728007AbgFHF3j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jun 2020 01:29:39 -0400
+Received: from spam.zju.edu.cn ([61.164.42.155]:34170 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726929AbgFHF3j (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Jun 2020 01:29:39 -0400
+Received: from localhost.localdomain (unknown [222.205.62.26])
+        by mail-app4 (Coremail) with SMTP id cS_KCgCnSeSxzN1e02PXAA--.44158S4;
+        Mon, 08 Jun 2020 13:29:25 +0800 (CST)
+From:   Dinghao Liu <dinghao.liu@zju.edu.cn>
+To:     dinghao.liu@zju.edu.cn, kjlu@umn.edu
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] [v2] media: vsp1: Fix runtime PM imbalance on error
+Date:   Mon,  8 Jun 2020 13:29:19 +0800
+Message-Id: <20200608052919.4984-1-dinghao.liu@zju.edu.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: cS_KCgCnSeSxzN1e02PXAA--.44158S4
+X-Coremail-Antispam: 1UD129KBjvJXoW7ZrWkur1fury5tFWrXry3XFb_yoW8Wr1Upr
+        W0qa4xArWDWw4xK3ykA3y5ZFW5CrySy3y8G3sIka48uw4xXa9rGryrJFyYqF18AFZ7ZF17
+        GwnxCay7CF4YqaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUUv21xkIjI8I6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AE
+        w4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2
+        IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWl84ACjcxK6I8E
+        87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1le2I262IYc4CY6c
+        8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_
+        Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwI
+        xGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc2xSY4AK67AK6r4rMxAIw28IcxkI7VAKI48J
+        MxAIw28IcVCjz48v1sIEY20_GFWkJr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c
+        02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_
+        GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+        CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s1lIxAIcVC2z280aVAF
+        wI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa
+        7VUbDDG5UUUUU==
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgwFBlZdtOhnwgAAs-
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+pm_runtime_get_sync() increments the runtime PM usage counter even
+when it returns an error code. Thus a pairing decrement is needed on
+the error handling path to keep the counter balanced.
 
-Results of the daily build of media_tree:
+Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+---
 
-date:			Mon Jun  8 05:00:13 CEST 2020
-media-tree git hash:	938b29db3aa9c293c7c1366b16e55e308f1a1ddd
-media_build git hash:	337283131d6117aa9b0c0c62d32e323da54a9359
-v4l-utils git hash:	74377da4f5f3b63203c599d5dd75db6af91fdbb9
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: a0e63d2e6cdc689a8af8c9ae6df1674d0fe38c74
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+Changelog:
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: WARNINGS
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7-rc1-i686: OK
-linux-5.7-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 5
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
-sparse: OK
-smatch: OK
+v2: - Fix the imbalance in vsp1_device_get().
+      Use vsp1_device_get() and vsp1_device_put()
+      to replace pm_runtime_get_sync() and
+      pm_runtime_put_sync() in vsp1_probe().
+---
+ drivers/media/platform/vsp1/vsp1_drv.c | 11 ++++++++---
+ 1 file changed, 8 insertions(+), 3 deletions(-)
 
-Detailed results are available here:
+diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
+index c650e45bb0ad..dc62533cf32c 100644
+--- a/drivers/media/platform/vsp1/vsp1_drv.c
++++ b/drivers/media/platform/vsp1/vsp1_drv.c
+@@ -562,7 +562,12 @@ int vsp1_device_get(struct vsp1_device *vsp1)
+ 	int ret;
+ 
+ 	ret = pm_runtime_get_sync(vsp1->dev);
+-	return ret < 0 ? ret : 0;
++	if (ret < 0) {
++		pm_runtime_put_noidle(vsp1->dev);
++		return ret;
++	}
++
++	return 0;
+ }
+ 
+ /*
+@@ -845,12 +850,12 @@ static int vsp1_probe(struct platform_device *pdev)
+ 	/* Configure device parameters based on the version register. */
+ 	pm_runtime_enable(&pdev->dev);
+ 
+-	ret = pm_runtime_get_sync(&pdev->dev);
++	ret = vsp1_device_get(vsp1);
+ 	if (ret < 0)
+ 		goto done;
+ 
+ 	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
+-	pm_runtime_put_sync(&pdev->dev);
++	vsp1_device_put(vsp1);
+ 
+ 	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
+ 		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
+-- 
+2.17.1
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
