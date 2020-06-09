@@ -2,117 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2E011F3A9F
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 14:28:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 529F61F3E22
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 16:31:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729349AbgFIM2D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Jun 2020 08:28:03 -0400
-Received: from mx2.suse.de ([195.135.220.15]:51012 "EHLO mx2.suse.de"
+        id S1729894AbgFIObd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Jun 2020 10:31:33 -0400
+Received: from ns.iliad.fr ([212.27.33.1]:42590 "EHLO ns.iliad.fr"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726903AbgFIM2A (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Jun 2020 08:28:00 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-        by mx2.suse.de (Postfix) with ESMTP id 851C3AAC6;
-        Tue,  9 Jun 2020 12:28:00 +0000 (UTC)
-Date:   Tue, 9 Jun 2020 14:27:55 +0200
-From:   Petr Mladek <pmladek@suse.com>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, Joe Perches <joe@perches.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jason Baron <jbaron@akamai.com>, Chris Mason <clm@fb.com>,
-        Josef Bacik <josef@toxicpanda.com>,
-        David Sterba <dsterba@suse.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Len Brown <lenb@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>
-Subject: Re: [PATCH v3 2/7] dynamic_debug: Group debug messages by level
- bitmask
-Message-ID: <20200609122755.GE23752@linux-b0ei>
-References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
- <20200609104604.1594-3-stanimir.varbanov@linaro.org>
+        id S1726803AbgFIObc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 9 Jun 2020 10:31:32 -0400
+Received: from ns.iliad.fr (localhost [127.0.0.1])
+        by ns.iliad.fr (Postfix) with ESMTP id D3AA3201AA;
+        Tue,  9 Jun 2020 16:31:29 +0200 (CEST)
+Received: from [192.168.108.51] (freebox.vlq16.iliad.fr [213.36.7.13])
+        by ns.iliad.fr (Postfix) with ESMTP id BBCDE200C3;
+        Tue,  9 Jun 2020 16:31:29 +0200 (CEST)
+Subject: Re: Scanning for TV channels over DVB-T and DVB-T2
+From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
+To:     linux-media <linux-media@vger.kernel.org>,
+        Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jan Pieter van Woerkom <jp@jpvw.nl>,
+        Brad Love <brad@nextdimension.cc>,
+        Antti Palosaari <crope@iki.fi>
+References: <11fbc112-c410-8c67-9bcb-9450924d12ef@free.fr>
+Cc:     LKML <linux-kernel@vger.kernel.org>
+Message-ID: <4904d37d-1cd4-b8f3-9c3c-82eb4569bca7@free.fr>
+Date:   Tue, 9 Jun 2020 16:31:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200609104604.1594-3-stanimir.varbanov@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <11fbc112-c410-8c67-9bcb-9450924d12ef@free.fr>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Tue Jun  9 16:31:29 2020 +0200 (CEST)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue 2020-06-09 13:45:59, Stanimir Varbanov wrote:
-> This will allow dynamic debug users and driver writers to group
-> debug messages by level bitmask.  The level bitmask should be a
-> hex number.
+On 08/06/2020 17:30, Marc Gonzalez wrote:
+
+> Suppose we know that several channels are transmitted on a given frequency
+> by terrestrial antenna. However, we don't know if the signal is "encoded"
+> (not sure this is the right term) in DVB-T or DVB-T2 modulation.
 > 
-> Done this functionality by extending dynamic debug metadata with
-> new level member and propagate it over all the users.  Also
-> introduce new dynamic_pr_debug_level and dynamic_dev_dbg_level
-> macros to be used by the drivers.
+> Do we have to scan the frequency /twice/
+> first with DTV_DELIVERY_SYSTEM = SYS_DVBT
+>  then with DTV_DELIVERY_SYSTEM = SYS_DVBT2 ?
+> 
+> Or is there some optimization where both modulations are handled
+> in a single step?
+> 
+> Or maybe it depends on the tuner driver?
 
-Could you please provide more details?
+Digging a bit deeper...
 
-What is the use case?
-What is the exact meaning of the level value?
-How the levels will get defined?
+My system sports a Silicon Labs Si2168 DVB-T2/T/C demodulator
 
-Dynamic debug is used for messages with KERN_DEBUG log level.
-Is this another dimension of the message leveling?
+The data sheet states:
 
-Given that the filter is defined by bits, it is rather grouping
-by context or so.
+"For DVB-T2 and T2-Lite:
+	DVB-T2 versus DVB-T automatic detection"
+
+"In DVB-T and DVB-T2 reception, parameters necessary for device synchronization
+are broadcast in the transmission parameters (respectively TPS and P1 symbol).
+When these transmission parameters are found and decoded, the demodulator is
+automatically and accordingly configured to achieve full synchronization."
 
 
-> diff --git a/lib/dynamic_debug.c b/lib/dynamic_debug.c
-> index 8f199f403ab5..5d28d388f6dd 100644
-> --- a/lib/dynamic_debug.c
-> +++ b/lib/dynamic_debug.c
-> @@ -55,6 +55,7 @@ struct ddebug_query {
->  	const char *function;
->  	const char *format;
->  	unsigned int first_lineno, last_lineno;
-> +	unsigned int level;
->  };
->  
->  struct ddebug_iter {
-> @@ -187,6 +188,18 @@ static int ddebug_change(const struct ddebug_query *query,
->  
->  			nfound++;
->  
-> +#ifdef CONFIG_JUMP_LABEL
-> +			if (query->level && query->level & dp->level) {
-> +				if (flags & _DPRINTK_FLAGS_PRINT)
-> +					static_branch_enable(&dp->key.dd_key_true);
-> +				else
-> +					static_branch_disable(&dp->key.dd_key_true);
-> +			} else if (query->level &&
-> +				   flags & _DPRINTK_FLAGS_PRINT) {
-> +				static_branch_disable(&dp->key.dd_key_true);
-> +				continue;
-> +			}
-> +#endif
+This HW is supported upstream by drivers/media/dvb-frontends/si2168.c
+https://elixir.bootlin.com/linux/latest/source/drivers/media/dvb-frontends/si2168.c
 
-This looks like a hack in the existing code:
+I have a nagging feeling because si2168_set_frontend() appears to
+behave differently for SYS_DVBT and for SYS_DVBT2...
 
-  + It is suspicious that "continue" is only in one branch. It means
-    that static_branch_enable/disable() might get called 2nd time
-    by the code below. Or newflags are not stored when there is a change.
+https://elixir.bootlin.com/linux/latest/source/drivers/media/dvb-frontends/si2168.c#L250
+https://elixir.bootlin.com/linux/latest/source/drivers/media/dvb-frontends/si2168.c#L297
+https://elixir.bootlin.com/linux/latest/source/drivers/media/dvb-frontends/si2168.c#L345
 
-  + It changes the behavior and the below vpr_info("changed ...")
-    is not called.
+Maybe setting SYS_DVBT2 would also work for DVB-T transmissions?
+(TODO: test that)
 
-Or do I miss anything?
+Any insight would be greatly appreciated.
 
->			newflags = (dp->flags & mask) | flags;
->  			if (newflags == dp->flags)
->  				continue;
-
-Best Regards,
-Petr
+Regards.
