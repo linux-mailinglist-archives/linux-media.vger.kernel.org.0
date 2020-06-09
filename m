@@ -2,370 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CE011F31FA
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 03:27:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B7CE1F3204
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 03:31:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728009AbgFIB0R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 8 Jun 2020 21:26:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58998 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727969AbgFIB0O (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 8 Jun 2020 21:26:14 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFA9CC03E969
-        for <linux-media@vger.kernel.org>; Mon,  8 Jun 2020 18:26:12 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id a45so461108pje.1
-        for <linux-media@vger.kernel.org>; Mon, 08 Jun 2020 18:26:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=6kM+saEeI+cRldgjHjkqk1hs/NOOmTVprCQO84ItXNs=;
-        b=OwgtI2was10q7BxoS/IulWRSR2FsEnR4eUkAGlHVWwE4H2CHRz6synxarF7nM9bm90
-         bMnZh9TDAIos+6VMAtFpv3fAgTLjoN0YcB+bJInY3W+o56o3N0xO4Ks56DXVYluS1evk
-         MDm23EG3MADzLbHCxId4G3bP0q6VHz+EIS8bQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=6kM+saEeI+cRldgjHjkqk1hs/NOOmTVprCQO84ItXNs=;
-        b=h0uYcG+9wht00K7PG1pbEfV2h0qjNauFaXsPdkNy/yzp9z0b4+lBpGOSNWUSEogcsk
-         2TJOGK4xJeVt2E6f5YfTwPV98O5907CN8ZNegPzGJzzo98/XYMRFPPmpqUms3ki0ewND
-         hwIUmiAxiwvQqfsN2mVw8IS9JZanpPgvnKSz4gKLHBNdYlZZTx/K2tg533+Bl36OoIUu
-         F2xFHDh6IVM2CGinRPTWfUp6DypgUzhF4zyTiMDhXoM//gIhWo6oVMLzDrfKkzg5VNx9
-         tXONOSoxO1dmkPnQ48F+Q2tUcT1E9pNOdyeRbO2zU/4SfXbGdr83qnnWbfzWPXnBy9BR
-         zTJA==
-X-Gm-Message-State: AOAM531gX4BO8hSxon8LH4pfJaEFBvRC8DOPbjVCJ8C3my5MXC9/3s+P
-        h9Tp5Duh7wjq5y13pvFyrH+mGA==
-X-Google-Smtp-Source: ABdhPJw6Ap9uFmQEEEyjVROCKBsnbBR1vnTnXhgnkpNIbOoKEbTImq1jK9LEqGAmsQv/Hl4kmsma1g==
-X-Received: by 2002:a17:902:7e4e:: with SMTP id a14mr1175083pln.329.1591665972205;
-        Mon, 08 Jun 2020 18:26:12 -0700 (PDT)
-Received: from localhost ([2401:fa00:8f:203:30f2:7a9c:387e:6c7])
-        by smtp.gmail.com with ESMTPSA id 71sm8259384pfb.20.2020.06.08.18.26.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Jun 2020 18:26:11 -0700 (PDT)
-From:   David Stevens <stevensd@chromium.org>
-To:     Gerd Hoffmann <kraxel@redhat.com>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>
-Cc:     Jason Wang <jasowang@redhat.com>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Stevens <stevensd@chromium.org>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        virtio-dev@lists.oasis-open.org
-Subject: [PATCH v5 3/3] drm/virtio: Support virtgpu exported resources
-Date:   Tue,  9 Jun 2020 10:25:18 +0900
-Message-Id: <20200609012518.198908-4-stevensd@chromium.org>
-X-Mailer: git-send-email 2.27.0.278.ge193c7cf3a9-goog
-In-Reply-To: <20200609012518.198908-1-stevensd@chromium.org>
-References: <20200609012518.198908-1-stevensd@chromium.org>
+        id S1726967AbgFIBaL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 8 Jun 2020 21:30:11 -0400
+Received: from spam.zju.edu.cn ([61.164.42.155]:25652 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726848AbgFIBaK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 8 Jun 2020 21:30:10 -0400
+Received: by ajax-webmail-mail-app4 (Coremail) ; Tue, 9 Jun 2020 09:30:01
+ +0800 (GMT+08:00)
+X-Originating-IP: [222.205.62.26]
+Date:   Tue, 9 Jun 2020 09:30:01 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   dinghao.liu@zju.edu.cn
+To:     "Hans Verkuil" <hverkuil@xs4all.nl>
+Cc:     kjlu@umn.edu,
+        "Jean-Christophe Trotin" <jean-christophe.trotin@st.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: Re: [PATCH] media: platform: sti: hva: Fix runtime PM imbalance
+ on error
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190906(84e8bf8f)
+ Copyright (c) 2002-2020 www.mailtech.cn zju.edu.cn
+In-Reply-To: <6d640a38-fc51-6a20-371c-336b246669a3@xs4all.nl>
+References: <20200521100503.13454-1-dinghao.liu@zju.edu.cn>
+ <6d640a38-fc51-6a20-371c-336b246669a3@xs4all.nl>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <2bf52890.fac17.17296b2d470.Coremail.dinghao.liu@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cS_KCgC3WeQZ5t5e7HbmAA--.22782W
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAg4FBlZdtOiPIgAFsw
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJTRUUUbGvS07vEb7Iv0x
+        C_Cr1lV2xY67kC6x804xWlV2xY67CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DMIAI
+        bVAFxVCF77xC64kEw24lV2xY67C26IkvcIIF6IxKo4kEV4ylV2xY628lY4IE4IxF12IF4w
+        CS07vE84x0c7CEj48ve4kI8wCS07vE84ACjcxK6xIIjxv20xvE14v26w1j6s0DMIAIbVA2
+        z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWlV2xY628EF7xvwVC2z280aVAFwI0_Gc
+        CE3s1lV2xY628EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wCS07vEe2I262IYc4CY6c8I
+        j28IcVAaY2xG8wCS07vE5I8CrVACY4xI64kE6c02F40Ex7xfMIAIbVAv7VC0I7IYx2IY67
+        AKxVWUJVWUGwCS07vEYx0Ex4A2jsIE14v26r1j6r4UMIAIbVAm72CE4IkC6x0Yz7v_Jr0_
+        Gr1lV2xY6x02cVAKzwCS07vEc2xSY4AK67AK6w4lV2xY6xkI7II2jI8vz4vEwIxGrwCS07
+        vE42xK82IY6x8ErcxFaVAv8VW8uw4UJr1UMIAIbVCF72vE77IF4wCS07vE4I8I3I0E4IkC
+        6x0Yz7v_Jr0_Gr1lV2xY6I8I3I0E5I8CrVAFwI0_Jr0_Jr4lV2xY6I8I3I0E7480Y4vE14
+        v26r106r1rMIAIbVC2zVAF1VAY17CE14v26r126r1DMIAIbVCI42IY6xIIjxv20xvE14v2
+        6r1j6r1xMIAIbVCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lV2xY6IIF0xvE42xK8V
+        AvwI8IcIk0rVWrZr1j6s0DMIAIbVCI42IY6I8E87Iv67AKxVWUJVW8JwCS07vEIxAIcVC2
+        z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73U
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for UUID-based resource sharing mechanism to virtgpu. This
-implements the new virtgpu commands and hooks them up to dma-buf's
-get_uuid callback.
-
-Signed-off-by: David Stevens <stevensd@chromium.org>
----
- drivers/gpu/drm/virtio/virtgpu_drv.c   |  3 +
- drivers/gpu/drm/virtio/virtgpu_drv.h   | 20 ++++++
- drivers/gpu/drm/virtio/virtgpu_kms.c   |  4 ++
- drivers/gpu/drm/virtio/virtgpu_prime.c | 96 +++++++++++++++++++++++++-
- drivers/gpu/drm/virtio/virtgpu_vq.c    | 55 +++++++++++++++
- 5 files changed, 175 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.c b/drivers/gpu/drm/virtio/virtgpu_drv.c
-index ab4bed78e656..b039f493bda9 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.c
-@@ -165,6 +165,7 @@ static unsigned int features[] = {
- 	VIRTIO_GPU_F_VIRGL,
- #endif
- 	VIRTIO_GPU_F_EDID,
-+	VIRTIO_GPU_F_RESOURCE_UUID,
- };
- static struct virtio_driver virtio_gpu_driver = {
- 	.feature_table = features,
-@@ -202,6 +203,8 @@ static struct drm_driver driver = {
- 	.prime_handle_to_fd = drm_gem_prime_handle_to_fd,
- 	.prime_fd_to_handle = drm_gem_prime_fd_to_handle,
- 	.gem_prime_mmap = drm_gem_prime_mmap,
-+	.gem_prime_export = virtgpu_gem_prime_export,
-+	.gem_prime_import = virtgpu_gem_prime_import,
- 	.gem_prime_import_sg_table = virtgpu_gem_prime_import_sg_table,
- 
- 	.gem_create_object = virtio_gpu_create_object,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_drv.h b/drivers/gpu/drm/virtio/virtgpu_drv.h
-index 49bebdee6d91..39dc907aa805 100644
---- a/drivers/gpu/drm/virtio/virtgpu_drv.h
-+++ b/drivers/gpu/drm/virtio/virtgpu_drv.h
-@@ -49,6 +49,10 @@
- #define DRIVER_MINOR 1
- #define DRIVER_PATCHLEVEL 0
- 
-+#define UUID_INITIALIZING 0
-+#define UUID_INITIALIZED 1
-+#define UUID_INITIALIZATION_FAILED 2
-+
- struct virtio_gpu_object_params {
- 	uint32_t format;
- 	uint32_t width;
-@@ -71,6 +75,9 @@ struct virtio_gpu_object {
- 	uint32_t hw_res_handle;
- 	bool dumb;
- 	bool created;
-+
-+	int uuid_state;
-+	uuid_t uuid;
- };
- #define gem_to_virtio_gpu_obj(gobj) \
- 	container_of((gobj), struct virtio_gpu_object, base.base)
-@@ -200,6 +207,7 @@ struct virtio_gpu_device {
- 	bool has_virgl_3d;
- 	bool has_edid;
- 	bool has_indirect;
-+	bool has_resource_assign_uuid;
- 
- 	struct work_struct config_changed_work;
- 
-@@ -210,6 +218,8 @@ struct virtio_gpu_device {
- 	struct virtio_gpu_drv_capset *capsets;
- 	uint32_t num_capsets;
- 	struct list_head cap_cache;
-+
-+	spinlock_t resource_export_lock;
- };
- 
- struct virtio_gpu_fpriv {
-@@ -335,6 +345,10 @@ void virtio_gpu_dequeue_fence_func(struct work_struct *work);
- 
- void virtio_gpu_notify(struct virtio_gpu_device *vgdev);
- 
-+int
-+virtio_gpu_cmd_resource_assign_uuid(struct virtio_gpu_device *vgdev,
-+				    struct virtio_gpu_object_array *objs);
-+
- /* virtgpu_display.c */
- void virtio_gpu_modeset_init(struct virtio_gpu_device *vgdev);
- void virtio_gpu_modeset_fini(struct virtio_gpu_device *vgdev);
-@@ -366,6 +380,12 @@ int virtio_gpu_object_create(struct virtio_gpu_device *vgdev,
- bool virtio_gpu_is_shmem(struct virtio_gpu_object *bo);
- 
- /* virtgpu_prime.c */
-+struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
-+					 int flags);
-+struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
-+						struct dma_buf *buf);
-+int virtgpu_gem_prime_get_uuid(struct drm_gem_object *obj,
-+			       uuid_t *uuid);
- struct drm_gem_object *virtgpu_gem_prime_import_sg_table(
- 	struct drm_device *dev, struct dma_buf_attachment *attach,
- 	struct sg_table *sgt);
-diff --git a/drivers/gpu/drm/virtio/virtgpu_kms.c b/drivers/gpu/drm/virtio/virtgpu_kms.c
-index 023a030ca7b9..7bcd0c75effa 100644
---- a/drivers/gpu/drm/virtio/virtgpu_kms.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_kms.c
-@@ -125,6 +125,7 @@ int virtio_gpu_init(struct drm_device *dev)
- 	vgdev->dev = dev->dev;
- 
- 	spin_lock_init(&vgdev->display_info_lock);
-+	spin_lock_init(&vgdev->resource_export_lock);
- 	ida_init(&vgdev->ctx_id_ida);
- 	ida_init(&vgdev->resource_ida);
- 	init_waitqueue_head(&vgdev->resp_wq);
-@@ -153,6 +154,9 @@ int virtio_gpu_init(struct drm_device *dev)
- 	if (virtio_has_feature(vgdev->vdev, VIRTIO_RING_F_INDIRECT_DESC)) {
- 		vgdev->has_indirect = true;
- 	}
-+	if (virtio_has_feature(vgdev->vdev, VIRTIO_GPU_F_RESOURCE_UUID)) {
-+		vgdev->has_resource_assign_uuid = true;
-+	}
- 
- 	DRM_INFO("features: %cvirgl %cedid\n",
- 		 vgdev->has_virgl_3d ? '+' : '-',
-diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-index 050d24c39a8f..acd14ef73d56 100644
---- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-@@ -23,12 +23,102 @@
-  */
- 
- #include <drm/drm_prime.h>
-+#include <linux/virtio_dma_buf.h>
- 
- #include "virtgpu_drv.h"
- 
--/* Empty Implementations as there should not be any other driver for a virtual
-- * device that might share buffers with virtgpu
-- */
-+static int virtgpu_virtio_get_uuid(struct dma_buf *buf,
-+				   uuid_t *uuid)
-+{
-+	struct drm_gem_object *obj = buf->priv;
-+	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
-+	struct virtio_gpu_device *vgdev = obj->dev->dev_private;
-+
-+	wait_event(vgdev->resp_wq, bo->uuid_state != UUID_INITIALIZING);
-+	if (bo->uuid_state != UUID_INITIALIZED)
-+		return -ENODEV;
-+
-+	uuid_copy(uuid, &bo->uuid);
-+
-+	return 0;
-+}
-+
-+const struct virtio_dma_buf_ops virtgpu_dmabuf_ops =  {
-+	.ops = {
-+		.cache_sgt_mapping = true,
-+		.attach = virtio_dma_buf_attach,
-+		.detach = drm_gem_map_detach,
-+		.map_dma_buf = drm_gem_map_dma_buf,
-+		.unmap_dma_buf = drm_gem_unmap_dma_buf,
-+		.release = drm_gem_dmabuf_release,
-+		.mmap = drm_gem_dmabuf_mmap,
-+		.vmap = drm_gem_dmabuf_vmap,
-+		.vunmap = drm_gem_dmabuf_vunmap,
-+	},
-+	.device_attach = drm_gem_map_attach,
-+	.get_uuid = virtgpu_virtio_get_uuid,
-+};
-+
-+struct dma_buf *virtgpu_gem_prime_export(struct drm_gem_object *obj,
-+					 int flags)
-+{
-+	struct dma_buf *buf;
-+	struct drm_device *dev = obj->dev;
-+	struct virtio_gpu_device *vgdev = dev->dev_private;
-+	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(obj);
-+	struct virtio_gpu_object_array *objs;
-+	int ret = 0;
-+	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+
-+	if (vgdev->has_resource_assign_uuid) {
-+		objs = virtio_gpu_array_alloc(1);
-+		if (!objs)
-+			return ERR_PTR(-ENOMEM);
-+		virtio_gpu_array_add_obj(objs, &bo->base.base);
-+
-+		ret = virtio_gpu_cmd_resource_assign_uuid(vgdev, objs);
-+		if (ret)
-+			return ERR_PTR(ret);
-+		virtio_gpu_notify(vgdev);
-+	} else {
-+		bo->uuid_state = UUID_INITIALIZATION_FAILED;
-+	}
-+
-+	exp_info.ops = &virtgpu_dmabuf_ops.ops;
-+	exp_info.size = obj->size;
-+	exp_info.flags = flags;
-+	exp_info.priv = obj;
-+	exp_info.resv = obj->resv;
-+
-+	buf = virtio_dma_buf_export(&exp_info);
-+	if (IS_ERR(buf))
-+		return buf;
-+
-+	drm_dev_get(dev);
-+	drm_gem_object_get(obj);
-+
-+	return buf;
-+}
-+
-+struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
-+						struct dma_buf *buf)
-+{
-+	struct drm_gem_object *obj;
-+
-+	if (buf->ops == &virtgpu_dmabuf_ops.ops) {
-+		obj = buf->priv;
-+		if (obj->dev == dev) {
-+			/*
-+			 * Importing dmabuf exported from our own gem increases
-+			 * refcount on gem itself instead of f_count of dmabuf.
-+			 */
-+			drm_gem_object_get(obj);
-+			return obj;
-+		}
-+	}
-+
-+	return drm_gem_prime_import(dev, buf);
-+}
- 
- struct drm_gem_object *virtgpu_gem_prime_import_sg_table(
- 	struct drm_device *dev, struct dma_buf_attachment *attach,
-diff --git a/drivers/gpu/drm/virtio/virtgpu_vq.c b/drivers/gpu/drm/virtio/virtgpu_vq.c
-index 9e663a5d9952..55af6fc7bc7c 100644
---- a/drivers/gpu/drm/virtio/virtgpu_vq.c
-+++ b/drivers/gpu/drm/virtio/virtgpu_vq.c
-@@ -1107,3 +1107,58 @@ void virtio_gpu_cursor_ping(struct virtio_gpu_device *vgdev,
- 	memcpy(cur_p, &output->cursor, sizeof(output->cursor));
- 	virtio_gpu_queue_cursor(vgdev, vbuf);
- }
-+
-+static void virtio_gpu_cmd_resource_uuid_cb(struct virtio_gpu_device *vgdev,
-+					    struct virtio_gpu_vbuffer *vbuf)
-+{
-+	struct virtio_gpu_object *obj =
-+		gem_to_virtio_gpu_obj(vbuf->objs->objs[0]);
-+	struct virtio_gpu_resp_resource_uuid *resp =
-+		(struct virtio_gpu_resp_resource_uuid *)vbuf->resp_buf;
-+	uint32_t resp_type = le32_to_cpu(resp->hdr.type);
-+
-+	spin_lock(&vgdev->resource_export_lock);
-+	WARN_ON(obj->uuid_state != UUID_INITIALIZING);
-+
-+	if (resp_type == VIRTIO_GPU_RESP_OK_RESOURCE_UUID &&
-+			obj->uuid_state == UUID_INITIALIZING) {
-+		memcpy(&obj->uuid.b, resp->uuid, sizeof(obj->uuid.b));
-+		obj->uuid_state = UUID_INITIALIZED;
-+	} else {
-+		obj->uuid_state = UUID_INITIALIZATION_FAILED;
-+	}
-+	spin_unlock(&vgdev->resource_export_lock);
-+
-+	wake_up_all(&vgdev->resp_wq);
-+}
-+
-+int
-+virtio_gpu_cmd_resource_assign_uuid(struct virtio_gpu_device *vgdev,
-+				    struct virtio_gpu_object_array *objs)
-+{
-+	struct virtio_gpu_object *bo = gem_to_virtio_gpu_obj(objs->objs[0]);
-+	struct virtio_gpu_resource_assign_uuid *cmd_p;
-+	struct virtio_gpu_vbuffer *vbuf;
-+	struct virtio_gpu_resp_resource_uuid *resp_buf;
-+
-+	resp_buf = kzalloc(sizeof(*resp_buf), GFP_KERNEL);
-+	if (!resp_buf) {
-+		spin_lock(&vgdev->resource_export_lock);
-+		bo->uuid_state = UUID_INITIALIZATION_FAILED;
-+		spin_unlock(&vgdev->resource_export_lock);
-+		virtio_gpu_array_put_free(objs);
-+		return -ENOMEM;
-+	}
-+
-+	cmd_p = virtio_gpu_alloc_cmd_resp(vgdev,
-+		virtio_gpu_cmd_resource_uuid_cb, &vbuf, sizeof(*cmd_p),
-+		sizeof(struct virtio_gpu_resp_resource_uuid), resp_buf);
-+	memset(cmd_p, 0, sizeof(*cmd_p));
-+
-+	cmd_p->hdr.type = cpu_to_le32(VIRTIO_GPU_CMD_RESOURCE_ASSIGN_UUID);
-+	cmd_p->resource_id = cpu_to_le32(bo->hw_res_handle);
-+
-+	vbuf->objs = objs;
-+	virtio_gpu_queue_ctrl_buffer(vgdev, vbuf);
-+	return 0;
-+}
--- 
-2.27.0.278.ge193c7cf3a9-goog
-
+SGkgSGFucywKPiBlcnJfcG06Cj4gICAgICAgICBwbV9ydW50aW1lX3B1dChkZXYpOwo+IAo+IFNo
+b3VsZG4ndCB0aGF0IGJlIHBtX3J1bnRpbWVfcHV0X3N5bmMoKT8KPiAKPiBJJ20gbm90IHBtIGV4
+cGVydCwgYnV0IGl0IGRvZXMgbG9vayBvZGQuCj4gCgpJIGNoZWNrZWQgdGhlIGltcGxlbWVudGF0
+aW9uIG9mIHRoZXNlIHR3byBBUElzIGJlZm9yZQphbmQgZm91bmQgdGhleSB3ZXJlIGV4YWN0bHkg
+dGhlIHNhbWUuIFNvIEkgdGhpbmsgaXQncwpmaW5lIHRvIGtlZXAgdXNpbmcgcG1fcnVudGltZV9w
+dXQoKS4KClJlZ2FyZHMsCkRpbmdoYW8K
