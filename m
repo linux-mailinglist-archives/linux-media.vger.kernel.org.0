@@ -2,384 +2,291 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A79DA1F3448
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 08:47:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E35B1F3528
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 09:43:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727779AbgFIGrT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Jun 2020 02:47:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51914 "EHLO
+        id S1726766AbgFIHnN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Jun 2020 03:43:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726917AbgFIGrS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Jun 2020 02:47:18 -0400
-Received: from mail-pj1-x1034.google.com (mail-pj1-x1034.google.com [IPv6:2607:f8b0:4864:20::1034])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BC49C03E969
-        for <linux-media@vger.kernel.org>; Mon,  8 Jun 2020 23:47:18 -0700 (PDT)
-Received: by mail-pj1-x1034.google.com with SMTP id ga6so978706pjb.1
-        for <linux-media@vger.kernel.org>; Mon, 08 Jun 2020 23:47:18 -0700 (PDT)
+        with ESMTP id S1726116AbgFIHnK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Jun 2020 03:43:10 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5319CC03E97C
+        for <linux-media@vger.kernel.org>; Tue,  9 Jun 2020 00:43:09 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id r7so20128145wro.1
+        for <linux-media@vger.kernel.org>; Tue, 09 Jun 2020 00:43:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:autocrypt:organization:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=BzARZk83jYqMDtTbogXSgA8iOeTdaXha4/NdFW9AGks=;
-        b=Bktu3IbXUI4yY6dupLFRxSy3T3sr0xjuAc+9SBhhURDHkfJEqYWI63HkJgMce2VmUI
-         Ztd/YFiyKsfPz8LbYxCUhx440HuXOgqIqFpgW61Qi4NVUbHjDJparp3QlHHMv9oI5xvy
-         oMKPICi0wzs1DWzBUNPoXNJ+8g4gjk02ZvN+VaRAELe0h3uHJCtHTO11OSjBb0FISXOx
-         8wbtsabGBpCro5MjtZ6AXRbWdbUkQtra0lo1wigOFaSII1GrgnqHDjGk/sZkXVlBk5Rr
-         9NDmDPGSVqWzJ/9vXsO5Ix8GBWXlmAD/u0x8yqb2EolJnrfBQkjkwbv3loMvOJ924QyR
-         /n3g==
+        bh=R3eqpNM69IXyJMDDKIDRpxl4MEtWzX2HJ0czqdV8G5Y=;
+        b=i6OAytuLJniPD9wotWWVOyAFwtnmnH8jnFrSinAec9eFByRot/h+DRZ5aUjHx+6GBN
+         jF5q7BRFcTP35+7fluWXqc8KXXJ0zbqfkFMhWyfNM9acFFATi36vq1SV+3k8Bv+WLh+g
+         qs2M2DQf6V6us7xfAsoAwKaYaj7hYm3VHexvzAeRTokQwLqTGQJoVOcTrNwI0nCaBqY5
+         Nb7sDW/b8XRjkwVEwJYjfzuijb6guAbDI/1S1ReVlwygMMAYo4qEd9IXR3CMIPgzbwKz
+         KvDA08EP6DxcUZ8MjtPBQ1TAM+ztZ6VSukpfR0JjWt7JSWYf11VgtRDxc6K1x84Ckrer
+         dVsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BzARZk83jYqMDtTbogXSgA8iOeTdaXha4/NdFW9AGks=;
-        b=SHtw5tnbsb/ZxOlPWEj079JoZMxMSC13tzTsWuY/8l7qko3EtnzxVzfgvImvbziVDZ
-         DqiT3q2MSblhooIf4X22uXIThYIjSOg0LtFjSe6FfnTBKJLK8bxW0AgkJuXgH5gQyleb
-         xdvT90Cs8aV9NdG95kV5vO8Y10oNvJBNk2ESpUGeD3uxYampUrXEe19ZhiP6RItXVc9H
-         9cRZJaYPHFk9SPJLIPnpO/LnSeJllLgz9PGeYxDyu6btET95zfkB5Pwm07IW8yF+opNS
-         b9pgAKi1saaBbyT6xBlYVP6AVn/GsztgyIwr0idsT/oDGdqPkljZV8NzlL0JwpQPBh/N
-         pJEw==
-X-Gm-Message-State: AOAM532wTrYuuzpussydAx8ktMXKWQMyZNUiKcVgZCLI30+1FoxO+wko
-        eHP+qc3PKfdub009cCncSKo=
-X-Google-Smtp-Source: ABdhPJw+Du2tO9PWvewHif/zWD6xK3o2BvbedyPfHU46qR2qDpBbHwev+7JVJmATl7dnZvVcN1pCOw==
-X-Received: by 2002:a17:90b:143:: with SMTP id em3mr3266414pjb.92.1591685237672;
-        Mon, 08 Jun 2020 23:47:17 -0700 (PDT)
-Received: from localhost.localdomain ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
-        by smtp.gmail.com with ESMTPSA id h7sm7660124pgn.60.2020.06.08.23.47.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2020 23:47:16 -0700 (PDT)
-From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-To:     Hans Verkuil <hans.verkuil@cisco.com>
-Cc:     linux-media@vger.kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Subject: [PATCHv3] v4l2-utils: test cache_hints for MMAP queues
-Date:   Tue,  9 Jun 2020 15:47:11 +0900
-Message-Id: <20200609064711.39074-1-sergey.senozhatsky@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :organization:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=R3eqpNM69IXyJMDDKIDRpxl4MEtWzX2HJ0czqdV8G5Y=;
+        b=H9a7N5FOdOdJsQURE2XF5n2F6xCV6JtgCnF6pQfejKQYB7vX+9GWSBbV4WErQrHtY/
+         xMBRc5w3aYUbFqMWJKAXdpFt3V39GUL4aDGZBGg0ZOLGKfN018NoWxSPyxfWIKo9F5nj
+         WMNAotxnsVTxvOV0BnUHuDUJNTUVFrvTMLwzOILmzX3xOCM8vF5FhpOKee5A8yCgA2s5
+         ToWkXQc35r/d/cvSGz1VK7jDj5/FIq8hsJM6ZNb2Y8UPNweikXq3984MYTXiRYKjg34V
+         UkNssR0VNgYqHGTm6AoW5/9Iti5Mm+WwbhyiYt7wg2Kixuou5t5HHs0uADVOgngBhxL3
+         1/ZQ==
+X-Gm-Message-State: AOAM531repJTUfKmmUdk78gJHfHgGyQEalHMFWlx9x1bySBhdnwrCroo
+        MTrxNrvwtEL5296vEwR0HBeD1g==
+X-Google-Smtp-Source: ABdhPJxQfQvxVT6kV2XeWiyrjUb2bMQLHLTCcuEYHT3bkXcOKMCcUcuC+6/HmgE0k4Ahh8gnT/UI3w==
+X-Received: by 2002:adf:b348:: with SMTP id k8mr3212751wrd.157.1591688587640;
+        Tue, 09 Jun 2020 00:43:07 -0700 (PDT)
+Received: from ?IPv6:2a01:e35:2ec0:82b0:22:5867:d2c6:75f4? ([2a01:e35:2ec0:82b0:22:5867:d2c6:75f4])
+        by smtp.gmail.com with ESMTPSA id a1sm1928650wmj.29.2020.06.09.00.43.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 09 Jun 2020 00:43:06 -0700 (PDT)
+Subject: Re: [PATCH 1/5] media: videodev2: add Compressed Framebuffer pixel
+ formats
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Maxime Jourdan <mjourdan@baylibre.com>,
+        Tomasz Figa <tfiga@chromium.org>
+References: <20200604135317.9235-1-narmstrong@baylibre.com>
+ <20200604135317.9235-2-narmstrong@baylibre.com>
+ <02aa06fd8397b77c9a75d3a8399cb55d3b4d39c1.camel@ndufresne.ca>
+ <4d22ff40-11ac-c77a-564d-af9a678f23af@baylibre.com>
+ <a15dea55-3ca4-2a65-5c56-6c1edd2de405@xs4all.nl>
+ <a4c5ae79-1d4d-4c1e-1535-c6c8b02d4b6f@baylibre.com>
+ <2a0db0a4-9d04-f20c-39d8-ff25e07e64b7@xs4all.nl>
+ <f6d35521b61da395528d6dd1164a9af6c3acd664.camel@ndufresne.ca>
+From:   Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ BSwxi7g3Mu7u5kUByanqHyA=
+Organization: Baylibre
+Message-ID: <3ffe901f-73e4-bdf7-84a6-a5372186b55c@baylibre.com>
+Date:   Tue, 9 Jun 2020 09:43:05 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
+In-Reply-To: <f6d35521b61da395528d6dd1164a9af6c3acd664.camel@ndufresne.ca>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The patch adds V4L2_FLAG_MEMORY_NON_CONSISTENT consistency
-attr test to VIDIOC_REQBUFS and VIDIOC_CREATE_BUFS ioctl-s,
-and V4L2_BUF_FLAG_NO_CACHE_INVALIDATE/V4L2_BUF_FLAG_NO_CACHE_CLEAN
-buffer cache management hints test for MMAP queues.
+Hi Nicolas,
 
-Signed-off-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
----
+On 08/06/2020 20:59, Nicolas Dufresne wrote:
+> Le lundi 08 juin 2020 à 16:43 +0200, Hans Verkuil a écrit :
+>> On 08/06/2020 16:14, Neil Armstrong wrote:
+>>> On 08/06/2020 11:26, Hans Verkuil wrote:
+>>>> On 08/06/2020 10:16, Neil Armstrong wrote:
+>>>>> Hi Nicolas,
+>>>>>
+>>>>> On 05/06/2020 17:35, Nicolas Dufresne wrote:
+>>>>>> Le jeudi 04 juin 2020 à 15:53 +0200, Neil Armstrong a écrit :
+>>>>>>> From: Maxime Jourdan <mjourdan@baylibre.com>
+>>>>>>>
+>>>>>>> Add two generic Compressed Framebuffer pixel formats to be used
+>>>>>>> with a modifier when imported back in another subsystem like DRM/KMS.
+>>>>>>>
+>>>>>>> These pixel formats represents generic 8bits and 10bits compressed buffers
+>>>>>>> with a vendor specific layout.
+>>>>>>>
+>>>>>>> These are aligned with the DRM_FORMAT_YUV420_8BIT and DRM_FORMAT_YUV420_10BIT
+>>>>>>> used to describe the underlying compressed buffers used for ARM Framebuffer
+>>>>>>> Compression. In the Amlogic case, the compression is different but the
+>>>>>>> underlying buffer components is the same.
+>>>>>>>
+>>>>>>> Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
+>>>>>>> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+>>>>>>> ---
+>>>>>>>  drivers/media/v4l2-core/v4l2-ioctl.c | 2 ++
+>>>>>>>  include/uapi/linux/videodev2.h       | 9 +++++++++
+>>>>>>>  2 files changed, 11 insertions(+)
+>>>>>>>
+>>>>>>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+>>>>>>> index 2322f08a98be..8f14adfd5bc5 100644
+>>>>>>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>>>>>>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>>>>>>> @@ -1447,6 +1447,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>>>>>>>  		case V4L2_PIX_FMT_S5C_UYVY_JPG:	descr = "S5C73MX interleaved UYVY/JPEG"; break;
+>>>>>>>  		case V4L2_PIX_FMT_MT21C:	descr = "Mediatek Compressed Format"; break;
+>>>>>>>  		case V4L2_PIX_FMT_SUNXI_TILED_NV12: descr = "Sunxi Tiled NV12 Format"; break;
+>>>>>>> +		case V4L2_PIX_FMT_YUV420_8BIT:	descr = "Compressed YUV 4:2:0 8-bit Format"; break;
+>>>>>>> +		case V4L2_PIX_FMT_YUV420_10BIT:	descr = "Compressed YUV 4:2:0 10-bit Format"; break;
+>>>
+>>> [..]
+>>>
+>>>>>> I'll remind that the modifier implementation has great value and is
+>>>>>> much more scalable then the current V4L2 approach. There has been some
+>>>>>> early proposal for this, maybe it's time to prioritize because this
+>>>>>> list will starts growing with hundred or even thousands or format,
+>>>>>> which is clearly indicated by the increase of modifier generator macro
+>>>>>> on the DRM side.
+>>>>>
+>>>>> Yes, but until the migration of drm_fourcc and v4l2 fourcc into a common one
+>>>>> is decided, I'm stuck and this is the only intermediate solution I found.
+>>>>
+>>>> We can safely assume that drm fourcc and v4l2 fourcc won't be merged.
+>>>>
+>>>> There is too much divergence and not enough interest in creating common
+>>>> fourccs.
+>>>>
+>>>> But we *do* want to share the modifiers.
+>>>>
+>>>>> We have a working solution with Boris's patchset with ext_fmt passing the
+>>>>> modifier to user-space.
+>>>>>
+>>>>> but anyway, since the goal is to merge the fourcc between DRM & V4L2, these YUV420_*BIT
+>>>>> will still be needed if we pass the modifier with an extended format struct.
+>>>>
+>>>> We tried merging fourccs but that ran into resistance. Frankly, I wouldn't
+>>>> bother with this, it is much easier to just create a conversion table in the
+>>>> kernel docs.
+>>>>
+>>>> So don't block on this, I would really prefer if the ext_fmt series is picked
+>>>> up again and rebased and reposted and then worked on. The stateless codec support
+>>>> is taking less time (it's shaping up well) so there is more time to work on this.
+>>>
+>>> Ok, I already starting discussing with Helen Koike about the ext_fnt re-spin.
+>>>
+>>> Should I re-introduce different v4l2 pixfmt for these DRM YUV420_*BIT or I can keep this
+>>> patch along the new ext_fmt and shared modifiers ?
+>>
+>> So to be clear the DRM_FORMAT_YUV420_8BIT/10BIT fourccs define that this is a
+>> buffer containing compressed YUV420 in 8 or 10 bit and the modifier tells userspace
+>> which compression is used, right?
+>>
+>> And we would add V4L2_PIX_FMT_YUV420_8BIT/_10BIT that, I assume, use the same
+>> fourcc values as the DRM variants?
+>>
+>> Since these fourccs are basically useless without V4L2 modifier support it would
+>> only make sense in combination with the ext_fmt series.
+> 
+> I personally still think that adding these fourcc will just create a
+> source of confusion and that fourcc should not be tried to be matched
+> at the cost of tripling the already duplicated pixel formats. Userspace
+> already need to implement translation anyway.
 
-v3: intergated cache-hints test into testReqBufs (Hans)
+By using the same fourcc + modifiers, the translation table would only be needed
+for v4l2-specific fourcc, by reusing the same it's not necessary anymore.
+We have a really simple ffmpeg implementation using ext_fmt, and it makes it
+generic.
 
- utils/common/cv4l-helpers.h                 |   8 +-
- utils/common/v4l-helpers.h                  |  10 +-
- utils/common/v4l2-info.cpp                  |   1 +
- utils/v4l2-compliance/v4l2-test-buffers.cpp | 105 +++++++++++++++++---
- 4 files changed, 102 insertions(+), 22 deletions(-)
+> 
+> On DRM side, new fourcc was not create for NV12+modifier, I don't see
+> why planar YUV420 has to be different, with or without ext_fmt.
 
-diff --git a/utils/common/cv4l-helpers.h b/utils/common/cv4l-helpers.h
-index 9505e334..9de0cdf0 100644
---- a/utils/common/cv4l-helpers.h
-+++ b/utils/common/cv4l-helpers.h
-@@ -753,17 +753,17 @@ public:
- 	int g_fd(unsigned index, unsigned plane) const { return v4l_queue_g_fd(this, index, plane); }
- 	void s_fd(unsigned index, unsigned plane, int fd) { v4l_queue_s_fd(this, index, plane, fd); }
- 
--	int reqbufs(cv4l_fd *fd, unsigned count = 0)
-+	int reqbufs(cv4l_fd *fd, unsigned count = 0, unsigned int flags = 0)
- 	{
--		return v4l_queue_reqbufs(fd->g_v4l_fd(), this, count);
-+		return v4l_queue_reqbufs(fd->g_v4l_fd(), this, count, flags);
- 	}
- 	bool has_create_bufs(cv4l_fd *fd) const
- 	{
- 		return v4l_queue_has_create_bufs(fd->g_v4l_fd(), this);
- 	}
--	int create_bufs(cv4l_fd *fd, unsigned count, const v4l2_format *fmt = NULL)
-+	int create_bufs(cv4l_fd *fd, unsigned count, const v4l2_format *fmt = NULL, unsigned int flags = 0)
- 	{
--		return v4l_queue_create_bufs(fd->g_v4l_fd(), this, count, fmt);
-+		return v4l_queue_create_bufs(fd->g_v4l_fd(), this, count, fmt, flags);
- 	}
- 	int mmap_bufs(cv4l_fd *fd, unsigned from = 0)
- 	{
-diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
-index b794ff88..53f7bec9 100644
---- a/utils/common/v4l-helpers.h
-+++ b/utils/common/v4l-helpers.h
-@@ -1513,7 +1513,7 @@ static inline int v4l_queue_querybufs(struct v4l_fd *f, struct v4l_queue *q, uns
- }
- 
- static inline int v4l_queue_reqbufs(struct v4l_fd *f,
--		struct v4l_queue *q, unsigned count)
-+		struct v4l_queue *q, unsigned count, unsigned int flags = 0)
- {
- 	struct v4l2_requestbuffers reqbufs;
- 	int ret;
-@@ -1521,7 +1521,7 @@ static inline int v4l_queue_reqbufs(struct v4l_fd *f,
- 	reqbufs.type = q->type;
- 	reqbufs.memory = q->memory;
- 	reqbufs.count = count;
--	memset(reqbufs.reserved, 0, sizeof(reqbufs.reserved));
-+	reqbufs.flags = flags;
- 	/*
- 	 * Problem: if REQBUFS returns an error, did it free any old
- 	 * buffers or not?
-@@ -1545,7 +1545,8 @@ static inline bool v4l_queue_has_create_bufs(struct v4l_fd *f, const struct v4l_
- }
- 
- static inline int v4l_queue_create_bufs(struct v4l_fd *f,
--		struct v4l_queue *q, unsigned count, const struct v4l2_format *fmt)
-+		struct v4l_queue *q, unsigned count,
-+		const struct v4l2_format *fmt, unsigned int flags = 0)
- {
- 	struct v4l2_create_buffers createbufs;
- 	int ret;
-@@ -1553,6 +1554,7 @@ static inline int v4l_queue_create_bufs(struct v4l_fd *f,
- 	createbufs.format.type = q->type;
- 	createbufs.memory = q->memory;
- 	createbufs.count = count;
-+	createbufs.flags = flags;
- 	if (fmt) {
- 		createbufs.format = *fmt;
- 	} else {
-@@ -1731,7 +1733,7 @@ static inline void v4l_queue_free(struct v4l_fd *f, struct v4l_queue *q)
- 	v4l_ioctl(f, VIDIOC_STREAMOFF, &q->type);
- 	v4l_queue_release_bufs(f, q, 0);
- 	v4l_queue_close_exported_fds(q);
--	v4l_queue_reqbufs(f, q, 0);
-+	v4l_queue_reqbufs(f, q, 0, 0);
- }
- 
- static inline void v4l_queue_buffer_update(const struct v4l_queue *q,
-diff --git a/utils/common/v4l2-info.cpp b/utils/common/v4l2-info.cpp
-index 0aac8504..a69569a6 100644
---- a/utils/common/v4l2-info.cpp
-+++ b/utils/common/v4l2-info.cpp
-@@ -206,6 +206,7 @@ static const flag_def bufcap_def[] = {
- 	{ V4L2_BUF_CAP_SUPPORTS_REQUESTS, "requests" },
- 	{ V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS, "orphaned-bufs" },
- 	{ V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF, "m2m-hold-capture-buf" },
-+	{ V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS, "mmap-cache-hints" },
- 	{ 0, NULL }
- };
- 
-diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-index fc49fff6..d1224438 100644
---- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-@@ -381,8 +381,6 @@ int buffer::check(unsigned type, unsigned memory, unsigned index,
- 	if (g_flags() & V4L2_BUF_FLAG_BFRAME)
- 		frame_types++;
- 	fail_on_test(frame_types > 1);
--	fail_on_test(g_flags() & (V4L2_BUF_FLAG_NO_CACHE_INVALIDATE |
--				  V4L2_BUF_FLAG_NO_CACHE_CLEAN));
- 	if (g_flags() & V4L2_BUF_FLAG_QUEUED)
- 		buf_states++;
- 	if (g_flags() & V4L2_BUF_FLAG_DONE)
-@@ -661,6 +659,10 @@ int testReqBufs(struct node *node)
- 		fail_on_test(q.reqbufs(node, 0));
- 
- 		for (m = V4L2_MEMORY_MMAP; m <= V4L2_MEMORY_DMABUF; m++) {
-+			bool cache_hints_cap = false;
-+			bool consistent;
-+
-+			cache_hints_cap = q.g_capabilities() & V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS;
- 			if (!(node->valid_memorytype & (1 << m)))
- 				continue;
- 			cv4l_queue q2(i, m);
-@@ -673,11 +675,52 @@ int testReqBufs(struct node *node)
- 				fail_on_test(q2.reqbufs(node->node2));
- 			}
- 			memset(&reqbufs, 0xff, sizeof(reqbufs));
--			reqbufs.count = 0;
-+			reqbufs.count = 1;
- 			reqbufs.type = i;
- 			reqbufs.memory = m;
-+			reqbufs.flags = V4L2_FLAG_MEMORY_NON_CONSISTENT;
- 			fail_on_test(doioctl(node, VIDIOC_REQBUFS, &reqbufs));
--			fail_on_test(check_0(reqbufs.reserved, sizeof(reqbufs.reserved)));
-+			consistent = reqbufs.flags & V4L2_FLAG_MEMORY_NON_CONSISTENT;
-+			if (!cache_hints_cap) {
-+				fail_on_test(consistent);
-+			} else {
-+				if (m == V4L2_MEMORY_MMAP)
-+					fail_on_test(!consistent);
-+				else
-+					fail_on_test(consistent);
-+			}
-+			q.reqbufs(node);
-+
-+			memset(&crbufs, 0xff, sizeof(crbufs));
-+			node->g_fmt(crbufs.format, i);
-+			crbufs.count = 1;
-+			crbufs.memory = m;
-+			crbufs.flags = V4L2_FLAG_MEMORY_NON_CONSISTENT;
-+			fail_on_test(doioctl(node, VIDIOC_CREATE_BUFS, &crbufs));
-+			fail_on_test(check_0(crbufs.reserved, sizeof(crbufs.reserved)));
-+			fail_on_test(crbufs.index != q.g_buffers());
-+
-+			consistent = crbufs.flags & V4L2_FLAG_MEMORY_NON_CONSISTENT;
-+			if (!cache_hints_cap) {
-+				fail_on_test(consistent);
-+			} else {
-+				if (m == V4L2_MEMORY_MMAP)
-+					fail_on_test(!consistent);
-+				else
-+					fail_on_test(consistent);
-+			}
-+
-+			if (cache_hints_cap) {
-+				/*
-+				 * Different memory consistency model. Should fail for MMAP
-+				 * queues which support cache hints.
-+				 */
-+				crbufs.flags = 0;
-+				if (m == V4L2_MEMORY_MMAP)
-+					fail_on_test(doioctl(node, VIDIOC_CREATE_BUFS, &crbufs) != EINVAL);
-+				else
-+					fail_on_test(doioctl(node, VIDIOC_CREATE_BUFS, &crbufs));
-+			}
- 			q.reqbufs(node);
- 
- 			ret = q.create_bufs(node, 1);
-@@ -693,14 +736,7 @@ int testReqBufs(struct node *node)
- 			fail_on_test(testQueryBuf(node, i, q.g_buffers()));
- 			if (!node->is_m2m)
- 				fail_on_test(q2.create_bufs(node->node2, 1) != EBUSY);
--
--			memset(&crbufs, 0xff, sizeof(crbufs));
--			node->g_fmt(crbufs.format, i);
--			crbufs.count = 0;
--			crbufs.memory = m;
--			fail_on_test(doioctl(node, VIDIOC_CREATE_BUFS, &crbufs));
--			fail_on_test(check_0(crbufs.reserved, sizeof(crbufs.reserved)));
--			fail_on_test(crbufs.index != q.g_buffers());
-+			q.reqbufs(node);
- 
- 			if (node->is_video) {
- 				cv4l_fmt fmt;
-@@ -1176,14 +1212,22 @@ static int bufferOutputErrorTest(struct node *node, const buffer &orig_buf)
- 
- static int setupMmap(struct node *node, cv4l_queue &q)
- {
-+	bool cache_hints = q.g_capabilities() & V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS;
-+
- 	fail_on_test(q.mmap_bufs(node));
- 	for (unsigned i = 0; i < q.g_buffers(); i++) {
- 		buffer buf(q);
-+		unsigned int flags;
- 		int ret;
- 
- 		fail_on_test(buf.querybuf(node, i));
- 		fail_on_test(buf.check(q, Unqueued, i));
- 
-+		flags = buf.g_flags();
-+		flags |= V4L2_BUF_FLAG_NO_CACHE_INVALIDATE;
-+		flags |= V4L2_BUF_FLAG_NO_CACHE_CLEAN;
-+		buf.s_flags(flags);
-+
- 		for (unsigned p = 0; p < buf.g_num_planes(); p++) {
- 			// Try a random offset
- 			fail_on_test(node->mmap(buf.g_length(p),
-@@ -1220,6 +1264,14 @@ static int setupMmap(struct node *node, cv4l_queue &q)
- 			buf.s_index(buf.g_index() - VIDEO_MAX_FRAME);
- 			fail_on_test(buf.g_index() != i);
- 		}
-+		flags = buf.g_flags();
-+		if (cache_hints) {
-+			fail_on_test(!(flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE));
-+			fail_on_test(!(flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN));
-+		} else {
-+			fail_on_test(flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE);
-+			fail_on_test(flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN);
-+		}
- 		fail_on_test(buf.querybuf(node, i));
- 		fail_on_test(buf.check(q, Queued, i));
- 		fail_on_test(!buf.dqbuf(node));
-@@ -1240,6 +1292,8 @@ int testMmap(struct node *node, struct node *node_m2m_cap, unsigned frame_count,
- 
- 	buffer_info.clear();
- 	for (type = 0; type <= V4L2_BUF_TYPE_LAST; type++) {
-+		cv4l_fmt fmt;
-+
- 		if (!(node->valid_buftypes & (1 << type)))
- 			continue;
- 		if (v4l_type_is_overlay(type))
-@@ -1297,6 +1351,11 @@ int testMmap(struct node *node, struct node *node_m2m_cap, unsigned frame_count,
- 		fail_on_test(q.reqbufs(node, q.g_buffers()));
- 		fail_on_test(node->g_fmt(cur_fmt, q.g_type()));
- 
-+		q.reqbufs(node);
-+		q.create_bufs(node, 2, &cur_fmt, V4L2_FLAG_MEMORY_NON_CONSISTENT);
-+		fail_on_test(setupMmap(node, q));
-+		q.reqbufs(node);
-+
- 		ret = q.create_bufs(node, 0);
- 		fail_on_test(ret != ENOTTY && ret != 0);
- 		if (ret == ENOTTY)
-@@ -1475,11 +1534,17 @@ static int setupUserPtr(struct node *node, cv4l_queue &q)
- {
- 	for (unsigned i = 0; i < q.g_buffers(); i++) {
- 		buffer buf(q);
-+		unsigned int flags;
- 		int ret;
- 
- 		fail_on_test(buf.querybuf(node, i));
- 		fail_on_test(buf.check(q, Unqueued, i));
- 
-+		flags = buf.g_flags();
-+		flags |= V4L2_BUF_FLAG_NO_CACHE_INVALIDATE;
-+		flags |= V4L2_BUF_FLAG_NO_CACHE_CLEAN;
-+		buf.s_flags(flags);
-+
- 		for (unsigned p = 0; p < buf.g_num_planes(); p++) {
- 			// This should not work!
- 			fail_on_test(node->mmap(buf.g_length(p), 0) != MAP_FAILED);
-@@ -1537,7 +1602,10 @@ static int setupUserPtr(struct node *node, cv4l_queue &q)
- 			if (v4l_type_is_output(q.g_type()))
- 				fail_on_test(!buf.g_bytesused(p));
- 		}
--		fail_on_test(buf.g_flags() & V4L2_BUF_FLAG_DONE);
-+		flags = buf.g_flags();
-+		fail_on_test(flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE);
-+		fail_on_test(flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN);
-+		fail_on_test(flags & V4L2_BUF_FLAG_DONE);
- 		fail_on_test(buf.querybuf(node, i));
- 		fail_on_test(buf.check(q, Queued, i));
- 	}
-@@ -1732,12 +1800,17 @@ static int setupDmaBuf(struct node *expbuf_node, struct node *node,
- 	fail_on_test(q.mmap_bufs(node));
- 	for (unsigned i = 0; i < q.g_buffers(); i++) {
- 		buffer buf(q);
-+		unsigned int flags;
- 		int ret;
- 
- 		buf.init(q, i);
- 		fail_on_test(buf.querybuf(node, i));
- 		for (unsigned p = 0; p < buf.g_num_planes(); p++)
- 			buf.s_fd(q.g_fd(i, p), p);
-+		flags = buf.g_flags();
-+		flags |= V4L2_BUF_FLAG_NO_CACHE_INVALIDATE;
-+		flags |= V4L2_BUF_FLAG_NO_CACHE_CLEAN;
-+		buf.s_flags(flags);
- 		ret = buf.prepare_buf(node, q);
- 		if (ret != ENOTTY) {
- 			fail_on_test(ret);
-@@ -1757,7 +1830,11 @@ static int setupDmaBuf(struct node *expbuf_node, struct node *node,
- 			if (v4l_type_is_output(q.g_type()))
- 				fail_on_test(!buf.g_bytesused(p));
- 		}
--		fail_on_test(buf.g_flags() & V4L2_BUF_FLAG_DONE);
-+		flags = buf.g_flags();
-+		/* We always skip cache sync/flush for DMABUF memory type */
-+		fail_on_test(!(flags & V4L2_BUF_FLAG_NO_CACHE_INVALIDATE));
-+		fail_on_test(!(flags & V4L2_BUF_FLAG_NO_CACHE_CLEAN));
-+		fail_on_test(flags & V4L2_BUF_FLAG_DONE);
- 		fail_on_test(buf.querybuf(node, i));
- 		fail_on_test(buf.check(q, Queued, i));
- 	}
--- 
-2.27.0
+These V4L2_PIX_FMT_YUV420_8BIT/_10BIT were added because of the compressed nature
+of buffers. It's not because of the modifiers, modifiers can be used we any fourcc
+to define vendor specific layout requirements or changes, but for compressed the
+underlying YUV buffer cannot be physically described by any YUV420 fourcc, so
+ARM introduced these fourcc to describe a virtual YUV420 8 or 10bit buffer which
+physical layout is defined by the modifier.
+They could have re-used DRM_FORMAT_YUV420, but it's a 2 plane fourcc, and the other
+describe a true single or multiple plane layout which are simply not true with
+ARM AFBC or Amlogic FBC.
+
+Neil
+
+> 
+> Nicolas
+>  
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>> Neil
+>>>
+>>>> I believe we really need this since v4l2_buffer and v4l2_format are a real mess.
+>>>>
+>>>> Regards,
+>>>>
+>>>> 	Hans
+>>>>
+>>>>>>>  		default:
+>>>>>>>  			if (fmt->description[0])
+>>>>>>>  				return;
+>>>>>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>>>>>>> index c3a1cf1c507f..90b9949acb8a 100644
+>>>>>>> --- a/include/uapi/linux/videodev2.h
+>>>>>>> +++ b/include/uapi/linux/videodev2.h
+>>>>>>> @@ -705,6 +705,15 @@ struct v4l2_pix_format {
+>>>>>>>  #define V4L2_PIX_FMT_FWHT     v4l2_fourcc('F', 'W', 'H', 'T') /* Fast Walsh Hadamard Transform (vicodec) */
+>>>>>>>  #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') /* Stateless FWHT (vicodec) */
+>>>>>>>  
+>>>>>>> +/*
+>>>>>>> + * Compressed Luminance+Chrominance meta-formats
+>>>>>>> + * In these formats, the component ordering is specified (Y, followed by U
+>>>>>>> + * then V), but the exact Linear layout is undefined.
+>>>>>>> + * These formats can only be used with a non-Linear modifier.
+>>>>>>> + */
+>>>>>>> +#define V4L2_PIX_FMT_YUV420_8BIT	v4l2_fourcc('Y', 'U', '0', '8') /* 1-plane YUV 4:2:0 8-bit */
+>>>>>>> +#define V4L2_PIX_FMT_YUV420_10BIT	v4l2_fourcc('Y', 'U', '1', '0') /* 1-plane YUV 4:2:0 10-bit */
+>>>>>>> +
+>>>>>>>  /*  Vendor-specific formats   */
+>>>>>>>  #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 YUV */
+>>>>>>>  #define V4L2_PIX_FMT_WNVA     v4l2_fourcc('W', 'N', 'V', 'A') /* Winnov hw compress */
+>>>>>
+>>>>> [1] https://patchwork.freedesktop.org/series/73722/#rev7
+>>>>>
+> 
 
