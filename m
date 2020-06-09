@@ -2,190 +2,290 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30AA11F3798
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 12:07:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 379ED1F381E
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 12:29:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728618AbgFIKHE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Jun 2020 06:07:04 -0400
-Received: from gofer.mess.org ([88.97.38.141]:50381 "EHLO gofer.mess.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726286AbgFIKHE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 9 Jun 2020 06:07:04 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 35A62C643B; Tue,  9 Jun 2020 11:07:02 +0100 (BST)
-Date:   Tue, 9 Jun 2020 11:07:02 +0100
-From:   Sean Young <sean@mess.org>
-To:     Sasha Levin <sashal@kernel.org>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Brad Love <brad@nextdimension.cc>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH AUTOSEL 5.7 066/274] media: dvbdev: Fix tuner->demod
- media controller link
-Message-ID: <20200609100702.GA24792@gofer.mess.org>
-References: <20200608230607.3361041-1-sashal@kernel.org>
- <20200608230607.3361041-66-sashal@kernel.org>
+        id S1728639AbgFIK3B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Jun 2020 06:29:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57866 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727101AbgFIK26 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Jun 2020 06:28:58 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7D86C03E97C
+        for <linux-media@vger.kernel.org>; Tue,  9 Jun 2020 03:28:56 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id m32so10718484ede.8
+        for <linux-media@vger.kernel.org>; Tue, 09 Jun 2020 03:28:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=gFNWdxQvJsj/PAcrNno1NXDrWUfuQ3gELpOPfZFY9Ok=;
+        b=bWTGfVAOG6tfJfLLKI3RpHybPpWytXlALbTZ34ZpOyOmB1Dxfj7SykRUv/XYVfF6IA
+         QsjVmQiJIYrP7R/wcwSSnyfZjY8Bsgw2EWZy9Tsb0Cegmtpuwq5fJVZ6x0vCfDBXfPuI
+         tnx/l1sUi1c4IdE1GUCateS/CElmISjns8noFnDPXJzIwU5OM6MdRhEGmTzOfE2MDGZ5
+         /vmk6NNv1rTAsuOT5WMWZS9iuGAlmWexYWDEeWMgIjk1LXYBSNwvv1CFbiIsjPtq61Ir
+         QnTfYDvkxZc5Tf9hHLIUJ6hJVY0LpvnMc7fI8e1GP5Rx8E9l/MHT+h0EQ79CUyrBqOXi
+         sd6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=gFNWdxQvJsj/PAcrNno1NXDrWUfuQ3gELpOPfZFY9Ok=;
+        b=YBaAAij5h2diLy8QqBp1aRmvUSI/vfWShulESAznwYBhF/4d+lZPfrE89I4upDSDIC
+         YLr+7egDWALEB1RavwBWinjGniJ40LxEUWW8csAiEQCv+ERZCAvYd9n3KMxN8WPqbMN9
+         J9G+H7eRVsBo1W1s2Df6TMzrJRsxRHtejC5IQXqHrkeh4sTAK8pnuwBR1fZeCCVWSJJ6
+         dDIWmDTU43etaZ7mHtEX4uOk9jQRIe/JVr61E46ya8AH/kgDdxc35SsfzGjO7Oo6CiKA
+         V6+mR9wdkSpWp9n/tyNy2hZLkcbNcMmAjpArWL8T9RHeN4nLyKkTSTTq2q2QtCWTQEUg
+         E51g==
+X-Gm-Message-State: AOAM5312XlHrUge8B71X1h5DLxoWIRQzCdwk/XiJmODoiCzdeYU+m9MX
+        UxFlbpdn9+1b5Y3pryMALbClSjVsOhN17eIbW9FPQw==
+X-Google-Smtp-Source: ABdhPJxZ6XlgVmh3lSP6SM9175REGiYedmbVtXDN/k3Pkaj/EKKBRDkAoZb/wAc6G53Gx2OymPWm4S7XPrTygcgKTIg=
+X-Received: by 2002:a05:6402:1746:: with SMTP id v6mr2922335edx.236.1591698535254;
+ Tue, 09 Jun 2020 03:28:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200608230607.3361041-66-sashal@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20200604135317.9235-1-narmstrong@baylibre.com>
+ <20200604135317.9235-2-narmstrong@baylibre.com> <02aa06fd8397b77c9a75d3a8399cb55d3b4d39c1.camel@ndufresne.ca>
+ <4d22ff40-11ac-c77a-564d-af9a678f23af@baylibre.com> <a15dea55-3ca4-2a65-5c56-6c1edd2de405@xs4all.nl>
+ <a4c5ae79-1d4d-4c1e-1535-c6c8b02d4b6f@baylibre.com> <2a0db0a4-9d04-f20c-39d8-ff25e07e64b7@xs4all.nl>
+ <f6d35521b61da395528d6dd1164a9af6c3acd664.camel@ndufresne.ca> <3ffe901f-73e4-bdf7-84a6-a5372186b55c@baylibre.com>
+In-Reply-To: <3ffe901f-73e4-bdf7-84a6-a5372186b55c@baylibre.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Tue, 9 Jun 2020 07:28:44 -0300
+Message-ID: <CAAEAJfB8HfgONpJ6YZhLnLdQz+emfhDetR_0=BoRykz3-7732Q@mail.gmail.com>
+Subject: Re: [PATCH 1/5] media: videodev2: add Compressed Framebuffer pixel formats
+To:     Neil Armstrong <narmstrong@baylibre.com>
+Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media <linux-media@vger.kernel.org>,
+        linux-amlogic@lists.infradead.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Maxime Jourdan <mjourdan@baylibre.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Helen Koike <helen.koike@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Jun 08, 2020 at 07:02:39PM -0400, Sasha Levin wrote:
-> From: Brad Love <brad@nextdimension.cc>
-> 
-> [ Upstream commit 9f984cacf4f4d53fd8a3f44d7f13528b81c1f6a8 ]
+Adding Helen to the discussion.
 
-This commit is already merged into 5.7 stable.
-
-Thanks
-
-Sean
-
-> 
-> Fixes bug exposed by:
-> 
-> [a3fbc2e6bb0: media: mc-entity.c: use WARN_ON, validate link pads]
-> 
-> The dvbdev incorrectly requests a tuner sink pad to connect to a demux
-> sink pad. The media controller failure percolates back and the dvb device
-> creation fails. Fix this by requesting a tuner source pad. Instead of
-> forcing that pad to be index zero, check if a negative integer error
-> is returned. A note is added that first source pad found is chosen.
-> 
-> Affected bridges cx231xx and em28xx printed the below warning[s]
-> when a variety of media controller dvb enabled devices were connected.
-> The warning returns an error causing all affected devices to fail DVB
-> device creation.
-> 
-> [  253.138332] ------------[ cut here ]------------
-> [  253.138339] WARNING: CPU: 0 PID: 1550 at drivers/media/mc/mc-entity.c:669 media_create_pad_link+0x1e0/0x200 [mc]
-> [  253.138339] Modules linked in: si2168 em28xx_dvb(+) em28xx si2157 lgdt3306a cx231xx_dvb dvb_core cx231xx_alsa cx25840 cx231xx tveeprom cx2341x i2c_mux videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobuf2_common videodev mc ir_rc5_decoder rc_hauppauge mceusb rc_core eda
-> c_mce_amd kvm nls_iso8859_1 crct10dif_pclmul crc32_pclmul ghash_clmulni_intel aesni_intel crypto_simd cryptd glue_helper efi_pstore wmi_bmof k10temp asix usbnet mii nouveau snd_hda_codec_realtek snd_hda_codec_generic input_leds ledtrig_audio snd_hda_codec_hdmi mxm_wmi snd_hda_in
-> tel video snd_intel_dspcfg ttm snd_hda_codec drm_kms_helper snd_hda_core drm snd_hwdep snd_seq_midi snd_seq_midi_event i2c_algo_bit snd_pcm snd_rawmidi fb_sys_fops snd_seq syscopyarea sysfillrect snd_seq_device sysimgblt snd_timer snd soundcore ccp mac_hid sch_fq_codel parport_p
-> c ppdev lp parport ip_tables x_tables autofs4 vfio_pci irqbypass vfio_virqfd vfio_iommu_type1 vfio hid_generic usbhid hid i2c_piix4 ahci libahci wmi gpio_amdpt
-> [  253.138370]  gpio_generic
-> [  253.138372] CPU: 0 PID: 1550 Comm: modprobe Tainted: G        W         5.7.0-rc2+ #181
-> [  253.138373] Hardware name: MSI MS-7A39/B350M GAMING PRO (MS-7A39), BIOS 2.G0 04/27/2018
-> [  253.138376] RIP: 0010:media_create_pad_link+0x1e0/0x200 [mc]
-> [  253.138378] Code: 26 fd ff ff 44 8b 4d d0 eb d9 0f 0b 41 b9 ea ff ff ff 44 89 c8 c3 0f 0b 41 b9 ea ff ff ff eb f2 0f 0b 41 b9 ea ff ff ff eb e8 <0f> 0b 41 b9 ea ff ff ff eb af 0f 0b 41 b9 ea ff ff ff eb a5 66 90
-> [  253.138379] RSP: 0018:ffffb9ecc0ee7a78 EFLAGS: 00010246
-> [  253.138380] RAX: ffff943f706c99d8 RBX: 0000000000000000 RCX: 0000000000000000
-> [  253.138381] RDX: ffff943f613e0180 RSI: 0000000000000000 RDI: ffff943f706c9958
-> [  253.138381] RBP: ffffb9ecc0ee7ab0 R08: 0000000000000001 R09: ffff943f613e0180
-> [  253.138382] R10: ffff943f613e0180 R11: ffff943f706c9400 R12: 0000000000000000
-> [  253.138383] R13: 0000000000000001 R14: ffff943f706c9958 R15: 0000000000000001
-> [  253.138384] FS:  00007f3cd29ba540(0000) GS:ffff943f8ec00000(0000) knlGS:0000000000000000
-> [  253.138385] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  253.138385] CR2: 000055f7de0ca830 CR3: 00000003dd208000 CR4: 00000000003406f0
-> [  253.138386] Call Trace:
-> [  253.138392]  media_create_pad_links+0x104/0x1b0 [mc]
-> [  253.138397]  dvb_create_media_graph+0x350/0x5f0 [dvb_core]
-> [  253.138402]  em28xx_dvb_init+0x5ea/0x2600 [em28xx_dvb]
-> [  253.138408]  em28xx_register_extension+0x63/0xc0 [em28xx]
-> [  253.138410]  ? 0xffffffffc039c000
-> [  253.138412]  em28xx_dvb_register+0x15/0x1000 [em28xx_dvb]
-> [  253.138416]  do_one_initcall+0x71/0x250
-> [  253.138418]  ? do_init_module+0x27/0x22e
-> [  253.138421]  ? _cond_resched+0x1a/0x50
-> [  253.138423]  ? kmem_cache_alloc_trace+0x1ec/0x270
-> [  253.138425]  ? __vunmap+0x1e3/0x240
-> [  253.138427]  do_init_module+0x5f/0x22e
-> [  253.138430]  load_module+0x2525/0x2d40
-> [  253.138436]  __do_sys_finit_module+0xe5/0x120
-> [  253.138438]  ? __do_sys_finit_module+0xe5/0x120
-> [  253.138442]  __x64_sys_finit_module+0x1a/0x20
-> [  253.138443]  do_syscall_64+0x57/0x1b0
-> [  253.138445]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> [  253.138446] RIP: 0033:0x7f3cd24dc839
-> [  253.138448] Code: 00 f3 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 1f f6 2c 00 f7 d8 64 89 01 48
-> [  253.138449] RSP: 002b:00007ffe4fc514d8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
-> [  253.138450] RAX: ffffffffffffffda RBX: 000055a9237f63f0 RCX: 00007f3cd24dc839
-> [  253.138451] RDX: 0000000000000000 RSI: 000055a922c3ad2e RDI: 0000000000000000
-> [  253.138451] RBP: 000055a922c3ad2e R08: 0000000000000000 R09: 0000000000000000
-> [  253.138452] R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-> [  253.138453] R13: 000055a9237f5550 R14: 0000000000040000 R15: 000055a9237f63f0
-> [  253.138456] ---[ end trace a60f19c54aa96ec4 ]---
-> 
-> [  234.915628] ------------[ cut here ]------------
-> [  234.915640] WARNING: CPU: 0 PID: 1502 at drivers/media/mc/mc-entity.c:669 media_create_pad_link+0x1e0/0x200 [mc]
-> [  234.915641] Modules linked in: si2157 lgdt3306a cx231xx_dvb(+) dvb_core cx231xx_alsa cx25840 cx231xx tveeprom cx2341x i2c_mux videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobuf2_common videodev mc ir_rc5_decoder rc_hauppauge mceusb rc_core edac_mce_amd kvm nls_iso8859
-> _1 crct10dif_pclmul crc32_pclmul ghash_clmulni_intel aesni_intel crypto_simd cryptd glue_helper efi_pstore wmi_bmof k10temp asix usbnet mii nouveau snd_hda_codec_realtek snd_hda_codec_generic input_leds ledtrig_audio snd_hda_codec_hdmi mxm_wmi snd_hda_intel video snd_intel_dspcf
-> g ttm snd_hda_codec drm_kms_helper snd_hda_core drm snd_hwdep snd_seq_midi snd_seq_midi_event i2c_algo_bit snd_pcm snd_rawmidi fb_sys_fops snd_seq syscopyarea sysfillrect snd_seq_device sysimgblt snd_timer snd soundcore ccp mac_hid sch_fq_codel parport_pc ppdev lp parport ip_tab
-> les x_tables autofs4 vfio_pci irqbypass vfio_virqfd vfio_iommu_type1 vfio hid_generic usbhid hid i2c_piix4 ahci libahci wmi gpio_amdpt gpio_generic
-> [  234.915700] CPU: 0 PID: 1502 Comm: modprobe Not tainted 5.7.0-rc2+ #181
-> [  234.915702] Hardware name: MSI MS-7A39/B350M GAMING PRO (MS-7A39), BIOS 2.G0 04/27/2018
-> [  234.915709] RIP: 0010:media_create_pad_link+0x1e0/0x200 [mc]
-> [  234.915712] Code: 26 fd ff ff 44 8b 4d d0 eb d9 0f 0b 41 b9 ea ff ff ff 44 89 c8 c3 0f 0b 41 b9 ea ff ff ff eb f2 0f 0b 41 b9 ea ff ff ff eb e8 <0f> 0b 41 b9 ea ff ff ff eb af 0f 0b 41 b9 ea ff ff ff eb a5 66 90
-> [  234.915714] RSP: 0018:ffffb9ecc1b6fa50 EFLAGS: 00010246
-> [  234.915717] RAX: ffff943f8c94a9d8 RBX: 0000000000000000 RCX: 0000000000000000
-> [  234.915719] RDX: ffff943f613e0900 RSI: 0000000000000000 RDI: ffff943f8c94a958
-> [  234.915721] RBP: ffffb9ecc1b6fa88 R08: 0000000000000001 R09: ffff943f613e0900
-> [  234.915723] R10: ffff943f613e0900 R11: ffff943f6b590c00 R12: 0000000000000000
-> [  234.915724] R13: 0000000000000001 R14: ffff943f8c94a958 R15: 0000000000000001
-> [  234.915727] FS:  00007f4ca3646540(0000) GS:ffff943f8ec00000(0000) knlGS:0000000000000000
-> [  234.915729] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  234.915731] CR2: 00007fff7a53ba18 CR3: 00000003da614000 CR4: 00000000003406f0
-> [  234.915733] Call Trace:
-> [  234.915745]  media_create_pad_links+0x104/0x1b0 [mc]
-> [  234.915756]  dvb_create_media_graph+0x350/0x5f0 [dvb_core]
-> [  234.915766]  dvb_init.part.4+0x691/0x1360 [cx231xx_dvb]
-> [  234.915780]  dvb_init+0x1a/0x20 [cx231xx_dvb]
-> [  234.915787]  cx231xx_register_extension+0x71/0xa0 [cx231xx]
-> [  234.915791]  ? 0xffffffffc042f000
-> [  234.915796]  cx231xx_dvb_register+0x15/0x1000 [cx231xx_dvb]
-> [  234.915802]  do_one_initcall+0x71/0x250
-> [  234.915807]  ? do_init_module+0x27/0x22e
-> [  234.915811]  ? _cond_resched+0x1a/0x50
-> [  234.915816]  ? kmem_cache_alloc_trace+0x1ec/0x270
-> [  234.915820]  ? __vunmap+0x1e3/0x240
-> [  234.915826]  do_init_module+0x5f/0x22e
-> [  234.915831]  load_module+0x2525/0x2d40
-> [  234.915848]  __do_sys_finit_module+0xe5/0x120
-> [  234.915850]  ? __do_sys_finit_module+0xe5/0x120
-> [  234.915862]  __x64_sys_finit_module+0x1a/0x20
-> [  234.915865]  do_syscall_64+0x57/0x1b0
-> [  234.915870]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> [  234.915872] RIP: 0033:0x7f4ca3168839
-> [  234.915876] Code: 00 f3 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d 1f f6 2c 00 f7 d8 64 89 01 48
-> [  234.915878] RSP: 002b:00007ffcea3db3b8 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
-> [  234.915881] RAX: ffffffffffffffda RBX: 000055af22c29340 RCX: 00007f4ca3168839
-> [  234.915882] RDX: 0000000000000000 RSI: 000055af22c38390 RDI: 0000000000000001
-> [  234.915884] RBP: 000055af22c38390 R08: 0000000000000000 R09: 0000000000000000
-> [  234.915885] R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000000
-> [  234.915887] R13: 000055af22c29060 R14: 0000000000040000 R15: 0000000000000000
-> [  234.915896] ---[ end trace a60f19c54aa96ec3 ]---
-> 
-> Signed-off-by: Brad Love <brad@nextdimension.cc>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Sean Young <sean@mess.org>
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  drivers/media/dvb-core/dvbdev.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-> index 80b6a71aa33e..959fa2820259 100644
-> --- a/drivers/media/dvb-core/dvbdev.c
-> +++ b/drivers/media/dvb-core/dvbdev.c
-> @@ -707,9 +707,10 @@ int dvb_create_media_graph(struct dvb_adapter *adap,
->  	}
->  
->  	if (ntuner && ndemod) {
-> -		pad_source = media_get_pad_index(tuner, true,
-> +		/* NOTE: first found tuner source pad presumed correct */
-> +		pad_source = media_get_pad_index(tuner, false,
->  						 PAD_SIGNAL_ANALOG);
-> -		if (pad_source)
-> +		if (pad_source < 0)
->  			return -EINVAL;
->  		ret = media_create_pad_links(mdev,
->  					     MEDIA_ENT_F_TUNER,
-> -- 
-> 2.25.1
+On Tue, 9 Jun 2020 at 04:43, Neil Armstrong <narmstrong@baylibre.com> wrote=
+:
+>
+> Hi Nicolas,
+>
+> On 08/06/2020 20:59, Nicolas Dufresne wrote:
+> > Le lundi 08 juin 2020 =C3=A0 16:43 +0200, Hans Verkuil a =C3=A9crit :
+> >> On 08/06/2020 16:14, Neil Armstrong wrote:
+> >>> On 08/06/2020 11:26, Hans Verkuil wrote:
+> >>>> On 08/06/2020 10:16, Neil Armstrong wrote:
+> >>>>> Hi Nicolas,
+> >>>>>
+> >>>>> On 05/06/2020 17:35, Nicolas Dufresne wrote:
+> >>>>>> Le jeudi 04 juin 2020 =C3=A0 15:53 +0200, Neil Armstrong a =C3=A9c=
+rit :
+> >>>>>>> From: Maxime Jourdan <mjourdan@baylibre.com>
+> >>>>>>>
+> >>>>>>> Add two generic Compressed Framebuffer pixel formats to be used
+> >>>>>>> with a modifier when imported back in another subsystem like DRM/=
+KMS.
+> >>>>>>>
+> >>>>>>> These pixel formats represents generic 8bits and 10bits compresse=
+d buffers
+> >>>>>>> with a vendor specific layout.
+> >>>>>>>
+> >>>>>>> These are aligned with the DRM_FORMAT_YUV420_8BIT and DRM_FORMAT_=
+YUV420_10BIT
+> >>>>>>> used to describe the underlying compressed buffers used for ARM F=
+ramebuffer
+> >>>>>>> Compression. In the Amlogic case, the compression is different bu=
+t the
+> >>>>>>> underlying buffer components is the same.
+> >>>>>>>
+> >>>>>>> Signed-off-by: Maxime Jourdan <mjourdan@baylibre.com>
+> >>>>>>> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
+> >>>>>>> ---
+> >>>>>>>  drivers/media/v4l2-core/v4l2-ioctl.c | 2 ++
+> >>>>>>>  include/uapi/linux/videodev2.h       | 9 +++++++++
+> >>>>>>>  2 files changed, 11 insertions(+)
+> >>>>>>>
+> >>>>>>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media=
+/v4l2-core/v4l2-ioctl.c
+> >>>>>>> index 2322f08a98be..8f14adfd5bc5 100644
+> >>>>>>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> >>>>>>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> >>>>>>> @@ -1447,6 +1447,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fm=
+tdesc *fmt)
+> >>>>>>>                 case V4L2_PIX_FMT_S5C_UYVY_JPG: descr =3D "S5C73M=
+X interleaved UYVY/JPEG"; break;
+> >>>>>>>                 case V4L2_PIX_FMT_MT21C:        descr =3D "Mediat=
+ek Compressed Format"; break;
+> >>>>>>>                 case V4L2_PIX_FMT_SUNXI_TILED_NV12: descr =3D "Su=
+nxi Tiled NV12 Format"; break;
+> >>>>>>> +               case V4L2_PIX_FMT_YUV420_8BIT:  descr =3D "Compre=
+ssed YUV 4:2:0 8-bit Format"; break;
+> >>>>>>> +               case V4L2_PIX_FMT_YUV420_10BIT: descr =3D "Compre=
+ssed YUV 4:2:0 10-bit Format"; break;
+> >>>
+> >>> [..]
+> >>>
+> >>>>>> I'll remind that the modifier implementation has great value and i=
+s
+> >>>>>> much more scalable then the current V4L2 approach. There has been =
+some
+> >>>>>> early proposal for this, maybe it's time to prioritize because thi=
+s
+> >>>>>> list will starts growing with hundred or even thousands or format,
+> >>>>>> which is clearly indicated by the increase of modifier generator m=
+acro
+> >>>>>> on the DRM side.
+> >>>>>
+> >>>>> Yes, but until the migration of drm_fourcc and v4l2 fourcc into a c=
+ommon one
+> >>>>> is decided, I'm stuck and this is the only intermediate solution I =
+found.
+> >>>>
+> >>>> We can safely assume that drm fourcc and v4l2 fourcc won't be merged=
+.
+> >>>>
+> >>>> There is too much divergence and not enough interest in creating com=
+mon
+> >>>> fourccs.
+> >>>>
+> >>>> But we *do* want to share the modifiers.
+> >>>>
+> >>>>> We have a working solution with Boris's patchset with ext_fmt passi=
+ng the
+> >>>>> modifier to user-space.
+> >>>>>
+> >>>>> but anyway, since the goal is to merge the fourcc between DRM & V4L=
+2, these YUV420_*BIT
+> >>>>> will still be needed if we pass the modifier with an extended forma=
+t struct.
+> >>>>
+> >>>> We tried merging fourccs but that ran into resistance. Frankly, I wo=
+uldn't
+> >>>> bother with this, it is much easier to just create a conversion tabl=
+e in the
+> >>>> kernel docs.
+> >>>>
+> >>>> So don't block on this, I would really prefer if the ext_fmt series =
+is picked
+> >>>> up again and rebased and reposted and then worked on. The stateless =
+codec support
+> >>>> is taking less time (it's shaping up well) so there is more time to =
+work on this.
+> >>>
+> >>> Ok, I already starting discussing with Helen Koike about the ext_fnt =
+re-spin.
+> >>>
+> >>> Should I re-introduce different v4l2 pixfmt for these DRM YUV420_*BIT=
+ or I can keep this
+> >>> patch along the new ext_fmt and shared modifiers ?
+> >>
+> >> So to be clear the DRM_FORMAT_YUV420_8BIT/10BIT fourccs define that th=
+is is a
+> >> buffer containing compressed YUV420 in 8 or 10 bit and the modifier te=
+lls userspace
+> >> which compression is used, right?
+> >>
+> >> And we would add V4L2_PIX_FMT_YUV420_8BIT/_10BIT that, I assume, use t=
+he same
+> >> fourcc values as the DRM variants?
+> >>
+> >> Since these fourccs are basically useless without V4L2 modifier suppor=
+t it would
+> >> only make sense in combination with the ext_fmt series.
+> >
+> > I personally still think that adding these fourcc will just create a
+> > source of confusion and that fourcc should not be tried to be matched
+> > at the cost of tripling the already duplicated pixel formats. Userspace
+> > already need to implement translation anyway.
+>
+> By using the same fourcc + modifiers, the translation table would only be=
+ needed
+> for v4l2-specific fourcc, by reusing the same it's not necessary anymore.
+> We have a really simple ffmpeg implementation using ext_fmt, and it makes=
+ it
+> generic.
+>
+> >
+> > On DRM side, new fourcc was not create for NV12+modifier, I don't see
+> > why planar YUV420 has to be different, with or without ext_fmt.
+>
+> These V4L2_PIX_FMT_YUV420_8BIT/_10BIT were added because of the compresse=
+d nature
+> of buffers. It's not because of the modifiers, modifiers can be used we a=
+ny fourcc
+> to define vendor specific layout requirements or changes, but for compres=
+sed the
+> underlying YUV buffer cannot be physically described by any YUV420 fourcc=
+, so
+> ARM introduced these fourcc to describe a virtual YUV420 8 or 10bit buffe=
+r which
+> physical layout is defined by the modifier.
+> They could have re-used DRM_FORMAT_YUV420, but it's a 2 plane fourcc, and=
+ the other
+> describe a true single or multiple plane layout which are simply not true=
+ with
+> ARM AFBC or Amlogic FBC.
+>
+> Neil
+>
+> >
+> > Nicolas
+> >
+> >>
+> >> Regards,
+> >>
+> >>      Hans
+> >>
+> >>> Neil
+> >>>
+> >>>> I believe we really need this since v4l2_buffer and v4l2_format are =
+a real mess.
+> >>>>
+> >>>> Regards,
+> >>>>
+> >>>>    Hans
+> >>>>
+> >>>>>>>                 default:
+> >>>>>>>                         if (fmt->description[0])
+> >>>>>>>                                 return;
+> >>>>>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/=
+videodev2.h
+> >>>>>>> index c3a1cf1c507f..90b9949acb8a 100644
+> >>>>>>> --- a/include/uapi/linux/videodev2.h
+> >>>>>>> +++ b/include/uapi/linux/videodev2.h
+> >>>>>>> @@ -705,6 +705,15 @@ struct v4l2_pix_format {
+> >>>>>>>  #define V4L2_PIX_FMT_FWHT     v4l2_fourcc('F', 'W', 'H', 'T') /*=
+ Fast Walsh Hadamard Transform (vicodec) */
+> >>>>>>>  #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W=
+', 'H') /* Stateless FWHT (vicodec) */
+> >>>>>>>
+> >>>>>>> +/*
+> >>>>>>> + * Compressed Luminance+Chrominance meta-formats
+> >>>>>>> + * In these formats, the component ordering is specified (Y, fol=
+lowed by U
+> >>>>>>> + * then V), but the exact Linear layout is undefined.
+> >>>>>>> + * These formats can only be used with a non-Linear modifier.
+> >>>>>>> + */
+> >>>>>>> +#define V4L2_PIX_FMT_YUV420_8BIT       v4l2_fourcc('Y', 'U', '0'=
+, '8') /* 1-plane YUV 4:2:0 8-bit */
+> >>>>>>> +#define V4L2_PIX_FMT_YUV420_10BIT      v4l2_fourcc('Y', 'U', '1'=
+, '0') /* 1-plane YUV 4:2:0 10-bit */
+> >>>>>>> +
+> >>>>>>>  /*  Vendor-specific formats   */
+> >>>>>>>  #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /*=
+ cpia1 YUV */
+> >>>>>>>  #define V4L2_PIX_FMT_WNVA     v4l2_fourcc('W', 'N', 'V', 'A') /*=
+ Winnov hw compress */
+> >>>>>
+> >>>>> [1] https://patchwork.freedesktop.org/series/73722/#rev7
+> >>>>>
+> >
+>
