@@ -2,132 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D355A1F33EC
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 08:04:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE0A21F33F5
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 08:10:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727830AbgFIGEZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Jun 2020 02:04:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45252 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726886AbgFIGEY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Jun 2020 02:04:24 -0400
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0184CC03E969;
-        Mon,  8 Jun 2020 23:04:23 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id r10so9821338pgv.8;
-        Mon, 08 Jun 2020 23:04:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lYRB6PYVBiyapz6A4TFF091mtZ2ITZTsavPC5C/0Rns=;
-        b=ostVs+eVDVPNhSoNRalUVxqeALKfy5K9ysWzxpwLghJo7kTuGhZrujIKIf6IExO9uo
-         x8uK5LW1cUtPR6OQLDjW1KCh//T+Hqexlvm4OfHNAp/H0u3QGtkBB/1aY7iwGQBF6qfA
-         1/G7kckFA/GzY17xhaysM8ckNTiRwPmMxChmD5riHb3EV1uhlKKCRiSaAT0ilvXEp7yI
-         lPhkZ4bAMd5UzPXpnfH9gp0aN8HWYClRhvlS+v2OtF9j9zRJeZR7nrJDHllA1rlFgMeG
-         L5XCVnZ+jpZjJG5uRsdXsXvEiZ8SydNPzeMuvpRM7Zl3YIJn7HP79Tas3gmN6uXXwTQC
-         2lOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=lYRB6PYVBiyapz6A4TFF091mtZ2ITZTsavPC5C/0Rns=;
-        b=di2PK50XoJRO0ODZgv2bPQYPeywPEPiQwVT+znWrVbZre0ecsRZkuRryJNNhT1N0ni
-         ho42Bnr4Fwvnj5KnsD0+Wk3z3rBgPUdA9JUN5xrBPqnYRNTxO6rl41Fg8rYlPLWcQsdb
-         4gzJdmUV9LPopr2fwmDuTyNeJFPwerqW1ELLEaKARzYAAO97aHDODpunzytrD83R12aw
-         1WdxvPzt4ELRiDTdp5pJN152XByu8xWCXIXnRYXJP/MN5abXsCh3OB2jHMtfdgIwhQqB
-         JVrrR3t7fnZGHh+gS3iyiq9CSoMT6D2heL731NJc9NnZfdsjuNIJEj9/avCkW5dBLGd/
-         kY/Q==
-X-Gm-Message-State: AOAM531wpo8P5NV5gZM0UtDjsQj41GHD3fGoHfNN6fWqGnsZbv9stubi
-        1o5E5inLGGOKEKshGMRWuRs=
-X-Google-Smtp-Source: ABdhPJySk8EwSWOeKNoqW2OQmmyGb4a/Nb5lkvkHGv9rYME55B44uny3+LDxrOTbf7VlUX+WW4Zk6Q==
-X-Received: by 2002:a05:6a00:15ca:: with SMTP id o10mr11956214pfu.169.1591682663336;
-        Mon, 08 Jun 2020 23:04:23 -0700 (PDT)
-Received: from localhost.localdomain ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
-        by smtp.gmail.com with ESMTPSA id p12sm8934905pfq.69.2020.06.08.23.04.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Jun 2020 23:04:22 -0700 (PDT)
-From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tomasz Figa <tfiga@chromium.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-Subject: [PATCH] videobuf2: always re-init queue memory consistency attribute
-Date:   Tue,  9 Jun 2020 15:04:17 +0900
-Message-Id: <20200609060417.8066-1-sergey.senozhatsky@gmail.com>
-X-Mailer: git-send-email 2.27.0
+        id S1726917AbgFIGKW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Jun 2020 02:10:22 -0400
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:55321 "EHLO
+        wout1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726886AbgFIGKV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 9 Jun 2020 02:10:21 -0400
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+        by mailout.west.internal (Postfix) with ESMTP id D06A4643;
+        Tue,  9 Jun 2020 02:10:20 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute7.internal (MEProxy); Tue, 09 Jun 2020 02:10:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=who-t.net; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm3; bh=G3G/aavXr8lZjHEO6zeY6OOaUQ4
+        8mjjAq5MEnUA12T4=; b=Mhge7RMbRevsPgL57gFrKNvzucCKoxHXAqZOBttznKf
+        MXyB5+JTKl9P97iLYqIgzLpmkOsguptsx1sSBZXEaHCA0NLOyEsXimc3Vrng6Hla
+        iKhIzDTCNO8W9kN6j2MlXej0k6axzAk0dCwAFTsi1doqakzvXakgKhQ9BTrteRHw
+        AL648FfGfOKrJQpyx5cspt6p/zM5d1VM5DlXTGURcQ3NaEVWwG1W/hIE39K0fr89
+        G3H9wAiumPMYlJ45Y96TQH+IRROLLxb05h+BrHTrTSVziYwJqKuGUOpj6neiowAG
+        dT/dGJckOQ7/xOf6YVwWJdiI8/LWK8q3lb52T0CYqnA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=G3G/aa
+        vXr8lZjHEO6zeY6OOaUQ48mjjAq5MEnUA12T4=; b=uZAneJW0w9rmNzQB1KSsVW
+        J68W6VKAfYt8yMBvT0jPAoMXYe1apskTlO91gS/8dVu6Gat/e9ekHW1sqapVwMvO
+        lnFav7AMOH7UeccMTfu6zN1NoODQIopUCIPGbWD2a1VWgUQ+Po+osdEN7Z+oIvje
+        lQAW+J6Ebc/VkI1iYsE8HmIKQW4K5sF7/M9yzlikkFpHQY7OBX0Ne4WuICNJHCa0
+        3Z7mEK4UCLWgQQqabmmuYMCu4YCFJnN59xgSQ2rr4anFYtV+NaxsxMFbnIViGuDO
+        rYZznDU/vGyTHCWRHb4bRKWCkZwiKfcqxZEFUU+oIohE6hXiYRb+xHWtkzs3K7Kg
+        ==
+X-ME-Sender: <xms:yyffXpo9TYLalPVSltZ6DjPbt-NIK3hh8IHzUsTWg9_4o4Eb-YeXdQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudehfedguddtjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomheprfgvthgv
+    rhcujfhuthhtvghrvghruceophgvthgvrhdrhhhuthhtvghrvghrseifhhhoqdhtrdhnvg
+    htqeenucggtffrrghtthgvrhhnpeehhfehfffgheelgeeuudelhefgvdefveekudevjeev
+    jeevvefggefguddufeeuveenucfkphepuddujedrvddtrdeikedrudefvdenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehpvghtvghrrdhhuhht
+    thgvrhgvrhesfihhohdqthdrnhgvth
+X-ME-Proxy: <xmx:yyffXrqyKX7wvqgSHsRDe7QgbGKkim76L0tFuYMYiJZ0OLbFptnGyw>
+    <xmx:yyffXmONLDUwNnE4QMf_jnCD_3tAdenY7N-3wYXNQWGyIv-4ohUF_Q>
+    <xmx:yyffXk6RJiG8no0NcHCgXI0Z1oI7bJemzqLw3-OumMWF49QL2xn2yw>
+    <xmx:zCffXmQ41cfQHFdHGvSG1_k7E82bWEGCfLQvPdecqfY6WAuGtVIOBA>
+Received: from jelly (117-20-68-132.751444.bne.nbn.aussiebb.net [117.20.68.132])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 10E36328005D;
+        Tue,  9 Jun 2020 02:10:17 -0400 (EDT)
+Date:   Tue, 9 Jun 2020 16:10:14 +1000
+From:   Peter Hutterer <peter.hutterer@who-t.net>
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org, linux-input@vger.kernel.org,
+        wayland-devel@lists.freedesktop.org, Ralf Schmidt <rds2@gmx.de>
+Subject: Re: Missing Protocols ir-keytable Ubuntu 20.04
+Message-ID: <20200609061014.GA40603@jelly>
+References: <6446b77c-e6de-9d0a-2ed3-691481917b80@gmx.de>
+ <20200602160810.GB16671@gofer.mess.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200602160810.GB16671@gofer.mess.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We need a combination of two factors in order to permit modification
-of queue's memory consistency attribute in set_queue_consistency():
-  (1) queue should allow user-space cache hints
-  (2) queue should be used for MMAP-ed I/O
+On Tue, Jun 02, 2020 at 05:08:10PM +0100, Sean Young wrote:
+> Hi,
+> 
+> On Wed, May 06, 2020 at 02:35:32PM +0200, Ralf Schmidt wrote:
+> > On more thing: because off the removed -d parameter, Remotes like the
+> > Technisat TTS35AI are no longer supported, such Type of Remotes are not
+> > recognized in /sys/class/rc/.
+> 
+> So I'm now the proud owner of this device.
+> 
+> This device is a usb dongle which is an IR receiver, but self-describes
+> as a usb hid keyboard device. It comes with a remote.
+> 
+> As far as I can figure out, there is no way to reprogram it.
+> 
+> So users have been re-mapping scancodes to different keycodes using:
+> 
+> ir-keytable -d /dev/input/eventN -c -k 0x12:KEY_F1 
+> 
+> However, ir-keytable was designed load keymaps for rc devices, not hid
+> devices. This functionality was intentionally removed, as it was buggy
+> in many ways. ir-keytable does not exist for remapping usb hid keyboards.
+> 
+> This has left some users like Ralf in a situation where they can no longer
+> change the key mappings for their remote.
+> 
+> ir-keytable is probably not the right way to do this; it has no rules to
+> do this from udev, for example. What tooling is there for doing this
+> and what is the recommended way to do this?
 
-Therefore the code in videobuf2 core looks as follows:
+remapping the keys through the udev builtins maybe?
+see /usr/lib/udev/hwdb.d/60-keyboard.hwdb
 
-	q->memory = req->memory;
-	set_queue_consistency(q, consistent);
-
-This works when we do something like this (suppose that queue allows
-cache hints)
-
-	reqbufs.memory = V4L2_MEMORY_DMABUF;
-	reqbufs.flags = 0;
-	doioctl(node, VIDIOC_REQBUFS, &reqbufs);
-
-	reqbufs.memory = V4L2_MEMORY_MMAP;
-	reqbufs.flags = V4L2_FLAG_MEMORY_NON_CONSISTENT;
-	doioctl(node, VIDIOC_REQBUFS, &reqbufs);
-
-However, this doesn't work the other way around
-
-	reqbufs.memory = V4L2_MEMORY_MMAP;
-	reqbufs.flags = V4L2_FLAG_MEMORY_NON_CONSISTENT;
-	doioctl(node, VIDIOC_REQBUFS, &reqbufs);
-
-	reqbufs.memory = V4L2_MEMORY_DMABUF;
-	reqbufs.flags = 0;
-	doioctl(node, VIDIOC_REQBUFS, &reqbufs);
-
-because __vb2_queue_free() doesn't clear queue's ->dma_attrs
-once its don't freeing queue buffers, and by the time we call
-set_queue_consistency() the queue is DMABUF so (2) is false
-and we never clear the stale consistency attribute.
-
-Re-implement set_queue_consistency() - it must always clear
-queue's non-consistency attr and set it only if (1) and (2).
-
-Signed-off-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
----
- drivers/media/common/videobuf2/videobuf2-core.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index 7e081716b8da..37d0186ba330 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -704,12 +704,11 @@ EXPORT_SYMBOL(vb2_verify_memory_type);
- 
- static void set_queue_consistency(struct vb2_queue *q, bool consistent_mem)
- {
-+	q->dma_attrs &= ~DMA_ATTR_NON_CONSISTENT;
-+
- 	if (!vb2_queue_allows_cache_hints(q))
- 		return;
--
--	if (consistent_mem)
--		q->dma_attrs &= ~DMA_ATTR_NON_CONSISTENT;
--	else
-+	if (!consistent_mem)
- 		q->dma_attrs |= DMA_ATTR_NON_CONSISTENT;
- }
- 
--- 
-2.27.0
-
+Cheers,
+   Peter
