@@ -2,77 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BD281F4030
-	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 18:04:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A53921F4055
+	for <lists+linux-media@lfdr.de>; Tue,  9 Jun 2020 18:12:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731211AbgFIQDq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Jun 2020 12:03:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53188 "EHLO
+        id S1731016AbgFIQMT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Jun 2020 12:12:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54522 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731060AbgFIQDo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Jun 2020 12:03:44 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CB3FC05BD1E;
-        Tue,  9 Jun 2020 09:03:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
-        Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:
-        Subject:Sender:Reply-To:Content-ID:Content-Description;
-        bh=EbgramDsClABbRh6SAXFCh3bxBrc0kj7IkVo3KuqmtM=; b=cO3c2Jp4wSWBSIYCVjEGfETKzB
-        4MHEl3u1W+06LuzU/RiQYyNfWUdfKzFf+nCoV7IeleFAke6LnGCTwuJTCXkaXvbmtz3YJs6YjjkNb
-        +CENmEnwphZ/uA3zSIpXHyhbSlOE4t2OK9oaLPsXeetUZPBXY1FqbofhwGy3ZEJi2lc7+X9oF1S9t
-        u1A3Xc1S3aATO+IvvejggzFh1mhDM3IL1b3MgxgQNcevdtGZVJcg8ZyTqr7O1kwAg9zkGGB7S8irq
-        xq++b5wewuMW2HpxmZ3e0CMJOt8qzDnyA2IZQaUtBigSEV7HiEldcvXSPDWqlxAd7zy2HxXG/vpSt
-        wCdAlmPg==;
-Received: from [2601:1c0:6280:3f0:897c:6038:c71d:ecac]
-        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1jigiz-0001ZX-OG; Tue, 09 Jun 2020 16:03:41 +0000
-Subject: Re: [PATCH v3 0/7] Venus dynamic debug
-To:     Matthew Wilcox <willy@infradead.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, Joe Perches <joe@perches.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jason Baron <jbaron@akamai.com>
-References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
- <20200609111323.GA19604@bombadil.infradead.org>
-From:   Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <c239d5df-e069-2091-589e-30f341c2cbd3@infradead.org>
-Date:   Tue, 9 Jun 2020 09:03:39 -0700
+        with ESMTP id S1728888AbgFIQMT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Jun 2020 12:12:19 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECF7BC05BD1E;
+        Tue,  9 Jun 2020 09:12:18 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 551CE291;
+        Tue,  9 Jun 2020 18:12:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1591719137;
+        bh=hHbKh9ESqMiyA+FcNcJ2kUFb7qAQQnGOkiZEfnWIN9w=;
+        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
+        b=pUFrj5P4xpI/+74zCVd97WXN9dbGjrSf3vHIyrpGp6CreA+XHDPIMKtZt+Vx0rOVW
+         Roh0z9dnVCsfQByhzAn9rT/c27F1H41/+2bngtqsKCMQ5J7l3U/6Hi3BLnETbfo0qs
+         5Xt3XdKzWRFlywVokBNkITMPAv8NXo+TguY1fk3U=
+Subject: Re: [RFC 3/5] mc-device.c: If graph completes status is available
+ report it to user-space
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20200318213051.3200981-1-niklas.soderlund+renesas@ragnatech.se>
+ <20200318213051.3200981-4-niklas.soderlund+renesas@ragnatech.se>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Organization: Ideas on Board
+Message-ID: <73bab328-94ba-5939-8fb3-4c810d7d183f@ideasonboard.com>
+Date:   Tue, 9 Jun 2020 17:12:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200609111323.GA19604@bombadil.infradead.org>
+In-Reply-To: <20200318213051.3200981-4-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 6/9/20 4:13 AM, Matthew Wilcox wrote:
-> On Tue, Jun 09, 2020 at 01:45:57PM +0300, Stanimir Varbanov wrote:
->> Here is the third version of dynamic debug improvements in Venus
->> driver.  As has been suggested on previous version by Joe [1] I've
->> made the relevant changes in dynamic debug core to handle leveling
->> as more generic way and not open-code/workaround it in the driver.
->>
->> About changes:
->>  - added change in the dynamic_debug and in documentation
->>  - added respective pr_debug_level and dev_dbg_level
+Hi Niklas,
+
+On 18/03/2020 21:30, Niklas Söderlund wrote:> If the media device
+implements the graph_complete callback utilise it> and fill in the
+completes of the graph in the struct media_device_info.> >
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/mc/mc-device.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> Honestly, this seems like you want to use tracepoints, not dynamic debug.
+> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+> index da8088351135298a..64c786570b6df129 100644
+> --- a/drivers/media/mc/mc-device.c
+> +++ b/drivers/media/mc/mc-device.c
+> @@ -75,6 +75,10 @@ static long media_device_get_info(struct media_device *dev, void *arg)
+>  	info->driver_version = info->media_version;
+>  	info->hw_revision = dev->hw_revision;
+>  
+> +	if (dev->ops && dev->ops->graph_complete)
+> +		info->flags |= dev->ops->graph_complete(dev) ?
+> +			MEDIA_INFO_FLAG_COMPLETE : MEDIA_INFO_FLAG_INCOMPLETE;
+
+Aha, I see it was because of graph_complete being optional that leads to
+having both states of the bool...
+
+And I guess we can't 'default' to either state if graph_complete()
+doesn't exist...
+
+--
+Kieran
+
+
+
+> +
+>  	return 0;
+>  }
+>  
 > 
-
-Also see this patch series:
-https://lore.kernel.org/lkml/20200605162645.289174-1-jim.cromie@gmail.com/
-[PATCH 00/16] dynamic_debug: cleanups, 2 features
-
-It adds/expands dynamic debug flags quite a bit.
-
--- 
-~Randy
 
