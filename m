@@ -2,89 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D79071F4ECA
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 09:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 900081F505C
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 10:33:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726454AbgFJHYa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 03:24:30 -0400
-Received: from smtprelay0191.hostedemail.com ([216.40.44.191]:33160 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726081AbgFJHY3 (ORCPT
+        id S1726834AbgFJIdo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 04:33:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36672 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726802AbgFJIdo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 03:24:29 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 2364F180A7FCA;
-        Wed, 10 Jun 2020 07:24:28 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:960:968:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2553:2559:2562:2693:2828:3138:3139:3140:3141:3142:3353:3622:3865:3866:3867:3868:3870:3871:3872:3873:3874:4250:4321:5007:6119:6742:7903:8604:9393:10004:10400:10848:11026:11232:11658:11914:12050:12297:12663:12679:12740:12760:12895:13069:13255:13311:13357:13439:14096:14097:14659:14721:21080:21324:21433:21627:21939:21990:30054:30062:30075:30090:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: toad10_2409db926dc9
-X-Filterd-Recvd-Size: 2861
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf13.hostedemail.com (Postfix) with ESMTPA;
-        Wed, 10 Jun 2020 07:24:26 +0000 (UTC)
-Message-ID: <4b77ebf589ccc8ce0983539ce2fca4eba8f72a2a.camel@perches.com>
-Subject: Re: [PATCH v3 1/7] Documentation: dynamic-debug: Add description of
- level bitmask
-From:   Joe Perches <joe@perches.com>
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, Jason Baron <jbaron@akamai.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Jim Cromie <jim.cromie@gmail.com>
-Date:   Wed, 10 Jun 2020 00:24:25 -0700
-In-Reply-To: <20200610070949.GB1923109@kroah.com>
-References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
-         <20200609104604.1594-2-stanimir.varbanov@linaro.org>
-         <20200609111615.GD780233@kroah.com>
-         <ba32bfa93ac2e147c2e0d3a4724815a7bbf41c59.camel@perches.com>
-         <20200610063103.GD1907120@kroah.com>
-         <f94b2abe85d7c849ca76677ff5a1e0b272bb3bdf.camel@perches.com>
-         <20200610070949.GB1923109@kroah.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.2-0ubuntu1 
+        Wed, 10 Jun 2020 04:33:44 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24DB7C08C5C1
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 01:33:44 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id g12so685558pll.10
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 01:33:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=viTnGVmiLyU57YRhDhN8zDuiG6dPY/rXax8ClQE3VoA=;
+        b=W1K849gsI1lcFSTB6RepoxDrdXeWXaq0G9ZXRaizv5Xh+XgQ/C+aBDCr+Lxx3C7h4y
+         Vo25apgtLyuhLzGSMUs+Fy1iJmYpwqcxZ4/dAMVYUWOpe1xfThgrSJzr+MMKEm0eNdAU
+         gakVOHPK4Gg6cpkKhqYdj+ls4TpFbzvpKv8qzN6x8MOM+C3ojLHAEb1my8N1Wjlhltuq
+         xHHla5tPWw329KPgQHTAKdZ0upvMyblU44f3ZxHoi/Q16BUHaxbNIzoE79xuvjVfG7ke
+         OBJOvIvRzLuqpyAoPZXHM/ZS5OWKV8XRTZ5ftFnxGkSlegROCIe4wey93YwW98cK34OJ
+         I/Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=viTnGVmiLyU57YRhDhN8zDuiG6dPY/rXax8ClQE3VoA=;
+        b=fTjhx/bTy3GBlEp3dM5LDQF0UF4i2Hd/ydjvf1nKLhx2v+RZARCBFlde5Wu2m8JLAn
+         p8dumgGPjzH1S0hV4BQwb4fJ1FoKuW9RV5KpAslsWS5bf6zUGyqNneSgnkIm8SBnVCAn
+         qBDPCjBs3eGw/yIWSP8t9dyF5yITCLrWkLjGl4bBjBdcbfNzO+5MNyiz4YspxhotkJ5Y
+         hIA2dL0xwOgpdY2oR6oTAYo/qjOYnnOsk6N8o9G/R5J77zU4Uoiez2e/johobwTePOLN
+         hkiLrwbj+7ajNNOFLJ4lIfS5+t2LCVkJawR4nFhRmc+uZKWMhfL5WNss84HnSGGpMvDw
+         FhNg==
+X-Gm-Message-State: AOAM530AZ7IkVn6ZeV0U8pUME6va+sqKI4GJN9BzyBqy6d/5GyE0lzOn
+        g1KFI0JdeCMt8SJ35mD1LwYw/ejSHVwpZw==
+X-Google-Smtp-Source: ABdhPJwfZ7TDmgfra7WP8ts+VSQ6aJltH1PLOXX3lLF1IcXFnAO/Bem91V9zrOxF2Zp3LKeY29dLIw==
+X-Received: by 2002:a17:90b:190e:: with SMTP id mp14mr1931900pjb.198.1591778023046;
+        Wed, 10 Jun 2020 01:33:43 -0700 (PDT)
+Received: from nagraj.local ([49.206.21.239])
+        by smtp.gmail.com with ESMTPSA id w18sm12231562pfq.121.2020.06.10.01.33.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2020 01:33:42 -0700 (PDT)
+From:   Sumit Semwal <sumit.semwal@linaro.org>
+To:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc:     Chenbo Feng <fengc@google.com>, linux-kernel@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Charan Teja Reddy <charante@codeaurora.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com,
+        stable@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH] dma-buf: Move dma_buf_release() from fops to dentry_ops
+Date:   Wed, 10 Jun 2020 14:03:33 +0530
+Message-Id: <20200610083333.455-1-sumit.semwal@linaro.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2020-06-10 at 09:09 +0200, Greg Kroah-Hartman wrote:
-> On Tue, Jun 09, 2020 at 11:35:31PM -0700, Joe Perches wrote:
-> > On Wed, 2020-06-10 at 08:31 +0200, Greg Kroah-Hartman wrote:
-> > > On Tue, Jun 09, 2020 at 09:58:07AM -0700, Joe Perches wrote:
-> > > > On Tue, 2020-06-09 at 13:16 +0200, Greg Kroah-Hartman wrote:
-> > > > > What is wrong with the existing control of dynamic
-> > > > > debug messages that you want to add another type of arbitrary grouping
-> > > > > to it? 
-> > > > 
-> > > > There is no existing grouping mechanism.
-> > > 
-> > > info/warn/err/dbg is what I am referring to.
+Charan Teja reported a 'use-after-free' in dmabuffs_dname [1], which
+happens if the dma_buf_release() is called while the userspace is
+accessing the dma_buf pseudo fs's dmabuffs_dname() in another process,
+and dma_buf_release() releases the dmabuf object when the last reference
+to the struct file goes away.
 
-This is specifically about dbg so that's not relevant is it.
-> But each "level" you all come up with will be intrepreted differently
-> per driver, causing total confusion (like we have today.)  Try to make
-> it better by just removing that mess.
+I discussed with Arnd Bergmann, and he suggested that rather than tying
+the dma_buf_release() to the file_operations' release(), we can tie it to
+the dentry_operations' d_release(), which will be called when the last ref
+to the dentry is removed.
 
-Or add value as it allows the developer to do what's
-necessary for their development.
+The path exercised by __fput() calls f_op->release() first, and then calls
+dput, which eventually calls d_op->d_release().
 
-> > > In the beginning, yes, adding loads of different types of debugging
-> > > options to a driver is needed by the author, but by the time it is added
-> > > to the kernel, all of that should be able to be removed and only a
-> > > single "enable debug" should be all that is needed.
-> > 
-> > No one does that.
-> 
-> We did that for USB drivers a decade ago, it can be done.
+In the 'normal' case, when no userspace access is happening via dma_buf
+pseudo fs, there should be exactly one fd, file, dentry and inode, so
+closing the fd will kill of everything right away.
 
-And nearly no one does it.
+In the presented case, the dentry's d_release() will be called only when
+the dentry's last ref is released.
 
-btw: look up usbip_debug_flag and usbip_dbg_<foo> or the uhci driver
+Therefore, lets move dma_buf_release() from fops->release() to
+d_ops->d_release().
 
+Many thanks to Arnd for his FS insights :)
+
+[1]: https://lore.kernel.org/patchwork/patch/1238278/
+
+Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
+Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
+Cc: <stable@vger.kernel.org> [5.3+]
+Cc: Arnd Bergmann <arnd@arndb.de>
+Reported-by: Charan Teja Reddy <charante@codeaurora.org>
+Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
+---
+ drivers/dma-buf/dma-buf.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 01ce125f8e8d..92ba4b6ef3e7 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -54,8 +54,11 @@ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+ 			     dentry->d_name.name, ret > 0 ? name : "");
+ }
+ 
++static void dma_buf_release(struct dentry *dentry);
++
+ static const struct dentry_operations dma_buf_dentry_ops = {
+ 	.d_dname = dmabuffs_dname,
++	.d_release = dma_buf_release,
+ };
+ 
+ static struct vfsmount *dma_buf_mnt;
+@@ -77,14 +80,14 @@ static struct file_system_type dma_buf_fs_type = {
+ 	.kill_sb = kill_anon_super,
+ };
+ 
+-static int dma_buf_release(struct inode *inode, struct file *file)
++static void dma_buf_release(struct dentry *dentry)
+ {
+ 	struct dma_buf *dmabuf;
+ 
+-	if (!is_dma_buf_file(file))
+-		return -EINVAL;
++	if (dentry->d_op != &dma_buf_dentry_ops)
++		return;
+ 
+-	dmabuf = file->private_data;
++	dmabuf = dentry->d_fsdata;
+ 
+ 	BUG_ON(dmabuf->vmapping_counter);
+ 
+@@ -110,7 +113,6 @@ static int dma_buf_release(struct inode *inode, struct file *file)
+ 	module_put(dmabuf->owner);
+ 	kfree(dmabuf->name);
+ 	kfree(dmabuf);
+-	return 0;
+ }
+ 
+ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+@@ -412,7 +414,6 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+ }
+ 
+ static const struct file_operations dma_buf_fops = {
+-	.release	= dma_buf_release,
+ 	.mmap		= dma_buf_mmap_internal,
+ 	.llseek		= dma_buf_llseek,
+ 	.poll		= dma_buf_poll,
+-- 
+2.27.0
 
