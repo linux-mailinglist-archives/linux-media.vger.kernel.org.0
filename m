@@ -2,188 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83A001F55E0
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 15:34:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 933281F55EB
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 15:37:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729328AbgFJNeQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 09:34:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55096 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726453AbgFJNeP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 09:34:15 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22F13C03E96B
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 06:34:15 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id r7so2323127wro.1
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 06:34:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=YAcxlCbiTC8wO76A5VkRlXWuncJIzqfJLxZ8xCI7lKM=;
-        b=XPKv60fIQu2Ll4tuWC6MuV/qC2fIaVmQmVJicFzstdeDOd2rTBfCPqSaHsDowGM4IA
-         4b5uShxePug3O/PL5A7kpOWSXeeo8VE70TyDRTd8hMwsHRYCCk7/lhLOUHTp/qI58DKj
-         fziZ6D6FBrUiWvXRKamgwAK1qA2S6hFcaPXjE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=YAcxlCbiTC8wO76A5VkRlXWuncJIzqfJLxZ8xCI7lKM=;
-        b=jxPdJs8bySEztgFPIYOCQXNogjXoA5hiGdzBL46nfS/0H3wnBlmOSrBlUYi++aj7Fg
-         6ecu6/ODVIbHkg07meeukAIqDljc1Nac8BktRT9UuVILGZeu8gU/EFqXfGYLLx0fGJcF
-         vMMv0YKPlkW+EevnYsyHfKPnv4cAUEXknULhcwDHkcuWocsOr5y2XXN0o1RgRPaG3xmJ
-         S0lIQP4lcySzNYACiQld8RjskS/VcJHwFULWWxSz5tOGZFSAE2W4LPLJwrmfTMwILt/k
-         v1O6XDpYqskpLWXnTc2ZKK6dEKVbB4oGvAnJsuCrfxI72Q6QPV5+G+tbUPKdYWmfeMYs
-         oEJw==
-X-Gm-Message-State: AOAM531JcxMOmhN5e+jy11VTKRFr9Hd35Kar6FNTPRYXJyGzjCc2x7O6
-        2S1hpo7MV5vjDU1lffs66+1AIhpDjouRfg==
-X-Google-Smtp-Source: ABdhPJxaBVswr0D7YGCMBvKJKfjMpr3MQg/UvXQWUVdYe2yqybYXEg3YTIzv9UZLjfsSkn6BOQNLJg==
-X-Received: by 2002:adf:ed87:: with SMTP id c7mr3805569wro.108.1591796053811;
-        Wed, 10 Jun 2020 06:34:13 -0700 (PDT)
-Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id v7sm8348465wro.76.2020.06.10.06.34.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2020 06:34:13 -0700 (PDT)
-Date:   Wed, 10 Jun 2020 13:34:11 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, laurent.pinchart@ideasonboard.com,
-        linux-rockchip@lists.infradead.org, sakari.ailus@linux.intel.com,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <HansVerkuil@cisco.com>
-Subject: Re: [RFC v3 1/2] v4l2: add support for colorspace conversion for
- video capture
-Message-ID: <20200610133411.GA192932@chromium.org>
-References: <20200416145605.12399-1-dafna.hirschfeld@collabora.com>
- <20200604173901.GA76282@chromium.org>
- <dba58521-a619-91fe-2b60-ea5ce85a9fa2@collabora.com>
+        id S1729328AbgFJNhZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 09:37:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34886 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726157AbgFJNhY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Jun 2020 09:37:24 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0D86220734;
+        Wed, 10 Jun 2020 13:37:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591796243;
+        bh=jbIPp1Pne8Ob1fTrPxO8JwFaFso7sR0zCSjskdAxvy4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=HshxML1+NocZk/9I75W19Xl8pqem/Wo5dfOhNpsRDO5FKL7OfYGm2F4N5KvH+RlXq
+         3GAQeWNF1bF890MN/n4u3pLHCXXoGCnUurhyjiglgHm8hXkOdMlGczmgox4PCj/4zF
+         1EDguLu5iGVGAAKEgtPmQr84smXQD39tNFIXf59A=
+Date:   Wed, 10 Jun 2020 15:37:17 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, Joe Perches <joe@perches.com>,
+        Jason Baron <jbaron@akamai.com>
+Subject: Re: [PATCH v3 6/7] venus: Make debug infrastructure more flexible
+Message-ID: <20200610133717.GB1906670@kroah.com>
+References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
+ <20200609104604.1594-7-stanimir.varbanov@linaro.org>
+ <20200609111414.GC780233@kroah.com>
+ <dc85bf9e-e3a6-15a1-afaa-0add3e878573@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <dba58521-a619-91fe-2b60-ea5ce85a9fa2@collabora.com>
+In-Reply-To: <dc85bf9e-e3a6-15a1-afaa-0add3e878573@linaro.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 05, 2020 at 12:11:33PM +0200, Dafna Hirschfeld wrote:
-> Hi,
+On Wed, Jun 10, 2020 at 04:29:27PM +0300, Stanimir Varbanov wrote:
 > 
-> On 04.06.20 19:39, Tomasz Figa wrote:
-> > Hi Dafna,
-> > 
-> > On Thu, Apr 16, 2020 at 04:56:04PM +0200, Dafna Hirschfeld wrote:
-> > > From: Philipp Zabel <p.zabel@pengutronix.de>
-> > > 
-> > > For video capture it is the driver that reports the colorspace,
-> > > Y'CbCr/HSV encoding, quantization range and transfer function
-> > > used by the video, and there is no way to request something
-> > > different, even though many HDTV receivers have some sort of
-> > > colorspace conversion capabilities.
-> > > 
-> > 
-> > Thanks for working on this! Please see my comments inline.
-> > 
-> > > For output video this feature already exists since the application
-> > > specifies this information for the video format it will send out, and
-> > > the transmitter will enable any available CSC if a format conversion has
-> > > to be performed in order to match the capabilities of the sink.
-> > > 
-> > > For video capture we propose adding new pix_format flag:
-> > > V4L2_PIX_FMT_FLAG_HAS_CSC. The flag is set by the application,
-> > > the driver will interpret the ycbcr_enc/hsv_enc, and quantization fields
-> > > as the requested colorspace information and will attempt to
-> > > do the conversion it supports.
-> > > 
-> > > Drivers set the flags
-> > > V4L2_FMT_FLAG_CSC_YCBCR_ENC,
-> > > V4L2_FMT_FLAG_CSC_HSV_ENC,
-> > > V4L2_FMT_FLAG_CSC_HSV_QUANTIZATION,
-> > 
-> > Do we need this level of granularity? The drivers would ignore
-> > unsupported encoding/quantization settings and reset them to supported
-> > ones anyway, so if one doesn't support changing given parameter, it
-> > would just return back the original stream parameter.
 > 
-> I think this granularity allows userspace to know ahead what is supported
-> and what is not so it doesn't have to guess.
->
+> On 6/9/20 2:14 PM, Greg Kroah-Hartman wrote:
+> > On Tue, Jun 09, 2020 at 01:46:03PM +0300, Stanimir Varbanov wrote:
+> >> Here we introduce few debug macros with levels (low, medium and
+> >> high) and debug macro for firmware. Enabling the particular level
+> >> will be done by dynamic debug with levels.
+> >>
+> >> For example to enable debug messages with low level:
+> >> echo 'module venus_dec level 0x01 +p' > debugfs/dynamic_debug/control
+> >>
+> >> If you want to enable all levels:
+> >> echo 'module venus_dec level 0x07 +p' > debugfs/dynamic_debug/control
+> >>
+> >> All the features which dynamic debugging provide are preserved.
+> >>
+> >> And finaly all dev_dbg are translated to VDBGX with appropriate
+> >> debug levels.
+> >>
+> >> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> >> ---
+> >>  drivers/media/platform/qcom/venus/core.h      |  5 ++
+> >>  drivers/media/platform/qcom/venus/helpers.c   |  2 +-
+> >>  drivers/media/platform/qcom/venus/hfi_msgs.c  | 30 ++++-----
+> >>  drivers/media/platform/qcom/venus/hfi_venus.c | 20 ++++--
+> >>  .../media/platform/qcom/venus/pm_helpers.c    |  3 +-
+> >>  drivers/media/platform/qcom/venus/vdec.c      | 63 +++++++++++++++++--
+> >>  drivers/media/platform/qcom/venus/venc.c      |  4 ++
+> >>  7 files changed, 96 insertions(+), 31 deletions(-)
+> >>
+> >> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> >> index b48782f9aa95..63eabf5ff96d 100644
+> >> --- a/drivers/media/platform/qcom/venus/core.h
+> >> +++ b/drivers/media/platform/qcom/venus/core.h
+> >> @@ -15,6 +15,11 @@
+> >>  #include "dbgfs.h"
+> >>  #include "hfi.h"
+> >>  
+> >> +#define VDBGL(fmt, args...)	pr_debug_level(0x01, fmt, ##args)
+> >> +#define VDBGM(fmt, args...)	pr_debug_level(0x02, fmt, ##args)
+> >> +#define VDBGH(fmt, args...)	pr_debug_level(0x04, fmt, ##args)
+> >> +#define VDBGFW(fmt, args...)	pr_debug_level(0x08, fmt, ##args)
+> >> +
+> >>  #define VIDC_CLKS_NUM_MAX		4
+> >>  #define VIDC_VCODEC_CLKS_NUM_MAX	2
+> >>  #define VIDC_PMDOMAINS_NUM_MAX		3
+> >> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> >> index 0143af7822b2..115a9a2af1d6 100644
+> >> --- a/drivers/media/platform/qcom/venus/helpers.c
+> >> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> >> @@ -396,7 +396,7 @@ put_ts_metadata(struct venus_inst *inst, struct vb2_v4l2_buffer *vbuf)
+> >>  	}
+> >>  
+> >>  	if (slot == -1) {
+> >> -		dev_dbg(inst->core->dev, "%s: no free slot\n", __func__);
+> >> +		VDBGH("no free slot for timestamp\n");
+> > 
+> > So you just lost the information that dev_dbg() gave you with regards to
+> > the device/driver/instance creating that message?
+> 
+> No, I don't lose anything.  When I do debug I know that all debug
+> messages comes from my driver.  dev_dbg will give me few device
+> identifiers which I don't care so much.
 
-The userspace needs to guess anyway, because there is no way to
-enumerate the supported target parameters. For example, even if the
-CSC_YCBCR_ENC bit is set, only only DEFAULT, 601 and BT2020 could be
-supported. If the userspace wants to get the 709 encoding, it needs to
-explicitly try setting it and see if the TRY_FMT/S_FMT operation accepts
-the setting.
+No, you need/want that, trust me.
 
-[snip]
-> > > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > index a376b351135f..51e009936aad 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > > @@ -477,6 +477,13 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
-> > >   	case VIDIOC_SUBDEV_S_FMT: {
-> > >   		struct v4l2_subdev_format *format = arg;
-> > > +		if (!(format->format.flags & V4L2_MBUS_FRAMEFMT_HAS_CSC)) {
-> > > +			format->format.colorspace = V4L2_COLORSPACE_DEFAULT;
-> > > +			format->format.xfer_func = V4L2_XFER_FUNC_DEFAULT;
-> > > +			format->format.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-> > > +			format->format.quantization = V4L2_QUANTIZATION_DEFAULT;
-> > > +		}
-> > 
-> > Wouldn't this break setting the colorspaces on the sink pads, for which
-> > the flag isn't required? Actually there is some unfortunate statement in
-> > the documentation related to this:
-> > 
-> > "This information supplements the colorspace and must be set by the
-> > driver for capture streams and by the application for output streams,
-> > see Colorspaces."
-> > 
-> > However, I don't think there is any notion of "capture" and "output" for
-> > subdevices, right? Instead, the pad direction would have to be checked,
-> > but AFAICT there is no access to this kind of information from this
-> > wrapper.
-> 
-> Actually in coming v4 there is no new code added accept of the new fields and
-> macros of the API. I think there is no need to change any code.
-> 
-> 
+> IMO, the device information makes more sense to dev_err/warn/err
+> variants.  On the other side we will have dev_dbg_level(group) if
+> still someone needs the device information.
 
-Agreed.
+You really want those "gerneric identifiers" as tools today are built to
+properly parse and handle them to be able to match and filter on what
+device/driver is causing what issue.
 
+Please do not try to create driver-specific prefixes instead, use the
+standard the rest of the kernel uses, your driver is not "special" in
+this case at all.
+
+> > Ick, no, don't do that.
 > > 
-> > > +
-> > >   		memset(format->reserved, 0, sizeof(format->reserved));
-> > >   		memset(format->format.reserved, 0, sizeof(format->format.reserved));
-> > >   		return v4l2_subdev_call(sd, pad, set_fmt, subdev_fh->pad, format);
-> > > diff --git a/include/uapi/linux/v4l2-mediabus.h b/include/uapi/linux/v4l2-mediabus.h
-> > > index 123a231001a8..89ff0ad6a631 100644
-> > > --- a/include/uapi/linux/v4l2-mediabus.h
-> > > +++ b/include/uapi/linux/v4l2-mediabus.h
-> > > @@ -16,6 +16,8 @@
-> > >   #include <linux/types.h>
-> > >   #include <linux/videodev2.h>
-> > > +#define V4L2_MBUS_FRAMEFMT_HAS_CSC	0x0001
-> > > +
-> > >   /**
-> > >    * struct v4l2_mbus_framefmt - frame format on the media bus
-> > >    * @width:	image width
-> > > @@ -36,7 +38,8 @@ struct v4l2_mbus_framefmt {
-> > >   	__u16			ycbcr_enc;
-> > >   	__u16			quantization;
-> > >   	__u16			xfer_func;
-> > > -	__u16			reserved[11];
-> > > +	__u16			flags;
-> > 
-> > Are we okay with a u16 for flags?
+> > And why is this driver somehow "special" compared to all the rest of
 > 
-> I am fine with it, though don't mind changing it if there are objections.
-> 
+> Of course it is special ... to me ;-)
 
-I'd suggest making it a u32 to be a bit more future-proof.
+Yes, "special and unique" like all other drivers in the kernel :)
 
-Best regards,
-Tomasz
+Please work with the infrastructure we have, we have spent a lot of time
+and effort to make it uniform to make it easier for users and
+developers.  Don't regress and try to make driver-specific ways of doing
+things, that way lies madness...
+
+thanks,
+
+greg k-h
