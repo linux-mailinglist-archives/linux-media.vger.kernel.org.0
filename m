@@ -2,88 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7DDE61F54AD
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 14:25:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 478191F54C0
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 14:26:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729120AbgFJMZe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 08:25:34 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:57614 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728968AbgFJMZU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 08:25:20 -0400
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05ACH95m025174;
-        Wed, 10 Jun 2020 14:25:06 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type; s=STMicroelectronics;
- bh=UV2eXHMfLb4/QtK9KJPbsnZv2k9uIAuEYmQYk8262qk=;
- b=b81aXxe/1h22QtO6JB1gHsEGr2qloPdkuLsbMkM0jLziCpcWhDN4V5d34b28QJXvrsCp
- qbOfy/hNPkG6FUARoIj1KdgWuWiomSd9msJoeaRUe2/qZmwkTQsJdKplB8hWJC1jxXjO
- aWoDW+IfvU9alwAB48aTBeFPSpe/zG1LUV+vGBNmObqd9tpS4pIDu1xs8dMxlAM//Pbd
- umBaG+xeMCQ4FpMWuAyHDXf9pC6XiIslvICdXTvbDSvEtX3YQakV+YQfLzgryA5poeI7
- 1LxszQLaBOg4k/0+g+sNwZqn2fsOea0UqFVXWqqwgLGvcXj02Hi3LNxQJg5SF+JvC6o0 IA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 31jppntqfj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 10 Jun 2020 14:25:06 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 205C210002A;
-        Wed, 10 Jun 2020 14:25:06 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 136852106EA;
-        Wed, 10 Jun 2020 14:25:06 +0200 (CEST)
-Received: from localhost (10.75.127.48) by SFHDAG3NODE3.st.com (10.75.127.9)
- with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 10 Jun 2020 14:25:05
- +0200
-From:   Benjamin Gaignard <benjamin.gaignard@st.com>
-To:     <hugues.fruchet@st.com>, <mchehab@kernel.org>,
-        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>
-CC:     <linux-media@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <vincent.guittot@linaro.org>,
-        <valentin.schneider@arm.com>, <rjw@rjwysocki.net>,
-        Benjamin Gaignard <benjamin.gaignard@st.com>
-Subject: [PATCH v6 3/3] ARM: dts: stm32: Set DCMI frequency requirement for stm32mp15x
-Date:   Wed, 10 Jun 2020 14:25:00 +0200
-Message-ID: <20200610122500.4304-4-benjamin.gaignard@st.com>
-X-Mailer: git-send-email 2.15.0
-In-Reply-To: <20200610122500.4304-1-benjamin.gaignard@st.com>
-References: <20200610122500.4304-1-benjamin.gaignard@st.com>
+        id S1729166AbgFJM0u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 08:26:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38506 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729077AbgFJM0s (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 10 Jun 2020 08:26:48 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A8D02206F4;
+        Wed, 10 Jun 2020 12:26:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591792007;
+        bh=PBnbsD1r4hBJSwpcdPlA8plwD/kWkJiD61twepTwXNE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jJpTTwI4BcRIVrN10ZRmWWQHb9uLqvUrrTbyJC1G5ckdCzOCEOBlPdgX2dMouNv0y
+         YAgEbPCewSSW4UUxn4RQtfuCNeuAdQ/VXQBBn5Ha87ZqsZt+1tcxAPrnMH0pHm3w0F
+         EFkHX/7w+geTl3Np545ZBkOWixSYUU12SBQ6Y3Ls=
+Date:   Wed, 10 Jun 2020 14:26:41 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, Joe Perches <joe@perches.com>,
+        Jason Baron <jbaron@akamai.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Subject: Re: [PATCH v3 1/7] Documentation: dynamic-debug: Add description of
+ level bitmask
+Message-ID: <20200610122641.GB1900758@kroah.com>
+References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
+ <20200609104604.1594-2-stanimir.varbanov@linaro.org>
+ <20200609111615.GD780233@kroah.com>
+ <0830ba57-d416-4788-351a-6d1b2ca5b7d8@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.48]
-X-ClientProxiedBy: SFHDAG6NODE3.st.com (10.75.127.18) To SFHDAG3NODE3.st.com
- (10.75.127.9)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
- definitions=2020-06-10_07:2020-06-10,2020-06-10 signatures=0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0830ba57-d416-4788-351a-6d1b2ca5b7d8@linaro.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Make sure that CPUs will at least run at 650Mhz when streaming
-sensor frames.
+On Wed, Jun 10, 2020 at 01:29:20PM +0300, Stanimir Varbanov wrote:
+> Hi Greg,
+> 
+> On 6/9/20 2:16 PM, Greg Kroah-Hartman wrote:
+> > On Tue, Jun 09, 2020 at 01:45:58PM +0300, Stanimir Varbanov wrote:
+> >> This adds description of the level bitmask feature.
+> >>
+> >> Cc: Jonathan Corbet <corbet@lwn.net> (maintainer:DOCUMENTATION)
+> >>
+> >> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> >> ---
+> >>  Documentation/admin-guide/dynamic-debug-howto.rst | 10 ++++++++++
+> >>  1 file changed, 10 insertions(+)
+> >>
+> >> diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+> >> index 0dc2eb8e44e5..c2b751fc8a17 100644
+> >> --- a/Documentation/admin-guide/dynamic-debug-howto.rst
+> >> +++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+> >> @@ -208,6 +208,12 @@ line
+> >>  	line -1605          // the 1605 lines from line 1 to line 1605
+> >>  	line 1600-          // all lines from line 1600 to the end of the file
+> >>  
+> >> +level
+> >> +    The given level will be a bitmask ANDed with the level of the each ``pr_debug()``
+> >> +    callsite. This will allow to group debug messages and show only those of the
+> >> +    same level.  The -p flag takes precedence over the given level. Note that we can
+> >> +    have up to five groups of debug messages.
+> > 
+> > As was pointed out, this isn't a "level", it's some arbitrary type of
+> > "grouping".
+> 
+> Yes, it is grouping of KERN_DEBUG level messages by importance (my
+> fault, I put incorrect name).  What is important is driver author
+> decision.  Usually when the driver is huge and has a lot of debug
+> messages it is not practical to enable all of them to chasing a
+> particular bug or issue.  You know that debugging (printk) add delays
+> which could hide or rise additional issue(s) which would complicate
+> debug and waste time.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@st.com>
----
- arch/arm/boot/dts/stm32mp151.dtsi | 1 +
- 1 file changed, 1 insertion(+)
+That is why it is possible to turn on and off debugging messages on a
+function/line basis already.  Why not just use that instead?
 
-diff --git a/arch/arm/boot/dts/stm32mp151.dtsi b/arch/arm/boot/dts/stm32mp151.dtsi
-index 3ea05ba48215..f6d7bf4f8231 100644
---- a/arch/arm/boot/dts/stm32mp151.dtsi
-+++ b/arch/arm/boot/dts/stm32mp151.dtsi
-@@ -1091,6 +1091,7 @@
- 			clock-names = "mclk";
- 			dmas = <&dmamux1 75 0x400 0x0d>;
- 			dma-names = "tx";
-+			st,stm32-dcmi-min-frequency = <650000>;
- 			status = "disabled";
- 		};
- 
--- 
-2.15.0
+> For the Venus driver I have defined three groups of KERN_DEBUG - low,
+> medium and high (again the driver author(s) will decide what the
+> importance is depending on his past experience).
+> 
+> There is another point where the debugging is made by person who is not
+> familiar with the driver code. In that case he/she cannot enable lines
+> or range of lines because he don't know the details. Here the grouping
+> by importance could help.
 
+And they will really know what "low/medium/high" are?
+
+Anyway, that makes a bit more sense, but the documentation could use a
+lot more in order to describe this type of behavior, and what is
+expected by both driver authors, and users of the interface.
+
+thanks,
+
+greg k-h
