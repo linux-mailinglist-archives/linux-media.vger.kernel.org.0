@@ -2,215 +2,327 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFDB01F5BF7
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 21:31:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BDFD1F5C23
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 21:45:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726950AbgFJTbs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 15:31:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53980 "EHLO
+        id S1727773AbgFJTpA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 15:45:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726806AbgFJTbs (ORCPT
+        with ESMTP id S1727775AbgFJTpA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 15:31:48 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 066E7C03E96B
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 12:31:47 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id o26so2244345edq.0
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 12:31:47 -0700 (PDT)
+        Wed, 10 Jun 2020 15:45:00 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E84EDC03E96F
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 12:44:59 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id c3so3628706wru.12
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 12:44:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qqYiZ6Y6itIrxnPxpSfJPzKeOxIw44n8uIkZaVxE90c=;
-        b=fL/P90LfHU2hZvRP7iyIKCFTn9IBz4A7+xlXDwNOH2xsnwUUftY5YRDCrjt+xCisu3
-         jP26qKwO7lNPFaujkpx5nsxM1vL5CNqj/J743n2KZwO78uUi6SQTBobQmgFzn1NW4EQn
-         vYcVhGWb0B+2Ecll8PhdZcHqUZ/A/o04wmYIg=
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=w/E0PqZ4JUvsVPhjJCpIt9CihS3XGANL6AWqhjUQMiM=;
+        b=GePbnpgV0HFsJk15OEyOs+JIFBYByLXFhcFn9SLwDZxbtzCmuF3HL0aMeBlh4M7rrU
+         59HtOEH4vhneOyuuPBg+LZIhJXXxw8E+WDpDdsMq7nSAT18EjeZv0QIAwwciVPGWRJvF
+         Vyuf1tcwbaR3DFgeV5GsxW9saxagNMpwvSLm4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qqYiZ6Y6itIrxnPxpSfJPzKeOxIw44n8uIkZaVxE90c=;
-        b=tvyG5EeKvhjAYb4W3QV0mUnX8VEWrVw0KSONSQAUDLPHxGGNnWs+e/W8vyFhsKbaLb
-         1qiHU4yF+Erz236HB8InhhjhNGNgLY4h9d7VIipH63KVlLdjYvLe78H4i2eRRbzHf+E9
-         nVySc3q9wcEp8Ygmt53wzpvYGS0MDGLEa1ytKcr87AFs3PspVRg5yJ/sjyyiykyMMpOc
-         lIbC9+XYBjKTg/a5ddFyFbacIx+9JskONgO8zMbLrxmW+seDqYGz9n2+tMqz2n93+o6N
-         gpKC1e1GkIl3QZYHa34y0V1UvqiUNgfd4JNj8NlowZEJG8mwo42F3yY41MKyvQJ1/YuU
-         jnQQ==
-X-Gm-Message-State: AOAM531aralkHLmzUJNcCi1V0fgK2fNKdvFJyYWeNdLk1g6abIPW1NoJ
-        OAezbbY/xgRF7dfM4/84Kmr/YZl3h/AO5Q==
-X-Google-Smtp-Source: ABdhPJwWQX/2iApgZcN35Ji1ohL5CJAzjmIz+E+LArZE1BZICuoTGcEN8dsIvfpz78bmM4fxYWvbbw==
-X-Received: by 2002:aa7:c908:: with SMTP id b8mr3892568edt.76.1591817506220;
-        Wed, 10 Jun 2020 12:31:46 -0700 (PDT)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com. [209.85.221.52])
-        by smtp.gmail.com with ESMTPSA id n9sm492244ejk.21.2020.06.10.12.31.45
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2020 12:31:46 -0700 (PDT)
-Received: by mail-wr1-f52.google.com with SMTP id y17so3604433wrn.11
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 12:31:45 -0700 (PDT)
-X-Received: by 2002:a5d:6750:: with SMTP id l16mr5316439wrw.295.1591817201284;
- Wed, 10 Jun 2020 12:26:41 -0700 (PDT)
-MIME-Version: 1.0
-References: <20191204124732.10932-1-Jerry-Ch.chen@mediatek.com>
- <20191204124732.10932-2-Jerry-Ch.chen@mediatek.com> <20200521171101.GA243874@chromium.org>
- <e31fe64a-c5c1-7b1e-eec1-27111fe43ac2@xs4all.nl> <CAAFQd5Ad_cnv0qztZOk9c2H0Y+XO6tRcRmS1t4dBw5qbG-d8Nw@mail.gmail.com>
- <CAAEAJfDboyra5XcEiviJP_3Kk-mDNZH5nstDa_7P7XCV7bu7Pg@mail.gmail.com>
- <20200610190356.GJ201868@chromium.org> <CAAEAJfDSr4ne7p2BG_vjLs0zLQ1O+cn4puiALdd2DyAHnTXadg@mail.gmail.com>
-In-Reply-To: <CAAEAJfDSr4ne7p2BG_vjLs0zLQ1O+cn4puiALdd2DyAHnTXadg@mail.gmail.com>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=w/E0PqZ4JUvsVPhjJCpIt9CihS3XGANL6AWqhjUQMiM=;
+        b=dNkdoMEsk1/uxU45PQqW6wmobuJDSijgiTq3AlmnA742D+gWFaluXWfEyMtoIIj39A
+         jnjIqVhAufdyCuJPNl9LMgNr3O+PVNtPdYubT96VOPfhCd8ck/TiQDoMIPpowndYXkuT
+         W6XkuxPdrv0afaqxQ0nvTk2btH/8ArVuf9aKgKo1Y66xhW6nxNpiZSoM59SOMbWMIz0u
+         SicGg7FCqfeotpsbfJd3mTMhFdAG1+GskUlLuYX9rjsFSi6PporJjpYZoINNn2Baw172
+         7rL15IUGDmiDWhpaBhYFDXLu3QM3RQ9evWmU+xUAF/fXzcHFpN+IH07WaDhrm2VGef/S
+         vcIg==
+X-Gm-Message-State: AOAM532muZVNSIRco/bV7yjE11ReV53ZPCR/SPACZjZ2zn8wbOUbCq6f
+        Z19ooqh6U3hE1DZBddk6aPQucw==
+X-Google-Smtp-Source: ABdhPJz56Mg1sFhBY6OHgtYaL4srEb/iLokXny55C/qT/LARZkNQ2vp3NirR+I0nb5Ducr+EwK7hGg==
+X-Received: by 2002:adf:c385:: with SMTP id p5mr5534468wrf.409.1591818297823;
+        Wed, 10 Jun 2020 12:44:57 -0700 (PDT)
+Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
+        by smtp.gmail.com with ESMTPSA id u9sm959760wme.16.2020.06.10.12.44.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2020 12:44:57 -0700 (PDT)
+Date:   Wed, 10 Jun 2020 19:44:55 +0000
 From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 10 Jun 2020 21:26:28 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5BH3xLNGAtbdH0Wy9KqQo30SFL9q9rcjZz8M3eviyY=hA@mail.gmail.com>
-Message-ID: <CAAFQd5BH3xLNGAtbdH0Wy9KqQo30SFL9q9rcjZz8M3eviyY=hA@mail.gmail.com>
-Subject: Re: [RFC PATCH V4 1/4] media: v4l2-mem2mem: add v4l2_m2m_suspend, v4l2_m2m_resume
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Jerry-ch Chen <Jerry-Ch.chen@mediatek.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Pi-Hsun Shih <pihsun@chromium.org>, yuzhao@chromium.org,
-        zwisler@chromium.org,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
-        <Sean.Cheng@mediatek.com>, Sj Huang <sj.huang@mediatek.com>,
-        =?UTF-8?B?Q2hyaXN0aWUgWXUgKOa4uOmbheaDoCk=?= 
-        <christie.yu@mediatek.com>,
-        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
-        <frederic.chen@mediatek.com>,
-        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>,
-        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <Rynn.Wu@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        Jerry-ch Chen <jerry-ch.chen@mediatek.corp-partner.google.com>
-Content-Type: text/plain; charset="UTF-8"
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        mchehab@kernel.org, andriy.shevchenko@linux.intel.com,
+        robh+dt@kernel.org, mark.rutland@arm.com,
+        sakari.ailus@linux.intel.com, drinkcat@chromium.org,
+        matthias.bgg@gmail.com, bingbu.cao@intel.com,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
+Subject: Re: [V9, 2/2] media: i2c: ov02a10: Add OV02A10 image sensor driver
+Message-ID: <20200610194455.GK201868@chromium.org>
+References: <20200523084103.31276-1-dongchun.zhu@mediatek.com>
+ <20200523084103.31276-3-dongchun.zhu@mediatek.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200523084103.31276-3-dongchun.zhu@mediatek.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 10, 2020 at 9:14 PM Ezequiel Garcia
-<ezequiel@vanguardiasur.com.ar> wrote:
->
-> On Wed, 10 Jun 2020 at 16:03, Tomasz Figa <tfiga@chromium.org> wrote:
-> >
-> > On Wed, Jun 10, 2020 at 03:52:39PM -0300, Ezequiel Garcia wrote:
-> > > Hi everyone,
-> > >
-> > > Thanks for the patch.
-> > >
-> > > On Wed, 10 Jun 2020 at 07:33, Tomasz Figa <tfiga@chromium.org> wrote:
-> > > >
-> > > > On Wed, Jun 10, 2020 at 12:29 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> > > > >
-> > > > > On 21/05/2020 19:11, Tomasz Figa wrote:
-> > > > > > Hi Jerry,
-> > > > > >
-> > > > > > On Wed, Dec 04, 2019 at 08:47:29PM +0800, Jerry-ch Chen wrote:
-> > > > > >> From: Pi-Hsun Shih <pihsun@chromium.org>
-> > > > > >>
-> > > > > >> Add two functions that can be used to stop new jobs from being queued /
-> > > > > >> continue running queued job. This can be used while a driver using m2m
-> > > > > >> helper is going to suspend / wake up from resume, and can ensure that
-> > > > > >> there's no job running in suspend process.
-> > [snip]
-> > > > >
-> > > > > I assume this will be part of a future patch series that calls these new functions?
-> > > >
-> > > > The mtk-jpeg encoder series depends on this patch as well, so I guess
-> > > > it would go together with whichever is ready first.
-> > > >
-> > > > I would also envision someone changing the other existing drivers to
-> > > > use the helpers, as I'm pretty much sure some of them don't handle
-> > > > suspend/resume correctly.
-> > > >
-> > >
-> > > This indeed looks very good. If I understood the issue properly,
-> > > the change would be useful for both stateless (e.g. hantro, et al)
-> > > and stateful (e.g. coda) codecs.
-> > >
-> > > Hantro uses pm_runtime_force_suspend, and I believe that
-> > > could is enough for proper suspend/resume operation.
-> >
-> > Unfortunately, no. :(
-> >
-> > If the decoder is already decoding a frame, that would forcefully power
-> > off the hardware and possibly even cause a system lockup if we are
-> > unlucky to gate a clock in the middle of a bus transaction.
-> >
->
-> pm_runtime_force_suspend calls pm_runtime_disable, which
-> says:
->
-> """
->  Increment power.disable_depth for the device and if it was zero previously,
->  cancel all pending runtime PM requests for the device and wait for all
->  operations in progress to complete.
-> """
->
-> Doesn't this mean it waits for the current job (if there is one) and
-> prevents any new jobs to be issued?
->
+Hi Dongchun,
 
-I'd love if the PM runtime subsystem handled job management of all the
-driver subsystems automatically, but at the moment it's not aware of
-any jobs. :) The description says as much as it says - it stops any
-internal jobs of the PM subsystem - i.e. asynchronous suspend/resume
-requests. It doesn't have any awareness of V4L2 M2M jobs.
+On Sat, May 23, 2020 at 04:41:03PM +0800, Dongchun Zhu wrote:
+> Add a V4L2 sub-device driver for OV02A10 image sensor.
+> 
+> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> ---
+>  MAINTAINERS                 |    1 +
+>  drivers/media/i2c/Kconfig   |   13 +
+>  drivers/media/i2c/Makefile  |    1 +
+>  drivers/media/i2c/ov02a10.c | 1025 +++++++++++++++++++++++++++++++++++++++++++
+>  4 files changed, 1040 insertions(+)
+>  create mode 100644 drivers/media/i2c/ov02a10.c
+> 
 
-> > I just inspected the code now and actually found one more bug in its
-> > power management handling. device_run() calls clk_bulk_enable() before
-> > pm_runtime_get_sync(), but only the latter is guaranteed to actually
-> > power on the relevant power domains, so we end up clocking unpowered
-> > hardware.
-> >
->
-> How about we just move clk_enable/disable to runtime PM?
->
-> Since we use autosuspend delay, it theoretically has
-> some impact, which is why I was refraining from doing so.
->
-> I can't decide if this impact would be marginal or significant.
->
+Thank you for the patch. Please see my comments inline.
 
-I'd also refrain from doing this. Clock gating corresponds to the
-bigger part of the power savings from runtime power management, since
-it stops the dynamic power consumption and only leaves the static
-leakage. That said, the Hantro IP blocks have some internal clock
-gating as well, so it might not be as pronounced, depending on the
-custom vendor integration logic surrounding the Hantro hardware.
+[snip]
+> diff --git a/drivers/media/i2c/ov02a10.c b/drivers/media/i2c/ov02a10.c
+> new file mode 100644
+> index 0000000..160a0b5
+> --- /dev/null
+> +++ b/drivers/media/i2c/ov02a10.c
+[snip]
+> +static const char * const ov02a10_test_pattern_menu[] = {
+> +	"Disabled",
+> +	"Color Bar",
 
-Actually even if autosuspend is not used, the runtime PM subsystem has
-some internal back-off mechanism based on measured power on and power
-off latencies. The driver should call pm_runtime_get_sync() first and
-then enable any necessary clocks. I can see that currently inside the
-resume callback we have some hardware accesses. If those really need
-to be there, they should be surrounded with appropriate clock enable
-and clock disable calls.
+nit: We should normalize this to one of the standard names. What is the
+pattern on this sensor? Is it perhaps "Eight Vertical Colour Bars"?
 
-> > >
-> > > I'm not seeing any code in CODA to handle this, so not sure
-> > > how it's handling suspend/resume.
-> > >
-> > > Maybe we can have CODA as the first user, given it's a well-maintained
-> > > driver and should be fairly easy to test.
-> >
-> > I remember checking a number of drivers using the m2m helpers randomly
-> > and none of them implemented suspend/resume correctly. I suppose that
-> > was not discovered because normally the userspace itself would stop the
-> > operation before the system is suspended, although it's not an API
-> > guarantee.
-> >
->
-> Indeed. Do you have any recomendations for how we could
-> test this case to make sure we are handling it correctly?
+> +};
+[snip]
+> +static int ov02a10_set_fmt(struct v4l2_subdev *sd,
+> +			   struct v4l2_subdev_pad_config *cfg,
+> +			   struct v4l2_subdev_format *fmt)
+> +{
+> +	struct ov02a10 *ov02a10 = to_ov02a10(sd);
+> +	struct v4l2_mbus_framefmt *mbus_fmt = &fmt->format;
+> +
+> +	mutex_lock(&ov02a10->mutex);
+> +
 
-I'd say that a simple offscreen command line gstreamer/ffmpeg decode
-with suspend/resume loop in another session should be able to trigger
-some issues.
+
+Don't we need to handle the case when fmt->which is V4L2_SUBDEV_FORMAT_TRY,
+which is used for trying the format, but not applying it to the hardware?
+
+> +	if (ov02a10->streaming) {
+> +		mutex_unlock(&ov02a10->mutex);
+> +		return -EBUSY;
+> +	}
+> +
+> +	/* Only one sensor mode supported */
+> +	mbus_fmt->code = ov02a10->fmt.code;
+> +	ov02a10_fill_fmt(ov02a10->cur_mode, mbus_fmt);
+> +	ov02a10->fmt = fmt->format;
+> +
+> +	mutex_unlock(&ov02a10->mutex);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov02a10_get_fmt(struct v4l2_subdev *sd,
+> +			   struct v4l2_subdev_pad_config *cfg,
+> +			   struct v4l2_subdev_format *fmt)
+> +{
+> +	struct ov02a10 *ov02a10 = to_ov02a10(sd);
+> +	struct v4l2_mbus_framefmt *mbus_fmt = &fmt->format;
+> +
+> +	mutex_lock(&ov02a10->mutex);
+> +
+> +	fmt->format = ov02a10->fmt;
+
+Ditto.
+
+> +	mbus_fmt->code = ov02a10->fmt.code;
+> +	ov02a10_fill_fmt(ov02a10->cur_mode, mbus_fmt);
+> +
+> +	mutex_unlock(&ov02a10->mutex);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov02a10_enum_mbus_code(struct v4l2_subdev *sd,
+> +				  struct v4l2_subdev_pad_config *cfg,
+> +				  struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	struct ov02a10 *ov02a10 = to_ov02a10(sd);
+> +
+> +	if (code->index >= ARRAY_SIZE(supported_modes))
+> +		return -EINVAL;
+
+Hmm, supported_modes[] doesn't seem to hold the information about mbus
+codes. Should this just perhaps be "!= 0"?
+
+> +
+> +	code->code = ov02a10->fmt.code;
+> +
+> +	return 0;
+> +}
+[snip]
+> +static int ov02a10_entity_init_cfg(struct v4l2_subdev *sd,
+> +				   struct v4l2_subdev_pad_config *cfg)
+> +{
+> +	struct v4l2_subdev_format fmt = {
+> +		.which = cfg ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE,
+> +		.format = {
+> +			.width = 1600,
+> +			.height = 1200,
+> +		}
+> +	};
+> +
+> +	ov02a10_set_fmt(sd, cfg, &fmt);
+> +
+> +	return 0;
+> +}
+> +
+
+I'm not familiar with this init_cfg operation and the documentation is very
+sparse about it. Sakari, is this a correct implementation?
+
+[snip]
+> +static int ov02a10_set_test_pattern(struct ov02a10 *ov02a10, int pattern)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
+> +	int ret;
+> +
+> +	ret = i2c_smbus_write_byte_data(client, REG_PAGE_SWITCH, REG_ENABLE);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = i2c_smbus_write_byte_data(client, OV02A10_REG_TEST_PATTERN,
+> +					pattern);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = i2c_smbus_write_byte_data(client, REG_GLOBAL_EFFECTIVE,
+> +					REG_ENABLE);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return i2c_smbus_write_byte_data(client, REG_SC_CTRL_MODE,
+> +					 SC_CTRL_MODE_STREAMING);
+
+Why is this needed? Does writing the test pattern register stop streaming?
+
+[snip]
+> +static int ov02a10_initialize_controls(struct ov02a10 *ov02a10)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
+> +	const struct ov02a10_mode *mode;
+> +	struct v4l2_ctrl_handler *handler;
+> +	struct v4l2_ctrl *ctrl;
+> +	u64 exposure_max;
+> +	u32 pixel_rate;
+> +	int ret;
+> +
+> +	handler = &ov02a10->ctrl_handler;
+> +	mode = ov02a10->cur_mode;
+> +	ret = v4l2_ctrl_handler_init(handler, 7);
+> +	if (ret)
+> +		return ret;
+> +
+> +	handler->lock = &ov02a10->mutex;
+> +
+> +	ctrl = v4l2_ctrl_new_int_menu(handler, NULL, V4L2_CID_LINK_FREQ, 0, 0,
+> +				      link_freq_menu_items);
+> +	if (ctrl)
+> +		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +
+> +	pixel_rate = to_pixel_rate(0);
+> +	v4l2_ctrl_new_std(handler, NULL, V4L2_CID_PIXEL_RATE, 0, pixel_rate, 1,
+> +			  pixel_rate);
+> +
+> +	exposure_max = mode->vts_def - 4;
+> +	ov02a10->exposure = v4l2_ctrl_new_std(handler, &ov02a10_ctrl_ops,
+> +					      V4L2_CID_EXPOSURE,
+> +					      OV02A10_EXPOSURE_MIN,
+> +					      exposure_max,
+> +					      OV02A10_EXPOSURE_STEP,
+> +					      mode->exp_def);
+> +
+> +	v4l2_ctrl_new_std(handler, &ov02a10_ctrl_ops,
+> +			  V4L2_CID_ANALOGUE_GAIN,
+> +			  OV02A10_GAIN_MIN,
+> +			  OV02A10_GAIN_MAX,
+> +			  OV02A10_GAIN_STEP,
+> +			  OV02A10_GAIN_DEFAULT);
+> +
+> +	v4l2_ctrl_new_std_menu_items(handler, &ov02a10_ctrl_ops,
+> +				     V4L2_CID_TEST_PATTERN,
+> +				     ARRAY_SIZE(ov02a10_test_pattern_menu) - 1,
+> +				     0, 0, ov02a10_test_pattern_menu);
+> +
+
+I can see that we're missing some controls here now, VBLANK and HBLANK if I
+remember correctly. Even though read-only, some userspace need those to
+get information about how the sensor operates.
+
+> +	if (handler->error) {
+> +		ret = handler->error;
+> +		dev_err(&client->dev, "failed to init controls(%d)\n", ret);
+> +		goto err_free_handler;
+> +	}
+> +
+> +	ov02a10->subdev.ctrl_handler = handler;
+> +
+> +	return 0;
+> +
+> +err_free_handler:
+> +	v4l2_ctrl_handler_free(handler);
+> +
+> +	return ret;
+> +}
+[snip]
+> +	pm_runtime_enable(dev);
+> +	if (!pm_runtime_enabled(dev)) {
+> +		ret = ov02a10_power_on(dev);
+> +		if (ret < 0) {
+> +			dev_err(dev, "failed to power on: %d\n", ret);
+> +			goto err_free_handler;
+> +		}
+> +	}
+> +
+> +	ret = v4l2_async_register_subdev(&ov02a10->subdev);
+> +	if (ret) {
+> +		dev_err(dev, "failed to register V4L2 subdev: %d", ret);
+> +		if (!pm_runtime_enabled(dev))
+> +			ov02a10_power_off(dev);
+
+Please don't mix inline and error-path error handling, as it makes it
+difficult to tell if it's correct. Please move this below the appropriate
+err label instead.
+
+> +		goto err_clean_entity;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_clean_entity:
+
+If one calls pm_runtime_enable() in the probe path, one needs to call
+pm_runtime_disable() on the error and remove paths.
+
+> +	media_entity_cleanup(&ov02a10->subdev.entity);
+> +err_free_handler:
+> +	v4l2_ctrl_handler_free(ov02a10->subdev.ctrl_handler);
+> +err_destroy_mutex:
+> +	mutex_destroy(&ov02a10->mutex);
+> +
+> +	return ret;
+> +}
+> +
 
 Best regards,
 Tomasz
