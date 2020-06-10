@@ -2,160 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D5C41F55CA
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 15:29:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1BD2D1F55DD
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 15:33:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729228AbgFJN3d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 09:29:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54342 "EHLO
+        id S1729317AbgFJNdt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 09:33:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726418AbgFJN3b (ORCPT
+        with ESMTP id S1726453AbgFJNds (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 09:29:31 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C18CC08C5C1
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 06:29:31 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id d15so1376454edm.10
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 06:29:31 -0700 (PDT)
+        Wed, 10 Jun 2020 09:33:48 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A4A2C03E96B;
+        Wed, 10 Jun 2020 06:33:48 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id x22so1474483lfd.4;
+        Wed, 10 Jun 2020 06:33:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
+        d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=3e8bC/Ax9BOA2Qqmdvlceg2Mrom20tLBb9FMDRoA6eo=;
-        b=EqyUKU7po/7+hPZYV1Dj3uiGUPJ5ITBTEk/rMgp6ak0CGVbHBllGnUD5h/aqefJnxj
-         /fIenwtADhXRg1T8lK0QzyOetyHvPME+edY3lZDbqiiddexxk7FqSyrB6KT3Qz+LL9tv
-         CEG3hyWmOtXRTyiK8VrNvo0sde7JNe1hyGs3nxdvvFhkhah1MlEnqi8R3OElWDeKgQiv
-         jrkDOtnAiou8e0oZMOgOJrJVRgD049QpA+kMw5tIZfGt2xfbCLsVJPy3VmBYZjQPDNXE
-         X2uJTGCrp2u13QWmsHWxc5x3UMBmW9+ewZ+bPoMzvBOfVh2qsrSkuR3v6bv7bgw1mvqW
-         mgLA==
+        bh=YEZkLSkeVvdVz2I9RR2Z8l3HmZABbiGFnykMWSMSezE=;
+        b=OdUq18jK2Why49i+Fv2ZXOOBYqasjrH2pqWcZVdLX967PGJq9HdqxQaquw3YwPXeTf
+         PMGfty+eAs7DMXM8DecR12of2f7QSIlpaTAbGp5n351K94hBsEn+7kbYQKYPaVFb2v2p
+         8agfdrk4em/hCjeb7qpsJd/hD6NCgojvqQMhP0IOzcGrPoqdAxz3QUcRgANFJmUGPEEO
+         N4lP/hIr4j1F0db02LJWebmPEEsspl7RPQpzijtmiGB8t+AyV4YZa7vqK7oj0mfaz2j2
+         y8dRex51vZi3RqpOLHVmEtea3dsUAdoNSHIkCrxIJZ099zQ3Epn3+V+EFShEsCDd5LgS
+         rhOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=3e8bC/Ax9BOA2Qqmdvlceg2Mrom20tLBb9FMDRoA6eo=;
-        b=CJu2QjbEb/+K8fp0OFzcTRISGiPcxtgQTEF0+Jl6cKy4zf2rrucO2PQSg4pxT4dVzG
-         I5oWSXoWWAq7CeBm53c9bwylauXpNfx/P28FvuPoIabK2CxfNhRnr/RQwYudnJKgiDwG
-         j5zdwQRard/cV4Q3ejleGvoINN102mb7PgAWvwTqvM3EQ1PGiEhPYcdPfmNaxdOa/GAa
-         qdP2OVzHXejMAVSIPi3vjXD7FOudBb9YVB+MZfsuP98fnIV3LfqxlK2hlL2aj2FewKvt
-         Ood4qiRlat9sKH2m3B5Bjey1HEExv/PuUFOUMlrA8pc/evKlhFOPZlnA28sle5Sm3OSE
-         xWlw==
-X-Gm-Message-State: AOAM5337Pux1cImtzvPk3XYFHyeRombMMauuGsLn1hC4suB21VQieU3Q
-        gy510xZu8LchxYjTUu0vdvbjPQ==
-X-Google-Smtp-Source: ABdhPJzVyANva+fJza2/Sfu3EJMVyNZvktU+OpnQzj6FWgSjEETySHwTT+qPdA8idoQZQ2NiKDwjVQ==
-X-Received: by 2002:a50:f9cc:: with SMTP id a12mr2492130edq.227.1591795769805;
-        Wed, 10 Jun 2020 06:29:29 -0700 (PDT)
-Received: from [192.168.1.5] (212-5-158-114.ip.btc-net.bg. [212.5.158.114])
-        by smtp.googlemail.com with ESMTPSA id b14sm15221126ejq.105.2020.06.10.06.29.27
+        bh=YEZkLSkeVvdVz2I9RR2Z8l3HmZABbiGFnykMWSMSezE=;
+        b=fAJQbgDbHm7AW3fc5gh3j3cwq5zmQ37d2drqYsbftaeBylv03AtfLzWzmCKtWY9pfg
+         NX4GcYGkBHG39BLCEZrndflws5ElQ+7da1mNt8Jvj0cwgCvdbDr8ik+c4z0p7ZtmHaTg
+         43vltUB+8koE+BJNY69osONIjya2T6wBkOcXTebRA5yCkqU1LtZRWedzPlTmmMgF7PYt
+         TvcCPkAE0LJPj3OmTrjc1FNk5R/4WqSKPu6ULkMp+ElsHlPqVTnxp7NNgUgOUuhl3Y/G
+         fGvW5mCsmFr+ohGL91xW+viRY5USnMfjzjY3/kU3H0+UqQ2QMJUe1ZBz2mvZEaIGxNg+
+         JuVw==
+X-Gm-Message-State: AOAM532iZvlskYGe0dPAFWuFx2GWetW42Pf4uPEZ9cxRUgCWDJxsp+tO
+        KiM7cKB7UVnuYdnvVpIhloFYU7T4
+X-Google-Smtp-Source: ABdhPJx6QoodCmeaFLd2gAfQNcaDVSeaiNrrnokJtx5cXUmYo+dwjW5WfG+0fI8yb+gdaqJI/l13kA==
+X-Received: by 2002:ac2:5e90:: with SMTP id b16mr1832962lfq.170.1591796026124;
+        Wed, 10 Jun 2020 06:33:46 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id 4sm4997461ljq.34.2020.06.10.06.33.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2020 06:29:29 -0700 (PDT)
-Subject: Re: [PATCH v3 6/7] venus: Make debug infrastructure more flexible
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, Joe Perches <joe@perches.com>,
-        Jason Baron <jbaron@akamai.com>
-References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
- <20200609104604.1594-7-stanimir.varbanov@linaro.org>
- <20200609111414.GC780233@kroah.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <dc85bf9e-e3a6-15a1-afaa-0add3e878573@linaro.org>
-Date:   Wed, 10 Jun 2020 16:29:27 +0300
+        Wed, 10 Jun 2020 06:33:45 -0700 (PDT)
+Subject: Re: [RFC PATCH v1 13/18] gpu: host1x: mipi: Add
+ of_tegra_mipi_request() API
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
+        helen.koike@collabora.com
+Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+References: <1591768960-31648-1-git-send-email-skomatineni@nvidia.com>
+ <1591768960-31648-14-git-send-email-skomatineni@nvidia.com>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <e84c6723-e94a-3fcf-8b38-eb680c88de25@gmail.com>
+Date:   Wed, 10 Jun 2020 16:33:44 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-In-Reply-To: <20200609111414.GC780233@kroah.com>
+In-Reply-To: <1591768960-31648-14-git-send-email-skomatineni@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 6/9/20 2:14 PM, Greg Kroah-Hartman wrote:
-> On Tue, Jun 09, 2020 at 01:46:03PM +0300, Stanimir Varbanov wrote:
->> Here we introduce few debug macros with levels (low, medium and
->> high) and debug macro for firmware. Enabling the particular level
->> will be done by dynamic debug with levels.
->>
->> For example to enable debug messages with low level:
->> echo 'module venus_dec level 0x01 +p' > debugfs/dynamic_debug/control
->>
->> If you want to enable all levels:
->> echo 'module venus_dec level 0x07 +p' > debugfs/dynamic_debug/control
->>
->> All the features which dynamic debugging provide are preserved.
->>
->> And finaly all dev_dbg are translated to VDBGX with appropriate
->> debug levels.
->>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  drivers/media/platform/qcom/venus/core.h      |  5 ++
->>  drivers/media/platform/qcom/venus/helpers.c   |  2 +-
->>  drivers/media/platform/qcom/venus/hfi_msgs.c  | 30 ++++-----
->>  drivers/media/platform/qcom/venus/hfi_venus.c | 20 ++++--
->>  .../media/platform/qcom/venus/pm_helpers.c    |  3 +-
->>  drivers/media/platform/qcom/venus/vdec.c      | 63 +++++++++++++++++--
->>  drivers/media/platform/qcom/venus/venc.c      |  4 ++
->>  7 files changed, 96 insertions(+), 31 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
->> index b48782f9aa95..63eabf5ff96d 100644
->> --- a/drivers/media/platform/qcom/venus/core.h
->> +++ b/drivers/media/platform/qcom/venus/core.h
->> @@ -15,6 +15,11 @@
->>  #include "dbgfs.h"
->>  #include "hfi.h"
->>  
->> +#define VDBGL(fmt, args...)	pr_debug_level(0x01, fmt, ##args)
->> +#define VDBGM(fmt, args...)	pr_debug_level(0x02, fmt, ##args)
->> +#define VDBGH(fmt, args...)	pr_debug_level(0x04, fmt, ##args)
->> +#define VDBGFW(fmt, args...)	pr_debug_level(0x08, fmt, ##args)
->> +
->>  #define VIDC_CLKS_NUM_MAX		4
->>  #define VIDC_VCODEC_CLKS_NUM_MAX	2
->>  #define VIDC_PMDOMAINS_NUM_MAX		3
->> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
->> index 0143af7822b2..115a9a2af1d6 100644
->> --- a/drivers/media/platform/qcom/venus/helpers.c
->> +++ b/drivers/media/platform/qcom/venus/helpers.c
->> @@ -396,7 +396,7 @@ put_ts_metadata(struct venus_inst *inst, struct vb2_v4l2_buffer *vbuf)
->>  	}
->>  
->>  	if (slot == -1) {
->> -		dev_dbg(inst->core->dev, "%s: no free slot\n", __func__);
->> +		VDBGH("no free slot for timestamp\n");
+10.06.2020 09:02, Sowjanya Komatineni пишет:
+> This patch adds an API of_tegra_mipi_request() to allow creating
+> mipi device for specific device node rather than a device so Tegra
+> CSI driver can use it for calibrating MIPI pads for each stream
+> independently.
 > 
-> So you just lost the information that dev_dbg() gave you with regards to
-> the device/driver/instance creating that message?
-
-No, I don't lose anything.  When I do debug I know that all debug
-messages comes from my driver.  dev_dbg will give me few device
-identifiers which I don't care so much. IMO, the device information
-makes more sense to dev_err/warn/err variants.  On the other side we
-will have dev_dbg_level(group) if still someone needs the device
-information.
-
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  drivers/gpu/host1x/mipi.c | 10 ++++++++--
+>  include/linux/host1x.h    |  2 ++
+>  2 files changed, 10 insertions(+), 2 deletions(-)
 > 
-> Ick, no, don't do that.
-> 
-> And why is this driver somehow "special" compared to all the rest of
+> diff --git a/drivers/gpu/host1x/mipi.c b/drivers/gpu/host1x/mipi.c
+> index e00809d..f51fe69 100644
+> --- a/drivers/gpu/host1x/mipi.c
+> +++ b/drivers/gpu/host1x/mipi.c
+> @@ -206,9 +206,9 @@ static int tegra_mipi_power_down(struct tegra_mipi *mipi)
+>  	return 0;
+>  }
+>  
+> -struct tegra_mipi_device *tegra_mipi_request(struct device *device)
+> +struct tegra_mipi_device *of_tegra_mipi_request(struct device *device,
+> +						struct device_node *np)
+>  {
+> -	struct device_node *np = device->of_node;
+>  	struct tegra_mipi_device *dev;
+>  	struct of_phandle_args args;
+>  	int err;
+> @@ -252,6 +252,12 @@ struct tegra_mipi_device *tegra_mipi_request(struct device *device)
+>  	of_node_put(args.np);
+>  	return ERR_PTR(err);
+>  }
+> +EXPORT_SYMBOL(of_tegra_mipi_request);
+> +
+> +struct tegra_mipi_device *tegra_mipi_request(struct device *device)
+> +{
+> +	return of_tegra_mipi_request(device, device->of_node);
+> +}
+>  EXPORT_SYMBOL(tegra_mipi_request);
+>  
+>  void tegra_mipi_free(struct tegra_mipi_device *device)
+> diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+> index c230b4e..a61ca52 100644
+> --- a/include/linux/host1x.h
+> +++ b/include/linux/host1x.h
+> @@ -325,6 +325,8 @@ int host1x_client_resume(struct host1x_client *client);
+>  
+>  struct tegra_mipi_device;
+>  
+> +struct tegra_mipi_device *of_tegra_mipi_request(struct device *device,
+> +						struct device_node *np);
 
-Of course it is special ... to me ;-)
-
-> the kernel?  Why is the current dev_dbg() control not sufficient that
-> you need to change the core for just this tiny thing?
-> 
-> thanks,
-> 
-> greg k-h
-> 
-
--- 
-regards,
-Stan
+Looks like adding a new function here is a bit of overkill. What about
+to change tegra_mipi_request() to take the node argument?
