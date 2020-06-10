@@ -2,328 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85E761F543E
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 14:08:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F060E1F54A7
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 14:25:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728966AbgFJMIT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 08:08:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41768 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728595AbgFJMIS (ORCPT
+        id S1729020AbgFJMZX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 08:25:23 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:49501 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728957AbgFJMZU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 08:08:18 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45CD6C03E96B
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 05:08:18 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id dr13so2285153ejc.3
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 05:08:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=ilvgNWiqcMtPIkse3o4r0rHH7ZShxG9hfBFBV2q70qA=;
-        b=c51QWTTSCTnAAD888/1OxKSQcE7oQC55Sg4SMVOJO1ltLl8oywRBDPo/kyrA/qXfYo
-         S4NufP+you5XpsD2X6rRNUcS7WaN5BpcY+6pHB9wvl//EwM//kIvYTiNYG78PwazCwjn
-         nzZMUeDk6ifIl4uHELBwxbn1Sf6fQWiz+vk+c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ilvgNWiqcMtPIkse3o4r0rHH7ZShxG9hfBFBV2q70qA=;
-        b=bsMnBXhSDSTO7bgcB/zijyQoFxaIFkc6RnXLE3QKFAQuqdkLG8ApaWx2OfaZKGNKCn
-         ns1A0ZqASo2jPKh5zmpRI9971rpfWuFPM0uELuMAuUMTgpfvUMrT6AV6SaELWiBGtnyv
-         vxKcb7PJ/YaUwuTEI1+auXbH06/XwtsyJ0rUDXAchyVB/lqZlASp7O42H105MOQE2T8c
-         gpYQEF4sJ0eyngmlgMCJ7RWga3JTtmOcX6NggNrztngiUpj+HdcDgH8F+PrMSOcdKV4D
-         xx1+hsMZdVbwoaWXSorccpPSx4jbqiR9h6r7GURfGEdJhm6rtb/bFLDqByno++dGjDDJ
-         hjTA==
-X-Gm-Message-State: AOAM5321fseMmrmAkDZurnXqHK6xR6emANfsnSSpwAxC/41lxgiHGyE7
-        tlkYhRWspsJPsxR7slbivPQ/VUlag+HP0A==
-X-Google-Smtp-Source: ABdhPJxRzV/hymFRqMiGAs7lCiMiBQht5LHwTcFhBURuUHf3o629yQouD6eQYkzmS4Vf7KTEyeZGyQ==
-X-Received: by 2002:a17:906:768e:: with SMTP id o14mr3174576ejm.497.1591790896145;
-        Wed, 10 Jun 2020 05:08:16 -0700 (PDT)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com. [209.85.221.53])
-        by smtp.gmail.com with ESMTPSA id u34sm17471356edc.59.2020.06.10.05.08.14
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2020 05:08:15 -0700 (PDT)
-Received: by mail-wr1-f53.google.com with SMTP id e1so1985230wrt.5
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 05:08:14 -0700 (PDT)
-X-Received: by 2002:a5d:6750:: with SMTP id l16mr3333159wrw.295.1591790894243;
- Wed, 10 Jun 2020 05:08:14 -0700 (PDT)
+        Wed, 10 Jun 2020 08:25:20 -0400
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05ACI9fo011911;
+        Wed, 10 Jun 2020 14:25:03 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=zLwEj7MqWWxOTNW8GUFQe1h25GWD27n/XUQYErjbCu4=;
+ b=T8HZuzc35YFPNmd9RYJdN0RxeUHNbBUfiVbuwcWWUqe+Jl1MQAHpIV2HjmfERUJsi92t
+ ZuMAp+gAOXXHJOaH5aRJWd8wN8YxoycXNpk0p5XoV0Uq98dartXq2FlKWb4a6fzYztwb
+ 5CX4SgDTXB2k3i3m/g1NgKeWYB5fTSJiytFzgF4NQ5Dwz6o/+lCb7idQHYnRR8e03h91
+ VvvcPm+i/ZPTA33zrmzddBDHk2gN/ULHzkDMDO7suJxMzFEuzBA48IRhN6nr83no2BZl
+ j7SBWBK6EqVKqalc9LK1ADMrDT8MAQclNhQbE8Q4x+iaQMug4YhzvTae5g1DkpvdX/mj SQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 31g0wvw0m6-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 10 Jun 2020 14:25:03 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 99ECE10002A;
+        Wed, 10 Jun 2020 14:25:02 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8256F2106E9;
+        Wed, 10 Jun 2020 14:25:02 +0200 (CEST)
+Received: from localhost (10.75.127.51) by SFHDAG3NODE3.st.com (10.75.127.9)
+ with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 10 Jun 2020 14:25:02
+ +0200
+From:   Benjamin Gaignard <benjamin.gaignard@st.com>
+To:     <hugues.fruchet@st.com>, <mchehab@kernel.org>,
+        <mcoquelin.stm32@gmail.com>, <alexandre.torgue@st.com>
+CC:     <linux-media@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <vincent.guittot@linaro.org>,
+        <valentin.schneider@arm.com>, <rjw@rjwysocki.net>,
+        Benjamin Gaignard <benjamin.gaignard@st.com>
+Subject: [PATCH v6 0/3] DCMI set minimum cpufreq requirement
+Date:   Wed, 10 Jun 2020 14:24:57 +0200
+Message-ID: <20200610122500.4304-1-benjamin.gaignard@st.com>
+X-Mailer: git-send-email 2.15.0
 MIME-Version: 1.0
-References: <20200416145605.12399-1-dafna.hirschfeld@collabora.com>
- <20200416145605.12399-2-dafna.hirschfeld@collabora.com> <20200604175443.GB76282@chromium.org>
- <87f11ebf-aecf-7eee-f18c-98dd4e8d692b@collabora.com>
-In-Reply-To: <87f11ebf-aecf-7eee-f18c-98dd4e8d692b@collabora.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 10 Jun 2020 14:08:02 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5BPOUFsKb0Qa_6QiytE6=OM3jjSVWyoikdgyNvr4vu0fw@mail.gmail.com>
-Message-ID: <CAAFQd5BPOUFsKb0Qa_6QiytE6=OM3jjSVWyoikdgyNvr4vu0fw@mail.gmail.com>
-Subject: Re: [RFC v3 2/2] media: staging: rkisp1: allow quantization
- conversion from userspace for isp source pad
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.51]
+X-ClientProxiedBy: SFHDAG7NODE2.st.com (10.75.127.20) To SFHDAG3NODE3.st.com
+ (10.75.127.9)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-06-10_07:2020-06-10,2020-06-10 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 4, 2020 at 9:11 PM Dafna Hirschfeld
-<dafna.hirschfeld@collabora.com> wrote:
->
-> Hi
->
-> On 04.06.20 19:54, Tomasz Figa wrote:
-> > On Thu, Apr 16, 2020 at 04:56:05PM +0200, Dafna Hirschfeld wrote:
-> >> The isp entity has a hardware support to force full range quantization
-> >> for YUV formats. Use the new API to indicate userspace that
-> >> quantization conversion is supported by adding the flag
-> >> V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION during media code enumeration.
-> >> Then uppon s_fmt on the video source pad, we assign the
-> >> quantization from userspace for YUV formats.
-> >> Also in the capture and resizer entities we retrieve the colorspace
-> >> from the isp entity.
-> >>
-> >> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> >> ---
-> >>   drivers/staging/media/rkisp1/rkisp1-capture.c | 28 ++++++-------
-> >>   drivers/staging/media/rkisp1/rkisp1-common.h  |  2 +
-> >>   drivers/staging/media/rkisp1/rkisp1-isp.c     | 39 +++++++++++++++++--
-> >>   drivers/staging/media/rkisp1/rkisp1-resizer.c | 13 +++++++
-> >>   4 files changed, 65 insertions(+), 17 deletions(-)
-> >>
-> >> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> >> index fbf62399fe3d..aca0f93bc772 100644
-> >> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-> >> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> >> @@ -1066,14 +1066,13 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
-> >>                         const struct v4l2_format_info **fmt_info)
-> >>   {
-> >>      const struct rkisp1_capture_config *config = cap->config;
-> >> -    struct rkisp1_capture *other_cap =
-> >> -                    &cap->rkisp1->capture_devs[cap->id ^ 1];
-> >>      const struct rkisp1_capture_fmt_cfg *fmt;
-> >>      const struct v4l2_format_info *info;
-> >>      const unsigned int max_widths[] = { RKISP1_RSZ_MP_SRC_MAX_WIDTH,
-> >>                                          RKISP1_RSZ_SP_SRC_MAX_WIDTH };
-> >>      const unsigned int max_heights[] = { RKISP1_RSZ_MP_SRC_MAX_HEIGHT,
-> >>                                           RKISP1_RSZ_SP_SRC_MAX_HEIGHT};
-> >> +    struct v4l2_subdev_format isp_sd_fmt;
-> >>
-> >>      fmt = rkisp1_find_fmt_cfg(cap, pixm->pixelformat);
-> >>      if (!fmt) {
-> >> @@ -1081,24 +1080,27 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
-> >>              pixm->pixelformat = fmt->fourcc;
-> >>      }
-> >>
-> >> +    rkisp1_get_isp_src_fmt(cap->rkisp1, &isp_sd_fmt);
-> >> +    pixm->field = isp_sd_fmt.format.field;
-> >> +    pixm->colorspace = isp_sd_fmt.format.colorspace;
-> >> +    pixm->ycbcr_enc = isp_sd_fmt.format.ycbcr_enc;
-> >> +    pixm->xfer_func = isp_sd_fmt.format.xfer_func;
-> >> +
-> >> +    /*
-> >> +     * isp has a feature to set full range quantization for yuv formats.
-> >
-> > How about "select between limited and full range for YUV formats"?
-> >
-> >> +     * so we need to get the format from the isp.
-> >> +     */
-> >> +    pixm->quantization = isp_sd_fmt.format.quantization;
-> >> +    if (!v4l2_is_format_yuv(cap->pix.info))
-> >> +            pixm->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> >> +
-> >>      pixm->width = clamp_t(u32, pixm->width,
-> >>                            RKISP1_RSZ_SRC_MIN_WIDTH, max_widths[cap->id]);
-> >>      pixm->height = clamp_t(u32, pixm->height,
-> >>                             RKISP1_RSZ_SRC_MIN_HEIGHT, max_heights[cap->id]);
-> >>
-> >> -    pixm->field = V4L2_FIELD_NONE;
-> >> -    pixm->colorspace = V4L2_COLORSPACE_DEFAULT;
-> >> -    pixm->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-> >> -
-> >>      info = rkisp1_fill_pixfmt(pixm, cap->id);
-> >>
-> >> -    /* can not change quantization when stream-on */
-> >> -    if (other_cap->is_streaming)
-> >> -            pixm->quantization = other_cap->pix.fmt.quantization;
-> >> -    /* output full range by default, take effect in params */
-> >> -    else if (!pixm->quantization ||
-> >> -             pixm->quantization > V4L2_QUANTIZATION_LIM_RANGE)
-> >> -            pixm->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> >>
-> >>      if (fmt_cfg)
-> >>              *fmt_cfg = fmt;
-> >> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
-> >> index 2d7b7e078636..7a5576fa14c9 100644
-> >> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
-> >> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
-> >> @@ -300,6 +300,8 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
-> >>                      struct v4l2_device *v4l2_dev);
-> >>   void rkisp1_isp_unregister(struct rkisp1_device *rkisp1);
-> >>
-> >> +int rkisp1_get_isp_src_fmt(struct rkisp1_device *rkisp1,
-> >> +                       struct v4l2_subdev_format *sd_fmt);
-> >>   const struct rkisp1_isp_mbus_info *rkisp1_isp_mbus_info_get(u32 mbus_code);
-> >>
-> >>   irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1);
-> >> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> >> index dee8e96f3900..6fdf5ed0b6b1 100644
-> >> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
-> >> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> >> @@ -613,6 +613,10 @@ static int rkisp1_isp_enum_mbus_code(struct v4l2_subdev *sd,
-> >>
-> >>              if (code->index == pos - 1) {
-> >>                      code->code = fmt->mbus_code;
-> >> +                    if (fmt->pixel_enc == V4L2_PIXEL_ENC_YUV &&
-> >> +                        dir == RKISP1_DIR_SRC)
-> >> +                            code->flags =
-> >> +                                    V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION;
-> >>                      return 0;
-> >>              }
-> >>      }
-> >> @@ -639,12 +643,21 @@ static int rkisp1_isp_init_config(struct v4l2_subdev *sd,
-> >>      sink_crop->height = RKISP1_DEFAULT_HEIGHT;
-> >>      sink_crop->left = 0;
-> >>      sink_crop->top = 0;
-> >> +    sink_fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> >> +    sink_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(sink_fmt->colorspace);
-> >> +    sink_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(sink_fmt->colorspace);
-> >> +    sink_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> >> +
-> >>
-> >>      src_fmt = v4l2_subdev_get_try_format(sd, cfg,
-> >>                                           RKISP1_ISP_PAD_SOURCE_VIDEO);
-> >>      *src_fmt = *sink_fmt;
-> >>      src_fmt->code = RKISP1_DEF_SRC_PAD_FMT;
-> >> -    src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> >> +    src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> >> +    src_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(src_fmt->colorspace);
-> >> +    src_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(src_fmt->colorspace);
-> >> +    src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
-> >> +
-> >>
-> >>      src_crop = v4l2_subdev_get_try_crop(sd, cfg,
-> >>                                          RKISP1_ISP_PAD_SOURCE_VIDEO);
-> >> @@ -687,10 +700,17 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_isp *isp,
-> >>              isp->src_fmt = mbus_info;
-> >>      src_fmt->width  = src_crop->width;
-> >>      src_fmt->height = src_crop->height;
-> >> -    src_fmt->quantization = format->quantization;
-> >> -    /* full range by default */
-> >> -    if (!src_fmt->quantization)
-> >> +
-> >> +    src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> >> +    src_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(src_fmt->colorspace);
-> >> +    src_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(src_fmt->colorspace);
-> >> +
-> >> +    if (mbus_info->pixel_enc == V4L2_PIXEL_ENC_BAYER)
-> >>              src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> >> +    else if (format->quantization == V4L2_QUANTIZATION_DEFAULT)
-> >> +            src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
-> >> +    else
-> >> +            src_fmt->quantization = format->quantization;
-> >>
-> >>      *format = *src_fmt;
-> >>   }
-> >> @@ -1068,6 +1088,17 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
-> >>      return ret;
-> >>   }
-> >>
-> >> +int rkisp1_get_isp_src_fmt(struct rkisp1_device *rkisp1,
-> >> +                       struct v4l2_subdev_format *sd_fmt)
-> >> +{
-> >> +    struct rkisp1_isp *isp = &rkisp1->isp;
-> >> +
-> >> +    sd_fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> >> +    sd_fmt->pad = RKISP1_ISP_PAD_SOURCE_VIDEO;
-> >> +
-> >> +    return v4l2_subdev_call(&isp->sd, pad, get_fmt, NULL, sd_fmt);
-> >
-> > Do we need to get through the external API to access data that is
-> > driver-internal anyway?
-> >
-> >> +}
-> >> +
-> >>   void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
-> >>   {
-> >>      struct v4l2_subdev *sd = &rkisp1->isp.sd;
-> >> diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> >> index 7b6b7ddd4169..8705b133de68 100644
-> >> --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> >> +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> >> @@ -525,6 +525,7 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
-> >>      const struct rkisp1_isp_mbus_info *mbus_info;
-> >>      struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
-> >>      struct v4l2_rect *sink_crop;
-> >> +    struct v4l2_subdev_format isp_sd_fmt;
-> >>
-> >>      sink_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SINK, which);
-> >>      src_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SRC, which);
-> >> @@ -539,8 +540,20 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
-> >>      if (which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> >>              rsz->pixel_enc = mbus_info->pixel_enc;
-> >>
-> >> +    rkisp1_get_isp_src_fmt(rsz->rkisp1, &isp_sd_fmt);
-> >> +
-> >
-> > Is this necessary? My understanding was that in the subdev model, it was
-> > the userspace responsibility to propagate any configuration changes through
-> > the graph.
-> >
-> > Also, doing this only here wouldn't fully maintain the
-> > consistency of the state. For example, if one sets the ISP subdev format
-> > first, then the resizer subdev and then the ISP subdev again, wouldn't the
-> > resizer subdev end up with a wrong format?
->
-> yes, this is indeed a bug, I am preparing v4 now.
-> What I thought to do is adding quantization conversion
-> support also on ther resizer and capture entities.
-> Then in the 'link_validation' callbacks, there
-> is a validation that the quantization fields matches.
+This series allow to STM32 camera interface (DCMI) to require a minimum
+frequency to the CPUs before start streaming frames from the sensor.
+The minimum frequency requirement is provided in the devide-tree node.
 
-My understanding is that, if we have the following topology
+Setting a minimum frequency for the CPUs is needed to ensure a quick handling
+of the interrupts between two sensor frames and avoid dropping half of them.
 
-[ ISP ] -> [ Resizer ] -> [ Video node ]
+version 6:
+- come back to version 4 and follow Valentin's suggestions about notifier
 
-then the ISP source pad would have the csc capability, while resizer
-and video node would just accept whatever is configured on their sink
-pads (no need for csc capability for that) and propagate that to their
-outputs, i.e. resizer source pad and video node CAPTURE format.
+version 5:
+- add a mutex to protect dcmi_irq_notifier_notify()
+- register notifier a probe time
 
-Is this what you were going to implement?
+version 4:
+- simplify irq affinity handling by using only dcmi_irq_notifier_notify() 
 
->
-> Thanks,
-> Dafna
->
-> >
-> > Best regards,
-> > Tomasz
-> >
-> >> +    sink_fmt->field = isp_sd_fmt.format.field;
-> >> +    sink_fmt->colorspace = isp_sd_fmt.format.colorspace;
-> >> +    sink_fmt->ycbcr_enc = isp_sd_fmt.format.ycbcr_enc;
-> >> +    sink_fmt->xfer_func = isp_sd_fmt.format.xfer_func;
-> >> +
-> >>      /* Propagete to source pad */
-> >>      src_fmt->code = sink_fmt->code;
-> >> +    src_fmt->field = sink_fmt->field;
-> >> +    src_fmt->colorspace = sink_fmt->colorspace;
-> >> +    src_fmt->ycbcr_enc = sink_fmt->ycbcr_enc;
-> >> +    src_fmt->xfer_func = sink_fmt->xfer_func;
-> >> +    src_fmt->quantization = sink_fmt->quantization;
-> >>
-> >>      sink_fmt->width = clamp_t(u32, format->width,
-> >>                                rsz->config->min_rsz_width,
-> >> --
-> >> 2.17.1
-> >>
+version 3:
+- add a cpumask field to track boosted CPUs
+- add irq_affinity_notify callback
+- protect cpumask field with a mutex 
+
+Benjamin Gaignard (3):
+  dt-bindings: media: stm32-dcmi: Add DCMI min frequency property
+  media: stm32-dcmi: Set minimum cpufreq requirement
+  ARM: dts: stm32: Set DCMI frequency requirement for stm32mp15x
+
+ .../devicetree/bindings/media/st,stm32-dcmi.yaml   |   8 ++
+ arch/arm/boot/dts/stm32mp151.dtsi                  |   1 +
+ drivers/media/platform/stm32/stm32-dcmi.c          | 138 +++++++++++++++++++--
+ 3 files changed, 139 insertions(+), 8 deletions(-)
+
+-- 
+2.15.0
+
