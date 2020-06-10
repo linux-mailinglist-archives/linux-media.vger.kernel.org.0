@@ -2,89 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D81F31F598E
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 19:00:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDD391F5993
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 19:00:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727866AbgFJRAL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 13:00:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58792 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726560AbgFJRAL (ORCPT
+        id S1729231AbgFJRAQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 13:00:16 -0400
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:18488 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726560AbgFJRAQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 13:00:11 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A51BAC03E96B
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 10:00:10 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id r7so3127361wro.1
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 10:00:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=AnGNF+99rp4z6Bd3xiiJCSIf7sDeZbkZ8WOmNiX5eng=;
-        b=PSOvnNhPIZFtIvLexVK5tr7FXA0cEmEy45eeKdKJKzKyvKa0XOIyEpWg7vauypi2eX
-         rgJEQN/19i6TWj7rbbhYiuRoEE9HbtcIuZ8bRuYz+lwjtDCdQff2WGoJX3MfONDIwbxP
-         IR/FGBu9KU9i4kLzff6Wt5EISfJWqKqIAsxqo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=AnGNF+99rp4z6Bd3xiiJCSIf7sDeZbkZ8WOmNiX5eng=;
-        b=iOOIXQBcFGk08x8Dwa0vEH/6aWJp6zZ6RQP8swS9psS3ZCjGE8qj97n7oFhVKF6V3T
-         5uzf78kmshHtygN49UK4SQnOmXzGiH6SqzAnRQTFvyowp8QjbEXcbcIIcoZq+cQAFwK6
-         8Vzk1VIBG2siL2USPMnFpkJkegTfITUAaQEuSblaB4zTSdqDipxnmZKUekzkJf3IBYct
-         zrcoiZTVjhAhMKT3fD2X5qK8ABwmFzhOSpG8hBJTMbrtMJ3XKEysIiiLDcGtIkywaraP
-         5HvteeNOaWEVqtRbILu+rHPNwnwn6TYsXRxQVTGzCPkus+wVZz3sbeqLdC5yg43p/Oiv
-         UYzQ==
-X-Gm-Message-State: AOAM532Q4OWwiC+QP8kfj4uH5KJPFJwmaQN5NVuBJB9VdIoavtxyB9/z
-        Rp32sY2xhZphIYNgZvjH2xtClQ==
-X-Google-Smtp-Source: ABdhPJzb5Ucd1G9bJthu0S3u1TR58hi4HHCPychzyEyu+6ggnlNt9N0zGxdLMSnMSvIssd5p1tbGaA==
-X-Received: by 2002:a5d:45cb:: with SMTP id b11mr4571396wrs.235.1591808409432;
-        Wed, 10 Jun 2020 10:00:09 -0700 (PDT)
-Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id t8sm346018wmi.46.2020.06.10.10.00.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2020 10:00:08 -0700 (PDT)
-Date:   Wed, 10 Jun 2020 17:00:07 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        helen.koike@collabora.com, ezequiel@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, skhan@linuxfoundation.org,
-        niklas.soderlund@ragnatech.se--annotate
-Subject: Re: [PATCH v4 3/5] media: staging: rkisp1: validate links before
- powering and streaming
-Message-ID: <20200610170007.GB201868@chromium.org>
-References: <20200522075522.6190-1-dafna.hirschfeld@collabora.com>
- <20200522075522.6190-4-dafna.hirschfeld@collabora.com>
+        Wed, 10 Jun 2020 13:00:16 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ee111920001>; Wed, 10 Jun 2020 10:00:02 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 10 Jun 2020 10:00:15 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 10 Jun 2020 10:00:15 -0700
+Received: from [10.2.167.70] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 10 Jun
+ 2020 17:00:14 +0000
+Subject: Re: [RFC PATCH v1 13/18] gpu: host1x: mipi: Add
+ of_tegra_mipi_request() API
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
+        <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <gregkh@linuxfoundation.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>
+References: <1591768960-31648-1-git-send-email-skomatineni@nvidia.com>
+ <1591768960-31648-14-git-send-email-skomatineni@nvidia.com>
+ <e84c6723-e94a-3fcf-8b38-eb680c88de25@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <ef909904-9d21-c124-73fc-79c9ae7ac75b@nvidia.com>
+Date:   Wed, 10 Jun 2020 10:00:13 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200522075522.6190-4-dafna.hirschfeld@collabora.com>
+In-Reply-To: <e84c6723-e94a-3fcf-8b38-eb680c88de25@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1591808402; bh=Imz6doYV660y+cWZb3k3Hst0ZTywDfXDU/B2fakCmbE=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=gpiEPWI11tmwvkC1z4UqgSJgJALbX1UO7Icf7RcURBPTCfOGmtBoegR9TiB6A1cUT
+         BpcIZVnuYZ8a3S7SmDrChcksWlyjGqzfvDZXMnS4WELWyhq4yG4FrjJiTJg4mCMbE4
+         b5nHI9snhjEaBq5DJ4CX83uT0iZQ4MuZPOnaSNRtaGJOfIiNlekdxcM+RvTG37CUIc
+         J8dUr9wKHRpV+wILC4lL55qvEvo5oDQp4e7JMbnxy77Z6tpPLlbYVCfOGRdESHEXKQ
+         LVhoCkttS4pwxekjsd92ZwpPPl4whkJTICqFAMoQrXnxd0KcJIUCX7LSF37gShZQsT
+         1pYidMutj/pzQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, May 22, 2020 at 09:55:20AM +0200, Dafna Hirschfeld wrote:
-> In function rkisp1_vb2_start_streaming, the call to
-> media_pipeline_start should be the first thing in order
-> to validate the links and prevents their state from being modified
-> before power up and streaming.
-> 
-> Adjust stop streaming to the same logic, call media_pipeline_stop
-> after we disable streaming on the entities in the topology.
-> 
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/rkisp1/rkisp1-capture.c | 21 ++++++++++---------
->  1 file changed, 11 insertions(+), 10 deletions(-)
-> 
 
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+On 6/10/20 6:33 AM, Dmitry Osipenko wrote:
+> 10.06.2020 09:02, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> This patch adds an API of_tegra_mipi_request() to allow creating
+>> mipi device for specific device node rather than a device so Tegra
+>> CSI driver can use it for calibrating MIPI pads for each stream
+>> independently.
+>>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>   drivers/gpu/host1x/mipi.c | 10 ++++++++--
+>>   include/linux/host1x.h    |  2 ++
+>>   2 files changed, 10 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/gpu/host1x/mipi.c b/drivers/gpu/host1x/mipi.c
+>> index e00809d..f51fe69 100644
+>> --- a/drivers/gpu/host1x/mipi.c
+>> +++ b/drivers/gpu/host1x/mipi.c
+>> @@ -206,9 +206,9 @@ static int tegra_mipi_power_down(struct tegra_mipi *=
+mipi)
+>>   	return 0;
+>>   }
+>>  =20
+>> -struct tegra_mipi_device *tegra_mipi_request(struct device *device)
+>> +struct tegra_mipi_device *of_tegra_mipi_request(struct device *device,
+>> +						struct device_node *np)
+>>   {
+>> -	struct device_node *np =3D device->of_node;
+>>   	struct tegra_mipi_device *dev;
+>>   	struct of_phandle_args args;
+>>   	int err;
+>> @@ -252,6 +252,12 @@ struct tegra_mipi_device *tegra_mipi_request(struct=
+ device *device)
+>>   	of_node_put(args.np);
+>>   	return ERR_PTR(err);
+>>   }
+>> +EXPORT_SYMBOL(of_tegra_mipi_request);
+>> +
+>> +struct tegra_mipi_device *tegra_mipi_request(struct device *device)
+>> +{
+>> +	return of_tegra_mipi_request(device, device->of_node);
+>> +}
+>>   EXPORT_SYMBOL(tegra_mipi_request);
+>>  =20
+>>   void tegra_mipi_free(struct tegra_mipi_device *device)
+>> diff --git a/include/linux/host1x.h b/include/linux/host1x.h
+>> index c230b4e..a61ca52 100644
+>> --- a/include/linux/host1x.h
+>> +++ b/include/linux/host1x.h
+>> @@ -325,6 +325,8 @@ int host1x_client_resume(struct host1x_client *clien=
+t);
+>>  =20
+>>   struct tegra_mipi_device;
+>>  =20
+>> +struct tegra_mipi_device *of_tegra_mipi_request(struct device *device,
+>> +						struct device_node *np);
+> Looks like adding a new function here is a bit of overkill. What about
+> to change tegra_mipi_request() to take the node argument?
 
-Best regards,
-Tomasz
+thought to avoid changes to existing usage of that function in other=20
+drivers.
+
+Will update in v2.
+
