@@ -2,106 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 33A9B1F5A39
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 19:24:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CDD11F5A48
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 19:26:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726322AbgFJRYJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 13:24:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34256 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726254AbgFJRYJ (ORCPT
+        id S1726408AbgFJR0c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 13:26:32 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:55764 "EHLO
+        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726095AbgFJR0b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 13:24:09 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96378C03E96B
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 10:24:07 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id l17so2583687wmj.0
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 10:24:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=6ebCrNxAHQ0gIZe9N5QEwM65lHt3l2UflVFFKH8AQfE=;
-        b=DrXye6cjuXzCnAHm14ZUlFQ9UrhRT282GWBt//dETHTCNOsZGe68n0HNTr/lP6l+hh
-         aHJAPnZWzba8TmA/Tu+mm45S6HB3hCKZnx1pw1MkR7BB76FjVf2kORmZU3pz5x+dXCeQ
-         ZzjbfDjJczEyt9Jw5Z9smO6Hpp8nsaAyrx9KE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6ebCrNxAHQ0gIZe9N5QEwM65lHt3l2UflVFFKH8AQfE=;
-        b=Tw/ltW/Mlrz+BZX3xz3KidXkO9wtQWFQeu5jd1RsDUkRQD24S431oeA3eam3Qli0w4
-         0v6knH1DDjSFuMwOxTD57P77G2T9YktFfp59E1rzR7/+iFJBSyZ+H54jIkL93dbmvd1T
-         a25++ZoNDZ/TT1OR2iSyye5ulhBQj1pkqA/FwjxE1qu62NOA/H37bD1MSWVEBOp9hCsI
-         PUWX9MRP4KV6ZAfo1uspSOHLTWug4Ehv1vzrbW69Cppg7qfy4DjtHWILY3Zdy8BDxU1S
-         SqZnqlIyLx7keCXptbYcQXBJY1H6rgqc0O6GkrEEXe4BRhYQJCDfWzRXfMhw9m8YfVRE
-         ACqw==
-X-Gm-Message-State: AOAM533s/BymKoRIpHyItbkR5mtMD/Z8S8c8eZrQH3AJ3my+D2hJuT+8
-        tNdX6DrgNEBcvhhkBURdB6EacQ==
-X-Google-Smtp-Source: ABdhPJye6Si80e2SmteHXhfs1v6fReZ/a5P9nbsEUk/JoQcGCjTLd1JJlgSXh4OIthcuN3BEE4YMkg==
-X-Received: by 2002:a1c:6a1a:: with SMTP id f26mr4330405wmc.80.1591809845242;
-        Wed, 10 Jun 2020 10:24:05 -0700 (PDT)
-Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id c143sm8047415wmd.1.2020.06.10.10.24.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2020 10:24:04 -0700 (PDT)
-Date:   Wed, 10 Jun 2020 17:24:03 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        helen.koike@collabora.com, ezequiel@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org
-Subject: Re: [PATCH v2 3/4] media: staging: rkisp1: rename macros
- 'RKISP1_DIR_*' to 'RKISP1_ISP_SD_*'
-Message-ID: <20200610172403.GF201868@chromium.org>
-References: <20200609152825.24772-1-dafna.hirschfeld@collabora.com>
- <20200609152825.24772-4-dafna.hirschfeld@collabora.com>
+        Wed, 10 Jun 2020 13:26:31 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05AHMO7o089411;
+        Wed, 10 Jun 2020 17:26:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=ijYAQnfitZ0djMaR0rpx+C3/Bd2mhPossi+K/mI0VoI=;
+ b=kI75ydh9ZL5mQPBTpohY4GT9bQrOliTsUsmcseh1HpRMR2Ay8CP7R+wsB+gSaOfFPRsj
+ YG2pSAxlBuTvDEF2tBzkisr9OnnhhEseZsjYL02tI2JqAHEpeBdY3EENXe8xiVcZbosm
+ gzUqQoEdddo7iduvSkWWi9G7rPRlR13pONPQqymkg7lCiSqlOj8XSd00f6GLklYpDGl2
+ ewF6x5hwQaNuT3IGU7c2Y1dqXjIS/2Qq6z6TvOorHt0Y2ZkakW9qg12h4DVnRkjZB3mF
+ RrsEDTyollatoZRiE979GlzYW7M6sQ5ouR8pEevQppKT9DUb7G68nU/JaN114NLDIV2G tw== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+        by userp2130.oracle.com with ESMTP id 31g2jrbp85-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Wed, 10 Jun 2020 17:26:24 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05AHNjRL099650;
+        Wed, 10 Jun 2020 17:26:24 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3030.oracle.com with ESMTP id 31gn2yts7u-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 10 Jun 2020 17:26:24 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 05AHQN5v000591;
+        Wed, 10 Jun 2020 17:26:23 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Wed, 10 Jun 2020 10:26:22 -0700
+Date:   Wed, 10 Jun 2020 20:26:15 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Jarzmik <robert.jarzmik@free.fr>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Chuhong Yuan <hslester96@gmail.com>,
+        Peter Ujfalusi <peter.ujfalusi@ti.com>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: pxa_camera: remove an impossible condition
+Message-ID: <20200610172615.GD90634@mwanda>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200609152825.24772-4-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email haha only kidding
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9648 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 phishscore=0 malwarescore=0
+ bulkscore=0 adultscore=0 mlxlogscore=999 spamscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006100133
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9648 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 impostorscore=0
+ cotscore=-2147483648 priorityscore=1501 spamscore=0 suspectscore=0
+ lowpriorityscore=0 bulkscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0
+ phishscore=0 clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2004280000 definitions=main-2006100133
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+It's not possible for "pcdev->mclk" to be zero because we check for
+that earlier and set it to 20000000 in that situation.  If it were
+possible, that would be a problem because it could have lead to an Oops
+in the error handling when we call v4l2_clk_unregister(pcdev->mclk_clk);
 
-On Tue, Jun 09, 2020 at 05:28:24PM +0200, Dafna Hirschfeld wrote:
-> The macros 'RKISP1_DIR_*' are flags that indicate on which
-> pads of the isp subdevice the media bus code is supported. so the
-> prefix RKISP1_ISP_SD_ is better.
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/rkisp1/rkisp1-common.h  |  6 +--
->  drivers/staging/media/rkisp1/rkisp1-isp.c     | 42 +++++++++----------
->  drivers/staging/media/rkisp1/rkisp1-resizer.c |  2 +-
->  3 files changed, 25 insertions(+), 25 deletions(-)
-> 
+Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+---
+ drivers/media/platform/pxa_camera.c | 19 ++++++++-----------
+ 1 file changed, 8 insertions(+), 11 deletions(-)
 
-Thank you for the patch. Please see my comments inline.
+diff --git a/drivers/media/platform/pxa_camera.c b/drivers/media/platform/pxa_camera.c
+index 3c5fe737d36f7..8e5613c1fe067 100644
+--- a/drivers/media/platform/pxa_camera.c
++++ b/drivers/media/platform/pxa_camera.c
+@@ -2504,17 +2504,14 @@ static int pxa_camera_probe(struct platform_device *pdev)
+ 	if (err)
+ 		goto exit_notifier_cleanup;
+ 
+-	if (pcdev->mclk) {
+-		v4l2_clk_name_i2c(clk_name, sizeof(clk_name),
+-				  pcdev->asd.match.i2c.adapter_id,
+-				  pcdev->asd.match.i2c.address);
+-
+-		pcdev->mclk_clk = v4l2_clk_register(&pxa_camera_mclk_ops,
+-						    clk_name, NULL);
+-		if (IS_ERR(pcdev->mclk_clk)) {
+-			err = PTR_ERR(pcdev->mclk_clk);
+-			goto exit_notifier_cleanup;
+-		}
++	v4l2_clk_name_i2c(clk_name, sizeof(clk_name),
++			  pcdev->asd.match.i2c.adapter_id,
++			  pcdev->asd.match.i2c.address);
++
++	pcdev->mclk_clk = v4l2_clk_register(&pxa_camera_mclk_ops, clk_name, NULL);
++	if (IS_ERR(pcdev->mclk_clk)) {
++		err = PTR_ERR(pcdev->mclk_clk);
++		goto exit_notifier_cleanup;
+ 	}
+ 
+ 	err = v4l2_async_notifier_register(&pcdev->v4l2_dev, &pcdev->notifier);
+-- 
+2.26.2
 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
-> index 39d8e46d8d8a..a6cd9fc13b3d 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
-> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
-> @@ -22,9 +22,9 @@
->  #include "rkisp1-regs.h"
->  #include "uapi/rkisp1-config.h"
->  
-> -#define RKISP1_DIR_SRC BIT(0)
-> -#define RKISP1_DIR_SINK BIT(1)
-> -#define RKISP1_DIR_SINK_SRC (RKISP1_DIR_SINK | RKISP1_DIR_SRC)
-> +#define RKISP1_ISP_SD_SRC BIT(0)
-> +#define RKISP1_ISP_SD_SINK BIT(1)
-> +#define RKISP1_ISP_SD_SINK_SRC (RKISP1_ISP_SD_SINK | RKISP1_ISP_SD_SRC)
-
-nit: It might be just me, but this feels to me like obfuscating the
-code, because it hides the fact that it's a mask. If changing this
-already, could we remove this one and just OR the two bits explicitly?
-
-Best regards,
-Tomasz
