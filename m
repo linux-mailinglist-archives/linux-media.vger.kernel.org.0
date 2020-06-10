@@ -2,177 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B62A1F5BDE
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 21:14:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 954A91F5BF3
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 21:28:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730074AbgFJTOx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 15:14:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51402 "EHLO
+        id S1726868AbgFJT2S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 15:28:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728111AbgFJTOw (ORCPT
+        with ESMTP id S1726828AbgFJT2R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 15:14:52 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0859BC03E96F
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 12:14:52 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id q13so2219394edi.3
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 12:14:51 -0700 (PDT)
+        Wed, 10 Jun 2020 15:28:17 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 262C0C03E96B
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 12:28:16 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id p20so3849880ejd.13
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 12:28:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=hY1EqCjTHPxqFfI2Ha7phQq/vyBFFXs9xfoG48pRam8=;
-        b=aJfwS8QKSiJ6H8efGbgr8JxwnYO1ycqGIy32HcO1eG3MGZPBt66ZyhwXGNS+ghpCA8
-         MlCtqoDfJ8M3mbV1AgWLpGWf+BrKi4CjjSE3kapuXpX/wW+K7yKW/Wl7WT8jowM/Ie+q
-         dLhJivuS+r93N3eMejYqC6BL/icw9TbscMS/1zgtaCagnljzPRliDuw0nNJm6Nu2lNR5
-         wxcYpKvMkX70bEiohd4mCcUK6HDV5+JG8XRRb9tMfhGLnF/QWmnmCU+QP4L3ZZLa4KnY
-         tJsgeBZGfHZQjF0s4mZCD+HuR/3RzUm1NynteTQZhsux6044q+WAmCrBTpi8exknwZ9N
-         RJ9Q==
+        bh=5e8lB/A/P9Ex4LqZYnCtNcCafDSvzA9cq73cxO5JAxY=;
+        b=dAmLY/VclUMP/ZQH3aZAD64rv42wM9O9MwoV1/8fmaVJ9Ui5aW4LUTr7KRuMlkct36
+         JfIez8imV19Wh/01gR+hMHbYRe4m1kGtpxDzzr8bMr40AKgdK0VM7ykbpiB+UGqqNRR3
+         q0GxmvQlfa3bRY3TAIYcVDreYAgk00KS8HHHU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=hY1EqCjTHPxqFfI2Ha7phQq/vyBFFXs9xfoG48pRam8=;
-        b=V291yuSH16zM/hKSU6TyvGMBnC1sXaH3LxinQYxi4JRlYZ2E8yUJru8pGQ84paUQv5
-         tkkwFj14I6f8855WWzSuAD84Irwdy/rcTzhYDjQ/ZC0mGouwD3W36OlLJHz2X9NKjO5j
-         AfsLIC/cnhTRr8x3XabAsM/udTf+OPQ4rD3wLfuvPffsGH8H85POmKVePzK0eDP2iq6e
-         /E4P011Pvnoc8IvMwVNp4QAMYN5aGV2HwGWKa8Yr+BS/blc27UCvSX5GbzE0KRR9jE2F
-         7D6QTiultfQ8OMfEDftMgZhtRjUbBeB5UFN4lXBpYS+pca5IphLsQ51XT4Sply+XPItA
-         LByA==
-X-Gm-Message-State: AOAM532Kz1w1zxJRRA4sh0F0B+fHnpH3giTld5c1oPh1ws97iB6TA8Zs
-        7x41Q8V31QeIn6lCGQw3smEBLO91cO+qv1o7HkKpnw==
-X-Google-Smtp-Source: ABdhPJz9i/RGn/VGDboPOGapRKfIYiBLxFTRAkrJWXFnfcy4J6pqbtf/64Ut6cbDRPpojftZ8tGKiCLnT+y4+PGXC7s=
-X-Received: by 2002:a05:6402:1153:: with SMTP id g19mr3693132edw.127.1591816481715;
- Wed, 10 Jun 2020 12:14:41 -0700 (PDT)
+        bh=5e8lB/A/P9Ex4LqZYnCtNcCafDSvzA9cq73cxO5JAxY=;
+        b=jQt07Of5PvpvMJimq1+0nnhmB1VXyhtyOhA9ppgHzePlGpcbJwCTGkOshUWuHabag+
+         Ot780nFghl6q7Kj4CC7ppTd3WEp5Q4okt/zmiak1amNoCbgmlw/tuEfwHsqJAkBIM3DS
+         U9v4JkHS/F3gI6/Id5rxpIZQV7XdRsLHfe62N2t5RfSgs+7eFA4SffYCaPRfcL9Makx8
+         NOXhjYIyk/dGeTjpUgOE2HzUgZJl8QaPXGaO60CXaB0avjbd+sttn36LqM2CEclMwJO7
+         zuSXYid4YYJ2YLq/Dz6RtxR3jy3xF8mfDfomwnpxpIufp8twpK/aOXBs89Ejq16WcIfG
+         hB+A==
+X-Gm-Message-State: AOAM5338juAsRMy9sPvOMKVgRca86EIZkbCyyUIQTdppvK0wqSIAsxM8
+        QC6nkJ2VzKEZMIUPbLkx0ReAPIaiEvrUxw==
+X-Google-Smtp-Source: ABdhPJwLgcTXyinKVZkqmNy8/4PdXQhU5nuaiKVEw35j5G2qHH3uJ2ukSLGM05XZnG1VwQa8vznNgQ==
+X-Received: by 2002:a17:906:138b:: with SMTP id f11mr4823301ejc.288.1591817294324;
+        Wed, 10 Jun 2020 12:28:14 -0700 (PDT)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com. [209.85.128.54])
+        by smtp.gmail.com with ESMTPSA id b24sm317168edw.70.2020.06.10.12.28.13
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 10 Jun 2020 12:28:13 -0700 (PDT)
+Received: by mail-wm1-f54.google.com with SMTP id l26so2892027wme.3
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 12:28:13 -0700 (PDT)
+X-Received: by 2002:a7b:c2a9:: with SMTP id c9mr4028401wmk.11.1591817293038;
+ Wed, 10 Jun 2020 12:28:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20191204124732.10932-1-Jerry-Ch.chen@mediatek.com>
- <20191204124732.10932-2-Jerry-Ch.chen@mediatek.com> <20200521171101.GA243874@chromium.org>
- <e31fe64a-c5c1-7b1e-eec1-27111fe43ac2@xs4all.nl> <CAAFQd5Ad_cnv0qztZOk9c2H0Y+XO6tRcRmS1t4dBw5qbG-d8Nw@mail.gmail.com>
- <CAAEAJfDboyra5XcEiviJP_3Kk-mDNZH5nstDa_7P7XCV7bu7Pg@mail.gmail.com> <20200610190356.GJ201868@chromium.org>
-In-Reply-To: <20200610190356.GJ201868@chromium.org>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Wed, 10 Jun 2020 16:14:30 -0300
-Message-ID: <CAAEAJfDSr4ne7p2BG_vjLs0zLQ1O+cn4puiALdd2DyAHnTXadg@mail.gmail.com>
-Subject: Re: [RFC PATCH V4 1/4] media: v4l2-mem2mem: add v4l2_m2m_suspend, v4l2_m2m_resume
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Jerry-ch Chen <Jerry-Ch.chen@mediatek.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Pi-Hsun Shih <pihsun@chromium.org>, yuzhao@chromium.org,
-        zwisler@chromium.org,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        =?UTF-8?B?U2VhbiBDaGVuZyAo6YSt5piH5byYKQ==?= 
-        <Sean.Cheng@mediatek.com>, Sj Huang <sj.huang@mediatek.com>,
-        =?UTF-8?B?Q2hyaXN0aWUgWXUgKOa4uOmbheaDoCk=?= 
-        <christie.yu@mediatek.com>,
-        =?UTF-8?B?RnJlZGVyaWMgQ2hlbiAo6Zmz5L+K5YWDKQ==?= 
-        <frederic.chen@mediatek.com>,
-        =?UTF-8?B?SnVuZ28gTGluICjmnpfmmI7kv4op?= <jungo.lin@mediatek.com>,
-        =?UTF-8?B?UnlubiBXdSAo5ZCz6IKy5oGpKQ==?= <Rynn.Wu@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        Jerry-ch Chen <jerry-ch.chen@mediatek.corp-partner.google.com>
+References: <20200609152825.24772-1-dafna.hirschfeld@collabora.com>
+ <20200609152825.24772-2-dafna.hirschfeld@collabora.com> <20200610171511.GD201868@chromium.org>
+ <bf42a283-7aa5-330e-8a50-8bf7680cbd1f@collabora.com> <bb5576b1-7bfb-7911-004c-8fa1b4e1603c@collabora.com>
+In-Reply-To: <bb5576b1-7bfb-7911-004c-8fa1b4e1603c@collabora.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 10 Jun 2020 21:28:00 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5BMHX_kTr4CWnjB=Lbdzmg+8uFEeW5qVKitMQZ8EkZf5g@mail.gmail.com>
+Message-ID: <CAAFQd5BMHX_kTr4CWnjB=Lbdzmg+8uFEeW5qVKitMQZ8EkZf5g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] media: staging: rkisp1: rsz: supported formats are
+ the isp's src formats, not sink formats
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 10 Jun 2020 at 16:03, Tomasz Figa <tfiga@chromium.org> wrote:
+On Wed, Jun 10, 2020 at 9:00 PM Dafna Hirschfeld
+<dafna.hirschfeld@collabora.com> wrote:
 >
-> On Wed, Jun 10, 2020 at 03:52:39PM -0300, Ezequiel Garcia wrote:
-> > Hi everyone,
+>
+>
+> On 10.06.20 20:36, Dafna Hirschfeld wrote:
 > >
-> > Thanks for the patch.
 > >
-> > On Wed, 10 Jun 2020 at 07:33, Tomasz Figa <tfiga@chromium.org> wrote:
-> > >
-> > > On Wed, Jun 10, 2020 at 12:29 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
-> > > >
-> > > > On 21/05/2020 19:11, Tomasz Figa wrote:
-> > > > > Hi Jerry,
-> > > > >
-> > > > > On Wed, Dec 04, 2019 at 08:47:29PM +0800, Jerry-ch Chen wrote:
-> > > > >> From: Pi-Hsun Shih <pihsun@chromium.org>
-> > > > >>
-> > > > >> Add two functions that can be used to stop new jobs from being queued /
-> > > > >> continue running queued job. This can be used while a driver using m2m
-> > > > >> helper is going to suspend / wake up from resume, and can ensure that
-> > > > >> there's no job running in suspend process.
-> [snip]
-> > > >
-> > > > I assume this will be part of a future patch series that calls these new functions?
-> > >
-> > > The mtk-jpeg encoder series depends on this patch as well, so I guess
-> > > it would go together with whichever is ready first.
-> > >
-> > > I would also envision someone changing the other existing drivers to
-> > > use the helpers, as I'm pretty much sure some of them don't handle
-> > > suspend/resume correctly.
-> > >
+> > On 10.06.20 19:15, Tomasz Figa wrote:
+> >> Hi Dafna,
+> >>
+> >> On Tue, Jun 09, 2020 at 05:28:22PM +0200, Dafna Hirschfeld wrote:
+> >>> The rkisp1_resizer's enum callback 'rkisp1_rsz_enum_mbus_code'
+> >>> calls the enum callback of the 'rkisp1_isp' on it's video sink pad.
+> >>> This is a bug, the resizer should support the same formats
+> >>> supported by the 'rkisp1_isp' on the source pad (not the sink pad).
+> >>>
+> >>> Fixes: 56e3b29f9f6b "media: staging: rkisp1: add streaming paths"
+> >>>
+> >>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> >>> Acked-by: Helen Koike <helen.koike@collabora.com>
+> >>> ---
+> >>>   drivers/staging/media/rkisp1/rkisp1-resizer.c | 4 ++--
+> >>>   1 file changed, 2 insertions(+), 2 deletions(-)
+> >>>
+> >>
+> >> Thank you for the patch. Please see my comments inline.
+> >>
+> >>> diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+> >>> index d049374413dc..d64c064bdb1d 100644
+> >>> --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
+> >>> +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+> >>> @@ -437,8 +437,8 @@ static int rkisp1_rsz_enum_mbus_code(struct v4l2_subdev *sd,
+> >>>       u32 pad = code->pad;
+> >>>       int ret;
+> >>> -    /* supported mbus codes are the same in isp sink pad */
+> >>> -    code->pad = RKISP1_ISP_PAD_SINK_VIDEO;
+> >>> +    /* supported mbus codes are the same in isp video src pad */
+> >>> +    code->pad = RKISP1_ISP_PAD_SOURCE_VIDEO;
+> >>>       ret = v4l2_subdev_call(&rsz->rkisp1->isp.sd, pad, enum_mbus_code,
+> >>>                      &dummy_cfg, code);
+> >>
+> >> Actually, is this really the true? AFAIR the ISP itself can only output
+> >> either Bayer or YUV 4:2:2. The resizer can take YUV 4:2:2 at its input
+> >> and output YUV 4:4:4, 4:2:2 and 4:2:0. Bayer capture is handled with
+> >> resizer bypass mode. We haven't tested that, but if implemented, it
+> >> should probably be done by exposing a link between the ISP entity and a
+> >> video node directly, without the resizer involved.
+> >>
+> >> WDYT?
 > >
-> > This indeed looks very good. If I understood the issue properly,
-> > the change would be useful for both stateless (e.g. hantro, et al)
-> > and stateful (e.g. coda) codecs.
+> > We can also implement it that way. Only the mainpath needs
+> > a direct link from the isp since selfpath does not support bayer formats.
+> > It makes it easier on userspace for bayer formats since it does not have to
+> > configure the resizer.
+> > On the other hand if the format is YUV it has the option
+> > to either use the the resizer or not.
 > >
-> > Hantro uses pm_runtime_force_suspend, and I believe that
-> > could is enough for proper suspend/resume operation.
+> > Thanks,
+> > Dafna
 >
-> Unfortunately, no. :(
->
-> If the decoder is already decoding a frame, that would forcefully power
-> off the hardware and possibly even cause a system lockup if we are
-> unlucky to gate a clock in the middle of a bus transaction.
->
+> Anyway, this is a two line bug fix, so I think this patch can first be
+> accepted and then if we choose to change the topology this can be done
+> in a separate patchset.
 
-pm_runtime_force_suspend calls pm_runtime_disable, which
-says:
+Makes sense. Feel free to add my Reviewed-by.
 
-"""
- Increment power.disable_depth for the device and if it was zero previously,
- cancel all pending runtime PM requests for the device and wait for all
- operations in progress to complete.
-"""
-
-Doesn't this mean it waits for the current job (if there is one) and
-prevents any new jobs to be issued?
-
-> I just inspected the code now and actually found one more bug in its
-> power management handling. device_run() calls clk_bulk_enable() before
-> pm_runtime_get_sync(), but only the latter is guaranteed to actually
-> power on the relevant power domains, so we end up clocking unpowered
-> hardware.
->
-
-How about we just move clk_enable/disable to runtime PM?
-
-Since we use autosuspend delay, it theoretically has
-some impact, which is why I was refraining from doing so.
-
-I can't decide if this impact would be marginal or significant.
-
-> >
-> > I'm not seeing any code in CODA to handle this, so not sure
-> > how it's handling suspend/resume.
-> >
-> > Maybe we can have CODA as the first user, given it's a well-maintained
-> > driver and should be fairly easy to test.
->
-> I remember checking a number of drivers using the m2m helpers randomly
-> and none of them implemented suspend/resume correctly. I suppose that
-> was not discovered because normally the userspace itself would stop the
-> operation before the system is suspended, although it's not an API
-> guarantee.
->
-
-Indeed. Do you have any recomendations for how we could
-test this case to make sure we are handling it correctly?
-
-> Best regards,
-> Tomasz
+Best regards,
+Tomasz
