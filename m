@@ -2,106 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E3F31F5A46
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 19:26:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E65411F5A4D
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 19:29:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726147AbgFJR00 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 13:26:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34612 "EHLO
+        id S1726393AbgFJR3B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 13:29:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726095AbgFJR00 (ORCPT
+        with ESMTP id S1726322AbgFJR3A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 13:26:26 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3E00C03E96B
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 10:26:25 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id e1so3210459wrt.5
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 10:26:25 -0700 (PDT)
+        Wed, 10 Jun 2020 13:29:00 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55BC1C03E96B
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 10:29:00 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id u13so2586668wml.1
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 10:29:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=pN4qz1OJ+BC71bQQgMJmBK/Rkr81r60RgNevtGOVJRw=;
-        b=PjPq4t33YTJYhGikvp5ZvRE311q6JnUdjD5ZseotuyhX9vuY0ugbZuohTre+MvhoGL
-         AuX07/T01LF1doxI0rRSL87hT+g2TyOl0VFpIUfRIUTiZw9rc+w2cQRWCwe+FfNVb40O
-         k6bkWvWF8UEVtN/VIqLU7Fe9ppskcls1l7cbE=
+        bh=E/OpYtkdJhBuYsHSJhq676XvJqjKjlf+gMoabLS0g4A=;
+        b=nYUpGKBs4xEHPwNFak20lPLO9cHto5Hm28yV7rMIpULXEx9LOCq282m5wJn8aspYyf
+         deotVxLT/l5bQk1UdN/3Rkf/mR5CKcy25daHDqFrqa81Iy5I8EqC2cNLcOvG8y48WaMF
+         CAHmtDsJZD52OQM43AQ5C0AJyEjuSwD/nw0oE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=pN4qz1OJ+BC71bQQgMJmBK/Rkr81r60RgNevtGOVJRw=;
-        b=C22qKRsUC821hobaLlmf6pFDbgFsJZKApjAphcpclZEzHSj7KyC4Qu2XT/ecqvOG9D
-         2Nd5ARyf3jxUZ0fLyIm+0ecPkdn1xyEW1YzB9nUoMEEj69IVU+OhiWSwm682vht48Qig
-         vIMmoErbvrrgKZ3CVzbHmk8SjG+WSvCjfvkfWJ4rMkkDJtRikUssMwGUOH8WbknJO8iK
-         Tcr8GOr+eiGdFv6piuRPsqnZSOCq3ePutAj0mWKno+SJ/FEt74OXBHbsHOfgT6goD1JM
-         Qa3GxzV4ixXE97eb5fzCkH+XKCDduYd772MMWXSMLbilHLp4y+h9McZ25nNWrFpf8bE7
-         k6lw==
-X-Gm-Message-State: AOAM533/LFtvBKwCB8WMXm8l0bsZvav8UzwTI6wcCJSV3n1BBFjR6sAe
-        Ghxl9S1qP3EY7zfe52BQDiTsAw==
-X-Google-Smtp-Source: ABdhPJycBqFX8BS1ni07dLwx0DghAhGJcYIzvSfMyZ0y/3zEl5jFPCRUarF5/ZW+wN8AFqWV4oa6Jg==
-X-Received: by 2002:adf:e588:: with SMTP id l8mr5198923wrm.255.1591809984517;
-        Wed, 10 Jun 2020 10:26:24 -0700 (PDT)
+        bh=E/OpYtkdJhBuYsHSJhq676XvJqjKjlf+gMoabLS0g4A=;
+        b=gBc8aeuDbn9Z7on2r8qB/A1zW90PUJEMXScytct70P0oVDQtnHucCuUMl2CAxCRbyY
+         yGvy6fc0BAFK6s8ySzrmlsv7+90FqwE/pZ0RouB8Fn3M7jIz3GO0jY1vSKSMUyEX7pAp
+         7kXOXIsTjCrlblmUayFFFbBN06dfOZ43qJ95PckpXhC7DahIaMwYZMwIfMeIo0gneuxB
+         Jn3RlDqeLxl3LrnE38elTNcqtvZleZnYTtLkFHDRjOvmqBJGiSoMtdGkZXQSRx6gLuvA
+         goc8VXHIk9D+vqyl8vaqTjzwoVFv985EscXza5mYkC/wMVtZiNVLLMEKXMBqlzTqVPFi
+         se0g==
+X-Gm-Message-State: AOAM532Cg51RKusMad+ZofDIbHQqTwaa/XDahPFSqXOjCgo61dklpADe
+        ccNHHqxGcNdbF9sVCe+Sf1NJ9A==
+X-Google-Smtp-Source: ABdhPJzkHS+OI1HGIrKjMxe9yNET80vIiPkjUOxBkrzk8eds2xaarln9Q8zxhAniA4Pm9pxWM6Lc7A==
+X-Received: by 2002:a7b:cbd9:: with SMTP id n25mr4188276wmi.30.1591810139023;
+        Wed, 10 Jun 2020 10:28:59 -0700 (PDT)
 Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id h12sm648820wro.80.2020.06.10.10.26.23
+        by smtp.gmail.com with ESMTPSA id c5sm678037wrb.72.2020.06.10.10.28.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2020 10:26:24 -0700 (PDT)
-Date:   Wed, 10 Jun 2020 17:26:22 +0000
+        Wed, 10 Jun 2020 10:28:58 -0700 (PDT)
+Date:   Wed, 10 Jun 2020 17:28:57 +0000
 From:   Tomasz Figa <tfiga@chromium.org>
 To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
         helen.koike@collabora.com, ezequiel@collabora.com,
         hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
         sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org
-Subject: Re: [PATCH v2 4/4] media: staging: rkisp1: rename the field
- 'direction' in 'rkisp1_isp_mbus_info' to 'isp_pads_flags'
-Message-ID: <20200610172622.GG201868@chromium.org>
-References: <20200609152825.24772-1-dafna.hirschfeld@collabora.com>
- <20200609152825.24772-5-dafna.hirschfeld@collabora.com>
+        mchehab@kernel.org, skhan@linuxfoundation.org,
+        niklas.soderlund@ragnatech.se--annotate
+Subject: Re: [PATCH v4 4/5] media: staging: rkisp1: cap: use
+ v4l2_pipeline_stream_{enable,disable} helpers
+Message-ID: <20200610172857.GH201868@chromium.org>
+References: <20200522075522.6190-1-dafna.hirschfeld@collabora.com>
+ <20200522075522.6190-5-dafna.hirschfeld@collabora.com>
+ <20200610170344.GC201868@chromium.org>
+ <02c8bd4a-0fc1-fcc5-4d8b-63ff1d406988@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200609152825.24772-5-dafna.hirschfeld@collabora.com>
+In-Reply-To: <02c8bd4a-0fc1-fcc5-4d8b-63ff1d406988@collabora.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
-
-On Tue, Jun 09, 2020 at 05:28:25PM +0200, Dafna Hirschfeld wrote:
-> The field 'direction' in 'struct rkisp1_isp_mbus_info' holds
-> the flags of the supported pads of the mbus code. Therefore
-> the name 'isp_pads_flags' is better.
-> The patch also rename a local variable 'dir' that holds such flag
-> to 'pad'.
+On Wed, Jun 10, 2020 at 07:22:04PM +0200, Dafna Hirschfeld wrote:
 > 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/rkisp1/rkisp1-common.h  |  2 +-
->  drivers/staging/media/rkisp1/rkisp1-isp.c     | 46 +++++++++----------
->  drivers/staging/media/rkisp1/rkisp1-resizer.c |  2 +-
->  3 files changed, 25 insertions(+), 25 deletions(-)
 > 
+> On 10.06.20 19:03, Tomasz Figa wrote:
+> > Hi Dafna,
+> > 
+> > On Fri, May 22, 2020 at 09:55:21AM +0200, Dafna Hirschfeld wrote:
+> > > From: Helen Koike <helen.koike@collabora.com>
+> > > 
+> > > Use v4l2_pipeline_stream_{enable,disable} to call .s_stream()
+> > > subdevice callbacks through the pipeline.
+> > > Those helpers are called only if the other capture is not streaming.
+> > > 
+> > > If the other capture is streaming then he already did that for us
+> > > so we call s_stream only on the resizer that is connected to the
+> > > capture node.
+> > > 
+> > > Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> > > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> > > ---
+> > >   drivers/staging/media/rkisp1/rkisp1-capture.c | 104 ++++++------------
+> > >   1 file changed, 32 insertions(+), 72 deletions(-)
+> > > 
+> > 
+> > Thank you for the patch. Please see my comments inline.
+> > 
+> > [snip]
+> > > +static int rkisp1_s_stream_subdev(struct rkisp1_capture *cap, int enable)
+> > > +{
+> > > +	struct rkisp1_device *rkisp1 = cap->rkisp1;
+> > > +	struct rkisp1_capture *other = &rkisp1->capture_devs[cap->id ^ 1];
+> > > +	int ret;
+> > > +
+> > > +	/*
+> > > +	 * if the other capture is already streaming then we only need to
+> > > +	 * call s_stream of our reszier
+> > > +	 */
+> > > +	if (other->is_streaming) {
+> > > +		struct v4l2_subdev *rsz_sd  = &rkisp1->resizer_devs[cap->id].sd;
+> > > +
+> > > +		ret = v4l2_subdev_call(rsz_sd, video, s_stream, enable);
+> > > +		if (ret && ret != -ENOIOCTLCMD)
+> > > +			dev_err(rkisp1->dev,
+> > > +				"stream %s resizer '%s' failed (%d)\n",
+> > > +				enable ? "on" : "off", rsz_sd->name, ret);
+> > 
+> > Do we need this special case? Wouldn't v4l2_pipeline_stream_*() simply
+> > increment reference counters for the other entities?
+> 
+> I removed the stream count in v4 of the patchset since I thought it
+> might be problematic/confusing to add a field "stream_count" in
+> "struct v4l2_subdev" that is used and updated only by those helper functions
+> 
+> What do you think?
+> 
+> There is also the issue that both you and Sakari Ailus mentioned that
+> an isp driver can't know the subtopology of a sensor driver and how it handle the
+> s_stream callback on it's entities.
 
-Thank you for the patch. Please see my comments inline.
+Ah, okay, so we settled on removing the refcounting from the helpers.
+Fair enough. Sorry for the noise.
 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
-> index a6cd9fc13b3d..1dda6d53adea 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
-> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
-> @@ -283,7 +283,7 @@ struct rkisp1_isp_mbus_info {
-
-FYI, there is some missing documentation of the fields above. If
-changing this field, perhaps its documentation could be added as well?
-
->  	u32 yuv_seq;
->  	u8 bus_width;
->  	enum rkisp1_fmt_raw_pat_type bayer_pat;
-> -	unsigned int direction;
-> +	unsigned int isp_pads_flags;
-
-nit: Wouldn't "isp_pads_mask" represent the usage more precisely?
+Feel free to add my Reviewed-by.
 
 Best regards,
 Tomasz
