@@ -2,101 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD96A1F5936
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 18:37:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A57C61F598A
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 18:58:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726276AbgFJQhT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 12:37:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55254 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726109AbgFJQhS (ORCPT
+        id S1727893AbgFJQ6b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 12:58:31 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16700 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726560AbgFJQ6a (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 12:37:18 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DB5AC03E96B
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 09:37:18 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id c71so2415022wmd.5
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 09:37:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=x/GwKp0pF1c+WHYyvunrjPKROoiPDpTyBwp2iRJzC6E=;
-        b=NNJT/c3vHOw64dt28xCLLEYxppoSe/DIMpD2Y0IO/1cDpfxkPdlFQ8FYJXWuyvklwr
-         pViU+GKf12AlL7MgTJs8EMZk7sh8kMX9j8loX8YlHtJL/LZEYRPtkjZManzBPtMw0J8I
-         V6jiv1l4TiPjfV+bTCmZuFHVTgE1l9OpSBQPQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=x/GwKp0pF1c+WHYyvunrjPKROoiPDpTyBwp2iRJzC6E=;
-        b=PqwsFFZErHe7qDOno+p3WsJUbQ3vRMtE1LoL0z2G6HpZCBvMcQTXhEZ8j517BJUU2y
-         Xv8Ftv2jnP4yXt79BBAjyIczgMQB1DM+blplYZxLXO/1g75UF+cI3ofKdPHxUq1v6wdA
-         ujMpp/J7YnxBDZnylbQS/LCtM9asgzOnKg1LKrfEoqvttJQG3xnrc59PHeAWYB0VABvr
-         JYEbySYDWzxWlqn0ak6HEBrjWHpzRPde13fiVKW5+x9ELUNBfSl4uptJBx1scCcaL7+Q
-         k7lOSQ6KH+iXU9Q6LXBM6szPgBJwkKqyKcnWiYU6KTd00dyJoQcm9KbmJZ38ULPGDyla
-         Sh6w==
-X-Gm-Message-State: AOAM530SV4p9oNz/8Q8Wk9GFbA3BeFCesLLpes1zPzHglfy0APyuMa72
-        cH5KCrjyv6AL0nI9hY/HSG5rsg==
-X-Google-Smtp-Source: ABdhPJwTYqUh1Z42tS8/+r1TdIuaPrc9u6+HXE7CX4mWC3Z0wigKmmRMYrIkdN82D/KlN0gSOYetUQ==
-X-Received: by 2002:a7b:cf06:: with SMTP id l6mr4005337wmg.63.1591807035767;
-        Wed, 10 Jun 2020 09:37:15 -0700 (PDT)
-Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id u12sm428991wrq.90.2020.06.10.09.37.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 10 Jun 2020 09:37:14 -0700 (PDT)
-Date:   Wed, 10 Jun 2020 16:37:13 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        hans.verkuil@cisco.com, kernel@collabora.com
-Subject: Re: [PATCH v2 0/2] media: staging: rkisp1: allow simultaneous
- streaming from multiple capture devices
-Message-ID: <20200610163713.GA201868@chromium.org>
-References: <20200316210044.595312-1-helen.koike@collabora.com>
+        Wed, 10 Jun 2020 12:58:30 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ee110da0000>; Wed, 10 Jun 2020 09:56:58 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Wed, 10 Jun 2020 09:58:30 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Wed, 10 Jun 2020 09:58:30 -0700
+Received: from [10.2.167.70] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 10 Jun
+ 2020 16:58:29 +0000
+Subject: Re: [RFC PATCH v1 05/18] i2c: tegra: Fix runtime resume to re-init VI
+ I2C
+To:     Dmitry Osipenko <digetx@gmail.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
+        <helen.koike@collabora.com>
+CC:     <sboyd@kernel.org>, <gregkh@linuxfoundation.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-i2c@vger.kernel.org>
+References: <1591768960-31648-1-git-send-email-skomatineni@nvidia.com>
+ <1591768960-31648-6-git-send-email-skomatineni@nvidia.com>
+ <fcced8cd-d80d-b09c-b657-cb413ec418f9@gmail.com>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <dc310c94-ae8d-fcf5-be9f-6236f3615dd7@nvidia.com>
+Date:   Wed, 10 Jun 2020 09:58:28 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200316210044.595312-1-helen.koike@collabora.com>
+In-Reply-To: <fcced8cd-d80d-b09c-b657-cb413ec418f9@gmail.com>
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1591808218; bh=lCn+LcemkNEZVacRc5PI7q1npMKqaFgl+fw6okE0H6U=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=cAdMeWgVEE6NrJQx9xaYzarZGK4cJyQAiZ7rz/T68LylkHXoKF9ZkCO4cE5J4WPJq
+         XqyqOJnzN1EnJnKmXed80z3kWtKMNbInpHBZGDfr9wq/qVSj3g4VPx7mAlyVAVemL/
+         zDYp5EYDTApVFC/EHXQguOlm2P4nJ7ZiddjaFp4a0vF1w7zNA4TSeF4+TAPOAZLwzh
+         lA9sA7jYugjKYvC5LyAxx05fy0Gp6vu7vzB1tHc5APoXMprBjBnw7y5WjWASSktptq
+         sNrLyHrgvxTy7RJViwMupBAjSxEP71nlEkEiWg/FEiHkPyf3KyWzOMDvMsjO7ZatDa
+         QI7UY/E4NDRpg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Mar 16, 2020 at 06:00:42PM -0300, Helen Koike wrote:
-> Hi,
-> 
-> This series adds support for simultaneous streaming from both capture
-> devices (rkisp1_selfpath and rkisp1_mainpath).
-> 
-> It depends on the following series for multistream to work properly, but
-> it doesn't mean it can't be merged before:
-> 
-> 	"media: add v4l2_pipeline_stream_{enable,disable} helpers"
-> 	https://patchwork.linuxtv.org/cover/62233/
-> 
-> And it is also available at:
-> 
-> 	https://gitlab.collabora.com/koike/linux/tree/rockchip/isp/multistream
-> 
-> Patch 1/2 fixes return error handling from pm functions, which was
-> preventing the second stream to start.
-> 
-> Patch 2/2 serializes start/stop streaming calls, since they both
-> and modify shared variables.
-> 
-> Changes in v2:
-> - Rebased on media/master
-> - Removed the following patch from the series:
-> "media: staging: rkisp1: do not call s_stream if the entity is still in use"
-> It was replaced by "media: add v4l2_pipeline_stream_{enable,disable} helpers"
-> https://patchwork.linuxtv.org/cover/62233/
-> 
 
-For the whole series:
-
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
-
-Best regards,
-Tomasz
+On 6/10/20 6:14 AM, Dmitry Osipenko wrote:
+> 10.06.2020 09:02, Sowjanya Komatineni =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+>> VI I2C is on host1x bus and is part of VE power domain.
+>>
+>> During suspend/resume VE power domain goes through power off/on.
+>>
+>> So, controller reset followed by i2c re-initialization is required
+>> after the domain power up.
+>>
+>> This patch fixes it.
+>>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>   drivers/i2c/busses/i2c-tegra.c | 16 ++++++++++++++++
+>>   1 file changed, 16 insertions(+)
+>>
+>> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-teg=
+ra.c
+>> index dba38a5..650240d 100644
+>> --- a/drivers/i2c/busses/i2c-tegra.c
+>> +++ b/drivers/i2c/busses/i2c-tegra.c
+>> @@ -293,6 +293,8 @@ struct tegra_i2c_dev {
+>>   	bool is_curr_atomic_xfer;
+>>   };
+>>  =20
+>> +static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev, bool clk_reini=
+t);
+>> +
+>>   static void dvc_writel(struct tegra_i2c_dev *i2c_dev, u32 val,
+>>   		       unsigned long reg)
+>>   {
+>> @@ -679,8 +681,22 @@ static int __maybe_unused tegra_i2c_runtime_resume(=
+struct device *dev)
+>>   		goto disable_slow_clk;
+>>   	}
+>>  =20
+>> +	/*
+>> +	 * VI I2C device is attached to VE power domain which goes through
+>> +	 * power ON/OFF during PM runtime resume/suspend. So, controller
+>> +	 * should go through reset and need to re-initialize after power
+>> +	 * domain ON.
+>> +	 */
+>> +	if (i2c_dev->is_vi) {
+>> +		ret =3D tegra_i2c_init(i2c_dev, true);
+>> +		if (ret)
+>> +			goto disable_div_clk;
+>> +	}
+>> +
+>>   	return 0;
+>>  =20
+>> +disable_div_clk:
+>> +	clk_disable(i2c_dev->div_clk);
+>>   disable_slow_clk:
+>>   	if (i2c_dev->slow_clk)
+>>   		clk_disable(i2c_dev->slow_clk);
+>>
+> The clk_disable() can cope with a NULL argument. Won't it be cleaner to
+> remove the conditions?
+will remove in v2
