@@ -2,104 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B31541F4BB1
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 05:10:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D19B41F4BD6
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 05:41:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726123AbgFJDKq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 9 Jun 2020 23:10:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43434 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726030AbgFJDKp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 9 Jun 2020 23:10:45 -0400
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46A8AC05BD1E;
-        Tue,  9 Jun 2020 20:10:43 -0700 (PDT)
-Received: by mail-vk1-xa41.google.com with SMTP id e1so228946vkd.1;
-        Tue, 09 Jun 2020 20:10:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=KZBhwJpe3f99/5LDVB8Bc5/cCcPk7wAvZ6DTVQ9hBQo=;
-        b=avSeW6EdipkgvBtqfFwap8GyOTxynTVR7JqrquqYKuotU0/nUvlM7xlHlJ1tAitGDu
-         QUYLYb87xZef7qj3qeDE1k4EmFE1cbYmQBfwIp09ULfRs+wYjiabO06Gibetk1NLU5gJ
-         rz5CnO6egYTloKqDOFWswZX+Qro6lyuXdsGra+adGQtRrNeqz0rCxNlGxP7ZObqx4AUF
-         stvyFWZSCqViy5vTX6NLyPyMg06O5duxH5cDOYMXNueL8NZbQl9UJrPYb9l3LdrILH6E
-         mdsSwmmV1rLAh1NQeFdUB2r7ptxXppY9s3qS69KO4aMfegJuLl9rYGsN+J8hVyUg8zJP
-         qYFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=KZBhwJpe3f99/5LDVB8Bc5/cCcPk7wAvZ6DTVQ9hBQo=;
-        b=DWA14aZkwaQ44lR6kIP/BMdQn4DL4eG6pG7wJnebWakrj9MO9orf8XJX+UG8M0BpgG
-         S3C/EObVpyMUfau8z9puNbItd7aMAav0hZcBdcF4Ol+rEuJ0kU/sqB5rjO0mv4dMV0A+
-         3FjC1LJWCDCyw68s/RTa6DrRXby8dc1ige7lg9XPj45QlHBw5tdkIHuOvi5T1GKanGbU
-         nx2BjSqqiE5xQp/3QeP9AmvwTCb/+aVvqLe50B0ZArdkRbu0mIpzpDVB8uIpf3o1JiiP
-         DtXdOGNCOXeyolQoavxa/7o8QdQsoW5EPVLTTub2KGpz7OnFHyLaWGU0+IFVMXRyTGyr
-         IHFA==
-X-Gm-Message-State: AOAM533ajg6jBaBWKQ/YfLn6b5quzMNkN8X9ME5uK5DMTUz/4jdVOShM
-        OzOXjOR5uKdvDbKHtOKT5kxF7sqpINDNxldHZFI=
-X-Google-Smtp-Source: ABdhPJwhJJbrVDdVhPbiFe8woY8RZS6gzI8WAuQcnLKqPCqx6QB1rkMVrPvxE9COyN4yin3SLa4xOGD0F8W2ftqaENc=
-X-Received: by 2002:a1f:9094:: with SMTP id s142mr886695vkd.6.1591758642398;
- Tue, 09 Jun 2020 20:10:42 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
- <20200609111323.GA19604@bombadil.infradead.org> <c239d5df-e069-2091-589e-30f341c2cbd3@infradead.org>
- <9a79aded6981ec47f1f8b317b784e6e44158ac61.camel@perches.com>
- <CAJfuBxwyDysP30cMWDusw4CsSQitchA5hOKkpk1PktbsbCKTSw@mail.gmail.com> <6115b15ced02686f7408417411ff758445b42421.camel@perches.com>
-In-Reply-To: <6115b15ced02686f7408417411ff758445b42421.camel@perches.com>
-From:   jim.cromie@gmail.com
-Date:   Tue, 9 Jun 2020 21:10:15 -0600
-Message-ID: <CAJfuBxzd1Jmd726_zYxfjPy1YgTpcLzLU_fh=pd5FEBaVFCWrw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/7] Venus dynamic debug
-To:     Joe Perches <joe@perches.com>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Jason Baron <jbaron@akamai.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726040AbgFJDk7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 9 Jun 2020 23:40:59 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:59133 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725988AbgFJDk7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 9 Jun 2020 23:40:59 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id irbjje1VTCKzeirbkjuOzW; Wed, 10 Jun 2020 05:40:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1591760456; bh=/+ImwNnAE+tRbgUnayJMqhfvY9vHslNHAw3XqHg0k/Y=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=rcIWhSWoivldXCY3BBCQMI4in45DqtqsG91+sS8dsjIZt516tNDej5wI4tMn1bQcu
+         mjAexZ2LToVLp6ZPIg+GwGJjL3KPQDQ++53CvXGVDCqE4HZr50jN4jfIWKB0Xgt2Kn
+         ucft0Fe1PnT1d2GOG0p6n/Vh8ji14hV2fjkPKfuMGadGOrQKTjsMN2MmLXY9GTb7TQ
+         RF6bfr+eypdyc2ywURU9INEOiwDWCycEDF/P88Dod2pW1lcLOfH9OLY9Kdh2uE0dcs
+         pAyAUgQdnzSyXLebo2VoGUXWRqCfaga5ai95WIZYyrO4uETfK2Bn5srVC9MBq5QHZ+
+         LC0rLrzFYWX6Q==
+Message-ID: <dcaa0e5aaf0ee755498e5aa2fe6cbdc2@smtp-cloud9.xs4all.net>
+Date:   Wed, 10 Jun 2020 05:40:55 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfEIXUiHFQEdiU8v7KB8mWijmZcfod95gq7FDLDuTWkZNkvZNj5ANJ2tVaF00xMmgyT0CIK7TQgK0bmzb0RNIZTDprFr8Qap5jTOoXMHj+Yl6vPMbntGH
+ PYFHQ3hw9kKEInqR8IudrcwQWou+GjgVaPRHlP6eoSe/rp+lMq/q/LokevHVcxwaXQ8uIfNDSPEZAKJuEM5TormdANUfCes7/OWgg+o1TN5LdQNmFkyHDCNW
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 9, 2020 at 4:23 PM Joe Perches <joe@perches.com> wrote:
->
-> On Tue, 2020-06-09 at 15:21 -0600, jim.cromie@gmail.com wrote:
-> >
-> > As Joe noted, there is a lot of ad-hockery to possibly clean up,
-> > but I dont grok how these levels should be distinguished from
-> > KERN_(WARN|INFO|DEBUG) constants.
->
-> These are not KERN_<LEVEL> at all, all are emitted at KERN_DEBUG
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-yes indeed.  but they are chosen by programmer, fixed by compiler.  not dynamic.
-<pmladek@suse.com> also noted the conceptual adjacency (ambiguity),
-and referenced KERN_<lvl>
+Results of the daily build of media_tree:
 
+date:			Wed Jun 10 05:00:11 CEST 2020
+media-tree git hash:	938b29db3aa9c293c7c1366b16e55e308f1a1ddd
+media_build git hash:	337283131d6117aa9b0c0c62d32e323da54a9359
+v4l-utils git hash:	74377da4f5f3b63203c599d5dd75db6af91fdbb9
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a0e63d2e6cdc689a8af8c9ae6df1674d0fe38c74
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7-rc1-i686: OK
+linux-5.7-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 4
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
 
-If we need this extra query-term, lets call it   mbits / mflags /
-module_flags / module_bits
-it needs to be module specific, so also requiring "module foo" search
-term in the query.
-( "modflags" is no good, cuz "mod" also means "modified" - just mflags
-is better )
+Detailed results are available here:
 
-Already, we have function, file, module, all of which convey semantic
-structure of the code,
-and they also match wildcards, so " function foo_*_* " is an effective grouping.
-Id think this would cover most cases.
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
 
-Finally, all "module venus +p " callsites could be explicitly
-specified individually in
-universe=`grep venus control | wc -l`
-lines, likely a small set.
-Using the semantic structure exposed by `grep venus control`, it would
-likely be far less.
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
