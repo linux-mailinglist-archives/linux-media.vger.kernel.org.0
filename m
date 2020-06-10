@@ -2,132 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 278991F5587
-	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 15:15:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D5C41F55CA
+	for <lists+linux-media@lfdr.de>; Wed, 10 Jun 2020 15:29:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729210AbgFJNOz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 09:14:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52076 "EHLO
+        id S1729228AbgFJN3d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 09:29:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728864AbgFJNOy (ORCPT
+        with ESMTP id S1726418AbgFJN3b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 09:14:54 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250E7C03E96B;
-        Wed, 10 Jun 2020 06:14:54 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id c17so2385001lji.11;
-        Wed, 10 Jun 2020 06:14:54 -0700 (PDT)
+        Wed, 10 Jun 2020 09:29:31 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C18CC08C5C1
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 06:29:31 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id d15so1376454edm.10
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 06:29:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UNoMv6ObyceiFWwH0mO4eRasIpDWoKfsc+bwVl1I/WQ=;
-        b=GyBMYKMOt1EDvF46kVMtzNBZaUuOqNMaTLlGlOPEtu/Fiycl6kU6QiugruCwIsCUi2
-         UW55/cYih/ZO+g2K94041aSAChSGQSV5tmQwn4khewvcssCfHhIrLe68ZBaYAAhuloHP
-         1eN28uEXxwKBNVBSXPErXi+Ppd9cqR+fIDi73hNdPfO73/AGmPrWZxV7XpHVwhNFIGne
-         Us2nvT+5UoG/uSlnJhmO4V+Ot2KEUGhsIdojS7ZV0w09n86Pp8aOuwZ5O55ekc+DSw6c
-         TdHh0iNmxeHfYu8PtxzffPm+1v9ctNAbCSfrDdekU3/fUxE4MC+wpmSVzd9GAKJfhT7u
-         OKrQ==
+        bh=3e8bC/Ax9BOA2Qqmdvlceg2Mrom20tLBb9FMDRoA6eo=;
+        b=EqyUKU7po/7+hPZYV1Dj3uiGUPJ5ITBTEk/rMgp6ak0CGVbHBllGnUD5h/aqefJnxj
+         /fIenwtADhXRg1T8lK0QzyOetyHvPME+edY3lZDbqiiddexxk7FqSyrB6KT3Qz+LL9tv
+         CEG3hyWmOtXRTyiK8VrNvo0sde7JNe1hyGs3nxdvvFhkhah1MlEnqi8R3OElWDeKgQiv
+         jrkDOtnAiou8e0oZMOgOJrJVRgD049QpA+kMw5tIZfGt2xfbCLsVJPy3VmBYZjQPDNXE
+         X2uJTGCrp2u13QWmsHWxc5x3UMBmW9+ewZ+bPoMzvBOfVh2qsrSkuR3v6bv7bgw1mvqW
+         mgLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=UNoMv6ObyceiFWwH0mO4eRasIpDWoKfsc+bwVl1I/WQ=;
-        b=noGbtBM+LsPAFz9/oKx5ri8z9KXnjAK+5RTom+DfKR+HE/vhNMfCUK5cL9ypNiz+Za
-         9FxvtP6ATGHn03EcCR4q/hmak5cOr4bBxG+AAYLWUTr3QKL1DlvTbayAy2sAWglHaUQY
-         gf3rnwuS5T4KGeiaKgvlEL+4gdopz+1s5/BwRPXB7/6/dqTiah/4DTd8yxg95WJXcuX5
-         lAvmdh4/1Kj35PM9fKOmxLJpAYzNkHILcUnSczYyJpCdr8kxuTbEXfqJ7ixa/LExR2L8
-         FR2iLpvFsAxRSp4Mt3ZGFR8RajgpsAARxEOLXw4IIZudg9y2M6ZH1hCnR0YwzbE7H8HY
-         OSaQ==
-X-Gm-Message-State: AOAM533AQSLbZZhP4dqMirOxNHXWfEHiyMSzDwNzmhvKt9j4xUEeUR/N
-        PG6+TRvc3r/GkBLqXaSUITe9FNfE
-X-Google-Smtp-Source: ABdhPJy2Se4HKECeDeBieJjVL5HYdRqYV64/7lP07ijKUA21F2zhobNjO2Ug05l/y+2CmhdINQUacw==
-X-Received: by 2002:a05:651c:118f:: with SMTP id w15mr1783593ljo.211.1591794891947;
-        Wed, 10 Jun 2020 06:14:51 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id n1sm4994529ljg.131.2020.06.10.06.14.50
+        bh=3e8bC/Ax9BOA2Qqmdvlceg2Mrom20tLBb9FMDRoA6eo=;
+        b=CJu2QjbEb/+K8fp0OFzcTRISGiPcxtgQTEF0+Jl6cKy4zf2rrucO2PQSg4pxT4dVzG
+         I5oWSXoWWAq7CeBm53c9bwylauXpNfx/P28FvuPoIabK2CxfNhRnr/RQwYudnJKgiDwG
+         j5zdwQRard/cV4Q3ejleGvoINN102mb7PgAWvwTqvM3EQ1PGiEhPYcdPfmNaxdOa/GAa
+         qdP2OVzHXejMAVSIPi3vjXD7FOudBb9YVB+MZfsuP98fnIV3LfqxlK2hlL2aj2FewKvt
+         Ood4qiRlat9sKH2m3B5Bjey1HEExv/PuUFOUMlrA8pc/evKlhFOPZlnA28sle5Sm3OSE
+         xWlw==
+X-Gm-Message-State: AOAM5337Pux1cImtzvPk3XYFHyeRombMMauuGsLn1hC4suB21VQieU3Q
+        gy510xZu8LchxYjTUu0vdvbjPQ==
+X-Google-Smtp-Source: ABdhPJzVyANva+fJza2/Sfu3EJMVyNZvktU+OpnQzj6FWgSjEETySHwTT+qPdA8idoQZQ2NiKDwjVQ==
+X-Received: by 2002:a50:f9cc:: with SMTP id a12mr2492130edq.227.1591795769805;
+        Wed, 10 Jun 2020 06:29:29 -0700 (PDT)
+Received: from [192.168.1.5] (212-5-158-114.ip.btc-net.bg. [212.5.158.114])
+        by smtp.googlemail.com with ESMTPSA id b14sm15221126ejq.105.2020.06.10.06.29.27
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Jun 2020 06:14:51 -0700 (PDT)
-Subject: Re: [RFC PATCH v1 05/18] i2c: tegra: Fix runtime resume to re-init VI
- I2C
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
-        hverkuil@xs4all.nl, sakari.ailus@iki.fi, robh+dt@kernel.org,
-        helen.koike@collabora.com
-Cc:     sboyd@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-i2c@vger.kernel.org
-References: <1591768960-31648-1-git-send-email-skomatineni@nvidia.com>
- <1591768960-31648-6-git-send-email-skomatineni@nvidia.com>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <fcced8cd-d80d-b09c-b657-cb413ec418f9@gmail.com>
-Date:   Wed, 10 Jun 2020 16:14:49 +0300
+        Wed, 10 Jun 2020 06:29:29 -0700 (PDT)
+Subject: Re: [PATCH v3 6/7] venus: Make debug infrastructure more flexible
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
+        netdev@vger.kernel.org, Joe Perches <joe@perches.com>,
+        Jason Baron <jbaron@akamai.com>
+References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
+ <20200609104604.1594-7-stanimir.varbanov@linaro.org>
+ <20200609111414.GC780233@kroah.com>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <dc85bf9e-e3a6-15a1-afaa-0add3e878573@linaro.org>
+Date:   Wed, 10 Jun 2020 16:29:27 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <1591768960-31648-6-git-send-email-skomatineni@nvidia.com>
+In-Reply-To: <20200609111414.GC780233@kroah.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-10.06.2020 09:02, Sowjanya Komatineni пишет:
-> VI I2C is on host1x bus and is part of VE power domain.
+
+
+On 6/9/20 2:14 PM, Greg Kroah-Hartman wrote:
+> On Tue, Jun 09, 2020 at 01:46:03PM +0300, Stanimir Varbanov wrote:
+>> Here we introduce few debug macros with levels (low, medium and
+>> high) and debug macro for firmware. Enabling the particular level
+>> will be done by dynamic debug with levels.
+>>
+>> For example to enable debug messages with low level:
+>> echo 'module venus_dec level 0x01 +p' > debugfs/dynamic_debug/control
+>>
+>> If you want to enable all levels:
+>> echo 'module venus_dec level 0x07 +p' > debugfs/dynamic_debug/control
+>>
+>> All the features which dynamic debugging provide are preserved.
+>>
+>> And finaly all dev_dbg are translated to VDBGX with appropriate
+>> debug levels.
+>>
+>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> ---
+>>  drivers/media/platform/qcom/venus/core.h      |  5 ++
+>>  drivers/media/platform/qcom/venus/helpers.c   |  2 +-
+>>  drivers/media/platform/qcom/venus/hfi_msgs.c  | 30 ++++-----
+>>  drivers/media/platform/qcom/venus/hfi_venus.c | 20 ++++--
+>>  .../media/platform/qcom/venus/pm_helpers.c    |  3 +-
+>>  drivers/media/platform/qcom/venus/vdec.c      | 63 +++++++++++++++++--
+>>  drivers/media/platform/qcom/venus/venc.c      |  4 ++
+>>  7 files changed, 96 insertions(+), 31 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+>> index b48782f9aa95..63eabf5ff96d 100644
+>> --- a/drivers/media/platform/qcom/venus/core.h
+>> +++ b/drivers/media/platform/qcom/venus/core.h
+>> @@ -15,6 +15,11 @@
+>>  #include "dbgfs.h"
+>>  #include "hfi.h"
+>>  
+>> +#define VDBGL(fmt, args...)	pr_debug_level(0x01, fmt, ##args)
+>> +#define VDBGM(fmt, args...)	pr_debug_level(0x02, fmt, ##args)
+>> +#define VDBGH(fmt, args...)	pr_debug_level(0x04, fmt, ##args)
+>> +#define VDBGFW(fmt, args...)	pr_debug_level(0x08, fmt, ##args)
+>> +
+>>  #define VIDC_CLKS_NUM_MAX		4
+>>  #define VIDC_VCODEC_CLKS_NUM_MAX	2
+>>  #define VIDC_PMDOMAINS_NUM_MAX		3
+>> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+>> index 0143af7822b2..115a9a2af1d6 100644
+>> --- a/drivers/media/platform/qcom/venus/helpers.c
+>> +++ b/drivers/media/platform/qcom/venus/helpers.c
+>> @@ -396,7 +396,7 @@ put_ts_metadata(struct venus_inst *inst, struct vb2_v4l2_buffer *vbuf)
+>>  	}
+>>  
+>>  	if (slot == -1) {
+>> -		dev_dbg(inst->core->dev, "%s: no free slot\n", __func__);
+>> +		VDBGH("no free slot for timestamp\n");
 > 
-> During suspend/resume VE power domain goes through power off/on.
+> So you just lost the information that dev_dbg() gave you with regards to
+> the device/driver/instance creating that message?
+
+No, I don't lose anything.  When I do debug I know that all debug
+messages comes from my driver.  dev_dbg will give me few device
+identifiers which I don't care so much. IMO, the device information
+makes more sense to dev_err/warn/err variants.  On the other side we
+will have dev_dbg_level(group) if still someone needs the device
+information.
+
 > 
-> So, controller reset followed by i2c re-initialization is required
-> after the domain power up.
+> Ick, no, don't do that.
 > 
-> This patch fixes it.
+> And why is this driver somehow "special" compared to all the rest of
+
+Of course it is special ... to me ;-)
+
+> the kernel?  Why is the current dev_dbg() control not sufficient that
+> you need to change the core for just this tiny thing?
 > 
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  drivers/i2c/busses/i2c-tegra.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+> thanks,
 > 
-> diff --git a/drivers/i2c/busses/i2c-tegra.c b/drivers/i2c/busses/i2c-tegra.c
-> index dba38a5..650240d 100644
-> --- a/drivers/i2c/busses/i2c-tegra.c
-> +++ b/drivers/i2c/busses/i2c-tegra.c
-> @@ -293,6 +293,8 @@ struct tegra_i2c_dev {
->  	bool is_curr_atomic_xfer;
->  };
->  
-> +static int tegra_i2c_init(struct tegra_i2c_dev *i2c_dev, bool clk_reinit);
-> +
->  static void dvc_writel(struct tegra_i2c_dev *i2c_dev, u32 val,
->  		       unsigned long reg)
->  {
-> @@ -679,8 +681,22 @@ static int __maybe_unused tegra_i2c_runtime_resume(struct device *dev)
->  		goto disable_slow_clk;
->  	}
->  
-> +	/*
-> +	 * VI I2C device is attached to VE power domain which goes through
-> +	 * power ON/OFF during PM runtime resume/suspend. So, controller
-> +	 * should go through reset and need to re-initialize after power
-> +	 * domain ON.
-> +	 */
-> +	if (i2c_dev->is_vi) {
-> +		ret = tegra_i2c_init(i2c_dev, true);
-> +		if (ret)
-> +			goto disable_div_clk;
-> +	}
-> +
->  	return 0;
->  
-> +disable_div_clk:
-> +	clk_disable(i2c_dev->div_clk);
->  disable_slow_clk:
->  	if (i2c_dev->slow_clk)
->  		clk_disable(i2c_dev->slow_clk);
+> greg k-h
 > 
 
-The clk_disable() can cope with a NULL argument. Won't it be cleaner to
-remove the conditions?
+-- 
+regards,
+Stan
