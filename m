@@ -2,77 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FED41F6061
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 05:14:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EAC71F6099
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 05:40:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726416AbgFKDO1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 23:14:27 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:45510 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726306AbgFKDO1 (ORCPT
+        id S1726312AbgFKDks (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 23:40:48 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:48249 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726279AbgFKDkr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 23:14:27 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E5D4F26A;
-        Thu, 11 Jun 2020 05:14:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591845266;
-        bh=A/er+LYKcf/rkDc+MwkqmFtbRb/EqAqRGvUhPyido44=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Ymj2Auy5ZP/oxjzJ4FcUidKLcCKRn/UH6FjT9G/xl/v0/JhgkQYxy6eunAeYZIp26
-         bVJYL32AByEVrGACt3m/6NnbkWJI2UC9zm9JGBMa0F0OpC2maXIimIZLpjVcB+mxGx
-         UTM2m0b9ij3GErkTZliOWdImu62pyIU0NHXr2Ek0=
-Date:   Thu, 11 Jun 2020 06:14:04 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 4/5] mc-device.c: Report graph complete to user-space
-Message-ID: <20200611031404.GG13598@pendragon.ideasonboard.com>
-References: <20200610230541.1603067-1-niklas.soderlund+renesas@ragnatech.se>
- <20200610230541.1603067-5-niklas.soderlund+renesas@ragnatech.se>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200610230541.1603067-5-niklas.soderlund+renesas@ragnatech.se>
+        Wed, 10 Jun 2020 23:40:47 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id jE56jgmsIK7ldjE57jJvFj; Thu, 11 Jun 2020 05:40:45 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1591846845; bh=Jo4WRcVw65IMD+0BN6fjFNf9hKstCnv1MUA7/6Zn/lA=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=WF4EeXbe3i28hodDbqHNeVxE2TnkRLb72ZTvBLVETfbMb8/96RLFan+GJZafqKohX
+         dbC+vXo4TvsXpfL/KaTfoakTGbsSJlvFVGAHEzaulm1brNr31xy3quF1gNU2yJiXFb
+         G/QVI3Pn6NDm2JllmIU7Pr3nYhaA/Uohu7ylMnTFxW8cLYCWwyWwxN+LVy6eYSGkOz
+         ODSmjgs4hGwwyhknpYIpR2GOhj0hzPRirxrAjG4sOcSkOCqHEDn+USFmkVIpscRiss
+         0QHAhwaHuxuTmAzNoF1jRg++HsD9CAwNGwpnORneCX7ShG3EvJQ9Fd65JjrKuDqM37
+         mtyHMFInvKf6w==
+Message-ID: <31d60c6261df297e56b1457e4ea4e28a@smtp-cloud9.xs4all.net>
+Date:   Thu, 11 Jun 2020 05:40:44 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfBz3d1DjaptoQVP7jpWB1lyWIbmE+xuBMzz8k9uKyflH/Hr663gGs3NKxFexg2lVvxwrvrKNUKuDhSLR1JgmoJD3iAWtGD3TrMXKYQYNm+IqNCAq9gsZ
+ KGq/2arhH4tJosfxmvpu/pFEiA1qVuj/Al9P882Y5hE1/mQ3DnrK07phqkl7E3yswnE1q+zckwC1sUdZEQEjubSk7UHpszPa8nR4EO+tie7BfZvqro6XTZBI
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thank you for the patch.
+Results of the daily build of media_tree:
 
-On Thu, Jun 11, 2020 at 01:05:40AM +0200, Niklas Söderlund wrote:
-> If the graph in the media device is complete report it to userspace by
-> setting the MEDIA_TOPOLOGY_FLAG_COMPLETE flag.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+date:			Thu Jun 11 05:00:12 CEST 2020
+media-tree git hash:	938b29db3aa9c293c7c1366b16e55e308f1a1ddd
+media_build git hash:	337283131d6117aa9b0c0c62d32e323da54a9359
+v4l-utils git hash:	74377da4f5f3b63203c599d5dd75db6af91fdbb9
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a0e63d2e6cdc689a8af8c9ae6df1674d0fe38c74
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7-rc1-i686: OK
+linux-5.7-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 4
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: OK
 
-> ---
->  drivers/media/mc/mc-device.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-> index c2ef5bb512a5fba0..d63792cc014279fc 100644
-> --- a/drivers/media/mc/mc-device.c
-> +++ b/drivers/media/mc/mc-device.c
-> @@ -242,7 +242,7 @@ static long media_device_get_topology(struct media_device *mdev, void *arg)
->  	int ret = 0;
->  
->  	topo->topology_version = mdev->topology_version;
-> -	topo->flags = 0;
-> +	topo->flags = mdev->complete ? MEDIA_TOPOLOGY_FLAG_COMPLETE : 0;
->  
->  	/* Get entities and number of entities */
->  	i = 0;
+Detailed results are available here:
 
--- 
-Regards,
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
-Laurent Pinchart
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
