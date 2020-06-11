@@ -2,79 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 277F11F600F
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 04:34:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DE6AA1F601C
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 04:43:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726336AbgFKCem (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 22:34:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34420 "EHLO
+        id S1726312AbgFKCnu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 22:43:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726316AbgFKCem (ORCPT
+        with ESMTP id S1726290AbgFKCnu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 22:34:42 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A643C08C5C1
-        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 19:34:42 -0700 (PDT)
-Received: from emerald.amanokami.net (fs76eef344.knge213.ap.nuro.jp [118.238.243.68])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4DAF826A;
-        Thu, 11 Jun 2020 04:34:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591842878;
-        bh=CjEU4yH4AYS/BxdXjH9o+wM/IOzom8tqMwO1m6Cm7a8=;
-        h=From:To:Cc:Subject:Date:From;
-        b=SPjJjLqQhwPcneJozR9tLuLYWjhBwk/cmgHVaafSsOzZUhw0geB9teRwnirmZPJ3X
-         +RY42nxFbb769NswVou4OUU+Q5MFDviF64RKGl4P08b6RQo/7/7jvHTL2yS0C/hrv+
-         dHd9lnExF3AfrohnbFb+oKU9dccxyVCatHEMEwhc=
-From:   Paul Elder <paul.elder@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Paul Elder <paul.elder@ideasonboard.com>, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com
-Subject: [PATCH] v4l2-ctl: Fix test_ioctl cmd type
-Date:   Thu, 11 Jun 2020 11:34:14 +0900
-Message-Id: <20200611023414.4702-1-paul.elder@ideasonboard.com>
-X-Mailer: git-send-email 2.25.1
+        Wed, 10 Jun 2020 22:43:50 -0400
+Received: from mail-pg1-x534.google.com (mail-pg1-x534.google.com [IPv6:2607:f8b0:4864:20::534])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E505C08C5C1
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 19:43:50 -0700 (PDT)
+Received: by mail-pg1-x534.google.com with SMTP id b5so924725pgm.8
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 19:43:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=rG4EBpkKYS3JW1RXobU6KnYO5uwM+91gvULoZtUJWMg=;
+        b=Z5m60rqspzG3uADSpAp9dSzcKuI//jDmQIeOHayGIoIWnhSRPBBuGN6vryIqT6GVHa
+         X94NLApticHwldK9FT3ySN1a8+rjt4QOUVPrXb11S3Jj6uaXIsX3rQZa9SnnE+++RbYP
+         UN95/5gSk/FRadspFiRBaHBzhJCYiaDhcZ0Yk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=rG4EBpkKYS3JW1RXobU6KnYO5uwM+91gvULoZtUJWMg=;
+        b=EuzeKYBhlqLm/404vylc3APHMbjK8vEaQJjuIGuJkxuJedR+JjBMn3OFEYlJ430Ttu
+         1vxqm+xR9zTbhJm9OZc0HGq7t0OkU/b/jvXbZUaCDnrJaPYeSpX4T0BYvHTKcvMnwCC0
+         YhLmfkr5tt/bOgCfytB2oTE1HWKtV0VQvrMMEh6gHfZPObOECjxX7196Jbt4i2VMneBN
+         tT85x2tQ/XidGza6IWg1q+1KXaoAv9v4YIk9XkApgXUYfkB5h9wG118LP7GaRMxeeswk
+         jOZQ/77fVkMVaJOpxWQU776Wq2bVlb8tyms6dP/7KMX1YfmYuw7nqTTyFkvJU7jqcNVx
+         3UaQ==
+X-Gm-Message-State: AOAM533XL5qJCUSyROBHv0oRfjbSjxTQgLep/tbmqOr8ISLjTVyWwZVF
+        jdFR26SlQoczhiZlphP+0jfx1g==
+X-Google-Smtp-Source: ABdhPJzN+422z3vh2FLOIbIBeRGx6B8aza7Xm/xBxrMlmm/I7y2fjMhsteJLHUj7W2rH7WjVKeMBuQ==
+X-Received: by 2002:a62:1a87:: with SMTP id a129mr5255314pfa.95.1591843428897;
+        Wed, 10 Jun 2020 19:43:48 -0700 (PDT)
+Received: from localhost ([2401:fa00:8f:203:5bbb:c872:f2b1:f53b])
+        by smtp.gmail.com with ESMTPSA id 71sm1313485pfb.20.2020.06.10.19.43.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 10 Jun 2020 19:43:48 -0700 (PDT)
+Date:   Thu, 11 Jun 2020 11:43:46 +0900
+From:   Sergey Senozhatsky <senozhatsky@chromium.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [GIT PULL FOR v5.9 v2] Implement V4L2_BUF_FLAG_NO_CACHE_* flags
+Message-ID: <20200611024346.GC166075@google.com>
+References: <c4067de1-6fb2-1fda-9a75-0ad5e9ae78c2@xs4all.nl>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c4067de1-6fb2-1fda-9a75-0ad5e9ae78c2@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-test_ioctl uses int for the ioctl cmd, while it should be unsigned long.
-Fix this.
+On (20/06/10 15:01), Hans Verkuil wrote:
+> I'd like to have this series merged early in the 5.9 cycle if possible
+> to give it as much test time as possible.
+> 
+> Sergey, thank you for working on this! Very nice to have this implemented
+> at last.
 
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
----
- utils/v4l2-ctl/v4l2-ctl.cpp | 2 +-
- utils/v4l2-ctl/v4l2-ctl.h   | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Thank you!
 
-diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
-index e7b270cd..4972591e 100644
---- a/utils/v4l2-ctl/v4l2-ctl.cpp
-+++ b/utils/v4l2-ctl/v4l2-ctl.cpp
-@@ -306,7 +306,7 @@ static void usage_all()
-        edid_usage();
- }
- 
--int test_ioctl(int fd, int cmd, void *arg)
-+int test_ioctl(int fd, unsigned long cmd, void *arg)
- {
- 	return options[OptUseWrapper] ? v4l2_ioctl(fd, cmd, arg) : ioctl(fd, cmd, arg);
- }
-diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
-index b31be7f5..28e50471 100644
---- a/utils/v4l2-ctl/v4l2-ctl.h
-+++ b/utils/v4l2-ctl/v4l2-ctl.h
-@@ -300,7 +300,7 @@ typedef struct {
- 
- // v4l2-ctl.cpp
- int doioctl_name(int fd, unsigned long int request, void *parm, const char *name);
--int test_ioctl(int fd, int cmd, void *arg);
-+int test_ioctl(int fd, unsigned long cmd, void *arg);
- int parse_subopt(char **subs, const char * const *subopts, char **value);
- __u32 parse_field(const char *s);
- __u32 parse_colorspace(const char *s);
--- 
-2.25.1
-
+	-ss
