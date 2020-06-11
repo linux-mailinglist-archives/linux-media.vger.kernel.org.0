@@ -2,103 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B633F1F6416
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 10:57:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C89971F6436
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 11:03:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726917AbgFKI5H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Jun 2020 04:57:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36402 "EHLO
+        id S1726998AbgFKJDu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Jun 2020 05:03:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37442 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726825AbgFKI5G (ORCPT
+        with ESMTP id S1726992AbgFKJDt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Jun 2020 04:57:06 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E5E3C03E96F
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 01:57:06 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id s1so6001820ljo.0
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 01:57:05 -0700 (PDT)
+        Thu, 11 Jun 2020 05:03:49 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC6ADC08C5C2
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 02:03:48 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id r15so4260491wmh.5
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 02:03:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=scFpU96FicNROQOpmxn2PDjOw/uNRwojfypst9096Cg=;
-        b=HH29tVR4h1vn6/ObayC4qnLIaEpKOvXIeg6nWcam91Aj9pXj9mW3v3RkMabQOr1Jhs
-         u9ixLsVKLCP4MTlkzV5JSRrxzN60y4j/KtNSM0NXL7Q+dcyyPVKH3jEuPteQ+px2o8wg
-         BgVTl1IjQ6YAU/BVgTgyYqAfPntApM0K70spDEaogxUmQDNNAJRnVHO2FggV1jJh3vfH
-         M3AVyCUx6NqxIjaaKSeTutfki/QPqwqtNWfLMn8WG1Sz04tDJMbVjT6JRLUGy3a1aZZK
-         tJxA8vFX7+g2FaQYWXmtp7Cx9BdP2df932H7dTkoSKQIwaNIS+b6p/KTDxwyv5OtiXCR
-         iOkg==
+        d=fooishbar-org.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=611EZXoXvMC0wgvkSoDqQkuDX4b96jfM5TQTQEW07+g=;
+        b=rBu3ZBBsiU7BegTaLT92EmVcTqTQ1ln4TngPt+QtaRUJwZJvFNvlbvL3HcjTBtXw9H
+         G1BFGLxRjII2qe+n6Wb4wAjp/MIbndhkzRvvFKrM4W8lQT+ibssLtH8TT46cMB5P5uU3
+         5NUykMXB6wJxIim5uZLsueE9Lb1sMJwsx7fkaWRSDcEwhKWAYhiGyzIwnkpl/z6oq0Or
+         4x+BtmbF9c7Gs6DTj+RsOX7oSNj6Q0tkv5onPLhaBIsEtG4yxV9T70vq8ePrXAlDNpD8
+         5sB2zFwst0zY2C9XYIlAcPCJ2JUIt9V9Hjz4+vjSenZxVun25fMG+8FtkYQcjlFwLPq+
+         dTPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=scFpU96FicNROQOpmxn2PDjOw/uNRwojfypst9096Cg=;
-        b=nS+xTkkgg6V3zjNcyX4KPiX094vWmaIVTGS8GfLx9dR9nI6v/tacnkKKPjsJ8NInMd
-         LOtT9dZ815r7ds4PvCuJMIVZaUmkNHeCeVSX9tJDGZv5B99RKL9fNkVwk532YR6ElmQu
-         g63Mh+dySh2GU1KpnE5wL+7Ahhb3QKcP5agDO4h1UMbOLH1lEPHMiejR/GrDlZ/JAAzi
-         WUPSdnU0/v1Hzb2FUj0fBacDjhTAVxNl6yI3A7Vn06nW4tCWciEB4+9ZIU38GOGnHOqZ
-         N6SmRNMACqna0sZumixvDCRvqAypXqPbMQc3cGmLdbfvJgkLMAPnt4BEfEC9AcmZQx+J
-         CB9g==
-X-Gm-Message-State: AOAM530ISvZ62F5Zx+w614OFSn6cciBt80qcDTTJrREDWLlmmC5UuzLG
-        G2/TG24fIhST+kttZ2enUrE75peT7pUamQ==
-X-Google-Smtp-Source: ABdhPJyDtvFptbzJAPVCMO8GTWa2Efwcqc/41kyXqTSj0/+wCM2SbgRZS87nr9TM430j6czXUTB9xQ==
-X-Received: by 2002:a2e:968a:: with SMTP id q10mr3617369lji.192.1591865824527;
-        Thu, 11 Jun 2020 01:57:04 -0700 (PDT)
-Received: from ?IPv6:2a00:1fa0:62f:7120:def:360c:f8bc:1a6f? ([2a00:1fa0:62f:7120:def:360c:f8bc:1a6f])
-        by smtp.gmail.com with ESMTPSA id x23sm629172lfe.32.2020.06.11.01.57.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jun 2020 01:57:03 -0700 (PDT)
-Subject: Re: [PATCH 5/5] rcar-vin: Do not unregister video device when a
- subdevice is unbound
-To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-renesas-soc@vger.kernel.org
-References: <20200610230541.1603067-1-niklas.soderlund+renesas@ragnatech.se>
- <20200610230541.1603067-6-niklas.soderlund+renesas@ragnatech.se>
-From:   Sergei Shtylyov <sergei.shtylyov@cogentembedded.com>
-Message-ID: <44f91d85-017b-9f8b-2223-a7424538b72d@cogentembedded.com>
-Date:   Thu, 11 Jun 2020 11:56:53 +0300
-User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=611EZXoXvMC0wgvkSoDqQkuDX4b96jfM5TQTQEW07+g=;
+        b=rZWc3oOQluWgtkzV132hUuTB5CfK2tOdIzwJqwsyJq55dz9ZxsOQYBa5wrpj66ChCM
+         p5P3qirE8ZMlpfza6TlZOMI8lUHg2OD1qta7lzy+RQL+RFScQWaSAzqNdj6WOjxa9klE
+         /8lbaNTL9nx0+14pIzs6lV1/W6tx5ml/S1S2HzIUakRuKB4iEDi+h+QFLQsdrFsK/mke
+         FoHKEIiPEhIC2/srqp8ino4MHAi5NYGzcd+By7aR32g+h6CfieAhmn9d6R8eOcoVygmX
+         Cr1OjhpNa1ltSNUezSHeCgD635NMUPEJsdDGMPebg5QjhEOtlSa8ZFoFRF32R8RyHGnd
+         2lnA==
+X-Gm-Message-State: AOAM532uofERCxjwq2FKAE3jGfdcfPBShCNoyRgHDNT+838Ee01qbtOA
+        aZMlZ/hiyLUVb9fTRp85svFqzh+VV+zkNReNVzKOTg==
+X-Google-Smtp-Source: ABdhPJxPKKxxiM1BfEdkh9RUDLtOEwohJAfgWmxAu+vR7pTgkQ6fdURfjYcm3A4r4/Ejum+DBwaGettYUqKJ7IOPnc8=
+X-Received: by 2002:a1c:6a01:: with SMTP id f1mr6984797wmc.52.1591866227178;
+ Thu, 11 Jun 2020 02:03:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200610230541.1603067-6-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-4-daniel.vetter@ffwll.ch> <159186243606.1506.4437341616828968890@build.alporthouse.com>
+ <CAPM=9ty6r1LuXAH_rf98GH0R9yN3x8xzKPjZG3QyvokpQBR-Hg@mail.gmail.com>
+In-Reply-To: <CAPM=9ty6r1LuXAH_rf98GH0R9yN3x8xzKPjZG3QyvokpQBR-Hg@mail.gmail.com>
+From:   Daniel Stone <daniel@fooishbar.org>
+Date:   Thu, 11 Jun 2020 10:01:46 +0100
+Message-ID: <CAPj87rM0S2OPssf+WA+pjanT-0Om3yuUM1zUJCv4qTx5VYE=Fw@mail.gmail.com>
+Subject: Re: [Intel-gfx] [PATCH 03/18] dma-fence: basic lockdep annotations
+To:     Dave Airlie <airlied@gmail.com>
+Cc:     Chris Wilson <chris@chris-wilson.co.uk>,
+        linux-rdma@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello!
+Hi,
 
-On 11.06.2020 2:05, Niklas Söderlund wrote:
+On Thu, 11 Jun 2020 at 09:44, Dave Airlie <airlied@gmail.com> wrote:
+> On Thu, 11 Jun 2020 at 18:01, Chris Wilson <chris@chris-wilson.co.uk> wrote:
+> > Introducing a global lockmap that cannot capture the rules correctly,
+>
+> Can you document the rules all drivers should be following then,
+> because from here it looks to get refactored every version of i915,
+> and it would be nice if we could all aim for the same set of things
+> roughly. We've already had enough problems with amdgpu vs i915 vs
+> everyone else with fences, if this stops that in the future then I'd
+> rather we have that than just some unwritten rules per driver and
+> untestable.
 
-> If the v4l2-async notifier have once been complete and the video
-> device(s) have been register, do not unregister them if one subdevice is
+As someone who has sunk a bunch of work into explicit-fencing
+awareness in my compositor so I can never be blocked, I'd be
+disappointed if the infrastructure was ultimately pointless because
+the documented fencing rules were \_o_/ or thereabouts. Lockdep
+definitely isn't my area of expertise so I can't comment on the patch
+per se, but having something to ensure we don't hit deadlocks sure
+seems a lot better than nothing.
 
-    Registered.
-
-> unbound. Depending on which subdevice is unbound other parts of the
-> pipeline could still be functional. For example if one of multiple
-> sensors connected to a CSI-2 transmitter is unbound other sensors in
-> that pipeline are still useable.
-
-    Usable.
-
-> This problem is extra critical for R-Car VIN which registers two
-> independent CSI-2 receivers in the same media graph as they can both be
-> used by the same dma-engines. If one of the CSI-2 receivers are unbound
-
-    DMA engines, maybe?
-
-> the other CSI-2 receiver pipeline is still fully functional.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-[...]
-
-MBR, Sergei
+Cheers,
+Daniel
