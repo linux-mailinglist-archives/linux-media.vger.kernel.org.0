@@ -2,123 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 491911F7049
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 00:33:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D7E21F70EF
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 01:35:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726332AbgFKWdv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Jun 2020 18:33:51 -0400
-Received: from smtprelay0239.hostedemail.com ([216.40.44.239]:43012 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726270AbgFKWdu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Jun 2020 18:33:50 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay05.hostedemail.com (Postfix) with ESMTP id D65CC18029123;
-        Thu, 11 Jun 2020 22:33:48 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1542:1593:1594:1711:1730:1747:1777:1792:2110:2393:2559:2562:2691:2828:3138:3139:3140:3141:3142:3355:3622:3865:3866:3867:3868:3870:3871:3872:3873:3874:4321:4605:5007:6119:7514:7875:7903:8526:9040:10004:10400:10848:11026:11232:11473:11658:11914:12296:12297:12740:12760:12895:13095:13141:13142:13161:13229:13230:13439:14096:14097:14180:14181:14659:14721:21060:21080:21324:21433:21627:21740:21795:21972:21990:30012:30034:30051:30054:30070:30083:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: cakes14_3209fc126dd7
-X-Filterd-Recvd-Size: 4066
-Received: from XPS-9350.home (unknown [47.151.136.130])
-        (Authenticated sender: joe@perches.com)
-        by omf14.hostedemail.com (Postfix) with ESMTPA;
-        Thu, 11 Jun 2020 22:33:46 +0000 (UTC)
-Message-ID: <3518483f1836bdfbc193292dc1639509ac33fe7c.camel@perches.com>
-Subject: Re: [PATCH v3 6/7] venus: Make debug infrastructure more flexible
-From:   Joe Perches <joe@perches.com>
-To:     Jason Baron <jbaron@akamai.com>, jim.cromie@gmail.com,
-        Daniel Thompson <daniel.thompson@linaro.org>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        linux-acpi@vger.kernel.org, netdev@vger.kernel.org
-Date:   Thu, 11 Jun 2020 15:33:45 -0700
-In-Reply-To: <e65d2c81-6d0b-3c1e-582c-56d707c0d1f1@akamai.com>
-References: <20200609104604.1594-7-stanimir.varbanov@linaro.org>
-         <20200609111414.GC780233@kroah.com>
-         <dc85bf9e-e3a6-15a1-afaa-0add3e878573@linaro.org>
-         <20200610133717.GB1906670@kroah.com>
-         <31e1aa72b41f9ff19094476033511442bb6ccda0.camel@perches.com>
-         <2fab7f999a6b5e5354b23d06aea31c5018b9ce18.camel@perches.com>
-         <20200611062648.GA2529349@kroah.com>
-         <bc92ee5948c3e71b8f1de1930336bbe162d00b34.camel@perches.com>
-         <20200611105217.73xwkd2yczqotkyo@holly.lan>
-         <ed7dd5b4-aace-7558-d012-fb16ce8c92d6@linaro.org>
-         <20200611121817.narzkqf5x7cvl6hp@holly.lan>
-         <CAJfuBxzE=A0vzsjNai_jU_16R_P0haYA-FHnjZcaHOR_3fy__A@mail.gmail.com>
-         <e65d2c81-6d0b-3c1e-582c-56d707c0d1f1@akamai.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.2-0ubuntu1 
+        id S1726321AbgFKXfm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Jun 2020 19:35:42 -0400
+Received: from mail-eopbgr770055.outbound.protection.outlook.com ([40.107.77.55]:37440
+        "EHLO NAM02-SN1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726254AbgFKXfl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 11 Jun 2020 19:35:41 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=QCj4ycS2eNtDoyLqhGUc6kbAgn1yyQAXwd1tKQ0jHsxhB7IgjctW/ppJYgIeDrVc8UKfS5VIE4sYH75ulVZJYSiLW+hvW9UHElEPyue271NEufsUnVgqsDhQSBqrUgCejMhrfT5f9Cn5FkL0k37uyfczJDQeSFs01Acs2Fil8HpG5OdH0K3v3C7KtW0e9qDTBqsP5vOhKXQtv/uoFDdReW2023u9/vqgRtyNc/LIk/TDHjdTvpYWLjuiedQQcYw6jM4hBVOTe7iiB64r/IwGwprFDPBTxykzOHf5lpUL+drIhOQs/+C/vCy3cImQKUyJsRUD8z+pN9Qqt4dcqVD0Hg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5xr6Xx2Tzlwq18f72B6suSX3Y6Np/pqJzGT7hI8LGYI=;
+ b=j53W+DgaXzo9iC7seWlU4YRSWx3I3VMfEvdoky4wTU0K7mZaS3TZadb6nf8FPgWmKRqqzTJmHJlncI0D39qhCwLgwbr9JBalOqZZEpARtV8dAOwf02ADqBZrfNXmfG3+GiLf5CMndCn70je91dj5pUeXy6ud4PLWKJxLZAdKu2J9Q+vNX3NNblUx4aHKFCiqlAC7wXnbGtTTPNc/HEV+2mScM1rbNGDQPtm89GTl8qjhfY3sWaD2L6VXPY1i6YXWIIwtNTWfvsOYZk+s+7wxVEG2dVe9DapShwWV3IZbR83JR2Cqk6BUGRq0Yg5IFSdaVmhnu33o52kcsDgRxYoNjA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5xr6Xx2Tzlwq18f72B6suSX3Y6Np/pqJzGT7hI8LGYI=;
+ b=1oMdu4F+eJwl5JGFP32PSdS9dgSdYvAw92u/tYi1Meye1eookLSzlUCezJKPmXLb9z3QigkXKpgvk9swWN0hvAA2prPdl/j13gW0vihtWXDU49MahixXwLO30eh7vPnlbKy26FOK7Mr+nExFrDLGkHBzadbnQpUUKlHBdGOljY8=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
+Received: from SN1PR12MB2414.namprd12.prod.outlook.com (2603:10b6:802:2e::31)
+ by SN6PR12MB2639.namprd12.prod.outlook.com (2603:10b6:805:75::25) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3066.23; Thu, 11 Jun
+ 2020 23:35:37 +0000
+Received: from SN1PR12MB2414.namprd12.prod.outlook.com
+ ([fe80::18d:97b:661f:9314]) by SN1PR12MB2414.namprd12.prod.outlook.com
+ ([fe80::18d:97b:661f:9314%7]) with mapi id 15.20.3088.021; Thu, 11 Jun 2020
+ 23:35:37 +0000
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
+ annotations
+To:     Jason Gunthorpe <jgg@ziepe.ca>,
+        =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-rdma@vger.kernel.org,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        linux-media@vger.kernel.org,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-5-daniel.vetter@ffwll.ch>
+ <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
+ <20200611083430.GD20149@phenom.ffwll.local> <20200611141515.GW6578@ziepe.ca>
+From:   Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <4702e170-fd02-88fa-3da4-ea64252fff9a@amd.com>
+Date:   Thu, 11 Jun 2020 19:35:35 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <20200611141515.GW6578@ziepe.ca>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: YTBPR01CA0029.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:14::42) To SN1PR12MB2414.namprd12.prod.outlook.com
+ (2603:10b6:802:2e::31)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.100] (142.116.63.128) by YTBPR01CA0029.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:b01:14::42) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.21 via Frontend Transport; Thu, 11 Jun 2020 23:35:36 +0000
+X-Originating-IP: [142.116.63.128]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: ca613209-cae9-4beb-763c-08d80e602514
+X-MS-TrafficTypeDiagnostic: SN6PR12MB2639:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR12MB2639E32D582F0E0D4E44B1E692800@SN6PR12MB2639.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Forefront-PRVS: 0431F981D8
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Xhct3Q5PmgQdbZA3Wwr9sogT+nC+dDoZtuF1u3u4HIj89U+4iw4cVNY27v7o5Q5/ywyDJgMBLGT5TZCauityIo46zksiCnyHMfjcf5D9DiAZn4/wKP/EjihWQ2dSl9gu3RKxDpWzLSvD3zkVIICf/4tcB6xUtRJXvF+AY4hi+EXwk8rKQRYgsMb5qbjLJiSeouRJ6XAXw0qmFom5ESC8nZ9QmHWsZOmOx6iXMrgBmWw+b257E9nx61ipsJwkBr7vaDn94QxpYLhTfjHE865zIi8BU7AGMLjdBBVSvON/XLpiUsxYI7VjD8cYG4YuJyRak/tAl6DSEfUm14xX2sxRdxspmHpsaY2gJ/KXXQgtXlbKB6XTw0rfFY2qHuNFJ43Pozb2Y7pINwVNLtebtQOvYA/wrXIApR9jw+KG2HnzfFcC99g9P4rtT3pV5nKFF2nU
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2414.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(396003)(39860400002)(376002)(346002)(136003)(366004)(66556008)(26005)(44832011)(186003)(16576012)(110136005)(478600001)(8676002)(966005)(66946007)(66476007)(83380400001)(2906002)(16526019)(52116002)(7416002)(956004)(31696002)(36756003)(31686004)(6486002)(2616005)(86362001)(5660300002)(8936002)(316002)(921003)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: lMVnk/iA/no3q+kLsUZGrVml75gTPfF4B+EPZD+9nMXS9I4q/X0SR1BFYoq2BTMgOh9S9eSY2c/gBIifXvKGaIJEHQyiNATyW80UrcTfF5LbtbeFpieyRYVHExjUJCPsffdRwJ3Xx9AWQDDhsowRCHcpHxUMKhjStfResRhsZ2WiwqwhIHWLEbhkoTvyPyYDVd2fuZlqU3EEBoBUA+eEmf7IlnaYkUjvjN9N+f6jabdc5aaCiq8cM0P5I6rPjYghUQvqFy7eayQhDrNXrfgPbLC/TnxGxXzwp5ZstTXpw0/cLWCEnBhrxRPtnnocGVbV/gekM+Bg1N1gg82foZqNYELOvpmlFOSyldwehtDD3mDaEaaJft9hA24PT81LAoC+7jkSWOB3QKKrsteiGEwmp6ggPgTr7ztztmSZpyRWm0kM0pWD/2uqKBKcXEodk8cqZ6OMGoE4X0Ugh5iW6QmiDrOeUFs3wJJq1IBsYlbljcTOpwi2qrLlyzY8U82I5EKQ
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ca613209-cae9-4beb-763c-08d80e602514
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Jun 2020 23:35:37.6581
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: r9I0+zgkWdPhK56zX6YsItahFnR5mXeKGy5ASpENti8IRJtYCU4K7jcgtIuLDzFaArmNtGv3QWTS6RLkBYIL8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR12MB2639
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2020-06-11 at 17:59 -0400, Jason Baron wrote:
-> 
-> On 6/11/20 5:19 PM, jim.cromie@gmail.com wrote:
-> > trimmed..
-> > 
-> > > > > Currently I think there not enough "levels" to map something like
-> > > > > drm.debug to the new dyn dbg feature. I don't think it is intrinsic
-> > > > > but I couldn't find the bit of the code where the 5-bit level in struct
-> > > > > _ddebug is converted from a mask to a bit number and vice-versa.
-> > > > 
-> > > > Here [1] is Joe's initial suggestion. But I decided that bitmask is a
-> > > > good start for the discussion.
-> > > > 
-> > > > I guess we can add new member uint "level" in struct _ddebug so that we
-> > > > can cover more "levels" (types, groups).
-> > > 
-> > > I don't think it is allocating only 5 bits that is the problem!
+Am 2020-06-11 um 10:15 a.m. schrieb Jason Gunthorpe:
+> On Thu, Jun 11, 2020 at 10:34:30AM +0200, Daniel Vetter wrote:
+>>> I still have my doubts about allowing fence waiting from within shrinkers.
+>>> IMO ideally they should use a trywait approach, in order to allow memory
+>>> allocation during command submission for drivers that
+>>> publish fences before command submission. (Since early reservation object
+>>> release requires that).
+>> Yeah it is a bit annoying, e.g. for drm/scheduler I think we'll end up
+>> with a mempool to make sure it can handle it's allocations.
+>>
+>>> But since drivers are already waiting from within shrinkers and I take your
+>>> word for HMM requiring this,
+>> Yeah the big trouble is HMM and mmu notifiers. That's the really awkward
+>> one, the shrinker one is a lot less established.
+> I really question if HW that needs something like DMA fence should
+> even be using mmu notifiers - the best use is HW that can fence the
+> DMA directly without having to get involved with some command stream
+> processing.
+>
+> Or at the very least it should not be a generic DMA fence but a
+> narrowed completion tied only into the same GPU driver's command
+> completion processing which should be able to progress without
+> blocking.
+>
+> The intent of notifiers was never to endlessly block while vast
+> amounts of SW does work.
+>
+> Going around and switching everything in a GPU to GFP_ATOMIC seems
+> like bad idea.
+>
+>> I've pinged a bunch of armsoc gpu driver people and ask them how much this
+>> hurts, so that we have a clear answer. On x86 I don't think we have much
+>> of a choice on this, with userptr in amd and i915 and hmm work in nouveau
+>> (but nouveau I think doesn't use dma_fence in there). 
 
-There were 6 unused bits in struct _ddebug;
+Soon nouveau will get company. We're working on a recoverable page fault
+implementation for HMM in amdgpu where we'll need to update page tables
+using the GPUs SDMA engine and wait for corresponding fences in MMU
+notifiers.
 
-The original idea was to avoid expanding the already somewhat
-large struct _ddebug uses and the __verbose/__dyndbg section
-that can have quite a lot of these structs.
+Regards,
+  Felix
 
-I imagine adding another int or long wouldn't be too bad.
 
-> > > The problem is that those 5 bits need not be encoded as a bitmask by
-> > > dyndbg, that can simply be the category code for the message. They only
-> > > need be converted into a mask when we compare them to the mask provided
-> > > by the user.
-> > > 
-
-I also suggested adding a pointer to whatever is provided
-by the developer so the address of something like
-MODULE_PARM_DESC(variable, ...) can be also be used.
-
-> > heres what I have in mind.  whats described here is working.
-> > I'll send it out soon
-> 
-> Cool. thanks for working on this!
-
-Truly, thank you both Jim and Stanimir.
-
-Please remember that dynamic_debug is not required and
-pr_debug should still work.
-
-> >     API:
-> > 
-> >     - change pr_debug(...)  -->  pr_debug_typed(type_id=0, ...)
-> >     - all existing uses have type_id=0
-> >     - developer creates exclusive types of log messages with type_id>0
-> >       1, 2, 3 are disjoint groups, for example: hi, mid, low
-
-You could have a u8 for type if there are to be 3 classes
-
-	bitmask
-	level
-	group by value
-
-though I believe group by value might as well just be bitmask
-and bool is_bitmask is enough (!is_bitmask would be level)
-
-cheers, Joe
-
+> Right, nor will RDMA ODP. 
+>
+> Jason
+> _______________________________________________
+> amd-gfx mailing list
+> amd-gfx@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
