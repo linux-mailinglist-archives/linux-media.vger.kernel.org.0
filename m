@@ -2,179 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D47EB1F6BFE
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 18:14:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1C5D1F6C58
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 18:49:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726502AbgFKQOA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Jun 2020 12:14:00 -0400
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:42771 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726290AbgFKQN7 (ORCPT
+        id S1726557AbgFKQtD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Jun 2020 12:49:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53314 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725782AbgFKQtC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Jun 2020 12:13:59 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id C33A4C000E;
-        Thu, 11 Jun 2020 16:13:55 +0000 (UTC)
-From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
-To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: [PATCH v4 9/9] media: rcar-csi2: Negotiate data lanes number
-Date:   Thu, 11 Jun 2020 18:16:51 +0200
-Message-Id: <20200611161651.264633-10-jacopo+renesas@jmondi.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200611161651.264633-1-jacopo+renesas@jmondi.org>
-References: <20200611161651.264633-1-jacopo+renesas@jmondi.org>
+        Thu, 11 Jun 2020 12:49:02 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70D63C08C5C1
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 09:49:02 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id d128so5713338wmc.1
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 09:49:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=m9GN5WBKEYYIgIwqXSwTbOuQ7tSpufKewkY859VD9LM=;
+        b=HSWrP87UGB+MThNp2ov2M6zIYZLHZyM9tjClOB6qyUS4MR3lFJvhcbxgMQPtlX4keX
+         Guz1BkTJfTJJDseuVmY0mAHX/qTGcvJH8UBW43emcyHkEAcsZ5fyGYoIQG5zaCXbRwMp
+         2x9t0TjTVlzuACBZ5Ey7aewg3gb+W2fxfZdLs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=m9GN5WBKEYYIgIwqXSwTbOuQ7tSpufKewkY859VD9LM=;
+        b=PiRF9MKBSrKnDbDzFWR7Ahi6zZBSeeGhsPoNRpKS5FHzMZi+Q/jdPTkaeqWeSsgeei
+         5RxTsoA3Oxl2jmUzFWsHi/olGclQgxmb0Yv7AJW7IEt5jxH8MzMPeVu4I6s8/U7byUZq
+         aS8G5RecKHfBRxuABH+haTzjIugZKIVgvTJbJydvkJPVwuXVE9vJcPr8tyQ/bLNUKeSC
+         1nIU+4JRHe5t5Ymz6s4VNamyp/kL5y/8P8C3JR/gakgEvJ3+QxctoGDjsSI/4g0zIjTX
+         W2RJJRUnEBo9GWGYjNGjQYZOzVxNpMRTqkC7FjCOi7v2BPYNJNyLw43wglc5lO3N/mW0
+         2yNg==
+X-Gm-Message-State: AOAM531B+gZaczI9xRabdOZay99GlY065+vtVm9ZsAk28KxzQ3m3yKKE
+        NhDXkqs1eHomz2mlRPwxVr4LsQ==
+X-Google-Smtp-Source: ABdhPJxVAMW67/K46mT3Ow+twrNQzG3BwFWjaG3jRfjfJfAuUr3TOn/DQ9B52KybIBJfI0dVIFdeDA==
+X-Received: by 2002:a1c:38c2:: with SMTP id f185mr9376689wma.79.1591894141050;
+        Thu, 11 Jun 2020 09:49:01 -0700 (PDT)
+Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
+        by smtp.gmail.com with ESMTPSA id n23sm4666480wmc.21.2020.06.11.09.49.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2020 09:49:00 -0700 (PDT)
+Date:   Thu, 11 Jun 2020 16:48:59 +0000
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Xia Jiang <xia.jiang@mediatek.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rick Chang <rick.chang@mediatek.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        srv_heupstream@mediatek.com, senozhatsky@chromium.org,
+        mojahsu@chromium.org, drinkcat@chromium.org,
+        maoguang.meng@mediatek.com, sj.huang@mediatek.com
+Subject: Re: [PATCH RESEND v9 17/18] media: platform: Rename existing
+ functions/defines/variables
+Message-ID: <20200611164859.GA8694@chromium.org>
+References: <20200604090553.10861-1-xia.jiang@mediatek.com>
+ <20200604090553.10861-19-xia.jiang@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200604090553.10861-19-xia.jiang@mediatek.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the newly introduced get_mbus_config() subdevice pad operation to
-retrieve the remote subdevice MIPI CSI-2 bus configuration and configure
-the number of active data lanes accordingly.
+Hi Xia,
 
-In order to be able to call the remote subdevice operation cache the
-index of the remote pad connected to the single CSI-2 input port.
+On Thu, Jun 04, 2020 at 05:05:52PM +0800, Xia Jiang wrote:
+> Rename existing funcitons/defines/variables with a  _dec prefix and
+> without dec_ prefix to prepare for the addition of the jpeg encoder
+> feature.
+> 
+> Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
+> ---
+> v9: new patch
+> ---
+>  .../media/platform/mtk-jpeg/mtk_jpeg_core.c   | 200 +++++++++---------
+>  .../media/platform/mtk-jpeg/mtk_jpeg_core.h   |   8 +-
+>  .../media/platform/mtk-jpeg/mtk_jpeg_dec_hw.h |   7 +-
+>  3 files changed, 109 insertions(+), 106 deletions(-)
+> 
 
-Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
----
- drivers/media/platform/rcar-vin/rcar-csi2.c | 61 ++++++++++++++++++++-
- 1 file changed, 58 insertions(+), 3 deletions(-)
+Reviewed-by: Tomasz Figa <tfiga@chromium.org>
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-index 151e6a90c5fb..11769f004fd8 100644
---- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-+++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-@@ -363,6 +363,7 @@ struct rcar_csi2 {
- 	struct v4l2_async_notifier notifier;
- 	struct v4l2_async_subdev asd;
- 	struct v4l2_subdev *remote;
-+	unsigned int remote_pad;
- 
- 	struct v4l2_mbus_framefmt mf;
- 
-@@ -371,6 +372,7 @@ struct rcar_csi2 {
- 
- 	unsigned short lanes;
- 	unsigned char lane_swap[4];
-+	unsigned short active_lanes;
- };
- 
- static inline struct rcar_csi2 *sd_to_csi2(struct v4l2_subdev *sd)
-@@ -414,7 +416,7 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
- 
- 	/* Wait for the clock and data lanes to enter LP-11 state. */
- 	for (timeout = 0; timeout <= 20; timeout++) {
--		const u32 lane_mask = (1 << priv->lanes) - 1;
-+		const u32 lane_mask = (1 << priv->active_lanes) - 1;
- 
- 		if ((rcsi2_read(priv, PHCLM_REG) & PHCLM_STOPSTATECKL)  &&
- 		    (rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
-@@ -471,11 +473,57 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp)
- 	 * bps = link_freq * 2
- 	 */
- 	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * bpp;
--	do_div(mbps, priv->lanes * 1000000);
-+	do_div(mbps, priv->active_lanes * 1000000);
- 
- 	return mbps;
- }
- 
-+static int rcsi2_config_active_lanes(struct rcar_csi2 *priv)
-+{
-+	struct v4l2_mbus_config mbus_config = { 0 };
-+	unsigned int num_lanes = (-1U);
-+	int ret;
-+
-+	priv->active_lanes = priv->lanes;
-+	ret = v4l2_subdev_call(priv->remote, pad, get_mbus_config,
-+			       priv->remote_pad, &mbus_config);
-+	if (ret == -ENOIOCTLCMD) {
-+		dev_dbg(priv->dev, "No remote mbus configuration available\n");
-+		return 0;
-+	}
-+
-+	if (ret) {
-+		dev_err(priv->dev, "Failed to get remote mbus configuration\n");
-+		return ret;
-+	}
-+
-+	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
-+		dev_err(priv->dev, "Unsupported media bus type %u\n",
-+			mbus_config.type);
-+		return -EINVAL;
-+	}
-+
-+	if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
-+		num_lanes = 1;
-+	else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
-+		num_lanes = 2;
-+	else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
-+		num_lanes = 3;
-+	else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
-+		num_lanes = 4;
-+
-+	if (num_lanes > priv->lanes) {
-+		dev_err(priv->dev,
-+			"Unsupported mbus config: too many data lanes %u\n",
-+			num_lanes);
-+		return -EINVAL;
-+	}
-+
-+	priv->active_lanes = num_lanes;
-+
-+	return 0;
-+}
-+
- static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- {
- 	const struct rcar_csi2_format *format;
-@@ -490,6 +538,11 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- 	/* Code is validated in set_fmt. */
- 	format = rcsi2_code_to_fmt(priv->mf.code);
- 
-+	/* Get the remote mbus config to get the number of enabled lanes. */
-+	ret = rcsi2_config_active_lanes(priv);
-+	if (ret)
-+		return ret;
-+
- 	/*
- 	 * Enable all supported CSI-2 channels with virtual channel and
- 	 * data type matching.
-@@ -522,7 +575,7 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
- 	}
- 
- 	phycnt = PHYCNT_ENABLECLK;
--	phycnt |= (1 << priv->lanes) - 1;
-+	phycnt |= (1 << priv->active_lanes) - 1;
- 
- 	mbps = rcsi2_calc_mbps(priv, format->bpp);
- 	if (mbps < 0)
-@@ -748,6 +801,7 @@ static int rcsi2_notify_bound(struct v4l2_async_notifier *notifier,
- 	}
- 
- 	priv->remote = subdev;
-+	priv->remote_pad = pad;
- 
- 	dev_dbg(priv->dev, "Bound %s pad: %d\n", subdev->name, pad);
- 
-@@ -793,6 +847,7 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
- 			priv->lanes);
- 		return -EINVAL;
- 	}
-+	priv->active_lanes = priv->lanes;
- 
- 	for (i = 0; i < ARRAY_SIZE(priv->lane_swap); i++) {
- 		priv->lane_swap[i] = i < priv->lanes ?
--- 
-2.27.0
-
+Best regards,
+Tomasz
