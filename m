@@ -2,686 +2,302 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 419791F6A8D
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 17:04:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 722A41F6A95
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 17:06:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728462AbgFKPDj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Jun 2020 11:03:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37056 "EHLO
+        id S1728430AbgFKPGO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Jun 2020 11:06:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728436AbgFKPDi (ORCPT
+        with ESMTP id S1728414AbgFKPGO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Jun 2020 11:03:38 -0400
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47733C08C5C2
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 08:03:37 -0700 (PDT)
-Received: by mail-oi1-x241.google.com with SMTP id i74so5710589oib.0
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 08:03:37 -0700 (PDT)
+        Thu, 11 Jun 2020 11:06:14 -0400
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4ED8C08C5C3
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 08:06:13 -0700 (PDT)
+Received: by mail-qk1-x741.google.com with SMTP id q8so5814531qkm.12
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 08:06:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=HVLihZKcA2+FpRmDi/jta3TIiJGSdxyQDbmKSQjMvP4=;
-        b=afrx543kDjcxtavchw5vm7XAC1srbQuB65sgep0FVGoJmO7JoK7PYp7bqtWzUfjFMX
-         RgSuj6y8eqr5FpeXSgQxB0AtW32Bmj7OsYWa2tIOlydTx9UV2QxuUVVIckPDFhgKXOSl
-         CHj2Iv9vCaW8aA56ozF8QYWtS0TNXMvE1aYeg=
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=HzLgIYSvEJUDNW//jH3MewtijJNgoOuCxY2mbejIfu8=;
+        b=AqbuvIO+U50IJ9wT5vyYF4LiH6rk0I0dM4U2c5QBcGKusu+uyhmz5gj0WclF5fFT6L
+         TRjl0OACIqXxyFEOkmwSJtz9gf0rVIr+BTL7FMksFt61N7z5QNkhnUX7Hp05/EP0BAy2
+         HPE3pW2VPr25cDv1nYHAWvED3pW8rtsTcdfX48HnB5JLUEjcmEBet9EaBD77YU6hiEwI
+         iMaKAGaTvGNyJcoCDGVj1YKA/AEqstcF4IWgmlrlyx4BQKSbNO42KFFSFSEHKxwA1GHw
+         9hXT2MZ2wAiMjn/6TRDv3mgekladFN9YaZzOebhA1yicESCEJ6Fp5MRbzdYT6iMTO1/A
+         a6xQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=HVLihZKcA2+FpRmDi/jta3TIiJGSdxyQDbmKSQjMvP4=;
-        b=HOyjSXc3U5GwmuFk+UPq09VKHVRwyCsYq8zQymffa1YSkrv4mRIZH+E9H4+8m3v8ZC
-         Jhuh6vw4YIRBomfGid5xKr4eYqQ6uHsvL0XwW/yW57ocwR7xXME4mvWX+4m1yBL8rlH/
-         mQOQsiGBKxwPtiQEhiEn39PW7yt2gc6YXgxJ9oEnRrtv23P+9t5SKTE9UaQ5CF88p1jT
-         +tAizasp9vBxqlW2dbT4NJtO4J4wufXvyiVNfOHPYvXY189bz8yirQbMRsF+jvG5nJq4
-         +Jt2jB24CRqw3uqGG1n9XLZlRtW8/3ghE+NKbFXOJy0LJZ0vj+cWUjyhh+NT0l3BSN58
-         zTfg==
-X-Gm-Message-State: AOAM530/4GuDkIh0SpBe0LnrZgWf6/SDOtsoxBsd8IZOffn0E6CIGk9k
-        cMGCBmY2Vur4vx9pu0ByUkJXnl2IWQJsufkp6iNW6w==
-X-Google-Smtp-Source: ABdhPJyK6uN3vMmzRCzC2+PtRMcydL25jCGufkipsxba7xORIXl2y/0q2IXDBooDr9RaJiGmuMqZG9woS8Z3jkkvKZI=
-X-Received: by 2002:aca:4b91:: with SMTP id y139mr6552673oia.128.1591887816432;
- Thu, 11 Jun 2020 08:03:36 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
- <20200604081224.863494-4-daniel.vetter@ffwll.ch> <be3526aa-07db-adc0-9291-1b5aeb0d1613@linux.intel.com>
- <CAKMK7uE4ak=gaKNJziaLg1qN1mE1FKLW1MGFkmUz2tR2y0ArAA@mail.gmail.com>
- <19c6fe47-50ff-869e-d3f0-703b8165d577@linux.intel.com> <CAKMK7uEKYJ1kPrB01yw9A3ZHHZ4jDmzwxMjymn7pxOgs9hpKBA@mail.gmail.com>
- <28c18eed-6d03-aeb2-9e0f-39bae84dfb8c@linux.intel.com>
-In-Reply-To: <28c18eed-6d03-aeb2-9e0f-39bae84dfb8c@linux.intel.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Thu, 11 Jun 2020 17:03:23 +0200
-Message-ID: <CAKMK7uFkwe8uSsC3DwvyqirdHQkMpF1rLssjDU=oL0OxK01UDw@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 03/18] dma-fence: basic lockdep annotations
-To:     Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=HzLgIYSvEJUDNW//jH3MewtijJNgoOuCxY2mbejIfu8=;
+        b=dYDxN8uTyJ/u3RylHdTe+qTD/CWUA1SDvJoIIDSs7HMpNKqjckpvmRB/M62UYVNkSo
+         6qc1QwaSkximgu5svp7QbXeZAEzkxGocNdqN7H6l27USE9yQEQ3VC6gcbUmwzw/C6jt8
+         6DnKLoGZGZ8A9hQpzy/My9ov27D52GIMFr4yhiAfjmb0U2kp0KeOa48v70+L+B8VID3O
+         aTQyDo0TVfvk2wHKQYX4/tyL5ivygbsWEih6puikNtbtPpzlVpKsdcLtY49wjm7Jflry
+         X7cz8IE2VXTg6VrAwMI/2K2cTva0Dr+oXK8syezwuovf3IbW3pau3NPKqxB+vjNCemIg
+         D1ZA==
+X-Gm-Message-State: AOAM533tVSF+5To7ImqFUVgX2pL1v6lilprHYvorTuC7KfIK990K64Ou
+        W+jz/Jxoss3PAE0pi9ewyuDUWg==
+X-Google-Smtp-Source: ABdhPJzCN+8p+k9Ijg6OLtv61lQ4rjQ4ZOuQwyorQGhjKLdpVxO0Yc7DD6W0D3TTezmcsid9Y2mT0g==
+X-Received: by 2002:ae9:ef8c:: with SMTP id d134mr8977472qkg.66.1591887971808;
+        Thu, 11 Jun 2020 08:06:11 -0700 (PDT)
+Received: from skullcanyon ([192.222.193.21])
+        by smtp.gmail.com with ESMTPSA id q187sm2421435qka.34.2020.06.11.08.06.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2020 08:06:10 -0700 (PDT)
+Message-ID: <78b743fc3788b73b9a3387d7d0a7a3dff7fdb9d0.camel@ndufresne.ca>
+Subject: Re: [RFC] METADATA design using V4l2 Request API
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hans Verkuil <hverkuil@xs4all.nl>, dikshita@codeaurora.org
+Cc:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, majja@codeaurora.org, jdas@codeaurora.org,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Dylan Yip <dylany@xilinx.com>
+Date:   Thu, 11 Jun 2020 11:06:09 -0400
+In-Reply-To: <3081cdd2b29eb08bc31b7e87a298b2184a57fad9.camel@ndufresne.ca>
+References: <1588918890-673-1-git-send-email-dikshita@codeaurora.org>
+         <d1179bc1-662b-615f-0f9b-67693fe8c906@xs4all.nl>
+         <fb96e2c09346e7831a0af99c0fe9f94c@codeaurora.org>
+         <b866e94a-1af2-5646-9e1c-6d027d172b97@xs4all.nl>
+         <3081cdd2b29eb08bc31b7e87a298b2184a57fad9.camel@ndufresne.ca>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 11, 2020 at 4:29 PM Tvrtko Ursulin
-<tvrtko.ursulin@linux.intel.com> wrote:
->
->
-> On 11/06/2020 12:29, Daniel Vetter wrote:
-> > On Thu, Jun 11, 2020 at 12:36 PM Tvrtko Ursulin
-> > <tvrtko.ursulin@linux.intel.com> wrote:
-> >> On 10/06/2020 16:17, Daniel Vetter wrote:
-> >>> On Wed, Jun 10, 2020 at 4:22 PM Tvrtko Ursulin
-> >>> <tvrtko.ursulin@linux.intel.com> wrote:
-> >>>>
-> >>>>
-> >>>> On 04/06/2020 09:12, Daniel Vetter wrote:
-> >>>>> Design is similar to the lockdep annotations for workers, but with
-> >>>>> some twists:
-> >>>>>
-> >>>>> - We use a read-lock for the execution/worker/completion side, so t=
-hat
-> >>>>>      this explicit annotation can be more liberally sprinkled aroun=
-d.
-> >>>>>      With read locks lockdep isn't going to complain if the read-si=
-de
-> >>>>>      isn't nested the same way under all circumstances, so ABBA dea=
-dlocks
-> >>>>>      are ok. Which they are, since this is an annotation only.
-> >>>>>
-> >>>>> - We're using non-recursive lockdep read lock mode, since in recurs=
-ive
-> >>>>>      read lock mode lockdep does not catch read side hazards. And w=
-e
-> >>>>>      _very_ much want read side hazards to be caught. For full deta=
-ils of
-> >>>>>      this limitation see
-> >>>>>
-> >>>>>      commit e91498589746065e3ae95d9a00b068e525eec34f
-> >>>>>      Author: Peter Zijlstra <peterz@infradead.org>
-> >>>>>      Date:   Wed Aug 23 13:13:11 2017 +0200
-> >>>>>
-> >>>>>          locking/lockdep/selftests: Add mixed read-write ABBA tests
-> >>>>>
-> >>>>> - To allow nesting of the read-side explicit annotations we explici=
-tly
-> >>>>>      keep track of the nesting. lock_is_held() allows us to do that=
-.
-> >>>>>
-> >>>>> - The wait-side annotation is a write lock, and entirely done withi=
-n
-> >>>>>      dma_fence_wait() for everyone by default.
-> >>>>>
-> >>>>> - To be able to freely annotate helper functions I want to make it =
-ok
-> >>>>>      to call dma_fence_begin/end_signalling from soft/hardirq conte=
-xt.
-> >>>>>      First attempt was using the hardirq locking context for the wr=
-ite
-> >>>>>      side in lockdep, but this forces all normal spinlocks nested w=
-ithin
-> >>>>>      dma_fence_begin/end_signalling to be spinlocks. That bollocks.
-> >>>>>
-> >>>>>      The approach now is to simple check in_atomic(), and for these=
- cases
-> >>>>>      entirely rely on the might_sleep() check in dma_fence_wait(). =
-That
-> >>>>>      will catch any wrong nesting against spinlocks from soft/hardi=
-rq
-> >>>>>      contexts.
-> >>>>>
-> >>>>> The idea here is that every code path that's critical for eventuall=
-y
-> >>>>> signalling a dma_fence should be annotated with
-> >>>>> dma_fence_begin/end_signalling. The annotation ideally starts right
-> >>>>> after a dma_fence is published (added to a dma_resv, exposed as a
-> >>>>> sync_file fd, attached to a drm_syncobj fd, or anything else that
-> >>>>> makes the dma_fence visible to other kernel threads), up to and
-> >>>>> including the dma_fence_wait(). Examples are irq handlers, the
-> >>>>> scheduler rt threads, the tail of execbuf (after the corresponding
-> >>>>> fences are visible), any workers that end up signalling dma_fences =
-and
-> >>>>> really anything else. Not annotated should be code paths that only
-> >>>>> complete fences opportunistically as the gpu progresses, like e.g.
-> >>>>> shrinker/eviction code.
-> >>>>>
-> >>>>> The main class of deadlocks this is supposed to catch are:
-> >>>>>
-> >>>>> Thread A:
-> >>>>>
-> >>>>>         mutex_lock(A);
-> >>>>>         mutex_unlock(A);
-> >>>>>
-> >>>>>         dma_fence_signal();
-> >>>>>
-> >>>>> Thread B:
-> >>>>>
-> >>>>>         mutex_lock(A);
-> >>>>>         dma_fence_wait();
-> >>>>>         mutex_unlock(A);
-> >>>>>
-> >>>>> Thread B is blocked on A signalling the fence, but A never gets aro=
-und
-> >>>>> to that because it cannot acquire the lock A.
-> >>>>>
-> >>>>> Note that dma_fence_wait() is allowed to be nested within
-> >>>>> dma_fence_begin/end_signalling sections. To allow this to happen th=
-e
-> >>>>> read lock needs to be upgraded to a write lock, which means that an=
-y
-> >>>>> other lock is acquired between the dma_fence_begin_signalling() cal=
-l and
-> >>>>> the call to dma_fence_wait(), and still held, this will result in a=
-n
-> >>>>> immediate lockdep complaint. The only other option would be to not
-> >>>>> annotate such calls, defeating the point. Therefore these annotatio=
-ns
-> >>>>> cannot be sprinkled over the code entirely mindless to avoid false
-> >>>>> positives.
-> >>>>>
-> >>>>> v2: handle soft/hardirq ctx better against write side and dont forg=
-et
-> >>>>> EXPORT_SYMBOL, drivers can't use this otherwise.
-> >>>>>
-> >>>>> v3: Kerneldoc.
-> >>>>>
-> >>>>> v4: Some spelling fixes from Mika
-> >>>>>
-> >>>>> Cc: Mika Kuoppala <mika.kuoppala@intel.com>
-> >>>>> Cc: Thomas Hellstrom <thomas.hellstrom@intel.com>
-> >>>>> Cc: linux-media@vger.kernel.org
-> >>>>> Cc: linaro-mm-sig@lists.linaro.org
-> >>>>> Cc: linux-rdma@vger.kernel.org
-> >>>>> Cc: amd-gfx@lists.freedesktop.org
-> >>>>> Cc: intel-gfx@lists.freedesktop.org
-> >>>>> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> >>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> >>>>> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >>>>> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> >>>>> ---
-> >>>>>     Documentation/driver-api/dma-buf.rst |  12 +-
-> >>>>>     drivers/dma-buf/dma-fence.c          | 161 ++++++++++++++++++++=
-+++++++
-> >>>>>     include/linux/dma-fence.h            |  12 ++
-> >>>>>     3 files changed, 182 insertions(+), 3 deletions(-)
-> >>>>>
-> >>>>> diff --git a/Documentation/driver-api/dma-buf.rst b/Documentation/d=
-river-api/dma-buf.rst
-> >>>>> index 63dec76d1d8d..05d856131140 100644
-> >>>>> --- a/Documentation/driver-api/dma-buf.rst
-> >>>>> +++ b/Documentation/driver-api/dma-buf.rst
-> >>>>> @@ -100,11 +100,11 @@ CPU Access to DMA Buffer Objects
-> >>>>>     .. kernel-doc:: drivers/dma-buf/dma-buf.c
-> >>>>>        :doc: cpu access
-> >>>>>
-> >>>>> -Fence Poll Support
-> >>>>> -~~~~~~~~~~~~~~~~~~
-> >>>>> +Implicit Fence Poll Support
-> >>>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >>>>>
-> >>>>>     .. kernel-doc:: drivers/dma-buf/dma-buf.c
-> >>>>> -   :doc: fence polling
-> >>>>> +   :doc: implicit fence polling
-> >>>>>
-> >>>>>     Kernel Functions and Structures Reference
-> >>>>>     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >>>>> @@ -133,6 +133,12 @@ DMA Fences
-> >>>>>     .. kernel-doc:: drivers/dma-buf/dma-fence.c
-> >>>>>        :doc: DMA fences overview
-> >>>>>
-> >>>>> +DMA Fence Signalling Annotations
-> >>>>> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >>>>> +
-> >>>>> +.. kernel-doc:: drivers/dma-buf/dma-fence.c
-> >>>>> +   :doc: fence signalling annotation
-> >>>>> +
-> >>>>>     DMA Fences Functions Reference
-> >>>>>     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> >>>>>
-> >>>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fenc=
-e.c
-> >>>>> index 656e9ac2d028..0005bc002529 100644
-> >>>>> --- a/drivers/dma-buf/dma-fence.c
-> >>>>> +++ b/drivers/dma-buf/dma-fence.c
-> >>>>> @@ -110,6 +110,160 @@ u64 dma_fence_context_alloc(unsigned num)
-> >>>>>     }
-> >>>>>     EXPORT_SYMBOL(dma_fence_context_alloc);
-> >>>>>
-> >>>>> +/**
-> >>>>> + * DOC: fence signalling annotation
-> >>>>> + *
-> >>>>> + * Proving correctness of all the kernel code around &dma_fence th=
-rough code
-> >>>>> + * review and testing is tricky for a few reasons:
-> >>>>> + *
-> >>>>> + * * It is a cross-driver contract, and therefore all drivers must=
- follow the
-> >>>>> + *   same rules for lock nesting order, calling contexts for vario=
-us functions
-> >>>>> + *   and anything else significant for in-kernel interfaces. But i=
-t is also
-> >>>>> + *   impossible to test all drivers in a single machine, hence bru=
-te-force N vs.
-> >>>>> + *   N testing of all combinations is impossible. Even just limiti=
-ng to the
-> >>>>> + *   possible combinations is infeasible.
-> >>>>> + *
-> >>>>> + * * There is an enormous amount of driver code involved. For rend=
-er drivers
-> >>>>> + *   there's the tail of command submission, after fences are publ=
-ished,
-> >>>>> + *   scheduler code, interrupt and workers to process job completi=
-on,
-> >>>>> + *   and timeout, gpu reset and gpu hang recovery code. Plus for i=
-ntegration
-> >>>>> + *   with core mm with have &mmu_notifier, respectively &mmu_inter=
-val_notifier,
-> >>>>> + *   and &shrinker. For modesetting drivers there's the commit tai=
-l functions
-> >>>>> + *   between when fences for an atomic modeset are published, and =
-when the
-> >>>>> + *   corresponding vblank completes, including any interrupt proce=
-ssing and
-> >>>>> + *   related workers. Auditing all that code, across all drivers, =
-is not
-> >>>>> + *   feasible.
-> >>>>> + *
-> >>>>> + * * Due to how many other subsystems are involved and the locking=
- hierarchies
-> >>>>> + *   this pulls in there is extremely thin wiggle-room for driver-=
-specific
-> >>>>> + *   differences. &dma_fence interacts with almost all of the core=
- memory
-> >>>>> + *   handling through page fault handlers via &dma_resv, dma_resv_=
-lock() and
-> >>>>> + *   dma_resv_unlock(). On the other side it also interacts throug=
-h all
-> >>>>> + *   allocation sites through &mmu_notifier and &shrinker.
-> >>>>> + *
-> >>>>> + * Furthermore lockdep does not handle cross-release dependencies,=
- which means
-> >>>>> + * any deadlocks between dma_fence_wait() and dma_fence_signal() c=
-an't be caught
-> >>>>> + * at runtime with some quick testing. The simplest example is one=
- thread
-> >>>>> + * waiting on a &dma_fence while holding a lock::
-> >>>>> + *
-> >>>>> + *     lock(A);
-> >>>>> + *     dma_fence_wait(B);
-> >>>>> + *     unlock(A);
-> >>>>> + *
-> >>>>> + * while the other thread is stuck trying to acquire the same lock=
-, which
-> >>>>> + * prevents it from signalling the fence the previous thread is st=
-uck waiting
-> >>>>> + * on::
-> >>>>> + *
-> >>>>> + *     lock(A);
-> >>>>> + *     unlock(A);
-> >>>>> + *     dma_fence_signal(B);
-> >>>>> + *
-> >>>>> + * By manually annotating all code relevant to signalling a &dma_f=
-ence we can
-> >>>>> + * teach lockdep about these dependencies, which also helps with t=
-he validation
-> >>>>> + * headache since now lockdep can check all the rules for us::
-> >>>>> + *
-> >>>>> + *    cookie =3D dma_fence_begin_signalling();
-> >>>>> + *    lock(A);
-> >>>>> + *    unlock(A);
-> >>>>> + *    dma_fence_signal(B);
-> >>>>> + *    dma_fence_end_signalling(cookie);
-> >>>>> + *
-> >>>>> + * For using dma_fence_begin_signalling() and dma_fence_end_signal=
-ling() to
-> >>>>> + * annotate critical sections the following rules need to be obser=
-ved:
-> >>>>> + *
-> >>>>> + * * All code necessary to complete a &dma_fence must be annotated=
-, from the
-> >>>>> + *   point where a fence is accessible to other threads, to the po=
-int where
-> >>>>> + *   dma_fence_signal() is called. Un-annotated code can contain d=
-eadlock issues,
-> >>>>> + *   and due to the very strict rules and many corner cases it is =
-infeasible to
-> >>>>> + *   catch these just with review or normal stress testing.
-> >>>>> + *
-> >>>>> + * * &struct dma_resv deserves a special note, since the readers a=
-re only
-> >>>>> + *   protected by rcu. This means the signalling critical section =
-starts as soon
-> >>>>> + *   as the new fences are installed, even before dma_resv_unlock(=
-) is called.
-> >>>>> + *
-> >>>>> + * * The only exception are fast paths and opportunistic signallin=
-g code, which
-> >>>>> + *   calls dma_fence_signal() purely as an optimization, but is no=
-t required to
-> >>>>> + *   guarantee completion of a &dma_fence. The usual example is a =
-wait IOCTL
-> >>>>> + *   which calls dma_fence_signal(), while the mandatory completio=
-n path goes
-> >>>>> + *   through a hardware interrupt and possible job completion work=
-er.
-> >>>>> + *
-> >>>>> + * * To aid composability of code, the annotations can be freely n=
-ested, as long
-> >>>>> + *   as the overall locking hierarchy is consistent. The annotatio=
-ns also work
-> >>>>> + *   both in interrupt and process context. Due to implementation =
-details this
-> >>>>> + *   requires that callers pass an opaque cookie from
-> >>>>> + *   dma_fence_begin_signalling() to dma_fence_end_signalling().
-> >>>>> + *
-> >>>>> + * * Validation against the cross driver contract is implemented b=
-y priming
-> >>>>> + *   lockdep with the relevant hierarchy at boot-up. This means ev=
-en just
-> >>>>> + *   testing with a single device is enough to validate a driver, =
-at least as
-> >>>>> + *   far as deadlocks with dma_fence_wait() against dma_fence_sign=
-al() are
-> >>>>> + *   concerned.
-> >>>>> + */
-> >>>>> +#ifdef CONFIG_LOCKDEP
-> >>>>> +struct lockdep_map   dma_fence_lockdep_map =3D {
-> >>>>> +     .name =3D "dma_fence_map"
-> >>>>> +};
-> >>>>
-> >>>> Maybe a stupid question because this is definitely complicated, but.=
-. If
-> >>>> you have a single/static/global lockdep map, doesn't this mean _all_
-> >>>> locks, from _all_ drivers happening to use dma-fences will get recor=
-ded
-> >>>> in it. Will this work and not cause false positives?
-> >>>>
-> >>>> Sounds like it could create a common link between two completely
-> >>>> unconnected usages. Because below you do add annotations to generic
-> >>>> dma_fence_signal and dma_fence_wait.
-> >>>
-> >>> This is fully intentional. dma-fence is a cross-driver interface, if
-> >>> every driver invents its own rules about how this should work we have
-> >>> an unmaintainable and unreviewable mess.
-> >>>
-> >>> I've typed up the full length rant already here:
-> >>>
-> >>> https://lore.kernel.org/dri-devel/CAKMK7uGnFhbpuurRsnZ4dvRV9gQ_3-rmSJ=
-aoqSFY=3D+Kvepz_CA@mail.gmail.com/
-> >>
-> >> But "perfect storm" of:
-> >>
-> >>   + global fence lockmap
-> >>   + mmu notifiers
-> >>   + fs reclaim
-> >>   + default annotations in dma_fence_signal / dma_fence_wait
-> >>
-> >> Equals to anything ever using dma_fence will be in impossible chains w=
-ith random other drivers, even if neither driver has code to export/share t=
-hat fence.
-> >>
-> >> Example from the CI run:
-> >>
-> >>   [25.918788] Chain exists of:
-> >>    fs_reclaim --> mmu_notifier_invalidate_range_start --> dma_fence_ma=
-p
-> >>   [25.918794]  Possible unsafe locking scenario:
-> >>   [25.918797]        CPU0                    CPU1
-> >>   [25.918799]        ----                    ----
-> >>   [25.918801]   lock(dma_fence_map);
-> >>   [25.918803]                                lock(mmu_notifier_invalid=
-ate_range_start);
-> >>   [25.918807]                                lock(dma_fence_map);
-> >>   [25.918809]   lock(fs_reclaim);
-> >>
-> >> What about a dma_fence_export helper which would "arm" the annotations=
-? It would be called as soon as the fence is exported. Maybe when added to =
-dma_resv, or exported via sync_file, etc. Before that point begin/end_signa=
-ling and so would be no-ops.
-> >
-> > Run CI without the i915 annotation patch, nothing breaks.
->
-> I think some parts of i915 would still break with my idea to only apply a=
-nnotations on exported fences. What do you dislike about that idea? I thoug=
-ht the point is to enforce rules for _exported_ fences.
+Le jeudi 28 mai 2020 à 22:08 -0400, Nicolas Dufresne a écrit :
+> Le jeudi 28 mai 2020 à 13:24 +0200, Hans Verkuil a écrit :
+> > On 28/05/2020 12:48, dikshita@codeaurora.org wrote:
+> > > Hi Hans,
+> > > 
+> > > Thanks for the review.
+> > > 
+> > > On 2020-05-26 16:27, Hans Verkuil wrote:
+> > > > Hi Dikshita,
+> > > > 
+> > > > My apologies for the delay, this was (mostly) due to various vacation 
+> > > > days.
+> > > > 
+> > > > On 08/05/2020 08:21, Dikshita Agarwal wrote:
+> > > > > There are many commercialized video use cases which needs metadata 
+> > > > > info
+> > > > > to be circulated between v4l2 client and v4l2 driver.
+> > > > > 
+> > > > > METADATA has following requirements associated:
+> > > > > •Metadata is an optional info available for a buffer. It is not 
+> > > > > mandatorily for every buffer.
+> > > > >  For ex. consider metadata ROI (Region Of Interest). ROI is specified 
+> > > > > by clients to indicate
+> > > > >  the region where enhanced quality is desired. This metadata is given 
+> > > > > as an input information
+> > > > >  to encoder output plane. Client may or may not specify the ROI for a 
+> > > > > frame during encode as
+> > > > >  an input metadata. Also if the client has not provided ROI metadata 
+> > > > > for a given frame,
+> > > > >  it would be incorrect to take the metadata from previous frame. If 
+> > > > > the data and
+> > > > >  metadata is asynchronous, it would be difficult for hardware to 
+> > > > > decide if it
+> > > > >  needs to wait for metadata buffer or not before processing the input 
+> > > > > frame for encoding.
+> > > > > •Synchronize the buffer requirement across both the video node/session
+> > > > >  (incase metadata is being processed as a separate v4l2 video 
+> > > > > node/session).
+> > > > >  This is to avoid buffer starvation.
+> > > > > •Associate the metadata buffer with the data buffer without adding any 
+> > > > > pipeline delay
+> > > > >  in waiting for each other. This is applicable both at the hardware 
+> > > > > side (the processing end)
+> > > > >  and client side (the receiving end).
+> > > > > •Low latency usecases like WFD/split rendering/game streaming/IMS have 
+> > > > > sub-50ms e2e latency
+> > > > >  requirements, and it is not practical to stall the pipeline due to 
+> > > > > inherent framework latencies.
+> > > > >  High performance usecase like high-frame rate playback/record can 
+> > > > > lead to frame loss during any pipeline latency.
+> > > > > 
+> > > > > To address all above requirements, we used v4l2 Request API as 
+> > > > > interlace.
+> > > > > 
+> > > > > As an experiment, We have introduced new control 
+> > > > > V4L2_CID_MPEG_VIDEO_VENUS_METADATA
+> > > > > to contain the METADATA info. Exact controls can be finalized once the 
+> > > > > interface is discussed.
+> > > > > 
+> > > > > For setting metadata from userspace to kernel, let say on encode 
+> > > > > output plane,
+> > > > > following code sequence was followed
+> > > > > 1. Video driver is registering for media device and creating a media 
+> > > > > node in /dev
+> > > > > 2. Request fd is allocated by calling MEDIA_IOC_REQUEST_ALLOC IOCTL on 
+> > > > > media fd.
+> > > > > 3. METADATA configuration is being applied on request fd using 
+> > > > > VIDIOC_S_EXT_CTRLS IOCTL
+> > > > >    and the same request fd is added to buf structure structure before 
+> > > > > calling VIDIOC_QBUF on video fd.
+> > > > > 4. The same request is queued through MEDIA_REQUEST_IOC_QUEUE IOCTL to 
+> > > > > driver then, as a result
+> > > > >    to which METADATA control will be applied to buffer through S_CTRL.
+> > > > > 5. Once control is applied and request is completed, 
+> > > > > MEDIA_REQUEST_IOC_REINIT IOCTL is called
+> > > > >    to re-initialize the request.
+> > > > 
+> > > > This is fine and should work well. It's what the Request API is for,
+> > > > so no problems here.
+> > > > 
+> > > > > We could achieve the same on capture plane as well by removing few 
+> > > > > checks present currently
+> > > > > in v4l2 core which restrict the implementation to only output plane.
+> > > > 
+> > > > Why do you need the Request API for the capture side in a
+> > > > memory-to-memory driver? It is not
+> > > > clear from this patch series what the use-case is. There are reasons
+> > > > why this is currently
+> > > > not allowed. So I need to know more about this.
+> > > > 
+> > > > Regards,
+> > > > 
+> > > > 	Hans
+> > > > 
+> > > we need this for use cases like HDR10+ where metadata info is part of 
+> > > the bitstream.
+> > > To handle such frame specific data, support for request api on capture 
+> > > plane would be needed.
+> > 
+> > That's for the decoder, right? So the decoder extracts the HDR10+ metadata
+> > and fills in a control with the metadata?
+> > 
+> > If that's the case, then it matches a similar request I got from mediatek.
+> > What is needed is support for 'read-only' requests: i.e. the driver can
+> > associate controls with a capture buffer and return that to userspace. But
+> > it is not possible to *set* controls in userspace when queuing the request.
+> > 
+> > If you think about it you'll see that setting controls in userspace for
+> > a capture queue request makes no sense, but having the driver add set
+> > read-only controls when the request is finished is fine and makes sense.
+> 
+> Hi Hans,
+> 
+> I'm not sure I follow you on what will this look like in userspace. Can you post
+> an RFC of your idea, describing the userspace flow ? Particularly, I'm not sure
+> how the request helps in synchronizing the read of the metadata controls (over
+> simply reading the control after a DQBUF, which we can match to a specific input
+> using the provided timestamp). I also fail to understand how this aligns with
+> Stanimir concern with the performance of the get control interface.
 
-dma_fence is a shared concept, this is upstream, drivers are expected
-to a) use shared concepts and b) use them in a consistent way. If
-drivers do whatever they feel like then they're no maintainable in the
-upstream sense of "maintainable even if the vendor walks away". This
-was the reason why amd had to spend 2 refactoring from DAL (which used
-all the helpers they shared with their firmware/windows driver) to DC
-(which uses all the upstream kms helpers and datastructures directly).
+As there was no answer, I'll try and ask a more precise question. While
+I still believe it's better done in userspace for M2M decoder, there is
+a need for HDMI receivers (hence adding direct CC to Dylan Yip from
+Xilinx).
 
-> How you have annotated dma_fence_work you can't say, maybe it is exported=
- maybe it isn't. I think it is btw, so splats would still be there, but I a=
-m not sure it is conceptually correct.
->
-> At least my understanding is GFP_KERNEL allocations are only disallowed b=
-y the virtue of the global dma-fence contract. If you want to enforce they =
-are never used for anything but exporting, then that would be a bit harsh, =
-no?
->
-> Another example from the CI run:
->
->  [26.585357]        CPU0                    CPU1
->  [26.585359]        ----                    ----
->  [26.585360]   lock(dma_fence_map);
->  [26.585362]                                lock(mmu_notifier_invalidate_=
-range_start);
->  [26.585365]                                lock(dma_fence_map);
->  [26.585367]   lock(i915_gem_object_internal/1);
->  [26.585369]
->  *** DEADLOCK ***
+Would this match your expected userspace workflow ?
 
-So ime the above deadlock summaries tend to be wrong as soon as you
-have more than 2 locks involved. Which we have here - they only ever
-show at most 2 threads, with each thread only taking 2 locks in total,
-which isn't going to deadlock if you have  more than 2 locks involved.
-Which is the case above.
+1. Allocate capture buffers
+2. Allocate the same number of request fd (ro request)
+3. For each capture buffer
+  3.1 Queue the capture buffer (passing the request)
+  3.2 Queue the request 
+4. Wait for capture buffer to be ready
+5. Dequeue a capture buffer, and lookup it's request FD
+6. Wait for the request to complete (needed ?)
+7. Read the meta control passing the request
 
-Personally I just ignore the above deadlock scenario and just always
-look at all the locks and backtraces lockdep gives me, and then
-reconstruct the dependency graph by hand myself, including deadlock
-scenario.
+I'm not sure if 6. is required, driver could just to things in the
+right order (store the meta in the request before marking the buffer
+done). Now this is pretty heavy, but does not seems broken. The
+question is how to you avoid reading the control if it haven't changed
+? Can driver guaranty to send the control change event before marking a
+buffer done ? (this is for static HDR meta, which will change when
+stream is change, e.g. starting/ending of adds on TV). While for HDR10+
+and similar dynamic meta, we expect a new value for every run, HDR10+
+data is much much bigger. Do we really want that to be model around a
+control ?
 
-> Lets say someone submitted an execbuf using userptr as a batch and then u=
-nmapped it immediately. That would explain CPU1 getting into the mmu notifi=
-er and waiting on this batch to unbind the object.
->
-> Meanwhile CPU0 is the async command parser for this request trying to loc=
-k the shadow batch buffer. Because it uses the dma_fence_work this is betwe=
-en the begin/end signalling markers.
->
-> It can be the same dma-fence I think, since we install the async parser f=
-ence on the real batch dma-resv, but dma_fence_map is not a real lock, so w=
-hat is actually preventing progress in this case?
->
-> CPU1 is waiting on a fence, but CPU0 can obtain the lock(i915_gem_object_=
-internal/1), proceed to parse the batch, and exit the signalling section. A=
-t which point CPU1 is still blocked, waiting until the execbuf finishes and=
- then mmu notifier can finish and invalidate the pages.
->
-> Maybe I am missing something but I don't see how this one is real.
+> 
+> > Implementing this shouldn't be a big job: you'd need a new
+> > V4L2_BUF_CAP_SUPPORTS_RO_REQUESTS
+> > capability, a corresponding new flag in struct vb2_queue, a new ro_requests
+> > flag in
+> > struct v4l2_ctrl_handler, and try_set_ext_ctrls() should check that flag and
+> > refuse to
+> > try/set any controls if it is true.
+> > 
+> > Finally, the v4l2_m2m_qbuf() function should be updated to just refuse the
+> > case where both
+> > capture and output queue set V4L2_BUF_CAP_SUPPORTS_REQUESTS.
+> > 
+> > And the documentation needs to be updated.
+> > 
+> > I've added Yunfei Dong to the CC list, perhaps mediatek did some work on
+> > this already.
+> > 
+> > Regards,
+> > 
+> > 	Hans
+> > 
+> > > Thanks,
+> > > Dikshita
+> > > > > We profiled below data with this implementation :
+> > > > > 1. Total time taken ( round trip ) for setting up control data on 
+> > > > > video driver
+> > > > >    with VIDIOC_S_EXT_CTRLS, QBUF and Queue Request: 737us
+> > > > > 2. Time taken for first QBUF on Output plane to reach driver with 
+> > > > > REQUEST API enabled (One way): 723us
+> > > > > 3. Time taken for first QBUF on Output plane to reach driver without 
+> > > > > REQUEST API (One way) : 250us
+> > > > > 4. Time taken by each IOCTL to complete ( round trip ) with REQUEST 
+> > > > > API enabled :
+> > > > >     a. VIDIOC_S_EXT_CTRLS : 201us
+> > > > >     b. VIDIOC_QBUF : 92us
+> > > > >     c. MEDIA_REQUEST_IOC_QUEUE: 386us
+> > > > > 
+> > > > > Kindly share your feedback/comments on the design/call sequence.
+> > > > > Also as we experimented and enabled the metadata on capture plane as 
+> > > > > well, please comment if any issue in
+> > > > > allowing the metadata exchange on capture plane as well.
+> > > > > 
+> > > > > Reference for client side implementation can be found at [1].
+> > > > > 
+> > > > > Thanks,
+> > > > > Dikshita
+> > > > > 
+> > > > > [1] 
+> > > > > https://git.linaro.org/people/stanimir.varbanov/v4l2-encode.git/log/?h=dikshita/request-api
+> > > > > 
+> > > > > Dikshita Agarwal (3):
+> > > > >   Register for media device
+> > > > >     - Initialize and register for media device
+> > > > >     - define venus_m2m_media_ops
+> > > > >     - Implement APIs to register/unregister media controller.
+> > > > >   Enable Request API for output buffers
+> > > > >     - Add dependency on MEDIA_CONTROLLER_REQUEST_API in Kconfig.
+> > > > >     - Initialize vb2 ops buf_out_validate and buf_request_complete.
+> > > > >     - Add support for custom Metadata control 
+> > > > > V4L2_CID_MPEG_VIDEO_VENUS_METADATA
+> > > > >     - Implemeted/Integrated APIs for Request setup/complete.
+> > > > >   Enable Request API for Capture Buffers
+> > > > > 
+> > > > >  drivers/media/common/videobuf2/videobuf2-v4l2.c |   4 +-
+> > > > >  drivers/media/platform/Kconfig                  |   2 +-
+> > > > >  drivers/media/platform/qcom/venus/core.h        |  36 ++++
+> > > > >  drivers/media/platform/qcom/venus/helpers.c     | 247 
+> > > > > +++++++++++++++++++++++-
+> > > > >  drivers/media/platform/qcom/venus/helpers.h     |  15 ++
+> > > > >  drivers/media/platform/qcom/venus/venc.c        |  63 +++++-
+> > > > >  drivers/media/platform/qcom/venus/venc_ctrls.c  |  61 +++++-
+> > > > >  drivers/media/v4l2-core/v4l2-ctrls.c            |  10 +
+> > > > >  drivers/media/v4l2-core/v4l2-mem2mem.c          |  17 +-
+> > > > >  include/media/v4l2-ctrls.h                      |   1 +
+> > > > >  include/media/venus-ctrls.h                     |  22 +++
+> > > > >  11 files changed, 465 insertions(+), 13 deletions(-)
+> > > > >  create mode 100644 include/media/venus-ctrls.h
+> > > > > 
 
-The above doesn't deadlock, and it also shouldn't result in a lockdep
-splat. The trouble is when the signalling thread also grabs
-i915_gem_object_internal/1 somewhere. Which if you go through full CI
-results you see there's more involved (and at least one of the splats
-is all just lockdep priming and might_lock, so could be an annotation
-bug on top), and there is indeed a path where we lock the driver
-private lock in more places, and the wrong way round. That's the thing
-lockdep is complaining about, it's just not making that clear in the
-summary because the summary is only ever correct for 2 locks. Not if
-more is involved.
-
-> > So we can gradually fix up existing code that doesn't quite get it
-> > right and move on.
-> >
-> >>>>> +
-> >>>>> +/**
-> >>>>> + * dma_fence_begin_signalling - begin a critical DMA fence signall=
-ing section
-> >>>>> + *
-> >>>>> + * Drivers should use this to annotate the beginning of any code s=
-ection
-> >>>>> + * required to eventually complete &dma_fence by calling dma_fence=
-_signal().
-> >>>>> + *
-> >>>>> + * The end of these critical sections are annotated with
-> >>>>> + * dma_fence_end_signalling().
-> >>>>> + *
-> >>>>> + * Returns:
-> >>>>> + *
-> >>>>> + * Opaque cookie needed by the implementation, which needs to be p=
-assed to
-> >>>>> + * dma_fence_end_signalling().
-> >>>>> + */
-> >>>>> +bool dma_fence_begin_signalling(void)
-> >>>>> +{
-> >>>>> +     /* explicitly nesting ... */
-> >>>>> +     if (lock_is_held_type(&dma_fence_lockdep_map, 1))
-> >>>>> +             return true;
-> >>>>> +
-> >>>>> +     /* rely on might_sleep check for soft/hardirq locks */
-> >>>>> +     if (in_atomic())
-> >>>>> +             return true;
-> >>>>> +
-> >>>>> +     /* ... and non-recursive readlock */
-> >>>>> +     lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _RET_I=
-P_);
-> >>>>
-> >>>> Would it work if signalling path would mark itself as a write lock? =
-I am
-> >>>> thinking it would be nice to see in lockdep splats what are signals =
-and
-> >>>> what are waits.
-> >>>
-> >>> Yeah it'd be nice to have a read vs write name for the lock. But we
-> >>> already have this problem for e.g. flush_work(), from which I've
-> >>> stolen this idea. So it's not really new. Essentially look at the
-> >>> backtraces lockdep gives you, and reconstruct the deadlock. I'm hopin=
-g
-> >>> that people will notice the special functions on the backtrace, e.g.
-> >>> dma_fence_begin_signalling will be listed as offending function/lock
-> >>> holder, and then read the kerneldoc.
-> >>>
-> >>>> The recursive usage wouldn't work then right? Would write annotation=
- on
-> >>>> the wait path work?
-> >>>
-> >>> Wait path is write annotations already, but yeah annotating the
-> >>> signalling side as write would cause endless amounts of alse
-> >>> positives. Also it makes composability of these e.g. what I've done i=
-n
-> >>> amdgpu with annotations in tdr work in drm/scheduler, annotations in
-> >>> the amdgpu gpu reset code and then also annotations in atomic code,
-> >>> which all nest within each other in some call chains, but not others.
-> >>> Dropping the recursion would break that and make it really awkward to
-> >>> annotate such cases correctly.
-> >>>
-> >>> And the recursion only works if it's read locks, otherwise lockdep
-> >>> complains if you have inconsistent annotations on the signalling side
-> >>> (which again would make it more or less impossible to annotate the
-> >>> above case fully).
-> >>
-> >> How do I see in lockdep splats if it was a read or write user? Your pa=
-tch appears to have:
-> >>
-> >> dma_fence_signal:
-> >> +       lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _RET_IP=
-_);
-> >>
-> >> __dma_fence_might_wait:
-> >> +       lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _THIS_I=
-P_);
-> >>
-> >> Which both seem like read lock. I don't fully understand the lockdep A=
-PI so I might be wrong, not sure. But neither I see a difference in splats =
-telling me which path is which.
-> >
-> > I think you got tricked by the implementation, this isn't quite what's
-> > going on. There's two things which make the annotations special:
-> >
-> > - we want a recursive read lock on the signalling critical section.
-> > The problem is that lockdep doesn't implement full validation for
-> > recursive read locks, only non-recursive read/write locks fully
-> > validated. There's some checks for recursive read locks, but exactly
-> > the checks we need to catch common dma_fence_wait deadlocks aren't
-> > done. That's why we need to implement manual lock recursion on the
-> > reader side
-> >
-> > - now on the write side we additionally need to implement an
-> > read2write upgrade, and a write2read downgrade. Lockdep doesn't
-> > implement that, so again we have to hand-roll this.
-> >
-> > Let's go through the code line-by-line:
-> >
-> >      bool tmp;
-> >
-> >      tmp =3D lock_is_held_type(&dma_fence_lockdep_map, 1);
-> >
-> > We check whether someone is holding the non-recursive read lock already=
-.
-> >
-> >      if (tmp)
-> >          lock_release(&dma_fence_lockdep_map, _THIS_IP_);
-> >
-> > If that's the case, we drop that read lock.
-> >
-> >      lock_map_acquire(&dma_fence_lockdep_map);
-> >
-> > Then we do the actual might_wait annotation, the above takes the full
-> > write lock ...
-> >
-> >      lock_map_release(&dma_fence_lockdep_map);
-> >
-> > ... and now we release the write lock again.
-> >
-> >
-> >      if (tmp)
-> >          lock_acquire(&dma_fence_lockdep_map, 0, 0, 1, 1, NULL, _THIS_I=
-P_);
-> >
-> > Finally we need to re-acquire the read lock, if we've held that when
-> > entering this function. This annotation naturally has to exactly match
-> > what begin_signalling would do, otherwise the hand-rolled nesting
-> > would fall apart.
-> >
-> > I hope that explains what's going on here, and assures you that
-> > might_wait() is indeed a write lock annotation, but with a big pile of
-> > complications.
->
-> I am certainly confused by the difference between lock_map_acquire/releas=
-e and lock_acquire/release. What is the difference between the two?
-
-lock_acquire/release is a wrapper around lock_map_acquire/release.
-This is all lockdep internal, it's a completely undocumented maze, so
-unfortunately only option is to really careful follow all the
-definitions from various locking primitives. And then compare with
-lockdep self-test (which use the locking primitives, not the lockdep
-internals) to see which flag controls which kind of behaviour.
-
-That's at least what I do, and it's horrible. But yeah lockdep doesn't
-have documentation for this.
-
-If you think it's better to open code the lock_map/acquire, I guess I
-can do that. But it's a mess, so I need to carefully retest everything
-and make sure I've set the right flags and bits - for added fun they
-also change ordering in some of the wrappers!
--Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
