@@ -2,50 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A4431F69EB
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 16:27:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CCD41F69F2
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 16:28:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728247AbgFKO1b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Jun 2020 10:27:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59692 "EHLO
+        id S1728294AbgFKO2W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Jun 2020 10:28:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59820 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728086AbgFKO1b (ORCPT
+        with ESMTP id S1728196AbgFKO2V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Jun 2020 10:27:31 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEFDEC08C5C3
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 07:27:30 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id r15so5254511wmh.5
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 07:27:30 -0700 (PDT)
+        Thu, 11 Jun 2020 10:28:21 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28760C08C5C2
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 07:28:20 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id c3so6356890wru.12
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 07:28:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=6oNSKO/bfHkroY5E6w01GRrWanZd3YtLMnWhvnjnTpA=;
-        b=j2Zm8WTakmUV2T5y/+dMnLN/v4wOdjhGJvK5fkIK2O+ryCylfrjDzedqOoet78T75o
-         Ldpf9ZChG1Qa8baFLKfR/dMZfYDYfM/dHdjOp3Yx66MPkJNvGhfScPuLyNt4jF9UKrN9
-         lHtbYaVmspsKGB1HNStwdkVEgJW9qsM01+RiQ=
+        bh=+MwiHwTDigrZz/osHSq5jwVMysur4yPnyLBBwzskG3k=;
+        b=hF9rAdqc/Vs5/6fKuks+MMwm5u0HPIk5I3T763FaYv8nJfRnzVmYS6TkZwBkpQEK58
+         OabTcSTw/chyT3nEYjpMZQDEOQc+ToSeZ2/XR3JxMVn51VBleocqPt81rwrJnQrtsfTu
+         fNHm+OBopt1RhC9Zm1Z4ugCbwiZh785kwWvlc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=6oNSKO/bfHkroY5E6w01GRrWanZd3YtLMnWhvnjnTpA=;
-        b=MGPVA4Q88bJDaQhtFaEQqgPE9lUtUuHkLLNyHME6sMEzUGrNl+Jis7M+B+zjlEqDT6
-         YWSajpqyRJ2IweYJ0SMMkCmDYkUhsyW2tc+Cqs6dwwhutg+0BJd4gMv3uXqc3EcDzSDl
-         yLI2Fy9sXYW4+hlSdPX/gLOMAjdVss+J5AK3CTbqIAiGWPQgTBKPh5NXzr7CF56XPLGT
-         sZfHEUK9ralhB1vzsr9NAgjpWuwq3uAdnpuNJvS2sqF1+77pjdcEdcs6F/VaE5QlvGho
-         NA7p55u56yBRzYXr4YBCQY0u9L3ZrGp9Iw98X0JjGhmSJZUUOKSdUnsXNKV4KbK5kBBh
-         7WIQ==
-X-Gm-Message-State: AOAM531o3ycHuGnFoqRHanWiB9hdk3CMbZOs8IyA2rxOA4o0fYhtVMlK
-        6aa0GNRgfpt7zImnSrx1MS0IMA==
-X-Google-Smtp-Source: ABdhPJwcHlML3GVU5KUrSHCPpOa1Dg4OCgzoWnC1F47mU912hVUwl1saC95zTHAPsWEKo1Yl3nrQ2g==
-X-Received: by 2002:a7b:c40e:: with SMTP id k14mr8960381wmi.59.1591885649589;
-        Thu, 11 Jun 2020 07:27:29 -0700 (PDT)
+        bh=+MwiHwTDigrZz/osHSq5jwVMysur4yPnyLBBwzskG3k=;
+        b=Qh+BrM6jYNOwSAOuGybM+wA+9cQxjLYmuD8L8lM1QqORU1Bc7Oaev7ZhJ/keesKnts
+         WhqNCozxMeh+Cy2UdciauX9gSPTevg0FKTJVTDfkzKRK+iN3ruwm/o4tZ4O/Rzp5D3tr
+         YsvR4bhm3rT9T3uC7bXnr+IgCC+f7fnWWbY6dq8Ja/vn50StTjjVp515Q5Ir5XUKKXCx
+         qeVipbV3+GONYErUVpGM8oUG36C7HbELG6MOmTvmEglzdGUD25vZ+MjgceUxPdcnEJA3
+         CZR5XlW2P6KwUqkBa+Hs14WC4Jffhxu/Hmvi4l6xhV9tM3tUrUA16cVOGgUDj2C3uKAN
+         tFwA==
+X-Gm-Message-State: AOAM531RSZ4PfRwgnA1lf/9d8tyICAc5sSODFDz/L/HB2Chahc0LmdnD
+        D/k//v99E/BF8Va+IKq5e+TP3g==
+X-Google-Smtp-Source: ABdhPJzQ9+KT5Krp0KhPaomhJuRwTmw/IshQSBBRqrbY7XioECHFV8tO/RyEuLgOWZRGG4tI3GvR+g==
+X-Received: by 2002:a5d:4d4d:: with SMTP id a13mr10081847wru.252.1591885698879;
+        Thu, 11 Jun 2020 07:28:18 -0700 (PDT)
 Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id g3sm5808646wrb.46.2020.06.11.07.27.28
+        by smtp.gmail.com with ESMTPSA id w17sm5219529wra.71.2020.06.11.07.28.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2020 07:27:29 -0700 (PDT)
-Date:   Thu, 11 Jun 2020 14:27:27 +0000
+        Thu, 11 Jun 2020 07:28:18 -0700 (PDT)
+Date:   Thu, 11 Jun 2020 14:28:17 +0000
 From:   Tomasz Figa <tfiga@chromium.org>
 To:     Xia Jiang <xia.jiang@mediatek.com>
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -60,15 +60,15 @@ Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         srv_heupstream@mediatek.com, senozhatsky@chromium.org,
         mojahsu@chromium.org, drinkcat@chromium.org,
         maoguang.meng@mediatek.com, sj.huang@mediatek.com
-Subject: Re: [PATCH RESEND v9 09/18] media: platform: Delete zeroing the
- reserved fields
-Message-ID: <20200611142727.GC158633@chromium.org>
+Subject: Re: [PATCH RESEND v9 10/18] media: platform: Stylistic changes for
+ improving code quality
+Message-ID: <20200611142817.GD158633@chromium.org>
 References: <20200604090553.10861-1-xia.jiang@mediatek.com>
- <20200604090553.10861-11-xia.jiang@mediatek.com>
+ <20200604090553.10861-12-xia.jiang@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200604090553.10861-11-xia.jiang@mediatek.com>
+In-Reply-To: <20200604090553.10861-12-xia.jiang@mediatek.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -76,16 +76,18 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Xia,
 
-On Thu, Jun 04, 2020 at 05:05:44PM +0800, Xia Jiang wrote:
-> Delete zeroing the reserved fields because that the core already
-> does it.
+On Thu, Jun 04, 2020 at 05:05:45PM +0800, Xia Jiang wrote:
+> Change register offset hex numerals from uppercase to lowercase.
+> Change data type of max/min width/height from integer to unsigned
+> integer.
 > 
 > Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
 > ---
-> v9: new patch
+> v9: move changing data type of max/min width/height to this patch
 > ---
->  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 5 -----
->  1 file changed, 5 deletions(-)
+>  .../media/platform/mtk-jpeg/mtk_jpeg_core.h    |  8 ++++----
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_reg.h | 18 +++++++++---------
+>  2 files changed, 13 insertions(+), 13 deletions(-)
 > 
 
 Reviewed-by: Tomasz Figa <tfiga@chromium.org>
