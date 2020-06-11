@@ -2,59 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73CCB1F5EEE
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 01:55:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 277F11F600F
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 04:34:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726981AbgFJXzQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 10 Jun 2020 19:55:16 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:58564 "EHLO
-        hillosipuli.retiisi.org.uk" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726808AbgFJXzQ (ORCPT
+        id S1726336AbgFKCem (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 10 Jun 2020 22:34:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34420 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726316AbgFKCem (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 10 Jun 2020 19:55:16 -0400
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id 7869E634C87;
-        Thu, 11 Jun 2020 02:55:11 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1jjAYo-0000KR-W7; Thu, 11 Jun 2020 02:55:11 +0300
-Date:   Thu, 11 Jun 2020 02:55:10 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     mchehab@kernel.org, manivannan.sadhasivam@linaro.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        c.barrett@framos.com, a.brela@framos.com, peter.griffin@linaro.org
-Subject: Re: [PATCH v4 00/10] Improvements to IMX290 CMOS driver
-Message-ID: <20200610235510.GC805@valkosipuli.retiisi.org.uk>
-References: <20200607163025.8409-1-andrey.konovalov@linaro.org>
+        Wed, 10 Jun 2020 22:34:42 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A643C08C5C1
+        for <linux-media@vger.kernel.org>; Wed, 10 Jun 2020 19:34:42 -0700 (PDT)
+Received: from emerald.amanokami.net (fs76eef344.knge213.ap.nuro.jp [118.238.243.68])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4DAF826A;
+        Thu, 11 Jun 2020 04:34:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1591842878;
+        bh=CjEU4yH4AYS/BxdXjH9o+wM/IOzom8tqMwO1m6Cm7a8=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SPjJjLqQhwPcneJozR9tLuLYWjhBwk/cmgHVaafSsOzZUhw0geB9teRwnirmZPJ3X
+         +RY42nxFbb769NswVou4OUU+Q5MFDviF64RKGl4P08b6RQo/7/7jvHTL2yS0C/hrv+
+         dHd9lnExF3AfrohnbFb+oKU9dccxyVCatHEMEwhc=
+From:   Paul Elder <paul.elder@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Paul Elder <paul.elder@ideasonboard.com>, hverkuil@xs4all.nl,
+        laurent.pinchart@ideasonboard.com
+Subject: [PATCH] v4l2-ctl: Fix test_ioctl cmd type
+Date:   Thu, 11 Jun 2020 11:34:14 +0900
+Message-Id: <20200611023414.4702-1-paul.elder@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200607163025.8409-1-andrey.konovalov@linaro.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andrey,
+test_ioctl uses int for the ioctl cmd, while it should be unsigned long.
+Fix this.
 
-On Sun, Jun 07, 2020 at 07:30:15PM +0300, Andrey Konovalov wrote:
-> This patchset adds improvements to the existing media driver for IMX290
-> CMOS sensor from Sony. The major changes are adding 2 lane support,
-> configurable link frequency & pixel rate, test pattern generation, and
-> RAW12 mode support.
+Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+---
+ utils/v4l2-ctl/v4l2-ctl.cpp | 2 +-
+ utils/v4l2-ctl/v4l2-ctl.h   | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Could you still see what checkpatch.pl says and address the style issues,
-please? Apart from those this seems fine to me.
-
-There are some on msleep() but I wouldn't worry about those.
-
-Thanks.
-
+diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
+index e7b270cd..4972591e 100644
+--- a/utils/v4l2-ctl/v4l2-ctl.cpp
++++ b/utils/v4l2-ctl/v4l2-ctl.cpp
+@@ -306,7 +306,7 @@ static void usage_all()
+        edid_usage();
+ }
+ 
+-int test_ioctl(int fd, int cmd, void *arg)
++int test_ioctl(int fd, unsigned long cmd, void *arg)
+ {
+ 	return options[OptUseWrapper] ? v4l2_ioctl(fd, cmd, arg) : ioctl(fd, cmd, arg);
+ }
+diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
+index b31be7f5..28e50471 100644
+--- a/utils/v4l2-ctl/v4l2-ctl.h
++++ b/utils/v4l2-ctl/v4l2-ctl.h
+@@ -300,7 +300,7 @@ typedef struct {
+ 
+ // v4l2-ctl.cpp
+ int doioctl_name(int fd, unsigned long int request, void *parm, const char *name);
+-int test_ioctl(int fd, int cmd, void *arg);
++int test_ioctl(int fd, unsigned long cmd, void *arg);
+ int parse_subopt(char **subs, const char * const *subopts, char **value);
+ __u32 parse_field(const char *s);
+ __u32 parse_colorspace(const char *s);
 -- 
-Sakari Ailus
+2.25.1
+
