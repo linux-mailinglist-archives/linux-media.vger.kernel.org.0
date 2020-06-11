@@ -2,182 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2AA11F6B96
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 17:51:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E0BD31F6BEA
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 18:13:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728706AbgFKPvg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Jun 2020 11:51:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45208 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728605AbgFKPvg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Jun 2020 11:51:36 -0400
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 328AE206A4;
-        Thu, 11 Jun 2020 15:51:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1591890694;
-        bh=D4qOfF+EtsIO3+5PMIG2xLRbHUbv3FfAUcE0uae6gdI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=2lG6wkWNJdRjST9yNoa5TMn/IA4lx348cBSh4mtX6SEE0fv7YfQRC7KyjpwiZ0ObT
-         T3nL+DzEtk7HkVvrj5lnnzmO/XgSN85HQwBKGXn4n0hGBurluL/4I3eGB7/uJXbdmo
-         BiB15E48mLCFZcHjk88wJVsZzMBpwlbYCNqypFX8=
-Date:   Thu, 11 Jun 2020 17:51:28 +0200
-From:   Greg KH <gregkh@linuxfoundation.org>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        helen.koike@collabora.com, ezequiel@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, tfiga@chromium.org, stable@vger.kernel.org
-Subject: Re: [RESEND PATCH v3 3/6] media: staging: rkisp1: remove macro
- RKISP1_DIR_SINK_SRC
-Message-ID: <20200611155128.GF1456044@kroah.com>
-References: <20200611154551.25022-1-dafna.hirschfeld@collabora.com>
- <20200611154551.25022-4-dafna.hirschfeld@collabora.com>
+        id S1726306AbgFKQNl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Jun 2020 12:13:41 -0400
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:39671 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725873AbgFKQNl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 11 Jun 2020 12:13:41 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id E1869C0006;
+        Thu, 11 Jun 2020 16:13:35 +0000 (UTC)
+From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH v4 0/9] v4l2-subdev: Introduce [g|s]et_mbus_format pad op
+Date:   Thu, 11 Jun 2020 18:16:42 +0200
+Message-Id: <20200611161651.264633-1-jacopo+renesas@jmondi.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200611154551.25022-4-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 11, 2020 at 05:45:48PM +0200, Dafna Hirschfeld wrote:
-> The macro RKISP1_DIR_SINK_SRC is a mask of two flags.
-> The macro hides the fact that it's a mask and the code
-> is actually more clear if we replace it the with bitwise-or explicitly.
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/rkisp1/rkisp1-common.h |  1 -
->  drivers/staging/media/rkisp1/rkisp1-isp.c    | 24 ++++++++++----------
->  2 files changed, 12 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
-> index 39d8e46d8d8a..0ec8718037a4 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
-> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
-> @@ -24,7 +24,6 @@
->  
->  #define RKISP1_DIR_SRC BIT(0)
->  #define RKISP1_DIR_SINK BIT(1)
-> -#define RKISP1_DIR_SINK_SRC (RKISP1_DIR_SINK | RKISP1_DIR_SRC)
->  
->  #define RKISP1_ISP_MAX_WIDTH		4032
->  #define RKISP1_ISP_MAX_HEIGHT		3024
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> index e66e87d6ea8b..157ac58c2efc 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> @@ -65,84 +65,84 @@ static const struct rkisp1_isp_mbus_info rkisp1_isp_formats[] = {
->  		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW10,
->  		.bayer_pat	= RKISP1_RAW_RGGB,
->  		.bus_width	= 10,
-> -		.direction	= RKISP1_DIR_SINK_SRC,
-> +		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
->  	}, {
->  		.mbus_code	= MEDIA_BUS_FMT_SBGGR10_1X10,
->  		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
->  		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW10,
->  		.bayer_pat	= RKISP1_RAW_BGGR,
->  		.bus_width	= 10,
-> -		.direction	= RKISP1_DIR_SINK_SRC,
-> +		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
->  	}, {
->  		.mbus_code	= MEDIA_BUS_FMT_SGBRG10_1X10,
->  		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
->  		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW10,
->  		.bayer_pat	= RKISP1_RAW_GBRG,
->  		.bus_width	= 10,
-> -		.direction	= RKISP1_DIR_SINK_SRC,
-> +		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
->  	}, {
->  		.mbus_code	= MEDIA_BUS_FMT_SGRBG10_1X10,
->  		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
->  		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW10,
->  		.bayer_pat	= RKISP1_RAW_GRBG,
->  		.bus_width	= 10,
-> -		.direction	= RKISP1_DIR_SINK_SRC,
-> +		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
->  	}, {
->  		.mbus_code	= MEDIA_BUS_FMT_SRGGB12_1X12,
->  		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
->  		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW12,
->  		.bayer_pat	= RKISP1_RAW_RGGB,
->  		.bus_width	= 12,
-> -		.direction	= RKISP1_DIR_SINK_SRC,
-> +		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
->  	}, {
->  		.mbus_code	= MEDIA_BUS_FMT_SBGGR12_1X12,
->  		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
->  		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW12,
->  		.bayer_pat	= RKISP1_RAW_BGGR,
->  		.bus_width	= 12,
-> -		.direction	= RKISP1_DIR_SINK_SRC,
-> +		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
->  	}, {
->  		.mbus_code	= MEDIA_BUS_FMT_SGBRG12_1X12,
->  		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
->  		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW12,
->  		.bayer_pat	= RKISP1_RAW_GBRG,
->  		.bus_width	= 12,
-> -		.direction	= RKISP1_DIR_SINK_SRC,
-> +		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
->  	}, {
->  		.mbus_code	= MEDIA_BUS_FMT_SGRBG12_1X12,
->  		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
->  		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW12,
->  		.bayer_pat	= RKISP1_RAW_GRBG,
->  		.bus_width	= 12,
-> -		.direction	= RKISP1_DIR_SINK_SRC,
-> +		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
->  	}, {
->  		.mbus_code	= MEDIA_BUS_FMT_SRGGB8_1X8,
->  		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
->  		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW8,
->  		.bayer_pat	= RKISP1_RAW_RGGB,
->  		.bus_width	= 8,
-> -		.direction	= RKISP1_DIR_SINK_SRC,
-> +		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
->  	}, {
->  		.mbus_code	= MEDIA_BUS_FMT_SBGGR8_1X8,
->  		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
->  		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW8,
->  		.bayer_pat	= RKISP1_RAW_BGGR,
->  		.bus_width	= 8,
-> -		.direction	= RKISP1_DIR_SINK_SRC,
-> +		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
->  	}, {
->  		.mbus_code	= MEDIA_BUS_FMT_SGBRG8_1X8,
->  		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
->  		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW8,
->  		.bayer_pat	= RKISP1_RAW_GBRG,
->  		.bus_width	= 8,
-> -		.direction	= RKISP1_DIR_SINK_SRC,
-> +		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
->  	}, {
->  		.mbus_code	= MEDIA_BUS_FMT_SGRBG8_1X8,
->  		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
->  		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW8,
->  		.bayer_pat	= RKISP1_RAW_GRBG,
->  		.bus_width	= 8,
-> -		.direction	= RKISP1_DIR_SINK_SRC,
-> +		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
->  	}, {
->  		.mbus_code	= MEDIA_BUS_FMT_YUYV8_1X16,
->  		.pixel_enc	= V4L2_PIXEL_ENC_YUV,
-> -- 
-> 2.17.1
-> 
+Hello
+   in this v4 I have addressed few minor comments received on v3, but mostly,
+this new version removes g|s_mbus_config video operations instead of just
+deprecating them.
 
-<formletter>
+I also changed a few things in the pxa and ov6650 drivers, ported to use the new
+operations.
 
-This is not the correct way to submit patches for inclusion in the
-stable kernel tree.  Please read:
-    https://www.kernel.org/doc/html/latest/process/stable-kernel-rules.html
-for how to do this properly.
+Quiting v3 cover letter:
+-------------------------------------------------------------------------------
+Most of the existing users are i2c camera drivers reporting a static media bus
+configuration though g_mbus_config. Porting them is performed in a single
+hopefully not controversial patch [2/8]
 
-</formletter>
+Two existing users stand-out, and they've probably been developed together:
+pxa_camera and ov6650. Those have bee ported separately in single patches
+with extensive change logs as their operations semantic had to change to port
+them to use the new operations. Not having any of those two platforms, the
+changes have been compile-tested only.
+
+The only existing users of the s|g_mbus_config ops are now the soc_camera based
+drivers currently living in staging.
+
+The last three patches are similar to the ones posted in v2, with the exception
+that they have been updated to use the V4L2_MBUS_* flags as well.
+-------------------------------------------------------------------------------
+
+Will report again the use cases I'm trying to address here:
+------------------------------------------------------------------------------
+Quoting:
+https://patchwork.kernel.org/cover/10855919/
+"The use case this series cover is the following one:
+the Gen-3 R-Car boards include an ADV748x HDMI/CVBS to CSI-2 converter
+connected to its CSI-2 receivers. The ADV748x chip has recently gained support
+for routing both HDMI and analogue video streams through its 4 lanes TXA
+transmitter, specifically to support the Ebisu board that has a single CSI-2
+receiver, compared to all other Gen-3 board where the ADV748x TXes are connected
+to different CSI-2 receivers, and where analogue video is streamed out from the
+ADV748x single lane TXB transmitter.
+To properly support transmission of analogue video through TXA, the number of
+data lanes shall be dynamically reduced to 1, in order to comply with the MIPI
+CSI-2 minimum clock frequency requirements"
+
+During the discussion of the RFC, Dave reported another use case for media
+bus parameter negotiation on his platform:
+https://patchwork.kernel.org/patch/10855923/#22569149
+
+Hyun is now using this series to configure GMSL devices.
+------------------------------------------------------------------------------
+
+Thanks
+   j
+
+v3->v4:
+- Remove g/s_mbus_config video operation
+- Adjust pxa quick capture interface to properly handle bus mastering
+- Reword the two new operations documentation
+
+v2->v3:
+- Re-use v4l2_mbus_config and V4L2_MBUS_* flags
+- Port existing drivers
+- Update adv748x and rcar-csi2 patches to use V4L2_MBUS_* flags
+
+v1->v2:
+- Address Sakari's comment to use unsigned int in place of bools
+- Add two new patches to address documentation
+- Adjust rcar-csi2 patch as much as possible according to Niklas comments
+- Add Niklas's tags
+
+Jacopo Mondi (9):
+  media: v4l2-subdv: Introduce [get|set]_mbus_config pad ops
+  media: i2c: Use the new get_mbus_config pad op
+  media: i2c: ov6650: Use new [get|set]_mbus_config ops
+  media: pxa_camera: Use the new set_mbus_config op
+  media: v4l2-subdev: Remove [s|g]_mbus_config video ops
+  staging: media: imx: Update TODO entry
+  media: i2c: adv748x: Adjust TXA data lanes number
+  media: i2c: adv748x: Implement get_mbus_config
+  media: rcar-csi2: Negotiate data lanes number
+
+ drivers/media/i2c/adv7180.c                 |   7 +-
+ drivers/media/i2c/adv748x/adv748x-core.c    |  31 +++-
+ drivers/media/i2c/adv748x/adv748x-csi2.c    |  31 ++++
+ drivers/media/i2c/adv748x/adv748x.h         |   1 +
+ drivers/media/i2c/ml86v7667.c               |   7 +-
+ drivers/media/i2c/mt9m001.c                 |   7 +-
+ drivers/media/i2c/mt9m111.c                 |   7 +-
+ drivers/media/i2c/ov6650.c                  |  56 ++++--
+ drivers/media/i2c/ov9640.c                  |   7 +-
+ drivers/media/i2c/tc358743.c                |   7 +-
+ drivers/media/i2c/tvp5150.c                 |   7 +-
+ drivers/media/platform/pxa_camera.c         | 189 ++++++--------------
+ drivers/media/platform/rcar-vin/rcar-csi2.c |  61 ++++++-
+ drivers/staging/media/imx/TODO              |   4 +
+ include/media/v4l2-subdev.h                 |  37 ++--
+ 15 files changed, 263 insertions(+), 196 deletions(-)
+
+--
+2.27.0
+
