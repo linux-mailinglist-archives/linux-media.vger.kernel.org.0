@@ -2,214 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E640E1F654B
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 12:03:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44A7F1F65A6
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 12:25:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727787AbgFKKDc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Jun 2020 06:03:32 -0400
-Received: from mga03.intel.com ([134.134.136.65]:9863 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727782AbgFKKDb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Jun 2020 06:03:31 -0400
-IronPort-SDR: L5cfRmxTVdj2l411y4r9KWlyl33VYHq4ccL6pO/tSS8VdibyLKErtWAIMUoSn1WO+OiwuGY0LO
- 1tCc/qYHxfrQ==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2020 03:03:30 -0700
-IronPort-SDR: Pn15RnbO6jIDhtSwfC1dpWA2jynSfJXqvEvOYQg42lVNOehGHk53YpEDtcsPI9Se0S/k2dok6n
- ZpkT0LhhwrMw==
-X-IronPort-AV: E=Sophos;i="5.73,499,1583222400"; 
-   d="scan'208";a="260660099"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Jun 2020 03:03:25 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id A935D20680; Thu, 11 Jun 2020 13:03:22 +0300 (EEST)
-Date:   Thu, 11 Jun 2020 13:03:22 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Cao Bing Bu <bingbu.cao@intel.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Sj Huang <sj.huang@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        Louis Kuo <louis.kuo@mediatek.com>,
-        Shengnan Wang =?utf-8?B?KOeOi+Wco+eUtyk=?= 
-        <shengnan.wang@mediatek.com>
-Subject: Re: [V9, 2/2] media: i2c: ov02a10: Add OV02A10 image sensor driver
-Message-ID: <20200611100322.GL16711@paasikivi.fi.intel.com>
-References: <20200523084103.31276-1-dongchun.zhu@mediatek.com>
- <20200523084103.31276-3-dongchun.zhu@mediatek.com>
- <20200610194455.GK201868@chromium.org>
- <20200611095333.GK16711@paasikivi.fi.intel.com>
- <CAAFQd5BBxBEs=gCohOzOGzkTDNkL1yyu7dtEY26K52=CmFAWnA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5BBxBEs=gCohOzOGzkTDNkL1yyu7dtEY26K52=CmFAWnA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1727109AbgFKKZ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Jun 2020 06:25:57 -0400
+Received: from alexa-out-blr-02.qualcomm.com ([103.229.18.198]:23911 "EHLO
+        alexa-out-blr-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726684AbgFKKZ4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 11 Jun 2020 06:25:56 -0400
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by alexa-out-blr-02.qualcomm.com with ESMTP/TLS/AES256-SHA; 11 Jun 2020 15:55:52 +0530
+Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 11 Jun 2020 15:55:28 +0530
+Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
+        id 5A1213BDB; Thu, 11 Jun 2020 15:55:27 +0530 (IST)
+From:   Dikshita Agarwal <dikshita@codeaurora.org>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@collabora.com, boris.brezillon@collabora.com,
+        ribalda@kernel.org, paul.kocialkowski@bootlin.com,
+        posciak@chromium.org, linux-media@vger.kernel.org,
+        stanimir.varbanov@linaro.org, linux-kernel@vger.kernel.org
+Cc:     linux-arm-msm@vger.kernel.org, vgarodia@codeaurora.org,
+        majja@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
+Subject: [RFC PATCH 0/1] Add LTR controls
+Date:   Thu, 11 Jun 2020 15:55:20 +0530
+Message-Id: <1591871121-25420-1-git-send-email-dikshita@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 11, 2020 at 11:57:43AM +0200, Tomasz Figa wrote:
-> On Thu, Jun 11, 2020 at 11:53 AM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > Hi Tomasz,
-> >
-> > On Wed, Jun 10, 2020 at 07:44:55PM +0000, Tomasz Figa wrote:
-> > > Hi Dongchun,
-> > >
-> > > On Sat, May 23, 2020 at 04:41:03PM +0800, Dongchun Zhu wrote:
-> > > > Add a V4L2 sub-device driver for OV02A10 image sensor.
-> > > >
-> > > > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > > > ---
-> > > >  MAINTAINERS                 |    1 +
-> > > >  drivers/media/i2c/Kconfig   |   13 +
-> > > >  drivers/media/i2c/Makefile  |    1 +
-> > > >  drivers/media/i2c/ov02a10.c | 1025 +++++++++++++++++++++++++++++++++++++++++++
-> > > >  4 files changed, 1040 insertions(+)
-> > > >  create mode 100644 drivers/media/i2c/ov02a10.c
-> > > >
-> > >
-> > > Thank you for the patch. Please see my comments inline.
-> > >
-> > > [snip]
-> > > > diff --git a/drivers/media/i2c/ov02a10.c b/drivers/media/i2c/ov02a10.c
-> > > > new file mode 100644
-> > > > index 0000000..160a0b5
-> > > > --- /dev/null
-> > > > +++ b/drivers/media/i2c/ov02a10.c
-> > > [snip]
-> > > > +static const char * const ov02a10_test_pattern_menu[] = {
-> > > > +   "Disabled",
-> > > > +   "Color Bar",
-> > >
-> > > nit: We should normalize this to one of the standard names. What is the
-> > > pattern on this sensor? Is it perhaps "Eight Vertical Colour Bars"?
-> > >
-> > > > +};
-> > > [snip]
-> > > > +static int ov02a10_set_fmt(struct v4l2_subdev *sd,
-> > > > +                      struct v4l2_subdev_pad_config *cfg,
-> > > > +                      struct v4l2_subdev_format *fmt)
-> > > > +{
-> > > > +   struct ov02a10 *ov02a10 = to_ov02a10(sd);
-> > > > +   struct v4l2_mbus_framefmt *mbus_fmt = &fmt->format;
-> > > > +
-> > > > +   mutex_lock(&ov02a10->mutex);
-> > > > +
-> > >
-> > >
-> > > Don't we need to handle the case when fmt->which is V4L2_SUBDEV_FORMAT_TRY,
-> > > which is used for trying the format, but not applying it to the hardware?
-> >
-> > Yes.
-> >
-> > >
-> > > > +   if (ov02a10->streaming) {
-> > > > +           mutex_unlock(&ov02a10->mutex);
-> > > > +           return -EBUSY;
-> > > > +   }
-> > > > +
-> > > > +   /* Only one sensor mode supported */
-> > > > +   mbus_fmt->code = ov02a10->fmt.code;
-> > > > +   ov02a10_fill_fmt(ov02a10->cur_mode, mbus_fmt);
-> > > > +   ov02a10->fmt = fmt->format;
-> > > > +
-> > > > +   mutex_unlock(&ov02a10->mutex);
-> > > > +
-> > > > +   return 0;
-> > > > +}
-> > > > +
-> > > > +static int ov02a10_get_fmt(struct v4l2_subdev *sd,
-> > > > +                      struct v4l2_subdev_pad_config *cfg,
-> > > > +                      struct v4l2_subdev_format *fmt)
-> > > > +{
-> > > > +   struct ov02a10 *ov02a10 = to_ov02a10(sd);
-> > > > +   struct v4l2_mbus_framefmt *mbus_fmt = &fmt->format;
-> > > > +
-> > > > +   mutex_lock(&ov02a10->mutex);
-> > > > +
-> > > > +   fmt->format = ov02a10->fmt;
-> > >
-> > > Ditto.
-> > >
-> > > > +   mbus_fmt->code = ov02a10->fmt.code;
-> > > > +   ov02a10_fill_fmt(ov02a10->cur_mode, mbus_fmt);
-> > > > +
-> > > > +   mutex_unlock(&ov02a10->mutex);
-> > > > +
-> > > > +   return 0;
-> > > > +}
-> > > > +
-> > > > +static int ov02a10_enum_mbus_code(struct v4l2_subdev *sd,
-> > > > +                             struct v4l2_subdev_pad_config *cfg,
-> > > > +                             struct v4l2_subdev_mbus_code_enum *code)
-> > > > +{
-> > > > +   struct ov02a10 *ov02a10 = to_ov02a10(sd);
-> > > > +
-> > > > +   if (code->index >= ARRAY_SIZE(supported_modes))
-> > > > +           return -EINVAL;
-> > >
-> > > Hmm, supported_modes[] doesn't seem to hold the information about mbus
-> > > codes. Should this just perhaps be "!= 0"?
-> > >
-> > > > +
-> > > > +   code->code = ov02a10->fmt.code;
-> > > > +
-> > > > +   return 0;
-> > > > +}
-> > > [snip]
-> > > > +static int ov02a10_entity_init_cfg(struct v4l2_subdev *sd,
-> > > > +                              struct v4l2_subdev_pad_config *cfg)
-> > > > +{
-> > > > +   struct v4l2_subdev_format fmt = {
-> > > > +           .which = cfg ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE,
-> > > > +           .format = {
-> > > > +                   .width = 1600,
-> > > > +                   .height = 1200,
-> > > > +           }
-> > > > +   };
-> > > > +
-> > > > +   ov02a10_set_fmt(sd, cfg, &fmt);
-> > > > +
-> > > > +   return 0;
-> > > > +}
-> > > > +
-> > >
-> > > I'm not familiar with this init_cfg operation and the documentation is very
-> > > sparse about it. Sakari, is this a correct implementation?
-> >
-> > The purpose is to initialise a pad configuration (format and selection
-> > rectangles) to the device defaults. As there seem to be no selection
-> > rectangles, this seems fine to me.
-> 
-> Thanks. I traced the code and could only see one place where the
-> callback is being called and that was with cfg != NULL. Still, the
-> code above uses "cfg ?" as a check to determine whether TRY or ACTIVE
-> should be passed to which. Is that also correct?
+LTR (Long Term Reference) frames are the frames that are encoded sometime in the past
+and stored in the DPB buffer list to be used as reference to encode future frames.
+One usage of LTR encoding is to reduce error propagation for video transmission
+in packet lossy networks.  For example, encoder may want to specify some key frames as
+LTR pictures and use them as reference frames for encoding. With extra protection
+selectively on these LTR frames or synchronization with the receiver of reception of
+the LTR frames during transmission, decoder can receive reference frames more reliably
+than other non-reference frames. As a result, transmission error can be effectively
+restricted within certain frames rather than propagated to future frames.
 
-It could be used in setting the active format in probe. That would probably
-be cleaner than what it currently does.
+We are introducing below V4l2 Controls for this feature
+1. V4L2_CID_MPEG_VIDEO_LTRCOUNT
+    a. This is used to query or configure the number of LTR frames.
+       This is a static control and is controlled by the client.
+    b. The LTR index varies from 0 to the max LTR-1.
+    c. If LTR Count is more than max supported LTR count (max LTR) by driver, it will be rejected.
+    d. Auto Marking : If LTR count is non zero,
+        1) first LTR count frames would be mark as LTR automatically after
+      	   every IDR frame (inclusive).
+        2) For multilayer encoding: first LTR count base layer reference frames starting after
+           every IDR frame (inclusive) in encoding order would be marked as LTR frames by the encoder.
+        3) Auto marking of LTR due to IDR should consider following conditions:
+            1. The frame is not already set to be marked as LTR.
+            2. The frame is part of the base layer in the hierarchical layer case.
+            3. The number of frames currently marked as LTR is less than the maximum LTR frame index plus 1.
+    e. Encoder needs to handle explicit Mark/Use command when encoder is still doing "auto" marking
 
-But apart from that, the framework always calls init_cfg with cfg non-NULL.
+2. V4L2_CID_MPEG_VIDEO_MARKLTRFRAME :
+    a. This signals to mark the current frame as LTR frame. It is a dynamic control and also provide the LTR index to be used.
+    b. the LTR index provided by this control should never exceed the max LTR-1. Else it will be rejected.
+
+3. V4L2_CID_MPEG_VIDEO_USELTRFRAME :
+    a. This specifies the LTR frame(s) to be used for encoding the current frame. This is a dynamic control.
+    b. LTR Use Bitmap : this consists of bits [0, 15]. A total of N LSB bits of this field are valid,
+       where N is the maximum number of LTRs supported. All the other bits are invalid and should be rejected.
+       The LSB corresponds to the LTR index 0. Bit N-1 from the LSB corresponds to the LTR index max LTR-1.
+
+Dikshita Agarwal (1):
+  media: v4l2-ctrls:  add control for ltr
+
+ drivers/media/v4l2-core/v4l2-ctrls.c | 6 ++++++
+ include/uapi/linux/v4l2-controls.h   | 4 ++++
+ 2 files changed, 10 insertions(+)
 
 -- 
-Sakari Ailus
+1.9.1
+
