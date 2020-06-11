@@ -2,123 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 180411F69BD
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 16:15:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D20A41F69C3
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 16:17:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728032AbgFKOPT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Jun 2020 10:15:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57770 "EHLO
+        id S1728059AbgFKOR2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Jun 2020 10:17:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58110 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727053AbgFKOPT (ORCPT
+        with ESMTP id S1727879AbgFKOR1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Jun 2020 10:15:19 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6EC4C08C5C2
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 07:15:18 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id g28so5698102qkl.0
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 07:15:18 -0700 (PDT)
+        Thu, 11 Jun 2020 10:17:27 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2903DC08C5C3
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 07:17:27 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id c71so5120234wmd.5
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 07:17:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:subject:message-id:references:mime-version
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=KdY4CqOeXBwEiWOcFlqbqG5is4zfH8IsaBHV/GBHIHQ=;
-        b=PR0gi9LBQQMt96kk5vRqeFR+V5WYHc55goGq7/IDrxkd9Rh9/YG4b34BFLq0d+yZak
-         BzFk4zfLtE+kjSjyF7+exbUyisWbPZy/yiLvO6PtXdNGgJHOY8zf+OZ+iAubr5+Tx4Lg
-         D4HeiosK8RaYH70wLLBoyGznPMMuJUn0V+ocWO9N930QQt7fPPBvGVsW8vOLNjXPWLRJ
-         HkUS7exwuBnCFIc1OZ028wKpj25WTPUot6ReBMtdHn/iN8mcZwnlTrlzELhcNeGkhWGY
-         TFje4r50V7bjdc94j0MAgMsh5GCFD+me2eO4hQx0IUtZreCgJFCWBiuSwLKGsBDoHK5K
-         Bujw==
+        bh=RNw0t5OF2i7drNguzCKs4BhL36r2VlgNY7GbFOTjqzw=;
+        b=AxV/Sk0DEDT54gQbWwbuHMzsD6e/E7rOARS21Yrb+YqlY/aM5Ccc/oKi9TqQiGSafa
+         H9j+XMp2do7JhHGU93olyhpUGKoWHDkgt21qI8IRXXvvFnxLEBNRt2Yt55Pvowjathtg
+         7jandyKb8/7FIK5JeEn2ibq1k2C0PxlylKzYI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=KdY4CqOeXBwEiWOcFlqbqG5is4zfH8IsaBHV/GBHIHQ=;
-        b=pSFBtf1UGUF2XscWEtVGsP/ROktBJNHyuZlp1aTVDRIobSBTxEVYgXjG8V2lppsw4+
-         DzE7tO3rThkKaGCAnBNWhVyVrA7IDR1/yeT5OrPHk3LUZNOuJwRbC6TiqaOd4EvHFKBJ
-         yevmkrs5NVqlJ3aBQgCFEVhMFntZSecQT4oVW6yfBJ/Ovm0NC7rxx4XVCNce/ZOv3gpG
-         y2r1MHg3L0BZygOFklvLgnHNZjc+GXG2exzaO3aZRj86Su9WKyl7lKBZySmimsLKWgZG
-         R2UWXolkEyGox1NWtnDnsPsbS2iEtmzF4zu4aTZ5Qhqzsvgam59jHY7TGg9J4olGDbrj
-         Lt1w==
-X-Gm-Message-State: AOAM531VWbJJuk+oajBAn1168fX0i5+b0VD8QZGYPSOXKe8DWZtO4r+R
-        AxLN5YRsrv6beH7ueoRsPO1WYQ==
-X-Google-Smtp-Source: ABdhPJwayNj1HFNzuKaP5QQLXWWEv6Z+gHXsBE1qPL3LYHDQquNuTclWXHUZlWr93wqBBawpSND6wg==
-X-Received: by 2002:ae9:efc2:: with SMTP id d185mr8655279qkg.177.1591884917518;
-        Thu, 11 Jun 2020 07:15:17 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id d16sm2634050qte.49.2020.06.11.07.15.15
+        bh=RNw0t5OF2i7drNguzCKs4BhL36r2VlgNY7GbFOTjqzw=;
+        b=kqeSHH0TV9P7b6sjAGdye/F6mlox9OVyWVeGaCCl7odjjJZRNkO+46aCBmN93mxPxW
+         WFaooF7mYKRtJKlXIMQf0i2SNhXqdtsL6tN3TqhvhuX+ZC1XH2ih2xTpSNyJ3eIQDSvA
+         btJvwOQNasmXKG4nEvbir36GyjjS8SxpHxLh9nvmadQmrfCemvzFPdiFm9Sbfnu+tq1g
+         goDc/sGRTdtB1w1s8O5C8GHPHK+g888Ly9RGX3f7AxRKiy3fBk5h//2KxcAh8ELGMT/F
+         Qf92xHXHfRY3zzlHMlRncY8hamCa4WFw/Xv25MGw10PiC8aGvY4aO8wigvtr/P54Yt0S
+         Mhaw==
+X-Gm-Message-State: AOAM531aCfQ0apB0BTWAE6g5tXcyytms6bkIt7tkk7wbs1llSFa64/E9
+        sqiVs4sAOWxF7vly9dfaBjKZ5w==
+X-Google-Smtp-Source: ABdhPJwxfmfetZw9SoQatIxsaEyd3GfuKkNflglFUsvZOtyhVxP2C6KyLrgx+G/tzAa2Jda/IPxaig==
+X-Received: by 2002:a1c:c3d7:: with SMTP id t206mr8521727wmf.69.1591885040174;
+        Thu, 11 Jun 2020 07:17:20 -0700 (PDT)
+Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
+        by smtp.gmail.com with ESMTPSA id t7sm4879946wrq.41.2020.06.11.07.17.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Jun 2020 07:15:16 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.93)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1jjNz9-005wvW-Ge; Thu, 11 Jun 2020 11:15:15 -0300
-Date:   Thu, 11 Jun 2020 11:15:15 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Thomas =?utf-8?B?SGVsbHN0csO2bSAoSW50ZWwp?= 
-        <thomas_os@shipmail.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-rdma@vger.kernel.org,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        linux-media@vger.kernel.org,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
- annotations
-Message-ID: <20200611141515.GW6578@ziepe.ca>
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
- <20200604081224.863494-5-daniel.vetter@ffwll.ch>
- <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
- <20200611083430.GD20149@phenom.ffwll.local>
+        Thu, 11 Jun 2020 07:17:19 -0700 (PDT)
+Date:   Thu, 11 Jun 2020 14:17:18 +0000
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Xia Jiang <xia.jiang@mediatek.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Rick Chang <rick.chang@mediatek.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        srv_heupstream@mediatek.com, senozhatsky@chromium.org,
+        mojahsu@chromium.org, drinkcat@chromium.org,
+        maoguang.meng@mediatek.com, sj.huang@mediatek.com
+Subject: Re: [PATCH RESEND v9 07/18] media: platform: Improve the
+ implementation of the system PM ops
+Message-ID: <20200611141718.GA158633@chromium.org>
+References: <20200604090553.10861-1-xia.jiang@mediatek.com>
+ <20200604090553.10861-9-xia.jiang@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200611083430.GD20149@phenom.ffwll.local>
+In-Reply-To: <20200604090553.10861-9-xia.jiang@mediatek.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 11, 2020 at 10:34:30AM +0200, Daniel Vetter wrote:
-> > I still have my doubts about allowing fence waiting from within shrinkers.
-> > IMO ideally they should use a trywait approach, in order to allow memory
-> > allocation during command submission for drivers that
-> > publish fences before command submission. (Since early reservation object
-> > release requires that).
+Hi Xia,
+
+On Thu, Jun 04, 2020 at 05:05:42PM +0800, Xia Jiang wrote:
+> Add v4l2_m2m_suspend() function call in mtk_jpeg_suspend() to make sure
+> that the current frame is processed completely before suspend.
+> Add v4l2_m2m_resume() function call in mtk_jpeg_resume() to unblock the
+> driver from scheduling next frame.
 > 
-> Yeah it is a bit annoying, e.g. for drm/scheduler I think we'll end up
-> with a mempool to make sure it can handle it's allocations.
+> Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
+> ---
+> v9: use v4l2_m2m_suspend() and v4l2_m2m_resume() to improve the
+>     implemention of the system PM ops
+> ---
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 > 
-> > But since drivers are already waiting from within shrinkers and I take your
-> > word for HMM requiring this,
-> 
-> Yeah the big trouble is HMM and mmu notifiers. That's the really awkward
-> one, the shrinker one is a lot less established.
 
-I really question if HW that needs something like DMA fence should
-even be using mmu notifiers - the best use is HW that can fence the
-DMA directly without having to get involved with some command stream
-processing.
+Thank you for the patch. Please see my comments inline.
 
-Or at the very least it should not be a generic DMA fence but a
-narrowed completion tied only into the same GPU driver's command
-completion processing which should be able to progress without
-blocking.
+> diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> index 7f74597262fc..49bdbf1c435f 100644
+> --- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> +++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+> @@ -1208,10 +1208,13 @@ static __maybe_unused int mtk_jpeg_pm_resume(struct device *dev)
+>  static __maybe_unused int mtk_jpeg_suspend(struct device *dev)
+>  {
+>  	int ret;
+> +	struct mtk_jpeg_dev *jpeg = dev_get_drvdata(dev);
+>  
+>  	if (pm_runtime_suspended(dev))
+>  		return 0;
+>  
+> +	v4l2_m2m_suspend(jpeg->m2m_dev);
+> +
+>  	ret = mtk_jpeg_pm_suspend(dev);
+>  	return ret;
+>  }
 
-The intent of notifiers was never to endlessly block while vast
-amounts of SW does work.
+This could be simplified into:
 
-Going around and switching everything in a GPU to GFP_ATOMIC seems
-like bad idea.
+{
+	struct mtk_jpeg_dev *jpeg = dev_get_drvdata(dev);
 
-> I've pinged a bunch of armsoc gpu driver people and ask them how much this
-> hurts, so that we have a clear answer. On x86 I don't think we have much
-> of a choice on this, with userptr in amd and i915 and hmm work in nouveau
-> (but nouveau I think doesn't use dma_fence in there). 
+	v4l2_m2m_suspend(jpeg->m2m_dev);
+	return pm_runtime_force_suspend(dev);
+}
 
-Right, nor will RDMA ODP. 
+> @@ -1219,12 +1222,15 @@ static __maybe_unused int mtk_jpeg_suspend(struct device *dev)
+>  static __maybe_unused int mtk_jpeg_resume(struct device *dev)
+>  {
+>  	int ret;
+> +	struct mtk_jpeg_dev *jpeg = dev_get_drvdata(dev);
+>  
+>  	if (pm_runtime_suspended(dev))
+>  		return 0;
+>  
+>  	ret = mtk_jpeg_pm_resume(dev);
+>  
+> +	v4l2_m2m_resume(jpeg->m2m_dev);
+> +
+>  	return ret;
+>  }
 
-Jason
+Similarly here:
+
+{
+	struct mtk_jpeg_dev *jpeg = dev_get_drvdata(dev);
+	int ret;
+
+	ret = pm_runtime_force_resume(dev);
+	if (ret < 0)
+		return ret;
+
+	v4l2_m2m_resume(jpeg->m2m_dev);
+}
+
+The pm_runtime_force_*() helpers will make sure that the right runtime PM
+state is restored.
+
+Best regards,
+Tomasz
