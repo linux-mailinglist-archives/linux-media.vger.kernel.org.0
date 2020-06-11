@@ -2,115 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 014B81F672E
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 13:51:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6BA6B1F6745
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 13:57:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726956AbgFKLvL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Jun 2020 07:51:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35064 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727889AbgFKLvF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Jun 2020 07:51:05 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 891C5C08C5C1
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 04:51:04 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id p20so6109714ejd.13
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 04:51:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=51Iu4YKAvEvBHNrMig+Xr6RS9Pbk+kC3A3u+T12TUuo=;
-        b=qFFoTnbUyo38S/OO09J/80JmT9pUjWU+TUwZcoE+JDdsXbxCW1m+eaRCUou311sxgB
-         Nc/DhUsoPgG1KlJzB+T2Dw/tWwA2sQi6DfvATQmypOisiBQuz60hUAkE5vao4LPR7vHY
-         yF/ffR3bc0AqCX+U061aT62bF3SzQf/nKNfVAHANzZ4U/qcMT/kAiE7wtp7txOLoTqzR
-         8vM+BrZDxSIPB8H8amN/fzUMSDuYu/d+bYXRrzD0htsYh+XYt0Hl6SZhbpl66DNBUKV5
-         GGw0SVirZ6jgw6UXEs/LL5r5Kz8gk1JyB2kU2/dC87fraggSZixXj1F6FaVM/CBphZ0r
-         VejQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=51Iu4YKAvEvBHNrMig+Xr6RS9Pbk+kC3A3u+T12TUuo=;
-        b=Htf54gutXWiZpF3pKLw9yO62rZgQeAcaxP1V4TjENj4IGb2+Cg+bsdZszd/9/g16TK
-         WP2u8yBk4EL5pjmtWHsPZRZgel3j90+MNeNfkPxAMAKqKBrD8EqZMpnYeWHzLT24NYfH
-         8bhe4wExB1iyEXio0kPYtG6sc6YfOoUHmG3wU7OCE6YKFtM4srtL8D+cumRfFfsUAn3K
-         rdgSsDUjCI9xADaEoZrq3l+wfNhpzSjc5muocHt05bgWk3gXmdWnkp8baxFbPZRk/cYc
-         G580WT/EF6zmYXVVddb+HpCmdqD3t+icp6NndDvk7RvUw++ezp28x7FgOjcShIfFUCFt
-         Tiyg==
-X-Gm-Message-State: AOAM533jGpVzGgVhGp2nLj90U7Iw5Pq1ighkbkKB6sIU5mFOr5yiOwB6
-        NwPlyH/jzz3cP6jSw3DTxWMXfg==
-X-Google-Smtp-Source: ABdhPJxTpgK7hHHRUHAbOlbJ7reLLhEo/eG4qvHZljQK6e9jLna7/TLVs8JzLajA7B/JTN6pb8LUhg==
-X-Received: by 2002:a17:906:b7cd:: with SMTP id fy13mr7737497ejb.443.1591876262967;
-        Thu, 11 Jun 2020 04:51:02 -0700 (PDT)
-Received: from [192.168.1.5] (212-5-158-114.ip.btc-net.bg. [212.5.158.114])
-        by smtp.googlemail.com with ESMTPSA id j10sm1417528edf.97.2020.06.11.04.51.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jun 2020 04:51:02 -0700 (PDT)
-Subject: Re: [PATCH v3 5/7] venus: Add debugfs interface to set firmware log
- level
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, Joe Perches <joe@perches.com>,
-        Jason Baron <jbaron@akamai.com>
-References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
- <20200609104604.1594-6-stanimir.varbanov@linaro.org>
- <20200609111224.GA780233@kroah.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <32eeb0ce-49fd-34ed-d5c8-0406ea174525@linaro.org>
-Date:   Thu, 11 Jun 2020 14:51:00 +0300
+        id S1727775AbgFKL5Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Jun 2020 07:57:16 -0400
+Received: from ns.iliad.fr ([212.27.33.1]:46058 "EHLO ns.iliad.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726407AbgFKL5Q (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 11 Jun 2020 07:57:16 -0400
+Received: from ns.iliad.fr (localhost [127.0.0.1])
+        by ns.iliad.fr (Postfix) with ESMTP id 0761B21869;
+        Thu, 11 Jun 2020 13:57:14 +0200 (CEST)
+Received: from [192.168.108.51] (freebox.vlq16.iliad.fr [213.36.7.13])
+        by ns.iliad.fr (Postfix) with ESMTP id E2EC021860;
+        Thu, 11 Jun 2020 13:57:13 +0200 (CEST)
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sean Young <sean@mess.org>, Brad Love <brad@nextdimension.cc>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Antti Palosaari <crope@iki.fi>,
+        Jan Pieter van Woerkom <jp@jpvw.nl>
+From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
+Subject: [RFC PATCH][DO NOT COMMIT] media: dvb_frontend: Support concurrent
+ DVB-T/DVB-T2 scan
+Message-ID: <4c32558d-3be7-9a57-b655-65c744c1e532@free.fr>
+Date:   Thu, 11 Jun 2020 13:57:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200609111224.GA780233@kroah.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: ClamAV using ClamSMTP ; ns.iliad.fr ; Thu Jun 11 13:57:14 2020 +0200 (CEST)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Greg,
+Some demodulators (e.g. si2168) are able to scan for DVB-T and DVB-T2
+signals concurrently. Use SYS_DVBT_AUTO for this purpose.
+---
+This is a Request For Comments from media maintainers and users :-)
 
-Thanks for the comments!
+One issue: suppose DVB Project publishes DVB-T3 in a few years.
+Today's demods might handle T/T2, but they won't handle T3, while users
+may expect SYS_DVBT_AUTO to mean "all DVB-T standards".
 
-On 6/9/20 2:12 PM, Greg Kroah-Hartman wrote:
-> On Tue, Jun 09, 2020 at 01:46:02PM +0300, Stanimir Varbanov wrote:
->> +int venus_dbgfs_init(struct venus_core *core)
->> +{
->> +	core->root = debugfs_create_dir("venus", NULL);
->> +	if (IS_ERR(core->root))
->> +		return IS_ERR(core->root);
-> 
-> You really do not care, and obviously did not test this on a system with
-> CONFIG_DEBUG_FS disabled :)
+Therefore, perhaps the delsys name should be explicit,
+like SYS_DVBT_DVBT2 or SYS_DVBT_1_2.
+Then if/when DVB_T3 appears, we can add SYS_DVBT_1_2_3 ???
 
-Probably not :(
+Or maybe use the FE_CAN_2G_MODULATION and hypothetical FE_CAN_3G_MODULATION
 
-> 
-> Just make the call to debugfs, and move on, feed it into other debugfs
-> calls, all is good.
-> 
-> This function should just return 'void', no need to care about this at
-> all.
-> 
->> +	ret = venus_sys_set_debug(hdev, venus_fw_debug);
->> +	if (ret)
->> +		dev_warn(dev, "setting fw debug msg ON failed (%d)\n", ret);
-> 
-> Why do you care about this "error"?
+Or maybe, with several standards having a v2 and possibly v3 in the future,
+delivery system might move to a bitmask approach? (API issues though)
 
-I don't care so much, that's why it is dev_warn. But if I enable debug
-messages from the firmware and I don't see them this warn will give me
-an idea why.
+Reference to related implementation:
+https://patchwork.kernel.org/patch/10744999/
+---
+ drivers/media/dvb-frontends/si2168.c | 2 +-
+ include/uapi/linux/dvb/frontend.h    | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-
+diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
+index 14b93a7d3358..8578b8917955 100644
+--- a/drivers/media/dvb-frontends/si2168.c
++++ b/drivers/media/dvb-frontends/si2168.c
+@@ -624,7 +624,7 @@ static int si2168_deselect(struct i2c_mux_core *muxc, u32 chan)
+ }
+ 
+ static const struct dvb_frontend_ops si2168_ops = {
+-	.delsys = {SYS_DVBT, SYS_DVBT2, SYS_DVBC_ANNEX_A},
++	.delsys = {SYS_DVBT, SYS_DVBT2, SYS_DVBT_AUTO, SYS_DVBC_ANNEX_A},
+ 	.info = {
+ 		.name = "Silicon Labs Si2168",
+ 		.frequency_min_hz      =  48 * MHz,
+diff --git a/include/uapi/linux/dvb/frontend.h b/include/uapi/linux/dvb/frontend.h
+index 4f9b4551c534..3a6348748041 100644
+--- a/include/uapi/linux/dvb/frontend.h
++++ b/include/uapi/linux/dvb/frontend.h
+@@ -600,6 +600,8 @@ enum fe_rolloff {
+  *	Terrestrial TV: DVB-T
+  * @SYS_DVBT2:
+  *	Terrestrial TV: DVB-T2
++ * @SYS_DVBT_AUTO:
++ *	Terrestrial TV: Autodetect DVB-T gen
+  * @SYS_ISDBT:
+  *	Terrestrial TV: ISDB-T
+  * @SYS_ATSC:
+@@ -645,6 +647,7 @@ enum fe_delivery_system {
+ 	SYS_DVBT2,
+ 	SYS_TURBO,
+ 	SYS_DVBC_ANNEX_C,
++	SYS_DVBT_AUTO,
+ };
+ 
+ /* backward compatibility definitions for delivery systems */
 -- 
-regards,
-Stan
+2.17.1
