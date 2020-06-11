@@ -2,151 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BBBC1F66AF
-	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 13:31:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B5181F66F5
+	for <lists+linux-media@lfdr.de>; Thu, 11 Jun 2020 13:44:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728036AbgFKLbN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Jun 2020 07:31:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60148 "EHLO
+        id S1727114AbgFKLoc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Jun 2020 07:44:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34006 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727010AbgFKLbM (ORCPT
+        with ESMTP id S1726956AbgFKLob (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Jun 2020 07:31:12 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D653CC08C5C6
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 04:31:11 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id w16so5529008ejj.5
-        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 04:31:11 -0700 (PDT)
+        Thu, 11 Jun 2020 07:44:31 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03801C08C5C3
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 04:44:32 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id z63so1637771pfb.1
+        for <linux-media@vger.kernel.org>; Thu, 11 Jun 2020 04:44:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=iZI0uRQuWUt+bbhxRlulOcMky2K69l8uS5RWj37ZKSU=;
-        b=O2eSC5h/UIUSN8YdTXYoM2GxMaLHDuLBL80QYWThofDsGoN2ZvZDRRRABrEyrHkaEI
-         K0j0bTbw35reBwy6NRKAeV4Kg2bGKdfRN6Rr/eO5ltxDH7bADZ00TU5bQWVhQcSvCJFq
-         7UljWwRep6eDGm0fydTBVFsCHIb/OAQs8X4iyu2KLchotcgWLCzWqabmVBxw1kCmNVqM
-         +h6KETWJPOF3So1hsyuxKCqvjudWGRJQliU2IDpvW64yNiOFDyZVprw/v5QcPhIMw0cf
-         35BSxMTc4umjRhqy3Uw+tQzWT0n18q/sO0i5xbe09Sw0KI0HOSdBooaFns7GEAoMUgi6
-         Z6dA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NeR4sKutcrUPwtCckv6Tmqw2IkRMLX24dUiE+CNNtLg=;
+        b=AzLoTv6lnntU3TjLLEgR6fmbijpMmaW1TiVxBsvjGtDygCtFgSsOhUr/x580awC9CJ
+         OWtjuYN91NakIQ0xzJBT44oS7XlppiYpQRPzAIXpeYUcqXzSpm9t2pxKcFM8ltkRm4Qy
+         TviFdnkCDQhhB6Ksg6B+/zb6ZBTNWHgNi1TUJ7AYJQgRbi7MVRHjTB1c0e53WO2aIhus
+         E28nJ9MuYhrO7fmnxZzxlp4KUMsOHAZ7mv4R33BjeWS8OFVUVsDdgxd+0QROsIrmHkxg
+         8lSPIeygynVgxIQizbR19HoEhoM9eN3KtFFM1P8Din25DLW9W/lBzQHWmvhhVFPkIyX6
+         7qjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=iZI0uRQuWUt+bbhxRlulOcMky2K69l8uS5RWj37ZKSU=;
-        b=VnrYy2EwD5R9pCN14IFORAP2fD9aVXnE7JPUomQ1f8UOkWutxPNCfbKQPtgCBqoxwK
-         jsih3hsjOEWjdmbzGr6vJlI/Qu4ymJrGQRWf/H9XB0FbrfiG7nZa4DmOiTqF+/6EtSAg
-         aCjsLLBlmsYxaQkwJ4kwJSqeu8Az/CiU0KXVjQfIbMiGigrVMnMPCCp4NtBpi+EvwflT
-         tYgIseFvs5/DqLu1K8fVA0kJjzs9ajCUOaPMB7gDgdAlW+ygcPEPGWSVKV/hMARzbbqZ
-         sYarjVopP0j/UKiyM3blDUd0l7D/ZRlYefPkPutBF8Y1F+DATDqaMj/uF1CQrA28+lud
-         UR5A==
-X-Gm-Message-State: AOAM532fulMc+OFMVrWdnTRw5qSIzbDQz4y7Cr9v6D3sZyrRKeRBDhLE
-        26tAspREXZqvWJZoIWkeYcxxxNdLROoFIw==
-X-Google-Smtp-Source: ABdhPJyQ1qn7IO1LzSekQnj4oHhjiJ9BS1eH8JqyujBg91YWEFxFDPUx+MplfmXECktgGP6foP9h9A==
-X-Received: by 2002:a17:906:f155:: with SMTP id gw21mr7806470ejb.388.1591875070279;
-        Thu, 11 Jun 2020 04:31:10 -0700 (PDT)
-Received: from [192.168.1.5] (212-5-158-114.ip.btc-net.bg. [212.5.158.114])
-        by smtp.googlemail.com with ESMTPSA id q14sm1381962edj.47.2020.06.11.04.31.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 11 Jun 2020 04:31:09 -0700 (PDT)
-Subject: Re: [PATCH v3 6/7] venus: Make debug infrastructure more flexible
-To:     Daniel Thompson <daniel.thompson@linaro.org>,
-        Joe Perches <joe@perches.com>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-btrfs@vger.kernel.org, linux-acpi@vger.kernel.org,
-        netdev@vger.kernel.org, Jason Baron <jbaron@akamai.com>
-References: <20200609104604.1594-1-stanimir.varbanov@linaro.org>
- <20200609104604.1594-7-stanimir.varbanov@linaro.org>
- <20200609111414.GC780233@kroah.com>
- <dc85bf9e-e3a6-15a1-afaa-0add3e878573@linaro.org>
- <20200610133717.GB1906670@kroah.com>
- <31e1aa72b41f9ff19094476033511442bb6ccda0.camel@perches.com>
- <2fab7f999a6b5e5354b23d06aea31c5018b9ce18.camel@perches.com>
- <20200611062648.GA2529349@kroah.com>
- <bc92ee5948c3e71b8f1de1930336bbe162d00b34.camel@perches.com>
- <20200611105217.73xwkd2yczqotkyo@holly.lan>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <ed7dd5b4-aace-7558-d012-fb16ce8c92d6@linaro.org>
-Date:   Thu, 11 Jun 2020 14:31:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        bh=NeR4sKutcrUPwtCckv6Tmqw2IkRMLX24dUiE+CNNtLg=;
+        b=jhSC1rWMFfvWo0TdSBIwgyegVLApZogGaqRynt6EYcFWO81O+oqK0vq3WBs1vLqtfZ
+         kJ0wRIp96s0NPx6Yt1/c9hutXG78Sd/1SMara67XYztPG6yd377/w7Hj0Xau6+ecdH2I
+         L1W4V9S66kIgp+CxBTLLdbaW3AayUyBAPBniU/kstOGo9kYCXWzy1VpZvBNcyROGo3pH
+         cgwy8ckwb9xhhroXiu9CbQEp+sLW2YsMjLYHouqLt8edDkpAOHqfJhajESr2FaAEa1Mw
+         u7DWH4OVRx/zSEL2sgisbXn9KS+YlV20fpf3auEM+KATovDuEVCGZXx29MBLtFL7wm0n
+         oSKw==
+X-Gm-Message-State: AOAM532JvLweQmeLLVyRd1PNg7K/vBS8fmSur1SzPylG/sxL7a+/ADhZ
+        eWeLpsFfyUFA2sWOVO287q5aU3eGU82geA==
+X-Google-Smtp-Source: ABdhPJxIOHN+w6MtKWfgrA7bxJRjB7VlTmwl68jAu2JbO5beoiWKr7sP/K2kitarxzXNPDtpNL9xKg==
+X-Received: by 2002:a63:4754:: with SMTP id w20mr452063pgk.255.1591875870670;
+        Thu, 11 Jun 2020 04:44:30 -0700 (PDT)
+Received: from nagraj.local ([49.206.21.239])
+        by smtp.gmail.com with ESMTPSA id z144sm3088543pfc.195.2020.06.11.04.44.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Jun 2020 04:44:29 -0700 (PDT)
+From:   Sumit Semwal <sumit.semwal@linaro.org>
+To:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
+Cc:     Chenbo Feng <fengc@google.com>, linux-kernel@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org,
+        Charan Teja Reddy <charante@codeaurora.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com,
+        stable@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH v2] dma-buf: Move dma_buf_release() from fops to dentry_ops
+Date:   Thu, 11 Jun 2020 17:14:18 +0530
+Message-Id: <20200611114418.19852-1-sumit.semwal@linaro.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20200611105217.73xwkd2yczqotkyo@holly.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Charan Teja reported a 'use-after-free' in dmabuffs_dname [1], which
+happens if the dma_buf_release() is called while the userspace is
+accessing the dma_buf pseudo fs's dmabuffs_dname() in another process,
+and dma_buf_release() releases the dmabuf object when the last reference
+to the struct file goes away.
 
-On 6/11/20 1:52 PM, Daniel Thompson wrote:
-> On Wed, Jun 10, 2020 at 11:42:43PM -0700, Joe Perches wrote:
->> On Thu, 2020-06-11 at 08:26 +0200, Greg Kroah-Hartman wrote:
->>> On Wed, Jun 10, 2020 at 01:23:56PM -0700, Joe Perches wrote:
->>>> On Wed, 2020-06-10 at 12:49 -0700, Joe Perches wrote:
->>>>> On Wed, 2020-06-10 at 15:37 +0200, Greg Kroah-Hartman wrote:
->>>>>> Please work with the infrastructure we have, we have spent a lot of time
->>>>>> and effort to make it uniform to make it easier for users and
->>>>>> developers.
->>>>>
->>>>> Not quite.
->>>>>
->>>>> This lack of debug grouping by type has been a
->>>>> _long_ standing issue with drivers.
->>>>>
->>>>>> Don't regress and try to make driver-specific ways of doing
->>>>>> things, that way lies madness...
->>>>>
->>>>> It's not driver specific, it allows driver developers to
->>>>> better isolate various debug states instead of keeping
->>>>> lists of specific debug messages and enabling them
->>>>> individually.
->>>>
->>>> For instance, look at the homebrew content in
->>>> drivers/gpu/drm/drm_print.c that does _not_ use
->>>> dynamic_debug.
->>>>
->>>> MODULE_PARM_DESC(debug, "Enable debug output, where each bit enables a debug category.\n"
->>>> "\t\tBit 0 (0x01)  will enable CORE messages (drm core code)\n"
->>>> "\t\tBit 1 (0x02)  will enable DRIVER messages (drm controller code)\n"
->>>> "\t\tBit 2 (0x04)  will enable KMS messages (modesetting code)\n"
->>>> "\t\tBit 3 (0x08)  will enable PRIME messages (prime code)\n"
->>>> "\t\tBit 4 (0x10)  will enable ATOMIC messages (atomic code)\n"
->>>> "\t\tBit 5 (0x20)  will enable VBL messages (vblank code)\n"
->>>> "\t\tBit 7 (0x80)  will enable LEASE messages (leasing code)\n"
->>>> "\t\tBit 8 (0x100) will enable DP messages (displayport code)");
->>>> module_param_named(debug, __drm_debug, int, 0600);
->>>>
->>>> void drm_dev_dbg(const struct device *dev, enum drm_debug_category category,
->>>> 		 const char *format, ...)
->>>> {
->>>> 	struct va_format vaf;
->>>> 	va_list args;
->>>>
->>>> 	if (!drm_debug_enabled(category))
->>>> 		return;
->>>
->>> Ok, and will this proposal be able to handle stuff like this?
->>
->> Yes, that's the entire point.
-> 
-> Currently I think there not enough "levels" to map something like
-> drm.debug to the new dyn dbg feature. I don't think it is intrinsic
-> but I couldn't find the bit of the code where the 5-bit level in struct
-> _ddebug is converted from a mask to a bit number and vice-versa.
+I discussed with Arnd Bergmann, and he suggested that rather than tying
+the dma_buf_release() to the file_operations' release(), we can tie it to
+the dentry_operations' d_release(), which will be called when the last ref
+to the dentry is removed.
 
-Here [1] is Joe's initial suggestion. But I decided that bitmask is a
-good start for the discussion.
+The path exercised by __fput() calls f_op->release() first, and then calls
+dput, which eventually calls d_op->d_release().
 
-I guess we can add new member uint "level" in struct _ddebug so that we
-can cover more "levels" (types, groups).
+In the 'normal' case, when no userspace access is happening via dma_buf
+pseudo fs, there should be exactly one fd, file, dentry and inode, so
+closing the fd will kill of everything right away.
 
+In the presented case, the dentry's d_release() will be called only when
+the dentry's last ref is released.
+
+Therefore, lets move dma_buf_release() from fops->release() to
+d_ops->d_release()
+
+Many thanks to Arnd for his FS insights :)
+
+[1]: https://lore.kernel.org/patchwork/patch/1238278/
+
+Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
+Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
+Cc: <stable@vger.kernel.org> [5.3+]
+Cc: Arnd Bergmann <arnd@arndb.de>
+Reported-by: Charan Teja Reddy <charante@codeaurora.org>
+Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
+
+---
+v2: per Arnd: Moved dma_buf_release() above to avoid forward declaration;
+     removed dentry_ops check.
+---
+ drivers/dma-buf/dma-buf.c | 54 ++++++++++++++++++---------------------
+ 1 file changed, 25 insertions(+), 29 deletions(-)
+
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 01ce125f8e8d..412629601ad3 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -54,37 +54,11 @@ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+ 			     dentry->d_name.name, ret > 0 ? name : "");
+ }
+ 
+-static const struct dentry_operations dma_buf_dentry_ops = {
+-	.d_dname = dmabuffs_dname,
+-};
+-
+-static struct vfsmount *dma_buf_mnt;
+-
+-static int dma_buf_fs_init_context(struct fs_context *fc)
+-{
+-	struct pseudo_fs_context *ctx;
+-
+-	ctx = init_pseudo(fc, DMA_BUF_MAGIC);
+-	if (!ctx)
+-		return -ENOMEM;
+-	ctx->dops = &dma_buf_dentry_ops;
+-	return 0;
+-}
+-
+-static struct file_system_type dma_buf_fs_type = {
+-	.name = "dmabuf",
+-	.init_fs_context = dma_buf_fs_init_context,
+-	.kill_sb = kill_anon_super,
+-};
+-
+-static int dma_buf_release(struct inode *inode, struct file *file)
++static void dma_buf_release(struct dentry *dentry)
+ {
+ 	struct dma_buf *dmabuf;
+ 
+-	if (!is_dma_buf_file(file))
+-		return -EINVAL;
+-
+-	dmabuf = file->private_data;
++	dmabuf = dentry->d_fsdata;
+ 
+ 	BUG_ON(dmabuf->vmapping_counter);
+ 
+@@ -110,9 +84,32 @@ static int dma_buf_release(struct inode *inode, struct file *file)
+ 	module_put(dmabuf->owner);
+ 	kfree(dmabuf->name);
+ 	kfree(dmabuf);
++}
++
++static const struct dentry_operations dma_buf_dentry_ops = {
++	.d_dname = dmabuffs_dname,
++	.d_release = dma_buf_release,
++};
++
++static struct vfsmount *dma_buf_mnt;
++
++static int dma_buf_fs_init_context(struct fs_context *fc)
++{
++	struct pseudo_fs_context *ctx;
++
++	ctx = init_pseudo(fc, DMA_BUF_MAGIC);
++	if (!ctx)
++		return -ENOMEM;
++	ctx->dops = &dma_buf_dentry_ops;
+ 	return 0;
+ }
+ 
++static struct file_system_type dma_buf_fs_type = {
++	.name = "dmabuf",
++	.init_fs_context = dma_buf_fs_init_context,
++	.kill_sb = kill_anon_super,
++};
++
+ static int dma_buf_mmap_internal(struct file *file, struct vm_area_struct *vma)
+ {
+ 	struct dma_buf *dmabuf;
+@@ -412,7 +409,6 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+ }
+ 
+ static const struct file_operations dma_buf_fops = {
+-	.release	= dma_buf_release,
+ 	.mmap		= dma_buf_mmap_internal,
+ 	.llseek		= dma_buf_llseek,
+ 	.poll		= dma_buf_poll,
 -- 
-regards,
-Stan
+2.27.0
 
-[1] https://lkml.org/lkml/2020/5/21/915
