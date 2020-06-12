@@ -2,176 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 938951F7D21
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 20:49:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D6A11F7D35
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 20:53:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726268AbgFLStS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Jun 2020 14:49:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39554 "EHLO
+        id S1726281AbgFLSxb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Jun 2020 14:53:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726219AbgFLStR (ORCPT
+        with ESMTP id S1726085AbgFLSxb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Jun 2020 14:49:17 -0400
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 935DDC08C5C1
-        for <linux-media@vger.kernel.org>; Fri, 12 Jun 2020 11:49:17 -0700 (PDT)
-Received: by mail-ed1-x52a.google.com with SMTP id x93so7145645ede.9
-        for <linux-media@vger.kernel.org>; Fri, 12 Jun 2020 11:49:17 -0700 (PDT)
+        Fri, 12 Jun 2020 14:53:31 -0400
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1A35C03E96F
+        for <linux-media@vger.kernel.org>; Fri, 12 Jun 2020 11:53:30 -0700 (PDT)
+Received: by mail-ej1-x62a.google.com with SMTP id w16so10549429ejj.5
+        for <linux-media@vger.kernel.org>; Fri, 12 Jun 2020 11:53:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=nRDVrwu4nmGYq+4H/l+Rfcgr3AzgWNw91u+JyocBvfM=;
-        b=m2KD82ivlXUUePVUWot71c6WcaxeJlCXcnih6WkWsEDIJ2gD3qUd/7EVIU4njM4fLA
-         MTs+s5Qv/pTww8Rd4mWtfwyDe9R3f17Zg1HzZGaeKrK/Nmx6HPYjlQAKmNhms7lmkWiJ
-         raCqRd6ECYIDOUN6A2CwJIAex+onNYl/jvZXg=
+        bh=cr37r0pECi1XWWIaEVdMU6AtyEhg/S3ISctrijrtniI=;
+        b=oW8oKJtd52cTIpIgrgznDrhmhnBKzG8PPF4+74Ug6qigFc3Y1cMJPTyXlecm/TTZDm
+         7KLRvp3Mvy9DmeWgw4iBxsi/kIxtmZXKz2aN/iahIGKWEd/6g9tZDdB/r4tqdySvfjOz
+         NGwz1SL6ZqndazFYq8un4xUpbtJVeVqMK4KeU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=nRDVrwu4nmGYq+4H/l+Rfcgr3AzgWNw91u+JyocBvfM=;
-        b=I44x8LL7rJOeJ6FHxpifqu+4/wAWH0zcxehIfA6C9kv29fYTS6dfLLnk+qqcMS1DSr
-         D4OvmTOpjvgUk/OSCOxj5UaAl+e/cNF/hBsE22JsgXW1x42IZ5fKwcO7b8hVLSh4p4BK
-         hstd6kAjarAndLp3qR2JpSQLnXhK/lB9YDm6kPshfpmf3VbqikwTsJmXg1QXzuueRPNu
-         D4uq2sgjSiKVUlBwQpq6PteGYsajFWdlLeV06kAVoDbVrLZ7HPL/fkfF9TJYwpMk6E3Y
-         ulCqlZHjqv3fYDOTiNEa+hctpAJr5ZQbWZaRpmjSrQZp827BAu1TOdJbgtPrEm+1P8Jc
-         Ujeg==
-X-Gm-Message-State: AOAM533molf8/I6WCJeFZz9qr/AC9QrCXQzjlPxkCfaewBcqh6Lml2on
-        j8ho3dy9EGZqg/6W0pRl3VNDu4kt0PMlTg==
-X-Google-Smtp-Source: ABdhPJzNzduNpYBZ6OSDgKs/vYM320MF6uQ/1De79utrEoxh0n+Dzvab9reBdN9uspLvRWtkXY5F1A==
-X-Received: by 2002:a50:f694:: with SMTP id d20mr12475345edn.171.1591987755814;
-        Fri, 12 Jun 2020 11:49:15 -0700 (PDT)
+        bh=cr37r0pECi1XWWIaEVdMU6AtyEhg/S3ISctrijrtniI=;
+        b=mzlgMkYVmSx84BkYAGcGuvMstv/MRvqtI9RekNowm5rRXWzhntqjHNGNedutz5VD9J
+         j5pIaAXqxxqDrcwfBDnu5E8RhBXbImkAcm1nt88W5zojst8S+eyR4UWrxLwnd1SbDrXx
+         /hX+O5fUsqrIGivUDeqnXS19HxPw5LFsxG6Q9ZovAuIHV9tHp8xe+ERpV1FGgFa57iAo
+         hHXmsRKJ5pXAMQHtgc0x8cEl2sm9LUfupuFsnnuevSLcMoUS7dFJCcq5MpVFf4hPHZwn
+         g4QFFawyXlaI16ddPTbbsIYrR6IXSJSCy7Uv1JgE47DyDYMC5shc5c8UGfe6flGy3tnr
+         Ohyw==
+X-Gm-Message-State: AOAM530BG3pEV6J4c1IYVHcajy6l/cLUt23zIscUmX7+4JuG9asddnnH
+        u3KKvXFUlqsuQS0FeXDHr+zxii8g9gbgvQ==
+X-Google-Smtp-Source: ABdhPJzybcq0w1vMhJJkRXikWLBM96aec+WTMsMN3LSbUpNE3GhsEI8s+k/pkKK+Y8R4sU2ZRMqS3Q==
+X-Received: by 2002:a17:906:178c:: with SMTP id t12mr13985165eje.464.1591988009033;
+        Fri, 12 Jun 2020 11:53:29 -0700 (PDT)
 Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com. [209.85.221.42])
-        by smtp.gmail.com with ESMTPSA id k23sm3951827ejo.120.2020.06.12.11.49.14
+        by smtp.gmail.com with ESMTPSA id z20sm3969156ejb.68.2020.06.12.11.53.28
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jun 2020 11:49:14 -0700 (PDT)
-Received: by mail-wr1-f42.google.com with SMTP id x13so10745685wrv.4
-        for <linux-media@vger.kernel.org>; Fri, 12 Jun 2020 11:49:14 -0700 (PDT)
-X-Received: by 2002:adf:9c12:: with SMTP id f18mr17605374wrc.105.1591987753743;
- Fri, 12 Jun 2020 11:49:13 -0700 (PDT)
+        Fri, 12 Jun 2020 11:53:28 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id p5so10734235wrw.9
+        for <linux-media@vger.kernel.org>; Fri, 12 Jun 2020 11:53:28 -0700 (PDT)
+X-Received: by 2002:a7b:c0c8:: with SMTP id s8mr337060wmh.134.1591988007853;
+ Fri, 12 Jun 2020 11:53:27 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200509080627.23222-1-dongchun.zhu@mediatek.com>
- <20200509080627.23222-3-dongchun.zhu@mediatek.com> <20200521193204.GA14214@chromium.org>
- <1590209415.8804.431.camel@mhfsdcap03> <20200610183600.GI201868@chromium.org> <1591954266.8804.646.camel@mhfsdcap03>
-In-Reply-To: <1591954266.8804.646.camel@mhfsdcap03>
+References: <5408d9f1-6415-7089-8069-ec36cd9eed75@linaro.org>
+ <CAAFQd5ADxz-GYYiocKcB+Qxk9_tNJ_aAMxoOY6N9NLC-6ya3pw@mail.gmail.com> <7694a262-d655-427b-3baf-2f86dc76b906@linaro.org>
+In-Reply-To: <7694a262-d655-427b-3baf-2f86dc76b906@linaro.org>
 From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Fri, 12 Jun 2020 20:49:01 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5CboZ9aFhUyKPES_2oO_AKAOh3Pg8D+9YpfmzJ8v-yFHw@mail.gmail.com>
-Message-ID: <CAAFQd5CboZ9aFhUyKPES_2oO_AKAOh3Pg8D+9YpfmzJ8v-yFHw@mail.gmail.com>
-Subject: Re: [V8, 2/2] media: i2c: ov02a10: Add OV02A10 image sensor driver
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Cao Bing Bu <bingbu.cao@intel.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Sj Huang <sj.huang@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        Louis Kuo <louis.kuo@mediatek.com>,
-        =?UTF-8?B?U2hlbmduYW4gV2FuZyAo546L5Zyj55S3KQ==?= 
-        <shengnan.wang@mediatek.com>
+Date:   Fri, 12 Jun 2020 20:53:15 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5DaKkLedFe5umLZ7oVJ7vPSDXiDavhSpq-n7z3E8nanpA@mail.gmail.com>
+Message-ID: <CAAFQd5DaKkLedFe5umLZ7oVJ7vPSDXiDavhSpq-n7z3E8nanpA@mail.gmail.com>
+Subject: Re: reqbuf(count=0), new vb2 op or something else
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 12, 2020 at 11:33 AM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
+On Fri, Jun 12, 2020 at 8:42 PM Stanimir Varbanov
+<stanimir.varbanov@linaro.org> wrote:
 >
 > Hi Tomasz,
 >
-> On Wed, 2020-06-10 at 18:36 +0000, Tomasz Figa wrote:
-> > On Sat, May 23, 2020 at 12:50:15PM +0800, Dongchun Zhu wrote:
-> > > Hi Tomasz,
-> > >
-> > > Thanks for the review. My replies are as below.
-> > >
-> > > On Thu, 2020-05-21 at 19:32 +0000, Tomasz Figa wrote:
-> > > > Hi Dongchun,
-> > > >
-> > > > On Sat, May 09, 2020 at 04:06:27PM +0800, Dongchun Zhu wrote:
-> > [snip]
-> > > > > +{
-> > > > > +       struct i2c_client *client = to_i2c_client(dev);
-> > > > > +       struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> > > > > +       struct ov02a10 *ov02a10 = to_ov02a10(sd);
-> > > > > +       int ret;
-> > > > > +
-> > > > > +       gpiod_set_value_cansleep(ov02a10->n_rst_gpio, 0);
-> > > > > +       gpiod_set_value_cansleep(ov02a10->pd_gpio, 0);
-> > > > > +
-> > > > > +       ret = clk_prepare_enable(ov02a10->eclk);
-> > > > > +       if (ret < 0) {
-> > > > > +               dev_err(dev, "failed to enable eclk\n");
-> > > > > +               return ret;
-> > > > > +       }
-> > > > > +
-> > > > > +       ret = regulator_bulk_enable(OV02A10_NUM_SUPPLIES, ov02a10->supplies);
-> > > > > +       if (ret < 0) {
-> > > > > +               dev_err(dev, "failed to enable regulators\n");
-> > > > > +               goto disable_clk;
-> > > > > +       }
-> > > > > +       usleep_range(5000, 6000);
-> > > > > +
-> > > > > +       gpiod_set_value_cansleep(ov02a10->pd_gpio, 1);
-> > > >
-> > > > This is a "powerdown" GPIO. It must be set to 0 if the sensor is to be
-> > > > powered on.
-> > > >
-> > >
-> > > The value set by gpiod_set_value_cansleep() API actually depends upon
-> > > GPIO polarity defined in DT.
-> > > Since I set GPIO_ACTIVE_LOW to powerdown,
-> > > gpiod_set_value_cansleep(gpio_desc, value) would set !value to
-> > > gpio_desc.
-> > > Thus here powerdown would be low-state when sensor is powered on.
-> > > For GPIO polarity, I also post a comment to the binding patch.
-> > >
+> On 6/12/20 9:33 PM, Tomasz Figa wrote:
+> > Hi Stanimir,
 > >
-> > That's true. However, this makes the driver really confusing. If someone
-> > reads this code and compares with the datasheet, it looks incorrect,
-> > because in the datasheet the powerdown GPIO needs to be configured low
-> > for the sensor to operate.
+> > On Fri, Jun 12, 2020 at 5:20 PM Stanimir Varbanov
+> > <stanimir.varbanov@linaro.org> wrote:
+> >>
+> >> I failed to found previous discussion on the subject, maybe it was on IRC.
+> >>
+> >> I stuck with fixing of issues which depends on this reqbuf(count=0).
+> >> Currently I'm counting the buffers in vb2::buf_init and vb2::buf_cleanup
+> >> but I don't want to rely on that implicit way anymore.
+> >>
+> >> If someone of you can remember let me know so that I can prepare an RFC.
+> >>
+> >> I can think of two options:
+> >>  - change vb2::queue_setup so it could be called with num_buffers=0
+> >>  - add new vb2::queue_release op
+> >>
+> >> More options?
 > >
-> > I'd recommend defining the binding in a way that makes it clear in the driver code
-> > that it implementes the power sequencing as per the datasheet.
-> >
+> > Just to make sure we're on the same page: Are you looking for a way to
+> > handle some operation only when all buffers on the queue are being
+> > freed?
 >
-> Uh-huh...
-> But it all depends on how we look at the powerdown GPIO.
-> Or where should we define the active low or active high, the driver or
-> DT?
+> Exactly :)
 >
-> My initial idea is using DT GPIO polarity to describe sensor active
-> polarity according to the datasheet.
-> As an active low shutdown signal is equivalent to an active high enable
-> signal.
->
+> Presently I'm counting capture and output buffers in vb2::buf_init and
+> vb2::buf_cleanup and release/reinit internal driver resources on the
+> last .buf_cleanup. And this is a workaround of the problem which I want
+> to solve properly.
 
-Okay, I discussed this offline with Laurent and Sakari and we also
-found the guidelines of the Linux GPIO subsystem on this [1].
+Got it.
 
-The conclusion is that the pin names in the driver or DT must not
-contain any negation prefixes and the driver needs to care only about
-the logical function of the pin, such as "powerdown" or "reset". In
-case of this driver, we should call the pins "rst" and "pd" and
-setting them to 1 would trigger the reset and power down respectively.
-The physical signal polarity must be configured in DT using the
-polarity flags.
-
-[1] https://www.kernel.org/doc/html/latest/driver-api/gpio/consumer.html#the-active-low-and-open-drain-semantics
+I suppose queue_release() could be a good idea to keep things
+symmetrical, but for now, wouldn't it be still possible to hook
+directly into .vidioc_reqbufs and do whatever necessary when count ==
+0?
 
 Best regards,
 Tomasz
