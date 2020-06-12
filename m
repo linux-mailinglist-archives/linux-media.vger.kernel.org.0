@@ -2,112 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C5F41F79D8
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 16:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72E6D1F7A11
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 16:48:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726381AbgFLObs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Jun 2020 10:31:48 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:39297 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726085AbgFLObs (ORCPT
+        id S1726397AbgFLOrV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Jun 2020 10:47:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58686 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726275AbgFLOrU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Jun 2020 10:31:48 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id jkiWj7pG1ZgWWjkiZjWPog; Fri, 12 Jun 2020 16:31:46 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1591972306; bh=nCym+V68URqljB+zF0jxDoG5uZ9OAURpMHuY+4kVtNA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Ek25y6ooiVKrHsLtNoW2msBBEPPbmzkTtVlBE47CV/ciG+iatFdT6vGmuWS0SvSUl
-         xx4VUC3/8wTt9TZ+EY6fiFQ82WIEmE6tsyMS9wyh6ef6GKFZLrwY1+M/Jvcq5c0tMv
-         ZQQCXgKEpo83ayN9/NIyx4NyS0lESXPd6YEUNM51OgA5JD8FOvOKNo/H0P8zaWdMr4
-         aAbBYaKrc7Bg5UhrGi8+v02T/ogLkcA9q/6n3uZONDUeH5fKxtBEdSs3LL5bPXc6vf
-         KcSHXv0v1kYVap2GRvhatTGV/rKzC/MgOk9EJS+o/HVhQQPb2Rt3M8rQS/qZp/Dc4K
-         6KcjRzJbA/lQw==
-Subject: Re: [RESEND PATCH v3 0/6] media: staging: rkisp1: bugs fixes and vars
- renames
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Cc:     helen.koike@collabora.com, ezequiel@collabora.com,
-        kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, tfiga@chromium.org
-References: <20200611154551.25022-1-dafna.hirschfeld@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <2f0f7297-6067-9af0-c544-fc7defad943d@xs4all.nl>
-Date:   Fri, 12 Jun 2020 16:31:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+        Fri, 12 Jun 2020 10:47:20 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 865FAC03E96F;
+        Fri, 12 Jun 2020 07:47:20 -0700 (PDT)
+Received: from Q.local (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C38E924F;
+        Fri, 12 Jun 2020 16:47:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1591973238;
+        bh=uU2xQmtH42tW6IeH3dGPC0lnUtMW5Hht2lqVT2Xjgz4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=JUrEayeG7tbFE0EaqcSKTcecMDVLls8Vl7ypODt5Ph1HOtNgfrQ1Zmg1qSwHLRPqh
+         kgIq1pd3nDQVwWbcFRnWnH049/v3J4k+xQ6QU6ImcPQiwLax0fDUjtIR2/1YEIJQLJ
+         ZEhpP4JcSnMVu8Q4167QaYmuGVgCiu8KZ/WMAlz0=
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+To:     linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-gpio@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        sakari.ailus@iki.fi
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: [PATCH v10 0/4] MAX9286 GMSL Support (+RDACM20)
+Date:   Fri, 12 Jun 2020 15:47:09 +0100
+Message-Id: <20200612144713.502006-1-kieran.bingham+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20200611154551.25022-1-dafna.hirschfeld@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGmSocrPpAgHoUy6j0hE9l1Ucx0Lv4acvA1yIyIkDkq0MbHONKkz/0iOqaoMHY1142snEcuQGdyLW+1L02uMnPN+/5ecD/x8fIG4q1cmzYiJ8frhEiBo
- Mhcoi6iY0CDU6hDEc9ADh32WYf8DcRQnD0VDIcmD1cfItpYaUw+CDdITL3PZKPzPZIts2ABlmuNoSIHBnILYr0GJjO/6Uj6Iagg7F6FjCFlfldoTWczNVrtr
- Jyg4SZybRevmK3yjQotSpXSIYNY40CEBVmCzsG/c0Apl5w6y9LzuZ6nzfcRDps6w7Ad5h+9pitHpq0UAt+a3IuN3TmYhMWB9DafeJ06vpEQy1j+KAV5xl0L7
- 8KEwGfasgaZXpx1yKBUsoI9lpqJROqdr1JkRRKOt7mHwf9Q2xNzBg77s5wM4sNRLpsP/XmfZSxr3i8YhcecmKO+FTYHEbdGewrZr3ULKICPA3VV/3bBFCOGU
- efR+lrgfth1aK0TK9uyfB0WmKzrWFM/AWB7KWBz8RFjS6Lspz6+fNpqbm0sBwzG1sVs1Dkm7hoELFitY
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-(dropped the CC to stable)
+This series provides a pair of drivers for the GMSL cameras on the R-Car ADAS
+platforms.
 
-Dafna,
+These drivers originate from Cogent Embedded, and have been refactored to split
+the MAX9286 away from the RDACM20 drivers which were once very tightly coupled.
 
-Can you repost this an another RESEND, but without the CC to stable?
+The MAX9286 is capable of capturing up to 4 streams simultaneously, and while
+the V4L2-Multiplexed streams series is not available, this works purely on the
+assumption that the receiver will correctly map each of the 4 VCs to separate
+video nodes, as the RCar-VIN does.
 
-That will make it easier to review otherwise any reply would go to stable
-as well and just annoy Greg :-)
+This driver along with a camera driver for the RDACM20 and the
+associated platform support for the Renesas R-Car Salvator-X, and the Eagle-V3M
+can be found at:
 
-If you need patches to go to stable, then add a Cc: line to stable after your
-Signed-off-by tag. When the patch is merged into the mainline kernel it will
-be automatically Cc-ed to stable.
+  git://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git gmsl/v10
 
-Regards,
+This latest v10 cleans up the DT bindings validation, and several comments
+from Sakari's review in v9.
 
-	Hans
+It has been successfully tested to capture from all 4 inputs simultaneously.
 
-On 11/06/2020 17:45, Dafna Hirschfeld wrote:
-> RESEND the patchset because I forgot to add the first two patches
-> to the set
-> 
-> The first two patches in this patchset are two bug fixes related to the enumeration and
-> settings of the sink format of the resizer entity.
-> The next 3 patches are renaming/removing macros and variables.
-> patch 6 adds documentation to the struct rkisp1_isp_mbus_info
-> 
-> changes from v2:
-> - patch 3 is new - remove macro RKISP1_DIR_SINK_SRC since the code is more readable without it.
-> - patch 5 - rename 'direction' to 'isp_pads_mask' instead of 'isp_pads_flags'
-> - patch 6 is new - add documentation of the struct 'rkisp1_isp_mbus_info'
-> 
-> changes from v1:
-> - added "Fixes: 56e3b29f9f6b "media: staging: rkisp1: add streaming paths"
-> to the commit log of the first two patches.
-> - added two patches. One patch rename the macros "RKISP1_DIR_*"
-> to "RKISP1_ISP_SD_*", another that rename the field 'direction'
-> in 'struct rkisp1_isp_mbus_info' to 'isp_pads_flags'
-> 
-> Dafna Hirschfeld (6):
->   media: staging: rkisp1: rsz: supported formats are the isp's src
->     formats, not sink formats
->   media: staging: rkisp1: rsz: set default format if the given format is
->     not RKISP1_DIR_SRC
->   media: staging: rkisp1: remove macro RKISP1_DIR_SINK_SRC
->   media: staging: rkisp1: rename macros 'RKISP1_DIR_*' to
->     'RKISP1_ISP_SD_*'
->   media: staging: rkisp1: rename the field 'direction' in
->     'rkisp1_isp_mbus_info' to 'isp_pads_mask'
->   media: staging: rkisp1: common: add documentation for struct
->     rkisp1_isp_mbus_info
-> 
->  drivers/staging/media/rkisp1/rkisp1-common.h  | 18 ++++++-
->  drivers/staging/media/rkisp1/rkisp1-isp.c     | 50 +++++++++----------
->  drivers/staging/media/rkisp1/rkisp1-resizer.c |  6 +--
->  3 files changed, 43 insertions(+), 31 deletions(-)
-> 
+We're very much hoping that we can aim to get the max9286 into the next
+merge-window. Please let us know if there are any issues blocking this.
+
+Jacopo Mondi (2):
+  dt-bindings: media: i2c: Add bindings for IMI RDACM2x
+  media: i2c: Add RDACM20 driver
+
+Kieran Bingham (1):
+  media: i2c: Add MAX9286 driver
+
+Laurent Pinchart (1):
+  dt-bindings: media: i2c: Add bindings for Maxim Integrated MAX9286
+
+ .../bindings/media/i2c/imi,rdacm2x-gmsl.yaml  |  159 ++
+ .../bindings/media/i2c/maxim,max9286.yaml     |  366 +++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ MAINTAINERS                                   |   22 +
+ drivers/media/i2c/Kconfig                     |   26 +
+ drivers/media/i2c/Makefile                    |    3 +
+ drivers/media/i2c/max9271.c                   |  341 +++++
+ drivers/media/i2c/max9271.h                   |  224 +++
+ drivers/media/i2c/max9286.c                   | 1320 +++++++++++++++++
+ drivers/media/i2c/rdacm20.c                   |  667 +++++++++
+ 10 files changed, 3130 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/imi,rdacm2x-gmsl.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+ create mode 100644 drivers/media/i2c/max9271.c
+ create mode 100644 drivers/media/i2c/max9271.h
+ create mode 100644 drivers/media/i2c/max9286.c
+ create mode 100644 drivers/media/i2c/rdacm20.c
+
+-- 
+2.25.1
 
