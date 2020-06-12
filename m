@@ -2,115 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A63A01F780D
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 14:45:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B5A61F7868
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 15:05:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726101AbgFLMpG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Jun 2020 08:45:06 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:34218 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726053AbgFLMpF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Jun 2020 08:45:05 -0400
-Received: from [IPv6:2003:cb:871f:5b00:2d5e:dfaf:ae68:33cc] (p200300cb871f5b002d5edfafae6833cc.dip0.t-ipconnect.de [IPv6:2003:cb:871f:5b00:2d5e:dfaf:ae68:33cc])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 347AB2A5476;
-        Fri, 12 Jun 2020 13:45:03 +0100 (BST)
-Subject: Re: [PATCH v2 3/4] media: staging: rkisp1: rsz: set output format to
- YUV422 if cap format is YUV444
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20200515142952.20163-1-dafna.hirschfeld@collabora.com>
- <20200515142952.20163-4-dafna.hirschfeld@collabora.com>
- <CAHD77HkjjWMOcX3oLnzdMuzZM-_NSydStnzLLcHEFRenL23d-A@mail.gmail.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <aa52f9f8-d9e9-06b2-22df-bbab2d26b516@collabora.com>
-Date:   Fri, 12 Jun 2020 14:45:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1726085AbgFLNFh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Jun 2020 09:05:37 -0400
+Received: from mga18.intel.com ([134.134.136.126]:28011 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726101AbgFLNFh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 12 Jun 2020 09:05:37 -0400
+IronPort-SDR: +Ef1A4LNyaZFM9uFTSP0U0S27Lgh/fzdblYTFoTLIXfyEMdJRyilEO9PRHIBHPpxjhNNi/oC6w
+ VCHe+qmUiQpw==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Jun 2020 06:05:36 -0700
+IronPort-SDR: JfT3xiEhJEZoVPQV5ofv8hOPqwwL0KHwSOGsxyi1CFPwMp55LBqjfURs0vjZpFRiChjUH4khHK
+ vUjP9hGOOKqQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,503,1583222400"; 
+   d="scan'208";a="307294805"
+Received: from lkp-server01.sh.intel.com (HELO b6eec31c25be) ([10.239.97.150])
+  by fmsmga002.fm.intel.com with ESMTP; 12 Jun 2020 06:05:34 -0700
+Received: from kbuild by b6eec31c25be with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1jjjNF-0000kY-N1; Fri, 12 Jun 2020 13:05:33 +0000
+Date:   Fri, 12 Jun 2020 21:05:18 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-next] BUILD SUCCESS
+ 2630e1bb0948c3134c6f22ad275ae27cc6023532
+Message-ID: <5ee37d8e.zVi7z7Fr6t/hOywE%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <CAHD77HkjjWMOcX3oLnzdMuzZM-_NSydStnzLLcHEFRenL23d-A@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+tree/branch: git://git.ragnatech.se/linux  media-next
+branch HEAD: 2630e1bb0948c3134c6f22ad275ae27cc6023532  media: rkvdec: Fix H264 scaling list order
 
+elapsed time: 1136m
 
-On 27.05.20 01:09, Tomasz Figa wrote:
-> On Fri, May 15, 2020 at 4:30 PM Dafna Hirschfeld
-> <dafna.hirschfeld@collabora.com> wrote:
->>
->> If the capture format is YUV444M then the memory input format
->> should be YUV422, so the resizer should not change the default
->> hdiv, vdiv in that case.
->>
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> ---
->>   drivers/staging/media/rkisp1/rkisp1-resizer.c | 7 ++++---
->>   1 file changed, 4 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
->> index 04a29af8cc92..5f9740ddd558 100644
->> --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
->> +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
->> @@ -394,10 +394,11 @@ static void rkisp1_rsz_config(struct rkisp1_resizer *rsz,
->>           * (4:2:2 -> 4:2:0 for example). So the width/height of the CbCr
->>           * streams should be set according to the pixel format in the capture.
->>           * The resizer always gets the input as YUV422. If the capture format
->> -        * is RGB then the memory input (the resizer output) should be YUV422
->> -        * so we use the hdiv, vdiv of the YUV422 info in this case.
->> +        * is RGB or YUV444 then the memory input (the resizer output) should
->> +        * be YUV422 so we use the hdiv, vdiv of the YUV422 info in this case.
->>           */
->> -       if (v4l2_is_format_yuv(cap->pix.info)) {
->> +       if (v4l2_is_format_yuv(cap->pix.info) &&
->> +           cap->pix.info->format != V4L2_PIX_FMT_YUV444M) {
->>                  src_c.width = cap->pix.info->hdiv;
->>                  src_c.height = cap->pix.info->vdiv;
-> 
-> As pointed out in another thread, this should have been the original
-> size divided by the divisor and not just the latter alone.
-> 
-> It seems a bit suspicious to me that we don't need to upscale the
-> chroma planes here, because it would mean that the MI itself would be
-> doing some horizontal pixel doubling. The hardware documentation
-> doesn't really explain this, though.
-> 
-> Have you been able to validate that the setting without upscaling
-> indeed produces correct output?
+configs tested: 124
+configs skipped: 4
 
-Hi,
-I investigated it again, without this patch, the frames on mainpath for YUV444 look good: https://imgur.com/a/NtazWhY
-but there is a problem on selfpath: https://imgur.com/a/vQJPqAn
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-This patch somehow solves the problem on selfpath but ruins the frames on mainpath.
+arm                                 defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm                               allnoconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm64                            allmodconfig
+arm64                             allnoconfig
+powerpc                         wii_defconfig
+powerpc                     mpc83xx_defconfig
+mips                           ip32_defconfig
+c6x                        evmc6457_defconfig
+nds32                               defconfig
+alpha                            alldefconfig
+mips                     loongson1b_defconfig
+alpha                               defconfig
+mips                       bmips_be_defconfig
+c6x                        evmc6678_defconfig
+powerpc                          g5_defconfig
+arc                            hsdk_defconfig
+arm                          tango4_defconfig
+sh                        edosk7705_defconfig
+csky                                defconfig
+alpha                            allyesconfig
+sh                        dreamcast_defconfig
+mips                           ci20_defconfig
+i386                              allnoconfig
+i386                             allyesconfig
+i386                                defconfig
+i386                              debian-10.3
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                              allnoconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                              allnoconfig
+m68k                           sun3_defconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+nios2                            allyesconfig
+openrisc                            defconfig
+c6x                              allyesconfig
+c6x                               allnoconfig
+openrisc                         allyesconfig
+nds32                             allnoconfig
+csky                             allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+h8300                            allmodconfig
+xtensa                              defconfig
+arc                                 defconfig
+arc                              allyesconfig
+sh                               allmodconfig
+sh                                allnoconfig
+microblaze                        allnoconfig
+mips                             allyesconfig
+mips                              allnoconfig
+mips                             allmodconfig
+parisc                            allnoconfig
+parisc                              defconfig
+parisc                           allyesconfig
+parisc                           allmodconfig
+powerpc                          allyesconfig
+powerpc                          rhel-kconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+powerpc                             defconfig
+i386                 randconfig-a006-20200612
+i386                 randconfig-a002-20200612
+i386                 randconfig-a001-20200612
+i386                 randconfig-a004-20200612
+i386                 randconfig-a005-20200612
+i386                 randconfig-a003-20200612
+i386                 randconfig-a006-20200611
+i386                 randconfig-a002-20200611
+i386                 randconfig-a001-20200611
+i386                 randconfig-a004-20200611
+i386                 randconfig-a005-20200611
+i386                 randconfig-a003-20200611
+x86_64               randconfig-a001-20200612
+x86_64               randconfig-a003-20200612
+x86_64               randconfig-a002-20200612
+x86_64               randconfig-a006-20200612
+x86_64               randconfig-a005-20200612
+x86_64               randconfig-a004-20200612
+i386                 randconfig-a015-20200612
+i386                 randconfig-a011-20200612
+i386                 randconfig-a014-20200612
+i386                 randconfig-a016-20200612
+i386                 randconfig-a013-20200612
+i386                 randconfig-a012-20200612
+i386                 randconfig-a015-20200611
+i386                 randconfig-a011-20200611
+i386                 randconfig-a014-20200611
+i386                 randconfig-a013-20200611
+i386                 randconfig-a016-20200611
+i386                 randconfig-a012-20200611
+riscv                            allyesconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                            allmodconfig
+s390                             allyesconfig
+s390                              allnoconfig
+s390                             allmodconfig
+s390                                defconfig
+sparc                            allyesconfig
+sparc                               defconfig
+sparc64                             defconfig
+sparc64                           allnoconfig
+sparc64                          allyesconfig
+sparc64                          allmodconfig
+um                               allmodconfig
+um                                allnoconfig
+um                                  defconfig
+um                               allyesconfig
+x86_64                               rhel-7.6
+x86_64                    rhel-7.6-kselftests
+x86_64                               rhel-8.3
+x86_64                                  kexec
+x86_64                                   rhel
+x86_64                         rhel-7.2-clear
+x86_64                                    lkp
+x86_64                              fedora-25
 
-I think the bug is actually in another place in the code. The function 'rkisp1_sp_config'
-sets a constant value RKISP1_MI_CTRL_SP_INPUT_YUV422 as the input format on the RKISP1_CIF_MI_CTRL register.
-But the value should be set according to the configuration. For some reason the problem arises only
-when trying to capture yuv444. When I capture yuv420 on the selfpath the frame looks good although the
-value RKISP1_MI_CTRL_SP_INPUT_YUV422 is set.
-Setting the the SP_INPUT_* according to the configuration seems to solve the problem.
-
-Thanks,
-Dafna
-
-
-> 
-> Best regards,
-> Tomasz
-> 
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
