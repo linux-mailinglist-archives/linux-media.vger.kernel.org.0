@@ -2,133 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA8DA1F7D1E
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 20:47:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 938951F7D21
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 20:49:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726340AbgFLSru (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Jun 2020 14:47:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39326 "EHLO
+        id S1726268AbgFLStS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Jun 2020 14:49:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726268AbgFLSrt (ORCPT
+        with ESMTP id S1726219AbgFLStR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Jun 2020 14:47:49 -0400
-Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2093C03E96F;
-        Fri, 12 Jun 2020 11:47:49 -0700 (PDT)
-Received: by mail-io1-xd44.google.com with SMTP id x189so2239329iof.9;
-        Fri, 12 Jun 2020 11:47:49 -0700 (PDT)
+        Fri, 12 Jun 2020 14:49:17 -0400
+Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 935DDC08C5C1
+        for <linux-media@vger.kernel.org>; Fri, 12 Jun 2020 11:49:17 -0700 (PDT)
+Received: by mail-ed1-x52a.google.com with SMTP id x93so7145645ede.9
+        for <linux-media@vger.kernel.org>; Fri, 12 Jun 2020 11:49:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=LZDy9XcI4N1lUd1gGa7ISl9lwNSdZf1QWRf62wPMnVw=;
-        b=S2x9dGEHkOnJf+7GpQkXBNyZgMb+NG5lpVqGB+F8ObbicBblcPnt1Zj0z2T2BJN1ak
-         BE5tyB3SXO/vcPpoE1SV0kY1Hyiuhx8BaCvyI4y2wl5zVlTziIxk6WAAGlfkyrGWK2Ab
-         ZJmk91KRA2HRL5FDYwjDYXfdoxwSeDYU2+fZ5Z8Mkt+x8+aREd4LyXa1focAkMeBM167
-         RGDhyMr0dOAIZK/jg79jEb+znkyhK/DuF8F1TzcM7Ak+2abPElSzvfEwgLwHRZ/tiXLT
-         XcVd6vAWGmnp9IO5dm4LC11qH4Ycso5wykJuil7n4kQNX5Uq5tVU5q/eYugeOmAWp9i4
-         NGUw==
+         :cc;
+        bh=nRDVrwu4nmGYq+4H/l+Rfcgr3AzgWNw91u+JyocBvfM=;
+        b=m2KD82ivlXUUePVUWot71c6WcaxeJlCXcnih6WkWsEDIJ2gD3qUd/7EVIU4njM4fLA
+         MTs+s5Qv/pTww8Rd4mWtfwyDe9R3f17Zg1HzZGaeKrK/Nmx6HPYjlQAKmNhms7lmkWiJ
+         raCqRd6ECYIDOUN6A2CwJIAex+onNYl/jvZXg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=LZDy9XcI4N1lUd1gGa7ISl9lwNSdZf1QWRf62wPMnVw=;
-        b=Wugerj51NeCUivMnRVXoyO0tDkrZ+JBGsATk6DIN0w1zDfuLheiMC9ryCHlh38vdDW
-         3Pr+jyo7D9n/ToGOr5DSczfFM6uPjCJpOG+yILvgwxCpKOWwqRQmropefAmNt8A1Xdtw
-         x0apvtMYr/MJBjAwVPORLsWqacQAX0dEzjZnSCodvKWuUlH3RIgR7+Qvb6EXAvorZP9W
-         4xwsYa9VwNApTKspcOdCHDv7tsnQA3FC040F9//kptPv+ONBnnkEM58c+CA2Dz0hrAGT
-         tAZp/XqexR8scpsjgeVD2PmunY8prQGesgSRYdx5zfsB2Ffx/0lGQXiu6Z1HtTGqym2t
-         kxBg==
-X-Gm-Message-State: AOAM531gW2iZA1E/vlRn3Vh6cGKQ2YfEoFcl72i65Lt0qLkY4VEppCfa
-        9SKzIwvEajfeOefJ1SUGmaeN5eBuZ+5v//ce428=
-X-Google-Smtp-Source: ABdhPJzfRaFPvLx+fMxGrt+I4C3SRFJHleONaqg7i4IvAGQ6aQvoRRGtLFcMRTSg9k7ZAk6Yl7tZSKL1xoRRRuVrgIQ=
-X-Received: by 2002:a05:6602:1601:: with SMTP id x1mr15442631iow.129.1591987668271;
- Fri, 12 Jun 2020 11:47:48 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=nRDVrwu4nmGYq+4H/l+Rfcgr3AzgWNw91u+JyocBvfM=;
+        b=I44x8LL7rJOeJ6FHxpifqu+4/wAWH0zcxehIfA6C9kv29fYTS6dfLLnk+qqcMS1DSr
+         D4OvmTOpjvgUk/OSCOxj5UaAl+e/cNF/hBsE22JsgXW1x42IZ5fKwcO7b8hVLSh4p4BK
+         hstd6kAjarAndLp3qR2JpSQLnXhK/lB9YDm6kPshfpmf3VbqikwTsJmXg1QXzuueRPNu
+         D4uq2sgjSiKVUlBwQpq6PteGYsajFWdlLeV06kAVoDbVrLZ7HPL/fkfF9TJYwpMk6E3Y
+         ulCqlZHjqv3fYDOTiNEa+hctpAJr5ZQbWZaRpmjSrQZp827BAu1TOdJbgtPrEm+1P8Jc
+         Ujeg==
+X-Gm-Message-State: AOAM533molf8/I6WCJeFZz9qr/AC9QrCXQzjlPxkCfaewBcqh6Lml2on
+        j8ho3dy9EGZqg/6W0pRl3VNDu4kt0PMlTg==
+X-Google-Smtp-Source: ABdhPJzNzduNpYBZ6OSDgKs/vYM320MF6uQ/1De79utrEoxh0n+Dzvab9reBdN9uspLvRWtkXY5F1A==
+X-Received: by 2002:a50:f694:: with SMTP id d20mr12475345edn.171.1591987755814;
+        Fri, 12 Jun 2020 11:49:15 -0700 (PDT)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com. [209.85.221.42])
+        by smtp.gmail.com with ESMTPSA id k23sm3951827ejo.120.2020.06.12.11.49.14
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 12 Jun 2020 11:49:14 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id x13so10745685wrv.4
+        for <linux-media@vger.kernel.org>; Fri, 12 Jun 2020 11:49:14 -0700 (PDT)
+X-Received: by 2002:adf:9c12:: with SMTP id f18mr17605374wrc.105.1591987753743;
+ Fri, 12 Jun 2020 11:49:13 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200605170720.2478262-1-noltari@gmail.com>
-In-Reply-To: <20200605170720.2478262-1-noltari@gmail.com>
-From:   Kamal Dasu <kdasu.kdev@gmail.com>
-Date:   Fri, 12 Jun 2020 14:47:37 -0400
-Message-ID: <CAC=U0a3xa9k76mxsiVKDyXsuvboZAyMkXT-S3-6oVZKjnWkeHA@mail.gmail.com>
-Subject: Re: [PATCH] mtd: rawnand: brcmnand: force raw OOB writes
-To:     =?UTF-8?B?w4FsdmFybyBGZXJuw6FuZGV6IFJvamFz?= <noltari@gmail.com>
-Cc:     Brian Norris <computersforpeace@gmail.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        "R, Vignesh" <vigneshr@ti.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        MTD Maling List <linux-mtd@lists.infradead.org>,
-        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
+References: <20200509080627.23222-1-dongchun.zhu@mediatek.com>
+ <20200509080627.23222-3-dongchun.zhu@mediatek.com> <20200521193204.GA14214@chromium.org>
+ <1590209415.8804.431.camel@mhfsdcap03> <20200610183600.GI201868@chromium.org> <1591954266.8804.646.camel@mhfsdcap03>
+In-Reply-To: <1591954266.8804.646.camel@mhfsdcap03>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 12 Jun 2020 20:49:01 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5CboZ9aFhUyKPES_2oO_AKAOh3Pg8D+9YpfmzJ8v-yFHw@mail.gmail.com>
+Message-ID: <CAAFQd5CboZ9aFhUyKPES_2oO_AKAOh3Pg8D+9YpfmzJ8v-yFHw@mail.gmail.com>
+Subject: Re: [V8, 2/2] media: i2c: ov02a10: Add OV02A10 image sensor driver
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-devicetree <devicetree@vger.kernel.org>,
+        Louis Kuo <louis.kuo@mediatek.com>,
+        =?UTF-8?B?U2hlbmduYW4gV2FuZyAo546L5Zyj55S3KQ==?= 
+        <shengnan.wang@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 5, 2020 at 1:07 PM =C3=81lvaro Fern=C3=A1ndez Rojas <noltari@gm=
-ail.com> wrote:
+On Fri, Jun 12, 2020 at 11:33 AM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
 >
-> MTD_OPS_AUTO_OOB is writting OOB with ECC enabled, which changes all ECC =
-bytes
-> from an erased page to 0x00 when JFFS2 cleanmarkers are added with mtd-ut=
-ils.
->          | BBI |   JFFS2   |   ECC   |   JFFS2   | Spare  |
-> 00000800  ff ff 19 85 20 03 00 00  00 00 00 00 08 ff ff ff
+> Hi Tomasz,
 >
-> However, if OOB is written with ECC disabled, the JFFS2 cleanmarkers are
-> correctly written without changing the ECC bytes:
->          | BBI |   JFFS2   |   ECC   |   JFFS2   | Spare  |
-> 00000800  ff ff 19 85 20 03 ff ff  ff 00 00 00 08 ff ff ff
+> On Wed, 2020-06-10 at 18:36 +0000, Tomasz Figa wrote:
+> > On Sat, May 23, 2020 at 12:50:15PM +0800, Dongchun Zhu wrote:
+> > > Hi Tomasz,
+> > >
+> > > Thanks for the review. My replies are as below.
+> > >
+> > > On Thu, 2020-05-21 at 19:32 +0000, Tomasz Figa wrote:
+> > > > Hi Dongchun,
+> > > >
+> > > > On Sat, May 09, 2020 at 04:06:27PM +0800, Dongchun Zhu wrote:
+> > [snip]
+> > > > > +{
+> > > > > +       struct i2c_client *client = to_i2c_client(dev);
+> > > > > +       struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > > > > +       struct ov02a10 *ov02a10 = to_ov02a10(sd);
+> > > > > +       int ret;
+> > > > > +
+> > > > > +       gpiod_set_value_cansleep(ov02a10->n_rst_gpio, 0);
+> > > > > +       gpiod_set_value_cansleep(ov02a10->pd_gpio, 0);
+> > > > > +
+> > > > > +       ret = clk_prepare_enable(ov02a10->eclk);
+> > > > > +       if (ret < 0) {
+> > > > > +               dev_err(dev, "failed to enable eclk\n");
+> > > > > +               return ret;
+> > > > > +       }
+> > > > > +
+> > > > > +       ret = regulator_bulk_enable(OV02A10_NUM_SUPPLIES, ov02a10->supplies);
+> > > > > +       if (ret < 0) {
+> > > > > +               dev_err(dev, "failed to enable regulators\n");
+> > > > > +               goto disable_clk;
+> > > > > +       }
+> > > > > +       usleep_range(5000, 6000);
+> > > > > +
+> > > > > +       gpiod_set_value_cansleep(ov02a10->pd_gpio, 1);
+> > > >
+> > > > This is a "powerdown" GPIO. It must be set to 0 if the sensor is to be
+> > > > powered on.
+> > > >
+> > >
+> > > The value set by gpiod_set_value_cansleep() API actually depends upon
+> > > GPIO polarity defined in DT.
+> > > Since I set GPIO_ACTIVE_LOW to powerdown,
+> > > gpiod_set_value_cansleep(gpio_desc, value) would set !value to
+> > > gpio_desc.
+> > > Thus here powerdown would be low-state when sensor is powered on.
+> > > For GPIO polarity, I also post a comment to the binding patch.
+> > >
+> >
+> > That's true. However, this makes the driver really confusing. If someone
+> > reads this code and compares with the datasheet, it looks incorrect,
+> > because in the datasheet the powerdown GPIO needs to be configured low
+> > for the sensor to operate.
+> >
+> > I'd recommend defining the binding in a way that makes it clear in the driver code
+> > that it implementes the power sequencing as per the datasheet.
+> >
+>
+> Uh-huh...
+> But it all depends on how we look at the powerdown GPIO.
+> Or where should we define the active low or active high, the driver or
+> DT?
+>
+> My initial idea is using DT GPIO polarity to describe sensor active
+> polarity according to the datasheet.
+> As an active low shutdown signal is equivalent to an active high enable
+> signal.
+>
 
-Both brcmand_write_oob_raw() and brcmnand_write_oob() use
-brcmnand_write() that uses PROGRAM_PAGE cmd, means also programs data
-areas and ECC when enabled  is always calculated on DATA+OOB.  since
-in both cases we only want to modify OOB, data is always assumed to be
-0xffs (means erased state). So as far as this api always is used on
-the erased page it should be good. Are the sub-pages/oob areas read by
-jffs2  also read without ecc enabled?. Just want to be sure that it
-does not break any other utilities like nandwrite.
+Okay, I discussed this offline with Laurent and Sakari and we also
+found the guidelines of the Linux GPIO subsystem on this [1].
 
->
-> Signed-off-by: =C3=81lvaro Fern=C3=A1ndez Rojas <noltari@gmail.com>
-> ---
->  drivers/mtd/nand/raw/brcmnand/brcmnand.c | 9 +--------
->  1 file changed, 1 insertion(+), 8 deletions(-)
->
-> diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/=
-raw/brcmnand/brcmnand.c
-> index 8f9ffb46a09f..566281770841 100644
-> --- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> +++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
-> @@ -2279,13 +2279,6 @@ static int brcmnand_write_page_raw(struct nand_chi=
-p *chip, const uint8_t *buf,
->         return nand_prog_page_end_op(chip);
->  }
->
-> -static int brcmnand_write_oob(struct nand_chip *chip, int page)
-> -{
-> -       return brcmnand_write(nand_to_mtd(chip), chip,
-> -                             (u64)page << chip->page_shift, NULL,
-> -                             chip->oob_poi);
-> -}
-> -
->  static int brcmnand_write_oob_raw(struct nand_chip *chip, int page)
->  {
->         struct mtd_info *mtd =3D nand_to_mtd(chip);
-> @@ -2642,7 +2635,7 @@ static int brcmnand_init_cs(struct brcmnand_host *h=
-ost, struct device_node *dn)
->         chip->ecc.write_oob_raw =3D brcmnand_write_oob_raw;
->         chip->ecc.read_oob_raw =3D brcmnand_read_oob_raw;
->         chip->ecc.read_oob =3D brcmnand_read_oob;
-> -       chip->ecc.write_oob =3D brcmnand_write_oob;
-> +       chip->ecc.write_oob =3D brcmnand_write_oob_raw;
->
->         chip->controller =3D &ctrl->controller;
->
-> --
-> 2.26.2
->
+The conclusion is that the pin names in the driver or DT must not
+contain any negation prefixes and the driver needs to care only about
+the logical function of the pin, such as "powerdown" or "reset". In
+case of this driver, we should call the pins "rst" and "pd" and
+setting them to 1 would trigger the reset and power down respectively.
+The physical signal polarity must be configured in DT using the
+polarity flags.
+
+[1] https://www.kernel.org/doc/html/latest/driver-api/gpio/consumer.html#the-active-low-and-open-drain-semantics
+
+Best regards,
+Tomasz
