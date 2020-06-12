@@ -2,112 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80E851F7D08
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 20:42:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DA8DA1F7D1E
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 20:47:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726357AbgFLSmH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Jun 2020 14:42:07 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38420 "EHLO
+        id S1726340AbgFLSru (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Jun 2020 14:47:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39326 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726335AbgFLSmG (ORCPT
+        with ESMTP id S1726268AbgFLSrt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Jun 2020 14:42:06 -0400
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A18FC03E96F
-        for <linux-media@vger.kernel.org>; Fri, 12 Jun 2020 11:42:06 -0700 (PDT)
-Received: by mail-ed1-x532.google.com with SMTP id p18so7121144eds.7
-        for <linux-media@vger.kernel.org>; Fri, 12 Jun 2020 11:42:06 -0700 (PDT)
+        Fri, 12 Jun 2020 14:47:49 -0400
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2093C03E96F;
+        Fri, 12 Jun 2020 11:47:49 -0700 (PDT)
+Received: by mail-io1-xd44.google.com with SMTP id x189so2239329iof.9;
+        Fri, 12 Jun 2020 11:47:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=DBhAGmT9FnLlQ05x9MflH99VWEj4xeQp4a4nN+ueUTE=;
-        b=T684DoryaZomdPRyfHNORkFG2KLbh5mCI1hC25GsuRi14xJcBm386YUkhghQqJ909g
-         xwHZZtdGblEwOnGdttaBk2VgYUdYRViod2XTdGiwXj5I3TLVyXzTe6eVSFkHWjBG6FgM
-         iraIic9Tl1YYBYALZKOh7WoV/gVYEP991aI1tOqc71Sy1owlX+g49krFfEffxGHCHzNh
-         KXOnf/77MVGxNuofE9oAby4v7B2kI2zwsqH9rXTUoQQ7LwV5+c23JKguVaLSB2NLKqhl
-         Z9d/lQtzpIc7qiEynucLB63+IEBP+F/m/He/H/HdC8cP0otzZyeh22hZPiN6yKRKNsUF
-         hzdA==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=LZDy9XcI4N1lUd1gGa7ISl9lwNSdZf1QWRf62wPMnVw=;
+        b=S2x9dGEHkOnJf+7GpQkXBNyZgMb+NG5lpVqGB+F8ObbicBblcPnt1Zj0z2T2BJN1ak
+         BE5tyB3SXO/vcPpoE1SV0kY1Hyiuhx8BaCvyI4y2wl5zVlTziIxk6WAAGlfkyrGWK2Ab
+         ZJmk91KRA2HRL5FDYwjDYXfdoxwSeDYU2+fZ5Z8Mkt+x8+aREd4LyXa1focAkMeBM167
+         RGDhyMr0dOAIZK/jg79jEb+znkyhK/DuF8F1TzcM7Ak+2abPElSzvfEwgLwHRZ/tiXLT
+         XcVd6vAWGmnp9IO5dm4LC11qH4Ycso5wykJuil7n4kQNX5Uq5tVU5q/eYugeOmAWp9i4
+         NGUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=DBhAGmT9FnLlQ05x9MflH99VWEj4xeQp4a4nN+ueUTE=;
-        b=tRL2B6mfxRGb5kgl3NSpwyDLBx09QXbC4DNlj6ryPw8FUNlURUaO1tdCZWTzWdyhGC
-         ma8o7U/dbQZaeIwWrYYfn5Niw35ShEswDj08HaLyW9iMoqYTvGtLbhA4E+bxhfGJstnI
-         Udiy0VZp6Yrt927eQrHLG5GRGA97Oc9y20PWo4e0EwH3tzPHhO/9yOJpye2yFVd5sF2v
-         hcBOsoLMC2p0HgA+FNr9IOqr0W/9AhYLZXJPs1AvFvZ0LPSo01OGS02wnhwWAB3FgwLs
-         VEkgkr2XuBjuAINwXPFsxWl8XOCxhI1y/BvkfAL9zCZUTb6Z6fj0QbxL3brKGlwcFXvZ
-         d6SQ==
-X-Gm-Message-State: AOAM533S5rjlGM4N/8pFVVIcjNNBNIWM0hQgYBWC8/isVRSFeuEorF6r
-        9oBzCnfV7BZWr3/m78S3rXfAGQ==
-X-Google-Smtp-Source: ABdhPJwf8YkUE3/ARzb1m+sB3C3FMCu2h/m+g3Ks/eKob25hQq3gqVHsf/EYO/DIcOkjRLn51aD8Fg==
-X-Received: by 2002:a50:8ad3:: with SMTP id k19mr7847470edk.162.1591987324966;
-        Fri, 12 Jun 2020 11:42:04 -0700 (PDT)
-Received: from [192.168.1.3] (212-5-158-38.ip.btc-net.bg. [212.5.158.38])
-        by smtp.googlemail.com with ESMTPSA id v23sm3505133edr.94.2020.06.12.11.42.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Jun 2020 11:42:04 -0700 (PDT)
-Subject: Re: reqbuf(count=0), new vb2 op or something else
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-References: <5408d9f1-6415-7089-8069-ec36cd9eed75@linaro.org>
- <CAAFQd5ADxz-GYYiocKcB+Qxk9_tNJ_aAMxoOY6N9NLC-6ya3pw@mail.gmail.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <7694a262-d655-427b-3baf-2f86dc76b906@linaro.org>
-Date:   Fri, 12 Jun 2020 21:42:03 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=LZDy9XcI4N1lUd1gGa7ISl9lwNSdZf1QWRf62wPMnVw=;
+        b=Wugerj51NeCUivMnRVXoyO0tDkrZ+JBGsATk6DIN0w1zDfuLheiMC9ryCHlh38vdDW
+         3Pr+jyo7D9n/ToGOr5DSczfFM6uPjCJpOG+yILvgwxCpKOWwqRQmropefAmNt8A1Xdtw
+         x0apvtMYr/MJBjAwVPORLsWqacQAX0dEzjZnSCodvKWuUlH3RIgR7+Qvb6EXAvorZP9W
+         4xwsYa9VwNApTKspcOdCHDv7tsnQA3FC040F9//kptPv+ONBnnkEM58c+CA2Dz0hrAGT
+         tAZp/XqexR8scpsjgeVD2PmunY8prQGesgSRYdx5zfsB2Ffx/0lGQXiu6Z1HtTGqym2t
+         kxBg==
+X-Gm-Message-State: AOAM531gW2iZA1E/vlRn3Vh6cGKQ2YfEoFcl72i65Lt0qLkY4VEppCfa
+        9SKzIwvEajfeOefJ1SUGmaeN5eBuZ+5v//ce428=
+X-Google-Smtp-Source: ABdhPJzfRaFPvLx+fMxGrt+I4C3SRFJHleONaqg7i4IvAGQ6aQvoRRGtLFcMRTSg9k7ZAk6Yl7tZSKL1xoRRRuVrgIQ=
+X-Received: by 2002:a05:6602:1601:: with SMTP id x1mr15442631iow.129.1591987668271;
+ Fri, 12 Jun 2020 11:47:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAAFQd5ADxz-GYYiocKcB+Qxk9_tNJ_aAMxoOY6N9NLC-6ya3pw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20200605170720.2478262-1-noltari@gmail.com>
+In-Reply-To: <20200605170720.2478262-1-noltari@gmail.com>
+From:   Kamal Dasu <kdasu.kdev@gmail.com>
+Date:   Fri, 12 Jun 2020 14:47:37 -0400
+Message-ID: <CAC=U0a3xa9k76mxsiVKDyXsuvboZAyMkXT-S3-6oVZKjnWkeHA@mail.gmail.com>
+Subject: Re: [PATCH] mtd: rawnand: brcmnand: force raw OOB writes
+To:     =?UTF-8?B?w4FsdmFybyBGZXJuw6FuZGV6IFJvamFz?= <noltari@gmail.com>
+Cc:     Brian Norris <computersforpeace@gmail.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        "R, Vignesh" <vigneshr@ti.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        MTD Maling List <linux-mtd@lists.infradead.org>,
+        bcm-kernel-feedback-list <bcm-kernel-feedback-list@broadcom.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
+On Fri, Jun 5, 2020 at 1:07 PM =C3=81lvaro Fern=C3=A1ndez Rojas <noltari@gm=
+ail.com> wrote:
+>
+> MTD_OPS_AUTO_OOB is writting OOB with ECC enabled, which changes all ECC =
+bytes
+> from an erased page to 0x00 when JFFS2 cleanmarkers are added with mtd-ut=
+ils.
+>          | BBI |   JFFS2   |   ECC   |   JFFS2   | Spare  |
+> 00000800  ff ff 19 85 20 03 00 00  00 00 00 00 08 ff ff ff
+>
+> However, if OOB is written with ECC disabled, the JFFS2 cleanmarkers are
+> correctly written without changing the ECC bytes:
+>          | BBI |   JFFS2   |   ECC   |   JFFS2   | Spare  |
+> 00000800  ff ff 19 85 20 03 ff ff  ff 00 00 00 08 ff ff ff
 
-On 6/12/20 9:33 PM, Tomasz Figa wrote:
-> Hi Stanimir,
-> 
-> On Fri, Jun 12, 2020 at 5:20 PM Stanimir Varbanov
-> <stanimir.varbanov@linaro.org> wrote:
->>
->> I failed to found previous discussion on the subject, maybe it was on IRC.
->>
->> I stuck with fixing of issues which depends on this reqbuf(count=0).
->> Currently I'm counting the buffers in vb2::buf_init and vb2::buf_cleanup
->> but I don't want to rely on that implicit way anymore.
->>
->> If someone of you can remember let me know so that I can prepare an RFC.
->>
->> I can think of two options:
->>  - change vb2::queue_setup so it could be called with num_buffers=0
->>  - add new vb2::queue_release op
->>
->> More options?
-> 
-> Just to make sure we're on the same page: Are you looking for a way to
-> handle some operation only when all buffers on the queue are being
-> freed?
+Both brcmand_write_oob_raw() and brcmnand_write_oob() use
+brcmnand_write() that uses PROGRAM_PAGE cmd, means also programs data
+areas and ECC when enabled  is always calculated on DATA+OOB.  since
+in both cases we only want to modify OOB, data is always assumed to be
+0xffs (means erased state). So as far as this api always is used on
+the erased page it should be good. Are the sub-pages/oob areas read by
+jffs2  also read without ecc enabled?. Just want to be sure that it
+does not break any other utilities like nandwrite.
 
-Exactly :)
-
-Presently I'm counting capture and output buffers in vb2::buf_init and
-vb2::buf_cleanup and release/reinit internal driver resources on the
-last .buf_cleanup. And this is a workaround of the problem which I want
-to solve properly.
-
-> 
-> Best regards,
-> Tomasz
-> 
-
--- 
-regards,
-Stan
+>
+> Signed-off-by: =C3=81lvaro Fern=C3=A1ndez Rojas <noltari@gmail.com>
+> ---
+>  drivers/mtd/nand/raw/brcmnand/brcmnand.c | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
+>
+> diff --git a/drivers/mtd/nand/raw/brcmnand/brcmnand.c b/drivers/mtd/nand/=
+raw/brcmnand/brcmnand.c
+> index 8f9ffb46a09f..566281770841 100644
+> --- a/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+> +++ b/drivers/mtd/nand/raw/brcmnand/brcmnand.c
+> @@ -2279,13 +2279,6 @@ static int brcmnand_write_page_raw(struct nand_chi=
+p *chip, const uint8_t *buf,
+>         return nand_prog_page_end_op(chip);
+>  }
+>
+> -static int brcmnand_write_oob(struct nand_chip *chip, int page)
+> -{
+> -       return brcmnand_write(nand_to_mtd(chip), chip,
+> -                             (u64)page << chip->page_shift, NULL,
+> -                             chip->oob_poi);
+> -}
+> -
+>  static int brcmnand_write_oob_raw(struct nand_chip *chip, int page)
+>  {
+>         struct mtd_info *mtd =3D nand_to_mtd(chip);
+> @@ -2642,7 +2635,7 @@ static int brcmnand_init_cs(struct brcmnand_host *h=
+ost, struct device_node *dn)
+>         chip->ecc.write_oob_raw =3D brcmnand_write_oob_raw;
+>         chip->ecc.read_oob_raw =3D brcmnand_read_oob_raw;
+>         chip->ecc.read_oob =3D brcmnand_read_oob;
+> -       chip->ecc.write_oob =3D brcmnand_write_oob;
+> +       chip->ecc.write_oob =3D brcmnand_write_oob_raw;
+>
+>         chip->controller =3D &ctrl->controller;
+>
+> --
+> 2.26.2
+>
