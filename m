@@ -2,76 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0155C1F79C7
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 16:26:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C5F41F79D8
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 16:31:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726483AbgFLO04 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 12 Jun 2020 10:26:56 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54368 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726255AbgFLO04 (ORCPT
+        id S1726381AbgFLObs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 12 Jun 2020 10:31:48 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:39297 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726085AbgFLObs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 12 Jun 2020 10:26:56 -0400
-Received: from jade.amanokami.net (unknown [IPv6:2400:4051:61:600:b09c:6559:5445:7c98])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D7D424F;
-        Fri, 12 Jun 2020 16:26:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1591972015;
-        bh=fvBQTQWl75Sl/tCVxm5QcBYbRo8BXgMC2okLIae9eCo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=L1Tr0EJLAjxZzM47lSt2QslEnVWu/9rsX8osqzhGa01zCnzmX/UO7ni6EvM1VCjqg
-         wUDqzj+Y4cA70UaEjqvg+Jaa+QvNzHuZZS/XxutfQAhQWIs9TeJv7fb3LriISwHULV
-         u2oC/smbU29NbKd/98LUpUZ/iD+qLkKSwG+40L6U=
-Date:   Fri, 12 Jun 2020 23:26:46 +0900
-From:   Paul Elder <paul.elder@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH] v4l2-compliance: Kill child after failed streamoff test
- blocks
-Message-ID: <20200612142646.GC1777@jade.amanokami.net>
-References: <20200612141107.43344-1-paul.elder@ideasonboard.com>
+        Fri, 12 Jun 2020 10:31:48 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id jkiWj7pG1ZgWWjkiZjWPog; Fri, 12 Jun 2020 16:31:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1591972306; bh=nCym+V68URqljB+zF0jxDoG5uZ9OAURpMHuY+4kVtNA=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Ek25y6ooiVKrHsLtNoW2msBBEPPbmzkTtVlBE47CV/ciG+iatFdT6vGmuWS0SvSUl
+         xx4VUC3/8wTt9TZ+EY6fiFQ82WIEmE6tsyMS9wyh6ef6GKFZLrwY1+M/Jvcq5c0tMv
+         ZQQCXgKEpo83ayN9/NIyx4NyS0lESXPd6YEUNM51OgA5JD8FOvOKNo/H0P8zaWdMr4
+         aAbBYaKrc7Bg5UhrGi8+v02T/ogLkcA9q/6n3uZONDUeH5fKxtBEdSs3LL5bPXc6vf
+         KcSHXv0v1kYVap2GRvhatTGV/rKzC/MgOk9EJS+o/HVhQQPb2Rt3M8rQS/qZp/Dc4K
+         6KcjRzJbA/lQw==
+Subject: Re: [RESEND PATCH v3 0/6] media: staging: rkisp1: bugs fixes and vars
+ renames
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     helen.koike@collabora.com, ezequiel@collabora.com,
+        kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, tfiga@chromium.org
+References: <20200611154551.25022-1-dafna.hirschfeld@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <2f0f7297-6067-9af0-c544-fc7defad943d@xs4all.nl>
+Date:   Fri, 12 Jun 2020 16:31:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200612141107.43344-1-paul.elder@ideasonboard.com>
+In-Reply-To: <20200611154551.25022-1-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfGmSocrPpAgHoUy6j0hE9l1Ucx0Lv4acvA1yIyIkDkq0MbHONKkz/0iOqaoMHY1142snEcuQGdyLW+1L02uMnPN+/5ecD/x8fIG4q1cmzYiJ8frhEiBo
+ Mhcoi6iY0CDU6hDEc9ADh32WYf8DcRQnD0VDIcmD1cfItpYaUw+CDdITL3PZKPzPZIts2ABlmuNoSIHBnILYr0GJjO/6Uj6Iagg7F6FjCFlfldoTWczNVrtr
+ Jyg4SZybRevmK3yjQotSpXSIYNY40CEBVmCzsG/c0Apl5w6y9LzuZ6nzfcRDps6w7Ad5h+9pitHpq0UAt+a3IuN3TmYhMWB9DafeJ06vpEQy1j+KAV5xl0L7
+ 8KEwGfasgaZXpx1yKBUsoI9lpqJROqdr1JkRRKOt7mHwf9Q2xNzBg77s5wM4sNRLpsP/XmfZSxr3i8YhcecmKO+FTYHEbdGewrZr3ULKICPA3VV/3bBFCOGU
+ efR+lrgfth1aK0TK9uyfB0WmKzrWFM/AWB7KWBz8RFjS6Lspz6+fNpqbm0sBwzG1sVs1Dkm7hoELFitY
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 12, 2020 at 11:11:07PM +0900, Paul Elder wrote:
-> The test to test that a forked child process can do VIDIOC_STREAMOFF
-> without being blocked does not kill the child in the event of a failure
-> (ie. the child process blocks on VIDIOC_STREAMOFF). This causes the
-> video device node to still be in use even after v4l2-compliance
-> completes execution. Kill the child process after this test fails.
+(dropped the CC to stable)
 
-As we just discussed on irc, I'll convert this test to pthreads, so this
-patch can be disregarded.
+Dafna,
 
+Can you repost this an another RESEND, but without the CC to stable?
 
-Thanks,
+That will make it easier to review otherwise any reply would go to stable
+as well and just annoy Greg :-)
 
-Paul
+If you need patches to go to stable, then add a Cc: line to stable after your
+Signed-off-by tag. When the patch is merged into the mainline kernel it will
+be automatically Cc-ed to stable.
 
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> ---
->  utils/v4l2-compliance/v4l2-test-buffers.cpp | 2 ++
->  1 file changed, 2 insertions(+)
+Regards,
+
+	Hans
+
+On 11/06/2020 17:45, Dafna Hirschfeld wrote:
+> RESEND the patchset because I forgot to add the first two patches
+> to the set
 > 
-> diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> index fc49fff6..896e8e14 100644
-> --- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> +++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> @@ -2282,6 +2282,8 @@ static int testBlockingDQBuf(struct node *node, cv4l_queue &q)
->  	usleep(250000);
->  	pid = waitpid(pid_streamoff, &wstatus_streamoff, WNOHANG);
->  	kill(pid_dqbuf, SIGKILL);
-> +	if (pid != pid_streamoff)
-> +		kill(pid_streamoff, SIGKILL);
->  	fail_on_test(pid != pid_streamoff);
->  	/* Test that the second child exited properly */
->  	if (!pid || !WIFEXITED(wstatus_streamoff)) {
-> -- 
-> 2.27.0
+> The first two patches in this patchset are two bug fixes related to the enumeration and
+> settings of the sink format of the resizer entity.
+> The next 3 patches are renaming/removing macros and variables.
+> patch 6 adds documentation to the struct rkisp1_isp_mbus_info
 > 
+> changes from v2:
+> - patch 3 is new - remove macro RKISP1_DIR_SINK_SRC since the code is more readable without it.
+> - patch 5 - rename 'direction' to 'isp_pads_mask' instead of 'isp_pads_flags'
+> - patch 6 is new - add documentation of the struct 'rkisp1_isp_mbus_info'
+> 
+> changes from v1:
+> - added "Fixes: 56e3b29f9f6b "media: staging: rkisp1: add streaming paths"
+> to the commit log of the first two patches.
+> - added two patches. One patch rename the macros "RKISP1_DIR_*"
+> to "RKISP1_ISP_SD_*", another that rename the field 'direction'
+> in 'struct rkisp1_isp_mbus_info' to 'isp_pads_flags'
+> 
+> Dafna Hirschfeld (6):
+>   media: staging: rkisp1: rsz: supported formats are the isp's src
+>     formats, not sink formats
+>   media: staging: rkisp1: rsz: set default format if the given format is
+>     not RKISP1_DIR_SRC
+>   media: staging: rkisp1: remove macro RKISP1_DIR_SINK_SRC
+>   media: staging: rkisp1: rename macros 'RKISP1_DIR_*' to
+>     'RKISP1_ISP_SD_*'
+>   media: staging: rkisp1: rename the field 'direction' in
+>     'rkisp1_isp_mbus_info' to 'isp_pads_mask'
+>   media: staging: rkisp1: common: add documentation for struct
+>     rkisp1_isp_mbus_info
+> 
+>  drivers/staging/media/rkisp1/rkisp1-common.h  | 18 ++++++-
+>  drivers/staging/media/rkisp1/rkisp1-isp.c     | 50 +++++++++----------
+>  drivers/staging/media/rkisp1/rkisp1-resizer.c |  6 +--
+>  3 files changed, 43 insertions(+), 31 deletions(-)
+> 
+
