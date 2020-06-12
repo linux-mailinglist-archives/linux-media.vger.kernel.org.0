@@ -2,160 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5483D1F7130
-	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 02:09:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 835051F7265
+	for <lists+linux-media@lfdr.de>; Fri, 12 Jun 2020 05:11:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726386AbgFLAJS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 11 Jun 2020 20:09:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36470 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726285AbgFLAJR (ORCPT
+        id S1726405AbgFLDLC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 11 Jun 2020 23:11:02 -0400
+Received: from ma-dnext02.denso.co.jp ([133.192.181.77]:53114 "EHLO
+        ma-dnext02.denso.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726305AbgFLDLB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 11 Jun 2020 20:09:17 -0400
-Received: from mail-vs1-xe43.google.com (mail-vs1-xe43.google.com [IPv6:2607:f8b0:4864:20::e43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C0C0C08C5C1;
-        Thu, 11 Jun 2020 17:09:16 -0700 (PDT)
-Received: by mail-vs1-xe43.google.com with SMTP id y123so4376330vsb.6;
-        Thu, 11 Jun 2020 17:09:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=dQ0wVuVD5mbnL9oat3E9xbZZtGvABVpYY6zoc/gC/as=;
-        b=SM9Ay2c/2xgFdaM32eJi+cNPWo3yB3m6cBPUuiHhkD3ji1sb4saRSL6ZbZzg4xzfzC
-         Ego6OC6WRzAMugcreC7TNtKgVF2EXQj5tjsLBlWwGNxQd3g+pQo1WSDsHq8gLQPslSb3
-         qYCUJmIec6mluqiRWzPf7jmgb+UcRBbbgiD+kkwOSmXamFlGeqv4rRicZwBjhtddJv8N
-         hxYqaMTbKHEVg/CCboYR7XW4a4Mnh8K11q8r45irojfEgdFCz0TStwMS5vbQsV1yQuJY
-         XpiGeICTU6PeKdq0oLyX0cd2FXsHe8XhKZDRY8wtP+TxgbhYLu4/yAGowrLOVRya4fhn
-         VDdw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=dQ0wVuVD5mbnL9oat3E9xbZZtGvABVpYY6zoc/gC/as=;
-        b=KxVcX1WSjbFHFxzJsNjm66+1Nd8fZIjUBOxWAqCjBfSZtvAr2lYizKv4e8yHS8Pn2B
-         CBfj8hpvuoQAnr64xhYDZYFPiiPjWczM+DXEq4iRYFxTMxWUFyulST957AqmE3Vu7O/o
-         QJ6J14ZTaDCLHmJFGFL+zYxuxlFN2ucjvQgk/UisurfWDFETR9WHIu/BZxin5adIqLdJ
-         ECbusvOyIaJl2Iwr0R5jcZLbWMIAf9C3STo7J0AN9edJGCNnUk6IwVjX85AbOU133g4l
-         IYRRp2et5mQ9mbxbUZanVsTDbukPslQMqHZdHUldjXomyAFV4awQLe1DadD1AQN2NFb9
-         3r9g==
-X-Gm-Message-State: AOAM5338trVPdixgOYMt+U9XtV2SoiQxdJBkqn04IAv/+1Pji2z1D+sg
-        WRDH9EU/fscAkwkgyrU39rEx9PZRJcUGybdCBU0Yn2zJ
-X-Google-Smtp-Source: ABdhPJxKR4zwGXMlhODAP+l4ncod5fB9+ttu3+isDcOuBHeikejSU3l6mGXzKvhEiYWPJ02PLPMfcY/lN2W1EhnbQIk=
-X-Received: by 2002:a67:f918:: with SMTP id t24mr8872355vsq.18.1591920554784;
- Thu, 11 Jun 2020 17:09:14 -0700 (PDT)
+        Thu, 11 Jun 2020 23:11:01 -0400
+Received: from grdma01h.denso.co.jp (unknown [133.192.24.24])
+        by ma-dnext02.denso.co.jp (Postfix) with ESMTP id B9A8A31C40F;
+        Fri, 12 Jun 2020 12:10:59 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=adit-jv.com;
+        s=jpadit-jvmail2011; t=1591931459;
+        bh=XTbVH5Cf2KeZKXo8qqWUGjfzHe/SYDh7ZYtXZjdXZvw=;
+        h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+         Content-Type:Content-Transfer-Encoding:In-Reply-To;
+        b=8r2sfnqmwm1uZskV4id5OyDnpIuA+/MgFhurPgwZ/Kt/ldHpVr3GufKIN8YYPR0wu
+         5wACEsGF5hUrpoU5Yy69ybYPBEdmdd5/DJDAj9VwzFvBNlfH7enpBqJlc12UkH/sN/
+         H+5JIpSEzPZBKdQpP4KVvKN93nh1mwwhI0AAbtxDF1J8vJy6DBIRv6mxH/ld4xjrY8
+         4RQo95+KSe2CKIf0AOb1VBS8p1WWPD0q/B7pW8JbQNe5DDcJEcKi5h+IqKf+QdCAQ7
+         7gcNncIK7xcFWS4cSZAuNZcIKmAlSZuGwaw71XcVKHTyDEQ800WHi3tsBeWxgP1Aia
+         LFgh4RehUZvJw==
+Received: by grdma01h.denso.co.jp (Postfix, from userid 0)
+        id AF1E6C04E0D; Fri, 12 Jun 2020 12:10:59 +0900 (JST)
+Received: from smtp1.denso.co.jp [133.192.24.88] 
+         by grdma01h. with ESMTP id NAA02161;
+         Fri, 12 Jun 2020 12:10:59 +0900
+Received: from ky0exch01.adit-jv.com ([10.71.113.8])
+        by smtp01.denso.co.jp (MOS 4.4.7-GA)
+        with ESMTP id FZY09138;
+        Fri, 12 Jun 2020 12:10:58 +0900
+Received: from jp-u0004 (10.71.112.120) by ky0exch01.adit-jv.com (10.71.113.8)
+ with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 12 Jun 2020 12:10:57
+ +0900
+Date:   Fri, 12 Jun 2020 12:10:51 +0900
+From:   Suresh Udipi <sudipi@jp.adit-jv.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+CC:     Suresh Udipi <sudipi@jp.adit-jv.com>, <mrodin@de.adit-jv.com>,
+        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-renesas-soc@vger.kernel.org>, <mchehab@kernel.org>,
+        <michael@rodin.online>, <securitycheck@denso.co.jp>,
+        Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
+Subject: Re: [PATCH v6] media: rcar-csi2: Correct the selection of hsfreqrange
+Message-ID: <20200612031051.GA18602@jp-u0004>
+References: <20200605184426.GA5206@vmlxhi-121.adit-jv.com>
+ <1591586703-32246-1-git-send-email-sudipi@jp.adit-jv.com>
+ <20200610134004.GA192296@oden.dyn.berto.se>
 MIME-Version: 1.0
-References: <20200609104604.1594-7-stanimir.varbanov@linaro.org>
- <20200609111414.GC780233@kroah.com> <dc85bf9e-e3a6-15a1-afaa-0add3e878573@linaro.org>
- <20200610133717.GB1906670@kroah.com> <31e1aa72b41f9ff19094476033511442bb6ccda0.camel@perches.com>
- <2fab7f999a6b5e5354b23d06aea31c5018b9ce18.camel@perches.com>
- <20200611062648.GA2529349@kroah.com> <bc92ee5948c3e71b8f1de1930336bbe162d00b34.camel@perches.com>
- <20200611105217.73xwkd2yczqotkyo@holly.lan> <ed7dd5b4-aace-7558-d012-fb16ce8c92d6@linaro.org>
- <20200611121817.narzkqf5x7cvl6hp@holly.lan> <CAJfuBxzE=A0vzsjNai_jU_16R_P0haYA-FHnjZcaHOR_3fy__A@mail.gmail.com>
-In-Reply-To: <CAJfuBxzE=A0vzsjNai_jU_16R_P0haYA-FHnjZcaHOR_3fy__A@mail.gmail.com>
-From:   jim.cromie@gmail.com
-Date:   Thu, 11 Jun 2020 18:08:48 -0600
-Message-ID: <CAJfuBxyUfzM-Jmf_39YJHgfy0jLXdRjhdsNLuUacZbJA2unjcg@mail.gmail.com>
-Subject: Re: [PATCH v3 6/7] venus: Make debug infrastructure more flexible
-To:     Daniel Thompson <daniel.thompson@linaro.org>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Joe Perches <joe@perches.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Documentation List <linux-doc@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-btrfs@vger.kernel.org,
-        linux-acpi@vger.kernel.org, netdev@vger.kernel.org,
-        Jason Baron <jbaron@akamai.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200610134004.GA192296@oden.dyn.berto.se>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.71.112.120]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-calling out some thinkos
+On Wed, Jun 10, 2020 at 03:40:04PM +0200, Niklas Söderlund wrote:
+> Hi Suresh,
+> 
+> Thanks for your persistent work!
+> 
+> On 2020-06-08 12:25:03 +0900, Suresh Udipi wrote:
+> > hsfreqrange should be chosen based on the calculated mbps which
+> > is closer to the default bit rate  and within the range as per
+> > table[1]. But current calculation always selects first value which
+> > is greater than or equal to the calculated mbps which may lead
+> > to chosing a wrong range in some cases.
+> > 
+> > For example for 360 mbps for H3/M3N
+> > Existing logic selects
+> > Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
+> > 
+> > This hsfreqrange is out of range.
+> > 
+> > The logic is changed to get the default value which is closest to the
+> > calculated value [1]
+> > 
+> > Calculated value 360Mbps : Default 350Mbps  Range [320.625 -380.625 mpbs]
+> > 
+> > [1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
+> > 
+> > Please note that According to Renesas in Table 25.9 the range for
+> > 220 default value is corrected as below
+> > 
+> >  |Range (Mbps)     |  Default  Bit rate (Mbps) |
+> >  -----------------------------------------------
+> >  | 197.125-244.125 |     220                   |
+> >  -----------------------------------------------
+> > 
+> > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+> > 
+> > Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
+> > Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
+> > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+> > ---
+> >  Changes in v2:
+> >   - Added the boundary check for the maximum bit rate.
+> > 
+> >   - Simplified the logic by remmoving range check
+> >     as only the closest default value covers most
+> >     of the use cases.
+> > 
+> >   - Aligning the commit message based on the above change
+> > 
+> > 
+> >  Changes in v3:
+> >     - Added max member from struct rcsi2_mbps_reg.
+> >       mbps varialbe cannot be removed from rcsi2_mbps_reg,
+> >       since this structure is reused for
+> >       phtw_mbps_h3_v3h_m3n/phtw_mbps_v3m_e3 where mbps is
+> >       used.
+> > 
+> > 
+> >    -  Update the walk of the array in rcsi2_set_phypll() so that it finds
+> >       the first entry where the calculated bit rate is less than the max.
+> > 
+> >    - Support lower bit rates less than 80Mbps like 48Mbps
+> >      (Raspberry pi camera 640x480 connected to Kingfisher)
+> >      can also be supported by selecting the lowest default bit rate 80Mbps
+> >      as done before this fix
+> > 
+> >    - Alignement of the commit message based on above changes.
+> > 
+> >  Changes in v4:
+> >   -  Remove unncessary braces.
+> > 
+> >  Changes in v5:
+> >    - Removed mbps variable in rcsi2_mbps_reg and aligned all 
+> >      tables accordingly
+> > 	 
+> >  Changes in v6
+> >    - Renesas correct the range of default value 220Mbps. Now
+> >      if we select the nearest value to the default value all
+> > 	 the values are in range. So reverting back to original patch
+> > 	 
+> >    - Added warning for values less than Minimum 80Mbps
+> > 
+> > 
+> >  drivers/media/platform/rcar-vin/rcar-csi2.c | 23 ++++++++++++++++++-----
+> >  1 file changed, 18 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > index 151e6a9..8c502b7 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> > @@ -199,6 +199,8 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
+> >  /* PHY Frequency Control */
+> >  #define PHYPLL_REG			0x68
+> >  #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
+> > +#define PHYPLL_HSFREQRANGE_MAX		1500
+> > +#define PHYPLL_HSFREQRANGE_MIN		  80
+> >  
+> >  static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
+> >  	{ .mbps =   80, .reg = 0x00 },
+> > @@ -431,16 +433,27 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
+> >  static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
+> >  {
+> >  	const struct rcsi2_mbps_reg *hsfreq;
+> > +	const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
+> >  
+> > -	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
+> > -		if (hsfreq->mbps >= mbps)
+> > -			break;
+> > -
+> > -	if (!hsfreq->mbps) {
+> > +	if (mbps > PHYPLL_HSFREQRANGE_MAX) {
+> >  		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
+> >  		return -ERANGE;
+> >  	}
+> >  
+> > +	if (mbps < PHYPLL_HSFREQRANGE_MIN)
+> > +		dev_warn(priv->dev, "PHY speed (%u Mbps) less \
+> > +			 than Min 80Mbps\n", mbps);
+> 
+> I would drop this warning.
+> 
 
-On Thu, Jun 11, 2020 at 3:19 PM <jim.cromie@gmail.com> wrote:
->
-> heres what I have in mind.  whats described here is working.
-> I'll send it out soon
->
-> commit 20298ec88cc2ed64269c8be7b287a24e60a5347e
-> Author: Jim Cromie <jim.cromie@gmail.com>
-> Date:   Wed Jun 10 12:55:08 2020 -0600
->
->     dyndbg: WIP towards module->debugflags based callsite controls
->
->     There are *lots* of ad-hoc debug printing solutions in kernel,
->     this is a 1st attempt at providing a common mechanism for many of them.
->
->     Basically, there are 2 styles of debug printing:
->     - levels, with increasing verbosity, 1-10 forex
->     - bits/flags, independently controlling separate groups of dprints
->
->     This patch does bits/flags (with no distinction made yet between 2)
->
->     API:
->
->     - change pr_debug(...)  -->  pr_debug_typed(type_id=0, ...)
+  This was suggested by Michael. Michael is it ok to drop this warning
+  as it is not available before this changes also. 
 
-pr_debug, pr_debug_n now in printk.h
+> > +
+> > +	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
+> > +		if (hsfreq->mbps >= mbps)
+> > +			break;
+> > +		hsfreq_prev = hsfreq;
+> > +	}
+> > +
+> > +	if (hsfreq_prev &&
+> > +	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
+> 
+> Longer lines are now OK [1] and I think it would add to the readability 
+> here.
+> 
+> > +		hsfreq = hsfreq_prev;
+> > +
+> 
+> How about
+> 
+> static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
+> {
+>     const struct rcsi2_mbps_reg *hsfreq;
+>     const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
+> 
+>     for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
+> 	if (hsfreq->mbps >= mbps)
+> 		break;
+> 	hsfreq_prev = hsfreq;
+>     }
+> 
+>     if (!hsfreq->mbps) {
+> 	dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
+> 	return -ERANGE;
+>     }
+> 
+>     if (hsfreq_prev && ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
+> 	hsfreq = hsfreq_prev;
+> 
+>     rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
+> 
+>     return 0;
+> }
+> 
+> >  	rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
+> >  
+> >  	return 0;
 
-_?_?dynamic_.+_cl  adaptations in dynamic_debug.h
+Agreed I will do the changes and update.
+> > -- 
+> > 2.7.4
+> > 
+> 
+> 1. https://lkml.org/lkml/2020/5/29/1038
+> 
+> -- 
+> Regards,
+> Niklas Söderlund
 
->     - all existing uses have type_id=0
->     - developer creates exclusive types of log messages with type_id>0
->       1, 2, 3 are disjoint groups, for example: hi, mid, low
->
->     - !!type_id is just an additional callsite selection criterion
->
->       Qfoo() { echo module foo $* >/proc/dynamic_debug/control }
->       Qfoo +p               # all groups, including default 0
->       Qfoo mflags 1 +p      # only group 1
->       Qfoo mflags 12 +p     # TBD[1]: groups 1 or 2
->       Qfoo mflags 0 +p      # ignored atm TBD[2]
->       Qfoo mflags af +p     # TBD[3]: groups a or f (10 or 15)
->
->     so patch does:
->
->     - add u32 debugflags to struct module. Each bit is a separate print-class.
-
-this is feeling wrong now.
-setting these bits would have to trigger an update via ddebug_exec_query
-kinda like setting a bit would trigger
-       echo module $foo mflags $bitpos +p > control
-
-its possible, but not 1st, or 2nd perhaps.
-In general Im quite leery of rigging up some callback to do it.
-
-its prudent to effect all debug changes via >control
-
->     - in ddebug_change()
->       filter on !! module->debugflags,
->       IFF query->module is given, and matches dt->mod_name
->       and query->mflags is given, and bitmatches module->debugflags
-
-wrong, ddebug_change cannot respond to changes of debugflags,
-most it could do is consult it on queries
-
-
->     - in parse_query()
->       accept new query term: mflags $arg
->       populate query->mflags
->       arg-type needs some attention, but basic plumbing is there
->
->     WIP: not included:
->
->     - pr_debug_typed( bitpos=0, ....)'
-
-now done, as pr_debug_n, pr_debug in printk.h
-
-Ive adapted the macros with a "_cl(cl, " insertion,
-
-also added trailing prcls to control output
-
->
->     - no way to exersize new code in ddebug_change
->       need pr_debug_typed() to make a (not-null) typed callsite.
->       also no way to set module->debugflags
-
-close enough to see the thinkos
+-- 
+Best Regards,
+Suresh Udipi.
