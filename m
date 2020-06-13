@@ -2,77 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 091471F85D5
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2020 01:14:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37C601F85DD
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2020 01:19:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726578AbgFMXN7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 Jun 2020 19:13:59 -0400
-Received: from mta-p5.oit.umn.edu ([134.84.196.205]:52468 "EHLO
-        mta-p5.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726272AbgFMXN6 (ORCPT
+        id S1726786AbgFMXTx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 Jun 2020 19:19:53 -0400
+Received: from mta-p8.oit.umn.edu ([134.84.196.208]:59224 "EHLO
+        mta-p8.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726272AbgFMXTw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 Jun 2020 19:13:58 -0400
+        Sat, 13 Jun 2020 19:19:52 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mta-p5.oit.umn.edu (Postfix) with ESMTP id 49kth517HWz9vZ20
-        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 23:13:57 +0000 (UTC)
+        by mta-p8.oit.umn.edu (Postfix) with ESMTP id 49ktpv3rFcz9vbsg
+        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 23:19:51 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p5.oit.umn.edu ([127.0.0.1])
-        by localhost (mta-p5.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id Fd39uSN8D6SV for <linux-media@vger.kernel.org>;
-        Sat, 13 Jun 2020 18:13:57 -0500 (CDT)
-Received: from mail-il1-f198.google.com (mail-il1-f198.google.com [209.85.166.198])
+Received: from mta-p8.oit.umn.edu ([127.0.0.1])
+        by localhost (mta-p8.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id miXGNNecH76X for <linux-media@vger.kernel.org>;
+        Sat, 13 Jun 2020 18:19:51 -0500 (CDT)
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mta-p5.oit.umn.edu (Postfix) with ESMTPS id 49kth46YqGz9vZ1k
-        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 18:13:56 -0500 (CDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p5.oit.umn.edu 49kth46YqGz9vZ1k
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p5.oit.umn.edu 49kth46YqGz9vZ1k
-Received: by mail-il1-f198.google.com with SMTP id s4so9289046ilc.7
-        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 16:13:56 -0700 (PDT)
+        by mta-p8.oit.umn.edu (Postfix) with ESMTPS id 49ktpv1m9cz9vbsT
+        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 18:19:51 -0500 (CDT)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p8.oit.umn.edu 49ktpv1m9cz9vbsT
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p8.oit.umn.edu 49ktpv1m9cz9vbsT
+Received: by mail-io1-f69.google.com with SMTP id v14so8769533iob.11
+        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 16:19:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=umn.edu; s=google;
         h=from:to:cc:subject:date:message-id;
-        bh=Lp/57Kv3gzuXj/K9oQ77nASFzku70Zj4jK0Z7RozDsE=;
-        b=lfurDX56hYBZrhdFYqEBnv2irvi2WRAzXzjIzOMzTNHuv42xHT5JVvBul2r6yRZfSr
-         Cedk/u4yLdw8aRqEc/y4ItmczY/Wy46YSJdJrRMiyu6axMe091p2oVRathwkVLAjctph
-         O1ryAN6KCqcJBCUYQiS5rpomqGicoXiT0GBMpThSYx8h/WfcepNjKEwEdueyxHsiT/QC
-         QuMW8qQhASGbepJxBMeb2/E+/u9MHhAnP4kSZh7r1eGnqZTnwEm5ywzhNHk5NVpJQ75p
-         aeacfU6DR3UAp/DccV5MCqEE1fH4GmLxOcOkkO/DPszNBMyGWO8UrRz2Jk+okWcCDdSo
-         lqPw==
+        bh=0J2WzBmWJmFnCbwYpPhvfRXosCtqPD3qdOkqR/y7HfE=;
+        b=LZ16KaVj+L/3PDGxv7dCNxew4d6GRS3dAPrHGIhz3WLmeRcvax7dsMWazwLOa71YcI
+         xtSaRmDB8bABi3Qdc6wmIhg2jHxqlMkFR91nj9cd4Xig5PwgsFgXShqy+gcpYaK7R6v2
+         iq0y5reDWT1PT7CXeV2Z09/GTpQOTg9OcAnzggn6BCu8WaIWB+HUBhRjouCMHFitHuQR
+         M85GgP3ymW2EQPt0EJEaIAqQcFVriggBmvTUe9M+J/Qe3oR1kuDtJAMxEszxyRne/xrk
+         M4pjDGufS1MEgCB0aLW0aZ47WSMF9nV7KkUTJF3j5YmuzK0FhyiLwElRZ8N9HtvT/dxD
+         vH8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=Lp/57Kv3gzuXj/K9oQ77nASFzku70Zj4jK0Z7RozDsE=;
-        b=IBaVJQtSea9Q0pysNYWslD9on81Qgqm4Lya5hlADm3CGX4e1+fcmWDv+ddCISLe8tM
-         jlJpA/Wz7B1YIn9YPPLuo0vBucrj0+4ZPSqJ3Fsar5we88rg4TzWBkt/wEpn5l4k4eXJ
-         sZFEq3qjnA5IF6E8PmtgGeH13yAERx/JrRTsM2+Dd86rJ9WMtofsJ1hEMwpHqA8zn1uw
-         A4QlAcJs63aexCBv+whkTfp4gPzMuU//otNGDV5D6fJg4iBuAOzkW3QQv4AWk8Bcs8pe
-         LhhYsqtyn9wQqCJzUnOH8tSEZmJaIgaKw2dQZdN9MgsCQ5iACKDGScuofa36ikMQUSlI
-         i1kA==
-X-Gm-Message-State: AOAM533ZE1OeQE5cYVIvr5GzQeBObCLX7577uPvEOLmIrMBSyn1T6EQ3
-        ZfJPolUDt5TIKl9FNy3H0kSFYI+5aKyxDEGOPz6QX86YPlTN7ogID2Q8Rka4yt/rjAp0+pGbIyh
-        LS2MbZER0EC3QXXnwyWC+wccyH44=
-X-Received: by 2002:a05:6e02:ef2:: with SMTP id j18mr19983901ilk.69.1592090036462;
-        Sat, 13 Jun 2020 16:13:56 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJztT1frvvFPpkKu648hyiONgeEYkHge5KRR8FaxCVSOS07PFim7J0gL5UIgkxz52VKBRrECXA==
-X-Received: by 2002:a05:6e02:ef2:: with SMTP id j18mr19983882ilk.69.1592090036227;
-        Sat, 13 Jun 2020 16:13:56 -0700 (PDT)
+        bh=0J2WzBmWJmFnCbwYpPhvfRXosCtqPD3qdOkqR/y7HfE=;
+        b=HZwGvp2evhpN6YErYdEjXJK+QUuYfhWiF+HP8f8XZt/IA/77VpNe2CiCrGn5e0aERb
+         qCEO1UKLtK9eEG7KfpsPXLy4PCCgnkqN/t26QG2RqQXxZIdEilD75aHK8L+nQDPR1Y/L
+         J0tcmEE2OSVhwUEwLRu3qITo4uQz+zowA7lAad9DM03R5MnZqgtOuvD0RUUeJ4bMfYyj
+         9YZaPZvvsyFcd+AJO7dEjPV3DyI9TOo4XoEvjgk90YIZS7WP2UYpRWOUdpjjxLGOAR0E
+         5Zl6yib0QhXWFGykvnoG4HDLfBvZKhSN2Qe1IM5VB2T8XaxkFeMIAxs0u+nYb+D+mK83
+         PCVw==
+X-Gm-Message-State: AOAM533kQO/1jJLNjwaG4eUjwNE+YVYNQfG3GPJFIDsnoiOI5NEggipg
+        9L4SNCAlikz8G1S5/YGh+dmu/7U1/rdJeyTJMDw4Gcs6ROPPL0sieFnxJ29EqOhw6Y27KcRWyDU
+        jLChJybiGCnJe8qWY70k3OUMrthY=
+X-Received: by 2002:a92:c04d:: with SMTP id o13mr19972742ilf.201.1592090390826;
+        Sat, 13 Jun 2020 16:19:50 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz0AiM64XcNUQP5F+CpQiJ5n6UALfY3rldZ+jTicz2fR35pa0C6ClNe+eDg1obTNeFpnA6oCA==
+X-Received: by 2002:a92:c04d:: with SMTP id o13mr19972718ilf.201.1592090390494;
+        Sat, 13 Jun 2020 16:19:50 -0700 (PDT)
 Received: from qiushi.cs.umn.edu ([2607:ea00:101:3c74:4874:45:bcb4:df60])
-        by smtp.gmail.com with ESMTPSA id b8sm5368985ior.35.2020.06.13.16.13.55
+        by smtp.gmail.com with ESMTPSA id c5sm4391570ioq.9.2020.06.13.16.19.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2020 16:13:55 -0700 (PDT)
+        Sat, 13 Jun 2020 16:19:49 -0700 (PDT)
 From:   wu000273@umn.edu
 To:     kjlu@umn.edu
-Cc:     wu000273@umn.edu, Jacob Chen <jacob-chen@iotwrt.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
+Cc:     wu000273@umn.edu,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hans Verkuil <hansverk@cisco.com>, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: rockchip/rga: Fix a reference count leak.
-Date:   Sat, 13 Jun 2020 18:13:49 -0500
-Message-Id: <20200613231350.15504-1-wu000273@umn.edu>
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: platform: fcp: Fix a reference count leak.
+Date:   Sat, 13 Jun 2020 18:19:44 -0500
+Message-Id: <20200613231944.16730-1-wu000273@umn.edu>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -82,27 +80,32 @@ X-Mailing-List: linux-media@vger.kernel.org
 From: Qiushi Wu <wu000273@umn.edu>
 
 pm_runtime_get_sync() increments the runtime PM usage counter even
-when it returns an error code. Thus call pm_runtime_put_noidle()
-if pm_runtime_get_sync() fails.
+when it returns an error code, causing incorrect ref count if
+pm_runtime_put_noidle() is not called in error handling paths.
+Thus call pm_runtime_put_noidle() if pm_runtime_get_sync() fails.
 
-Fixes: f7e7b48e6d79 ("[media] rockchip/rga: v4l2 m2m support")
+Fixes: 6eaafbdb668b ("[media] v4l: rcar-fcp: Keep the coding style consistent")
 Signed-off-by: Qiushi Wu <wu000273@umn.edu>
 ---
- drivers/media/platform/rockchip/rga/rga-buf.c | 1 +
- 1 file changed, 1 insertion(+)
+ drivers/media/platform/rcar-fcp.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/rockchip/rga/rga-buf.c b/drivers/media/platform/rockchip/rga/rga-buf.c
-index 36b821ccc1db..bf9a75b75083 100644
---- a/drivers/media/platform/rockchip/rga/rga-buf.c
-+++ b/drivers/media/platform/rockchip/rga/rga-buf.c
-@@ -81,6 +81,7 @@ static int rga_buf_start_streaming(struct vb2_queue *q, unsigned int count)
+diff --git a/drivers/media/platform/rcar-fcp.c b/drivers/media/platform/rcar-fcp.c
+index 5c6b00737fe7..05c712e00a2a 100644
+--- a/drivers/media/platform/rcar-fcp.c
++++ b/drivers/media/platform/rcar-fcp.c
+@@ -103,8 +103,10 @@ int rcar_fcp_enable(struct rcar_fcp_device *fcp)
+ 		return 0;
  
- 	ret = pm_runtime_get_sync(rga->dev);
- 	if (ret < 0) {
-+		pm_runtime_put_noidle(rga->dev);
- 		rga_buf_return_buffers(q, VB2_BUF_STATE_QUEUED);
+ 	ret = pm_runtime_get_sync(fcp->dev);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put_noidle(fcp->dev);
  		return ret;
- 	}
++	}
+ 
+ 	return 0;
+ }
 -- 
 2.17.1
 
