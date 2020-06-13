@@ -2,136 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5904A1F8336
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jun 2020 14:28:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 052E51F833D
+	for <lists+linux-media@lfdr.de>; Sat, 13 Jun 2020 14:39:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726326AbgFMM2v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 Jun 2020 08:28:51 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:37649 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726021AbgFMM2u (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 Jun 2020 08:28:50 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 0F0CB1BF204;
-        Sat, 13 Jun 2020 12:28:43 +0000 (UTC)
-Date:   Sat, 13 Jun 2020 14:32:07 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-gpio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Hyun Kwon <hyunk@xilinx.com>, linux-media@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        sakari.ailus@iki.fi,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        devicetree@vger.kernel.org,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        linux-renesas-soc@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH v10 1/4] dt-bindings: media: i2c: Add bindings for Maxim
- Integrated MAX9286
-Message-ID: <20200613123207.6ey6y5spfa5ajk4h@uno.localdomain>
-References: <20200612144713.502006-1-kieran.bingham+renesas@ideasonboard.com>
- <20200612144713.502006-2-kieran.bingham+renesas@ideasonboard.com>
- <20200612221003.GA3901624@bogus>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200612221003.GA3901624@bogus>
+        id S1726115AbgFMMjE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 Jun 2020 08:39:04 -0400
+Received: from mail.fudan.edu.cn ([202.120.224.10]:44252 "EHLO fudan.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726039AbgFMMjD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 13 Jun 2020 08:39:03 -0400
+X-Greylist: delayed 452 seconds by postgrey-1.27 at vger.kernel.org; Sat, 13 Jun 2020 08:39:02 EDT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fudan.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+        Message-Id; bh=NgezQL5SAIiQAamduSryXNCoN4qm00Nz7G4lENqQzs8=; b=r
+        OoowyDKltAqTmWCoZ7g2jgoeqqnOWnzN+YyWo4rJ3e1SWRya/92jjrSr/xkkzb1a
+        TjWRe5nl8kHTH6S4L1/TIKvpx5zUQO1RXhqmGHGFFSe2dMrq1E7vuec/90G03l2k
+        mwK90mGaFajMvdyMvv9iz2lJ103fYdOYUq/Jh0QZeg=
+Received: from localhost.localdomain (unknown [120.229.255.202])
+        by app1 (Coremail) with SMTP id XAUFCgB3fTH3xuReHq4YAA--.20878S3;
+        Sat, 13 Jun 2020 20:30:48 +0800 (CST)
+From:   Xiyu Yang <xiyuyang19@fudan.edu.cn>
+To:     Christian Koenig <christian.koenig@amd.com>,
+        Huang Rui <ray.huang@amd.com>, David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Cc:     yuanxzhang@fudan.edu.cn, kjlu@umn.edu,
+        Xiyu Yang <xiyuyang19@fudan.edu.cn>,
+        Xin Tan <tanxin.ctf@gmail.com>
+Subject: [PATCH] drm/ttm: Fix dma_fence refcnt leak when adding move fence
+Date:   Sat, 13 Jun 2020 20:30:25 +0800
+Message-Id: <1592051425-94019-1-git-send-email-xiyuyang19@fudan.edu.cn>
+X-Mailer: git-send-email 2.7.4
+X-CM-TRANSID: XAUFCgB3fTH3xuReHq4YAA--.20878S3
+X-Coremail-Antispam: 1UD129KBjvJXoWxJrWUZFyDJF1DZr45tr4UXFb_yoW8JFWxpr
+        s3GrW2krn8tF17X3sIy3W0gF95Ca47XFySgFZxCas8Zwn0v3sxKr15t390qFyUZrZ2qF42
+        qr1SkrsxuF1DuFDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDU0xBIdaVrnRJUUU9E14x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+        rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+        1l84ACjcxK6xIIjxv20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4U
+        JVW0owA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oV
+        Cq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+        0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUXVWUAwAv7VC2z280aVAFwI0_Jr0_Gr
+        1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IE
+        rcIFxwACI402YVCY1x02628vn2kIc2xKxwCY02Avz4vE14v_Xr1l42xK82IYc2Ij64vIr4
+        1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
+        67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
+        8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8VAv
+        wI8IcIk0rVW3JVWrJr1lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267
+        AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUbeOJUUUUUU==
+X-CM-SenderInfo: irzsiiysuqikmy6i3vldqovvfxof0/
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+ttm_bo_add_move_fence() invokes dma_fence_get(), which returns a
+reference of the specified dma_fence object to "fence" with increased
+refcnt.
 
-On Fri, Jun 12, 2020 at 04:10:03PM -0600, Rob Herring wrote:
-> On Fri, 12 Jun 2020 15:47:10 +0100, Kieran Bingham wrote:
-> > From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> >
-> > The MAX9286 deserializes video data received on up to 4 Gigabit
-> > Multimedia Serial Links (GMSL) and outputs them on a CSI-2 port using up
-> > to 4 data lanes.
-> >
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > Signed-off-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> > Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > Reviewed-by: Rob Herring <robh@kernel.org>
-> >
-> > ---
-> >
-> > v7:
-> >  - Collect Rob's RB tag
-> >  - Remove redundant maxItems from remote-endpoints
-> >  - Fix SPDX licence tag
-> >
-> > v10:
-> > [Jacopo]
-> >  - Fix dt-validation
-> >  - Fix dt-binding examples with 2 reg entries
-> >
-> > [Kieran]
-> >  - Correctly match the hex camera node reg
-> >  - Add (required) GPIO controller support
-> >
-> >  .../bindings/media/i2c/maxim,max9286.yaml     | 366 ++++++++++++++++++
-> >  1 file changed, 366 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
-> >
->
->
-> My bot found errors running 'make dt_binding_check' on your patch:
->
-> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/maxim,max9286.example.dt.yaml: example-0: i2c@e66d8000:reg:0: [0, 3865935872, 0, 64] is too long
->
->
-> See https://patchwork.ozlabs.org/patch/1308280
->
-> If you already ran 'make dt_binding_check' and didn't see the above
-> error(s), then make sure dt-schema is up to date:
->
-> pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
->
+When ttm_bo_add_move_fence() returns, local variable "fence" becomes
+invalid, so the refcount should be decreased to keep refcount balanced.
 
-I have updated my dt-schema installation to the latest github master
--------------------------------------------------------------------------------
-Successfully installed dtschema-2020.6.dev8+g4d2d86c
+The reference counting issue happens in one exception handling path of
+ttm_bo_add_move_fence(). When no_wait_gpu flag is equals to true, the
+function forgets to decrease the refcnt increased by dma_fence_get(),
+causing a refcnt leak.
 
-https://github.com/devicetree-org/dt-schema/commit/4d2d86c5cd65cd3944ce0aaa400866bc36727bea
+Fix this issue by calling dma_fence_put() when no_wait_gpu flag is
+equals to true.
 
-$ /usr/bin/dt-validate -V
-2020.6.dev8+g4d2d86c
--------------------------------------------------------------------------------
+Signed-off-by: Xiyu Yang <xiyuyang19@fudan.edu.cn>
+Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
+---
+ drivers/gpu/drm/ttm/ttm_bo.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-But I still cannot reproduce the error.
+diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+index f73b81c2576e..0f20e14a4cfd 100644
+--- a/drivers/gpu/drm/ttm/ttm_bo.c
++++ b/drivers/gpu/drm/ttm/ttm_bo.c
+@@ -883,8 +883,10 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
+ 	if (!fence)
+ 		return 0;
+ 
+-	if (no_wait_gpu)
++	if (no_wait_gpu) {
++		dma_fence_put(fence);
+ 		return -EBUSY;
++	}
+ 
+ 	dma_resv_add_shared_fence(bo->base.resv, fence);
+ 
+-- 
+2.7.4
 
-However, I see this commit in your next branch
-https://github.com/devicetree-org/dt-schema/commit/b72500282cfd2eba6f9df4d7553f696544b40ee6
-"schemas: Add a schema to check 'reg' sizes "
-
-Which sounds very likely related to the above reported error.
-Was this intentional ?
-
-I'm not sure how I should handle this. The error reports the i2c node
-parents should have both address-cells and size-cells properties set
-to 2, but in the example there is not i2c node parent at all :)
-Should I add a parent node for the i2c in the example snippet ?
-
-Thanks
-  j
-
-> Please check and re-submit.
->
