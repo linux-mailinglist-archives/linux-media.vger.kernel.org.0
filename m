@@ -2,74 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 729711F855E
-	for <lists+linux-media@lfdr.de>; Sat, 13 Jun 2020 23:08:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6F781F85A7
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2020 00:30:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726618AbgFMVIP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 Jun 2020 17:08:15 -0400
-Received: from mga03.intel.com ([134.134.136.65]:56872 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726507AbgFMVIO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 Jun 2020 17:08:14 -0400
-IronPort-SDR: dEScZmdJDsk0aC8Fg4c+J632XA6QAaLPKmKFaFCpDdV86HHMq25PNDbXA6n6tK5J9NGQw0s8aO
- 1kI9DXnaoj+w==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2020 14:08:14 -0700
-IronPort-SDR: NqrmBTmTIUlG859RnBviS5Ar9Eknn95ItJXRkwOWqdo7dMDW0bQfPGyuPB4KkBzcIRJAR/LZBE
- 0TKTa7Pn1gvw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,508,1583222400"; 
-   d="scan'208";a="261237235"
-Received: from lkp-server02.sh.intel.com (HELO de5642daf266) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 13 Jun 2020 14:08:13 -0700
-Received: from kbuild by de5642daf266 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1jkDNs-0000Sw-9D; Sat, 13 Jun 2020 21:08:12 +0000
-Date:   Sun, 14 Jun 2020 05:07:45 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Brad Love <brad@nextdimension.cc>, linux-media@vger.kernel.org
-Cc:     kbuild-all@lists.01.org, Brad Love <brad@nextdimension.cc>
-Subject: [PATCH] mxl692: fix platform_no_drv_owner.cocci warnings
-Message-ID: <20200613210745.GA892@f6b5b28f03af>
-References: <20200612183937.10952-2-3126054018@nextdimension.cc>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200612183937.10952-2-3126054018@nextdimension.cc>
-X-Patchwork-Hint: ignore
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726797AbgFMWaS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 Jun 2020 18:30:18 -0400
+Received: from mta-p7.oit.umn.edu ([134.84.196.207]:35700 "EHLO
+        mta-p7.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726791AbgFMWaP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 13 Jun 2020 18:30:15 -0400
+Received: from localhost (unknown [127.0.0.1])
+        by mta-p7.oit.umn.edu (Postfix) with ESMTP id 49ksjg2HjGz9vLHJ
+        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 22:30:15 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at umn.edu
+Received: from mta-p7.oit.umn.edu ([127.0.0.1])
+        by localhost (mta-p7.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id brsosEMtGDxm for <linux-media@vger.kernel.org>;
+        Sat, 13 Jun 2020 17:30:15 -0500 (CDT)
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mta-p7.oit.umn.edu (Postfix) with ESMTPS id 49ksjg0fRNz9vLHF
+        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 17:30:15 -0500 (CDT)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p7.oit.umn.edu 49ksjg0fRNz9vLHF
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p7.oit.umn.edu 49ksjg0fRNz9vLHF
+Received: by mail-io1-f69.google.com with SMTP id h65so8710688ioa.7
+        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 15:30:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=umn.edu; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=8hCA2ocDcAQFNTYWh+iYUMXDSO315n4C2muJzNBSj0Y=;
+        b=UTcTy5Ma0D3H+UNggPpPgtobBvnEipOK3UTIavkiBqbVnmTivWYf+Qid/kDhNQ1a3/
+         9iHBC+AhG4g9tSZZoRFeWc6lDotCffcCCFYZBMss4xnpW63moFTVBTg8BAV26pxXfTcd
+         tCYSdvxjJHQoqcWH8gfxEcfFnFBxgjClgVb7jjmBQy12GguFVkMcG4Wxd4No9xuwgHNm
+         Xx3hAje2Y5DAUqL+1kizKpQ5t5E6Zgr2ZyIlPgxO9Uk7eHERkuIc2AVhZ29T1U+WOXMt
+         X74lkRBJEr16CFildX3duiDZ5BpKOtibECBLMS43VuKFOLaWVWd6Lka8nCH/Yl9KphoZ
+         Hvrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=8hCA2ocDcAQFNTYWh+iYUMXDSO315n4C2muJzNBSj0Y=;
+        b=qUDcq8mtsEQkGOADupX1AmW4vQS23XT+wKAGAh3RHtMOJtmJhJjaMcM2KsJFJXzH+4
+         6+J1CzAFXVOIV9KFIbEbTsMM2KwgGHgEL+sBLcLXyvyo2Cfu2w+iYzF491ioEQsUkoaG
+         omQvWN+xaOfPLQQuYhKni0bAnZLD8CeLpcEVhOeOudFqn2PDKih4m/9KgLWhogCNhQnN
+         CDcdddiybnkwwnb/S8Duw4uct0iDG595/Lui9PLyr6eqWH7Bfg8crKJ5rbCKYtV1rrz0
+         o9xf8RpJLiHBeWF6opTo67OLn4HjnjG2M7irPjewJFOT8CC7YwGi4jtg4yXOMVjT0RdJ
+         Y4Vw==
+X-Gm-Message-State: AOAM532C+yarFHfOlgHMV293y642wZT/7AUEU9tb15Py9wmMLBmxbWSn
+        me4lFDM/N09B9Hv32/2L9ND6RFuxmdSsD1AeRehLJUvn8uofARN+37LZ5utVgYGeei7fJo4NOfI
+        lIWq/GfDRLKx9cNF336Tw+6hpetg=
+X-Received: by 2002:a92:40dc:: with SMTP id d89mr20424572ill.170.1592087414651;
+        Sat, 13 Jun 2020 15:30:14 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJx3aCzYvSn3AD2YCTZMEa/8FnqJZqsaL4OFcyPyR3T5Pf1RakQxKA/DqGRCemkZQY1BudpzSw==
+X-Received: by 2002:a92:40dc:: with SMTP id d89mr20424556ill.170.1592087414428;
+        Sat, 13 Jun 2020 15:30:14 -0700 (PDT)
+Received: from qiushi.cs.umn.edu ([2607:ea00:101:3c74:4874:45:bcb4:df60])
+        by smtp.gmail.com with ESMTPSA id c85sm5596290ilg.41.2020.06.13.15.30.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 13 Jun 2020 15:30:13 -0700 (PDT)
+From:   wu000273@umn.edu
+To:     kjlu@umn.edu
+Cc:     wu000273@umn.edu,
+        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] media: rcar-vin: Fix a reference count leak.
+Date:   Sat, 13 Jun 2020 17:30:08 -0500
+Message-Id: <20200613223008.11720-1-wu000273@umn.edu>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: kernel test robot <lkp@intel.com>
+From: Qiushi Wu <wu000273@umn.edu>
 
-drivers/media/dvb-frontends/mxl692.c:1350:3-8: No need to set .owner here. The core will do it.
+pm_runtime_get_sync() increments the runtime PM usage counter even
+when it returns an error code. Thus call pm_runtime_put_noidle()
+if pm_runtime_get_sync() fails.
 
- Remove .owner field if calls are used which set it automatically
-
-Generated by: scripts/coccinelle/api/platform_no_drv_owner.cocci
-
-CC: Brad Love <brad@nextdimension.cc>
-Signed-off-by: kernel test robot <lkp@intel.com>
+Fixes: 90dedce9bc54 ("media: rcar-vin: add function to manipulate Gen3 chsel value")
+Signed-off-by: Qiushi Wu <wu000273@umn.edu>
 ---
+ drivers/media/platform/rcar-vin/rcar-dma.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-url:    https://github.com/0day-ci/linux/commits/Brad-Love/MaxLinear-mxl692-demod-tuner-Hauppauge-usb-QuadHD/20200613-024056
-base:   git://linuxtv.org/media_tree.git master
-
- mxl692.c |    1 -
- 1 file changed, 1 deletion(-)
-
---- a/drivers/media/dvb-frontends/mxl692.c
-+++ b/drivers/media/dvb-frontends/mxl692.c
-@@ -1347,7 +1347,6 @@ MODULE_DEVICE_TABLE(i2c, mxl692_id_table
+diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+index 1a30cd036371..95bc9e0e8792 100644
+--- a/drivers/media/platform/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+@@ -1392,8 +1392,10 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+ 	int ret;
  
- static struct i2c_driver mxl692_driver = {
- 	.driver = {
--		.owner	= THIS_MODULE,
- 		.name	= "mxl692",
- 	},
- 	.probe		= mxl692_probe,
+ 	ret = pm_runtime_get_sync(vin->dev);
+-	if (ret < 0)
++	if (ret < 0) {
++		pm_runtime_put_noidle(vin->dev);
+ 		return ret;
++	}
+ 
+ 	/* Make register writes take effect immediately. */
+ 	vnmc = rvin_read(vin, VNMC_REG);
+-- 
+2.17.1
+
