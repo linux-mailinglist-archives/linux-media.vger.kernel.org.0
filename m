@@ -2,111 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6F781F85A7
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2020 00:30:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4CF0A1F85B7
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2020 00:40:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726797AbgFMWaS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 Jun 2020 18:30:18 -0400
-Received: from mta-p7.oit.umn.edu ([134.84.196.207]:35700 "EHLO
-        mta-p7.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726791AbgFMWaP (ORCPT
+        id S1726722AbgFMWjg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 Jun 2020 18:39:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39816 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726272AbgFMWjf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 Jun 2020 18:30:15 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by mta-p7.oit.umn.edu (Postfix) with ESMTP id 49ksjg2HjGz9vLHJ
-        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 22:30:15 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p7.oit.umn.edu ([127.0.0.1])
-        by localhost (mta-p7.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id brsosEMtGDxm for <linux-media@vger.kernel.org>;
-        Sat, 13 Jun 2020 17:30:15 -0500 (CDT)
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mta-p7.oit.umn.edu (Postfix) with ESMTPS id 49ksjg0fRNz9vLHF
-        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 17:30:15 -0500 (CDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p7.oit.umn.edu 49ksjg0fRNz9vLHF
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p7.oit.umn.edu 49ksjg0fRNz9vLHF
-Received: by mail-io1-f69.google.com with SMTP id h65so8710688ioa.7
-        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 15:30:15 -0700 (PDT)
+        Sat, 13 Jun 2020 18:39:35 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CA86C03E96F
+        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 15:39:35 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id l12so13565289ejn.10
+        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 15:39:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umn.edu; s=google;
+        d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id;
-        bh=8hCA2ocDcAQFNTYWh+iYUMXDSO315n4C2muJzNBSj0Y=;
-        b=UTcTy5Ma0D3H+UNggPpPgtobBvnEipOK3UTIavkiBqbVnmTivWYf+Qid/kDhNQ1a3/
-         9iHBC+AhG4g9tSZZoRFeWc6lDotCffcCCFYZBMss4xnpW63moFTVBTg8BAV26pxXfTcd
-         tCYSdvxjJHQoqcWH8gfxEcfFnFBxgjClgVb7jjmBQy12GguFVkMcG4Wxd4No9xuwgHNm
-         Xx3hAje2Y5DAUqL+1kizKpQ5t5E6Zgr2ZyIlPgxO9Uk7eHERkuIc2AVhZ29T1U+WOXMt
-         X74lkRBJEr16CFildX3duiDZ5BpKOtibECBLMS43VuKFOLaWVWd6Lka8nCH/Yl9KphoZ
-         Hvrw==
+        bh=1HN9alufzB8NJoHpHLW1/fOwOpiyc7Q8JMhu8E/6NQY=;
+        b=YfeUkdrAAXeRR5txHP9A1x7xhuS6YwR2+n0z3Gwfv5nU4OSpCX39r2h26Il2RUKKdc
+         L9zBxDGk19TusapRgmGNI16ZqavPQ/vDyF+86cm+e/0Hz2FmsO8l3qbndJ+FXfMoVSnK
+         KFVWdsFC4Zlx6P4+S4DzmdWvQmdj46ceiH3JHYlGsFZNWpzXT0+vD+dhTFDjycoae9LR
+         H+PENYzUDIn0RCHLoyFx8obpbHpxsIhIHa3bOcSGmym0nAc/4lcWVLFDm/lP4tuPFhAr
+         1enFOWs3RCkwxFYyfacXUZrgnFkkdca3prmhYwxEtdaFT3SfUx8To5GurbzCjLuhJ+9g
+         GktQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=8hCA2ocDcAQFNTYWh+iYUMXDSO315n4C2muJzNBSj0Y=;
-        b=qUDcq8mtsEQkGOADupX1AmW4vQS23XT+wKAGAh3RHtMOJtmJhJjaMcM2KsJFJXzH+4
-         6+J1CzAFXVOIV9KFIbEbTsMM2KwgGHgEL+sBLcLXyvyo2Cfu2w+iYzF491ioEQsUkoaG
-         omQvWN+xaOfPLQQuYhKni0bAnZLD8CeLpcEVhOeOudFqn2PDKih4m/9KgLWhogCNhQnN
-         CDcdddiybnkwwnb/S8Duw4uct0iDG595/Lui9PLyr6eqWH7Bfg8crKJ5rbCKYtV1rrz0
-         o9xf8RpJLiHBeWF6opTo67OLn4HjnjG2M7irPjewJFOT8CC7YwGi4jtg4yXOMVjT0RdJ
-         Y4Vw==
-X-Gm-Message-State: AOAM532C+yarFHfOlgHMV293y642wZT/7AUEU9tb15Py9wmMLBmxbWSn
-        me4lFDM/N09B9Hv32/2L9ND6RFuxmdSsD1AeRehLJUvn8uofARN+37LZ5utVgYGeei7fJo4NOfI
-        lIWq/GfDRLKx9cNF336Tw+6hpetg=
-X-Received: by 2002:a92:40dc:: with SMTP id d89mr20424572ill.170.1592087414651;
-        Sat, 13 Jun 2020 15:30:14 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJx3aCzYvSn3AD2YCTZMEa/8FnqJZqsaL4OFcyPyR3T5Pf1RakQxKA/DqGRCemkZQY1BudpzSw==
-X-Received: by 2002:a92:40dc:: with SMTP id d89mr20424556ill.170.1592087414428;
-        Sat, 13 Jun 2020 15:30:14 -0700 (PDT)
-Received: from qiushi.cs.umn.edu ([2607:ea00:101:3c74:4874:45:bcb4:df60])
-        by smtp.gmail.com with ESMTPSA id c85sm5596290ilg.41.2020.06.13.15.30.13
+        bh=1HN9alufzB8NJoHpHLW1/fOwOpiyc7Q8JMhu8E/6NQY=;
+        b=KhBtR5Zl2TfBQYv3CiaxwAro4u9XXMnQiyhdGS0uVRqvyYOvJacQYsCtb7O/D73gLa
+         Lx7Xt/qw25vCHw8rNXfbVdpgV1LatIO575tm0AszASoOPwAx4DN7uZG08MgWkNyw/6iR
+         VS8/nJaoucAV5vV8lTAG+0LbZ1JTAqe4em3CIZf2hTa5LK+DKcL2R4GBh3h2o50STeCt
+         T29AllcCRAd2sLKs7TxVJXyI8+sAoUlvf6gpIP1qEqe4BEdXXhZQwunjTYpJCgrtbq18
+         2+vs+d29mZVR7XJOksikhvHmz9cVzyhzL03NyaDwBk0CV3LIh+c27p1pQ6SsSYja4M3t
+         ESWQ==
+X-Gm-Message-State: AOAM532WFuTnxLFXWP6E0LR4Nu0oDl+spqZFaCE+xuz/4w5X77Abyy+s
+        fMI29VQqqRetrf3TV82f+QoKzQujdyjRDQ==
+X-Google-Smtp-Source: ABdhPJwlcm5rgjD40HUNjeatpPH2udNWa8GwXsbY6X8NtkOfsPUGF7hlTw962UHa4NYMm4OFPHU1bg==
+X-Received: by 2002:a17:906:7247:: with SMTP id n7mr19422656ejk.105.1592087974315;
+        Sat, 13 Jun 2020 15:39:34 -0700 (PDT)
+Received: from localhost.localdomain (212-5-158-38.ip.btc-net.bg. [212.5.158.38])
+        by smtp.gmail.com with ESMTPSA id u3sm5581606edx.25.2020.06.13.15.39.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2020 15:30:13 -0700 (PDT)
-From:   wu000273@umn.edu
-To:     kjlu@umn.edu
-Cc:     wu000273@umn.edu,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: rcar-vin: Fix a reference count leak.
-Date:   Sat, 13 Jun 2020 17:30:08 -0500
-Message-Id: <20200613223008.11720-1-wu000273@umn.edu>
+        Sat, 13 Jun 2020 15:39:33 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        jim.cromie@gmail.com, Joe Perches <joe@perches.com>,
+        Jason Baron <jbaron@akamai.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH v4 0/3] Venus dynamic debug
+Date:   Sun, 14 Jun 2020 01:39:16 +0300
+Message-Id: <20200613223919.7038-1-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Qiushi Wu <wu000273@umn.edu>
+Hello,
 
-pm_runtime_get_sync() increments the runtime PM usage counter even
-when it returns an error code. Thus call pm_runtime_put_noidle()
-if pm_runtime_get_sync() fails.
+Time for v4 with following changes:
+ * 1/3 taken comments into account - Greg KH
+ * 2/3 kept the patch version from v2.
 
-Fixes: 90dedce9bc54 ("media: rcar-vin: add function to manipulate Gen3 chsel value")
-Signed-off-by: Qiushi Wu <wu000273@umn.edu>
----
- drivers/media/platform/rcar-vin/rcar-dma.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Cc: jim.cromie@gmail.com
+Cc: Joe Perches <joe@perches.com>
+Cc: Jason Baron <jbaron@akamai.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index 1a30cd036371..95bc9e0e8792 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -1392,8 +1392,10 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
- 	int ret;
- 
- 	ret = pm_runtime_get_sync(vin->dev);
--	if (ret < 0)
-+	if (ret < 0) {
-+		pm_runtime_put_noidle(vin->dev);
- 		return ret;
-+	}
- 
- 	/* Make register writes take effect immediately. */
- 	vnmc = rvin_read(vin, VNMC_REG);
+I decided to keep 2/3 as it was in v2 of the current patchset
+where the grouping of KERN_DEBUG messages has been accomplished
+by dynamic debug 'format' filter. Depending on how WIP patches
+from Jim [1] will progress I'm ready to change that. Until then
+I'd like to have a  way to group the debug messages.
+In case 2/3 is not accepted I'm willing to drop it from next
+pull request.
+
+v3 can be found at [2].
+
+regards.
+Stan
+
+[1] https://lore.kernel.org/lkml/20200613155738.2249399-1-jim.cromie@gmail.com/T/#t
+[2] https://lore.kernel.org/lkml/20200609104604.1594-1-stanimir.varbanov@linaro.org/
+
+Stanimir Varbanov (3):
+  venus: Add debugfs interface to set firmware log level
+  venus: Make debug infrastructure more flexible
+  venus: Add a debugfs file for SSR trigger
+
+ drivers/media/platform/qcom/venus/Makefile    |  2 +-
+ drivers/media/platform/qcom/venus/core.c      |  3 +
+ drivers/media/platform/qcom/venus/core.h      |  8 +++
+ drivers/media/platform/qcom/venus/dbgfs.c     | 51 +++++++++++++++
+ drivers/media/platform/qcom/venus/dbgfs.h     | 12 ++++
+ drivers/media/platform/qcom/venus/helpers.c   |  2 +-
+ drivers/media/platform/qcom/venus/hfi_msgs.c  | 30 ++++-----
+ drivers/media/platform/qcom/venus/hfi_venus.c | 27 ++++++--
+ .../media/platform/qcom/venus/pm_helpers.c    |  3 +-
+ drivers/media/platform/qcom/venus/vdec.c      | 63 +++++++++++++++++--
+ drivers/media/platform/qcom/venus/venc.c      |  4 ++
+ 11 files changed, 172 insertions(+), 33 deletions(-)
+ create mode 100644 drivers/media/platform/qcom/venus/dbgfs.c
+ create mode 100644 drivers/media/platform/qcom/venus/dbgfs.h
+
 -- 
 2.17.1
 
