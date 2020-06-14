@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 00A321F8B7B
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 02:00:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6CD91F8B7F
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 02:00:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728111AbgFOAAg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Jun 2020 20:00:36 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:33340 "EHLO
+        id S1728079AbgFOAA1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Jun 2020 20:00:27 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33330 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728103AbgFOAAf (ORCPT
+        with ESMTP id S1728069AbgFOAAZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Jun 2020 20:00:35 -0400
+        Sun, 14 Jun 2020 20:00:25 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13AE12140;
-        Mon, 15 Jun 2020 02:00:20 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB0C71295;
+        Mon, 15 Jun 2020 02:00:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592179220;
-        bh=Yd4rfCsptrlxkH3s6xkiTaLOLz62WWyaeCUXxxsywlE=;
+        s=mail; t=1592179216;
+        bh=RoX5jKKwbAOkSfEgxFMEtqmKlfQ+z1jY7puu4/ov+Hk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ovoEcX+DCDxZPVEgeSAnim1AiO28NiiTEw/if42j7GP1sIhdHOVyFMx3N7mGA8S4y
-         JlNuUjCMO1hX5xCpxZm3JBxYg3vVWAhwiArlF98gZ5kBaV3weh7vs0f0rfb5ttYQ7t
-         zjlfVblceuXf/pAhsV12qo8IK/8r3/vLM6+b//aA=
+        b=Im9EH5ZYx4W58tQNNCdn7zFJiLjUYA33zv5rhbEIt9YIgj95bnXoA/iVawQzrL6DR
+         a8p5s+szAmWsca9O0fAEs/Gwj9cfv3KSqsa5l52CGryDP4TruWavZSPJuE9dT8Pu4/
+         9xYd1m2cSes6kIGwVTEZRCp5/ZjhvuWgzDp4htLs=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Benoit Parrot <bparrot@ti.com>
-Subject: [PATCH v1 023/107] media: ti-vpe: cal: Move function to avoid forward declaration
-Date:   Mon, 15 Jun 2020 02:58:20 +0300
-Message-Id: <20200614235944.17716-24-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v1 013/107] media: ti-vpe: cal: Make loop indices unsigned where applicable
+Date:   Mon, 15 Jun 2020 02:58:10 +0300
+Message-Id: <20200614235944.17716-14-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
 References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
@@ -39,130 +39,92 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move the csi2_phy_config() function to avoid its forward declaration. No
-functional change is included.
+Many loop indices only take positive values. Make them unsigned.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/ti-vpe/cal.c | 98 ++++++++++++++---------------
- 1 file changed, 48 insertions(+), 50 deletions(-)
+ drivers/media/platform/ti-vpe/cal.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index c5bd9cd4f105..38a7c78e425e 100644
+index 0a4c2d1f72ef..a407dbeaa720 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -740,7 +740,54 @@ static void csi2_cio_power(struct cal_ctx *ctx, bool enable)
- 			enable ? "up" : "down");
- }
- 
--static void csi2_phy_config(struct cal_ctx *ctx);
-+/*
-+ * TCLK values are OK at their reset values
-+ */
-+#define TCLK_TERM	0
-+#define TCLK_MISS	1
-+#define TCLK_SETTLE	14
-+
-+static void csi2_phy_config(struct cal_ctx *ctx)
-+{
-+	unsigned int reg0, reg1;
-+	unsigned int ths_term, ths_settle;
-+	unsigned int csi2_ddrclk_khz;
-+	struct v4l2_fwnode_bus_mipi_csi2 *mipi_csi2 =
-+			&ctx->endpoint.bus.mipi_csi2;
-+	u32 num_lanes = mipi_csi2->num_data_lanes;
-+
-+	/* DPHY timing configuration */
-+	/* CSI-2 is DDR and we only count used lanes. */
-+	csi2_ddrclk_khz = ctx->external_rate / 1000
-+		/ (2 * num_lanes) * ctx->fmt->bpp;
-+	ctx_dbg(1, ctx, "csi2_ddrclk_khz: %d\n", csi2_ddrclk_khz);
-+
-+	/* THS_TERM: Programmed value = floor(20 ns/DDRClk period) */
-+	ths_term = 20 * csi2_ddrclk_khz / 1000000;
-+	ctx_dbg(1, ctx, "ths_term: %d (0x%02x)\n", ths_term, ths_term);
-+
-+	/* THS_SETTLE: Programmed value = floor(105 ns/DDRClk period) + 4 */
-+	ths_settle = (105 * csi2_ddrclk_khz / 1000000) + 4;
-+	ctx_dbg(1, ctx, "ths_settle: %d (0x%02x)\n", ths_settle, ths_settle);
-+
-+	reg0 = reg_read(ctx->cc, CAL_CSI2_PHY_REG0);
-+	set_field(&reg0, CAL_CSI2_PHY_REG0_HSCLOCKCONFIG_DISABLE,
-+		  CAL_CSI2_PHY_REG0_HSCLOCKCONFIG_MASK);
-+	set_field(&reg0, ths_term, CAL_CSI2_PHY_REG0_THS_TERM_MASK);
-+	set_field(&reg0, ths_settle, CAL_CSI2_PHY_REG0_THS_SETTLE_MASK);
-+
-+	ctx_dbg(1, ctx, "CSI2_%d_REG0 = 0x%08x\n", ctx->csi2_port, reg0);
-+	reg_write(ctx->cc, CAL_CSI2_PHY_REG0, reg0);
-+
-+	reg1 = reg_read(ctx->cc, CAL_CSI2_PHY_REG1);
-+	set_field(&reg1, TCLK_TERM, CAL_CSI2_PHY_REG1_TCLK_TERM_MASK);
-+	set_field(&reg1, 0xb8, CAL_CSI2_PHY_REG1_DPHY_HS_SYNC_PATTERN_MASK);
-+	set_field(&reg1, TCLK_MISS, CAL_CSI2_PHY_REG1_CTRLCLK_DIV_FACTOR_MASK);
-+	set_field(&reg1, TCLK_SETTLE, CAL_CSI2_PHY_REG1_TCLK_SETTLE_MASK);
-+
-+	ctx_dbg(1, ctx, "CSI2_%d_REG1 = 0x%08x\n", ctx->csi2_port, reg1);
-+	reg_write(ctx->cc, CAL_CSI2_PHY_REG1, reg1);
-+}
- 
- static void csi2_phy_init(struct cal_ctx *ctx)
+@@ -488,7 +488,7 @@ static int cal_camerarx_regmap_init(struct cal_dev *dev)
  {
-@@ -1077,55 +1124,6 @@ static void cal_wr_dma_addr(struct cal_ctx *ctx, unsigned int dmaaddr)
- 	reg_write(ctx->dev, CAL_WR_DMA_ADDR(ctx->csi2_port), dmaaddr);
- }
+ 	struct reg_field *field;
+ 	struct cal_csi2_phy *phy;
+-	int i, j;
++	unsigned int i, j;
  
--/*
-- * TCLK values are OK at their reset values
-- */
--#define TCLK_TERM	0
--#define TCLK_MISS	1
--#define TCLK_SETTLE	14
--
--static void csi2_phy_config(struct cal_ctx *ctx)
--{
--	unsigned int reg0, reg1;
--	unsigned int ths_term, ths_settle;
--	unsigned int csi2_ddrclk_khz;
--	struct v4l2_fwnode_bus_mipi_csi2 *mipi_csi2 =
--			&ctx->endpoint.bus.mipi_csi2;
--	u32 num_lanes = mipi_csi2->num_data_lanes;
--
--	/* DPHY timing configuration */
--	/* CSI-2 is DDR and we only count used lanes. */
--	csi2_ddrclk_khz = ctx->external_rate / 1000
--		/ (2 * num_lanes) * ctx->fmt->bpp;
--	ctx_dbg(1, ctx, "csi2_ddrclk_khz: %d\n", csi2_ddrclk_khz);
--
--	/* THS_TERM: Programmed value = floor(20 ns/DDRClk period) */
--	ths_term = 20 * csi2_ddrclk_khz / 1000000;
--	ctx_dbg(1, ctx, "ths_term: %d (0x%02x)\n", ths_term, ths_term);
--
--	/* THS_SETTLE: Programmed value = floor(105 ns/DDRClk period) + 4 */
--	ths_settle = (105 * csi2_ddrclk_khz / 1000000) + 4;
--	ctx_dbg(1, ctx, "ths_settle: %d (0x%02x)\n", ths_settle, ths_settle);
--
--	reg0 = reg_read(ctx->cc, CAL_CSI2_PHY_REG0);
--	set_field(&reg0, CAL_CSI2_PHY_REG0_HSCLOCKCONFIG_DISABLE,
--		  CAL_CSI2_PHY_REG0_HSCLOCKCONFIG_MASK);
--	set_field(&reg0, ths_term, CAL_CSI2_PHY_REG0_THS_TERM_MASK);
--	set_field(&reg0, ths_settle, CAL_CSI2_PHY_REG0_THS_SETTLE_MASK);
--
--	ctx_dbg(1, ctx, "CSI2_%d_REG0 = 0x%08x\n", ctx->csi2_port, reg0);
--	reg_write(ctx->cc, CAL_CSI2_PHY_REG0, reg0);
--
--	reg1 = reg_read(ctx->cc, CAL_CSI2_PHY_REG1);
--	set_field(&reg1, TCLK_TERM, CAL_CSI2_PHY_REG1_TCLK_TERM_MASK);
--	set_field(&reg1, 0xb8, CAL_CSI2_PHY_REG1_DPHY_HS_SYNC_PATTERN_MASK);
--	set_field(&reg1, TCLK_MISS, CAL_CSI2_PHY_REG1_CTRLCLK_DIV_FACTOR_MASK);
--	set_field(&reg1, TCLK_SETTLE, CAL_CSI2_PHY_REG1_TCLK_SETTLE_MASK);
--
--	ctx_dbg(1, ctx, "CSI2_%d_REG1 = 0x%08x\n", ctx->csi2_port, reg1);
--	reg_write(ctx->cc, CAL_CSI2_PHY_REG1, reg1);
--}
--
- static int cal_get_external_info(struct cal_ctx *ctx)
+ 	if (!dev->data)
+ 		return -EINVAL;
+@@ -901,7 +901,7 @@ static void csi2_wait_for_phy(struct cal_ctx *ctx)
+ 
+ static void csi2_phy_deinit(struct cal_ctx *ctx)
  {
- 	struct v4l2_ctrl *ctrl;
+-	int i;
++	unsigned int i;
+ 
+ 	csi2_cio_power(ctx, false);
+ 
+@@ -1224,7 +1224,7 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
+ 							CAL_CSI2_COMPLEXIO_IRQSTATUS(i));
+ 
+ 				dev_err_ratelimited(&dev->pdev->dev,
+-						    "CIO%d error: %#08x\n", i, cio_stat);
++						    "CIO%u error: %#08x\n", i, cio_stat);
+ 
+ 				reg_write(dev, CAL_CSI2_COMPLEXIO_IRQSTATUS(i),
+ 					  cio_stat);
+@@ -1912,8 +1912,8 @@ static int cal_async_bound(struct v4l2_async_notifier *notifier,
+ {
+ 	struct cal_ctx *ctx = notifier_to_ctx(notifier);
+ 	struct v4l2_subdev_mbus_code_enum mbus_code;
++	unsigned int i, j, k;
+ 	int ret = 0;
+-	int i, j, k;
+ 
+ 	if (ctx->sensor) {
+ 		ctx_info(ctx, "Rejecting subdev %s (Already set!!)",
+@@ -1937,7 +1937,7 @@ static int cal_async_bound(struct v4l2_async_notifier *notifier,
+ 			continue;
+ 
+ 		ctx_dbg(2, ctx,
+-			"subdev %s: code: %04x idx: %d\n",
++			"subdev %s: code: %04x idx: %u\n",
+ 			subdev->name, mbus_code.code, j);
+ 
+ 		for (k = 0; k < ARRAY_SIZE(cal_formats); k++) {
+@@ -1946,7 +1946,7 @@ static int cal_async_bound(struct v4l2_async_notifier *notifier,
+ 			if (mbus_code.code == fmt->code) {
+ 				ctx->active_fmt[i] = fmt;
+ 				ctx_dbg(2, ctx,
+-					"matched fourcc: %s: code: %04x idx: %d\n",
++					"matched fourcc: %s: code: %04x idx: %u\n",
+ 					fourcc_to_str(fmt->fourcc),
+ 					fmt->code, i);
+ 				ctx->num_active_fmt = ++i;
+@@ -2264,9 +2264,9 @@ static int cal_probe(struct platform_device *pdev)
+ 	struct device_node *parent = pdev->dev.of_node;
+ 	struct regmap *syscon_camerrx;
+ 	u32 syscon_camerrx_offset;
++	unsigned int i;
+ 	int ret;
+ 	int irq;
+-	int i;
+ 
+ 	dev = devm_kzalloc(&pdev->dev, sizeof(*dev), GFP_KERNEL);
+ 	if (!dev)
+@@ -2402,7 +2402,7 @@ static int cal_remove(struct platform_device *pdev)
+ {
+ 	struct cal_dev *dev = platform_get_drvdata(pdev);
+ 	struct cal_ctx *ctx;
+-	int i;
++	unsigned int i;
+ 
+ 	cal_dbg(1, dev, "Removing %s\n", CAL_MODULE_NAME);
+ 
 -- 
 Regards,
 
