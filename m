@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 798521F8BA5
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 02:01:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B46911F8BA6
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 02:01:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728192AbgFOABX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Jun 2020 20:01:23 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:33340 "EHLO
+        id S1728190AbgFOABZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Jun 2020 20:01:25 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33330 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728185AbgFOABV (ORCPT
+        with ESMTP id S1728180AbgFOABW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Jun 2020 20:01:21 -0400
+        Sun, 14 Jun 2020 20:01:22 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 614D82158;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CDA9A215A;
         Mon, 15 Jun 2020 02:00:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592179238;
-        bh=sQjsUJmNF22btEKo+UQLWtpe3aeVbh0lFZtJnhL/Tm0=;
+        s=mail; t=1592179239;
+        bh=ngoKVgzG1YWkamn52gYjpUUxtJQHRCl6El5wgthJpaI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=P4InYXzM8bGgxkAjaDp1UamV2pJ3wyrrAgCQf6Ct5x/r1x30oIdLjDPGzPnvubZcH
-         6Il5ZinsQ3NbXggx8F+hBtXX4GUH99oUITIh0aSErWSRTJnl9e2Zsgfpv79A0fkDVW
-         iFzxma43B6UHJcbYWuf6q2eJappwg3CyJQ2ncNLA=
+        b=rlFzuAw060oI0AUhZgPt0pc315tvt2wmMq6kZBRG91Ip0sAchBFTK7/D4DPrStf/H
+         4jhxebUU7gF33Ht5CRjv+O+fptplbnCsZMcCaUIpzMBa4mXhqPJ5fDuDcU0jV0Z4Uc
+         JQ7t7gqSCzwV/5JcpaLtuYbKXIYQ/Bg3MS/zior8=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Benoit Parrot <bparrot@ti.com>
-Subject: [PATCH v1 061/107] media: ti-vpe: cal: Move async notifiers from contexts to cal_dev
-Date:   Mon, 15 Jun 2020 02:58:58 +0300
-Message-Id: <20200614235944.17716-62-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v1 062/107] media: ti-vpe: cal: Replace context with phy in async notifier entries
+Date:   Mon, 15 Jun 2020 02:58:59 +0300
+Message-Id: <20200614235944.17716-63-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
 References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
@@ -39,226 +39,87 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There's no need to create one async notifier per CAL context. Merge them
-all in a single notifier, stored in cal_dev.
+The async notifier is meant to bind to subdevs connected to the CSI-2
+ports. Those ports are modelled by the CAMERARX phy instances. To
+prepare for additional decoupling of contexts and phys, make the
+notifier operate on phys. We still initialize and register the context
+V4L2 support in the async notifier complete operation as that's our
+signal that the userspace API is ready to be exposed.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/ti-vpe/cal.c | 119 +++++++++++++++++-----------
- 1 file changed, 72 insertions(+), 47 deletions(-)
+ drivers/media/platform/ti-vpe/cal.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 0ae88f3593c6..1c9a0369d025 100644
+index 1c9a0369d025..d551f1d9895b 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -292,6 +292,7 @@ struct cal_dev {
- 	struct cal_ctx		*ctx[CAL_NUM_CONTEXT];
+@@ -2101,7 +2101,7 @@ static void cal_ctx_v4l2_cleanup(struct cal_ctx *ctx)
  
- 	struct v4l2_device	v4l2_dev;
-+	struct v4l2_async_notifier notifier;
+ struct cal_v4l2_async_subdev {
+ 	struct v4l2_async_subdev asd;
+-	struct cal_ctx *ctx;
++	struct cal_camerarx *phy;
  };
  
- /*
-@@ -300,7 +301,6 @@ struct cal_dev {
- struct cal_ctx {
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	struct video_device	vdev;
--	struct v4l2_async_notifier notifier;
- 
- 	struct cal_dev		*cal;
- 	struct cal_camerarx	*phy;
-@@ -336,11 +336,6 @@ struct cal_ctx {
- 	bool dma_act;
- };
- 
--static inline struct cal_ctx *notifier_to_ctx(struct v4l2_async_notifier *n)
--{
--	return container_of(n, struct cal_ctx, notifier);
--}
--
- /* ------------------------------------------------------------------
-  *	Platform Data
-  * ------------------------------------------------------------------
-@@ -2115,9 +2110,9 @@ to_cal_asd(struct v4l2_async_subdev *asd)
- 	return container_of(asd, struct cal_v4l2_async_subdev, asd);
- }
- 
--static int cal_async_bound(struct v4l2_async_notifier *notifier,
--			   struct v4l2_subdev *subdev,
--			   struct v4l2_async_subdev *asd)
-+static int cal_async_notifier_bound(struct v4l2_async_notifier *notifier,
-+				    struct v4l2_subdev *subdev,
-+				    struct v4l2_async_subdev *asd)
+ static inline struct cal_v4l2_async_subdev *
+@@ -2114,16 +2114,16 @@ static int cal_async_notifier_bound(struct v4l2_async_notifier *notifier,
+ 				    struct v4l2_subdev *subdev,
+ 				    struct v4l2_async_subdev *asd)
  {
- 	struct cal_ctx *ctx = to_cal_asd(asd)->ctx;
+-	struct cal_ctx *ctx = to_cal_asd(asd)->ctx;
++	struct cal_camerarx *phy = to_cal_asd(asd)->phy;
  
-@@ -2130,52 +2125,84 @@ static int cal_async_bound(struct v4l2_async_notifier *notifier,
- 	ctx->phy->sensor = subdev;
- 	ctx_dbg(1, ctx, "Using sensor %s for capture\n", subdev->name);
- 
--	return cal_ctx_v4l2_init_formats(ctx);
-+	return 0;
- }
- 
--static int cal_async_complete(struct v4l2_async_notifier *notifier)
-+static int cal_async_notifier_complete(struct v4l2_async_notifier *notifier)
- {
--	struct cal_ctx *ctx = notifier_to_ctx(notifier);
-+	struct cal_dev *cal = container_of(notifier, struct cal_dev, notifier);
-+	unsigned int i;
-+	int ret;
-+
-+	for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
-+		struct cal_ctx *ctx = cal->ctx[i];
-+
-+		if (!ctx)
-+			continue;
-+
-+		ret = cal_ctx_v4l2_init_formats(ctx);
-+		if (ret)
-+			continue;
-+
-+		cal_ctx_v4l2_register(ctx);
-+	}
- 
--	cal_ctx_v4l2_register(ctx);
- 	return 0;
- }
- 
--static const struct v4l2_async_notifier_operations cal_async_ops = {
--	.bound = cal_async_bound,
--	.complete = cal_async_complete,
-+static const struct v4l2_async_notifier_operations cal_async_notifier_ops = {
-+	.bound = cal_async_notifier_bound,
-+	.complete = cal_async_notifier_complete,
- };
- 
--static int of_cal_create_instance(struct cal_ctx *ctx, int inst)
-+static int cal_async_notifier_register(struct cal_dev *cal)
- {
--	struct cal_v4l2_async_subdev *casd;
--	struct v4l2_async_subdev *asd;
--	struct fwnode_handle *fwnode;
-+	unsigned int i;
- 	int ret;
- 
--	v4l2_async_notifier_init(&ctx->notifier);
--	ctx->notifier.ops = &cal_async_ops;
--
--	fwnode = of_fwnode_handle(ctx->phy->sensor_node);
--	asd = v4l2_async_notifier_add_fwnode_subdev(&ctx->notifier, fwnode,
--						    sizeof(*asd));
--	if (IS_ERR(asd)) {
--		ctx_err(ctx, "Failed to add subdev to notifier\n");
--		return PTR_ERR(asd);
-+	v4l2_async_notifier_init(&cal->notifier);
-+	cal->notifier.ops = &cal_async_notifier_ops;
-+
-+	for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
-+		struct cal_ctx *ctx = cal->ctx[i];
-+		struct cal_v4l2_async_subdev *casd;
-+		struct v4l2_async_subdev *asd;
-+		struct fwnode_handle *fwnode;
-+
-+		if (!ctx)
-+			continue;
-+
-+		fwnode = of_fwnode_handle(ctx->phy->sensor_node);
-+		asd = v4l2_async_notifier_add_fwnode_subdev(&cal->notifier,
-+							    fwnode,
-+							    sizeof(*asd));
-+		if (IS_ERR(asd)) {
-+			ctx_err(ctx, "Failed to add subdev to notifier\n");
-+			ret = PTR_ERR(asd);
-+			goto error;
-+		}
-+
-+		casd = to_cal_asd(asd);
-+		casd->ctx = ctx;
+-	if (ctx->phy->sensor) {
+-		ctx_info(ctx, "Rejecting subdev %s (Already set!!)",
++	if (phy->sensor) {
++		phy_info(phy, "Rejecting subdev %s (Already set!!)",
+ 			 subdev->name);
+ 		return 0;
  	}
  
--	casd = to_cal_asd(asd);
--	casd->ctx = ctx;
--
--	ret = v4l2_async_notifier_register(&ctx->cal->v4l2_dev,
--					   &ctx->notifier);
-+	ret = v4l2_async_notifier_register(&cal->v4l2_dev, &cal->notifier);
- 	if (ret) {
--		ctx_err(ctx, "Error registering async notifier\n");
--		v4l2_async_notifier_cleanup(&ctx->notifier);
--		return ret;
-+		cal_err(cal, "Error registering async notifier\n");
-+		goto error;
- 	}
+-	ctx->phy->sensor = subdev;
+-	ctx_dbg(1, ctx, "Using sensor %s for capture\n", subdev->name);
++	phy->sensor = subdev;
++	phy_dbg(1, phy, "Using sensor %s for capture\n", subdev->name);
  
  	return 0;
-+
-+error:
-+	v4l2_async_notifier_cleanup(&cal->notifier);
-+	return ret;
-+}
-+
-+static void cal_async_notifier_unregister(struct cal_dev *cal)
-+{
-+	v4l2_async_notifier_unregister(&cal->notifier);
-+	v4l2_async_notifier_cleanup(&cal->notifier);
  }
+@@ -2163,27 +2163,27 @@ static int cal_async_notifier_register(struct cal_dev *cal)
+ 	v4l2_async_notifier_init(&cal->notifier);
+ 	cal->notifier.ops = &cal_async_notifier_ops;
  
- /* ------------------------------------------------------------------
-@@ -2201,10 +2228,6 @@ static struct cal_ctx *cal_ctx_create(struct cal_dev *cal, int inst)
- 	if (ret)
- 		return NULL;
+-	for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
+-		struct cal_ctx *ctx = cal->ctx[i];
++	for (i = 0; i < ARRAY_SIZE(cal->phy); ++i) {
++		struct cal_camerarx *phy = cal->phy[i];
+ 		struct cal_v4l2_async_subdev *casd;
+ 		struct v4l2_async_subdev *asd;
+ 		struct fwnode_handle *fwnode;
  
--	ret = of_cal_create_instance(ctx, inst);
--	if (ret)
--		return NULL;
--
- 	return ctx;
- }
+-		if (!ctx)
++		if (!phy)
+ 			continue;
  
-@@ -2336,6 +2359,11 @@ static int cal_probe(struct platform_device *pdev)
- 	cal_get_hwinfo(cal);
- 	pm_runtime_put_sync(&pdev->dev);
- 
-+	/* Register the async notifier. */
-+	ret = cal_async_notifier_register(cal);
-+	if (ret)
-+		goto error_pm_runtime;
-+
- 	return 0;
- 
- error_pm_runtime:
-@@ -2344,11 +2372,8 @@ static int cal_probe(struct platform_device *pdev)
- 	pm_runtime_disable(&pdev->dev);
- 	for (i = 0; i < ARRAY_SIZE(cal->ctx); i++) {
- 		ctx = cal->ctx[i];
--		if (ctx) {
--			v4l2_async_notifier_unregister(&ctx->notifier);
--			v4l2_async_notifier_cleanup(&ctx->notifier);
-+		if (ctx)
- 			cal_ctx_v4l2_cleanup(ctx);
--		}
- 	}
- 
- error_v4l2:
-@@ -2371,6 +2396,8 @@ static int cal_remove(struct platform_device *pdev)
- 
- 	pm_runtime_get_sync(&pdev->dev);
- 
-+	cal_async_notifier_unregister(cal);
-+
- 	for (i = 0; i < ARRAY_SIZE(cal->ctx); i++) {
- 		ctx = cal->ctx[i];
- 		if (ctx) {
-@@ -2378,8 +2405,6 @@ static int cal_remove(struct platform_device *pdev)
- 				video_device_node_name(&ctx->vdev));
- 			cal_ctx_v4l2_unregister(ctx);
- 			cal_camerarx_disable(ctx->phy);
--			v4l2_async_notifier_unregister(&ctx->notifier);
--			v4l2_async_notifier_cleanup(&ctx->notifier);
- 			cal_ctx_v4l2_cleanup(ctx);
+-		fwnode = of_fwnode_handle(ctx->phy->sensor_node);
++		fwnode = of_fwnode_handle(phy->sensor_node);
+ 		asd = v4l2_async_notifier_add_fwnode_subdev(&cal->notifier,
+ 							    fwnode,
+ 							    sizeof(*asd));
+ 		if (IS_ERR(asd)) {
+-			ctx_err(ctx, "Failed to add subdev to notifier\n");
++			phy_err(phy, "Failed to add subdev to notifier\n");
+ 			ret = PTR_ERR(asd);
+ 			goto error;
  		}
+ 
+ 		casd = to_cal_asd(asd);
+-		casd->ctx = ctx;
++		casd->phy = phy;
  	}
+ 
+ 	ret = v4l2_async_notifier_register(&cal->v4l2_dev, &cal->notifier);
 -- 
 Regards,
 
