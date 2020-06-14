@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B5321F8B94
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 02:01:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A1EBE1F8B96
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 02:01:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728141AbgFOABF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Jun 2020 20:01:05 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:33330 "EHLO
+        id S1728163AbgFOABJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Jun 2020 20:01:09 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33340 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728131AbgFOABD (ORCPT
+        with ESMTP id S1728048AbgFOABF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Jun 2020 20:01:03 -0400
+        Sun, 14 Jun 2020 20:01:05 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5239E214F;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA2A1F9;
         Mon, 15 Jun 2020 02:00:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592179230;
-        bh=C2MVpL2PQPFSFmlxbmwmk5nn1HWr5eMcyY2s03yz6s8=;
+        s=mail; t=1592179231;
+        bh=SWJtCcbz1kZs93KnfyMgQw2sWuHhwtoQr2tKRvoXZp8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YPWvfYBmPF+AP7gf16Hc4eVRU40+qTy3p9cMf1xjcYhAtk+NqamXfcGc3wVZCrD13
-         KH95dMEt62HAe6LB9u1pEOaHoXdH/aaCQa1oeDJro7RfOFYTPx3CIrwiNv13LHnKpM
-         Skt7E4iq3p+A0A7OKLIh2YFzilwFLnP0+dKr1kLg=
+        b=dyU9/e3amWzOzXBmYc7vFAPffghDd2DpP1psUXpEQFX7CorwMMjqc+ZBZ5nsm3jHp
+         eIxoB6JMUz25A4XT4l3jPgp+UK3ltORDzHe/c/t4f81EAacaeId7vQsFSWpRIX0k4Z
+         ZAGkJjH70EwHOugSNki5Iz8gGPorjpnTHbJrIT6M=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Benoit Parrot <bparrot@ti.com>
-Subject: [PATCH v1 045/107] media: ti-vpe: cal: Inline cal_get_camerarx_regmap() in caller
-Date:   Mon, 15 Jun 2020 02:58:42 +0300
-Message-Id: <20200614235944.17716-46-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v1 046/107] media: ti-vpe: cal: Add comments to cal_probe() to delimitate sections
+Date:   Mon, 15 Jun 2020 02:58:43 +0300
+Message-Id: <20200614235944.17716-47-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
 References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
@@ -39,117 +39,65 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The cal_get_camerarx_regmap() function is called in a single place.
-Inline it in its caller, as it results in a clear code flow.
+The cal_probe() function is a bit long, add comments to delimitate
+sections in order to improve readability. The platform_set_drvdata()
+call is moved to a more logical place as a result.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/ti-vpe/cal.c | 75 ++++++++++++-----------------
- 1 file changed, 32 insertions(+), 43 deletions(-)
+ drivers/media/platform/ti-vpe/cal.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 522b2b4b76e0..c83bf261da91 100644
+index c83bf261da91..9b116ffd6e41 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -959,20 +959,36 @@ static struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
- 	return phy;
- }
- 
--static struct regmap *cal_get_camerarx_regmap(struct cal_dev *cal)
-+static int cal_camerarx_init_regmap(struct cal_dev *cal)
- {
--	struct platform_device *pdev = cal->pdev;
-+	struct device_node *np = cal->pdev->dev.of_node;
- 	struct regmap_config config = { };
--	struct regmap *regmap;
--	void __iomem *base;
-+	struct regmap *syscon;
- 	struct resource *res;
-+	unsigned int offset;
-+	void __iomem *base;
- 
--	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
-+	syscon = syscon_regmap_lookup_by_phandle_args(np, "ti,camerrx-control",
-+						      1, &offset);
-+	if (!IS_ERR(syscon)) {
-+		cal->syscon_camerrx = syscon;
-+		cal->syscon_camerrx_offset = offset;
-+		return 0;
-+	}
-+
-+	dev_warn(&cal->pdev->dev, "failed to get ti,camerrx-control: %ld\n",
-+		 PTR_ERR(syscon));
-+
-+	/*
-+	 * Backward DTS compatibility. If syscon entry is not present then
-+	 * check if the camerrx_control resource is present.
-+	 */
-+	res = platform_get_resource_byname(cal->pdev, IORESOURCE_MEM,
- 					   "camerrx_control");
--	base = devm_ioremap_resource(&pdev->dev, res);
-+	base = devm_ioremap_resource(&cal->pdev->dev, res);
- 	if (IS_ERR(base)) {
--		cal_err(cal, "failed to ioremap\n");
--		return ERR_CAST(base);
-+		cal_err(cal, "failed to ioremap camerrx_control\n");
-+		return PTR_ERR(base);
+@@ -2308,9 +2308,10 @@ static int cal_probe(struct platform_device *pdev)
+ 		return -ENODEV;
  	}
  
- 	cal_dbg(1, cal, "ioresource %s at %pa - %pa\n",
-@@ -983,45 +999,18 @@ static struct regmap *cal_get_camerarx_regmap(struct cal_dev *cal)
- 	config.val_bits = 32;
- 	config.max_register = resource_size(res) - 4;
+-	/* save pdev pointer */
+ 	cal->pdev = pdev;
++	platform_set_drvdata(pdev, cal);
  
--	regmap = regmap_init_mmio(NULL, base, &config);
--	if (IS_ERR(regmap))
--		pr_err("regmap init failed\n");
++	/* Acquire resources: clocks, CAMERARX regmap, I/O memory and IRQ. */
+ 	cal->fclk = devm_clk_get(&pdev->dev, "fck");
+ 	if (IS_ERR(cal->fclk)) {
+ 		dev_err(&pdev->dev, "cannot get CAL fclk\n");
+@@ -2337,14 +2338,14 @@ static int cal_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		return ret;
+ 
+-	platform_set_drvdata(pdev, cal);
 -
--	return regmap;
--}
--
--static int cal_camerarx_init_regmap(struct cal_dev *cal)
--{
--	struct device_node *np = cal->pdev->dev.of_node;
--	struct regmap *syscon;
--	unsigned int offset;
--
--	syscon = syscon_regmap_lookup_by_phandle_args(np, "ti,camerrx-control",
--						      1, &offset);
-+	syscon = regmap_init_mmio(NULL, base, &config);
- 	if (IS_ERR(syscon)) {
--		dev_warn(&cal->pdev->dev,
--			 "failed to get ti,camerrx-control: %ld\n",
--			 PTR_ERR(syscon));
--
--		/*
--		 * Backward DTS compatibility.
--		 * If syscon entry is not present then check if the
--		 * camerrx_control resource is present.
--		 */
--		syscon = cal_get_camerarx_regmap(cal);
--		if (IS_ERR(syscon)) {
--			dev_err(&cal->pdev->dev,
--				"failed to get camerrx_control regmap\n");
--			return PTR_ERR(syscon);
--		}
--		/* In this case the base already point to the direct
--		 * CM register so no need for an offset
--		 */
--		offset = 0;
-+		pr_err("regmap init failed\n");
-+		return PTR_ERR(syscon);
++	/* Create CAMERARX PHYs. */
+ 	for (i = 0; i < cal_data_get_num_csi2_phy(cal); ++i) {
+ 		cal->phy[i] = cal_camerarx_create(cal, i);
+ 		if (IS_ERR(cal->phy[i]))
+ 			return PTR_ERR(cal->phy[i]);
  	}
  
-+	/*
-+	 * In this case the base already point to the direct CM register so no
-+	 * need for an offset.
-+	 */
- 	cal->syscon_camerrx = syscon;
--	cal->syscon_camerrx_offset = offset;
-+	cal->syscon_camerrx_offset = 0;
++	/* Create contexts. */
+ 	for (i = 0; i < cal_data_get_num_csi2_phy(cal); ++i)
+ 		cal->ctx[i] = cal_create_instance(cal, i);
+ 
+@@ -2355,15 +2356,13 @@ static int cal_probe(struct platform_device *pdev)
+ 
+ 	vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
+ 
++	/* Read the revision and hardware info to verify hardware access. */
+ 	pm_runtime_enable(&pdev->dev);
+-
+ 	ret = pm_runtime_get_sync(&pdev->dev);
+ 	if (ret)
+ 		goto runtime_disable;
+ 
+-	/* Just check we can actually access the module */
+ 	cal_get_hwinfo(cal);
+-
+ 	pm_runtime_put_sync(&pdev->dev);
  
  	return 0;
- }
 -- 
 Regards,
 
