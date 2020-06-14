@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF9191F8BB6
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 02:01:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 710BF1F8BB8
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 02:01:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728226AbgFOABl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Jun 2020 20:01:41 -0400
+        id S1728234AbgFOABn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Jun 2020 20:01:43 -0400
 Received: from perceval.ideasonboard.com ([213.167.242.64]:33340 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728218AbgFOABk (ORCPT
+        with ESMTP id S1728227AbgFOABm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Jun 2020 20:01:40 -0400
+        Sun, 14 Jun 2020 20:01:42 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 42967E41;
-        Mon, 15 Jun 2020 02:00:46 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4193B2165;
+        Mon, 15 Jun 2020 02:00:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592179246;
-        bh=SRRvM1e3px7j5Uk1tFJJVWrtldhDJ2I30UvaFzBsbdk=;
+        s=mail; t=1592179248;
+        bh=xb/ImsPVABx3c9zOiAlNpJe6yANi0bWryIgKlf3pXH8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Fzn02n1g4nFdzdgZHN/rrD0TJed/2LzvE/R1uTi2K1pbDwEFbFV/pqvn8kNoaYy1g
-         Iwvzs94Ey7b/IuXW83AIgg4Fm2nYeQvdB2f2lcqpbLgNV6E0ur1Z5sSzfFBDuYUdiG
-         JdX48FDka4YP23dmRmi5j6pK259YEexaiRYadCnM=
+        b=ckajl/2Mpbs13hjAgYEDI2s+Sw8hLNA79yyhCysJIwudzEa4MkKNKMLarSHLdNLQD
+         d53KP3jQIBVvScQiUJWyzGhKYm6Zwx6fEzm6FCL1xhlzh/vAsKfVOYf7HhsFDzlUux
+         MRhY7YDH+JXieV4dltn4nbIXHHgQHbbqYSr8g7Mk=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Benoit Parrot <bparrot@ti.com>
-Subject: [PATCH v1 079/107] media: ti-vpe: cal: Remove unneeded phy->sensor NULL check
-Date:   Mon, 15 Jun 2020 02:59:16 +0300
-Message-Id: <20200614235944.17716-80-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v1 080/107] media: ti-vpe: cal: Use 'unsigned int' type instead of 'unsigned'
+Date:   Mon, 15 Jun 2020 02:59:17 +0300
+Message-Id: <20200614235944.17716-81-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
 References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
@@ -39,29 +39,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The phy->sensor NULL check in cal_camerarx_get_external_rate() is not
-needed, as the V4L2 video devices are only registered when the sensor is
-bound. Remove it.
+Specifying 'int' explicitly is generally preferred in the kernel for
+unsigned int types. Fix the only wrong occurrence.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/ti-vpe/cal.c | 3 ---
- 1 file changed, 3 deletions(-)
+ drivers/media/platform/ti-vpe/cal.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index a11457909134..38d2fc186ba7 100644
+index 38d2fc186ba7..b67e59a4eedd 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -485,9 +485,6 @@ static s64 cal_camerarx_get_external_rate(struct cal_camerarx *phy)
- 	struct v4l2_ctrl *ctrl;
- 	s64 rate;
+@@ -1759,7 +1759,7 @@ static int cal_queue_setup(struct vb2_queue *vq,
+ 			   unsigned int sizes[], struct device *alloc_devs[])
+ {
+ 	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
+-	unsigned size = ctx->v_fmt.fmt.pix.sizeimage;
++	unsigned int size = ctx->v_fmt.fmt.pix.sizeimage;
  
--	if (!phy->sensor)
--		return -ENODEV;
--
- 	ctrl = v4l2_ctrl_find(phy->sensor->ctrl_handler, V4L2_CID_PIXEL_RATE);
- 	if (!ctrl) {
- 		phy_err(phy, "no pixel rate control in subdev: %s\n",
+ 	if (vq->num_buffers + *nbuffers < 3)
+ 		*nbuffers = 3 - vq->num_buffers;
 -- 
 Regards,
 
