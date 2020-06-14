@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EBC561F8BB0
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 02:01:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BF081F8BB1
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 02:01:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728217AbgFOABd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Jun 2020 20:01:33 -0400
+        id S1728214AbgFOABf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Jun 2020 20:01:35 -0400
 Received: from perceval.ideasonboard.com ([213.167.242.64]:33330 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728210AbgFOABb (ORCPT
+        with ESMTP id S1728180AbgFOABd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Jun 2020 20:01:31 -0400
+        Sun, 14 Jun 2020 20:01:33 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4ADC7215E;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0E0C2140;
         Mon, 15 Jun 2020 02:00:43 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1592179243;
-        bh=rnVU45bfQhRQUCIatSw6d2YVFSFIeL3MEJAuN6WlDxg=;
+        bh=SgZEcYs5zQ4aQbw3vtc9SOE+CBd4d9r2os9QsjVnGUA=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=lkJr8pgDo69ovBnY998U3OphEw5BhzLluWVI0rn5vt5F/XgeeUubfI3/0SNI07taT
-         uv3SqUQANoYExefOSu5zhghVfHN1v8vc4Hef6tqEKdgQ8OaXnL3VpIY1+NuL0S4c81
-         /ZWPJUKQA9uOBqXvburAET742UxcKfPJYUbhyl7M=
+        b=MJKrtTWK1jtPlhbJK6vb4EcaXP8bSYosyhYbiI/a+E2Co6Hkx496b4F5TKuQiPK8z
+         t1SvJJnORmBMoQZWcuUYl6GQNI3blryp0FRXoNr0jHWZPwm7nepKDWT9UjB2yMnK/k
+         2W3WPYs6gtX7E4AxBNmPdvsOhh5ShmmSz1DSicgg=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Benoit Parrot <bparrot@ti.com>
-Subject: [PATCH v1 072/107] media: ti-vpe: cal: Register a media device
-Date:   Mon, 15 Jun 2020 02:59:09 +0300
-Message-Id: <20200614235944.17716-73-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v1 073/107] media: ti-vpe: cal: Init formats in cal_ctx_v4l2_register()
+Date:   Mon, 15 Jun 2020 02:59:10 +0300
+Message-Id: <20200614235944.17716-74-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
 References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
@@ -39,210 +39,124 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Enable the media controller API by registering a media device and
-initializing the media entities corresponding to the video devices. The
-context initialization is slightly refactored as a result. The media
-graph will be built in a subsequent change.
+To prepare for splitting the V4L2 API support to a separate file, call
+cal_ctx_v4l2_init_formats() from cal_ctx_v4l2_register().
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/ti-vpe/cal.c | 71 ++++++++++++++++++++---------
- 1 file changed, 49 insertions(+), 22 deletions(-)
+ drivers/media/platform/ti-vpe/cal.c | 83 ++++++++++++++---------------
+ 1 file changed, 39 insertions(+), 44 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 205fb736e27a..9d338f3ee452 100644
+index 9d338f3ee452..d81195006026 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -22,6 +22,7 @@
- #include <linux/slab.h>
- #include <linux/videodev2.h>
- 
-+#include <media/media-device.h>
- #include <media/v4l2-async.h>
- #include <media/v4l2-common.h>
- #include <media/v4l2-ctrls.h>
-@@ -282,6 +283,7 @@ struct cal_dev {
- 	struct device		*dev;
- 
- 	const struct cal_data	*data;
-+	u32			revision;
- 
- 	/* Control Module handle */
- 	struct regmap		*syscon_camerrx;
-@@ -292,6 +294,7 @@ struct cal_dev {
- 
- 	struct cal_ctx		*ctx[CAL_NUM_CONTEXT];
- 
-+	struct media_device	mdev;
- 	struct v4l2_device	v4l2_dev;
- 	struct v4l2_async_notifier notifier;
+@@ -1938,39 +1938,6 @@ static const struct video_device cal_videodev = {
+ 			  V4L2_CAP_READWRITE,
  };
-@@ -302,6 +305,7 @@ struct cal_dev {
- struct cal_ctx {
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	struct video_device	vdev;
-+	struct media_pad	pad;
  
- 	struct cal_dev		*cal;
- 	struct cal_camerarx	*phy;
-@@ -2040,11 +2044,11 @@ static int cal_ctx_v4l2_init(struct cal_ctx *ctx)
- 	struct vb2_queue *q = &ctx->vb_vidq;
- 	int ret;
- 
--	/* initialize locks */
-+	INIT_LIST_HEAD(&ctx->vidq.active);
- 	spin_lock_init(&ctx->slock);
- 	mutex_init(&ctx->mutex);
- 
--	/* initialize queue */
-+	/* Initialize the vb2 queue. */
- 	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
- 	q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_READ;
- 	q->drv_priv = ctx;
-@@ -2060,35 +2064,39 @@ static int cal_ctx_v4l2_init(struct cal_ctx *ctx)
- 	if (ret)
- 		return ret;
- 
--	/* init video dma queues */
--	INIT_LIST_HEAD(&ctx->vidq.active);
+-static int cal_ctx_v4l2_register(struct cal_ctx *ctx)
+-{
+-	struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
+-	struct video_device *vfd = &ctx->vdev;
+-	int ret;
 -
-+	/* Initialize the video device and media entity. */
- 	*vfd = cal_videodev;
- 	vfd->v4l2_dev = &ctx->cal->v4l2_dev;
- 	vfd->queue = q;
-+	snprintf(vfd->name, sizeof(vfd->name), "CAL output %u", ctx->index);
-+	vfd->lock = &ctx->mutex;
-+	video_set_drvdata(vfd, ctx);
-+
-+	ctx->pad.flags = MEDIA_PAD_FL_SINK;
-+	ret = media_entity_pads_init(&vfd->entity, 1, &ctx->pad);
-+	if (ret < 0)
-+		return ret;
- 
- 	/* Initialize the control handler. */
- 	ret = v4l2_ctrl_handler_init(hdl, 11);
- 	if (ret < 0) {
- 		ctx_err(ctx, "Failed to init ctrl handler\n");
+-	ret = v4l2_ctrl_add_handler(hdl, ctx->phy->sensor->ctrl_handler, NULL,
+-				    true);
+-	if (ret < 0) {
+-		ctx_err(ctx, "Failed to add sensor ctrl handler\n");
 -		return ret;
-+		goto error;
- 	}
- 
- 	vfd->ctrl_handler = hdl;
- 
--	/*
--	 * Provide a mutex to v4l2 core. It will be used to protect
--	 * all fops and v4l2 ioctls.
--	 */
--	vfd->lock = &ctx->mutex;
--	video_set_drvdata(vfd, ctx);
+-	}
 -
+-	ret = video_register_device(vfd, VFL_TYPE_VIDEO, video_nr);
+-	if (ret < 0) {
+-		ctx_err(ctx, "Failed to register video device\n");
+-		return ret;
+-	}
+-
+-	ctx_info(ctx, "V4L2 device registered as %s\n",
+-		 video_device_node_name(vfd));
+-
+-	return 0;
+-}
+-
+-static void cal_ctx_v4l2_unregister(struct cal_ctx *ctx)
+-{
+-	ctx_dbg(1, ctx, "unregistering %s\n",
+-		video_device_node_name(&ctx->vdev));
+-
+-	video_unregister_device(&ctx->vdev);
+-}
+-
+ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
+ {
+ 	struct v4l2_subdev_mbus_code_enum mbus_code;
+@@ -2037,6 +2004,43 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
  	return 0;
+ }
+ 
++static int cal_ctx_v4l2_register(struct cal_ctx *ctx)
++{
++	struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
++	struct video_device *vfd = &ctx->vdev;
++	int ret;
 +
-+error:
-+	media_entity_cleanup(&vfd->entity);
-+	return ret;
- }
- 
- static void cal_ctx_v4l2_cleanup(struct cal_ctx *ctx)
- {
- 	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
-+	media_entity_cleanup(&ctx->vdev.entity);
- }
- 
- /* ------------------------------------------------------------------
-@@ -2215,13 +2223,21 @@ static int cal_media_register(struct cal_dev *cal)
- {
- 	int ret;
- 
-+	ret = media_device_register(&cal->mdev);
-+	if (ret) {
-+		cal_err(cal, "Failed to register media device\n");
++	ret = cal_ctx_v4l2_init_formats(ctx);
++	if (ret)
++		return ret;
++
++	ret = v4l2_ctrl_add_handler(hdl, ctx->phy->sensor->ctrl_handler, NULL,
++				    true);
++	if (ret < 0) {
++		ctx_err(ctx, "Failed to add sensor ctrl handler\n");
 +		return ret;
 +	}
 +
- 	/*
- 	 * Register the async notifier. This may trigger registration of the
- 	 * V4L2 video devices if all subdevs are ready.
- 	 */
- 	ret = cal_async_notifier_register(cal);
--	if (ret)
-+	if (ret) {
-+		media_device_unregister(&cal->mdev);
- 		return ret;
++	ret = video_register_device(vfd, VFL_TYPE_VIDEO, video_nr);
++	if (ret < 0) {
++		ctx_err(ctx, "Failed to register video device\n");
++		return ret;
 +	}
++
++	ctx_info(ctx, "V4L2 device registered as %s\n",
++		 video_device_node_name(vfd));
++
++	return 0;
++}
++
++static void cal_ctx_v4l2_unregister(struct cal_ctx *ctx)
++{
++	ctx_dbg(1, ctx, "unregistering %s\n",
++		video_device_node_name(&ctx->vdev));
++
++	video_unregister_device(&ctx->vdev);
++}
++
+ static int cal_ctx_v4l2_init(struct cal_ctx *ctx)
+ {
+ 	struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
+@@ -2137,19 +2141,10 @@ static int cal_async_notifier_complete(struct v4l2_async_notifier *notifier)
+ {
+ 	struct cal_dev *cal = container_of(notifier, struct cal_dev, notifier);
+ 	unsigned int i;
+-	int ret;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
+-		struct cal_ctx *ctx = cal->ctx[i];
+-
+-		if (!ctx)
+-			continue;
+-
+-		ret = cal_ctx_v4l2_init_formats(ctx);
+-		if (ret)
+-			continue;
+-
+-		cal_ctx_v4l2_register(ctx);
++		if (cal->ctx[i])
++			cal_ctx_v4l2_register(cal->ctx[i]);
+ 	}
  
  	return 0;
- }
-@@ -2241,6 +2257,7 @@ static void cal_media_unregister(struct cal_dev *cal)
- 	}
- 
- 	cal_async_notifier_unregister(cal);
-+	media_device_unregister(&cal->mdev);
- }
- 
- /*
-@@ -2249,12 +2266,21 @@ static void cal_media_unregister(struct cal_dev *cal)
-  */
- static int cal_media_init(struct cal_dev *cal)
- {
-+	struct media_device *mdev = &cal->mdev;
- 	int ret;
- 
-+	mdev->dev = cal->dev;
-+	mdev->hw_revision = cal->revision;
-+	strscpy(mdev->model, "CAL", sizeof(mdev->model));
-+	snprintf(mdev->bus_info, sizeof(mdev->bus_info), "platform:%s",
-+		 dev_name(mdev->dev));
-+	media_device_init(mdev);
-+
- 	/*
- 	 * Initialize the V4L2 device (despite the function name, this performs
- 	 * initialization, not registration).
- 	 */
-+	cal->v4l2_dev.mdev = mdev;
- 	ret = v4l2_device_register(cal->dev, &cal->v4l2_dev);
- 	if (ret) {
- 		cal_err(cal, "Failed to register V4L2 device\n");
-@@ -2281,6 +2307,8 @@ static void cal_media_cleanup(struct cal_dev *cal)
- 	}
- 
- 	v4l2_device_unregister(&cal->v4l2_dev);
-+	media_device_cleanup(&cal->mdev);
-+
- 	vb2_dma_contig_clear_max_seg_size(cal->dev);
- }
- 
-@@ -2337,23 +2365,22 @@ MODULE_DEVICE_TABLE(of, cal_of_match);
- 
- static void cal_get_hwinfo(struct cal_dev *cal)
- {
--	u32 revision;
- 	u32 hwinfo;
- 
--	revision = reg_read(cal, CAL_HL_REVISION);
--	switch (FIELD_GET(CAL_HL_REVISION_SCHEME_MASK, revision)) {
-+	cal->revision = reg_read(cal, CAL_HL_REVISION);
-+	switch (FIELD_GET(CAL_HL_REVISION_SCHEME_MASK, cal->revision)) {
- 	case CAL_HL_REVISION_SCHEME_H08:
- 		cal_dbg(3, cal, "CAL HW revision %lu.%lu.%lu (0x%08x)\n",
--			FIELD_GET(CAL_HL_REVISION_MAJOR_MASK, revision),
--			FIELD_GET(CAL_HL_REVISION_MINOR_MASK, revision),
--			FIELD_GET(CAL_HL_REVISION_RTL_MASK, revision),
--			revision);
-+			FIELD_GET(CAL_HL_REVISION_MAJOR_MASK, cal->revision),
-+			FIELD_GET(CAL_HL_REVISION_MINOR_MASK, cal->revision),
-+			FIELD_GET(CAL_HL_REVISION_RTL_MASK, cal->revision),
-+			cal->revision);
- 		break;
- 
- 	case CAL_HL_REVISION_SCHEME_LEGACY:
- 	default:
- 		cal_info(cal, "Unexpected CAL HW revision 0x%08x\n",
--			 revision);
-+			 cal->revision);
- 		break;
- 	}
- 
 -- 
 Regards,
 
