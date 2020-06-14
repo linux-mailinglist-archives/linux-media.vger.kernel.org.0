@@ -2,77 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 600791F8658
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2020 05:18:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85A221F8662
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2020 05:31:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726529AbgFNDSj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 Jun 2020 23:18:39 -0400
-Received: from mta-p7.oit.umn.edu ([134.84.196.207]:39126 "EHLO
-        mta-p7.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726499AbgFNDSh (ORCPT
+        id S1726527AbgFNDbP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 Jun 2020 23:31:15 -0400
+Received: from mta-p6.oit.umn.edu ([134.84.196.206]:52662 "EHLO
+        mta-p6.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726460AbgFNDbO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 Jun 2020 23:18:37 -0400
+        Sat, 13 Jun 2020 23:31:14 -0400
 Received: from localhost (unknown [127.0.0.1])
-        by mta-p7.oit.umn.edu (Postfix) with ESMTP id 49l06P1mKQz9vYdM
-        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2020 03:18:37 +0000 (UTC)
+        by mta-p6.oit.umn.edu (Postfix) with ESMTP id 49l0Nx1lbXz9vKlq
+        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2020 03:31:13 +0000 (UTC)
 X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p7.oit.umn.edu ([127.0.0.1])
-        by localhost (mta-p7.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id QIljWQOprqtU for <linux-media@vger.kernel.org>;
-        Sat, 13 Jun 2020 22:18:37 -0500 (CDT)
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com [209.85.166.199])
+Received: from mta-p6.oit.umn.edu ([127.0.0.1])
+        by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id pOjFhNH7dI5P for <linux-media@vger.kernel.org>;
+        Sat, 13 Jun 2020 22:31:13 -0500 (CDT)
+Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mta-p7.oit.umn.edu (Postfix) with ESMTPS id 49l06P06Fxz9vYdP
-        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 22:18:37 -0500 (CDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p7.oit.umn.edu 49l06P06Fxz9vYdP
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p7.oit.umn.edu 49l06P06Fxz9vYdP
-Received: by mail-il1-f199.google.com with SMTP id k63so6944544ilg.17
-        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 20:18:37 -0700 (PDT)
+        by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 49l0Nx05hnz9vKlB
+        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 22:31:13 -0500 (CDT)
+DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p6.oit.umn.edu 49l0Nx05hnz9vKlB
+DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p6.oit.umn.edu 49l0Nx05hnz9vKlB
+Received: by mail-io1-f71.google.com with SMTP id m11so8984348ioj.14
+        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 20:31:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=umn.edu; s=google;
         h=from:to:cc:subject:date:message-id;
-        bh=HH/45wVNp4vPlnv8y138sW8x+ALttRXOB4XcVO5Zkvs=;
-        b=Mr2pHGWcj5Ed4kB6qg+LD4UU7Fdh03ef8xenaEHX4IejelTQRSts1ZUsupl/mg59zB
-         XF9CR2+v+hbbLsa1MjbFoPtRr5YYVmZ27DlWKM8xPwZf7yGIv0FbMEznM/ntiMvxZUeG
-         i5BHFjA9b7vZXBMhyB/BGgjvsZwwqzLf+OoaQy/+UrP9Kl8BLPEDI2/kbo/YI05R6nGr
-         sHBOTRnMNGIaesLVyR5fQUrz5uwTzAf4si+Y7RZ1cpuY/nTd50V/NwKm9C51Cpc69kZQ
-         3c/3kaNY/lEordibuKx0qfVo1GwM/l4Loihba7JhTR2rN81SPmcctJMdzUi2yL4uzpdF
-         R9Qg==
+        bh=QC4W5Z98ewA9cfGWCJBWYLE1wXoEKo5o/mm76vna++w=;
+        b=l4HsWZVRaRopjH5fxsKG9TT3IzKwHNL+SZGvSUbZctyQIkIwpqWDGQahUo239xwFnw
+         3jVyma/FVhzgAB2Soj8BMmHUSqOxcfojutn23gUi5UPDgzVKvp9TzpRpcvbIzKGKzQio
+         iEV8fgV9t4sMpv//9Sk2DZL27iiQHRFEW2rcX9J6jIyY81nEP9bxeErANWnXarCCLbQq
+         g0S9IN4DWUqtIUKU562wT8HHB6WT2+JNVlBnA6zwstLNA6ESlmNq9dMA02ANtLALqQGO
+         2so1/KmpDcpbLuZn4n+O0wHa16hNuv6v69Vp6hPICjwU32AgwSIpbAJxSqZUUeI+qm81
+         6QqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=HH/45wVNp4vPlnv8y138sW8x+ALttRXOB4XcVO5Zkvs=;
-        b=Gyz8jiEOHutBcQknAWMi/YL4/JwfhpH9tzT2KO4MG8AFFo27t73D2mtcQwl6t6hTOv
-         aDxNp2lnKtwWD792riU/+tkUn8ptnhzxQ8w9nkC7cFjC2uelyrAxuHhIKrabLDVb2Uw2
-         +MPWH62h+rUwPiCyYemNg2NtKbE0FizA00hg+/uwapb5LsLFpz3NTPgUOI8VUOQuUdH3
-         EwWOdl49zMu+BFcTouv5CuSpLO2g9P5Rkt/QvzMNXTY8HQKKYZNpLqULl5HmLzVNfPDc
-         0Yvbzi/S1RFLJ4DvXcinY4xSlHYMFvatM3PSEPENOmCs42d21tukophfEPwr79NgtIPn
-         v2/w==
-X-Gm-Message-State: AOAM533tOP53kcrqwz7g6WU2HgBhdItTXQd+7vSSIBZUUMPRBx014tBf
-        AyKdMD1HFvZQ3iP4+IzcRJQ3ComAFCA644VO411TtzJkmKdtPedXBX1tQccwQkDR89UWusiWpDp
-        zFk6ZU03JOVqtnRjuci1o3yKRZHw=
-X-Received: by 2002:a02:707:: with SMTP id f7mr14751043jaf.119.1592104716480;
-        Sat, 13 Jun 2020 20:18:36 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJwvhSbDmYnmF5WV63TX3Cq9IgWRZ8Hr8otgBrXO+ItUH+Xf51d8C1dlXHo+xujD8MZenFDLig==
-X-Received: by 2002:a02:707:: with SMTP id f7mr14751022jaf.119.1592104716193;
-        Sat, 13 Jun 2020 20:18:36 -0700 (PDT)
+        bh=QC4W5Z98ewA9cfGWCJBWYLE1wXoEKo5o/mm76vna++w=;
+        b=sQlsit+iXTEGjztO8rj/57qDYyuTk3qe9hirQsujWV2wFkwgOwDQeTamrjoLljqmsM
+         pG+dM7qcgZb4FsYmsqQyypO8UNsAbTPNW+doIzYOPNW/KFmurjsOHoR7TJpaP2CCTPs9
+         L6g98ebYwtFnm2mi0LZH6h6C8vfYNRHkVWiucskSqoZH3TUcvFw5/QKLP7VdCBkW1BSn
+         d1JTbZRBhIFDeIFp5BaBAhju33jpcH4iMWN32p/LJ3s/K6rWkU4HEjFUkb2CjIKFdKLO
+         Vb245uSfXtOWjoc+aD0JZkN/n9hmI6tOzr/S6MqoGFZuDxSKm334z6/iVQt3xrA0WZMh
+         +dPA==
+X-Gm-Message-State: AOAM530AYXdchKD8ToHjIk6PKcYEs3V26c6rmXjBuGQrbBexohE4737c
+        Nvg8ZuuW6iquP+kRBJTnn/agJDQnNZmBypR652YC2Pv7hFN2o7uUctYSKn9RbvV05Orym3nLujT
+        HaqWEIDqH6gJKKxvAmCCRowxrNC0=
+X-Received: by 2002:a05:6602:2f0f:: with SMTP id q15mr21904794iow.23.1592105472593;
+        Sat, 13 Jun 2020 20:31:12 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJyo6BZxfeK7IcN9R8yUusqQP6X7tNMKZlOYtuXMxncOU7fJ+1AEAJ3/fILIO0Q3vy1D8JsQEQ==
+X-Received: by 2002:a05:6602:2f0f:: with SMTP id q15mr21904758iow.23.1592105472205;
+        Sat, 13 Jun 2020 20:31:12 -0700 (PDT)
 Received: from qiushi.cs.umn.edu ([2607:ea00:101:3c74:4874:45:bcb4:df60])
-        by smtp.gmail.com with ESMTPSA id b9sm5559725ils.84.2020.06.13.20.18.35
+        by smtp.gmail.com with ESMTPSA id t63sm5928233ill.54.2020.06.13.20.31.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2020 20:18:35 -0700 (PDT)
+        Sat, 13 Jun 2020 20:31:11 -0700 (PDT)
 From:   wu000273@umn.edu
 To:     kjlu@umn.edu
-Cc:     wu000273@umn.edu, Kyungmin Park <kyungmin.park@samsung.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+Cc:     wu000273@umn.edu,
+        Jean-Christophe Trotin <jean-christophe.trotin@st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: exynos4-is: Fix several reference count leaks due to pm_runtime_get_sync
-Date:   Sat, 13 Jun 2020 22:18:29 -0500
-Message-Id: <20200614031829.31570-1-wu000273@umn.edu>
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: sti: Fix reference count leaks
+Date:   Sat, 13 Jun 2020 22:31:06 -0500
+Message-Id: <20200614033106.426-1-wu000273@umn.edu>
 X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -81,45 +78,36 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Qiushi Wu <wu000273@umn.edu>
 
-On calling pm_runtime_get_sync() the reference count of the device
-is incremented. In case of failure, decrement the
-reference count before returning the error.
+pm_runtime_get_sync() increments the runtime PM usage counter even
+when it returns an error code, causing incorrect ref count if
+pm_runtime_put_noidle() is not called in error handling paths.
+Thus call pm_runtime_put_noidle() if pm_runtime_get_sync() fails.
 
 Signed-off-by: Qiushi Wu <wu000273@umn.edu>
 ---
- drivers/media/platform/exynos4-is/fimc-isp.c  | 4 +++-
- drivers/media/platform/exynos4-is/fimc-lite.c | 2 +-
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ drivers/media/platform/sti/hva/hva-hw.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/platform/exynos4-is/fimc-isp.c b/drivers/media/platform/exynos4-is/fimc-isp.c
-index cde0d254ec1c..a77c49b18511 100644
---- a/drivers/media/platform/exynos4-is/fimc-isp.c
-+++ b/drivers/media/platform/exynos4-is/fimc-isp.c
-@@ -305,8 +305,10 @@ static int fimc_isp_subdev_s_power(struct v4l2_subdev *sd, int on)
+diff --git a/drivers/media/platform/sti/hva/hva-hw.c b/drivers/media/platform/sti/hva/hva-hw.c
+index 401aaafa1710..bb13348be083 100644
+--- a/drivers/media/platform/sti/hva/hva-hw.c
++++ b/drivers/media/platform/sti/hva/hva-hw.c
+@@ -272,6 +272,7 @@ static unsigned long int hva_hw_get_ip_version(struct hva_dev *hva)
  
- 	if (on) {
- 		ret = pm_runtime_get_sync(&is->pdev->dev);
--		if (ret < 0)
-+		if (ret < 0) {
-+			pm_runtime_put(&is->pdev->dev);
- 			return ret;
-+		}
- 		set_bit(IS_ST_PWR_ON, &is->state);
+ 	if (pm_runtime_get_sync(dev) < 0) {
+ 		dev_err(dev, "%s     failed to get pm_runtime\n", HVA_PREFIX);
++		pm_runtime_put_noidle(dev);
+ 		mutex_unlock(&hva->protect_mutex);
+ 		return -EFAULT;
+ 	}
+@@ -553,6 +554,7 @@ void hva_hw_dump_regs(struct hva_dev *hva, struct seq_file *s)
  
- 		ret = fimc_is_start_firmware(is);
-diff --git a/drivers/media/platform/exynos4-is/fimc-lite.c b/drivers/media/platform/exynos4-is/fimc-lite.c
-index 394e0818f2d5..92130d779137 100644
---- a/drivers/media/platform/exynos4-is/fimc-lite.c
-+++ b/drivers/media/platform/exynos4-is/fimc-lite.c
-@@ -470,7 +470,7 @@ static int fimc_lite_open(struct file *file)
- 	set_bit(ST_FLITE_IN_USE, &fimc->state);
- 	ret = pm_runtime_get_sync(&fimc->pdev->dev);
- 	if (ret < 0)
--		goto unlock;
-+		goto err_pm;
- 
- 	ret = v4l2_fh_open(file);
- 	if (ret < 0)
+ 	if (pm_runtime_get_sync(dev) < 0) {
+ 		seq_puts(s, "Cannot wake up IP\n");
++		pm_runtime_put_noidle(dev);
+ 		mutex_unlock(&hva->protect_mutex);
+ 		return;
+ 	}
 -- 
 2.17.1
 
