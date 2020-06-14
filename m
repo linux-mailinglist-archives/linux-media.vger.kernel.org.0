@@ -2,149 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2466C1F86BA
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2020 06:31:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 033A01F8746
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2020 08:35:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725550AbgFNEbk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Jun 2020 00:31:40 -0400
-Received: from mga17.intel.com ([192.55.52.151]:25540 "EHLO mga17.intel.com"
+        id S1726591AbgFNGfP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Jun 2020 02:35:15 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51264 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725267AbgFNEbk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Jun 2020 00:31:40 -0400
-IronPort-SDR: gV/HuZpZs5PxpTKGeWpV0Afj18Z0cibcstWVzod5XlUzVuki6ZCbPq8NLybSu6Yi285sHBble6
- BEQpFWuELRnw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Jun 2020 21:31:39 -0700
-IronPort-SDR: OjQ8DDwK0iA2EoiTid46gNYeZhXlP32WBFD/25jPPJFyx1zoakP2nC+7jXZzdiMvn2H3/iee1I
- NAprT1tz7d5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.73,509,1583222400"; 
-   d="scan'208";a="260672064"
-Received: from lkp-server02.sh.intel.com (HELO de5642daf266) ([10.239.97.151])
-  by fmsmga007.fm.intel.com with ESMTP; 13 Jun 2020 21:31:36 -0700
-Received: from kbuild by de5642daf266 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1jkKIx-0000Zj-3R; Sun, 14 Jun 2020 04:31:35 +0000
-Date:   Sun, 14 Jun 2020 12:31:18 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, sakari.ailus@linux.intel.com,
-        laurent.pinchart@ideasonboard.com
-Cc:     kbuild-all@lists.01.org, Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 3/9] media: i2c: ov6650: Use new [get|set]_mbus_config
- ops
-Message-ID: <202006141205.6pZgvwtN%lkp@intel.com>
-References: <20200611161651.264633-4-jacopo+renesas@jmondi.org>
+        id S1725265AbgFNGfP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 14 Jun 2020 02:35:15 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A0BD12068E;
+        Sun, 14 Jun 2020 06:35:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592116514;
+        bh=KzlISDgeRkUj+FzZjCFmCjOm3ZPbmZPai75i047RsCQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=uD6U20JSZJ99PvNurhBdMyDB0QLYVVxlItfch//Gk8jjZYTPtGKRMaLDte06u2uQL
+         N+dwSYQrnBnbyGcAC4YvOmFmRvl3cdsvVFQx9dIFh6IH2kwPIeN7QYypePhkIwm9KW
+         A+OmgTfDOP4n28tn11uSsSTBHiOY1qF6e50uh1dI=
+Date:   Sun, 14 Jun 2020 08:35:11 +0200
+From:   Greg KH <gregkh@linuxfoundation.org>
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] venus: Add debugfs interface to set firmware log
+ level
+Message-ID: <20200614063511.GA2611869@kroah.com>
+References: <20200613223919.7038-1-stanimir.varbanov@linaro.org>
+ <20200613223919.7038-2-stanimir.varbanov@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200611161651.264633-4-jacopo+renesas@jmondi.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200613223919.7038-2-stanimir.varbanov@linaro.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+On Sun, Jun 14, 2020 at 01:39:17AM +0300, Stanimir Varbanov wrote:
+> This will be useful when debugging specific issues related to
+> firmware HFI interface.
+> 
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on linuxtv-media/master]
-[also build test WARNING on v5.7]
-[if your patch is applied to the wrong git tree, please drop us a note to help
-improve the system. BTW, we also suggest to use '--base' option to specify the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406982]
-
-url:    https://github.com/0day-ci/linux/commits/Jacopo-Mondi/v4l2-subdev-Introduce-g-s-et_mbus_format-pad-op/20200612-001600
-base:   git://linuxtv.org/media_tree.git master
-compiler: gcc-9 (Debian 9.3.0-13) 9.3.0
-
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+You didn't cc: any of us on the patchs, like you did on 0/3 :(
 
 
-cppcheck warnings: (new ones prefixed by >>)
+> ---
+>  drivers/media/platform/qcom/venus/Makefile    |  2 +-
+>  drivers/media/platform/qcom/venus/core.c      |  3 +++
+>  drivers/media/platform/qcom/venus/core.h      |  3 +++
+>  drivers/media/platform/qcom/venus/dbgfs.c     | 21 +++++++++++++++++++
+>  drivers/media/platform/qcom/venus/dbgfs.h     | 12 +++++++++++
+>  drivers/media/platform/qcom/venus/hfi_venus.c |  7 ++++++-
+>  6 files changed, 46 insertions(+), 2 deletions(-)
+>  create mode 100644 drivers/media/platform/qcom/venus/dbgfs.c
+>  create mode 100644 drivers/media/platform/qcom/venus/dbgfs.h
+> 
+> diff --git a/drivers/media/platform/qcom/venus/Makefile b/drivers/media/platform/qcom/venus/Makefile
+> index 64af0bc1edae..dfc636865709 100644
+> --- a/drivers/media/platform/qcom/venus/Makefile
+> +++ b/drivers/media/platform/qcom/venus/Makefile
+> @@ -3,7 +3,7 @@
+>  
+>  venus-core-objs += core.o helpers.o firmware.o \
+>  		   hfi_venus.o hfi_msgs.o hfi_cmds.o hfi.o \
+> -		   hfi_parser.o pm_helpers.o
+> +		   hfi_parser.o pm_helpers.o dbgfs.o
+>  
+>  venus-dec-objs += vdec.o vdec_ctrls.o
+>  venus-enc-objs += venc.o venc_ctrls.o
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index 203c6538044f..249141e27fea 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -290,6 +290,8 @@ static int venus_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto err_dev_unregister;
+>  
+> +	venus_dbgfs_init(core);
+> +
+>  	return 0;
+>  
+>  err_dev_unregister:
+> @@ -337,6 +339,7 @@ static int venus_remove(struct platform_device *pdev)
+>  	v4l2_device_unregister(&core->v4l2_dev);
+>  	mutex_destroy(&core->pm_lock);
+>  	mutex_destroy(&core->lock);
+> +	venus_dbgfs_deinit(core);
+>  
+>  	return ret;
+>  }
+> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> index 7118612673c9..b48782f9aa95 100644
+> --- a/drivers/media/platform/qcom/venus/core.h
+> +++ b/drivers/media/platform/qcom/venus/core.h
+> @@ -12,6 +12,7 @@
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+>  
+> +#include "dbgfs.h"
+>  #include "hfi.h"
+>  
+>  #define VIDC_CLKS_NUM_MAX		4
+> @@ -136,6 +137,7 @@ struct venus_caps {
+>   * @priv:	a private filed for HFI operations
+>   * @ops:		the core HFI operations
+>   * @work:	a delayed work for handling system fatal error
+> + * @root:	debugfs root directory
+>   */
+>  struct venus_core {
+>  	void __iomem *base;
+> @@ -185,6 +187,7 @@ struct venus_core {
+>  	unsigned int codecs_count;
+>  	unsigned int core0_usage_count;
+>  	unsigned int core1_usage_count;
+> +	struct dentry *root;
+>  };
+>  
+>  struct vdec_controls {
+> diff --git a/drivers/media/platform/qcom/venus/dbgfs.c b/drivers/media/platform/qcom/venus/dbgfs.c
+> new file mode 100644
+> index 000000000000..782d54ac1b8f
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/venus/dbgfs.c
+> @@ -0,0 +1,21 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) 2020 Linaro Ltd.
+> + */
+> +
+> +#include <linux/debugfs.h>
+> +
+> +#include "core.h"
+> +
+> +extern int venus_fw_debug;
+> +
+> +void venus_dbgfs_init(struct venus_core *core)
+> +{
+> +	core->root = debugfs_create_dir("venus", NULL);
+> +	debugfs_create_x32("fw_level", 0644, core->root, &venus_fw_debug);
+> +}
+> +
+> +void venus_dbgfs_deinit(struct venus_core *core)
+> +{
+> +	debugfs_remove_recursive(core->root);
+> +}
+> diff --git a/drivers/media/platform/qcom/venus/dbgfs.h b/drivers/media/platform/qcom/venus/dbgfs.h
+> new file mode 100644
+> index 000000000000..b7b621a8472f
+> --- /dev/null
+> +++ b/drivers/media/platform/qcom/venus/dbgfs.h
+> @@ -0,0 +1,12 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/* Copyright (C) 2020 Linaro Ltd. */
+> +
+> +#ifndef __VENUS_DBGFS_H__
+> +#define __VENUS_DBGFS_H__
+> +
+> +struct venus_core;
+> +
+> +void venus_dbgfs_init(struct venus_core *core);
+> +void venus_dbgfs_deinit(struct venus_core *core);
+> +
+> +#endif
+> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+> index 0d8855014ab3..3a04b08ab85a 100644
+> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
+> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+> @@ -130,7 +130,7 @@ struct venus_hfi_device {
+>  };
+>  
+>  static bool venus_pkt_debug;
+> -static int venus_fw_debug = HFI_DEBUG_MSG_ERROR | HFI_DEBUG_MSG_FATAL;
+> +int venus_fw_debug = HFI_DEBUG_MSG_ERROR | HFI_DEBUG_MSG_FATAL;
+>  static bool venus_sys_idle_indicator;
+>  static bool venus_fw_low_power_mode = true;
+>  static int venus_hw_rsp_timeout = 1000;
+> @@ -1130,9 +1130,14 @@ static int venus_session_init(struct venus_inst *inst, u32 session_type,
+>  			      u32 codec)
+>  {
+>  	struct venus_hfi_device *hdev = to_hfi_priv(inst->core);
+> +	struct device *dev = hdev->core->dev;
+>  	struct hfi_session_init_pkt pkt;
+>  	int ret;
+>  
+> +	ret = venus_sys_set_debug(hdev, venus_fw_debug);
+> +	if (ret)
+> +		dev_warn(dev, "setting fw debug msg ON failed (%d)\n", ret);
 
->> drivers/media/i2c/ov6650.c:941:34: warning: Clarify calculation precedence for '&' and '?'. [clarifyCalculation]
-        |  (comj & COMJ_VSYNC_HIGH  ? V4L2_MBUS_VSYNC_ACTIVE_HIGH
-                                    ^
-   drivers/media/i2c/ov6650.c:943:34: warning: Clarify calculation precedence for '&' and '?'. [clarifyCalculation]
-        |  (comf & COMF_HREF_LOW    ? V4L2_MBUS_HSYNC_ACTIVE_LOW
-                                    ^
-   drivers/media/i2c/ov6650.c:945:34: warning: Clarify calculation precedence for '&' and '?'. [clarifyCalculation]
-        |  (comj & COMJ_PCLK_RISING ? V4L2_MBUS_PCLK_SAMPLE_RISING
-                                    ^
---
-   In file included from fs/nfsd/trace.c:
->> fs/nfsd/trace.h:175:0: warning: There is an unknown macro here somewhere. Configuration is required. If DECLARE_EVENT_CLASS is a macro then please configure it. [unknownMacro]
-   
-   ^
->> fs/nfsd/nfsctl.c:1277:7: warning: Opposite inner 'if' condition leads to a dead code block. [oppositeInnerCondition]
-     if (!files->name)
-         ^
-   fs/nfsd/nfsctl.c:1276:19: note: outer condition: files->name
-    for (i = 0; files->name && files->name[0]; i++, files++) {
-                     ^
-   fs/nfsd/nfsctl.c:1277:7: note: opposite inner condition: !files->name
-     if (!files->name)
-         ^
->> fs/nfsd/nfsctl.c:524:5: warning: Variable 'rv' is reassigned a value before the old one has been used. [redundantAssignment]
-    rv = nfsd_get_nrthreads(npools, nthreads, net);
-       ^
-   fs/nfsd/nfsctl.c:504:5: note: Variable 'rv' is reassigned a value before the old one has been used.
-    rv = -ENOMEM;
-       ^
-   fs/nfsd/nfsctl.c:524:5: note: Variable 'rv' is reassigned a value before the old one has been used.
-    rv = nfsd_get_nrthreads(npools, nthreads, net);
-       ^
->> fs/nfsd/nfsctl.c:1201:6: warning: Variable 'ret' is reassigned a value before the old one has been used. [redundantAssignment]
-    ret = __nfsd_mkdir(d_inode(parent), dentry, S_IFDIR | 0600, ncl);
-        ^
-   fs/nfsd/nfsctl.c:1195:0: note: Variable 'ret' is reassigned a value before the old one has been used.
-    int ret = -ENOMEM;
-   ^
-   fs/nfsd/nfsctl.c:1201:6: note: Variable 'ret' is reassigned a value before the old one has been used.
-    ret = __nfsd_mkdir(d_inode(parent), dentry, S_IFDIR | 0600, ncl);
-        ^
+Why do you care about this to tell the user about it?
 
-vim +941 drivers/media/i2c/ov6650.c
+thanks,
 
-   922	
-   923	/* Request bus settings on camera side */
-   924	static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
-   925					  unsigned int pad,
-   926					  struct v4l2_mbus_config *cfg)
-   927	{
-   928		struct i2c_client *client = v4l2_get_subdevdata(sd);
-   929		u8 comj, comf;
-   930		int ret;
-   931	
-   932		ret = ov6650_reg_read(client, REG_COMJ, &comj);
-   933		if (ret)
-   934			return ret;
-   935	
-   936		ret = ov6650_reg_read(client, REG_COMF, &comf);
-   937		if (ret)
-   938			return ret;
-   939	
-   940		cfg->flags = V4L2_MBUS_MASTER
- > 941			   |  (comj & COMJ_VSYNC_HIGH  ? V4L2_MBUS_VSYNC_ACTIVE_HIGH
-   942						       : V4L2_MBUS_VSYNC_ACTIVE_LOW)
-   943			   |  (comf & COMF_HREF_LOW    ? V4L2_MBUS_HSYNC_ACTIVE_LOW
-   944						       : V4L2_MBUS_HSYNC_ACTIVE_HIGH)
-   945			   |  (comj & COMJ_PCLK_RISING ? V4L2_MBUS_PCLK_SAMPLE_RISING
-   946						       : V4L2_MBUS_PCLK_SAMPLE_FALLING);
-   947		cfg->type = V4L2_MBUS_PARALLEL;
-   948	
-   949		return 0;
-   950	}
-   951	
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+greg k-h
