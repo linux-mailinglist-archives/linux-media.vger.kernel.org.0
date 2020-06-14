@@ -2,112 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85A221F8662
-	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2020 05:31:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A801C1F8671
+	for <lists+linux-media@lfdr.de>; Sun, 14 Jun 2020 05:40:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726527AbgFNDbP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 13 Jun 2020 23:31:15 -0400
-Received: from mta-p6.oit.umn.edu ([134.84.196.206]:52662 "EHLO
-        mta-p6.oit.umn.edu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726460AbgFNDbO (ORCPT
+        id S1726502AbgFNDko (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 13 Jun 2020 23:40:44 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:36281 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726486AbgFNDkn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 13 Jun 2020 23:31:14 -0400
-Received: from localhost (unknown [127.0.0.1])
-        by mta-p6.oit.umn.edu (Postfix) with ESMTP id 49l0Nx1lbXz9vKlq
-        for <linux-media@vger.kernel.org>; Sun, 14 Jun 2020 03:31:13 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at umn.edu
-Received: from mta-p6.oit.umn.edu ([127.0.0.1])
-        by localhost (mta-p6.oit.umn.edu [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id pOjFhNH7dI5P for <linux-media@vger.kernel.org>;
-        Sat, 13 Jun 2020 22:31:13 -0500 (CDT)
-Received: from mail-io1-f71.google.com (mail-io1-f71.google.com [209.85.166.71])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mta-p6.oit.umn.edu (Postfix) with ESMTPS id 49l0Nx05hnz9vKlB
-        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 22:31:13 -0500 (CDT)
-DMARC-Filter: OpenDMARC Filter v1.3.2 mta-p6.oit.umn.edu 49l0Nx05hnz9vKlB
-DKIM-Filter: OpenDKIM Filter v2.11.0 mta-p6.oit.umn.edu 49l0Nx05hnz9vKlB
-Received: by mail-io1-f71.google.com with SMTP id m11so8984348ioj.14
-        for <linux-media@vger.kernel.org>; Sat, 13 Jun 2020 20:31:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=umn.edu; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=QC4W5Z98ewA9cfGWCJBWYLE1wXoEKo5o/mm76vna++w=;
-        b=l4HsWZVRaRopjH5fxsKG9TT3IzKwHNL+SZGvSUbZctyQIkIwpqWDGQahUo239xwFnw
-         3jVyma/FVhzgAB2Soj8BMmHUSqOxcfojutn23gUi5UPDgzVKvp9TzpRpcvbIzKGKzQio
-         iEV8fgV9t4sMpv//9Sk2DZL27iiQHRFEW2rcX9J6jIyY81nEP9bxeErANWnXarCCLbQq
-         g0S9IN4DWUqtIUKU562wT8HHB6WT2+JNVlBnA6zwstLNA6ESlmNq9dMA02ANtLALqQGO
-         2so1/KmpDcpbLuZn4n+O0wHa16hNuv6v69Vp6hPICjwU32AgwSIpbAJxSqZUUeI+qm81
-         6QqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=QC4W5Z98ewA9cfGWCJBWYLE1wXoEKo5o/mm76vna++w=;
-        b=sQlsit+iXTEGjztO8rj/57qDYyuTk3qe9hirQsujWV2wFkwgOwDQeTamrjoLljqmsM
-         pG+dM7qcgZb4FsYmsqQyypO8UNsAbTPNW+doIzYOPNW/KFmurjsOHoR7TJpaP2CCTPs9
-         L6g98ebYwtFnm2mi0LZH6h6C8vfYNRHkVWiucskSqoZH3TUcvFw5/QKLP7VdCBkW1BSn
-         d1JTbZRBhIFDeIFp5BaBAhju33jpcH4iMWN32p/LJ3s/K6rWkU4HEjFUkb2CjIKFdKLO
-         Vb245uSfXtOWjoc+aD0JZkN/n9hmI6tOzr/S6MqoGFZuDxSKm334z6/iVQt3xrA0WZMh
-         +dPA==
-X-Gm-Message-State: AOAM530AYXdchKD8ToHjIk6PKcYEs3V26c6rmXjBuGQrbBexohE4737c
-        Nvg8ZuuW6iquP+kRBJTnn/agJDQnNZmBypR652YC2Pv7hFN2o7uUctYSKn9RbvV05Orym3nLujT
-        HaqWEIDqH6gJKKxvAmCCRowxrNC0=
-X-Received: by 2002:a05:6602:2f0f:: with SMTP id q15mr21904794iow.23.1592105472593;
-        Sat, 13 Jun 2020 20:31:12 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJyo6BZxfeK7IcN9R8yUusqQP6X7tNMKZlOYtuXMxncOU7fJ+1AEAJ3/fILIO0Q3vy1D8JsQEQ==
-X-Received: by 2002:a05:6602:2f0f:: with SMTP id q15mr21904758iow.23.1592105472205;
-        Sat, 13 Jun 2020 20:31:12 -0700 (PDT)
-Received: from qiushi.cs.umn.edu ([2607:ea00:101:3c74:4874:45:bcb4:df60])
-        by smtp.gmail.com with ESMTPSA id t63sm5928233ill.54.2020.06.13.20.31.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 13 Jun 2020 20:31:11 -0700 (PDT)
-From:   wu000273@umn.edu
-To:     kjlu@umn.edu
-Cc:     wu000273@umn.edu,
-        Jean-Christophe Trotin <jean-christophe.trotin@st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: sti: Fix reference count leaks
-Date:   Sat, 13 Jun 2020 22:31:06 -0500
-Message-Id: <20200614033106.426-1-wu000273@umn.edu>
-X-Mailer: git-send-email 2.17.1
+        Sat, 13 Jun 2020 23:40:43 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id kJVfjHYz01rrAkJVhjM4iV; Sun, 14 Jun 2020 05:40:41 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1592106041; bh=45rkCI6M+own9Nd37ec7JqWHMyJ8cyviv1KF16+EKHk=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=AKU0MoQ8OadRUrVeHkAYfBsiJE56pMIYXlBOYRZFqVGkTGyfMP3f7Ni6UDi10IQV1
+         SQfzPyRrUAsI6rCXoDGb8h8St5VlnFMPnALTfCYKypEPOpz72UvENRcqm99Xunquj7
+         4jctEH/V5txPV5OiKmXJBE01pvHZd5T09JzwRlsmlur0UXEKm5ItjE53C0qgYnKF1Q
+         rMp7d72jc2S4JpNELxdcex7cz85T++5dnfYZFhDlD4WCjry9tQ79TVDqmvINpHY4rX
+         u44zfvOoJn+xnvD0ppoY9RZVC+RSGMaAH2/51wVVAen6usB4irrw1qDFiG9jlwB3Io
+         UYetPL7Gri+Pw==
+Message-ID: <8dc9200d0f6d634381cd36c9282029fb@smtp-cloud7.xs4all.net>
+Date:   Sun, 14 Jun 2020 05:40:39 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfE/1cIfkIXZJWiOA08JmkG1Pt6Ljd8WdctQvx+i8qDEp/kc4RdOaXNx80SV27WmCfFCSotk6Xv2JvFpV6owUuC0fZoda7YA8bXKoX5pDPh9JzO/i1eSH
+ a75ukFAhC6hkq34G0KV+zgpqs8A/bpI4TDgkziRTeyv/1LU7vWPVlsfcqLG1ATiB1YNcAGfCRTasR0JvC4cUbj6Hblf5RGfJrZxuFGfiEmX8JH7ix3yYrTbE
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Qiushi Wu <wu000273@umn.edu>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-pm_runtime_get_sync() increments the runtime PM usage counter even
-when it returns an error code, causing incorrect ref count if
-pm_runtime_put_noidle() is not called in error handling paths.
-Thus call pm_runtime_put_noidle() if pm_runtime_get_sync() fails.
+Results of the daily build of media_tree:
 
-Signed-off-by: Qiushi Wu <wu000273@umn.edu>
----
- drivers/media/platform/sti/hva/hva-hw.c | 2 ++
- 1 file changed, 2 insertions(+)
+date:			Sun Jun 14 05:00:12 CEST 2020
+media-tree git hash:	2630e1bb0948c3134c6f22ad275ae27cc6023532
+media_build git hash:	337283131d6117aa9b0c0c62d32e323da54a9359
+v4l-utils git hash:	74377da4f5f3b63203c599d5dd75db6af91fdbb9
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a0e63d2e6cdc689a8af8c9ae6df1674d0fe38c74
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-diff --git a/drivers/media/platform/sti/hva/hva-hw.c b/drivers/media/platform/sti/hva/hva-hw.c
-index 401aaafa1710..bb13348be083 100644
---- a/drivers/media/platform/sti/hva/hva-hw.c
-+++ b/drivers/media/platform/sti/hva/hva-hw.c
-@@ -272,6 +272,7 @@ static unsigned long int hva_hw_get_ip_version(struct hva_dev *hva)
- 
- 	if (pm_runtime_get_sync(dev) < 0) {
- 		dev_err(dev, "%s     failed to get pm_runtime\n", HVA_PREFIX);
-+		pm_runtime_put_noidle(dev);
- 		mutex_unlock(&hva->protect_mutex);
- 		return -EFAULT;
- 	}
-@@ -553,6 +554,7 @@ void hva_hw_dump_regs(struct hva_dev *hva, struct seq_file *s)
- 
- 	if (pm_runtime_get_sync(dev) < 0) {
- 		seq_puts(s, "Cannot wake up IP\n");
-+		pm_runtime_put_noidle(dev);
- 		mutex_unlock(&hva->protect_mutex);
- 		return;
- 	}
--- 
-2.17.1
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: WARNINGS
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7-rc1-i686: OK
+linux-5.7-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: OK
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
