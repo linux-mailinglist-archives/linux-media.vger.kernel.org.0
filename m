@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F9111F8BB5
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 02:01:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 99DD11F8BB7
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 02:01:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728228AbgFOABk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 14 Jun 2020 20:01:40 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:33340 "EHLO
+        id S1728006AbgFOABm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 14 Jun 2020 20:01:42 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33330 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727995AbgFOABh (ORCPT
+        with ESMTP id S1728196AbgFOABk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 14 Jun 2020 20:01:37 -0400
+        Sun, 14 Jun 2020 20:01:40 -0400
 Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 653A12162;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CBEEC2139;
         Mon, 15 Jun 2020 02:00:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592179245;
-        bh=h/8aTaRt8BDHKq1y0emTRkyZdUqtqnYEpL8Trv/ucGA=;
+        s=mail; t=1592179246;
+        bh=v4C9YpP2gxug8jVdo2dXWFJXCbpD3veCCMhiu/SWSUk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=GGXKasRfbYQdva1h3CrnXcXLmzZTC9wx5l5pXEMqxUPuriNI4JraAMUTRDlTSS7hR
-         6UXYCQ6ItXZtpQB2fjl6zj4E4rBRhMztpSAp1b22To/AAY2q3elslKCaSHW9AxIRGz
-         p0spbqwvi1ssMUi7l8Id50YGNSVVXdlnLcPukhlQ=
+        b=XFjk8R4HtsTsssbxFXhYeK/e6bNkC7g3orYoLzlmGD/IxRCA03vDvkly0olWxwdYa
+         MaV32Pjmo6QaZyVr7BKALy5fnj/c/PJSgf0bvVfMsuPQlNySuIbm80ZIRNdp2pM/ho
+         rq2LuxDBlwacxBSBStMAEmrF2AI7u3o3VxolPtho=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Benoit Parrot <bparrot@ti.com>
-Subject: [PATCH v1 077/107] media: ti-vpe: cal: Refactor camerarx start and stop
-Date:   Mon, 15 Jun 2020 02:59:14 +0300
-Message-Id: <20200614235944.17716-78-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v1 078/107] media: ti-vpe: cal: Don't store external rate in cal_camerarx
+Date:   Mon, 15 Jun 2020 02:59:15 +0300
+Message-Id: <20200614235944.17716-79-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
 References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
@@ -39,293 +39,111 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Refactor the camerarx start and stop procedure to group all the
-corresponding operations in two functions, cal_camerarx_start() and
-cal_camerarx_stop() instead of splitting them in multiple steps called
-from the vb2 stream start and stop functions. This reduces the coupling
-between the camerarx and the contexts, and better models the camerarx
-hardware.
+The external pixel rate is retrieved when starting the camerarx and only
+used then. There's no need to store it in the cal_camerarx structure, it
+can be returned by cal_camerarx_get_external_info() and explicitly
+passed to cal_camerarx_config().
 
-The cal_camerarx_start() is a reworked version of cal_camerarx_init()
-with the description of the start procedure updated to match the AM65x,
-DRA7[124567]x and DRA80xM TRMs. The cal_camerarx_wait_ready() function
-is inlined in cal_camerarx_start() to better describe the start
-procedure.
-
-No functional change is included in the camerarx start and stop
-procedures themselves, but the interleaving of the start steps with the
-context configuration has been changed in cal_start_streaming().
+While at it, rename cal_camerarx_get_external_info() to
+cal_camerarx_get_external_rate() to better reflect the function's
+purpose.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/ti-vpe/cal.c | 170 +++++++++++++++-------------
- 1 file changed, 94 insertions(+), 76 deletions(-)
+ drivers/media/platform/ti-vpe/cal.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 3d6b5aeacc1b..8326db0e4197 100644
+index 8326db0e4197..a11457909134 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -664,54 +664,50 @@ static void cal_camerarx_wait_stop_state(struct cal_camerarx *phy)
- 		phy_err(phy, "Timeout waiting for stop state\n");
+@@ -272,7 +272,6 @@ struct cal_camerarx {
+ 	struct v4l2_fwnode_endpoint	endpoint;
+ 	struct device_node	*sensor_node;
+ 	struct v4l2_subdev	*sensor;
+-	unsigned int		external_rate;
+ };
+ 
+ struct cal_dev {
+@@ -481,9 +480,10 @@ static void cal_quickdump_regs(struct cal_dev *cal)
+  * ------------------------------------------------------------------
+  */
+ 
+-static int cal_camerarx_get_external_info(struct cal_camerarx *phy)
++static s64 cal_camerarx_get_external_rate(struct cal_camerarx *phy)
+ {
+ 	struct v4l2_ctrl *ctrl;
++	s64 rate;
+ 
+ 	if (!phy->sensor)
+ 		return -ENODEV;
+@@ -495,10 +495,10 @@ static int cal_camerarx_get_external_info(struct cal_camerarx *phy)
+ 		return -EPIPE;
+ 	}
+ 
+-	phy->external_rate = v4l2_ctrl_g_ctrl_int64(ctrl);
+-	phy_dbg(3, phy, "sensor Pixel Rate: %u\n", phy->external_rate);
++	rate = v4l2_ctrl_g_ctrl_int64(ctrl);
++	phy_dbg(3, phy, "sensor Pixel Rate: %llu\n", rate);
+ 
+-	return 0;
++	return rate;
  }
  
--static void cal_camerarx_wait_ready(struct cal_camerarx *phy)
--{
--	/* Steps
--	 *  2. Wait for completion of reset
--	 *          Note if the external sensor is not sending byte clock,
--	 *          the reset will timeout
--	 *  4.Force FORCERXMODE
--	 *      G. Wait for all enabled lane to reach stop state
--	 *      H. Disable pull down using pad control
--	 */
--
--	/* 2. Wait for reset completion */
--	cal_camerarx_wait_reset(phy);
--
--	/* 4. G. Wait for all enabled lane to reach stop state */
--	cal_camerarx_wait_stop_state(phy);
--
--	phy_dbg(1, phy, "CSI2_%d_REG1 = 0x%08x (Bit(31,28) should be set!)\n",
--		phy->instance, reg_read(phy, CAL_CSI2_PHY_REG1));
--}
--
--static void cal_camerarx_init(struct cal_camerarx *phy,
-+static int cal_camerarx_start(struct cal_camerarx *phy,
+ static void cal_camerarx_lane_config(struct cal_camerarx *phy)
+@@ -554,7 +554,7 @@ static void cal_camerarx_disable(struct cal_camerarx *phy)
+ #define TCLK_MISS	1
+ #define TCLK_SETTLE	14
+ 
+-static void cal_camerarx_config(struct cal_camerarx *phy,
++static void cal_camerarx_config(struct cal_camerarx *phy, s64 external_rate,
+ 				const struct cal_fmt *fmt)
+ {
+ 	unsigned int reg0, reg1;
+@@ -566,7 +566,7 @@ static void cal_camerarx_config(struct cal_camerarx *phy,
+ 
+ 	/* DPHY timing configuration */
+ 	/* CSI-2 is DDR and we only count used lanes. */
+-	csi2_ddrclk_khz = phy->external_rate / 1000
++	csi2_ddrclk_khz = external_rate / 1000
+ 		/ (2 * num_lanes) * fmt->bpp;
+ 	phy_dbg(1, phy, "csi2_ddrclk_khz: %d\n", csi2_ddrclk_khz);
+ 
+@@ -667,13 +667,14 @@ static void cal_camerarx_wait_stop_state(struct cal_camerarx *phy)
+ static int cal_camerarx_start(struct cal_camerarx *phy,
  			      const struct cal_fmt *fmt)
  {
--	u32 val;
++	s64 external_rate;
  	u32 sscounter;
-+	u32 val;
-+	int ret;
+ 	u32 val;
+ 	int ret;
  
--	/* Steps
--	 *  1. Configure D-PHY mode and enable required lanes
--	 *  2. Reset complex IO - Wait for completion of reset
--	 *          Note if the external sensor is not sending byte clock,
--	 *          the reset will timeout
--	 *  3 Program Stop States
--	 *      A. Program THS_TERM, THS_SETTLE, etc... Timings parameters
--	 *              in terms of DDR clock periods
--	 *      B. Enable stop state transition timeouts
--	 *  4.Force FORCERXMODE
--	 *      D. Enable pull down using pad control
--	 *      E. Power up PHY
--	 *      F. Wait for power up completion
--	 *      G. Wait for all enabled lane to reach stop state
--	 *      H. Disable pull down using pad control
-+	ret = cal_camerarx_get_external_info(phy);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = v4l2_subdev_call(phy->sensor, core, s_power, 1);
-+	if (ret < 0 && ret != -ENOIOCTLCMD && ret != -ENODEV) {
-+		phy_err(phy, "power on failed in subdev\n");
-+		return ret;
-+	}
-+
-+	/*
-+	 * CSI-2 PHY Link Initialization Sequence, according to the DRA74xP /
-+	 * DRA75xP / DRA76xP / DRA77xP TRM. The DRA71x / DRA72x and the AM65x /
-+	 * DRA80xM TRMs have a a slightly simplified sequence.
- 	 */
+-	ret = cal_camerarx_get_external_info(phy);
+-	if (ret < 0)
+-		return ret;
++	external_rate = cal_camerarx_get_external_rate(phy);
++	if (external_rate < 0)
++		return external_rate;
  
--	/* 1. Configure D-PHY mode and enable required lanes */
-+	/*
-+	 * 1. Configure all CSI-2 low level protocol registers to be ready to
-+	 *    receive signals/data from the CSI-2 PHY.
-+	 *
-+	 *    i.-v. Configure the lanes position and polarity.
-+	 */
-+	cal_camerarx_lane_config(phy);
-+
-+	/*
-+	 *    vi.-vii. Configure D-PHY mode, enable the required lanes and
-+	 *             enable the CAMERARX clock.
-+	 */
- 	cal_camerarx_enable(phy);
- 
--	/* 2. Reset complex IO - Do not wait for reset completion */
-+	/*
-+	 * 2. CSI PHY and link initialization sequence.
-+	 *
-+	 *    a. Deassert the CSI-2 PHY reset. Do not wait for reset completion
-+	 *       at this point, as it requires the external sensor to send the
-+	 *       CSI-2 HS clock.
-+	 */
- 	reg_write_field(phy->cal, CAL_CSI2_COMPLEXIO_CFG(phy->instance),
- 			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_OPERATIONAL,
- 			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_MASK);
-@@ -719,19 +715,20 @@ static void cal_camerarx_init(struct cal_camerarx *phy,
- 		phy->instance,
- 		reg_read(phy->cal, CAL_CSI2_COMPLEXIO_CFG(phy->instance)));
- 
--	/* Dummy read to allow SCP reset to complete */
-+	/* Dummy read to allow SCP reset to complete. */
+ 	ret = v4l2_subdev_call(phy->sensor, core, s_power, 1);
+ 	if (ret < 0 && ret != -ENOIOCTLCMD && ret != -ENODEV) {
+@@ -719,7 +720,7 @@ static int cal_camerarx_start(struct cal_camerarx *phy,
  	reg_read(phy, CAL_CSI2_PHY_REG0);
  
--	/* 3.A. Program Phy Timing Parameters */
-+	/* Program the PHY timing parameters. */
- 	cal_camerarx_config(phy, fmt);
+ 	/* Program the PHY timing parameters. */
+-	cal_camerarx_config(phy, fmt);
++	cal_camerarx_config(phy, external_rate, fmt);
  
--	/* 3.B. Program Stop States */
  	/*
-+	 *    b. Assert the FORCERXMODE signal.
-+	 *
- 	 * The stop-state-counter is based on fclk cycles, and we always use
- 	 * the x16 and x4 settings, so stop-state-timeout =
- 	 * fclk-cycle * 16 * 4 * counter.
- 	 *
--	 * Stop-state-timeout must be more than 100us as per CSI2 spec, so we
-+	 * Stop-state-timeout must be more than 100us as per CSI-2 spec, so we
- 	 * calculate a timeout that's 100us (rounding up).
- 	 */
- 	sscounter = DIV_ROUND_UP(clk_get_rate(phy->cal->fclk), 10000 *  16 * 4);
-@@ -745,24 +742,63 @@ static void cal_camerarx_init(struct cal_camerarx *phy,
- 		phy->instance,
- 		reg_read(phy->cal, CAL_CSI2_TIMING(phy->instance)));
+ 	 *    b. Assert the FORCERXMODE signal.
+@@ -1034,7 +1035,6 @@ static struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
  
--	/* 4. Force FORCERXMODE */
-+	/* Assert the FORCERXMODE signal. */
- 	reg_write_field(phy->cal, CAL_CSI2_TIMING(phy->instance),
- 			1, CAL_CSI2_TIMING_FORCE_RX_MODE_IO1_MASK);
- 	phy_dbg(3, phy, "CAL_CSI2_TIMING(%d) = 0x%08x Force RXMODE\n",
- 		phy->instance,
- 		reg_read(phy->cal, CAL_CSI2_TIMING(phy->instance)));
+ 	phy->cal = cal;
+ 	phy->instance = instance;
+-	phy->external_rate = 192000000;
  
--	/* E. Power up the PHY using the complex IO */
-+	/*
-+	 * c. Connect pull-down on CSI-2 PHY link (using pad control).
-+	 *
-+	 * This is not required on DRA71x, DRA72x, AM65x and DRA80xM. Not
-+	 * implemented.
-+	 */
-+
-+	/*
-+	 * d. Power up the CSI-2 PHY.
-+	 * e. Check whether the state status reaches the ON state.
-+	 */
- 	cal_camerarx_power(phy, true);
-+
-+	/*
-+	 * Start the sensor to enable the CSI-2 HS clock. We can now wait for
-+	 * CSI-2 PHY reset to complete.
-+	 */
-+	ret = v4l2_subdev_call(phy->sensor, video, s_stream, 1);
-+	if (ret) {
-+		v4l2_subdev_call(phy->sensor, core, s_power, 0);
-+		phy_err(phy, "stream on failed in subdev\n");
-+		return ret;
-+	}
-+
-+	cal_camerarx_wait_reset(phy);
-+
-+	/* f. Wait for STOPSTATE=1 for all enabled lane modules. */
-+	cal_camerarx_wait_stop_state(phy);
-+
-+	phy_dbg(1, phy, "CSI2_%u_REG1 = 0x%08x (bits 31-28 should be set)\n",
-+		phy->instance, reg_read(phy, CAL_CSI2_PHY_REG1));
-+
-+	/*
-+	 * g. Disable pull-down on CSI-2 PHY link (using pad control).
-+	 *
-+	 * This is not required on DRA71x, DRA72x, AM65x and DRA80xM. Not
-+	 * implemented.
-+	 */
-+
-+	return 0;
- }
- 
--static void cal_camerarx_deinit(struct cal_camerarx *phy)
-+static void cal_camerarx_stop(struct cal_camerarx *phy)
- {
- 	unsigned int i;
-+	int ret;
- 
- 	cal_camerarx_power(phy, false);
- 
--	/* Assert Comple IO Reset */
-+	/* Assert Complex IO Reset */
- 	reg_write_field(phy->cal, CAL_CSI2_COMPLEXIO_CFG(phy->instance),
- 			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL,
- 			CAL_CSI2_COMPLEXIO_CFG_RESET_CTRL_MASK);
-@@ -783,6 +819,13 @@ static void cal_camerarx_deinit(struct cal_camerarx *phy)
- 
- 	/* Disable the phy */
- 	cal_camerarx_disable(phy);
-+
-+	if (v4l2_subdev_call(phy->sensor, video, s_stream, 0))
-+		phy_err(phy, "stream off failed in subdev\n");
-+
-+	ret = v4l2_subdev_call(phy->sensor, core, s_power, 0);
-+	if (ret < 0 && ret != -ENOIOCTLCMD && ret != -ENODEV)
-+		phy_err(phy, "power off failed in subdev\n");
- }
- 
- /*
-@@ -1799,36 +1842,19 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	addr = vb2_dma_contig_plane_dma_addr(&ctx->cur_frm->vb.vb2_buf, 0);
- 	ctx->sequence = 0;
- 
--	ret = cal_camerarx_get_external_info(ctx->phy);
--	if (ret < 0)
--		goto err;
--
--	ret = v4l2_subdev_call(ctx->phy->sensor, core, s_power, 1);
--	if (ret < 0 && ret != -ENOIOCTLCMD && ret != -ENODEV) {
--		ctx_err(ctx, "power on failed in subdev\n");
--		goto err;
--	}
--
- 	pm_runtime_get_sync(ctx->cal->dev);
- 
- 	cal_ctx_csi2_config(ctx);
- 	cal_ctx_pix_proc_config(ctx);
- 	cal_ctx_wr_dma_config(ctx, ctx->v_fmt.fmt.pix.bytesperline,
- 			      ctx->v_fmt.fmt.pix.height);
--	cal_camerarx_lane_config(ctx->phy);
- 
- 	cal_camerarx_enable_irqs(ctx->phy);
--	cal_camerarx_init(ctx->phy, ctx->fmt);
- 
--	ret = v4l2_subdev_call(ctx->phy->sensor, video, s_stream, 1);
--	if (ret) {
--		v4l2_subdev_call(ctx->phy->sensor, core, s_power, 0);
--		ctx_err(ctx, "stream on failed in subdev\n");
--		pm_runtime_put_sync(ctx->cal->dev);
-+	ret = cal_camerarx_start(ctx->phy, ctx->fmt);
-+	if (ret)
- 		goto err;
--	}
- 
--	cal_camerarx_wait_ready(ctx->phy);
- 	cal_ctx_wr_dma_addr(ctx, addr);
- 	cal_camerarx_ppi_enable(ctx->phy);
- 
-@@ -1857,7 +1883,6 @@ static void cal_stop_streaming(struct vb2_queue *vq)
- 	struct cal_buffer *buf, *tmp;
- 	unsigned long timeout;
- 	unsigned long flags;
--	int ret;
- 	bool dma_act;
- 
- 	cal_camerarx_ppi_disable(ctx->phy);
-@@ -1877,14 +1902,7 @@ static void cal_stop_streaming(struct vb2_queue *vq)
- 		ctx_err(ctx, "failed to disable dma cleanly\n");
- 
- 	cal_camerarx_disable_irqs(ctx->phy);
--	cal_camerarx_deinit(ctx->phy);
--
--	if (v4l2_subdev_call(ctx->phy->sensor, video, s_stream, 0))
--		ctx_err(ctx, "stream off failed in subdev\n");
--
--	ret = v4l2_subdev_call(ctx->phy->sensor, core, s_power, 0);
--	if (ret < 0 && ret != -ENOIOCTLCMD && ret != -ENODEV)
--		ctx_err(ctx, "power off failed in subdev\n");
-+	cal_camerarx_stop(ctx->phy);
- 
- 	/* Release all active buffers */
- 	spin_lock_irqsave(&ctx->slock, flags);
+ 	phy->res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+ 						(instance == 0) ?
 -- 
 Regards,
 
