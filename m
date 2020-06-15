@@ -2,266 +2,332 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E393E1F958D
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 13:48:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 43CA51F960D
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 14:04:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729653AbgFOLsa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jun 2020 07:48:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41120 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728285AbgFOLs3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jun 2020 07:48:29 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D59BC061A0E;
-        Mon, 15 Jun 2020 04:48:29 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 87377F9;
-        Mon, 15 Jun 2020 13:48:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592221704;
-        bh=dFEFVRmhn/ZaF40VoAqVUwHz+QGaFINkZcQsr1QY2/s=;
-        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
-        b=HUSkzeWDnsO7hBI9oZZPVLM1hxxG43UDs0Jdr+3V7AL70BBFyeizd/rrU8HZgeIYu
-         t9yZdwjg9UsoerVjndezmKN9LZhEbuyI2vSiItmIImgEx5giowVkVE4iqnayBQna60
-         omF63bkcnkFtqYOdswv6yOnuOqvLjqCjT8MFUQx0=
-Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v2 2/2] media: vimc: Add a control to show test pattern
- colors' order
-To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
-        Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        hverkuil@xs4all.nl
-References: <20200614200239.18453-1-kgupta@es.iitr.ac.in>
- <20200614200239.18453-3-kgupta@es.iitr.ac.in>
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
- 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
- WZw01QYHU/GUV/zHJSFk
-Organization: Ideas on Board
-Message-ID: <0ec47745-dcb4-4b40-1c53-093491856597@ideasonboard.com>
-Date:   Mon, 15 Jun 2020 12:48:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <20200614200239.18453-3-kgupta@es.iitr.ac.in>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+        id S1729845AbgFOMEN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jun 2020 08:04:13 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:16186 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729877AbgFOMD6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jun 2020 08:03:58 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1592222637; h=References: In-Reply-To: Message-Id: Date:
+ Subject: Cc: To: From: Sender;
+ bh=wbbp8bYWZqAOe5JcmZIlj4Iv82ohOVVmmL+p25cvTyM=; b=sy85bfdYA3TNtThfsjuafTLNMBb+I7nIrXuraJEA0bWom3Kb73O9rgKjBaO+8ulybaKcOVyU
+ m3x8tTPBkwjoiSNQRYMYduWJRceyyTh395a5D799ROkudnJ2gFfn0hDKSg/DMXYjfxAX557h
+ 7qPFM8jgLX8R9FKVBX0PHgsR/NU=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n07.prod.us-east-1.postgun.com with SMTP id
+ 5ee76392a3d8a4474332b41e (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 15 Jun 2020 12:03:30
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 13E01C433C8; Mon, 15 Jun 2020 12:03:30 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.0
+Received: from blr-ubuntu-173.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com [103.229.18.19])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: rnayak)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 12D46C433CA;
+        Mon, 15 Jun 2020 12:03:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 12D46C433CA
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=rnayak@codeaurora.org
+From:   Rajendra Nayak <rnayak@codeaurora.org>
+To:     bjorn.andersson@linaro.org, agross@kernel.org, robdclark@gmail.com,
+        robdclark@chromium.org, stanimir.varbanov@linaro.org
+Cc:     viresh.kumar@linaro.org, sboyd@kernel.org, mka@chromium.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Rajendra Nayak <rnayak@codeaurora.org>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v6 5/6] media: venus: core: Add support for opp tables/perf voting
+Date:   Mon, 15 Jun 2020 17:32:43 +0530
+Message-Id: <1592222564-13556-6-git-send-email-rnayak@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1592222564-13556-1-git-send-email-rnayak@codeaurora.org>
+References: <1592222564-13556-1-git-send-email-rnayak@codeaurora.org>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kaaira,
+Add support to add OPP tables and perf voting on the OPP powerdomain.
+This is needed so venus votes on the corresponding performance state
+for the OPP powerdomain along with setting the core clock rate.
 
-On 14/06/2020 21:02, Kaaira Gupta wrote:
-> Add a control in VIMC to show the correct order of the colors for a
-> given test pattern.
-> The control can be accessed by using show_colors_order in v4l2-ctl
-> 
-> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
-> ---
->  drivers/media/test-drivers/vimc/Kconfig       |  2 ++
->  drivers/media/test-drivers/vimc/vimc-common.h |  1 +
->  drivers/media/test-drivers/vimc/vimc-sensor.c | 34 +++++++++++++++++++
->  3 files changed, 37 insertions(+)
-> 
-> diff --git a/drivers/media/test-drivers/vimc/Kconfig b/drivers/media/test-drivers/vimc/Kconfig
-> index 4068a67585f9..da4b2ad6e40c 100644
-> --- a/drivers/media/test-drivers/vimc/Kconfig
-> +++ b/drivers/media/test-drivers/vimc/Kconfig
-> @@ -2,6 +2,8 @@
->  config VIDEO_VIMC
->  	tristate "Virtual Media Controller Driver (VIMC)"
->  	depends on VIDEO_DEV && VIDEO_V4L2
-> +	select FONT_SUPPORT
-> +	select FONT_8x16
->  	select MEDIA_CONTROLLER
->  	select VIDEO_V4L2_SUBDEV_API
->  	select VIDEOBUF2_VMALLOC
-> diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
-> index ae163dec2459..52376ba6146b 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-common.h
-> +++ b/drivers/media/test-drivers/vimc/vimc-common.h
-> @@ -20,6 +20,7 @@
->  #define VIMC_CID_VIMC_CLASS		(0x00f00000 | 1)
->  #define VIMC_CID_TEST_PATTERN		(VIMC_CID_VIMC_BASE + 0)
->  #define VIMC_CID_MEAN_WIN_SIZE		(VIMC_CID_VIMC_BASE + 1)
-> +#define VIMC_TEST_PATTERN_ORDER		(VIMC_CID_VIMC_BASE + 2)
+Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
+Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
+Cc: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc: linux-media@vger.kernel.org
+---
+No functional change in v6, rebased over 5.8-rc1
+Bindings update to add optional PD https://lore.kernel.org/patchwork/patch/1241077/
 
-This should have the prefix CID like the others. I believe that stands
-for "Control ID"
+ drivers/media/platform/qcom/venus/core.c       | 43 +++++++++++++++++---
+ drivers/media/platform/qcom/venus/core.h       |  5 +++
+ drivers/media/platform/qcom/venus/pm_helpers.c | 54 ++++++++++++++++++++++++--
+ 3 files changed, 92 insertions(+), 10 deletions(-)
 
-As below, I think it might warrant being a more generic name for the OSD
-overlay, as it could display more than just the colour sequence.
-
-
->  
->  #define VIMC_FRAME_MAX_WIDTH 4096
->  #define VIMC_FRAME_MAX_HEIGHT 2160
-> diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
-> index a2f09ac9a360..da625f6accce 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
-> @@ -5,6 +5,7 @@
->   * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
->   */
->  
-> +#include <linux/font.h>
->  #include <linux/v4l2-mediabus.h>
->  #include <linux/vmalloc.h>
->  #include <media/v4l2-ctrls.h>
-> @@ -19,6 +20,7 @@ struct vimc_sen_device {
->  	struct v4l2_subdev sd;
->  	struct tpg_data tpg;
->  	u8 *frame;
-> +	bool show_colors_order;
-
-I would say it's the 'sequence' 'show_color_sequence' but it's still a
-bit long ... but maybe that doesn't really matter.
-
-
->  	/* The active format */
->  	struct v4l2_mbus_framefmt mbus_format;
->  	struct v4l2_ctrl_handler hdl;
-> @@ -185,10 +187,18 @@ static const struct v4l2_subdev_pad_ops vimc_sen_pad_ops = {
->  static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
->  				    const void *sink_frame)
->  {
-> +	u8 *basep[TPG_MAX_PLANES][2];
-> +	char *str;
->  	struct vimc_sen_device *vsen = container_of(ved, struct vimc_sen_device,
->  						    ved);
->  
->  	tpg_fill_plane_buffer(&vsen->tpg, 0, 0, vsen->frame);
-> +	if (vsen->show_colors_order) {
-> +		tpg_calc_text_basep(&vsen->tpg, basep, 0, vsen->frame);
-> +		str = tpg_g_color_order(&vsen->tpg);
-> +		tpg_gen_text(&vsen->tpg, basep, 1, 1, str);
-> +	}
-> +
->  	return vsen->frame;
->  }
->  
-> @@ -200,6 +210,14 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
->  	if (enable) {
->  		const struct vimc_pix_map *vpix;
->  		unsigned int frame_size;
-> +		const struct font_desc *font = find_font("VGA8x16");
-> +
-> +		if (font == NULL) {
-> +			pr_err("vimc: could not find font\n");
-> +			return -ENODEV;
-
-I wonder if this should instead just disable text rendering instead?
-
-It might be reasonable to compile the kernel without the font-library ?
-
-> +		}
-> +
-> +		tpg_set_font(font->data);
->  
->  		/* Calculate the frame size */
->  		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
-> @@ -269,6 +287,9 @@ static int vimc_sen_s_ctrl(struct v4l2_ctrl *ctrl)
->  	case V4L2_CID_SATURATION:
->  		tpg_s_saturation(&vsen->tpg, ctrl->val);
->  		break;
-> +	case VIMC_TEST_PATTERN_ORDER:
-> +		vsen->show_colors_order = ctrl->val;
-> +		break;
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -307,6 +328,17 @@ static const struct v4l2_ctrl_config vimc_sen_ctrl_test_pattern = {
->  	.qmenu = tpg_pattern_strings,
->  };
->  
-> +static const struct v4l2_ctrl_config vimc_sen_ctrl_order = {
-> +	.ops = &vimc_sen_ctrl_ops,
-> +	.id = VIMC_TEST_PATTERN_ORDER,
-
-Now that you've brought in support for rendering text on the frame, I
-wonder if more information should be displayed just like VIVID does.
-
-In that case, it would probably be better to have a more generic control
-that enables all of the text OSD with a more generic name.
-
-
-> +	.name = "Show Colors Order",
-> +	.type = V4L2_CTRL_TYPE_BOOLEAN,
-> +	.min = 0,
-> +	.max = 1,
-> +	.step = 1,
-> +	.def = 1,
-> +};
-> +
->  static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->  					    const char *vcfg_name)
->  {
-> @@ -323,6 +355,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->  
->  	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_class, NULL);
->  	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_test_pattern, NULL);
-> +	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_order, NULL);
->  	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
->  			  V4L2_CID_VFLIP, 0, 1, 1, 0);
->  	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
-> @@ -362,6 +395,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->  
->  	/* Initialize the frame format */
->  	vsen->mbus_format = fmt_default;
-> +	vsen->show_colors_order = vimc_sen_ctrl_order.def;
->  
->  	return &vsen->ved;
->  
-> 
-
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 203c653..630f61b 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -12,6 +12,7 @@
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
++#include <linux/pm_opp.h>
+ #include <linux/pm_runtime.h>
+ #include <media/videobuf2-v4l2.h>
+ #include <media/v4l2-mem2mem.h>
+@@ -216,21 +217,37 @@ static int venus_probe(struct platform_device *pdev)
+ 	if (!core->pm_ops)
+ 		return -ENODEV;
+ 
++	core->opp_table = dev_pm_opp_set_clkname(dev, "core");
++	if (IS_ERR(core->opp_table))
++		return PTR_ERR(core->opp_table);
++
++	if (core->res->opp_pmdomain) {
++		ret = dev_pm_opp_of_add_table(dev);
++		if (!ret) {
++			core->has_opp_table = true;
++		} else if (ret != -ENODEV) {
++			dev_err(dev, "invalid OPP table in device tree\n");
++			return ret;
++		}
++	}
++
+ 	if (core->pm_ops->core_get) {
+ 		ret = core->pm_ops->core_get(dev);
+ 		if (ret)
+-			return ret;
++			goto err_opp_cleanup;
+ 	}
+ 
+ 	ret = dma_set_mask_and_coherent(dev, core->res->dma_mask);
+ 	if (ret)
+-		return ret;
++		goto err_opp_cleanup;
+ 
+ 	if (!dev->dma_parms) {
+ 		dev->dma_parms = devm_kzalloc(dev, sizeof(*dev->dma_parms),
+ 					      GFP_KERNEL);
+-		if (!dev->dma_parms)
+-			return -ENOMEM;
++		if (!dev->dma_parms) {
++			ret = -ENOMEM;
++			goto err_opp_cleanup;
++		}
+ 	}
+ 	dma_set_max_seg_size(dev, DMA_BIT_MASK(32));
+ 
+@@ -242,11 +259,11 @@ static int venus_probe(struct platform_device *pdev)
+ 					IRQF_TRIGGER_HIGH | IRQF_ONESHOT,
+ 					"venus", core);
+ 	if (ret)
+-		return ret;
++		goto err_opp_cleanup;
+ 
+ 	ret = hfi_create(core, &venus_core_ops);
+ 	if (ret)
+-		return ret;
++		goto err_opp_cleanup;
+ 
+ 	pm_runtime_enable(dev);
+ 
+@@ -302,6 +319,10 @@ static int venus_probe(struct platform_device *pdev)
+ 	pm_runtime_set_suspended(dev);
+ 	pm_runtime_disable(dev);
+ 	hfi_destroy(core);
++err_opp_cleanup:
++	if (core->has_opp_table)
++		dev_pm_opp_of_remove_table(dev);
++	dev_pm_opp_put_clkname(core->opp_table);
+ 	return ret;
+ }
+ 
+@@ -326,6 +347,10 @@ static int venus_remove(struct platform_device *pdev)
+ 	pm_runtime_put_sync(dev);
+ 	pm_runtime_disable(dev);
+ 
++	if (core->has_opp_table)
++		dev_pm_opp_of_remove_table(dev);
++	dev_pm_opp_put_clkname(core->opp_table);
++
+ 	if (pm_ops->core_put)
+ 		pm_ops->core_put(dev);
+ 
+@@ -355,6 +380,10 @@ static __maybe_unused int venus_runtime_suspend(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
++	/* Drop the performance state vote */
++	if (core->opp_pmdomain)
++		dev_pm_opp_set_rate(dev, 0);
++
+ 	if (pm_ops->core_power)
+ 		ret = pm_ops->core_power(dev, POWER_OFF);
+ 
+@@ -520,6 +549,7 @@ static const struct venus_resources sdm845_res_v2 = {
+ 	.vcodec_clks_num = 2,
+ 	.vcodec_pmdomains = { "venus", "vcodec0", "vcodec1" },
+ 	.vcodec_pmdomains_num = 3,
++	.opp_pmdomain = (const char *[]) { "opp-pd", NULL },
+ 	.vcodec_num = 2,
+ 	.max_load = 3110400,	/* 4096x2160@90 */
+ 	.hfi_version = HFI_VERSION_4XX,
+@@ -565,6 +595,7 @@ static const struct venus_resources sc7180_res = {
+ 	.vcodec_clks_num = 2,
+ 	.vcodec_pmdomains = { "venus", "vcodec0" },
+ 	.vcodec_pmdomains_num = 2,
++	.opp_pmdomain = (const char *[]) { "opp-pd", NULL },
+ 	.vcodec_num = 1,
+ 	.hfi_version = HFI_VERSION_4XX,
+ 	.vmem_id = VIDC_RESOURCE_NONE,
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 7118612..b0cc544 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -62,6 +62,7 @@ struct venus_resources {
+ 	unsigned int vcodec_clks_num;
+ 	const char * const vcodec_pmdomains[VIDC_PMDOMAINS_NUM_MAX];
+ 	unsigned int vcodec_pmdomains_num;
++	const char **opp_pmdomain;
+ 	unsigned int vcodec_num;
+ 	enum hfi_version hfi_version;
+ 	u32 max_load;
+@@ -145,8 +146,12 @@ struct venus_core {
+ 	struct clk *vcodec1_clks[VIDC_VCODEC_CLKS_NUM_MAX];
+ 	struct icc_path *video_path;
+ 	struct icc_path *cpucfg_path;
++	struct opp_table *opp_table;
++	bool has_opp_table;
+ 	struct device_link *pd_dl_venus;
+ 	struct device *pmdomains[VIDC_PMDOMAINS_NUM_MAX];
++	struct device_link *opp_dl_venus;
++	struct device *opp_pmdomain;
+ 	struct video_device *vdev_dec;
+ 	struct video_device *vdev_enc;
+ 	struct v4l2_device v4l2_dev;
+diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+index abf9315..bfe7421 100644
+--- a/drivers/media/platform/qcom/venus/pm_helpers.c
++++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+@@ -9,6 +9,7 @@
+ #include <linux/iopoll.h>
+ #include <linux/kernel.h>
+ #include <linux/pm_domain.h>
++#include <linux/pm_opp.h>
+ #include <linux/pm_runtime.h>
+ #include <linux/types.h>
+ #include <media/v4l2-mem2mem.h>
+@@ -66,10 +67,9 @@ static void core_clks_disable(struct venus_core *core)
+ 
+ static int core_clks_set_rate(struct venus_core *core, unsigned long freq)
+ {
+-	struct clk *clk = core->clks[0];
+ 	int ret;
+ 
+-	ret = clk_set_rate(clk, freq);
++	ret = dev_pm_opp_set_rate(core->dev, freq);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -740,13 +740,16 @@ static int venc_power_v4(struct device *dev, int on)
+ 
+ static int vcodec_domains_get(struct device *dev)
+ {
++	int ret;
++	struct opp_table *opp_table;
++	struct device **opp_virt_dev;
+ 	struct venus_core *core = dev_get_drvdata(dev);
+ 	const struct venus_resources *res = core->res;
+ 	struct device *pd;
+ 	unsigned int i;
+ 
+ 	if (!res->vcodec_pmdomains_num)
+-		return -ENODEV;
++		goto skip_pmdomains;
+ 
+ 	for (i = 0; i < res->vcodec_pmdomains_num; i++) {
+ 		pd = dev_pm_domain_attach_by_name(dev,
+@@ -763,7 +766,41 @@ static int vcodec_domains_get(struct device *dev)
+ 	if (!core->pd_dl_venus)
+ 		return -ENODEV;
+ 
++skip_pmdomains:
++	if (!core->has_opp_table)
++		return 0;
++
++	/* Attach the power domain for setting performance state */
++	opp_table = dev_pm_opp_attach_genpd(dev, res->opp_pmdomain, &opp_virt_dev);
++	if (IS_ERR(opp_table)) {
++		ret = PTR_ERR(opp_table);
++		goto opp_attach_err;
++	}
++
++	core->opp_pmdomain = *opp_virt_dev;
++	core->opp_dl_venus = device_link_add(dev, core->opp_pmdomain,
++					     DL_FLAG_RPM_ACTIVE |
++					     DL_FLAG_PM_RUNTIME |
++					     DL_FLAG_STATELESS);
++	if (!core->opp_dl_venus) {
++		ret = -ENODEV;
++		goto opp_dl_add_err;
++	}
++
+ 	return 0;
++
++opp_dl_add_err:
++	dev_pm_domain_detach(core->opp_pmdomain, true);
++opp_attach_err:
++	if (core->pd_dl_venus) {
++		device_link_del(core->pd_dl_venus);
++		for (i = 0; i < res->vcodec_pmdomains_num; i++) {
++			if (IS_ERR_OR_NULL(core->pmdomains[i]))
++				continue;
++			dev_pm_domain_detach(core->pmdomains[i], true);
++		}
++	}
++	return ret;
+ }
+ 
+ static void vcodec_domains_put(struct device *dev)
+@@ -773,7 +810,7 @@ static void vcodec_domains_put(struct device *dev)
+ 	unsigned int i;
+ 
+ 	if (!res->vcodec_pmdomains_num)
+-		return;
++		goto skip_pmdomains;
+ 
+ 	if (core->pd_dl_venus)
+ 		device_link_del(core->pd_dl_venus);
+@@ -783,6 +820,15 @@ static void vcodec_domains_put(struct device *dev)
+ 			continue;
+ 		dev_pm_domain_detach(core->pmdomains[i], true);
+ 	}
++
++skip_pmdomains:
++	if (!res->opp_pmdomain)
++		return;
++
++	if (core->opp_dl_venus)
++		device_link_del(core->opp_dl_venus);
++
++	dev_pm_domain_detach(core->opp_pmdomain, true);
+ }
+ 
+ static int core_get_v4(struct device *dev)
 -- 
-Regards
---
-Kieran
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
+of Code Aurora Forum, hosted by The Linux Foundation
+
