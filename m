@@ -2,81 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C8621F90D1
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 09:59:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCDFE1F90E4
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 10:01:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728878AbgFOH6j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jun 2020 03:58:39 -0400
-Received: from www.zeus03.de ([194.117.254.33]:49256 "EHLO mail.zeus03.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728870AbgFOH6g (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jun 2020 03:58:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=k1; bh=rWVLXBN8H0735K
-        mANx0Xi7PjlmfkXYgp3cj8uiqX6e0=; b=Q484isnRFsf1QvsOnLntY0nHvF/Dn6
-        NNf1MRLnIQEm05cv87oO/tm43cwdU6j8sLWBMvS62RmTT9hMzdLB2RZWK0btlmyj
-        NX+Y+vKw9HQlV8sTKN1kVV8UxkXLsOBYlphj5UzYqwk/QvkVJZ9DahgR3EbDmw8R
-        HKf83NDWD8C7U=
-Received: (qmail 989280 invoked from network); 15 Jun 2020 09:58:30 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 15 Jun 2020 09:58:30 +0200
-X-UD-Smtp-Session: l3s3148p1@i23jyhqoELYgAwDPXwRdAFnN6pRlEuNX
-From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
-To:     linux-i2c@vger.kernel.org
-Cc:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 5/6] Documentation: media: convert to use i2c_new_client_device()
-Date:   Mon, 15 Jun 2020 09:58:14 +0200
-Message-Id: <20200615075816.2848-6-wsa+renesas@sang-engineering.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200615075816.2848-1-wsa+renesas@sang-engineering.com>
-References: <20200615075816.2848-1-wsa+renesas@sang-engineering.com>
+        id S1728268AbgFOIBt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jun 2020 04:01:49 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:34419 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726318AbgFOIBt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jun 2020 04:01:49 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 09E2620012;
+        Mon, 15 Jun 2020 08:01:45 +0000 (UTC)
+Date:   Mon, 15 Jun 2020 10:05:10 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH] rcar-csi2: Rename confirm_start() to phy_post_init() to
+ match its usage
+Message-ID: <20200615080510.h35ftz36esrl2cx5@uno.localdomain>
+References: <20200611193232.128721-1-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200611193232.128721-1-niklas.soderlund+renesas@ragnatech.se>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Move away from the deprecated API and advertise the new one.
+Hi Niklas,
 
-Signed-off-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
----
+On Thu, Jun 11, 2020 at 09:32:32PM +0200, Niklas Söderlund wrote:
+> Since the driver was picked-up the starting of the PHY have changed
+> quiet a bit. An artifact of these changes is the now poorly named
+> callback confirm_start(). It used to confirm start of the PHY but now
+> performs post PHY start initialization, rename it to phy_post_init() to
+> reflect this.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-I'd like to push it via I2C for 5.8-rc2.
+Seems reasonable
+Acked-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
- Documentation/driver-api/media/v4l2-subdev.rst    | 2 +-
- Documentation/userspace-api/media/conf_nitpick.py | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Thanks
+  j
 
-diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-index 6e71f67455bb..bc7e1fc40a9d 100644
---- a/Documentation/driver-api/media/v4l2-subdev.rst
-+++ b/Documentation/driver-api/media/v4l2-subdev.rst
-@@ -451,7 +451,7 @@ The bridge driver also has some helper functions it can use:
- 					"module_foo", "chipid", 0x36, NULL);
- 
- This loads the given module (can be ``NULL`` if no module needs to be loaded)
--and calls :c:func:`i2c_new_device` with the given ``i2c_adapter`` and
-+and calls :c:func:`i2c_new_client_device` with the given ``i2c_adapter`` and
- chip/address arguments. If all goes well, then it registers the subdev with
- the v4l2_device.
- 
-diff --git a/Documentation/userspace-api/media/conf_nitpick.py b/Documentation/userspace-api/media/conf_nitpick.py
-index d0c50d75f518..0a8e236d07ab 100644
---- a/Documentation/userspace-api/media/conf_nitpick.py
-+++ b/Documentation/userspace-api/media/conf_nitpick.py
-@@ -27,7 +27,7 @@ nitpick_ignore = [
-     ("c:func", "copy_to_user"),
-     ("c:func", "determine_valid_ioctls"),
-     ("c:func", "ERR_PTR"),
--    ("c:func", "i2c_new_device"),
-+    ("c:func", "i2c_new_client_device"),
-     ("c:func", "ioctl"),
-     ("c:func", "IS_ERR"),
-     ("c:func", "KERNEL_VERSION"),
--- 
-2.27.0
-
+> ---
+>  drivers/media/platform/rcar-vin/rcar-csi2.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> index 151e6a90c5fbc70e..6dbfac9dcf775f84 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+> @@ -344,7 +344,7 @@ enum rcar_csi2_pads {
+>
+>  struct rcar_csi2_info {
+>  	int (*init_phtw)(struct rcar_csi2 *priv, unsigned int mbps);
+> -	int (*confirm_start)(struct rcar_csi2 *priv);
+> +	int (*phy_post_init)(struct rcar_csi2 *priv);
+>  	const struct rcsi2_mbps_reg *hsfreqrange;
+>  	unsigned int csi0clkfreqrange;
+>  	unsigned int num_channels;
+> @@ -575,9 +575,9 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
+>  	if (ret)
+>  		return ret;
+>
+> -	/* Confirm start */
+> -	if (priv->info->confirm_start) {
+> -		ret = priv->info->confirm_start(priv);
+> +	/* Run post PHY start initialization, if needed. */
+> +	if (priv->info->phy_post_init) {
+> +		ret = priv->info->phy_post_init(priv);
+>  		if (ret)
+>  			return ret;
+>  	}
+> @@ -975,7 +975,7 @@ static int rcsi2_init_phtw_v3m_e3(struct rcar_csi2 *priv, unsigned int mbps)
+>  	return rcsi2_phtw_write_mbps(priv, mbps, phtw_mbps_v3m_e3, 0x44);
+>  }
+>
+> -static int rcsi2_confirm_start_v3m_e3(struct rcar_csi2 *priv)
+> +static int rcsi2_phy_post_init_v3m_e3(struct rcar_csi2 *priv)
+>  {
+>  	static const struct phtw_value step1[] = {
+>  		{ .data = 0xee, .code = 0x34 },
+> @@ -1059,7 +1059,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77965 = {
+>
+>  static const struct rcar_csi2_info rcar_csi2_info_r8a77970 = {
+>  	.init_phtw = rcsi2_init_phtw_v3m_e3,
+> -	.confirm_start = rcsi2_confirm_start_v3m_e3,
+> +	.phy_post_init = rcsi2_phy_post_init_v3m_e3,
+>  	.num_channels = 4,
+>  };
+>
+> @@ -1072,7 +1072,7 @@ static const struct rcar_csi2_info rcar_csi2_info_r8a77980 = {
+>
+>  static const struct rcar_csi2_info rcar_csi2_info_r8a77990 = {
+>  	.init_phtw = rcsi2_init_phtw_v3m_e3,
+> -	.confirm_start = rcsi2_confirm_start_v3m_e3,
+> +	.phy_post_init = rcsi2_phy_post_init_v3m_e3,
+>  	.num_channels = 2,
+>  };
+>
+> --
+> 2.27.0
+>
