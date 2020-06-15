@@ -2,482 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA9251F8E23
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 08:47:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED6EE1F8F8A
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 09:27:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728527AbgFOGre (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jun 2020 02:47:34 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60140 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728487AbgFOGrQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jun 2020 02:47:16 -0400
-Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 24E6C21508;
-        Mon, 15 Jun 2020 06:47:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592203633;
-        bh=x9HwgOk8y9Ox/zkIemYG2drU3iFpIRxVqJjyvw3fnlk=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=g1FlvD3W77IjIuvh4vTixoaWll4XRfrWETALu/1ypkSFwWlhClWvgmX7OZ6tZYqPl
-         haFXinmV3JU0e39iSI/+lGLXYdUr4crkqaUuxBBiID0X2nzVb3nPk6Bc8ERpGKbS80
-         EtWMKcOjQ1mRbgp782DDARGZw+AoJc3Eq5mRYtyw=
-Received: from mchehab by mail.kernel.org with local (Exim 4.93)
-        (envelope-from <mchehab@kernel.org>)
-        id 1jkiti-009nnu-7Z; Mon, 15 Jun 2020 08:47:10 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Andrea Parri <parri.andrea@gmail.com>,
-        Will Deacon <will@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Boqun Feng <boqun.feng@gmail.com>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        David Howells <dhowells@redhat.com>,
-        Jade Alglave <j.alglave@ucl.ac.uk>,
-        Luc Maranget <luc.maranget@inria.fr>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Akira Yokosawa <akiyks@gmail.com>,
-        Daniel Lustig <dlustig@nvidia.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-        Christoph Hellwig <hch@lst.de>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Robin Murphy <robin.murphy@arm.com>, linux-pci@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-parisc@vger.kernel.org, iommu@lists.linux-foundation.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH 26/29] docs: fix references for DMA*.txt files
-Date:   Mon, 15 Jun 2020 08:47:05 +0200
-Message-Id: <df99e29cef1e389f2acdff0eb1b92161f7be291b.1592203542.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1592203542.git.mchehab+huawei@kernel.org>
-References: <cover.1592203542.git.mchehab+huawei@kernel.org>
+        id S1728622AbgFOH1K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jun 2020 03:27:10 -0400
+Received: from mailgw02.mediatek.com ([1.203.163.81]:6834 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1728380AbgFOH1J (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jun 2020 03:27:09 -0400
+X-UUID: 2666c78addd64c669bb9616387d2124c-20200615
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=m/v3E4p1m/OZyPE8uUXIhT+TD6yH0vQGAescG6WMe18=;
+        b=GcSraQTy7mQuCj1GiotVFbBU92YScetN/KT9Jr41BGjeUuPyIwgv6Dc2kKq4E0mU98Of1nvuEvIxaLGK8acWBvTP5Nw52FQXHf8SxreUy9fifUHdF/QN6OvCB4SJ7gbfFAGt6GlQ+rnKPzr6BF0il9WiTec/rY8Lym0e70OP7DA=;
+X-UUID: 2666c78addd64c669bb9616387d2124c-20200615
+Received: from mtkcas35.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLS)
+        with ESMTP id 1671516636; Mon, 15 Jun 2020 15:26:57 +0800
+Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31N2.mediatek.inc
+ (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Mon, 15 Jun
+ 2020 15:26:50 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Mon, 15 Jun 2020 15:26:49 +0800
+Message-ID: <1592205866.8804.686.camel@mhfsdcap03>
+Subject: Re: [V8, 2/2] media: i2c: ov02a10: Add OV02A10 image sensor driver
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+CC:     Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg 
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-devicetree <devicetree@vger.kernel.org>,
+        Louis Kuo <louis.kuo@mediatek.com>,
+        "Shengnan Wang =?UTF-8?Q?=28=E7=8E=8B=E5=9C=A3=E7=94=B7=29?=" 
+        <shengnan.wang@mediatek.com>, <dongchun.zhu@mediatek.com>
+Date:   Mon, 15 Jun 2020 15:24:26 +0800
+In-Reply-To: <CAAFQd5CboZ9aFhUyKPES_2oO_AKAOh3Pg8D+9YpfmzJ8v-yFHw@mail.gmail.com>
+References: <20200509080627.23222-1-dongchun.zhu@mediatek.com>
+         <20200509080627.23222-3-dongchun.zhu@mediatek.com>
+         <20200521193204.GA14214@chromium.org>
+         <1590209415.8804.431.camel@mhfsdcap03>
+         <20200610183600.GI201868@chromium.org>
+         <1591954266.8804.646.camel@mhfsdcap03>
+         <CAAFQd5CboZ9aFhUyKPES_2oO_AKAOh3Pg8D+9YpfmzJ8v-yFHw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-TM-SNTS-SMTP: F48042F2A1F78F21A0AF70589031EBB7AAF552C4E8B9EC0D9A43D09539458DD92000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As we moved those files to core-api, fix references to point
-to their newer locations.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/PCI/pci.rst                          |  6 +++---
- Documentation/block/biodoc.rst                     |  2 +-
- Documentation/core-api/bus-virt-phys-mapping.rst   |  2 +-
- Documentation/core-api/dma-api.rst                 |  6 +++---
- Documentation/core-api/dma-isa-lpc.rst             |  2 +-
- Documentation/driver-api/usb/dma.rst               |  6 +++---
- Documentation/memory-barriers.txt                  |  6 +++---
- .../translations/ko_KR/memory-barriers.txt         |  6 +++---
- arch/ia64/hp/common/sba_iommu.c                    | 12 ++++++------
- arch/parisc/kernel/pci-dma.c                       |  2 +-
- arch/x86/include/asm/dma-mapping.h                 |  4 ++--
- arch/x86/kernel/amd_gart_64.c                      |  2 +-
- drivers/parisc/sba_iommu.c                         | 14 +++++++-------
- include/linux/dma-mapping.h                        |  2 +-
- include/media/videobuf-dma-sg.h                    |  2 +-
- kernel/dma/debug.c                                 |  2 +-
- 16 files changed, 38 insertions(+), 38 deletions(-)
-
-diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
-index 8c016d8c9862..d10d3fe604c5 100644
---- a/Documentation/PCI/pci.rst
-+++ b/Documentation/PCI/pci.rst
-@@ -265,7 +265,7 @@ Set the DMA mask size
- ---------------------
- .. note::
-    If anything below doesn't make sense, please refer to
--   Documentation/DMA-API.txt. This section is just a reminder that
-+   :doc:`/core-api/dma-api`. This section is just a reminder that
-    drivers need to indicate DMA capabilities of the device and is not
-    an authoritative source for DMA interfaces.
- 
-@@ -291,7 +291,7 @@ Many 64-bit "PCI" devices (before PCI-X) and some PCI-X devices are
- Setup shared control data
- -------------------------
- Once the DMA masks are set, the driver can allocate "consistent" (a.k.a. shared)
--memory.  See Documentation/DMA-API.txt for a full description of
-+memory.  See :doc:`/core-api/dma-api` for a full description of
- the DMA APIs. This section is just a reminder that it needs to be done
- before enabling DMA on the device.
- 
-@@ -421,7 +421,7 @@ owners if there is one.
- 
- Then clean up "consistent" buffers which contain the control data.
- 
--See Documentation/DMA-API.txt for details on unmapping interfaces.
-+See :doc:`/core-api/dma-api` for details on unmapping interfaces.
- 
- 
- Unregister from other subsystems
-diff --git a/Documentation/block/biodoc.rst b/Documentation/block/biodoc.rst
-index b964796ec9c7..ba7f45d0271c 100644
---- a/Documentation/block/biodoc.rst
-+++ b/Documentation/block/biodoc.rst
-@@ -196,7 +196,7 @@ a virtual address mapping (unlike the earlier scheme of virtual address
- do not have a corresponding kernel virtual address space mapping) and
- low-memory pages.
- 
--Note: Please refer to Documentation/DMA-API-HOWTO.txt for a discussion
-+Note: Please refer to :doc:`/core-api/dma-api-howto` for a discussion
- on PCI high mem DMA aspects and mapping of scatter gather lists, and support
- for 64 bit PCI.
- 
-diff --git a/Documentation/core-api/bus-virt-phys-mapping.rst b/Documentation/core-api/bus-virt-phys-mapping.rst
-index 4bb07c2f3e7d..c7bc99cd2e21 100644
---- a/Documentation/core-api/bus-virt-phys-mapping.rst
-+++ b/Documentation/core-api/bus-virt-phys-mapping.rst
-@@ -8,7 +8,7 @@ How to access I/O mapped memory from within device drivers
- 
- 	The virt_to_bus() and bus_to_virt() functions have been
- 	superseded by the functionality provided by the PCI DMA interface
--	(see Documentation/DMA-API-HOWTO.txt).  They continue
-+	(see :doc:`/core-api/dma-api-howto`).  They continue
- 	to be documented below for historical purposes, but new code
- 	must not use them. --davidm 00/12/12
- 
-diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
-index 2d8d2fed7317..63b4a2f20867 100644
---- a/Documentation/core-api/dma-api.rst
-+++ b/Documentation/core-api/dma-api.rst
-@@ -5,7 +5,7 @@ Dynamic DMA mapping using the generic device
- :Author: James E.J. Bottomley <James.Bottomley@HansenPartnership.com>
- 
- This document describes the DMA API.  For a more gentle introduction
--of the API (and actual examples), see Documentation/DMA-API-HOWTO.txt.
-+of the API (and actual examples), see :doc:`/core-api/dma-api-howto`.
- 
- This API is split into two pieces.  Part I describes the basic API.
- Part II describes extensions for supporting non-consistent memory
-@@ -471,7 +471,7 @@ without the _attrs suffixes, except that they pass an optional
- dma_attrs.
- 
- The interpretation of DMA attributes is architecture-specific, and
--each attribute should be documented in Documentation/DMA-attributes.txt.
-+each attribute should be documented in :doc:`/core-api/dma-attributes`.
- 
- If dma_attrs are 0, the semantics of each of these functions
- is identical to those of the corresponding function
-@@ -484,7 +484,7 @@ for DMA::
- 
- 	#include <linux/dma-mapping.h>
- 	/* DMA_ATTR_FOO should be defined in linux/dma-mapping.h and
--	* documented in Documentation/DMA-attributes.txt */
-+	* documented in Documentation/core-api/dma-attributes.rst */
- 	...
- 
- 		unsigned long attr;
-diff --git a/Documentation/core-api/dma-isa-lpc.rst b/Documentation/core-api/dma-isa-lpc.rst
-index b1ec7b16c21f..e59a3d35a93d 100644
---- a/Documentation/core-api/dma-isa-lpc.rst
-+++ b/Documentation/core-api/dma-isa-lpc.rst
-@@ -17,7 +17,7 @@ To do ISA style DMA you need to include two headers::
- 	#include <asm/dma.h>
- 
- The first is the generic DMA API used to convert virtual addresses to
--bus addresses (see Documentation/DMA-API.txt for details).
-+bus addresses (see :doc:`/core-api/dma-api` for details).
- 
- The second contains the routines specific to ISA DMA transfers. Since
- this is not present on all platforms make sure you construct your
-diff --git a/Documentation/driver-api/usb/dma.rst b/Documentation/driver-api/usb/dma.rst
-index 59d5aee89e37..2b3dbd3265b4 100644
---- a/Documentation/driver-api/usb/dma.rst
-+++ b/Documentation/driver-api/usb/dma.rst
-@@ -10,7 +10,7 @@ API overview
- 
- The big picture is that USB drivers can continue to ignore most DMA issues,
- though they still must provide DMA-ready buffers (see
--``Documentation/DMA-API-HOWTO.txt``).  That's how they've worked through
-+:doc:`/core-api/dma-api-howto`).  That's how they've worked through
- the 2.4 (and earlier) kernels, or they can now be DMA-aware.
- 
- DMA-aware usb drivers:
-@@ -60,7 +60,7 @@ and effects like cache-trashing can impose subtle penalties.
-   force a consistent memory access ordering by using memory barriers.  It's
-   not using a streaming DMA mapping, so it's good for small transfers on
-   systems where the I/O would otherwise thrash an IOMMU mapping.  (See
--  ``Documentation/DMA-API-HOWTO.txt`` for definitions of "coherent" and
-+  :doc:`/core-api/dma-api-howto` for definitions of "coherent" and
-   "streaming" DMA mappings.)
- 
-   Asking for 1/Nth of a page (as well as asking for N pages) is reasonably
-@@ -91,7 +91,7 @@ Working with existing buffers
- Existing buffers aren't usable for DMA without first being mapped into the
- DMA address space of the device.  However, most buffers passed to your
- driver can safely be used with such DMA mapping.  (See the first section
--of Documentation/DMA-API-HOWTO.txt, titled "What memory is DMA-able?")
-+of :doc:`/core-api/dma-api-howto`, titled "What memory is DMA-able?")
- 
- - When you're using scatterlists, you can map everything at once.  On some
-   systems, this kicks in an IOMMU and turns the scatterlists into single
-diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
-index eaabc3134294..0e4947a8282d 100644
---- a/Documentation/memory-barriers.txt
-+++ b/Documentation/memory-barriers.txt
-@@ -546,8 +546,8 @@ There are certain things that the Linux kernel memory barriers do not guarantee:
- 	[*] For information on bus mastering DMA and coherency please read:
- 
- 	    Documentation/driver-api/pci/pci.rst
--	    Documentation/DMA-API-HOWTO.txt
--	    Documentation/DMA-API.txt
-+	    Documentation/core-api/dma-api-howto.rst
-+	    Documentation/core-api/dma-api.rst
- 
- 
- DATA DEPENDENCY BARRIERS (HISTORICAL)
-@@ -1932,7 +1932,7 @@ There are some more advanced barrier functions:
-      here.
- 
-      See the subsection "Kernel I/O barrier effects" for more information on
--     relaxed I/O accessors and the Documentation/DMA-API.txt file for more
-+     relaxed I/O accessors and the Documentation/core-api/dma-api.rst file for more
-      information on consistent memory.
- 
- 
-diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
-index 34d041d68f78..604cee350e53 100644
---- a/Documentation/translations/ko_KR/memory-barriers.txt
-+++ b/Documentation/translations/ko_KR/memory-barriers.txt
-@@ -570,8 +570,8 @@ ACQUIRE 는 해당 오퍼레이션의 로드 부분에만 적용되고 RELEASE 
- 	[*] 버스 마스터링 DMA 와 일관성에 대해서는 다음을 참고하시기 바랍니다:
- 
- 	    Documentation/driver-api/pci/pci.rst
--	    Documentation/DMA-API-HOWTO.txt
--	    Documentation/DMA-API.txt
-+	    Documentation/core-api/dma-api-howto.rst
-+	    Documentation/core-api/dma-api.rst
- 
- 
- 데이터 의존성 배리어 (역사적)
-@@ -1907,7 +1907,7 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
- 
-      writel_relaxed() 와 같은 완화된 I/O 접근자들에 대한 자세한 내용을 위해서는
-      "커널 I/O 배리어의 효과" 섹션을, consistent memory 에 대한 자세한 내용을
--     위해선 Documentation/DMA-API.txt 문서를 참고하세요.
-+     위해선 Documentation/core-api/dma-api.rst 문서를 참고하세요.
- 
- 
- =========================
-diff --git a/arch/ia64/hp/common/sba_iommu.c b/arch/ia64/hp/common/sba_iommu.c
-index a806227c1fad..656a4888c300 100644
---- a/arch/ia64/hp/common/sba_iommu.c
-+++ b/arch/ia64/hp/common/sba_iommu.c
-@@ -907,7 +907,7 @@ sba_mark_invalid(struct ioc *ioc, dma_addr_t iova, size_t byte_cnt)
-  * @dir: dma direction
-  * @attrs: optional dma attributes
-  *
-- * See Documentation/DMA-API-HOWTO.txt
-+ * See Documentation/core-api/dma-api-howto.rst
-  */
- static dma_addr_t sba_map_page(struct device *dev, struct page *page,
- 			       unsigned long poff, size_t size,
-@@ -1028,7 +1028,7 @@ sba_mark_clean(struct ioc *ioc, dma_addr_t iova, size_t size)
-  * @dir:  R/W or both.
-  * @attrs: optional dma attributes
-  *
-- * See Documentation/DMA-API-HOWTO.txt
-+ * See Documentation/core-api/dma-api-howto.rst
-  */
- static void sba_unmap_page(struct device *dev, dma_addr_t iova, size_t size,
- 			   enum dma_data_direction dir, unsigned long attrs)
-@@ -1105,7 +1105,7 @@ static void sba_unmap_page(struct device *dev, dma_addr_t iova, size_t size,
-  * @size:  number of bytes mapped in driver buffer.
-  * @dma_handle:  IOVA of new buffer.
-  *
-- * See Documentation/DMA-API-HOWTO.txt
-+ * See Documentation/core-api/dma-api-howto.rst
-  */
- static void *
- sba_alloc_coherent(struct device *dev, size_t size, dma_addr_t *dma_handle,
-@@ -1162,7 +1162,7 @@ sba_alloc_coherent(struct device *dev, size_t size, dma_addr_t *dma_handle,
-  * @vaddr:  virtual address IOVA of "consistent" buffer.
-  * @dma_handler:  IO virtual address of "consistent" buffer.
-  *
-- * See Documentation/DMA-API-HOWTO.txt
-+ * See Documentation/core-api/dma-api-howto.rst
-  */
- static void sba_free_coherent(struct device *dev, size_t size, void *vaddr,
- 			      dma_addr_t dma_handle, unsigned long attrs)
-@@ -1425,7 +1425,7 @@ static void sba_unmap_sg_attrs(struct device *dev, struct scatterlist *sglist,
-  * @dir:  R/W or both.
-  * @attrs: optional dma attributes
-  *
-- * See Documentation/DMA-API-HOWTO.txt
-+ * See Documentation/core-api/dma-api-howto.rst
-  */
- static int sba_map_sg_attrs(struct device *dev, struct scatterlist *sglist,
- 			    int nents, enum dma_data_direction dir,
-@@ -1524,7 +1524,7 @@ static int sba_map_sg_attrs(struct device *dev, struct scatterlist *sglist,
-  * @dir:  R/W or both.
-  * @attrs: optional dma attributes
-  *
-- * See Documentation/DMA-API-HOWTO.txt
-+ * See Documentation/core-api/dma-api-howto.rst
-  */
- static void sba_unmap_sg_attrs(struct device *dev, struct scatterlist *sglist,
- 			       int nents, enum dma_data_direction dir,
-diff --git a/arch/parisc/kernel/pci-dma.c b/arch/parisc/kernel/pci-dma.c
-index 70cd24bdcfec..4f1596bb1936 100644
---- a/arch/parisc/kernel/pci-dma.c
-+++ b/arch/parisc/kernel/pci-dma.c
-@@ -3,7 +3,7 @@
- ** PARISC 1.1 Dynamic DMA mapping support.
- ** This implementation is for PA-RISC platforms that do not support
- ** I/O TLBs (aka DMA address translation hardware).
--** See Documentation/DMA-API-HOWTO.txt for interface definitions.
-+** See Documentation/core-api/dma-api-howto.rst for interface definitions.
- **
- **      (c) Copyright 1999,2000 Hewlett-Packard Company
- **      (c) Copyright 2000 Grant Grundler
-diff --git a/arch/x86/include/asm/dma-mapping.h b/arch/x86/include/asm/dma-mapping.h
-index 6b15a24930e0..fed67eafcacc 100644
---- a/arch/x86/include/asm/dma-mapping.h
-+++ b/arch/x86/include/asm/dma-mapping.h
-@@ -3,8 +3,8 @@
- #define _ASM_X86_DMA_MAPPING_H
- 
- /*
-- * IOMMU interface. See Documentation/DMA-API-HOWTO.txt and
-- * Documentation/DMA-API.txt for documentation.
-+ * IOMMU interface. See Documentation/core-api/dma-api-howto.rst and
-+ * Documentation/core-api/dma-api.rst for documentation.
-  */
- 
- #include <linux/scatterlist.h>
-diff --git a/arch/x86/kernel/amd_gart_64.c b/arch/x86/kernel/amd_gart_64.c
-index 17cb5b933dcf..e89031e9c847 100644
---- a/arch/x86/kernel/amd_gart_64.c
-+++ b/arch/x86/kernel/amd_gart_64.c
-@@ -6,7 +6,7 @@
-  * This allows to use PCI devices that only support 32bit addresses on systems
-  * with more than 4GB.
-  *
-- * See Documentation/DMA-API-HOWTO.txt for the interface specification.
-+ * See Documentation/core-api/dma-api-howto.rst for the interface specification.
-  *
-  * Copyright 2002 Andi Kleen, SuSE Labs.
-  */
-diff --git a/drivers/parisc/sba_iommu.c b/drivers/parisc/sba_iommu.c
-index 7e112829d250..5368452eb5a6 100644
---- a/drivers/parisc/sba_iommu.c
-+++ b/drivers/parisc/sba_iommu.c
-@@ -666,7 +666,7 @@ sba_mark_invalid(struct ioc *ioc, dma_addr_t iova, size_t byte_cnt)
-  * @dev: instance of PCI owned by the driver that's asking
-  * @mask:  number of address bits this PCI device can handle
-  *
-- * See Documentation/DMA-API-HOWTO.txt
-+ * See Documentation/core-api/dma-api-howto.rst
-  */
- static int sba_dma_supported( struct device *dev, u64 mask)
- {
-@@ -698,7 +698,7 @@ static int sba_dma_supported( struct device *dev, u64 mask)
-  * @size:  number of bytes to map in driver buffer.
-  * @direction:  R/W or both.
-  *
-- * See Documentation/DMA-API-HOWTO.txt
-+ * See Documentation/core-api/dma-api-howto.rst
-  */
- static dma_addr_t
- sba_map_single(struct device *dev, void *addr, size_t size,
-@@ -788,7 +788,7 @@ sba_map_page(struct device *dev, struct page *page, unsigned long offset,
-  * @size:  number of bytes mapped in driver buffer.
-  * @direction:  R/W or both.
-  *
-- * See Documentation/DMA-API-HOWTO.txt
-+ * See Documentation/core-api/dma-api-howto.rst
-  */
- static void
- sba_unmap_page(struct device *dev, dma_addr_t iova, size_t size,
-@@ -867,7 +867,7 @@ sba_unmap_page(struct device *dev, dma_addr_t iova, size_t size,
-  * @size:  number of bytes mapped in driver buffer.
-  * @dma_handle:  IOVA of new buffer.
-  *
-- * See Documentation/DMA-API-HOWTO.txt
-+ * See Documentation/core-api/dma-api-howto.rst
-  */
- static void *sba_alloc(struct device *hwdev, size_t size, dma_addr_t *dma_handle,
- 		gfp_t gfp, unsigned long attrs)
-@@ -898,7 +898,7 @@ static void *sba_alloc(struct device *hwdev, size_t size, dma_addr_t *dma_handle
-  * @vaddr:  virtual address IOVA of "consistent" buffer.
-  * @dma_handler:  IO virtual address of "consistent" buffer.
-  *
-- * See Documentation/DMA-API-HOWTO.txt
-+ * See Documentation/core-api/dma-api-howto.rst
-  */
- static void
- sba_free(struct device *hwdev, size_t size, void *vaddr,
-@@ -933,7 +933,7 @@ int dump_run_sg = 0;
-  * @nents:  number of entries in list
-  * @direction:  R/W or both.
-  *
-- * See Documentation/DMA-API-HOWTO.txt
-+ * See Documentation/core-api/dma-api-howto.rst
-  */
- static int
- sba_map_sg(struct device *dev, struct scatterlist *sglist, int nents,
-@@ -1017,7 +1017,7 @@ sba_map_sg(struct device *dev, struct scatterlist *sglist, int nents,
-  * @nents:  number of entries in list
-  * @direction:  R/W or both.
-  *
-- * See Documentation/DMA-API-HOWTO.txt
-+ * See Documentation/core-api/dma-api-howto.rst
-  */
- static void 
- sba_unmap_sg(struct device *dev, struct scatterlist *sglist, int nents,
-diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
-index 78f677cf45ab..ef2b153ddbd9 100644
---- a/include/linux/dma-mapping.h
-+++ b/include/linux/dma-mapping.h
-@@ -14,7 +14,7 @@
- 
- /**
-  * List of possible attributes associated with a DMA mapping. The semantics
-- * of each attribute should be defined in Documentation/DMA-attributes.txt.
-+ * of each attribute should be defined in Documentation/core-api/dma-attributes.rst.
-  */
- 
- /*
-diff --git a/include/media/videobuf-dma-sg.h b/include/media/videobuf-dma-sg.h
-index b89d5e31f172..34450f7ad510 100644
---- a/include/media/videobuf-dma-sg.h
-+++ b/include/media/videobuf-dma-sg.h
-@@ -31,7 +31,7 @@
-  *	does memory allocation too using vmalloc_32().
-  *
-  * videobuf_dma_*()
-- *	see Documentation/DMA-API-HOWTO.txt, these functions to
-+ *	see Documentation/core-api/dma-api-howto.rst, these functions to
-  *	basically the same.  The map function does also build a
-  *	scatterlist for the buffer (and unmap frees it ...)
-  *
-diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
-index 36c962a86bf2..f97f088ace7e 100644
---- a/kernel/dma/debug.c
-+++ b/kernel/dma/debug.c
-@@ -1071,7 +1071,7 @@ static void check_unmap(struct dma_debug_entry *ref)
- 	/*
- 	 * Drivers should use dma_mapping_error() to check the returned
- 	 * addresses of dma_map_single() and dma_map_page().
--	 * If not, print this warning message. See Documentation/DMA-API.txt.
-+	 * If not, print this warning message. See Documentation/core-api/dma-api.rst.
- 	 */
- 	if (entry->map_err_type == MAP_ERR_NOT_CHECKED) {
- 		err_printk(ref->dev, entry,
--- 
-2.26.2
+SGkgVG9tYXN6LA0KDQpPbiBGcmksIDIwMjAtMDYtMTIgYXQgMjA6NDkgKzAyMDAsIFRvbWFzeiBG
+aWdhIHdyb3RlOg0KPiBPbiBGcmksIEp1biAxMiwgMjAyMCBhdCAxMTozMyBBTSBEb25nY2h1biBa
+aHUgPGRvbmdjaHVuLnpodUBtZWRpYXRlay5jb20+IHdyb3RlOg0KPiA+DQo+ID4gSGkgVG9tYXN6
+LA0KPiA+DQo+ID4gT24gV2VkLCAyMDIwLTA2LTEwIGF0IDE4OjM2ICswMDAwLCBUb21hc3ogRmln
+YSB3cm90ZToNCj4gPiA+IE9uIFNhdCwgTWF5IDIzLCAyMDIwIGF0IDEyOjUwOjE1UE0gKzA4MDAs
+IERvbmdjaHVuIFpodSB3cm90ZToNCj4gPiA+ID4gSGkgVG9tYXN6LA0KPiA+ID4gPg0KPiA+ID4g
+PiBUaGFua3MgZm9yIHRoZSByZXZpZXcuIE15IHJlcGxpZXMgYXJlIGFzIGJlbG93Lg0KPiA+ID4g
+Pg0KPiA+ID4gPiBPbiBUaHUsIDIwMjAtMDUtMjEgYXQgMTk6MzIgKzAwMDAsIFRvbWFzeiBGaWdh
+IHdyb3RlOg0KPiA+ID4gPiA+IEhpIERvbmdjaHVuLA0KPiA+ID4gPiA+DQo+ID4gPiA+ID4gT24g
+U2F0LCBNYXkgMDksIDIwMjAgYXQgMDQ6MDY6MjdQTSArMDgwMCwgRG9uZ2NodW4gWmh1IHdyb3Rl
+Og0KPiA+ID4gW3NuaXBdDQo+ID4gPiA+ID4gPiArew0KPiA+ID4gPiA+ID4gKyAgICAgICBzdHJ1
+Y3QgaTJjX2NsaWVudCAqY2xpZW50ID0gdG9faTJjX2NsaWVudChkZXYpOw0KPiA+ID4gPiA+ID4g
+KyAgICAgICBzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkID0gaTJjX2dldF9jbGllbnRkYXRhKGNsaWVu
+dCk7DQo+ID4gPiA+ID4gPiArICAgICAgIHN0cnVjdCBvdjAyYTEwICpvdjAyYTEwID0gdG9fb3Yw
+MmExMChzZCk7DQo+ID4gPiA+ID4gPiArICAgICAgIGludCByZXQ7DQo+ID4gPiA+ID4gPiArDQo+
+ID4gPiA+ID4gPiArICAgICAgIGdwaW9kX3NldF92YWx1ZV9jYW5zbGVlcChvdjAyYTEwLT5uX3Jz
+dF9ncGlvLCAwKTsNCj4gPiA+ID4gPiA+ICsgICAgICAgZ3Bpb2Rfc2V0X3ZhbHVlX2NhbnNsZWVw
+KG92MDJhMTAtPnBkX2dwaW8sIDApOw0KPiA+ID4gPiA+ID4gKw0KPiA+ID4gPiA+ID4gKyAgICAg
+ICByZXQgPSBjbGtfcHJlcGFyZV9lbmFibGUob3YwMmExMC0+ZWNsayk7DQo+ID4gPiA+ID4gPiAr
+ICAgICAgIGlmIChyZXQgPCAwKSB7DQo+ID4gPiA+ID4gPiArICAgICAgICAgICAgICAgZGV2X2Vy
+cihkZXYsICJmYWlsZWQgdG8gZW5hYmxlIGVjbGtcbiIpOw0KPiA+ID4gPiA+ID4gKyAgICAgICAg
+ICAgICAgIHJldHVybiByZXQ7DQo+ID4gPiA+ID4gPiArICAgICAgIH0NCj4gPiA+ID4gPiA+ICsN
+Cj4gPiA+ID4gPiA+ICsgICAgICAgcmV0ID0gcmVndWxhdG9yX2J1bGtfZW5hYmxlKE9WMDJBMTBf
+TlVNX1NVUFBMSUVTLCBvdjAyYTEwLT5zdXBwbGllcyk7DQo+ID4gPiA+ID4gPiArICAgICAgIGlm
+IChyZXQgPCAwKSB7DQo+ID4gPiA+ID4gPiArICAgICAgICAgICAgICAgZGV2X2VycihkZXYsICJm
+YWlsZWQgdG8gZW5hYmxlIHJlZ3VsYXRvcnNcbiIpOw0KPiA+ID4gPiA+ID4gKyAgICAgICAgICAg
+ICAgIGdvdG8gZGlzYWJsZV9jbGs7DQo+ID4gPiA+ID4gPiArICAgICAgIH0NCj4gPiA+ID4gPiA+
+ICsgICAgICAgdXNsZWVwX3JhbmdlKDUwMDAsIDYwMDApOw0KPiA+ID4gPiA+ID4gKw0KPiA+ID4g
+PiA+ID4gKyAgICAgICBncGlvZF9zZXRfdmFsdWVfY2Fuc2xlZXAob3YwMmExMC0+cGRfZ3Bpbywg
+MSk7DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBUaGlzIGlzIGEgInBvd2VyZG93biIgR1BJTy4gSXQg
+bXVzdCBiZSBzZXQgdG8gMCBpZiB0aGUgc2Vuc29yIGlzIHRvIGJlDQo+ID4gPiA+ID4gcG93ZXJl
+ZCBvbi4NCj4gPiA+ID4gPg0KPiA+ID4gPg0KPiA+ID4gPiBUaGUgdmFsdWUgc2V0IGJ5IGdwaW9k
+X3NldF92YWx1ZV9jYW5zbGVlcCgpIEFQSSBhY3R1YWxseSBkZXBlbmRzIHVwb24NCj4gPiA+ID4g
+R1BJTyBwb2xhcml0eSBkZWZpbmVkIGluIERULg0KPiA+ID4gPiBTaW5jZSBJIHNldCBHUElPX0FD
+VElWRV9MT1cgdG8gcG93ZXJkb3duLA0KPiA+ID4gPiBncGlvZF9zZXRfdmFsdWVfY2Fuc2xlZXAo
+Z3Bpb19kZXNjLCB2YWx1ZSkgd291bGQgc2V0ICF2YWx1ZSB0bw0KPiA+ID4gPiBncGlvX2Rlc2Mu
+DQo+ID4gPiA+IFRodXMgaGVyZSBwb3dlcmRvd24gd291bGQgYmUgbG93LXN0YXRlIHdoZW4gc2Vu
+c29yIGlzIHBvd2VyZWQgb24uDQo+ID4gPiA+IEZvciBHUElPIHBvbGFyaXR5LCBJIGFsc28gcG9z
+dCBhIGNvbW1lbnQgdG8gdGhlIGJpbmRpbmcgcGF0Y2guDQo+ID4gPiA+DQo+ID4gPg0KPiA+ID4g
+VGhhdCdzIHRydWUuIEhvd2V2ZXIsIHRoaXMgbWFrZXMgdGhlIGRyaXZlciByZWFsbHkgY29uZnVz
+aW5nLiBJZiBzb21lb25lDQo+ID4gPiByZWFkcyB0aGlzIGNvZGUgYW5kIGNvbXBhcmVzIHdpdGgg
+dGhlIGRhdGFzaGVldCwgaXQgbG9va3MgaW5jb3JyZWN0LA0KPiA+ID4gYmVjYXVzZSBpbiB0aGUg
+ZGF0YXNoZWV0IHRoZSBwb3dlcmRvd24gR1BJTyBuZWVkcyB0byBiZSBjb25maWd1cmVkIGxvdw0K
+PiA+ID4gZm9yIHRoZSBzZW5zb3IgdG8gb3BlcmF0ZS4NCj4gPiA+DQo+ID4gPiBJJ2QgcmVjb21t
+ZW5kIGRlZmluaW5nIHRoZSBiaW5kaW5nIGluIGEgd2F5IHRoYXQgbWFrZXMgaXQgY2xlYXIgaW4g
+dGhlIGRyaXZlciBjb2RlDQo+ID4gPiB0aGF0IGl0IGltcGxlbWVudGVzIHRoZSBwb3dlciBzZXF1
+ZW5jaW5nIGFzIHBlciB0aGUgZGF0YXNoZWV0Lg0KPiA+ID4NCj4gPg0KPiA+IFVoLWh1aC4uLg0K
+PiA+IEJ1dCBpdCBhbGwgZGVwZW5kcyBvbiBob3cgd2UgbG9vayBhdCB0aGUgcG93ZXJkb3duIEdQ
+SU8uDQo+ID4gT3Igd2hlcmUgc2hvdWxkIHdlIGRlZmluZSB0aGUgYWN0aXZlIGxvdyBvciBhY3Rp
+dmUgaGlnaCwgdGhlIGRyaXZlciBvcg0KPiA+IERUPw0KPiA+DQo+ID4gTXkgaW5pdGlhbCBpZGVh
+IGlzIHVzaW5nIERUIEdQSU8gcG9sYXJpdHkgdG8gZGVzY3JpYmUgc2Vuc29yIGFjdGl2ZQ0KPiA+
+IHBvbGFyaXR5IGFjY29yZGluZyB0byB0aGUgZGF0YXNoZWV0Lg0KPiA+IEFzIGFuIGFjdGl2ZSBs
+b3cgc2h1dGRvd24gc2lnbmFsIGlzIGVxdWl2YWxlbnQgdG8gYW4gYWN0aXZlIGhpZ2ggZW5hYmxl
+DQo+ID4gc2lnbmFsLg0KPiA+DQo+IA0KPiBPa2F5LCBJIGRpc2N1c3NlZCB0aGlzIG9mZmxpbmUg
+d2l0aCBMYXVyZW50IGFuZCBTYWthcmkgYW5kIHdlIGFsc28NCj4gZm91bmQgdGhlIGd1aWRlbGlu
+ZXMgb2YgdGhlIExpbnV4IEdQSU8gc3Vic3lzdGVtIG9uIHRoaXMgWzFdLg0KPiANCj4gVGhlIGNv
+bmNsdXNpb24gaXMgdGhhdCB0aGUgcGluIG5hbWVzIGluIHRoZSBkcml2ZXIgb3IgRFQgbXVzdCBu
+b3QNCj4gY29udGFpbiBhbnkgbmVnYXRpb24gcHJlZml4ZXMgYW5kIHRoZSBkcml2ZXIgbmVlZHMg
+dG8gY2FyZSBvbmx5IGFib3V0DQo+IHRoZSBsb2dpY2FsIGZ1bmN0aW9uIG9mIHRoZSBwaW4sIHN1
+Y2ggYXMgInBvd2VyZG93biIgb3IgInJlc2V0Ii4gSW4NCj4gY2FzZSBvZiB0aGlzIGRyaXZlciwg
+d2Ugc2hvdWxkIGNhbGwgdGhlIHBpbnMgInJzdCIgYW5kICJwZCIgYW5kDQo+IHNldHRpbmcgdGhl
+bSB0byAxIHdvdWxkIHRyaWdnZXIgdGhlIHJlc2V0IGFuZCBwb3dlciBkb3duIHJlc3BlY3RpdmVs
+eS4NCj4gVGhlIHBoeXNpY2FsIHNpZ25hbCBwb2xhcml0eSBtdXN0IGJlIGNvbmZpZ3VyZWQgaW4g
+RFQgdXNpbmcgdGhlDQo+IHBvbGFyaXR5IGZsYWdzLg0KPiANCj4gWzFdIGh0dHBzOi8vd3d3Lmtl
+cm5lbC5vcmcvZG9jL2h0bWwvbGF0ZXN0L2RyaXZlci1hcGkvZ3Bpby9jb25zdW1lci5odG1sI3Ro
+ZS1hY3RpdmUtbG93LWFuZC1vcGVuLWRyYWluLXNlbWFudGljcw0KPiANCg0KVGhhbmsgeW91IGZv
+ciB0aGUgc2hhcmluZy4NCklmIGRyaXZlciBvbmx5IGZvY3VzIG9uIHRoZSBsb2dpY2FsIGZ1bmN0
+aW9uIG9mIEdQSU8gcGlucywNCiduX3JzdF9ncGlvJyBtYXkgbmVlZCB0byBiZSByZW5hbWVkIGJh
+Y2sgdG8gdGhlIDFzdCB2ZXJzaW9uICdyc3RfZ3BpbycuDQoNCj4gQmVzdCByZWdhcmRzLA0KPiBU
+b21hc3oNCg0K
 
