@@ -2,169 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA35C1F9245
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 10:53:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 628751F9252
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 10:55:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728865AbgFOIxm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jun 2020 04:53:42 -0400
-Received: from mga03.intel.com ([134.134.136.65]:11546 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728522AbgFOIxm (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jun 2020 04:53:42 -0400
-IronPort-SDR: q8+U/KK5QKWjwoyLqAm+eaceXO2BtmecRgA2Cc+DX9O/nssxsP/ee549f4xa7y/suT+q8s4lNV
- 6cbEzCs1EZXA==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 01:53:40 -0700
-IronPort-SDR: 3djufBK0fUTEPqWjLAF5wHr0kbNLJFyUwAbVCPHaeTqkdFE2mTYUWYJCEgm3Xp2JZBdgFYhhpA
- Z+ypajZdNnRA==
-X-IronPort-AV: E=Sophos;i="5.73,514,1583222400"; 
-   d="scan'208";a="261721427"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 01:53:37 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id DE11820448; Mon, 15 Jun 2020 11:53:35 +0300 (EEST)
-Date:   Mon, 15 Jun 2020 11:53:35 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
-        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se,
-        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
-        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 9/9] media: rcar-csi2: Negotiate data lanes number
-Message-ID: <20200615085335.GR16711@paasikivi.fi.intel.com>
-References: <20200611161651.264633-1-jacopo+renesas@jmondi.org>
- <20200611161651.264633-10-jacopo+renesas@jmondi.org>
- <20200615083405.GP16711@paasikivi.fi.intel.com>
- <20200615084306.intk7hmrf7qptsx6@uno.localdomain>
+        id S1729097AbgFOIzh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jun 2020 04:55:37 -0400
+Received: from mail-dm6nam11on2066.outbound.protection.outlook.com ([40.107.223.66]:1249
+        "EHLO NAM11-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1728526AbgFOIzg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jun 2020 04:55:36 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=k0teWHyDYueGlf0t0mFdTjuzHoGJ81lJo8ham9LGEd4lrhG/WhsIWl/BNokeTkqS+HdEvoiDTkCfUYlhu4js14E0AjN/flKXcGZ93vGI2YQ+/EqWNZq2HX58xcG+dDM/VgpPCDFv5IIo1ILUrsIle3hWjeaTvlAyz5EAJFKKCv5j76fAg6dljALG2HCifapT1Y0rjE8bE+2Y7HE7Styabvj/b338GKPM0UuI7cyIDAjBhOtddfk8KAUZleWOd+t9qzEIHrGM0Tdi44nm2i3XUzxZ7noXR2J4LAGkyxy0fRrxVyaj6sBiAVOB2a+hzAFj0N52Sgn0ThuWmGeT/nBQ2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=caso4/0QK0RPuLPY5+h88j14LzivqNpQK+t8n+09m0M=;
+ b=hSVyUyCzJazkYwWOGfNtcZl4lYGsqUUPmcp310vJhDNFlqd9zFwbkpDn8NA/WWEOAOifUtjY8Hbp0g/15noDVwXhIAZHPQrVCcIgiEk69siSsTu/ebYgLMQOH8/9x4nFlznW0qw8JG73IjUlyN3ky2agZ2kkhbYq1r6bzHT1WW/UvfkywVCd/VKQtScPVAW5oOcGQ19n0xH5oOXb+LMNFkhWuPj6EXP+nyldDOxVBWdzKluNHYzcW2A6Dk3t1QaPag767wTgaeG1VFk9lZwKdEZBC8QPZiLiMpEAXDcpIWHfkFx0EZhp/ymC6U5B8ivUDKzKj+x79gzvkRahkefq6Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=caso4/0QK0RPuLPY5+h88j14LzivqNpQK+t8n+09m0M=;
+ b=PWTUPyRS2AMrkUdYzFVuPCP3BsiPCcsMALJ1hLTd2Dr12EZ3lzLhHvMyrMXXOknoWdEpVDhHMmt93kfYu0eifosIGuTLXM9WpzcK0PZ1xX9ZcitTj39i0lGV+debw89bz+mvym2c6EYkZZJ6x+6vDDMzqvcyfHcwXjuXGX5ZxWg=
+Authentication-Results: gmail.com; dkim=none (message not signed)
+ header.d=none;gmail.com; dmarc=none action=none header.from=amd.com;
+Received: from DM6PR12MB4401.namprd12.prod.outlook.com (2603:10b6:5:2a9::15)
+ by DM6PR12MB3785.namprd12.prod.outlook.com (2603:10b6:5:1cd::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3088.18; Mon, 15 Jun
+ 2020 08:55:33 +0000
+Received: from DM6PR12MB4401.namprd12.prod.outlook.com
+ ([fe80::7949:b580:a2d5:f766]) by DM6PR12MB4401.namprd12.prod.outlook.com
+ ([fe80::7949:b580:a2d5:f766%3]) with mapi id 15.20.3088.029; Mon, 15 Jun 2020
+ 08:55:33 +0000
+Subject: Re: [PATCH] drm/ttm: Fix dma_fence refcnt leak when adding move fence
+To:     Xiyu Yang <xiyuyang19@fudan.edu.cn>, Huang Rui <ray.huang@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Cc:     yuanxzhang@fudan.edu.cn, kjlu@umn.edu,
+        Xin Tan <tanxin.ctf@gmail.com>
+References: <1592051425-94019-1-git-send-email-xiyuyang19@fudan.edu.cn>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <a494dbe2-7f6e-20d2-cd3c-1ef247349053@amd.com>
+Date:   Mon, 15 Jun 2020 10:55:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.9.0
+In-Reply-To: <1592051425-94019-1-git-send-email-xiyuyang19@fudan.edu.cn>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-ClientProxiedBy: AM4PR0701CA0013.eurprd07.prod.outlook.com
+ (2603:10a6:200:42::23) To DM6PR12MB4401.namprd12.prod.outlook.com
+ (2603:10b6:5:2a9::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200615084306.intk7hmrf7qptsx6@uno.localdomain>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM4PR0701CA0013.eurprd07.prod.outlook.com (2603:10a6:200:42::23) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.10 via Frontend Transport; Mon, 15 Jun 2020 08:55:30 +0000
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 324310e7-c417-4957-6984-08d81109dcc7
+X-MS-TrafficTypeDiagnostic: DM6PR12MB3785:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM6PR12MB3785E9B358D312B2486F47F6839C0@DM6PR12MB3785.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Forefront-PRVS: 04359FAD81
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: einueZtfa2o2jawHASqsHuWa2SPlE8Q5HYxJ3e0BtS0E6gkP4Yy/R4V0d9jFVXSzrqARCDb7W0zeTXzj9OKOCx/dLZ88mehukY7KMgM0NmxeoHSLSSoT0oZzupaP+A0i6yFyw6Ai8H3bE/6lR5W/HhARvX/hRtswd8lmHsIQZO2Ty+nMgrkTqIkTdBOOOP5ViYGaqBR7X6G3TB6yh2bvsly1yRstZD+tCXe9DwQo6etd2HzsSmPBnHTcabLPntHg4xv6onkPVVEEZCtFqcoHsR6mKL68lI2Mt7jkoVmSd97TF+Q8+w730CyquceL4iwlFZX0CoA/IreJZA08xL5u4MuSDHPZWYLRc66q7fv06Cin/0dafoOUvBCPXwLmfykJ
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR12MB4401.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(39860400002)(346002)(136003)(396003)(376002)(8676002)(83380400001)(7416002)(5660300002)(6666004)(110136005)(478600001)(8936002)(4326008)(186003)(16526019)(2906002)(316002)(36756003)(66946007)(66476007)(66556008)(86362001)(31686004)(52116002)(31696002)(2616005)(6486002)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: Kuk2JihSJPFEuigJ9nEnVm/GXtuSxJLzxLiY/Cl3fMYiwb8Dy8ZgfT1sAd43V9cF1r0ld5X3rDv9j2tyjm3t2kELn7lx2iAM75ScsSMNy3wSsbdF0vYseA1hxJhOc9kSniqq4y4XD4ECVguMWBURJWyq1jJNIRdTYp6BQm7pwmcGsLO9fCnmJ1PhAQ9O66t8nAgLxm5m79EKW+ejaF8AG916JFgF08ImdD+YLjyn6a/DElrsCkWlbaFObjCGwW0fsUcZpwYWv3B42oXGIowny6iI4pfCRHvul+fIOSTXfFnDdnIAB8qEwoGnkqTjF2yT9GHaj5SilEk2rJpxocRY8Lr6dfC83J00iHGVuMFxgousq6XWXWum/063t58QjPypKKWAywSOQq8kIa2TEnsJww/6NRqL846Xh4mhwXAVTk7JiHEy4JWi3eMTa83zMdSuNxaO9ZqDOLhzk7kJjdmxRYgEON4TJ8v5QQvF3qabbjHIteNjEIYQNIdUV4Fmu7O1D/FAP7R5X60yHUTNR6DDlxgx1EPdAjGpKWvrlSCTSoGuMuaPbIxbuuWIq0oOmEi/
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 324310e7-c417-4957-6984-08d81109dcc7
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Jun 2020 08:55:33.1828
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bC/pRgeG32uym8YMMNDiDyexG8BJy5UTETC8bZXuIgTcYekST6FGxqH4uYcGDqq1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3785
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Jacopo,
+Am 13.06.20 um 14:30 schrieb Xiyu Yang:
+> ttm_bo_add_move_fence() invokes dma_fence_get(), which returns a
+> reference of the specified dma_fence object to "fence" with increased
+> refcnt.
+>
+> When ttm_bo_add_move_fence() returns, local variable "fence" becomes
+> invalid, so the refcount should be decreased to keep refcount balanced.
+>
+> The reference counting issue happens in one exception handling path of
+> ttm_bo_add_move_fence(). When no_wait_gpu flag is equals to true, the
+> function forgets to decrease the refcnt increased by dma_fence_get(),
+> causing a refcnt leak.
+>
+> Fix this issue by calling dma_fence_put() when no_wait_gpu flag is
+> equals to true.
+>
+> Signed-off-by: Xiyu Yang <xiyuyang19@fudan.edu.cn>
+> Signed-off-by: Xin Tan <tanxin.ctf@gmail.com>
 
-On Mon, Jun 15, 2020 at 10:43:06AM +0200, Jacopo Mondi wrote:
-> Hi Sakari,
-> 
-> On Mon, Jun 15, 2020 at 11:34:06AM +0300, Sakari Ailus wrote:
-> > Hi Jacopo,
-> >
-> > On Thu, Jun 11, 2020 at 06:16:51PM +0200, Jacopo Mondi wrote:
-> > > Use the newly introduced get_mbus_config() subdevice pad operation to
-> > > retrieve the remote subdevice MIPI CSI-2 bus configuration and configure
-> > > the number of active data lanes accordingly.
-> > >
-> > > In order to be able to call the remote subdevice operation cache the
-> > > index of the remote pad connected to the single CSI-2 input port.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > > ---
-> > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 61 ++++++++++++++++++++-
-> > >  1 file changed, 58 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > index 151e6a90c5fb..11769f004fd8 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > @@ -363,6 +363,7 @@ struct rcar_csi2 {
-> > >  	struct v4l2_async_notifier notifier;
-> > >  	struct v4l2_async_subdev asd;
-> > >  	struct v4l2_subdev *remote;
-> > > +	unsigned int remote_pad;
-> > >
-> > >  	struct v4l2_mbus_framefmt mf;
-> > >
-> > > @@ -371,6 +372,7 @@ struct rcar_csi2 {
-> > >
-> > >  	unsigned short lanes;
-> > >  	unsigned char lane_swap[4];
-> > > +	unsigned short active_lanes;
-> >
-> > Do you need this? I.e. should you not always request this from the
-> > transmitter device?
-> 
-> It's actually the other way around. The receiver queries the
-> transmitter to know how many data lanes it intends to use and adjusts
-> its configuration to accommodate it.
+Reviewed and pushed this one as well as the other ttm fix to drm-misc-fixes.
 
-I think we didn't have a different view on the process. But you basically
-need this when you're starting streaming, so why is the information stored
-here?
+That should show up in Linus tree rather soon.
 
-> 
-> >
-> > >  };
-> > >
-> > >  static inline struct rcar_csi2 *sd_to_csi2(struct v4l2_subdev *sd)
-> > > @@ -414,7 +416,7 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
-> > >
-> > >  	/* Wait for the clock and data lanes to enter LP-11 state. */
-> > >  	for (timeout = 0; timeout <= 20; timeout++) {
-> > > -		const u32 lane_mask = (1 << priv->lanes) - 1;
-> > > +		const u32 lane_mask = (1 << priv->active_lanes) - 1;
-> > >
-> > >  		if ((rcsi2_read(priv, PHCLM_REG) & PHCLM_STOPSTATECKL)  &&
-> > >  		    (rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
-> > > @@ -471,11 +473,57 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp)
-> > >  	 * bps = link_freq * 2
-> > >  	 */
-> > >  	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * bpp;
-> > > -	do_div(mbps, priv->lanes * 1000000);
-> > > +	do_div(mbps, priv->active_lanes * 1000000);
-> > >
-> > >  	return mbps;
-> > >  }
-> > >
-> > > +static int rcsi2_config_active_lanes(struct rcar_csi2 *priv)
-> > > +{
-> > > +	struct v4l2_mbus_config mbus_config = { 0 };
-> > > +	unsigned int num_lanes = (-1U);
-> > > +	int ret;
-> > > +
-> > > +	priv->active_lanes = priv->lanes;
-> > > +	ret = v4l2_subdev_call(priv->remote, pad, get_mbus_config,
-> > > +			       priv->remote_pad, &mbus_config);
-> > > +	if (ret == -ENOIOCTLCMD) {
-> > > +		dev_dbg(priv->dev, "No remote mbus configuration available\n");
-> > > +		return 0;
-> > > +	}
-> > > +
-> > > +	if (ret) {
-> > > +		dev_err(priv->dev, "Failed to get remote mbus configuration\n");
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
-> > > +		dev_err(priv->dev, "Unsupported media bus type %u\n",
-> > > +			mbus_config.type);
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
-> > > +		num_lanes = 1;
-> > > +	else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
-> > > +		num_lanes = 2;
-> > > +	else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
-> > > +		num_lanes = 3;
-> > > +	else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
-> > > +		num_lanes = 4;
-> >
-> > This is the downside of using flags... Anyway, I guess this is certainly
-> > fine now.
-> >
-> 
-> Let's change this on top, if we like to (and I would like to :)
+Thanks for the help,
+Christian.
 
-Agreed.
+PS: Are you working on some new automated scripts to catch that stuff or 
+how did you stumbled over it?
 
--- 
-Sakari Ailus
+> ---
+>   drivers/gpu/drm/ttm/ttm_bo.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index f73b81c2576e..0f20e14a4cfd 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -883,8 +883,10 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
+>   	if (!fence)
+>   		return 0;
+>   
+> -	if (no_wait_gpu)
+> +	if (no_wait_gpu) {
+> +		dma_fence_put(fence);
+>   		return -EBUSY;
+> +	}
+>   
+>   	dma_resv_add_shared_fence(bo->base.resv, fence);
+>   
+
