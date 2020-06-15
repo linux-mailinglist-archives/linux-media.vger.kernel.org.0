@@ -2,38 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B30631F91B3
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 10:39:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2272A1F91B7
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 10:40:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729057AbgFOIjp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jun 2020 04:39:45 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41318 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728861AbgFOIjo (ORCPT
+        id S1729036AbgFOIkt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jun 2020 04:40:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40440 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728593AbgFOIkt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jun 2020 04:39:44 -0400
+        Mon, 15 Jun 2020 04:40:49 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BF03C061A0E;
+        Mon, 15 Jun 2020 01:40:49 -0700 (PDT)
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 65F8FF9;
-        Mon, 15 Jun 2020 10:39:40 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 863A2F9;
+        Mon, 15 Jun 2020 10:40:45 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592210380;
-        bh=OQuxOxUugB22RVEMDsxJG53hsZDgMZT3WcFW0EbW/qo=;
+        s=mail; t=1592210446;
+        bh=YmXdaRIICyBAqBJrtPp7NrZFqqQBNpzxWyyYLq0i/HA=;
         h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=lYTW8sKSm/oaZn3v1fRs14G9dgFepSPyJdJ8RMd+7Seio64C0cqhOgGcE6u4FrsQA
-         O+iQe46cDnXtSS8mqMurcvvnizTPhyce/ZaIC8DkkB3tpRqx+s1n1z9Y57X4se3dGI
-         UBlwWVytpxfi4Wj1nonK8zpEUmgAikPtz999Jxs0=
+        b=sXLienF0ZwNqMnLfkKfB/hCruJMPA6e6J+71uvbcrJk+yY/sHIWOSL902R5yk1Vra
+         5UCLOxojVqcvykMbxVo7/y02d5Wkhi1fCtcHXFiFQ8ia6mVefUOzR+RjGe/byfuMgO
+         dpvN90GZ+4GBVP+2fB2EyCV0UK2NhFrQbTR+46C0=
 Reply-To: kieran.bingham@ideasonboard.com
 Subject: Re: [PATCH v4 9/9] media: rcar-csi2: Negotiate data lanes number
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com,
+To:     Jacopo Mondi <jacopo@jmondi.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, mchehab@kernel.org,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
         niklas.soderlund+renesas@ragnatech.se,
         dave.stevenson@raspberrypi.com, hyun.kwon@xilinx.com,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <20200611161651.264633-1-jacopo+renesas@jmondi.org>
  <20200611161651.264633-10-jacopo+renesas@jmondi.org>
  <20200615083405.GP16711@paasikivi.fi.intel.com>
+ <20200615084306.intk7hmrf7qptsx6@uno.localdomain>
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  mQINBFYE/WYBEACs1PwjMD9rgCu1hlIiUA1AXR4rv2v+BCLUq//vrX5S5bjzxKAryRf0uHat
@@ -80,12 +84,12 @@ Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  AfYnB4JBDLmLzBFavQfvonSfbitgXwCG3vS+9HEwAjU30Bar1PEOmIbiAoMzuKeRm2LVpmq4
  WZw01QYHU/GUV/zHJSFk
 Organization: Ideas on Board
-Message-ID: <bd58f7e1-2810-5abe-0612-75aef47c79f3@ideasonboard.com>
-Date:   Mon, 15 Jun 2020 09:39:37 +0100
+Message-ID: <c2474a6e-e569-cc11-c30a-0fab94a2f32c@ideasonboard.com>
+Date:   Mon, 15 Jun 2020 09:40:42 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200615083405.GP16711@paasikivi.fi.intel.com>
+In-Reply-To: <20200615084306.intk7hmrf7qptsx6@uno.localdomain>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -94,172 +98,183 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo, Sakari,
+Hi Jacopo,
 
-On 15/06/2020 09:34, Sakari Ailus wrote:
-> Hi Jacopo,
+On 15/06/2020 09:43, Jacopo Mondi wrote:
+> Hi Sakari,
 > 
-> On Thu, Jun 11, 2020 at 06:16:51PM +0200, Jacopo Mondi wrote:
->> Use the newly introduced get_mbus_config() subdevice pad operation to
->> retrieve the remote subdevice MIPI CSI-2 bus configuration and configure
->> the number of active data lanes accordingly.
+> On Mon, Jun 15, 2020 at 11:34:06AM +0300, Sakari Ailus wrote:
+>> Hi Jacopo,
 >>
->> In order to be able to call the remote subdevice operation cache the
->> index of the remote pad connected to the single CSI-2 input port.
+>> On Thu, Jun 11, 2020 at 06:16:51PM +0200, Jacopo Mondi wrote:
+>>> Use the newly introduced get_mbus_config() subdevice pad operation to
+>>> retrieve the remote subdevice MIPI CSI-2 bus configuration and configure
+>>> the number of active data lanes accordingly.
+>>>
+>>> In order to be able to call the remote subdevice operation cache the
+>>> index of the remote pad connected to the single CSI-2 input port.
+>>>
+>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>> ---
+>>>  drivers/media/platform/rcar-vin/rcar-csi2.c | 61 ++++++++++++++++++++-
+>>>  1 file changed, 58 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+>>> index 151e6a90c5fb..11769f004fd8 100644
+>>> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
+>>> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+>>> @@ -363,6 +363,7 @@ struct rcar_csi2 {
+>>>  	struct v4l2_async_notifier notifier;
+>>>  	struct v4l2_async_subdev asd;
+>>>  	struct v4l2_subdev *remote;
+>>> +	unsigned int remote_pad;
+>>>
+>>>  	struct v4l2_mbus_framefmt mf;
+>>>
+>>> @@ -371,6 +372,7 @@ struct rcar_csi2 {
+>>>
+>>>  	unsigned short lanes;
+>>>  	unsigned char lane_swap[4];
+>>> +	unsigned short active_lanes;
 >>
->> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->> ---
->>  drivers/media/platform/rcar-vin/rcar-csi2.c | 61 ++++++++++++++++++++-
->>  1 file changed, 58 insertions(+), 3 deletions(-)
+>> Do you need this? I.e. should you not always request this from the
+>> transmitter device?
+> 
+> It's actually the other way around. The receiver queries the
+> transmitter to know how many data lanes it intends to use and adjusts
+> its configuration to accommodate it.
+> 
 >>
->> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
->> index 151e6a90c5fb..11769f004fd8 100644
->> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
->> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
->> @@ -363,6 +363,7 @@ struct rcar_csi2 {
->>  	struct v4l2_async_notifier notifier;
->>  	struct v4l2_async_subdev asd;
->>  	struct v4l2_subdev *remote;
->> +	unsigned int remote_pad;
->>  
->>  	struct v4l2_mbus_framefmt mf;
->>  
->> @@ -371,6 +372,7 @@ struct rcar_csi2 {
->>  
->>  	unsigned short lanes;
->>  	unsigned char lane_swap[4];
->> +	unsigned short active_lanes;
+>>>  };
+>>>
+>>>  static inline struct rcar_csi2 *sd_to_csi2(struct v4l2_subdev *sd)
+>>> @@ -414,7 +416,7 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
+>>>
+>>>  	/* Wait for the clock and data lanes to enter LP-11 state. */
+>>>  	for (timeout = 0; timeout <= 20; timeout++) {
+>>> -		const u32 lane_mask = (1 << priv->lanes) - 1;
+>>> +		const u32 lane_mask = (1 << priv->active_lanes) - 1;
+>>>
+>>>  		if ((rcsi2_read(priv, PHCLM_REG) & PHCLM_STOPSTATECKL)  &&
+>>>  		    (rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
+>>> @@ -471,11 +473,57 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp)
+>>>  	 * bps = link_freq * 2
+>>>  	 */
+>>>  	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * bpp;
+>>> -	do_div(mbps, priv->lanes * 1000000);
+>>> +	do_div(mbps, priv->active_lanes * 1000000);
+>>>
+>>>  	return mbps;
+>>>  }
+>>>
+>>> +static int rcsi2_config_active_lanes(struct rcar_csi2 *priv)
+>>> +{
+>>> +	struct v4l2_mbus_config mbus_config = { 0 };
+>>> +	unsigned int num_lanes = (-1U);
+>>> +	int ret;
+>>> +
+>>> +	priv->active_lanes = priv->lanes;
+>>> +	ret = v4l2_subdev_call(priv->remote, pad, get_mbus_config,
+>>> +			       priv->remote_pad, &mbus_config);
+>>> +	if (ret == -ENOIOCTLCMD) {
+>>> +		dev_dbg(priv->dev, "No remote mbus configuration available\n");
+>>> +		return 0;
+>>> +	}
+>>> +
+>>> +	if (ret) {
+>>> +		dev_err(priv->dev, "Failed to get remote mbus configuration\n");
+>>> +		return ret;
+>>> +	}
+>>> +
+>>> +	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
+>>> +		dev_err(priv->dev, "Unsupported media bus type %u\n",
+>>> +			mbus_config.type);
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>> +	if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
+>>> +		num_lanes = 1;
+>>> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
+>>> +		num_lanes = 2;
+>>> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
+>>> +		num_lanes = 3;
+>>> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
+>>> +		num_lanes = 4;
+>>
+>> This is the downside of using flags... Anyway, I guess this is certainly
+>> fine now.
+>>
 > 
-> Do you need this? I.e. should you not always request this from the
-> transmitter device?
-> 
->>  };
->>  
->>  static inline struct rcar_csi2 *sd_to_csi2(struct v4l2_subdev *sd)
->> @@ -414,7 +416,7 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
->>  
->>  	/* Wait for the clock and data lanes to enter LP-11 state. */
->>  	for (timeout = 0; timeout <= 20; timeout++) {
->> -		const u32 lane_mask = (1 << priv->lanes) - 1;
->> +		const u32 lane_mask = (1 << priv->active_lanes) - 1;
->>  
->>  		if ((rcsi2_read(priv, PHCLM_REG) & PHCLM_STOPSTATECKL)  &&
->>  		    (rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
->> @@ -471,11 +473,57 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp)
->>  	 * bps = link_freq * 2
->>  	 */
->>  	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * bpp;
->> -	do_div(mbps, priv->lanes * 1000000);
->> +	do_div(mbps, priv->active_lanes * 1000000);
->>  
->>  	return mbps;
->>  }
->>  
->> +static int rcsi2_config_active_lanes(struct rcar_csi2 *priv)
->> +{
->> +	struct v4l2_mbus_config mbus_config = { 0 };
->> +	unsigned int num_lanes = (-1U);
->> +	int ret;
->> +
->> +	priv->active_lanes = priv->lanes;
->> +	ret = v4l2_subdev_call(priv->remote, pad, get_mbus_config,
->> +			       priv->remote_pad, &mbus_config);
->> +	if (ret == -ENOIOCTLCMD) {
->> +		dev_dbg(priv->dev, "No remote mbus configuration available\n");
->> +		return 0;
->> +	}
->> +
->> +	if (ret) {
->> +		dev_err(priv->dev, "Failed to get remote mbus configuration\n");
->> +		return ret;
->> +	}
->> +
->> +	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
->> +		dev_err(priv->dev, "Unsupported media bus type %u\n",
->> +			mbus_config.type);
->> +		return -EINVAL;
->> +	}
->> +
->> +	if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
->> +		num_lanes = 1;
->> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
->> +		num_lanes = 2;
->> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
->> +		num_lanes = 3;
->> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
->> +		num_lanes = 4;
-> 
-> This is the downside of using flags... Anyway, I guess this is certainly
-> fine now.
+> Let's change this on top, if we like to (and I would like to :)
 
-Given that the mbus_config has a .type, can't we easily extend
-  struct v4l2_mbus_config
-
-to contain a type specific union ?
-
-Or is that something to do on top of this series instead?
-
-I mean, it could even go after the flags, and keep the flags as a common
-attribute - so that no other changes are needed to other components...
+That answers my question then ;-)
 
 --
 Kieran
 
+
 > 
->> +
->> +	if (num_lanes > priv->lanes) {
->> +		dev_err(priv->dev,
->> +			"Unsupported mbus config: too many data lanes %u\n",
->> +			num_lanes);
->> +		return -EINVAL;
->> +	}
->> +
->> +	priv->active_lanes = num_lanes;
->> +
->> +	return 0;
->> +}
->> +
->>  static int rcsi2_start_receiver(struct rcar_csi2 *priv)
->>  {
->>  	const struct rcar_csi2_format *format;
->> @@ -490,6 +538,11 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
->>  	/* Code is validated in set_fmt. */
->>  	format = rcsi2_code_to_fmt(priv->mf.code);
->>  
->> +	/* Get the remote mbus config to get the number of enabled lanes. */
->> +	ret = rcsi2_config_active_lanes(priv);
->> +	if (ret)
->> +		return ret;
->> +
->>  	/*
->>  	 * Enable all supported CSI-2 channels with virtual channel and
->>  	 * data type matching.
->> @@ -522,7 +575,7 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
->>  	}
->>  
->>  	phycnt = PHYCNT_ENABLECLK;
->> -	phycnt |= (1 << priv->lanes) - 1;
->> +	phycnt |= (1 << priv->active_lanes) - 1;
->>  
->>  	mbps = rcsi2_calc_mbps(priv, format->bpp);
->>  	if (mbps < 0)
->> @@ -748,6 +801,7 @@ static int rcsi2_notify_bound(struct v4l2_async_notifier *notifier,
->>  	}
->>  
->>  	priv->remote = subdev;
->> +	priv->remote_pad = pad;
->>  
->>  	dev_dbg(priv->dev, "Bound %s pad: %d\n", subdev->name, pad);
->>  
->> @@ -793,6 +847,7 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
->>  			priv->lanes);
->>  		return -EINVAL;
->>  	}
->> +	priv->active_lanes = priv->lanes;
->>  
->>  	for (i = 0; i < ARRAY_SIZE(priv->lane_swap); i++) {
->>  		priv->lane_swap[i] = i < priv->lanes ?
+> Thanks
+>   j
 > 
+>>> +
+>>> +	if (num_lanes > priv->lanes) {
+>>> +		dev_err(priv->dev,
+>>> +			"Unsupported mbus config: too many data lanes %u\n",
+>>> +			num_lanes);
+>>> +		return -EINVAL;
+>>> +	}
+>>> +
+>>> +	priv->active_lanes = num_lanes;
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>>  static int rcsi2_start_receiver(struct rcar_csi2 *priv)
+>>>  {
+>>>  	const struct rcar_csi2_format *format;
+>>> @@ -490,6 +538,11 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
+>>>  	/* Code is validated in set_fmt. */
+>>>  	format = rcsi2_code_to_fmt(priv->mf.code);
+>>>
+>>> +	/* Get the remote mbus config to get the number of enabled lanes. */
+>>> +	ret = rcsi2_config_active_lanes(priv);
+>>> +	if (ret)
+>>> +		return ret;
+>>> +
+>>>  	/*
+>>>  	 * Enable all supported CSI-2 channels with virtual channel and
+>>>  	 * data type matching.
+>>> @@ -522,7 +575,7 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
+>>>  	}
+>>>
+>>>  	phycnt = PHYCNT_ENABLECLK;
+>>> -	phycnt |= (1 << priv->lanes) - 1;
+>>> +	phycnt |= (1 << priv->active_lanes) - 1;
+>>>
+>>>  	mbps = rcsi2_calc_mbps(priv, format->bpp);
+>>>  	if (mbps < 0)
+>>> @@ -748,6 +801,7 @@ static int rcsi2_notify_bound(struct v4l2_async_notifier *notifier,
+>>>  	}
+>>>
+>>>  	priv->remote = subdev;
+>>> +	priv->remote_pad = pad;
+>>>
+>>>  	dev_dbg(priv->dev, "Bound %s pad: %d\n", subdev->name, pad);
+>>>
+>>> @@ -793,6 +847,7 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
+>>>  			priv->lanes);
+>>>  		return -EINVAL;
+>>>  	}
+>>> +	priv->active_lanes = priv->lanes;
+>>>
+>>>  	for (i = 0; i < ARRAY_SIZE(priv->lane_swap); i++) {
+>>>  		priv->lane_swap[i] = i < priv->lanes ?
+>>
+>> --
+>> Kind regards,
+>>
+>> Sakari Ailus
 
 -- 
 Regards
