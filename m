@@ -2,164 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 749A51F9E87
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 19:32:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A85D61FA067
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 21:38:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731272AbgFORcV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jun 2020 13:32:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38136 "EHLO
+        id S1729807AbgFOTiS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jun 2020 15:38:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729354AbgFORcV (ORCPT
+        with ESMTP id S1728771AbgFOTiR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jun 2020 13:32:21 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27428C05BD43
-        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2020 10:32:21 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id d8so7068750plo.12
-        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2020 10:32:21 -0700 (PDT)
+        Mon, 15 Jun 2020 15:38:17 -0400
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2D9BC05BD43
+        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2020 12:38:17 -0700 (PDT)
+Received: by mail-qv1-xf49.google.com with SMTP id w12so13854679qvh.13
+        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2020 12:38:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=2ZLZlJpE9ABSNjpL4mZQFk3Irx9pVKzEY6qghcd2NoA=;
-        b=MS7xahuAXPifVMceikYAexMoBHjLCLpZjeeouIlKBwiHQU2ForT5LrpT8bdlC+hiLM
-         nfqrqMm0qxuFBOQWGWLd6rjKWFcznPu41dwIAd59oyAAJzcVv4K9fAfXm8F2rZDc6FR6
-         wqXJMcTzwuWLkc4BdkPdOvBxqYI1jxphDUpEIhVUhW5oh9PkI6OIplFam40MOaajTX7+
-         pibStgBiwqHp2+od5g3I8EdaL5bipPngqcQDNxcA1Ago9jVmaDc0oP+KPVmDbneSz2dn
-         NQh2ScecSde9JIZsUoOCkGl118dyauBVUcJFrBIOloPHFsr9UhcIXpm38az2hNCkHL3i
-         xA0w==
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=5eOZUAynrB54V2IFcB0rduao9pIQ/GV86N0Z7+fYQuk=;
+        b=Rw0geJKsbkTzCx1CNT4BSLxHeMF0uXmJ36DSuJbfRs4jqw4O2fIZranQppKk4Jixi8
+         +PsChKOjN9TYHcZWdBaAfTRyuHu0eLt4X9zTn3llYtSQgkjB/vPmyxyW58sW7ctcVK6m
+         nALDmJNiS4frYolhjIc8TpvVWJciw7bTzbQpxvkOhMMFzHKVk6a/Lyg106MmWoeiSKpl
+         96LPpNnfTvX0aqrd9b1SUmmES1oF/eC0uTR43jb1rdZOyuO1fUM3hZ8SW0QZsPKOKsVa
+         UA4DWhKxW3I484NOmuqfRT1CtZgBpB5VMxHbYuyJjmw62cp0wsilI6EyfpmPpO8G6TTZ
+         MvLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=2ZLZlJpE9ABSNjpL4mZQFk3Irx9pVKzEY6qghcd2NoA=;
-        b=j/05a3uymFNIrWLvoyOxClBOTmfcyRZ+BfQksW8H9F+wjD+4uMjsBoupgLdgAdAFH0
-         YFTyPGxg7UQP9/JwdMKOrW6eaU+ao7gw1VHeOH8rEeqjjDYHiedkDQ6Mcbekrzqk4FK0
-         4vDLhRZWRjxn+wENA9qLZoIzbhT5Y3Tn0djl/0oGHGYPB+nDMVweSGtZ9rwu1PakQMD/
-         vWTsKbV8cVcZOyT4TIhELSSmkmnYACzbwENDbTOGP/8R6ZJEuHeU9S1orIX+6Y5w+VtJ
-         YpItyK+b7jeWL8E15xahy8Oa9QdPjqf+dzbXHZQLw02rxMYfK4zsmCrziaQX7bBuKGU3
-         10QQ==
-X-Gm-Message-State: AOAM530rpMCsDdcf1Md3im6dV+0HRW2oY4TTgxa4X8iAlx+AEUbSvsW0
-        iMPRP2X58HKXzJa4tOWDulZNrQ==
-X-Google-Smtp-Source: ABdhPJxtfelaSLMp5jrGRan+wah8+XoWy+zmHLH8CZTl0rpzifd6eN00fbg0sQSkH7062uAAtsgb3w==
-X-Received: by 2002:a17:902:c404:: with SMTP id k4mr8373426plk.99.1592242340305;
-        Mon, 15 Jun 2020 10:32:20 -0700 (PDT)
-Received: from kaaira-HP-Pavilion-Notebook ([2401:4900:4175:6d71:950c:f8ee:90bc:902a])
-        by smtp.gmail.com with ESMTPSA id s1sm139323pjp.14.2020.06.15.10.32.13
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Mon, 15 Jun 2020 10:32:19 -0700 (PDT)
-Date:   Mon, 15 Jun 2020 23:01:54 +0530
-From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
-To:     Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        hverkuil@xs4all.nl
-Subject: [PATCH v3] media: tpg: Add function to return colors' order of test
- image
-Message-ID: <20200615173153.GA2404@kaaira-HP-Pavilion-Notebook>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=5eOZUAynrB54V2IFcB0rduao9pIQ/GV86N0Z7+fYQuk=;
+        b=sEGKm96Bv1AWIKSLrX0qq8jVKkHrFaShOAqvpDh8JepZ17ZjdqLX+EBINqPofmntYS
+         /LrhPA7YXxKI15OQJmImwq1YjvuvIm8D5DRNv/c9OZ+qZgr8lhCV9BB1gAAmOGttRnbk
+         9iovt3xk2KK2ha5j4qwAGHu21nR3oA6mMgwPmJhNy/9q/EOppaNBQW0iqaVT6d17LRg3
+         qp5Bea3IYeJv2I60xaFPE0Ve62XhnsXL4xCPnpsxXqJpBCboIQmU8GRfsPZdULGCYqO5
+         rME+pwp6SXrkIAwHSHSB58aidpFXe4AU9V0mRTeFdy4ooNLjtVbzv5ZCIsiI7gz9p5Wy
+         Kt1A==
+X-Gm-Message-State: AOAM5325Qh2ydIVLFax/VpkYarkPnloevZottXgOQ5G53oLseWkcPrFB
+        QTXk10ErH7s+1yLOuW7fn15CqfgXkDw5Z1ER8+BFO3xfKt69Lsg6u1R4qfnzIMwUWjtsDpLWSoi
+        enXZvA/VshrcCciB19j2dh2Cetzh5Sp7ksP/ci3T/kqEYB5hwx+gmuCLyZMo1C2GqaNd2sA4=
+X-Google-Smtp-Source: ABdhPJwRDxMUcF+Z2stea+XUcMYbmNoEZH2WRU4z72FyekNDlYKYCgYKDnS0rsS9L27ixycQv8H4OQs3X1+s
+X-Received: by 2002:a0c:ed26:: with SMTP id u6mr25754393qvq.141.1592249896661;
+ Mon, 15 Jun 2020 12:38:16 -0700 (PDT)
+Date:   Mon, 15 Jun 2020 15:38:09 -0400
+Message-Id: <20200615193811.233737-1-jnchase@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.290.gba653c62da-goog
+Subject: [PATCH v5 0/2] CH7322 CEC controller driver
+From:   Jeff Chase <jnchase@google.com>
+To:     linux-media@vger.kernel.org
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, robh+dt@kernel.org,
+        devicetree@vger.kernel.org, Jeff Chase <jnchase@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently there is no method to know the correct order of the colors for
-a test image generated by tpg. Write a function that returns a string of
-colors' order given a tpg. It returns a NULL pointer in case of test
-patterns which do not have a well defined colors' order. Hence add a
-NULL check for text in tpg_gen_text().
+Add device driver and device tree bindings for a Chrontel CEC
+conroller. This is an I2C device that can send and receive CEC
+messages.
 
-Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
----
+Changes from v4:
+- rebase onto master (vendor-prefixes.yaml already updated)
 
-Changes since v2:
-	- Create a 'define' to prevent repetition of the common color
-	  sequence string.
-	- Use 'fallthrough' on case statement to prevent repetition of
-	  code.
+Changes from v3:
+- address devicetree comments
+- revert interrupt mask/unmask in cec adapter enable
+  (the driver relies on the interrupt to get the physical address)
 
-Changes since v1:
-	- Returned NULL for patterns whose color order cannot be
-          defined. (Reported-by: kernel test robot <lkp@intel.com>)
-        - Made separate switch cases for separate test patterns
-         (Reported-by: kernel test robot <lkp@intel.com>)
+Changes from v2:
+- fix formatting errors
+- mask and unmask interrupt in cec adapter enable
 
- drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 32 +++++++++++++++++--
- include/media/tpg/v4l2-tpg.h                  |  1 +
- 2 files changed, 31 insertions(+), 2 deletions(-)
+Changes from v1:
+- fix formatpatch.pl --strict errors
+- additional comments
+- enable and program logical address register
+- add flags to aid interpreting transmit done status
+- move ch7322 out of devicetree trivial devices
 
-diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-index 50f1e0b28b25..c96204cef155 100644
---- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-+++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-@@ -1959,12 +1959,14 @@ void tpg_gen_text(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
- 	unsigned step = V4L2_FIELD_HAS_T_OR_B(tpg->field) ? 2 : 1;
- 	unsigned div = step;
- 	unsigned first = 0;
--	unsigned len = strlen(text);
-+	unsigned len;
- 	unsigned p;
- 
--	if (font8x16 == NULL || basep == NULL)
-+	if (font8x16 == NULL || basep == NULL || text == NULL)
- 		return;
- 
-+	len = strlen(text);
-+
- 	/* Checks if it is possible to show string */
- 	if (y + 16 >= tpg->compose.height || x + 8 >= tpg->compose.width)
- 		return;
-@@ -2006,6 +2008,32 @@ void tpg_gen_text(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
- }
- EXPORT_SYMBOL_GPL(tpg_gen_text);
- 
-+char *tpg_g_color_order(const struct tpg_data *tpg)
-+{
-+	#define COLORBAR(order) #order "white, yellow, cyan, green, magenta, red, blue, black"
-+
-+	switch (tpg->pattern) {
-+	case TPG_PAT_75_COLORBAR:
-+	case TPG_PAT_100_COLORBAR:
-+	case TPG_PAT_CSC_COLORBAR:
-+		return COLORBAR("Left to right:");
-+	case TPG_PAT_100_HCOLORBAR:
-+		return COLORBAR("Top to bottom:");
-+	case TPG_PAT_BLACK:
-+		return "Black";
-+	case TPG_PAT_WHITE:
-+		return "White";
-+	case TPG_PAT_RED:
-+		return "Red";
-+	case TPG_PAT_GREEN:
-+		return "Green";
-+	case TPG_PAT_BLUE:
-+		return "Blue";
-+	default:
-+		return NULL;
-+	}
-+}
-+
- void tpg_update_mv_step(struct tpg_data *tpg)
- {
- 	int factor = tpg->mv_hor_mode > TPG_MOVE_NONE ? -1 : 1;
-diff --git a/include/media/tpg/v4l2-tpg.h b/include/media/tpg/v4l2-tpg.h
-index eb191e85d363..4f79cac87b85 100644
---- a/include/media/tpg/v4l2-tpg.h
-+++ b/include/media/tpg/v4l2-tpg.h
-@@ -252,6 +252,7 @@ void tpg_fillbuffer(struct tpg_data *tpg, v4l2_std_id std,
- bool tpg_s_fourcc(struct tpg_data *tpg, u32 fourcc);
- void tpg_s_crop_compose(struct tpg_data *tpg, const struct v4l2_rect *crop,
- 		const struct v4l2_rect *compose);
-+char *tpg_g_color_order(const struct tpg_data *tpg);
- 
- static inline void tpg_s_pattern(struct tpg_data *tpg, enum tpg_pattern pattern)
- {
+Jeff Chase (2):
+  dt-bindings: Add ch7322 media i2c device
+  media: cec: i2c: ch7322: Add ch7322 CEC controller driver
+
+ .../bindings/media/i2c/chrontel,ch7322.yaml   |  67 +++
+ MAINTAINERS                                   |   8 +
+ drivers/media/cec/Kconfig                     |   1 +
+ drivers/media/cec/Makefile                    |   2 +-
+ drivers/media/cec/i2c/Kconfig                 |  14 +
+ drivers/media/cec/i2c/Makefile                |   5 +
+ drivers/media/cec/i2c/ch7322.c                | 503 ++++++++++++++++++
+ 7 files changed, 599 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
+ create mode 100644 drivers/media/cec/i2c/Kconfig
+ create mode 100644 drivers/media/cec/i2c/Makefile
+ create mode 100644 drivers/media/cec/i2c/ch7322.c
+
 -- 
-2.17.1
+2.27.0.290.gba653c62da-goog
 
