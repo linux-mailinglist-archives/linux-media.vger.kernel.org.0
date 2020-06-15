@@ -2,654 +2,490 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1803E1FA06B
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 21:38:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8AC7D1FA1BA
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 22:37:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729900AbgFOTiX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jun 2020 15:38:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57592 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728771AbgFOTiX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jun 2020 15:38:23 -0400
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA654C05BD43
-        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2020 12:38:22 -0700 (PDT)
-Received: by mail-qk1-x74a.google.com with SMTP id l6so15078891qkk.14
-        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2020 12:38:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:in-reply-to:message-id:mime-version:references:subject:from:to
-         :cc;
-        bh=gXqHrKp4bFLdchJrp36ngFVbDMnA+tbt+uF3M2SqyOY=;
-        b=mm6XHLxtkyge2J8Rl5d7P5zBwJczuppEehZdsmxwJq1YNPFRSc9b9k1Wl6dhNlQwK4
-         K0B3NoqtcQ6kq2SoEMR0oIxzLpicQ/12iYrjtLmNuLgnIzzJdTnxG+C7OsBEAeX8NaXR
-         ZPWvWpBNGpLqpAz1lso/DN2qKG1jzYs+f565ZDUuDo07albksLfAbI6cbV0sJBuC9qFS
-         guJcXJZ/CtL24ibbO6iLSBDTlFHpOTgD3pdsLga1J+uvdgsYTLvaK1tYS/DQdiW/pcW3
-         3l0tnDILb04d1AFbSuNc0HI1F9TLST8zk+B53jbqReNfDlTCgZbuzoq+B9hwAezZ2fdf
-         e0kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:in-reply-to:message-id:mime-version
-         :references:subject:from:to:cc;
-        bh=gXqHrKp4bFLdchJrp36ngFVbDMnA+tbt+uF3M2SqyOY=;
-        b=Db6EsIwqQtry8m6DvtGQSNVm/4+duJaO447NdmoxefXMMx8DF0RyGTgyo2X6FftGxc
-         oe70K7pb9J2PpPnO3oiiy1VQTwRbaGn375chKiSZoHeA8Spr/9SI5t4dxcF9Q5Bfb8Vh
-         zOd4/HbavVomv18XrBqLfFJcl+K0ckD2FkmgIZ5o2mQV/F3DMitPv1mAJh7g1lmGQ3Ay
-         YwWOZGLH7Q4y0GFeT35SXIzUZ/vpHln8uTH5+GC+xxaNI1bh7CzH0WTPl3hYkF3718aH
-         Ho5K244QADiiA8A0Kq1rlw/CUiA6Yd4gcsrOi6O3gVAFE99dnz0ghysCSvzuERN+43pP
-         f49w==
-X-Gm-Message-State: AOAM5329dOYV3q9Q4RtD44sdat8NojrRE/6msJTNm8hHSn40A9Qt+9mq
-        Zd2k4KSY8X7xxRBV7S/Xav6rj4GTWEij4pyIb7ns749V/wPqx+7p0i5H2nf+um7DitbjQT8kh19
-        MErV2E8BCdbL1rEjzYqEMUZR2o6NrRjpUDiwhVk7B9qB3Y/FGJAH+33w8pbGgMs02f4VjBcI=
-X-Google-Smtp-Source: ABdhPJziK7r5lzLWAdvAtR8E0431Dgi73RPKHwhlOIFhcpEOypUAxIrp9pYnrSQ/iZP7oI5CgkBud0MnNyYX
-X-Received: by 2002:ad4:54c8:: with SMTP id j8mr25157208qvx.111.1592249901945;
- Mon, 15 Jun 2020 12:38:21 -0700 (PDT)
-Date:   Mon, 15 Jun 2020 15:38:11 -0400
-In-Reply-To: <20200615193811.233737-1-jnchase@google.com>
-Message-Id: <20200615193811.233737-3-jnchase@google.com>
-Mime-Version: 1.0
-References: <20200615193811.233737-1-jnchase@google.com>
-X-Mailer: git-send-email 2.27.0.290.gba653c62da-goog
-Subject: [PATCH v5 2/2] media: cec: i2c: ch7322: Add ch7322 CEC controller driver
-From:   Jeff Chase <jnchase@google.com>
-To:     linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, robh+dt@kernel.org,
-        devicetree@vger.kernel.org, Jeff Chase <jnchase@google.com>
-Content-Type: text/plain; charset="UTF-8"
+        id S1731171AbgFOUh1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jun 2020 16:37:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45462 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728346AbgFOUh0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jun 2020 16:37:26 -0400
+Received: from paulmck-ThinkPad-P72.home (50-39-105-78.bvtn.or.frontiernet.net [50.39.105.78])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 86C4A2074D;
+        Mon, 15 Jun 2020 20:37:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592253445;
+        bh=iekjpBTsrJQaLynAu4mvf6KdmDi58ud2jYZ1pHpRCF8=;
+        h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
+        b=x1gbZcOGi9Sa07Zt5qZwKtLMeggEKLBeTtRbLD9gyHokj2SQtezqIviuQDPeYuPcp
+         LAdiQxH4ZhM3P2OJ9Mkr4MkzxmGrYcBCQqTHvpMOhOcBlZuV7+A4/zI0LhuOQDSa4x
+         Lh7ltA/IxB5+jOZrescjkiQv0Yux/TWKye7YLGw0=
+Received: by paulmck-ThinkPad-P72.home (Postfix, from userid 1000)
+        id 6CBAC35218F0; Mon, 15 Jun 2020 13:37:25 -0700 (PDT)
+Date:   Mon, 15 Jun 2020 13:37:25 -0700
+From:   "Paul E. McKenney" <paulmck@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Andrea Parri <parri.andrea@gmail.com>,
+        Will Deacon <will@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        David Howells <dhowells@redhat.com>,
+        Jade Alglave <j.alglave@ucl.ac.uk>,
+        Luc Maranget <luc.maranget@inria.fr>,
+        Akira Yokosawa <akiyks@gmail.com>,
+        Daniel Lustig <dlustig@nvidia.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>, linux-pci@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-parisc@vger.kernel.org, iommu@lists.linux-foundation.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 26/29] docs: fix references for DMA*.txt files
+Message-ID: <20200615203725.GP2723@paulmck-ThinkPad-P72>
+Reply-To: paulmck@kernel.org
+References: <cover.1592203542.git.mchehab+huawei@kernel.org>
+ <df99e29cef1e389f2acdff0eb1b92161f7be291b.1592203542.git.mchehab+huawei@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <df99e29cef1e389f2acdff0eb1b92161f7be291b.1592203542.git.mchehab+huawei@kernel.org>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a CEC device driver for the Chrontel ch7322 CEC conroller.
-This is an I2C device capable of sending and receiving CEC messages.
+On Mon, Jun 15, 2020 at 08:47:05AM +0200, Mauro Carvalho Chehab wrote:
+> As we moved those files to core-api, fix references to point
+> to their newer locations.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/PCI/pci.rst                          |  6 +++---
+>  Documentation/block/biodoc.rst                     |  2 +-
+>  Documentation/core-api/bus-virt-phys-mapping.rst   |  2 +-
+>  Documentation/core-api/dma-api.rst                 |  6 +++---
+>  Documentation/core-api/dma-isa-lpc.rst             |  2 +-
+>  Documentation/driver-api/usb/dma.rst               |  6 +++---
+>  Documentation/memory-barriers.txt                  |  6 +++---
 
-Signed-off-by: Jeff Chase <jnchase@google.com>
----
- MAINTAINERS                    |   1 +
- drivers/media/cec/Kconfig      |   1 +
- drivers/media/cec/Makefile     |   2 +-
- drivers/media/cec/i2c/Kconfig  |  14 +
- drivers/media/cec/i2c/Makefile |   5 +
- drivers/media/cec/i2c/ch7322.c | 503 +++++++++++++++++++++++++++++++++
- 6 files changed, 525 insertions(+), 1 deletion(-)
- create mode 100644 drivers/media/cec/i2c/Kconfig
- create mode 100644 drivers/media/cec/i2c/Makefile
- create mode 100644 drivers/media/cec/i2c/ch7322.c
+I grabbed this Documentation/memory-barriers.txt, but can drop it if
+Jon takes the whole batch, in which case:
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c1c17ca17830..e2341eaaaf5e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4107,6 +4107,7 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/i2c/chontel,ch7322.yaml
-+F:	drivers/media/cec/i2c/ch7322.c
- 
- CIRRUS LOGIC AUDIO CODEC DRIVERS
- M:	James Schulman <james.schulman@cirrus.com>
-diff --git a/drivers/media/cec/Kconfig b/drivers/media/cec/Kconfig
-index 7e830444bdbb..9ba3a00dce31 100644
---- a/drivers/media/cec/Kconfig
-+++ b/drivers/media/cec/Kconfig
-@@ -33,6 +33,7 @@ menuconfig MEDIA_CEC_SUPPORT
- 	  adapter that supports HDMI CEC.
- 
- if MEDIA_CEC_SUPPORT
-+source "drivers/media/cec/i2c/Kconfig"
- source "drivers/media/cec/platform/Kconfig"
- source "drivers/media/cec/usb/Kconfig"
- endif
-diff --git a/drivers/media/cec/Makefile b/drivers/media/cec/Makefile
-index 74e80e1b3571..23539339bc81 100644
---- a/drivers/media/cec/Makefile
-+++ b/drivers/media/cec/Makefile
-@@ -1,2 +1,2 @@
- # SPDX-License-Identifier: GPL-2.0
--obj-y += core/ platform/ usb/
-+obj-y += core/ i2c/ platform/ usb/
-diff --git a/drivers/media/cec/i2c/Kconfig b/drivers/media/cec/i2c/Kconfig
-new file mode 100644
-index 000000000000..e445ca2110b3
---- /dev/null
-+++ b/drivers/media/cec/i2c/Kconfig
-@@ -0,0 +1,14 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# I2C drivers
-+
-+config CEC_CH7322
-+	tristate "Chrontel CH7322 CEC controller"
-+	select I2C
-+	select REGMAP_I2C
-+	select CEC_CORE
-+	help
-+	  This is a driver for the Chrontel CH7322 CEC controller. It uses the
-+	  generic CEC framework interface.
-+	  CEC bus is present in the HDMI connector and enables communication
-+	  between compatible devices.
-diff --git a/drivers/media/cec/i2c/Makefile b/drivers/media/cec/i2c/Makefile
-new file mode 100644
-index 000000000000..d7496dfd0fa4
---- /dev/null
-+++ b/drivers/media/cec/i2c/Makefile
-@@ -0,0 +1,5 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Makefile for the CEC I2C device drivers.
-+#
-+obj-$(CONFIG_CEC_CH7322) += ch7322.o
-diff --git a/drivers/media/cec/i2c/ch7322.c b/drivers/media/cec/i2c/ch7322.c
-new file mode 100644
-index 000000000000..4e6976a51774
---- /dev/null
-+++ b/drivers/media/cec/i2c/ch7322.c
-@@ -0,0 +1,503 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Driver for the Chrontel CH7322 CEC Controller
-+ *
-+ * Copyright 2020 Google LLC.
-+ */
-+
-+/*
-+ * Notes
-+ *
-+ * - This device powers on in Auto Mode which has limited functionality. This
-+ *   driver disables Auto Mode when it attaches.
-+ *
-+ */
-+
-+#include <linux/cec.h>
-+#include <linux/i2c.h>
-+#include <linux/interrupt.h>
-+#include <linux/module.h>
-+#include <linux/mutex.h>
-+#include <linux/regmap.h>
-+#include <media/cec.h>
-+
-+#define CH7322_WRITE		0x00
-+#define CH7322_WRITE_MSENT		0x80
-+#define CH7322_WRITE_BOK		0x40
-+#define CH7322_WRITE_NMASK		0x0f
-+
-+/* Write buffer is 0x01-0x10 */
-+#define CH7322_WRBUF		0x01
-+#define CH7322_WRBUF_LEN	0x10
-+
-+#define CH7322_READ		0x40
-+#define CH7322_READ_NRDT		0x80
-+#define CH7322_READ_MSENT		0x20
-+#define CH7322_READ_NMASK		0x0f
-+
-+/* Read buffer is 0x41-0x50 */
-+#define CH7322_RDBUF		0x41
-+#define CH7322_RDBUF_LEN	0x10
-+
-+#define CH7322_MODE		0x11
-+#define CH7322_MODE_AUTO		0x78
-+#define CH7322_MODE_SW			0xb5
-+
-+#define CH7322_RESET		0x12
-+#define CH7322_RESET_RST		0x00
-+
-+#define CH7322_POWER		0x13
-+#define CH7322_POWER_FPD		0x04
-+
-+#define CH7322_CFG0		0x17
-+#define CH7322_CFG0_EOBEN		0x40
-+#define CH7322_CFG0_PEOB		0x20
-+#define CH7322_CFG0_CLRSPP		0x10
-+#define CH7322_CFG0_FLOW		0x08
-+
-+#define CH7322_CFG1		0x1a
-+#define CH7322_CFG1_STDBYO		0x04
-+#define CH7322_CFG1_HPBP		0x02
-+#define CH7322_CFG1_PIO			0x01
-+
-+#define CH7322_INTCTL		0x1b
-+#define CH7322_INTCTL_INTPB		0x80
-+#define CH7322_INTCTL_STDBY		0x40
-+#define CH7322_INTCTL_HPDFALL		0x20
-+#define CH7322_INTCTL_HPDRISE		0x10
-+#define CH7322_INTCTL_RXMSG		0x08
-+#define CH7322_INTCTL_TXMSG		0x04
-+#define CH7322_INTCTL_NEWPHA		0x02
-+#define CH7322_INTCTL_ERROR		0x01
-+
-+#define CH7322_DVCLKFNH	0x1d
-+#define CH7322_DVCLKFNL	0x1e
-+
-+#define CH7322_CTL		0x31
-+#define CH7322_CTL_FSTDBY		0x80
-+#define CH7322_CTL_PLSEN		0x40
-+#define CH7322_CTL_PLSPB		0x20
-+#define CH7322_CTL_SPADL		0x10
-+#define CH7322_CTL_HINIT		0x08
-+#define CH7322_CTL_WPHYA		0x04
-+#define CH7322_CTL_H1T			0x02
-+#define CH7322_CTL_S1T			0x01
-+
-+#define CH7322_PAWH		0x32
-+#define CH7322_PAWL		0x33
-+
-+#define CH7322_ADDLW		0x34
-+#define CH7322_ADDLW_MASK	0xf0
-+
-+#define CH7322_ADDLR		0x3d
-+#define CH7322_ADDLR_HPD		0x80
-+#define CH7322_ADDLR_MASK		0x0f
-+
-+#define CH7322_INTDATA		0x3e
-+#define CH7322_INTDATA_MODE		0x80
-+#define CH7322_INTDATA_STDBY		0x40
-+#define CH7322_INTDATA_HPDFALL		0x20
-+#define CH7322_INTDATA_HPDRISE		0x10
-+#define CH7322_INTDATA_RXMSG		0x08
-+#define CH7322_INTDATA_TXMSG		0x04
-+#define CH7322_INTDATA_NEWPHA		0x02
-+#define CH7322_INTDATA_ERROR		0x01
-+
-+#define CH7322_EVENT		0x3F
-+#define CH7322_EVENT_TXERR		0x80
-+#define CH7322_EVENT_HRST		0x40
-+#define CH7322_EVENT_HFST		0x20
-+#define CH7322_EVENT_PHACHG		0x10
-+#define CH7322_EVENT_ACTST		0x08
-+#define CH7322_EVENT_PHARDY		0x04
-+#define CH7322_EVENT_BSOK		0x02
-+#define CH7322_EVENT_ERRADCF		0x01
-+
-+#define CH7322_DID		0x51
-+#define CH7322_DID_CH7322		0x5b
-+#define CH7322_DID_CH7323		0x5f
-+
-+#define CH7322_REVISIONID	0x52
-+
-+#define CH7322_PARH		0x53
-+#define CH7322_PARL		0x54
-+
-+#define CH7322_IOCFG2		0x75
-+#define CH7322_IOCFG_CIO		0x80
-+#define CH7322_IOCFG_IOCFGMASK		0x78
-+#define CH7322_IOCFG_AUDIO		0x04
-+#define CH7322_IOCFG_SPAMST		0x02
-+#define CH7322_IOCFG_SPAMSP		0x01
-+
-+#define CH7322_CTL3		0x7b
-+#define CH7322_CTL3_SWENA		0x80
-+#define CH7322_CTL3_FC_INIT		0x40
-+#define CH7322_CTL3_SML_FL		0x20
-+#define CH7322_CTL3_SM_RDST		0x10
-+#define CH7322_CTL3_SPP_CIAH		0x08
-+#define CH7322_CTL3_SPP_CIAL		0x04
-+#define CH7322_CTL3_SPP_ACTH		0x02
-+#define CH7322_CTL3_SPP_ACTL		0x01
-+
-+/* BOK status means NACK */
-+#define CH7322_TX_FLAG_NACK	BIT(0)
-+/* Device will retry automatically */
-+#define CH7322_TX_FLAG_RETRY	BIT(1)
-+
-+struct ch7322 {
-+	struct i2c_client *i2c;
-+	struct regmap *regmap;
-+	struct cec_adapter *cec;
-+	struct mutex mutex;	/* device access mutex */
-+	u8 tx_flags;
-+};
-+
-+static const struct regmap_config ch7322_regmap = {
-+	.reg_bits = 8,
-+	.val_bits = 8,
-+	.max_register = 0x7f,
-+	.disable_locking = true,
-+
-+};
-+
-+static int ch7322_send_message(struct ch7322 *ch7322, const struct cec_msg *msg)
-+{
-+	unsigned int val;
-+	unsigned int len = msg->len;
-+	int ret;
-+	int i;
-+
-+	WARN_ON(!mutex_is_locked(&ch7322->mutex));
-+
-+	if (len > CH7322_WRBUF_LEN || len < 1)
-+		return -EINVAL;
-+
-+	ret = regmap_read(ch7322->regmap, CH7322_WRITE, &val);
-+	if (ret)
-+		return ret;
-+
-+	/* Buffer not ready */
-+	if (!(val & CH7322_WRITE_MSENT))
-+		return -EBUSY;
-+
-+	if (cec_msg_opcode(msg) == -1 &&
-+	    cec_msg_initiator(msg) == cec_msg_destination(msg)) {
-+		ch7322->tx_flags = CH7322_TX_FLAG_NACK | CH7322_TX_FLAG_RETRY;
-+	} else if (cec_msg_is_broadcast(msg)) {
-+		ch7322->tx_flags = CH7322_TX_FLAG_NACK;
-+	} else {
-+		ch7322->tx_flags = CH7322_TX_FLAG_RETRY;
-+	}
-+
-+	ret = regmap_write(ch7322->regmap, CH7322_WRITE, len - 1);
-+	if (ret)
-+		return ret;
-+
-+	for (i = 0; i < len; i++) {
-+		ret = regmap_write(ch7322->regmap,
-+				   CH7322_WRBUF + i, msg->msg[i]);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int ch7322_receive_message(struct ch7322 *ch7322, struct cec_msg *msg)
-+{
-+	unsigned int val;
-+	int ret = 0;
-+	int i;
-+
-+	WARN_ON(!mutex_is_locked(&ch7322->mutex));
-+
-+	ret = regmap_read(ch7322->regmap, CH7322_READ, &val);
-+	if (ret)
-+		return ret;
-+
-+	/* Message not ready */
-+	if (!(val & CH7322_READ_NRDT))
-+		return -EIO;
-+
-+	msg->len = (val & CH7322_READ_NMASK) + 1;
-+
-+	/* Read entire RDBUF to clear state */
-+	for (i = 0; i < CH7322_RDBUF_LEN; i++) {
-+		ret = regmap_read(ch7322->regmap, CH7322_RDBUF + i, &val);
-+		if (ret)
-+			return ret;
-+		msg->msg[i] = (u8)val;
-+	}
-+
-+	return 0;
-+}
-+
-+static void ch7322_tx_done(struct ch7322 *ch7322)
-+{
-+	int ret;
-+	unsigned int val;
-+	u8 status, flags;
-+
-+	mutex_lock(&ch7322->mutex);
-+	ret = regmap_read(ch7322->regmap, CH7322_WRITE, &val);
-+	flags = ch7322->tx_flags;
-+	mutex_unlock(&ch7322->mutex);
-+
-+	/*
-+	 * The device returns a one-bit OK status which usually means ACK but
-+	 * actually means NACK when sending a logical address query or a
-+	 * broadcast.
-+	 */
-+	if (ret)
-+		status = CEC_TX_STATUS_ERROR;
-+	else if ((val & CH7322_WRITE_BOK) && (flags & CH7322_TX_FLAG_NACK))
-+		status = CEC_TX_STATUS_NACK;
-+	else if (val & CH7322_WRITE_BOK)
-+		status = CEC_TX_STATUS_OK;
-+	else if (flags & CH7322_TX_FLAG_NACK)
-+		status = CEC_TX_STATUS_OK;
-+	else
-+		status = CEC_TX_STATUS_NACK;
-+
-+	if (status == CEC_TX_STATUS_NACK && (flags & CH7322_TX_FLAG_RETRY))
-+		status |= CEC_TX_STATUS_MAX_RETRIES;
-+
-+	cec_transmit_attempt_done(ch7322->cec, status);
-+}
-+
-+static void ch7322_rx_done(struct ch7322 *ch7322)
-+{
-+	struct cec_msg msg;
-+	int ret;
-+
-+	mutex_lock(&ch7322->mutex);
-+	ret = ch7322_receive_message(ch7322, &msg);
-+	mutex_unlock(&ch7322->mutex);
-+
-+	if (ret)
-+		dev_err(&ch7322->i2c->dev, "cec receive error: %d\n", ret);
-+	else
-+		cec_received_msg(ch7322->cec, &msg);
-+}
-+
-+/*
-+ * This device can either monitor the DDC lines to obtain the physical address
-+ * or it can allow the host to program it. This driver lets the device obtain
-+ * it.
-+ */
-+static void ch7322_phys_addr(struct ch7322 *ch7322)
-+{
-+	unsigned int pah, pal;
-+	int ret = 0;
-+
-+	mutex_lock(&ch7322->mutex);
-+	ret |= regmap_read(ch7322->regmap, CH7322_PARH, &pah);
-+	ret |= regmap_read(ch7322->regmap, CH7322_PARL, &pal);
-+	mutex_unlock(&ch7322->mutex);
-+
-+	if (ret)
-+		dev_err(&ch7322->i2c->dev, "phys addr error\n");
-+	else
-+		cec_s_phys_addr(ch7322->cec, pal | (pah << 8), false);
-+}
-+
-+static void ch7322_handle_events(struct ch7322 *ch7322)
-+{
-+	unsigned int data = 0;
-+
-+	mutex_lock(&ch7322->mutex);
-+	regmap_read(ch7322->regmap, CH7322_INTDATA, &data);
-+	regmap_write(ch7322->regmap, CH7322_INTDATA, data);
-+	mutex_unlock(&ch7322->mutex);
-+
-+	if (data & CH7322_INTDATA_HPDFALL)
-+		cec_phys_addr_invalidate(ch7322->cec);
-+
-+	if (data & CH7322_INTDATA_TXMSG)
-+		ch7322_tx_done(ch7322);
-+
-+	if (data & CH7322_INTDATA_RXMSG)
-+		ch7322_rx_done(ch7322);
-+
-+	if (data & CH7322_INTDATA_NEWPHA)
-+		ch7322_phys_addr(ch7322);
-+
-+	if (data & CH7322_INTDATA_ERROR)
-+		dev_dbg(&ch7322->i2c->dev, "unknown error\n");
-+}
-+
-+static irqreturn_t ch7322_irq(int irq, void *dev)
-+{
-+	struct ch7322 *ch7322 = dev;
-+
-+	ch7322_handle_events(ch7322);
-+
-+	return IRQ_HANDLED;
-+}
-+
-+/* This device is always enabled */
-+static int ch7322_cec_adap_enable(struct cec_adapter *adap, bool enable)
-+{
-+	return 0;
-+}
-+
-+static int ch7322_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
-+{
-+	struct ch7322 *ch7322 = cec_get_drvdata(adap);
-+	int ret;
-+
-+	mutex_lock(&ch7322->mutex);
-+	ret = regmap_update_bits(ch7322->regmap, CH7322_ADDLW,
-+				 CH7322_ADDLW_MASK, log_addr << 4);
-+	mutex_unlock(&ch7322->mutex);
-+
-+	return ret;
-+}
-+
-+static int ch7322_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
-+				    u32 signal_free_time, struct cec_msg *msg)
-+{
-+	struct ch7322 *ch7322 = cec_get_drvdata(adap);
-+	int ret;
-+
-+	mutex_lock(&ch7322->mutex);
-+	ret = ch7322_send_message(ch7322, msg);
-+	mutex_unlock(&ch7322->mutex);
-+
-+	return ret;
-+}
-+
-+static const struct cec_adap_ops ch7322_cec_adap_ops = {
-+	.adap_enable = ch7322_cec_adap_enable,
-+	.adap_log_addr = ch7322_cec_adap_log_addr,
-+	.adap_transmit = ch7322_cec_adap_transmit,
-+};
-+
-+static int ch7322_probe(struct i2c_client *client)
-+{
-+	struct ch7322 *ch7322;
-+	int ret;
-+	unsigned int val;
-+
-+	ch7322 = devm_kzalloc(&client->dev, sizeof(*ch7322), GFP_KERNEL);
-+	if (!ch7322)
-+		return -ENOMEM;
-+
-+	ch7322->regmap = devm_regmap_init_i2c(client, &ch7322_regmap);
-+	if (IS_ERR(ch7322->regmap))
-+		return PTR_ERR(ch7322->regmap);
-+
-+	ret = regmap_read(ch7322->regmap, CH7322_DID, &val);
-+	if (ret)
-+		return ret;
-+
-+	if (val != CH7322_DID_CH7322)
-+		return -ENOTSUPP;
-+
-+	mutex_init(&ch7322->mutex);
-+	ch7322->i2c = client;
-+	ch7322->tx_flags = 0;
-+
-+	i2c_set_clientdata(client, ch7322);
-+
-+	/* Disable auto mode */
-+	ret = regmap_write(ch7322->regmap, CH7322_MODE, CH7322_MODE_SW);
-+	if (ret)
-+		goto err_mutex;
-+
-+	/* Enable logical address register */
-+	ret = regmap_update_bits(ch7322->regmap, CH7322_CTL,
-+				 CH7322_CTL_SPADL, CH7322_CTL_SPADL);
-+	if (ret)
-+		goto err_mutex;
-+
-+	ch7322->cec = cec_allocate_adapter(&ch7322_cec_adap_ops, ch7322,
-+					   dev_name(&client->dev),
-+					   CEC_CAP_DEFAULTS, 1);
-+
-+	if (IS_ERR(ch7322->cec)) {
-+		ret = PTR_ERR(ch7322->cec);
-+		goto err_mutex;
-+	}
-+
-+	ret = cec_register_adapter(ch7322->cec, &client->dev);
-+	if (ret) {
-+		cec_delete_adapter(ch7322->cec);
-+		goto err_mutex;
-+	}
-+
-+	/* Configure and mask interrupt */
-+	ret = regmap_write(ch7322->regmap, CH7322_CFG1, 0);
-+	if (ret)
-+		goto err_cec;
-+
-+	ret = regmap_write(ch7322->regmap, CH7322_INTCTL, CH7322_INTCTL_INTPB);
-+	if (ret)
-+		goto err_cec;
-+
-+	ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
-+					ch7322_irq,
-+					IRQF_ONESHOT | IRQF_TRIGGER_RISING,
-+					client->name, ch7322);
-+	if (ret)
-+		goto err_cec;
-+
-+	ch7322_handle_events(ch7322);
-+
-+	/* Unmask interrupt */
-+	mutex_lock(&ch7322->mutex);
-+	ret = regmap_write(ch7322->regmap, CH7322_INTCTL, 0xff);
-+	mutex_unlock(&ch7322->mutex);
-+
-+	if (ret)
-+		goto err_cec;
-+
-+	dev_info(&client->dev, "device registered\n");
-+
-+	return 0;
-+
-+err_cec:
-+	cec_unregister_adapter(ch7322->cec);
-+
-+err_mutex:
-+	mutex_destroy(&ch7322->mutex);
-+	return ret;
-+}
-+
-+static int ch7322_remove(struct i2c_client *client)
-+{
-+	struct ch7322 *ch7322 = i2c_get_clientdata(client);
-+
-+	/* Mask interrupt */
-+	mutex_lock(&ch7322->mutex);
-+	regmap_write(ch7322->regmap, CH7322_INTCTL, CH7322_INTCTL_INTPB);
-+	mutex_unlock(&ch7322->mutex);
-+
-+	cec_unregister_adapter(ch7322->cec);
-+	mutex_destroy(&ch7322->mutex);
-+
-+	dev_info(&client->dev, "device unregistered\n");
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id ch7322_of_match[] = {
-+	{ .compatible = "chrontel,ch7322", },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, ch7322_of_match);
-+
-+static struct i2c_driver ch7322_i2c_driver = {
-+	.driver = {
-+		.name = "ch7322",
-+		.of_match_table = of_match_ptr(ch7322_of_match),
-+	},
-+	.probe_new	= ch7322_probe,
-+	.remove		= ch7322_remove,
-+};
-+
-+module_i2c_driver(ch7322_i2c_driver);
-+
-+MODULE_DESCRIPTION("Chrontel CH7322 CEC Controller Driver");
-+MODULE_AUTHOR("Jeff Chase <jnchase@google.com>");
-+MODULE_LICENSE("GPL");
--- 
-2.27.0.290.gba653c62da-goog
+Acked-by: Paul E. McKenney <paulmck@kernel.org> # from LKMM perspective
 
+>  .../translations/ko_KR/memory-barriers.txt         |  6 +++---
+>  arch/ia64/hp/common/sba_iommu.c                    | 12 ++++++------
+>  arch/parisc/kernel/pci-dma.c                       |  2 +-
+>  arch/x86/include/asm/dma-mapping.h                 |  4 ++--
+>  arch/x86/kernel/amd_gart_64.c                      |  2 +-
+>  drivers/parisc/sba_iommu.c                         | 14 +++++++-------
+>  include/linux/dma-mapping.h                        |  2 +-
+>  include/media/videobuf-dma-sg.h                    |  2 +-
+>  kernel/dma/debug.c                                 |  2 +-
+>  16 files changed, 38 insertions(+), 38 deletions(-)
+> 
+> diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
+> index 8c016d8c9862..d10d3fe604c5 100644
+> --- a/Documentation/PCI/pci.rst
+> +++ b/Documentation/PCI/pci.rst
+> @@ -265,7 +265,7 @@ Set the DMA mask size
+>  ---------------------
+>  .. note::
+>     If anything below doesn't make sense, please refer to
+> -   Documentation/DMA-API.txt. This section is just a reminder that
+> +   :doc:`/core-api/dma-api`. This section is just a reminder that
+>     drivers need to indicate DMA capabilities of the device and is not
+>     an authoritative source for DMA interfaces.
+>  
+> @@ -291,7 +291,7 @@ Many 64-bit "PCI" devices (before PCI-X) and some PCI-X devices are
+>  Setup shared control data
+>  -------------------------
+>  Once the DMA masks are set, the driver can allocate "consistent" (a.k.a. shared)
+> -memory.  See Documentation/DMA-API.txt for a full description of
+> +memory.  See :doc:`/core-api/dma-api` for a full description of
+>  the DMA APIs. This section is just a reminder that it needs to be done
+>  before enabling DMA on the device.
+>  
+> @@ -421,7 +421,7 @@ owners if there is one.
+>  
+>  Then clean up "consistent" buffers which contain the control data.
+>  
+> -See Documentation/DMA-API.txt for details on unmapping interfaces.
+> +See :doc:`/core-api/dma-api` for details on unmapping interfaces.
+>  
+>  
+>  Unregister from other subsystems
+> diff --git a/Documentation/block/biodoc.rst b/Documentation/block/biodoc.rst
+> index b964796ec9c7..ba7f45d0271c 100644
+> --- a/Documentation/block/biodoc.rst
+> +++ b/Documentation/block/biodoc.rst
+> @@ -196,7 +196,7 @@ a virtual address mapping (unlike the earlier scheme of virtual address
+>  do not have a corresponding kernel virtual address space mapping) and
+>  low-memory pages.
+>  
+> -Note: Please refer to Documentation/DMA-API-HOWTO.txt for a discussion
+> +Note: Please refer to :doc:`/core-api/dma-api-howto` for a discussion
+>  on PCI high mem DMA aspects and mapping of scatter gather lists, and support
+>  for 64 bit PCI.
+>  
+> diff --git a/Documentation/core-api/bus-virt-phys-mapping.rst b/Documentation/core-api/bus-virt-phys-mapping.rst
+> index 4bb07c2f3e7d..c7bc99cd2e21 100644
+> --- a/Documentation/core-api/bus-virt-phys-mapping.rst
+> +++ b/Documentation/core-api/bus-virt-phys-mapping.rst
+> @@ -8,7 +8,7 @@ How to access I/O mapped memory from within device drivers
+>  
+>  	The virt_to_bus() and bus_to_virt() functions have been
+>  	superseded by the functionality provided by the PCI DMA interface
+> -	(see Documentation/DMA-API-HOWTO.txt).  They continue
+> +	(see :doc:`/core-api/dma-api-howto`).  They continue
+>  	to be documented below for historical purposes, but new code
+>  	must not use them. --davidm 00/12/12
+>  
+> diff --git a/Documentation/core-api/dma-api.rst b/Documentation/core-api/dma-api.rst
+> index 2d8d2fed7317..63b4a2f20867 100644
+> --- a/Documentation/core-api/dma-api.rst
+> +++ b/Documentation/core-api/dma-api.rst
+> @@ -5,7 +5,7 @@ Dynamic DMA mapping using the generic device
+>  :Author: James E.J. Bottomley <James.Bottomley@HansenPartnership.com>
+>  
+>  This document describes the DMA API.  For a more gentle introduction
+> -of the API (and actual examples), see Documentation/DMA-API-HOWTO.txt.
+> +of the API (and actual examples), see :doc:`/core-api/dma-api-howto`.
+>  
+>  This API is split into two pieces.  Part I describes the basic API.
+>  Part II describes extensions for supporting non-consistent memory
+> @@ -471,7 +471,7 @@ without the _attrs suffixes, except that they pass an optional
+>  dma_attrs.
+>  
+>  The interpretation of DMA attributes is architecture-specific, and
+> -each attribute should be documented in Documentation/DMA-attributes.txt.
+> +each attribute should be documented in :doc:`/core-api/dma-attributes`.
+>  
+>  If dma_attrs are 0, the semantics of each of these functions
+>  is identical to those of the corresponding function
+> @@ -484,7 +484,7 @@ for DMA::
+>  
+>  	#include <linux/dma-mapping.h>
+>  	/* DMA_ATTR_FOO should be defined in linux/dma-mapping.h and
+> -	* documented in Documentation/DMA-attributes.txt */
+> +	* documented in Documentation/core-api/dma-attributes.rst */
+>  	...
+>  
+>  		unsigned long attr;
+> diff --git a/Documentation/core-api/dma-isa-lpc.rst b/Documentation/core-api/dma-isa-lpc.rst
+> index b1ec7b16c21f..e59a3d35a93d 100644
+> --- a/Documentation/core-api/dma-isa-lpc.rst
+> +++ b/Documentation/core-api/dma-isa-lpc.rst
+> @@ -17,7 +17,7 @@ To do ISA style DMA you need to include two headers::
+>  	#include <asm/dma.h>
+>  
+>  The first is the generic DMA API used to convert virtual addresses to
+> -bus addresses (see Documentation/DMA-API.txt for details).
+> +bus addresses (see :doc:`/core-api/dma-api` for details).
+>  
+>  The second contains the routines specific to ISA DMA transfers. Since
+>  this is not present on all platforms make sure you construct your
+> diff --git a/Documentation/driver-api/usb/dma.rst b/Documentation/driver-api/usb/dma.rst
+> index 59d5aee89e37..2b3dbd3265b4 100644
+> --- a/Documentation/driver-api/usb/dma.rst
+> +++ b/Documentation/driver-api/usb/dma.rst
+> @@ -10,7 +10,7 @@ API overview
+>  
+>  The big picture is that USB drivers can continue to ignore most DMA issues,
+>  though they still must provide DMA-ready buffers (see
+> -``Documentation/DMA-API-HOWTO.txt``).  That's how they've worked through
+> +:doc:`/core-api/dma-api-howto`).  That's how they've worked through
+>  the 2.4 (and earlier) kernels, or they can now be DMA-aware.
+>  
+>  DMA-aware usb drivers:
+> @@ -60,7 +60,7 @@ and effects like cache-trashing can impose subtle penalties.
+>    force a consistent memory access ordering by using memory barriers.  It's
+>    not using a streaming DMA mapping, so it's good for small transfers on
+>    systems where the I/O would otherwise thrash an IOMMU mapping.  (See
+> -  ``Documentation/DMA-API-HOWTO.txt`` for definitions of "coherent" and
+> +  :doc:`/core-api/dma-api-howto` for definitions of "coherent" and
+>    "streaming" DMA mappings.)
+>  
+>    Asking for 1/Nth of a page (as well as asking for N pages) is reasonably
+> @@ -91,7 +91,7 @@ Working with existing buffers
+>  Existing buffers aren't usable for DMA without first being mapped into the
+>  DMA address space of the device.  However, most buffers passed to your
+>  driver can safely be used with such DMA mapping.  (See the first section
+> -of Documentation/DMA-API-HOWTO.txt, titled "What memory is DMA-able?")
+> +of :doc:`/core-api/dma-api-howto`, titled "What memory is DMA-able?")
+>  
+>  - When you're using scatterlists, you can map everything at once.  On some
+>    systems, this kicks in an IOMMU and turns the scatterlists into single
+> diff --git a/Documentation/memory-barriers.txt b/Documentation/memory-barriers.txt
+> index eaabc3134294..0e4947a8282d 100644
+> --- a/Documentation/memory-barriers.txt
+> +++ b/Documentation/memory-barriers.txt
+> @@ -546,8 +546,8 @@ There are certain things that the Linux kernel memory barriers do not guarantee:
+>  	[*] For information on bus mastering DMA and coherency please read:
+>  
+>  	    Documentation/driver-api/pci/pci.rst
+> -	    Documentation/DMA-API-HOWTO.txt
+> -	    Documentation/DMA-API.txt
+> +	    Documentation/core-api/dma-api-howto.rst
+> +	    Documentation/core-api/dma-api.rst
+>  
+>  
+>  DATA DEPENDENCY BARRIERS (HISTORICAL)
+> @@ -1932,7 +1932,7 @@ There are some more advanced barrier functions:
+>       here.
+>  
+>       See the subsection "Kernel I/O barrier effects" for more information on
+> -     relaxed I/O accessors and the Documentation/DMA-API.txt file for more
+> +     relaxed I/O accessors and the Documentation/core-api/dma-api.rst file for more
+>       information on consistent memory.
+>  
+>  
+> diff --git a/Documentation/translations/ko_KR/memory-barriers.txt b/Documentation/translations/ko_KR/memory-barriers.txt
+> index 34d041d68f78..604cee350e53 100644
+> --- a/Documentation/translations/ko_KR/memory-barriers.txt
+> +++ b/Documentation/translations/ko_KR/memory-barriers.txt
+> @@ -570,8 +570,8 @@ ACQUIRE 는 해당 오퍼레이션의 로드 부분에만 적용되고 RELEASE 
+>  	[*] 버스 마스터링 DMA 와 일관성에 대해서는 다음을 참고하시기 바랍니다:
+>  
+>  	    Documentation/driver-api/pci/pci.rst
+> -	    Documentation/DMA-API-HOWTO.txt
+> -	    Documentation/DMA-API.txt
+> +	    Documentation/core-api/dma-api-howto.rst
+> +	    Documentation/core-api/dma-api.rst
+>  
+>  
+>  데이터 의존성 배리어 (역사적)
+> @@ -1907,7 +1907,7 @@ Mandatory 배리어들은 SMP 시스템에서도 UP 시스템에서도 SMP 효
+>  
+>       writel_relaxed() 와 같은 완화된 I/O 접근자들에 대한 자세한 내용을 위해서는
+>       "커널 I/O 배리어의 효과" 섹션을, consistent memory 에 대한 자세한 내용을
+> -     위해선 Documentation/DMA-API.txt 문서를 참고하세요.
+> +     위해선 Documentation/core-api/dma-api.rst 문서를 참고하세요.
+>  
+>  
+>  =========================
+> diff --git a/arch/ia64/hp/common/sba_iommu.c b/arch/ia64/hp/common/sba_iommu.c
+> index a806227c1fad..656a4888c300 100644
+> --- a/arch/ia64/hp/common/sba_iommu.c
+> +++ b/arch/ia64/hp/common/sba_iommu.c
+> @@ -907,7 +907,7 @@ sba_mark_invalid(struct ioc *ioc, dma_addr_t iova, size_t byte_cnt)
+>   * @dir: dma direction
+>   * @attrs: optional dma attributes
+>   *
+> - * See Documentation/DMA-API-HOWTO.txt
+> + * See Documentation/core-api/dma-api-howto.rst
+>   */
+>  static dma_addr_t sba_map_page(struct device *dev, struct page *page,
+>  			       unsigned long poff, size_t size,
+> @@ -1028,7 +1028,7 @@ sba_mark_clean(struct ioc *ioc, dma_addr_t iova, size_t size)
+>   * @dir:  R/W or both.
+>   * @attrs: optional dma attributes
+>   *
+> - * See Documentation/DMA-API-HOWTO.txt
+> + * See Documentation/core-api/dma-api-howto.rst
+>   */
+>  static void sba_unmap_page(struct device *dev, dma_addr_t iova, size_t size,
+>  			   enum dma_data_direction dir, unsigned long attrs)
+> @@ -1105,7 +1105,7 @@ static void sba_unmap_page(struct device *dev, dma_addr_t iova, size_t size,
+>   * @size:  number of bytes mapped in driver buffer.
+>   * @dma_handle:  IOVA of new buffer.
+>   *
+> - * See Documentation/DMA-API-HOWTO.txt
+> + * See Documentation/core-api/dma-api-howto.rst
+>   */
+>  static void *
+>  sba_alloc_coherent(struct device *dev, size_t size, dma_addr_t *dma_handle,
+> @@ -1162,7 +1162,7 @@ sba_alloc_coherent(struct device *dev, size_t size, dma_addr_t *dma_handle,
+>   * @vaddr:  virtual address IOVA of "consistent" buffer.
+>   * @dma_handler:  IO virtual address of "consistent" buffer.
+>   *
+> - * See Documentation/DMA-API-HOWTO.txt
+> + * See Documentation/core-api/dma-api-howto.rst
+>   */
+>  static void sba_free_coherent(struct device *dev, size_t size, void *vaddr,
+>  			      dma_addr_t dma_handle, unsigned long attrs)
+> @@ -1425,7 +1425,7 @@ static void sba_unmap_sg_attrs(struct device *dev, struct scatterlist *sglist,
+>   * @dir:  R/W or both.
+>   * @attrs: optional dma attributes
+>   *
+> - * See Documentation/DMA-API-HOWTO.txt
+> + * See Documentation/core-api/dma-api-howto.rst
+>   */
+>  static int sba_map_sg_attrs(struct device *dev, struct scatterlist *sglist,
+>  			    int nents, enum dma_data_direction dir,
+> @@ -1524,7 +1524,7 @@ static int sba_map_sg_attrs(struct device *dev, struct scatterlist *sglist,
+>   * @dir:  R/W or both.
+>   * @attrs: optional dma attributes
+>   *
+> - * See Documentation/DMA-API-HOWTO.txt
+> + * See Documentation/core-api/dma-api-howto.rst
+>   */
+>  static void sba_unmap_sg_attrs(struct device *dev, struct scatterlist *sglist,
+>  			       int nents, enum dma_data_direction dir,
+> diff --git a/arch/parisc/kernel/pci-dma.c b/arch/parisc/kernel/pci-dma.c
+> index 70cd24bdcfec..4f1596bb1936 100644
+> --- a/arch/parisc/kernel/pci-dma.c
+> +++ b/arch/parisc/kernel/pci-dma.c
+> @@ -3,7 +3,7 @@
+>  ** PARISC 1.1 Dynamic DMA mapping support.
+>  ** This implementation is for PA-RISC platforms that do not support
+>  ** I/O TLBs (aka DMA address translation hardware).
+> -** See Documentation/DMA-API-HOWTO.txt for interface definitions.
+> +** See Documentation/core-api/dma-api-howto.rst for interface definitions.
+>  **
+>  **      (c) Copyright 1999,2000 Hewlett-Packard Company
+>  **      (c) Copyright 2000 Grant Grundler
+> diff --git a/arch/x86/include/asm/dma-mapping.h b/arch/x86/include/asm/dma-mapping.h
+> index 6b15a24930e0..fed67eafcacc 100644
+> --- a/arch/x86/include/asm/dma-mapping.h
+> +++ b/arch/x86/include/asm/dma-mapping.h
+> @@ -3,8 +3,8 @@
+>  #define _ASM_X86_DMA_MAPPING_H
+>  
+>  /*
+> - * IOMMU interface. See Documentation/DMA-API-HOWTO.txt and
+> - * Documentation/DMA-API.txt for documentation.
+> + * IOMMU interface. See Documentation/core-api/dma-api-howto.rst and
+> + * Documentation/core-api/dma-api.rst for documentation.
+>   */
+>  
+>  #include <linux/scatterlist.h>
+> diff --git a/arch/x86/kernel/amd_gart_64.c b/arch/x86/kernel/amd_gart_64.c
+> index 17cb5b933dcf..e89031e9c847 100644
+> --- a/arch/x86/kernel/amd_gart_64.c
+> +++ b/arch/x86/kernel/amd_gart_64.c
+> @@ -6,7 +6,7 @@
+>   * This allows to use PCI devices that only support 32bit addresses on systems
+>   * with more than 4GB.
+>   *
+> - * See Documentation/DMA-API-HOWTO.txt for the interface specification.
+> + * See Documentation/core-api/dma-api-howto.rst for the interface specification.
+>   *
+>   * Copyright 2002 Andi Kleen, SuSE Labs.
+>   */
+> diff --git a/drivers/parisc/sba_iommu.c b/drivers/parisc/sba_iommu.c
+> index 7e112829d250..5368452eb5a6 100644
+> --- a/drivers/parisc/sba_iommu.c
+> +++ b/drivers/parisc/sba_iommu.c
+> @@ -666,7 +666,7 @@ sba_mark_invalid(struct ioc *ioc, dma_addr_t iova, size_t byte_cnt)
+>   * @dev: instance of PCI owned by the driver that's asking
+>   * @mask:  number of address bits this PCI device can handle
+>   *
+> - * See Documentation/DMA-API-HOWTO.txt
+> + * See Documentation/core-api/dma-api-howto.rst
+>   */
+>  static int sba_dma_supported( struct device *dev, u64 mask)
+>  {
+> @@ -698,7 +698,7 @@ static int sba_dma_supported( struct device *dev, u64 mask)
+>   * @size:  number of bytes to map in driver buffer.
+>   * @direction:  R/W or both.
+>   *
+> - * See Documentation/DMA-API-HOWTO.txt
+> + * See Documentation/core-api/dma-api-howto.rst
+>   */
+>  static dma_addr_t
+>  sba_map_single(struct device *dev, void *addr, size_t size,
+> @@ -788,7 +788,7 @@ sba_map_page(struct device *dev, struct page *page, unsigned long offset,
+>   * @size:  number of bytes mapped in driver buffer.
+>   * @direction:  R/W or both.
+>   *
+> - * See Documentation/DMA-API-HOWTO.txt
+> + * See Documentation/core-api/dma-api-howto.rst
+>   */
+>  static void
+>  sba_unmap_page(struct device *dev, dma_addr_t iova, size_t size,
+> @@ -867,7 +867,7 @@ sba_unmap_page(struct device *dev, dma_addr_t iova, size_t size,
+>   * @size:  number of bytes mapped in driver buffer.
+>   * @dma_handle:  IOVA of new buffer.
+>   *
+> - * See Documentation/DMA-API-HOWTO.txt
+> + * See Documentation/core-api/dma-api-howto.rst
+>   */
+>  static void *sba_alloc(struct device *hwdev, size_t size, dma_addr_t *dma_handle,
+>  		gfp_t gfp, unsigned long attrs)
+> @@ -898,7 +898,7 @@ static void *sba_alloc(struct device *hwdev, size_t size, dma_addr_t *dma_handle
+>   * @vaddr:  virtual address IOVA of "consistent" buffer.
+>   * @dma_handler:  IO virtual address of "consistent" buffer.
+>   *
+> - * See Documentation/DMA-API-HOWTO.txt
+> + * See Documentation/core-api/dma-api-howto.rst
+>   */
+>  static void
+>  sba_free(struct device *hwdev, size_t size, void *vaddr,
+> @@ -933,7 +933,7 @@ int dump_run_sg = 0;
+>   * @nents:  number of entries in list
+>   * @direction:  R/W or both.
+>   *
+> - * See Documentation/DMA-API-HOWTO.txt
+> + * See Documentation/core-api/dma-api-howto.rst
+>   */
+>  static int
+>  sba_map_sg(struct device *dev, struct scatterlist *sglist, int nents,
+> @@ -1017,7 +1017,7 @@ sba_map_sg(struct device *dev, struct scatterlist *sglist, int nents,
+>   * @nents:  number of entries in list
+>   * @direction:  R/W or both.
+>   *
+> - * See Documentation/DMA-API-HOWTO.txt
+> + * See Documentation/core-api/dma-api-howto.rst
+>   */
+>  static void 
+>  sba_unmap_sg(struct device *dev, struct scatterlist *sglist, int nents,
+> diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+> index 78f677cf45ab..ef2b153ddbd9 100644
+> --- a/include/linux/dma-mapping.h
+> +++ b/include/linux/dma-mapping.h
+> @@ -14,7 +14,7 @@
+>  
+>  /**
+>   * List of possible attributes associated with a DMA mapping. The semantics
+> - * of each attribute should be defined in Documentation/DMA-attributes.txt.
+> + * of each attribute should be defined in Documentation/core-api/dma-attributes.rst.
+>   */
+>  
+>  /*
+> diff --git a/include/media/videobuf-dma-sg.h b/include/media/videobuf-dma-sg.h
+> index b89d5e31f172..34450f7ad510 100644
+> --- a/include/media/videobuf-dma-sg.h
+> +++ b/include/media/videobuf-dma-sg.h
+> @@ -31,7 +31,7 @@
+>   *	does memory allocation too using vmalloc_32().
+>   *
+>   * videobuf_dma_*()
+> - *	see Documentation/DMA-API-HOWTO.txt, these functions to
+> + *	see Documentation/core-api/dma-api-howto.rst, these functions to
+>   *	basically the same.  The map function does also build a
+>   *	scatterlist for the buffer (and unmap frees it ...)
+>   *
+> diff --git a/kernel/dma/debug.c b/kernel/dma/debug.c
+> index 36c962a86bf2..f97f088ace7e 100644
+> --- a/kernel/dma/debug.c
+> +++ b/kernel/dma/debug.c
+> @@ -1071,7 +1071,7 @@ static void check_unmap(struct dma_debug_entry *ref)
+>  	/*
+>  	 * Drivers should use dma_mapping_error() to check the returned
+>  	 * addresses of dma_map_single() and dma_map_page().
+> -	 * If not, print this warning message. See Documentation/DMA-API.txt.
+> +	 * If not, print this warning message. See Documentation/core-api/dma-api.rst.
+>  	 */
+>  	if (entry->map_err_type == MAP_ERR_NOT_CHECKED) {
+>  		err_printk(ref->dev, entry,
+> -- 
+> 2.26.2
+> 
