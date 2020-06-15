@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 076FA1F9197
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 10:34:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 84C741F919E
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 10:36:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728746AbgFOIeL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jun 2020 04:34:11 -0400
-Received: from mga05.intel.com ([192.55.52.43]:35382 "EHLO mga05.intel.com"
+        id S1729009AbgFOIgU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jun 2020 04:36:20 -0400
+Received: from mga17.intel.com ([192.55.52.151]:54779 "EHLO mga17.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728496AbgFOIeK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jun 2020 04:34:10 -0400
-IronPort-SDR: DbJgw5KS+TjPebcejp1f8G03DNIAspTaNGn6wBAdPQ2oml1LKZLiB1crbJUAmCiw2Mp5BoJk9L
- VNSxEboY9Yyw==
+        id S1728649AbgFOIgU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jun 2020 04:36:20 -0400
+IronPort-SDR: AVepICemMQsqfWqocez1wQG33PzWJROdcvHIU+kbH7dyd3wJcXwCusrDVGgKcsn+hBkQcg8zXb
+ oCO/t5YRF31A==
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 01:34:10 -0700
-IronPort-SDR: fJNN8kM3l+om9KRDfoRpDkOTQCw0I1KtF30v+0j16ocSnU8uyjamclCB+xv4+HusOxmZWFlHRe
- 3RWrublMK4zA==
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 01:36:19 -0700
+IronPort-SDR: 4Ac4NJiwwZ+NksetaEqoasteemgjosEJjMpHlHdHU/xxK7yhyikgAgIocwSiiTKIvQoYCiSwdo
+ WhREz2OWqQHA==
 X-IronPort-AV: E=Sophos;i="5.73,514,1583222400"; 
-   d="scan'208";a="351291699"
+   d="scan'208";a="308056688"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 01:34:08 -0700
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 01:36:16 -0700
 Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 0F1E820448; Mon, 15 Jun 2020 11:34:06 +0300 (EEST)
-Date:   Mon, 15 Jun 2020 11:34:06 +0300
+        id E4BF020448; Mon, 15 Jun 2020 11:36:14 +0300 (EEST)
+Date:   Mon, 15 Jun 2020 11:36:14 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Jacopo Mondi <jacopo+renesas@jmondi.org>
 Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
@@ -34,14 +34,15 @@ Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
         kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
         hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
         linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4 9/9] media: rcar-csi2: Negotiate data lanes number
-Message-ID: <20200615083405.GP16711@paasikivi.fi.intel.com>
+Subject: Re: [PATCH v4 1/9] media: v4l2-subdv: Introduce
+ [get|set]_mbus_config pad ops
+Message-ID: <20200615083614.GQ16711@paasikivi.fi.intel.com>
 References: <20200611161651.264633-1-jacopo+renesas@jmondi.org>
- <20200611161651.264633-10-jacopo+renesas@jmondi.org>
+ <20200611161651.264633-2-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200611161651.264633-10-jacopo+renesas@jmondi.org>
+In-Reply-To: <20200611161651.264633-2-jacopo+renesas@jmondi.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
@@ -50,152 +51,69 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jacopo,
 
-On Thu, Jun 11, 2020 at 06:16:51PM +0200, Jacopo Mondi wrote:
-> Use the newly introduced get_mbus_config() subdevice pad operation to
-> retrieve the remote subdevice MIPI CSI-2 bus configuration and configure
-> the number of active data lanes accordingly.
+s/subd\Kv/ev/ in the subject.
+
+On Thu, Jun 11, 2020 at 06:16:43PM +0200, Jacopo Mondi wrote:
+> Introduce two new pad operations to allow retrieving and configuring the
+> media bus parameters on a subdevice pad.
 > 
-> In order to be able to call the remote subdevice operation cache the
-> index of the remote pad connected to the single CSI-2 input port.
+> The newly introduced operations aims to replace the s/g_mbus_config video
+> operations, which have been on their way for deprecation since a long
+> time.
 > 
 > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > ---
->  drivers/media/platform/rcar-vin/rcar-csi2.c | 61 ++++++++++++++++++++-
->  1 file changed, 58 insertions(+), 3 deletions(-)
+>  include/media/v4l2-subdev.h | 27 +++++++++++++++++++++++++++
+>  1 file changed, 27 insertions(+)
 > 
-> diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> index 151e6a90c5fb..11769f004fd8 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> @@ -363,6 +363,7 @@ struct rcar_csi2 {
->  	struct v4l2_async_notifier notifier;
->  	struct v4l2_async_subdev asd;
->  	struct v4l2_subdev *remote;
-> +	unsigned int remote_pad;
->  
->  	struct v4l2_mbus_framefmt mf;
->  
-> @@ -371,6 +372,7 @@ struct rcar_csi2 {
->  
->  	unsigned short lanes;
->  	unsigned char lane_swap[4];
-> +	unsigned short active_lanes;
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index f7fe78a6f65a..90d9dfa92cf0 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -670,6 +670,29 @@ struct v4l2_subdev_pad_config {
+>   *
+>   * @set_frame_desc: set the low level media bus frame parameters, @fd array
+>   *                  may be adjusted by the subdev driver to device capabilities.
+> + *
+> + * @get_mbus_config: get the media bus configuration of a remote sub-device.
+> + *		     The media bus configuration is usually retrieved from the
+> + *		     firmware interface at sub-device probe time, immediately
+> + *		     applied to the hardware and eventually adjusted by the
+> + *		     driver. Remote sub-devices (usually video receivers) shall
+> + *		     use this operation to query the transmitting end bus
+> + *		     configuration in order to adjust their own one accordingly.
+> + *		     Callers should make sure they get the most up-to-date as
+> + *		     possible configuration from the remote end, likely calling
+> + *		     this operation as close as possible to stream on time. The
+> + *		     operation is allowed to fail if the pad index it has been
+> + *		     called on is not valid.
 
-Do you need this? I.e. should you not always request this from the
-transmitter device?
+Shouldn't it always fail in that case? I.e. s/is allowed to/shall/ .
 
+> + *
+> + * @set_mbus_config: set the media bus configuration of a remote sub-device.
+> + *		     This operations is intended to allow, in combination with
+> + *		     the get_mbus_config operation, the negotiation of media bus
+> + *		     configuration parameters between media sub-devices. The
+> + *		     operation shall not fail if the requested configuration is
+> + *		     not supported, but the driver shall update the content of
+> + *		     the %config argument to reflect what has been actually
+> + *		     applied to the hardware. The operation is allowed to fail
+> + *		     if the pad index it has been called on is not valid.
+>   */
+>  struct v4l2_subdev_pad_ops {
+>  	int (*init_cfg)(struct v4l2_subdev *sd,
+> @@ -710,6 +733,10 @@ struct v4l2_subdev_pad_ops {
+>  			      struct v4l2_mbus_frame_desc *fd);
+>  	int (*set_frame_desc)(struct v4l2_subdev *sd, unsigned int pad,
+>  			      struct v4l2_mbus_frame_desc *fd);
+> +	int (*get_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+> +			       struct v4l2_mbus_config *config);
+> +	int (*set_mbus_config)(struct v4l2_subdev *sd, unsigned int pad,
+> +			       struct v4l2_mbus_config *config);
 >  };
 >  
->  static inline struct rcar_csi2 *sd_to_csi2(struct v4l2_subdev *sd)
-> @@ -414,7 +416,7 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
->  
->  	/* Wait for the clock and data lanes to enter LP-11 state. */
->  	for (timeout = 0; timeout <= 20; timeout++) {
-> -		const u32 lane_mask = (1 << priv->lanes) - 1;
-> +		const u32 lane_mask = (1 << priv->active_lanes) - 1;
->  
->  		if ((rcsi2_read(priv, PHCLM_REG) & PHCLM_STOPSTATECKL)  &&
->  		    (rcsi2_read(priv, PHDLM_REG) & lane_mask) == lane_mask)
-> @@ -471,11 +473,57 @@ static int rcsi2_calc_mbps(struct rcar_csi2 *priv, unsigned int bpp)
->  	 * bps = link_freq * 2
->  	 */
->  	mbps = v4l2_ctrl_g_ctrl_int64(ctrl) * bpp;
-> -	do_div(mbps, priv->lanes * 1000000);
-> +	do_div(mbps, priv->active_lanes * 1000000);
->  
->  	return mbps;
->  }
->  
-> +static int rcsi2_config_active_lanes(struct rcar_csi2 *priv)
-> +{
-> +	struct v4l2_mbus_config mbus_config = { 0 };
-> +	unsigned int num_lanes = (-1U);
-> +	int ret;
-> +
-> +	priv->active_lanes = priv->lanes;
-> +	ret = v4l2_subdev_call(priv->remote, pad, get_mbus_config,
-> +			       priv->remote_pad, &mbus_config);
-> +	if (ret == -ENOIOCTLCMD) {
-> +		dev_dbg(priv->dev, "No remote mbus configuration available\n");
-> +		return 0;
-> +	}
-> +
-> +	if (ret) {
-> +		dev_err(priv->dev, "Failed to get remote mbus configuration\n");
-> +		return ret;
-> +	}
-> +
-> +	if (mbus_config.type != V4L2_MBUS_CSI2_DPHY) {
-> +		dev_err(priv->dev, "Unsupported media bus type %u\n",
-> +			mbus_config.type);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (mbus_config.flags & V4L2_MBUS_CSI2_1_LANE)
-> +		num_lanes = 1;
-> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_2_LANE)
-> +		num_lanes = 2;
-> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_3_LANE)
-> +		num_lanes = 3;
-> +	else if (mbus_config.flags & V4L2_MBUS_CSI2_4_LANE)
-> +		num_lanes = 4;
-
-This is the downside of using flags... Anyway, I guess this is certainly
-fine now.
-
-> +
-> +	if (num_lanes > priv->lanes) {
-> +		dev_err(priv->dev,
-> +			"Unsupported mbus config: too many data lanes %u\n",
-> +			num_lanes);
-> +		return -EINVAL;
-> +	}
-> +
-> +	priv->active_lanes = num_lanes;
-> +
-> +	return 0;
-> +}
-> +
->  static int rcsi2_start_receiver(struct rcar_csi2 *priv)
->  {
->  	const struct rcar_csi2_format *format;
-> @@ -490,6 +538,11 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
->  	/* Code is validated in set_fmt. */
->  	format = rcsi2_code_to_fmt(priv->mf.code);
->  
-> +	/* Get the remote mbus config to get the number of enabled lanes. */
-> +	ret = rcsi2_config_active_lanes(priv);
-> +	if (ret)
-> +		return ret;
-> +
->  	/*
->  	 * Enable all supported CSI-2 channels with virtual channel and
->  	 * data type matching.
-> @@ -522,7 +575,7 @@ static int rcsi2_start_receiver(struct rcar_csi2 *priv)
->  	}
->  
->  	phycnt = PHYCNT_ENABLECLK;
-> -	phycnt |= (1 << priv->lanes) - 1;
-> +	phycnt |= (1 << priv->active_lanes) - 1;
->  
->  	mbps = rcsi2_calc_mbps(priv, format->bpp);
->  	if (mbps < 0)
-> @@ -748,6 +801,7 @@ static int rcsi2_notify_bound(struct v4l2_async_notifier *notifier,
->  	}
->  
->  	priv->remote = subdev;
-> +	priv->remote_pad = pad;
->  
->  	dev_dbg(priv->dev, "Bound %s pad: %d\n", subdev->name, pad);
->  
-> @@ -793,6 +847,7 @@ static int rcsi2_parse_v4l2(struct rcar_csi2 *priv,
->  			priv->lanes);
->  		return -EINVAL;
->  	}
-> +	priv->active_lanes = priv->lanes;
->  
->  	for (i = 0; i < ARRAY_SIZE(priv->lane_swap); i++) {
->  		priv->lane_swap[i] = i < priv->lanes ?
+>  /**
 
 -- 
 Kind regards,
