@@ -2,301 +2,268 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F99E1F99B3
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 16:11:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9BB4B1F99E6
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 16:18:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730177AbgFOOLc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jun 2020 10:11:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35198 "EHLO
+        id S1730434AbgFOORg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jun 2020 10:17:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36126 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729243AbgFOOLa (ORCPT
+        with ESMTP id S1730082AbgFOORf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jun 2020 10:11:30 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 234FDC05BD43
-        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2020 07:11:30 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id i8so3141860lfo.4
-        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2020 07:11:30 -0700 (PDT)
+        Mon, 15 Jun 2020 10:17:35 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E396C05BD43
+        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2020 07:17:35 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id h22so3828510pjf.1
+        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2020 07:17:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=nn2A50oo7axmTzb8pTNpospU/7dTZtc7rnSXeJoWkDs=;
-        b=tEfKsR7H1hKnMlIixTZjscTWn3hkX9wEEdkMw+UKlfDDJKgV9aYx3IFd3t62axXdZZ
-         EqqFPdJ4PtK5yBk773cYTFBS/V50FYgy0Gwwp5l1FsWwozXvPMhBRQdNxNuEBzyEP+gM
-         rFB0GxdHIsHzcpOBIZVF+ThAgwLJ8z6n4qdZOSFc4CtZ98yPftm5vRuzBRdCIUpkkUsb
-         36Sg/0FSaej/Sb14eZZ07GMed6b3rbW3M9jxOTpvc4MasIojFHHWgM/bvM549+weocjn
-         x1vKDcLG62nWj5ZHXUWza54HydpRpkcX2KrVFcU/GqEaab4Uqqd9CQbv4a1BhTwr1fts
-         5eDQ==
+        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=ZG1ZhoZ17C2Xkrj8ry7x1G0fc2bFn4R+IS3sxHvNHdM=;
+        b=T5oSEbiHg7+qBkm9MxKxZPfcrW/HJ66KCZEGJmkfuEeQafEv6QI7MLg41el99wdJbM
+         yoj4IQ14/FoUXS2dkMaTKN5tzmDLrMtymZpgMB26xQWWu1bxbcSXvWfpPXeBQXoTjG1L
+         /yQDhsvgXRGvAV8lMq+sOyK5Nvlm+c27izY1AFwcaUvDXpfPHP0yOpxvMDJ1Xj0/kIX0
+         qc6NREkuGXCZ3lCHdy33phUxM7xuVrf06P/vIwYo/bJZJaPKQVC93mQrF5NZhCcyrloR
+         m13gqsqRlH8qBN/A9BYF58QilZTnAzrjuH6wVxhbTcEbKGjwTg7FaC9hhnaYyGD77v/W
+         kVcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=nn2A50oo7axmTzb8pTNpospU/7dTZtc7rnSXeJoWkDs=;
-        b=sGn2Dh6ifkaN8hUX7LnbGhuvoTqo/aFaI0dZljkJ72y2oj6mAD0MdfsQSQ4ecziBqS
-         sPM84onjF8GOpEaXRaG2KPh4ECOV9wy7k9EKlmdxWTA8Hf46AE15dQl/pNlWyiIqvIZf
-         lwbu/weKVVYlYVBcqhUVXGQoFNFFEr2USLX0//xp/xdylCxR3DWR/xzohICKaMSvIysE
-         mLR/dXcg4IFtb2OUi5HqLxpY4lsGcBI9fnppi3yU+LaePT1n0fY0IjxQHTSGpZLFVH6B
-         vCOBeYP/6qp+gtt7s+Ep2LRZHOYLSf2VMENzMwUsIehR6m78EKmWqv0C8XqRafdS5Ym2
-         0cmQ==
-X-Gm-Message-State: AOAM530LY6ubHLO18U6QZFmedxs2+x5iD1AwwrXmV4dVes3lb6BmzNcF
-        XLBbwC4uCjfAE3ckCWI0GB5/NA==
-X-Google-Smtp-Source: ABdhPJxGF4BSVnKXqfGj0+gNMNUhfNOr92tkqwUTlc+41fuoeBUuO/Ce5g6gBhDFhmbFUM90hnNTlw==
-X-Received: by 2002:ac2:4c21:: with SMTP id u1mr13709213lfq.185.1592230288292;
-        Mon, 15 Jun 2020 07:11:28 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id d8sm632884lfa.16.2020.06.15.07.11.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 15 Jun 2020 07:11:27 -0700 (PDT)
-Date:   Mon, 15 Jun 2020 16:11:26 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Michael Rodin <mrodin@de.adit-jv.com>
-Cc:     Suresh Udipi <sudipi@jp.adit-jv.com>, efriedrich@de.adit-jv.com,
-        erosca@de.adit-jv.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        mchehab@kernel.org, michael@rodin.online,
-        securitycheck@denso.co.jp,
-        Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
-Subject: Re: [PATCH v6] media: rcar-csi2: Correct the selection of hsfreqrange
-Message-ID: <20200615141126.GE915368@oden.dyn.berto.se>
-References: <20200605184426.GA5206@vmlxhi-121.adit-jv.com>
- <1591586703-32246-1-git-send-email-sudipi@jp.adit-jv.com>
- <20200610134004.GA192296@oden.dyn.berto.se>
- <20200612031051.GA18602@jp-u0004>
- <20200612172806.GA46338@vmlxhi-121.adit-jv.com>
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=ZG1ZhoZ17C2Xkrj8ry7x1G0fc2bFn4R+IS3sxHvNHdM=;
+        b=B5G5j2Ttd4NvTDXuq5A+zMt1lPHbgZU/r1S5DlUw+HZZI5xFqx+31m9SJNU86DHSOU
+         QXgeYh/cBtMV2P2DsV9S1uSeM7Pg/A6AZYBFeWzpQnljxT03KwL09NJvArB3t1ZoVuVj
+         2d1pwDzpydbkEEayi+P29xksVQf/FeGTm6+DXTC96e8g6e/aT/vXFfmc8qn04MXMXjQQ
+         eebqNK3tg6B4mjjPA9mu/aN/rs+A9eub1by2jUbzon027ZGCkMSDYhSMYRENCUtw1H36
+         htWBMehdR8qyh4Q+qDMPqlJhrXR9vy8VJ7aTxpDTgw92RDsFTnsEe3VhTpFilvdAbzAj
+         tDBQ==
+X-Gm-Message-State: AOAM530WOH5ZoUeMAkhQnGKcMfik2BPtBSjHStp5SOjb3wgUD8RmgGcp
+        RikrZbZg9nlUMKGX1cOT34RwlqzXmdqyBA==
+X-Google-Smtp-Source: ABdhPJzuN4qzmubTRkvgksLWBpvEN0ZxwPpfZuiIQ/9U0BeX7jNBDyMO9SHSGvt0mdnKsiDAQ84Z0g==
+X-Received: by 2002:a17:90a:744f:: with SMTP id o15mr12778051pjk.54.1592230654484;
+        Mon, 15 Jun 2020 07:17:34 -0700 (PDT)
+Received: from kaaira-HP-Pavilion-Notebook ([2401:4900:4175:6d71:a599:7e9c:28e:a9a7])
+        by smtp.gmail.com with ESMTPSA id e78sm14122102pfh.50.2020.06.15.07.17.30
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 15 Jun 2020 07:17:33 -0700 (PDT)
+From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
+X-Google-Original-From: Kaaira Gupta <Kaairakgupta@es.iitr.ac.in>
+Date:   Mon, 15 Jun 2020 19:47:21 +0530
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
+        Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        hverkuil@xs4all.nl
+Subject: Re: [PATCH v2 2/2] media: vimc: Add a control to show test pattern
+ colors' order
+Message-ID: <20200615141721.GA16952@kaaira-HP-Pavilion-Notebook>
+References: <20200614200239.18453-1-kgupta@es.iitr.ac.in>
+ <20200614200239.18453-3-kgupta@es.iitr.ac.in>
+ <0ec47745-dcb4-4b40-1c53-093491856597@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200612172806.GA46338@vmlxhi-121.adit-jv.com>
+In-Reply-To: <0ec47745-dcb4-4b40-1c53-093491856597@ideasonboard.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-
-On 2020-06-12 19:28:06 +0200, Michael Rodin wrote:
-> Hi Niklas,
-> Hi Suresh,
+On Mon, Jun 15, 2020 at 12:48:20PM +0100, Kieran Bingham wrote:
+> Hi Kaaira,
 > 
-> On Fri, Jun 12, 2020 at 12:10:51PM +0900, Suresh Udipi wrote:
-> > On Wed, Jun 10, 2020 at 03:40:04PM +0200, Niklas Söderlund wrote:
-> > > Hi Suresh,
-> > > 
-> > > Thanks for your persistent work!
-> > > 
-> > > On 2020-06-08 12:25:03 +0900, Suresh Udipi wrote:
-> > > > hsfreqrange should be chosen based on the calculated mbps which
-> > > > is closer to the default bit rate  and within the range as per
-> > > > table[1]. But current calculation always selects first value which
-> > > > is greater than or equal to the calculated mbps which may lead
-> > > > to chosing a wrong range in some cases.
-> > > > 
-> > > > For example for 360 mbps for H3/M3N
-> > > > Existing logic selects
-> > > > Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
-> > > > 
-> > > > This hsfreqrange is out of range.
-> > > > 
-> > > > The logic is changed to get the default value which is closest to the
-> > > > calculated value [1]
-> > > > 
-> > > > Calculated value 360Mbps : Default 350Mbps  Range [320.625 -380.625 mpbs]
-> > > > 
-> > > > [1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
-> > > > 
-> > > > Please note that According to Renesas in Table 25.9 the range for
-> > > > 220 default value is corrected as below
-> > > > 
-> > > >  |Range (Mbps)     |  Default  Bit rate (Mbps) |
-> > > >  -----------------------------------------------
-> > > >  | 197.125-244.125 |     220                   |
-> > > >  -----------------------------------------------
-> > > > 
-> > > > Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
-> > > > 
-> > > > Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
-> > > > Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
-> > > > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> > > > ---
-> > > >  Changes in v2:
-> > > >   - Added the boundary check for the maximum bit rate.
-> > > > 
-> > > >   - Simplified the logic by remmoving range check
-> > > >     as only the closest default value covers most
-> > > >     of the use cases.
-> > > > 
-> > > >   - Aligning the commit message based on the above change
-> > > > 
-> > > > 
-> > > >  Changes in v3:
-> > > >     - Added max member from struct rcsi2_mbps_reg.
-> > > >       mbps varialbe cannot be removed from rcsi2_mbps_reg,
-> > > >       since this structure is reused for
-> > > >       phtw_mbps_h3_v3h_m3n/phtw_mbps_v3m_e3 where mbps is
-> > > >       used.
-> > > > 
-> > > > 
-> > > >    -  Update the walk of the array in rcsi2_set_phypll() so that it finds
-> > > >       the first entry where the calculated bit rate is less than the max.
-> > > > 
-> > > >    - Support lower bit rates less than 80Mbps like 48Mbps
-> > > >      (Raspberry pi camera 640x480 connected to Kingfisher)
-> > > >      can also be supported by selecting the lowest default bit rate 80Mbps
-> > > >      as done before this fix
-> > > > 
-> > > >    - Alignement of the commit message based on above changes.
-> > > > 
-> > > >  Changes in v4:
-> > > >   -  Remove unncessary braces.
-> > > > 
-> > > >  Changes in v5:
-> > > >    - Removed mbps variable in rcsi2_mbps_reg and aligned all 
-> > > >      tables accordingly
-> > > > 	 
-> > > >  Changes in v6
-> > > >    - Renesas correct the range of default value 220Mbps. Now
-> > > >      if we select the nearest value to the default value all
-> > > > 	 the values are in range. So reverting back to original patch
-> > > > 	 
-> > > >    - Added warning for values less than Minimum 80Mbps
-> > > > 
-> > > > 
-> > > >  drivers/media/platform/rcar-vin/rcar-csi2.c | 23 ++++++++++++++++++-----
-> > > >  1 file changed, 18 insertions(+), 5 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > > index 151e6a9..8c502b7 100644
-> > > > --- a/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > > +++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
-> > > > @@ -199,6 +199,8 @@ static const struct rcsi2_mbps_reg phtw_mbps_v3m_e3[] = {
-> > > >  /* PHY Frequency Control */
-> > > >  #define PHYPLL_REG			0x68
-> > > >  #define PHYPLL_HSFREQRANGE(n)		((n) << 16)
-> > > > +#define PHYPLL_HSFREQRANGE_MAX		1500
-> > > > +#define PHYPLL_HSFREQRANGE_MIN		  80
-> > > >  
-> > > >  static const struct rcsi2_mbps_reg hsfreqrange_h3_v3h_m3n[] = {
-> > > >  	{ .mbps =   80, .reg = 0x00 },
-> > > > @@ -431,16 +433,27 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
-> > > >  static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
-> > > >  {
-> > > >  	const struct rcsi2_mbps_reg *hsfreq;
-> > > > +	const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
-> > > >  
-> > > > -	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
-> > > > -		if (hsfreq->mbps >= mbps)
-> > > > -			break;
-> > > > -
-> > > > -	if (!hsfreq->mbps) {
-> > > > +	if (mbps > PHYPLL_HSFREQRANGE_MAX) {
-> > > >  		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
-> > > >  		return -ERANGE;
-> > > >  	}
-> > > >  
-> > > > +	if (mbps < PHYPLL_HSFREQRANGE_MIN)
-> > > > +		dev_warn(priv->dev, "PHY speed (%u Mbps) less \
-> > > > +			 than Min 80Mbps\n", mbps);
-> > > 
-> > > I would drop this warning.
-> > > 
+> On 14/06/2020 21:02, Kaaira Gupta wrote:
+> > Add a control in VIMC to show the correct order of the colors for a
+> > given test pattern.
+> > The control can be accessed by using show_colors_order in v4l2-ctl
 > > 
-> >   This was suggested by Michael. Michael is it ok to drop this warning
-> >   as it is not available before this changes also. 
+> > Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+> > ---
+> >  drivers/media/test-drivers/vimc/Kconfig       |  2 ++
+> >  drivers/media/test-drivers/vimc/vimc-common.h |  1 +
+> >  drivers/media/test-drivers/vimc/vimc-sensor.c | 34 +++++++++++++++++++
+> >  3 files changed, 37 insertions(+)
 > > 
+> > diff --git a/drivers/media/test-drivers/vimc/Kconfig b/drivers/media/test-drivers/vimc/Kconfig
+> > index 4068a67585f9..da4b2ad6e40c 100644
+> > --- a/drivers/media/test-drivers/vimc/Kconfig
+> > +++ b/drivers/media/test-drivers/vimc/Kconfig
+> > @@ -2,6 +2,8 @@
+> >  config VIDEO_VIMC
+> >  	tristate "Virtual Media Controller Driver (VIMC)"
+> >  	depends on VIDEO_DEV && VIDEO_V4L2
+> > +	select FONT_SUPPORT
+> > +	select FONT_8x16
+> >  	select MEDIA_CONTROLLER
+> >  	select VIDEO_V4L2_SUBDEV_API
+> >  	select VIDEOBUF2_VMALLOC
+> > diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
+> > index ae163dec2459..52376ba6146b 100644
+> > --- a/drivers/media/test-drivers/vimc/vimc-common.h
+> > +++ b/drivers/media/test-drivers/vimc/vimc-common.h
+> > @@ -20,6 +20,7 @@
+> >  #define VIMC_CID_VIMC_CLASS		(0x00f00000 | 1)
+> >  #define VIMC_CID_TEST_PATTERN		(VIMC_CID_VIMC_BASE + 0)
+> >  #define VIMC_CID_MEAN_WIN_SIZE		(VIMC_CID_VIMC_BASE + 1)
+> > +#define VIMC_TEST_PATTERN_ORDER		(VIMC_CID_VIMC_BASE + 2)
 > 
-> I strongly disagree. We should keep the warning for the following reasons:
+> This should have the prefix CID like the others. I believe that stands
+> for "Control ID"
 > 
->  1. Renesas explicitly states in the hardware manual tables, that 80Mbps is
->     the lowest supported bit rate (I guess, for a good reason), so using
->     devices with lower bit rates is at our own risk.
->  2. Failing for mbps > PHYPLL_HSFREQRANGE_MAX with an ERANGE error but
->     silently succeeding for mbps < PHYPLL_HSFREQRANGE_MIN does not look
->     consistent. Both values are out of the official hardware specs.
->  3. Although rcar csi2 seems to work with at least 1 device in the range
->     mbps < PHYPLL_HSFREQRANGE_MIN, there is no guarantee that ALL devices
->     work. And from my experience, users are very happy about any warning,
->     which points them to a possible reason, why their new device does not
->     work ;)
+> As below, I think it might warrant being a more generic name for the OSD
+> overlay, as it could display more than just the colour sequence.
 
-You convinced me, lets add a warning then. But please do so in a 
-separate patch on-top of this change.
+Yes, Okay..I think I'll make a separate patch for adding all the text
+that VIMC can show including the color order, and let the 1st patch of
+this series be a separate patch?
 
-Also if possible I would like to avoid adding a PHYPLL_HSFREQRANGE_MIN 
-define and instead get the minimum setting from the data tables. As we 
-already require the tables to be sorted for the logic touched in this 
-change to work it should be doable to get the minimum freq from the same 
-source.
+Should the colors' order text be added to VIVID as well?
 
 > 
-> > > > +
-> > > > +	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
-> > > > +		if (hsfreq->mbps >= mbps)
-> > > > +			break;
-> > > > +		hsfreq_prev = hsfreq;
-> > > > +	}
-> > > > +
-> > > > +	if (hsfreq_prev &&
-> > > > +	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
-> > > 
-> > > Longer lines are now OK [1] and I think it would add to the readability 
-> > > here.
-> > > 
-> > > > +		hsfreq = hsfreq_prev;
-> > > > +
-> > > 
-> > > How about
-> > > 
-> > > static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
-> > > {
-> > >     const struct rcsi2_mbps_reg *hsfreq;
-> > >     const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
-> > > 
-> > >     for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
-> > > 	if (hsfreq->mbps >= mbps)
-> > > 		break;
-> > > 	hsfreq_prev = hsfreq;
-> > >     }
-> > > 
-> > >     if (!hsfreq->mbps) {
-> > > 	dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
-> > > 	return -ERANGE;
-> > >     }
-> > > 
-> > >     if (hsfreq_prev && ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
-> > > 	hsfreq = hsfreq_prev;
-> > > 
-> > >     rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
-> > > 
-> > >     return 0;
-> > > }
-> > > 
-> > > >  	rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
-> > > >  
-> > > >  	return 0;
+> 
+> >  
+> >  #define VIMC_FRAME_MAX_WIDTH 4096
+> >  #define VIMC_FRAME_MAX_HEIGHT 2160
+> > diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
+> > index a2f09ac9a360..da625f6accce 100644
+> > --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
+> > +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
+> > @@ -5,6 +5,7 @@
+> >   * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
+> >   */
+> >  
+> > +#include <linux/font.h>
+> >  #include <linux/v4l2-mediabus.h>
+> >  #include <linux/vmalloc.h>
+> >  #include <media/v4l2-ctrls.h>
+> > @@ -19,6 +20,7 @@ struct vimc_sen_device {
+> >  	struct v4l2_subdev sd;
+> >  	struct tpg_data tpg;
+> >  	u8 *frame;
+> > +	bool show_colors_order;
+> 
+> I would say it's the 'sequence' 'show_color_sequence' but it's still a
+> bit long ... but maybe that doesn't really matter.
+
+If its generic for all the information maybe it should be
+show_info?
+
+> 
+> 
+> >  	/* The active format */
+> >  	struct v4l2_mbus_framefmt mbus_format;
+> >  	struct v4l2_ctrl_handler hdl;
+> > @@ -185,10 +187,18 @@ static const struct v4l2_subdev_pad_ops vimc_sen_pad_ops = {
+> >  static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
+> >  				    const void *sink_frame)
+> >  {
+> > +	u8 *basep[TPG_MAX_PLANES][2];
+> > +	char *str;
+> >  	struct vimc_sen_device *vsen = container_of(ved, struct vimc_sen_device,
+> >  						    ved);
+> >  
+> >  	tpg_fill_plane_buffer(&vsen->tpg, 0, 0, vsen->frame);
+> > +	if (vsen->show_colors_order) {
+> > +		tpg_calc_text_basep(&vsen->tpg, basep, 0, vsen->frame);
+> > +		str = tpg_g_color_order(&vsen->tpg);
+> > +		tpg_gen_text(&vsen->tpg, basep, 1, 1, str);
+> > +	}
+> > +
+> >  	return vsen->frame;
+> >  }
+> >  
+> > @@ -200,6 +210,14 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
+> >  	if (enable) {
+> >  		const struct vimc_pix_map *vpix;
+> >  		unsigned int frame_size;
+> > +		const struct font_desc *font = find_font("VGA8x16");
+> > +
+> > +		if (font == NULL) {
+> > +			pr_err("vimc: could not find font\n");
+> > +			return -ENODEV;
+> 
+> I wonder if this should instead just disable text rendering instead?
+
+Shouldn't the user know why he can't see the text?
+
+> 
+> It might be reasonable to compile the kernel without the font-library ?
+
+I have added the support in its Kconfig, isn't that okay?
+
+> 
+> > +		}
+> > +
+> > +		tpg_set_font(font->data);
+> >  
+> >  		/* Calculate the frame size */
+> >  		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
+> > @@ -269,6 +287,9 @@ static int vimc_sen_s_ctrl(struct v4l2_ctrl *ctrl)
+> >  	case V4L2_CID_SATURATION:
+> >  		tpg_s_saturation(&vsen->tpg, ctrl->val);
+> >  		break;
+> > +	case VIMC_TEST_PATTERN_ORDER:
+> > +		vsen->show_colors_order = ctrl->val;
+> > +		break;
+> >  	default:
+> >  		return -EINVAL;
+> >  	}
+> > @@ -307,6 +328,17 @@ static const struct v4l2_ctrl_config vimc_sen_ctrl_test_pattern = {
+> >  	.qmenu = tpg_pattern_strings,
+> >  };
+> >  
+> > +static const struct v4l2_ctrl_config vimc_sen_ctrl_order = {
+> > +	.ops = &vimc_sen_ctrl_ops,
+> > +	.id = VIMC_TEST_PATTERN_ORDER,
+> 
+> Now that you've brought in support for rendering text on the frame, I
+> wonder if more information should be displayed just like VIVID does.
+> 
+> In that case, it would probably be better to have a more generic control
+> that enables all of the text OSD with a more generic name.
+
+Yes, I will change that
+
+> 
+> 
+> > +	.name = "Show Colors Order",
+> > +	.type = V4L2_CTRL_TYPE_BOOLEAN,
+> > +	.min = 0,
+> > +	.max = 1,
+> > +	.step = 1,
+> > +	.def = 1,
+> > +};
+> > +
+> >  static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+> >  					    const char *vcfg_name)
+> >  {
+> > @@ -323,6 +355,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+> >  
+> >  	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_class, NULL);
+> >  	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_test_pattern, NULL);
+> > +	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_order, NULL);
+> >  	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
+> >  			  V4L2_CID_VFLIP, 0, 1, 1, 0);
+> >  	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
+> > @@ -362,6 +395,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+> >  
+> >  	/* Initialize the frame format */
+> >  	vsen->mbus_format = fmt_default;
+> > +	vsen->show_colors_order = vimc_sen_ctrl_order.def;
+> >  
+> >  	return &vsen->ved;
+> >  
 > > 
-> > Agreed I will do the changes and update.
-> > > > -- 
-> > > > 2.7.4
-> > > > 
-> > > 
-> > > 1. https://lkml.org/lkml/2020/5/29/1038
-> > > 
-> > > -- 
-> > > Regards,
-> > > Niklas Söderlund
-> > 
-> > -- 
-> > Best Regards,
-> > Suresh Udipi.
+
+Thanks for your time :D
+
 > 
 > -- 
-> Best Regards,
-> Michael
-
--- 
-Regards,
-Niklas Söderlund
+> Regards
+> --
+> Kieran
