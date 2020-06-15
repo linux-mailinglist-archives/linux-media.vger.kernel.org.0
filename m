@@ -2,252 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 637701F9367
-	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 11:30:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13C5C1F93D6
+	for <lists+linux-media@lfdr.de>; Mon, 15 Jun 2020 11:46:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729009AbgFOJ36 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jun 2020 05:29:58 -0400
-Received: from mga06.intel.com ([134.134.136.31]:57442 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728180AbgFOJ35 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jun 2020 05:29:57 -0400
-IronPort-SDR: 8hHQjyDTpQPYyRaQ7+P8+tOPLeHWDA725TEnzf4iJBQkNT2tVdKwuLgLTb7NXcQZy71Clnd8IA
- z2zbUzZfNLqw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 02:29:56 -0700
-IronPort-SDR: 2bLyo6B1Uhjbr/+687E9timHVVbn1zeuvQckrYhKMQTXMj/8gqmF2jPUeOypLs2+yf0LgYR84F
- dEU+btICSAZg==
-X-IronPort-AV: E=Sophos;i="5.73,514,1583222400"; 
-   d="scan'208";a="308666216"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Jun 2020 02:29:55 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 258B520448; Mon, 15 Jun 2020 12:29:23 +0300 (EEST)
-Date:   Mon, 15 Jun 2020 12:29:23 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Bingbu Cao <bingbu.cao@intel.com>
+        id S1729354AbgFOJqY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jun 2020 05:46:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50588 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729155AbgFOJqX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 15 Jun 2020 05:46:23 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C1EDC061A0E
+        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2020 02:46:23 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id b82so5427632wmb.1
+        for <linux-media@vger.kernel.org>; Mon, 15 Jun 2020 02:46:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=5vLWjaHiJRQUv9HYjet2Ro+847tC7bWZlp/6gW1hp+k=;
+        b=pZbL0b71fcZ3qeaiBqM/qq+IDxdbXYez5t3AVkIiOmdBi++z4mHjQDXEXhwqoYcDnK
+         pqCHPF8yJpKHiEavtbv8GSZNfCToqcM9JvTNalNTZWjtUIhAJCWW2BdlN8TCZZ3iYJWw
+         4BdZS7MiiM7ILKJeQpqkPTY+U2dUbq8UXL8JRLWC708S28kPAEbeIWjieut4ENeM/X9U
+         Ynx7C417tFzQrlljDidRsl6sRtANLuDgYshOvHVhehv78gleILZEdW5PtWNVUtfqOLs5
+         TyLZ9iEYnTO9Q0iGCWQC4frTtkeezkbukYMGrDrs2nZOr8JLhIJckPiCuB9cUW7StRfb
+         dHIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=5vLWjaHiJRQUv9HYjet2Ro+847tC7bWZlp/6gW1hp+k=;
+        b=B4s2l+bK41br60xTDnffj+kVU/OYnK527vrtAmImiGQrRs76X87c9v/y8pc5Jnix7P
+         faPFBWFpP7HlroYWzVwqyYBI+x/FSo35DdunPKyTkQabuABm/NLEK2Kiot1Wp7xK8Dlg
+         Mo736bQuV0W5RvAbPI/wsSwgAvdXp8ldQpogclx4RmehPNU0O7YSFx/365hTWMMSZjDj
+         YsY1WDiimzvTcXQkDR4nN8Xpj+550ausFwQPFH6x/dB2DnA2So9QXYV0pJP6GvRUOhgH
+         4Wtu2tS9ahlRTERjvlfuJ0YHIS+PAV0KzyJLScveVnSrRzbSV4i6oUC9G4B18gnNM4Kd
+         e9SA==
+X-Gm-Message-State: AOAM531o4fVJsBLr8/iVrkkB4LyRx2XyzEGeq+Ic5/6OjEw/NdJOlngv
+        ZctBf3iWtx+mgfyx7WzyOa/HAw==
+X-Google-Smtp-Source: ABdhPJy35U//0vDfeb7NBwQoHw2dAPfMraqx8xyFJshCpSUg/dci31/5vabPF+lADyR2Fg6PWyKM6w==
+X-Received: by 2002:a1c:dc06:: with SMTP id t6mr12512135wmg.118.1592214381839;
+        Mon, 15 Jun 2020 02:46:21 -0700 (PDT)
+Received: from [192.168.86.34] (cpc89974-aztw32-2-0-cust43.18-1.cable.virginm.net. [86.30.250.44])
+        by smtp.googlemail.com with ESMTPSA id g187sm23677843wma.17.2020.06.15.02.46.20
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 15 Jun 2020 02:46:21 -0700 (PDT)
+Subject: Re: [PATCH] media: ov2740: add NVMEM interface to read customized OTP
+ data
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>
 Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        srinivas.kandagatla@linaro.org, tfiga@chromium.org,
-        bingbu.cao@linux.intel.com
-Subject: Re: [PATCH] media: ov2740: add NVMEM interface to read customized
- OTP data
-Message-ID: <20200615092923.GT16711@paasikivi.fi.intel.com>
+        tfiga@chromium.org, bingbu.cao@linux.intel.com
 References: <1591954922-14006-1-git-send-email-bingbu.cao@intel.com>
+ <20200615092923.GT16711@paasikivi.fi.intel.com>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Message-ID: <f4204020-3b84-c138-6648-1e22e194138e@linaro.org>
+Date:   Mon, 15 Jun 2020 10:46:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1591954922-14006-1-git-send-email-bingbu.cao@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200615092923.GT16711@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
 
-Thank you for the patch.
 
-On Fri, Jun 12, 2020 at 05:42:02PM +0800, Bingbu Cao wrote:
-> From: Qingwu Zhang <qingwu.zhang@intel.com>
+On 15/06/2020 10:29, Sakari Ailus wrote:
+>> +	ret = ov2740_register_nvmem(client);
+>> +	if (ret)
+>> +		dev_err(&client->dev, "register nvmem failed, ret %d\n", ret);
+>> +
+>>   	/*
+>>   	 * Device is already turned on by i2c-core with ACPI domain PM.
+>>   	 * Enable runtime PM and turn off the device.
+> Could you add #ifdefs for CONFIG_NVMEM so this compiles when it's disabled?
+
+NVMEM already has dummy functions. IMO its better to report an error to 
+user as the current code does. This will atleast alert the users of 
+existing nvmem provider that has been disabled!
+
+However with ifdef users have to really look into code to be able to 
+understand that there is nvmem provider as part of this driver.
+
+
+Unless you have tight memory restrictions I see no great advantage of 
+adding #ifdefs
+
+--srini
+> It's bool so a simple #ifdef will do. I think ov2740_register_nvmem() could
+> have a dummy implementation so this wouldn't litter the probe function.
 > 
-> ov2740 includes 512bytes of one-time programmable memory and
-> 256 bytes are reserved for customers which can be used to store
-> customized information. This patch provide an NVMEM interface
-> to support read out the customized data in OTP.
-> 
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> Signed-off-by: Qingwu Zhang <qingwu.zhang@intel.com>
-> ---
->  drivers/media/i2c/ov2740.c | 145 +++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 145 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-> index 33025c6d23ac..fd0b6a903ec1 100644
-> --- a/drivers/media/i2c/ov2740.c
-> +++ b/drivers/media/i2c/ov2740.c
-> @@ -7,6 +7,8 @@
->  #include <linux/i2c.h>
->  #include <linux/module.h>
->  #include <linux/pm_runtime.h>
-> +#include <linux/nvmem-provider.h>
-> +#include <linux/regmap.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-fwnode.h>
-> @@ -59,6 +61,21 @@
->  #define OV2740_TEST_PATTERN_ENABLE	BIT(7)
->  #define OV2740_TEST_PATTERN_BAR_SHIFT	2
->  
-> +/* ISP CTRL00 */
-> +#define OV2740_REG_ISP_CTRL00		0x5000
-> +/* ISP CTRL01 */
-> +#define OV2740_REG_ISP_CTRL01		0x5001
-> +/* Customer Addresses: 0x7010 - 0x710F */
-> +#define CUSTOMER_USE_OTP_SIZE		0x100
-> +/* OTP registers from sensor */
-> +#define OV2740_REG_OTP_CUSTOMER		0x7010
-> +
-> +struct nvm_data {
-> +	char *nvm_buffer;
-> +	struct nvmem_device *nvmem;
-> +	struct regmap *regmap;
-> +};
-> +
->  enum {
->  	OV2740_LINK_FREQ_360MHZ_INDEX,
->  };
-> @@ -915,6 +932,130 @@ static int ov2740_remove(struct i2c_client *client)
->  	return 0;
->  }
->  
-> +static int ov2740_load_otp_data(struct i2c_client *client, struct nvm_data *nvm)
-> +{
-> +	struct ov2740 *ov2740 = to_ov2740(i2c_get_clientdata(client));
-> +	u32 isp_ctrl00 = 0;
-> +	u32 isp_ctrl01 = 0;
-> +	int ret;
-> +
-> +	ret = ov2740_read_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, &isp_ctrl00);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to read ISP CTRL00\n");
-> +		goto exit;
-> +	}
-> +	ret = ov2740_read_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, &isp_ctrl01);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to read ISP CTRL01\n");
-> +		goto exit;
-> +	}
-> +
-> +	/* Clear bit 5 of ISP CTRL00 */
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1,
-> +			       isp_ctrl00 & ~BIT(5));
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to write ISP CTRL00\n");
-> +		goto exit;
-> +	}
-> +
-> +	/* Clear bit 7 of ISP CTRL01 */
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1,
-> +			       isp_ctrl01 & ~BIT(7));
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to write ISP CTRL01\n");
-> +		goto exit;
-> +	}
-> +
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
-> +			       OV2740_MODE_STREAMING);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to start streaming\n");
-> +		goto exit;
-> +	}
-> +
-> +	/*
-> +	 * Users are not allowed to access OTP-related registers and memory
-> +	 * during the 20 ms period after streaming starts (0x100 = 0x01).
-> +	 */
-> +	msleep(20);
-> +
-> +	ret = regmap_bulk_read(nvm->regmap, OV2740_REG_OTP_CUSTOMER,
-> +			       nvm->nvm_buffer, CUSTOMER_USE_OTP_SIZE);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to read OTP data, ret %d\n", ret);
-> +		goto exit;
-> +	}
-> +
-> +	ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
-> +			 OV2740_MODE_STANDBY);
-> +	ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, isp_ctrl01);
-> +	ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, isp_ctrl00);
-> +
-> +exit:
-> +	return ret;
-> +}
-> +
-> +static int ov2740_nvmem_read(void *priv, unsigned int off, void *val,
-> +			     size_t count)
-> +{
-> +	struct nvm_data *nvm = priv;
-> +
-> +	memcpy(val, nvm->nvm_buffer + off, count);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov2740_register_nvmem(struct i2c_client *client)
-> +{
-> +	struct nvm_data *nvm;
-> +	struct regmap_config regmap_config = { };
-> +	struct nvmem_config nvmem_config = { };
-> +	struct regmap *regmap;
-> +	struct device *dev = &client->dev;
-> +	int ret = 0;
-> +
-> +	nvm = devm_kzalloc(dev, sizeof(*nvm), GFP_KERNEL);
-> +	if (!nvm)
-> +		return -ENOMEM;
-> +
-> +	regmap_config.val_bits = 8;
-> +	regmap_config.reg_bits = 16;
-> +	regmap_config.disable_locking = true;
-> +	regmap = devm_regmap_init_i2c(client, &regmap_config);
-> +	if (IS_ERR(regmap))
-> +		return PTR_ERR(regmap);
-> +
-> +	nvm->regmap = regmap;
-> +
-> +	nvmem_config.name = dev_name(dev);
-> +	nvmem_config.dev = dev;
-> +	nvmem_config.read_only = true;
-> +	nvmem_config.root_only = true;
-> +	nvmem_config.owner = THIS_MODULE;
-> +	nvmem_config.compat = true;
-> +	nvmem_config.base_dev = dev;
-> +	nvmem_config.reg_read = ov2740_nvmem_read;
-> +	nvmem_config.reg_write = NULL;
-> +	nvmem_config.priv = nvm;
-> +	nvmem_config.stride = 1;
-> +	nvmem_config.word_size = 1;
-> +	nvmem_config.size = CUSTOMER_USE_OTP_SIZE;
-> +
-> +	nvm->nvmem = devm_nvmem_register(dev, &nvmem_config);
-> +	if (IS_ERR(nvm->nvmem))
-> +		return PTR_ERR(nvm->nvmem);
-> +
-> +	nvm->nvm_buffer = devm_kzalloc(dev, CUSTOMER_USE_OTP_SIZE, GFP_KERNEL);
-> +	if (!nvm->nvm_buffer)
-> +		return -ENOMEM;
-> +
-> +	ret = ov2740_load_otp_data(client, nvm);
-> +	if (ret)
-> +		dev_err(dev, "failed to load OTP data, ret %d\n", ret);
-> +
-> +	return ret;
-> +}
-> +
->  static int ov2740_probe(struct i2c_client *client)
->  {
->  	struct ov2740 *ov2740;
-> @@ -964,6 +1105,10 @@ static int ov2740_probe(struct i2c_client *client)
->  		goto probe_error_media_entity_cleanup;
->  	}
->  
-> +	ret = ov2740_register_nvmem(client);
-> +	if (ret)
-> +		dev_err(&client->dev, "register nvmem failed, ret %d\n", ret);
-> +
->  	/*
->  	 * Device is already turned on by i2c-core with ACPI domain PM.
->  	 * Enable runtime PM and turn off the device.
-
-Could you add #ifdefs for CONFIG_NVMEM so this compiles when it's disabled?
-It's bool so a simple #ifdef will do. I think ov2740_register_nvmem() could
-have a dummy implementation so this wouldn't litter the probe function.
-
-Thanks.
-
--- 
-Kind regards,
-
-Sakari Ailus
+> Thanks.
