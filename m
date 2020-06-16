@@ -2,120 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E92CE1FBD10
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 19:34:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B23C51FBDAE
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 20:10:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731003AbgFPRc6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Jun 2020 13:32:58 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:40860 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730978AbgFPRc5 (ORCPT
+        id S1731719AbgFPSKB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Jun 2020 14:10:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40384 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727083AbgFPSKA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Jun 2020 13:32:57 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id EE0E43C00BA;
-        Tue, 16 Jun 2020 19:32:54 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id RkBGNM8CkM4J; Tue, 16 Jun 2020 19:32:48 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id EABF03C0022;
-        Tue, 16 Jun 2020 19:32:48 +0200 (CEST)
-Received: from vmlxhi-121.localdomain (10.72.92.132) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 16 Jun
- 2020 19:32:48 +0200
-From:   Michael Rodin <mrodin@de.adit-jv.com>
-To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-CC:     Michael Rodin <mrodin@de.adit-jv.com>, <michael@rodin.online>,
-        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>,
-        Steve Longerbeam <steve_longerbeam@mentor.com>
-Subject: [PATCH] media: rcar-vin: Move media_device_register to async completion
-Date:   Tue, 16 Jun 2020 19:31:36 +0200
-Message-ID: <1592328696-84533-1-git-send-email-mrodin@de.adit-jv.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.72.92.132]
+        Tue, 16 Jun 2020 14:10:00 -0400
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62B43C061573
+        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2020 11:10:00 -0700 (PDT)
+Received: by mail-qv1-xf49.google.com with SMTP id h30so16142612qva.17
+        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2020 11:10:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=sQYJaI8jg1FtyXfRAOTpTGsgFbeCT3+ddgfcyrzmU3I=;
+        b=HIfKrZ3zpFJ2Qg69LD+PbnGYLKvn3nO6/wdN0GjaVsZDnu+lzRWks6LT7k6wDISvCz
+         h8s/m86Aai60tujjwNYGu09dDYUQxgep1H6Ib83l4GxKKw+3syg5RhNDu4AG6zlKX8/a
+         8NCBcAY0Gp6iaqe+y1J/XzOJ4bC76O0ylG0pS4o12A1gKI04/uWIPBRvL59V+294Jga7
+         Tyupaj1WLGXP8ycxSZ162tl+U8BLWV4eowMpM3TQzIl/oHkZvUQGccFr97jVJrPUY26D
+         q3w91gCjnRPXU+L7m1555z+KhGGU7yHsWr6y87g+49RELGUjapqca4l0/uVeaMWWpGOU
+         Dtag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=sQYJaI8jg1FtyXfRAOTpTGsgFbeCT3+ddgfcyrzmU3I=;
+        b=tBOdYX5UnaTSNH34tv3/Miymtq4JU1zBz5navaFbdYXk0Cphh6BYsa/gXjR9J/PKGI
+         BtZKDC1bm1DGyO1k2qjJVWP0OacZeycPizNosr1VH4jmlPJnsf5sxrbVKRxjHotCkwBG
+         3wD6AS4Nrl3v00TEs4z2VnCsD0EBi71ihaQxtBRRMg5vTfFv5kV/Aj38PTN2Myz5kryg
+         Cqz0u2EdvrTvo4/h49YKW0QvPlg9J/hsl6vD9vhfM4GqemHKXlWWDerInhfi1I8PHPh0
+         dgWWuSnRDzUStooQL4/kaKAXGl+8Bdlsr45t8wP+8gUKdYGZtMhVZY8FYt4y+bHWxV/Z
+         xCVg==
+X-Gm-Message-State: AOAM530NZERQTd0I7TNghyREG0RFpNS3wZJDWoPHpN/ShjI9VCrMnvor
+        BAXoNAuOzjUKGbvms18msHxotJyUP/9zzqIBg9eKHy5qyornegPlsmdHDHbglyf2+Yp+vvb4soC
+        NkDpu2QK8NBUVS/jB6DA5I99lFzqQOtnNlvuRGxq/aMml+Ez9iH/tmEYZaJaZndv4Ybpp
+X-Google-Smtp-Source: ABdhPJwIMvfVZxeT22fRj0fRS7O09m8M3YhEG724D5gv9RALBKrOMA7Rt7jgQ8YvNSm+WUlWFCvGtU6Ffhw=
+X-Received: by 2002:ad4:4868:: with SMTP id u8mr3672156qvy.34.1592330999437;
+ Tue, 16 Jun 2020 11:09:59 -0700 (PDT)
+Date:   Tue, 16 Jun 2020 20:09:54 +0200
+Message-Id: <20200616180954.189430-1-darekm@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.290.gba653c62da-goog
+Subject: [PATCH] media: cros-ec-cec: do not bail on device_init_wakeup failure
+From:   Dariusz Marcinkiewicz <darekm@google.com>
+To:     linux-media@vger.kernel.org, narmstrong@baylibre.com
+Cc:     Dariusz Marcinkiewicz <darekm@google.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Steve Longerbeam <steve_longerbeam@mentor.com>
+Do not fail probing when device_init_wakeup fails.
 
-The media_device is registered during driver probe, before async
-completion, so it is possible for .link_notify to be called before
-all devices are bound.
+device_init_wakeup fails when the device is already enabled as wakeup
+device. Hence, the driver fails to probe the device if:
+- The device has already been enabled for wakeup (via e.g. sysfs)
+- The driver has been unloaded and is being loaded again.
 
-Fix this by moving media_device_register() to rvin_group_notify_complete().
-This ensures that all devices are now bound (the rcar-csi2 subdevices and
-and video capture devices) before .link_notify can be called.
+This goal of the patch is to fix the above cases.
 
-Signed-off-by: Steve Longerbeam <steve_longerbeam@mentor.com>
-Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+Overwhelming majority of the drivers do not check device_init_wakeup
+return value.
+
+Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
 ---
- drivers/media/platform/rcar-vin/rcar-core.c | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-index 7440c89..e70f83b 100644
---- a/drivers/media/platform/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/rcar-vin/rcar-core.c
-@@ -253,7 +253,6 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
- 	struct media_device *mdev = &group->mdev;
- 	const struct of_device_id *match;
- 	struct device_node *np;
--	int ret;
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 0e7e2772f08f..2d95e16cd248 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -277,11 +277,7 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, cros_ec_cec);
+ 	cros_ec_cec->cros_ec = cros_ec;
  
- 	mutex_init(&group->lock);
+-	ret = device_init_wakeup(&pdev->dev, 1);
+-	if (ret) {
+-		dev_err(&pdev->dev, "failed to initialize wakeup\n");
+-		return ret;
+-	}
++	device_init_wakeup(&pdev->dev, 1);
  
-@@ -266,7 +265,6 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
- 	vin_dbg(vin, "found %u enabled VIN's in DT", group->count);
- 
- 	mdev->dev = vin->dev;
--	mdev->ops = &rvin_media_ops;
- 
- 	match = of_match_node(vin->dev->driver->of_match_table,
- 			      vin->dev->of_node);
-@@ -278,11 +276,7 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
- 
- 	media_device_init(mdev);
- 
--	ret = media_device_register(&group->mdev);
--	if (ret)
--		rvin_group_cleanup(group);
--
--	return ret;
-+	return 0;
- }
- 
- static void rvin_group_release(struct kref *kref)
-@@ -688,6 +682,8 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
- 		return ret;
- 	}
- 
-+	vin->group->mdev.ops = &rvin_media_ops;
-+
- 	/* Register all video nodes for the group. */
- 	for (i = 0; i < RCAR_VIN_NUM; i++) {
- 		if (vin->group->vin[i] &&
-@@ -736,8 +732,10 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
- 		}
- 	}
- 	mutex_unlock(&vin->group->lock);
-+	if (ret)
-+		return ret;
- 
--	return ret;
-+	return media_device_register(&vin->group->mdev);
- }
- 
- static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
+ 	cros_ec_cec->adap = cec_allocate_adapter(&cros_ec_cec_ops, cros_ec_cec,
+ 						 DRV_NAME,
 -- 
-2.7.4
+2.27.0.290.gba653c62da-goog
 
