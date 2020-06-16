@@ -2,233 +2,472 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1D051FC05D
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 22:56:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CB8AD1FC229
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 01:16:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729578AbgFPUzu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Jun 2020 16:55:50 -0400
-Received: from rnd-relay.smtp.broadcom.com ([192.19.229.170]:33798 "EHLO
-        rnd-relay.smtp.broadcom.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726296AbgFPUzs (ORCPT
+        id S1726253AbgFPXNm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Jun 2020 19:13:42 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:38320 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725849AbgFPXNl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Jun 2020 16:55:48 -0400
-Received: from mail-irv-17.broadcom.com (mail-irv-17.lvn.broadcom.net [10.75.242.48])
-        by rnd-relay.smtp.broadcom.com (Postfix) with ESMTP id E5B9C30D887;
-        Tue, 16 Jun 2020 13:55:46 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 rnd-relay.smtp.broadcom.com E5B9C30D887
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=broadcom.com;
-        s=dkimrelay; t=1592340946;
-        bh=rfno4F7HiS8LiAdPYLi+a1WYnEQJIb94Ut0WyA5KWcI=;
-        h=From:To:Cc:Subject:Date:From;
-        b=PaTfaUqcmDwD6JrrdtOJDGj9AieSbSy5n5dCRm4ofxbYKITAcKCxA9ctasj8YUusH
-         TyjbXiyk+Aq2DTfX53E9ixj4JZKhzXlPbmZxcTqfxrcVqnwhdP8sElx8kNXEY071cq
-         J6KOs/AtEwzC3fMmHmYu+sU+qanIY7yhUFU0Q2Ms=
-Received: from stbsrv-and-01.and.broadcom.net (stbsrv-and-01.and.broadcom.net [10.28.16.211])
-        by mail-irv-17.broadcom.com (Postfix) with ESMTP id 64A55140069;
-        Tue, 16 Jun 2020 13:55:43 -0700 (PDT)
-From:   Jim Quinlan <james.quinlan@broadcom.com>
-To:     linux-pci@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        bcm-kernel-feedback-list@broadcom.com, james.quinlan@broadcom.com
-Cc:     Alan Stern <stern@rowland.harvard.edu>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>, Corey Minyard <minyard@acm.org>,
-        devel@driverdev.osuosl.org (open list:STAGING SUBSYSTEM),
-        devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED
-        DEVICE TREE),
-        dri-devel@lists.freedesktop.org (open list:DRM DRIVERS FOR ALLWINNER
-        A10), Florian Fainelli <f.fainelli@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "H. Peter Anvin" <hpa@zytor.com>,
-        iommu@lists.linux-foundation.org (open list:IOMMU DRIVERS),
-        Jens Axboe <axboe@kernel.dk>,
-        Julien Grall <julien.grall@arm.com>,
-        linux-acpi@vger.kernel.org (open list:ACPI FOR ARM64 (ACPI/arm64)),
-        linux-arm-kernel@lists.infradead.org (moderated list:ARM PORT),
-        linux-ide@vger.kernel.org (open list:LIBATA SUBSYSTEM (Serial and
-        Parallel ATA drivers)), linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:ALLWINNER A10 CSI DRIVER),
-        linux-remoteproc@vger.kernel.org (open list:REMOTE PROCESSOR
-        (REMOTEPROC) SUBSYSTEM),
-        linux-rpi-kernel@lists.infradead.org (moderated list:BROADCOM
-        BCM2711/BCM2835 ARM ARCHITECTURE),
-        linux-sh@vger.kernel.org (open list:SUPERH),
-        linux-usb@vger.kernel.org (open list:USB SUBSYSTEM),
-        Oliver Neukum <oneukum@suse.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Rob Herring <robh@kernel.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Saravana Kannan <saravanak@google.com>,
-        Stefano Stabellini <sstabellini@kernel.org>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Wolfram Sang <wsa@kernel.org>
-Subject: [PATCH v5 00/12] PCI: brcmstb: enable PCIe for STB chips
-Date:   Tue, 16 Jun 2020 16:55:07 -0400
-Message-Id: <20200616205533.3513-1-james.quinlan@broadcom.com>
-X-Mailer: git-send-email 2.17.1
+        Tue, 16 Jun 2020 19:13:41 -0400
+Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17712F9;
+        Wed, 17 Jun 2020 01:13:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1592349218;
+        bh=tkznWIvn5yGPxhAASmcfLHvHXGuovs9T7JOthfPwJrk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TVHw9A6Bko6DeHO/N8H8Iom9KTq4fsvgH/q3Dc6YruZRuFnyXCk0q3aQpn81RgspZ
+         7nloG6r74NsoGrKZnUP91KMWdLPGtlJaAqVeovIoRtMAlAtgP2cSwEk7bSroMCq6es
+         uBhhJ5RUWd+OHzL7YLMReNqgNPJpJ+MJGveOelXw=
+Date:   Wed, 17 Jun 2020 02:13:15 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Vishal Sagar <vsagar@xilinx.com>
+Cc:     Hyun Kwon <hyunk@xilinx.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "mark.rutland@arm.com" <mark.rutland@arm.com>,
+        Michal Simek <michals@xilinx.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Dinesh Kumar <dineshk@xilinx.com>,
+        Sandip Kothari <sandipk@xilinx.com>,
+        Joe Perches <joe@perches.com>
+Subject: Re: [PATCH v2 2/2] media: v4l: xilinx: Add Xilinx UHD-SDI Rx
+ Subsystem driver
+Message-ID: <20200616231315.GJ913@pendragon.ideasonboard.com>
+References: <20200429141705.18755-1-vishal.sagar@xilinx.com>
+ <20200429141705.18755-3-vishal.sagar@xilinx.com>
+ <20200506151142.GA15206@pendragon.ideasonboard.com>
+ <BY5PR02MB68671D6F4700A66F26562C54A7820@BY5PR02MB6867.namprd02.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <BY5PR02MB68671D6F4700A66F26562C54A7820@BY5PR02MB6867.namprd02.prod.outlook.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Patchset Summary:
-  Enhance a PCIe host controller driver.  Because of its unusual design
-  we are foced to change dev->dma_pfn_offset into a more general role
-  allowing multiple offsets.
+Hi Vishal,
 
-v5:
-  Commit "device core: Introduce multiple dma pfn offsets"
-  -- in of/address.c: "map_size = 0" => "*map_size = 0"
-  -- use kcalloc instead of kzalloc (AndyS)
-  -- use PHYS_ADDR_MAX instead of "~(phys_addr_t)0"
-  Commit "PCI: brcmstb: Set internal memory viewport sizes"
-  -- now gives error on missing dma-ranges property.
-  Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
-  -- removed "Allof:" from brcm,scb-sizes definition (RobH)
-  All Commits:
-  -- indentation style, use max chars 100 (AndyS)
-  -- rebased to torvalds master
+On Tue, Jun 09, 2020 at 06:23:43PM +0000, Vishal Sagar wrote:
+> On Wednesday, May 6, 2020 8:42 PM, Laurent Pinchart wrote:
+> > On Wed, Apr 29, 2020 at 07:47:04PM +0530, Vishal Sagar wrote:
+> > > The Xilinx UHD-SDI Rx subsystem soft IP is used to capture native SDI
+> > > streams from SDI sources like SDI broadcast equipment like cameras and
+> > > mixers. This block outputs either native SDI, native video or
+> > > AXI4-Stream compliant data stream for further processing. Please refer
+> > > to PG290 for details.
+> > >
+> > > The driver is used to configure the IP to add framer, search for
+> > > specific modes, get the detected mode, stream parameters, errors, etc.
+> > > It also generates events for video lock/unlock, bridge over/under flow.
+> > >
+> > > The driver supports 10/12 bpc YUV 422 media bus format currently. It also
+> > > decodes the stream parameters based on the ST352 packet embedded in the
+> > > stream. In case the ST352 packet isn't present in the stream, the core's
+> > > detected properties are used to set stream properties.
+> > 
+> > As commented on patch 1/2, I don't see a mention of 12 bpc in the
+> > documentation. Let's discuss it as part of patch 1/2.
+> 
+> Ok.
+> 
+> > > The driver currently supports only the AXI4-Stream IP configuration.
+> > >
+> > > Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
+> > > ---
+> > > v2
+> > > - Added DV timing support based on Hans Verkuilś feedback
+> > > - More documentation to custom v4l controls and events
+> > > - Fixed Hyunś comments
+> > > - Added macro for masking and shifting as per Joe Perches comments
+> > > - Updated to latest as per Xilinx github repo driver like
+> > >   adding new DV timings not in mainline yet uptill 03/21/20
+> > >
+> > >  drivers/media/platform/xilinx/Kconfig         |   11 +
+> > >  drivers/media/platform/xilinx/Makefile        |    1 +
+> > >  .../media/platform/xilinx/xilinx-sdirxss.c    | 2162 +++++++++++++++++
+> > >  include/uapi/linux/xilinx-sdirxss.h           |  179 ++
+> > >  include/uapi/linux/xilinx-v4l2-controls.h     |   67 +
+> > >  5 files changed, 2420 insertions(+)
+> > >  create mode 100644 drivers/media/platform/xilinx/xilinx-sdirxss.c
+> > >  create mode 100644 include/uapi/linux/xilinx-sdirxss.h
 
-v4:
-  Commit "device core: Introduce multiple dma pfn offsets"
-  -- of_dma_get_range() does not take a dev param but instead
-     takes two "out" params: map and map_size.  We do this so
-     that the code that parses dma-ranges is separate from
-     the code that modifies 'dev'.   (Nicolas)
-  -- the separate case of having a single pfn offset has
-     been removed and is now processed by going through the
-     map array. (Nicolas)
-  -- move attach_uniform_dma_pfn_offset() from of/address.c to
-     dma/mapping.c so that it does not depend on CONFIG_OF. (Nicolas)
-  -- devm_kcalloc => devm_kzalloc (DanC)
-  -- add/fix assignment to dev->dma_pfn_offset_map for func
-     attach_uniform_dma_pfn_offset() (DanC, Nicolas)
-  -- s/struct dma_pfn_offset_region/struct bus_dma_region/ (Nicolas)
-  -- s/attach_uniform_dma_pfn_offset/dma_attach_uniform_pfn_offset/
-  -- s/attach_dma_pfn_offset_map/dma_attach_pfn_offset_map/
-  -- More use of PFN_{PHYS,DOWN,UP}. (AndyS)
-  Commit "of: Include a dev param in of_dma_get_range()"
-  -- this commit was sqaushed with "device core: Introduce ..."
+[snip]
 
-v3:
-  Commit "device core: Introduce multiple dma pfn offsets"
-  Commit "arm: dma-mapping: Invoke dma offset func if needed"
-  -- The above two commits have been squashed.  More importantly,
-     the code has been modified so that the functionality for
-     multiple pfn offsets subsumes the use of dev->dma_pfn_offset.
-     In fact, dma_pfn_offset is removed and supplanted by
-     dma_pfn_offset_map, which is a pointer to an array.  The
-     more common case of a uniform offset is now handled as
-     a map with a single entry, while cases requiring multiple
-     pfn offsets use a map with multiple entries.  Code paths
-     that used to do this:
+> > > diff --git a/drivers/media/platform/xilinx/xilinx-sdirxss.c
+> > b/drivers/media/platform/xilinx/xilinx-sdirxss.c
+> > > new file mode 100644
+> > > index 000000000000..c536ea3aaa0d
+> > > --- /dev/null
+> > > +++ b/drivers/media/platform/xilinx/xilinx-sdirxss.c
+> > > @@ -0,0 +1,2162 @@
 
-         dev->dma_pfn_offset = mydrivers_pfn_offset;
+[snip]
 
-     have been changed to do this:
+> > > +/* Maximum number of events per file handle. */
+> > > +#define XSDIRX_MAX_EVENTS	(128)
+> > 
+> > Do we really need such a high number ? How often are the overflow and
+> > underflow expected ?
+> 
+> An overflow or underflow events will occur when a resolution / rate change occurs.
+> But since we are stopping the bridges in irq handler, these events will stop coming.
+> I can reduce this to 8 events but it is arbitrary. Is that ok?
 
-         attach_uniform_dma_pfn_offset(dev, pfn_offset);
+Yes, I think that's a better value.
 
-  Commit "dt-bindings: PCI: Add bindings for more Brcmstb chips"
-  -- Add if/then clause for required props: resets, reset-names (RobH)
-  -- Change compatible list from const to enum (RobH)
-  -- Change list of u32-tuples to u64 (RobH)
+[snip]
 
-  Commit "of: Include a dev param in of_dma_get_range()"
-  -- modify of/unittests.c to add NULL param in of_dma_get_range() call.
+> > > +/**
+> > > + * struct xsdirxss_core - Core configuration SDI Rx Subsystem device structure
+> > > + * @dev: Platform structure
+> > > + * @iomem: Base address of subsystem
+> > > + * @irq: requested irq number
+> > > + * @include_edh: EDH processor presence
+> > > + * @mode: 3G/6G/12G mode
+> > > + * @clks: array of clocks
+> > > + * @num_clks: number of clocks
+> > > + * @bpc: Bits per component, can be 10 or 12
+> > > + */
+> > > +struct xsdirxss_core {
+> > > +	struct device *dev;
+> > > +	void __iomem *iomem;
+> > > +	int irq;
+> > > +	bool include_edh;
+> > > +	int mode;
+> > > +	struct clk_bulk_data *clks;
+> > > +	int num_clks;
+> > 
+> > num_clks is never negative, you can make it an unsigned int.
+> 
+> Ok. I will make num_clks as unsigned int.
+> So why devm_clk_bulk_get() and clk_bulk_prepare_enable() take in num_clks argument as int ?
 
-  Commit "device core: Add ability to handle multiple dma offsets"
-  -- align comment in device.h (AndyS).
-  -- s/cpu_beg/cpu_start/ and s/dma_beg/dma_start/ in struct
-     dma_pfn_offset_region (AndyS).
+That's a good question. I assume that's because nobody has cared to make
+it unsigned. It makes little difference in practice (there's a small
+impact on code generation depending on what operation you perform on the
+value, but it's usually negligible). Where it makes a difference, I
+believe, is in expressing the intent. If you make field unsigned, you
+express that it doesn't make sense to assign it a negative value. It's
+API documentation in a way. It can also avoid some errors:
 
-v2:
-Commit: "device core: Add ability to handle multiple dma offsets"
-  o Added helper func attach_dma_pfn_offset_map() in address.c (Chistoph)
-  o Helpers funcs added to __phys_to_dma() & __dma_to_phys() (Christoph)
-  o Added warning when multiple offsets are needed and !DMA_PFN_OFFSET_MAP
-  o dev->dma_pfn_map => dev->dma_pfn_offset_map
-  o s/frm/from/ for dma_pfn_offset_frm_{phys,dma}_addr() (Christoph)
-  o In device.h: s/const void */const struct dma_pfn_offset_region */
-  o removed 'unlikely' from unlikely(dev->dma_pfn_offset_map) since
-    guarded by CONFIG_DMA_PFN_OFFSET_MAP (Christoph)
-  o Since dev->dma_pfn_offset is copied in usb/core/{usb,message}.c, now
-    dev->dma_pfn_offset_map is copied as well.
-  o Merged two of the DMA commits into one (Christoph).
+struct foo {
+	u8 elements[16];
+};
 
-Commit "arm: dma-mapping: Invoke dma offset func if needed":
-  o Use helper functions instead of #if CONFIG_DMA_PFN_OFFSET
+int zero_foo_elements(struct foo *foo, int num_elements)
+{
+	if (num_elements > ARRAY_SIZE(foo->elements))
+		return -EOVERFLOW;
 
-Other commits' changes:
-  o Removed need for carrying of_id var in priv (Nicolas)
-  o Commit message rewordings (Bjorn)
-  o Commit log messages filled to 75 chars (Bjorn)
-  o devm_reset_control_get_shared())
-    => devm_reset_control_get_optional_shared (Philipp)
-  o Add call to reset_control_assert() in PCIe remove routines (Philipp)
+	memset(foo->elements, 0, num_elements);
 
-v1:
-This patchset expands the usefulness of the Broadcom Settop Box PCIe
-controller by building upon the PCIe driver used currently by the
-Raspbery Pi.  Other forms of this patchset were submitted by me years
-ago and not accepted; the major sticking point was the code required
-for the DMA remapping needed for the PCIe driver to work [1].
+	return 0;
+}
 
-There have been many changes to the DMA and OF subsystems since that
-time, making a cleaner and less intrusive patchset possible.  This
-patchset implements a generalization of "dev->dma_pfn_offset", except
-that instead of a single scalar offset it provides for multiple
-offsets via a function which depends upon the "dma-ranges" property of
-the PCIe host controller.  This is required for proper functionality
-of the BrcmSTB PCIe controller and possibly some other devices.
+If called with a negative value, bad things will happen. If num_elements
+was unsigned, there would be no issue. Of course the function could be
+written
 
-[1] https://lore.kernel.org/linux-arm-kernel/1516058925-46522-5-git-send-email-jim2101024@gmail.com/
+int zero_foo_elements(struct foo *foo, int num_elements)
+{
+	if (num_elements < 0 || num_elements > ARRAY_SIZE(foo->elements))
+		return -EOVERFLOW;
 
-Jim Quinlan (12):
-  PCI: brcmstb: PCIE_BRCMSTB depends on ARCH_BRCMSTB
-  ata: ahci_brcm: Fix use of BCM7216 reset controller
-  dt-bindings: PCI: Add bindings for more Brcmstb chips
-  PCI: brcmstb: Add bcm7278 register info
-  PCI: brcmstb: Add suspend and resume pm_ops
-  PCI: brcmstb: Add bcm7278 PERST support
-  PCI: brcmstb: Add control of rescal reset
-  device core: Introduce multiple dma pfn offsets
-  PCI: brcmstb: Set internal memory viewport sizes
-  PCI: brcmstb: Accommodate MSI for older chips
-  PCI: brcmstb: Set bus max burst size by chip type
-  PCI: brcmstb: Add bcm7211, bcm7216, bcm7445, bcm7278 to match list
+	memset(foo->elements, 0, num_elements);
 
- .../bindings/pci/brcm,stb-pcie.yaml           |  56 ++-
- arch/arm/include/asm/dma-mapping.h            |   9 +-
- arch/arm/mach-keystone/keystone.c             |   8 +-
- arch/sh/drivers/pci/pcie-sh7786.c             |   3 +-
- arch/sh/kernel/dma-coherent.c                 |  14 +-
- arch/x86/pci/sta2x11-fixup.c                  |   7 +-
- drivers/acpi/arm64/iort.c                     |   4 +-
- drivers/ata/ahci_brcm.c                       |  11 +-
- drivers/gpu/drm/sun4i/sun4i_backend.c         |   5 +-
- drivers/iommu/io-pgtable-arm.c                |   2 +-
- .../platform/sunxi/sun4i-csi/sun4i_csi.c      |   5 +-
- .../platform/sunxi/sun6i-csi/sun6i_csi.c      |   4 +-
- drivers/of/address.c                          |  71 ++-
- drivers/of/device.c                           |  19 +-
- drivers/of/of_private.h                       |  11 +-
- drivers/of/unittest.c                         |   8 +-
- drivers/pci/controller/Kconfig                |   3 +-
- drivers/pci/controller/pcie-brcmstb.c         | 403 +++++++++++++++---
- drivers/remoteproc/remoteproc_core.c          |   2 +-
- .../staging/media/sunxi/cedrus/cedrus_hw.c    |   7 +-
- drivers/usb/core/message.c                    |   4 +-
- drivers/usb/core/usb.c                        |   2 +-
- include/linux/device.h                        |   4 +-
- include/linux/dma-direct.h                    |  14 +-
- include/linux/dma-mapping.h                   |  38 ++
- kernel/dma/coherent.c                         |  11 +-
- kernel/dma/mapping.c                          |  39 ++
- 27 files changed, 632 insertions(+), 132 deletions(-)
+	return 0;
+}
+
+but it's easy to overlook the need for a < 0 check when there's no valid
+use case for passing a negative value.
+
+> > > +	u32 bpc;
+> > > +};
+
+[snip]
+
+> > > +/* TODO - Add YUV 444/420 and RBG 10/12 bpc mbus formats here */
+> > 
+> > s/RBG/RGB/ ?
+> > 
+> 
+> No RBG is correct because as per Xilinx User Guide 934 Figure 1-4 and Table 1-4, 
+> the Blue is middle component in the AXI4-Stream protocol followed by all Xilinx Video IPs.
+> https://www.xilinx.com/support/documentation/ip_documentation/axi_videoip/v1_0/ug934_axi_videoIP.pdf
+
+Indeed, my bad. I wonder why the AXI4 stream protocol uses RBG, it's a
+quite unusual order.
+
+> We will add the RBG 10 and 12 bpc formats later.
+
+[snip]
+
+> > > +
+> > > +/**
+> > > + * xsdirxss_g_volatile_ctrl - get the Xilinx SDI Rx controls
+> > > + * @ctrl: Pointer to V4L2 control
+> > > + *
+> > > + * Return: 0 on success, errors otherwise
+> > > + */
+> > > +static int xsdirxss_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+> > > +{
+> > > +	u32 val;
+> > > +	struct xsdirxss_state *xsdirxss =
+> > > +		container_of(ctrl->handler,
+> > > +			     struct xsdirxss_state, ctrl_handler);
+> > > +	struct xsdirxss_core *core = &xsdirxss->core;
+> > > +	struct device *dev = core->dev;
+> > > +
+> > > +	switch (ctrl->id) {
+> > > +	case V4L2_CID_XILINX_SDIRX_MODE_DETECT:
+> > > +		if (!xsdirxss->vidlocked) {
+> > > +			dev_err(dev, "Can't get values when video not locked!\n");
+> > > +			return -EINVAL;
+> > > +		}
+> > > +		val = xsdirxss_read(core, XSDIRX_MODE_DET_STAT_REG);
+> > > +		val &= XSDIRX_MODE_DET_STAT_RX_MODE_MASK;
+> > > +
+> > > +		switch (val) {
+> > > +		case XSDIRX_MODE_SD_MASK:
+> > > +			ctrl->val = XSDIRX_MODE_SD_OFFSET;
+> > > +			break;
+> > > +		case XSDIRX_MODE_HD_MASK:
+> > > +			ctrl->val = XSDIRX_MODE_HD_OFFSET;
+> > > +			break;
+> > > +		case XSDIRX_MODE_3G_MASK:
+> > > +			ctrl->val = XSDIRX_MODE_3G_OFFSET;
+> > > +			break;
+> > > +		case XSDIRX_MODE_6G_MASK:
+> > > +			ctrl->val = XSDIRX_MODE_6G_OFFSET;
+> > > +			break;
+> > > +		case XSDIRX_MODE_12GI_MASK:
+> > > +			ctrl->val = XSDIRX_MODE_12GI_OFFSET;
+> > > +			break;
+> > > +		case XSDIRX_MODE_12GF_MASK:
+> > > +			ctrl->val = XSDIRX_MODE_12GF_OFFSET;
+> > > +			break;
+> > > +		}
+> > > +		break;
+> > 
+> > Hans commented that the dv timings structure will report whether the
+> > mode is interlaced, I wonder if reporting the SDI mode shouldn't go
+> > through that structure too.
+> > 
+> 
+> I don’t know about this. 
+> We may add a feature in V4L2 / DRM framework to set / get the SDI modes.
+
+I'd like to get Hans' opinion on this, he has more experience with DV
+timings than I do.
+
+> > > +	case V4L2_CID_XILINX_SDIRX_CRC:
+> > > +		ctrl->val = xsdirxss_read(core, XSDIRX_CRC_ERRCNT_REG);
+> > > +		xsdirxss_write(core, XSDIRX_CRC_ERRCNT_REG, 0xFFFF);
+> > > +		break;
+> > 
+> > Are CRC errors common (and recoverable), or are they rare and fatal
+> > errors ? In other words, does this report information that would be
+> > classified as link quality, or fatal errors ? In the later case I wonder
+> > if an event wouldn't make more sense. It could be reported as another
+> > bit in the overflow/underflow event.
+> 
+> CRC errors will reflect link quality. 
+> There is no interrupt for CRC errors. 
+> So driver software won't know when to read this register. 
+> Also this is specific to Xilinx implementation.
+
+Thanks for the clarification, this makes sense.
+
+> > > +	case V4L2_CID_XILINX_SDIRX_EDH_ERRCNT:
+> > > +		val = xsdirxss_read(core, XSDIRX_MODE_DET_STAT_REG);
+> > > +		val &= XSDIRX_MODE_DET_STAT_RX_MODE_MASK;
+> > > +		if (val == XSDIRX_MODE_SD_MASK) {
+> > > +			ctrl->val = xsdirxss_read(core, XSDIRX_EDH_ERRCNT_REG);
+> > > +		} else {
+> > > +			dev_dbg(dev, "%d - not in SD mode\n", ctrl->id);
+> > > +			return -EINVAL;
+> > > +		}
+> > > +		break;
+> > 
+> > If my understanding of the datasheet is correct, this will be reset for
+> > every frame, right ? Reporting the information this way is thus quite
+> > racy. Isn't it better to send it through an event ?
+> 
+> This is not reset per frame. 
+> This is an error reporting mechanism that application can use to get errors in stream while 
+> running SD modes (720x487 and 720x576).
+> So I think it is ok to send it like this.
+
+I'm not sure why I thought it was reset per frame, sorry about the
+noise.
+
+> > > +	case V4L2_CID_XILINX_SDIRX_EDH_STATUS:
+> > > +		val = xsdirxss_read(core, XSDIRX_MODE_DET_STAT_REG);
+> > > +		val &= XSDIRX_MODE_DET_STAT_RX_MODE_MASK;
+> > > +		if (val == XSDIRX_MODE_SD_MASK) {
+> > > +			ctrl->val = xsdirxss_read(core, XSDIRX_EDH_STAT_REG);
+> > > +		} else {
+> > > +			dev_dbg(dev, "%d - not in SD mode\n", ctrl->id);
+> > > +			return -EINVAL;
+> > > +		}
+> > > +		break;
+> > 
+> > Same here, seems quite racy.
+> > 
+> 
+> Same here as earlier about EDH Counter. There is no interrupt here too.
+> 
+> > > +	case V4L2_CID_XILINX_SDIRX_TS_IS_INTERLACED:
+> > > +		if (!xsdirxss->vidlocked) {
+> > > +			dev_err(dev, "Can't get values when video not
+> > locked!\n");
+> > > +			return -EINVAL;
+> > > +		}
+> > > +		ctrl->val = xsdirxss->ts_is_interlaced;
+> > > +		break;
+> > > +	case V4L2_CID_XILINX_SDIRX_ACTIVE_STREAMS:
+> > > +		if (!xsdirxss->vidlocked) {
+> > > +			dev_err(dev, "Can't get values when video not
+> > locked!\n");
+> > > +			return -EINVAL;
+> > > +		}
+> > > +		val = xsdirxss_read(core, XSDIRX_MODE_DET_STAT_REG);
+> > > +		val &= XSDIRX_MODE_DET_STAT_ACT_STREAM_MASK;
+> > > +		val >>= XSDIRX_MODE_DET_STAT_ACT_STREAM_OFFSET;
+> > > +		ctrl->val = 1 << val;
+> > > +		break;
+> > > +	case V4L2_CID_XILINX_SDIRX_IS_3GB:
+> > > +		if (!xsdirxss->vidlocked) {
+> > > +			dev_err(dev, "Can't get values when video not
+> > locked!\n");
+> > > +			return -EINVAL;
+> > > +		}
+> > > +		val = xsdirxss_read(core, XSDIRX_MODE_DET_STAT_REG);
+> > > +		val &= XSDIRX_MODE_DET_STAT_LVLB_3G_MASK;
+> > > +		ctrl->val = val ? true : false;
+> > > +		break;
+> > 
+> > Shouldn't this also go through DV timings ? If not, I think it should at
+> > least be combined with V4L2_CID_XILINX_SDIRX_MODE_DETECT.
+> 
+> I am trying to use the same values to set mode and detect it. 
+> As there is no different bit to specifically detect 3GB Mode, hence this differentiation is there.
+> I will try to combine this in later patch.
+> 
+> > > +	default:
+> > > +		dev_err(dev, "Get Invalid control id 0x%0x\n", ctrl->id);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +	dev_dbg(dev, "Get ctrl id = 0x%08x val = 0x%08x\n", ctrl->id,
+> > > +		ctrl->val);
+> > 
+> > I would drop this line.
+> > 
+> 
+> Ok I will remove this in next patch.
+> 
+> > > +	return 0;
+> > > +}
+
+[snip]
+
+> > > +static int xsdirxss_parse_of(struct xsdirxss_state *xsdirxss)
+> > > +{
+> > > +	struct device_node *node = xsdirxss->core.dev->of_node;
+> > > +	struct xsdirxss_core *core = &xsdirxss->core;
+> > > +	struct device *dev = core->dev;
+> > > +	struct fwnode_handle *ep, *rep;
+> > > +	int ret;
+> > > +	const char *sdi_std;
+> > > +
+> > > +	core->include_edh = of_property_read_bool(node, "xlnx,include-edh");
+> > > +	dev_dbg(dev, "EDH property = %s\n",
+> > > +		core->include_edh ? "Present" : "Absent");
+> > > +
+> > > +	ret = of_property_read_string(node, "xlnx,line-rate", &sdi_std);
+> > > +	if (ret < 0) {
+> > > +		dev_err(dev, "xlnx,line-rate property not found\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	if (!strncmp(sdi_std, "12G_SDI_8DS", XSDIRX_MAX_STR_LENGTH)) {
+> > 
+> > Strings in DT are null-terminated, you can use strcmp() and drop
+> > XSDIRX_MAX_STR_LENGTH.
+> 
+> I will remove the strings from DT and have values 0, 1 and 2 to
+> represent 3G, 6G and 12G 8DS mode configurations.
+
+Then please add a header file in include/dt-bindings/media with macros
+for these values. An alternative would be to use 3, 6 and 12
+respectively, in which case we could do without macros I think. I'm
+fine with either option.
+
+> > > +		core->mode = XSDIRXSS_SDI_STD_12G_8DS;
+> > > +	} else if (!strncmp(sdi_std, "6G_SDI", XSDIRX_MAX_STR_LENGTH)) {
+> > > +		core->mode = XSDIRXSS_SDI_STD_6G;
+> > > +	} else if (!strncmp(sdi_std, "3G_SDI", XSDIRX_MAX_STR_LENGTH)) {
+> > > +		core->mode = XSDIRXSS_SDI_STD_3G;
+> > > +	} else {
+> > > +		dev_err(dev, "Invalid Line Rate\n");
+> > > +		return -EINVAL;
+> > > +	}
+> > > +	dev_dbg(dev, "SDI Rx Line Rate = %s, mode = %d\n", sdi_std,
+> > > +		core->mode);
+> > > +
+> > > +	ret = of_property_read_u32(node, "xlnx,bpp", &core->bpc);
+> > > +	if (ret < 0) {
+> > > +		dev_err(dev, "failed to get xlnx,bpp\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	if (core->bpc != 10 && core->bpc != 12) {
+> > > +		dev_err(dev, "bits per component=%u. Can be 10 or 12 only\n",
+> > > +			core->bpc);
+> > > +		return -EINVAL;
+> > > +	}
+> > > +
+> > > +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0,
+> > > +					     FWNODE_GRAPH_ENDPOINT_NEXT);
+> > > +	if (!ep) {
+> > > +		dev_err(dev, "no source port found");
+> > > +		ret = -EINVAL;
+> > > +		goto dt_parse_done;
+> > > +	}
+> > > +
+> > > +	rep = fwnode_graph_get_remote_endpoint(ep);
+> > > +	if (!rep) {
+> > > +		dev_err(dev, "no remote sink endpoint found");
+> > > +		ret = -EINVAL;
+> > > +	}
+> > 
+> > I don't think you need to check this, the subdev won't be linked
+> > properly in the pipeline if there's no port anyway.
+> 
+> Ok. I thought it was subdev driver's responsibility to validate this too. Hence added. 
+> I will remove this parsing in the next version.
+> 
+> > > +
+> > > +	fwnode_handle_put(rep);
+> > > +dt_parse_done:
+> > > +	fwnode_handle_put(ep);
+> > > +	return ret;
+> > > +}
+
+[snip]
 
 -- 
-2.17.1
+Regards,
 
+Laurent Pinchart
