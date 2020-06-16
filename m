@@ -2,363 +2,486 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7CCD1FB15B
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 14:58:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6D601FB16F
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 15:02:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728934AbgFPM6M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Jun 2020 08:58:12 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:57643 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728657AbgFPM6M (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Jun 2020 08:58:12 -0400
-X-UUID: 32f35363e1334808881a97faf494d5a2-20200616
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=Jm6xkgNl+WWFrU3Xv65Q6ZOl23HjoyM3nHBx878CRWI=;
-        b=VdlvQ3J4YO5yUHWpje2ecZ/iezYj/mOJwmmji4bvmGfTYCzh4fZKoJZdsDqNWQ/KstCry8OmiNXQR2vBjBUSP1IUhEqoQ+SCw1dB++8wJnfKV8WLvQ+Yb0R4k/7Nn3lBkaFxnGQaje2CzaOxyMnM3WQIn/SCI1Fjxos7L7c2s1s=;
-X-UUID: 32f35363e1334808881a97faf494d5a2-20200616
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by mailgw02.mediatek.com
-        (envelope-from <dongchun.zhu@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 537093061; Tue, 16 Jun 2020 20:58:05 +0800
-Received: from mtkcas08.mediatek.inc (172.21.101.126) by
- mtkmbs05n2.mediatek.inc (172.21.101.140) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 16 Jun 2020 20:58:01 +0800
-Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 16 Jun 2020 20:58:01 +0800
-From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
-To:     <linus.walleij@linaro.org>, <bgolaszewski@baylibre.com>,
-        <mchehab@kernel.org>, <andriy.shevchenko@linux.intel.com>,
-        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <sakari.ailus@linux.intel.com>, <drinkcat@chromium.org>,
-        <tfiga@chromium.org>, <matthias.bgg@gmail.com>,
-        <bingbu.cao@intel.com>
-CC:     <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>,
-        <dongchun.zhu@mediatek.com>
-Subject: [PATCH V8 2/2] media: i2c: dw9768: Add DW9768 VCM driver
-Date:   Tue, 16 Jun 2020 20:55:31 +0800
-Message-ID: <20200616125531.31671-3-dongchun.zhu@mediatek.com>
-X-Mailer: git-send-email 2.9.2
-In-Reply-To: <20200616125531.31671-1-dongchun.zhu@mediatek.com>
-References: <20200616125531.31671-1-dongchun.zhu@mediatek.com>
+        id S1728605AbgFPNBy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Jun 2020 09:01:54 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:40625 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728553AbgFPNBl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 16 Jun 2020 09:01:41 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1592312491; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=mexGKOlH9+sLddt17j+sAnOBsJ1ki5qJfCcH/CJTHsM=;
+ b=jKyO8Dla3znladihQmFoIk2DxSEJg4Dgz5mRICDu9Y1OR+IPzz4qukGKrLAFv+gJ3KDvCkiV
+ RfnVl7XW3lBDHH1UslyzN42JoPWMMjRyQ3viyof7Hk4WN7mlbCCLsyhwYrBwCNRPiwGREAEx
+ fijyclQirh2WHKsa8B2q4R1xRUU=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n08.prod.us-east-1.postgun.com with SMTP id
+ 5ee8c27e356bcc26ab80ce16 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 16 Jun 2020 13:00:46
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 6AA6CC433CB; Tue, 16 Jun 2020 13:00:45 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: dikshita)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4A988C433C9;
+        Tue, 16 Jun 2020 13:00:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Tue, 16 Jun 2020 18:30:43 +0530
+From:   dikshita@codeaurora.org
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        stanimir.varbanov@linaro.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, vgarodia@codeaurora.org,
+        majja@codeaurora.org, jdas@codeaurora.org,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Dylan Yip <dylany@xilinx.com>
+Subject: Re: [RFC] METADATA design using V4l2 Request API
+In-Reply-To: <36a298cc54febae7237631c985c7c4d29ed3e6c4.camel@ndufresne.ca>
+References: <1588918890-673-1-git-send-email-dikshita@codeaurora.org>
+ <d1179bc1-662b-615f-0f9b-67693fe8c906@xs4all.nl>
+ <fb96e2c09346e7831a0af99c0fe9f94c@codeaurora.org>
+ <b866e94a-1af2-5646-9e1c-6d027d172b97@xs4all.nl>
+ <3081cdd2b29eb08bc31b7e87a298b2184a57fad9.camel@ndufresne.ca>
+ <78b743fc3788b73b9a3387d7d0a7a3dff7fdb9d0.camel@ndufresne.ca>
+ <b7d058b1-2ad2-03df-e968-6004349038cc@xs4all.nl>
+ <36a298cc54febae7237631c985c7c4d29ed3e6c4.camel@ndufresne.ca>
+Message-ID: <fce526f61e1a0e575f83cc45f969a55c@codeaurora.org>
+X-Sender: dikshita@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-QWRkIGEgVjRMMiBzdWItZGV2aWNlIGRyaXZlciBmb3IgRFc5NzY4IHZvaWNlIGNvaWwgbW90b3Is
-DQpwcm92aWRpbmcgY29udHJvbCB0byBzZXQgdGhlIGRlc2lyZWQgZm9jdXMgdmlhIElJQyBzZXJp
-YWwgaW50ZXJmYWNlLg0KDQpTaWduZWQtb2ZmLWJ5OiBEb25nY2h1biBaaHUgPGRvbmdjaHVuLnpo
-dUBtZWRpYXRlay5jb20+DQotLS0NCiBNQUlOVEFJTkVSUyAgICAgICAgICAgICAgICB8ICAgMSAr
-DQogZHJpdmVycy9tZWRpYS9pMmMvS2NvbmZpZyAgfCAgMTIgKw0KIGRyaXZlcnMvbWVkaWEvaTJj
-L01ha2VmaWxlIHwgICAxICsNCiBkcml2ZXJzL21lZGlhL2kyYy9kdzk3NjguYyB8IDU1MyArKysr
-KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysNCiA0IGZpbGVzIGNoYW5n
-ZWQsIDU2NyBpbnNlcnRpb25zKCspDQogY3JlYXRlIG1vZGUgMTAwNjQ0IGRyaXZlcnMvbWVkaWEv
-aTJjL2R3OTc2OC5jDQoNCmRpZmYgLS1naXQgYS9NQUlOVEFJTkVSUyBiL01BSU5UQUlORVJTDQpp
-bmRleCA2MjY5MGM0Li4zNWIzZGFiIDEwMDY0NA0KLS0tIGEvTUFJTlRBSU5FUlMNCisrKyBiL01B
-SU5UQUlORVJTDQpAQCAtNTIyMSw2ICs1MjIxLDcgQEAgTDoJbGludXgtbWVkaWFAdmdlci5rZXJu
-ZWwub3JnDQogUzoJTWFpbnRhaW5lZA0KIFQ6CWdpdCBnaXQ6Ly9saW51eHR2Lm9yZy9tZWRpYV90
-cmVlLmdpdA0KIEY6CURvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9pMmMv
-ZG9uZ3dvb24sZHc5NzY4LnlhbWwNCitGOglkcml2ZXJzL21lZGlhL2kyYy9kdzk3NjguYw0KIA0K
-IERPTkdXT09OIERXOTgwNyBMRU5TIFZPSUNFIENPSUwgRFJJVkVSDQogTToJU2FrYXJpIEFpbHVz
-IDxzYWthcmkuYWlsdXNAbGludXguaW50ZWwuY29tPg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVk
-aWEvaTJjL0tjb25maWcgYi9kcml2ZXJzL21lZGlhL2kyYy9LY29uZmlnDQppbmRleCBkYTExMDM2
-Li45MzMzNzFmIDEwMDY0NA0KLS0tIGEvZHJpdmVycy9tZWRpYS9pMmMvS2NvbmZpZw0KKysrIGIv
-ZHJpdmVycy9tZWRpYS9pMmMvS2NvbmZpZw0KQEAgLTEyNTMsNiArMTI1MywxOCBAQCBjb25maWcg
-VklERU9fRFc5NzE0DQogCSAgY2FwYWJpbGl0eS4gVGhpcyBpcyBkZXNpZ25lZCBmb3IgbGluZWFy
-IGNvbnRyb2wgb2YNCiAJICB2b2ljZSBjb2lsIG1vdG9ycywgY29udHJvbGxlZCB2aWEgSTJDIHNl
-cmlhbCBpbnRlcmZhY2UuDQogDQorY29uZmlnIFZJREVPX0RXOTc2OA0KKwl0cmlzdGF0ZSAiRFc5
-NzY4IGxlbnMgdm9pY2UgY29pbCBzdXBwb3J0Ig0KKwlkZXBlbmRzIG9uIEkyQyAmJiBWSURFT19W
-NEwyDQorCXNlbGVjdCBNRURJQV9DT05UUk9MTEVSDQorCXNlbGVjdCBWSURFT19WNEwyX1NVQkRF
-Vl9BUEkNCisJc2VsZWN0IFY0TDJfRldOT0RFDQorCWhlbHANCisJICBUaGlzIGlzIGEgZHJpdmVy
-IGZvciB0aGUgRFc5NzY4IGNhbWVyYSBsZW5zIHZvaWNlIGNvaWwuDQorCSAgRFc5NzY4IGlzIGEg
-MTAgYml0IERBQyB3aXRoIDEwMG1BIG91dHB1dCBjdXJyZW50IHNpbmsNCisJICBjYXBhYmlsaXR5
-LiBUaGlzIGlzIGRlc2lnbmVkIGZvciBsaW5lYXIgY29udHJvbCBvZg0KKwkgIHZvaWNlIGNvaWwg
-bW90b3JzLCBjb250cm9sbGVkIHZpYSBJMkMgc2VyaWFsIGludGVyZmFjZS4NCisNCiBjb25maWcg
-VklERU9fRFc5ODA3X1ZDTQ0KIAl0cmlzdGF0ZSAiRFc5ODA3IGxlbnMgdm9pY2UgY29pbCBzdXBw
-b3J0Ig0KIAlkZXBlbmRzIG9uIEkyQyAmJiBWSURFT19WNEwyDQpkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9tZWRpYS9pMmMvTWFrZWZpbGUgYi9kcml2ZXJzL21lZGlhL2kyYy9NYWtlZmlsZQ0KaW5kZXgg
-OTkzYWNhYi4uMzNhZDQzNSAxMDA2NDQNCi0tLSBhL2RyaXZlcnMvbWVkaWEvaTJjL01ha2VmaWxl
-DQorKysgYi9kcml2ZXJzL21lZGlhL2kyYy9NYWtlZmlsZQ0KQEAgLTI0LDYgKzI0LDcgQEAgb2Jq
-LSQoQ09ORklHX1ZJREVPX1NBQTY3NTJIUykgKz0gc2FhNjc1MmhzLm8NCiBvYmotJChDT05GSUdf
-VklERU9fQUQ1ODIwKSAgKz0gYWQ1ODIwLm8NCiBvYmotJChDT05GSUdfVklERU9fQUs3Mzc1KSAg
-Kz0gYWs3Mzc1Lm8NCiBvYmotJChDT05GSUdfVklERU9fRFc5NzE0KSAgKz0gZHc5NzE0Lm8NCitv
-YmotJChDT05GSUdfVklERU9fRFc5NzY4KSAgKz0gZHc5NzY4Lm8NCiBvYmotJChDT05GSUdfVklE
-RU9fRFc5ODA3X1ZDTSkgICs9IGR3OTgwNy12Y20ubw0KIG9iai0kKENPTkZJR19WSURFT19BRFY3
-MTcwKSArPSBhZHY3MTcwLm8NCiBvYmotJChDT05GSUdfVklERU9fQURWNzE3NSkgKz0gYWR2NzE3
-NS5vDQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9pMmMvZHc5NzY4LmMgYi9kcml2ZXJzL21l
-ZGlhL2kyYy9kdzk3NjguYw0KbmV3IGZpbGUgbW9kZSAxMDA2NDQNCmluZGV4IDAwMDAwMDAuLjU0
-ZjJlYjgNCi0tLSAvZGV2L251bGwNCisrKyBiL2RyaXZlcnMvbWVkaWEvaTJjL2R3OTc2OC5jDQpA
-QCAtMCwwICsxLDU1MyBAQA0KKy8vIFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wDQor
-Ly8gQ29weXJpZ2h0IChjKSAyMDIwIE1lZGlhVGVrIEluYy4NCisNCisjaW5jbHVkZSA8bGludXgv
-ZGVsYXkuaD4NCisjaW5jbHVkZSA8bGludXgvaTJjLmg+DQorI2luY2x1ZGUgPGxpbnV4L21vZHVs
-ZS5oPg0KKyNpbmNsdWRlIDxsaW51eC9wbV9ydW50aW1lLmg+DQorI2luY2x1ZGUgPGxpbnV4L3Jl
-Z3VsYXRvci9jb25zdW1lci5oPg0KKyNpbmNsdWRlIDxtZWRpYS92NGwyLWFzeW5jLmg+DQorI2lu
-Y2x1ZGUgPG1lZGlhL3Y0bDItY3RybHMuaD4NCisjaW5jbHVkZSA8bWVkaWEvdjRsMi1kZXZpY2Uu
-aD4NCisjaW5jbHVkZSA8bWVkaWEvdjRsMi1md25vZGUuaD4NCisjaW5jbHVkZSA8bWVkaWEvdjRs
-Mi1zdWJkZXYuaD4NCisNCisjZGVmaW5lIERXOTc2OF9OQU1FCQkJCSJkdzk3NjgiDQorI2RlZmlu
-ZSBEVzk3NjhfTUFYX0ZPQ1VTX1BPUwkJCSgxMDI0IC0gMSkNCisvKg0KKyAqIFRoaXMgc2V0cyB0
-aGUgbWluaW11bSBncmFudWxhcml0eSBmb3IgdGhlIGZvY3VzIHBvc2l0aW9ucy4NCisgKiBBIHZh
-bHVlIG9mIDEgZ2l2ZXMgbWF4aW11bSBhY2N1cmFjeSBmb3IgYSBkZXNpcmVkIGZvY3VzIHBvc2l0
-aW9uDQorICovDQorI2RlZmluZSBEVzk3NjhfRk9DVVNfU1RFUFMJCQkxDQorDQorLyoNCisgKiBS
-aW5nIGNvbnRyb2wgYW5kIFBvd2VyIGNvbnRyb2wgcmVnaXN0ZXINCisgKiBCaXRbMV0gUklOR19F
-Tg0KKyAqIDA6IERpcmVjdCBtb2RlDQorICogMTogQUFDIG1vZGUgKHJpbmdpbmcgY29udHJvbCBt
-b2RlKQ0KKyAqIEJpdFswXSBQRA0KKyAqIDA6IE5vcm1hbCBvcGVyYXRpb24gbW9kZQ0KKyAqIDE6
-IFBvd2VyIGRvd24gbW9kZQ0KKyAqIERXOTc2OCByZXF1aXJlcyB3YWl0aW5nIHRpbWUgb2YgVG9w
-ciBhZnRlciBQRCByZXNldCB0YWtlcyBwbGFjZS4NCisgKi8NCisjZGVmaW5lIERXOTc2OF9SSU5H
-X1BEX0NPTlRST0xfUkVHCQkweDAyDQorI2RlZmluZSBEVzk3NjhfUERfTU9ERV9PRkYJCQkweDAw
-DQorI2RlZmluZSBEVzk3NjhfUERfTU9ERV9FTgkJCUJJVCgwKQ0KKyNkZWZpbmUgRFc5NzY4X0FB
-Q19NT0RFX0VOCQkJQklUKDEpDQorDQorLyoNCisgKiBEVzk3Njggc2VwYXJhdGVzIHR3byByZWdp
-c3RlcnMgdG8gY29udHJvbCB0aGUgVkNNIHBvc2l0aW9uLg0KKyAqIE9uZSBmb3IgTVNCIHZhbHVl
-LCBhbm90aGVyIGlzIExTQiB2YWx1ZS4NCisgKiBEQUNfTVNCOiBEWzk6OF0gKEFERDogMHgwMykN
-CisgKiBEQUNfTFNCOiBEWzc6MF0gKEFERDogMHgwNCkNCisgKiBEWzk6MF0gREFDIGRhdGEgaW5w
-dXQ6IHBvc2l0aXZlIG91dHB1dCBjdXJyZW50ID0gRFs5OjBdIC8gMTAyMyAqIDEwMFttQV0NCisg
-Ki8NCisjZGVmaW5lIERXOTc2OF9NU0JfQUREUgkJCQkweDAzDQorI2RlZmluZSBEVzk3NjhfTFNC
-X0FERFIJCQkJMHgwNA0KKyNkZWZpbmUgRFc5NzY4X1NUQVRVU19BRERSCQkJMHgwNQ0KKw0KKy8q
-DQorICogQUFDIG1vZGUgY29udHJvbCAmIHByZXNjYWxlIHJlZ2lzdGVyDQorICogQml0Wzc6NV0g
-TmFtZWx5IEFDWzI6MF0sIGRlY2lkZSB0aGUgVkNNIG1vZGUgYW5kIG9wZXJhdGlvbiB0aW1lLg0K
-KyAqIDAwMSBBQUMyIDAuNDggeCBUdmliDQorICogMDEwIEFBQzMgMC43MCB4IFR2aWINCisgKiAw
-MTEgQUFDNCAwLjc1IHggVHZpYg0KKyAqIDEwMSBBQUM4IDEuMTMgeCBUdmliDQorICogQml0WzI6
-MF0gTmFtZWx5IFBSRVNDWzI6MF0sIHNldCB0aGUgaW50ZXJuYWwgY2xvY2sgZGl2aWRpbmcgcmF0
-ZSBhcyBmb2xsb3cuDQorICogMDAwIDINCisgKiAwMDEgMQ0KKyAqIDAxMCAxLzINCisgKiAwMTEg
-MS80DQorICogMTAwIDgNCisgKiAxMDEgNA0KKyAqLw0KKyNkZWZpbmUgRFc5NzY4X0FBQ19QUkVT
-Q19SRUcJCQkweDA2DQorI2RlZmluZSBEVzk3NjhfQUFDX01PREVfU0VMX01BU0sJCUdFTk1BU0so
-NywgNSkNCisjZGVmaW5lIERXOTc2OF9DTE9DS19QUkVfU0NBTEVfU0VMX01BU0sJCUdFTk1BU0so
-MiwgMCkNCisNCisvKg0KKyAqIFZDTSBwZXJpb2Qgb2YgdmlicmF0aW9uIHJlZ2lzdGVyDQorICog
-Qml0WzU6MF0gRGVmaW5lZCBhcyBWQ00gcmlzaW5nIHBlcmlvZGljIHRpbWUgKFR2aWIpIHRvZ2V0
-aGVyIHdpdGggUFJFU0NbMjowXQ0KKyAqIFR2aWIgPSAoNi4zbXMgKyBBQUNUWzU6MF0gKiAwLjFt
-cykgKiBEaXZpZGluZyBSYXRlDQorICogRGl2aWRpbmcgUmF0ZSBpcyB0aGUgaW50ZXJuYWwgY2xv
-Y2sgZGl2aWRpbmcgcmF0ZSB0aGF0IGlzIGRlZmluZWQgYXQNCisgKiBQUkVTQ0FMRSByZWdpc3Rl
-ciAoQUREOiAweDA2KQ0KKyAqLw0KKyNkZWZpbmUgRFc5NzY4X0FBQ19USU1FX1JFRwkJCTB4MDcN
-CisNCisvKg0KKyAqIERXOTc2OCByZXF1aXJlcyB3YWl0aW5nIHRpbWUgKGRlbGF5IHRpbWUpIG9m
-IHRfT1BSIGFmdGVyIHBvd2VyLXVwLA0KKyAqIG9yIGluIHRoZSBjYXNlIG9mIFBEIHJlc2V0IHRh
-a2luZyBwbGFjZS4NCisgKi8NCisjZGVmaW5lIERXOTc2OF9UX09QUl9VUwkJCQkxMDAwDQorI2Rl
-ZmluZSBEVzk3NjhfVFZJQl9NU19CQVNFMTAJCQkoNjQgLSAxKQ0KKyNkZWZpbmUgRFc5NzY4X0FB
-Q19NT0RFX0RFRkFVTFQJCQkyDQorI2RlZmluZSBEVzk3NjhfQUFDX1RJTUVfREVGQVVMVAkJCTB4
-MjANCisjZGVmaW5lIERXOTc2OF9DTE9DS19QUkVfU0NBTEVfREVGQVVMVAkJMQ0KKw0KKy8qDQor
-ICogVGhpcyBhY3RzIGFzIHRoZSBtaW5pbXVtIGdyYW51bGFyaXR5IG9mIGxlbnMgbW92ZW1lbnQu
-DQorICogS2VlcCB0aGlzIHZhbHVlIHBvd2VyIG9mIDIsIHNvIHRoZSBjb250cm9sIHN0ZXBzIGNh
-biBiZQ0KKyAqIHVuaWZvcm1seSBhZGp1c3RlZCBmb3IgZ3JhZHVhbCBsZW5zIG1vdmVtZW50LCB3
-aXRoIGRlc2lyZWQNCisgKiBudW1iZXIgb2YgY29udHJvbCBzdGVwcy4NCisgKi8NCisjZGVmaW5l
-IERXOTc2OF9NT1ZFX1NURVBTCQkJMTYNCisNCitzdGF0aWMgY29uc3QgY2hhciAqIGNvbnN0IGR3
-OTc2OF9zdXBwbHlfbmFtZXNbXSA9IHsNCisJInZpbiIsCS8qIERpZ2l0YWwgSS9PIHBvd2VyICov
-DQorCSJ2ZGQiLAkvKiBEaWdpdGFsIGNvcmUgcG93ZXIgKi8NCit9Ow0KKw0KKy8qIGR3OTc2OCBk
-ZXZpY2Ugc3RydWN0dXJlICovDQorc3RydWN0IGR3OTc2OCB7DQorCXN0cnVjdCByZWd1bGF0b3Jf
-YnVsa19kYXRhIHN1cHBsaWVzW0FSUkFZX1NJWkUoZHc5NzY4X3N1cHBseV9uYW1lcyldOw0KKwlz
-dHJ1Y3QgdjRsMl9jdHJsX2hhbmRsZXIgY3RybHM7DQorCXN0cnVjdCB2NGwyX2N0cmwgKmZvY3Vz
-Ow0KKwlzdHJ1Y3QgdjRsMl9zdWJkZXYgc2Q7DQorDQorCXUzMiBhYWNfbW9kZTsNCisJdTMyIGFh
-Y190aW1pbmc7DQorCXUzMiBjbG9ja19wcmVzYzsNCisJdTMyIG1vdmVfZGVsYXlfdXM7DQorfTsN
-CisNCitzdGF0aWMgaW5saW5lIHN0cnVjdCBkdzk3NjggKnNkX3RvX2R3OTc2OChzdHJ1Y3QgdjRs
-Ml9zdWJkZXYgKnN1YmRldikNCit7DQorCXJldHVybiBjb250YWluZXJfb2Yoc3ViZGV2LCBzdHJ1
-Y3QgZHc5NzY4LCBzZCk7DQorfQ0KKw0KK3N0cnVjdCByZWd2YWxfbGlzdCB7DQorCXU4IHJlZ19u
-dW07DQorCXU4IHZhbHVlOw0KK307DQorDQorc3RydWN0IGR3OTc2OF9hYWNfbW9kZV9vdF9tdWx0
-aSB7DQorCXUzMiBhYWNfbW9kZV9lbnVtOw0KKwl1MzIgb3RfbXVsdGlfYmFzZTEwMDsNCit9Ow0K
-Kw0KK3N0cnVjdCBkdzk3NjhfY2xrX3ByZXNjX2RpdmlkaW5nX3JhdGUgew0KKwl1MzIgY2xrX3By
-ZXNjX2VudW07DQorCXUzMiBkaXZpZGluZ19yYXRlX2Jhc2UxMDA7DQorfTsNCisNCitzdGF0aWMg
-Y29uc3Qgc3RydWN0IGR3OTc2OF9hYWNfbW9kZV9vdF9tdWx0aSBhYWNfbW9kZV9vdF9tdWx0aVtd
-ID0gew0KKwl7MSwgIDQ4fSwNCisJezIsICA3MH0sDQorCXszLCAgNzV9LA0KKwl7NSwgMTEzfSwN
-Cit9Ow0KKw0KK3N0YXRpYyBjb25zdCBzdHJ1Y3QgZHc5NzY4X2Nsa19wcmVzY19kaXZpZGluZ19y
-YXRlIHByZXNjX2RpdmlkaW5nX3JhdGVbXSA9IHsNCisJezAsIDIwMH0sDQorCXsxLCAxMDB9LA0K
-Kwl7MiwgIDUwfSwNCisJezMsICAyNX0sDQorCXs0LCA4MDB9LA0KKwl7NSwgNDAwfSwNCit9Ow0K
-Kw0KK3N0YXRpYyB1MzIgZHc5NzY4X2ZpbmRfb3RfbXVsdGkodTMyIGFhY19tb2RlX3BhcmFtKQ0K
-K3sNCisJdTMyIGN1cl9vdF9tdWx0aV9iYXNlMTAwID0gNzA7DQorCXVuc2lnbmVkIGludCBpOw0K
-Kw0KKwlmb3IgKGkgPSAwOyBpIDwgQVJSQVlfU0laRShhYWNfbW9kZV9vdF9tdWx0aSk7IGkrKykg
-ew0KKwkJaWYgKGFhY19tb2RlX290X211bHRpW2ldLmFhY19tb2RlX2VudW0gPT0gYWFjX21vZGVf
-cGFyYW0pIHsNCisJCQljdXJfb3RfbXVsdGlfYmFzZTEwMCA9DQorCQkJCWFhY19tb2RlX290X211
-bHRpW2ldLm90X211bHRpX2Jhc2UxMDA7DQorCQl9DQorCX0NCisNCisJcmV0dXJuIGN1cl9vdF9t
-dWx0aV9iYXNlMTAwOw0KK30NCisNCitzdGF0aWMgdTMyIGR3OTc2OF9maW5kX2RpdmlkaW5nX3Jh
-dGUodTMyIHByZXNjX3BhcmFtKQ0KK3sNCisJdTMyIGN1cl9jbGtfZGl2aWRpbmdfcmF0ZV9iYXNl
-MTAwID0gMTAwOw0KKwl1bnNpZ25lZCBpbnQgaTsNCisNCisJZm9yIChpID0gMDsgaSA8IEFSUkFZ
-X1NJWkUocHJlc2NfZGl2aWRpbmdfcmF0ZSk7IGkrKykgew0KKwkJaWYgKHByZXNjX2RpdmlkaW5n
-X3JhdGVbaV0uY2xrX3ByZXNjX2VudW0gPT0gcHJlc2NfcGFyYW0pIHsNCisJCQljdXJfY2xrX2Rp
-dmlkaW5nX3JhdGVfYmFzZTEwMCA9DQorCQkJCXByZXNjX2RpdmlkaW5nX3JhdGVbaV0uZGl2aWRp
-bmdfcmF0ZV9iYXNlMTAwOw0KKwkJfQ0KKwl9DQorDQorCXJldHVybiBjdXJfY2xrX2RpdmlkaW5n
-X3JhdGVfYmFzZTEwMDsNCit9DQorDQorLyoNCisgKiBEVzk3NjhfQUFDX1BSRVNDX1JFRyAmIERX
-OTc2OF9BQUNfVElNRV9SRUcgZGV0ZXJtaW5lIFZDTSBvcGVyYXRpb24gdGltZS4NCisgKiBGb3Ig
-Y3VycmVudCBWQ00gbW9kZTogQUFDMywgT3BlcmF0aW9uIFRpbWUgd291bGQgYmUgMC43MCB4IFR2
-aWIuDQorICogVHZpYiA9ICg2LjNtcyArIEFBQ1RbNTowXSAqIDAuMU1TKSAqIERpdmlkaW5nIFJh
-dGUuDQorICogQmVsb3cgaXMgY2FsY3VsYXRpb24gb2YgdGhlIG9wZXJhdGlvbiBkZWxheSBmb3Ig
-ZWFjaCBzdGVwLg0KKyAqLw0KK3N0YXRpYyBpbmxpbmUgdTMyIGR3OTc2OF9jYWxfbW92ZV9kZWxh
-eSh1MzIgYWFjX21vZGVfcGFyYW0sIHUzMiBwcmVzY19wYXJhbSwNCisJCQkJCXUzMiBhYWNfdGlt
-aW5nX3BhcmFtKQ0KK3sNCisJdTMyIFR2aWJfdXM7DQorCXUzMiBvdF9tdWx0aV9iYXNlMTAwOw0K
-Kwl1MzIgY2xrX2RpdmlkaW5nX3JhdGVfYmFzZTEwMDsNCisNCisJb3RfbXVsdGlfYmFzZTEwMCA9
-IGR3OTc2OF9maW5kX290X211bHRpKGFhY19tb2RlX3BhcmFtKTsNCisNCisJY2xrX2RpdmlkaW5n
-X3JhdGVfYmFzZTEwMCA9IGR3OTc2OF9maW5kX2RpdmlkaW5nX3JhdGUocHJlc2NfcGFyYW0pOw0K
-Kw0KKwlUdmliX3VzID0gKERXOTc2OF9UVklCX01TX0JBU0UxMCArIGFhY190aW1pbmdfcGFyYW0p
-ICoNCisJCSAgY2xrX2RpdmlkaW5nX3JhdGVfYmFzZTEwMDsNCisNCisJcmV0dXJuIFR2aWJfdXMg
-KiBvdF9tdWx0aV9iYXNlMTAwOw0KK30NCisNCitzdGF0aWMgaW50IGR3OTc2OF9tb2RfcmVnKHN0
-cnVjdCBkdzk3NjggKmR3OTc2OCwgdTggcmVnLCB1OCBtYXNrLCB1OCB2YWwpDQorew0KKwlzdHJ1
-Y3QgaTJjX2NsaWVudCAqY2xpZW50ID0gdjRsMl9nZXRfc3ViZGV2ZGF0YSgmZHc5NzY4LT5zZCk7
-DQorCWludCByZXQ7DQorDQorCXJldCA9IGkyY19zbWJ1c19yZWFkX2J5dGVfZGF0YShjbGllbnQs
-IHJlZyk7DQorCWlmIChyZXQgPCAwKQ0KKwkJcmV0dXJuIHJldDsNCisNCisJdmFsID0gKCh1bnNp
-Z25lZCBjaGFyKXJldCAmIH5tYXNrKSB8ICh2YWwgJiBtYXNrKTsNCisNCisJcmV0dXJuIGkyY19z
-bWJ1c193cml0ZV9ieXRlX2RhdGEoY2xpZW50LCByZWcsIHZhbCk7DQorfQ0KKw0KK3N0YXRpYyBp
-bnQgZHc5NzY4X3NldF9kYWMoc3RydWN0IGR3OTc2OCAqZHc5NzY4LCB1MTYgdmFsKQ0KK3sNCisJ
-c3RydWN0IGkyY19jbGllbnQgKmNsaWVudCA9IHY0bDJfZ2V0X3N1YmRldmRhdGEoJmR3OTc2OC0+
-c2QpOw0KKw0KKwkvKiBXcml0ZSBWQ00gcG9zaXRpb24gdG8gcmVnaXN0ZXJzICovDQorCXJldHVy
-biBpMmNfc21idXNfd3JpdGVfd29yZF9zd2FwcGVkKGNsaWVudCwgRFc5NzY4X01TQl9BRERSLCB2
-YWwpOw0KK30NCisNCitzdGF0aWMgaW50IGR3OTc2OF9pbml0KHN0cnVjdCBkdzk3NjggKmR3OTc2
-OCkNCit7DQorCXN0cnVjdCBpMmNfY2xpZW50ICpjbGllbnQgPSB2NGwyX2dldF9zdWJkZXZkYXRh
-KCZkdzk3NjgtPnNkKTsNCisJaW50IHJldCwgdmFsOw0KKw0KKwkvKiBSZXNldCBEVzk3NjhfUklO
-R19QRF9DT05UUk9MX1JFRyB0byBkZWZhdWx0IHN0YXR1cyAweDAwICovDQorCXJldCA9IGkyY19z
-bWJ1c193cml0ZV9ieXRlX2RhdGEoY2xpZW50LCBEVzk3NjhfUklOR19QRF9DT05UUk9MX1JFRywN
-CisJCQkJCURXOTc2OF9QRF9NT0RFX09GRik7DQorCWlmIChyZXQgPCAwKQ0KKwkJcmV0dXJuIHJl
-dDsNCisNCisJLyoNCisJICogRFc5NzY5IHJlcXVpcmVzIHdhaXRpbmcgZGVsYXkgdGltZSBvZiB0
-X09QUg0KKwkgKiBhZnRlciBQRCByZXNldCB0YWtlcyBwbGFjZS4NCisJICovDQorCXVzbGVlcF9y
-YW5nZShEVzk3NjhfVF9PUFJfVVMsIERXOTc2OF9UX09QUl9VUyArIDEwMCk7DQorDQorCS8qIFNl
-dCBEVzk3NjhfUklOR19QRF9DT05UUk9MX1JFRyB0byBEVzk3NjhfQUFDX01PREVfRU4oMHgwMSkg
-Ki8NCisJcmV0ID0gaTJjX3NtYnVzX3dyaXRlX2J5dGVfZGF0YShjbGllbnQsIERXOTc2OF9SSU5H
-X1BEX0NPTlRST0xfUkVHLA0KKwkJCQkJRFc5NzY4X0FBQ19NT0RFX0VOKTsNCisJaWYgKHJldCA8
-IDApDQorCQlyZXR1cm4gcmV0Ow0KKw0KKwkvKiBTZXQgQUFDIG1vZGUgKi8NCisJcmV0ID0gZHc5
-NzY4X21vZF9yZWcoZHc5NzY4LCBEVzk3NjhfQUFDX1BSRVNDX1JFRywNCisJCQkgICAgIERXOTc2
-OF9BQUNfTU9ERV9TRUxfTUFTSywNCisJCQkgICAgIGR3OTc2OC0+YWFjX21vZGUgPDwgNSk7DQor
-CWlmIChyZXQgPCAwKQ0KKwkJcmV0dXJuIHJldDsNCisNCisJLyogU2V0IGNsb2NrIHByZXNjICov
-DQorCWlmIChkdzk3NjgtPmNsb2NrX3ByZXNjICE9IERXOTc2OF9DTE9DS19QUkVfU0NBTEVfREVG
-QVVMVCkgew0KKwkJcmV0ID0gZHc5NzY4X21vZF9yZWcoZHc5NzY4LCBEVzk3NjhfQUFDX1BSRVND
-X1JFRywNCisJCQkJICAgICBEVzk3NjhfQ0xPQ0tfUFJFX1NDQUxFX1NFTF9NQVNLLA0KKwkJCQkg
-ICAgIGR3OTc2OC0+Y2xvY2tfcHJlc2MpOw0KKwkJaWYgKHJldCA8IDApDQorCQkJcmV0dXJuIHJl
-dDsNCisJfQ0KKw0KKwkvKiBTZXQgQUFDIFRpbWluZyAqLw0KKwlpZiAoZHc5NzY4LT5hYWNfdGlt
-aW5nICE9IERXOTc2OF9BQUNfVElNRV9ERUZBVUxUKSB7DQorCQlyZXQgPSBpMmNfc21idXNfd3Jp
-dGVfYnl0ZV9kYXRhKGNsaWVudCwgRFc5NzY4X0FBQ19USU1FX1JFRywNCisJCQkJCQlkdzk3Njgt
-PmFhY190aW1pbmcpOw0KKwkJaWYgKHJldCA8IDApDQorCQkJcmV0dXJuIHJldDsNCisJfQ0KKw0K
-Kwlmb3IgKHZhbCA9IGR3OTc2OC0+Zm9jdXMtPnZhbCAlIERXOTc2OF9NT1ZFX1NURVBTOw0KKwkg
-ICAgIHZhbCA8PSBkdzk3NjgtPmZvY3VzLT52YWw7DQorCSAgICAgdmFsICs9IERXOTc2OF9NT1ZF
-X1NURVBTKSB7DQorCQlyZXQgPSBkdzk3Njhfc2V0X2RhYyhkdzk3NjgsIHZhbCk7DQorCQlpZiAo
-cmV0KSB7DQorCQkJZGV2X2VycigmY2xpZW50LT5kZXYsICJJMkMgZmFpbHVyZTogJWQiLCByZXQp
-Ow0KKwkJCXJldHVybiByZXQ7DQorCQl9DQorCQl1c2xlZXBfcmFuZ2UoZHc5NzY4LT5tb3ZlX2Rl
-bGF5X3VzLA0KKwkJCSAgICAgZHc5NzY4LT5tb3ZlX2RlbGF5X3VzICsgMTAwMCk7DQorCX0NCisN
-CisJcmV0dXJuIDA7DQorfQ0KKw0KK3N0YXRpYyBpbnQgZHc5NzY4X3JlbGVhc2Uoc3RydWN0IGR3
-OTc2OCAqZHc5NzY4KQ0KK3sNCisJc3RydWN0IGkyY19jbGllbnQgKmNsaWVudCA9IHY0bDJfZ2V0
-X3N1YmRldmRhdGEoJmR3OTc2OC0+c2QpOw0KKwlpbnQgcmV0LCB2YWw7DQorDQorCXZhbCA9IHJv
-dW5kX2Rvd24oZHc5NzY4LT5mb2N1cy0+dmFsLCBEVzk3NjhfTU9WRV9TVEVQUyk7DQorCWZvciAo
-IDsgdmFsID49IDA7IHZhbCAtPSBEVzk3NjhfTU9WRV9TVEVQUykgew0KKwkJcmV0ID0gZHc5NzY4
-X3NldF9kYWMoZHc5NzY4LCB2YWwpOw0KKwkJaWYgKHJldCkgew0KKwkJCWRldl9lcnIoJmNsaWVu
-dC0+ZGV2LCAiSTJDIHdyaXRlIGZhaWw6ICVkIiwgcmV0KTsNCisJCQlyZXR1cm4gcmV0Ow0KKwkJ
-fQ0KKwkJdXNsZWVwX3JhbmdlKGR3OTc2OC0+bW92ZV9kZWxheV91cywNCisJCQkgICAgIGR3OTc2
-OC0+bW92ZV9kZWxheV91cyArIDEwMDApOw0KKwl9DQorDQorCXJldCA9IGkyY19zbWJ1c193cml0
-ZV9ieXRlX2RhdGEoY2xpZW50LCBEVzk3NjhfUklOR19QRF9DT05UUk9MX1JFRywNCisJCQkJCURX
-OTc2OF9QRF9NT0RFX0VOKTsNCisJaWYgKHJldCA8IDApDQorCQlyZXR1cm4gcmV0Ow0KKw0KKwkv
-Kg0KKwkgKiBEVzk3NjkgcmVxdWlyZXMgd2FpdGluZyBkZWxheSB0aW1lIG9mIHRfT1BSDQorCSAq
-IGFmdGVyIFBEIHJlc2V0IHRha2VzIHBsYWNlLg0KKwkgKi8NCisJdXNsZWVwX3JhbmdlKERXOTc2
-OF9UX09QUl9VUywgRFc5NzY4X1RfT1BSX1VTICsgMTAwKTsNCisNCisJcmV0dXJuIDA7DQorfQ0K
-Kw0KK3N0YXRpYyBpbnQgZHc5NzY4X3J1bnRpbWVfc3VzcGVuZChzdHJ1Y3QgZGV2aWNlICpkZXYp
-DQorew0KKwlzdHJ1Y3QgaTJjX2NsaWVudCAqY2xpZW50ID0gdG9faTJjX2NsaWVudChkZXYpOw0K
-KwlzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkID0gaTJjX2dldF9jbGllbnRkYXRhKGNsaWVudCk7DQor
-CXN0cnVjdCBkdzk3NjggKmR3OTc2OCA9IHNkX3RvX2R3OTc2OChzZCk7DQorDQorCWR3OTc2OF9y
-ZWxlYXNlKGR3OTc2OCk7DQorCXJlZ3VsYXRvcl9idWxrX2Rpc2FibGUoQVJSQVlfU0laRShkdzk3
-Njhfc3VwcGx5X25hbWVzKSwNCisJCQkgICAgICAgZHc5NzY4LT5zdXBwbGllcyk7DQorDQorCXJl
-dHVybiAwOw0KK30NCisNCitzdGF0aWMgaW50IGR3OTc2OF9ydW50aW1lX3Jlc3VtZShzdHJ1Y3Qg
-ZGV2aWNlICpkZXYpDQorew0KKwlzdHJ1Y3QgaTJjX2NsaWVudCAqY2xpZW50ID0gdG9faTJjX2Ns
-aWVudChkZXYpOw0KKwlzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkID0gaTJjX2dldF9jbGllbnRkYXRh
-KGNsaWVudCk7DQorCXN0cnVjdCBkdzk3NjggKmR3OTc2OCA9IHNkX3RvX2R3OTc2OChzZCk7DQor
-CWludCByZXQ7DQorDQorCXJldCA9IHJlZ3VsYXRvcl9idWxrX2VuYWJsZShBUlJBWV9TSVpFKGR3
-OTc2OF9zdXBwbHlfbmFtZXMpLA0KKwkJCQkgICAgZHc5NzY4LT5zdXBwbGllcyk7DQorCWlmIChy
-ZXQgPCAwKSB7DQorCQlkZXZfZXJyKGRldiwgImZhaWxlZCB0byBlbmFibGUgcmVndWxhdG9yc1xu
-Iik7DQorCQlyZXR1cm4gcmV0Ow0KKwl9DQorDQorCS8qDQorCSAqIFRoZSBkYXRhc2hlZXQgcmVm
-ZXJzIHRvIHRfT1BSIHRoYXQgbmVlZHMgdG8gYmUgd2FpdGVkIGJlZm9yZSBzZW5kaW5nDQorCSAq
-IEkyQyBjb21tYW5kcyBhZnRlciBwb3dlci11cC4NCisJICovDQorCXVzbGVlcF9yYW5nZShEVzk3
-NjhfVF9PUFJfVVMsIERXOTc2OF9UX09QUl9VUyArIDEwMCk7DQorDQorCXJldCA9IGR3OTc2OF9p
-bml0KGR3OTc2OCk7DQorCWlmIChyZXQgPCAwKQ0KKwkJZ290byBkaXNhYmxlX3JlZ3VsYXRvcjsN
-CisNCisJcmV0dXJuIDA7DQorDQorZGlzYWJsZV9yZWd1bGF0b3I6DQorCXJlZ3VsYXRvcl9idWxr
-X2Rpc2FibGUoQVJSQVlfU0laRShkdzk3Njhfc3VwcGx5X25hbWVzKSwNCisJCQkgICAgICAgZHc5
-NzY4LT5zdXBwbGllcyk7DQorDQorCXJldHVybiByZXQ7DQorfQ0KKw0KK3N0YXRpYyBpbnQgZHc5
-NzY4X3NldF9jdHJsKHN0cnVjdCB2NGwyX2N0cmwgKmN0cmwpDQorew0KKwlzdHJ1Y3QgZHc5NzY4
-ICpkdzk3NjggPSBjb250YWluZXJfb2YoY3RybC0+aGFuZGxlciwNCisJCQkJCSAgICAgc3RydWN0
-IGR3OTc2OCwgY3RybHMpOw0KKw0KKwlpZiAoY3RybC0+aWQgPT0gVjRMMl9DSURfRk9DVVNfQUJT
-T0xVVEUpDQorCQlyZXR1cm4gZHc5NzY4X3NldF9kYWMoZHc5NzY4LCBjdHJsLT52YWwpOw0KKw0K
-KwlyZXR1cm4gMDsNCit9DQorDQorc3RhdGljIGNvbnN0IHN0cnVjdCB2NGwyX2N0cmxfb3BzIGR3
-OTc2OF9jdHJsX29wcyA9IHsNCisJLnNfY3RybCA9IGR3OTc2OF9zZXRfY3RybCwNCit9Ow0KKw0K
-K3N0YXRpYyBpbnQgZHc5NzY4X29wZW4oc3RydWN0IHY0bDJfc3ViZGV2ICpzZCwgc3RydWN0IHY0
-bDJfc3ViZGV2X2ZoICpmaCkNCit7DQorCWludCByZXQ7DQorDQorCXJldCA9IHBtX3J1bnRpbWVf
-Z2V0X3N5bmMoc2QtPmRldik7DQorCWlmIChyZXQgPCAwKSB7DQorCQlwbV9ydW50aW1lX3B1dF9u
-b2lkbGUoc2QtPmRldik7DQorCQlyZXR1cm4gcmV0Ow0KKwl9DQorDQorCXJldHVybiAwOw0KK30N
-CisNCitzdGF0aWMgaW50IGR3OTc2OF9jbG9zZShzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkLCBzdHJ1
-Y3QgdjRsMl9zdWJkZXZfZmggKmZoKQ0KK3sNCisJcG1fcnVudGltZV9wdXQoc2QtPmRldik7DQor
-DQorCXJldHVybiAwOw0KK30NCisNCitzdGF0aWMgY29uc3Qgc3RydWN0IHY0bDJfc3ViZGV2X2lu
-dGVybmFsX29wcyBkdzk3NjhfaW50X29wcyA9IHsNCisJLm9wZW4gPSBkdzk3Njhfb3BlbiwNCisJ
-LmNsb3NlID0gZHc5NzY4X2Nsb3NlLA0KK307DQorDQorc3RhdGljIGNvbnN0IHN0cnVjdCB2NGwy
-X3N1YmRldl9vcHMgZHc5NzY4X29wcyA9IHsgfTsNCisNCitzdGF0aWMgaW50IGR3OTc2OF9pbml0
-X2NvbnRyb2xzKHN0cnVjdCBkdzk3NjggKmR3OTc2OCkNCit7DQorCXN0cnVjdCB2NGwyX2N0cmxf
-aGFuZGxlciAqaGRsID0gJmR3OTc2OC0+Y3RybHM7DQorCWNvbnN0IHN0cnVjdCB2NGwyX2N0cmxf
-b3BzICpvcHMgPSAmZHc5NzY4X2N0cmxfb3BzOw0KKw0KKwl2NGwyX2N0cmxfaGFuZGxlcl9pbml0
-KGhkbCwgMSk7DQorDQorCWR3OTc2OC0+Zm9jdXMgPSB2NGwyX2N0cmxfbmV3X3N0ZChoZGwsIG9w
-cywgVjRMMl9DSURfRk9DVVNfQUJTT0xVVEUsIDAsDQorCQkJCQkgIERXOTc2OF9NQVhfRk9DVVNf
-UE9TLA0KKwkJCQkJICBEVzk3NjhfRk9DVVNfU1RFUFMsIDApOw0KKw0KKwlpZiAoaGRsLT5lcnJv
-cikNCisJCXJldHVybiBoZGwtPmVycm9yOw0KKw0KKwlkdzk3NjgtPnNkLmN0cmxfaGFuZGxlciA9
-IGhkbDsNCisNCisJcmV0dXJuIDA7DQorfQ0KKw0KK3N0YXRpYyBpbnQgZHc5NzY4X3Byb2JlKHN0
-cnVjdCBpMmNfY2xpZW50ICpjbGllbnQpDQorew0KKwlzdHJ1Y3QgZGV2aWNlICpkZXYgPSAmY2xp
-ZW50LT5kZXY7DQorCXN0cnVjdCBkdzk3NjggKmR3OTc2ODsNCisJdW5zaWduZWQgaW50IGk7DQor
-CWludCByZXQ7DQorDQorCWR3OTc2OCA9IGRldm1fa3phbGxvYyhkZXYsIHNpemVvZigqZHc5NzY4
-KSwgR0ZQX0tFUk5FTCk7DQorCWlmICghZHc5NzY4KQ0KKwkJcmV0dXJuIC1FTk9NRU07DQorDQor
-CS8qIEluaXRpYWxpemUgc3ViZGV2ICovDQorCXY0bDJfaTJjX3N1YmRldl9pbml0KCZkdzk3Njgt
-PnNkLCBjbGllbnQsICZkdzk3Njhfb3BzKTsNCisNCisJZHc5NzY4LT5hYWNfbW9kZSA9IERXOTc2
-OF9BQUNfTU9ERV9ERUZBVUxUOw0KKwlkdzk3NjgtPmFhY190aW1pbmcgPSBEVzk3NjhfQUFDX1RJ
-TUVfREVGQVVMVDsNCisJZHc5NzY4LT5jbG9ja19wcmVzYyA9IERXOTc2OF9DTE9DS19QUkVfU0NB
-TEVfREVGQVVMVDsNCisNCisJLyogT3B0aW9uYWwgaW5kaWNhdGlvbiBvZiBBQUMgbW9kZSBzZWxl
-Y3QgKi8NCisJZndub2RlX3Byb3BlcnR5X3JlYWRfdTMyKGRldl9md25vZGUoZGV2KSwgImRvbmd3
-b29uLGFhYy1tb2RlIiwNCisJCQkJICZkdzk3NjgtPmFhY19tb2RlKTsNCisNCisJLyogT3B0aW9u
-YWwgaW5kaWNhdGlvbiBvZiBjbG9jayBwcmUtc2NhbGUgc2VsZWN0ICovDQorCWZ3bm9kZV9wcm9w
-ZXJ0eV9yZWFkX3UzMihkZXZfZndub2RlKGRldiksICJkb25nd29vbixjbG9jay1wcmVzYyIsDQor
-CQkJCSAmZHc5NzY4LT5jbG9ja19wcmVzYyk7DQorDQorCS8qIE9wdGlvbmFsIGluZGljYXRpb24g
-b2YgQUFDIFRpbWluZyAqLw0KKwlmd25vZGVfcHJvcGVydHlfcmVhZF91MzIoZGV2X2Z3bm9kZShk
-ZXYpLCAiZG9uZ3dvb24sYWFjLXRpbWluZyIsDQorCQkJCSAmZHc5NzY4LT5hYWNfdGltaW5nKTsN
-CisNCisJZHc5NzY4LT5tb3ZlX2RlbGF5X3VzID0gZHc5NzY4X2NhbF9tb3ZlX2RlbGF5KGR3OTc2
-OC0+YWFjX21vZGUsDQorCQkJCQkJICAgICAgZHc5NzY4LT5jbG9ja19wcmVzYywNCisJCQkJCQkg
-ICAgICBkdzk3NjgtPmFhY190aW1pbmcpIC8gMTAwOw0KKw0KKwlmb3IgKGkgPSAwOyBpIDwgQVJS
-QVlfU0laRShkdzk3Njhfc3VwcGx5X25hbWVzKTsgaSsrKQ0KKwkJZHc5NzY4LT5zdXBwbGllc1tp
-XS5zdXBwbHkgPSBkdzk3Njhfc3VwcGx5X25hbWVzW2ldOw0KKw0KKwlyZXQgPSBkZXZtX3JlZ3Vs
-YXRvcl9idWxrX2dldChkZXYsIEFSUkFZX1NJWkUoZHc5NzY4X3N1cHBseV9uYW1lcyksDQorCQkJ
-CSAgICAgIGR3OTc2OC0+c3VwcGxpZXMpOw0KKwlpZiAocmV0KSB7DQorCQlkZXZfZXJyKGRldiwg
-ImZhaWxlZCB0byBnZXQgcmVndWxhdG9yc1xuIik7DQorCQlyZXR1cm4gcmV0Ow0KKwl9DQorDQor
-CS8qIEluaXRpYWxpemUgY29udHJvbHMgKi8NCisJcmV0ID0gZHc5NzY4X2luaXRfY29udHJvbHMo
-ZHc5NzY4KTsNCisJaWYgKHJldCkNCisJCWdvdG8gZXJyX2ZyZWVfaGFuZGxlcjsNCisNCisJLyog
-SW5pdGlhbGl6ZSBzdWJkZXYgKi8NCisJZHc5NzY4LT5zZC5mbGFncyB8PSBWNEwyX1NVQkRFVl9G
-TF9IQVNfREVWTk9ERTsNCisJZHc5NzY4LT5zZC5pbnRlcm5hbF9vcHMgPSAmZHc5NzY4X2ludF9v
-cHM7DQorDQorCXJldCA9IG1lZGlhX2VudGl0eV9wYWRzX2luaXQoJmR3OTc2OC0+c2QuZW50aXR5
-LCAwLCBOVUxMKTsNCisJaWYgKHJldCA8IDApDQorCQlnb3RvIGVycl9mcmVlX2hhbmRsZXI7DQor
-DQorCWR3OTc2OC0+c2QuZW50aXR5LmZ1bmN0aW9uID0gTUVESUFfRU5UX0ZfTEVOUzsNCisNCisJ
-cG1fcnVudGltZV9lbmFibGUoZGV2KTsNCisJaWYgKCFwbV9ydW50aW1lX2VuYWJsZWQoZGV2KSkg
-ew0KKwkJcmV0ID0gZHc5NzY4X3J1bnRpbWVfcmVzdW1lKGRldik7DQorCQlpZiAocmV0IDwgMCkg
-ew0KKwkJCWRldl9lcnIoZGV2LCAiZmFpbGVkIHRvIHBvd2VyIG9uOiAlZFxuIiwgcmV0KTsNCisJ
-CQlnb3RvIGVycl9jbGVhbl9lbnRpdHk7DQorCQl9DQorCX0NCisNCisJcmV0ID0gdjRsMl9hc3lu
-Y19yZWdpc3Rlcl9zdWJkZXYoJmR3OTc2OC0+c2QpOw0KKwlpZiAocmV0IDwgMCkgew0KKwkJZGV2
-X2VycihkZXYsICJmYWlsZWQgdG8gcmVnaXN0ZXIgVjRMMiBzdWJkZXY6ICVkIiwgcmV0KTsNCisJ
-CWdvdG8gZXJyX3Bvd2VyX29mZjsNCisJfQ0KKw0KKwlyZXR1cm4gMDsNCisNCitlcnJfcG93ZXJf
-b2ZmOg0KKwlwbV9ydW50aW1lX2Rpc2FibGUoZGV2KTsNCisJaWYgKCFwbV9ydW50aW1lX2VuYWJs
-ZWQoZGV2KSkNCisJCWR3OTc2OF9ydW50aW1lX3N1c3BlbmQoZGV2KTsNCitlcnJfY2xlYW5fZW50
-aXR5Og0KKwltZWRpYV9lbnRpdHlfY2xlYW51cCgmZHc5NzY4LT5zZC5lbnRpdHkpOw0KK2Vycl9m
-cmVlX2hhbmRsZXI6DQorCXY0bDJfY3RybF9oYW5kbGVyX2ZyZWUoJmR3OTc2OC0+Y3RybHMpOw0K
-Kw0KKwlyZXR1cm4gcmV0Ow0KK30NCisNCitzdGF0aWMgaW50IGR3OTc2OF9yZW1vdmUoc3RydWN0
-IGkyY19jbGllbnQgKmNsaWVudCkNCit7DQorCXN0cnVjdCB2NGwyX3N1YmRldiAqc2QgPSBpMmNf
-Z2V0X2NsaWVudGRhdGEoY2xpZW50KTsNCisJc3RydWN0IGR3OTc2OCAqZHc5NzY4ID0gc2RfdG9f
-ZHc5NzY4KHNkKTsNCisNCisJdjRsMl9hc3luY191bnJlZ2lzdGVyX3N1YmRldigmZHc5NzY4LT5z
-ZCk7DQorCXY0bDJfY3RybF9oYW5kbGVyX2ZyZWUoJmR3OTc2OC0+Y3RybHMpOw0KKwltZWRpYV9l
-bnRpdHlfY2xlYW51cCgmZHc5NzY4LT5zZC5lbnRpdHkpOw0KKwlwbV9ydW50aW1lX2Rpc2FibGUo
-JmNsaWVudC0+ZGV2KTsNCisJaWYgKCFwbV9ydW50aW1lX3N1c3BlbmRlZCgmY2xpZW50LT5kZXYp
-KQ0KKwkJZHc5NzY4X3J1bnRpbWVfc3VzcGVuZCgmY2xpZW50LT5kZXYpOw0KKwlwbV9ydW50aW1l
-X3NldF9zdXNwZW5kZWQoJmNsaWVudC0+ZGV2KTsNCisNCisJcmV0dXJuIDA7DQorfQ0KKw0KK3N0
-YXRpYyBjb25zdCBzdHJ1Y3Qgb2ZfZGV2aWNlX2lkIGR3OTc2OF9vZl90YWJsZVtdID0gew0KKwl7
-IC5jb21wYXRpYmxlID0gImRvbmd3b29uLGR3OTc2OCIgfSwNCisJeyAuY29tcGF0aWJsZSA9ICJn
-aWFudGVjLGd0OTc2OSIgfSwNCisJe30NCit9Ow0KK01PRFVMRV9ERVZJQ0VfVEFCTEUob2YsIGR3
-OTc2OF9vZl90YWJsZSk7DQorDQorc3RhdGljIGNvbnN0IHN0cnVjdCBkZXZfcG1fb3BzIGR3OTc2
-OF9wbV9vcHMgPSB7DQorCVNFVF9TWVNURU1fU0xFRVBfUE1fT1BTKHBtX3J1bnRpbWVfZm9yY2Vf
-c3VzcGVuZCwNCisJCQkJcG1fcnVudGltZV9mb3JjZV9yZXN1bWUpDQorCVNFVF9SVU5USU1FX1BN
-X09QUyhkdzk3NjhfcnVudGltZV9zdXNwZW5kLCBkdzk3NjhfcnVudGltZV9yZXN1bWUsIE5VTEwp
-DQorfTsNCisNCitzdGF0aWMgc3RydWN0IGkyY19kcml2ZXIgZHc5NzY4X2kyY19kcml2ZXIgPSB7
-DQorCS5kcml2ZXIgPSB7DQorCQkubmFtZSA9IERXOTc2OF9OQU1FLA0KKwkJLnBtID0gJmR3OTc2
-OF9wbV9vcHMsDQorCQkub2ZfbWF0Y2hfdGFibGUgPSBkdzk3Njhfb2ZfdGFibGUsDQorCX0sDQor
-CS5wcm9iZV9uZXcgID0gZHc5NzY4X3Byb2JlLA0KKwkucmVtb3ZlID0gZHc5NzY4X3JlbW92ZSwN
-Cit9Ow0KK21vZHVsZV9pMmNfZHJpdmVyKGR3OTc2OF9pMmNfZHJpdmVyKTsNCisNCitNT0RVTEVf
-QVVUSE9SKCJEb25nY2h1biBaaHUgPGRvbmdjaHVuLnpodUBtZWRpYXRlay5jb20+Iik7DQorTU9E
-VUxFX0RFU0NSSVBUSU9OKCJEVzk3NjggVkNNIGRyaXZlciIpOw0KK01PRFVMRV9MSUNFTlNFKCJH
-UEwgdjIiKTsNCi0tIA0KMi45LjINCg==
+Hi Nicolas, Hans,
 
+Thanks for your comments and sorry for the delayed response.
+
+On 2020-06-12 22:07, Nicolas Dufresne wrote:
+> Le vendredi 12 juin 2020 à 12:05 +0200, Hans Verkuil a écrit :
+>> On 11/06/2020 17:06, Nicolas Dufresne wrote:
+>> > Le jeudi 28 mai 2020 à 22:08 -0400, Nicolas Dufresne a écrit :
+>> > > Le jeudi 28 mai 2020 à 13:24 +0200, Hans Verkuil a écrit :
+>> > > > On 28/05/2020 12:48, dikshita@codeaurora.org wrote:
+>> > > > > Hi Hans,
+>> > > > >
+>> > > > > Thanks for the review.
+>> > > > >
+>> > > > > On 2020-05-26 16:27, Hans Verkuil wrote:
+>> > > > > > Hi Dikshita,
+>> > > > > >
+>> > > > > > My apologies for the delay, this was (mostly) due to various vacation
+>> > > > > > days.
+>> > > > > >
+>> > > > > > On 08/05/2020 08:21, Dikshita Agarwal wrote:
+>> > > > > > > There are many commercialized video use cases which needs metadata
+>> > > > > > > info
+>> > > > > > > to be circulated between v4l2 client and v4l2 driver.
+>> > > > > > >
+>> > > > > > > METADATA has following requirements associated:
+>> > > > > > > •Metadata is an optional info available for a buffer. It is not
+>> > > > > > > mandatorily for every buffer.
+>> > > > > > >  For ex. consider metadata ROI (Region Of Interest). ROI is specified
+>> > > > > > > by clients to indicate
+>> > > > > > >  the region where enhanced quality is desired. This metadata is given
+>> > > > > > > as an input information
+>> > > > > > >  to encoder output plane. Client may or may not specify the ROI for a
+>> > > > > > > frame during encode as
+>> > > > > > >  an input metadata. Also if the client has not provided ROI metadata
+>> > > > > > > for a given frame,
+>> > > > > > >  it would be incorrect to take the metadata from previous frame. If
+>> > > > > > > the data and
+>> > > > > > >  metadata is asynchronous, it would be difficult for hardware to
+>> > > > > > > decide if it
+>> > > > > > >  needs to wait for metadata buffer or not before processing the input
+>> > > > > > > frame for encoding.
+>> > > > > > > •Synchronize the buffer requirement across both the video node/session
+>> > > > > > >  (incase metadata is being processed as a separate v4l2 video
+>> > > > > > > node/session).
+>> > > > > > >  This is to avoid buffer starvation.
+>> > > > > > > •Associate the metadata buffer with the data buffer without adding any
+>> > > > > > > pipeline delay
+>> > > > > > >  in waiting for each other. This is applicable both at the hardware
+>> > > > > > > side (the processing end)
+>> > > > > > >  and client side (the receiving end).
+>> > > > > > > •Low latency usecases like WFD/split rendering/game streaming/IMS have
+>> > > > > > > sub-50ms e2e latency
+>> > > > > > >  requirements, and it is not practical to stall the pipeline due to
+>> > > > > > > inherent framework latencies.
+>> > > > > > >  High performance usecase like high-frame rate playback/record can
+>> > > > > > > lead to frame loss during any pipeline latency.
+>> > > > > > >
+>> > > > > > > To address all above requirements, we used v4l2 Request API as
+>> > > > > > > interlace.
+>> > > > > > >
+>> > > > > > > As an experiment, We have introduced new control
+>> > > > > > > V4L2_CID_MPEG_VIDEO_VENUS_METADATA
+>> > > > > > > to contain the METADATA info. Exact controls can be finalized once the
+>> > > > > > > interface is discussed.
+>> > > > > > >
+>> > > > > > > For setting metadata from userspace to kernel, let say on encode
+>> > > > > > > output plane,
+>> > > > > > > following code sequence was followed
+>> > > > > > > 1. Video driver is registering for media device and creating a media
+>> > > > > > > node in /dev
+>> > > > > > > 2. Request fd is allocated by calling MEDIA_IOC_REQUEST_ALLOC IOCTL on
+>> > > > > > > media fd.
+>> > > > > > > 3. METADATA configuration is being applied on request fd using
+>> > > > > > > VIDIOC_S_EXT_CTRLS IOCTL
+>> > > > > > >    and the same request fd is added to buf structure structure before
+>> > > > > > > calling VIDIOC_QBUF on video fd.
+>> > > > > > > 4. The same request is queued through MEDIA_REQUEST_IOC_QUEUE IOCTL to
+>> > > > > > > driver then, as a result
+>> > > > > > >    to which METADATA control will be applied to buffer through S_CTRL.
+>> > > > > > > 5. Once control is applied and request is completed,
+>> > > > > > > MEDIA_REQUEST_IOC_REINIT IOCTL is called
+>> > > > > > >    to re-initialize the request.
+>> > > > > >
+>> > > > > > This is fine and should work well. It's what the Request API is for,
+>> > > > > > so no problems here.
+>> > > > > >
+>> > > > > > > We could achieve the same on capture plane as well by removing few
+>> > > > > > > checks present currently
+>> > > > > > > in v4l2 core which restrict the implementation to only output plane.
+>> > > > > >
+>> > > > > > Why do you need the Request API for the capture side in a
+>> > > > > > memory-to-memory driver? It is not
+>> > > > > > clear from this patch series what the use-case is. There are reasons
+>> > > > > > why this is currently
+>> > > > > > not allowed. So I need to know more about this.
+>> > > > > >
+>> > > > > > Regards,
+>> > > > > >
+>> > > > > > 	Hans
+>> > > > > >
+>> > > > > we need this for use cases like HDR10+ where metadata info is part of
+>> > > > > the bitstream.
+>> > > > > To handle such frame specific data, support for request api on capture
+>> > > > > plane would be needed.
+>> > > >
+>> > > > That's for the decoder, right? So the decoder extracts the HDR10+ metadata
+>> > > > and fills in a control with the metadata?
+>> > > >
+>> > > > If that's the case, then it matches a similar request I got from mediatek.
+>> > > > What is needed is support for 'read-only' requests: i.e. the driver can
+>> > > > associate controls with a capture buffer and return that to userspace. But
+>> > > > it is not possible to *set* controls in userspace when queuing the request.
+>> > > >
+>> > > > If you think about it you'll see that setting controls in userspace for
+>> > > > a capture queue request makes no sense, but having the driver add set
+>> > > > read-only controls when the request is finished is fine and makes sense.
+
+I tried an experiment where I removed set control from the client for 
+metadata,
+queued buffer and request to driver and when capture buffer was ready, I 
+dequeued the buffer,
+extracted the request fd and called get_ext_control IOCTL on driver.
+this resulted in error from 
+https://elixir.bootlin.com/linux/latest/source/drivers/media/v4l2-core/v4l2-ctrls.c#L3678
+based on what I understood, since there was no set control for the 
+request,
+there was no v4l2 ctrl handler object associated with it so no obj was 
+found and
+hence the error(please correct if my understanding is wrong).
+
+So if client is not supposed to call set control on capture plane then
+1. how to avoid the above error?
+2. should driver call v4l2_s_ext_ctrls() with the request once buffer 
+and request are
+    queued to driver? Driver should be able to extract the request fd 
+from request to
+    achieve the same right? is that possible?
+
+>> > >
+>> > > Hi Hans,
+>> > >
+>> > > I'm not sure I follow you on what will this look like in userspace. Can you post
+>> > > an RFC of your idea, describing the userspace flow ? Particularly, I'm not sure
+>> > > how the request helps in synchronizing the read of the metadata controls (over
+>> > > simply reading the control after a DQBUF, which we can match to a specific input
+>> > > using the provided timestamp). I also fail to understand how this aligns with
+>> > > Stanimir concern with the performance of the get control interface.
+>> 
+>> Hmm, I think I missed this email.
+>> 
+>> Note that there is no guarantee that reading a control after a DQBUF 
+>> will give
+>> you the value for that dequeued frame. The driver may already have 
+>> generated
+>> multiple capture frames by the time userspace dequeues the oldest 
+>> buffer.
+>> 
+>> > As there was no answer, I'll try and ask a more precise question. While
+>> > I still believe it's better done in userspace for M2M decoder, there is
+>> > a need for HDMI receivers (hence adding direct CC to Dylan Yip from
+>> > Xilinx).
+>> >
+>> > Would this match your expected userspace workflow ?
+>> >
+>> > 1. Allocate capture buffers
+>> > 2. Allocate the same number of request fd (ro request)
+>> > 3. For each capture buffer
+>> >   3.1 Queue the capture buffer (passing the request)
+>> >   3.2 Queue the request
+>> > 4. Wait for capture buffer to be ready
+>> > 5. Dequeue a capture buffer, and lookup it's request FD
+>> > 6. Wait for the request to complete (needed ?)
+>> > 7. Read the meta control passing the request
+>> 
+>> Right.
+>> 
+>> > I'm not sure if 6. is required, driver could just to things in the
+>> > right order (store the meta in the request before marking the buffer
+>> > done).
+>> 
+>> For HDR information you don't need 6. For histogram/statistics such
+>> information might become available after the capture buffer was ready.
+>> 
+>> I would just implement this as follows:
+>> 
+>> 4. Wait for the request to complete
+> 
+> I should have clarified my thought, I first wrote it like this, but
+> then realized that it forces the driver into picking up capture buffer
+> in the same order they were queued. For an encoder, it might be a
+> problem as in practice it does not encode in the same order it will
+> produce (I think this depends on internal encoder implementation
+> details though).
+> 
+> So in fact, I was waiting on the queue, to pop a Capture buffer to
+> figure-out which request was being involved. And then I'd get the
+> control value for that request (which may need waiting further on the
+> request, the "heavy" reference is there).
+> 
+> But I think we can assume this is all in order for HDMI/SDI/CSI capture
+> (well raw/bayer capture mostly) and keep it a bit more lightweight
+> there.
+> 
+>> 5. Dequeue a capture buffer, and lookup it's request FD
+>> 6. Read the meta control passing the request
+>> 
+>> No need to wait for both the request and the capture buffer.
+> 
+> Ack.
+
+The sequence which I followed for implementing this is.
+  1. Allocate capture buffers
+  2. Allocate the same number of request fd
+  3. For each capture buffer
+     3.1 call VIDIOC_S_EXT_CTRLS IOCTL to the driver with metadata info 
+and request fd
+     3.2 Queue the capture buffer (passing the request)
+     3.3 Queue the request
+4. Wait for capture buffer to be ready
+5. Dequeue a capture buffer, and lookup it's request FD
+6. Call VIDIOC_G_EXT_CTRLS passing the request for the dequeued buffer.
+
+Qualcomm H/W generates both data buffer and metadata buffer at the same 
+time and
+provides this info to the driver in a single response, there won't be 
+separate responses for
+data buffer and metadata buffer.
+so there is no need to wait for request completion.
+The driver will write meta info in the control before sending buffer 
+done to the client.
+so when the buffer is available for deque, meta info will also be 
+available.
+
+but I agree that the wait for the request might be required for HW that 
+generates
+data buffer and metadata buffer separately.
+
+>> 
+>>  Now this is pretty heavy, but does not seems broken. The
+>> > question is how to you avoid reading the control if it haven't changed
+>> > ? Can driver guaranty to send the control change event before marking a
+>> > buffer done ? (this is for static HDR meta, which will change when
+>> > stream is change, e.g. starting/ending of adds on TV).
+>> 
+>> There are two possible mechanisms today:
+>> 
+>> 1) use requests for the capture queue, and then you need to query the
+>> request for the static HDR control. The advantage is that this is a
+>> 1-to-1 mapping of the control value with the buffer. The disadvantage 
+>> is that
+>> it adds overhead.
+
+Since we need 1-to-1 mapping of buffer and metadata info using this 
+approach for
+capture queue as well should be fine, right? or there are any concerns?
+
+>> 
+>> 2) don't use requests, instead just subscribe to the control event.
+>> Whenever the static HDR meta data changes, you'll get an event. But
+>> then it isn't linked to a specific frame.
+>> 
+>> A third option would be to extend struct v4l2_event_ctrl with a __u32
+>> buffer_index field to associate a capture buffer with this change. 
+>> You'd
+>> need an addition control flag as well to indicate that this control is
+>> associated with a specific buffer.
+>> 
+>> (Just a brainstorm, this no doubt would need some refinement)
+> 
+> Or extend with a target sequence number, as we already have this unique
+> number handy.
+> 
+> In fact I was already thinking about extending the event with a target
+> v4l2_buffer sequence. But then I realized that if you have two
+> consecutive changes, there is still no way to ensure you can read the
+> control value matching the event you are processing.
+> 
+> So this idea would conceptually mean that instead of using the
+> "request" as a control storage, we'd be using per "buffer" control
+> storage. I wonder how realistic this is in the existing framework. But
+> could be a thread to explore.
+> 
+> To add to the brainstorm, we could introduce a meta type for controls.
+> Can't think of a name now, but basically we would "pop" a control
+> value. That control would contain the information needed to identify
+> the buffer it applied to (like a sequence number). Fifo would be leaky
+> at the tail, and sized around the size of the queue. This way,
+> userspace can ignore it without causing any leaks, which also allow for
+> backward compatibility.
+> 
+> The "pop" ioctl could be extended with the target sequence number, so
+> that you get exactly the control you are looking for (ignoring the
+> older one, and preventing the newer one from being extracted). Of
+> course, the event is needed to tel when something get queued for static
+> meta.
+> 
+>> 
+>>  While for HDR10+
+>> > and similar dynamic meta, we expect a new value for every run, HDR10+
+>> > data is much much bigger. Do we really want that to be model around a
+>> > control ?
+>> 
+>> No, we don't. For that you would want a metadata video device.
+>> 
+>> Dynamic metadata is a separate problem. I would also really like to 
+>> know
+>> a bit more about the various HW implementations for this before 
+>> deciding
+>> on a specific API. E.g., can all HW pass this data to a separate DMA 
+>> engine?
+>> Would it only split off dynamic metadata or just all InfoFrames?
+
+Qualcomm HW has a single DMA engine that stores both data and metadata 
+buffer and
+the driver is notified by HW in a single response with both data buffer 
+and metadata buffer.
+So using a request based approach for HDR10+ metadata or any dynamic 
+data as well should be fine?
+
+If not, what could be the other way to achieve this?
+
+> 
+> That seems like a HW question, I'll pass. Though, in my mind, the
+> separated metadata video device are only usable if there is a 1:1
+> relationship between buffers and metadata. For other use cases, it's
+> missing a notification mechanism (like described above) to avoid having
+> to introduce arbitrary (and likely bogus) latency that ensure we didn't
+> proceed without the associate metadata. To I think it's not a very
+> powerful way to pass around metadata, unless it's 1:1 with the buffers,
+> which for HDR10+ fits.
+> 
+>> 
+>> Regards,
+>> 
+>> 	Hans
+>> 
+>> > > > Implementing this shouldn't be a big job: you'd need a new
+>> > > > V4L2_BUF_CAP_SUPPORTS_RO_REQUESTS
+>> > > > capability, a corresponding new flag in struct vb2_queue, a new ro_requests
+>> > > > flag in
+>> > > > struct v4l2_ctrl_handler, and try_set_ext_ctrls() should check that flag and
+>> > > > refuse to
+>> > > > try/set any controls if it is true.
+>> > > >
+>> > > > Finally, the v4l2_m2m_qbuf() function should be updated to just refuse the
+>> > > > case where both
+>> > > > capture and output queue set V4L2_BUF_CAP_SUPPORTS_REQUESTS.
+>> > > >
+>> > > > And the documentation needs to be updated.
+>> > > >
+>> > > > I've added Yunfei Dong to the CC list, perhaps mediatek did some work on
+>> > > > this already.
+>> > > >
+>> > > > Regards,
+>> > > >
+>> > > > 	Hans
+>> > > >
+>> > > > > Thanks,
+>> > > > > Dikshita
+>> > > > > > > We profiled below data with this implementation :
+>> > > > > > > 1. Total time taken ( round trip ) for setting up control data on
+>> > > > > > > video driver
+>> > > > > > >    with VIDIOC_S_EXT_CTRLS, QBUF and Queue Request: 737us
+>> > > > > > > 2. Time taken for first QBUF on Output plane to reach driver with
+>> > > > > > > REQUEST API enabled (One way): 723us
+>> > > > > > > 3. Time taken for first QBUF on Output plane to reach driver without
+>> > > > > > > REQUEST API (One way) : 250us
+>> > > > > > > 4. Time taken by each IOCTL to complete ( round trip ) with REQUEST
+>> > > > > > > API enabled :
+>> > > > > > >     a. VIDIOC_S_EXT_CTRLS : 201us
+>> > > > > > >     b. VIDIOC_QBUF : 92us
+>> > > > > > >     c. MEDIA_REQUEST_IOC_QUEUE: 386us
+>> > > > > > >
+>> > > > > > > Kindly share your feedback/comments on the design/call sequence.
+>> > > > > > > Also as we experimented and enabled the metadata on capture plane as
+>> > > > > > > well, please comment if any issue in
+>> > > > > > > allowing the metadata exchange on capture plane as well.
+>> > > > > > >
+>> > > > > > > Reference for client side implementation can be found at [1].
+>> > > > > > >
+>> > > > > > > Thanks,
+>> > > > > > > Dikshita
+>> > > > > > >
+>> > > > > > > [1]
+>> > > > > > > https://git.linaro.org/people/stanimir.varbanov/v4l2-encode.git/log/?h=dikshita/request-api
+>> > > > > > >
+>> > > > > > > Dikshita Agarwal (3):
+>> > > > > > >   Register for media device
+>> > > > > > >     - Initialize and register for media device
+>> > > > > > >     - define venus_m2m_media_ops
+>> > > > > > >     - Implement APIs to register/unregister media controller.
+>> > > > > > >   Enable Request API for output buffers
+>> > > > > > >     - Add dependency on MEDIA_CONTROLLER_REQUEST_API in Kconfig.
+>> > > > > > >     - Initialize vb2 ops buf_out_validate and buf_request_complete.
+>> > > > > > >     - Add support for custom Metadata control
+>> > > > > > > V4L2_CID_MPEG_VIDEO_VENUS_METADATA
+>> > > > > > >     - Implemeted/Integrated APIs for Request setup/complete.
+>> > > > > > >   Enable Request API for Capture Buffers
+>> > > > > > >
+>> > > > > > >  drivers/media/common/videobuf2/videobuf2-v4l2.c |   4 +-
+>> > > > > > >  drivers/media/platform/Kconfig                  |   2 +-
+>> > > > > > >  drivers/media/platform/qcom/venus/core.h        |  36 ++++
+>> > > > > > >  drivers/media/platform/qcom/venus/helpers.c     | 247
+>> > > > > > > +++++++++++++++++++++++-
+>> > > > > > >  drivers/media/platform/qcom/venus/helpers.h     |  15 ++
+>> > > > > > >  drivers/media/platform/qcom/venus/venc.c        |  63 +++++-
+>> > > > > > >  drivers/media/platform/qcom/venus/venc_ctrls.c  |  61 +++++-
+>> > > > > > >  drivers/media/v4l2-core/v4l2-ctrls.c            |  10 +
+>> > > > > > >  drivers/media/v4l2-core/v4l2-mem2mem.c          |  17 +-
+>> > > > > > >  include/media/v4l2-ctrls.h                      |   1 +
+>> > > > > > >  include/media/venus-ctrls.h                     |  22 +++
+>> > > > > > >  11 files changed, 465 insertions(+), 13 deletions(-)
+>> > > > > > >  create mode 100644 include/media/venus-ctrls.h
+>> > > > > > >
