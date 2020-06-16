@@ -2,150 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B1F01FB0C7
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 14:32:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8866B1FB0F3
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 14:40:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728894AbgFPMbq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Jun 2020 08:31:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44246 "EHLO
+        id S1728489AbgFPMk4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Jun 2020 08:40:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728908AbgFPMbl (ORCPT
+        with ESMTP id S1726306AbgFPMkx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Jun 2020 08:31:41 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CCBCC08C5C4
-        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2020 05:31:41 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id m21so14101594eds.13
-        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2020 05:31:41 -0700 (PDT)
+        Tue, 16 Jun 2020 08:40:53 -0400
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91365C08C5C2
+        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2020 05:40:52 -0700 (PDT)
+Received: by mail-oi1-x243.google.com with SMTP id 25so19041107oiy.13
+        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2020 05:40:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=AZqdoAEGz2z2dhDjwXWaMZ24wdl6oc5L+Rca1tEh8dc=;
-        b=QGi15kqWXZial5swvjRzFESRGm8P1uF/+daQjuuEcJHnP/4P0mWvGEyI3VbNHNcGuF
-         9gu8Riy/E81QVAiaoDQWksYKN3Jg6kE/91NmcK9fW8frd0xE4oYxEg/QBx9mPEPLU8E8
-         d48xQepzN+wqZd4elN8+ucSIW7sgmpa7afc1vcYVmFLivhMvQdj80HPyi2K2ochU8C0W
-         8e5uDgT0hCafWH3qnl0GURd4xzkZJKDmriloiEpAZ9rCvfOEyseeWLyq1fOu55ZyvJ1D
-         aj+e0nKrTarax2OXtmmEkrY21dZikHLNH2H9u4E5hd4R3L656iRjZt2wL3L+n9eeVMdU
-         Dq0A==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=yRuEYGWYbCpgbt9WyvifXrnW7xoF05jSYdHgJjfemG4=;
+        b=CFVl4b3RIYqk3FRdV+rogfziBje3cFPovLts/hRAcvgo3K7kfBpqVKQ0qGaQ4Fl1eK
+         TTnbb+/CNR/h9GUaPp0AMkwc/xXfk1gQRbcW3xIszBscuzjOXp2DEGd8nTuovsQi3/iv
+         J4y0PedCS7O0sKr1Y/0euYNNhtYXmrPdlpmByzTbLO1CjlSsSKgALBAXrSmiXmT4pksL
+         n6Aj/ms2lrvMjyTKqYqOrFr4pawYIO0j0x8ohPs10SvNJ2gBZk/sfK+bhLB4CpcNZpFv
+         8ZyzgvVLlvyOUnpORdott8eQTlCVe6KudWdtPSP0aR+qEquv4b0SUfQyeuXDrj1n9w47
+         SJbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=AZqdoAEGz2z2dhDjwXWaMZ24wdl6oc5L+Rca1tEh8dc=;
-        b=blYP3wtVB87wVRHNno/5jLh85zGYqVVX7YUnEb7XppkWel85ELLkvVMhTmJW6bjTVT
-         whWNY46Dz04ezuDJeaxZZ08fNpcnZRH1Psi3OpA/izCwbFd8TnlIOMQR/7YaCR/6rYzz
-         oGgPaj/d3NWmYp7X5tbu1c8/bcGGcXkmDUv/QB9P/orCHsGo/Flp8/pOD60vyv33EpLf
-         6G2EmSLcY1wHmnmf6VEQPOpXOAsFhBVm9s9qRQMQF23F03yTAfuW5WgmQUxsUvnHjVQ4
-         Lj0uTUA45J5OiTCfrKu/Ba4YEadrYQLUoESRzdRRNMQNF/b0jqyWgVCA5EP3fWBP5pSn
-         J6bg==
-X-Gm-Message-State: AOAM530D5wrX+yolpohV1TlqHsoW1KoTwkQnwmEjyNMK1egyk5XaWocg
-        OOjSsLOvna4yMa18Bfqj5XJQzT3omd81bA==
-X-Google-Smtp-Source: ABdhPJynMFNvVmd+K4aC03wqQdfGmBOF+p561hBlcodxI+Rt0LMvos6uNRNjfOaw6xakOZJ/UVPhSA==
-X-Received: by 2002:a05:6402:1247:: with SMTP id l7mr2203095edw.61.1592310699774;
-        Tue, 16 Jun 2020 05:31:39 -0700 (PDT)
-Received: from localhost.localdomain (212-5-158-38.ip.btc-net.bg. [212.5.158.38])
-        by smtp.gmail.com with ESMTPSA id p6sm11071983ejb.71.2020.06.16.05.31.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 05:31:39 -0700 (PDT)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Maheshwar Ajja <majja@codeaurora.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH 4/4] venus: vdec: Add support for decode intra frames only
-Date:   Tue, 16 Jun 2020 15:30:01 +0300
-Message-Id: <20200616123001.11321-5-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200616123001.11321-1-stanimir.varbanov@linaro.org>
-References: <20200616123001.11321-1-stanimir.varbanov@linaro.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=yRuEYGWYbCpgbt9WyvifXrnW7xoF05jSYdHgJjfemG4=;
+        b=NbM65HrWjKAYMKJ6k49pevvtHLcO9fU3bHLgcNHXYHz2trNXeDeEaE2mLzT69HNyY2
+         5k8bQkh9gZt/U2Tc0zxGC0nDzkf1Clr/82153AjpOHCM3p7tcHBlSvIE5AqAX97fSjwh
+         v+DCKUO9iaFxuX5WOcynRXJeBpRkw1tz9zyEsciMG5836KeiJekKuXIbehVj1H6Vw9KP
+         tErL9V3U2lL5q9tf94FrhzJlRri2e9gzSDAE7muGTnqWbpkzeUZopalv4xzsHEFbNbzw
+         TH6ojm9/+cIf+yGm8uCC0HVQgwwfv6zbcTXQmtr7Lb7D4nRvcP+ogsN8XbEGUNoC+iiZ
+         UTOg==
+X-Gm-Message-State: AOAM533LPG+VG5MRNi2NI7MtqHqKg1d0DUNCfF6LQd5/8gIMnzeWixev
+        LJuIaD/PX/OxPGoqVSgE/sspUfHZeO/QtRhepD+GNXl/VV5BLw==
+X-Google-Smtp-Source: ABdhPJw1HIcntem/ur3nYuYQnYfdpeq3LaH9w6z+uVXnvPpWXi7NcZfGZ06MIquL/3rMm6i3W0PzTlBfRGVBUlNtAcQ=
+X-Received: by 2002:a05:6808:a96:: with SMTP id q22mr3251821oij.76.1592311251656;
+ Tue, 16 Jun 2020 05:40:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <316a5cf9-ca71-6506-bf8b-e79ded9055b2@codeaurora.org>
+In-Reply-To: <316a5cf9-ca71-6506-bf8b-e79ded9055b2@codeaurora.org>
+From:   Sumit Semwal <sumit.semwal@linaro.org>
+Date:   Tue, 16 Jun 2020 18:10:40 +0530
+Message-ID: <CAO_48GEa2B+a8XbaqurvRPZswRQGWq82YqUr4uotvyQKjPQuFQ@mail.gmail.com>
+Subject: Re: [PATCH] dmabuf: use spinlock to access dmabuf->name
+To:     Charan Teja Kalla <charante@codeaurora.org>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Daniel Vetter <daniel@ffwll.ch>
+Cc:     "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+        LKML <linux-kernel@vger.kernel.org>, vinmenon@codeaurora.org,
+        "# 3.4.x" <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adds support in the decoder for intra frames only decode. The
-implementation in the Venus use HFI property for thumbnail
-generation to lower memory usage and when the control is enabled
-the number of decoder output buffers for progressive stream
-will be one (for interlace two). We assume that the client will
-queue on the decoder input intra frames only but this is not
-mandatory. If the client queue non-intra frames on decoder input
-they will be returned on decoder output with an error.
+Hi Daniel, Chris,
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/core.h       | 1 +
- drivers/media/platform/qcom/venus/vdec.c       | 7 +++++++
- drivers/media/platform/qcom/venus/vdec_ctrls.c | 9 ++++++++-
- 3 files changed, 16 insertions(+), 1 deletion(-)
+On Thu, 11 Jun 2020 at 19:10, Charan Teja Kalla <charante@codeaurora.org> wrote:
+>
+> There exists a sleep-while-atomic bug while accessing the dmabuf->name
+> under mutex in the dmabuffs_dname(). This is caused from the SELinux
+> permissions checks on a process where it tries to validate the inherited
+> files from fork() by traversing them through iterate_fd() (which
+> traverse files under spin_lock) and call
+> match_file(security/selinux/hooks.c) where the permission checks happen.
+> This audit information is logged using dump_common_audit_data() where it
+> calls d_path() to get the file path name. If the file check happen on
+> the dmabuf's fd, then it ends up in ->dmabuffs_dname() and use mutex to
+> access dmabuf->name. The flow will be like below:
+> flush_unauthorized_files()
+>   iterate_fd()
+>     spin_lock() --> Start of the atomic section.
+>       match_file()
+>         file_has_perm()
+>           avc_has_perm()
+>             avc_audit()
+>               slow_avc_audit()
+>                 common_lsm_audit()
+>                   dump_common_audit_data()
+>                     audit_log_d_path()
+>                       d_path()
+>                         dmabuffs_dname()
+>                           mutex_lock()--> Sleep while atomic.
+>
+> Call trace captured (on 4.19 kernels) is below:
+> ___might_sleep+0x204/0x208
+> __might_sleep+0x50/0x88
+> __mutex_lock_common+0x5c/0x1068
+> __mutex_lock_common+0x5c/0x1068
+> mutex_lock_nested+0x40/0x50
+> dmabuffs_dname+0xa0/0x170
+> d_path+0x84/0x290
+> audit_log_d_path+0x74/0x130
+> common_lsm_audit+0x334/0x6e8
+> slow_avc_audit+0xb8/0xf8
+> avc_has_perm+0x154/0x218
+> file_has_perm+0x70/0x180
+> match_file+0x60/0x78
+> iterate_fd+0x128/0x168
+> selinux_bprm_committing_creds+0x178/0x248
+> security_bprm_committing_creds+0x30/0x48
+> install_exec_creds+0x1c/0x68
+> load_elf_binary+0x3a4/0x14e0
+> search_binary_handler+0xb0/0x1e0
+>
+> So, use spinlock to access dmabuf->name to avoid sleep-while-atomic.
+Any objections to this change? This changes protection only for
+dmabuf->name field, but I'd request either of you to review it,
+please?
+>
+> Cc: <stable@vger.kernel.org> [5.3+]
+> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+> ---
+>  drivers/dma-buf/dma-buf.c | 13 +++++++------
+>  include/linux/dma-buf.h   |  1 +
+>  2 files changed, 8 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 01ce125..2e0456c 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry *dentry, char *buffer, int buflen)
+>         size_t ret = 0;
+>
+>         dmabuf = dentry->d_fsdata;
+> -       dma_resv_lock(dmabuf->resv, NULL);
+> +       spin_lock(&dmabuf->name_lock);
+>         if (dmabuf->name)
+>                 ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+> -       dma_resv_unlock(dmabuf->resv);
+> +       spin_unlock(&dmabuf->name_lock);
+>
+>         return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
+>                              dentry->d_name.name, ret > 0 ? name : "");
+> @@ -335,7 +335,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+>         if (IS_ERR(name))
+>                 return PTR_ERR(name);
+>
+> -       dma_resv_lock(dmabuf->resv, NULL);
+> +       spin_lock(&dmabuf->name_lock);
+>         if (!list_empty(&dmabuf->attachments)) {
+>                 ret = -EBUSY;
+>                 kfree(name);
+> @@ -345,7 +345,7 @@ static long dma_buf_set_name(struct dma_buf *dmabuf, const char __user *buf)
+>         dmabuf->name = name;
+>
+>  out_unlock:
+> -       dma_resv_unlock(dmabuf->resv);
+> +       spin_unlock(&dmabuf->name_lock);
+>         return ret;
+>  }
+>
+> @@ -405,10 +405,10 @@ static void dma_buf_show_fdinfo(struct seq_file *m, struct file *file)
+>         /* Don't count the temporary reference taken inside procfs seq_show */
+>         seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+>         seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+> -       dma_resv_lock(dmabuf->resv, NULL);
+> +       spin_lock(&dmabuf->name_lock);
+>         if (dmabuf->name)
+>                 seq_printf(m, "name:\t%s\n", dmabuf->name);
+> -       dma_resv_unlock(dmabuf->resv);
+> +       spin_unlock(&dmabuf->name_lock);
+>  }
+>
+>  static const struct file_operations dma_buf_fops = {
+> @@ -546,6 +546,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+>         dmabuf->size = exp_info->size;
+>         dmabuf->exp_name = exp_info->exp_name;
+>         dmabuf->owner = exp_info->owner;
+> +       spin_lock_init(&dmabuf->name_lock);
+>         init_waitqueue_head(&dmabuf->poll);
+>         dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
+>         dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index ab0c156..93108fd 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -311,6 +311,7 @@ struct dma_buf {
+>         void *vmap_ptr;
+>         const char *exp_name;
+>         const char *name;
+> +       spinlock_t name_lock;
+>         struct module *owner;
+>         struct list_head list_node;
+>         void *priv;
+> --
+> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum, a Linux Foundation Collaborative Project
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 1bac30d4cf50..b9a3b9ca6ae1 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -191,6 +191,7 @@ struct vdec_controls {
- 	u32 post_loop_deb_mode;
- 	u32 profile;
- 	u32 level;
-+	bool intra_only;
- };
- 
- struct venc_controls {
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index 7c4c483d5438..aa68cefcae96 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -625,6 +625,13 @@ static int vdec_set_properties(struct venus_inst *inst)
- 			return ret;
- 	}
- 
-+	if (ctr->intra_only) {
-+		ptype = HFI_PROPERTY_PARAM_VDEC_THUMBNAIL_MODE;
-+		ret = hfi_session_set_property(inst, ptype, &en);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	return 0;
- }
- 
-diff --git a/drivers/media/platform/qcom/venus/vdec_ctrls.c b/drivers/media/platform/qcom/venus/vdec_ctrls.c
-index 3a963cbd342a..96ca8d9dd22e 100644
---- a/drivers/media/platform/qcom/venus/vdec_ctrls.c
-+++ b/drivers/media/platform/qcom/venus/vdec_ctrls.c
-@@ -28,6 +28,9 @@ static int vdec_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_MPEG_VIDEO_MPEG4_LEVEL:
- 		ctr->level = ctrl->val;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_DECODE_INTRA_FRAMES_ONLY:
-+		ctr->intra_only = ctrl->val;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -86,7 +89,7 @@ int vdec_ctrl_init(struct venus_inst *inst)
- 	struct v4l2_ctrl *ctrl;
- 	int ret;
- 
--	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 7);
-+	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 8);
- 	if (ret)
- 		return ret;
- 
-@@ -141,6 +144,10 @@ int vdec_ctrl_init(struct venus_inst *inst)
- 	if (ctrl)
- 		ctrl->flags |= V4L2_CTRL_FLAG_VOLATILE;
- 
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &vdec_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_DECODE_INTRA_FRAMES_ONLY,
-+			  0, 1, 1, 0);
-+
- 	ret = inst->ctrl_handler.error;
- 	if (ret) {
- 		v4l2_ctrl_handler_free(&inst->ctrl_handler);
--- 
-2.17.1
-
+Best,
+Sumit.
