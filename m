@@ -2,58 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39F0D1FAD19
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 11:51:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 250981FAD4E
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 12:01:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728121AbgFPJvk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Jun 2020 05:51:40 -0400
-Received: from mga14.intel.com ([192.55.52.115]:14551 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726261AbgFPJvj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Jun 2020 05:51:39 -0400
-IronPort-SDR: B5n+jSuXf1h8PETQ48gupcFLpxRsQbL3hTmhfNue/W17YK4R8ucD/gMGwFhm+f/Z2KlnXyyVtr
- kPGnX1VM+h0Q==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2020 02:51:39 -0700
-IronPort-SDR: g/2dIkBA3me8YZgOL9fOEj6c3/Dp033UmA+/mBWmblNC6+rNiEKBxvhulqKJ4o2DcGHItxZku6
- lza7BwNcPMAw==
-X-IronPort-AV: E=Sophos;i="5.73,518,1583222400"; 
-   d="scan'208";a="420708776"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Jun 2020 02:51:37 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id B64112072F; Tue, 16 Jun 2020 12:51:35 +0300 (EEST)
-Date:   Tue, 16 Jun 2020 12:51:35 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: atomisp: Fix a pointer math problem in
- dump_sp_dmem()
-Message-ID: <20200616095135.GX16711@paasikivi.fi.intel.com>
-References: <20200616092728.GB11940@mwanda>
+        id S1728129AbgFPKAg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Jun 2020 06:00:36 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:36112 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726052AbgFPKAf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 16 Jun 2020 06:00:35 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id E8DC13C057C;
+        Tue, 16 Jun 2020 12:00:32 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id l2OxJuY85Oae; Tue, 16 Jun 2020 12:00:27 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 26ABB3C0579;
+        Tue, 16 Jun 2020 12:00:26 +0200 (CEST)
+Received: from vmlxhi-110.adit-jv.com (10.72.93.196) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 16 Jun
+ 2020 12:00:25 +0200
+From:   Ramzi BEN MEFTAH <rbmeftah@de.adit-jv.com>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Steve Longerbeam <steve_longerbeam@mentor.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Arnd Bergmann <arnd@arndb.de>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC:     Michael Rodin <mrodin@de.adit-jv.com>, <efriedrich@de.adit-jv.com>,
+        <erosca@de.adit-jv.com>
+Subject: [PATCH 1/3] v4l2-subdev: Add subdev ioctl support for ENUM/GET/SET INPUT
+Date:   Tue, 16 Jun 2020 12:00:15 +0200
+Message-ID: <1592301619-17631-1-git-send-email-rbmeftah@de.adit-jv.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200616092728.GB11940@mwanda>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-Originating-IP: [10.72.93.196]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 16, 2020 at 12:27:28PM +0300, Dan Carpenter wrote:
-> The "io_virt_addr" variable is a u32 pointer and it should be
-> incremented by one instead of four.  The current code will dump bogus
-> data and read beyond the end of the buffer.
-> 
-> Fixes: 69a03e36c711 ("media: atomisp: get rid of an iomem abstraction layer")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+From: Steve Longerbeam <steve_longerbeam@mentor.com>
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+This commit enables VIDIOC_ENUMINPUT, VIDIOC_G_INPUT, and VIDIOC_S_INPUT
+ioctls for use via v4l2 subdevice node.
 
+This commit should probably not be pushed upstream, because the (old)
+idea of video inputs conflicts with the newer concept of establishing
+media links between src->sink pads.
+
+However it might make sense for some subdevices to support enum/get/set
+inputs. One example would be the analog front end subdevice for the
+ADV748x. By providing these ioctls, selecting the ADV748x analog inputs
+can be done without requiring the implementation of media entities that
+would define the analog source for which to establish a media link.
+
+Signed-off-by: Steve Longerbeam <steve_longerbeam@mentor.com>
+---
+ drivers/media/v4l2-core/v4l2-subdev.c |  9 +++++++++
+ include/media/v4l2-subdev.h           | 11 +++++++++++
+ 2 files changed, 20 insertions(+)
+
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 6b989fe..73fbfe9 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -378,6 +378,15 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+ 			return -ENOTTY;
+ 		return v4l2_querymenu(vfh->ctrl_handler, arg);
+ 
++	case VIDIOC_ENUMINPUT:
++		return v4l2_subdev_call(sd, video, enuminput, arg);
++
++	case VIDIOC_G_INPUT:
++		return v4l2_subdev_call(sd, video, g_input, arg);
++
++	case VIDIOC_S_INPUT:
++		return v4l2_subdev_call(sd, video, s_input, *(u32 *)arg);
++
+ 	case VIDIOC_G_CTRL:
+ 		if (!vfh->ctrl_handler)
+ 			return -ENOTTY;
+diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+index f7fe78a..6e1a9cd 100644
+--- a/include/media/v4l2-subdev.h
++++ b/include/media/v4l2-subdev.h
+@@ -383,6 +383,14 @@ struct v4l2_mbus_frame_desc {
+  * @g_input_status: get input status. Same as the status field in the
+  *	&struct &v4l2_input
+  *
++ * @enuminput: enumerate inputs. Should return the same input status as
++ *      @g_input_status if the passed input index is the currently active
++ *      input.
++ *
++ * @g_input: returns the currently active input index.
++ *
++ * @s_input: set the active input.
++ *
+  * @s_stream: used to notify the driver that a video stream will start or has
+  *	stopped.
+  *
+@@ -423,6 +431,9 @@ struct v4l2_subdev_video_ops {
+ 	int (*g_tvnorms)(struct v4l2_subdev *sd, v4l2_std_id *std);
+ 	int (*g_tvnorms_output)(struct v4l2_subdev *sd, v4l2_std_id *std);
+ 	int (*g_input_status)(struct v4l2_subdev *sd, u32 *status);
++	int (*enuminput)(struct v4l2_subdev *sd, struct v4l2_input *input);
++	int (*g_input)(struct v4l2_subdev *sd, u32 *index);
++	int (*s_input)(struct v4l2_subdev *sd, u32 index);
+ 	int (*s_stream)(struct v4l2_subdev *sd, int enable);
+ 	int (*g_pixelaspect)(struct v4l2_subdev *sd, struct v4l2_fract *aspect);
+ 	int (*g_frame_interval)(struct v4l2_subdev *sd,
 -- 
-Sakari Ailus
+2.7.4
+
