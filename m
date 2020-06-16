@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ADFEB1FAD4F
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 12:01:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B0F51FAD4B
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 12:00:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728175AbgFPKAn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Jun 2020 06:00:43 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:36126 "EHLO
+        id S1728229AbgFPKAp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Jun 2020 06:00:45 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:36135 "EHLO
         smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726052AbgFPKAi (ORCPT
+        with ESMTP id S1728170AbgFPKAn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Jun 2020 06:00:38 -0400
+        Tue, 16 Jun 2020 06:00:43 -0400
 Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 38AF43C0579;
-        Tue, 16 Jun 2020 12:00:36 +0200 (CEST)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 0BB363C0588;
+        Tue, 16 Jun 2020 12:00:42 +0200 (CEST)
 Received: from smtp1.de.adit-jv.com ([127.0.0.1])
         by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id wZY7WntlG0fp; Tue, 16 Jun 2020 12:00:31 +0200 (CEST)
+        with ESMTP id S-vVknBfQk2h; Tue, 16 Jun 2020 12:00:36 +0200 (CEST)
 Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
         (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 029253C00BA;
-        Tue, 16 Jun 2020 12:00:31 +0200 (CEST)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id E147D3C00BA;
+        Tue, 16 Jun 2020 12:00:36 +0200 (CEST)
 Received: from vmlxhi-110.adit-jv.com (10.72.93.196) by HI2EXCH01.adit-jv.com
  (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 16 Jun
- 2020 12:00:30 +0200
+ 2020 12:00:36 +0200
 From:   Ramzi BEN MEFTAH <rbmeftah@de.adit-jv.com>
 To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -38,10 +38,10 @@ To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Arnd Bergmann <arnd@arndb.de>, <linux-media@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
 CC:     Michael Rodin <mrodin@de.adit-jv.com>, <efriedrich@de.adit-jv.com>,
-        <erosca@de.adit-jv.com>
-Subject: [PATCH 2/3] media: i2c: adv748x-afe: Implement enum/get/set input
-Date:   Tue, 16 Jun 2020 12:00:16 +0200
-Message-ID: <1592301619-17631-2-git-send-email-rbmeftah@de.adit-jv.com>
+        <erosca@de.adit-jv.com>, Ramzi BEN MEFTAH <rbmeftah@de.adit-jv.com>
+Subject: [PATCH 3/3] media: i2c: adv748x: add enuminput control to adv748x hdmi subdev
+Date:   Tue, 16 Jun 2020 12:00:17 +0200
+Message-ID: <1592301619-17631-3-git-send-email-rbmeftah@de.adit-jv.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1592301619-17631-1-git-send-email-rbmeftah@de.adit-jv.com>
 References: <1592301619-17631-1-git-send-email-rbmeftah@de.adit-jv.com>
@@ -53,100 +53,49 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Steve Longerbeam <steve_longerbeam@mentor.com>
+This patch adds support for enuminput control to the adv748x hdmi subdev.
+This will allow userspace for example to query input hdmi signal status.
 
-The adv748x-afe sub-device driver does not support changing the
-analog input, so enuminput returns only the status of a single
-input at index=0. Likewise g_input returns only index 0, and s_input
-returns -EINVAL if index is not 0, and otherwise does nothing.
-
-Signed-off-by: Steve Longerbeam <steve_longerbeam@mentor.com>
-(cherry picked from ADIT v4.14 commit 8aadc35d3ae252a1eaed8506fbd1675911465bbd)
+Signed-off-by: Ramzi BEN MEFTAH <rbmeftah@de.adit-jv.com>
 ---
- drivers/media/i2c/adv748x/adv748x-afe.c | 42 ++++++++++++++++++++++++++++++---
- 1 file changed, 39 insertions(+), 3 deletions(-)
+ drivers/media/i2c/adv748x/adv748x-hdmi.c | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/drivers/media/i2c/adv748x/adv748x-afe.c b/drivers/media/i2c/adv748x/adv748x-afe.c
-index dbbb1e4..6b090f4 100644
---- a/drivers/media/i2c/adv748x/adv748x-afe.c
-+++ b/drivers/media/i2c/adv748x/adv748x-afe.c
-@@ -154,7 +154,7 @@ static void adv748x_afe_set_video_standard(struct adv748x_state *state,
- 		   (sdpstd & 0xf) << ADV748X_SDP_VID_SEL_SHIFT);
+diff --git a/drivers/media/i2c/adv748x/adv748x-hdmi.c b/drivers/media/i2c/adv748x/adv748x-hdmi.c
+index c557f8f..2d748b2 100644
+--- a/drivers/media/i2c/adv748x/adv748x-hdmi.c
++++ b/drivers/media/i2c/adv748x/adv748x-hdmi.c
+@@ -350,6 +350,22 @@ static int adv748x_hdmi_g_input_status(struct v4l2_subdev *sd, u32 *status)
+ 	return 0;
  }
  
--static int adv748x_afe_s_input(struct adv748x_afe *afe, unsigned int input)
-+static int adv748x_afe_set_input(struct adv748x_afe *afe, unsigned int input)
- {
- 	struct adv748x_state *state = adv748x_afe_to_state(afe);
- 
-@@ -267,6 +267,39 @@ static int adv748x_afe_g_input_status(struct v4l2_subdev *sd, u32 *status)
- 	return ret;
- }
- 
-+static int adv748x_afe_enuminput(struct v4l2_subdev *sd,
++static int adv748x_hdmi_enuminput(struct v4l2_subdev *sd,
 +				 struct v4l2_input *input)
 +{
-+	struct adv748x_afe *afe = adv748x_sd_to_afe(sd);
-+
 +	if (input->index != 0)
 +		return -EINVAL;
 +
 +	input->type = V4L2_INPUT_TYPE_CAMERA;
-+	input->capabilities = V4L2_IN_CAP_STD;
++	input->capabilities = V4L2_IN_CAP_DV_TIMINGS;
 +	input->status = V4L2_IN_ST_NO_SIGNAL;
-+	/* API says we must return all supported standards */
-+	input->std = V4L2_STD_ALL;
++	input->std = V4L2_STD_UNKNOWN;
 +
-+	snprintf(input->name, sizeof(input->name), "%s AIN%u",
-+		 sd->name, afe->input);
++	snprintf(input->name, sizeof(input->name), "%s", sd->name);
 +
-+	return adv748x_afe_g_input_status(sd, &input->status);
++	return adv748x_hdmi_g_input_status(sd, &input->status);
 +}
 +
-+static int adv748x_afe_g_input(struct v4l2_subdev *sd, u32 *index)
-+{
-+	*index = 0;
-+	return 0;
-+}
-+
-+static int adv748x_afe_s_input(struct v4l2_subdev *sd, u32 index)
-+{
-+	if (index != 0)
-+		return -EINVAL;
-+	return 0;
-+}
-+
- static int adv748x_afe_s_stream(struct v4l2_subdev *sd, int enable)
+ static int adv748x_hdmi_s_stream(struct v4l2_subdev *sd, int enable)
  {
- 	struct adv748x_afe *afe = adv748x_sd_to_afe(sd);
-@@ -277,7 +310,7 @@ static int adv748x_afe_s_stream(struct v4l2_subdev *sd, int enable)
- 	mutex_lock(&state->mutex);
- 
- 	if (enable) {
--		ret = adv748x_afe_s_input(afe, afe->input);
-+		ret = adv748x_afe_set_input(afe, afe->input);
- 		if (ret)
- 			goto unlock;
- 	}
-@@ -306,6 +339,9 @@ static const struct v4l2_subdev_video_ops adv748x_afe_video_ops = {
- 	.querystd = adv748x_afe_querystd,
- 	.g_tvnorms = adv748x_afe_g_tvnorms,
- 	.g_input_status = adv748x_afe_g_input_status,
-+	.enuminput = adv748x_afe_enuminput,
-+	.g_input = adv748x_afe_g_input,
-+	.s_input = adv748x_afe_s_input,
- 	.s_stream = adv748x_afe_s_stream,
- 	.g_pixelaspect = adv748x_afe_g_pixelaspect,
+ 	struct adv748x_hdmi *hdmi = adv748x_sd_to_hdmi(sd);
+@@ -386,6 +402,7 @@ static const struct v4l2_subdev_video_ops adv748x_video_ops_hdmi = {
+ 	.g_dv_timings = adv748x_hdmi_g_dv_timings,
+ 	.query_dv_timings = adv748x_hdmi_query_dv_timings,
+ 	.g_input_status = adv748x_hdmi_g_input_status,
++	.enuminput = adv748x_hdmi_enuminput,
+ 	.s_stream = adv748x_hdmi_s_stream,
+ 	.g_pixelaspect = adv748x_hdmi_g_pixelaspect,
  };
-@@ -520,7 +556,7 @@ int adv748x_afe_init(struct adv748x_afe *afe)
- 		}
- 	}
- 
--	adv748x_afe_s_input(afe, afe->input);
-+	adv748x_afe_set_input(afe, afe->input);
- 
- 	adv_dbg(state, "AFE Default input set to %d\n", afe->input);
- 
 -- 
 2.7.4
 
