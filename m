@@ -2,115 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A6071FA68A
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 04:56:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D459D1FA712
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 05:32:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726335AbgFPC4a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 15 Jun 2020 22:56:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40252 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726025AbgFPC43 (ORCPT
+        id S1726398AbgFPDct (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 15 Jun 2020 23:32:49 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:44349 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725985AbgFPDct (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 15 Jun 2020 22:56:29 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B43CC061A0E;
-        Mon, 15 Jun 2020 19:56:29 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B06CEF9;
-        Tue, 16 Jun 2020 04:56:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592276184;
-        bh=+p29mN3O4KA8+pYMxFKIjzQpJJOcdUqinFmYsFDSJwI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LDcDxbJuHmMXCEwXE1fgvV7P0DQ7rvDH5MFaa0/spasIzJiZrahiaSyVccQo7PxvF
-         Hq9o1J5LX87Zvb548SyDFIR60KZiH6Nx1ygbLLuKTv9XFQwYcQVFcoex2uaTF+5WtP
-         BmtiYGcHquXcbee0W6D5KMulWW+a0goZwTeP/p2k=
-Date:   Tue, 16 Jun 2020 05:56:02 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dinghao Liu <dinghao.liu@zju.edu.cn>
-Cc:     kjlu@umn.edu,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] [v2] media: vsp1: Fix runtime PM imbalance on error
-Message-ID: <20200616025602.GG29596@pendragon.ideasonboard.com>
-References: <20200608052919.4984-1-dinghao.liu@zju.edu.cn>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200608052919.4984-1-dinghao.liu@zju.edu.cn>
+        Mon, 15 Jun 2020 23:32:49 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id l2L7j6p8kK7ldl2L8jU2Fi; Tue, 16 Jun 2020 05:32:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1592278366; bh=mc2pqYPJZgwkq313uXIj/+GwAoWWmu9v27p3cZuNJlQ=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=BrC1Gbelo4Yt3io7ihImlD/U5Gu6VGRbwO1Cm0CKQjoIwqDNanpKE3NrFBuK/msYd
+         vDc2xmdYkatXIDMJ6pcYGX3G14XDWpgueHr7k6KzvX8FMhf4q5NRFfBgsfr3xbpuLe
+         PZj1IsrztsvbL7dUjCPLBrY1iYEF/CO4JwI0UIfZqKFcqvyEonnHIdKYhA+xEu1CM2
+         7Zz2iv35iaCsmaOp7QItHxyl3dzW82UpHO+k3uhTijeqdciRF34IgROyRRPFf1AQvr
+         C4aCFH8wAVeZ0aPwL5ixKjwsQiBXKs46bKN9k6WSkF4KXrKZzT1KQ9Ri2COTbWstXf
+         ILehpVOWrDwhA==
+Message-ID: <6db270a9a165cd6f8969a0c9db5c8720@smtp-cloud9.xs4all.net>
+Date:   Tue, 16 Jun 2020 05:32:44 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfB/LF1ITv4PscYIpOLhyxDGdheIeyJocT/ZGepN7sQKuz3OnVJlvej3oCVf5fhiJnqAoujWVSeOAhTKtKWqu3hOH89CKj6vIxrDkxo+UBX6xiuA5fn2d
+ N/dN0uqc220e/ElgYkCb1vrFFgzPrWsOYN4qG7DzJaRbXSs7SYgRmtSphPdMca+1atR39jjfk/+3jx3wzcvQRHPqZ6iBLi6K5KKUax1ewHeeg9RuP/DgOIh7
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Dinghao,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thank you for the patch.
+Results of the daily build of media_tree:
 
-On Mon, Jun 08, 2020 at 01:29:19PM +0800, Dinghao Liu wrote:
-> pm_runtime_get_sync() increments the runtime PM usage counter even
-> when it returns an error code. Thus a pairing decrement is needed on
-> the error handling path to keep the counter balanced.
-> 
-> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
+date:			Tue Jun 16 05:00:10 CEST 2020
+media-tree git hash:	b3a9e3b9622ae10064826dccb4f7a52bd88c7407
+media_build git hash:	337283131d6117aa9b0c0c62d32e323da54a9359
+v4l-utils git hash:	de91e870c2355e0fe754176563660b92b8ee040b
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 177b105719ea6cf8da0f80517eb48db12ec9580c
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.212-i686: ERRORS
+linux-4.4.212-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.212-i686: ERRORS
+linux-4.9.212-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.169-i686: ERRORS
+linux-4.14.169-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.101-i686: ERRORS
+linux-4.19.101-x86_64: ERRORS
+linux-4.20.15-i686: ERRORS
+linux-4.20.15-x86_64: ERRORS
+linux-5.0.15-i686: ERRORS
+linux-5.0.15-x86_64: ERRORS
+linux-5.1.1-i686: ERRORS
+linux-5.1.1-x86_64: ERRORS
+linux-5.2.1-i686: ERRORS
+linux-5.2.1-x86_64: ERRORS
+linux-5.3.1-i686: ERRORS
+linux-5.3.1-x86_64: ERRORS
+linux-5.4.17-i686: ERRORS
+linux-5.4.17-x86_64: ERRORS
+linux-5.5.1-i686: ERRORS
+linux-5.5.1-x86_64: ERRORS
+linux-5.6.1-i686: ERRORS
+linux-5.6.1-x86_64: ERRORS
+linux-5.7-rc1-i686: ERRORS
+linux-5.7-rc1-x86_64: ERRORS
+apps: OK
+spec-git: OK
+virtme: ERRORS: Final Summary: 2943, Succeeded: 2941, Failed: 2, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
+sparse: WARNINGS
+smatch: ERRORS
 
-I have however received multiple similar patches recently, for different
-drivers. I've CC'ed Rafael, the PM maintainer, in one of those e-mail
-threads, and questioned whether we should really mass-patch drivers, or
-fix the issue in pm_runtime_get_sync(). I'll defer pushing this patch
-until that discussion comes to a conclusion.
+Logs weren't copied as they are too large (1404 kB)
 
-> ---
-> 
-> Changelog:
-> 
-> v2: - Fix the imbalance in vsp1_device_get().
->       Use vsp1_device_get() and vsp1_device_put()
->       to replace pm_runtime_get_sync() and
->       pm_runtime_put_sync() in vsp1_probe().
-> ---
->  drivers/media/platform/vsp1/vsp1_drv.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
-> index c650e45bb0ad..dc62533cf32c 100644
-> --- a/drivers/media/platform/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
-> @@ -562,7 +562,12 @@ int vsp1_device_get(struct vsp1_device *vsp1)
->  	int ret;
->  
->  	ret = pm_runtime_get_sync(vsp1->dev);
-> -	return ret < 0 ? ret : 0;
-> +	if (ret < 0) {
-> +		pm_runtime_put_noidle(vsp1->dev);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
->  }
->  
->  /*
-> @@ -845,12 +850,12 @@ static int vsp1_probe(struct platform_device *pdev)
->  	/* Configure device parameters based on the version register. */
->  	pm_runtime_enable(&pdev->dev);
->  
-> -	ret = pm_runtime_get_sync(&pdev->dev);
-> +	ret = vsp1_device_get(vsp1);
->  	if (ret < 0)
->  		goto done;
->  
->  	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
-> -	pm_runtime_put_sync(&pdev->dev);
-> +	vsp1_device_put(vsp1);
->  
->  	for (i = 0; i < ARRAY_SIZE(vsp1_device_infos); ++i) {
->  		if ((vsp1->version & VI6_IP_VERSION_MODEL_MASK) ==
+The Media Infrastructure API from this daily build is here:
 
--- 
-Regards,
-
-Laurent Pinchart
+http://www.xs4all.nl/~hverkuil/spec/index.html
