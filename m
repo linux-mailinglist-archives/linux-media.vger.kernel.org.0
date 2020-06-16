@@ -2,100 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EC8CC1FB3AA
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 16:09:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 119601FB390
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 16:08:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729528AbgFPOJo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Jun 2020 10:09:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729050AbgFPOJk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Jun 2020 10:09:40 -0400
-Received: from mail-vk1-xa41.google.com (mail-vk1-xa41.google.com [IPv6:2607:f8b0:4864:20::a41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5707BC061573;
-        Tue, 16 Jun 2020 07:09:40 -0700 (PDT)
-Received: by mail-vk1-xa41.google.com with SMTP id p187so4840445vkf.0;
-        Tue, 16 Jun 2020 07:09:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
-        bh=kvkbSZZ2ghPvtr7g+4DwKKTOPHzQ+JkuiYjOoBKXQ1E=;
-        b=MJHlkngFT133npieWpyoGh0urU3iWbGas7CJZrtMJerpGuJtXJBloYvzE44huOfDvE
-         a+B2I1EBIwegx2wV251qk0dxjJ99+TVLMAqauve8tcZ/Czgrah7MQQ9zWAcV9Tfi1xha
-         368bEbvhG4rwhmCGX8rOyR5bixzGVSwmAMPwD6QW2bTSIQh9lUvIM33As4HJz19uN1Br
-         HJp2wwAzWFPjN5Re7TByc9JQSxrZvwsUW3K2FdN4eakM9unoII1EBeAVH+SxY6FAnGxd
-         GwnXUnN4QQOVPAAy+h7We3R1u3lxfmC3vixsKANC95sKfUVVE+mFs+DQdYIE/Cezz8YZ
-         W4Ig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to;
-        bh=kvkbSZZ2ghPvtr7g+4DwKKTOPHzQ+JkuiYjOoBKXQ1E=;
-        b=teF1W9dg+PfqGbk34fqDmfqhGa2We0QBrjBA0Wt2YuE+6ZoRLr2qtXxQK++RN12DFV
-         1MkV7ZKkHtlHC5m+1ZW4O8CV4CsJB8b8gEP2ZUuVCNCeFS1Y2BiL+f8ex6DnM0fgOy2T
-         qfDx0Ah1dbFEfHCyH9n2BPz4dnRjhl/Da53eqFLe2rB/FYmv3oUF7pbe4704WMvQawgB
-         Ozl9BVkEwJQWNUJaqfTPbGM/NI1Qeb7r5jmwl6A2XhOmYQYp4IS7gLh6BBDN+mKk6Hyv
-         O/2Gb8O1eu8vMfs5LV/84zDNCvTKvPKjytME/sAIWT09N54KUfZa9btD81eAHE281hlu
-         OHGg==
-X-Gm-Message-State: AOAM532qgNBH/iyy4DKw9tnbgja9vkzjRyq64FKr48tie17uiyyvVYyt
-        CtLfCWGOTEfZpYBUIYvRYDQuafvwBvD5Vm+9RJViEw==
-X-Google-Smtp-Source: ABdhPJze8O6g9fE6ltSX85adg2jK4puYbKO8MUJwujXYHUy4P5RhKum5p0M5dGxwTqPtL4ATGFihpSZvv1m1jjx+STY=
-X-Received: by 2002:a1f:9094:: with SMTP id s142mr1776422vkd.6.1592316579576;
- Tue, 16 Jun 2020 07:09:39 -0700 (PDT)
+        id S1729379AbgFPOIJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Jun 2020 10:08:09 -0400
+Received: from mail.kernel.org ([198.145.29.99]:41058 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729166AbgFPOIH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 16 Jun 2020 10:08:07 -0400
+Received: from dragon (unknown [80.251.214.228])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 15A1B206F1;
+        Tue, 16 Jun 2020 14:08:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592316487;
+        bh=HuY/87CaF8AeD8BH0mPr92C5TXRll8MzAwelqfSk1Hg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=siBei0M9PKRGAqikqBMBF815zsjFDm2SU6JRBoBaX3vmEeJm/pOsag4oj6RdDmOVt
+         0HjJx6PA1QNUnuVnXOx4eeLROKQbYkR43nEL2MUXypEwV4J6wKdPsgC1TE9yZ+Ux8J
+         g0sjd8YrXG4Vxm/igyis3zYTPy2ZDwuSzLoSVGzY=
+Date:   Tue, 16 Jun 2020 22:07:48 +0800
+From:   Shawn Guo <shawnguo@kernel.org>
+To:     Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     linux-media@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>, kernel@pengutronix.de,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v6 3/4] arm64: dts: imx8mq: enable Hantro G1/G2 VPU
+Message-ID: <20200616140747.GA24521@dragon>
+References: <20200320131256.23294-1-p.zabel@pengutronix.de>
+ <20200320131256.23294-4-p.zabel@pengutronix.de>
 MIME-Version: 1.0
-References: <20200615075816.2848-1-wsa+renesas@sang-engineering.com> <20200616121244.GN20149@phenom.ffwll.local>
-In-Reply-To: <20200616121244.GN20149@phenom.ffwll.local>
-From:   Emil Velikov <emil.l.velikov@gmail.com>
-Date:   Tue, 16 Jun 2020 15:05:58 +0100
-Message-ID: <CACvgo52PaW97cxMeGhbpD4FUVy5BRAunaCxX3106OOAZm6x67A@mail.gmail.com>
-Subject: Re: [PATCH 0/6] remove deprecated i2c_new_device API
-To:     Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-i2c@vger.kernel.org,
-        linux-fbdev <linux-fbdev@vger.kernel.org>, x86@kernel.org,
-        "Linux-Kernel@Vger. Kernel. Org" <linux-kernel@vger.kernel.org>,
-        ML dri-devel <dri-devel@lists.freedesktop.org>,
-        platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200320131256.23294-4-p.zabel@pengutronix.de>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+On Fri, Mar 20, 2020 at 02:12:55PM +0100, Philipp Zabel wrote:
+> Add the i.MX8MQ VPU module which comprises Hantro G1 and G2 video
+> decoder cores and a reset/control block.
+> 
+> Hook up the bus clock to the VPU power domain to enable handshakes, and
+> configure the core clocks to 600 MHz and the bus clock to 800 MHz by
+> default.
+> 
+> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
 
-On Tue, 16 Jun 2020 at 13:12, Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Mon, Jun 15, 2020 at 09:58:09AM +0200, Wolfram Sang wrote:
-> > I want to remove the above API this cycle, and just a few patches have
-> > not made it into 5.8-rc1. They have been reviewed and most had been
-> > promised to get into linux-next, but well, things happen. So, I hope it
-> > is okay for everyone to collect them like this and push them via I2C for
-> > 5.8-rc2.
->
-> for the drm side of things:
->
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >
-> > One minor exception is the media documentation patch which I simply have
-> > missed so far, but it is trivial.
-> >
-> > And then, finally, there is the removal of the old API as the final
-> > patch. Phew, that's been a long ride.
-> >
-> > I am open for comments, of course.
-> >
-> > Happy hacking,
-> >
-> >    Wolfram
-> >
-> >
-> > Wolfram Sang (6):
-> >   drm: encoder_slave: fix refcouting error for modules
-> >   drm: encoder_slave: use new I2C API
-
-The first two are in drm-misc-next and are to be expected with the 5.9
-merge window. As long as that doesn't cause major nuisance proceed as
-you prefer.
-
--Emil
+Applied, thanks.
