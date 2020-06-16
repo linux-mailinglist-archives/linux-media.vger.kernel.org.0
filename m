@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C48C1FBFD5
-	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 22:16:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A4DDC1FBFD1
+	for <lists+linux-media@lfdr.de>; Tue, 16 Jun 2020 22:16:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731727AbgFPUP6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Jun 2020 16:15:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60014 "EHLO
+        id S1731642AbgFPUP4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Jun 2020 16:15:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731643AbgFPUPj (ORCPT
+        with ESMTP id S1731676AbgFPUPo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Jun 2020 16:15:39 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E61DC061755
-        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2020 13:15:39 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id l27so23120627ejc.1
-        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2020 13:15:39 -0700 (PDT)
+        Tue, 16 Jun 2020 16:15:44 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E683C0613EF
+        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2020 13:15:41 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id l27so23120716ejc.1
+        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2020 13:15:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=l53FcUBXaXLsNwgF2kGygWkBGpRAyHzlKoeXvC/PqGA=;
-        b=rAxw4zi0hLcxHYTInF92hJRCjCBbw+BklYODRAJ21O8G7VkpRU/GTSeDLJJEqLcnbs
-         ipQtZ4RT2rgM2QszCTKAwS+Q/IBUOouTa68FQ4/WjUVH7C/+7+R9fvMqfisdfakolmrd
-         9+pVRXLDmdjzZ0oKHpqbpMK4M3a6ZoJlXQqaxImAfJyn+UNqe0ZOgjiL0zWfC9BLiwcS
-         ZD3uzVwpSl2zjW1vE8jAGTQKAL6IEFbFqIZgzFIGNv8WHxJ0eTpijAY1niSYvawDJX8F
-         JUSjUZ6IVbm38w2CDj8RE6nsXhB5xEANK1T3WnDgZ1kQGjfyMTHao32ZlnQK1S/mqtin
-         0MFQ==
+        bh=gW9cbjjRPD6R6Z7AF3iL+tqbW8lQcn4mBsQDieJZv9Y=;
+        b=TvS+lpRerMK7Vh9j8U/PXM8SvfVymFr6pX9tI7Shj29sprrHvMvzGEFsqWa8uXWTkR
+         fOVEMyyl0EL25CtoL9PLNJS1BNdetkq7c5E9CpjAA8Ih08ptnMxWahoK/yYrRPsxaf7o
+         vBtX/zJSXErob5isSOg8B063lsyxaN10ZtQ8oRHs25gZjXwJ8ISzStb9G2xesomdiiE/
+         qfpNMoTc28Z7YRuPZC3AwKvAfV69ApepJGlGKe2hvVdJkGJlQeqpdZNYrkpbfFG74gxm
+         hvQFytLZ7F2UwRii9qRLXt/bFCBm8/g695mr1gVqnG03s8/Fb42CuQL+VlLhNmbecWtl
+         Ga5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=l53FcUBXaXLsNwgF2kGygWkBGpRAyHzlKoeXvC/PqGA=;
-        b=Na222fMDIxhh/KWNMPxotNm+/KnkYOXdhXBJhJFDOwDNBVxaQQA0SepFAmIfazuvfa
-         x4Ql2JLIRrcxlo0W3yhQwyTxhvEkONM3qHd1fulIWoQOupxc6MLFWB6VM/oCoJnxRl9T
-         ri6BZHmbjl94RTina7KyF3xVph8ar7IIfHPb+Faf7QQpJz6qBHOWcyoXlSDBCM9or/BV
-         LG3ONjb+MYc9wL02wdSxw2Qoq9p709rnIrOeqtwZNN5NKoOuZWHJ+PC4X11+9+31QrY0
-         F1XcHFZeAPaRyFqP0oF9PyS41ze50HUzgxJi6wnJugxuxljopypafGJCCmpWTCzAtef1
-         bSzQ==
-X-Gm-Message-State: AOAM5339LAoD2f8oEBMToaUgmW76HYxg3/JjgfO9DLrYAr7mMDUbhVwH
-        7fVsjR7P33Cgdjd7zsbKeorbnUMqtrPA7A==
-X-Google-Smtp-Source: ABdhPJyC48lSDgSusZjdt7wuW3QqHCOrlYimc3jhj7e/M/SEHRc420ooTefdfmy/P4U8y1k3DVVwmA==
-X-Received: by 2002:a17:906:f2d9:: with SMTP id gz25mr4644585ejb.467.1592338537663;
-        Tue, 16 Jun 2020 13:15:37 -0700 (PDT)
+        bh=gW9cbjjRPD6R6Z7AF3iL+tqbW8lQcn4mBsQDieJZv9Y=;
+        b=ZQ1asQgIi7jd+egfxjXyoWgCZTjyXnBf+yBMcNisGVAXHgin3Y6llTfy0/HKhm3DBk
+         YsJ7mDYT07DeTEs3zxrC9YsaPCUT6BPHdv1mgKfS8AYIHFafFvIFZOQof/LfudTLwcPY
+         3Fixnp5OWJlnuWBNrZrtRSkMrqO5dymvFecYL87nY0LkWLnlqRFGit80wAfw3QtHRSl5
+         u38rClMvoFrCgEdb+eHOAOt4trA4fsNaAI2pPauJ000ZGzpIJNFczeiGkPw7boppjnMm
+         YVQf1lCLEM9yGK88ozzcB/EksLkljcqiS92avPDShUvfcX6q1A1GElbyrBTffp1MY5vV
+         OW+Q==
+X-Gm-Message-State: AOAM530IPXMv5Z1/smdDzU6+jVCeLk7PcyhwaTzOPRAUr65P98bGh5gE
+        8X3uNnn4vf8jkfkWzmHqzH74ppF/TYI4mw==
+X-Google-Smtp-Source: ABdhPJzgXkbMUwl8DMfZ408p8n1EGyMsTX1YMSgHzEF6jce2krk5jx3jQ+aRMOjy2tB0tYG6LH3ywA==
+X-Received: by 2002:a17:906:7253:: with SMTP id n19mr4557425ejk.31.1592338539978;
+        Tue, 16 Jun 2020 13:15:39 -0700 (PDT)
 Received: from localhost.localdomain (212-5-158-38.ip.btc-net.bg. [212.5.158.38])
-        by smtp.gmail.com with ESMTPSA id b14sm11602658ejq.105.2020.06.16.13.15.36
+        by smtp.gmail.com with ESMTPSA id b14sm11602658ejq.105.2020.06.16.13.15.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 16 Jun 2020 13:15:37 -0700 (PDT)
+        Tue, 16 Jun 2020 13:15:39 -0700 (PDT)
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-msm@vger.kernel.org
@@ -55,9 +55,9 @@ Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Maheshwar Ajja <majja@codeaurora.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v2 2/4] venus: venc: Add support for constant quality control
-Date:   Tue, 16 Jun 2020 23:14:44 +0300
-Message-Id: <20200616201446.15996-3-stanimir.varbanov@linaro.org>
+Subject: [PATCH v2 3/4] v4l2-ctrl: Add control for intra only decode
+Date:   Tue, 16 Jun 2020 23:14:45 +0300
+Message-Id: <20200616201446.15996-4-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200616201446.15996-1-stanimir.varbanov@linaro.org>
 References: <20200616201446.15996-1-stanimir.varbanov@linaro.org>
@@ -66,199 +66,70 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adds implementation of V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY v4l
-control when the bitrate mode is CQ.
+This adds a new decoder control to instruct the decoders to
+produce on its output intra frames only. Usually in this mode
+decoders might lower the count of output decoder buffers and
+hence reduce memory usage.
 
 Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 ---
- drivers/media/platform/qcom/venus/core.h      |  1 +
- drivers/media/platform/qcom/venus/hfi_cmds.c  | 37 ++++++++++++++++++-
- .../media/platform/qcom/venus/hfi_helper.h    | 10 ++++-
- drivers/media/platform/qcom/venus/venc.c      | 14 ++++++-
- .../media/platform/qcom/venus/venc_ctrls.c    |  8 +++-
- 5 files changed, 66 insertions(+), 4 deletions(-)
+ .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 9 +++++++++
+ drivers/media/v4l2-core/v4l2-ctrls.c                     | 2 ++
+ include/uapi/linux/v4l2-controls.h                       | 1 +
+ 3 files changed, 12 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 7118612673c9..1bac30d4cf50 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -201,6 +201,7 @@ struct venc_controls {
- 	u32 bitrate;
- 	u32 bitrate_peak;
- 	u32 rc_enable;
-+	u32 const_quality;
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+index b9d3f7ae6486..d7f34596f95b 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+@@ -652,6 +652,15 @@ enum v4l2_mpeg_video_bitrate_mode -
+     otherwise the decoder expects a single frame in per buffer.
+     Applicable to the decoder, all codecs.
  
- 	u32 h264_i_period;
- 	u32 h264_entropy_mode;
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-index c67e412f8201..7022368c1e63 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-@@ -640,6 +640,7 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
- 		case HFI_RATE_CONTROL_CBR_VFR:
- 		case HFI_RATE_CONTROL_VBR_CFR:
- 		case HFI_RATE_CONTROL_VBR_VFR:
-+		case HFI_RATE_CONTROL_CQ:
- 			break;
- 		default:
- 			ret = -EINVAL;
-@@ -1218,6 +1219,37 @@ pkt_session_set_property_4xx(struct hfi_session_set_property_pkt *pkt,
- 	return 0;
- }
- 
-+static int
-+pkt_session_set_property_6xx(struct hfi_session_set_property_pkt *pkt,
-+			     void *cookie, u32 ptype, void *pdata)
-+{
-+	void *prop_data;
++``V4L2_CID_MPEG_VIDEO_DECODE_INTRA_FRAMES_ONLY (boolean)``
++    If enabled the decoder should start decoding only intra frames. The
++    decoder consume first input buffer for progressive stream (or first
++    two buffers for interlace). Decoder might not allocate more output
++    buffers than it is required to consume one input frame. Usually the
++    decoder input buffers will contain only intra frames but it is not
++    mandatory. This control could be used for thumbnails generation.
++    Applicable to the decoder, all codecs.
 +
-+	if (!pkt || !cookie || !pdata)
-+		return -EINVAL;
-+
-+	prop_data = &pkt->data[1];
-+
-+	pkt->shdr.hdr.size = sizeof(*pkt);
-+	pkt->shdr.hdr.pkt_type = HFI_CMD_SESSION_SET_PROPERTY;
-+	pkt->shdr.session_id = hash32_ptr(cookie);
-+	pkt->num_properties = 1;
-+	pkt->data[0] = ptype;
-+
-+	switch (ptype) {
-+	case HFI_PROPERTY_CONFIG_HEIC_FRAME_QUALITY: {
-+		struct hfi_heic_frame_quality *in = pdata, *cq = prop_data;
-+
-+		cq->frame_quality = in->frame_quality;
-+		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*cq);
-+		break;
-+	} default:
-+		return pkt_session_set_property_4xx(pkt, cookie, ptype, pdata);
-+	}
-+
-+	return 0;
-+}
-+
- int pkt_session_get_property(struct hfi_session_get_property_pkt *pkt,
- 			     void *cookie, u32 ptype)
- {
-@@ -1236,7 +1268,10 @@ int pkt_session_set_property(struct hfi_session_set_property_pkt *pkt,
- 	if (hfi_ver == HFI_VERSION_3XX)
- 		return pkt_session_set_property_3xx(pkt, cookie, ptype, pdata);
+ ``V4L2_CID_MPEG_VIDEO_H264_VUI_SAR_ENABLE (boolean)``
+     Enable writing sample aspect ratio in the Video Usability
+     Information. Applicable to the H264 encoder.
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index bc00d02e411f..2b1fb8dcd360 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -846,6 +846,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_MPEG_VIDEO_MB_RC_ENABLE:			return "H264 MB Level Rate Control";
+ 	case V4L2_CID_MPEG_VIDEO_HEADER_MODE:			return "Sequence Header Mode";
+ 	case V4L2_CID_MPEG_VIDEO_MAX_REF_PIC:			return "Max Number of Reference Pics";
++	case V4L2_CID_MPEG_VIDEO_DECODE_INTRA_FRAMES_ONLY:	return "Decode intra frames only";
+ 	case V4L2_CID_MPEG_VIDEO_H263_I_FRAME_QP:		return "H263 I-Frame QP Value";
+ 	case V4L2_CID_MPEG_VIDEO_H263_P_FRAME_QP:		return "H263 P-Frame QP Value";
+ 	case V4L2_CID_MPEG_VIDEO_H263_B_FRAME_QP:		return "H263 B-Frame QP Value";
+@@ -1197,6 +1198,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 	case V4L2_CID_MPEG_VIDEO_H264_VUI_SAR_ENABLE:
+ 	case V4L2_CID_MPEG_VIDEO_MPEG4_QPEL:
+ 	case V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER:
++	case V4L2_CID_MPEG_VIDEO_DECODE_INTRA_FRAMES_ONLY:
+ 	case V4L2_CID_WIDE_DYNAMIC_RANGE:
+ 	case V4L2_CID_IMAGE_STABILIZATION:
+ 	case V4L2_CID_RDS_RECEPTION:
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index 0f7e4388dcce..c64471e64aa7 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -744,6 +744,7 @@ enum v4l2_cid_mpeg_video_hevc_size_of_length_field {
+ #define V4L2_CID_MPEG_VIDEO_REF_NUMBER_FOR_PFRAMES	(V4L2_CID_MPEG_BASE + 643)
+ #define V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR	(V4L2_CID_MPEG_BASE + 644)
+ #define V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY		(V4L2_CID_MPEG_BASE + 645)
++#define V4L2_CID_MPEG_VIDEO_DECODE_INTRA_FRAMES_ONLY	(V4L2_CID_MPEG_BASE + 646)
  
--	return pkt_session_set_property_4xx(pkt, cookie, ptype, pdata);
-+	if (hfi_ver == HFI_VERSION_4XX)
-+		return pkt_session_set_property_4xx(pkt, cookie, ptype, pdata);
-+
-+	return pkt_session_set_property_6xx(pkt, cookie, ptype, pdata);
- }
- 
- void pkt_set_version(enum hfi_version version)
-diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-index f6613df1d16b..758c70ac26fd 100644
---- a/drivers/media/platform/qcom/venus/hfi_helper.h
-+++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-@@ -231,6 +231,7 @@
- #define HFI_RATE_CONTROL_VBR_CFR		0x1000003
- #define HFI_RATE_CONTROL_CBR_VFR		0x1000004
- #define HFI_RATE_CONTROL_CBR_CFR		0x1000005
-+#define HFI_RATE_CONTROL_CQ			0x1000008
- 
- #define HFI_VIDEO_CODEC_H264			0x00000002
- #define HFI_VIDEO_CODEC_H263			0x00000004
-@@ -504,6 +505,7 @@
- #define HFI_PROPERTY_CONFIG_VENC_HIER_P_ENH_LAYER		0x200600b
- #define HFI_PROPERTY_CONFIG_VENC_LTRPERIOD			0x200600c
- #define HFI_PROPERTY_CONFIG_VENC_PERF_MODE			0x200600e
-+#define HFI_PROPERTY_CONFIG_HEIC_FRAME_QUALITY			0x2006014
- 
- /*
-  * HFI_PROPERTY_PARAM_VPE_COMMON_START
-@@ -520,7 +522,8 @@
- enum hfi_version {
- 	HFI_VERSION_1XX,
- 	HFI_VERSION_3XX,
--	HFI_VERSION_4XX
-+	HFI_VERSION_4XX,
-+	HFI_VERSION_6XX,
- };
- 
- struct hfi_buffer_info {
-@@ -725,6 +728,11 @@ struct hfi_quality_vs_speed {
- 	u32 quality_vs_speed;
- };
- 
-+struct hfi_heic_frame_quality {
-+	u32 frame_quality;
-+	u32 reserved[3];
-+};
-+
- struct hfi_quantization {
- 	u32 qp_i;
- 	u32 qp_p;
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index feed648550d1..802d608a00f9 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -740,14 +740,26 @@ static int venc_set_properties(struct venus_inst *inst)
- 		rate_control = HFI_RATE_CONTROL_OFF;
- 	else if (ctr->bitrate_mode == V4L2_MPEG_VIDEO_BITRATE_MODE_VBR)
- 		rate_control = HFI_RATE_CONTROL_VBR_CFR;
--	else
-+	else if (ctr->bitrate_mode == V4L2_MPEG_VIDEO_BITRATE_MODE_CBR)
- 		rate_control = HFI_RATE_CONTROL_CBR_CFR;
-+	else if (ctr->bitrate_mode == V4L2_MPEG_VIDEO_BITRATE_MODE_CQ)
-+		rate_control = HFI_RATE_CONTROL_CQ;
- 
- 	ptype = HFI_PROPERTY_PARAM_VENC_RATE_CONTROL;
- 	ret = hfi_session_set_property(inst, ptype, &rate_control);
- 	if (ret)
- 		return ret;
- 
-+	if (rate_control == HFI_RATE_CONTROL_CQ && ctr->const_quality) {
-+		struct hfi_heic_frame_quality quality = {};
-+
-+		ptype = HFI_PROPERTY_CONFIG_HEIC_FRAME_QUALITY;
-+		quality.frame_quality = ctr->const_quality;
-+		ret = hfi_session_set_property(inst, ptype, &quality);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	if (!ctr->bitrate)
- 		bitrate = 64000;
- 	else
-diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
-index 8362dde7949e..97a1e821c07e 100644
---- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-+++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-@@ -202,6 +202,9 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE:
- 		ctr->rc_enable = ctrl->val;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY:
-+		ctr->const_quality = ctrl->val;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -217,7 +220,7 @@ int venc_ctrl_init(struct venus_inst *inst)
- {
- 	int ret;
- 
--	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 31);
-+	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 32);
- 	if (ret)
- 		return ret;
- 
-@@ -357,6 +360,9 @@ int venc_ctrl_init(struct venus_inst *inst)
- 	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
- 			  V4L2_CID_MPEG_VIDEO_FRAME_RC_ENABLE, 0, 1, 1, 1);
- 
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY, 0, 100, 1, 0);
-+
- 	ret = inst->ctrl_handler.error;
- 	if (ret)
- 		goto err;
+ /*  MPEG-class control IDs specific to the CX2341x driver as defined by V4L2 */
+ #define V4L2_CID_MPEG_CX2341X_BASE				(V4L2_CTRL_CLASS_MPEG | 0x1000)
 -- 
 2.17.1
 
