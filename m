@@ -2,110 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B0421FD642
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 22:44:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18BCD1FD6B6
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 23:09:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726974AbgFQUoa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 16:44:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60908 "EHLO
+        id S1726868AbgFQVJB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 17:09:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726763AbgFQUo3 (ORCPT
+        with ESMTP id S1726763AbgFQVJA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jun 2020 16:44:29 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 810AFC06174E
-        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 13:44:29 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id q2so1364573wrv.8
-        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 13:44:29 -0700 (PDT)
+        Wed, 17 Jun 2020 17:09:00 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75057C06174E
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 14:08:59 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id d128so3508233wmc.1
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 14:08:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=izNQ/AUBePYNQ9lFfRhkbYFYOvim7jrWfUSC8PuNm50=;
-        b=IXuESxTW1GDtdZdcUhaUxCMmqR0alOzlFYEBB6cNiOWNqNKga8hTG5Hpk8e+jPgfs7
-         gKRbcrFHT/bWqDDjWW1Tu0YTxMUPgU3/zaO7ZYFVAB7sZ5/odoojGtjQaAjqQcISTIRV
-         21JjuFUVAp2SULD0ievL+VDKAIV4k3A7ZvwkkUpYlqJyABsW/fENnkF9JkHDsmSI8BPu
-         lTx1kIP34vOyLqlII9KESAAKJppWEmMCqsPsjTAr9hgHKVBogXM1wNRzyliJEEMpb4Fs
-         wM9VKEIlU+zdEi8dgAC6gR4OOYEJEiqf/0YobEdxc2vAIUU4tWPB0ACvaZ+E1SxG3EjY
-         tp8Q==
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=ikmoUr6wNmodBgxmQ4g8ECiTcai8GP8d0AhUemgSHO8=;
+        b=ZbCyWzUcNY7xey+81jniW95DUP+ILcTS9Msa5jg4HLxPv25RR5rrzIIIFvRtGTpLjz
+         vAvAtRjL5EXjYfIoE4GEMWp8OI3PL1gYGuZi62FeKD5XBz+kJCNdG8/wfwUIQZy0srB8
+         6HYlAwRYMIaTemMv5FqfPOU6lpf2KfTjmH5SU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=izNQ/AUBePYNQ9lFfRhkbYFYOvim7jrWfUSC8PuNm50=;
-        b=rrksp/DA050IG8oC74FSErqZ/vc6mA71jWLe++mAd8aJkefGUoyv5GBbyiN/oU/tFQ
-         wFIb6kv5LFvJvOMufaNVkQZoRQmrDLr45rj6ZBaZF1taOMtR2y6iCZ43L+pVsNo+1bGG
-         FWzp1KnTmRHFqonquHFUBjtIpGl5Itls6D9yMk6tSZOj4zm5Ev8YdxCBhJN/eClTKf8Y
-         RDehO6p39iQ66TS0cHywauUe9AiT0NHNZtf90Xo8mvPqSgeZXoTWS59kZPKozYhuu4AU
-         7Xoxrro29kBMK34Q3XOKTgGcB2UlhWvfMQ+jsq0jnmVTU7ShXJWj0kck5X46gcNnsOxk
-         jMzA==
-X-Gm-Message-State: AOAM533w90X3UC31y1hr25KNzBQ1hKr9XDVU3PY7yf80aWf0ewgMIfK8
-        RzGSEYHcyCZinN2pit7XRESmP8j7K9Jr1B+Gz5l7Ygjq
-X-Google-Smtp-Source: ABdhPJx4KYJD9wjC9cWcd4dSFsQSQGMcDhbMVkYCssEzFcqvWczHJXD0Mb1mQo4LGh5tn1IdBmBvR3RzvVWXmaZ51kw=
-X-Received: by 2002:adf:9c12:: with SMTP id f18mr1114248wrc.105.1592426668016;
- Wed, 17 Jun 2020 13:44:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200617180801.158331-1-helen.koike@collabora.com>
-In-Reply-To: <20200617180801.158331-1-helen.koike@collabora.com>
-From:   Tomasz Figa <tfiga@google.com>
-Date:   Wed, 17 Jun 2020 22:44:16 +0200
-Message-ID: <CAAFQd5ACgNJLzWSYW9_=vDxoUhO8gUjz0_+ntfVsRsRJbceA0A@mail.gmail.com>
-Subject: Re: [PATCH] media: staging: rkisp1: rsz: fix resolution limitation on
- sink pad
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ikmoUr6wNmodBgxmQ4g8ECiTcai8GP8d0AhUemgSHO8=;
+        b=dey9NBiDeWSiYKo69qOUgogl8c3+KYMBcKUzOOYDehixsNoaDXaOCloEAI4zbpdL5m
+         5HAlTZJuCm5lwW49WYzUq2Eq/+YmKL2W5CcsNlW15pplcC+Aav0YDpeX19C1IlRd9STQ
+         imHyAhSQ6BpFtnqkJ8TSLcofHEBd+wul9PksCL5n3VVZIlsG0nf+f8MWXzjNXV4Nt1aA
+         ex2Fihs5ppeT8JCgfpWNToJbdlP5LWrdKrLVuXGQG7oItYB6MtbsgfeGOrlaUCqrJ0Z1
+         YuSo2fpBG8JZSOPFVOysv8HksQjFaDjGyp7UKjkVri7LakRbdyajrCypakrLFbaWp66j
+         9xZQ==
+X-Gm-Message-State: AOAM533tm2C8mqZdDPgOVKpGZ/qbxIWjqvbDn/PnwvftWEvi6wvLZScN
+        uFwE2/LacvAJxtmMe3hm6y95pg==
+X-Google-Smtp-Source: ABdhPJy6hlLynDSJQAGPzvTJ0LukysVmmQM/TeklBwIrSogkOIxOEnVL4GhueV2LP4pjVnW+fum2NA==
+X-Received: by 2002:a7b:cc82:: with SMTP id p2mr567186wma.101.1592428137695;
+        Wed, 17 Jun 2020 14:08:57 -0700 (PDT)
+Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
+        by smtp.gmail.com with ESMTPSA id t188sm1014794wmt.27.2020.06.17.14.08.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2020 14:08:57 -0700 (PDT)
+Date:   Wed, 17 Jun 2020 21:08:55 +0000
+From:   Tomasz Figa <tfiga@chromium.org>
 To:     Helen Koike <helen.koike@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>, kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        dafna.hirschfeld@collabora.com, linux-kernel@vger.kernel.org,
+        tfiga@google.com, hans.verkuil@cisco.com, kernel@collabora.com,
+        Wojciech Zabolotny <wzab01@gmail.com>
+Subject: Re: [PATCH] media: staging: rkisp1: isp: check return value from
+ phy_*
+Message-ID: <20200617210855.GA81308@chromium.org>
+References: <20200617182229.164675-1-helen.koike@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200617182229.164675-1-helen.koike@collabora.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 17, 2020 at 8:08 PM Helen Koike <helen.koike@collabora.com> wrote:
->
-> Resizer sink pad is limited by what the ISP can generate.
-> The configurations describes what the resizer can produce.
->
-> This was tested on a Scarlet device with ChromiumOs, where the selfpath
-> receives 2592x1944 and produces 1600x1200 (which isn't possible without
-> this fix).
->
-> Fixes: 56e3b29f9f6b2 ("media: staging: rkisp1: add streaming paths")
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
->
-> ---
->
->  drivers/staging/media/rkisp1/rkisp1-resizer.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> index d049374413dcf..0d41f43b5339f 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> @@ -553,11 +553,11 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
->         src_fmt->code = sink_fmt->code;
->
->         sink_fmt->width = clamp_t(u32, format->width,
-> -                                 rsz->config->min_rsz_width,
-> -                                 rsz->config->max_rsz_width);
-> +                                 RKISP1_ISP_MIN_WIDTH,
-> +                                 RKISP1_ISP_MAX_WIDTH);
->         sink_fmt->height = clamp_t(u32, format->height,
-> -                                  rsz->config->min_rsz_height,
-> -                                  rsz->config->max_rsz_height);
-> +                                 RKISP1_ISP_MIN_HEIGHT,
-> +                                 RKISP1_ISP_MAX_HEIGHT);
->
->         *format = *sink_fmt;
->
-> --
-> 2.26.0
->
+Hi Helen,
 
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+On Wed, Jun 17, 2020 at 03:22:29PM -0300, Helen Koike wrote:
+> When starting streaming, do not ignore return value from phy_set_mode(),
+> phy_configure() and phy_power_on().
+> If it fails, return error to the user.
+> 
+> Fixes: d65dd85281fb ("media: staging: rkisp1: add Rockchip ISP1 base driver")
+> 
+> Reported-by: Wojciech Zabolotny <wzab01@gmail.com>
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> 
+> ---
+> 
+>  drivers/staging/media/rkisp1/rkisp1-isp.c | 22 +++++++++++++++++++---
+>  1 file changed, 19 insertions(+), 3 deletions(-)
+> 
+
+Thank you for the patch. Please see my comments inline.
+
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
+> index dc2b59a0160a8..531047fc34a01 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
+> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
+> @@ -892,6 +892,7 @@ static int rkisp1_mipi_csi2_start(struct rkisp1_isp *isp,
+>  	union phy_configure_opts opts;
+>  	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
+>  	s64 pixel_clock;
+> +	int ret;
+>  
+>  	if (!sensor->pixel_rate_ctrl) {
+>  		dev_warn(sensor->sd->dev, "No pixel rate control in subdev\n");
+> @@ -906,9 +907,24 @@ static int rkisp1_mipi_csi2_start(struct rkisp1_isp *isp,
+>  
+>  	phy_mipi_dphy_get_default_config(pixel_clock, isp->sink_fmt->bus_width,
+>  					 sensor->lanes, cfg);
+> -	phy_set_mode(sensor->dphy, PHY_MODE_MIPI_DPHY);
+> -	phy_configure(sensor->dphy, &opts);
+> -	phy_power_on(sensor->dphy);
+> +
+> +	ret = phy_set_mode(sensor->dphy, PHY_MODE_MIPI_DPHY);
+> +	if (ret) {
+
+nit: I don't seem to be able to find any documentation for this API and
+it's not clear if it's guaranteed that the API doesn't return positive
+values. It would probably be safer to check for ret < 0.
+
+> +		dev_err(sensor->sd->dev, "Fail setting MIPI DPHY mode\n");
+> +		return -EINVAL;
+
+Should we just return ret?
+
+> +	}
+> +
+> +	ret = phy_configure(sensor->dphy, &opts);
+> +	if (ret && ret != -EOPNOTSUPP) {
+
+Why are we okay with -EOPNOTSUPP?
+
+> +		dev_err(sensor->sd->dev, "Fail configuring MIPI DPHY\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = phy_power_on(sensor->dphy);
+> +	if (ret) {
+> +		dev_err(sensor->sd->dev, "Fail powering on MIPI DPHY\n");
+> +		return -EINVAL;
+
+Ditto.
 
 Best regards,
 Tomasz
