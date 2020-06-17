@@ -2,68 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9A9211FCEB7
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 15:43:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 921E31FCEE4
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 15:55:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726758AbgFQNnW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 09:43:22 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:52375 "EHLO m43-7.mailgun.net"
+        id S1726594AbgFQNzx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 09:55:53 -0400
+Received: from smtp4-g21.free.fr ([212.27.42.4]:12662 "EHLO smtp4-g21.free.fr"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725901AbgFQNnV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jun 2020 09:43:21 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1592401401; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=0rJg/220vt9zUyvHiVMMZNyLy4HIJD5Z/P1Mdz9z7JQ=; b=Tb8X/5zi7BVFx4+grH5bJVUZMvrPZinQGtPjwrPPTlDuqFYk0XrJPw90BVGdMBci/aw5KZrt
- SMjXSyMXAcijcVjZCUuWa1ulF15patlWm/hjSw/oU4uaejncqkjfJ7EApKWzKPWkpotJ44Rf
- qrAylwwlQLYRu03OStEfo7pNFKc=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n13.prod.us-west-2.postgun.com with SMTP id
- 5eea1df6e144dd511574ddfa (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 17 Jun 2020 13:43:18
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 9BA25C4339C; Wed, 17 Jun 2020 13:43:18 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.1.102] (unknown [183.83.143.239])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: charante)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 625E8C433C8;
-        Wed, 17 Jun 2020 13:43:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 625E8C433C8
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=charante@codeaurora.org
-Subject: Re: [PATCH] dmabuf: use spinlock to access dmabuf->name
-To:     David Laight <David.Laight@ACULAB.COM>,
-        "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>
-Cc:     Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
-        "vinmenon@codeaurora.org" <vinmenon@codeaurora.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>
-References: <316a5cf9-ca71-6506-bf8b-e79ded9055b2@codeaurora.org>
- <14063C7AD467DE4B82DEDB5C278E8663010F365EF5@fmsmsx107.amr.corp.intel.com>
- <14063C7AD467DE4B82DEDB5C278E8663010F365F7D@fmsmsx107.amr.corp.intel.com>
- <5b960c9a-ef9d-b43d-716d-113efc793fe5@codeaurora.org>
- <b686a288cff640acaea1111fed650b02@AcuMS.aculab.com>
-From:   Charan Teja Kalla <charante@codeaurora.org>
-Message-ID: <dcf2bdd6-d6fd-96f0-c6e7-6788ea282e35@codeaurora.org>
-Date:   Wed, 17 Jun 2020 19:13:12 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S1726494AbgFQNzx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Jun 2020 09:55:53 -0400
+Received: from [192.168.1.91] (unknown [77.207.133.132])
+        (Authenticated sender: marc.w.gonzalez)
+        by smtp4-g21.free.fr (Postfix) with ESMTPSA id 2497919F4F3;
+        Wed, 17 Jun 2020 15:55:12 +0200 (CEST)
+To:     Brad Love <brad@nextdimension.cc>,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>
+From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
+Subject: Re: si2168: different default that windows driver
+Message-ID: <bab43a4a-d213-96ed-cb88-fb2d1470e99f@free.fr>
+Date:   Wed, 17 Jun 2020 15:55:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <b686a288cff640acaea1111fed650b02@AcuMS.aculab.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -72,37 +34,46 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello Brad,
+
+I found this patch you wrote:
+https://github.com/b-rad-NDi/Ubuntu-media-tree-kernel-builder/blob/master/patches/mainline-extra/tip/10.random.patches/0004-si2168-different-default-that-windows-driver.patch
+
+Subject: [PATCH 4/5] si2168: different default that windows driver
+
+Unsure of meaning, look into...
+---
+ drivers/media/dvb-frontends/si2168.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
+index 0d9d384cf..72794ead8 100644
+--- a/drivers/media/dvb-frontends/si2168.c
++++ b/drivers/media/dvb-frontends/si2168.c
+@@ -418,6 +418,8 @@ static int si2168_set_frontend(struct dvb_frontend *fe)
+ 	}
+ 
+ 	cmd_init(&cmd, "\x14\x00\x0f\x10\x10\x00", 6, 4);
++	/* BUGBUG? FW defaults to 1, but windows driver uses 30; above is 0? */
++	cmd.args[5] = 30;
+ 	ret = si2168_cmd_execute(client, &cmd);
+ 	if (ret)
+ 		goto err;
 
 
-On 6/17/2020 1:51 PM, David Laight wrote:
-> From: Charan Teja Kalla
->> Sent: 17 June 2020 07:29
-> ...
->>>> If name is freed you will copy garbage, but the only way
->>>> for that to happen is that _set_name or _release have to be called
->>>> at just the right time.
->>>>
->>>> And the above would probably only be an issue if the set_name
->>>> was called, so you will get NULL or a real name.
->>
->> And there exists a use-after-free to avoid which requires the lock. Say
->> that memcpy() in dmabuffs_dname is in progress and in parallel _set_name
->> will free the same buffer that memcpy is operating on.
-> 
-> If the name is being looked at while the item is being freed
-> you almost certainly have much bigger problems that just
-> the name being a 'junk' pointer.
+0x14 = SET_PROPERTY
+args[1] is ignored
+args[2:3] = little-endian property = 0x100f
+args[4:5] = little-endian prop_arg = 0x0010
 
-True, thus needs the lock.
+0x100f configures the "Signal Quality Indicator" computation.
+The value is averaged over the last N samples.
+N = prop_arg_bits[0:4]
+(legal values are 1-30, dunno what happens for 0 and 31)
 
-> 
-> 	David.
-> 
-> -
-> Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-> Registration No: 1397386 (Wales)
-> 
+You're not supposed to change args[5] i.e. prop_arg_bits[8:15]
+Maybe you meant cmd.args[4] = 30; ?
+Or just change the command to "\x14\x00\x0f\x10\x1e\x00" ?
+Or just use 16 samples instead of 30 for the averaging?
 
--- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
-Forum, a Linux Foundation Collaborative Project
+Regards.
