@@ -2,162 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF20B1FC4D1
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 05:46:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 765411FC550
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 06:40:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726728AbgFQDpy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Jun 2020 23:45:54 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:33367 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726497AbgFQDpx (ORCPT
+        id S1726788AbgFQEjs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 00:39:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52762 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725808AbgFQEjr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Jun 2020 23:45:53 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id lP1JjCRy6K7ldlP1KjWbNk; Wed, 17 Jun 2020 05:45:51 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592365551; bh=/OorH4E90v3eGJJWrohIooQj4u9yICcJZkRihK0UQgc=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=OtKSo5jdOdviRD+Uxz72dXW3TVFahGh3rTsZyqrVyKuBOOZEOVF1ZuRugP0P/MfeU
-         N6KgNp0fogRGBbdTX/FptcCsI34B8neT8JuBOTR/cw8ieKDR4KNRE064BpDM+Q+Vem
-         H8AsY3jM37iZUR6v54LwCqS2ETnUu9RKrbAxcH+W5eciQ1pKsYBnX3Dloutc6TCIjs
-         jBkRP6r81qgGrLt26OgfoH9Mo8fwiD4XPH1YbmeDg02nnUnhUwRaUcA0JxmXAwIc2M
-         vDkf8+e1izzYwFomtyHP6GaJyJcsp3V7m9Mtw91mQ86rbzP47Im1oB2SjACETPXjXU
-         MFvi17Mnkpu8w==
-Message-ID: <6bcec2318c9597cc904b3975178d5320@smtp-cloud9.xs4all.net>
-Date:   Wed, 17 Jun 2020 05:45:49 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfLOr/iBSQafPu8BATgaDLK9TMrv8eXxt4bL/JMTbWY/mLaLYHXRzWLC6KlOHFqUzejJ+9tSokpP3JDNNnwYcAV9BgZ69jCRaPqMTgV1yhdD+DnVWOwwq
- 2HlBwC6yjFe0hEZGwG69UXCuNaOM2dX/snLob4SBDuIUcTdkTWWFQX1xn/LYohwnjk8iIZY/ANiyPCG1dergvqh8NQK/5gl6R3PYyptciPasUBy919rpx6VM
+        Wed, 17 Jun 2020 00:39:47 -0400
+Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C592BC061573;
+        Tue, 16 Jun 2020 21:39:46 -0700 (PDT)
+Received: by mail-pf1-x441.google.com with SMTP id j1so521442pfe.4;
+        Tue, 16 Jun 2020 21:39:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=wjIS6quU1lqmjDVhNjwaJnXFCnUiOtUwKImzRhZ2bgc=;
+        b=A2sl74xLMtbifaX9arP7WG0Nvc0k8r6ElGrJK5gpjailYwkH8k29L17jpK6Qj1uITQ
+         +KqzQcaecorBYwYZ4EAIB3lA//jZbV5lku/OtcchMNgPpXtQZBazVCieXXjeM1ntE0bJ
+         Q2/4JdFFhPmH9xBIkqaoTWBOpg7tlcgb3VtbVEGK8kdQP6DHUrAdM/dky/cUkoswsq+0
+         q3WMWxslAVdfSs23NjjJpmIcNEhokrOfWTdIIekQu5/J61hxsk2eSusBEFGPBFcKzKtJ
+         8kMNZgjfTI9MX1v8+t8DmAh3u/CmDJIhevxgjBGGoY5HEcN4VFJ55dV+lNoX8wJfDxqQ
+         oyqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=wjIS6quU1lqmjDVhNjwaJnXFCnUiOtUwKImzRhZ2bgc=;
+        b=hc9OyI9D4Jrf+UsJCUdl/s6M96UMd5g+zasluHym1XkIv6xEJrJcsvPpIQTpkwwYsg
+         VKwiQqtv/eV0IND3J+NUNGS4RHR7OH+t+RRC3aEHEVACmATjBz6pbXu1TkA40Lya25Kg
+         2Jen53h9Zv4Q/UxuHu3+1nOBxbriaK8X7gL+TdvGG1zeIn+E/Fbn/uN3yyMXDbEMe8JM
+         QfIWGjomgY2199A3GyRro1B1ULKv5jgPx1398x2TQynrSVzNV9UFJ0LINICWTzY0j7Hp
+         x3EiPZx75/uZ1Y9mPbwZMDYqwmSbvfOw54LF2wlszdM5FCcuCg1qjIOOro3NLNomQ6V8
+         /a6A==
+X-Gm-Message-State: AOAM532KKSlKB1MLgtM168gcbAH1F8+KmmfyPB+Qrr8g+5Oub6qiVlV1
+        H288pXOfBvGKyXbl4yQEfSnhIFX0
+X-Google-Smtp-Source: ABdhPJzhXvMS9kSx+ExP9yrbN6n3d+LE44zdO2gChfNiINIH7YwdBgj2hmb0sOL0xUBhT3aW4iN32A==
+X-Received: by 2002:a63:4b44:: with SMTP id k4mr4924320pgl.305.1592368785092;
+        Tue, 16 Jun 2020 21:39:45 -0700 (PDT)
+Received: from [10.230.188.43] ([192.19.223.252])
+        by smtp.gmail.com with ESMTPSA id 12sm19545757pfb.3.2020.06.16.21.39.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 16 Jun 2020 21:39:44 -0700 (PDT)
+Subject: Re: [PATCH stable 4.9 00/21] Unbreak 32-bit DVB applications on
+ 64-bit kernels
+From:   Florian Fainelli <f.fainelli@gmail.com>
+To:     linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Krufky <mkrufky@linuxtv.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     stable@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jaedon Shin <jaedon.shin@gmail.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Katsuhiro Suzuki <suzuki.katsuhiro@socionext.com>,
+        Satendra Singh Thakur <satendra.t@samsung.com>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>,
+        "open list:FILESYSTEMS (VFS and infrastructure)" 
+        <linux-fsdevel@vger.kernel.org>
+References: <20200605162518.28099-1-florian.fainelli@broadcom.com>
+ <6b1f0668-572e-ae52-27e6-c897bab4204c@gmail.com>
+Message-ID: <0c0ba84e-4b2d-53ac-5092-40312ecba13b@gmail.com>
+Date:   Tue, 16 Jun 2020 21:39:42 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Firefox/68.0 Thunderbird/68.9.0
+MIME-Version: 1.0
+In-Reply-To: <6b1f0668-572e-ae52-27e6-c897bab4204c@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
 
-Results of the daily build of media_tree:
 
-date:			Wed Jun 17 05:00:09 CEST 2020
-media-tree git hash:	b3a9e3b9622ae10064826dccb4f7a52bd88c7407
-media_build git hash:	1b3f5dcf44a3263354f49ded54ea9649911a811b
-v4l-utils git hash:	de91e870c2355e0fe754176563660b92b8ee040b
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 1279f5d6a741edc5c3bca9f6bba1b96c9abbc8d3
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+On 6/11/2020 9:45 PM, Florian Fainelli wrote:
+> 
+> 
+> On 6/5/2020 9:24 AM, Florian Fainelli wrote:
+>> Hi all,
+>>
+>> This long patch series was motivated by backporting Jaedon's changes
+>> which add a proper ioctl compatibility layer for 32-bit applications
+>> running on 64-bit kernels. We have a number of Android TV-based products
+>> currently running on the 4.9 kernel and this was broken for them.
+>>
+>> Thanks to Robert McConnell for identifying and providing the patches in
+>> their initial format.
+>>
+>> In order for Jaedon's patches to apply cleanly a number of changes were
+>> applied to support those changes. If you deem the patch series too big
+>> please let me know.
+> 
+> Mauro, can you review this? I would prefer not to maintain those patches
+> in our downstream 4.9 kernel as there are quite a few of them, and this
+> is likely beneficial to other people.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: ERRORS
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8-rc1-i686: OK
-linux-5.8-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 6
-sparse: WARNINGS
-smatch: ERRORS
-
-Logs weren't copied as they are too large (1312 kB)
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Hello? Anybody here?
+-- 
+Florian
