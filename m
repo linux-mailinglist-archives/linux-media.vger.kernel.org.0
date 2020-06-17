@@ -2,357 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DC3C1FC275
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 01:53:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0359E1FC3AF
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 03:42:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726514AbgFPXxY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 16 Jun 2020 19:53:24 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38884 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726505AbgFPXxX (ORCPT
+        id S1726624AbgFQBja (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 16 Jun 2020 21:39:30 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:18351 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726579AbgFQBj3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 16 Jun 2020 19:53:23 -0400
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AEFBBF9;
-        Wed, 17 Jun 2020 01:53:20 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592351600;
-        bh=ZBSzj80azXgvrE80tB4Qtx2TCHEhOOtcsH0mZROlFrQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ojEjU7sQ/nvXqcMW7DiRoMSvHHn50vx+ibcMFE4xErjxFxDjowZhmfFES8CpY44VS
-         ZH9CzQd2odTUfOrPQmer0Mgx+MD6Be1h0c9gInpJG7AD+ZCD7BEKbLw3PcUisqZqvG
-         9wuZpueW1vze6eBJ2XSKr1Y3HF9wkKpeW2kagWFw=
-Date:   Wed, 17 Jun 2020 02:52:58 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Paul Elder <paul.elder@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Subject: Re: [PATCH] v4l2-compliance: Convert testBlockingDQBuf to pthreads
-Message-ID: <20200616235258.GL913@pendragon.ideasonboard.com>
-References: <20200616132026.71061-1-paul.elder@ideasonboard.com>
+        Tue, 16 Jun 2020 21:39:29 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ee9741f0001>; Tue, 16 Jun 2020 18:38:39 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Tue, 16 Jun 2020 18:39:28 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Tue, 16 Jun 2020 18:39:28 -0700
+Received: from HQMAIL111.nvidia.com (172.20.187.18) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 17 Jun
+ 2020 01:39:28 +0000
+Received: from rnnvemgw01.nvidia.com (10.128.109.123) by HQMAIL111.nvidia.com
+ (172.20.187.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3 via Frontend
+ Transport; Wed, 17 Jun 2020 01:39:28 +0000
+Received: from skomatineni-linux.nvidia.com (Not Verified[10.2.171.186]) by rnnvemgw01.nvidia.com with Trustwave SEG (v7,5,8,10121)
+        id <B5ee9744e0003>; Tue, 16 Jun 2020 18:39:27 -0700
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>,
+        <helen.koike@collabora.com>
+CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
+        <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>
+Subject: [RFC PATCH v2 00/18] Support for Tegra video capture from external sensor
+Date:   Tue, 16 Jun 2020 18:41:16 -0700
+Message-ID: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200616132026.71061-1-paul.elder@ideasonboard.com>
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1592357919; bh=gWJwcLfB8TP7ne2xW3jA7ozKDaLwQXfkMd5LOGS0z78=;
+        h=X-PGP-Universal:From:To:CC:Subject:Date:Message-ID:X-Mailer:
+         X-NVConfidentiality:MIME-Version:Content-Type;
+        b=IfZLhQ5hB7cGuJ/USmZo7CRzbANYE85R3t0OG3oRA2hZjSD+q25+3S5tEo5rR5SBs
+         HtasZpBxfa4dUE51F75iy41+kqsq0xW60S/eUm+AqMYMcWYENB8MIxiTYMNQKBxeSP
+         EwPig+75NSu3HuPoJ3FJrLEXbHKA2eGfCHvHRJO0GwI/3hiXRyzn4no2CBpc4lI+1P
+         sLiaaKlkyBKNXYAF6JIPw8+3pOO++Ek36ie5b4D7xQpaqCLTUzVITr4al90oHP98os
+         l1pKcgNR/oHLuxqv8gn+9q8obRg6lg2NsS0xurw3aKm39+t8jgqZxWhCd0FQEHlzke
+         ipbo0Qidv1kAg==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+This series adds support for video capture from external camera sensor to
+Tegra video driver.
 
-Thank you for the patch.
+Jetson TX1 has camera expansion connector and supports custom camera module
+designed as per TX1 design specification.
 
-On Tue, Jun 16, 2020 at 10:20:26PM +0900, Paul Elder wrote:
-> The test to test that a blocked VIDIOC_QBUF call will not block a
-> VIDIOC_STREAMOFF call uses different processes to make the calls. As it
-> isn't very realistic for multiple processes to be controlling a single
-> V4L2 device, convert the test to pthreads.
-> 
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> ---
->  utils/v4l2-compliance/v4l2-test-buffers.cpp | 139 ++++++++++++++------
->  1 file changed, 100 insertions(+), 39 deletions(-)
-> 
-> diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> index fc49fff6..bf6ed141 100644
-> --- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> +++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-> @@ -32,8 +32,11 @@
->  #include <ctype.h>
->  #include <errno.h>
->  #include <poll.h>
-> +#include <pthread.h>
-> +#include <signal.h>
->  #include <sys/ioctl.h>
->  #include <netinet/in.h>
-> +#include <atomic>
->  #include <map>
->  #include <vector>
->  #include "v4l2-compliance.h"
-> @@ -2229,11 +2232,71 @@ int testRequests(struct node *node, bool test_streaming)
->  	return 0;
->  }
->  
-> +struct test_blocking_thread_arg {
-> +	cv4l_queue *q;
-> +	struct node *node;
-> +};
-> +
-> +static void pthread_sighandle(int sig)
-> +{
-> +	return;
-> +}
-> +
-> +static std::atomic<bool> thread_dqbuf_complete(false);
-> +static std::atomic<bool> thread_streamoff_complete(false);
-> +
-> +static void *testBlockingDQBufThread(void *arg)
-> +{
-> +	struct test_blocking_thread_arg *a =
-> +		static_cast<test_blocking_thread_arg *>(arg);
-> +	cv4l_queue *q = a->q;
-> +	struct node *node = a->node;
-> +
-> +	pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
-> +
-> +	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-> +
-> +	/*
-> +	 * In the child process we call VIDIOC_DQBUF and wait
+This series also enables camera capture support for Jetson Nano which has
+Raspberry PI camera header.
 
-Not a process anymore :-) Maybe "In this thread we call..." ?
+This series is tested with IMX219 camera sensor.
 
-> +	 * indefinitely since no buffers are queued.
-> +	 */
-> +	cv4l_buffer buf(q->g_type(), V4L2_MEMORY_MMAP);
-> +
-> +	node->dqbuf(buf);
-> +	thread_dqbuf_complete = true;
-> +
-> +	return NULL;
-> +}
-> +
-> +static void *testBlockingStreamoffThread(void *arg)
-> +{
-> +	struct test_blocking_thread_arg *a =
-> +		static_cast<test_blocking_thread_arg *>(arg);
-> +	cv4l_queue *q = a->q;
-> +	struct node *node = a->node;
-> +
-> +	pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
-> +
-> +	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-> +
-> +	/*
-> +	 * In the second child call STREAMOFF: this shouldn't
+This series include,
 
-Same here, "In this thread call...".
+VI I2C related fixes
+- Camera sensor programming happens through VI I2C which is on host1x bus.
+- These patches includes device tree and I2C driver fixes for VI I2C.
 
-> +	 * be blocked by the DQBUF!
-> +	 */
-> +	node->streamoff(q->g_type());
-> +	thread_streamoff_complete = true;
-> +
-> +	return NULL;
-> +}
-> +
->  static int testBlockingDQBuf(struct node *node, cv4l_queue &q)
->  {
-> -	int pid_dqbuf;
-> -	int pid_streamoff;
-> -	int pid;
-> +	int ret;
-> +	pthread_t thread_dqbuf;
-> +	pthread_t thread_streamoff;
-> +	struct test_blocking_thread_arg thread_arg = {&q, node};
-> +	signal(SIGUSR1, pthread_sighandle);
-> +	bool test_streamoff_success;
+Tegra video driver updates
+- TPG Vs Non-TPG based on Kconfig
+- Support for external sensor video capture based on device graph from DT.
+- Support for selection ioctl operations
+- Tegra MIPI CSI pads calibration
+- CSI T-CLK and T-HS settle time computation based on clock rates.
 
-Let's not hide the signal() call in the middle there. Please add a
-comment to explan why an empty signal handler is needed.
+Host1x driver updates
+- Adds API to allow creating mipi device for specific device node.
+- Splits MIPI pads calibrate start and waiting for calibration to be done.
 
-I also tend to order variables from longest to shortest (more or less),
-but that's a personal preference.
+Device tree updates
+- Adds camera connector 2V8, 1V8, 1V2 regulator supplies to Jetson TX1 DT.
+- Enabled VI and CSI support in Jetson Nano DT.
 
->  
->  	fail_on_test(q.reqbufs(node, 2));
->  	fail_on_test(node->streamon(q.g_type()));
-> @@ -2243,52 +2306,50 @@ static int testBlockingDQBuf(struct node *node, cv4l_queue &q)
->  	 * other ioctls.
->  	 */
->  	fflush(stdout);
-> -	pid_dqbuf = fork();
-> -	fail_on_test(pid_dqbuf == -1);
-> +	ret = pthread_create(&thread_dqbuf, NULL, testBlockingDQBufThread,
-> +			     &thread_arg);
-> +	fail_on_test(ret < 0);
->  
-> -	if (pid_dqbuf == 0) { // Child
-> -		/*
-> -		 * In the child process we call VIDIOC_DQBUF and wait
-> -		 * indefinitely since no buffers are queued.
-> -		 */
-> -		cv4l_buffer buf(q.g_type(), V4L2_MEMORY_MMAP);
-> -
-> -		node->dqbuf(buf);
-> -		std::exit(EXIT_SUCCESS);
-> -	}
-> -
-> -	/* Wait for the child process to start and block */
-> +	/* Wait for the child thread to start and block */
->  	usleep(100000);
-> -	pid = waitpid(pid_dqbuf, NULL, WNOHANG);
->  	/* Check that it is really blocking */
-> -	fail_on_test(pid);
-> +	fail_on_test(thread_dqbuf_complete);
 
-I'm afraid you need to call pthread_join() in all the return paths. All
-threads must be joined. If you want to avoid spaghetti code, you could
-create a helper class for this.
+Delta between patch versions:
 
-class BlockingThread
-{
-public:
-	BlockingThread()
-		: running(false), done(false)
-	{
-	}
+[v2]:	Includes below changes based on v1 feedback
+	- dt-binding document and the driver update for device graph to use
+	  separate ports for sink endpoint and source endpoint for csi.
+	- Use data-lanes endpoint property for csi.
+	- Update tegra_mipi_request() to take device node pointer argument
+	  rather than adding extra API.
+	- Remove checking for clk pointer before clk_disable.
 
-	virtual ~BlockingThread()
-	{
-		stop();
-	}
 
-	int start()
-	{
-		int ret = pthread_create(&thread, NULL, startRoutine, this);
-		if (ret < 0)
-			return ret;
+Sowjanya Komatineni (18):
+  dt-bindings: i2c: tegra: Document Tegra210 VI I2C clocks and
+    power-domains
+  arm64: tegra: Add missing clocks and power-domains to Tegra210 VI I2C
+  i2c: tegra: Don't mark VI I2C as IRQ safe runtime PM
+  i2c: tegra: Fix the error path in tegra_i2c_runtime_resume
+  i2c: tegra: Fix runtime resume to re-init VI I2C
+  i2c: tegra: Avoid tegra_i2c_init_dma() for Tegra210 vi i2c
+  media: tegra-video: Fix channel format alignment
+  media: tegra-video: Enable TPG based on kernel config
+  media: tegra-video: Update format lookup to offset based
+  dt-bindings: tegra: Update VI and CSI bindings with port info
+  media: tegra-video: Add support for external sensor capture
+  media: tegra-video: Add support for selection ioctl ops
+  gpu: host1x: mipi: Update tegra_mipi_request() to be node based
+  gpu: host1x: mipi: Split tegra_mipi_calibrate and tegra_mipi_wait
+  media: tegra-video: Add CSI MIPI pads calibration
+  media: tegra-video: Compute settle times based on the clock rate
+  arm64: tegra: jetson-tx1: Add camera supplies
+  arm64: tegra: Enable Tegra VI CSI support for Jetson Nano
 
-		running = true;
-		return 0;
-	}
-
-	void stop()
-	{
-		if (!running)
-			return;
-
-		/*
-		 * If the thread is blocked on an ioctl, try to wake it up with
-		 * a signal.
-		 */
-		if (!done) {
-			pthread_kill(thread, SIGUSR1);
-			usleep(100000);
-		}
-
-		/*
-		 * If the signal failed to interrupt the ioctl, use the heavy
-		 * artillery and cancel the thread.
-		 */
-		if (!done) {
-			pthread_cancel(thread_streamoff);
-			usleep(100000);
-		}
-
-		pthread_join(thread);
-		running = false;
-	}
-
-	void kill()
-	{
-		pthread_kill(thread, SIGUSR1);
-	}
-
-private:
-	static void *startRoutine(void *arg)
-	{
-		BlockingThread *self = static_cast<BlockingThread *>(arg);
-
-		pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
-		pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-
-		self->run();
-
-		done = true;
-		return NULL;
-	}
-
-	virtual void run() = 0;
-
-	pthread_t thread;
-	std::atomic<bool> running;
-	std::atomic<bool> done;
-};
-
-class DqbufThread : public BlockingThread
-{
-public:
-	DqbufThread(cv4l_queue *q, struct node *n)
-		: queue(q), node(n)
-	{
-	}
-
-private:
-	void run() override
-	{
-		/*
-		 * In this thread we call VIDIOC_DQBUF and wait indefinitely
-		 * since no buffers are queued.
-		 */
-		cv4l_buffer buf(queue->g_type(), V4L2_MEMORY_MMAP);
-		node->dqbuf(buf);
-	}
-
-	cv4l_queue *queue;
-	struct node *node;
-};
-
-Same for StreamoffThread. You then create one instance of each class on
-the stack, and the code below will become considerably simpler as the
-destructor will take care of all the cleanup.
->  
->  	fflush(stdout);
-> -	pid_streamoff = fork();
-> -	fail_on_test(pid_streamoff == -1);
-> -
-> -	if (pid_streamoff == 0) { // Child
-> -		/*
-> -		 * In the second child call STREAMOFF: this shouldn't
-> -		 * be blocked by the DQBUF!
-> -		 */
-> -		node->streamoff(q.g_type());
-> -		std::exit(EXIT_SUCCESS);
-> -	}
-> -
-> -	int wstatus_streamoff = 0;
-> +	ret = pthread_create(&thread_streamoff, NULL,
-> +			     testBlockingStreamoffThread, &thread_arg);
-> +	fail_on_test(ret < 0);
->  
->  	/* Wait for the second child to start and exit */
->  	usleep(250000);
-> -	pid = waitpid(pid_streamoff, &wstatus_streamoff, WNOHANG);
-> -	kill(pid_dqbuf, SIGKILL);
-> -	fail_on_test(pid != pid_streamoff);
-> -	/* Test that the second child exited properly */
-> -	if (!pid || !WIFEXITED(wstatus_streamoff)) {
-> -		kill(pid_streamoff, SIGKILL);
-> -		fail_on_test(!pid || !WIFEXITED(wstatus_streamoff));
-> +	test_streamoff_success = thread_streamoff_complete;
-> +
-> +	/*
-> +	 * Both the dqbuf and streamoff threads are blocked; terminate them
-> +	 * before continuing. If they fail to terminate gracefully, then halt
-> +	 * the entire compliance test program (implicitly done when threads
-> +	 * are killed and not joined).
-> +	 */
-> +	if (!test_streamoff_success) {
-> +		pthread_kill(thread_dqbuf, SIGUSR1);
-> +		usleep(100000);
-> +		if (!thread_dqbuf_complete) {
-> +			pthread_cancel(thread_dqbuf);
-> +			usleep(100000);
-> +		}
-> +		pthread_join(thread_dqbuf, NULL);
-> +
-> +		pthread_kill(thread_streamoff, SIGUSR1);
-> +		usleep(100000);
-> +		if (!thread_streamoff_complete) {
-> +			pthread_cancel(thread_streamoff);
-> +			usleep(100000);
-> +		}
-> +		pthread_join(thread_streamoff, NULL);
->  	}
->  
-> +	fail_on_test(!test_streamoff_success);
-> +
->  	fail_on_test(node->streamoff(q.g_type()));
->  	fail_on_test(q.reqbufs(node, 0));
->  	return 0;
+ .../display/tegra/nvidia,tegra20-host1x.txt        |  92 ++-
+ .../devicetree/bindings/i2c/nvidia,tegra20-i2c.txt |  19 +-
+ arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     |  41 ++
+ arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts |  10 +
+ arch/arm64/boot/dts/nvidia/tegra210.dtsi           |   6 +
+ drivers/gpu/drm/tegra/dsi.c                        |   9 +-
+ drivers/gpu/host1x/mipi.c                          |  30 +-
+ drivers/i2c/busses/i2c-tegra.c                     |  39 +-
+ drivers/staging/media/tegra-video/Kconfig          |   7 +
+ drivers/staging/media/tegra-video/csi.c            | 245 ++++++-
+ drivers/staging/media/tegra-video/csi.h            |   8 +
+ drivers/staging/media/tegra-video/tegra210.c       |  25 +-
+ drivers/staging/media/tegra-video/vi.c             | 770 +++++++++++++++++++--
+ drivers/staging/media/tegra-video/vi.h             |  23 +-
+ drivers/staging/media/tegra-video/video.c          |  23 +-
+ include/linux/host1x.h                             |   4 +-
+ 16 files changed, 1251 insertions(+), 100 deletions(-)
 
 -- 
-Regards,
+2.7.4
 
-Laurent Pinchart
