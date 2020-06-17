@@ -2,110 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CC7E1FCF6C
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 16:23:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6646B1FD0A7
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 17:16:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726597AbgFQOXJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 10:23:09 -0400
-Received: from mail-vs1-f65.google.com ([209.85.217.65]:43121 "EHLO
-        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726331AbgFQOXI (ORCPT
+        id S1726558AbgFQPPq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 11:15:46 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:50328 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726494AbgFQPPq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jun 2020 10:23:08 -0400
-Received: by mail-vs1-f65.google.com with SMTP id l10so1464089vsr.10;
-        Wed, 17 Jun 2020 07:23:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rysiege4ewceJPc3gwx3OHjg/Sz57CcfTXrTH8sNnQY=;
-        b=Jug4RjNoNO0MNSXvtchqM3USPVvIH08Dxp+rh6E0PrKuc3/mh3HkCcI8XOgVWnN8a1
-         jT7qka2D+vf54xLFxb5mcZNcSVsRwYlS0upfGpL5o0nKiR5876Z60MH1+IJzldiC69Ek
-         rBV2gkBjMhuD1/DOIWvt4ob9jDfCAmdMlWHgIANk+w/HnxdvlfHLp/3+oBYlXfvmlqPg
-         HdauIJ7MDqY7RgNKOvD7nODePFfEKkpWI5ZKdfNLzxH0krOZjfzFkyacp3uqVAlcmXLk
-         YcjgpSBIb7+AkK416XBc+FCmvh38vdwlhEVgCovS3SQtfjqtImafzVbgULnhjmBYHqv3
-         wAbg==
-X-Gm-Message-State: AOAM532UZhj+B2KmpjN0IioFrXmF6GB65oWbzomccLraPmTYpZLU89TD
-        C+i2S4ZrORTQ18FKH6TaRTEJi4qbmqLqabFiM1E=
-X-Google-Smtp-Source: ABdhPJzn/zfo5AEdsDaePxkqMiOapFfEhJdW/VmoDB4Nl2Rxkmmy/GNkNpeWH7q7VuhQ901+644Tsx5KfnoumGJm3+U=
-X-Received: by 2002:a67:79ce:: with SMTP id u197mr6191346vsc.17.1592403787157;
- Wed, 17 Jun 2020 07:23:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200605162518.28099-1-florian.fainelli@broadcom.com>
- <6b1f0668-572e-ae52-27e6-c897bab4204c@gmail.com> <0c0ba84e-4b2d-53ac-5092-40312ecba13b@gmail.com>
-In-Reply-To: <0c0ba84e-4b2d-53ac-5092-40312ecba13b@gmail.com>
-From:   Michael Ira Krufky <mkrufky@linuxtv.org>
-Date:   Wed, 17 Jun 2020 10:22:55 -0400
-Message-ID: <CAOcJUbx7t=G7QTQDXQ_Ni9nD=UDMh291g936VWVpyEfHaKuiBQ@mail.gmail.com>
-Subject: Re: [PATCH stable 4.9 00/21] Unbreak 32-bit DVB applications on
- 64-bit kernels
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Wed, 17 Jun 2020 11:15:46 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id E9EC03C057F;
+        Wed, 17 Jun 2020 17:15:43 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 8p7emesp5isC; Wed, 17 Jun 2020 17:15:37 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id CA0AD3C00BA;
+        Wed, 17 Jun 2020 17:15:37 +0200 (CEST)
+Received: from vmlxhi-121.adit-jv.com (10.72.92.132) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 17 Jun
+ 2020 17:15:37 +0200
+Date:   Wed, 17 Jun 2020 17:15:37 +0200
+From:   Michael Rodin <mrodin@de.adit-jv.com>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+CC:     Michael Rodin <mrodin@de.adit-jv.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shuah Khan <shuah@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
-        Jaedon Shin <jaedon.shin@gmail.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Katsuhiro Suzuki <suzuki.katsuhiro@socionext.com>,
-        Satendra Singh Thakur <satendra.t@samsung.com>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        "open list:FILESYSTEMS (VFS and infrastructure)" 
-        <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <michael@rodin.online>,
+        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>,
+        Steve Longerbeam <steve_longerbeam@mentor.com>
+Subject: Re: [PATCH] media: rcar-vin: Move media_device_register to async
+ completion
+Message-ID: <20200617151537.GB88066@vmlxhi-121.adit-jv.com>
+References: <1592328696-84533-1-git-send-email-mrodin@de.adit-jv.com>
+ <20200617105646.GB2850317@oden.dyn.berto.se>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200617105646.GB2850317@oden.dyn.berto.se>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.92.132]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 17, 2020 at 12:39 AM Florian Fainelli <f.fainelli@gmail.com> wrote:
->
->
->
-> On 6/11/2020 9:45 PM, Florian Fainelli wrote:
-> >
-> >
-> > On 6/5/2020 9:24 AM, Florian Fainelli wrote:
-> >> Hi all,
-> >>
-> >> This long patch series was motivated by backporting Jaedon's changes
-> >> which add a proper ioctl compatibility layer for 32-bit applications
-> >> running on 64-bit kernels. We have a number of Android TV-based products
-> >> currently running on the 4.9 kernel and this was broken for them.
-> >>
-> >> Thanks to Robert McConnell for identifying and providing the patches in
-> >> their initial format.
-> >>
-> >> In order for Jaedon's patches to apply cleanly a number of changes were
-> >> applied to support those changes. If you deem the patch series too big
-> >> please let me know.
-> >
-> > Mauro, can you review this? I would prefer not to maintain those patches
-> > in our downstream 4.9 kernel as there are quite a few of them, and this
-> > is likely beneficial to other people.
->
-> Hello? Anybody here?
-> --
-> Florian
+Hi Niklas and Steve,
 
-Ouch.  I top-posted - oops!  Please reply on this email rather than
-the previous.
+On Wed, Jun 17, 2020 at 12:56:46PM +0200, Niklas Söderlund wrote:
+> Hi Michael and Steve,
+> 
+> On 2020-06-16 19:31:36 +0200, Michael Rodin wrote:
+> > From: Steve Longerbeam <steve_longerbeam@mentor.com>
+> > 
+> > The media_device is registered during driver probe, before async
+> > completion, so it is possible for .link_notify to be called before
+> > all devices are bound.
+> > 
+> > Fix this by moving media_device_register() to rvin_group_notify_complete().
+> > This ensures that all devices are now bound (the rcar-csi2 subdevices and
+> > and video capture devices) before .link_notify can be called.
+> 
+> I'm curious to what situation created the need for this change. I'm 
+> currently trying to take the VIN driver in the opposite direction [1] 
+> with the end goal of registering video devices at probe time and then 
+> allow the media graph to populate as devices becomes available.
 
+It looks like almost all platform drivers call media_device_register() in
+the completion callback. From my understaning it is necessary to ensure
+that all subdevices are bound and all links are created before the user
+can enable any link (which would trigger link_notify callback execution)
+and set formats. If I am not mistaken, Steve could observe an "OOPS" or
+at least it is theoretically possible.
 
-Hey Florian,
+Actually I found that this patch alone is not enough even if it is correct,
+because we also have to register the media device in rvin_parallel_notify_complete()
+in case if there is only a parallel video input device attached.
 
-Thank you for the time and effort that you put into this patch series.
-I was excited to see this, when I first saw it posted a few weeks ago.
-I have every intention of giving it a review, but just haven't found
-the time yet.  I'm sure that Mauro would say the same.
+> My reason for this is that we could have a functional pipeline inside 
+> the graph even if it's not complete. This came out of the GMSL work done
+> a while pack where I had a faulty camera that would prevent the other 7 
+> in the system to function.
 
-I'm sure that he and I both will find some time, hopefully over the
-next few weeks or sooner, to give this a thorough review and provide
-some feedback.
+I agree that if a probe of a faulty subdevice fails, this should not affect
+functionality of the other attached subdevices. The "complete" callback of
+the async notifier is probably not executed in this case, so I guess, we
+would have to register the media device in the "bound" callback after the first
+subdevice has been probed? Otherwise there is not much sense to have video
+capture devices, which are not connected to any source.
 
-Hopefully we can put this on its way for merge soon.  Please bear with us..
+(Delayed) population of the media graph after media device registration
+sounds also like a requirement for device tree overlay support, which would
+also be a nice feature.
 
-Thanks again for your contribution.
+> 1. [PATCH 0/5] media-device: Report if graph is complete
+> 
+> > 
+> > Signed-off-by: Steve Longerbeam <steve_longerbeam@mentor.com>
+> > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-core.c | 14 ++++++--------
+> >  1 file changed, 6 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> > index 7440c89..e70f83b 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> > @@ -253,7 +253,6 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
+> >  	struct media_device *mdev = &group->mdev;
+> >  	const struct of_device_id *match;
+> >  	struct device_node *np;
+> > -	int ret;
+> >  
+> >  	mutex_init(&group->lock);
+> >  
+> > @@ -266,7 +265,6 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
+> >  	vin_dbg(vin, "found %u enabled VIN's in DT", group->count);
+> >  
+> >  	mdev->dev = vin->dev;
+> > -	mdev->ops = &rvin_media_ops;
+> >  
+> >  	match = of_match_node(vin->dev->driver->of_match_table,
+> >  			      vin->dev->of_node);
+> > @@ -278,11 +276,7 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
+> >  
+> >  	media_device_init(mdev);
+> >  
+> > -	ret = media_device_register(&group->mdev);
+> > -	if (ret)
+> > -		rvin_group_cleanup(group);
+> > -
+> > -	return ret;
+> > +	return 0;
+> >  }
+> >  
+> >  static void rvin_group_release(struct kref *kref)
+> > @@ -688,6 +682,8 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
+> >  		return ret;
+> >  	}
+> >  
+> > +	vin->group->mdev.ops = &rvin_media_ops;
+> > +
+> >  	/* Register all video nodes for the group. */
+> >  	for (i = 0; i < RCAR_VIN_NUM; i++) {
+> >  		if (vin->group->vin[i] &&
+> > @@ -736,8 +732,10 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
+> >  		}
+> >  	}
+> >  	mutex_unlock(&vin->group->lock);
+> > +	if (ret)
+> > +		return ret;
+> >  
+> > -	return ret;
+> > +	return media_device_register(&vin->group->mdev);
+> >  }
+> >  
+> >  static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
+> > -- 
+> > 2.7.4
+> > 
+> 
+> -- 
+> Regards,
+> Niklas Söderlund
 
--Mike Krufky
+-- 
+Best Regards,
+Michael
