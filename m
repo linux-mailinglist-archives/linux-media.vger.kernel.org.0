@@ -2,138 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18BCD1FD6B6
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 23:09:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C4221FD85D
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 00:07:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726868AbgFQVJB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 17:09:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36492 "EHLO
+        id S1726909AbgFQWHq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 18:07:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45586 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726763AbgFQVJA (ORCPT
+        with ESMTP id S1726835AbgFQWHo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jun 2020 17:09:00 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75057C06174E
-        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 14:08:59 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id d128so3508233wmc.1
-        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 14:08:59 -0700 (PDT)
+        Wed, 17 Jun 2020 18:07:44 -0400
+Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 310D5C06174E
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 15:07:43 -0700 (PDT)
+Received: by mail-yb1-xb44.google.com with SMTP id m16so2057030ybf.4
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 15:07:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ikmoUr6wNmodBgxmQ4g8ECiTcai8GP8d0AhUemgSHO8=;
-        b=ZbCyWzUcNY7xey+81jniW95DUP+ILcTS9Msa5jg4HLxPv25RR5rrzIIIFvRtGTpLjz
-         vAvAtRjL5EXjYfIoE4GEMWp8OI3PL1gYGuZi62FeKD5XBz+kJCNdG8/wfwUIQZy0srB8
-         6HYlAwRYMIaTemMv5FqfPOU6lpf2KfTjmH5SU=
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=y+nBmhNSgE5/KJgzUGIyU14Car0+dblfov0Gz+IxE+Y=;
+        b=gnPSUYqcV/QHB6lDj/49U8FH/Y2M6vfoPn4+JBtghQI1XLfhiH8LLgUSnfmksiYo3I
+         2P1UQv+mBcannQnF+aIAE6SwCxtZU5k16VUb29LJCtBZrjLCUSCYgr8hXYGmKkqxkzvT
+         /2v9/AQCRVbeaFt0k3Iu8GEM26/sQq7tFhKS+6h+HB7xjQnKGuG5qyk6YFDC985c80Hx
+         YmyOWLQhb+lvVJmcIHSKjwNy7xJG9BEB2OyV4xiD766tXLCaTK1NOl8U7gGSnubPDrrB
+         4PCtYhoRo4FaSlzvdJ7fsWEe/CCrtFqa0wH/dXP5hign3sp+n43z6DaBdfT/WIKmoYmT
+         PC6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ikmoUr6wNmodBgxmQ4g8ECiTcai8GP8d0AhUemgSHO8=;
-        b=dey9NBiDeWSiYKo69qOUgogl8c3+KYMBcKUzOOYDehixsNoaDXaOCloEAI4zbpdL5m
-         5HAlTZJuCm5lwW49WYzUq2Eq/+YmKL2W5CcsNlW15pplcC+Aav0YDpeX19C1IlRd9STQ
-         imHyAhSQ6BpFtnqkJ8TSLcofHEBd+wul9PksCL5n3VVZIlsG0nf+f8MWXzjNXV4Nt1aA
-         ex2Fihs5ppeT8JCgfpWNToJbdlP5LWrdKrLVuXGQG7oItYB6MtbsgfeGOrlaUCqrJ0Z1
-         YuSo2fpBG8JZSOPFVOysv8HksQjFaDjGyp7UKjkVri7LakRbdyajrCypakrLFbaWp66j
-         9xZQ==
-X-Gm-Message-State: AOAM533tm2C8mqZdDPgOVKpGZ/qbxIWjqvbDn/PnwvftWEvi6wvLZScN
-        uFwE2/LacvAJxtmMe3hm6y95pg==
-X-Google-Smtp-Source: ABdhPJy6hlLynDSJQAGPzvTJ0LukysVmmQM/TeklBwIrSogkOIxOEnVL4GhueV2LP4pjVnW+fum2NA==
-X-Received: by 2002:a7b:cc82:: with SMTP id p2mr567186wma.101.1592428137695;
-        Wed, 17 Jun 2020 14:08:57 -0700 (PDT)
-Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id t188sm1014794wmt.27.2020.06.17.14.08.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 17 Jun 2020 14:08:57 -0700 (PDT)
-Date:   Wed, 17 Jun 2020 21:08:55 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        dafna.hirschfeld@collabora.com, linux-kernel@vger.kernel.org,
-        tfiga@google.com, hans.verkuil@cisco.com, kernel@collabora.com,
-        Wojciech Zabolotny <wzab01@gmail.com>
-Subject: Re: [PATCH] media: staging: rkisp1: isp: check return value from
- phy_*
-Message-ID: <20200617210855.GA81308@chromium.org>
-References: <20200617182229.164675-1-helen.koike@collabora.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=y+nBmhNSgE5/KJgzUGIyU14Car0+dblfov0Gz+IxE+Y=;
+        b=c9ZlYqAXUrcDiFvHTlDEkXOOOm5zs/CNR4fM3yIzt20S13vWCpXCoNjTL2KdVRkpm9
+         XmtIe/LmY1Oahbd2+BXG3upX9BeTYRcHnljD7fIgTMuDWnUVNrzQAoBDZLyf/YgsYVka
+         Pz3QPujBxu6JL6DOwr+DlcLVNX5OwaUc9r574LB2nNtizJLyS/fYQEh/MPqP1cGWhjvU
+         nAqMnBofw1+vO7fACcZ1EKtWo/Z3CMm9wtE6tOQR7piHm3Ua+9luloRZ3G2Rw+qVGqMT
+         vd+bcBUUuWk9IkSSNlA4waZFW2SlwG67umLS8pBtyxm1SeX2PGvEb1ivgrpJMnFbeIsE
+         Glfw==
+X-Gm-Message-State: AOAM530rWukz6t1G6tpkPUaRa2zfZzZaghop1cGPVg36zpMSGiU5KETL
+        A5Vc0jSiWP60qb5kAv7/WYmMIoQK4TkhZ7SJsziqfw==
+X-Google-Smtp-Source: ABdhPJyfXGntakeTVfHZEfQG9XfX+r1JGGWMwayN2tLsGEeNCZVfjhh9l6O5KED7dswsY8IcAKjmmk3cbZ2V2+GTdc8=
+X-Received: by 2002:a25:ca45:: with SMTP id a66mr1830715ybg.164.1592431662324;
+ Wed, 17 Jun 2020 15:07:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200617182229.164675-1-helen.koike@collabora.com>
+References: <20200615193811.233737-1-jnchase@google.com> <20200615193811.233737-2-jnchase@google.com>
+ <20200617202645.GA2728573@bogus>
+In-Reply-To: <20200617202645.GA2728573@bogus>
+From:   Jeff Chase <jnchase@google.com>
+Date:   Wed, 17 Jun 2020 15:07:31 -0700
+Message-ID: <CALTkaQ2q0=Z5bo4p5jwJcS9j9TikKq-TzSXhWLyP8P71n1m0Zw@mail.gmail.com>
+Subject: Re: [PATCH v5 1/2] dt-bindings: Add ch7322 media i2c device
+To:     Rob Herring <robh@kernel.org>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Helen,
+On Wed, Jun 17, 2020 at 1:26 PM Rob Herring <robh@kernel.org> wrote:
+>
+> On Mon, 15 Jun 2020 15:38:10 -0400, Jeff Chase wrote:
+> > The ch7322 is a Chrontel CEC controller.
+> >
+> > Signed-off-by: Jeff Chase <jnchase@google.com>
+> > ---
+> >  .../bindings/media/i2c/chrontel,ch7322.yaml   | 67 +++++++++++++++++++
+> >  MAINTAINERS                                   |  7 ++
+> >  2 files changed, 74 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
+> >
+>
+>
+> Please add Acked-by/Reviewed-by tags when posting new versions. However,
+> there's no need to repost patches *only* to add the tags. The upstream
+> maintainer will do that for acks received on the version they apply.
+>
+> If a tag was not added on purpose, please state why and what changed.
 
-On Wed, Jun 17, 2020 at 03:22:29PM -0300, Helen Koike wrote:
-> When starting streaming, do not ignore return value from phy_set_mode(),
-> phy_configure() and phy_power_on().
-> If it fails, return error to the user.
-> 
-> Fixes: d65dd85281fb ("media: staging: rkisp1: add Rockchip ISP1 base driver")
-> 
-> Reported-by: Wojciech Zabolotny <wzab01@gmail.com>
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> 
-> ---
-> 
->  drivers/staging/media/rkisp1/rkisp1-isp.c | 22 +++++++++++++++++++---
->  1 file changed, 19 insertions(+), 3 deletions(-)
-> 
+Sorry, still learning this process.
 
-Thank you for the patch. Please see my comments inline.
+Hans, should I resubmit or would you add the Reviewed-by tag from v4?
 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> index dc2b59a0160a8..531047fc34a01 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> @@ -892,6 +892,7 @@ static int rkisp1_mipi_csi2_start(struct rkisp1_isp *isp,
->  	union phy_configure_opts opts;
->  	struct phy_configure_opts_mipi_dphy *cfg = &opts.mipi_dphy;
->  	s64 pixel_clock;
-> +	int ret;
->  
->  	if (!sensor->pixel_rate_ctrl) {
->  		dev_warn(sensor->sd->dev, "No pixel rate control in subdev\n");
-> @@ -906,9 +907,24 @@ static int rkisp1_mipi_csi2_start(struct rkisp1_isp *isp,
->  
->  	phy_mipi_dphy_get_default_config(pixel_clock, isp->sink_fmt->bus_width,
->  					 sensor->lanes, cfg);
-> -	phy_set_mode(sensor->dphy, PHY_MODE_MIPI_DPHY);
-> -	phy_configure(sensor->dphy, &opts);
-> -	phy_power_on(sensor->dphy);
-> +
-> +	ret = phy_set_mode(sensor->dphy, PHY_MODE_MIPI_DPHY);
-> +	if (ret) {
-
-nit: I don't seem to be able to find any documentation for this API and
-it's not clear if it's guaranteed that the API doesn't return positive
-values. It would probably be safer to check for ret < 0.
-
-> +		dev_err(sensor->sd->dev, "Fail setting MIPI DPHY mode\n");
-> +		return -EINVAL;
-
-Should we just return ret?
-
-> +	}
-> +
-> +	ret = phy_configure(sensor->dphy, &opts);
-> +	if (ret && ret != -EOPNOTSUPP) {
-
-Why are we okay with -EOPNOTSUPP?
-
-> +		dev_err(sensor->sd->dev, "Fail configuring MIPI DPHY\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = phy_power_on(sensor->dphy);
-> +	if (ret) {
-> +		dev_err(sensor->sd->dev, "Fail powering on MIPI DPHY\n");
-> +		return -EINVAL;
-
-Ditto.
-
-Best regards,
-Tomasz
+Thanks,
+Jeff
