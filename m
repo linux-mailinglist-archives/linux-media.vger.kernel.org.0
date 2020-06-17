@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9CCC1FD4E9
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 20:53:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 985881FD4E2
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 20:52:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728001AbgFQSwV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1727980AbgFQSwV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 17 Jun 2020 14:52:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:40486 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:40474 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727882AbgFQSwT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1727039AbgFQSwT (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Wed, 17 Jun 2020 14:52:19 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6E49A21789;
+        by mail.kernel.org (Postfix) with ESMTPSA id 70AEE217D8;
         Wed, 17 Jun 2020 18:52:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1592419938;
-        bh=7AmvXJlxqBgNywJoaFgNk0iEDG8dIR6iFDwZ8EwfoO0=;
+        bh=Ycs20U18UeBv/A9n4DRip4ZO+FTx+G0oEWD/A+0ZHiE=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Tharhsq//t4bnpSd8pYTOc6IRfasjOcFycfvA+UEf2Z+SnYIFNXVSzSOb8Bvfl/We
-         Sh28mLI9r5XKtzFb237KJJh3KVzNbxhu4LzpNWYR3KJ6ZfQgJB+fUsSi/wc1gVw5ru
-         AvPKzhAaeBXAknTpseWyj0uzvZk32CO7DAFmfiOQ=
+        b=wxaNY2ti/AePGO0n8yEl9tG+fbWibf7lnASl3bclbRCNnoH4puCjavAcrb6sZaBT2
+         tl+/tXW/y1mPauMOdq1Lgq5dBN4oPWRFnk+Ced1bG3hQI+tpWxTr+k7N22p2H9fadf
+         F9x6xycnXmRDXtliIJSGBKoXY1mwVvuiColnzm+c=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jldAW-00C8Ap-0U; Wed, 17 Jun 2020 20:52:16 +0200
+        id 1jldAW-00C8At-2O; Wed, 17 Jun 2020 20:52:16 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Marc Gonzalez <marc.w.gonzalez@free.fr>,
         Brad Love <brad@nextdimension.cc>, Sean Young <sean@mess.org>,
         Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org
-Subject: [RFC 3/4] media: dvb_frontend: move algo-specific settings to a function
-Date:   Wed, 17 Jun 2020 20:52:13 +0200
-Message-Id: <daa69edd80e7fcf979062273f3067cb7b5573d52.1592419750.git.mchehab+huawei@kernel.org>
+Subject: [RFC 4/4] media: dvb_frontend: disable zigzag mode if not possible
+Date:   Wed, 17 Jun 2020 20:52:14 +0200
+Message-Id: <974065921c41fa0c97700196de1d921c95fafaaf.1592419750.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1592419750.git.mchehab+huawei@kernel.org>
 References: <cover.1592419750.git.mchehab+huawei@kernel.org>
@@ -45,128 +45,186 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As we're planning to call this code on a separate place, let's
-fist move it to a different function.
+For the zigzag to work, the core needs to have a frequency
+shift. Without that, the zigzag code will just try re-tuning
+several times at the very same frequency, with seems wrong.
+
+So, add a warning when this happens, and fall back to the
+single-shot mode.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/dvb-core/dvb_frontend.c | 90 +++++++++++++++------------
- 1 file changed, 49 insertions(+), 41 deletions(-)
+ drivers/media/dvb-core/dvb_frontend.c | 141 +++++++++++++++-----------
+ 1 file changed, 79 insertions(+), 62 deletions(-)
 
 diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
-index 06ea30a689d7..ed85dc2a9183 100644
+index ed85dc2a9183..cb577924121e 100644
 --- a/drivers/media/dvb-core/dvb_frontend.c
 +++ b/drivers/media/dvb-core/dvb_frontend.c
-@@ -1790,6 +1790,54 @@ static int dvbv3_set_delivery_system(struct dvb_frontend *fe)
- 	return emulate_delivery_system(fe, delsys);
+@@ -642,6 +642,9 @@ static void dvb_frontend_wakeup(struct dvb_frontend *fe)
+ 	wake_up_interruptible(&fepriv->wait_queue);
  }
  
-+static void prepare_tuning_algo_parameters(struct dvb_frontend *fe)
-+{
-+	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
-+	struct dvb_frontend_private *fepriv = fe->frontend_priv;
-+	struct dvb_frontend_tune_settings fetunesettings;
++static u32 dvb_frontend_get_stepsize(struct dvb_frontend *fe);
++static void prepare_tuning_algo_parameters(struct dvb_frontend *fe);
 +
-+	/* get frontend-specific tuning settings */
-+	memset(&fetunesettings, 0, sizeof(struct dvb_frontend_tune_settings));
-+	if (fe->ops.get_tune_settings && (fe->ops.get_tune_settings(fe, &fetunesettings) == 0)) {
-+		fepriv->min_delay = (fetunesettings.min_delay_ms * HZ) / 1000;
-+		fepriv->max_drift = fetunesettings.max_drift;
-+		fepriv->step_size = fetunesettings.step_size;
-+	} else {
-+		/* default values */
-+		switch (c->delivery_system) {
-+		case SYS_DVBS:
-+		case SYS_DVBS2:
-+		case SYS_ISDBS:
-+		case SYS_TURBO:
-+		case SYS_DVBC_ANNEX_A:
-+		case SYS_DVBC_ANNEX_C:
-+			fepriv->min_delay = HZ / 20;
-+			fepriv->step_size = c->symbol_rate / 16000;
-+			fepriv->max_drift = c->symbol_rate / 2000;
+ static int dvb_frontend_thread(void *data)
+ {
+ 	struct dvb_frontend *fe = data;
+@@ -696,78 +699,92 @@ static int dvb_frontend_thread(void *data)
+ 			fepriv->reinitialise = 0;
+ 		}
+ 
+-		/* do an iteration of the tuning loop */
+-		if (fe->ops.get_frontend_algo) {
++		if (fe->ops.get_frontend_algo)
+ 			algo = fe->ops.get_frontend_algo(fe);
+-			switch (algo) {
+-			case DVBFE_ALGO_HW:
+-				dev_dbg(fe->dvb->device, "%s: Frontend ALGO = DVBFE_ALGO_HW\n", __func__);
++		else
++			algo = DVBFE_ALGO_SW;
+ 
+-				if (fepriv->state & FESTATE_RETUNE) {
+-					dev_dbg(fe->dvb->device, "%s: Retune requested, FESTATE_RETUNE\n", __func__);
+-					re_tune = true;
+-					fepriv->state = FESTATE_TUNED;
+-				} else {
+-					re_tune = false;
+-				}
++		/* do an iteration of the tuning loop */
++		switch (algo) {
++		case DVBFE_ALGO_SW:
++			prepare_tuning_algo_parameters(fe);
+ 
+-				if (fe->ops.tune)
+-					fe->ops.tune(fe, re_tune, fepriv->tune_mode_flags, &fepriv->delay, &s);
+-
+-				if (s != fepriv->status && !(fepriv->tune_mode_flags & FE_TUNE_MODE_ONESHOT)) {
+-					dev_dbg(fe->dvb->device, "%s: state changed, adding current state\n", __func__);
+-					dvb_frontend_add_event(fe, s);
+-					fepriv->status = s;
+-				}
+-				break;
+-			case DVBFE_ALGO_SW:
++			if (fepriv->max_drift) {
+ 				dev_dbg(fe->dvb->device, "%s: Frontend ALGO = DVBFE_ALGO_SW\n", __func__);
+ 				dvb_frontend_swzigzag(fe);
+ 				break;
+-			case DVBFE_ALGO_CUSTOM:
+-				dev_dbg(fe->dvb->device, "%s: Frontend ALGO = DVBFE_ALGO_CUSTOM, state=%d\n", __func__, fepriv->state);
+-				if (fepriv->state & FESTATE_RETUNE) {
+-					dev_dbg(fe->dvb->device, "%s: Retune requested, FESTAT_RETUNE\n", __func__);
+-					fepriv->state = FESTATE_TUNED;
++			}
++
++			/*
++			 * See prepare_tuning_algo_parameters():
++			 *   - Some standards may not use zigzag.
++			 */
++			if (!dvb_frontend_get_stepsize(fe))
++				dev_warn(fe->dvb->device,
++					"disabling sigzag, as frontend doesn't set frequency step size\n");
++
++			/* fall through */
++		case DVBFE_ALGO_HW:
++			dev_dbg(fe->dvb->device, "%s: Frontend ALGO = DVBFE_ALGO_HW\n", __func__);
++
++			if (fepriv->state & FESTATE_RETUNE) {
++				dev_dbg(fe->dvb->device, "%s: Retune requested, FESTATE_RETUNE\n", __func__);
++				re_tune = true;
++				fepriv->state = FESTATE_TUNED;
++			} else {
++				re_tune = false;
++			}
++
++			if (fe->ops.tune)
++				fe->ops.tune(fe, re_tune, fepriv->tune_mode_flags, &fepriv->delay, &s);
++
++			if (s != fepriv->status && !(fepriv->tune_mode_flags & FE_TUNE_MODE_ONESHOT)) {
++				dev_dbg(fe->dvb->device, "%s: state changed, adding current state\n", __func__);
++				dvb_frontend_add_event(fe, s);
++				fepriv->status = s;
++			}
 +			break;
-+		case SYS_DVBT:
-+		case SYS_DVBT2:
-+		case SYS_ISDBT:
-+		case SYS_DTMB:
-+			fepriv->min_delay = HZ / 20;
-+			fepriv->step_size = dvb_frontend_get_stepsize(fe) * 2;
-+			fepriv->max_drift = (dvb_frontend_get_stepsize(fe) * 2) + 1;
++		case DVBFE_ALGO_CUSTOM:
++			dev_dbg(fe->dvb->device, "%s: Frontend ALGO = DVBFE_ALGO_CUSTOM, state=%d\n", __func__, fepriv->state);
++			if (fepriv->state & FESTATE_RETUNE) {
++				dev_dbg(fe->dvb->device, "%s: Retune requested, FESTAT_RETUNE\n", __func__);
++				fepriv->state = FESTATE_TUNED;
++			}
++			/* Case where we are going to search for a carrier
++			    * User asked us to retune again for some reason, possibly
++			    * requesting a search with a new set of parameters
++			    */
++			if (fepriv->algo_status & DVBFE_ALGO_SEARCH_AGAIN) {
++				if (fe->ops.search) {
++					fepriv->algo_status = fe->ops.search(fe);
++					/* We did do a search as was requested, the flags are
++					    * now unset as well and has the flags wrt to search.
++					    */
++				} else {
++					fepriv->algo_status &= ~DVBFE_ALGO_SEARCH_AGAIN;
+ 				}
+-				/* Case where we are going to search for a carrier
+-				 * User asked us to retune again for some reason, possibly
+-				 * requesting a search with a new set of parameters
+-				 */
+-				if (fepriv->algo_status & DVBFE_ALGO_SEARCH_AGAIN) {
+-					if (fe->ops.search) {
+-						fepriv->algo_status = fe->ops.search(fe);
+-						/* We did do a search as was requested, the flags are
+-						 * now unset as well and has the flags wrt to search.
+-						 */
+-					} else {
+-						fepriv->algo_status &= ~DVBFE_ALGO_SEARCH_AGAIN;
+-					}
+-				}
+-				/* Track the carrier if the search was successful */
+-				if (fepriv->algo_status != DVBFE_ALGO_SEARCH_SUCCESS) {
++			}
++			/* Track the carrier if the search was successful */
++			if (fepriv->algo_status != DVBFE_ALGO_SEARCH_SUCCESS) {
++				fepriv->algo_status |= DVBFE_ALGO_SEARCH_AGAIN;
++				fepriv->delay = HZ / 2;
++			}
++			dtv_property_legacy_params_sync(fe, c, &fepriv->parameters_out);
++			fe->ops.read_status(fe, &s);
++			if (s != fepriv->status) {
++				dvb_frontend_add_event(fe, s); /* update event list */
++				fepriv->status = s;
++				if (!(s & FE_HAS_LOCK)) {
++					fepriv->delay = HZ / 10;
+ 					fepriv->algo_status |= DVBFE_ALGO_SEARCH_AGAIN;
+-					fepriv->delay = HZ / 2;
++				} else {
++					fepriv->delay = 60 * HZ;
+ 				}
+-				dtv_property_legacy_params_sync(fe, c, &fepriv->parameters_out);
+-				fe->ops.read_status(fe, &s);
+-				if (s != fepriv->status) {
+-					dvb_frontend_add_event(fe, s); /* update event list */
+-					fepriv->status = s;
+-					if (!(s & FE_HAS_LOCK)) {
+-						fepriv->delay = HZ / 10;
+-						fepriv->algo_status |= DVBFE_ALGO_SEARCH_AGAIN;
+-					} else {
+-						fepriv->delay = 60 * HZ;
+-					}
+-				}
+-				break;
+-			default:
+-				dev_dbg(fe->dvb->device, "%s: UNDEFINED ALGO !\n", __func__);
+-				break;
+ 			}
+-		} else {
+-			dvb_frontend_swzigzag(fe);
 +			break;
 +		default:
-+			/*
-+			 * FIXME: This sounds wrong! if freqency_stepsize is
-+			 * defined by the frontend, why not use it???
-+			 */
-+			fepriv->min_delay = HZ / 20;
-+			fepriv->step_size = 0; /* no zigzag */
-+			fepriv->max_drift = 0;
++			dev_dbg(fe->dvb->device, "%s: UNDEFINED ALGO !\n", __func__);
 +			break;
-+		}
-+	}
-+	if (dvb_override_tune_delay > 0)
-+		fepriv->min_delay = (dvb_override_tune_delay * HZ) / 1000;
-+}
-+
- /**
-  * dtv_property_process_set -  Sets a single DTV property
-  * @fe:		Pointer to &struct dvb_frontend
-@@ -2182,7 +2230,6 @@ static int dtv_set_frontend(struct dvb_frontend *fe)
- {
- 	struct dvb_frontend_private *fepriv = fe->frontend_priv;
- 	struct dtv_frontend_properties *c = &fe->dtv_property_cache;
--	struct dvb_frontend_tune_settings fetunesettings;
- 	u32 rolloff = 0;
- 
- 	if (dvb_frontend_check_parameters(fe) < 0)
-@@ -2260,46 +2307,7 @@ static int dtv_set_frontend(struct dvb_frontend *fe)
- 	if (c->hierarchy == HIERARCHY_NONE && c->code_rate_LP == FEC_NONE)
- 		c->code_rate_LP = FEC_AUTO;
- 
--	/* get frontend-specific tuning settings */
--	memset(&fetunesettings, 0, sizeof(struct dvb_frontend_tune_settings));
--	if (fe->ops.get_tune_settings && (fe->ops.get_tune_settings(fe, &fetunesettings) == 0)) {
--		fepriv->min_delay = (fetunesettings.min_delay_ms * HZ) / 1000;
--		fepriv->max_drift = fetunesettings.max_drift;
--		fepriv->step_size = fetunesettings.step_size;
--	} else {
--		/* default values */
--		switch (c->delivery_system) {
--		case SYS_DVBS:
--		case SYS_DVBS2:
--		case SYS_ISDBS:
--		case SYS_TURBO:
--		case SYS_DVBC_ANNEX_A:
--		case SYS_DVBC_ANNEX_C:
--			fepriv->min_delay = HZ / 20;
--			fepriv->step_size = c->symbol_rate / 16000;
--			fepriv->max_drift = c->symbol_rate / 2000;
--			break;
--		case SYS_DVBT:
--		case SYS_DVBT2:
--		case SYS_ISDBT:
--		case SYS_DTMB:
--			fepriv->min_delay = HZ / 20;
--			fepriv->step_size = dvb_frontend_get_stepsize(fe) * 2;
--			fepriv->max_drift = (dvb_frontend_get_stepsize(fe) * 2) + 1;
--			break;
--		default:
--			/*
--			 * FIXME: This sounds wrong! if freqency_stepsize is
--			 * defined by the frontend, why not use it???
--			 */
--			fepriv->min_delay = HZ / 20;
--			fepriv->step_size = 0; /* no zigzag */
--			fepriv->max_drift = 0;
--			break;
--		}
--	}
--	if (dvb_override_tune_delay > 0)
--		fepriv->min_delay = (dvb_override_tune_delay * HZ) / 1000;
-+	prepare_tuning_algo_parameters(fe);
- 
- 	fepriv->state = FESTATE_RETUNE;
+ 		}
+ 	}
  
 -- 
 2.26.2
