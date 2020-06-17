@@ -2,143 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C3F451FD0E7
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 17:27:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2F681FD0F2
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 17:28:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726861AbgFQP1Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 11:27:16 -0400
-Received: from mail.kernel.org ([198.145.29.99]:59328 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726758AbgFQP1Q (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jun 2020 11:27:16 -0400
-Received: from kozik-lap.mshome.net (unknown [194.230.155.126])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B4D5F2089D;
-        Wed, 17 Jun 2020 15:27:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1592407635;
-        bh=/X4RakAnjpaIbDFNGYOyhDIZuK7NZ/bC8ERbSOpBkvA=;
-        h=From:To:Subject:Date:From;
-        b=OwHTIF92HeRZSfkFxh2WikBaYElmr2tOOHq+wczjC8w+D4cMV7CFDdFe54ko9h8Cw
-         Dhr2M4C7wCI7EcZ9CEkTPhLmWM1Wedkos9O0Vik5o4HG4GwngeltE7d/KUfN3bqXRQ
-         2rxoLcoesbWfe5ZQwBS67fBoqoopB4p9q/EdA9WM=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org
-Subject: [PATCH RESEND v2] media: samsung: Rename Samsung and Exynos to lowercase
-Date:   Wed, 17 Jun 2020 17:27:09 +0200
-Message-Id: <20200617152709.17756-1-krzk@kernel.org>
-X-Mailer: git-send-email 2.17.1
+        id S1726845AbgFQP2j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 11:28:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40128 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725894AbgFQP2j (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Jun 2020 11:28:39 -0400
+Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F078BC061755
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 08:28:37 -0700 (PDT)
+Received: by mail-qt1-x843.google.com with SMTP id g62so1817644qtd.5
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 08:28:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=YWvFZzs3KP9lJjMgLteUxWcl0AN5fcCF6bv79uFgihI=;
+        b=fPvsZiRmvOrvrQ4yxrTzKd5CSIveZ17z50EpolEl+pPAK7HUWF0QJZmXtSGVDOakfw
+         7DHwzIzE2lNcGxpAtO8aw08z/gM8Y21yy9DIXMANO2ubUa3TWdA4GmPrzu72SDfRdvmF
+         BClIRqEbNJmDflVkgdFD+OnXmF0SaCCsk8z9/TyDuufHGuZdnpCUVgkaPeljCUzfOGUP
+         iou8x9GwNeXqpb+7LiV1ym/MPlGBad5o331/0hIUNzTl2FFPtmlIOP+y+IRR8Ia8Spm0
+         VHrOAMJcFDHzlMiG7WUr4U2IvrrqHhxtahUa25x/jrfaWVB1Q09VlgzgQNmhTWG78o/m
+         b3Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=YWvFZzs3KP9lJjMgLteUxWcl0AN5fcCF6bv79uFgihI=;
+        b=dXIjtA/QKMk2Pn/M020sxWZKKjKNw1IRfjnbt8WQQukjCavxFtYnoQcyOhC9AdD4Jy
+         hsEZiimj+sKgA8zbvtMj1nlVr5SczidCHcprxpNbof/bAZg1vr/2vzGFhNyyCcjYUAFT
+         dnr0TGAbUydtysr0KTjHoU6N2IIsJP4kX0YjRXs6e02FKuEe1tsXLsB4BMfpNQfXt7GX
+         AqlPisCC3U0YLdkQqP5h+pb4woKYD/weOTzH9rkpKgNEN1rUVH26DcRt0IsffKpvYpTX
+         nYKf8ycLSd+iK+wpRSRcGduPe1du96PHNIL4asIm6oNMDgLw3zsqsRZRDXmia4iav3fk
+         q0tA==
+X-Gm-Message-State: AOAM532nsdqEPX+0zKeWAd3vSUG4BpuI9oZjXaDhg8TtdgH2gEghKjuD
+        HJx/krJ9A9DkJCoyLL0qSQicVQ==
+X-Google-Smtp-Source: ABdhPJzZDttOnjxPbTFDeZHyWDfba0peOY2A/3G4231dt912/147Xnlp7RMkFB2VSf50LuX5ZTAibw==
+X-Received: by 2002:ac8:468a:: with SMTP id g10mr27323795qto.6.1592407717080;
+        Wed, 17 Jun 2020 08:28:37 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id f127sm210137qkb.55.2020.06.17.08.28.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2020 08:28:35 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.93)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1jlZzP-009d7z-9q; Wed, 17 Jun 2020 12:28:35 -0300
+Date:   Wed, 17 Jun 2020 12:28:35 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Thomas =?utf-8?B?SGVsbHN0csO2bSAoSW50ZWwp?= 
+        <thomas_os@shipmail.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
+ annotations
+Message-ID: <20200617152835.GF6578@ziepe.ca>
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-5-daniel.vetter@ffwll.ch>
+ <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
+ <20200611083430.GD20149@phenom.ffwll.local>
+ <20200611141515.GW6578@ziepe.ca>
+ <20200616120719.GL20149@phenom.ffwll.local>
+ <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix up inconsistent usage of upper and lowercase letters in "Samsung"
-and "Exynos" names.
+On Wed, Jun 17, 2020 at 08:48:50AM +0200, Daniel Vetter wrote:
 
-"SAMSUNG" and "EXYNOS" are not abbreviations but regular trademarked
-names.  Therefore they should be written with lowercase letters starting
-with capital letter.
+> Now my understanding for rdma is that if you don't have hw page fault
+> support,
 
-The lowercase "Exynos" name is promoted by its manufacturer Samsung
-Electronics Co., Ltd., in advertisement materials and on website.
+The RDMA ODP feature is restartable HW page faulting just like nouveau
+has. The classical MR feature doesn't have this. Only mlx5 HW supports
+ODP today.
 
-Although advertisement materials usually use uppercase "SAMSUNG", the
-lowercase version is used in all legal aspects (e.g. on Wikipedia and in
-privacy/legal statements on
-https://www.samsung.com/semiconductor/privacy-global/).
+> It's only gpus (I think) which are in this awkward in-between spot
+> where dynamic memory management really is much wanted, but the hw
+> kinda sucks. Aside, about 10+ years ago we had a similar problem with
+> gpu hw, but for security: Many gpu didn't have any kinds of page
+> tables to isolate different clients from each another. drivers/gpu
+> fixed this by parsing&validating what userspace submitted to make sure
+> it's only every accessing its own buffers. Most gpus have become
+> reasonable nowadays and do have proper per-process pagetables (gpu
+> process, not the pasid stuff), but even today there's still some of
+> the old model left in some of the smallest SoC.
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+But I still don't understand why a dma fence is needed inside the GPU
+driver itself in the notifier.
 
----
+Surely the GPU driver can block and release the notifier directly from
+its own command processing channel?
 
-Changes since v1:
-1. Move bindings change to separate patch.
----
- Documentation/admin-guide/media/fimc.rst          | 6 +++---
- Documentation/driver-api/media/drivers/tuners.rst | 2 +-
- drivers/media/platform/exynos4-is/media-dev.c     | 2 +-
- drivers/media/platform/s3c-camif/camif-core.c     | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
+Why does this fence and all it entails need to leak out across
+drivers?
 
-diff --git a/Documentation/admin-guide/media/fimc.rst b/Documentation/admin-guide/media/fimc.rst
-index 0b8ddc4a3008..56b149d9a527 100644
---- a/Documentation/admin-guide/media/fimc.rst
-+++ b/Documentation/admin-guide/media/fimc.rst
-@@ -2,7 +2,7 @@
- 
- .. include:: <isonum.txt>
- 
--The Samsung S5P/EXYNOS4 FIMC driver
-+The Samsung S5P/Exynos4 FIMC driver
- ===================================
- 
- Copyright |copy| 2012 - 2013 Samsung Electronics Co., Ltd.
-@@ -19,7 +19,7 @@ drivers/media/platform/exynos4-is directory.
- Supported SoCs
- --------------
- 
--S5PC100 (mem-to-mem only), S5PV210, EXYNOS4210
-+S5PC100 (mem-to-mem only), S5PV210, Exynos4210
- 
- Supported features
- ------------------
-@@ -45,7 +45,7 @@ Media device interface
- ~~~~~~~~~~~~~~~~~~~~~~
- 
- The driver supports Media Controller API as defined at :ref:`media_controller`.
--The media device driver name is "SAMSUNG S5P FIMC".
-+The media device driver name is "Samsung S5P FIMC".
- 
- The purpose of this interface is to allow changing assignment of FIMC instances
- to the SoC peripheral camera input at runtime and optionally to control internal
-diff --git a/Documentation/driver-api/media/drivers/tuners.rst b/Documentation/driver-api/media/drivers/tuners.rst
-index 7509be888909..d7924141c544 100644
---- a/Documentation/driver-api/media/drivers/tuners.rst
-+++ b/Documentation/driver-api/media/drivers/tuners.rst
-@@ -18,7 +18,7 @@ These differ mainly by the bandswitch byte.
- Tuner Manufacturers
- -------------------
- 
--- SAMSUNG Tuner identification: (e.g. TCPM9091PD27)
-+- Samsung Tuner identification: (e.g. TCPM9091PD27)
- 
- .. code-block:: none
- 
-diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
-index 9aaf3b8060d5..96e336b19cc3 100644
---- a/drivers/media/platform/exynos4-is/media-dev.c
-+++ b/drivers/media/platform/exynos4-is/media-dev.c
-@@ -1439,7 +1439,7 @@ static int fimc_md_probe(struct platform_device *pdev)
- 	INIT_LIST_HEAD(&fmd->pipelines);
- 	fmd->pdev = pdev;
- 
--	strscpy(fmd->media_dev.model, "SAMSUNG S5P FIMC",
-+	strscpy(fmd->media_dev.model, "Samsung S5P FIMC",
- 		sizeof(fmd->media_dev.model));
- 	fmd->media_dev.ops = &fimc_md_ops;
- 	fmd->media_dev.dev = dev;
-diff --git a/drivers/media/platform/s3c-camif/camif-core.c b/drivers/media/platform/s3c-camif/camif-core.c
-index c6fbcd7036d6..92f43c0cbc0c 100644
---- a/drivers/media/platform/s3c-camif/camif-core.c
-+++ b/drivers/media/platform/s3c-camif/camif-core.c
-@@ -304,7 +304,7 @@ static int camif_media_dev_init(struct camif_dev *camif)
- 	int ret;
- 
- 	memset(md, 0, sizeof(*md));
--	snprintf(md->model, sizeof(md->model), "SAMSUNG S3C%s CAMIF",
-+	snprintf(md->model, sizeof(md->model), "Samsung S3C%s CAMIF",
- 		 ip_rev == S3C6410_CAMIF_IP_REV ? "6410" : "244X");
- 	strscpy(md->bus_info, "platform", sizeof(md->bus_info));
- 	md->hw_revision = ip_rev;
--- 
-2.17.1
-
+Jason
