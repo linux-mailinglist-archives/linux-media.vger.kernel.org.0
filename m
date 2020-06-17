@@ -2,278 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA1CF1FC62B
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 08:29:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 932C61FC65D
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 08:49:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726881AbgFQG2t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 02:28:49 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:45889 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726788AbgFQG2t (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jun 2020 02:28:49 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1592375327; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=s/Vm4bvk2cxG6VkzRYO3gzXCbP6ddUmYHI9BmSE6AD4=; b=a5gL+qNtjkTjmwQYN+0B4jkQu49C/7sUw/jpEeRamrNj9wlYsCatLXcJPVrQZrDnp9kLmSV0
- HFHnU+7vMBgi25bF68Rx+Ase9Rk/GBTNvhz+BxoBFoYt9AVavASrlwlmy2fJaAl7D7gycoM2
- r23v9ZVNt4KZ5e7QbS+2BzQZdO0=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n15.prod.us-west-2.postgun.com with SMTP id
- 5ee9b81dfe1db4db89e07cde (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 17 Jun 2020 06:28:45
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 4F01DC433CB; Wed, 17 Jun 2020 06:28:45 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from [192.168.1.102] (unknown [183.83.143.239])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: charante)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id EDC99C433C8;
-        Wed, 17 Jun 2020 06:28:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org EDC99C433C8
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=charante@codeaurora.org
-Subject: Re: [PATCH] dmabuf: use spinlock to access dmabuf->name
-To:     "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
+        id S1726271AbgFQGtC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 02:49:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44292 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726313AbgFQGtC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Jun 2020 02:49:02 -0400
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 533CAC061755
+        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2020 23:49:02 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id d67so851356oig.6
+        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2020 23:49:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=A5ZhuFAutHEAeCHrC5mjvXu1Iq0NUc7YMfX/IRu3ZyA=;
+        b=OIOD71wghmL3BJ+4LTxzheuNdBbWNpLdKTVng8Cfhv9Fc+rfz1Bmpja7NkfffcXZ5t
+         F6agC8t3Bl3XSNz2wvhQVeG89txiQ4Fg0oTmf4NqMRP+P7i0aE2AqATgmZ8aSvLna89q
+         jo8UfjgpSF4gK32/sAugm1Q4Ddzgv8tjJWzGc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=A5ZhuFAutHEAeCHrC5mjvXu1Iq0NUc7YMfX/IRu3ZyA=;
+        b=jnDA3Hlxqb4bbgTZw+jgTfUabYY0YkYTK/OnLq8wDCHf3fcAzMhAHx8vOIEP57UU3/
+         Kdvm3mutq1Z9vp4ke/J+fPEgurcs1i50RD9Lotm+OUluFsgvQ15KEihWaoj9GZ1vxQ5F
+         vU6zKgxja9OWzPdgz+T6+AE8mCcb8mpmrIn6brJLd1qYDQtJjgHIv+LFnh3ehGILEZrz
+         ruM11PZVCRwnqDfJOrzzZX3u8m8HKoqtF7v3AZR6VF4lccc6H3WsVUVxIot8qAxaJaC3
+         Fk/HkyHM1u/OmQoMv9Fgs+azlqz4NUZASzCZZJ6spZ7+GIRnpI7V0CTtmCWR5iUlXIxF
+         nBuA==
+X-Gm-Message-State: AOAM5300m7VUg/Ik/SPXREYaZQI9B8isaIbvCn4xuhBlf0n7dNeB/I4H
+        oJLvSIiWC7rVFcgmVn1oFSOQOPl9iVWYpix2tbmtZw==
+X-Google-Smtp-Source: ABdhPJwGAcimp20dQiWfb4LYQbPcyitWuj+om1jev4TmvwlxEdnrUo68m+2HSkZsaPumvrGpeUMSVFkd4tAKg9ZB6PA=
+X-Received: by 2002:aca:ad97:: with SMTP id w145mr6315470oie.128.1592376541438;
+ Tue, 16 Jun 2020 23:49:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-5-daniel.vetter@ffwll.ch> <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
+ <20200611083430.GD20149@phenom.ffwll.local> <20200611141515.GW6578@ziepe.ca> <20200616120719.GL20149@phenom.ffwll.local>
+In-Reply-To: <20200616120719.GL20149@phenom.ffwll.local>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Wed, 17 Jun 2020 08:48:50 +0200
+Message-ID: <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
         "open list:DMA BUFFER SHARING FRAMEWORK" 
         <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>
-Cc:     Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
-        "vinmenon@codeaurora.org" <vinmenon@codeaurora.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "stable@vger.kernel.org" <stable@vger.kernel.org>
-References: <316a5cf9-ca71-6506-bf8b-e79ded9055b2@codeaurora.org>
- <14063C7AD467DE4B82DEDB5C278E8663010F365EF5@fmsmsx107.amr.corp.intel.com>
- <14063C7AD467DE4B82DEDB5C278E8663010F365F7D@fmsmsx107.amr.corp.intel.com>
-From:   Charan Teja Kalla <charante@codeaurora.org>
-Message-ID: <5b960c9a-ef9d-b43d-716d-113efc793fe5@codeaurora.org>
-Date:   Wed, 17 Jun 2020 11:58:39 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <14063C7AD467DE4B82DEDB5C278E8663010F365F7D@fmsmsx107.amr.corp.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks Michael for the comments..
+On Tue, Jun 16, 2020 at 2:07 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> Hi Jason,
+>
+> Somehow this got stuck somewhere in the mail queues, only popped up just
+> now ...
+>
+> On Thu, Jun 11, 2020 at 11:15:15AM -0300, Jason Gunthorpe wrote:
+> > On Thu, Jun 11, 2020 at 10:34:30AM +0200, Daniel Vetter wrote:
+> > > > I still have my doubts about allowing fence waiting from within shrinkers.
+> > > > IMO ideally they should use a trywait approach, in order to allow memory
+> > > > allocation during command submission for drivers that
+> > > > publish fences before command submission. (Since early reservation object
+> > > > release requires that).
+> > >
+> > > Yeah it is a bit annoying, e.g. for drm/scheduler I think we'll end up
+> > > with a mempool to make sure it can handle it's allocations.
+> > >
+> > > > But since drivers are already waiting from within shrinkers and I take your
+> > > > word for HMM requiring this,
+> > >
+> > > Yeah the big trouble is HMM and mmu notifiers. That's the really awkward
+> > > one, the shrinker one is a lot less established.
+> >
+> > I really question if HW that needs something like DMA fence should
+> > even be using mmu notifiers - the best use is HW that can fence the
+> > DMA directly without having to get involved with some command stream
+> > processing.
+> >
+> > Or at the very least it should not be a generic DMA fence but a
+> > narrowed completion tied only into the same GPU driver's command
+> > completion processing which should be able to progress without
+> > blocking.
+>
+> The problem with gpus is that these completions leak across the board like
+> mad. Both internally within memory managers (made a lot worse with p2p
+> direct access to vram), and through uapi.
+>
+> Many gpus still have a very hard time preempting, so doing an overall
+> switch in drivers/gpu to a memory management model where that is required
+> is not a very realistic option.  And minimally you need either preempt
+> (still takes a while, but a lot faster generally than waiting for work to
+> complete) or hw faults (just a bunch of tlb flushes plus virtual indexed
+> caches, so just the caveat of that for a gpu, which has lots and big tlbs
+> and caches). So preventing the completion leaks within the kernel is I
+> think unrealistic, except if we just say "well sorry, run on windows,
+> mkay" for many gpu workloads. Or more realistic "well sorry, run on the
+> nvidia blob with nvidia hw".
+>
+> The userspace side we can somewhat isolate, at least for pure compute
+> workloads. But the thing is drivers/gpu is a continum from tiny socs
+> (where dma_fence is a very nice model) to huge compute stuff (where it's
+> maybe not the nicest, but hey hw sucks so still neeeded). Doing full on
+> break in uapi somewhere in there is at least a bit awkward, e.g. some of
+> the media codec code on intel runs all the way from the smallest intel soc
+> to the big transcode servers.
+>
+> So the current status quo is "total mess, every driver defines their own
+> rules". All I'm trying to do is some common rules here, do make this mess
+> slightly more manageable and overall reviewable and testable.
+>
+> I have no illusions that this is fundamentally pretty horrible, and the
+> leftover wiggle room for writing memory manager is barely more than a
+> hairline. Just not seeing how other options are better.
 
-On 6/16/2020 7:29 PM, Ruhl, Michael J wrote:
->> -----Original Message-----
->> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->> Ruhl, Michael J
->> Sent: Tuesday, June 16, 2020 9:51 AM
->> To: Charan Teja Kalla <charante@codeaurora.org>; Sumit Semwal
->> <sumit.semwal@linaro.org>; open list:DMA BUFFER SHARING FRAMEWORK
->> <linux-media@vger.kernel.org>; DRI mailing list <dri-
->> devel@lists.freedesktop.org>
->> Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>;
->> vinmenon@codeaurora.org; LKML <linux-kernel@vger.kernel.org>;
->> stable@vger.kernel.org
->> Subject: RE: [PATCH] dmabuf: use spinlock to access dmabuf->name
->>
->>> -----Original Message-----
->>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
->>> Charan Teja Kalla
->>> Sent: Thursday, June 11, 2020 9:40 AM
->>> To: Sumit Semwal <sumit.semwal@linaro.org>; open list:DMA BUFFER
->>> SHARING FRAMEWORK <linux-media@vger.kernel.org>; DRI mailing list <dri-
->>> devel@lists.freedesktop.org>
->>> Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>;
->>> vinmenon@codeaurora.org; LKML <linux-kernel@vger.kernel.org>;
->>> stable@vger.kernel.org
->>> Subject: [PATCH] dmabuf: use spinlock to access dmabuf->name
->>>
->>> There exists a sleep-while-atomic bug while accessing the dmabuf->name
->>> under mutex in the dmabuffs_dname(). This is caused from the SELinux
->>> permissions checks on a process where it tries to validate the inherited
->>> files from fork() by traversing them through iterate_fd() (which
->>> traverse files under spin_lock) and call
->>> match_file(security/selinux/hooks.c) where the permission checks happen.
->>> This audit information is logged using dump_common_audit_data() where it
->>> calls d_path() to get the file path name. If the file check happen on
->>> the dmabuf's fd, then it ends up in ->dmabuffs_dname() and use mutex to
->>> access dmabuf->name. The flow will be like below:
->>> flush_unauthorized_files()
->>>  iterate_fd()
->>>    spin_lock() --> Start of the atomic section.
->>>      match_file()
->>>        file_has_perm()
->>>          avc_has_perm()
->>>            avc_audit()
->>>              slow_avc_audit()
->>> 	        common_lsm_audit()
->>> 		  dump_common_audit_data()
->>> 		    audit_log_d_path()
->>> 		      d_path()
->>>                        dmabuffs_dname()
->>>                          mutex_lock()--> Sleep while atomic.
->>>
->>> Call trace captured (on 4.19 kernels) is below:
->>> ___might_sleep+0x204/0x208
->>> __might_sleep+0x50/0x88
->>> __mutex_lock_common+0x5c/0x1068
->>> __mutex_lock_common+0x5c/0x1068
->>> mutex_lock_nested+0x40/0x50
->>> dmabuffs_dname+0xa0/0x170
->>> d_path+0x84/0x290
->>> audit_log_d_path+0x74/0x130
->>> common_lsm_audit+0x334/0x6e8
->>> slow_avc_audit+0xb8/0xf8
->>> avc_has_perm+0x154/0x218
->>> file_has_perm+0x70/0x180
->>> match_file+0x60/0x78
->>> iterate_fd+0x128/0x168
->>> selinux_bprm_committing_creds+0x178/0x248
->>> security_bprm_committing_creds+0x30/0x48
->>> install_exec_creds+0x1c/0x68
->>> load_elf_binary+0x3a4/0x14e0
->>> search_binary_handler+0xb0/0x1e0
->>>
->>> So, use spinlock to access dmabuf->name to avoid sleep-while-atomic.
->>>
->>> Cc: <stable@vger.kernel.org> [5.3+]
->>> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
->>> ---
->>> drivers/dma-buf/dma-buf.c | 13 +++++++------
->>> include/linux/dma-buf.h   |  1 +
->>> 2 files changed, 8 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
->>> index 01ce125..2e0456c 100644
->>> --- a/drivers/dma-buf/dma-buf.c
->>> +++ b/drivers/dma-buf/dma-buf.c
->>> @@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry *dentry,
->>> char *buffer, int buflen)
->>> 	size_t ret = 0;
->>>
->>> 	dmabuf = dentry->d_fsdata;
->>> -	dma_resv_lock(dmabuf->resv, NULL);
->>> +	spin_lock(&dmabuf->name_lock);
->>> 	if (dmabuf->name)
->>> 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
->>> -	dma_resv_unlock(dmabuf->resv);
->>> +	spin_unlock(&dmabuf->name_lock);
->>
->> I am not really clear on why you need this lock.
->>
->> If name == NULL you have no issues.
->> If name is real, you have no issues.
+So bad news is that gpu's are horrible, but I think if you don't have
+to review gpu drivers it's substantially better. If you do have hw
+with full device page fault support, then there's no need to ever
+install a dma_fence. Punching out device ptes and flushing caches is
+all that's needed. That is also the plan we have, for the workloads
+and devices where that's possible.
 
-Yeah, ideal cases...
+Now my understanding for rdma is that if you don't have hw page fault
+support, then the only other object is to more or less permanently pin
+the memory. So again, dma_fence are completely useless, since it's
+entirely up to userspace when a given piece of registered memory isn't
+needed anymore, and the entire problem boils down to how much do we
+allow random userspace to just pin (system or device) memory. Or at
+least I don't really see any other solution.
 
->>
->> If name is freed you will copy garbage, but the only way
->> for that to happen is that _set_name or _release have to be called
->> at just the right time.
->>
->> And the above would probably only be an issue if the set_name
->> was called, so you will get NULL or a real name.
+On the other end we have simpler devices like video input/output.
+Those always need pinned memory, but through hw design it's limited in
+how much you can pin (generally max resolution times a limited set of
+buffers to cycle through). Just including that memory pinning
+allowance as part of device access makes sense.
 
-And there exists a use-after-free to avoid which requires the lock. Say
-that memcpy() in dmabuffs_dname is in progress and in parallel _set_name
-will free the same buffer that memcpy is operating on.
+It's only gpus (I think) which are in this awkward in-between spot
+where dynamic memory management really is much wanted, but the hw
+kinda sucks. Aside, about 10+ years ago we had a similar problem with
+gpu hw, but for security: Many gpu didn't have any kinds of page
+tables to isolate different clients from each another. drivers/gpu
+fixed this by parsing&validating what userspace submitted to make sure
+it's only every accessing its own buffers. Most gpus have become
+reasonable nowadays and do have proper per-process pagetables (gpu
+process, not the pasid stuff), but even today there's still some of
+the old model left in some of the smallest SoC.
 
->>
->> Is there a reason for the lock here?
->>
->> Mike
-> 
-> Maybe dmabuf->name = NULL after the kfree(dmabuf->name) in:
-> 
-> dma_buf_release()
-> 
-> Would be sufficient?
+tldr; of all this: gpus kinda suck sometimes, but  that's also not news :-/
 
-I don't think that we will access the 'dmabuf'(thus dmabuf->name) once
-it is in the dma_buf_release(). So, setting the NULL in the _release()
-is not required at all.
+Cheers, Daniel
 
-> 
-> M
->>> 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
->>> 			     dentry->d_name.name, ret > 0 ? name : "");
->>> @@ -335,7 +335,7 @@ static long dma_buf_set_name(struct dma_buf
->>> *dmabuf, const char __user *buf)
->>> 	if (IS_ERR(name))
->>> 		return PTR_ERR(name);
->>>
->>> -	dma_resv_lock(dmabuf->resv, NULL);
->>> +	spin_lock(&dmabuf->name_lock);
->>> 	if (!list_empty(&dmabuf->attachments)) {
->>> 		ret = -EBUSY;
->>> 		kfree(name);
->>> @@ -345,7 +345,7 @@ static long dma_buf_set_name(struct dma_buf
->>> *dmabuf, const char __user *buf)
->>> 	dmabuf->name = name;
->>>
->>> out_unlock:
->>> -	dma_resv_unlock(dmabuf->resv);
->>> +	spin_unlock(&dmabuf->name_lock);
->>> 	return ret;
->>> }
->>>
->>> @@ -405,10 +405,10 @@ static void dma_buf_show_fdinfo(struct seq_file
->>> *m, struct file *file)
->>> 	/* Don't count the temporary reference taken inside procfs seq_show
->>> */
->>> 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
->>> 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
->>> -	dma_resv_lock(dmabuf->resv, NULL);
->>> +	spin_lock(&dmabuf->name_lock);
->>> 	if (dmabuf->name)
->>> 		seq_printf(m, "name:\t%s\n", dmabuf->name);
->>> -	dma_resv_unlock(dmabuf->resv);
->>> +	spin_unlock(&dmabuf->name_lock);
->>> }
->>>
->>> static const struct file_operations dma_buf_fops = {
->>> @@ -546,6 +546,7 @@ struct dma_buf *dma_buf_export(const struct
->>> dma_buf_export_info *exp_info)
->>> 	dmabuf->size = exp_info->size;
->>> 	dmabuf->exp_name = exp_info->exp_name;
->>> 	dmabuf->owner = exp_info->owner;
->>> +	spin_lock_init(&dmabuf->name_lock);
->>> 	init_waitqueue_head(&dmabuf->poll);
->>> 	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
->>> 	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
->>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
->>> index ab0c156..93108fd 100644
->>> --- a/include/linux/dma-buf.h
->>> +++ b/include/linux/dma-buf.h
->>> @@ -311,6 +311,7 @@ struct dma_buf {
->>> 	void *vmap_ptr;
->>> 	const char *exp_name;
->>> 	const char *name;
->>> +	spinlock_t name_lock;
->>> 	struct module *owner;
->>> 	struct list_head list_node;
->>> 	void *priv;
->>> --
->>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
->>> Forum, a Linux Foundation Collaborative Project
->>> _______________________________________________
->>> dri-devel mailing list
->>> dri-devel@lists.freedesktop.org
->>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> > The intent of notifiers was never to endlessly block while vast
+> > amounts of SW does work.
+> >
+> > Going around and switching everything in a GPU to GFP_ATOMIC seems
+> > like bad idea.
+>
+> It's not everyone, or at least not everywhere, it's some fairly limited
+> cases. Also, even if we drop the mmu_notifier on the floor, then we're
+> stuck with shrinkers and GFP_NOFS. Still need a mempool of some sorts to
+> guarantee you get out of a bind, so not much better.
+>
+> At least that's my current understanding of where we are across all
+> drivers.
+>
+> > > I've pinged a bunch of armsoc gpu driver people and ask them how much this
+> > > hurts, so that we have a clear answer. On x86 I don't think we have much
+> > > of a choice on this, with userptr in amd and i915 and hmm work in nouveau
+> > > (but nouveau I think doesn't use dma_fence in there).
+> >
+> > Right, nor will RDMA ODP.
+>
+> Hm, what's the context here? I thought RDMA side you really don't want
+> dma_fence in mmu_notifiers, so not clear to me what you're agreeing on
+> here.
+> -Daniel
+> --
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
+
 
 -- 
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
-Forum, a Linux Foundation Collaborative Project
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
