@@ -2,36 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CC311FCCB8
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 13:46:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF8641FCCBB
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 13:46:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726591AbgFQLp5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 07:45:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33592 "EHLO
+        id S1726629AbgFQLp6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 07:45:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726303AbgFQLpz (ORCPT
+        with ESMTP id S1726597AbgFQLp5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jun 2020 07:45:55 -0400
+        Wed, 17 Jun 2020 07:45:57 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4345EC061755
-        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 04:45:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FEAEC061798
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 04:45:56 -0700 (PDT)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1jlWVt-0002WQ-7H; Wed, 17 Jun 2020 13:45:53 +0200
+        id 1jlWVt-0002WR-7P; Wed, 17 Jun 2020 13:45:53 +0200
 Received: from mtr by dude02.lab.pengutronix.de with local (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1jlWVs-0000r7-AG; Wed, 17 Jun 2020 13:45:52 +0200
+        id 1jlWVs-0000r9-Av; Wed, 17 Jun 2020 13:45:52 +0200
 From:   Michael Tretter <m.tretter@pengutronix.de>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         kernel@pengutronix.de, Michael Tretter <m.tretter@pengutronix.de>
-Subject: [PATCH 00/12] media: allegro: Add support for firmware 2019.2
-Date:   Wed, 17 Jun 2020 13:45:38 +0200
-Message-Id: <20200617114550.3235-1-m.tretter@pengutronix.de>
+Subject: [PATCH 01/12] media: allegro: rework mbox handling
+Date:   Wed, 17 Jun 2020 13:45:39 +0200
+Message-Id: <20200617114550.3235-2-m.tretter@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200617114550.3235-1-m.tretter@pengutronix.de>
+References: <20200617114550.3235-1-m.tretter@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
@@ -43,174 +45,300 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series adds support for the firmware version 2019.2 to the allegro
-driver.
+Add a send/notify abstraction for the mailbox and separate the message
+handling in the driver from the code to read and write message to the
+mailbox.
 
-The updated firmware contains updates and bugfixes. For example, VBR encoding
-works much more reliable than with the firmware 2018.2. Unfortunately, I was
-not able to find an actual changelog that lists the firmware changes. Even
-more unfortunately, the firmware ABI is not stable across firmware versions.
+This untangles how mails are written into the MCU's SRAM and signaled to
+the MCU from the protocol between the driver and the firmware.
 
-Therefore, this series changes how messages for the mailbox are created.
-Previously, the driver defined a struct mcu_msg_* for each message that can be
-written directly into the mailbox. This approach is incompatible with support
-for more than one firmware version. Now the driver converts the struct
-mcu_msg_* into the binary format that is expected by the firmware. The struct
-mcu_msg_* are still the same to reduce changes to the code that is used to
-prepare the messages.
+Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+---
+ .../staging/media/allegro-dvt/allegro-core.c  | 150 +++++++++++-------
+ 1 file changed, 92 insertions(+), 58 deletions(-)
 
-This separation allows to change the struct mcu_msg_* more freely, because it
-is not bound to the firmware ABI anymore and allows to get rid of ugly hacks
-like using the message size to determine the number of elements in the
-PUSH_BUFFER_INTERMEDIATE and PUSH_BUFFER_REFERENCE message.
-
-Patch 1 and 2 rework how the mails are handled and how the interface to the
-mailbox works to simplify adding the conversion step.
-
-Patch 3 adds the conversion of the struct mcu_msg_* to mailbox binary format.
-
-Patches 4 to 11 update the now independent struct mcu_msg_* to prepare the
-conversion into the binary format expected by the firmware 2019.2.
-
-Patch 12 finally adds support for firmware 2019.2 by adding the conversion
-step for the new message format.
-
-Support for the firmware 2020.1 can be added by a patch similar to Patch 13,
-but I did not properly test firmware 2020.1, yet.
-
-Based on this series, I am also preparing a series to add H.265 support.
-Further, another series will cleanup the messages in allegro-mail.h by removing
-reserved fields and clarifying existing field names.
-
-The v4l2-compliance result is as follows. I decided to not fix the warning
-regarding S_PARM in this series, because I want to fix it in yet another
-series that adds framerate handling with different framerates on OUTPUT and
-CAPTURE.
-
-v4l2-compliance SHA: de91e870c2355e0fe754176563660b92b8ee040b, 64 bits, 64-bit time_t
-
-Compliance test for allegro device /dev/video0:
-
-Driver Info:
-	Driver name      : allegro
-	Card type        : Allegro DVT Video Encoder
-	Bus info         : platform:a0009000.video-codec
-	Driver version   : 5.8.0
-	Capabilities     : 0x84208000
-		Video Memory-to-Memory
-		Streaming
-		Extended Pix Format
-		Device Capabilities
-	Device Caps      : 0x04208000
-		Video Memory-to-Memory
-		Streaming
-		Extended Pix Format
-	Detected Stateful Encoder
-
-Required ioctls:
-	test VIDIOC_QUERYCAP: OK
-
-Allow for multiple opens:
-	test second /dev/video0 open: OK
-	test VIDIOC_QUERYCAP: OK
-	test VIDIOC_G/S_PRIORITY: OK
-	test for unlimited opens: OK
-
-	test invalid ioctls: OK
-Debug ioctls:
-	test VIDIOC_DBG_G/S_REGISTER: OK
-	test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-	Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-	Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-	test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-	test VIDIOC_QUERYCTRL: OK
-	test VIDIOC_G/S_CTRL: OK
-	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-	Standard Controls: 16 Private Controls: 0
-
-Format ioctls:
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-		warn: v4l2-test-formats.cpp(1332): S_PARM is supported for buftype 2, but not for ENUM_FRAMEINTERVALS
-	test VIDIOC_G/S_PARM: OK
-	test VIDIOC_G_FBUF: OK (Not Supported)
-	test VIDIOC_G_FMT: OK
-	test VIDIOC_TRY_FMT: OK
-	test VIDIOC_S_FMT: OK
-	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-	test Cropping: OK (Not Supported)
-	test Composing: OK (Not Supported)
-	test Scaling: OK (Not Supported)
-
-Codec ioctls:
-	test VIDIOC_(TRY_)ENCODER_CMD: OK
-	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-	test VIDIOC_EXPBUF: OK
-	test Requests: OK (Not Supported)
-
-Test input 0:
-
-Streaming ioctls:
-	test read/write: OK (Not Supported)
-	test blocking wait: OK
-	Video Capture: Captured 60 buffers
-	test MMAP (select): OK
-	Video Capture: Captured 60 buffers
-	test MMAP (epoll): OK
-	test USERPTR (select): OK (Not Supported)
-	test DMABUF: Cannot test, specify --expbuf-device
-
-Total for allegro device /dev/video0: 50, Succeeded: 50, Failed: 0, Warnings: 1
-
-Michael
-
-Michael Tretter (12):
-  media: allegro: rework mbox handling
-  media: allegro: rework read/write to mailbox
-  media: allegro: add explicit mail encoding and decoding
-  media: allegro: add field for number of buffers
-  media: allegro: don't pack MCU messages
-  media: allegro: support handling firmware dependent values
-  media: allegro: encode bit fields separately
-  media: allegro: add config blob for channel
-  media: allegro: set num_ref_idx using response of configured channels
-  media: allegro: drop length field from message header
-  media: allegro: add a version field to mcu messages
-  media: allegro: add support for allegro firmware 2019.2
-
- .../staging/media/allegro-dvt/allegro-core.c  | 387 ++++++++------
- .../staging/media/allegro-dvt/allegro-mail.c  | 506 ++++++++++++++++++
- .../staging/media/allegro-dvt/allegro-mail.h  | 111 ++--
- 3 files changed, 803 insertions(+), 201 deletions(-)
-
+diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
+index 70f133a842dd..447b15cc235c 100644
+--- a/drivers/staging/media/allegro-dvt/allegro-core.c
++++ b/drivers/staging/media/allegro-dvt/allegro-core.c
+@@ -105,9 +105,11 @@ struct allegro_buffer {
+ 	struct list_head head;
+ };
+ 
++struct allegro_dev;
+ struct allegro_channel;
+ 
+ struct allegro_mbox {
++	struct allegro_dev *dev;
+ 	unsigned int head;
+ 	unsigned int tail;
+ 	unsigned int data;
+@@ -134,8 +136,8 @@ struct allegro_dev {
+ 	struct completion init_complete;
+ 
+ 	/* The mailbox interface */
+-	struct allegro_mbox mbox_command;
+-	struct allegro_mbox mbox_status;
++	struct allegro_mbox *mbox_command;
++	struct allegro_mbox *mbox_status;
+ 
+ 	/*
+ 	 * The downstream driver limits the users to 64 users, thus I can use
+@@ -583,12 +585,20 @@ static void allegro_free_buffer(struct allegro_dev *dev,
+  * Mailbox interface to send messages to the MCU.
+  */
+ 
+-static int allegro_mbox_init(struct allegro_dev *dev,
+-			     struct allegro_mbox *mbox,
+-			     unsigned int base, size_t size)
++static void allegro_mcu_interrupt(struct allegro_dev *dev);
++static void allegro_handle_message(struct allegro_dev *dev,
++				   union mcu_msg_response *msg);
++
++static struct allegro_mbox *allegro_mbox_init(struct allegro_dev *dev,
++					      unsigned int base, size_t size)
+ {
++	struct allegro_mbox *mbox;
++
++	mbox = devm_kmalloc(&dev->plat_dev->dev, sizeof(*mbox), GFP_KERNEL);
+ 	if (!mbox)
+-		return -EINVAL;
++		return ERR_PTR(-ENOMEM);
++
++	mbox->dev = dev;
+ 
+ 	mbox->head = base;
+ 	mbox->tail = base + 0x4;
+@@ -599,7 +609,7 @@ static int allegro_mbox_init(struct allegro_dev *dev,
+ 	regmap_write(dev->sram, mbox->head, 0);
+ 	regmap_write(dev->sram, mbox->tail, 0);
+ 
+-	return 0;
++	return mbox;
+ }
+ 
+ static int allegro_mbox_write(struct allegro_dev *dev,
+@@ -713,9 +723,55 @@ static ssize_t allegro_mbox_read(struct allegro_dev *dev,
+ 	return size;
+ }
+ 
+-static void allegro_mcu_interrupt(struct allegro_dev *dev)
++/**
++ * allegro_mbox_send() - Send a message via the mailbox
++ * @mbox: the mailbox which is used to send the message
++ * @msg: the message to send
++ */
++static int allegro_mbox_send(struct allegro_mbox *mbox, void *msg)
+ {
+-	regmap_write(dev->regmap, AL5_MCU_INTERRUPT, BIT(0));
++	struct allegro_dev *dev = mbox->dev;
++	struct mcu_msg_header *header = msg;
++	ssize_t size = sizeof(*header) + header->length;
++	int err;
++
++	err = allegro_mbox_write(dev, mbox, msg, size);
++	if (err)
++		goto out;
++
++	allegro_mcu_interrupt(dev);
++
++out:
++	return err;
++}
++
++/**
++ * allegro_mbox_notify() - Notify the mailbox about a new message
++ * @mbox: The allegro_mbox to notify
++ */
++static int allegro_mbox_notify(struct allegro_mbox *mbox)
++{
++	struct allegro_dev *dev = mbox->dev;
++	union mcu_msg_response *msg;
++	ssize_t size;
++	int err;
++
++	msg = kmalloc(sizeof(*msg), GFP_KERNEL);
++	if (!msg)
++		return -ENOMEM;
++
++	size = allegro_mbox_read(dev, mbox, msg, sizeof(*msg));
++	if (size < 0) {
++		err = size;
++		goto out;
++	}
++
++	allegro_handle_message(dev, msg);
++
++out:
++	kfree(msg);
++
++	return err;
+ }
+ 
+ static void allegro_mcu_send_init(struct allegro_dev *dev,
+@@ -736,8 +792,7 @@ static void allegro_mcu_send_init(struct allegro_dev *dev,
+ 	msg.l2_cache[1] = -1;
+ 	msg.l2_cache[2] = -1;
+ 
+-	allegro_mbox_write(dev, &dev->mbox_command, &msg, sizeof(msg));
+-	allegro_mcu_interrupt(dev);
++	allegro_mbox_send(dev->mbox_command, &msg);
+ }
+ 
+ static u32 v4l2_pixelformat_to_mcu_format(u32 pixelformat)
+@@ -946,8 +1001,7 @@ static int allegro_mcu_send_create_channel(struct allegro_dev *dev,
+ 
+ 	fill_create_channel_param(channel, &msg.param);
+ 
+-	allegro_mbox_write(dev, &dev->mbox_command, &msg, sizeof(msg));
+-	allegro_mcu_interrupt(dev);
++	allegro_mbox_send(dev->mbox_command, &msg);
+ 
+ 	return 0;
+ }
+@@ -964,8 +1018,7 @@ static int allegro_mcu_send_destroy_channel(struct allegro_dev *dev,
+ 
+ 	msg.channel_id = channel->mcu_channel_id;
+ 
+-	allegro_mbox_write(dev, &dev->mbox_command, &msg, sizeof(msg));
+-	allegro_mcu_interrupt(dev);
++	allegro_mbox_send(dev->mbox_command, &msg);
+ 
+ 	return 0;
+ }
+@@ -991,8 +1044,7 @@ static int allegro_mcu_send_put_stream_buffer(struct allegro_dev *dev,
+ 	/* copied to mcu_msg_encode_frame_response */
+ 	msg.stream_id = stream_id;
+ 
+-	allegro_mbox_write(dev, &dev->mbox_command, &msg, sizeof(msg));
+-	allegro_mcu_interrupt(dev);
++	allegro_mbox_send(dev->mbox_command, &msg);
+ 
+ 	return 0;
+ }
+@@ -1021,8 +1073,7 @@ static int allegro_mcu_send_encode_frame(struct allegro_dev *dev,
+ 	msg.ep2 = 0x0;
+ 	msg.ep2_v = to_mcu_addr(dev, msg.ep2);
+ 
+-	allegro_mbox_write(dev, &dev->mbox_command, &msg, sizeof(msg));
+-	allegro_mcu_interrupt(dev);
++	allegro_mbox_send(dev->mbox_command, &msg);
+ 
+ 	return 0;
+ }
+@@ -1084,12 +1135,8 @@ static int allegro_mcu_push_buffer_internal(struct allegro_channel *channel,
+ 		buffer++;
+ 	}
+ 
+-	err = allegro_mbox_write(dev, &dev->mbox_command, msg, size);
+-	if (err)
+-		goto out;
+-	allegro_mcu_interrupt(dev);
++	err = allegro_mbox_send(dev->mbox_command, msg);
+ 
+-out:
+ 	kfree(msg);
+ 	return err;
+ }
+@@ -1681,51 +1728,28 @@ allegro_handle_encode_frame(struct allegro_dev *dev,
+ 	return 0;
+ }
+ 
+-static int allegro_receive_message(struct allegro_dev *dev)
++static void allegro_handle_message(struct allegro_dev *dev,
++				   union mcu_msg_response *msg)
+ {
+-	union mcu_msg_response *msg;
+-	ssize_t size;
+-	int err = 0;
+-
+-	msg = kmalloc(sizeof(*msg), GFP_KERNEL);
+-	if (!msg)
+-		return -ENOMEM;
+-
+-	size = allegro_mbox_read(dev, &dev->mbox_status, msg, sizeof(*msg));
+-	if (size < sizeof(msg->header)) {
+-		v4l2_err(&dev->v4l2_dev,
+-			 "invalid mbox message (%zd): must be at least %zu\n",
+-			 size, sizeof(msg->header));
+-		err = -EINVAL;
+-		goto out;
+-	}
+-
+ 	switch (msg->header.type) {
+ 	case MCU_MSG_TYPE_INIT:
+-		err = allegro_handle_init(dev, &msg->init);
++		allegro_handle_init(dev, &msg->init);
+ 		break;
+ 	case MCU_MSG_TYPE_CREATE_CHANNEL:
+-		err = allegro_handle_create_channel(dev, &msg->create_channel);
++		allegro_handle_create_channel(dev, &msg->create_channel);
+ 		break;
+ 	case MCU_MSG_TYPE_DESTROY_CHANNEL:
+-		err = allegro_handle_destroy_channel(dev,
+-						     &msg->destroy_channel);
++		allegro_handle_destroy_channel(dev, &msg->destroy_channel);
+ 		break;
+ 	case MCU_MSG_TYPE_ENCODE_FRAME:
+-		err = allegro_handle_encode_frame(dev, &msg->encode_frame);
++		allegro_handle_encode_frame(dev, &msg->encode_frame);
+ 		break;
+ 	default:
+ 		v4l2_warn(&dev->v4l2_dev,
+ 			  "%s: unknown message %s\n",
+ 			  __func__, msg_type_name(msg->header.type));
+-		err = -EINVAL;
+ 		break;
+ 	}
+-
+-out:
+-	kfree(msg);
+-
+-	return err;
+ }
+ 
+ static irqreturn_t allegro_hardirq(int irq, void *data)
+@@ -1746,7 +1770,7 @@ static irqreturn_t allegro_irq_thread(int irq, void *data)
+ {
+ 	struct allegro_dev *dev = data;
+ 
+-	allegro_receive_message(dev);
++	allegro_mbox_notify(dev->mbox_status);
+ 
+ 	return IRQ_HANDLED;
+ }
+@@ -1895,6 +1919,11 @@ static int allegro_mcu_reset(struct allegro_dev *dev)
+ 	return allegro_mcu_wait_for_sleep(dev);
+ }
+ 
++static void allegro_mcu_interrupt(struct allegro_dev *dev)
++{
++	regmap_write(dev->regmap, AL5_MCU_INTERRUPT, BIT(0));
++}
++
+ static void allegro_destroy_channel(struct allegro_channel *channel)
+ {
+ 	struct allegro_dev *dev = channel->dev;
+@@ -2887,10 +2916,15 @@ static int allegro_mcu_hw_init(struct allegro_dev *dev,
+ {
+ 	int err;
+ 
+-	allegro_mbox_init(dev, &dev->mbox_command,
+-			  info->mailbox_cmd, info->mailbox_size);
+-	allegro_mbox_init(dev, &dev->mbox_status,
+-			  info->mailbox_status, info->mailbox_size);
++	dev->mbox_command = allegro_mbox_init(dev, info->mailbox_cmd,
++					      info->mailbox_size);
++	dev->mbox_status = allegro_mbox_init(dev, info->mailbox_status,
++					     info->mailbox_size);
++	if (!dev->mbox_command || !dev->mbox_status) {
++		v4l2_err(&dev->v4l2_dev,
++			 "failed to initialize mailboxes\n");
++		return -EIO;
++	}
+ 
+ 	allegro_mcu_enable_interrupts(dev);
+ 
 -- 
 2.20.1
 
