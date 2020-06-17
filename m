@@ -2,78 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 921E31FCEE4
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 15:55:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64D9C1FCEEE
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 15:58:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726594AbgFQNzx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 09:55:53 -0400
-Received: from smtp4-g21.free.fr ([212.27.42.4]:12662 "EHLO smtp4-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726494AbgFQNzx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jun 2020 09:55:53 -0400
-Received: from [192.168.1.91] (unknown [77.207.133.132])
-        (Authenticated sender: marc.w.gonzalez)
-        by smtp4-g21.free.fr (Postfix) with ESMTPSA id 2497919F4F3;
-        Wed, 17 Jun 2020 15:55:12 +0200 (CEST)
-To:     Brad Love <brad@nextdimension.cc>,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
-Subject: Re: si2168: different default that windows driver
-Message-ID: <bab43a4a-d213-96ed-cb88-fb2d1470e99f@free.fr>
-Date:   Wed, 17 Jun 2020 15:55:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1726815AbgFQN6V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 09:58:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54216 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726496AbgFQN6V (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Jun 2020 09:58:21 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C17ECC061755
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 06:58:20 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id z9so2937917ljh.13
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 06:58:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=maPCfdjfNPdO8h4ZXH6vB9OR+0m2ipvV+6Dqb7XX8ug=;
+        b=gFEhWp0oaIxbd7iADabCdDYmKXzRPTDDP8SAMo6tsIhZoen1Hgq8b8l5os71rUGIYF
+         QSspaXHdYehnFoXRQKh9K5FNZN9dCC7mRbS9TyTx1Es5RWOjSZjdkNJxSrvCgzgGR+Zj
+         HHxnrckCoylEJeqbxowWQfmdDglfuDKFVyJ0fmI6yH9bZTA8T+a/qRl1b1qWm+hMjMTE
+         z87lNWXXXItGJjkMM++aIDwCUNxoKP7Hy3jlGxvPJZtwAU05OqXQj7Q5kDfe+/VykGym
+         97RpPJIsOnfIxuREekYJEpoOHgSnjTqPx+hCXr0ZVctvbfsvC/wW5CDz2QGYAPTsSvnm
+         7KRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=maPCfdjfNPdO8h4ZXH6vB9OR+0m2ipvV+6Dqb7XX8ug=;
+        b=bNHnosK765jRpSDBCrb5/f3tSkbbbwy8S3DTIGTpCWlUPgNLGgVh+RirCYrYowStx3
+         483blZMHcqIqejPuvfP1Ml3+Z/JUuHT2Hnp3CoO1/xNYdCZMKnTRbOEjIJo88nYkupEh
+         gytCwIhWJRvpFUExFprj7b5SQx/KIwmM3m0CIqWe3NhfmLLBT0xjANtxyp2fQC/UqArA
+         xg+uKyPvFJ0EEQ0VCPGuzrfEk1uD7/WLLt4Bd31dYaBJE0PGrlm0OQLSwbQPKkjju3V5
+         NPK02APIVP06aL7Oha76tCpZ/Tx1cELElkj1frwczgC0QWCRbc2ba0qygFkWquaLPGrx
+         x+BA==
+X-Gm-Message-State: AOAM5316mNSrH+mTfJzRGKjT3UkRNNOC5UZMWMo+ggF7688Y33XD0y/j
+        XEsGx7z6pulb/li07OMlLQfhlcf8F+3xoYx2YyQ=
+X-Google-Smtp-Source: ABdhPJwJsCETMMxmVMxb5gfF7stqZt9P2iLZWdfJdRjcmCW+pah/cDMk4Fyg3PLe1YXk8tFsHL82b7oVh8zH98ZCU/8=
+X-Received: by 2002:a2e:3003:: with SMTP id w3mr4037930ljw.11.1592402298957;
+ Wed, 17 Jun 2020 06:58:18 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+From:   Jezzbuffalo Ventures <jezzbuffalove@gmail.com>
+Date:   Wed, 17 Jun 2020 15:58:07 +0200
+Message-ID: <CAAuvJ6YH3zhSyZ9T=Z8FZJqcKSWU87x_bu_A1wcvRPZbPQCaFw@mail.gmail.com>
+Subject: Request for Representation
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Brad,
+Jezzbuffalo Ventures (Pty) Ltd.
+Shop No.4 Statehouse. 273 Lilian Ngoyi Str Cnr Quartz str.
+Jhb South Africa. Cells: +27780764712 Web: www.jezzbuffalo.co.za
 
-I found this patch you wrote:
-https://github.com/b-rad-NDi/Ubuntu-media-tree-kernel-builder/blob/master/patches/mainline-extra/tip/10.random.patches/0004-si2168-different-default-that-windows-driver.patch
+Dear Sir,
+Your firm has been introduced to us as manufacturer; We as a marketing
+agency in South Africa are interested in doing business with you as
+your agent/representative here in South Africa. Could you please send
+your agency terms: - Email:
+jbv.salesrep@gmail.com / salesrepocletusigwe@safrica.com
 
-Subject: [PATCH 4/5] si2168: different default that windows driver
+Wishing a lasting business relationship with you!
 
-Unsure of meaning, look into...
----
- drivers/media/dvb-frontends/si2168.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
-index 0d9d384cf..72794ead8 100644
---- a/drivers/media/dvb-frontends/si2168.c
-+++ b/drivers/media/dvb-frontends/si2168.c
-@@ -418,6 +418,8 @@ static int si2168_set_frontend(struct dvb_frontend *fe)
- 	}
- 
- 	cmd_init(&cmd, "\x14\x00\x0f\x10\x10\x00", 6, 4);
-+	/* BUGBUG? FW defaults to 1, but windows driver uses 30; above is 0? */
-+	cmd.args[5] = 30;
- 	ret = si2168_cmd_execute(client, &cmd);
- 	if (ret)
- 		goto err;
-
-
-0x14 = SET_PROPERTY
-args[1] is ignored
-args[2:3] = little-endian property = 0x100f
-args[4:5] = little-endian prop_arg = 0x0010
-
-0x100f configures the "Signal Quality Indicator" computation.
-The value is averaged over the last N samples.
-N = prop_arg_bits[0:4]
-(legal values are 1-30, dunno what happens for 0 and 31)
-
-You're not supposed to change args[5] i.e. prop_arg_bits[8:15]
-Maybe you meant cmd.args[4] = 30; ?
-Or just change the command to "\x14\x00\x0f\x10\x1e\x00" ?
-Or just use 16 samples instead of 30 for the averaging?
-
-Regards.
+Yours Sincerely,
+Cletus.I.O (CEO)
