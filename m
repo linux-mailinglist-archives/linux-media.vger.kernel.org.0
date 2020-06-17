@@ -2,70 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64D9C1FCEEE
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 15:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50EB61FCF65
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 16:21:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726815AbgFQN6V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 09:58:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54216 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726496AbgFQN6V (ORCPT
+        id S1726597AbgFQOVW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 10:21:22 -0400
+Received: from mail-vs1-f65.google.com ([209.85.217.65]:34336 "EHLO
+        mail-vs1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726329AbgFQOVW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jun 2020 09:58:21 -0400
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C17ECC061755
-        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 06:58:20 -0700 (PDT)
-Received: by mail-lj1-x241.google.com with SMTP id z9so2937917ljh.13
-        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 06:58:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=maPCfdjfNPdO8h4ZXH6vB9OR+0m2ipvV+6Dqb7XX8ug=;
-        b=gFEhWp0oaIxbd7iADabCdDYmKXzRPTDDP8SAMo6tsIhZoen1Hgq8b8l5os71rUGIYF
-         QSspaXHdYehnFoXRQKh9K5FNZN9dCC7mRbS9TyTx1Es5RWOjSZjdkNJxSrvCgzgGR+Zj
-         HHxnrckCoylEJeqbxowWQfmdDglfuDKFVyJ0fmI6yH9bZTA8T+a/qRl1b1qWm+hMjMTE
-         z87lNWXXXItGJjkMM++aIDwCUNxoKP7Hy3jlGxvPJZtwAU05OqXQj7Q5kDfe+/VykGym
-         97RpPJIsOnfIxuREekYJEpoOHgSnjTqPx+hCXr0ZVctvbfsvC/wW5CDz2QGYAPTsSvnm
-         7KRQ==
+        Wed, 17 Jun 2020 10:21:22 -0400
+Received: by mail-vs1-f65.google.com with SMTP id q2so1492092vsr.1;
+        Wed, 17 Jun 2020 07:21:21 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=maPCfdjfNPdO8h4ZXH6vB9OR+0m2ipvV+6Dqb7XX8ug=;
-        b=bNHnosK765jRpSDBCrb5/f3tSkbbbwy8S3DTIGTpCWlUPgNLGgVh+RirCYrYowStx3
-         483blZMHcqIqejPuvfP1Ml3+Z/JUuHT2Hnp3CoO1/xNYdCZMKnTRbOEjIJo88nYkupEh
-         gytCwIhWJRvpFUExFprj7b5SQx/KIwmM3m0CIqWe3NhfmLLBT0xjANtxyp2fQC/UqArA
-         xg+uKyPvFJ0EEQ0VCPGuzrfEk1uD7/WLLt4Bd31dYaBJE0PGrlm0OQLSwbQPKkjju3V5
-         NPK02APIVP06aL7Oha76tCpZ/Tx1cELElkj1frwczgC0QWCRbc2ba0qygFkWquaLPGrx
-         x+BA==
-X-Gm-Message-State: AOAM5316mNSrH+mTfJzRGKjT3UkRNNOC5UZMWMo+ggF7688Y33XD0y/j
-        XEsGx7z6pulb/li07OMlLQfhlcf8F+3xoYx2YyQ=
-X-Google-Smtp-Source: ABdhPJwJsCETMMxmVMxb5gfF7stqZt9P2iLZWdfJdRjcmCW+pah/cDMk4Fyg3PLe1YXk8tFsHL82b7oVh8zH98ZCU/8=
-X-Received: by 2002:a2e:3003:: with SMTP id w3mr4037930ljw.11.1592402298957;
- Wed, 17 Jun 2020 06:58:18 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ERGqcQ7t8WT4ifOpQtED2cQLgSQqRg45Jtc+jpL/R/s=;
+        b=toAClvRvSBV0LPW/IdJ972hNRe3Kgela9tPIBMfcBd774zNapT/ua5FCA0vvI10bpP
+         jRbPiosS9NW6WSx48r48b431a2g9hqOQUluFGCeCa1tGRfdA/4bYZgj6eygGvTXmhtFt
+         pDSXmWH8GOhZtmafLy7K2cyQMqVCOzYFLiLcGBJnMtp5BIO28Mh8Ui3lIOyalYOpefB9
+         td+jceWWuTLm1Ompc2ngrs+aYeBaohhxAVcFD5/QAUBgwv1UAkq90/b6VEEB55WSh9C3
+         BKt82uDAwz/8oNKV5d80odkqjtkiBvQcEf9wcN9FLAGDGbAA48VzntJTIUwN30+xmFcj
+         J+5w==
+X-Gm-Message-State: AOAM530r41Dl7gaEL5PEpKT7IJvZXrs1CoHa37BBf12DGv1Mvi9+DFna
+        OtlLunI/tcxGbnpRDUWAlNIf7B5jZcrlYydNkDo=
+X-Google-Smtp-Source: ABdhPJxUB28eId7C069Z9yU5wnQSTxhlhjJBmlSA6lDeLgkW8xYFy5G701t2YSWHVSEGhHywz7FhjlBV+Vo9znzTuNM=
+X-Received: by 2002:a67:e90e:: with SMTP id c14mr6182478vso.185.1592403680997;
+ Wed, 17 Jun 2020 07:21:20 -0700 (PDT)
 MIME-Version: 1.0
-From:   Jezzbuffalo Ventures <jezzbuffalove@gmail.com>
-Date:   Wed, 17 Jun 2020 15:58:07 +0200
-Message-ID: <CAAuvJ6YH3zhSyZ9T=Z8FZJqcKSWU87x_bu_A1wcvRPZbPQCaFw@mail.gmail.com>
-Subject: Request for Representation
-To:     undisclosed-recipients:;
+References: <20200605162518.28099-1-florian.fainelli@broadcom.com>
+ <6b1f0668-572e-ae52-27e6-c897bab4204c@gmail.com> <0c0ba84e-4b2d-53ac-5092-40312ecba13b@gmail.com>
+In-Reply-To: <0c0ba84e-4b2d-53ac-5092-40312ecba13b@gmail.com>
+From:   Michael Ira Krufky <mkrufky@linuxtv.org>
+Date:   Wed, 17 Jun 2020 10:21:08 -0400
+Message-ID: <CAOcJUbxfa8tQbHa8r=vyGoaJK0+N6v8puufu8vVJKZ4NdbpWKA@mail.gmail.com>
+Subject: Re: [PATCH stable 4.9 00/21] Unbreak 32-bit DVB applications on
+ 64-bit kernels
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     LKML <linux-kernel@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shuah Khan <shuah@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        stable@vger.kernel.org, Alexander Viro <viro@zeniv.linux.org.uk>,
+        Jaedon Shin <jaedon.shin@gmail.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Katsuhiro Suzuki <suzuki.katsuhiro@socionext.com>,
+        Satendra Singh Thakur <satendra.t@samsung.com>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>,
+        "open list:FILESYSTEMS (VFS and infrastructure)" 
+        <linux-fsdevel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Jezzbuffalo Ventures (Pty) Ltd.
-Shop No.4 Statehouse. 273 Lilian Ngoyi Str Cnr Quartz str.
-Jhb South Africa. Cells: +27780764712 Web: www.jezzbuffalo.co.za
+Hey Florian,
 
-Dear Sir,
-Your firm has been introduced to us as manufacturer; We as a marketing
-agency in South Africa are interested in doing business with you as
-your agent/representative here in South Africa. Could you please send
-your agency terms: - Email:
-jbv.salesrep@gmail.com / salesrepocletusigwe@safrica.com
+Thank you for the time and effort that you put into this patch series.
+I was excited to see this, when I first saw it posted a few weeks ago.
+I have every intention of giving it a review, but just haven't found
+the time yet.  I'm sure that Mauro would say the same.
 
-Wishing a lasting business relationship with you!
+I'm sure that he and I both will find some time, hopefully over the
+next few weeks or sooner, to give this a thorough review and provide
+some feedback.
 
-Yours Sincerely,
-Cletus.I.O (CEO)
+Hopefully we can put this on its way for merge soon.  Please bear with us..
+
+Thanks again for your contribution.
+
+-Mike Krufky
+
+On Wed, Jun 17, 2020 at 12:39 AM Florian Fainelli <f.fainelli@gmail.com> wrote:
+>
+>
+>
+> On 6/11/2020 9:45 PM, Florian Fainelli wrote:
+> >
+> >
+> > On 6/5/2020 9:24 AM, Florian Fainelli wrote:
+> >> Hi all,
+> >>
+> >> This long patch series was motivated by backporting Jaedon's changes
+> >> which add a proper ioctl compatibility layer for 32-bit applications
+> >> running on 64-bit kernels. We have a number of Android TV-based products
+> >> currently running on the 4.9 kernel and this was broken for them.
+> >>
+> >> Thanks to Robert McConnell for identifying and providing the patches in
+> >> their initial format.
+> >>
+> >> In order for Jaedon's patches to apply cleanly a number of changes were
+> >> applied to support those changes. If you deem the patch series too big
+> >> please let me know.
+> >
+> > Mauro, can you review this? I would prefer not to maintain those patches
+> > in our downstream 4.9 kernel as there are quite a few of them, and this
+> > is likely beneficial to other people.
+>
+> Hello? Anybody here?
+> --
+> Florian
