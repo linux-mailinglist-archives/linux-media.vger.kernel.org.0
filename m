@@ -2,514 +2,632 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A27701FCCBD
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 13:46:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6AA11FCCCB
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 13:49:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726652AbgFQLqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 07:46:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33606 "EHLO
+        id S1726510AbgFQLtf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 07:49:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34176 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726573AbgFQLp4 (ORCPT
+        with ESMTP id S1725894AbgFQLtf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jun 2020 07:45:56 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EDC5C0613EF
-        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 04:45:55 -0700 (PDT)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1jlWVt-0002Wd-7q; Wed, 17 Jun 2020 13:45:53 +0200
-Received: from mtr by dude02.lab.pengutronix.de with local (Exim 4.92)
-        (envelope-from <mtr@pengutronix.de>)
-        id 1jlWVs-0000rh-JX; Wed, 17 Jun 2020 13:45:52 +0200
-From:   Michael Tretter <m.tretter@pengutronix.de>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        kernel@pengutronix.de, Michael Tretter <m.tretter@pengutronix.de>
-Subject: [PATCH 12/12] media: allegro: add support for allegro firmware 2019.2
-Date:   Wed, 17 Jun 2020 13:45:50 +0200
-Message-Id: <20200617114550.3235-13-m.tretter@pengutronix.de>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200617114550.3235-1-m.tretter@pengutronix.de>
-References: <20200617114550.3235-1-m.tretter@pengutronix.de>
+        Wed, 17 Jun 2020 07:49:35 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDACDC061573
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 04:49:34 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 356D82BD;
+        Wed, 17 Jun 2020 13:49:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1592394573;
+        bh=wXgRNE3Vb9aOHPM54s9aBuEV2/fkpEr6f+lB6r7Kv8k=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=hzc/FWjuL/Cz3vXpwjr6pb60H2mTEeTrq+So+jWM6tqMreGIviehaDyHKpaI+l/lP
+         wYa5jcBp+uewXtRTfiQuNQO7iU+AzKc0NO0Wr9qAZLaCRz2T9N+7jIbQocGwS/X5Fs
+         YV5hoSqndyKUKExxjDumcQTcJFf8O1G+esrMRF9Q=
+Reply-To: kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v1 036/107] media: ti-vpe: cal: Reorganize remaining code
+ in sections
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Benoit Parrot <bparrot@ti.com>
+References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
+ <20200614235944.17716-37-laurent.pinchart@ideasonboard.com>
+ <a007b062-37b2-2088-7600-0b9f3fa5ab12@ideasonboard.com>
+ <20200617105135.GC5838@pendragon.ideasonboard.com>
+ <47ea4ce5-7bf2-40f0-a34a-aad229f67890@ideasonboard.com>
+ <fb2fadf7-3742-274f-5de9-0771631b08de@ideasonboard.com>
+ <20200617110459.GD5838@pendragon.ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
+ 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
+ WZw01QYHU/GUV/zHJSFk
+Organization: Ideas on Board
+Message-ID: <ea353e6b-585f-5ff4-523d-3d6bc25b2656@ideasonboard.com>
+Date:   Wed, 17 Jun 2020 12:49:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20200617110459.GD5838@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Encode messages as necessary for the firmware 2019.2 and, thus, support
-the more recent firmware version in the driver, too.
+Hi Laurent,
 
-Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
----
- .../staging/media/allegro-dvt/allegro-core.c  |  27 ++-
- .../staging/media/allegro-dvt/allegro-mail.c  | 163 +++++++++++++++---
- .../staging/media/allegro-dvt/allegro-mail.h  |  24 +++
- 3 files changed, 186 insertions(+), 28 deletions(-)
+On 17/06/2020 12:04, Laurent Pinchart wrote:
+> Hi Kieran,
+> 
+> On Wed, Jun 17, 2020 at 12:01:39PM +0100, Kieran Bingham wrote:
+>> On 17/06/2020 11:54, Kieran Bingham wrote:
+>>> On 17/06/2020 11:51, Laurent Pinchart wrote:
+>>>> On Wed, Jun 17, 2020 at 11:00:31AM +0100, Kieran Bingham wrote:
+>>>>> On 15/06/2020 00:58, Laurent Pinchart wrote:
+>>>>>> Increase readability by reorganizing the remaining code in sections. No
+>>>>>> functional change is included.
+>>>>>>
+>>>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>>>>> ---
+>>>>>>  drivers/media/platform/ti-vpe/cal.c | 350 +++++++++++++++-------------
+>>>>>>  1 file changed, 187 insertions(+), 163 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+>>>>>> index 176f616033a1..6f33853ecdb2 100644
+>>>>>> --- a/drivers/media/platform/ti-vpe/cal.c
+>>>>>> +++ b/drivers/media/platform/ti-vpe/cal.c
+>>>>>> @@ -37,9 +37,6 @@
+>>>>>>  
+>>>>>>  #define CAL_MODULE_NAME "cal"
+>>>>>>  
+>>>>>> -#define MAX_WIDTH_BYTES (8192 * 8)
+>>>>>> -#define MAX_HEIGHT_LINES 16383
+>>>>>> -
+>>>>>>  MODULE_DESCRIPTION("TI CAL driver");
+>>>>>>  MODULE_AUTHOR("Benoit Parrot, <bparrot@ti.com>");
+>>>>>>  MODULE_LICENSE("GPL v2");
+>>>>>> @@ -79,11 +76,11 @@ MODULE_PARM_DESC(debug, "activates debug info");
+>>>>>>  
+>>>>>>  #define CAL_NUM_CONTEXT 2
+>>>>>>  
+>>>>>> -#define reg_read(dev, offset) ioread32(dev->base + offset)
+>>>>>> -#define reg_write(dev, offset, val) iowrite32(val, dev->base + offset)
+>>>>>> +#define MAX_WIDTH_BYTES (8192 * 8)
+>>>>>> +#define MAX_HEIGHT_LINES 16383
+>>>>>>  
+>>>>>>  /* ------------------------------------------------------------------
+>>>>>> - *	Basic structures
+>>>>>> + *	Format Handling
+>>>>>>   * ------------------------------------------------------------------
+>>>>>>   */
+>>>>>>  
+>>>>>> @@ -204,6 +201,11 @@ static char *fourcc_to_str(u32 fmt)
+>>>>>>  	return code;
+>>>>>>  }
+>>>>>>  
+>>>>>> +/* ------------------------------------------------------------------
+>>>>>> + *	Driver Structures
+>>>>>> + * ------------------------------------------------------------------
+>>>>>> + */
+>>>>>> +
+>>>>>>  /* buffer for one video frame */
+>>>>>>  struct cal_buffer {
+>>>>>>  	/* common v4l buffer stuff -- must be first */
+>>>>>> @@ -239,80 +241,6 @@ struct cal_data {
+>>>>>>  	unsigned int flags;
+>>>>>>  };
+>>>>>>  
+>>>>>> -static const struct cal_camerarx_data dra72x_cal_camerarx[] = {
+>>>>>> -	{
+>>>>>> -		.fields = {
+>>>>>> -			[F_CTRLCLKEN] = { 10, 10 },
+>>>>>> -			[F_CAMMODE] = { 11, 12 },
+>>>>>> -			[F_LANEENABLE] = { 13, 16 },
+>>>>>> -			[F_CSI_MODE] = { 17, 17 },
+>>>>>> -		},
+>>>>>> -		.num_lanes = 4,
+>>>>>> -	},
+>>>>>> -	{
+>>>>>> -		.fields = {
+>>>>>> -			[F_CTRLCLKEN] = { 0, 0 },
+>>>>>> -			[F_CAMMODE] = { 1, 2 },
+>>>>>> -			[F_LANEENABLE] = { 3, 4 },
+>>>>>> -			[F_CSI_MODE] = { 5, 5 },
+>>>>>> -		},
+>>>>>> -		.num_lanes = 2,
+>>>>>> -	},
+>>>>>> -};
+>>>>>> -
+>>>>>> -static const struct cal_data dra72x_cal_data = {
+>>>>>> -	.camerarx = dra72x_cal_camerarx,
+>>>>>> -	.num_csi2_phy = ARRAY_SIZE(dra72x_cal_camerarx),
+>>>>>> -};
+>>>>>> -
+>>>>>> -static const struct cal_data dra72x_es1_cal_data = {
+>>>>>> -	.camerarx = dra72x_cal_camerarx,
+>>>>>> -	.num_csi2_phy = ARRAY_SIZE(dra72x_cal_camerarx),
+>>>>>> -	.flags = DRA72_CAL_PRE_ES2_LDO_DISABLE,
+>>>>>> -};
+>>>>>> -
+>>>>>> -static const struct cal_camerarx_data dra76x_cal_csi_phy[] = {
+>>>>>> -	{
+>>>>>> -		.fields = {
+>>>>>> -			[F_CTRLCLKEN] = { 8, 8 },
+>>>>>> -			[F_CAMMODE] = { 9, 10 },
+>>>>>> -			[F_CSI_MODE] = { 11, 11 },
+>>>>>> -			[F_LANEENABLE] = { 27, 31 },
+>>>>>> -		},
+>>>>>> -		.num_lanes = 5,
+>>>>>> -	},
+>>>>>> -	{
+>>>>>> -		.fields = {
+>>>>>> -			[F_CTRLCLKEN] = { 0, 0 },
+>>>>>> -			[F_CAMMODE] = { 1, 2 },
+>>>>>> -			[F_CSI_MODE] = { 3, 3 },
+>>>>>> -			[F_LANEENABLE] = { 24, 26 },
+>>>>>> -		},
+>>>>>> -		.num_lanes = 3,
+>>>>>> -	},
+>>>>>> -};
+>>>>>> -
+>>>>>> -static const struct cal_data dra76x_cal_data = {
+>>>>>> -	.camerarx = dra76x_cal_csi_phy,
+>>>>>> -	.num_csi2_phy = ARRAY_SIZE(dra76x_cal_csi_phy),
+>>>>>> -};
+>>>>>> -
+>>>>>> -static const struct cal_camerarx_data am654_cal_csi_phy[] = {
+>>>>>> -	{
+>>>>>> -		.fields = {
+>>>>>> -			[F_CTRLCLKEN] = { 15, 15 },
+>>>>>> -			[F_CAMMODE] = { 24, 25 },
+>>>>>> -			[F_LANEENABLE] = { 0, 4 },
+>>>>>> -		},
+>>>>>> -		.num_lanes = 5,
+>>>>>> -	},
+>>>>>> -};
+>>>>>> -
+>>>>>> -static const struct cal_data am654_cal_data = {
+>>>>>> -	.camerarx = am654_cal_csi_phy,
+>>>>>> -	.num_csi2_phy = ARRAY_SIZE(am654_cal_csi_phy),
+>>>>>> -};
+>>>>>> -
+>>>>>>  /*
+>>>>>>   * The Camera Adaptation Layer (CAL) module is paired with one or more complex
+>>>>>>   * I/O PHYs (CAMERARX). It contains multiple instances of CSI-2, processing and
+>>>>>> @@ -408,6 +336,98 @@ struct cal_ctx {
+>>>>>>  	bool dma_act;
+>>>>>>  };
+>>>>>>  
+>>>>>> +static inline struct cal_ctx *notifier_to_ctx(struct v4l2_async_notifier *n)
+>>>>>> +{
+>>>>>> +	return container_of(n, struct cal_ctx, notifier);
+>>>>>> +}
+>>>>>> +
+>>>>>> +/* ------------------------------------------------------------------
+>>>>>> + *	Platform Data
+>>>>>> + * ------------------------------------------------------------------
+>>>>>> + */
+>>>>>> +
+>>>>>> +static const struct cal_camerarx_data dra72x_cal_camerarx[] = {
+>>>>>> +	{
+>>>>>> +		.fields = {
+>>>>>> +			[F_CTRLCLKEN] = { 10, 10 },
+>>>>>> +			[F_CAMMODE] = { 11, 12 },
+>>>>>> +			[F_LANEENABLE] = { 13, 16 },
+>>>>>> +			[F_CSI_MODE] = { 17, 17 },
+>>>>>> +		},
+>>>>>> +		.num_lanes = 4,
+>>>>>> +	},
+>>>>>> +	{
+>>>>>> +		.fields = {
+>>>>>> +			[F_CTRLCLKEN] = { 0, 0 },
+>>>>>> +			[F_CAMMODE] = { 1, 2 },
+>>>>>> +			[F_LANEENABLE] = { 3, 4 },
+>>>>>> +			[F_CSI_MODE] = { 5, 5 },
+>>>>>> +		},
+>>>>>> +		.num_lanes = 2,
+>>>>>> +	},
+>>>>>> +};
+>>>>>> +
+>>>>>> +static const struct cal_data dra72x_cal_data = {
+>>>>>> +	.camerarx = dra72x_cal_camerarx,
+>>>>>> +	.num_csi2_phy = ARRAY_SIZE(dra72x_cal_camerarx),
+>>>>>> +};
+>>>>>> +
+>>>>>> +static const struct cal_data dra72x_es1_cal_data = {
+>>>>>> +	.camerarx = dra72x_cal_camerarx,
+>>>>>> +	.num_csi2_phy = ARRAY_SIZE(dra72x_cal_camerarx),
+>>>>>> +	.flags = DRA72_CAL_PRE_ES2_LDO_DISABLE,
+>>>>>> +};
+>>>>>> +
+>>>>>> +static const struct cal_camerarx_data dra76x_cal_csi_phy[] = {
+>>>>>> +	{
+>>>>>> +		.fields = {
+>>>>>> +			[F_CTRLCLKEN] = { 8, 8 },
+>>>>>> +			[F_CAMMODE] = { 9, 10 },
+>>>>>> +			[F_CSI_MODE] = { 11, 11 },
+>>>>>> +			[F_LANEENABLE] = { 27, 31 },
+>>>>>> +		},
+>>>>>> +		.num_lanes = 5,
+>>>>>> +	},
+>>>>>> +	{
+>>>>>> +		.fields = {
+>>>>>> +			[F_CTRLCLKEN] = { 0, 0 },
+>>>>>> +			[F_CAMMODE] = { 1, 2 },
+>>>>>> +			[F_CSI_MODE] = { 3, 3 },
+>>>>>> +			[F_LANEENABLE] = { 24, 26 },
+>>>>>> +		},
+>>>>>> +		.num_lanes = 3,
+>>>>>> +	},
+>>>>>> +};
+>>>>>> +
+>>>>>> +static const struct cal_data dra76x_cal_data = {
+>>>>>> +	.camerarx = dra76x_cal_csi_phy,
+>>>>>> +	.num_csi2_phy = ARRAY_SIZE(dra76x_cal_csi_phy),
+>>>>>> +};
+>>>>>> +
+>>>>>> +static const struct cal_camerarx_data am654_cal_csi_phy[] = {
+>>>>>> +	{
+>>>>>> +		.fields = {
+>>>>>> +			[F_CTRLCLKEN] = { 15, 15 },
+>>>>>> +			[F_CAMMODE] = { 24, 25 },
+>>>>>> +			[F_LANEENABLE] = { 0, 4 },
+>>>>>> +		},
+>>>>>> +		.num_lanes = 5,
+>>>>>> +	},
+>>>>>> +};
+>>>>>> +
+>>>>>> +static const struct cal_data am654_cal_data = {
+>>>>>> +	.camerarx = am654_cal_csi_phy,
+>>>>>> +	.num_csi2_phy = ARRAY_SIZE(am654_cal_csi_phy),
+>>>>>> +};
+>>>>>> +
+>>>>>> +/* ------------------------------------------------------------------
+>>>>>> + *	I/O Register Accessors
+>>>>>> + * ------------------------------------------------------------------
+>>>>>> + */
+>>>>>> +
+>>>>>> +#define reg_read(dev, offset) ioread32(dev->base + offset)
+>>>>>> +#define reg_write(dev, offset, val) iowrite32(val, dev->base + offset)
+>>>>>> +
+>>>>>>  static inline u32 reg_read_field(struct cal_dev *cal, u32 offset, u32 mask)
+>>>>>>  {
+>>>>>>  	return FIELD_GET(mask, reg_read(cal, offset));
+>>>>>> @@ -423,41 +443,6 @@ static inline void reg_write_field(struct cal_dev *cal, u32 offset, u32 value,
+>>>>>>  	reg_write(cal, offset, val);
+>>>>>>  }
+>>>>>>  
+>>>>>> -static const struct cal_fmt *find_format_by_pix(struct cal_ctx *ctx,
+>>>>>> -						u32 pixelformat)
+>>>>>> -{
+>>>>>> -	const struct cal_fmt *fmt;
+>>>>>> -	unsigned int k;
+>>>>>> -
+>>>>>> -	for (k = 0; k < ctx->num_active_fmt; k++) {
+>>>>>> -		fmt = ctx->active_fmt[k];
+>>>>>> -		if (fmt->fourcc == pixelformat)
+>>>>>> -			return fmt;
+>>>>>> -	}
+>>>>>> -
+>>>>>> -	return NULL;
+>>>>>> -}
+>>>>>> -
+>>>>>> -static const struct cal_fmt *find_format_by_code(struct cal_ctx *ctx,
+>>>>>> -						 u32 code)
+>>>>>> -{
+>>>>>> -	const struct cal_fmt *fmt;
+>>>>>> -	unsigned int k;
+>>>>>> -
+>>>>>> -	for (k = 0; k < ctx->num_active_fmt; k++) {
+>>>>>> -		fmt = ctx->active_fmt[k];
+>>>>>> -		if (fmt->code == code)
+>>>>>> -			return fmt;
+>>>>>> -	}
+>>>>>> -
+>>>>>> -	return NULL;
+>>>>>> -}
+>>>>>> -
+>>>>>> -static inline struct cal_ctx *notifier_to_ctx(struct v4l2_async_notifier *n)
+>>>>>> -{
+>>>>>> -	return container_of(n, struct cal_ctx, notifier);
+>>>>>> -}
+>>>>>> -
+>>>>>>  static inline void set_field(u32 *valp, u32 field, u32 mask)
+>>>>>>  {
+>>>>>>  	u32 val = *valp;
+>>>>>> @@ -493,11 +478,6 @@ static void cal_quickdump_regs(struct cal_dev *cal)
+>>>>>>  	}
+>>>>>>  }
+>>>>>>  
+>>>>>> -static u32 cal_data_get_num_csi2_phy(struct cal_dev *cal)
+>>>>>> -{
+>>>>>> -	return cal->data->num_csi2_phy;
+>>>>>> -}
+>>>>>> -
+>>>>>>  /* ------------------------------------------------------------------
+>>>>>>   *	CAMERARX Management
+>>>>>>   * ------------------------------------------------------------------
+>>>>>> @@ -1152,6 +1132,11 @@ static void cal_ctx_wr_dma_addr(struct cal_ctx *ctx, unsigned int dmaaddr)
+>>>>>>  	reg_write(ctx->cal, CAL_WR_DMA_ADDR(ctx->csi2_port), dmaaddr);
+>>>>>>  }
+>>>>>>  
+>>>>>> +/* ------------------------------------------------------------------
+>>>>>> + *	IRQ Handling
+>>>>>> + * ------------------------------------------------------------------
+>>>>>> + */
+>>>>>> +
+>>>>>>  static inline void cal_schedule_next_buffer(struct cal_ctx *ctx)
+>>>>>>  {
+>>>>>>  	struct cal_dmaqueue *dma_q = &ctx->vidq;
+>>>>>> @@ -1255,9 +1240,41 @@ static irqreturn_t cal_irq(int irq_cal, void *data)
+>>>>>>  	return IRQ_HANDLED;
+>>>>>>  }
+>>>>>>  
+>>>>>> -/*
+>>>>>> - * video ioctls
+>>>>>> +/* ------------------------------------------------------------------
+>>>>>> + *	V4L2 Video IOCTLs
+>>>>>> + * ------------------------------------------------------------------
+>>>>>>   */
+>>>>>> +
+>>>>>> +static const struct cal_fmt *find_format_by_pix(struct cal_ctx *ctx,
+>>>>>> +						u32 pixelformat)
+>>>>>> +{
+>>>>>> +	const struct cal_fmt *fmt;
+>>>>>> +	unsigned int k;
+>>>>>> +
+>>>>>> +	for (k = 0; k < ctx->num_active_fmt; k++) {
+>>>>>> +		fmt = ctx->active_fmt[k];
+>>>>>> +		if (fmt->fourcc == pixelformat)
+>>>>>> +			return fmt;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	return NULL;
+>>>>>> +}
+>>>>>> +
+>>>>>> +static const struct cal_fmt *find_format_by_code(struct cal_ctx *ctx,
+>>>>>> +						 u32 code)
+>>>>>> +{
+>>>>>> +	const struct cal_fmt *fmt;
+>>>>>> +	unsigned int k;
+>>>>>> +
+>>>>>> +	for (k = 0; k < ctx->num_active_fmt; k++) {
+>>>>>> +		fmt = ctx->active_fmt[k];
+>>>>>> +		if (fmt->code == code)
+>>>>>> +			return fmt;
+>>>>>> +	}
+>>>>>> +
+>>>>>> +	return NULL;
+>>>>>> +}
+>>>>>> +
+>>>>>>  static int cal_querycap(struct file *file, void *priv,
+>>>>>>  			struct v4l2_capability *cap)
+>>>>>>  {
+>>>>>> @@ -1566,9 +1583,46 @@ static int cal_enum_frameintervals(struct file *file, void *priv,
+>>>>>>  	return 0;
+>>>>>>  }
+>>>>>>  
+>>>>>> -/*
+>>>>>> - * Videobuf operations
+>>>>>> +static const struct v4l2_file_operations cal_fops = {
+>>>>>> +	.owner		= THIS_MODULE,
+>>>>>> +	.open           = v4l2_fh_open,
+>>>>>> +	.release        = vb2_fop_release,
+>>>>>> +	.read           = vb2_fop_read,
+>>>>>> +	.poll		= vb2_fop_poll,
+>>>>>> +	.unlocked_ioctl = video_ioctl2, /* V4L2 ioctl handler */
+>>>>>> +	.mmap           = vb2_fop_mmap,
+>>>>>> +};
+>>>>>> +
+>>>>>> +static const struct v4l2_ioctl_ops cal_ioctl_ops = {
+>>>>>> +	.vidioc_querycap      = cal_querycap,
+>>>>>> +	.vidioc_enum_fmt_vid_cap  = cal_enum_fmt_vid_cap,
+>>>>>> +	.vidioc_g_fmt_vid_cap     = cal_g_fmt_vid_cap,
+>>>>>> +	.vidioc_try_fmt_vid_cap   = cal_try_fmt_vid_cap,
+>>>>>> +	.vidioc_s_fmt_vid_cap     = cal_s_fmt_vid_cap,
+>>>>>> +	.vidioc_enum_framesizes   = cal_enum_framesizes,
+>>>>>> +	.vidioc_reqbufs       = vb2_ioctl_reqbufs,
+>>>>>> +	.vidioc_create_bufs   = vb2_ioctl_create_bufs,
+>>>>>> +	.vidioc_prepare_buf   = vb2_ioctl_prepare_buf,
+>>>>>> +	.vidioc_querybuf      = vb2_ioctl_querybuf,
+>>>>>> +	.vidioc_qbuf          = vb2_ioctl_qbuf,
+>>>>>> +	.vidioc_dqbuf         = vb2_ioctl_dqbuf,
+>>>>>> +	.vidioc_expbuf        = vb2_ioctl_expbuf,
+>>>>>> +	.vidioc_enum_input    = cal_enum_input,
+>>>>>> +	.vidioc_g_input       = cal_g_input,
+>>>>>> +	.vidioc_s_input       = cal_s_input,
+>>>>>> +	.vidioc_enum_frameintervals = cal_enum_frameintervals,
+>>>>>> +	.vidioc_streamon      = vb2_ioctl_streamon,
+>>>>>> +	.vidioc_streamoff     = vb2_ioctl_streamoff,
+>>>>>> +	.vidioc_log_status    = v4l2_ctrl_log_status,
+>>>>>> +	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+>>>>>> +	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+>>>>>> +};
+>>>>>> +
+>>>>>> +/* ------------------------------------------------------------------
+>>>>>> + *	videobuf2 Operations
+>>>>>> + * ------------------------------------------------------------------
+>>>>>>   */
+>>>>>> +
+>>>>>>  static int cal_queue_setup(struct vb2_queue *vq,
+>>>>>>  			   unsigned int *nbuffers, unsigned int *nplanes,
+>>>>>>  			   unsigned int sizes[], struct device *alloc_devs[])
+>>>>>> @@ -1772,40 +1826,10 @@ static const struct vb2_ops cal_video_qops = {
+>>>>>>  	.wait_finish		= vb2_ops_wait_finish,
+>>>>>>  };
+>>>>>>  
+>>>>>> -static const struct v4l2_file_operations cal_fops = {
+>>>>>> -	.owner		= THIS_MODULE,
+>>>>>> -	.open           = v4l2_fh_open,
+>>>>>> -	.release        = vb2_fop_release,
+>>>>>> -	.read           = vb2_fop_read,
+>>>>>> -	.poll		= vb2_fop_poll,
+>>>>>> -	.unlocked_ioctl = video_ioctl2, /* V4L2 ioctl handler */
+>>>>>> -	.mmap           = vb2_fop_mmap,
+>>>>>> -};
+>>>>>> -
+>>>>>> -static const struct v4l2_ioctl_ops cal_ioctl_ops = {
+>>>>>> -	.vidioc_querycap      = cal_querycap,
+>>>>>> -	.vidioc_enum_fmt_vid_cap  = cal_enum_fmt_vid_cap,
+>>>>>> -	.vidioc_g_fmt_vid_cap     = cal_g_fmt_vid_cap,
+>>>>>> -	.vidioc_try_fmt_vid_cap   = cal_try_fmt_vid_cap,
+>>>>>> -	.vidioc_s_fmt_vid_cap     = cal_s_fmt_vid_cap,
+>>>>>> -	.vidioc_enum_framesizes   = cal_enum_framesizes,
+>>>>>> -	.vidioc_reqbufs       = vb2_ioctl_reqbufs,
+>>>>>> -	.vidioc_create_bufs   = vb2_ioctl_create_bufs,
+>>>>>> -	.vidioc_prepare_buf   = vb2_ioctl_prepare_buf,
+>>>>>> -	.vidioc_querybuf      = vb2_ioctl_querybuf,
+>>>>>> -	.vidioc_qbuf          = vb2_ioctl_qbuf,
+>>>>>> -	.vidioc_dqbuf         = vb2_ioctl_dqbuf,
+>>>>>> -	.vidioc_expbuf        = vb2_ioctl_expbuf,
+>>>>>> -	.vidioc_enum_input    = cal_enum_input,
+>>>>>> -	.vidioc_g_input       = cal_g_input,
+>>>>>> -	.vidioc_s_input       = cal_s_input,
+>>>>>> -	.vidioc_enum_frameintervals = cal_enum_frameintervals,
+>>>>>> -	.vidioc_streamon      = vb2_ioctl_streamon,
+>>>>>> -	.vidioc_streamoff     = vb2_ioctl_streamoff,
+>>>>>> -	.vidioc_log_status    = v4l2_ctrl_log_status,
+>>>>>> -	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+>>>>>> -	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+>>>>>> -};
+>>>>>> +/* ------------------------------------------------------------------
+>>>>>> + *	Initialization and module stuff
+>>>>>> + * ------------------------------------------------------------------
+>>>>>> + */
+>>>>>>  
+>>>>>>  static const struct video_device cal_videodev = {
+>>>>>>  	.name		= CAL_MODULE_NAME,
+>>>>>> @@ -1817,11 +1841,6 @@ static const struct video_device cal_videodev = {
+>>>>>>  			  V4L2_CAP_READWRITE,
+>>>>>>  };
+>>>>>>  
+>>>>>> -/* -----------------------------------------------------------------
+>>>>>> - *	Initialization and module stuff
+>>>>>> - * ------------------------------------------------------------------
+>>>>>> - */
+>>>>>> -
+>>>>>>  static int cal_complete_ctx(struct cal_ctx *ctx)
+>>>>>>  {
+>>>>>>  	struct video_device *vfd;
+>>>>>> @@ -2242,6 +2261,11 @@ static void cal_get_hwinfo(struct cal_dev *cal)
+>>>>>>  		hwinfo);
+>>>>>>  }
+>>>>>>  
+>>>>>
+>>>>>
+>>>>> Overall, the reorganisation is certainly helpful.
+>>>>>
+>>>>>> +static u32 cal_data_get_num_csi2_phy(struct cal_dev *cal)
+>>>>>> +{
+>>>>>> +	return cal->data->num_csi2_phy;
+>>>>>> +}
+>>>>>
+>>>>> However, this function (which is possibly a bit overkill on it's own
+>>>>> anyway) could be moved much higher in the module, so that /all/
+>>>>> references to the num_csi2_phy variable are accessed through it.
+>>>>>
+>>>>> Otherwise, the code is inconsistent with other parts of the driver
+>>>>> directly accessing this value even with an accessor.
+>>>>>
+>>>>> We could remove the accessor... or - apply the patch "media: ti-vpe:
+>>>>> cal: Use cal_data_get_num_csi2_phy() consistently" (which will follow
+>>>>> next) on top.
+>>>>
+>>>> I think I'd rather remove the accessors, this function provides little
+>>>> value.
+>>>
+>>> It had some value in giving me a clean place to override having only a
+>>> single phy, but that's not a reason to keep it (just helpful while
+>>> debugging).
+>>>
+>>> I'm fine dropping the accessor, and open-coding the usage too.
+>>
+>> Actually, further to that - we might want some loop helper here on this
+>> topic anyway, as when a PHY is unused (/unconnected) we need a good way
+>> to make sure we don't process anything on that phy.
+>>
+>> I think all of the places where that accessor is used would be key
+>> locations that should also check if the phy is defined too.
+>>
+>> But that accessor alone is not enough, there needs to be a check that
+>> the phy was created too. (currently working through that now for better
+>> support on the DRA76-evm which has two phys, and only one is connected
+>> to the OV5640).
+> 
+> Shouldn't we still create two cal_camerarx instances, even if only one
+> of them is used ? Think about it from a media controller point of view,
+> there should be two phy entities, even if one has its input left
+> unconnected.
 
-diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
-index 36da55fc5792..e14dbb18b4e1 100644
---- a/drivers/staging/media/allegro-dvt/allegro-core.c
-+++ b/drivers/staging/media/allegro-dvt/allegro-core.c
-@@ -292,6 +292,15 @@ static const struct fw_info supported_firmware[] = {
- 		.mailbox_size = 0x400 - 0x8,
- 		.mailbox_version = MCU_MSG_VERSION_2018_2,
- 		.suballocator_size = SZ_16M,
-+	}, {
-+		.id = 14680,
-+		.id_codec = 126572,
-+		.version = "v2019.2",
-+		.mailbox_cmd = 0x7000,
-+		.mailbox_status = 0x7800,
-+		.mailbox_size = 0x800 - 0x8,
-+		.mailbox_version = MCU_MSG_VERSION_2019_2,
-+		.suballocator_size = SZ_32M,
- 	},
- };
- 
-@@ -934,10 +943,13 @@ static int fill_create_channel_param(struct allegro_channel *channel,
- 
- 	param->dbf_ovr_en = 1;
- 	param->rdo_cost_mode = 1;
-+	param->custom_lda = 1;
- 	param->lf = 1;
- 	param->lf_x_tile = 1;
- 	param->lf_x_slice = 1;
- 
-+	param->src_bit_depth = 8;
-+
- 	param->beta_offset = -1;
- 	param->tc_offset = -1;
- 	param->num_slices = 1;
-@@ -978,13 +990,26 @@ static int fill_create_channel_param(struct allegro_channel *channel,
- 	param->golden_ref_frequency = 10;
- 	param->rate_control_option = 0x00000000;
- 
--	param->gop_ctrl_mode = 0x00000000;
-+	param->num_pixel = channel->width + channel->height;
-+	param->max_psnr = 4200;
-+	param->max_pixel_value = 255;
-+
-+	param->gop_ctrl_mode = 0x00000002;
- 	param->freq_idr = channel->gop_size;
- 	param->freq_lt = 0;
- 	param->gdr_mode = 0x00000000;
- 	param->gop_length = channel->gop_size;
- 	param->subframe_latency = 0x00000000;
- 
-+	param->lda_factors[0] = 51;
-+	param->lda_factors[1] = 90;
-+	param->lda_factors[2] = 151;
-+	param->lda_factors[3] = 151;
-+	param->lda_factors[4] = 151;
-+	param->lda_factors[5] = 151;
-+
-+	param->max_num_merge_cand = 5;
-+
- 	return 0;
- }
- 
-diff --git a/drivers/staging/media/allegro-dvt/allegro-mail.c b/drivers/staging/media/allegro-dvt/allegro-mail.c
-index e324a9ae5fff..28f65ef93000 100644
---- a/drivers/staging/media/allegro-dvt/allegro-mail.c
-+++ b/drivers/staging/media/allegro-dvt/allegro-mail.c
-@@ -43,6 +43,7 @@ static ssize_t
- allegro_enc_init(u32 *dst, struct mcu_msg_init_request *msg)
- {
- 	unsigned int i = 0;
-+	enum mcu_msg_version version = msg->header.version;
- 
- 	dst[i++] = msg->reserved0;
- 	dst[i++] = msg->suballoc_dma;
-@@ -50,33 +51,55 @@ allegro_enc_init(u32 *dst, struct mcu_msg_init_request *msg)
- 	dst[i++] = msg->l2_cache[0];
- 	dst[i++] = msg->l2_cache[1];
- 	dst[i++] = msg->l2_cache[2];
-+	if (version >= MCU_MSG_VERSION_2019_2) {
-+		dst[i++] = -1;
-+		dst[i++] = 0;
-+	}
- 
- 	return i * sizeof(*dst);
- }
- 
- static inline u32 settings_get_mcu_codec(struct create_channel_param *param)
- {
-+	enum mcu_msg_version version = param->version;
- 	u32 pixelformat = param->codec;
- 
--	switch (pixelformat) {
--	case V4L2_PIX_FMT_H264:
--	default:
--		return 1;
-+	if (version < MCU_MSG_VERSION_2019_2) {
-+		switch (pixelformat) {
-+		case V4L2_PIX_FMT_H264:
-+		default:
-+			return 1;
-+		}
-+	} else {
-+		switch (pixelformat) {
-+		case V4L2_PIX_FMT_H264:
-+		default:
-+			return 0;
-+		}
- 	}
- }
- 
- ssize_t
- allegro_encode_config_blob(u32 *dst, struct create_channel_param *param)
- {
-+	enum mcu_msg_version version = param->version;
- 	unsigned int i = 0;
-+	unsigned int j = 0;
- 	u32 val;
- 	unsigned int codec = settings_get_mcu_codec(param);
- 
-+	if (version >= MCU_MSG_VERSION_2019_2)
-+		dst[i++] = param->layer_id;
- 	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->height) |
- 		   FIELD_PREP(GENMASK(15, 0), param->width);
-+	if (version >= MCU_MSG_VERSION_2019_2)
-+		dst[i++] = param->videomode;
- 	dst[i++] = param->format;
--	dst[i++] = param->colorspace;
-+	if (version < MCU_MSG_VERSION_2019_2)
-+		dst[i++] = param->colorspace;
- 	dst[i++] = param->src_mode;
-+	if (version >= MCU_MSG_VERSION_2019_2)
-+		dst[i++] = param->src_bit_depth;
- 	dst[i++] = FIELD_PREP(GENMASK(31, 24), codec) |
- 		   FIELD_PREP(GENMASK(23, 8), param->constraint_set_flags) |
- 		   FIELD_PREP(GENMASK(7, 0), param->profile);
-@@ -93,19 +116,31 @@ allegro_encode_config_blob(u32 *dst, struct create_channel_param *param)
- 	val |= param->dbf_ovr_en ? BIT(2) : 0;
- 	dst[i++] = val;
- 
--	val = 0;
--	val |= param->lf ? BIT(2) : 0;
--	val |= param->lf_x_tile ? BIT(3) : 0;
--	val |= param->lf_x_slice ? BIT(4) : 0;
--	val |= param->rdo_cost_mode ? BIT(20) : 0;
--	dst[i++] = val;
-+	if (version >= MCU_MSG_VERSION_2019_2) {
-+		val = 0;
-+		val |= param->custom_lda ? BIT(2) : 0;
-+		val |= param->rdo_cost_mode ? BIT(20) : 0;
-+		dst[i++] = val;
-+
-+		val = 0;
-+		val |= param->lf ? BIT(2) : 0;
-+		val |= param->lf_x_tile ? BIT(3) : 0;
-+		val |= param->lf_x_slice ? BIT(4) : 0;
-+		dst[i++] = val;
-+	} else {
-+		val = 0;
-+		dst[i++] = val;
-+	}
- 
- 	dst[i++] = FIELD_PREP(GENMASK(15, 8), param->beta_offset) |
- 		   FIELD_PREP(GENMASK(7, 0), param->tc_offset);
- 	dst[i++] = param->unknown11;
- 	dst[i++] = param->unknown12;
--	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->prefetch_auto) |
--		   FIELD_PREP(GENMASK(15, 0), param->num_slices);
-+	if (version >= MCU_MSG_VERSION_2019_2)
-+		dst[i++] = param->num_slices;
-+	else
-+		dst[i++] = FIELD_PREP(GENMASK(31, 16), param->prefetch_auto) |
-+			   FIELD_PREP(GENMASK(15, 0), param->num_slices);
- 	dst[i++] = param->prefetch_mem_offset;
- 	dst[i++] = param->prefetch_mem_size;
- 	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->clip_vrt_range) |
-@@ -138,19 +173,51 @@ allegro_encode_config_blob(u32 *dst, struct create_channel_param *param)
- 		   FIELD_PREP(GENMASK(15, 0), param->pb_delta);
- 	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->golden_ref_frequency) |
- 		   FIELD_PREP(GENMASK(15, 0), param->golden_delta);
--	dst[i++] = param->rate_control_option;
-+	if (version >= MCU_MSG_VERSION_2019_2)
-+		dst[i++] = param->rate_control_option;
-+	else
-+		dst[i++] = 0;
-+
-+	if (version >= MCU_MSG_VERSION_2019_2) {
-+		dst[i++] = param->num_pixel;
-+		dst[i++] = FIELD_PREP(GENMASK(31, 16), param->max_pixel_value) |
-+			FIELD_PREP(GENMASK(15, 0), param->max_psnr);
-+		for (j = 0; j < 3; j++)
-+			dst[i++] = param->maxpicturesize[j];
-+	}
-+
-+	if (version >= MCU_MSG_VERSION_2019_2)
-+		dst[i++] = param->gop_ctrl_mode;
-+	else
-+		dst[i++] = 0;
- 
--	dst[i++] = param->gop_ctrl_mode;
-+	if (version >= MCU_MSG_VERSION_2019_2)
-+		dst[i++] = FIELD_PREP(GENMASK(31, 24), param->freq_golden_ref) |
-+			   FIELD_PREP(GENMASK(23, 16), param->num_b) |
-+			   FIELD_PREP(GENMASK(15, 0), param->gop_length);
- 	dst[i++] = param->freq_idr;
-+	if (version >= MCU_MSG_VERSION_2019_2)
-+		dst[i++] = param->enable_lt;
- 	dst[i++] = param->freq_lt;
- 	dst[i++] = param->gdr_mode;
--	dst[i++] = FIELD_PREP(GENMASK(31, 24), param->freq_golden_ref) |
--		   FIELD_PREP(GENMASK(23, 16), param->num_b) |
--		   FIELD_PREP(GENMASK(15, 0), param->gop_length);
-+	if (version < MCU_MSG_VERSION_2019_2)
-+		dst[i++] = FIELD_PREP(GENMASK(31, 24), param->freq_golden_ref) |
-+			   FIELD_PREP(GENMASK(23, 16), param->num_b) |
-+			   FIELD_PREP(GENMASK(15, 0), param->gop_length);
-+
-+	if (version >= MCU_MSG_VERSION_2019_2)
-+		dst[i++] = param->tmpdqp;
- 
- 	dst[i++] = param->subframe_latency;
- 	dst[i++] = param->lda_control_mode;
--	dst[i++] = param->unknown41;
-+	if (version < MCU_MSG_VERSION_2019_2)
-+		dst[i++] = param->unknown41;
-+
-+	if (version >= MCU_MSG_VERSION_2019_2) {
-+		for (j = 0; j < 6; j++)
-+			dst[i++] = param->lda_factors[j];
-+		dst[i++] = param->max_num_merge_cand;
-+	}
- 
- 	return i * sizeof(*dst);
- }
-@@ -158,12 +225,20 @@ allegro_encode_config_blob(u32 *dst, struct create_channel_param *param)
- static ssize_t
- allegro_enc_create_channel(u32 *dst, struct mcu_msg_create_channel *msg)
- {
-+	enum mcu_msg_version version = msg->header.version;
- 	unsigned int i = 0;
- 
- 	dst[i++] = msg->user_id;
- 
--	memcpy(&dst[i], msg->blob, msg->blob_size);
--	i += msg->blob_size / sizeof(*dst);
-+	if (version >= MCU_MSG_VERSION_2019_2) {
-+		dst[i++] = msg->blob_mcu_addr;
-+	} else {
-+		memcpy(&dst[i], msg->blob, msg->blob_size);
-+		i += msg->blob_size / sizeof(*dst);
-+	}
-+
-+	if (version >= MCU_MSG_VERSION_2019_2)
-+		dst[i++] = msg->ep1_addr;
- 
- 	return i * sizeof(*dst);
- }
-@@ -172,8 +247,15 @@ ssize_t allegro_decode_config_blob(struct create_channel_param *param,
- 				   struct mcu_msg_create_channel_response *msg,
- 				   u32 *src)
- {
--	param->num_ref_idx_l0 = msg->num_ref_idx_l0;
--	param->num_ref_idx_l1 = msg->num_ref_idx_l1;
-+	enum mcu_msg_version version = msg->header.version;
-+
-+	if (version >= MCU_MSG_VERSION_2019_2) {
-+		param->num_ref_idx_l0 = FIELD_GET(GENMASK(7, 4), src[9]);
-+		param->num_ref_idx_l1 = FIELD_GET(GENMASK(11, 8), src[9]);
-+	} else {
-+		param->num_ref_idx_l0 = msg->num_ref_idx_l0;
-+		param->num_ref_idx_l1 = msg->num_ref_idx_l1;
-+	}
- 
- 	return 0;
- }
-@@ -228,6 +310,7 @@ allegro_enc_put_stream_buffer(u32 *dst,
- static ssize_t
- allegro_enc_encode_frame(u32 *dst, struct mcu_msg_encode_frame *msg)
- {
-+	enum mcu_msg_version version = msg->header.version;
- 	unsigned int i = 0;
- 
- 	dst[i++] = msg->channel_id;
-@@ -236,6 +319,14 @@ allegro_enc_encode_frame(u32 *dst, struct mcu_msg_encode_frame *msg)
- 	dst[i++] = msg->encoding_options;
- 	dst[i++] = FIELD_PREP(GENMASK(31, 16), msg->padding) |
- 		   FIELD_PREP(GENMASK(15, 0), msg->pps_qp);
-+
-+	if (version >= MCU_MSG_VERSION_2019_2) {
-+		dst[i++] = 0;
-+		dst[i++] = 0;
-+		dst[i++] = 0;
-+		dst[i++] = 0;
-+	}
-+
- 	dst[i++] = lower_32_bits(msg->user_param);
- 	dst[i++] = upper_32_bits(msg->user_param);
- 	dst[i++] = lower_32_bits(msg->src_handle);
-@@ -243,7 +334,11 @@ allegro_enc_encode_frame(u32 *dst, struct mcu_msg_encode_frame *msg)
- 	dst[i++] = msg->request_options;
- 	dst[i++] = msg->src_y;
- 	dst[i++] = msg->src_uv;
-+	if (version >= MCU_MSG_VERSION_2019_2)
-+		dst[i++] = msg->is_10_bit;
- 	dst[i++] = msg->stride;
-+	if (version >= MCU_MSG_VERSION_2019_2)
-+		dst[i++] = msg->format;
- 	dst[i++] = msg->ep2;
- 	dst[i++] = lower_32_bits(msg->ep2_v);
- 	dst[i++] = upper_32_bits(msg->ep2_v);
-@@ -265,14 +360,21 @@ static ssize_t
- allegro_dec_create_channel(struct mcu_msg_create_channel_response *msg,
- 			   u32 *src)
- {
-+	enum mcu_msg_version version = msg->header.version;
- 	unsigned int i = 0;
- 
- 	msg->channel_id = src[i++];
- 	msg->user_id = src[i++];
--	msg->options = src[i++];
--	msg->num_core = src[i++];
--	msg->num_ref_idx_l0 = FIELD_GET(GENMASK(7, 4), src[i]);
--	msg->num_ref_idx_l1 = FIELD_GET(GENMASK(11, 8), src[i++]);
-+	/*
-+	 * Version >= MCU_MSG_VERSION_2019_2 is handled in
-+	 * allegro_decode_config_blob().
-+	 */
-+	if (version < MCU_MSG_VERSION_2019_2) {
-+		msg->options = src[i++];
-+		msg->num_core = src[i++];
-+		msg->num_ref_idx_l0 = FIELD_GET(GENMASK(7, 4), src[i]);
-+		msg->num_ref_idx_l1 = FIELD_GET(GENMASK(11, 8), src[i++]);
-+	}
- 	msg->int_buffers_count = src[i++];
- 	msg->int_buffers_size = src[i++];
- 	msg->rec_buffers_count = src[i++];
-@@ -297,6 +399,7 @@ allegro_dec_destroy_channel(struct mcu_msg_destroy_channel_response *msg,
- static ssize_t
- allegro_dec_encode_frame(struct mcu_msg_encode_frame_response *msg, u32 *src)
- {
-+	enum mcu_msg_version version = msg->header.version;
- 	unsigned int i = 0;
- 	unsigned int j;
- 
-@@ -340,6 +443,12 @@ allegro_dec_encode_frame(struct mcu_msg_encode_frame_response *msg, u32 *src)
- 	msg->pps_qp = FIELD_GET(GENMASK(15, 0), src[i++]);
- 
- 	msg->reserved2 = src[i++];
-+	if (version >= MCU_MSG_VERSION_2019_2) {
-+		msg->reserved3 = src[i++];
-+		msg->reserved4 = src[i++];
-+		msg->reserved5 = src[i++];
-+		msg->reserved6 = src[i++];
-+	}
- 
- 	return i * sizeof(*src);
- }
-diff --git a/drivers/staging/media/allegro-dvt/allegro-mail.h b/drivers/staging/media/allegro-dvt/allegro-mail.h
-index c095dbfcf104..486ecb12b098 100644
---- a/drivers/staging/media/allegro-dvt/allegro-mail.h
-+++ b/drivers/staging/media/allegro-dvt/allegro-mail.h
-@@ -22,6 +22,7 @@ enum mcu_msg_type {
- 
- enum mcu_msg_version {
- 	MCU_MSG_VERSION_2018_2,
-+	MCU_MSG_VERSION_2019_2,
- };
- 
- const char *msg_type_name(enum mcu_msg_type type);
-@@ -46,11 +47,14 @@ struct mcu_msg_init_response {
- 
- struct create_channel_param {
- 	enum mcu_msg_version version;
-+	u32 layer_id;
- 	u16 width;
- 	u16 height;
-+	u32 videomode;
- 	u32 format;
- 	u32 colorspace;
- 	u32 src_mode;
-+	u32 src_bit_depth;
- 	u8 profile;
- 	u16 constraint_set_flags;
- 	u32 codec;
-@@ -59,9 +63,11 @@ struct create_channel_param {
- 	u32 log2_max_poc;
- 	u32 log2_max_frame_num;
- 	u32 temporal_mvp_enable;
-+	u32 enable_reordering;
- 	u32 dbf_ovr_en;
- 	u32 num_ref_idx_l0;
- 	u32 num_ref_idx_l1;
-+	u32 custom_lda;
- 	u32 rdo_cost_mode;
- 	u32 lf;
- 	u32 lf_x_tile;
-@@ -105,6 +111,10 @@ struct create_channel_param {
- 	u16 golden_delta;
- 	u16 golden_ref_frequency;
- 	u32 rate_control_option;
-+	u32 num_pixel;
-+	u16 max_psnr;
-+	u16 max_pixel_value;
-+	u32 maxpicturesize[3];
- 
- 	/* gop param */
- 	u32 gop_ctrl_mode;
-@@ -114,10 +124,16 @@ struct create_channel_param {
- 	u16 gop_length;
- 	u8 num_b;
- 	u8 freq_golden_ref;
-+	u32 enable_lt;
-+	u32 tmpdqp;
- 
- 	u32 subframe_latency;
- 	u32 lda_control_mode;
- 	u32 unknown41;
-+
-+	u32 lda_factors[6];
-+
-+	u32 max_num_merge_cand;
- };
- 
- struct mcu_msg_create_channel {
-@@ -126,6 +142,7 @@ struct mcu_msg_create_channel {
- 	u32 *blob;
- 	size_t blob_size;
- 	u32 blob_mcu_addr;
-+	u32 ep1_addr;
- };
- 
- struct mcu_msg_create_channel_response {
-@@ -203,9 +220,12 @@ struct mcu_msg_encode_frame {
- 	/* u32 scene_change_delay (optional) */
- 	/* rate control param (optional) */
- 	/* gop param (optional) */
-+	/* dynamic resolution params (optional) */
- 	u32 src_y;
- 	u32 src_uv;
-+	u32 is_10_bit;
- 	u32 stride;
-+	u32 format;
- 	u32 ep2;
- 	u64 ep2_v;
- };
-@@ -249,6 +269,10 @@ struct mcu_msg_encode_frame_response {
- 	u16 pps_qp;
- 	u16 reserved1;
- 	u32 reserved2;
-+	u32 reserved3;
-+	u32 reserved4;
-+	u32 reserved5;
-+	u32 reserved6;
- };
- 
- union mcu_msg_response {
+Ok - well I'll leave you to fix up in your series as you see fit, and I
+can re-test when the series is revised.
+
+I've just posted "[PATCH] media: ti-vpe: cal: Handle multiple PHYs"
+which fixes up the fail paths for me on the 2-phy target, and allows
+successful capture again, but given the above isn't a suitable approach.
+
+--
+Kieran
+
+
+
+> 
+>>>>> Otherwise,
+>>>>>
+>>>>> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>>>>>
+>>>>>> +
+>>>>>>  static int cal_probe(struct platform_device *pdev)
+>>>>>>  {
+>>>>>>  	struct cal_dev *cal;
+> 
+
 -- 
-2.20.1
-
+Regards
+--
+Kieran
