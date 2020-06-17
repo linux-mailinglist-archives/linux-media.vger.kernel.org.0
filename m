@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7026D1FCCC1
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 13:46:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DB221FCCBF
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 13:46:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726688AbgFQLqD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 07:46:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33594 "EHLO
+        id S1726674AbgFQLqC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 07:46:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33612 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726341AbgFQLp4 (ORCPT
+        with ESMTP id S1726582AbgFQLp4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 17 Jun 2020 07:45:56 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E5B2C0613ED
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DACF9C061796
         for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 04:45:55 -0700 (PDT)
 Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28] helo=dude02.lab.pengutronix.de)
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1jlWVt-0002WS-7L; Wed, 17 Jun 2020 13:45:53 +0200
+        id 1jlWVt-0002WU-7J; Wed, 17 Jun 2020 13:45:53 +0200
 Received: from mtr by dude02.lab.pengutronix.de with local (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1jlWVs-0000rC-BO; Wed, 17 Jun 2020 13:45:52 +0200
+        id 1jlWVs-0000rF-Bs; Wed, 17 Jun 2020 13:45:52 +0200
 From:   Michael Tretter <m.tretter@pengutronix.de>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         kernel@pengutronix.de, Michael Tretter <m.tretter@pengutronix.de>
-Subject: [PATCH 02/12] media: allegro: rework read/write to mailbox
-Date:   Wed, 17 Jun 2020 13:45:40 +0200
-Message-Id: <20200617114550.3235-3-m.tretter@pengutronix.de>
+Subject: [PATCH 03/12] media: allegro: add explicit mail encoding and decoding
+Date:   Wed, 17 Jun 2020 13:45:41 +0200
+Message-Id: <20200617114550.3235-4-m.tretter@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200617114550.3235-1-m.tretter@pengutronix.de>
 References: <20200617114550.3235-1-m.tretter@pengutronix.de>
@@ -45,214 +45,481 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rework the functions that read and write the SRAM that is used to
-communicate with the MCU.
+The message format in the mailboxes differ between firmware versions.
+Therefore, it is necessary to decouple the mailbox format of the driver
+from the message format of the firmware. This allows to keep a
+consistent message format in the driver while still supporting various
+firmware versions.
 
-As the functions will not operate on structs but on prepared binary
-buffers, make the buffer stride more explicit. Also, avoid any uses of
-struct mcu_msg_header to analyze messages in memory, because the header
-will be made independent of the binary representation in the mailbox.
-Instead explicitly access the mail size field in the mailbox.
+Add an intermediate step to encode and decode message before writing the
+mails to the mailboxes.
 
-As at it, further reduce the dependency between the mailboxes and struct
-allegro_dev.
+On the other hand, this allows to handle optional fields in the
+messages, which is required for advanced features of the encoder and was
+not possible until now.
 
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
- .../staging/media/allegro-dvt/allegro-core.c  | 110 ++++++------------
- 1 file changed, 36 insertions(+), 74 deletions(-)
+ .../staging/media/allegro-dvt/allegro-core.c  |  31 +-
+ .../staging/media/allegro-dvt/allegro-mail.c  | 364 ++++++++++++++++++
+ .../staging/media/allegro-dvt/allegro-mail.h  |   3 +
+ 3 files changed, 392 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
-index 447b15cc235c..217b43e6fcbe 100644
+index 217b43e6fcbe..150220342bd7 100644
 --- a/drivers/staging/media/allegro-dvt/allegro-core.c
 +++ b/drivers/staging/media/allegro-dvt/allegro-core.c
-@@ -612,49 +612,34 @@ static struct allegro_mbox *allegro_mbox_init(struct allegro_dev *dev,
- 	return mbox;
- }
- 
--static int allegro_mbox_write(struct allegro_dev *dev,
--			      struct allegro_mbox *mbox, void *src, size_t size)
-+static int allegro_mbox_write(struct allegro_mbox *mbox,
-+			      const u32 *src, size_t size)
+@@ -705,11 +705,20 @@ static ssize_t allegro_mbox_read(struct allegro_mbox *mbox,
+ static int allegro_mbox_send(struct allegro_mbox *mbox, void *msg)
  {
--	struct mcu_msg_header *header = src;
-+	struct regmap *sram = mbox->dev->sram;
- 	unsigned int tail;
- 	size_t size_no_wrap;
- 	int err = 0;
-+	int stride = regmap_get_reg_stride(sram);
- 
- 	if (!src)
- 		return -EINVAL;
- 
--	if (size > mbox->size) {
--		v4l2_err(&dev->v4l2_dev,
--			 "message (%zu bytes) too large for mailbox (%zu bytes)\n",
--			 size, mbox->size);
--		return -EINVAL;
--	}
--
--	if (header->length != size - sizeof(*header)) {
--		v4l2_err(&dev->v4l2_dev,
--			 "invalid message length: %u bytes (expected %zu bytes)\n",
--			 header->length, size - sizeof(*header));
-+	if (size > mbox->size)
- 		return -EINVAL;
--	}
--
--	v4l2_dbg(2, debug, &dev->v4l2_dev,
--		 "write command message: type %s, body length %d\n",
--		 msg_type_name(header->type), header->length);
- 
- 	mutex_lock(&mbox->lock);
--	regmap_read(dev->sram, mbox->tail, &tail);
-+	regmap_read(sram, mbox->tail, &tail);
- 	if (tail > mbox->size) {
--		v4l2_err(&dev->v4l2_dev,
--			 "invalid tail (0x%x): must be smaller than mailbox size (0x%zx)\n",
--			 tail, mbox->size);
- 		err = -EIO;
- 		goto out;
- 	}
- 	size_no_wrap = min(size, mbox->size - (size_t)tail);
--	regmap_bulk_write(dev->sram, mbox->data + tail, src, size_no_wrap / 4);
--	regmap_bulk_write(dev->sram, mbox->data,
--			  src + size_no_wrap, (size - size_no_wrap) / 4);
--	regmap_write(dev->sram, mbox->tail, (tail + size) % mbox->size);
-+	regmap_bulk_write(sram, mbox->data + tail,
-+			  src, size_no_wrap / stride);
-+	regmap_bulk_write(sram, mbox->data,
-+			  src + (size_no_wrap / sizeof(*src)),
-+			  (size - size_no_wrap) / stride);
-+	regmap_write(sram, mbox->tail, (tail + size) % mbox->size);
- 
- out:
- 	mutex_unlock(&mbox->lock);
-@@ -662,40 +647,32 @@ static int allegro_mbox_write(struct allegro_dev *dev,
- 	return err;
- }
- 
--static ssize_t allegro_mbox_read(struct allegro_dev *dev,
--				 struct allegro_mbox *mbox,
--				 void *dst, size_t nbyte)
-+static ssize_t allegro_mbox_read(struct allegro_mbox *mbox,
-+				 u32 *dst, size_t nbyte)
- {
--	struct mcu_msg_header *header;
-+	struct {
-+		u16 length;
-+		u16 type;
-+	} __attribute__ ((__packed__)) *header;
-+	struct regmap *sram = mbox->dev->sram;
- 	unsigned int head;
- 	ssize_t size;
- 	size_t body_no_wrap;
-+	int stride = regmap_get_reg_stride(sram);
- 
--	regmap_read(dev->sram, mbox->head, &head);
--	if (head > mbox->size) {
--		v4l2_err(&dev->v4l2_dev,
--			 "invalid head (0x%x): must be smaller than mailbox size (0x%zx)\n",
--			 head, mbox->size);
-+	regmap_read(sram, mbox->head, &head);
-+	if (head > mbox->size)
- 		return -EIO;
--	}
- 
- 	/* Assume that the header does not wrap. */
--	regmap_bulk_read(dev->sram, mbox->data + head,
--			 dst, sizeof(*header) / 4);
--	header = dst;
-+	regmap_bulk_read(sram, mbox->data + head,
-+			 dst, sizeof(*header) / stride);
-+	header = (void *)dst;
- 	size = header->length + sizeof(*header);
--	if (size > mbox->size || size & 0x3) {
--		v4l2_err(&dev->v4l2_dev,
--			 "invalid message length: %zu bytes (maximum %zu bytes)\n",
--			 header->length + sizeof(*header), mbox->size);
-+	if (size > mbox->size || size & 0x3)
- 		return -EIO;
--	}
--	if (size > nbyte) {
--		v4l2_err(&dev->v4l2_dev,
--			 "destination buffer too small: %zu bytes (need %zu bytes)\n",
--			 nbyte, size);
-+	if (size > nbyte)
- 		return -EINVAL;
--	}
- 
- 	/*
- 	 * The message might wrap within the mailbox. If the message does not
-@@ -708,17 +685,14 @@ static ssize_t allegro_mbox_read(struct allegro_dev *dev,
- 	 */
- 	body_no_wrap = min((size_t)header->length,
- 			   (size_t)(mbox->size - (head + sizeof(*header))));
--	regmap_bulk_read(dev->sram, mbox->data + head + sizeof(*header),
--			 dst + sizeof(*header), body_no_wrap / 4);
--	regmap_bulk_read(dev->sram, mbox->data,
--			 dst + sizeof(*header) + body_no_wrap,
--			 (header->length - body_no_wrap) / 4);
-+	regmap_bulk_read(sram, mbox->data + head + sizeof(*header),
-+			 dst + (sizeof(*header) / sizeof(*dst)),
-+			 body_no_wrap / stride);
-+	regmap_bulk_read(sram, mbox->data,
-+			 dst + (sizeof(*header) + body_no_wrap) / sizeof(*dst),
-+			 (header->length - body_no_wrap) / stride);
- 
--	regmap_write(dev->sram, mbox->head, (head + size) % mbox->size);
--
--	v4l2_dbg(2, debug, &dev->v4l2_dev,
--		 "read status message: type %s, body length %d\n",
--		 msg_type_name(header->type), header->length);
-+	regmap_write(sram, mbox->head, (head + size) % mbox->size);
- 
- 	return size;
- }
-@@ -735,7 +709,7 @@ static int allegro_mbox_send(struct allegro_mbox *mbox, void *msg)
- 	ssize_t size = sizeof(*header) + header->length;
+ 	struct allegro_dev *dev = mbox->dev;
+-	struct mcu_msg_header *header = msg;
+-	ssize_t size = sizeof(*header) + header->length;
++	ssize_t size;
  	int err;
++	u32 *tmp;
++
++	tmp = kzalloc(mbox->size, GFP_KERNEL);
++	if (!tmp) {
++		err = -ENOMEM;
++		goto out;
++	}
++
++	size = allegro_encode_mail(tmp, msg);
  
--	err = allegro_mbox_write(dev, mbox, msg, size);
-+	err = allegro_mbox_write(mbox, msg, size);
+-	err = allegro_mbox_write(mbox, msg, size);
++	err = allegro_mbox_write(mbox, tmp, size);
++	kfree(tmp);
  	if (err)
  		goto out;
  
-@@ -760,7 +734,7 @@ static int allegro_mbox_notify(struct allegro_mbox *mbox)
+@@ -728,21 +737,31 @@ static int allegro_mbox_notify(struct allegro_mbox *mbox)
+ 	struct allegro_dev *dev = mbox->dev;
+ 	union mcu_msg_response *msg;
+ 	ssize_t size;
++	u32 *tmp;
+ 	int err;
+ 
+ 	msg = kmalloc(sizeof(*msg), GFP_KERNEL);
  	if (!msg)
  		return -ENOMEM;
  
--	size = allegro_mbox_read(dev, mbox, msg, sizeof(*msg));
-+	size = allegro_mbox_read(mbox, (u32 *)msg, sizeof(*msg));
- 	if (size < 0) {
- 		err = size;
+-	size = allegro_mbox_read(mbox, (u32 *)msg, sizeof(*msg));
+-	if (size < 0) {
+-		err = size;
++	tmp = kmalloc(mbox->size, GFP_KERNEL);
++	if (!tmp) {
++		err = -ENOMEM;
  		goto out;
-@@ -1609,12 +1583,6 @@ allegro_handle_create_channel(struct allegro_dev *dev,
- 	struct allegro_channel *channel;
- 	int err = 0;
+ 	}
  
--	if (msg->header.length != sizeof(*msg) - sizeof(msg->header))
--		v4l2_warn(&dev->v4l2_dev,
--			  "received message has %d bytes, but expected %zu\n",
--			  msg->header.length,
--			  sizeof(*msg) - sizeof(msg->header));
--
- 	channel = allegro_find_channel_by_user_id(dev, msg->user_id);
- 	if (IS_ERR(channel)) {
- 		v4l2_warn(&dev->v4l2_dev,
-@@ -1708,12 +1676,6 @@ allegro_handle_encode_frame(struct allegro_dev *dev,
- {
- 	struct allegro_channel *channel;
++	size = allegro_mbox_read(mbox, tmp, mbox->size);
++	if (size < 0)
++		goto out;
++
++	err = allegro_decode_mail(msg, tmp);
++	if (err)
++		goto out;
++
+ 	allegro_handle_message(dev, msg);
  
--	if (msg->header.length != sizeof(*msg) - sizeof(msg->header))
--		v4l2_warn(&dev->v4l2_dev,
--			  "received message has %d bytes, but expected %zu\n",
--			  msg->header.length,
--			  sizeof(*msg) - sizeof(msg->header));
--
- 	channel = allegro_find_channel_by_channel_id(dev, msg->channel_id);
- 	if (IS_ERR(channel)) {
- 		v4l2_err(&dev->v4l2_dev,
+ out:
++	kfree(tmp);
+ 	kfree(msg);
+ 
+ 	return err;
+diff --git a/drivers/staging/media/allegro-dvt/allegro-mail.c b/drivers/staging/media/allegro-dvt/allegro-mail.c
+index df0d8d26a6fb..c78367d36e2e 100644
+--- a/drivers/staging/media/allegro-dvt/allegro-mail.c
++++ b/drivers/staging/media/allegro-dvt/allegro-mail.c
+@@ -6,7 +6,9 @@
+  * Allegro VCU firmware.
+  */
+ 
++#include <linux/bitfield.h>
+ #include <linux/export.h>
++#include <linux/errno.h>
+ 
+ #include "allegro-mail.h"
+ 
+@@ -35,3 +37,365 @@ const char *msg_type_name(enum mcu_msg_type type)
+ 	}
+ }
+ EXPORT_SYMBOL(msg_type_name);
++
++static ssize_t
++allegro_enc_init(u32 *dst, struct mcu_msg_init_request *msg)
++{
++	unsigned int i = 0;
++
++	dst[i++] = msg->reserved0;
++	dst[i++] = msg->suballoc_dma;
++	dst[i++] = msg->suballoc_size;
++	dst[i++] = msg->l2_cache[0];
++	dst[i++] = msg->l2_cache[1];
++	dst[i++] = msg->l2_cache[2];
++
++	return i * sizeof(*dst);
++}
++
++static ssize_t
++allegro_encode_channel_config(u32 *dst, struct create_channel_param *param)
++{
++	unsigned int i = 0;
++
++	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->height) |
++		   FIELD_PREP(GENMASK(15, 0), param->width);
++	dst[i++] = param->format;
++	dst[i++] = param->colorspace;
++	dst[i++] = param->src_mode;
++	dst[i++] = FIELD_PREP(GENMASK(31, 24), param->codec) |
++		   FIELD_PREP(GENMASK(23, 8), param->constraint_set_flags) |
++		   FIELD_PREP(GENMASK(7, 0), param->profile);
++	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->tier) |
++		   FIELD_PREP(GENMASK(15, 0), param->level);
++	dst[i++] = param->sps_param;
++	dst[i++] = param->pps_param;
++	dst[i++] = param->enc_option;
++	dst[i++] = FIELD_PREP(GENMASK(15, 8), param->beta_offset) |
++		   FIELD_PREP(GENMASK(7, 0), param->tc_offset);
++	dst[i++] = param->unknown11;
++	dst[i++] = param->unknown12;
++	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->prefetch_auto) |
++		   FIELD_PREP(GENMASK(15, 0), param->num_slices);
++	dst[i++] = param->prefetch_mem_offset;
++	dst[i++] = param->prefetch_mem_size;
++	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->clip_vrt_range) |
++		   FIELD_PREP(GENMASK(15, 0), param->clip_hrz_range);
++	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->me_range[1]) |
++		   FIELD_PREP(GENMASK(15, 0), param->me_range[0]);
++	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->me_range[3]) |
++		   FIELD_PREP(GENMASK(15, 0), param->me_range[2]);
++	dst[i++] = FIELD_PREP(GENMASK(31, 24), param->min_tu_size) |
++		   FIELD_PREP(GENMASK(23, 16), param->max_tu_size) |
++		   FIELD_PREP(GENMASK(15, 8), param->min_cu_size) |
++		   FIELD_PREP(GENMASK(8, 0), param->max_cu_size);
++	dst[i++] = FIELD_PREP(GENMASK(15, 8), param->max_transfo_depth_intra) |
++		   FIELD_PREP(GENMASK(7, 0), param->max_transfo_depth_inter);
++	dst[i++] = param->entropy_mode;
++	dst[i++] = param->wp_mode;
++
++	dst[i++] = param->rate_control_mode;
++	dst[i++] = param->initial_rem_delay;
++	dst[i++] = param->cpb_size;
++	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->clk_ratio) |
++		   FIELD_PREP(GENMASK(15, 0), param->framerate);
++	dst[i++] = param->target_bitrate;
++	dst[i++] = param->max_bitrate;
++	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->min_qp) |
++		   FIELD_PREP(GENMASK(15, 0), param->initial_qp);
++	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->ip_delta) |
++		   FIELD_PREP(GENMASK(15, 0), param->max_qp);
++	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->golden_ref) |
++		   FIELD_PREP(GENMASK(15, 0), param->pb_delta);
++	dst[i++] = FIELD_PREP(GENMASK(31, 16), param->golden_ref_frequency) |
++		   FIELD_PREP(GENMASK(15, 0), param->golden_delta);
++	dst[i++] = param->rate_control_option;
++
++	dst[i++] = param->gop_ctrl_mode;
++	dst[i++] = param->freq_idr;
++	dst[i++] = param->freq_lt;
++	dst[i++] = param->gdr_mode;
++	dst[i++] = FIELD_PREP(GENMASK(31, 24), param->freq_golden_ref) |
++		   FIELD_PREP(GENMASK(23, 16), param->num_b) |
++		   FIELD_PREP(GENMASK(15, 0), param->gop_length);
++
++	dst[i++] = param->subframe_latency;
++	dst[i++] = param->lda_control_mode;
++	dst[i++] = param->unknown41;
++
++	return i * sizeof(*dst);
++}
++
++static ssize_t
++allegro_enc_create_channel(u32 *dst, struct mcu_msg_create_channel *msg)
++{
++	struct create_channel_param *param = &msg->param;
++	ssize_t size = 0;
++	unsigned int i = 0;
++
++	dst[i++] = msg->user_id;
++
++	size = allegro_encode_channel_config(&dst[i], param);
++	i += size / sizeof(*dst);
++
++	return i * sizeof(*dst);
++}
++
++static ssize_t
++allegro_enc_destroy_channel(u32 *dst, struct mcu_msg_destroy_channel *msg)
++{
++	unsigned int i = 0;
++
++	dst[i++] = msg->channel_id;
++
++	return i * sizeof(*dst);
++}
++
++static ssize_t
++allegro_enc_push_buffers(u32 *dst, struct mcu_msg_push_buffers_internal *msg)
++{
++	unsigned int i = 0;
++	struct mcu_msg_push_buffers_internal_buffer *buffer;
++	unsigned int num_buffers = (msg->header.length - 4) / sizeof(*buffer);
++	unsigned int j;
++
++	dst[i++] = msg->channel_id;
++
++	for (j = 0; j < num_buffers; j++) {
++		buffer = &msg->buffer[j];
++		dst[i++] = buffer->dma_addr;
++		dst[i++] = buffer->mcu_addr;
++		dst[i++] = buffer->size;
++	}
++
++	return i * sizeof(*dst);
++}
++
++static ssize_t
++allegro_enc_put_stream_buffer(u32 *dst,
++			      struct mcu_msg_put_stream_buffer *msg)
++{
++	unsigned int i = 0;
++
++	dst[i++] = msg->channel_id;
++	dst[i++] = msg->dma_addr;
++	dst[i++] = msg->mcu_addr;
++	dst[i++] = msg->size;
++	dst[i++] = msg->offset;
++	dst[i++] = lower_32_bits(msg->stream_id);
++	dst[i++] = upper_32_bits(msg->stream_id);
++
++	return i * sizeof(*dst);
++}
++
++static ssize_t
++allegro_enc_encode_frame(u32 *dst, struct mcu_msg_encode_frame *msg)
++{
++	unsigned int i = 0;
++
++	dst[i++] = msg->channel_id;
++
++	dst[i++] = msg->reserved;
++	dst[i++] = msg->encoding_options;
++	dst[i++] = FIELD_PREP(GENMASK(31, 16), msg->padding) |
++		   FIELD_PREP(GENMASK(15, 0), msg->pps_qp);
++	dst[i++] = lower_32_bits(msg->user_param);
++	dst[i++] = upper_32_bits(msg->user_param);
++	dst[i++] = lower_32_bits(msg->src_handle);
++	dst[i++] = upper_32_bits(msg->src_handle);
++	dst[i++] = msg->request_options;
++	dst[i++] = msg->src_y;
++	dst[i++] = msg->src_uv;
++	dst[i++] = msg->stride;
++	dst[i++] = msg->ep2;
++	dst[i++] = lower_32_bits(msg->ep2_v);
++	dst[i++] = upper_32_bits(msg->ep2_v);
++
++	return i * sizeof(*dst);
++}
++
++static ssize_t
++allegro_dec_init(struct mcu_msg_init_response *msg, u32 *src)
++{
++	unsigned int i = 0;
++
++	msg->header.type = FIELD_GET(GENMASK(31, 16), src[i]);
++	msg->header.length = FIELD_GET(GENMASK(15, 0), src[i++]);
++	msg->reserved0 = src[i++];
++
++	return i * sizeof(*src);
++}
++
++static ssize_t
++allegro_dec_create_channel(struct mcu_msg_create_channel_response *msg,
++			   u32 *src)
++{
++	unsigned int i = 0;
++
++	msg->header.type = FIELD_GET(GENMASK(31, 16), src[i]);
++	msg->header.length = FIELD_GET(GENMASK(15, 0), src[i++]);
++	msg->channel_id = src[i++];
++	msg->user_id = src[i++];
++	msg->options = src[i++];
++	msg->num_core = src[i++];
++	msg->pps_param = src[i++];
++	msg->int_buffers_count = src[i++];
++	msg->int_buffers_size = src[i++];
++	msg->rec_buffers_count = src[i++];
++	msg->rec_buffers_size = src[i++];
++	msg->reserved = src[i++];
++	msg->error_code = src[i++];
++
++	return i * sizeof(*src);
++}
++
++static ssize_t
++allegro_dec_destroy_channel(struct mcu_msg_destroy_channel_response *msg,
++			    u32 *src)
++{
++	unsigned int i = 0;
++
++	msg->header.type = FIELD_GET(GENMASK(31, 16), src[i]);
++	msg->header.length = FIELD_GET(GENMASK(15, 0), src[i++]);
++	msg->channel_id = src[i++];
++
++	return i * sizeof(*src);
++}
++
++static ssize_t
++allegro_dec_encode_frame(struct mcu_msg_encode_frame_response *msg, u32 *src)
++{
++	unsigned int i = 0;
++	unsigned int j;
++
++	msg->header.type = FIELD_GET(GENMASK(31, 16), src[i]);
++	msg->header.length = FIELD_GET(GENMASK(15, 0), src[i++]);
++	msg->channel_id = src[i++];
++
++	msg->stream_id = src[i++];
++	msg->stream_id |= (((u64)src[i++]) << 32);
++	msg->user_param = src[i++];
++	msg->user_param |= (((u64)src[i++]) << 32);
++	msg->src_handle = src[i++];
++	msg->src_handle |= (((u64)src[i++]) << 32);
++	msg->skip = FIELD_GET(GENMASK(31, 16), src[i]);
++	msg->is_ref = FIELD_GET(GENMASK(15, 0), src[i++]);
++	msg->initial_removal_delay = src[i++];
++	msg->dpb_output_delay = src[i++];
++	msg->size = src[i++];
++	msg->frame_tag_size = src[i++];
++	msg->stuffing = src[i++];
++	msg->filler = src[i++];
++	msg->num_column = FIELD_GET(GENMASK(31, 16), src[i]);
++	msg->num_row = FIELD_GET(GENMASK(15, 0), src[i++]);
++	msg->num_ref_idx_l1 = FIELD_GET(GENMASK(31, 24), src[i]);
++	msg->num_ref_idx_l0 = FIELD_GET(GENMASK(23, 16), src[i]);
++	msg->qp = FIELD_GET(GENMASK(15, 0), src[i++]);
++	msg->partition_table_offset = src[i++];
++	msg->partition_table_size = src[i++];
++	msg->sum_complex = src[i++];
++	for (j = 0; j < 4; j++)
++		msg->tile_width[j] = src[i++];
++	for (j = 0; j < 22; j++)
++		msg->tile_height[j] = src[i++];
++	msg->error_code = src[i++];
++	msg->slice_type = src[i++];
++	msg->pic_struct = src[i++];
++	msg->reserved = FIELD_GET(GENMASK(31, 24), src[i]);
++	msg->is_last_slice = FIELD_GET(GENMASK(23, 16), src[i]);
++	msg->is_first_slice = FIELD_GET(GENMASK(15, 8), src[i]);
++	msg->is_idr = FIELD_GET(GENMASK(7, 0), src[i++]);
++
++	msg->reserved1 = FIELD_GET(GENMASK(31, 16), src[i]);
++	msg->pps_qp = FIELD_GET(GENMASK(15, 0), src[i++]);
++
++	msg->reserved2 = src[i++];
++
++	return i * sizeof(*src);
++}
++
++/**
++ * allegro_encode_mail() - Encode allegro messages to firmware format
++ * @dst: Pointer to the memory that will be filled with data
++ * @msg: The allegro message that will be encoded
++ */
++ssize_t allegro_encode_mail(u32 *dst, void *msg)
++{
++	const struct mcu_msg_header *header = msg;
++	enum mcu_msg_type type = header->type;
++	ssize_t size;
++
++	if (!msg || !dst)
++		return -EINVAL;
++
++	switch (type) {
++	case MCU_MSG_TYPE_INIT:
++		size = allegro_enc_init(&dst[1], msg);
++		break;
++	case MCU_MSG_TYPE_CREATE_CHANNEL:
++		size = allegro_enc_create_channel(&dst[1], msg);
++		break;
++	case MCU_MSG_TYPE_DESTROY_CHANNEL:
++		size = allegro_enc_destroy_channel(&dst[1], msg);
++		break;
++	case MCU_MSG_TYPE_ENCODE_FRAME:
++		size = allegro_enc_encode_frame(&dst[1], msg);
++		break;
++	case MCU_MSG_TYPE_PUT_STREAM_BUFFER:
++		size = allegro_enc_put_stream_buffer(&dst[1], msg);
++		break;
++	case MCU_MSG_TYPE_PUSH_BUFFER_INTERMEDIATE:
++	case MCU_MSG_TYPE_PUSH_BUFFER_REFERENCE:
++		size = allegro_enc_push_buffers(&dst[1], msg);
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	/*
++	 * The encoded messages might have different length depending on
++	 * the firmware version or certain fields. Therefore, we have to
++	 * set the body length after encoding the message.
++	 */
++	dst[0] = FIELD_PREP(GENMASK(31, 16), header->type) |
++		 FIELD_PREP(GENMASK(15, 0), size);
++
++	return size + sizeof(*dst);
++}
++
++/**
++ * allegro_decode_mail() - Parse allegro messages from the firmware.
++ * @msg: The mcu_msg_response that will be filled with parsed values.
++ * @src: Pointer to the memory that will be parsed
++ *
++ * The message format in the mailbox depends on the firmware. Parse the
++ * different formats into a uniform message format that can be used without
++ * taking care of the firmware version.
++ */
++int allegro_decode_mail(void *msg, u32 *src)
++{
++	struct mcu_msg_header *header;
++
++	if (!src || !msg)
++		return -EINVAL;
++
++	header = (struct mcu_msg_header *)src;
++	switch (header->type) {
++	case MCU_MSG_TYPE_INIT:
++		allegro_dec_init(msg, src);
++		break;
++	case MCU_MSG_TYPE_CREATE_CHANNEL:
++		allegro_dec_create_channel(msg, src);
++		break;
++	case MCU_MSG_TYPE_DESTROY_CHANNEL:
++		allegro_dec_destroy_channel(msg, src);
++		break;
++	case MCU_MSG_TYPE_ENCODE_FRAME:
++		allegro_dec_encode_frame(msg, src);
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	return 0;
++}
+diff --git a/drivers/staging/media/allegro-dvt/allegro-mail.h b/drivers/staging/media/allegro-dvt/allegro-mail.h
+index 17db665f8e1e..457caf50ebe6 100644
+--- a/drivers/staging/media/allegro-dvt/allegro-mail.h
++++ b/drivers/staging/media/allegro-dvt/allegro-mail.h
+@@ -264,4 +264,7 @@ union mcu_msg_response {
+ 	struct mcu_msg_encode_frame_response encode_frame;
+ };
+ 
++int allegro_decode_mail(void *msg, u32 *src);
++ssize_t allegro_encode_mail(u32 *dst, void *msg);
++
+ #endif
 -- 
 2.20.1
 
