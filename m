@@ -2,40 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E0D91FCA97
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 12:16:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 18AE21FCB21
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 12:44:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726313AbgFQKQu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 06:16:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48106 "EHLO
+        id S1726480AbgFQKni (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 06:43:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725536AbgFQKQt (ORCPT
+        with ESMTP id S1726510AbgFQKna (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jun 2020 06:16:49 -0400
+        Wed, 17 Jun 2020 06:43:30 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0F80C061573
-        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 03:16:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1496AC061573
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 03:43:28 -0700 (PDT)
 Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2C342F9;
-        Wed, 17 Jun 2020 12:16:48 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 33579F9;
+        Wed, 17 Jun 2020 12:43:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592389008;
-        bh=DRKEFqBp1g6CJZLt0dLOSXYeAHYjmxU2hv358vk2Ens=;
+        s=mail; t=1592390607;
+        bh=7335oV9I8bcfEZOrt727Nv4IcFUofpYpmOJbJXXXMWc=;
         h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=RvGlDZux1+mWfxJjmklO5vd6wdPD5JUw+2eeZ73Jp9SXLolaeRBTAUwLKo7SpHGuX
-         wHQyGrsbUphnjHe1KB0+yGiAggforzSNzUXpweEulWLC6g3L/NHKmfIlroZSxkniN6
-         zuuMN19GcW44n5wc8IJ+ZR2K9NZJm2Ru97Ezlww0=
+        b=MYBcseH6JAzLRQeFmeyT24f0GS0gz97cWgNSFLhwkCqvaIoadU5uGcDbKteCeQ2Cq
+         b2mGLr0UwFto/EODz0o5D5EtFw6OfZtgNGCuAD4RgHjFCPYaro4mLEnvJmAYOLTc/L
+         yeAc30KpgjePeWq6MmjrTAtwh8HMxCvcgQtREI3I=
 Reply-To: kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v1 078/107] media: ti-vpe: cal: Don't store external rate
- in cal_camerarx
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+Subject: Re: [PATCH v1 056/107] media: ti-vpe: cal: Add cal_camerarx_destroy()
+ to cleanup CAMERARX
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Benoit Parrot <bparrot@ti.com>
 References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
- <20200614235944.17716-79-laurent.pinchart@ideasonboard.com>
- <50074fee-06aa-8511-2134-3ff51a66eda0@ideasonboard.com>
- <20200617100548.GB5838@pendragon.ideasonboard.com>
+ <20200614235944.17716-57-laurent.pinchart@ideasonboard.com>
 From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
 Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  mQINBFYE/WYBEACs1PwjMD9rgCu1hlIiUA1AXR4rv2v+BCLUq//vrX5S5bjzxKAryRf0uHat
@@ -82,12 +80,12 @@ Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
  AfYnB4JBDLmLzBFavQfvonSfbitgXwCG3vS+9HEwAjU30Bar1PEOmIbiAoMzuKeRm2LVpmq4
  WZw01QYHU/GUV/zHJSFk
 Organization: Ideas on Board
-Message-ID: <662619b0-21f2-9bb7-454c-f8fcf38e610f@ideasonboard.com>
-Date:   Wed, 17 Jun 2020 11:16:45 +0100
+Message-ID: <7b83dfbe-529f-7dce-5ca0-882d6000e7da@ideasonboard.com>
+Date:   Wed, 17 Jun 2020 11:43:25 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200617100548.GB5838@pendragon.ideasonboard.com>
+In-Reply-To: <20200614235944.17716-57-laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -98,221 +96,127 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-On 17/06/2020 11:05, Laurent Pinchart wrote:
-> Hi Kieran,
-> 
-> On Wed, Jun 17, 2020 at 10:56:29AM +0100, Kieran Bingham wrote:
->> On 15/06/2020 00:59, Laurent Pinchart wrote:
->>> The external pixel rate is retrieved when starting the camerarx and only
->>> used then. There's no need to store it in the cal_camerarx structure, it
->>> can be returned by cal_camerarx_get_external_info() and explicitly
->>> passed to cal_camerarx_config().
->>>
->>> While at it, rename cal_camerarx_get_external_info() to
->>> cal_camerarx_get_external_rate() to better reflect the function's
->>> purpose.
->>>
->>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->>> ---
->>>  drivers/media/platform/ti-vpe/cal.c | 24 ++++++++++++------------
->>>  1 file changed, 12 insertions(+), 12 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
->>> index 8326db0e4197..a11457909134 100644
->>> --- a/drivers/media/platform/ti-vpe/cal.c
->>> +++ b/drivers/media/platform/ti-vpe/cal.c
->>> @@ -272,7 +272,6 @@ struct cal_camerarx {
->>>  	struct v4l2_fwnode_endpoint	endpoint;
->>>  	struct device_node	*sensor_node;
->>>  	struct v4l2_subdev	*sensor;
->>> -	unsigned int		external_rate;
->>
->> Here, external_rate is 32 bit,
->>
->>>  };
->>>  
->>>  struct cal_dev {
->>> @@ -481,9 +480,10 @@ static void cal_quickdump_regs(struct cal_dev *cal)
->>>   * ------------------------------------------------------------------
->>>   */
->>>  
->>> -static int cal_camerarx_get_external_info(struct cal_camerarx *phy)
->>> +static s64 cal_camerarx_get_external_rate(struct cal_camerarx *phy)
->>>  {
->>>  	struct v4l2_ctrl *ctrl;
->>> +	s64 rate;
->>
->> and now it becomes a 64 bit value.
->>
->>>  
->>>  	if (!phy->sensor)
->>>  		return -ENODEV;
->>> @@ -495,10 +495,10 @@ static int cal_camerarx_get_external_info(struct cal_camerarx *phy)
->>>  		return -EPIPE;
->>>  	}
->>>  
->>> -	phy->external_rate = v4l2_ctrl_g_ctrl_int64(ctrl);
->>> -	phy_dbg(3, phy, "sensor Pixel Rate: %u\n", phy->external_rate);
->>> +	rate = v4l2_ctrl_g_ctrl_int64(ctrl);
->>> +	phy_dbg(3, phy, "sensor Pixel Rate: %llu\n", rate);
->>>  
->>> -	return 0;
->>> +	return rate;
->>>  }
->>>  
->>>  static void cal_camerarx_lane_config(struct cal_camerarx *phy)
->>> @@ -554,7 +554,7 @@ static void cal_camerarx_disable(struct cal_camerarx *phy)
->>>  #define TCLK_MISS	1
->>>  #define TCLK_SETTLE	14
->>>  
->>> -static void cal_camerarx_config(struct cal_camerarx *phy,
->>> +static void cal_camerarx_config(struct cal_camerarx *phy, s64 external_rate,
->>>  				const struct cal_fmt *fmt)
->>>  {
->>>  	unsigned int reg0, reg1;
->>> @@ -566,7 +566,7 @@ static void cal_camerarx_config(struct cal_camerarx *phy,
->>>  
->>>  	/* DPHY timing configuration */
->>>  	/* CSI-2 is DDR and we only count used lanes. */
->>> -	csi2_ddrclk_khz = phy->external_rate / 1000
->>> +	csi2_ddrclk_khz = external_rate / 1000
->>>  		/ (2 * num_lanes) * fmt->bpp;
->>
->> Which causes this calculation to fail on 32 bit ARM builds.
->> (I'm building for the DRA76-EVM).
-> 
-> Oops :-/
-> 
->> I've got the following fix up on the top of your tree to solve this, but
->> I'm not particularly happy about having to break the calculation up (and
->> re-use external_rate) though the use of do_div.
->>
->> From ca6ce335a852e34364bc45cb4240f703e4ea4248 Mon Sep 17 00:00:00 2001
->> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
->> Date: Tue, 16 Jun 2020 16:19:04 +0100
->> Subject: [PATCH] media: ti-vpe: cal: Use do_div() for 64 bit operations
->>
->> Support building the CAL driver on arm32 bit targets by updating the
->> CSI2 clock calculation (which uses a signed 64 bit input value from
->> the sensors pixel clock rate) to use the do_div() helpers.
->>
->> The calculation is split into distinct parts to maintain
->> order of operations while making use of the do_div macro and further
->> re-ordered to convert to kHz at the end to maintain precision.
->>
->> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->> ---
->>  drivers/media/platform/ti-vpe/cal-camerarx.c | 22 +++++++++++++++++---
->>  1 file changed, 19 insertions(+), 3 deletions(-)
->>
->> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c
->> b/drivers/media/platform/ti-vpe/cal-camerarx.c
->> index 014ca46509db..0ef19a516902 100644
->> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
->> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
->> @@ -126,9 +126,25 @@ static void cal_camerarx_config(struct cal_camerarx
->> *phy, s64 external_rate)
->>         u32 num_lanes = mipi_csi2->num_data_lanes;
->>
->>         /* DPHY timing configuration */
->> -       /* CSI-2 is DDR and we only count used lanes. */
->> -       csi2_ddrclk_khz = external_rate / 1000
->> -               / (2 * num_lanes) * phy->fmtinfo->bpp;
->> +
->> +       /*
->> +        * CSI-2 is DDR and we only count used lanes.
->> +        *
->> +        * csi2_ddrclk_khz = external_rate / 1000
->> +        *                   / (2 * num_lanes) * phy->fmtinfo->bpp;
->> +        *
->> +        * The equation is broken into separate statements to maintain
->> +        * order of operations, and conversion to kHz is done last to
->> +        * keep precision.
->> +        *
->> +        * The 64 bit external_rate is modified during this equation and
->> +        * contains the result, not the original after calculation.
->> +        */
->> +       do_div(external_rate, 2 * num_lanes);
->> +       external_rate *= phy->fmtinfo->bpp;
->> +       do_div(external_rate, 1000);
->> +       csi2_ddrclk_khz = external_rate;
-> 
-> How about
-> 
-> 	external_rate *= phy->fmtinfo->bpp;
->  	do_div(external_rate, 2 * num_lanes * 1000);
+On 15/06/2020 00:58, Laurent Pinchart wrote:
+> The cal_camerarx_create() function allocates resources with devm_*, and
+> thus doesn't need any manual cleanup. Those won't hold true for long, as
+> we will need to store resources that have no devm_* allocation variant
+> in cal_camerarx. Furthermore, devm_kzalloc() is the wrong memory
+> allocation API for structures that can be accessed from userspace, as
+> device nodes can be kept open across device removal.
 
-Ah yes, that looks better indeed, and keeps the improved integer precision.
-
-I believe the s64 external_rate should cope with the * bpp operation
-easily too, so I don't think there's any risk of an overflow there.
-
-Squash it ;-)
-
---
-Kieran
+I still think that should be fixed by making devm_ allocations able to
+be reference counted so that it doesn't remove until until references
+(from open file handles) are released ;-) but that's completely out of
+scope here...
 
 
 > 
->> +
->>         phy_dbg(1, phy, "csi2_ddrclk_khz: %d\n", csi2_ddrclk_khz);
->>
->>         /* THS_TERM: Programmed value = floor(20 ns/DDRClk period) */
->> -- 
->> 2.25.1
->>
->>
->> If you have a better way to correctly calculate the rate (also noting
->> that I moved the /1000 to the end, I'm not sure if that's more correct,
->> or makes it stop following what the hardware would do) - please update
->> accordingly, or feel free to squash this patch in as you wish.
->>
->>
->> With the calculation corrected:
->>
->> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->>
->> --
->> Kieran
->>
->>
->>>  	phy_dbg(1, phy, "csi2_ddrclk_khz: %d\n", csi2_ddrclk_khz);
->>>  
->>> @@ -667,13 +667,14 @@ static void cal_camerarx_wait_stop_state(struct cal_camerarx *phy)
->>>  static int cal_camerarx_start(struct cal_camerarx *phy,
->>>  			      const struct cal_fmt *fmt)
->>>  {
->>> +	s64 external_rate;
->>>  	u32 sscounter;
->>>  	u32 val;
->>>  	int ret;
->>>  
->>> -	ret = cal_camerarx_get_external_info(phy);
->>> -	if (ret < 0)
->>> -		return ret;
->>> +	external_rate = cal_camerarx_get_external_rate(phy);
->>> +	if (external_rate < 0)
->>> +		return external_rate;
->>>  
->>>  	ret = v4l2_subdev_call(phy->sensor, core, s_power, 1);
->>>  	if (ret < 0 && ret != -ENOIOCTLCMD && ret != -ENODEV) {
->>> @@ -719,7 +720,7 @@ static int cal_camerarx_start(struct cal_camerarx *phy,
->>>  	reg_read(phy, CAL_CSI2_PHY_REG0);
->>>  
->>>  	/* Program the PHY timing parameters. */
->>> -	cal_camerarx_config(phy, fmt);
->>> +	cal_camerarx_config(phy, external_rate, fmt);
->>>  
->>>  	/*
->>>  	 *    b. Assert the FORCERXMODE signal.
->>> @@ -1034,7 +1035,6 @@ static struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
->>>  
->>>  	phy->cal = cal;
->>>  	phy->instance = instance;
->>> -	phy->external_rate = 192000000;
->>>  
->>>  	phy->res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
->>>  						(instance == 0) ?
+> Add a cal_camerarx_destroy() function to destroy a CAMERARX instance
+> explicitly, and switch to kzalloc() for memory allocation.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/platform/ti-vpe/cal.c | 35 ++++++++++++++++++++++++-----
+>  1 file changed, 29 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index b8c7ad8e39cd..c9fef333c532 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -931,7 +931,7 @@ static struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>  	struct cal_camerarx *phy;
+>  	int ret;
+>  
+> -	phy = devm_kzalloc(&pdev->dev, sizeof(*phy), GFP_KERNEL);
+> +	phy = kzalloc(sizeof(*phy), GFP_KERNEL);
+>  	if (!phy)
+>  		return ERR_PTR(-ENOMEM);
+>  
+> @@ -946,7 +946,8 @@ static struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>  	phy->base = devm_ioremap_resource(&pdev->dev, phy->res);
+>  	if (IS_ERR(phy->base)) {
+>  		cal_err(cal, "failed to ioremap\n");
+> -		return ERR_CAST(phy->base);
+> +		ret = PTR_ERR(phy->base);
+> +		goto error;
+>  	}
+>  
+>  	cal_dbg(1, cal, "ioresource %s at %pa - %pa\n",
+> @@ -954,9 +955,21 @@ static struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>  
+>  	ret = cal_camerarx_regmap_init(cal, phy);
+>  	if (ret)
+> -		return ERR_PTR(ret);
+> +		goto error;
+>  
+>  	return phy;
+> +
+> +error:
+> +	kfree(phy);
+> +	return ERR_PTR(ret);
+> +}
+> +
+> +static void cal_camerarx_destroy(struct cal_camerarx *phy)
+> +{
+> +	if (!phy)
+> +		return;
+> +
+> +	kfree(phy);
+>  }
+>  
+>  static int cal_camerarx_init_regmap(struct cal_dev *cal)
+> @@ -2252,15 +2265,17 @@ static int cal_probe(struct platform_device *pdev)
+>  	/* Create CAMERARX PHYs. */
+>  	for (i = 0; i < cal_data_get_num_csi2_phy(cal); ++i) {
+>  		cal->phy[i] = cal_camerarx_create(cal, i);
+> -		if (IS_ERR(cal->phy[i]))
+> -			return PTR_ERR(cal->phy[i]);
+> +		if (IS_ERR(cal->phy[i])) {
+> +			ret = PTR_ERR(cal->phy[i]);
+
+here, cal->phy[i] is an error value, but you then iterate them and call
+cal_camerarx_destroy() on this value.
+
+Perhaps you should set the following here, before jumping:
+
+			cal->phy[i] = NULL;
+
+
+> +			goto error_camerarx;
+> +		}
+>  	}
+>  
+>  	/* Register the V4L2 device. */
+>  	ret = v4l2_device_register(&pdev->dev, &cal->v4l2_dev);
+>  	if (ret) {
+>  		cal_err(cal, "Failed to register V4L2 device\n");
+> -		return ret;
+> +		goto error_camerarx;
+>  	}
+>  
+>  	/* Create contexts. */
+> @@ -2301,6 +2316,11 @@ static int cal_probe(struct platform_device *pdev)
+>  
+>  error_v4l2:
+>  	v4l2_device_unregister(&cal->v4l2_dev);
+> +
+> +error_camerarx:
+> +	for (i = 0; i < ARRAY_SIZE(cal->phy); i++)
+> +		cal_camerarx_destroy(cal->phy[i]);
+> +
+>  	return ret;
+>  }
+>  
+> @@ -2329,6 +2349,9 @@ static int cal_remove(struct platform_device *pdev)
+>  
+>  	v4l2_device_unregister(&cal->v4l2_dev);
+>  
+> +	for (i = 0; i < ARRAY_SIZE(cal->phy); i++)
+> +		cal_camerarx_destroy(cal->phy[i]);
+> +
+>  	pm_runtime_put_sync(&pdev->dev);
+>  	pm_runtime_disable(&pdev->dev);
+>  
 > 
 
 -- 
