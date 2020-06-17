@@ -2,175 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6646B1FD0A7
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 17:16:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3F451FD0E7
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 17:27:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726558AbgFQPPq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 11:15:46 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:50328 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726494AbgFQPPq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jun 2020 11:15:46 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id E9EC03C057F;
-        Wed, 17 Jun 2020 17:15:43 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 8p7emesp5isC; Wed, 17 Jun 2020 17:15:37 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        id S1726861AbgFQP1Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 11:27:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59328 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726758AbgFQP1Q (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 17 Jun 2020 11:27:16 -0400
+Received: from kozik-lap.mshome.net (unknown [194.230.155.126])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id CA0AD3C00BA;
-        Wed, 17 Jun 2020 17:15:37 +0200 (CEST)
-Received: from vmlxhi-121.adit-jv.com (10.72.92.132) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 17 Jun
- 2020 17:15:37 +0200
-Date:   Wed, 17 Jun 2020 17:15:37 +0200
-From:   Michael Rodin <mrodin@de.adit-jv.com>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-CC:     Michael Rodin <mrodin@de.adit-jv.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <michael@rodin.online>,
-        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>,
-        Steve Longerbeam <steve_longerbeam@mentor.com>
-Subject: Re: [PATCH] media: rcar-vin: Move media_device_register to async
- completion
-Message-ID: <20200617151537.GB88066@vmlxhi-121.adit-jv.com>
-References: <1592328696-84533-1-git-send-email-mrodin@de.adit-jv.com>
- <20200617105646.GB2850317@oden.dyn.berto.se>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200617105646.GB2850317@oden.dyn.berto.se>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.92.132]
+        by mail.kernel.org (Postfix) with ESMTPSA id B4D5F2089D;
+        Wed, 17 Jun 2020 15:27:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592407635;
+        bh=/X4RakAnjpaIbDFNGYOyhDIZuK7NZ/bC8ERbSOpBkvA=;
+        h=From:To:Subject:Date:From;
+        b=OwHTIF92HeRZSfkFxh2WikBaYElmr2tOOHq+wczjC8w+D4cMV7CFDdFe54ko9h8Cw
+         Dhr2M4C7wCI7EcZ9CEkTPhLmWM1Wedkos9O0Vik5o4HG4GwngeltE7d/KUfN3bqXRQ
+         2rxoLcoesbWfe5ZQwBS67fBoqoopB4p9q/EdA9WM=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org
+Subject: [PATCH RESEND v2] media: samsung: Rename Samsung and Exynos to lowercase
+Date:   Wed, 17 Jun 2020 17:27:09 +0200
+Message-Id: <20200617152709.17756-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas and Steve,
+Fix up inconsistent usage of upper and lowercase letters in "Samsung"
+and "Exynos" names.
 
-On Wed, Jun 17, 2020 at 12:56:46PM +0200, Niklas Söderlund wrote:
-> Hi Michael and Steve,
-> 
-> On 2020-06-16 19:31:36 +0200, Michael Rodin wrote:
-> > From: Steve Longerbeam <steve_longerbeam@mentor.com>
-> > 
-> > The media_device is registered during driver probe, before async
-> > completion, so it is possible for .link_notify to be called before
-> > all devices are bound.
-> > 
-> > Fix this by moving media_device_register() to rvin_group_notify_complete().
-> > This ensures that all devices are now bound (the rcar-csi2 subdevices and
-> > and video capture devices) before .link_notify can be called.
-> 
-> I'm curious to what situation created the need for this change. I'm 
-> currently trying to take the VIN driver in the opposite direction [1] 
-> with the end goal of registering video devices at probe time and then 
-> allow the media graph to populate as devices becomes available.
+"SAMSUNG" and "EXYNOS" are not abbreviations but regular trademarked
+names.  Therefore they should be written with lowercase letters starting
+with capital letter.
 
-It looks like almost all platform drivers call media_device_register() in
-the completion callback. From my understaning it is necessary to ensure
-that all subdevices are bound and all links are created before the user
-can enable any link (which would trigger link_notify callback execution)
-and set formats. If I am not mistaken, Steve could observe an "OOPS" or
-at least it is theoretically possible.
+The lowercase "Exynos" name is promoted by its manufacturer Samsung
+Electronics Co., Ltd., in advertisement materials and on website.
 
-Actually I found that this patch alone is not enough even if it is correct,
-because we also have to register the media device in rvin_parallel_notify_complete()
-in case if there is only a parallel video input device attached.
+Although advertisement materials usually use uppercase "SAMSUNG", the
+lowercase version is used in all legal aspects (e.g. on Wikipedia and in
+privacy/legal statements on
+https://www.samsung.com/semiconductor/privacy-global/).
 
-> My reason for this is that we could have a functional pipeline inside 
-> the graph even if it's not complete. This came out of the GMSL work done
-> a while pack where I had a faulty camera that would prevent the other 7 
-> in the system to function.
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-I agree that if a probe of a faulty subdevice fails, this should not affect
-functionality of the other attached subdevices. The "complete" callback of
-the async notifier is probably not executed in this case, so I guess, we
-would have to register the media device in the "bound" callback after the first
-subdevice has been probed? Otherwise there is not much sense to have video
-capture devices, which are not connected to any source.
+---
 
-(Delayed) population of the media graph after media device registration
-sounds also like a requirement for device tree overlay support, which would
-also be a nice feature.
+Changes since v1:
+1. Move bindings change to separate patch.
+---
+ Documentation/admin-guide/media/fimc.rst          | 6 +++---
+ Documentation/driver-api/media/drivers/tuners.rst | 2 +-
+ drivers/media/platform/exynos4-is/media-dev.c     | 2 +-
+ drivers/media/platform/s3c-camif/camif-core.c     | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
-> 1. [PATCH 0/5] media-device: Report if graph is complete
-> 
-> > 
-> > Signed-off-by: Steve Longerbeam <steve_longerbeam@mentor.com>
-> > Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
-> > ---
-> >  drivers/media/platform/rcar-vin/rcar-core.c | 14 ++++++--------
-> >  1 file changed, 6 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> > index 7440c89..e70f83b 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> > @@ -253,7 +253,6 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
-> >  	struct media_device *mdev = &group->mdev;
-> >  	const struct of_device_id *match;
-> >  	struct device_node *np;
-> > -	int ret;
-> >  
-> >  	mutex_init(&group->lock);
-> >  
-> > @@ -266,7 +265,6 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
-> >  	vin_dbg(vin, "found %u enabled VIN's in DT", group->count);
-> >  
-> >  	mdev->dev = vin->dev;
-> > -	mdev->ops = &rvin_media_ops;
-> >  
-> >  	match = of_match_node(vin->dev->driver->of_match_table,
-> >  			      vin->dev->of_node);
-> > @@ -278,11 +276,7 @@ static int rvin_group_init(struct rvin_group *group, struct rvin_dev *vin)
-> >  
-> >  	media_device_init(mdev);
-> >  
-> > -	ret = media_device_register(&group->mdev);
-> > -	if (ret)
-> > -		rvin_group_cleanup(group);
-> > -
-> > -	return ret;
-> > +	return 0;
-> >  }
-> >  
-> >  static void rvin_group_release(struct kref *kref)
-> > @@ -688,6 +682,8 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
-> >  		return ret;
-> >  	}
-> >  
-> > +	vin->group->mdev.ops = &rvin_media_ops;
-> > +
-> >  	/* Register all video nodes for the group. */
-> >  	for (i = 0; i < RCAR_VIN_NUM; i++) {
-> >  		if (vin->group->vin[i] &&
-> > @@ -736,8 +732,10 @@ static int rvin_group_notify_complete(struct v4l2_async_notifier *notifier)
-> >  		}
-> >  	}
-> >  	mutex_unlock(&vin->group->lock);
-> > +	if (ret)
-> > +		return ret;
-> >  
-> > -	return ret;
-> > +	return media_device_register(&vin->group->mdev);
-> >  }
-> >  
-> >  static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
-> > -- 
-> > 2.7.4
-> > 
-> 
-> -- 
-> Regards,
-> Niklas Söderlund
-
+diff --git a/Documentation/admin-guide/media/fimc.rst b/Documentation/admin-guide/media/fimc.rst
+index 0b8ddc4a3008..56b149d9a527 100644
+--- a/Documentation/admin-guide/media/fimc.rst
++++ b/Documentation/admin-guide/media/fimc.rst
+@@ -2,7 +2,7 @@
+ 
+ .. include:: <isonum.txt>
+ 
+-The Samsung S5P/EXYNOS4 FIMC driver
++The Samsung S5P/Exynos4 FIMC driver
+ ===================================
+ 
+ Copyright |copy| 2012 - 2013 Samsung Electronics Co., Ltd.
+@@ -19,7 +19,7 @@ drivers/media/platform/exynos4-is directory.
+ Supported SoCs
+ --------------
+ 
+-S5PC100 (mem-to-mem only), S5PV210, EXYNOS4210
++S5PC100 (mem-to-mem only), S5PV210, Exynos4210
+ 
+ Supported features
+ ------------------
+@@ -45,7 +45,7 @@ Media device interface
+ ~~~~~~~~~~~~~~~~~~~~~~
+ 
+ The driver supports Media Controller API as defined at :ref:`media_controller`.
+-The media device driver name is "SAMSUNG S5P FIMC".
++The media device driver name is "Samsung S5P FIMC".
+ 
+ The purpose of this interface is to allow changing assignment of FIMC instances
+ to the SoC peripheral camera input at runtime and optionally to control internal
+diff --git a/Documentation/driver-api/media/drivers/tuners.rst b/Documentation/driver-api/media/drivers/tuners.rst
+index 7509be888909..d7924141c544 100644
+--- a/Documentation/driver-api/media/drivers/tuners.rst
++++ b/Documentation/driver-api/media/drivers/tuners.rst
+@@ -18,7 +18,7 @@ These differ mainly by the bandswitch byte.
+ Tuner Manufacturers
+ -------------------
+ 
+-- SAMSUNG Tuner identification: (e.g. TCPM9091PD27)
++- Samsung Tuner identification: (e.g. TCPM9091PD27)
+ 
+ .. code-block:: none
+ 
+diff --git a/drivers/media/platform/exynos4-is/media-dev.c b/drivers/media/platform/exynos4-is/media-dev.c
+index 9aaf3b8060d5..96e336b19cc3 100644
+--- a/drivers/media/platform/exynos4-is/media-dev.c
++++ b/drivers/media/platform/exynos4-is/media-dev.c
+@@ -1439,7 +1439,7 @@ static int fimc_md_probe(struct platform_device *pdev)
+ 	INIT_LIST_HEAD(&fmd->pipelines);
+ 	fmd->pdev = pdev;
+ 
+-	strscpy(fmd->media_dev.model, "SAMSUNG S5P FIMC",
++	strscpy(fmd->media_dev.model, "Samsung S5P FIMC",
+ 		sizeof(fmd->media_dev.model));
+ 	fmd->media_dev.ops = &fimc_md_ops;
+ 	fmd->media_dev.dev = dev;
+diff --git a/drivers/media/platform/s3c-camif/camif-core.c b/drivers/media/platform/s3c-camif/camif-core.c
+index c6fbcd7036d6..92f43c0cbc0c 100644
+--- a/drivers/media/platform/s3c-camif/camif-core.c
++++ b/drivers/media/platform/s3c-camif/camif-core.c
+@@ -304,7 +304,7 @@ static int camif_media_dev_init(struct camif_dev *camif)
+ 	int ret;
+ 
+ 	memset(md, 0, sizeof(*md));
+-	snprintf(md->model, sizeof(md->model), "SAMSUNG S3C%s CAMIF",
++	snprintf(md->model, sizeof(md->model), "Samsung S3C%s CAMIF",
+ 		 ip_rev == S3C6410_CAMIF_IP_REV ? "6410" : "244X");
+ 	strscpy(md->bus_info, "platform", sizeof(md->bus_info));
+ 	md->hw_revision = ip_rev;
 -- 
-Best Regards,
-Michael
+2.17.1
+
