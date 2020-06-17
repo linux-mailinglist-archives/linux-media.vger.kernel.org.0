@@ -2,53 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 932C61FC65D
-	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 08:49:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D0D31FC80F
+	for <lists+linux-media@lfdr.de>; Wed, 17 Jun 2020 09:58:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726271AbgFQGtC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 02:49:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44292 "EHLO
+        id S1726702AbgFQH6H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 03:58:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726313AbgFQGtC (ORCPT
+        with ESMTP id S1726565AbgFQH6H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jun 2020 02:49:02 -0400
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 533CAC061755
-        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2020 23:49:02 -0700 (PDT)
-Received: by mail-oi1-x244.google.com with SMTP id d67so851356oig.6
-        for <linux-media@vger.kernel.org>; Tue, 16 Jun 2020 23:49:02 -0700 (PDT)
+        Wed, 17 Jun 2020 03:58:07 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15613C061755
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 00:58:06 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id a3so1000854oid.4
+        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 00:58:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=A5ZhuFAutHEAeCHrC5mjvXu1Iq0NUc7YMfX/IRu3ZyA=;
-        b=OIOD71wghmL3BJ+4LTxzheuNdBbWNpLdKTVng8Cfhv9Fc+rfz1Bmpja7NkfffcXZ5t
-         F6agC8t3Bl3XSNz2wvhQVeG89txiQ4Fg0oTmf4NqMRP+P7i0aE2AqATgmZ8aSvLna89q
-         jo8UfjgpSF4gK32/sAugm1Q4Ddzgv8tjJWzGc=
+        bh=X+Qtu+2ZAyZXkh/oo1Lz6E9/PFmVPHRpkYwfH9QQzoY=;
+        b=Rnq7BerEC1NJ+s3KJhsfuws9Kg+j4pWFkQJLmI518tzrC8znQHM1y1XOVL+e9QQvGC
+         mOcEQIpeKlQI3Ch0XEzDajgEy3Ss5YB513C5XhgrGC29v//2jcdDFh59xMl7mJC4egNc
+         wZOOJ+JmjjXVx9gZJsvcArI7aR28zLTWFwR6Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=A5ZhuFAutHEAeCHrC5mjvXu1Iq0NUc7YMfX/IRu3ZyA=;
-        b=jnDA3Hlxqb4bbgTZw+jgTfUabYY0YkYTK/OnLq8wDCHf3fcAzMhAHx8vOIEP57UU3/
-         Kdvm3mutq1Z9vp4ke/J+fPEgurcs1i50RD9Lotm+OUluFsgvQ15KEihWaoj9GZ1vxQ5F
-         vU6zKgxja9OWzPdgz+T6+AE8mCcb8mpmrIn6brJLd1qYDQtJjgHIv+LFnh3ehGILEZrz
-         ruM11PZVCRwnqDfJOrzzZX3u8m8HKoqtF7v3AZR6VF4lccc6H3WsVUVxIot8qAxaJaC3
-         Fk/HkyHM1u/OmQoMv9Fgs+azlqz4NUZASzCZZJ6spZ7+GIRnpI7V0CTtmCWR5iUlXIxF
-         nBuA==
-X-Gm-Message-State: AOAM5300m7VUg/Ik/SPXREYaZQI9B8isaIbvCn4xuhBlf0n7dNeB/I4H
-        oJLvSIiWC7rVFcgmVn1oFSOQOPl9iVWYpix2tbmtZw==
-X-Google-Smtp-Source: ABdhPJwGAcimp20dQiWfb4LYQbPcyitWuj+om1jev4TmvwlxEdnrUo68m+2HSkZsaPumvrGpeUMSVFkd4tAKg9ZB6PA=
-X-Received: by 2002:aca:ad97:: with SMTP id w145mr6315470oie.128.1592376541438;
- Tue, 16 Jun 2020 23:49:01 -0700 (PDT)
+        bh=X+Qtu+2ZAyZXkh/oo1Lz6E9/PFmVPHRpkYwfH9QQzoY=;
+        b=RWn+jVRgCnlpum9OZeXv3boCAEZwI/wk3AtAEv+TPP3pY/F2smQjvydcsDuh933DjO
+         w74kNUkHxOyHWJ/CP80jHZwi0a+Ym72mZc2bMdVRoGPdzprV7L8h8QdldSWv3uUCgERy
+         o42GIQY9DxtOUv+eLWKkiol9aaNgwjnGYS3MJiPT7dhOlTHZhRL0+9j3TovBT/qV8OdK
+         5afhzGqvPOSu6TY/kzuaK9XF8Nw1J5cNU+0bGgKONeoMj/UlU5zROE5OYe8W76rCDce8
+         11MBYRrwVb5WdCrKCaubNBiSrhyiDzfUT7sNecA00zd68IDy8dmz7GAuOugJr09GR5KA
+         9psA==
+X-Gm-Message-State: AOAM531SOcOJK9fZcS8bd43kB2C1IKZNKeAaM8jXYaSHw2mLQCbzFdtU
+        5fLR/ejsx157Rlqb6q9M6Gq0sn7/OWVJor1MdHVsbw==
+X-Google-Smtp-Source: ABdhPJyg/qc6FJuRZYZqNNd5IMYVmnKGSrITOouFVSzC2Mh6TfEGJcQ4YwgOLOvW4cWrgZZvjXq69o3dCj+ez8idqyo=
+X-Received: by 2002:aca:ed42:: with SMTP id l63mr6006514oih.101.1592380685425;
+ Wed, 17 Jun 2020 00:58:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
  <20200604081224.863494-5-daniel.vetter@ffwll.ch> <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
- <20200611083430.GD20149@phenom.ffwll.local> <20200611141515.GW6578@ziepe.ca> <20200616120719.GL20149@phenom.ffwll.local>
-In-Reply-To: <20200616120719.GL20149@phenom.ffwll.local>
+ <20200611083430.GD20149@phenom.ffwll.local> <20200611141515.GW6578@ziepe.ca>
+ <20200616120719.GL20149@phenom.ffwll.local> <20200616145312.GC6578@ziepe.ca>
+In-Reply-To: <20200616145312.GC6578@ziepe.ca>
 From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Wed, 17 Jun 2020 08:48:50 +0200
-Message-ID: <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
+Date:   Wed, 17 Jun 2020 09:57:54 +0200
+Message-ID: <CAKMK7uER6ax1zr14xYLKqDfDZp+ycBsY9Yx7JaVkKQ849VfSPg@mail.gmail.com>
 Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
 To:     Jason Gunthorpe <jgg@ziepe.ca>
 Cc:     =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= 
@@ -73,139 +74,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 16, 2020 at 2:07 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+On Wed, Jun 17, 2020 at 9:27 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 >
-> Hi Jason,
->
-> Somehow this got stuck somewhere in the mail queues, only popped up just
-> now ...
->
-> On Thu, Jun 11, 2020 at 11:15:15AM -0300, Jason Gunthorpe wrote:
-> > On Thu, Jun 11, 2020 at 10:34:30AM +0200, Daniel Vetter wrote:
-> > > > I still have my doubts about allowing fence waiting from within shrinkers.
-> > > > IMO ideally they should use a trywait approach, in order to allow memory
-> > > > allocation during command submission for drivers that
-> > > > publish fences before command submission. (Since early reservation object
-> > > > release requires that).
+> On Tue, Jun 16, 2020 at 02:07:19PM +0200, Daniel Vetter wrote:
+> > > > I've pinged a bunch of armsoc gpu driver people and ask them how much this
+> > > > hurts, so that we have a clear answer. On x86 I don't think we have much
+> > > > of a choice on this, with userptr in amd and i915 and hmm work in nouveau
+> > > > (but nouveau I think doesn't use dma_fence in there).
 > > >
-> > > Yeah it is a bit annoying, e.g. for drm/scheduler I think we'll end up
-> > > with a mempool to make sure it can handle it's allocations.
-> > >
-> > > > But since drivers are already waiting from within shrinkers and I take your
-> > > > word for HMM requiring this,
-> > >
-> > > Yeah the big trouble is HMM and mmu notifiers. That's the really awkward
-> > > one, the shrinker one is a lot less established.
+> > > Right, nor will RDMA ODP.
 > >
-> > I really question if HW that needs something like DMA fence should
-> > even be using mmu notifiers - the best use is HW that can fence the
-> > DMA directly without having to get involved with some command stream
-> > processing.
-> >
-> > Or at the very least it should not be a generic DMA fence but a
-> > narrowed completion tied only into the same GPU driver's command
-> > completion processing which should be able to progress without
-> > blocking.
+> > Hm, what's the context here? I thought RDMA side you really don't want
+> > dma_fence in mmu_notifiers, so not clear to me what you're agreeing on
+> > here.
 >
-> The problem with gpus is that these completions leak across the board like
-> mad. Both internally within memory managers (made a lot worse with p2p
-> direct access to vram), and through uapi.
->
-> Many gpus still have a very hard time preempting, so doing an overall
-> switch in drivers/gpu to a memory management model where that is required
-> is not a very realistic option.  And minimally you need either preempt
-> (still takes a while, but a lot faster generally than waiting for work to
-> complete) or hw faults (just a bunch of tlb flushes plus virtual indexed
-> caches, so just the caveat of that for a gpu, which has lots and big tlbs
-> and caches). So preventing the completion leaks within the kernel is I
-> think unrealistic, except if we just say "well sorry, run on windows,
-> mkay" for many gpu workloads. Or more realistic "well sorry, run on the
-> nvidia blob with nvidia hw".
->
-> The userspace side we can somewhat isolate, at least for pure compute
-> workloads. But the thing is drivers/gpu is a continum from tiny socs
-> (where dma_fence is a very nice model) to huge compute stuff (where it's
-> maybe not the nicest, but hey hw sucks so still neeeded). Doing full on
-> break in uapi somewhere in there is at least a bit awkward, e.g. some of
-> the media codec code on intel runs all the way from the smallest intel soc
-> to the big transcode servers.
->
-> So the current status quo is "total mess, every driver defines their own
-> rules". All I'm trying to do is some common rules here, do make this mess
-> slightly more manageable and overall reviewable and testable.
->
-> I have no illusions that this is fundamentally pretty horrible, and the
-> leftover wiggle room for writing memory manager is barely more than a
-> hairline. Just not seeing how other options are better.
+> rdma does not use dma_fence at all, and though it is hard to tell, I
+> didn't notice a dma_fence in the nouveau invalidation call path.
 
-So bad news is that gpu's are horrible, but I think if you don't have
-to review gpu drivers it's substantially better. If you do have hw
-with full device page fault support, then there's no need to ever
-install a dma_fence. Punching out device ptes and flushing caches is
-all that's needed. That is also the plan we have, for the workloads
-and devices where that's possible.
+Nouveau for compute has hw page faults. It doesn't have hw page faults
+for non-compute fixed function blocks afaik, so there's a hybrid model
+going on. But nouveau also doesn't support userspace memory (instead
+of driver-allocated buffer objects) for these fixed function blocks,
+so no need to have a dma_fence_wait in there.
 
-Now my understanding for rdma is that if you don't have hw page fault
-support, then the only other object is to more or less permanently pin
-the memory. So again, dma_fence are completely useless, since it's
-entirely up to userspace when a given piece of registered memory isn't
-needed anymore, and the entire problem boils down to how much do we
-allow random userspace to just pin (system or device) memory. Or at
-least I don't really see any other solution.
+> At the very least I think there should be some big warning that
+> dma_fence in notifiers should be avoided.
 
-On the other end we have simpler devices like video input/output.
-Those always need pinned memory, but through hw design it's limited in
-how much you can pin (generally max resolution times a limited set of
-buffers to cycle through). Just including that memory pinning
-allowance as part of device access makes sense.
+Yeah I'm working on documentation, and also the notifiers here
+hopefully make it clear it's massive pain. I think we could even make
+a hard rule that dma_fence in mmu notifier outside of drivers/gpu is a
+bug/misfeature.
 
-It's only gpus (I think) which are in this awkward in-between spot
-where dynamic memory management really is much wanted, but the hw
-kinda sucks. Aside, about 10+ years ago we had a similar problem with
-gpu hw, but for security: Many gpu didn't have any kinds of page
-tables to isolate different clients from each another. drivers/gpu
-fixed this by parsing&validating what userspace submitted to make sure
-it's only every accessing its own buffers. Most gpus have become
-reasonable nowadays and do have proper per-process pagetables (gpu
-process, not the pasid stuff), but even today there's still some of
-the old model left in some of the smallest SoC.
+Might be a good idea to add a MAINTAINERS entry with a K: regex
+pattern, so that you can catch such modifiers. We do already have such
+a pattern for dma-fence, to catch abuse. So if you want I could type
+up a documentation patch for this, get your and others acks and the
+dri-devel folks would enforce that the dma_fence_wait madness doesn't
+leak beyond drivers/gpu
 
-tldr; of all this: gpus kinda suck sometimes, but  that's also not news :-/
+> Ie it is strange that the new totally-not-a-gpu drivers use dma_fence,
+> they surely don't have the same constraints as the existing GPU world,
+> and it would be annoying to see dma_fence notifiers spring up in them
+
+If you mean drivers/misc/habanalabs, that's going to get taken care of:
+
+
+commit ed65bfd9fd86dec3772570b0320ca85b9fb69f2e
+Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Mon May 11 11:11:42 2020 +0200
+
+    habanalabs: don't set default fence_ops->wait
+
+    It's the default.
+
+    Also so much for "we're not going to tell the graphics people how to
+    review their code", dma_fence is a pretty core piece of gpu driver
+    infrastructure. And it's very much uapi relevant, including piles of
+    corresponding userspace protocols and libraries for how to pass these
+    around.
+
+    Would be great if habanalabs would not use this (from a quick look
+    it's not needed at all), since open source the userspace and playing
+    by the usual rules isn't on the table. If that's not possible (because
+    it's actually using the uapi part of dma_fence to interact with gpu
+    drivers) then we have exactly what everyone promised we'd want to
+    avoid.
+
+    Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+    Reviewed-by: Oded Gabbay <oded.gabbay@gmail.com>
+    Signed-off-by: Oded Gabbay <oded.gabbay@gmail.com>
+
+Oded has agreed to remove the dma-fence usage, since they really don't
+need it (and all the baggage that comes with it), plain old completion
+is enough for their use. This use is also why I added the regex to
+MAINTAINERS, so that in the future we can catch people who try to use
+dma_fence because it looks cute and useful, and are completely
+oblivious to all the pain and headaches involved.
 
 Cheers, Daniel
-
-> > The intent of notifiers was never to endlessly block while vast
-> > amounts of SW does work.
-> >
-> > Going around and switching everything in a GPU to GFP_ATOMIC seems
-> > like bad idea.
->
-> It's not everyone, or at least not everywhere, it's some fairly limited
-> cases. Also, even if we drop the mmu_notifier on the floor, then we're
-> stuck with shrinkers and GFP_NOFS. Still need a mempool of some sorts to
-> guarantee you get out of a bind, so not much better.
->
-> At least that's my current understanding of where we are across all
-> drivers.
->
-> > > I've pinged a bunch of armsoc gpu driver people and ask them how much this
-> > > hurts, so that we have a clear answer. On x86 I don't think we have much
-> > > of a choice on this, with userptr in amd and i915 and hmm work in nouveau
-> > > (but nouveau I think doesn't use dma_fence in there).
-> >
-> > Right, nor will RDMA ODP.
->
-> Hm, what's the context here? I thought RDMA side you really don't want
-> dma_fence in mmu_notifiers, so not clear to me what you're agreeing on
-> here.
-> -Daniel
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
-
-
-
 -- 
 Daniel Vetter
 Software Engineer, Intel Corporation
