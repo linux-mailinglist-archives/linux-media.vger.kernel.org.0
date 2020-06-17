@@ -2,89 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C4221FD85D
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 00:07:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F6471FD886
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 00:14:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726909AbgFQWHq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 17 Jun 2020 18:07:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45586 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726835AbgFQWHo (ORCPT
+        id S1727021AbgFQWOS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 17 Jun 2020 18:14:18 -0400
+Received: from mail-io1-f68.google.com ([209.85.166.68]:46042 "EHLO
+        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726840AbgFQWOQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 17 Jun 2020 18:07:44 -0400
-Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 310D5C06174E
-        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 15:07:43 -0700 (PDT)
-Received: by mail-yb1-xb44.google.com with SMTP id m16so2057030ybf.4
-        for <linux-media@vger.kernel.org>; Wed, 17 Jun 2020 15:07:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=y+nBmhNSgE5/KJgzUGIyU14Car0+dblfov0Gz+IxE+Y=;
-        b=gnPSUYqcV/QHB6lDj/49U8FH/Y2M6vfoPn4+JBtghQI1XLfhiH8LLgUSnfmksiYo3I
-         2P1UQv+mBcannQnF+aIAE6SwCxtZU5k16VUb29LJCtBZrjLCUSCYgr8hXYGmKkqxkzvT
-         /2v9/AQCRVbeaFt0k3Iu8GEM26/sQq7tFhKS+6h+HB7xjQnKGuG5qyk6YFDC985c80Hx
-         YmyOWLQhb+lvVJmcIHSKjwNy7xJG9BEB2OyV4xiD766tXLCaTK1NOl8U7gGSnubPDrrB
-         4PCtYhoRo4FaSlzvdJ7fsWEe/CCrtFqa0wH/dXP5hign3sp+n43z6DaBdfT/WIKmoYmT
-         PC6Q==
+        Wed, 17 Jun 2020 18:14:16 -0400
+Received: by mail-io1-f68.google.com with SMTP id y5so4738827iob.12;
+        Wed, 17 Jun 2020 15:14:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=y+nBmhNSgE5/KJgzUGIyU14Car0+dblfov0Gz+IxE+Y=;
-        b=c9ZlYqAXUrcDiFvHTlDEkXOOOm5zs/CNR4fM3yIzt20S13vWCpXCoNjTL2KdVRkpm9
-         XmtIe/LmY1Oahbd2+BXG3upX9BeTYRcHnljD7fIgTMuDWnUVNrzQAoBDZLyf/YgsYVka
-         Pz3QPujBxu6JL6DOwr+DlcLVNX5OwaUc9r574LB2nNtizJLyS/fYQEh/MPqP1cGWhjvU
-         nAqMnBofw1+vO7fACcZ1EKtWo/Z3CMm9wtE6tOQR7piHm3Ua+9luloRZ3G2Rw+qVGqMT
-         vd+bcBUUuWk9IkSSNlA4waZFW2SlwG67umLS8pBtyxm1SeX2PGvEb1ivgrpJMnFbeIsE
-         Glfw==
-X-Gm-Message-State: AOAM530rWukz6t1G6tpkPUaRa2zfZzZaghop1cGPVg36zpMSGiU5KETL
-        A5Vc0jSiWP60qb5kAv7/WYmMIoQK4TkhZ7SJsziqfw==
-X-Google-Smtp-Source: ABdhPJyfXGntakeTVfHZEfQG9XfX+r1JGGWMwayN2tLsGEeNCZVfjhh9l6O5KED7dswsY8IcAKjmmk3cbZ2V2+GTdc8=
-X-Received: by 2002:a25:ca45:: with SMTP id a66mr1830715ybg.164.1592431662324;
- Wed, 17 Jun 2020 15:07:42 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=DRXryslTGLkMJqQMxB14CHKUq6hyTDjdoN304utJi9Y=;
+        b=A86biCGZ7pKnsRQEEStEZdz59LmUrWX+8fti3y48EXk5NieYJgoOZwPz0+aUeZ3CI5
+         KD6NpsHz1v8LyLsGZ1N5YGJAHhiJzbUO6cnnoBHYSNOSQpNVuQCXfkzaQQjBeH5UTImY
+         p2rN+lJywhel8QhIpBNXmz0Hc37bJNPFHiLM5j4n8YrmGbir27yusQzTlnj04LLvUoXN
+         LJXcPSiYiMqct+CI0ogCwfNs709/T2Ehe7K1L9YldBL2emq9sIot8EJ8RObPlRdR7WL9
+         DZNwDlIJVnU27XPghZovC5UVMpEVyGX/bRvTHOHKdC5lIiCl7UI6Mycu9kjhcTeDtmuX
+         Nlpg==
+X-Gm-Message-State: AOAM532zcyyOqjEJ/MP0hZQ91tKgA8sb3rImTeDNXXpgEAfFScO+XMrR
+        2yegpUmVNZb0ha4PqTD65g==
+X-Google-Smtp-Source: ABdhPJz7QUutK4RE5S/N61ajEcfcIYnRVvw0B0Br3nuAULonfWSMZqjN0BZ4yZD6EFLd0+qnRQpNQQ==
+X-Received: by 2002:a05:6638:35d:: with SMTP id x29mr1434644jap.71.1592432054953;
+        Wed, 17 Jun 2020 15:14:14 -0700 (PDT)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id f1sm494482ilh.17.2020.06.17.15.14.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 17 Jun 2020 15:14:14 -0700 (PDT)
+Received: (nullmailer pid 2927550 invoked by uid 1000);
+        Wed, 17 Jun 2020 22:14:11 -0000
+Date:   Wed, 17 Jun 2020 16:14:11 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, frankc@nvidia.com,
+        hverkuil@xs4all.nl, sakari.ailus@iki.fi, helen.koike@collabora.com,
+        digetx@gmail.com, sboyd@kernel.org, gregkh@linuxfoundation.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-i2c@vger.kernel.org
+Subject: Re: [RFC PATCH v1 10/18] dt-bindings: tegra: Document VI and CSI
+ port nodes
+Message-ID: <20200617221411.GB2923473@bogus>
+References: <1591768960-31648-1-git-send-email-skomatineni@nvidia.com>
+ <1591768960-31648-11-git-send-email-skomatineni@nvidia.com>
 MIME-Version: 1.0
-References: <20200615193811.233737-1-jnchase@google.com> <20200615193811.233737-2-jnchase@google.com>
- <20200617202645.GA2728573@bogus>
-In-Reply-To: <20200617202645.GA2728573@bogus>
-From:   Jeff Chase <jnchase@google.com>
-Date:   Wed, 17 Jun 2020 15:07:31 -0700
-Message-ID: <CALTkaQ2q0=Z5bo4p5jwJcS9j9TikKq-TzSXhWLyP8P71n1m0Zw@mail.gmail.com>
-Subject: Re: [PATCH v5 1/2] dt-bindings: Add ch7322 media i2c device
-To:     Rob Herring <robh@kernel.org>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1591768960-31648-11-git-send-email-skomatineni@nvidia.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 17, 2020 at 1:26 PM Rob Herring <robh@kernel.org> wrote:
->
-> On Mon, 15 Jun 2020 15:38:10 -0400, Jeff Chase wrote:
-> > The ch7322 is a Chrontel CEC controller.
-> >
-> > Signed-off-by: Jeff Chase <jnchase@google.com>
-> > ---
-> >  .../bindings/media/i2c/chrontel,ch7322.yaml   | 67 +++++++++++++++++++
-> >  MAINTAINERS                                   |  7 ++
-> >  2 files changed, 74 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/chrontel,ch7322.yaml
-> >
->
->
-> Please add Acked-by/Reviewed-by tags when posting new versions. However,
-> there's no need to repost patches *only* to add the tags. The upstream
-> maintainer will do that for acks received on the version they apply.
->
-> If a tag was not added on purpose, please state why and what changed.
+On Tue, Jun 09, 2020 at 11:02:32PM -0700, Sowjanya Komatineni wrote:
+> This patch documents Tegra VI and CSI port and endpoint nodes along
+> with the other required properties.
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+> ---
+>  .../display/tegra/nvidia,tegra20-host1x.txt        | 87 ++++++++++++++++++++++
+>  1 file changed, 87 insertions(+)
 
-Sorry, still learning this process.
+This is getting converted to schema by Thierry.
 
-Hans, should I resubmit or would you add the Reviewed-by tag from v4?
-
-Thanks,
-Jeff
+Rob
