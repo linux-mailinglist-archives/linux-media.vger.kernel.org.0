@@ -2,660 +2,335 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 437891FECE6
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 09:51:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E035E1FED35
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 10:09:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728311AbgFRHv2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 03:51:28 -0400
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:47037 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728193AbgFRHv0 (ORCPT
+        id S1728230AbgFRIJB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 04:09:01 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:46140 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728206AbgFRIH5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 03:51:26 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id lpKQjcRbalCoGlpKUj6fKv; Thu, 18 Jun 2020 09:51:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592466682; bh=hTxaqWw2IoQApxGqYObGNr3ye4q8D+mjWeihjWnI51Q=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=bCyjspbsZEi7RuSktNGpa40RHADBlWgHzr4HR9QSRVLoIZHyn3teDqSyvLHNqTD41
-         ZWF79WzqT0JND8rK/IVbL//plqZKnXFj9yn7Ccw5mMJ7a45e3QJouwoA+TVhy+72VL
-         KnWIvAm9qVNmKJDyRJh5SR9Oe7KA2/tr9xqm4z+G+I0vbWwax8WGolzsYoBOagW/1E
-         NvxiUlV8xZV9J02wUSPlmnKMiIUv4nxFGFOR3RyhCo8Qc3k007iWmmsYToB6E1YVwO
-         8mWF+D6FByg6ZfpVirZ25csUitwXfG1rugrn2VOW3gcccwPBStTw6sAiJDNMZfOOds
-         hjNLSMt3bAc2A==
-Subject: Re: [PATCH v5 2/2] media: cec: i2c: ch7322: Add ch7322 CEC controller
- driver
-To:     Jeff Chase <jnchase@google.com>, linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, devicetree@vger.kernel.org
-References: <20200615193811.233737-1-jnchase@google.com>
- <20200615193811.233737-3-jnchase@google.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <3aefc5c4-2af1-59f2-0797-9a5baf91482e@xs4all.nl>
-Date:   Thu, 18 Jun 2020 09:51:18 +0200
+        Thu, 18 Jun 2020 04:07:57 -0400
+Received: from [192.168.0.20] (cpc89242-aztw30-2-0-cust488.18-1.cable.virginm.net [86.31.129.233])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DC7EF9;
+        Thu, 18 Jun 2020 10:07:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1592467662;
+        bh=h9225o8J8GzRhPZqYogIzMkD7F5vd2Vya3XZ0JkYmMs=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=ggbRyc02QETPtgA+qk0Cm7XE5t51G3jf4T+yJbYPPfjhF6piUmJGr1s483sccBtvh
+         dKeZXflm3C+B0OHGDm1dyqG3UGBJhANdPgbGY6C1JqxZunTUXxqDoVwYpvxYsitliF
+         +g1O/J8ucb1HUkPwVFa9+rt/RJV+KM1AmQuz/55o=
+Reply-To: kieran.bingham@ideasonboard.com
+Subject: Re: [PATCH v1 078/107] media: ti-vpe: cal: Don't store external rate
+ in cal_camerarx
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Benoit Parrot <bparrot@ti.com>
+References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
+ <20200614235944.17716-79-laurent.pinchart@ideasonboard.com>
+ <50074fee-06aa-8511-2134-3ff51a66eda0@ideasonboard.com>
+ <20200617100548.GB5838@pendragon.ideasonboard.com>
+ <662619b0-21f2-9bb7-454c-f8fcf38e610f@ideasonboard.com>
+ <20200618023656.GI19884@pendragon.ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
+Autocrypt: addr=kieran.bingham@ideasonboard.com; keydata=
+ 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
+ WZw01QYHU/GUV/zHJSFk
+Organization: Ideas on Board
+Message-ID: <de7cba33-c304-829a-5cc0-751ef61f0ee3@ideasonboard.com>
+Date:   Thu, 18 Jun 2020 09:07:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200615193811.233737-3-jnchase@google.com>
+In-Reply-To: <20200618023656.GI19884@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLmUTyfBS9r1hv8vkWYW71/jgvI3Bjx2MTh5nD/tdVNh2wSfurfakcUeqgvOehEIg0CBLXMJ0kpoSpdN9ndtiDRq3aN0/CNCnP3Hit5/ROcSvKa0L35k
- p5pGum3dDoiJzSBTARrY12isGwZITI3u7FusiTYbVhqxV5tyqrzxCaU8dJzJ0gz2RAaHD0nYxZ33vfzclQKnZP071+TWKdBxftHCaOqpzsxuqYTiP+P6o4v3
- i5R5B9dlbK7O1VzmTqK6mzGWYDplyE0YuMq0FYW7IE8qFPXwz4fAcHoaCjfRRLLZUrQaIumpmZYwVijp3jhfZw==
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jeff,
+Hi Laurent,
 
-I realized that there is one thing missing here: there is no way to
-associate this CEC device with the corresponding HDMI interface.
-
-Typically this is done either via the device tree (hdmi-phandle property,
-see cec_notifier_parse_hdmi_phandle()) or ACPI (see cros-ec or seco drivers).
-
-How is this ch7322 used? Chromebooks? Intel or ARM based?
-
-The link with the HDMI interface is needed for the CEC_ADAP_G_CONNECTOR_INFO
-ioctl implementation. See:
-
-https://hverkuil.home.xs4all.nl/spec/userspace-api/cec/cec-ioc-adap-g-conn-info.html
-
-Regards,
-
-	Hans
-
-On 15/06/2020 21:38, Jeff Chase wrote:
-> Add a CEC device driver for the Chrontel ch7322 CEC conroller.
-> This is an I2C device capable of sending and receiving CEC messages.
+On 18/06/2020 03:36, Laurent Pinchart wrote:
+> Hi Kieran,
 > 
-> Signed-off-by: Jeff Chase <jnchase@google.com>
-> ---
->  MAINTAINERS                    |   1 +
->  drivers/media/cec/Kconfig      |   1 +
->  drivers/media/cec/Makefile     |   2 +-
->  drivers/media/cec/i2c/Kconfig  |  14 +
->  drivers/media/cec/i2c/Makefile |   5 +
->  drivers/media/cec/i2c/ch7322.c | 503 +++++++++++++++++++++++++++++++++
->  6 files changed, 525 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/media/cec/i2c/Kconfig
->  create mode 100644 drivers/media/cec/i2c/Makefile
->  create mode 100644 drivers/media/cec/i2c/ch7322.c
+> On Wed, Jun 17, 2020 at 11:16:45AM +0100, Kieran Bingham wrote:
+>> On 17/06/2020 11:05, Laurent Pinchart wrote:
+>>> On Wed, Jun 17, 2020 at 10:56:29AM +0100, Kieran Bingham wrote:
+>>>> On 15/06/2020 00:59, Laurent Pinchart wrote:
+>>>>> The external pixel rate is retrieved when starting the camerarx and only
+>>>>> used then. There's no need to store it in the cal_camerarx structure, it
+>>>>> can be returned by cal_camerarx_get_external_info() and explicitly
+>>>>> passed to cal_camerarx_config().
+>>>>>
+>>>>> While at it, rename cal_camerarx_get_external_info() to
+>>>>> cal_camerarx_get_external_rate() to better reflect the function's
+>>>>> purpose.
+>>>>>
+>>>>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>>>>> ---
+>>>>>  drivers/media/platform/ti-vpe/cal.c | 24 ++++++++++++------------
+>>>>>  1 file changed, 12 insertions(+), 12 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+>>>>> index 8326db0e4197..a11457909134 100644
+>>>>> --- a/drivers/media/platform/ti-vpe/cal.c
+>>>>> +++ b/drivers/media/platform/ti-vpe/cal.c
+>>>>> @@ -272,7 +272,6 @@ struct cal_camerarx {
+>>>>>  	struct v4l2_fwnode_endpoint	endpoint;
+>>>>>  	struct device_node	*sensor_node;
+>>>>>  	struct v4l2_subdev	*sensor;
+>>>>> -	unsigned int		external_rate;
+>>>>
+>>>> Here, external_rate is 32 bit,
+>>>>
+>>>>>  };
+>>>>>  
+>>>>>  struct cal_dev {
+>>>>> @@ -481,9 +480,10 @@ static void cal_quickdump_regs(struct cal_dev *cal)
+>>>>>   * ------------------------------------------------------------------
+>>>>>   */
+>>>>>  
+>>>>> -static int cal_camerarx_get_external_info(struct cal_camerarx *phy)
+>>>>> +static s64 cal_camerarx_get_external_rate(struct cal_camerarx *phy)
+>>>>>  {
+>>>>>  	struct v4l2_ctrl *ctrl;
+>>>>> +	s64 rate;
+>>>>
+>>>> and now it becomes a 64 bit value.
+>>>>
+>>>>>  
+>>>>>  	if (!phy->sensor)
+>>>>>  		return -ENODEV;
+>>>>> @@ -495,10 +495,10 @@ static int cal_camerarx_get_external_info(struct cal_camerarx *phy)
+>>>>>  		return -EPIPE;
+>>>>>  	}
+>>>>>  
+>>>>> -	phy->external_rate = v4l2_ctrl_g_ctrl_int64(ctrl);
+>>>>> -	phy_dbg(3, phy, "sensor Pixel Rate: %u\n", phy->external_rate);
+>>>>> +	rate = v4l2_ctrl_g_ctrl_int64(ctrl);
+>>>>> +	phy_dbg(3, phy, "sensor Pixel Rate: %llu\n", rate);
+>>>>>  
+>>>>> -	return 0;
+>>>>> +	return rate;
+>>>>>  }
+>>>>>  
+>>>>>  static void cal_camerarx_lane_config(struct cal_camerarx *phy)
+>>>>> @@ -554,7 +554,7 @@ static void cal_camerarx_disable(struct cal_camerarx *phy)
+>>>>>  #define TCLK_MISS	1
+>>>>>  #define TCLK_SETTLE	14
+>>>>>  
+>>>>> -static void cal_camerarx_config(struct cal_camerarx *phy,
+>>>>> +static void cal_camerarx_config(struct cal_camerarx *phy, s64 external_rate,
+>>>>>  				const struct cal_fmt *fmt)
+>>>>>  {
+>>>>>  	unsigned int reg0, reg1;
+>>>>> @@ -566,7 +566,7 @@ static void cal_camerarx_config(struct cal_camerarx *phy,
+>>>>>  
+>>>>>  	/* DPHY timing configuration */
+>>>>>  	/* CSI-2 is DDR and we only count used lanes. */
+>>>>> -	csi2_ddrclk_khz = phy->external_rate / 1000
+>>>>> +	csi2_ddrclk_khz = external_rate / 1000
+>>>>>  		/ (2 * num_lanes) * fmt->bpp;
+>>>>
+>>>> Which causes this calculation to fail on 32 bit ARM builds.
+>>>> (I'm building for the DRA76-EVM).
+>>>
+>>> Oops :-/
+>>>
+>>>> I've got the following fix up on the top of your tree to solve this, but
+>>>> I'm not particularly happy about having to break the calculation up (and
+>>>> re-use external_rate) though the use of do_div.
+>>>>
+>>>> From ca6ce335a852e34364bc45cb4240f703e4ea4248 Mon Sep 17 00:00:00 2001
+>>>> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>>>> Date: Tue, 16 Jun 2020 16:19:04 +0100
+>>>> Subject: [PATCH] media: ti-vpe: cal: Use do_div() for 64 bit operations
+>>>>
+>>>> Support building the CAL driver on arm32 bit targets by updating the
+>>>> CSI2 clock calculation (which uses a signed 64 bit input value from
+>>>> the sensors pixel clock rate) to use the do_div() helpers.
+>>>>
+>>>> The calculation is split into distinct parts to maintain
+>>>> order of operations while making use of the do_div macro and further
+>>>> re-ordered to convert to kHz at the end to maintain precision.
+>>>>
+>>>> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>>>> ---
+>>>>  drivers/media/platform/ti-vpe/cal-camerarx.c | 22 +++++++++++++++++---
+>>>>  1 file changed, 19 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c
+>>>> b/drivers/media/platform/ti-vpe/cal-camerarx.c
+>>>> index 014ca46509db..0ef19a516902 100644
+>>>> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
+>>>> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
+>>>> @@ -126,9 +126,25 @@ static void cal_camerarx_config(struct cal_camerarx
+>>>> *phy, s64 external_rate)
+>>>>         u32 num_lanes = mipi_csi2->num_data_lanes;
+>>>>
+>>>>         /* DPHY timing configuration */
+>>>> -       /* CSI-2 is DDR and we only count used lanes. */
+>>>> -       csi2_ddrclk_khz = external_rate / 1000
+>>>> -               / (2 * num_lanes) * phy->fmtinfo->bpp;
+>>>> +
+>>>> +       /*
+>>>> +        * CSI-2 is DDR and we only count used lanes.
+>>>> +        *
+>>>> +        * csi2_ddrclk_khz = external_rate / 1000
+>>>> +        *                   / (2 * num_lanes) * phy->fmtinfo->bpp;
+>>>> +        *
+>>>> +        * The equation is broken into separate statements to maintain
+>>>> +        * order of operations, and conversion to kHz is done last to
+>>>> +        * keep precision.
+>>>> +        *
+>>>> +        * The 64 bit external_rate is modified during this equation and
+>>>> +        * contains the result, not the original after calculation.
+>>>> +        */
+>>>> +       do_div(external_rate, 2 * num_lanes);
+>>>> +       external_rate *= phy->fmtinfo->bpp;
+>>>> +       do_div(external_rate, 1000);
+>>>> +       csi2_ddrclk_khz = external_rate;
+>>>
+>>> How about
+>>>
+>>> 	external_rate *= phy->fmtinfo->bpp;
+>>>  	do_div(external_rate, 2 * num_lanes * 1000);
+>>
+>> Ah yes, that looks better indeed, and keeps the improved integer precision.
+>>
+>> I believe the s64 external_rate should cope with the * bpp operation
+>> easily too, so I don't think there's any risk of an overflow there.
+>>
+>> Squash it ;-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index c1c17ca17830..e2341eaaaf5e 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -4107,6 +4107,7 @@ L:	linux-media@vger.kernel.org
->  S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
->  F:	Documentation/devicetree/bindings/media/i2c/chontel,ch7322.yaml
-> +F:	drivers/media/cec/i2c/ch7322.c
->  
->  CIRRUS LOGIC AUDIO CODEC DRIVERS
->  M:	James Schulman <james.schulman@cirrus.com>
-> diff --git a/drivers/media/cec/Kconfig b/drivers/media/cec/Kconfig
-> index 7e830444bdbb..9ba3a00dce31 100644
-> --- a/drivers/media/cec/Kconfig
-> +++ b/drivers/media/cec/Kconfig
-> @@ -33,6 +33,7 @@ menuconfig MEDIA_CEC_SUPPORT
->  	  adapter that supports HDMI CEC.
->  
->  if MEDIA_CEC_SUPPORT
-> +source "drivers/media/cec/i2c/Kconfig"
->  source "drivers/media/cec/platform/Kconfig"
->  source "drivers/media/cec/usb/Kconfig"
->  endif
-> diff --git a/drivers/media/cec/Makefile b/drivers/media/cec/Makefile
-> index 74e80e1b3571..23539339bc81 100644
-> --- a/drivers/media/cec/Makefile
-> +++ b/drivers/media/cec/Makefile
-> @@ -1,2 +1,2 @@
->  # SPDX-License-Identifier: GPL-2.0
-> -obj-y += core/ platform/ usb/
-> +obj-y += core/ i2c/ platform/ usb/
-> diff --git a/drivers/media/cec/i2c/Kconfig b/drivers/media/cec/i2c/Kconfig
-> new file mode 100644
-> index 000000000000..e445ca2110b3
-> --- /dev/null
-> +++ b/drivers/media/cec/i2c/Kconfig
-> @@ -0,0 +1,14 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# I2C drivers
-> +
-> +config CEC_CH7322
-> +	tristate "Chrontel CH7322 CEC controller"
-> +	select I2C
-> +	select REGMAP_I2C
-> +	select CEC_CORE
-> +	help
-> +	  This is a driver for the Chrontel CH7322 CEC controller. It uses the
-> +	  generic CEC framework interface.
-> +	  CEC bus is present in the HDMI connector and enables communication
-> +	  between compatible devices.
-> diff --git a/drivers/media/cec/i2c/Makefile b/drivers/media/cec/i2c/Makefile
-> new file mode 100644
-> index 000000000000..d7496dfd0fa4
-> --- /dev/null
-> +++ b/drivers/media/cec/i2c/Makefile
-> @@ -0,0 +1,5 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +#
-> +# Makefile for the CEC I2C device drivers.
-> +#
-> +obj-$(CONFIG_CEC_CH7322) += ch7322.o
-> diff --git a/drivers/media/cec/i2c/ch7322.c b/drivers/media/cec/i2c/ch7322.c
-> new file mode 100644
-> index 000000000000..4e6976a51774
-> --- /dev/null
-> +++ b/drivers/media/cec/i2c/ch7322.c
-> @@ -0,0 +1,503 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Driver for the Chrontel CH7322 CEC Controller
-> + *
-> + * Copyright 2020 Google LLC.
-> + */
-> +
-> +/*
-> + * Notes
-> + *
-> + * - This device powers on in Auto Mode which has limited functionality. This
-> + *   driver disables Auto Mode when it attaches.
-> + *
-> + */
-> +
-> +#include <linux/cec.h>
-> +#include <linux/i2c.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/regmap.h>
-> +#include <media/cec.h>
-> +
-> +#define CH7322_WRITE		0x00
-> +#define CH7322_WRITE_MSENT		0x80
-> +#define CH7322_WRITE_BOK		0x40
-> +#define CH7322_WRITE_NMASK		0x0f
-> +
-> +/* Write buffer is 0x01-0x10 */
-> +#define CH7322_WRBUF		0x01
-> +#define CH7322_WRBUF_LEN	0x10
-> +
-> +#define CH7322_READ		0x40
-> +#define CH7322_READ_NRDT		0x80
-> +#define CH7322_READ_MSENT		0x20
-> +#define CH7322_READ_NMASK		0x0f
-> +
-> +/* Read buffer is 0x41-0x50 */
-> +#define CH7322_RDBUF		0x41
-> +#define CH7322_RDBUF_LEN	0x10
-> +
-> +#define CH7322_MODE		0x11
-> +#define CH7322_MODE_AUTO		0x78
-> +#define CH7322_MODE_SW			0xb5
-> +
-> +#define CH7322_RESET		0x12
-> +#define CH7322_RESET_RST		0x00
-> +
-> +#define CH7322_POWER		0x13
-> +#define CH7322_POWER_FPD		0x04
-> +
-> +#define CH7322_CFG0		0x17
-> +#define CH7322_CFG0_EOBEN		0x40
-> +#define CH7322_CFG0_PEOB		0x20
-> +#define CH7322_CFG0_CLRSPP		0x10
-> +#define CH7322_CFG0_FLOW		0x08
-> +
-> +#define CH7322_CFG1		0x1a
-> +#define CH7322_CFG1_STDBYO		0x04
-> +#define CH7322_CFG1_HPBP		0x02
-> +#define CH7322_CFG1_PIO			0x01
-> +
-> +#define CH7322_INTCTL		0x1b
-> +#define CH7322_INTCTL_INTPB		0x80
-> +#define CH7322_INTCTL_STDBY		0x40
-> +#define CH7322_INTCTL_HPDFALL		0x20
-> +#define CH7322_INTCTL_HPDRISE		0x10
-> +#define CH7322_INTCTL_RXMSG		0x08
-> +#define CH7322_INTCTL_TXMSG		0x04
-> +#define CH7322_INTCTL_NEWPHA		0x02
-> +#define CH7322_INTCTL_ERROR		0x01
-> +
-> +#define CH7322_DVCLKFNH	0x1d
-> +#define CH7322_DVCLKFNL	0x1e
-> +
-> +#define CH7322_CTL		0x31
-> +#define CH7322_CTL_FSTDBY		0x80
-> +#define CH7322_CTL_PLSEN		0x40
-> +#define CH7322_CTL_PLSPB		0x20
-> +#define CH7322_CTL_SPADL		0x10
-> +#define CH7322_CTL_HINIT		0x08
-> +#define CH7322_CTL_WPHYA		0x04
-> +#define CH7322_CTL_H1T			0x02
-> +#define CH7322_CTL_S1T			0x01
-> +
-> +#define CH7322_PAWH		0x32
-> +#define CH7322_PAWL		0x33
-> +
-> +#define CH7322_ADDLW		0x34
-> +#define CH7322_ADDLW_MASK	0xf0
-> +
-> +#define CH7322_ADDLR		0x3d
-> +#define CH7322_ADDLR_HPD		0x80
-> +#define CH7322_ADDLR_MASK		0x0f
-> +
-> +#define CH7322_INTDATA		0x3e
-> +#define CH7322_INTDATA_MODE		0x80
-> +#define CH7322_INTDATA_STDBY		0x40
-> +#define CH7322_INTDATA_HPDFALL		0x20
-> +#define CH7322_INTDATA_HPDRISE		0x10
-> +#define CH7322_INTDATA_RXMSG		0x08
-> +#define CH7322_INTDATA_TXMSG		0x04
-> +#define CH7322_INTDATA_NEWPHA		0x02
-> +#define CH7322_INTDATA_ERROR		0x01
-> +
-> +#define CH7322_EVENT		0x3F
-> +#define CH7322_EVENT_TXERR		0x80
-> +#define CH7322_EVENT_HRST		0x40
-> +#define CH7322_EVENT_HFST		0x20
-> +#define CH7322_EVENT_PHACHG		0x10
-> +#define CH7322_EVENT_ACTST		0x08
-> +#define CH7322_EVENT_PHARDY		0x04
-> +#define CH7322_EVENT_BSOK		0x02
-> +#define CH7322_EVENT_ERRADCF		0x01
-> +
-> +#define CH7322_DID		0x51
-> +#define CH7322_DID_CH7322		0x5b
-> +#define CH7322_DID_CH7323		0x5f
-> +
-> +#define CH7322_REVISIONID	0x52
-> +
-> +#define CH7322_PARH		0x53
-> +#define CH7322_PARL		0x54
-> +
-> +#define CH7322_IOCFG2		0x75
-> +#define CH7322_IOCFG_CIO		0x80
-> +#define CH7322_IOCFG_IOCFGMASK		0x78
-> +#define CH7322_IOCFG_AUDIO		0x04
-> +#define CH7322_IOCFG_SPAMST		0x02
-> +#define CH7322_IOCFG_SPAMSP		0x01
-> +
-> +#define CH7322_CTL3		0x7b
-> +#define CH7322_CTL3_SWENA		0x80
-> +#define CH7322_CTL3_FC_INIT		0x40
-> +#define CH7322_CTL3_SML_FL		0x20
-> +#define CH7322_CTL3_SM_RDST		0x10
-> +#define CH7322_CTL3_SPP_CIAH		0x08
-> +#define CH7322_CTL3_SPP_CIAL		0x04
-> +#define CH7322_CTL3_SPP_ACTH		0x02
-> +#define CH7322_CTL3_SPP_ACTL		0x01
-> +
-> +/* BOK status means NACK */
-> +#define CH7322_TX_FLAG_NACK	BIT(0)
-> +/* Device will retry automatically */
-> +#define CH7322_TX_FLAG_RETRY	BIT(1)
-> +
-> +struct ch7322 {
-> +	struct i2c_client *i2c;
-> +	struct regmap *regmap;
-> +	struct cec_adapter *cec;
-> +	struct mutex mutex;	/* device access mutex */
-> +	u8 tx_flags;
-> +};
-> +
-> +static const struct regmap_config ch7322_regmap = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.max_register = 0x7f,
-> +	.disable_locking = true,
-> +
-> +};
-> +
-> +static int ch7322_send_message(struct ch7322 *ch7322, const struct cec_msg *msg)
-> +{
-> +	unsigned int val;
-> +	unsigned int len = msg->len;
-> +	int ret;
-> +	int i;
-> +
-> +	WARN_ON(!mutex_is_locked(&ch7322->mutex));
-> +
-> +	if (len > CH7322_WRBUF_LEN || len < 1)
-> +		return -EINVAL;
-> +
-> +	ret = regmap_read(ch7322->regmap, CH7322_WRITE, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Buffer not ready */
-> +	if (!(val & CH7322_WRITE_MSENT))
-> +		return -EBUSY;
-> +
-> +	if (cec_msg_opcode(msg) == -1 &&
-> +	    cec_msg_initiator(msg) == cec_msg_destination(msg)) {
-> +		ch7322->tx_flags = CH7322_TX_FLAG_NACK | CH7322_TX_FLAG_RETRY;
-> +	} else if (cec_msg_is_broadcast(msg)) {
-> +		ch7322->tx_flags = CH7322_TX_FLAG_NACK;
-> +	} else {
-> +		ch7322->tx_flags = CH7322_TX_FLAG_RETRY;
-> +	}
-> +
-> +	ret = regmap_write(ch7322->regmap, CH7322_WRITE, len - 1);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (i = 0; i < len; i++) {
-> +		ret = regmap_write(ch7322->regmap,
-> +				   CH7322_WRBUF + i, msg->msg[i]);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int ch7322_receive_message(struct ch7322 *ch7322, struct cec_msg *msg)
-> +{
-> +	unsigned int val;
-> +	int ret = 0;
-> +	int i;
-> +
-> +	WARN_ON(!mutex_is_locked(&ch7322->mutex));
-> +
-> +	ret = regmap_read(ch7322->regmap, CH7322_READ, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	/* Message not ready */
-> +	if (!(val & CH7322_READ_NRDT))
-> +		return -EIO;
-> +
-> +	msg->len = (val & CH7322_READ_NMASK) + 1;
-> +
-> +	/* Read entire RDBUF to clear state */
-> +	for (i = 0; i < CH7322_RDBUF_LEN; i++) {
-> +		ret = regmap_read(ch7322->regmap, CH7322_RDBUF + i, &val);
-> +		if (ret)
-> +			return ret;
-> +		msg->msg[i] = (u8)val;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void ch7322_tx_done(struct ch7322 *ch7322)
-> +{
-> +	int ret;
-> +	unsigned int val;
-> +	u8 status, flags;
-> +
-> +	mutex_lock(&ch7322->mutex);
-> +	ret = regmap_read(ch7322->regmap, CH7322_WRITE, &val);
-> +	flags = ch7322->tx_flags;
-> +	mutex_unlock(&ch7322->mutex);
-> +
-> +	/*
-> +	 * The device returns a one-bit OK status which usually means ACK but
-> +	 * actually means NACK when sending a logical address query or a
-> +	 * broadcast.
-> +	 */
-> +	if (ret)
-> +		status = CEC_TX_STATUS_ERROR;
-> +	else if ((val & CH7322_WRITE_BOK) && (flags & CH7322_TX_FLAG_NACK))
-> +		status = CEC_TX_STATUS_NACK;
-> +	else if (val & CH7322_WRITE_BOK)
-> +		status = CEC_TX_STATUS_OK;
-> +	else if (flags & CH7322_TX_FLAG_NACK)
-> +		status = CEC_TX_STATUS_OK;
-> +	else
-> +		status = CEC_TX_STATUS_NACK;
-> +
-> +	if (status == CEC_TX_STATUS_NACK && (flags & CH7322_TX_FLAG_RETRY))
-> +		status |= CEC_TX_STATUS_MAX_RETRIES;
-> +
-> +	cec_transmit_attempt_done(ch7322->cec, status);
-> +}
-> +
-> +static void ch7322_rx_done(struct ch7322 *ch7322)
-> +{
-> +	struct cec_msg msg;
-> +	int ret;
-> +
-> +	mutex_lock(&ch7322->mutex);
-> +	ret = ch7322_receive_message(ch7322, &msg);
-> +	mutex_unlock(&ch7322->mutex);
-> +
-> +	if (ret)
-> +		dev_err(&ch7322->i2c->dev, "cec receive error: %d\n", ret);
-> +	else
-> +		cec_received_msg(ch7322->cec, &msg);
-> +}
-> +
-> +/*
-> + * This device can either monitor the DDC lines to obtain the physical address
-> + * or it can allow the host to program it. This driver lets the device obtain
-> + * it.
-> + */
-> +static void ch7322_phys_addr(struct ch7322 *ch7322)
-> +{
-> +	unsigned int pah, pal;
-> +	int ret = 0;
-> +
-> +	mutex_lock(&ch7322->mutex);
-> +	ret |= regmap_read(ch7322->regmap, CH7322_PARH, &pah);
-> +	ret |= regmap_read(ch7322->regmap, CH7322_PARL, &pal);
-> +	mutex_unlock(&ch7322->mutex);
-> +
-> +	if (ret)
-> +		dev_err(&ch7322->i2c->dev, "phys addr error\n");
-> +	else
-> +		cec_s_phys_addr(ch7322->cec, pal | (pah << 8), false);
-> +}
-> +
-> +static void ch7322_handle_events(struct ch7322 *ch7322)
-> +{
-> +	unsigned int data = 0;
-> +
-> +	mutex_lock(&ch7322->mutex);
-> +	regmap_read(ch7322->regmap, CH7322_INTDATA, &data);
-> +	regmap_write(ch7322->regmap, CH7322_INTDATA, data);
-> +	mutex_unlock(&ch7322->mutex);
-> +
-> +	if (data & CH7322_INTDATA_HPDFALL)
-> +		cec_phys_addr_invalidate(ch7322->cec);
-> +
-> +	if (data & CH7322_INTDATA_TXMSG)
-> +		ch7322_tx_done(ch7322);
-> +
-> +	if (data & CH7322_INTDATA_RXMSG)
-> +		ch7322_rx_done(ch7322);
-> +
-> +	if (data & CH7322_INTDATA_NEWPHA)
-> +		ch7322_phys_addr(ch7322);
-> +
-> +	if (data & CH7322_INTDATA_ERROR)
-> +		dev_dbg(&ch7322->i2c->dev, "unknown error\n");
-> +}
-> +
-> +static irqreturn_t ch7322_irq(int irq, void *dev)
-> +{
-> +	struct ch7322 *ch7322 = dev;
-> +
-> +	ch7322_handle_events(ch7322);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +/* This device is always enabled */
-> +static int ch7322_cec_adap_enable(struct cec_adapter *adap, bool enable)
-> +{
-> +	return 0;
-> +}
-> +
-> +static int ch7322_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
-> +{
-> +	struct ch7322 *ch7322 = cec_get_drvdata(adap);
-> +	int ret;
-> +
-> +	mutex_lock(&ch7322->mutex);
-> +	ret = regmap_update_bits(ch7322->regmap, CH7322_ADDLW,
-> +				 CH7322_ADDLW_MASK, log_addr << 4);
-> +	mutex_unlock(&ch7322->mutex);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ch7322_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
-> +				    u32 signal_free_time, struct cec_msg *msg)
-> +{
-> +	struct ch7322 *ch7322 = cec_get_drvdata(adap);
-> +	int ret;
-> +
-> +	mutex_lock(&ch7322->mutex);
-> +	ret = ch7322_send_message(ch7322, msg);
-> +	mutex_unlock(&ch7322->mutex);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct cec_adap_ops ch7322_cec_adap_ops = {
-> +	.adap_enable = ch7322_cec_adap_enable,
-> +	.adap_log_addr = ch7322_cec_adap_log_addr,
-> +	.adap_transmit = ch7322_cec_adap_transmit,
-> +};
-> +
-> +static int ch7322_probe(struct i2c_client *client)
-> +{
-> +	struct ch7322 *ch7322;
-> +	int ret;
-> +	unsigned int val;
-> +
-> +	ch7322 = devm_kzalloc(&client->dev, sizeof(*ch7322), GFP_KERNEL);
-> +	if (!ch7322)
-> +		return -ENOMEM;
-> +
-> +	ch7322->regmap = devm_regmap_init_i2c(client, &ch7322_regmap);
-> +	if (IS_ERR(ch7322->regmap))
-> +		return PTR_ERR(ch7322->regmap);
-> +
-> +	ret = regmap_read(ch7322->regmap, CH7322_DID, &val);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (val != CH7322_DID_CH7322)
-> +		return -ENOTSUPP;
-> +
-> +	mutex_init(&ch7322->mutex);
-> +	ch7322->i2c = client;
-> +	ch7322->tx_flags = 0;
-> +
-> +	i2c_set_clientdata(client, ch7322);
-> +
-> +	/* Disable auto mode */
-> +	ret = regmap_write(ch7322->regmap, CH7322_MODE, CH7322_MODE_SW);
-> +	if (ret)
-> +		goto err_mutex;
-> +
-> +	/* Enable logical address register */
-> +	ret = regmap_update_bits(ch7322->regmap, CH7322_CTL,
-> +				 CH7322_CTL_SPADL, CH7322_CTL_SPADL);
-> +	if (ret)
-> +		goto err_mutex;
-> +
-> +	ch7322->cec = cec_allocate_adapter(&ch7322_cec_adap_ops, ch7322,
-> +					   dev_name(&client->dev),
-> +					   CEC_CAP_DEFAULTS, 1);
-> +
-> +	if (IS_ERR(ch7322->cec)) {
-> +		ret = PTR_ERR(ch7322->cec);
-> +		goto err_mutex;
-> +	}
-> +
-> +	ret = cec_register_adapter(ch7322->cec, &client->dev);
-> +	if (ret) {
-> +		cec_delete_adapter(ch7322->cec);
-> +		goto err_mutex;
-> +	}
-> +
-> +	/* Configure and mask interrupt */
-> +	ret = regmap_write(ch7322->regmap, CH7322_CFG1, 0);
-> +	if (ret)
-> +		goto err_cec;
-> +
-> +	ret = regmap_write(ch7322->regmap, CH7322_INTCTL, CH7322_INTCTL_INTPB);
-> +	if (ret)
-> +		goto err_cec;
-> +
-> +	ret = devm_request_threaded_irq(&client->dev, client->irq, NULL,
-> +					ch7322_irq,
-> +					IRQF_ONESHOT | IRQF_TRIGGER_RISING,
-> +					client->name, ch7322);
-> +	if (ret)
-> +		goto err_cec;
-> +
-> +	ch7322_handle_events(ch7322);
-> +
-> +	/* Unmask interrupt */
-> +	mutex_lock(&ch7322->mutex);
-> +	ret = regmap_write(ch7322->regmap, CH7322_INTCTL, 0xff);
-> +	mutex_unlock(&ch7322->mutex);
-> +
-> +	if (ret)
-> +		goto err_cec;
-> +
-> +	dev_info(&client->dev, "device registered\n");
-> +
-> +	return 0;
-> +
-> +err_cec:
-> +	cec_unregister_adapter(ch7322->cec);
-> +
-> +err_mutex:
-> +	mutex_destroy(&ch7322->mutex);
-> +	return ret;
-> +}
-> +
-> +static int ch7322_remove(struct i2c_client *client)
-> +{
-> +	struct ch7322 *ch7322 = i2c_get_clientdata(client);
-> +
-> +	/* Mask interrupt */
-> +	mutex_lock(&ch7322->mutex);
-> +	regmap_write(ch7322->regmap, CH7322_INTCTL, CH7322_INTCTL_INTPB);
-> +	mutex_unlock(&ch7322->mutex);
-> +
-> +	cec_unregister_adapter(ch7322->cec);
-> +	mutex_destroy(&ch7322->mutex);
-> +
-> +	dev_info(&client->dev, "device unregistered\n");
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct of_device_id ch7322_of_match[] = {
-> +	{ .compatible = "chrontel,ch7322", },
-> +	{},
-> +};
-> +MODULE_DEVICE_TABLE(of, ch7322_of_match);
-> +
-> +static struct i2c_driver ch7322_i2c_driver = {
-> +	.driver = {
-> +		.name = "ch7322",
-> +		.of_match_table = of_match_ptr(ch7322_of_match),
-> +	},
-> +	.probe_new	= ch7322_probe,
-> +	.remove		= ch7322_remove,
-> +};
-> +
-> +module_i2c_driver(ch7322_i2c_driver);
-> +
-> +MODULE_DESCRIPTION("Chrontel CH7322 CEC Controller Driver");
-> +MODULE_AUTHOR("Jeff Chase <jnchase@google.com>");
-> +MODULE_LICENSE("GPL");
+> Even better,
+> 
+> 	csi2_ddrclk_khz = div_s64(external_rate * phy->fmtinfo->bpp,
+> 				  2 * num_lanes * 1000);
+
+
+Ah, here I was about to say "you can't put the rate*bpp together because
+the do_div reuses the argument ... and now I see div_s64 ...
+
+/me discovers yet another way to do divides :-S
+
+Well that's better all round ;-)
+
+
+--
+Kieran
+
+
+
+>>>> +
+>>>>         phy_dbg(1, phy, "csi2_ddrclk_khz: %d\n", csi2_ddrclk_khz);
+>>>>
+>>>>         /* THS_TERM: Programmed value = floor(20 ns/DDRClk period) */
+>>>> -- 
+>>>> 2.25.1
+>>>>
+>>>>
+>>>> If you have a better way to correctly calculate the rate (also noting
+>>>> that I moved the /1000 to the end, I'm not sure if that's more correct,
+>>>> or makes it stop following what the hardware would do) - please update
+>>>> accordingly, or feel free to squash this patch in as you wish.
+>>>>
+>>>>
+>>>> With the calculation corrected:
+>>>>
+>>>> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+>>>>
+>>>> --
+>>>> Kieran
+>>>>
+>>>>
+>>>>>  	phy_dbg(1, phy, "csi2_ddrclk_khz: %d\n", csi2_ddrclk_khz);
+>>>>>  
+>>>>> @@ -667,13 +667,14 @@ static void cal_camerarx_wait_stop_state(struct cal_camerarx *phy)
+>>>>>  static int cal_camerarx_start(struct cal_camerarx *phy,
+>>>>>  			      const struct cal_fmt *fmt)
+>>>>>  {
+>>>>> +	s64 external_rate;
+>>>>>  	u32 sscounter;
+>>>>>  	u32 val;
+>>>>>  	int ret;
+>>>>>  
+>>>>> -	ret = cal_camerarx_get_external_info(phy);
+>>>>> -	if (ret < 0)
+>>>>> -		return ret;
+>>>>> +	external_rate = cal_camerarx_get_external_rate(phy);
+>>>>> +	if (external_rate < 0)
+>>>>> +		return external_rate;
+>>>>>  
+>>>>>  	ret = v4l2_subdev_call(phy->sensor, core, s_power, 1);
+>>>>>  	if (ret < 0 && ret != -ENOIOCTLCMD && ret != -ENODEV) {
+>>>>> @@ -719,7 +720,7 @@ static int cal_camerarx_start(struct cal_camerarx *phy,
+>>>>>  	reg_read(phy, CAL_CSI2_PHY_REG0);
+>>>>>  
+>>>>>  	/* Program the PHY timing parameters. */
+>>>>> -	cal_camerarx_config(phy, fmt);
+>>>>> +	cal_camerarx_config(phy, external_rate, fmt);
+>>>>>  
+>>>>>  	/*
+>>>>>  	 *    b. Assert the FORCERXMODE signal.
+>>>>> @@ -1034,7 +1035,6 @@ static struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+>>>>>  
+>>>>>  	phy->cal = cal;
+>>>>>  	phy->instance = instance;
+>>>>> -	phy->external_rate = 192000000;
+>>>>>  
+>>>>>  	phy->res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+>>>>>  						(instance == 0) ?
 > 
 
+-- 
+Regards
+--
+Kieran
