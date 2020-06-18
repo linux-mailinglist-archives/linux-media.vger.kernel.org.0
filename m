@@ -2,204 +2,318 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 613321FFB40
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 20:46:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32E381FFB4C
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 20:49:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729238AbgFRSqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 14:46:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38358 "EHLO
+        id S1728142AbgFRSt2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 14:49:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728919AbgFRSqA (ORCPT
+        with ESMTP id S1725953AbgFRSt1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 14:46:00 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96186C06174E
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 11:45:58 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id j198so7246237wmj.0
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 11:45:58 -0700 (PDT)
+        Thu, 18 Jun 2020 14:49:27 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9377C06174E
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 11:49:26 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id h5so7197040wrc.7
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 11:49:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=om0q/0j+ZqIugQgaYYIuFIhrC2pXMmtAQ/IXYYyteLk=;
-        b=P4LNQCpxRN8jCvdEjmGgNPLfQuIQ7KZuO5ExMbN7DTYZY2tsLbyMP2q0l0gYkSlD9u
-         +p7svDC5EcuBVpD4M+r6rNupo6F/0dqcAa+2krVJTOePsmpmT+TF8f6R9Rupnvgk39Bv
-         QlUvHpOz3JGN+Cm5foXSAvGMv59wReg1IuLMc=
+        bh=fOALoFuzNLDdBMDGQQAzofsHZ6jfjcNQximZ8cQT8Cc=;
+        b=HcKzCaWQOxIVmwJ3kbqIDwSy2qTOcfxfntlsg6RIBmuzT6AAzIJFtxFhf6Tsf6iXrH
+         avIvCkPEW2LfagTU/Jn9nP2cDGvlW9Upo8GQyhyasx9ODJp6LqdN56nmZD/WjoGw8uo7
+         F1M31GwXruyf+nQIbdZ2F+RcjQrtlV+ZPwPSI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=om0q/0j+ZqIugQgaYYIuFIhrC2pXMmtAQ/IXYYyteLk=;
-        b=gHX03h+hLMxzpi5JtR9TJMchKAX0xFLENCDOqTe3h5ljL0pofLqOFTdyznq2SB/8B1
-         Ibds23BdbfElfaqpf323r8NRlElL/6O2LE6qx9i35ORouP3vM8s59gElfqV5vqsD7IXB
-         nsxBIepNDX2N2dTX7pbJZj6goDt8yb7xB+c8fxkj/+BQe5T/MLuoWbVj0mO/mhoQiFLh
-         kqi44NW9ulGfh2gTSF1jPCOOeh3EX0BX9VR3IWmo1ftb+0kE+gTVPKzTfCjhLJGkAVaJ
-         y4w8PVBOXlZ9mnKNuF9DY1LtdxNwEFWlZEdS2PXQFYMHqLuNRnQFPTcWYm20WIzYJ5sB
-         0uNQ==
-X-Gm-Message-State: AOAM532lcbbE935y0iuCqjHgV7xjAV314qUv0OAQo4TOY8FmTLmIngsm
-        JsNb8wZmLaqF27zJhGAx1FB78g==
-X-Google-Smtp-Source: ABdhPJxsKDOMgOezBCKzn3QqTjUHEzvRe1U6V8whyLVhKxoQ3O7dQu/6dQjOFtvoke2We8fHAwb8Xw==
-X-Received: by 2002:a1c:f301:: with SMTP id q1mr5480382wmq.110.1592505957214;
-        Thu, 18 Jun 2020 11:45:57 -0700 (PDT)
+        bh=fOALoFuzNLDdBMDGQQAzofsHZ6jfjcNQximZ8cQT8Cc=;
+        b=XLwYYVDS2cI1Vf1VBelQuU7XW25L+JpbeKFV1wOn+zbO1rlfr6vQ9vHSKJXer1SGCh
+         u62sectyeyKYdZp3GVNB6UsjqRxA9JtzdqMuNWlWrQ6/Jxc7TWTR2ND7lkAPunnu8Enr
+         1wph721PMXoUkVDzFe+Q0UCLuqMMD5xBWzHjh4GB576GaPm1yL193JflfTqpMQD6iegK
+         oxFfO4L8YDeX1bbrj2/kbhc/6tfyY7BYJ7spLFfEONk4GCWXLrEhkYdRBSPHQRKMq8ia
+         BbOY//U2Kym67GzHdapS/GKIJihZD+E3zpzK/XdmsLCPwvwf7hcz9cH8K2TVp0rj69vC
+         bAtQ==
+X-Gm-Message-State: AOAM53281/fhUeHS8fQRtHv0jcpMXhH+7NWD6w4kxDqLhTWIxfQ5UFyz
+        6Ot/Ccd3eKTFOj3jOhd7/SFttvDxrXsuNQ==
+X-Google-Smtp-Source: ABdhPJz+z1eYK0NcxUx9WnZS4oNSncSNCP0rES2CZ2hGitoPB7maXnxG+7iaoZmL8EUztQAbMcrb7w==
+X-Received: by 2002:adf:f5c6:: with SMTP id k6mr6317372wrp.358.1592506165575;
+        Thu, 18 Jun 2020 11:49:25 -0700 (PDT)
 Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id g18sm4511520wme.17.2020.06.18.11.45.56
+        by smtp.gmail.com with ESMTPSA id g3sm5135921wrb.46.2020.06.18.11.49.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2020 11:45:56 -0700 (PDT)
-Date:   Thu, 18 Jun 2020 18:45:54 +0000
+        Thu, 18 Jun 2020 11:49:25 -0700 (PDT)
+Date:   Thu, 18 Jun 2020 18:49:23 +0000
 From:   Tomasz Figa <tfiga@chromium.org>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        mchehab@kernel.org, andriy.shevchenko@linux.intel.com,
-        robh+dt@kernel.org, mark.rutland@arm.com,
-        sakari.ailus@linux.intel.com, drinkcat@chromium.org,
-        matthias.bgg@gmail.com, bingbu.cao@intel.com,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [PATCH V8 2/2] media: i2c: dw9768: Add DW9768 VCM driver
-Message-ID: <20200618184554.GA68039@chromium.org>
-References: <20200616125531.31671-1-dongchun.zhu@mediatek.com>
- <20200616125531.31671-3-dongchun.zhu@mediatek.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [RFC v3 2/2] media: staging: rkisp1: allow quantization
+ conversion from userspace for isp source pad
+Message-ID: <20200618184923.GB68039@chromium.org>
+References: <20200416145605.12399-1-dafna.hirschfeld@collabora.com>
+ <20200416145605.12399-2-dafna.hirschfeld@collabora.com>
+ <20200604175443.GB76282@chromium.org>
+ <87f11ebf-aecf-7eee-f18c-98dd4e8d692b@collabora.com>
+ <CAAFQd5BPOUFsKb0Qa_6QiytE6=OM3jjSVWyoikdgyNvr4vu0fw@mail.gmail.com>
+ <CAAFQd5DoUu+bMO1GeSX0qbsW5u-KDmRvtO2kfGePghrv59bQmw@mail.gmail.com>
+ <62611ccd-e4cd-728a-355b-532661b36be0@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200616125531.31671-3-dongchun.zhu@mediatek.com>
+In-Reply-To: <62611ccd-e4cd-728a-355b-532661b36be0@collabora.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 16, 2020 at 08:55:31PM +0800, Dongchun Zhu wrote:
-> Add a V4L2 sub-device driver for DW9768 voice coil motor,
-> providing control to set the desired focus via IIC serial interface.
+On Thu, Jun 18, 2020 at 08:26:33PM +0200, Dafna Hirschfeld wrote:
 > 
-> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> ---
->  MAINTAINERS                |   1 +
->  drivers/media/i2c/Kconfig  |  12 +
->  drivers/media/i2c/Makefile |   1 +
->  drivers/media/i2c/dw9768.c | 553 +++++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 567 insertions(+)
->  create mode 100644 drivers/media/i2c/dw9768.c
-[snip]
-> +static int dw9768_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct dw9768 *dw9768;
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	dw9768 = devm_kzalloc(dev, sizeof(*dw9768), GFP_KERNEL);
-> +	if (!dw9768)
-> +		return -ENOMEM;
-> +
-> +	/* Initialize subdev */
-> +	v4l2_i2c_subdev_init(&dw9768->sd, client, &dw9768_ops);
-> +
-> +	dw9768->aac_mode = DW9768_AAC_MODE_DEFAULT;
-> +	dw9768->aac_timing = DW9768_AAC_TIME_DEFAULT;
-> +	dw9768->clock_presc = DW9768_CLOCK_PRE_SCALE_DEFAULT;
-> +
-> +	/* Optional indication of AAC mode select */
-> +	fwnode_property_read_u32(dev_fwnode(dev), "dongwoon,aac-mode",
-> +				 &dw9768->aac_mode);
-> +
-> +	/* Optional indication of clock pre-scale select */
-> +	fwnode_property_read_u32(dev_fwnode(dev), "dongwoon,clock-presc",
-> +				 &dw9768->clock_presc);
-> +
-> +	/* Optional indication of AAC Timing */
-> +	fwnode_property_read_u32(dev_fwnode(dev), "dongwoon,aac-timing",
-> +				 &dw9768->aac_timing);
-> +
-> +	dw9768->move_delay_us = dw9768_cal_move_delay(dw9768->aac_mode,
-> +						      dw9768->clock_presc,
-> +						      dw9768->aac_timing) / 100;
+> 
+> On 18.06.20 19:27, Tomasz Figa wrote:
+> > On Wed, Jun 10, 2020 at 2:08 PM Tomasz Figa <tfiga@chromium.org> wrote:
+> > > 
+> > > On Thu, Jun 4, 2020 at 9:11 PM Dafna Hirschfeld
+> > > <dafna.hirschfeld@collabora.com> wrote:
+> > > > 
+> > > > Hi
+> > > > 
+> > > > On 04.06.20 19:54, Tomasz Figa wrote:
+> > > > > On Thu, Apr 16, 2020 at 04:56:05PM +0200, Dafna Hirschfeld wrote:
+> > > > > > The isp entity has a hardware support to force full range quantization
+> > > > > > for YUV formats. Use the new API to indicate userspace that
+> > > > > > quantization conversion is supported by adding the flag
+> > > > > > V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION during media code enumeration.
+> > > > > > Then uppon s_fmt on the video source pad, we assign the
+> > > > > > quantization from userspace for YUV formats.
+> > > > > > Also in the capture and resizer entities we retrieve the colorspace
+> > > > > > from the isp entity.
+> > > > > > 
+> > > > > > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> > > > > > ---
+> > > > > >    drivers/staging/media/rkisp1/rkisp1-capture.c | 28 ++++++-------
+> > > > > >    drivers/staging/media/rkisp1/rkisp1-common.h  |  2 +
+> > > > > >    drivers/staging/media/rkisp1/rkisp1-isp.c     | 39 +++++++++++++++++--
+> > > > > >    drivers/staging/media/rkisp1/rkisp1-resizer.c | 13 +++++++
+> > > > > >    4 files changed, 65 insertions(+), 17 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
+> > > > > > index fbf62399fe3d..aca0f93bc772 100644
+> > > > > > --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
+> > > > > > +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
+> > > > > > @@ -1066,14 +1066,13 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
+> > > > > >                          const struct v4l2_format_info **fmt_info)
+> > > > > >    {
+> > > > > >       const struct rkisp1_capture_config *config = cap->config;
+> > > > > > -    struct rkisp1_capture *other_cap =
+> > > > > > -                    &cap->rkisp1->capture_devs[cap->id ^ 1];
+> > > > > >       const struct rkisp1_capture_fmt_cfg *fmt;
+> > > > > >       const struct v4l2_format_info *info;
+> > > > > >       const unsigned int max_widths[] = { RKISP1_RSZ_MP_SRC_MAX_WIDTH,
+> > > > > >                                           RKISP1_RSZ_SP_SRC_MAX_WIDTH };
+> > > > > >       const unsigned int max_heights[] = { RKISP1_RSZ_MP_SRC_MAX_HEIGHT,
+> > > > > >                                            RKISP1_RSZ_SP_SRC_MAX_HEIGHT};
+> > > > > > +    struct v4l2_subdev_format isp_sd_fmt;
+> > > > > > 
+> > > > > >       fmt = rkisp1_find_fmt_cfg(cap, pixm->pixelformat);
+> > > > > >       if (!fmt) {
+> > > > > > @@ -1081,24 +1080,27 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
+> > > > > >               pixm->pixelformat = fmt->fourcc;
+> > > > > >       }
+> > > > > > 
+> > > > > > +    rkisp1_get_isp_src_fmt(cap->rkisp1, &isp_sd_fmt);
+> > > > > > +    pixm->field = isp_sd_fmt.format.field;
+> > > > > > +    pixm->colorspace = isp_sd_fmt.format.colorspace;
+> > > > > > +    pixm->ycbcr_enc = isp_sd_fmt.format.ycbcr_enc;
+> > > > > > +    pixm->xfer_func = isp_sd_fmt.format.xfer_func;
+> > > > > > +
+> > > > > > +    /*
+> > > > > > +     * isp has a feature to set full range quantization for yuv formats.
+> > > > > 
+> > > > > How about "select between limited and full range for YUV formats"?
+> > > > > 
+> > > > > > +     * so we need to get the format from the isp.
+> > > > > > +     */
+> > > > > > +    pixm->quantization = isp_sd_fmt.format.quantization;
+> > > > > > +    if (!v4l2_is_format_yuv(cap->pix.info))
+> > > > > > +            pixm->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > > > > > +
+> > > > > >       pixm->width = clamp_t(u32, pixm->width,
+> > > > > >                             RKISP1_RSZ_SRC_MIN_WIDTH, max_widths[cap->id]);
+> > > > > >       pixm->height = clamp_t(u32, pixm->height,
+> > > > > >                              RKISP1_RSZ_SRC_MIN_HEIGHT, max_heights[cap->id]);
+> > > > > > 
+> > > > > > -    pixm->field = V4L2_FIELD_NONE;
+> > > > > > -    pixm->colorspace = V4L2_COLORSPACE_DEFAULT;
+> > > > > > -    pixm->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+> > > > > > -
+> > > > > >       info = rkisp1_fill_pixfmt(pixm, cap->id);
+> > > > > > 
+> > > > > > -    /* can not change quantization when stream-on */
+> > > > > > -    if (other_cap->is_streaming)
+> > > > > > -            pixm->quantization = other_cap->pix.fmt.quantization;
+> > > > > > -    /* output full range by default, take effect in params */
+> > > > > > -    else if (!pixm->quantization ||
+> > > > > > -             pixm->quantization > V4L2_QUANTIZATION_LIM_RANGE)
+> > > > > > -            pixm->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > > > > > 
+> > > > > >       if (fmt_cfg)
+> > > > > >               *fmt_cfg = fmt;
+> > > > > > diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
+> > > > > > index 2d7b7e078636..7a5576fa14c9 100644
+> > > > > > --- a/drivers/staging/media/rkisp1/rkisp1-common.h
+> > > > > > +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
+> > > > > > @@ -300,6 +300,8 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
+> > > > > >                       struct v4l2_device *v4l2_dev);
+> > > > > >    void rkisp1_isp_unregister(struct rkisp1_device *rkisp1);
+> > > > > > 
+> > > > > > +int rkisp1_get_isp_src_fmt(struct rkisp1_device *rkisp1,
+> > > > > > +                       struct v4l2_subdev_format *sd_fmt);
+> > > > > >    const struct rkisp1_isp_mbus_info *rkisp1_isp_mbus_info_get(u32 mbus_code);
+> > > > > > 
+> > > > > >    irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1);
+> > > > > > diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
+> > > > > > index dee8e96f3900..6fdf5ed0b6b1 100644
+> > > > > > --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
+> > > > > > +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
+> > > > > > @@ -613,6 +613,10 @@ static int rkisp1_isp_enum_mbus_code(struct v4l2_subdev *sd,
+> > > > > > 
+> > > > > >               if (code->index == pos - 1) {
+> > > > > >                       code->code = fmt->mbus_code;
+> > > > > > +                    if (fmt->pixel_enc == V4L2_PIXEL_ENC_YUV &&
+> > > > > > +                        dir == RKISP1_DIR_SRC)
+> > > > > > +                            code->flags =
+> > > > > > +                                    V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION;
+> > > > > >                       return 0;
+> > > > > >               }
+> > > > > >       }
+> > > > > > @@ -639,12 +643,21 @@ static int rkisp1_isp_init_config(struct v4l2_subdev *sd,
+> > > > > >       sink_crop->height = RKISP1_DEFAULT_HEIGHT;
+> > > > > >       sink_crop->left = 0;
+> > > > > >       sink_crop->top = 0;
+> > > > > > +    sink_fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> > > > > > +    sink_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(sink_fmt->colorspace);
+> > > > > > +    sink_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(sink_fmt->colorspace);
+> > > > > > +    sink_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > > > > > +
+> > > > > > 
+> > > > > >       src_fmt = v4l2_subdev_get_try_format(sd, cfg,
+> > > > > >                                            RKISP1_ISP_PAD_SOURCE_VIDEO);
+> > > > > >       *src_fmt = *sink_fmt;
+> > > > > >       src_fmt->code = RKISP1_DEF_SRC_PAD_FMT;
+> > > > > > -    src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > > > > > +    src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> > > > > > +    src_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(src_fmt->colorspace);
+> > > > > > +    src_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(src_fmt->colorspace);
+> > > > > > +    src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
+> > > > > > +
+> > > > > > 
+> > > > > >       src_crop = v4l2_subdev_get_try_crop(sd, cfg,
+> > > > > >                                           RKISP1_ISP_PAD_SOURCE_VIDEO);
+> > > > > > @@ -687,10 +700,17 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_isp *isp,
+> > > > > >               isp->src_fmt = mbus_info;
+> > > > > >       src_fmt->width  = src_crop->width;
+> > > > > >       src_fmt->height = src_crop->height;
+> > > > > > -    src_fmt->quantization = format->quantization;
+> > > > > > -    /* full range by default */
+> > > > > > -    if (!src_fmt->quantization)
+> > > > > > +
+> > > > > > +    src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> > > > > > +    src_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(src_fmt->colorspace);
+> > > > > > +    src_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(src_fmt->colorspace);
+> > > > > > +
+> > > > > > +    if (mbus_info->pixel_enc == V4L2_PIXEL_ENC_BAYER)
+> > > > > >               src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > > > > > +    else if (format->quantization == V4L2_QUANTIZATION_DEFAULT)
+> > > > > > +            src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
+> > > > > > +    else
+> > > > > > +            src_fmt->quantization = format->quantization;
+> > > > > > 
+> > > > > >       *format = *src_fmt;
+> > > > > >    }
+> > > > > > @@ -1068,6 +1088,17 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
+> > > > > >       return ret;
+> > > > > >    }
+> > > > > > 
+> > > > > > +int rkisp1_get_isp_src_fmt(struct rkisp1_device *rkisp1,
+> > > > > > +                       struct v4l2_subdev_format *sd_fmt)
+> > > > > > +{
+> > > > > > +    struct rkisp1_isp *isp = &rkisp1->isp;
+> > > > > > +
+> > > > > > +    sd_fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> > > > > > +    sd_fmt->pad = RKISP1_ISP_PAD_SOURCE_VIDEO;
+> > > > > > +
+> > > > > > +    return v4l2_subdev_call(&isp->sd, pad, get_fmt, NULL, sd_fmt);
+> > > > > 
+> > > > > Do we need to get through the external API to access data that is
+> > > > > driver-internal anyway?
+> > > > > 
+> > > > > > +}
+> > > > > > +
+> > > > > >    void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
+> > > > > >    {
+> > > > > >       struct v4l2_subdev *sd = &rkisp1->isp.sd;
+> > > > > > diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+> > > > > > index 7b6b7ddd4169..8705b133de68 100644
+> > > > > > --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
+> > > > > > +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+> > > > > > @@ -525,6 +525,7 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
+> > > > > >       const struct rkisp1_isp_mbus_info *mbus_info;
+> > > > > >       struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
+> > > > > >       struct v4l2_rect *sink_crop;
+> > > > > > +    struct v4l2_subdev_format isp_sd_fmt;
+> > > > > > 
+> > > > > >       sink_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SINK, which);
+> > > > > >       src_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SRC, which);
+> > > > > > @@ -539,8 +540,20 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
+> > > > > >       if (which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> > > > > >               rsz->pixel_enc = mbus_info->pixel_enc;
+> > > > > > 
+> > > > > > +    rkisp1_get_isp_src_fmt(rsz->rkisp1, &isp_sd_fmt);
+> > > > > > +
+> > > > > 
+> > > > > Is this necessary? My understanding was that in the subdev model, it was
+> > > > > the userspace responsibility to propagate any configuration changes through
+> > > > > the graph.
+> > > > > 
+> > > > > Also, doing this only here wouldn't fully maintain the
+> > > > > consistency of the state. For example, if one sets the ISP subdev format
+> > > > > first, then the resizer subdev and then the ISP subdev again, wouldn't the
+> > > > > resizer subdev end up with a wrong format?
+> > > > 
+> > > > yes, this is indeed a bug, I am preparing v4 now.
+> > > > What I thought to do is adding quantization conversion
+> > > > support also on ther resizer and capture entities.
+> > > > Then in the 'link_validation' callbacks, there
+> > > > is a validation that the quantization fields matches.
+> > > 
+> > > My understanding is that, if we have the following topology
+> > > 
+> > > [ ISP ] -> [ Resizer ] -> [ Video node ]
+> > > 
+> > > then the ISP source pad would have the csc capability, while resizer
+> > > and video node would just accept whatever is configured on their sink
+> > > pads (no need for csc capability for that) and propagate that to their
+> > > outputs, i.e. resizer source pad and video node CAPTURE format.
+> > > 
+> > > Is this what you were going to implement?
+> Hi, I sent a v4 where the CSC capability is set on the reiszer and capture as well.
+> I can send a v5 implementing it the way you suggest. Currently the doc says that the colorspace fields
+> must be set by the driver for capture streams. This implies that userspace can set it
+> only if the CSC is supported.
 
-nit: Could we make the function return the value in us already? One would
-expect the function to return the value in a standard unit, so this
-division by 100 here is confusing.
-
-> +
-> +	for (i = 0; i < ARRAY_SIZE(dw9768_supply_names); i++)
-> +		dw9768->supplies[i].supply = dw9768_supply_names[i];
-> +
-> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(dw9768_supply_names),
-> +				      dw9768->supplies);
-> +	if (ret) {
-> +		dev_err(dev, "failed to get regulators\n");
-> +		return ret;
-> +	}
-> +
-> +	/* Initialize controls */
-> +	ret = dw9768_init_controls(dw9768);
-> +	if (ret)
-> +		goto err_free_handler;
-> +
-> +	/* Initialize subdev */
-> +	dw9768->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	dw9768->sd.internal_ops = &dw9768_int_ops;
-> +
-> +	ret = media_entity_pads_init(&dw9768->sd.entity, 0, NULL);
-> +	if (ret < 0)
-> +		goto err_free_handler;
-> +
-> +	dw9768->sd.entity.function = MEDIA_ENT_F_LENS;
-> +
-> +	pm_runtime_enable(dev);
-> +	if (!pm_runtime_enabled(dev)) {
-> +		ret = dw9768_runtime_resume(dev);
-> +		if (ret < 0) {
-> +			dev_err(dev, "failed to power on: %d\n", ret);
-> +			goto err_clean_entity;
-> +		}
-> +	}
-> +
-> +	ret = v4l2_async_register_subdev(&dw9768->sd);
-> +	if (ret < 0) {
-> +		dev_err(dev, "failed to register V4L2 subdev: %d", ret);
-> +		goto err_power_off;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_power_off:
-> +	pm_runtime_disable(dev);
-> +	if (!pm_runtime_enabled(dev))
-
-We just disabled runtime PM in the line above, so this check would be
-always true. Need to call pm_runtime_disable() after this if.
-
-> +		dw9768_runtime_suspend(dev);
-> +err_clean_entity:
-> +	media_entity_cleanup(&dw9768->sd.entity);
-> +err_free_handler:
-> +	v4l2_ctrl_handler_free(&dw9768->ctrls);
-> +
-> +	return ret;
-> +}
-> +
-> +static int dw9768_remove(struct i2c_client *client)
-> +{
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct dw9768 *dw9768 = sd_to_dw9768(sd);
-> +
-> +	v4l2_async_unregister_subdev(&dw9768->sd);
-> +	v4l2_ctrl_handler_free(&dw9768->ctrls);
-> +	media_entity_cleanup(&dw9768->sd.entity);
-> +	pm_runtime_disable(&client->dev);
-> +	if (!pm_runtime_suspended(&client->dev))
-
-Oops, I just realized that my suggestion about the function to use here
-was incorrect. pm_runtime_status_suspended() should be the correct function
-here. Sorry for the confusion.
-
-This is because we only have 2 cases here:
- - runtime PM compiled out - the stubs function is used, which returns
-   false, so the condition is true,
- - runtime PM compiled in - we enabled runtime PM in probe, so here we
-   don't need to consider the enable state.
+Why would the userspace have to set it for the capture stream on the
+resizer and video nodes? Couldn't the userspace set it to DEFAULT and
+then the driver override to whatever it received on the corresponding
+sink?
 
 Best regards,
 Tomasz
