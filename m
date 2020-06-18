@@ -2,177 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A5D411FEF62
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 12:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5474D1FEFAE
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 12:34:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728948AbgFRKKY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 06:10:24 -0400
-Received: from relay9-d.mail.gandi.net ([217.70.183.199]:52943 "EHLO
-        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728823AbgFRKKK (ORCPT
+        id S1728420AbgFRKep (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 06:34:45 -0400
+Received: from ma-dnext02.denso.co.jp ([133.192.181.77]:54001 "EHLO
+        ma-dnext02.denso.co.jp" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726991AbgFRKem (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 06:10:10 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 7EAEEFF80B;
-        Thu, 18 Jun 2020 10:10:01 +0000 (UTC)
-Date:   Thu, 18 Jun 2020 12:13:26 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Luis Oliveira <lolivei@synopsys.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Michael Rodin <mrodin@de.adit-jv.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Adam Ford <aford173@gmail.com>,
-        Todor Tomov <todor.tomov@linaro.org>,
-        Suresh Udipi <sudipi@jp.adit-jv.com>,
-        Andrew Gabbasov <andrew_gabbasov@mentor.com>,
-        Eugeniu Rosca <erosca@de.adit-jv.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>
-Subject: Re: [PATCH v2 3/6] media: ov5647: Add support for non-continuous
- clock mode
-Message-ID: <20200618101326.zpcdcb3zdrtgz45t@uno.localdomain>
-References: <cover.1589850165.git.roman.kovalivskyi@globallogic.com>
- <cd04fe908fc1a747949ee83044f4d2abc1885cee.1589850165.git.roman.kovalivskyi@globallogic.com>
- <20200519115707.GK20066@paasikivi.fi.intel.com>
+        Thu, 18 Jun 2020 06:34:42 -0400
+Received: from grdma02h.denso.co.jp (unknown [133.192.24.24])
+        by ma-dnext02.denso.co.jp (Postfix) with ESMTP id 82CCB31C2D9;
+        Thu, 18 Jun 2020 19:34:40 +0900 (JST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=adit-jv.com;
+        s=jpadit-jvmail2011; t=1592476480;
+        bh=PqArx+iwOLW7rJ0MHUy1IoCPSk3aDJmD1/nPO2+Xj8M=;
+        h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+         MIME-Version:Content-Type;
+        b=fGJzlRa4iqJoXYVzYfKjljgtGEQ0sEpwXV2q8nLrmu6yzDeltyhbKSb56AVaVBDax
+         A438xG1kkval0qtXC2leG5JzAvmd2nEByS0oTukMntZm+qVBXDSFoGp2aKTcghj8LL
+         phZxoLDF6g1fowkpFTrjI3gyMGOmWYABLyX6g1eg8eITi1cCSHyDqoU1yGTVyYtoHX
+         umrLKHZnNjhnvFSGbIG3Q1+C40X9mTpTmZ1KALJTzUaZUPN+Mvh4SfMm+LNU7BceS5
+         10MpdIJnk4KPI4OCar10EW1OsxJgppwAJmX9/X3ActPuUb/TiIDqAYtsc99o6CooIq
+         zEkBnXndre5SA==
+Received: by grdma02h.denso.co.jp (Postfix, from userid 0)
+        id 79E7DC04E0D; Thu, 18 Jun 2020 19:34:40 +0900 (JST)
+Received: from smtp0.denso.co.jp [133.192.24.87] 
+         by grdma02h. with ESMTP id VAA00351;
+         Thu, 18 Jun 2020 19:34:40 +0900
+Received: from ky0exch01.adit-jv.com ([10.71.113.8])
+        by smtp00.denso.co.jp (MOS 4.4.7-GA)
+        with ESMTP id GBQ29315;
+        Thu, 18 Jun 2020 19:34:39 +0900
+Received: from jp-u0004.adit-jv.com (10.71.112.120) by ky0exch01.adit-jv.com
+ (10.71.113.8) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 18 Jun
+ 2020 19:34:39 +0900
+From:   Suresh Udipi <sudipi@jp.adit-jv.com>
+To:     <mrodin@de.adit-jv.com>
+CC:     <akiyama@nds-osk.co.jp>, <efriedrich@de.adit-jv.com>,
+        <erosca@de.adit-jv.com>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-renesas-soc@vger.kernel.org>,
+        <mchehab@kernel.org>, <michael@rodin.online>,
+        <niklas.soderlund@ragnatech.se>, <securitycheck@denso.co.jp>,
+        <sudipi@jp.adit-jv.com>
+Subject: [PATCH v8 1/3] media: rcar-csi2: Correct the selection of hsfreqrange
+Date:   Thu, 18 Jun 2020 19:34:30 +0900
+Message-ID: <1592476472-26235-1-git-send-email-sudipi@jp.adit-jv.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20200617133705.GA88066@vmlxhi-121.adit-jv.com>
+References: <20200617133705.GA88066@vmlxhi-121.adit-jv.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200519115707.GK20066@paasikivi.fi.intel.com>
+Content-Type: text/plain
+X-Originating-IP: [10.71.112.120]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Roman, Sakari
+hsfreqrange should be chosen based on the calculated mbps which
+is closer to the default bit rate  and within the range as per
+table[1]. But current calculation always selects first value which
+is greater than or equal to the calculated mbps which may lead
+to chosing a wrong range in some cases.
 
-On Tue, May 19, 2020 at 02:57:07PM +0300, Sakari Ailus wrote:
-> Hi Roman,
->
-> On Tue, May 19, 2020 at 04:16:18AM +0300, Roman Kovalivskyi wrote:
-> > From: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> >
-> > The driver was only supporting continuous clock mode
-> > although this was not stated anywhere.
-> > Non-continuous clock saves a small amount of power and
-> > on some SoCs is easier to interface with.
-> >
+For example for 360 mbps for H3/M3N
+Existing logic selects
+Calculated value 360Mbps : Default 400Mbps Range [368.125 -433.125 mbps]
 
-not much to add to what Sakari said, apart for
+This hsfreqrange is out of range.
 
-> > Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
-> > Signed-off-by: Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
-> > ---
-> >  drivers/media/i2c/ov5647.c | 25 ++++++++++++++++++++++---
-> >  1 file changed, 22 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> > index 796cc80f8ee1..10f35c637f91 100644
-> > --- a/drivers/media/i2c/ov5647.c
-> > +++ b/drivers/media/i2c/ov5647.c
-> > @@ -44,6 +44,7 @@
-> >  #define PWDN_ACTIVE_DELAY_MS	20
-> >
-> >  #define MIPI_CTRL00_CLOCK_LANE_GATE		BIT(5)
-> > +#define MIPI_CTRL00_LINE_SYNC_ENABLE		BIT(4)
-> >  #define MIPI_CTRL00_BUS_IDLE			BIT(2)
-> >  #define MIPI_CTRL00_CLOCK_LANE_DISABLE		BIT(0)
-> >
-> > @@ -95,6 +96,7 @@ struct ov5647 {
-> >  	int				power_count;
-> >  	struct clk			*xclk;
-> >  	struct gpio_desc		*pwdn;
-> > +	bool				is_clock_contiguous;
+The logic is changed to get the default value which is closest to the
+calculated value [1]
 
-the clock is 'continuous' not contigous :)
+Calculated value 360Mbps : Default 350Mbps  Range [320.625 -380.625 mpbs]
 
-I plan to upport more ov5647 patches soon, Roman are you planning a
-resend of this series or should I do so (keeping your signoffs of
-course)
+[1] specs r19uh0105ej0200-r-car-3rd-generation.pdf [Table 25.9]
 
-Thanks
-  j
+Please note that According to Renesas in Table 25.9 the range for
+220 default value is corrected as below
 
-> >  };
-> >
-> >  static inline struct ov5647 *to_state(struct v4l2_subdev *sd)
-> > @@ -274,9 +276,15 @@ static int ov5647_set_virtual_channel(struct v4l2_subdev *sd, int channel)
-> >
-> >  static int ov5647_stream_on(struct v4l2_subdev *sd)
-> >  {
-> > +	struct ov5647 *ov5647 = to_state(sd);
-> > +	u8 val = MIPI_CTRL00_BUS_IDLE;
-> >  	int ret;
-> >
-> > -	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, MIPI_CTRL00_BUS_IDLE);
-> > +	if (ov5647->is_clock_contiguous)
-> > +		val |= MIPI_CTRL00_CLOCK_LANE_GATE |
-> > +		       MIPI_CTRL00_LINE_SYNC_ENABLE;
-> > +
-> > +	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, val);
-> >  	if (ret < 0)
-> >  		return ret;
-> >
-> > @@ -573,7 +581,7 @@ static const struct v4l2_subdev_internal_ops ov5647_subdev_internal_ops = {
-> >  	.open = ov5647_open,
-> >  };
-> >
-> > -static int ov5647_parse_dt(struct device_node *np)
-> > +static int ov5647_parse_dt(struct ov5647 *sensor, struct device_node *np)
-> >  {
-> >  	struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
-> >  	struct device_node *ep;
-> > @@ -586,6 +594,17 @@ static int ov5647_parse_dt(struct device_node *np)
-> >
-> >  	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &bus_cfg);
-> >
->
-> Extra newline.
->
-> > +	if (!ret) {
-> > +		of_node_put(ep);
-> > +		of_node_put(np);
->
-> Why to put np as well?
->
-> > +		return ret;
->
-> Please add a label at the end; it makes error handling easier.
->
-> > +	}
-> > +
-> > +	if (bus_cfg.bus_type == V4L2_MBUS_CSI2_DPHY
-> > +		|| bus_cfg.bus_type == V4L2_MBUS_CSI2_CPHY)
->
-> I bet this device is D-PHY only.
->
-> > +		sensor->is_clock_contiguous = bus_cfg.bus.mipi_csi2.flags
-> > +			& V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
->
-> Now that you're making use of bus specific parameters, please set the bus
-> type first before calling v4l2_fwnode_endpoint_parse().
->
-> > +
-> >  	of_node_put(ep);
-> >  	return ret;
-> >  }
-> > @@ -604,7 +623,7 @@ static int ov5647_probe(struct i2c_client *client)
-> >  		return -ENOMEM;
-> >
-> >  	if (IS_ENABLED(CONFIG_OF) && np) {
-> > -		ret = ov5647_parse_dt(np);
-> > +		ret = ov5647_parse_dt(sensor, np);
-> >  		if (ret) {
-> >  			dev_err(dev, "DT parsing error: %d\n", ret);
-> >  			return ret;
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+ |Range (Mbps)     |  Default  Bit rate (Mbps) |
+ -----------------------------------------------
+ | 197.125-244.125 |     220                   |
+ -----------------------------------------------
+
+Fixes: 769afd212b16 ("media: rcar-csi2: add Renesas R-Car MIPI CSI-2 receiver driver")
+
+Signed-off-by: Suresh Udipi <sudipi@jp.adit-jv.com>
+Signed-off-by: Kazuyoshi Akiyama <akiyama@nds-osk.co.jp>
+Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
+---
+ Changes in v2:
+  - Added the boundary check for the maximum bit rate.
+
+  - Simplified the logic by remmoving range check
+    as only the closest default value covers most
+    of the use cases.
+
+  - Aligning the commit message based on the above change
+
+
+ Changes in v3:
+    - Added max member from struct rcsi2_mbps_reg.
+      mbps varialbe cannot be removed from rcsi2_mbps_reg,
+      since this structure is reused for
+      phtw_mbps_h3_v3h_m3n/phtw_mbps_v3m_e3 where mbps is
+      used.
+
+
+   -  Update the walk of the array in rcsi2_set_phypll() so that it finds
+      the first entry where the calculated bit rate is less than the max.
+
+   - Support lower bit rates less than 80Mbps like 48Mbps
+     (Raspberry pi camera 640x480 connected to Kingfisher)
+     can also be supported by selecting the lowest default bit rate 80Mbps
+     as done before this fix
+
+   - Alignement of the commit message based on above changes.
+
+ Changes in v4:
+  -  Remove unncessary braces.
+
+ Changes in v5:
+   - Removed mbps variable in rcsi2_mbps_reg and aligned all
+     tables accordingly
+
+
+ Changes in v6
+   - Renesas correct the range of default value 220Mbps. Now
+     if we select the nearest value to the default value all
+         the values are in range. So reverting back to original patch
+  
+   - Added warning for values less than Minimum 80Mbps
+      
+Changes in v7
+  - Create a seperate commit for the warning message less
+    than minimum 80Mbps 
+  
+  - Reorder the statements to increase readability
+  
+Changes in v8
+  - Extended the logic of selection of nearest mbps to
+    PHTW registers value less than 250Mbps. A new commit
+    is added
+	
+ drivers/media/platform/rcar-vin/rcar-csi2.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/platform/rcar-vin/rcar-csi2.c b/drivers/media/platform/rcar-vin/rcar-csi2.c
+index 151e6a9..f18dedc 100644
+--- a/drivers/media/platform/rcar-vin/rcar-csi2.c
++++ b/drivers/media/platform/rcar-vin/rcar-csi2.c
+@@ -431,16 +431,23 @@ static int rcsi2_wait_phy_start(struct rcar_csi2 *priv)
+ static int rcsi2_set_phypll(struct rcar_csi2 *priv, unsigned int mbps)
+ {
+ 	const struct rcsi2_mbps_reg *hsfreq;
++	const struct rcsi2_mbps_reg *hsfreq_prev = NULL;
+ 
+-	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++)
++	for (hsfreq = priv->info->hsfreqrange; hsfreq->mbps != 0; hsfreq++) {
+ 		if (hsfreq->mbps >= mbps)
+ 			break;
++		hsfreq_prev = hsfreq;
++	}
+ 
+ 	if (!hsfreq->mbps) {
+ 		dev_err(priv->dev, "Unsupported PHY speed (%u Mbps)", mbps);
+ 		return -ERANGE;
+ 	}
+ 
++	if (hsfreq_prev &&
++	    ((mbps - hsfreq_prev->mbps) <= (hsfreq->mbps - mbps)))
++		hsfreq = hsfreq_prev;
++
+ 	rcsi2_write(priv, PHYPLL_REG, PHYPLL_HSFREQRANGE(hsfreq->reg));
+ 
+ 	return 0;
+-- 
+2.7.4
+
