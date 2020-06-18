@@ -2,202 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 507FD1FF5D5
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 16:55:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74F801FF603
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 17:01:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731167AbgFROyz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 10:54:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59098 "EHLO
+        id S1730936AbgFRPBB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 11:01:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60042 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731135AbgFROyz (ORCPT
+        with ESMTP id S1727055AbgFRPA7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 10:54:55 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 957AAC0613EE
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 07:54:54 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id f7so6734583ejq.6
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 07:54:54 -0700 (PDT)
+        Thu, 18 Jun 2020 11:00:59 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EAF3C06174E
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 08:00:58 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id p5so6378956wrw.9
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 08:00:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=HZYiZmWf6ruq72Uesy0UkTynhdCMb7aPfkJ7IXCFCdM=;
-        b=Jf26HU5wpOUJ2LgyCiL8Kvo/hfcGs1oXL7yWO/GV9O2ZMv2+coQ9M7P099MydNUx+5
-         WCah9K/X1uK/ZpZ3dO8vhfA2XT2pnRBOyOFB8aE9IrTyd1R2vpUevLTlnffrTDOsCAep
-         fKAtEDsPu3ery2VkgkpdwK5Aj5uWdShz9dcGlGtiBI05uQiiRzumcdgOy0xFOLGlUKwG
-         qm/oyPbIQBNw2Gif0utsnHoNoFDYZGa258tsCklpvUw7a8lDqPZKN/n6/QfIa2U6JEpm
-         G6PAbDTZN/4jy4OQiwlqVrskkqz31lw1GkCucJZA+aauWc7DoOqKBFuL4nVbtvsRWs3u
-         0Nww==
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6OXAj9s43JL1nA3AEpbYM/MO9Qwg5Ya14IpN0gZo/as=;
+        b=NAXSbQeHANLe1jipR3irzjbY7yWCggcmWa6HNg2IPmITzqFGf3L5EfLt0xDSdDrG+b
+         x2cMxixoM50+NeYTVtrK/kNJYHNO6fr4lE9I3N0/BlBM5groWNzwqW1H+Hm//JIuCUoA
+         dlNXlF2mmmSgTTwOzqZXKvpuzoxFA0/uYDSds=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=HZYiZmWf6ruq72Uesy0UkTynhdCMb7aPfkJ7IXCFCdM=;
-        b=l3h705ZbBBmmQ+wpBpXJKdZGCB/GbVdFAmI2qMOzjrBnZ9y22upFcnTdWZmF66Sw7e
-         vrZ9fRfLsVyBgk/vzrOC3BQKrlvyfitkDwjNbq+GsG9k9H94SqykBgZmqfi3c5RVfEAA
-         J4GIAJmBZUaGq9/huiu08d+vsW5jefxcRTAaWw/fOFzlz3YLnhR6Y+OiabHYo3/Ebd5I
-         88FjuoChoMpNeyFd6/OVFf5QK3X+FitTFZAUQzPYywvhjASepV0vf+Lnuy7Vie5hWChe
-         sGHKfsvKnaOIVImXx/bsdbO/wuqUlPZyfqmJW9g+ycewD6uuYgoDWhH4FuH1XiDzeGtM
-         upyA==
-X-Gm-Message-State: AOAM5307LPZ6wxnjo9CCmucJymG0dgEAzT+o4cG8geX2ZfamlIXVGtPe
-        1oRxYWrHHo7Ilf4FzhEe/bwcvdA7DOJCYg==
-X-Google-Smtp-Source: ABdhPJy/EIb3YZlC6znqs6Wl7xziMLGfTrsNGqzk6lXGsHU4ulDHFzp1AeBFvSlKwH3Rh5VWBxb6hw==
-X-Received: by 2002:a17:906:f291:: with SMTP id gu17mr4394554ejb.411.1592492092970;
-        Thu, 18 Jun 2020 07:54:52 -0700 (PDT)
-Received: from [192.168.1.3] (212-5-158-140.ip.btc-net.bg. [212.5.158.140])
-        by smtp.googlemail.com with ESMTPSA id b26sm2452595eju.6.2020.06.18.07.54.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Jun 2020 07:54:52 -0700 (PDT)
-Subject: Re: [PATCH v6 5/6] media: venus: core: Add support for opp
- tables/perf voting
-To:     Rajendra Nayak <rnayak@codeaurora.org>, bjorn.andersson@linaro.org,
-        agross@kernel.org, robdclark@gmail.com, robdclark@chromium.org,
-        stanimir.varbanov@linaro.org
-Cc:     viresh.kumar@linaro.org, sboyd@kernel.org, mka@chromium.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-References: <1592222564-13556-1-git-send-email-rnayak@codeaurora.org>
- <1592222564-13556-6-git-send-email-rnayak@codeaurora.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <e0f856ec-e391-9b1d-baa3-7dda20cb853a@linaro.org>
-Date:   Thu, 18 Jun 2020 17:54:49 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :in-reply-to;
+        bh=6OXAj9s43JL1nA3AEpbYM/MO9Qwg5Ya14IpN0gZo/as=;
+        b=qBT10FB5xjcRn5Hw81mlywMxUfrKKWa0cAQ1ojPhGZkKpIzFkjvxZDXbwal355QCMO
+         imA9xTvnsG0DxVOUa7eQaZvXS3NlcbkqIHUfBbzt2vgWA3QzsNFXJWEMbh0ektTIiMy2
+         Y7EecgymV6BqHMtJhw08NL0wA1vUMThcbfZY/TlSi9DiKVcUwdKbeGTasWo0TvYQAAmp
+         oXAazMW1trNSCU+bKqEOvyDkSuqPZQWHvBYALYFcK93H5bfQFm/o816jSUEuJgTPx5nn
+         HWGz56hTFlS/umLdMkyBhpUnW04ymYPoC5oj15wAhWL8JOjFwVIXH+WHvhcX77ip+3B9
+         AwTw==
+X-Gm-Message-State: AOAM532FRBmZ8mLDMEGb2dsHsR1I50+fEdgwGrmNJY7lhS4wopMS1RiX
+        x8lbzFBh8Gh+HLGrD2HSKeqY9g==
+X-Google-Smtp-Source: ABdhPJyrsmwBwFtG4KAk31ycwBo00rNlOYG3lXCyUqre+ViPnXoXIqRRhRlofgF6zGCpK4dB5Hv+mw==
+X-Received: by 2002:adf:d841:: with SMTP id k1mr4031245wrl.93.1592492454932;
+        Thu, 18 Jun 2020 08:00:54 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id p7sm3878240wro.26.2020.06.18.08.00.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2020 08:00:53 -0700 (PDT)
+Date:   Thu, 18 Jun 2020 17:00:51 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
+ annotations
+Message-ID: <20200618150051.GS20149@phenom.ffwll.local>
+Mail-Followup-To: Jason Gunthorpe <jgg@ziepe.ca>,
+        Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-5-daniel.vetter@ffwll.ch>
+ <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
+ <20200611083430.GD20149@phenom.ffwll.local>
+ <20200611141515.GW6578@ziepe.ca>
+ <20200616120719.GL20149@phenom.ffwll.local>
+ <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
+ <20200617152835.GF6578@ziepe.ca>
 MIME-Version: 1.0
-In-Reply-To: <1592222564-13556-6-git-send-email-rnayak@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200617152835.GF6578@ziepe.ca>
+X-Operating-System: Linux phenom 5.6.0-1-amd64 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rajendra,
-
-On 6/15/20 3:02 PM, Rajendra Nayak wrote:
-> Add support to add OPP tables and perf voting on the OPP powerdomain.
-> This is needed so venus votes on the corresponding performance state
-> for the OPP powerdomain along with setting the core clock rate.
+On Wed, Jun 17, 2020 at 12:28:35PM -0300, Jason Gunthorpe wrote:
+> On Wed, Jun 17, 2020 at 08:48:50AM +0200, Daniel Vetter wrote:
 > 
-> Signed-off-by: Rajendra Nayak <rnayak@codeaurora.org>
-> Reviewed-by: Matthias Kaehlcke <mka@chromium.org>
-> Cc: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> Cc: linux-media@vger.kernel.org
-> ---
-> No functional change in v6, rebased over 5.8-rc1
-> Bindings update to add optional PD https://lore.kernel.org/patchwork/patch/1241077/
+> > Now my understanding for rdma is that if you don't have hw page fault
+> > support,
 > 
->  drivers/media/platform/qcom/venus/core.c       | 43 +++++++++++++++++---
->  drivers/media/platform/qcom/venus/core.h       |  5 +++
->  drivers/media/platform/qcom/venus/pm_helpers.c | 54 ++++++++++++++++++++++++--
->  3 files changed, 92 insertions(+), 10 deletions(-)
+> The RDMA ODP feature is restartable HW page faulting just like nouveau
+> has. The classical MR feature doesn't have this. Only mlx5 HW supports
+> ODP today.
 > 
+> > It's only gpus (I think) which are in this awkward in-between spot
+> > where dynamic memory management really is much wanted, but the hw
+> > kinda sucks. Aside, about 10+ years ago we had a similar problem with
+> > gpu hw, but for security: Many gpu didn't have any kinds of page
+> > tables to isolate different clients from each another. drivers/gpu
+> > fixed this by parsing&validating what userspace submitted to make sure
+> > it's only every accessing its own buffers. Most gpus have become
+> > reasonable nowadays and do have proper per-process pagetables (gpu
+> > process, not the pasid stuff), but even today there's still some of
+> > the old model left in some of the smallest SoC.
+> 
+> But I still don't understand why a dma fence is needed inside the GPU
+> driver itself in the notifier.
+> 
+> Surely the GPU driver can block and release the notifier directly from
+> its own command processing channel?
+> 
+> Why does this fence and all it entails need to leak out across
+> drivers?
 
-<cut>
+So 10 years ago we had this world of every gpu driver is its own bucket,
+nothing leaks out to the world. But the world had a different idea how
+gpus where supposed to work, with stuff like:
 
->  
-> @@ -740,13 +740,16 @@ static int venc_power_v4(struct device *dev, int on)
->  
->  static int vcodec_domains_get(struct device *dev)
->  {
-> +	int ret;
-> +	struct opp_table *opp_table;
-> +	struct device **opp_virt_dev;
->  	struct venus_core *core = dev_get_drvdata(dev);
->  	const struct venus_resources *res = core->res;
->  	struct device *pd;
->  	unsigned int i;
->  
->  	if (!res->vcodec_pmdomains_num)
-> -		return -ENODEV;
-> +		goto skip_pmdomains;
->  
->  	for (i = 0; i < res->vcodec_pmdomains_num; i++) {
->  		pd = dev_pm_domain_attach_by_name(dev,
-> @@ -763,7 +766,41 @@ static int vcodec_domains_get(struct device *dev)
->  	if (!core->pd_dl_venus)
->  		return -ENODEV;
->  
-> +skip_pmdomains:
-> +	if (!core->has_opp_table)
-> +		return 0;
-> +
-> +	/* Attach the power domain for setting performance state */
-> +	opp_table = dev_pm_opp_attach_genpd(dev, res->opp_pmdomain, &opp_virt_dev);
-> +	if (IS_ERR(opp_table)) {
-> +		ret = PTR_ERR(opp_table);
-> +		goto opp_attach_err;
-> +	}
-> +
-> +	core->opp_pmdomain = *opp_virt_dev;
-> +	core->opp_dl_venus = device_link_add(dev, core->opp_pmdomain,
-> +					     DL_FLAG_RPM_ACTIVE |
-> +					     DL_FLAG_PM_RUNTIME |
-> +					     DL_FLAG_STATELESS);
-> +	if (!core->opp_dl_venus) {
-> +		ret = -ENODEV;
-> +		goto opp_dl_add_err;
-> +	}
-> +
->  	return 0;
-> +
-> +opp_dl_add_err:
-> +	dev_pm_domain_detach(core->opp_pmdomain, true);
-> +opp_attach_err:
-> +	if (core->pd_dl_venus) {
-> +		device_link_del(core->pd_dl_venus);
-> +		for (i = 0; i < res->vcodec_pmdomains_num; i++) {
-> +			if (IS_ERR_OR_NULL(core->pmdomains[i]))
-> +				continue;
-> +			dev_pm_domain_detach(core->pmdomains[i], true);
-> +		}
-> +	}
-> +	return ret;
->  }
->  
->  static void vcodec_domains_put(struct device *dev)
-> @@ -773,7 +810,7 @@ static void vcodec_domains_put(struct device *dev)
->  	unsigned int i;
->  
->  	if (!res->vcodec_pmdomains_num)
-> -		return;
-> +		goto skip_pmdomains;
->  
->  	if (core->pd_dl_venus)
->  		device_link_del(core->pd_dl_venus);
-> @@ -783,6 +820,15 @@ static void vcodec_domains_put(struct device *dev)
->  			continue;
->  		dev_pm_domain_detach(core->pmdomains[i], true);
->  	}
-> +
-> +skip_pmdomains:
-> +	if (!res->opp_pmdomain)
-> +		return;
-> +
-> +	if (core->opp_dl_venus)
-> +		device_link_del(core->opp_dl_venus);
-> +
-> +	dev_pm_domain_detach(core->opp_pmdomain, true);
+- laptops with a power-efficient but slow gpu integrated on the cpu die,
+  and a 2nd, much faster but also more wasteful gpu seperately
 
-Without corresponding changes in venus DT node we call pm_domain_detach
-with core->opp_pmdomain = NULL which triggers NULL pointer dereference.
+- also multi-gpu rendering (but on linux we never really got around to
+  enabling that, at least not for 3d rendering)
 
-I guess you should check:
+- soc just bundle IP blocks together, and very often they feel like they
+  have to do their own display block (it's fairly easy and allows you to
+  keep your hw engineers justified on payroll with some more patents they
+  create), but anything more fancy they buy in. So from a driver
+  architecture pov even a single chip soc looks like a bundle of gpus
 
-	if (core->has_opp_table)
-		dev_pm_domain_detach(core->opp_pmdomain, true);
+And you want to pipeline all this because performance, so waiting in
+userspace for one block to finish before you hand it ever to the other
+isn't a good idea.
 
-or
+Hence dma_fence as a cross driver leak was created by pulling the gpu
+completion tracking from the drm/ttm library for managing vram.
 
-	if (core->opp_pmdomain)
-		dev_pm_domain_detach(core->opp_pmdomain, true);
+Now with glorious hindsight we could have come up with a different
+approach, where synchronization is managed by userspace, kernel just
+provides some primitives (kinda like futexes, but for gpu). And the kernel
+manages residency and gpu pte wrangling entirely seperately. But:
 
+- 10 years ago drivers/gpu was a handful of people at best
 
-... not sure which one is more appropriate or both are.
+- we just finished the massive rewrite to get to a kernel memory manager
+  and kernel modesetting (over 5 years after windows/macos), so appetite
+  for massive rewrites was minimal.
 
+Here we are, now with 50 more drivers built on top and an entire userspace
+ecosystem that relies on all this (because yes we made dma_fence also the
+building block for all the cross-process uapi, why wouldn't we).
 
+I hope that explains a bit the history of how and why we ended up here.
+
+Maybe I should do a plumbers talk about "How not to memory manage -
+cautious tales from drivers/gpu" I think there's a lot of areas where the
+conversation usually goes "wtf" ... long explanation of history and
+technical reasons leading to a "oh dear". With a lot of other accelerators
+and things landing might be good to have a list of things that look
+tempting (because hey 2% faster) but arent worth the pain.
+-Daniel
 -- 
-regards,
-Stan
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
