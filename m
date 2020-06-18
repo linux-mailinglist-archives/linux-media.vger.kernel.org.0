@@ -2,163 +2,299 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CB9C1FF127
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 14:04:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F6F61FF1C5
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 14:29:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728361AbgFRMEq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 08:04:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60872 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726919AbgFRMEk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 08:04:40 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18883C0613EE
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 05:04:39 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id i12so2452752pju.3
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 05:04:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=a//uCrVJPF15o3NZ8oa0wIr0G6H6hYlHi4uZ+SX5LZ8=;
-        b=pTNgZDNStw8h1YPuLypOjqvoisArtiCZnFpZS7mUjFCyPs8gz6ptyZlFXEaHVsk5V7
-         GfEJNSnCJLi+eWXByfnYittSyHNEK89ld4kCmbT06bnG1JzpymBFI2dhc0CxTIypJraf
-         iAxCB1qowyl5l+efEAqbLXIl7nengM8S+5Vs/z6gWYBQVfvOWIkPrTGmR/6JyovCCviQ
-         +7xdZxMLvH4Mdfd4NnzKmr5u7hpqV/L0G7jaLXblTTpCj3dLwJzhKOWdwhcHTyDKbjsO
-         m33zaRcY6qUrJZz2sly0DNIRS1XZzy2nGQlUHnoySC1Hs0ymdwFJxtd0kQLt17eP/6dE
-         qmbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=a//uCrVJPF15o3NZ8oa0wIr0G6H6hYlHi4uZ+SX5LZ8=;
-        b=JQJh00LyNStHcM4asfSpNwQC3d56KTdyufqPRXR9zfqytmQDAN55l8dCJH+/GX7lH3
-         rRa2xYqZUW/31OkQv0TDczhfb+MRThYVtmPMrTrcoC4iuo7+ckDTvvQa7XOHUMIMHqR8
-         eA+o5ZuInWo2I9WDLmB17ta94uVuJC62TaaOOEQRKlR4+aXEIgy9I2shaQizEmI0tKNX
-         n1KAzgSlWToyLBaeknotLH+lg48R3OIVuZTMatmn4n0M+bUHZN/f1AA4xo8s0tiVpMuS
-         +cJA60egcFsW6U4bXjK6d/qL6f96cNACendNHz4gUFqfatZjVmofBJI+tMNX3GzQFrzH
-         zL6Q==
-X-Gm-Message-State: AOAM531763StQJLrj3DGiMrb8LFO8blMbF8Qb6X9oITXN6t0uzNTMMGb
-        H4FNlEItBs/trGo65y7BiPqIuNmOJap4iuqnquVXFw==
-X-Google-Smtp-Source: ABdhPJzktztMvGvD7NTBr3Mk3hKVBOZMQxu0ukUcOQp9V1HsLlNe8tOkynCUSmNOssjI8wujbwWvfa7fiz8a9450K4A=
-X-Received: by 2002:a17:902:6ac1:: with SMTP id i1mr3563117plt.147.1592481878557;
- Thu, 18 Jun 2020 05:04:38 -0700 (PDT)
+        id S1729862AbgFRM3Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 08:29:16 -0400
+Received: from mga03.intel.com ([134.134.136.65]:58149 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729840AbgFRM3E (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 18 Jun 2020 08:29:04 -0400
+IronPort-SDR: bLpYikYayENzivwLYrhbTlmUFAR2QUSQSv3uTTGAJY9T1pmBah8jpgA4a46LSPekieCy704Q5s
+ VdqWATc9zWOQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9655"; a="142498831"
+X-IronPort-AV: E=Sophos;i="5.73,526,1583222400"; 
+   d="scan'208";a="142498831"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jun 2020 05:29:03 -0700
+IronPort-SDR: zWy8t80wDV3GuZ52l+NYpDNn/3ln0dvMXJ/H9oYoCF5qW3xuuq0EMo/imTeISD+XE2ObbLZB5A
+ WKm5dp7d7X8w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,526,1583222400"; 
+   d="scan'208";a="317811874"
+Received: from gliakhov-mobl2.ger.corp.intel.com (HELO ubuntu) ([10.252.48.152])
+  by FMSMGA003.fm.intel.com with ESMTP; 18 Jun 2020 05:28:58 -0700
+Date:   Thu, 18 Jun 2020 14:28:56 +0200
+From:   Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
+To:     "Michael S. Tsirkin" <mst@redhat.com>
+Cc:     David Stevens <stevensd@chromium.org>,
+        dri-devel@lists.freedesktop.org, virtio-dev@lists.oasis-open.org,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        linux-kernel@vger.kernel.org, Maxime Ripard <mripard@kernel.org>,
+        virtualization@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v4 1/3] virtio: add dma-buf support for exported objects
+Message-ID: <20200618122856.GC4189@ubuntu>
+References: <20200526105811.30784-1-stevensd@chromium.org>
+ <20200526105811.30784-2-stevensd@chromium.org>
+ <20200604145620-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-References: <000000000000da6a0e058d3ead50@google.com>
-In-Reply-To: <000000000000da6a0e058d3ead50@google.com>
-From:   Andrey Konovalov <andreyknvl@google.com>
-Date:   Thu, 18 Jun 2020 14:04:27 +0200
-Message-ID: <CAAeHK+zcrzHr8yzgM1UOEXqXhxv35-OEDte=YRpprQ+pUmzs0A@mail.gmail.com>
-Subject: Re: general protection fault in vidioc_querycap
-To:     syzbot <syzbot+646272341e25afebff05@syzkaller.appspotmail.com>
-Cc:     Allison Randal <allison@lohutok.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
-        USB list <linux-usb@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        syzkaller-bugs <syzkaller-bugs@googlegroups.com>,
-        Thomas Gleixner <tglx@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200604145620-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jul 9, 2019 at 2:27 PM syzbot
-<syzbot+646272341e25afebff05@syzkaller.appspotmail.com> wrote:
->
-> Hello,
->
-> syzbot found the following crash on:
->
-> HEAD commit:    7829a896 usb-fuzzer: main usb gadget fuzzer driver
-> git tree:       https://github.com/google/kasan.git usb-fuzzer
-> console output: https://syzkaller.appspot.com/x/log.txt?x=1321f9a3a00000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=f6d4561982f71f63
-> dashboard link: https://syzkaller.appspot.com/bug?extid=646272341e25afebff05
-> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12ac261ba00000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=171d6739a00000
->
-> IMPORTANT: if you fix the bug, please add the following tag to the commit:
-> Reported-by: syzbot+646272341e25afebff05@syzkaller.appspotmail.com
->
-> kasan: CONFIG_KASAN_INLINE enabled
-> kasan: GPF could be caused by NULL-ptr deref or user memory access
-> general protection fault: 0000 [#1] SMP KASAN
-> CPU: 1 PID: 1878 Comm: v4l_id Not tainted 5.2.0-rc6+ #13
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
-> Google 01/01/2011
-> RIP: 0010:usb_make_path include/linux/usb.h:913 [inline]
-> RIP: 0010:vidioc_querycap+0x12d/0x3e0
-> drivers/media/usb/usbvision/usbvision-video.c:461
-> Code: 3c 02 00 0f 85 ba 02 00 00 49 8b ac 24 58 16 00 00 48 b8 00 00 00 00
-> 00 fc ff df 48 8d 7d 48 4c 8d 45 04 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f
-> 85 7d 02 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b
-> RSP: 0018:ffff8881cc727a28 EFLAGS: 00010206
-> RAX: dffffc0000000000 RBX: ffff8881cc727c20 RCX: 0000000000000000
-> RDX: 0000000000000009 RSI: 451f481f4b404f27 RDI: 0000000000000048
-> RBP: 0000000000000000 R08: 0000000000000004 R09: fffffbfff0c9ba38
-> R10: fffffbfff0c9ba37 R11: ffffffff864dd1b8 R12: ffff8881cc9aa100
-> R13: ffff8881cc9ab804 R14: ffff8881cc9aa998 R15: ffff8881cc727c50
-> FS:  00007f579210f700(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000000000625208 CR3: 00000001cd192000 CR4: 00000000001406e0
-> Call Trace:
->   v4l_querycap+0x121/0x340 drivers/media/v4l2-core/v4l2-ioctl.c:1058
->   __video_do_ioctl+0x5b0/0xb30 drivers/media/v4l2-core/v4l2-ioctl.c:2871
->   video_usercopy+0x446/0xee0 drivers/media/v4l2-core/v4l2-ioctl.c:3053
->   v4l2_ioctl+0x147/0x1a0 drivers/media/v4l2-core/v4l2-dev.c:360
->   vfs_ioctl fs/ioctl.c:46 [inline]
->   file_ioctl fs/ioctl.c:509 [inline]
->   do_vfs_ioctl+0xcda/0x12e0 fs/ioctl.c:696
->   ksys_ioctl+0x9b/0xc0 fs/ioctl.c:713
->   __do_sys_ioctl fs/ioctl.c:720 [inline]
->   __se_sys_ioctl fs/ioctl.c:718 [inline]
->   __x64_sys_ioctl+0x6f/0xb0 fs/ioctl.c:718
->   do_syscall_64+0xb7/0x560 arch/x86/entry/common.c:301
->   entry_SYSCALL_64_after_hwframe+0x49/0xbe
-> RIP: 0033:0x7f5791c42347
-> Code: 90 90 90 48 8b 05 f1 fa 2a 00 64 c7 00 26 00 00 00 48 c7 c0 ff ff ff
-> ff c3 90 90 90 90 90 90 90 90 90 90 b8 10 00 00 00 0f 05 <48> 3d 01 f0 ff
-> ff 73 01 c3 48 8b 0d c1 fa 2a 00 31 d2 48 29 c2 64
-> RSP: 002b:00007ffced1878d8 EFLAGS: 00000206 ORIG_RAX: 0000000000000010
-> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00007f5791c42347
-> RDX: 00007ffced1878e0 RSI: 0000000080685600 RDI: 0000000000000003
-> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000206 R12: 0000000000400884
-> R13: 00007ffced187a30 R14: 0000000000000000 R15: 0000000000000000
-> Modules linked in:
-> ---[ end trace 5550531bc37b28bc ]---
-> RIP: 0010:usb_make_path include/linux/usb.h:913 [inline]
-> RIP: 0010:vidioc_querycap+0x12d/0x3e0
-> drivers/media/usb/usbvision/usbvision-video.c:461
-> Code: 3c 02 00 0f 85 ba 02 00 00 49 8b ac 24 58 16 00 00 48 b8 00 00 00 00
-> 00 fc ff df 48 8d 7d 48 4c 8d 45 04 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f
-> 85 7d 02 00 00 48 b8 00 00 00 00 00 fc ff df 48 8b
-> RSP: 0018:ffff8881cc727a28 EFLAGS: 00010206
-> RAX: dffffc0000000000 RBX: ffff8881cc727c20 RCX: 0000000000000000
-> RDX: 0000000000000009 RSI: 451f481f4b404f27 RDI: 0000000000000048
-> RBP: 0000000000000000 R08: 0000000000000004 R09: fffffbfff0c9ba38
-> R10: fffffbfff0c9ba37 R11: ffffffff864dd1b8 R12: ffff8881cc9aa100
-> R13: ffff8881cc9ab804 R14: ffff8881cc9aa998 R15: ffff8881cc727c50
-> FS:  00007f579210f700(0000) GS:ffff8881db300000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 0000000000625208 CR3: 00000001cd192000 CR4: 00000000001406e0
->
->
-> ---
-> This bug is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
->
-> syzbot will keep track of this bug report. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-> syzbot can test patches for this bug, for details see:
-> https://goo.gl/tpsmEJ#testing-patches
+Hi Michael,
 
-Closing old USB bugs that haven't happened for a long time.
+On Thu, Jun 04, 2020 at 03:05:23PM -0400, Michael S. Tsirkin wrote:
+> On Tue, May 26, 2020 at 07:58:09PM +0900, David Stevens wrote:
+> > This change adds a new flavor of dma-bufs that can be used by virtio
+> > drivers to share exported objects. A virtio dma-buf can be queried by
+> > virtio drivers to obtain the UUID which identifies the underlying
+> > exported object.
+> > 
+> > Signed-off-by: David Stevens <stevensd@chromium.org>
+> 
+> Is this just for graphics? If yes I'd rather we put it in the graphics
+> driver. We can always move it later ...
 
-#syz invalid
+Wouldn't this be the API that audio virtualisation will have to use to share 
+buffers between the host and any guests?
+
+Thanks
+Guennadi
+
+> > ---
+> >  drivers/virtio/Makefile         |  2 +-
+> >  drivers/virtio/virtio.c         |  6 +++
+> >  drivers/virtio/virtio_dma_buf.c | 89 +++++++++++++++++++++++++++++++++
+> >  include/linux/virtio.h          |  1 +
+> >  include/linux/virtio_dma_buf.h  | 58 +++++++++++++++++++++
+> >  5 files changed, 155 insertions(+), 1 deletion(-)
+> >  create mode 100644 drivers/virtio/virtio_dma_buf.c
+> >  create mode 100644 include/linux/virtio_dma_buf.h
+> > 
+> > diff --git a/drivers/virtio/Makefile b/drivers/virtio/Makefile
+> > index 29a1386ecc03..ecdae5b596de 100644
+> > --- a/drivers/virtio/Makefile
+> > +++ b/drivers/virtio/Makefile
+> > @@ -1,5 +1,5 @@
+> >  # SPDX-License-Identifier: GPL-2.0
+> > -obj-$(CONFIG_VIRTIO) += virtio.o virtio_ring.o
+> > +obj-$(CONFIG_VIRTIO) += virtio.o virtio_ring.o virtio_dma_buf.o
+> >  obj-$(CONFIG_VIRTIO_MMIO) += virtio_mmio.o
+> >  obj-$(CONFIG_VIRTIO_PCI) += virtio_pci.o
+> >  virtio_pci-y := virtio_pci_modern.o virtio_pci_common.o
+> > diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+> > index a977e32a88f2..5d46f0ded92d 100644
+> > --- a/drivers/virtio/virtio.c
+> > +++ b/drivers/virtio/virtio.c
+> > @@ -357,6 +357,12 @@ int register_virtio_device(struct virtio_device *dev)
+> >  }
+> >  EXPORT_SYMBOL_GPL(register_virtio_device);
+> >  
+> > +bool is_virtio_device(struct device *dev)
+> > +{
+> > +	return dev->bus == &virtio_bus;
+> > +}
+> > +EXPORT_SYMBOL_GPL(is_virtio_device);
+> > +
+> >  void unregister_virtio_device(struct virtio_device *dev)
+> >  {
+> >  	int index = dev->index; /* save for after device release */
+> > diff --git a/drivers/virtio/virtio_dma_buf.c b/drivers/virtio/virtio_dma_buf.c
+> > new file mode 100644
+> > index 000000000000..23e3399b11ed
+> > --- /dev/null
+> > +++ b/drivers/virtio/virtio_dma_buf.c
+> > @@ -0,0 +1,89 @@
+> > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > +/*
+> > + * dma-bufs for virtio exported objects
+> > + *
+> > + * Copyright (C) 2020 Google, Inc.
+> > + */
+> > +
+> > +#include <linux/virtio_dma_buf.h>
+> > +
+> > +/**
+> > + * virtio_dma_buf_export - Creates a new dma-buf for a virtio exported object
+> > + *
+> > + * This wraps dma_buf_export() to allow virtio drivers to create a dma-buf
+> > + * for an virtio exported object that can be queried by other virtio drivers
+> > + * for the object's UUID.
+> > + */
+> > +struct dma_buf *virtio_dma_buf_export(
+> > +		const struct virtio_dma_buf_export_info *virtio_exp_info)
+> > +{
+> > +	struct dma_buf_export_info exp_info;
+> > +
+> > +	if (!virtio_exp_info->ops
+> > +		|| virtio_exp_info->ops->ops.attach != &virtio_dma_buf_attach
+> > +		|| !virtio_exp_info->ops->get_uuid) {
+> > +		return ERR_PTR(-EINVAL);
+> > +	}
+> > +
+> > +	exp_info.exp_name = virtio_exp_info->exp_name;
+> > +	exp_info.owner = virtio_exp_info->owner;
+> > +	exp_info.ops = &virtio_exp_info->ops->ops;
+> > +	exp_info.size = virtio_exp_info->size;
+> > +	exp_info.flags = virtio_exp_info->flags;
+> > +	exp_info.resv = virtio_exp_info->resv;
+> > +	exp_info.priv = virtio_exp_info->priv;
+> > +	BUILD_BUG_ON(sizeof(struct virtio_dma_buf_export_info)
+> > +		     != sizeof(struct dma_buf_export_info));
+> 
+> This is the only part that gives me pause. Why do we need this hack?
+> What's wrong with just using dma_buf_export_info directly,
+> and if you want the virtio ops, just using container_off?
+> 
+> 
+> 
+> > +
+> > +	return dma_buf_export(&exp_info);
+> > +}
+> > +EXPORT_SYMBOL(virtio_dma_buf_export);
+> > +
+> > +/**
+> > + * virtio_dma_buf_attach - mandatory attach callback for virtio dma-bufs
+> > + */
+> > +int virtio_dma_buf_attach(struct dma_buf *dma_buf,
+> > +			  struct dma_buf_attachment *attach)
+> > +{
+> > +	int ret;
+> > +	const struct virtio_dma_buf_ops *ops = container_of(
+> > +			dma_buf->ops, const struct virtio_dma_buf_ops, ops);
+> > +
+> > +	if (ops->device_attach) {
+> > +		ret = ops->device_attach(dma_buf, attach);
+> > +		if (ret)
+> > +			return ret;
+> > +	}
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL(virtio_dma_buf_attach);
+> > +
+> > +/**
+> > + * is_virtio_dma_buf - returns true if the given dma-buf is a virtio dma-buf
+> > + * @dma_buf: buffer to query
+> > + */
+> > +bool is_virtio_dma_buf(struct dma_buf *dma_buf)
+> > +{
+> > +	return dma_buf->ops->attach == &virtio_dma_buf_attach;
+> > +}
+> > +EXPORT_SYMBOL(is_virtio_dma_buf);
+> > +
+> > +/**
+> > + * virtio_dma_buf_get_uuid - gets the uuid of the virtio dma-buf's exported object
+> > + * @dma_buf: [in] buffer to query
+> > + * @uuid: [out] the uuid
+> > + *
+> > + * Returns: 0 on success, negative on failure.
+> > + */
+> > +int virtio_dma_buf_get_uuid(struct dma_buf *dma_buf,
+> > +			    uuid_t *uuid)
+> > +{
+> > +	const struct virtio_dma_buf_ops *ops = container_of(
+> > +			dma_buf->ops, const struct virtio_dma_buf_ops, ops);
+> > +
+> > +	if (!is_virtio_dma_buf(dma_buf))
+> > +		return -EINVAL;
+> > +
+> > +	return ops->get_uuid(dma_buf, uuid);
+> > +}
+> > +EXPORT_SYMBOL(virtio_dma_buf_get_uuid);
+> > diff --git a/include/linux/virtio.h b/include/linux/virtio.h
+> > index 15f906e4a748..9397e25616c4 100644
+> > --- a/include/linux/virtio.h
+> > +++ b/include/linux/virtio.h
+> > @@ -128,6 +128,7 @@ static inline struct virtio_device *dev_to_virtio(struct device *_dev)
+> >  void virtio_add_status(struct virtio_device *dev, unsigned int status);
+> >  int register_virtio_device(struct virtio_device *dev);
+> >  void unregister_virtio_device(struct virtio_device *dev);
+> > +bool is_virtio_device(struct device *dev);
+> >  
+> >  void virtio_break_device(struct virtio_device *dev);
+> >  
+> > diff --git a/include/linux/virtio_dma_buf.h b/include/linux/virtio_dma_buf.h
+> > new file mode 100644
+> > index 000000000000..29fee167afbd
+> > --- /dev/null
+> > +++ b/include/linux/virtio_dma_buf.h
+> > @@ -0,0 +1,58 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * dma-bufs for virtio exported objects
+> > + *
+> > + * Copyright (C) 2020 Google, Inc.
+> > + */
+> > +
+> > +#ifndef _LINUX_VIRTIO_DMA_BUF_H
+> > +#define _LINUX_VIRTIO_DMA_BUF_H
+> > +
+> > +#include <linux/dma-buf.h>
+> > +#include <linux/uuid.h>
+> > +#include <linux/virtio.h>
+> > +
+> > +/**
+> > + * struct virtio_dma_buf_ops - operations possible on exported object dma-buf
+> > + * @ops: the base dma_buf_ops. ops.attach MUST be virtio_dma_buf_attach.
+> > + * @device_attach: [optional] callback invoked by virtio_dma_buf_attach during
+> > + *		   all attach operations.
+> > + * @get_uid: [required] callback to get the uuid of the exported object.
+> > + */
+> > +struct virtio_dma_buf_ops {
+> > +	struct dma_buf_ops ops;
+> > +	int (*device_attach)(struct dma_buf *dma_buf,
+> > +			     struct dma_buf_attachment *attach);
+> > +	int (*get_uuid)(struct dma_buf *dma_buf, uuid_t *uuid);
+> > +};
+> > +
+> > +/**
+> > + * struct virtio_dma_buf_export_info - see struct dma_buf_export_info
+> > + */
+> > +struct virtio_dma_buf_export_info {
+> > +	const char *exp_name;
+> > +	struct module *owner;
+> > +	const struct virtio_dma_buf_ops *ops;
+> > +	size_t size;
+> > +	int flags;
+> > +	struct dma_resv *resv;
+> > +	void *priv;
+> > +};
+> > +
+> > +/**
+> > + * DEFINE_VIRTIO_DMA_BUF_EXPORT_INFO - helper macro for exporters
+> > + */
+> > +#define DEFINE_VIRTIO_DMA_BUF_EXPORT_INFO(name)	\
+> > +	struct virtio_dma_buf_export_info name = { \
+> > +		.exp_name = KBUILD_MODNAME, \
+> > +		.owner = THIS_MODULE }
+> > +
+> > +int virtio_dma_buf_attach(struct dma_buf *dma_buf,
+> > +			  struct dma_buf_attachment *attach);
+> > +
+> > +struct dma_buf *virtio_dma_buf_export(
+> > +		const struct virtio_dma_buf_export_info *virtio_exp_info);
+> > +bool is_virtio_dma_buf(struct dma_buf *dma_buf);
+> > +int virtio_dma_buf_get_uuid(struct dma_buf *dma_buf, uuid_t *uuid);
+> > +
+> > +#endif /* _LINUX_VIRTIO_DMA_BUF_H */
+> > -- 
+> > 2.27.0.rc0.183.gde8f92d652-goog
+> 
+> _______________________________________________
+> Virtualization mailing list
+> Virtualization@lists.linux-foundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/virtualization
