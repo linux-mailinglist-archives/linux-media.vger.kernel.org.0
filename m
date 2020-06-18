@@ -2,2639 +2,1385 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B03FF1FEB04
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 07:35:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB6471FEC65
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 09:24:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726949AbgFRFfG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 01:35:06 -0400
-Received: from mail-co1nam11on2043.outbound.protection.outlook.com ([40.107.220.43]:6249
-        "EHLO NAM11-CO1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725837AbgFRFfD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 01:35:03 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=l4P+NLPFvGRJ9dngVU/L9sF3tLH73jUKUYGvrNh1NzvLRJzgpPWc5Cb4HNINdjFkzHjBAnZHeb5Z+D9R3SOf4WsM/Re20CdQXzJIHWWQPogW+jPyIKdRcDFnkYvtygH1BbxVlFEqoHo9SgJ9on1Np6Ot7ZGCqFtmQ2C5ScwT/GJUvlTfVixVycYH2Yran9n7NXROOSBhv+LKFJFFGYlXT8C1OODhIZ8+2nM5jvWnCYdTW/4EEdCnOmimIVJO7pFcToqIqbVxF+Ve74CIenFmNreuGzab9q3qmYJzLGW8kuE6HGK37bc5TQnsn621dC8K36m8wQoPXfh9DOq/3CjHrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6ItmItRxXi7rL08dUX3m95JBrH4uUtr0duobUEi3J/Y=;
- b=bGI+XL81Lzo8GQWbVw6dGVTJ1iw3lWLnW38GUkjKX5dXImi+rMNztjfpz1eEoZOF6o/3vN4wBsTdvJtGc81IN32ekrL4D34FoQK3ugia/xDW24+S2FR3dxV1wi7SVQCr7QCtcibt3OBuEdGNrqlHo1xXaQrD2/DKPWP4UjlYXjBRu+R3+ewEETMYI6EW+qC1crIWzvZfR5DJcayXDbCJZ0eAGYUTYaZLwMoaU7ojOr0Ct9yAmpDr0T1mEWvhbPgPJ25HJACiSrK3EnNe0wX+oudXQCYL56eHCkiCZ7ga9gcHeXssfuKPh8ppycHoYhN5R9oDXz7HxuhsuwXS3RCiHQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.60.83) smtp.rcpttodomain=ideasonboard.com smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6ItmItRxXi7rL08dUX3m95JBrH4uUtr0duobUEi3J/Y=;
- b=BRJH9VGomsxq/Eb41pS8OGdYbN4N+2XJT6Hwps98b01wJvD8aWlRlGcdJZ66z/XuFvSr3d39ekWPuSRGAqqqPkWsdbL54CWGJuj69CknrpbTMx6Z8dIwF58rDTljX9wOg92kGV8BG74Gs+hkTvaFm/KUz+bLTzF5fMpMnHXe2Sc=
-Received: from SN2PR01CA0083.prod.exchangelabs.com (2603:10b6:800::51) by
- SN6PR02MB5677.namprd02.prod.outlook.com (2603:10b6:805:ed::27) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3109.22; Thu, 18 Jun 2020 05:33:42 +0000
-Received: from SN1NAM02FT036.eop-nam02.prod.protection.outlook.com
- (2603:10b6:800:0:cafe::c5) by SN2PR01CA0083.outlook.office365.com
- (2603:10b6:800::51) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22 via Frontend
- Transport; Thu, 18 Jun 2020 05:33:42 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
- smtp.mailfrom=xilinx.com; ideasonboard.com; dkim=none (message not signed)
- header.d=none;ideasonboard.com; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.60.83 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
- SN1NAM02FT036.mail.protection.outlook.com (10.152.72.149) with Microsoft SMTP
- Server id 15.20.3088.18 via Frontend Transport; Thu, 18 Jun 2020 05:33:41
- +0000
-Received: from [149.199.38.66] (port=59175 helo=xsj-pvapsmtp01)
-        by xsj-pvapsmtpgw01 with esmtp (Exim 4.90)
-        (envelope-from <vishal.sagar@xilinx.com>)
-        id 1jlnAC-0006zB-14; Wed, 17 Jun 2020 22:32:36 -0700
-Received: from [127.0.0.1] (helo=localhost)
-        by xsj-pvapsmtp01 with smtp (Exim 4.63)
-        (envelope-from <vishal.sagar@xilinx.com>)
-        id 1jlnBF-0003UH-Cc; Wed, 17 Jun 2020 22:33:41 -0700
-Received: from [10.140.6.6] (helo=xhdappanad40.xilinx.com)
-        by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-        (envelope-from <vishal.sagar@xilinx.com>)
-        id 1jlnAx-0003Ok-A8; Wed, 17 Jun 2020 22:33:24 -0700
-From:   Vishal Sagar <vishal.sagar@xilinx.com>
-To:     hyunk@xilinx.com, laurent.pinchart@ideasonboard.com,
-        hverkuil@xs4all.nl, mchehab@kernel.org, robh+dt@kernel.org,
-        mark.rutland@arm.com, michals@xilinx.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        joe@perches.com
-Cc:     sandipk@xilinx.com, dineshk@xilinx.com,
-        Vishal Sagar <vishal.sagar@xilinx.com>
-Subject: [PATCH v3 3/3] media: v4l: xilinx: Add Xilinx UHD-SDI Rx Subsystem driver
-Date:   Thu, 18 Jun 2020 11:03:04 +0530
-Message-Id: <20200618053304.14551-4-vishal.sagar@xilinx.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200618053304.14551-1-vishal.sagar@xilinx.com>
-References: <20200618053304.14551-1-vishal.sagar@xilinx.com>
+        id S1727116AbgFRHYM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 03:24:12 -0400
+Received: from mga02.intel.com ([134.134.136.20]:51725 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726945AbgFRHYM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 18 Jun 2020 03:24:12 -0400
+IronPort-SDR: enXqxBNJq+kHIHzwCPmhfOiPhdBiidjGlSTdbAaIlFuERyLXUwtJIgJUbdHmtKHVzJiTh8SX/8
+ vukQ3lobx3fA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9655"; a="130883460"
+X-IronPort-AV: E=Sophos;i="5.73,525,1583222400"; 
+   d="gz'50?scan'50,208,50";a="130883460"
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Jun 2020 23:54:03 -0700
+IronPort-SDR: ngCgDIaSAyq0hwJXydgkac6iUkpj7KnZuAe2YVMZZliPKKkAHe6EOaCuTCbsNnd6aItfKXm8bb
+ 8P8naZt7lbZw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.73,525,1583222400"; 
+   d="gz'50?scan'50,208,50";a="299567711"
+Received: from lkp-server02.sh.intel.com (HELO 5ce11009e457) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 17 Jun 2020 23:53:59 -0700
+Received: from kbuild by 5ce11009e457 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1jloQw-00006z-Nv; Thu, 18 Jun 2020 06:53:58 +0000
+Date:   Thu, 18 Jun 2020 14:53:55 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Vishal Sagar <vishal.sagar@xilinx.com>, hyunk@xilinx.com,
+        laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
+        mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        michals@xilinx.com, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc:     kbuild-all@lists.01.org
+Subject: Re: [PATCH v3 3/3] media: v4l: xilinx: Add Xilinx UHD-SDI Rx
+ Subsystem driver
+Message-ID: <202006181431.KJrutUsN%lkp@intel.com>
+References: <20200618053304.14551-4-vishal.sagar@xilinx.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapsmtpgw01;PTR:unknown-60-83.xilinx.com;CAT:NONE;SFTY:;SFS:(396003)(346002)(136003)(376002)(39860400002)(46966005)(44832011)(336012)(2616005)(36756003)(426003)(1076003)(478600001)(83380400001)(8676002)(81166007)(356005)(7416002)(8936002)(82310400002)(9786002)(186003)(70206006)(6666004)(82740400003)(26005)(2906002)(107886003)(47076004)(4326008)(316002)(5660300002)(30864003)(7696005)(70586007)(921003)(579004)(559001);DIR:OUT;SFP:1101;
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 45d1963c-8b7d-4204-e79f-08d813492928
-X-MS-TrafficTypeDiagnostic: SN6PR02MB5677:
-X-Microsoft-Antispam-PRVS: <SN6PR02MB567795FFC038932E19522F40A79B0@SN6PR02MB5677.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:1148;
-X-Forefront-PRVS: 0438F90F17
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2WPDruyDz2MWNYpE4TrswqVg1+yFQ1lO94+ZOUsEDd/Ey44Iji3rEoaeHcd27LpfckF42I4f8dIS0oX6IL5ADRldTvJdvAZYa7n0qPfBALYqsZ+/+CB6AocHEEo7rfHfSjzS8KUaMfbJZXey4Uv8cJXt2LxTR+8mM4fulL0wand8qiAinyGN+UAR13Hpf+c9erqqyg/cYhF7B9/DPeu0nUublVLg77WpWYgSzUj+eu2eyzAedvV9gaH6WYSlWLFAnva255zPULJOVzdF6sehFI3Gi1poc/ogdHNokYCJy+nIVJvroLboRs8fbzD79XcbdD93PVbzz8KVwZdd/s1V4lgtQK4JrpW1YxSf4IqoR4kgobDdbEtzztAnP3NJs4QkzImHJroDyXSdVqG4CFPigqTq9SZwWRlPwt8ehxC7D1I=
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jun 2020 05:33:41.6857
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45d1963c-8b7d-4204-e79f-08d813492928
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.60.83];Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB5677
+Content-Type: multipart/mixed; boundary="ReaqsoxgOBHFXBhH"
+Content-Disposition: inline
+In-Reply-To: <20200618053304.14551-4-vishal.sagar@xilinx.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Xilinx UHD-SDI Rx subsystem soft IP is used to capture native SDI
-streams from SDI sources like SDI broadcast equipment like cameras and
-mixers. This block outputs either native SDI, native video or
-AXI4-Stream compliant data stream for further processing. Please refer
-to PG290 for details.
 
-The driver is used to configure the IP to add framer, search for
-specific modes, get the detected mode, stream parameters, errors, etc.
-It also generates events for video lock/unlock, bridge over/under flow.
+--ReaqsoxgOBHFXBhH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The driver supports 10/12 bpc YUV 422 media bus format currently. It
-also decodes the stream parameters based on the ST352 packet embedded in the
-stream. In case the ST352 packet isn't present in the stream, the core's
-detected properties are used to set stream properties.
+Hi Vishal,
 
-The driver currently supports only the AXI4-Stream IP configuration.
+Thank you for the patch! Yet something to improve:
 
-Signed-off-by: Vishal Sagar <vishal.sagar@xilinx.com>
+[auto build test ERROR on linuxtv-media/master]
+[also build test ERROR on robh/for-next v5.8-rc1 next-20200618]
+[cannot apply to xlnx/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use  as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Vishal-Sagar/Add-support-for-Xilinx-UHD-SDI-Receiver-subsystem/20200618-135100
+base:   git://linuxtv.org/media_tree.git master
+config: arc-allyesconfig (attached as .config)
+compiler: arc-elf-gcc (GCC) 9.3.0
+reproduce (this is a W=1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # save the attached .config to linux build tree
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=gcc-9.3.0 make.cross ARCH=arc 
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+
+All error/warnings (new ones prefixed by >>):
+
+
+vim +/irqreturn_t +1113 drivers/media/platform/xilinx/xilinx-sdirxss.c
+
+  1103	
+  1104	/**
+  1105	 * xsdirxss_irq_handler - Interrupt handler for SDI Rx
+  1106	 * @irq: IRQ number
+  1107	 * @dev_id: Pointer to device state
+  1108	 *
+  1109	 * The SDI Rx interrupts are cleared by writing 1 to corresponding bit.
+  1110	 *
+  1111	 * Return: IRQ_HANDLED after handling interrupts
+  1112	 */
+> 1113	static irqreturn_t xsdirxss_irq_handler(int irq, void *dev_id)
+  1114	{
+  1115		struct xsdirxss_state *state = (struct xsdirxss_state *)dev_id;
+  1116		struct device *dev = state->dev;
+  1117		u32 status;
+  1118	
+  1119		status = xsdirxss_read(state, XSDIRX_ISR_REG);
+  1120		xsdirxss_write(state, XSDIRX_ISR_REG, status);
+  1121		dev_dbg(dev, "interrupt status = 0x%08x\n", status);
+  1122	
+  1123		if (!status)
+> 1124			return IRQ_NONE;
+  1125	
+  1126		if (status & XSDIRX_INTR_VIDLOCK_MASK ||
+  1127		    status & XSDIRX_INTR_VIDUNLOCK_MASK) {
+  1128			u32 val1, val2;
+  1129			struct v4l2_event event = { 0 };
+  1130			unsigned long flags;
+  1131	
+  1132			dev_dbg(dev, "video lock/unlock interrupt\n");
+  1133	
+  1134			spin_lock_irqsave(&state->slock, flags);
+  1135			xsdirx_streamflow_control(state, false);
+  1136	
+  1137			val1 = xsdirxss_read(state, XSDIRX_MODE_DET_STAT_REG);
+  1138			val2 = xsdirxss_read(state, XSDIRX_TS_DET_STAT_REG);
+  1139	
+  1140			if ((val1 & XSDIRX_MODE_DET_STAT_MODE_LOCK_MASK) &&
+  1141			    (val2 & XSDIRX_TS_DET_STAT_LOCKED_MASK)) {
+  1142				u32 mask = XSDIRX_RST_CTRL_RST_CRC_ERRCNT_MASK |
+  1143					   XSDIRX_RST_CTRL_RST_EDH_ERRCNT_MASK;
+  1144	
+  1145				dev_dbg(dev, "video lock interrupt\n");
+  1146	
+  1147				xsdirxss_set(state, XSDIRX_RST_CTRL_REG, mask);
+  1148				xsdirxss_clr(state, XSDIRX_RST_CTRL_REG, mask);
+  1149	
+  1150				val1 = xsdirxss_read(state, XSDIRX_ST352_VALID_REG);
+  1151				val2 = xsdirxss_read(state, XSDIRX_ST352_DS1_REG);
+  1152	
+  1153				dev_dbg(dev, "valid st352 mask = 0x%08x\n", val1);
+  1154				dev_dbg(dev, "st352 payload = 0x%08x\n", val2);
+  1155	
+  1156				if (!xsdirx_get_stream_properties(state)) {
+  1157					state->vidlocked = true;
+  1158					xsdirxss_set_gtclk(state);
+  1159				} else {
+  1160					dev_err(dev, "Unable to get stream properties!\n");
+  1161					state->vidlocked = false;
+  1162				}
+  1163			} else {
+  1164				dev_dbg(dev, "video unlock interrupt\n");
+  1165				state->vidlocked = false;
+  1166			}
+  1167			spin_unlock_irqrestore(&state->slock, flags);
+  1168	
+  1169			event.type = V4L2_EVENT_SOURCE_CHANGE;
+  1170			event.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION;
+  1171			v4l2_subdev_notify_event(&state->subdev, &event);
+  1172		}
+  1173	
+  1174		if (status & (XSDIRX_INTR_UNDERFLOW_MASK | XSDIRX_INTR_OVERFLOW_MASK)) {
+  1175			struct v4l2_event event = { 0 };
+  1176	
+  1177			dev_dbg(dev, "Video in to AXI4 Stream core under/overflow interrupt\n");
+  1178	
+  1179			event.type = V4L2_EVENT_XILINX_SDIRX_UND_OVR_FLOW;
+  1180			if (status & XSDIRX_INTR_UNDERFLOW_MASK)
+  1181				event.u.data[0] = XILINX_SDIRX_UNDERFLOW_EVENT;
+  1182			if (status & XSDIRX_INTR_OVERFLOW_MASK)
+  1183				event.u.data[0] = XILINX_SDIRX_OVERFLOW_EVENT;
+  1184	
+  1185			v4l2_subdev_notify_event(&state->subdev, &event);
+  1186		}
+> 1187		return IRQ_HANDLED;
+  1188	}
+  1189	
+
 ---
-v3
-- fixed KConfig with better description
-- removed unnecessary header files
-- converted uppercase to lowercase for all hex values
-- merged core struct to state struct
-- removed most one line functions and replaced with direct reg
-  read/write or macros
-- dt property bpp to bpc. default 10. not mandatory.
-- fixed subscribe events, log_status, s_stream
-- merged overflow/underflow to one event
-- moved all controls to xilinx-sdirxss.h
-- max events from 128 to 8
-- used FIELD_GET() instead of custom macro
-- updated the controls documentation
-- added spinlock
-- removed 3GB control and added mode to detect bitmask
-- fixed format for (width, height, colorspace, xfer func, etc)
-- added dv_timings_cap, s/g_dv_timings
-- fixed set/get_format
-- fix v4l control registrations
-- fix order of registration / deregistration in probe() remove()
-- fixed other comments from Hyun, Laurent and Hans
-- things yet to close
-  - adding source port for connector (Laurent's suggestion)
-  - adding new FIELD type for Transport Stream V4L2_FIELD_ALTERNATE_PROG (Han's suggestion)
-  - Update / remove EDH or CRC related controls
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
-v2
-- Added DV timing support based on Hans Verkuilś feedback
-- More documentation to custom v4l controls and events
-- Fixed Hyunś comments
-- Added macro for masking and shifting as per Joe Perches comments
-- Updated to latest as per Xilinx github repo driver like
-  adding new DV timings not in mainline yet uptill 03/21/20
+--ReaqsoxgOBHFXBhH
+Content-Type: application/gzip
+Content-Disposition: attachment; filename=".config.gz"
+Content-Transfer-Encoding: base64
 
- drivers/media/platform/xilinx/Kconfig         |   11 +
- drivers/media/platform/xilinx/Makefile        |    1 +
- .../media/platform/xilinx/xilinx-sdirxss.c    | 2121 +++++++++++++++++
- include/uapi/linux/v4l2-controls.h            |    6 +
- include/uapi/linux/xilinx-sdirxss.h           |  283 +++
- 5 files changed, 2422 insertions(+)
- create mode 100644 drivers/media/platform/xilinx/xilinx-sdirxss.c
- create mode 100644 include/uapi/linux/xilinx-sdirxss.h
+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
+AA==
 
-diff --git a/drivers/media/platform/xilinx/Kconfig b/drivers/media/platform/xilinx/Kconfig
-index 01c96fb66414..578cdcc1036e 100644
---- a/drivers/media/platform/xilinx/Kconfig
-+++ b/drivers/media/platform/xilinx/Kconfig
-@@ -12,6 +12,17 @@ config VIDEO_XILINX
- 
- if VIDEO_XILINX
- 
-+config VIDEO_XILINX_SDIRXSS
-+	tristate "Xilinx UHD SDI Rx Subsystem"
-+	help
-+	  Driver for Xilinx UHD-SDI Rx Subsystem. This is a V4L sub-device
-+	  based driver that takes input from a SDI source like SDI camera and
-+	  converts it into an AXI4-Stream. The subsystem comprises a SMPTE
-+	  UHD-SDI Rx core, a SDI Rx to Native Video bridge and a Video In to
-+	  AXI4-Stream bridge. The driver is used to set different stream
-+	  detection modes and identify stream properties to properly configure
-+	  downstream.
-+
- config VIDEO_XILINX_TPG
- 	tristate "Xilinx Video Test Pattern Generator"
- 	depends on VIDEO_XILINX
-diff --git a/drivers/media/platform/xilinx/Makefile b/drivers/media/platform/xilinx/Makefile
-index 4cdc0b1ec7a5..3beaf24d832c 100644
---- a/drivers/media/platform/xilinx/Makefile
-+++ b/drivers/media/platform/xilinx/Makefile
-@@ -3,5 +3,6 @@
- xilinx-video-objs += xilinx-dma.o xilinx-vip.o xilinx-vipp.o
- 
- obj-$(CONFIG_VIDEO_XILINX) += xilinx-video.o
-+obj-$(CONFIG_VIDEO_XILINX_SDIRXSS) += xilinx-sdirxss.o
- obj-$(CONFIG_VIDEO_XILINX_TPG) += xilinx-tpg.o
- obj-$(CONFIG_VIDEO_XILINX_VTC) += xilinx-vtc.o
-diff --git a/drivers/media/platform/xilinx/xilinx-sdirxss.c b/drivers/media/platform/xilinx/xilinx-sdirxss.c
-new file mode 100644
-index 000000000000..e39aab7c656a
---- /dev/null
-+++ b/drivers/media/platform/xilinx/xilinx-sdirxss.c
-@@ -0,0 +1,2121 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Driver for Xilinx SDI Rx Subsystem
-+ *
-+ * Copyright (C) 2017 - 2020 Xilinx, Inc.
-+ *
-+ * Contacts: Vishal Sagar <vishal.sagar@xilinx.com>
-+ */
-+
-+#include <dt-bindings/media/xilinx-sdi.h>
-+#include <linux/bits.h>
-+#include <linux/bitfield.h>
-+#include <linux/clk.h>
-+#include <linux/module.h>
-+#include <linux/platform_device.h>
-+#include <linux/xilinx-sdirxss.h>
-+#include <media/media-entity.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-dv-timings.h>
-+#include <media/v4l2-event.h>
-+#include <media/v4l2-subdev.h>
-+
-+/*
-+ * SDI Rx register map, bitmask and offsets
-+ */
-+#define XSDIRX_RST_CTRL_REG		0x00
-+#define XSDIRX_MDL_CTRL_REG		0x04
-+#define XSDIRX_GLBL_IER_REG		0x0c
-+#define XSDIRX_ISR_REG			0x10
-+#define XSDIRX_IER_REG			0x14
-+#define XSDIRX_ST352_VALID_REG		0x18
-+#define XSDIRX_ST352_DS1_REG		0x1c
-+#define XSDIRX_ST352_DS3_REG		0x20
-+#define XSDIRX_ST352_DS5_REG		0x24
-+#define XSDIRX_ST352_DS7_REG		0x28
-+#define XSDIRX_ST352_DS9_REG		0x2c
-+#define XSDIRX_ST352_DS11_REG		0x30
-+#define XSDIRX_ST352_DS13_REG		0x34
-+#define XSDIRX_ST352_DS15_REG		0x38
-+#define XSDIRX_VERSION_REG		0x3c
-+#define XSDIRX_SS_CONFIG_REG		0x40
-+#define XSDIRX_MODE_DET_STAT_REG	0x44
-+#define XSDIRX_TS_DET_STAT_REG		0x48
-+#define XSDIRX_EDH_STAT_REG		0x4c
-+#define XSDIRX_EDH_ERRCNT_EN_REG	0x50
-+#define XSDIRX_EDH_ERRCNT_REG		0x54
-+#define XSDIRX_CRC_ERRCNT_REG		0x58
-+#define XSDIRX_VID_LOCK_WINDOW_REG	0x5c
-+#define XSDIRX_ST352_DS2_REG		0x70
-+#define XSDIRX_ST352_DS4_REG		0x74
-+#define XSDIRX_ST352_DS6_REG		0x78
-+#define XSDIRX_ST352_DS8_REG		0x7c
-+#define XSDIRX_ST352_DS10_REG		0x80
-+#define XSDIRX_ST352_DS12_REG		0x84
-+#define XSDIRX_ST352_DS14_REG		0x88
-+#define XSDIRX_ST352_DS16_REG		0x8c
-+
-+#define XSDIRX_RST_CTRL_SS_EN_MASK			BIT(0)
-+#define XSDIRX_RST_CTRL_SRST_MASK			BIT(1)
-+#define XSDIRX_RST_CTRL_RST_CRC_ERRCNT_MASK		BIT(2)
-+#define XSDIRX_RST_CTRL_RST_EDH_ERRCNT_MASK		BIT(3)
-+#define XSDIRX_RST_CTRL_SDIRX_BRIDGE_ENB_MASK		BIT(8)
-+#define XSDIRX_RST_CTRL_VIDIN_AXI4S_MOD_ENB_MASK	BIT(9)
-+#define XSDIRX_RST_CTRL_BRIDGE_CH_FMT_OFFSET		10
-+#define XSDIRX_RST_CTRL_BRIDGE_CH_FMT_MASK		GENMASK(12, 10)
-+#define XSDIRX_RST_CTRL_BRIDGE_CH_FMT_YUV444		1
-+
-+#define XSDIRX_MDL_CTRL_FRM_EN_MASK		BIT(4)
-+#define XSDIRX_MDL_CTRL_MODE_DET_EN_MASK	BIT(5)
-+#define XSDIRX_MDL_CTRL_MODE_HD_EN_MASK		BIT(8)
-+#define XSDIRX_MDL_CTRL_MODE_SD_EN_MASK		BIT(9)
-+#define XSDIRX_MDL_CTRL_MODE_3G_EN_MASK		BIT(10)
-+#define XSDIRX_MDL_CTRL_MODE_6G_EN_MASK		BIT(11)
-+#define XSDIRX_MDL_CTRL_MODE_12GI_EN_MASK	BIT(12)
-+#define XSDIRX_MDL_CTRL_MODE_12GF_EN_MASK	BIT(13)
-+#define XSDIRX_MDL_CTRL_MODE_AUTO_DET_MASK	GENMASK(13, 8)
-+
-+#define XSDIRX_MDL_CTRL_FORCED_MODE_OFFSET	16
-+#define XSDIRX_MDL_CTRL_FORCED_MODE_MASK	GENMASK(18, 16)
-+
-+#define XSDIRX_GLBL_INTR_EN_MASK	BIT(0)
-+
-+#define XSDIRX_INTR_VIDLOCK_MASK	BIT(0)
-+#define XSDIRX_INTR_VIDUNLOCK_MASK	BIT(1)
-+#define XSDIRX_INTR_OVERFLOW_MASK	BIT(9)
-+#define XSDIRX_INTR_UNDERFLOW_MASK	BIT(10)
-+
-+#define XSDIRX_INTR_ALL_MASK	(XSDIRX_INTR_VIDLOCK_MASK |\
-+				XSDIRX_INTR_VIDUNLOCK_MASK |\
-+				XSDIRX_INTR_OVERFLOW_MASK |\
-+				XSDIRX_INTR_UNDERFLOW_MASK)
-+
-+#define XSDIRX_ST352_VALID_DS1_MASK	BIT(0)
-+#define XSDIRX_ST352_VALID_DS3_MASK	BIT(1)
-+#define XSDIRX_ST352_VALID_DS5_MASK	BIT(2)
-+#define XSDIRX_ST352_VALID_DS7_MASK	BIT(3)
-+#define XSDIRX_ST352_VALID_DS9_MASK	BIT(4)
-+#define XSDIRX_ST352_VALID_DS11_MASK	BIT(5)
-+#define XSDIRX_ST352_VALID_DS13_MASK	BIT(6)
-+#define XSDIRX_ST352_VALID_DS15_MASK	BIT(7)
-+
-+#define XSDIRX_MODE_DET_STAT_RX_MODE_MASK	GENMASK(2, 0)
-+#define XSDIRX_MODE_DET_STAT_MODE_LOCK_MASK	BIT(3)
-+#define XSDIRX_MODE_DET_STAT_ACT_STREAM_MASK	GENMASK(6, 4)
-+#define XSDIRX_MODE_DET_STAT_ACT_STREAM_OFFSET	4
-+#define XSDIRX_MODE_DET_STAT_LVLB_3G_MASK	BIT(7)
-+
-+#define XSDIRX_TS_DET_STAT_LOCKED_MASK		BIT(0)
-+#define XSDIRX_TS_DET_STAT_SCAN_MASK		BIT(1)
-+#define XSDIRX_TS_DET_STAT_FAMILY_MASK		GENMASK(7, 4)
-+#define XSDIRX_TS_DET_STAT_RATE_MASK		GENMASK(11, 8)
-+
-+#define XSDIRX_TS_DET_STAT_RATE_NONE		0x0
-+#define XSDIRX_TS_DET_STAT_RATE_23_98HZ		0x2
-+#define XSDIRX_TS_DET_STAT_RATE_24HZ		0x3
-+#define XSDIRX_TS_DET_STAT_RATE_47_95HZ		0x4
-+#define XSDIRX_TS_DET_STAT_RATE_25HZ		0x5
-+#define XSDIRX_TS_DET_STAT_RATE_29_97HZ		0x6
-+#define XSDIRX_TS_DET_STAT_RATE_30HZ		0x7
-+#define XSDIRX_TS_DET_STAT_RATE_48HZ		0x8
-+#define XSDIRX_TS_DET_STAT_RATE_50HZ		0x9
-+#define XSDIRX_TS_DET_STAT_RATE_59_94HZ		0xa
-+#define XSDIRX_TS_DET_STAT_RATE_60HZ		0xb
-+
-+#define XSDIRX_EDH_STAT_EDH_AP_MASK	BIT(0)
-+#define XSDIRX_EDH_STAT_EDH_FF_MASK	BIT(1)
-+#define XSDIRX_EDH_STAT_EDH_ANC_MASK	BIT(2)
-+#define XSDIRX_EDH_STAT_AP_FLAG_MASK	GENMASK(8, 4)
-+#define XSDIRX_EDH_STAT_FF_FLAG_MASK	GENMASK(13, 9)
-+#define XSDIRX_EDH_STAT_ANC_FLAG_MASK	GENMASK(18, 14)
-+#define XSDIRX_EDH_STAT_PKT_FLAG_MASK	GENMASK(22, 19)
-+
-+#define XSDIRX_EDH_ERRCNT_COUNT_MASK	GENMASK(15, 0)
-+
-+#define XSDIRX_CRC_ERRCNT_COUNT_MASK	GENMASK(31, 16)
-+#define XSDIRX_CRC_ERRCNT_DS_CRC_MASK	GENMASK(15, 0)
-+
-+#define XSDIRX_VERSION_REV_MASK		GENMASK(7, 0)
-+#define XSDIRX_VERSION_PATCHID_MASK	GENMASK(11, 8)
-+#define XSDIRX_VERSION_VER_REV_MASK	GENMASK(15, 12)
-+#define XSDIRX_VERSION_VER_MIN_MASK	GENMASK(23, 16)
-+#define XSDIRX_VERSION_VER_MAJ_MASK	GENMASK(31, 24)
-+
-+#define XSDIRX_SS_CONFIG_EDH_INCLUDED_MASK		BIT(1)
-+
-+#define XSDIRX_STAT_SB_RX_TDATA_CHANGE_DONE_MASK	BIT(0)
-+#define XSDIRX_STAT_SB_RX_TDATA_CHANGE_FAIL_MASK	BIT(1)
-+#define XSDIRX_STAT_SB_RX_TDATA_GT_RESETDONE_MASK	BIT(2)
-+#define XSDIRX_STAT_SB_RX_TDATA_GT_BITRATE_MASK		BIT(3)
-+
-+#define XSDIRX_DEFAULT_WIDTH	1920
-+#define XSDIRX_DEFAULT_HEIGHT	1080
-+
-+#define XSDIRX_MAX_STR_LENGTH	16
-+
-+#define XSDIRX_DEFAULT_VIDEO_LOCK_WINDOW	0x3000
-+
-+#define XSDIRX_MODE_HD_MASK	0x0
-+#define XSDIRX_MODE_SD_MASK	0x1
-+#define XSDIRX_MODE_3G_MASK	0x2
-+#define XSDIRX_MODE_6G_MASK	0x4
-+#define XSDIRX_MODE_12GI_MASK	0x5
-+#define XSDIRX_MODE_12GF_MASK	0x6
-+
-+/* Maximum number of events per file handle. */
-+#define XSDIRX_MAX_EVENTS	8
-+
-+/* ST352 related macros */
-+#define XST352_PAYLOAD_BYTE1_MASK	GENMASK(7, 0)
-+#define XST352_PAYLOAD_BYTE2_OFFSET	8
-+#define XST352_PAYLOAD_BYTE3_OFFSET	16
-+#define XST352_PAYLOAD_BYTE4_OFFSET	24
-+
-+#define XST352_BYTE1_ST292_1x720L_1_5G		0x84
-+#define XST352_BYTE1_ST292_1x1080L_1_5G		0x85
-+#define XST352_BYTE1_ST425_2008_750L_3GB	0x88
-+#define XST352_BYTE1_ST425_2008_1125L_3GA	0x89
-+#define XST352_BYTE1_ST372_DL_3GB		0x8a
-+#define XST352_BYTE1_ST372_2x720L_3GB		0x8b
-+#define XST352_BYTE1_ST372_2x1080L_3GB		0x8c
-+#define XST352_BYTE1_ST2081_10_2160L_6G		0xc0
-+#define XST352_BYTE1_ST2081_10_2_1080L_6G	0xc1
-+#define XST352_BYTE1_ST2081_10_DL_2160L_6G	0xc2
-+#define XST352_BYTE1_ST2082_10_2160L_12G	0xce
-+
-+#define XST352_BYTE2_TS_TYPE_MASK		BIT(15)
-+#define XST352_BYTE2_PIC_TYPE_MASK		BIT(14)
-+#define XST352_BYTE2_TS_PIC_TYPE_INTERLACED	0
-+#define XST352_BYTE2_TS_PIC_TYPE_PROGRESSIVE	1
-+
-+#define XST352_BYTE2_FPS_MASK			GENMASK(11, 8)
-+#define XST352_BYTE2_FPS_24F			0x2
-+#define XST352_BYTE2_FPS_24			0x3
-+#define XST352_BYTE2_FPS_48F			0x4
-+#define XST352_BYTE2_FPS_25			0x5
-+#define XST352_BYTE2_FPS_30F			0x6
-+#define XST352_BYTE2_FPS_30			0x7
-+#define XST352_BYTE2_FPS_48			0x8
-+#define XST352_BYTE2_FPS_50			0x9
-+#define XST352_BYTE2_FPS_60F			0xa
-+#define XST352_BYTE2_FPS_60			0xb
-+/* Table 4 ST 2081-10:2015 */
-+#define XST352_BYTE2_FPS_96			0xc
-+#define XST352_BYTE2_FPS_100			0xd
-+#define XST352_BYTE2_FPS_120			0xe
-+#define XST352_BYTE2_FPS_120F			0xf
-+
-+#define XST352_BYTE3_ACT_LUMA_COUNT_MASK	BIT(22)
-+
-+#define XST352_BYTE3_COLOR_FORMAT_MASK		GENMASK(19, 16)
-+#define XST352_BYTE3_COLOR_FORMAT_422		0x0
-+#define XST352_BYTE3_COLOR_FORMAT_YUV444	0x1
-+#define XST352_BYTE3_COLOR_FORMAT_420		0x3
-+#define XST352_BYTE3_COLOR_FORMAT_GBR		0x2
-+
-+#define XST352_BYTE3_COLORIMETRY_MASK		GENMASK(21, 20)
-+#define XST352_BYTE3_COLORIMETRY_BT709		0
-+#define XST352_BYTE3_COLORIMETRY_COLOR_VANC	1
-+#define XST352_BYTE3_COLORIMETRY_UHDTV		2
-+#define XST352_BYTE3_COLORIMETRY_UNKNOWN	3
-+
-+#define XST352_BYTE4_BIT_DEPTH_MASK		GENMASK(25, 24)
-+#define XST352_BYTE4_BIT_DEPTH_10		0x1
-+#define XST352_BYTE4_BIT_DEPTH_12		0x2
-+
-+/* GT input clock for sdi_rx_clk */
-+#define CLK_INT		148500000UL
-+
-+#define XSDIRXSS_WIDTH_MIN                    720
-+#define XSDIRXSS_WIDTH_MAX                    4096
-+#define XSDIRXSS_HEIGHT_MIN                   243
-+#define XSDIRXSS_HEIGHT_MAX                   2160
-+#define XSDIRXSS_PIXELCLOCK_MIN               13500000
-+#define XSDIRXSS_PIXELCLOCK_MAX               594000000
-+
-+/**
-+ * enum sdi_family_enc - SDI Transport Video Format Detected with Active Pixels
-+ * @XSDIRX_SMPTE_ST_274: SMPTE ST 274 detected with AP 1920x1080
-+ * @XSDIRX_SMPTE_ST_296: SMPTE ST 296 detected with AP 1280x720
-+ * @XSDIRX_SMPTE_ST_2048_2: SMPTE ST 2048-2 detected with AP 2048x1080
-+ * @XSDIRX_SMPTE_ST_295: SMPTE ST 295 detected with AP 1920x1080
-+ * @XSDIRX_NTSC: NTSC encoding detected with AP 720x486
-+ * @XSDIRX_PAL: PAL encoding detected with AP 720x576
-+ * @XSDIRX_TS_UNKNOWN: Unknown SMPTE Transport family type
-+ */
-+enum sdi_family_enc {
-+	XSDIRX_SMPTE_ST_274	= 0,
-+	XSDIRX_SMPTE_ST_296	= 1,
-+	XSDIRX_SMPTE_ST_2048_2	= 2,
-+	XSDIRX_SMPTE_ST_295	= 3,
-+	XSDIRX_NTSC		= 8,
-+	XSDIRX_PAL		= 9,
-+	XSDIRX_TS_UNKNOWN	= 15
-+};
-+
-+/**
-+ * struct xsdirxss_state - SDI Rx Subsystem device structure
-+ * @subdev: The v4l2 subdev structure
-+ * @ctrl_handler: control handler
-+ * @default_format: default V4L2 media bus format
-+ * @pad: source media pad
-+ * @dev: Platform structure
-+ * @iomem: Base address of subsystem
-+ * @clks: array of clocks
-+ * @prev_is_frac: Previous clock is fractional or not flag
-+ * @bpc: Bits per component, can be 10 or 12
-+ * @mode: 3G/6G/12G mode
-+ * @num_clks: number of clocks
-+ * @include_edh: EDH processor presence
-+ * @slock: spinlock to protect below members
-+ * @format: Active V4L2 format detected
-+ * @src_format: Active V4L2 format on source pad
-+ * @frame_interval: Captures the frame rate
-+ * @current_timings: DV timings from application
-+ * @detected_timings_index: index of DV timings detected on incoming stream
-+ * @vidlockwin: Video lock window value set by control
-+ * @edhmask: EDH mask set by control
-+ * @searchmask: Search mask set by control
-+ * @streaming: Flag for storing streaming state
-+ * @vidlocked: Flag indicating SDI Rx has locked onto video stream
-+ * @ts_is_interlaced: Flag indicating Transport Stream is interlaced.
-+ * @framer_enable: Flag for framer enabled or not set by control
-+ *
-+ * This structure contains the device driver related parameters
-+ */
-+struct xsdirxss_state {
-+	struct v4l2_subdev subdev;
-+	struct v4l2_ctrl_handler ctrl_handler;
-+	struct v4l2_mbus_framefmt default_format;
-+	struct media_pad pad;
-+	struct device *dev;
-+	void __iomem *iomem;
-+	struct clk_bulk_data *clks;
-+	int prev_is_frac;
-+	u32 bpc;
-+	u32 mode;
-+	unsigned int num_clks;
-+	bool include_edh;
-+
-+	/*
-+	 * This spinlock is used to protect the below members
-+	 * format, src_format, frame_interval, current_timings,
-+	 * detected_timings_index, vidlockwin, edhmask, searchmask,
-+	 * streaming, vidlocked, ts_is_interlaced, framer_enable
-+	 */
-+	spinlock_t slock;
-+	struct v4l2_mbus_framefmt format;
-+	struct v4l2_mbus_framefmt src_format;
-+	struct v4l2_fract frame_interval;
-+	struct v4l2_dv_timings current_timings;
-+	u32 detected_timings_index;
-+	u32 vidlockwin;
-+	u32 edhmask;
-+	u16 searchmask;
-+	bool streaming;
-+	bool vidlocked;
-+	bool ts_is_interlaced;
-+	bool framer_enable;
-+};
-+
-+/* List of clocks required by UHD-SDI Rx subsystem */
-+static const char * const xsdirxss_clks[] = {
-+	"s_axi_aclk", "sdi_rx_clk", "video_out_clk",
-+};
-+
-+/* TODO - Add YUV 444/420 and RBG 10/12 bpc mbus formats here */
-+static const u32 xsdirxss_10bpc_mbus_fmts[] = {
-+	MEDIA_BUS_FMT_UYVY10_1X20,
-+};
-+
-+static const u32 xsdirxss_12bpc_mbus_fmts[] = {
-+	MEDIA_BUS_FMT_UYVY12_1X24,
-+};
-+
-+static const struct v4l2_dv_timings fmt_cap[] = {
-+	V4L2_DV_BT_SDI_720X487I60,
-+	V4L2_DV_BT_CEA_720X576I50,
-+	V4L2_DV_BT_CEA_1280X720P24,
-+	V4L2_DV_BT_CEA_1280X720P25,
-+	V4L2_DV_BT_CEA_1280X720P30,
-+	V4L2_DV_BT_CEA_1280X720P50,
-+	V4L2_DV_BT_CEA_1280X720P60,
-+	V4L2_DV_BT_CEA_1920X1080P24,
-+	V4L2_DV_BT_CEA_1920X1080P30,
-+	V4L2_DV_BT_CEA_1920X1080I50,
-+	V4L2_DV_BT_CEA_1920X1080I60,
-+	V4L2_DV_BT_CEA_1920X1080P48,
-+	V4L2_DV_BT_CEA_1920X1080P50,
-+	V4L2_DV_BT_CEA_1920X1080P60,
-+	V4L2_DV_BT_CEA_3840X2160P24,
-+	V4L2_DV_BT_CEA_3840X2160P30,
-+	V4L2_DV_BT_CEA_3840X2160P48,
-+	V4L2_DV_BT_CEA_3840X2160P50,
-+	V4L2_DV_BT_CEA_3840X2160P60,
-+	V4L2_DV_BT_CEA_4096X2160P24,
-+	V4L2_DV_BT_CEA_4096X2160P25,
-+	V4L2_DV_BT_CEA_4096X2160P30,
-+	V4L2_DV_BT_CEA_4096X2160P48,
-+	V4L2_DV_BT_CEA_4096X2160P50,
-+	V4L2_DV_BT_CEA_4096X2160P60,
-+
-+	XLNX_V4L2_DV_BT_2048X1080P24,
-+	XLNX_V4L2_DV_BT_2048X1080P25,
-+	XLNX_V4L2_DV_BT_2048X1080P30,
-+	XLNX_V4L2_DV_BT_2048X1080I48,
-+	XLNX_V4L2_DV_BT_2048X1080I50,
-+	XLNX_V4L2_DV_BT_2048X1080I60,
-+	XLNX_V4L2_DV_BT_2048X1080P48,
-+	XLNX_V4L2_DV_BT_2048X1080P50,
-+	XLNX_V4L2_DV_BT_2048X1080P60,
-+	XLNX_V4L2_DV_BT_1920X1080I48,
-+};
-+
-+struct xsdirxss_dv_map {
-+	u32 width;
-+	u32 height;
-+	u32 fps;
-+	struct v4l2_dv_timings timing;
-+};
-+
-+static const struct xsdirxss_dv_map xsdirxss_dv_timings[] = {
-+	/* SD - 720x487i60 */
-+	{ 720, 243, 30, V4L2_DV_BT_SDI_720X487I60 },
-+	/* SD - 720x576i50 */
-+	{ 720, 288, 25, V4L2_DV_BT_CEA_720X576I50 },
-+	/* HD - 1280x720p23.98 */
-+	/* HD - 1280x720p24 */
-+	{ 1280, 720, 24, V4L2_DV_BT_CEA_1280X720P24 },
-+	/* HD - 1280x720p25 */
-+	{ 1280, 720, 25, V4L2_DV_BT_CEA_1280X720P25 },
-+	/* HD - 1280x720p29.97 */
-+	/* HD - 1280x720p30 */
-+	{ 1280, 720, 30, V4L2_DV_BT_CEA_1280X720P30 },
-+	/* HD - 1280x720p50 */
-+	{ 1280, 720, 50, V4L2_DV_BT_CEA_1280X720P50 },
-+	/* HD - 1280x720p59.94 */
-+	/* HD - 1280x720p60 */
-+	{ 1280, 720, 60, V4L2_DV_BT_CEA_1280X720P60 },
-+	/* HD - 1920x1080p23.98 */
-+	/* HD - 1920x1080p24 */
-+	{ 1920, 1080, 24, V4L2_DV_BT_CEA_1920X1080P24 },
-+	/* HD - 1920x1080p25 */
-+	{ 1920, 1080, 25, V4L2_DV_BT_CEA_1920X1080P25 },
-+	/* HD - 1920x1080p29.97 */
-+	/* HD - 1920x1080p30 */
-+	{ 1920, 1080, 30, V4L2_DV_BT_CEA_1920X1080P30 },
-+
-+	/* HD - 2048x1080p23.98 */
-+	/* HD - 2048x1080p24 */
-+	{ 2048, 1080, 24, XLNX_V4L2_DV_BT_2048X1080P24 },
-+	/* HD - 2048x1080p25 */
-+	{ 2048, 1080, 24, XLNX_V4L2_DV_BT_2048X1080P25 },
-+	/* HD - 2048x1080p29.97 */
-+	/* HD - 2048x1080p30 */
-+	{ 2048, 1080, 24, XLNX_V4L2_DV_BT_2048X1080P30 },
-+	/* HD - 1920x1080i47.95 */
-+	/* HD - 1920x1080i48 */
-+	{ 1920, 540, 24, XLNX_V4L2_DV_BT_1920X1080I48 },
-+
-+	/* HD - 1920x1080i50 */
-+	{ 1920, 540, 25, V4L2_DV_BT_CEA_1920X1080I50 },
-+	/* HD - 1920x1080i59.94 */
-+	/* HD - 1920x1080i60 */
-+	{ 1920, 540, 30, V4L2_DV_BT_CEA_1920X1080I60 },
-+
-+	/* HD - 2048x1080i47.95 */
-+	/* HD - 2048x1080i48 */
-+	{ 2048, 540, 24, XLNX_V4L2_DV_BT_2048X1080I48 },
-+	/* HD - 2048x1080i50 */
-+	{ 2048, 540, 25, XLNX_V4L2_DV_BT_2048X1080I50 },
-+	/* HD - 2048x1080i59.94 */
-+	/* HD - 2048x1080i60 */
-+	{ 2048, 540, 30, XLNX_V4L2_DV_BT_2048X1080I60 },
-+	/* 3G - 1920x1080p47.95 */
-+	/* 3G - 1920x1080p48 */
-+	{ 1920, 1080, 48, V4L2_DV_BT_CEA_1920X1080P48 },
-+
-+	/* 3G - 1920x1080p50 148.5 */
-+	{ 1920, 1080, 50, V4L2_DV_BT_CEA_1920X1080P50 },
-+	/* 3G - 1920x1080p59.94 148.5/1.001 */
-+	/* 3G - 1920x1080p60 148.5 */
-+	{ 1920, 1080, 60, V4L2_DV_BT_CEA_1920X1080P60 },
-+
-+	/* 3G - 2048x1080p47.95 */
-+	/* 3G - 2048x1080p48 */
-+	{ 2048, 1080, 48, XLNX_V4L2_DV_BT_2048X1080P48 },
-+	/* 3G - 2048x1080p50 */
-+	{ 2048, 1080, 50, XLNX_V4L2_DV_BT_2048X1080P50 },
-+	/* 3G - 2048x1080p59.94 */
-+	/* 3G - 2048x1080p60 */
-+	{ 2048, 1080, 60, XLNX_V4L2_DV_BT_2048X1080P60 },
-+
-+	/* 6G - 3840X2160p23.98 */
-+	/* 6G - 3840X2160p24 */
-+	{ 3840, 2160, 24, V4L2_DV_BT_CEA_3840X2160P24 },
-+	/* 6G - 3840X2160p25 */
-+	{ 3840, 2160, 25, V4L2_DV_BT_CEA_3840X2160P25 },
-+	/* 6G - 3840X2160p29.97 */
-+	/* 6G - 3840X2160p30 */
-+	{ 3840, 2160, 30, V4L2_DV_BT_CEA_3840X2160P30 },
-+	/* 6G - 4096X2160p23.98 */
-+	/* 6G - 4096X2160p24 */
-+	{ 4096, 2160, 24, V4L2_DV_BT_CEA_4096X2160P24 },
-+	/* 6G - 4096X2160p25 */
-+	{ 4096, 2160, 25, V4L2_DV_BT_CEA_4096X2160P25 },
-+	/* 6G - 4096X2160p29.97 */
-+	/* 6G - 4096X2160p30 */
-+	{ 4096, 2160, 30, V4L2_DV_BT_CEA_4096X2160P30 },
-+	/* 12G - 3840X2160p47.95 */
-+	/* 12G - 3840X2160p48 */
-+	{ 3840, 2160, 48, V4L2_DV_BT_CEA_3840X2160P48 },
-+
-+	/* 12G - 3840X2160p50 */
-+	{ 3840, 2160, 50, V4L2_DV_BT_CEA_3840X2160P50 },
-+	/* 12G - 3840X2160p59.94 */
-+	/* 12G - 3840X2160p60 */
-+	{ 3840, 2160, 60, V4L2_DV_BT_CEA_3840X2160P60 },
-+
-+	/* 12G - 4096X2160p47.95 */
-+	/* 12G - 4096X2160p48 */
-+	{ 3840, 2160, 48, V4L2_DV_BT_CEA_4096X2160P48 },
-+
-+	/* 12G - 4096X2160p50 */
-+	{ 4096, 2160, 50, V4L2_DV_BT_CEA_4096X2160P50 },
-+	/* 12G - 4096X2160p59.94 */
-+	/* 12G - 4096X2160p60 */
-+	{ 4096, 2160, 60, V4L2_DV_BT_CEA_4096X2160P60 },
-+};
-+
-+static const struct v4l2_dv_timings_cap xsdirxss_timings_cap = {
-+	.type = V4L2_DV_BT_656_1120,
-+	.pad = 0,
-+	.reserved = { 0 },
-+	V4L2_INIT_BT_TIMINGS(XSDIRXSS_WIDTH_MIN, XSDIRXSS_WIDTH_MAX,
-+			     XSDIRXSS_HEIGHT_MIN, XSDIRXSS_HEIGHT_MAX,
-+			     XSDIRXSS_PIXELCLOCK_MIN, XSDIRXSS_PIXELCLOCK_MAX,
-+			     V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_SDI,
-+			     V4L2_DV_BT_CAP_PROGRESSIVE
-+			     | V4L2_DV_BT_CAP_INTERLACED)
-+
-+};
-+
-+struct regmap {
-+	const char *name;
-+	u32 offset;
-+};
-+
-+static const struct regmap xsdirxss_regmap[] = {
-+	{ .name = "Reset Control", .offset = XSDIRX_RST_CTRL_REG },
-+	{ .name = "Module Control", .offset = XSDIRX_MDL_CTRL_REG },
-+	{ .name = "Interrupt Enable", .offset = XSDIRX_IER_REG },
-+	{ .name = "Global Interrupt Enable", .offset = XSDIRX_GLBL_IER_REG },
-+	{ .name = "ST352 Valid", .offset = XSDIRX_ST352_VALID_REG },
-+	{ .name = "ST352 DS1", .offset = XSDIRX_ST352_DS1_REG },
-+	{ .name = "ST352 DS2", .offset = XSDIRX_ST352_DS2_REG },
-+	{ .name = "ST352 DS3", .offset = XSDIRX_ST352_DS3_REG },
-+	{ .name = "ST352 DS4", .offset = XSDIRX_ST352_DS4_REG },
-+	{ .name = "ST352 DS5", .offset = XSDIRX_ST352_DS5_REG },
-+	{ .name = "ST352 DS6", .offset = XSDIRX_ST352_DS6_REG },
-+	{ .name = "ST352 DS7", .offset = XSDIRX_ST352_DS7_REG },
-+	{ .name = "ST352 DS8", .offset = XSDIRX_ST352_DS8_REG },
-+	{ .name = "ST352 DS9", .offset = XSDIRX_ST352_DS9_REG },
-+	{ .name = "ST352 DS10", .offset = XSDIRX_ST352_DS10_REG },
-+	{ .name = "ST352 DS11", .offset = XSDIRX_ST352_DS11_REG },
-+	{ .name = "ST352 DS12", .offset = XSDIRX_ST352_DS12_REG },
-+	{ .name = "ST352 DS13", .offset = XSDIRX_ST352_DS13_REG },
-+	{ .name = "ST352 DS14", .offset = XSDIRX_ST352_DS14_REG },
-+	{ .name = "ST352 DS15", .offset = XSDIRX_ST352_DS15_REG },
-+	{ .name = "ST352 DS16", .offset = XSDIRX_ST352_DS16_REG },
-+	{ .name = "Version", .offset = XSDIRX_VERSION_REG },
-+	{ .name = "Subsystem Config ", .offset = XSDIRX_SS_CONFIG_REG },
-+	{ .name = "Mode Detect", .offset = XSDIRX_MODE_DET_STAT_REG },
-+	{ .name = "Transport Stream Detect", .offset = XSDIRX_TS_DET_STAT_REG },
-+	{ .name = "EDH Status", .offset = XSDIRX_EDH_STAT_REG },
-+	{ .name = "EDH Error Count", .offset = XSDIRX_EDH_ERRCNT_EN_REG },
-+	{ .name = "CRC error indication", .offset = XSDIRX_CRC_ERRCNT_REG },
-+	{ .name = "Video Lock Window", .offset = XSDIRX_VID_LOCK_WINDOW_REG },
-+};
-+
-+static inline struct xsdirxss_state *
-+to_xsdirxssstate(struct v4l2_subdev *subdev)
-+{
-+	return container_of(subdev, struct xsdirxss_state, subdev);
-+}
-+
-+/*
-+ * Register related operations
-+ */
-+static inline u32 xsdirxss_read(struct xsdirxss_state *xsdirxss, u32 addr)
-+{
-+	return ioread32(xsdirxss->iomem + addr);
-+}
-+
-+static inline void xsdirxss_write(struct xsdirxss_state *xsdirxss, u32 addr,
-+				  u32 value)
-+{
-+	iowrite32(value, xsdirxss->iomem + addr);
-+}
-+
-+static inline void xsdirxss_clr(struct xsdirxss_state *xsdirxss, u32 addr,
-+				u32 clr)
-+{
-+	xsdirxss_write(xsdirxss, addr, xsdirxss_read(xsdirxss, addr) & ~clr);
-+}
-+
-+static inline void xsdirxss_set(struct xsdirxss_state *xsdirxss, u32 addr,
-+				u32 set)
-+{
-+	xsdirxss_write(xsdirxss, addr, xsdirxss_read(xsdirxss, addr) | set);
-+}
-+
-+#define XSDIRX_CORE_DISABLE(state)  xsdirxss_clr((state), XSDIRX_RST_CTRL_REG,\
-+						 XSDIRX_RST_CTRL_SS_EN_MASK)
-+
-+#define XSDIRX_CORE_ENABLE(state)  xsdirxss_set((state), XSDIRX_RST_CTRL_REG,\
-+						XSDIRX_RST_CTRL_SS_EN_MASK)
-+
-+#define XSDIRX_GLOBAL_INTR_ENABLE(state)	\
-+	xsdirxss_set((state), XSDIRX_GLBL_IER_REG, XSDIRX_GLBL_INTR_EN_MASK)
-+
-+#define XSDIRX_GLOBAL_INTR_DISABLE(state)	\
-+	xsdirxss_clr((state), XSDIRX_GLBL_IER_REG, XSDIRX_GLBL_INTR_EN_MASK)
-+
-+static int xsdirx_set_modedetect(struct xsdirxss_state *state, u16 mask)
-+{
-+	u32 val;
-+	struct device *dev = state->dev;
-+
-+	mask &= XSDIRX_DETECT_ALL_MODES;
-+	if (!mask) {
-+		dev_err(dev, "Invalid bit mask = 0x%08x\n", mask);
-+		return -EINVAL;
-+	}
-+
-+	dev_dbg(dev, "mask = 0x%x\n", mask);
-+
-+	val = xsdirxss_read(state, XSDIRX_MDL_CTRL_REG);
-+	val &= ~XSDIRX_MDL_CTRL_MODE_DET_EN_MASK;
-+	val &= ~XSDIRX_MDL_CTRL_MODE_AUTO_DET_MASK;
-+	val &= ~XSDIRX_MDL_CTRL_FORCED_MODE_MASK;
-+
-+	if (hweight16(mask) > 1) {
-+		/* Multi mode detection as more than 1 bit set in mask */
-+		dev_dbg(dev, "Detect multiple modes\n");
-+
-+		if (mask & BIT(XSDIRX_MODE_SD_OFFSET))
-+			val |= XSDIRX_MDL_CTRL_MODE_SD_EN_MASK;
-+		if (mask & BIT(XSDIRX_MODE_HD_OFFSET))
-+			val |= XSDIRX_MDL_CTRL_MODE_HD_EN_MASK;
-+		/*
-+		 * There is only one bit in IP to detect 3G mode.
-+		 * So set it when 3GA or 3GB mask is set.
-+		 */
-+		if (mask & (BIT(XSDIRX_MODE_3GA_OFFSET) |
-+			    BIT(XSDIRX_MODE_3GB_OFFSET)))
-+			val |= XSDIRX_MDL_CTRL_MODE_3G_EN_MASK;
-+		if (mask & BIT(XSDIRX_MODE_6G_OFFSET))
-+			val |= XSDIRX_MDL_CTRL_MODE_6G_EN_MASK;
-+		if (mask & BIT(XSDIRX_MODE_12GI_OFFSET))
-+			val |= XSDIRX_MDL_CTRL_MODE_12GI_EN_MASK;
-+		if (mask & BIT(XSDIRX_MODE_12GF_OFFSET))
-+			val |= XSDIRX_MDL_CTRL_MODE_12GF_EN_MASK;
-+
-+		val |= XSDIRX_MDL_CTRL_MODE_DET_EN_MASK;
-+	} else {
-+		/* Fixed Mode */
-+		u32 forced_mode_mask;
-+
-+		dev_dbg(dev, "Detect fixed mode\n");
-+
-+		/* Find offset of first bit set */
-+		switch (mask) {
-+		case XSDIRX_MODE_SD_OFFSET:
-+			forced_mode_mask = XSDIRX_MODE_SD_MASK;
-+			break;
-+		case XSDIRX_MODE_HD_OFFSET:
-+			forced_mode_mask = XSDIRX_MODE_HD_MASK;
-+			break;
-+		/*
-+		 * There is only one bit in IP to detect 3G mode.
-+		 * So set it when 3GA or 3GB mask is set.
-+		 */
-+		case XSDIRX_MODE_3GA_OFFSET:
-+		case XSDIRX_MODE_3GB_OFFSET:
-+			forced_mode_mask = XSDIRX_MODE_3G_MASK;
-+			break;
-+		case XSDIRX_MODE_6G_OFFSET:
-+			forced_mode_mask = XSDIRX_MODE_6G_MASK;
-+			break;
-+		case XSDIRX_MODE_12GI_OFFSET:
-+			forced_mode_mask = XSDIRX_MODE_12GI_MASK;
-+			break;
-+		case XSDIRX_MODE_12GF_OFFSET:
-+			forced_mode_mask = XSDIRX_MODE_12GF_MASK;
-+			break;
-+		default:
-+			dev_err(dev, "Invalid mask for fixed detect mode\n");
-+			return -EINVAL;
-+		}
-+		dev_dbg(dev, "Forced Mode Mask : 0x%x\n",
-+			forced_mode_mask);
-+		val |= forced_mode_mask << XSDIRX_MDL_CTRL_FORCED_MODE_OFFSET;
-+	}
-+
-+	dev_dbg(dev, "Modes to be detected : sdi ctrl reg = 0x%08x\n",
-+		val);
-+	xsdirxss_write(state, XSDIRX_MDL_CTRL_REG, val);
-+
-+	return 0;
-+}
-+
-+static void xsdirx_streamflow_control(struct xsdirxss_state *state, bool enable)
-+{
-+	/* The sdi to native bridge is followed by native to axis4 bridge */
-+	/*
-+	 * TODO - Enable YUV444/RBG format in the bridge based
-+	 * on BYTE3 color format.
-+	 * XSDIRX_RST_CTRL_BRIDGE_CH_FMT_YUV444
-+	 */
-+	if (enable) {
-+		xsdirxss_set(state, XSDIRX_RST_CTRL_REG,
-+			     XSDIRX_RST_CTRL_VIDIN_AXI4S_MOD_ENB_MASK);
-+		xsdirxss_set(state, XSDIRX_RST_CTRL_REG,
-+			     XSDIRX_RST_CTRL_SDIRX_BRIDGE_ENB_MASK);
-+	} else {
-+		xsdirxss_clr(state, XSDIRX_RST_CTRL_REG,
-+			     XSDIRX_RST_CTRL_SDIRX_BRIDGE_ENB_MASK);
-+		xsdirxss_clr(state, XSDIRX_RST_CTRL_REG,
-+			     XSDIRX_RST_CTRL_VIDIN_AXI4S_MOD_ENB_MASK);
-+	}
-+	state->streaming = enable;
-+}
-+
-+static void xsdirxss_get_framerate(struct v4l2_fract *frame_interval,
-+				   u32 framerate)
-+{
-+	switch (framerate) {
-+	case XSDIRX_TS_DET_STAT_RATE_23_98HZ:
-+		frame_interval->numerator = 1001;
-+		frame_interval->denominator = 24000;
-+		break;
-+	case XSDIRX_TS_DET_STAT_RATE_24HZ:
-+		frame_interval->numerator = 1000;
-+		frame_interval->denominator = 24000;
-+		break;
-+	case XSDIRX_TS_DET_STAT_RATE_25HZ:
-+		frame_interval->numerator = 1000;
-+		frame_interval->denominator = 25000;
-+		break;
-+	case XSDIRX_TS_DET_STAT_RATE_29_97HZ:
-+		frame_interval->numerator = 1001;
-+		frame_interval->denominator = 30000;
-+		break;
-+	case XSDIRX_TS_DET_STAT_RATE_30HZ:
-+		frame_interval->numerator = 1000;
-+		frame_interval->denominator = 30000;
-+		break;
-+	case XSDIRX_TS_DET_STAT_RATE_47_95HZ:
-+		frame_interval->numerator = 1001;
-+		frame_interval->denominator = 48000;
-+		break;
-+	case XSDIRX_TS_DET_STAT_RATE_48HZ:
-+		frame_interval->numerator = 1000;
-+		frame_interval->denominator = 48000;
-+		break;
-+	case XSDIRX_TS_DET_STAT_RATE_50HZ:
-+		frame_interval->numerator = 1000;
-+		frame_interval->denominator = 50000;
-+		break;
-+	case XSDIRX_TS_DET_STAT_RATE_59_94HZ:
-+		frame_interval->numerator = 1001;
-+		frame_interval->denominator = 60000;
-+		break;
-+	case XSDIRX_TS_DET_STAT_RATE_60HZ:
-+		frame_interval->numerator = 1000;
-+		frame_interval->denominator = 60000;
-+		break;
-+	default:
-+		frame_interval->numerator = 1;
-+		frame_interval->denominator = 1;
-+	}
-+}
-+
-+static void xsdirxss_set_gtclk(struct xsdirxss_state *state)
-+{
-+	struct clk *gtclk;
-+	unsigned long clkrate;
-+	int ret, is_frac;
-+	u32 mode;
-+
-+	mode = xsdirxss_read(state, XSDIRX_MODE_DET_STAT_REG);
-+	mode &= XSDIRX_MODE_DET_STAT_RX_MODE_MASK;
-+
-+	/*
-+	 * TODO: For now, don't change the clock rate for any mode except 12G.
-+	 * In future, configure gt clock for all modes and enable clock only
-+	 * when needed (stream on/off).
-+	 */
-+	if (mode != XSDIRX_MODE_12GI_MASK && mode != XSDIRX_MODE_12GF_MASK)
-+		return;
-+
-+	/* When numerator is 1001 then frame rate is fractional else integer */
-+	is_frac = state->frame_interval.numerator == 1001 ? 1 : 0;
-+
-+	if (state->prev_is_frac == is_frac)
-+		return;
-+
-+	XSDIRX_GLOBAL_INTR_DISABLE(state);
-+	xsdirxss_clr(state, XSDIRX_IER_REG, XSDIRX_INTR_ALL_MASK);
-+	XSDIRX_CORE_DISABLE(state);
-+
-+	/* get sdi_rx_clk */
-+	gtclk = state->clks[1].clk;
-+
-+	/* calculate clkrate */
-+	if (!is_frac)
-+		clkrate = CLK_INT;
-+	else
-+		clkrate = (CLK_INT * 1000) / 1001;
-+
-+	ret = clk_set_rate(gtclk, clkrate);
-+	if (ret)
-+		dev_err(state->dev, "failed to set clk rate = %d\n", ret);
-+
-+	state->prev_is_frac = is_frac;
-+	clkrate = clk_get_rate(gtclk);
-+
-+	dev_dbg(state->dev, "clkrate = %lu is_frac = %d\n",
-+		clkrate, is_frac);
-+
-+	if (state->framer_enable) {
-+		xsdirxss_set(state, XSDIRX_MDL_CTRL_REG,
-+			     XSDIRX_MDL_CTRL_FRM_EN_MASK);
-+	} else {
-+		xsdirxss_clr(state, XSDIRX_MDL_CTRL_REG,
-+			     XSDIRX_MDL_CTRL_FRM_EN_MASK);
-+	}
-+	xsdirxss_write(state, XSDIRX_EDH_ERRCNT_EN_REG,
-+		       state->edhmask & XSDIRX_EDH_ALLERR_MASK);
-+	xsdirxss_write(state, XSDIRX_VID_LOCK_WINDOW_REG, state->vidlocked);
-+	xsdirx_set_modedetect(state, state->searchmask);
-+	XSDIRX_CORE_ENABLE(state);
-+	xsdirxss_set(state, XSDIRX_IER_REG, XSDIRX_INTR_ALL_MASK);
-+	XSDIRX_GLOBAL_INTR_ENABLE(state);
-+}
-+
-+/**
-+ * xsdirx_get_stream_properties - Get SDI Rx stream properties
-+ * @state: pointer to driver state
-+ *
-+ * This function decodes the stream's ST352 payload (if available) to get
-+ * stream properties like width, height, picture type (interlaced/progressive),
-+ * etc.
-+ *
-+ * Return: 0 for success else errors
-+ */
-+static int xsdirx_get_stream_properties(struct xsdirxss_state *state)
-+{
-+	struct device *dev = state->dev;
-+	u32 mode, payload = 0, val, family, valid, tscan;
-+	u8 byte1 = 0, active_luma = 0, pic_type = 0, framerate = 0;
-+	u8 sampling = XST352_BYTE3_COLOR_FORMAT_422;
-+	struct v4l2_mbus_framefmt *format = &state->format;
-+	u32 bpc = XST352_BYTE4_BIT_DEPTH_10;
-+	u32 colorimetry = XST352_BYTE3_COLORIMETRY_BT709;
-+
-+	mode = xsdirxss_read(state, XSDIRX_MODE_DET_STAT_REG);
-+	mode &= XSDIRX_MODE_DET_STAT_RX_MODE_MASK;
-+
-+	valid = xsdirxss_read(state, XSDIRX_ST352_VALID_REG);
-+
-+	if (mode >= XSDIRX_MODE_3G_MASK && !valid) {
-+		dev_err(dev, "No valid ST352 payload present even for 3G mode and above\n");
-+		return -EINVAL;
-+	}
-+
-+	val = xsdirxss_read(state, XSDIRX_TS_DET_STAT_REG);
-+	if (valid & XSDIRX_ST352_VALID_DS1_MASK) {
-+		payload = xsdirxss_read(state, XSDIRX_ST352_DS1_REG);
-+		byte1 = FIELD_GET(XST352_PAYLOAD_BYTE1_MASK, payload);
-+		active_luma = FIELD_GET(XST352_BYTE3_ACT_LUMA_COUNT_MASK,
-+					payload);
-+		pic_type = FIELD_GET(XST352_BYTE2_PIC_TYPE_MASK, payload);
-+		framerate = FIELD_GET(XST352_BYTE2_FPS_MASK, payload);
-+		tscan = FIELD_GET(XST352_BYTE2_TS_TYPE_MASK, payload);
-+		sampling = FIELD_GET(XST352_BYTE3_COLOR_FORMAT_MASK, payload);
-+		bpc = FIELD_GET(XST352_BYTE4_BIT_DEPTH_MASK, payload);
-+		colorimetry = FIELD_GET(XST352_BYTE3_COLORIMETRY_MASK, payload);
-+	} else {
-+		dev_dbg(dev, "No ST352 payload available : Mode = %d\n", mode);
-+		framerate = FIELD_GET(XSDIRX_TS_DET_STAT_RATE_MASK, val);
-+		tscan = FIELD_GET(XSDIRX_TS_DET_STAT_SCAN_MASK, val);
-+	}
-+
-+	if ((bpc == XST352_BYTE4_BIT_DEPTH_10 && state->bpc != 10) ||
-+	    (bpc == XST352_BYTE4_BIT_DEPTH_12 && state->bpc != 12)) {
-+		dev_dbg(dev, "Bit depth not supported. bpc = %d state->bpc = %d\n",
-+			bpc, state->bpc);
-+		return -EINVAL;
-+	}
-+
-+	family = FIELD_GET(XSDIRX_TS_DET_STAT_FAMILY_MASK, val);
-+	state->ts_is_interlaced = tscan ? false : true;
-+
-+	dev_dbg(dev, "ts_is_interlaced = %d, family = %d\n",
-+		state->ts_is_interlaced, family);
-+
-+	switch (mode) {
-+	case XSDIRX_MODE_HD_MASK:
-+		if (!valid) {
-+			/* No payload obtained */
-+			dev_dbg(dev, "frame rate : %d, tscan = %d\n",
-+				framerate, tscan);
-+			/*
-+			 * NOTE : A progressive segmented frame pSF will be
-+			 * reported incorrectly as Interlaced as we rely on IP's
-+			 * transport scan locked bit.
-+			 */
-+			dev_warn(dev, "pSF will be incorrectly reported as Interlaced\n");
-+
-+			switch (framerate) {
-+			case XSDIRX_TS_DET_STAT_RATE_23_98HZ:
-+			case XSDIRX_TS_DET_STAT_RATE_24HZ:
-+			case XSDIRX_TS_DET_STAT_RATE_25HZ:
-+			case XSDIRX_TS_DET_STAT_RATE_29_97HZ:
-+			case XSDIRX_TS_DET_STAT_RATE_30HZ:
-+				if (family == XSDIRX_SMPTE_ST_296) {
-+					format->width = 1280;
-+					format->height = 720;
-+					format->field = V4L2_FIELD_NONE;
-+				} else if (family == XSDIRX_SMPTE_ST_2048_2) {
-+					format->width = 2048;
-+					format->height = 1080;
-+					if (tscan)
-+						format->field = V4L2_FIELD_NONE;
-+					else
-+						format->field =
-+							V4L2_FIELD_ALTERNATE;
-+				} else {
-+					format->width = 1920;
-+					format->height = 1080;
-+					if (tscan)
-+						format->field = V4L2_FIELD_NONE;
-+					else
-+						format->field =
-+							V4L2_FIELD_ALTERNATE;
-+				}
-+				break;
-+			case XSDIRX_TS_DET_STAT_RATE_50HZ:
-+			case XSDIRX_TS_DET_STAT_RATE_59_94HZ:
-+			case XSDIRX_TS_DET_STAT_RATE_60HZ:
-+				if (family == XSDIRX_SMPTE_ST_274) {
-+					format->width = 1920;
-+					format->height = 1080;
-+				} else {
-+					format->width = 1280;
-+					format->height = 720;
-+				}
-+				format->field = V4L2_FIELD_NONE;
-+				break;
-+			default:
-+				format->width = 1920;
-+				format->height = 1080;
-+				format->field = V4L2_FIELD_NONE;
-+			}
-+		} else {
-+			dev_dbg(dev, "Got the payload\n");
-+			switch (byte1) {
-+			case XST352_BYTE1_ST292_1x720L_1_5G:
-+				/* SMPTE ST 292-1 for 720 line payloads */
-+				format->width = 1280;
-+				format->height = 720;
-+				break;
-+			case XST352_BYTE1_ST292_1x1080L_1_5G:
-+				/* SMPTE ST 292-1 for 1080 line payloads */
-+				format->height = 1080;
-+				if (active_luma)
-+					format->width = 2048;
-+				else
-+					format->width = 1920;
-+				break;
-+			default:
-+				dev_dbg(dev, "Unknown HD Mode SMPTE standard\n");
-+				return -EINVAL;
-+			}
-+		}
-+		break;
-+	case XSDIRX_MODE_SD_MASK:
-+		format->field = V4L2_FIELD_ALTERNATE;
-+
-+		switch (family) {
-+		case XSDIRX_NTSC:
-+			format->width = 720;
-+			format->height = 486;
-+			break;
-+		case XSDIRX_PAL:
-+			format->width = 720;
-+			format->height = 576;
-+			break;
-+		default:
-+			dev_dbg(dev, "Unknown SD Mode SMPTE standard\n");
-+			return -EINVAL;
-+		}
-+		break;
-+	case XSDIRX_MODE_3G_MASK:
-+		switch (byte1) {
-+		case XST352_BYTE1_ST425_2008_750L_3GB:
-+			/* Sec 4.1.6.1 SMPTE 425-2008 */
-+		case XST352_BYTE1_ST372_2x720L_3GB:
-+			/* Table 13 SMPTE 425-2008 */
-+			format->width = 1280;
-+			format->height = 720;
-+			break;
-+		case XST352_BYTE1_ST425_2008_1125L_3GA:
-+			/* ST352 Table SMPTE 425-1 */
-+		case XST352_BYTE1_ST372_DL_3GB:
-+			/* Table 13 SMPTE 425-2008 */
-+		case XST352_BYTE1_ST372_2x1080L_3GB:
-+			/* Table 13 SMPTE 425-2008 */
-+			format->height = 1080;
-+			if (active_luma)
-+				format->width = 2048;
-+			else
-+				format->width = 1920;
-+			break;
-+		default:
-+			dev_dbg(dev, "Unknown 3G Mode SMPTE standard\n");
-+			return -EINVAL;
-+		}
-+		break;
-+	case XSDIRX_MODE_6G_MASK:
-+		switch (byte1) {
-+		case XST352_BYTE1_ST2081_10_DL_2160L_6G:
-+			/* Dual link 6G */
-+		case XST352_BYTE1_ST2081_10_2160L_6G:
-+			/* Table 3 SMPTE ST 2081-10 */
-+			format->height = 2160;
-+			if (active_luma)
-+				format->width = 4096;
-+			else
-+				format->width = 3840;
-+			break;
-+		case XST352_BYTE1_ST2081_10_2_1080L_6G:
-+			format->height = 1080;
-+			if (active_luma)
-+				format->width = 2048;
-+			else
-+				format->width = 1920;
-+			break;
-+		default:
-+			dev_dbg(dev, "Unknown 6G Mode SMPTE standard\n");
-+			return -EINVAL;
-+		}
-+		break;
-+	case XSDIRX_MODE_12GI_MASK:
-+	case XSDIRX_MODE_12GF_MASK:
-+		switch (byte1) {
-+		case XST352_BYTE1_ST2082_10_2160L_12G:
-+			/* Section 4.3.1 SMPTE ST 2082-10 */
-+			format->height = 2160;
-+			if (active_luma)
-+				format->width = 4096;
-+			else
-+				format->width = 3840;
-+			break;
-+		default:
-+			dev_dbg(dev, "Unknown 12G Mode SMPTE standard\n");
-+			return -EINVAL;
-+		}
-+		break;
-+	default:
-+		dev_err(dev, "Invalid Mode\n");
-+		return -EINVAL;
-+	}
-+
-+	if (valid) {
-+		if (pic_type)
-+			format->field = V4L2_FIELD_NONE;
-+		else
-+			format->field = V4L2_FIELD_ALTERNATE;
-+
-+		if (format->height == 1080 && pic_type && !tscan)
-+			format->field = V4L2_FIELD_ALTERNATE;
-+
-+		/*
-+		 * In 3GB DL pSF mode the video is similar to interlaced.
-+		 * So though it is a progressive video, its transport is
-+		 * interlaced and is sent as two width x (height/2) buffers.
-+		 */
-+		if (byte1 == XST352_BYTE1_ST372_DL_3GB) {
-+			if (state->ts_is_interlaced)
-+				format->field = V4L2_FIELD_ALTERNATE;
-+			else
-+				format->field = V4L2_FIELD_NONE;
-+		}
-+	}
-+
-+	if (format->field == V4L2_FIELD_ALTERNATE)
-+		format->height = format->height / 2;
-+
-+	switch (sampling) {
-+	case XST352_BYTE3_COLOR_FORMAT_422:
-+		if (state->bpc == 10)
-+			format->code = MEDIA_BUS_FMT_UYVY10_1X20;
-+		else
-+			format->code = MEDIA_BUS_FMT_UYVY12_1X24;
-+		break;
-+	case XST352_BYTE3_COLOR_FORMAT_420:
-+	case XST352_BYTE3_COLOR_FORMAT_YUV444:
-+	case XST352_BYTE3_COLOR_FORMAT_GBR:
-+		format->code = 0;
-+		dev_dbg(dev, "No corresponding media bus formats\n");
-+		break;
-+	default:
-+		dev_err(dev, "Unsupported color format : %d\n", sampling);
-+		return -EINVAL;
-+	}
-+
-+	/* Refer Table 3 SMPTE ST 2081-10:2018 */
-+	switch (colorimetry) {
-+	case XST352_BYTE3_COLORIMETRY_BT709:
-+		format->colorspace = V4L2_COLORSPACE_REC709;
-+		break;
-+	/* When HDR support is added UHDTV will have BT2020 colorspace */
-+	case XST352_BYTE3_COLORIMETRY_UHDTV:
-+	case XST352_BYTE3_COLORIMETRY_COLOR_VANC:
-+	case XST352_BYTE3_COLORIMETRY_UNKNOWN:
-+	default:
-+		dev_err(dev, "Unknown colorimetry : %d\n", colorimetry);
-+		return -EINVAL;
-+	}
-+
-+	xsdirxss_get_framerate(&state->frame_interval, framerate);
-+
-+	dev_dbg(dev, "Stream width = %d height = %d Field = %d payload = 0x%08x ts = 0x%08x\n",
-+		format->width, format->height, format->field, payload, val);
-+	dev_dbg(dev, "frame rate numerator = %d denominator = %d\n",
-+		state->frame_interval.numerator,
-+		state->frame_interval.denominator);
-+	dev_dbg(dev, "Stream code = 0x%x\n", format->code);
-+	return 0;
-+}
-+
-+/**
-+ * xsdirxss_irq_handler - Interrupt handler for SDI Rx
-+ * @irq: IRQ number
-+ * @dev_id: Pointer to device state
-+ *
-+ * The SDI Rx interrupts are cleared by writing 1 to corresponding bit.
-+ *
-+ * Return: IRQ_HANDLED after handling interrupts
-+ */
-+static irqreturn_t xsdirxss_irq_handler(int irq, void *dev_id)
-+{
-+	struct xsdirxss_state *state = (struct xsdirxss_state *)dev_id;
-+	struct device *dev = state->dev;
-+	u32 status;
-+
-+	status = xsdirxss_read(state, XSDIRX_ISR_REG);
-+	xsdirxss_write(state, XSDIRX_ISR_REG, status);
-+	dev_dbg(dev, "interrupt status = 0x%08x\n", status);
-+
-+	if (!status)
-+		return IRQ_NONE;
-+
-+	if (status & XSDIRX_INTR_VIDLOCK_MASK ||
-+	    status & XSDIRX_INTR_VIDUNLOCK_MASK) {
-+		u32 val1, val2;
-+		struct v4l2_event event = { 0 };
-+		unsigned long flags;
-+
-+		dev_dbg(dev, "video lock/unlock interrupt\n");
-+
-+		spin_lock_irqsave(&state->slock, flags);
-+		xsdirx_streamflow_control(state, false);
-+
-+		val1 = xsdirxss_read(state, XSDIRX_MODE_DET_STAT_REG);
-+		val2 = xsdirxss_read(state, XSDIRX_TS_DET_STAT_REG);
-+
-+		if ((val1 & XSDIRX_MODE_DET_STAT_MODE_LOCK_MASK) &&
-+		    (val2 & XSDIRX_TS_DET_STAT_LOCKED_MASK)) {
-+			u32 mask = XSDIRX_RST_CTRL_RST_CRC_ERRCNT_MASK |
-+				   XSDIRX_RST_CTRL_RST_EDH_ERRCNT_MASK;
-+
-+			dev_dbg(dev, "video lock interrupt\n");
-+
-+			xsdirxss_set(state, XSDIRX_RST_CTRL_REG, mask);
-+			xsdirxss_clr(state, XSDIRX_RST_CTRL_REG, mask);
-+
-+			val1 = xsdirxss_read(state, XSDIRX_ST352_VALID_REG);
-+			val2 = xsdirxss_read(state, XSDIRX_ST352_DS1_REG);
-+
-+			dev_dbg(dev, "valid st352 mask = 0x%08x\n", val1);
-+			dev_dbg(dev, "st352 payload = 0x%08x\n", val2);
-+
-+			if (!xsdirx_get_stream_properties(state)) {
-+				state->vidlocked = true;
-+				xsdirxss_set_gtclk(state);
-+			} else {
-+				dev_err(dev, "Unable to get stream properties!\n");
-+				state->vidlocked = false;
-+			}
-+		} else {
-+			dev_dbg(dev, "video unlock interrupt\n");
-+			state->vidlocked = false;
-+		}
-+		spin_unlock_irqrestore(&state->slock, flags);
-+
-+		event.type = V4L2_EVENT_SOURCE_CHANGE;
-+		event.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION;
-+		v4l2_subdev_notify_event(&state->subdev, &event);
-+	}
-+
-+	if (status & (XSDIRX_INTR_UNDERFLOW_MASK | XSDIRX_INTR_OVERFLOW_MASK)) {
-+		struct v4l2_event event = { 0 };
-+
-+		dev_dbg(dev, "Video in to AXI4 Stream core under/overflow interrupt\n");
-+
-+		event.type = V4L2_EVENT_XILINX_SDIRX_UND_OVR_FLOW;
-+		if (status & XSDIRX_INTR_UNDERFLOW_MASK)
-+			event.u.data[0] = XILINX_SDIRX_UNDERFLOW_EVENT;
-+		if (status & XSDIRX_INTR_OVERFLOW_MASK)
-+			event.u.data[0] = XILINX_SDIRX_OVERFLOW_EVENT;
-+
-+		v4l2_subdev_notify_event(&state->subdev, &event);
-+	}
-+	return IRQ_HANDLED;
-+}
-+
-+/**
-+ * xsdirxss_subscribe_event - Subscribe to video lock and unlock event
-+ * @sd: V4L2 Sub device
-+ * @fh: V4L2 File Handle
-+ * @sub: Subcribe event structure
-+ *
-+ * Return: 0 on success, errors otherwise
-+ */
-+static int xsdirxss_subscribe_event(struct v4l2_subdev *sd,
-+				    struct v4l2_fh *fh,
-+				    struct v4l2_event_subscription *sub)
-+{
-+	int ret;
-+	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
-+
-+	dev_dbg(xsdirxss->dev, "Event subscribed : 0x%08x\n", sub->type);
-+	switch (sub->type) {
-+	case V4L2_EVENT_XILINX_SDIRX_UND_OVR_FLOW:
-+		ret = v4l2_event_subscribe(fh, sub, XSDIRX_MAX_EVENTS, NULL);
-+		break;
-+	case V4L2_EVENT_SOURCE_CHANGE:
-+		ret = v4l2_src_change_event_subscribe(fh, sub);
-+		break;
-+	default:
-+		ret = v4l2_ctrl_subscribe_event(fh, sub);
-+	}
-+	return ret;
-+}
-+
-+/**
-+ * xsdirxss_s_ctrl - This is used to set the Xilinx SDI Rx V4L2 controls
-+ * @ctrl: V4L2 control to be set
-+ *
-+ * This function is used to set the V4L2 controls for the Xilinx SDI Rx
-+ * Subsystem.
-+ *
-+ * Return: 0 on success, errors otherwise
-+ */
-+static int xsdirxss_s_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	int ret = 0;
-+	struct xsdirxss_state *xsdirxss =
-+		container_of(ctrl->handler, struct xsdirxss_state,
-+			     ctrl_handler);
-+	struct device *dev = xsdirxss->dev;
-+	unsigned long flags;
-+
-+	dev_dbg(dev, "set ctrl id = 0x%08x val = 0x%08x\n",
-+		ctrl->id, ctrl->val);
-+
-+	spin_lock_irqsave(&xsdirxss->slock, flags);
-+
-+	if (xsdirxss->streaming) {
-+		spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+		dev_err(dev, "Cannot set controls while streaming\n");
-+		return -EINVAL;
-+	}
-+
-+	XSDIRX_CORE_DISABLE(xsdirxss);
-+	switch (ctrl->id) {
-+	case V4L2_CID_XILINX_SDIRX_FRAMER:
-+		xsdirxss->framer_enable = ctrl->val;
-+		if (xsdirxss->framer_enable) {
-+			xsdirxss_set(xsdirxss, XSDIRX_MDL_CTRL_REG,
-+				     XSDIRX_MDL_CTRL_FRM_EN_MASK);
-+		} else {
-+			xsdirxss_clr(xsdirxss, XSDIRX_MDL_CTRL_REG,
-+				     XSDIRX_MDL_CTRL_FRM_EN_MASK);
-+		}
-+		break;
-+	case V4L2_CID_XILINX_SDIRX_VIDLOCK_WINDOW:
-+		/*
-+		 * The video lock window is the amount of time for which the
-+		 * the mode and transport stream should be locked to get the
-+		 * video lock interrupt.
-+		 */
-+		xsdirxss->vidlockwin = ctrl->val;
-+		xsdirxss_write(xsdirxss, XSDIRX_VID_LOCK_WINDOW_REG,
-+			       xsdirxss->vidlockwin);
-+		break;
-+	case V4L2_CID_XILINX_SDIRX_EDH_ERROR_SOURCES:
-+		xsdirxss->edhmask = ctrl->val & XSDIRX_EDH_ALLERR_MASK;
-+		xsdirxss_write(xsdirxss, XSDIRX_EDH_ERRCNT_EN_REG,
-+			       xsdirxss->edhmask);
-+		break;
-+	case V4L2_CID_XILINX_SDIRX_SEARCH_MODES:
-+		if (!ctrl->val) {
-+			spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+			dev_err(dev, "Select at least one mode!\n");
-+			return -EINVAL;
-+		}
-+
-+		if (xsdirxss->mode == XSDI_STD_3G) {
-+			dev_dbg(dev, "Upto 3G supported\n");
-+			ctrl->val &= ~(BIT(XSDIRX_MODE_6G_OFFSET) |
-+				       BIT(XSDIRX_MODE_12GI_OFFSET) |
-+				       BIT(XSDIRX_MODE_12GF_OFFSET));
-+		}
-+
-+		if (xsdirxss->mode == XSDI_STD_6G) {
-+			dev_dbg(dev, "Upto 6G supported\n");
-+			ctrl->val &= ~(BIT(XSDIRX_MODE_12GI_OFFSET) |
-+				       BIT(XSDIRX_MODE_12GF_OFFSET));
-+		}
-+
-+		ret = xsdirx_set_modedetect(xsdirxss, ctrl->val);
-+		if (!ret)
-+			xsdirxss->searchmask = ctrl->val;
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+	XSDIRX_CORE_ENABLE(xsdirxss);
-+
-+	spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+	return ret;
-+}
-+
-+/**
-+ * xsdirxss_g_volatile_ctrl - get the Xilinx SDI Rx controls
-+ * @ctrl: Pointer to V4L2 control
-+ *
-+ * Return: 0 on success, errors otherwise
-+ */
-+static int xsdirxss_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	u32 val;
-+	struct xsdirxss_state *xsdirxss =
-+		container_of(ctrl->handler,
-+			     struct xsdirxss_state, ctrl_handler);
-+	struct device *dev = xsdirxss->dev;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&xsdirxss->slock, flags);
-+	if (!xsdirxss->vidlocked) {
-+		spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+		dev_err(dev, "Can't get values when video not locked!\n");
-+		return -EINVAL;
-+	}
-+	switch (ctrl->id) {
-+	case V4L2_CID_XILINX_SDIRX_MODE_DETECT:
-+		val = xsdirxss_read(xsdirxss, XSDIRX_MODE_DET_STAT_REG);
-+		val &= XSDIRX_MODE_DET_STAT_RX_MODE_MASK;
-+
-+		switch (val) {
-+		case XSDIRX_MODE_SD_MASK:
-+			ctrl->val = XSDIRX_MODE_SD_OFFSET;
-+			break;
-+		case XSDIRX_MODE_HD_MASK:
-+			ctrl->val = XSDIRX_MODE_HD_OFFSET;
-+			break;
-+		case XSDIRX_MODE_3G_MASK:
-+			val = xsdirxss_read(xsdirxss, XSDIRX_MODE_DET_STAT_REG);
-+			val &= XSDIRX_MODE_DET_STAT_LVLB_3G_MASK;
-+			ctrl->val = val ? XSDIRX_MODE_3GB_OFFSET :
-+				XSDIRX_MODE_3GA_OFFSET;
-+			break;
-+		case XSDIRX_MODE_6G_MASK:
-+			ctrl->val = XSDIRX_MODE_6G_OFFSET;
-+			break;
-+		case XSDIRX_MODE_12GI_MASK:
-+			ctrl->val = XSDIRX_MODE_12GI_OFFSET;
-+			break;
-+		case XSDIRX_MODE_12GF_MASK:
-+			ctrl->val = XSDIRX_MODE_12GF_OFFSET;
-+			break;
-+		}
-+		break;
-+	case V4L2_CID_XILINX_SDIRX_CRC:
-+		ctrl->val = xsdirxss_read(xsdirxss, XSDIRX_CRC_ERRCNT_REG);
-+		xsdirxss_write(xsdirxss, XSDIRX_CRC_ERRCNT_REG, 0xffff);
-+		break;
-+	case V4L2_CID_XILINX_SDIRX_EDH_ERRCNT:
-+		val = xsdirxss_read(xsdirxss, XSDIRX_MODE_DET_STAT_REG);
-+		val &= XSDIRX_MODE_DET_STAT_RX_MODE_MASK;
-+		if (val == XSDIRX_MODE_SD_MASK) {
-+			ctrl->val = xsdirxss_read(xsdirxss,
-+						  XSDIRX_EDH_ERRCNT_REG);
-+		} else {
-+			spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+			dev_dbg(dev, "%d - not in SD mode\n", ctrl->id);
-+			return -EINVAL;
-+		}
-+		break;
-+	case V4L2_CID_XILINX_SDIRX_EDH_STATUS:
-+		val = xsdirxss_read(xsdirxss, XSDIRX_MODE_DET_STAT_REG);
-+		val &= XSDIRX_MODE_DET_STAT_RX_MODE_MASK;
-+		if (val == XSDIRX_MODE_SD_MASK) {
-+			ctrl->val = xsdirxss_read(xsdirxss,
-+						  XSDIRX_EDH_STAT_REG);
-+		} else {
-+			spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+			dev_dbg(dev, "%d - not in SD mode\n", ctrl->id);
-+			return -EINVAL;
-+		}
-+		break;
-+	case V4L2_CID_XILINX_SDIRX_TS_IS_INTERLACED:
-+		ctrl->val = xsdirxss->ts_is_interlaced;
-+		break;
-+	default:
-+		spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+		dev_err(dev, "Get Invalid control id 0x%0x\n", ctrl->id);
-+		return -EINVAL;
-+	}
-+
-+	spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+	return 0;
-+}
-+
-+/**
-+ * xsdirxss_log_status - Logs the status of the SDI Rx Subsystem
-+ * @sd: Pointer to V4L2 subdevice structure
-+ *
-+ * This function prints the current status of Xilinx SDI Rx Subsystem
-+ *
-+ * Return: 0 on success
-+ */
-+static int xsdirxss_log_status(struct v4l2_subdev *sd)
-+{
-+	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
-+	u32 i;
-+
-+	v4l2_info(sd, "***** SDI Rx subsystem reg dump start *****\n");
-+	v4l2_info(sd, "No : Register Name : Value\n");
-+	for (i = 0; i < ARRAY_SIZE(xsdirxss_regmap); i++) {
-+		v4l2_info(sd, "%02d : %s register : 0x%08x\n", i,
-+			  xsdirxss_regmap[i].name,
-+			  xsdirxss_read(xsdirxss, xsdirxss_regmap[i].offset));
-+	}
-+	v4l2_info(sd, "***** SDI Rx subsystem reg dump end *****\n");
-+
-+	v4l2_ctrl_subdev_log_status(sd);
-+
-+	return 0;
-+}
-+
-+/**
-+ * xsdirxss_g_frame_interval - Get the frame interval
-+ * @sd: V4L2 Sub device
-+ * @fi: Pointer to V4l2 Sub device frame interval structure
-+ *
-+ * This function is used to get the frame interval.
-+ * The frame rate can be integral or fractional.
-+ * Integral frame rate e.g. numerator = 1000, denominator = 24000 => 24 fps
-+ * Fractional frame rate e.g. numerator = 1001, denominator = 24000 => 23.97 fps
-+ *
-+ * Return: 0 on success
-+ */
-+static int xsdirxss_g_frame_interval(struct v4l2_subdev *sd,
-+				     struct v4l2_subdev_frame_interval *fi)
-+{
-+	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
-+	unsigned long flags;
-+
-+	if (!xsdirxss->vidlocked) {
-+		dev_err(xsdirxss->dev, "Video not locked!\n");
-+		return -EINVAL;
-+	}
-+
-+	spin_lock_irqsave(&xsdirxss->slock, flags);
-+	fi->interval = xsdirxss->frame_interval;
-+	spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+
-+	dev_dbg(xsdirxss->dev, "frame rate numerator = %d denominator = %d\n",
-+		xsdirxss->frame_interval.numerator,
-+		xsdirxss->frame_interval.denominator);
-+	return 0;
-+}
-+
-+/**
-+ * xsdirxss_s_stream - It is used to start/stop the streaming.
-+ * @sd: V4L2 Sub device
-+ * @enable: Flag (True / False)
-+ *
-+ * This function controls the start or stop of streaming for the
-+ * Xilinx SDI Rx Subsystem.
-+ *
-+ * Return: 0 on success, errors otherwise
-+ */
-+static int xsdirxss_s_stream(struct v4l2_subdev *sd, int enable)
-+{
-+	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
-+	struct device *dev = xsdirxss->dev;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&xsdirxss->slock, flags);
-+	if (enable == xsdirxss->streaming) {
-+		spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+		dev_dbg(dev, "already in same streaming state as requested\n");
-+		return 0;
-+	}
-+
-+	if (enable) {
-+		if (!xsdirxss->vidlocked) {
-+			spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+			dev_err(dev, "Video is not locked\n");
-+			return -EINVAL;
-+		}
-+		xsdirx_streamflow_control(xsdirxss, true);
-+	} else {
-+		xsdirx_streamflow_control(xsdirxss, false);
-+	}
-+	spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+	dev_dbg(dev, "Streaming %s\n", enable ? "started" : "stopped");
-+	return 0;
-+}
-+
-+/**
-+ * xsdirxss_g_input_status - It is used to determine if the video signal
-+ * is present / locked onto or not.
-+ *
-+ * @sd: V4L2 Sub device
-+ * @status: status of signal locked
-+ *
-+ * This is used to determine if the video signal is present and locked onto
-+ * by the SDI Rx core or not based on vidlocked flag.
-+ *
-+ * Return: zero on success
-+ */
-+static int xsdirxss_g_input_status(struct v4l2_subdev *sd, u32 *status)
-+{
-+	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&xsdirxss->slock, flags);
-+	if (!xsdirxss->vidlocked)
-+		*status = V4L2_IN_ST_NO_SYNC | V4L2_IN_ST_NO_SIGNAL;
-+	else
-+		*status = 0;
-+
-+	spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+	return 0;
-+}
-+
-+static struct v4l2_mbus_framefmt *
-+__xsdirxss_get_pad_format(struct xsdirxss_state *xsdirxss,
-+			  struct v4l2_subdev_pad_config *cfg,
-+			  unsigned int pad, u32 which)
-+{
-+	switch (which) {
-+	case V4L2_SUBDEV_FORMAT_TRY:
-+		return v4l2_subdev_get_try_format(&xsdirxss->subdev, cfg, pad);
-+	case V4L2_SUBDEV_FORMAT_ACTIVE:
-+		return &xsdirxss->src_format;
-+	default:
-+		return NULL;
-+	}
-+}
-+
-+/**
-+ * xsdirxss_init_cfg - Initialise the pad format config to default
-+ * @sd: Pointer to V4L2 Sub device structure
-+ * @cfg: Pointer to sub device pad information structure
-+ *
-+ * This function is used to initialize the pad format with the default
-+ * values.
-+ *
-+ * Return: 0 on success
-+ */
-+static int xsdirxss_init_cfg(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_pad_config *cfg)
-+{
-+	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
-+	struct v4l2_mbus_framefmt *format;
-+
-+	format = v4l2_subdev_get_try_format(sd, cfg, 0);
-+	*format = xsdirxss->default_format;
-+
-+	return 0;
-+}
-+
-+/**
-+ * xsdirxss_get_set_format - This is used to get/set the pad format
-+ * @sd: Pointer to V4L2 Sub device structure
-+ * @cfg: Pointer to sub device pad information structure
-+ * @fmt: Pointer to pad level media bus format
-+ *
-+ * This function is used to get and set the pad format.
-+ * Since the pad format is fixed in hardware, it can't be
-+ * modified on run time. So set and get are same.
-+ *
-+ * Return: 0 on success
-+ */
-+static int xsdirxss_get_set_format(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_pad_config *cfg,
-+				   struct v4l2_subdev_format *fmt)
-+{
-+	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&xsdirxss->slock, flags);
-+	if (!xsdirxss->vidlocked) {
-+		spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+		dev_err(xsdirxss->dev, "Video not locked!\n");
-+		return -EINVAL;
-+	}
-+
-+	fmt->format = *__xsdirxss_get_pad_format(xsdirxss, cfg,
-+						 fmt->pad, fmt->which);
-+
-+	spin_unlock_irqrestore(&xsdirxss->slock, flags);
-+	dev_dbg(xsdirxss->dev,
-+		"stream width %d height %d code %d field %d colorspace %d xfer_func %d quantization %d\n",
-+		fmt->format.width, fmt->format.height,
-+		fmt->format.code, fmt->format.field,
-+		fmt->format.colorspace, fmt->format.xfer_func,
-+		fmt->format.quantization);
-+	return 0;
-+}
-+
-+/**
-+ * xsdirxss_enum_mbus_code - Handle pixel format enumeration
-+ * @sd: pointer to v4l2 subdev structure
-+ * @cfg: V4L2 subdev pad configuration
-+ * @code: pointer to v4l2_subdev_mbus_code_enum structure
-+ *
-+ * Return: -EINVAL or zero on success
-+ */
-+static int xsdirxss_enum_mbus_code(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_pad_config *cfg,
-+				   struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	struct xsdirxss_state *xsdirxss = to_xsdirxssstate(sd);
-+	u32 index = code->index;
-+	u32 maxindex;
-+
-+	if (xsdirxss->bpc == 10)
-+		maxindex = ARRAY_SIZE(xsdirxss_10bpc_mbus_fmts);
-+	else
-+		maxindex = ARRAY_SIZE(xsdirxss_12bpc_mbus_fmts);
-+
-+	if (code->pad || index >= maxindex)
-+		return -EINVAL;
-+
-+	if (xsdirxss->bpc == 10)
-+		code->code = xsdirxss_10bpc_mbus_fmts[index];
-+	else
-+		code->code = xsdirxss_12bpc_mbus_fmts[index];
-+
-+	return 0;
-+}
-+
-+/**
-+ * xsdirxss_enum_dv_timings - Enumerate all the supported DV timings
-+ * @sd: pointer to v4l2 subdev structure
-+ * @timings: DV timings structure to be returned.
-+ *
-+ * Return: -EINVAL incase of invalid index and pad or zero on success
-+ */
-+static int xsdirxss_enum_dv_timings(struct v4l2_subdev *sd,
-+				    struct v4l2_enum_dv_timings *timings)
-+{
-+	if (timings->index >= ARRAY_SIZE(fmt_cap))
-+		return -EINVAL;
-+
-+	if (timings->pad != 0)
-+		return -EINVAL;
-+
-+	timings->timings = fmt_cap[timings->index];
-+	return 0;
-+}
-+
-+/**
-+ * xsdirxss_query_dv_timings - Query for the current DV timings
-+ * @sd: pointer to v4l2 subdev structure
-+ * @timings: DV timings structure to be returned.
-+ *
-+ * Return: -ENOLCK when video is not locked, -ERANGE when corresponding timing
-+ * entry is not found or zero on success.
-+ */
-+static int xsdirxss_query_dv_timings(struct v4l2_subdev *sd,
-+				     struct v4l2_dv_timings *timings)
-+{
-+	struct xsdirxss_state *state = to_xsdirxssstate(sd);
-+	unsigned int i;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&state->slock, flags);
-+	if (!state->vidlocked) {
-+		spin_unlock_irqrestore(&state->slock, flags);
-+		return -ENOLCK;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(xsdirxss_dv_timings); i++) {
-+		if (state->format.width == xsdirxss_dv_timings[i].width &&
-+		    state->format.height == xsdirxss_dv_timings[i].height &&
-+		    state->frame_interval.denominator ==
-+		    (xsdirxss_dv_timings[i].fps * 1000)) {
-+			*timings = xsdirxss_dv_timings[i].timing;
-+			state->detected_timings_index = i;
-+			spin_unlock_irqrestore(&state->slock, flags);
-+			return 0;
-+		}
-+	}
-+	spin_unlock_irqrestore(&state->slock, flags);
-+
-+	return -ERANGE;
-+}
-+
-+static int xsdirxss_s_dv_timings(struct v4l2_subdev *sd,
-+				 struct v4l2_dv_timings *timings)
-+{
-+	struct xsdirxss_state *state = to_xsdirxssstate(sd);
-+	u32 i = state->detected_timings_index;
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&state->slock, flags);
-+	if (!state->vidlocked) {
-+		spin_unlock_irqrestore(&state->slock, flags);
-+		return -EINVAL;
-+	}
-+
-+	/* input timing should match query dv_timing */
-+	if (!v4l2_match_dv_timings(timings,
-+				   &xsdirxss_dv_timings[i].timing,
-+				   0, false)) {
-+		spin_unlock_irqrestore(&state->slock, flags);
-+		return -EINVAL;
-+	}
-+
-+	state->current_timings = *timings;
-+
-+	/* Update the media bus format */
-+	state->src_format = state->format;
-+	spin_unlock_irqrestore(&state->slock, flags);
-+
-+	return 0;
-+}
-+
-+static int xsdirxss_g_dv_timings(struct v4l2_subdev *sd,
-+				 struct v4l2_dv_timings *timings)
-+{
-+	struct xsdirxss_state *state = to_xsdirxssstate(sd);
-+
-+	*timings = state->current_timings;
-+	return 0;
-+}
-+
-+static int xsdirxss_dv_timings_cap(struct v4l2_subdev *sd,
-+				   struct v4l2_dv_timings_cap *cap)
-+{
-+	if (cap->pad != 0)
-+		return -EINVAL;
-+
-+	*cap = xsdirxss_timings_cap;
-+	return 0;
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * Media Operations
-+ */
-+
-+static const struct media_entity_operations xsdirxss_media_ops = {
-+	.link_validate = v4l2_subdev_link_validate
-+};
-+
-+static const struct v4l2_ctrl_ops xsdirxss_ctrl_ops = {
-+	.g_volatile_ctrl = xsdirxss_g_volatile_ctrl,
-+	.s_ctrl	= xsdirxss_s_ctrl
-+};
-+
-+static const struct v4l2_ctrl_config xsdirxss_edh_ctrls[] = {
-+	{
-+		.ops	= &xsdirxss_ctrl_ops,
-+		.id	= V4L2_CID_XILINX_SDIRX_EDH_ERROR_SOURCES,
-+		.name	= "SDI Rx : EDH Error Count Enable",
-+		.type	= V4L2_CTRL_TYPE_BITMASK,
-+		.min	= 0,
-+		.max	= XSDIRX_EDH_ALLERR_MASK,
-+		.def	= 0,
-+	}, {
-+		.ops	= &xsdirxss_ctrl_ops,
-+		.id	= V4L2_CID_XILINX_SDIRX_EDH_ERRCNT,
-+		.name	= "SDI Rx : EDH Error Count",
-+		.type	= V4L2_CTRL_TYPE_INTEGER,
-+		.min	= 0,
-+		.max	= 0xffff,
-+		.step	= 1,
-+		.def	= 0,
-+		.flags  = V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY,
-+	}, {
-+		.ops	= &xsdirxss_ctrl_ops,
-+		.id	= V4L2_CID_XILINX_SDIRX_EDH_STATUS,
-+		.name	= "SDI Rx : EDH Status",
-+		.type	= V4L2_CTRL_TYPE_INTEGER,
-+		.min	= 0,
-+		.max	= 0xffffffff,
-+		.step	= 1,
-+		.def	= 0,
-+		.flags  = V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY,
-+	}
-+};
-+
-+static const struct v4l2_ctrl_config xsdirxss_ctrls[] = {
-+	{
-+		.ops	= &xsdirxss_ctrl_ops,
-+		.id	= V4L2_CID_XILINX_SDIRX_FRAMER,
-+		.name	= "SDI Rx : Enable Framer",
-+		.type	= V4L2_CTRL_TYPE_BOOLEAN,
-+		.min	= false,
-+		.max	= true,
-+		.step	= 1,
-+		.def	= true,
-+	}, {
-+		.ops	= &xsdirxss_ctrl_ops,
-+		.id	= V4L2_CID_XILINX_SDIRX_VIDLOCK_WINDOW,
-+		.name	= "SDI Rx : Video Lock Window",
-+		.type	= V4L2_CTRL_TYPE_INTEGER,
-+		.min	= 0,
-+		.max	= 0xffffffff,
-+		.step	= 1,
-+		.def	= XSDIRX_DEFAULT_VIDEO_LOCK_WINDOW,
-+	}, {
-+		.ops	= &xsdirxss_ctrl_ops,
-+		.id	= V4L2_CID_XILINX_SDIRX_SEARCH_MODES,
-+		.name	= "SDI Rx : Modes search Mask",
-+		.type	= V4L2_CTRL_TYPE_BITMASK,
-+		.min	= 0,
-+		.max	= XSDIRX_DETECT_ALL_MODES,
-+		.def	= XSDIRX_DETECT_ALL_MODES,
-+	}, {
-+		.ops	= &xsdirxss_ctrl_ops,
-+		.id	= V4L2_CID_XILINX_SDIRX_MODE_DETECT,
-+		.name	= "SDI Rx : Mode Detect Status",
-+		.type	= V4L2_CTRL_TYPE_INTEGER,
-+		.min	= XSDIRX_MODE_SD_OFFSET,
-+		.max	= XSDIRX_MODE_12GF_OFFSET,
-+		.step	= 1,
-+		.flags  = V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY,
-+	}, {
-+		.ops	= &xsdirxss_ctrl_ops,
-+		.id	= V4L2_CID_XILINX_SDIRX_CRC,
-+		.name	= "SDI Rx : CRC Error status",
-+		.type	= V4L2_CTRL_TYPE_INTEGER,
-+		.min	= 0,
-+		.max	= 0xffffffff,
-+		.step	= 1,
-+		.def	= 0,
-+		.flags  = V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY,
-+	}, {
-+		.ops	= &xsdirxss_ctrl_ops,
-+		.id	= V4L2_CID_XILINX_SDIRX_TS_IS_INTERLACED,
-+		.name	= "SDI Rx : TS is Interlaced",
-+		.type	= V4L2_CTRL_TYPE_BOOLEAN,
-+		.min	= false,
-+		.max	= true,
-+		.def	= false,
-+		.step	= 1,
-+		.flags  = V4L2_CTRL_FLAG_VOLATILE | V4L2_CTRL_FLAG_READ_ONLY,
-+	},
-+};
-+
-+static const struct v4l2_subdev_core_ops xsdirxss_core_ops = {
-+	.log_status = xsdirxss_log_status,
-+	.subscribe_event = xsdirxss_subscribe_event,
-+	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-+};
-+
-+static const struct v4l2_subdev_video_ops xsdirxss_video_ops = {
-+	.g_frame_interval = xsdirxss_g_frame_interval,
-+	.s_stream = xsdirxss_s_stream,
-+	.g_input_status = xsdirxss_g_input_status,
-+	.query_dv_timings = xsdirxss_query_dv_timings,
-+	.g_dv_timings = xsdirxss_g_dv_timings,
-+	.s_dv_timings = xsdirxss_s_dv_timings,
-+};
-+
-+static const struct v4l2_subdev_pad_ops xsdirxss_pad_ops = {
-+	.init_cfg = xsdirxss_init_cfg,
-+	.get_fmt = xsdirxss_get_set_format,
-+	.set_fmt = xsdirxss_get_set_format,
-+	.enum_mbus_code = xsdirxss_enum_mbus_code,
-+	.enum_dv_timings = xsdirxss_enum_dv_timings,
-+	.dv_timings_cap = xsdirxss_dv_timings_cap,
-+};
-+
-+static const struct v4l2_subdev_ops xsdirxss_ops = {
-+	.core = &xsdirxss_core_ops,
-+	.video = &xsdirxss_video_ops,
-+	.pad = &xsdirxss_pad_ops
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * Platform Device Driver
-+ */
-+
-+static int xsdirxss_parse_of(struct xsdirxss_state *xsdirxss)
-+{
-+	struct device_node *node = xsdirxss->dev->of_node;
-+	struct device *dev = xsdirxss->dev;
-+	int ret;
-+
-+	xsdirxss->include_edh = of_property_read_bool(node, "xlnx,include-edh");
-+	dev_dbg(dev, "EDH property = %s\n",
-+		xsdirxss->include_edh ? "Present" : "Absent");
-+
-+	ret = of_property_read_u32(node, "xlnx,line-rate", &xsdirxss->mode);
-+	if (ret < 0) {
-+		dev_err(dev, "xlnx,line-rate property not found\n");
-+		return ret;
-+	}
-+
-+	if (xsdirxss->mode != XSDI_STD_3G && xsdirxss->mode != XSDI_STD_6G &&
-+	    xsdirxss->mode != XSDI_STD_12G_8DS) {
-+		dev_err(dev, "Invalid Line Rate\n");
-+		return -EINVAL;
-+	}
-+
-+	dev_dbg(dev, "SDI Rx Line Rate / mode = %d\n", xsdirxss->mode);
-+
-+	ret = of_property_read_u32(node, "xlnx,bpc", &xsdirxss->bpc);
-+	if (ret == -EINVAL) {
-+		xsdirxss->bpc = 10;
-+		dev_dbg(dev, "set default bpc as 10\n");
-+	} else if (ret < 0) {
-+		dev_err(dev, "failed to get xlnx,bpc\n");
-+		return ret;
-+	}
-+
-+	if (xsdirxss->bpc != 10 && xsdirxss->bpc != 12) {
-+		dev_err(dev, "bits per component=%u. Can be 10 or 12 only\n",
-+			xsdirxss->bpc);
-+		return -EINVAL;
-+	}
-+
-+	return ret;
-+}
-+
-+static int xsdirxss_probe(struct platform_device *pdev)
-+{
-+	struct v4l2_subdev *subdev;
-+	struct xsdirxss_state *xsdirxss;
-+	struct device *dev;
-+	int ret, irq;
-+	unsigned int num_ctrls, i;
-+
-+	xsdirxss = devm_kzalloc(&pdev->dev, sizeof(*xsdirxss), GFP_KERNEL);
-+	if (!xsdirxss)
-+		return -ENOMEM;
-+
-+	xsdirxss->dev = &pdev->dev;
-+	dev = xsdirxss->dev;
-+
-+	spin_lock_init(&xsdirxss->slock);
-+	ret = xsdirxss_parse_of(xsdirxss);
-+	if (ret < 0)
-+		return ret;
-+
-+	xsdirxss->iomem = devm_platform_ioremap_resource(pdev, 0);
-+	if (IS_ERR(xsdirxss->iomem))
-+		return PTR_ERR(xsdirxss->iomem);
-+
-+	xsdirxss->num_clks = ARRAY_SIZE(xsdirxss_clks);
-+	xsdirxss->clks = devm_kcalloc(dev, xsdirxss->num_clks,
-+				      sizeof(*xsdirxss->clks), GFP_KERNEL);
-+	if (!xsdirxss->clks)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < xsdirxss->num_clks; i++)
-+		xsdirxss->clks[i].id = xsdirxss_clks[i];
-+
-+	ret = devm_clk_bulk_get(dev, xsdirxss->num_clks, xsdirxss->clks);
-+	if (ret)
-+		return ret;
-+
-+	ret = clk_bulk_prepare_enable(xsdirxss->num_clks, xsdirxss->clks);
-+	if (ret)
-+		return ret;
-+
-+	/* Reset the core */
-+	xsdirx_streamflow_control(xsdirxss, false);
-+	XSDIRX_CORE_DISABLE(xsdirxss);
-+	/* Clear all interrupts */
-+	xsdirxss_set(xsdirxss, XSDIRX_ISR_REG, XSDIRX_INTR_ALL_MASK);
-+	xsdirxss_clr(xsdirxss, XSDIRX_IER_REG, XSDIRX_INTR_ALL_MASK);
-+	xsdirxss_set(xsdirxss, XSDIRX_IER_REG, XSDIRX_INTR_ALL_MASK);
-+	XSDIRX_GLOBAL_INTR_ENABLE(xsdirxss);
-+	xsdirxss_write(xsdirxss, XSDIRX_CRC_ERRCNT_REG, 0xffff);
-+
-+	/* Register interrupt handler */
-+	irq = platform_get_irq(pdev, 0);
-+	ret = devm_request_threaded_irq(dev, irq, NULL, xsdirxss_irq_handler,
-+					IRQF_ONESHOT, dev_name(dev), xsdirxss);
-+	if (ret) {
-+		dev_err(dev, "Err = %d Interrupt handler reg failed!\n",
-+			ret);
-+		goto clk_err;
-+	}
-+
-+	/* Initialize V4L2 subdevice and media entity */
-+	xsdirxss->pad.flags = MEDIA_PAD_FL_SOURCE;
-+
-+	/* Initialize the default format */
-+	if (xsdirxss->bpc == 10)
-+		xsdirxss->default_format.code = MEDIA_BUS_FMT_UYVY10_1X20;
-+	else
-+		xsdirxss->default_format.code = MEDIA_BUS_FMT_UYVY12_1X24;
-+	xsdirxss->default_format.field = V4L2_FIELD_NONE;
-+	xsdirxss->default_format.colorspace = V4L2_COLORSPACE_REC709;
-+	xsdirxss->default_format.width = XSDIRX_DEFAULT_WIDTH;
-+	xsdirxss->default_format.height = XSDIRX_DEFAULT_HEIGHT;
-+	xsdirxss->default_format.xfer_func = V4L2_XFER_FUNC_709;
-+	xsdirxss->default_format.quantization = V4L2_QUANTIZATION_LIM_RANGE;
-+
-+	xsdirxss->format = xsdirxss->default_format;
-+
-+	/* Initialize V4L2 subdevice and media entity */
-+	subdev = &xsdirxss->subdev;
-+	v4l2_subdev_init(subdev, &xsdirxss_ops);
-+
-+	subdev->dev = &pdev->dev;
-+	strscpy(subdev->name, dev_name(dev), sizeof(subdev->name));
-+
-+	subdev->flags = V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_HAS_DEVNODE;
-+
-+	subdev->entity.ops = &xsdirxss_media_ops;
-+
-+	v4l2_set_subdevdata(subdev, xsdirxss);
-+
-+	ret = media_entity_pads_init(&subdev->entity, 1, &xsdirxss->pad);
-+	if (ret < 0)
-+		goto error;
-+
-+	/* Initialise and register the controls */
-+	num_ctrls = ARRAY_SIZE(xsdirxss_ctrls);
-+
-+	if (xsdirxss->include_edh)
-+		num_ctrls += ARRAY_SIZE(xsdirxss_edh_ctrls);
-+
-+	v4l2_ctrl_handler_init(&xsdirxss->ctrl_handler, num_ctrls);
-+
-+	for (i = 0; i < ARRAY_SIZE(xsdirxss_ctrls); i++) {
-+		struct v4l2_ctrl *ctrl;
-+
-+		dev_dbg(dev, "%d %s ctrl = 0x%x\n", i, xsdirxss_ctrls[i].name,
-+			xsdirxss_ctrls[i].id);
-+
-+		ctrl = v4l2_ctrl_new_custom(&xsdirxss->ctrl_handler,
-+					    &xsdirxss_ctrls[i], NULL);
-+	}
-+
-+	if (xsdirxss->include_edh) {
-+		for (i = 0; i < ARRAY_SIZE(xsdirxss_edh_ctrls); i++) {
-+			struct v4l2_ctrl *ctrl;
-+
-+			dev_dbg(dev, "%d %s ctrl = 0x%x\n", i,
-+				xsdirxss_edh_ctrls[i].name,
-+				xsdirxss_edh_ctrls[i].id);
-+
-+			ctrl = v4l2_ctrl_new_custom(&xsdirxss->ctrl_handler,
-+						    &xsdirxss_edh_ctrls[i],
-+						    NULL);
-+		}
-+	}
-+
-+	if (xsdirxss->ctrl_handler.error) {
-+		dev_err(dev, "failed to add controls\n");
-+		ret = xsdirxss->ctrl_handler.error;
-+		goto error;
-+	}
-+
-+	subdev->ctrl_handler = &xsdirxss->ctrl_handler;
-+
-+	ret = v4l2_ctrl_handler_setup(&xsdirxss->ctrl_handler);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to set controls\n");
-+		goto error;
-+	}
-+
-+	platform_set_drvdata(pdev, xsdirxss);
-+
-+	ret = v4l2_async_register_subdev(subdev);
-+	if (ret < 0) {
-+		dev_err(dev, "failed to register subdev\n");
-+		goto error;
-+	}
-+
-+	xsdirxss->prev_is_frac = -1;
-+
-+	XSDIRX_CORE_ENABLE(xsdirxss);
-+
-+	return 0;
-+error:
-+	v4l2_ctrl_handler_free(&xsdirxss->ctrl_handler);
-+	media_entity_cleanup(&subdev->entity);
-+	XSDIRX_GLOBAL_INTR_DISABLE(xsdirxss);
-+	xsdirxss_clr(xsdirxss, XSDIRX_IER_REG, XSDIRX_INTR_ALL_MASK);
-+clk_err:
-+	clk_bulk_disable_unprepare(xsdirxss->num_clks, xsdirxss->clks);
-+	return ret;
-+}
-+
-+static int xsdirxss_remove(struct platform_device *pdev)
-+{
-+	struct xsdirxss_state *xsdirxss = platform_get_drvdata(pdev);
-+	struct v4l2_subdev *subdev = &xsdirxss->subdev;
-+
-+	XSDIRX_CORE_DISABLE(xsdirxss);
-+	XSDIRX_GLOBAL_INTR_DISABLE(xsdirxss);
-+	xsdirxss_clr(xsdirxss, XSDIRX_IER_REG, XSDIRX_INTR_ALL_MASK);
-+	xsdirx_streamflow_control(xsdirxss, false);
-+
-+	v4l2_async_unregister_subdev(subdev);
-+	v4l2_ctrl_handler_free(&xsdirxss->ctrl_handler);
-+	media_entity_cleanup(&subdev->entity);
-+
-+	clk_bulk_disable_unprepare(xsdirxss->num_clks, xsdirxss->clks);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id xsdirxss_of_id_table[] = {
-+	{ .compatible = "xlnx,v-smpte-uhdsdi-rx-ss-2.0" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, xsdirxss_of_id_table);
-+
-+static struct platform_driver xsdirxss_driver = {
-+	.driver = {
-+		.name		= "xilinx-sdirxss",
-+		.of_match_table	= xsdirxss_of_id_table,
-+	},
-+	.probe			= xsdirxss_probe,
-+	.remove			= xsdirxss_remove,
-+};
-+
-+module_platform_driver(xsdirxss_driver);
-+
-+MODULE_AUTHOR("Vishal Sagar <vsagar@xilinx.com>");
-+MODULE_DESCRIPTION("Xilinx SDI Rx Subsystem Driver");
-+MODULE_LICENSE("GPL v2");
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 62271418c1be..9526a6acc6f4 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -198,6 +198,12 @@ enum v4l2_colorfx {
-  */
- #define V4L2_CID_USER_ATMEL_ISC_BASE		(V4L2_CID_USER_BASE + 0x10c0)
- 
-+/*
-+ * The base for the Xilinx SDI Rx driver controls.
-+ * We reserve 16 controls for this driver.
-+ */
-+#define V4L2_CID_USER_XILINX_SDIRX_BASE		(V4L2_CID_USER_BASE + 0x10e0)
-+
- /* MPEG-class control IDs */
- /* The MPEG controls are applicable to all codec controls
-  * and the 'MPEG' part of the define is historical */
-diff --git a/include/uapi/linux/xilinx-sdirxss.h b/include/uapi/linux/xilinx-sdirxss.h
-new file mode 100644
-index 000000000000..1bcbf5852b22
---- /dev/null
-+++ b/include/uapi/linux/xilinx-sdirxss.h
-@@ -0,0 +1,283 @@
-+/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
-+/*
-+ * Xilinx SDI Rx Subsystem mode, event, custom timings and
-+ * flag definitions.
-+ *
-+ * Copyright (C) 2019 - 2020 Xilinx, Inc.
-+ *
-+ * Contacts: Vishal Sagar <vishal.sagar@xilinx.com>
-+ */
-+
-+#ifndef __UAPI_XILINX_SDIRXSS_H__
-+#define __UAPI_XILINX_SDIRXSS_H__
-+
-+#include <linux/types.h>
-+#include <linux/v4l2-controls.h>
-+#include <linux/v4l2-dv-timings.h>
-+#include <linux/videodev2.h>
-+
-+/*
-+ * Events
-+ *
-+ * V4L2_EVENT_XILINX_SDIRX_UND_OVR_FLOW: Video in to AXI4 Stream core
-+ * under/overflowed during a resolution or frame rate change.
-+ */
-+#define V4L2_EVENT_XILINX_SDIRX_CLASS      (V4L2_EVENT_PRIVATE_START | 0x200)
-+#define V4L2_EVENT_XILINX_SDIRX_UND_OVR_FLOW	\
-+					(V4L2_EVENT_XILINX_SDIRX_CLASS | 0x1)
-+
-+#define XILINX_SDIRX_UNDERFLOW_EVENT	BIT(1)
-+#define XILINX_SDIRX_OVERFLOW_EVENT	BIT(2)
-+/*
-+ * This enum is used to prepare the bitmask of modes to be detected
-+ */
-+enum {
-+	XSDIRX_MODE_SD_OFFSET = 0,
-+	XSDIRX_MODE_HD_OFFSET,
-+	XSDIRX_MODE_3GA_OFFSET,
-+	XSDIRX_MODE_3GB_OFFSET,
-+	XSDIRX_MODE_6G_OFFSET,
-+	XSDIRX_MODE_12GI_OFFSET,
-+	XSDIRX_MODE_12GF_OFFSET,
-+	XSDIRX_MODE_NUM_SUPPORTED,
-+};
-+
-+#define XSDIRX_DETECT_ALL_MODES		(BIT(XSDIRX_MODE_SD_OFFSET) | \
-+					BIT(XSDIRX_MODE_HD_OFFSET) | \
-+					BIT(XSDIRX_MODE_3GA_OFFSET) | \
-+					BIT(XSDIRX_MODE_3GB_OFFSET) | \
-+					BIT(XSDIRX_MODE_6G_OFFSET) | \
-+					BIT(XSDIRX_MODE_12GI_OFFSET) | \
-+					BIT(XSDIRX_MODE_12GF_OFFSET))
-+
-+/*
-+ * EDH - Error Detection and Handling.
-+ * In the SD-SDI mode, the UHD-SDI core fully supports RP 165.
-+ * The bitmask is named as XSDIRX_EDH_ERRCNT_XX_YY_ERR except
-+ * for packet checksum error.
-+ *
-+ * XX - EDH Error Types
-+ * ANC - Ancillary Data Packet Errors
-+ * FF - Full Field Errors
-+ * AP - Active Portion Errors
-+ *
-+ * YY - Error Flags
-+ * EDH - error detected here
-+ * EDA - error Detected already
-+ * IDH - internal error detected here
-+ * IDA - internal error detected already
-+ * UES - unknown error status
-+ *
-+ * Refer to Sec 4.3 Error Flags in RP 165-1994 for details
-+ */
-+
-+#define XSDIRX_EDH_ERRCNT_ANC_EDH_ERR		BIT(0)
-+#define XSDIRX_EDH_ERRCNT_ANC_EDA_ERR		BIT(1)
-+#define XSDIRX_EDH_ERRCNT_ANC_IDH_ERR		BIT(2)
-+#define XSDIRX_EDH_ERRCNT_ANC_IDA_ERR		BIT(3)
-+#define XSDIRX_EDH_ERRCNT_ANC_UES_ERR		BIT(4)
-+#define XSDIRX_EDH_ERRCNT_FF_EDH_ERR		BIT(5)
-+#define XSDIRX_EDH_ERRCNT_FF_EDA_ERR		BIT(6)
-+#define XSDIRX_EDH_ERRCNT_FF_IDH_ERR		BIT(7)
-+#define XSDIRX_EDH_ERRCNT_FF_IDA_ERR		BIT(8)
-+#define XSDIRX_EDH_ERRCNT_FF_UES_ERR		BIT(9)
-+#define XSDIRX_EDH_ERRCNT_AP_EDH_ERR		BIT(10)
-+#define XSDIRX_EDH_ERRCNT_AP_EDA_ERR		BIT(11)
-+#define XSDIRX_EDH_ERRCNT_AP_IDH_ERR		BIT(12)
-+#define XSDIRX_EDH_ERRCNT_AP_IDA_ERR		BIT(13)
-+#define XSDIRX_EDH_ERRCNT_AP_UES_ERR		BIT(14)
-+#define XSDIRX_EDH_ERRCNT_PKT_CHKSUM_ERR	BIT(15)
-+
-+#define XSDIRX_EDH_ALLERR_MASK		0xFFFF
-+
-+/*
-+ * V4L2 Controls - We reserved 16 controls for this driver.
-+ *
-+ * The V4L2_CID_XILINX_SDIRX_EDH_* controls are present only if
-+ * EDH is enabled.
-+ * The controls which can be set should only be set before enabling
-+ * streaming. The controls which can be got should be called while
-+ * streaming to get correct values.
-+ * The V4L2_CID_XILINX_SDIRX_MODE_DETECT can be called when query dv timing
-+ * returns a valid timing.
-+ */
-+
-+/*
-+ * Framer Control to enable or disable the framer. When this is set, the framer
-+ * automatically readjusts the output word alignment to match the alignment of
-+ * each timing reference signal(TRS). Normally this should be set. But user may
-+ * control this input to implement TRS filtering to prevent a signal misaligned
-+ * TRS from causing erroneous alignment changes.
-+ * Refer to PG205 rx_frame_en for more details.
-+ */
-+#define V4L2_CID_XILINX_SDIRX_FRAMER		(V4L2_CID_USER_XILINX_SDIRX_BASE + 1)
-+
-+/*
-+ * Video Lock Window Control to set the video lock window value
-+ * This is the amount of time the mode and transport stream need
-+ * to be locked before a video lock interrupt occurs.
-+ */
-+#define V4L2_CID_XILINX_SDIRX_VIDLOCK_WINDOW	(V4L2_CID_USER_XILINX_SDIRX_BASE + 2)
-+
-+/*
-+ * EDH Error Mask Control to enable EDH error count
-+ * This control takes in the bitmask of XSDIRX_EDH_ERRCNT_*_ERR to enable counting
-+ * such errors.
-+ */
-+#define V4L2_CID_XILINX_SDIRX_EDH_ERROR_SOURCES	(V4L2_CID_USER_XILINX_SDIRX_BASE + 3)
-+
-+/*
-+ * Mode search Control to pass the bit mask of modes to detect.
-+ * If only 1 bit is set, the driver programs IP to be in fixed mode else
-+ * in multi detection mode.
-+ *
-+ * Set this when not streaming.
-+ *
-+ * bit 0 set to detect SD  mode,
-+ * bit 1 set to detect HD  mode,
-+ * bit 2 set to detect 3GA mode,
-+ * bit 3 set to detect 3GB mode,
-+ * bit 4 set to detect 6G  mode,
-+ * bit 5 set to detect 12G integer frame rate mode,
-+ * bit 6 set to detect 12G fractional frame rate mode,
-+ */
-+#define V4L2_CID_XILINX_SDIRX_SEARCH_MODES	(V4L2_CID_USER_XILINX_SDIRX_BASE + 4)
-+
-+/*
-+ * Get Detected SDI Mode control (read only)
-+ *
-+ * Control Value - Mode detected
-+ *        0      -     SD
-+ *        1      -     HD
-+ *        2      -     3GA
-+ *        3      -     3GB
-+ *        4      -     6G
-+ *        5      -     12G integer frame rate
-+ *        6      -     12G fractional frame rate
-+ */
-+#define V4L2_CID_XILINX_SDIRX_MODE_DETECT	(V4L2_CID_USER_XILINX_SDIRX_BASE + 5)
-+
-+/* Get number of CRC errors status control
-+ *
-+ * When a CRC is detected on a line, the CRC error signal of that data stream
-+ * becomes asserted starting a few clock cycles after the last CRC word is
-+ * output on the data stream ports following the EAV that ends the line
-+ * containing the error. The CRC signal remains asserted for one line time.
-+ *
-+ * The LSB 16 bits of value returned by thsi control represent the error
-+ * signal on each of 16 data streams. The MSB 16 bits contains the accumulated
-+ * error count.
-+ *
-+ * Refer to PG205 rx_crc_err_dsX (X = 1 to 16) description for details.
-+ */
-+#define V4L2_CID_XILINX_SDIRX_CRC		(V4L2_CID_USER_XILINX_SDIRX_BASE + 6)
-+
-+/*
-+ * Get EDH error count control
-+ *
-+ * Reading this control will give the number of EDH errors occurred based
-+ * on the bitmask passed in V4L2_CID_XILINX_SDIRX_EDH_ERROR_SOURCES.
-+ *
-+ * It increments once per field when any of the error conditions enabled by
-+ * the RX_EDH_ERRCNT_EN register bit(s) occur during that field.
-+ *
-+ * Refer to PG205 rx_edh_errcnt
-+ */
-+#define V4L2_CID_XILINX_SDIRX_EDH_ERRCNT	(V4L2_CID_USER_XILINX_SDIRX_BASE + 7)
-+
-+/*
-+ * Get EDH status control
-+ *
-+ * This control returns the RX_EDH_STS register contents.
-+ * Refer to PG290 register space section for more details.
-+ */
-+#define V4L2_CID_XILINX_SDIRX_EDH_STATUS	(V4L2_CID_USER_XILINX_SDIRX_BASE + 8)
-+
-+/* Get Transport Interlaced status whether it is interlaced or not */
-+#define V4L2_CID_XILINX_SDIRX_TS_IS_INTERLACED	(V4L2_CID_USER_XILINX_SDIRX_BASE + 9)
-+
-+/*
-+ * Xilinx DV timings
-+ * TODO - Remove these once they are in v4l2-dv-timings.h
-+ */
-+#define XLNX_V4L2_DV_BT_2048X1080P24 { \
-+	.type = V4L2_DV_BT_656_1120, \
-+	V4L2_INIT_BT_TIMINGS(2048, 1080, 0, \
-+		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
-+		74250000, 510, 44, 148, 4, 5, 36, 0, 0, 0, \
-+		V4L2_DV_BT_STD_SDI) \
-+}
-+
-+#define XLNX_V4L2_DV_BT_2048X1080P25 { \
-+	.type = V4L2_DV_BT_656_1120, \
-+	V4L2_INIT_BT_TIMINGS(2048, 1080, 0, \
-+		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
-+		74250000, 400, 44, 148, 4, 5, 36, 0, 0, 0, \
-+		V4L2_DV_BT_STD_SDI) \
-+}
-+
-+#define XLNX_V4L2_DV_BT_2048X1080P30 { \
-+	.type = V4L2_DV_BT_656_1120, \
-+	V4L2_INIT_BT_TIMINGS(2048, 1080, 0, \
-+		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
-+		74250000, 66, 20, 66, 4, 5, 36, 0, 0, 0, \
-+		V4L2_DV_BT_STD_SDI) \
-+}
-+
-+#define XLNX_V4L2_DV_BT_2048X1080I48 { \
-+	.type = V4L2_DV_BT_656_1120, \
-+	V4L2_INIT_BT_TIMINGS(2048, 1080, 1, \
-+		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
-+		74250000, 329, 44, 329, 2, 5, 15, 3, 5, 15, \
-+		V4L2_DV_BT_STD_SDI) \
-+}
-+
-+#define XLNX_V4L2_DV_BT_2048X1080I50 { \
-+	.type = V4L2_DV_BT_656_1120, \
-+	V4L2_INIT_BT_TIMINGS(2048, 1080, 1, \
-+		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
-+		74250000, 274, 44, 274, 2, 5, 15, 3, 5, 15, \
-+		V4L2_DV_BT_STD_SDI) \
-+}
-+
-+#define XLNX_V4L2_DV_BT_2048X1080I60 { \
-+	.type = V4L2_DV_BT_656_1120, \
-+	V4L2_INIT_BT_TIMINGS(2048, 1080, 1, \
-+		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
-+		74250000, 66, 20, 66, 2, 5, 15, 3, 5, 15, \
-+		V4L2_DV_BT_STD_SDI) \
-+}
-+
-+#define XLNX_V4L2_DV_BT_2048X1080P48 { \
-+	.type = V4L2_DV_BT_656_1120, \
-+	V4L2_INIT_BT_TIMINGS(2048, 1080, 0, \
-+		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
-+		148500000, 510, 44, 148, 4, 5, 36, 0, 0, 0, \
-+		V4L2_DV_BT_STD_SDI) \
-+}
-+
-+#define XLNX_V4L2_DV_BT_2048X1080P50 { \
-+	.type = V4L2_DV_BT_656_1120, \
-+	V4L2_INIT_BT_TIMINGS(2048, 1080, 0, \
-+		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
-+		148500000, 400, 44, 148, 4, 5, 36, 0, 0, 0, \
-+		V4L2_DV_BT_STD_SDI) \
-+}
-+
-+#define XLNX_V4L2_DV_BT_2048X1080P60 { \
-+	.type = V4L2_DV_BT_656_1120, \
-+	V4L2_INIT_BT_TIMINGS(2048, 1080, 0, \
-+		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
-+		148500000, 88, 44, 20, 4, 5, 36, 0, 0, 0, \
-+		V4L2_DV_BT_STD_SDI) \
-+}
-+
-+#define XLNX_V4L2_DV_BT_1920X1080I48 { \
-+	.type = V4L2_DV_BT_656_1120, \
-+	V4L2_INIT_BT_TIMINGS(1920, 1080, 1, \
-+		V4L2_DV_HSYNC_POS_POL | V4L2_DV_VSYNC_POS_POL, \
-+		148500000, 371, 88, 371, 2, 5, 15, 3, 5, 15, \
-+		V4L2_DV_BT_STD_SDI) \
-+}
-+
-+#endif /* __UAPI_XILINX_SDIRXSS_H__ */
--- 
-2.21.0
-
+--ReaqsoxgOBHFXBhH--
