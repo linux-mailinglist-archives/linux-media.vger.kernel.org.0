@@ -2,35 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AD2B1FEEFD
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 11:51:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D26D61FEF1C
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 11:59:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729272AbgFRJvk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 05:51:40 -0400
-Received: from smtp4-g21.free.fr ([212.27.42.4]:51292 "EHLO smtp4-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729060AbgFRJvk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 05:51:40 -0400
-Received: from [192.168.1.91] (unknown [77.207.133.132])
-        (Authenticated sender: marc.w.gonzalez)
-        by smtp4-g21.free.fr (Postfix) with ESMTPSA id B434C19F5B2;
-        Thu, 18 Jun 2020 11:50:54 +0200 (CEST)
-Subject: Re: [RFC 4/4] media: dvb_frontend: disable zigzag mode if not
- possible
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>
-Cc:     Brad Love <brad@nextdimension.cc>, Sean Young <sean@mess.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        LKML <linux-kernel@vger.kernel.org>
-References: <cover.1592419750.git.mchehab+huawei@kernel.org>
- <974065921c41fa0c97700196de1d921c95fafaaf.1592419750.git.mchehab+huawei@kernel.org>
-From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
-Message-ID: <20bb2501-8307-185e-ebec-a83488353a0b@free.fr>
-Date:   Thu, 18 Jun 2020 11:50:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1728287AbgFRJ7A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 05:59:00 -0400
+Received: from mail29.static.mailgun.info ([104.130.122.29]:28456 "EHLO
+        mail29.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728307AbgFRJ65 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 18 Jun 2020 05:58:57 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1592474336; h=Content-Transfer-Encoding: Content-Type:
+ In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
+ Subject: Sender; bh=rNkhuxG99K8tVZNE3kdPTirsJ1GISBhhATer2cIRmW8=; b=TCQLCkPpBB1lF9C76iXW3ck+XqYSkQ46hdyOfzf+1GxkpHl063Dw24YmZm7dK8EoiEPFyDPA
+ moDBef4UVuYsNc9RL1LXZl1FVnOSRu66kMbbsWGRfYhHgEVoNWg+zThpMZXWIcRpmXa+V/YT
+ z2XPMBHENER2Hgs7zI9SWwZgw7s=
+X-Mailgun-Sending-Ip: 104.130.122.29
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n13.prod.us-east-1.postgun.com with SMTP id
+ 5eeb3ae0356bcc26ab78b08b (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 18 Jun 2020 09:58:56
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 4EC0FC43395; Thu, 18 Jun 2020 09:58:55 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from [192.168.1.102] (unknown [183.83.143.239])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: charante)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id AC27AC433C8;
+        Thu, 18 Jun 2020 09:58:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org AC27AC433C8
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=charante@codeaurora.org
+Subject: Re: [PATCH] dmabuf: use spinlock to access dmabuf->name
+To:     "Ruhl, Michael J" <michael.j.ruhl@intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>
+Cc:     Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+        "vinmenon@codeaurora.org" <vinmenon@codeaurora.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+References: <316a5cf9-ca71-6506-bf8b-e79ded9055b2@codeaurora.org>
+ <14063C7AD467DE4B82DEDB5C278E8663010F365EF5@fmsmsx107.amr.corp.intel.com>
+ <14063C7AD467DE4B82DEDB5C278E8663010F365F7D@fmsmsx107.amr.corp.intel.com>
+ <5b960c9a-ef9d-b43d-716d-113efc793fe5@codeaurora.org>
+ <14063C7AD467DE4B82DEDB5C278E866301154B8339@FMSMSX108.amr.corp.intel.com>
+From:   Charan Teja Kalla <charante@codeaurora.org>
+Message-ID: <3ce92582-479e-caf2-1bf1-ffd99970403a@codeaurora.org>
+Date:   Thu, 18 Jun 2020 15:28:49 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <974065921c41fa0c97700196de1d921c95fafaaf.1592419750.git.mchehab+huawei@kernel.org>
+In-Reply-To: <14063C7AD467DE4B82DEDB5C278E866301154B8339@FMSMSX108.amr.corp.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -39,112 +72,266 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/06/2020 20:52, Mauro Carvalho Chehab wrote:
 
-> For the zigzag to work, the core needs to have a frequency
-> shift. Without that, the zigzag code will just try re-tuning
-> several times at the very same frequency, with seems wrong.
 
-s/with/which
-
-Suggest: "the core requires a frequency shift value"
-
-> So, add a warning when this happens, and fall back to the
-> single-shot mode.
+On 6/17/2020 11:13 PM, Ruhl, Michael J wrote:
+>> -----Original Message-----
+>> From: charante=codeaurora.org@mg.codeaurora.org
+>> <charante=codeaurora.org@mg.codeaurora.org> On Behalf Of Charan Teja
+>> Kalla
+>> Sent: Wednesday, June 17, 2020 2:29 AM
+>> To: Ruhl, Michael J <michael.j.ruhl@intel.com>; Sumit Semwal
+>> <sumit.semwal@linaro.org>; open list:DMA BUFFER SHARING FRAMEWORK
+>> <linux-media@vger.kernel.org>; DRI mailing list <dri-
+>> devel@lists.freedesktop.org>
+>> Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>;
+>> vinmenon@codeaurora.org; LKML <linux-kernel@vger.kernel.org>;
+>> stable@vger.kernel.org
+>> Subject: Re: [PATCH] dmabuf: use spinlock to access dmabuf->name
+>>
+>> Thanks Michael for the comments..
+>>
+>> On 6/16/2020 7:29 PM, Ruhl, Michael J wrote:
+>>>> -----Original Message-----
+>>>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>>>> Ruhl, Michael J
+>>>> Sent: Tuesday, June 16, 2020 9:51 AM
+>>>> To: Charan Teja Kalla <charante@codeaurora.org>; Sumit Semwal
+>>>> <sumit.semwal@linaro.org>; open list:DMA BUFFER SHARING
+>> FRAMEWORK
+>>>> <linux-media@vger.kernel.org>; DRI mailing list <dri-
+>>>> devel@lists.freedesktop.org>
+>>>> Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>;
+>>>> vinmenon@codeaurora.org; LKML <linux-kernel@vger.kernel.org>;
+>>>> stable@vger.kernel.org
+>>>> Subject: RE: [PATCH] dmabuf: use spinlock to access dmabuf->name
+>>>>
+>>>>> -----Original Message-----
+>>>>> From: dri-devel <dri-devel-bounces@lists.freedesktop.org> On Behalf Of
+>>>>> Charan Teja Kalla
+>>>>> Sent: Thursday, June 11, 2020 9:40 AM
+>>>>> To: Sumit Semwal <sumit.semwal@linaro.org>; open list:DMA BUFFER
+>>>>> SHARING FRAMEWORK <linux-media@vger.kernel.org>; DRI mailing list
+>> <dri-
+>>>>> devel@lists.freedesktop.org>
+>>>>> Cc: Linaro MM SIG <linaro-mm-sig@lists.linaro.org>;
+>>>>> vinmenon@codeaurora.org; LKML <linux-kernel@vger.kernel.org>;
+>>>>> stable@vger.kernel.org
+>>>>> Subject: [PATCH] dmabuf: use spinlock to access dmabuf->name
+>>>>>
+>>>>> There exists a sleep-while-atomic bug while accessing the dmabuf->name
+>>>>> under mutex in the dmabuffs_dname(). This is caused from the SELinux
+>>>>> permissions checks on a process where it tries to validate the inherited
+>>>>> files from fork() by traversing them through iterate_fd() (which
+>>>>> traverse files under spin_lock) and call
+>>>>> match_file(security/selinux/hooks.c) where the permission checks
+>> happen.
+>>>>> This audit information is logged using dump_common_audit_data()
+>> where it
+>>>>> calls d_path() to get the file path name. If the file check happen on
+>>>>> the dmabuf's fd, then it ends up in ->dmabuffs_dname() and use mutex
+>> to
+>>>>> access dmabuf->name. The flow will be like below:
+>>>>> flush_unauthorized_files()
+>>>>>  iterate_fd()
+>>>>>    spin_lock() --> Start of the atomic section.
+>>>>>      match_file()
+>>>>>        file_has_perm()
+>>>>>          avc_has_perm()
+>>>>>            avc_audit()
+>>>>>              slow_avc_audit()
+>>>>> 	        common_lsm_audit()
+>>>>> 		  dump_common_audit_data()
+>>>>> 		    audit_log_d_path()
+>>>>> 		      d_path()
+>>>>>                        dmabuffs_dname()
+>>>>>                          mutex_lock()--> Sleep while atomic.
+>>>>>
+>>>>> Call trace captured (on 4.19 kernels) is below:
+>>>>> ___might_sleep+0x204/0x208
+>>>>> __might_sleep+0x50/0x88
+>>>>> __mutex_lock_common+0x5c/0x1068
+>>>>> __mutex_lock_common+0x5c/0x1068
+>>>>> mutex_lock_nested+0x40/0x50
+>>>>> dmabuffs_dname+0xa0/0x170
+>>>>> d_path+0x84/0x290
+>>>>> audit_log_d_path+0x74/0x130
+>>>>> common_lsm_audit+0x334/0x6e8
+>>>>> slow_avc_audit+0xb8/0xf8
+>>>>> avc_has_perm+0x154/0x218
+>>>>> file_has_perm+0x70/0x180
+>>>>> match_file+0x60/0x78
+>>>>> iterate_fd+0x128/0x168
+>>>>> selinux_bprm_committing_creds+0x178/0x248
+>>>>> security_bprm_committing_creds+0x30/0x48
+>>>>> install_exec_creds+0x1c/0x68
+>>>>> load_elf_binary+0x3a4/0x14e0
+>>>>> search_binary_handler+0xb0/0x1e0
+>>>>>
+>>>>> So, use spinlock to access dmabuf->name to avoid sleep-while-atomic.
+>>>>>
+>>>>> Cc: <stable@vger.kernel.org> [5.3+]
+>>>>> Signed-off-by: Charan Teja Reddy <charante@codeaurora.org>
+>>>>> ---
+>>>>> drivers/dma-buf/dma-buf.c | 13 +++++++------
+>>>>> include/linux/dma-buf.h   |  1 +
+>>>>> 2 files changed, 8 insertions(+), 6 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+>>>>> index 01ce125..2e0456c 100644
+>>>>> --- a/drivers/dma-buf/dma-buf.c
+>>>>> +++ b/drivers/dma-buf/dma-buf.c
+>>>>> @@ -45,10 +45,10 @@ static char *dmabuffs_dname(struct dentry
+>> *dentry,
+>>>>> char *buffer, int buflen)
+>>>>> 	size_t ret = 0;
+>>>>>
+>>>>> 	dmabuf = dentry->d_fsdata;
+>>>>> -	dma_resv_lock(dmabuf->resv, NULL);
+>>>>> +	spin_lock(&dmabuf->name_lock);
+>>>>> 	if (dmabuf->name)
+>>>>> 		ret = strlcpy(name, dmabuf->name, DMA_BUF_NAME_LEN);
+>>>>> -	dma_resv_unlock(dmabuf->resv);
+>>>>> +	spin_unlock(&dmabuf->name_lock);
+>>>>
+>>>> I am not really clear on why you need this lock.
+>>>>
+>>>> If name == NULL you have no issues.
+>>>> If name is real, you have no issues.
+>>
+>> Yeah, ideal cases...
+>>
+>>>>
+>>>> If name is freed you will copy garbage, but the only way
+>>>> for that to happen is that _set_name or _release have to be called
+>>>> at just the right time.
+>>>>
+>>>> And the above would probably only be an issue if the set_name
+>>>> was called, so you will get NULL or a real name.
+>>
+>> And there exists a use-after-free to avoid which requires the lock. Say
+>> that memcpy() in dmabuffs_dname is in progress and in parallel _set_name
+>> will free the same buffer that memcpy is operating on.
 > 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  drivers/media/dvb-core/dvb_frontend.c | 141 +++++++++++++++-----------
->  1 file changed, 79 insertions(+), 62 deletions(-)
+> Hmm...  I can see that.
+> 
+> However, note that in dma_buf_set_name, you cannot use the spinlock
+> to protect the dma_buf->attachements list.
+> 
+> I think you need to do this:
+> 
+> 	dma_resv_lock(dmabuf->resv, NULL);
+>  	if (!list_empty(&dmabuf->attachments)) {
+>  		ret = -EBUSY;
+>  		kfree(name);
+>               }
+> 	dma_resv_unlock(dmabuf->resv, NULL);
+> 	if (ret)
+> 		return ret;
+> 
+> 	spinlock(nam_lock)
+> 	namestuff;
+> 	spinunlock
 
-It's hard to discern in the diff what is just white-space adjustment
-from one less tab, and what is new code that requires more scrutiny.
-I'll try applying the patch, and then diff -w.
-Yes, that's much better.
+Hmm..Yes, I should use the dma_resv_lock() to access the ->attachments
+list. Will correct this in V2.
 
-> diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
-> index ed85dc2a9183..cb577924121e 100644
-> --- a/drivers/media/dvb-core/dvb_frontend.c
-> +++ b/drivers/media/dvb-core/dvb_frontend.c
-> @@ -642,6 +642,9 @@ static void dvb_frontend_wakeup(struct dvb_frontend *fe)
->  	wake_up_interruptible(&fepriv->wait_queue);
->  }
->  
-> +static u32 dvb_frontend_get_stepsize(struct dvb_frontend *fe);
-> +static void prepare_tuning_algo_parameters(struct dvb_frontend *fe);
-> +
->  static int dvb_frontend_thread(void *data)
->  {
->  	struct dvb_frontend *fe = data;
-> @@ -696,78 +699,92 @@ static int dvb_frontend_thread(void *data)
->  			fepriv->reinitialise = 0;
->  		}
->  
-> -		/* do an iteration of the tuning loop */
-> -		if (fe->ops.get_frontend_algo) {
-> +		if (fe->ops.get_frontend_algo)
->  			algo = fe->ops.get_frontend_algo(fe);
-> -			switch (algo) {
-> -			case DVBFE_ALGO_HW:
-> -				dev_dbg(fe->dvb->device, "%s: Frontend ALGO = DVBFE_ALGO_HW\n", __func__);
-> +		else
-> +			algo = DVBFE_ALGO_SW;
->  
-> -				if (fepriv->state & FESTATE_RETUNE) {
-> -					dev_dbg(fe->dvb->device, "%s: Retune requested, FESTATE_RETUNE\n", __func__);
-> -					re_tune = true;
-> -					fepriv->state = FESTATE_TUNED;
-> -				} else {
-> -					re_tune = false;
-> -				}
-> +		/* do an iteration of the tuning loop */
-> +		switch (algo) {
-> +		case DVBFE_ALGO_SW:
-> +			prepare_tuning_algo_parameters(fe);
->  
-> -				if (fe->ops.tune)
-> -					fe->ops.tune(fe, re_tune, fepriv->tune_mode_flags, &fepriv->delay, &s);
-> -
-> -				if (s != fepriv->status && !(fepriv->tune_mode_flags & FE_TUNE_MODE_ONESHOT)) {
-> -					dev_dbg(fe->dvb->device, "%s: state changed, adding current state\n", __func__);
-> -					dvb_frontend_add_event(fe, s);
-> -					fepriv->status = s;
-> -				}
-> -				break;
-> -			case DVBFE_ALGO_SW:
-> +			if (fepriv->max_drift) {
->  				dev_dbg(fe->dvb->device, "%s: Frontend ALGO = DVBFE_ALGO_SW\n", __func__);
->  				dvb_frontend_swzigzag(fe);
->  				break;
-> -			case DVBFE_ALGO_CUSTOM:
-> -				dev_dbg(fe->dvb->device, "%s: Frontend ALGO = DVBFE_ALGO_CUSTOM, state=%d\n", __func__, fepriv->state);
-> -				if (fepriv->state & FESTATE_RETUNE) {
-> -					dev_dbg(fe->dvb->device, "%s: Retune requested, FESTAT_RETUNE\n", __func__);
-> -					fepriv->state = FESTATE_TUNED;
-> +			}
-> +
-> +			/*
-> +			 * See prepare_tuning_algo_parameters():
-> +			 *   - Some standards may not use zigzag.
-> +			 */
-> +			if (!dvb_frontend_get_stepsize(fe))
-> +				dev_warn(fe->dvb->device,
-> +					"disabling sigzag, as frontend doesn't set frequency step size\n");
+> 
+> 	return 0;
+> 
+> Mike
+> 
+>>>> Is there a reason for the lock here?
+>>>>
+>>>> Mike
+>>>
+>>> Maybe dmabuf->name = NULL after the kfree(dmabuf->name) in:
+>>>
+>>> dma_buf_release()
+>>>
+>>> Would be sufficient?
+>>
+>> I don't think that we will access the 'dmabuf'(thus dmabuf->name) once
+>> it is in the dma_buf_release(). So, setting the NULL in the _release()
+>> is not required at all.
+>>
+>>>
+>>> M
+>>>>> 	return dynamic_dname(dentry, buffer, buflen, "/%s:%s",
+>>>>> 			     dentry->d_name.name, ret > 0 ? name : "");
+>>>>> @@ -335,7 +335,7 @@ static long dma_buf_set_name(struct dma_buf
+>>>>> *dmabuf, const char __user *buf)
+>>>>> 	if (IS_ERR(name))
+>>>>> 		return PTR_ERR(name);
+>>>>>
+>>>>> -	dma_resv_lock(dmabuf->resv, NULL);
+>>>>> +	spin_lock(&dmabuf->name_lock);
+>>>>> 	if (!list_empty(&dmabuf->attachments)) {
+>>>>> 		ret = -EBUSY;
+>>>>> 		kfree(name);
+>>>>> @@ -345,7 +345,7 @@ static long dma_buf_set_name(struct dma_buf
+>>>>> *dmabuf, const char __user *buf)
+>>>>> 	dmabuf->name = name;
+>>>>>
+>>>>> out_unlock:
+>>>>> -	dma_resv_unlock(dmabuf->resv);
+>>>>> +	spin_unlock(&dmabuf->name_lock);
+>>>>> 	return ret;
+>>>>> }
+>>>>>
+>>>>> @@ -405,10 +405,10 @@ static void dma_buf_show_fdinfo(struct
+>> seq_file
+>>>>> *m, struct file *file)
+>>>>> 	/* Don't count the temporary reference taken inside procfs seq_show
+>>>>> */
+>>>>> 	seq_printf(m, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+>>>>> 	seq_printf(m, "exp_name:\t%s\n", dmabuf->exp_name);
+>>>>> -	dma_resv_lock(dmabuf->resv, NULL);
+>>>>> +	spin_lock(&dmabuf->name_lock);
+>>>>> 	if (dmabuf->name)
+>>>>> 		seq_printf(m, "name:\t%s\n", dmabuf->name);
+>>>>> -	dma_resv_unlock(dmabuf->resv);
+>>>>> +	spin_unlock(&dmabuf->name_lock);
+>>>>> }
+>>>>>
+>>>>> static const struct file_operations dma_buf_fops = {
+>>>>> @@ -546,6 +546,7 @@ struct dma_buf *dma_buf_export(const struct
+>>>>> dma_buf_export_info *exp_info)
+>>>>> 	dmabuf->size = exp_info->size;
+>>>>> 	dmabuf->exp_name = exp_info->exp_name;
+>>>>> 	dmabuf->owner = exp_info->owner;
+>>>>> +	spin_lock_init(&dmabuf->name_lock);
+>>>>> 	init_waitqueue_head(&dmabuf->poll);
+>>>>> 	dmabuf->cb_excl.poll = dmabuf->cb_shared.poll = &dmabuf->poll;
+>>>>> 	dmabuf->cb_excl.active = dmabuf->cb_shared.active = 0;
+>>>>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>>>>> index ab0c156..93108fd 100644
+>>>>> --- a/include/linux/dma-buf.h
+>>>>> +++ b/include/linux/dma-buf.h
+>>>>> @@ -311,6 +311,7 @@ struct dma_buf {
+>>>>> 	void *vmap_ptr;
+>>>>> 	const char *exp_name;
+>>>>> 	const char *name;
+>>>>> +	spinlock_t name_lock;
+>>>>> 	struct module *owner;
+>>>>> 	struct list_head list_node;
+>>>>> 	void *priv;
+>>>>> --
+>>>>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
+>>>>> Forum, a Linux Foundation Collaborative Project
+>>>>> _______________________________________________
+>>>>> dri-devel mailing list
+>>>>> dri-devel@lists.freedesktop.org
+>>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>>> _______________________________________________
+>>>> dri-devel mailing list
+>>>> dri-devel@lists.freedesktop.org
+>>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>
+>> --
+>> The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
+>> Forum, a Linux Foundation Collaborative Project
 
-s/sigzag/zigzag
-
-I don't understand why you're calling dvb_frontend_get_stepsize() again?
-prepare_tuning_algo_parameters() already tried its best to set fepriv->step_size
-
-Why not just:
-
-	if (fepriv->max_drift)
-		do the zigzag
-	else
-		warn that zigzag is disabled
-
-> +
-> +			/* fall through */
-
-Why would you want to fall through from DVBFE_ALGO_SW to DVBFE_ALGO_HW?
-I think this changes the behavior before the patch.
+-- 
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora
+Forum, a Linux Foundation Collaborative Project
