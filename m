@@ -2,138 +2,308 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3F371FFA15
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 19:23:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 949891FFA31
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 19:27:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732114AbgFRRXm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 13:23:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53924 "EHLO
+        id S1732239AbgFRR1d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 13:27:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54496 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731381AbgFRRXl (ORCPT
+        with ESMTP id S1732214AbgFRR1V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 13:23:41 -0400
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B3B4C06174E
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 10:23:41 -0700 (PDT)
-Received: by mail-qv1-xf42.google.com with SMTP id x16so3146399qvr.3
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 10:23:41 -0700 (PDT)
+        Thu, 18 Jun 2020 13:27:21 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81373C06174E
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 10:27:20 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id y6so5507873edi.3
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 10:27:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=C9fZMsXo2SZ80We4hmJmwmW4hWECtoNb2OioHXlz4pQ=;
-        b=pQnJk2BkLr+MSY/ZKoRYO3N7SBKy2now/VahbHpiE0ODVcJ+6O7j84vau1mwIApvP7
-         GOdC6OeYk1H3WeQLOrd9w3MqHQZy0OvARyydS7GgAQeW47MnQWfeepZVJrUJjSv717D6
-         71Y1Jcf/9bD++nyhtsm877xpne1ScehVboFxAFrIK686JYR5j1zM1IYedzgkhSMFLH+q
-         BA1fweTgPgjhYb+wikYXhEAlUND0ztF/D51np5BJ3v4C46sZQvCASI5ckldnPRlU+3hi
-         s8pkLypTSa4SZ0xCcdQBCFHr3EIFZ3G/Xkv9NnnR/g9tJLHfZHgrYGhT36a3jHhTjSZ1
-         XJ3Q==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LNZ2RVnM8RFGNqvYB20LT8xU8dQK2AmI2FNUTL8MDQw=;
+        b=HDaI8HY1jCqoak4BId6n7Qg5IJ81beKiMmFjizRFV5NJBrjeBkq6VaJKzSGWpYld+7
+         hleeVEfpOs0SQsXrjf9VduzlrXyX/t/ZP2ReMhVXwjDxC7L+HU5aW8ihALAzNotUhdlN
+         OxxQ6PzooKq0qNlh3p7qIvSue8l0d44UFuEGc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=C9fZMsXo2SZ80We4hmJmwmW4hWECtoNb2OioHXlz4pQ=;
-        b=JF7yznpWkANodgWA/tZXtQQ1WiDUxXg9XtgpolOQbro8GFe6gvKWVYov6x3s5VVjg8
-         adD2LRSF/sUxdry3iVMhoTCOM5NZWCZ6GRzSTET2abClt46xO/r7QVsqw8eLwn4NPysV
-         ipZ2Qag7qvt67Ik5ok3X4khaExT1eLRPfnJMH3/7v0gSsg0Swg4NkLqXMi6xG2VOEqla
-         G03N9gdqvRY5Gq+umB8TZvznfNZDHfOoMe+42VDk25mO4rvl2bsBN9H8/X3Qrsdg+NnB
-         vK14uusiQt3ZrgDACo5Bqsu+FE15c0h2t/q9kHFk4NrtvoVS641GMYLIFGC4uQmiX//W
-         6+Fg==
-X-Gm-Message-State: AOAM530HyBEEcwidAOmm6tqSGkxuLT4BN4YZ4J515bpBicFP3ofOVepZ
-        62TVkf8tMenHO4a2rKL9lmCZWg==
-X-Google-Smtp-Source: ABdhPJwk2YUvEzLHMclGfpDEafJPYyQ0A/CvUD7gNhvGjyNa2/WErZ+AilnbN9Hdt0RsaqZHbhBdmA==
-X-Received: by 2002:a05:6214:1705:: with SMTP id db5mr4740498qvb.14.1592501020440;
-        Thu, 18 Jun 2020 10:23:40 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id r7sm2644175qtm.66.2020.06.18.10.23.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2020 10:23:39 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.93)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1jlyGI-00AEEp-Qj; Thu, 18 Jun 2020 14:23:38 -0300
-Date:   Thu, 18 Jun 2020 14:23:38 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Thomas =?utf-8?B?SGVsbHN0csO2bSAoSW50ZWwp?= 
-        <thomas_os@shipmail.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
- annotations
-Message-ID: <20200618172338.GM6578@ziepe.ca>
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
- <20200604081224.863494-5-daniel.vetter@ffwll.ch>
- <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
- <20200611083430.GD20149@phenom.ffwll.local>
- <20200611141515.GW6578@ziepe.ca>
- <20200616120719.GL20149@phenom.ffwll.local>
- <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
- <20200617152835.GF6578@ziepe.ca>
- <20200618150051.GS20149@phenom.ffwll.local>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LNZ2RVnM8RFGNqvYB20LT8xU8dQK2AmI2FNUTL8MDQw=;
+        b=Ua8th7WmLml9iRfvd8ZlAhFsEtrSn+0K8SmkXdoIGlpoe7g9mAudxrD6MgS6ufoOKI
+         5Omb6GwzYVTNHUXk2YsDoHh2jzPZ7Z3kIYgM8Mt/tzPh1bELnVxlM0lTMUYaTNFzxzOF
+         dpnK1GsuzAXOR7n8DcvT2HbFGxsdoD4623/+voPMl9GgIgulPZSbdDkK+JEaC7DWixVa
+         oRixcm4XKraXCQCTTB3b6ObfNPjrgEpzlNi1NM/Wyj/u17WVVJ+DZwbw4wK6fcLXmTQG
+         8vV8caCnKsHyGXae0P+4tf432vUOPY3uofSJuHts4i9A73SbAD3RTxomZwJRDnFObUaF
+         XX6g==
+X-Gm-Message-State: AOAM5330t9yVOQsyQJ4XhiJr4zY9FbvGbgyuFP5BjFMHiEWZUjnkxFmw
+        X25HEG2HyMBLm+H968gCTIA319qV1p3JFw==
+X-Google-Smtp-Source: ABdhPJxR02UrxGZJKK3ptgaov51+UtMK1p04vKpGPv3bhHSJoHwJR02n2RTGFlGVnjhnyWAM0VZC3g==
+X-Received: by 2002:aa7:c558:: with SMTP id s24mr4919636edr.237.1592501238550;
+        Thu, 18 Jun 2020 10:27:18 -0700 (PDT)
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com. [209.85.128.44])
+        by smtp.gmail.com with ESMTPSA id e20sm2653836ejh.22.2020.06.18.10.27.17
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 18 Jun 2020 10:27:17 -0700 (PDT)
+Received: by mail-wm1-f44.google.com with SMTP id f185so6539603wmf.3
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 10:27:17 -0700 (PDT)
+X-Received: by 2002:a1c:2e0e:: with SMTP id u14mr5175907wmu.55.1592501237134;
+ Thu, 18 Jun 2020 10:27:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200618150051.GS20149@phenom.ffwll.local>
+References: <20200416145605.12399-1-dafna.hirschfeld@collabora.com>
+ <20200416145605.12399-2-dafna.hirschfeld@collabora.com> <20200604175443.GB76282@chromium.org>
+ <87f11ebf-aecf-7eee-f18c-98dd4e8d692b@collabora.com> <CAAFQd5BPOUFsKb0Qa_6QiytE6=OM3jjSVWyoikdgyNvr4vu0fw@mail.gmail.com>
+In-Reply-To: <CAAFQd5BPOUFsKb0Qa_6QiytE6=OM3jjSVWyoikdgyNvr4vu0fw@mail.gmail.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 18 Jun 2020 19:27:05 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5DoUu+bMO1GeSX0qbsW5u-KDmRvtO2kfGePghrv59bQmw@mail.gmail.com>
+Message-ID: <CAAFQd5DoUu+bMO1GeSX0qbsW5u-KDmRvtO2kfGePghrv59bQmw@mail.gmail.com>
+Subject: Re: [RFC v3 2/2] media: staging: rkisp1: allow quantization
+ conversion from userspace for isp source pad
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 18, 2020 at 05:00:51PM +0200, Daniel Vetter wrote:
-> On Wed, Jun 17, 2020 at 12:28:35PM -0300, Jason Gunthorpe wrote:
-> > On Wed, Jun 17, 2020 at 08:48:50AM +0200, Daniel Vetter wrote:
-> > 
-> > > Now my understanding for rdma is that if you don't have hw page fault
-> > > support,
-> > 
-> > The RDMA ODP feature is restartable HW page faulting just like nouveau
-> > has. The classical MR feature doesn't have this. Only mlx5 HW supports
-> > ODP today.
-> > 
-> > > It's only gpus (I think) which are in this awkward in-between spot
-> > > where dynamic memory management really is much wanted, but the hw
-> > > kinda sucks. Aside, about 10+ years ago we had a similar problem with
-> > > gpu hw, but for security: Many gpu didn't have any kinds of page
-> > > tables to isolate different clients from each another. drivers/gpu
-> > > fixed this by parsing&validating what userspace submitted to make sure
-> > > it's only every accessing its own buffers. Most gpus have become
-> > > reasonable nowadays and do have proper per-process pagetables (gpu
-> > > process, not the pasid stuff), but even today there's still some of
-> > > the old model left in some of the smallest SoC.
-> > 
-> > But I still don't understand why a dma fence is needed inside the GPU
-> > driver itself in the notifier.
-> > 
-> > Surely the GPU driver can block and release the notifier directly from
-> > its own command processing channel?
-> > 
-> > Why does this fence and all it entails need to leak out across
-> > drivers?
-> 
-> So 10 years ago we had this world of every gpu driver is its own bucket,
-> nothing leaks out to the world. But the world had a different idea how
-> gpus where supposed to work, with stuff like:
+On Wed, Jun 10, 2020 at 2:08 PM Tomasz Figa <tfiga@chromium.org> wrote:
+>
+> On Thu, Jun 4, 2020 at 9:11 PM Dafna Hirschfeld
+> <dafna.hirschfeld@collabora.com> wrote:
+> >
+> > Hi
+> >
+> > On 04.06.20 19:54, Tomasz Figa wrote:
+> > > On Thu, Apr 16, 2020 at 04:56:05PM +0200, Dafna Hirschfeld wrote:
+> > >> The isp entity has a hardware support to force full range quantization
+> > >> for YUV formats. Use the new API to indicate userspace that
+> > >> quantization conversion is supported by adding the flag
+> > >> V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION during media code enumeration.
+> > >> Then uppon s_fmt on the video source pad, we assign the
+> > >> quantization from userspace for YUV formats.
+> > >> Also in the capture and resizer entities we retrieve the colorspace
+> > >> from the isp entity.
+> > >>
+> > >> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> > >> ---
+> > >>   drivers/staging/media/rkisp1/rkisp1-capture.c | 28 ++++++-------
+> > >>   drivers/staging/media/rkisp1/rkisp1-common.h  |  2 +
+> > >>   drivers/staging/media/rkisp1/rkisp1-isp.c     | 39 +++++++++++++++++--
+> > >>   drivers/staging/media/rkisp1/rkisp1-resizer.c | 13 +++++++
+> > >>   4 files changed, 65 insertions(+), 17 deletions(-)
+> > >>
+> > >> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
+> > >> index fbf62399fe3d..aca0f93bc772 100644
+> > >> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
+> > >> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
+> > >> @@ -1066,14 +1066,13 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
+> > >>                         const struct v4l2_format_info **fmt_info)
+> > >>   {
+> > >>      const struct rkisp1_capture_config *config = cap->config;
+> > >> -    struct rkisp1_capture *other_cap =
+> > >> -                    &cap->rkisp1->capture_devs[cap->id ^ 1];
+> > >>      const struct rkisp1_capture_fmt_cfg *fmt;
+> > >>      const struct v4l2_format_info *info;
+> > >>      const unsigned int max_widths[] = { RKISP1_RSZ_MP_SRC_MAX_WIDTH,
+> > >>                                          RKISP1_RSZ_SP_SRC_MAX_WIDTH };
+> > >>      const unsigned int max_heights[] = { RKISP1_RSZ_MP_SRC_MAX_HEIGHT,
+> > >>                                           RKISP1_RSZ_SP_SRC_MAX_HEIGHT};
+> > >> +    struct v4l2_subdev_format isp_sd_fmt;
+> > >>
+> > >>      fmt = rkisp1_find_fmt_cfg(cap, pixm->pixelformat);
+> > >>      if (!fmt) {
+> > >> @@ -1081,24 +1080,27 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
+> > >>              pixm->pixelformat = fmt->fourcc;
+> > >>      }
+> > >>
+> > >> +    rkisp1_get_isp_src_fmt(cap->rkisp1, &isp_sd_fmt);
+> > >> +    pixm->field = isp_sd_fmt.format.field;
+> > >> +    pixm->colorspace = isp_sd_fmt.format.colorspace;
+> > >> +    pixm->ycbcr_enc = isp_sd_fmt.format.ycbcr_enc;
+> > >> +    pixm->xfer_func = isp_sd_fmt.format.xfer_func;
+> > >> +
+> > >> +    /*
+> > >> +     * isp has a feature to set full range quantization for yuv formats.
+> > >
+> > > How about "select between limited and full range for YUV formats"?
+> > >
+> > >> +     * so we need to get the format from the isp.
+> > >> +     */
+> > >> +    pixm->quantization = isp_sd_fmt.format.quantization;
+> > >> +    if (!v4l2_is_format_yuv(cap->pix.info))
+> > >> +            pixm->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > >> +
+> > >>      pixm->width = clamp_t(u32, pixm->width,
+> > >>                            RKISP1_RSZ_SRC_MIN_WIDTH, max_widths[cap->id]);
+> > >>      pixm->height = clamp_t(u32, pixm->height,
+> > >>                             RKISP1_RSZ_SRC_MIN_HEIGHT, max_heights[cap->id]);
+> > >>
+> > >> -    pixm->field = V4L2_FIELD_NONE;
+> > >> -    pixm->colorspace = V4L2_COLORSPACE_DEFAULT;
+> > >> -    pixm->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+> > >> -
+> > >>      info = rkisp1_fill_pixfmt(pixm, cap->id);
+> > >>
+> > >> -    /* can not change quantization when stream-on */
+> > >> -    if (other_cap->is_streaming)
+> > >> -            pixm->quantization = other_cap->pix.fmt.quantization;
+> > >> -    /* output full range by default, take effect in params */
+> > >> -    else if (!pixm->quantization ||
+> > >> -             pixm->quantization > V4L2_QUANTIZATION_LIM_RANGE)
+> > >> -            pixm->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > >>
+> > >>      if (fmt_cfg)
+> > >>              *fmt_cfg = fmt;
+> > >> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
+> > >> index 2d7b7e078636..7a5576fa14c9 100644
+> > >> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
+> > >> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
+> > >> @@ -300,6 +300,8 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
+> > >>                      struct v4l2_device *v4l2_dev);
+> > >>   void rkisp1_isp_unregister(struct rkisp1_device *rkisp1);
+> > >>
+> > >> +int rkisp1_get_isp_src_fmt(struct rkisp1_device *rkisp1,
+> > >> +                       struct v4l2_subdev_format *sd_fmt);
+> > >>   const struct rkisp1_isp_mbus_info *rkisp1_isp_mbus_info_get(u32 mbus_code);
+> > >>
+> > >>   irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1);
+> > >> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
+> > >> index dee8e96f3900..6fdf5ed0b6b1 100644
+> > >> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
+> > >> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
+> > >> @@ -613,6 +613,10 @@ static int rkisp1_isp_enum_mbus_code(struct v4l2_subdev *sd,
+> > >>
+> > >>              if (code->index == pos - 1) {
+> > >>                      code->code = fmt->mbus_code;
+> > >> +                    if (fmt->pixel_enc == V4L2_PIXEL_ENC_YUV &&
+> > >> +                        dir == RKISP1_DIR_SRC)
+> > >> +                            code->flags =
+> > >> +                                    V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION;
+> > >>                      return 0;
+> > >>              }
+> > >>      }
+> > >> @@ -639,12 +643,21 @@ static int rkisp1_isp_init_config(struct v4l2_subdev *sd,
+> > >>      sink_crop->height = RKISP1_DEFAULT_HEIGHT;
+> > >>      sink_crop->left = 0;
+> > >>      sink_crop->top = 0;
+> > >> +    sink_fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> > >> +    sink_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(sink_fmt->colorspace);
+> > >> +    sink_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(sink_fmt->colorspace);
+> > >> +    sink_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > >> +
+> > >>
+> > >>      src_fmt = v4l2_subdev_get_try_format(sd, cfg,
+> > >>                                           RKISP1_ISP_PAD_SOURCE_VIDEO);
+> > >>      *src_fmt = *sink_fmt;
+> > >>      src_fmt->code = RKISP1_DEF_SRC_PAD_FMT;
+> > >> -    src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > >> +    src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> > >> +    src_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(src_fmt->colorspace);
+> > >> +    src_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(src_fmt->colorspace);
+> > >> +    src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
+> > >> +
+> > >>
+> > >>      src_crop = v4l2_subdev_get_try_crop(sd, cfg,
+> > >>                                          RKISP1_ISP_PAD_SOURCE_VIDEO);
+> > >> @@ -687,10 +700,17 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_isp *isp,
+> > >>              isp->src_fmt = mbus_info;
+> > >>      src_fmt->width  = src_crop->width;
+> > >>      src_fmt->height = src_crop->height;
+> > >> -    src_fmt->quantization = format->quantization;
+> > >> -    /* full range by default */
+> > >> -    if (!src_fmt->quantization)
+> > >> +
+> > >> +    src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> > >> +    src_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(src_fmt->colorspace);
+> > >> +    src_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(src_fmt->colorspace);
+> > >> +
+> > >> +    if (mbus_info->pixel_enc == V4L2_PIXEL_ENC_BAYER)
+> > >>              src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > >> +    else if (format->quantization == V4L2_QUANTIZATION_DEFAULT)
+> > >> +            src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
+> > >> +    else
+> > >> +            src_fmt->quantization = format->quantization;
+> > >>
+> > >>      *format = *src_fmt;
+> > >>   }
+> > >> @@ -1068,6 +1088,17 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
+> > >>      return ret;
+> > >>   }
+> > >>
+> > >> +int rkisp1_get_isp_src_fmt(struct rkisp1_device *rkisp1,
+> > >> +                       struct v4l2_subdev_format *sd_fmt)
+> > >> +{
+> > >> +    struct rkisp1_isp *isp = &rkisp1->isp;
+> > >> +
+> > >> +    sd_fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> > >> +    sd_fmt->pad = RKISP1_ISP_PAD_SOURCE_VIDEO;
+> > >> +
+> > >> +    return v4l2_subdev_call(&isp->sd, pad, get_fmt, NULL, sd_fmt);
+> > >
+> > > Do we need to get through the external API to access data that is
+> > > driver-internal anyway?
+> > >
+> > >> +}
+> > >> +
+> > >>   void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
+> > >>   {
+> > >>      struct v4l2_subdev *sd = &rkisp1->isp.sd;
+> > >> diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+> > >> index 7b6b7ddd4169..8705b133de68 100644
+> > >> --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
+> > >> +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+> > >> @@ -525,6 +525,7 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
+> > >>      const struct rkisp1_isp_mbus_info *mbus_info;
+> > >>      struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
+> > >>      struct v4l2_rect *sink_crop;
+> > >> +    struct v4l2_subdev_format isp_sd_fmt;
+> > >>
+> > >>      sink_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SINK, which);
+> > >>      src_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SRC, which);
+> > >> @@ -539,8 +540,20 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
+> > >>      if (which == V4L2_SUBDEV_FORMAT_ACTIVE)
+> > >>              rsz->pixel_enc = mbus_info->pixel_enc;
+> > >>
+> > >> +    rkisp1_get_isp_src_fmt(rsz->rkisp1, &isp_sd_fmt);
+> > >> +
+> > >
+> > > Is this necessary? My understanding was that in the subdev model, it was
+> > > the userspace responsibility to propagate any configuration changes through
+> > > the graph.
+> > >
+> > > Also, doing this only here wouldn't fully maintain the
+> > > consistency of the state. For example, if one sets the ISP subdev format
+> > > first, then the resizer subdev and then the ISP subdev again, wouldn't the
+> > > resizer subdev end up with a wrong format?
+> >
+> > yes, this is indeed a bug, I am preparing v4 now.
+> > What I thought to do is adding quantization conversion
+> > support also on ther resizer and capture entities.
+> > Then in the 'link_validation' callbacks, there
+> > is a validation that the quantization fields matches.
+>
+> My understanding is that, if we have the following topology
+>
+> [ ISP ] -> [ Resizer ] -> [ Video node ]
+>
+> then the ISP source pad would have the csc capability, while resizer
+> and video node would just accept whatever is configured on their sink
+> pads (no need for csc capability for that) and propagate that to their
+> outputs, i.e. resizer source pad and video node CAPTURE format.
+>
+> Is this what you were going to implement?
 
-Sure, I understand DMA fence, but why does a *notifier* need it?
+Gentle ping.
 
-The job of the notifier is to guarentee that the device it is
-connected to is not doing DMA before it returns.
-
-That just means you need to prove that device is done with the buffer.
-
-As I've understood GPU that means you need to show that the commands
-associated with the buffer have completed. This is all local stuff
-within the driver, right? Why use fence (other than it already exists)
-
-Jason
+Best regards,
+Tomasz
