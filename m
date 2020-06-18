@@ -2,71 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5FE11FFAA3
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 19:56:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1C2E1FFAB0
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 20:00:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728283AbgFRR4F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 13:56:05 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70]:44068 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727019AbgFRR4F (ORCPT
+        id S1727109AbgFRSAn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 14:00:43 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:49244 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726969AbgFRSAl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 13:56:05 -0400
-Received: by mail-io1-f70.google.com with SMTP id v14so4752647iob.11
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 10:56:04 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=EFtXSNMLUGInsLNSBypEMpMMFyFYOsaqbMXTYo9acWE=;
-        b=YVRiS+g8byXGwKv+Uacabb+gI0CqIL9tJZrd/zqS0UZ5qIFBXbHhUgQXpS1KxsLy9Q
-         oYHgfw5APJRL6lfi0Aur9pCAv8XV+g4PEm/79Y1kuqG4gKvkc7AQ/9WzdgSLyPCoAsSP
-         9OSc7dEyxgOt1OSkaQNd+Db47eAxF1j+/SUouieelc+LC1j5fFxdKV2UzZckcgKRnJsm
-         6LUgZiKQjrOLKmUdQqWD0OhOz7CL0z47cyVGDwDxe5xE9A68KtTT1TW1AQ88dieP+sq3
-         oMzBVPXskSdqla4SKvXfC8TJpoKa+Rxn4QtQhTYdFOePpOUIcyGN8bGRh5bFdWeTyAlK
-         1fAA==
-X-Gm-Message-State: AOAM532TnVvDUi4x/iS6fh1F+WTmBIDiXpzolW7mb+QM9OE7DGjlXdDn
-        UIMYQkP3R7OGqA3W0CCGHgYoRUdV3DHJh1v313wI62krM0/U
-X-Google-Smtp-Source: ABdhPJxyaSvc8IYhW8iRskEa+5nwLcHwdzT7YI+Bk1XFGFOcjid5bO4Xf5g7G5xn+B2xZguzw1cT2eOse36ijX8XtbSjosI9JjkB
+        Thu, 18 Jun 2020 14:00:41 -0400
+Received: from [IPv6:2003:cb:871f:5b00:4da3:fbf7:1b31:245] (p200300cb871f5b004da3fbf71b310245.dip0.t-ipconnect.de [IPv6:2003:cb:871f:5b00:4da3:fbf7:1b31:245])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 0F1742A4EF0;
+        Thu, 18 Jun 2020 19:00:40 +0100 (BST)
+Subject: Re: [PATCH v2 3/4] media: staging: rkisp1: rsz: set output format to
+ YUV422 if cap format is YUV444
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20200515142952.20163-1-dafna.hirschfeld@collabora.com>
+ <20200515142952.20163-4-dafna.hirschfeld@collabora.com>
+ <CAHD77HkjjWMOcX3oLnzdMuzZM-_NSydStnzLLcHEFRenL23d-A@mail.gmail.com>
+ <aa52f9f8-d9e9-06b2-22df-bbab2d26b516@collabora.com>
+ <20200618174752.GA10831@chromium.org>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <9ee01443-985d-751c-fff9-fa90337de68d@collabora.com>
+Date:   Thu, 18 Jun 2020 20:00:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-X-Received: by 2002:a6b:1785:: with SMTP id 127mr6231079iox.136.1592502964342;
- Thu, 18 Jun 2020 10:56:04 -0700 (PDT)
-Date:   Thu, 18 Jun 2020 10:56:04 -0700
-In-Reply-To: <000000000000aa674005a845bbc5@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000007e5a7305a85f7dbd@google.com>
-Subject: Re: KASAN: null-ptr-deref Write in media_request_close
-From:   syzbot <syzbot+6bed2d543cf7e48b822b@syzkaller.appspotmail.com>
-To:     ezequiel@collabora.com, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        mchehab+huawei@kernel.org, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200618174752.GA10831@chromium.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot has bisected this bug to:
 
-commit 016baa59bf9f6c2550480b73f18100285e3a4fd2
-Author: Ezequiel Garcia <ezequiel@collabora.com>
-Date:   Tue Apr 14 22:06:24 2020 +0000
 
-    media: Kconfig: Don't expose the Request API option
+On 18.06.20 19:47, Tomasz Figa wrote:
+> On Fri, Jun 12, 2020 at 02:45:00PM +0200, Dafna Hirschfeld wrote:
+>>
+>>
+>> On 27.05.20 01:09, Tomasz Figa wrote:
+>>> On Fri, May 15, 2020 at 4:30 PM Dafna Hirschfeld
+>>> <dafna.hirschfeld@collabora.com> wrote:
+>>>>
+>>>> If the capture format is YUV444M then the memory input format
+>>>> should be YUV422, so the resizer should not change the default
+>>>> hdiv, vdiv in that case.
+>>>>
+>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>>> ---
+>>>>    drivers/staging/media/rkisp1/rkisp1-resizer.c | 7 ++++---
+>>>>    1 file changed, 4 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+>>>> index 04a29af8cc92..5f9740ddd558 100644
+>>>> --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
+>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+>>>> @@ -394,10 +394,11 @@ static void rkisp1_rsz_config(struct rkisp1_resizer *rsz,
+>>>>            * (4:2:2 -> 4:2:0 for example). So the width/height of the CbCr
+>>>>            * streams should be set according to the pixel format in the capture.
+>>>>            * The resizer always gets the input as YUV422. If the capture format
+>>>> -        * is RGB then the memory input (the resizer output) should be YUV422
+>>>> -        * so we use the hdiv, vdiv of the YUV422 info in this case.
+>>>> +        * is RGB or YUV444 then the memory input (the resizer output) should
+>>>> +        * be YUV422 so we use the hdiv, vdiv of the YUV422 info in this case.
+>>>>            */
+>>>> -       if (v4l2_is_format_yuv(cap->pix.info)) {
+>>>> +       if (v4l2_is_format_yuv(cap->pix.info) &&
+>>>> +           cap->pix.info->format != V4L2_PIX_FMT_YUV444M) {
+>>>>                   src_c.width = cap->pix.info->hdiv;
+>>>>                   src_c.height = cap->pix.info->vdiv;
+>>>
+>>> As pointed out in another thread, this should have been the original
+>>> size divided by the divisor and not just the latter alone.
+>>>
+>>> It seems a bit suspicious to me that we don't need to upscale the
+>>> chroma planes here, because it would mean that the MI itself would be
+>>> doing some horizontal pixel doubling. The hardware documentation
+>>> doesn't really explain this, though.
+>>>
+>>> Have you been able to validate that the setting without upscaling
+>>> indeed produces correct output?
+>>
+>> Hi,
+>> I investigated it again, without this patch, the frames on mainpath for YUV444 look good: https://imgur.com/a/NtazWhY
+>> but there is a problem on selfpath: https://imgur.com/a/vQJPqAn
+>>
+>> This patch somehow solves the problem on selfpath but ruins the frames on mainpath.
+>>
+>> I think the bug is actually in another place in the code. The function 'rkisp1_sp_config'
+>> sets a constant value RKISP1_MI_CTRL_SP_INPUT_YUV422 as the input format on the RKISP1_CIF_MI_CTRL register.
+>> But the value should be set according to the configuration. For some reason the problem arises only
+>> when trying to capture yuv444. When I capture yuv420 on the selfpath the frame looks good although the
+>> value RKISP1_MI_CTRL_SP_INPUT_YUV422 is set.
+>> Setting the the SP_INPUT_* according to the configuration seems to solve the problem.
+> 
+> Looking at the datasheet, SP seems to have some internal format
+> conversion capability - one can set SP_OUTPUT_FORMAT and SP_INPUT_FORMAT
+> to different YUV subsampling modes or even some RGB formats. MP doesn't
+> have this capability - it can only write whatever it receives.
+> 
+> I think this needs to be reflected in the driver, if it isn't yet.
+> Depending on the resizer source format, the MP video node must allow
+> only formats with matching subsampling mode.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=108d7149100000
-start commit:   7ae77150 Merge tag 'powerpc-5.8-1' of git://git.kernel.org..
-git tree:       upstream
-final crash:    https://syzkaller.appspot.com/x/report.txt?x=128d7149100000
-console output: https://syzkaller.appspot.com/x/log.txt?x=148d7149100000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=be4578b3f1083656
-dashboard link: https://syzkaller.appspot.com/bug?extid=6bed2d543cf7e48b822b
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17b3fc35100000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12fbb6f1100000
+Hi,
+I work on v3 now that does that, it supports several yuv mbus codes on the source pads of the resizers
+and then in the link_validation callback of the capture it checks that the subsampling matches.
 
-Reported-by: syzbot+6bed2d543cf7e48b822b@syzkaller.appspotmail.com
-Fixes: 016baa59bf9f ("media: Kconfig: Don't expose the Request API option")
+It is not clear to me what is the meaning of the input/output capapility of the selfpath except of RGB convertion.
+Since yuv subsampling is what the resizer does.
 
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+Thanks,
+Dafna
+
+
+> 
+> Best regards,
+> Tomasz
+> 
