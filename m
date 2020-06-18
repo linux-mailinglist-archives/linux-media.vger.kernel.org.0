@@ -2,296 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E85A1FFB05
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 20:26:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C32501FFB07
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 20:29:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727116AbgFRS0j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 14:26:39 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:49472 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727062AbgFRS0j (ORCPT
+        id S1728230AbgFRS3D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 14:29:03 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:58874 "EHLO
+        lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727801AbgFRS3B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 14:26:39 -0400
-Received: from [IPv6:2003:cb:871f:5b00:4da3:fbf7:1b31:245] (p200300cb871f5b004da3fbf71b310245.dip0.t-ipconnect.de [IPv6:2003:cb:871f:5b00:4da3:fbf7:1b31:245])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3FC262A4F0F;
-        Thu, 18 Jun 2020 19:26:36 +0100 (BST)
-Subject: Re: [RFC v3 2/2] media: staging: rkisp1: allow quantization
- conversion from userspace for isp source pad
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20200416145605.12399-1-dafna.hirschfeld@collabora.com>
- <20200416145605.12399-2-dafna.hirschfeld@collabora.com>
- <20200604175443.GB76282@chromium.org>
- <87f11ebf-aecf-7eee-f18c-98dd4e8d692b@collabora.com>
- <CAAFQd5BPOUFsKb0Qa_6QiytE6=OM3jjSVWyoikdgyNvr4vu0fw@mail.gmail.com>
- <CAAFQd5DoUu+bMO1GeSX0qbsW5u-KDmRvtO2kfGePghrv59bQmw@mail.gmail.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <62611ccd-e4cd-728a-355b-532661b36be0@collabora.com>
-Date:   Thu, 18 Jun 2020 20:26:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Thu, 18 Jun 2020 14:29:01 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 05IISwZa049999;
+        Thu, 18 Jun 2020 13:28:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1592504938;
+        bh=y8Wik9TPQ15BvS7BQ24xmM0RSvXq59QCd0iqVO7pMm0=;
+        h=Date:From:To:CC:Subject:References:In-Reply-To;
+        b=H+GVKcBAZURPHStVAq3yRql8/uGRVxwfWNg6GwQDPy8I1rgRx7MTcSlRK8rqt6v76
+         NIZwTvjLcoUwE/Bv/7G5H+6+6BEqdieneCAn45CkJaQWmAZUVnXufCjg8IuDOoRoxy
+         L7G2DL4hjCZidxG+PgBHtUnw/wrmvrn7SMDhNXBY=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 05IISw9V045899
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 18 Jun 2020 13:28:58 -0500
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Thu, 18
+ Jun 2020 13:28:58 -0500
+Received: from lelv0326.itg.ti.com (10.180.67.84) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Thu, 18 Jun 2020 13:28:58 -0500
+Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0326.itg.ti.com (8.15.2/8.15.2) with SMTP id 05IISukE038043;
+        Thu, 18 Jun 2020 13:28:57 -0500
+Date:   Thu, 18 Jun 2020 13:28:55 -0500
+From:   Benoit Parrot <bparrot@ti.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     <linux-media@vger.kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v1 030/107] media: ti-vpe: cal: Use dev_* print macros
+Message-ID: <20200618182855.xdx64prbc54ifn5k@ti.com>
+References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
+ <20200614235944.17716-31-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAFQd5DoUu+bMO1GeSX0qbsW5u-KDmRvtO2kfGePghrv59bQmw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20200614235944.17716-31-laurent.pinchart@ideasonboard.com>
+User-Agent: NeoMutt/20171215
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent,
 
+Thanks you for the patch.
 
-On 18.06.20 19:27, Tomasz Figa wrote:
-> On Wed, Jun 10, 2020 at 2:08 PM Tomasz Figa <tfiga@chromium.org> wrote:
->>
->> On Thu, Jun 4, 2020 at 9:11 PM Dafna Hirschfeld
->> <dafna.hirschfeld@collabora.com> wrote:
->>>
->>> Hi
->>>
->>> On 04.06.20 19:54, Tomasz Figa wrote:
->>>> On Thu, Apr 16, 2020 at 04:56:05PM +0200, Dafna Hirschfeld wrote:
->>>>> The isp entity has a hardware support to force full range quantization
->>>>> for YUV formats. Use the new API to indicate userspace that
->>>>> quantization conversion is supported by adding the flag
->>>>> V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION during media code enumeration.
->>>>> Then uppon s_fmt on the video source pad, we assign the
->>>>> quantization from userspace for YUV formats.
->>>>> Also in the capture and resizer entities we retrieve the colorspace
->>>>> from the isp entity.
->>>>>
->>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>>>> ---
->>>>>    drivers/staging/media/rkisp1/rkisp1-capture.c | 28 ++++++-------
->>>>>    drivers/staging/media/rkisp1/rkisp1-common.h  |  2 +
->>>>>    drivers/staging/media/rkisp1/rkisp1-isp.c     | 39 +++++++++++++++++--
->>>>>    drivers/staging/media/rkisp1/rkisp1-resizer.c | 13 +++++++
->>>>>    4 files changed, 65 insertions(+), 17 deletions(-)
->>>>>
->>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
->>>>> index fbf62399fe3d..aca0f93bc772 100644
->>>>> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
->>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
->>>>> @@ -1066,14 +1066,13 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
->>>>>                          const struct v4l2_format_info **fmt_info)
->>>>>    {
->>>>>       const struct rkisp1_capture_config *config = cap->config;
->>>>> -    struct rkisp1_capture *other_cap =
->>>>> -                    &cap->rkisp1->capture_devs[cap->id ^ 1];
->>>>>       const struct rkisp1_capture_fmt_cfg *fmt;
->>>>>       const struct v4l2_format_info *info;
->>>>>       const unsigned int max_widths[] = { RKISP1_RSZ_MP_SRC_MAX_WIDTH,
->>>>>                                           RKISP1_RSZ_SP_SRC_MAX_WIDTH };
->>>>>       const unsigned int max_heights[] = { RKISP1_RSZ_MP_SRC_MAX_HEIGHT,
->>>>>                                            RKISP1_RSZ_SP_SRC_MAX_HEIGHT};
->>>>> +    struct v4l2_subdev_format isp_sd_fmt;
->>>>>
->>>>>       fmt = rkisp1_find_fmt_cfg(cap, pixm->pixelformat);
->>>>>       if (!fmt) {
->>>>> @@ -1081,24 +1080,27 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
->>>>>               pixm->pixelformat = fmt->fourcc;
->>>>>       }
->>>>>
->>>>> +    rkisp1_get_isp_src_fmt(cap->rkisp1, &isp_sd_fmt);
->>>>> +    pixm->field = isp_sd_fmt.format.field;
->>>>> +    pixm->colorspace = isp_sd_fmt.format.colorspace;
->>>>> +    pixm->ycbcr_enc = isp_sd_fmt.format.ycbcr_enc;
->>>>> +    pixm->xfer_func = isp_sd_fmt.format.xfer_func;
->>>>> +
->>>>> +    /*
->>>>> +     * isp has a feature to set full range quantization for yuv formats.
->>>>
->>>> How about "select between limited and full range for YUV formats"?
->>>>
->>>>> +     * so we need to get the format from the isp.
->>>>> +     */
->>>>> +    pixm->quantization = isp_sd_fmt.format.quantization;
->>>>> +    if (!v4l2_is_format_yuv(cap->pix.info))
->>>>> +            pixm->quantization = V4L2_QUANTIZATION_FULL_RANGE;
->>>>> +
->>>>>       pixm->width = clamp_t(u32, pixm->width,
->>>>>                             RKISP1_RSZ_SRC_MIN_WIDTH, max_widths[cap->id]);
->>>>>       pixm->height = clamp_t(u32, pixm->height,
->>>>>                              RKISP1_RSZ_SRC_MIN_HEIGHT, max_heights[cap->id]);
->>>>>
->>>>> -    pixm->field = V4L2_FIELD_NONE;
->>>>> -    pixm->colorspace = V4L2_COLORSPACE_DEFAULT;
->>>>> -    pixm->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
->>>>> -
->>>>>       info = rkisp1_fill_pixfmt(pixm, cap->id);
->>>>>
->>>>> -    /* can not change quantization when stream-on */
->>>>> -    if (other_cap->is_streaming)
->>>>> -            pixm->quantization = other_cap->pix.fmt.quantization;
->>>>> -    /* output full range by default, take effect in params */
->>>>> -    else if (!pixm->quantization ||
->>>>> -             pixm->quantization > V4L2_QUANTIZATION_LIM_RANGE)
->>>>> -            pixm->quantization = V4L2_QUANTIZATION_FULL_RANGE;
->>>>>
->>>>>       if (fmt_cfg)
->>>>>               *fmt_cfg = fmt;
->>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
->>>>> index 2d7b7e078636..7a5576fa14c9 100644
->>>>> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
->>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
->>>>> @@ -300,6 +300,8 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
->>>>>                       struct v4l2_device *v4l2_dev);
->>>>>    void rkisp1_isp_unregister(struct rkisp1_device *rkisp1);
->>>>>
->>>>> +int rkisp1_get_isp_src_fmt(struct rkisp1_device *rkisp1,
->>>>> +                       struct v4l2_subdev_format *sd_fmt);
->>>>>    const struct rkisp1_isp_mbus_info *rkisp1_isp_mbus_info_get(u32 mbus_code);
->>>>>
->>>>>    irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1);
->>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
->>>>> index dee8e96f3900..6fdf5ed0b6b1 100644
->>>>> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
->>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
->>>>> @@ -613,6 +613,10 @@ static int rkisp1_isp_enum_mbus_code(struct v4l2_subdev *sd,
->>>>>
->>>>>               if (code->index == pos - 1) {
->>>>>                       code->code = fmt->mbus_code;
->>>>> +                    if (fmt->pixel_enc == V4L2_PIXEL_ENC_YUV &&
->>>>> +                        dir == RKISP1_DIR_SRC)
->>>>> +                            code->flags =
->>>>> +                                    V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION;
->>>>>                       return 0;
->>>>>               }
->>>>>       }
->>>>> @@ -639,12 +643,21 @@ static int rkisp1_isp_init_config(struct v4l2_subdev *sd,
->>>>>       sink_crop->height = RKISP1_DEFAULT_HEIGHT;
->>>>>       sink_crop->left = 0;
->>>>>       sink_crop->top = 0;
->>>>> +    sink_fmt->colorspace = V4L2_COLORSPACE_SRGB;
->>>>> +    sink_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(sink_fmt->colorspace);
->>>>> +    sink_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(sink_fmt->colorspace);
->>>>> +    sink_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
->>>>> +
->>>>>
->>>>>       src_fmt = v4l2_subdev_get_try_format(sd, cfg,
->>>>>                                            RKISP1_ISP_PAD_SOURCE_VIDEO);
->>>>>       *src_fmt = *sink_fmt;
->>>>>       src_fmt->code = RKISP1_DEF_SRC_PAD_FMT;
->>>>> -    src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
->>>>> +    src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
->>>>> +    src_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(src_fmt->colorspace);
->>>>> +    src_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(src_fmt->colorspace);
->>>>> +    src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
->>>>> +
->>>>>
->>>>>       src_crop = v4l2_subdev_get_try_crop(sd, cfg,
->>>>>                                           RKISP1_ISP_PAD_SOURCE_VIDEO);
->>>>> @@ -687,10 +700,17 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_isp *isp,
->>>>>               isp->src_fmt = mbus_info;
->>>>>       src_fmt->width  = src_crop->width;
->>>>>       src_fmt->height = src_crop->height;
->>>>> -    src_fmt->quantization = format->quantization;
->>>>> -    /* full range by default */
->>>>> -    if (!src_fmt->quantization)
->>>>> +
->>>>> +    src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
->>>>> +    src_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(src_fmt->colorspace);
->>>>> +    src_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(src_fmt->colorspace);
->>>>> +
->>>>> +    if (mbus_info->pixel_enc == V4L2_PIXEL_ENC_BAYER)
->>>>>               src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
->>>>> +    else if (format->quantization == V4L2_QUANTIZATION_DEFAULT)
->>>>> +            src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
->>>>> +    else
->>>>> +            src_fmt->quantization = format->quantization;
->>>>>
->>>>>       *format = *src_fmt;
->>>>>    }
->>>>> @@ -1068,6 +1088,17 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
->>>>>       return ret;
->>>>>    }
->>>>>
->>>>> +int rkisp1_get_isp_src_fmt(struct rkisp1_device *rkisp1,
->>>>> +                       struct v4l2_subdev_format *sd_fmt)
->>>>> +{
->>>>> +    struct rkisp1_isp *isp = &rkisp1->isp;
->>>>> +
->>>>> +    sd_fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
->>>>> +    sd_fmt->pad = RKISP1_ISP_PAD_SOURCE_VIDEO;
->>>>> +
->>>>> +    return v4l2_subdev_call(&isp->sd, pad, get_fmt, NULL, sd_fmt);
->>>>
->>>> Do we need to get through the external API to access data that is
->>>> driver-internal anyway?
->>>>
->>>>> +}
->>>>> +
->>>>>    void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
->>>>>    {
->>>>>       struct v4l2_subdev *sd = &rkisp1->isp.sd;
->>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
->>>>> index 7b6b7ddd4169..8705b133de68 100644
->>>>> --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
->>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
->>>>> @@ -525,6 +525,7 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
->>>>>       const struct rkisp1_isp_mbus_info *mbus_info;
->>>>>       struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
->>>>>       struct v4l2_rect *sink_crop;
->>>>> +    struct v4l2_subdev_format isp_sd_fmt;
->>>>>
->>>>>       sink_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SINK, which);
->>>>>       src_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SRC, which);
->>>>> @@ -539,8 +540,20 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
->>>>>       if (which == V4L2_SUBDEV_FORMAT_ACTIVE)
->>>>>               rsz->pixel_enc = mbus_info->pixel_enc;
->>>>>
->>>>> +    rkisp1_get_isp_src_fmt(rsz->rkisp1, &isp_sd_fmt);
->>>>> +
->>>>
->>>> Is this necessary? My understanding was that in the subdev model, it was
->>>> the userspace responsibility to propagate any configuration changes through
->>>> the graph.
->>>>
->>>> Also, doing this only here wouldn't fully maintain the
->>>> consistency of the state. For example, if one sets the ISP subdev format
->>>> first, then the resizer subdev and then the ISP subdev again, wouldn't the
->>>> resizer subdev end up with a wrong format?
->>>
->>> yes, this is indeed a bug, I am preparing v4 now.
->>> What I thought to do is adding quantization conversion
->>> support also on ther resizer and capture entities.
->>> Then in the 'link_validation' callbacks, there
->>> is a validation that the quantization fields matches.
->>
->> My understanding is that, if we have the following topology
->>
->> [ ISP ] -> [ Resizer ] -> [ Video node ]
->>
->> then the ISP source pad would have the csc capability, while resizer
->> and video node would just accept whatever is configured on their sink
->> pads (no need for csc capability for that) and propagate that to their
->> outputs, i.e. resizer source pad and video node CAPTURE format.
->>
->> Is this what you were going to implement?
-Hi, I sent a v4 where the CSC capability is set on the reiszer and capture as well.
-I can send a v5 implementing it the way you suggest. Currently the doc says that the colorspace fields
-must be set by the driver for capture streams. This implies that userspace can set it
-only if the CSC is supported.
-
-Another option would be to remove the CSC API for subdevices and to decide that the quantiztion is a feature
-of the capture device.
-
-Thanks,
-Dafna
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote on Mon [2020-Jun-15 02:58:27 +0300]:
+> Use the dev_* print macros instead of the v4l2_* print macros. This
+> prepares for a common print infrastructure that will also support the
+> cal_camerarx instances.
 > 
-> Gentle ping.
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/platform/ti-vpe/cal.c | 17 ++++++++++-------
+>  1 file changed, 10 insertions(+), 7 deletions(-)
 > 
-> Best regards,
-> Tomasz
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index e40967751aa4..e62089832713 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -53,19 +53,22 @@ static unsigned debug;
+>  module_param(debug, uint, 0644);
+>  MODULE_PARM_DESC(debug, "activates debug info");
+>  
+> -#define cal_dbg(level, cal, fmt, arg...)	\
+> -		v4l2_dbg(level, debug, &cal->v4l2_dev, fmt, ##arg)
+> +#define cal_dbg(level, cal, fmt, arg...)				\
+> +	do {								\
+> +		if (debug >= (level))					\
+> +			dev_dbg(&(cal)->pdev->dev, fmt, ##arg);		\
+> +	} while (0)
+
+The problem here with using dev_dbg is that you loose the ability to enable
+or disable debug log at runtime. Which I find highly convenient.
+
+With dev_dbg you have to compile with DEBUG defined or at the very least
+DYNAMIC_DEBUG.
+
+Benoit
+
+>  #define cal_info(cal, fmt, arg...)	\
+> -		v4l2_info(&cal->v4l2_dev, fmt, ##arg)
+> +	dev_info(&(cal)->pdev->dev, fmt, ##arg)
+>  #define cal_err(cal, fmt, arg...)	\
+> -		v4l2_err(&cal->v4l2_dev, fmt, ##arg)
+> +	dev_err(&(cal)->pdev->dev, fmt, ##arg)
+>  
+>  #define ctx_dbg(level, ctx, fmt, arg...)	\
+> -		v4l2_dbg(level, debug, &ctx->v4l2_dev, fmt, ##arg)
+> +	cal_dbg(level, (ctx)->cal, "ctx%u: " fmt, (ctx)->csi2_port, ##arg)
+>  #define ctx_info(ctx, fmt, arg...)	\
+> -		v4l2_info(&ctx->v4l2_dev, fmt, ##arg)
+> +	cal_info((ctx)->cal, "ctx%u: " fmt, (ctx)->csi2_port, ##arg)
+>  #define ctx_err(ctx, fmt, arg...)	\
+> -		v4l2_err(&ctx->v4l2_dev, fmt, ##arg)
+> +	cal_err((ctx)->cal, "ctx%u: " fmt, (ctx)->csi2_port, ##arg)
+>  
+>  #define CAL_NUM_CONTEXT 2
+>  
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 > 
