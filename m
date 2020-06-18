@@ -2,122 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FC1C1FF973
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 18:40:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E3F371FFA15
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 19:23:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731993AbgFRQk4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 12:40:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47358 "EHLO
+        id S1732114AbgFRRXm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 13:23:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53924 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731986AbgFRQkz (ORCPT
+        with ESMTP id S1731381AbgFRRXl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 12:40:55 -0400
-Received: from mail-yb1-xb44.google.com (mail-yb1-xb44.google.com [IPv6:2607:f8b0:4864:20::b44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B33AC06174E
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 09:40:55 -0700 (PDT)
-Received: by mail-yb1-xb44.google.com with SMTP id 187so3445887ybq.2
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 09:40:55 -0700 (PDT)
+        Thu, 18 Jun 2020 13:23:41 -0400
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B3B4C06174E
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 10:23:41 -0700 (PDT)
+Received: by mail-qv1-xf42.google.com with SMTP id x16so3146399qvr.3
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 10:23:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7KVQ+UY06ZBMaDAtYXVJAVmpCw0fwlhszKzSBWWFLFc=;
-        b=KPP8oQEMR0zmgeqRoIRxLLqc4LjPvp4A2buPF+6AzYBT6ZLviWiyOdgA4oRMq7R2Kr
-         oBT6IB95hu2XLPt2DJO2v5TxLUEqTW1WLnRh18lbDrCNPj4/shFDlTPi21I5/AkSmona
-         aDiz9ROMu4+RPdr54NfaIfgvdsfsSqv0sy98Z7F5dxDT9qnsKjULZ42glV+6hrBKAO4p
-         0uQbmw9A4N1bHhGBCSQCoF3Au0xcGrHV1XKP45kSzYbmMYyIroh0SIDoQN41v/y4mxG3
-         VWlKneP+2DAFA01lQoquF3JAdT8ifIO2fPngK8lI/S+imS6ZFI9qM7ZGeP0/al3vTonB
-         vmJw==
+        d=ziepe.ca; s=google;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=C9fZMsXo2SZ80We4hmJmwmW4hWECtoNb2OioHXlz4pQ=;
+        b=pQnJk2BkLr+MSY/ZKoRYO3N7SBKy2now/VahbHpiE0ODVcJ+6O7j84vau1mwIApvP7
+         GOdC6OeYk1H3WeQLOrd9w3MqHQZy0OvARyydS7GgAQeW47MnQWfeepZVJrUJjSv717D6
+         71Y1Jcf/9bD++nyhtsm877xpne1ScehVboFxAFrIK686JYR5j1zM1IYedzgkhSMFLH+q
+         BA1fweTgPgjhYb+wikYXhEAlUND0ztF/D51np5BJ3v4C46sZQvCASI5ckldnPRlU+3hi
+         s8pkLypTSa4SZ0xCcdQBCFHr3EIFZ3G/Xkv9NnnR/g9tJLHfZHgrYGhT36a3jHhTjSZ1
+         XJ3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7KVQ+UY06ZBMaDAtYXVJAVmpCw0fwlhszKzSBWWFLFc=;
-        b=HwwBkjYnuVlAgVkjKCHfqexFmcKpbxuyu3wX1nquyHlRYneSPPw+XcK6IZzy23/9iJ
-         9CyUYu9t4hfwWyZwaLVo0FyVuls7yqZ86wX5px+O7ipoZ8vDpAmR0HtQCLRWE/8R09vX
-         fPJYuozmL3NEEr/4+zWYQYYtlW7Em7zQM9ieQxsILih9P96POoxwsZhC0qXYgfOVQ6LI
-         IP7heXFlvc0Iy+umeGObgPMbumMJZmQXlUMUbhV0f/8SaT5eSvSjpE3z1jxk5LpxDuCI
-         h1IuTB6vi6iYpcDhRlc5hoqzAAWc1za6BxrURXGpV9DQrihCYc5GWRF+96TmLiSGZFdk
-         9WNg==
-X-Gm-Message-State: AOAM530wpn4LQPv3jRmWBWkuGYwNP/+sYHoj5OhJXxEWDEMW8LMRXFuy
-        cwT3cUMJmwntY9zBBTtYR9rIkFTc++l5mAvAGWT65w==
-X-Google-Smtp-Source: ABdhPJwU2OUvoaFnPo99OM4W4yl4Cv19fD5DpP0a+qTwglpEIChQQFrzhaGrlYY0oSs26GAJ5m42viwQMpme+SWK8IE=
-X-Received: by 2002:a25:10d4:: with SMTP id 203mr8154404ybq.250.1592498454333;
- Thu, 18 Jun 2020 09:40:54 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=C9fZMsXo2SZ80We4hmJmwmW4hWECtoNb2OioHXlz4pQ=;
+        b=JF7yznpWkANodgWA/tZXtQQ1WiDUxXg9XtgpolOQbro8GFe6gvKWVYov6x3s5VVjg8
+         adD2LRSF/sUxdry3iVMhoTCOM5NZWCZ6GRzSTET2abClt46xO/r7QVsqw8eLwn4NPysV
+         ipZ2Qag7qvt67Ik5ok3X4khaExT1eLRPfnJMH3/7v0gSsg0Swg4NkLqXMi6xG2VOEqla
+         G03N9gdqvRY5Gq+umB8TZvznfNZDHfOoMe+42VDk25mO4rvl2bsBN9H8/X3Qrsdg+NnB
+         vK14uusiQt3ZrgDACo5Bqsu+FE15c0h2t/q9kHFk4NrtvoVS641GMYLIFGC4uQmiX//W
+         6+Fg==
+X-Gm-Message-State: AOAM530HyBEEcwidAOmm6tqSGkxuLT4BN4YZ4J515bpBicFP3ofOVepZ
+        62TVkf8tMenHO4a2rKL9lmCZWg==
+X-Google-Smtp-Source: ABdhPJwk2YUvEzLHMclGfpDEafJPYyQ0A/CvUD7gNhvGjyNa2/WErZ+AilnbN9Hdt0RsaqZHbhBdmA==
+X-Received: by 2002:a05:6214:1705:: with SMTP id db5mr4740498qvb.14.1592501020440;
+        Thu, 18 Jun 2020 10:23:40 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id r7sm2644175qtm.66.2020.06.18.10.23.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 18 Jun 2020 10:23:39 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.93)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1jlyGI-00AEEp-Qj; Thu, 18 Jun 2020 14:23:38 -0300
+Date:   Thu, 18 Jun 2020 14:23:38 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Thomas =?utf-8?B?SGVsbHN0csO2bSAoSW50ZWwp?= 
+        <thomas_os@shipmail.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
+ annotations
+Message-ID: <20200618172338.GM6578@ziepe.ca>
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-5-daniel.vetter@ffwll.ch>
+ <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
+ <20200611083430.GD20149@phenom.ffwll.local>
+ <20200611141515.GW6578@ziepe.ca>
+ <20200616120719.GL20149@phenom.ffwll.local>
+ <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
+ <20200617152835.GF6578@ziepe.ca>
+ <20200618150051.GS20149@phenom.ffwll.local>
 MIME-Version: 1.0
-References: <20200615193811.233737-1-jnchase@google.com> <20200615193811.233737-3-jnchase@google.com>
- <3aefc5c4-2af1-59f2-0797-9a5baf91482e@xs4all.nl> <CALTkaQ3n30nS-b1XuMiu_Z4+FfD0horJDagCPBaUqCCx4JhtdA@mail.gmail.com>
- <e45bf5a1-3862-66a2-213b-f7e5563e5a5d@xs4all.nl> <CALTkaQ02_ttD52h=74hGos09a0ihQwv-rQS5vwpDsrdnK_rYrg@mail.gmail.com>
- <72ea0f61-5fd4-47b6-4b0f-db620ee661db@xs4all.nl>
-In-Reply-To: <72ea0f61-5fd4-47b6-4b0f-db620ee661db@xs4all.nl>
-From:   Jeff Chase <jnchase@google.com>
-Date:   Thu, 18 Jun 2020 09:40:43 -0700
-Message-ID: <CALTkaQ0SFiX1rNkz5WOGCs=ZttYG9utKntsRyQKB-aWzDj-Cvw@mail.gmail.com>
-Subject: Re: [PATCH v5 2/2] media: cec: i2c: ch7322: Add ch7322 CEC controller driver
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        robh+dt@kernel.org, devicetree@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200618150051.GS20149@phenom.ffwll.local>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 18, 2020 at 9:33 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> On 18/06/2020 18:25, Jeff Chase wrote:
-> > On Thu, Jun 18, 2020 at 3:05 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> >>
-> >> On 18/06/2020 10:59, Jeff Chase wrote:
-> >>> Hi Hans,
-> >>>
-> >>> We are using two of these in an Intel-based Chromebox. I see that the
-> >>> cros-ec and seco drivers just statically define the PCI BDF of the
-> >>> Intel graphics device for their boards. I don't see an example of ACPI
-> >>> passing this information. I can copy cros-ec and seco by adding a
-> >>> board table and then use the UID of each device to select the correct
-> >>> port. Adding board-specific configuration to the driver doesn't seem
-> >>> ideal but I'm not sure what the proper way to pass this using ACPI is.
-> >>
-> >> You are right, it's not ACPI, it's using DMI matching.
-> >>
-> >> I have zero knowledge about ACPI, so I have no idea if there is some standard
-> >> method of retrieving this association via ACPI.
-> >
-> > I'm not very familiar with ACPI either. I looked for but did not find
-> > an ACPI equivalent of_get_mac_address().
-> >
-> > I believe it's possible to reference the PCI node but it would take a
-> > bit of work on both the coreboot and linux side.
-> >
-> >>
-> >> This particular chip can actually be used both with DMI matching but also
-> >> on an ARM with device tree, but since you can't test this on an ARM board,
-> >> there is no point in adding support for that.
-> >>
-> >> However, compared to the cros-ec and seco drivers you can do something a bit
-> >> different here: those drivers just return -ENODEV if there is no match, but
-> >> since this driver reads the EDID it can just continue as long as it does not
-> >> set the CEC_CAP_CONNECTOR_INFO capability.
-> >
-> > Is it necessary to add support if we don't set CEC_CAP_CONNECTOR_INFO?
->
-> It is very desirable. Otherwise userspace will not know which CEC device is associated
-> with which HDMI device. Since you are using two of these chips for a Chromebox, I
-> suspect that you actually need to support this.
->
-> Also, I am (slowly) working on wiring support for this in all CEC transmitter drivers,
-> so I prefer not to add CEC drivers without support for this.
+On Thu, Jun 18, 2020 at 05:00:51PM +0200, Daniel Vetter wrote:
+> On Wed, Jun 17, 2020 at 12:28:35PM -0300, Jason Gunthorpe wrote:
+> > On Wed, Jun 17, 2020 at 08:48:50AM +0200, Daniel Vetter wrote:
+> > 
+> > > Now my understanding for rdma is that if you don't have hw page fault
+> > > support,
+> > 
+> > The RDMA ODP feature is restartable HW page faulting just like nouveau
+> > has. The classical MR feature doesn't have this. Only mlx5 HW supports
+> > ODP today.
+> > 
+> > > It's only gpus (I think) which are in this awkward in-between spot
+> > > where dynamic memory management really is much wanted, but the hw
+> > > kinda sucks. Aside, about 10+ years ago we had a similar problem with
+> > > gpu hw, but for security: Many gpu didn't have any kinds of page
+> > > tables to isolate different clients from each another. drivers/gpu
+> > > fixed this by parsing&validating what userspace submitted to make sure
+> > > it's only every accessing its own buffers. Most gpus have become
+> > > reasonable nowadays and do have proper per-process pagetables (gpu
+> > > process, not the pasid stuff), but even today there's still some of
+> > > the old model left in some of the smallest SoC.
+> > 
+> > But I still don't understand why a dma fence is needed inside the GPU
+> > driver itself in the notifier.
+> > 
+> > Surely the GPU driver can block and release the notifier directly from
+> > its own command processing channel?
+> > 
+> > Why does this fence and all it entails need to leak out across
+> > drivers?
+> 
+> So 10 years ago we had this world of every gpu driver is its own bucket,
+> nothing leaks out to the world. But the world had a different idea how
+> gpus where supposed to work, with stuff like:
 
-Okay, understood. I'll look into using DMI matching.
+Sure, I understand DMA fence, but why does a *notifier* need it?
 
-Thanks,
-Jeff
+The job of the notifier is to guarentee that the device it is
+connected to is not doing DMA before it returns.
 
->
-> I really should have noticed much earlier that support for this was missing. My
-> apologies for that.
->
-> Regards,
->
->         Hans
+That just means you need to prove that device is done with the buffer.
+
+As I've understood GPU that means you need to show that the commands
+associated with the buffer have completed. This is all local stuff
+within the driver, right? Why use fence (other than it already exists)
+
+Jason
