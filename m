@@ -2,22 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BC7401FF0BA
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 13:36:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85F631FF0BE
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 13:36:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729520AbgFRLfh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 07:35:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56424 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729504AbgFRLfg (ORCPT
+        id S1729718AbgFRLfs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 07:35:48 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:44330 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729582AbgFRLfi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 07:35:36 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6D78C06174E
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 04:35:35 -0700 (PDT)
+        Thu, 18 Jun 2020 07:35:38 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: dafna)
-        with ESMTPSA id D8ED62A4A7B
+        with ESMTPSA id ABF75278760
 From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 To:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
 Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
@@ -25,9 +22,9 @@ Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
         dafna3@gmail.com, sakari.ailus@linux.intel.com,
         linux-rockchip@lists.infradead.org, mchehab@kernel.org,
         tfiga@chromium.org
-Subject: [PATCH v4 1/4] media: staging: rkisp1: rsz: supported formats are the isp's src formats, not sink formats
-Date:   Thu, 18 Jun 2020 13:35:15 +0200
-Message-Id: <20200618113518.30057-2-dafna.hirschfeld@collabora.com>
+Subject: [PATCH v4 2/4] media: staging: rkisp1: remove macro RKISP1_DIR_SINK_SRC
+Date:   Thu, 18 Jun 2020 13:35:16 +0200
+Message-Id: <20200618113518.30057-3-dafna.hirschfeld@collabora.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200618113518.30057-1-dafna.hirschfeld@collabora.com>
 References: <20200618113518.30057-1-dafna.hirschfeld@collabora.com>
@@ -36,35 +33,125 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The rkisp1_resizer's enum callback 'rkisp1_rsz_enum_mbus_code'
-calls the enum callback of the 'rkisp1_isp' on it's video sink pad.
-This is a bug, the resizer should support the same formats
-supported by the 'rkisp1_isp' on the source pad (not the sink pad).
-
-Fixes: 56e3b29f9f6b "media: staging: rkisp1: add streaming paths"
+The macro RKISP1_DIR_SINK_SRC is a mask of two flags.
+The macro hides the fact that it's a mask and the code
+is actually more clear if we replace it the with bitwise-or explicitly.
 
 Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 Acked-by: Helen Koike <helen.koike@collabora.com>
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
 ---
- drivers/staging/media/rkisp1/rkisp1-resizer.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/rkisp1/rkisp1-isp.c | 25 +++++++++++------------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-index d049374413dc..d64c064bdb1d 100644
---- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-@@ -437,8 +437,8 @@ static int rkisp1_rsz_enum_mbus_code(struct v4l2_subdev *sd,
- 	u32 pad = code->pad;
- 	int ret;
+diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
+index dc2b59a0160a..93ba2dd2fcda 100644
+--- a/drivers/staging/media/rkisp1/rkisp1-isp.c
++++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
+@@ -25,7 +25,6 @@
  
--	/* supported mbus codes are the same in isp sink pad */
--	code->pad = RKISP1_ISP_PAD_SINK_VIDEO;
-+	/* supported mbus codes are the same in isp video src pad */
-+	code->pad = RKISP1_ISP_PAD_SOURCE_VIDEO;
- 	ret = v4l2_subdev_call(&rsz->rkisp1->isp.sd, pad, enum_mbus_code,
- 			       &dummy_cfg, code);
+ #define RKISP1_DIR_SRC BIT(0)
+ #define RKISP1_DIR_SINK BIT(1)
+-#define RKISP1_DIR_SINK_SRC (RKISP1_DIR_SINK | RKISP1_DIR_SRC)
  
+ /*
+  * NOTE: MIPI controller and input MUX are also configured in this file.
+@@ -69,84 +68,84 @@ static const struct rkisp1_isp_mbus_info rkisp1_isp_formats[] = {
+ 		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW10,
+ 		.bayer_pat	= RKISP1_RAW_RGGB,
+ 		.bus_width	= 10,
+-		.direction	= RKISP1_DIR_SINK_SRC,
++		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
+ 	}, {
+ 		.mbus_code	= MEDIA_BUS_FMT_SBGGR10_1X10,
+ 		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
+ 		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW10,
+ 		.bayer_pat	= RKISP1_RAW_BGGR,
+ 		.bus_width	= 10,
+-		.direction	= RKISP1_DIR_SINK_SRC,
++		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
+ 	}, {
+ 		.mbus_code	= MEDIA_BUS_FMT_SGBRG10_1X10,
+ 		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
+ 		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW10,
+ 		.bayer_pat	= RKISP1_RAW_GBRG,
+ 		.bus_width	= 10,
+-		.direction	= RKISP1_DIR_SINK_SRC,
++		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
+ 	}, {
+ 		.mbus_code	= MEDIA_BUS_FMT_SGRBG10_1X10,
+ 		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
+ 		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW10,
+ 		.bayer_pat	= RKISP1_RAW_GRBG,
+ 		.bus_width	= 10,
+-		.direction	= RKISP1_DIR_SINK_SRC,
++		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
+ 	}, {
+ 		.mbus_code	= MEDIA_BUS_FMT_SRGGB12_1X12,
+ 		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
+ 		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW12,
+ 		.bayer_pat	= RKISP1_RAW_RGGB,
+ 		.bus_width	= 12,
+-		.direction	= RKISP1_DIR_SINK_SRC,
++		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
+ 	}, {
+ 		.mbus_code	= MEDIA_BUS_FMT_SBGGR12_1X12,
+ 		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
+ 		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW12,
+ 		.bayer_pat	= RKISP1_RAW_BGGR,
+ 		.bus_width	= 12,
+-		.direction	= RKISP1_DIR_SINK_SRC,
++		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
+ 	}, {
+ 		.mbus_code	= MEDIA_BUS_FMT_SGBRG12_1X12,
+ 		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
+ 		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW12,
+ 		.bayer_pat	= RKISP1_RAW_GBRG,
+ 		.bus_width	= 12,
+-		.direction	= RKISP1_DIR_SINK_SRC,
++		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
+ 	}, {
+ 		.mbus_code	= MEDIA_BUS_FMT_SGRBG12_1X12,
+ 		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
+ 		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW12,
+ 		.bayer_pat	= RKISP1_RAW_GRBG,
+ 		.bus_width	= 12,
+-		.direction	= RKISP1_DIR_SINK_SRC,
++		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
+ 	}, {
+ 		.mbus_code	= MEDIA_BUS_FMT_SRGGB8_1X8,
+ 		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
+ 		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW8,
+ 		.bayer_pat	= RKISP1_RAW_RGGB,
+ 		.bus_width	= 8,
+-		.direction	= RKISP1_DIR_SINK_SRC,
++		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
+ 	}, {
+ 		.mbus_code	= MEDIA_BUS_FMT_SBGGR8_1X8,
+ 		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
+ 		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW8,
+ 		.bayer_pat	= RKISP1_RAW_BGGR,
+ 		.bus_width	= 8,
+-		.direction	= RKISP1_DIR_SINK_SRC,
++		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
+ 	}, {
+ 		.mbus_code	= MEDIA_BUS_FMT_SGBRG8_1X8,
+ 		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
+ 		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW8,
+ 		.bayer_pat	= RKISP1_RAW_GBRG,
+ 		.bus_width	= 8,
+-		.direction	= RKISP1_DIR_SINK_SRC,
++		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
+ 	}, {
+ 		.mbus_code	= MEDIA_BUS_FMT_SGRBG8_1X8,
+ 		.pixel_enc	= V4L2_PIXEL_ENC_BAYER,
+ 		.mipi_dt	= RKISP1_CIF_CSI2_DT_RAW8,
+ 		.bayer_pat	= RKISP1_RAW_GRBG,
+ 		.bus_width	= 8,
+-		.direction	= RKISP1_DIR_SINK_SRC,
++		.direction	= RKISP1_DIR_SINK | RKISP1_DIR_SRC,
+ 	}, {
+ 		.mbus_code	= MEDIA_BUS_FMT_YUYV8_1X16,
+ 		.pixel_enc	= V4L2_PIXEL_ENC_YUV,
 -- 
 2.17.1
 
