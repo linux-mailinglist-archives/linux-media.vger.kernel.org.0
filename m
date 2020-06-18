@@ -2,183 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74F801FF603
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 17:01:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B4DB1FF7B1
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 17:45:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730936AbgFRPBB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 11:01:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60042 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727055AbgFRPA7 (ORCPT
+        id S1731663AbgFRPmm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 11:42:42 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:38589 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731676AbgFRPke (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 11:00:59 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EAF3C06174E
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 08:00:58 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id p5so6378956wrw.9
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 08:00:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6OXAj9s43JL1nA3AEpbYM/MO9Qwg5Ya14IpN0gZo/as=;
-        b=NAXSbQeHANLe1jipR3irzjbY7yWCggcmWa6HNg2IPmITzqFGf3L5EfLt0xDSdDrG+b
-         x2cMxixoM50+NeYTVtrK/kNJYHNO6fr4lE9I3N0/BlBM5groWNzwqW1H+Hm//JIuCUoA
-         dlNXlF2mmmSgTTwOzqZXKvpuzoxFA0/uYDSds=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=6OXAj9s43JL1nA3AEpbYM/MO9Qwg5Ya14IpN0gZo/as=;
-        b=qBT10FB5xjcRn5Hw81mlywMxUfrKKWa0cAQ1ojPhGZkKpIzFkjvxZDXbwal355QCMO
-         imA9xTvnsG0DxVOUa7eQaZvXS3NlcbkqIHUfBbzt2vgWA3QzsNFXJWEMbh0ektTIiMy2
-         Y7EecgymV6BqHMtJhw08NL0wA1vUMThcbfZY/TlSi9DiKVcUwdKbeGTasWo0TvYQAAmp
-         oXAazMW1trNSCU+bKqEOvyDkSuqPZQWHvBYALYFcK93H5bfQFm/o816jSUEuJgTPx5nn
-         HWGz56hTFlS/umLdMkyBhpUnW04ymYPoC5oj15wAhWL8JOjFwVIXH+WHvhcX77ip+3B9
-         AwTw==
-X-Gm-Message-State: AOAM532FRBmZ8mLDMEGb2dsHsR1I50+fEdgwGrmNJY7lhS4wopMS1RiX
-        x8lbzFBh8Gh+HLGrD2HSKeqY9g==
-X-Google-Smtp-Source: ABdhPJyrsmwBwFtG4KAk31ycwBo00rNlOYG3lXCyUqre+ViPnXoXIqRRhRlofgF6zGCpK4dB5Hv+mw==
-X-Received: by 2002:adf:d841:: with SMTP id k1mr4031245wrl.93.1592492454932;
-        Thu, 18 Jun 2020 08:00:54 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id p7sm3878240wro.26.2020.06.18.08.00.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2020 08:00:53 -0700 (PDT)
-Date:   Thu, 18 Jun 2020 17:00:51 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= 
-        <thomas_os@shipmail.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
- annotations
-Message-ID: <20200618150051.GS20149@phenom.ffwll.local>
-Mail-Followup-To: Jason Gunthorpe <jgg@ziepe.ca>,
-        Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= <thomas_os@shipmail.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
- <20200604081224.863494-5-daniel.vetter@ffwll.ch>
- <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
- <20200611083430.GD20149@phenom.ffwll.local>
- <20200611141515.GW6578@ziepe.ca>
- <20200616120719.GL20149@phenom.ffwll.local>
- <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
- <20200617152835.GF6578@ziepe.ca>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200617152835.GF6578@ziepe.ca>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+        Thu, 18 Jun 2020 11:40:34 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200618154032euoutp026b63ac7a80f75cdf167ded7e43981f08~ZrZzu1ktj1486314863euoutp02B
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 15:40:32 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200618154032euoutp026b63ac7a80f75cdf167ded7e43981f08~ZrZzu1ktj1486314863euoutp02B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1592494832;
+        bh=65zQC7AbXs+h4Aa/SkiEZNz20G0ZAx6H0WtGo6ycvZM=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=Ys6tPDMppm6MDIKiMmLpGE88KOX2pjycGDf8E/idJDvMUlqOKgJxqmaqQXmHqFgvh
+         ga6HQk+MK3hg6PLgGk1i2rnihS+WoQhW6ht09TRCDOU9uqK1dgwSsEfVoZtbqNZ23h
+         Oa6FFb7DPAZiD4s7Vv2OtH3oIiT38Yk3Y9+bsiUw=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20200618154032eucas1p1d3bfbecb45e593df35fc1a5d9bc32f82~ZrZzS1hLI1547315473eucas1p1j;
+        Thu, 18 Jun 2020 15:40:32 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges2new.samsung.com (EUCPMTA) with SMTP id 18.DE.60679.0FA8BEE5; Thu, 18
+        Jun 2020 16:40:32 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200618154032eucas1p25df137bd9c481bcbc39320f0167b225a~ZrZzCLLL-0608706087eucas1p2d;
+        Thu, 18 Jun 2020 15:40:32 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200618154032eusmtrp23b5676a37b4a2f268e9c0909934bb080~ZrZzBbtPO0399203992eusmtrp2j;
+        Thu, 18 Jun 2020 15:40:32 +0000 (GMT)
+X-AuditID: cbfec7f4-0cbff7000001ed07-47-5eeb8af0ddf9
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id A3.FE.08375.FEA8BEE5; Thu, 18
+        Jun 2020 16:40:31 +0100 (BST)
+Received: from AMDC2765.digital.local (unknown [106.120.51.73]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20200618154031eusmtip1413e3ed550e7c80c9654005fa7787835~ZrZyTCItf0744107441eusmtip14;
+        Thu, 18 Jun 2020 15:40:31 +0000 (GMT)
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+To:     dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v6 26/36] drm: rcar-du: fix common struct sg_table related
+ issues
+Date:   Thu, 18 Jun 2020 17:39:47 +0200
+Message-Id: <20200618153956.29558-27-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200618153956.29558-1-m.szyprowski@samsung.com>
+X-Brightmail-Tracker: H4sIAAAAAAAAA0WSe0hTYRjG+87ZOTsTt86m5JtJ1iIjQcsucsCykqBDYQRGN0pberLITdvS
+        sv5ICmubt0xJnWYWlTU1bU0rxTQrl5grTE2xi2YXzSzRaSRLcx6t/37P8z4v78PHR+GyBsKd
+        Oqw6xqlViig56SSoqP9t9RnU94cuL7VImBRrA8bczS4lmImKdJxpGflJMreLnmFMQU0AM9SW
+        hBhd+nUhY2vpxhhTTxvBvK7MI5nksnKCKe/7gTElT98JmZsmO8Y8HvxErKfZ4vxixFaPFgjY
+        XG0OwZqMOpK9P9pFsB+SLBh77/pptnO8B2cz2gsRW9WRQLKpZiNih03ztznvcVoTwUUdjuPU
+        ywL3Ox0yt74hYybghMFmRwlozFWPRBTQq+BzwjVMj5woGX0LQbb+Ms4LG4LmhhsCXgwjaOt/
+        IZhZ6a07Pz0oRHB1oAr7t2Iur0WOFEn7gX5ATzrYlU5E8DzF2cE4bcchK2+dHlGUCx0C79MW
+        OmwBvRgepemm4mI6EFLrK0n+mCcUldXiDhZN+o2WRIL3PwrhZdVBnjeCtrp5upwLfLOYhTx7
+        wMTDK1PdgD6LoNtaIuRFMoLXZ7IRnwqAt9Yx0lEIp5dCaeUy3t4AWXYbcthAS6B9QMrXl8DF
+        iiyct8WgPSfj015gsNz5d/bxq2acZxYyDTNvlY7AZjWQF5Cn4f+xAoSMyI2L1SgjOc0KFXfc
+        V6NQamJVkb7h0UoTmvxgjeMW2wNUaT9Qh2gKyZ3Fvdv7Q2WEIk4Tr6xDQOFyV3FQU2OoTByh
+        iD/JqaPD1LFRnKYOzaMEcjfxymt9+2R0pOIYd4TjYjj1zBSjRO4JyEfhm//ZHLFwyaeOWTvm
+        Fktzvvj7zF0b7NXZmbMvSDrniSF4t9/OFboRaU14qqjdI6zvadmvU5nRH9pb/4jOh9T3ZmiN
+        /kpW1zW7rGnBV/GuAtp/a+7t1cpnknX3RoYk3PLWo3u9vys7itYuqtB2s5eaCncVjW5ReboE
+        FwdsEsdtBrlAc0jh542rNYq/qF7emlwDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRmVeSWpSXmKPExsVy+t/xu7rvu17HGWy/bmPRe+4kk8XGGetZ
+        Lf5vm8hsceXrezaLlauPMlks2G9t8elaN6NF58Ql7BZfrjxkstj0+BqrxeVdc9gsejZsZbXY
+        +vIdk8XaI3fZLZZt+sNkcfDDE1YHAY8189Yweuz9toDFY3bHTFaPTas62Ty2f3vA6nG/+ziT
+        x+Yl9R63/z1m9ph8Yzmjx+6bDWwefVtWMXp83iQXwBOlZ1OUX1qSqpCRX1xiqxRtaGGkZ2hp
+        oWdkYqlnaGwea2VkqqRvZ5OSmpNZllqkb5egl7Hl6nW2gv8SFbO+/GFsYPwl0sXIySEhYCLx
+        4lA7SxcjF4eQwFJGiZatm5ghEjISJ6c1sELYwhJ/rnWxQRR9YpTYcqaNHSTBJmAo0fUWIiEi
+        0MkoMa37IzuIwyzQwiLx4dNDFpAqYYFAiVsfPoB1sAioSuzr72QDsXkF7CT6ju1ig1ghL7F6
+        wwGw1ZxA8dPHW8FWCwnYSjz/0MY2gZFvASPDKkaR1NLi3PTcYkO94sTc4tK8dL3k/NxNjMCo
+        2nbs5+YdjJc2Bh9iFOBgVOLhfRHyOk6INbGsuDL3EKMEB7OSCK/T2dNxQrwpiZVVqUX58UWl
+        OanFhxhNgY6ayCwlmpwPjPi8knhDU0NzC0tDc2NzYzMLJXHeDoGDMUIC6YklqdmpqQWpRTB9
+        TBycUg2Meld2fPpktf16wftIt//XX8l27faWL79nwGQu93xv1v2q5ZrC7ZNNV86d0Wfqfrq+
+        6fHrf2mXpDg11r9/uDj9RxKn7l7b66l6Sit+G33cmVtVOJdxbxuP0w4fVlGxzyseLXb6xKHp
+        fF3zv/ObtzM0nC/NF+PeVZg3ZXHG37qpV4vE/yop6630UGIpzkg01GIuKk4EAIapYQbAAgAA
+X-CMS-MailID: 20200618154032eucas1p25df137bd9c481bcbc39320f0167b225a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200618154032eucas1p25df137bd9c481bcbc39320f0167b225a
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200618154032eucas1p25df137bd9c481bcbc39320f0167b225a
+References: <20200618153956.29558-1-m.szyprowski@samsung.com>
+        <CGME20200618154032eucas1p25df137bd9c481bcbc39320f0167b225a@eucas1p2.samsung.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 17, 2020 at 12:28:35PM -0300, Jason Gunthorpe wrote:
-> On Wed, Jun 17, 2020 at 08:48:50AM +0200, Daniel Vetter wrote:
-> 
-> > Now my understanding for rdma is that if you don't have hw page fault
-> > support,
-> 
-> The RDMA ODP feature is restartable HW page faulting just like nouveau
-> has. The classical MR feature doesn't have this. Only mlx5 HW supports
-> ODP today.
-> 
-> > It's only gpus (I think) which are in this awkward in-between spot
-> > where dynamic memory management really is much wanted, but the hw
-> > kinda sucks. Aside, about 10+ years ago we had a similar problem with
-> > gpu hw, but for security: Many gpu didn't have any kinds of page
-> > tables to isolate different clients from each another. drivers/gpu
-> > fixed this by parsing&validating what userspace submitted to make sure
-> > it's only every accessing its own buffers. Most gpus have become
-> > reasonable nowadays and do have proper per-process pagetables (gpu
-> > process, not the pasid stuff), but even today there's still some of
-> > the old model left in some of the smallest SoC.
-> 
-> But I still don't understand why a dma fence is needed inside the GPU
-> driver itself in the notifier.
-> 
-> Surely the GPU driver can block and release the notifier directly from
-> its own command processing channel?
-> 
-> Why does this fence and all it entails need to leak out across
-> drivers?
+The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg() function
+returns the number of the created entries in the DMA address space.
+However the subsequent calls to the dma_sync_sg_for_{device,cpu}() and
+dma_unmap_sg must be called with the original number of the entries
+passed to the dma_map_sg().
 
-So 10 years ago we had this world of every gpu driver is its own bucket,
-nothing leaks out to the world. But the world had a different idea how
-gpus where supposed to work, with stuff like:
+struct sg_table is a common structure used for describing a non-contiguous
+memory buffer, used commonly in the DRM and graphics subsystems. It
+consists of a scatterlist with memory pages and DMA addresses (sgl entry),
+as well as the number of scatterlist entries: CPU pages (orig_nents entry)
+and DMA mapped pages (nents entry).
 
-- laptops with a power-efficient but slow gpu integrated on the cpu die,
-  and a 2nd, much faster but also more wasteful gpu seperately
+It turned out that it was a common mistake to misuse nents and orig_nents
+entries, calling DMA-mapping functions with a wrong number of entries or
+ignoring the number of mapped entries returned by the dma_map_sg()
+function.
 
-- also multi-gpu rendering (but on linux we never really got around to
-  enabling that, at least not for 3d rendering)
+To avoid such issues, lets use a common dma-mapping wrappers operating
+directly on the struct sg_table objects and use scatterlist page
+iterators where possible. This, almost always, hides references to the
+nents and orig_nents entries, making the code robust, easier to follow
+and copy/paste safe.
 
-- soc just bundle IP blocks together, and very often they feel like they
-  have to do their own display block (it's fairly easy and allows you to
-  keep your hw engineers justified on payroll with some more patents they
-  create), but anything more fancy they buy in. So from a driver
-  architecture pov even a single chip soc looks like a bundle of gpus
+dma_map_sgtable() function returns zero or an error code, so adjust the
+return value check for the vsp1_du_map_sg() function.
 
-And you want to pipeline all this because performance, so waiting in
-userspace for one block to finish before you hand it ever to the other
-isn't a good idea.
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+---
+ drivers/gpu/drm/rcar-du/rcar_du_vsp.c  | 3 +--
+ drivers/media/platform/vsp1/vsp1_drm.c | 8 ++++----
+ 2 files changed, 5 insertions(+), 6 deletions(-)
 
-Hence dma_fence as a cross driver leak was created by pulling the gpu
-completion tracking from the drm/ttm library for managing vram.
-
-Now with glorious hindsight we could have come up with a different
-approach, where synchronization is managed by userspace, kernel just
-provides some primitives (kinda like futexes, but for gpu). And the kernel
-manages residency and gpu pte wrangling entirely seperately. But:
-
-- 10 years ago drivers/gpu was a handful of people at best
-
-- we just finished the massive rewrite to get to a kernel memory manager
-  and kernel modesetting (over 5 years after windows/macos), so appetite
-  for massive rewrites was minimal.
-
-Here we are, now with 50 more drivers built on top and an entire userspace
-ecosystem that relies on all this (because yes we made dma_fence also the
-building block for all the cross-process uapi, why wouldn't we).
-
-I hope that explains a bit the history of how and why we ended up here.
-
-Maybe I should do a plumbers talk about "How not to memory manage -
-cautious tales from drivers/gpu" I think there's a lot of areas where the
-conversation usually goes "wtf" ... long explanation of history and
-technical reasons leading to a "oh dear". With a lot of other accelerators
-and things landing might be good to have a list of things that look
-tempting (because hey 2% faster) but arent worth the pain.
--Daniel
+diff --git a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+index f1a81c9b184d..a27bff999649 100644
+--- a/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
++++ b/drivers/gpu/drm/rcar-du/rcar_du_vsp.c
+@@ -197,9 +197,8 @@ int rcar_du_vsp_map_fb(struct rcar_du_vsp *vsp, struct drm_framebuffer *fb,
+ 			goto fail;
+ 
+ 		ret = vsp1_du_map_sg(vsp->vsp, sgt);
+-		if (!ret) {
++		if (ret) {
+ 			sg_free_table(sgt);
+-			ret = -ENOMEM;
+ 			goto fail;
+ 		}
+ 	}
+diff --git a/drivers/media/platform/vsp1/vsp1_drm.c b/drivers/media/platform/vsp1/vsp1_drm.c
+index a4a45d68a6ef..86d5e3f4b1ff 100644
+--- a/drivers/media/platform/vsp1/vsp1_drm.c
++++ b/drivers/media/platform/vsp1/vsp1_drm.c
+@@ -912,8 +912,8 @@ int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt)
+ 	 * skip cache sync. This will need to be revisited when support for
+ 	 * non-coherent buffers will be added to the DU driver.
+ 	 */
+-	return dma_map_sg_attrs(vsp1->bus_master, sgt->sgl, sgt->nents,
+-				DMA_TO_DEVICE, DMA_ATTR_SKIP_CPU_SYNC);
++	return dma_map_sgtable(vsp1->bus_master, sgt, DMA_TO_DEVICE,
++			       DMA_ATTR_SKIP_CPU_SYNC);
+ }
+ EXPORT_SYMBOL_GPL(vsp1_du_map_sg);
+ 
+@@ -921,8 +921,8 @@ void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt)
+ {
+ 	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+ 
+-	dma_unmap_sg_attrs(vsp1->bus_master, sgt->sgl, sgt->nents,
+-			   DMA_TO_DEVICE, DMA_ATTR_SKIP_CPU_SYNC);
++	dma_unmap_sgtable(vsp1->bus_master, sgt, DMA_TO_DEVICE,
++			  DMA_ATTR_SKIP_CPU_SYNC);
+ }
+ EXPORT_SYMBOL_GPL(vsp1_du_unmap_sg);
+ 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.17.1
+
