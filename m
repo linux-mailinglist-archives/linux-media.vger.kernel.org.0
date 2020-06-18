@@ -2,85 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E8AD1FFA91
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 19:52:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B5FE11FFAA3
+	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 19:56:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729965AbgFRRwY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 13:52:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58350 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726282AbgFRRwW (ORCPT
+        id S1728283AbgFRR4F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 13:56:05 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:44068 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727019AbgFRR4F (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 13:52:22 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94416C0613EE
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 10:52:21 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id a6so2630155wmm.5
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 10:52:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=Lb6ruUo4th4gczpSuevPe5msRghKn9eEg7we4tRduH4=;
-        b=eGgDOyjrGAgWo8+oJBjv2YRlI0KPsVR0vk3sX9sj5UkJB3QMBW4oB/V3LHRO5p+jkR
-         AzFtvoivhxfC58Yswr8wRmbhgXOtENtAyrJUVC1EV5C0H+PasAaahOh0c7MU6DXy4eBw
-         fuWwyC4exoBoszRiG/M/X4Hssfd9RctogKm2Y=
+        Thu, 18 Jun 2020 13:56:05 -0400
+Received: by mail-io1-f70.google.com with SMTP id v14so4752647iob.11
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 10:56:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=Lb6ruUo4th4gczpSuevPe5msRghKn9eEg7we4tRduH4=;
-        b=hIoFF1UkPE+yoIPMOzvWnC5qJckBgWj6jeNXwYCMdMvzibtmfb/KKlp9fuHZ0QFuyB
-         s+G+JWsUPeeNOPIjOo24CcM2OZfeedmqiq/iH0hwJhcy1IMlCE6khbc1GydtKDiThD78
-         BOfdmUmcOhMQ/lQNPxaOyALBLhudb2BEzzGJRgB88UqJfQ5T/aXBT9K6+ObZ5qySccl7
-         7KsUYblPbzWLp0aDdx31hrR73+vZJOlTNxe9h4JwdmqVVT/obJalD1l6AQeav24KIOR8
-         /othnNBpyOe3m4/rFnslRgAwIaS6iJfTgTJhHE1IxOCb5JAj1HRKoHsbEH+fG7W4TM27
-         kvRQ==
-X-Gm-Message-State: AOAM533gFuH07/x3Mtx7014ozHtrxF3FQtYF11d1nRNMMq+BTSd48QNZ
-        GYjgyECoCDQ6anGBaeYbn5iuUA==
-X-Google-Smtp-Source: ABdhPJyN6ugEFVxfi2oUTpklkACeaBduQoso3/vz2+EfcawKtoU105dOecEZxHdsjW8oylGRMPEBSA==
-X-Received: by 2002:a7b:c2a9:: with SMTP id c9mr5352893wmk.11.1592502739874;
-        Thu, 18 Jun 2020 10:52:19 -0700 (PDT)
-Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id o1sm4589796wrw.20.2020.06.18.10.52.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2020 10:52:19 -0700 (PDT)
-Date:   Thu, 18 Jun 2020 17:52:18 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 1/2] media: v4l UAPI: add
- V4L2_BUF_CAP_SUPPORTS_RO_REQUESTS
-Message-ID: <20200618175218.GB10831@chromium.org>
-References: <20200617014928.4374-1-yunfei.dong@mediatek.com>
+        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
+         :from:to;
+        bh=EFtXSNMLUGInsLNSBypEMpMMFyFYOsaqbMXTYo9acWE=;
+        b=YVRiS+g8byXGwKv+Uacabb+gI0CqIL9tJZrd/zqS0UZ5qIFBXbHhUgQXpS1KxsLy9Q
+         oYHgfw5APJRL6lfi0Aur9pCAv8XV+g4PEm/79Y1kuqG4gKvkc7AQ/9WzdgSLyPCoAsSP
+         9OSc7dEyxgOt1OSkaQNd+Db47eAxF1j+/SUouieelc+LC1j5fFxdKV2UzZckcgKRnJsm
+         6LUgZiKQjrOLKmUdQqWD0OhOz7CL0z47cyVGDwDxe5xE9A68KtTT1TW1AQ88dieP+sq3
+         oMzBVPXskSdqla4SKvXfC8TJpoKa+Rxn4QtQhTYdFOePpOUIcyGN8bGRh5bFdWeTyAlK
+         1fAA==
+X-Gm-Message-State: AOAM532TnVvDUi4x/iS6fh1F+WTmBIDiXpzolW7mb+QM9OE7DGjlXdDn
+        UIMYQkP3R7OGqA3W0CCGHgYoRUdV3DHJh1v313wI62krM0/U
+X-Google-Smtp-Source: ABdhPJxyaSvc8IYhW8iRskEa+5nwLcHwdzT7YI+Bk1XFGFOcjid5bO4Xf5g7G5xn+B2xZguzw1cT2eOse36ijX8XtbSjosI9JjkB
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200617014928.4374-1-yunfei.dong@mediatek.com>
+X-Received: by 2002:a6b:1785:: with SMTP id 127mr6231079iox.136.1592502964342;
+ Thu, 18 Jun 2020 10:56:04 -0700 (PDT)
+Date:   Thu, 18 Jun 2020 10:56:04 -0700
+In-Reply-To: <000000000000aa674005a845bbc5@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000007e5a7305a85f7dbd@google.com>
+Subject: Re: KASAN: null-ptr-deref Write in media_request_close
+From:   syzbot <syzbot+6bed2d543cf7e48b822b@syzkaller.appspotmail.com>
+To:     ezequiel@collabora.com, laurent.pinchart@ideasonboard.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab+huawei@kernel.org, mchehab@kernel.org,
+        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunfei,
+syzbot has bisected this bug to:
 
-On Wed, Jun 17, 2020 at 09:49:27AM +0800, Yunfei Dong wrote:
-> This patch adds support for the V4L2_BUF_CAP_SUPPORTS_RO_REQUESTS
-> flag. This flag is used for RO Request.
+commit 016baa59bf9f6c2550480b73f18100285e3a4fd2
+Author: Ezequiel Garcia <ezequiel@collabora.com>
+Date:   Tue Apr 14 22:06:24 2020 +0000
 
-I think this patch series lacks two major things:
- - a cover letter explaining the feature and what it is needed/useful
-   for,
- - a user - is there an upstream driver which would implement this
-   feature and benefit from it?
+    media: Kconfig: Don't expose the Request API option
 
-Best regards,
-Tomasz
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=108d7149100000
+start commit:   7ae77150 Merge tag 'powerpc-5.8-1' of git://git.kernel.org..
+git tree:       upstream
+final crash:    https://syzkaller.appspot.com/x/report.txt?x=128d7149100000
+console output: https://syzkaller.appspot.com/x/log.txt?x=148d7149100000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=be4578b3f1083656
+dashboard link: https://syzkaller.appspot.com/bug?extid=6bed2d543cf7e48b822b
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17b3fc35100000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12fbb6f1100000
+
+Reported-by: syzbot+6bed2d543cf7e48b822b@syzkaller.appspotmail.com
+Fixes: 016baa59bf9f ("media: Kconfig: Don't expose the Request API option")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
