@@ -2,78 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F98920028C
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 09:13:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 309F52002A0
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 09:21:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729975AbgFSHNj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jun 2020 03:13:39 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:53475 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728109AbgFSHNi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jun 2020 03:13:38 -0400
-X-UUID: d6e89bb465a149788b5b552f2b6f28bf-20200619
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=Ge4Q1IGNmven9DEwI5s/AYTPPYmWkvgiVPEkL7m9LtI=;
-        b=M9q2XpuUPKOgdGV049XKRskPDU9OY/g1aBHPIBEN+X6ADjyZR7Q3LoaSXElk2pylXOH0sCWRb0460ICYCNgEosZcpjvFOrRQBV94OMMBShz0HYfCbMd6sH6tc2jzpvraGNgMwEWC6tkfbkHbr5lryexkgIAW08MD3ZRpS7oczAo=;
-X-UUID: d6e89bb465a149788b5b552f2b6f28bf-20200619
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
-        (envelope-from <tiffany.lin@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 487082109; Fri, 19 Jun 2020 15:13:35 +0800
-Received: from mtkcas07.mediatek.inc (172.21.101.84) by
- mtkmbs01n2.mediatek.inc (172.21.101.79) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Fri, 19 Jun 2020 15:13:33 +0800
-Received: from [172.21.77.4] (172.21.77.4) by mtkcas07.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Fri, 19 Jun 2020 15:13:33 +0800
-Message-ID: <1592550813.23952.5.camel@mtksdaap41>
-Subject: Re: [PATCH 09/10] media: dt-bindings: mtk-vcodec: specify SCP node
-From:   Tiffany Lin <tiffany.lin@mediatek.com>
-To:     Alexandre Courbot <acourbot@chromium.org>
-CC:     Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Rui Wang <gtk_ruiwang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        "Pi-Hsun Shih" <pihsun@chromium.org>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        <linux-media@vger.kernel.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>
-Date:   Fri, 19 Jun 2020 15:13:33 +0800
-In-Reply-To: <20200520082723.96136-10-acourbot@chromium.org>
-References: <20200520082723.96136-1-acourbot@chromium.org>
-         <20200520082723.96136-10-acourbot@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        id S1729714AbgFSHVY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jun 2020 03:21:24 -0400
+Received: from www.zeus03.de ([194.117.254.33]:34380 "EHLO mail.zeus03.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729548AbgFSHVY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 19 Jun 2020 03:21:24 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=simple; d=sang-engineering.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=k1; bh=Tx1HKfhcOXw7ejBWKidFnCtFoaUu
+        r9y0RAg5uUGEalE=; b=OrBsnhQJjJUlLKpVyJLvgJDRgFo6cVeSKwNw5whAk1AS
+        duWZ4NZ9Ch+3QWEsGdZREuHzzRqPWAfkp64Av2jnS/dA2KVd6SzqUUm7NBVOyIVj
+        GkNDuReFg/5jGv2PZfkYPbR8qhANBWxMzw9SkNK6sXj38epcHqUXGxog472xQc8=
+Received: (qmail 2435058 invoked from network); 19 Jun 2020 09:21:20 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 19 Jun 2020 09:21:20 +0200
+X-UD-Smtp-Session: l3s3148p1@FpZVvWqoYMdQT+F6
+Date:   Fri, 19 Jun 2020 09:21:19 +0200
+From:   Wolfram Sang <wsa+renesas@sang-engineering.com>
+To:     linux-i2c@vger.kernel.org
+Cc:     dri-devel@lists.freedesktop.org, linux-fbdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH 0/6] remove deprecated i2c_new_device API
+Message-ID: <20200619072119.GB1705@kunai>
+References: <20200615075816.2848-1-wsa+renesas@sang-engineering.com>
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 4A4C11D294B15114B2E1BEFFA5738803A511605A5CDDAEB32273C11F7D27DE922000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="LpQ9ahxlCli8rRTG"
+Content-Disposition: inline
+In-Reply-To: <20200615075816.2848-1-wsa+renesas@sang-engineering.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gV2VkLCAyMDIwLTA1LTIwIGF0IDE3OjI3ICswOTAwLCBBbGV4YW5kcmUgQ291cmJvdCB3cm90
-ZToNCj4gVGhlIG1lZGlhdGVrIGNvZGVjcyBjYW4gdXNlIGVpdGhlciB0aGUgVlBVIG9yIHRoZSBT
-Q1AgYXMgdGhlaXIgaW50ZXJmYWNlDQo+IHRvIGZpcm13YXJlLiBSZWZsZWN0IHRoaXMgaW4gdGhl
-IERUIGJpbmRpbmdzLg0KPiANCkFja2VkLWJ5OiBUaWZmYW55IExpbiA8dGlmZmFueS5saW5AbWVk
-aWF0ZWsuY29tPg0KDQoNCj4gU2lnbmVkLW9mZi1ieTogQWxleGFuZHJlIENvdXJib3QgPGFjb3Vy
-Ym90QGNocm9taXVtLm9yZz4NCj4gLS0tDQo+ICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmlu
-ZGluZ3MvbWVkaWEvbWVkaWF0ZWstdmNvZGVjLnR4dCB8IDQgKysrLQ0KPiAgMSBmaWxlIGNoYW5n
-ZWQsIDMgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL0Rv
-Y3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9tZWRpYXRlay12Y29kZWMudHh0
-IGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL21lZGlhdGVrLXZjb2Rl
-Yy50eHQNCj4gaW5kZXggYjZiNWRkZTZhYmQ4Li43YWVmMGE0ZmUyMDcgMTAwNjQ0DQo+IC0tLSBh
-L0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9tZWRpYXRlay12Y29kZWMu
-dHh0DQo+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9tZWRp
-YXRlay12Y29kZWMudHh0DQo+IEBAIC0xOSw3ICsxOSw5IEBAIFJlcXVpcmVkIHByb3BlcnRpZXM6
-DQo+ICAtIGlvbW11cyA6IHNob3VsZCBwb2ludCB0byB0aGUgcmVzcGVjdGl2ZSBJT01NVSBibG9j
-ayB3aXRoIG1hc3RlciBwb3J0IGFzDQo+ICAgIGFyZ3VtZW50LCBzZWUgRG9jdW1lbnRhdGlvbi9k
-ZXZpY2V0cmVlL2JpbmRpbmdzL2lvbW11L21lZGlhdGVrLGlvbW11LnR4dA0KPiAgICBmb3IgZGV0
-YWlscy4NCj4gLS0gbWVkaWF0ZWssdnB1IDogdGhlIG5vZGUgb2YgdmlkZW8gcHJvY2Vzc29yIHVu
-aXQNCj4gK09uZSBvZiB0aGUgdHdvIGZvbGxvd2luZyBub2RlczoNCj4gKy0gbWVkaWF0ZWssdnB1
-IDogdGhlIG5vZGUgb2YgdGhlIHZpZGVvIHByb2Nlc3NvciB1bml0LCBpZiB1c2luZyBWUFUuDQo+
-ICstIG1lZGlhdGVrLHNjcCA6IHRoZSBub29kZSBvZiB0aGUgU0NQIHVuaXQsIGlmIHVzaW5nIFND
-UC4NCj4gIA0KPiANCj4gIEV4YW1wbGU6DQoNCg==
 
+--LpQ9ahxlCli8rRTG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jun 15, 2020 at 09:58:09AM +0200, Wolfram Sang wrote:
+> I want to remove the above API this cycle, and just a few patches have
+> not made it into 5.8-rc1. They have been reviewed and most had been
+> promised to get into linux-next, but well, things happen. So, I hope it
+> is okay for everyone to collect them like this and push them via I2C for
+> 5.8-rc2.
+>=20
+> One minor exception is the media documentation patch which I simply have
+> missed so far, but it is trivial.
+>=20
+> And then, finally, there is the removal of the old API as the final
+> patch. Phew, that's been a long ride.
+>=20
+> I am open for comments, of course.
+
+Applied to for-current, thanks!
+
+
+--LpQ9ahxlCli8rRTG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl7sZ2sACgkQFA3kzBSg
+KbZVtBAAjxj8/yCiqHPP8gPXOpd8hStQqYaqlvw6NW5ddjUNy8nDaA/ztSbvpdDv
+RKtamlqk9b6JKoOgP0Fxe6xQfysX5qdg9DOKGlAS+atbNTQNydlCovfYbUARyJtz
+RoiP0jzxCquuoLcSWAtGWzBhG350v33bysM+zVe4yakWp2ILF8Y1y5l+7/tgXFZB
+HbVGxYihsGm76WPlXRRACWrKB1HsieEPVUXDCzG9BLMicuy1Ly7en7UdhkiJnzpz
++Pk1OVCXpDHoKewKv2uK8sbf+TSy9hdesPCO40TZC1Oe1hB2fJGPOV3XsR0CZ7iS
+mC7vRPd3rNw62m4zMDxIX0Le5QlCQCpwiW8uSNj7IuadxM5p34b2J6cqTeQBEz5K
+y33mJTVybc2yClSvrFDnXNj1Zagz1M4vMVpDLGTBX45rzxmShlzl2inG9hVZblw8
+EMSYAefZUHfgc7HptbdTQsTQkjlS1Q5wg9lHXWXGdtFE/oEhOV/DGQOLQwlBH6jD
+shVnrzLQcr7mUgJCq2+x8dTs73TnupyVCcRIDh2iTXPmd6UGByIAUN5yTC5GkUIf
+wmtRQyJfYHNEvtdFC+jehCarVj0zO0JmzDX434FUDJMFvXa9a2vqJLORds5ASJl7
+3K+Xupy+eSX6trVDd7StjIQYraYbn2rFko60famD5ePLbfpGuDE=
+=kh1x
+-----END PGP SIGNATURE-----
+
+--LpQ9ahxlCli8rRTG--
