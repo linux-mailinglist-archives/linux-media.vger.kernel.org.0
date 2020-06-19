@@ -2,164 +2,270 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F5912002BC
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 09:30:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD4102003CA
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 10:25:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730722AbgFSHa4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jun 2020 03:30:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42868 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729740AbgFSHa4 (ORCPT
+        id S1731188AbgFSIZl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jun 2020 04:25:41 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:56438 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730849AbgFSIZi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jun 2020 03:30:56 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1BCAC06174E
-        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 00:30:55 -0700 (PDT)
-Received: from [IPv6:2003:cb:8706:4c00:bc07:c8ad:1aab:8685] (p200300cb87064c00bc07c8ad1aab8685.dip0.t-ipconnect.de [IPv6:2003:cb:8706:4c00:bc07:c8ad:1aab:8685])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id B4A1B2A4FC3;
-        Fri, 19 Jun 2020 08:30:52 +0100 (BST)
-Subject: Re: [PATCH v2 3/4] media: staging: rkisp1: rsz: set output format to
- YUV422 if cap format is YUV444
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20200515142952.20163-1-dafna.hirschfeld@collabora.com>
- <20200515142952.20163-4-dafna.hirschfeld@collabora.com>
- <CAHD77HkjjWMOcX3oLnzdMuzZM-_NSydStnzLLcHEFRenL23d-A@mail.gmail.com>
- <aa52f9f8-d9e9-06b2-22df-bbab2d26b516@collabora.com>
- <20200618174752.GA10831@chromium.org>
- <9ee01443-985d-751c-fff9-fa90337de68d@collabora.com>
- <20200618181220.GC10831@chromium.org>
- <f1660285-f6cb-6157-1e56-2974bc549fef@collabora.com>
- <20200618191857.GC73379@chromium.org>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <09b87404-b106-f58b-b773-cf4c344648df@collabora.com>
-Date:   Fri, 19 Jun 2020 09:30:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Fri, 19 Jun 2020 04:25:38 -0400
+Received: from jade.flets-east.jp (unknown [IPv6:2400:4051:61:600:e972:d773:e99a:4f79])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EBDCE556;
+        Fri, 19 Jun 2020 10:25:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1592555135;
+        bh=NSttfhCgstY6R4eFCB7J38VT3lneez5tYUGa8i/b3Ak=;
+        h=From:To:Cc:Subject:Date:From;
+        b=HuBlU8njQfWWGQBHxxDbDlc/WEqddx6BDZgjk3+C4XkOTH/2UpPDYqVXuuMWUgQjm
+         3ZwzAeoeYSyVcThn5lIvQAfUgD6GbscF7hxAPF2dB+vhtlDBIX4NBblT7CeeHWvZiv
+         KDlVroGYR7zpjIiBKq5H0WMND1ZxHFIm2EexQ9I8=
+From:   Paul Elder <paul.elder@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Paul Elder <paul.elder@ideasonboard.com>, hverkuil@xs4all.nl,
+        laurent.pinchart@ideasonboard.com
+Subject: [PATCH v2] v4l2-compliance: Convert testBlockingDQBuf to pthreads
+Date:   Fri, 19 Jun 2020 17:25:19 +0900
+Message-Id: <20200619082519.26259-1-paul.elder@ideasonboard.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <20200618191857.GC73379@chromium.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The test to test that a blocked VIDIOC_QBUF call will not block a
+VIDIOC_STREAMOFF call uses different processes to make the calls. As it
+isn't very realistic for multiple processes to be controlling a single
+V4L2 device, convert the test to pthreads.
 
+Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 
-On 18.06.20 21:18, Tomasz Figa wrote:
-> On Thu, Jun 18, 2020 at 08:50:23PM +0200, Dafna Hirschfeld wrote:
->>
->>
->> On 18.06.20 20:12, Tomasz Figa wrote:
->>> On Thu, Jun 18, 2020 at 08:00:37PM +0200, Dafna Hirschfeld wrote:
->>>>
->>>>
->>>> On 18.06.20 19:47, Tomasz Figa wrote:
->>>>> On Fri, Jun 12, 2020 at 02:45:00PM +0200, Dafna Hirschfeld wrote:
->>>>>>
->>>>>>
->>>>>> On 27.05.20 01:09, Tomasz Figa wrote:
->>>>>>> On Fri, May 15, 2020 at 4:30 PM Dafna Hirschfeld
->>>>>>> <dafna.hirschfeld@collabora.com> wrote:
->>>>>>>>
->>>>>>>> If the capture format is YUV444M then the memory input format
->>>>>>>> should be YUV422, so the resizer should not change the default
->>>>>>>> hdiv, vdiv in that case.
->>>>>>>>
->>>>>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>>>>>>> ---
->>>>>>>>      drivers/staging/media/rkisp1/rkisp1-resizer.c | 7 ++++---
->>>>>>>>      1 file changed, 4 insertions(+), 3 deletions(-)
->>>>>>>>
->>>>>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
->>>>>>>> index 04a29af8cc92..5f9740ddd558 100644
->>>>>>>> --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
->>>>>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
->>>>>>>> @@ -394,10 +394,11 @@ static void rkisp1_rsz_config(struct rkisp1_resizer *rsz,
->>>>>>>>              * (4:2:2 -> 4:2:0 for example). So the width/height of the CbCr
->>>>>>>>              * streams should be set according to the pixel format in the capture.
->>>>>>>>              * The resizer always gets the input as YUV422. If the capture format
->>>>>>>> -        * is RGB then the memory input (the resizer output) should be YUV422
->>>>>>>> -        * so we use the hdiv, vdiv of the YUV422 info in this case.
->>>>>>>> +        * is RGB or YUV444 then the memory input (the resizer output) should
->>>>>>>> +        * be YUV422 so we use the hdiv, vdiv of the YUV422 info in this case.
->>>>>>>>              */
->>>>>>>> -       if (v4l2_is_format_yuv(cap->pix.info)) {
->>>>>>>> +       if (v4l2_is_format_yuv(cap->pix.info) &&
->>>>>>>> +           cap->pix.info->format != V4L2_PIX_FMT_YUV444M) {
->>>>>>>>                     src_c.width = cap->pix.info->hdiv;
->>>>>>>>                     src_c.height = cap->pix.info->vdiv;
->>>>>>>
->>>>>>> As pointed out in another thread, this should have been the original
->>>>>>> size divided by the divisor and not just the latter alone.
->>>>>>>
->>>>>>> It seems a bit suspicious to me that we don't need to upscale the
->>>>>>> chroma planes here, because it would mean that the MI itself would be
->>>>>>> doing some horizontal pixel doubling. The hardware documentation
->>>>>>> doesn't really explain this, though.
->>>>>>>
->>>>>>> Have you been able to validate that the setting without upscaling
->>>>>>> indeed produces correct output?
->>>>>>
->>>>>> Hi,
->>>>>> I investigated it again, without this patch, the frames on mainpath for YUV444 look good: https://imgur.com/a/NtazWhY
->>>>>> but there is a problem on selfpath: https://imgur.com/a/vQJPqAn
->>>>>>
->>>>>> This patch somehow solves the problem on selfpath but ruins the frames on mainpath.
->>>>>>
->>>>>> I think the bug is actually in another place in the code. The function 'rkisp1_sp_config'
->>>>>> sets a constant value RKISP1_MI_CTRL_SP_INPUT_YUV422 as the input format on the RKISP1_CIF_MI_CTRL register.
->>>>>> But the value should be set according to the configuration. For some reason the problem arises only
->>>>>> when trying to capture yuv444. When I capture yuv420 on the selfpath the frame looks good although the
->>>>>> value RKISP1_MI_CTRL_SP_INPUT_YUV422 is set.
->>>>>> Setting the the SP_INPUT_* according to the configuration seems to solve the problem.
->>>>>
->>>>> Looking at the datasheet, SP seems to have some internal format
->>>>> conversion capability - one can set SP_OUTPUT_FORMAT and SP_INPUT_FORMAT
->>>>> to different YUV subsampling modes or even some RGB formats. MP doesn't
->>>>> have this capability - it can only write whatever it receives.
->>>>>
->>>>> I think this needs to be reflected in the driver, if it isn't yet.
->>>>> Depending on the resizer source format, the MP video node must allow
->>>>> only formats with matching subsampling mode.
->>>>
->>>> Hi,
->>>> I work on v3 now that does that, it supports several yuv mbus codes on the source pads of the resizers
->>>> and then in the link_validation callback of the capture it checks that the subsampling matches.
->>>
->>> Is it enough? I believe the principle is that within the same entity the
->>> state needs to stay consistent, i.e. if the sink pad changes, the source
->>> pad or video node must be updated to expose only correct formats,
->>> including resetting the current format.
->> Yes, but video devices have only a sink pad. Also, the sink pad of
->> a video device is not associated with an mbus code. The video format configuration
->> is not related to the media controller API.
-> 
-> The video device interface and the entity it is linked to belong to the
-> same driver. The V4L2 video device interface requires that the state is
-> always valid and the implementation of the video device needs to take
-> into account its links to external entities.
+---
+Changes in v2:
+- wrap thread lifetime management in a class to simplify terminating and
+  joining the threads in various success/failure combinations
+---
+ utils/v4l2-compliance/v4l2-test-buffers.cpp | 174 +++++++++++++++-----
+ 1 file changed, 135 insertions(+), 39 deletions(-)
 
-But if the pad on the other side of the link is configured after the video device
-then the state might become invalid.
+diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+index fc49fff6..787cec00 100644
+--- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
++++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+@@ -32,8 +32,11 @@
+ #include <ctype.h>
+ #include <errno.h>
+ #include <poll.h>
++#include <pthread.h>
++#include <signal.h>
+ #include <sys/ioctl.h>
+ #include <netinet/in.h>
++#include <atomic>
+ #include <map>
+ #include <vector>
+ #include "v4l2-compliance.h"
+@@ -2229,65 +2232,158 @@ int testRequests(struct node *node, bool test_streaming)
+ 	return 0;
+ }
+ 
+-static int testBlockingDQBuf(struct node *node, cv4l_queue &q)
++
++class BlockingThread
+ {
+-	int pid_dqbuf;
+-	int pid_streamoff;
+-	int pid;
++public:
++	BlockingThread() : done(false), running(false) {}
+ 
+-	fail_on_test(q.reqbufs(node, 2));
+-	fail_on_test(node->streamon(q.g_type()));
++	virtual ~BlockingThread()
++	{
++		stop();
++	}
+ 
+-	/*
+-	 * This test checks if a blocking wait in VIDIOC_DQBUF doesn't block
+-	 * other ioctls.
+-	 */
+-	fflush(stdout);
+-	pid_dqbuf = fork();
+-	fail_on_test(pid_dqbuf == -1);
++	int start()
++	{
++		int ret = pthread_create(&thread, NULL, startRoutine, this);
++		if (ret < 0)
++			return ret;
++
++		running = true;
++		return 0;
++	}
++
++	void stop()
++	{
++		if (!running)
++			return;
++
++		/*
++		 * If the thread is blocked on an ioctl, try to wake it up with
++		 * a signal.
++		 */
++		if (!done) {
++			pthread_kill(thread, SIGUSR1);
++			usleep(100000);
++		}
+ 
+-	if (pid_dqbuf == 0) { // Child
+ 		/*
+-		 * In the child process we call VIDIOC_DQBUF and wait
+-		 * indefinitely since no buffers are queued.
++		 * If the signal failed to interrupt the ioctl, use the heavy
++		 * artillery and cancel the thread.
+ 		 */
+-		cv4l_buffer buf(q.g_type(), V4L2_MEMORY_MMAP);
++		if (!done) {
++			pthread_cancel(thread);
++			usleep(100000);
++		}
++
++		pthread_join(thread, NULL);
++		running = false;
++	}
++
++	void kill()
++	{
++		pthread_kill(thread, SIGUSR1);
++	}
++
++	std::atomic<bool> done;
++
++private:
++	static void *startRoutine(void *arg)
++	{
++		BlockingThread *self = static_cast<BlockingThread *>(arg);
++
++		pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
++		pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
++
++		self->run();
++
++		self->done = true;
++		return NULL;
++	}
++
++	virtual void run() = 0;
++
++	pthread_t thread;
++	std::atomic<bool> running;
++};
+ 
++class DqbufThread : public BlockingThread
++{
++public:
++	DqbufThread(cv4l_queue *q, struct node *n) : queue(q), node(n) {}
++
++private:
++	void run() override
++	{
++		/*
++		 * In this thread we call VIDIOC_DQBUF and wait indefinitely
++		 * since no buffers are queued.
++		 */
++		cv4l_buffer buf(queue->g_type(), V4L2_MEMORY_MMAP);
+ 		node->dqbuf(buf);
+-		std::exit(EXIT_SUCCESS);
+ 	}
+ 
+-	/* Wait for the child process to start and block */
+-	usleep(100000);
+-	pid = waitpid(pid_dqbuf, NULL, WNOHANG);
+-	/* Check that it is really blocking */
+-	fail_on_test(pid);
++	cv4l_queue *queue;
++	struct node *node;
++};
+ 
+-	fflush(stdout);
+-	pid_streamoff = fork();
+-	fail_on_test(pid_streamoff == -1);
++class StreamoffThread : public BlockingThread
++{
++public:
++	StreamoffThread(cv4l_queue *q, struct node *n) : queue(q), node(n) {}
+ 
+-	if (pid_streamoff == 0) { // Child
++private:
++	void run() override
++	{
+ 		/*
+-		 * In the second child call STREAMOFF: this shouldn't
++		 * In this thread call STREAMOFF; this shouldn't
+ 		 * be blocked by the DQBUF!
+ 		 */
+-		node->streamoff(q.g_type());
+-		std::exit(EXIT_SUCCESS);
++		node->streamoff(queue->g_type());
+ 	}
+ 
+-	int wstatus_streamoff = 0;
++	cv4l_queue *queue;
++	struct node *node;
++};
++
++static void pthread_sighandle(int sig)
++{
++	return;
++}
++
++static int testBlockingDQBuf(struct node *node, cv4l_queue &q)
++{
++	DqbufThread thread_dqbuf(&q, node);
++	StreamoffThread thread_streamoff(&q, node);
++
++	/*
++	 * SIGUSR1 is ignored by default, so install an empty signal handler
++	 * so that we can use SIGUSR1 to wake up threads potentially blocked
++	 * on ioctls.
++	 */
++	signal(SIGUSR1, pthread_sighandle);
++
++	fail_on_test(q.reqbufs(node, 2));
++	fail_on_test(node->streamon(q.g_type()));
++
++	/*
++	 * This test checks if a blocking wait in VIDIOC_DQBUF doesn't block
++	 * other ioctls.
++	 */
++	fflush(stdout);
++	thread_dqbuf.start();
++
++	/* Wait for the child thread to start and block */
++	usleep(100000);
++	/* Check that it is really blocking */
++	fail_on_test(thread_dqbuf.done);
++
++	fflush(stdout);
++	thread_streamoff.start();
+ 
+ 	/* Wait for the second child to start and exit */
+ 	usleep(250000);
+-	pid = waitpid(pid_streamoff, &wstatus_streamoff, WNOHANG);
+-	kill(pid_dqbuf, SIGKILL);
+-	fail_on_test(pid != pid_streamoff);
+-	/* Test that the second child exited properly */
+-	if (!pid || !WIFEXITED(wstatus_streamoff)) {
+-		kill(pid_streamoff, SIGKILL);
+-		fail_on_test(!pid || !WIFEXITED(wstatus_streamoff));
+-	}
++	fail_on_test(!thread_streamoff.done);
+ 
+ 	fail_on_test(node->streamoff(q.g_type()));
+ 	fail_on_test(q.reqbufs(node, 0));
+-- 
+2.27.0
 
-Thanks,
-Dafna
-
-> 
-> Best regards,
-> Tomasz
-> 
