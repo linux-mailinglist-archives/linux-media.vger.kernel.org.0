@@ -2,155 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8547201A2E
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 20:19:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 09C0D201A83
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 20:41:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729580AbgFSSSx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jun 2020 14:18:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58146 "EHLO
+        id S2388730AbgFSSkl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jun 2020 14:40:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731011AbgFSSSw (ORCPT
+        with ESMTP id S1732927AbgFSSkl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jun 2020 14:18:52 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBC43C06174E
-        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 11:18:51 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id q198so2008935qka.2
-        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 11:18:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=1/Hgy08bto/uuUKyMYyyKuV+V6dnJEVWt8WI7nf113M=;
-        b=oKJaPgv8wNzRDCQM/lbllCSa8UopWR/4B3ZObmEr8TAf1+Rds44pV9VzNub4sQdhc2
-         bjSNRQFpC1WEcAOQoeY8RSETmivCfaJ304Nt+yFVJOJ3EAJPutPkzAstPxgxWTthm32r
-         lAh5yy5JF9Zclqktay5+zs6zAs4qsPCMyyTnmAlKngaG1QbMRQj5/aW32rxFtirPl7SN
-         HF7NEkxn7w4GPh8ayZInrb8FNVuIMujbguuDEsHpUspaixZEf7pYVjnwEs3vjnveMg0N
-         FydqN5NJ5K9LZc5hUEs32llHDaDYk5KrqnBUzpPC9LHlhF+AF1cEaShjq0uYpfPfAwu+
-         i2ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=1/Hgy08bto/uuUKyMYyyKuV+V6dnJEVWt8WI7nf113M=;
-        b=c8Up/9iTGsXH1KGJ2FfQ/2Pcl7k2ep1H5lFg81g5pUwm0h44B1MJssrUbhkIRYYi0c
-         FPY11/JTxaFp3GOjRr7uEPnuy85Xn6t1ZAw3rh9yAJNrDGbB+3BWRzASj2ad0VeTEkMk
-         urLUcuCT+6BfLgQelXLZ75Qk2HDn3R0eTARPQPAqbov1WO1cJP1KWbRxKrRndFyQtii4
-         z4tPBBemAQGmdBQ6W+S7wyjBOIVdHbnwnhJA52/gqmaSt9UU59Vsaco1u0ImkFwS4JBn
-         HPJnLRZ+qMt10ZhCyzSILmB/rAGZb534Y6hJjgTuS6jnjVKhUL2aAhW+2+TJ9UcikaOS
-         H1Fw==
-X-Gm-Message-State: AOAM530+6JYBCJbGDK7WzNSFXS2FhzNQf9X54NUB4k0tG0bu1dPrTEoj
-        eqCUZw/sgLQmQXnrqMlOcsYy45Vee/WhSQ==
-X-Google-Smtp-Source: ABdhPJwp/bC67muLlOI/xSpEwuzExrlyozorQFAY/Wts3lymB2t5b6BHCjSgETZH9nZLtDVxeUxvJg==
-X-Received: by 2002:a37:4e4a:: with SMTP id c71mr4652759qkb.61.1592590730926;
-        Fri, 19 Jun 2020 11:18:50 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id f203sm815339qke.135.2020.06.19.11.18.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2020 11:18:50 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.93)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1jmLbF-00AyFH-UW; Fri, 19 Jun 2020 15:18:49 -0300
-Date:   Fri, 19 Jun 2020 15:18:49 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Jerome Glisse <jglisse@redhat.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Thomas =?utf-8?B?SGVsbHN0csO2bSAoSW50ZWwp?= 
-        <thomas_os@shipmail.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
- annotations
-Message-ID: <20200619181849.GR6578@ziepe.ca>
-References: <20200617152835.GF6578@ziepe.ca>
- <20200618150051.GS20149@phenom.ffwll.local>
- <20200618172338.GM6578@ziepe.ca>
- <CAKMK7uEbqTu4q-amkLXyd1i8KNtLaoO2ZFoGqYiG6D0m0FKpOg@mail.gmail.com>
- <20200619113934.GN6578@ziepe.ca>
- <CAKMK7uE-kWA==Cko5uenMrcnopEjq42HxoDTDywzBAbHqsN13g@mail.gmail.com>
- <20200619151551.GP6578@ziepe.ca>
- <CAKMK7uEvkshAM6KUYZu8_OCpF4+1Y_SM7cQ9nJWpagfke8s8LA@mail.gmail.com>
- <20200619172308.GQ6578@ziepe.ca>
- <20200619180935.GA10009@redhat.com>
+        Fri, 19 Jun 2020 14:40:41 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29DCDC06174E
+        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 11:40:41 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: xclaesse)
+        with ESMTPSA id 3AF972A5441
+Message-ID: <adbb92de81105575d661f348a9804279a2844d64.camel@collabora.com>
+Subject: Re: [PATCH v1 1/1] Add support for meson building
+From:   Xavier Claessens <xavier.claessens@collabora.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     kieran.bingham@ideasonboard.com,
+        Ariel D'Alessandro <ariel@vanguardiasur.com.ar>,
+        linux-media@vger.kernel.org, hverkuil@xs4all.nl, sean@mess.org,
+        p.zabel@pengutronix.de, nicolas@ndufresne.ca,
+        gjasny@googlemail.com,
+        nicolas Dufresne <nicolas.dufresne@collabora.com>
+Date:   Fri, 19 Jun 2020 14:40:29 -0400
+In-Reply-To: <20200619144229.GD5823@pendragon.ideasonboard.com>
+References: <20200618133303.28676-1-ariel@vanguardiasur.com.ar>
+         <20200618133303.28676-2-ariel@vanguardiasur.com.ar>
+         <d09caaf6-402f-ba57-825c-410ce39a5e2b@ideasonboard.com>
+         <f2bf8846e265024c20a77fa618d54455b3b7ca95.camel@collabora.com>
+         <20200619144229.GD5823@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.2-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200619180935.GA10009@redhat.com>
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 19, 2020 at 02:09:35PM -0400, Jerome Glisse wrote:
-> On Fri, Jun 19, 2020 at 02:23:08PM -0300, Jason Gunthorpe wrote:
-> > On Fri, Jun 19, 2020 at 06:19:41PM +0200, Daniel Vetter wrote:
+Hi,
+
+I've been added in this thread without much context, not sure which
+project it's speaking about.
+
+> > Is it too naive to expect that's it's safe to just turn the flip on
+> > meson,
+> > and remove autotools?
 > > 
-> > > The madness is only that device B's mmu notifier might need to wait
-> > > for fence_B so that the dma operation finishes. Which in turn has to
-> > > wait for device A to finish first.
-> > 
-> > So, it sound, fundamentally you've got this graph of operations across
-> > an unknown set of drivers and the kernel cannot insert itself in
-> > dma_fence hand offs to re-validate any of the buffers involved?
-> > Buffers which by definition cannot be touched by the hardware yet.
-> > 
-> > That really is a pretty horrible place to end up..
-> > 
-> > Pinning really is right answer for this kind of work flow. I think
-> > converting pinning to notifers should not be done unless notifier
-> > invalidation is relatively bounded. 
-> > 
-> > I know people like notifiers because they give a bit nicer performance
-> > in some happy cases, but this cripples all the bad cases..
-> > 
-> > If pinning doesn't work for some reason maybe we should address that?
+> > Everyone doing packaging is already aware and used to meson.
 > 
-> Note that the dma fence is only true for user ptr buffer which predate
-> any HMM work and thus were using mmu notifier already. You need the
-> mmu notifier there because of fork and other corner cases.
+> If we add meson as an option and keep autotools supported in
+> parallel,
+> there's a high change packagers won't notice, so it won't help much.
+> I'd
+> recommend reaching out to known packagers (major distros, buildroot,
+> ...) to let them know of the move. If any of them requests to have
+> time
+> to adapt, then we could support both build systems in parallel.
+> Otherwise, I'd just flip the switch.
 
-I wonder if we should try to fix the fork case more directly - RDMA
-has this same problem and added MADV_DONTFORK a long time ago as a
-hacky way to deal with it.
 
-Some crazy page pin that resolved COW in a way that always kept the
-physical memory with the mm that initiated the pin?
+From past experience, distros tend to find many small issues with build
+systems, especially debian who have tones of scripts to verify what
+changed in the package: a missing installed file, a missing build
+option, missing build flag, etc. You can either deal with that and roll
+a quick point release to fix any issue they could find, or keep both
+build systems for a couple releases while recommending downstream (a
+note in ChangeLog) to try the meson build system, making it clear
+autotools is going away.
 
-(isn't this broken for O_DIRECT as well anyhow?)
+Regards,
+Xavier Claessens.
 
-How does mmu_notifiers help the fork case anyhow? Block fork from
-progressing?
-
-> I probably need to warn AMD folks again that using HMM means that you
-> must be able to update the GPU page table asynchronously without
-> fence wait.
-
-It is kind of unrelated to HMM, it just shouldn't be using mmu
-notifiers to replace page pinning..
-
-> The issue for AMD is that they already update their GPU page table
-> using DMA engine. I believe this is still doable if they use a
-> kernel only DMA engine context, where only kernel can queue up jobs
-> so that you do not need to wait for unrelated things and you can
-> prioritize GPU page table update which should translate in fast GPU
-> page table update without DMA fence.
-
-Make sense
-
-I'm not sure I saw this in the AMD hmm stuff - it would be good if
-someone would look at that. Every time I do it looks like the locking
-is wrong.
-
-Jason
