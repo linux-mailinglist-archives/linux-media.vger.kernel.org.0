@@ -2,174 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 984232000E3
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 05:41:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CE84200106
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 06:18:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728192AbgFSDlK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 23:41:10 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:35055 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726278AbgFSDlK (ORCPT
+        id S1727810AbgFSESn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jun 2020 00:18:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41686 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725832AbgFSESm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 23:41:10 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id m7tqj6lsFOn2Bm7trjrflc; Fri, 19 Jun 2020 05:41:07 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592538067; bh=xhlsDxLxlkqUYd+myABdp7ee9yek52kDGo7xJvYYiXc=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=WTiAwS+Q3xzoLr+dKLQmc/ommyG9/GOrQXnBXBlkJ6um2U8sjCQgYJynuNZ4FJc8g
-         cU++sCnXIbTsNvbdQaZ01brAVc4cSQJJwXcp+4HEnzWoXTZrnpf0cbm85P+yMWmQF0
-         2Uxx2OTXxsxq35VyC5OkqiGOI/gSfVm8i3fPLaSNWQx2X+8WE0djJp7lQ+IfLDI3Xy
-         EAFTrjFGRhAJp0aa2fGuog1MEMMZUGUjlpCsrXHVmMZzyjSRw0E/yg1N45Y8aq/CNt
-         u0Yacxy41z0APFl8194ESKF6WgB+Ywv++0JqkT+g+P/Ir1C2f/4m5T0/vl+plewuhj
-         ggsxUYyO18kAw==
-Message-ID: <8b80d8125abb3ed3869370d571424c92@smtp-cloud9.xs4all.net>
-Date:   Fri, 19 Jun 2020 05:41:06 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfL+5iEg5gU7C1F1zCW8x3eLvBP4G2SfUclh+AQivcNSFlpX8rlJgEKP8GoaYgb0eR6RL5jbdlQnMCFBjv8HJj3s+o2Ipy+QG9HLlenGD2Y8Ng43zb5xr
- l767IC6mM1aiPU85tHYazQkDZuccRqieXyMk1Lrl9MBN1Ojad+0VJfE/vROrCdYyjAlu413TJAkWjKu+xteVmnpS9rUumKBxrLfih13kOGAnNArxItolXKrB
+        Fri, 19 Jun 2020 00:18:42 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4FA0FC06174E
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 21:18:42 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id n24so8741953ejd.0
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 21:18:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=OBVOSPQebXOCEZo3hJ4byTOYq/vHfy/GXP3b5hiGIao=;
+        b=1KoMNID9i/qIh3Pp2XdmcvCSH18XDvfNtdiWM0+kht9s5e8hJa9MY7UlyZ8sidy4Fx
+         +GotI2CP+Pyxhhs+ibnSbZTodcTGgdVsnkxERXadXpq6CMh0QByu0zaUAN7Qfxv/707h
+         fjAt9/ffbWYxbF30h2vjX6kLcrzmbc/zP9HDxpr+EhIWIhnb7f+5isl7mJjX6a4KcGrQ
+         xVtB6eUFIUZUjkfsrACXaRSt1gov9xT9JQG9GdvECDCgWS//vrp9ZFPthh0xaGst1uX3
+         qtaJpu6OzNkWKGn26iTf5oGNlKD1L+lfXDxIrLlt1uapoocKK0iQeGVTdsl63AVgKXxR
+         RhHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=OBVOSPQebXOCEZo3hJ4byTOYq/vHfy/GXP3b5hiGIao=;
+        b=O2WJFHakEnGcNFIWxnv957uV4JARenSMwc5BOCwN/laQEVeskNtXtfMuU9TqUuEqGe
+         ZsBXcshBa+KFPNq+ZqwQYWFJZhLi7HnJiK6MuIkWwk93Tx704i932yzxEGEFxImd4oLB
+         sPmA01EJynIgdJB+N8zQs5FXsFUj3T5SMipjiNmiNACcNmxxwKc1x/Er+1oQvniFtnLF
+         Kcxf2QqCLAPphGuFNO/tDdlRCTXgOlP7h9ASABUCShypUIVsb1pLOSyqNLLDZD0BmEaH
+         qialFvcQrKZUOjpiu03T0ITewnnH206gHdpRi1Y6oMna92zhe/G1lrJ4HGcqFtXIMShW
+         Nbbg==
+X-Gm-Message-State: AOAM533xOCVa01HZ7EdFv3PQ6Hrcg8/oUqXo2LxqeVhVpDM2IN6tDbuR
+        BaK6LNAInzXDUNkiq7Vdpx0TTsk+5IaHsb6TgLpx0fqb
+X-Google-Smtp-Source: ABdhPJzVzMaTtrKLi3M68XsYicwniNaGPfEUqS33u1DzkyPETCTKJ/izzPXqGjhnCoXVJaRD7JWmC0fkIdyOBezbUuU=
+X-Received: by 2002:a17:906:51c9:: with SMTP id v9mr1784899ejk.337.1592540321011;
+ Thu, 18 Jun 2020 21:18:41 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com> <20200614235944.17716-83-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20200614235944.17716-83-laurent.pinchart@ideasonboard.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Fri, 19 Jun 2020 01:18:28 -0300
+Message-ID: <CAAEAJfDLv-hx=4JL2=+AgU1c8bcLhNu8_ZGu8cNtkXDVLx8H3A@mail.gmail.com>
+Subject: Re: [PATCH v1 082/107] media: ti-vpe: cal: Move CAL I/O accessors to cal.h
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Benoit Parrot <bparrot@ti.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hello Laurent,
 
-Results of the daily build of media_tree:
+On Sun, 14 Jun 2020 at 21:01, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> To prepare for the split of the camerarx code to a separate file, move
+> the CAL I/O accessors to cal.h. This requires renaming the accessors
+> with a cal_prefix, as the current names are too generic and prone to
+> namespace clashes.
+>
+> The reg_read() and read_write() macros, that cover both CAL and CAMERARX
+> register access, are split in two groups of inline functions, one for
+> CAL access and one for CAMERARX access.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  drivers/media/platform/ti-vpe/cal-video.c |   1 -
+>  drivers/media/platform/ti-vpe/cal.c       | 280 ++++++++++------------
+>  drivers/media/platform/ti-vpe/cal.h       |  36 +++
+>  3 files changed, 168 insertions(+), 149 deletions(-)
+>
+> diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
+> index 82b32a2f9db5..df472a175e83 100644
+> --- a/drivers/media/platform/ti-vpe/cal-video.c
+> +++ b/drivers/media/platform/ti-vpe/cal-video.c
+> @@ -9,7 +9,6 @@
+>   *     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>   */
+>
+> -#include <linux/bitfield.h>
+>  #include <linux/delay.h>
+>  #include <linux/ioctl.h>
+>  #include <linux/pm_runtime.h>
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index 0bc02ba52b59..abeded3b5e6c 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -9,11 +9,9 @@
+>   *     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>   */
+>
+> -#include <linux/bitfield.h>
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+>  #include <linux/interrupt.h>
+> -#include <linux/io.h>
+>  #include <linux/mfd/syscon.h>
+>  #include <linux/module.h>
+>  #include <linux/of_device.h>
+> @@ -133,33 +131,6 @@ static const struct cal_data am654_cal_data = {
+>   * ------------------------------------------------------------------
+>   */
+>
+> -#define reg_read(dev, offset) ioread32(dev->base + offset)
+> -#define reg_write(dev, offset, val) iowrite32(val, dev->base + offset)
+> -
+> -static inline u32 reg_read_field(struct cal_dev *cal, u32 offset, u32 mask)
+> -{
+> -       return FIELD_GET(mask, reg_read(cal, offset));
+> -}
+> -
+> -static inline void reg_write_field(struct cal_dev *cal, u32 offset, u32 value,
+> -                                  u32 mask)
+> -{
+> -       u32 val = reg_read(cal, offset);
+> -
+> -       val &= ~mask;
+> -       val |= FIELD_PREP(mask, value);
+> -       reg_write(cal, offset, val);
+> -}
+> -
+> -static inline void set_field(u32 *valp, u32 field, u32 mask)
+> -{
+> -       u32 val = *valp;
+> -
+> -       val &= ~mask;
+> -       val |= (field << __ffs(mask)) & mask;
+> -       *valp = val;
+> -}
+> -
 
-date:			Fri Jun 19 05:00:11 CEST 2020
-media-tree git hash:	b3a9e3b9622ae10064826dccb4f7a52bd88c7407
-media_build git hash:	d90bf09c9b38b7cc89d47d6ec71e2512f257ebe5
-v4l-utils git hash:	de91e870c2355e0fe754176563660b92b8ee040b
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b12238aeb89d6a943f5c60d2b159a5de59680d1c
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+Slightly unrelated, have you considered moving all of these to regmap?
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8-rc1-i686: OK
-linux-5.8-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
-sparse: OK
-smatch: OK
+Perhaps it will make the code more maintainable.
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Regards,
+Ezequiel
