@@ -2,78 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F29D200B12
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 16:13:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E23E3200B1B
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 16:14:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726124AbgFSONO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jun 2020 10:13:14 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:59474 "EHLO
+        id S1731738AbgFSOOe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jun 2020 10:14:34 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59482 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725974AbgFSONO (ORCPT
+        with ESMTP id S1725974AbgFSOOd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jun 2020 10:13:14 -0400
+        Fri, 19 Jun 2020 10:14:33 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id D536C2A3738
-Message-ID: <f2bf8846e265024c20a77fa618d54455b3b7ca95.camel@collabora.com>
-Subject: Re: [PATCH v1 1/1] Add support for meson building
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     kieran.bingham@ideasonboard.com,
-        Ariel D'Alessandro <ariel@vanguardiasur.com.ar>,
-        linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
-        laurent.pinchart@ideasonboard.com, nicolas@ndufresne.ca,
-        gjasny@googlemail.com,
-        nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Xavier Claessens <xavier.claessens@collabora.com>
-Date:   Fri, 19 Jun 2020 11:12:58 -0300
-In-Reply-To: <d09caaf6-402f-ba57-825c-410ce39a5e2b@ideasonboard.com>
-References: <20200618133303.28676-1-ariel@vanguardiasur.com.ar>
-         <20200618133303.28676-2-ariel@vanguardiasur.com.ar>
-         <d09caaf6-402f-ba57-825c-410ce39a5e2b@ideasonboard.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.0-1 
+        (Authenticated sender: rcn)
+        with ESMTPSA id 5A77D2A3738
+Date:   Fri, 19 Jun 2020 16:14:28 +0200
+From:   Ricardo =?utf-8?Q?Ca=C3=B1uelo?= <ricardo.canuelo@collabora.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     syzbot <syzbot+6bed2d543cf7e48b822b@syzkaller.appspotmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: KASAN: null-ptr-deref Write in media_request_close
+Message-ID: <20200619141428.6j2xcfsxleyvi7af@rcn-XPS-13-9360>
+References: <000000000000aa674005a845bbc5@google.com>
+ <CAAEAJfAOnTv1J-iSqEo3JdHr-JOZyWVGZcjnduJQOqaVhhx3kw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAAEAJfAOnTv1J-iSqEo3JdHr-JOZyWVGZcjnduJQOqaVhhx3kw@mail.gmail.com>
+User-Agent: NeoMutt/20171215
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-+Xavier, Nicolas
-
-On Thu, 2020-06-18 at 14:57 +0100, Kieran Bingham wrote:
-> Hi Ariel,
+On jue 18-06-2020 15:38:16, Ezequiel Garcia wrote:
+> Adding Ricardo.
 > 
-> Wow there's a lot of work there! That must have taken quite some effort
-> between you and Ezequiel!
+> Are we seeing this due to the recent syzkaller media controller additions?
 > 
+> Thanks,
+> Ezequiel
 
-(: I don't remember having done much, so all kudos must go to Ariel.
- 
-> I've looked through, and about the only thing that stands out to me is
-> the way you're joining strings.
-> 
-> Meson provides a join_paths() function specifically for that.
-> Now we're "probably" not going to build this library on anything other
-> than linux, but I think the function still has merit over the arbitrary
-> strings which I mis-interpreted for 'divide' at first glance :S
-> 
-> Other than that, I expect we will have to run both build systems in
-> parallel for some time to allow packaging and other builders to adapt.
-> That might mean it's a bit more difficult to make sure both build
-> systems are updated when adding new files or changing the build in anyway.
-> 
+It seems like it, yes. The MEDIA_IOC_REQUEST_ALLOC ioctl was defined in
+https://github.com/google/syzkaller/commit/c5e085d96d1cdc855365b7fd9c1825b886f266f6
 
-Why?
+It's impressive how quickly it started yielding some results, especially
+considering that the description was very basic and that there's no
+other specific info about this api guiding the fuzzer.
 
-Is it too naive to expect that's it's safe to just turn the flip on meson,
-and remove autotools?
+Thanks for letting me know!
 
-Everyone doing packaging is already aware and used to meson.
-
-Thanks!
-Ezequiel
-
-
+Cheers,
+Ricardo
