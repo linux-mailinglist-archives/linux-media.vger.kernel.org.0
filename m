@@ -2,630 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB36D201332
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 18:01:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0536201470
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 18:14:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404223AbgFSP6f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jun 2020 11:58:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36454 "EHLO
+        id S2404125AbgFSQKX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jun 2020 12:10:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405476AbgFSP6b (ORCPT
+        with ESMTP id S2394311AbgFSQKS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jun 2020 11:58:31 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3660C06174E
-        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 08:58:31 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF6DA556;
-        Fri, 19 Jun 2020 17:58:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592582309;
-        bh=6XsfziCo+NY3TY/B4tS1vEUAsFKm4JL9azRLyCrS+JM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vs2MA7Clc4jsgTZxZtbOXMv/P37vglujFi7P829puZ/wraLfOGmise13gGnPX4fh5
-         3i+MFmEh25QyekkniaXvDSeCwMDsuHVyDsvRoWqamh0OZEEpX50J8MfrQochUK2com
-         pdT/soy0G6BWO7HOtiCByuH+lDEAekOaXpGWd9Ek=
-Date:   Fri, 19 Jun 2020 18:58:05 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Benoit Parrot <bparrot@ti.com>
-Cc:     linux-media@vger.kernel.org, Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v1 107/107] media: ti-vpe: cal: Implement media
- controller centric API
-Message-ID: <20200619155805.GK5823@pendragon.ideasonboard.com>
-References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
- <20200614235944.17716-108-laurent.pinchart@ideasonboard.com>
- <20200619144648.k7dwx52vyzq7rmqx@ti.com>
+        Fri, 19 Jun 2020 12:10:18 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6322C0613EE
+        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 09:10:18 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id e9so4667141pgo.9
+        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 09:10:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tTASVTiSXZsyhNQTM1i/jl+TLSbZb4AaMfa8Navk19E=;
+        b=vpreWgqaEL0hY65uQHwXkrI1bw0hlhvKUMRBvVleOAPt8JQ/GitPept7T9GRzNywIs
+         W2dOqIazGiiOvoSWqv3PycaYBGGtaFnJmikOwKlvx81VV+NIT06c4NueHo7lVGbRfmbu
+         J6MoX7JUIiQvfadTANBttCsI/2mNjQTAv/5q3SdAO5DDbq+e0drMP9VA+auz2XoRNtjT
+         sM6ssTKbWM/e88hJTaU5GgGrph/M5FFDili9NvLvjTOVefjwpFaOCSLr3Yqsi9zvo3lE
+         N3LB4jN44AMOn+eVgs34fWKsbIr46QT1ejTAZsUDJw1+U2f8C9b/miIubc6K86Jtj02I
+         pcoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tTASVTiSXZsyhNQTM1i/jl+TLSbZb4AaMfa8Navk19E=;
+        b=Hro8XI5xEnNyTpw+aG35Qmt3fQTT30+APjzO6wzEEdkCLSXUN0zrzbRAKdh95AeGfF
+         u81xzxYtfYlDo+9hsKI4tLX/4lhA53TXoeGZpeRhyyl8hL4rIhCukjyrFnvIgQoQ0g46
+         7Dcr1maIIc5d+QFHFUPy2ZLc7t6vBcWI4Qvj5mQj2RsZM89Ttjai6VGOflwUGg9I7W7Z
+         n8KOpHXwv0Ghf9OUkXU8vwDJv5Iy5aocK9oyxMrD70oGK/Ko/7pLwtAKZL4HuhxNEznM
+         X5Wc6Xu3BGaVeYFfomdvw/60bUAny/nf2TleBmckl1uj002odFot0EkPulV0tVmT5v8r
+         fJKQ==
+X-Gm-Message-State: AOAM530Mc+HNKgqw/TvAvZ4zQo88j7Lv0T7qBYboxeMa5Lk2Wz+S4fj+
+        qHK6OfCtd/M9Tt5qZqBf3GBRBhlIyfxkgwFPLRduBQ==
+X-Google-Smtp-Source: ABdhPJxyC2UuE0NNmrY1qY4W7Z++jdlGfsPJt0+ldEi7tHtlwWMxYsJpYJCnjas5qPET4m31FTa/mR9QYlrakCnyz38=
+X-Received: by 2002:a62:25c5:: with SMTP id l188mr8813970pfl.178.1592583017934;
+ Fri, 19 Jun 2020 09:10:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200619144648.k7dwx52vyzq7rmqx@ti.com>
+References: <000000000000780999059c048dfc@google.com>
+In-Reply-To: <000000000000780999059c048dfc@google.com>
+From:   Andrey Konovalov <andreyknvl@google.com>
+Date:   Fri, 19 Jun 2020 18:10:07 +0200
+Message-ID: <CAAeHK+xT12YpnLYw78RVS5PAFK=yFnYNhq0vny7C2O+zUsFwdg@mail.gmail.com>
+Subject: Re: KASAN: use-after-free Read in uvc_probe
+To:     syzbot <syzbot+9a48339b077c5a80b869@syzkaller.appspotmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org,
+        USB list <linux-usb@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        syzkaller-bugs <syzkaller-bugs@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benoit,
+On Mon, Jan 13, 2020 at 1:24 PM syzbot
+<syzbot+9a48339b077c5a80b869@syzkaller.appspotmail.com> wrote:
+>
+> Hello,
+>
+> syzbot found the following crash on:
+>
+> HEAD commit:    ae179410 usb: gadget: add raw-gadget interface
+> git tree:       https://github.com/google/kasan.git usb-fuzzer
+> console output: https://syzkaller.appspot.com/x/log.txt?x=132223fee00000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=ad1d751a3a72ae57
+> dashboard link: https://syzkaller.appspot.com/bug?extid=9a48339b077c5a80b869
+> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16857325e00000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=142e069ee00000
+>
+> IMPORTANT: if you fix the bug, please add the following tag to the commit:
+> Reported-by: syzbot+9a48339b077c5a80b869@syzkaller.appspotmail.com
+>
+> usb 1-1: New USB device found, idVendor=0bd3, idProduct=0555,
+> bcdDevice=69.6a
+> usb 1-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+> usb 1-1: config 0 descriptor??
+> usb 1-1: string descriptor 0 read error: -71
+> uvcvideo: Found UVC 0.00 device <unnamed> (0bd3:0555)
+> ==================================================================
+> BUG: KASAN: use-after-free in uvc_register_terms
+> drivers/media/usb/uvc/uvc_driver.c:2038 [inline]
+> BUG: KASAN: use-after-free in uvc_register_chains
+> drivers/media/usb/uvc/uvc_driver.c:2070 [inline]
+> BUG: KASAN: use-after-free in uvc_probe.cold+0x2193/0x29de
+> drivers/media/usb/uvc/uvc_driver.c:2201
+> Read of size 2 at addr ffff8881d4f1bc2e by task kworker/1:2/94
+>
+> CPU: 1 PID: 94 Comm: kworker/1:2 Not tainted 5.5.0-rc3-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
+> Google 01/01/2011
+> Workqueue: usb_hub_wq hub_event
+> Call Trace:
+>   __dump_stack lib/dump_stack.c:77 [inline]
+>   dump_stack+0xef/0x16e lib/dump_stack.c:118
+>   print_address_description.constprop.0.cold+0xd3/0x314 mm/kasan/report.c:374
+>   __kasan_report.cold+0x37/0x85 mm/kasan/report.c:506
+>   kasan_report+0xe/0x20 mm/kasan/common.c:639
+>   uvc_register_terms drivers/media/usb/uvc/uvc_driver.c:2038 [inline]
+>   uvc_register_chains drivers/media/usb/uvc/uvc_driver.c:2070 [inline]
+>   uvc_probe.cold+0x2193/0x29de drivers/media/usb/uvc/uvc_driver.c:2201
+>   usb_probe_interface+0x310/0x800 drivers/usb/core/driver.c:361
+>   really_probe+0x290/0xad0 drivers/base/dd.c:548
+>   driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+>   __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+>   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+>   __device_attach+0x217/0x390 drivers/base/dd.c:894
+>   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+>   device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+>   usb_set_configuration+0xe47/0x17d0 drivers/usb/core/message.c:2023
+>   generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+>   usb_probe_device+0xaf/0x140 drivers/usb/core/driver.c:266
+>   really_probe+0x290/0xad0 drivers/base/dd.c:548
+>   driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+>   __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+>   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+>   __device_attach+0x217/0x390 drivers/base/dd.c:894
+>   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+>   device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+>   usb_new_device.cold+0x540/0xcd0 drivers/usb/core/hub.c:2537
+>   hub_port_connect drivers/usb/core/hub.c:5184 [inline]
+>   hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
+>   port_event drivers/usb/core/hub.c:5470 [inline]
+>   hub_event+0x21cb/0x4300 drivers/usb/core/hub.c:5552
+>   process_one_work+0x945/0x15c0 kernel/workqueue.c:2264
+>   worker_thread+0x96/0xe20 kernel/workqueue.c:2410
+>   kthread+0x318/0x420 kernel/kthread.c:255
+>   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+>
+> Allocated by task 94:
+>   save_stack+0x1b/0x80 mm/kasan/common.c:72
+>   set_track mm/kasan/common.c:80 [inline]
+>   __kasan_kmalloc mm/kasan/common.c:513 [inline]
+>   __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:486
+>   kmalloc include/linux/slab.h:556 [inline]
+>   kzalloc include/linux/slab.h:670 [inline]
+>   uvc_alloc_chain+0x48/0xfa drivers/media/usb/uvc/uvc_driver.c:1692
+>   uvc_scan_device drivers/media/usb/uvc/uvc_driver.c:1818 [inline]
+>   uvc_probe.cold+0x15f0/0x29de drivers/media/usb/uvc/uvc_driver.c:2197
+>   usb_probe_interface+0x310/0x800 drivers/usb/core/driver.c:361
+>   really_probe+0x290/0xad0 drivers/base/dd.c:548
+>   driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+>   __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+>   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+>   __device_attach+0x217/0x390 drivers/base/dd.c:894
+>   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+>   device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+>   usb_set_configuration+0xe47/0x17d0 drivers/usb/core/message.c:2023
+>   generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+>   usb_probe_device+0xaf/0x140 drivers/usb/core/driver.c:266
+>   really_probe+0x290/0xad0 drivers/base/dd.c:548
+>   driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+>   __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+>   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+>   __device_attach+0x217/0x390 drivers/base/dd.c:894
+>   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+>   device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+>   usb_new_device.cold+0x540/0xcd0 drivers/usb/core/hub.c:2537
+>   hub_port_connect drivers/usb/core/hub.c:5184 [inline]
+>   hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
+>   port_event drivers/usb/core/hub.c:5470 [inline]
+>   hub_event+0x21cb/0x4300 drivers/usb/core/hub.c:5552
+>   process_one_work+0x945/0x15c0 kernel/workqueue.c:2264
+>   worker_thread+0x96/0xe20 kernel/workqueue.c:2410
+>   kthread+0x318/0x420 kernel/kthread.c:255
+>   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+>
+> Freed by task 94:
+>   save_stack+0x1b/0x80 mm/kasan/common.c:72
+>   set_track mm/kasan/common.c:80 [inline]
+>   kasan_set_free_info mm/kasan/common.c:335 [inline]
+>   __kasan_slab_free+0x117/0x160 mm/kasan/common.c:474
+>   slab_free_hook mm/slub.c:1425 [inline]
+>   slab_free_freelist_hook mm/slub.c:1458 [inline]
+>   slab_free mm/slub.c:3005 [inline]
+>   kfree+0xd5/0x300 mm/slub.c:3957
+>   uvc_scan_device drivers/media/usb/uvc/uvc_driver.c:1825 [inline]
+>   uvc_probe.cold+0x16fd/0x29de drivers/media/usb/uvc/uvc_driver.c:2197
+>   usb_probe_interface+0x310/0x800 drivers/usb/core/driver.c:361
+>   really_probe+0x290/0xad0 drivers/base/dd.c:548
+>   driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+>   __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+>   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+>   __device_attach+0x217/0x390 drivers/base/dd.c:894
+>   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+>   device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+>   usb_set_configuration+0xe47/0x17d0 drivers/usb/core/message.c:2023
+>   generic_probe+0x9d/0xd5 drivers/usb/core/generic.c:210
+>   usb_probe_device+0xaf/0x140 drivers/usb/core/driver.c:266
+>   really_probe+0x290/0xad0 drivers/base/dd.c:548
+>   driver_probe_device+0x223/0x350 drivers/base/dd.c:721
+>   __device_attach_driver+0x1d1/0x290 drivers/base/dd.c:828
+>   bus_for_each_drv+0x162/0x1e0 drivers/base/bus.c:430
+>   __device_attach+0x217/0x390 drivers/base/dd.c:894
+>   bus_probe_device+0x1e4/0x290 drivers/base/bus.c:490
+>   device_add+0x1459/0x1bf0 drivers/base/core.c:2487
+>   usb_new_device.cold+0x540/0xcd0 drivers/usb/core/hub.c:2537
+>   hub_port_connect drivers/usb/core/hub.c:5184 [inline]
+>   hub_port_connect_change drivers/usb/core/hub.c:5324 [inline]
+>   port_event drivers/usb/core/hub.c:5470 [inline]
+>   hub_event+0x21cb/0x4300 drivers/usb/core/hub.c:5552
+>   process_one_work+0x945/0x15c0 kernel/workqueue.c:2264
+>   worker_thread+0x96/0xe20 kernel/workqueue.c:2410
+>   kthread+0x318/0x420 kernel/kthread.c:255
+>   ret_from_fork+0x24/0x30 arch/x86/entry/entry_64.S:352
+>
+> The buggy address belongs to the object at ffff8881d4f1bc00
+>   which belongs to the cache kmalloc-256 of size 256
+> The buggy address is located 46 bytes inside of
+>   256-byte region [ffff8881d4f1bc00, ffff8881d4f1bd00)
+> The buggy address belongs to the page:
+> page:ffffea000753c680 refcount:1 mapcount:0 mapping:ffff8881da002780
+> index:0x0 compound_mapcount: 0
+> raw: 0200000000010200 ffffea000753c600 0000000300000003 ffff8881da002780
+> raw: 0000000000000000 0000000080100010 00000001ffffffff 0000000000000000
+> page dumped because: kasan: bad access detected
+>
+> Memory state around the buggy address:
+>   ffff8881d4f1bb00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>   ffff8881d4f1bb80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> > ffff8881d4f1bc00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>                                    ^
+>   ffff8881d4f1bc80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+>   ffff8881d4f1bd00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+> ==================================================================
+>
+>
+> ---
+> This bug is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>
+> syzbot will keep track of this bug report. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> syzbot can test patches for this bug, for details see:
+> https://goo.gl/tpsmEJ#testing-patches
 
-On Fri, Jun 19, 2020 at 09:46:50AM -0500, Benoit Parrot wrote:
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote on Mon [2020-Jun-15 02:59:44 +0300]:
-> > The CAL driver is video node centric, it controls the whole device
-> > through the video device nodes. This limits the possible use cases as it
-> > can't support sources that are more complex than a single subdev. To
-> > support more complex hardware pipelines, implement support for the media
-> > controller centric API. The exposed API can be selected through a module
-> > parameter.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  drivers/media/platform/ti-vpe/cal-camerarx.c |   1 +
-> >  drivers/media/platform/ti-vpe/cal-video.c    | 358 ++++++++++++++-----
-> >  drivers/media/platform/ti-vpe/cal.c          |  10 +-
-> >  drivers/media/platform/ti-vpe/cal.h          |   2 +
-> >  4 files changed, 289 insertions(+), 82 deletions(-)
-> > 
-> > diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> > index 2e7a3bc716cf..014ca46509db 100644
-> > --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
-> > +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> > @@ -818,6 +818,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
-> >  	sd = &phy->subdev;
-> >  	v4l2_subdev_init(sd, &cal_camerarx_subdev_ops);
-> >  	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> > +	sd->flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
-> >  	snprintf(sd->name, sizeof(sd->name), "CAMERARX%u", instance);
-> >  	sd->dev = cal->dev;
-> >  
-> > diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
-> > index 0f8702bd77db..5f9cd449f027 100644
-> > --- a/drivers/media/platform/ti-vpe/cal-video.c
-> > +++ b/drivers/media/platform/ti-vpe/cal-video.c
-> > @@ -40,40 +40,10 @@ static char *fourcc_to_str(u32 fmt)
-> >  }
-> >  
-> >  /* ------------------------------------------------------------------
-> > - *	V4L2 Video IOCTLs
-> > + *	V4L2 Common IOCTLs
-> >   * ------------------------------------------------------------------
-> >   */
-> >  
-> > -static const struct cal_format_info *find_format_by_pix(struct cal_ctx *ctx,
-> > -							u32 pixelformat)
-> > -{
-> > -	const struct cal_format_info *fmtinfo;
-> > -	unsigned int k;
-> > -
-> > -	for (k = 0; k < ctx->num_active_fmt; k++) {
-> > -		fmtinfo = ctx->active_fmt[k];
-> > -		if (fmtinfo->fourcc == pixelformat)
-> > -			return fmtinfo;
-> > -	}
-> > -
-> > -	return NULL;
-> > -}
-> > -
-> > -static const struct cal_format_info *find_format_by_code(struct cal_ctx *ctx,
-> > -							 u32 code)
-> > -{
-> > -	const struct cal_format_info *fmtinfo;
-> > -	unsigned int k;
-> > -
-> > -	for (k = 0; k < ctx->num_active_fmt; k++) {
-> > -		fmtinfo = ctx->active_fmt[k];
-> > -		if (fmtinfo->code == code)
-> > -			return fmtinfo;
-> > -	}
-> > -
-> > -	return NULL;
-> > -}
-> > -
-> >  static int cal_querycap(struct file *file, void *priv,
-> >  			struct v4l2_capability *cap)
-> >  {
-> > @@ -87,6 +57,51 @@ static int cal_querycap(struct file *file, void *priv,
-> >  	return 0;
-> >  }
-> >  
-> > +static int cal_g_fmt_vid_cap(struct file *file, void *priv,
-> > +			     struct v4l2_format *f)
-> > +{
-> > +	struct cal_ctx *ctx = video_drvdata(file);
-> > +
-> > +	*f = ctx->v_fmt;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +/* ------------------------------------------------------------------
-> > + *	V4L2 Video Node Centric IOCTLs
-> > + * ------------------------------------------------------------------
-> > + */
-> > +
-> > +static const struct cal_format_info *find_format_by_pix(struct cal_ctx *ctx,
-> > +							u32 pixelformat)
-> > +{
-> > +	const struct cal_format_info *fmtinfo;
-> > +	unsigned int k;
-> > +
-> > +	for (k = 0; k < ctx->num_active_fmt; k++) {
-> > +		fmtinfo = ctx->active_fmt[k];
-> > +		if (fmtinfo->fourcc == pixelformat)
-> > +			return fmtinfo;
-> > +	}
-> > +
-> > +	return NULL;
-> > +}
-> > +
-> > +static const struct cal_format_info *find_format_by_code(struct cal_ctx *ctx,
-> > +							 u32 code)
-> > +{
-> > +	const struct cal_format_info *fmtinfo;
-> > +	unsigned int k;
-> > +
-> > +	for (k = 0; k < ctx->num_active_fmt; k++) {
-> > +		fmtinfo = ctx->active_fmt[k];
-> > +		if (fmtinfo->code == code)
-> > +			return fmtinfo;
-> > +	}
-> > +
-> > +	return NULL;
-> > +}
-> > +
-> >  static int cal_enum_fmt_vid_cap(struct file *file, void  *priv,
-> >  				struct v4l2_fmtdesc *f)
-> >  {
-> > @@ -174,16 +189,6 @@ static void cal_calc_format_size(struct cal_ctx *ctx,
-> >  		f->fmt.pix.bytesperline, f->fmt.pix.sizeimage);
-> >  }
-> >  
-> > -static int cal_g_fmt_vid_cap(struct file *file, void *priv,
-> > -			     struct v4l2_format *f)
-> > -{
-> > -	struct cal_ctx *ctx = video_drvdata(file);
-> > -
-> > -	*f = ctx->v_fmt;
-> > -
-> > -	return 0;
-> > -}
-> > -
-> >  static int cal_try_fmt_vid_cap(struct file *file, void *priv,
-> >  			       struct v4l2_format *f)
-> >  {
-> > @@ -383,17 +388,7 @@ static int cal_enum_frameintervals(struct file *file, void *priv,
-> >  	return 0;
-> >  }
-> >  
-> > -static const struct v4l2_file_operations cal_fops = {
-> > -	.owner		= THIS_MODULE,
-> > -	.open           = v4l2_fh_open,
-> > -	.release        = vb2_fop_release,
-> > -	.read           = vb2_fop_read,
-> > -	.poll		= vb2_fop_poll,
-> > -	.unlocked_ioctl = video_ioctl2, /* V4L2 ioctl handler */
-> > -	.mmap           = vb2_fop_mmap,
-> > -};
-> > -
-> > -static const struct v4l2_ioctl_ops cal_ioctl_ops = {
-> > +static const struct v4l2_ioctl_ops cal_ioctl_video_ops = {
-> >  	.vidioc_querycap      = cal_querycap,
-> >  	.vidioc_enum_fmt_vid_cap  = cal_enum_fmt_vid_cap,
-> >  	.vidioc_g_fmt_vid_cap     = cal_g_fmt_vid_cap,
-> > @@ -419,7 +414,153 @@ static const struct v4l2_ioctl_ops cal_ioctl_ops = {
-> >  };
-> >  
-> >  /* ------------------------------------------------------------------
-> > - *	videobuf2 Operations
-> > + *	V4L2 Media Controller Centric IOCTLs
-> > + * ------------------------------------------------------------------
-> > + */
-> > +
-> > +static int cal_mc_enum_fmt_vid_cap(struct file *file, void  *priv,
-> > +				   struct v4l2_fmtdesc *f)
-> > +{
-> > +	if (f->index >= cal_num_formats)
-> > +		return -EINVAL;
-> > +
-> > +	f->pixelformat = cal_formats[f->index].fourcc;
-> > +	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void cal_mc_try_fmt(struct cal_ctx *ctx, struct v4l2_format *f,
-> > +			   const struct cal_format_info **info)
-> > +{
-> > +	struct v4l2_pix_format *format = &f->fmt.pix;
-> > +	const struct cal_format_info *fmtinfo;
-> > +	unsigned int bpp;
-> > +
-> > +	/*
-> > +	 * Default to the first format is the requested pixel format code isn't
-> > +	 * supported.
-> > +	 */
-> > +	fmtinfo = cal_format_by_fourcc(f->fmt.pix.pixelformat);
-> > +	if (!fmtinfo)
-> > +		fmtinfo = &cal_formats[0];
-> > +
-> > +	/*
-> > +	 * Clamp the size, update the pixel format. The field and colorspace are
-> > +	 * accepted as-is, except for V4L2_FIELD_ANY that is turned into
-> > +	 * V4L2_FIELD_NONE.
-> > +	 */
-> > +	bpp = ALIGN(fmtinfo->bpp, 8);
-> > +
-> > +	format->width = clamp_t(unsigned int, format->width,
-> > +				CAL_MIN_WIDTH_BYTES * 8 / bpp,
-> > +				CAL_MAX_WIDTH_BYTES * 8 / bpp);
-> > +	format->height = clamp_t(unsigned int, format->height,
-> > +				 CAL_MIN_HEIGHT_LINES, CAL_MAX_HEIGHT_LINES);
-> > +	format->pixelformat = fmtinfo->fourcc;
-> > +
-> > +	if (format->field == V4L2_FIELD_ANY)
-> > +		format->field = V4L2_FIELD_NONE;
-> > +
-> > +	/*
-> > +	 * Calculate the number of bytes per line and the image size. The
-> > +	 * hardware stores the stride as a number of 16 bytes words, in a
-> > +	 * signed 15-bit value. Only 14 bits are thus usable.
-> > +	 */
-> > +	format->bytesperline = ALIGN(clamp(format->bytesperline,
-> > +					   format->width * bpp / 8,
-> > +					   ((1U << 14) - 1) * 16), 16);
-> > +
-> > +	format->sizeimage = format->height * format->bytesperline;
-> > +
-> > +	if (info)
-> > +		*info = fmtinfo;
-> > +
-> > +	ctx_dbg(3, ctx, "%s: %s %ux%u (bytesperline %u sizeimage %u)\n",
-> > +		__func__, fourcc_to_str(format->pixelformat),
-> > +		format->width, format->height,
-> > +		format->bytesperline, format->sizeimage);
-> > +}
-> > +
-> > +static int cal_mc_try_fmt_vid_cap(struct file *file, void *priv,
-> > +				  struct v4l2_format *f)
-> > +{
-> > +	struct cal_ctx *ctx = video_drvdata(file);
-> > +
-> > +	cal_mc_try_fmt(ctx, f, NULL);
-> > +	return 0;
-> > +}
-> > +
-> > +static int cal_mc_s_fmt_vid_cap(struct file *file, void *priv,
-> > +				struct v4l2_format *f)
-> > +{
-> > +	struct cal_ctx *ctx = video_drvdata(file);
-> > +	const struct cal_format_info *fmtinfo;
-> > +
-> > +	if (vb2_is_busy(&ctx->vb_vidq)) {
-> > +		ctx_dbg(3, ctx, "%s device busy\n", __func__);
-> > +		return -EBUSY;
-> > +	}
-> > +
-> > +	cal_mc_try_fmt(ctx, f, &fmtinfo);
-> > +
-> > +	ctx->v_fmt = *f;
-> > +	ctx->fmtinfo = fmtinfo;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int cal_mc_enum_framesizes(struct file *file, void *fh,
-> > +				  struct v4l2_frmsizeenum *fsize)
-> > +{
-> > +	struct cal_ctx *ctx = video_drvdata(file);
-> > +	const struct cal_format_info *fmtinfo;
-> > +	unsigned int bpp;
-> > +
-> > +	if (fsize->index > 0)
-> > +		return -EINVAL;
-> > +
-> > +	fmtinfo = cal_format_by_fourcc(fsize->pixel_format);
-> > +	if (!fmtinfo) {
-> > +		ctx_dbg(3, ctx, "Invalid pixel format 0x%08x\n",
-> > +			fsize->pixel_format);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	bpp = ALIGN(fmtinfo->bpp, 8);
-> > +
-> > +	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
-> > +	fsize->stepwise.min_width = CAL_MIN_WIDTH_BYTES * 8 / bpp;
-> > +	fsize->stepwise.max_width = CAL_MAX_WIDTH_BYTES * 8 / bpp;
-> > +	fsize->stepwise.step_width = 64 / bpp;
-> > +	fsize->stepwise.min_height = CAL_MIN_HEIGHT_LINES;
-> > +	fsize->stepwise.max_height = CAL_MAX_HEIGHT_LINES;
-> > +	fsize->stepwise.step_height = 1;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static const struct v4l2_ioctl_ops cal_ioctl_mc_ops = {
-> > +	.vidioc_querycap      = cal_querycap,
-> > +	.vidioc_enum_fmt_vid_cap  = cal_mc_enum_fmt_vid_cap,
-> > +	.vidioc_g_fmt_vid_cap     = cal_g_fmt_vid_cap,
-> > +	.vidioc_try_fmt_vid_cap   = cal_mc_try_fmt_vid_cap,
-> > +	.vidioc_s_fmt_vid_cap     = cal_mc_s_fmt_vid_cap,
-> > +	.vidioc_enum_framesizes   = cal_mc_enum_framesizes,
-> > +	.vidioc_reqbufs       = vb2_ioctl_reqbufs,
-> > +	.vidioc_create_bufs   = vb2_ioctl_create_bufs,
-> > +	.vidioc_prepare_buf   = vb2_ioctl_prepare_buf,
-> > +	.vidioc_querybuf      = vb2_ioctl_querybuf,
-> > +	.vidioc_qbuf          = vb2_ioctl_qbuf,
-> > +	.vidioc_dqbuf         = vb2_ioctl_dqbuf,
-> > +	.vidioc_expbuf        = vb2_ioctl_expbuf,
-> > +	.vidioc_streamon      = vb2_ioctl_streamon,
-> > +	.vidioc_streamoff     = vb2_ioctl_streamoff,
-> > +	.vidioc_log_status    = v4l2_ctrl_log_status,
-> > +};
-> > +
-> > +/* ------------------------------------------------------------------
-> > + *	videobuf2 Common Operations
-> >   * ------------------------------------------------------------------
-> >   */
-> >  
-> > @@ -505,6 +646,26 @@ static void cal_release_buffers(struct cal_ctx *ctx,
-> >  	spin_unlock_irq(&ctx->dma.lock);
-> >  }
-> >  
-> > +/* ------------------------------------------------------------------
-> > + *	videobuf2 Operations
-> > + * ------------------------------------------------------------------
-> > + */
-> > +
-> > +static int cal_video_check_format(struct cal_ctx *ctx)
-> > +{
-> > +	const struct v4l2_mbus_framefmt *format;
-> > +
-> > +	format = &ctx->phy->formats[CAL_CAMERARX_PAD_SOURCE];
-> > +
-> > +	if (ctx->fmtinfo->code != format->code ||
-> > +	    ctx->v_fmt.fmt.pix.height != format->height ||
-> > +	    ctx->v_fmt.fmt.pix.width != format->width ||
-> > +	    ctx->v_fmt.fmt.pix.field != format->field)
-> > +		return -EPIPE;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
-> >  {
-> >  	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
-> > @@ -512,6 +673,23 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
-> >  	dma_addr_t addr;
-> >  	int ret;
-> >  
-> > +	ret = media_pipeline_start(&ctx->vdev.entity, &ctx->phy->pipe);
-> > +	if (ret < 0) {
-> > +		ctx_err(ctx, "Failed to start media pipeline: %d\n", ret);
-> > +		return ret;
-> > +	}
-> > +
-> > +	/*
-> > +	 * Verify that the currently configured format matches the output of
-> > +	 * the connected CAMERARX.
-> > +	 */
-> > +	ret = cal_video_check_format(ctx);
-> > +	if (ret < 0) {
-> > +		ctx_dbg(3, ctx,
-> > +			"Format mismatch between CAMERARX and video node\n");
-> > +		goto error_pipeline;
-> > +	}
-> > +
-> >  	spin_lock_irq(&ctx->dma.lock);
-> >  	buf = list_first_entry(&ctx->dma.queue, struct cal_buffer, list);
-> >  	ctx->dma.pending = buf;
-> > @@ -527,18 +705,21 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
-> >  
-> >  	ret = v4l2_subdev_call(&ctx->phy->subdev, video, s_stream, 1);
-> >  	if (ret)
-> > -		goto err;
-> > +		goto error_stop;
-> >  
-> >  	if (cal_debug >= 4)
-> >  		cal_quickdump_regs(ctx->cal);
-> >  
-> >  	return 0;
-> >  
-> > -err:
-> > +error_stop:
-> >  	cal_ctx_stop(ctx);
-> >  	pm_runtime_put_sync(ctx->cal->dev);
-> >  
-> > +error_pipeline:
-> > +	media_pipeline_stop(&ctx->vdev.entity);
-> >  	cal_release_buffers(ctx, VB2_BUF_STATE_QUEUED);
-> > +
-> >  	return ret;
-> >  }
-> >  
-> > @@ -553,6 +734,8 @@ static void cal_stop_streaming(struct vb2_queue *vq)
-> >  	pm_runtime_put_sync(ctx->cal->dev);
-> >  
-> >  	cal_release_buffers(ctx, VB2_BUF_STATE_ERROR);
-> > +
-> > +	media_pipeline_stop(&ctx->vdev.entity);
-> >  }
-> >  
-> >  static const struct vb2_ops cal_video_qops = {
-> > @@ -570,13 +753,14 @@ static const struct vb2_ops cal_video_qops = {
-> >   * ------------------------------------------------------------------
-> >   */
-> >  
-> > -static const struct video_device cal_videodev = {
-> > -	.name		= CAL_MODULE_NAME,
-> > -	.fops		= &cal_fops,
-> > -	.ioctl_ops	= &cal_ioctl_ops,
-> > -	.minor		= -1,
-> > -	.release	= video_device_release_empty,
-> > -	.device_caps	= V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING,
-> > +static const struct v4l2_file_operations cal_fops = {
-> > +	.owner		= THIS_MODULE,
-> > +	.open           = v4l2_fh_open,
-> > +	.release        = vb2_fop_release,
-> > +	.read           = vb2_fop_read,
-> > +	.poll		= vb2_fop_poll,
-> > +	.unlocked_ioctl = video_ioctl2, /* V4L2 ioctl handler */
-> > +	.mmap           = vb2_fop_mmap,
-> >  };
-> >  
-> >  static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
-> > @@ -650,19 +834,22 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
-> >  
-> >  int cal_ctx_v4l2_register(struct cal_ctx *ctx)
-> >  {
-> > -	struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
-> >  	struct video_device *vfd = &ctx->vdev;
-> >  	int ret;
-> >  
-> > -	ret = cal_ctx_v4l2_init_formats(ctx);
-> > -	if (ret)
-> > -		return ret;
-> > +	if (!cal_mc_api) {
-> > +		struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
-> >  
-> > -	ret = v4l2_ctrl_add_handler(hdl, ctx->phy->sensor->ctrl_handler, NULL,
-> > -				    true);
-> > -	if (ret < 0) {
-> > -		ctx_err(ctx, "Failed to add sensor ctrl handler\n");
-> > -		return ret;
-> > +		ret = cal_ctx_v4l2_init_formats(ctx);
-> > +		if (ret)
-> > +			return ret;
-> > +
-> > +		ret = v4l2_ctrl_add_handler(hdl, ctx->phy->sensor->ctrl_handler,
-> > +					    NULL, true);
-> > +		if (ret < 0) {
-> > +			ctx_err(ctx, "Failed to add sensor ctrl handler\n");
-> > +			return ret;
-> > +		}
-> >  	}
-> >  
-> >  	ret = video_register_device(vfd, VFL_TYPE_VIDEO, cal_video_nr);
-> > @@ -699,7 +886,6 @@ void cal_ctx_v4l2_unregister(struct cal_ctx *ctx)
-> >  
-> >  int cal_ctx_v4l2_init(struct cal_ctx *ctx)
-> >  {
-> > -	struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
-> >  	struct video_device *vfd = &ctx->vdev;
-> >  	struct vb2_queue *q = &ctx->vb_vidq;
-> >  	int ret;
-> > @@ -726,10 +912,14 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
-> >  		return ret;
-> >  
-> >  	/* Initialize the video device and media entity. */
-> > -	*vfd = cal_videodev;
-> > +	vfd->fops = &cal_fops;
-> > +	vfd->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING
-> > +			 | (cal_mc_api ? V4L2_CAP_IO_MC : 0);
-> >  	vfd->v4l2_dev = &ctx->cal->v4l2_dev;
-> >  	vfd->queue = q;
-> >  	snprintf(vfd->name, sizeof(vfd->name), "CAL output %u", ctx->index);
-> > +	vfd->release = video_device_release_empty;
-> > +	vfd->ioctl_ops = cal_mc_api ? &cal_ioctl_mc_ops : &cal_ioctl_video_ops;
-> >  	vfd->lock = &ctx->mutex;
-> >  	video_set_drvdata(vfd, ctx);
-> >  
-> > @@ -738,15 +928,19 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
-> >  	if (ret < 0)
-> >  		return ret;
-> >  
-> > -	/* Initialize the control handler. */
-> > -	ret = v4l2_ctrl_handler_init(hdl, 11);
-> > -	if (ret < 0) {
-> > -		ctx_err(ctx, "Failed to init ctrl handler\n");
-> > -		goto error;
-> > +	if (!cal_mc_api) {
-> > +		/* Initialize the control handler. */
-> > +		struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
-> > +
-> > +		ret = v4l2_ctrl_handler_init(hdl, 11);
-> > +		if (ret < 0) {
-> > +			ctx_err(ctx, "Failed to init ctrl handler\n");
-> > +			goto error;
-> > +		}
-> > +
-> > +		vfd->ctrl_handler = hdl;
-> >  	}
-> >  
-> > -	vfd->ctrl_handler = hdl;
-> > -
-> >  	return 0;
-> >  
-> >  error:
-> > @@ -756,6 +950,8 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
-> >  
-> >  void cal_ctx_v4l2_cleanup(struct cal_ctx *ctx)
-> >  {
-> > -	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
-> > +	if (!cal_mc_api)
-> > +		v4l2_ctrl_handler_free(&ctx->ctrl_handler);
-> > +
-> >  	media_entity_cleanup(&ctx->vdev.entity);
-> >  }
-> > diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> > index f97c213f716f..caea3e129c87 100644
-> > --- a/drivers/media/platform/ti-vpe/cal.c
-> > +++ b/drivers/media/platform/ti-vpe/cal.c
-> > @@ -43,6 +43,10 @@ unsigned int cal_debug;
-> >  module_param_named(debug, cal_debug, uint, 0644);
-> >  MODULE_PARM_DESC(debug, "activates debug info");
-> >  
-> > +bool cal_mc_api;
-> > +module_param_named(mc_api, cal_mc_api, bool, 0444);
-> > +MODULE_PARM_DESC(debug, "activates MC API");
-> 
-> Shouldn't this be 
-> 	MODULE_PARM_DESC(mc_api, "activates MC API");
-> instead?
+Fixed by something.
 
-Of course :-) Thanks for catching this wrong copy&paste, I'll fix it.
-
-> > +
-> >  /* ------------------------------------------------------------------
-> >   *	Format Handling
-> >   * ------------------------------------------------------------------
-> > @@ -655,13 +659,17 @@ static int cal_async_notifier_complete(struct v4l2_async_notifier *notifier)
-> >  {
-> >  	struct cal_dev *cal = container_of(notifier, struct cal_dev, notifier);
-> >  	unsigned int i;
-> > +	int ret = 0;
-> >  
-> >  	for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
-> >  		if (cal->ctx[i])
-> >  			cal_ctx_v4l2_register(cal->ctx[i]);
-> >  	}
-> >  
-> > -	return 0;
-> > +	if (cal_mc_api)
-> > +		ret = v4l2_device_register_subdev_nodes(&cal->v4l2_dev);
-> > +
-> > +	return ret;
-> >  }
-> >  
-> >  static const struct v4l2_async_notifier_operations cal_async_notifier_ops = {
-> > diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-> > index 036b944c3862..f6b4c9a73aab 100644
-> > --- a/drivers/media/platform/ti-vpe/cal.h
-> > +++ b/drivers/media/platform/ti-vpe/cal.h
-> > @@ -160,6 +160,7 @@ struct cal_camerarx {
-> >  	struct device_node	*sensor_ep_node;
-> >  	struct device_node	*sensor_node;
-> >  	struct v4l2_subdev	*sensor;
-> > +	struct media_pipeline	pipe;
-> >  
-> >  	struct v4l2_subdev	subdev;
-> >  	struct media_pad	pads[2];
-> > @@ -224,6 +225,7 @@ struct cal_ctx {
-> >  
-> >  extern unsigned int cal_debug;
-> >  extern int cal_video_nr;
-> > +extern bool cal_mc_api;
-> >  
-> >  #define cal_dbg(level, cal, fmt, arg...)				\
-> >  	do {								\
-
--- 
-Regards,
-
-Laurent Pinchart
+#syz invalid
