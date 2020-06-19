@@ -2,110 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9399201C3A
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 22:15:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECD75201C6C
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 22:32:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391706AbgFSUPj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jun 2020 16:15:39 -0400
-Received: from smtp4-g21.free.fr ([212.27.42.4]:20030 "EHLO smtp4-g21.free.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391592AbgFSUPi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jun 2020 16:15:38 -0400
-Received: from [192.168.1.91] (unknown [77.207.133.132])
-        (Authenticated sender: marc.w.gonzalez)
-        by smtp4-g21.free.fr (Postfix) with ESMTPSA id 66DF919F4C8;
-        Fri, 19 Jun 2020 22:15:20 +0200 (CEST)
-Subject: Re: Scanning for TV channels over DVB-T and DVB-T2
-From:   Marc Gonzalez <marc.w.gonzalez@free.fr>
-To:     linux-media <linux-media@vger.kernel.org>,
-        Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jan Pieter van Woerkom <jp@jpvw.nl>,
-        Brad Love <brad@nextdimension.cc>,
-        Antti Palosaari <crope@iki.fi>
-Cc:     LKML <linux-kernel@vger.kernel.org>
-References: <11fbc112-c410-8c67-9bcb-9450924d12ef@free.fr>
- <4904d37d-1cd4-b8f3-9c3c-82eb4569bca7@free.fr>
- <778d08be-b606-018a-c2bc-164fbbc33615@free.fr>
-Message-ID: <71c3a7c3-0661-c4ac-6f72-8409fa38211b@free.fr>
-Date:   Fri, 19 Jun 2020 22:15:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S2389622AbgFSUca (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jun 2020 16:32:30 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:58454 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389581AbgFSUca (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 19 Jun 2020 16:32:30 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1592598748;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+MZZFlS2lzexZcWJLtzbL34zsSkKE8BItNhmdhhu4K0=;
+        b=PDKNjrWEZlMKqgNK15Okn7Rw9gubZmEvjefP6RgD+NvEllaAbygmg2ipgBNEeFhhagrAFi
+        RxfM51gx2Zpvwmkja3e0DtmPEGbuVav29EBY9RUsiO39Svf5Ygshc99NsEoOODVsyIVMEc
+        Ks9UM6m/xm3hMT0OsbTIwduxJbwF4NQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-6-1iFxF6w7NlWEkZxAuvaRDQ-1; Fri, 19 Jun 2020 16:32:21 -0400
+X-MC-Unique: 1iFxF6w7NlWEkZxAuvaRDQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E422871254;
+        Fri, 19 Jun 2020 20:31:52 +0000 (UTC)
+Received: from redhat.com (ovpn-112-200.rdu2.redhat.com [10.10.112.200])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id EE21810002B5;
+        Fri, 19 Jun 2020 20:31:48 +0000 (UTC)
+Date:   Fri, 19 Jun 2020 16:31:47 -0400
+From:   Jerome Glisse <jglisse@redhat.com>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Felix Kuehling <felix.kuehling@amd.com>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
+ annotations
+Message-ID: <20200619203147.GC13117@redhat.com>
+References: <CAKMK7uEbqTu4q-amkLXyd1i8KNtLaoO2ZFoGqYiG6D0m0FKpOg@mail.gmail.com>
+ <20200619113934.GN6578@ziepe.ca>
+ <CAKMK7uE-kWA==Cko5uenMrcnopEjq42HxoDTDywzBAbHqsN13g@mail.gmail.com>
+ <20200619151551.GP6578@ziepe.ca>
+ <CAKMK7uEvkshAM6KUYZu8_OCpF4+1Y_SM7cQ9nJWpagfke8s8LA@mail.gmail.com>
+ <20200619172308.GQ6578@ziepe.ca>
+ <20200619180935.GA10009@redhat.com>
+ <20200619181849.GR6578@ziepe.ca>
+ <56008d64-772d-5757-6136-f20591ef71d2@amd.com>
+ <20200619195538.GT6578@ziepe.ca>
 MIME-Version: 1.0
-In-Reply-To: <778d08be-b606-018a-c2bc-164fbbc33615@free.fr>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200619195538.GT6578@ziepe.ca>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/06/2020 17:22, Marc Gonzalez wrote:
+On Fri, Jun 19, 2020 at 04:55:38PM -0300, Jason Gunthorpe wrote:
+> On Fri, Jun 19, 2020 at 03:48:49PM -0400, Felix Kuehling wrote:
+> > Am 2020-06-19 um 2:18 p.m. schrieb Jason Gunthorpe:
+> > > On Fri, Jun 19, 2020 at 02:09:35PM -0400, Jerome Glisse wrote:
+> > >> On Fri, Jun 19, 2020 at 02:23:08PM -0300, Jason Gunthorpe wrote:
+> > >>> On Fri, Jun 19, 2020 at 06:19:41PM +0200, Daniel Vetter wrote:
+> > >>>
+> > >>>> The madness is only that device B's mmu notifier might need to wait
+> > >>>> for fence_B so that the dma operation finishes. Which in turn has to
+> > >>>> wait for device A to finish first.
+> > >>> So, it sound, fundamentally you've got this graph of operations across
+> > >>> an unknown set of drivers and the kernel cannot insert itself in
+> > >>> dma_fence hand offs to re-validate any of the buffers involved?
+> > >>> Buffers which by definition cannot be touched by the hardware yet.
+> > >>>
+> > >>> That really is a pretty horrible place to end up..
+> > >>>
+> > >>> Pinning really is right answer for this kind of work flow. I think
+> > >>> converting pinning to notifers should not be done unless notifier
+> > >>> invalidation is relatively bounded. 
+> > >>>
+> > >>> I know people like notifiers because they give a bit nicer performance
+> > >>> in some happy cases, but this cripples all the bad cases..
+> > >>>
+> > >>> If pinning doesn't work for some reason maybe we should address that?
+> > >> Note that the dma fence is only true for user ptr buffer which predate
+> > >> any HMM work and thus were using mmu notifier already. You need the
+> > >> mmu notifier there because of fork and other corner cases.
+> > > I wonder if we should try to fix the fork case more directly - RDMA
+> > > has this same problem and added MADV_DONTFORK a long time ago as a
+> > > hacky way to deal with it.
+> > >
+> > > Some crazy page pin that resolved COW in a way that always kept the
+> > > physical memory with the mm that initiated the pin?
+> > >
+> > > (isn't this broken for O_DIRECT as well anyhow?)
+> > >
+> > > How does mmu_notifiers help the fork case anyhow? Block fork from
+> > > progressing?
+> > 
+> > How much the mmu_notifier blocks fork progress depends, on quickly we
+> > can preempt GPU jobs accessing affected memory. If we don't have
+> > fine-grained preemption capability (graphics), the best we can do is
+> > wait for the GPU jobs to complete. We can also delay submission of new
+> > GPU jobs to the same memory until the MMU notifier is done. Future jobs
+> > would use the new page addresses.
+> > 
+> > With fine-grained preemption (ROCm compute), we can preempt GPU work on
+> > the affected adders space to minimize the delay seen by fork.
+> > 
+> > With recoverable device page faults, we can invalidate GPU page table
+> > entries, so device access to the affected pages stops immediately.
+> > 
+> > In all cases, the end result is, that the device page table gets updated
+> > with the address of the copied pages before the GPU accesses the COW
+> > memory again.Without the MMU notifier, we'd end up with the GPU
+> > corrupting memory of the other process.
+> 
+> The model here in fork has been wrong for a long time, and I do wonder
+> how O_DIRECT manages to not be broken too.. I guess the time windows
+> there are too small to get unlucky.
 
-> FTR, on IRC, Brad pointed out this patch of his:
-> https://patchwork.kernel.org/patch/10744999/
+This was discuss extensively in the GUP works John have been doing.
+Yes O_DIRECT can potentialy break but only if you are writting to
+COW pages and you initiated the O_DIRECT right before the fork and
+GUP happen before fork was able to write protect the pages.
 
-I suggest the following patch on top of Brad's patch:
+If you O_DIRECT but use memory as input ie you are writting the
+memory to the file not reading from the file. Then fork is harmless
+as you are just reading memory. You can still face the COW uncertainty
+(the process against which you did the O_DIRECT get "new" pages but your
+O_DIRECT goes on with the "old" pages) but doing O_DIRECT and fork
+concurently is asking for trouble.
 
-Author: Marc Gonzalez <marc.w.gonzalez@free.fr>
-Date:   Fri Jun 19 22:09:26 2020 +0200
+> 
+> If you have a write pin on a page then it should not be COW'd into the
+> fork'd process but copied with the originating page remaining with the
+> original mm.
+> 
+> I wonder if there is some easy way to achive that - if that is the
+> main reason to use notifiers then it would be a better solution.
 
-    si2168: wait for carrier lock before next step
+Not doable as page refcount can change for things unrelated to GUP, with
+John changes we can identify GUP and we could potentialy copy GUPed page
+instead of COW but this can potentialy slow down fork() and i am not sure
+how acceptable this would be. Also this does not solve GUP against page
+that are already in fork tree ie page P0 is in process A which forks,
+we now have page P0 in process A and B. Now we have process A which forks
+again and we have page P0 in A, B, and C. Here B and C are two branches
+with root in A. B and/or C can keep forking and grow the fork tree.
 
-diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
-index 31d3dc0216c2..e127e842f671 100644
---- a/drivers/media/dvb-frontends/si2168.c
-+++ b/drivers/media/dvb-frontends/si2168.c
-@@ -152,6 +152,11 @@ static int si2168_ts_bus_ctrl(struct dvb_frontend *fe, int acquire)
- 	return ret;
- }
- 
-+static bool carrier_locked(struct si2168_cmd *cmd)
-+{
-+	return cmd->args[2] & BIT(1);
-+}
-+
- static int si2168_read_status(struct dvb_frontend *fe, enum fe_status *status)
- {
- 	struct i2c_client *client = fe->demodulator_priv;
-@@ -180,6 +185,9 @@ static int si2168_read_status(struct dvb_frontend *fe, enum fe_status *status)
- 		if (ret)
- 			goto err;
- 
-+		if (!carrier_locked(&cmd))
-+			goto parse_response;
-+
- 		if ((cmd.args[3] & 0x0f) == 7)
- 			sys = SYS_DVBT2;
- 	}
-@@ -206,27 +214,10 @@ static int si2168_read_status(struct dvb_frontend *fe, enum fe_status *status)
- 	}
- 
- 	ret = si2168_cmd_execute(client, &cmd);
--	if (dvbt_auto_plp && (ret == -EREMOTEIO)) {
--		/* In auto-PLP mode it is possible to read 0x8701 while
--		 * the frontend is in switchover transition. This causes
--		 * a status read failure, due to incorrect system. Check
--		 * the other sys if we hit this race condition.
--		 */
--		if (sys == SYS_DVBT) {
--			memcpy(cmd.args, "\x50\x01", 2); /* DVB-T2 */
--			cmd.wlen = 2;
--			cmd.rlen = 14;
--			ret = si2168_cmd_execute(client, &cmd);
--		} else if (sys == SYS_DVBT2) {
--			memcpy(cmd.args, "\xa0\x01", 2); /* DVB-T */
--			cmd.wlen = 2;
--			cmd.rlen = 13;
--			ret = si2168_cmd_execute(client, &cmd);
--		}
--	}
- 	if (ret)
- 		goto err;
- 
-+parse_response:
- 	switch ((cmd.args[2] >> 1) & 0x03) {
- 	case 0x01:
- 		*status = FE_HAS_SIGNAL | FE_HAS_CARRIER;
+Now if read only GUP on P0 happens in C (or B everything is symetrical in
+respect to root A) then P0 might not be the page that is in C after the
+GUP ie if something in C write to the virtual address corresponding to P0
+then a new page might get allocated and the virtual address will no longer
+point to P0 for C.
+
+Semantic was change with 17839856fd588f4ab6b789f482ed3ffd7c403e1f to some
+what "fix" that but GUP fast is still succeptible to this.
+
+Note that above commit only address the GUP after/while forking. GUP
+before fork() need mmu notifier (or forcing page copy instead of COW).
+
+Cheers,
+Jérôme
 
