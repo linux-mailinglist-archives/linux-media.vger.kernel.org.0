@@ -2,201 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0179200473
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 10:53:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 816342004B4
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 11:11:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731665AbgFSIwU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jun 2020 04:52:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55348 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728757AbgFSIwL (ORCPT
+        id S1728058AbgFSJLL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jun 2020 05:11:11 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:55845 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725290AbgFSJLK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jun 2020 04:52:11 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7018FC0613EE
-        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 01:52:11 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id m2so6704491otr.12
-        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 01:52:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=0iYzCssyK2TOwvjJibrr8lmgnan0eqOfQGCXFa8hzl0=;
-        b=HvD+Ne6fK6tCSG8Ft3uKDnfSuzn6rl8X1bAjFeiWT8vLPxEZjmJncX8oPK8misPEJl
-         +HrZH0ljU7LXjvI51GglxKLsrLx7GnkTO0i9JHRKNaySPY7UvFYcWLbKK6s5M2at9ofp
-         O94/1+kJhIU/ih79NJR26M53HyeVdchNZ7UUw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=0iYzCssyK2TOwvjJibrr8lmgnan0eqOfQGCXFa8hzl0=;
-        b=Ykxyp/uUk1NYfpbxSQUvGmDebUbCVk7TJO2LhRJgc5UGEADNEOVLxPwa9NhHyoCwS4
-         xeISDj3e4Qdz9UQLndNJvYDJH5L2GqZ/55n7twnVuUed4jRWY3UUDGX2QkvmOfz7J6dC
-         Um1hP3HLaCb/aTDx4uh7lLZ+zHk4uLYVhqGQYeaLwhTsXYlfCvtmfgiRv2B9YgldsAEb
-         sNH1weA4GNEz6mpaQQpoGrgpiwoigJK88c7ehTw7g5QsK1Z0Luz01aXFpoVrEa2bsqDg
-         eHe+xvHvgTdyK3DSACtP4dst+xLA3hBgMvMCblar9ii7LqovXYG4kLQxQEEtsZvSWyKV
-         wYrA==
-X-Gm-Message-State: AOAM531+oMltxsbMFh9saumKeCTkz/mcF1M+7cBlUCggtx2EjxcZqYLY
-        tI+iTKr7rJCNYr6PMpY3KgJyPCqwtZr/FpeuU0HXDQ==
-X-Google-Smtp-Source: ABdhPJxybPB/cZuqnk3F2rp1schcwun27NaO2y2oNb7MhnziSDv7aRjRiagVJoh+hyyaLoyN6YBKcFhlPmqt4m4HeSs=
-X-Received: by 2002:a9d:4cd:: with SMTP id 71mr2341025otm.188.1592556730628;
- Fri, 19 Jun 2020 01:52:10 -0700 (PDT)
+        Fri, 19 Jun 2020 05:11:10 -0400
+Received: from mail.cetitecgmbh.com ([87.190.42.90]) by
+ mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
+ id 1MXYEr-1jNs2M3G9f-00Z3DM; Fri, 19 Jun 2020 11:10:53 +0200
+Received: from pflvmailgateway.corp.cetitec.com (unknown [127.0.0.1])
+        by mail.cetitecgmbh.com (Postfix) with ESMTP id 8E2596518E2;
+        Fri, 19 Jun 2020 09:10:52 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at cetitec.com
+Received: from mail.cetitecgmbh.com ([127.0.0.1])
+        by pflvmailgateway.corp.cetitec.com (pflvmailgateway.corp.cetitec.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id E5kOhP1Rq5qJ; Fri, 19 Jun 2020 11:10:52 +0200 (CEST)
+Received: from pflmari.corp.cetitec.com (unknown [10.10.5.94])
+        by mail.cetitecgmbh.com (Postfix) with ESMTPSA id 3CF6D650C2F;
+        Fri, 19 Jun 2020 11:10:52 +0200 (CEST)
+Received: by pflmari.corp.cetitec.com (Postfix, from userid 1000)
+        id 15BCA804FB; Fri, 19 Jun 2020 11:10:52 +0200 (CEST)
+Date:   Fri, 19 Jun 2020 11:10:52 +0200
+From:   Alex Riesen <alexander.riesen@cetitec.com>
+To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5 7/9] media: adv748x: only activate DAI if it is
+ described in device tree
+Message-ID: <20200619091052.GB7780@pflmari>
+Mail-Followup-To: Alex Riesen <alexander.riesen@cetitec.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
+        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <cover.1585852001.git.alexander.riesen@cetitec.com>
+ <c3c8ece14c0fbc987dc201c9b61dd22d98f83056.1585852001.git.alexander.riesen@cetitec.com>
+ <c752ea76-c8da-c77a-104f-9163230cc08a@ideasonboard.com>
 MIME-Version: 1.0
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
- <20200604081224.863494-4-daniel.vetter@ffwll.ch> <159186243606.1506.4437341616828968890@build.alporthouse.com>
- <CAPM=9ty6r1LuXAH_rf98GH0R9yN3x8xzKPjZG3QyvokpQBR-Hg@mail.gmail.com>
- <CAPj87rM0S2OPssf+WA+pjanT-0Om3yuUM1zUJCv4qTx5VYE=Fw@mail.gmail.com> <159255511144.7737.12635440776531222029@build.alporthouse.com>
-In-Reply-To: <159255511144.7737.12635440776531222029@build.alporthouse.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Fri, 19 Jun 2020 10:51:59 +0200
-Message-ID: <CAKMK7uHEwj6jiZkRZ5PaCUNWcuU9oE4KYm4XHZwHnFzEuChZ7w@mail.gmail.com>
-Subject: Re: [Intel-gfx] [PATCH 03/18] dma-fence: basic lockdep annotations
-To:     Chris Wilson <chris@chris-wilson.co.uk>
-Cc:     Daniel Stone <daniel@fooishbar.org>,
-        Dave Airlie <airlied@gmail.com>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c752ea76-c8da-c77a-104f-9163230cc08a@ideasonboard.com>
+X-Provags-ID: V03:K1:rbl/SW6nDhOvVZnU3VniVHKkESyDd8Y5zwjO7GuJtU+r0jMpPem
+ ZxlIay/v5RD2OgtYAGDJbcTrtjfwviHE1cp2Dw3QJ3aHSAgvXOWARIeiSai/t3JcW5M43/g
+ LoteXF9oTuMYUT0DPcEahQFieByYGPXlRz6MUdfC/kAvs8kB8wByGJE8zaAugjnqdsQbIW5
+ V8WPgVfjFVhd0HYoO9bHw==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:d5tnjAyihLc=:GQv3a49z6BNFOKGlDseJQx
+ JHhmPglGY+xmSFCCqp/Y1J0xuavrn6sjGxeJcFEBTFUDqPtAog/dRaEe5c480YGUVfFXb0p66
+ OdKYEYxNSZ3nv/r9tWELjjjhja9qa7v8QIDt+5lq47izvs+zF3WlHqs1c9qk49cTLYHtUf3m4
+ gLZ84bJ4P+yo4YUYHPoAo8VWabo186PMwBu25gO6Y0I+3/5OIfXdeAifVLyLwsFRtWuRrh34B
+ mqqjY+KSKwzrcmJx19QBCxtuBUwWGaBK8A/Br/JG18l9iala6Y+h9aOW7lH3SzJUwJm/CvXj0
+ 5y+3stpCeH08AR1bWS+kr7Lgkpjfg4Yp+e2ZXkj0MNrDaU0EWA+pulNaKhbc3e/yM7IFuQeuB
+ MG2KGmuB9qYRym5Ki4EnrrWdTtuHeHJapxY1BFoWCcEV79rudRDaKrMOPPY9kjZCmDdvq+KPN
+ INu0YKoX2/IDsSr+A9D4d6aPyx4263mV8Ow5us4JxyRRGPUMVtN/6MmO9rPD8TgFD2d8kaN/P
+ 9WfoB4213DYQhZx5ld9CRN8VZ08em2iWhcJcd3o4U2HFddqvXO2nyIjpYb8rzxLjxO1DszUPk
+ mY+5jd0cjN1GM04Lno/HKod/Oz0VNxaquMf/0zSvgHOG4pGFwW9bC2PrHxNdL2XU7CnweMbcg
+ UDmvY7KzZ/w2A2hCWK8gRcSdrgzttiRj1LXtRz96K5L+9OKzt5zcNszK39FklNnuNyfWtt2Tw
+ 4kfznpLi9oJktk1MBplEsHXXgUY/trNTP3F4wBtZLHze/2fblXNiro/lPL0QMGgR8pLSfAeTJ
+ mthzJyMZgWb17zLdvztJtUHXH4c7rJamygh4fT0F5jV80SekE2ZTIZbkeJ0h/xYWLeKA/Vx
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 19, 2020 at 10:25 AM Chris Wilson <chris@chris-wilson.co.uk> wr=
-ote:
->
-> Quoting Daniel Stone (2020-06-11 10:01:46)
-> > Hi,
-> >
-> > On Thu, 11 Jun 2020 at 09:44, Dave Airlie <airlied@gmail.com> wrote:
-> > > On Thu, 11 Jun 2020 at 18:01, Chris Wilson <chris@chris-wilson.co.uk>=
- wrote:
-> > > > Introducing a global lockmap that cannot capture the rules correctl=
-y,
-> > >
-> > > Can you document the rules all drivers should be following then,
-> > > because from here it looks to get refactored every version of i915,
-> > > and it would be nice if we could all aim for the same set of things
-> > > roughly. We've already had enough problems with amdgpu vs i915 vs
-> > > everyone else with fences, if this stops that in the future then I'd
-> > > rather we have that than just some unwritten rules per driver and
-> > > untestable.
-> >
-> > As someone who has sunk a bunch of work into explicit-fencing
-> > awareness in my compositor so I can never be blocked, I'd be
-> > disappointed if the infrastructure was ultimately pointless because
-> > the documented fencing rules were \_o_/ or thereabouts. Lockdep
-> > definitely isn't my area of expertise so I can't comment on the patch
-> > per se, but having something to ensure we don't hit deadlocks sure
-> > seems a lot better than nothing.
->
-> This is doing dependency analysis on execution contexts which is a far
-> cry from doing the fence dependency analysis, and so has to actively
-> ignore the cycles that must exist on the dma side, and also the cycles
-> that prevent entering execution contexts on the CPU. It has to actively
-> ignore scheduler execution contexts, for lockdep cries, and so we do not
-> get analysis of the locking contexts along that path. This would be
-> solvable along the lines of extending lockdep ala lockdep_dma_enter().
+Kieran Bingham, Thu, Jun 18, 2020 18:17:04 +0200:
+> On 02/04/2020 19:34, Alex Riesen wrote:
+> > To avoid setting it up even if the hardware is not actually connected
+> > to anything physically.
+> > 
+> > Besides, the bindings explicitly notes that port definitions are
+> > "optional if they are not connected to anything at the hardware level".
+> > 
+> > Signed-off-by: Alexander Riesen <alexander.riesen@cetitec.com>
+> > ---
+> >  drivers/media/i2c/adv748x/adv748x-dai.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/drivers/media/i2c/adv748x/adv748x-dai.c b/drivers/media/i2c/adv748x/adv748x-dai.c
+> > index 185f78023e91..f9cc47fa9ad1 100644
+> > --- a/drivers/media/i2c/adv748x/adv748x-dai.c
+> > +++ b/drivers/media/i2c/adv748x/adv748x-dai.c
+> > @@ -216,6 +216,11 @@ int adv748x_dai_init(struct adv748x_dai *dai)
+> >  	int ret;
+> >  	struct adv748x_state *state = adv748x_dai_to_state(dai);
+> >  
+> > +	if (!state->endpoints[ADV748X_PORT_I2S]) {
+> > +		adv_info(state, "no I2S port, DAI disabled\n");
+> > +		ret = 0;
+> > +		goto fail;
+> 
+> How about just 'return 0'?
 
-drm/scheduler is annotated, found some rather improbably to hit issues
-in practice. But from the quick chat I've had with K=C3=B6nig and others I
-think he agrees that it's real at least in the theoretical sense.
-Probably should consider playing lottery if you hit it in practice
-though :-)
+Indeed. In the retrospect, the whole event of loading the DAI driver does not
+feel that important anymore to warrant logging on info prio.
 
-> Had i915's execution flow been marked up, it should have found the
-> dubious wait for external fences inside the dead GPU recovery, and
-> probably found a few more things to complain about with the reset locking=
-.
-> [Note we already do the same annotations for wait-vs-reset, but not
-> reset-vs-execution.]
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> 
+> This could also be folded into 5/9 too I guess?, though it is easier to
+> review the sequential additions, rather than the one-big-feature
+> addition ;-)
 
-I know it splats, that's why the tdr annotation patch comes with a
-spec proposal for lifting the wait busting we do in i915 to the
-dma_fence level. I included that because amdgpu has the same problem
-on modern hw. Apparently their planned fix (because they've hit this
-bug in testing) was to push some shared lock down into their
-atomic_comit_tail function and use that in gpu reset, so don't seem
-that interested in extending dma_fence.
+I would prefer to have it separately, if you don't mind: maybe not a big one,
+but loading a driver without hardware for it *is* an event.
 
-For i915 it's just gen2/3 display, and cross-driver dma-buf/fence
-usage for those is nil and won't change. Pragmatic solution imo would
-be to just not annotate gpu reset on these platforms, and relying on
-our wait busting plus igt tests to make sure it keeps working as-is.
-The point of the explicit annotations for the signalling side is very
-much that it can be rolled out gradually, and entirely left out for
-old legacy paths that aren't worth fixing.
-
-> Determination of which waits are legal and which are not is entirely ad
-> hoc, for there is no status change tracking in the dependency analysis
-> [that is once an execution context is linked to a published fence, again
-> integral to lockdep.] Consider if the completion chain in atomic is
-> swapped out for the morally equivalent fences along intertwined timelines=
-,
-> and so it does a bunch of dma_fence_wait() instead. Why are those waits
-> legal despite them being after we have committed to fulfilling the out
-> fence? [Why are the waits on and for the GPU legal, since they equally
-> block execution flow?]
-
-No need to consider, it's already real and resulted in some pretty
-splats until I got the recursion handling right.
-
-> Forcing a generic primitive to always be part of the same global map is
-> horrible. You forgo being able to use the primitive for unrelated tasks,
-> lose the ability to name particular contexts to gain more informative
-> dependency cycle reports from having the explicit linkage. You can add
-> wait_map tracking without loss of generality [in less than 10 lines],
-> and you can still enforce that all fences used for a common purpose
-> follow the same rules [the simplest way being to default to the singular
-> wait_map]. But it's the explicitly named execution contexts that are the
-> biggest boon to reading the code and reading the lockdep warns.
-
-So one thing that's maybe not clear here: This doesn't track the DAG
-of dependencies. Doesn't even try, I'm still faithfully assuming
-drivers get that part right. Which is a gap and maybe we should fix
-this, but not the goal here.
-
-All this does is validate fences against anything else that might be
-going on in the system. E.g. your recursion example for atomic is
-handled by just assuming that any dma_fence_wait within a signalling
-section is legit and correct. We can add this later on, but not with
-lockdep, since lockdep works with classes. And proofing that
-dma_fences are acyclic requires you track them all as individuals.
-Entirely different things.
-
-That still leaves the below:
-
-> Forcing a generic primitive to always be part of the same global map is
-> horrible.
-
-And  no concrete example or reason for why that's not possible.
-Because frankly it's not horrible, this is what upstream is all about:
-Shared concepts, shared contracts, shared code.
-
-The proposed patches might very well encode the wrong contract, that's
-all up for discussion. But fundamentally questioning that we need one
-is missing what upstream is all about.
-
-> This is a bunch of ad hoc tracking for a very narrow purpose applied
-> globally, with loss of information.
-
-It doesn't solve every problem indeed. I'm happy to review patches to
-check acyclic-ness of dma-fence at the global level from you, I
-haven't figured out yet how to make that happen. I know i915-gem has
-that, but this is about the cross-driver contract here.
--Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Thanks,
+Alex
