@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61FD1201779
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 18:47:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34B6D2015CA
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 18:31:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392008AbgFSQjG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jun 2020 12:39:06 -0400
-Received: from lelv0142.ext.ti.com ([198.47.23.249]:37372 "EHLO
+        id S2390251AbgFSO5c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jun 2020 10:57:32 -0400
+Received: from lelv0142.ext.ti.com ([198.47.23.249]:38612 "EHLO
         lelv0142.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388893AbgFSOq4 (ORCPT
+        with ESMTP id S2390240AbgFSO5b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jun 2020 10:46:56 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 05JEkrL9112849;
-        Fri, 19 Jun 2020 09:46:53 -0500
+        Fri, 19 Jun 2020 10:57:31 -0400
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+        by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 05JEvTVw115843;
+        Fri, 19 Jun 2020 09:57:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1592578013;
-        bh=wJD3mpft+jDvgxvEFwa03fDvj7diqxzIY86wSn03u0c=;
+        s=ti-com-17Q1; t=1592578649;
+        bh=t2jmLd1AP6kOaL4qNWdYUXf3NOR6LIXJkuVWNytPCgI=;
         h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=iSxNQQVkRPQEeUOny3/O854E5SbUeeMcpqcth6vH9KMC80dWCNf4HlVmHEtne+f3h
-         +z6YuNOkcRQXh3vrVIFYw3t/aSviL8E3d9lYzxK7RrNd7H6KvfUQtB31xna8jldHFk
-         wfSIo771pVS/9BZqlE6hmSRiNC/su3K1KR/UNVFo=
-Received: from DFLE106.ent.ti.com (dfle106.ent.ti.com [10.64.6.27])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 05JEkr3n015542
+        b=XJGwxySMJPRi1X5uj7fZnFvcaWVuhZbixBoqztlpluPdOiyj8LlnnGaoJVVAjZ9fd
+         iJ5m/jdu2lrGIUfDIWSHDvzdGWp7fAkCqYkLQnSdJ3JghNPA8s3ZVM6kOwqpN7Uz4h
+         u8xq/CbaZ1ABW0MXIl4W7uaqRTr0P2vdGrj+xR9Y=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 05JEvTDe043771
         (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 19 Jun 2020 09:46:53 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE106.ent.ti.com
- (10.64.6.27) with Microsoft SMTP Server (version=TLS1_2,
+        Fri, 19 Jun 2020 09:57:29 -0500
+Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 19
- Jun 2020 09:46:52 -0500
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ Jun 2020 09:57:29 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE115.ent.ti.com
+ (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 19 Jun 2020 09:46:52 -0500
+ Frontend Transport; Fri, 19 Jun 2020 09:57:28 -0500
 Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with SMTP id 05JEkpns071017;
-        Fri, 19 Jun 2020 09:46:51 -0500
-Date:   Fri, 19 Jun 2020 09:46:50 -0500
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with SMTP id 05JEvRdb130332;
+        Fri, 19 Jun 2020 09:57:27 -0500
+Date:   Fri, 19 Jun 2020 09:57:27 -0500
 From:   Benoit Parrot <bparrot@ti.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 CC:     <linux-media@vger.kernel.org>,
         Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v1 107/107] media: ti-vpe: cal: Implement media
- controller centric API
-Message-ID: <20200619144648.k7dwx52vyzq7rmqx@ti.com>
+Subject: Re: [PATCH v1 000/107] media: ti-vpe: cal: Add media controller
+ support
+Message-ID: <20200619145726.r6pc7uoi4wxqlb2k@ti.com>
 References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
- <20200614235944.17716-108-laurent.pinchart@ideasonboard.com>
+ <20200619145303.hhbxs3rhnklvysoj@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20200614235944.17716-108-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20200619145303.hhbxs3rhnklvysoj@ti.com>
 User-Agent: NeoMutt/20171215
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Sender: linux-media-owner@vger.kernel.org
@@ -58,589 +58,201 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-Thank you for the patch.
-
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote on Mon [2020-Jun-15 02:59:44 +0300]:
-> The CAL driver is video node centric, it controls the whole device
-> through the video device nodes. This limits the possible use cases as it
-> can't support sources that are more complex than a single subdev. To
-> support more complex hardware pipelines, implement support for the media
-> controller centric API. The exposed API can be selected through a module
-> parameter.
+Benoit Parrot <bparrot@ti.com> wrote on Fri [2020-Jun-19 09:53:03 -0500]:
+> Hi Laurent,
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/media/platform/ti-vpe/cal-camerarx.c |   1 +
->  drivers/media/platform/ti-vpe/cal-video.c    | 358 ++++++++++++++-----
->  drivers/media/platform/ti-vpe/cal.c          |  10 +-
->  drivers/media/platform/ti-vpe/cal.h          |   2 +
->  4 files changed, 289 insertions(+), 82 deletions(-)
-> 
-> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> index 2e7a3bc716cf..014ca46509db 100644
-> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
-> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> @@ -818,6 +818,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
->  	sd = &phy->subdev;
->  	v4l2_subdev_init(sd, &cal_camerarx_subdev_ops);
->  	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> +	sd->flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
->  	snprintf(sd->name, sizeof(sd->name), "CAMERARX%u", instance);
->  	sd->dev = cal->dev;
->  
-> diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
-> index 0f8702bd77db..5f9cd449f027 100644
-> --- a/drivers/media/platform/ti-vpe/cal-video.c
-> +++ b/drivers/media/platform/ti-vpe/cal-video.c
-> @@ -40,40 +40,10 @@ static char *fourcc_to_str(u32 fmt)
->  }
->  
->  /* ------------------------------------------------------------------
-> - *	V4L2 Video IOCTLs
-> + *	V4L2 Common IOCTLs
->   * ------------------------------------------------------------------
->   */
->  
-> -static const struct cal_format_info *find_format_by_pix(struct cal_ctx *ctx,
-> -							u32 pixelformat)
-> -{
-> -	const struct cal_format_info *fmtinfo;
-> -	unsigned int k;
-> -
-> -	for (k = 0; k < ctx->num_active_fmt; k++) {
-> -		fmtinfo = ctx->active_fmt[k];
-> -		if (fmtinfo->fourcc == pixelformat)
-> -			return fmtinfo;
-> -	}
-> -
-> -	return NULL;
-> -}
-> -
-> -static const struct cal_format_info *find_format_by_code(struct cal_ctx *ctx,
-> -							 u32 code)
-> -{
-> -	const struct cal_format_info *fmtinfo;
-> -	unsigned int k;
-> -
-> -	for (k = 0; k < ctx->num_active_fmt; k++) {
-> -		fmtinfo = ctx->active_fmt[k];
-> -		if (fmtinfo->code == code)
-> -			return fmtinfo;
-> -	}
-> -
-> -	return NULL;
-> -}
-> -
->  static int cal_querycap(struct file *file, void *priv,
->  			struct v4l2_capability *cap)
->  {
-> @@ -87,6 +57,51 @@ static int cal_querycap(struct file *file, void *priv,
->  	return 0;
->  }
->  
-> +static int cal_g_fmt_vid_cap(struct file *file, void *priv,
-> +			     struct v4l2_format *f)
-> +{
-> +	struct cal_ctx *ctx = video_drvdata(file);
-> +
-> +	*f = ctx->v_fmt;
-> +
-> +	return 0;
-> +}
-> +
-> +/* ------------------------------------------------------------------
-> + *	V4L2 Video Node Centric IOCTLs
-> + * ------------------------------------------------------------------
-> + */
-> +
-> +static const struct cal_format_info *find_format_by_pix(struct cal_ctx *ctx,
-> +							u32 pixelformat)
-> +{
-> +	const struct cal_format_info *fmtinfo;
-> +	unsigned int k;
-> +
-> +	for (k = 0; k < ctx->num_active_fmt; k++) {
-> +		fmtinfo = ctx->active_fmt[k];
-> +		if (fmtinfo->fourcc == pixelformat)
-> +			return fmtinfo;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +static const struct cal_format_info *find_format_by_code(struct cal_ctx *ctx,
-> +							 u32 code)
-> +{
-> +	const struct cal_format_info *fmtinfo;
-> +	unsigned int k;
-> +
-> +	for (k = 0; k < ctx->num_active_fmt; k++) {
-> +		fmtinfo = ctx->active_fmt[k];
-> +		if (fmtinfo->code == code)
-> +			return fmtinfo;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
->  static int cal_enum_fmt_vid_cap(struct file *file, void  *priv,
->  				struct v4l2_fmtdesc *f)
->  {
-> @@ -174,16 +189,6 @@ static void cal_calc_format_size(struct cal_ctx *ctx,
->  		f->fmt.pix.bytesperline, f->fmt.pix.sizeimage);
->  }
->  
-> -static int cal_g_fmt_vid_cap(struct file *file, void *priv,
-> -			     struct v4l2_format *f)
-> -{
-> -	struct cal_ctx *ctx = video_drvdata(file);
-> -
-> -	*f = ctx->v_fmt;
-> -
-> -	return 0;
-> -}
-> -
->  static int cal_try_fmt_vid_cap(struct file *file, void *priv,
->  			       struct v4l2_format *f)
->  {
-> @@ -383,17 +388,7 @@ static int cal_enum_frameintervals(struct file *file, void *priv,
->  	return 0;
->  }
->  
-> -static const struct v4l2_file_operations cal_fops = {
-> -	.owner		= THIS_MODULE,
-> -	.open           = v4l2_fh_open,
-> -	.release        = vb2_fop_release,
-> -	.read           = vb2_fop_read,
-> -	.poll		= vb2_fop_poll,
-> -	.unlocked_ioctl = video_ioctl2, /* V4L2 ioctl handler */
-> -	.mmap           = vb2_fop_mmap,
-> -};
-> -
-> -static const struct v4l2_ioctl_ops cal_ioctl_ops = {
-> +static const struct v4l2_ioctl_ops cal_ioctl_video_ops = {
->  	.vidioc_querycap      = cal_querycap,
->  	.vidioc_enum_fmt_vid_cap  = cal_enum_fmt_vid_cap,
->  	.vidioc_g_fmt_vid_cap     = cal_g_fmt_vid_cap,
-> @@ -419,7 +414,153 @@ static const struct v4l2_ioctl_ops cal_ioctl_ops = {
->  };
->  
->  /* ------------------------------------------------------------------
-> - *	videobuf2 Operations
-> + *	V4L2 Media Controller Centric IOCTLs
-> + * ------------------------------------------------------------------
-> + */
-> +
-> +static int cal_mc_enum_fmt_vid_cap(struct file *file, void  *priv,
-> +				   struct v4l2_fmtdesc *f)
-> +{
-> +	if (f->index >= cal_num_formats)
-> +		return -EINVAL;
-> +
-> +	f->pixelformat = cal_formats[f->index].fourcc;
-> +	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> +
-> +	return 0;
-> +}
-> +
-> +static void cal_mc_try_fmt(struct cal_ctx *ctx, struct v4l2_format *f,
-> +			   const struct cal_format_info **info)
-> +{
-> +	struct v4l2_pix_format *format = &f->fmt.pix;
-> +	const struct cal_format_info *fmtinfo;
-> +	unsigned int bpp;
-> +
-> +	/*
-> +	 * Default to the first format is the requested pixel format code isn't
-> +	 * supported.
-> +	 */
-> +	fmtinfo = cal_format_by_fourcc(f->fmt.pix.pixelformat);
-> +	if (!fmtinfo)
-> +		fmtinfo = &cal_formats[0];
-> +
-> +	/*
-> +	 * Clamp the size, update the pixel format. The field and colorspace are
-> +	 * accepted as-is, except for V4L2_FIELD_ANY that is turned into
-> +	 * V4L2_FIELD_NONE.
-> +	 */
-> +	bpp = ALIGN(fmtinfo->bpp, 8);
-> +
-> +	format->width = clamp_t(unsigned int, format->width,
-> +				CAL_MIN_WIDTH_BYTES * 8 / bpp,
-> +				CAL_MAX_WIDTH_BYTES * 8 / bpp);
-> +	format->height = clamp_t(unsigned int, format->height,
-> +				 CAL_MIN_HEIGHT_LINES, CAL_MAX_HEIGHT_LINES);
-> +	format->pixelformat = fmtinfo->fourcc;
-> +
-> +	if (format->field == V4L2_FIELD_ANY)
-> +		format->field = V4L2_FIELD_NONE;
-> +
-> +	/*
-> +	 * Calculate the number of bytes per line and the image size. The
-> +	 * hardware stores the stride as a number of 16 bytes words, in a
-> +	 * signed 15-bit value. Only 14 bits are thus usable.
-> +	 */
-> +	format->bytesperline = ALIGN(clamp(format->bytesperline,
-> +					   format->width * bpp / 8,
-> +					   ((1U << 14) - 1) * 16), 16);
-> +
-> +	format->sizeimage = format->height * format->bytesperline;
-> +
-> +	if (info)
-> +		*info = fmtinfo;
-> +
-> +	ctx_dbg(3, ctx, "%s: %s %ux%u (bytesperline %u sizeimage %u)\n",
-> +		__func__, fourcc_to_str(format->pixelformat),
-> +		format->width, format->height,
-> +		format->bytesperline, format->sizeimage);
-> +}
-> +
-> +static int cal_mc_try_fmt_vid_cap(struct file *file, void *priv,
-> +				  struct v4l2_format *f)
-> +{
-> +	struct cal_ctx *ctx = video_drvdata(file);
-> +
-> +	cal_mc_try_fmt(ctx, f, NULL);
-> +	return 0;
-> +}
-> +
-> +static int cal_mc_s_fmt_vid_cap(struct file *file, void *priv,
-> +				struct v4l2_format *f)
-> +{
-> +	struct cal_ctx *ctx = video_drvdata(file);
-> +	const struct cal_format_info *fmtinfo;
-> +
-> +	if (vb2_is_busy(&ctx->vb_vidq)) {
-> +		ctx_dbg(3, ctx, "%s device busy\n", __func__);
-> +		return -EBUSY;
-> +	}
-> +
-> +	cal_mc_try_fmt(ctx, f, &fmtinfo);
-> +
-> +	ctx->v_fmt = *f;
-> +	ctx->fmtinfo = fmtinfo;
-> +
-> +	return 0;
-> +}
-> +
-> +static int cal_mc_enum_framesizes(struct file *file, void *fh,
-> +				  struct v4l2_frmsizeenum *fsize)
-> +{
-> +	struct cal_ctx *ctx = video_drvdata(file);
-> +	const struct cal_format_info *fmtinfo;
-> +	unsigned int bpp;
-> +
-> +	if (fsize->index > 0)
-> +		return -EINVAL;
-> +
-> +	fmtinfo = cal_format_by_fourcc(fsize->pixel_format);
-> +	if (!fmtinfo) {
-> +		ctx_dbg(3, ctx, "Invalid pixel format 0x%08x\n",
-> +			fsize->pixel_format);
-> +		return -EINVAL;
-> +	}
-> +
-> +	bpp = ALIGN(fmtinfo->bpp, 8);
-> +
-> +	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
-> +	fsize->stepwise.min_width = CAL_MIN_WIDTH_BYTES * 8 / bpp;
-> +	fsize->stepwise.max_width = CAL_MAX_WIDTH_BYTES * 8 / bpp;
-> +	fsize->stepwise.step_width = 64 / bpp;
-> +	fsize->stepwise.min_height = CAL_MIN_HEIGHT_LINES;
-> +	fsize->stepwise.max_height = CAL_MAX_HEIGHT_LINES;
-> +	fsize->stepwise.step_height = 1;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_ioctl_ops cal_ioctl_mc_ops = {
-> +	.vidioc_querycap      = cal_querycap,
-> +	.vidioc_enum_fmt_vid_cap  = cal_mc_enum_fmt_vid_cap,
-> +	.vidioc_g_fmt_vid_cap     = cal_g_fmt_vid_cap,
-> +	.vidioc_try_fmt_vid_cap   = cal_mc_try_fmt_vid_cap,
-> +	.vidioc_s_fmt_vid_cap     = cal_mc_s_fmt_vid_cap,
-> +	.vidioc_enum_framesizes   = cal_mc_enum_framesizes,
-> +	.vidioc_reqbufs       = vb2_ioctl_reqbufs,
-> +	.vidioc_create_bufs   = vb2_ioctl_create_bufs,
-> +	.vidioc_prepare_buf   = vb2_ioctl_prepare_buf,
-> +	.vidioc_querybuf      = vb2_ioctl_querybuf,
-> +	.vidioc_qbuf          = vb2_ioctl_qbuf,
-> +	.vidioc_dqbuf         = vb2_ioctl_dqbuf,
-> +	.vidioc_expbuf        = vb2_ioctl_expbuf,
-> +	.vidioc_streamon      = vb2_ioctl_streamon,
-> +	.vidioc_streamoff     = vb2_ioctl_streamoff,
-> +	.vidioc_log_status    = v4l2_ctrl_log_status,
-> +};
-> +
-> +/* ------------------------------------------------------------------
-> + *	videobuf2 Common Operations
->   * ------------------------------------------------------------------
->   */
->  
-> @@ -505,6 +646,26 @@ static void cal_release_buffers(struct cal_ctx *ctx,
->  	spin_unlock_irq(&ctx->dma.lock);
->  }
->  
-> +/* ------------------------------------------------------------------
-> + *	videobuf2 Operations
-> + * ------------------------------------------------------------------
-> + */
-> +
-> +static int cal_video_check_format(struct cal_ctx *ctx)
-> +{
-> +	const struct v4l2_mbus_framefmt *format;
-> +
-> +	format = &ctx->phy->formats[CAL_CAMERARX_PAD_SOURCE];
-> +
-> +	if (ctx->fmtinfo->code != format->code ||
-> +	    ctx->v_fmt.fmt.pix.height != format->height ||
-> +	    ctx->v_fmt.fmt.pix.width != format->width ||
-> +	    ctx->v_fmt.fmt.pix.field != format->field)
-> +		return -EPIPE;
-> +
-> +	return 0;
-> +}
-> +
->  static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
->  {
->  	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
-> @@ -512,6 +673,23 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
->  	dma_addr_t addr;
->  	int ret;
->  
-> +	ret = media_pipeline_start(&ctx->vdev.entity, &ctx->phy->pipe);
-> +	if (ret < 0) {
-> +		ctx_err(ctx, "Failed to start media pipeline: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	/*
-> +	 * Verify that the currently configured format matches the output of
-> +	 * the connected CAMERARX.
-> +	 */
-> +	ret = cal_video_check_format(ctx);
-> +	if (ret < 0) {
-> +		ctx_dbg(3, ctx,
-> +			"Format mismatch between CAMERARX and video node\n");
-> +		goto error_pipeline;
-> +	}
-> +
->  	spin_lock_irq(&ctx->dma.lock);
->  	buf = list_first_entry(&ctx->dma.queue, struct cal_buffer, list);
->  	ctx->dma.pending = buf;
-> @@ -527,18 +705,21 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
->  
->  	ret = v4l2_subdev_call(&ctx->phy->subdev, video, s_stream, 1);
->  	if (ret)
-> -		goto err;
-> +		goto error_stop;
->  
->  	if (cal_debug >= 4)
->  		cal_quickdump_regs(ctx->cal);
->  
->  	return 0;
->  
-> -err:
-> +error_stop:
->  	cal_ctx_stop(ctx);
->  	pm_runtime_put_sync(ctx->cal->dev);
->  
-> +error_pipeline:
-> +	media_pipeline_stop(&ctx->vdev.entity);
->  	cal_release_buffers(ctx, VB2_BUF_STATE_QUEUED);
-> +
->  	return ret;
->  }
->  
-> @@ -553,6 +734,8 @@ static void cal_stop_streaming(struct vb2_queue *vq)
->  	pm_runtime_put_sync(ctx->cal->dev);
->  
->  	cal_release_buffers(ctx, VB2_BUF_STATE_ERROR);
-> +
-> +	media_pipeline_stop(&ctx->vdev.entity);
->  }
->  
->  static const struct vb2_ops cal_video_qops = {
-> @@ -570,13 +753,14 @@ static const struct vb2_ops cal_video_qops = {
->   * ------------------------------------------------------------------
->   */
->  
-> -static const struct video_device cal_videodev = {
-> -	.name		= CAL_MODULE_NAME,
-> -	.fops		= &cal_fops,
-> -	.ioctl_ops	= &cal_ioctl_ops,
-> -	.minor		= -1,
-> -	.release	= video_device_release_empty,
-> -	.device_caps	= V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING,
-> +static const struct v4l2_file_operations cal_fops = {
-> +	.owner		= THIS_MODULE,
-> +	.open           = v4l2_fh_open,
-> +	.release        = vb2_fop_release,
-> +	.read           = vb2_fop_read,
-> +	.poll		= vb2_fop_poll,
-> +	.unlocked_ioctl = video_ioctl2, /* V4L2 ioctl handler */
-> +	.mmap           = vb2_fop_mmap,
->  };
->  
->  static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
-> @@ -650,19 +834,22 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
->  
->  int cal_ctx_v4l2_register(struct cal_ctx *ctx)
->  {
-> -	struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
->  	struct video_device *vfd = &ctx->vdev;
->  	int ret;
->  
-> -	ret = cal_ctx_v4l2_init_formats(ctx);
-> -	if (ret)
-> -		return ret;
-> +	if (!cal_mc_api) {
-> +		struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
->  
-> -	ret = v4l2_ctrl_add_handler(hdl, ctx->phy->sensor->ctrl_handler, NULL,
-> -				    true);
-> -	if (ret < 0) {
-> -		ctx_err(ctx, "Failed to add sensor ctrl handler\n");
-> -		return ret;
-> +		ret = cal_ctx_v4l2_init_formats(ctx);
-> +		if (ret)
-> +			return ret;
-> +
-> +		ret = v4l2_ctrl_add_handler(hdl, ctx->phy->sensor->ctrl_handler,
-> +					    NULL, true);
-> +		if (ret < 0) {
-> +			ctx_err(ctx, "Failed to add sensor ctrl handler\n");
-> +			return ret;
-> +		}
->  	}
->  
->  	ret = video_register_device(vfd, VFL_TYPE_VIDEO, cal_video_nr);
-> @@ -699,7 +886,6 @@ void cal_ctx_v4l2_unregister(struct cal_ctx *ctx)
->  
->  int cal_ctx_v4l2_init(struct cal_ctx *ctx)
->  {
-> -	struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
->  	struct video_device *vfd = &ctx->vdev;
->  	struct vb2_queue *q = &ctx->vb_vidq;
->  	int ret;
-> @@ -726,10 +912,14 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
->  		return ret;
->  
->  	/* Initialize the video device and media entity. */
-> -	*vfd = cal_videodev;
-> +	vfd->fops = &cal_fops;
-> +	vfd->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING
-> +			 | (cal_mc_api ? V4L2_CAP_IO_MC : 0);
->  	vfd->v4l2_dev = &ctx->cal->v4l2_dev;
->  	vfd->queue = q;
->  	snprintf(vfd->name, sizeof(vfd->name), "CAL output %u", ctx->index);
-> +	vfd->release = video_device_release_empty;
-> +	vfd->ioctl_ops = cal_mc_api ? &cal_ioctl_mc_ops : &cal_ioctl_video_ops;
->  	vfd->lock = &ctx->mutex;
->  	video_set_drvdata(vfd, ctx);
->  
-> @@ -738,15 +928,19 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
->  	if (ret < 0)
->  		return ret;
->  
-> -	/* Initialize the control handler. */
-> -	ret = v4l2_ctrl_handler_init(hdl, 11);
-> -	if (ret < 0) {
-> -		ctx_err(ctx, "Failed to init ctrl handler\n");
-> -		goto error;
-> +	if (!cal_mc_api) {
-> +		/* Initialize the control handler. */
-> +		struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
-> +
-> +		ret = v4l2_ctrl_handler_init(hdl, 11);
-> +		if (ret < 0) {
-> +			ctx_err(ctx, "Failed to init ctrl handler\n");
-> +			goto error;
-> +		}
-> +
-> +		vfd->ctrl_handler = hdl;
->  	}
->  
-> -	vfd->ctrl_handler = hdl;
-> -
->  	return 0;
->  
->  error:
-> @@ -756,6 +950,8 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
->  
->  void cal_ctx_v4l2_cleanup(struct cal_ctx *ctx)
->  {
-> -	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
-> +	if (!cal_mc_api)
-> +		v4l2_ctrl_handler_free(&ctx->ctrl_handler);
-> +
->  	media_entity_cleanup(&ctx->vdev.entity);
->  }
-> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> index f97c213f716f..caea3e129c87 100644
-> --- a/drivers/media/platform/ti-vpe/cal.c
-> +++ b/drivers/media/platform/ti-vpe/cal.c
-> @@ -43,6 +43,10 @@ unsigned int cal_debug;
->  module_param_named(debug, cal_debug, uint, 0644);
->  MODULE_PARM_DESC(debug, "activates debug info");
->  
-> +bool cal_mc_api;
-> +module_param_named(mc_api, cal_mc_api, bool, 0444);
-> +MODULE_PARM_DESC(debug, "activates MC API");
+> Except for patch 56, 78, 84 and 107.
 
-Shouldn't this be 
-	MODULE_PARM_DESC(mc_api, "activates MC API");
-instead?
+Sorry, hit send too quickly here.
 
-Benoit
+Except for patch 8, 30, 56, 68, 78, 84 and 107.
 
-> +
->  /* ------------------------------------------------------------------
->   *	Format Handling
->   * ------------------------------------------------------------------
-> @@ -655,13 +659,17 @@ static int cal_async_notifier_complete(struct v4l2_async_notifier *notifier)
->  {
->  	struct cal_dev *cal = container_of(notifier, struct cal_dev, notifier);
->  	unsigned int i;
-> +	int ret = 0;
->  
->  	for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
->  		if (cal->ctx[i])
->  			cal_ctx_v4l2_register(cal->ctx[i]);
->  	}
->  
-> -	return 0;
-> +	if (cal_mc_api)
-> +		ret = v4l2_device_register_subdev_nodes(&cal->v4l2_dev);
-> +
-> +	return ret;
->  }
->  
->  static const struct v4l2_async_notifier_operations cal_async_notifier_ops = {
-> diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-> index 036b944c3862..f6b4c9a73aab 100644
-> --- a/drivers/media/platform/ti-vpe/cal.h
-> +++ b/drivers/media/platform/ti-vpe/cal.h
-> @@ -160,6 +160,7 @@ struct cal_camerarx {
->  	struct device_node	*sensor_ep_node;
->  	struct device_node	*sensor_node;
->  	struct v4l2_subdev	*sensor;
-> +	struct media_pipeline	pipe;
->  
->  	struct v4l2_subdev	subdev;
->  	struct media_pad	pads[2];
-> @@ -224,6 +225,7 @@ struct cal_ctx {
->  
->  extern unsigned int cal_debug;
->  extern int cal_video_nr;
-> +extern bool cal_mc_api;
->  
->  #define cal_dbg(level, cal, fmt, arg...)				\
->  	do {								\
-> -- 
-> Regards,
 > 
-> Laurent Pinchart
+> Reviewed-by: Benoit Parrot <bparrot@ti.com>
 > 
+> Benoit
+> 
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote on Mon [2020-Jun-15 02:57:57 +0300]:
+> > Hello,
+> > 
+> > This small patch series adds media controller support to the ti-cal
+> > driver.
+> > 
+> > The end goal is to support pipelines where the image source is more
+> > complex than a single subdev (for instance a SMIA++-compliant sensor, or
+> > an FPD-Link source made of a camera, a serializer and a deserializer),
+> > and to prepare for support of multiple hardware contexts, needed for
+> > CSI-2 virtual channel and data type multiplexing support. These use
+> > cases require configuration of the external pipeline from userspace, and
+> > thus need support for the media controller and V4L2 subdev userspace
+> > APIs.
+> > 
+> > The series starts with miscellaneous cleanups and refactoring, in
+> > patches 001/107 to 083/107. Worth being noted is the split of the large
+> > driver into multiple files, with patch 081/107 moving video node
+> > handling to cal-video.c and patch 083/107 moving CAMERARX handling to
+> > cal-camerarx.c.
+> > 
+> > Interleaved with more cleanup and refactoring, patch 084/107 creates
+> > subdevs for the CAMERARX instances, patch 090/107 implements the subdev
+> > operations, and patch 091/107 uses the subdev .set_fmt() and .s_stream()
+> > operations to configure and control the CAMERARX. 
+> > 
+> > More refactoring and cleanup follow in patches 092/107 to 106/107, until
+> > patch 107/107 that adds media controller support. As the existing video
+> > node centric API needs to be preserved to avoid breaking userspace
+> > applications, a module parameter is added to enable the media controller
+> > API. Changes are otherwise fairly limited, and mostly involve the
+> > implementation of MC-centric V4L2 ioctl handlers (which are far simpler
+> > than their video node centric equivalents), additional pipeline
+> > validation in the vb2 start streaming handler, and disabling control
+> > handling in the video nodes.
+> > 
+> > The patches have been tested on an AM65x EVM with an OV5640 camera
+> > module with the yavta test application, both in MC mode and in legacy
+> > mode. As the ov5640 driver sets a default format identical to the
+> > default of the ti-cal driver, capture in both modes can simply be tested
+> > with
+> > 
+> > 	yavta -f UYVY -s 640x480 -c10 --requeue-last /dev/video0
+> > 
+> > without requiring manual pipeline setup through the media controller
+> > API. Usage of other formats or resolutions require pipeline
+> > configuration before capture.
+> > 
+> > Laurent Pinchart (107):
+> >   media: ti-vpe: cal: Sort headers alphabetically
+> >   media: ti-vpe: cal: Avoid function forward declaration
+> >   media: ti-vpe: cal: Decouple CSI2 port and CPORT
+> >   media: ti-vpe: cal: Index CSI-2 port starting at 0
+> >   media: ti-vpe: cal: Index IRQ registersstarting at 0
+> >   media: ti-vpe: cal: Merge all status variables in IRQ handler
+> >   media: ti-vpe: cal: Inline CAL_VERSION macro in its only user
+> >   media: ti-vpe: cal: Turn reg_(read|write)_field() into inline
+> >     functions
+> >   media: ti-vpe: cal: Make cal_formats array const
+> >   media: ti-vpe: cal: Remove needless variable initialization
+> >   media: ti-vpe: cal: Remove needless casts
+> >   media: ti-vpe: cal: Turn boolean variable into bool
+> >   media: ti-vpe: cal: Make loop indices unsigned where applicable
+> >   media: ti-vpe: cal: Embed base_fields array in struct cal_csi2_phy
+> >   media: ti-vpe: cal: Don't modify cal_csi2_phy base_fields
+> >   media: ti-vpe: cal: Store PHY regmap fields in struct cc_data
+> >   media: ti-vpe: cal: Rename cal_csi2_phy base_fields to fields
+> >   media: ti-vpe: cal: Make structure fields unsigned where applicable
+> >   media: ti-vpe: cal: Constify platform data
+> >   media: ti-vpe: cal: Remove static const cal_regmap_config template
+> >   media: ti-vpe: cal: Remove unused structure fields
+> >   media: ti-vpe: cal: Remove flags field from struct cal_dev
+> >   media: ti-vpe: cal: Move function to avoid forward declaration
+> >   media: ti-vpe: cal: Rename cc_data to cal_camerarx
+> >   media: ti-vpe: cal: Rename cal_csi2_phy to cal_camerarx_data
+> >   media: ti-vpe: cal: Name all cal_dev pointers consistently
+> >   media: ti-vpe: cal: Name all cal_camerarx pointers consistently
+> >   media: ti-vpe: cal: Remove internal phy structure from cal_camerarx
+> >   media: ti-vpe: cal: Store instance ID and cal pointer in cal_camerarx
+> >   media: ti-vpe: cal: Use dev_* print macros
+> >   media: ti-vpe: cal: Add print macros for the cal_camerarx instances
+> >   media: ti-vpe: cal: Store sensor-related data in cal_camerarx
+> >   media: ti-vpe: cal: Create consistent naming for CAMERARX functions
+> >   media: ti-vpe: cal: Group CAMERARX-related functions together
+> >   media: ti-vpe: cal: Create consistent naming for context functions
+> >   media: ti-vpe: cal: Reorganize remaining code in sections
+> >   media: ti-vpe: cal: Rename cal_ctx.csi2_port to cal_ctx.index
+> >   media: ti-vpe: cal: Use correct device name for bus_info
+> >   media: ti-vpe: cal: Get struct device without going through
+> >     v4l2_device
+> >   media: ti-vpe: cal: Use ctx_info() instead of v4l2_info()
+> >   media: ti-vpe: cal: Use a loop to create CAMERARX and context
+> >     instances
+> >   media: ti-vpe: cal: Drop struct cal_dev v4l2_dev field
+> >   media: ti-vpe: cal: Split CAMERARX syscon regmap retrieval to a
+> >     function
+> >   media: ti-vpe: cal: Use syscon_regmap_lookup_by_phandle_args()
+> >   media: ti-vpe: cal: Inline cal_get_camerarx_regmap() in caller
+> >   media: ti-vpe: cal: Add comments to cal_probe() to delimitate sections
+> >   media: ti-vpe: cal: Rename cal_create_instance() to cal_ctx_create()
+> >   media: ti-vpe: cal: Hardcode virtual channel to 0
+> >   media: ti-vpe: cal: Use of_graph_get_endpoint_by_regs() to parse OF
+> >   media: ti-vpe: cal: Fix usage of v4l2_fwnode_endpoint_parse()
+> >   media: ti-vpe: cal: Decouple control handler from v4l2_device
+> >   media: ti-vpe: cal: Move v4l2_device from cal_ctx to cal_dev
+> >   media: ti-vpe: cal: Split video device initialization and registration
+> >   media: ti-vpe: cal: Add context V4L2 cleanup and unregister functions
+> >   media: ti-vpe: cal: Unregister video device before cleanup
+> >   media: ti-vpe: cal: Add cal_camerarx_destroy() to cleanup CAMERARX
+> >   media: ti-vpe: cal: Move DT parsing to CAMERARX
+> >   media: ti-vpe: cal: Use ARRAY_SIZE to replace numerical value
+> >   media: ti-vpe: cal: Move all sensor-related init to .bound() notifier
+> >   media: ti-vpe: cal: Allow multiple contexts per subdev notifier
+> >   media: ti-vpe: cal: Move async notifiers from contexts to cal_dev
+> >   media: ti-vpe: cal: Replace context with phy in async notifier entries
+> >   media: ti-vpe: cal: Operate on phy instances in cal_quickdump_regs()
+> >   media: ti-vpe: cal: Decouple context and phy cleanup at remove time
+> >   media: ti-vpe: cal: Move CAL_NUM_CSI2_PORTS from cal_regs.h to cal.c
+> >   media: ti-vpe: cal: Remove isvcirqset() and isportirqset() macros
+> >   media: ti-vpe: cal: Replace number of ports numerical value by macro
+> >   media: ti-vpe: cal: Split media initialization and cleanup to
+> >     functions
+> >   media: ti-vpe: cal: Read hardware revision earlier during probe
+> >   media: ti-vpe: cal: Print revision and hwinfo in a more readable
+> >     format
+> >   media: ti-vpe: cal: Store struct device in cal_dev
+> >   media: ti-vpe: cal: Register a media device
+> >   media: ti-vpe: cal: Init formats in cal_ctx_v4l2_register()
+> >   media: ti-vpe: cal: Allocate cal_ctx active_fmt array dynamically
+> >   media: ti-vpe: cal: Inline cal_camerarx_max_lanes() in its only caller
+> >   media: ti-vpe: cal: Reorder camerarx functions to prepare refactoring
+> >   media: ti-vpe: cal: Refactor camerarx start and stop
+> >   media: ti-vpe: cal: Don't store external rate in cal_camerarx
+> >   media: ti-vpe: cal: Remove unneeded phy->sensor NULL check
+> >   media: ti-vpe: cal: Use 'unsigned int' type instead of 'unsigned'
+> >   media: ti-vpe: cal: Split video node handling to cal-video.c
+> >   media: ti-vpe: cal: Move CAL I/O accessors to cal.h
+> >   media: ti-vpe: cal: Split CAMERARX handling to cal-camerarx.c
+> >   media: ti-vpe: cal: Create subdev for CAMERARX
+> >   media: ti-vpe: cal: Drop cal_ctx m_fmt field
+> >   media: ti-vpe: cal: Move format handling to cal.c and expose helpers
+> >   media: ti-vpe: cal: Rename MAX_(WIDTH|HEIGHT)_* macros with CAL_
+> >     prefix
+> >   media: ti-vpe: cal: Replace hardcoded BIT() value with macro
+> >   media: ti-vpe: cal: Iterate over correct number of CAMERARX instances
+> >   media: ti-vpe: cal: Implement subdev ops for CAMERARX
+> >   media: ti-vpe: cal: Use CAMERARX subdev s_stream op in video device
+> >     code
+> >   media: ti-vpe: cal: Don't pass format to cal_ctx_wr_dma_config()
+> >   media: ti-vpe: cal: Rename struct cal_fmt to cal_format_info
+> >   media: ti-vpe: cal: Refactor interrupt enable/disable
+> >   media: ti-vpe: cal: Fold PPI enable in CAMERARX .s_stream()
+> >   media: ti-vpe: cal: Stop write DMA without disabling PPI
+> >   media: ti-vpe: cal: Use spin_lock_irq() when starting or stopping
+> >     stream
+> >   media: ti-vpe: cal: Share buffer release code between start and stop
+> >   media: ti-vpe: cal: Drop V4L2_CAP_READWRITE
+> >   media: ti-vpe: cal: Drop unneeded check in cal_calc_format_size()
+> >   media: ti-vpe: cal: Remove DMA queue empty check at start streaming
+> >     time
+> >   media: ti-vpe: cal: Use list_first_entry()
+> >   media: ti-vpe: cal: Group all DMA queue fields in struct cal_dmaqueue
+> >   media: ti-vpe: cal: Set cal_dmaqueue.pending to NULL when no pending
+> >     buffer
+> >   media: ti-vpe: cal: Store buffer DMA address in dma_addr_t
+> >   media: ti-vpe: cal: Simplify the context API
+> >   media: ti-vpe: cal: Implement media controller centric API
+> > 
+> >  drivers/media/platform/ti-vpe/Makefile       |    2 +-
+> >  drivers/media/platform/ti-vpe/cal-camerarx.c |  857 ++++++
+> >  drivers/media/platform/ti-vpe/cal-video.c    |  957 ++++++
+> >  drivers/media/platform/ti-vpe/cal.c          | 2732 +++++-------------
+> >  drivers/media/platform/ti-vpe/cal.h          |  310 ++
+> >  drivers/media/platform/ti-vpe/cal_regs.h     |   74 +-
+> >  6 files changed, 2865 insertions(+), 2067 deletions(-)
+> >  create mode 100644 drivers/media/platform/ti-vpe/cal-camerarx.c
+> >  create mode 100644 drivers/media/platform/ti-vpe/cal-video.c
+> >  create mode 100644 drivers/media/platform/ti-vpe/cal.h
+> > 
+> > -- 
+> > Regards,
+> > 
+> > Laurent Pinchart
+> > 
