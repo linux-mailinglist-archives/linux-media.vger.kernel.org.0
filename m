@@ -2,181 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CFE920059C
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 11:43:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DF31B2005A0
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 11:44:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732009AbgFSJnP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jun 2020 05:43:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35014 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726196AbgFSJnO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jun 2020 05:43:14 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7992EC0613EE
-        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 02:43:13 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id h5so9049018wrc.7
-        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 02:43:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ZHgTo7kQEBwdRaFjgsK02o5pMjtqk4kUjryXyM8W8mg=;
-        b=CoZsWjEw4crs8eFjbuWv7h3NufmOpsUp8YVutr/xFMQRUYeusT/PjmHez75iUOPc8h
-         gjJi1uNs2yXiJi5Ar4R8q73eqkRisjPzMLejgu6Sr3fFzwQ9nni2FeVTqlUVIHrjvJed
-         LgiD4jddnUv1RgEgBbNcZvtz2rdYKEq0BXGwY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=ZHgTo7kQEBwdRaFjgsK02o5pMjtqk4kUjryXyM8W8mg=;
-        b=MiOXqTsgHE3PmOeSUhIXmTOxctLIed2Jv7Gnz2VyiWb/xVL50jcOdd2ndni5yCyTga
-         IZeN89Ed7X//qJZT8apEq3eCEbnqntmp2R9hrtfJQKcRn0GXve0QDU/n1Fj11d93NL03
-         y5JswHCY2kAvpJoAR6kPSMVRm7VRFJDajaWIG11C6JFg4oaEabZYDjeku8qRD9oMlG0P
-         6daO1AKdjLiEIGX2BvFdPD1cVIG/Yg+E3o2A4faRogykKrSs/uqNT0hFNoIcbAXUaoxy
-         C+OENhKrahB8d4ze24e/wzL8I3g6azUE63IWfKzPN/7fF0aEFOmoFYUYyriev9LyUy01
-         bSkQ==
-X-Gm-Message-State: AOAM532EWX1cTexHOSsu5nqXQnjBYo/hx4MLiyCvsrUlzQVrmpP8aJnO
-        peV6wzwZnz6lxSv2PYsAD5Q69w==
-X-Google-Smtp-Source: ABdhPJwqgNUvffYXxa/S+rlBZrViACLxBhhTw7FlRJqnm8zxiB3mJ48YaBn2SIoIEMpe1hAXpHV3tg==
-X-Received: by 2002:a5d:55c2:: with SMTP id i2mr3151783wrw.225.1592559792157;
-        Fri, 19 Jun 2020 02:43:12 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id s18sm7574797wra.85.2020.06.19.02.43.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2020 02:43:11 -0700 (PDT)
-Date:   Fri, 19 Jun 2020 11:43:09 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Chris Wilson <chris@chris-wilson.co.uk>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [Intel-gfx] [PATCH 03/18] dma-fence: basic lockdep annotations
-Message-ID: <20200619094309.GT20149@phenom.ffwll.local>
-Mail-Followup-To: Chris Wilson <chris@chris-wilson.co.uk>,
-        amd-gfx mailing list <amd-gfx@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
- <20200604081224.863494-4-daniel.vetter@ffwll.ch>
- <159186243606.1506.4437341616828968890@build.alporthouse.com>
- <CAPM=9ty6r1LuXAH_rf98GH0R9yN3x8xzKPjZG3QyvokpQBR-Hg@mail.gmail.com>
- <CAPj87rM0S2OPssf+WA+pjanT-0Om3yuUM1zUJCv4qTx5VYE=Fw@mail.gmail.com>
- <159255511144.7737.12635440776531222029@build.alporthouse.com>
- <CAKMK7uHEwj6jiZkRZ5PaCUNWcuU9oE4KYm4XHZwHnFzEuChZ7w@mail.gmail.com>
- <159255801588.7737.4425728073225310839@build.alporthouse.com>
+        id S1732008AbgFSJnv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jun 2020 05:43:51 -0400
+Received: from foss.arm.com ([217.140.110.172]:49834 "EHLO foss.arm.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731195AbgFSJnu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 19 Jun 2020 05:43:50 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D1392B;
+        Fri, 19 Jun 2020 02:43:49 -0700 (PDT)
+Received: from [10.57.9.128] (unknown [10.57.9.128])
+        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5BE7C3F71F;
+        Fri, 19 Jun 2020 02:43:47 -0700 (PDT)
+Subject: Re: [PATCH v6 35/36] videobuf2: use sgtable-based scatterlist
+ wrappers
+To:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Pawel Osciak <pawel@osciak.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+References: <20200618153956.29558-1-m.szyprowski@samsung.com>
+ <CGME20200618154038eucas1p1acd4fcdd183de4c19c4004778527a755@eucas1p1.samsung.com>
+ <20200618153956.29558-36-m.szyprowski@samsung.com>
+From:   Robin Murphy <robin.murphy@arm.com>
+Message-ID: <c2808024-943a-f46e-6ad8-5579a507bfdf@arm.com>
+Date:   Fri, 19 Jun 2020 10:43:46 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <159255801588.7737.4425728073225310839@build.alporthouse.com>
-X-Operating-System: Linux phenom 5.6.0-1-amd64 
+In-Reply-To: <20200618153956.29558-36-m.szyprowski@samsung.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 19, 2020 at 10:13:35AM +0100, Chris Wilson wrote:
-> Quoting Daniel Vetter (2020-06-19 09:51:59)
-> > On Fri, Jun 19, 2020 at 10:25 AM Chris Wilson <chris@chris-wilson.co.uk> wrote:
-> > > Forcing a generic primitive to always be part of the same global map is
-> > > horrible.
-> > 
-> > And  no concrete example or reason for why that's not possible.
-> > Because frankly it's not horrible, this is what upstream is all about:
-> > Shared concepts, shared contracts, shared code.
-> > 
-> > The proposed patches might very well encode the wrong contract, that's
-> > all up for discussion. But fundamentally questioning that we need one
-> > is missing what upstream is all about.
+On 2020-06-18 16:39, Marek Szyprowski wrote:
+> Use recently introduced common wrappers operating directly on the struct
+> sg_table objects and scatterlist page iterators to make the code a bit
+> more compact, robust, easier to follow and copy/paste safe.
 > 
-> Then I have not clearly communicated, as my opinion is not that
-> validation is worthless, but that the implementation is enshrining a
-> global property on a low level primitive that prevents it from being
-> used elsewhere. And I want to replace completion [chains] with fences, and
-> bio with fences, and closures with fences, and what other equivalencies
-> there are in the kernel. The fence is as central a locking construct as
-> struct completion and deserves to be a foundational primitive provided
-> by kernel/ used throughout all drivers for discrete problem domains.
+> No functional change, because the code already properly did all the
+> scaterlist related calls.
 > 
-> This is narrowing dma_fence whereby adding
-> 	struct lockdep_map *dma_fence::wait_map
-> and annotating linkage, allows you to continue to specify that all
-> dma_fence used for a particular purpose must follow common rules,
-> without restricting the primitive for uses outside of this scope.
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> ---
+>   .../common/videobuf2/videobuf2-dma-contig.c   | 41 ++++++++-----------
+>   .../media/common/videobuf2/videobuf2-dma-sg.c | 32 ++++++---------
+>   .../common/videobuf2/videobuf2-vmalloc.c      | 12 ++----
+>   3 files changed, 34 insertions(+), 51 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> index f4b4a7c135eb..ba01a8692d88 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> @@ -48,16 +48,15 @@ struct vb2_dc_buf {
+>   
+>   static unsigned long vb2_dc_get_contiguous_size(struct sg_table *sgt)
+>   {
+> -	struct scatterlist *s;
+>   	dma_addr_t expected = sg_dma_address(sgt->sgl);
+> -	unsigned int i;
+> +	struct sg_dma_page_iter dma_iter;
+>   	unsigned long size = 0;
+>   
+> -	for_each_sg(sgt->sgl, s, sgt->nents, i) {
+> -		if (sg_dma_address(s) != expected)
+> +	for_each_sgtable_dma_page(sgt, &dma_iter, 0) {
+> +		if (sg_page_iter_dma_address(&dma_iter) != expected)
+>   			break;
+> -		expected = sg_dma_address(s) + sg_dma_len(s);
+> -		size += sg_dma_len(s);
+> +		expected += PAGE_SIZE;
+> +		size += PAGE_SIZE;
 
-Somewhere else in this thread I had discussions with Jason Gunthorpe about
-this topic. It might maybe change somewhat depending upon exact rules, but
-his take is very much "I don't want dma_fence in rdma". Or pretty close to
-that at least.
+Same comment as for the DRM version. In fact, given that it's the same 
+function with the same purpose, might it be worth hoisting out as a 
+generic helper for the sg_table API itself?
 
-Similar discussions with habanalabs, they're using dma_fence internally
-without any of the uapi. Discussion there has also now concluded that it's
-best if they remove them, and simply switch over to a wait_queue or
-completion like every other driver does.
+>   	}
+>   	return size;
+>   }
+[...]
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> index 92072a08af25..6ddf953efa11 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> @@ -142,9 +142,8 @@ static void *vb2_dma_sg_alloc(struct device *dev, unsigned long dma_attrs,
+>   	 * No need to sync to the device, this will happen later when the
+>   	 * prepare() memop is called.
+>   	 */
+> -	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> -	if (!sgt->nents)
+> +	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
+> +			    DMA_ATTR_SKIP_CPU_SYNC)) {
 
-The next round of the patches already have a paragraph to at least
-somewhat limit how non-gpu drivers use dma_fence. And I guess actual
-consensus might be pointing even more strongly at dma_fence being solely
-something for gpus and closely related subsystem (maybe media) for syncing
-dma-buf access.
+As 0-day's explosions of nonsense imply, there's a rogue bracket here...
 
-So dma_fence as general replacement for completion chains I think just
-wont happen.
+>   		goto fail_map;
+>   
+>   	buf->handler.refcount = &buf->refcount;
+> @@ -180,8 +179,8 @@ static void vb2_dma_sg_put(void *buf_priv)
+>   	if (refcount_dec_and_test(&buf->refcount)) {
+>   		dprintk(1, "%s: Freeing buffer of %d pages\n", __func__,
+>   			buf->num_pages);
+> -		dma_unmap_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -				   buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> +		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
+> +				  DMA_ATTR_SKIP_CPU_SYNC);
+>   		if (buf->vaddr)
+>   			vm_unmap_ram(buf->vaddr, buf->num_pages);
+>   		sg_free_table(buf->dma_sgt);
+> @@ -202,8 +201,7 @@ static void vb2_dma_sg_prepare(void *buf_priv)
+>   	if (buf->db_attach)
+>   		return;
+>   
+> -	dma_sync_sg_for_device(buf->dev, sgt->sgl, sgt->orig_nents,
+> -			       buf->dma_dir);
+> +	dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+>   }
+>   
+>   static void vb2_dma_sg_finish(void *buf_priv)
+> @@ -215,7 +213,7 @@ static void vb2_dma_sg_finish(void *buf_priv)
+>   	if (buf->db_attach)
+>   		return;
+>   
+> -	dma_sync_sg_for_cpu(buf->dev, sgt->sgl, sgt->orig_nents, buf->dma_dir);
+> +	dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+>   }
+>   
+>   static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
+> @@ -258,9 +256,8 @@ static void *vb2_dma_sg_get_userptr(struct device *dev, unsigned long vaddr,
+>   	 * No need to sync to the device, this will happen later when the
+>   	 * prepare() memop is called.
+>   	 */
+> -	sgt->nents = dma_map_sg_attrs(buf->dev, sgt->sgl, sgt->orig_nents,
+> -				      buf->dma_dir, DMA_ATTR_SKIP_CPU_SYNC);
+> -	if (!sgt->nents)
+> +	if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
+> +			    DMA_ATTR_SKIP_CPU_SYNC)) {
 
-What might make sense is if e.g. the lockdep annotations could be reused,
-at least in design, for wait_queue or completion or anything else
-really. I do think that has a fair chance compared to the automagic
-cross-release annotations approach, which relied way too heavily on
-guessing where barriers are. My experience from just a bit of playing
-around with these patches here and discussing them with other driver
-maintainers is that accurately deciding where critical sections start and
-end is a job for humans only. And if you get it wrong, you will have a
-false positive.
+... and here.
 
-And you're indeed correct that if we'd do annotations for completions and
-wait queues, then that would need to have a class per semantically
-equivalent user, like we have lockdep classes for mutexes, not just one
-overall.
-
-But dma_fence otoh is something very specific, which comes with very
-specific rules attached - it's not a generic wait_queue at all. Originally
-it did start out as one even, but it is a very specialized wait_queue.
-
-So there's imo two cases:
-
-- Your completion is entirely orthogonal of dma_fences, and can never ever
-  block a dma_fence. Don't use dma_fence for this, and no problem. It's
-  just another wait_queue somewhere.
-
-- Your completion can eventually, maybe through lots of convolutions and
-  depdencies, block a dma_fence. In that case full dma_fence rules apply,
-  and the only thing you can do with a custom annotation is make the rules
-  even stricter. E.g. if a sub-timeline in the scheduler isn't allowed to
-  take certain scheduler locks. But the userspace visible/published fence
-  do take them, maybe as part of command submission or retirement.
-  Entirely hypotethical, no idea any driver actually needs this.
-
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Robin.
