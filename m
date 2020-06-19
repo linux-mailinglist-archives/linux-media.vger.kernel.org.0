@@ -2,215 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B58CC2019BA
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 19:47:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A785201A02
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 20:10:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403995AbgFSRrY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jun 2020 13:47:24 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:44825 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2403903AbgFSRrX (ORCPT
+        id S2394475AbgFSSJs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jun 2020 14:09:48 -0400
+Received: from us-smtp-delivery-1.mimecast.com ([205.139.110.120]:35808 "EHLO
+        us-smtp-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2392522AbgFSSJr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jun 2020 13:47:23 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id B88DA3C057C;
-        Fri, 19 Jun 2020 19:47:20 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id PJi1VxIm3hlR; Fri, 19 Jun 2020 19:47:15 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        Fri, 19 Jun 2020 14:09:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1592590185;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=khXjE23/qfT8jkgymY8FGHl3y1nZCObamf5x1h4Z6l4=;
+        b=cGDZ1mh6E0dV9NnlDmA90K60bizj4etVppSuTfTXVfWCBgaLwESSUV6/89CODtCTzgIMuM
+        25YyfrhYSvAYYSt96IHtbgcXyIr0FFaZYAJ5Q/d70HBrE/Kegjq4lAPSV2h+gjfSz/R0JX
+        BApBYiad+R9r/xa0RQNz60J9Ewr638E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-360-NaeDjSMGMDa8QaLfGotVwQ-1; Fri, 19 Jun 2020 14:09:41 -0400
+X-MC-Unique: NaeDjSMGMDa8QaLfGotVwQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id AF3FF3C00BA;
-        Fri, 19 Jun 2020 19:47:15 +0200 (CEST)
-Received: from vmlxhi-121.localdomain (10.72.92.132) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 19 Jun
- 2020 19:47:15 +0200
-From:   Michael Rodin <mrodin@de.adit-jv.com>
-To:     =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-renesas-soc@vger.kernel.org>
-CC:     Michael Rodin <mrodin@de.adit-jv.com>, <michael@rodin.online>,
-        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>
-Subject: [PATCH 2/2] [RFC] media: rcar-vin: make timeout of the irq timer configurable via v4l2 control
-Date:   Fri, 19 Jun 2020 19:46:11 +0200
-Message-ID: <1592588777-100596-2-git-send-email-mrodin@de.adit-jv.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1592588777-100596-1-git-send-email-mrodin@de.adit-jv.com>
-References: <1592588777-100596-1-git-send-email-mrodin@de.adit-jv.com>
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46A1D464;
+        Fri, 19 Jun 2020 18:09:39 +0000 (UTC)
+Received: from redhat.com (ovpn-112-200.rdu2.redhat.com [10.10.112.200])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FD907C1E8;
+        Fri, 19 Jun 2020 18:09:37 +0000 (UTC)
+Date:   Fri, 19 Jun 2020 14:09:35 -0400
+From:   Jerome Glisse <jglisse@redhat.com>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
+ annotations
+Message-ID: <20200619180935.GA10009@redhat.com>
+References: <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
+ <20200617152835.GF6578@ziepe.ca>
+ <20200618150051.GS20149@phenom.ffwll.local>
+ <20200618172338.GM6578@ziepe.ca>
+ <CAKMK7uEbqTu4q-amkLXyd1i8KNtLaoO2ZFoGqYiG6D0m0FKpOg@mail.gmail.com>
+ <20200619113934.GN6578@ziepe.ca>
+ <CAKMK7uE-kWA==Cko5uenMrcnopEjq42HxoDTDywzBAbHqsN13g@mail.gmail.com>
+ <20200619151551.GP6578@ziepe.ca>
+ <CAKMK7uEvkshAM6KUYZu8_OCpF4+1Y_SM7cQ9nJWpagfke8s8LA@mail.gmail.com>
+ <20200619172308.GQ6578@ziepe.ca>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.72.92.132]
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200619172308.GQ6578@ziepe.ca>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Different framerates imply different periods between successive frames.
-Therefore it is reasonable to make the timeout of the irq_timer
-configurable at the run time so userspace can avoid unnecessary long
-waiting times. Therefore this commit adds a new custom control to rcar-vin.
-This allows to change the timeout before the start of streaming.
+On Fri, Jun 19, 2020 at 02:23:08PM -0300, Jason Gunthorpe wrote:
+> On Fri, Jun 19, 2020 at 06:19:41PM +0200, Daniel Vetter wrote:
+> 
+> > The madness is only that device B's mmu notifier might need to wait
+> > for fence_B so that the dma operation finishes. Which in turn has to
+> > wait for device A to finish first.
+> 
+> So, it sound, fundamentally you've got this graph of operations across
+> an unknown set of drivers and the kernel cannot insert itself in
+> dma_fence hand offs to re-validate any of the buffers involved?
+> Buffers which by definition cannot be touched by the hardware yet.
+> 
+> That really is a pretty horrible place to end up..
+> 
+> Pinning really is right answer for this kind of work flow. I think
+> converting pinning to notifers should not be done unless notifier
+> invalidation is relatively bounded. 
+> 
+> I know people like notifiers because they give a bit nicer performance
+> in some happy cases, but this cripples all the bad cases..
+> 
+> If pinning doesn't work for some reason maybe we should address that?
 
-Signed-off-by: Michael Rodin <mrodin@de.adit-jv.com>
----
- drivers/media/platform/rcar-vin/rcar-core.c | 17 ++++++++++++++++-
- drivers/media/platform/rcar-vin/rcar-dma.c  | 14 +++++++++-----
- drivers/media/platform/rcar-vin/rcar-vin.h  |  5 +++++
- include/uapi/linux/rcar-vin.h               |  7 +++++++
- include/uapi/linux/v4l2-controls.h          |  6 ++++++
- 5 files changed, 43 insertions(+), 6 deletions(-)
+Note that the dma fence is only true for user ptr buffer which predate
+any HMM work and thus were using mmu notifier already. You need the
+mmu notifier there because of fork and other corner cases.
 
-diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-index 7440c89..81faa87 100644
---- a/drivers/media/platform/rcar-vin/rcar-core.c
-+++ b/drivers/media/platform/rcar-vin/rcar-core.c
-@@ -884,6 +884,17 @@ static int rvin_mc_parse_of_graph(struct rvin_dev *vin)
- 	return 0;
- }
- 
-+static const struct v4l2_ctrl_config rvin_ctrl_irq_timeout = {
-+	.ops = &rvin_ctrl_ops,
-+	.id = V4L2_CID_RCAR_VIN_IRQ_TIMEOUT,
-+	.name = "frame completion timeout",
-+	.type = V4L2_CTRL_TYPE_INTEGER,
-+	.min = 0,
-+	.max = S32_MAX,
-+	.step = 1,
-+	.def = IRQ_TIMEOUT_MS,
-+};
-+
- static int rvin_mc_init(struct rvin_dev *vin)
- {
- 	int ret;
-@@ -901,13 +912,17 @@ static int rvin_mc_init(struct rvin_dev *vin)
- 	if (ret)
- 		rvin_group_put(vin);
- 
--	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 1);
-+	ret = v4l2_ctrl_handler_init(&vin->ctrl_handler, 2);
- 	if (ret < 0)
- 		return ret;
- 
- 	v4l2_ctrl_new_std(&vin->ctrl_handler, &rvin_ctrl_ops,
- 			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
- 
-+	vin->ctrl_irq_timeout = v4l2_ctrl_new_custom(&vin->ctrl_handler,
-+						     &rvin_ctrl_irq_timeout,
-+						     NULL);
-+
- 	if (vin->ctrl_handler.error) {
- 		ret = vin->ctrl_handler.error;
- 		v4l2_ctrl_handler_free(&vin->ctrl_handler);
-diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-index bf8d733..062f338 100644
---- a/drivers/media/platform/rcar-vin/rcar-dma.c
-+++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-@@ -947,7 +947,7 @@ static void rvin_irq_timer_function(struct timer_list *timer)
- 					    irq_timer);
- 
- 	vin_err(vin, "%s: frame completion timeout after %i ms!\n",
--		__func__, IRQ_TIMEOUT_MS);
-+		__func__, jiffies_to_msecs(vin->irq_timeout));
- 	v4l2_event_queue(&vin->vdev, &rvin_irq_timeout);
- }
- 
-@@ -1022,7 +1022,7 @@ static irqreturn_t rvin_irq(int irq, void *data)
- 		vin_dbg(vin, "Dropping frame %u\n", vin->sequence);
- 	}
- 
--	mod_timer(&vin->irq_timer, jiffies + msecs_to_jiffies(IRQ_TIMEOUT_MS));
-+	mod_timer(&vin->irq_timer, jiffies + vin->irq_timeout);
- 
- 	vin->sequence++;
- 
-@@ -1233,6 +1233,7 @@ static int rvin_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	struct rvin_dev *vin = vb2_get_drv_priv(vq);
- 	unsigned long flags;
- 	int ret;
-+	s32 irq_timeout = v4l2_ctrl_g_ctrl(vin->ctrl_irq_timeout);
- 
- 	/* Allocate scratch buffer. */
- 	vin->scratch = dma_alloc_coherent(vin->dev, vin->format.sizeimage,
-@@ -1265,11 +1266,14 @@ static int rvin_start_streaming(struct vb2_queue *vq, unsigned int count)
- 
- 	spin_unlock_irqrestore(&vin->qlock, flags);
- out:
--	if (ret)
-+	if (ret) {
- 		dma_free_coherent(vin->dev, vin->format.sizeimage, vin->scratch,
- 				  vin->scratch_phys);
--	else
--		mod_timer(&vin->irq_timer, jiffies + msecs_to_jiffies(IRQ_TIMEOUT_MS));
-+	} else {
-+		vin->irq_timeout = msecs_to_jiffies(irq_timeout);
-+		mod_timer(&vin->irq_timer, jiffies + vin->irq_timeout);
-+		vin_dbg(vin, "%s: set irq timer to %i ms\n", __func__, irq_timeout);
-+	}
- 
- 	return ret;
- }
-diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-index 7408f67..4e514e7 100644
---- a/drivers/media/platform/rcar-vin/rcar-vin.h
-+++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-@@ -201,6 +201,9 @@ struct rvin_info {
-  * @src_rect:		active size of the video source
-  * @std:		active video standard of the video source
-  * @irq_timer:		monitors regular capturing of frames in rvin_irq()
-+ * @irq_timeout:	timeout value in jiffies, which is currently used by
-+ *			@irq_timer and can be changed via @ctrl_irq_timeout
-+ * @ctrl_irq_timeout:	controls value of @irq_timeout
-  *
-  * @alpha:		Alpha component to fill in for supported pixel formats
-  */
-@@ -246,6 +249,8 @@ struct rvin_dev {
- 	v4l2_std_id std;
- 
- 	struct timer_list irq_timer;
-+	unsigned long irq_timeout;
-+	struct v4l2_ctrl *ctrl_irq_timeout;
- 	unsigned int alpha;
- };
- 
-diff --git a/include/uapi/linux/rcar-vin.h b/include/uapi/linux/rcar-vin.h
-index 4eb7f5e..6c72584 100644
---- a/include/uapi/linux/rcar-vin.h
-+++ b/include/uapi/linux/rcar-vin.h
-@@ -3,8 +3,15 @@
- #ifndef RCAR_VIN_USER_H
- #define RCAR_VIN_USER_H
- 
-+#include <linux/v4l2-controls.h>
-+
- /* class for events sent by the rcar-vin driver */
- #define V4L2_EVENT_RCAR_VIN_CLASS	V4L2_EVENT_PRIVATE_START
- #define V4L2_EVENT_RCAR_VIN_IRQ_TIMEOUT	(V4L2_EVENT_RCAR_VIN_CLASS | 0x1)
- 
-+/* private controls for rcar-vin */
-+enum rcar_vin_ctrl_id {
-+	V4L2_CID_RCAR_VIN_IRQ_TIMEOUT = V4L2_CID_USER_RCAR_VIN_BASE
-+};
-+
- #endif /* RCAR_VIN_USER_H */
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index 6227141..cf4f085 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -198,6 +198,12 @@ enum v4l2_colorfx {
-  */
- #define V4L2_CID_USER_ATMEL_ISC_BASE		(V4L2_CID_USER_BASE + 0x10c0)
- 
-+/*
-+ * The base for the rcar-vin driver controls.
-+ * We reserve 16 controls for this driver.
-+ */
-+#define V4L2_CID_USER_RCAR_VIN_BASE		(V4L2_CID_USER_BASE + 0x10d0)
-+
- /* MPEG-class control IDs */
- /* The MPEG controls are applicable to all codec controls
-  * and the 'MPEG' part of the define is historical */
--- 
-2.7.4
+For nouveau the notifier do not need to wait for anything it can update
+the GPU page table right away. Modulo needing to write to GPU memory
+using dma engine if the GPU page table is in GPU memory that is not
+accessible from the CPU but that's never the case for nouveau so far
+(but i expect it will be at one point).
+
+
+So i see this as 2 different cases, the user ptr case, which does pin
+pages by the way, where things are synchronous. Versus the HMM cases
+where everything is asynchronous.
+
+
+I probably need to warn AMD folks again that using HMM means that you
+must be able to update the GPU page table asynchronously without
+fence wait. The issue for AMD is that they already update their GPU
+page table using DMA engine. I believe this is still doable if they
+use a kernel only DMA engine context, where only kernel can queue up
+jobs so that you do not need to wait for unrelated things and you can
+prioritize GPU page table update which should translate in fast GPU
+page table update without DMA fence.
+
+
+> > Full disclosure: We are aware that we've designed ourselves into an
+> > impressive corner here, and there's lots of talks going on about
+> > untangling the dma synchronization from the memory management
+> > completely. But
+> 
+> I think the documenting is really important: only GPU should be using
+> this stuff and driving notifiers this way. Complete NO for any
+> totally-not-a-GPU things in drivers/accel for sure.
+
+Yes for user that expect HMM they need to be asynchronous. But it is
+hard to revert user ptr has it was done a long time ago.
+
+Cheers,
+Jérôme
 
