@@ -2,250 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C1ED200D1D
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 16:57:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D257200E3D
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 17:06:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389246AbgFSOxT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jun 2020 10:53:19 -0400
-Received: from lelv0143.ext.ti.com ([198.47.23.248]:39430 "EHLO
-        lelv0143.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389306AbgFSOxO (ORCPT
+        id S2391423AbgFSPGW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jun 2020 11:06:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56544 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391418AbgFSPGR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jun 2020 10:53:14 -0400
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by lelv0143.ext.ti.com (8.15.2/8.15.2) with ESMTP id 05JErACq051579;
-        Fri, 19 Jun 2020 09:53:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1592578390;
-        bh=NbpV82KzIDVclKwdwG7qdhU4JTdOuNDeCl4If8XXqko=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=WhomCZkURHwcr/vBdsZpbgIDqGrE8szhhkmovHTiCyTPTHXkQ1bNSTbtlFxR6UfQ5
-         xTqKwvGttDZGexWMtC6m9W58e3Bni8aD+sv36P8XgqH4IVc73ZwakivgpAruG2r74W
-         SZr9Aya6wfhwPTG6q/sg7yGG+1LhVatEfs3O88Mw=
-Received: from DLEE100.ent.ti.com (dlee100.ent.ti.com [157.170.170.30])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 05JErAWs023822
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 19 Jun 2020 09:53:10 -0500
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE100.ent.ti.com
- (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Fri, 19
- Jun 2020 09:53:10 -0500
-Received: from lelv0326.itg.ti.com (10.180.67.84) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Fri, 19 Jun 2020 09:53:10 -0500
-Received: from ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0326.itg.ti.com (8.15.2/8.15.2) with SMTP id 05JEr6Qn000599;
-        Fri, 19 Jun 2020 09:53:08 -0500
-Date:   Fri, 19 Jun 2020 09:53:05 -0500
-From:   Benoit Parrot <bparrot@ti.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     <linux-media@vger.kernel.org>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH v1 000/107] media: ti-vpe: cal: Add media controller
- support
-Message-ID: <20200619145303.hhbxs3rhnklvysoj@ti.com>
-References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
+        Fri, 19 Jun 2020 11:06:17 -0400
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AF27C0613EF
+        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 08:06:17 -0700 (PDT)
+Received: by mail-oi1-x244.google.com with SMTP id a21so8706156oic.8
+        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 08:06:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=l5bPDp6tSQ6UB25Tmr+FxCYVIvJPeZJlOAF1u+aQ9Rs=;
+        b=V1jFXKxH9JLOzMoiPIzD5AaSDKHq7RFlO6xezDKhJyRYz93hCrYjWgdK7OEyodFwM2
+         kDzGATay8IHh8e80+mnVWhb8ejljyl7TC9nAm9rnfWCRB2CH7Y5/uH3a16+C1ds/YG6W
+         L2ObS2Ab5ArSWEXfmwsNABGkjrImJGIKuRrck=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=l5bPDp6tSQ6UB25Tmr+FxCYVIvJPeZJlOAF1u+aQ9Rs=;
+        b=SmAvq9plX3kPuILuvyZh1qzCIC74GEexsy+WPiiRcy+H3Vz/rtygiFyq5KjS0cPV1A
+         OMgUoIHzueNUd4HsALwAkSJpgEcWByEi1euFRq3hjuyT7jsZkpZAasfeeaLEUuTGIXT1
+         PBN8vgTA7hSRD+v1+mQZXlGIVaSt6G82h1GCd9C43uN2VgNCuGhnAEeFqkl5mNtKkMlZ
+         qM4sAth4U5x+hQ4vEXz9jJuoE+e3mGkrEOpJUGgo8McpR727JUSJYg6r7MYXSTwPeQ7A
+         /TMxd0egxV+ytgH8QzRdrro0ax7WTcBnPl+9THZPYURu8sWAF23yISupcnJvvaBAmS5E
+         Nrlg==
+X-Gm-Message-State: AOAM533rmqWLas9CDSEmcl2bfobf3Q3SQfsaj5pu0YFv3KcuQJqBG0Fx
+        KrPuj/osrPFemNw84MQOI5BRl/bUV4ODHhoV141vyQ==
+X-Google-Smtp-Source: ABdhPJzkpCIjuIXUDXsaWuT9KnXo7xRSxKpK3kVIgCwYzrv9QHH1pbq5icbg335wwjGkDiUm4Nr1W4w/4YXBEbh0gJs=
+X-Received: by 2002:aca:aaca:: with SMTP id t193mr3427302oie.14.1592579176624;
+ Fri, 19 Jun 2020 08:06:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
-User-Agent: NeoMutt/20171215
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+References: <20200604081224.863494-5-daniel.vetter@ffwll.ch>
+ <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org> <20200611083430.GD20149@phenom.ffwll.local>
+ <20200611141515.GW6578@ziepe.ca> <20200616120719.GL20149@phenom.ffwll.local>
+ <CAKMK7uE7DKUo9Z+yCpY+mW5gmKet8ugbF3yZNyHGqsJ=e-g_hA@mail.gmail.com>
+ <20200617152835.GF6578@ziepe.ca> <20200618150051.GS20149@phenom.ffwll.local>
+ <20200618172338.GM6578@ziepe.ca> <CAKMK7uEbqTu4q-amkLXyd1i8KNtLaoO2ZFoGqYiG6D0m0FKpOg@mail.gmail.com>
+ <20200619113934.GN6578@ziepe.ca>
+In-Reply-To: <20200619113934.GN6578@ziepe.ca>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Fri, 19 Jun 2020 17:06:04 +0200
+Message-ID: <CAKMK7uE-kWA==Cko5uenMrcnopEjq42HxoDTDywzBAbHqsN13g@mail.gmail.com>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Fri, Jun 19, 2020 at 1:39 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Fri, Jun 19, 2020 at 09:22:09AM +0200, Daniel Vetter wrote:
+> > > As I've understood GPU that means you need to show that the commands
+> > > associated with the buffer have completed. This is all local stuff
+> > > within the driver, right? Why use fence (other than it already exists=
+)
+> >
+> > Because that's the end-of-dma thing. And it's cross-driver for the
+> > above reasons, e.g.
+> > - device A renders some stuff. Userspace gets dma_fence A out of that
+> > (well sync_file or one of the other uapi interfaces, but you get the
+> > idea)
+> > - userspace (across process or just different driver) issues more
+> > rendering for device B, which depends upon the rendering done on
+> > device A. So dma_fence A is an dependency and will block this dma
+> > operation. Userspace (and the kernel) gets dma_fence B out of this
+> > - because unfortunate reasons, the same rendering on device B also
+> > needs a userptr buffer, which means that dma_fence B is also the one
+> > that the mmu_range_notifier needs to wait on before it can tell core
+> > mm that it can go ahead and release those pages
+>
+> I was afraid you'd say this - this is complete madness for other DMA
+> devices to borrow the notifier hook of the first device!
 
-Except for patch 56, 78, 84 and 107.
+The first device might not even have a notifier. This is the 2nd
+device, waiting on a dma_fence of its own, but which happens to be
+queued up as a dma operation behind something else.
 
-Reviewed-by: Benoit Parrot <bparrot@ti.com>
+> What if the first device is a page faulting device and doesn't call
+> dma_fence??
 
-Benoit
+Not sure what you mean with this ... even if it does page-faulting for
+some other reasons, it'll emit a dma_fence which the 2nd device can
+consume as a dependency.
 
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote on Mon [2020-Jun-15 02:57:57 +0300]:
-> Hello,
-> 
-> This small patch series adds media controller support to the ti-cal
-> driver.
-> 
-> The end goal is to support pipelines where the image source is more
-> complex than a single subdev (for instance a SMIA++-compliant sensor, or
-> an FPD-Link source made of a camera, a serializer and a deserializer),
-> and to prepare for support of multiple hardware contexts, needed for
-> CSI-2 virtual channel and data type multiplexing support. These use
-> cases require configuration of the external pipeline from userspace, and
-> thus need support for the media controller and V4L2 subdev userspace
-> APIs.
-> 
-> The series starts with miscellaneous cleanups and refactoring, in
-> patches 001/107 to 083/107. Worth being noted is the split of the large
-> driver into multiple files, with patch 081/107 moving video node
-> handling to cal-video.c and patch 083/107 moving CAMERARX handling to
-> cal-camerarx.c.
-> 
-> Interleaved with more cleanup and refactoring, patch 084/107 creates
-> subdevs for the CAMERARX instances, patch 090/107 implements the subdev
-> operations, and patch 091/107 uses the subdev .set_fmt() and .s_stream()
-> operations to configure and control the CAMERARX. 
-> 
-> More refactoring and cleanup follow in patches 092/107 to 106/107, until
-> patch 107/107 that adds media controller support. As the existing video
-> node centric API needs to be preserved to avoid breaking userspace
-> applications, a module parameter is added to enable the media controller
-> API. Changes are otherwise fairly limited, and mostly involve the
-> implementation of MC-centric V4L2 ioctl handlers (which are far simpler
-> than their video node centric equivalents), additional pipeline
-> validation in the vb2 start streaming handler, and disabling control
-> handling in the video nodes.
-> 
-> The patches have been tested on an AM65x EVM with an OV5640 camera
-> module with the yavta test application, both in MC mode and in legacy
-> mode. As the ov5640 driver sets a default format identical to the
-> default of the ti-cal driver, capture in both modes can simply be tested
-> with
-> 
-> 	yavta -f UYVY -s 640x480 -c10 --requeue-last /dev/video0
-> 
-> without requiring manual pipeline setup through the media controller
-> API. Usage of other formats or resolutions require pipeline
-> configuration before capture.
-> 
-> Laurent Pinchart (107):
->   media: ti-vpe: cal: Sort headers alphabetically
->   media: ti-vpe: cal: Avoid function forward declaration
->   media: ti-vpe: cal: Decouple CSI2 port and CPORT
->   media: ti-vpe: cal: Index CSI-2 port starting at 0
->   media: ti-vpe: cal: Index IRQ registersstarting at 0
->   media: ti-vpe: cal: Merge all status variables in IRQ handler
->   media: ti-vpe: cal: Inline CAL_VERSION macro in its only user
->   media: ti-vpe: cal: Turn reg_(read|write)_field() into inline
->     functions
->   media: ti-vpe: cal: Make cal_formats array const
->   media: ti-vpe: cal: Remove needless variable initialization
->   media: ti-vpe: cal: Remove needless casts
->   media: ti-vpe: cal: Turn boolean variable into bool
->   media: ti-vpe: cal: Make loop indices unsigned where applicable
->   media: ti-vpe: cal: Embed base_fields array in struct cal_csi2_phy
->   media: ti-vpe: cal: Don't modify cal_csi2_phy base_fields
->   media: ti-vpe: cal: Store PHY regmap fields in struct cc_data
->   media: ti-vpe: cal: Rename cal_csi2_phy base_fields to fields
->   media: ti-vpe: cal: Make structure fields unsigned where applicable
->   media: ti-vpe: cal: Constify platform data
->   media: ti-vpe: cal: Remove static const cal_regmap_config template
->   media: ti-vpe: cal: Remove unused structure fields
->   media: ti-vpe: cal: Remove flags field from struct cal_dev
->   media: ti-vpe: cal: Move function to avoid forward declaration
->   media: ti-vpe: cal: Rename cc_data to cal_camerarx
->   media: ti-vpe: cal: Rename cal_csi2_phy to cal_camerarx_data
->   media: ti-vpe: cal: Name all cal_dev pointers consistently
->   media: ti-vpe: cal: Name all cal_camerarx pointers consistently
->   media: ti-vpe: cal: Remove internal phy structure from cal_camerarx
->   media: ti-vpe: cal: Store instance ID and cal pointer in cal_camerarx
->   media: ti-vpe: cal: Use dev_* print macros
->   media: ti-vpe: cal: Add print macros for the cal_camerarx instances
->   media: ti-vpe: cal: Store sensor-related data in cal_camerarx
->   media: ti-vpe: cal: Create consistent naming for CAMERARX functions
->   media: ti-vpe: cal: Group CAMERARX-related functions together
->   media: ti-vpe: cal: Create consistent naming for context functions
->   media: ti-vpe: cal: Reorganize remaining code in sections
->   media: ti-vpe: cal: Rename cal_ctx.csi2_port to cal_ctx.index
->   media: ti-vpe: cal: Use correct device name for bus_info
->   media: ti-vpe: cal: Get struct device without going through
->     v4l2_device
->   media: ti-vpe: cal: Use ctx_info() instead of v4l2_info()
->   media: ti-vpe: cal: Use a loop to create CAMERARX and context
->     instances
->   media: ti-vpe: cal: Drop struct cal_dev v4l2_dev field
->   media: ti-vpe: cal: Split CAMERARX syscon regmap retrieval to a
->     function
->   media: ti-vpe: cal: Use syscon_regmap_lookup_by_phandle_args()
->   media: ti-vpe: cal: Inline cal_get_camerarx_regmap() in caller
->   media: ti-vpe: cal: Add comments to cal_probe() to delimitate sections
->   media: ti-vpe: cal: Rename cal_create_instance() to cal_ctx_create()
->   media: ti-vpe: cal: Hardcode virtual channel to 0
->   media: ti-vpe: cal: Use of_graph_get_endpoint_by_regs() to parse OF
->   media: ti-vpe: cal: Fix usage of v4l2_fwnode_endpoint_parse()
->   media: ti-vpe: cal: Decouple control handler from v4l2_device
->   media: ti-vpe: cal: Move v4l2_device from cal_ctx to cal_dev
->   media: ti-vpe: cal: Split video device initialization and registration
->   media: ti-vpe: cal: Add context V4L2 cleanup and unregister functions
->   media: ti-vpe: cal: Unregister video device before cleanup
->   media: ti-vpe: cal: Add cal_camerarx_destroy() to cleanup CAMERARX
->   media: ti-vpe: cal: Move DT parsing to CAMERARX
->   media: ti-vpe: cal: Use ARRAY_SIZE to replace numerical value
->   media: ti-vpe: cal: Move all sensor-related init to .bound() notifier
->   media: ti-vpe: cal: Allow multiple contexts per subdev notifier
->   media: ti-vpe: cal: Move async notifiers from contexts to cal_dev
->   media: ti-vpe: cal: Replace context with phy in async notifier entries
->   media: ti-vpe: cal: Operate on phy instances in cal_quickdump_regs()
->   media: ti-vpe: cal: Decouple context and phy cleanup at remove time
->   media: ti-vpe: cal: Move CAL_NUM_CSI2_PORTS from cal_regs.h to cal.c
->   media: ti-vpe: cal: Remove isvcirqset() and isportirqset() macros
->   media: ti-vpe: cal: Replace number of ports numerical value by macro
->   media: ti-vpe: cal: Split media initialization and cleanup to
->     functions
->   media: ti-vpe: cal: Read hardware revision earlier during probe
->   media: ti-vpe: cal: Print revision and hwinfo in a more readable
->     format
->   media: ti-vpe: cal: Store struct device in cal_dev
->   media: ti-vpe: cal: Register a media device
->   media: ti-vpe: cal: Init formats in cal_ctx_v4l2_register()
->   media: ti-vpe: cal: Allocate cal_ctx active_fmt array dynamically
->   media: ti-vpe: cal: Inline cal_camerarx_max_lanes() in its only caller
->   media: ti-vpe: cal: Reorder camerarx functions to prepare refactoring
->   media: ti-vpe: cal: Refactor camerarx start and stop
->   media: ti-vpe: cal: Don't store external rate in cal_camerarx
->   media: ti-vpe: cal: Remove unneeded phy->sensor NULL check
->   media: ti-vpe: cal: Use 'unsigned int' type instead of 'unsigned'
->   media: ti-vpe: cal: Split video node handling to cal-video.c
->   media: ti-vpe: cal: Move CAL I/O accessors to cal.h
->   media: ti-vpe: cal: Split CAMERARX handling to cal-camerarx.c
->   media: ti-vpe: cal: Create subdev for CAMERARX
->   media: ti-vpe: cal: Drop cal_ctx m_fmt field
->   media: ti-vpe: cal: Move format handling to cal.c and expose helpers
->   media: ti-vpe: cal: Rename MAX_(WIDTH|HEIGHT)_* macros with CAL_
->     prefix
->   media: ti-vpe: cal: Replace hardcoded BIT() value with macro
->   media: ti-vpe: cal: Iterate over correct number of CAMERARX instances
->   media: ti-vpe: cal: Implement subdev ops for CAMERARX
->   media: ti-vpe: cal: Use CAMERARX subdev s_stream op in video device
->     code
->   media: ti-vpe: cal: Don't pass format to cal_ctx_wr_dma_config()
->   media: ti-vpe: cal: Rename struct cal_fmt to cal_format_info
->   media: ti-vpe: cal: Refactor interrupt enable/disable
->   media: ti-vpe: cal: Fold PPI enable in CAMERARX .s_stream()
->   media: ti-vpe: cal: Stop write DMA without disabling PPI
->   media: ti-vpe: cal: Use spin_lock_irq() when starting or stopping
->     stream
->   media: ti-vpe: cal: Share buffer release code between start and stop
->   media: ti-vpe: cal: Drop V4L2_CAP_READWRITE
->   media: ti-vpe: cal: Drop unneeded check in cal_calc_format_size()
->   media: ti-vpe: cal: Remove DMA queue empty check at start streaming
->     time
->   media: ti-vpe: cal: Use list_first_entry()
->   media: ti-vpe: cal: Group all DMA queue fields in struct cal_dmaqueue
->   media: ti-vpe: cal: Set cal_dmaqueue.pending to NULL when no pending
->     buffer
->   media: ti-vpe: cal: Store buffer DMA address in dma_addr_t
->   media: ti-vpe: cal: Simplify the context API
->   media: ti-vpe: cal: Implement media controller centric API
-> 
->  drivers/media/platform/ti-vpe/Makefile       |    2 +-
->  drivers/media/platform/ti-vpe/cal-camerarx.c |  857 ++++++
->  drivers/media/platform/ti-vpe/cal-video.c    |  957 ++++++
->  drivers/media/platform/ti-vpe/cal.c          | 2732 +++++-------------
->  drivers/media/platform/ti-vpe/cal.h          |  310 ++
->  drivers/media/platform/ti-vpe/cal_regs.h     |   74 +-
->  6 files changed, 2865 insertions(+), 2067 deletions(-)
->  create mode 100644 drivers/media/platform/ti-vpe/cal-camerarx.c
->  create mode 100644 drivers/media/platform/ti-vpe/cal-video.c
->  create mode 100644 drivers/media/platform/ti-vpe/cal.h
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-> 
+> It you are going to treat things this way then the mmu notifier really
+> needs to be part of the some core DMA buf, and not randomly sprinkled
+> in drivers
+
+So maybe again unclear, we don't allow such userptr dma-buf to even be
+shared. They're just for slurping in stuff in the local device
+(general from file io or something the cpu has done or similar). There
+have been attempts to use it as the general backing storage, but that
+didn't go down too well because way too many complications.
+
+Generally most memory the gpu operates on isn't stuff that's
+mmu_notifier'ed. And also, the device with userptr support only waits
+for its own dma_fence (because well you can't share this stuff, we
+disallow that).
+
+The problem is that there's piles of other dependencies for a dma job.
+GPU doesn't just consume a single buffer each time, it consumes entire
+lists of buffers and mixes them all up in funny ways. Some of these
+buffers are userptr, entirely local to the device. Other buffers are
+just normal device driver allocations (and managed with some shrinker
+to keep them in check). And then there's the actually shared dma-buf
+with other devices. The trouble is that they're all bundled up
+together.
+
+Now we probably should have some helper code for userptr so that all
+drivers do this roughly the same, but that's just not there yet. But
+it can't be a dma-buf exporter behind the dma-buf interfaces, because
+even just pinned get_user_pages would be too different semantics
+compared to normal shared dma-buf objects, that's all very tightly
+tied into the specific driver.
+
+> But really this is what page pinning is supposed to be used for, the
+> MM behavior when it blocks on a pinned page is less invasive than if
+> it stalls inside a mmu notifier.
+>
+> You can mix it, use mmu notififers to keep track if the buffer is
+> still live, but when you want to trigger DMA then pin the pages and
+> keep them pinned until DMA is done. The pin protects things (well,
+> fork is still a problem)
+
+Hm I thought amdgpu had that (or drm/radeon as the previous
+incarnation of that stack), and was unhappy about the issues. Would
+need Christian K=C3=B6nig to chime in.
+
+> Do not need to wait on dma_fence in notifiers.
+
+Maybe :-) The goal of this series is more to document current rules
+and make them more consistent. Fixing them if we don't like them might
+be a follow-up task, but that would likely be a pile more work. First
+we need to know what the exact shape of the problem even is.
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
