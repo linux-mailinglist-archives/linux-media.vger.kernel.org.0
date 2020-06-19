@@ -2,335 +2,332 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E6C9F1FFBC3
-	for <lists+linux-media@lfdr.de>; Thu, 18 Jun 2020 21:25:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 566BF1FFFF6
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 03:57:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728173AbgFRTZl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 18 Jun 2020 15:25:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44540 "EHLO
+        id S1728573AbgFSB5v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 18 Jun 2020 21:57:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726909AbgFRTZk (ORCPT
+        with ESMTP id S1727909AbgFSB5t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 18 Jun 2020 15:25:40 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E74B4C06174E
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 12:25:38 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id r15so6883399wmh.5
-        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 12:25:38 -0700 (PDT)
+        Thu, 18 Jun 2020 21:57:49 -0400
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81D3CC06174E
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 18:57:49 -0700 (PDT)
+Received: by mail-qv1-xf42.google.com with SMTP id x16so3780750qvr.3
+        for <linux-media@vger.kernel.org>; Thu, 18 Jun 2020 18:57:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=be+ctZg6NG80N/aMCqoZ3PaS/gS3ky5GHahXMgLiS9I=;
-        b=YfsxvXL81YzSOLTLlCRcdY5Zs5MikXoqe6PL6H871h2Lw2UN8PtCHXhlqjM5QsNPJs
-         QeEIa3fF26GGXuzjCY48PeSm3SZxxI1cmUzxi88xKGF5/RIhnGWOHNucb9qXtHUWjba8
-         GAnJQVRHTnNoaiUSPI+krI5DXZWcKIJRHL1CE=
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YgKJItMU5Ff8V+3ai9lauxHDNq0p9UYzRxSaQNNeJ78=;
+        b=RWByl3ENWb+jOZcDgX5pjEQAcMojM1p5Y0+ztpc2KlCAruuFO0jb3/zm0T2DYQ/O0V
+         M/TialO9NZB6LC6NFquHPnJ48hCy8/Si2jNLrWtWIIYTD1PPTbqZ/FUTJUW9M7MlAweF
+         NORZKUeVmY7WrSL0AGtsUXelno+p++3PhCrlw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=be+ctZg6NG80N/aMCqoZ3PaS/gS3ky5GHahXMgLiS9I=;
-        b=kL4TzEzEjGLSUWrB7WNNr+a8V7g6oUQ4W8IDkaOg/JAAjGhR6zWUXbLfzP5aPiiB8h
-         ctMTentkt4KS7kzgvDwZZHwUhgG3sg7CwMX0bCzul50+Vo52mLYatJpSvJY8pIHe/sNd
-         YzSDPQMFTy6TWVFWa1oqASY8DXbPrPs25Sp/sswz0sKp0oLW3sPShLeTU0w6vj4wJd43
-         ZtyAFEL5a+1AyrYnxpd9jPSHrmXS32vuRdgjqp9iLt0Rq83W4oQa9jDvM8UeXw0Boxsh
-         wlzTtijXflAdzltFJTTS/PATZ1NpjL4oyVSeHEvdOygIyB6Sa0+RAk+zWddB5L8PBdrE
-         MakA==
-X-Gm-Message-State: AOAM531L8a+ytTUaVYELMpIcMyhTvAwoO8UeFG3B6TBE2iOO7FM3L3t2
-        igTThyh2uUZ0hgse6amrLoTorLppEnVFcg==
-X-Google-Smtp-Source: ABdhPJwAZYnOJ0Kr6NF6Wo638sSDCyqVpbRf9vNr2h7WLiZ5vnnxBxwZMwsKIdQ6xtPR8woWDHV9ig==
-X-Received: by 2002:a1c:c2c5:: with SMTP id s188mr5624383wmf.18.1592508337296;
-        Thu, 18 Jun 2020 12:25:37 -0700 (PDT)
-Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
-        by smtp.gmail.com with ESMTPSA id w14sm4668058wrt.55.2020.06.18.12.25.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Jun 2020 12:25:36 -0700 (PDT)
-Date:   Thu, 18 Jun 2020 19:25:35 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
-        Dafna Hirschfeld <dafna3@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [RFC v3 2/2] media: staging: rkisp1: allow quantization
- conversion from userspace for isp source pad
-Message-ID: <20200618192535.GD73379@chromium.org>
-References: <20200416145605.12399-1-dafna.hirschfeld@collabora.com>
- <20200416145605.12399-2-dafna.hirschfeld@collabora.com>
- <20200604175443.GB76282@chromium.org>
- <87f11ebf-aecf-7eee-f18c-98dd4e8d692b@collabora.com>
- <CAAFQd5BPOUFsKb0Qa_6QiytE6=OM3jjSVWyoikdgyNvr4vu0fw@mail.gmail.com>
- <CAAFQd5DoUu+bMO1GeSX0qbsW5u-KDmRvtO2kfGePghrv59bQmw@mail.gmail.com>
- <62611ccd-e4cd-728a-355b-532661b36be0@collabora.com>
- <20200618184923.GB68039@chromium.org>
- <a163dbb3-8278-684e-6324-4c36924ed335@collabora.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YgKJItMU5Ff8V+3ai9lauxHDNq0p9UYzRxSaQNNeJ78=;
+        b=mrlAR2TlHX8pJLBsPRfPsUFEeU775jUsUom6z76cNPmfxOF28MxnkNSkKpbzO8O+5z
+         1LVI38Tmk3o/2n4H/GgMUE2j06k/RggzSFJDnCvCrPF4g6ULkOkMOXU1L+IbQbd6dW3E
+         qC1a2FyAOoYx7i0XUXRezG6qOSDHYIjtHzI4VixQcPkb/VPzrqly5IDl31BfIrh6tjFn
+         vwwxhJ/4hg9kesGbKThPhrhS2m4Y3brnBTaPVtGFyfpiFdaDQwQB6Zj+OnIwiaCOmQC0
+         MOsRKUJUCp50BHRgUum3ogXnNPEcPPO9C1iCaOuUFBWXlEhaHWxAKvuDmZahUVCu2o7o
+         ChVw==
+X-Gm-Message-State: AOAM532ghfvSZht7QUXRxtff51OwWAt4FmfRyslBIPJRgjdUQqtPvKWf
+        /5wfTX/Un2BhFa+t/e9nPC+JPN5kin7oj2XhWu2AVA==
+X-Google-Smtp-Source: ABdhPJxqsgOYMphrGnlqeopcdyeZuhG09nqgCBjA0tgpuWz/pWbsL8jFOVPTPC+0tjRn5eB1bXUqxw5bpkXfV4hIT6A=
+X-Received: by 2002:ad4:552b:: with SMTP id ba11mr6780194qvb.145.1592531868596;
+ Thu, 18 Jun 2020 18:57:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a163dbb3-8278-684e-6324-4c36924ed335@collabora.com>
+References: <20200526105811.30784-1-stevensd@chromium.org> <20200526105811.30784-2-stevensd@chromium.org>
+ <20200604145620-mutt-send-email-mst@kernel.org> <20200618122856.GC4189@ubuntu>
+In-Reply-To: <20200618122856.GC4189@ubuntu>
+From:   David Stevens <stevensd@chromium.org>
+Date:   Fri, 19 Jun 2020 10:57:37 +0900
+Message-ID: <CAD=HUj6NY5W1ePKwZhPM+MDTtgEooy-rjo6QX6Fj2qAFtS8H3g@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] virtio: add dma-buf support for exported objects
+To:     Guennadi Liakhovetski <guennadi.liakhovetski@linux.intel.com>
+Cc:     "Michael S. Tsirkin" <mst@redhat.com>,
+        ML dri-devel <dri-devel@lists.freedesktop.org>,
+        virtio-dev@lists.oasis-open.org,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        open list <linux-kernel@vger.kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        "open list:VIRTIO GPU DRIVER" 
+        <virtualization@lists.linux-foundation.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Jun 18, 2020 at 08:54:34PM +0200, Dafna Hirschfeld wrote:
-> 
-> 
-> On 18.06.20 20:49, Tomasz Figa wrote:
-> > On Thu, Jun 18, 2020 at 08:26:33PM +0200, Dafna Hirschfeld wrote:
-> > > 
-> > > 
-> > > On 18.06.20 19:27, Tomasz Figa wrote:
-> > > > On Wed, Jun 10, 2020 at 2:08 PM Tomasz Figa <tfiga@chromium.org> wrote:
-> > > > > 
-> > > > > On Thu, Jun 4, 2020 at 9:11 PM Dafna Hirschfeld
-> > > > > <dafna.hirschfeld@collabora.com> wrote:
-> > > > > > 
-> > > > > > Hi
-> > > > > > 
-> > > > > > On 04.06.20 19:54, Tomasz Figa wrote:
-> > > > > > > On Thu, Apr 16, 2020 at 04:56:05PM +0200, Dafna Hirschfeld wrote:
-> > > > > > > > The isp entity has a hardware support to force full range quantization
-> > > > > > > > for YUV formats. Use the new API to indicate userspace that
-> > > > > > > > quantization conversion is supported by adding the flag
-> > > > > > > > V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION during media code enumeration.
-> > > > > > > > Then uppon s_fmt on the video source pad, we assign the
-> > > > > > > > quantization from userspace for YUV formats.
-> > > > > > > > Also in the capture and resizer entities we retrieve the colorspace
-> > > > > > > > from the isp entity.
-> > > > > > > > 
-> > > > > > > > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> > > > > > > > ---
-> > > > > > > >     drivers/staging/media/rkisp1/rkisp1-capture.c | 28 ++++++-------
-> > > > > > > >     drivers/staging/media/rkisp1/rkisp1-common.h  |  2 +
-> > > > > > > >     drivers/staging/media/rkisp1/rkisp1-isp.c     | 39 +++++++++++++++++--
-> > > > > > > >     drivers/staging/media/rkisp1/rkisp1-resizer.c | 13 +++++++
-> > > > > > > >     4 files changed, 65 insertions(+), 17 deletions(-)
-> > > > > > > > 
-> > > > > > > > diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> > > > > > > > index fbf62399fe3d..aca0f93bc772 100644
-> > > > > > > > --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-> > > > > > > > +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> > > > > > > > @@ -1066,14 +1066,13 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
-> > > > > > > >                           const struct v4l2_format_info **fmt_info)
-> > > > > > > >     {
-> > > > > > > >        const struct rkisp1_capture_config *config = cap->config;
-> > > > > > > > -    struct rkisp1_capture *other_cap =
-> > > > > > > > -                    &cap->rkisp1->capture_devs[cap->id ^ 1];
-> > > > > > > >        const struct rkisp1_capture_fmt_cfg *fmt;
-> > > > > > > >        const struct v4l2_format_info *info;
-> > > > > > > >        const unsigned int max_widths[] = { RKISP1_RSZ_MP_SRC_MAX_WIDTH,
-> > > > > > > >                                            RKISP1_RSZ_SP_SRC_MAX_WIDTH };
-> > > > > > > >        const unsigned int max_heights[] = { RKISP1_RSZ_MP_SRC_MAX_HEIGHT,
-> > > > > > > >                                             RKISP1_RSZ_SP_SRC_MAX_HEIGHT};
-> > > > > > > > +    struct v4l2_subdev_format isp_sd_fmt;
-> > > > > > > > 
-> > > > > > > >        fmt = rkisp1_find_fmt_cfg(cap, pixm->pixelformat);
-> > > > > > > >        if (!fmt) {
-> > > > > > > > @@ -1081,24 +1080,27 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
-> > > > > > > >                pixm->pixelformat = fmt->fourcc;
-> > > > > > > >        }
-> > > > > > > > 
-> > > > > > > > +    rkisp1_get_isp_src_fmt(cap->rkisp1, &isp_sd_fmt);
-> > > > > > > > +    pixm->field = isp_sd_fmt.format.field;
-> > > > > > > > +    pixm->colorspace = isp_sd_fmt.format.colorspace;
-> > > > > > > > +    pixm->ycbcr_enc = isp_sd_fmt.format.ycbcr_enc;
-> > > > > > > > +    pixm->xfer_func = isp_sd_fmt.format.xfer_func;
-> > > > > > > > +
-> > > > > > > > +    /*
-> > > > > > > > +     * isp has a feature to set full range quantization for yuv formats.
-> > > > > > > 
-> > > > > > > How about "select between limited and full range for YUV formats"?
-> > > > > > > 
-> > > > > > > > +     * so we need to get the format from the isp.
-> > > > > > > > +     */
-> > > > > > > > +    pixm->quantization = isp_sd_fmt.format.quantization;
-> > > > > > > > +    if (!v4l2_is_format_yuv(cap->pix.info))
-> > > > > > > > +            pixm->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> > > > > > > > +
-> > > > > > > >        pixm->width = clamp_t(u32, pixm->width,
-> > > > > > > >                              RKISP1_RSZ_SRC_MIN_WIDTH, max_widths[cap->id]);
-> > > > > > > >        pixm->height = clamp_t(u32, pixm->height,
-> > > > > > > >                               RKISP1_RSZ_SRC_MIN_HEIGHT, max_heights[cap->id]);
-> > > > > > > > 
-> > > > > > > > -    pixm->field = V4L2_FIELD_NONE;
-> > > > > > > > -    pixm->colorspace = V4L2_COLORSPACE_DEFAULT;
-> > > > > > > > -    pixm->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-> > > > > > > > -
-> > > > > > > >        info = rkisp1_fill_pixfmt(pixm, cap->id);
-> > > > > > > > 
-> > > > > > > > -    /* can not change quantization when stream-on */
-> > > > > > > > -    if (other_cap->is_streaming)
-> > > > > > > > -            pixm->quantization = other_cap->pix.fmt.quantization;
-> > > > > > > > -    /* output full range by default, take effect in params */
-> > > > > > > > -    else if (!pixm->quantization ||
-> > > > > > > > -             pixm->quantization > V4L2_QUANTIZATION_LIM_RANGE)
-> > > > > > > > -            pixm->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> > > > > > > > 
-> > > > > > > >        if (fmt_cfg)
-> > > > > > > >                *fmt_cfg = fmt;
-> > > > > > > > diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
-> > > > > > > > index 2d7b7e078636..7a5576fa14c9 100644
-> > > > > > > > --- a/drivers/staging/media/rkisp1/rkisp1-common.h
-> > > > > > > > +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
-> > > > > > > > @@ -300,6 +300,8 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
-> > > > > > > >                        struct v4l2_device *v4l2_dev);
-> > > > > > > >     void rkisp1_isp_unregister(struct rkisp1_device *rkisp1);
-> > > > > > > > 
-> > > > > > > > +int rkisp1_get_isp_src_fmt(struct rkisp1_device *rkisp1,
-> > > > > > > > +                       struct v4l2_subdev_format *sd_fmt);
-> > > > > > > >     const struct rkisp1_isp_mbus_info *rkisp1_isp_mbus_info_get(u32 mbus_code);
-> > > > > > > > 
-> > > > > > > >     irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1);
-> > > > > > > > diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> > > > > > > > index dee8e96f3900..6fdf5ed0b6b1 100644
-> > > > > > > > --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
-> > > > > > > > +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
-> > > > > > > > @@ -613,6 +613,10 @@ static int rkisp1_isp_enum_mbus_code(struct v4l2_subdev *sd,
-> > > > > > > > 
-> > > > > > > >                if (code->index == pos - 1) {
-> > > > > > > >                        code->code = fmt->mbus_code;
-> > > > > > > > +                    if (fmt->pixel_enc == V4L2_PIXEL_ENC_YUV &&
-> > > > > > > > +                        dir == RKISP1_DIR_SRC)
-> > > > > > > > +                            code->flags =
-> > > > > > > > +                                    V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION;
-> > > > > > > >                        return 0;
-> > > > > > > >                }
-> > > > > > > >        }
-> > > > > > > > @@ -639,12 +643,21 @@ static int rkisp1_isp_init_config(struct v4l2_subdev *sd,
-> > > > > > > >        sink_crop->height = RKISP1_DEFAULT_HEIGHT;
-> > > > > > > >        sink_crop->left = 0;
-> > > > > > > >        sink_crop->top = 0;
-> > > > > > > > +    sink_fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> > > > > > > > +    sink_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(sink_fmt->colorspace);
-> > > > > > > > +    sink_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(sink_fmt->colorspace);
-> > > > > > > > +    sink_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> > > > > > > > +
-> > > > > > > > 
-> > > > > > > >        src_fmt = v4l2_subdev_get_try_format(sd, cfg,
-> > > > > > > >                                             RKISP1_ISP_PAD_SOURCE_VIDEO);
-> > > > > > > >        *src_fmt = *sink_fmt;
-> > > > > > > >        src_fmt->code = RKISP1_DEF_SRC_PAD_FMT;
-> > > > > > > > -    src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> > > > > > > > +    src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> > > > > > > > +    src_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(src_fmt->colorspace);
-> > > > > > > > +    src_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(src_fmt->colorspace);
-> > > > > > > > +    src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
-> > > > > > > > +
-> > > > > > > > 
-> > > > > > > >        src_crop = v4l2_subdev_get_try_crop(sd, cfg,
-> > > > > > > >                                            RKISP1_ISP_PAD_SOURCE_VIDEO);
-> > > > > > > > @@ -687,10 +700,17 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_isp *isp,
-> > > > > > > >                isp->src_fmt = mbus_info;
-> > > > > > > >        src_fmt->width  = src_crop->width;
-> > > > > > > >        src_fmt->height = src_crop->height;
-> > > > > > > > -    src_fmt->quantization = format->quantization;
-> > > > > > > > -    /* full range by default */
-> > > > > > > > -    if (!src_fmt->quantization)
-> > > > > > > > +
-> > > > > > > > +    src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> > > > > > > > +    src_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(src_fmt->colorspace);
-> > > > > > > > +    src_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(src_fmt->colorspace);
-> > > > > > > > +
-> > > > > > > > +    if (mbus_info->pixel_enc == V4L2_PIXEL_ENC_BAYER)
-> > > > > > > >                src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> > > > > > > > +    else if (format->quantization == V4L2_QUANTIZATION_DEFAULT)
-> > > > > > > > +            src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
-> > > > > > > > +    else
-> > > > > > > > +            src_fmt->quantization = format->quantization;
-> > > > > > > > 
-> > > > > > > >        *format = *src_fmt;
-> > > > > > > >     }
-> > > > > > > > @@ -1068,6 +1088,17 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
-> > > > > > > >        return ret;
-> > > > > > > >     }
-> > > > > > > > 
-> > > > > > > > +int rkisp1_get_isp_src_fmt(struct rkisp1_device *rkisp1,
-> > > > > > > > +                       struct v4l2_subdev_format *sd_fmt)
-> > > > > > > > +{
-> > > > > > > > +    struct rkisp1_isp *isp = &rkisp1->isp;
-> > > > > > > > +
-> > > > > > > > +    sd_fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> > > > > > > > +    sd_fmt->pad = RKISP1_ISP_PAD_SOURCE_VIDEO;
-> > > > > > > > +
-> > > > > > > > +    return v4l2_subdev_call(&isp->sd, pad, get_fmt, NULL, sd_fmt);
-> > > > > > > 
-> > > > > > > Do we need to get through the external API to access data that is
-> > > > > > > driver-internal anyway?
-> > > > > > > 
-> > > > > > > > +}
-> > > > > > > > +
-> > > > > > > >     void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
-> > > > > > > >     {
-> > > > > > > >        struct v4l2_subdev *sd = &rkisp1->isp.sd;
-> > > > > > > > diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> > > > > > > > index 7b6b7ddd4169..8705b133de68 100644
-> > > > > > > > --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> > > > > > > > +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
-> > > > > > > > @@ -525,6 +525,7 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
-> > > > > > > >        const struct rkisp1_isp_mbus_info *mbus_info;
-> > > > > > > >        struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
-> > > > > > > >        struct v4l2_rect *sink_crop;
-> > > > > > > > +    struct v4l2_subdev_format isp_sd_fmt;
-> > > > > > > > 
-> > > > > > > >        sink_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SINK, which);
-> > > > > > > >        src_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SRC, which);
-> > > > > > > > @@ -539,8 +540,20 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
-> > > > > > > >        if (which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> > > > > > > >                rsz->pixel_enc = mbus_info->pixel_enc;
-> > > > > > > > 
-> > > > > > > > +    rkisp1_get_isp_src_fmt(rsz->rkisp1, &isp_sd_fmt);
-> > > > > > > > +
-> > > > > > > 
-> > > > > > > Is this necessary? My understanding was that in the subdev model, it was
-> > > > > > > the userspace responsibility to propagate any configuration changes through
-> > > > > > > the graph.
-> > > > > > > 
-> > > > > > > Also, doing this only here wouldn't fully maintain the
-> > > > > > > consistency of the state. For example, if one sets the ISP subdev format
-> > > > > > > first, then the resizer subdev and then the ISP subdev again, wouldn't the
-> > > > > > > resizer subdev end up with a wrong format?
-> > > > > > 
-> > > > > > yes, this is indeed a bug, I am preparing v4 now.
-> > > > > > What I thought to do is adding quantization conversion
-> > > > > > support also on ther resizer and capture entities.
-> > > > > > Then in the 'link_validation' callbacks, there
-> > > > > > is a validation that the quantization fields matches.
-> > > > > 
-> > > > > My understanding is that, if we have the following topology
-> > > > > 
-> > > > > [ ISP ] -> [ Resizer ] -> [ Video node ]
-> > > > > 
-> > > > > then the ISP source pad would have the csc capability, while resizer
-> > > > > and video node would just accept whatever is configured on their sink
-> > > > > pads (no need for csc capability for that) and propagate that to their
-> > > > > outputs, i.e. resizer source pad and video node CAPTURE format.
-> > > > > 
-> > > > > Is this what you were going to implement?
-> > > Hi, I sent a v4 where the CSC capability is set on the reiszer and capture as well.
-> > > I can send a v5 implementing it the way you suggest. Currently the doc says that the colorspace fields
-> > > must be set by the driver for capture streams. This implies that userspace can set it
-> > > only if the CSC is supported.
-> > 
-> > Why would the userspace have to set it for the capture stream on the
-> > resizer and video nodes? Couldn't the userspace set it to DEFAULT and
-> > then the driver override to whatever it received on the corresponding
-> > sink?
-> What do you mean "received on the corresponding sink"? Received from whom?
-> 
+On Thu, Jun 18, 2020 at 9:29 PM Guennadi Liakhovetski
+<guennadi.liakhovetski@linux.intel.com> wrote:
+>
+> Hi Michael,
+>
+> On Thu, Jun 04, 2020 at 03:05:23PM -0400, Michael S. Tsirkin wrote:
+> > On Tue, May 26, 2020 at 07:58:09PM +0900, David Stevens wrote:
+> > > This change adds a new flavor of dma-bufs that can be used by virtio
+> > > drivers to share exported objects. A virtio dma-buf can be queried by
+> > > virtio drivers to obtain the UUID which identifies the underlying
+> > > exported object.
+> > >
+> > > Signed-off-by: David Stevens <stevensd@chromium.org>
+> >
+> > Is this just for graphics? If yes I'd rather we put it in the graphics
+> > driver. We can always move it later ...
+>
+> Wouldn't this be the API that audio virtualisation will have to use to share
+> buffers between the host and any guests?
 
-The resizer entity has both a sink and a source, right?
+The new flavor of dma-buf isn't directly related to sharing buffers
+between the host and the guest. The purpose of this API is to help
+share buffers between multiple virtio devices - e.g. share buffers
+created by a virito-gpu device with a virito-video device. In
+particular, the new flavor of dma-buf provides a mechanism to attach
+identifying metadata to a dma-buf object that is shared between
+different virtio drivers in a single guest. This identifying metadata
+can then be passed to the importing device and used to fetch some
+resource from the exporting device. But the new flavor of dma-buf is
+an abstraction within the guest kernel, independent of the host-guest
+boundary, and it's definitely not necessary if we're only talking
+about a single virtio subsystem.
 
-The userspace is responsible for setting the right colorspace on the
-resizer sink.
+-David
 
-The driver is responsible for propagating that colorspace information to
-the resizer source. Similarly, it is also responsible for updating the
-state of the corresponding video node.
-
-Best regards,
-Tomasz
+> Thanks
+> Guennadi
+>
+> > > ---
+> > >  drivers/virtio/Makefile         |  2 +-
+> > >  drivers/virtio/virtio.c         |  6 +++
+> > >  drivers/virtio/virtio_dma_buf.c | 89 +++++++++++++++++++++++++++++++++
+> > >  include/linux/virtio.h          |  1 +
+> > >  include/linux/virtio_dma_buf.h  | 58 +++++++++++++++++++++
+> > >  5 files changed, 155 insertions(+), 1 deletion(-)
+> > >  create mode 100644 drivers/virtio/virtio_dma_buf.c
+> > >  create mode 100644 include/linux/virtio_dma_buf.h
+> > >
+> > > diff --git a/drivers/virtio/Makefile b/drivers/virtio/Makefile
+> > > index 29a1386ecc03..ecdae5b596de 100644
+> > > --- a/drivers/virtio/Makefile
+> > > +++ b/drivers/virtio/Makefile
+> > > @@ -1,5 +1,5 @@
+> > >  # SPDX-License-Identifier: GPL-2.0
+> > > -obj-$(CONFIG_VIRTIO) += virtio.o virtio_ring.o
+> > > +obj-$(CONFIG_VIRTIO) += virtio.o virtio_ring.o virtio_dma_buf.o
+> > >  obj-$(CONFIG_VIRTIO_MMIO) += virtio_mmio.o
+> > >  obj-$(CONFIG_VIRTIO_PCI) += virtio_pci.o
+> > >  virtio_pci-y := virtio_pci_modern.o virtio_pci_common.o
+> > > diff --git a/drivers/virtio/virtio.c b/drivers/virtio/virtio.c
+> > > index a977e32a88f2..5d46f0ded92d 100644
+> > > --- a/drivers/virtio/virtio.c
+> > > +++ b/drivers/virtio/virtio.c
+> > > @@ -357,6 +357,12 @@ int register_virtio_device(struct virtio_device *dev)
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(register_virtio_device);
+> > >
+> > > +bool is_virtio_device(struct device *dev)
+> > > +{
+> > > +   return dev->bus == &virtio_bus;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(is_virtio_device);
+> > > +
+> > >  void unregister_virtio_device(struct virtio_device *dev)
+> > >  {
+> > >     int index = dev->index; /* save for after device release */
+> > > diff --git a/drivers/virtio/virtio_dma_buf.c b/drivers/virtio/virtio_dma_buf.c
+> > > new file mode 100644
+> > > index 000000000000..23e3399b11ed
+> > > --- /dev/null
+> > > +++ b/drivers/virtio/virtio_dma_buf.c
+> > > @@ -0,0 +1,89 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > > +/*
+> > > + * dma-bufs for virtio exported objects
+> > > + *
+> > > + * Copyright (C) 2020 Google, Inc.
+> > > + */
+> > > +
+> > > +#include <linux/virtio_dma_buf.h>
+> > > +
+> > > +/**
+> > > + * virtio_dma_buf_export - Creates a new dma-buf for a virtio exported object
+> > > + *
+> > > + * This wraps dma_buf_export() to allow virtio drivers to create a dma-buf
+> > > + * for an virtio exported object that can be queried by other virtio drivers
+> > > + * for the object's UUID.
+> > > + */
+> > > +struct dma_buf *virtio_dma_buf_export(
+> > > +           const struct virtio_dma_buf_export_info *virtio_exp_info)
+> > > +{
+> > > +   struct dma_buf_export_info exp_info;
+> > > +
+> > > +   if (!virtio_exp_info->ops
+> > > +           || virtio_exp_info->ops->ops.attach != &virtio_dma_buf_attach
+> > > +           || !virtio_exp_info->ops->get_uuid) {
+> > > +           return ERR_PTR(-EINVAL);
+> > > +   }
+> > > +
+> > > +   exp_info.exp_name = virtio_exp_info->exp_name;
+> > > +   exp_info.owner = virtio_exp_info->owner;
+> > > +   exp_info.ops = &virtio_exp_info->ops->ops;
+> > > +   exp_info.size = virtio_exp_info->size;
+> > > +   exp_info.flags = virtio_exp_info->flags;
+> > > +   exp_info.resv = virtio_exp_info->resv;
+> > > +   exp_info.priv = virtio_exp_info->priv;
+> > > +   BUILD_BUG_ON(sizeof(struct virtio_dma_buf_export_info)
+> > > +                != sizeof(struct dma_buf_export_info));
+> >
+> > This is the only part that gives me pause. Why do we need this hack?
+> > What's wrong with just using dma_buf_export_info directly,
+> > and if you want the virtio ops, just using container_off?
+> >
+> >
+> >
+> > > +
+> > > +   return dma_buf_export(&exp_info);
+> > > +}
+> > > +EXPORT_SYMBOL(virtio_dma_buf_export);
+> > > +
+> > > +/**
+> > > + * virtio_dma_buf_attach - mandatory attach callback for virtio dma-bufs
+> > > + */
+> > > +int virtio_dma_buf_attach(struct dma_buf *dma_buf,
+> > > +                     struct dma_buf_attachment *attach)
+> > > +{
+> > > +   int ret;
+> > > +   const struct virtio_dma_buf_ops *ops = container_of(
+> > > +                   dma_buf->ops, const struct virtio_dma_buf_ops, ops);
+> > > +
+> > > +   if (ops->device_attach) {
+> > > +           ret = ops->device_attach(dma_buf, attach);
+> > > +           if (ret)
+> > > +                   return ret;
+> > > +   }
+> > > +   return 0;
+> > > +}
+> > > +EXPORT_SYMBOL(virtio_dma_buf_attach);
+> > > +
+> > > +/**
+> > > + * is_virtio_dma_buf - returns true if the given dma-buf is a virtio dma-buf
+> > > + * @dma_buf: buffer to query
+> > > + */
+> > > +bool is_virtio_dma_buf(struct dma_buf *dma_buf)
+> > > +{
+> > > +   return dma_buf->ops->attach == &virtio_dma_buf_attach;
+> > > +}
+> > > +EXPORT_SYMBOL(is_virtio_dma_buf);
+> > > +
+> > > +/**
+> > > + * virtio_dma_buf_get_uuid - gets the uuid of the virtio dma-buf's exported object
+> > > + * @dma_buf: [in] buffer to query
+> > > + * @uuid: [out] the uuid
+> > > + *
+> > > + * Returns: 0 on success, negative on failure.
+> > > + */
+> > > +int virtio_dma_buf_get_uuid(struct dma_buf *dma_buf,
+> > > +                       uuid_t *uuid)
+> > > +{
+> > > +   const struct virtio_dma_buf_ops *ops = container_of(
+> > > +                   dma_buf->ops, const struct virtio_dma_buf_ops, ops);
+> > > +
+> > > +   if (!is_virtio_dma_buf(dma_buf))
+> > > +           return -EINVAL;
+> > > +
+> > > +   return ops->get_uuid(dma_buf, uuid);
+> > > +}
+> > > +EXPORT_SYMBOL(virtio_dma_buf_get_uuid);
+> > > diff --git a/include/linux/virtio.h b/include/linux/virtio.h
+> > > index 15f906e4a748..9397e25616c4 100644
+> > > --- a/include/linux/virtio.h
+> > > +++ b/include/linux/virtio.h
+> > > @@ -128,6 +128,7 @@ static inline struct virtio_device *dev_to_virtio(struct device *_dev)
+> > >  void virtio_add_status(struct virtio_device *dev, unsigned int status);
+> > >  int register_virtio_device(struct virtio_device *dev);
+> > >  void unregister_virtio_device(struct virtio_device *dev);
+> > > +bool is_virtio_device(struct device *dev);
+> > >
+> > >  void virtio_break_device(struct virtio_device *dev);
+> > >
+> > > diff --git a/include/linux/virtio_dma_buf.h b/include/linux/virtio_dma_buf.h
+> > > new file mode 100644
+> > > index 000000000000..29fee167afbd
+> > > --- /dev/null
+> > > +++ b/include/linux/virtio_dma_buf.h
+> > > @@ -0,0 +1,58 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0 */
+> > > +/*
+> > > + * dma-bufs for virtio exported objects
+> > > + *
+> > > + * Copyright (C) 2020 Google, Inc.
+> > > + */
+> > > +
+> > > +#ifndef _LINUX_VIRTIO_DMA_BUF_H
+> > > +#define _LINUX_VIRTIO_DMA_BUF_H
+> > > +
+> > > +#include <linux/dma-buf.h>
+> > > +#include <linux/uuid.h>
+> > > +#include <linux/virtio.h>
+> > > +
+> > > +/**
+> > > + * struct virtio_dma_buf_ops - operations possible on exported object dma-buf
+> > > + * @ops: the base dma_buf_ops. ops.attach MUST be virtio_dma_buf_attach.
+> > > + * @device_attach: [optional] callback invoked by virtio_dma_buf_attach during
+> > > + *            all attach operations.
+> > > + * @get_uid: [required] callback to get the uuid of the exported object.
+> > > + */
+> > > +struct virtio_dma_buf_ops {
+> > > +   struct dma_buf_ops ops;
+> > > +   int (*device_attach)(struct dma_buf *dma_buf,
+> > > +                        struct dma_buf_attachment *attach);
+> > > +   int (*get_uuid)(struct dma_buf *dma_buf, uuid_t *uuid);
+> > > +};
+> > > +
+> > > +/**
+> > > + * struct virtio_dma_buf_export_info - see struct dma_buf_export_info
+> > > + */
+> > > +struct virtio_dma_buf_export_info {
+> > > +   const char *exp_name;
+> > > +   struct module *owner;
+> > > +   const struct virtio_dma_buf_ops *ops;
+> > > +   size_t size;
+> > > +   int flags;
+> > > +   struct dma_resv *resv;
+> > > +   void *priv;
+> > > +};
+> > > +
+> > > +/**
+> > > + * DEFINE_VIRTIO_DMA_BUF_EXPORT_INFO - helper macro for exporters
+> > > + */
+> > > +#define DEFINE_VIRTIO_DMA_BUF_EXPORT_INFO(name)    \
+> > > +   struct virtio_dma_buf_export_info name = { \
+> > > +           .exp_name = KBUILD_MODNAME, \
+> > > +           .owner = THIS_MODULE }
+> > > +
+> > > +int virtio_dma_buf_attach(struct dma_buf *dma_buf,
+> > > +                     struct dma_buf_attachment *attach);
+> > > +
+> > > +struct dma_buf *virtio_dma_buf_export(
+> > > +           const struct virtio_dma_buf_export_info *virtio_exp_info);
+> > > +bool is_virtio_dma_buf(struct dma_buf *dma_buf);
+> > > +int virtio_dma_buf_get_uuid(struct dma_buf *dma_buf, uuid_t *uuid);
+> > > +
+> > > +#endif /* _LINUX_VIRTIO_DMA_BUF_H */
+> > > --
+> > > 2.27.0.rc0.183.gde8f92d652-goog
+> >
+> > _______________________________________________
+> > Virtualization mailing list
+> > Virtualization@lists.linux-foundation.org
+> > https://lists.linuxfoundation.org/mailman/listinfo/virtualization
