@@ -2,357 +2,628 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6B7220128C
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 17:56:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB36D201332
+	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 18:01:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392739AbgFSPxD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jun 2020 11:53:03 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:34112 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405381AbgFSPw5 (ORCPT
+        id S2404223AbgFSP6f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jun 2020 11:58:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36454 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405476AbgFSP6b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jun 2020 11:52:57 -0400
+        Fri, 19 Jun 2020 11:58:31 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3660C06174E
+        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 08:58:31 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66FD5552;
-        Fri, 19 Jun 2020 17:52:54 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF6DA556;
+        Fri, 19 Jun 2020 17:58:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592581974;
-        bh=GUrqTrgTVCr0RV+J3qDtcnq5Cs/2fiFp33b8pLyKc1A=;
+        s=mail; t=1592582309;
+        bh=6XsfziCo+NY3TY/B4tS1vEUAsFKm4JL9azRLyCrS+JM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wk7ogkGJFcA+/Cfzb+cg5IjOTqMdnlFTtwRWcDnq/c/WDClo52kLiGPnM6hK5ssHC
-         wzSm2D7ngOM7SmKaZHRuK9Wta4TSvdI9pUdM+Y9VwlSNf1aHlhL50Y6mqg0dd77KiY
-         x4jEWASea68IBoc25njHjHCrvdMuhgofJCGXixc8=
-Date:   Fri, 19 Jun 2020 18:52:30 +0300
+        b=vs2MA7Clc4jsgTZxZtbOXMv/P37vglujFi7P829puZ/wraLfOGmise13gGnPX4fh5
+         3i+MFmEh25QyekkniaXvDSeCwMDsuHVyDsvRoWqamh0OZEEpX50J8MfrQochUK2com
+         pdT/soy0G6BWO7HOtiCByuH+lDEAekOaXpGWd9Ek=
+Date:   Fri, 19 Jun 2020 18:58:05 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Benoit Parrot <bparrot@ti.com>
-Subject: Re: [PATCH v1 084/107] media: ti-vpe: cal: Create subdev for CAMERARX
-Message-ID: <20200619155230.GJ5823@pendragon.ideasonboard.com>
+To:     Benoit Parrot <bparrot@ti.com>
+Cc:     linux-media@vger.kernel.org, Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH v1 107/107] media: ti-vpe: cal: Implement media
+ controller centric API
+Message-ID: <20200619155805.GK5823@pendragon.ideasonboard.com>
 References: <20200614235944.17716-1-laurent.pinchart@ideasonboard.com>
- <20200614235944.17716-85-laurent.pinchart@ideasonboard.com>
- <f8fb8096-4497-7108-9906-5a0b8b7c195f@ideasonboard.com>
+ <20200614235944.17716-108-laurent.pinchart@ideasonboard.com>
+ <20200619144648.k7dwx52vyzq7rmqx@ti.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f8fb8096-4497-7108-9906-5a0b8b7c195f@ideasonboard.com>
+In-Reply-To: <20200619144648.k7dwx52vyzq7rmqx@ti.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+Hi Benoit,
 
-On Wed, Jun 17, 2020 at 11:10:32AM +0100, Kieran Bingham wrote:
-> On 15/06/2020 00:59, Laurent Pinchart wrote:
-> > Create and register V4L2 sudbevs for the CAMERARX instances, and link
-> 
-> s/sudbevs/subdevs/
-> 
-> > them in the media graph to the sensors and video nodes. The subdev API
-> > is not exposed to userspace at this point, and no subdev operation is
-> > implemented, but the media controller graph is visible to applications.
+On Fri, Jun 19, 2020 at 09:46:50AM -0500, Benoit Parrot wrote:
+> Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote on Mon [2020-Jun-15 02:59:44 +0300]:
+> > The CAL driver is video node centric, it controls the whole device
+> > through the video device nodes. This limits the possible use cases as it
+> > can't support sources that are more complex than a single subdev. To
+> > support more complex hardware pipelines, implement support for the media
+> > controller centric API. The exposed API can be selected through a module
+> > parameter.
 > > 
 > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > > ---
-> >  drivers/media/platform/ti-vpe/cal-camerarx.c | 42 +++++++++++++++++++-
-> >  drivers/media/platform/ti-vpe/cal-video.c    | 12 ++++++
-> >  drivers/media/platform/ti-vpe/cal.c          | 31 ++++++++++++---
-> >  drivers/media/platform/ti-vpe/cal.h          |  9 ++++-
-> >  4 files changed, 86 insertions(+), 8 deletions(-)
+> >  drivers/media/platform/ti-vpe/cal-camerarx.c |   1 +
+> >  drivers/media/platform/ti-vpe/cal-video.c    | 358 ++++++++++++++-----
+> >  drivers/media/platform/ti-vpe/cal.c          |  10 +-
+> >  drivers/media/platform/ti-vpe/cal.h          |   2 +
+> >  4 files changed, 289 insertions(+), 82 deletions(-)
 > > 
 > > diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> > index a7e4b81c9734..9be432ff87b2 100644
+> > index 2e7a3bc716cf..014ca46509db 100644
 > > --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
 > > +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> > @@ -526,8 +526,8 @@ static int cal_camerarx_regmap_init(struct cal_dev *cal,
-> >  static int cal_camerarx_parse_dt(struct cal_camerarx *phy)
-> >  {
-> >  	struct v4l2_fwnode_endpoint *endpoint = &phy->endpoint;
-> > -	struct device_node *ep_node;
-> >  	char data_lanes[V4L2_FWNODE_CSI2_MAX_DATA_LANES * 2];
-> > +	struct device_node *ep_node;
-> >  	unsigned int i;
-> >  	int ret;
+> > @@ -818,6 +818,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
+> >  	sd = &phy->subdev;
+> >  	v4l2_subdev_init(sd, &cal_camerarx_subdev_ops);
+> >  	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> > +	sd->flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
+> >  	snprintf(sd->name, sizeof(sd->name), "CAMERARX%u", instance);
+> >  	sd->dev = cal->dev;
 > >  
-> > @@ -571,7 +571,8 @@ static int cal_camerarx_parse_dt(struct cal_camerarx *phy)
-> >  		endpoint->bus.mipi_csi2.flags);
-> >  
-> >  	/* Retrieve the connected device and store it for later use. */
-> > -	phy->sensor_node = of_graph_get_remote_port_parent(ep_node);
-> > +	phy->sensor_ep_node = of_graph_get_remote_endpoint(ep_node);
-> > +	phy->sensor_node = of_graph_get_port_parent(phy->sensor_ep_node);
-> >  	if (!phy->sensor_node) {
-> >  		phy_dbg(3, phy, "Can't get remote parent\n");
-> >  		goto done;
-> > @@ -580,15 +581,30 @@ static int cal_camerarx_parse_dt(struct cal_camerarx *phy)
-> >  	phy_dbg(1, phy, "Found connected device %pOFn\n", phy->sensor_node);
-> >  
-> >  done:
-> > +	of_node_put(phy->sensor_ep_node);
-> >  	of_node_put(ep_node);
-> >  	return ret;
-> >  }
-> >  
-> > +/* ------------------------------------------------------------------
-> > + *	V4L2 Subdev Operations
-> > + * ------------------------------------------------------------------
-> > + */
-> > +
-> > +static const struct v4l2_subdev_ops cal_camerarx_subdev_ops = {
-> > +};
-> > +
-> > +/* ------------------------------------------------------------------
-> > + *	Create and Destroy
-> > + * ------------------------------------------------------------------
-> > + */
-> > +
-> >  struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
-> >  					 unsigned int instance)
-> >  {
-> >  	struct platform_device *pdev = to_platform_device(cal->dev);
-> >  	struct cal_camerarx *phy;
-> > +	struct v4l2_subdev *sd;
-> >  	int ret;
-> >  
-> >  	phy = kzalloc(sizeof(*phy), GFP_KERNEL);
-> > @@ -620,9 +636,28 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
-> >  	if (ret)
-> >  		goto error;
-> >  
-> > +	/* Initialize the V4L2 subdev and media entity. */
-> > +	sd = &phy->subdev;
-> > +	v4l2_subdev_init(sd, &cal_camerarx_subdev_ops);
-> > +	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> > +	snprintf(sd->name, sizeof(sd->name), "CAMERARX%u", instance);
-> > +	sd->dev = cal->dev;
-> > +
-> > +	phy->pads[CAL_CAMERARX_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
-> > +	phy->pads[CAL_CAMERARX_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
-> > +	ret = media_entity_pads_init(&sd->entity, ARRAY_SIZE(phy->pads),
-> > +				     phy->pads);
-> > +	if (ret)
-> > +		goto error;
-> > +
-> > +	ret = v4l2_device_register_subdev(&cal->v4l2_dev, sd);
-> > +	if (ret)
-> > +		goto error;
-> > +
-> >  	return phy;
-> >  
-> >  error:
-> > +	media_entity_cleanup(&phy->subdev.entity);
-> >  	kfree(phy);
-> >  	return ERR_PTR(ret);
-> >  }
-> > @@ -632,6 +667,9 @@ void cal_camerarx_destroy(struct cal_camerarx *phy)
-> >  	if (!phy)
-> >  		return;
-> >  
-> > +	v4l2_device_unregister_subdev(&phy->subdev);
-> > +	media_entity_cleanup(&phy->subdev.entity);
-> > +	of_node_put(phy->sensor_ep_node);
-> >  	of_node_put(phy->sensor_node);
-> >  	kfree(phy);
-> >  }
 > > diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
-> > index df472a175e83..0a1a11692208 100644
+> > index 0f8702bd77db..5f9cd449f027 100644
 > > --- a/drivers/media/platform/ti-vpe/cal-video.c
 > > +++ b/drivers/media/platform/ti-vpe/cal-video.c
-> > @@ -809,6 +809,18 @@ int cal_ctx_v4l2_register(struct cal_ctx *ctx)
-> >  		return ret;
-> >  	}
+> > @@ -40,40 +40,10 @@ static char *fourcc_to_str(u32 fmt)
+> >  }
 > >  
-> > +	ret = media_create_pad_link(&ctx->phy->subdev.entity,
-> > +				    CAL_CAMERARX_PAD_SOURCE,
-> > +				    &vfd->entity, 0,
-> > +				    MEDIA_LNK_FL_IMMUTABLE |
-> > +				    MEDIA_LNK_FL_ENABLED);
-> > +	if (ret) {
-> > +		ctx_err(ctx, "Failed to create media link for context %u\n",
-> > +			ctx->index);
-> > +		video_unregister_device(vfd);
-> > +		return ret;
-> > +	}
-> > +
-> >  	ctx_info(ctx, "V4L2 device registered as %s\n",
-> >  		 video_device_node_name(vfd));
+> >  /* ------------------------------------------------------------------
+> > - *	V4L2 Video IOCTLs
+> > + *	V4L2 Common IOCTLs
+> >   * ------------------------------------------------------------------
+> >   */
 > >  
-> > diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> > index ca8576aa2646..bf1734d4d800 100644
-> > --- a/drivers/media/platform/ti-vpe/cal.c
-> > +++ b/drivers/media/platform/ti-vpe/cal.c
-> > @@ -416,6 +416,8 @@ static int cal_async_notifier_bound(struct v4l2_async_notifier *notifier,
-> >  				    struct v4l2_async_subdev *asd)
+> > -static const struct cal_format_info *find_format_by_pix(struct cal_ctx *ctx,
+> > -							u32 pixelformat)
+> > -{
+> > -	const struct cal_format_info *fmtinfo;
+> > -	unsigned int k;
+> > -
+> > -	for (k = 0; k < ctx->num_active_fmt; k++) {
+> > -		fmtinfo = ctx->active_fmt[k];
+> > -		if (fmtinfo->fourcc == pixelformat)
+> > -			return fmtinfo;
+> > -	}
+> > -
+> > -	return NULL;
+> > -}
+> > -
+> > -static const struct cal_format_info *find_format_by_code(struct cal_ctx *ctx,
+> > -							 u32 code)
+> > -{
+> > -	const struct cal_format_info *fmtinfo;
+> > -	unsigned int k;
+> > -
+> > -	for (k = 0; k < ctx->num_active_fmt; k++) {
+> > -		fmtinfo = ctx->active_fmt[k];
+> > -		if (fmtinfo->code == code)
+> > -			return fmtinfo;
+> > -	}
+> > -
+> > -	return NULL;
+> > -}
+> > -
+> >  static int cal_querycap(struct file *file, void *priv,
+> >  			struct v4l2_capability *cap)
 > >  {
-> >  	struct cal_camerarx *phy = to_cal_asd(asd)->phy;
-> > +	int pad;
-> > +	int ret;
-> >  
-> >  	if (phy->sensor) {
-> >  		phy_info(phy, "Rejecting subdev %s (Already set!!)",
-> > @@ -426,6 +428,25 @@ static int cal_async_notifier_bound(struct v4l2_async_notifier *notifier,
-> >  	phy->sensor = subdev;
-> >  	phy_dbg(1, phy, "Using sensor %s for capture\n", subdev->name);
-> >  
-> > +	pad = media_entity_get_fwnode_pad(&subdev->entity,
-> > +					  of_fwnode_handle(phy->sensor_ep_node),
-> > +					  MEDIA_PAD_FL_SOURCE);
-> > +	if (pad < 0) {
-> > +		phy_err(phy, "Sensor %s has no connected source pad\n",
-> > +			subdev->name);
-> > +		return pad;
-> > +	}
-> > +
-> > +	ret = media_create_pad_link(&subdev->entity, pad,
-> > +				    &phy->subdev.entity, CAL_CAMERARX_PAD_SINK,
-> > +				    MEDIA_LNK_FL_IMMUTABLE |
-> > +				    MEDIA_LNK_FL_ENABLED);
-> > +	if (ret) {
-> > +		phy_err(phy, "Failed to create media link for sensor %s\n",
-> > +			subdev->name);
-> > +		return ret;
-> > +	}
-> > +
+> > @@ -87,6 +57,51 @@ static int cal_querycap(struct file *file, void *priv,
 > >  	return 0;
 > >  }
 > >  
-> > @@ -796,6 +817,11 @@ static int cal_probe(struct platform_device *pdev)
-> >  	cal_get_hwinfo(cal);
-> >  	pm_runtime_put_sync(&pdev->dev);
-> >  
-> > +	/* Initialize the media device. */
-> > +	ret = cal_media_init(cal);
-> > +	if (ret < 0)
-> > +		goto error_camerarx;
-> 
-> This code moves now uses the wrong error label.
-> 
-> Moreover, moving it - now means that the loop creating the CAMERARX PHYs
-> should now also cleanup the media device upon failure.
-> 
-> I have the following fixup patch which you could squash in here if you wish.
-> 
-> 
-> From e6fc5364d92d0ded26f3d8bb6c06a650fcb1ba84 Mon Sep 17 00:00:00 2001
-> From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Date: Tue, 16 Jun 2020 15:00:19 +0100
-> Subject: [PATCH] media: ti-vpe: cal: Fix error path jumps
-> 
-> The error paths in cal_probe() incorrectly called through the
-> error_camerarx before the camerarx instances were created, and neglected
-> to call the error_media/cal_media_cleanup() paths if a camera failed to
-> be created.
-> 
-> Tidy up the error paths, removing the now redundant error_media label.
-> 
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> ---
->  drivers/media/platform/ti-vpe/cal.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/ti-vpe/cal.c
-> b/drivers/media/platform/ti-vpe/cal.c
-> index caea3e129c87..d00dc241804b 100644
-> --- a/drivers/media/platform/ti-vpe/cal.c
-> +++ b/drivers/media/platform/ti-vpe/cal.c
-> @@ -1026,14 +1026,14 @@ static int cal_probe(struct platform_device *pdev)
->         /* Initialize the media device. */
->         ret = cal_media_init(cal);
->         if (ret < 0)
-> -               goto error_camerarx;
-> +               goto error_pm_runtime;
-> 
->         /* Create CAMERARX PHYs. */
->         for (i = 0; i < cal_data_get_num_csi2_phy(cal); ++i) {
->                 cal->phy[i] = cal_camerarx_create(cal, i);
->                 if (IS_ERR(cal->phy[i])) {
->                         ret = PTR_ERR(cal->phy[i]);
-> -                       goto error_camerarx;
-> +                       goto error_media;
->                 }
->         }
-> 
-> @@ -1063,8 +1063,6 @@ static int cal_probe(struct platform_device *pdev)
-> 
->  error_media:
->         cal_media_cleanup(cal);
-> -
-> -error_camerarx:
->         for (i = 0; i < cal->data->num_csi2_phy; i++)
->                 cal_camerarx_destroy(cal->phy[i]);
-
-Good catch. I'll fix the second issues slightly differently, by moving
-cal_media_cleanup() below the cal_camerarx_destroy() loop, and keeping
-the error_camerarx label, as it's best to perform cleanups in the
-reverse order of the inits (unless there's a specific reason not to do
-so).
-
-> With that fixed,
-> 
-> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-
-Please let me know if you see problems in the proposed change, otherwise
-I'll add your tag.
-
+> > +static int cal_g_fmt_vid_cap(struct file *file, void *priv,
+> > +			     struct v4l2_format *f)
+> > +{
+> > +	struct cal_ctx *ctx = video_drvdata(file);
 > > +
-> >  	/* Create CAMERARX PHYs. */
-> >  	for (i = 0; i < cal_data_get_num_csi2_phy(cal); ++i) {
-> >  		cal->phy[i] = cal_camerarx_create(cal, i);
-> > @@ -805,11 +831,6 @@ static int cal_probe(struct platform_device *pdev)
-> >  		}
-> >  	}
+> > +	*f = ctx->v_fmt;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +/* ------------------------------------------------------------------
+> > + *	V4L2 Video Node Centric IOCTLs
+> > + * ------------------------------------------------------------------
+> > + */
+> > +
+> > +static const struct cal_format_info *find_format_by_pix(struct cal_ctx *ctx,
+> > +							u32 pixelformat)
+> > +{
+> > +	const struct cal_format_info *fmtinfo;
+> > +	unsigned int k;
+> > +
+> > +	for (k = 0; k < ctx->num_active_fmt; k++) {
+> > +		fmtinfo = ctx->active_fmt[k];
+> > +		if (fmtinfo->fourcc == pixelformat)
+> > +			return fmtinfo;
+> > +	}
+> > +
+> > +	return NULL;
+> > +}
+> > +
+> > +static const struct cal_format_info *find_format_by_code(struct cal_ctx *ctx,
+> > +							 u32 code)
+> > +{
+> > +	const struct cal_format_info *fmtinfo;
+> > +	unsigned int k;
+> > +
+> > +	for (k = 0; k < ctx->num_active_fmt; k++) {
+> > +		fmtinfo = ctx->active_fmt[k];
+> > +		if (fmtinfo->code == code)
+> > +			return fmtinfo;
+> > +	}
+> > +
+> > +	return NULL;
+> > +}
+> > +
+> >  static int cal_enum_fmt_vid_cap(struct file *file, void  *priv,
+> >  				struct v4l2_fmtdesc *f)
+> >  {
+> > @@ -174,16 +189,6 @@ static void cal_calc_format_size(struct cal_ctx *ctx,
+> >  		f->fmt.pix.bytesperline, f->fmt.pix.sizeimage);
+> >  }
 > >  
-> > -	/* Initialize the media device. */
-> > -	ret = cal_media_init(cal);
-> > -	if (ret < 0)
-> > -		goto error_camerarx;
+> > -static int cal_g_fmt_vid_cap(struct file *file, void *priv,
+> > -			     struct v4l2_format *f)
+> > -{
+> > -	struct cal_ctx *ctx = video_drvdata(file);
 > > -
-> >  	/* Create contexts. */
-> >  	for (i = 0; i < cal_data_get_num_csi2_phy(cal); ++i)
-> >  		cal->ctx[i] = cal_ctx_create(cal, i);
-> > diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-> > index cb167bfc2773..bf31dbf24523 100644
-> > --- a/drivers/media/platform/ti-vpe/cal.h
-> > +++ b/drivers/media/platform/ti-vpe/cal.h
-> > @@ -24,6 +24,7 @@
-> >  #include <media/v4l2-dev.h>
-> >  #include <media/v4l2-device.h>
-> >  #include <media/v4l2-fwnode.h>
-> > +#include <media/v4l2-subdev.h>
-> >  #include <media/videobuf2-v4l2.h>
+> > -	*f = ctx->v_fmt;
+> > -
+> > -	return 0;
+> > -}
+> > -
+> >  static int cal_try_fmt_vid_cap(struct file *file, void *priv,
+> >  			       struct v4l2_format *f)
+> >  {
+> > @@ -383,17 +388,7 @@ static int cal_enum_frameintervals(struct file *file, void *priv,
+> >  	return 0;
+> >  }
 > >  
-> >  #define CAL_MODULE_NAME			"cal"
-> > @@ -33,12 +34,14 @@
-> >  #define MAX_WIDTH_BYTES			(8192 * 8)
-> >  #define MAX_HEIGHT_LINES		16383
-> >  
-> > +#define CAL_CAMERARX_PAD_SINK		0
-> > +#define CAL_CAMERARX_PAD_SOURCE		1
-> > +
-> >  struct device;
-> >  struct device_node;
-> >  struct resource;
-> >  struct regmap;
-> >  struct regmap_fied;
-> > -struct v4l2_subdev;
-> >  
-> >  /* CTRL_CORE_CAMERRX_CONTROL register field id */
-> >  enum cal_camerarx_field {
-> > @@ -108,8 +111,12 @@ struct cal_camerarx {
-> >  	unsigned int		instance;
-> >  
-> >  	struct v4l2_fwnode_endpoint	endpoint;
-> > +	struct device_node	*sensor_ep_node;
-> >  	struct device_node	*sensor_node;
-> >  	struct v4l2_subdev	*sensor;
-> > +
-> > +	struct v4l2_subdev	subdev;
-> > +	struct media_pad	pads[2];
+> > -static const struct v4l2_file_operations cal_fops = {
+> > -	.owner		= THIS_MODULE,
+> > -	.open           = v4l2_fh_open,
+> > -	.release        = vb2_fop_release,
+> > -	.read           = vb2_fop_read,
+> > -	.poll		= vb2_fop_poll,
+> > -	.unlocked_ioctl = video_ioctl2, /* V4L2 ioctl handler */
+> > -	.mmap           = vb2_fop_mmap,
+> > -};
+> > -
+> > -static const struct v4l2_ioctl_ops cal_ioctl_ops = {
+> > +static const struct v4l2_ioctl_ops cal_ioctl_video_ops = {
+> >  	.vidioc_querycap      = cal_querycap,
+> >  	.vidioc_enum_fmt_vid_cap  = cal_enum_fmt_vid_cap,
+> >  	.vidioc_g_fmt_vid_cap     = cal_g_fmt_vid_cap,
+> > @@ -419,7 +414,153 @@ static const struct v4l2_ioctl_ops cal_ioctl_ops = {
 > >  };
 > >  
-> >  struct cal_dev {
+> >  /* ------------------------------------------------------------------
+> > - *	videobuf2 Operations
+> > + *	V4L2 Media Controller Centric IOCTLs
+> > + * ------------------------------------------------------------------
+> > + */
+> > +
+> > +static int cal_mc_enum_fmt_vid_cap(struct file *file, void  *priv,
+> > +				   struct v4l2_fmtdesc *f)
+> > +{
+> > +	if (f->index >= cal_num_formats)
+> > +		return -EINVAL;
+> > +
+> > +	f->pixelformat = cal_formats[f->index].fourcc;
+> > +	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void cal_mc_try_fmt(struct cal_ctx *ctx, struct v4l2_format *f,
+> > +			   const struct cal_format_info **info)
+> > +{
+> > +	struct v4l2_pix_format *format = &f->fmt.pix;
+> > +	const struct cal_format_info *fmtinfo;
+> > +	unsigned int bpp;
+> > +
+> > +	/*
+> > +	 * Default to the first format is the requested pixel format code isn't
+> > +	 * supported.
+> > +	 */
+> > +	fmtinfo = cal_format_by_fourcc(f->fmt.pix.pixelformat);
+> > +	if (!fmtinfo)
+> > +		fmtinfo = &cal_formats[0];
+> > +
+> > +	/*
+> > +	 * Clamp the size, update the pixel format. The field and colorspace are
+> > +	 * accepted as-is, except for V4L2_FIELD_ANY that is turned into
+> > +	 * V4L2_FIELD_NONE.
+> > +	 */
+> > +	bpp = ALIGN(fmtinfo->bpp, 8);
+> > +
+> > +	format->width = clamp_t(unsigned int, format->width,
+> > +				CAL_MIN_WIDTH_BYTES * 8 / bpp,
+> > +				CAL_MAX_WIDTH_BYTES * 8 / bpp);
+> > +	format->height = clamp_t(unsigned int, format->height,
+> > +				 CAL_MIN_HEIGHT_LINES, CAL_MAX_HEIGHT_LINES);
+> > +	format->pixelformat = fmtinfo->fourcc;
+> > +
+> > +	if (format->field == V4L2_FIELD_ANY)
+> > +		format->field = V4L2_FIELD_NONE;
+> > +
+> > +	/*
+> > +	 * Calculate the number of bytes per line and the image size. The
+> > +	 * hardware stores the stride as a number of 16 bytes words, in a
+> > +	 * signed 15-bit value. Only 14 bits are thus usable.
+> > +	 */
+> > +	format->bytesperline = ALIGN(clamp(format->bytesperline,
+> > +					   format->width * bpp / 8,
+> > +					   ((1U << 14) - 1) * 16), 16);
+> > +
+> > +	format->sizeimage = format->height * format->bytesperline;
+> > +
+> > +	if (info)
+> > +		*info = fmtinfo;
+> > +
+> > +	ctx_dbg(3, ctx, "%s: %s %ux%u (bytesperline %u sizeimage %u)\n",
+> > +		__func__, fourcc_to_str(format->pixelformat),
+> > +		format->width, format->height,
+> > +		format->bytesperline, format->sizeimage);
+> > +}
+> > +
+> > +static int cal_mc_try_fmt_vid_cap(struct file *file, void *priv,
+> > +				  struct v4l2_format *f)
+> > +{
+> > +	struct cal_ctx *ctx = video_drvdata(file);
+> > +
+> > +	cal_mc_try_fmt(ctx, f, NULL);
+> > +	return 0;
+> > +}
+> > +
+> > +static int cal_mc_s_fmt_vid_cap(struct file *file, void *priv,
+> > +				struct v4l2_format *f)
+> > +{
+> > +	struct cal_ctx *ctx = video_drvdata(file);
+> > +	const struct cal_format_info *fmtinfo;
+> > +
+> > +	if (vb2_is_busy(&ctx->vb_vidq)) {
+> > +		ctx_dbg(3, ctx, "%s device busy\n", __func__);
+> > +		return -EBUSY;
+> > +	}
+> > +
+> > +	cal_mc_try_fmt(ctx, f, &fmtinfo);
+> > +
+> > +	ctx->v_fmt = *f;
+> > +	ctx->fmtinfo = fmtinfo;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int cal_mc_enum_framesizes(struct file *file, void *fh,
+> > +				  struct v4l2_frmsizeenum *fsize)
+> > +{
+> > +	struct cal_ctx *ctx = video_drvdata(file);
+> > +	const struct cal_format_info *fmtinfo;
+> > +	unsigned int bpp;
+> > +
+> > +	if (fsize->index > 0)
+> > +		return -EINVAL;
+> > +
+> > +	fmtinfo = cal_format_by_fourcc(fsize->pixel_format);
+> > +	if (!fmtinfo) {
+> > +		ctx_dbg(3, ctx, "Invalid pixel format 0x%08x\n",
+> > +			fsize->pixel_format);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	bpp = ALIGN(fmtinfo->bpp, 8);
+> > +
+> > +	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
+> > +	fsize->stepwise.min_width = CAL_MIN_WIDTH_BYTES * 8 / bpp;
+> > +	fsize->stepwise.max_width = CAL_MAX_WIDTH_BYTES * 8 / bpp;
+> > +	fsize->stepwise.step_width = 64 / bpp;
+> > +	fsize->stepwise.min_height = CAL_MIN_HEIGHT_LINES;
+> > +	fsize->stepwise.max_height = CAL_MAX_HEIGHT_LINES;
+> > +	fsize->stepwise.step_height = 1;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static const struct v4l2_ioctl_ops cal_ioctl_mc_ops = {
+> > +	.vidioc_querycap      = cal_querycap,
+> > +	.vidioc_enum_fmt_vid_cap  = cal_mc_enum_fmt_vid_cap,
+> > +	.vidioc_g_fmt_vid_cap     = cal_g_fmt_vid_cap,
+> > +	.vidioc_try_fmt_vid_cap   = cal_mc_try_fmt_vid_cap,
+> > +	.vidioc_s_fmt_vid_cap     = cal_mc_s_fmt_vid_cap,
+> > +	.vidioc_enum_framesizes   = cal_mc_enum_framesizes,
+> > +	.vidioc_reqbufs       = vb2_ioctl_reqbufs,
+> > +	.vidioc_create_bufs   = vb2_ioctl_create_bufs,
+> > +	.vidioc_prepare_buf   = vb2_ioctl_prepare_buf,
+> > +	.vidioc_querybuf      = vb2_ioctl_querybuf,
+> > +	.vidioc_qbuf          = vb2_ioctl_qbuf,
+> > +	.vidioc_dqbuf         = vb2_ioctl_dqbuf,
+> > +	.vidioc_expbuf        = vb2_ioctl_expbuf,
+> > +	.vidioc_streamon      = vb2_ioctl_streamon,
+> > +	.vidioc_streamoff     = vb2_ioctl_streamoff,
+> > +	.vidioc_log_status    = v4l2_ctrl_log_status,
+> > +};
+> > +
+> > +/* ------------------------------------------------------------------
+> > + *	videobuf2 Common Operations
+> >   * ------------------------------------------------------------------
+> >   */
+> >  
+> > @@ -505,6 +646,26 @@ static void cal_release_buffers(struct cal_ctx *ctx,
+> >  	spin_unlock_irq(&ctx->dma.lock);
+> >  }
+> >  
+> > +/* ------------------------------------------------------------------
+> > + *	videobuf2 Operations
+> > + * ------------------------------------------------------------------
+> > + */
+> > +
+> > +static int cal_video_check_format(struct cal_ctx *ctx)
+> > +{
+> > +	const struct v4l2_mbus_framefmt *format;
+> > +
+> > +	format = &ctx->phy->formats[CAL_CAMERARX_PAD_SOURCE];
+> > +
+> > +	if (ctx->fmtinfo->code != format->code ||
+> > +	    ctx->v_fmt.fmt.pix.height != format->height ||
+> > +	    ctx->v_fmt.fmt.pix.width != format->width ||
+> > +	    ctx->v_fmt.fmt.pix.field != format->field)
+> > +		return -EPIPE;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+> >  {
+> >  	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
+> > @@ -512,6 +673,23 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+> >  	dma_addr_t addr;
+> >  	int ret;
+> >  
+> > +	ret = media_pipeline_start(&ctx->vdev.entity, &ctx->phy->pipe);
+> > +	if (ret < 0) {
+> > +		ctx_err(ctx, "Failed to start media pipeline: %d\n", ret);
+> > +		return ret;
+> > +	}
+> > +
+> > +	/*
+> > +	 * Verify that the currently configured format matches the output of
+> > +	 * the connected CAMERARX.
+> > +	 */
+> > +	ret = cal_video_check_format(ctx);
+> > +	if (ret < 0) {
+> > +		ctx_dbg(3, ctx,
+> > +			"Format mismatch between CAMERARX and video node\n");
+> > +		goto error_pipeline;
+> > +	}
+> > +
+> >  	spin_lock_irq(&ctx->dma.lock);
+> >  	buf = list_first_entry(&ctx->dma.queue, struct cal_buffer, list);
+> >  	ctx->dma.pending = buf;
+> > @@ -527,18 +705,21 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+> >  
+> >  	ret = v4l2_subdev_call(&ctx->phy->subdev, video, s_stream, 1);
+> >  	if (ret)
+> > -		goto err;
+> > +		goto error_stop;
+> >  
+> >  	if (cal_debug >= 4)
+> >  		cal_quickdump_regs(ctx->cal);
+> >  
+> >  	return 0;
+> >  
+> > -err:
+> > +error_stop:
+> >  	cal_ctx_stop(ctx);
+> >  	pm_runtime_put_sync(ctx->cal->dev);
+> >  
+> > +error_pipeline:
+> > +	media_pipeline_stop(&ctx->vdev.entity);
+> >  	cal_release_buffers(ctx, VB2_BUF_STATE_QUEUED);
+> > +
+> >  	return ret;
+> >  }
+> >  
+> > @@ -553,6 +734,8 @@ static void cal_stop_streaming(struct vb2_queue *vq)
+> >  	pm_runtime_put_sync(ctx->cal->dev);
+> >  
+> >  	cal_release_buffers(ctx, VB2_BUF_STATE_ERROR);
+> > +
+> > +	media_pipeline_stop(&ctx->vdev.entity);
+> >  }
+> >  
+> >  static const struct vb2_ops cal_video_qops = {
+> > @@ -570,13 +753,14 @@ static const struct vb2_ops cal_video_qops = {
+> >   * ------------------------------------------------------------------
+> >   */
+> >  
+> > -static const struct video_device cal_videodev = {
+> > -	.name		= CAL_MODULE_NAME,
+> > -	.fops		= &cal_fops,
+> > -	.ioctl_ops	= &cal_ioctl_ops,
+> > -	.minor		= -1,
+> > -	.release	= video_device_release_empty,
+> > -	.device_caps	= V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING,
+> > +static const struct v4l2_file_operations cal_fops = {
+> > +	.owner		= THIS_MODULE,
+> > +	.open           = v4l2_fh_open,
+> > +	.release        = vb2_fop_release,
+> > +	.read           = vb2_fop_read,
+> > +	.poll		= vb2_fop_poll,
+> > +	.unlocked_ioctl = video_ioctl2, /* V4L2 ioctl handler */
+> > +	.mmap           = vb2_fop_mmap,
+> >  };
+> >  
+> >  static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
+> > @@ -650,19 +834,22 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
+> >  
+> >  int cal_ctx_v4l2_register(struct cal_ctx *ctx)
+> >  {
+> > -	struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
+> >  	struct video_device *vfd = &ctx->vdev;
+> >  	int ret;
+> >  
+> > -	ret = cal_ctx_v4l2_init_formats(ctx);
+> > -	if (ret)
+> > -		return ret;
+> > +	if (!cal_mc_api) {
+> > +		struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
+> >  
+> > -	ret = v4l2_ctrl_add_handler(hdl, ctx->phy->sensor->ctrl_handler, NULL,
+> > -				    true);
+> > -	if (ret < 0) {
+> > -		ctx_err(ctx, "Failed to add sensor ctrl handler\n");
+> > -		return ret;
+> > +		ret = cal_ctx_v4l2_init_formats(ctx);
+> > +		if (ret)
+> > +			return ret;
+> > +
+> > +		ret = v4l2_ctrl_add_handler(hdl, ctx->phy->sensor->ctrl_handler,
+> > +					    NULL, true);
+> > +		if (ret < 0) {
+> > +			ctx_err(ctx, "Failed to add sensor ctrl handler\n");
+> > +			return ret;
+> > +		}
+> >  	}
+> >  
+> >  	ret = video_register_device(vfd, VFL_TYPE_VIDEO, cal_video_nr);
+> > @@ -699,7 +886,6 @@ void cal_ctx_v4l2_unregister(struct cal_ctx *ctx)
+> >  
+> >  int cal_ctx_v4l2_init(struct cal_ctx *ctx)
+> >  {
+> > -	struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
+> >  	struct video_device *vfd = &ctx->vdev;
+> >  	struct vb2_queue *q = &ctx->vb_vidq;
+> >  	int ret;
+> > @@ -726,10 +912,14 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
+> >  		return ret;
+> >  
+> >  	/* Initialize the video device and media entity. */
+> > -	*vfd = cal_videodev;
+> > +	vfd->fops = &cal_fops;
+> > +	vfd->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING
+> > +			 | (cal_mc_api ? V4L2_CAP_IO_MC : 0);
+> >  	vfd->v4l2_dev = &ctx->cal->v4l2_dev;
+> >  	vfd->queue = q;
+> >  	snprintf(vfd->name, sizeof(vfd->name), "CAL output %u", ctx->index);
+> > +	vfd->release = video_device_release_empty;
+> > +	vfd->ioctl_ops = cal_mc_api ? &cal_ioctl_mc_ops : &cal_ioctl_video_ops;
+> >  	vfd->lock = &ctx->mutex;
+> >  	video_set_drvdata(vfd, ctx);
+> >  
+> > @@ -738,15 +928,19 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
+> >  	if (ret < 0)
+> >  		return ret;
+> >  
+> > -	/* Initialize the control handler. */
+> > -	ret = v4l2_ctrl_handler_init(hdl, 11);
+> > -	if (ret < 0) {
+> > -		ctx_err(ctx, "Failed to init ctrl handler\n");
+> > -		goto error;
+> > +	if (!cal_mc_api) {
+> > +		/* Initialize the control handler. */
+> > +		struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
+> > +
+> > +		ret = v4l2_ctrl_handler_init(hdl, 11);
+> > +		if (ret < 0) {
+> > +			ctx_err(ctx, "Failed to init ctrl handler\n");
+> > +			goto error;
+> > +		}
+> > +
+> > +		vfd->ctrl_handler = hdl;
+> >  	}
+> >  
+> > -	vfd->ctrl_handler = hdl;
+> > -
+> >  	return 0;
+> >  
+> >  error:
+> > @@ -756,6 +950,8 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
+> >  
+> >  void cal_ctx_v4l2_cleanup(struct cal_ctx *ctx)
+> >  {
+> > -	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+> > +	if (!cal_mc_api)
+> > +		v4l2_ctrl_handler_free(&ctx->ctrl_handler);
+> > +
+> >  	media_entity_cleanup(&ctx->vdev.entity);
+> >  }
+> > diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> > index f97c213f716f..caea3e129c87 100644
+> > --- a/drivers/media/platform/ti-vpe/cal.c
+> > +++ b/drivers/media/platform/ti-vpe/cal.c
+> > @@ -43,6 +43,10 @@ unsigned int cal_debug;
+> >  module_param_named(debug, cal_debug, uint, 0644);
+> >  MODULE_PARM_DESC(debug, "activates debug info");
+> >  
+> > +bool cal_mc_api;
+> > +module_param_named(mc_api, cal_mc_api, bool, 0444);
+> > +MODULE_PARM_DESC(debug, "activates MC API");
+> 
+> Shouldn't this be 
+> 	MODULE_PARM_DESC(mc_api, "activates MC API");
+> instead?
+
+Of course :-) Thanks for catching this wrong copy&paste, I'll fix it.
+
+> > +
+> >  /* ------------------------------------------------------------------
+> >   *	Format Handling
+> >   * ------------------------------------------------------------------
+> > @@ -655,13 +659,17 @@ static int cal_async_notifier_complete(struct v4l2_async_notifier *notifier)
+> >  {
+> >  	struct cal_dev *cal = container_of(notifier, struct cal_dev, notifier);
+> >  	unsigned int i;
+> > +	int ret = 0;
+> >  
+> >  	for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
+> >  		if (cal->ctx[i])
+> >  			cal_ctx_v4l2_register(cal->ctx[i]);
+> >  	}
+> >  
+> > -	return 0;
+> > +	if (cal_mc_api)
+> > +		ret = v4l2_device_register_subdev_nodes(&cal->v4l2_dev);
+> > +
+> > +	return ret;
+> >  }
+> >  
+> >  static const struct v4l2_async_notifier_operations cal_async_notifier_ops = {
+> > diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
+> > index 036b944c3862..f6b4c9a73aab 100644
+> > --- a/drivers/media/platform/ti-vpe/cal.h
+> > +++ b/drivers/media/platform/ti-vpe/cal.h
+> > @@ -160,6 +160,7 @@ struct cal_camerarx {
+> >  	struct device_node	*sensor_ep_node;
+> >  	struct device_node	*sensor_node;
+> >  	struct v4l2_subdev	*sensor;
+> > +	struct media_pipeline	pipe;
+> >  
+> >  	struct v4l2_subdev	subdev;
+> >  	struct media_pad	pads[2];
+> > @@ -224,6 +225,7 @@ struct cal_ctx {
+> >  
+> >  extern unsigned int cal_debug;
+> >  extern int cal_video_nr;
+> > +extern bool cal_mc_api;
+> >  
+> >  #define cal_dbg(level, cal, fmt, arg...)				\
+> >  	do {								\
 
 -- 
 Regards,
