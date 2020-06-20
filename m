@@ -2,178 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D7B2201CCD
-	for <lists+linux-media@lfdr.de>; Fri, 19 Jun 2020 22:59:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E49C202111
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2020 05:48:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391572AbgFSU7W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jun 2020 16:59:22 -0400
-Received: from us-smtp-1.mimecast.com ([205.139.110.61]:43563 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2391056AbgFSU7W (ORCPT
+        id S1727956AbgFTDk7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 19 Jun 2020 23:40:59 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:60241 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726953AbgFTDk6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jun 2020 16:59:22 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1592600359;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3zQCeY2hg03c0w2Pqa3443YwJLYT6nkTcSltvd+Vi4A=;
-        b=FomYuQC8Z4enCrXK/a53oyu4J6nPXwJeZ27S7SeaGt74Ov0JJ+/p+mP+9Z8eLSb+q019Uz
-        zSyOUNw+l1SfN5pq6xWDuQrS4GT1FjKObtJ5y+V+QH6Dzxj/q3q8VZWE0Y+hT1IHbTDnFZ
-        5EBkjB+Wwo+yhY5JSwo+dd6UuFpyDUQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-rrXxSD6nM6-QXDL_hIU0dg-1; Fri, 19 Jun 2020 16:59:17 -0400
-X-MC-Unique: rrXxSD6nM6-QXDL_hIU0dg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0E84193F560;
-        Fri, 19 Jun 2020 20:59:14 +0000 (UTC)
-Received: from redhat.com (ovpn-112-200.rdu2.redhat.com [10.10.112.200])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id A800B7C1E3;
-        Fri, 19 Jun 2020 20:59:12 +0000 (UTC)
-Date:   Fri, 19 Jun 2020 16:59:10 -0400
-From:   Jerome Glisse <jglisse@redhat.com>
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= 
-        <thomas_os@shipmail.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
- annotations
-Message-ID: <20200619205910.GA14480@redhat.com>
-References: <CAKMK7uEbqTu4q-amkLXyd1i8KNtLaoO2ZFoGqYiG6D0m0FKpOg@mail.gmail.com>
- <20200619113934.GN6578@ziepe.ca>
- <CAKMK7uE-kWA==Cko5uenMrcnopEjq42HxoDTDywzBAbHqsN13g@mail.gmail.com>
- <20200619151551.GP6578@ziepe.ca>
- <CAKMK7uEvkshAM6KUYZu8_OCpF4+1Y_SM7cQ9nJWpagfke8s8LA@mail.gmail.com>
- <20200619172308.GQ6578@ziepe.ca>
- <20200619180935.GA10009@redhat.com>
- <20200619181849.GR6578@ziepe.ca>
- <20200619201011.GB13117@redhat.com>
- <CAKMK7uFZgQH3bP4iC9MPArpngeSHESK62KFEeJvYyV9NSJ_GRw@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKMK7uFZgQH3bP4iC9MPArpngeSHESK62KFEeJvYyV9NSJ_GRw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+        Fri, 19 Jun 2020 23:40:58 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id mUNDjCAiYOn2BmUNEjttir; Sat, 20 Jun 2020 05:40:56 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1592624456; bh=32NfOU5hMw8+ERRuxED36X+1qoSR46dAWLuPE7+5P1w=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=AYuh3vO2fln1nUM7VWxxkDgMfegp//vf6zzMKyOgi08xXPHz2Ig1WlUbFVJzPXEbF
+         DDlZrVuo3eUjR0XS1xR1tsgd+JgGSkmPaYIknbLdSozcscHF7eh82yXPyy+OJbHmeh
+         3agMv60GIBHafJk2fqFkhhql5liZBPQ/cfcva6VSeHnsJ551TcmjmVveraaFqw025R
+         2LQuMZUBAuWTLP+IgrBOd3UHrerxENE6JtR5AcZ+rycuEO2I+Uw28JYabK6CVjh5xf
+         zL1o3K74505HlAbENhbLqKGDqyaFWID2pHwKR4vAC70SQ5EN/jNDxPxMWIq6XoYO2V
+         sOY9/heUGxIsw==
+Message-ID: <991ccb48f7dfd302126c98defea81e6b@smtp-cloud9.xs4all.net>
+Date:   Sat, 20 Jun 2020 05:40:55 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfFKOd97KB7IUN/LRqU/+UpLKTVaAvgyzreEpr9bW3XJhq9R9IFtQrQ8BGoOp+TNMccCjE6gZFfBQebAdogE0L7D/1+uTZK1K4x1/G02KUGm6pnXu1zKL
+ ct47y8PDGgyAcVIK/OGqPaYr0/crXBiPGO7JWE9A9GmxlihkMM6ll+hr8boCmWLNRFOAIqRZo0c2N9Ys7XiN/GmsYo/wcTj27PuDnPD+KpPoJvgowpG28mSn
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 19, 2020 at 10:43:20PM +0200, Daniel Vetter wrote:
-> On Fri, Jun 19, 2020 at 10:10 PM Jerome Glisse <jglisse@redhat.com> wrote:
-> >
-> > On Fri, Jun 19, 2020 at 03:18:49PM -0300, Jason Gunthorpe wrote:
-> > > On Fri, Jun 19, 2020 at 02:09:35PM -0400, Jerome Glisse wrote:
-> > > > On Fri, Jun 19, 2020 at 02:23:08PM -0300, Jason Gunthorpe wrote:
-> > > > > On Fri, Jun 19, 2020 at 06:19:41PM +0200, Daniel Vetter wrote:
-> > > > >
-> > > > > > The madness is only that device B's mmu notifier might need to wait
-> > > > > > for fence_B so that the dma operation finishes. Which in turn has to
-> > > > > > wait for device A to finish first.
-> > > > >
-> > > > > So, it sound, fundamentally you've got this graph of operations across
-> > > > > an unknown set of drivers and the kernel cannot insert itself in
-> > > > > dma_fence hand offs to re-validate any of the buffers involved?
-> > > > > Buffers which by definition cannot be touched by the hardware yet.
-> > > > >
-> > > > > That really is a pretty horrible place to end up..
-> > > > >
-> > > > > Pinning really is right answer for this kind of work flow. I think
-> > > > > converting pinning to notifers should not be done unless notifier
-> > > > > invalidation is relatively bounded.
-> > > > >
-> > > > > I know people like notifiers because they give a bit nicer performance
-> > > > > in some happy cases, but this cripples all the bad cases..
-> > > > >
-> > > > > If pinning doesn't work for some reason maybe we should address that?
-> > > >
-> > > > Note that the dma fence is only true for user ptr buffer which predate
-> > > > any HMM work and thus were using mmu notifier already. You need the
-> > > > mmu notifier there because of fork and other corner cases.
-> > >
-> > > I wonder if we should try to fix the fork case more directly - RDMA
-> > > has this same problem and added MADV_DONTFORK a long time ago as a
-> > > hacky way to deal with it.
-> > >
-> > > Some crazy page pin that resolved COW in a way that always kept the
-> > > physical memory with the mm that initiated the pin?
-> >
-> > Just no way to deal with it easily, i thought about forcing the
-> > anon_vma (page->mapping for anonymous page) to the anon_vma that
-> > belongs to the vma against which the GUP was done but it would
-> > break things if page is already in other branch of a fork tree.
-> > Also this forbid fast GUP.
-> >
-> > Quite frankly the fork was not the main motivating factor. GPU
-> > can pin potentialy GBytes of memory thus we wanted to be able
-> > to release it but since Michal changes to reclaim code this is
-> > no longer effective.
-> 
-> What where how? My patch to annote reclaim paths with mmu notifier
-> possibility just landed in -mm, so if direct reclaim can't reclaim mmu
-> notifier'ed stuff anymore we need to know.
-> 
-> Also this would resolve the entire pain we're discussing in this
-> thread about dma_fence_wait deadlocking against anything that's not
-> GFP_ATOMIC ...
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Sorry my bad, reclaim still works, only oom skip. It was couple
-years ago and i thought that some of the things discuss while
-back did make it upstream.
+Results of the daily build of media_tree:
 
-It is probably a good time to also point out that what i wanted
-to do is have all the mmu notifier callback provide some kind
-of fence (not dma fence) so that we can split the notification
-into step:
-    A- schedule notification on all devices/system get fences
-       this step should minimize lock dependency and should
-       not have to wait for anything also best if you can avoid
-       memory allocation for instance by pre-allocating what
-       you need for notification.
-    B- mm can do things like unmap but can not map new page
-       so write special swap pte to cpu page table
-    C- wait on each fences from A
-    ... resume old code ie replace pte or finish unmap ...
+date:			Sat Jun 20 05:00:10 CEST 2020
+media-tree git hash:	b3a9e3b9622ae10064826dccb4f7a52bd88c7407
+media_build git hash:	d90bf09c9b38b7cc89d47d6ec71e2512f257ebe5
+v4l-utils git hash:	e27b73e4a5c7d3f4da5d366f9e2e728fd8b9be34
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b12238aeb89d6a943f5c60d2b159a5de59680d1c
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-The idea here is that at step C the core mm can decide to back
-off if any fence returned from A have to wait. This means that
-every device is invalidating for nothing but if we get there
-then it might still be a good thing as next time around maybe
-the kernel would be successfull without a wait.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
+sparse: OK
+smatch: OK
 
-This would allow things like reclaim to make forward progress
-and skip over or limit wait time to given timeout.
+Detailed results are available here:
 
-Also I thought to extend this even to multi-cpu tlb flush so
-that device and CPUs follow same pattern and we can make //
-progress on each.
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
+Detailed regression test results are available here:
 
-Getting to such scheme is a lot of work. My plan was to first
-get the fence as part of the notifier user API and hide it from
-mm inside notifier common code. Then update each core mm path to
-new model and see if there is any benefit from it. Reclaim would
-be first candidate.
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
 
-Cheers,
-Jérôme
+Full logs are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
