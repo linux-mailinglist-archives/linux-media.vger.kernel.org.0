@@ -2,35 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C2F4202323
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2020 12:16:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B9B2202324
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2020 12:16:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727968AbgFTKQr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 20 Jun 2020 06:16:47 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:46425 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727944AbgFTKQq (ORCPT
+        id S1727971AbgFTKQs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 20 Jun 2020 06:16:48 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:46725 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727964AbgFTKQr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 20 Jun 2020 06:16:46 -0400
+        Sat, 20 Jun 2020 06:16:47 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id maYDjDWLkOn2BmaYGjuFlM; Sat, 20 Jun 2020 12:16:45 +0200
+        id maYDjDWLkOn2BmaYHjuFlP; Sat, 20 Jun 2020 12:16:45 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592648205; bh=l7JRUzTgmaafa+XfsgWMWVVFZkEk+S4EdiZteUe+mU4=;
+        t=1592648205; bh=rrf5irhrOHcIiE0PXuOEtMGyxWmGJbPqutTsIZ1GVXo=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=v3dETh5hlMdtBgWC8gueBV4kH29QlFlSUCgx3BWL0yJNDN2gPCmxSr7FOk4OgEMeI
-         DP8KwyQLwaIW9haSHPK1DcFFKAn5NuxUrEf9lu7iVVCb7l5mjCWcSBmDC+kVWOsPoy
-         OI6YNaKYI5oy7D06a09jYSDAswkilS8hki5rwDgKoOUWp+jfCUsDYS6zBx+2+Ukv8l
-         ZbQtwKE0eubXAw3vFp8fXR5+ZmLzUldbbTSTeOBVapNgbf0O8DacIZmzKeMyffvFci
-         86vET4GeBDNWzo9ZNVDrc5zZrIb/a5mE7vOqQfZ9VDELZpjr5waGTFIzvr4ThjuSWi
-         8R7SDS7dGunbw==
+        b=PvvmNKQL/bo1u53CQn8XzQjl5zMBOg8/o14YPt4swkJyZ89TGEk7vxylFVfC6S8pP
+         lEIjhE9bRn7ITs02UxYgRXTAn9mRpaUrZx+FpkZP2rWafW2sbps4EDOskfIGN/JI34
+         Vsdixlm4sfHNGTiIM6q3FBiAONW2FSr80VwYNJ/MWo2LgaMWq/f02u21ovjGykbBp2
+         GKcp7QdToMeUVCoMokq/Z/EhNCz84HSYajdT9+IZcES9UTun5hiAyuQWqVCug2jfmY
+         7sqMJ/FxD2rQZSsza3RXRB47YopVFzGqNtY889z57pyHlXb5I6I8f1CWgAPcQRyYKj
+         +q2xKObhNtPJQ==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 1/2] cec: remove unused waitq and phys_addrs fields
-Date:   Sat, 20 Jun 2020 12:16:40 +0200
-Message-Id: <20200620101641.775505-1-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 2/2] media/cec.h: document cec_adapter fields
+Date:   Sat, 20 Jun 2020 12:16:41 +0200
+Message-Id: <20200620101641.775505-2-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200620101641.775505-1-hverkuil-cisco@xs4all.nl>
+References: <20200620101641.775505-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CMAE-Envelope: MS4wfJCXRKZcgsQ0sZkflwMuzK/h8TopTF7R3mO13FKca7vG2KxPDvNho0t8IPs91rzEVM+dcwxbpXeqECxDeEbgzEShF1I2pWGpEigmuvYyU/Ayxd5VdM/+
@@ -40,83 +42,73 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The cec_adapter struct contained a waitq field that isn't used
-anywhere, so drop this.
-
-It also contained a phys_addrs array to store any reported physical
-addresses. However, this was never actually used, so this field is
-removed as well. The original idea was to let the core keep track of
-this information, but nothing was ever done with this. Should this
-be needed in the future then it is easy enough to resurrect this.
+Document this core CEC structure.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/cec/core/cec-adap.c | 4 ----
- drivers/media/cec/core/cec-core.c | 1 -
- include/media/cec.h               | 2 --
- 3 files changed, 7 deletions(-)
+ include/media/cec.h | 49 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 49 insertions(+)
 
-diff --git a/drivers/media/cec/core/cec-adap.c b/drivers/media/cec/core/cec-adap.c
-index 6a04d19a96b2..4efe8014445e 100644
---- a/drivers/media/cec/core/cec-adap.c
-+++ b/drivers/media/cec/core/cec-adap.c
-@@ -1306,7 +1306,6 @@ static int cec_config_log_addr(struct cec_adapter *adap,
- 
- 	las->log_addr[idx] = log_addr;
- 	las->log_addr_mask |= 1 << log_addr;
--	adap->phys_addrs[log_addr] = adap->phys_addr;
- 	return 1;
- }
- 
-@@ -1324,7 +1323,6 @@ static void cec_adap_unconfigure(struct cec_adapter *adap)
- 	adap->log_addrs.log_addr_mask = 0;
- 	adap->is_configuring = false;
- 	adap->is_configured = false;
--	memset(adap->phys_addrs, 0xff, sizeof(adap->phys_addrs));
- 	cec_flush(adap);
- 	wake_up_interruptible(&adap->kthread_waitq);
- 	cec_post_state_event(adap);
-@@ -1974,8 +1972,6 @@ static int cec_receive_notify(struct cec_adapter *adap, struct cec_msg *msg,
- 	case CEC_MSG_REPORT_PHYSICAL_ADDR: {
- 		u16 pa = (msg->msg[2] << 8) | msg->msg[3];
- 
--		if (!from_unregistered)
--			adap->phys_addrs[init_laddr] = pa;
- 		dprintk(1, "reported physical address %x.%x.%x.%x for logical address %d\n",
- 			cec_phys_addr_exp(pa), init_laddr);
- 		break;
-diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
-index 0c52e1bb3910..c599cd94dd62 100644
---- a/drivers/media/cec/core/cec-core.c
-+++ b/drivers/media/cec/core/cec-core.c
-@@ -265,7 +265,6 @@ struct cec_adapter *cec_allocate_adapter(const struct cec_adap_ops *ops,
- 	adap->sequence = 0;
- 	adap->ops = ops;
- 	adap->priv = priv;
--	memset(adap->phys_addrs, 0xff, sizeof(adap->phys_addrs));
- 	mutex_init(&adap->lock);
- 	INIT_LIST_HEAD(&adap->transmit_queue);
- 	INIT_LIST_HEAD(&adap->wait_queue);
 diff --git a/include/media/cec.h b/include/media/cec.h
-index 972bc8cd4384..1de44a4fc390 100644
+index 1de44a4fc390..32f7c695d7b5 100644
 --- a/include/media/cec.h
 +++ b/include/media/cec.h
-@@ -162,7 +162,6 @@ struct cec_adapter {
+@@ -144,6 +144,55 @@ struct cec_adap_ops {
+  */
+ #define CEC_MAX_MSG_TX_QUEUE_SZ		(18 * 1)
  
- 	struct task_struct *kthread;
- 	wait_queue_head_t kthread_waitq;
--	wait_queue_head_t waitq;
- 
- 	const struct cec_adap_ops *ops;
- 	void *priv;
-@@ -197,7 +196,6 @@ struct cec_adapter {
- 	struct dentry *status_file;
- 	struct dentry *error_inj_file;
- 
--	u16 phys_addrs[15];
- 	u32 sequence;
- 
- 	char input_phys[32];
++/**
++ * struct cec_adapter - cec adapter structure
++ * @owner:		module owner
++ * @name:		name of the CEC adapter
++ * @devnode:		device node for the /dev/cecX device
++ * @lock:		mutex controlling access to this structure
++ * @rc:			remote control device
++ * @transmit_queue:	queue of pending transmits
++ * @transmit_queue_sz:	number of pending transmits
++ * @wait_queue:		queue of transmits waiting for a reply
++ * @transmitting:	CEC messages currently being transmitted
++ * @transmit_in_progress: true if a transmit is in progress
++ * @kthread_config:	kthread used to configure a CEC adapter
++ * @config_completion:	used to signal completion of the config kthread
++ * @kthread:		main CEC processing thread
++ * @kthread_waitq:	main CEC processing wait_queue
++ * @ops:		cec adapter ops
++ * @priv:		cec driver's private data
++ * @capabilities:	cec adapter capabilities
++ * @available_log_addrs: maximum number of available logical addresses
++ * @phys_addr:		the current physical address
++ * @needs_hpd:		if true, then the HDMI HotPlug Detect pin must be high
++ *	in order to transmit or receive CEC messages. This is usually a HW
++ *	limitation.
++ * @is_configuring:	the CEC adapter is configuring (i.e. claiming LAs)
++ * @is_configured:	the CEC adapter is configured (i.e. has claimed LAs)
++ * @cec_pin_is_high:	if true then the CEC pin is high. Only used with the
++ *	CEC pin framework.
++ * @last_initiator:	the initiator of the last transmitted message.
++ * @monitor_all_cnt:	number of filehandles monitoring all msgs
++ * @monitor_pin_cnt:	number of filehandles monitoring pin changes
++ * @follower_cnt:	number of filehandles in follower mode
++ * @cec_follower:	filehandle of the exclusive follower
++ * @cec_initiator:	filehandle of the exclusive initiator
++ * @passthrough:	if true, then the exclusive follower is in
++ *	passthrough mode.
++ * @log_addrs:		current logical addresses
++ * @conn_info:		current connector info
++ * @tx_timeouts:	number of transmit timeouts
++ * @notifier:		CEC notifier
++ * @pin:		CEC pin status struct
++ * @cec_dir:		debugfs cec directory
++ * @status_file:	debugfs cec status file
++ * @error_inj_file:	debugfs cec error injection file
++ * @sequence:		transmit sequence counter
++ * @input_phys:		remote control input_phys name
++ *
++ * This structure represents a cec adapter.
++ */
+ struct cec_adapter {
+ 	struct module *owner;
+ 	char name[32];
 -- 
 2.27.0
 
