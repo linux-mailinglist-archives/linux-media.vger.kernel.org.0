@@ -2,174 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E49C202111
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2020 05:48:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DFFE9202180
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2020 06:45:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727956AbgFTDk7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 19 Jun 2020 23:40:59 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:60241 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726953AbgFTDk6 (ORCPT
+        id S1727084AbgFTEp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 20 Jun 2020 00:45:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41564 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726667AbgFTEp1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 19 Jun 2020 23:40:58 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id mUNDjCAiYOn2BmUNEjttir; Sat, 20 Jun 2020 05:40:56 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592624456; bh=32NfOU5hMw8+ERRuxED36X+1qoSR46dAWLuPE7+5P1w=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=AYuh3vO2fln1nUM7VWxxkDgMfegp//vf6zzMKyOgi08xXPHz2Ig1WlUbFVJzPXEbF
-         DDlZrVuo3eUjR0XS1xR1tsgd+JgGSkmPaYIknbLdSozcscHF7eh82yXPyy+OJbHmeh
-         3agMv60GIBHafJk2fqFkhhql5liZBPQ/cfcva6VSeHnsJ551TcmjmVveraaFqw025R
-         2LQuMZUBAuWTLP+IgrBOd3UHrerxENE6JtR5AcZ+rycuEO2I+Uw28JYabK6CVjh5xf
-         zL1o3K74505HlAbENhbLqKGDqyaFWID2pHwKR4vAC70SQ5EN/jNDxPxMWIq6XoYO2V
-         sOY9/heUGxIsw==
-Message-ID: <991ccb48f7dfd302126c98defea81e6b@smtp-cloud9.xs4all.net>
-Date:   Sat, 20 Jun 2020 05:40:55 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfFKOd97KB7IUN/LRqU/+UpLKTVaAvgyzreEpr9bW3XJhq9R9IFtQrQ8BGoOp+TNMccCjE6gZFfBQebAdogE0L7D/1+uTZK1K4x1/G02KUGm6pnXu1zKL
- ct47y8PDGgyAcVIK/OGqPaYr0/crXBiPGO7JWE9A9GmxlihkMM6ll+hr8boCmWLNRFOAIqRZo0c2N9Ys7XiN/GmsYo/wcTj27PuDnPD+KpPoJvgowpG28mSn
+        Sat, 20 Jun 2020 00:45:27 -0400
+Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DFD5C06174E
+        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 21:45:27 -0700 (PDT)
+Received: by mail-io1-xd43.google.com with SMTP id i4so10617680iov.11
+        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 21:45:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6Wh/lTGXVT0WJe4A6MDAEH2nBcYpHTocRL3R50KZ9Bo=;
+        b=CnbOQqxWogg0hJ+m6nEl6LmarjCrn9ulqptcCsMRefpnOnhcwVw9IAy8zv0VilRriO
+         UO2fQhpPOQJ6OtlZyFHXj6D2nZtXAFFCByEi92EviucvkNsBvhBVkSicSmM4X+1dOes+
+         s6iT2KpvmFTLkoqEFMn/QDXlCE2iQiSm4tSvy/4+2qR1P+KQTCMeVgYDqWG8A6bvHr00
+         RLCTfZSOZriUQn33JcvtDrwpZzXYTTOwFd0BV1rpla9l9k4dOtAophqulwvv0L3ypp+f
+         t25MQYS/SgTaMNbhBwJowOML+CcqBlh5aPiEkyi04D6abr0s+s9NUYRRdHPWgDsh4pHp
+         5USQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6Wh/lTGXVT0WJe4A6MDAEH2nBcYpHTocRL3R50KZ9Bo=;
+        b=BIuaaohNBtggfmZC8Ob7Jr0tBH0G7ECumkn7pIuDO7CLGx1FUb98z8KAiNH0TFWBZH
+         x7ejx0zgPnNlwzD5vVEGMYkRYoLK4GTIdFsgGvYGorHBrs4AOvPrU4NUC51ErTfmFw+z
+         E1Ixy0YRzk0Ov73s+ioZNYdta40MZiKOL9Ep/rYB3CccK8kB1lrG2v0zUAglPhE6s6kc
+         lrGHDNFyMKPQrELrVJC1tJ73DaGfPSArf1pZE2jZ+SvKfLAvFB3a48cA8znkWyk2eADj
+         2oHqemjYpeM6BZJLWUVutl/hIH57TUlBlfhcr1wMHe/CVpqG/uhG0rTplH6MzQwRjORO
+         kL2w==
+X-Gm-Message-State: AOAM533ol64gWBlwrHQiIdYgs/yvf/t0NpRKGuvKELUNaAyfV1lxAHpG
+        jPx0llzDz3B/y2x/y7uTQLhCuEsAr7I6ch50Bp0=
+X-Google-Smtp-Source: ABdhPJztRSUkKrlemuljGZEql/ppWQiJ1SEulZIpPPMeRc1X0zp1gtkm8trvrC69PuCAt3r9CzyPTQYeeuHhN3UmJaI=
+X-Received: by 2002:a02:ca13:: with SMTP id i19mr6963102jak.132.1592628326011;
+ Fri, 19 Jun 2020 21:45:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200618133303.28676-1-ariel@vanguardiasur.com.ar>
+ <20200618133303.28676-2-ariel@vanguardiasur.com.ar> <d09caaf6-402f-ba57-825c-410ce39a5e2b@ideasonboard.com>
+ <f2bf8846e265024c20a77fa618d54455b3b7ca95.camel@collabora.com>
+ <20200619144229.GD5823@pendragon.ideasonboard.com> <adbb92de81105575d661f348a9804279a2844d64.camel@collabora.com>
+In-Reply-To: <adbb92de81105575d661f348a9804279a2844d64.camel@collabora.com>
+From:   VDRU VDRU <user.vdr@gmail.com>
+Date:   Fri, 19 Jun 2020 21:45:14 -0700
+Message-ID: <CAA7C2qi5msfPjs=VdS5rkFHGDE37N+ViAhnK3bmxnPnUmntQEw@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] Add support for meson building
+To:     Xavier Claessens <xavier.claessens@collabora.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        kieran.bingham@ideasonboard.com,
+        "Ariel D'Alessandro" <ariel@vanguardiasur.com.ar>,
+        "mailing list: linux-media" <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>, Sean Young <sean@mess.org>,
+        p.zabel@pengutronix.de, nicolas@ndufresne.ca,
+        Gregor Jasny <gjasny@googlemail.com>,
+        nicolas Dufresne <nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+> From past experience, distros tend to find many small issues with build
+> systems, especially debian who have tones of scripts to verify what
+> changed in the package: a missing installed file, a missing build
+> option, missing build flag, etc. You can either deal with that and roll
+> a quick point release to fix any issue they could find, or keep both
+> build systems for a couple releases while recommending downstream (a
+> note in ChangeLog) to try the meson build system, making it clear
+> autotools is going away.
 
-Results of the daily build of media_tree:
-
-date:			Sat Jun 20 05:00:10 CEST 2020
-media-tree git hash:	b3a9e3b9622ae10064826dccb4f7a52bd88c7407
-media_build git hash:	d90bf09c9b38b7cc89d47d6ec71e2512f257ebe5
-v4l-utils git hash:	e27b73e4a5c7d3f4da5d366f9e2e728fd8b9be34
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b12238aeb89d6a943f5c60d2b159a5de59680d1c
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
-
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8-rc1-i686: OK
-linux-5.8-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Another viewpoint is supporting both for a number of releases equates
+to kicking the can down the road. A lot of people don't bother with
+changes until they're forced to. Consider supporting both build
+systems for one release, making it clear autotools will be removed
+from the next release. If you imply a sense of urgency, people are
+more likely to give it attention. If you imply that it's ok to kick
+the can down the road, people will kick the can down the road. Yes,
+some people will jump on the move to meson, but it's not just those
+people who need to migrate. The best way to get someones attention is
+not text in a changelog or readme, it's to deploy changes that break
+their build and make them address it. How many times has it been that
+upcoming changes were announced well in advance and people still
+neglect preparation. As the saying goes, `the squeaky wheel gets the
+grease`.
