@@ -2,94 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DFFE9202180
-	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2020 06:45:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CF7C20218E
+	for <lists+linux-media@lfdr.de>; Sat, 20 Jun 2020 06:56:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727084AbgFTEp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 20 Jun 2020 00:45:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41564 "EHLO
+        id S1726965AbgFTE4z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 20 Jun 2020 00:56:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43292 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726667AbgFTEp1 (ORCPT
+        with ESMTP id S1726959AbgFTE4z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 20 Jun 2020 00:45:27 -0400
-Received: from mail-io1-xd43.google.com (mail-io1-xd43.google.com [IPv6:2607:f8b0:4864:20::d43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DFD5C06174E
-        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 21:45:27 -0700 (PDT)
-Received: by mail-io1-xd43.google.com with SMTP id i4so10617680iov.11
-        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 21:45:27 -0700 (PDT)
+        Sat, 20 Jun 2020 00:56:55 -0400
+Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6795C06174E
+        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 21:56:53 -0700 (PDT)
+Received: by mail-yb1-xb43.google.com with SMTP id b15so6036402ybg.12
+        for <linux-media@vger.kernel.org>; Fri, 19 Jun 2020 21:56:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=google.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=6Wh/lTGXVT0WJe4A6MDAEH2nBcYpHTocRL3R50KZ9Bo=;
-        b=CnbOQqxWogg0hJ+m6nEl6LmarjCrn9ulqptcCsMRefpnOnhcwVw9IAy8zv0VilRriO
-         UO2fQhpPOQJ6OtlZyFHXj6D2nZtXAFFCByEi92EviucvkNsBvhBVkSicSmM4X+1dOes+
-         s6iT2KpvmFTLkoqEFMn/QDXlCE2iQiSm4tSvy/4+2qR1P+KQTCMeVgYDqWG8A6bvHr00
-         RLCTfZSOZriUQn33JcvtDrwpZzXYTTOwFd0BV1rpla9l9k4dOtAophqulwvv0L3ypp+f
-         t25MQYS/SgTaMNbhBwJowOML+CcqBlh5aPiEkyi04D6abr0s+s9NUYRRdHPWgDsh4pHp
-         5USQ==
+        bh=njifydMtEuMxZtctLxGXRWRJtps1Ov+j22zol3btDD0=;
+        b=So2kKRDTrCYHvbYY1Y/Nkceijcp8dLKnVbwrAYvQ/PZkklJNGZCPcLECBTkPaQYbjI
+         mewmD+fOCnA9K4G0IBec/1eEl2y+NoFHvsm3EgY5cZg4Mbe4zLqCRteWUM67y3Vy3eFA
+         QlJf7uEr+k+EBrSvHep5fZPwxzeOBbpY+mmWu18DVP5veUfJMIONlXoFet2NlrJnDIwB
+         GCk+jz3dykEbc3K6jAq8W3XlAJxz2dkfj6IYMO3UO3Ns7JlBcwIt55zU/OhiMcp9TK0G
+         wUbM3gbonVb+6j8X3GGDWJHAxiODSPMSZKqP78zQv8GREBww3YWZgPX23GDNqZbZ4Lfr
+         fn5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6Wh/lTGXVT0WJe4A6MDAEH2nBcYpHTocRL3R50KZ9Bo=;
-        b=BIuaaohNBtggfmZC8Ob7Jr0tBH0G7ECumkn7pIuDO7CLGx1FUb98z8KAiNH0TFWBZH
-         x7ejx0zgPnNlwzD5vVEGMYkRYoLK4GTIdFsgGvYGorHBrs4AOvPrU4NUC51ErTfmFw+z
-         E1Ixy0YRzk0Ov73s+ioZNYdta40MZiKOL9Ep/rYB3CccK8kB1lrG2v0zUAglPhE6s6kc
-         lrGHDNFyMKPQrELrVJC1tJ73DaGfPSArf1pZE2jZ+SvKfLAvFB3a48cA8znkWyk2eADj
-         2oHqemjYpeM6BZJLWUVutl/hIH57TUlBlfhcr1wMHe/CVpqG/uhG0rTplH6MzQwRjORO
-         kL2w==
-X-Gm-Message-State: AOAM533ol64gWBlwrHQiIdYgs/yvf/t0NpRKGuvKELUNaAyfV1lxAHpG
-        jPx0llzDz3B/y2x/y7uTQLhCuEsAr7I6ch50Bp0=
-X-Google-Smtp-Source: ABdhPJztRSUkKrlemuljGZEql/ppWQiJ1SEulZIpPPMeRc1X0zp1gtkm8trvrC69PuCAt3r9CzyPTQYeeuHhN3UmJaI=
-X-Received: by 2002:a02:ca13:: with SMTP id i19mr6963102jak.132.1592628326011;
- Fri, 19 Jun 2020 21:45:26 -0700 (PDT)
+        bh=njifydMtEuMxZtctLxGXRWRJtps1Ov+j22zol3btDD0=;
+        b=XbIL7xBMsKkS+jYH5O1lm+6wpbg5y5rdwuU6E2yUw0paNczSy/tztvfCcZaMKNrmM5
+         bZEB9wAYOG3kexhENfYhKwel/NgQrAA7hiSUPTKb4tsl4LIIVicsE6vxyOJNBWjFvmSJ
+         FogpGQY4ePs4sUu6rfpTxuGz7oVEq7WJaHFdwCuD+E6mlB/3NXMfGNjRSLoQzKSnJUpL
+         q7twehS+PfP8CvXRGQ+bkV7vWW3DRI5Ek05Tz49TAOBBMJgmxvlCPU53MrSBh/sq/3rH
+         FzfdJELTZmEbOo0H2XHwgAEl3H+Co5ndgi7NePKQp65DQH4dSi2YHWb5lLa4lUC+SzcD
+         G1dw==
+X-Gm-Message-State: AOAM532Gf4nCaKAeo+RW4w6+aumLgNT8irDiI7ZZwvFFXBUfwtDXw337
+        qxXrcorDevjOoOanqMG3F6ZHWrFfAKkSMjy2ewD5LTZlhO0=
+X-Google-Smtp-Source: ABdhPJwZ65JjxEyiCk/0vIPouumrQgtyJKAobdy+mgxxfzcnBORgzfhH/Z+BkEAiUXYQwKbPvt1aunmwiMC+4gE06T0=
+X-Received: by 2002:a5b:108:: with SMTP id 8mr11067270ybx.285.1592629011969;
+ Fri, 19 Jun 2020 21:56:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200618133303.28676-1-ariel@vanguardiasur.com.ar>
- <20200618133303.28676-2-ariel@vanguardiasur.com.ar> <d09caaf6-402f-ba57-825c-410ce39a5e2b@ideasonboard.com>
- <f2bf8846e265024c20a77fa618d54455b3b7ca95.camel@collabora.com>
- <20200619144229.GD5823@pendragon.ideasonboard.com> <adbb92de81105575d661f348a9804279a2844d64.camel@collabora.com>
-In-Reply-To: <adbb92de81105575d661f348a9804279a2844d64.camel@collabora.com>
-From:   VDRU VDRU <user.vdr@gmail.com>
-Date:   Fri, 19 Jun 2020 21:45:14 -0700
-Message-ID: <CAA7C2qi5msfPjs=VdS5rkFHGDE37N+ViAhnK3bmxnPnUmntQEw@mail.gmail.com>
-Subject: Re: [PATCH v1 1/1] Add support for meson building
-To:     Xavier Claessens <xavier.claessens@collabora.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        kieran.bingham@ideasonboard.com,
-        "Ariel D'Alessandro" <ariel@vanguardiasur.com.ar>,
-        "mailing list: linux-media" <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, Sean Young <sean@mess.org>,
-        p.zabel@pengutronix.de, nicolas@ndufresne.ca,
-        Gregor Jasny <gjasny@googlemail.com>,
-        nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20200615193811.233737-1-jnchase@google.com> <20200615193811.233737-3-jnchase@google.com>
+ <3aefc5c4-2af1-59f2-0797-9a5baf91482e@xs4all.nl> <CALTkaQ3n30nS-b1XuMiu_Z4+FfD0horJDagCPBaUqCCx4JhtdA@mail.gmail.com>
+ <e45bf5a1-3862-66a2-213b-f7e5563e5a5d@xs4all.nl> <CALTkaQ02_ttD52h=74hGos09a0ihQwv-rQS5vwpDsrdnK_rYrg@mail.gmail.com>
+ <72ea0f61-5fd4-47b6-4b0f-db620ee661db@xs4all.nl> <CALTkaQ0SFiX1rNkz5WOGCs=ZttYG9utKntsRyQKB-aWzDj-Cvw@mail.gmail.com>
+In-Reply-To: <CALTkaQ0SFiX1rNkz5WOGCs=ZttYG9utKntsRyQKB-aWzDj-Cvw@mail.gmail.com>
+From:   Jeff Chase <jnchase@google.com>
+Date:   Fri, 19 Jun 2020 21:56:40 -0700
+Message-ID: <CALTkaQ23yCWbTSaSAfM_63_nhKBTf-n8vr-EQoU=SehAfg6RaQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] media: cec: i2c: ch7322: Add ch7322 CEC controller driver
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        robh+dt@kernel.org, devicetree@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-> From past experience, distros tend to find many small issues with build
-> systems, especially debian who have tones of scripts to verify what
-> changed in the package: a missing installed file, a missing build
-> option, missing build flag, etc. You can either deal with that and roll
-> a quick point release to fix any issue they could find, or keep both
-> build systems for a couple releases while recommending downstream (a
-> note in ChangeLog) to try the meson build system, making it clear
-> autotools is going away.
+> > >> This particular chip can actually be used both with DMI matching but also
+> > >> on an ARM with device tree, but since you can't test this on an ARM board,
+> > >> there is no point in adding support for that.
+> > >>
+> > >> However, compared to the cros-ec and seco drivers you can do something a bit
+> > >> different here: those drivers just return -ENODEV if there is no match, but
+> > >> since this driver reads the EDID it can just continue as long as it does not
+> > >> set the CEC_CAP_CONNECTOR_INFO capability.
 
-Another viewpoint is supporting both for a number of releases equates
-to kicking the can down the road. A lot of people don't bother with
-changes until they're forced to. Consider supporting both build
-systems for one release, making it clear autotools will be removed
-from the next release. If you imply a sense of urgency, people are
-more likely to give it attention. If you imply that it's ok to kick
-the can down the road, people will kick the can down the road. Yes,
-some people will jump on the move to meson, but it's not just those
-people who need to migrate. The best way to get someones attention is
-not text in a changelog or readme, it's to deploy changes that break
-their build and make them address it. How many times has it been that
-upcoming changes were announced well in advance and people still
-neglect preparation. As the saying goes, `the squeaky wheel gets the
-grease`.
+Hi Hans,
+
+After looking into this I don't think I want to actually register the
+cec adapter with the hdmi port's cec notifier because then it will
+start receiving physical address updates from the port. Since the
+driver already updates the physical address itself it seems like that
+would cause some issues.
+
+I'm looking at just adding the connector to the adapter directly using
+`cec_s_conn_info()`. But it doesn't look like I can get the conn_info
+without registering with the notifier. Do you have any thoughts here
+before I try tackling changes to the cec framework?
+
+Thanks,
+Jeff
