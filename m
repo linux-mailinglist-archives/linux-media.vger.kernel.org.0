@@ -2,174 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C698202833
-	for <lists+linux-media@lfdr.de>; Sun, 21 Jun 2020 05:41:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A42C20283B
+	for <lists+linux-media@lfdr.de>; Sun, 21 Jun 2020 06:00:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729251AbgFUDlq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 20 Jun 2020 23:41:46 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:38975 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728992AbgFUDlq (ORCPT
+        id S1725810AbgFUEAa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 21 Jun 2020 00:00:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50200 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725275AbgFUEA3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 20 Jun 2020 23:41:46 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id mqrWjH4EHOn2BmqrXjv6QX; Sun, 21 Jun 2020 05:41:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592710903; bh=zuszx/U6Ijowj9O92z/GHxBfuJVwAkLL2tH4GBv123s=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=GzGSH4x5sQIBaxaUilQ24UFVln29BRyvAgegGnTJlQDEImqbBdxwLH+jcENOtWLYo
-         kAVo37FdrFzKqD5zQMl0LBru/CaFh4diPdfCBmCUg7YyVCT02/5aSmnbc/7gB//U60
-         66s6JgeLgcl1GqHL/uzubzU5sGUzWZEXtZRJYbf99ITus2n+xymOcnN3rYh4FtsjTw
-         pCl9Z2oGxkGFEDEfE6KVpqwaWcv5wFfyUWcNJfvE8OsdSc/C4ef5wg+azCksiOFeGm
-         Fn803uCK7ujRdBFLOM6qA/cBE/GvTPX0GchmuP2pcH5MS4HY/srur5toonQTS+exWg
-         /rk/JAW5gVe3A==
-Message-ID: <1b9130b2a815de27773f56a86e79aae5@smtp-cloud9.xs4all.net>
-Date:   Sun, 21 Jun 2020 05:41:42 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfJMsGo0WHGQxOC3t63G4k23FM8uUau7x8wUgOigk9amWnvCdf2k7hJHhOksUSgEv24F/fNPLMZmnO+W5yN7ycVOUt8V4epmx5KZmf4suYfJF46hTs4Gq
- DI7gC6xdcPY8gHmh+e2gsD4XHAbfPA0NfAMWtVB1W0nei+pAAdEw3tXEisXAKkCYhydjjnUe9VUf0pUEwxDBWX8QYrXTCA4T/cxmkVkClDLNgVefpTS86C7Q
+        Sun, 21 Jun 2020 00:00:29 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 132CDC061794;
+        Sat, 20 Jun 2020 21:00:28 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id y13so7749849lfe.9;
+        Sat, 20 Jun 2020 21:00:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=JltmKVlnuo/vC27A3oTu5+r3QU8IRKlE54WmVpTd+6k=;
+        b=s8LYsDYdjxem9SLD1lfB4S3L0wgiHScLHWSjUkMidXktbmXmoFoTDBs1IbY2RwA2F1
+         EXug365lNfpf1c5EIkE19nWURBfp1SgHgRH1JFN1Y73oUrRxuyh3mU1EYkLaX1ivi8bq
+         UmiKqb7y0GNzxSjVlDxQiNIe0bJDKEUNZ35GUG6kdqE8kpW7gGT86lBkEgHc1ctOXksG
+         mWPblnYPDRqHCY8twJXwNrXzYVqGeCSxNOFjQ44nD5tzTN/b1DWhf9g3x2Ck0oI78twV
+         JgTgWEfLztztE4ybodOqRtpugw1CA0r/7k5o8A4kXuiMuFEbV34XN4QHJrAWORLAzTqH
+         wMeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=JltmKVlnuo/vC27A3oTu5+r3QU8IRKlE54WmVpTd+6k=;
+        b=KjuZn4WpagIAn49hYNMZSjU/ZFyFdUIoLBgpgzHXzPhJyHX099q+2mH3DZvYm57VO1
+         Bcjg09ujRw+zkJc+xX2X1lK3YPqxHFsVQyiVO1FatbinQjSsJp3YdKvE0mQf458lAvE9
+         wd8DJ7NRV0sceXZ00/ygrtg/KG3YUFYvtuevecb6S3kkE70WV52IZcB+F0L2nOxHpFmO
+         PFvOj2hidtebFdnWMIyQ49xXUq3O1BOfp1V8fwLlYIeEu8O92nHK4XLnLeOz9GBhQPWL
+         LUC4DfHhzUXAy2u9ICG+oHDvkCVBKulynQ/xPhfWCIn0k/SV9EaeZ7jPpCwZZbu/fU+L
+         ctUw==
+X-Gm-Message-State: AOAM5318DLSCgVRD7inIO8/1VKnfJYzhn0Vn+onkhVb508cuVYcB+dL+
+        1gOcm+qY5jbAbJEJhP89jTs=
+X-Google-Smtp-Source: ABdhPJwGO/7Iq+BmdzJ4PpOIxZuoSlejYAADJkdbMtQDjpHquFlMxJiDBs2BDDHDfF88d7fV7xZ03Q==
+X-Received: by 2002:ac2:44cd:: with SMTP id d13mr5970328lfm.13.1592712024386;
+        Sat, 20 Jun 2020 21:00:24 -0700 (PDT)
+Received: from dimatab (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.gmail.com with ESMTPSA id b25sm1977654ljo.16.2020.06.20.21.00.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Jun 2020 21:00:24 -0700 (PDT)
+Date:   Sun, 21 Jun 2020 07:00:15 +0300
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Marek Szyprowski <m.szyprowski@samsung.com>
+Cc:     dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        Christoph Hellwig <hch@lst.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
+        linux-arm-kernel@lists.infradead.org,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org
+Subject: Re: [PATCH v7 31/36] staging: tegra-vde: fix common struct sg_table
+ related issues
+Message-ID: <20200621070015.0cf833ab@dimatab>
+In-Reply-To: <20200619103636.11974-32-m.szyprowski@samsung.com>
+References: <20200619103636.11974-1-m.szyprowski@samsung.com>
+        <CGME20200619103714eucas1p18db6efd1a380fc0bdb16174ee85036fa@eucas1p1.samsung.com>
+        <20200619103636.11974-32-m.szyprowski@samsung.com>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; arm-unknown-linux-gnueabihf)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+=D0=92 Fri, 19 Jun 2020 12:36:31 +0200
+Marek Szyprowski <m.szyprowski@samsung.com> =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
 
-Results of the daily build of media_tree:
+> The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg()
+> function returns the number of the created entries in the DMA address
+> space. However the subsequent calls to the
+> dma_sync_sg_for_{device,cpu}() and dma_unmap_sg must be called with
+> the original number of the entries passed to the dma_map_sg().
+>=20
+> struct sg_table is a common structure used for describing a
+> non-contiguous memory buffer, used commonly in the DRM and graphics
+> subsystems. It consists of a scatterlist with memory pages and DMA
+> addresses (sgl entry), as well as the number of scatterlist entries:
+> CPU pages (orig_nents entry) and DMA mapped pages (nents entry).
+>=20
+> It turned out that it was a common mistake to misuse nents and
+> orig_nents entries, calling DMA-mapping functions with a wrong number
+> of entries or ignoring the number of mapped entries returned by the
+> dma_map_sg() function.
+>=20
+> To avoid such issues, lets use a common dma-mapping wrappers operating
+> directly on the struct sg_table objects and use scatterlist page
+> iterators where possible. This, almost always, hides references to the
+> nents and orig_nents entries, making the code robust, easier to follow
+> and copy/paste safe.
+>=20
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
+> ---
+>  drivers/staging/media/tegra-vde/iommu.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/tegra-vde/iommu.c
+> b/drivers/staging/media/tegra-vde/iommu.c index
+> 6af863d92123..adf8dc7ee25c 100644 ---
+> a/drivers/staging/media/tegra-vde/iommu.c +++
+> b/drivers/staging/media/tegra-vde/iommu.c @@ -36,8 +36,8 @@ int
+> tegra_vde_iommu_map(struct tegra_vde *vde,=20
+>  	addr =3D iova_dma_addr(&vde->iova, iova);
+> =20
+> -	size =3D iommu_map_sg(vde->domain, addr, sgt->sgl, sgt->nents,
+> -			    IOMMU_READ | IOMMU_WRITE);
+> +	size =3D iommu_map_sgtable(vde->domain, addr, sgt,
+> +				 IOMMU_READ | IOMMU_WRITE);
+>  	if (!size) {
+>  		__free_iova(&vde->iova, iova);
+>  		return -ENXIO;
 
-date:			Sun Jun 21 05:00:11 CEST 2020
-media-tree git hash:	b3a9e3b9622ae10064826dccb4f7a52bd88c7407
-media_build git hash:	d90bf09c9b38b7cc89d47d6ec71e2512f257ebe5
-v4l-utils git hash:	e27b73e4a5c7d3f4da5d366f9e2e728fd8b9be34
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b12238aeb89d6a943f5c60d2b159a5de59680d1c
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
-
-linux-git-sh: OK
-linux-git-arm-at91: 
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8-rc1-i686: OK
-linux-5.8-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 5
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Ahh, I saw the build failure report. You're changing the DMA API in
+this series, while DMA API isn't used by this driver, it uses IOMMU
+API. Hence there is no need to touch this code. Similar problem in the
+host1x driver patch.
