@@ -2,112 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C6B762027BE
-	for <lists+linux-media@lfdr.de>; Sun, 21 Jun 2020 02:48:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C698202833
+	for <lists+linux-media@lfdr.de>; Sun, 21 Jun 2020 05:41:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729122AbgFUAsN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 20 Jun 2020 20:48:13 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60972 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729079AbgFUAsM (ORCPT
+        id S1729251AbgFUDlq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 20 Jun 2020 23:41:46 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:38975 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728992AbgFUDlq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 20 Jun 2020 20:48:12 -0400
-Received: from pendragon.bb.dnainternet.fi (81-175-216-236.bb.dnainternet.fi [81.175.216.236])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2FF90552;
-        Sun, 21 Jun 2020 02:48:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592700486;
-        bh=T2gCA4T8mtz1HoFQ2uWHrRsSxO+iWFnLgHfz0vIqZco=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Nbci1orAELj30VHuptm9yg3pkzxcWy6i5GZBfRrhLwIUSlEa1tYw44EhjxmgqAxuW
-         8uDUVQvBcgFt8BR9Ts8H9ICP61E2mg9LnSN9McxoYTKZOs3dRt0jIm3jfUBoywO39M
-         RM25JSwZ5C8q+0yTXSlcxjXoWHFBfKaYL5qQ4hus=
-From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-To:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org
-Cc:     devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v2 8/8] dt-bindings: media: renesas,vsp1: Add power-domains and resets
-Date:   Sun, 21 Jun 2020 03:47:34 +0300
-Message-Id: <20200621004734.28602-9-laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200621004734.28602-1-laurent.pinchart+renesas@ideasonboard.com>
-References: <20200621004734.28602-1-laurent.pinchart+renesas@ideasonboard.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sat, 20 Jun 2020 23:41:46 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id mqrWjH4EHOn2BmqrXjv6QX; Sun, 21 Jun 2020 05:41:43 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1592710903; bh=zuszx/U6Ijowj9O92z/GHxBfuJVwAkLL2tH4GBv123s=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=GzGSH4x5sQIBaxaUilQ24UFVln29BRyvAgegGnTJlQDEImqbBdxwLH+jcENOtWLYo
+         kAVo37FdrFzKqD5zQMl0LBru/CaFh4diPdfCBmCUg7YyVCT02/5aSmnbc/7gB//U60
+         66s6JgeLgcl1GqHL/uzubzU5sGUzWZEXtZRJYbf99ITus2n+xymOcnN3rYh4FtsjTw
+         pCl9Z2oGxkGFEDEfE6KVpqwaWcv5wFfyUWcNJfvE8OsdSc/C4ef5wg+azCksiOFeGm
+         Fn803uCK7ujRdBFLOM6qA/cBE/GvTPX0GchmuP2pcH5MS4HY/srur5toonQTS+exWg
+         /rk/JAW5gVe3A==
+Message-ID: <1b9130b2a815de27773f56a86e79aae5@smtp-cloud9.xs4all.net>
+Date:   Sun, 21 Jun 2020 05:41:42 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfJMsGo0WHGQxOC3t63G4k23FM8uUau7x8wUgOigk9amWnvCdf2k7hJHhOksUSgEv24F/fNPLMZmnO+W5yN7ycVOUt8V4epmx5KZmf4suYfJF46hTs4Gq
+ DI7gC6xdcPY8gHmh+e2gsD4XHAbfPA0NfAMWtVB1W0nei+pAAdEw3tXEisXAKkCYhydjjnUe9VUf0pUEwxDBWX8QYrXTCA4T/cxmkVkClDLNgVefpTS86C7Q
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The power-domains and resets properties are used in all DT sources in
-the kernel but are absent from the bindings. Document them and make them
-mandatory.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
----
- .../devicetree/bindings/media/renesas,vsp1.yaml    | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Results of the daily build of media_tree:
 
-diff --git a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-index 65e8ee61ce90..990e9c1dbc43 100644
---- a/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-+++ b/Documentation/devicetree/bindings/media/renesas,vsp1.yaml
-@@ -29,6 +29,12 @@ properties:
-   clocks:
-     maxItems: 1
- 
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-   renesas,fcp:
-     $ref: /schemas/types.yaml#/definitions/phandle
-     description:
-@@ -39,6 +45,8 @@ required:
-   - reg
-   - interrupts
-   - clocks
-+  - power-domains
-+  - resets
- 
- additionalProperties: false
- 
-@@ -59,24 +67,30 @@ examples:
-   - |
-     #include <dt-bindings/clock/renesas-cpg-mssr.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/r8a7790-sysc.h>
- 
-     vsp@fe928000 {
-         compatible = "renesas,vsp1";
-         reg = <0xfe928000 0x8000>;
-         interrupts = <GIC_SPI 267 IRQ_TYPE_LEVEL_HIGH>;
-         clocks = <&cpg CPG_MOD 131>;
-+        power-domains = <&sysc R8A7790_PD_ALWAYS_ON>;
-+        resets = <&cpg 131>;
-     };
- 
-   # R8A77951 (R-Car H3) VSP2-BC
-   - |
-     #include <dt-bindings/clock/renesas-cpg-mssr.h>
-     #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/power/r8a7795-sysc.h>
- 
-     vsp@fe920000 {
-         compatible = "renesas,vsp2";
-         reg = <0xfe920000 0x8000>;
-         interrupts = <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>;
-         clocks = <&cpg CPG_MOD 624>;
-+        power-domains = <&sysc R8A7795_PD_A3VP>;
-+        resets = <&cpg 624>;
- 
-         renesas,fcp = <&fcpvb1>;
-     };
--- 
-Regards,
+date:			Sun Jun 21 05:00:11 CEST 2020
+media-tree git hash:	b3a9e3b9622ae10064826dccb4f7a52bd88c7407
+media_build git hash:	d90bf09c9b38b7cc89d47d6ec71e2512f257ebe5
+v4l-utils git hash:	e27b73e4a5c7d3f4da5d366f9e2e728fd8b9be34
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		0.6.1-rc1
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b12238aeb89d6a943f5c60d2b159a5de59680d1c
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
-Laurent Pinchart
+linux-git-sh: OK
+linux-git-arm-at91: 
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: WARNINGS
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 5
+sparse: OK
+smatch: OK
 
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
