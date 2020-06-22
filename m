@@ -2,167 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3061D203382
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 11:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6459D20347D
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 12:06:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbgFVJfZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jun 2020 05:35:25 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:40337 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726391AbgFVJfY (ORCPT
+        id S1727848AbgFVKFd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jun 2020 06:05:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44542 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727839AbgFVKFc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jun 2020 05:35:24 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id nIrGj0VKQn3JWnIrKjZQ0s; Mon, 22 Jun 2020 11:35:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592818522; bh=aHepb5XOZCgP9XmyTmu3hY4Vg2K7tQSxxdSCpd2tK1o=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=ROENSS6sL2rRbfprROMfPWw0mWNlF7qh0MH/8X5JerxkLMXVzFGeAC98a0p68QiP6
-         DzvQCE5PdGc1Jl9VBdeAjYAYzaebgMFJ/QTe0dUrJ0+ZMdA5EFz87f2pjwkbSBMSe8
-         W2+IAampJ07ug4I04iK5pqOf45IB81mw4qCioaOgqfkndT6E97GOHBADakOkn08v3K
-         p5cvbx63cszOrcOAZC0Scq4bKudOQ7PqqiqaD83C/13gYb0gfVMvVR7kqYmoXQboYp
-         B7bKmBd/CFxTvMMEv24sdjZg3yE0h+3ExGTA8oS/n+J4paHfeHrdkgM5UHnf1LAGzC
-         yXIz8ekt+nMjw==
-Subject: Re: [PATCH] media: media-request: Fix crash if memory allocation
- fails
-To:     Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>, mchehab@kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org
-References: <20200621113040.3540-1-tuomas.tynkkynen@iki.fi>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <06559806-3191-2e98-03d7-3ccfa8b7257c@xs4all.nl>
-Date:   Mon, 22 Jun 2020 11:35:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200621113040.3540-1-tuomas.tynkkynen@iki.fi>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfFPEoWu6Fmha/9LMpKrWqjzT7+cRI6e9lWSeV9HIcLklVVUbQw0/TYUNspp/cN8C1R+g7pznVu/l9wqBdp7xrUYGmtS7fXkGR9KvYC6jsEKpjzfenL+I
- +/1mcy9FmCf73EJBtmO9Y2ys8AfOrS4WpRul1EDJktqrhJjTmzS6rTu7C/X9Sxh4v2IJAm14Y9OlCW9KGvdE5RSv1pSp4saNq72OcuGBdYOq6OXHqDJkYkAr
- n2bQuk8KUS2KH9S+MkH70eNkw6ckAn0B2fLND9DDn/dFjm2G4lFgLTfyplGSLznw+rN/p9+jIqnHHYUXqx00WHzqTyL+O+dR9O9TF5XOvRxQkAFZoGU582lc
- jVOV1qPjpUMOUqGcUVvI8Aqgx5/+oaO+LhJQXL4SQ3rzeNZs/ffhoNailN0pVZkcOypJnh7N
+        Mon, 22 Jun 2020 06:05:32 -0400
+Received: from mail-qv1-xf49.google.com (mail-qv1-xf49.google.com [IPv6:2607:f8b0:4864:20::f49])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3B9AC061795
+        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 03:05:30 -0700 (PDT)
+Received: by mail-qv1-xf49.google.com with SMTP id t20so12198511qvy.16
+        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 03:05:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=sQYJaI8jg1FtyXfRAOTpTGsgFbeCT3+ddgfcyrzmU3I=;
+        b=I0J1aiihsil5wiQkU7K7GOmQMprk6kzkAPOpm7BzCcZt690scULxje2gJ3fDfIgAxa
+         MWc0es5FO8cmJuKtRnb2TB3vDqAjqnxi6o80+WZMCQwfILSRuk0o9p0IYdcd0jDqBD29
+         x2ZCsGXW7CtNrz/YiRg8PNiO5kTUSRcZ5ELAHt1xsPVxqOPZmmw1wyyrn+MNtSlb/K2j
+         wbPHq3KmTNF+Jg+U1RiElmcYTgKgL/RGpbhBwdg+yv6483AwR/lFXX4GllTKWZhT78P9
+         GyivcgSvh1DyzmGEqSnBgX2gDyAJ+EN8QsfGLZCEup5tpgAR5gJl5wbSsm4SkTFQNdS/
+         589A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=sQYJaI8jg1FtyXfRAOTpTGsgFbeCT3+ddgfcyrzmU3I=;
+        b=RzrBfp4LO0b78YYVD5oOsV83OsqAf/epluCvVxd34w0nngHXjl3TMp8rfqCxpD+1/V
+         EqGXYiABld2Q83tDaUxYSNVX0nN0Mc00bu7TlCRyLHWiRVgwzrOyJDEDTvgFJtZ9f4Ci
+         X/BAAY0JCjnKrIxl0LnR8brcnYO1aRS1QocfeF0pc7oUH8aKDGhA+chRZC5PUeoIhyzg
+         tRRTAoi6ElNMzyoHaFM9s8YVKMfk0mAiu2iT+SFIxqm66H1JDrDkaIrM2gv4GxWcTRec
+         JhsuNuNlQp22oDzD3oJRDTA8x+OChvLXfHNBb3+SP2D5arDWKgYcDG7GURTx0Fp9QBr0
+         egig==
+X-Gm-Message-State: AOAM5312NEtg5NLgIgAqlKUBRl86DVgN/mGAET2QclWgHASLNi4D60Sn
+        rbXMwNbdJfnxReRmZ3oInByl5QN7/W4z/U5tYPsoaB5pBE65ayo5DcsayclQUwhV3MU9jV+jB98
+        J0k/gUyxIVbNcnkuvKlz1grvypL6pcW4+eQlHa5J5Nb3RikTNyzd/xvNghztkfZ7MLzVB
+X-Google-Smtp-Source: ABdhPJxAEWerQnOAJjx0E0aofyvX8NhI7hAhGKb8LWZHdGGcfiJVHCpCSo39/WHBIA2aXaM2hsS1TasI6P4=
+X-Received: by 2002:a0c:c249:: with SMTP id w9mr20533684qvh.149.1592820329627;
+ Mon, 22 Jun 2020 03:05:29 -0700 (PDT)
+Date:   Mon, 22 Jun 2020 12:05:18 +0200
+Message-Id: <20200622100520.143622-1-darekm@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.111.gc72c7da667-goog
+Subject: [PATCH RESEND] media: cros-ec-cec: do not bail on device_init_wakeup failure
+From:   Dariusz Marcinkiewicz <darekm@google.com>
+To:     linux-media@vger.kernel.org
+Cc:     narmstrong@baylibre.com, Dariusz Marcinkiewicz <darekm@google.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Dariusz Marcinkiewicz <darekm@chromium.org>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/06/2020 13:30, Tuomas Tynkkynen wrote:
-> Syzbot reports a NULL-ptr deref in the kref_put() call:
-> 
-> BUG: KASAN: null-ptr-deref in media_request_put drivers/media/mc/mc-request.c:81 [inline]
->  kref_put include/linux/kref.h:64 [inline]
->  media_request_put drivers/media/mc/mc-request.c:81 [inline]
->  media_request_close+0x4d/0x170 drivers/media/mc/mc-request.c:89
->  __fput+0x2ed/0x750 fs/file_table.c:281
->  task_work_run+0x147/0x1d0 kernel/task_work.c:123
->  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
->  exit_to_usermode_loop arch/x86/entry/common.c:165 [inline]
->  prepare_exit_to_usermode+0x48e/0x600 arch/x86/entry/common.c:196
-> 
-> What led to this crash was an injected memory allocation failure in
-> media_request_alloc():
-> 
-> FAULT_INJECTION: forcing a failure.
-> name failslab, interval 1, probability 0, space 0, times 0
->  should_failslab+0x5/0x20
->  kmem_cache_alloc_trace+0x57/0x300
->  ? anon_inode_getfile+0xe5/0x170
->  media_request_alloc+0x339/0x440
->  media_device_request_alloc+0x94/0xc0
->  media_device_ioctl+0x1fb/0x330
->  ? do_vfs_ioctl+0x6ea/0x1a00
->  ? media_ioctl+0x101/0x120
->  ? __media_device_usb_init+0x430/0x430
->  ? media_poll+0x110/0x110
->  __se_sys_ioctl+0xf9/0x160
->  do_syscall_64+0xf3/0x1b0
-> 
-> When that allocation fails, filp->private_data is left uninitialized
-> which media_request_close() does not expect and crashes.
-> 
-> To avoid this, reorder media_request_alloc() such that
-> allocating the struct file happens as the last step thus
-> media_request_close() will no longer get called for a partially created
-> media request.
-> 
-> Reported-by: syzbot+6bed2d543cf7e48b822b@syzkaller.appspotmail.com
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>
+Do not fail probing when device_init_wakeup fails.
 
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+device_init_wakeup fails when the device is already enabled as wakeup
+device. Hence, the driver fails to probe the device if:
+- The device has already been enabled for wakeup (via e.g. sysfs)
+- The driver has been unloaded and is being loaded again.
 
-Thanks!
+This goal of the patch is to fix the above cases.
 
-	Hans
+Overwhelming majority of the drivers do not check device_init_wakeup
+return value.
 
-> ---
->  drivers/media/mc/mc-request.c | 31 +++++++++++++++++--------------
->  1 file changed, 17 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/media/mc/mc-request.c b/drivers/media/mc/mc-request.c
-> index e3fca436c75b..c0782fd96c59 100644
-> --- a/drivers/media/mc/mc-request.c
-> +++ b/drivers/media/mc/mc-request.c
-> @@ -296,9 +296,18 @@ int media_request_alloc(struct media_device *mdev, int *alloc_fd)
->  	if (WARN_ON(!mdev->ops->req_alloc ^ !mdev->ops->req_free))
->  		return -ENOMEM;
->  
-> +	if (mdev->ops->req_alloc)
-> +		req = mdev->ops->req_alloc(mdev);
-> +	else
-> +		req = kzalloc(sizeof(*req), GFP_KERNEL);
-> +	if (!req)
-> +		return -ENOMEM;
-> +
->  	fd = get_unused_fd_flags(O_CLOEXEC);
-> -	if (fd < 0)
-> -		return fd;
-> +	if (fd < 0) {
-> +		ret = fd;
-> +		goto err_free_req;
-> +	}
->  
->  	filp = anon_inode_getfile("request", &request_fops, NULL, O_CLOEXEC);
->  	if (IS_ERR(filp)) {
-> @@ -306,15 +315,6 @@ int media_request_alloc(struct media_device *mdev, int *alloc_fd)
->  		goto err_put_fd;
->  	}
->  
-> -	if (mdev->ops->req_alloc)
-> -		req = mdev->ops->req_alloc(mdev);
-> -	else
-> -		req = kzalloc(sizeof(*req), GFP_KERNEL);
-> -	if (!req) {
-> -		ret = -ENOMEM;
-> -		goto err_fput;
-> -	}
-> -
->  	filp->private_data = req;
->  	req->mdev = mdev;
->  	req->state = MEDIA_REQUEST_STATE_IDLE;
-> @@ -336,12 +336,15 @@ int media_request_alloc(struct media_device *mdev, int *alloc_fd)
->  
->  	return 0;
->  
-> -err_fput:
-> -	fput(filp);
-> -
->  err_put_fd:
->  	put_unused_fd(fd);
->  
-> +err_free_req:
-> +	if (mdev->ops->req_free)
-> +		mdev->ops->req_free(req);
-> +	else
-> +		kfree(req);
-> +
->  	return ret;
->  }
->  
-> 
+Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+---
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 0e7e2772f08f..2d95e16cd248 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -277,11 +277,7 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, cros_ec_cec);
+ 	cros_ec_cec->cros_ec = cros_ec;
+ 
+-	ret = device_init_wakeup(&pdev->dev, 1);
+-	if (ret) {
+-		dev_err(&pdev->dev, "failed to initialize wakeup\n");
+-		return ret;
+-	}
++	device_init_wakeup(&pdev->dev, 1);
+ 
+ 	cros_ec_cec->adap = cec_allocate_adapter(&cros_ec_cec_ops, cros_ec_cec,
+ 						 DRV_NAME,
+-- 
+2.27.0.290.gba653c62da-goog
 
