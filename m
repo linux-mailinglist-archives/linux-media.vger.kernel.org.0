@@ -2,146 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72DE5203630
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 13:51:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E186203666
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 14:07:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727962AbgFVLvt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jun 2020 07:51:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60956 "EHLO
+        id S1728041AbgFVMHA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jun 2020 08:07:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35076 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727864AbgFVLvs (ORCPT
+        with ESMTP id S1726889AbgFVMHA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jun 2020 07:51:48 -0400
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95C2EC061796
-        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 04:51:48 -0700 (PDT)
-Received: by mail-ej1-x643.google.com with SMTP id mb16so17713092ejb.4
-        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 04:51:48 -0700 (PDT)
+        Mon, 22 Jun 2020 08:07:00 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5630FC061794;
+        Mon, 22 Jun 2020 05:07:00 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id ga6so8073954pjb.1;
+        Mon, 22 Jun 2020 05:07:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=hfeqg5svRM6AenSA89xK8sTv1AU7dxZQbNyjn/q1dmQ=;
-        b=P8yU5Vm7f3xPa3sMw5Gd38SN97XqjSTmEK5kf0Um2O31nYv7NXPFJoqRPyeVVf4Ge+
-         R7KFYKaXRzj1Kc6l9iXQyyYgsLYOTW68jVdZK7hBtOilBuvDdaoIokmWPydROGNgeARi
-         HmrOVarL7dMhl3h6n5XjH/++GR1PDaJDASGKx4Nf9FCUQYbuP23NPw5s335J2lDDJQ/V
-         VOQJivOHqkstDYDub9MP/y49UuNP4UhvIIQcBk8iNbg+rYc9MMTRo0lDP6oMERyFDWre
-         Tu+lLv7nb8bUPw+nDceXtoWvW6NMHlilMf8zWlrnrjqCE4wODHRIuLXg0liYJt1pDntJ
-         ahAQ==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=Ou9Z/Ox/FwTNRKwSYB37fOjhliFS4VQZs0FMTQAQC5I=;
+        b=PSqV8oLCQOb7Tmzo31U7GZn+L294sHL3jjZIZwdpZ3FcDVcSyU1+IKfDX63ylkv/U4
+         cxSiNOGrbjokKMbcEbqSSmXGoG/DxlJXTUeWnwG8oe2W4NvYHc+QTgMLdeFszPyvZzTr
+         Uzy4Yp5J5K3unoJq0TgbjANslW/6rHLf7A6fVqwz3EKHMneyiAj1UNL2HPGKIOgPwSrU
+         dI+xlWn2/AiZHK7rJsdSCzFPEXgCvEZggaeyoQn3UPzhHwkiGrKjsyBFZz8xKnMxFEyY
+         MQSDu4D1qbSgLRiP83rr6LjNfHhOQGV/FQ7ZDotrV8OUMqgqjDfuDcloOLbC51wQTYX5
+         vIcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=hfeqg5svRM6AenSA89xK8sTv1AU7dxZQbNyjn/q1dmQ=;
-        b=s/pG2ZSSGZ6HKfzUajjaFEP7EPgC0fxa0MS5V/T7cVAQAXugCeYK+smHzmZLKGvIK7
-         u5hfvoaokhy1AfGmUvxGqaBZlYbxTSUNY76o3dc11iGEZn6uDeVd0/jedaI+Mxv/5Xn0
-         dsnG8Kh7FvAOvQrXgxTKrYwQnUo8wjnAScMsloVx/hrpYq+x9GEv44L8XRd+J0Fzfcxr
-         f6gnrVlMV6nA1vq1B435hJpC7Ix6FlY0TQq2Q3x4dvIrMqcHJhvZqXsPZeomVP4xqq8O
-         9hB6vj4fq3f+so7EyNdjc/bfu0fqS3m9FOjbvAkHBp9qPAqKnV/h1gxwmJAO/BGxHJ7u
-         ALlQ==
-X-Gm-Message-State: AOAM5336jvd/sdOpR7fu8W17lUhTujX9FGOvN0rTNdsofdINbip8Z0Dk
-        gvvQ4nz5/W9w72lvQzyUZrywwA==
-X-Google-Smtp-Source: ABdhPJzdV0DBQnEECRTdLWeq+3+i9302Pe92hAb4MTCLJ3WcrYRmWt/8Fw14fh96ludqACYbjua9bw==
-X-Received: by 2002:a17:906:9243:: with SMTP id c3mr15210048ejx.400.1592826707183;
-        Mon, 22 Jun 2020 04:51:47 -0700 (PDT)
-Received: from [192.168.1.5] (212-5-158-237.ip.btc-net.bg. [212.5.158.237])
-        by smtp.googlemail.com with ESMTPSA id l6sm12294521edn.42.2020.06.22.04.51.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jun 2020 04:51:46 -0700 (PDT)
-Subject: Re: [RFC PATCH] media: venus: Fix NULL pointer dereference in core
- selection
-To:     Doug Anderson <dianders@chromium.org>, amasule@codeaurora.org
-Cc:     Stephen Boyd <swboyd@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@google.com>,
-        Matthias Kaehlcke <mka@chromium.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        vgarodia@codeaurora.org,
-        Mansur Alisha Shaik <mansur@codeaurora.org>
-References: <20200601150314.RFC.1.I1e40623bbe8fa43ff1415fc273cba66503b9b048@changeid>
- <CAD=FV=VHGm8EhsLOw_XTNRy6b-AKXgpwwGKE4kAm0-x4XT0ovg@mail.gmail.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <7538429d-8445-95e4-4506-d5f28008a68c@linaro.org>
-Date:   Mon, 22 Jun 2020 14:51:44 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        bh=Ou9Z/Ox/FwTNRKwSYB37fOjhliFS4VQZs0FMTQAQC5I=;
+        b=RerVJP3QxlIe/B1MD7apMDvtCx87SCfZnHe+ONCCweN9R2hUtT6DrmOYOwyckXoiN1
+         Vzt1cz3QWkxaRyiIHzjC/yiUltKxY9sFe7NdK1lWoOBPFVFEoMz+mZS1ZkE4sv1UwQzt
+         qoKoegBAVGbo06/ycdbse5tcSWxlfzZjNVX7ipQ75SaaHikmb0SyEGF7gmT6KHFzNzIu
+         CF17b9QGsJlTj+WQQCdMSkYpB0xZDZA5ufHciPFBtAljJSNgF56dMpJJ0tFIlAY3vE0U
+         kph+TuG+0f6jkNZunM++XgPEycJhy+0F0Jb052tvuTjE2rm2U7DiYLdwmzqlv2U4ypZD
+         RCXQ==
+X-Gm-Message-State: AOAM5327PUOm6wWYJVnYWMPzVqH4EiHJXWJ6LcivZSw78RN9rrI4mXM7
+        Nm3p0jxVg11C80xbzLG3wv4=
+X-Google-Smtp-Source: ABdhPJxWH1R7RNazyZb+CXYHrdyY/Qo/VwMC9R+HrORsdOghiTJDVI2x/EEpEoO0/7/ggGXeEFOFDg==
+X-Received: by 2002:a17:902:7008:: with SMTP id y8mr20024907plk.84.1592827619747;
+        Mon, 22 Jun 2020 05:06:59 -0700 (PDT)
+Received: from varodek.localdomain ([2401:4900:b8b:123e:d7ae:5602:b3d:9c0])
+        by smtp.gmail.com with ESMTPSA id j8sm13195391pji.3.2020.06.22.05.06.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2020 05:06:58 -0700 (PDT)
+From:   Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To:     Bjorn Helgaas <helgaas@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, bjorn@helgaas.com,
+        Vaibhav Gupta <vaibhav.varodek@gmail.com>
+Cc:     Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        skhan@linuxfoundation.org
+Subject: [PATCH v1] [media] saa7134: use generic power management
+Date:   Mon, 22 Jun 2020 17:32:30 +0530
+Message-Id: <20200622120229.89610-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-In-Reply-To: <CAD=FV=VHGm8EhsLOw_XTNRy6b-AKXgpwwGKE4kAm0-x4XT0ovg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Doug,
+With the support of generic PM callbacks, drivers no longer need to use
+legacy .suspend() and .resume() in which they had to maintain PCI states
+changes and device's power state themselves. The required operations are
+done by PCI core.
 
-Thanks for the fix and sorry for the late reply.
+Compile-tested only.
 
-On 6/2/20 6:39 AM, Doug Anderson wrote:
-> Hi,
-> 
-> On Mon, Jun 1, 2020 at 3:03 PM Douglas Anderson <dianders@chromium.org> wrote:
->>
->> The newly-introduced function min_loaded_core() iterates over all of
->> the venus instances an tries to figure out how much load each instance
->> is putting on each core.  Not all instances, however, might be fully
->> initialized.  Specifically the "codec_freq_data" is initialized as
->> part of vdec_queue_setup(), but an instance may already be in the list
->> of all instances before that time.
->>
->> Let's band-aid this by checking to see if codec_freq_data is NULL
->> before dereferencing.
->>
->> NOTE: without this fix I was running into a crash.  Specifically there
->> were two venus instances.  One was doing start_streaming.  The other
->> was midway through queue_setup but hadn't yet gotten to initting
->> "codec_freq_data".
->>
->> Fixes: eff82f79c562 ("media: venus: introduce core selection")
->> Signed-off-by: Douglas Anderson <dianders@chromium.org>
->> ---
->> I'm not massively happy about this commit but it's the best I could
->> come up with without being much more of an expert in the venus codec.
->> If someone has a better patch then please just consider this one to be
->> a bug report and feel free to submit a better fix!  :-)
->>
->> In general I wonder a little bit about whether it's safe to be peeking
->> at all the instances without grabbing the "inst->lock" on each one.  I
->> guess it is since we do it both here and in load_scale_v4() but I
->> don't know why.
->>
->> One thought I had was that we could fully avoid accessing the other
->> instances, at least in min_loaded_core(), by just keeping track of
->> "core1_load" and "core2_load" in "struct venus_core".  Whenever we add
->> a new instance we could add to the relevant variables and whenever we
->> release an instance we could remove.  Such a change seems cleaner but
->> would require someone to test to make sure we didn't miss any case
->> (AKA we always properly added/removed our load from the globals).
+Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
+---
+ drivers/media/pci/saa7134/saa7134-core.c | 25 ++++++++----------------
+ 1 file changed, 8 insertions(+), 17 deletions(-)
 
-Thanks for the suggestion (I also thought about something similar).  I
-will try to cook something.
-
->>
->>  drivers/media/platform/qcom/venus/pm_helpers.c | 2 ++
->>  1 file changed, 2 insertions(+)
-> 
-> This fixes the same crash as the patch:
-> 
-> https://lore.kernel.org/r/1588314480-22409-1-git-send-email-mansur@codeaurora.org
-> 
-
-I'm going to take this approach because it takes into account the state
-of the instance. The instance could be opened/created but the streaming
-could not be started in near future, so it shouldn't be correct to take
-its load when doing the calculations.
-
+diff --git a/drivers/media/pci/saa7134/saa7134-core.c b/drivers/media/pci/saa7134/saa7134-core.c
+index e4623ed2f831..eb01109d4f98 100644
+--- a/drivers/media/pci/saa7134/saa7134-core.c
++++ b/drivers/media/pci/saa7134/saa7134-core.c
+@@ -1370,10 +1370,8 @@ static void saa7134_finidev(struct pci_dev *pci_dev)
+ 	kfree(dev);
+ }
+ 
+-#ifdef CONFIG_PM
+-
+ /* resends a current buffer in queue after resume */
+-static int saa7134_buffer_requeue(struct saa7134_dev *dev,
++static int __maybe_unused saa7134_buffer_requeue(struct saa7134_dev *dev,
+ 				  struct saa7134_dmaqueue *q)
+ {
+ 	struct saa7134_buf *buf, *next;
+@@ -1397,8 +1395,9 @@ static int saa7134_buffer_requeue(struct saa7134_dev *dev,
+ 	return 0;
+ }
+ 
+-static int saa7134_suspend(struct pci_dev *pci_dev , pm_message_t state)
++static int __maybe_unused saa7134_suspend(struct device *dev_d)
+ {
++	struct pci_dev *pci_dev = to_pci_dev(dev_d);
+ 	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
+ 	struct saa7134_dev *dev = container_of(v4l2_dev, struct saa7134_dev, v4l2_dev);
+ 
+@@ -1428,21 +1427,15 @@ static int saa7134_suspend(struct pci_dev *pci_dev , pm_message_t state)
+ 	if (dev->remote && dev->remote->dev->users)
+ 		saa7134_ir_close(dev->remote->dev);
+ 
+-	pci_save_state(pci_dev);
+-	pci_set_power_state(pci_dev, pci_choose_state(pci_dev, state));
+-
+ 	return 0;
+ }
+ 
+-static int saa7134_resume(struct pci_dev *pci_dev)
++static int __maybe_unused saa7134_resume(struct device *dev_d)
+ {
+-	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
++	struct v4l2_device *v4l2_dev = dev_get_drvdata(dev_d);
+ 	struct saa7134_dev *dev = container_of(v4l2_dev, struct saa7134_dev, v4l2_dev);
+ 	unsigned long flags;
+ 
+-	pci_set_power_state(pci_dev, PCI_D0);
+-	pci_restore_state(pci_dev);
+-
+ 	/* Do things that are done in saa7134_initdev ,
+ 		except of initializing memory structures.*/
+ 
+@@ -1490,7 +1483,6 @@ static int saa7134_resume(struct pci_dev *pci_dev)
+ 
+ 	return 0;
+ }
+-#endif
+ 
+ /* ----------------------------------------------------------- */
+ 
+@@ -1522,15 +1514,14 @@ EXPORT_SYMBOL(saa7134_ts_unregister);
+ 
+ /* ----------------------------------------------------------- */
+ 
++static SIMPLE_DEV_PM_OPS(saa7134_pm_ops, saa7134_suspend, saa7134_resume);
++
+ static struct pci_driver saa7134_pci_driver = {
+ 	.name     = "saa7134",
+ 	.id_table = saa7134_pci_tbl,
+ 	.probe    = saa7134_initdev,
+ 	.remove   = saa7134_finidev,
+-#ifdef CONFIG_PM
+-	.suspend  = saa7134_suspend,
+-	.resume   = saa7134_resume
+-#endif
++	.driver.pm = &saa7134_pm_ops,
+ };
+ 
+ static int __init saa7134_init(void)
 -- 
-regards,
-Stan
+2.27.0
+
