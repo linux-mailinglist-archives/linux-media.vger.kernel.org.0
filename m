@@ -2,237 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B052020353A
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 13:00:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DF542035F1
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 13:41:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727866AbgFVLA3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jun 2020 07:00:29 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:47189 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727892AbgFVLAZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jun 2020 07:00:25 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id nKBUj1KtTn3JWnKBXjZvrP; Mon, 22 Jun 2020 13:00:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592823619; bh=jeVxpJQvTH5L8QqZQut/ZcCjpqbZoeGGJM/H1Mqqka8=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=usA4W5EITNBg9ixv7sOAQNO5Ca7rYE5GEQuiUsu8hnvT60cIt8A7DtPHP++/roQCz
-         zMUpLJvZNXNVciREMlu4y8XnU1qtgR9UT9TpMkBscQ1mSryYNUz2nlnmAVuNeEffgE
-         RnACCiBJUcN1Tjm3LA+0Kf+x/TZOJ1kNUVc4uSO/VyetXckQIc5OgOhvWebVg+VIIS
-         wYGfeTD1bC42WEjv/LdVcWaGaMekLzTJw8QyRsQSF2LCYl6ieGJLGXw9GeM/Oum0AY
-         a01Pch7g8jaIeUXCRuNwiRHNfzlseeJlfiB+/IVNapkfS1wEbLRv7H5uvWDjS1MS6l
-         kSV0iTgeV88Tg==
-Subject: Re: [PATCH v3 2/2] media: vimc: Add a control to display info on test
- image
-To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
-        Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <20200618190506.11892-1-kgupta@es.iitr.ac.in>
- <20200618190506.11892-3-kgupta@es.iitr.ac.in>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <b615a6e9-4c91-786c-0f3e-408e0cea31d4@xs4all.nl>
-Date:   Mon, 22 Jun 2020 13:00:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <20200618190506.11892-3-kgupta@es.iitr.ac.in>
-Content-Type: text/plain; charset=utf-8
+        id S1727991AbgFVLlb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jun 2020 07:41:31 -0400
+Received: from mga09.intel.com ([134.134.136.24]:19550 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727065AbgFVLl3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 22 Jun 2020 07:41:29 -0400
+IronPort-SDR: eUmNy24cU2dnuabKJ6gzrQ42MVZdls0fF4QizXpzugv3Erib8gVz60PHQS41RLw1ggZ46rga3E
+ OwEeBpSmPdXA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9659"; a="145246122"
+X-IronPort-AV: E=Sophos;i="5.75,266,1589266800"; 
+   d="scan'208";a="145246122"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2020 04:40:57 -0700
+IronPort-SDR: a34dBW4tc9fUUjFHOSHElAWnkcRXlTv8h9hbjzF4peJrOc5trSCZHC+xqIpVOSyuMx8vQqCxkn
+ QPNv5wijiIbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,266,1589266800"; 
+   d="scan'208";a="262943724"
+Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
+  by fmsmga007.fm.intel.com with ESMTP; 22 Jun 2020 04:40:57 -0700
+Received: from fmsmsx113.amr.corp.intel.com (10.18.116.7) by
+ FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
+ id 14.3.439.0; Mon, 22 Jun 2020 04:40:57 -0700
+Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.193]) by
+ FMSMSX113.amr.corp.intel.com ([169.254.13.85]) with mapi id 14.03.0439.000;
+ Mon, 22 Jun 2020 04:40:57 -0700
+From:   "Ruhl, Michael J" <michael.j.ruhl@intel.com>
+To:     Charan Teja Kalla <charante@codeaurora.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "David.Laight@ACULAB.COM" <David.Laight@ACULAB.COM>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>
+CC:     Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2] dmabuf: use spinlock to access dmabuf->name
+Thread-Topic: [PATCH v2] dmabuf: use spinlock to access dmabuf->name
+Thread-Index: AQHWRjDU8ynrfmeG7EGyHovmSs13oqjf8L+wgATmmYD//64hEA==
+Date:   Mon, 22 Jun 2020 11:40:56 +0000
+Message-ID: <14063C7AD467DE4B82DEDB5C278E866301154C1A5E@FMSMSX108.amr.corp.intel.com>
+References: <a83e7f0d-4e54-9848-4b58-e1acdbe06735@codeaurora.org>
+ <14063C7AD467DE4B82DEDB5C278E866301154BAE9E@FMSMSX108.amr.corp.intel.com>
+ <97f2313e-a690-b5ab-567d-6887384debf5@codeaurora.org>
+In-Reply-To: <97f2313e-a690-b5ab-567d-6887384debf5@codeaurora.org>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfNWibx774XrMbyJscKAKKQRAsIRFWWv/5vInF3CILQJEVuB1p462TCbaQkfc2TKbjqNMNkdmpIuoFsG9mYqglYk8rLK2G2UFCrdNRpBes31tKx/yfs7B
- P5KlfqMJnWYTr3q+Ctv8Uaw85fp2NhH8/PmlnC21+fVe8V1hZyWGVMkoa1KmRpMsEaP1tFfN0Sj8gcBh3mWxZIqlJ0znvDrNeuFvvmPbMG3Sx7unecHq28Y6
- EVfm0QJ/VjTjG+6Qw7KP7NdcXLh77U0FPOFh73nkT+3GCmDg3F2nzD7GF8FXcPWs4TQEQRf2ozxnyVI4mspvzK/zn9kUOFhwX3uR0au0cr/KKQikeB9hNsbG
- i+weFsvxvEVADyf6uWYyS61MS4fNhBJdQ82CGsq0M2lXHTGKuUw=
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-originating-ip: [10.1.200.108]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/06/2020 21:05, Kaaira Gupta wrote:
-> Add a control in VIMC to display information such as the correct oder of
-
-odor -> order
-
-> colors for a given test pattern, brightness, hue, saturation, contrast
-> and, width and height at sensor over test image; and display that
-> information.
-
-and, width -> and width
-'; and display that information': just drop this since you already mentioned
-that in 'a control in VIMC to display information'.
-
-It is also useful to show the sequence counter (i.e. the sequence field in
-struct v4l2_buffer) since this always changes for every frame.
-
-Perhaps base VIMC_CID_SHOW_INFO on VIVID_CID_OSD_TEXT_MODE?
-
-Doing this as a menu control allows you to add other combinations in the future.
-
-> 
-> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
-> ---
->  drivers/media/test-drivers/vimc/Kconfig       |  2 +
->  drivers/media/test-drivers/vimc/vimc-common.h |  1 +
->  drivers/media/test-drivers/vimc/vimc-sensor.c | 47 ++++++++++++++++++-
->  3 files changed, 49 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/test-drivers/vimc/Kconfig b/drivers/media/test-drivers/vimc/Kconfig
-> index 4068a67585f9..da4b2ad6e40c 100644
-> --- a/drivers/media/test-drivers/vimc/Kconfig
-> +++ b/drivers/media/test-drivers/vimc/Kconfig
-> @@ -2,6 +2,8 @@
->  config VIDEO_VIMC
->  	tristate "Virtual Media Controller Driver (VIMC)"
->  	depends on VIDEO_DEV && VIDEO_V4L2
-> +	select FONT_SUPPORT
-> +	select FONT_8x16
->  	select MEDIA_CONTROLLER
->  	select VIDEO_V4L2_SUBDEV_API
->  	select VIDEOBUF2_VMALLOC
-> diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
-> index ae163dec2459..afda52253402 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-common.h
-> +++ b/drivers/media/test-drivers/vimc/vimc-common.h
-> @@ -20,6 +20,7 @@
->  #define VIMC_CID_VIMC_CLASS		(0x00f00000 | 1)
->  #define VIMC_CID_TEST_PATTERN		(VIMC_CID_VIMC_BASE + 0)
->  #define VIMC_CID_MEAN_WIN_SIZE		(VIMC_CID_VIMC_BASE + 1)
-> +#define VIMC_CID_SHOW_INFO		(VIMC_CID_VIMC_BASE + 2)
->  
->  #define VIMC_FRAME_MAX_WIDTH 4096
->  #define VIMC_FRAME_MAX_HEIGHT 2160
-> diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
-> index a2f09ac9a360..f5352b115aac 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
-> @@ -5,6 +5,7 @@
->   * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
->   */
->  
-> +#include <linux/font.h>
->  #include <linux/v4l2-mediabus.h>
->  #include <linux/vmalloc.h>
->  #include <media/v4l2-ctrls.h>
-> @@ -19,6 +20,7 @@ struct vimc_sen_device {
->  	struct v4l2_subdev sd;
->  	struct tpg_data tpg;
->  	u8 *frame;
-> +	bool show_info;
->  	/* The active format */
->  	struct v4l2_mbus_framefmt mbus_format;
->  	struct v4l2_ctrl_handler hdl;
-> @@ -185,10 +187,29 @@ static const struct v4l2_subdev_pad_ops vimc_sen_pad_ops = {
->  static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
->  				    const void *sink_frame)
->  {
-> +	u8 *basep[TPG_MAX_PLANES][2];
-> +	char *order;
-> +	char str[100];
-> +	int line = 1;
->  	struct vimc_sen_device *vsen = container_of(ved, struct vimc_sen_device,
->  						    ved);
-> -
->  	tpg_fill_plane_buffer(&vsen->tpg, 0, 0, vsen->frame);
-> +	if (vsen->show_info) {
-> +		tpg_calc_text_basep(&vsen->tpg, basep, 0, vsen->frame);
-> +		order = tpg_g_color_order(&vsen->tpg);
-> +		tpg_gen_text(&vsen->tpg, basep, line++ * 16, 16, order);
-> +		snprintf(str, sizeof(str), " brightness %3d, contrast %3d, saturation %3d, hue %d ",
-
-The previous tpg_gen_text doesn't have a leading space, but this and the next line
-does. That should be consistent.
-
-I can't quite remember why I added spaces before/after the text in the vivid implementation.
-I think it was because it looked weird without a space, probably because the text color was
-identical to the first colorbar in some of the patterns, making it hard to read in some
-cases.
-
-> +			 vsen->tpg.brightness,
-> +			 vsen->tpg.contrast,
-> +			 vsen->tpg.saturation,
-> +			 vsen->tpg.hue);
-> +		tpg_gen_text(&vsen->tpg, basep, line++ * 16, 16, str);
-> +
-> +		snprintf(str, sizeof(str), " sensor size: %dx%d",
-> +			 vsen->mbus_format.width, vsen->mbus_format.height);
-> +		tpg_gen_text(&vsen->tpg, basep, line++ * 16, 16, str);
-> +	}
-> +
->  	return vsen->frame;
->  }
->  
-> @@ -200,6 +221,14 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
->  	if (enable) {
->  		const struct vimc_pix_map *vpix;
->  		unsigned int frame_size;
-> +		const struct font_desc *font = find_font("VGA8x16");
-> +
-> +		if (font == NULL) {
-> +			pr_err("vimc: could not find font\n");
-> +			vsen->show_info = 0;
-> +		} else {
-> +			tpg_set_font(font->data);
-> +		}
-
-Like vivid, this should be done in the probe/init/whatever function, and not when
-you start streaming. Kconfig selects this font, so if this doesn't succeed, then
-the driver shouldn't finish the probe().
-
->  
->  		/* Calculate the frame size */
->  		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
-> @@ -269,6 +298,9 @@ static int vimc_sen_s_ctrl(struct v4l2_ctrl *ctrl)
->  	case V4L2_CID_SATURATION:
->  		tpg_s_saturation(&vsen->tpg, ctrl->val);
->  		break;
-> +	case VIMC_CID_SHOW_INFO:
-> +		vsen->show_info = ctrl->val;
-> +		break;
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -307,6 +339,17 @@ static const struct v4l2_ctrl_config vimc_sen_ctrl_test_pattern = {
->  	.qmenu = tpg_pattern_strings,
->  };
->  
-> +static const struct v4l2_ctrl_config vimc_sen_ctrl_show_info = {
-> +	.ops = &vimc_sen_ctrl_ops,
-> +	.id = VIMC_CID_SHOW_INFO,
-> +	.name = "Show Information",
-> +	.type = V4L2_CTRL_TYPE_BOOLEAN,
-> +	.min = 0,
-> +	.max = 1,
-> +	.step = 1,
-> +	.def = 1,
-> +};
-> +
->  static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->  					    const char *vcfg_name)
->  {
-> @@ -323,6 +366,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->  
->  	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_class, NULL);
->  	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_test_pattern, NULL);
-> +	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_show_info, NULL);
->  	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
->  			  V4L2_CID_VFLIP, 0, 1, 1, 0);
->  	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
-> @@ -362,6 +406,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->  
->  	/* Initialize the frame format */
->  	vsen->mbus_format = fmt_default;
-> +	vsen->show_info = vimc_sen_ctrl_show_info.def;
->  
->  	return &vsen->ved;
->  
-> 
-
-Regards,
-
-	Hans
+Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogY2hhcmFudGU9Y29kZWF1cm9yYS5v
+cmdAbWcuY29kZWF1cm9yYS5vcmcNCj48Y2hhcmFudGU9Y29kZWF1cm9yYS5vcmdAbWcuY29kZWF1
+cm9yYS5vcmc+IE9uIEJlaGFsZiBPZiBDaGFyYW4gVGVqYQ0KPkthbGxhDQo+U2VudDogTW9uZGF5
+LCBKdW5lIDIyLCAyMDIwIDU6MjYgQU0NCj5UbzogUnVobCwgTWljaGFlbCBKIDxtaWNoYWVsLmou
+cnVobEBpbnRlbC5jb20+OyBTdW1pdCBTZW13YWwNCj48c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+
+OyBEYXZpZC5MYWlnaHRAQUNVTEFCLkNPTTsgb3BlbiBsaXN0OkRNQQ0KPkJVRkZFUiBTSEFSSU5H
+IEZSQU1FV09SSyA8bGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnPjsgRFJJIG1haWxpbmcNCj5s
+aXN0IDxkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPg0KPkNjOiBMaW5hcm8gTU0gU0lH
+IDxsaW5hcm8tbW0tc2lnQGxpc3RzLmxpbmFyby5vcmc+OyBMS01MIDxsaW51eC0NCj5rZXJuZWxA
+dmdlci5rZXJuZWwub3JnPg0KPlN1YmplY3Q6IFJlOiBbUEFUQ0ggdjJdIGRtYWJ1ZjogdXNlIHNw
+aW5sb2NrIHRvIGFjY2VzcyBkbWFidWYtPm5hbWUNCj4NCj5IZWxsbyBNaWtlLA0KPg0KPk9uIDYv
+MTkvMjAyMCA3OjExIFBNLCBSdWhsLCBNaWNoYWVsIEogd3JvdGU6DQo+Pj4gLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlLS0tLS0NCj4+PiBGcm9tOiBjaGFyYW50ZT1jb2RlYXVyb3JhLm9yZ0BtZy5jb2Rl
+YXVyb3JhLm9yZw0KPj4+IDxjaGFyYW50ZT1jb2RlYXVyb3JhLm9yZ0BtZy5jb2RlYXVyb3JhLm9y
+Zz4gT24gQmVoYWxmIE9mIENoYXJhbg0KPlRlamENCj4+PiBLYWxsYQ0KPj4+IFNlbnQ6IEZyaWRh
+eSwgSnVuZSAxOSwgMjAyMCA3OjU3IEFNDQo+Pj4gVG86IFN1bWl0IFNlbXdhbCA8c3VtaXQuc2Vt
+d2FsQGxpbmFyby5vcmc+OyBSdWhsLCBNaWNoYWVsIEoNCj4+PiA8bWljaGFlbC5qLnJ1aGxAaW50
+ZWwuY29tPjsgRGF2aWQuTGFpZ2h0QEFDVUxBQi5DT007IG9wZW4gbGlzdDpETUENCj4+PiBCVUZG
+RVIgU0hBUklORyBGUkFNRVdPUksgPGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZz47IERSSQ0K
+Pm1haWxpbmcNCj4+PiBsaXN0IDxkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPg0KPj4+
+IENjOiBMaW5hcm8gTU0gU0lHIDxsaW5hcm8tbW0tc2lnQGxpc3RzLmxpbmFyby5vcmc+OyBMS01M
+IDxsaW51eC0NCj4+PiBrZXJuZWxAdmdlci5rZXJuZWwub3JnPg0KPj4+IFN1YmplY3Q6IFtQQVRD
+SCB2Ml0gZG1hYnVmOiB1c2Ugc3BpbmxvY2sgdG8gYWNjZXNzIGRtYWJ1Zi0+bmFtZQ0KPj4+DQo+
+Pj4gVGhlcmUgZXhpc3RzIGEgc2xlZXAtd2hpbGUtYXRvbWljIGJ1ZyB3aGlsZSBhY2Nlc3Npbmcg
+dGhlIGRtYWJ1Zi0+bmFtZQ0KPj4+IHVuZGVyIG11dGV4IGluIHRoZSBkbWFidWZmc19kbmFtZSgp
+LiBUaGlzIGlzIGNhdXNlZCBmcm9tIHRoZSBTRUxpbnV4DQo+Pj4gcGVybWlzc2lvbnMgY2hlY2tz
+IG9uIGEgcHJvY2VzcyB3aGVyZSBpdCB0cmllcyB0byB2YWxpZGF0ZSB0aGUgaW5oZXJpdGVkDQo+
+Pj4gZmlsZXMgZnJvbSBmb3JrKCkgYnkgdHJhdmVyc2luZyB0aGVtIHRocm91Z2ggaXRlcmF0ZV9m
+ZCgpICh3aGljaA0KPj4+IHRyYXZlcnNlIGZpbGVzIHVuZGVyIHNwaW5fbG9jaykgYW5kIGNhbGwN
+Cj4+PiBtYXRjaF9maWxlKHNlY3VyaXR5L3NlbGludXgvaG9va3MuYykgd2hlcmUgdGhlIHBlcm1p
+c3Npb24gY2hlY2tzDQo+aGFwcGVuLg0KPj4+IFRoaXMgYXVkaXQgaW5mb3JtYXRpb24gaXMgbG9n
+Z2VkIHVzaW5nIGR1bXBfY29tbW9uX2F1ZGl0X2RhdGEoKSB3aGVyZQ0KPml0DQo+Pj4gY2FsbHMg
+ZF9wYXRoKCkgdG8gZ2V0IHRoZSBmaWxlIHBhdGggbmFtZS4gSWYgdGhlIGZpbGUgY2hlY2sgaGFw
+cGVuIG9uDQo+Pj4gdGhlIGRtYWJ1ZidzIGZkLCB0aGVuIGl0IGVuZHMgdXAgaW4gLT5kbWFidWZm
+c19kbmFtZSgpIGFuZCB1c2UgbXV0ZXggdG8NCj4+PiBhY2Nlc3MgZG1hYnVmLT5uYW1lLiBUaGUg
+ZmxvdyB3aWxsIGJlIGxpa2UgYmVsb3c6DQo+Pj4gZmx1c2hfdW5hdXRob3JpemVkX2ZpbGVzKCkN
+Cj4+PiAgaXRlcmF0ZV9mZCgpDQo+Pj4gICAgc3Bpbl9sb2NrKCkgLS0+IFN0YXJ0IG9mIHRoZSBh
+dG9taWMgc2VjdGlvbi4NCj4+PiAgICAgIG1hdGNoX2ZpbGUoKQ0KPj4+ICAgICAgICBmaWxlX2hh
+c19wZXJtKCkNCj4+PiAgICAgICAgICBhdmNfaGFzX3Blcm0oKQ0KPj4+ICAgICAgICAgICAgYXZj
+X2F1ZGl0KCkNCj4+PiAgICAgICAgICAgICAgc2xvd19hdmNfYXVkaXQoKQ0KPj4+IAkgICAgICAg
+IGNvbW1vbl9sc21fYXVkaXQoKQ0KPj4+IAkJICBkdW1wX2NvbW1vbl9hdWRpdF9kYXRhKCkNCj4+
+PiAJCSAgICBhdWRpdF9sb2dfZF9wYXRoKCkNCj4+PiAJCSAgICAgIGRfcGF0aCgpDQo+Pj4gICAg
+ICAgICAgICAgICAgICAgICAgICBkbWFidWZmc19kbmFtZSgpDQo+Pj4gICAgICAgICAgICAgICAg
+ICAgICAgICAgIG11dGV4X2xvY2soKS0tPiBTbGVlcCB3aGlsZSBhdG9taWMuDQo+Pj4NCj4+PiBD
+YWxsIHRyYWNlIGNhcHR1cmVkIChvbiA0LjE5IGtlcm5lbHMpIGlzIGJlbG93Og0KPj4+IF9fX21p
+Z2h0X3NsZWVwKzB4MjA0LzB4MjA4DQo+Pj4gX19taWdodF9zbGVlcCsweDUwLzB4ODgNCj4+PiBf
+X211dGV4X2xvY2tfY29tbW9uKzB4NWMvMHgxMDY4DQo+Pj4gX19tdXRleF9sb2NrX2NvbW1vbisw
+eDVjLzB4MTA2OA0KPj4+IG11dGV4X2xvY2tfbmVzdGVkKzB4NDAvMHg1MA0KPj4+IGRtYWJ1ZmZz
+X2RuYW1lKzB4YTAvMHgxNzANCj4+PiBkX3BhdGgrMHg4NC8weDI5MA0KPj4+IGF1ZGl0X2xvZ19k
+X3BhdGgrMHg3NC8weDEzMA0KPj4+IGNvbW1vbl9sc21fYXVkaXQrMHgzMzQvMHg2ZTgNCj4+PiBz
+bG93X2F2Y19hdWRpdCsweGI4LzB4ZjgNCj4+PiBhdmNfaGFzX3Blcm0rMHgxNTQvMHgyMTgNCj4+
+PiBmaWxlX2hhc19wZXJtKzB4NzAvMHgxODANCj4+PiBtYXRjaF9maWxlKzB4NjAvMHg3OA0KPj4+
+IGl0ZXJhdGVfZmQrMHgxMjgvMHgxNjgNCj4+PiBzZWxpbnV4X2Jwcm1fY29tbWl0dGluZ19jcmVk
+cysweDE3OC8weDI0OA0KPj4+IHNlY3VyaXR5X2Jwcm1fY29tbWl0dGluZ19jcmVkcysweDMwLzB4
+NDgNCj4+PiBpbnN0YWxsX2V4ZWNfY3JlZHMrMHgxYy8weDY4DQo+Pj4gbG9hZF9lbGZfYmluYXJ5
+KzB4M2E0LzB4MTRlMA0KPj4+IHNlYXJjaF9iaW5hcnlfaGFuZGxlcisweGIwLzB4MWUwDQo+Pj4N
+Cj4+PiBTbywgdXNlIHNwaW5sb2NrIHRvIGFjY2VzcyBkbWFidWYtPm5hbWUgdG8gYXZvaWQgc2xl
+ZXAtd2hpbGUtYXRvbWljLg0KPj4+DQo+Pj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiBb
+NS4zK10NCj4+PiBTaWduZWQtb2ZmLWJ5OiBDaGFyYW4gVGVqYSBSZWRkeSA8Y2hhcmFudGVAY29k
+ZWF1cm9yYS5vcmc+DQo+Pj4gLS0tDQo+Pj4NCj4+PiBDaGFuZ2VzIGluIFYyOiBBZGRyZXNzZWQg
+cmV2aWV3IGNvbW1lbnRzIGZyb20gUnVobCwgTWljaGFlbCBKDQo+Pj4NCj4+PiBDaGFuZ2VzIGlu
+IFYxOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9wYXRjaHdvcmsvcGF0Y2gvMTI1NTA1NS8NCj4+
+Pg0KPj4+IGRyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgfCAxMSArKysrKysrLS0tLQ0KPj4+IGlu
+Y2x1ZGUvbGludXgvZG1hLWJ1Zi5oICAgfCAgMSArDQo+Pj4gMiBmaWxlcyBjaGFuZ2VkLCA4IGlu
+c2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQo+Pj4NCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9kbWEtYnVmL2RtYS1idWYuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMNCj4+PiBpbmRl
+eCAwMWNlMTI1Li5kODFkMjk4IDEwMDY0NA0KPj4+IC0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEt
+YnVmLmMNCj4+PiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jDQo+Pj4gQEAgLTQ1LDEw
+ICs0NSwxMCBAQCBzdGF0aWMgY2hhciAqZG1hYnVmZnNfZG5hbWUoc3RydWN0IGRlbnRyeQ0KPipk
+ZW50cnksDQo+Pj4gY2hhciAqYnVmZmVyLCBpbnQgYnVmbGVuKQ0KPj4+IAlzaXplX3QgcmV0ID0g
+MDsNCj4+Pg0KPj4+IAlkbWFidWYgPSBkZW50cnktPmRfZnNkYXRhOw0KPj4+IC0JZG1hX3Jlc3Zf
+bG9jayhkbWFidWYtPnJlc3YsIE5VTEwpOw0KPj4+ICsJc3Bpbl9sb2NrKCZkbWFidWYtPm5hbWVf
+bG9jayk7DQo+Pj4gCWlmIChkbWFidWYtPm5hbWUpDQo+Pj4gCQlyZXQgPSBzdHJsY3B5KG5hbWUs
+IGRtYWJ1Zi0+bmFtZSwgRE1BX0JVRl9OQU1FX0xFTik7DQo+Pj4gLQlkbWFfcmVzdl91bmxvY2so
+ZG1hYnVmLT5yZXN2KTsNCj4+PiArCXNwaW5fdW5sb2NrKCZkbWFidWYtPm5hbWVfbG9jayk7DQo+
+Pj4NCj4+PiAJcmV0dXJuIGR5bmFtaWNfZG5hbWUoZGVudHJ5LCBidWZmZXIsIGJ1ZmxlbiwgIi8l
+czolcyIsDQo+Pj4gCQkJICAgICBkZW50cnktPmRfbmFtZS5uYW1lLCByZXQgPiAwID8gbmFtZSA6
+ICIiKTsNCj4+PiBAQCAtMzQxLDggKzM0MSwxMCBAQCBzdGF0aWMgbG9uZyBkbWFfYnVmX3NldF9u
+YW1lKHN0cnVjdCBkbWFfYnVmDQo+Pj4gKmRtYWJ1ZiwgY29uc3QgY2hhciBfX3VzZXIgKmJ1ZikN
+Cj4+PiAJCWtmcmVlKG5hbWUpOw0KPj4+IAkJZ290byBvdXRfdW5sb2NrOw0KPj4+IAl9DQo+Pj4g
+KwlzcGluX2xvY2soJmRtYWJ1Zi0+bmFtZV9sb2NrKTsNCj4+PiAJa2ZyZWUoZG1hYnVmLT5uYW1l
+KTsNCj4+PiAJZG1hYnVmLT5uYW1lID0gbmFtZTsNCj4+PiArCXNwaW5fdW5sb2NrKCZkbWFidWYt
+Pm5hbWVfbG9jayk7DQo+Pg0KPj4gV2hpbGUgdGhpcyBjb2RlIHBhdGggaXMgb2ssIEkgd291bGQg
+aGF2ZSBzZXBhcmF0ZWQgdGhlIHByb3RlY3Rpb24gb2YgdGhlDQo+PiBhdHRhY2htZW50IGxpc3Qg
+YW5kIHRoZSBuYW1lIG1hbmlwdWxhdGlvbi4NCj4+DQo+PiBkbWFfcmVzdl9sb2NrKHJlc3YpDQo+
+PiBpZiAoIWxpc3RfZW1wdHkoYXR0YWNobWVudCkNCj4+IAlyZXQgPSAtRUJVU1kNCj4+IGRtYV9y
+ZXN2X3VubG9jayhyZXN2KQ0KPj4NCj4+IGlmIChyZXQpIHsNCj4+IAlrZnJlZShuYW1lKQ0KPj4g
+CXJldHVybiByZXQ7DQo+PiB9DQo+DQo+SXMgaXQgdGhhdCB0aGUgbmFtZSBzaG91bGQgYmUgdmlz
+aWJsZSBiZWZvcmUgaW1wb3J0ZXIgYXR0YWNoZXMgdG8gdGhlDQo+ZG1hYnVmLCh1c2luZyBkbWFf
+YnVmX2F0dGFjaCgpKSwgdGh1cyBfYnVmX3NldF9uYW1lKCkgaXMgdW5kZXIgdGhlDQo+X3Jlc3Zf
+bG9jaygpIGFzIHdlbGw/DQoNClRoYXQgaXMgdGhlIG5hbWUgdGhhdCB3YXMgYmVpbmcgZnJlZWQg
+aW4gdGhlIGVycm9yIHBhdGggb2YgdGhlIGxvY2sgYmxvY2suDQpBbHRlcm5hdGl2ZWx5Og0KDQpk
+bWFfcmVzdl9sb2NrKHJlc3YpDQppZiAoIWxpc3RfZW1wdHkoYXR0YWNobWVudCkgew0KIAlyZXQg
+PSAtRUJVU1kNCglrZnJlZShuYW1lKQ0KfQ0KZG1hX3Jlc3ZfdW5sb2NrKHJlc3YpDQoNCmlmIChy
+ZXQpDQogCXJldHVybiByZXQ7DQoNCkkgd2FzIGxpbWl0aW5nIHdoYXQgd2FzIGhhcHBlbmluZyBp
+biB0aGUgbG9jayBibG9jay4NCg0KWW91IGhhdmUgdHdvIGRpc3RpbmN0IGxvY2tzLCB0aGF0IHBy
+b3RlY3QgdHdvIGRpc3RpbmN0IGl0ZW1zOg0KDQpkbWFidWYtPmF0dGFjaG1lbnQNCmRtYWJ1Zi0+
+bmFtZQ0KDQpOZXN0aW5nIHRoZSBsb2NraW5nIGlzIG9rLCBidXQgaWYgdGhlIGNvZGUgZXZlciBj
+aGFuZ2VzDQp5b3UgY2FuIGdldCB0aGF0IG5lc3Rpbmcgd3JvbmcsIHNvOg0KDQoJbG9uZyByZXQg
+PSAwOw0KDQoJaWYgKElTX0VSUihuYW1lKSkNCgkJcmV0dXJuIFBUUl9FUlIobmFtZSk7DQoNCglk
+bWFfcmVzdl9sb2NrKGRtYWJ1Zi0+cmVzdiwgTlVMTCk7DQoJaWYgKCFsaXN0X2VtcHR5KCZkbWFi
+dWYtPmF0dGFjaG1lbnRzKSkgew0KCQlyZXQgPSAtRUJVU1k7DQoJCWtmcmVlKG5hbWUpOw0KCX0N
+CglkbWFfcmVzdl91bmxvY2soZG1hYnVmLT5yZXN2KTsNCglpZiAocmV0KQ0KCQlyZXR1cm4gcmV0
+Ow0KDQoJc3BpbmxvY2soZG1hYnVmLT5uYW1lX2xvY2spDQoJa2ZyZWUoZG1hYnVmLT5uYW1lKTsN
+CglkbWFidWYtPm5hbWUgPSBuYW1lOw0KCXNwaW51bmxvY2soZG1hYnVmLT5uYW1lX2xvY2spDQoN
+CglyZXR1cm4gMDsNCn0NCg0KTQ0KDQo+DQo+Pg0KPj4gc3BpbmxvY2sobmFtX2xvY2spDQo+PiAu
+Li4NCj4+DQo+PiBOZXN0aW5nIGxvY2tzICB0aGF0IGRvbid0IG5lZWQgdG8gYmUgbmVzdGVkIGFs
+d2F5cyBtYWtlcyBtZSBuZXJ2b3VzDQo+PiBmb3IgZnV0dXJlIHVzZSB0aGF0IG1pc3NlcyB0aGUg
+bG9jay91bmxvY2sgcGF0dGVybi4NCj4+DQo+PiBIb3dldmVyLCB0aGlzIGxvb2tzIHJlYXNvbmFi
+bGUuDQo+Pg0KPj4gV2l0aCB0aGlzIGN1cnJlbnQgY29kZSwgb3IgaWYgeW91IHVwZGF0ZSB0byB0
+aGUgYWJvdmUgcGF0dGVybjoNCj4+DQo+PiBSZXZpZXdlZC1ieTogTWljaGFlbCBKLiBSdWhsIDxt
+aWNoYWVsLmoucnVobEBpbnRlbC5jb20+DQo+DQo+VGhhbmtzIGZvciB0aGUgQUNLLg0KPj4NCj4+
+IE1pa2UNCj4+DQo+Pg0KPj4+IG91dF91bmxvY2s6DQo+Pj4gCWRtYV9yZXN2X3VubG9jayhkbWFi
+dWYtPnJlc3YpOw0KPj4+IEBAIC00MDUsMTAgKzQwNywxMCBAQCBzdGF0aWMgdm9pZCBkbWFfYnVm
+X3Nob3dfZmRpbmZvKHN0cnVjdCBzZXFfZmlsZQ0KPj4+ICptLCBzdHJ1Y3QgZmlsZSAqZmlsZSkN
+Cj4+PiAJLyogRG9uJ3QgY291bnQgdGhlIHRlbXBvcmFyeSByZWZlcmVuY2UgdGFrZW4gaW5zaWRl
+IHByb2NmcyBzZXFfc2hvdw0KPj4+ICovDQo+Pj4gCXNlcV9wcmludGYobSwgImNvdW50Olx0JWxk
+XG4iLCBmaWxlX2NvdW50KGRtYWJ1Zi0+ZmlsZSkgLSAxKTsNCj4+PiAJc2VxX3ByaW50ZihtLCAi
+ZXhwX25hbWU6XHQlc1xuIiwgZG1hYnVmLT5leHBfbmFtZSk7DQo+Pj4gLQlkbWFfcmVzdl9sb2Nr
+KGRtYWJ1Zi0+cmVzdiwgTlVMTCk7DQo+Pj4gKwlzcGluX2xvY2soJmRtYWJ1Zi0+bmFtZV9sb2Nr
+KTsNCj4+PiAJaWYgKGRtYWJ1Zi0+bmFtZSkNCj4+PiAJCXNlcV9wcmludGYobSwgIm5hbWU6XHQl
+c1xuIiwgZG1hYnVmLT5uYW1lKTsNCj4+PiAtCWRtYV9yZXN2X3VubG9jayhkbWFidWYtPnJlc3Yp
+Ow0KPj4+ICsJc3Bpbl91bmxvY2soJmRtYWJ1Zi0+bmFtZV9sb2NrKTsNCj4+PiB9DQo+Pj4NCj4+
+PiBzdGF0aWMgY29uc3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBkbWFfYnVmX2ZvcHMgPSB7DQo+
+Pj4gQEAgLTU0Niw2ICs1NDgsNyBAQCBzdHJ1Y3QgZG1hX2J1ZiAqZG1hX2J1Zl9leHBvcnQoY29u
+c3Qgc3RydWN0DQo+Pj4gZG1hX2J1Zl9leHBvcnRfaW5mbyAqZXhwX2luZm8pDQo+Pj4gCWRtYWJ1
+Zi0+c2l6ZSA9IGV4cF9pbmZvLT5zaXplOw0KPj4+IAlkbWFidWYtPmV4cF9uYW1lID0gZXhwX2lu
+Zm8tPmV4cF9uYW1lOw0KPj4+IAlkbWFidWYtPm93bmVyID0gZXhwX2luZm8tPm93bmVyOw0KPj4+
+ICsJc3Bpbl9sb2NrX2luaXQoJmRtYWJ1Zi0+bmFtZV9sb2NrKTsNCj4+PiAJaW5pdF93YWl0cXVl
+dWVfaGVhZCgmZG1hYnVmLT5wb2xsKTsNCj4+PiAJZG1hYnVmLT5jYl9leGNsLnBvbGwgPSBkbWFi
+dWYtPmNiX3NoYXJlZC5wb2xsID0gJmRtYWJ1Zi0+cG9sbDsNCj4+PiAJZG1hYnVmLT5jYl9leGNs
+LmFjdGl2ZSA9IGRtYWJ1Zi0+Y2Jfc2hhcmVkLmFjdGl2ZSA9IDA7DQo+Pj4gZGlmZiAtLWdpdCBh
+L2luY2x1ZGUvbGludXgvZG1hLWJ1Zi5oIGIvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgNCj4+PiBp
+bmRleCBhYjBjMTU2Li45MzEwOGZkIDEwMDY0NA0KPj4+IC0tLSBhL2luY2x1ZGUvbGludXgvZG1h
+LWJ1Zi5oDQo+Pj4gKysrIGIvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgNCj4+PiBAQCAtMzExLDYg
+KzMxMSw3IEBAIHN0cnVjdCBkbWFfYnVmIHsNCj4+PiAJdm9pZCAqdm1hcF9wdHI7DQo+Pj4gCWNv
+bnN0IGNoYXIgKmV4cF9uYW1lOw0KPj4+IAljb25zdCBjaGFyICpuYW1lOw0KPj4+ICsJc3Bpbmxv
+Y2tfdCBuYW1lX2xvY2s7DQo+Pj4gCXN0cnVjdCBtb2R1bGUgKm93bmVyOw0KPj4+IAlzdHJ1Y3Qg
+bGlzdF9oZWFkIGxpc3Rfbm9kZTsNCj4+PiAJdm9pZCAqcHJpdjsNCj4+PiAtLQ0KPj4+IFRoZSBR
+dWFsY29tbSBJbm5vdmF0aW9uIENlbnRlciwgSW5jLiBpcyBhIG1lbWJlciBvZiB0aGUgQ29kZSBB
+dXJvcmENCj4+PiBGb3J1bSwgYSBMaW51eCBGb3VuZGF0aW9uIENvbGxhYm9yYXRpdmUgUHJvamVj
+dA0KPg0KPi0tDQo+VGhlIFF1YWxjb21tIElubm92YXRpb24gQ2VudGVyLCBJbmMuIGlzIGEgbWVt
+YmVyIG9mIHRoZSBDb2RlIEF1cm9yYQ0KPkZvcnVtLCBhIExpbnV4IEZvdW5kYXRpb24gQ29sbGFi
+b3JhdGl2ZSBQcm9qZWN0DQo=
