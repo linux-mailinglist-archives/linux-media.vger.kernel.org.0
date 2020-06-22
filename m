@@ -2,133 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E8A52044F3
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 02:05:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B3FD2045EF
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 02:40:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731359AbgFWAF2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jun 2020 20:05:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33936 "EHLO
+        id S1731930AbgFWAkP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jun 2020 20:40:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39182 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730227AbgFWAF1 (ORCPT
+        with ESMTP id S1731625AbgFWAkO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jun 2020 20:05:27 -0400
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66908C061573
-        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 17:05:27 -0700 (PDT)
-Received: by mail-qt1-x842.google.com with SMTP id o38so5449288qtf.6
-        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 17:05:27 -0700 (PDT)
+        Mon, 22 Jun 2020 20:40:14 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11A6FC061573;
+        Mon, 22 Jun 2020 17:39:34 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id j189so17349124oih.10;
+        Mon, 22 Jun 2020 17:39:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ZARmJJ7xCkdZZ2t8wNh4/tQvVIlLfUoBxGbPVnLj1no=;
-        b=ZqLlsVf823WvkS6Pxei8NiC2W2IIsAJoQA2urO7e9M3j3n78WU8zuiQnBC/Hh13LQ7
-         W82cIEkI8yK1kig27JBpN1A+kBTvdyfep2zqFSsRZ3bneYMoHddrECdeOHAhBx3jAggE
-         8oQvGlZO4VuJSft8Izl2Bf/u/NJdZDmJmyKoVRcHZq2TKwggLrrOlhDeM/ysxoX7/Me3
-         dqRCX3t0aoqiPb12yGgusjNMnEL8ewMvbu4zIi2lDYR1tedgzPmqU85hNdNt9mW7kpmp
-         xuKIYdmxHb1ZwHUACc5P3GQ4w7GIm5gpp47skdgCpNYwfEX9eupQQgKd/elWzUh05kv2
-         mhag==
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8gg5xcfbj2whqXxmSEa9T/iWOw2YwyVIV2mrfaawyUE=;
+        b=iBqtOtj6PpiscFSPYPQwVkLB3pum2HERpu/4Zbx3HuodXjwvGfuDEjUADFUPcnmJkT
+         0q3lFKM2x4/sNmAQytMDGbS6DJdlHvvxW7hEIRemFt4mI00wyTIIU2rWmZ39kgbpQHei
+         Vo36HARttyGRuF3D80oVRnp4OXoN7MvDb4FaJb+x3vtvF7ANKAl8+YbbgJQ4wrFtYT9s
+         rDuBrct6kpUAzUQvFg84HY38NmcXS9QBjcxj1WFGcQUpSBob+Lce8qJej4Bzl/8Gcs/O
+         y/kLRFQzmjcWBhjmTq+Cdt+7eQjgriUmPBj3p1evFawWxas1mT3DfhqYEy+wKuEudafe
+         1IDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=ZARmJJ7xCkdZZ2t8wNh4/tQvVIlLfUoBxGbPVnLj1no=;
-        b=TmC1D/XzgIJc9tiIroezcFJR+a4faHdZdMPs41sQhDECvgmFQ1xkbwfZBRgQfpT2sv
-         /HFyta3TYHVzaJeFC0eNvCVp4Gg5uMF+ZhbV1W1gQwzh8zjsCdrJRTZGVqykgXr6n1/y
-         LuX45aEEtqJ2eUcaUN+CeECPKy6i4Pcg9wcAQvJS5RGR03YM/RhF6xwpMBJLuZOCCRVb
-         i5yhSQZWW/bs4NAC0Tj2FWuZglULo2pAAUXW9Tyke9gOayBgIYEaUcvPkyHpkErdkL1K
-         FnOMp9akFRI2QCoBtYXlxkr3aLuT9v7Pn2mzVDEJhzbis36UObXxCBIXKGoW+DaaZoz3
-         9+UQ==
-X-Gm-Message-State: AOAM5327cxfV0TtOP91Lv6IyyuG9RoOAKIFmN3RI7bcco7VqoVEXBOh0
-        tjUYoLuXNGl+EwcuYBDya57ZKw==
-X-Google-Smtp-Source: ABdhPJybLGEC9Vkbo3afR1e0rkiE4Uqi81y09rG7Z316acKAzGcUboScxSHByPFqPGL4yR3GT9b3Ew==
-X-Received: by 2002:ac8:279a:: with SMTP id w26mr18731669qtw.309.1592870726664;
-        Mon, 22 Jun 2020 17:05:26 -0700 (PDT)
-Received: from ziepe.ca ([206.223.160.26])
-        by smtp.gmail.com with ESMTPSA id n143sm1204192qkn.94.2020.06.22.17.05.26
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=8gg5xcfbj2whqXxmSEa9T/iWOw2YwyVIV2mrfaawyUE=;
+        b=SNP//5M8tRdLeU0VpGuCPn+ICTBSaCnTfb9br9iws+73Uz+TDaj8ldXMViLD4XCtu2
+         eIYtdCPtUOREML8RLLvin+qm+2yxZH3hBgwMBXtcTOvFzY9w1gREyKzx1KUU41l4HEim
+         um28lDOdzsrNHn74aPCWnqPH0rD9Cc1AwQVeFZMx1zvYzjwv4EE/cNJ7bMpoSktz8rK+
+         sK+fIkkQoqzLjcMKsHp6cDKewlh4i7bD3PtcvQiWkNJUfIQo8eVJWO1oAVXj8rdgBWF4
+         INdaYeeYP728VnEYVJr3fV+/FjsuMMcuW0fzn7JG43uzJfdGmnT8AzAxI7kPgrdn9E3u
+         7IdQ==
+X-Gm-Message-State: AOAM532qTHPYiXcCtJ9IYtjVHRFTUbzKKIYW6MEWv6EKzb0HXh0HBajv
+        vaXQC5b70WjYViayU7wbGKNfZ6Hg
+X-Google-Smtp-Source: ABdhPJx8hTNMnfiRhhP2jbOGvs6MmoC/nZk9+07kzXuHFoV0Tu0ZpvLDzw6IBOGmsupvMEvAIlqCNA==
+X-Received: by 2002:a05:6808:295:: with SMTP id z21mr14399674oic.178.1592872772765;
+        Mon, 22 Jun 2020 17:39:32 -0700 (PDT)
+Received: from localhost.localdomain ([2604:1380:4111:8b00::3])
+        by smtp.gmail.com with ESMTPSA id y31sm3677828otb.41.2020.06.22.17.39.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 17:05:26 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.93)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1jnWRJ-00CHPu-Cd; Mon, 22 Jun 2020 21:05:25 -0300
-Date:   Mon, 22 Jun 2020 21:05:25 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Jerome Glisse <jglisse@redhat.com>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Thomas =?utf-8?B?SGVsbHN0csO2bSAoSW50ZWwp?= 
-        <thomas_os@shipmail.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
- annotations
-Message-ID: <20200623000525.GX6578@ziepe.ca>
-References: <20200618172338.GM6578@ziepe.ca>
- <CAKMK7uEbqTu4q-amkLXyd1i8KNtLaoO2ZFoGqYiG6D0m0FKpOg@mail.gmail.com>
- <20200619113934.GN6578@ziepe.ca>
- <CAKMK7uE-kWA==Cko5uenMrcnopEjq42HxoDTDywzBAbHqsN13g@mail.gmail.com>
- <20200619151551.GP6578@ziepe.ca>
- <CAKMK7uEvkshAM6KUYZu8_OCpF4+1Y_SM7cQ9nJWpagfke8s8LA@mail.gmail.com>
- <20200619172308.GQ6578@ziepe.ca>
- <20200619180935.GA10009@redhat.com>
- <20200619181849.GR6578@ziepe.ca>
- <20200619201011.GB13117@redhat.com>
+        Mon, 22 Jun 2020 17:39:32 -0700 (PDT)
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, clang-built-linux@googlegroups.com
+Subject: [PATCH 0/2] Small fixes around cacheflush.h
+Date:   Mon, 22 Jun 2020 16:47:38 -0700
+Message-Id: <20200622234740.72825-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200619201011.GB13117@redhat.com>
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 19, 2020 at 04:10:11PM -0400, Jerome Glisse wrote:
- 
-> Maybe we can audit how user ptr buffer are use today and see if
-> we can define a usage pattern that would allow to cut corner in
-> kernel. For instance we could use mmu notifier just to block CPU
-> pte update while we do GUP and thus never wait on dma fence.
+Hi all,
 
-The DMA fence is the main problem, if you can think of a way to avoid
-it then it would be great!
- 
-> Then GPU driver just keep the GUP pin around until they are done
-> with the page. They can also use the mmu notifier to keep a flag
-> so that the driver know if it needs to redo a GUP ie:
-> 
-> The notifier path:
->    GPU_mmu_notifier_start_callback(range)
->         gpu_lock_cpu_pagetable(range)
->         for_each_bo_in(bo, range) {
->             bo->need_gup = true;
->         }
->         gpu_unlock_cpu_pagetable(range)
+These two patches are the culmination of the small discussion here:
 
-So some kind of invalidation tracking? But this doesn't solve COW and
-Fork problem?
+https://lore.kernel.org/lkml/CAMuHMdVSduTOi5bUgF9sLQdGADwyL1+qALWsKgin1TeOLGhAKQ@mail.gmail.com/
 
-> > It is kind of unrelated to HMM, it just shouldn't be using mmu
-> > notifiers to replace page pinning..
-> 
-> Well my POV is that if you abide by rules HMM defined then you do
-> not need to pin pages. The rule is asynchronous device page table
-> update.
+I have fallen behind on fixing issues so sorry for not sending these
+sooner and letting these warnings slip into mainline. Please let me know
+if there are any comments or concerns. They are two completely
+independent patches so if they need to be routed via separate trees,
+that is fine. It was just easier to send them together since they are
+dealing with the same problem.
 
-I think one of the hmm rules is to not block notifiers for a long
-time, which these scheme seem to violate already.
+Cheers,
+Nathan
 
-Pinning for a long time is less bad than blocing notifiers for a long
-time, IMHO
 
-Jason
