@@ -2,199 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1562F203FF8
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 21:19:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8551D2041C2
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 22:16:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728210AbgFVTTB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jun 2020 15:19:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45686 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728068AbgFVTTA (ORCPT
+        id S1728447AbgFVUPx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jun 2020 16:15:53 -0400
+Received: from us-smtp-2.mimecast.com ([205.139.110.61]:53616 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728363AbgFVUPw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jun 2020 15:19:00 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 379DAC061573
-        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 12:19:00 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id b4so16579830qkn.11
-        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 12:19:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=iK9b0EPkb6qG0mOFqaFrLa8QxwJcgxn9y/5nMaSGoEU=;
-        b=1Q+UeySM9m+RieJpwm1qIb376mZikssyY8BRHOOH7HgUY+uIsutg5arleyL2ZoVPoQ
-         xzs7tY7b6kfesUYLtGFV9ywWnUsuY0RuwxeWEDZwxDmOLmpLRPwNfT1cY0VqgFG8PBhs
-         mmWJbpB+MF0hW5IVjE9J9F8e5RQsOq6xpcCb2zWK5rjcQ1IJljOWDT5ShvDf4F1XpDiX
-         CNBKTgVW4lfcOa0bbcSVyUjJe1tieEvK5iPsBVoBwn+8NJRTWevNjZqgcrUaIbnPPfI0
-         cYydKWaX8qzHvc56RPyxsvuFzHHbbrea0B/7B0l15T+S7efyP11YLg8IrzoB0iSqc1bn
-         j2qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=iK9b0EPkb6qG0mOFqaFrLa8QxwJcgxn9y/5nMaSGoEU=;
-        b=pSiU2vnitIErJ1A9bXfChUZs9m9+5Ou4SE8MKFEtwie+OmddZzmuRMeXRV3uu6cyhx
-         XSMKmAxBml7YVTNaRehX800eW6NqtcG6LtuoHi2bi9KoO20zavMODp1fxgldk2IcfcQ1
-         DJFlp5jBFAfm969AWCf66oHDDnF3T5pUA7gs977vz6eMC6dFr2+Abto7Yby78vUhiZ+e
-         TwSAdN3Oum61V7rctwocPEDTz8Q0A+ST4tI+DXJ+1IOBoRclmg1FGyOfvk1tXTLDGF1A
-         xNMyt3pU3PeZzylMk12vOxtkM6LSIFb9jAi3Vg2Vp6esB9qxdVo+f+pQlva5pKgf0hpu
-         v7DA==
-X-Gm-Message-State: AOAM533rdTqksvBw3hVhMy30ARTH5qMpibOTd8mgM/R0IYBsAihMLbAG
-        YVL9zsTQi8C6/kjo8kpG+7jjgw==
-X-Google-Smtp-Source: ABdhPJyhvhMnOyMzO71eEvbLMFgXi3uSN6B1fuobYR49nYpOsja15ov0SugX9gt7ljNcsRuqiVYT2g==
-X-Received: by 2002:a05:620a:8da:: with SMTP id z26mr15988107qkz.461.1592853539433;
-        Mon, 22 Jun 2020 12:18:59 -0700 (PDT)
-Received: from [192.168.0.102] ([186.136.155.69])
-        by smtp.gmail.com with ESMTPSA id m126sm14838582qkd.108.2020.06.22.12.18.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jun 2020 12:18:58 -0700 (PDT)
-Subject: Re: [PATCH v1 1/1] Add support for meson building
-To:     kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
-        laurent.pinchart@ideasonboard.com, ezequiel@collabora.com,
-        nicolas@ndufresne.ca, gjasny@googlemail.com
-References: <20200618133303.28676-1-ariel@vanguardiasur.com.ar>
- <20200618133303.28676-2-ariel@vanguardiasur.com.ar>
- <d09caaf6-402f-ba57-825c-410ce39a5e2b@ideasonboard.com>
-From:   Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
-Message-ID: <1ce5f387-56c7-a81c-0c80-de99ba3bf108@vanguardiasur.com.ar>
-Date:   Mon, 22 Jun 2020 16:19:03 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        Mon, 22 Jun 2020 16:15:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1592856951;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TSUweuZT4DKGDzPl0W0mgX7uetKvmHq3b3GY3r5obEQ=;
+        b=AvujDWVv1fJT1dJn+N4SkW5GMmDU7IzbCKKcFRWYUi39vcyRdTrOXRiPgl3E7M3zge/VvR
+        ZkRQMMmnk1YvVdlxpk+BsrqFbmZI7D1S3R3L9QdDGE/3EqgrbhDjYqVmFyvP22lTRRtz4m
+        8LgSdLETYuzgVcOxuBQArD3DxdwY2O0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-f7cc3XQuNW-UeEjQYsAiCA-1; Mon, 22 Jun 2020 16:15:47 -0400
+X-MC-Unique: f7cc3XQuNW-UeEjQYsAiCA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.12])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03BD218FF665;
+        Mon, 22 Jun 2020 20:15:45 +0000 (UTC)
+Received: from redhat.com (ovpn-119-159.rdu2.redhat.com [10.10.119.159])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8972560F89;
+        Mon, 22 Jun 2020 20:15:42 +0000 (UTC)
+Date:   Mon, 22 Jun 2020 16:15:40 -0400
+From:   Jerome Glisse <jglisse@redhat.com>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Felix Kuehling <felix.kuehling@amd.com>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Thomas =?iso-8859-1?Q?Hellstr=F6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
+ annotations
+Message-ID: <20200622201540.GB9708@redhat.com>
+References: <CAKMK7uE-kWA==Cko5uenMrcnopEjq42HxoDTDywzBAbHqsN13g@mail.gmail.com>
+ <20200619151551.GP6578@ziepe.ca>
+ <CAKMK7uEvkshAM6KUYZu8_OCpF4+1Y_SM7cQ9nJWpagfke8s8LA@mail.gmail.com>
+ <20200619172308.GQ6578@ziepe.ca>
+ <20200619180935.GA10009@redhat.com>
+ <20200619181849.GR6578@ziepe.ca>
+ <56008d64-772d-5757-6136-f20591ef71d2@amd.com>
+ <20200619195538.GT6578@ziepe.ca>
+ <20200619203147.GC13117@redhat.com>
+ <20200622114617.GU6578@ziepe.ca>
 MIME-Version: 1.0
-In-Reply-To: <d09caaf6-402f-ba57-825c-410ce39a5e2b@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200622114617.GU6578@ziepe.ca>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+On Mon, Jun 22, 2020 at 08:46:17AM -0300, Jason Gunthorpe wrote:
+> On Fri, Jun 19, 2020 at 04:31:47PM -0400, Jerome Glisse wrote:
+> > Not doable as page refcount can change for things unrelated to GUP, with
+> > John changes we can identify GUP and we could potentialy copy GUPed page
+> > instead of COW but this can potentialy slow down fork() and i am not sure
+> > how acceptable this would be. Also this does not solve GUP against page
+> > that are already in fork tree ie page P0 is in process A which forks,
+> > we now have page P0 in process A and B. Now we have process A which forks
+> > again and we have page P0 in A, B, and C. Here B and C are two branches
+> > with root in A. B and/or C can keep forking and grow the fork tree.
+> 
+> For a long time now RDMA has broken COW pages when creating user DMA
+> regions.
+> 
+> The problem has been that fork re-COW's regions that had their COW
+> broken.
+> 
+> So, if you break the COW upon mapping and prevent fork (and others)
+> from copying DMA pinned then you'd cover the cases.
 
-Sorry for the late reply.
+I am not sure we want to prevent COW for pinned GUP pages, this would
+change current semantic and potentialy break/slow down existing apps.
 
-On 6/18/20 10:57 AM, Kieran Bingham wrote:
-> Hi Ariel,
-> 
-> Wow there's a lot of work there! That must have taken quite some effort
-> between you and Ezequiel!
-> 
-> I've looked through, and about the only thing that stands out to me is
-> the way you're joining strings.
-> 
-> Meson provides a join_paths() function specifically for that.
-> Now we're "probably" not going to build this library on anything other
-> than linux, but I think the function still has merit over the arbitrary
-> strings which I mis-interpreted for 'divide' at first glance :S
-> 
-> Other than that, I expect we will have to run both build systems in
-> parallel for some time to allow packaging and other builders to adapt.
-> That might mean it's a bit more difficult to make sure both build
-> systems are updated when adding new files or changing the build in anyway.
-> 
-> However, that said - I'm most certainly in favour of this change and
-> would love to see more meson support, so theres an:
-> 
-> Acked-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-> 
-> for the principle of this either way, but I don't maintain this library
-> anyway ;-)
-> 
-> With join_paths() used instead of (I guess it's just plain string
-> concatenation?):
+Anyway i think we focus too much on fork/COW, it is just an unfixable
+broken corner cases, mmu notifier allows you to avoid it. Forcing real
+copy on fork would likely be seen as regression by most people.
 
-So, this has already been discussed in the thread... skipping.
 
+> > Semantic was change with 17839856fd588f4ab6b789f482ed3ffd7c403e1f to some
+> > what "fix" that but GUP fast is still succeptible to this.
 > 
-> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Ah, so everyone breaks the COW now, not just RDMA..
 > 
-> But that's a whole lot of text, so I'm sure I've probably missed
-> something. Lets see what more eyes find...
-> 
-> --
-> Kieran
-> 
-> 
-> 
-> On 18/06/2020 14:33, Ariel D'Alessandro wrote:
->> Supports building libraries and tools found in contrib/, lib/ and
->> utils/ directories, along with the implemented gettext translations.
->>
->> Co-developed-by: Ezequiel Garcia <ezequiel@collabora.com>
->> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
->> Signed-off-by: Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
->> ---
-[snip]
->> diff --git a/contrib/gconv/meson.build b/contrib/gconv/meson.build
->> new file mode 100644
->> index 00000000..88abc46f
->> --- /dev/null
->> +++ b/contrib/gconv/meson.build
->> @@ -0,0 +1,42 @@
->> +arib_std_b24_sources = files(
->> +    'arib-std-b24.c',
->> +    'jis0201.h',
->> +    'jis0208.h',
->> +    'jisx0213.h',
->> +)
->> +
->> +arib_std_b24_deps = [
->> +    dep_jis,
->> +    dep_jisx0213,
->> +]
->> +
->> +arib_std_b24 = shared_module('ARIB-STD-B24',
->> +                             arib_std_b24_sources,
->> +                             name_prefix : '',
->> +                             dependencies : arib_std_b24_deps,
->> +                             install : true,
->> +                             install_dir : get_option('libdir') / 'gconv',
-> 
-> Looks like this should also be join_paths() (noticed below first, and
-> skipping back to look for other occurences).
-> 
-> 
-> 
->> +                             include_directories : v4l2_utils_incdir)
->> +
->> +dep_arib_std_b24 = declare_dependency(link_with : arib_std_b24)
->> +
->> +en300_468_tab00_sources = files(
->> +    'en300-468-tab00.c',
->> +)
->> +
->> +en300_468_tab00_deps = [
->> +    dep_jis,
->> +    dep_jisx0213,
->> +]
-> 
-> you could do
-> 
-> gconv_install = join_paths(get_option('libdir'), 'gconv')
-> 
->> +
->> +en300_468_tab00 = shared_module('EN300-468-TAB00',
->> +                                en300_468_tab00_sources,
->> +                                name_prefix : '',
->> +                                dependencies : en300_468_tab00_deps,
->> +                                install : true,
->> +                                install_dir : get_option('libdir') / 'gconv',
-> 
-> 				   install_dir : gconv_install,
-> 
-> 
-> 
->> +                                include_directories : v4l2_utils_incdir)
->> +
->> +dep_en300_468_tab00 = declare_dependency(link_with : en300_468_tab00)
->> +
->> +install_data('gconv-modules', install_dir : get_option('libdir') / 'gconv')
-> 
-> Then you can reuse the gconv_install variable here.
-> 
-> Same wherever approrpiate in other build files too.
+> What do you mean 'GUP fast is still succeptible to this' ?
 
-Sounds good, I'll do that and reuse those variables whenever possible.
+Not all GUP fast path are updated (intentionaly) __get_user_pages_fast()
+for instance still keeps COW intact. People using GUP should really knows
+what they are doing.
+
+Cheers,
+Jérôme
+
