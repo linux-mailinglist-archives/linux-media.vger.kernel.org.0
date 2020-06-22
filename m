@@ -2,107 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C89B2034BA
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 12:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 87461203508
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 12:45:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726965AbgFVKXm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jun 2020 06:23:42 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:57347 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726841AbgFVKXm (ORCPT
+        id S1727072AbgFVKpi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jun 2020 06:45:38 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:33345 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727040AbgFVKpi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jun 2020 06:23:42 -0400
+        Mon, 22 Jun 2020 06:45:38 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id nJc1j11Tpn3JWnJc4jZiTl; Mon, 22 Jun 2020 12:23:40 +0200
+        id nJx5j1DAgn3JWnJx8jZqbi; Mon, 22 Jun 2020 12:45:35 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592821420; bh=f/ULth+WPXG/hWu8Ht7Ecw0hWHHS+idcagxLi4SEmhU=;
+        t=1592822735; bh=K6dDGbPeZnB4V7J7X8liUUoj+zo4D+OAMLsTP5S9VG0=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=jF9UasZ/5EAMII3du05bFA3W9vQlYTG5dEezJEWbioY4xYvZsmHYNfLxJi2z7b6p0
-         5ns7WKvXbkGZASOIMoGCM1HQEiurIVJwIeseO4ct6UfGOOkGNr73EHu/gqdkP7SeeQ
-         sYx1OSGkKngZCOsH+tkZhXpFo4xleDFGg/xDEM3LqbyxmTCNQdsHJT54bZLdwRojl/
-         KdoJfa4/D0pjp9naJOh6U5tccPK27QcvjhqUAIs1zhQxon6xqLt/dEDwK0XDnCUeAc
-         mcjVM93f0CcA/qTrQrPtVavxhfB0KHvn7HquSWx0qhcdskqD7EDYuq+DFOBx3INJBX
-         fEF7eal7bSZsg==
-Subject: Re: [PATCH RESEND] media: cros-ec-cec: do not bail on
- device_init_wakeup failure
-To:     Dariusz Marcinkiewicz <darekm@google.com>,
-        linux-media@vger.kernel.org
-Cc:     narmstrong@baylibre.com,
+        b=EUOcYlugfhEZH4PUDGfvhPmDuKTAX0LMpu1yII4FUeP5ReW9fbj6nhj8g50KzWa6h
+         tyWOqo7RIdFWhMpc9vgY8YaNC3iGXBSNvCsZW75iINEGMJlcbpSLzMG1b4+V0QmKMB
+         pr8exVkE7OkPDXjgcOgAykp6YhX6q8cOhMilf5oeeA/Fqc3XZvtwJrIoO/a8KEW8hQ
+         00csB9E0zZLk/kHJ34UsayMsGxUo6PwWDAjKKE6M9NBRPiiZDn8n+rJzjjDqYsWLwh
+         FN/fB0W9hGIj+F+LHXIxuOG1E4dgANhp7zCsSgs5bQen1BRpt1dxlikbC9y41O6sVt
+         NsfWtE/GObhrA==
+Subject: Re: [PATCH v3 1/2] media: tpg: Add function to return colors' order
+ of test image
+To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
+        Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Dariusz Marcinkiewicz <darekm@chromium.org>,
-        linux-kernel@vger.kernel.org
-References: <20200622100520.143622-1-darekm@google.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <ca796f62-7d1f-3391-0373-ec9b98b1c47a@xs4all.nl>
-Date:   Mon, 22 Jun 2020 12:23:37 +0200
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20200618190506.11892-1-kgupta@es.iitr.ac.in>
+ <20200618190506.11892-2-kgupta@es.iitr.ac.in>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <8268357e-6b47-a11c-c00f-3c8fa0582a7d@xs4all.nl>
+Date:   Mon, 22 Jun 2020 12:45:23 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200622100520.143622-1-darekm@google.com>
+In-Reply-To: <20200618190506.11892-2-kgupta@es.iitr.ac.in>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfGXI0eTxzr8KTbetnLgAYjh9qScosjRXUdJOPWPZlPqM6Oq5U2RVg1ofWC1UIDgWz+Xw7odQNObqtVNREyZrgw5+mVn68FuxZ7fnEXM9gP9z9BnlIopo
- KkqQZiNRvZN3iQ8dqnnTjP0OFGF0d2JZoV7pLBIF9YPZ5ps63pulHWiQkLNB32TFqGg1FzvJoZrMbjmbIwMnn296FTb/9Cidk8ceBAdg4YM3d7bqcTpt64jk
- RZkJw3KT3SOqq8Y8X3ryJlMsWks/YBme5p5Q4X0mf20cyepkJFYkhq2MEiMsZXK5sorIzdIxYqe6rscK8rqTgkhbY7h8pMoUkSgpSPW8hW7CFTASdVwF/llk
- vYtOi9fKNF0lDmswHbDUeeTuR5gxDcuX3N4HtEeJJBKmUE2HCdmnhNnmHiiS7zSvHkIkCzrtyWnoTQVVCMvr5yvPDtt7YoqMkucubT/Kd37S5eWU0x/Jl+Kq
- lPlZyhYROrwx0m1vIj2PXitF6bUaQzXO20d1YcWJpJQ3V3iJONqjh5BE6yAL8isb0sWz6nibLvU96vUk
+X-CMAE-Envelope: MS4wfBGEHq4TD8y/cZBxbGCbRynvE5tYPNrCmi3CFgjYWZW2cb8zM7Ou+MCIat4poGCWSWFl6elS+Af/3aeQTY9P+lUvLX9+TUAfW9YXZ01nct6ffdWi8LRB
+ UbhOuFHQO+IqWJRoBVIvvvil2ees4It0CeOK+WSaP+77dMfqkUzIHzgxzibkLC+yr+S9Zd9J2pGskgxZDXOScDR7K2rIMsX23AWIEpScGs1qDYlOFsJtMqCg
+ XTtOjD+tEDi9MHbYA0tq+Ho7g/TEoKJRqIurDboVEJH+jjKxbQXJFOuPQM4y069H48fkVoMC/vXkD6YAi6J8dpwrHWGFnya5jj7v/8PJLGTJ0AepS+9PMEeM
+ xBGkSR/kQqoopQvTZuT0esUq5nymIjh+aCrkiu1Is4ztbpQmTA4=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 22/06/2020 12:05, Dariusz Marcinkiewicz wrote:
-> Do not fail probing when device_init_wakeup fails.
+On 18/06/2020 21:05, Kaaira Gupta wrote:
+> Currently there is no method to know the correct order of the colors for
+> a test image generated by tpg. Write a function that returns a string of
+> colors' order given a tpg. It returns a NULL pointer in case of test
+> patterns which do not have a well defined colors' order. Hence add a
+> NULL check for text in tpg_gen_text().
 > 
-> device_init_wakeup fails when the device is already enabled as wakeup
-> device. Hence, the driver fails to probe the device if:
-> - The device has already been enabled for wakeup (via e.g. sysfs)
-> - The driver has been unloaded and is being loaded again.
+> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> ---
+>  drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 32 +++++++++++++++++--
+>  include/media/tpg/v4l2-tpg.h                  |  1 +
+>  2 files changed, 31 insertions(+), 2 deletions(-)
 > 
-> This goal of the patch is to fix the above cases.
-> 
-> Overwhelming majority of the drivers do not check device_init_wakeup
-> return value.
-> 
-> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+> diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
+> index 50f1e0b28b25..31e6044a4104 100644
+> --- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
+> +++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
+> @@ -1959,12 +1959,14 @@ void tpg_gen_text(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
+>  	unsigned step = V4L2_FIELD_HAS_T_OR_B(tpg->field) ? 2 : 1;
+>  	unsigned div = step;
+>  	unsigned first = 0;
+> -	unsigned len = strlen(text);
+> +	unsigned len;
+>  	unsigned p;
+>  
+> -	if (font8x16 == NULL || basep == NULL)
+> +	if (font8x16 == NULL || basep == NULL || text == NULL)
+>  		return;
+>  
+> +	len = strlen(text);
+> +
+>  	/* Checks if it is possible to show string */
+>  	if (y + 16 >= tpg->compose.height || x + 8 >= tpg->compose.width)
+>  		return;
+> @@ -2006,6 +2008,32 @@ void tpg_gen_text(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
+>  }
+>  EXPORT_SYMBOL_GPL(tpg_gen_text);
+>  
+> +char *tpg_g_color_order(const struct tpg_data *tpg)
 
-This can be CCed to stable, I guess?
+This returns a const char *.
 
-Can you provide a Fixes: tag as well?
+> +{
+> +	#define COLORBAR(order) #order "white, yellow, cyan, green, magenta, red, blue, black"
+> +
+> +	switch (tpg->pattern) {
+> +	case TPG_PAT_75_COLORBAR:
+> +	case TPG_PAT_100_COLORBAR:
+> +	case TPG_PAT_CSC_COLORBAR:
+> +		return COLORBAR(Left to right:);
+> +	case TPG_PAT_100_HCOLORBAR:
+
+Just combine this with the other and just return the sequence:
+
+		return "White, Yellow, Cyan, Green, Magenta, Red, Blue, Black";
+
+It's obvious from the pattern that three are from left to right and one is from
+top to bottom. No need to mention that here.
 
 Regards,
 
 	Hans
 
-> ---
->  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 6 +-----
->  1 file changed, 1 insertion(+), 5 deletions(-)
-> 
-> diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> index 0e7e2772f08f..2d95e16cd248 100644
-> --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-> @@ -277,11 +277,7 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
->  	platform_set_drvdata(pdev, cros_ec_cec);
->  	cros_ec_cec->cros_ec = cros_ec;
+> +		return COLORBAR(Top to bottom:);
+> +	case TPG_PAT_BLACK:
+> +		return "Black";
+> +	case TPG_PAT_WHITE:
+> +		return "White";
+> +	case TPG_PAT_RED:
+> +		return "Red";
+> +	case TPG_PAT_GREEN:
+> +		return "Green";
+> +	case TPG_PAT_BLUE:
+> +		return "Blue";
+> +	default:
+> +		return NULL;
+> +	}
+> +}
+> +
+>  void tpg_update_mv_step(struct tpg_data *tpg)
+>  {
+>  	int factor = tpg->mv_hor_mode > TPG_MOVE_NONE ? -1 : 1;
+> diff --git a/include/media/tpg/v4l2-tpg.h b/include/media/tpg/v4l2-tpg.h
+> index eb191e85d363..4f79cac87b85 100644
+> --- a/include/media/tpg/v4l2-tpg.h
+> +++ b/include/media/tpg/v4l2-tpg.h
+> @@ -252,6 +252,7 @@ void tpg_fillbuffer(struct tpg_data *tpg, v4l2_std_id std,
+>  bool tpg_s_fourcc(struct tpg_data *tpg, u32 fourcc);
+>  void tpg_s_crop_compose(struct tpg_data *tpg, const struct v4l2_rect *crop,
+>  		const struct v4l2_rect *compose);
+> +char *tpg_g_color_order(const struct tpg_data *tpg);
 >  
-> -	ret = device_init_wakeup(&pdev->dev, 1);
-> -	if (ret) {
-> -		dev_err(&pdev->dev, "failed to initialize wakeup\n");
-> -		return ret;
-> -	}
-> +	device_init_wakeup(&pdev->dev, 1);
->  
->  	cros_ec_cec->adap = cec_allocate_adapter(&cros_ec_cec_ops, cros_ec_cec,
->  						 DRV_NAME,
+>  static inline void tpg_s_pattern(struct tpg_data *tpg, enum tpg_pattern pattern)
+>  {
 > 
 
