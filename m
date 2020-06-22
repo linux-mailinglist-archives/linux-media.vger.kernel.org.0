@@ -2,249 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3CE3F2039AC
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 16:37:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D4EF7203AB2
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 17:23:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729383AbgFVOhA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jun 2020 10:37:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58206 "EHLO
+        id S1729257AbgFVPXy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jun 2020 11:23:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37236 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729359AbgFVOg7 (ORCPT
+        with ESMTP id S1729206AbgFVPXx (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jun 2020 10:36:59 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EDEEC061795;
-        Mon, 22 Jun 2020 07:36:59 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id E0FB02A1D2C
-Subject: Re: [PATCH v3 2/2] media: vimc: Add a control to display info on test
- image
-To:     Kaaira Gupta <kgupta@es.iitr.ac.in>
-Cc:     Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        hverkuil@xs4all.nl
-References: <20200618190506.11892-1-kgupta@es.iitr.ac.in>
- <20200618190506.11892-3-kgupta@es.iitr.ac.in>
- <d62583ab-7dd3-9a37-c94d-99fae0f29357@collabora.com>
- <20200621203256.GA13040@kaaira-HP-Pavilion-Notebook>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <a8fb5c4c-4994-f53d-838d-0c10d796b997@collabora.com>
-Date:   Mon, 22 Jun 2020 16:36:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Mon, 22 Jun 2020 11:23:53 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91DD9C061795
+        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 08:23:53 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id y20so16152871wmi.2
+        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 08:23:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=/6MBthvd6z52RmcbVSvKwI0rMiVPtPQAGgLYFja/1c8=;
+        b=QIqapg7UGAmb7VCS9WiE39Ucx7flL+0/1f0tX4gViGTqA0Dt1WWk0CfUL0bB1CWZe1
+         0F5wNMEyPlkrayB6yKdsbfAtGYkWKvzorXou4ujarZc+GnvkTtj4XYGaSJPqC8i+g6CB
+         M2cjdIbSGr+aE2ZeRyC67jAkGhOSWxxIkT/GA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/6MBthvd6z52RmcbVSvKwI0rMiVPtPQAGgLYFja/1c8=;
+        b=OmNEoK8pHtHDA3s55Ff3/4EJAwjYTr/EHCk0bg4lGaZoSgpCC28b4jw6VSIdbSY+DC
+         gpBOSqFVybeIAKnIb2MEGZ5xy6zjeQ+r7iC5MX7fum9ReC8PRne20EQ5gOg+KosVGqyn
+         hOZ83CQsn/Zywd3fs5dkrvLQM5VdMuRPgbC6cXyyKc7tIxeRUTEiY3wLa8YMWrjK9y2N
+         mx0IbyTkosLZrRluiAYx1lrbXHaW86w9UiBT190apx1N8BXI1FOmUO2+mDql8jfL/zI0
+         Hay7zurouWGLMSm88ThSAsMmd1oaHJyYLFjKxUKCsGQkIB7x347nDzKJpuTB1xELio/m
+         jtvQ==
+X-Gm-Message-State: AOAM530W8exgGdSoW0CedI6CgG58/vPtuUtYLgIDwVmRhQmEALIBofrJ
+        Rn0YDneoMJ2scfdc01X68tuHNw==
+X-Google-Smtp-Source: ABdhPJzBqoqGaZ3AGchbWoNgqa479fduCq/sAUf3WneGLyZ7HwXh6yxNJZvcIOQjzKi5Q3M8R73oyQ==
+X-Received: by 2002:a1c:e355:: with SMTP id a82mr7854723wmh.165.1592839432304;
+        Mon, 22 Jun 2020 08:23:52 -0700 (PDT)
+Received: from chromium.org (205.215.190.35.bc.googleusercontent.com. [35.190.215.205])
+        by smtp.gmail.com with ESMTPSA id m65sm16890177wmf.17.2020.06.22.08.23.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2020 08:23:51 -0700 (PDT)
+Date:   Mon, 22 Jun 2020 15:23:50 +0000
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        mchehab@kernel.org, andriy.shevchenko@linux.intel.com,
+        robh+dt@kernel.org, mark.rutland@arm.com,
+        sakari.ailus@linux.intel.com, drinkcat@chromium.org,
+        matthias.bgg@gmail.com, bingbu.cao@intel.com,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
+Subject: Re: [PATCH V10 2/2] media: i2c: ov02a10: Add OV02A10 image sensor
+ driver
+Message-ID: <20200622152350.GB260716@chromium.org>
+References: <20200615122937.18965-1-dongchun.zhu@mediatek.com>
+ <20200615122937.18965-3-dongchun.zhu@mediatek.com>
+ <20200618191026.GA73379@chromium.org>
+ <1592639284.8804.712.camel@mhfsdcap03>
 MIME-Version: 1.0
-In-Reply-To: <20200621203256.GA13040@kaaira-HP-Pavilion-Notebook>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1592639284.8804.712.camel@mhfsdcap03>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Sat, Jun 20, 2020 at 03:48:04PM +0800, Dongchun Zhu wrote:
+> Hi Tomasz,
+> 
+> Thanks for the review.
+> 
+> On Thu, 2020-06-18 at 19:10 +0000, Tomasz Figa wrote:
+> > Hi Dongchun,
+> > 
+> > On Mon, Jun 15, 2020 at 08:29:37PM +0800, Dongchun Zhu wrote:
+> > > Add a V4L2 sub-device driver for OV02A10 image sensor.
+> > > 
+> > > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > ---
+> > >  MAINTAINERS                 |    1 +
+> > >  drivers/media/i2c/Kconfig   |   13 +
+> > >  drivers/media/i2c/Makefile  |    1 +
+> > >  drivers/media/i2c/ov02a10.c | 1042 +++++++++++++++++++++++++++++++++++++++++++
+> > >  4 files changed, 1057 insertions(+)
+> > >  create mode 100644 drivers/media/i2c/ov02a10.c
+> > > 
+> > 
+> > Thank you for the patch. Please see my comments inline.
+> > 
+> > [snip]
+> > > +static int ov02a10_set_fmt(struct v4l2_subdev *sd,
+> > > +			   struct v4l2_subdev_pad_config *cfg,
+> > > +			   struct v4l2_subdev_format *fmt)
+> > > +{
+> > > +	struct ov02a10 *ov02a10 = to_ov02a10(sd);
+> > > +	struct v4l2_mbus_framefmt *mbus_fmt = &fmt->format;
+> > > +
+> > > +	mutex_lock(&ov02a10->mutex);
+> > > +
+> > > +	if (ov02a10->streaming) {
+> > > +		mutex_unlock(&ov02a10->mutex);
+> > > +		return -EBUSY;
+> > > +	}
+> > > +
+> > > +	/* Only one sensor mode supported */
+> > > +	mbus_fmt->code = ov02a10->fmt.code;
+> > > +	ov02a10_fill_fmt(ov02a10->cur_mode, mbus_fmt);
+> > > +	ov02a10->fmt = fmt->format;
+> > > +
+> > > +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+> > > +		*v4l2_subdev_get_try_format(sd, cfg, fmt->pad) = fmt->format;
+> > 
+> > If fmt->which is V4L2_SUBDEV_FORMAT_TRY, the internal driver state must not
+> > be affected. It also should not depend on whether the sensor is streaming
+> > or not. Basically it should be considered a special "candidate" format,
+> > which isn't programmed to the hardware, but just stored aside.
+> > 
+> 
+> Hmm. Maybe we shall use FORMAT_TRY like this:
+> struct v4l2_mbus_framefmt *frame_fmt;
+> ...
+> if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+> 	frame_fmt = v4l2_subdev_get_try_format(sd, cfg, 0);
+> else
+> 	frame_fmt = &ov02a10->fmt;
+> 
+> *frame_fmt = *mbus_fmt;
+> 
+> (Remove 'ov02a10->fmt = fmt->format;' above)
+>
 
+Yes, I guess that should work. Also the ov02a10->streaming condition
+shouldn't be checked if fmt->which is V4L2_SUBDEV_FORMAT_TRY).
 
-On 21.06.20 22:32, Kaaira Gupta wrote:
-> On Sat, Jun 20, 2020 at 12:05:28PM +0200, Dafna Hirschfeld wrote:
->> Hi, thanks for the patch
->>
->> On 18.06.20 21:05, Kaaira Gupta wrote:
->>> Add a control in VIMC to display information such as the correct oder of
->>> colors for a given test pattern, brightness, hue, saturation, contrast
->>> and, width and height at sensor over test image; and display that
->>> information.
->>>
->>> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
->>> ---
->>>    drivers/media/test-drivers/vimc/Kconfig       |  2 +
->>>    drivers/media/test-drivers/vimc/vimc-common.h |  1 +
->>>    drivers/media/test-drivers/vimc/vimc-sensor.c | 47 ++++++++++++++++++-
->>>    3 files changed, 49 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/test-drivers/vimc/Kconfig b/drivers/media/test-drivers/vimc/Kconfig
->>> index 4068a67585f9..da4b2ad6e40c 100644
->>> --- a/drivers/media/test-drivers/vimc/Kconfig
->>> +++ b/drivers/media/test-drivers/vimc/Kconfig
->>> @@ -2,6 +2,8 @@
->>>    config VIDEO_VIMC
->>>    	tristate "Virtual Media Controller Driver (VIMC)"
->>>    	depends on VIDEO_DEV && VIDEO_V4L2
->>> +	select FONT_SUPPORT
->>> +	select FONT_8x16
->>>    	select MEDIA_CONTROLLER
->>>    	select VIDEO_V4L2_SUBDEV_API
->>>    	select VIDEOBUF2_VMALLOC
->>> diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
->>> index ae163dec2459..afda52253402 100644
->>> --- a/drivers/media/test-drivers/vimc/vimc-common.h
->>> +++ b/drivers/media/test-drivers/vimc/vimc-common.h
->>> @@ -20,6 +20,7 @@
->>>    #define VIMC_CID_VIMC_CLASS		(0x00f00000 | 1)
->>>    #define VIMC_CID_TEST_PATTERN		(VIMC_CID_VIMC_BASE + 0)
->>>    #define VIMC_CID_MEAN_WIN_SIZE		(VIMC_CID_VIMC_BASE + 1)
->>> +#define VIMC_CID_SHOW_INFO		(VIMC_CID_VIMC_BASE + 2)
->>>    #define VIMC_FRAME_MAX_WIDTH 4096
->>>    #define VIMC_FRAME_MAX_HEIGHT 2160
->>> diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
->>> index a2f09ac9a360..f5352b115aac 100644
->>> --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
->>> +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
->>> @@ -5,6 +5,7 @@
->>>     * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
->>>     */
->>> +#include <linux/font.h>
->>>    #include <linux/v4l2-mediabus.h>
->>>    #include <linux/vmalloc.h>
->>>    #include <media/v4l2-ctrls.h>
->>> @@ -19,6 +20,7 @@ struct vimc_sen_device {
->>>    	struct v4l2_subdev sd;
->>>    	struct tpg_data tpg;
->>>    	u8 *frame;
->>> +	bool show_info;
->>
->> I see that vivid saves the 'v4l2_ctrl*' of the controls,
->> maybe you should also do that instead of saving a boolean,
-> 
-> Hi, I don't understand..isn't boolean the control?
-
-You can see that vivid saves the controls as 'v4l2_ctrl*' and
-then the value of the control can be read from the 'cur.val' field.
-Note also that the mutex lock: "mutex_lock(dev->ctrl_hdl_user_vid.lock);"
-when reading the values. This way you have don't have to set the value
-yourself, the framework takes care of it. You only have to read the value.
-
-> 
->>
->>>    	/* The active format */
->>>    	struct v4l2_mbus_framefmt mbus_format;
->>>    	struct v4l2_ctrl_handler hdl;
->>> @@ -185,10 +187,29 @@ static const struct v4l2_subdev_pad_ops vimc_sen_pad_ops = {
->>>    static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
->>>    				    const void *sink_frame)
->>>    {
->>> +	u8 *basep[TPG_MAX_PLANES][2];
->>> +	char *order;
->>> +	char str[100];
->>> +	int line = 1;
->>
->> Those vars declarations can be inside the 'if (vsen->show_info)'
-> 
-> I declared it outside because I felt all declarations should be
-> together?
-
-Not crucial, but I think it is nicer to declare variables in the most inner scope where
-they are used.
-
-> 
->>
->>>    	struct vimc_sen_device *vsen = container_of(ved, struct vimc_sen_device,
->>>    						    ved);
->>> -
->>>    	tpg_fill_plane_buffer(&vsen->tpg, 0, 0, vsen->frame);
->>> +	if (vsen->show_info) {
->>> +		tpg_calc_text_basep(&vsen->tpg, basep, 0, vsen->frame);
->>> +		order = tpg_g_color_order(&vsen->tpg);
->>> +		tpg_gen_text(&vsen->tpg, basep, line++ * 16, 16, order);
->>> +		snprintf(str, sizeof(str), " brightness %3d, contrast %3d, saturation %3d, hue %d ",
->>> +			 vsen->tpg.brightness,
->>> +			 vsen->tpg.contrast,
->>> +			 vsen->tpg.saturation,
->>> +			 vsen->tpg.hue);
->>> +		tpg_gen_text(&vsen->tpg, basep, line++ * 16, 16, str);
->>> +
->>> +		snprintf(str, sizeof(str), " sensor size: %dx%d",
->>> +			 vsen->mbus_format.width, vsen->mbus_format.height);
->>> +		tpg_gen_text(&vsen->tpg, basep, line++ * 16, 16, str);
->>> +	}
->>> +
->>>    	return vsen->frame;
->>>    }
->>> @@ -200,6 +221,14 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
->>>    	if (enable) {
->>>    		const struct vimc_pix_map *vpix;
->>>    		unsigned int frame_size;
->>> +		const struct font_desc *font = find_font("VGA8x16");
->>> +
->>> +		if (font == NULL) {
->> Using 'if (!font)' is the way to check null pointer, instead of compering to null. Running checkpatch.pl with '--strict'
->> will catch that.
-> 
-> I didn't do that to be consistent with vivid's style of code. Plus I
-> thought it makes it more clear to read. Should i change this?
-
-I don't know why vivid do it this way.
-Again, it is not that crucial, but in general it is better to send a patch that passes the issues
-found in checkpatch.
-
-Thanks,
-Dafna
-
-> 
->>> +			pr_err("vimc: could not find font\n");
->> 'dev_err' should be used instead of 'pr_err'.
-> 
-> yes sorry, i didn't now the difference.
-> 
->>
->> Also, maybe checking the font here is a bit late, since the user already
->> wants to stream and expect the info to be shown.
->> Maybe it is better to check the font on 'vimc_sen_s_ctrl'.
-> 
-> Like show the control only of font is available?
-> 
-> I think showing the error is enough maybe?
-> 
->>
->> Thanks,
->> Dafna
->>
->>> +			vsen->show_info = 0;
->>> +		} else {
->>> +			tpg_set_font(font->data);
->>> +		}
->>>    		/* Calculate the frame size */
->>>    		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
->>> @@ -269,6 +298,9 @@ static int vimc_sen_s_ctrl(struct v4l2_ctrl *ctrl)
->>>    	case V4L2_CID_SATURATION:
->>>    		tpg_s_saturation(&vsen->tpg, ctrl->val);
->>>    		break;
->>> +	case VIMC_CID_SHOW_INFO:
->>> +		vsen->show_info = ctrl->val;
->>> +		break;
->>>    	default:
->>>    		return -EINVAL;
->>>    	}
->>> @@ -307,6 +339,17 @@ static const struct v4l2_ctrl_config vimc_sen_ctrl_test_pattern = {
->>>    	.qmenu = tpg_pattern_strings,
->>>    };
->>> +static const struct v4l2_ctrl_config vimc_sen_ctrl_show_info = {
->>> +	.ops = &vimc_sen_ctrl_ops,
->>> +	.id = VIMC_CID_SHOW_INFO,
->>> +	.name = "Show Information",
->>> +	.type = V4L2_CTRL_TYPE_BOOLEAN,
->>> +	.min = 0,
->>> +	.max = 1,
->>> +	.step = 1,
->>> +	.def = 1,
->>> +};
->>> +
->>>    static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->>>    					    const char *vcfg_name)
->>>    {
->>> @@ -323,6 +366,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->>>    	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_class, NULL);
->>>    	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_test_pattern, NULL);
->>> +	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_show_info, NULL);
->>>    	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
->>>    			  V4L2_CID_VFLIP, 0, 1, 1, 0);
->>>    	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
->>> @@ -362,6 +406,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->>>    	/* Initialize the frame format */
->>>    	vsen->mbus_format = fmt_default;
->>> +	vsen->show_info = vimc_sen_ctrl_show_info.def;
->>>    	return &vsen->ved;
->>>
+Best regards,
+Tomasz
