@@ -2,174 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52301202EEA
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 05:42:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BBB34202FC7
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 08:34:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726806AbgFVDmk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 21 Jun 2020 23:42:40 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:59599 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726737AbgFVDmk (ORCPT
+        id S1731299AbgFVGea (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jun 2020 02:34:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39978 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731248AbgFVGe3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 21 Jun 2020 23:42:40 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id nDLwjyLq7n3JWnDLxjY5no; Mon, 22 Jun 2020 05:42:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592797357; bh=A0507hwtJVrY/Q0NzvIaDyizFezrcvl6tpJWNrGvJXU=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=RJXoJucs5vQf8TVwcmwI8DtO93xsNC1tn4SpKkJHomIKTClR1Cv/mOgLD2jgwZ1o6
-         1PGwug2s/QsGTtVd5x8jC/CO6ArcuGvwOtJj6beM5SYZKgBbo/GEIlfN4ZbuS4KisY
-         +tHswGcboRzivug0bKa+bO6iAAOecqEXtGyityM8yM+vVod/llZsc48lya0u641UXB
-         coNg7nuWqK3tNbOkQ1oWqvBMWfky/WWKUMGav7RULSD6kU9fJLSSkja5fCANOCEvgq
-         1wHPyw/LKrScBPiXlYC1nCvZdpg7u4VHmqirk7/KINz3HwuYV37suYFcWjBB3LTaxD
-         lu2x8KFBV+cOg==
-Message-ID: <1cf826ee34d4fad9402f879cae872664@smtp-cloud8.xs4all.net>
-Date:   Mon, 22 Jun 2020 05:42:36 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfFwjMOTkw6p9hV9nOkfFLf+pqK6nETojbDzROg1t+Qt1zFURvLQSVeSxl+CTErAjhX14nePOGrd1CIDseyldGYN9qf0MBi//3SUIhI3Hi6U6mexFdTbV
- bqdnMPnQ53tvUgYN8eHtQ7y0FKwZBUI0gVadiDfs71mCVzFqPK425D/h7p/XYACpL+8ukQPMTpliTJ0KK0bMnNJVtKGwilIAk9n6ZUbyPCU6pIsVb+vy+G6P
+        Mon, 22 Jun 2020 02:34:29 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31A12C061794
+        for <linux-media@vger.kernel.org>; Sun, 21 Jun 2020 23:34:28 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id s13so12192728otd.7
+        for <linux-media@vger.kernel.org>; Sun, 21 Jun 2020 23:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=fA+O46nAmMQU+XrEe2RpDVyUBd8QOlVEvixhrlksQsk=;
+        b=b9/LB+2uOPC2C+s6xNSxYSTXptcjEphcExsNN+CkhnNfNoRXsHKjNJYc3YIrGGzPDH
+         ++YxJtnCQUmP3PD/YQoMg/BlUCiy2n33EYzQBEfkxbebiB4hcx+BikkxstWpvr+y3jeX
+         qgY4neCyplc7bi0sc+Gdk8vAKpmLkwwstm8khaq3fbVVb7HDadQ1Q458wU68MPQxzS/Z
+         sKdhLfpy4uFaJz0QHpn96Y+zk/5kQNrBiA9YhzfBvyyxrYtyVmgmVok3dFllvH+gkabs
+         KUE7uG1jIz+vpHmlB+wXVLblZD793pLEMsMXUA69TEoyqALcnB7iSbmSmSPNwdOOR0j+
+         bmgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=fA+O46nAmMQU+XrEe2RpDVyUBd8QOlVEvixhrlksQsk=;
+        b=OTpyHqsorIFvoUVgMoU1ln7vZatLuImKJgtxj1Am6kIpQaTx0xUVXKiu2QwlCSHJcv
+         TJLZbJfcnl8GRqYovoX5oZvxupq6zNKVsA4gNcHTb/5VUgnZmkXHeJI8vmdkSJbkoPgZ
+         fcwLv57uYAy5XyZlKzqV6e9liJz7traSu0MiUSTxBLltVWfmeF8vqDBSfkeX92KPNkAr
+         f4BAZ1lSoAwsO87yOaxp6jF7NvNS2J5Gx2MFo6NQm+nyfQ0jqt9ou9wfkZNGu7Zq0ZGz
+         2oRKjgPuckrPd+46GIv09HrmSfJTVtShff9HebU9oKG6XfDS+ImHCqMT3RI38GY4IlnO
+         YqWw==
+X-Gm-Message-State: AOAM532X5vEzYQ3tktyxW1WITMWNo/OEiUrVlN4FR1Rd3v/rL2Ftb4yx
+        +EFjFtGPduZaey4duBDRr7O1MveVgQb1ywTePF8vrQ==
+X-Google-Smtp-Source: ABdhPJxjGYyJCmNve/9hcTZprbdLfZ54EQVt63NfNc2V6+/VXUjw/7gvzl9rJpUsQ+QN/VfX1wCUG1xliQmhzsSqEsY=
+X-Received: by 2002:a9d:64da:: with SMTP id n26mr7434635otl.36.1592807667489;
+ Sun, 21 Jun 2020 23:34:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200611114418.19852-1-sumit.semwal@linaro.org> <59f0062d-5ca9-84f1-ba92-c3463ff0e73d@codeaurora.org>
+In-Reply-To: <59f0062d-5ca9-84f1-ba92-c3463ff0e73d@codeaurora.org>
+From:   Sumit Semwal <sumit.semwal@linaro.org>
+Date:   Mon, 22 Jun 2020 12:04:16 +0530
+Message-ID: <CAO_48GHRf0AHTVFhroVe4O=+QVeHKNfKNwAf+5ioYyi1h7+Hsw@mail.gmail.com>
+Subject: Re: [PATCH v2] dma-buf: Move dma_buf_release() from fops to dentry_ops
+To:     Charan Teja Kalla <charante@codeaurora.org>
+Cc:     "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>,
+        Chenbo Feng <fengc@google.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
+        syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com,
+        "# 3.4.x" <stable@vger.kernel.org>, Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hello Charan,
 
-Results of the daily build of media_tree:
+On Tue, 16 Jun 2020 at 19:13, Charan Teja Kalla <charante@codeaurora.org> wrote:
+>
+> Thanks Sumit for the fix.
+>
+> On 6/11/2020 5:14 PM, Sumit Semwal wrote:
+> > Charan Teja reported a 'use-after-free' in dmabuffs_dname [1], which
+> > happens if the dma_buf_release() is called while the userspace is
+> > accessing the dma_buf pseudo fs's dmabuffs_dname() in another process,
+> > and dma_buf_release() releases the dmabuf object when the last reference
+> > to the struct file goes away.
+> >
+> > I discussed with Arnd Bergmann, and he suggested that rather than tying
+> > the dma_buf_release() to the file_operations' release(), we can tie it to
+> > the dentry_operations' d_release(), which will be called when the last ref
+> > to the dentry is removed.
+> >
+> > The path exercised by __fput() calls f_op->release() first, and then calls
+> > dput, which eventually calls d_op->d_release().
+> >
+> > In the 'normal' case, when no userspace access is happening via dma_buf
+> > pseudo fs, there should be exactly one fd, file, dentry and inode, so
+> > closing the fd will kill of everything right away.
+> >
+> > In the presented case, the dentry's d_release() will be called only when
+> > the dentry's last ref is released.
+> >
+> > Therefore, lets move dma_buf_release() from fops->release() to
+> > d_ops->d_release()
+> >
+> > Many thanks to Arnd for his FS insights :)
+> >
+> > [1]: https://lore.kernel.org/patchwork/patch/1238278/
+> >
+> > Fixes: bb2bb9030425 ("dma-buf: add DMA_BUF_SET_NAME ioctls")
+> > Reported-by: syzbot+3643a18836bce555bff6@syzkaller.appspotmail.com
+> > Cc: <stable@vger.kernel.org> [5.3+]
+> > Cc: Arnd Bergmann <arnd@arndb.de>
+> > Reported-by: Charan Teja Reddy <charante@codeaurora.org>
+> > Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+> > Signed-off-by: Sumit Semwal <sumit.semwal@linaro.org>
+> >
+>
+> Tested this patch for Android running on Snapdragon hardware and see no
+> issues.
+> Tested-by: Charan Teja Reddy <charante@codeaurora.org>
+Thanks for your tested-by, appreciate it!
 
-date:			Mon Jun 22 05:00:10 CEST 2020
-media-tree git hash:	b3a9e3b9622ae10064826dccb4f7a52bd88c7407
-media_build git hash:	d90bf09c9b38b7cc89d47d6ec71e2512f257ebe5
-v4l-utils git hash:	e27b73e4a5c7d3f4da5d366f9e2e728fd8b9be34
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		0.6.1-rc1
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b12238aeb89d6a943f5c60d2b159a5de59680d1c
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+Chris,
+any luck with your CI to test if this also helps your
+dma_buf_release() bug that you guys have seen?
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-powerpc64: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: WARNINGS
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8-rc1-i686: OK
-linux-5.8-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
-sparse: OK
-smatch: OK
+If you've not been able to test, and there are no more objections by
+EOD today, I will merge this to the drm-misc-fixes branch.
 
-Detailed results are available here:
+>
+> > ---
+> > v2: per Arnd: Moved dma_buf_release() above to avoid forward declaration;
+> >      removed dentry_ops check.
+> > ---
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+<snip>
+Best,
+Sumit.
