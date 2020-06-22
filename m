@@ -2,125 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16B4B2034B6
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 12:22:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C89B2034BA
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 12:23:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727802AbgFVKWB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jun 2020 06:22:01 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:33529 "EHLO
+        id S1726965AbgFVKXm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jun 2020 06:23:42 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:57347 "EHLO
         lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726841AbgFVKV4 (ORCPT
+        by vger.kernel.org with ESMTP id S1726841AbgFVKXm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jun 2020 06:21:56 -0400
+        Mon, 22 Jun 2020 06:23:42 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id nJaFj10Rvn3JWnJaJjZhof; Mon, 22 Jun 2020 12:21:53 +0200
+        id nJc1j11Tpn3JWnJc4jZiTl; Mon, 22 Jun 2020 12:23:40 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592821313; bh=L8WW833T8W2P1xOE2BDz+8QVVAqC2sMxUCnZhk49lAY=;
+        t=1592821420; bh=f/ULth+WPXG/hWu8Ht7Ecw0hWHHS+idcagxLi4SEmhU=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=RE1Xhlmw/69K4sdCOhopK6M7uMg043puIeJvVyvz/zfWZ8AKsjtkaKWhsaEvcUSLw
-         Rd9LnmPp/kNYPjxBNBGAR0UoXfycBfu0RRvSkVZv8hHJSxb4dbje8LZuK4G9coaQbi
-         xzBNobZsXWxSCNd5hxr2fMGoj5aw2OJg5lo/LJvfRQKbJqIdnsFLmK/aNiohBIKhA6
-         WW/cKeEExueTGx8c+CTRpJd63i/8B3khh52QyJe+8Hve5Li0PEJctxL8Fwz+nLvdQ1
-         dnEiDC+6CNXkuR8W2fzuaa8Lmlj/0ilHkM1AJlMJHQGEWRxVHea8phMbFphh17Luve
-         J5f7uUvP0PxDw==
-Subject: Re: [PATCH] media: vsp1: Fix a reference count leak.
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        wu000273@umn.edu
-Cc:     kjlu@umn.edu,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        b=jF9UasZ/5EAMII3du05bFA3W9vQlYTG5dEezJEWbioY4xYvZsmHYNfLxJi2z7b6p0
+         5ns7WKvXbkGZASOIMoGCM1HQEiurIVJwIeseO4ct6UfGOOkGNr73EHu/gqdkP7SeeQ
+         sYx1OSGkKngZCOsH+tkZhXpFo4xleDFGg/xDEM3LqbyxmTCNQdsHJT54bZLdwRojl/
+         KdoJfa4/D0pjp9naJOh6U5tccPK27QcvjhqUAIs1zhQxon6xqLt/dEDwK0XDnCUeAc
+         mcjVM93f0CcA/qTrQrPtVavxhfB0KHvn7HquSWx0qhcdskqD7EDYuq+DFOBx3INJBX
+         fEF7eal7bSZsg==
+Subject: Re: [PATCH RESEND] media: cros-ec-cec: do not bail on
+ device_init_wakeup failure
+To:     Dariusz Marcinkiewicz <darekm@google.com>,
+        linux-media@vger.kernel.org
+Cc:     narmstrong@baylibre.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Dinghao Liu <dinghao.liu@zju.edu.cn>,
-        Aditya Pakki <pakki001@umn.edu>
-References: <20200613232357.18155-1-wu000273@umn.edu>
- <20200616020732.GK1629@pendragon.ideasonboard.com>
- <20200616020956.GL1629@pendragon.ideasonboard.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <812c778d-2bdc-574c-eb72-fb2570ac2c11@xs4all.nl>
-Date:   Mon, 22 Jun 2020 12:21:47 +0200
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Dariusz Marcinkiewicz <darekm@chromium.org>,
+        linux-kernel@vger.kernel.org
+References: <20200622100520.143622-1-darekm@google.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <ca796f62-7d1f-3391-0373-ec9b98b1c47a@xs4all.nl>
+Date:   Mon, 22 Jun 2020 12:23:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200616020956.GL1629@pendragon.ideasonboard.com>
+In-Reply-To: <20200622100520.143622-1-darekm@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfA+D8HR7+7RpJYj/+jTPeJo/BoeYGufrTWr4WgMf436hetOblzYq+W++Fi5KnZH0DPyhCPkrWZ9EQTA0giCxanUHOC1L2jUfwK4acs2xnMfpe0mclqyh
- RrbxK91lFVarg61urjG1pMgo5jnNyO6RimmbO7EyvhECHWzcI6G/Ymb2k7hP9G/CyeljqVu5idrgw6g5SEbssrvVdSLuWyxV+ymwAweBKyPDnWhvOG6kX7Xp
- 55F8XWZo8KcSUBUry3ZepkZ+nQS2SKLe4kPMtQmFmw7I8DWSfeg+R7w9CTbrA8D4ZFJzQO1+/7MR+LGOOipmBypDrNcf1N10QmNBE7JdPKu0HFapkrH3tgdg
- N8U02pdN63PCLTZzcX5uvl7O6h47bFj0iNdyNOeoO694di2orXpvK5ACc4ACjv3fAbORjFawI/bGfQ69IqxsKiPVJ5Gac8o0b3fj65xPDtlWw+4iDxEmJ37T
- CfHP5p/7EYyhUy+rWdafmdpTHhPEbAf7OQ3s6z3grCXAmSnpTvCngvOYnMM0G+0BRSTiXLyWL5Q8spBBoV9zTl53s2KsvMx95vevBQ==
+X-CMAE-Envelope: MS4wfGXI0eTxzr8KTbetnLgAYjh9qScosjRXUdJOPWPZlPqM6Oq5U2RVg1ofWC1UIDgWz+Xw7odQNObqtVNREyZrgw5+mVn68FuxZ7fnEXM9gP9z9BnlIopo
+ KkqQZiNRvZN3iQ8dqnnTjP0OFGF0d2JZoV7pLBIF9YPZ5ps63pulHWiQkLNB32TFqGg1FzvJoZrMbjmbIwMnn296FTb/9Cidk8ceBAdg4YM3d7bqcTpt64jk
+ RZkJw3KT3SOqq8Y8X3ryJlMsWks/YBme5p5Q4X0mf20cyepkJFYkhq2MEiMsZXK5sorIzdIxYqe6rscK8rqTgkhbY7h8pMoUkSgpSPW8hW7CFTASdVwF/llk
+ vYtOi9fKNF0lDmswHbDUeeTuR5gxDcuX3N4HtEeJJBKmUE2HCdmnhNnmHiiS7zSvHkIkCzrtyWnoTQVVCMvr5yvPDtt7YoqMkucubT/Kd37S5eWU0x/Jl+Kq
+ lPlZyhYROrwx0m1vIj2PXitF6bUaQzXO20d1YcWJpJQ3V3iJONqjh5BE6yAL8isb0sWz6nibLvU96vUk
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/06/2020 04:09, Laurent Pinchart wrote:
-> On Tue, Jun 16, 2020 at 05:07:34AM +0300, Laurent Pinchart wrote:
->> Hi Qiushi,
->>
->> (CC'ing Rafael and Geert)
->>
->> Thank you for the patch.
->>
->> On Sat, Jun 13, 2020 at 06:23:57PM -0500, wu000273@umn.edu wrote:
->>> From: Qiushi Wu <wu000273@umn.edu>
->>>
->>> pm_runtime_get_sync() increments the runtime PM usage counter even
->>> when it returns an error code, causing incorrect ref count if
->>> pm_runtime_put_noidle() is not called in error handling paths.
->>> Thus call pm_runtime_put_noidle() if pm_runtime_get_sync() fails.
->>>
->>> Fixes: 1e6af546ee66 ("[media] v4l: vsp1: Implement runtime PM support")
->>> Signed-off-by: Qiushi Wu <wu000273@umn.edu>
->>
->> https://lore.kernel.org/dri-devel/20200614134655.GA5960@pendragon.ideasonboard.com/
->>
->> I really wonder if mass-patching all drivers is the best way forward.
+On 22/06/2020 12:05, Dariusz Marcinkiewicz wrote:
+> Do not fail probing when device_init_wakeup fails.
 > 
-> Also,
+> device_init_wakeup fails when the device is already enabled as wakeup
+> device. Hence, the driver fails to probe the device if:
+> - The device has already been enabled for wakeup (via e.g. sysfs)
+> - The driver has been unloaded and is being loaded again.
 > 
-> https://lore.kernel.org/linux-media/20200608052919.4984-1-dinghao.liu@zju.edu.cn/
+> This goal of the patch is to fix the above cases.
+> 
+> Overwhelming majority of the drivers do not check device_init_wakeup
+> return value.
+> 
+> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
 
-I also stop applying these patches. In part because of what Laurent says (I'd
-like to have some consensus on this as well), and in part because there are
-at least three different devs working on this (Qiushi Wu <wu000273@umn.edu>,
-Aditya Pakki <pakki001@umn.edu> and Dinghao Liu <dinghao.liu@zju.edu.cn>) and
-I am getting duplicate patches.
+This can be CCed to stable, I guess?
 
-So I stop applying these pm_runtime_get_sync() patches until it is clear that
-this is the way forward. Other ref count issues I will still apply, but it
-would be great if Qiushi Wu, Aditya Pakki and Dinghao Liu can work together
-to avoid duplicate patches.
+Can you provide a Fixes: tag as well?
 
 Regards,
 
 	Hans
 
+> ---
+>  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 6 +-----
+>  1 file changed, 1 insertion(+), 5 deletions(-)
 > 
->>> ---
->>>  drivers/media/platform/vsp1/vsp1_drv.c | 4 +++-
->>>  1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/platform/vsp1/vsp1_drv.c b/drivers/media/platform/vsp1/vsp1_drv.c
->>> index c650e45bb0ad..222c9e1261a0 100644
->>> --- a/drivers/media/platform/vsp1/vsp1_drv.c
->>> +++ b/drivers/media/platform/vsp1/vsp1_drv.c
->>> @@ -846,8 +846,10 @@ static int vsp1_probe(struct platform_device *pdev)
->>>  	pm_runtime_enable(&pdev->dev);
->>>  
->>>  	ret = pm_runtime_get_sync(&pdev->dev);
->>> -	if (ret < 0)
->>> +	if (ret < 0) {
->>> +		pm_runtime_put_noidle(&pdev->dev);
->>>  		goto done;
->>> +	}
->>>  
->>>  	vsp1->version = vsp1_read(vsp1, VI6_IP_VERSION);
->>>  	pm_runtime_put_sync(&pdev->dev);
+> diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> index 0e7e2772f08f..2d95e16cd248 100644
+> --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> @@ -277,11 +277,7 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+>  	platform_set_drvdata(pdev, cros_ec_cec);
+>  	cros_ec_cec->cros_ec = cros_ec;
+>  
+> -	ret = device_init_wakeup(&pdev->dev, 1);
+> -	if (ret) {
+> -		dev_err(&pdev->dev, "failed to initialize wakeup\n");
+> -		return ret;
+> -	}
+> +	device_init_wakeup(&pdev->dev, 1);
+>  
+>  	cros_ec_cec->adap = cec_allocate_adapter(&cros_ec_cec_ops, cros_ec_cec,
+>  						 DRV_NAME,
 > 
 
