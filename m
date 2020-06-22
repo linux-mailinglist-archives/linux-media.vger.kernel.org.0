@@ -2,128 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 383502038D3
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 16:11:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CE3F2039AC
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 16:37:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729128AbgFVOLC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jun 2020 10:11:02 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:43240 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728769AbgFVOLB (ORCPT
+        id S1729383AbgFVOhA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jun 2020 10:37:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58206 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729359AbgFVOg7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jun 2020 10:11:01 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05ME7hqD023215;
-        Mon, 22 Jun 2020 14:10:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=0EBM5le0xqirs7lj5LfEZx5P/2vKUTcJe4V2QpW/Wss=;
- b=UWXptkMygc9dUKNnct8y38uRou4DJZUscE9eIfHGOBaAggxbs9hVhnfX1N0pxl6+Y6mN
- EHLN7c1Ffr/XAfA4edMZGRJpqfWY5ohGj4P2F4P1UAYQk6KoAeGsS/4MJMM+DhUXbwz6
- VWzqBzy+G03l2vs57tWX1D6VEaHAWQxOl5976utEghYn2jH80a/dRf9qQBWXSEF4NNNY
- 8qSdxm1h24ZuUHnCW7P76ORd1yZ4F/kmiR/nEUsTbaVi6FUyoH8P6gB/AKGRMxy+a8Bp
- pxDqc9ro7Xcar6IOov1jMg3Vm4ljASqjGRYKdpLDWnl7q8RLXXSADKQBsQlPl9q+3q9J rA== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2120.oracle.com with ESMTP id 31sebbffk0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 22 Jun 2020 14:10:50 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05ME85lf109939;
-        Mon, 22 Jun 2020 14:10:50 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 31sv7q6neb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 22 Jun 2020 14:10:50 +0000
-Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05MEAhkv028405;
-        Mon, 22 Jun 2020 14:10:43 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 22 Jun 2020 14:10:43 +0000
-Date:   Mon, 22 Jun 2020 17:10:36 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mon, 22 Jun 2020 10:36:59 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EDEEC061795;
+        Mon, 22 Jun 2020 07:36:59 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id E0FB02A1D2C
+Subject: Re: [PATCH v3 2/2] media: vimc: Add a control to display info on test
+ image
+To:     Kaaira Gupta <kgupta@es.iitr.ac.in>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: uvc: Fix list_for_each() checking
-Message-ID: <20200622141036.GA13774@mwanda>
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        hverkuil@xs4all.nl
+References: <20200618190506.11892-1-kgupta@es.iitr.ac.in>
+ <20200618190506.11892-3-kgupta@es.iitr.ac.in>
+ <d62583ab-7dd3-9a37-c94d-99fae0f29357@collabora.com>
+ <20200621203256.GA13040@kaaira-HP-Pavilion-Notebook>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <a8fb5c4c-4994-f53d-838d-0c10d796b997@collabora.com>
+Date:   Mon, 22 Jun 2020 16:36:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9659 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 suspectscore=0 mlxlogscore=999
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2004280000 definitions=main-2006220107
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9659 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 phishscore=0
- adultscore=0 impostorscore=0 cotscore=-2147483648 mlxscore=0
- suspectscore=0 mlxlogscore=999 bulkscore=0 lowpriorityscore=0
- clxscore=1011 priorityscore=1501 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006220107
+In-Reply-To: <20200621203256.GA13040@kaaira-HP-Pavilion-Notebook>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the UVC_QUIRK_IGNORE_SELECTOR_UNIT flag is set, then there is a
-problem that the code uses "iterm" after the end of the
-list_for_each_entry() loop.  It should only be used when the
-UVC_ENTITY_IS_ITERM() condition is true and we break from the loop.
 
-Fixes: d5e90b7a6cd1 ("[media] uvcvideo: Move to video_ioctl2")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
-Please review this one extra carefully because it's from static analysis
-and I'm not 100% sure it's correct.
 
- drivers/media/usb/uvc/uvc_v4l2.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+On 21.06.20 22:32, Kaaira Gupta wrote:
+> On Sat, Jun 20, 2020 at 12:05:28PM +0200, Dafna Hirschfeld wrote:
+>> Hi, thanks for the patch
+>>
+>> On 18.06.20 21:05, Kaaira Gupta wrote:
+>>> Add a control in VIMC to display information such as the correct oder of
+>>> colors for a given test pattern, brightness, hue, saturation, contrast
+>>> and, width and height at sensor over test image; and display that
+>>> information.
+>>>
+>>> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+>>> ---
+>>>    drivers/media/test-drivers/vimc/Kconfig       |  2 +
+>>>    drivers/media/test-drivers/vimc/vimc-common.h |  1 +
+>>>    drivers/media/test-drivers/vimc/vimc-sensor.c | 47 ++++++++++++++++++-
+>>>    3 files changed, 49 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/media/test-drivers/vimc/Kconfig b/drivers/media/test-drivers/vimc/Kconfig
+>>> index 4068a67585f9..da4b2ad6e40c 100644
+>>> --- a/drivers/media/test-drivers/vimc/Kconfig
+>>> +++ b/drivers/media/test-drivers/vimc/Kconfig
+>>> @@ -2,6 +2,8 @@
+>>>    config VIDEO_VIMC
+>>>    	tristate "Virtual Media Controller Driver (VIMC)"
+>>>    	depends on VIDEO_DEV && VIDEO_V4L2
+>>> +	select FONT_SUPPORT
+>>> +	select FONT_8x16
+>>>    	select MEDIA_CONTROLLER
+>>>    	select VIDEO_V4L2_SUBDEV_API
+>>>    	select VIDEOBUF2_VMALLOC
+>>> diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
+>>> index ae163dec2459..afda52253402 100644
+>>> --- a/drivers/media/test-drivers/vimc/vimc-common.h
+>>> +++ b/drivers/media/test-drivers/vimc/vimc-common.h
+>>> @@ -20,6 +20,7 @@
+>>>    #define VIMC_CID_VIMC_CLASS		(0x00f00000 | 1)
+>>>    #define VIMC_CID_TEST_PATTERN		(VIMC_CID_VIMC_BASE + 0)
+>>>    #define VIMC_CID_MEAN_WIN_SIZE		(VIMC_CID_VIMC_BASE + 1)
+>>> +#define VIMC_CID_SHOW_INFO		(VIMC_CID_VIMC_BASE + 2)
+>>>    #define VIMC_FRAME_MAX_WIDTH 4096
+>>>    #define VIMC_FRAME_MAX_HEIGHT 2160
+>>> diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
+>>> index a2f09ac9a360..f5352b115aac 100644
+>>> --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
+>>> +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
+>>> @@ -5,6 +5,7 @@
+>>>     * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
+>>>     */
+>>> +#include <linux/font.h>
+>>>    #include <linux/v4l2-mediabus.h>
+>>>    #include <linux/vmalloc.h>
+>>>    #include <media/v4l2-ctrls.h>
+>>> @@ -19,6 +20,7 @@ struct vimc_sen_device {
+>>>    	struct v4l2_subdev sd;
+>>>    	struct tpg_data tpg;
+>>>    	u8 *frame;
+>>> +	bool show_info;
+>>
+>> I see that vivid saves the 'v4l2_ctrl*' of the controls,
+>> maybe you should also do that instead of saving a boolean,
+> 
+> Hi, I don't understand..isn't boolean the control?
 
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 0335e69b70ab..945862afa829 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -827,28 +827,32 @@ static int uvc_ioctl_enum_input(struct file *file, void *fh,
- 	const struct uvc_entity *selector = chain->selector;
- 	struct uvc_entity *iterm = NULL;
- 	u32 index = input->index;
--	int pin = 0;
-+	bool found = false;
-+	int pin;
- 
- 	if (selector == NULL ||
- 	    (chain->dev->quirks & UVC_QUIRK_IGNORE_SELECTOR_UNIT)) {
- 		if (index != 0)
- 			return -EINVAL;
- 		list_for_each_entry(iterm, &chain->entities, chain) {
--			if (UVC_ENTITY_IS_ITERM(iterm))
-+			if (UVC_ENTITY_IS_ITERM(iterm)) {
-+				found = true;
- 				break;
-+			}
- 		}
--		pin = iterm->id;
- 	} else if (index < selector->bNrInPins) {
- 		pin = selector->baSourceID[index];
- 		list_for_each_entry(iterm, &chain->entities, chain) {
- 			if (!UVC_ENTITY_IS_ITERM(iterm))
- 				continue;
--			if (iterm->id == pin)
-+			if (iterm->id == pin) {
-+				found = true;
- 				break;
-+			}
- 		}
- 	}
- 
--	if (iterm == NULL || iterm->id != pin)
-+	if (!found)
- 		return -EINVAL;
- 
- 	memset(input, 0, sizeof(*input));
--- 
-2.27.0
+You can see that vivid saves the controls as 'v4l2_ctrl*' and
+then the value of the control can be read from the 'cur.val' field.
+Note also that the mutex lock: "mutex_lock(dev->ctrl_hdl_user_vid.lock);"
+when reading the values. This way you have don't have to set the value
+yourself, the framework takes care of it. You only have to read the value.
 
+> 
+>>
+>>>    	/* The active format */
+>>>    	struct v4l2_mbus_framefmt mbus_format;
+>>>    	struct v4l2_ctrl_handler hdl;
+>>> @@ -185,10 +187,29 @@ static const struct v4l2_subdev_pad_ops vimc_sen_pad_ops = {
+>>>    static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
+>>>    				    const void *sink_frame)
+>>>    {
+>>> +	u8 *basep[TPG_MAX_PLANES][2];
+>>> +	char *order;
+>>> +	char str[100];
+>>> +	int line = 1;
+>>
+>> Those vars declarations can be inside the 'if (vsen->show_info)'
+> 
+> I declared it outside because I felt all declarations should be
+> together?
+
+Not crucial, but I think it is nicer to declare variables in the most inner scope where
+they are used.
+
+> 
+>>
+>>>    	struct vimc_sen_device *vsen = container_of(ved, struct vimc_sen_device,
+>>>    						    ved);
+>>> -
+>>>    	tpg_fill_plane_buffer(&vsen->tpg, 0, 0, vsen->frame);
+>>> +	if (vsen->show_info) {
+>>> +		tpg_calc_text_basep(&vsen->tpg, basep, 0, vsen->frame);
+>>> +		order = tpg_g_color_order(&vsen->tpg);
+>>> +		tpg_gen_text(&vsen->tpg, basep, line++ * 16, 16, order);
+>>> +		snprintf(str, sizeof(str), " brightness %3d, contrast %3d, saturation %3d, hue %d ",
+>>> +			 vsen->tpg.brightness,
+>>> +			 vsen->tpg.contrast,
+>>> +			 vsen->tpg.saturation,
+>>> +			 vsen->tpg.hue);
+>>> +		tpg_gen_text(&vsen->tpg, basep, line++ * 16, 16, str);
+>>> +
+>>> +		snprintf(str, sizeof(str), " sensor size: %dx%d",
+>>> +			 vsen->mbus_format.width, vsen->mbus_format.height);
+>>> +		tpg_gen_text(&vsen->tpg, basep, line++ * 16, 16, str);
+>>> +	}
+>>> +
+>>>    	return vsen->frame;
+>>>    }
+>>> @@ -200,6 +221,14 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
+>>>    	if (enable) {
+>>>    		const struct vimc_pix_map *vpix;
+>>>    		unsigned int frame_size;
+>>> +		const struct font_desc *font = find_font("VGA8x16");
+>>> +
+>>> +		if (font == NULL) {
+>> Using 'if (!font)' is the way to check null pointer, instead of compering to null. Running checkpatch.pl with '--strict'
+>> will catch that.
+> 
+> I didn't do that to be consistent with vivid's style of code. Plus I
+> thought it makes it more clear to read. Should i change this?
+
+I don't know why vivid do it this way.
+Again, it is not that crucial, but in general it is better to send a patch that passes the issues
+found in checkpatch.
+
+Thanks,
+Dafna
+
+> 
+>>> +			pr_err("vimc: could not find font\n");
+>> 'dev_err' should be used instead of 'pr_err'.
+> 
+> yes sorry, i didn't now the difference.
+> 
+>>
+>> Also, maybe checking the font here is a bit late, since the user already
+>> wants to stream and expect the info to be shown.
+>> Maybe it is better to check the font on 'vimc_sen_s_ctrl'.
+> 
+> Like show the control only of font is available?
+> 
+> I think showing the error is enough maybe?
+> 
+>>
+>> Thanks,
+>> Dafna
+>>
+>>> +			vsen->show_info = 0;
+>>> +		} else {
+>>> +			tpg_set_font(font->data);
+>>> +		}
+>>>    		/* Calculate the frame size */
+>>>    		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
+>>> @@ -269,6 +298,9 @@ static int vimc_sen_s_ctrl(struct v4l2_ctrl *ctrl)
+>>>    	case V4L2_CID_SATURATION:
+>>>    		tpg_s_saturation(&vsen->tpg, ctrl->val);
+>>>    		break;
+>>> +	case VIMC_CID_SHOW_INFO:
+>>> +		vsen->show_info = ctrl->val;
+>>> +		break;
+>>>    	default:
+>>>    		return -EINVAL;
+>>>    	}
+>>> @@ -307,6 +339,17 @@ static const struct v4l2_ctrl_config vimc_sen_ctrl_test_pattern = {
+>>>    	.qmenu = tpg_pattern_strings,
+>>>    };
+>>> +static const struct v4l2_ctrl_config vimc_sen_ctrl_show_info = {
+>>> +	.ops = &vimc_sen_ctrl_ops,
+>>> +	.id = VIMC_CID_SHOW_INFO,
+>>> +	.name = "Show Information",
+>>> +	.type = V4L2_CTRL_TYPE_BOOLEAN,
+>>> +	.min = 0,
+>>> +	.max = 1,
+>>> +	.step = 1,
+>>> +	.def = 1,
+>>> +};
+>>> +
+>>>    static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+>>>    					    const char *vcfg_name)
+>>>    {
+>>> @@ -323,6 +366,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+>>>    	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_class, NULL);
+>>>    	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_test_pattern, NULL);
+>>> +	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_show_info, NULL);
+>>>    	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
+>>>    			  V4L2_CID_VFLIP, 0, 1, 1, 0);
+>>>    	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
+>>> @@ -362,6 +406,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+>>>    	/* Initialize the frame format */
+>>>    	vsen->mbus_format = fmt_default;
+>>> +	vsen->show_info = vimc_sen_ctrl_show_info.def;
+>>>    	return &vsen->ved;
+>>>
