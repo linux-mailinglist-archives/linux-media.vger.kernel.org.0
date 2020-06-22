@@ -2,122 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 511A6203614
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 13:46:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28B9F203618
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 13:47:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727956AbgFVLqW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jun 2020 07:46:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60098 "EHLO
+        id S1727945AbgFVLqx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jun 2020 07:46:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727897AbgFVLqV (ORCPT
+        with ESMTP id S1727838AbgFVLqw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jun 2020 07:46:21 -0400
-Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08D5DC061795
-        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 04:46:20 -0700 (PDT)
-Received: by mail-qk1-x744.google.com with SMTP id j80so3796716qke.0
-        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 04:46:19 -0700 (PDT)
+        Mon, 22 Jun 2020 07:46:52 -0400
+Received: from mail-qk1-x749.google.com (mail-qk1-x749.google.com [IPv6:2607:f8b0:4864:20::749])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BE04C061795
+        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 04:46:52 -0700 (PDT)
+Received: by mail-qk1-x749.google.com with SMTP id x22so12616146qkj.6
+        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 04:46:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=NBKzXepzy68inRcMiAHpgcaZ+EYis2uiV6fI4xhZtmM=;
-        b=k8sCtVsIXQZTIM44uTx5XoGTEDbrW/uXOY8fvY9Nd/4DXh4saPSxYGA0cCfUbnlyLl
-         tHW4PMUz+IUIg6iJElEk/IVvMc03r9mZCDo7PkP58fQDAGJJHKTvWbHlwGlvSkCSJBE9
-         Ppej67LhjF9DHjvuE14BQiJBd6KnkgcnIxlNFcmKmCUHQqePe85Gy7qlE4M8VsBeHKUS
-         yKX1U0jk0j5Ks8Y76HvcbvQtdxXTdUE006wQlY/5i2fjpanXsf+qNhaiup+oN8Qg8/ox
-         /U6VE787P4r0dXZDbqERqe83AX626e55WkuKobSm/QiJ7uDeG7xH7wfc6SCv8Inqo2Uq
-         QFhA==
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=j19qINoTS0ZUB5VmYI6tnBHGsC7YwPPKrYVY46VAbqw=;
+        b=TLI75zhb3hcV71NRaoY51FnnY5U5mwBw4h8IRj01n/GB6WFaLkNAhOJ8mnrRi3Kt3U
+         D5/gxSxGrus9cNQo5m1Gcy6XqXBDCOw3JYI8VmnY7KeZnA7NkePDxNoyI09U/OSYdl2+
+         hZ/u5zK+54x66LU6Nq3QU4GNpunW1AZfRo/MZdfk+il4B1WHnDB1+DQ7fPll1n+1XZ+L
+         y6GDaAQ/h9xMJ4jkd550Ctde6Of3UWj0ud5H+4FdWvJ7l8GD/L64pmBh0KUAiTwOsVGu
+         PIXKyL4z1yLzsRB7rNwGrL+OhEOFvq49zwARR2aWdduxZjBc784HqWV1e9Xm+McOFmSC
+         UTrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=NBKzXepzy68inRcMiAHpgcaZ+EYis2uiV6fI4xhZtmM=;
-        b=iLgMP1UJgFZ5rTq/3dwHccngEVQlhcgs7rsK6ZqM+BIvQ1K3MUl5wSL9vC7Wjzo5xF
-         gu7cGW9fXF0ljIBxj2dAJ2KWEW35lCSvqTT2zOxFZ6Fr8DN3EovtW9jIEW+zGRyv4kKI
-         h8jSviCCNFYPia9K+hnf/5eAJRIOhKG1LfCO3XWa93yy3xyQkqtpm6V24UZsZltolD6x
-         jmp20ngVRHPYSyKi07SHCwDSLVVi5hr2/QGSt7kwAon6WMiuzpW5AueEfr+WzausokeK
-         al3PqNcQ7YHMv8gLOV5EEzZWXowy1K4F3gQuXkMTYRpW11xuXbPr43pZNVm8dPClmvWR
-         BHzg==
-X-Gm-Message-State: AOAM5323IvnfyN7LsASwYM6PrxNfuKlIcRLIA8AKXJGSvATD5af9evws
-        TazLICeykmnjlzidIBE5CiONTA==
-X-Google-Smtp-Source: ABdhPJxthYjyMVCe6ZAxMUNKsmIMBTQD1YPg4YWyLhscgW6iJ+jy7QK2ERT6it0ZxPEWrnvgAqzIOg==
-X-Received: by 2002:ae9:c00d:: with SMTP id u13mr15622504qkk.434.1592826379164;
-        Mon, 22 Jun 2020 04:46:19 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id r37sm14964604qtk.34.2020.06.22.04.46.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Jun 2020 04:46:18 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.93)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1jnKu1-00Brwt-CA; Mon, 22 Jun 2020 08:46:17 -0300
-Date:   Mon, 22 Jun 2020 08:46:17 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Jerome Glisse <jglisse@redhat.com>
-Cc:     Felix Kuehling <felix.kuehling@amd.com>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Thomas =?utf-8?B?SGVsbHN0csO2bSAoSW50ZWwp?= 
-        <thomas_os@shipmail.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
- annotations
-Message-ID: <20200622114617.GU6578@ziepe.ca>
-References: <20200619113934.GN6578@ziepe.ca>
- <CAKMK7uE-kWA==Cko5uenMrcnopEjq42HxoDTDywzBAbHqsN13g@mail.gmail.com>
- <20200619151551.GP6578@ziepe.ca>
- <CAKMK7uEvkshAM6KUYZu8_OCpF4+1Y_SM7cQ9nJWpagfke8s8LA@mail.gmail.com>
- <20200619172308.GQ6578@ziepe.ca>
- <20200619180935.GA10009@redhat.com>
- <20200619181849.GR6578@ziepe.ca>
- <56008d64-772d-5757-6136-f20591ef71d2@amd.com>
- <20200619195538.GT6578@ziepe.ca>
- <20200619203147.GC13117@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200619203147.GC13117@redhat.com>
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=j19qINoTS0ZUB5VmYI6tnBHGsC7YwPPKrYVY46VAbqw=;
+        b=HTM+ewebdaLmZhcoJ2oyh74U3MqBmnyDPLIJfd30d746I16uVQ6YqO+tNJ0eN2h43Q
+         fP7FW1rtrdb10zdLbfG6f0YUT5BAVVkwvsZyM/EpWUPanzm3Uen4zFh/sY8ne+TYFKrZ
+         cEOpZubZ0zhQt/0YGw+WaXj5PM98+hJGHwmwrjTxS+6SMnPqUFtdbeBMODG7t5Z0RZ+m
+         5DkI4WFK3x5GtI5rXb8R1hFgWRUqhPRR5Zx7hIF+kKi1LgiianIgvXB6UCriv+f+yzWL
+         4gSbYJQmPzfgYUPITMNUaBctgE+alMPIYqowb7G0RsF21BXx1HD2lvGsu10BiegHgnFg
+         JGVw==
+X-Gm-Message-State: AOAM530Wjv3/PtGCcIZEWpgVFvZlH3xzr/CIuoN+ek8KqY9TjYNS1f9n
+        Hg7iC1U8n+KEkr85HMybD6mGGS4StWewX2uWkxOgtcLMoDCC/99fMVOxOnnOf757q0F06SmjshB
+        hCOJ/KZJpXr1Y6veIcnwlY1A64P/L6Sdy9WegmE4TVRjBj6krSgjFqwRH/oCvPwiiTqbx
+X-Google-Smtp-Source: ABdhPJxtMErmxXcluP2xrN//Yw4g53tHUvtp06FFk3nIs69FZwkQ9eA3ZuOzcfzQAtTaVbdUTCxXPynvXwE=
+X-Received: by 2002:a0c:8d46:: with SMTP id s6mr21215475qvb.241.1592826411606;
+ Mon, 22 Jun 2020 04:46:51 -0700 (PDT)
+Date:   Mon, 22 Jun 2020 13:46:36 +0200
+Message-Id: <20200622114639.165874-1-darekm@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.27.0.111.gc72c7da667-goog
+Subject: [PATCH v2] media: cros-ec-cec: do not bail on device_init_wakeup failure
+From:   Dariusz Marcinkiewicz <darekm@google.com>
+To:     linux-media@vger.kernel.org
+Cc:     narmstrong@baylibre.com, Dariusz Marcinkiewicz <darekm@google.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Dariusz Marcinkiewicz <darekm@chromium.org>,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 19, 2020 at 04:31:47PM -0400, Jerome Glisse wrote:
-> Not doable as page refcount can change for things unrelated to GUP, with
-> John changes we can identify GUP and we could potentialy copy GUPed page
-> instead of COW but this can potentialy slow down fork() and i am not sure
-> how acceptable this would be. Also this does not solve GUP against page
-> that are already in fork tree ie page P0 is in process A which forks,
-> we now have page P0 in process A and B. Now we have process A which forks
-> again and we have page P0 in A, B, and C. Here B and C are two branches
-> with root in A. B and/or C can keep forking and grow the fork tree.
+Do not fail probing when device_init_wakeup fails.
 
-For a long time now RDMA has broken COW pages when creating user DMA
-regions.
+device_init_wakeup fails when the device is already enabled as wakeup
+device. Hence, the driver fails to probe the device if:
+- The device has already been enabled for wakeup (by e.g. sysfs)
+- The driver has been unloaded and is being loaded again.
 
-The problem has been that fork re-COW's regions that had their COW
-broken.
+This goal of the patch is to fix the above cases.
 
-So, if you break the COW upon mapping and prevent fork (and others)
-from copying DMA pinned then you'd cover the cases.
+Overwhelming majority of the drivers do not check device_init_wakeup
+return code.
 
-> Semantic was change with 17839856fd588f4ab6b789f482ed3ffd7c403e1f to some
-> what "fix" that but GUP fast is still succeptible to this.
+v2: add Fixes tags
 
-Ah, so everyone breaks the COW now, not just RDMA..
+Fixes: cd70de2d356ee ("media: platform: Add ChromeOS EC CEC driver")
+Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+---
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-What do you mean 'GUP fast is still succeptible to this' ?
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 0e7e2772f08f..2d95e16cd248 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -277,11 +277,7 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, cros_ec_cec);
+ 	cros_ec_cec->cros_ec = cros_ec;
+ 
+-	ret = device_init_wakeup(&pdev->dev, 1);
+-	if (ret) {
+-		dev_err(&pdev->dev, "failed to initialize wakeup\n");
+-		return ret;
+-	}
++	device_init_wakeup(&pdev->dev, 1);
+ 
+ 	cros_ec_cec->adap = cec_allocate_adapter(&cros_ec_cec_ops, cros_ec_cec,
+ 						 DRV_NAME,
+-- 
+2.27.0.111.gc72c7da667-goog
 
-Jason
