@@ -2,147 +2,273 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D7EA920378A
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 15:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8746E2038C6
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 16:07:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728510AbgFVNKS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jun 2020 09:10:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44812 "EHLO
+        id S1729205AbgFVOHu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jun 2020 10:07:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728377AbgFVNKR (ORCPT
+        with ESMTP id S1728977AbgFVOHu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jun 2020 09:10:17 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 756FDC061794
-        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 06:10:17 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id k15so12975190otp.8
-        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 06:10:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=F+fxtByV8XJfBDQUCtfrNN7N2L9LcG9m+MouCilHhEg=;
-        b=krWaNh6mktbYPiJFXjhvO2GGm/lh3IAexn5C5zlaHNYtpbtuX6nEX3dHxttasrcEBQ
-         r2Ke+i7ksGb0Zg3OHvJLCRpJCmj5t2cPKaC6n/Bu7vNWbIwo7oyAMpXdzNjOz75YkXz9
-         FKnRmUSO+pL/YuFF4vDZJ4m0WKsQyvSwGoT0I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=F+fxtByV8XJfBDQUCtfrNN7N2L9LcG9m+MouCilHhEg=;
-        b=UW2SDk83bUARttMnRCmmYF4uroyVUm/9n00lJQZ4TbV0QO7psD4cRvM6noYPh9Dlmj
-         27rZgVY94HLCwT5NJCnWeL/+6n0QCFVOTaP9S5Sjwz3gcdwVExs7wADMIQgwTBdvM3ro
-         kZyTN4G9XDI78jvy0dDB6hdrb/t0Nnkc4ubYYkCdwzT31w12K6b10+9m7AE9dbVCAxBe
-         ZUI6LfYh0JDsrKe36rcowRMKmWnKeyVT7nNdk38LYuRhDOfJ+4r91JWqkxZz+2m0hmAc
-         PcFsWbMT1aAeYHWzM/iH2QmgVXT/pzVvdr1WBkZ9OIuNGvt+vGNUo9bv2upBLl3ZOZUP
-         1pew==
-X-Gm-Message-State: AOAM533dUbDxr+Juve4wpeoezt5fkuET1q1Nq+g6JZqDts7HOb7Gfgx0
-        WJUkFH6sOMvuEf9hHsQO1A4Hxgc5ULI=
-X-Google-Smtp-Source: ABdhPJynzyxgoe7dsJTSboP7YC7Yj/BwTvH/UUSvsKF7TwLd2YXeSqoDsu9JznRdmvCyA7jgG1vQ9A==
-X-Received: by 2002:a9d:1ec2:: with SMTP id n60mr13027423otn.1.1592831414965;
-        Mon, 22 Jun 2020 06:10:14 -0700 (PDT)
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com. [209.85.161.44])
-        by smtp.gmail.com with ESMTPSA id i2sm3257160otr.49.2020.06.22.06.10.13
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 22 Jun 2020 06:10:13 -0700 (PDT)
-Received: by mail-oo1-f44.google.com with SMTP id e12so3333996oou.2
-        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 06:10:13 -0700 (PDT)
-X-Received: by 2002:a4a:3e48:: with SMTP id t69mr1635161oot.38.1592831412617;
- Mon, 22 Jun 2020 06:10:12 -0700 (PDT)
+        Mon, 22 Jun 2020 10:07:50 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13A4CC061573
+        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 07:07:50 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 514672610E1
+Subject: Re: [PATCH v4 2/5] media: v4l2-common: add helper functions to call
+ s_stream() callbacks
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        laurent.pinchart@ideasonboard.com
+Cc:     helen.koike@collabora.com, ezequiel@collabora.com,
+        kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, tfiga@chromium.org, skhan@linuxfoundation.org,
+        =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
+References: <20200522075522.6190-1-dafna.hirschfeld@collabora.com>
+ <20200522075522.6190-3-dafna.hirschfeld@collabora.com>
+ <d06d2f6e-5026-f62d-3d27-a0486083dae1@xs4all.nl>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <64753207-594b-d87a-4fb0-aade156473e1@collabora.com>
+Date:   Mon, 22 Jun 2020 16:07:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-References: <20200520082723.96136-1-acourbot@chromium.org> <20200520082723.96136-8-acourbot@chromium.org>
- <1592549952.23952.3.camel@mtksdaap41>
-In-Reply-To: <1592549952.23952.3.camel@mtksdaap41>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Mon, 22 Jun 2020 22:10:00 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MUiGtbBhfEoCVeTkQe1XrDea7wRUkybxtqQEThtQmJTwQ@mail.gmail.com>
-Message-ID: <CAPBb6MUiGtbBhfEoCVeTkQe1XrDea7wRUkybxtqQEThtQmJTwQ@mail.gmail.com>
-Subject: Re: [PATCH 07/10] media: mtk-vcodec: venc: remove redundant code
-To:     Tiffany Lin <tiffany.lin@mediatek.com>
-Cc:     Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Rui Wang <gtk_ruiwang@mediatek.com>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Pi-Hsun Shih <pihsun@chromium.org>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <d06d2f6e-5026-f62d-3d27-a0486083dae1@xs4all.nl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 19, 2020 at 3:59 PM Tiffany Lin <tiffany.lin@mediatek.com> wrote:
->
-> On Wed, 2020-05-20 at 17:27 +0900, Alexandre Courbot wrote:
-> > vidioc_try_fmt() does clamp height and width when called on the OUTPUT
-> > queue, so clamping them prior to calling this function is redundant. Set
-> > the queue's parameters after calling vidioc_try_fmt() so we can use the
-> > values it computed.
-> >
->
-> vidioc_try_fmt clamps height and width only when f->type ==
-> V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE
->
-> Does this cleanup pass v4l2 compliance test?
 
-It doesn't result in more tests failing at least. :) But although I
-cannot test with a pristine upstream version, it seems like some tests
-are not passing to begin with. If you have different results with a
-true upstream I would like to hear about it. Otherwise I am willing to
-help with getting all the tests in the green.
 
-Regarding this particular patch, you are right that we may end up
-writing an unclamped size in q_data. It's probably better to drop it
-for now.
+On 22.06.20 11:00, Hans Verkuil wrote:
+> On 22/05/2020 09:55, Dafna Hirschfeld wrote:
+>> From: Helen Koike <helen.koike@collabora.com>
+>>
+>> Add v4l2_pipeline_stream_{enable,disable} helper functions to iterate
+>> through the subdevices in a given stream (i.e following links from sink
+>> to source) and call .s_stream() callback.
+>>
+>> If .s_stream(true) fails, call .s_stream(false) in the reverse order.
+>>
+>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-common.c | 99 +++++++++++++++++++++++++++
+>>   include/media/v4l2-common.h           | 39 +++++++++++
+>>   2 files changed, 138 insertions(+)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+>> index 9e8eb45a5b03..734db2bf5ca9 100644
+>> --- a/drivers/media/v4l2-core/v4l2-common.c
+>> +++ b/drivers/media/v4l2-core/v4l2-common.c
+>> @@ -442,3 +442,102 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt, u32 pixelformat,
+>>   	return 0;
+>>   }
+>>   EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
+>> +
+>> +#if defined(CONFIG_MEDIA_CONTROLLER)
+>> +
+>> +/*
+>> + * v4l2_pipeline_subdevs_get - Assemble a list of subdevices in a pipeline
+>> + * @subdevs: the array to be filled.
+>> + * @max_size: max number of elements that can fit in subdevs array.
+>> + *
+>> + * Walk from a video node, following links from sink to source and fill the
+>> + * array with subdevices in the path.
+>> + * The walker performs a depth-first traversal, which means that, in a topology
+>> + * sd1->sd2->sd3->vdev, sd1 will be the first element placed in the array.
+>> + *
+>> + * Return the number of subdevices filled in the array.
+>> + */
+>> +static int v4l2_pipeline_subdevs_get(struct video_device *vdev,
+>> +				     struct v4l2_subdev **subdevs,
+>> +				     unsigned int max_size)
+>> +{
+>> +	struct media_entity *entity = &vdev->entity;
+>> +	struct media_device *mdev = entity->graph_obj.mdev;
+>> +	struct media_graph graph;
+>> +	int idx = 0;
+>> +	int ret;
+>> +
+>> +	ret = media_graph_walk_init(&graph, mdev);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	media_graph_walk_start(&graph, entity);
+>> +
+>> +	while ((entity = media_graph_walk_next_stream(&graph))) {
+>> +		if (!is_media_entity_v4l2_subdev(entity))
+>> +			continue;
+>> +		if (WARN_ON(idx >= max_size))
+>> +			return -EINVAL;
+>> +		subdevs[idx++] = media_entity_to_v4l2_subdev(entity);
+>> +	}
+>> +
+>> +	media_graph_walk_cleanup(&graph);
+>> +
+>> +	return idx;
+>> +}
+>> +
+>> +static void v4l2_subdevs_stream_disable(struct v4l2_subdev **subdevs, int size)
+>> +{
+>> +	int i;
+>> +
+>> +	for (i = 0; i < size; i++) {
+>> +		struct v4l2_subdev *sd = subdevs[i];
+>> +
+>> +		dev_dbg(sd->dev,
+>> +			"disabling stream for '%s'\n", sd->entity.name);
+>> +		v4l2_subdev_call(sd, video, s_stream, false);
+>> +	}
+>> +}
+>> +
+>> +__must_check int v4l2_pipeline_stream_enable(struct video_device *vdev)
+>> +{
+>> +	struct media_device *mdev = vdev->entity.graph_obj.mdev;
+>> +	struct v4l2_subdev *subdevs[MEDIA_ENTITY_ENUM_MAX_DEPTH];
+>> +	struct v4l2_subdev *sd;
+>> +	int i, size, ret;
+>> +
+>> +	size = v4l2_pipeline_subdevs_get(vdev, subdevs, ARRAY_SIZE(subdevs));
+>> +	if (size <= 0)
+>> +		return size;
+>> +
+>> +	/* Call s_stream() in reverse order to enable sensors last */
+>> +	for (i = size - 1; i >= 0; i--) {
+>> +		sd = subdevs[i];
+>> +		dev_dbg(mdev->dev,
+>> +			"enabling stream for '%s'\n", sd->entity.name);
+>> +		ret = v4l2_subdev_call(sd, video, s_stream, true);
+>> +		if (ret && ret != -ENOIOCTLCMD) {
+>> +			v4l2_subdevs_stream_disable(subdevs + i + 1,
+>> +						    size - i - 1);
+>> +			return ret;
+>> +		}
+>> +	}
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(v4l2_pipeline_stream_enable);
+>> +
+>> +int v4l2_pipeline_stream_disable(struct video_device *vdev)
+>> +{
+>> +	struct v4l2_subdev *subdevs[MEDIA_ENTITY_ENUM_MAX_DEPTH];
+>> +	int size;
+>> +
+>> +	size = v4l2_pipeline_subdevs_get(vdev, subdevs, ARRAY_SIZE(subdevs));
+>> +	if (size < 0)
+>> +		return size;
+>> +
+>> +	v4l2_subdevs_stream_disable(subdevs, size);
+>> +	return 0;
+>> +}
+>> +EXPORT_SYMBOL_GPL(v4l2_pipeline_stream_disable);
+>> +
+>> +#endif /* CONFIG_MEDIA_CONTROLLER */
+>> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+>> index 150ee16ebd81..a278bcf3c5bc 100644
+>> --- a/include/media/v4l2-common.h
+>> +++ b/include/media/v4l2-common.h
+>> @@ -539,4 +539,43 @@ static inline void v4l2_buffer_set_timestamp(struct v4l2_buffer *buf,
+>>   	buf->timestamp.tv_usec = ts.tv_nsec / NSEC_PER_USEC;
+>>   }
+>>   
+>> +#if defined(CONFIG_MEDIA_CONTROLLER)
+>> +
+>> +/**
+>> + * v4l2_pipeline_stream_enable - Call .s_stream(true) callbacks in the stream
+>> + * @vdev: Starting video device.
+>> + *
+>> + * Call .s_stream(true) callback in all the subdevices participating in the
+>> + * stream, i.e. following links from sink to source.
+>> + *
+>> + * .s_stream(true) is also called from sink to source, i.e. in a topology
+>> + * sd1->sd2->sd3->vdev, .s_stream(true) of sd3 is called first.
+>> + *
+>> + * Calls to this function can be nested, in which case the same number of
+> 
+> Since there is no refcounting (as opposed to v3) you cannot nest these calls,
+> so the comments for both these functions should be updated.
+> 
+>> + * v4l2_pipeline_stream_disable() calls will be required to disable streaming
+>> + * through subdevices in the pipeline.
+>> + * The  pipeline pointer must be identical for all nested calls to
+>> + * v4l2_pipeline_stream_enable().
+>> + */
+>> +__must_check int v4l2_pipeline_stream_enable(struct video_device *vdev);
+>> +
+>> +/**
+>> + * v4l2_pipeline_stream_disable - Call .s_stream(false) callbacks in the stream
+>> + * @vdev: Starting video device.
+>> + *
+>> + * Call .s_stream(false) callback in all the subdevices participating in the
+>> + * stream, i.e. following links from sink to source.
+>> + *
+>> + * s_stream(false) is called in a reverse order from
+>> + * v4l2_pipeline_stream_enable(), i.e. in a topology sd1->sd2->sd3->vdev,
+>> + * .s_stream(false) of sd1 is called first.
+>> + *
+>> + * If multiple calls to v4l2_pipeline_stream_enable() have been made, the same
+>> + * number of calls to this function are required to disable streaming through
+>> + * subdevices in the pipeline.
+>> + */
+>> +int v4l2_pipeline_stream_disable(struct video_device *vdev);
+> 
+> I'm inclined to make this a void function. Typically a 'disable' function should
+> always succeed because there really is not much you can do if it fails.
+> 
+> If v4l2_pipeline_subdevs_get() fails, then just WARN_ON. This really should not
+> happen.
+> 
+> Another problem (Tomasz described that in one of his replies) is with drivers like
+> adv748x that manage the rest of the pipeline on their own.
+> 
+> The problem is that (AFAIK) you can't see this when walking the graph. What you
+> would like to know is if an entity controls the upstream entities by having that
+> entity set a flag or something. Then these pipeline functions would stop at that
+> entity and let that entity do the work for the upstream entities.
+> 
+> If it is not too much work to support this, then it would be nice to have this.
 
-> I recall compliance test will try different fmt and make sure driver
-> response enough information?
->
->
-> > Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> > ---
-> >  .../media/platform/mtk-vcodec/mtk_vcodec_enc.c   | 16 ++++------------
-> >  1 file changed, 4 insertions(+), 12 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> > index 05743a745a11..f0af78f112db 100644
-> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-> > @@ -449,7 +449,6 @@ static int vidioc_venc_s_fmt_out(struct file *file, void *priv,
-> >       struct mtk_q_data *q_data;
-> >       int ret, i;
-> >       const struct mtk_video_fmt *fmt;
-> > -     struct v4l2_pix_format_mplane *pix_fmt_mp = &f->fmt.pix_mp;
-> >
-> >       vq = v4l2_m2m_get_vq(ctx->m2m_ctx, f->type);
-> >       if (!vq) {
-> > @@ -474,20 +473,13 @@ static int vidioc_venc_s_fmt_out(struct file *file, void *priv,
-> >               f->fmt.pix.pixelformat = fmt->fourcc;
-> >       }
-> >
-> > -     pix_fmt_mp->height = clamp(pix_fmt_mp->height,
-> > -                             MTK_VENC_MIN_H,
-> > -                             MTK_VENC_MAX_H);
-> > -     pix_fmt_mp->width = clamp(pix_fmt_mp->width,
-> > -                             MTK_VENC_MIN_W,
-> > -                             MTK_VENC_MAX_W);
-> > -
-> > -     q_data->visible_width = f->fmt.pix_mp.width;
-> > -     q_data->visible_height = f->fmt.pix_mp.height;
-> > -     q_data->fmt = fmt;
-> > -     ret = vidioc_try_fmt(f, q_data->fmt);
-> > +     ret = vidioc_try_fmt(f, fmt);
-> >       if (ret)
-> >               return ret;
-> >
-> > +     q_data->fmt = fmt;
-> > +     q_data->visible_width = f->fmt.pix_mp.width;
-> > +     q_data->visible_height = f->fmt.pix_mp.height;
-> >       q_data->coded_width = f->fmt.pix_mp.width;
-> >       q_data->coded_height = f->fmt.pix_mp.height;
-> >
->
+Hi, I can do it using the sd->dev field like Sakari suggested.
+So the loop iterate only until sd->dev changes.
+
+> If it is a lot of work, then it should be documented that these functions are
+> likely not suitable for such pipelines.
+> 
+> I was also wondering how this function relates to media_pipeline_start(). Which
+> function should be called first (I think media_pipeline_start() has to come before
+> v4l2_pipeline_stream_enable(), although patch 4/5 appears to do the opposite).
+
+I also think media_pipeline_start should be called first since it
+calls the link_validate callbacks. In the patchset I have patch 3/5 calling media_pipeline_start
+first.
+
+> And I was also wondering if the stream_count (incremented by media_pipeline_start())
+> is something that v4l2_pipeline_stream_enable/disable could use: i.e. s_stream only
+> needs to be called if stream_count == 1.
+
+Yes, I think this is also possible.
+
+Thanks,
+Dafna
+
+> 
+> In fact, perhaps v4l2_pipeline_stream_enable/disable should call __media_pipeline_start/stop?
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>> +
+>> +#endif /* CONFIG_MEDIA_CONTROLLER */
+>> +
+>>   #endif /* V4L2_COMMON_H_ */
+>>
+> 
