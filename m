@@ -2,212 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DF542035F1
-	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 13:41:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 511A6203614
+	for <lists+linux-media@lfdr.de>; Mon, 22 Jun 2020 13:46:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727991AbgFVLlb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 22 Jun 2020 07:41:31 -0400
-Received: from mga09.intel.com ([134.134.136.24]:19550 "EHLO mga09.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727065AbgFVLl3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 22 Jun 2020 07:41:29 -0400
-IronPort-SDR: eUmNy24cU2dnuabKJ6gzrQ42MVZdls0fF4QizXpzugv3Erib8gVz60PHQS41RLw1ggZ46rga3E
- OwEeBpSmPdXA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9659"; a="145246122"
-X-IronPort-AV: E=Sophos;i="5.75,266,1589266800"; 
-   d="scan'208";a="145246122"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Jun 2020 04:40:57 -0700
-IronPort-SDR: a34dBW4tc9fUUjFHOSHElAWnkcRXlTv8h9hbjzF4peJrOc5trSCZHC+xqIpVOSyuMx8vQqCxkn
- QPNv5wijiIbA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,266,1589266800"; 
-   d="scan'208";a="262943724"
-Received: from fmsmsx105.amr.corp.intel.com ([10.18.124.203])
-  by fmsmga007.fm.intel.com with ESMTP; 22 Jun 2020 04:40:57 -0700
-Received: from fmsmsx113.amr.corp.intel.com (10.18.116.7) by
- FMSMSX105.amr.corp.intel.com (10.18.124.203) with Microsoft SMTP Server (TLS)
- id 14.3.439.0; Mon, 22 Jun 2020 04:40:57 -0700
-Received: from fmsmsx108.amr.corp.intel.com ([169.254.9.193]) by
- FMSMSX113.amr.corp.intel.com ([169.254.13.85]) with mapi id 14.03.0439.000;
- Mon, 22 Jun 2020 04:40:57 -0700
-From:   "Ruhl, Michael J" <michael.j.ruhl@intel.com>
-To:     Charan Teja Kalla <charante@codeaurora.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "David.Laight@ACULAB.COM" <David.Laight@ACULAB.COM>,
+        id S1727956AbgFVLqW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 22 Jun 2020 07:46:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60098 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727897AbgFVLqV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 22 Jun 2020 07:46:21 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08D5DC061795
+        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 04:46:20 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id j80so3796716qke.0
+        for <linux-media@vger.kernel.org>; Mon, 22 Jun 2020 04:46:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NBKzXepzy68inRcMiAHpgcaZ+EYis2uiV6fI4xhZtmM=;
+        b=k8sCtVsIXQZTIM44uTx5XoGTEDbrW/uXOY8fvY9Nd/4DXh4saPSxYGA0cCfUbnlyLl
+         tHW4PMUz+IUIg6iJElEk/IVvMc03r9mZCDo7PkP58fQDAGJJHKTvWbHlwGlvSkCSJBE9
+         Ppej67LhjF9DHjvuE14BQiJBd6KnkgcnIxlNFcmKmCUHQqePe85Gy7qlE4M8VsBeHKUS
+         yKX1U0jk0j5Ks8Y76HvcbvQtdxXTdUE006wQlY/5i2fjpanXsf+qNhaiup+oN8Qg8/ox
+         /U6VE787P4r0dXZDbqERqe83AX626e55WkuKobSm/QiJ7uDeG7xH7wfc6SCv8Inqo2Uq
+         QFhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NBKzXepzy68inRcMiAHpgcaZ+EYis2uiV6fI4xhZtmM=;
+        b=iLgMP1UJgFZ5rTq/3dwHccngEVQlhcgs7rsK6ZqM+BIvQ1K3MUl5wSL9vC7Wjzo5xF
+         gu7cGW9fXF0ljIBxj2dAJ2KWEW35lCSvqTT2zOxFZ6Fr8DN3EovtW9jIEW+zGRyv4kKI
+         h8jSviCCNFYPia9K+hnf/5eAJRIOhKG1LfCO3XWa93yy3xyQkqtpm6V24UZsZltolD6x
+         jmp20ngVRHPYSyKi07SHCwDSLVVi5hr2/QGSt7kwAon6WMiuzpW5AueEfr+WzausokeK
+         al3PqNcQ7YHMv8gLOV5EEzZWXowy1K4F3gQuXkMTYRpW11xuXbPr43pZNVm8dPClmvWR
+         BHzg==
+X-Gm-Message-State: AOAM5323IvnfyN7LsASwYM6PrxNfuKlIcRLIA8AKXJGSvATD5af9evws
+        TazLICeykmnjlzidIBE5CiONTA==
+X-Google-Smtp-Source: ABdhPJxthYjyMVCe6ZAxMUNKsmIMBTQD1YPg4YWyLhscgW6iJ+jy7QK2ERT6it0ZxPEWrnvgAqzIOg==
+X-Received: by 2002:ae9:c00d:: with SMTP id u13mr15622504qkk.434.1592826379164;
+        Mon, 22 Jun 2020 04:46:19 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id r37sm14964604qtk.34.2020.06.22.04.46.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 22 Jun 2020 04:46:18 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.93)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1jnKu1-00Brwt-CA; Mon, 22 Jun 2020 08:46:17 -0300
+Date:   Mon, 22 Jun 2020 08:46:17 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Jerome Glisse <jglisse@redhat.com>
+Cc:     Felix Kuehling <felix.kuehling@amd.com>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Thomas =?utf-8?B?SGVsbHN0csO2bSAoSW50ZWwp?= 
+        <thomas_os@shipmail.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
         "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>
-CC:     Linaro MM SIG <linaro-mm-sig@lists.linaro.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2] dmabuf: use spinlock to access dmabuf->name
-Thread-Topic: [PATCH v2] dmabuf: use spinlock to access dmabuf->name
-Thread-Index: AQHWRjDU8ynrfmeG7EGyHovmSs13oqjf8L+wgATmmYD//64hEA==
-Date:   Mon, 22 Jun 2020 11:40:56 +0000
-Message-ID: <14063C7AD467DE4B82DEDB5C278E866301154C1A5E@FMSMSX108.amr.corp.intel.com>
-References: <a83e7f0d-4e54-9848-4b58-e1acdbe06735@codeaurora.org>
- <14063C7AD467DE4B82DEDB5C278E866301154BAE9E@FMSMSX108.amr.corp.intel.com>
- <97f2313e-a690-b5ab-567d-6887384debf5@codeaurora.org>
-In-Reply-To: <97f2313e-a690-b5ab-567d-6887384debf5@codeaurora.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-version: 11.2.0.6
-dlp-reaction: no-action
-x-originating-ip: [10.1.200.108]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+        <linux-media@vger.kernel.org>
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
+ annotations
+Message-ID: <20200622114617.GU6578@ziepe.ca>
+References: <20200619113934.GN6578@ziepe.ca>
+ <CAKMK7uE-kWA==Cko5uenMrcnopEjq42HxoDTDywzBAbHqsN13g@mail.gmail.com>
+ <20200619151551.GP6578@ziepe.ca>
+ <CAKMK7uEvkshAM6KUYZu8_OCpF4+1Y_SM7cQ9nJWpagfke8s8LA@mail.gmail.com>
+ <20200619172308.GQ6578@ziepe.ca>
+ <20200619180935.GA10009@redhat.com>
+ <20200619181849.GR6578@ziepe.ca>
+ <56008d64-772d-5757-6136-f20591ef71d2@amd.com>
+ <20200619195538.GT6578@ziepe.ca>
+ <20200619203147.GC13117@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200619203147.GC13117@redhat.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogY2hhcmFudGU9Y29kZWF1cm9yYS5v
-cmdAbWcuY29kZWF1cm9yYS5vcmcNCj48Y2hhcmFudGU9Y29kZWF1cm9yYS5vcmdAbWcuY29kZWF1
-cm9yYS5vcmc+IE9uIEJlaGFsZiBPZiBDaGFyYW4gVGVqYQ0KPkthbGxhDQo+U2VudDogTW9uZGF5
-LCBKdW5lIDIyLCAyMDIwIDU6MjYgQU0NCj5UbzogUnVobCwgTWljaGFlbCBKIDxtaWNoYWVsLmou
-cnVobEBpbnRlbC5jb20+OyBTdW1pdCBTZW13YWwNCj48c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+
-OyBEYXZpZC5MYWlnaHRAQUNVTEFCLkNPTTsgb3BlbiBsaXN0OkRNQQ0KPkJVRkZFUiBTSEFSSU5H
-IEZSQU1FV09SSyA8bGludXgtbWVkaWFAdmdlci5rZXJuZWwub3JnPjsgRFJJIG1haWxpbmcNCj5s
-aXN0IDxkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPg0KPkNjOiBMaW5hcm8gTU0gU0lH
-IDxsaW5hcm8tbW0tc2lnQGxpc3RzLmxpbmFyby5vcmc+OyBMS01MIDxsaW51eC0NCj5rZXJuZWxA
-dmdlci5rZXJuZWwub3JnPg0KPlN1YmplY3Q6IFJlOiBbUEFUQ0ggdjJdIGRtYWJ1ZjogdXNlIHNw
-aW5sb2NrIHRvIGFjY2VzcyBkbWFidWYtPm5hbWUNCj4NCj5IZWxsbyBNaWtlLA0KPg0KPk9uIDYv
-MTkvMjAyMCA3OjExIFBNLCBSdWhsLCBNaWNoYWVsIEogd3JvdGU6DQo+Pj4gLS0tLS1PcmlnaW5h
-bCBNZXNzYWdlLS0tLS0NCj4+PiBGcm9tOiBjaGFyYW50ZT1jb2RlYXVyb3JhLm9yZ0BtZy5jb2Rl
-YXVyb3JhLm9yZw0KPj4+IDxjaGFyYW50ZT1jb2RlYXVyb3JhLm9yZ0BtZy5jb2RlYXVyb3JhLm9y
-Zz4gT24gQmVoYWxmIE9mIENoYXJhbg0KPlRlamENCj4+PiBLYWxsYQ0KPj4+IFNlbnQ6IEZyaWRh
-eSwgSnVuZSAxOSwgMjAyMCA3OjU3IEFNDQo+Pj4gVG86IFN1bWl0IFNlbXdhbCA8c3VtaXQuc2Vt
-d2FsQGxpbmFyby5vcmc+OyBSdWhsLCBNaWNoYWVsIEoNCj4+PiA8bWljaGFlbC5qLnJ1aGxAaW50
-ZWwuY29tPjsgRGF2aWQuTGFpZ2h0QEFDVUxBQi5DT007IG9wZW4gbGlzdDpETUENCj4+PiBCVUZG
-RVIgU0hBUklORyBGUkFNRVdPUksgPGxpbnV4LW1lZGlhQHZnZXIua2VybmVsLm9yZz47IERSSQ0K
-Pm1haWxpbmcNCj4+PiBsaXN0IDxkcmktZGV2ZWxAbGlzdHMuZnJlZWRlc2t0b3Aub3JnPg0KPj4+
-IENjOiBMaW5hcm8gTU0gU0lHIDxsaW5hcm8tbW0tc2lnQGxpc3RzLmxpbmFyby5vcmc+OyBMS01M
-IDxsaW51eC0NCj4+PiBrZXJuZWxAdmdlci5rZXJuZWwub3JnPg0KPj4+IFN1YmplY3Q6IFtQQVRD
-SCB2Ml0gZG1hYnVmOiB1c2Ugc3BpbmxvY2sgdG8gYWNjZXNzIGRtYWJ1Zi0+bmFtZQ0KPj4+DQo+
-Pj4gVGhlcmUgZXhpc3RzIGEgc2xlZXAtd2hpbGUtYXRvbWljIGJ1ZyB3aGlsZSBhY2Nlc3Npbmcg
-dGhlIGRtYWJ1Zi0+bmFtZQ0KPj4+IHVuZGVyIG11dGV4IGluIHRoZSBkbWFidWZmc19kbmFtZSgp
-LiBUaGlzIGlzIGNhdXNlZCBmcm9tIHRoZSBTRUxpbnV4DQo+Pj4gcGVybWlzc2lvbnMgY2hlY2tz
-IG9uIGEgcHJvY2VzcyB3aGVyZSBpdCB0cmllcyB0byB2YWxpZGF0ZSB0aGUgaW5oZXJpdGVkDQo+
-Pj4gZmlsZXMgZnJvbSBmb3JrKCkgYnkgdHJhdmVyc2luZyB0aGVtIHRocm91Z2ggaXRlcmF0ZV9m
-ZCgpICh3aGljaA0KPj4+IHRyYXZlcnNlIGZpbGVzIHVuZGVyIHNwaW5fbG9jaykgYW5kIGNhbGwN
-Cj4+PiBtYXRjaF9maWxlKHNlY3VyaXR5L3NlbGludXgvaG9va3MuYykgd2hlcmUgdGhlIHBlcm1p
-c3Npb24gY2hlY2tzDQo+aGFwcGVuLg0KPj4+IFRoaXMgYXVkaXQgaW5mb3JtYXRpb24gaXMgbG9n
-Z2VkIHVzaW5nIGR1bXBfY29tbW9uX2F1ZGl0X2RhdGEoKSB3aGVyZQ0KPml0DQo+Pj4gY2FsbHMg
-ZF9wYXRoKCkgdG8gZ2V0IHRoZSBmaWxlIHBhdGggbmFtZS4gSWYgdGhlIGZpbGUgY2hlY2sgaGFw
-cGVuIG9uDQo+Pj4gdGhlIGRtYWJ1ZidzIGZkLCB0aGVuIGl0IGVuZHMgdXAgaW4gLT5kbWFidWZm
-c19kbmFtZSgpIGFuZCB1c2UgbXV0ZXggdG8NCj4+PiBhY2Nlc3MgZG1hYnVmLT5uYW1lLiBUaGUg
-ZmxvdyB3aWxsIGJlIGxpa2UgYmVsb3c6DQo+Pj4gZmx1c2hfdW5hdXRob3JpemVkX2ZpbGVzKCkN
-Cj4+PiAgaXRlcmF0ZV9mZCgpDQo+Pj4gICAgc3Bpbl9sb2NrKCkgLS0+IFN0YXJ0IG9mIHRoZSBh
-dG9taWMgc2VjdGlvbi4NCj4+PiAgICAgIG1hdGNoX2ZpbGUoKQ0KPj4+ICAgICAgICBmaWxlX2hh
-c19wZXJtKCkNCj4+PiAgICAgICAgICBhdmNfaGFzX3Blcm0oKQ0KPj4+ICAgICAgICAgICAgYXZj
-X2F1ZGl0KCkNCj4+PiAgICAgICAgICAgICAgc2xvd19hdmNfYXVkaXQoKQ0KPj4+IAkgICAgICAg
-IGNvbW1vbl9sc21fYXVkaXQoKQ0KPj4+IAkJICBkdW1wX2NvbW1vbl9hdWRpdF9kYXRhKCkNCj4+
-PiAJCSAgICBhdWRpdF9sb2dfZF9wYXRoKCkNCj4+PiAJCSAgICAgIGRfcGF0aCgpDQo+Pj4gICAg
-ICAgICAgICAgICAgICAgICAgICBkbWFidWZmc19kbmFtZSgpDQo+Pj4gICAgICAgICAgICAgICAg
-ICAgICAgICAgIG11dGV4X2xvY2soKS0tPiBTbGVlcCB3aGlsZSBhdG9taWMuDQo+Pj4NCj4+PiBD
-YWxsIHRyYWNlIGNhcHR1cmVkIChvbiA0LjE5IGtlcm5lbHMpIGlzIGJlbG93Og0KPj4+IF9fX21p
-Z2h0X3NsZWVwKzB4MjA0LzB4MjA4DQo+Pj4gX19taWdodF9zbGVlcCsweDUwLzB4ODgNCj4+PiBf
-X211dGV4X2xvY2tfY29tbW9uKzB4NWMvMHgxMDY4DQo+Pj4gX19tdXRleF9sb2NrX2NvbW1vbisw
-eDVjLzB4MTA2OA0KPj4+IG11dGV4X2xvY2tfbmVzdGVkKzB4NDAvMHg1MA0KPj4+IGRtYWJ1ZmZz
-X2RuYW1lKzB4YTAvMHgxNzANCj4+PiBkX3BhdGgrMHg4NC8weDI5MA0KPj4+IGF1ZGl0X2xvZ19k
-X3BhdGgrMHg3NC8weDEzMA0KPj4+IGNvbW1vbl9sc21fYXVkaXQrMHgzMzQvMHg2ZTgNCj4+PiBz
-bG93X2F2Y19hdWRpdCsweGI4LzB4ZjgNCj4+PiBhdmNfaGFzX3Blcm0rMHgxNTQvMHgyMTgNCj4+
-PiBmaWxlX2hhc19wZXJtKzB4NzAvMHgxODANCj4+PiBtYXRjaF9maWxlKzB4NjAvMHg3OA0KPj4+
-IGl0ZXJhdGVfZmQrMHgxMjgvMHgxNjgNCj4+PiBzZWxpbnV4X2Jwcm1fY29tbWl0dGluZ19jcmVk
-cysweDE3OC8weDI0OA0KPj4+IHNlY3VyaXR5X2Jwcm1fY29tbWl0dGluZ19jcmVkcysweDMwLzB4
-NDgNCj4+PiBpbnN0YWxsX2V4ZWNfY3JlZHMrMHgxYy8weDY4DQo+Pj4gbG9hZF9lbGZfYmluYXJ5
-KzB4M2E0LzB4MTRlMA0KPj4+IHNlYXJjaF9iaW5hcnlfaGFuZGxlcisweGIwLzB4MWUwDQo+Pj4N
-Cj4+PiBTbywgdXNlIHNwaW5sb2NrIHRvIGFjY2VzcyBkbWFidWYtPm5hbWUgdG8gYXZvaWQgc2xl
-ZXAtd2hpbGUtYXRvbWljLg0KPj4+DQo+Pj4gQ2M6IDxzdGFibGVAdmdlci5rZXJuZWwub3JnPiBb
-NS4zK10NCj4+PiBTaWduZWQtb2ZmLWJ5OiBDaGFyYW4gVGVqYSBSZWRkeSA8Y2hhcmFudGVAY29k
-ZWF1cm9yYS5vcmc+DQo+Pj4gLS0tDQo+Pj4NCj4+PiBDaGFuZ2VzIGluIFYyOiBBZGRyZXNzZWQg
-cmV2aWV3IGNvbW1lbnRzIGZyb20gUnVobCwgTWljaGFlbCBKDQo+Pj4NCj4+PiBDaGFuZ2VzIGlu
-IFYxOiBodHRwczovL2xvcmUua2VybmVsLm9yZy9wYXRjaHdvcmsvcGF0Y2gvMTI1NTA1NS8NCj4+
-Pg0KPj4+IGRyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMgfCAxMSArKysrKysrLS0tLQ0KPj4+IGlu
-Y2x1ZGUvbGludXgvZG1hLWJ1Zi5oICAgfCAgMSArDQo+Pj4gMiBmaWxlcyBjaGFuZ2VkLCA4IGlu
-c2VydGlvbnMoKyksIDQgZGVsZXRpb25zKC0pDQo+Pj4NCj4+PiBkaWZmIC0tZ2l0IGEvZHJpdmVy
-cy9kbWEtYnVmL2RtYS1idWYuYyBiL2RyaXZlcnMvZG1hLWJ1Zi9kbWEtYnVmLmMNCj4+PiBpbmRl
-eCAwMWNlMTI1Li5kODFkMjk4IDEwMDY0NA0KPj4+IC0tLSBhL2RyaXZlcnMvZG1hLWJ1Zi9kbWEt
-YnVmLmMNCj4+PiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jDQo+Pj4gQEAgLTQ1LDEw
-ICs0NSwxMCBAQCBzdGF0aWMgY2hhciAqZG1hYnVmZnNfZG5hbWUoc3RydWN0IGRlbnRyeQ0KPipk
-ZW50cnksDQo+Pj4gY2hhciAqYnVmZmVyLCBpbnQgYnVmbGVuKQ0KPj4+IAlzaXplX3QgcmV0ID0g
-MDsNCj4+Pg0KPj4+IAlkbWFidWYgPSBkZW50cnktPmRfZnNkYXRhOw0KPj4+IC0JZG1hX3Jlc3Zf
-bG9jayhkbWFidWYtPnJlc3YsIE5VTEwpOw0KPj4+ICsJc3Bpbl9sb2NrKCZkbWFidWYtPm5hbWVf
-bG9jayk7DQo+Pj4gCWlmIChkbWFidWYtPm5hbWUpDQo+Pj4gCQlyZXQgPSBzdHJsY3B5KG5hbWUs
-IGRtYWJ1Zi0+bmFtZSwgRE1BX0JVRl9OQU1FX0xFTik7DQo+Pj4gLQlkbWFfcmVzdl91bmxvY2so
-ZG1hYnVmLT5yZXN2KTsNCj4+PiArCXNwaW5fdW5sb2NrKCZkbWFidWYtPm5hbWVfbG9jayk7DQo+
-Pj4NCj4+PiAJcmV0dXJuIGR5bmFtaWNfZG5hbWUoZGVudHJ5LCBidWZmZXIsIGJ1ZmxlbiwgIi8l
-czolcyIsDQo+Pj4gCQkJICAgICBkZW50cnktPmRfbmFtZS5uYW1lLCByZXQgPiAwID8gbmFtZSA6
-ICIiKTsNCj4+PiBAQCAtMzQxLDggKzM0MSwxMCBAQCBzdGF0aWMgbG9uZyBkbWFfYnVmX3NldF9u
-YW1lKHN0cnVjdCBkbWFfYnVmDQo+Pj4gKmRtYWJ1ZiwgY29uc3QgY2hhciBfX3VzZXIgKmJ1ZikN
-Cj4+PiAJCWtmcmVlKG5hbWUpOw0KPj4+IAkJZ290byBvdXRfdW5sb2NrOw0KPj4+IAl9DQo+Pj4g
-KwlzcGluX2xvY2soJmRtYWJ1Zi0+bmFtZV9sb2NrKTsNCj4+PiAJa2ZyZWUoZG1hYnVmLT5uYW1l
-KTsNCj4+PiAJZG1hYnVmLT5uYW1lID0gbmFtZTsNCj4+PiArCXNwaW5fdW5sb2NrKCZkbWFidWYt
-Pm5hbWVfbG9jayk7DQo+Pg0KPj4gV2hpbGUgdGhpcyBjb2RlIHBhdGggaXMgb2ssIEkgd291bGQg
-aGF2ZSBzZXBhcmF0ZWQgdGhlIHByb3RlY3Rpb24gb2YgdGhlDQo+PiBhdHRhY2htZW50IGxpc3Qg
-YW5kIHRoZSBuYW1lIG1hbmlwdWxhdGlvbi4NCj4+DQo+PiBkbWFfcmVzdl9sb2NrKHJlc3YpDQo+
-PiBpZiAoIWxpc3RfZW1wdHkoYXR0YWNobWVudCkNCj4+IAlyZXQgPSAtRUJVU1kNCj4+IGRtYV9y
-ZXN2X3VubG9jayhyZXN2KQ0KPj4NCj4+IGlmIChyZXQpIHsNCj4+IAlrZnJlZShuYW1lKQ0KPj4g
-CXJldHVybiByZXQ7DQo+PiB9DQo+DQo+SXMgaXQgdGhhdCB0aGUgbmFtZSBzaG91bGQgYmUgdmlz
-aWJsZSBiZWZvcmUgaW1wb3J0ZXIgYXR0YWNoZXMgdG8gdGhlDQo+ZG1hYnVmLCh1c2luZyBkbWFf
-YnVmX2F0dGFjaCgpKSwgdGh1cyBfYnVmX3NldF9uYW1lKCkgaXMgdW5kZXIgdGhlDQo+X3Jlc3Zf
-bG9jaygpIGFzIHdlbGw/DQoNClRoYXQgaXMgdGhlIG5hbWUgdGhhdCB3YXMgYmVpbmcgZnJlZWQg
-aW4gdGhlIGVycm9yIHBhdGggb2YgdGhlIGxvY2sgYmxvY2suDQpBbHRlcm5hdGl2ZWx5Og0KDQpk
-bWFfcmVzdl9sb2NrKHJlc3YpDQppZiAoIWxpc3RfZW1wdHkoYXR0YWNobWVudCkgew0KIAlyZXQg
-PSAtRUJVU1kNCglrZnJlZShuYW1lKQ0KfQ0KZG1hX3Jlc3ZfdW5sb2NrKHJlc3YpDQoNCmlmIChy
-ZXQpDQogCXJldHVybiByZXQ7DQoNCkkgd2FzIGxpbWl0aW5nIHdoYXQgd2FzIGhhcHBlbmluZyBp
-biB0aGUgbG9jayBibG9jay4NCg0KWW91IGhhdmUgdHdvIGRpc3RpbmN0IGxvY2tzLCB0aGF0IHBy
-b3RlY3QgdHdvIGRpc3RpbmN0IGl0ZW1zOg0KDQpkbWFidWYtPmF0dGFjaG1lbnQNCmRtYWJ1Zi0+
-bmFtZQ0KDQpOZXN0aW5nIHRoZSBsb2NraW5nIGlzIG9rLCBidXQgaWYgdGhlIGNvZGUgZXZlciBj
-aGFuZ2VzDQp5b3UgY2FuIGdldCB0aGF0IG5lc3Rpbmcgd3JvbmcsIHNvOg0KDQoJbG9uZyByZXQg
-PSAwOw0KDQoJaWYgKElTX0VSUihuYW1lKSkNCgkJcmV0dXJuIFBUUl9FUlIobmFtZSk7DQoNCglk
-bWFfcmVzdl9sb2NrKGRtYWJ1Zi0+cmVzdiwgTlVMTCk7DQoJaWYgKCFsaXN0X2VtcHR5KCZkbWFi
-dWYtPmF0dGFjaG1lbnRzKSkgew0KCQlyZXQgPSAtRUJVU1k7DQoJCWtmcmVlKG5hbWUpOw0KCX0N
-CglkbWFfcmVzdl91bmxvY2soZG1hYnVmLT5yZXN2KTsNCglpZiAocmV0KQ0KCQlyZXR1cm4gcmV0
-Ow0KDQoJc3BpbmxvY2soZG1hYnVmLT5uYW1lX2xvY2spDQoJa2ZyZWUoZG1hYnVmLT5uYW1lKTsN
-CglkbWFidWYtPm5hbWUgPSBuYW1lOw0KCXNwaW51bmxvY2soZG1hYnVmLT5uYW1lX2xvY2spDQoN
-CglyZXR1cm4gMDsNCn0NCg0KTQ0KDQo+DQo+Pg0KPj4gc3BpbmxvY2sobmFtX2xvY2spDQo+PiAu
-Li4NCj4+DQo+PiBOZXN0aW5nIGxvY2tzICB0aGF0IGRvbid0IG5lZWQgdG8gYmUgbmVzdGVkIGFs
-d2F5cyBtYWtlcyBtZSBuZXJ2b3VzDQo+PiBmb3IgZnV0dXJlIHVzZSB0aGF0IG1pc3NlcyB0aGUg
-bG9jay91bmxvY2sgcGF0dGVybi4NCj4+DQo+PiBIb3dldmVyLCB0aGlzIGxvb2tzIHJlYXNvbmFi
-bGUuDQo+Pg0KPj4gV2l0aCB0aGlzIGN1cnJlbnQgY29kZSwgb3IgaWYgeW91IHVwZGF0ZSB0byB0
-aGUgYWJvdmUgcGF0dGVybjoNCj4+DQo+PiBSZXZpZXdlZC1ieTogTWljaGFlbCBKLiBSdWhsIDxt
-aWNoYWVsLmoucnVobEBpbnRlbC5jb20+DQo+DQo+VGhhbmtzIGZvciB0aGUgQUNLLg0KPj4NCj4+
-IE1pa2UNCj4+DQo+Pg0KPj4+IG91dF91bmxvY2s6DQo+Pj4gCWRtYV9yZXN2X3VubG9jayhkbWFi
-dWYtPnJlc3YpOw0KPj4+IEBAIC00MDUsMTAgKzQwNywxMCBAQCBzdGF0aWMgdm9pZCBkbWFfYnVm
-X3Nob3dfZmRpbmZvKHN0cnVjdCBzZXFfZmlsZQ0KPj4+ICptLCBzdHJ1Y3QgZmlsZSAqZmlsZSkN
-Cj4+PiAJLyogRG9uJ3QgY291bnQgdGhlIHRlbXBvcmFyeSByZWZlcmVuY2UgdGFrZW4gaW5zaWRl
-IHByb2NmcyBzZXFfc2hvdw0KPj4+ICovDQo+Pj4gCXNlcV9wcmludGYobSwgImNvdW50Olx0JWxk
-XG4iLCBmaWxlX2NvdW50KGRtYWJ1Zi0+ZmlsZSkgLSAxKTsNCj4+PiAJc2VxX3ByaW50ZihtLCAi
-ZXhwX25hbWU6XHQlc1xuIiwgZG1hYnVmLT5leHBfbmFtZSk7DQo+Pj4gLQlkbWFfcmVzdl9sb2Nr
-KGRtYWJ1Zi0+cmVzdiwgTlVMTCk7DQo+Pj4gKwlzcGluX2xvY2soJmRtYWJ1Zi0+bmFtZV9sb2Nr
-KTsNCj4+PiAJaWYgKGRtYWJ1Zi0+bmFtZSkNCj4+PiAJCXNlcV9wcmludGYobSwgIm5hbWU6XHQl
-c1xuIiwgZG1hYnVmLT5uYW1lKTsNCj4+PiAtCWRtYV9yZXN2X3VubG9jayhkbWFidWYtPnJlc3Yp
-Ow0KPj4+ICsJc3Bpbl91bmxvY2soJmRtYWJ1Zi0+bmFtZV9sb2NrKTsNCj4+PiB9DQo+Pj4NCj4+
-PiBzdGF0aWMgY29uc3Qgc3RydWN0IGZpbGVfb3BlcmF0aW9ucyBkbWFfYnVmX2ZvcHMgPSB7DQo+
-Pj4gQEAgLTU0Niw2ICs1NDgsNyBAQCBzdHJ1Y3QgZG1hX2J1ZiAqZG1hX2J1Zl9leHBvcnQoY29u
-c3Qgc3RydWN0DQo+Pj4gZG1hX2J1Zl9leHBvcnRfaW5mbyAqZXhwX2luZm8pDQo+Pj4gCWRtYWJ1
-Zi0+c2l6ZSA9IGV4cF9pbmZvLT5zaXplOw0KPj4+IAlkbWFidWYtPmV4cF9uYW1lID0gZXhwX2lu
-Zm8tPmV4cF9uYW1lOw0KPj4+IAlkbWFidWYtPm93bmVyID0gZXhwX2luZm8tPm93bmVyOw0KPj4+
-ICsJc3Bpbl9sb2NrX2luaXQoJmRtYWJ1Zi0+bmFtZV9sb2NrKTsNCj4+PiAJaW5pdF93YWl0cXVl
-dWVfaGVhZCgmZG1hYnVmLT5wb2xsKTsNCj4+PiAJZG1hYnVmLT5jYl9leGNsLnBvbGwgPSBkbWFi
-dWYtPmNiX3NoYXJlZC5wb2xsID0gJmRtYWJ1Zi0+cG9sbDsNCj4+PiAJZG1hYnVmLT5jYl9leGNs
-LmFjdGl2ZSA9IGRtYWJ1Zi0+Y2Jfc2hhcmVkLmFjdGl2ZSA9IDA7DQo+Pj4gZGlmZiAtLWdpdCBh
-L2luY2x1ZGUvbGludXgvZG1hLWJ1Zi5oIGIvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgNCj4+PiBp
-bmRleCBhYjBjMTU2Li45MzEwOGZkIDEwMDY0NA0KPj4+IC0tLSBhL2luY2x1ZGUvbGludXgvZG1h
-LWJ1Zi5oDQo+Pj4gKysrIGIvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgNCj4+PiBAQCAtMzExLDYg
-KzMxMSw3IEBAIHN0cnVjdCBkbWFfYnVmIHsNCj4+PiAJdm9pZCAqdm1hcF9wdHI7DQo+Pj4gCWNv
-bnN0IGNoYXIgKmV4cF9uYW1lOw0KPj4+IAljb25zdCBjaGFyICpuYW1lOw0KPj4+ICsJc3Bpbmxv
-Y2tfdCBuYW1lX2xvY2s7DQo+Pj4gCXN0cnVjdCBtb2R1bGUgKm93bmVyOw0KPj4+IAlzdHJ1Y3Qg
-bGlzdF9oZWFkIGxpc3Rfbm9kZTsNCj4+PiAJdm9pZCAqcHJpdjsNCj4+PiAtLQ0KPj4+IFRoZSBR
-dWFsY29tbSBJbm5vdmF0aW9uIENlbnRlciwgSW5jLiBpcyBhIG1lbWJlciBvZiB0aGUgQ29kZSBB
-dXJvcmENCj4+PiBGb3J1bSwgYSBMaW51eCBGb3VuZGF0aW9uIENvbGxhYm9yYXRpdmUgUHJvamVj
-dA0KPg0KPi0tDQo+VGhlIFF1YWxjb21tIElubm92YXRpb24gQ2VudGVyLCBJbmMuIGlzIGEgbWVt
-YmVyIG9mIHRoZSBDb2RlIEF1cm9yYQ0KPkZvcnVtLCBhIExpbnV4IEZvdW5kYXRpb24gQ29sbGFi
-b3JhdGl2ZSBQcm9qZWN0DQo=
+On Fri, Jun 19, 2020 at 04:31:47PM -0400, Jerome Glisse wrote:
+> Not doable as page refcount can change for things unrelated to GUP, with
+> John changes we can identify GUP and we could potentialy copy GUPed page
+> instead of COW but this can potentialy slow down fork() and i am not sure
+> how acceptable this would be. Also this does not solve GUP against page
+> that are already in fork tree ie page P0 is in process A which forks,
+> we now have page P0 in process A and B. Now we have process A which forks
+> again and we have page P0 in A, B, and C. Here B and C are two branches
+> with root in A. B and/or C can keep forking and grow the fork tree.
+
+For a long time now RDMA has broken COW pages when creating user DMA
+regions.
+
+The problem has been that fork re-COW's regions that had their COW
+broken.
+
+So, if you break the COW upon mapping and prevent fork (and others)
+from copying DMA pinned then you'd cover the cases.
+
+> Semantic was change with 17839856fd588f4ab6b789f482ed3ffd7c403e1f to some
+> what "fix" that but GUP fast is still succeptible to this.
+
+Ah, so everyone breaks the COW now, not just RDMA..
+
+What do you mean 'GUP fast is still succeptible to this' ?
+
+Jason
