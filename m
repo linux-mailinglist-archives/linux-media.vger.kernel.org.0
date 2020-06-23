@@ -2,225 +2,211 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F015520587C
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 19:24:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A14D2205895
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 19:26:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733151AbgFWRYn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 13:24:43 -0400
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:4170 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733097AbgFWRYl (ORCPT
+        id S1732988AbgFWR0h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 13:26:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53708 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728916AbgFWR0h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 13:24:41 -0400
-Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
-        id <B5ef23acc0000>; Tue, 23 Jun 2020 10:24:28 -0700
-Received: from hqmail.nvidia.com ([172.20.161.6])
-  by hqpgpgate101.nvidia.com (PGP Universal service);
-  Tue, 23 Jun 2020 10:24:40 -0700
-X-PGP-Universal: processed;
-        by hqpgpgate101.nvidia.com on Tue, 23 Jun 2020 10:24:40 -0700
-Received: from [10.2.172.15] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 23 Jun
- 2020 17:24:39 +0000
-Subject: Re: IMX274 driver
-To:     Luca Ceresoli <luca@lucaceresoli.net>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Frank Chen <frankc@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        <linux-media@vger.kernel.org>
-CC:     Leon Luo <leonl@leopardimaging.com>
-References: <4184f80b-eab3-c512-dd99-d24c7af4b45c@nvidia.com>
- <afd8fdb8-e359-5aee-ba3e-54a5217b2aee@lucaceresoli.net>
- <d81c6fec-e7de-1282-9e17-1fc0f5dea9eb@xs4all.nl>
- <cb3a6636-5d7d-c7b4-b0ad-f77444117efe@xs4all.nl>
- <83e56659-0a4f-40e1-1dc4-02ac1cabbd3f@lucaceresoli.net>
- <47d93f37-e44d-39da-53cb-eb69843b3a12@nvidia.com>
- <1dd4f2a0-7087-6776-fb92-7eb0882cade0@nvidia.com>
- <637dd1d4-5473-4327-11fc-14b3723ce7b2@lucaceresoli.net>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <920bd2d6-d84f-d5d5-f8c7-caf5c777d937@nvidia.com>
-Date:   Tue, 23 Jun 2020 10:25:09 -0700
+        Tue, 23 Jun 2020 13:26:37 -0400
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C88AEC061573
+        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 10:26:36 -0700 (PDT)
+Received: by mail-qk1-x741.google.com with SMTP id b4so19519689qkn.11
+        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 10:26:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=slg5O+7Igl4Xxr7wHXxP+zQAPKJm+rOfcO8PMLofYYw=;
+        b=OoyZiY0wAz2g3MM94UtppKy7zp5Hr5kny/v/K5R+Zpkq/YDPMJCs83wrxeZtOjOJZ1
+         Wr8Dc7yTODhzuBz2TKSw5w3i1YFeP1NRz20cwdErXIzSKXHdaLzyRcHw2fkV9+707fD7
+         bGfgc/y/G4rqI+FbkXTB6LN020MwKGKHMLL4Nq6IbtBxcaEyBtD/L/SCJ2Pgao8uOk5F
+         2PItgfYm1iOk+rv3Rgq6SEzgaDlzXt26Fb9J3cwARmZx0DcBl8mu6C1J91WE0mSfpvoo
+         ixyhWONcj8W+jWO+rkaTHS9Gl/M0PJ+wmEMaAEkf7AdAXyPK81owAe4OGgJe0TBN09g4
+         4o3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=slg5O+7Igl4Xxr7wHXxP+zQAPKJm+rOfcO8PMLofYYw=;
+        b=WgiphlCP/2lKXSg/WqyYJZt+mMEqTvfqS1GkaT322+7ACMjD80RkfeJ6D54ZABHlKY
+         TYY5rKeof8pQyLbvkWgfxjwPnRGAVFsd3at/XkfF0KGir6Qg8bXv/2ikjw49+LJdZjJa
+         xj9MHxLecGDE95/XS/MsapJAx1ejOzk4jsHF1FbIdiWk7wLWh945kqkJusCU8r9zR9I3
+         aUnPKLU6AneVR2XoBrpOoFWOlkLVZwWw3a+ap4DNOKQc94Y2dKY8Gm91/1FtTVLiyl/j
+         DAZEMTb5P0qdLgBGKBbJAda0x0wMvsLoQ2W2ROxD4TGjICE+jLPZ/uES17nTo17qfoYk
+         jO+Q==
+X-Gm-Message-State: AOAM530b6GbiVmWFcALJvvx8EnVEzYnWOV6B5XoR6c1UEMg59+ihjX3v
+        m2am91awqFHuhqLmtvFlZxfynQ==
+X-Google-Smtp-Source: ABdhPJyECaeYPWZKNReEC4287YRi7g3B9g4iwn56wddltJ2seGZUYFjVnywrcihdTcd9CS6R5jV0Hw==
+X-Received: by 2002:a05:620a:12d2:: with SMTP id e18mr22201770qkl.437.1592933195825;
+        Tue, 23 Jun 2020 10:26:35 -0700 (PDT)
+Received: from [192.168.0.102] ([186.136.155.69])
+        by smtp.gmail.com with ESMTPSA id r5sm1285475qtc.20.2020.06.23.10.26.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 23 Jun 2020 10:26:35 -0700 (PDT)
+Subject: Re: [PATCH v1 1/1] Add support for meson building
+To:     Gregor Jasny <gjasny@googlemail.com>,
+        Xavier Claessens <xavier.claessens@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
+        hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
+        nicolas@ndufresne.ca,
+        nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20200618133303.28676-1-ariel@vanguardiasur.com.ar>
+ <20200618133303.28676-2-ariel@vanguardiasur.com.ar>
+ <d09caaf6-402f-ba57-825c-410ce39a5e2b@ideasonboard.com>
+ <f2bf8846e265024c20a77fa618d54455b3b7ca95.camel@collabora.com>
+ <20200619144229.GD5823@pendragon.ideasonboard.com>
+ <adbb92de81105575d661f348a9804279a2844d64.camel@collabora.com>
+ <93bf1b72-0108-1dfa-22b4-f2194660129c@googlemail.com>
+ <0d3450f0-8883-e094-3c1b-d8f93c2e4833@googlemail.com>
+From:   Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
+Message-ID: <1586973f-5f69-fed0-4ad8-266cdd8e818b@vanguardiasur.com.ar>
+Date:   Tue, 23 Jun 2020 14:26:40 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <637dd1d4-5473-4327-11fc-14b3723ce7b2@lucaceresoli.net>
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <0d3450f0-8883-e094-3c1b-d8f93c2e4833@googlemail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1592933068; bh=sTnRlNd/lLeFRMT1qWac0kB8Zhh5dyAH77mz1DqIEvE=;
-        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
-         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
-         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=YE+7jba9tyEPajikLlCPq/YL4AF0VoxLcZhpfZEl/E1tC9yDDSzGfD2jUZnaxRlDn
-         tnOIXMKgXHsfjP+WuFOcsSxd5OUZJyaOMPm8cmliutsaM3Al2tr6apWx3qYwEiwj/U
-         wsC9nCMV+cW6sHaRXpi0rnegV98G6X03XyZUO77yjPS4Rtc64+gBRQHi6swMjtf8DW
-         4h3EljrjNLhwvjF9hkW6Pi3iLTB7ZNosflUwK0i7TpzksmBqCEyafwOjuoACVSz3Zc
-         w9xBmzcq/HgYFva4duCHExqVz0ZnDIH3DJlRliU01Z9n+kD7mqemFqLT9Ju+TqjRJT
-         idxC4zUWN+Lmw==
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Gregor,
 
-On 6/2/20 1:08 PM, Luca Ceresoli wrote:
-> Hi,
->
-> On 02/06/20 18:16, Sowjanya Komatineni wrote:
->> On 6/2/20 7:17 AM, Sowjanya Komatineni wrote:
->>> On 6/2/20 1:51 AM, Luca Ceresoli wrote:
->>>> Hi,
->>>>
->>>> [adding Leon Luo in Cc:, the maintainer and original driver author]
->>>>
->>>> On 01/06/20 10:47, Hans Verkuil wrote:
->>>>> On 01/06/2020 10:31, Hans Verkuil wrote:
->>>>>> Hi Luca,
->>>>>>
->>>>>> On 31/05/2020 23:56, Luca Ceresoli wrote:
->>>>>>> Hi Sowjanya,
->>>>>>>
->>>>>>> On 29/05/20 04:07, Sowjanya Komatineni wrote:
->>>>>>>> Hi Luca,
->>>>>>>>
->>>>>>>> Quick question regarding IMX274 driver that was up streamed by you=
-.
->>>>>>> Well, to be fair I only added cropping and made some improvements.
->>>>>>>
->>>>>>>> Upstream IMX274 driver programs Y_OUT_SIZE correctly based on IMX2=
-74
->>>>>>>> datasheet and register mode table for Y_OUT_SIZE where it includes=
- 6
->>>>>>>> ignored area of effective pixels + 8 effective margin for color
->>>>>>>> processing pixels.
->>>>>>>>
->>>>>>>> So, Y_OUT_SIZE register value =3D height + 14
->>>>>>>>
->>>>>>>> But somehow with this we are not seeing full frame on CSI.
->>>>>>>>
->>>>>>>> In our internal NVIDIA IMX274 driver, we are programming
->>>>>>>> Y_OUT_SIZE to
->>>>>>>> exact height=C2=A0 Y_OUT_SIZE =3D height
->>>>>>>>
->>>>>>>> So for debug, followed the same and updated upstream IMX274
->>>>>>>> driver to
->>>>>>>> program Y_OUT_SIZE =3D crop.height locally and I see all resolutio=
-ns
->>>>>>>> working fine with this.
->>>>>>>>
->>>>>>>> Checking with Sony on whats causing sensor not to send full frame
->>>>>>>> when
->>>>>>>> Y_OUT_SIZE is set to height + 14.
->>>>>>>>
->>>>>>>> But thought to check with you in parallel if there are any known
->>>>>>>> issues
->>>>>>> That's strange. Unfortunately I'm not using imx274 anymore since a
->>>>>>> long
->>>>>>> time and don't remember the details, but definitely I did test it
->>>>>>> and if
->>>>>>> there had been 14 missing lines I'm pretty sure I would have notice=
-d.
->>>>>>>
->>>>>>> I'll see if I can remember anything useful, and in case I'll
->>>>>>> update you.
->>>>>>> I would be glad if you can update me on any findings too, maybe the=
-y
->>>>>>> will help in understanding the problem better.
->>>>>> The '+ 14' makes no sense. I wonder if this was perhaps to
->>>>>> compensate for
->>>>>> some problem in the bridge driver that this sensor was connected to.
->>>>>> Which bridge driver did you use for testing? Do you remember where
->>>>>> you got
->>>>>> the '+ 14' from?
->>>>> Hmm, this comes from the first version of this driver where Y_OUT_SIZ=
-E
->>>>> was set to 0x87e (2160 + 14). This in turn comes from the datasheet
->>>>> ('Register
->>>>> Setting for Each Readout Drive Mode').
->>>>>
->>>>> Looking at the "Detailed Specification of Each Mode" (page 63 in my
->>>>> copy of
->>>>> the datasheet) I see three additional parameters: "Front ignore area =
-of
->>>>> effective pixel", "Front effective margin for color processing" and
->>>>> "Rear
->>>>> effective margin for color processing", these are 6, 4 and 4, which
->>>>> is a
->>>>> total of 14.
->>>>>
->>>>> So I guess that's where the 14 comes from.
->>>> Double-checked, and I agree.
->>>>
->>>>> Knowing with which bridge driver this was tested will definitely be
->>>>> helpful.
->>>> The design was based on a Xilinx zcu106 and the sensor output went int=
-o
->>>> the Xilinx MIPI CSI-2 RX subsystem IP (currently being mainlined), an
->>>> ISP IP and a Xilinx video DMA IP block, I think it was the "Video Fram=
-e
->>>> Buffer Writer" IP. I did several experiments with similar setups, even
->>>> with basic a Xilinx debayer+CCM in place of the ISP, and don't remembe=
-r
->>>> any problems with wrong lines.
->>>>
->>>> Wild guess: Sowjanya, are you using VFLIP? I never used that, but it
->>>> might influence the order of lines processing somehow.
->>> No I am not using VFLIP.
->>>
->>> Did quick experiment of keeping buffer as valid even in case of frame
->>> buffer write timeout to see so far captured image and I see full
->>> 3840x2160 image capture with both cases where Y_OUT_SIZE =3D height and
->>> also with Y_OUT_SIZE =3D height + 14
->>>
->>> Could be something during end of frame when using Y_OUT_SIZE =3D height
->>> + 14
->>>
->>> Provided all register settings being used to Sony and explained this
->>> observation. Will update when I hear from them.
->>>
->>> Also will check how these 14 lines (ignore + color processing
->>> effective margin) translates to CSI frame sent out..
->>>
->> Hi Luca,
+Thanks for the report.
+
+On 6/22/20 4:09 PM, Gregor Jasny wrote:
+> Hello,
+> 
+> On 6/22/20 8:07 PM, Gregor Jasny wrote:
+>> I'll try to adjust the Debian / Ubuntu packaging scripts to meson.
+> I tried to adjust the Ubuntu v4l-utils development scripts on top of the
+> ariel/mesonbuild-v4 git branch.
+> 
+> On Unbuntu 20.04 I did the following:
+> 
+> mkdir v4l-meson
+> cd v4l-meson
+> git clone https://gitlab.com/adalessandro/v4l-utils.git
+> git clone https://git.launchpad.net/\~libv4l/+git/v4l-utils-packaging
+> cd v4l-utils
+> git checkout ariel/mesonbuild-v4
+
+Let's work on top of this branch:
+
+    https://gitlab.com/adalessandro/v4l-utils/-/tree/v4l-utils-1.20.0-meson-v1
+
+This is the one related to the submitted patch. Further changes will be pushed
+to this branch.
+
+> ln -s ../v4l-utils-packaging debian
+> cd debian
+> git checkout meson-build
+> cd ..
+> dpkg-buildpackage -uc -b -rfakeroot # install build-essential + missing
+> 
+> I noticed the following:
+> * library symlinks are not in place
+>   see https://packages.debian.org/sid/amd64/libv4l-0/filelist
+
+Right. Each library target should have soversion and version set in order to
+create the proper symlinks. As follows:
+
+    diff --git a/lib/libdvbv5/meson.build b/lib/libdvbv5/meson.build
+    index 6bbde1b0..8854a801 100644
+    --- a/lib/libdvbv5/meson.build
+    +++ b/lib/libdvbv5/meson.build
+    @@ -137,6 +137,8 @@ libdvbv5_c_args = [
+
+     libdvbv5 = library('dvbv5',
+                        libdvbv5_sources,
+    +                   soversion: '0',
+    +                   version: '0.0.0',
+                        install : true,
+                        dependencies : libdvbv5_deps,
+                        c_args : libdvbv5_c_args,
+
+BTW, shall we set these fields in meson with the proper version tag?
+
+> 
+> * static libraries are missing
+
+Libraries are defined in the meson scripts as `library`, so they can be built as
+static, shared or both, depending on the configuration option `default_library`
+(defaults to shared). I think this is fine and we should explicitly set the
+option -Ddefault_library=both.
+
+For example, in v4l-utils-packaging:
+
+    diff --git a/rules b/rules
+    index 60f86bf..84a4abb 100755
+    --- a/rules
+    +++ b/rules
+    @@ -8,6 +8,7 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=+bindnow
+     #CONFIGURE_FLAGS += --enable-doxygen-man --disable-doxygen-ps
+--disable-doxygen-pdf
+     CONFIGURE_FLAGS += -Dqvidcap=disabled
+     CONFIGURE_FLAGS += -Dbpf=disabled
+    +CONFIGURE_FLAGS += -Ddefault_library=both
+
+     %:
+            dh $@ --buildsystem=meson+ninja
+
+> 
+> * bfd sources did not compile properly (now disabled in my repo):
+> 
+>> cd obj-x86_64-linux-gnu && LC_ALL=C.UTF-8 meson .. --wrap-mode=nodownload
+>> --buildtype=plain --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+>> --libdir=lib/x86_64-linux-gnu -Dlibv4lconvertsubdir=libv4lconvert0
+>> -Dqvidcap=disabled
 >>
->> Can you please provide exact set-fmt and crop settings you used for
->> imx274 pipeline for 3840X2160 mode1 testing?
-> I don't remember much anymore. But I forgot to mention I [almost] always
-> worked with 1920x1080 capture, either with binning or with cropping. I
-> don't think the will change much, as the '+14' is equal in readout modes
-> 1 and 3 (1920p and 3840p modes at 10 bits). Can you try that nevertheless=
-?
+>> [122/274] /usr/bin/meson --internal exe --unpickle
+>> /home/gregorj/src/v4l-meson/v4l-utils/obj-x86_64-linux-gnu/meson-private/meson_exe_clang_8e74c7d634462a79ae20aa67cb5c690cf72447f7.dat
+>>
+>> FAILED: utils/keytable/bpf_protocols/manchester.o /usr/bin/meson --internal
+>> exe --unpickle
+>> /home/gregorj/src/v4l-meson/v4l-utils/obj-x86_64-linux-gnu/meson-private/meson_exe_clang_8e74c7d634462a79ae20aa67cb5c690cf72447f7.dat
+>>
+>> In file included from ../utils/keytable/bpf_protocols/manchester.c:5:
+>> In file included from /usr/include/linux/lirc.h:10:
+>> /usr/include/linux/types.h:5:10: fatal error: 'asm/types.h' file not found
+>> #include <asm/types.h>
+>>          ^~~~~~~~~~~~~
+>> 1 error generated.
 
-Just to update, discussed on this issue with Sony.
+Fixed. Include directories were omitted by clang as they were all passed as a
+single string from the script's output. This fixes the issue:
 
-Sony confirmed Y_OUT_SIZE should be the height of effective image output=20
-from sensor which are actually the total lines sent over CSI to receiver.
+    diff --git a/utils/keytable/bpf_protocols/meson.build
+b/utils/keytable/bpf_protocols/meson.build
+    index 2f1ed072..88fb6cdf 100644
+    --- a/utils/keytable/bpf_protocols/meson.build
+    +++ b/utils/keytable/bpf_protocols/meson.build
+    @@ -22,7 +22,7 @@ foreach file : bpf_protocols_files
+                       input : input,
+                       command : [
+                           prog_clang.path(),
+    -                      clang_sys_includes.stdout().strip(),
+    +                      clang_sys_includes.stdout().split(),
+                           '-D__linux__', '-target', 'bpf', '-O2',
+                           '-c', '@INPUT@', '-o', '@OUTPUT@',
 
-Receiver expected height should match this. So, Y_OUT_SIZE =3D crop height.
+> 
+> * doxygen targets are missing
+>   see
+> https://gitlab.com/adalessandro/v4l-utils/-/blob/ariel/mesonbuild-v4/m4/ax_prog_doxygen.m4
 
-Regarding WRITE_VSIZE Sony mentioned, it includes Vertical OB where OB=20
-is a shaded pixel for black level adjustment. When using this, it is=20
-highly recommended that ISP use the OB value to make black level=20
-adjustments.
+Will check.
 
-WRITE_VSIZE should be set to height + 8.
-
-Using height + 22 will not have any impact if we dont use ISP and this=20
-VOB is shaded pixel for black level adjustment where ISP need to use to=20
-make black level adjustment.
-
-I tried by changing driver to set WRITE_VSIZE =3D crop.height + 8 and=20
-Y_OUT_SIZE =3D crop.height for all supported resolutions and capture works=
-=20
-fine without any issues.
-
-Thanks
-
-Sowjanya
-
-
+Regards,
+Ariel
