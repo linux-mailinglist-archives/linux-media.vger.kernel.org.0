@@ -2,133 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5518C205120
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 13:47:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E249920512D
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 13:48:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732513AbgFWLrg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 07:47:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57566 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732484AbgFWLrf (ORCPT
+        id S1732447AbgFWLst (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 07:48:49 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:36874 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732393AbgFWLst (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 07:47:35 -0400
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1704DC061573
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 04:47:35 -0700 (PDT)
-Received: by mail-ed1-x536.google.com with SMTP id h28so3915039edz.0
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 04:47:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=rfg+eTx38SOH2bj+iaEhdB/6FbC8ETtey+Vu54F6Vw0=;
-        b=AbhjwL6kny0nflNtavl6SxGieKnR5WTHz9cGEpcL2iui/pvIicLt1I5+ZAWRjfxaDS
-         /AuRBkI48qbnOQnHilZ9dDdsBvIkHKke0G8OTRK/s0wRNOIjQnDY/drCJjUilWGYYURq
-         pZ9LmOgt+XUnFweD8yqbNsBSQF9P6Spp4qQsE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=rfg+eTx38SOH2bj+iaEhdB/6FbC8ETtey+Vu54F6Vw0=;
-        b=K8GKx/uD9b/GFQ4lZZmu9VAVPebn2qaxwkUajkGYfv72RToAyYsMbtfWOE0kEx4zzw
-         ir2+IdHmXFdO7bv/tC+yK7ThroYCriXaX6mCUwuSZ4YLO+MSovH6ZzSn0SYJDP1gfo1Q
-         wfcRiDR9UW1ZqX7SoLaNAvdHZPoIxf6HDYHqxzO2naphrxawqOw8S+KDeOEJwZ9Boa+p
-         snsqWQtD3b+5YtygSMPezbbPQ6twkPsB0GFVSeEFM1zGEOF3m3GjyI/AQvRm/xzyP7RZ
-         S5MlVgfGg8+9QoKvv59/NypDpRqnL5LjArzO4NIOb9gO2OtxySRJBCFnWio7TpJ158Am
-         Jsqw==
-X-Gm-Message-State: AOAM530mfEYxBJWdjVw138/+GQN+3wH91BOkhGFRnBZ4ytX+V0JnK0KK
-        bZoCIpLVN+u0uWUDN40rvpMMto+yzqyYbQ==
-X-Google-Smtp-Source: ABdhPJwSmri70r3qJxfCOkWfgmgrE1FxxYDo0XaY5V3tF7uvFuhcBKeqIn8B4DEj1s3lHPjY4HIAHw==
-X-Received: by 2002:a50:bf4c:: with SMTP id g12mr21848313edk.203.1592912853566;
-        Tue, 23 Jun 2020 04:47:33 -0700 (PDT)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
-        by smtp.gmail.com with ESMTPSA id k23sm13340482ejg.89.2020.06.23.04.47.32
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2020 04:47:32 -0700 (PDT)
-Received: by mail-wr1-f51.google.com with SMTP id a6so18226227wrm.4
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 04:47:32 -0700 (PDT)
-X-Received: by 2002:adf:80e6:: with SMTP id 93mr24052047wrl.17.1592912852165;
- Tue, 23 Jun 2020 04:47:32 -0700 (PDT)
+        Tue, 23 Jun 2020 07:48:49 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05NBd7JX024529;
+        Tue, 23 Jun 2020 13:48:29 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=8GLEyJF1RP/0S6eNOt0taOq5xmseUp4BDZTBqjwSORo=;
+ b=HX7+MGJ0Z+CJEkGXEQ7yOlzqFwXjQFMUGKS3oq1dxNcIq4/K/g28ymBwpRySOEZxcVD0
+ AZvWsOa4JUCpyWZlwP21YfoeyZ39fieNLs6QfEosgdw36Np6XdrzT60uLHZpebqIASbt
+ pHSDIzRUbzNafIyqz0YJA68j0De/JpNajnDZU/VR8GpOeMuMalf0P4lmLEXqjf7i5Nst
+ WgxM1OpdQe/Bi9YSN6BPdy+MNw7EdAMvB9yN/1HNBsnLf121HoPWRpfDCOFg5MGOc+hE
+ sgKKWoXioMX379LTFkA7inS1qwc24UvrUbZyGZo0/R+mAosXsM2eLIh6CS0HevAWLogl xw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 31s7x1q2hy-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 23 Jun 2020 13:48:29 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 2864510002A;
+        Tue, 23 Jun 2020 13:48:29 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 035F22BEC60;
+        Tue, 23 Jun 2020 13:48:29 +0200 (CEST)
+Received: from SFHDAG3NODE3.st.com (10.75.127.9) by SFHDAG3NODE3.st.com
+ (10.75.127.9) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Tue, 23 Jun
+ 2020 13:48:28 +0200
+Received: from SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476]) by
+ SFHDAG3NODE3.st.com ([fe80::3507:b372:7648:476%20]) with mapi id
+ 15.00.1347.000; Tue, 23 Jun 2020 13:48:28 +0200
+From:   Benjamin GAIGNARD <benjamin.gaignard@st.com>
+To:     Hugues FRUCHET <hugues.fruchet@st.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@st.com>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+        "valentin.schneider@arm.com" <valentin.schneider@arm.com>,
+        "rjw@rjwysocki.net" <rjw@rjwysocki.net>
+Subject: Re: [PATCH v6 1/3] dt-bindings: media: stm32-dcmi: Add DCMI min
+ frequency property
+Thread-Topic: [PATCH v6 1/3] dt-bindings: media: stm32-dcmi: Add DCMI min
+ frequency property
+Thread-Index: AQHWPyIqkpbWacV/F06UdbxSuP3c1KjmCJ6A
+Date:   Tue, 23 Jun 2020 11:48:28 +0000
+Message-ID: <459a0e53-c8d7-b79b-3004-f0114c99cff5@st.com>
+References: <20200610122500.4304-1-benjamin.gaignard@st.com>
+ <20200610122500.4304-2-benjamin.gaignard@st.com>
+In-Reply-To: <20200610122500.4304-2-benjamin.gaignard@st.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.51]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <EC7350B716B3C5449474C6B2329F898B@st.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20200526100932.2626420-1-hverkuil-cisco@xs4all.nl>
- <20200526100932.2626420-2-hverkuil-cisco@xs4all.nl> <e08d5c45-cf34-e945-e5be-7e43eeaf35f5@xs4all.nl>
-In-Reply-To: <e08d5c45-cf34-e945-e5be-7e43eeaf35f5@xs4all.nl>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 23 Jun 2020 13:47:21 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5BefRDE+-Zcf=oxS6iAfz3rCEp0+nFrLkVZjmsninFMrg@mail.gmail.com>
-Message-ID: <CAAFQd5BefRDE+-Zcf=oxS6iAfz3rCEp0+nFrLkVZjmsninFMrg@mail.gmail.com>
-Subject: Re: [PATCHv3 1/5] media: docs-rst: Document memory-to-memory video
- encoder interface
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Michael Tretter <m.tretter@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-06-23_06:2020-06-23,2020-06-23 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 23, 2020 at 12:37 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wr=
-ote:
->
-> Hi Tomasz,
->
-> On 26/05/2020 12:09, Hans Verkuil wrote:
-> > From: Tomasz Figa <tfiga@chromium.org>
-> >
-> > Due to complexity of the video encoding process, the V4L2 drivers of
-> > stateful encoder hardware require specific sequences of V4L2 API calls
-> > to be followed. These include capability enumeration, initialization,
-> > encoding, encode parameters change, drain and reset.
-> >
-> > Specifics of the above have been discussed during Media Workshops at
-> > LinuxCon Europe 2012 in Barcelona and then later Embedded Linux
-> > Conference Europe 2014 in D=C3=BCsseldorf. The de facto Codec API that
-> > originated at those events was later implemented by the drivers we alre=
-ady
-> > have merged in mainline, such as s5p-mfc or coda.
-> >
-> > The only thing missing was the real specification included as a part of
-> > Linux Media documentation. Fix it now and document the encoder part of
-> > the Codec API.
-> >
-> > Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > ---
-> >  .../userspace-api/media/v4l/dev-encoder.rst   | 728 ++++++++++++++++++
-> >  .../userspace-api/media/v4l/dev-mem2mem.rst   |   1 +
-> >  .../userspace-api/media/v4l/pixfmt-v4l2.rst   |   5 +
-> >  .../userspace-api/media/v4l/v4l2.rst          |   2 +
-> >  .../media/v4l/vidioc-encoder-cmd.rst          |  51 +-
-> >  5 files changed, 767 insertions(+), 20 deletions(-)
-> >  create mode 100644 Documentation/userspace-api/media/v4l/dev-encoder.r=
-st
-> >
-> > diff --git a/Documentation/userspace-api/media/v4l/dev-encoder.rst b/Do=
-cumentation/userspace-api/media/v4l/dev-encoder.rst
-> > new file mode 100644
-> > index 000000000000..aace7b812a9c
-> > --- /dev/null
-> > +++ b/Documentation/userspace-api/media/v4l/dev-encoder.rst
-> > @@ -0,0 +1,728 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
->
-> New rst docs should be dual licensed:
->
-> SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-or-later-no-invariants
->
-> It is OK to make this change? No need to repost, if you agree with this
-> I or Mauro will make the change.
->
-> If you agree, just reply with your Signed-off-by line.
-
-Fine with me.
-
-Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-
-Best regards,
-Tomasz
+DQoNCk9uIDYvMTAvMjAgMjoyNCBQTSwgQmVuamFtaW4gR2FpZ25hcmQgd3JvdGU6DQo+IERvY3Vt
+ZW50IHN0LHN0bTMyLWRjbWktbWluLWZyZXF1ZW5jeSBwcm9wZXJ0eSB3aGljaCBpcyB1c2VkIHRv
+DQo+IHJlcXVlc3QgQ1BVcyBtaW5pbXVtIGZyZXF1ZW5jeSB3aGVuIHN0cmVhbWluZyBmcmFtZXMu
+DQpHZW50bGUgZm9yIHJldmlld2VycyBvbiB0aGlzIGJpbmRpbmdzLg0KDQpUaGFua3MsDQpCZW5q
+YW1pbg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBCZW5qYW1pbiBHYWlnbmFyZCA8YmVuamFtaW4uZ2Fp
+Z25hcmRAc3QuY29tPg0KPiAtLS0NCj4gICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
+Z3MvbWVkaWEvc3Qsc3RtMzItZGNtaS55YW1sIHwgOCArKysrKysrKw0KPiAgIDEgZmlsZSBjaGFu
+Z2VkLCA4IGluc2VydGlvbnMoKykNCj4NCj4gZGlmZiAtLWdpdCBhL0RvY3VtZW50YXRpb24vZGV2
+aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9zdCxzdG0zMi1kY21pLnlhbWwgYi9Eb2N1bWVudGF0aW9u
+L2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvc3Qsc3RtMzItZGNtaS55YW1sDQo+IGluZGV4IDNm
+ZTc3OGNiNWNjMy4uMDVjYTg1YTI0MTFhIDEwMDY0NA0KPiAtLS0gYS9Eb2N1bWVudGF0aW9uL2Rl
+dmljZXRyZWUvYmluZGluZ3MvbWVkaWEvc3Qsc3RtMzItZGNtaS55YW1sDQo+ICsrKyBiL0RvY3Vt
+ZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9zdCxzdG0zMi1kY21pLnlhbWwNCj4g
+QEAgLTQ0LDYgKzQ0LDEzIEBAIHByb3BlcnRpZXM6DQo+ICAgICAgICAgYmluZGluZ3MgZGVmaW5l
+ZCBpbg0KPiAgICAgICAgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS92
+aWRlby1pbnRlcmZhY2VzLnR4dC4NCj4gICANCj4gKyAgc3Qsc3RtMzItZGNtaS1taW4tZnJlcXVl
+bmN5Og0KPiArICAgIGRlc2NyaXB0aW9uOiBEQ01JIG1pbmltdW0gQ1BVcyBmcmVxdWVuY3kgcmVx
+dWlyZW1lbnQgKGluIEtIeikuDQo+ICsgICAgYWxsT2Y6DQo+ICsgICAgICAtICRyZWY6IC9zY2hl
+bWFzL3R5cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMg0KPiArICAgICAgLSBtaW5pbXVtOiAw
+DQo+ICsgICAgICAtIGRlZmF1bHQ6IDANCj4gKw0KPiAgIHJlcXVpcmVkOg0KPiAgICAgLSBjb21w
+YXRpYmxlDQo+ICAgICAtIHJlZw0KPiBAQCAtNzEsNiArNzgsNyBAQCBleGFtcGxlczoNCj4gICAg
+ICAgICAgIGNsb2NrLW5hbWVzID0gIm1jbGsiOw0KPiAgICAgICAgICAgZG1hcyA9IDwmZG1hbXV4
+MSA3NSAweDQwMCAweDBkPjsNCj4gICAgICAgICAgIGRtYS1uYW1lcyA9ICJ0eCI7DQo+ICsgICAg
+ICAgIHN0LHN0bTMyLWRjbWktbWluLWZyZXF1ZW5jeSA9IDw2NTAwMDA+Ow0KPiAgIA0KPiAgICAg
+ICAgICAgcG9ydCB7DQo+ICAgICAgICAgICAgICAgIGRjbWlfMDogZW5kcG9pbnQgew0K
