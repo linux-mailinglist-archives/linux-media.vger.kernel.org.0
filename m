@@ -2,131 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 38764205AA5
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 20:30:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CE4B205B05
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 20:44:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733228AbgFWS3a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 14:29:30 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:42806 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387525AbgFWS32 (ORCPT
+        id S1733311AbgFWSo2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 14:44:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37518 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733309AbgFWSo0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 14:29:28 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id A3AEC2A3C65
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [RFC 7/7] media: uapi: make H264 stateless codec interface public
-Date:   Tue, 23 Jun 2020 15:28:09 -0300
-Message-Id: <20200623182809.1375-8-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.26.0.rc2
-In-Reply-To: <20200623182809.1375-1-ezequiel@collabora.com>
-References: <20200623182809.1375-1-ezequiel@collabora.com>
+        Tue, 23 Jun 2020 14:44:26 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F4FBC061795
+        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 11:44:24 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id e15so6737457edr.2
+        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 11:44:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YHRfY/482pH60fZPQJikxqae/P0Z6lDDbQXNlIRp7tc=;
+        b=O84lAlQtan6g3BHHHf7sIEL60Tt8VsrCeEVE8CQeBdNfZtWiEkIBf5EnEBTSnOIYhV
+         EPdW4t8kcLvZ9LhfuTnNxdMsJ721WftZAm2YfItBlw7ZCfjOPOaCPgEhEUNc/LV9MpMT
+         UfTabuopH1KekbGurNoL/s3jNY+zFWjIe+weZsQUyV611kaMJC6SyKOGCy0LGyPBBocU
+         I6eEwuTw3L5JxgW9yX5wsfKT5IEMwvCDD1gcvJX0Dzz/DeyHX3FjI/lPlo2zl6EOxPbC
+         oaCdMzn5EhGGffrjqZGBaLeDIrHSd1fkpJvfsTmFDUL3W1alvsulTjb0gLAndKmgvLhD
+         JFYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YHRfY/482pH60fZPQJikxqae/P0Z6lDDbQXNlIRp7tc=;
+        b=b7i9YsL4h2Xf0KvK6zxNgyi1E3RFEXogp3ytcUn7NzYfb4pMQeRNiiUgZlkSB7+05Y
+         ibEeYiyHOSzI20GWpioeYDPxIa0deH7Bwuwppb3vMTZz3DJCzqUALxMV2b2iysgqSaPV
+         gPRDVDkzF9zClqa/i/8bkLf4upwRLRW0cvmLIfT4fG8uGZFd3FeVvJiagGjj3phc+3tj
+         s6kv8RXuLMQ0D4794g6vC+rvu6H6/cm2qDo7JsGLniw/n7AbOUQ8Ou+hTru9RjSpO7cV
+         JQpb49+bpMlILub8R994TDQjdhCZT6QmQ2x9QpP5OKRrjReJ55seOQA2Z4AmVj1myvJe
+         Q2Og==
+X-Gm-Message-State: AOAM530ShGXUSro07ZyV75/HRzRr5mO1DpjjQ6yT9qez39XM/gmC/gqW
+        +1B8Fh4hayqRtWWjEl451Ar7nx1JtsXUThD/JGZmQw==
+X-Google-Smtp-Source: ABdhPJyPUIlDVH1n7pGFYZ5aO9aLZJphcDUMccOXmcIiaLZUxDvA5Dpv5o3A65C6wRy4Z9PcnkaV9feKOmD03dYG9P4=
+X-Received: by 2002:a05:6402:1247:: with SMTP id l7mr22177355edw.61.1592937862811;
+ Tue, 23 Jun 2020 11:44:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200622015227.24134-1-yunfei.dong@mediatek.com>
+In-Reply-To: <20200622015227.24134-1-yunfei.dong@mediatek.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Tue, 23 Jun 2020 15:43:47 -0300
+Message-ID: <CAAEAJfBtuZUn-LxiwCZ75rwT_oEuM-_QEXCH4-vFhV6X+8=4SA@mail.gmail.com>
+Subject: Re: [PATCH v2, 0/2] This patchset add Read-only(Ro) request for
+ capture queue
+To:     Yunfei Dong <yunfei.dong@mediatek.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        devicetree <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Tomasz Figa <tfiga@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The H264 interface is now ready to be part of the official
-public API.
+Hi Yunfei,
 
-In addition, sanitize header includes.
+Thanks for the patch.
 
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
- drivers/staging/media/hantro/hantro_hw.h                  | 5 ++---
- include/media/v4l2-ctrls.h                                | 3 ++-
- include/media/v4l2-h264.h                                 | 2 +-
- .../{media/h264-ctrls.h => uapi/linux/v4l2-h264-ctrls.h}  | 8 ++------
- 4 files changed, 7 insertions(+), 11 deletions(-)
- rename include/{media/h264-ctrls.h => uapi/linux/v4l2-h264-ctrls.h} (96%)
+On Sun, 21 Jun 2020 at 22:55, Yunfei Dong <yunfei.dong@mediatek.com> wrote:
+>
+> User driver need to get HDR10+ information for each capture buffer;
+> For some encoder cases, user driver need to get encoded message for
+> each frame. So add support read-only(Ro) request for capture queue.
+>
+> Ro request mean that user driver just can get ext ctrls, set ext ctrls
+> is not not allowed. Ro Request also can be used in output queue.
+>
+> There is not upstream driver to use this feature at now, but we are
+> developing internal driver to use it. If it is ready, we will try to
+> upstream vdec/venc driver based on this feature.
+>
 
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 4053d8710e04..48d5be144319 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -11,9 +11,8 @@
- 
- #include <linux/interrupt.h>
- #include <linux/v4l2-controls.h>
--#include <media/h264-ctrls.h>
--#include <media/mpeg2-ctrls.h>
--#include <media/vp8-ctrls.h>
-+
-+#include <media/v4l2-ctrls.h>
- #include <media/videobuf2-core.h>
- 
- #define DEC_8190_ALIGN_MASK	0x07U
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index f40e2cbb21d3..fc725ba2ebd8 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -13,13 +13,14 @@
- #include <linux/videodev2.h>
- #include <media/media-request.h>
- 
-+#include <linux/v4l2-h264-ctrls.h>
-+
- /*
-  * Include the stateless codec compound control definitions.
-  * This will move to the public headers once this API is fully stable.
-  */
- #include <media/mpeg2-ctrls.h>
- #include <media/fwht-ctrls.h>
--#include <media/h264-ctrls.h>
- #include <media/vp8-ctrls.h>
- #include <media/hevc-ctrls.h>
- 
-diff --git a/include/media/v4l2-h264.h b/include/media/v4l2-h264.h
-index f08ba181263d..d2314f4d4490 100644
---- a/include/media/v4l2-h264.h
-+++ b/include/media/v4l2-h264.h
-@@ -10,7 +10,7 @@
- #ifndef _MEDIA_V4L2_H264_H
- #define _MEDIA_V4L2_H264_H
- 
--#include <media/h264-ctrls.h>
-+#include <media/v4l2-ctrls.h>
- 
- /**
-  * struct v4l2_h264_reflist_builder - Reference list builder object
-diff --git a/include/media/h264-ctrls.h b/include/uapi/linux/v4l2-h264-ctrls.h
-similarity index 96%
-rename from include/media/h264-ctrls.h
-rename to include/uapi/linux/v4l2-h264-ctrls.h
-index 6446ec9f283d..a06f60670d68 100644
---- a/include/media/h264-ctrls.h
-+++ b/include/uapi/linux/v4l2-h264-ctrls.h
-@@ -2,14 +2,10 @@
- /*
-  * These are the H.264 state controls for use with stateless H.264
-  * codec drivers.
-- *
-- * It turns out that these structs are not stable yet and will undergo
-- * more changes. So keep them private until they are stable and ready to
-- * become part of the official public API.
-  */
- 
--#ifndef _H264_CTRLS_H_
--#define _H264_CTRLS_H_
-+#ifndef __LINUX_V4L2_H264_CONTROLS_H
-+#define __LINUX_V4L2_H264_CONTROLS_H
- 
- #include <linux/videodev2.h>
- 
--- 
-2.26.0.rc2
+An upstream driver using the feature would be important, but it would
+be nice to also have: an open-source userspace application,
+and a proper explanation in the stateless decoder interface specification.
 
+Thanks,
+Ezequiel
+
+> Change compared to v1:
+> -change commit message of patch 01/02
+> -change commit message of patch 02/02
+>
+> Yunfei Dong (2):
+>   media: v4l UAPI: add V4L2_BUF_CAP_SUPPORTS_RO_REQUESTS
+>   media: v4l: Add Ro request api for capture queue
+>
+>  .../media/v4l/vidioc-reqbufs.rst              |   4 +
+>  .../media/common/videobuf2/videobuf2-v4l2.c   |   7 ++
+>  drivers/media/mc/mc-request.c                 |  10 +-
+>  drivers/media/v4l2-core/v4l2-ctrls.c          | 107 +++++++++++++++---
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  22 ++++
+>  drivers/media/v4l2-core/v4l2-mem2mem.c        |  19 ++--
+>  include/media/v4l2-ctrls.h                    |  22 +++-
+>  include/media/v4l2-fh.h                       |   2 +
+>  include/media/videobuf2-core.h                |   2 +
+>  include/uapi/linux/videodev2.h                |   1 +
+>  10 files changed, 158 insertions(+), 38 deletions(-)
+>
