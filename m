@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95BF0204E55
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 11:46:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D111E204E5C
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 11:47:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732217AbgFWJqD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 05:46:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38600 "EHLO
+        id S1731976AbgFWJrP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 05:47:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38790 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732138AbgFWJqC (ORCPT
+        with ESMTP id S1731921AbgFWJrP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 05:46:02 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77474C061755
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 02:46:02 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id a1so6920157ejg.12
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 02:46:02 -0700 (PDT)
+        Tue, 23 Jun 2020 05:47:15 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1254AC061573
+        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 02:47:15 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id dr13so20949958ejc.3
+        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 02:47:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=x+77SZ+h191D5taiGIual/fH3dxCziZR7JzlGfHatlI=;
-        b=PlBfyTlyRsdE4Hjc2qcH9bWRW/CcTDVvYJ9WSRBw17Ei+1vZse8RqGb6Nllr3H31pK
-         CnRPgRvogdkUThTlf424Tj9KDrKdiFZYhkZrqpgkdLXo+MDhkT6YIZFnFOjKFF3Yzimv
-         toftp8vJf8cGsApoMj8kTBeH6NIsvMh1ewEViJH1r5VWWVKCFaxm2YzgS577MopiREV0
-         luu6DQIg5yd57q+i7rwrmr+Q/+2VxyWDK4IYKDHEmh4zwZ+YDr5cDM03LbO4OpxE6Js7
-         sTjFrD4zHHfWRtxGFwD3C6iVO2yQzS8WzMFuCzgreTB37x+hCsTskZBU2GccvkOjrCAa
-         Rgxw==
+        bh=zrmS3gtTtQi2K4pHTUv0F6q9doiPp0Co7v5Yn1sfwnU=;
+        b=Of+mxFWt4GzUnIW+a9/K2elfBjiOpM+Fj6/L3R+8cuHbLnWeh+6bgR676UMbUV1ols
+         XVbeZTzFaO+42UXh5NTacD2pXb4moofm09bJp/fwRx2Uy1uOnx9dL/60ZU1qH4y1IiQe
+         b50//s8mc0XhoJwKsO6WtUaGpSJq1mADHrg9pUZtKDhUPixD2Ou/d7LmfxNMcX7teHF3
+         XAktmS/zFNq6FGCIHJ7HCFBu2TPRR6a4DDVpH51XxJJJTNnKiOmCSrvmLLAubnSpc96f
+         eeimgnxBbvFdb39LTrujygMt0fpT7mYoeUd/+HQie9LOOiGqa3KVuhw/pMPrWVeZOv2P
+         ljuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=x+77SZ+h191D5taiGIual/fH3dxCziZR7JzlGfHatlI=;
-        b=VfzaAOkjB9UWEvH2T1AYgN/dbjf4gubBSOCTSeA/QuvWFKu+nIXEX9bSyGBJfU+atm
-         DHJdwky1FolGKXrYEMEWqk7TY79bOrW+A5m+s3wQDK/EDSRFjcPdIhNFBT07eyJ39sVt
-         d1bW5/22oUz7xgknmwscjHu5WoMzohvwaGk2JzxRSQYGu2kZgP5LOoEfW9MygxIMw8ci
-         0Fa0MvbmmolnbgzrKFICEjk7Hx/dsLx+ZTPUip8p1Y+e26XWSPZegUjRoYhITM070T4w
-         PAaiSrO3/MBLT6WuDQFOjIWy8p21aVTzwNh2XbFRj/K91cA5oAwmFx+xEWOvideJHIcI
-         oebw==
-X-Gm-Message-State: AOAM532RIu5PXEI3iUbFpSIwvkzHxTAp4n+/Sx6THQu6xc9Op7+y0RvP
-        G7GLaprpMu95tIMXu39zQa1Fug==
-X-Google-Smtp-Source: ABdhPJyKssYlhvVFoqJPqqFT0oY7g6LG8jXxrJ9ggE47PRgNm8b4O7gNRoAlUcC9URw4jkbhDAcKmw==
-X-Received: by 2002:a17:906:d78f:: with SMTP id pj15mr2290711ejb.283.1592905560963;
-        Tue, 23 Jun 2020 02:46:00 -0700 (PDT)
+        bh=zrmS3gtTtQi2K4pHTUv0F6q9doiPp0Co7v5Yn1sfwnU=;
+        b=EfNVFIpNgEW4jo0NJs1eBphlAH5Sow4++o0vHpehU+qQa0Vds9K8Z9M7cWMexW3zm6
+         dPPK5rWkB9DA+zT6BAzwCq/w5hDw38R6wafi+6T8kC8/CKk2LlzfuemVgtR3AODALJQH
+         IO3HpwlL/Gi2gPnTQxXSt2Ih8aN0PqpIMX7wjIW+8lBKikoL4chS3ZLr0/A2hJfamBuK
+         0UAvTGGt3dhzh/ICIIGB8yfKAnKeCFy33kHEQf6aFCt/rgVIB6F5wtiqOibQ9MOynAIC
+         LAhuqDw/sc/O7QI15Oqgm+oCTZ3tVbu9gXxs1/Q9WYSVN71I3za5yJNXjTGdLjZVCiVl
+         FApQ==
+X-Gm-Message-State: AOAM531sO5opF5CznYV+AlAnpeO/GWVwswG0xToJfZRaKmrkJGdgNL7v
+        aEhfOxxcZX8E+lXqIuFBzqCYBA==
+X-Google-Smtp-Source: ABdhPJyVv2e/pbkuvnYAXqgFazRNKuDtyZiYAnHSEMVx0ukqHYTA41EbzOlMIi3sxLzqqJLXjba/lQ==
+X-Received: by 2002:a17:906:168b:: with SMTP id s11mr3840952ejd.444.1592905633803;
+        Tue, 23 Jun 2020 02:47:13 -0700 (PDT)
 Received: from [192.168.1.3] (212-5-158-249.ip.btc-net.bg. [212.5.158.249])
-        by smtp.googlemail.com with ESMTPSA id rv16sm4970844ejb.60.2020.06.23.02.45.59
+        by smtp.googlemail.com with ESMTPSA id z22sm3210381edx.72.2020.06.23.02.47.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 23 Jun 2020 02:45:59 -0700 (PDT)
-Subject: Re: [PATCH] media: venus: vdec: Fix runtime PM imbalance in vdec_open
+        Tue, 23 Jun 2020 02:47:13 -0700 (PDT)
+Subject: Re: [PATCH] media: venus: venc: Fix runtime PM imbalance in venc_open
 To:     Dinghao Liu <dinghao.liu@zju.edu.cn>, kjlu@umn.edu
 Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         Andy Gross <agross@kernel.org>,
@@ -57,14 +57,14 @@ Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
-References: <20200522111357.2613-1-dinghao.liu@zju.edu.cn>
+References: <20200524043132.32758-1-dinghao.liu@zju.edu.cn>
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <5d88210d-db4c-e171-5d4b-5dffe22d4d48@linaro.org>
-Date:   Tue, 23 Jun 2020 12:45:58 +0300
+Message-ID: <c7f623b3-792b-d53f-a2ab-3736b79cb9b3@linaro.org>
+Date:   Tue, 23 Jun 2020 12:47:11 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200522111357.2613-1-dinghao.liu@zju.edu.cn>
+In-Reply-To: <20200524043132.32758-1-dinghao.liu@zju.edu.cn>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -75,37 +75,38 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Dinghao,
 
-This patch is not applicable anymore after [1].
+Thanks for the patch!
 
-[1] 63342afea65e ("media: venus: vdec: Use pmruntime autosuspend")
-
-On 5/22/20 2:13 PM, Dinghao Liu wrote:
+On 5/24/20 7:31 AM, Dinghao Liu wrote:
 > pm_runtime_get_sync() increments the runtime PM usage counter even
 > when it returns an error code. Thus a pairing decrement is needed on
 > the error handling path to keep the counter balanced.
 > 
 > Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
 > ---
->  drivers/media/platform/qcom/venus/vdec.c | 3 +--
+>  drivers/media/platform/qcom/venus/venc.c | 3 +--
 >  1 file changed, 1 insertion(+), 2 deletions(-)
+
+Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+
 > 
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index 4ed2628585a1..6f2964130728 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -1349,7 +1349,7 @@ static int vdec_open(struct file *file)
+> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+> index 9981a2a27c90..eefcfbb8f211 100644
+> --- a/drivers/media/platform/qcom/venus/venc.c
+> +++ b/drivers/media/platform/qcom/venus/venc.c
+> @@ -1169,7 +1169,7 @@ static int venc_open(struct file *file)
 >  
->  	ret = pm_runtime_get_sync(core->dev_dec);
+>  	ret = pm_runtime_get_sync(core->dev_enc);
 >  	if (ret < 0)
 > -		goto err_free_inst;
 > +		goto err_put_sync;
 >  
->  	ret = vdec_ctrl_init(inst);
+>  	ret = venc_ctrl_init(inst);
 >  	if (ret)
-> @@ -1394,7 +1394,6 @@ static int vdec_open(struct file *file)
->  	vdec_ctrl_deinit(inst);
+> @@ -1214,7 +1214,6 @@ static int venc_open(struct file *file)
+>  	venc_ctrl_deinit(inst);
 >  err_put_sync:
->  	pm_runtime_put_sync(core->dev_dec);
+>  	pm_runtime_put_sync(core->dev_enc);
 > -err_free_inst:
 >  	kfree(inst);
 >  	return ret;
