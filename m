@@ -2,88 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB58A205242
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 14:18:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 210FF205270
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 14:26:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732633AbgFWMSJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 08:18:09 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:36959 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732614AbgFWMSI (ORCPT
+        id S1732565AbgFWM0A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 08:26:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35478 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732478AbgFWM0A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 08:18:08 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 695773C057C;
-        Tue, 23 Jun 2020 14:18:06 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id NPkD-iE5lEA6; Tue, 23 Jun 2020 14:18:01 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        Tue, 23 Jun 2020 08:26:00 -0400
+Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 344D5C061573;
+        Tue, 23 Jun 2020 05:26:00 -0700 (PDT)
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 5FDEF3C0022;
-        Tue, 23 Jun 2020 14:17:54 +0200 (CEST)
-Received: from lxhi-065.adit-jv.com (10.72.94.45) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 23 Jun
- 2020 14:17:54 +0200
-Date:   Tue, 23 Jun 2020 14:17:49 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-CC:     Eugeniu Rosca <erosca@de.adit-jv.com>, <lolivei@synopsys.com>,
-        <mchehab@kernel.org>, <sakari.ailus@linux.intel.com>,
-        <hverkuil@xs4all.nl>, <laurent.pinchart@ideasonboard.com>,
-        <roman.kovalivskyi@globallogic.com>,
-        <dave.stevenson@raspberrypi.org>, <naush@raspberrypi.com>,
-        <mrodin@de.adit-jv.com>, <hugues.fruchet@st.com>,
-        <mripard@kernel.org>, <aford173@gmail.com>,
-        <sudipi@jp.adit-jv.com>, <andrew_gabbasov@mentor.com>,
-        <linux-media@vger.kernel.org>,
-        <libcamera-devel@lists.libcamera.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH 00/25] media: ov5647: Support RaspberryPi Camera Module v1
-Message-ID: <20200623121709.GA6961@lxhi-065.adit-jv.com>
-References: <20200622171910.608894-1-jacopo@jmondi.org>
- <20200622172614.gcwxubshubl7qzpl@uno.localdomain>
- <20200623103002.GA10561@lxhi-065.adit-jv.com>
- <20200623104903.47op5yrtb3swccnz@uno.localdomain>
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id C5559634C87;
+        Tue, 23 Jun 2020 15:25:36 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jnhzc-00016j-NF; Tue, 23 Jun 2020 15:25:36 +0300
+Date:   Tue, 23 Jun 2020 15:25:36 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Andrey Konovalov <andrey.konovalov@linaro.org>
+Cc:     mchehab@kernel.org, manivannan.sadhasivam@linaro.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        c.barrett@framos.com, a.brela@framos.com, peter.griffin@linaro.org
+Subject: Re: [PATCH v5 06/10] media: i2c: imx290: Add support for test
+ pattern generation
+Message-ID: <20200623122536.GE870@valkosipuli.retiisi.org.uk>
+References: <20200612135355.30286-1-andrey.konovalov@linaro.org>
+ <20200612135355.30286-7-andrey.konovalov@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200623104903.47op5yrtb3swccnz@uno.localdomain>
-X-Originating-IP: [10.72.94.45]
+In-Reply-To: <20200612135355.30286-7-andrey.konovalov@linaro.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Andrey,
 
-On Tue, Jun 23, 2020 at 12:49:03PM +0200, Jacopo Mondi wrote:
-> On Tue, Jun 23, 2020 at 12:30:02PM +0200, Eugeniu Rosca wrote:
-> > On Mon, Jun 22, 2020 at 07:26:14PM +0200, Jacopo Mondi wrote:
-> > > My ISP has rejected the rest of the series: too many emails :(
-> > > Has it ever happened to anyone else ? How did you solved this ?
-> >
-> > I guess leaving 5-10 seconds between sending individual patches should
-> > overcome this? I wonder if git provides a built-in command for that?
-> >
-> 
-> git send-email does provide the --batch-size --relogin-delay options,
-> as Ezequiel suggested me in #v4l.
-> 
-> I tried re-sending with a 10 email batch and a 5 seconds delay but I
-> got the same failure. I was not able to find any description of the
-> email number limits for the SMTP server I'm using, so I could only go
-> and try. I think the extensive CC list of this series which I got from
-> Roman's series plays a role, so I can't try just by sending to
-> myself... I wonder if I should send the series in chunks, the first 10
-> patches went out (2 times '-.- ) already...
+On Fri, Jun 12, 2020 at 04:53:51PM +0300, Andrey Konovalov wrote:
+...
+> @@ -448,6 +466,22 @@ static int imx290_set_ctrl(struct v4l2_ctrl *ctrl)
+>  	case V4L2_CID_GAIN:
+>  		ret = imx290_set_gain(imx290, ctrl->val);
+>  		break;
+> +	case V4L2_CID_TEST_PATTERN:
+> +		if (ctrl->val) {
+> +			imx290_write_reg(imx290, IMX290_BLKLEVEL_LOW, 0x00);
+> +			imx290_write_reg(imx290, IMX290_BLKLEVEL_HIGH, 0x00);
+> +			msleep(10);
+> +			imx290_write_reg(imx290, IMX290_PGCTRL,
+> +					 (u8)(IMX290_PGCTRL_REGEN |
+> +					 IMX290_PGCTRL_THRU |
+> +					 IMX290_PGCTRL_MODE(ctrl->val)));
+> +		} else {
+> +			imx290_write_reg(imx290, IMX290_PGCTRL, 0x00);
+> +			msleep(10);
+> +			imx290_write_reg(imx290, IMX290_BLKLEVEL_LOW, 0x3c);
+> +			imx290_write_reg(imx290, IMX290_BLKLEVEL_HIGH, 0x00);
+> +		}
+> +		break;
+>  	default:
+>  		ret = -EINVAL;
+>  		break;
 
-Any time you send a new batch, please call 'git send-email' with
-'--in-reply-to=<cover-letter-id>' to allow LKML front-ends identify
-the patches as belonging to one topic and make it less of a pain
-for people to go through these discussions later on.
+I've merged the patches in my tree. Could you still replace msleep() with
+less than 20 ms with usleep_range() usage as a follow-up patch on top of
+these, please?
 
 -- 
-Best regards,
-Eugeniu Rosca
+Kind regards,
+
+Sakari Ailus
