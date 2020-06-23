@@ -2,278 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1F65205B82
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 21:11:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ECA9C205B85
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 21:14:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387490AbgFWTLp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 15:11:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41716 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387487AbgFWTLo (ORCPT
+        id S1733270AbgFWTNi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 15:13:38 -0400
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:35071 "EHLO
+        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1733236AbgFWTNh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 15:11:44 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 494E5C061573
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 12:11:44 -0700 (PDT)
-Received: from jade.rasen.tech (unknown [IPv6:2400:4051:61:600:8147:f2a2:a8c6:9087])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3F7AA2A9;
-        Tue, 23 Jun 2020 21:11:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1592939500;
-        bh=V46wicG8z79GkawMsrJj2hK7t97Ua0wl5H/7WyhqTDM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=s+CEiLjGFH26y4dOApSeChZD0PyQe5eSFmwLPIIyHBTkMr3JlTfF7/CY4PTHNUgOY
-         7t+VcVXnERbtPNMc6AGPiFnnrWjxjO/pykCZ/L/0DX8FzyWN4j07a3ANkgxFWRYCVC
-         sPVyq4Z79EMFSCaCHUVFWg1UOwan/dDUFUR4KqQY=
-From:   Paul Elder <paul.elder@ideasonboard.com>
-To:     linux-media@vger.kernel.org
-Cc:     Paul Elder <paul.elder@ideasonboard.com>, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com
-Subject: [PATCH v3] v4l2-compliance: Convert testBlockingDQBuf to pthreads
-Date:   Wed, 24 Jun 2020 04:11:26 +0900
-Message-Id: <20200623191126.53747-1-paul.elder@ideasonboard.com>
-X-Mailer: git-send-email 2.27.0
+        Tue, 23 Jun 2020 15:13:37 -0400
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.west.internal (Postfix) with ESMTP id C4289906;
+        Tue, 23 Jun 2020 15:13:35 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Tue, 23 Jun 2020 15:13:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=7WMvAPN1ErXgthiWUva+PTQ5T73
+        /EhOOW6dGIyc3zc0=; b=B+xXS5EBQWZ76VL502N0Tw1rr59TAS+8Pq1CRN/ND1g
+        9mi/Bj3aIMd9/8Z0lXlIW13VHlyNycJXaI+NnLZgeAPZ1dtuK+FL9rAasVMz5yzj
+        b3UDgAoF1CfpbwJa1kTLjuSmrN2mKF4aJhTvLtg4LONgwbz5MwRM74ZWGh3YBNE0
+        oEomJNl1PnVg3e1jouf9fcYDMOiONa8F3GJ2UsEQRzq8TYJvV64vP+fEviCCOwoV
+        Goe3ONO0sURn5YPfJdlW/quT7f31cXx75HAxqTk6Uz0KyVx5nlMfGXUX1IZfhKHC
+        Hz8uQ2hey7urtJcHOhT/CeX81xdemir2Qm6N6mkuOqQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=7WMvAP
+        N1ErXgthiWUva+PTQ5T73/EhOOW6dGIyc3zc0=; b=dXCLzDdCuwNGc5oLIfOe5L
+        wTIxnmKazr6VdstsTaz3hwOkHGeSMwlx2q3oknJL/FU7LcsrYnK4yy1OmNW/LESh
+        4n9N8vOKP/DIUVa48fgeFVm6Hoj57yAJruueXw6Mdazc79XtPFoXEyPaJh8B9mWM
+        kS1EN/wdxPQYsSCWc7lC+j3HN9VBqMqn1dl0nKUhj+QvWbbVQ45MlATPwK1B2ixj
+        ETVWDshVsgLRGKGNlwSfs5NrhzlK3D+mtoiZh7CLyZjtSnMIcbwBBmoEc0GN2vdj
+        RSyVPh91Pe6AC5alHDvLdEECasb1vmKqnhxOr2CHjiHaKYhM9XnXsdgXlnq5OtaQ
+        ==
+X-ME-Sender: <xms:XlTyXk-P6sWMr2Vi07X27DG6YL52VZnVlmT_fZ5wtczUclsPFZs2Ow>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudekhedguddtjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
+    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuhe
+    ejgfffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecukfhppeek
+    fedrkeeirdekledruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
+    grihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
+X-ME-Proxy: <xmx:XlTyXssaaugpPbLXOIRp270vhFlvbqRa8cz2rWuRJXoPz9G6NYl9PQ>
+    <xmx:XlTyXqAixP3WzEqLYjaZXMWcZi_uCoI1eUN7pV2lkxqzqm59jRvlcQ>
+    <xmx:XlTyXkfqATS3k_-vThGx3EGgS6FZwaRiZzTfd3PiD66Vgdkh52J78g>
+    <xmx:X1TyXqGrtznON9bqGqlBXzR_2sIOg8ycDEX1jqn43Wv7SI4mvRRE0zk6ax4>
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 20A203280063;
+        Tue, 23 Jun 2020 15:13:34 -0400 (EDT)
+Date:   Tue, 23 Jun 2020 21:13:34 +0200
+From:   Greg KH <greg@kroah.com>
+To:     Florian Fainelli <f.fainelli@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michael Krufky <mkrufky@linuxtv.org>,
+        Alexander Viro <viro@zeniv.linux.org.uk>,
+        Shuah Khan <shuah@kernel.org>,
+        Jaedon Shin <jaedon.shin@gmail.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Katsuhiro Suzuki <suzuki.katsuhiro@socionext.com>,
+        Satendra Singh Thakur <satendra.t@samsung.com>,
+        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
+        <linux-media@vger.kernel.org>,
+        "open list:FILESYSTEMS (VFS and infrastructure)" 
+        <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH stable 4.9 00/21] Unbreak 32-bit DVB applications on
+ 64-bit kernels
+Message-ID: <20200623191334.GA279616@kroah.com>
+References: <20200605162518.28099-1-florian.fainelli@broadcom.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200605162518.28099-1-florian.fainelli@broadcom.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The test to test that a blocked VIDIOC_QBUF call will not block a
-VIDIOC_STREAMOFF call uses different processes to make the calls. As it
-isn't very realistic for multiple processes to be controlling a single
-V4L2 device, convert the test to pthreads.
+On Fri, Jun 05, 2020 at 09:24:57AM -0700, Florian Fainelli wrote:
+> Hi all,
+> 
+> This long patch series was motivated by backporting Jaedon's changes
+> which add a proper ioctl compatibility layer for 32-bit applications
+> running on 64-bit kernels. We have a number of Android TV-based products
+> currently running on the 4.9 kernel and this was broken for them.
+> 
+> Thanks to Robert McConnell for identifying and providing the patches in
+> their initial format.
+> 
+> In order for Jaedon's patches to apply cleanly a number of changes were
+> applied to support those changes. If you deem the patch series too big
+> please let me know.
 
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Now queued up,t hanks.
 
----
-Changes in v3:
-- add light documentation of the pthreads wrapper class
-
-Changes in v2:
-- wrap thread lifetime management in a class to simplify terminating and
-  joining the threads in various success/failure combinations
----
- utils/v4l2-compliance/v4l2-test-buffers.cpp | 175 +++++++++++++++-----
- 1 file changed, 136 insertions(+), 39 deletions(-)
-
-diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-index d1224438..d37ee4de 100644
---- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-@@ -32,8 +32,11 @@
- #include <ctype.h>
- #include <errno.h>
- #include <poll.h>
-+#include <pthread.h>
-+#include <signal.h>
- #include <sys/ioctl.h>
- #include <netinet/in.h>
-+#include <atomic>
- #include <map>
- #include <vector>
- #include "v4l2-compliance.h"
-@@ -2306,65 +2309,159 @@ int testRequests(struct node *node, bool test_streaming)
- 	return 0;
- }
- 
--static int testBlockingDQBuf(struct node *node, cv4l_queue &q)
-+
-+/*
-+ * This class wraps a pthread in such a way that it simplifies passing
-+ * parameters, checking completion, gracious halting, and aggressive
-+ * termination (an empty signal handler, as installed by testBlockingDQBuf,
-+ * is necessary). This alleviates the need for spaghetti error paths when
-+ * multiple potentially blocking threads are involved.
-+ */
-+class BlockingThread
- {
--	int pid_dqbuf;
--	int pid_streamoff;
--	int pid;
-+public:
-+	BlockingThread() : done(false), running(false) {}
- 
--	fail_on_test(q.reqbufs(node, 2));
--	fail_on_test(node->streamon(q.g_type()));
-+	virtual ~BlockingThread()
-+	{
-+		stop();
-+	}
- 
--	/*
--	 * This test checks if a blocking wait in VIDIOC_DQBUF doesn't block
--	 * other ioctls.
--	 */
--	fflush(stdout);
--	pid_dqbuf = fork();
--	fail_on_test(pid_dqbuf == -1);
-+	int start()
-+	{
-+		int ret = pthread_create(&thread, NULL, startRoutine, this);
-+		if (ret < 0)
-+			return ret;
-+
-+		running = true;
-+		return 0;
-+	}
-+
-+	void stop()
-+	{
-+		if (!running)
-+			return;
-+
-+		/*
-+		 * If the thread is blocked on an ioctl, try to wake it up with
-+		 * a signal.
-+		 */
-+		if (!done) {
-+			pthread_kill(thread, SIGUSR1);
-+			usleep(100000);
-+		}
- 
--	if (pid_dqbuf == 0) { // Child
- 		/*
--		 * In the child process we call VIDIOC_DQBUF and wait
--		 * indefinitely since no buffers are queued.
-+		 * If the signal failed to interrupt the ioctl, use the heavy
-+		 * artillery and cancel the thread.
- 		 */
--		cv4l_buffer buf(q.g_type(), V4L2_MEMORY_MMAP);
-+		if (!done) {
-+			pthread_cancel(thread);
-+			usleep(100000);
-+		}
-+
-+		pthread_join(thread, NULL);
-+		running = false;
-+	}
-+
-+	std::atomic<bool> done;
-+
-+private:
-+	static void *startRoutine(void *arg)
-+	{
-+		BlockingThread *self = static_cast<BlockingThread *>(arg);
-+
-+		pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
-+		pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
-+
-+		self->run();
-+
-+		self->done = true;
-+		return NULL;
-+	}
-+
-+	virtual void run() = 0;
- 
-+	pthread_t thread;
-+	std::atomic<bool> running;
-+};
-+
-+class DqbufThread : public BlockingThread
-+{
-+public:
-+	DqbufThread(cv4l_queue *q, struct node *n) : queue(q), node(n) {}
-+
-+private:
-+	void run() override
-+	{
-+		/*
-+		 * In this thread we call VIDIOC_DQBUF and wait indefinitely
-+		 * since no buffers are queued.
-+		 */
-+		cv4l_buffer buf(queue->g_type(), V4L2_MEMORY_MMAP);
- 		node->dqbuf(buf);
--		std::exit(EXIT_SUCCESS);
- 	}
- 
--	/* Wait for the child process to start and block */
--	usleep(100000);
--	pid = waitpid(pid_dqbuf, NULL, WNOHANG);
--	/* Check that it is really blocking */
--	fail_on_test(pid);
-+	cv4l_queue *queue;
-+	struct node *node;
-+};
- 
--	fflush(stdout);
--	pid_streamoff = fork();
--	fail_on_test(pid_streamoff == -1);
-+class StreamoffThread : public BlockingThread
-+{
-+public:
-+	StreamoffThread(cv4l_queue *q, struct node *n) : queue(q), node(n) {}
- 
--	if (pid_streamoff == 0) { // Child
-+private:
-+	void run() override
-+	{
- 		/*
--		 * In the second child call STREAMOFF: this shouldn't
-+		 * In this thread call STREAMOFF; this shouldn't
- 		 * be blocked by the DQBUF!
- 		 */
--		node->streamoff(q.g_type());
--		std::exit(EXIT_SUCCESS);
-+		node->streamoff(queue->g_type());
- 	}
- 
--	int wstatus_streamoff = 0;
-+	cv4l_queue *queue;
-+	struct node *node;
-+};
-+
-+static void pthread_sighandler(int sig)
-+{
-+}
-+
-+static int testBlockingDQBuf(struct node *node, cv4l_queue &q)
-+{
-+	DqbufThread thread_dqbuf(&q, node);
-+	StreamoffThread thread_streamoff(&q, node);
-+
-+	/*
-+	 * SIGUSR1 is ignored by default, so install an empty signal handler
-+	 * so that we can use SIGUSR1 to wake up threads potentially blocked
-+	 * on ioctls.
-+	 */
-+	signal(SIGUSR1, pthread_sighandler);
-+
-+	fail_on_test(q.reqbufs(node, 2));
-+	fail_on_test(node->streamon(q.g_type()));
-+
-+	/*
-+	 * This test checks if a blocking wait in VIDIOC_DQBUF doesn't block
-+	 * other ioctls.
-+	 */
-+	fflush(stdout);
-+	thread_dqbuf.start();
-+
-+	/* Wait for the child thread to start and block */
-+	usleep(100000);
-+	/* Check that it is really blocking */
-+	fail_on_test(thread_dqbuf.done);
-+
-+	fflush(stdout);
-+	thread_streamoff.start();
- 
- 	/* Wait for the second child to start and exit */
- 	usleep(250000);
--	pid = waitpid(pid_streamoff, &wstatus_streamoff, WNOHANG);
--	kill(pid_dqbuf, SIGKILL);
--	fail_on_test(pid != pid_streamoff);
--	/* Test that the second child exited properly */
--	if (!pid || !WIFEXITED(wstatus_streamoff)) {
--		kill(pid_streamoff, SIGKILL);
--		fail_on_test(!pid || !WIFEXITED(wstatus_streamoff));
--	}
-+	fail_on_test(!thread_streamoff.done);
- 
- 	fail_on_test(node->streamoff(q.g_type()));
- 	fail_on_test(q.reqbufs(node, 0));
--- 
-2.27.0
-
+greg k-h
