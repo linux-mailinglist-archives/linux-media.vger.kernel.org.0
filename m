@@ -2,20 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 152D02057B1
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 18:46:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 75FA92057B4
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 18:46:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733264AbgFWQq2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 12:46:28 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:41943 "EHLO
+        id S1733262AbgFWQq1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 12:46:27 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:45233 "EHLO
         relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733252AbgFWQqX (ORCPT
+        with ESMTP id S1733116AbgFWQqZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 12:46:23 -0400
+        Tue, 23 Jun 2020 12:46:25 -0400
 Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 7385B10000A;
-        Tue, 23 Jun 2020 16:46:17 +0000 (UTC)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id BE08F100004;
+        Tue, 23 Jun 2020 16:46:20 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
         hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
@@ -26,9 +26,9 @@ Cc:     mrodin@de.adit-jv.com, hugues.fruchet@st.com, mripard@kernel.org,
         andrew_gabbasov@mentor.com, erosca@de.adit-jv.com,
         linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
         Jacopo Mondi <jacopo@jmondi.org>
-Subject: [PATCH 18/25] media: ov5647: Add SGGBR10_1X10 modes
-Date:   Tue, 23 Jun 2020 18:49:10 +0200
-Message-Id: <20200623164911.45147-3-jacopo@jmondi.org>
+Subject: [PATCH 19/25] media: ov5647: Implement set_fmt pad operation
+Date:   Tue, 23 Jun 2020 18:49:11 +0200
+Message-Id: <20200623164911.45147-4-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200623100815.10674-1-jacopo@jmondi.org>
 References: <20200623100815.10674-1-jacopo@jmondi.org>
@@ -39,488 +39,106 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add 4 additional sensor modes in SBGGR10_1X10 format.
-
-Add the following resolutions in SBGGR10_1X10 format:
-- 2592x1944 full resolution
-- 1920x1080 1080p cropped
-- 1296x972 2x2 binned
-- 640x480 2x2 binned, 2x2 subsampled
-
-The register lists and modes definition have been upported from the
-RaspberryPi BSP at revision:
-commit 581dfda6d0a62 ("media: i2c: ov5647: Advertise the correct exposure range")
+Now that the driver supports more than a single mode, implement the
+.set_fmt pad operation and adjust the existing .get_fmt one to report
+the currently applied format.
 
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- drivers/media/i2c/ov5647.c | 441 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 441 insertions(+)
+ drivers/media/i2c/ov5647.c | 67 +++++++++++++++++++++++++++++++++++---
+ 1 file changed, 62 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index c36d6b92b97a0..af9e6d43967d8 100644
+index af9e6d43967d8..39e320f321bd8 100644
 --- a/drivers/media/i2c/ov5647.c
 +++ b/drivers/media/i2c/ov5647.c
-@@ -205,6 +205,367 @@ static struct regval_list ov5647_640x480_sbggr8[] = {
- 	{0x0100, 0x01},
+@@ -1016,15 +1016,72 @@ static int ov5647_enum_frame_size(struct v4l2_subdev *sd,
+ 	return 0;
+ }
+ 
+-static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
++static int ov5647_get_pad_fmt(struct v4l2_subdev *sd,
+ 			      struct v4l2_subdev_pad_config *cfg,
+ 			      struct v4l2_subdev_format *format)
+ {
+ 	struct v4l2_mbus_framefmt *fmt = &format->format;
++	struct v4l2_mbus_framefmt *sensor_format;
++	struct ov5647 *sensor = to_sensor(sd);
+ 
+-	/* Only one format is supported, so return that. */
++	mutex_lock(&sensor->lock);
+ 	memset(fmt, 0, sizeof(*fmt));
+-	*fmt = OV5647_DEFAULT_FORMAT;
++
++	switch (format->which) {
++	case V4L2_SUBDEV_FORMAT_TRY:
++		sensor_format = v4l2_subdev_get_try_format(sd, cfg, format->pad);
++		break;
++	default:
++		sensor_format = &sensor->mode->format;
++		break;
++	}
++
++	*fmt = *sensor_format;
++	mutex_unlock(&sensor->lock);
++
++	return 0;
++}
++
++static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
++			      struct v4l2_subdev_pad_config *cfg,
++			      struct v4l2_subdev_format *format)
++{
++	struct v4l2_mbus_framefmt *fmt = &format->format;
++	struct ov5647 *sensor = to_sensor(sd);
++	struct ov5647_mode *ov5647_mode_list;
++	struct ov5647_mode *mode;
++	unsigned int num_modes;
++
++	/*
++	 * Default mbus code MEDIA_BUS_FMT_SBGGR10_1X10 if the requested one
++	 * is not supported.
++	 */
++	if (fmt->code == MEDIA_BUS_FMT_SBGGR8_1X8) {
++		ov5647_mode_list = ov5647_sbggr8_modes;
++		num_modes = ARRAY_SIZE(ov5647_sbggr8_modes);
++	} else {
++		ov5647_mode_list = ov5647_sbggr10_modes;
++		num_modes = ARRAY_SIZE(ov5647_sbggr10_modes);
++	}
++
++	mode = v4l2_find_nearest_size(ov5647_mode_list, num_modes,
++				      format.width, format.height,
++				      fmt->width, fmt->height);
++
++	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
++		mutex_lock(&sensor->lock);
++		*v4l2_subdev_get_try_format(sd, cfg, format->pad) = mode->format;
++		*fmt = mode->format;
++		mutex_unlock(&sensor->lock);
++
++		return 0;
++	}
++
++	/* Update the sensor mode and apply at it at streamon time. */
++	mutex_lock(&sensor->lock);
++	sensor->mode = mode;
++	*fmt = mode->format;
++	mutex_unlock(&sensor->lock);
+ 
+ 	return 0;
+ }
+@@ -1068,8 +1125,8 @@ static int ov5647_get_selection(struct v4l2_subdev *sd,
+ static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
+ 	.enum_mbus_code		= ov5647_enum_mbus_code,
+ 	.enum_frame_size	= ov5647_enum_frame_size,
+-	.set_fmt		= ov5647_set_get_fmt,
+-	.get_fmt		= ov5647_set_get_fmt,
++	.set_fmt		= ov5647_set_pad_fmt,
++	.get_fmt		= ov5647_get_pad_fmt,
+ 	.get_selection		= ov5647_get_selection,
  };
  
-+static struct regval_list ov5647_2592x1944_sbggr10[] = {
-+	{0x0100, 0x00},
-+	{0x0103, 0x01},
-+	{0x3034, 0x1a},
-+	{0x3035, 0x21},
-+	{0x3036, 0x69},
-+	{0x303c, 0x11},
-+	{0x3106, 0xf5},
-+	{0x3821, 0x06},
-+	{0x3820, 0x00},
-+	{0x3827, 0xec},
-+	{0x370c, 0x03},
-+	{0x3612, 0x5b},
-+	{0x3618, 0x04},
-+	{0x5000, 0x06},
-+	{0x5002, 0x41},
-+	{0x5003, 0x08},
-+	{0x5a00, 0x08},
-+	{0x3000, 0x00},
-+	{0x3001, 0x00},
-+	{0x3002, 0x00},
-+	{0x3016, 0x08},
-+	{0x3017, 0xe0},
-+	{0x3018, 0x44},
-+	{0x301c, 0xf8},
-+	{0x301d, 0xf0},
-+	{0x3a18, 0x00},
-+	{0x3a19, 0xf8},
-+	{0x3c01, 0x80},
-+	{0x3b07, 0x0c},
-+	{0x380c, 0x0b},
-+	{0x380d, 0x1c},
-+	{0x3814, 0x11},
-+	{0x3815, 0x11},
-+	{0x3708, 0x64},
-+	{0x3709, 0x12},
-+	{0x3808, 0x0a},
-+	{0x3809, 0x20},
-+	{0x380a, 0x07},
-+	{0x380b, 0x98},
-+	{0x3800, 0x00},
-+	{0x3801, 0x00},
-+	{0x3802, 0x00},
-+	{0x3803, 0x00},
-+	{0x3804, 0x0a},
-+	{0x3805, 0x3f},
-+	{0x3806, 0x07},
-+	{0x3807, 0xa3},
-+	{0x3811, 0x10},
-+	{0x3813, 0x06},
-+	{0x3630, 0x2e},
-+	{0x3632, 0xe2},
-+	{0x3633, 0x23},
-+	{0x3634, 0x44},
-+	{0x3636, 0x06},
-+	{0x3620, 0x64},
-+	{0x3621, 0xe0},
-+	{0x3600, 0x37},
-+	{0x3704, 0xa0},
-+	{0x3703, 0x5a},
-+	{0x3715, 0x78},
-+	{0x3717, 0x01},
-+	{0x3731, 0x02},
-+	{0x370b, 0x60},
-+	{0x3705, 0x1a},
-+	{0x3f05, 0x02},
-+	{0x3f06, 0x10},
-+	{0x3f01, 0x0a},
-+	{0x3a08, 0x01},
-+	{0x3a09, 0x28},
-+	{0x3a0a, 0x00},
-+	{0x3a0b, 0xf6},
-+	{0x3a0d, 0x08},
-+	{0x3a0e, 0x06},
-+	{0x3a0f, 0x58},
-+	{0x3a10, 0x50},
-+	{0x3a1b, 0x58},
-+	{0x3a1e, 0x50},
-+	{0x3a11, 0x60},
-+	{0x3a1f, 0x28},
-+	{0x4001, 0x02},
-+	{0x4004, 0x04},
-+	{0x4000, 0x09},
-+	{0x4837, 0x19},
-+	{0x4800, 0x24},
-+	{0x3503, 0x03},
-+	{0x0100, 0x01},
-+};
-+
-+static struct regval_list ov5647_1080p30_sbggr10[] = {
-+	{0x0100, 0x00},
-+	{0x0103, 0x01},
-+	{0x3034, 0x1a},
-+	{0x3035, 0x21},
-+	{0x3036, 0x62},
-+	{0x303c, 0x11},
-+	{0x3106, 0xf5},
-+	{0x3821, 0x06},
-+	{0x3820, 0x00},
-+	{0x3827, 0xec},
-+	{0x370c, 0x03},
-+	{0x3612, 0x5b},
-+	{0x3618, 0x04},
-+	{0x5000, 0x06},
-+	{0x5002, 0x41},
-+	{0x5003, 0x08},
-+	{0x5a00, 0x08},
-+	{0x3000, 0x00},
-+	{0x3001, 0x00},
-+	{0x3002, 0x00},
-+	{0x3016, 0x08},
-+	{0x3017, 0xe0},
-+	{0x3018, 0x44},
-+	{0x301c, 0xf8},
-+	{0x301d, 0xf0},
-+	{0x3a18, 0x00},
-+	{0x3a19, 0xf8},
-+	{0x3c01, 0x80},
-+	{0x3b07, 0x0c},
-+	{0x380c, 0x09},
-+	{0x380d, 0x70},
-+	{0x3814, 0x11},
-+	{0x3815, 0x11},
-+	{0x3708, 0x64},
-+	{0x3709, 0x12},
-+	{0x3808, 0x07},
-+	{0x3809, 0x80},
-+	{0x380a, 0x04},
-+	{0x380b, 0x38},
-+	{0x3800, 0x01},
-+	{0x3801, 0x5c},
-+	{0x3802, 0x01},
-+	{0x3803, 0xb2},
-+	{0x3804, 0x08},
-+	{0x3805, 0xe3},
-+	{0x3806, 0x05},
-+	{0x3807, 0xf1},
-+	{0x3811, 0x04},
-+	{0x3813, 0x02},
-+	{0x3630, 0x2e},
-+	{0x3632, 0xe2},
-+	{0x3633, 0x23},
-+	{0x3634, 0x44},
-+	{0x3636, 0x06},
-+	{0x3620, 0x64},
-+	{0x3621, 0xe0},
-+	{0x3600, 0x37},
-+	{0x3704, 0xa0},
-+	{0x3703, 0x5a},
-+	{0x3715, 0x78},
-+	{0x3717, 0x01},
-+	{0x3731, 0x02},
-+	{0x370b, 0x60},
-+	{0x3705, 0x1a},
-+	{0x3f05, 0x02},
-+	{0x3f06, 0x10},
-+	{0x3f01, 0x0a},
-+	{0x3a08, 0x01},
-+	{0x3a09, 0x4b},
-+	{0x3a0a, 0x01},
-+	{0x3a0b, 0x13},
-+	{0x3a0d, 0x04},
-+	{0x3a0e, 0x03},
-+	{0x3a0f, 0x58},
-+	{0x3a10, 0x50},
-+	{0x3a1b, 0x58},
-+	{0x3a1e, 0x50},
-+	{0x3a11, 0x60},
-+	{0x3a1f, 0x28},
-+	{0x4001, 0x02},
-+	{0x4004, 0x04},
-+	{0x4000, 0x09},
-+	{0x4837, 0x19},
-+	{0x4800, 0x34},
-+	{0x3503, 0x03},
-+	{0x0100, 0x01},
-+};
-+
-+static struct regval_list ov5647_2x2binned_sbggr10[] = {
-+	{0x0100, 0x00},
-+	{0x0103, 0x01},
-+	{0x3034, 0x1a},
-+	{0x3035, 0x21},
-+	{0x3036, 0x62},
-+	{0x303c, 0x11},
-+	{0x3106, 0xf5},
-+	{0x3827, 0xec},
-+	{0x370c, 0x03},
-+	{0x3612, 0x59},
-+	{0x3618, 0x00},
-+	{0x5000, 0x06},
-+	{0x5002, 0x41},
-+	{0x5003, 0x08},
-+	{0x5a00, 0x08},
-+	{0x3000, 0x00},
-+	{0x3001, 0x00},
-+	{0x3002, 0x00},
-+	{0x3016, 0x08},
-+	{0x3017, 0xe0},
-+	{0x3018, 0x44},
-+	{0x301c, 0xf8},
-+	{0x301d, 0xf0},
-+	{0x3a18, 0x00},
-+	{0x3a19, 0xf8},
-+	{0x3c01, 0x80},
-+	{0x3b07, 0x0c},
-+	{0x3800, 0x00},
-+	{0x3801, 0x00},
-+	{0x3802, 0x00},
-+	{0x3803, 0x00},
-+	{0x3804, 0x0a},
-+	{0x3805, 0x3f},
-+	{0x3806, 0x07},
-+	{0x3807, 0xa3},
-+	{0x3808, 0x05},
-+	{0x3809, 0x10},
-+	{0x380a, 0x03},
-+	{0x380b, 0xcc},
-+	{0x380c, 0x07},
-+	{0x380d, 0x68},
-+	{0x3811, 0x0c},
-+	{0x3813, 0x06},
-+	{0x3814, 0x31},
-+	{0x3815, 0x31},
-+	{0x3630, 0x2e},
-+	{0x3632, 0xe2},
-+	{0x3633, 0x23},
-+	{0x3634, 0x44},
-+	{0x3636, 0x06},
-+	{0x3620, 0x64},
-+	{0x3621, 0xe0},
-+	{0x3600, 0x37},
-+	{0x3704, 0xa0},
-+	{0x3703, 0x5a},
-+	{0x3715, 0x78},
-+	{0x3717, 0x01},
-+	{0x3731, 0x02},
-+	{0x370b, 0x60},
-+	{0x3705, 0x1a},
-+	{0x3f05, 0x02},
-+	{0x3f06, 0x10},
-+	{0x3f01, 0x0a},
-+	{0x3a08, 0x01},
-+	{0x3a09, 0x28},
-+	{0x3a0a, 0x00},
-+	{0x3a0b, 0xf6},
-+	{0x3a0d, 0x08},
-+	{0x3a0e, 0x06},
-+	{0x3a0f, 0x58},
-+	{0x3a10, 0x50},
-+	{0x3a1b, 0x58},
-+	{0x3a1e, 0x50},
-+	{0x3a11, 0x60},
-+	{0x3a1f, 0x28},
-+	{0x4001, 0x02},
-+	{0x4004, 0x04},
-+	{0x4000, 0x09},
-+	{0x4837, 0x16},
-+	{0x4800, 0x24},
-+	{0x3503, 0x03},
-+	{0x3820, 0x41},
-+	{0x3821, 0x07},
-+	{0x350a, 0x00},
-+	{0x350b, 0x10},
-+	{0x3500, 0x00},
-+	{0x3501, 0x1a},
-+	{0x3502, 0xf0},
-+	{0x3212, 0xa0},
-+	{0x0100, 0x01},
-+};
-+
-+static struct regval_list ov5647_640x480_sbggr10[] = {
-+	{0x0100, 0x00},
-+	{0x0103, 0x01},
-+	{0x3035, 0x11},
-+	{0x3036, 0x46},
-+	{0x303c, 0x11},
-+	{0x3821, 0x07},
-+	{0x3820, 0x41},
-+	{0x370c, 0x03},
-+	{0x3612, 0x59},
-+	{0x3618, 0x00},
-+	{0x5000, 0x06},
-+	{0x5003, 0x08},
-+	{0x5a00, 0x08},
-+	{0x3000, 0xff},
-+	{0x3001, 0xff},
-+	{0x3002, 0xff},
-+	{0x301d, 0xf0},
-+	{0x3a18, 0x00},
-+	{0x3a19, 0xf8},
-+	{0x3c01, 0x80},
-+	{0x3b07, 0x0c},
-+	{0x380c, 0x07},
-+	{0x380d, 0x3c},
-+	{0x3814, 0x35},
-+	{0x3815, 0x35},
-+	{0x3708, 0x64},
-+	{0x3709, 0x52},
-+	{0x3808, 0x02},
-+	{0x3809, 0x80},
-+	{0x380a, 0x01},
-+	{0x380b, 0xe0},
-+	{0x3800, 0x00},
-+	{0x3801, 0x10},
-+	{0x3802, 0x00},
-+	{0x3803, 0x00},
-+	{0x3804, 0x0a},
-+	{0x3805, 0x2f},
-+	{0x3806, 0x07},
-+	{0x3807, 0x9f},
-+	{0x3630, 0x2e},
-+	{0x3632, 0xe2},
-+	{0x3633, 0x23},
-+	{0x3634, 0x44},
-+	{0x3620, 0x64},
-+	{0x3621, 0xe0},
-+	{0x3600, 0x37},
-+	{0x3704, 0xa0},
-+	{0x3703, 0x5a},
-+	{0x3715, 0x78},
-+	{0x3717, 0x01},
-+	{0x3731, 0x02},
-+	{0x370b, 0x60},
-+	{0x3705, 0x1a},
-+	{0x3f05, 0x02},
-+	{0x3f06, 0x10},
-+	{0x3f01, 0x0a},
-+	{0x3a08, 0x01},
-+	{0x3a09, 0x2e},
-+	{0x3a0a, 0x00},
-+	{0x3a0b, 0xfb},
-+	{0x3a0d, 0x02},
-+	{0x3a0e, 0x01},
-+	{0x3a0f, 0x58},
-+	{0x3a10, 0x50},
-+	{0x3a1b, 0x58},
-+	{0x3a1e, 0x50},
-+	{0x3a11, 0x60},
-+	{0x3a1f, 0x28},
-+	{0x4001, 0x02},
-+	{0x4004, 0x02},
-+	{0x4000, 0x09},
-+	{0x3000, 0x00},
-+	{0x3001, 0x00},
-+	{0x3002, 0x00},
-+	{0x3017, 0xe0},
-+	{0x301c, 0xfc},
-+	{0x3636, 0x06},
-+	{0x3016, 0x08},
-+	{0x3827, 0xec},
-+	{0x3018, 0x44},
-+	{0x3035, 0x21},
-+	{0x3106, 0xf5},
-+	{0x3034, 0x1a},
-+	{0x301c, 0xf8},
-+	{0x4800, 0x34},
-+	{0x3503, 0x03},
-+	{0x0100, 0x01},
-+};
-+
- static struct ov5647_mode ov5647_sbggr8_modes[] = {
- 	/* 8-bit VGA mode: Uncentred crop 2x2 binned 1296x972 image. */
- 	{
-@@ -226,12 +587,92 @@ static struct ov5647_mode ov5647_sbggr8_modes[] = {
- 	},
- };
- 
-+static struct ov5647_mode ov5647_sbggr10_modes[] = {
-+	/* 2592x1944 full resolution full FOV 10-bit mode. */
-+	{
-+		.format = {
-+			.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
-+			.colorspace	= V4L2_COLORSPACE_SRGB,
-+			.field		= V4L2_FIELD_NONE,
-+			.width		= 2592,
-+			.height		= 1944
-+		},
-+		.crop = {
-+			.left		= 0,
-+			.top		= 0,
-+			.width		= 2592,
-+			.height		= 1944
-+		},
-+		.reg_list	= ov5647_2592x1944_sbggr10,
-+		.num_regs	= ARRAY_SIZE(ov5647_2592x1944_sbggr10)
-+	},
-+	/* 1080p30 10-bit mode. Full resolution centre-cropped down to 1080p. */
-+	{
-+		.format = {
-+			.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
-+			.colorspace	= V4L2_COLORSPACE_SRGB,
-+			.field		= V4L2_FIELD_NONE,
-+			.width		= 1920,
-+			.height		= 1080
-+		},
-+		.crop = {
-+			.left		= 348,
-+			.top		= 434,
-+			.width		= 1928,
-+			.height		= 1080,
-+		},
-+		.reg_list	= ov5647_1080p30_sbggr10,
-+		.num_regs	= ARRAY_SIZE(ov5647_1080p30_sbggr10)
-+	},
-+	/* 2x2 binned full FOV 10-bit mode. */
-+	{
-+		.format = {
-+			.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
-+			.colorspace	= V4L2_COLORSPACE_SRGB,
-+			.field		= V4L2_FIELD_NONE,
-+			.width		= 1296,
-+			.height		= 972
-+		},
-+		.crop = {
-+			.left		= 0,
-+			.top		= 0,
-+			.width		= 2592,
-+			.height		= 1944,
-+		},
-+		.reg_list	= ov5647_2x2binned_sbggr10,
-+		.num_regs	= ARRAY_SIZE(ov5647_2x2binned_sbggr10)
-+	},
-+	/* 10-bit VGA full FOV 60fps. 2x2 binned and subsampled down to VGA. */
-+	{
-+		.format = {
-+			.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
-+			.colorspace	= V4L2_COLORSPACE_SRGB,
-+			.field		= V4L2_FIELD_NONE,
-+			.width		= 640,
-+			.height		= 480
-+		},
-+		.crop = {
-+			.left		= 16,
-+			.top		= 0,
-+			.width		= 2560,
-+			.height		= 1920,
-+		},
-+		.reg_list	= ov5647_640x480_sbggr10,
-+		.num_regs	= ARRAY_SIZE(ov5647_640x480_sbggr10)
-+	},
-+};
-+
- static const struct ov5647_format_list ov5647_formats[] = {
- 	{
- 		.mbus_code	= MEDIA_BUS_FMT_SBGGR8_1X8,
- 		.modes		= ov5647_sbggr8_modes,
- 		.num_modes	= ARRAY_SIZE(ov5647_sbggr8_modes),
- 	},
-+	{
-+		.mbus_code	= MEDIA_BUS_FMT_SBGGR10_1X10,
-+		.modes		= ov5647_sbggr10_modes,
-+		.num_modes	= ARRAY_SIZE(ov5647_sbggr10_modes),
-+	},
- };
- 
- #define OV5647_NUM_FORMATS	(ARRAY_SIZE(ov5647_formats))
 -- 
 2.27.0
 
