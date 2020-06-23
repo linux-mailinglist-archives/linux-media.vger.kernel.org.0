@@ -2,104 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7040204F26
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 12:37:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AFFE204F2B
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 12:39:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732245AbgFWKhD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 06:37:03 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:43629 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732172AbgFWKhD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 06:37:03 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id ngIUjeuIavh6gngIXj1Jh7; Tue, 23 Jun 2020 12:37:01 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592908621; bh=hNAtAbL18HMN3lk+lJWngxf/IxlRPafkhTKbaPYr8jE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=fd4cRkxmEJ0aGCrk8W5xnPvBz6KD736T1pnFY+lMEmcrDUTM2v2nyoJHfNWz5gU4o
-         E14WL15Mig15R5ml+R47GIFdt2ydja+k6HlzsHFePxNNE4ujgBcUu1JB3/J4cHso3d
-         QqB+o2rFBPh4cmfQ3Jcw1gwbNm40I7RGIZxQI5Lzgx+clP0DlOuHp9OkMJa7BwNK6W
-         kDbz6ZT0wUdDy8M/rvwOJ+Q57JjtwKzRXGdPEOBbnOfBpuaWt6cjX7THX1vWCFdONo
-         mJWZsdKV32h18292d/N1rrtUr9d1j4I0UIJwyPwuLxncihhQTTpKZVcTgbhg8h/0u1
-         ZKYv3oD38iYBA==
-Subject: Re: [PATCHv3 1/5] media: docs-rst: Document memory-to-memory video
- encoder interface
-To:     linux-media@vger.kernel.org
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
+        id S1732213AbgFWKjH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 06:39:07 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58084 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732191AbgFWKjG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Jun 2020 06:39:06 -0400
+Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 396E520724;
+        Tue, 23 Jun 2020 10:39:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1592908746;
+        bh=x00467Rl0LmFnavuTmVqzJxFqs8KPCS7xTfFN7uGrE8=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=hskJCYY2VQaWRQahqt6o9K8Jyv6ubz72qlv+HlgKATNsISBswCSBbABp4PKTnbXjK
+         n04KepcydqoB/XHFNbdmSFiPKlzliv3QvDBRJQU9zHFa0j9441ZL5fgjwwLNI4oknY
+         ZzGHdSNeUBOIk9OkhM2cOUsm8S7KpTJEd6YkehaM=
+Date:   Tue, 23 Jun 2020 12:39:02 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Michael Tretter <m.tretter@pengutronix.de>,
         Tomasz Figa <tfiga@chromium.org>,
-        Michael Tretter <m.tretter@pengutronix.de>
-References: <20200526100932.2626420-1-hverkuil-cisco@xs4all.nl>
- <20200526100932.2626420-2-hverkuil-cisco@xs4all.nl>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <e08d5c45-cf34-e945-e5be-7e43eeaf35f5@xs4all.nl>
-Date:   Tue, 23 Jun 2020 12:36:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Subject: Re: [GIT PULL FOR v5.9] Finalize stateful encoder support
+Message-ID: <20200623123902.334b4f15@coco.lan>
+In-Reply-To: <741fd4cb-1c56-9546-36da-1993474caf49@xs4all.nl>
+References: <741fd4cb-1c56-9546-36da-1993474caf49@xs4all.nl>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200526100932.2626420-2-hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfGKaTaRCkJ24VSR5j16j5cuDY2Bwar6m+tfZjZdXNWUXBCEJLx2kc/NDLpBSPDHUY+ni3DMaNPmAA4QAq5lJqO5V20BD6zHYAEjJlxyX4i3ulgxX1mZh
- H9DLXyM4QLe2nehLK5E9NXpCOEsYnGrNslTY0ymRYfNA5qQrYtU4jNMC40hQwHVPlPCalMS6Keu06nPVYyEQS04m7sWmQGZl4L+MXULoYE13jiS9F9aCjAAN
- 0NXZIvEUNel17zf6Jx4A3XXaKIQxelFVaEQvgWdLOlLMup/+Q4WKkmuiujMuPedV
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
+Em Tue, 2 Jun 2020 12:02:54 +0200
+Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
 
-On 26/05/2020 12:09, Hans Verkuil wrote:
-> From: Tomasz Figa <tfiga@chromium.org>
+> Hi Mauro,
 > 
-> Due to complexity of the video encoding process, the V4L2 drivers of
-> stateful encoder hardware require specific sequences of V4L2 API calls
-> to be followed. These include capability enumeration, initialization,
-> encoding, encode parameters change, drain and reset.
+> This PR finalizes the stateful encoder support by adding the stateful encoder
+> spec. It was delayed quite a bit and the main reason was how framerates should
+> be handled given the constraints of what existing stateful encoder drivers
+> implemented.
 > 
-> Specifics of the above have been discussed during Media Workshops at
-> LinuxCon Europe 2012 in Barcelona and then later Embedded Linux
-> Conference Europe 2014 in Düsseldorf. The de facto Codec API that
-> originated at those events was later implemented by the drivers we already
-> have merged in mainline, such as s5p-mfc or coda.
+> Michael, can you make a allegro patch that sets the V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL
+> flag in that driver and have it behave according to this updated spec?
 > 
-> The only thing missing was the real specification included as a part of
-> Linux Media documentation. Fix it now and document the encoder part of
-> the Codec API.
+> Many thanks to all who contributed, with honorable mention of Tomasz who wrote
+> the original version of this spec.
 > 
-> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  .../userspace-api/media/v4l/dev-encoder.rst   | 728 ++++++++++++++++++
->  .../userspace-api/media/v4l/dev-mem2mem.rst   |   1 +
->  .../userspace-api/media/v4l/pixfmt-v4l2.rst   |   5 +
->  .../userspace-api/media/v4l/v4l2.rst          |   2 +
->  .../media/v4l/vidioc-encoder-cmd.rst          |  51 +-
->  5 files changed, 767 insertions(+), 20 deletions(-)
->  create mode 100644 Documentation/userspace-api/media/v4l/dev-encoder.rst
+> Regards,
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/dev-encoder.rst b/Documentation/userspace-api/media/v4l/dev-encoder.rst
-> new file mode 100644
-> index 000000000000..aace7b812a9c
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/v4l/dev-encoder.rst
-> @@ -0,0 +1,728 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
+> 	Hans
+> 
+> The following changes since commit 938b29db3aa9c293c7c1366b16e55e308f1a1ddd:
+> 
+>   media: Documentation: media: Refer to mbus format documentation from CSI-2 docs (2020-05-25 15:47:02 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   git://linuxtv.org/hverkuil/media_tree.git tags/br-stateful-enc
+> 
+> for you to fetch changes up to f73d82aca17259d7409c3bb675c1def0d71041e0:
+> 
+>   dev-encoder.rst: add reference to V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL (2020-06-02 11:05:51 +0200)
+> 
+> ----------------------------------------------------------------
+> Tag branch
+> 
+> ----------------------------------------------------------------
+> Hans Verkuil (4):
+>       vidioc-g-parm.rst: update the VIDIOC_G/S_PARM documentation
+>       dev-decoder.rst: small fixes
+>       videodev2.h: add V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL flag
+>       dev-encoder.rst: add reference to V4L2_FMT_FLAG_ENC_CAP_FRAME_INTERVAL
+> 
+> Tomasz Figa (1):
+>       media: docs-rst: Document memory-to-memory video encoder interface
+> 
+>  Documentation/userspace-api/media/v4l/dev-decoder.rst        |   6 +-
+>  Documentation/userspace-api/media/v4l/dev-encoder.rst        | 729 ++++++++++++++++++++++++++++++++++++++++
 
-New rst docs should be dual licensed:
+There's an issue here:
 
-SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-or-later-no-invariants
+diff --git a/Documentation/userspace-api/media/v4l/dev-encoder.rst b/Documentation/userspace-api/media/v4l/dev-encoder.rst
+new file mode 100644
+index 000000000000..aace7b812a9c
+--- /dev/null
++++ b/Documentation/userspace-api/media/v4l/dev-encoder.rst
+@@ -0,0 +1,728 @@
++.. SPDX-License-Identifier: GPL-2.0
 
-It is OK to make this change? No need to repost, if you agree with this
-I or Mauro will make the change.
+In order to be compatible with the license of the entire uAPI, we need
+to use here:
 
-If you agree, just reply with your Signed-off-by line.
+	.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-or-later-no-invariants
 
-Regards,
+E.g. dual GPLv2 and GFDL 1.1 or later.
 
-	Hans
+
+Thanks,
+Mauro
