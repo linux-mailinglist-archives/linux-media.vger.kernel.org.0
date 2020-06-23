@@ -2,22 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87AC9205A95
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 20:29:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00AE7205AB2
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 20:30:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733191AbgFWS26 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 14:28:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35090 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732549AbgFWS26 (ORCPT
+        id S2387442AbgFWS3D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 14:29:03 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:42722 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732549AbgFWS3C (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 14:28:58 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F624C061573;
-        Tue, 23 Jun 2020 11:28:58 -0700 (PDT)
+        Tue, 23 Jun 2020 14:29:02 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 3DB212A376B
+        with ESMTPSA id A6B352A384C
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
@@ -29,11 +26,13 @@ Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Maxime Ripard <mripard@kernel.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [RFC 0/7] media: Clean and make H264 stateless uAPI public
-Date:   Tue, 23 Jun 2020 15:28:02 -0300
-Message-Id: <20200623182809.1375-1-ezequiel@collabora.com>
+        Jernej Skrabec <jernej.skrabec@siol.net>
+Subject: [RFC 1/7] media: uapi: h264: update reference lists
+Date:   Tue, 23 Jun 2020 15:28:03 -0300
+Message-Id: <20200623182809.1375-2-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.26.0.rc2
+In-Reply-To: <20200623182809.1375-1-ezequiel@collabora.com>
+References: <20200623182809.1375-1-ezequiel@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -41,69 +40,142 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The recent patch posted by Jernej (which I'm including for context),
-encouraged me to address all the known issues in the uAPI.
+From: Jernej Skrabec <jernej.skrabec@siol.net>
 
-I hope we can finally make this uAPI interface
-public; it would be nice to address the other codec
-interfaces so we can move the codec drivers out of staging.
+When dealing with with interlaced frames, reference lists must tell if
+each particular reference is meant for top or bottom field. This info
+is currently not provided at all in the H264 related controls.
 
-It should be noted that there is already GStreamer native
-support for this interface, which will be part of 1.18,
-once it's released [1], as well as support in Chromium [2].
+Make reference lists hold a structure which will also hold flags along
+index into DPB array. Flags will tell if reference is meant for top or
+bottom field.
 
-The basic idea here is to sanitize the interface,
-making sure the structs are aligned to 64-bit,
-adding reserved fields for padding where suitable.
+Currently the only user of these lists is Cedrus which is just compile
+fixed here. Actual usage of newly introduced flags will come in
+following commit.
 
-These reserved fields can then be used to support future extensions,
-in case such need appears.
+Signed-off-by: Jernej Skrabec <jernej.skrabec@siol.net>
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+---
+ .../media/v4l/ext-ctrls-codec.rst             | 40 ++++++++++++++++++-
+ .../staging/media/sunxi/cedrus/cedrus_h264.c  |  6 +--
+ include/media/h264-ctrls.h                    | 12 +++++-
+ 3 files changed, 51 insertions(+), 7 deletions(-)
 
-In addition to this, moving the slice invariant fields
-to the per-frame control, makes the frame-mode driver
-implementation much nicer and the interface; see patch 6/7 for details.
-
-I'm not adding a MAINTAINERS entry, but I'd like to do so,
-so we make sure any uAPI changes are sent to those involved.
-
-Another potential change is the addition of a "Since:" tag to the
-control specification, so we can document which kernel version
-added the interface. This might prove useful if reserved
-fields are then used to extend the interface.
-
-Finally, I'm sneaking here a change from Philipp Zabel
-which apparently fell thru the cracks.
-
-[1] https://gitlab.freedesktop.org/gstreamer/gst-plugins-bad/-/tree/master/sys/v4l2codecs
-[2] https://chromium.googlesource.com/chromium/src.git/+/refs/heads/master/media/gpu/v4l2/
-
-Ezequiel Garcia (5):
-  fixup! media: uapi: h264: update reference lists
-  media: uapi: h264: increase size of fields
-  media: uapi: h264: pad v4l2_ctrl_h264_pps to 64-bit
-  media: uapi: h264: Clean slice invariants syntax elements
-  media: uapi: make H264 stateless codec interface public
-
-Jernej Skrabec (1):
-  media: uapi: h264: update reference lists
-
-Philipp Zabel (1):
-  media: uapi: h264: clarify pic_order_cnt_bit_size field
-
- .../media/v4l/ext-ctrls-codec.rst             | 135 ++++++++++++------
- drivers/media/v4l2-core/v4l2-ctrls.c          |  31 ++++
- drivers/media/v4l2-core/v4l2-h264.c           |   8 +-
- .../staging/media/hantro/hantro_g1_h264_dec.c |  21 ++-
- drivers/staging/media/hantro/hantro_h264.c    |   3 +-
- drivers/staging/media/hantro/hantro_hw.h      |   5 +-
- drivers/staging/media/rkvdec/rkvdec-h264.c    |   6 +-
- .../staging/media/sunxi/cedrus/cedrus_h264.c  |  15 +-
- include/media/v4l2-ctrls.h                    |   3 +-
- include/media/v4l2-h264.h                     |   5 +-
- .../linux/v4l2-h264-ctrls.h}                  |  73 ++++++----
- 11 files changed, 194 insertions(+), 111 deletions(-)
- rename include/{media/h264-ctrls.h => uapi/linux/v4l2-h264-ctrls.h} (88%)
-
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+index d0d506a444b1..6c36d298db20 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+@@ -1843,10 +1843,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+     * - __u32
+       - ``slice_group_change_cycle``
+       -
+-    * - __u8
++    * - struct :c:type:`v4l2_h264_reference`
+       - ``ref_pic_list0[32]``
+       - Reference picture list after applying the per-slice modifications
+-    * - __u8
++    * - struct :c:type:`v4l2_h264_reference`
+       - ``ref_pic_list1[32]``
+       - Reference picture list after applying the per-slice modifications
+     * - __u32
+@@ -1926,6 +1926,42 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+       - ``chroma_offset[32][2]``
+       -
+ 
++``Picture Reference``
++
++.. c:type:: v4l2_h264_reference
++
++.. cssclass:: longtable
++
++.. flat-table:: struct v4l2_h264_reference
++    :header-rows:  0
++    :stub-columns: 0
++    :widths:       1 1 2
++
++    * - __u16
++      - ``flags``
++      - See :ref:`Picture Reference Flags <h264_reference_flags>`
++    * - __u8
++      - ``index``
++      -
++
++.. _h264_reference_flags:
++
++``Picture Reference Flags``
++
++.. cssclass:: longtable
++
++.. flat-table::
++    :header-rows:  0
++    :stub-columns: 0
++    :widths:       1 1 2
++
++    * - ``V4L2_H264_REFERENCE_FLAG_TOP_FIELD``
++      - 0x00000001
++      -
++    * - ``V4L2_H264_REFERENCE_FLAG_BOTTOM_FIELD``
++      - 0x00000002
++      -
++
+ ``V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS (struct)``
+     Specifies the decode parameters (as extracted from the bitstream)
+     for the associated H264 slice data. This includes the necessary
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+index 54ee2aa423e2..cce527bbdf86 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+@@ -166,8 +166,8 @@ static void cedrus_write_frame_list(struct cedrus_ctx *ctx,
+ 
+ static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
+ 				   struct cedrus_run *run,
+-				   const u8 *ref_list, u8 num_ref,
+-				   enum cedrus_h264_sram_off sram)
++				   const struct v4l2_h264_reference *ref_list,
++				   u8 num_ref, enum cedrus_h264_sram_off sram)
+ {
+ 	const struct v4l2_ctrl_h264_decode_params *decode = run->h264.decode_params;
+ 	struct vb2_queue *cap_q;
+@@ -188,7 +188,7 @@ static void _cedrus_write_ref_list(struct cedrus_ctx *ctx,
+ 		int buf_idx;
+ 		u8 dpb_idx;
+ 
+-		dpb_idx = ref_list[i];
++		dpb_idx = ref_list[i].index;
+ 		dpb = &decode->dpb[dpb_idx];
+ 
+ 		if (!(dpb->flags & V4L2_H264_DPB_ENTRY_FLAG_ACTIVE))
+diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+index 080fd1293c42..9b1cbc9bc38e 100644
+--- a/include/media/h264-ctrls.h
++++ b/include/media/h264-ctrls.h
+@@ -140,6 +140,14 @@ struct v4l2_h264_pred_weight_table {
+ #define V4L2_H264_SLICE_FLAG_DIRECT_SPATIAL_MV_PRED	0x04
+ #define V4L2_H264_SLICE_FLAG_SP_FOR_SWITCH		0x08
+ 
++#define V4L2_H264_REFERENCE_FLAG_TOP_FIELD		0x01
++#define V4L2_H264_REFERENCE_FLAG_BOTTOM_FIELD		0x02
++
++struct v4l2_h264_reference {
++	__u8 flags;
++	__u8 index;
++};
++
+ struct v4l2_ctrl_h264_slice_params {
+ 	/* Size in bytes, including header */
+ 	__u32 size;
+@@ -182,8 +190,8 @@ struct v4l2_ctrl_h264_slice_params {
+ 	 * Entries on each list are indices into
+ 	 * v4l2_ctrl_h264_decode_params.dpb[].
+ 	 */
+-	__u8 ref_pic_list0[32];
+-	__u8 ref_pic_list1[32];
++	struct v4l2_h264_reference ref_pic_list0[32];
++	struct v4l2_h264_reference ref_pic_list1[32];
+ 
+ 	__u32 flags;
+ };
 -- 
 2.26.0.rc2
 
