@@ -2,102 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECA9C205B85
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 21:14:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ABA62063F0
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 23:30:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733270AbgFWTNi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 15:13:38 -0400
-Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:35071 "EHLO
-        wnew1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1733236AbgFWTNh (ORCPT
+        id S2393363AbgFWVNc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 17:13:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60418 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2392026AbgFWVNb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 15:13:37 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.west.internal (Postfix) with ESMTP id C4289906;
-        Tue, 23 Jun 2020 15:13:35 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Tue, 23 Jun 2020 15:13:36 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=7WMvAPN1ErXgthiWUva+PTQ5T73
-        /EhOOW6dGIyc3zc0=; b=B+xXS5EBQWZ76VL502N0Tw1rr59TAS+8Pq1CRN/ND1g
-        9mi/Bj3aIMd9/8Z0lXlIW13VHlyNycJXaI+NnLZgeAPZ1dtuK+FL9rAasVMz5yzj
-        b3UDgAoF1CfpbwJa1kTLjuSmrN2mKF4aJhTvLtg4LONgwbz5MwRM74ZWGh3YBNE0
-        oEomJNl1PnVg3e1jouf9fcYDMOiONa8F3GJ2UsEQRzq8TYJvV64vP+fEviCCOwoV
-        Goe3ONO0sURn5YPfJdlW/quT7f31cXx75HAxqTk6Uz0KyVx5nlMfGXUX1IZfhKHC
-        Hz8uQ2hey7urtJcHOhT/CeX81xdemir2Qm6N6mkuOqQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=7WMvAP
-        N1ErXgthiWUva+PTQ5T73/EhOOW6dGIyc3zc0=; b=dXCLzDdCuwNGc5oLIfOe5L
-        wTIxnmKazr6VdstsTaz3hwOkHGeSMwlx2q3oknJL/FU7LcsrYnK4yy1OmNW/LESh
-        4n9N8vOKP/DIUVa48fgeFVm6Hoj57yAJruueXw6Mdazc79XtPFoXEyPaJh8B9mWM
-        kS1EN/wdxPQYsSCWc7lC+j3HN9VBqMqn1dl0nKUhj+QvWbbVQ45MlATPwK1B2ixj
-        ETVWDshVsgLRGKGNlwSfs5NrhzlK3D+mtoiZh7CLyZjtSnMIcbwBBmoEc0GN2vdj
-        RSyVPh91Pe6AC5alHDvLdEECasb1vmKqnhxOr2CHjiHaKYhM9XnXsdgXlnq5OtaQ
-        ==
-X-ME-Sender: <xms:XlTyXk-P6sWMr2Vi07X27DG6YL52VZnVlmT_fZ5wtczUclsPFZs2Ow>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudekhedguddtjecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepifhrvghg
-    ucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheqnecuggftrfgrthhtvghrnhepveeuhe
-    ejgfffgfeivddukedvkedtleelleeghfeljeeiueeggeevueduudekvdetnecukfhppeek
-    fedrkeeirdekledruddtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmh
-    grihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtghomh
-X-ME-Proxy: <xmx:XlTyXssaaugpPbLXOIRp270vhFlvbqRa8cz2rWuRJXoPz9G6NYl9PQ>
-    <xmx:XlTyXqAixP3WzEqLYjaZXMWcZi_uCoI1eUN7pV2lkxqzqm59jRvlcQ>
-    <xmx:XlTyXkfqATS3k_-vThGx3EGgS6FZwaRiZzTfd3PiD66Vgdkh52J78g>
-    <xmx:X1TyXqGrtznON9bqGqlBXzR_2sIOg8ycDEX1jqn43Wv7SI4mvRRE0zk6ax4>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 20A203280063;
-        Tue, 23 Jun 2020 15:13:34 -0400 (EDT)
-Date:   Tue, 23 Jun 2020 21:13:34 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Florian Fainelli <florian.fainelli@broadcom.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Krufky <mkrufky@linuxtv.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Shuah Khan <shuah@kernel.org>,
-        Jaedon Shin <jaedon.shin@gmail.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Katsuhiro Suzuki <suzuki.katsuhiro@socionext.com>,
-        Satendra Singh Thakur <satendra.t@samsung.com>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        "open list:FILESYSTEMS (VFS and infrastructure)" 
-        <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH stable 4.9 00/21] Unbreak 32-bit DVB applications on
- 64-bit kernels
-Message-ID: <20200623191334.GA279616@kroah.com>
-References: <20200605162518.28099-1-florian.fainelli@broadcom.com>
+        Tue, 23 Jun 2020 17:13:31 -0400
+Received: from hillosipuli.retiisi.org.uk (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75D9BC061573;
+        Tue, 23 Jun 2020 14:13:31 -0700 (PDT)
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.org.uk (Postfix) with ESMTPS id CEADD634C87;
+        Wed, 24 Jun 2020 00:13:06 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1jnqE6-000199-OR; Wed, 24 Jun 2020 00:13:06 +0300
+Date:   Wed, 24 Jun 2020 00:13:06 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Lad Prabhakar <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v3 1/3] media: v4l2-async: Accept endpoints and devices
+ for fwnode matching
+Message-ID: <20200623211306.GF870@valkosipuli.retiisi.org.uk>
+References: <20200621000028.4591-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20200621000028.4591-2-laurent.pinchart+renesas@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200605162518.28099-1-florian.fainelli@broadcom.com>
+In-Reply-To: <20200621000028.4591-2-laurent.pinchart+renesas@ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 05, 2020 at 09:24:57AM -0700, Florian Fainelli wrote:
-> Hi all,
-> 
-> This long patch series was motivated by backporting Jaedon's changes
-> which add a proper ioctl compatibility layer for 32-bit applications
-> running on 64-bit kernels. We have a number of Android TV-based products
-> currently running on the 4.9 kernel and this was broken for them.
-> 
-> Thanks to Robert McConnell for identifying and providing the patches in
-> their initial format.
-> 
-> In order for Jaedon's patches to apply cleanly a number of changes were
-> applied to support those changes. If you deem the patch series too big
-> please let me know.
+Hi Laurent,
 
-Now queued up,t hanks.
+On Sun, Jun 21, 2020 at 03:00:26AM +0300, Laurent Pinchart wrote:
+> fwnode matching was designed to match on nodes corresponding to a
+> device. Some drivers, however, needed to match on endpoints, and have
+> passed endpoint fwnodes to v4l2-async. This works when both the subdev
+> and the notifier use the same fwnode types (endpoint or device), but
+> makes drivers that use different types incompatible.
+> 
+> Fix this by extending the fwnode match to handle fwnodes of different
+> types. When the types (deduced from the presence of remote endpoints)
+> are different, retrieve the device fwnode for the side that provides an
+> endpoint fwnode, and compare it with the device fwnode provided by the
+> other side. This allows interoperability between all drivers, regardless
+> of which type of fwnode they use for matching.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Tested-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+> Changes since v2:
+> 
+> - Add comment to explain that we're matching connecting endpoints
+> - Don't check fwnode name to detect endpoint
+> ---
+>  drivers/media/v4l2-core/v4l2-async.c | 45 +++++++++++++++++++++++++++-
+>  1 file changed, 44 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+> index 8bde33c21ce4..f82e0a32647d 100644
+> --- a/drivers/media/v4l2-core/v4l2-async.c
+> +++ b/drivers/media/v4l2-core/v4l2-async.c
+> @@ -71,7 +71,50 @@ static bool match_devname(struct v4l2_subdev *sd,
+>  
+>  static bool match_fwnode(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+>  {
+> -	return sd->fwnode == asd->match.fwnode;
+> +	struct fwnode_handle *other_fwnode;
+> +	struct fwnode_handle *dev_fwnode;
+> +	bool asd_fwnode_is_ep;
+> +	bool sd_fwnode_is_ep;
+> +
+> +	/*
+> +	 * Both the subdev and the async subdev can provide either an endpoint
+> +	 * fwnode or a device fwnode. Start with the simple case of direct
+> +	 * fwnode matching.
+> +	 */
+> +	if (sd->fwnode == asd->match.fwnode)
+> +		return true;
+> +
+> +	/*
+> +	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
+> +	 * endpoint or a device. If they're of the same type, there's no match.
+> +	 * Technically speaking this checks if the nodes refer to a connected
+> +	 * endpoint, which is the simplest check that works for both OF and
+> +	 * ACPI. This won't make a difference, as drivers should not try to
+> +	 * match unconnected endpoints.
+> +	 */
+> +	sd_fwnode_is_ep = fwnode_property_present(sd->fwnode,
+> +						  "remote-endpoint");
+> +	asd_fwnode_is_ep = fwnode_property_present(asd->match.fwnode,
+> +						   "remote-endpoint");
 
-greg k-h
+Please don't try parsing graph bindings outside the main parsers.
+
+There's no API function to do just this, but you could go and check for the
+port parent right away. The code might be even more simple that way.
+
+Alternatively, I guess we could add fwnode_graph_is_endpoint() or something
+but I wonder if it'd be worth it just for this.
+
+> +
+> +	if (sd_fwnode_is_ep == asd_fwnode_is_ep)
+> +		return false;
+> +
+> +	/*
+> +	 * The sd and asd fwnodes are of different types. Get the device fwnode
+> +	 * parent of the endpoint fwnode, and compare it with the other fwnode.
+> +	 */
+> +	if (sd_fwnode_is_ep) {
+> +		dev_fwnode = fwnode_graph_get_port_parent(sd->fwnode);
+> +		other_fwnode = asd->match.fwnode;
+> +	} else {
+> +		dev_fwnode = fwnode_graph_get_port_parent(asd->match.fwnode);
+> +		other_fwnode = sd->fwnode;
+> +	}
+> +
+> +	fwnode_handle_put(dev_fwnode);
+> +
+> +	return dev_fwnode == other_fwnode;
+>  }
+>  
+>  static bool match_custom(struct v4l2_subdev *sd, struct v4l2_async_subdev *asd)
+
+-- 
+Kind regards,
+
+Sakari Ailus
