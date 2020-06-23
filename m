@@ -2,135 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3F53205576
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 17:05:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0B8020563C
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 17:44:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732866AbgFWPFZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 11:05:25 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:49965 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732845AbgFWPFZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 11:05:25 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id nkUAjnMHbx3AjnkUEjflV2; Tue, 23 Jun 2020 17:05:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592924722; bh=3U/SoF/F+23/xF0ullbt6ZcvKV6vEh0IP5wuTadtEwA=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=ZyGwqYx4w2FmHJkGD5c2ObddqKCRSCKRBZ95Kh2eMJ+PJkIFnevaCkVULVraCvQ9b
-         MeimP9lDd/jaMDfi0ajv2h2MIpPlmgFrYFwg0oe5xeZXQz6kq29MQdpqq12586qe1t
-         87QF6EYgHAybXDLttA/ageNpTdUalOcCkEJIBpXAE4sOwbr6VlurVW7HZ96U46Gn0W
-         XMRZhBRUyTj/OIBRFOXXVXCWILDS1GbNnVdpL4Hq0GxpCkf3QeBEMaj5IcFqfYGfJx
-         WjdzaWaPVJpd46EErfSqbflu/zhTjyRFKLQ4SpP+N7pV6K/Ym3lTQyQSIE8l4VTiO+
-         pjO2aRp9S1h4A==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.9] Various fixes/enhancements
-Message-ID: <d4e7cebd-23de-831f-9f12-5822079fbf90@xs4all.nl>
-Date:   Tue, 23 Jun 2020 17:05:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S1732955AbgFWPoH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 11:44:07 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:54288 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732940AbgFWPoH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Jun 2020 11:44:07 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jnl1b-006IQC-4z; Tue, 23 Jun 2020 15:39:51 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jnl7t-00022h-Pe; Tue, 23 Jun 2020 15:46:21 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.9] Various fixes/enhancements (#64836)
+Date:   Tue, 23 Jun 2020 15:46:21 +0000
+Message-Id: <20200623154621.7810-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <d4e7cebd-23de-831f-9f12-5822079fbf90@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfGzBiciUViT6IuIuOviL2lVbdEON039a0JXG1Ouy/QECyYKbZHH2Wi3ad7m1i9yyIfLwxhnYK3YgcyrPIppdySpKPY766sQpDdz85q7NJbDUhLNqJQq4
- J6YmWdT3Bdcal7/LhiJyJYm0/eQGQESwsEbmBNj4vXE4jHTtVwGPtCydTdXsf96EH34rVkV4C/q/sA==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit e30cc79cc80fd919b697a15c5000d9f57487de8e:
+From: builder@linuxtv.org
 
-  media: media-request: Fix crash if memory allocation fails (2020-06-23 15:19:37 +0200)
+Pull request: https://patchwork.linuxtv.org/patch/64836/
+Build log: https://builder.linuxtv.org/job/patchwork/56676/
+Build time: 00:35:47
+Link: https://lore.kernel.org/linux-media/d4e7cebd-23de-831f-9f12-5822079fbf90@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Tue 23 Jun 2020 03:04:00 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.9c
+Summary: 2 patches and/or PDF generation with issues, being 0 at build time
 
-for you to fetch changes up to cc214e8995100bd6d7cbed90c090d729a5edf3fd:
+Error/warnings:
 
-  media: exynos4-is: Add missed check for pinctrl_lookup_state() (2020-06-23 15:20:59 +0200)
 
-----------------------------------------------------------------
-Tag branch
+Error #256 when running cat patches/0007-media-vb2-Print-the-queue-pointer-in-debug-messages.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0007-media-vb2-Print-the-queue-pointer-in-debug-messages.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:35: CHECK: Macro argument 'level' may be better as '(level)' to avoid precedence issues
+-:90: CHECK: Alignment should match open parenthesis
+-:265: CHECK: Alignment should match open parenthesis
+-:279: WARNING: line length of 106 exceeds 100 columns
+-:280: CHECK: Alignment should match open parenthesis
+-:592: CHECK: Alignment should match open parenthesis
+-:619: CHECK: Alignment should match open parenthesis
+-:920: CHECK: Macro argument 'level' may be better as '(level)' to avoid precedence issues
 
-----------------------------------------------------------------
-Benoit Parrot (2):
-      media: v4l2-rect.h: add enclosed rectangle helper
-      media: use v4l2_rect_enclosed helper
-
-Chuhong Yuan (2):
-      media: tvp5150: Add missed media_entity_cleanup()
-      media: exynos4-is: Add missed check for pinctrl_lookup_state()
-
-Dafna Hirschfeld (5):
-      media: staging: rkisp1: rsz: supported formats are the isp's src formats, not sink formats
-      media: staging: rkisp1: remove macro RKISP1_DIR_SINK_SRC
-      media: staging: rkisp1: rename macros 'RKISP1_DIR_*' to 'RKISP1_ISP_SD_*'
-      media: staging: rkisp1: rsz: set default format if the given format is not RKISP1_ISP_SD_SRC
-      media: staging: rkisp1: set more precise size errors in debugfs
-
-Dan Carpenter (2):
-      media: allegro: Fix some NULL vs IS_ERR() checks in probe
-      media: pxa_camera: remove an impossible condition
-
-Dariusz Marcinkiewicz (1):
-      media: cros-ec-cec: do not bail on device_init_wakeup failure
-
-Gustavo A. R. Silva (1):
-      media: test_drivers: vivid-core: Use array_size() helper
-
-Helen Koike (1):
-      media: staging: rkisp1: rsz: fix resolution limitation on sink pad
-
-John Cox (1):
-      media: videobuf2: Fix length check for single plane dmabuf queueing
-
-Krzysztof Kozlowski (1):
-      media: samsung: Rename Samsung and Exynos to lowercase
-
-Lad Prabhakar (3):
-      media: rcar-vin: Invalidate pipeline if conversion is not possible on input formats
-      media: rcar-vin: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
-      media: rcar-csi2: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
-
-Laurent Pinchart (1):
-      media: vb2: Print the queue pointer in debug messages
-
-Niklas Söderlund (1):
-      rcar-csi2: Rename confirm_start() to phy_post_init() to match its usage
-
-Stanimir Varbanov (1):
-      docs: dev-decoder: Add one more reason for dynamic change
-
- Documentation/admin-guide/media/fimc.rst              |   6 +-
- Documentation/driver-api/media/drivers/tuners.rst     |   2 +-
- Documentation/userspace-api/media/v4l/dev-decoder.rst |   4 +-
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c      |   6 +-
- drivers/media/common/videobuf2/videobuf2-core.c       | 226 ++++++++++++++++++++++++++++---------------------------
- drivers/media/common/videobuf2/videobuf2-v4l2.c       |  71 ++++++++++-------
- drivers/media/i2c/tvp5150.c                           |   8 +-
- drivers/media/platform/am437x/am437x-vpfe.c           |  19 +----
- drivers/media/platform/exynos4-is/fimc-capture.c      |  18 +----
- drivers/media/platform/exynos4-is/fimc-lite.c         |  18 +----
- drivers/media/platform/exynos4-is/media-dev.c         |   5 +-
- drivers/media/platform/pxa_camera.c                   |  19 ++---
- drivers/media/platform/rcar-vin/rcar-csi2.c           |  15 ++--
- drivers/media/platform/rcar-vin/rcar-dma.c            |  21 +++++-
- drivers/media/platform/rcar-vin/rcar-v4l2.c           |  15 +++-
- drivers/media/platform/s3c-camif/camif-core.c         |   2 +-
- drivers/media/platform/s5p-jpeg/jpeg-core.c           |  16 +---
- drivers/media/test-drivers/vivid/vivid-core.c         |   4 +-
- drivers/staging/media/allegro-dvt/allegro-core.c      |   8 +-
- drivers/staging/media/rkisp1/rkisp1-common.h          |   7 +-
- drivers/staging/media/rkisp1/rkisp1-dev.c             |   9 ++-
- drivers/staging/media/rkisp1/rkisp1-isp.c             |  53 ++++++-------
- drivers/staging/media/rkisp1/rkisp1-resizer.c         |  14 ++--
- include/media/v4l2-rect.h                             |  20 +++++
- include/media/videobuf2-core.h                        |   4 +
- include/media/videobuf2-v4l2.h                        |  13 ++++
- 26 files changed, 326 insertions(+), 277 deletions(-)
