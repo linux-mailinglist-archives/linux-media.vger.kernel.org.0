@@ -2,168 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEDF5204EC9
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 12:05:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A3CE204F0C
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 12:30:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732105AbgFWKF4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 06:05:56 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:54221 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732005AbgFWKF4 (ORCPT
+        id S1732168AbgFWKab (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 06:30:31 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:35512 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731158AbgFWKab (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 06:05:56 -0400
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id AA02D100008;
-        Tue, 23 Jun 2020 10:05:47 +0000 (UTC)
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        roman.kovalivskyi@globallogic.com, dave.stevenson@raspberrypi.org,
-        naush@raspberrypi.com
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, mrodin@de.adit-jv.com,
-        hugues.fruchet@st.com, mripard@kernel.org, aford173@gmail.com,
-        sudipi@jp.adit-jv.com, andrew_gabbasov@mentor.com,
-        erosca@de.adit-jv.com, linux-media@vger.kernel.org,
-        libcamera-devel@lists.libcamera.org
-Subject: [PATCH 10/25] media: ov5647: Program mode at s_stream(1) time
-Date:   Tue, 23 Jun 2020 12:08:00 +0200
-Message-Id: <20200623100815.10674-11-jacopo@jmondi.org>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200623100815.10674-1-jacopo@jmondi.org>
-References: <20200623100815.10674-1-jacopo@jmondi.org>
+        Tue, 23 Jun 2020 06:30:31 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 2A4CE3C0022;
+        Tue, 23 Jun 2020 12:30:29 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id N-8CV-nyzYOp; Tue, 23 Jun 2020 12:30:24 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 99DBF3C0588;
+        Tue, 23 Jun 2020 12:30:07 +0200 (CEST)
+Received: from lxhi-065.adit-jv.com (10.72.94.45) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Tue, 23 Jun
+ 2020 12:30:06 +0200
+Date:   Tue, 23 Jun 2020 12:30:02 +0200
+From:   Eugeniu Rosca <erosca@de.adit-jv.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+CC:     <lolivei@synopsys.com>, <mchehab@kernel.org>,
+        <sakari.ailus@linux.intel.com>, <hverkuil@xs4all.nl>,
+        <laurent.pinchart@ideasonboard.com>,
+        <roman.kovalivskyi@globallogic.com>,
+        <dave.stevenson@raspberrypi.org>, <naush@raspberrypi.com>,
+        <mrodin@de.adit-jv.com>, <hugues.fruchet@st.com>,
+        <mripard@kernel.org>, <aford173@gmail.com>,
+        <sudipi@jp.adit-jv.com>, <andrew_gabbasov@mentor.com>,
+        <erosca@de.adit-jv.com>, <linux-media@vger.kernel.org>,
+        <libcamera-devel@lists.libcamera.org>,
+        Eugeniu Rosca <roscaeugeniu@gmail.com>
+Subject: Re: [PATCH 00/25] media: ov5647: Support RaspberryPi Camera Module v1
+Message-ID: <20200623103002.GA10561@lxhi-065.adit-jv.com>
+References: <20200622171910.608894-1-jacopo@jmondi.org>
+ <20200622172614.gcwxubshubl7qzpl@uno.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20200622172614.gcwxubshubl7qzpl@uno.localdomain>
+X-Originating-IP: [10.72.94.45]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rename __sensor_init() function to ov5647_set_mode() as the function
-is a regular one and the double underscores prefix shall be removed, and
-then move it to program the mode at s_stream(1) time, not at sensor power
-up.
+Hi Jacopo,
 
-Break out from __sensor_init() the stream_off() operation call at sensor
-power up to coax the lanes in LP-11 state.
+Many thanks for your precious contribution.
 
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
----
- drivers/media/i2c/ov5647.c | 81 +++++++++++++++++++++-----------------
- 1 file changed, 44 insertions(+), 37 deletions(-)
+On Mon, Jun 22, 2020 at 07:26:14PM +0200, Jacopo Mondi wrote:
+> My ISP has rejected the rest of the series: too many emails :(
+> Has it ever happened to anyone else ? How did you solved this ?
 
-diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index 0c88f682de9b9..bb9ff77f49fe0 100644
---- a/drivers/media/i2c/ov5647.c
-+++ b/drivers/media/i2c/ov5647.c
-@@ -264,12 +264,54 @@ static int ov5647_set_virtual_channel(struct v4l2_subdev *sd, int channel)
- 	return ov5647_write(sd, OV5647_REG_MIPI_CTRL14, channel_id | (channel << 6));
- }
- 
-+static int ov5647_set_mode(struct v4l2_subdev *sd)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(sd);
-+	u8 resetval, rdval;
-+	int ret;
-+
-+	ret = ov5647_read(sd, OV5647_SW_STANDBY, &rdval);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = ov5647_write_array(sd, ov5647_640x480,
-+				 ARRAY_SIZE(ov5647_640x480));
-+	if (ret < 0) {
-+		dev_err(&client->dev, "write sensor default regs error\n");
-+		return ret;
-+	}
-+
-+	ret = ov5647_set_virtual_channel(sd, 0);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = ov5647_read(sd, OV5647_SW_STANDBY, &resetval);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (!(resetval & 0x01)) {
-+		dev_err(&client->dev, "Device was in SW standby");
-+		ret = ov5647_write(sd, OV5647_SW_STANDBY, 0x01);
-+		if (ret < 0)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
- static int ov5647_stream_on(struct v4l2_subdev *sd)
- {
-+	struct i2c_client *client = v4l2_get_subdevdata(sd);
- 	struct ov5647 *ov5647 = to_state(sd);
- 	u8 val = MIPI_CTRL00_BUS_IDLE;
- 	int ret;
- 
-+	ret = ov5647_set_mode(sd);
-+	if (ret) {
-+		dev_err(&client->dev, "Failed to program sensor mode: %d\n", ret);
-+		return ret;
-+	}
-+
- 	if (ov5647->clock_ncont)
- 		val |= MIPI_CTRL00_CLOCK_LANE_GATE |
- 		       MIPI_CTRL00_LINE_SYNC_ENABLE;
-@@ -318,42 +360,6 @@ static int set_sw_standby(struct v4l2_subdev *sd, bool standby)
- 	return ov5647_write(sd, OV5647_SW_STANDBY, rdval);
- }
- 
--static int __sensor_init(struct v4l2_subdev *sd)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(sd);
--	u8 resetval, rdval;
--	int ret;
--
--	ret = ov5647_read(sd, OV5647_SW_STANDBY, &rdval);
--	if (ret < 0)
--		return ret;
--
--	ret = ov5647_write_array(sd, ov5647_640x480,
--				 ARRAY_SIZE(ov5647_640x480));
--	if (ret < 0) {
--		dev_err(&client->dev, "write sensor default regs error\n");
--		return ret;
--	}
--
--	ret = ov5647_set_virtual_channel(sd, 0);
--	if (ret < 0)
--		return ret;
--
--	ret = ov5647_read(sd, OV5647_SW_STANDBY, &resetval);
--	if (ret < 0)
--		return ret;
--
--	if (!(resetval & 0x01)) {
--		dev_err(&client->dev, "Device was in SW standby");
--		ret = ov5647_write(sd, OV5647_SW_STANDBY, 0x01);
--		if (ret < 0)
--			return ret;
--	}
--
--	/* Stream off to make the clock lane into LP-11 state. */
--	return ov5647_stream_off(sd);
--}
--
- static int ov5647_sensor_power(struct v4l2_subdev *sd, int on)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
-@@ -385,7 +391,8 @@ static int ov5647_sensor_power(struct v4l2_subdev *sd, int on)
- 			goto out;
- 		}
- 
--		ret = __sensor_init(sd);
-+		/* Stream off to coax lanes into LP-11 state. */
-+		ret = ov5647_stream_off(sd);
- 		if (ret < 0) {
- 			clk_disable_unprepare(ov5647->xclk);
- 			dev_err(&client->dev,
+I guess leaving 5-10 seconds between sending individual patches should
+overcome this? I wonder if git provides a built-in command for that?
+
 -- 
-2.27.0
-
+Best regards,
+Eugeniu Rosca
