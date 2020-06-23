@@ -2,72 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE4E8204F77
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 12:45:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DC1D204F8E
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 12:51:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732202AbgFWKpn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 06:45:43 -0400
-Received: from relay10.mail.gandi.net ([217.70.178.230]:56475 "EHLO
-        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728472AbgFWKpn (ORCPT
+        id S1732302AbgFWKvQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 06:51:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48690 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732288AbgFWKvQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 06:45:43 -0400
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 68CFD240004;
-        Tue, 23 Jun 2020 10:45:35 +0000 (UTC)
-Date:   Tue, 23 Jun 2020 12:49:03 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     lolivei@synopsys.com, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com,
-        roman.kovalivskyi@globallogic.com, dave.stevenson@raspberrypi.org,
-        naush@raspberrypi.com, mrodin@de.adit-jv.com,
-        hugues.fruchet@st.com, mripard@kernel.org, aford173@gmail.com,
-        sudipi@jp.adit-jv.com, andrew_gabbasov@mentor.com,
-        linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH 00/25] media: ov5647: Support RaspberryPi Camera Module v1
-Message-ID: <20200623104903.47op5yrtb3swccnz@uno.localdomain>
-References: <20200622171910.608894-1-jacopo@jmondi.org>
- <20200622172614.gcwxubshubl7qzpl@uno.localdomain>
- <20200623103002.GA10561@lxhi-065.adit-jv.com>
+        Tue, 23 Jun 2020 06:51:16 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0908DC061795
+        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 03:51:16 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id k15so16108729otp.8
+        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 03:51:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=QoCPlVuRfLdDkwTBRDRK73tEwxS3sN2fuJiGkn2CvdE=;
+        b=gOKzF5Yl8kKYahi5zjnsTU+qXPPirvcXIt/7AkVJ+qdy+FWf0uU8V6HbpsO4r2juD7
+         w2iP9eBLHtTmU+rweutvCfl7szvkDoX2LnG9M/YYCRnGryXBoohfc4iAuNKngf9sT2St
+         1E0jtqC1MmLkv3KSwEE7j8DVPU+fk/IRWiczw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=QoCPlVuRfLdDkwTBRDRK73tEwxS3sN2fuJiGkn2CvdE=;
+        b=U1TcCdFv30PSq9BDS2m//pMCdvydne5eSTv5lAhkQZxBiCezUb0PpI3SJIb8jarIS2
+         BwmNpf+qWi1uMerYB+F/VNc3GMYH49dSTRE9pWWH/M/UfyURtfF2UWpImX2i7+Jq/vCF
+         XSD4725Ex3UJ+eWIGCEmQTD+0D991/UGiIXXgjqr8TU1rDm+YrTeIPevR/WfMM89URMA
+         wstXRbGfwJZaZ4lcQJK4g2sUfTtjyOAawQwedtDZjX8JJ2q/H3r2ORXCMImjH+efwXeZ
+         SsW+jsNUOgvYphQv8ylQg3a0RmHEG2FHSUopFkOoXpgJkhD3rlv12ynrmvVLAgADilpo
+         oVnA==
+X-Gm-Message-State: AOAM533Moif/wsmuk8WcPp8uCBm0Uoj/co3l7e7krCxVyYlzGBD2HpFv
+        mV6glEVNpRDjDm8qi6Y0UUcpeTGki8OvHB9lg9bufl/Q
+X-Google-Smtp-Source: ABdhPJwsXeafc7ngCrqn/R9dExkVr9aTpMWL7pHCp5L8XQ6N2/9uvR1ASQII2PdIi3/ADKwLAzkpagO1g50upZNnhdo=
+X-Received: by 2002:a05:6830:54:: with SMTP id d20mr18786397otp.281.1592909475390;
+ Tue, 23 Jun 2020 03:51:15 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20200623103002.GA10561@lxhi-065.adit-jv.com>
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch> <20200604081224.863494-9-daniel.vetter@ffwll.ch>
+In-Reply-To: <20200604081224.863494-9-daniel.vetter@ffwll.ch>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Tue, 23 Jun 2020 12:51:04 +0200
+Message-ID: <CAKMK7uHx+rFyjQOWL2r1fOo2EP3u_owMP2zfg3NnEkxUY4BhkA@mail.gmail.com>
+Subject: Re: [PATCH 08/18] drm/amdgpu: add dma-fence annotations to atomic
+ commit path
+To:     DRI Development <dri-devel@lists.freedesktop.org>,
+        Roland Scheidegger <sroland@vmware.com>,
+        VMware Graphics <linux-graphics-maintainer@vmware.com>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>
+Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Chris Wilson <chris@chris-wilson.co.uk>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel.vetter@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugeniu,
+Hi Roland & vmwgfx maintainers,
 
-On Tue, Jun 23, 2020 at 12:30:02PM +0200, Eugeniu Rosca wrote:
-> Hi Jacopo,
->
-> Many thanks for your precious contribution.
->
-> On Mon, Jun 22, 2020 at 07:26:14PM +0200, Jacopo Mondi wrote:
-> > My ISP has rejected the rest of the series: too many emails :(
-> > Has it ever happened to anyone else ? How did you solved this ?
->
-> I guess leaving 5-10 seconds between sending individual patches should
-> overcome this? I wonder if git provides a built-in command for that?
->
+Thomas has played around with these annotations on his vmwgfx setup,
+and found some issues. Apparently in the atomic_commit_tail path when
+handling the dirty rectangle stuff you acquire a ttm reservation,
+which is a no-go since it could deadlock with other paths - atomic
+commits can produce a dma_fence.
 
-git send-email does provide the --batch-size --relogin-delay options,
-as Ezequiel suggested me in #v4l.
+This patch here highlights that with the new annotations, and
+apparently causes a lockdep splat if you go through the dirty rect
+paths (not sure if it also happens otherwise, Thomas can fill you in
+with the details).
 
-I tried re-sending with a 10 email batch and a 5 seconds delay but I
-got the same failure. I was not able to find any description of the
-email number limits for the SMTP server I'm using, so I could only go
-and try. I think the extensive CC list of this series which I got from
-Roman's series plays a role, so I can't try just by sending to
-myself... I wonder if I should send the series in chunks, the first 10
-patches went out (2 times '-.- ) already...
+Can you pls take a look at this? I'm happy to help out with analyzing
+any lockdep splats. For actual fixes Thomas is better since I don't
+understand a lot of how drm/vmwgfx works internally.
 
+Cheers, Daniel
+
+
+On Thu, Jun 4, 2020 at 10:12 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrot=
+e:
+>
+> I need a canary in a ttm-based atomic driver to make sure the
+> dma_fence_begin/end_signalling annotations actually work.
+>
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Cc: linux-rdma@vger.kernel.org
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: intel-gfx@lists.freedesktop.org
+> Cc: Chris Wilson <chris@chris-wilson.co.uk>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> ---
+>  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
+gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> index bdba0bfd6df1..adabfa929f42 100644
+> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+> @@ -57,6 +57,7 @@
+>
+>  #include "ivsrcid/ivsrcid_vislands30.h"
+>
+> +#include <linux/module.h>
+>  #include <linux/module.h>
+>  #include <linux/moduleparam.h>
+>  #include <linux/version.h>
+> @@ -7320,6 +7321,9 @@ static void amdgpu_dm_atomic_commit_tail(struct drm=
+_atomic_state *state)
+>         struct drm_connector_state *old_con_state, *new_con_state;
+>         struct dm_crtc_state *dm_old_crtc_state, *dm_new_crtc_state;
+>         int crtc_disable_count =3D 0;
+> +       bool fence_cookie;
+> +
+> +       fence_cookie =3D dma_fence_begin_signalling();
+>
+>         drm_atomic_helper_update_legacy_modeset_state(dev, state);
+>
+> @@ -7600,6 +7604,8 @@ static void amdgpu_dm_atomic_commit_tail(struct drm=
+_atomic_state *state)
+>         /* Signal HW programming completion */
+>         drm_atomic_helper_commit_hw_done(state);
+>
+> +       dma_fence_end_signalling(fence_cookie);
+> +
+>         if (wait_for_vblank)
+>                 drm_atomic_helper_wait_for_flip_done(dev, state);
+>
 > --
-> Best regards,
-> Eugeniu Rosca
+> 2.26.2
+>
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
