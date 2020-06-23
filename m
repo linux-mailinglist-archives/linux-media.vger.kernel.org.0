@@ -2,159 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 725B1204B61
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 09:39:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B07DC204BC3
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 09:59:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731605AbgFWHjc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 03:39:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47238 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731585AbgFWHja (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 03:39:30 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32D27C061573
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 00:39:29 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id s13so15629983otd.7
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 00:39:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+92MYnF3Gh08MmStig+tCn2Q/L2yjmneEHZzzW7GGvs=;
-        b=PwrvE5jS1kTu+fi0Cr9QUPwDbx3xz+X3B7OgQDwGyTKoe9mBLoNsF4PcRQZYhzKOnV
-         CkL4lja+OqOY0gBbJB+pER0fYFWMEmKIpSKjbJhfHshefh7JCoDF0Ko4gDHaNPu08gpL
-         UTuHeptkXd8ej8TjPFULXiSQ/JHJc7+5RujUA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+92MYnF3Gh08MmStig+tCn2Q/L2yjmneEHZzzW7GGvs=;
-        b=fX55kpE1j/nyWZ8Fxp3+wCqQuK7uzY6uV8T/LgtXF3uU//KcrG2JehL6epCiICYYU7
-         PpQ91Ochh5DZSFmGD9l87EN61XTsptiyD79rlDbEr60SFESGi72R65vSVvlufz6khiMi
-         EXjLFLBqFXOyQzecHn3Wtbop2PlBPc4IQwWBYshB1Fr/MICNA4BAiuhITmASrLhSalfZ
-         FU/ber8JNAjDoeUs0unqerA9ATb1+ljgbqaUDUeo6hvc5g+f01IWioHhCRQ7nXnLUoGE
-         VwCUNoE9Xdb8D7meEoqW49QSSVaHdRD7KnTLNY9gDmO0JFJlcecWsVJ1zxTysTWHUx5b
-         Pbzw==
-X-Gm-Message-State: AOAM531fPL9JRERqsALH6z0So5gQ5ftFCwvu9ak5VGmDWEIgv5otREA8
-        /csU5hwutqwVHQAkIVzgcyZrJ4pIxHfiQMpJBaoV+Q==
-X-Google-Smtp-Source: ABdhPJyuTPn8gHto3Zj0qvtBWFEZww/Nxosv6E4e67PZOhsc7GOGHkoFk1BcCVm2dLP+f9GAnXbuSF6PpstaZHEQELA=
-X-Received: by 2002:a4a:d415:: with SMTP id n21mr17485719oos.89.1592897968519;
- Tue, 23 Jun 2020 00:39:28 -0700 (PDT)
+        id S1731511AbgFWH64 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 03:58:56 -0400
+Received: from mga03.intel.com ([134.134.136.65]:31880 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728144AbgFWH64 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Jun 2020 03:58:56 -0400
+IronPort-SDR: xgggwIxK1+A+yNLNN/zrrM32VIEWs9iBbcZ4N7UzEfnaZBDQ/DFf9sHmdzyjVOjD80qA8WlMF1
+ ZuoP0rQkQ48Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9660"; a="143989497"
+X-IronPort-AV: E=Sophos;i="5.75,270,1589266800"; 
+   d="scan'208";a="143989497"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2020 00:58:56 -0700
+IronPort-SDR: wS75W7fFjyv9udnrx7e20MeK89TIzIGvwIDCncGmy5sCcQVNzGa0yuop/LBW1EsKlO/F7JhCkm
+ I/WNnM7nIfPA==
+X-IronPort-AV: E=Sophos;i="5.75,270,1589266800"; 
+   d="scan'208";a="275265201"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Jun 2020 00:58:54 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 5110E207B6; Tue, 23 Jun 2020 10:58:52 +0300 (EEST)
+Date:   Tue, 23 Jun 2020 10:58:52 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>
+Cc:     mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: media-request: Fix crash if memory allocation
+ fails
+Message-ID: <20200623075852.GW16711@paasikivi.fi.intel.com>
+References: <20200621113040.3540-1-tuomas.tynkkynen@iki.fi>
 MIME-Version: 1.0
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
- <20200604081224.863494-5-daniel.vetter@ffwll.ch> <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
- <20200611083430.GD20149@phenom.ffwll.local> <20200611141515.GW6578@ziepe.ca> <4702e170-fd02-88fa-3da4-ea64252fff9a@amd.com>
-In-Reply-To: <4702e170-fd02-88fa-3da4-ea64252fff9a@amd.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Tue, 23 Jun 2020 09:39:17 +0200
-Message-ID: <CAKMK7uHBKrpDWu+DvtYncDK=LOdGJyMK7t6fpOaGovnYFiBUZw@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep annotations
-To:     Felix Kuehling <felix.kuehling@amd.com>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        =?UTF-8?Q?Thomas_Hellstr=C3=B6m_=28Intel=29?= 
-        <thomas_os@shipmail.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Mika Kuoppala <mika.kuoppala@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200621113040.3540-1-tuomas.tynkkynen@iki.fi>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Jun 12, 2020 at 1:35 AM Felix Kuehling <felix.kuehling@amd.com> wrote:
->
-> Am 2020-06-11 um 10:15 a.m. schrieb Jason Gunthorpe:
-> > On Thu, Jun 11, 2020 at 10:34:30AM +0200, Daniel Vetter wrote:
-> >>> I still have my doubts about allowing fence waiting from within shrinkers.
-> >>> IMO ideally they should use a trywait approach, in order to allow memory
-> >>> allocation during command submission for drivers that
-> >>> publish fences before command submission. (Since early reservation object
-> >>> release requires that).
-> >> Yeah it is a bit annoying, e.g. for drm/scheduler I think we'll end up
-> >> with a mempool to make sure it can handle it's allocations.
-> >>
-> >>> But since drivers are already waiting from within shrinkers and I take your
-> >>> word for HMM requiring this,
-> >> Yeah the big trouble is HMM and mmu notifiers. That's the really awkward
-> >> one, the shrinker one is a lot less established.
-> > I really question if HW that needs something like DMA fence should
-> > even be using mmu notifiers - the best use is HW that can fence the
-> > DMA directly without having to get involved with some command stream
-> > processing.
-> >
-> > Or at the very least it should not be a generic DMA fence but a
-> > narrowed completion tied only into the same GPU driver's command
-> > completion processing which should be able to progress without
-> > blocking.
-> >
-> > The intent of notifiers was never to endlessly block while vast
-> > amounts of SW does work.
-> >
-> > Going around and switching everything in a GPU to GFP_ATOMIC seems
-> > like bad idea.
-> >
-> >> I've pinged a bunch of armsoc gpu driver people and ask them how much this
-> >> hurts, so that we have a clear answer. On x86 I don't think we have much
-> >> of a choice on this, with userptr in amd and i915 and hmm work in nouveau
-> >> (but nouveau I think doesn't use dma_fence in there).
->
-> Soon nouveau will get company. We're working on a recoverable page fault
-> implementation for HMM in amdgpu where we'll need to update page tables
-> using the GPUs SDMA engine and wait for corresponding fences in MMU
-> notifiers.
+On Sun, Jun 21, 2020 at 02:30:40PM +0300, Tuomas Tynkkynen wrote:
+> Syzbot reports a NULL-ptr deref in the kref_put() call:
+> 
+> BUG: KASAN: null-ptr-deref in media_request_put drivers/media/mc/mc-request.c:81 [inline]
+>  kref_put include/linux/kref.h:64 [inline]
+>  media_request_put drivers/media/mc/mc-request.c:81 [inline]
+>  media_request_close+0x4d/0x170 drivers/media/mc/mc-request.c:89
+>  __fput+0x2ed/0x750 fs/file_table.c:281
+>  task_work_run+0x147/0x1d0 kernel/task_work.c:123
+>  tracehook_notify_resume include/linux/tracehook.h:188 [inline]
+>  exit_to_usermode_loop arch/x86/entry/common.c:165 [inline]
+>  prepare_exit_to_usermode+0x48e/0x600 arch/x86/entry/common.c:196
+> 
+> What led to this crash was an injected memory allocation failure in
+> media_request_alloc():
+> 
+> FAULT_INJECTION: forcing a failure.
+> name failslab, interval 1, probability 0, space 0, times 0
+>  should_failslab+0x5/0x20
+>  kmem_cache_alloc_trace+0x57/0x300
+>  ? anon_inode_getfile+0xe5/0x170
+>  media_request_alloc+0x339/0x440
+>  media_device_request_alloc+0x94/0xc0
+>  media_device_ioctl+0x1fb/0x330
+>  ? do_vfs_ioctl+0x6ea/0x1a00
+>  ? media_ioctl+0x101/0x120
+>  ? __media_device_usb_init+0x430/0x430
+>  ? media_poll+0x110/0x110
+>  __se_sys_ioctl+0xf9/0x160
+>  do_syscall_64+0xf3/0x1b0
+> 
+> When that allocation fails, filp->private_data is left uninitialized
+> which media_request_close() does not expect and crashes.
+> 
+> To avoid this, reorder media_request_alloc() such that
+> allocating the struct file happens as the last step thus
+> media_request_close() will no longer get called for a partially created
+> media request.
+> 
+> Reported-by: syzbot+6bed2d543cf7e48b822b@syzkaller.appspotmail.com
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Tuomas Tynkkynen <tuomas.tynkkynen@iki.fi>
 
-Can you pls cc these patches to dri-devel when they show up? Depending
-upon how your hw works there's and endless amount of bad things that
-can happen.
+Thanks a lot!
 
-Also I think (again depending upon how the hw exactly works) this
-stuff would be a perfect example for the dma_fence annotations.
+I'm adding this tag:
 
-The worst case is if your hw cannot preempt while a hw page fault is
-pending. That means none of the dma_fence will ever signal (the amdkfd
-preempt ctx fences wont, and the classic fences from amdgpu might be
-also stall). At least when you're unlucky and the fence you're waiting
-on somehow (anywhere in its dependency chain really) need the engine
-that's currently blocked waiting for the hw page fault.
+Fixes: 10905d70d788 ("media: media-request: implement media requests")
 
-That in turn means anything you do in your hw page fault handler is in
-the critical section for dma fence signalling, which has far reaching
-implications.
--Daniel
-
->
-> Regards,
->   Felix
->
->
-> > Right, nor will RDMA ODP.
-> >
-> > Jason
-> > _______________________________________________
-> > amd-gfx mailing list
-> > amd-gfx@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/amd-gfx
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
-
+FYI: in the future, to get patches to the stable trees, please do add the
+Cc: stable... tag, but not actually send the patch to stable@vger e-mail
+address.
 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Kind regards,
+
+Sakari Ailus
