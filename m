@@ -2,155 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DC1D204F8E
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 12:51:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E866204FE9
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 13:01:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732302AbgFWKvQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 06:51:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48690 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732288AbgFWKvQ (ORCPT
+        id S1732455AbgFWLBU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 07:01:20 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:33205 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732409AbgFWLBR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 06:51:16 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0908DC061795
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 03:51:16 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id k15so16108729otp.8
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 03:51:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=QoCPlVuRfLdDkwTBRDRK73tEwxS3sN2fuJiGkn2CvdE=;
-        b=gOKzF5Yl8kKYahi5zjnsTU+qXPPirvcXIt/7AkVJ+qdy+FWf0uU8V6HbpsO4r2juD7
-         w2iP9eBLHtTmU+rweutvCfl7szvkDoX2LnG9M/YYCRnGryXBoohfc4iAuNKngf9sT2St
-         1E0jtqC1MmLkv3KSwEE7j8DVPU+fk/IRWiczw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=QoCPlVuRfLdDkwTBRDRK73tEwxS3sN2fuJiGkn2CvdE=;
-        b=U1TcCdFv30PSq9BDS2m//pMCdvydne5eSTv5lAhkQZxBiCezUb0PpI3SJIb8jarIS2
-         BwmNpf+qWi1uMerYB+F/VNc3GMYH49dSTRE9pWWH/M/UfyURtfF2UWpImX2i7+Jq/vCF
-         XSD4725Ex3UJ+eWIGCEmQTD+0D991/UGiIXXgjqr8TU1rDm+YrTeIPevR/WfMM89URMA
-         wstXRbGfwJZaZ4lcQJK4g2sUfTtjyOAawQwedtDZjX8JJ2q/H3r2ORXCMImjH+efwXeZ
-         SsW+jsNUOgvYphQv8ylQg3a0RmHEG2FHSUopFkOoXpgJkhD3rlv12ynrmvVLAgADilpo
-         oVnA==
-X-Gm-Message-State: AOAM533Moif/wsmuk8WcPp8uCBm0Uoj/co3l7e7krCxVyYlzGBD2HpFv
-        mV6glEVNpRDjDm8qi6Y0UUcpeTGki8OvHB9lg9bufl/Q
-X-Google-Smtp-Source: ABdhPJwsXeafc7ngCrqn/R9dExkVr9aTpMWL7pHCp5L8XQ6N2/9uvR1ASQII2PdIi3/ADKwLAzkpagO1g50upZNnhdo=
-X-Received: by 2002:a05:6830:54:: with SMTP id d20mr18786397otp.281.1592909475390;
- Tue, 23 Jun 2020 03:51:15 -0700 (PDT)
+        Tue, 23 Jun 2020 07:01:17 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id ngfvjf3mIvh6gngfyj1PBA; Tue, 23 Jun 2020 13:01:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1592910075; bh=wwakqo8GZ7h4g2EbDfHX2WV8blcFcF/x3PQ/6d3j9/w=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=axYEUwmXKqTlDkS/hqjfujYQx5hV7n/T6oRBv94DjDRVtjMQSoJx83kBxDD59Ll70
+         9rH3WgIkDa0VZL5UfpQ7CpiwuHHC+hkW4AVKJA0Fje3LNYWit0DfCQQGhnu9ICF0zC
+         aUdR/MfkiYvlhbDuIGAYfw7DLhssXwTbllQjhEi7VXMijRO7sZePM5VSG0T9QEi/ns
+         VNKY1yYzWYFUqyvqyGev1vg8L34CsEoa/C7BD+qkyj96S8L5uHg701iN7rFY4rvU4G
+         BiiNPWer0Qt/XiU3WjTln3FVP2wXymsYJa16ngGeJVYSF72F5OshDlN1hj10XXtZl8
+         AQetuOTVG3glw==
+Subject: Re: [PATCH] v4l2-core: Print control name in VIDIOC_S/G_(EXT)_CTRL(S)
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     kernel@collabora.com
+References: <20200609121514.9414-1-ezequiel@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <d5939943-cfa2-8d39-a245-9a9ec146440d@xs4all.nl>
+Date:   Tue, 23 Jun 2020 13:01:11 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-References: <20200604081224.863494-1-daniel.vetter@ffwll.ch> <20200604081224.863494-9-daniel.vetter@ffwll.ch>
-In-Reply-To: <20200604081224.863494-9-daniel.vetter@ffwll.ch>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Tue, 23 Jun 2020 12:51:04 +0200
-Message-ID: <CAKMK7uHx+rFyjQOWL2r1fOo2EP3u_owMP2zfg3NnEkxUY4BhkA@mail.gmail.com>
-Subject: Re: [PATCH 08/18] drm/amdgpu: add dma-fence annotations to atomic
- commit path
-To:     DRI Development <dri-devel@lists.freedesktop.org>,
-        Roland Scheidegger <sroland@vmware.com>,
-        VMware Graphics <linux-graphics-maintainer@vmware.com>,
-        Thomas Hellstrom <thomas.hellstrom@intel.com>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-rdma <linux-rdma@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Chris Wilson <chris@chris-wilson.co.uk>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel.vetter@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20200609121514.9414-1-ezequiel@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfPCpaT8wgdK4eMTeCLW7QxzID/A5PU2KYpWYDF6ab9lslIoeD/HTk5HOx8gxvRmEfb3Kpr2is79FvveRi1julOOc6kXO7/xURhLm8kfT37iWnHPwkelF
+ 9PD8K23i+n0P0W6gdZMyk0uLkOLQ/E242NT21+I9ia+38XcHbwUVN151DyoTyQ3h1tEpmL9tef8/3N7VMQpfu9HTZeUdeE7b4qdQyii5PGXpcg00syyiWEz9
+ HZvn1trA/Vf3nrU5Q4OIdw==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Roland & vmwgfx maintainers,
-
-Thomas has played around with these annotations on his vmwgfx setup,
-and found some issues. Apparently in the atomic_commit_tail path when
-handling the dirty rectangle stuff you acquire a ttm reservation,
-which is a no-go since it could deadlock with other paths - atomic
-commits can produce a dma_fence.
-
-This patch here highlights that with the new annotations, and
-apparently causes a lockdep splat if you go through the dirty rect
-paths (not sure if it also happens otherwise, Thomas can fill you in
-with the details).
-
-Can you pls take a look at this? I'm happy to help out with analyzing
-any lockdep splats. For actual fixes Thomas is better since I don't
-understand a lot of how drm/vmwgfx works internally.
-
-Cheers, Daniel
-
-
-On Thu, Jun 4, 2020 at 10:12 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrot=
-e:
->
-> I need a canary in a ttm-based atomic driver to make sure the
-> dma_fence_begin/end_signalling annotations actually work.
->
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Cc: linux-rdma@vger.kernel.org
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: intel-gfx@lists.freedesktop.org
-> Cc: Chris Wilson <chris@chris-wilson.co.uk>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: Christian K=C3=B6nig <christian.koenig@amd.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+On 09/06/2020 14:15, Ezequiel Garcia wrote:
+> While debugging, it's currently really hard to identify controls
+> by their ID. Print the control name making the print more helpful.
+> 
+> With this change, the print changes from:
+> 
+> video1: VIDIOC_S_EXT_CTRLS: which=0xf010000, count=5, error_idx=4, request_fd=45, id/size=0x990ce8/1048, id/size=0x990ce9/12, id/size=0x990cea/480, id/size=0x990ceb/896, id/size=0x990cec/400
+> 
+> to:
+> 
+> video1: VIDIOC_S_EXT_CTRLS: which=0xf010000, count=5, error_idx=4, request_fd=42, name=H264 Sequence Parameter Set, id/size=0x990ce8/1048, name=H264 Picture Parameter Set, id/size=0x990ce9/12, name=H264 Scaling Matrix, id/size=0x990cea/480, name=H264 Slice Parameters, id/size=0x990ceb/896, name=H264 Decode Parameters, id/size=0x990cec/400
+> 
+> For instance, this is specially helpful when the ioctl fails. Consider
+> the following example:
+> 
+> v4l2-ctrls: prepare_ext_ctrls: video1: pointer control id 0x990cec size too small, 400 bytes but 784 bytes needed
+> v4l2-ctrls: try_set_ext_ctrls: video1: video1: try_set_ext_ctrls_common failed (-14)
+> video1: VIDIOC_S_EXT_CTRLS: error -14: which=0xf010000, count=5, error_idx=5, request_fd=39, name=H264 Sequence Parameter Set, id/size=0x990ce8/1048, name=H264 Picture Parameter Set, id/size=0x990ce9/12, name=H264 Scaling Matrix, id/size=0x990cea/480, name=H264 Slice Parameters, id/size=0x990ceb/896, name=H264 Decode Parameters, id/size=0x990cec/400
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 > ---
->  drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/=
-gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> index bdba0bfd6df1..adabfa929f42 100644
-> --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-> @@ -57,6 +57,7 @@
->
->  #include "ivsrcid/ivsrcid_vislands30.h"
->
-> +#include <linux/module.h>
->  #include <linux/module.h>
->  #include <linux/moduleparam.h>
->  #include <linux/version.h>
-> @@ -7320,6 +7321,9 @@ static void amdgpu_dm_atomic_commit_tail(struct drm=
-_atomic_state *state)
->         struct drm_connector_state *old_con_state, *new_con_state;
->         struct dm_crtc_state *dm_old_crtc_state, *dm_new_crtc_state;
->         int crtc_disable_count =3D 0;
-> +       bool fence_cookie;
-> +
-> +       fence_cookie =3D dma_fence_begin_signalling();
->
->         drm_atomic_helper_update_legacy_modeset_state(dev, state);
->
-> @@ -7600,6 +7604,8 @@ static void amdgpu_dm_atomic_commit_tail(struct drm=
-_atomic_state *state)
->         /* Signal HW programming completion */
->         drm_atomic_helper_commit_hw_done(state);
->
-> +       dma_fence_end_signalling(fence_cookie);
-> +
->         if (wait_for_vblank)
->                 drm_atomic_helper_wait_for_flip_done(dev, state);
->
-> --
-> 2.26.2
->
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 16 +++++++++++-----
+>  1 file changed, 11 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 2322f08a98be..4264ac44c48b 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -582,8 +582,10 @@ static void v4l_print_querymenu(const void *arg, bool write_only)
+>  static void v4l_print_control(const void *arg, bool write_only)
+>  {
+>  	const struct v4l2_control *p = arg;
+> +	const char *name = v4l2_ctrl_get_name(p->id);
+>  
+> -	pr_cont("id=0x%x, value=%d\n", p->id, p->value);
+> +	pr_cont("name=%s, id=0x%x, value=%d\n",
+> +		name ? name : "unknown", p->id, p->value);
 
+I prefer:
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+	if (name)
+		pr_cont("name=%s, ", name);
+	pr_cont("id=0x%x, value=%d\n", p->id, p->value);
+
+>  }
+>  
+>  static void v4l_print_ext_controls(const void *arg, bool write_only)
+> @@ -594,12 +596,16 @@ static void v4l_print_ext_controls(const void *arg, bool write_only)
+>  	pr_cont("which=0x%x, count=%d, error_idx=%d, request_fd=%d",
+>  			p->which, p->count, p->error_idx, p->request_fd);
+>  	for (i = 0; i < p->count; i++) {
+> +		unsigned int id = p->controls[i].id;
+> +		const char *name = v4l2_ctrl_get_name(id);
+> +
+> +		name = name ? name : "unknown";
+>  		if (!p->controls[i].size)
+> -			pr_cont(", id/val=0x%x/0x%x",
+> -				p->controls[i].id, p->controls[i].value);
+> +			pr_cont(", name=%s, id/val=0x%x/0x%x",
+> +				name, id, p->controls[i].value);
+>  		else
+> -			pr_cont(", id/size=0x%x/%u",
+> -				p->controls[i].id, p->controls[i].size);
+> +			pr_cont(", name=%s, id/size=0x%x/%u",
+> +				name, id, p->controls[i].size);
+
+Same here.
+
+Regards,
+
+	Hans
+
+>  	}
+>  	pr_cont("\n");
+>  }
+> 
+
