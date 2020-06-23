@@ -2,33 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0B8020563C
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 17:44:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D46820575D
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 18:39:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732955AbgFWPoH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 11:44:07 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:54288 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732940AbgFWPoH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 11:44:07 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jnl1b-006IQC-4z; Tue, 23 Jun 2020 15:39:51 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jnl7t-00022h-Pe; Tue, 23 Jun 2020 15:46:21 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.9] Various fixes/enhancements (#64836)
-Date:   Tue, 23 Jun 2020 15:46:21 +0000
-Message-Id: <20200623154621.7810-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <d4e7cebd-23de-831f-9f12-5822079fbf90@xs4all.nl>
-References: 
+        id S1732312AbgFWQjN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 12:39:13 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:59397 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732174AbgFWQjM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Jun 2020 12:39:12 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id CEA776000A;
+        Tue, 23 Jun 2020 16:39:03 +0000 (UTC)
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        roman.kovalivskyi@globallogic.com, dave.stevenson@raspberrypi.org,
+        naush@raspberrypi.com
+Cc:     mrodin@de.adit-jv.com, hugues.fruchet@st.com, mripard@kernel.org,
+        aford173@gmail.com, sudipi@jp.adit-jv.com,
+        andrew_gabbasov@mentor.com, erosca@de.adit-jv.com,
+        linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
+        Jacopo Mondi <jacopo@jmondi.org>
+Subject: [PATCH 11/25] media: ov5647: Implement enum_frame_size()
+Date:   Tue, 23 Jun 2020 18:42:20 +0200
+Message-Id: <20200623164224.44476-1-jacopo@jmondi.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20200623100815.10674-1-jacopo@jmondi.org>
+References: <20200623100815.10674-1-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
@@ -36,31 +40,59 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+Implement the .enum_frame_size subdev pad operation.
 
-Pull request: https://patchwork.linuxtv.org/patch/64836/
-Build log: https://builder.linuxtv.org/job/patchwork/56676/
-Build time: 00:35:47
-Link: https://lore.kernel.org/linux-media/d4e7cebd-23de-831f-9f12-5822079fbf90@xs4all.nl
+As the driver only supports one format and one resolution at the moment
+the implementation is trivial.
 
-gpg: Signature made Tue 23 Jun 2020 03:04:00 PM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+---
+ drivers/media/i2c/ov5647.c | 25 ++++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-Summary: 2 patches and/or PDF generation with issues, being 0 at build time
-
-Error/warnings:
-
-
-Error #256 when running cat patches/0007-media-vb2-Print-the-queue-pointer-in-debug-messages.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
-$ cat patches/0007-media-vb2-Print-the-queue-pointer-in-debug-messages.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
--:35: CHECK: Macro argument 'level' may be better as '(level)' to avoid precedence issues
--:90: CHECK: Alignment should match open parenthesis
--:265: CHECK: Alignment should match open parenthesis
--:279: WARNING: line length of 106 exceeds 100 columns
--:280: CHECK: Alignment should match open parenthesis
--:592: CHECK: Alignment should match open parenthesis
--:619: CHECK: Alignment should match open parenthesis
--:920: CHECK: Macro argument 'level' may be better as '(level)' to avoid precedence issues
+diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+index bb9ff77f49fe0..859cc5b0d14a3 100644
+--- a/drivers/media/i2c/ov5647.c
++++ b/drivers/media/i2c/ov5647.c
+@@ -482,6 +482,24 @@ static int ov5647_enum_mbus_code(struct v4l2_subdev *sd,
+ 	return 0;
+ }
+ 
++static int ov5647_enum_frame_size(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_pad_config *cfg,
++				  struct v4l2_subdev_frame_size_enum *fse)
++{
++	if (fse->index)
++		return -EINVAL;
++
++	if (fse->code != MEDIA_BUS_FMT_SBGGR8_1X8)
++		return -EINVAL;
++
++	fse->min_width = 640;
++	fse->max_width = 640;
++	fse->min_height = 480;
++	fse->max_height = 480;
++
++	return 0;
++}
++
+ static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
+ 			      struct v4l2_subdev_pad_config *cfg,
+ 			      struct v4l2_subdev_format *format)
+@@ -500,9 +518,10 @@ static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
+ }
+ 
+ static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
+-	.enum_mbus_code = ov5647_enum_mbus_code,
+-	.set_fmt =	  ov5647_set_get_fmt,
+-	.get_fmt =	  ov5647_set_get_fmt,
++	.enum_mbus_code		= ov5647_enum_mbus_code,
++	.enum_frame_size	= ov5647_enum_frame_size,
++	.set_fmt		= ov5647_set_get_fmt,
++	.get_fmt		= ov5647_set_get_fmt,
+ };
+ 
+ static const struct v4l2_subdev_ops ov5647_subdev_ops = {
+-- 
+2.27.0
 
