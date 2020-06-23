@@ -2,118 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CE4B205B05
-	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 20:44:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1807F205B0A
+	for <lists+linux-media@lfdr.de>; Tue, 23 Jun 2020 20:44:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733311AbgFWSo2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 23 Jun 2020 14:44:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37518 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733309AbgFWSo0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 23 Jun 2020 14:44:26 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F4FBC061795
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 11:44:24 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id e15so6737457edr.2
-        for <linux-media@vger.kernel.org>; Tue, 23 Jun 2020 11:44:24 -0700 (PDT)
+        id S2387422AbgFWSod (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 23 Jun 2020 14:44:33 -0400
+Received: from mail-eopbgr680073.outbound.protection.outlook.com ([40.107.68.73]:6784
+        "EHLO NAM04-BN3-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1733211AbgFWSoc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 23 Jun 2020 14:44:32 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OGal9rzS+ZdPHXN7ity1AHUOetLZQru5okq+C9fleXbHVJDrRvvcPo33UhLADbZlWEfOEgeaSE+bZyq5bWg3UZNxjDD3VThjc/15F+XF5Tq552xNNoyujq/lvkPvaYWGYJUZZ2j1jLAo7c+LshjBu3K6d9v+aXKVWrxcCXGxkp0oYpfvJETIPX2XsqUs68qj01l4DhrzU2AoU3LohPobZCWpUEZRAu6XhYOAVUtCOrHb5YmB+Il79gZg8wNPemU++D+GLEdAKa5w55kDtP+jFt2ar2pf8lAVFdNKSnqapW1vpeFqJ96erruOEYTYQNt2SS2MDm09qMy1N3E+5XfSQw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OpyBSe/Mausy9Q9xIlp7WqOYfXTTTSgy65o5X07mAKM=;
+ b=HNdq8F6xleENe7a0pZgWR5s85wVpS50pzQbLn/b+sy/h38pXltpM2ColMbdisZ9BxiOmapuqC9RFc5uyMOc42wXMvrwQMBhkySnWq3CleWa5u9xM3zCoEWUYuZfSoNK/jasWAHLIESAme3z4k78GczjoXMM97jWvyElbQNq/IwpGFFky00d3sptEm5NVtreEvcv/iQLy4qMYz0TB0AlWt0HzsCfceSZPTJdGlPCsn/F5a8uCH6MOs2YWHnb1vLFkVEoQEPxjfttYmmG6qo/zOSgIbBd0/CZIyuovBJIBH/Amfpco+fw4Cb/m33UuOHmghECUvqKhjK6wU3xDcgqTvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YHRfY/482pH60fZPQJikxqae/P0Z6lDDbQXNlIRp7tc=;
-        b=O84lAlQtan6g3BHHHf7sIEL60Tt8VsrCeEVE8CQeBdNfZtWiEkIBf5EnEBTSnOIYhV
-         EPdW4t8kcLvZ9LhfuTnNxdMsJ721WftZAm2YfItBlw7ZCfjOPOaCPgEhEUNc/LV9MpMT
-         UfTabuopH1KekbGurNoL/s3jNY+zFWjIe+weZsQUyV611kaMJC6SyKOGCy0LGyPBBocU
-         I6eEwuTw3L5JxgW9yX5wsfKT5IEMwvCDD1gcvJX0Dzz/DeyHX3FjI/lPlo2zl6EOxPbC
-         oaCdMzn5EhGGffrjqZGBaLeDIrHSd1fkpJvfsTmFDUL3W1alvsulTjb0gLAndKmgvLhD
-         JFYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YHRfY/482pH60fZPQJikxqae/P0Z6lDDbQXNlIRp7tc=;
-        b=b7i9YsL4h2Xf0KvK6zxNgyi1E3RFEXogp3ytcUn7NzYfb4pMQeRNiiUgZlkSB7+05Y
-         ibEeYiyHOSzI20GWpioeYDPxIa0deH7Bwuwppb3vMTZz3DJCzqUALxMV2b2iysgqSaPV
-         gPRDVDkzF9zClqa/i/8bkLf4upwRLRW0cvmLIfT4fG8uGZFd3FeVvJiagGjj3phc+3tj
-         s6kv8RXuLMQ0D4794g6vC+rvu6H6/cm2qDo7JsGLniw/n7AbOUQ8Ou+hTru9RjSpO7cV
-         JQpb49+bpMlILub8R994TDQjdhCZT6QmQ2x9QpP5OKRrjReJ55seOQA2Z4AmVj1myvJe
-         Q2Og==
-X-Gm-Message-State: AOAM530ShGXUSro07ZyV75/HRzRr5mO1DpjjQ6yT9qez39XM/gmC/gqW
-        +1B8Fh4hayqRtWWjEl451Ar7nx1JtsXUThD/JGZmQw==
-X-Google-Smtp-Source: ABdhPJyPUIlDVH1n7pGFYZ5aO9aLZJphcDUMccOXmcIiaLZUxDvA5Dpv5o3A65C6wRy4Z9PcnkaV9feKOmD03dYG9P4=
-X-Received: by 2002:a05:6402:1247:: with SMTP id l7mr22177355edw.61.1592937862811;
- Tue, 23 Jun 2020 11:44:22 -0700 (PDT)
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OpyBSe/Mausy9Q9xIlp7WqOYfXTTTSgy65o5X07mAKM=;
+ b=ROSFSatg70lKkNykuMQz6dONdWh7lr1th0C8qaX4x8a/YCYy4E5l9JMXD/6/xMGbkb0BnEs7ffYiCoGKrROX6DrYwuTmSSRMnFqrP9qzVQ4hOPpXGYW5WWYCv2FPiyZtRc3aHoY/W9iQsJWgJ/sidqkw5BoFIxmTuCYSQB/uzok=
+Authentication-Results: intel.com; dkim=none (message not signed)
+ header.d=none;intel.com; dmarc=none action=none header.from=amd.com;
+Received: from SN1PR12MB2414.namprd12.prod.outlook.com (2603:10b6:802:2e::31)
+ by SN1PR12MB2510.namprd12.prod.outlook.com (2603:10b6:802:28::26) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3109.22; Tue, 23 Jun
+ 2020 18:44:27 +0000
+Received: from SN1PR12MB2414.namprd12.prod.outlook.com
+ ([fe80::18d:97b:661f:9314]) by SN1PR12MB2414.namprd12.prod.outlook.com
+ ([fe80::18d:97b:661f:9314%7]) with mapi id 15.20.3109.021; Tue, 23 Jun 2020
+ 18:44:27 +0000
+Subject: Re: [Linaro-mm-sig] [PATCH 04/18] dma-fence: prime lockdep
+ annotations
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
+        =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= 
+        <thomas_os@shipmail.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        linux-rdma <linux-rdma@vger.kernel.org>,
+        Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Thomas Hellstrom <thomas.hellstrom@intel.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Mika Kuoppala <mika.kuoppala@intel.com>
+References: <20200604081224.863494-1-daniel.vetter@ffwll.ch>
+ <20200604081224.863494-5-daniel.vetter@ffwll.ch>
+ <b11c2140-1b9c-9013-d9bb-9eb2c1906710@shipmail.org>
+ <20200611083430.GD20149@phenom.ffwll.local> <20200611141515.GW6578@ziepe.ca>
+ <4702e170-fd02-88fa-3da4-ea64252fff9a@amd.com>
+ <CAKMK7uHBKrpDWu+DvtYncDK=LOdGJyMK7t6fpOaGovnYFiBUZw@mail.gmail.com>
+From:   Felix Kuehling <felix.kuehling@amd.com>
+Message-ID: <99758c09-262a-e9a1-bf65-5702b35b4388@amd.com>
+Date:   Tue, 23 Jun 2020 14:44:24 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+In-Reply-To: <CAKMK7uHBKrpDWu+DvtYncDK=LOdGJyMK7t6fpOaGovnYFiBUZw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-ClientProxiedBy: YQBPR0101CA0007.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00::20) To SN1PR12MB2414.namprd12.prod.outlook.com
+ (2603:10b6:802:2e::31)
 MIME-Version: 1.0
-References: <20200622015227.24134-1-yunfei.dong@mediatek.com>
-In-Reply-To: <20200622015227.24134-1-yunfei.dong@mediatek.com>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Tue, 23 Jun 2020 15:43:47 -0300
-Message-ID: <CAAEAJfBtuZUn-LxiwCZ75rwT_oEuM-_QEXCH4-vFhV6X+8=4SA@mail.gmail.com>
-Subject: Re: [PATCH v2, 0/2] This patchset add Read-only(Ro) request for
- capture queue
-To:     Yunfei Dong <yunfei.dong@mediatek.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Tomasz Figa <tfiga@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.2.100] (142.116.63.128) by YQBPR0101CA0007.CANPRD01.PROD.OUTLOOK.COM (2603:10b6:c00::20) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3131.20 via Frontend Transport; Tue, 23 Jun 2020 18:44:26 +0000
+X-Originating-IP: [142.116.63.128]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: a4870c98-7a4d-47d7-1d96-08d817a57535
+X-MS-TrafficTypeDiagnostic: SN1PR12MB2510:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN1PR12MB251032784C27E3E494F690B292940@SN1PR12MB2510.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2276;
+X-Forefront-PRVS: 04433051BF
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EBeOa6qdsFFSxtV0/6Nc8Iw3gHKVMfqr7+7YcwWO2Q3oCnPnZC0mUvZhL7gb/RwDHpePXor/BR3Qj1PlnGCMNcIEmcK/akI5tqfO1Pr22474uScXqCabvSWaTDq+g9JrbVx3S5/rwD5A4817CU+0RQd2SR5ZkkHCz536aFZB6jOUbXFxlpzG0QTR3uCLJKlRDnWfZuRIDDPX+Ij0ghVrl8tAxt0SOO4ST9ynAbLZ3GkLg7v6/p2DkIP/6V/jb9PUSYhiRnyO3eq67o1nCX9w8zjixFAHqT6RxI/Iym2clnVeFuAO/Wa7yeM4EiKVyjaj/VAL5KwfWRup4jfJd730b0GQW1g5+dI+AvnY6XT0LdZYgY+vCF9I9jyKh+TwYMiIuUsN7svKE/1h4Mr3PAS7uUrzP7te9RNiNG0LaFJfSiU=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN1PR12MB2414.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(4636009)(366004)(39860400002)(346002)(136003)(376002)(396003)(8676002)(6486002)(86362001)(7416002)(54906003)(316002)(8936002)(44832011)(956004)(2616005)(31696002)(5660300002)(478600001)(4326008)(16576012)(52116002)(31686004)(16526019)(6916009)(83380400001)(36756003)(66476007)(66946007)(2906002)(66556008)(966005)(53546011)(186003)(26005)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: +Fjeaie/hiKPDNe2T5bo173L+87sd5OK/IjavYHGlvcsOFCiTW9Dc+nuYiqN8o7Isj6qyL1ZFJfDkwdPfkd456XysI0mv9hd1z0uGXDCDZkgR2L8lFBD7JbtujXuWdiXBzzvk7rkh3l/L0y2l+3j7fChqwl1BZg++mcTPG9nMYbIg16q9PVroebiwS5k021ZcRhmYM2GoYV8pUCimIawuOauJpNo821jDp5yxoj5LcBL+oegEANFncIxewy/UMDIiqgaKLi9YQvGt1AwGie8uwB9hViK0iCzXXUj6e51GURPLRqDk6JantIKWvp9E4m82E+cWi6I8ySm3Z2CvzUlRKCpNWZX0WVqZwDSCfTaQlIIKZnwagz1aTvaJUKxaSUY3+2g2mEpf0UofKdOtZjltJ7lkBeyoGAzGJxVzJj4mjEFfCTdvND3ijnkCb0LAxwSFmlNHLADQBcUiwRtKUIH4fQLzBRN/ruplLNCaI3knVGSsT/kMFsR1lDMbx193R1A
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a4870c98-7a4d-47d7-1d96-08d817a57535
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jun 2020 18:44:27.7922
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ip46S6apHT4+o/d11JZkRyfUzTFQUMVgDK7tOuGMMHaW5r8fehi0XWVnuqaIwyctV32ywaGomPhASixdzwXt/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2510
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Yunfei,
+Am 2020-06-23 um 3:39 a.m. schrieb Daniel Vetter:
+> On Fri, Jun 12, 2020 at 1:35 AM Felix Kuehling <felix.kuehling@amd.com> wrote:
+>> Am 2020-06-11 um 10:15 a.m. schrieb Jason Gunthorpe:
+>>> On Thu, Jun 11, 2020 at 10:34:30AM +0200, Daniel Vetter wrote:
+>>>>> I still have my doubts about allowing fence waiting from within shrinkers.
+>>>>> IMO ideally they should use a trywait approach, in order to allow memory
+>>>>> allocation during command submission for drivers that
+>>>>> publish fences before command submission. (Since early reservation object
+>>>>> release requires that).
+>>>> Yeah it is a bit annoying, e.g. for drm/scheduler I think we'll end up
+>>>> with a mempool to make sure it can handle it's allocations.
+>>>>
+>>>>> But since drivers are already waiting from within shrinkers and I take your
+>>>>> word for HMM requiring this,
+>>>> Yeah the big trouble is HMM and mmu notifiers. That's the really awkward
+>>>> one, the shrinker one is a lot less established.
+>>> I really question if HW that needs something like DMA fence should
+>>> even be using mmu notifiers - the best use is HW that can fence the
+>>> DMA directly without having to get involved with some command stream
+>>> processing.
+>>>
+>>> Or at the very least it should not be a generic DMA fence but a
+>>> narrowed completion tied only into the same GPU driver's command
+>>> completion processing which should be able to progress without
+>>> blocking.
+>>>
+>>> The intent of notifiers was never to endlessly block while vast
+>>> amounts of SW does work.
+>>>
+>>> Going around and switching everything in a GPU to GFP_ATOMIC seems
+>>> like bad idea.
+>>>
+>>>> I've pinged a bunch of armsoc gpu driver people and ask them how much this
+>>>> hurts, so that we have a clear answer. On x86 I don't think we have much
+>>>> of a choice on this, with userptr in amd and i915 and hmm work in nouveau
+>>>> (but nouveau I think doesn't use dma_fence in there).
+>> Soon nouveau will get company. We're working on a recoverable page fault
+>> implementation for HMM in amdgpu where we'll need to update page tables
+>> using the GPUs SDMA engine and wait for corresponding fences in MMU
+>> notifiers.
+> Can you pls cc these patches to dri-devel when they show up? Depending
+> upon how your hw works there's and endless amount of bad things that
+> can happen.
 
-Thanks for the patch.
+Yes, I'll do that.
 
-On Sun, 21 Jun 2020 at 22:55, Yunfei Dong <yunfei.dong@mediatek.com> wrote:
->
-> User driver need to get HDR10+ information for each capture buffer;
-> For some encoder cases, user driver need to get encoded message for
-> each frame. So add support read-only(Ro) request for capture queue.
->
-> Ro request mean that user driver just can get ext ctrls, set ext ctrls
-> is not not allowed. Ro Request also can be used in output queue.
->
-> There is not upstream driver to use this feature at now, but we are
-> developing internal driver to use it. If it is ready, we will try to
-> upstream vdec/venc driver based on this feature.
->
 
-An upstream driver using the feature would be important, but it would
-be nice to also have: an open-source userspace application,
-and a proper explanation in the stateless decoder interface specification.
-
-Thanks,
-Ezequiel
-
-> Change compared to v1:
-> -change commit message of patch 01/02
-> -change commit message of patch 02/02
 >
-> Yunfei Dong (2):
->   media: v4l UAPI: add V4L2_BUF_CAP_SUPPORTS_RO_REQUESTS
->   media: v4l: Add Ro request api for capture queue
+> Also I think (again depending upon how the hw exactly works) this
+> stuff would be a perfect example for the dma_fence annotations.
+
+We have already applied your patch series to our development branch. I
+haven't looked into what annotations we'd have to add to our new code yet.
+
+
 >
->  .../media/v4l/vidioc-reqbufs.rst              |   4 +
->  .../media/common/videobuf2/videobuf2-v4l2.c   |   7 ++
->  drivers/media/mc/mc-request.c                 |  10 +-
->  drivers/media/v4l2-core/v4l2-ctrls.c          | 107 +++++++++++++++---
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  22 ++++
->  drivers/media/v4l2-core/v4l2-mem2mem.c        |  19 ++--
->  include/media/v4l2-ctrls.h                    |  22 +++-
->  include/media/v4l2-fh.h                       |   2 +
->  include/media/videobuf2-core.h                |   2 +
->  include/uapi/linux/videodev2.h                |   1 +
->  10 files changed, 158 insertions(+), 38 deletions(-)
+> The worst case is if your hw cannot preempt while a hw page fault is
+> pending. That means none of the dma_fence will ever signal (the amdkfd
+> preempt ctx fences wont, and the classic fences from amdgpu might be
+> also stall). At least when you're unlucky and the fence you're waiting
+> on somehow (anywhere in its dependency chain really) need the engine
+> that's currently blocked waiting for the hw page fault.
+
+Our HW can preempt while handling a page fault, at least on the GPU
+generation we're working on now. On other GPUs we haven't included in
+our initial effort, we will not be able to preempt while a page fault is
+in progress. This is problematic, but that's for reasons related to our
+GPU hardware scheduler and unrelated to fences.
+
+
+>
+> That in turn means anything you do in your hw page fault handler is in
+> the critical section for dma fence signalling, which has far reaching
+> implications.
+
+I'm not sure I agree, at least for KFD. The only place where KFD uses
+fences that depend on preemptions is eviction fences. And we can get rid
+of those if we can preempt GPU access to specific BOs by invalidating
+GPU PTEs. That way we don't need to preempt the GPU queues while a page
+fault is in progress. Instead we would create more page faults.
+
+That assumes that we can invalidate GPU PTEs without depending on
+fences. We've discussed possible deadlocks due to memory allocations
+needed on that code paths for IBs or page tables. We've already
+eliminated page table allocations and reservation locks on the PTE
+invalidation code path. And we're using a separate scheduler entity so
+we can't get stuck behind other IBs that depend on fences. IIRC,
+Christian also implemented a separate memory pool for IBs for this code
+path.
+
+Regards,
+  Felix
+
+
+> -Daniel
+>
+>> Regards,
+>>   Felix
+>>
+>>
+>>> Right, nor will RDMA ODP.
+>>>
+>>> Jason
+>>> _______________________________________________
+>>> amd-gfx mailing list
+>>> amd-gfx@lists.freedesktop.org
+>>> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>
 >
