@@ -2,296 +2,253 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25A30206FDA
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 11:17:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F46E206FEE
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 11:24:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388671AbgFXJRj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jun 2020 05:17:39 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:50286 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388655AbgFXJRj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jun 2020 05:17:39 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jo1T6-007HUO-79; Wed, 24 Jun 2020 09:13:20 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jo1ZP-0003Xy-T8; Wed, 24 Jun 2020 09:19:51 +0000
-Date:   Wed, 24 Jun 2020 09:19:51 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1558809748.32.1592990391892.JavaMail.jenkins@builder.linuxtv.org>
-In-Reply-To: <24279936.31.1592988619526.JavaMail.jenkins@builder.linuxtv.org>
-References: <24279936.31.1592988619526.JavaMail.jenkins@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3125
+        id S2387874AbgFXJYh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jun 2020 05:24:37 -0400
+Received: from mx07-00178001.pphosted.com ([62.209.51.94]:61388 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728637AbgFXJYh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Jun 2020 05:24:37 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05O9N6Ho021353;
+        Wed, 24 Jun 2020 11:24:18 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=ssvOIg3uf+Y7fFCRNZYw1uNfjtvZaLuNG9I1iTHaSIk=;
+ b=MNfBeITfEL5tkWXv55qt47atccS2aJRvMrq8CgEknMojqeFqrDBkxNm214FXY9XzskM8
+ 5qi5HftLVtI0ukxnp1Z7w11PgFKc1vfYganUaZkSrS3ZJm/956y8f+0aqPrHIRCWCvc4
+ osvhu9VJo0jaunO3DFQADl40Tl6Gg/YXiCS+c0NzjarRrCX4nFVFK8QDh3p69DqCaKZS
+ XehoJcN2NojWnKy4lDCZ2lhzEFhnhzOiAM+gIVbUk3z2iJJHquGkIDX6/xLw+WkT8Co/
+ lH8SLtTlXspawLnPJIMP6XN1MhNdxPbX9AUIeKdRzK+F80XPbzq7hhsgKPgHJoWdY0Jo jw== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 31uuucaudm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 24 Jun 2020 11:24:18 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E717010002A;
+        Wed, 24 Jun 2020 11:24:17 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id CF6892B1F3B;
+        Wed, 24 Jun 2020 11:24:17 +0200 (CEST)
+Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG3NODE2.st.com
+ (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 24 Jun
+ 2020 11:24:17 +0200
+Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
+ SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
+ 15.00.1473.003; Wed, 24 Jun 2020 11:24:17 +0200
+From:   Hugues FRUCHET <hugues.fruchet@st.com>
+To:     Benjamin GAIGNARD <benjamin.gaignard@st.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+        Alexandre TORGUE <alexandre.torgue@st.com>
+CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+        "valentin.schneider@arm.com" <valentin.schneider@arm.com>,
+        "rjw@rjwysocki.net" <rjw@rjwysocki.net>
+Subject: Re: [PATCH v6 2/3] media: stm32-dcmi: Set minimum cpufreq requirement
+Thread-Topic: [PATCH v6 2/3] media: stm32-dcmi: Set minimum cpufreq
+ requirement
+Thread-Index: AQHWPyIrF62OlRYyaE21U2OFV83I4KjncrQA
+Date:   Wed, 24 Jun 2020 09:24:17 +0000
+Message-ID: <b40a7312-9ea8-098f-8ba8-f080b3f57b5f@st.com>
+References: <20200610122500.4304-1-benjamin.gaignard@st.com>
+ <20200610122500.4304-3-benjamin.gaignard@st.com>
+In-Reply-To: <20200610122500.4304-3-benjamin.gaignard@st.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.47]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4756B529E6D8DB4180B69598F07D3C97@st.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-06-24_04:2020-06-24,2020-06-24 signatures=0
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3125/display/redirect>
-
-Changes:
-
-
-------------------------------------------
-[...truncated 27.39 KB...]
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tc90522.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mn88443x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/horus3a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ascot2e.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/helene.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/zd1301_demod.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2099.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_common.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_devio_spi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_integ.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_io.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_spi_device.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt2_mon.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt_mon.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_mon.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_top.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-device.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-devnode.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-entity.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-request.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-fwnode.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-dev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-device.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-fh.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-event.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ctrls.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-subdev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-clk.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-async.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-common.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-trace.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-mc.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-spi.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-i2c.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-dv-timings.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tuner-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-mem2mem.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-jpeg.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-dma-sg.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-dma-contig.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-vmalloc.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvbdev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dmxdev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_demux.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_ca_en50221.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_frontend.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_net.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_ringbuffer.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_vb2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_math.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-adstech-dvb-t-pci.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-alink-dtu-m.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-anysee.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-apac-viewcomp.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-astrometa-t2hybrid.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-asus-pc39.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-asus-ps3-100.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ati-tv-wonder-hd-600.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ati-x10.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-a16d.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-cardbus.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-dvbt.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-m135a.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-m733a-rm-k6.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-rm-ks.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avertv-303.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-azurewave-ad-tu700.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-beelink-gs1.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-behold.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-behold-columbus.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-budget-ci-old.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cinergy-1400.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cinergy.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-d680-dmb.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-delock-61959.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dib0700-nec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dib0700-rc5.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-digitalnow-tinytwin.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-digittrade.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dm1105-nec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dntv-live-dvb-t.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dntv-live-dvbt-pro.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dtt200u.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvbsky.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvico-mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvico-portable.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-em-terratec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv-fm53.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-evga-indtube.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-eztv.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-flydvb.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-flyvideo.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-fusionhdtv-mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-gadmei-rm008z.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-geekbox.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-genius-tvgo-a11mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-gotview7135.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hisi-poplar.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hisi-tv-demo.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-pad.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-rsc.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-iodata-bctv7e.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-it913x-v1.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-it913x-v2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kaiomy.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-khadas.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-315u.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-pc150u.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-plus-tv-analog.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-leadtek-y04g0051.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-lme2510.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-manli.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10-digitainer.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10-or2x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-digivox-ii.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-digivox-iii.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-tvanywhere.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-tvanywhere-plus.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-nebula.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-nec-terratec-cinergy-xs.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-norwood.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-npgtech.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-odroid.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pctv-sedna.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-color.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-grey.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-pctv-hd.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-mk12.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-002t.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-new.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-powercolor-real-angel.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-proteus-2309.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-purpletv.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pv951.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hauppauge.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-rc6-mce.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-real-audio-220-32-keys.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-reddo.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-snapstream-firefly.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-streamzap.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tango.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tanix-tx3mini.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tanix-tx5max.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tbs-nec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-technisat-ts35.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-technisat-usb2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-c-pci.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-s2-hd.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-xs.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-slim.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-slim-2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tevii-nec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tivo.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-total-media-in-hand.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-total-media-in-hand-02.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-trekstor.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tt-1500.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-twinhan-dtv-cab-ci.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-twinhan1027.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-vega-s9x.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-m1f.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-s350.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-tv-pvr.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videostrong-kii-pro.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-wetek-hub.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-wetek-play2.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-winfast.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-winfast-usbii-deluxe.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-su3000.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-xbox-dvd.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-x96max.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-zx-irdec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-main.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ir-raw.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lirc_dev.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-nec-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rc5-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rc6-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-jvc-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sony-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sanyo-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sharp-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-mce_kbd-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-xmp-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-imon-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rcmm-decoder.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon_raw.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ite-cir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/fintek-cir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/nuvoton-cir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ene_ir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/redrat3.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/streamzap.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/winbond-cir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-loopback.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/igorplugusb.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/iguanair.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ttusbir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/serial_ir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sir_ir.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/xbox_remote.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-core.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-adap.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-api.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-notifier.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-pin.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-pin-error-inj.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/seco-cec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/pulse8-cec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rainshadow-cec.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-fe-tuner.o>
-  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-i2c.o>
-<https://builder.linuxtv.org/job/media-build/ws/v4l/cec-core.c>: In function 'cec_allocate_adapter':
-<https://builder.linuxtv.org/job/media-build/ws/v4l/cec-core.c>:268:15: error: 'struct cec_adapter' has no member named 'phys_addrs'; did you mean 'phys_addr'?
-  memset(adap->phys_addrs, 0xff, sizeof(adap->phys_addrs));
-               ^~~~~~~~~~
-               phys_addr
-<https://builder.linuxtv.org/job/media-build/ws/v4l/cec-core.c>:268:46: error: 'struct cec_adapter' has no member named 'phys_addrs'; did you mean 'phys_addr'?
-  memset(adap->phys_addrs, 0xff, sizeof(adap->phys_addrs));
-                                              ^~~~~~~~~~
-                                              phys_addr
-make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-core.o]> Error 1
-make[5]: *** Waiting for unfinished jobs....
-make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
-make[3]: *** [Makefile:146: sub-make] Error 2
-make[2]: *** [Makefile:8: all] Error 2
-make[2]: Leaving directory '/usr/src/linux-headers-4.19.0-5-amd64'
-make[1]: *** [Makefile:53: default] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: all] Error 2
-build failed at ./build line 533
-Build step 'Execute shell' marked build as failure
+DQpIaSBCZW5qYW1pbiwNCg0KdGVzdCBjb25kaXRpb24gaW4gc2V0X21pbl9mcmVxdWVuY3koKSB0
+byBmaXgsIGFwcGFydCBmcm9tIHRoYXQ6DQpBY2tlZC1ieTogSHVndWVzIEZydWNoZXQgPGh1Z3Vl
+cy5mcnVjaGV0QHN0LmNvbT4NCg0KQlIsDQpIdWd1ZXMuDQoNCk9uIDYvMTAvMjAgMjoyNCBQTSwg
+QmVuamFtaW4gR2FpZ25hcmQgd3JvdGU6DQo+IEJlZm9yZSBzdGFydCBzdHJlYW1pbmcgc2V0IGNw
+dWZyZXEgbWluaW11bSBmcmVxdWVuY3kgcmVxdWlyZW1lbnQuDQo+IFRoZSBjcHVmcmVxIGdvdmVy
+bm9yIHdpbGwgYWRhcHQgdGhlIGZyZXF1ZW5jaWVzIGFuZCB3ZSB3aWxsIGhhdmUNCj4gbm8gbGF0
+ZW5jeSBmb3IgaGFuZGxpbmcgaW50ZXJydXB0cy4NCj4gVGhlIGZyZXF1ZW5jeSByZXF1aXJlbWVu
+dCBpcyByZXRyaWV2ZWQgZnJvbSB0aGUgZGV2aWNlLXRyZWUgbm9kZS4NCj4gDQo+IFNpZ25lZC1v
+ZmYtYnk6IEJlbmphbWluIEdhaWduYXJkIDxiZW5qYW1pbi5nYWlnbmFyZEBzdC5jb20+DQo+IC0t
+LQ0KPiB2ZXJzaW9uIDY6DQo+IC0gY29tZSBiYWNrIHRvIHZlcnNpb24gNCBhbmQgZm9sbG93IFZh
+bGVudGluJ3Mgc3VnZ2VzdGlvbnMgYWJvdXQgbm90aWZpZXINCj4gLSBhZGQgVmFsZW50aW4ncyBj
+b21tZW50IGFib3V0IG5vdGlmaWVyIHNldC91bnNldA0KPiANCj4gdmVyc2lvbiA1Og0KPiAtIGFk
+ZCBhIG11dGV4IHRvIHByb3RlY3QgZGNtaV9pcnFfbm90aWZpZXJfbm90aWZ5KCkNCj4gLSByZWdp
+c3RlciBub3RpZmllciBhIHByb2JlIHRpbWUNCj4gDQo+IHZlcnNpb24gNDoNCj4gLSBzaW1wbGlm
+eSBpcnEgYWZmaW5pdHkgaGFuZGxpbmcgYnkgdXNpbmcgb25seSBkY21pX2lycV9ub3RpZmllcl9u
+b3RpZnkoKQ0KPiANCj4gdmVyc2lvbiAzOg0KPiAtIGFkZCBhIGNwdW1hc2sgZmllbGQgdG8gdHJh
+Y2sgYm9vc3RlZCBDUFVzDQo+IC0gYWRkIGlycV9hZmZpbml0eV9ub3RpZnkgY2FsbGJhY2sNCj4g
+LSBwcm90ZWN0IGNwdW1hc2sgZmllbGQgd2l0aCBhIG11dGV4DQo+IA0KPiAgIGRyaXZlcnMvbWVk
+aWEvcGxhdGZvcm0vc3RtMzIvc3RtMzItZGNtaS5jIHwgMTM4ICsrKysrKysrKysrKysrKysrKysr
+KysrKysrKystLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxMzAgaW5zZXJ0aW9ucygrKSwgOCBkZWxl
+dGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0bTMy
+L3N0bTMyLWRjbWkuYyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RtMzIvc3RtMzItZGNtaS5j
+DQo+IGluZGV4IGI4OTMxNDkwYjgzYi4uMzgyZGY2ZTdjODY0IDEwMDY0NA0KPiAtLS0gYS9kcml2
+ZXJzL21lZGlhL3BsYXRmb3JtL3N0bTMyL3N0bTMyLWRjbWkuYw0KPiArKysgYi9kcml2ZXJzL21l
+ZGlhL3BsYXRmb3JtL3N0bTMyL3N0bTMyLWRjbWkuYw0KPiBAQCAtMTMsMTAgKzEzLDEzIEBADQo+
+ICAgDQo+ICAgI2luY2x1ZGUgPGxpbnV4L2Nsay5oPg0KPiAgICNpbmNsdWRlIDxsaW51eC9jb21w
+bGV0aW9uLmg+DQo+ICsjaW5jbHVkZSA8bGludXgvY3B1ZnJlcS5oPg0KPiArI2luY2x1ZGUgPGxp
+bnV4L2NwdW1hc2suaD4NCj4gICAjaW5jbHVkZSA8bGludXgvZGVsYXkuaD4NCj4gICAjaW5jbHVk
+ZSA8bGludXgvZG1hZW5naW5lLmg+DQo+ICAgI2luY2x1ZGUgPGxpbnV4L2luaXQuaD4NCj4gICAj
+aW5jbHVkZSA8bGludXgvaW50ZXJydXB0Lmg+DQo+ICsjaW5jbHVkZSA8bGludXgvaXJxLmg+DQo+
+ICAgI2luY2x1ZGUgPGxpbnV4L2tlcm5lbC5oPg0KPiAgICNpbmNsdWRlIDxsaW51eC9tb2R1bGUu
+aD4NCj4gICAjaW5jbHVkZSA8bGludXgvb2YuaD4NCj4gQEAgLTk5LDYgKzEwMiw4IEBAIGVudW0g
+c3RhdGUgew0KPiAgIA0KPiAgICNkZWZpbmUgT1ZFUlJVTl9FUlJPUl9USFJFU0hPTEQJMw0KPiAg
+IA0KPiArc3RhdGljIERFRklORV9QRVJfQ1BVKHN0cnVjdCBmcmVxX3Fvc19yZXF1ZXN0LCBxb3Nf
+cmVxKTsNCj4gKw0KPiAgIHN0cnVjdCBkY21pX2dyYXBoX2VudGl0eSB7DQo+ICAgCXN0cnVjdCB2
+NGwyX2FzeW5jX3N1YmRldiBhc2Q7DQo+ICAgDQo+IEBAIC0xMzMsNiArMTM4LDcgQEAgc3RydWN0
+IHN0bTMyX2RjbWkgew0KPiAgIAlzdHJ1Y3QgcmVzb3VyY2UJCQkqcmVzOw0KPiAgIAlzdHJ1Y3Qg
+cmVzZXRfY29udHJvbAkJKnJzdGM7DQo+ICAgCWludAkJCQlzZXF1ZW5jZTsNCj4gKwlpbnQJCQkJ
+aXJxOw0KPiAgIAlzdHJ1Y3QgbGlzdF9oZWFkCQlidWZmZXJzOw0KPiAgIAlzdHJ1Y3QgZGNtaV9i
+dWYJCQkqYWN0aXZlOw0KPiAgIA0KPiBAQCAtMTczLDYgKzE3OSwxMSBAQCBzdHJ1Y3Qgc3RtMzJf
+ZGNtaSB7DQo+ICAgCXN0cnVjdCBtZWRpYV9kZXZpY2UJCW1kZXY7DQo+ICAgCXN0cnVjdCBtZWRp
+YV9wYWQJCXZpZF9jYXBfcGFkOw0KPiAgIAlzdHJ1Y3QgbWVkaWFfcGlwZWxpbmUJCXBpcGVsaW5l
+Ow0KPiArDQo+ICsJc3RydWN0IG11dGV4CQkJZnJlcV9sb2NrOw0KPiArCXUzMgkJCQltaW5fZnJl
+cXVlbmN5Ow0KPiArCWNwdW1hc2tfdmFyX3QJCQlib29zdGVkOw0KPiArCXN0cnVjdCBpcnFfYWZm
+aW5pdHlfbm90aWZ5CW5vdGlmeTsNCj4gICB9Ow0KPiAgIA0KPiAgIHN0YXRpYyBpbmxpbmUgc3Ry
+dWN0IHN0bTMyX2RjbWkgKm5vdGlmaWVyX3RvX2RjbWkoc3RydWN0IHY0bDJfYXN5bmNfbm90aWZp
+ZXIgKm4pDQo+IEBAIC03MjIsNiArNzMzLDk5IEBAIHN0YXRpYyB2b2lkIGRjbWlfcGlwZWxpbmVf
+c3RvcChzdHJ1Y3Qgc3RtMzJfZGNtaSAqZGNtaSkNCj4gICAJZGNtaV9waXBlbGluZV9zX3N0cmVh
+bShkY21pLCAwKTsNCj4gICB9DQo+ICAgDQo+ICtzdGF0aWMgdm9pZCBkY21pX2dldF9taW5fZnJl
+cXVlbmN5KHN0cnVjdCBzdG0zMl9kY21pICpkY21pKQ0KPiArew0KPiArCXN0cnVjdCBkZXZpY2Vf
+bm9kZSAqbnAgPSBkY21pLT5tZGV2LmRldi0+b2Zfbm9kZTsNCj4gKw0KPiArCWRjbWktPm1pbl9m
+cmVxdWVuY3kgPSBGUkVRX1FPU19NSU5fREVGQVVMVF9WQUxVRTsNCj4gKw0KPiArCW9mX3Byb3Bl
+cnR5X3JlYWRfdTMyKG5wLCAic3Qsc3RtMzItZGNtaS1taW4tZnJlcXVlbmN5IiwNCj4gKwkJCSAg
+ICAgJmRjbWktPm1pbl9mcmVxdWVuY3kpOw0KPiArfQ0KPiArDQo+ICtzdGF0aWMgdm9pZCBkY21p
+X2lycV9ub3RpZmllcl9ub3RpZnkoc3RydWN0IGlycV9hZmZpbml0eV9ub3RpZnkgKm5vdGlmeSwN
+Cj4gKwkJCQkgICAgIGNvbnN0IGNwdW1hc2tfdCAqbWFzaykNCj4gK3sNCj4gKwlzdHJ1Y3Qgc3Rt
+MzJfZGNtaSAqZGNtaSA9IGNvbnRhaW5lcl9vZihub3RpZnksDQo+ICsJCQkJCSAgICAgICBzdHJ1
+Y3Qgc3RtMzJfZGNtaSwNCj4gKwkJCQkJICAgICAgIG5vdGlmeSk7DQo+ICsJc3RydWN0IGNwdWZy
+ZXFfcG9saWN5ICpwOw0KPiArCWludCBjcHU7DQo+ICsNCj4gKwltdXRleF9sb2NrKCZkY21pLT5m
+cmVxX2xvY2spOw0KPiArCS8qDQo+ICsJICogRm9yIGFsbCBib29zdGVkIENQVXMgY2hlY2sgaWYg
+aXQgaXMgc3RpbGwgdGhlIGNhc2UNCj4gKwkgKiBpZiBub3QgcmVtb3ZlIHRoZSByZXF1ZXN0DQo+
+ICsJICovDQo+ICsJZm9yX2VhY2hfY3B1KGNwdSwgZGNtaS0+Ym9vc3RlZCkgew0KPiArCQlpZiAo
+Y3B1bWFza190ZXN0X2NwdShjcHUsIG1hc2spKQ0KPiArCQkJY29udGludWU7DQo+ICsNCj4gKwkJ
+cCA9IGNwdWZyZXFfY3B1X2dldChjcHUpOw0KPiArCQlpZiAoIXApDQo+ICsJCQljb250aW51ZTsN
+Cj4gKw0KPiArCQlmcmVxX3Fvc19yZW1vdmVfcmVxdWVzdCgmcGVyX2NwdShxb3NfcmVxLCBjcHUp
+KTsNCj4gKwkJY3B1bWFza19hbmRub3QoZGNtaS0+Ym9vc3RlZCwgZGNtaS0+Ym9vc3RlZCwgcC0+
+Y3B1cyk7DQo+ICsNCj4gKwkJY3B1ZnJlcV9jcHVfcHV0KHApOw0KPiArCX0NCj4gKw0KPiArCS8q
+DQo+ICsJICogRm9yIENQVXMgaW4gdGhlIG1hc2sgY2hlY2sgaWYgdGhleSBhcmUgYm9vc3RlZCBp
+ZiBub3QgYWRkDQo+ICsJICogYSByZXF1ZXN0DQo+ICsJICovDQo+ICsJZm9yX2VhY2hfY3B1KGNw
+dSwgbWFzaykgew0KPiArCQlpZiAoY3B1bWFza190ZXN0X2NwdShjcHUsIGRjbWktPmJvb3N0ZWQp
+KQ0KPiArCQkJY29udGludWU7DQo+ICsNCj4gKwkJcCA9IGNwdWZyZXFfY3B1X2dldChjcHUpOw0K
+PiArCQlpZiAoIXApDQo+ICsJCQljb250aW51ZTsNCj4gKw0KPiArCQlmcmVxX3Fvc19hZGRfcmVx
+dWVzdCgmcC0+Y29uc3RyYWludHMsICZwZXJfY3B1KHFvc19yZXEsIGNwdSksDQo+ICsJCQkJICAg
+ICBGUkVRX1FPU19NSU4sIGRjbWktPm1pbl9mcmVxdWVuY3kpOw0KPiArCQljcHVtYXNrX29yKGRj
+bWktPmJvb3N0ZWQsIGRjbWktPmJvb3N0ZWQsIHAtPmNwdXMpOw0KPiArCQljcHVmcmVxX2NwdV9w
+dXQocCk7DQo+ICsJfQ0KPiArDQo+ICsJbXV0ZXhfdW5sb2NrKCZkY21pLT5mcmVxX2xvY2spOw0K
+PiArfQ0KPiArDQo+ICtzdGF0aWMgdm9pZCBkY21pX2lycV9ub3RpZmllcl9yZWxlYXNlKHN0cnVj
+dCBrcmVmICpyZWYpDQo+ICt7DQo+ICsJLyoNCj4gKwkgKiBUaGlzIGlzIHJlcXVpcmVkIGJ5IGFm
+ZmluaXR5IG5vdGlmaWVyLiBXZSBkb24ndCBoYXZlIGFueXRoaW5nIHRvDQo+ICsJICogZnJlZSBo
+ZXJlLg0KPiArCSAqLw0KPiArfQ0KPiArDQo+ICtzdGF0aWMgdm9pZCBkY21pX3NldF9taW5fZnJl
+cXVlbmN5KHN0cnVjdCBzdG0zMl9kY21pICpkY21pLCBzMzIgZnJlcSkNCj4gK3sNCj4gKwlzdHJ1
+Y3QgaXJxX2FmZmluaXR5X25vdGlmeSAqbm90aWZ5ID0gJmRjbWktPm5vdGlmeTsNCj4gKwlzdHJ1
+Y3QgY3B1bWFzayBjbGVhcjsNCj4gKw0KPiArCWlmIChmcmVxKSB7DQoNCmlmIChmcmVxICE9IEZS
+RVFfUU9TX01JTl9ERUZBVUxUX1ZBTFVFKQ0KDQo+ICsJCS8qDQo+ICsJCSAqIFJlZ2lzdGVyIHRo
+ZSBub3RpZmllciBiZWZvcmUgZG9pbmcgYW55IGNoYW5nZSwgc28gdGhlDQo+ICsJCSAqIGNhbGxi
+YWNrIGNhbiBiZSBxdWV1ZWQgaWYgYW4gYWZmaW5pdHkgY2hhbmdlIGhhcHBlbnMgKndoaWxlKg0K
+PiArCQkgKiB3ZSBhcmUgcmVxdWVzdGluZyB0aGUgYm9vc3RzLg0KPiArCQkgKi8NCj4gKwkJaXJx
+X3NldF9hZmZpbml0eV9ub3RpZmllcihkY21pLT5pcnEsIG5vdGlmeSk7DQo+ICsJCWRjbWlfaXJx
+X25vdGlmaWVyX25vdGlmeShub3RpZnksDQo+ICsJCQkJCSBpcnFfZ2V0X2FmZmluaXR5X21hc2so
+ZGNtaS0+aXJxKSk7DQo+ICsJfSBlbHNlIHsNCj4gKwkJLyoNCj4gKwkJICogVW5yZWdpc3RlciB0
+aGUgbm90aWZpZXIgYmVmb3JlIGNsZWFyaW5nIHRoZSBib29zdCByZXF1ZXN0cywNCj4gKwkJICog
+YXMgd2UgZG9uJ3Qgd2FudCB0byBib29zdCBhZ2FpbiBpZiBhbiBhZmZpbml0eSBjaGFuZ2UgaGFw
+cGVucw0KPiArCQkgKiAqd2hpbGUqIHdlIGFyZSBjbGVhcmluZyB0aGUgcmVxdWVzdHMNCj4gKwkJ
+ICovDQo+ICsJCWlycV9zZXRfYWZmaW5pdHlfbm90aWZpZXIoZGNtaS0+aXJxLCBOVUxMKTsNCj4g
+KwkJY3B1bWFza19jbGVhcigmY2xlYXIpOw0KPiArCQlkY21pX2lycV9ub3RpZmllcl9ub3RpZnko
+bm90aWZ5LCAmY2xlYXIpOw0KPiArCX0NCj4gK30NCj4gKw0KPiAgIHN0YXRpYyBpbnQgZGNtaV9z
+dGFydF9zdHJlYW1pbmcoc3RydWN0IHZiMl9xdWV1ZSAqdnEsIHVuc2lnbmVkIGludCBjb3VudCkN
+Cj4gICB7DQo+ICAgCXN0cnVjdCBzdG0zMl9kY21pICpkY21pID0gdmIyX2dldF9kcnZfcHJpdih2
+cSk7DQo+IEBAIC03MzYsMTEgKzg0MCwxMyBAQCBzdGF0aWMgaW50IGRjbWlfc3RhcnRfc3RyZWFt
+aW5nKHN0cnVjdCB2YjJfcXVldWUgKnZxLCB1bnNpZ25lZCBpbnQgY291bnQpDQo+ICAgCQlnb3Rv
+IGVycl9yZWxlYXNlX2J1ZmZlcnM7DQo+ICAgCX0NCj4gICANCj4gKwlkY21pX3NldF9taW5fZnJl
+cXVlbmN5KGRjbWksIGRjbWktPm1pbl9mcmVxdWVuY3kpOw0KPiArDQo+ICAgCXJldCA9IG1lZGlh
+X3BpcGVsaW5lX3N0YXJ0KCZkY21pLT52ZGV2LT5lbnRpdHksICZkY21pLT5waXBlbGluZSk7DQo+
+ICAgCWlmIChyZXQgPCAwKSB7DQo+ICAgCQlkZXZfZXJyKGRjbWktPmRldiwgIiVzOiBGYWlsZWQg
+dG8gc3RhcnQgc3RyZWFtaW5nLCBtZWRpYSBwaXBlbGluZSBzdGFydCBlcnJvciAoJWQpXG4iLA0K
+PiAgIAkJCV9fZnVuY19fLCByZXQpOw0KPiAtCQlnb3RvIGVycl9wbV9wdXQ7DQo+ICsJCWdvdG8g
+ZXJyX2Ryb3BfcW9zOw0KPiAgIAl9DQo+ICAgDQo+ICAgCXJldCA9IGRjbWlfcGlwZWxpbmVfc3Rh
+cnQoZGNtaSk7DQo+IEBAIC04MzUsNyArOTQxLDggQEAgc3RhdGljIGludCBkY21pX3N0YXJ0X3N0
+cmVhbWluZyhzdHJ1Y3QgdmIyX3F1ZXVlICp2cSwgdW5zaWduZWQgaW50IGNvdW50KQ0KPiAgIGVy
+cl9tZWRpYV9waXBlbGluZV9zdG9wOg0KPiAgIAltZWRpYV9waXBlbGluZV9zdG9wKCZkY21pLT52
+ZGV2LT5lbnRpdHkpOw0KPiAgIA0KPiAtZXJyX3BtX3B1dDoNCj4gK2Vycl9kcm9wX3FvczoNCj4g
+KwlkY21pX3NldF9taW5fZnJlcXVlbmN5KGRjbWksIEZSRVFfUU9TX01JTl9ERUZBVUxUX1ZBTFVF
+KSA+ICAgCXBtX3J1bnRpbWVfcHV0KGRjbWktPmRldik7DQo+ICAgDQo+ICAgZXJyX3JlbGVhc2Vf
+YnVmZmVyczoNCj4gQEAgLTg2Myw2ICs5NzAsOCBAQCBzdGF0aWMgdm9pZCBkY21pX3N0b3Bfc3Ry
+ZWFtaW5nKHN0cnVjdCB2YjJfcXVldWUgKnZxKQ0KPiAgIA0KPiAgIAltZWRpYV9waXBlbGluZV9z
+dG9wKCZkY21pLT52ZGV2LT5lbnRpdHkpOw0KPiAgIA0KPiArCWRjbWlfc2V0X21pbl9mcmVxdWVu
+Y3koZGNtaSwgRlJFUV9RT1NfTUlOX0RFRkFVTFRfVkFMVUUpOw0KPiArDQo+ICAgCXNwaW5fbG9j
+a19pcnEoJmRjbWktPmlycWxvY2spOw0KPiAgIA0KPiAgIAkvKiBEaXNhYmxlIGludGVycnVwdGlv
+bnMgKi8NCj4gQEAgLTE4MzQsMTEgKzE5NDMsMTEgQEAgc3RhdGljIGludCBkY21pX3Byb2JlKHN0
+cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ICAgCXN0cnVjdCBkZXZpY2Vfbm9kZSAqbnAg
+PSBwZGV2LT5kZXYub2Zfbm9kZTsNCj4gICAJY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCAqbWF0
+Y2ggPSBOVUxMOw0KPiAgIAlzdHJ1Y3QgdjRsMl9md25vZGVfZW5kcG9pbnQgZXAgPSB7IC5idXNf
+dHlwZSA9IDAgfTsNCj4gKwlzdHJ1Y3QgaXJxX2FmZmluaXR5X25vdGlmeSAqbm90aWZ5Ow0KPiAg
+IAlzdHJ1Y3Qgc3RtMzJfZGNtaSAqZGNtaTsNCj4gICAJc3RydWN0IHZiMl9xdWV1ZSAqcTsNCj4g
+ICAJc3RydWN0IGRtYV9jaGFuICpjaGFuOw0KPiAgIAlzdHJ1Y3QgY2xrICptY2xrOw0KPiAtCWlu
+dCBpcnE7DQo+ICAgCWludCByZXQgPSAwOw0KPiAgIA0KPiAgIAltYXRjaCA9IG9mX21hdGNoX2Rl
+dmljZShvZl9tYXRjaF9wdHIoc3RtMzJfZGNtaV9vZl9tYXRjaCksICZwZGV2LT5kZXYpOw0KPiBA
+QCAtMTg3OSw5ICsxOTg4LDkgQEAgc3RhdGljIGludCBkY21pX3Byb2JlKHN0cnVjdCBwbGF0Zm9y
+bV9kZXZpY2UgKnBkZXYpDQo+ICAgCWRjbWktPmJ1cy5idXNfd2lkdGggPSBlcC5idXMucGFyYWxs
+ZWwuYnVzX3dpZHRoOw0KPiAgIAlkY21pLT5idXMuZGF0YV9zaGlmdCA9IGVwLmJ1cy5wYXJhbGxl
+bC5kYXRhX3NoaWZ0Ow0KPiAgIA0KPiAtCWlycSA9IHBsYXRmb3JtX2dldF9pcnEocGRldiwgMCk7
+DQo+IC0JaWYgKGlycSA8PSAwKQ0KPiAtCQlyZXR1cm4gaXJxID8gaXJxIDogLUVOWElPOw0KPiAr
+CWRjbWktPmlycSA9IHBsYXRmb3JtX2dldF9pcnEocGRldiwgMCk7DQo+ICsJaWYgKGRjbWktPmly
+cSA8PSAwKQ0KPiArCQlyZXR1cm4gZGNtaS0+aXJxID8gZGNtaS0+aXJxIDogLUVOWElPOw0KPiAg
+IA0KPiAgIAlkY21pLT5yZXMgPSBwbGF0Zm9ybV9nZXRfcmVzb3VyY2UocGRldiwgSU9SRVNPVVJD
+RV9NRU0sIDApOw0KPiAgIAlpZiAoIWRjbWktPnJlcykgew0KPiBAQCAtMTg5NSwxMSArMjAwNCwx
+MiBAQCBzdGF0aWMgaW50IGRjbWlfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikN
+Cj4gICAJCXJldHVybiBQVFJfRVJSKGRjbWktPnJlZ3MpOw0KPiAgIAl9DQo+ICAgDQo+IC0JcmV0
+ID0gZGV2bV9yZXF1ZXN0X3RocmVhZGVkX2lycSgmcGRldi0+ZGV2LCBpcnEsIGRjbWlfaXJxX2Nh
+bGxiYWNrLA0KPiArCXJldCA9IGRldm1fcmVxdWVzdF90aHJlYWRlZF9pcnEoJnBkZXYtPmRldiwg
+ZGNtaS0+aXJxLA0KPiArCQkJCQlkY21pX2lycV9jYWxsYmFjaywNCj4gICAJCQkJCWRjbWlfaXJx
+X3RocmVhZCwgSVJRRl9PTkVTSE9ULA0KPiAgIAkJCQkJZGV2X25hbWUoJnBkZXYtPmRldiksIGRj
+bWkpOw0KPiAgIAlpZiAocmV0KSB7DQo+IC0JCWRldl9lcnIoJnBkZXYtPmRldiwgIlVuYWJsZSB0
+byByZXF1ZXN0IGlycSAlZFxuIiwgaXJxKTsNCj4gKwkJZGV2X2VycigmcGRldi0+ZGV2LCAiVW5h
+YmxlIHRvIHJlcXVlc3QgaXJxICVkXG4iLCBkY21pLT5pcnEpOw0KPiAgIAkJcmV0dXJuIHJldDsN
+Cj4gICAJfQ0KPiAgIA0KPiBAQCAtMTkyMiw2ICsyMDMyLDcgQEAgc3RhdGljIGludCBkY21pX3By
+b2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ICAgCXNwaW5fbG9ja19pbml0KCZk
+Y21pLT5pcnFsb2NrKTsNCj4gICAJbXV0ZXhfaW5pdCgmZGNtaS0+bG9jayk7DQo+ICAgCW11dGV4
+X2luaXQoJmRjbWktPmRtYV9sb2NrKTsNCj4gKwltdXRleF9pbml0KCZkY21pLT5mcmVxX2xvY2sp
+Ow0KPiAgIAlpbml0X2NvbXBsZXRpb24oJmRjbWktPmNvbXBsZXRlKTsNCj4gICAJSU5JVF9MSVNU
+X0hFQUQoJmRjbWktPmJ1ZmZlcnMpOw0KPiAgIA0KPiBAQCAtMTkzMCw2ICsyMDQxLDEzIEBAIHN0
+YXRpYyBpbnQgZGNtaV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiAgIAlk
+Y21pLT5zdGF0ZSA9IFNUT1BQRUQ7DQo+ICAgCWRjbWktPmRtYV9jaGFuID0gY2hhbjsNCj4gICAN
+Cj4gKwlpZiAoIWFsbG9jX2NwdW1hc2tfdmFyKCZkY21pLT5ib29zdGVkLCBHRlBfS0VSTkVMKSkN
+Cj4gKwkJcmV0dXJuIC1FTk9ERVY7DQo+ICsNCj4gKwlub3RpZnkgPSAmZGNtaS0+bm90aWZ5Ow0K
+PiArCW5vdGlmeS0+bm90aWZ5ID0gZGNtaV9pcnFfbm90aWZpZXJfbm90aWZ5Ow0KPiArCW5vdGlm
+eS0+cmVsZWFzZSA9IGRjbWlfaXJxX25vdGlmaWVyX3JlbGVhc2U7DQo+ICsNCj4gICAJcSA9ICZk
+Y21pLT5xdWV1ZTsNCj4gICANCj4gICAJZGNtaS0+djRsMl9kZXYubWRldiA9ICZkY21pLT5tZGV2
+Ow0KPiBAQCAtMjAyMiw2ICsyMTQwLDggQEAgc3RhdGljIGludCBkY21pX3Byb2JlKHN0cnVjdCBw
+bGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ICAgDQo+ICAgCWRldl9pbmZvKCZwZGV2LT5kZXYsICJQ
+cm9iZSBkb25lXG4iKTsNCj4gICANCj4gKwlkY21pX2dldF9taW5fZnJlcXVlbmN5KGRjbWkpOw0K
+PiArDQo+ICAgCXBsYXRmb3JtX3NldF9kcnZkYXRhKHBkZXYsIGRjbWkpOw0KPiAgIA0KPiAgIAlw
+bV9ydW50aW1lX2VuYWJsZSgmcGRldi0+ZGV2KTsNCj4gQEAgLTIwNDksNiArMjE2OSw4IEBAIHN0
+YXRpYyBpbnQgZGNtaV9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4gICAN
+Cj4gICAJcG1fcnVudGltZV9kaXNhYmxlKCZwZGV2LT5kZXYpOw0KPiAgIA0KPiArCWZyZWVfY3B1
+bWFza192YXIoZGNtaS0+Ym9vc3RlZCk7DQo+ICsNCj4gICAJdjRsMl9hc3luY19ub3RpZmllcl91
+bnJlZ2lzdGVyKCZkY21pLT5ub3RpZmllcik7DQo+ICAgCXY0bDJfYXN5bmNfbm90aWZpZXJfY2xl
+YW51cCgmZGNtaS0+bm90aWZpZXIpOw0KPiAgIAltZWRpYV9lbnRpdHlfY2xlYW51cCgmZGNtaS0+
+dmRldi0+ZW50aXR5KTsNCj4g
