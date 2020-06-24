@@ -2,147 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04D9E2074D7
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 15:46:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 732032074DB
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 15:47:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391079AbgFXNq3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jun 2020 09:46:29 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:51681 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2390933AbgFXNq2 (ORCPT
+        id S2391091AbgFXNrd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jun 2020 09:47:33 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:46019 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389590AbgFXNrc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jun 2020 09:46:28 -0400
+        Wed, 24 Jun 2020 09:47:32 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id o5jJjhY5wNb6lo5jMjtarX; Wed, 24 Jun 2020 15:46:25 +0200
+        id o5kKjhYOHNb6lo5kOjtb27; Wed, 24 Jun 2020 15:47:29 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1593006385; bh=ZuV4OmcavInlJN2jxK6OSIjKBVUQtZBJPsSNmNf4VtE=;
+        t=1593006450; bh=JAfq/32k3tkEWMaQptV/OjgB7hA+rl6xijjyAZW6YWU=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=HjKIqEjrG/WADHDRB48Q5wBZwrHcFhHpvNLciTynquKm5yE6KvY+jk7CyoRme4jb8
-         gaJT3ok7Z4BifCV3Jwn5eynDB2z56kl+urp+ayU0Qm5OK7bydZG+wrDbF2BEx7W7gw
-         JVnaEvVZzasnlU/EXmjvnhS3KMy/ZUYLKw0Idrbj54dlYr6DJVc99wRnbEoBFSNorA
-         jbf5jmDAYSlHRD/da9yTJbPPp5OfF6lfD6ktENp6VRQFd/sYf7lIkwRyRPU198A6oU
-         FDlg6Zr5tQuO9GpJ9I3pF8P4D/PgrrQwPpz/hVQqTYNySLo6byf1J1Ww6SrZtgu9PC
-         HmYaDnNC96neA==
-Subject: Re: [PATCH v11 13/13] dt-bindings: Add media properties
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>, libcamera-devel@lists.libcamera.org,
+        b=vZbPyq5ZTeBsbO+i+HXYzvUtE47hJxYsNnNI28Ffi1SYRacsqRjhDR+N4Cs1pvMuN
+         TxcJbQwqHOoL5bre/mFIorJdzL3d80K+aiFPK/Mf/JdK0db9oluMOg3Ju3Cwu37FZz
+         evg6ebpXEmXEWxhpFSL3igpMOK5GABOCHmI+D/EtZUInhb1x3TQk0Udszu3Ml3ZEbf
+         Oi4ta93ENQwL4hDkUUErFA8X0F0JelYBTtYChDx/5BcmBp4xDdKQ4dMHVKi4nnVq5Z
+         DpA0VDyaFWgXtWKxwSaKpSAQjOZNC02lR2LOsdFoHzUSRkcKKS8zP0NKiS0r+wSb8T
+         F1dXrqulhIprQ==
+Subject: Re: [PATCH v5 2/3] media: tpg: Add function to return colors' order
+ of test image
+To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
+        Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Rob Herring <robh@kernel.org>, tfiga@google.com, pavel@ucw.cz,
-        devicetree@vger.kernel.org
-References: <20200509090456.3496481-1-jacopo@jmondi.org>
- <20200509090456.3496481-14-jacopo@jmondi.org>
- <6a8add4e-c1f6-bd08-8928-3c8884eeda2c@xs4all.nl>
- <20200520075217.zxpirx5migumekwx@uno.localdomain>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <982aab4d-3214-564e-467f-087ecc9241d8@xs4all.nl>
-Date:   Wed, 24 Jun 2020 15:46:21 +0200
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20200624134354.7023-1-kgupta@es.iitr.ac.in>
+ <20200624134354.7023-3-kgupta@es.iitr.ac.in>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <c3e047f2-84eb-e697-3a69-fd930f67339d@xs4all.nl>
+Date:   Wed, 24 Jun 2020 15:47:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200520075217.zxpirx5migumekwx@uno.localdomain>
+In-Reply-To: <20200624134354.7023-3-kgupta@es.iitr.ac.in>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLP9AbVPTh4Suhogb0uTVq+ZuTuA/ufGXSNoJyr4fqOfZjF0kpircmmzUWD6iQ/mBwGJm0eliL0JazH4sqFiQZLHq3k26TeMP1ZSOVMF9TAuCtoX/fNe
- e1OCMTKkBLmTLJt5ZTezPCq6wEqg7+4R1rOwL1Dapz+V3D41XWWMMwmqbkj3ck/E4g2uve8gNmRIlujBxNTIaJGuibYK6qlpG1/QJelvdzOHH8/t6ehOIRtI
- 4oEIZzCdItuaC/RFhJ8PVsHop+k4Lh9WHcS519m+Yo1Jl5W6O6her+vAMQwdWRXvCXBBzI2v9Cr6OfJrkRTlKk6hFzJ8crsq+0FDoKV0qBylgf3hkVYRAo8p
- LL3+uwJx2QNjHEswX4XANMYHrYzvNLypj/aJ2oge4WBlQGXRqpA+pEALd8WuO8Q4GdaERg3bgjaRJpwA88AT4u6Ny/pu2o8Tm8kiUbtTgnn9Fngo/WIhv65/
- wZiWd2KsWJ6VVvi8Q/txkcgmjkVH++ZdtY9peQ==
+X-CMAE-Envelope: MS4wfEwKybCLDMwepSzmhWYyrrC8+AiV1Vwf8zoe5kRfofIWt2BcktSgQGYFE4uhiTgt7LuYlF2GLoCYhmzi9J4jSHdlgYelrbpLdfAtCsrZHvYIDxXPniRu
+ cUgQ2aKGNbULvLrhGDaIB0OM5693jzz8XQB4qyu12kqRzTOcIHKKouc5RkJvZ4zNt5l4EVG9ZqsxOTa5LpntE0uY7ImRuNpgcAgQ2eRGmQ6hwuCVvU5cxfeS
+ aP/FNCSByHBrRk3/OQXyMVUQIVwAuV/Ld09Ss5FSZJtBNNsRv0ViWlcJZ5ngP4l24vp386EAKotbcZ6L+OLkTODBxfrpIKAxILzV+mqEYtPFMJYamAnRxHNe
+ zWz5uQoSftA0rA78QUM5eq4jLvGSyDqmKw/sKLHhi/xZVTHzBCQ=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/05/2020 09:52, Jacopo Mondi wrote:
-> Hi Hans,
+On 24/06/2020 15:43, Kaaira Gupta wrote:
+> Currently there is no method to know the correct order of the colors for
+> a test image generated by tpg. Write a function that returns a string of
+> colors' order given a tpg. It returns a NULL pointer in case of test
+> patterns which do not have a well defined colors' order. Hence add a
+> NULL check for text in tpg_gen_text().
 > 
-> On Mon, May 11, 2020 at 09:27:57AM +0200, Hans Verkuil wrote:
->> On 09/05/2020 11:04, Jacopo Mondi wrote:
->>> Add a DT header file to contain definitions for standard media properties.
->>>
->>> The file is named after:
->>> Documentation/devicetree/bindings/media/video-interfaces.txt
->>> which contains the standard media properties definitions.
->>>
->>> Initially add three macros to define the supported 'orientation'
->>> property values.
->>>
->>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
->>> ---
->>>
->>> I currently don't have users in mainline for this, I understand this implies
->>> this is probably not going to be accepted. At the same time we don't have a
->>> common place for media-related definitions, which support properties defined in
->>> video-interfaces.txt
->>>
->>> I leave it here at the end of the series for discussions, but I'm fine dropping
->>> it from the series.
->>>
->>> Thanks
->>>   j
->>>
->>> ---
->>>  include/dt-bindings/media/video-interfaces.h | 15 +++++++++++++++
->>>  1 file changed, 15 insertions(+)
->>>  create mode 100644 include/dt-bindings/media/video-interfaces.h
->>>
->>> diff --git a/include/dt-bindings/media/video-interfaces.h b/include/dt-bindings/media/video-interfaces.h
->>> new file mode 100644
->>> index 0000000000000..404c697d6bd6e
->>> --- /dev/null
->>> +++ b/include/dt-bindings/media/video-interfaces.h
->>> @@ -0,0 +1,15 @@
->>> +/* SPDX-License-Identifier: GPL-2.0-only */
->>> +/*
->>> + * include/dt-bindings/media/video-interfaces.h
->>> + *
->>> + * Copyright (C) 2020 Jacopo Mondi <jacopo@jmondi.org>
->>> + */
->>> +
->>> +#ifndef __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
->>> +#define __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__
->>> +
->>> +#define FRONT_CAMERA		<0>
->>> +#define BACK_CAMERA		<1>
->>> +#define EXTERNAL_CAMERA		<2>
->>
->> Uh, shouldn't that be 0, 1 and 2 instead of <0>, <1> and <2> ?
+> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> ---
+>  drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 29 +++++++++++++++++--
+>  include/media/tpg/v4l2-tpg.h                  |  1 +
+>  2 files changed, 28 insertions(+), 2 deletions(-)
 > 
-> I used that notation to be able to write
->         orientation = FRONT_CAMERA
-> in place of
->         orientation = <FRONT_CAMERA>
-> 
-> Do you think it's wrong ?
+> diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
+> index dde22a4cbd6c..a052b656fa6a 100644
+> --- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
+> +++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
+> @@ -1959,12 +1959,14 @@ void tpg_gen_text(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
+>  	unsigned step = V4L2_FIELD_HAS_T_OR_B(tpg->field) ? 2 : 1;
+>  	unsigned div = step;
+>  	unsigned first = 0;
+> -	unsigned len = strlen(text);
+> +	unsigned len;
+>  	unsigned p;
+>  
+> -	if (font8x16 == NULL || basep == NULL)
+> +	if (font8x16 == NULL || basep == NULL || text == NULL)
+>  		return;
+>  
+> +	len = strlen(text);
+> +
+>  	/* Checks if it is possible to show string */
+>  	if (y + 16 >= tpg->compose.height || x + 8 >= tpg->compose.width)
+>  		return;
+> @@ -2006,6 +2008,29 @@ void tpg_gen_text(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
+>  }
+>  EXPORT_SYMBOL_GPL(tpg_gen_text);
+>  
+> +const char *tpg_g_color_order(const struct tpg_data *tpg)
+> +{
+> +	switch (tpg->pattern) {
+> +	case TPG_PAT_75_COLORBAR:
+> +	case TPG_PAT_100_COLORBAR:
+> +	case TPG_PAT_CSC_COLORBAR:
+> +	case TPG_PAT_100_HCOLORBAR:
+> +		return "white, yellow, cyan, green, magenta, red, blue, black";
+> +	case TPG_PAT_BLACK:
+> +		return "Black";
+> +	case TPG_PAT_WHITE:
+> +		return "White";
+> +	case TPG_PAT_RED:
+> +		return "Red";
+> +	case TPG_PAT_GREEN:
+> +		return "Green";
+> +	case TPG_PAT_BLUE:
+> +		return "Blue";
+> +	default:
+> +		return NULL;
+> +	}
+> +}
 
-Yes, I think that's wrong :-)
-
-From what I can see in existing device tree files you do not hide the '<>'.
+Missing EXPORT_SYMBOL_GPL().
 
 Regards,
 
 	Hans
 
+> +
+>  void tpg_update_mv_step(struct tpg_data *tpg)
+>  {
+>  	int factor = tpg->mv_hor_mode > TPG_MOVE_NONE ? -1 : 1;
+> diff --git a/include/media/tpg/v4l2-tpg.h b/include/media/tpg/v4l2-tpg.h
+> index 9749ed409856..0b0ddb87380e 100644
+> --- a/include/media/tpg/v4l2-tpg.h
+> +++ b/include/media/tpg/v4l2-tpg.h
+> @@ -252,6 +252,7 @@ void tpg_fillbuffer(struct tpg_data *tpg, v4l2_std_id std,
+>  bool tpg_s_fourcc(struct tpg_data *tpg, u32 fourcc);
+>  void tpg_s_crop_compose(struct tpg_data *tpg, const struct v4l2_rect *crop,
+>  		const struct v4l2_rect *compose);
+> +const char *tpg_g_color_order(const struct tpg_data *tpg);
+>  
+>  static inline void tpg_s_pattern(struct tpg_data *tpg, enum tpg_pattern pattern)
+>  {
 > 
-> Thanks
->   j
-> 
->>
->> I'm skipping this patch for the PR.
->>
->> Regards,
->>
->> 	Hans
->>
->>> +
->>> +#endif /* __DT_BINDINGS_MEDIA_VIDEO_INTERFACES_H__ */
->>> --
->>> 2.26.1
->>>
->>
 
