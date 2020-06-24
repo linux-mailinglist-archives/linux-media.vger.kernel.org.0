@@ -2,227 +2,288 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7011B207A2F
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 19:24:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39CEC207C2B
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 21:28:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405442AbgFXRYd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jun 2020 13:24:33 -0400
-Received: from mga17.intel.com ([192.55.52.151]:61492 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405318AbgFXRYb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jun 2020 13:24:31 -0400
-IronPort-SDR: YPaH7jcwqWNjRYmGRDNh9hEP6a5gb7F1e0rT3+8kOvU6FIS6eA+jwsEw7jYUcez9cXJHYNxmG5
- th1qZcYT1Yzg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9662"; a="124811345"
-X-IronPort-AV: E=Sophos;i="5.75,276,1589266800"; 
-   d="scan'208";a="124811345"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Jun 2020 10:24:29 -0700
-IronPort-SDR: 80aacObEhQinJbqB0r6t34D/tndfPWdvM+ChDqxb3E2bsOrJcKNe9UQsMp+d3IxTMTjb/xAJMP
- Il0SSqi95mpw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.75,276,1589266800"; 
-   d="scan'208";a="292582668"
-Received: from lkp-server01.sh.intel.com (HELO 538b5e3c8319) ([10.239.97.150])
-  by orsmga007.jf.intel.com with ESMTP; 24 Jun 2020 10:24:28 -0700
-Received: from kbuild by 538b5e3c8319 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1jo98N-000139-H0; Wed, 24 Jun 2020 17:24:27 +0000
-Date:   Thu, 25 Jun 2020 01:23:35 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- e30cc79cc80fd919b697a15c5000d9f57487de8e
-Message-ID: <5ef38c17.K9ePaIqwXshTP8Hy%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S2391321AbgFXT2u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jun 2020 15:28:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40614 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391320AbgFXT2u (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Jun 2020 15:28:50 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88E4C061573
+        for <linux-media@vger.kernel.org>; Wed, 24 Jun 2020 12:28:49 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id E607A2A0AA9
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: [PATCH] media: Add V4L2_TYPE_IS_CAPTURE helper
+Date:   Wed, 24 Jun 2020 16:28:00 -0300
+Message-Id: <20200624192800.8167-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.26.0.rc2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-tree
-branch HEAD: e30cc79cc80fd919b697a15c5000d9f57487de8e  media: media-request: Fix crash if memory allocation fails
+It's all too easy to get confused by the V4L2_TYPE_IS_OUTPUT
+macro, when it's used as !V4L2_TYPE_IS_OUTPUT.
 
-elapsed time: 1676m
+Reduce the risk of confusion with macro to explicitly
+check for the CAPTURE queue type case.
 
-configs tested: 165
-configs skipped: 11
+This change does not affect functionality, and it's
+only intended to make the code more readable.
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-arm                                 defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                               allnoconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm64                            allmodconfig
-arm64                             allnoconfig
-powerpc                      mgcoge_defconfig
-sh                ecovec24-romimage_defconfig
-arm                        mvebu_v7_defconfig
-arm                        multi_v5_defconfig
-mips                malta_kvm_guest_defconfig
-sh                          rsk7203_defconfig
-arc                         haps_hs_defconfig
-xtensa                          iss_defconfig
-arm                          lpd270_defconfig
-m68k                       m5208evb_defconfig
-sh                         microdev_defconfig
-arm                       cns3420vb_defconfig
-arc                            hsdk_defconfig
-m68k                        m5272c3_defconfig
-arm                           h3600_defconfig
-sh                          sdk7780_defconfig
-x86_64                              defconfig
-ia64                             allyesconfig
-mips                           ip28_defconfig
-alpha                            alldefconfig
-arc                             nps_defconfig
-arm                      integrator_defconfig
-ia64                                defconfig
-m68k                        mvme147_defconfig
-mips                  decstation_64_defconfig
-arm                      tct_hammer_defconfig
-mips                        omega2p_defconfig
-powerpc                          g5_defconfig
-c6x                         dsk6455_defconfig
-arm                          tango4_defconfig
-powerpc                      ppc44x_defconfig
-m68k                             allyesconfig
-mips                           ip27_defconfig
-m68k                         amcore_defconfig
-powerpc                    gamecube_defconfig
-mips                         tb0219_defconfig
-sh                          r7780mp_defconfig
-mips                     cu1000-neo_defconfig
-sh                        edosk7705_defconfig
-arc                          axs101_defconfig
-arc                              allyesconfig
-arm                           efm32_defconfig
-mips                      bmips_stb_defconfig
-riscv                    nommu_virt_defconfig
-arm                          collie_defconfig
-sparc                            alldefconfig
-sparc64                             defconfig
-mips                        nlm_xlr_defconfig
-sh                        sh7757lcr_defconfig
-arm                        multi_v7_defconfig
-arm                          gemini_defconfig
-powerpc                 mpc8272_ads_defconfig
-riscv                          rv32_defconfig
-riscv                               defconfig
-riscv                    nommu_k210_defconfig
-arm                        clps711x_defconfig
-parisc                              defconfig
-sh                     sh7710voipgw_defconfig
-arm                            mps2_defconfig
-arm                      footbridge_defconfig
-xtensa                       common_defconfig
-arm                          pxa910_defconfig
-mips                 decstation_r4k_defconfig
-sh                          rsk7264_defconfig
-mips                          malta_defconfig
-mips                    maltaup_xpa_defconfig
-alpha                               defconfig
-mips                       bmips_be_defconfig
-ia64                            zx1_defconfig
-i386                              allnoconfig
-i386                             allyesconfig
-i386                                defconfig
-i386                              debian-10.3
-ia64                             allmodconfig
-ia64                              allnoconfig
-m68k                             allmodconfig
-m68k                              allnoconfig
-m68k                           sun3_defconfig
-m68k                                defconfig
-nios2                               defconfig
-nios2                            allyesconfig
-openrisc                            defconfig
-c6x                              allyesconfig
-c6x                               allnoconfig
-openrisc                         allyesconfig
-nds32                               defconfig
-nds32                             allnoconfig
-csky                             allyesconfig
-csky                                defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-h8300                            allmodconfig
-xtensa                              defconfig
-arc                                 defconfig
-sh                               allmodconfig
-sh                                allnoconfig
-microblaze                        allnoconfig
-mips                             allyesconfig
-mips                              allnoconfig
-mips                             allmodconfig
-parisc                            allnoconfig
-parisc                           allyesconfig
-parisc                           allmodconfig
-powerpc                             defconfig
-powerpc                          allyesconfig
-powerpc                          rhel-kconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a002-20200624
-i386                 randconfig-a006-20200624
-i386                 randconfig-a003-20200624
-i386                 randconfig-a001-20200624
-i386                 randconfig-a005-20200624
-i386                 randconfig-a004-20200624
-i386                 randconfig-a006-20200623
-i386                 randconfig-a002-20200623
-i386                 randconfig-a003-20200623
-i386                 randconfig-a001-20200623
-i386                 randconfig-a005-20200623
-i386                 randconfig-a004-20200623
-i386                 randconfig-a013-20200623
-i386                 randconfig-a016-20200623
-i386                 randconfig-a012-20200623
-i386                 randconfig-a014-20200623
-i386                 randconfig-a015-20200623
-i386                 randconfig-a011-20200623
-i386                 randconfig-a013-20200624
-i386                 randconfig-a016-20200624
-i386                 randconfig-a012-20200624
-i386                 randconfig-a014-20200624
-i386                 randconfig-a011-20200624
-i386                 randconfig-a015-20200624
-riscv                            allyesconfig
-riscv                             allnoconfig
-riscv                            allmodconfig
-s390                             allyesconfig
-s390                              allnoconfig
-s390                             allmodconfig
-s390                                defconfig
-sparc                            allyesconfig
-sparc                               defconfig
-sparc64                           allnoconfig
-sparc64                          allyesconfig
-sparc64                          allmodconfig
-um                               allmodconfig
-um                                allnoconfig
-um                                  defconfig
-um                               allyesconfig
-x86_64                               rhel-7.6
-x86_64                    rhel-7.6-kselftests
-x86_64                               rhel-8.3
-x86_64                                  kexec
-x86_64                                   rhel
-x86_64                         rhel-7.2-clear
-x86_64                                    lkp
-x86_64                              fedora-25
-
+Suggested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+ drivers/media/common/videobuf2/videobuf2-v4l2.c   | 4 ++--
+ drivers/media/platform/exynos-gsc/gsc-core.c      | 2 +-
+ drivers/media/platform/exynos-gsc/gsc-m2m.c       | 2 +-
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c   | 2 +-
+ drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c      | 4 ++--
+ drivers/media/platform/rcar_jpu.c                 | 2 +-
+ drivers/media/platform/sti/hva/hva-v4l2.c         | 2 +-
+ drivers/media/platform/ti-vpe/vpe.c               | 2 +-
+ drivers/media/test-drivers/vicodec/vicodec-core.c | 6 +++---
+ drivers/media/v4l2-core/v4l2-mem2mem.c            | 6 +++---
+ drivers/staging/media/hantro/hantro_v4l2.c        | 2 +-
+ drivers/staging/media/rkvdec/rkvdec.c             | 2 +-
+ include/uapi/linux/videodev2.h                    | 2 ++
+ 13 files changed, 20 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index 559a229cac41..044d9d8fb690 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -94,7 +94,7 @@ static int __verify_length(struct vb2_buffer *vb, const struct v4l2_buffer *b)
+ 	unsigned int bytesused;
+ 	unsigned int plane;
+ 
+-	if (!V4L2_TYPE_IS_OUTPUT(b->type))
++	if (V4L2_TYPE_IS_CAPTURE(b->type))
+ 		return 0;
+ 
+ 	if (V4L2_TYPE_IS_MULTIPLANAR(b->type)) {
+@@ -307,7 +307,7 @@ static int vb2_fill_vb2_v4l2_buffer(struct vb2_buffer *vb, struct v4l2_buffer *b
+ 
+ 	/* Zero flags that we handle */
+ 	vbuf->flags = b->flags & ~V4L2_BUFFER_MASK_FLAGS;
+-	if (!vb->vb2_queue->copy_timestamp || !V4L2_TYPE_IS_OUTPUT(b->type)) {
++	if (!vb->vb2_queue->copy_timestamp || V4L2_TYPE_IS_CAPTURE(b->type)) {
+ 		/*
+ 		 * Non-COPY timestamps and non-OUTPUT queues will get
+ 		 * their timestamp and timestamp source flags from the
+diff --git a/drivers/media/platform/exynos-gsc/gsc-core.c b/drivers/media/platform/exynos-gsc/gsc-core.c
+index f6650b45bc3d..9f41c2e7097a 100644
+--- a/drivers/media/platform/exynos-gsc/gsc-core.c
++++ b/drivers/media/platform/exynos-gsc/gsc-core.c
+@@ -577,7 +577,7 @@ int gsc_try_selection(struct gsc_ctx *ctx, struct v4l2_selection *s)
+ 	v4l_bound_align_image(&tmp_w, min_w, max_w, mod_x,
+ 			      &tmp_h, min_h, max_h, mod_y, 0);
+ 
+-	if (!V4L2_TYPE_IS_OUTPUT(s->type) &&
++	if (V4L2_TYPE_IS_CAPTURE(s->type) &&
+ 	    (ctx->gsc_ctrls.rotate->val == 90 ||
+ 	     ctx->gsc_ctrls.rotate->val == 270))
+ 		gsc_check_crop_change(tmp_h, tmp_w,
+diff --git a/drivers/media/platform/exynos-gsc/gsc-m2m.c b/drivers/media/platform/exynos-gsc/gsc-m2m.c
+index e2c162635f72..27a3c92c73bc 100644
+--- a/drivers/media/platform/exynos-gsc/gsc-m2m.c
++++ b/drivers/media/platform/exynos-gsc/gsc-m2m.c
+@@ -255,7 +255,7 @@ static int gsc_m2m_buf_prepare(struct vb2_buffer *vb)
+ 	if (IS_ERR(frame))
+ 		return PTR_ERR(frame);
+ 
+-	if (!V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type)) {
++	if (V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type)) {
+ 		for (i = 0; i < frame->fmt->num_planes; i++)
+ 			vb2_set_plane_payload(vb, i, frame->payload[i]);
+ 	}
+diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+index f82a81a3bdee..61fed1e35a00 100644
+--- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
++++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+@@ -731,7 +731,7 @@ static void mtk_jpeg_stop_streaming(struct vb2_queue *q)
+ 	 * subsampling. Update capture queue when the stream is off.
+ 	 */
+ 	if (ctx->state == MTK_JPEG_SOURCE_CHANGE &&
+-	    !V4L2_TYPE_IS_OUTPUT(q->type)) {
++	    V4L2_TYPE_IS_CAPTURE(q->type)) {
+ 		struct mtk_jpeg_src_buf *src_buf;
+ 
+ 		vb = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
+diff --git a/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c b/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+index 821f2cf325f0..baced27acf9b 100644
+--- a/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
++++ b/drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c
+@@ -193,7 +193,7 @@ static const struct mtk_mdp_fmt *mtk_mdp_try_fmt_mplane(struct mtk_mdp_ctx *ctx,
+ 
+ 	pix_mp->field = V4L2_FIELD_NONE;
+ 	pix_mp->pixelformat = fmt->pixelformat;
+-	if (!V4L2_TYPE_IS_OUTPUT(f->type)) {
++	if (V4L2_TYPE_IS_CAPTURE(f->type)) {
+ 		pix_mp->colorspace = ctx->colorspace;
+ 		pix_mp->xfer_func = ctx->xfer_func;
+ 		pix_mp->ycbcr_enc = ctx->ycbcr_enc;
+@@ -327,7 +327,7 @@ static int mtk_mdp_try_crop(struct mtk_mdp_ctx *ctx, u32 type,
+ 	mtk_mdp_bound_align_image(&new_w, min_w, max_w, align_w,
+ 				  &new_h, min_h, max_h, align_h);
+ 
+-	if (!V4L2_TYPE_IS_OUTPUT(type) &&
++	if (V4L2_TYPE_IS_CAPTURE(type) &&
+ 		(ctx->ctrls.rotate->val == 90 ||
+ 		ctx->ctrls.rotate->val == 270))
+ 		mtk_mdp_check_crop_change(new_h, new_w,
+diff --git a/drivers/media/platform/rcar_jpu.c b/drivers/media/platform/rcar_jpu.c
+index 5250a14324e9..9b99ff368698 100644
+--- a/drivers/media/platform/rcar_jpu.c
++++ b/drivers/media/platform/rcar_jpu.c
+@@ -1066,7 +1066,7 @@ static int jpu_buf_prepare(struct vb2_buffer *vb)
+ 		}
+ 
+ 		/* decoder capture queue */
+-		if (!ctx->encoder && !V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type))
++		if (!ctx->encoder && V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type))
+ 			vb2_set_plane_payload(vb, i, size);
+ 	}
+ 
+diff --git a/drivers/media/platform/sti/hva/hva-v4l2.c b/drivers/media/platform/sti/hva/hva-v4l2.c
+index 197b99d8fd9c..bb34d6997d99 100644
+--- a/drivers/media/platform/sti/hva/hva-v4l2.c
++++ b/drivers/media/platform/sti/hva/hva-v4l2.c
+@@ -1087,7 +1087,7 @@ static void hva_stop_streaming(struct vb2_queue *vq)
+ 
+ 	if ((V4L2_TYPE_IS_OUTPUT(vq->type) &&
+ 	     vb2_is_streaming(&ctx->fh.m2m_ctx->cap_q_ctx.q)) ||
+-	    (!V4L2_TYPE_IS_OUTPUT(vq->type) &&
++	    (V4L2_TYPE_IS_CAPTURE(vq->type) &&
+ 	     vb2_is_streaming(&ctx->fh.m2m_ctx->out_q_ctx.q))) {
+ 		dev_dbg(dev, "%s %s out=%d cap=%d\n",
+ 			ctx->name, to_type_str(vq->type),
+diff --git a/drivers/media/platform/ti-vpe/vpe.c b/drivers/media/platform/ti-vpe/vpe.c
+index cff2fcd6d812..346f8212791c 100644
+--- a/drivers/media/platform/ti-vpe/vpe.c
++++ b/drivers/media/platform/ti-vpe/vpe.c
+@@ -1576,7 +1576,7 @@ static int vpe_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
+ 
+ 	*f = q_data->format;
+ 
+-	if (!V4L2_TYPE_IS_OUTPUT(f->type)) {
++	if (V4L2_TYPE_IS_CAPTURE(f->type)) {
+ 		struct vpe_q_data *s_q_data;
+ 		struct v4l2_pix_format_mplane *spix;
+ 
+diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
+index e879290727ef..8941d73f6611 100644
+--- a/drivers/media/test-drivers/vicodec/vicodec-core.c
++++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
+@@ -1442,7 +1442,7 @@ static void vicodec_buf_queue(struct vb2_buffer *vb)
+ 		.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
+ 	};
+ 
+-	if (!V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type) &&
++	if (V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type) &&
+ 	    vb2_is_streaming(vb->vb2_queue) &&
+ 	    v4l2_m2m_dst_buf_is_last(ctx->fh.m2m_ctx)) {
+ 		unsigned int i;
+@@ -1479,7 +1479,7 @@ static void vicodec_buf_queue(struct vb2_buffer *vb)
+ 	 * in the compressed stream
+ 	 */
+ 	if (ctx->is_stateless || ctx->is_enc ||
+-	    !V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type)) {
++	    V4L2_TYPE_IS_CAPTURE(vb->vb2_queue->type)) {
+ 		v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
+ 		return;
+ 	}
+@@ -1574,7 +1574,7 @@ static int vicodec_start_streaming(struct vb2_queue *q,
+ 	state->gop_cnt = 0;
+ 
+ 	if ((V4L2_TYPE_IS_OUTPUT(q->type) && !ctx->is_enc) ||
+-	    (!V4L2_TYPE_IS_OUTPUT(q->type) && ctx->is_enc))
++	    (V4L2_TYPE_IS_CAPTURE(q->type) && ctx->is_enc))
+ 		return 0;
+ 
+ 	if (info->id == V4L2_PIX_FMT_FWHT ||
+diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
+index 62ac9424c92a..95a8f2dc5341 100644
+--- a/drivers/media/v4l2-core/v4l2-mem2mem.c
++++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
+@@ -556,7 +556,7 @@ int v4l2_m2m_querybuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+ 	ret = vb2_querybuf(vq, buf);
+ 
+ 	/* Adjust MMAP memory offsets for the CAPTURE queue */
+-	if (buf->memory == V4L2_MEMORY_MMAP && !V4L2_TYPE_IS_OUTPUT(vq->type)) {
++	if (buf->memory == V4L2_MEMORY_MMAP && V4L2_TYPE_IS_CAPTURE(vq->type)) {
+ 		if (V4L2_TYPE_IS_MULTIPLANAR(vq->type)) {
+ 			for (i = 0; i < buf->length; ++i)
+ 				buf->m.planes[i].m.mem_offset
+@@ -712,7 +712,7 @@ int v4l2_m2m_qbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+ 	int ret;
+ 
+ 	vq = v4l2_m2m_get_vq(m2m_ctx, buf->type);
+-	if (!V4L2_TYPE_IS_OUTPUT(vq->type) &&
++	if (V4L2_TYPE_IS_CAPTURE(vq->type) &&
+ 	    (buf->flags & V4L2_BUF_FLAG_REQUEST_FD)) {
+ 		dprintk("%s: requests cannot be used with capture buffers\n",
+ 			__func__);
+@@ -729,7 +729,7 @@ int v4l2_m2m_qbuf(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
+ 	 * buffer as DONE with LAST flag since it won't be queued on the
+ 	 * device.
+ 	 */
+-	if (!V4L2_TYPE_IS_OUTPUT(vq->type) &&
++	if (V4L2_TYPE_IS_CAPTURE(vq->type) &&
+ 	    vb2_is_streaming(vq) && !vb2_start_streaming_called(vq) &&
+ 	   (v4l2_m2m_has_stopped(m2m_ctx) || v4l2_m2m_dst_buf_is_last(m2m_ctx)))
+ 		v4l2_m2m_force_last_buf_done(m2m_ctx, vq);
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index f28a94e2fa93..63859e8a0923 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -237,7 +237,7 @@ static int hantro_try_fmt(const struct hantro_ctx *ctx,
+ 			  enum v4l2_buf_type type)
+ {
+ 	const struct hantro_fmt *fmt, *vpu_fmt;
+-	bool capture = !V4L2_TYPE_IS_OUTPUT(type);
++	bool capture = V4L2_TYPE_IS_CAPTURE(type);
+ 	bool coded;
+ 
+ 	coded = capture == hantro_is_encoder_ctx(ctx);
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index 225eeca73356..fd68671f0286 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -489,7 +489,7 @@ static int rkvdec_start_streaming(struct vb2_queue *q, unsigned int count)
+ 	const struct rkvdec_coded_fmt_desc *desc;
+ 	int ret;
+ 
+-	if (!V4L2_TYPE_IS_OUTPUT(q->type))
++	if (V4L2_TYPE_IS_CAPTURE(q->type))
+ 		return 0;
+ 
+ 	desc = ctx->coded_fmt_desc;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 303805438814..c7b70ff53bc1 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -171,6 +171,8 @@ enum v4l2_buf_type {
+ 	 || (type) == V4L2_BUF_TYPE_SDR_OUTPUT			\
+ 	 || (type) == V4L2_BUF_TYPE_META_OUTPUT)
+ 
++#define V4L2_TYPE_IS_CAPTURE(type) (!V4L2_TYPE_IS_OUTPUT(type))
++
+ enum v4l2_tuner_type {
+ 	V4L2_TUNER_RADIO	     = 1,
+ 	V4L2_TUNER_ANALOG_TV	     = 2,
+-- 
+2.26.0.rc2
+
