@@ -2,101 +2,254 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB0CC206E97
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 10:05:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9ED07206E9E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 10:07:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389226AbgFXIFW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jun 2020 04:05:22 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:45580 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387606AbgFXIFW (ORCPT
+        id S2388818AbgFXIHp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jun 2020 04:07:45 -0400
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:42289 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387732AbgFXIHo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jun 2020 04:05:22 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 89F623C058B;
-        Wed, 24 Jun 2020 10:05:19 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id iA6rj-Yq34I2; Wed, 24 Jun 2020 10:05:14 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 2B8933C04C1;
-        Wed, 24 Jun 2020 10:04:36 +0200 (CEST)
-Received: from lxhi-065.adit-jv.com (10.72.94.22) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Wed, 24 Jun
- 2020 10:04:35 +0200
-Date:   Wed, 24 Jun 2020 10:04:31 +0200
-From:   Eugeniu Rosca <erosca@de.adit-jv.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-CC:     Eugeniu Rosca <erosca@de.adit-jv.com>, <lolivei@synopsys.com>,
-        <mchehab@kernel.org>, <sakari.ailus@linux.intel.com>,
-        <hverkuil@xs4all.nl>, <laurent.pinchart@ideasonboard.com>,
-        <roman.kovalivskyi@globallogic.com>,
-        <dave.stevenson@raspberrypi.org>, <naush@raspberrypi.com>,
-        <mrodin@de.adit-jv.com>, <hugues.fruchet@st.com>,
-        <mripard@kernel.org>, <aford173@gmail.com>,
-        <sudipi@jp.adit-jv.com>, <andrew_gabbasov@mentor.com>,
-        <linux-media@vger.kernel.org>,
-        <libcamera-devel@lists.libcamera.org>,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH 00/25] media: ov5647: Support RaspberryPi Camera Module v1
-Message-ID: <20200624080431.GA26623@lxhi-065.adit-jv.com>
-References: <20200622171910.608894-1-jacopo@jmondi.org>
- <20200622172614.gcwxubshubl7qzpl@uno.localdomain>
- <20200623103002.GA10561@lxhi-065.adit-jv.com>
- <20200623104903.47op5yrtb3swccnz@uno.localdomain>
- <20200623121709.GA6961@lxhi-065.adit-jv.com>
- <20200624074749.ttow6mxjp2yt4ow3@uno.localdomain>
+        Wed, 24 Jun 2020 04:07:44 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 9C81CE0009;
+        Wed, 24 Jun 2020 08:07:38 +0000 (UTC)
+Date:   Wed, 24 Jun 2020 10:11:06 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v5 03/10] media: i2c: ov6650: Use new
+ [get|set]_mbus_config ops
+Message-ID: <20200624081106.njf535vhbwb3fhwk@uno.localdomain>
+References: <20200616141244.49407-1-jacopo+renesas@jmondi.org>
+ <20200616141244.49407-4-jacopo+renesas@jmondi.org>
+ <1837100.yKVeVyVuyW@z50>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200624074749.ttow6mxjp2yt4ow3@uno.localdomain>
-X-Originating-IP: [10.72.94.22]
+In-Reply-To: <1837100.yKVeVyVuyW@z50>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hello Janusz,
+   thanks for your quick reply
 
-On Wed, Jun 24, 2020 at 09:47:49AM +0200, Jacopo Mondi wrote:
-> On Tue, Jun 23, 2020 at 02:17:49PM +0200, Eugeniu Rosca wrote:
-> > Hi Jacopo,
+On Sun, Jun 21, 2020 at 01:38:46PM +0200, Janusz Krzysztofik wrote:
+> Hi Jacopo,
+>
+> Thanks for bringing my attention to this patch.
+>
+> On Tuesday, June 16, 2020 4:12:38 P.M. CEST Jacopo Mondi wrote:
+> > Use the new get_mbus_config and set_mbus_config pad operations in place
+> > of the video operations currently in use.
 > >
-> > On Tue, Jun 23, 2020 at 12:49:03PM +0200, Jacopo Mondi wrote:
-> > > On Tue, Jun 23, 2020 at 12:30:02PM +0200, Eugeniu Rosca wrote:
-> > > > On Mon, Jun 22, 2020 at 07:26:14PM +0200, Jacopo Mondi wrote:
-> > > > > My ISP has rejected the rest of the series: too many emails :(
-> > > > > Has it ever happened to anyone else ? How did you solved this ?
-> > > >
-> > > > I guess leaving 5-10 seconds between sending individual patches should
-> > > > overcome this? I wonder if git provides a built-in command for that?
-> > > >
-> > >
-> > > git send-email does provide the --batch-size --relogin-delay options,
-> > > as Ezequiel suggested me in #v4l.
-> > >
-> > > I tried re-sending with a 10 email batch and a 5 seconds delay but I
-> > > got the same failure. I was not able to find any description of the
-> > > email number limits for the SMTP server I'm using, so I could only go
-> > > and try. I think the extensive CC list of this series which I got from
-> > > Roman's series plays a role, so I can't try just by sending to
-> > > myself... I wonder if I should send the series in chunks, the first 10
-> > > patches went out (2 times '-.- ) already...
+> > Compared to other drivers where the same conversion has been performed,
+> > ov6650 proved to be a bit more tricky, as the existing g_mbus_config
+> > implementation did not report the currently applied configuration but
+> > the set of all possible configuration options.
+>
+> Assuming that was in line with officially supported semantics of the old API,
+> not a misinterpretation, I would really like to see that limitation of the new
+> API actually compensated with V4L2_SUBDEV_FORMAT_TRY support added to it.
+>
+
+I'm not sure this is a limitation, it's more by design that the new
+get_mbus_config() only reports the current configuration.
+
+To be honest, compared to the other users of the old g_mbus_config()
+this driver was the only one implementing the operation in this way,
+maybe as it's the sole user of s_mbus_config() left out of staging ?
+
+I would however consider supporting FORMAT_TRY even if I'm not
+actually sure if fully makes sense. For the format operations
+(get/set_format()) FORMAT_TRY is used for concurrent applications to
+test a format without stepping on each other toes.
+get|set_mbus_config() are kAPI only, and I'm not sure we need to stay
+safe against concurrent configuration attempts... I'll think about
+this a bit more. Seems a development that could go on top, right ?
+
 > >
-> > Any time you send a new batch, please call 'git send-email' with
-> > '--in-reply-to=<cover-letter-id>' to allow LKML front-ends identify
-> > the patches as belonging to one topic and make it less of a pain
-> > for people to go through these discussions later on.
-> 
-> Thanks for the suggestion, I hope I got it right ;) The series has now
-> been resent.
+> > Adapt the driver to support the semantic of the two newly introducedV4L2_SUBDEV_FORMAT_TRY
+> > operations:
+> > - get_mbus_config reports the current media bus configuration
+> > - set_mbus_config applies only changes explicitly requested and updates
+> >   the provided cfg parameter to report what has actually been applied to
+> >   the hardware.
+> >
+> > Compile-tested only.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  drivers/media/i2c/ov6650.c | 56 ++++++++++++++++++++++++++------------
+> >  1 file changed, 39 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
+> > index 91906b94f978..d2e7a8556ed7 100644
+> > --- a/drivers/media/i2c/ov6650.c
+> > +++ b/drivers/media/i2c/ov6650.c
+> > @@ -921,46 +921,68 @@ static const struct v4l2_subdev_core_ops ov6650_core_ops = {
+> >  };
+> >
+> >  /* Request bus settings on camera side */
+> > -static int ov6650_g_mbus_config(struct v4l2_subdev *sd,
+> > -				struct v4l2_mbus_config *cfg)
+> > +static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
+> > +				  unsigned int pad,
+> > +				  struct v4l2_mbus_config *cfg)
+> >  {
+> > +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > +	u8 comj, comf;
+> > +	int ret;
+> > +
+> > +	ret = ov6650_reg_read(client, REG_COMJ, &comj);
+> > +	if (ret)
+> > +		return ret;
+> >
+> > -	cfg->flags = V4L2_MBUS_MASTER |
+> > -		V4L2_MBUS_PCLK_SAMPLE_RISING | V4L2_MBUS_PCLK_SAMPLE_FALLING |
+> > -		V4L2_MBUS_HSYNC_ACTIVE_HIGH | V4L2_MBUS_HSYNC_ACTIVE_LOW |
+> > -		V4L2_MBUS_VSYNC_ACTIVE_HIGH | V4L2_MBUS_VSYNC_ACTIVE_LOW |
+> > -		V4L2_MBUS_DATA_ACTIVE_HIGH;
+> > +	ret = ov6650_reg_read(client, REG_COMF, &comf);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	cfg->flags = V4L2_MBUS_MASTER
+> > +		   | ((comj & COMJ_VSYNC_HIGH)  ? V4L2_MBUS_VSYNC_ACTIVE_HIGH
+> > +						: V4L2_MBUS_VSYNC_ACTIVE_LOW)
+> > +		   | ((comf & COMF_HREF_LOW)    ? V4L2_MBUS_HSYNC_ACTIVE_LOW
+> > +						: V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+> > +		   | ((comj & COMJ_PCLK_RISING) ? V4L2_MBUS_PCLK_SAMPLE_RISING
+> > +						: V4L2_MBUS_PCLK_SAMPLE_FALLING);
+>
+> You probably missed hardware default V4L2_MBUS_DATA_ACTIVE_HIGH.
+>
 
-That's right. I now see all 25 patches appearing under the same umbrella
-of https://patchwork.linuxtv.org/cover/64822/ (via "Related"), even if
-the last 15 have been sent out at a later point in time.
+Indeed I did :/
 
--- 
-Best regards,
-Eugeniu Rosca
+Thanks for spotting
+
+> >  	cfg->type = V4L2_MBUS_PARALLEL;
+> >
+> >  	return 0;
+> >  }
+> >
+> >  /* Alter bus settings on camera side */
+> > -static int ov6650_s_mbus_config(struct v4l2_subdev *sd,
+> > -				const struct v4l2_mbus_config *cfg)
+> > +static int ov6650_set_mbus_config(struct v4l2_subdev *sd,
+> > +				  unsigned int pad,
+> > +				  struct v4l2_mbus_config *cfg)
+> >  {
+> >  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > -	int ret;
+> > +	int ret = 0;
+> >
+> >  	if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+> >  		ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_PCLK_RISING, 0);
+> > -	else
+> > +	else if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
+>
+> Have you thought of extending v4l2_subdev_call_pad_wrappers with a check for
+> only one of mutually exclusive flags specified by user?
+>
+
+Good question, but I wonder if this shouldn't be an accepted
+behaviour. The caller can provide all settings it want to allow the
+callee to chose which one to apply. The operation returns what has
+been actually applied by the callee, so that the caller can adjust
+itself to what the callee chose.
+
+Alternatively, it's up to the caller to specify its preference without
+mutually exclusive options, and the callee tries to adjust to what has
+been requested. Also in this case the operation returns what has
+actually been applied, so the caller can later adjust if it could.
+
+Seems like a small difference, but it might be good to exapnd the
+operations description to describe this to avoid each single
+implementer going in slightly different directions ?
+
+> >  		ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_PCLK_RISING);
+> >  	if (ret)
+> > -		return ret;
+> > +		goto error;
+> >
+> >  	if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
+> >  		ret = ov6650_reg_rmw(client, REG_COMF, COMF_HREF_LOW, 0);
+> > -	else
+> > +	else if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+> >  		ret = ov6650_reg_rmw(client, REG_COMF, 0, COMF_HREF_LOW);
+> >  	if (ret)
+> > -		return ret;
+> > +		goto error;
+> >
+> >  	if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH)
+> >  		ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_VSYNC_HIGH, 0);
+> > -	else
+> > +	else if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+> >  		ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_VSYNC_HIGH);
+> >
+> > +error:
+> > +	/*
+> > +	 * Update the configuration to report what is actually applied to
+> > +	 * the hardware.
+> > +	 */
+> > +	ov6650_get_mbus_config(sd, pad, cfg);
+>
+> Populating cfg->flags by ov6650_get_mbus_config() without checking for a
+> potential error it may return can result in invalid data silently returned to
+> user.  Maybe it would be better to fetch current hardware status first, fail on
+> error, then update the result with successfully performed hardware state
+> modifications.
+
+I'm not sure I got what you mean 8)
+
+Would if be enough to check for the return value of
+ov6650_get_mbus_config() (or actually returning it directly at the end
+of this function).
+
+Thanks
+   j
+
+>
+> Thanks,
+> Janusz
+>
+> > +
+> >  	return ret;
+> >  }
+> >
+> > @@ -968,8 +990,6 @@ static const struct v4l2_subdev_video_ops ov6650_video_ops = {
+> >  	.s_stream	= ov6650_s_stream,
+> >  	.g_frame_interval = ov6650_g_frame_interval,
+> >  	.s_frame_interval = ov6650_s_frame_interval,
+> > -	.g_mbus_config	= ov6650_g_mbus_config,
+> > -	.s_mbus_config	= ov6650_s_mbus_config,
+> >  };
+> >
+> >  static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
+> > @@ -978,6 +998,8 @@ static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
+> >  	.set_selection	= ov6650_set_selection,
+> >  	.get_fmt	= ov6650_get_fmt,
+> >  	.set_fmt	= ov6650_set_fmt,
+> > +	.get_mbus_config = ov6650_get_mbus_config,
+> > +	.set_mbus_config = ov6650_set_mbus_config,
+> >  };
+> >
+> >  static const struct v4l2_subdev_ops ov6650_subdev_ops = {
+> >
+>
+>
+>
+>
