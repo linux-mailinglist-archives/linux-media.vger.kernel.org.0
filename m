@@ -2,87 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 937DD206DFD
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 09:44:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A94B3206E30
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 09:49:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389950AbgFXHo3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jun 2020 03:44:29 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:57623 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389583AbgFXHo3 (ORCPT
+        id S2390062AbgFXHts (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jun 2020 03:49:48 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:34891 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390013AbgFXHtq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jun 2020 03:44:29 -0400
+        Wed, 24 Jun 2020 03:49:46 -0400
 X-Originating-IP: 93.34.118.233
 Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id ED71920008;
-        Wed, 24 Jun 2020 07:44:21 +0000 (UTC)
-Date:   Wed, 24 Jun 2020 09:47:49 +0200
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 3E14E1BF210;
+        Wed, 24 Jun 2020 07:49:39 +0000 (UTC)
+Date:   Wed, 24 Jun 2020 09:53:07 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Eugeniu Rosca <erosca@de.adit-jv.com>
-Cc:     lolivei@synopsys.com, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com,
-        roman.kovalivskyi@globallogic.com, dave.stevenson@raspberrypi.org,
-        naush@raspberrypi.com, mrodin@de.adit-jv.com,
-        hugues.fruchet@st.com, mripard@kernel.org, aford173@gmail.com,
-        sudipi@jp.adit-jv.com, andrew_gabbasov@mentor.com,
-        linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
-        Eugeniu Rosca <roscaeugeniu@gmail.com>
-Subject: Re: [PATCH 00/25] media: ov5647: Support RaspberryPi Camera Module v1
-Message-ID: <20200624074749.ttow6mxjp2yt4ow3@uno.localdomain>
-References: <20200622171910.608894-1-jacopo@jmondi.org>
- <20200622172614.gcwxubshubl7qzpl@uno.localdomain>
- <20200623103002.GA10561@lxhi-065.adit-jv.com>
- <20200623104903.47op5yrtb3swccnz@uno.localdomain>
- <20200623121709.GA6961@lxhi-065.adit-jv.com>
+To:     Ramzi BEN MEFTAH <rbmeftah@de.adit-jv.com>,
+        niklas soderlund <niklas.soderlund@ragnatech.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Steve Longerbeam <steve_longerbeam@mentor.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        efriedrich@de.adit-jv.com, erosca@de.adit-jv.com
+Subject: Re: [PATCH 1/3] v4l2-subdev: Add subdev ioctl support for
+ ENUM/GET/SET INPUT
+Message-ID: <20200624075307.hl6wew7vr5ue225t@uno.localdomain>
+References: <1592301619-17631-1-git-send-email-rbmeftah@de.adit-jv.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200623121709.GA6961@lxhi-065.adit-jv.com>
+In-Reply-To: <1592301619-17631-1-git-send-email-rbmeftah@de.adit-jv.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Eugeniu,
+Hello
 
-On Tue, Jun 23, 2020 at 02:17:49PM +0200, Eugeniu Rosca wrote:
-> Hi Jacopo,
+On Tue, Jun 16, 2020 at 12:00:15PM +0200, Ramzi BEN MEFTAH wrote:
+> From: Steve Longerbeam <steve_longerbeam@mentor.com>
 >
-> On Tue, Jun 23, 2020 at 12:49:03PM +0200, Jacopo Mondi wrote:
-> > On Tue, Jun 23, 2020 at 12:30:02PM +0200, Eugeniu Rosca wrote:
-> > > On Mon, Jun 22, 2020 at 07:26:14PM +0200, Jacopo Mondi wrote:
-> > > > My ISP has rejected the rest of the series: too many emails :(
-> > > > Has it ever happened to anyone else ? How did you solved this ?
-> > >
-> > > I guess leaving 5-10 seconds between sending individual patches should
-> > > overcome this? I wonder if git provides a built-in command for that?
-> > >
-> >
-> > git send-email does provide the --batch-size --relogin-delay options,
-> > as Ezequiel suggested me in #v4l.
-> >
-> > I tried re-sending with a 10 email batch and a 5 seconds delay but I
-> > got the same failure. I was not able to find any description of the
-> > email number limits for the SMTP server I'm using, so I could only go
-> > and try. I think the extensive CC list of this series which I got from
-> > Roman's series plays a role, so I can't try just by sending to
-> > myself... I wonder if I should send the series in chunks, the first 10
-> > patches went out (2 times '-.- ) already...
->
-> Any time you send a new batch, please call 'git send-email' with
-> '--in-reply-to=<cover-letter-id>' to allow LKML front-ends identify
-> the patches as belonging to one topic and make it less of a pain
-> for people to go through these discussions later on.
 
-Thanks for the suggestion, I hope I got it right ;) The series has now
-been resent.
+ +Niklas, +Laurent
+
+Niklas, Laurent, how does this play with CAP_IO_MC ?
 
 Thanks
-   j
+  j
 
+> This commit enables VIDIOC_ENUMINPUT, VIDIOC_G_INPUT, and VIDIOC_S_INPUT
+> ioctls for use via v4l2 subdevice node.
 >
+> This commit should probably not be pushed upstream, because the (old)
+> idea of video inputs conflicts with the newer concept of establishing
+> media links between src->sink pads.
+>
+> However it might make sense for some subdevices to support enum/get/set
+> inputs. One example would be the analog front end subdevice for the
+> ADV748x. By providing these ioctls, selecting the ADV748x analog inputs
+> can be done without requiring the implementation of media entities that
+> would define the analog source for which to establish a media link.
+>
+> Signed-off-by: Steve Longerbeam <steve_longerbeam@mentor.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c |  9 +++++++++
+>  include/media/v4l2-subdev.h           | 11 +++++++++++
+>  2 files changed, 20 insertions(+)
+>
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 6b989fe..73fbfe9 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -378,6 +378,15 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+>  			return -ENOTTY;
+>  		return v4l2_querymenu(vfh->ctrl_handler, arg);
+>
+> +	case VIDIOC_ENUMINPUT:
+> +		return v4l2_subdev_call(sd, video, enuminput, arg);
+> +
+> +	case VIDIOC_G_INPUT:
+> +		return v4l2_subdev_call(sd, video, g_input, arg);
+> +
+> +	case VIDIOC_S_INPUT:
+> +		return v4l2_subdev_call(sd, video, s_input, *(u32 *)arg);
+> +
+>  	case VIDIOC_G_CTRL:
+>  		if (!vfh->ctrl_handler)
+>  			return -ENOTTY;
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index f7fe78a..6e1a9cd 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -383,6 +383,14 @@ struct v4l2_mbus_frame_desc {
+>   * @g_input_status: get input status. Same as the status field in the
+>   *	&struct &v4l2_input
+>   *
+> + * @enuminput: enumerate inputs. Should return the same input status as
+> + *      @g_input_status if the passed input index is the currently active
+> + *      input.
+> + *
+> + * @g_input: returns the currently active input index.
+> + *
+> + * @s_input: set the active input.
+> + *
+>   * @s_stream: used to notify the driver that a video stream will start or has
+>   *	stopped.
+>   *
+> @@ -423,6 +431,9 @@ struct v4l2_subdev_video_ops {
+>  	int (*g_tvnorms)(struct v4l2_subdev *sd, v4l2_std_id *std);
+>  	int (*g_tvnorms_output)(struct v4l2_subdev *sd, v4l2_std_id *std);
+>  	int (*g_input_status)(struct v4l2_subdev *sd, u32 *status);
+> +	int (*enuminput)(struct v4l2_subdev *sd, struct v4l2_input *input);
+> +	int (*g_input)(struct v4l2_subdev *sd, u32 *index);
+> +	int (*s_input)(struct v4l2_subdev *sd, u32 index);
+>  	int (*s_stream)(struct v4l2_subdev *sd, int enable);
+>  	int (*g_pixelaspect)(struct v4l2_subdev *sd, struct v4l2_fract *aspect);
+>  	int (*g_frame_interval)(struct v4l2_subdev *sd,
 > --
-> Best regards,
-> Eugeniu Rosca
+> 2.7.4
+>
