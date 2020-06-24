@@ -2,110 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EEBC207731
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 17:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0FE620774E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 17:24:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404599AbgFXPSR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jun 2020 11:18:17 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:38293 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2390902AbgFXPSQ (ORCPT
+        id S2404208AbgFXPYE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jun 2020 11:24:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59078 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404017AbgFXPYE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jun 2020 11:18:16 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id o7ABjhyBcNb6lo7AEjtpPd; Wed, 24 Jun 2020 17:18:14 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1593011895; bh=GG0sQgvDdR/cm9Lmg54v+0+myla77YAcDHNn2qH8HGU=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=EbJKcJpH3Qodh/KtCd3TbksVYVN10FvZlJmlrELB1E/BGN7ekMANiKybeyAOC03yZ
-         dMBRe3a5u1xcAFReDAASLD6/gOhZkve2XMgP8bzm0B0VUkFw0gCtPNMqyzSvUyOh6a
-         tRGDTM7+wLS+gMxZFbRfQGaXtp4LthjTDcC1m9Hi8KdjNEu50EXJpC+gFaxAcpWJbd
-         hyacMh0KnEgJRGDqJwcrbzdxClOi8RqW04x5zVro1Q4gfR4VKOe5UWmYGQeY6C3KC4
-         kvMXX7QxzRoadXqjK6fe4vrVzCMAIeHb47uAfPcuEvGi3ZyzMPVc3PctRhdGpEcyR/
-         6/F/bqk0TxJIw==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.9] More fixes
-Message-ID: <29109a40-a46b-8d22-067c-c7082b8cf13b@xs4all.nl>
-Date:   Wed, 24 Jun 2020 17:18:10 +0200
+        Wed, 24 Jun 2020 11:24:04 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 844FCC061573;
+        Wed, 24 Jun 2020 08:24:03 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id y13so1483594lfe.9;
+        Wed, 24 Jun 2020 08:24:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=7ouKIzv9lcqviAIR01eC0zUDPcbdP0WKdUxuCP9SSpw=;
+        b=E27hEDFRxtZsQruEYVPTKunSsgJg6aALuxPxpQbSwxDRgiJZXbVdVQJKazLD8M5Wjo
+         om0KM0Faci6ftvWbxcquMgWXyDdqtOfBWWlErm0YTPMPTa03xNpBHyYwVibyb2Zzo0M2
+         lLUKMh7OyfZEu106pZZ0RNyuGDGS/S4uk2L6AOrXY+Jh1/LOzcsft59VuVdAXRCw8/UI
+         tcjTk82W9LuJXvGO7esKypzBLAlzPsyTJqqSq9tTMUXUgl0I+StFKkE/jGlxVfZXHQng
+         5tBnnQZgaSockOreNNvEUaLFcdjWc5LD4DodWFz7Xw5DP5j7+DI7/+krFCr1JuaAiZiq
+         yuPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=7ouKIzv9lcqviAIR01eC0zUDPcbdP0WKdUxuCP9SSpw=;
+        b=a1xGszQOqrl8mVakOWEcsD5EL4zA6M+a1lBNRSGDlhN1ZtNEn7J977PGFWdWNEcChy
+         C2H0RyfbGx4IBD+TwwLSbCHqIMcuZV36tDQqO8DlKka3/2UcGuh/07+8KbqFdt5HcHF7
+         yQ10H08cHyPhkHu059btIIlVEvYygF5GIuON7ZFkm3i14PD6PxuGjx8tm0qhBQiDnMCX
+         cjgUmaGzlg6Daq9gU2cChTBomW3yIR4G6UBPjNtdkhh/WdzoidstvG8tFu8t5wW4Mact
+         ktoqEnv1LxUiEgP7HiGWl3w6GnAfmk5G6vUBiEENC94efQioC8L7Nf+7fsrI7VkfGs/W
+         d9zQ==
+X-Gm-Message-State: AOAM5327AR6hfLXbl9hAnX0jWL9kYGAODVL0L7lKM5YPdhbVfG4rp61m
+        R9zSX2HVNWY8ezznqESNhbOKFnuY
+X-Google-Smtp-Source: ABdhPJw5CK19plm3sDVgaQZ/FaKkfb0UTJA6gbhs1PnwT7h7YAvOtoMlEmVpoVoZxpLFP0oqUejuXQ==
+X-Received: by 2002:ac2:47e7:: with SMTP id b7mr15661708lfp.68.1593012241393;
+        Wed, 24 Jun 2020 08:24:01 -0700 (PDT)
+Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
+        by smtp.googlemail.com with ESMTPSA id d20sm5262732lfi.22.2020.06.24.08.24.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 24 Jun 2020 08:24:00 -0700 (PDT)
+Subject: Re: [PATCH v2 0/4] Tegra Video Decoder driver power management
+ corrections
+To:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+References: <20200624150847.22672-1-digetx@gmail.com>
+ <90323aa6-38b5-0a45-69a7-ccf380690a78@xs4all.nl>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <23cbaa18-9461-8f72-3d43-aa14cd0c1095@gmail.com>
+Date:   Wed, 24 Jun 2020 18:23:59 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ Thunderbird/68.7.0
 MIME-Version: 1.0
+In-Reply-To: <90323aa6-38b5-0a45-69a7-ccf380690a78@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfO/ecfRhD9lt7Otof8S65TACxATwWF56b3+TObtwECL3A1bdLMfUW53dOBPiIXtg0ujc20Qg7xTKYWaxF5xUAisQuLN3RN05ZnSEmPjddeCWyGmCF1Em
- Xi8CuIIS/P4pIMGjTgugPNex/N0uK1CoHf7fRFrg2PmDvA/bonkznpW5KO0m8zsg5Cjb0cd73oM+ig==
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit e30cc79cc80fd919b697a15c5000d9f57487de8e:
+24.06.2020 18:16, Hans Verkuil пишет:
+> On 24/06/2020 17:08, Dmitry Osipenko wrote:
+>> Hello,
+>>
+>> This small series addresses a Runtime PM issue that was discovered during
+>> of Tegra VI driver reviewing by balancing RPM usage count on RPM resume
+>> failure. Secondly it fixes reboot on some Tegra devices due to bootloader
+>> expecting VDE power partition to be ON at the boot time, which wasn't
+>> happening in case of a warm re-booting (i.e. by PMC resetting).
+> 
+> Can you rebase this on top of the media_tree master branch? I think a variant
+> of patch 1 has already been applied. I found a mail today where you mentioned
+> that you preferred your version (it looks like I missed that) so you'll need to
+> rework patch 1.
 
-  media: media-request: Fix crash if memory allocation fails (2020-06-23 15:19:37 +0200)
+Hello Hans,
 
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.9d
-
-for you to fetch changes up to b575b09dfe0f78a542623deae3705a3aa77033e3:
-
-  media: vsp1: dl: Fix NULL pointer dereference on unbind (2020-06-24 17:12:42 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Andrey Konovalov (1):
-      media: camss: use proper media entity function for subdevices
-
-Chen Zhou (1):
-      media: coda: jpeg: add NULL check after kmalloc
-
-Colin Ian King (1):
-      media: cx231xx: remove redundant assignment to variable err
-
-Dafna Hirschfeld (1):
-      media: staging: rkisp1: cap: remove support of BGR666 format
-
-Dan Carpenter (1):
-      firewire: Using uninitialized values in node_probe()
-
-Eizan Miyamoto (5):
-      mtk-mdp: remove mtk_mdp_comp.regs from mtk_mdp_comp.h
-      mtk-mdp: handle vb2_dma_contig_set_max_seg_size errors during probe
-      mtk-mdp: handle vpu_wdt_reg_handler() errors during probe
-      mtk-mdp: convert mtk_mdp_dev.comp array to list
-      mtk-mdp: Remove mtk_mdp_comp.id and supporting functionality
-
-Eugen Hristev (1):
-      media: atmel: atmel-sama5d2-isc: fix warning in configs without OF
-
-Eugeniu Rosca (1):
-      media: vsp1: dl: Fix NULL pointer dereference on unbind
-
-Francois Buergisser (1):
-      mtk-mdp: Remove states for format checks
-
-Gustavo A. R. Silva (1):
-      media: usb: pwc: pwc.h: Replace zero-length array with flexible-array member
-
- drivers/media/firewire/firedtv-fw.c              |  2 ++
- drivers/media/platform/atmel/atmel-sama5d2-isc.c |  2 ++
- drivers/media/platform/coda/coda-jpeg.c          |  5 +++-
- drivers/media/platform/mtk-mdp/mtk_mdp_comp.c    | 60 +++++------------------------------------
- drivers/media/platform/mtk-mdp/mtk_mdp_comp.h    | 23 +++-------------
- drivers/media/platform/mtk-mdp/mtk_mdp_core.c    | 69 ++++++++++++++++++++++++++++++-----------------
- drivers/media/platform/mtk-mdp/mtk_mdp_core.h    | 12 ++++++---
- drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c     | 90 +++++++++++++++++++++++--------------------------------------
- drivers/media/platform/qcom/camss/camss-csid.c   |  2 +-
- drivers/media/platform/qcom/camss/camss-csiphy.c |  2 +-
- drivers/media/platform/qcom/camss/camss-ispif.c  |  2 +-
- drivers/media/platform/vsp1/vsp1_dl.c            |  2 ++
- drivers/media/usb/cx231xx/cx231xx-417.c          |  2 +-
- drivers/media/usb/pwc/pwc.h                      |  2 +-
- drivers/staging/media/rkisp1/rkisp1-capture.c    |  4 ---
- 15 files changed, 112 insertions(+), 167 deletions(-)
+I'll take a look at what patches has been applied, my bad for sending
+the v2 too late. Thank you for the heads up!
