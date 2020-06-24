@@ -2,100 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10C682076D5
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 17:10:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DA7420772D
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 17:17:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404453AbgFXPJE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jun 2020 11:09:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56710 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404444AbgFXPJC (ORCPT
+        id S2404590AbgFXPRC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jun 2020 11:17:02 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:47345 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2404301AbgFXPRC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jun 2020 11:09:02 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEE10C0613ED;
-        Wed, 24 Jun 2020 08:09:01 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id g2so1480525lfb.0;
-        Wed, 24 Jun 2020 08:09:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=MbEwAEDY+UIz4Bw5+QFZkmbm4gisWV5nZMVAP0V+gWg=;
-        b=ulp/uL9mvSJ7SU6iy5vKC57v2/nHWbwvSeoz2IatRstoQAKNz9khO51LYV0etv/+Pt
-         nOjON8gH8HePftUtiH/m1lbv6Ge7KCktGswiYuoR6BzRE/4aPtpbZ+G8AtBcnzezenRv
-         E19kA4MYhMukJaDqwCySvCQtSIREF728qLuajUixXbhb8xBkfGnACnug5MRDiEDpkLvu
-         ruAE3QYb7Hcp6hPuFK+NFirykJcmSZF1auuJnTTpeLMPyTnoHiQ5KbzSKM9ITmJi4eak
-         ErFjnAFcranSp2YH9+o44LTTuGjTuoI7MB4F0YV1MiN25IhJqTh7fcK9HT7i497ahTcZ
-         7aSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=MbEwAEDY+UIz4Bw5+QFZkmbm4gisWV5nZMVAP0V+gWg=;
-        b=B6mhMdGyuvOK51zunSh4HqLbrTEJUnlX6LJgyN7YEFj7xRskEXvSoZ+xTiERHw1NZr
-         x1nb0SNjmEoMIZH911zPIkV1f9TPtwhfFx9b2qRwEWA9DPWGT66zkT0wuHBeLOoIs/EF
-         VkfSRbH8HM2SDqfNlvD7g/fu9a2ySRxlhTvtE8fOkXJ601RkR5Wnn0fRQA8R0KmlcTQc
-         nzRiCOBG2yfu7VpwqIOUvEGScNpBrpBBhv/zlbn2b2Ne+ChrYnwDztY/NDIquXKzjYSV
-         oWTTf3HQ8845dM76JsXETDrGMu+HgK8wCTvBBEEo6V39v0fO3bgG9+dz5tbzGYzlPFHi
-         uiXA==
-X-Gm-Message-State: AOAM532nF3bu9WmUdnb42DIwQcxGJtKY1Vs+dCfTZHds7gcuI5jjPzf/
-        kYdGmQxHOmOU/3sbE/ydV2I=
-X-Google-Smtp-Source: ABdhPJwBscUlFJUFnBG6HoRwUDBMUXuDryV4RkhTsFyJYaFEtrtjM23lOEY1nMU1CiXDl9wNs+qRrA==
-X-Received: by 2002:ac2:5295:: with SMTP id q21mr15591045lfm.185.1593011340318;
-        Wed, 24 Jun 2020 08:09:00 -0700 (PDT)
-Received: from localhost.localdomain (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.gmail.com with ESMTPSA id z1sm4182049lja.47.2020.06.24.08.08.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Jun 2020 08:08:59 -0700 (PDT)
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Thierry Reding <thierry.reding@gmail.com>,
+        Wed, 24 Jun 2020 11:17:02 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id o78xjhxqrNb6lo790jtpED; Wed, 24 Jun 2020 17:16:59 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1593011820; bh=jyWXSdrvQ+K1W5uN74FxiSFf3+Bnyjhw65V0wYj/fAI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=HIuiKyZ6DcYIYdgAQ3nl9u2grQWrlLYo0ql8stqyDBH62ttmUf1WHezeQhr/D5+P9
+         VreVW08lQr+Tm527n7HUMyf+ZyfKLVTLNgPrTM43BwMlXZ0Khniq/5QqTLToQOyB7x
+         taZQ7HLUpbZQkLTrIvH87f5Q+8O2lZ64tvyRMUAWoZFQgIW9e6g2AFITbietQI4CZK
+         wtnHuGeekKKRr+eR8YeGd/h1pLm4JMvKwc2HG983YraBYxgybSNSOujTa7WgOHoajv
+         GU4PBV+cHi6LwYTV4b/c8A74fffbwx4Pmyez3cK8f6Ma3PNyFQO62o/j2cHqyhSZYy
+         PEAaZBRxs5+zw==
+Subject: Re: [PATCH v2 0/4] Tegra Video Decoder driver power management
+ corrections
+To:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
         Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
+        Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
         devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/4] media: staging: tegra-vde: Power-cycle hardware on probe
-Date:   Wed, 24 Jun 2020 18:08:47 +0300
-Message-Id: <20200624150847.22672-5-digetx@gmail.com>
-X-Mailer: git-send-email 2.26.0
-In-Reply-To: <20200624150847.22672-1-digetx@gmail.com>
 References: <20200624150847.22672-1-digetx@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <90323aa6-38b5-0a45-69a7-ccf380690a78@xs4all.nl>
+Date:   Wed, 24 Jun 2020 17:16:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200624150847.22672-1-digetx@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfNw6j5csn8oqIJl3z+qis7VF7oRJPzz79BJW74oAFalH/aIvPn0jqVXkIF5gx+CKI8CK2JDqe2xT7iBsMGfE+F8gkgsSKP2cphCliwnqLfqQc73mcWAy
+ To9YZnahMnLq3OTsjxebN4xXu6ENQCxPDYXVa2v6/NYGC8nzOl3OF+iX0wajxUSzEEVCn4jmbo5N2Kq3Ipluh5jHHhM5D84rD6/DxLaHGYFTsg8KdiBG3FAw
+ NIVlW3O+FItHGlrUOhOOuKsh8ebJQJZ6vDmCP+IsDR+qA+I3HmYuiky89lgOXWcGp55KAHn7LW+BNfUD23+oib/Fi7BF3TpiRb2uT9q+LFrFH/707hKH4ROd
+ URlbLajmKW9SeJOp1q54KZ9926WN8+Bzr0ZxO5fw5ylzHY1c5I4gpoqtl4CvesccHErz7iem
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-VDE partition is left turned ON after bootloader on most devices, hence
-let's ensure that it's turned OFF in order to lower power leakage while
-hardware is idling by turning it ON and OFF during of the driver's probe.
+On 24/06/2020 17:08, Dmitry Osipenko wrote:
+> Hello,
+> 
+> This small series addresses a Runtime PM issue that was discovered during
+> of Tegra VI driver reviewing by balancing RPM usage count on RPM resume
+> failure. Secondly it fixes reboot on some Tegra devices due to bootloader
+> expecting VDE power partition to be ON at the boot time, which wasn't
+> happening in case of a warm re-booting (i.e. by PMC resetting).
 
-Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
----
- drivers/staging/media/tegra-vde/vde.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+Can you rebase this on top of the media_tree master branch? I think a variant
+of patch 1 has already been applied. I found a mail today where you mentioned
+that you preferred your version (it looks like I missed that) so you'll need to
+rework patch 1.
 
-diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/media/tegra-vde/vde.c
-index b64e35b86fb4..3be96c36bf43 100644
---- a/drivers/staging/media/tegra-vde/vde.c
-+++ b/drivers/staging/media/tegra-vde/vde.c
-@@ -1068,6 +1068,14 @@ static int tegra_vde_probe(struct platform_device *pdev)
- 	pm_runtime_use_autosuspend(dev);
- 	pm_runtime_set_autosuspend_delay(dev, 300);
- 
-+	/*
-+	 * VDE partition may be left ON after bootloader, hence let's
-+	 * power-cycle it in order to put hardware into a predictable lower
-+	 * power state.
-+	 */
-+	pm_runtime_get_sync(dev);
-+	pm_runtime_put(dev);
-+
- 	return 0;
- 
- err_deinit_iommu:
--- 
-2.26.0
+Sorry about this,
+
+	Hans
+
+> 
+> Changelog:
+> 
+> v2: - Extended the commit's message of the "Balance runtime PM use-count on
+>       resume failure" patch.
+> 
+>     - Re-send for 5.9 inclusion.
+> 
+> Dmitry Osipenko (4):
+>   media: staging: tegra-vde: Balance runtime PM use-count on resume
+>     failure
+>   media: staging: tegra-vde: Runtime PM is always available on Tegra
+>   media: staging: tegra-vde: Turn ON power domain on shutdown
+>   media: staging: tegra-vde: Power-cycle hardware on probe
+> 
+>  drivers/staging/media/tegra-vde/vde.c | 45 +++++++++++++++++----------
+>  1 file changed, 29 insertions(+), 16 deletions(-)
+> 
 
