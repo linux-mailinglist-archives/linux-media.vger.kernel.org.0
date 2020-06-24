@@ -2,87 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76D93207272
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 13:47:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B337C207299
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 13:54:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390738AbgFXLrF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jun 2020 07:47:05 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:38299 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388491AbgFXLrE (ORCPT
+        id S2403818AbgFXLy2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jun 2020 07:54:28 -0400
+Received: from mail-ej1-f45.google.com ([209.85.218.45]:37971 "EHLO
+        mail-ej1-f45.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2403776AbgFXLyZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jun 2020 07:47:04 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id o3rljtvnKx3Ajo3rojjFim; Wed, 24 Jun 2020 13:47:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1592999222; bh=0N5Pf8Y/JNRKBG/KjHTyL7Jl316+lteapCAvH0k5IAU=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=wcDBGubuJirFwVCybDoTMNCTSSYLIqvHwwUt3h9tHhIDSKZ3o/yS7ZERA52WfwVXk
-         wK9wnOfqaVrhrxssHMtaXBei++8oHpmCkE+t0+wnyZIpcP856qVZRs3Z+G2HTv6b75
-         SPtqPMW9BtMJPDJNaI2bMTUF5hfh4u+vNXuILysSJ5/7BFzzg7xrnwFSNan9/I1iDx
-         60QWgNfFq8KeRtbpI2HFiYQ79Wv2mzULwQudHWGb8AbH8lTPdwIryU/A1VVRBimQao
-         z4YPDXcT+pRe/jbZ0e9cUYHzTnZO1jnzIVkvecbXAY42AiERx55SwopC0sZV/nCQuw
-         uS/2n10J391Lg==
-Subject: Re: [PATCH] staging: media: soc_camera: Enclose macro with
- parentheses
-To:     Guilherme Ricioli <guilherme.riciolic@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     lkcamp@lists.libreplanetbr.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, mchehab@kernel.org,
-        gregkh@linuxfoundation.org
-References: <1587758184-17867-1-git-send-email-guilherme.riciolic@gmail.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <be40fdf1-b75d-bca0-f1eb-798f234df7ac@xs4all.nl>
-Date:   Wed, 24 Jun 2020 13:46:57 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        Wed, 24 Jun 2020 07:54:25 -0400
+Received: by mail-ej1-f45.google.com with SMTP id w16so2168054ejj.5;
+        Wed, 24 Jun 2020 04:54:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ufsL1RSHA0Qgz7G5/lHH40o6RzNzgQ4/McWZWanPBsY=;
+        b=Fg7OZxm087+vNsfLY5urGBRXysy6moHFaVEtbAvms/H1VBzoefwpVOOIVcWkNP+OGH
+         92lzC1cfAQlpUicXO+sOEmEYQr+z0egzUvPyKOi5gnuJt51LTMN/1taNT3FLiU4r+LPr
+         SnJOdjPuINkMWyWf0JjvNoInvms9EQxR7/V+Egl7WqAHdzEFQt4ghjJh4V0O3vFRdVdy
+         XXj1smbzRoX/wobem0uD7EJSfnO0g8Zhp+FjldEqg082VFkhk7RpDghMSwAgNugGj0mZ
+         BvRv8XtdRbxEdT5s3PRmlfV6PgwjZqpeA8WxzGs5ni9+3+NFmwiEEc0CHHPuoWp+AaW+
+         ZswA==
+X-Gm-Message-State: AOAM530s6WDrXtTLceJ9CQdN+IkMWoxF3LwpWr0Gzx+gE1UjNvFgnqFU
+        m3yX7WkqdSVLZ0dkMZhQZLs=
+X-Google-Smtp-Source: ABdhPJxZdMjAfmb/JyEFCVwoJTo0S1v0Zs4pAvQ4nQtg9i0282GzbVAxxPadw/CghDQJQ1NdFjPSGQ==
+X-Received: by 2002:a17:906:4045:: with SMTP id y5mr15995409ejj.261.1592999662614;
+        Wed, 24 Jun 2020 04:54:22 -0700 (PDT)
+Received: from pi3 ([194.230.155.235])
+        by smtp.googlemail.com with ESMTPSA id n16sm6577049ejo.54.2020.06.24.04.54.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Jun 2020 04:54:21 -0700 (PDT)
+Date:   Wed, 24 Jun 2020 13:54:19 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Jonathan Bakker <xc-racer2@live.ca>, kyungmin.park@samsung.com,
+        s.nawrocki@samsung.com, mchehab@kernel.org, kgene@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tomasz Figa <tfiga@chromium.org>
+Subject: Re: [PATCH 00/11] media: exynos4-is: Improve support for s5pv210 and
+ parallel ports
+Message-ID: <20200624115419.GA20764@pi3>
+References: <BN6PR04MB06602E7221CC7455F3142540A3AE0@BN6PR04MB0660.namprd04.prod.outlook.com>
+ <07fb9000-ae00-efcd-e91a-48765ff3d4bf@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <1587758184-17867-1-git-send-email-guilherme.riciolic@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfAItO1RfSTL7qNqv6XXo3S3PnTFX5rVX8z5QJbSqlin67t3YYsAb6H8ofboI785WCy0Xvkpk1g3fknj5W7vDUzTgYA3ik86mkMHsn3vhnjxeWIA263+q
- u5CSl5mTXhgJCTXndmJh4FDSkcdkIIwJgFnbwy5W7fDQALrFQOpYQBhRrZg3J7EOLbk5JwWmQPXcI/6jPyV4hoOZVn8n+K1ebvncHCMxexOKoiF89FyP5Q+w
- 4BhyzF/NsWsvFYDF3YvoO4itHNZMWvAPUcF/j3Jj6XAnhc2DnykLluy25ryB6WTCXgWkrfHwRruReKiD/nBsS8FHzxXkEtejkarjoQKjMp3P74HpTihxiJ1L
- C73lC3jBA3afnCjFr78wZkFf30s9VfCEYVEeWy+XpOOffeHjnH9/kDxfJ158S8FQca9VdKhy
+Content-Disposition: inline
+In-Reply-To: <07fb9000-ae00-efcd-e91a-48765ff3d4bf@xs4all.nl>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/04/2020 21:56, Guilherme Ricioli wrote:
-> Fix checkpatch error "ERROR: Macros with complex values should be
-> enclosed in parentheses" in soc_camera.c:241.
+On Wed, Jun 24, 2020 at 01:39:50PM +0200, Hans Verkuil wrote:
+> Can someone from Samsung or someone who knows this SoC take a look at this series?
 > 
-> Signed-off-by: Guilherme Ricioli <guilherme.riciolic@gmail.com>
-> ---
->  drivers/staging/media/soc_camera/soc_camera.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/soc_camera/soc_camera.c b/drivers/staging/media/soc_camera/soc_camera.c
-> index 39f513f..c2f96ea 100644
-> --- a/drivers/staging/media/soc_camera/soc_camera.c
-> +++ b/drivers/staging/media/soc_camera/soc_camera.c
-> @@ -238,8 +238,8 @@ unsigned long soc_camera_apply_board_flags(struct soc_camera_subdev_desc *ssdd,
->  }
->  EXPORT_SYMBOL(soc_camera_apply_board_flags);
->  
-> -#define pixfmtstr(x) (x) & 0xff, ((x) >> 8) & 0xff, ((x) >> 16) & 0xff, \
-> -	((x) >> 24) & 0xff
-> +#define pixfmtstr(x) ((x) & 0xff, ((x) >> 8) & 0xff, ((x) >> 16) & 0xff, \
-> +	((x) >> 24) & 0xff)
->  
->  static int soc_camera_try_fmt(struct soc_camera_device *icd,
->  			      struct v4l2_format *f)
-> 
+> This series looks sane to me, so I'll probably merge this if nobody replies
+> in the next two weeks or so.
 
-Thank you for the patch, but this driver is deprecated and in fact depends on BROKEN
-(so it is never build).
+Unfortunately I don't know the media part on S5Pv210 at all so I cannot
+provide any feedback. There are not many active users of these SoCs
+nowadays. One of hem is Jonathan, so if he wants to change something he will
+mostly break/affect his own setup. :) Therefore I think it is safe to merge.
 
-Because of that I'll drop this patch.
-
-Regards,
-
-	Hans
+Best regards,
+Krzysztof
