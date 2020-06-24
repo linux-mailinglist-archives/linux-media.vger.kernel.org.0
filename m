@@ -2,253 +2,286 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F46E206FEE
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 11:24:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D15120707D
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 11:55:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387874AbgFXJYh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jun 2020 05:24:37 -0400
-Received: from mx07-00178001.pphosted.com ([62.209.51.94]:61388 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728637AbgFXJYh (ORCPT
+        id S2390121AbgFXJzO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jun 2020 05:55:14 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:55503 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389015AbgFXJzN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jun 2020 05:24:37 -0400
-Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05O9N6Ho021353;
-        Wed, 24 Jun 2020 11:24:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=ssvOIg3uf+Y7fFCRNZYw1uNfjtvZaLuNG9I1iTHaSIk=;
- b=MNfBeITfEL5tkWXv55qt47atccS2aJRvMrq8CgEknMojqeFqrDBkxNm214FXY9XzskM8
- 5qi5HftLVtI0ukxnp1Z7w11PgFKc1vfYganUaZkSrS3ZJm/956y8f+0aqPrHIRCWCvc4
- osvhu9VJo0jaunO3DFQADl40Tl6Gg/YXiCS+c0NzjarRrCX4nFVFK8QDh3p69DqCaKZS
- XehoJcN2NojWnKy4lDCZ2lhzEFhnhzOiAM+gIVbUk3z2iJJHquGkIDX6/xLw+WkT8Co/
- lH8SLtTlXspawLnPJIMP6XN1MhNdxPbX9AUIeKdRzK+F80XPbzq7hhsgKPgHJoWdY0Jo jw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 31uuucaudm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 24 Jun 2020 11:24:18 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id E717010002A;
-        Wed, 24 Jun 2020 11:24:17 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id CF6892B1F3B;
-        Wed, 24 Jun 2020 11:24:17 +0200 (CEST)
-Received: from SFHDAG5NODE1.st.com (10.75.127.13) by SFHDAG3NODE2.st.com
- (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1347.2; Wed, 24 Jun
- 2020 11:24:17 +0200
-Received: from SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6]) by
- SFHDAG5NODE1.st.com ([fe80::cc53:528c:36c8:95f6%20]) with mapi id
- 15.00.1473.003; Wed, 24 Jun 2020 11:24:17 +0200
-From:   Hugues FRUCHET <hugues.fruchet@st.com>
-To:     Benjamin GAIGNARD <benjamin.gaignard@st.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
-        Alexandre TORGUE <alexandre.torgue@st.com>
-CC:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
-        "valentin.schneider@arm.com" <valentin.schneider@arm.com>,
-        "rjw@rjwysocki.net" <rjw@rjwysocki.net>
-Subject: Re: [PATCH v6 2/3] media: stm32-dcmi: Set minimum cpufreq requirement
-Thread-Topic: [PATCH v6 2/3] media: stm32-dcmi: Set minimum cpufreq
- requirement
-Thread-Index: AQHWPyIrF62OlRYyaE21U2OFV83I4KjncrQA
-Date:   Wed, 24 Jun 2020 09:24:17 +0000
-Message-ID: <b40a7312-9ea8-098f-8ba8-f080b3f57b5f@st.com>
-References: <20200610122500.4304-1-benjamin.gaignard@st.com>
- <20200610122500.4304-3-benjamin.gaignard@st.com>
-In-Reply-To: <20200610122500.4304-3-benjamin.gaignard@st.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.47]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <4756B529E6D8DB4180B69598F07D3C97@st.com>
-Content-Transfer-Encoding: base64
+        Wed, 24 Jun 2020 05:55:13 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id o27UjtEQbx3Ajo27YjimTj; Wed, 24 Jun 2020 11:55:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1592992510; bh=sXTRp63sJBpuUOf5lXyhThUaThxMsXaLxRlRX8FMtPw=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=DlmcRrZw0Xtai3y9wiI9RS5Pm++B+h1jyYdeWuI7z62Yaw2ek4eBCvtA/DcOV+A+o
+         mdnN4gy0KuIAQd4DahkoLYaYQPD+P1F9SJ28oo9odv9T5Xu8HjqGqMpMb9RppFRbkC
+         sbdJWhKI4mM42miJIeHtTDpLE3OexuPxzirgM7+xB80taSg49IhulXVdds2qGdJz/E
+         pAZ1+UbL5wJFyRq0BmEnAVuiHIJAcHPJjcCnPSi2nkGu3LF+2lBi6fC1LDgbQ+eeM7
+         OFy5STADTyFmO6dVut+T+Vrx5r7LEivefM2h4DzgWcAk4nzmOLs2ya0bPj/EJTV8tF
+         r5mzjwaFMT6ng==
+Subject: Re: [PATCH v5 03/10] media: i2c: ov6650: Use new
+ [get|set]_mbus_config ops
+To:     Jacopo Mondi <jacopo@jmondi.org>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        niklas.soderlund+renesas@ragnatech.se,
+        kieran.bingham@ideasonboard.com, dave.stevenson@raspberrypi.com,
+        hyun.kwon@xilinx.com, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20200616141244.49407-1-jacopo+renesas@jmondi.org>
+ <20200616141244.49407-4-jacopo+renesas@jmondi.org> <1837100.yKVeVyVuyW@z50>
+ <20200624081106.njf535vhbwb3fhwk@uno.localdomain>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <9e0397f3-cb6d-53ea-78f2-b963d4e8f269@xs4all.nl>
+Date:   Wed, 24 Jun 2020 11:55:04 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
- definitions=2020-06-24_04:2020-06-24,2020-06-24 signatures=0
+In-Reply-To: <20200624081106.njf535vhbwb3fhwk@uno.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfFeROlS6VtJrvO2tb0k9tAMrCRAhuZaf0CUgdbLoK4Oz9fP+ncGTvZ+Rj9hfWzQetHDgL5OuNhHRQFrqie9PnLik+UfUO6MNlzMb0sLdhIbpvzdxsYkB
+ Y/65dSpTTZT4OJLxxQN0DWLSxTF7o6U4M19YJRt4zgP+ABIzpobTjgh03xHF3S0wXOYzvGPnfwuEAIm/SmGap6fPL2qNsVdFlc/gEXewqBG3M4lhkRW5LBIZ
+ oKQ+aZShL681mzXf1eUhixyfHCdHNbPaM4m90mstiJlWRvm8d3Pu26hbyLKyXHHiRvPPJWlJ4pHswBmlWwL4cErlLgOKsvtdDVflpKeLURP8gbfSfcVADPrV
+ hGKuH49HWBsJWfLTmxrf9XRlRKgwUnQ5ZzMUpCa7r7zQIbd1C1liMUIuOR1f9FtdebxzGv9LvdAt8Ue5fLx4Yvbdv+VzSYvWKbk/uJlw5gPqPp0C3fBddD7a
+ /LXMX+HQLPnfmLm5wVvoDQPgAlrNCOc4jDxsQ795ApVTkXnPgtpD/h8wQ7O9LpRHk7rpT2JWqJdhH9p2ciOIUtIADlrxb34QSaL+2EpakMuvbyNVyVIz3jXH
+ KepOCn282hZa9CmTGOdh8WBkWwxZ08Gvk3ZQFBPNtDvNdQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-DQpIaSBCZW5qYW1pbiwNCg0KdGVzdCBjb25kaXRpb24gaW4gc2V0X21pbl9mcmVxdWVuY3koKSB0
-byBmaXgsIGFwcGFydCBmcm9tIHRoYXQ6DQpBY2tlZC1ieTogSHVndWVzIEZydWNoZXQgPGh1Z3Vl
-cy5mcnVjaGV0QHN0LmNvbT4NCg0KQlIsDQpIdWd1ZXMuDQoNCk9uIDYvMTAvMjAgMjoyNCBQTSwg
-QmVuamFtaW4gR2FpZ25hcmQgd3JvdGU6DQo+IEJlZm9yZSBzdGFydCBzdHJlYW1pbmcgc2V0IGNw
-dWZyZXEgbWluaW11bSBmcmVxdWVuY3kgcmVxdWlyZW1lbnQuDQo+IFRoZSBjcHVmcmVxIGdvdmVy
-bm9yIHdpbGwgYWRhcHQgdGhlIGZyZXF1ZW5jaWVzIGFuZCB3ZSB3aWxsIGhhdmUNCj4gbm8gbGF0
-ZW5jeSBmb3IgaGFuZGxpbmcgaW50ZXJydXB0cy4NCj4gVGhlIGZyZXF1ZW5jeSByZXF1aXJlbWVu
-dCBpcyByZXRyaWV2ZWQgZnJvbSB0aGUgZGV2aWNlLXRyZWUgbm9kZS4NCj4gDQo+IFNpZ25lZC1v
-ZmYtYnk6IEJlbmphbWluIEdhaWduYXJkIDxiZW5qYW1pbi5nYWlnbmFyZEBzdC5jb20+DQo+IC0t
-LQ0KPiB2ZXJzaW9uIDY6DQo+IC0gY29tZSBiYWNrIHRvIHZlcnNpb24gNCBhbmQgZm9sbG93IFZh
-bGVudGluJ3Mgc3VnZ2VzdGlvbnMgYWJvdXQgbm90aWZpZXINCj4gLSBhZGQgVmFsZW50aW4ncyBj
-b21tZW50IGFib3V0IG5vdGlmaWVyIHNldC91bnNldA0KPiANCj4gdmVyc2lvbiA1Og0KPiAtIGFk
-ZCBhIG11dGV4IHRvIHByb3RlY3QgZGNtaV9pcnFfbm90aWZpZXJfbm90aWZ5KCkNCj4gLSByZWdp
-c3RlciBub3RpZmllciBhIHByb2JlIHRpbWUNCj4gDQo+IHZlcnNpb24gNDoNCj4gLSBzaW1wbGlm
-eSBpcnEgYWZmaW5pdHkgaGFuZGxpbmcgYnkgdXNpbmcgb25seSBkY21pX2lycV9ub3RpZmllcl9u
-b3RpZnkoKQ0KPiANCj4gdmVyc2lvbiAzOg0KPiAtIGFkZCBhIGNwdW1hc2sgZmllbGQgdG8gdHJh
-Y2sgYm9vc3RlZCBDUFVzDQo+IC0gYWRkIGlycV9hZmZpbml0eV9ub3RpZnkgY2FsbGJhY2sNCj4g
-LSBwcm90ZWN0IGNwdW1hc2sgZmllbGQgd2l0aCBhIG11dGV4DQo+IA0KPiAgIGRyaXZlcnMvbWVk
-aWEvcGxhdGZvcm0vc3RtMzIvc3RtMzItZGNtaS5jIHwgMTM4ICsrKysrKysrKysrKysrKysrKysr
-KysrKysrKystLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxMzAgaW5zZXJ0aW9ucygrKSwgOCBkZWxl
-dGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0bTMy
-L3N0bTMyLWRjbWkuYyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vc3RtMzIvc3RtMzItZGNtaS5j
-DQo+IGluZGV4IGI4OTMxNDkwYjgzYi4uMzgyZGY2ZTdjODY0IDEwMDY0NA0KPiAtLS0gYS9kcml2
-ZXJzL21lZGlhL3BsYXRmb3JtL3N0bTMyL3N0bTMyLWRjbWkuYw0KPiArKysgYi9kcml2ZXJzL21l
-ZGlhL3BsYXRmb3JtL3N0bTMyL3N0bTMyLWRjbWkuYw0KPiBAQCAtMTMsMTAgKzEzLDEzIEBADQo+
-ICAgDQo+ICAgI2luY2x1ZGUgPGxpbnV4L2Nsay5oPg0KPiAgICNpbmNsdWRlIDxsaW51eC9jb21w
-bGV0aW9uLmg+DQo+ICsjaW5jbHVkZSA8bGludXgvY3B1ZnJlcS5oPg0KPiArI2luY2x1ZGUgPGxp
-bnV4L2NwdW1hc2suaD4NCj4gICAjaW5jbHVkZSA8bGludXgvZGVsYXkuaD4NCj4gICAjaW5jbHVk
-ZSA8bGludXgvZG1hZW5naW5lLmg+DQo+ICAgI2luY2x1ZGUgPGxpbnV4L2luaXQuaD4NCj4gICAj
-aW5jbHVkZSA8bGludXgvaW50ZXJydXB0Lmg+DQo+ICsjaW5jbHVkZSA8bGludXgvaXJxLmg+DQo+
-ICAgI2luY2x1ZGUgPGxpbnV4L2tlcm5lbC5oPg0KPiAgICNpbmNsdWRlIDxsaW51eC9tb2R1bGUu
-aD4NCj4gICAjaW5jbHVkZSA8bGludXgvb2YuaD4NCj4gQEAgLTk5LDYgKzEwMiw4IEBAIGVudW0g
-c3RhdGUgew0KPiAgIA0KPiAgICNkZWZpbmUgT1ZFUlJVTl9FUlJPUl9USFJFU0hPTEQJMw0KPiAg
-IA0KPiArc3RhdGljIERFRklORV9QRVJfQ1BVKHN0cnVjdCBmcmVxX3Fvc19yZXF1ZXN0LCBxb3Nf
-cmVxKTsNCj4gKw0KPiAgIHN0cnVjdCBkY21pX2dyYXBoX2VudGl0eSB7DQo+ICAgCXN0cnVjdCB2
-NGwyX2FzeW5jX3N1YmRldiBhc2Q7DQo+ICAgDQo+IEBAIC0xMzMsNiArMTM4LDcgQEAgc3RydWN0
-IHN0bTMyX2RjbWkgew0KPiAgIAlzdHJ1Y3QgcmVzb3VyY2UJCQkqcmVzOw0KPiAgIAlzdHJ1Y3Qg
-cmVzZXRfY29udHJvbAkJKnJzdGM7DQo+ICAgCWludAkJCQlzZXF1ZW5jZTsNCj4gKwlpbnQJCQkJ
-aXJxOw0KPiAgIAlzdHJ1Y3QgbGlzdF9oZWFkCQlidWZmZXJzOw0KPiAgIAlzdHJ1Y3QgZGNtaV9i
-dWYJCQkqYWN0aXZlOw0KPiAgIA0KPiBAQCAtMTczLDYgKzE3OSwxMSBAQCBzdHJ1Y3Qgc3RtMzJf
-ZGNtaSB7DQo+ICAgCXN0cnVjdCBtZWRpYV9kZXZpY2UJCW1kZXY7DQo+ICAgCXN0cnVjdCBtZWRp
-YV9wYWQJCXZpZF9jYXBfcGFkOw0KPiAgIAlzdHJ1Y3QgbWVkaWFfcGlwZWxpbmUJCXBpcGVsaW5l
-Ow0KPiArDQo+ICsJc3RydWN0IG11dGV4CQkJZnJlcV9sb2NrOw0KPiArCXUzMgkJCQltaW5fZnJl
-cXVlbmN5Ow0KPiArCWNwdW1hc2tfdmFyX3QJCQlib29zdGVkOw0KPiArCXN0cnVjdCBpcnFfYWZm
-aW5pdHlfbm90aWZ5CW5vdGlmeTsNCj4gICB9Ow0KPiAgIA0KPiAgIHN0YXRpYyBpbmxpbmUgc3Ry
-dWN0IHN0bTMyX2RjbWkgKm5vdGlmaWVyX3RvX2RjbWkoc3RydWN0IHY0bDJfYXN5bmNfbm90aWZp
-ZXIgKm4pDQo+IEBAIC03MjIsNiArNzMzLDk5IEBAIHN0YXRpYyB2b2lkIGRjbWlfcGlwZWxpbmVf
-c3RvcChzdHJ1Y3Qgc3RtMzJfZGNtaSAqZGNtaSkNCj4gICAJZGNtaV9waXBlbGluZV9zX3N0cmVh
-bShkY21pLCAwKTsNCj4gICB9DQo+ICAgDQo+ICtzdGF0aWMgdm9pZCBkY21pX2dldF9taW5fZnJl
-cXVlbmN5KHN0cnVjdCBzdG0zMl9kY21pICpkY21pKQ0KPiArew0KPiArCXN0cnVjdCBkZXZpY2Vf
-bm9kZSAqbnAgPSBkY21pLT5tZGV2LmRldi0+b2Zfbm9kZTsNCj4gKw0KPiArCWRjbWktPm1pbl9m
-cmVxdWVuY3kgPSBGUkVRX1FPU19NSU5fREVGQVVMVF9WQUxVRTsNCj4gKw0KPiArCW9mX3Byb3Bl
-cnR5X3JlYWRfdTMyKG5wLCAic3Qsc3RtMzItZGNtaS1taW4tZnJlcXVlbmN5IiwNCj4gKwkJCSAg
-ICAgJmRjbWktPm1pbl9mcmVxdWVuY3kpOw0KPiArfQ0KPiArDQo+ICtzdGF0aWMgdm9pZCBkY21p
-X2lycV9ub3RpZmllcl9ub3RpZnkoc3RydWN0IGlycV9hZmZpbml0eV9ub3RpZnkgKm5vdGlmeSwN
-Cj4gKwkJCQkgICAgIGNvbnN0IGNwdW1hc2tfdCAqbWFzaykNCj4gK3sNCj4gKwlzdHJ1Y3Qgc3Rt
-MzJfZGNtaSAqZGNtaSA9IGNvbnRhaW5lcl9vZihub3RpZnksDQo+ICsJCQkJCSAgICAgICBzdHJ1
-Y3Qgc3RtMzJfZGNtaSwNCj4gKwkJCQkJICAgICAgIG5vdGlmeSk7DQo+ICsJc3RydWN0IGNwdWZy
-ZXFfcG9saWN5ICpwOw0KPiArCWludCBjcHU7DQo+ICsNCj4gKwltdXRleF9sb2NrKCZkY21pLT5m
-cmVxX2xvY2spOw0KPiArCS8qDQo+ICsJICogRm9yIGFsbCBib29zdGVkIENQVXMgY2hlY2sgaWYg
-aXQgaXMgc3RpbGwgdGhlIGNhc2UNCj4gKwkgKiBpZiBub3QgcmVtb3ZlIHRoZSByZXF1ZXN0DQo+
-ICsJICovDQo+ICsJZm9yX2VhY2hfY3B1KGNwdSwgZGNtaS0+Ym9vc3RlZCkgew0KPiArCQlpZiAo
-Y3B1bWFza190ZXN0X2NwdShjcHUsIG1hc2spKQ0KPiArCQkJY29udGludWU7DQo+ICsNCj4gKwkJ
-cCA9IGNwdWZyZXFfY3B1X2dldChjcHUpOw0KPiArCQlpZiAoIXApDQo+ICsJCQljb250aW51ZTsN
-Cj4gKw0KPiArCQlmcmVxX3Fvc19yZW1vdmVfcmVxdWVzdCgmcGVyX2NwdShxb3NfcmVxLCBjcHUp
-KTsNCj4gKwkJY3B1bWFza19hbmRub3QoZGNtaS0+Ym9vc3RlZCwgZGNtaS0+Ym9vc3RlZCwgcC0+
-Y3B1cyk7DQo+ICsNCj4gKwkJY3B1ZnJlcV9jcHVfcHV0KHApOw0KPiArCX0NCj4gKw0KPiArCS8q
-DQo+ICsJICogRm9yIENQVXMgaW4gdGhlIG1hc2sgY2hlY2sgaWYgdGhleSBhcmUgYm9vc3RlZCBp
-ZiBub3QgYWRkDQo+ICsJICogYSByZXF1ZXN0DQo+ICsJICovDQo+ICsJZm9yX2VhY2hfY3B1KGNw
-dSwgbWFzaykgew0KPiArCQlpZiAoY3B1bWFza190ZXN0X2NwdShjcHUsIGRjbWktPmJvb3N0ZWQp
-KQ0KPiArCQkJY29udGludWU7DQo+ICsNCj4gKwkJcCA9IGNwdWZyZXFfY3B1X2dldChjcHUpOw0K
-PiArCQlpZiAoIXApDQo+ICsJCQljb250aW51ZTsNCj4gKw0KPiArCQlmcmVxX3Fvc19hZGRfcmVx
-dWVzdCgmcC0+Y29uc3RyYWludHMsICZwZXJfY3B1KHFvc19yZXEsIGNwdSksDQo+ICsJCQkJICAg
-ICBGUkVRX1FPU19NSU4sIGRjbWktPm1pbl9mcmVxdWVuY3kpOw0KPiArCQljcHVtYXNrX29yKGRj
-bWktPmJvb3N0ZWQsIGRjbWktPmJvb3N0ZWQsIHAtPmNwdXMpOw0KPiArCQljcHVmcmVxX2NwdV9w
-dXQocCk7DQo+ICsJfQ0KPiArDQo+ICsJbXV0ZXhfdW5sb2NrKCZkY21pLT5mcmVxX2xvY2spOw0K
-PiArfQ0KPiArDQo+ICtzdGF0aWMgdm9pZCBkY21pX2lycV9ub3RpZmllcl9yZWxlYXNlKHN0cnVj
-dCBrcmVmICpyZWYpDQo+ICt7DQo+ICsJLyoNCj4gKwkgKiBUaGlzIGlzIHJlcXVpcmVkIGJ5IGFm
-ZmluaXR5IG5vdGlmaWVyLiBXZSBkb24ndCBoYXZlIGFueXRoaW5nIHRvDQo+ICsJICogZnJlZSBo
-ZXJlLg0KPiArCSAqLw0KPiArfQ0KPiArDQo+ICtzdGF0aWMgdm9pZCBkY21pX3NldF9taW5fZnJl
-cXVlbmN5KHN0cnVjdCBzdG0zMl9kY21pICpkY21pLCBzMzIgZnJlcSkNCj4gK3sNCj4gKwlzdHJ1
-Y3QgaXJxX2FmZmluaXR5X25vdGlmeSAqbm90aWZ5ID0gJmRjbWktPm5vdGlmeTsNCj4gKwlzdHJ1
-Y3QgY3B1bWFzayBjbGVhcjsNCj4gKw0KPiArCWlmIChmcmVxKSB7DQoNCmlmIChmcmVxICE9IEZS
-RVFfUU9TX01JTl9ERUZBVUxUX1ZBTFVFKQ0KDQo+ICsJCS8qDQo+ICsJCSAqIFJlZ2lzdGVyIHRo
-ZSBub3RpZmllciBiZWZvcmUgZG9pbmcgYW55IGNoYW5nZSwgc28gdGhlDQo+ICsJCSAqIGNhbGxi
-YWNrIGNhbiBiZSBxdWV1ZWQgaWYgYW4gYWZmaW5pdHkgY2hhbmdlIGhhcHBlbnMgKndoaWxlKg0K
-PiArCQkgKiB3ZSBhcmUgcmVxdWVzdGluZyB0aGUgYm9vc3RzLg0KPiArCQkgKi8NCj4gKwkJaXJx
-X3NldF9hZmZpbml0eV9ub3RpZmllcihkY21pLT5pcnEsIG5vdGlmeSk7DQo+ICsJCWRjbWlfaXJx
-X25vdGlmaWVyX25vdGlmeShub3RpZnksDQo+ICsJCQkJCSBpcnFfZ2V0X2FmZmluaXR5X21hc2so
-ZGNtaS0+aXJxKSk7DQo+ICsJfSBlbHNlIHsNCj4gKwkJLyoNCj4gKwkJICogVW5yZWdpc3RlciB0
-aGUgbm90aWZpZXIgYmVmb3JlIGNsZWFyaW5nIHRoZSBib29zdCByZXF1ZXN0cywNCj4gKwkJICog
-YXMgd2UgZG9uJ3Qgd2FudCB0byBib29zdCBhZ2FpbiBpZiBhbiBhZmZpbml0eSBjaGFuZ2UgaGFw
-cGVucw0KPiArCQkgKiAqd2hpbGUqIHdlIGFyZSBjbGVhcmluZyB0aGUgcmVxdWVzdHMNCj4gKwkJ
-ICovDQo+ICsJCWlycV9zZXRfYWZmaW5pdHlfbm90aWZpZXIoZGNtaS0+aXJxLCBOVUxMKTsNCj4g
-KwkJY3B1bWFza19jbGVhcigmY2xlYXIpOw0KPiArCQlkY21pX2lycV9ub3RpZmllcl9ub3RpZnko
-bm90aWZ5LCAmY2xlYXIpOw0KPiArCX0NCj4gK30NCj4gKw0KPiAgIHN0YXRpYyBpbnQgZGNtaV9z
-dGFydF9zdHJlYW1pbmcoc3RydWN0IHZiMl9xdWV1ZSAqdnEsIHVuc2lnbmVkIGludCBjb3VudCkN
-Cj4gICB7DQo+ICAgCXN0cnVjdCBzdG0zMl9kY21pICpkY21pID0gdmIyX2dldF9kcnZfcHJpdih2
-cSk7DQo+IEBAIC03MzYsMTEgKzg0MCwxMyBAQCBzdGF0aWMgaW50IGRjbWlfc3RhcnRfc3RyZWFt
-aW5nKHN0cnVjdCB2YjJfcXVldWUgKnZxLCB1bnNpZ25lZCBpbnQgY291bnQpDQo+ICAgCQlnb3Rv
-IGVycl9yZWxlYXNlX2J1ZmZlcnM7DQo+ICAgCX0NCj4gICANCj4gKwlkY21pX3NldF9taW5fZnJl
-cXVlbmN5KGRjbWksIGRjbWktPm1pbl9mcmVxdWVuY3kpOw0KPiArDQo+ICAgCXJldCA9IG1lZGlh
-X3BpcGVsaW5lX3N0YXJ0KCZkY21pLT52ZGV2LT5lbnRpdHksICZkY21pLT5waXBlbGluZSk7DQo+
-ICAgCWlmIChyZXQgPCAwKSB7DQo+ICAgCQlkZXZfZXJyKGRjbWktPmRldiwgIiVzOiBGYWlsZWQg
-dG8gc3RhcnQgc3RyZWFtaW5nLCBtZWRpYSBwaXBlbGluZSBzdGFydCBlcnJvciAoJWQpXG4iLA0K
-PiAgIAkJCV9fZnVuY19fLCByZXQpOw0KPiAtCQlnb3RvIGVycl9wbV9wdXQ7DQo+ICsJCWdvdG8g
-ZXJyX2Ryb3BfcW9zOw0KPiAgIAl9DQo+ICAgDQo+ICAgCXJldCA9IGRjbWlfcGlwZWxpbmVfc3Rh
-cnQoZGNtaSk7DQo+IEBAIC04MzUsNyArOTQxLDggQEAgc3RhdGljIGludCBkY21pX3N0YXJ0X3N0
-cmVhbWluZyhzdHJ1Y3QgdmIyX3F1ZXVlICp2cSwgdW5zaWduZWQgaW50IGNvdW50KQ0KPiAgIGVy
-cl9tZWRpYV9waXBlbGluZV9zdG9wOg0KPiAgIAltZWRpYV9waXBlbGluZV9zdG9wKCZkY21pLT52
-ZGV2LT5lbnRpdHkpOw0KPiAgIA0KPiAtZXJyX3BtX3B1dDoNCj4gK2Vycl9kcm9wX3FvczoNCj4g
-KwlkY21pX3NldF9taW5fZnJlcXVlbmN5KGRjbWksIEZSRVFfUU9TX01JTl9ERUZBVUxUX1ZBTFVF
-KSA+ICAgCXBtX3J1bnRpbWVfcHV0KGRjbWktPmRldik7DQo+ICAgDQo+ICAgZXJyX3JlbGVhc2Vf
-YnVmZmVyczoNCj4gQEAgLTg2Myw2ICs5NzAsOCBAQCBzdGF0aWMgdm9pZCBkY21pX3N0b3Bfc3Ry
-ZWFtaW5nKHN0cnVjdCB2YjJfcXVldWUgKnZxKQ0KPiAgIA0KPiAgIAltZWRpYV9waXBlbGluZV9z
-dG9wKCZkY21pLT52ZGV2LT5lbnRpdHkpOw0KPiAgIA0KPiArCWRjbWlfc2V0X21pbl9mcmVxdWVu
-Y3koZGNtaSwgRlJFUV9RT1NfTUlOX0RFRkFVTFRfVkFMVUUpOw0KPiArDQo+ICAgCXNwaW5fbG9j
-a19pcnEoJmRjbWktPmlycWxvY2spOw0KPiAgIA0KPiAgIAkvKiBEaXNhYmxlIGludGVycnVwdGlv
-bnMgKi8NCj4gQEAgLTE4MzQsMTEgKzE5NDMsMTEgQEAgc3RhdGljIGludCBkY21pX3Byb2JlKHN0
-cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ICAgCXN0cnVjdCBkZXZpY2Vfbm9kZSAqbnAg
-PSBwZGV2LT5kZXYub2Zfbm9kZTsNCj4gICAJY29uc3Qgc3RydWN0IG9mX2RldmljZV9pZCAqbWF0
-Y2ggPSBOVUxMOw0KPiAgIAlzdHJ1Y3QgdjRsMl9md25vZGVfZW5kcG9pbnQgZXAgPSB7IC5idXNf
-dHlwZSA9IDAgfTsNCj4gKwlzdHJ1Y3QgaXJxX2FmZmluaXR5X25vdGlmeSAqbm90aWZ5Ow0KPiAg
-IAlzdHJ1Y3Qgc3RtMzJfZGNtaSAqZGNtaTsNCj4gICAJc3RydWN0IHZiMl9xdWV1ZSAqcTsNCj4g
-ICAJc3RydWN0IGRtYV9jaGFuICpjaGFuOw0KPiAgIAlzdHJ1Y3QgY2xrICptY2xrOw0KPiAtCWlu
-dCBpcnE7DQo+ICAgCWludCByZXQgPSAwOw0KPiAgIA0KPiAgIAltYXRjaCA9IG9mX21hdGNoX2Rl
-dmljZShvZl9tYXRjaF9wdHIoc3RtMzJfZGNtaV9vZl9tYXRjaCksICZwZGV2LT5kZXYpOw0KPiBA
-QCAtMTg3OSw5ICsxOTg4LDkgQEAgc3RhdGljIGludCBkY21pX3Byb2JlKHN0cnVjdCBwbGF0Zm9y
-bV9kZXZpY2UgKnBkZXYpDQo+ICAgCWRjbWktPmJ1cy5idXNfd2lkdGggPSBlcC5idXMucGFyYWxs
-ZWwuYnVzX3dpZHRoOw0KPiAgIAlkY21pLT5idXMuZGF0YV9zaGlmdCA9IGVwLmJ1cy5wYXJhbGxl
-bC5kYXRhX3NoaWZ0Ow0KPiAgIA0KPiAtCWlycSA9IHBsYXRmb3JtX2dldF9pcnEocGRldiwgMCk7
-DQo+IC0JaWYgKGlycSA8PSAwKQ0KPiAtCQlyZXR1cm4gaXJxID8gaXJxIDogLUVOWElPOw0KPiAr
-CWRjbWktPmlycSA9IHBsYXRmb3JtX2dldF9pcnEocGRldiwgMCk7DQo+ICsJaWYgKGRjbWktPmly
-cSA8PSAwKQ0KPiArCQlyZXR1cm4gZGNtaS0+aXJxID8gZGNtaS0+aXJxIDogLUVOWElPOw0KPiAg
-IA0KPiAgIAlkY21pLT5yZXMgPSBwbGF0Zm9ybV9nZXRfcmVzb3VyY2UocGRldiwgSU9SRVNPVVJD
-RV9NRU0sIDApOw0KPiAgIAlpZiAoIWRjbWktPnJlcykgew0KPiBAQCAtMTg5NSwxMSArMjAwNCwx
-MiBAQCBzdGF0aWMgaW50IGRjbWlfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikN
-Cj4gICAJCXJldHVybiBQVFJfRVJSKGRjbWktPnJlZ3MpOw0KPiAgIAl9DQo+ICAgDQo+IC0JcmV0
-ID0gZGV2bV9yZXF1ZXN0X3RocmVhZGVkX2lycSgmcGRldi0+ZGV2LCBpcnEsIGRjbWlfaXJxX2Nh
-bGxiYWNrLA0KPiArCXJldCA9IGRldm1fcmVxdWVzdF90aHJlYWRlZF9pcnEoJnBkZXYtPmRldiwg
-ZGNtaS0+aXJxLA0KPiArCQkJCQlkY21pX2lycV9jYWxsYmFjaywNCj4gICAJCQkJCWRjbWlfaXJx
-X3RocmVhZCwgSVJRRl9PTkVTSE9ULA0KPiAgIAkJCQkJZGV2X25hbWUoJnBkZXYtPmRldiksIGRj
-bWkpOw0KPiAgIAlpZiAocmV0KSB7DQo+IC0JCWRldl9lcnIoJnBkZXYtPmRldiwgIlVuYWJsZSB0
-byByZXF1ZXN0IGlycSAlZFxuIiwgaXJxKTsNCj4gKwkJZGV2X2VycigmcGRldi0+ZGV2LCAiVW5h
-YmxlIHRvIHJlcXVlc3QgaXJxICVkXG4iLCBkY21pLT5pcnEpOw0KPiAgIAkJcmV0dXJuIHJldDsN
-Cj4gICAJfQ0KPiAgIA0KPiBAQCAtMTkyMiw2ICsyMDMyLDcgQEAgc3RhdGljIGludCBkY21pX3By
-b2JlKHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ICAgCXNwaW5fbG9ja19pbml0KCZk
-Y21pLT5pcnFsb2NrKTsNCj4gICAJbXV0ZXhfaW5pdCgmZGNtaS0+bG9jayk7DQo+ICAgCW11dGV4
-X2luaXQoJmRjbWktPmRtYV9sb2NrKTsNCj4gKwltdXRleF9pbml0KCZkY21pLT5mcmVxX2xvY2sp
-Ow0KPiAgIAlpbml0X2NvbXBsZXRpb24oJmRjbWktPmNvbXBsZXRlKTsNCj4gICAJSU5JVF9MSVNU
-X0hFQUQoJmRjbWktPmJ1ZmZlcnMpOw0KPiAgIA0KPiBAQCAtMTkzMCw2ICsyMDQxLDEzIEBAIHN0
-YXRpYyBpbnQgZGNtaV9wcm9iZShzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiAgIAlk
-Y21pLT5zdGF0ZSA9IFNUT1BQRUQ7DQo+ICAgCWRjbWktPmRtYV9jaGFuID0gY2hhbjsNCj4gICAN
-Cj4gKwlpZiAoIWFsbG9jX2NwdW1hc2tfdmFyKCZkY21pLT5ib29zdGVkLCBHRlBfS0VSTkVMKSkN
-Cj4gKwkJcmV0dXJuIC1FTk9ERVY7DQo+ICsNCj4gKwlub3RpZnkgPSAmZGNtaS0+bm90aWZ5Ow0K
-PiArCW5vdGlmeS0+bm90aWZ5ID0gZGNtaV9pcnFfbm90aWZpZXJfbm90aWZ5Ow0KPiArCW5vdGlm
-eS0+cmVsZWFzZSA9IGRjbWlfaXJxX25vdGlmaWVyX3JlbGVhc2U7DQo+ICsNCj4gICAJcSA9ICZk
-Y21pLT5xdWV1ZTsNCj4gICANCj4gICAJZGNtaS0+djRsMl9kZXYubWRldiA9ICZkY21pLT5tZGV2
-Ow0KPiBAQCAtMjAyMiw2ICsyMTQwLDggQEAgc3RhdGljIGludCBkY21pX3Byb2JlKHN0cnVjdCBw
-bGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ICAgDQo+ICAgCWRldl9pbmZvKCZwZGV2LT5kZXYsICJQ
-cm9iZSBkb25lXG4iKTsNCj4gICANCj4gKwlkY21pX2dldF9taW5fZnJlcXVlbmN5KGRjbWkpOw0K
-PiArDQo+ICAgCXBsYXRmb3JtX3NldF9kcnZkYXRhKHBkZXYsIGRjbWkpOw0KPiAgIA0KPiAgIAlw
-bV9ydW50aW1lX2VuYWJsZSgmcGRldi0+ZGV2KTsNCj4gQEAgLTIwNDksNiArMjE2OSw4IEBAIHN0
-YXRpYyBpbnQgZGNtaV9yZW1vdmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSAqcGRldikNCj4gICAN
-Cj4gICAJcG1fcnVudGltZV9kaXNhYmxlKCZwZGV2LT5kZXYpOw0KPiAgIA0KPiArCWZyZWVfY3B1
-bWFza192YXIoZGNtaS0+Ym9vc3RlZCk7DQo+ICsNCj4gICAJdjRsMl9hc3luY19ub3RpZmllcl91
-bnJlZ2lzdGVyKCZkY21pLT5ub3RpZmllcik7DQo+ICAgCXY0bDJfYXN5bmNfbm90aWZpZXJfY2xl
-YW51cCgmZGNtaS0+bm90aWZpZXIpOw0KPiAgIAltZWRpYV9lbnRpdHlfY2xlYW51cCgmZGNtaS0+
-dmRldi0+ZW50aXR5KTsNCj4g
+On 24/06/2020 10:11, Jacopo Mondi wrote:
+> Hello Janusz,
+>    thanks for your quick reply
+> 
+> On Sun, Jun 21, 2020 at 01:38:46PM +0200, Janusz Krzysztofik wrote:
+>> Hi Jacopo,
+>>
+>> Thanks for bringing my attention to this patch.
+>>
+>> On Tuesday, June 16, 2020 4:12:38 P.M. CEST Jacopo Mondi wrote:
+>>> Use the new get_mbus_config and set_mbus_config pad operations in place
+>>> of the video operations currently in use.
+>>>
+>>> Compared to other drivers where the same conversion has been performed,
+>>> ov6650 proved to be a bit more tricky, as the existing g_mbus_config
+>>> implementation did not report the currently applied configuration but
+>>> the set of all possible configuration options.
+>>
+>> Assuming that was in line with officially supported semantics of the old API,
+>> not a misinterpretation, I would really like to see that limitation of the new
+>> API actually compensated with V4L2_SUBDEV_FORMAT_TRY support added to it.
+>>
+> 
+> I'm not sure this is a limitation, it's more by design that the new
+> get_mbus_config() only reports the current configuration.
+
+Right. The old behavior was a left-over from the soc-camera driver that
+required that. But soc-camera is from pre-device-tree times, and today this
+information should come from the device tree.
+
+> 
+> To be honest, compared to the other users of the old g_mbus_config()
+> this driver was the only one implementing the operation in this way,
+> maybe as it's the sole user of s_mbus_config() left out of staging ?
+> 
+> I would however consider supporting FORMAT_TRY even if I'm not
+> actually sure if fully makes sense. For the format operations
+> (get/set_format()) FORMAT_TRY is used for concurrent applications to
+> test a format without stepping on each other toes.
+> get|set_mbus_config() are kAPI only, and I'm not sure we need to stay
+> safe against concurrent configuration attempts... I'll think about
+> this a bit more. Seems a development that could go on top, right ?
+
+I wouldn't do this unless it turns out to be actually needed.
+
+Regards,
+
+	Hans
+
+> 
+>>>
+>>> Adapt the driver to support the semantic of the two newly introducedV4L2_SUBDEV_FORMAT_TRY
+>>> operations:
+>>> - get_mbus_config reports the current media bus configuration
+>>> - set_mbus_config applies only changes explicitly requested and updates
+>>>   the provided cfg parameter to report what has actually been applied to
+>>>   the hardware.
+>>>
+>>> Compile-tested only.
+>>>
+>>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>>> ---
+>>>  drivers/media/i2c/ov6650.c | 56 ++++++++++++++++++++++++++------------
+>>>  1 file changed, 39 insertions(+), 17 deletions(-)
+>>>
+>>> diff --git a/drivers/media/i2c/ov6650.c b/drivers/media/i2c/ov6650.c
+>>> index 91906b94f978..d2e7a8556ed7 100644
+>>> --- a/drivers/media/i2c/ov6650.c
+>>> +++ b/drivers/media/i2c/ov6650.c
+>>> @@ -921,46 +921,68 @@ static const struct v4l2_subdev_core_ops ov6650_core_ops = {
+>>>  };
+>>>
+>>>  /* Request bus settings on camera side */
+>>> -static int ov6650_g_mbus_config(struct v4l2_subdev *sd,
+>>> -				struct v4l2_mbus_config *cfg)
+>>> +static int ov6650_get_mbus_config(struct v4l2_subdev *sd,
+>>> +				  unsigned int pad,
+>>> +				  struct v4l2_mbus_config *cfg)
+>>>  {
+>>> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+>>> +	u8 comj, comf;
+>>> +	int ret;
+>>> +
+>>> +	ret = ov6650_reg_read(client, REG_COMJ, &comj);
+>>> +	if (ret)
+>>> +		return ret;
+>>>
+>>> -	cfg->flags = V4L2_MBUS_MASTER |
+>>> -		V4L2_MBUS_PCLK_SAMPLE_RISING | V4L2_MBUS_PCLK_SAMPLE_FALLING |
+>>> -		V4L2_MBUS_HSYNC_ACTIVE_HIGH | V4L2_MBUS_HSYNC_ACTIVE_LOW |
+>>> -		V4L2_MBUS_VSYNC_ACTIVE_HIGH | V4L2_MBUS_VSYNC_ACTIVE_LOW |
+>>> -		V4L2_MBUS_DATA_ACTIVE_HIGH;
+>>> +	ret = ov6650_reg_read(client, REG_COMF, &comf);
+>>> +	if (ret)
+>>> +		return ret;
+>>> +
+>>> +	cfg->flags = V4L2_MBUS_MASTER
+>>> +		   | ((comj & COMJ_VSYNC_HIGH)  ? V4L2_MBUS_VSYNC_ACTIVE_HIGH
+>>> +						: V4L2_MBUS_VSYNC_ACTIVE_LOW)
+>>> +		   | ((comf & COMF_HREF_LOW)    ? V4L2_MBUS_HSYNC_ACTIVE_LOW
+>>> +						: V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+>>> +		   | ((comj & COMJ_PCLK_RISING) ? V4L2_MBUS_PCLK_SAMPLE_RISING
+>>> +						: V4L2_MBUS_PCLK_SAMPLE_FALLING);
+>>
+>> You probably missed hardware default V4L2_MBUS_DATA_ACTIVE_HIGH.
+>>
+> 
+> Indeed I did :/
+> 
+> Thanks for spotting
+> 
+>>>  	cfg->type = V4L2_MBUS_PARALLEL;
+>>>
+>>>  	return 0;
+>>>  }
+>>>
+>>>  /* Alter bus settings on camera side */
+>>> -static int ov6650_s_mbus_config(struct v4l2_subdev *sd,
+>>> -				const struct v4l2_mbus_config *cfg)
+>>> +static int ov6650_set_mbus_config(struct v4l2_subdev *sd,
+>>> +				  unsigned int pad,
+>>> +				  struct v4l2_mbus_config *cfg)
+>>>  {
+>>>  	struct i2c_client *client = v4l2_get_subdevdata(sd);
+>>> -	int ret;
+>>> +	int ret = 0;
+>>>
+>>>  	if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+>>>  		ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_PCLK_RISING, 0);
+>>> -	else
+>>> +	else if (cfg->flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
+>>
+>> Have you thought of extending v4l2_subdev_call_pad_wrappers with a check for
+>> only one of mutually exclusive flags specified by user?
+>>
+> 
+> Good question, but I wonder if this shouldn't be an accepted
+> behaviour. The caller can provide all settings it want to allow the
+> callee to chose which one to apply. The operation returns what has
+> been actually applied by the callee, so that the caller can adjust
+> itself to what the callee chose.
+> 
+> Alternatively, it's up to the caller to specify its preference without
+> mutually exclusive options, and the callee tries to adjust to what has
+> been requested. Also in this case the operation returns what has
+> actually been applied, so the caller can later adjust if it could.
+> 
+> Seems like a small difference, but it might be good to exapnd the
+> operations description to describe this to avoid each single
+> implementer going in slightly different directions ?
+> 
+>>>  		ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_PCLK_RISING);
+>>>  	if (ret)
+>>> -		return ret;
+>>> +		goto error;
+>>>
+>>>  	if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_LOW)
+>>>  		ret = ov6650_reg_rmw(client, REG_COMF, COMF_HREF_LOW, 0);
+>>> -	else
+>>> +	else if (cfg->flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+>>>  		ret = ov6650_reg_rmw(client, REG_COMF, 0, COMF_HREF_LOW);
+>>>  	if (ret)
+>>> -		return ret;
+>>> +		goto error;
+>>>
+>>>  	if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH)
+>>>  		ret = ov6650_reg_rmw(client, REG_COMJ, COMJ_VSYNC_HIGH, 0);
+>>> -	else
+>>> +	else if (cfg->flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+>>>  		ret = ov6650_reg_rmw(client, REG_COMJ, 0, COMJ_VSYNC_HIGH);
+>>>
+>>> +error:
+>>> +	/*
+>>> +	 * Update the configuration to report what is actually applied to
+>>> +	 * the hardware.
+>>> +	 */
+>>> +	ov6650_get_mbus_config(sd, pad, cfg);
+>>
+>> Populating cfg->flags by ov6650_get_mbus_config() without checking for a
+>> potential error it may return can result in invalid data silently returned to
+>> user.  Maybe it would be better to fetch current hardware status first, fail on
+>> error, then update the result with successfully performed hardware state
+>> modifications.
+> 
+> I'm not sure I got what you mean 8)
+> 
+> Would if be enough to check for the return value of
+> ov6650_get_mbus_config() (or actually returning it directly at the end
+> of this function).
+> 
+> Thanks
+>    j
+> 
+>>
+>> Thanks,
+>> Janusz
+>>
+>>> +
+>>>  	return ret;
+>>>  }
+>>>
+>>> @@ -968,8 +990,6 @@ static const struct v4l2_subdev_video_ops ov6650_video_ops = {
+>>>  	.s_stream	= ov6650_s_stream,
+>>>  	.g_frame_interval = ov6650_g_frame_interval,
+>>>  	.s_frame_interval = ov6650_s_frame_interval,
+>>> -	.g_mbus_config	= ov6650_g_mbus_config,
+>>> -	.s_mbus_config	= ov6650_s_mbus_config,
+>>>  };
+>>>
+>>>  static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
+>>> @@ -978,6 +998,8 @@ static const struct v4l2_subdev_pad_ops ov6650_pad_ops = {
+>>>  	.set_selection	= ov6650_set_selection,
+>>>  	.get_fmt	= ov6650_get_fmt,
+>>>  	.set_fmt	= ov6650_set_fmt,
+>>> +	.get_mbus_config = ov6650_get_mbus_config,
+>>> +	.set_mbus_config = ov6650_set_mbus_config,
+>>>  };
+>>>
+>>>  static const struct v4l2_subdev_ops ov6650_subdev_ops = {
+>>>
+>>
+>>
+>>
+>>
+
