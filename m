@@ -2,116 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A843207843
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 18:03:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FA7E20794C
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 18:39:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404816AbgFXQDm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jun 2020 12:03:42 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:35695 "EHLO
-        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2404749AbgFXQD2 (ORCPT
+        id S2404699AbgFXQjk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jun 2020 12:39:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42696 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404107AbgFXQjj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jun 2020 12:03:28 -0400
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-        by mailnew.nyi.internal (Postfix) with ESMTP id C478C5805AB;
-        Wed, 24 Jun 2020 12:03:25 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute1.internal (MEProxy); Wed, 24 Jun 2020 12:03:25 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=TE2/e9FpO75wG6kqeeVhy+Ld0ru
-        0iGhAExHCNmnHBis=; b=VEYS+lzHIBd4K6Z+E7htDhS/pGNShyYjG6uGMr9DNO2
-        K/f7Vv4qZ98SBolL/kpWohOg5tOnLx5v57TbqpIpiccJTOK0bVFcWU/anuId4wqh
-        5HMH10fMfe54j2sLkDLZdxv9m1Am8Eg7N5p+jT8wSJy5Q8N7E0VMzMgxHQVqcxnE
-        MbXT6KveM8hjVnrP+zKNCBka2aHuFEWVHKy8A1gHK5p7IBPk6dsSHio7+xt9Nski
-        jCpqO30GKl5d7y9PmCc/vK2Cff3Hp6MmqzKad4sBLtitW2tIN2ljpzGUbm6c4img
-        Z1acHReOOsAnVMTArh8Gch6ni1P18sDHcenCTgMfg1g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; bh=TE2/e9
-        FpO75wG6kqeeVhy+Ld0ru0iGhAExHCNmnHBis=; b=JrtWcRMkVFlj01KYKlXQ8b
-        b9KIqG5tA+3nAgMhwtrm9jZkJDVh9j7DQVYvzjCRvjO9p4a2O6qMZxvDrf8X/kjc
-        AW55yreGCtIswby7D/mbcbBucZChFoVNH0oGd1W2APeBPK2pC7ljhY7WfcTOHT82
-        pZNOPd/EdD4NtwVCeIgcCpDz3GYX8WczbHevSOTHzoWQS23yh/d6lTT1ClmCYaIJ
-        vG8jl/ylknCH8r/MYFqLVUg2GH/uEBdEqXJpTmAx4/AEV07c1KH2EPHVrQIyl5M+
-        fjWay30aa2tkpj5m8ohQimyL7I5eNUVN0OrC4IZKPYvOFdK+cdlSPg94EuZvsu3Q
-        ==
-X-ME-Sender: <xms:TXnzXjlECZTW4ODrs_poojQ1DYw-fologPd04jSc6w40_bkIiXpi4A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduhedrudekjedgledtucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcu
-    mffjuceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeevueehje
-    fgfffgiedvudekvdektdelleelgefhleejieeugeegveeuuddukedvteenucfkphepkeef
-    rdekiedrkeelrddutdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepghhrvghgsehkrhhorghhrdgtohhm
-X-ME-Proxy: <xmx:TXnzXm1ev_WQ-QVkwTqHS6wdKdc5ukBwweQHwy8rOiB4u-ditdGmLA>
-    <xmx:TXnzXpp6LRvvMoCfOXdPGhBmLqTWoaRJXUky9kW1xarRJ_4RoBXMHA>
-    <xmx:TXnzXrn7XkVJoPVnZls4QB4G1QLxtIS8hVgABCsEm_vSb_QE4zbg2A>
-    <xmx:TXnzXrx8_ue5qv2roYlYk0ogjWr5CZGYd-Vdpu2bW4P8n5qP_ZycTg>
-Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 951EB3280059;
-        Wed, 24 Jun 2020 12:03:24 -0400 (EDT)
-Date:   Wed, 24 Jun 2020 18:03:22 +0200
-From:   Greg KH <greg@kroah.com>
-To:     Florian Fainelli <f.fainelli@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Krufky <mkrufky@linuxtv.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Shuah Khan <shuah@kernel.org>,
-        Jaedon Shin <jaedon.shin@gmail.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Katsuhiro Suzuki <suzuki.katsuhiro@socionext.com>,
-        Satendra Singh Thakur <satendra.t@samsung.com>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        "open list:FILESYSTEMS (VFS and infrastructure)" 
-        <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH stable 4.9 00/21] Unbreak 32-bit DVB applications on
- 64-bit kernels
-Message-ID: <20200624160322.GA2096759@kroah.com>
-References: <20200605162518.28099-1-florian.fainelli@broadcom.com>
- <20200623191334.GA279616@kroah.com>
- <99a35736-6539-4a83-b0f0-74a8cf28d85d@gmail.com>
+        Wed, 24 Jun 2020 12:39:39 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3A3BC061573
+        for <linux-media@vger.kernel.org>; Wed, 24 Jun 2020 09:39:39 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id k6so2954853wrn.3
+        for <linux-media@vger.kernel.org>; Wed, 24 Jun 2020 09:39:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=9qWPTeZoKMjCXc64GQ7odtJSAM2fu8a0khctluIk9SA=;
+        b=qlgJbXEPKQLANz2j2UICh59mbu5FsUN+1x2EmtthBfmBGKY81jAJGgYjk2IndW4i4u
+         790hfR2tX8NAwv69MsJLEO9vLctpeZdh5f6rpLqqBD+iQOPo7cloqZ3LjttP6Qho3MIm
+         KPr64VH3CDONsgwHrL6kCY+19+CCzRe24uoLIrGo4NcvTcJ+sbOX1Nxp+iHeolEXt2jl
+         Upy4Mpn+tQGuSPKVcPEH3Ey3Cz2DPz6FPUKn7Avg49IxV0IQmhEthpAMrkulOqSIapp+
+         b+sDjHa8dH5oxu/Deh4hh55wDc05LLZ7Uh6kGq/5UlmFAHjf9uldZ7hDbWvrwH/icEr8
+         j2sg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=9qWPTeZoKMjCXc64GQ7odtJSAM2fu8a0khctluIk9SA=;
+        b=sRDNHJugvNasr4C5V3gBT6BFrsPbdA6DV3mCwhHb+AGAWwe23IsVQ02jyJ6YgGvRhe
+         08v9f3RDBG6n2/Aj2C3GxyulwNoFxK4mEC+yCbJSy6KHKECOLtrYa1zo221w95tjb7Xk
+         h+URdBIGbU9XXK+oFtNDN/7KzLRmDCP7nHqVYKc9K+P9mI69hlxcKcMX7Ub+Goo1wnaw
+         kOIizOGl22+o4IXIL5DLBLp2aAR5K/G/Zgmtx6gXFBxPa4gb+OxolzZ6gKTqbhIIXmSq
+         uwp7c+T6gykjOeowbZZOypk1aRY5X2ZGw3BKu6KctY+ZYXyTl06xRDIKENmu/oXdyqMe
+         ANnA==
+X-Gm-Message-State: AOAM533l33iVDEDmmLncjEyZYWauB6gzIL4UA6MhywwjWABIvJW+XPla
+        VxfWvtkE2TFWBJw6TMOnxAXC0+6rOCBGkI47GhSB9g==
+X-Google-Smtp-Source: ABdhPJyQDKTrL6+M1EYqgNcHeEbBrBLAxm0wfWqQmlyuqUTky28XVq0mnhNe79NFFQEHtwrvC5tKKMx2Rj7DyjgKd5U=
+X-Received: by 2002:adf:81c8:: with SMTP id 66mr27603502wra.348.1593016778290;
+ Wed, 24 Jun 2020 09:39:38 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <99a35736-6539-4a83-b0f0-74a8cf28d85d@gmail.com>
+References: <20200622100520.143622-1-darekm@google.com> <ca796f62-7d1f-3391-0373-ec9b98b1c47a@xs4all.nl>
+ <CALFZZQHuqx+H=7pd9t=XYWqKppMzze0XsXwRVA5kLZfwWYLmKQ@mail.gmail.com> <CABXOdTfyzKtT4jWLhBwV5ecG1Bc2g88vUfKB6OspmF0mTafxpA@mail.gmail.com>
+In-Reply-To: <CABXOdTfyzKtT4jWLhBwV5ecG1Bc2g88vUfKB6OspmF0mTafxpA@mail.gmail.com>
+From:   Dariusz Marcinkiewicz <darekm@google.com>
+Date:   Wed, 24 Jun 2020 18:39:25 +0200
+Message-ID: <CALFZZQHsDV9XPyeJ4_NJ=FHF3LSk4j0aMWF3fbvDEdUrs_0O1g@mail.gmail.com>
+Subject: Re: [PATCH RESEND] media: cros-ec-cec: do not bail on
+ device_init_wakeup failure
+To:     Guenter Roeck <groeck@google.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Dariusz Marcinkiewicz <darekm@chromium.org>,
+        open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Jun 24, 2020 at 08:41:06AM -0700, Florian Fainelli wrote:
-> 
-> 
-> On 6/23/2020 12:13 PM, Greg KH wrote:
-> > On Fri, Jun 05, 2020 at 09:24:57AM -0700, Florian Fainelli wrote:
-> >> Hi all,
-> >>
-> >> This long patch series was motivated by backporting Jaedon's changes
-> >> which add a proper ioctl compatibility layer for 32-bit applications
-> >> running on 64-bit kernels. We have a number of Android TV-based products
-> >> currently running on the 4.9 kernel and this was broken for them.
-> >>
-> >> Thanks to Robert McConnell for identifying and providing the patches in
-> >> their initial format.
-> >>
-> >> In order for Jaedon's patches to apply cleanly a number of changes were
-> >> applied to support those changes. If you deem the patch series too big
-> >> please let me know.
-> > 
-> > Now queued up,t hanks.
-> 
-> Thanks a lot, I did not get an email about "[PATCH stable 4.9 02/21]
-> media: dvb_frontend: initialize variable s with FE_NONE instead of 0"
-> being applied, not that it is a very important change,
+Hi.
 
-That should be there, I merged it before I did the whole long series and
-realised I should just automate it, sorry about that.
+On Wed, Jun 24, 2020 at 4:45 PM Guenter Roeck <groeck@google.com> wrote:
 
-thanks,
+> > On Mon, Jun 22, 2020 at 12:23 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> > >
+> > > > Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
+> > >
+> > > This can be CCed to stable, I guess?
+> > >
+> >
+> > That issue is not a recent regression but has been in there since the
+> > very beginning.  So it might be argued that is it not severe enough to
+> > warrant cc'ing stable. Happy to do that anyways if you think
+> > otherwise.
+> >
+>
+> Confused. Internally you would like to have this patch applied to
+> chromeos-4.4. Here you suggest that it may not be important enough to
+> apply to stable releases. Which one is it ?
+>
 
-greg k-h
+It affects us on 4.4, hence the backport to 4.4. I have nothing
+against this being merged into the mainline stable. I simply wasn't
+sure if that should be considered severe enough to be backported
+there. As said before, I am happy to CC this to stable.
+
+Thank you and best regards.
+
+(apologies for double post again)
