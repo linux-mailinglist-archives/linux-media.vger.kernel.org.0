@@ -2,105 +2,296 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A38D206FC7
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 11:13:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25A30206FDA
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 11:17:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388655AbgFXJNl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jun 2020 05:13:41 -0400
-Received: from gofer.mess.org ([88.97.38.141]:35231 "EHLO gofer.mess.org"
+        id S2388671AbgFXJRj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jun 2020 05:17:39 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:50286 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387614AbgFXJNk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jun 2020 05:13:40 -0400
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 29AA4C6383; Wed, 24 Jun 2020 10:13:39 +0100 (BST)
-Date:   Wed, 24 Jun 2020 10:13:38 +0100
-From:   Sean Young <sean@mess.org>
-To:     Paul Menzel <pmenzel@molgen.mpg.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH v2] media: em28xx: Support TerraTec G3
-Message-ID: <20200624091338.GA27920@gofer.mess.org>
-References: <20200524120745.5867-1-pmenzel@molgen.mpg.de>
+        id S2388655AbgFXJRj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Jun 2020 05:17:39 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jo1T6-007HUO-79; Wed, 24 Jun 2020 09:13:20 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jo1ZP-0003Xy-T8; Wed, 24 Jun 2020 09:19:51 +0000
+Date:   Wed, 24 Jun 2020 09:19:51 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1558809748.32.1592990391892.JavaMail.jenkins@builder.linuxtv.org>
+In-Reply-To: <24279936.31.1592988619526.JavaMail.jenkins@builder.linuxtv.org>
+References: <24279936.31.1592988619526.JavaMail.jenkins@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3125
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200524120745.5867-1-pmenzel@molgen.mpg.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, May 24, 2020 at 02:07:46PM +0200, Paul Menzel wrote:
-> Add the USB vendor and product ID of the TerraTec G3 [1], so Linux
-> detects the device.
+See <https://builder.linuxtv.org/job/media-build/3125/display/redirect>
 
-Does the device work, i.e. audio, composite and s-video? Or is it
-only detected?
+Changes:
 
-Thanks
 
-Sean
-
->     [   38.093023] usb 1-3: new high-speed USB device number 4 using xhci_hcd
->     [   38.240404] usb 1-3: config 1 interface 0 altsetting 1 endpoint 0x82 has invalid wMaxPacketSize 0
->     [   38.240408] usb 1-3: config 1 interface 0 altsetting 1 endpoint 0x84 has invalid wMaxPacketSize 0
->     [   38.240411] usb 1-3: config 1 interface 0 altsetting 2 endpoint 0x84 has invalid wMaxPacketSize 0
->     [   38.240413] usb 1-3: config 1 interface 0 altsetting 3 endpoint 0x84 has invalid wMaxPacketSize 0
->     [   38.240416] usb 1-3: config 1 interface 0 altsetting 4 endpoint 0x84 has invalid wMaxPacketSize 0
->     [   38.240418] usb 1-3: config 1 interface 0 altsetting 5 endpoint 0x84 has invalid wMaxPacketSize 0
->     [   38.240420] usb 1-3: config 1 interface 0 altsetting 6 endpoint 0x84 has invalid wMaxPacketSize 0
->     [   38.240423] usb 1-3: config 1 interface 0 altsetting 7 endpoint 0x84 has invalid wMaxPacketSize 0
->     [   38.255077] usb 1-3: New USB device found, idVendor=0ccd, idProduct=10a7, bcdDevice= 1.00
->     [   38.255080] usb 1-3: New USB device strings: Mfr=2, Product=1, SerialNumber=0
->     [   38.255082] usb 1-3: Product: TerraTec G3
->     [   38.255085] usb 1-3: Manufacturer: TerraTec Electronic GmbH
->     [   38.286444] videodev: Linux video capture interface: v2.00
->     [   38.290861] em28xx 1-3:1.0: New device TerraTec Electronic GmbH TerraTec G3 @ 480 Mbps (0ccd:10a7, interface 0, class 0)
->     [   38.290863] em28xx 1-3:1.0: Video interface 0 found: isoc
->     [   38.349064] em28xx 1-3:1.0: chip ID is em2860
->     [   38.515453] em28xx 1-3:1.0: EEPROM ID = 1a eb 67 95, EEPROM hash = 0xd7a2f285
->     [   38.515456] em28xx 1-3:1.0: EEPROM info:
->     [   38.515458] em28xx 1-3:1.0: 	AC97 audio (5 sample rates)
->     [   38.515460] em28xx 1-3:1.0: 	500mA max power
->     [   38.515462] em28xx 1-3:1.0: 	Table at offset 0x06, strings=0x1a9e, 0x346a, 0x0000
->     [   38.586387] em28xx 1-3:1.0: Identified as Terratec Grabby (card=67)
->     [   38.586392] em28xx 1-3:1.0: analog set to isoc mode.
->     [   38.586503] em28xx 1-3:1.1: audio device (0ccd:10a7): interface 1, class 1
->     [   38.586516] em28xx 1-3:1.2: audio device (0ccd:10a7): interface 2, class 1
->     [   38.586543] usbcore: registered new interface driver em28xx
->     [   38.599733] em28xx 1-3:1.0: Registering V4L2 extension
->     [   38.629311] em28xx 1-3:1.0: Config register raw data: 0x50
->     [   38.659140] em28xx 1-3:1.0: AC97 vendor ID = 0x83847650
->     [   38.674111] em28xx 1-3:1.0: AC97 features = 0x6a90
->     [   38.674114] em28xx 1-3:1.0: Empia 202 AC97 audio processor detected
->     [   40.699171] em28xx 1-3:1.0: V4L2 video device registered as video0
->     [   40.699174] em28xx 1-3:1.0: V4L2 VBI device registered as vbi0
->     [   40.699176] em28xx 1-3:1.0: V4L2 extension successfully initialized
->     [   40.699178] em28xx: Registered (Em28xx v4l2 Extension) extension
-> 
-> [1]: https://www.terratec.de/details.php?artnr=TERRATEC+G3
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab@redhat.com>
-> [rebase https://patchwork.kernel.org/patch/902312/ on master]
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Paul Menzel <pmenzel@molgen.mpg.de>
-> ---
->  drivers/media/usb/em28xx/em28xx-cards.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
-> index a8c321d118279..ba6e65d0c2229 100644
-> --- a/drivers/media/usb/em28xx/em28xx-cards.c
-> +++ b/drivers/media/usb/em28xx/em28xx-cards.c
-> @@ -2618,6 +2618,8 @@ struct usb_device_id em28xx_id_table[] = {
->  			.driver_info = EM2860_BOARD_TERRATEC_GRABBY },
->  	{ USB_DEVICE(0x0ccd, 0x10AF),
->  			.driver_info = EM2860_BOARD_TERRATEC_GRABBY },
-> +	{ USB_DEVICE(0x0ccd, 0x10a7),
-> +			.driver_info = EM2860_BOARD_TERRATEC_GRABBY },
->  	{ USB_DEVICE(0x0ccd, 0x00b2),
->  			.driver_info = EM2884_BOARD_CINERGY_HTC_STICK },
->  	{ USB_DEVICE(0x0fd9, 0x0018),
-> -- 
-> 2.26.2
+------------------------------------------
+[...truncated 27.39 KB...]
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tc90522.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mn88443x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/horus3a.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ascot2e.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/helene.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/zd1301_demod.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2099.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_common.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_devio_spi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_integ.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_io.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_spi_device.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt2_mon.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_dvbt_mon.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_tnrdmd_mon.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cxd2880_top.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-device.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-devnode.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-entity.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mc-request.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-fwnode.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-dev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ioctl.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-device.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-fh.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-event.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-ctrls.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-subdev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-clk.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-async.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-common.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-compat-ioctl32.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-trace.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-mc.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-spi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-i2c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-dv-timings.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/tuner-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-mem2mem.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-jpeg.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-dma-sg.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-dma-contig.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf-vmalloc.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvbdev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dmxdev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_demux.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_ca_en50221.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_frontend.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_net.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_ringbuffer.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_vb2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/dvb_math.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-adstech-dvb-t-pci.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-alink-dtu-m.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-anysee.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-apac-viewcomp.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-astrometa-t2hybrid.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-asus-pc39.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-asus-ps3-100.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ati-tv-wonder-hd-600.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ati-x10.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-a16d.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-cardbus.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-dvbt.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-m135a.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-m733a-rm-k6.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avermedia-rm-ks.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-avertv-303.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-azurewave-ad-tu700.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-beelink-gs1.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-behold.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-behold-columbus.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-budget-ci-old.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cinergy-1400.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-cinergy.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-d680-dmb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-delock-61959.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dib0700-nec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dib0700-rc5.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-digitalnow-tinytwin.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-digittrade.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dm1105-nec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dntv-live-dvb-t.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dntv-live-dvbt-pro.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dtt200u.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvbsky.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvico-mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-dvico-portable.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-em-terratec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-encore-enltv-fm53.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-evga-indtube.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-eztv.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-flydvb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-flyvideo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-fusionhdtv-mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-gadmei-rm008z.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-geekbox.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-genius-tvgo-a11mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-gotview7135.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hisi-poplar.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hisi-tv-demo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-pad.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-rsc.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-iodata-bctv7e.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-it913x-v1.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-it913x-v2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kaiomy.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-khadas.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-315u.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-pc150u.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-plus-tv-analog.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-leadtek-y04g0051.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-lme2510.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-manli.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10-digitainer.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10-or2x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-digivox-ii.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-digivox-iii.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-tvanywhere.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-tvanywhere-plus.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-nebula.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-nec-terratec-cinergy-xs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-norwood.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-npgtech.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-odroid.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pctv-sedna.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-color.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-grey.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-pctv-hd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-mk12.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-002t.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-new.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-powercolor-real-angel.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-proteus-2309.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-purpletv.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pv951.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hauppauge.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-rc6-mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-real-audio-220-32-keys.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-reddo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-snapstream-firefly.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-streamzap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tango.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tanix-tx3mini.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tanix-tx5max.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tbs-nec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-technisat-ts35.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-technisat-usb2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-c-pci.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-s2-hd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-xs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-slim.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-slim-2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tevii-nec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tivo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-total-media-in-hand.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-total-media-in-hand-02.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-trekstor.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tt-1500.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-twinhan-dtv-cab-ci.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-twinhan1027.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-vega-s9x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-m1f.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-s350.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-tv-pvr.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videostrong-kii-pro.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-wetek-hub.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-wetek-play2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-winfast.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-winfast-usbii-deluxe.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-su3000.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-xbox-dvd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-x96max.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-zx-irdec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-main.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ir-raw.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lirc_dev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-nec-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rc5-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rc6-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-jvc-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sony-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sanyo-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sharp-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-mce_kbd-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-xmp-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-imon-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rcmm-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon_raw.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ite-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/fintek-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/nuvoton-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ene_ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/redrat3.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/streamzap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/winbond-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-loopback.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/igorplugusb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/iguanair.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ttusbir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/serial_ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sir_ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/xbox_remote.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-adap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-api.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-notifier.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-pin.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-pin-error-inj.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/seco-cec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/pulse8-cec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rainshadow-cec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-fe-tuner.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-i2c.o>
+<https://builder.linuxtv.org/job/media-build/ws/v4l/cec-core.c>: In function 'cec_allocate_adapter':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/cec-core.c>:268:15: error: 'struct cec_adapter' has no member named 'phys_addrs'; did you mean 'phys_addr'?
+  memset(adap->phys_addrs, 0xff, sizeof(adap->phys_addrs));
+               ^~~~~~~~~~
+               phys_addr
+<https://builder.linuxtv.org/job/media-build/ws/v4l/cec-core.c>:268:46: error: 'struct cec_adapter' has no member named 'phys_addrs'; did you mean 'phys_addr'?
+  memset(adap->phys_addrs, 0xff, sizeof(adap->phys_addrs));
+                                              ^~~~~~~~~~
+                                              phys_addr
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:308: <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-core.o]> Error 1
+make[5]: *** Waiting for unfinished jobs....
+make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
+make[3]: *** [Makefile:146: sub-make] Error 2
+make[2]: *** [Makefile:8: all] Error 2
+make[2]: Leaving directory '/usr/src/linux-headers-4.19.0-5-amd64'
+make[1]: *** [Makefile:53: default] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: all] Error 2
+build failed at ./build line 533
+Build step 'Execute shell' marked build as failure
