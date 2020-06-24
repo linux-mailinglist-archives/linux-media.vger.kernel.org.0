@@ -2,96 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF9492075FE
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 16:46:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 07E11207622
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 16:54:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391263AbgFXOqN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jun 2020 10:46:13 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:40491 "EHLO
+        id S2390251AbgFXOyQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jun 2020 10:54:16 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:52025 "EHLO
         lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389253AbgFXOqM (ORCPT
+        by vger.kernel.org with ESMTP id S2389187AbgFXOyP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jun 2020 10:46:12 -0400
+        Wed, 24 Jun 2020 10:54:15 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id o6f6jhpLANb6lo6fAjtkqH; Wed, 24 Jun 2020 16:46:09 +0200
+        id o6mujhrcANb6lo6myjtm01; Wed, 24 Jun 2020 16:54:13 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1593009970; bh=m0tTR37wqpuWPIr/PsvMjkPZZL8C1ewWgQX8LOQTc/4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1593010453; bh=RrHmwNvLikWWwjFeOw2fiE/uHhj45yUR/uEXEZ9A0Yw=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=r+XVcpBXRLLRHlCyyMEM536/BPKRicjjO1R8F1mbebmIx8Ms6+BHM4sDQ+xUsfDWy
-         DVAUNz1t/vVe/FbQS+gLTKMVLbXTvirC6RmpVVydw92nfDbYiK10b6v+bJ80OnnHeP
-         QRPguT0MMW1uWYuZdMEvzcq+w7aYvqT8ALuE/w4lW63xBj70E9xL3m3Ml+Hjxx5VQ3
-         g21InAduTHCn/HHa4bb65Z2jlkHizghRiiuXu7eyeRc9r0LxueyOBOa5/Y4Az6jo1P
-         13rwaxicVjWJLhoOMLu4jsbtWJuYu9vooL8r8Vb5jriOCGwbaZBwrtcYImZ3DyiTC7
-         SRhVRJn4FzUbQ==
-Subject: Re: [PATCH] media: s5p-g2d: Fix a memory leak in an error handling
- path in 'g2d_probe()'
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        kyungmin.park@samsung.com, kamil@wypas.org, a.hajda@samsung.com,
-        mchehab@kernel.org, s.nawrocki@samsung.com, sachin.kamat@linaro.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <20200426200631.42497-1-christophe.jaillet@wanadoo.fr>
+        b=WUfPUJMJWxgoShhoMF7qlQ/OFSuJe7i05ZwPzwI5YLjIp/PunzefHQ8vtoMh+IQjh
+         f2TU8EdDMi602DR0mYFlBFnvPc0aUBuT4uy1fXWgJEtxyehVcntdAevV91etlvUpfH
+         M5QjkksolDgnImVV75+OKBtm9fj9lo54H9NnzzO3paaPH1CMVBufmmFKwYglvumBpV
+         9CRboiDsIHSTCck8ysuM/ak6dJ1juIyPkKKnY6Sua5x3SflLBkdbu67nyvkNaPYRcO
+         DhRJwptdiwEXnGn9UK5gU4hzAwDvfyOWYAs2hCCRdmAl/OyXWto9eFDSW+EolELsCt
+         BLwXssAp19Skw==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <6a59180f-b216-b2f5-0524-17eca8f53992@xs4all.nl>
-Date:   Wed, 24 Jun 2020 16:46:04 +0200
+Subject: [GIT PULL FOR v5.9] More fixes
+Message-ID: <169d364f-8961-1e4b-657c-44a58bc5ec45@xs4all.nl>
+Date:   Wed, 24 Jun 2020 16:54:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200426200631.42497-1-christophe.jaillet@wanadoo.fr>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfDMLtlXSNg2KyezTbxr+sSjISqSOmfrwcdLLuKvgkRQ7SZUHJBiJvrrxv/rbxG9O+j3sWUguywINSLSu5aV8UiSDu+vV7MUFygoZZlnvSj2VqZfZBJr4
- DHZd+YMyz1WiuP4T1TZCWm6JTBYH2HdxxLtIn2fVhZ9gsEZ8RUEWBUTyQO762cx7kYibt7BWfN7aMgU4eD/uTw0MHnilbPQNqGpZVE3SjCF0ViQTWwook3iw
- qzFCbXT5d4CI4/vxkZ0BFAISOxk58UvxB07FxwipiX8nyRoTug1lPR0rgO1a+9fwck/Ny1U3yhbMnqmItRWLk7FBZzBA9hSHyd4C4rEPy72QjICduQlIsJ0a
- ihD719PcK6Ybnp4OEUJD+v3qMbW116wXqNmBrci0Vdo9m/CJWhn2+b51DMktWRKIGK+hGDJEAgHyYYkWdj1S/qn3vZnocuv82Fzf92m7sAb0eHygK4kBTxfu
- KYbJ5GwNpTMk8hgB/GPTIib8qCcKjcmxuGSMe1nltt1lzzMKhdn6OgUGJYWNDrxAU4j7kd4dGP4t0MsIUwJcWuAwOWu9eFqGq0NRCA==
+X-CMAE-Envelope: MS4wfHyY3oAQKiGx+v1kzQO3QmrRoVQBkxiwgXuRoE/mrAyGv1FM9wrJWF5fd0k/MDDbYEKQZu82cvLLCNSzvl04OReqdgmoIX/jlHr1gOq3XNjk1odSHX9w
+ DSGP6qMFmGuNTNrHpCcBuNPQTo/o1bmQQPesRABoej/AD7lhJ8pKq2s1MjeM58OHKwOB0qcV0tm/Ug==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/04/2020 22:06, Christophe JAILLET wrote:
-> Memory allocated with 'v4l2_m2m_init()' must be freed by a corresponding
-> call to 'v4l2_m2m_release()'
-> 
-> Fixes: 5ce60d790a24 ("[media] s5p-g2d: Add DT based discovery support")
-> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-> ---
->  drivers/media/platform/s5p-g2d/g2d.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/s5p-g2d/g2d.c b/drivers/media/platform/s5p-g2d/g2d.c
-> index 6932fd47071b..ded6fa24677c 100644
-> --- a/drivers/media/platform/s5p-g2d/g2d.c
-> +++ b/drivers/media/platform/s5p-g2d/g2d.c
-> @@ -717,12 +717,14 @@ static int g2d_probe(struct platform_device *pdev)
->  	of_id = of_match_node(exynos_g2d_match, pdev->dev.of_node);
->  	if (!of_id) {
->  		ret = -ENODEV;
-> -		goto unreg_video_dev;
-> +		goto free_m2m;
->  	}
->  	dev->variant = (struct g2d_variant *)of_id->data;
->  
->  	return 0;
->  
-> +free_m2m:
-> +	v4l2_m2m_release(dev->m2m_dev);
->  unreg_video_dev:
->  	video_unregister_device(dev->vfd);
->  rel_vdev:
-> 
+The following changes since commit 7b981288285f0e8b816ea7ba8f34d0973ee39e0d:
 
-This isn't right. The real problem here is that video_register_device() is
-called before several other initialisations as done, such as v4l2_m2m_init and
-the of_match_node check.
+  media: ov2740: add NVMEM interface to read customized OTP data (2020-06-23 15:19:16 +0200)
 
-To do this properly video_register_device() should be called last in the probe()
-function.
+are available in the Git repository at:
 
-Regards,
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.9d
 
-	Hans
+for you to fetch changes up to 624dc5e356402b7487192f9b5caf97355ec98389:
+
+  media: vsp1: dl: Fix NULL pointer dereference on unbind (2020-06-24 16:46:29 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Andrey Konovalov (1):
+      media: camss: use proper media entity function for subdevices
+
+Chen Zhou (1):
+      media: coda: jpeg: add NULL check after kmalloc
+
+Colin Ian King (1):
+      media: cx231xx: remove redundant assignment to variable err
+
+Dafna Hirschfeld (1):
+      media: staging: rkisp1: cap: remove support of BGR666 format
+
+Dan Carpenter (1):
+      firewire: Using uninitialized values in node_probe()
+
+Dmitry Osipenko (3):
+      media: staging: tegra-vde: Runtime PM is always available on Tegra
+      media: staging: tegra-vde: Turn ON power domain on shutdown
+      media: staging: tegra-vde: Power-cycle hardware on probe
+
+Eizan Miyamoto (5):
+      mtk-mdp: remove mtk_mdp_comp.regs from mtk_mdp_comp.h
+      mtk-mdp: handle vb2_dma_contig_set_max_seg_size errors during probe
+      mtk-mdp: handle vpu_wdt_reg_handler() errors during probe
+      mtk-mdp: convert mtk_mdp_dev.comp array to list
+      mtk-mdp: Remove mtk_mdp_comp.id and supporting functionality
+
+Eugen Hristev (1):
+      media: atmel: atmel-sama5d2-isc: fix warning in configs without OF
+
+Eugeniu Rosca (1):
+      media: vsp1: dl: Fix NULL pointer dereference on unbind
+
+Francois Buergisser (1):
+      mtk-mdp: Remove states for format checks
+
+Gustavo A. R. Silva (1):
+      media: usb: pwc: pwc.h: Replace zero-length array with flexible-array member
+
+Tuomas Tynkkynen (1):
+      media: media-request: Fix crash if memory allocation fails
+
+ drivers/media/firewire/firedtv-fw.c              |   2 +
+ drivers/media/mc/mc-request.c                    |  31 ++--
+ drivers/media/platform/atmel/atmel-sama5d2-isc.c |   2 +
+ drivers/media/platform/coda/coda-jpeg.c          |   5 +-
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.c    |  60 +------
+ drivers/media/platform/mtk-mdp/mtk_mdp_comp.h    |  23 +--
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.c    |  69 ++++++---
+ drivers/media/platform/mtk-mdp/mtk_mdp_core.h    |  12 +-
+ drivers/media/platform/mtk-mdp/mtk_mdp_m2m.c     |  90 ++++-------
+ drivers/media/platform/qcom/camss/camss-csid.c   |   2 +-
+ drivers/media/platform/qcom/camss/camss-csiphy.c |   2 +-
+ drivers/media/platform/qcom/camss/camss-ispif.c  |   2 +-
+ drivers/media/platform/vsp1/vsp1_dl.c            |   2 +
+ drivers/media/usb/cx231xx/cx231xx-417.c          |   2 +-
+ drivers/media/usb/pwc/pwc.h                      |   2 +-
+ drivers/staging/media/allegro-dvt/allegro-core.c | 387 +++++++++++++++++++++++++++-------------------
+ drivers/staging/media/allegro-dvt/allegro-mail.c | 506 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/staging/media/allegro-dvt/allegro-mail.h | 111 ++++++++-----
+ drivers/staging/media/rkisp1/rkisp1-capture.c    |   4 -
+ drivers/staging/media/tegra-vde/vde.c            |  41 +++--
+ 20 files changed, 958 insertions(+), 397 deletions(-)
