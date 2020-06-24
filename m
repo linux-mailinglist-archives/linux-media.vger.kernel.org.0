@@ -2,113 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 55CB12077C3
-	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 17:41:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0E0D2077D4
+	for <lists+linux-media@lfdr.de>; Wed, 24 Jun 2020 17:45:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404525AbgFXPlM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 24 Jun 2020 11:41:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33502 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404508AbgFXPlL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 24 Jun 2020 11:41:11 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B6EAC061573;
-        Wed, 24 Jun 2020 08:41:11 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id x8so301476plm.10;
-        Wed, 24 Jun 2020 08:41:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Ly1TDzAEx8vRao/mqsmJUAAYy7jcqmMxO/HEea7Av6A=;
-        b=pT1lDwxeGf1ZL1WDYZhRIsulBFmJl83sDoFHdazqASaBZVOm1HCyGs373KF9U3FGXw
-         8fiCa8hrNCfHQ60kR2Q908SL1kmBPgtXUw6JMgrx7BNSLzLaxPPsVMgiEP37Q6Ep/3KV
-         mQ7Ir5vwQ0gaVOZE6eSFfzzGumTrBoMz7auwUvj/jn+4uKTHZyc4e5M1eleZ3bKID314
-         5ikyJrd1Gwr7UpJd6zFty4Q5JAKUPbOGOa8zvMd0lMB47YxgOzhNPoBO3eSGlM3L/scs
-         itSyAEkl1QeSXf3Sq3qBpArKgTXTYysF35McTTMhqptBVFkL5c7bcysm+PZSneppZ6xX
-         cXSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Ly1TDzAEx8vRao/mqsmJUAAYy7jcqmMxO/HEea7Av6A=;
-        b=IJKSTqm4CJyiC+d6V8hZiKK6bKz7THoHwDxp4NqnRvV1PN93Cu/zrdnqXn5Qxh/jNK
-         uM5H/bBc7M+f0RYw3NqguoqXe7ecuyeWxreJ94PUKoZ1wjb8KyAi+MulMvRJOxcbpGJc
-         nhAtAnjYr6AxhOy/rpldkdSmcBAd9jApC9SbPbNa7YC5apsaXLltl7qwyr3xdivt0BL5
-         PyC0LvckDsKFbbOm8+niX/ONv7pN/42IJnQRW+srB88MYc4kNXcidyAvn/WjcV92gHyU
-         DPVkPzZsvA/dJ5V7/aMVlro2eatrNrlbTC0qhKzZpS+p37b4S4RAq1GILHwmPHca4L5Q
-         Uyrw==
-X-Gm-Message-State: AOAM53355PJlnfQh2Rx4iIYwR/UlUBo0XYRK6VcczCWxm/xGU7ewaQaw
-        kvzJAGHi9HP07PN3WYl7O/UGwmMP
-X-Google-Smtp-Source: ABdhPJwjJvWss3nf1yZq/iKmUT8dWFX2W1k4dETLwsNyvHC7n3w0ua0Pqn3ngFYp/kPAu7UiQLIkXQ==
-X-Received: by 2002:a17:902:8c89:: with SMTP id t9mr18616817plo.306.1593013270406;
-        Wed, 24 Jun 2020 08:41:10 -0700 (PDT)
-Received: from [192.168.1.3] (ip68-111-84-250.oc.oc.cox.net. [68.111.84.250])
-        by smtp.gmail.com with ESMTPSA id m20sm21981737pfk.52.2020.06.24.08.41.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 24 Jun 2020 08:41:09 -0700 (PDT)
-Subject: Re: [PATCH stable 4.9 00/21] Unbreak 32-bit DVB applications on
- 64-bit kernels
-To:     Greg KH <greg@kroah.com>
-Cc:     linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michael Krufky <mkrufky@linuxtv.org>,
-        Alexander Viro <viro@zeniv.linux.org.uk>,
-        Shuah Khan <shuah@kernel.org>,
-        Jaedon Shin <jaedon.shin@gmail.com>,
-        Colin Ian King <colin.king@canonical.com>,
-        Katsuhiro Suzuki <suzuki.katsuhiro@socionext.com>,
-        Satendra Singh Thakur <satendra.t@samsung.com>,
-        "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" 
-        <linux-media@vger.kernel.org>,
-        "open list:FILESYSTEMS (VFS and infrastructure)" 
-        <linux-fsdevel@vger.kernel.org>
-References: <20200605162518.28099-1-florian.fainelli@broadcom.com>
- <20200623191334.GA279616@kroah.com>
-From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <99a35736-6539-4a83-b0f0-74a8cf28d85d@gmail.com>
-Date:   Wed, 24 Jun 2020 08:41:06 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Firefox/68.0 Thunderbird/68.9.0
+        id S2404176AbgFXPp1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 24 Jun 2020 11:45:27 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:53630 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404187AbgFXPp1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 24 Jun 2020 11:45:27 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jo7WP-007hwI-UC; Wed, 24 Jun 2020 15:41:09 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1jo7ck-0004Wt-7Z; Wed, 24 Jun 2020 15:47:42 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.9] More fixes (#64882)
+Date:   Wed, 24 Jun 2020 15:47:42 +0000
+Message-Id: <20200624154742.17370-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <29109a40-a46b-8d22-067c-c7082b8cf13b@xs4all.nl>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <20200623191334.GA279616@kroah.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: builder@linuxtv.org
+
+Pull request: https://patchwork.linuxtv.org/patch/64882/
+Build log: https://builder.linuxtv.org/job/patchwork/56820/
+Build time: 00:17:30
+Link: https://lore.kernel.org/linux-media/29109a40-a46b-8d22-067c-c7082b8cf13b@xs4all.nl
+
+gpg: Signature made Wed 24 Jun 2020 03:13:15 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+
+Summary: 5 patches and/or PDF generation with issues, being 0 at build time
+
+Error/warnings:
 
 
-On 6/23/2020 12:13 PM, Greg KH wrote:
-> On Fri, Jun 05, 2020 at 09:24:57AM -0700, Florian Fainelli wrote:
->> Hi all,
->>
->> This long patch series was motivated by backporting Jaedon's changes
->> which add a proper ioctl compatibility layer for 32-bit applications
->> running on 64-bit kernels. We have a number of Android TV-based products
->> currently running on the 4.9 kernel and this was broken for them.
->>
->> Thanks to Robert McConnell for identifying and providing the patches in
->> their initial format.
->>
->> In order for Jaedon's patches to apply cleanly a number of changes were
->> applied to support those changes. If you deem the patch series too big
->> please let me know.
-> 
-> Now queued up,t hanks.
+Error #256 when running cat patches/0001-media-staging-rkisp1-cap-remove-support-of-BGR666-fo.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0001-media-staging-rkisp1-cap-remove-support-of-BGR666-fo.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:8: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-Thanks a lot, I did not get an email about "[PATCH stable 4.9 02/21]
-media: dvb_frontend: initialize variable s with FE_NONE instead of 0"
-being applied, not that it is a very important change,
+Error #256 when running cat patches/0004-media-atmel-atmel-sama5d2-isc-fix-warning-in-configs.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0004-media-atmel-atmel-sama5d2-isc-fix-warning-in-configs.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:8: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-> 
-> greg k-h
-> 
+Error #256 when running cat patches/0007-mtk-mdp-Remove-states-for-format-checks.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0007-mtk-mdp-Remove-states-for-format-checks.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:117: CHECK: Alignment should match open parenthesis
+-:122: CHECK: Alignment should match open parenthesis
+-:133: CHECK: Alignment should match open parenthesis
+-:162: CHECK: Alignment should match open parenthesis
 
--- 
-Florian
+Error #256 when running cat patches/0014-media-vsp1-dl-Fix-NULL-pointer-dereference-on-unbind.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0014-media-vsp1-dl-Fix-NULL-pointer-dereference-on-unbind.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:16: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
