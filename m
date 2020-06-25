@@ -2,104 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1951C20A1F2
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2020 17:30:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14B2B20A207
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2020 17:35:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405798AbgFYPat (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jun 2020 11:30:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56420 "EHLO
+        id S2405828AbgFYPf1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jun 2020 11:35:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405787AbgFYPas (ORCPT
+        with ESMTP id S2405746AbgFYPf0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jun 2020 11:30:48 -0400
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 88407C08C5C1
-        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2020 08:30:48 -0700 (PDT)
-Received: by mail-ej1-x644.google.com with SMTP id rk21so6392943ejb.2
-        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2020 08:30:48 -0700 (PDT)
+        Thu, 25 Jun 2020 11:35:26 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9666C08C5DB
+        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2020 08:35:26 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id u185so1150611pfu.1
+        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2020 08:35:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=0CFr8jzBzEkamA0nfO1v7fQEbEWs3FBjMcmzi4CDti0=;
-        b=WJ8asht9a2bkKvjvqDVdRvxV8wwmqFaKK+ZBX62IL9uEpDarnfWyH8HXt2mgBTuz1V
-         2IQjA6TRIvuXb2/XC8KADmNHTJfxRlA3uWmPoi7EBxtS3OUAD2lZ51uMFNVbYyyixdv9
-         XdIW9PohcTMAZEV3Rk2AOTRvPMKqmUdQth4c0=
+        d=pesu-pes-edu.20150623.gappssmtp.com; s=20150623;
+        h=from:date:to:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=x5rltbZgoac+dXb+DOgX5rzO4ebpNO9QKIAaqizWabE=;
+        b=1YlTo2+HW3hy9QDNoY9ia6mxIaKs0Lmc62+aANLbGds86ssI1gK73TAkjnObtlBJ59
+         s8tgqw+IHZmO4qHNdku31gfctjoCG5Gay5R6e6iJBbVX2prZ4X3MkQ6ikPMCmFN7XUoy
+         x9qVWk2zDe3W1xy3riTJGueSp06DeMbd1gO9BSdpWMz4bVFwpOIZDqnWqK4JL0q+GzdZ
+         KRhVDKUnjRhRr1ylDZkZa4Z4gWB91Hs1nJHHBLX0yseO1KI6Y6lqRo8NV+d8D263DsMT
+         EfJF8tjhRDmqoTP6ruWR0N2/Skk18+JZ2M/0HoqI3Hxf4eS8k40ZrADS7BacuDQg2uiz
+         rc8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=0CFr8jzBzEkamA0nfO1v7fQEbEWs3FBjMcmzi4CDti0=;
-        b=BEIhSriL7eJ5IzbsQ2oRNP2ijK7TIZbsgbXrDpS24sPbmmkVMkUzLc7iQdg5MPgXq3
-         JwIXgYntIAqRjyacie8cKxvWXna1e+QT5CX9njNiMPGo28v3YfMuIj1MUKpRid+C6Gu5
-         OqtPDicDYdYgCY6gGIPpB5So/EhdHs585XQ28rjw9yIPU0vwvBXNTJgX1PXI6+5Kri9j
-         eBv8Y0GqgZwg51knfNmO87tsC1/3kQRyqv+WMa/7+bpTKx93hqH0WWVPoBUDajHScW3e
-         SUv3bSLAWyhrrBxE4Mf9FbX5DQjt7pbPzDQ/+yrlidPkmakSp+oeiW8g6OT0Z8bFvD4V
-         RI5Q==
-X-Gm-Message-State: AOAM530fWtVdgpRHLkZy4B63pvCecuOIn8t7Y2U8Y5IgfVlEnp6F5d2A
-        o9pyQwE5PNRFPng5QJayZEeuYRdSFDc=
-X-Google-Smtp-Source: ABdhPJx/42P36fJ1CH48l0hbf8ZCTxVeNirj9Oo33Z1N8YyVe5TidrDJmvl6fK4XLmd2R+D36Vkkww==
-X-Received: by 2002:a17:906:4b54:: with SMTP id j20mr26246457ejv.259.1593099046900;
-        Thu, 25 Jun 2020 08:30:46 -0700 (PDT)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com. [209.85.128.53])
-        by smtp.gmail.com with ESMTPSA id md8sm17355351ejb.4.2020.06.25.08.30.45
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jun 2020 08:30:46 -0700 (PDT)
-Received: by mail-wm1-f53.google.com with SMTP id 22so5998497wmg.1
-        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2020 08:30:45 -0700 (PDT)
-X-Received: by 2002:a05:600c:d7:: with SMTP id u23mr3725834wmm.183.1593099045444;
- Thu, 25 Jun 2020 08:30:45 -0700 (PDT)
+        h=x-gm-message-state:from:date:to:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=x5rltbZgoac+dXb+DOgX5rzO4ebpNO9QKIAaqizWabE=;
+        b=JXaCG3XztO2L1SSvL/tysU53Kcn+EOv9dUPydwEK2pCvLem2zXgbU2mHdbRpg/xmlF
+         +L6nQxmLcghJmA0FYRXoKeiwPQ/i7AqE/gnq4E9O2QEeEIWxzun6fzPU7SOlSDsZJ9G2
+         kbfmL0ENjMpd2LTFfG1rxRNjT69b0L4u4ICNS00YXpS7OG5mtEr3FZ8s0nKDBse6almc
+         /8nuM4JRZleKfBG02kBZARkc6/ZECBynCZvxJTW3PdiUaTD0WKDKkJ0qljRheWZBCKK8
+         IfTxt07L3u7OYln36KwS+MiZDtaYZ2hZ/OBlDjZJs/Mh1IzWv3O7qlLQG6OrOwV4l/5S
+         zB6w==
+X-Gm-Message-State: AOAM532CFn3BkQxMXR/ziXbUMIIWNzopfK8jQt4jd4J1csQ4nXzxFeO4
+        XQqr1vl8A8/Ecd3MBhbAHKs0gA==
+X-Google-Smtp-Source: ABdhPJz92oCQkSLzT6L0cPk15+CVAR5bLEmDnDtyxkVfGo3rWkJazMXpdCnSRpNO27I/0plMLIwTew==
+X-Received: by 2002:aa7:84cc:: with SMTP id x12mr33886230pfn.235.1593099325951;
+        Thu, 25 Jun 2020 08:35:25 -0700 (PDT)
+Received: from localhost ([2406:7400:73:51e4:908:f18a:1156:5c38])
+        by smtp.gmail.com with ESMTPSA id o1sm8649025pjp.37.2020.06.25.08.35.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2020 08:35:24 -0700 (PDT)
+From:   B K Karthik <bkkarthik@pesu.pes.edu>
+X-Google-Original-From: B K Karthik <karthik.bk2000@live.com>
+Date:   Thu, 25 Jun 2020 11:35:17 -0400
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 1/1] staging: media: soc_camera: Adding parentheses to macro
+ defination at line 241, Clearing alignment issues at lines 410 and 1270,
+ fixing return values at EPOLLERR
+Message-ID: <20200625153516.fibpfsodnogrimlh@pesu-pes-edu>
 MIME-Version: 1.0
-References: <20200623182809.1375-1-ezequiel@collabora.com> <20200623182809.1375-3-ezequiel@collabora.com>
-In-Reply-To: <20200623182809.1375-3-ezequiel@collabora.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 25 Jun 2020 17:30:33 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5DmsE4jvXNWVqRMifx48oLhQohm-sYYJNpsx2_ipb3Niw@mail.gmail.com>
-Message-ID: <CAAFQd5DmsE4jvXNWVqRMifx48oLhQohm-sYYJNpsx2_ipb3Niw@mail.gmail.com>
-Subject: Re: [RFC 2/7] fixup! media: uapi: h264: update reference lists
-To:     Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="fhzbuehlmb54oq5j"
+Content-Disposition: inline
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 23, 2020 at 8:29 PM Ezequiel Garcia <ezequiel@collabora.com> wrote:
->
-> Align v4l2_h264_reference to 32-bits, giving some room
-> for future extensions.
->
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  .../userspace-api/media/v4l/ext-ctrls-codec.rst  |  3 +++
->  drivers/media/v4l2-core/v4l2-ctrls.c             | 16 ++++++++++++++++
->  include/media/h264-ctrls.h                       |  7 +++++--
->  3 files changed, 24 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index 6c36d298db20..7af12447a5b0 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -1943,6 +1943,9 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->      * - __u8
->        - ``index``
->        -
-> +    * - __u32
-> +      - ``reserved``
-> +      - Applications and drivers must set this to zero.
 
-__u16?
+--fhzbuehlmb54oq5j
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Best regards,
-Tomasz
+staging: media: soc_camera: soc_camera.c: Clearing coding-style problem
+"Macros with complex values should be enclosed in parentheses" in line 241 =
+by adding parentheses.
+staging: media: soc_camera: soc_camera.c: Clearing coding-style problem
+"Alignment should match open parenthesis" by adding tab spaces in line 410.
+staging: media: soc_camera: soc_camera.c: Clearing coding-style problem
+"return of an errno should typically be negative" by adding a "-" in front =
+of EPOLLER in line 812.
+staging: media: soc_camera: soc_camera.c: Clearing coding-style problem
+"Alignment should match open parenthesis" by adding tab spaces in line 1270.
+
+Signed-off-by: B K Karthik <karthik.bk2000@live.com>
+---
+ drivers/staging/media/soc_camera/soc_camera.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/staging/media/soc_camera/soc_camera.c b/drivers/stagin=
+g/media/soc_camera/soc_camera.c
+index 39f513f69b89..66a14ebd8093 100644
+--- a/drivers/staging/media/soc_camera/soc_camera.c
++++ b/drivers/staging/media/soc_camera/soc_camera.c
+@@ -238,8 +238,8 @@ unsigned long soc_camera_apply_board_flags(struct soc_c=
+amera_subdev_desc *ssdd,
+ }
+ EXPORT_SYMBOL(soc_camera_apply_board_flags);
+=20
+-#define pixfmtstr(x) (x) & 0xff, ((x) >> 8) & 0xff, ((x) >> 16) & 0xff, \
+-	((x) >> 24) & 0xff
++#define pixfmtstr(x) ((x) & 0xff, ((x) >> 8) & 0xff, ((x) >> 16) & 0xff, \
++	((x) >> 24) & 0xff)
+=20
+ static int soc_camera_try_fmt(struct soc_camera_device *icd,
+ 			      struct v4l2_format *f)
+@@ -407,7 +407,7 @@ static int soc_camera_dqbuf(struct file *file, void *pr=
+iv,
+ }
+=20
+ static int soc_camera_create_bufs(struct file *file, void *priv,
+-			    struct v4l2_create_buffers *create)
++			    		struct v4l2_create_buffers *create)
+ {
+ 	struct soc_camera_device *icd =3D file->private_data;
+ 	int ret;
+@@ -806,10 +806,10 @@ static __poll_t soc_camera_poll(struct file *file, po=
+ll_table *pt)
+ {
+ 	struct soc_camera_device *icd =3D file->private_data;
+ 	struct soc_camera_host *ici =3D to_soc_camera_host(icd->parent);
+-	__poll_t res =3D EPOLLERR;
++	__poll_t res =3D -EPOLLERR;
+=20
+ 	if (icd->streamer !=3D file)
+-		return EPOLLERR;
++		return -EPOLLERR;
+=20
+ 	mutex_lock(&ici->host_lock);
+ 	res =3D ici->ops->poll(file, pt);
+@@ -1267,7 +1267,7 @@ static int soc_camera_i2c_init(struct soc_camera_devi=
+ce *icd,
+ 	}
+=20
+ 	subdev =3D v4l2_i2c_new_subdev_board(&ici->v4l2_dev, adap,
+-				shd->board_info, NULL);
++						shd->board_info, NULL);
+ 	if (!subdev) {
+ 		ret =3D -ENODEV;
+ 		goto ei2cnd;
+--=20
+2.20.1
+
+
+--fhzbuehlmb54oq5j
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEpIrzAt4LvWLJmKjp471Q5AHeZ2oFAl70xDQACgkQ471Q5AHe
+Z2oZlAv/bmnvULtnv3yC5oXsH9CF4NejDM305ZbwMYLCm0k5INVKHk2hgumFNw/v
+mHDKoKT+D7vujqhWAlVh/l996TVlIbTAntl2W76FoJ0xBsZ4C4Qczn0GOKpDE08N
+kQKuqtUCRv1Cb9Uz+e8yJJJ68O3Lhhb82NKEc9oI5YzwfC1sge97L05xcAmHqGRn
+lkl2aNouT4hAm03kIl0aSM8mT3Ik3lkECcT9tncwaSa9iHwxXI/XW8B9yZaXDvDA
+HEIJjpHHqtii5srCdxkQn8MR5cvYOWvocxx6leyqZrq3lo6bPJpIT4+zwqanKFPM
+jl2VHSqHO7h/3nS04NVnUrS0ONon8REFoIU5iKLlN0lnwL1XY+XHNqNlbqpknb8s
+/6+ah50oOevSmjjMGXE19JSr46GRgaDcSYcbV9ODQFziFtr3U40j7BssOqveWVDw
+bXojJE1ObgFwcq7OjXJhKIy+OsjJf0Rp195iIVpWmrudGb670/sIQdaAXo/H4ocn
+DyfxNma/
+=OdLO
+-----END PGP SIGNATURE-----
+
+--fhzbuehlmb54oq5j--
