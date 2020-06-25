@@ -2,169 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F06E720A42C
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2020 19:41:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E548320A43C
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2020 19:43:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405170AbgFYRlP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jun 2020 13:41:15 -0400
-Received: from esa4.mentor.iphmx.com ([68.232.137.252]:17793 "EHLO
-        esa4.mentor.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405083AbgFYRlP (ORCPT
+        id S2406884AbgFYRn1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jun 2020 13:43:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48822 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406882AbgFYRn0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jun 2020 13:41:15 -0400
-IronPort-SDR: RmN9LfFRFNe2G7Q0PERxj/pvfRH/4iI8Aj/76yhTph297BRag65e+1JOBL0ikEOTc8z3HPK19/
- rGTNChYx1uj0uTePzJrFejznXqaI1cWTaHC8WKhFQJDyZyBkdwg49/GNA3ByroA1GpL+xpYHVx
- aNYNoQHX+3oa8p9z3ChLrueDgqzkHD6y1kKz+N0419g65RBLV+48WKAwoAhzh8udxpttd66dWY
- m2G5RB833Y/lXUbURApw2E8u7JDsc563BE6V7xGOlQek9SwYnawD+cvYvqew5OVjhxf+y0cmux
- h+k=
-X-IronPort-AV: E=Sophos;i="5.75,280,1589270400"; 
-   d="scan'208";a="50322167"
-Received: from orw-gwy-02-in.mentorg.com ([192.94.38.167])
-  by esa4.mentor.iphmx.com with ESMTP; 25 Jun 2020 09:41:13 -0800
-IronPort-SDR: LWkbEBr2wJvlrPZvGOT4sExRu+WgOSN1jMXf9Jzhe3/acdh+oohcAtfQQpH669DLSKWL4MojVw
- 6vkqHSlueSV5IWJq5/wXJq2UlHwKNDDNC1UfQT2E9usRwfVNTT19wHliXosyyzVELlWuA46Ge+
- AroaIF7bkfkcPIauWop0p6zLdLUv9TYER3VDDDv3yjT6ePpMT12RXPDicMCN83cp93X6niy0AD
- EM6u3MfDrEPFdjKPK7lVj8Cc7Xw63YDyuURMpXZLnp50ZLT0HOzUu3t0ePdvXpqnCpp+g+TKeJ
- 1mg=
-Subject: Re: [PATCH 1/3] v4l2-subdev: Add subdev ioctl support for
- ENUM/GET/SET INPUT
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jacopo Mondi <jacopo@jmondi.org>
-CC:     Ramzi BEN MEFTAH <rbmeftah@de.adit-jv.com>,
-        niklas soderlund <niklas.soderlund@ragnatech.se>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Arnd Bergmann <arnd@arndb.de>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Michael Rodin <mrodin@de.adit-jv.com>,
-        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>
-References: <1592301619-17631-1-git-send-email-rbmeftah@de.adit-jv.com>
- <20200624075307.hl6wew7vr5ue225t@uno.localdomain>
- <20200625020138.GW5980@pendragon.ideasonboard.com>
-From:   Steve Longerbeam <steve_longerbeam@mentor.com>
-Message-ID: <c57d416d-14d4-6d5d-a281-ddbf3183395a@mentor.com>
-Date:   Thu, 25 Jun 2020 10:41:09 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Thu, 25 Jun 2020 13:43:26 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 819B2C08C5C1;
+        Thu, 25 Jun 2020 10:43:26 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 4C2FD2A576A
+Message-ID: <e477f42cd537c6e6e1f707492f6ad8ab6a510e3a.camel@collabora.com>
+Subject: Re: [RFC 2/7] fixup! media: uapi: h264: update reference lists
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Jeffrey Kardatzke <jkardatzke@chromium.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Date:   Thu, 25 Jun 2020 14:42:47 -0300
+In-Reply-To: <27c646c790d6b00b29f4a61c58eb761ceb56179a.camel@collabora.com>
+References: <20200623182809.1375-1-ezequiel@collabora.com>
+         <20200623182809.1375-3-ezequiel@collabora.com>
+         <27c646c790d6b00b29f4a61c58eb761ceb56179a.camel@collabora.com>
+Organization: Collabora
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.0-1 
 MIME-Version: 1.0
-In-Reply-To: <20200625020138.GW5980@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-ClientProxiedBy: svr-orw-mbx-04.mgc.mentorg.com (147.34.90.204) To
- svr-orw-mbx-02.mgc.mentorg.com (147.34.90.202)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent, all,
+(Adding Jernej, seems I haven't Cced him!)
 
-On 6/24/20 7:01 PM, Laurent Pinchart wrote:
-> Hi Jacopo,
->
-> On Wed, Jun 24, 2020 at 09:53:07AM +0200, Jacopo Mondi wrote:
->> On Tue, Jun 16, 2020 at 12:00:15PM +0200, Ramzi BEN MEFTAH wrote:
->>> From: Steve Longerbeam <steve_longerbeam@mentor.com>
->>   +Niklas, +Laurent
->>
->> Niklas, Laurent, how does this play with CAP_IO_MC ?
-> I don't think it's related to CAP_IO_MC, but I don't think it's a good
-> idea either :-) Routing doesn't go through the subdev [gs]_input
-> operations in MC-based drivers. It should be configured through link
-> setup instead. This patch goes in the wrong direction, sorry Steve.
+On Thu, 2020-06-25 at 10:53 -0400, Nicolas Dufresne wrote:
+> Le mardi 23 juin 2020 à 15:28 -0300, Ezequiel Garcia a écrit :
+> > Align v4l2_h264_reference to 32-bits, giving some room
+> > for future extensions.
+> > 
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > ---
+> >  .../userspace-api/media/v4l/ext-ctrls-codec.rst  |  3 +++
+> >  drivers/media/v4l2-core/v4l2-ctrls.c             | 16 ++++++++++++++++
+> >  include/media/h264-ctrls.h                       |  7 +++++--
+> >  3 files changed, 24 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > index 6c36d298db20..7af12447a5b0 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > @@ -1943,6 +1943,9 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+> >      * - __u8
+> >        - ``index``
+> >        -
+> > +    * - __u32
+> > +      - ``reserved``
+> > +      - Applications and drivers must set this to zero.
+> 
+> Is that really appropriate ? There was some effort to keep the controls
+> small. Also, as these are fixed size, they could be extended with
+> supplementary C arrays of the same size, set in separate control.
+> 
 
-That's OK! :) I didn't submit this patch, and as stated in the commit 
-header, I never recommended this patch be submitted to upstream in the 
-first place.
+That's a very valid concern.
 
-Selecting inputs at a subdev should normally make use of media link 
-setup. But for selecting analog signal inputs, such as the ADV748x AFE 
-standard definition inputs, that would  mean there would need to exist 
-source "analog" subdevs that connect to the AFE inputs, if only for the 
-purpose of selecting those inputs, which seems silly IMHO. The ADV748x 
-AFE subdev defines these inputs as media pads, but have no connections, 
-so link setup API can't be used to select those inputs.
+Currently, each of these v4l2_h264_reference take 64 bytes
+(32 x 2 bytes). So it's 128 bytes of references.
 
-So a new subdev pad API is clearly needed, not just to get input status 
-at a subdev pad, but to select/make active such analog inputs without 
-requiring link setup API.
+Having the reserved field means 256 bytes instead.
 
-Steve
+Without the reserved field v4l2_ctrl_h264_slice_params is 936 bytes,
+the majority of the space taken by v4l2_h264_weight_factors.
+So, the reserved field accounts for a small increment there.
 
+Another option would be to split the v4l2_h264_reference lists
+to its own control.
 
+However, given the above, it would have more impact to consider
+splitting v4l2_h264_pred_weight_table. This table
+being used or not depends on the bitstream, so there might be
+some value here.
 
->
->>> This commit enables VIDIOC_ENUMINPUT, VIDIOC_G_INPUT, and VIDIOC_S_INPUT
->>> ioctls for use via v4l2 subdevice node.
->>>
->>> This commit should probably not be pushed upstream, because the (old)
->>> idea of video inputs conflicts with the newer concept of establishing
->>> media links between src->sink pads.
->>>
->>> However it might make sense for some subdevices to support enum/get/set
->>> inputs. One example would be the analog front end subdevice for the
->>> ADV748x. By providing these ioctls, selecting the ADV748x analog inputs
->>> can be done without requiring the implementation of media entities that
->>> would define the analog source for which to establish a media link.
->>>
->>> Signed-off-by: Steve Longerbeam <steve_longerbeam@mentor.com>
->>> ---
->>>   drivers/media/v4l2-core/v4l2-subdev.c |  9 +++++++++
->>>   include/media/v4l2-subdev.h           | 11 +++++++++++
->>>   2 files changed, 20 insertions(+)
->>>
->>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->>> index 6b989fe..73fbfe9 100644
->>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->>> @@ -378,6 +378,15 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
->>>   			return -ENOTTY;
->>>   		return v4l2_querymenu(vfh->ctrl_handler, arg);
->>>
->>> +	case VIDIOC_ENUMINPUT:
->>> +		return v4l2_subdev_call(sd, video, enuminput, arg);
->>> +
->>> +	case VIDIOC_G_INPUT:
->>> +		return v4l2_subdev_call(sd, video, g_input, arg);
->>> +
->>> +	case VIDIOC_S_INPUT:
->>> +		return v4l2_subdev_call(sd, video, s_input, *(u32 *)arg);
->>> +
->>>   	case VIDIOC_G_CTRL:
->>>   		if (!vfh->ctrl_handler)
->>>   			return -ENOTTY;
->>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->>> index f7fe78a..6e1a9cd 100644
->>> --- a/include/media/v4l2-subdev.h
->>> +++ b/include/media/v4l2-subdev.h
->>> @@ -383,6 +383,14 @@ struct v4l2_mbus_frame_desc {
->>>    * @g_input_status: get input status. Same as the status field in the
->>>    *	&struct &v4l2_input
->>>    *
->>> + * @enuminput: enumerate inputs. Should return the same input status as
->>> + *      @g_input_status if the passed input index is the currently active
->>> + *      input.
->>> + *
->>> + * @g_input: returns the currently active input index.
->>> + *
->>> + * @s_input: set the active input.
->>> + *
->>>    * @s_stream: used to notify the driver that a video stream will start or has
->>>    *	stopped.
->>>    *
->>> @@ -423,6 +431,9 @@ struct v4l2_subdev_video_ops {
->>>   	int (*g_tvnorms)(struct v4l2_subdev *sd, v4l2_std_id *std);
->>>   	int (*g_tvnorms_output)(struct v4l2_subdev *sd, v4l2_std_id *std);
->>>   	int (*g_input_status)(struct v4l2_subdev *sd, u32 *status);
->>> +	int (*enuminput)(struct v4l2_subdev *sd, struct v4l2_input *input);
->>> +	int (*g_input)(struct v4l2_subdev *sd, u32 *index);
->>> +	int (*s_input)(struct v4l2_subdev *sd, u32 index);
->>>   	int (*s_stream)(struct v4l2_subdev *sd, int enable);
->>>   	int (*g_pixelaspect)(struct v4l2_subdev *sd, struct v4l2_fract *aspect);
->>>   	int (*g_frame_interval)(struct v4l2_subdev *sd,
+What do you think? 
+
+> Also, H264 HW is unlikely to evolve, and that covers what DXVA2 and
+> VAAPI covers already. So it is quite unlikely to ever have to be
+> extended.
+> 
+
+That may be true indeed. Perhaps we can then agree that references
+only need an index and a flag.
+
+Thanks!
+Ezequiel
+
+> >  
+> >  .. _h264_reference_flags:
+> >  
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> > index 3f3fbcd60cc6..6abd023f10c7 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> > @@ -1721,6 +1721,8 @@ static void std_log(const struct v4l2_ctrl *ctrl)
+> >  
+> >  #define zero_padding(s) \
+> >  	memset(&(s).padding, 0, sizeof((s).padding))
+> > +#define zero_reserved(s) \
+> > +	memset(&(s).reserved, 0, sizeof((s).reserved))
+> >  
+> >  /*
+> >   * Compound controls validation requires setting unused fields/flags to zero
+> > @@ -1731,6 +1733,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+> >  {
+> >  	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
+> >  	struct v4l2_ctrl_vp8_frame_header *p_vp8_frame_header;
+> > +	struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
+> >  	struct v4l2_ctrl_hevc_sps *p_hevc_sps;
+> >  	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
+> >  	struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
+> > @@ -1790,7 +1793,20 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+> >  	case V4L2_CTRL_TYPE_H264_SPS:
+> >  	case V4L2_CTRL_TYPE_H264_PPS:
+> >  	case V4L2_CTRL_TYPE_H264_SCALING_MATRIX:
+> > +		break;
+> >  	case V4L2_CTRL_TYPE_H264_SLICE_PARAMS:
+> > +		p_h264_slice_params = p;
+> > +
+> > +		for (i = 0; i < V4L2_H264_REF_PIC_LIST_LEN; i++) {
+> > +			struct v4l2_h264_reference *ref0 =
+> > +				&p_h264_slice_params->ref_pic_list0[i];
+> > +			struct v4l2_h264_reference *ref1 =
+> > +				&p_h264_slice_params->ref_pic_list1[i];
+> > +
+> > +			zero_reserved(*ref0);
+> > +			zero_reserved(*ref1);
+> > +		}
+> > +		break;
+> >  	case V4L2_CTRL_TYPE_H264_DECODE_PARAMS:
+> >  		break;
+> >  
+> > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+> > index 9b1cbc9bc38e..c6cbf178c1c9 100644
+> > --- a/include/media/h264-ctrls.h
+> > +++ b/include/media/h264-ctrls.h
+> > @@ -19,6 +19,8 @@
+> >   */
+> >  #define V4L2_H264_NUM_DPB_ENTRIES 16
+> >  
+> > +#define V4L2_H264_REF_PIC_LIST_LEN 32
+> > +
+> >  /* Our pixel format isn't stable at the moment */
+> >  #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
+> >  
+> > @@ -146,6 +148,7 @@ struct v4l2_h264_pred_weight_table {
+> >  struct v4l2_h264_reference {
+> >  	__u8 flags;
+> >  	__u8 index;
+> > +	__u16 reserved;
+> >  };
+> >  
+> >  struct v4l2_ctrl_h264_slice_params {
+> > @@ -190,8 +193,8 @@ struct v4l2_ctrl_h264_slice_params {
+> >  	 * Entries on each list are indices into
+> >  	 * v4l2_ctrl_h264_decode_params.dpb[].
+> >  	 */
+> > -	struct v4l2_h264_reference ref_pic_list0[32];
+> > -	struct v4l2_h264_reference ref_pic_list1[32];
+> > +	struct v4l2_h264_reference ref_pic_list0[V4L2_H264_REF_PIC_LIST_LEN];
+> > +	struct v4l2_h264_reference ref_pic_list1[V4L2_H264_REF_PIC_LIST_LEN];
+> >  
+> >  	__u32 flags;
+> >  };
+
 
