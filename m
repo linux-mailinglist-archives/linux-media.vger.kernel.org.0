@@ -2,63 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F4EB209DF8
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2020 13:59:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 410AE209E4F
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2020 14:18:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404317AbgFYL7M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jun 2020 07:59:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51642 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404285AbgFYL7L (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jun 2020 07:59:11 -0400
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89F93C061573
-        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2020 04:59:11 -0700 (PDT)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 198CAC6393; Thu, 25 Jun 2020 12:59:09 +0100 (BST)
-Date:   Thu, 25 Jun 2020 12:59:08 +0100
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.9] Minor fixes
-Message-ID: <20200625115908.GA24947@gofer.mess.org>
+        id S2404518AbgFYMSk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jun 2020 08:18:40 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:40960 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2404343AbgFYMSk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 25 Jun 2020 08:18:40 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1joQlq-008k8r-FF; Thu, 25 Jun 2020 12:14:22 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1joQsC-0001uB-23; Thu, 25 Jun 2020 12:20:56 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.9] Minor fixes (#64886)
+Date:   Thu, 25 Jun 2020 12:20:56 +0000
+Message-Id: <20200625122056.7282-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200625115908.GA24947@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit e30cc79cc80fd919b697a15c5000d9f57487de8e:
+From: builder@linuxtv.org
 
-  media: media-request: Fix crash if memory allocation fails (2020-06-23 15:19:37 +0200)
+Pull request: https://patchwork.linuxtv.org/patch/64886/
+Build log: https://builder.linuxtv.org/job/patchwork/56942/
+Build time: 00:10:44
+Link: https://lore.kernel.org/linux-media/20200625115908.GA24947@gofer.mess.org
 
-are available in the Git repository at:
+gpg: Signature made Thu 25 Jun 2020 11:43:01 AM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.9b
+Summary: 2 patches and/or PDF generation with issues, being 0 at build time
 
-for you to fetch changes up to 590421e3950bbd5d37ba11b8af73ff0ccd9ad18c:
+Error/warnings:
 
-  media: rc: return proper error code on error handling path in init (2020-06-24 10:05:23 +0100)
 
-----------------------------------------------------------------
-v5.9b
+Error #256 when running cat patches/0003-media-fintek-cir-remove-unused-function-fintek_clear.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
+$ cat patches/0003-media-fintek-cir-remove-unused-function-fintek_clear.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-----------------------------------------------------------------
-Evgeny Novikov (1):
-      media: rc: return proper error code on error handling path in init
-
-Sean Young (4):
-      media: drx-k: remove unused MulDiv32 function
-      media: nuvoton-cir: remove setting tx carrier functions
-      media: fintek-cir: remove unused function fintek_clear_reg_bit
-      media: cx23888: remove unused functions
-
- drivers/media/dvb-frontends/drxk_hard.c | 11 -----------
- drivers/media/pci/cx23885/cx23888-ir.c  | 20 --------------------
- drivers/media/rc/fintek-cir.c           |  7 -------
- drivers/media/rc/nuvoton-cir.c          | 32 --------------------------------
- drivers/media/rc/rc-main.c              |  2 +-
- 5 files changed, 1 insertion(+), 71 deletions(-)
