@@ -2,208 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BECE20A449
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2020 19:52:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A0BCE20A504
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2020 20:32:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406938AbgFYRwg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jun 2020 13:52:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50222 "EHLO
+        id S2404503AbgFYScC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jun 2020 14:32:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405562AbgFYRwg (ORCPT
+        with ESMTP id S2403908AbgFYScC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jun 2020 13:52:36 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFC42C08C5C1;
-        Thu, 25 Jun 2020 10:52:35 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 34B042A5774
-Message-ID: <d2d50756882b7cf23673c3a1b444c03d59648278.camel@collabora.com>
-Subject: Re: [RFC 7/7] media: uapi: make H264 stateless codec interface
- public
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Jeffrey Kardatzke <jkardatzke@chromium.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Date:   Thu, 25 Jun 2020 14:51:56 -0300
-In-Reply-To: <478a33a8-89e2-7ed8-4efe-76d62ddc223a@xs4all.nl>
-References: <20200623182809.1375-1-ezequiel@collabora.com>
-         <20200623182809.1375-8-ezequiel@collabora.com>
-         <478a33a8-89e2-7ed8-4efe-76d62ddc223a@xs4all.nl>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.0-1 
+        Thu, 25 Jun 2020 14:32:02 -0400
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BDC6FC08C5C1
+        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2020 11:32:01 -0700 (PDT)
+Received: by mail-qt1-x842.google.com with SMTP id i3so5437058qtq.13
+        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2020 11:32:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=hHWWArbhpKlyzNuAKAw11U6dZ/BFK8OqPQMdRHqJnf0=;
+        b=HI6c5DNg/37fdEoqkhcFEHV7IHPTtTso5/8kYoWpNFQU7Z8kEsR4j/+bb3ru+V8TsK
+         b309c/C48KqK3quR7q9HrZs5z2FZXbmqlb4VZe8F4yrZQyUbVx4/sQYIDzveFhpdD+3Q
+         3YsFugVff7lkNdVsaIDJLrY1pLIdOxRIx0BNpqgQHDbrWTV47d42SahbEJVGeTf3vuYw
+         kLRux57wjbU8exr3SCQh9mHqwd7n3z6ukSmV9Dwi5c1982zVIA1nISfLNXggtHSMNBwK
+         OOu8L+oVBGtEULhNLgQ7ca8K1MCI9qx/31iyZnfXUJm4D5Jj46NS0+TzcvhlqUDG04WL
+         M3Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=hHWWArbhpKlyzNuAKAw11U6dZ/BFK8OqPQMdRHqJnf0=;
+        b=lEYFGFkWDbtd3h+FPWd81BkR7cIgyfSu17xjPSt6kHH6iklXxghtFAb6oPuL7+mBNe
+         EBx8/5X1RrkrVeSZl1wnXzKULKhx9G8BbP2MIC3OnBKIM+WCDEApxhOYauJTA1eojHrb
+         5Fvvb9FcP2TFSH2QlLBF9sRMnR1scRzAhGvUgDHy+4SIABHQoB3yo7rgamvdpfH6WlCI
+         L2SttbcAHP9f9WC24G3byW72r9FMsKtnnu+rd8M5eOJo2KvRdWZACkFunnUL/YLyusUJ
+         zsrkUioyEtrdW9i2Bbt+XAkDvUNQo22DMrG6vjkuk9W2zj1HmOACbW3OGI1mhNr54pLF
+         LKyw==
+X-Gm-Message-State: AOAM5318iOyXy16h5QoCSh4DFUwNh7d9ctPJxm9wL31R8veEIeoiJNgq
+        cR6l7e3EnraF05wpEweGgcPYcw==
+X-Google-Smtp-Source: ABdhPJyn1AtvNbUceCr+ynV8AEivoBC53r7xpjl3ZaVrByhpxV5N5Ntne4i9XMkHRioP+vA3hnURMg==
+X-Received: by 2002:ac8:6f2c:: with SMTP id i12mr21871013qtv.174.1593109920805;
+        Thu, 25 Jun 2020 11:32:00 -0700 (PDT)
+Received: from [192.168.0.102] ([186.136.155.69])
+        by smtp.gmail.com with ESMTPSA id w65sm6871006qtd.86.2020.06.25.11.31.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Jun 2020 11:32:00 -0700 (PDT)
+Subject: Re: [PATCH v1 1/1] Add support for meson building
+To:     Gregor Jasny <gjasny@googlemail.com>,
+        Xavier Claessens <xavier.claessens@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
+        hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
+        nicolas@ndufresne.ca,
+        nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20200618133303.28676-1-ariel@vanguardiasur.com.ar>
+ <20200618133303.28676-2-ariel@vanguardiasur.com.ar>
+ <d09caaf6-402f-ba57-825c-410ce39a5e2b@ideasonboard.com>
+ <f2bf8846e265024c20a77fa618d54455b3b7ca95.camel@collabora.com>
+ <20200619144229.GD5823@pendragon.ideasonboard.com>
+ <adbb92de81105575d661f348a9804279a2844d64.camel@collabora.com>
+ <93bf1b72-0108-1dfa-22b4-f2194660129c@googlemail.com>
+ <0d3450f0-8883-e094-3c1b-d8f93c2e4833@googlemail.com>
+ <1586973f-5f69-fed0-4ad8-266cdd8e818b@vanguardiasur.com.ar>
+ <4d8eecf2-3ce5-927b-bb3d-d950d123f0e0@googlemail.com>
+From:   Ariel D'Alessandro <ariel@vanguardiasur.com.ar>
+Message-ID: <c8d8a2fe-6abb-796d-803c-672106bc9587@vanguardiasur.com.ar>
+Date:   Thu, 25 Jun 2020 15:32:04 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
+In-Reply-To: <4d8eecf2-3ce5-927b-bb3d-d950d123f0e0@googlemail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2020-06-25 at 09:52 +0200, Hans Verkuil wrote:
-> On 23/06/2020 20:28, Ezequiel Garcia wrote:
-> > The H264 interface is now ready to be part of the official
-> > public API.
-> > 
-> > In addition, sanitize header includes.
-> > 
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > ---
-> >  drivers/staging/media/hantro/hantro_hw.h                  | 5 ++---
-> >  include/media/v4l2-ctrls.h                                | 3 ++-
-> >  include/media/v4l2-h264.h                                 | 2 +-
-> >  .../{media/h264-ctrls.h => uapi/linux/v4l2-h264-ctrls.h}  | 8 ++------
-> >  4 files changed, 7 insertions(+), 11 deletions(-)
-> >  rename include/{media/h264-ctrls.h => uapi/linux/v4l2-h264-ctrls.h} (96%)
+Hey Gregor,
+
+On 6/24/20 4:46 PM, Gregor Jasny wrote:
+> Hello,
 > 
-> This isn't quite how this should be done.
+> thanks for your helpful suggestions. I made a PR from those: Feel free to squash
+> it into yours:
+> https://gitlab.com/adalessandro/v4l-utils/-/merge_requests/1
 > 
-> The V4L2_PIX_FMT_H264_SLICE define and the V4L2_CTRL_TYPE_H264_* defines should
-> move to videodev2.h.
+> When looking at your quoted code with the fixes I'm wondering if you forgot to
+> push your branch?
+
+Merged and pushed, thanks.
+
 > 
+> On 6/23/20 7:26 PM, Ariel D'Alessandro wrote:
+>> On 6/22/20 4:09 PM, Gregor Jasny wrote:
+[snip]
+> I have some more comments:
+> * The project version is still at 1.19.0 (should be 1.21.0 for the merge)
 
-OK.
+Got it.
 
-> The remaining CID defines and the data structures should be moved to v4l2-controls.h.
 > 
+> * As long as we support autotools and use 'make dist' to create the tarball we'd
+> have to add the meson.build and meson_options.txt to the EXTRA_DIST of the
+> respective Makefile.am.
 
-OK.
+Makes sense, will do that.
 
-> Yes, I know, v4l2-controls.h is getting large. At some point (could actually be
-> done in a follow-up patch) the codec controls in v4l2-controls.h should be split off
-> into their own header (v4l2-codec-controls.h).
+BTW, did you try 'meson dist'? Have any comments on that?
+
 > 
-
-OK, that makes sense.
-
-> One more thing that I was wondering about:
+> * for ir-keytable the following variables are set and forwarded to the source
+> code as a preprocessor define:
 > 
-> #define V4L2_CID_MPEG_VIDEO_H264_SPS            (V4L2_CID_MPEG_BASE+1000)
+> ir_keytable_system_dir = udevdir
+> ir_keytable_user_dir = get_option('sysconfdir') / 'rc_keymaps'
 > 
-> These controls are at V4L2_CID_MPEG_BASE+1000. But I was wondering if:
+> It would be nice if we could re-use those as the install-dir base here:
+> udevdir / 'rc_keymaps'
+
+Sounds good, let's re-use those variables as much as possible.
+
 > 
-> 1) wouldn't it be a good thing to use new CID values since this is the actual
->    uAPI version? This series changes the layout of several structs, so creating
->    new CID values to prevent confusion in applications might be a good idea.
+> (But that's nice to have)
 > 
-> 2) related to 1): should we make a new control class for stateless codecs?
->    Currently it is mixed in with the stateful codec controls, but I am not so
->    sure that that is such a good idea. Creating a separate stateless codec
->    control class would be a clean separation of stateful and stateless, and it
->    would probably improve the documentation as well.
+> * Right now on install we create an empty directory at the ir_keytable_user_dir.
+> Are you aware of any mechanism to create this with meson? I found
+> https://github.com/mesonbuild/meson/issues/2904 and it makes me think that there
+> is no easy way to do so. I could imaging to work-around by putting a readme file
+> inside of that directory to have it created. That would also explain its reason
+> for existence.
+
+Hmm, nope. I don't think there's a way for creating an empty directory with
+meson right now. We can achieve what you say using install_subdir() and exclude
+the README file:
+
+    install_subdir('user_dir_protocols',
+                   exclude_files : 'README.md',
+                   strip_directory : true,
+                   install_dir : ir_keytable_user_dir / 'protocols')
+
+See
+https://gitlab.com/adalessandro/v4l-utils/-/commit/144545f0a2901e825de44a57704ed43e08f667fc
+
 > 
+> I'm still very fascinated of the very high build speed improvement. For me it's
+> down to 8s (with cold cache). Very impressive. Thank you, again!
 
-Good idea.
+Great! Yep, meson rocks.
 
->    The only 'standard' codec control that is used by stateless codecs is
->    V4L2_CID_MPEG_VIDEO_H264_PROFILE in hantro, although it is not clear to me
->    how it is used. It looks like it is just to report the supported profiles?
->    But it isn't present in the cedrus driver, so it's a bit odd.
-> 
-
-I can take a look and add profiles to cedrus as well.
-
-> Thank you for working on finalizing the H264 API.
-> 
-
-Thanks for the guidelines and feedback.
-
-I will drop this patch for now, since I think we
-now have a clear guideline on how to go public
-(which was the goal of this RFC!).
-
-I will move forward the H264 uAPI changes,
-and then we can try to push H264, MPEG-2 and VP8
-public, as these interfaces are the ones
-that seem stable.
-
-Thanks!
-Ezequiel  
-
-> Regards,
-> 
-> 	Hans
-> 
-> > diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-> > index 4053d8710e04..48d5be144319 100644
-> > --- a/drivers/staging/media/hantro/hantro_hw.h
-> > +++ b/drivers/staging/media/hantro/hantro_hw.h
-> > @@ -11,9 +11,8 @@
-> >  
-> >  #include <linux/interrupt.h>
-> >  #include <linux/v4l2-controls.h>
-> > -#include <media/h264-ctrls.h>
-> > -#include <media/mpeg2-ctrls.h>
-> > -#include <media/vp8-ctrls.h>
-> > +
-> > +#include <media/v4l2-ctrls.h>
-> >  #include <media/videobuf2-core.h>
-> >  
-> >  #define DEC_8190_ALIGN_MASK	0x07U
-> > diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> > index f40e2cbb21d3..fc725ba2ebd8 100644
-> > --- a/include/media/v4l2-ctrls.h
-> > +++ b/include/media/v4l2-ctrls.h
-> > @@ -13,13 +13,14 @@
-> >  #include <linux/videodev2.h>
-> >  #include <media/media-request.h>
-> >  
-> > +#include <linux/v4l2-h264-ctrls.h>
-> > +
-> >  /*
-> >   * Include the stateless codec compound control definitions.
-> >   * This will move to the public headers once this API is fully stable.
-> >   */
-> >  #include <media/mpeg2-ctrls.h>
-> >  #include <media/fwht-ctrls.h>
-> > -#include <media/h264-ctrls.h>
-> >  #include <media/vp8-ctrls.h>
-> >  #include <media/hevc-ctrls.h>
-> >  
-> > diff --git a/include/media/v4l2-h264.h b/include/media/v4l2-h264.h
-> > index f08ba181263d..d2314f4d4490 100644
-> > --- a/include/media/v4l2-h264.h
-> > +++ b/include/media/v4l2-h264.h
-> > @@ -10,7 +10,7 @@
-> >  #ifndef _MEDIA_V4L2_H264_H
-> >  #define _MEDIA_V4L2_H264_H
-> >  
-> > -#include <media/h264-ctrls.h>
-> > +#include <media/v4l2-ctrls.h>
-> >  
-> >  /**
-> >   * struct v4l2_h264_reflist_builder - Reference list builder object
-> > diff --git a/include/media/h264-ctrls.h b/include/uapi/linux/v4l2-h264-ctrls.h
-> > similarity index 96%
-> > rename from include/media/h264-ctrls.h
-> > rename to include/uapi/linux/v4l2-h264-ctrls.h
-> > index 6446ec9f283d..a06f60670d68 100644
-> > --- a/include/media/h264-ctrls.h
-> > +++ b/include/uapi/linux/v4l2-h264-ctrls.h
-> > @@ -2,14 +2,10 @@
-> >  /*
-> >   * These are the H.264 state controls for use with stateless H.264
-> >   * codec drivers.
-> > - *
-> > - * It turns out that these structs are not stable yet and will undergo
-> > - * more changes. So keep them private until they are stable and ready to
-> > - * become part of the official public API.
-> >   */
-> >  
-> > -#ifndef _H264_CTRLS_H_
-> > -#define _H264_CTRLS_H_
-> > +#ifndef __LINUX_V4L2_H264_CONTROLS_H
-> > +#define __LINUX_V4L2_H264_CONTROLS_H
-> >  
-> >  #include <linux/videodev2.h>
-> >  
-> > 
-
-
+Ariel
