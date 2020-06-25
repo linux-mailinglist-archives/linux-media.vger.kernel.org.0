@@ -2,25 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8401520A18B
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2020 17:06:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F3CB820A1F0
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2020 17:30:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405512AbgFYPGo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jun 2020 11:06:44 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:37680 "EHLO
+        id S2405746AbgFYPa3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jun 2020 11:30:29 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37864 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405309AbgFYPGo (ORCPT
+        with ESMTP id S2404580AbgFYPa2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jun 2020 11:06:44 -0400
+        Thu, 25 Jun 2020 11:30:28 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id 857A72A5609
-Message-ID: <00e105d0706d6ae704eaedb2fe5371606fb2f9d6.camel@collabora.com>
-Subject: Re: [RFC 3/7] media: uapi: h264: clarify pic_order_cnt_bit_size
- field
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Reply-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 28CDA2A563E
+Message-ID: <b6b06fb27cb97d5c26523ef109512e041d227c5f.camel@collabora.com>
+Subject: Re: [RFC 4/7] media: uapi: h264: increase size of fields
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
         Jonas Karlman <jonas@kwiboo.se>,
@@ -30,72 +28,150 @@ Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Maxime Ripard <mripard@kernel.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Date:   Thu, 25 Jun 2020 11:06:37 -0400
-In-Reply-To: <20200623182809.1375-4-ezequiel@collabora.com>
+Date:   Thu, 25 Jun 2020 12:29:50 -0300
+In-Reply-To: <079f79676335c32941e0021b84849164858c09df.camel@collabora.com>
 References: <20200623182809.1375-1-ezequiel@collabora.com>
-         <20200623182809.1375-4-ezequiel@collabora.com>
+         <20200623182809.1375-5-ezequiel@collabora.com>
+         <079f79676335c32941e0021b84849164858c09df.camel@collabora.com>
 Organization: Collabora
-Content-Type: multipart/signed; micalg="pgp-sha1"; protocol="application/pgp-signature";
-        boundary="=-HRCQ/pXd/WmidTPZ7a7p"
-User-Agent: Evolution 3.36.3 (3.36.3-1.fc32) 
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.0-1 
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Thu, 2020-06-25 at 11:01 -0400, Nicolas Dufresne wrote:
+> Le mardi 23 juin 2020 à 15:28 -0300, Ezequiel Garcia a écrit :
+> > Slice header syntax element 'first_mb_in_slice' can point
+> > to the last macroblock, currently the field can only reference
+> > 65536 macroblocks which is insufficient for 8K videos.
+> > 
+> > DPB entry PicNum maximum value is 2*MaxFrameNum for interlaced
+> > content (field_pic_flag=1).
+> > 
+> > Therefore, increase 'first_mb_in_slice' and 'pic_num'.
+> > 
+> > The v4l2_h264_dpb_entry struct needs to be padded to avoid a hole,
+> > which will be useful to allow future uAPI extensions.
+> > 
+> > Note that v4l2_ctrl_h264_slice_params struct will be modified
+> > in a follow-up commit, and so we defer its 64-bit padding.
+> 
+> This patch includes two changes, with two distinct rationale. Please
+> split in two, I would also add reference to the spec in the commit
+> messages.
 
---=-HRCQ/pXd/WmidTPZ7a7p
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+OK.
 
-Le mardi 23 juin 2020 =C3=A0 15:28 -0300, Ezequiel Garcia a =C3=A9crit :
-> From: Philipp Zabel <p.zabel@pengutronix.de>
->=20
-> Since pic_order_cnt_bit_size is not a syntax element itself, explicitly
-> state that it is the total size in bits of the pic_order_cnt_lsb,
-> delta_pic_order_cnt_bottom, delta_pic_order_cnt[0], and
-> delta_pic_order_cnt[1] syntax elements contained in the slice.
->=20
-> Signed-off-by: Philipp Zabel <p.zabel@pengutronix.de>
-> [Ezequiel: rebase]
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> The explanation is also insufficient. Need to mention that
+> macro-blocks are 16x16, and the bounds for synthetic value
+> MaxFrameNum (derived from bitstream value) has not be mention either.
+> 
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+OK, will do.
 
-> ---
->  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/=
-Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index 7af12447a5b0..0808a36777b6 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -1813,7 +1813,9 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type =
--
->        - Size in bits of the dec_ref_pic_marking() syntax element.
->      * - __u32
->        - ``pic_order_cnt_bit_size``
-> -      -
-> +      - Combined size in bits of the picture order count related syntax
-> +        elements: pic_order_cnt_lsb, delta_pic_order_cnt_bottom,
-> +        delta_pic_order_cnt0, and delta_pic_order_cnt1.
->      * - __u8
->        - ``cabac_init_idc``
->        -
+Thanks!
+Ezequiel
 
---=-HRCQ/pXd/WmidTPZ7a7p
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> > ---
+> >  .../userspace-api/media/v4l/ext-ctrls-codec.rst          | 7 +++++--
+> >  drivers/media/v4l2-core/v4l2-ctrls.c                     | 9 +++++++++
+> >  include/media/h264-ctrls.h                               | 6 ++++--
+> >  include/media/v4l2-h264.h                                | 2 +-
+> >  4 files changed, 19 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > index 0808a36777b6..e3b5a28fb965 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> > @@ -1772,7 +1772,7 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+> >      * - __u32
+> >        - ``header_bit_size``
+> >        -
+> > -    * - __u16
+> > +    * - __u32
+> >        - ``first_mb_in_slice``
+> >        -
+> >      * - __u8
+> > @@ -2046,7 +2046,10 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
+> >      * - __u16
+> >        - ``frame_num``
+> >        -
+> > -    * - __u16
+> > +    * - __u8
+> > +      - ``reserved[6]``
+> > +      - Applications and drivers must set this to zero.
+> > +    * - __u32
+> >        - ``pic_num``
+> >        -
+> >      * - __s32
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> > index 6abd023f10c7..a751c14f9c22 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> > @@ -1734,6 +1734,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+> >  	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
+> >  	struct v4l2_ctrl_vp8_frame_header *p_vp8_frame_header;
+> >  	struct v4l2_ctrl_h264_slice_params *p_h264_slice_params;
+> > +	struct v4l2_ctrl_h264_decode_params *p_h264_dec_params;
+> >  	struct v4l2_ctrl_hevc_sps *p_hevc_sps;
+> >  	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
+> >  	struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
+> > @@ -1808,6 +1809,14 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+> >  		}
+> >  		break;
+> >  	case V4L2_CTRL_TYPE_H264_DECODE_PARAMS:
+> > +		p_h264_dec_params = p;
+> > +
+> > +		for (i = 0; i < V4L2_H264_NUM_DPB_ENTRIES; i++) {
+> > +			struct v4l2_h264_dpb_entry *dpb_entry =
+> > +				&p_h264_dec_params->dpb[i];
+> > +
+> > +			zero_reserved(*dpb_entry);
+> > +		}
+> >  		break;
+> >  
+> >  	case V4L2_CTRL_TYPE_VP8_FRAME_HEADER:
+> > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+> > index c6cbf178c1c9..a938d16b901c 100644
+> > --- a/include/media/h264-ctrls.h
+> > +++ b/include/media/h264-ctrls.h
+> > @@ -161,7 +161,8 @@ struct v4l2_ctrl_h264_slice_params {
+> >  	/* Offset in bits to slice_data() from the beginning of this slice. */
+> >  	__u32 header_bit_size;
+> >  
+> > -	__u16 first_mb_in_slice;
+> > +	__u32 first_mb_in_slice;
+> > +
+> >  	__u8 slice_type;
+> >  	__u8 pic_parameter_set_id;
+> >  	__u8 colour_plane_id;
+> > @@ -208,7 +209,8 @@ struct v4l2_ctrl_h264_slice_params {
+> >  struct v4l2_h264_dpb_entry {
+> >  	__u64 reference_ts;
+> >  	__u16 frame_num;
+> > -	__u16 pic_num;
+> > +	__u8 reserved[6];
+> > +	__u32 pic_num;
+> >  	/* Note that field is indicated by v4l2_buffer.field */
+> >  	__s32 top_field_order_cnt;
+> >  	__s32 bottom_field_order_cnt;
+> > diff --git a/include/media/v4l2-h264.h b/include/media/v4l2-h264.h
+> > index bc9ebb560ccf..1a5f26fc2a9a 100644
+> > --- a/include/media/v4l2-h264.h
+> > +++ b/include/media/v4l2-h264.h
+> > @@ -33,7 +33,7 @@ struct v4l2_h264_reflist_builder {
+> >  	struct {
+> >  		s32 pic_order_count;
+> >  		int frame_num;
+> > -		u16 pic_num;
+> > +		u32 pic_num;
+> >  		u16 longterm : 1;
+> >  	} refs[V4L2_H264_NUM_DPB_ENTRIES];
+> >  	s32 cur_pic_order_count;
 
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQSScpfJiL+hb5vvd45xUwItrAaoHAUCXvS9fQAKCRBxUwItrAao
-HHIhAKCIRsmacXsXoKdS6FG/g6sNjw0MVwCfcaJ1P8AWKbUk4BbBbwId7VvbekI=
-=neI2
------END PGP SIGNATURE-----
-
---=-HRCQ/pXd/WmidTPZ7a7p--
 
