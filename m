@@ -2,116 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A09EF20A6B2
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2020 22:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3436420A8DD
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 01:29:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407121AbgFYUT6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jun 2020 16:19:58 -0400
-Received: from smtp09.smtpout.orange.fr ([80.12.242.131]:58372 "EHLO
-        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405843AbgFYUT5 (ORCPT
+        id S1725931AbgFYX3h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jun 2020 19:29:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45928 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725831AbgFYX3d (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jun 2020 16:19:57 -0400
-Received: from localhost.localdomain ([93.22.134.133])
-        by mwinf5d69 with ME
-        id vYKo2200P2sr5ud03YKpeA; Thu, 25 Jun 2020 22:19:55 +0200
-X-ME-Helo: localhost.localdomain
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 25 Jun 2020 22:19:55 +0200
-X-ME-IP: 93.22.134.133
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To:     hverkuil@xs4all.nl, kyungmin.park@samsung.com, kamil@wypas.org,
-        a.hajda@samsung.com, mchehab@kernel.org
-Cc:     linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH] media: s5p-g2d: Fix a memory leak in an error handling path in 'g2d_probe()'
-Date:   Thu, 25 Jun 2020 22:19:47 +0200
-Message-Id: <20200625201947.943043-1-christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200426200631.42497-1-christophe.jaillet@wanadoo.fr>
-References: <20200426200631.42497-1-christophe.jaillet@wanadoo.fr>
+        Thu, 25 Jun 2020 19:29:33 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89BCEC08C5C1
+        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2020 16:29:33 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 975CA2A58AE
+Subject: Re: [RFC v4 3/8] media: Documentation: v4l: move table of
+ v4l2_pix_format(_mplane) flags to pixfmt-v4l2.rst
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
+Cc:     ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        tfiga@chromium.org, skhan@linuxfoundation.org,
+        p.zabel@pengutronix.de
+References: <20200605172625.19777-1-dafna.hirschfeld@collabora.com>
+ <20200605172625.19777-4-dafna.hirschfeld@collabora.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <58bbf581-aadc-c643-0bce-b2b7647c99a2@collabora.com>
+Date:   Thu, 25 Jun 2020 20:29:22 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200605172625.19777-4-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Memory allocated with 'v4l2_m2m_init()' must be freed by a corresponding
-call to 'v4l2_m2m_release()'
 
-Also reorder the code at the end of the probe function so that
-'video_register_device()' is called last.
-Update the error handling path accordingly.
 
-Fixes: 5ce60d790a24 ("[media] s5p-g2d: Add DT based discovery support")
-Fixes: 918847341af0 ("[media] v4l: add G2D driver for s5p device family")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
-V2: Call 'video_register_device()' as required by Hans Verkuil <hverkuil@xs4all.nl>
+On 6/5/20 2:26 PM, Dafna Hirschfeld wrote:
+> The table of the flags of the structs
+> v4l2_pix_format(_mplane) is currently in pixfmt-reserved.rst
+> which is wrong, it should be in pixfmt-v4l2.rst
+> 
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  .../userspace-api/media/v4l/pixfmt-reserved.rst | 17 -----------------
+>  .../userspace-api/media/v4l/pixfmt-v4l2.rst     | 17 +++++++++++++++++
+>  .../media/videodev2.h.rst.exceptions            |  2 +-
+>  3 files changed, 18 insertions(+), 18 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> index 59b9e7238f90..74ab6b5ce294 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-reserved.rst
+> @@ -263,20 +263,3 @@ please make a proposal on the linux-media mailing list.
+>  	of tiles, resulting in 32-aligned resolutions for the luminance plane
+>  	and 16-aligned resolutions for the chrominance plane (with 2x2
+>  	subsampling).
+> -
+> -.. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+> -
+> -.. _format-flags:
+> -
+> -.. flat-table:: Format Flags
+> -    :header-rows:  0
+> -    :stub-columns: 0
+> -    :widths:       3 1 4
+> -
+> -    * - ``V4L2_PIX_FMT_FLAG_PREMUL_ALPHA``
+> -      - 0x00000001
+> -      - The color values are premultiplied by the alpha channel value. For
+> -	example, if a light blue pixel with 50% transparency was described
+> -	by RGBA values (128, 192, 255, 128), the same pixel described with
+> -	premultiplied colors would be described by RGBA values (64, 96,
+> -	128, 128)> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst b/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst
+> index 759420a872d6..ffa539592822 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-v4l2.rst
+> @@ -169,3 +169,20 @@ Single-planar format structure
+>          This information supplements the ``colorspace`` and must be set by
+>  	the driver for capture streams and by the application for output
+>  	streams, see :ref:`colorspaces`.
+> +
+> +.. tabularcolumns:: |p{6.6cm}|p{2.2cm}|p{8.7cm}|
+> +
+> +.. _format-flags:
+> +
+> +.. flat-table:: Format Flags
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths:       3 1 4
+> +
+> +    * - ``V4L2_PIX_FMT_FLAG_PREMUL_ALPHA``
+> +      - 0x00000001
+> +      - The color values are premultiplied by the alpha channel value. For
+> +        example, if a light blue pixel with 50% transparency was described
+> +	by RGBA values (128, 192, 255, 128), the same pixel described with
+> +	premultiplied colors would be described by RGBA values (64, 96,
+> +	128, 128)
 
-Compile tested only.
----
- drivers/media/platform/s5p-g2d/g2d.c | 28 +++++++++++++++-------------
- 1 file changed, 15 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/media/platform/s5p-g2d/g2d.c b/drivers/media/platform/s5p-g2d/g2d.c
-index 6932fd47071b..fb2e48dbabd4 100644
---- a/drivers/media/platform/s5p-g2d/g2d.c
-+++ b/drivers/media/platform/s5p-g2d/g2d.c
-@@ -695,21 +695,13 @@ static int g2d_probe(struct platform_device *pdev)
- 	vfd->lock = &dev->mutex;
- 	vfd->v4l2_dev = &dev->v4l2_dev;
- 	vfd->device_caps = V4L2_CAP_VIDEO_M2M | V4L2_CAP_STREAMING;
--	ret = video_register_device(vfd, VFL_TYPE_VIDEO, 0);
--	if (ret) {
--		v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
--		goto rel_vdev;
--	}
--	video_set_drvdata(vfd, dev);
--	dev->vfd = vfd;
--	v4l2_info(&dev->v4l2_dev, "device registered as /dev/video%d\n",
--								vfd->num);
-+
- 	platform_set_drvdata(pdev, dev);
- 	dev->m2m_dev = v4l2_m2m_init(&g2d_m2m_ops);
- 	if (IS_ERR(dev->m2m_dev)) {
- 		v4l2_err(&dev->v4l2_dev, "Failed to init mem2mem device\n");
- 		ret = PTR_ERR(dev->m2m_dev);
--		goto unreg_video_dev;
-+		goto rel_vdev;
- 	}
- 
- 	def_frame.stride = (def_frame.width * def_frame.fmt->depth) >> 3;
-@@ -717,14 +709,24 @@ static int g2d_probe(struct platform_device *pdev)
- 	of_id = of_match_node(exynos_g2d_match, pdev->dev.of_node);
- 	if (!of_id) {
- 		ret = -ENODEV;
--		goto unreg_video_dev;
-+		goto free_m2m;
- 	}
- 	dev->variant = (struct g2d_variant *)of_id->data;
- 
-+	ret = video_register_device(vfd, VFL_TYPE_VIDEO, 0);
-+	if (ret) {
-+		v4l2_err(&dev->v4l2_dev, "Failed to register video device\n");
-+		goto free_m2m;
-+	}
-+	video_set_drvdata(vfd, dev);
-+	dev->vfd = vfd;
-+	v4l2_info(&dev->v4l2_dev, "device registered as /dev/video%d\n",
-+								vfd->num);
-+
- 	return 0;
- 
--unreg_video_dev:
--	video_unregister_device(dev->vfd);
-+free_m2m:
-+	v4l2_m2m_release(dev->m2m_dev);
- rel_vdev:
- 	video_device_release(vfd);
- unreg_v4l2_dev:
--- 
-2.25.1
+I see this is also pointed by Documentation/userspace-api/media/v4l/pixfmt-v4l2-mplane.rst, but I don't
+oppose moving the flags to this page.
 
+Regards,
+Helen
+
+
+> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> index a625fb90e3a9..564a3bf5bc6d 100644
+> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> @@ -180,7 +180,7 @@ replace define V4L2_CAP_IO_MC device-capabilities
+>  
+>  # V4L2 pix flags
+>  replace define V4L2_PIX_FMT_PRIV_MAGIC :c:type:`v4l2_pix_format`
+> -replace define V4L2_PIX_FMT_FLAG_PREMUL_ALPHA reserved-formats
+> +replace define V4L2_PIX_FMT_FLAG_PREMUL_ALPHA format-flags
+>  
+>  # V4L2 format flags
+>  replace define V4L2_FMT_FLAG_COMPRESSED fmtdesc-flags
+> 
