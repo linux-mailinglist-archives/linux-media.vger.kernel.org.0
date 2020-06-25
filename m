@@ -2,92 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 764D2209D3A
-	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2020 13:05:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2352E209D6B
+	for <lists+linux-media@lfdr.de>; Thu, 25 Jun 2020 13:26:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404140AbgFYLFi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jun 2020 07:05:38 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:42309 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2404135AbgFYLFh (ORCPT
+        id S2404228AbgFYL00 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jun 2020 07:26:26 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49971 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2404191AbgFYL0Z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jun 2020 07:05:37 -0400
+        Thu, 25 Jun 2020 07:26:25 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id oPh4jenqO97i5oPhBjVesi; Thu, 25 Jun 2020 13:05:35 +0200
+        id oQ1IjeuQ797i5oQ1NjVirO; Thu, 25 Jun 2020 13:26:23 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1593083135; bh=weU4JmQLlWhZvLdZf3KCuYvnbwNey9WayGdTSOxoiiA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1593084383; bh=qCyqN6LurpUokubcpM22PIJj25iSsZ2h0BAZfU/FpU8=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=UymqP3b6ZGCUAw5KO3OgN3M05RMxzYAmKEhNIK5jqCyesYGNY6TMeioEQyz08ycHp
-         Rfvh0tY7i49loIYauppcbieTSxQF3ZzRJNlEzQMjVHQfXsrntjH3PuzQMy74wKy544
-         6PnRnmHK2pEU76Q/kQVAJNTgm5sn6C4JBf1Y3HTHotUeSL7ArvVV0WpHk2WASL4ZyY
-         Nj3LQYIFJK27EdTk/7lxbGyO3b+/nBQdgRBHElIQKOz9kYVHzkrVfRNWJZXwT+Jjwu
-         E0GqzNOna/jCiNqnmdHYnVZ8kqTWWwJcL2V6CBnNetxeeUf4+G/FB5eiKt9BwoLoP9
-         PX8oSwOHOA7NA==
-Subject: Re: [PATCH] media: i2c: tvp5150: Fix horizontal crop stop boundry
-To:     Robin van der Gracht <robin@protonic.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andreas Pretzsch <apr@cn-eng.de>
-References: <20190917071442.24986-1-robin@protonic.nl>
+        b=OPhOeYiAkSh4vzpq4Ga7RRrIix/9rBCqLCVCUsHPYx24ODETEA6IlWWv4SEQbouNv
+         iaJLW0+wjskKHRzJCbEQ/xdpWT5aNeU/lYZHrKlw6YdieNgWOm8xPPVbNmPVxwE59C
+         j8cKmAXFXy8UdyePiBSAwBGURmTzy9E2VbSghbQIEMhHG18QJPtFM3j8bLygml4CXn
+         UhKgotPFoatbIuJSjfkd7YaQRAGdcX33DVeywLWg5u8H+T0V6UZkAaGfTgE0pKc2s5
+         IXl4ArbLFGK000RTLcYE6Vra9UQi3CmYAPD1kE0VMmOOzDEQSx7jvtifrplFRKsZ67
+         i+4Rj9EsNZt3w==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <23cbd4c0-b53e-d01f-e6d6-b4d2d689bb59@xs4all.nl>
-Date:   Thu, 25 Jun 2020 13:05:22 +0200
+Subject: [GIT PULL FOR v5.9] v2: Various fixes/enhancements
+Message-ID: <691d2162-159f-032a-1e7f-99e506ce74ab@xs4all.nl>
+Date:   Thu, 25 Jun 2020 13:26:16 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20190917071442.24986-1-robin@protonic.nl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLhaxhQe8g30ybcfYCwJLKehBtAxYBjc6Rbnv56NHC2zhbP/YsVBhDCZ7ioHZ6ms8Q/k62Bf/tPNb7GjvW2oD9e//mLiYEyUNULs+GqEd/5r84scJHJM
- 2wmErvxx+0nOAqgGYXWCeUbc8vIGXnKsXOjLxkFnxiGbOY1ZjAqU/aOP22q8imENZKnxnNJ2eFH80Ivxmb4ncisppHduZ8eNNUB2KhuJNjt9ie2w6hoa1p94
- ty8R007NI50mrUCfbEa6f8fFZOCJfYtSVkW5c0/hfqoY1IfncjmNnPwX9THv75lhtxAcQQ7kElNicul+xSDF7s2lj0mhkbnw1lGBOq7YO9qO55jaGkZCwQDD
- Elo1bFLZz4sZaQCScXzgu4CWyKQCWQ==
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4wfMlzA3hEd7r8m0kGg2ELZMulZX0PFN6652FsYIJl9ekZqM84H+dNkuCULXe7lvXrgNbYzS+KSqlHGXFYPNuPCErdO9ZgSIdmWL+SugZDmwWE1CBJKuZ4
+ fxbPpCMMWRzBJhbqgrsTPbnXB9tDC/WZtN/s/SurSp/hPmFaIzTAfVtlSloDX82RMrIjgIhNWVt+mQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/09/2019 09:14, Robin van der Gracht wrote:
-> The value for AVID stop is relative to the width of the active video area,
-> not the maximum register value. Zero means equal and a negative value means
-> we're cropping on the right side.
+Supersedes https://patchwork.linuxtv.org/patch/64836/.
 
-While going through old unreviewed patches I came across this one (sorry Robin,
-your patch fell through the cracks).
-
-Can someone verify/test that this is correct? Marco perhaps?
+That previous PR had the wrong cros-ev-cec patch.
+I also added two more patches for the rockchip rga driver.
 
 Regards,
 
 	Hans
 
-> 
-> Signed-off-by: Robin van der Gracht <robin@protonic.nl>
-> ---
->  drivers/media/i2c/tvp5150.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/tvp5150.c b/drivers/media/i2c/tvp5150.c
-> index f47cb9a023fb..6bc65ab5e8ab 100644
-> --- a/drivers/media/i2c/tvp5150.c
-> +++ b/drivers/media/i2c/tvp5150.c
-> @@ -1231,10 +1231,10 @@ __tvp5150_set_selection(struct v4l2_subdev *sd, struct v4l2_rect rect)
->  	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_ST_LSB,
->  		     rect.left | (1 << TVP5150_CROP_SHIFT));
->  	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_MSB,
-> -		     (rect.left + rect.width - TVP5150_MAX_CROP_LEFT) >>
-> +		     (rect.left + rect.width - TVP5150_H_MAX) >>
->  		     TVP5150_CROP_SHIFT);
->  	regmap_write(decoder->regmap, TVP5150_ACT_VD_CROP_STP_LSB,
-> -		     rect.left + rect.width - TVP5150_MAX_CROP_LEFT);
-> +		     rect.left + rect.width - TVP5150_H_MAX);
->  }
->  
->  static int tvp5150_set_selection(struct v4l2_subdev *sd,
-> 
 
+The following changes since commit e30cc79cc80fd919b697a15c5000d9f57487de8e:
+
+  media: media-request: Fix crash if memory allocation fails (2020-06-23 15:19:37 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.9c
+
+for you to fetch changes up to 29a2a30064c49e6811562b22261dd39ee9be9092:
+
+  media: cros-ec-cec: do not bail on device_init_wakeup failure (2020-06-25 13:12:03 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Benoit Parrot (2):
+      media: v4l2-rect.h: add enclosed rectangle helper
+      media: use v4l2_rect_enclosed helper
+
+Chuhong Yuan (2):
+      media: tvp5150: Add missed media_entity_cleanup()
+      media: exynos4-is: Add missed check for pinctrl_lookup_state()
+
+Dafna Hirschfeld (5):
+      media: staging: rkisp1: rsz: supported formats are the isp's src formats, not sink formats
+      media: staging: rkisp1: remove macro RKISP1_DIR_SINK_SRC
+      media: staging: rkisp1: rename macros 'RKISP1_DIR_*' to 'RKISP1_ISP_SD_*'
+      media: staging: rkisp1: rsz: set default format if the given format is not RKISP1_ISP_SD_SRC
+      media: staging: rkisp1: set more precise size errors in debugfs
+
+Dan Carpenter (2):
+      media: allegro: Fix some NULL vs IS_ERR() checks in probe
+      media: pxa_camera: remove an impossible condition
+
+Dariusz Marcinkiewicz (1):
+      media: cros-ec-cec: do not bail on device_init_wakeup failure
+
+Gustavo A. R. Silva (1):
+      media: test_drivers: vivid-core: Use array_size() helper
+
+Helen Koike (1):
+      media: staging: rkisp1: rsz: fix resolution limitation on sink pad
+
+John Cox (1):
+      media: videobuf2: Fix length check for single plane dmabuf queueing
+
+Krzysztof Kozlowski (1):
+      media: samsung: Rename Samsung and Exynos to lowercase
+
+Lad Prabhakar (3):
+      media: rcar-vin: Invalidate pipeline if conversion is not possible on input formats
+      media: rcar-vin: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
+      media: rcar-csi2: Add support for MEDIA_BUS_FMT_SRGGB8_1X8 format
+
+Laurent Pinchart (1):
+      media: vb2: Print the queue pointer in debug messages
+
+Niklas Söderlund (1):
+      rcar-csi2: Rename confirm_start() to phy_post_init() to match its usage
+
+Paul Kocialkowski (2):
+      media: rockchip: rga: Introduce color fmt macros and refactor CSC mode logic
+      media: rockchip: rga: Only set output CSC mode for RGB input
+
+Stanimir Varbanov (1):
+      docs: dev-decoder: Add one more reason for dynamic change
+
+ Documentation/admin-guide/media/fimc.rst              |   6 +-
+ Documentation/driver-api/media/drivers/tuners.rst     |   2 +-
+ Documentation/userspace-api/media/v4l/dev-decoder.rst |   4 +-
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c      |   6 +-
+ drivers/media/common/videobuf2/videobuf2-core.c       | 226 ++++++++++++++++++++++++++++---------------------------
+ drivers/media/common/videobuf2/videobuf2-v4l2.c       |  71 ++++++++++-------
+ drivers/media/i2c/tvp5150.c                           |   8 +-
+ drivers/media/platform/am437x/am437x-vpfe.c           |  19 +----
+ drivers/media/platform/exynos4-is/fimc-capture.c      |  18 +----
+ drivers/media/platform/exynos4-is/fimc-lite.c         |  18 +----
+ drivers/media/platform/exynos4-is/media-dev.c         |   5 +-
+ drivers/media/platform/pxa_camera.c                   |  19 ++---
+ drivers/media/platform/rcar-vin/rcar-csi2.c           |  15 ++--
+ drivers/media/platform/rcar-vin/rcar-dma.c            |  21 +++++-
+ drivers/media/platform/rcar-vin/rcar-v4l2.c           |  15 +++-
+ drivers/media/platform/rockchip/rga/rga-hw.c          |  29 +++----
+ drivers/media/platform/rockchip/rga/rga-hw.h          |   5 ++
+ drivers/media/platform/s3c-camif/camif-core.c         |   2 +-
+ drivers/media/platform/s5p-jpeg/jpeg-core.c           |  16 +---
+ drivers/media/test-drivers/vivid/vivid-core.c         |   4 +-
+ drivers/staging/media/allegro-dvt/allegro-core.c      |   8 +-
+ drivers/staging/media/rkisp1/rkisp1-common.h          |   7 +-
+ drivers/staging/media/rkisp1/rkisp1-dev.c             |   9 ++-
+ drivers/staging/media/rkisp1/rkisp1-isp.c             |  53 ++++++-------
+ drivers/staging/media/rkisp1/rkisp1-resizer.c         |  14 ++--
+ include/media/v4l2-rect.h                             |  20 +++++
+ include/media/videobuf2-core.h                        |   4 +
+ include/media/videobuf2-v4l2.h                        |  13 ++++
+ 28 files changed, 347 insertions(+), 290 deletions(-)
