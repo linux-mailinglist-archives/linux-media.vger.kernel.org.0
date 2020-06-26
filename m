@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE02720B226
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 15:08:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77AAC20B22A
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 15:08:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728504AbgFZNHX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 09:07:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58882 "EHLO
+        id S1728555AbgFZNHb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 09:07:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58906 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726678AbgFZNHW (ORCPT
+        with ESMTP id S1728539AbgFZNHa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 09:07:22 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A938C08C5DC
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 06:07:22 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id k71so1482269pje.0
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 06:07:22 -0700 (PDT)
+        Fri, 26 Jun 2020 09:07:30 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48CD9C08C5DB
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 06:07:30 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id p11so4615410pff.11
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 06:07:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=p5f1RM1G3Lr7GaMJ5iGuAFQEEYFL5B+QSi2APysRKNI=;
-        b=Nw2aOaTp7dntGwpDclpV8L5OpCadjxLkCZkxpm1nhXCPZC9G5AGDmuTA7hcYD+iCOC
-         s1bV+JgCapJWgFcRVPMA8eNEnBfYlSWmsZ3+GqvENOiXU6pG4Tz7ncDd07igt/0ENU08
-         7Qnks9sVmCgEirnBlOvpxzU5bqg1a4XSY8LKEq35Diy/OybSBP4qhPiWfYUXAtddXpSa
-         LYw53wptcsTXs9Q2+3TLVhjBa5qyz8CjtIMETDQax+G/cYwzK1pt1lU3inrTcGc1/yNX
-         J9wDQHVZVY9C2r8O4NgN3tktaTbxAzdZYkSTZ36d2aGbVPL5n/p9K1Lva14MdBYA+wn4
-         71Bg==
+        bh=NRJmV6QfNACg/W2qGdUyNfNSRYBISUhip+jiANXSZ2U=;
+        b=C9HB4SEDS2B7u1kQDaipaFKfr7hH6OpplX5jWV8b6ZHCBND/tTgHL6PVf6dHc2f6Sd
+         5NwS88iK75iPQfV7AefXxKkZOxPRxLwWEQjCL2ilZmNqOTbRoSkptL8QMnJdDAIVeRD8
+         n8z4n9oY6FvqHnciDAL0ikMjWBqBzo1nvpu+HHTyY1ba1ezjuZpKQ89Q8DkJTmpTwAJK
+         n/UJRXb5+sF3xQ5DZxE6IXuuzbxNRP4C4YmCHtIzLcJXurLDofQ1WpMpCnFf5NsKYKRQ
+         pq1YYaML6SWB/bOkxZa0v0nWkuGFtu0jdeK2Xh01GNjzyWjkExubOZnfEj8hR1uWZtjp
+         X0Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=p5f1RM1G3Lr7GaMJ5iGuAFQEEYFL5B+QSi2APysRKNI=;
-        b=Qc8F8881eHyY4hFMQokSV6QBcyA8Lr5HgKLrHlGhoiFqDGW+o9Mgv/SBniXcETYKHw
-         W/cgwcqwBHThsnBpimzRxCKcKSAbBG96kQ2TfV1NskQL1FQ9DxZIhN5czPApy6RdmlzC
-         xD1AiiDR065pROoHnAgZknOnHnntP0Nku2T7ZbqrvSDN6eGviV09Q/IzxaSlVhh/380Z
-         1LwpuUdeJjmHYud5MaOQJ4pxlPCYpI9f8Ejc/nfd0JrM74HO9bwzCoLGHpUth3U3mhSL
-         diuqwqt3oPZ/uL8Q3LI9hw6EPT3yMWdsFUALh9X6apx9Q+hai5BeK73ZyOUmQM4/cIzu
-         v0fA==
-X-Gm-Message-State: AOAM533xVK6KXKp0fA+1GGweCGkQKip+Sk0r+S/95/ffNDb6SNDbHDJD
-        jVN84w4AE4cTpAfJVgk8y9JTOw==
-X-Google-Smtp-Source: ABdhPJzNTJy2Kd+NRn0bHfE8f8YU4s3LNezimcOqIj3veZ18CCVfe5QoepFfjgYitoBkScGcnEYcHQ==
-X-Received: by 2002:a17:90a:ee95:: with SMTP id i21mr3526541pjz.77.1593176841782;
-        Fri, 26 Jun 2020 06:07:21 -0700 (PDT)
+        bh=NRJmV6QfNACg/W2qGdUyNfNSRYBISUhip+jiANXSZ2U=;
+        b=UviVCBLDzsSCE1PyoHWSSivvCGw+94Ve12h2Tu5raab2x8H+IwYcwhq00OuWE966ZJ
+         FKgeVu/mmzhG7zIz60ghlzSEpNXAVC6Gp2YaiZtWMAWnTHOqu3NUAg6cCiKVtSgWMbEF
+         efAeDVBaTIuIHCuFU7OeAhxazt3NU/acsyB0pPO1QWUazcWUQmlfusg4/8SbUcl8gwd8
+         l9yWJnEG8hCZW4j8idzPI+u+3sfWwJWbX31yfyV80gW/2X+sVfGiSEbFfjA0iDoUnQtr
+         wALx8rbzPAIjcf1O5MEzOOzzRaHCRsWib09hF8FeBHx/teMBVFje5PqTyVlw3Ug5JY+T
+         lG6Q==
+X-Gm-Message-State: AOAM532RtwtxE8jhXAkScJEscPzaCIjpYZJZsKaD5RcLA/LHAk3kLyfP
+        UATI40enbpr/nNzuATEk691cCw==
+X-Google-Smtp-Source: ABdhPJyUy2sNWyz/EYNDLPMgLiILJgLDLkSMLhV1fdEM9RqMwZTH+4yl8tY2R49P7nSH7SwuIr11iQ==
+X-Received: by 2002:a63:5b07:: with SMTP id p7mr2633032pgb.250.1593176849698;
+        Fri, 26 Jun 2020 06:07:29 -0700 (PDT)
 Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.178])
-        by smtp.gmail.com with ESMTPSA id s10sm7246718pjl.41.2020.06.26.06.07.20
+        by smtp.gmail.com with ESMTPSA id z14sm26023750pfj.64.2020.06.26.06.07.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2020 06:07:21 -0700 (PDT)
+        Fri, 26 Jun 2020 06:07:29 -0700 (PDT)
 From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
 To:     Helen Koike <helen.koike@collabora.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
@@ -55,9 +55,9 @@ To:     Helen Koike <helen.koike@collabora.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         hverkuil@xs4all.nl
 Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>
-Subject: [PATCH v7 2/3] media: tpg: Add function to return colors' order of test image
-Date:   Fri, 26 Jun 2020 18:36:59 +0530
-Message-Id: <20200626130700.2453-3-kgupta@es.iitr.ac.in>
+Subject: [PATCH v7 3/3] media: vimc: Add a control to display info on test image
+Date:   Fri, 26 Jun 2020 18:37:00 +0530
+Message-Id: <20200626130700.2453-4-kgupta@es.iitr.ac.in>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200626130700.2453-1-kgupta@es.iitr.ac.in>
 References: <20200626130700.2453-1-kgupta@es.iitr.ac.in>
@@ -66,83 +66,198 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently there is no method to know the correct order of the colors for
-a test image generated by tpg. Write a function that returns a string of
-colors' order given a tpg. It returns a NULL pointer in case of test
-patterns which do not have a well defined colors' order. Hence add a
-NULL check for text in tpg_gen_text().
+Add a control in VIMC to display information such as the correct order of
+colors for a given test pattern, brightness, hue, saturation, contrast,
+width and height at sensor over test image.
 
 Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 ---
- drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 30 +++++++++++++++++--
- include/media/tpg/v4l2-tpg.h                  |  1 +
- 2 files changed, 29 insertions(+), 2 deletions(-)
+ drivers/media/test-drivers/vimc/Kconfig       |  2 +
+ drivers/media/test-drivers/vimc/vimc-common.h |  1 +
+ drivers/media/test-drivers/vimc/vimc-core.c   | 10 +++
+ drivers/media/test-drivers/vimc/vimc-sensor.c | 70 +++++++++++++++++++
+ 4 files changed, 83 insertions(+)
 
-diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-index dde22a4cbd6c..c46ddd902675 100644
---- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-+++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-@@ -1959,12 +1959,14 @@ void tpg_gen_text(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
- 	unsigned step = V4L2_FIELD_HAS_T_OR_B(tpg->field) ? 2 : 1;
- 	unsigned div = step;
- 	unsigned first = 0;
--	unsigned len = strlen(text);
-+	unsigned len;
- 	unsigned p;
+diff --git a/drivers/media/test-drivers/vimc/Kconfig b/drivers/media/test-drivers/vimc/Kconfig
+index 4068a67585f9..da4b2ad6e40c 100644
+--- a/drivers/media/test-drivers/vimc/Kconfig
++++ b/drivers/media/test-drivers/vimc/Kconfig
+@@ -2,6 +2,8 @@
+ config VIDEO_VIMC
+ 	tristate "Virtual Media Controller Driver (VIMC)"
+ 	depends on VIDEO_DEV && VIDEO_V4L2
++	select FONT_SUPPORT
++	select FONT_8x16
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	select VIDEOBUF2_VMALLOC
+diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
+index ae163dec2459..a289434e75ba 100644
+--- a/drivers/media/test-drivers/vimc/vimc-common.h
++++ b/drivers/media/test-drivers/vimc/vimc-common.h
+@@ -20,6 +20,7 @@
+ #define VIMC_CID_VIMC_CLASS		(0x00f00000 | 1)
+ #define VIMC_CID_TEST_PATTERN		(VIMC_CID_VIMC_BASE + 0)
+ #define VIMC_CID_MEAN_WIN_SIZE		(VIMC_CID_VIMC_BASE + 1)
++#define VIMC_CID_OSD_TEXT_MODE		(VIMC_CID_VIMC_BASE + 2)
  
--	if (font8x16 == NULL || basep == NULL)
-+	if (font8x16 == NULL || basep == NULL || text == NULL)
- 		return;
+ #define VIMC_FRAME_MAX_WIDTH 4096
+ #define VIMC_FRAME_MAX_HEIGHT 2160
+diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
+index 11210aaa2551..4b0ae6f51d76 100644
+--- a/drivers/media/test-drivers/vimc/vimc-core.c
++++ b/drivers/media/test-drivers/vimc/vimc-core.c
+@@ -5,10 +5,12 @@
+  * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
+  */
  
-+	len = strlen(text);
-+
- 	/* Checks if it is possible to show string */
- 	if (y + 16 >= tpg->compose.height || x + 8 >= tpg->compose.width)
- 		return;
-@@ -2006,6 +2008,30 @@ void tpg_gen_text(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
- }
- EXPORT_SYMBOL_GPL(tpg_gen_text);
++#include <linux/font.h>
+ #include <linux/init.h>
+ #include <linux/module.h>
+ #include <linux/platform_device.h>
+ #include <media/media-device.h>
++#include <media/tpg/v4l2-tpg.h>
+ #include <media/v4l2-device.h>
  
-+const char *tpg_g_color_order(const struct tpg_data *tpg)
-+{
-+	switch (tpg->pattern) {
-+	case TPG_PAT_75_COLORBAR:
-+	case TPG_PAT_100_COLORBAR:
-+	case TPG_PAT_CSC_COLORBAR:
-+	case TPG_PAT_100_HCOLORBAR:
-+		return "white, yellow, cyan, green, magenta, red, blue, black";
-+	case TPG_PAT_BLACK:
-+		return "Black";
-+	case TPG_PAT_WHITE:
-+		return "White";
-+	case TPG_PAT_RED:
-+		return "Red";
-+	case TPG_PAT_GREEN:
-+		return "Green";
-+	case TPG_PAT_BLUE:
-+		return "Blue";
-+	default:
-+		return NULL;
+ #include "vimc-common.h"
+@@ -263,11 +265,19 @@ static int vimc_register_devices(struct vimc_device *vimc)
+ 
+ static int vimc_probe(struct platform_device *pdev)
+ {
++	const struct font_desc *font = find_font("VGA8x16");
+ 	struct vimc_device *vimc;
+ 	int ret;
+ 
+ 	dev_dbg(&pdev->dev, "probe");
+ 
++	if (!font) {
++		dev_err(&pdev->dev, "could not find font\n");
++		return -ENODEV;
 +	}
-+}
-+EXPORT_SYMBOL_GPL(tpg_g_color_order);
 +
- void tpg_update_mv_step(struct tpg_data *tpg)
++	tpg_set_font(font->data);
++
+ 	vimc = kzalloc(sizeof(*vimc), GFP_KERNEL);
+ 	if (!vimc)
+ 		return -ENOMEM;
+diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
+index a2f09ac9a360..9e4fb3f4d60d 100644
+--- a/drivers/media/test-drivers/vimc/vimc-sensor.c
++++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
+@@ -19,6 +19,8 @@ struct vimc_sen_device {
+ 	struct v4l2_subdev sd;
+ 	struct tpg_data tpg;
+ 	u8 *frame;
++	unsigned int osd_mode;
++	u64 start_stream_ts;
+ 	/* The active format */
+ 	struct v4l2_mbus_framefmt mbus_format;
+ 	struct v4l2_ctrl_handler hdl;
+@@ -187,8 +189,54 @@ static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
  {
- 	int factor = tpg->mv_hor_mode > TPG_MOVE_NONE ? -1 : 1;
-diff --git a/include/media/tpg/v4l2-tpg.h b/include/media/tpg/v4l2-tpg.h
-index 9749ed409856..0b0ddb87380e 100644
---- a/include/media/tpg/v4l2-tpg.h
-+++ b/include/media/tpg/v4l2-tpg.h
-@@ -252,6 +252,7 @@ void tpg_fillbuffer(struct tpg_data *tpg, v4l2_std_id std,
- bool tpg_s_fourcc(struct tpg_data *tpg, u32 fourcc);
- void tpg_s_crop_compose(struct tpg_data *tpg, const struct v4l2_rect *crop,
- 		const struct v4l2_rect *compose);
-+const char *tpg_g_color_order(const struct tpg_data *tpg);
+ 	struct vimc_sen_device *vsen = container_of(ved, struct vimc_sen_device,
+ 						    ved);
++	enum osd_mode {OSD_SHOW_ALL = 0, OSD_SHOW_COUNTERS = 1, OSD_SHOW_NONE = 2};
++	const unsigned int line_height = 16;
++	u8 *basep[TPG_MAX_PLANES][2];
++	unsigned int line = 1;
++	char str[100];
  
- static inline void tpg_s_pattern(struct tpg_data *tpg, enum tpg_pattern pattern)
+ 	tpg_fill_plane_buffer(&vsen->tpg, 0, 0, vsen->frame);
++	tpg_calc_text_basep(&vsen->tpg, basep, 0, vsen->frame);
++	switch (vsen->osd_mode) {
++	case OSD_SHOW_ALL:
++		{
++			const char *order = tpg_g_color_order(&vsen->tpg);
++
++			tpg_gen_text(&vsen->tpg, basep,
++				     line++ * line_height, 16, order);
++			snprintf(str, sizeof(str),
++				 "brightness %3d, contrast %3d, saturation %3d, hue %d ",
++				 vsen->tpg.brightness,
++				 vsen->tpg.contrast,
++				 vsen->tpg.saturation,
++				 vsen->tpg.hue);
++			tpg_gen_text(&vsen->tpg, basep, line++ * line_height,
++				     16, str);
++			snprintf(str, sizeof(str), "sensor size: %dx%d",
++				 vsen->mbus_format.width,
++				 vsen->mbus_format.height);
++			tpg_gen_text(&vsen->tpg, basep, line++ * line_height,
++				     16, str);
++		}
++	case OSD_SHOW_COUNTERS:
++		{
++			unsigned int ms;
++
++			ms = (ktime_get_ns() - vsen->start_stream_ts) / 1000000;
++			snprintf(str, sizeof(str), "%02d:%02d:%02d:%03d",
++				 (ms / (60 * 60 * 1000)) % 24,
++				 (ms / (60 * 1000)) % 60,
++				 (ms / 1000) % 60,
++				 ms % 1000);
++			tpg_gen_text(&vsen->tpg, basep, line++ * line_height,
++				     16, str);
++			break;
++		}
++	case OSD_SHOW_NONE:
++	default:
++		break;
++	}
++
+ 	return vsen->frame;
+ }
+ 
+@@ -201,6 +249,8 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
+ 		const struct vimc_pix_map *vpix;
+ 		unsigned int frame_size;
+ 
++		vsen->start_stream_ts = ktime_get_ns();
++
+ 		/* Calculate the frame size */
+ 		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
+ 		frame_size = vsen->mbus_format.width * vpix->bpp *
+@@ -269,6 +319,9 @@ static int vimc_sen_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_SATURATION:
+ 		tpg_s_saturation(&vsen->tpg, ctrl->val);
+ 		break;
++	case VIMC_CID_OSD_TEXT_MODE:
++		vsen->osd_mode = ctrl->val;
++		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -307,6 +360,22 @@ static const struct v4l2_ctrl_config vimc_sen_ctrl_test_pattern = {
+ 	.qmenu = tpg_pattern_strings,
+ };
+ 
++static const char * const vimc_ctrl_osd_mode_strings[] = {
++	"All",
++	"Counters Only",
++	"None",
++	NULL,
++};
++
++static const struct v4l2_ctrl_config vimc_sen_ctrl_osd_mode = {
++	.ops = &vimc_sen_ctrl_ops,
++	.id = VIMC_CID_OSD_TEXT_MODE,
++	.name = "Show Information",
++	.type = V4L2_CTRL_TYPE_MENU,
++	.max = ARRAY_SIZE(vimc_ctrl_osd_mode_strings) - 2,
++	.qmenu = vimc_ctrl_osd_mode_strings,
++};
++
+ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+ 					    const char *vcfg_name)
  {
+@@ -323,6 +392,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+ 
+ 	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_class, NULL);
+ 	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_test_pattern, NULL);
++	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_osd_mode, NULL);
+ 	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
+ 			  V4L2_CID_VFLIP, 0, 1, 1, 0);
+ 	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
 -- 
 2.17.1
 
