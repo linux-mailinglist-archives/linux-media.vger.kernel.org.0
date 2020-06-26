@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A540D20B234
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 15:11:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E8A9020B249
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 15:15:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726712AbgFZNLb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 09:11:31 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:54907 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725900AbgFZNLb (ORCPT
+        id S1728051AbgFZNPe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 09:15:34 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:34905 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726997AbgFZNPb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 09:11:31 -0400
+        Fri, 26 Jun 2020 09:15:31 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id oo8Ujk7Anrl4Boo8XjQtdv; Fri, 26 Jun 2020 15:11:28 +0200
+        id ooCSjk8fprl4BooCWjQuPm; Fri, 26 Jun 2020 15:15:29 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1593177088; bh=dDTqvoVPnl/pmSvidq/qlFTOa9ekNrCG6UHyS0C8VJM=;
+        t=1593177329; bh=OFVnPuYmJQe1mABMBDfiFlU5o9wF/Nr/Nz4P3zQ/3Hk=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=K/QOWNtIlpLmbSCZnTcizawGzbU7WvMd1xTx3XdHYPZW/JsGowAMFKqSvmGgbnrTU
-         wmGkrehfPoxlj0BUnIjJk6FRdZjAgmv6fjZQjRHIobbWpr53ikCDx1+nd/z/mPyfl0
-         ZzTIjPGEJkOovolkTHvh693+ke1+Z+aPkyUeUIxBpH4mqsVd6dLlBjrAvwrPY/ewH6
-         jW9flZH7vUlQEtUZObxN+YCmf6G2pos4Sv4eslqowXdLBUYiLz32FC0540X6oU2m2g
-         gJ8XxjXv4CqDD7/9CJy2ldwuOdDqpbO5x6epvJCXdUpR4q0HpMJgd6TWEZs+FyONXn
-         DOFYBIsgJyJvw==
-Subject: [PATCH 8/7] arch/arm/configs: remove obsolete CONFIG_SOC_CAMERA*
+        b=TWaodN7QGy9MAMImfq8tPwr0Uru7e+yZNvPMag9Kca1Q/dlGez0ezeS7huHoPCPsj
+         LB+GCTlNRtXPpHT1lzDyLJAM+Z3rsJVJBIhzBuf9BecXcVQlc7ejm+DrHRVYOTSeQs
+         THng2SeFWA7NghfBpGU+ivcQRlocq263xQOpoZlxUc+XtuTkBeWQFGezv3BCIeNf/M
+         Q9W9c4Ne2z/4z0m6ugyKJnPIjs5YPuyqPRwqSLqzixHczOkhAT7dJDDQYnFHMvzN8H
+         Cgh9PPV80gVsBclTp7Y9SZ4TXyJu/Wgz2vl5Hg+1XFcdL8UAyCV1cN/XdNg/OP+MRc
+         ZcvupyIZ+TsiA==
+Subject: [PATCH] arch/sh/configs: remove obsolete CONFIG_SOC_CAMERA*
 To:     linux-media@vger.kernel.org
-Cc:     linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Arnd Bergmann <arnd@arndb.de>
+Cc:     Arnd Bergmann <arnd@arndb.de>, linux-sh@vger.kernel.org,
+        Yoshinori Sato <ysato@users.sourceforge.jp>
 References: <20200626115321.1898798-1-hverkuil-cisco@xs4all.nl>
  <20200626115321.1898798-8-hverkuil-cisco@xs4all.nl>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <8c9e0509-38c6-2013-740f-56b9e229d837@xs4all.nl>
-Date:   Fri, 26 Jun 2020 15:11:18 +0200
+Message-ID: <8d39ddaf-8779-3bc2-6344-a914f583ffb5@xs4all.nl>
+Date:   Fri, 26 Jun 2020 15:15:24 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.9.0
 MIME-Version: 1.0
@@ -41,9 +41,9 @@ In-Reply-To: <20200626115321.1898798-8-hverkuil-cisco@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfKmObcerpWUZ+2pleOnSCiXEcEC4Pcrr7od+w3IEYfol3NZNXiEKhkJRdjUEl60UIplCrIQDhU/o8grbT01RWnFC/OHWKxDrvwYeJWbB0DpjjuLdz6PD
- BdsmLnOKdZxkJlfQY59PFdJNgn4NFw3PuSW2lLuMSvjBDSZ5/FdbSqQuT80PARwVANeOjOsKYgtehkswhF38rVgtNzHqzT+cZpvvoOHSupLurmDi2KzkeMaM
- b6Ny8entb1d5ZadJfkxuBSJz5pmNiEQC0w6wBoBKMUQ2JaWNKd9b3opRLM4ZRzV+
+X-CMAE-Envelope: MS4wfDc+XbCSLBCxgNe+VgFYTkfieVW3OtLCpRgubKLIE2k2NhEMaQbPiIXgyTLH+1Kus08Vt+KpJ1GTL+FeXrbJr6K7p8y52zHRTLxnmV94BpnCr+jW3kEB
+ 5L//ciXdPbMK4QyjoB2kPFkh+mHEqu3qdqY06niBi47DZoSPXjUVLxFARInVQe4i5YGaTtRVFMs6bI2R7QuTw6nncFIJOtAMNMG3/Sg5apfSOD36pJrNI9lf
+ gT5cmc3NDw7d1gN8ZpuImnA+vN4Ap+4GUTpTla/QZmoJGIJkyvsv7kEfUC6SXyUX
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -52,96 +52,72 @@ X-Mailing-List: linux-media@vger.kernel.org
 Drop all configs with the CONFIG_SOC_CAMERA prefix since those
 have been removed.
 
+SOC_CAMERA support for the sh architecture was removed a long time ago.
+Drop it from the configs.
+
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- arch/arm/configs/ezx_defconfig       | 2 --
- arch/arm/configs/imote2_defconfig    | 2 --
- arch/arm/configs/imx_v4_v5_defconfig | 1 -
- arch/arm/configs/imx_v6_v7_defconfig | 1 -
- arch/arm/configs/pxa_defconfig       | 3 ---
- arch/arm/configs/sama5_defconfig     | 2 --
- 6 files changed, 11 deletions(-)
+ arch/sh/configs/ap325rxa_defconfig | 3 ---
+ arch/sh/configs/ecovec24_defconfig | 3 ---
+ arch/sh/configs/migor_defconfig    | 3 ---
+ arch/sh/configs/se7724_defconfig   | 2 --
+ 4 files changed, 11 deletions(-)
 
-diff --git a/arch/arm/configs/ezx_defconfig b/arch/arm/configs/ezx_defconfig
-index bd7b7f945e01..81665b7abf83 100644
---- a/arch/arm/configs/ezx_defconfig
-+++ b/arch/arm/configs/ezx_defconfig
-@@ -236,8 +236,6 @@ CONFIG_MEDIA_TUNER_CUSTOMISE=y
- # CONFIG_MEDIA_TUNER_MXL5007T is not set
- # CONFIG_MEDIA_TUNER_MC44S803 is not set
- # CONFIG_VIDEO_HELPER_CHIPS_AUTO is not set
+diff --git a/arch/sh/configs/ap325rxa_defconfig b/arch/sh/configs/ap325rxa_defconfig
+index cc6e4ce53dac..5193b3e099b9 100644
+--- a/arch/sh/configs/ap325rxa_defconfig
++++ b/arch/sh/configs/ap325rxa_defconfig
+@@ -65,9 +65,6 @@ CONFIG_VIDEO_DEV=y
+ # CONFIG_VIDEO_ALLOW_V4L1 is not set
+ # CONFIG_MEDIA_TUNER_CUSTOMISE is not set
+ CONFIG_VIDEO_HELPER_CHIPS_AUTO=y
 -CONFIG_SOC_CAMERA=y
--CONFIG_SOC_CAMERA_MT9M111=y
- CONFIG_VIDEO_PXA27x=y
- # CONFIG_V4L_USB_DRIVERS is not set
- CONFIG_RADIO_TEA5764=y
-diff --git a/arch/arm/configs/imote2_defconfig b/arch/arm/configs/imote2_defconfig
-index 05c5515fa871..ae15a2a33802 100644
---- a/arch/arm/configs/imote2_defconfig
-+++ b/arch/arm/configs/imote2_defconfig
-@@ -217,8 +217,6 @@ CONFIG_MEDIA_TUNER_CUSTOMISE=y
- # CONFIG_MEDIA_TUNER_MXL5007T is not set
- # CONFIG_MEDIA_TUNER_MC44S803 is not set
- # CONFIG_VIDEO_HELPER_CHIPS_AUTO is not set
--CONFIG_SOC_CAMERA=y
--CONFIG_SOC_CAMERA_MT9M111=y
- CONFIG_VIDEO_PXA27x=y
- # CONFIG_V4L_USB_DRIVERS is not set
+-CONFIG_SOC_CAMERA_PLATFORM=y
+-CONFIG_SOC_CAMERA_OV772X=y
+ CONFIG_VIDEO_SH_MOBILE_CEU=y
  # CONFIG_RADIO_ADAPTERS is not set
-diff --git a/arch/arm/configs/imx_v4_v5_defconfig b/arch/arm/configs/imx_v4_v5_defconfig
-index 3df90fc38398..f5f1111f2118 100644
---- a/arch/arm/configs/imx_v4_v5_defconfig
-+++ b/arch/arm/configs/imx_v4_v5_defconfig
-@@ -110,7 +110,6 @@ CONFIG_REGULATOR_MC13892=y
- CONFIG_MEDIA_SUPPORT=y
- CONFIG_MEDIA_CAMERA_SUPPORT=y
- CONFIG_V4L_PLATFORM_DRIVERS=y
--CONFIG_SOC_CAMERA=y
- CONFIG_V4L_MEM2MEM_DRIVERS=y
- CONFIG_VIDEO_CODA=y
  CONFIG_FB=y
-diff --git a/arch/arm/configs/imx_v6_v7_defconfig b/arch/arm/configs/imx_v6_v7_defconfig
-index 87e6400c436b..38968b862630 100644
---- a/arch/arm/configs/imx_v6_v7_defconfig
-+++ b/arch/arm/configs/imx_v6_v7_defconfig
-@@ -271,7 +271,6 @@ CONFIG_MEDIA_USB_SUPPORT=y
- CONFIG_USB_VIDEO_CLASS=m
- CONFIG_V4L_PLATFORM_DRIVERS=y
- CONFIG_VIDEO_MUX=y
+diff --git a/arch/sh/configs/ecovec24_defconfig b/arch/sh/configs/ecovec24_defconfig
+index 2fb7db4957ce..03cb916819fa 100644
+--- a/arch/sh/configs/ecovec24_defconfig
++++ b/arch/sh/configs/ecovec24_defconfig
+@@ -72,9 +72,6 @@ CONFIG_MEDIA_SUPPORT=y
+ CONFIG_VIDEO_DEV=y
+ # CONFIG_MEDIA_TUNER_CUSTOMISE is not set
+ CONFIG_VIDEO_HELPER_CHIPS_AUTO=y
 -CONFIG_SOC_CAMERA=y
- CONFIG_V4L_MEM2MEM_DRIVERS=y
- CONFIG_VIDEO_CODA=m
- CONFIG_VIDEO_IMX_PXP=y
-diff --git a/arch/arm/configs/pxa_defconfig b/arch/arm/configs/pxa_defconfig
-index e6559e3350e6..aa94d22df0aa 100644
---- a/arch/arm/configs/pxa_defconfig
-+++ b/arch/arm/configs/pxa_defconfig
-@@ -445,11 +445,8 @@ CONFIG_VIDEO_V4L2_SUBDEV_API=y
- CONFIG_MEDIA_USB_SUPPORT=y
- CONFIG_USB_VIDEO_CLASS=m
- CONFIG_V4L_PLATFORM_DRIVERS=y
--CONFIG_SOC_CAMERA=m
--CONFIG_SOC_CAMERA_PLATFORM=m
- CONFIG_VIDEO_PXA27x=m
- CONFIG_V4L_MEM2MEM_DRIVERS=y
--CONFIG_SOC_CAMERA_MT9M111=m
- CONFIG_DRM=m
- CONFIG_FIRMWARE_EDID=y
- CONFIG_FB_TILEBLITTING=y
-diff --git a/arch/arm/configs/sama5_defconfig b/arch/arm/configs/sama5_defconfig
-index 8e1f78c19920..012812d6bb33 100644
---- a/arch/arm/configs/sama5_defconfig
-+++ b/arch/arm/configs/sama5_defconfig
-@@ -148,9 +148,7 @@ CONFIG_REGULATOR_PWM=m
- CONFIG_MEDIA_SUPPORT=y
- CONFIG_MEDIA_CAMERA_SUPPORT=y
- CONFIG_V4L_PLATFORM_DRIVERS=y
+-CONFIG_SOC_CAMERA_MT9T112=y
+-CONFIG_SOC_CAMERA_TW9910=y
+ CONFIG_VIDEO_SH_MOBILE_CEU=y
+ # CONFIG_V4L_USB_DRIVERS is not set
+ CONFIG_FB=y
+diff --git a/arch/sh/configs/migor_defconfig b/arch/sh/configs/migor_defconfig
+index 494a1675c226..37e9521a99e5 100644
+--- a/arch/sh/configs/migor_defconfig
++++ b/arch/sh/configs/migor_defconfig
+@@ -62,9 +62,6 @@ CONFIG_VIDEO_DEV=y
+ # CONFIG_VIDEO_ALLOW_V4L1 is not set
+ # CONFIG_MEDIA_TUNER_CUSTOMISE is not set
+ CONFIG_VIDEO_HELPER_CHIPS_AUTO=y
 -CONFIG_SOC_CAMERA=y
- CONFIG_VIDEO_ATMEL_ISI=y
--CONFIG_SOC_CAMERA_OV2640=m
- CONFIG_DRM=y
- CONFIG_DRM_ATMEL_HLCDC=y
- CONFIG_DRM_PANEL_SIMPLE=y
+-CONFIG_SOC_CAMERA_TW9910=y
+-CONFIG_SOC_CAMERA_OV772X=y
+ CONFIG_VIDEO_SH_MOBILE_CEU=y
+ # CONFIG_RADIO_ADAPTERS is not set
+ CONFIG_FB=y
+diff --git a/arch/sh/configs/se7724_defconfig b/arch/sh/configs/se7724_defconfig
+index 0e8d5cc1e107..a26f7f1841c7 100644
+--- a/arch/sh/configs/se7724_defconfig
++++ b/arch/sh/configs/se7724_defconfig
+@@ -70,8 +70,6 @@ CONFIG_VIDEO_DEV=y
+ CONFIG_DVB_CORE=m
+ # CONFIG_MEDIA_TUNER_CUSTOMISE is not set
+ CONFIG_VIDEO_HELPER_CHIPS_AUTO=y
+-CONFIG_SOC_CAMERA=y
+-CONFIG_SOC_CAMERA_OV772X=y
+ CONFIG_VIDEO_SH_MOBILE_CEU=y
+ # CONFIG_RADIO_ADAPTERS is not set
+ # CONFIG_DVB_FE_CUSTOMISE is not set
 -- 
 2.27.0
 
