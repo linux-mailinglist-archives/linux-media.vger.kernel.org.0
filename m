@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD49520AE10
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 10:07:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C1CE20AE0A
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 10:07:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729411AbgFZIH2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 04:07:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40738 "EHLO
+        id S1729109AbgFZIGI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 04:06:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40752 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729200AbgFZIGC (ORCPT
+        with ESMTP id S1729213AbgFZIGG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 04:06:02 -0400
+        Fri, 26 Jun 2020 04:06:06 -0400
 Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E6B3C08C5DB
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 01:06:02 -0700 (PDT)
-Received: by mail-pg1-x541.google.com with SMTP id f3so4637534pgr.2
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 01:06:02 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD85DC08C5DB
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 01:06:05 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id r18so4618995pgk.11
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 01:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=R5vXuXwwtIZUfF4BfG9q9gkBaSVJwvlyD2fg0DvyG/o=;
-        b=SZIoVTB2bUsJPcvPGht36M0kNPya2OtypIUm6R/kU5idf+jHwGcKBDebxUMontdwE3
-         ucu8ImAhdYwNMIGhZBU/ejFM6SA8aC6xrI2AQao5qFzDp/WSgwiTK0sOKxLJb7WLOiGX
-         0c7g+j1jwesG3xBx+UbJku56d/hrsWmoLjKkg=
+        bh=Sui+aE36W22DqtS2fgsG54iRuVi4BhJkSmMBR5vkIvo=;
+        b=f8w7ucx1BwENgxJR/Rc1pSalVXftgwFc0KkcZbAs/TcppB9xRQDLPkJNPWLBHngmxf
+         +I/rAXJjvWJX37+ZaQHg0f1px3DVH8/oo6ANHkBcm9F3LrqCUIkTvKyMC78TcLHx02lB
+         YSwHRp+hLpwilQul5ijJegqktK8N6qIeJ+TPU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=R5vXuXwwtIZUfF4BfG9q9gkBaSVJwvlyD2fg0DvyG/o=;
-        b=SGcfxIDnneLfNhV1WxCZ6jCL0zmIOBUBG8vuY5YrElg0UGHCKsFLkRe31WGgk8UeHu
-         xsx3VWx16BZyU0ZsNHujbYS1+UljWOKJu+fVHNvHvPyKE4qQY3llAQsrapbxNd3j1gZJ
-         TkB42PgCjBN/NTJVU6TQpRYo71ClaI8Lw9P6W3ahEA0kHiJWvCD4TXWcVH8aNrRr/KF3
-         1DNc56aiWn3rirfc9lfcAZT+9CHsZq3zR4QLLwnzHU9CWws7CSwHy8s8lmbhf8uq13TN
-         pwwUeR/MP4xMYWMDYdrLshSN3x6EStCyYB5ZMd6fUc4YBSrpbcrHv/VeobhtJqfr45rG
-         aBqQ==
-X-Gm-Message-State: AOAM530hshf57skPXO4rctzU/YdzWvlvKG3B/sK6qqkNbBqbq5oGgkCf
-        blHbHI3mUqDNXVxR/zu0PzLVwjDGNXBBYQ==
-X-Google-Smtp-Source: ABdhPJwsPYMFNn4UtISOFCd1oyh+Vgmf6qCPkOU+H1OcttLDf70TTxwBOBUiqZwXjwu/ORDB1zroQw==
-X-Received: by 2002:a63:c58:: with SMTP id 24mr1611333pgm.343.1593158762125;
-        Fri, 26 Jun 2020 01:06:02 -0700 (PDT)
+        bh=Sui+aE36W22DqtS2fgsG54iRuVi4BhJkSmMBR5vkIvo=;
+        b=Y8uAEN4sQ1raRu7GZNAA8l+udV2EAArq9l49JGidnvI0s8A2Q7uPslMLw3vgGHUHMX
+         ajoxi4Vm3z6qq5IaZVZqcusAilAZIJgvWvO7Wz0PyWhYiaWZnxsEcBdGCC2hANJU0289
+         4k4LIHb35YFP01AepDuJGt8M5lSIUW/D1RiurWTtMY8ZQRTTK3dn9Hdm35ivXZP7osaQ
+         EU1GM9VZApfoy6cOZYx1mgsTwqo3kioZM05rFn0oD4+h/qplCDoUfHd/DejCyEoQYeyU
+         l9PC5IaLYv63xHsMjd0maDPh5HgGoL3LtDNw7Hxlif+oqzMiDXgk38p4l8TsoWbvWCLB
+         KaYw==
+X-Gm-Message-State: AOAM5312TltD5pvy+xhrClcXqPMLngD+51UNxBQtD+AK+tvD68CCaAUT
+        nZ7ZlJMOebXZFq9Rxvkw/bCSVg==
+X-Google-Smtp-Source: ABdhPJzZ7MWGk9jvC+DPhRc7+KTbwzgKCEciabh8q+jgkASL1WbRsleAMj3y90vF2Ou1wTEbTB2X+Q==
+X-Received: by 2002:aa7:8dc1:: with SMTP id j1mr1625300pfr.194.1593158765373;
+        Fri, 26 Jun 2020 01:06:05 -0700 (PDT)
 Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:93d9:de4d:e834:3086])
-        by smtp.gmail.com with ESMTPSA id 137sm21809843pgg.72.2020.06.26.01.05.59
+        by smtp.gmail.com with ESMTPSA id 137sm21809843pgg.72.2020.06.26.01.06.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2020 01:06:01 -0700 (PDT)
+        Fri, 26 Jun 2020 01:06:04 -0700 (PDT)
 From:   Alexandre Courbot <acourbot@chromium.org>
 To:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -55,9 +55,9 @@ To:     Tiffany Lin <tiffany.lin@mediatek.com>,
 Cc:     linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
         linux-kernel@vger.kernel.org,
         Alexandre Courbot <acourbot@chromium.org>
-Subject: [PATCH v2 10/18] Revert "media: mtk-vcodec: Remove extra area allocation in an input buffer on encoding"
-Date:   Fri, 26 Jun 2020 17:04:34 +0900
-Message-Id: <20200626080442.292309-11-acourbot@chromium.org>
+Subject: [PATCH v2 11/18] media: mtk-vcodec: venc support MIN_OUTPUT_BUFFERS control
+Date:   Fri, 26 Jun 2020 17:04:35 +0900
+Message-Id: <20200626080442.292309-12-acourbot@chromium.org>
 X-Mailer: git-send-email 2.27.0.212.ge8ba1cc988-goog
 In-Reply-To: <20200626080442.292309-1-acourbot@chromium.org>
 References: <20200626080442.292309-1-acourbot@chromium.org>
@@ -68,48 +68,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This reverts commit 81735ecb62f882853a37a8c157407ec4aed44fd0.
-
-The hardware needs data to follow the previous alignment, so this extra
-space was not superfluous after all. Besides, this also made
-v4l2-compliance's G_FMT and S_FMT tests regress.
+This control is required by v4l2-compliance for encoders. A value of 1
+should be suitable for all scenarios.
 
 Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
 ---
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-index 05743a745a11..f2ba19c32400 100644
+index f2ba19c32400..f833aee4a06f 100644
 --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
 +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc.c
-@@ -299,12 +299,14 @@ static int vidioc_try_fmt(struct v4l2_format *f,
+@@ -1206,6 +1206,8 @@ int mtk_vcodec_enc_ctrls_setup(struct mtk_vcodec_ctx *ctx)
  
- 		pix_fmt_mp->num_planes = fmt->num_planes;
- 		pix_fmt_mp->plane_fmt[0].sizeimage =
--			pix_fmt_mp->width * pix_fmt_mp->height;
-+				pix_fmt_mp->width * pix_fmt_mp->height +
-+				((ALIGN(pix_fmt_mp->width, 16) * 2) * 16);
- 		pix_fmt_mp->plane_fmt[0].bytesperline = pix_fmt_mp->width;
+ 	v4l2_ctrl_handler_init(handler, MTK_MAX_CTRLS_HINT);
  
- 		if (pix_fmt_mp->num_planes == 2) {
- 			pix_fmt_mp->plane_fmt[1].sizeimage =
--				(pix_fmt_mp->width * pix_fmt_mp->height) / 2;
-+				(pix_fmt_mp->width * pix_fmt_mp->height) / 2 +
-+				(ALIGN(pix_fmt_mp->width, 16) * 16);
- 			pix_fmt_mp->plane_fmt[2].sizeimage = 0;
- 			pix_fmt_mp->plane_fmt[1].bytesperline =
- 							pix_fmt_mp->width;
-@@ -312,7 +314,8 @@ static int vidioc_try_fmt(struct v4l2_format *f,
- 		} else if (pix_fmt_mp->num_planes == 3) {
- 			pix_fmt_mp->plane_fmt[1].sizeimage =
- 			pix_fmt_mp->plane_fmt[2].sizeimage =
--				(pix_fmt_mp->width * pix_fmt_mp->height) / 4;
-+				(pix_fmt_mp->width * pix_fmt_mp->height) / 4 +
-+				((ALIGN(pix_fmt_mp->width, 16) / 2) * 16);
- 			pix_fmt_mp->plane_fmt[1].bytesperline =
- 				pix_fmt_mp->plane_fmt[2].bytesperline =
- 				pix_fmt_mp->width / 2;
++	v4l2_ctrl_new_std(handler, ops, V4L2_CID_MIN_BUFFERS_FOR_OUTPUT,
++			  1, 1, 1, 1);
+ 	v4l2_ctrl_new_std(handler, ops, V4L2_CID_MPEG_VIDEO_BITRATE,
+ 			  ctx->dev->venc_pdata->min_bitrate,
+ 			  ctx->dev->venc_pdata->max_bitrate, 1, 4000000);
 -- 
 2.27.0.212.ge8ba1cc988-goog
 
