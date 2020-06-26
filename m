@@ -2,129 +2,208 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C05E20AE9A
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 10:58:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3BDD720AEBD
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 11:09:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725876AbgFZI6x convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 26 Jun 2020 04:58:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48898 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725841AbgFZI6x (ORCPT
+        id S1726062AbgFZJJ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 05:09:26 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:37614 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725820AbgFZJJ0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 04:58:53 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35018C08C5C1
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 01:58:53 -0700 (PDT)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1jokCB-0001yQ-AA; Fri, 26 Jun 2020 10:58:51 +0200
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1jokCA-000141-Ol; Fri, 26 Jun 2020 10:58:50 +0200
-Message-ID: <5d8e8b2b8daf8a44fd9650f08bacb423f4beb940.camel@pengutronix.de>
-Subject: Re: [PATCH] MEDIA-STAGING: Remove unneeded geometry restrictions
- from i.MX CSI driver
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        Steve Longerbeam <slongerbeam@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Date:   Fri, 26 Jun 2020 10:58:50 +0200
-In-Reply-To: <m31rnmx2cw.fsf@t19.piap.pl>
-References: <m31rnmx2cw.fsf@t19.piap.pl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        Fri, 26 Jun 2020 05:09:26 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 5271E3C0585;
+        Fri, 26 Jun 2020 11:09:23 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id M8GynATDHF2b; Fri, 26 Jun 2020 11:09:18 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 70A5A3C04C1;
+        Fri, 26 Jun 2020 11:09:18 +0200 (CEST)
+Received: from vmlxhi-110.adit-jv.com (10.72.93.196) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 26 Jun
+ 2020 11:09:18 +0200
+Date:   Fri, 26 Jun 2020 11:09:13 +0200
+From:   Ramzi Ben Meftah <rbmeftah@de.adit-jv.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+CC:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ramzi Ben Meftah <rbmeftah@de.adit-jv.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        niklas soderlund <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Steve Longerbeam <steve_longerbeam@mentor.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Arnd Bergmann <arnd@arndb.de>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>
+Subject: Re: [PATCH 1/3] v4l2-subdev: Add subdev ioctl support for
+ ENUM/GET/SET INPUT
+Message-ID: <20200626090913.GA1348@vmlxhi-110.adit-jv.com>
+References: <1592301619-17631-1-git-send-email-rbmeftah@de.adit-jv.com>
+ <20200624075307.hl6wew7vr5ue225t@uno.localdomain>
+ <20200625020138.GW5980@pendragon.ideasonboard.com>
+ <20200625093046.GA91893@vmlxhi-110.adit-jv.com>
+ <20200625094724.GE5865@pendragon.ideasonboard.com>
+ <20200625101835.GA5081@vmlxhi-110.adit-jv.com>
+ <20200625102701.GG5865@pendragon.ideasonboard.com>
+ <f0fef540-aaeb-9831-c045-77eb8c95b3b9@xs4all.nl>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <f0fef540-aaeb-9831-c045-77eb8c95b3b9@xs4all.nl>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.93.196]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
+Hi Laurent, Hans,
 
-thank you for the patch.
+On Thu, Jun 25, 2020 at 12:35:02PM +0200, Hans Verkuil wrote:
+> On 25/06/2020 12:29, Laurent Pinchart wrote:
+> > Hi Ramzi,
+> > 
+> > On Thu, Jun 25, 2020 at 12:18:35PM +0200, Ramzi Ben Meftah wrote:
+> >> On Thu, Jun 25, 2020 at 12:47:24PM +0300, Laurent Pinchart wrote:
+> >>> On Thu, Jun 25, 2020 at 11:30:46AM +0200, Ramzi Ben Meftah wrote:
+> >>>> On Thu, Jun 25, 2020 at 05:01:38AM +0300, Laurent Pinchart wrote:
+> >>>>> On Wed, Jun 24, 2020 at 09:53:07AM +0200, Jacopo Mondi wrote:
+> >>>>>> On Tue, Jun 16, 2020 at 12:00:15PM +0200, Ramzi BEN MEFTAH wrote:
+> >>>>>>> From: Steve Longerbeam <steve_longerbeam@mentor.com>
+> >>>>>>
+> >>>>>>  +Niklas, +Laurent
+> >>>>>>
+> >>>>>> Niklas, Laurent, how does this play with CAP_IO_MC ?
+> >>>>>
+> >>>>> I don't think it's related to CAP_IO_MC, but I don't think it's a good
+> >>>>> idea either :-) Routing doesn't go through the subdev [gs]_input
+> >>>>> operations in MC-based drivers. It should be configured through link
+> >>>>> setup instead. This patch goes in the wrong direction, sorry Steve.
+> >>>>
+> >>>> ENUMINPUT ioctl allow to get the input signal status. Is there an alternative
+> >>>> with Media Controller?
+> >>>
+> >>> No there isn't at the moment. I'm not opposed to adding such a feature,
+> >>> but VIDIOC_ENUMINPUT isn't the right choice. This would have to be a
+> >>> subdev pad operation (v4l2_subdev_pad_ops), not a video operation
+> >>> (v4l2_subdev_video_ops). We also likely shouldn't call it "enum" input,
+> >>> as it would retrieve properties of the input corresponding to the pad,
+> >>> not enumerate inputs.
+> >>
+> >> Looking to v4l2_subdev_pad_ops, there is g_input_status which seems to fulfill
+> >> this need. But, seems this is not expose to user space although many drivers
+> >> do implememt it.
+> >> Should I add VIDIOC_SUBDEV_G_INPUT_STATUS?
+> > 
+> > Isn't g_input_status a video operation ? I would propose adding a
+> > g_input_status pad operation, and expose that to userspace. We should
+> > take that as an opportunity to consider designing that new operation
+> > from scratch (possibly naming it differently) and make sure it could
+> > address both analog and digital systems (for instance being able to
+> > report the status of an SDI input).
 
-On Thu, 2020-05-14 at 12:00 +0200, Krzysztof Hałasa wrote:
-> I don't know what minimal image dimensions are, but 32x32 appears to
-> be ok according to the docs.
-> This is needed for small sensors like 80x80 thermal imagers.
+Sorry, my mistake. But, does it make sens that it belongs to video ops?
+I think it should be part of pad ops, it is used now as alternative to 
+ENUMINPUT and we agreed that it should(if we are going to implement it) be 
+part of pad ops.
+
 > 
-> Signed-off-by: Krzysztof Halasa <khalasa@piap.pl>
-
-This looks fine to me for the CSI. Steve, are you aware of any
-limitations?
-
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
-Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
-(with CSI crop to 32x32, I have no 32x32 sensors at hand)
-
-regards
-Philipp
-
-> diff --git a/drivers/staging/media/imx/imx-ic-prp.c b/drivers/staging/media/imx/imx-ic-prp.c
-> index 2a4f77e83ed3..622a52c46229 100644
-> --- a/drivers/staging/media/imx/imx-ic-prp.c
-> +++ b/drivers/staging/media/imx/imx-ic-prp.c
-> @@ -26,8 +26,8 @@
->  /*
->   * Min/Max supported width and heights.
->   */
-> -#define MIN_W       176
-> -#define MIN_H       144
-> +#define MIN_W        32
-> +#define MIN_H        32
->  #define MAX_W      4096
->  #define MAX_H      4096
->  #define W_ALIGN    4 /* multiple of 16 pixels */
-> diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
-> index 09c4e3f33807..cb46455a1a36 100644
-> --- a/drivers/staging/media/imx/imx-ic-prpencvf.c
-> +++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
-> @@ -35,8 +35,8 @@
->   * has not requested a planar format, we should allow 8 pixel
->   * alignment at the source pad.
->   */
-> -#define MIN_W_SINK  176
-> -#define MIN_H_SINK  144
-> +#define MIN_W_SINK   32
-> +#define MIN_H_SINK   32
->  #define MAX_W_SINK 4096
->  #define MAX_H_SINK 4096
->  #define W_ALIGN_SINK  3 /* multiple of 8 pixels */
-> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-> index e76a6a85baa3..d9e5388ffeb5 100644
-> --- a/drivers/staging/media/imx/imx-media-csi.c
-> +++ b/drivers/staging/media/imx/imx-media-csi.c
-> @@ -33,8 +33,8 @@
->   * has not requested planar formats, we should allow 8 pixel
->   * alignment.
->   */
-> -#define MIN_W       176
-> -#define MIN_H       144
-> +#define MIN_W       32
-> +#define MIN_H       32
->  #define MAX_W      4096
->  #define MAX_H      4096
->  #define W_ALIGN    1 /* multiple of 2 pixels */
-> diff --git a/drivers/staging/media/imx/imx-media-vdic.c b/drivers/staging/media/imx/imx-media-vdic.c
-> index 0d83c2c41606..ee71b70d3544 100644
-> --- a/drivers/staging/media/imx/imx-media-vdic.c
-> +++ b/drivers/staging/media/imx/imx-media-vdic.c
-> @@ -49,8 +49,8 @@ struct vdic_pipeline_ops {
->  /*
->   * Min/Max supported width and heights.
->   */
-> -#define MIN_W       176
-> -#define MIN_H       144
-> +#define MIN_W        32
-> +#define MIN_H        32
->  #define MAX_W_VDIC  968
->  #define MAX_H_VDIC 2048
->  #define W_ALIGN    4 /* multiple of 16 pixels */
+> Yes, I was wondering the same. The status bits are ancient and we might
+> want to improve on it.
 > 
+> Ramzi, what exactly is your use-case? Is this for an HDMI input? Analog
+> video input? Before adding a new ioctl I'd like to know why you think
+> you need it :-)
+
+I need to know if the input signal(analog and digital) is there, before
+starting streaming. I am not aware of other way to check for it.
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > 
+> >>>>>>> This commit enables VIDIOC_ENUMINPUT, VIDIOC_G_INPUT, and VIDIOC_S_INPUT
+> >>>>>>> ioctls for use via v4l2 subdevice node.
+> >>>>>>>
+> >>>>>>> This commit should probably not be pushed upstream, because the (old)
+> >>>>>>> idea of video inputs conflicts with the newer concept of establishing
+> >>>>>>> media links between src->sink pads.
+> >>>>>>>
+> >>>>>>> However it might make sense for some subdevices to support enum/get/set
+> >>>>>>> inputs. One example would be the analog front end subdevice for the
+> >>>>>>> ADV748x. By providing these ioctls, selecting the ADV748x analog inputs
+> >>>>>>> can be done without requiring the implementation of media entities that
+> >>>>>>> would define the analog source for which to establish a media link.
+> >>>>>>>
+> >>>>>>> Signed-off-by: Steve Longerbeam <steve_longerbeam@mentor.com>
+> >>>>>>> ---
+> >>>>>>>  drivers/media/v4l2-core/v4l2-subdev.c |  9 +++++++++
+> >>>>>>>  include/media/v4l2-subdev.h           | 11 +++++++++++
+> >>>>>>>  2 files changed, 20 insertions(+)
+> >>>>>>>
+> >>>>>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> >>>>>>> index 6b989fe..73fbfe9 100644
+> >>>>>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> >>>>>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> >>>>>>> @@ -378,6 +378,15 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+> >>>>>>>  			return -ENOTTY;
+> >>>>>>>  		return v4l2_querymenu(vfh->ctrl_handler, arg);
+> >>>>>>>
+> >>>>>>> +	case VIDIOC_ENUMINPUT:
+> >>>>>>> +		return v4l2_subdev_call(sd, video, enuminput, arg);
+> >>>>>>> +
+> >>>>>>> +	case VIDIOC_G_INPUT:
+> >>>>>>> +		return v4l2_subdev_call(sd, video, g_input, arg);
+> >>>>>>> +
+> >>>>>>> +	case VIDIOC_S_INPUT:
+> >>>>>>> +		return v4l2_subdev_call(sd, video, s_input, *(u32 *)arg);
+> >>>>>>> +
+> >>>>>>>  	case VIDIOC_G_CTRL:
+> >>>>>>>  		if (!vfh->ctrl_handler)
+> >>>>>>>  			return -ENOTTY;
+> >>>>>>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> >>>>>>> index f7fe78a..6e1a9cd 100644
+> >>>>>>> --- a/include/media/v4l2-subdev.h
+> >>>>>>> +++ b/include/media/v4l2-subdev.h
+> >>>>>>> @@ -383,6 +383,14 @@ struct v4l2_mbus_frame_desc {
+> >>>>>>>   * @g_input_status: get input status. Same as the status field in the
+> >>>>>>>   *	&struct &v4l2_input
+> >>>>>>>   *
+> >>>>>>> + * @enuminput: enumerate inputs. Should return the same input status as
+> >>>>>>> + *      @g_input_status if the passed input index is the currently active
+> >>>>>>> + *      input.
+> >>>>>>> + *
+> >>>>>>> + * @g_input: returns the currently active input index.
+> >>>>>>> + *
+> >>>>>>> + * @s_input: set the active input.
+> >>>>>>> + *
+> >>>>>>>   * @s_stream: used to notify the driver that a video stream will start or has
+> >>>>>>>   *	stopped.
+> >>>>>>>   *
+> >>>>>>> @@ -423,6 +431,9 @@ struct v4l2_subdev_video_ops {
+> >>>>>>>  	int (*g_tvnorms)(struct v4l2_subdev *sd, v4l2_std_id *std);
+> >>>>>>>  	int (*g_tvnorms_output)(struct v4l2_subdev *sd, v4l2_std_id *std);
+> >>>>>>>  	int (*g_input_status)(struct v4l2_subdev *sd, u32 *status);
+> >>>>>>> +	int (*enuminput)(struct v4l2_subdev *sd, struct v4l2_input *input);
+> >>>>>>> +	int (*g_input)(struct v4l2_subdev *sd, u32 *index);
+> >>>>>>> +	int (*s_input)(struct v4l2_subdev *sd, u32 index);
+> >>>>>>>  	int (*s_stream)(struct v4l2_subdev *sd, int enable);
+> >>>>>>>  	int (*g_pixelaspect)(struct v4l2_subdev *sd, struct v4l2_fract *aspect);
+> >>>>>>>  	int (*g_frame_interval)(struct v4l2_subdev *sd,
+> > 
+> 
+
+-- 
+Best Regards,
+Ramzi Ben Meftah.
