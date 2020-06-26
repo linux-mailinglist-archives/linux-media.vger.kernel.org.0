@@ -2,463 +2,249 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EAA220B0FE
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 13:54:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C83DF20B10A
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 13:55:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728907AbgFZLxr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 07:53:47 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:54469 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727818AbgFZLxp (ORCPT
+        id S1728880AbgFZLzp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 07:55:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47830 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727793AbgFZLzp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 07:53:45 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id omv4jNJEP0MRaomvNjN2o7; Fri, 26 Jun 2020 13:53:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1593172421; bh=8oN5h/IcMjieBGZRXooHSe63quNrRDFhFiqruOYVhFc=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=RiT8FiKaprVNvf/9mLh8z3B+d91ZcwF9KoPSJNQLAlEx9nVZ9DLL0yIarlXr301JC
-         uqmjI/et9GJW0HSbeT65jN1xNF/7jyKLBNfRKD4vzq0QkeGfy7dIsml4gQAGzNjzlw
-         gehusC4P20KWG7LpZg37Zn0ilwwdIpnvjEnCaeXn6BL+wZ5MS4tkPOwOuZW/9eBubS
-         xH40i8I8eLISPMbzHkWnQtvY3Icdj5ARwTydPiwoTNN0x9GQF0q9ohK6xBdMu9Tu9j
-         M9hgz6j1ymLWOe/fScnrGQJHdZoKTKIiiDpTTsbpZLH4i/yn+kQ21VPvGBK7rMyp7d
-         xeA6yYPAZJw/w==
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Arnd Bergmann <arnd@arndb.de>
-Subject: [PATCH 7/7] soc_camera.h: remove this unused header
-Date:   Fri, 26 Jun 2020 13:53:21 +0200
-Message-Id: <20200626115321.1898798-8-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200626115321.1898798-1-hverkuil-cisco@xs4all.nl>
-References: <20200626115321.1898798-1-hverkuil-cisco@xs4all.nl>
+        Fri, 26 Jun 2020 07:55:45 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD60AC08C5DB;
+        Fri, 26 Jun 2020 04:55:44 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 9769F2A5A84
+Subject: Re: [PATCH v6 3/3] media: vimc: Add a control to display info on test
+ image
+To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        hverkuil@xs4all.nl
+References: <20200626113618.15280-1-kgupta@es.iitr.ac.in>
+ <20200626113618.15280-4-kgupta@es.iitr.ac.in>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <e8660995-6ad5-8ee7-962c-d046cb4d0b7a@collabora.com>
+Date:   Fri, 26 Jun 2020 08:55:36 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfJcySnIb1TKKUVygAr423rzmK0GVXc1ClLCc/4ucRl8sm2unSqng1YaqMIkumOh4drWUoy0eYEWk+0fuH5NkPU5tTGifj7u5pcg5QNPsu22Fy4akG6fu
- PsnJQMDKD+GrXkqoQLF4OYggfdLLXEN4UW49gqFjxZisY3UfP3so8DFAfInfwm4dHs1csRRxLEa2bcLXvVjG/YnL4TIZqPM4JCkc1mLjPGE+UBH7Ii/Zpw/z
- bi18T5CiPDG58fhLswmP14bsAWEuUY30sVvXfpE//JsKPlhWFxXZ0xufa9RaORW0WMfdVF+FnmmlsWBav1qnqxo0bJsWJJI6FJBKaKfhhIQ=
+In-Reply-To: <20200626113618.15280-4-kgupta@es.iitr.ac.in>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The soc_camera driver has been removed and all board files
-that used it have been fixed. This header can now be removed
-altogether.
+Hi Kaaira,
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Arnd Bergmann <arnd@arndb.de>
----
- include/media/soc_camera.h | 397 -------------------------------------
- 1 file changed, 397 deletions(-)
- delete mode 100644 include/media/soc_camera.h
+Thanks for the patch,
 
-diff --git a/include/media/soc_camera.h b/include/media/soc_camera.h
-deleted file mode 100644
-index 331c343a5b5a..000000000000
---- a/include/media/soc_camera.h
-+++ /dev/null
-@@ -1,397 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-only */
--/*
-- * camera image capture (abstract) bus driver header
-- *
-- * Copyright (C) 2006, Sascha Hauer, Pengutronix
-- * Copyright (C) 2008, Guennadi Liakhovetski <kernel@pengutronix.de>
-- */
--
--#ifndef SOC_CAMERA_H
--#define SOC_CAMERA_H
--
--#include <linux/bitops.h>
--#include <linux/device.h>
--#include <linux/mutex.h>
--#include <linux/pm.h>
--#include <linux/videodev2.h>
--#include <media/videobuf2-v4l2.h>
--#include <media/v4l2-async.h>
--#include <media/v4l2-ctrls.h>
--#include <media/v4l2-device.h>
--
--struct file;
--struct soc_camera_desc;
--struct soc_camera_async_client;
--
--struct soc_camera_device {
--	struct list_head list;		/* list of all registered devices */
--	struct soc_camera_desc *sdesc;
--	struct device *pdev;		/* Platform device */
--	struct device *parent;		/* Camera host device */
--	struct device *control;		/* E.g., the i2c client */
--	s32 user_width;
--	s32 user_height;
--	u32 bytesperline;		/* for padding, zero if unused */
--	u32 sizeimage;
--	enum v4l2_colorspace colorspace;
--	unsigned char iface;		/* Host number */
--	unsigned char devnum;		/* Device number per host */
--	struct soc_camera_sense *sense;	/* See comment in struct definition */
--	struct video_device *vdev;
--	struct v4l2_ctrl_handler ctrl_handler;
--	const struct soc_camera_format_xlate *current_fmt;
--	struct soc_camera_format_xlate *user_formats;
--	int num_user_formats;
--	enum v4l2_field field;		/* Preserve field over close() */
--	void *host_priv;		/* Per-device host private data */
--	/* soc_camera.c private count. Only accessed with .host_lock held */
--	int use_count;
--	struct file *streamer;		/* stream owner */
--	struct v4l2_clk *clk;
--	/* Asynchronous subdevice management */
--	struct soc_camera_async_client *sasc;
--	/* video buffer queue */
--	struct vb2_queue vb2_vidq;
--};
--
--/* Host supports programmable stride */
--#define SOCAM_HOST_CAP_STRIDE		(1 << 0)
--
--enum soc_camera_subdev_role {
--	SOCAM_SUBDEV_DATA_SOURCE = 1,
--	SOCAM_SUBDEV_DATA_SINK,
--	SOCAM_SUBDEV_DATA_PROCESSOR,
--};
--
--struct soc_camera_async_subdev {
--	struct v4l2_async_subdev asd;
--	enum soc_camera_subdev_role role;
--};
--
--struct soc_camera_host {
--	struct v4l2_device v4l2_dev;
--	struct list_head list;
--	struct mutex host_lock;		/* Main synchronisation lock */
--	struct mutex clk_lock;		/* Protect pipeline modifications */
--	unsigned char nr;		/* Host number */
--	u32 capabilities;
--	struct soc_camera_device *icd;	/* Currently attached client */
--	void *priv;
--	const char *drv_name;
--	struct soc_camera_host_ops *ops;
--	struct v4l2_async_subdev **asd;	/* Flat array, arranged in groups */
--	unsigned int *asd_sizes;	/* 0-terminated array of asd group sizes */
--};
--
--struct soc_camera_host_ops {
--	struct module *owner;
--	int (*add)(struct soc_camera_device *);
--	void (*remove)(struct soc_camera_device *);
--	int (*clock_start)(struct soc_camera_host *);
--	void (*clock_stop)(struct soc_camera_host *);
--	/*
--	 * .get_formats() is called for each client device format, but
--	 * .put_formats() is only called once. Further, if any of the calls to
--	 * .get_formats() fail, .put_formats() will not be called at all, the
--	 * failing .get_formats() must then clean up internally.
--	 */
--	int (*get_formats)(struct soc_camera_device *, unsigned int,
--			   struct soc_camera_format_xlate *);
--	void (*put_formats)(struct soc_camera_device *);
--	int (*get_selection)(struct soc_camera_device *, struct v4l2_selection *);
--	int (*set_selection)(struct soc_camera_device *, struct v4l2_selection *);
--	/*
--	 * The difference to .set_selection() is, that .set_liveselection is not allowed
--	 * to change the output sizes
--	 */
--	int (*set_liveselection)(struct soc_camera_device *, struct v4l2_selection *);
--	int (*set_fmt)(struct soc_camera_device *, struct v4l2_format *);
--	int (*try_fmt)(struct soc_camera_device *, struct v4l2_format *);
--	int (*init_videobuf2)(struct vb2_queue *,
--			      struct soc_camera_device *);
--	int (*querycap)(struct soc_camera_host *, struct v4l2_capability *);
--	int (*set_bus_param)(struct soc_camera_device *);
--	int (*get_parm)(struct soc_camera_device *, struct v4l2_streamparm *);
--	int (*set_parm)(struct soc_camera_device *, struct v4l2_streamparm *);
--	int (*enum_framesizes)(struct soc_camera_device *, struct v4l2_frmsizeenum *);
--	__poll_t (*poll)(struct file *, poll_table *);
--};
--
--#define SOCAM_SENSOR_INVERT_PCLK	(1 << 0)
--#define SOCAM_SENSOR_INVERT_MCLK	(1 << 1)
--#define SOCAM_SENSOR_INVERT_HSYNC	(1 << 2)
--#define SOCAM_SENSOR_INVERT_VSYNC	(1 << 3)
--#define SOCAM_SENSOR_INVERT_DATA	(1 << 4)
--
--struct i2c_board_info;
--struct regulator_bulk_data;
--
--struct soc_camera_subdev_desc {
--	/* Per camera SOCAM_SENSOR_* bus flags */
--	unsigned long flags;
--
--	/* sensor driver private platform data */
--	void *drv_priv;
--
--	/*
--	 * Set unbalanced_power to true to deal with legacy drivers, failing to
--	 * balance their calls to subdevice's .s_power() method. clock_state is
--	 * then used internally by helper functions, it shouldn't be touched by
--	 * drivers or the platform code.
--	 */
--	bool unbalanced_power;
--	unsigned long clock_state;
--
--	/* Optional callbacks to power on or off and reset the sensor */
--	int (*power)(struct device *, int);
--	int (*reset)(struct device *);
--
--	/*
--	 * some platforms may support different data widths than the sensors
--	 * native ones due to different data line routing. Let the board code
--	 * overwrite the width flags.
--	 */
--	int (*set_bus_param)(struct soc_camera_subdev_desc *, unsigned long flags);
--	unsigned long (*query_bus_param)(struct soc_camera_subdev_desc *);
--	void (*free_bus)(struct soc_camera_subdev_desc *);
--
--	/* Optional regulators that have to be managed on power on/off events */
--	struct v4l2_subdev_platform_data sd_pdata;
--};
--
--struct soc_camera_host_desc {
--	/* Camera bus id, used to match a camera and a bus */
--	int bus_id;
--	int i2c_adapter_id;
--	struct i2c_board_info *board_info;
--	const char *module_name;
--
--	/*
--	 * For non-I2C devices platform has to provide methods to add a device
--	 * to the system and to remove it
--	 */
--	int (*add_device)(struct soc_camera_device *);
--	void (*del_device)(struct soc_camera_device *);
--};
--
--/*
-- * Platform data for "soc-camera-pdrv"
-- * This MUST be kept binary-identical to struct soc_camera_link below, until
-- * it is completely replaced by this one, after which we can split it into its
-- * two components.
-- */
--struct soc_camera_desc {
--	struct soc_camera_subdev_desc subdev_desc;
--	struct soc_camera_host_desc host_desc;
--};
--
--/* Prepare to replace this struct: don't change its layout any more! */
--struct soc_camera_link {
--	/*
--	 * Subdevice part - keep at top and compatible to
--	 * struct soc_camera_subdev_desc
--	 */
--
--	/* Per camera SOCAM_SENSOR_* bus flags */
--	unsigned long flags;
--
--	void *priv;
--
--	/* Set by platforms to handle misbehaving drivers */
--	bool unbalanced_power;
--	/* Used by soc-camera helper functions */
--	unsigned long clock_state;
--
--	/* Optional callbacks to power on or off and reset the sensor */
--	int (*power)(struct device *, int);
--	int (*reset)(struct device *);
--	/*
--	 * some platforms may support different data widths than the sensors
--	 * native ones due to different data line routing. Let the board code
--	 * overwrite the width flags.
--	 */
--	int (*set_bus_param)(struct soc_camera_link *, unsigned long flags);
--	unsigned long (*query_bus_param)(struct soc_camera_link *);
--	void (*free_bus)(struct soc_camera_link *);
--
--	/* Optional regulators that have to be managed on power on/off events */
--	struct regulator_bulk_data *regulators;
--	int num_regulators;
--
--	void *host_priv;
--
--	/*
--	 * Host part - keep at bottom and compatible to
--	 * struct soc_camera_host_desc
--	 */
--
--	/* Camera bus id, used to match a camera and a bus */
--	int bus_id;
--	int i2c_adapter_id;
--	struct i2c_board_info *board_info;
--	const char *module_name;
--
--	/*
--	 * For non-I2C devices platform has to provide methods to add a device
--	 * to the system and to remove it
--	 */
--	int (*add_device)(struct soc_camera_device *);
--	void (*del_device)(struct soc_camera_device *);
--};
--
--static inline struct soc_camera_host *to_soc_camera_host(
--	const struct device *dev)
--{
--	struct v4l2_device *v4l2_dev = dev_get_drvdata(dev);
--
--	return container_of(v4l2_dev, struct soc_camera_host, v4l2_dev);
--}
--
--static inline struct soc_camera_desc *to_soc_camera_desc(
--	const struct soc_camera_device *icd)
--{
--	return icd->sdesc;
--}
--
--static inline struct device *to_soc_camera_control(
--	const struct soc_camera_device *icd)
--{
--	return icd->control;
--}
--
--static inline struct v4l2_subdev *soc_camera_to_subdev(
--	const struct soc_camera_device *icd)
--{
--	struct device *control = to_soc_camera_control(icd);
--	return dev_get_drvdata(control);
--}
--
--int soc_camera_host_register(struct soc_camera_host *ici);
--void soc_camera_host_unregister(struct soc_camera_host *ici);
--
--const struct soc_camera_format_xlate *soc_camera_xlate_by_fourcc(
--	struct soc_camera_device *icd, unsigned int fourcc);
--
--/**
-- * struct soc_camera_format_xlate - match between host and sensor formats
-- * @code: code of a sensor provided format
-- * @host_fmt: host format after host translation from code
-- *
-- * Host and sensor translation structure. Used in table of host and sensor
-- * formats matchings in soc_camera_device. A host can override the generic list
-- * generation by implementing get_formats(), and use it for format checks and
-- * format setup.
-- */
--struct soc_camera_format_xlate {
--	u32 code;
--	const struct soc_mbus_pixelfmt *host_fmt;
--};
--
--#define SOCAM_SENSE_PCLK_CHANGED	(1 << 0)
--
--/**
-- * This struct can be attached to struct soc_camera_device by the host driver
-- * to request sense from the camera, for example, when calling .set_fmt(). The
-- * host then can check which flags are set and verify respective values if any.
-- * For example, if SOCAM_SENSE_PCLK_CHANGED is set, it means, pixclock has
-- * changed during this operation. After completion the host should detach sense.
-- *
-- * @flags		ored SOCAM_SENSE_* flags
-- * @master_clock	if the host wants to be informed about pixel-clock
-- *			change, it better set master_clock.
-- * @pixel_clock_max	maximum pixel clock frequency supported by the host,
-- *			camera is not allowed to exceed this.
-- * @pixel_clock		if the camera driver changed pixel clock during this
-- *			operation, it sets SOCAM_SENSE_PCLK_CHANGED, uses
-- *			master_clock to calculate the new pixel-clock and
-- *			sets this field.
-- */
--struct soc_camera_sense {
--	unsigned long flags;
--	unsigned long master_clock;
--	unsigned long pixel_clock_max;
--	unsigned long pixel_clock;
--};
--
--#define SOCAM_DATAWIDTH(x)	BIT((x) - 1)
--#define SOCAM_DATAWIDTH_4	SOCAM_DATAWIDTH(4)
--#define SOCAM_DATAWIDTH_8	SOCAM_DATAWIDTH(8)
--#define SOCAM_DATAWIDTH_9	SOCAM_DATAWIDTH(9)
--#define SOCAM_DATAWIDTH_10	SOCAM_DATAWIDTH(10)
--#define SOCAM_DATAWIDTH_12	SOCAM_DATAWIDTH(12)
--#define SOCAM_DATAWIDTH_15	SOCAM_DATAWIDTH(15)
--#define SOCAM_DATAWIDTH_16	SOCAM_DATAWIDTH(16)
--#define SOCAM_DATAWIDTH_18	SOCAM_DATAWIDTH(18)
--#define SOCAM_DATAWIDTH_24	SOCAM_DATAWIDTH(24)
--
--#define SOCAM_DATAWIDTH_MASK (SOCAM_DATAWIDTH_4 | SOCAM_DATAWIDTH_8 | \
--			      SOCAM_DATAWIDTH_9 | SOCAM_DATAWIDTH_10 | \
--			      SOCAM_DATAWIDTH_12 | SOCAM_DATAWIDTH_15 | \
--			      SOCAM_DATAWIDTH_16 | SOCAM_DATAWIDTH_18 | \
--			      SOCAM_DATAWIDTH_24)
--
--static inline void soc_camera_limit_side(int *start, int *length,
--		unsigned int start_min,
--		unsigned int length_min, unsigned int length_max)
--{
--	if (*length < length_min)
--		*length = length_min;
--	else if (*length > length_max)
--		*length = length_max;
--
--	if (*start < start_min)
--		*start = start_min;
--	else if (*start > start_min + length_max - *length)
--		*start = start_min + length_max - *length;
--}
--
--unsigned long soc_camera_apply_board_flags(struct soc_camera_subdev_desc *ssdd,
--					   const struct v4l2_mbus_config *cfg);
--
--int soc_camera_power_init(struct device *dev, struct soc_camera_subdev_desc *ssdd);
--int soc_camera_power_on(struct device *dev, struct soc_camera_subdev_desc *ssdd,
--			struct v4l2_clk *clk);
--int soc_camera_power_off(struct device *dev, struct soc_camera_subdev_desc *ssdd,
--			 struct v4l2_clk *clk);
--
--static inline int soc_camera_set_power(struct device *dev,
--		struct soc_camera_subdev_desc *ssdd, struct v4l2_clk *clk, bool on)
--{
--	return on ? soc_camera_power_on(dev, ssdd, clk)
--		  : soc_camera_power_off(dev, ssdd, clk);
--}
--
--/* This is only temporary here - until v4l2-subdev begins to link to video_device */
--#include <linux/i2c.h>
--static inline struct video_device *soc_camera_i2c_to_vdev(const struct i2c_client *client)
--{
--	struct v4l2_subdev *sd = i2c_get_clientdata(client);
--	struct soc_camera_device *icd = v4l2_get_subdev_hostdata(sd);
--	return icd ? icd->vdev : NULL;
--}
--
--static inline struct soc_camera_subdev_desc *soc_camera_i2c_to_desc(const struct i2c_client *client)
--{
--	return client->dev.platform_data;
--}
--
--static inline struct v4l2_subdev *soc_camera_vdev_to_subdev(struct video_device *vdev)
--{
--	struct soc_camera_device *icd = video_get_drvdata(vdev);
--	return soc_camera_to_subdev(icd);
--}
--
--static inline struct soc_camera_device *soc_camera_from_vb2q(const struct vb2_queue *vq)
--{
--	return container_of(vq, struct soc_camera_device, vb2_vidq);
--}
--
--static inline u32 soc_camera_grp_id(const struct soc_camera_device *icd)
--{
--	return (icd->iface << 8) | (icd->devnum + 1);
--}
--
--void soc_camera_lock(struct vb2_queue *vq);
--void soc_camera_unlock(struct vb2_queue *vq);
--
--#endif
--- 
-2.27.0
+On 6/26/20 8:36 AM, Kaaira Gupta wrote:
+> Add a control in VIMC to display information such as the correct order of
+> colors for a given test pattern, brightness, hue, saturation, contrast,
+> width and height at sensor, and time since streaming started over test image.
+> 
+> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+> ---
+>  drivers/media/test-drivers/vimc/Kconfig       |  2 +
+>  drivers/media/test-drivers/vimc/vimc-common.h |  1 +
+>  drivers/media/test-drivers/vimc/vimc-core.c   | 10 ++++
+>  drivers/media/test-drivers/vimc/vimc-sensor.c | 60 +++++++++++++++++++
+>  4 files changed, 73 insertions(+)
+> 
+> diff --git a/drivers/media/test-drivers/vimc/Kconfig b/drivers/media/test-drivers/vimc/Kconfig
+> index 4068a67585f9..da4b2ad6e40c 100644
+> --- a/drivers/media/test-drivers/vimc/Kconfig
+> +++ b/drivers/media/test-drivers/vimc/Kconfig
+> @@ -2,6 +2,8 @@
+>  config VIDEO_VIMC
+>  	tristate "Virtual Media Controller Driver (VIMC)"
+>  	depends on VIDEO_DEV && VIDEO_V4L2
+> +	select FONT_SUPPORT
+> +	select FONT_8x16
+>  	select MEDIA_CONTROLLER
+>  	select VIDEO_V4L2_SUBDEV_API
+>  	select VIDEOBUF2_VMALLOC
+> diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
+> index ae163dec2459..a289434e75ba 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-common.h
+> +++ b/drivers/media/test-drivers/vimc/vimc-common.h
+> @@ -20,6 +20,7 @@
+>  #define VIMC_CID_VIMC_CLASS		(0x00f00000 | 1)
+>  #define VIMC_CID_TEST_PATTERN		(VIMC_CID_VIMC_BASE + 0)
+>  #define VIMC_CID_MEAN_WIN_SIZE		(VIMC_CID_VIMC_BASE + 1)
+> +#define VIMC_CID_OSD_TEXT_MODE		(VIMC_CID_VIMC_BASE + 2)
+>  
+>  #define VIMC_FRAME_MAX_WIDTH 4096
+>  #define VIMC_FRAME_MAX_HEIGHT 2160
+> diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
+> index 11210aaa2551..8337e1276bba 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-core.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-core.c
+> @@ -5,10 +5,12 @@
+>   * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
+>   */
+>  
+> +#include <linux/font.h>
+>  #include <linux/init.h>
+>  #include <linux/module.h>
+>  #include <linux/platform_device.h>
+>  #include <media/media-device.h>
+> +#include <media/tpg/v4l2-tpg.h>
+>  #include <media/v4l2-device.h>
+>  
+>  #include "vimc-common.h"
+> @@ -263,11 +265,19 @@ static int vimc_register_devices(struct vimc_device *vimc)
+>  
+>  static int vimc_probe(struct platform_device *pdev)
+>  {
+> +	const struct font_desc *font = find_font("VGA8x16");
+>  	struct vimc_device *vimc;
+>  	int ret;
+>  
+>  	dev_dbg(&pdev->dev, "probe");
+>  
+> +	if (!font) {
+> +		dev_err(&pdev->dev, "vimc: could not find font\n");
 
+You don't need the "vimc: " prefix if you are using dev_err(), it already gets the name from pdev->dev
+
+> +		return -ENODEV;
+> +	}
+> +
+> +	tpg_set_font(font->data);
+> +
+>  	vimc = kzalloc(sizeof(*vimc), GFP_KERNEL);
+>  	if (!vimc)
+>  		return -ENOMEM;
+> diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
+> index a2f09ac9a360..ce438cdabb73 100644
+> --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
+> +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
+> @@ -19,6 +19,8 @@ struct vimc_sen_device {
+>  	struct v4l2_subdev sd;
+>  	struct tpg_data tpg;
+>  	u8 *frame;
+> +	unsigned int osd_mode;
+> +	u64 start_stream_ts;
+>  	/* The active format */
+>  	struct v4l2_mbus_framefmt mbus_format;
+>  	struct v4l2_ctrl_handler hdl;
+> @@ -185,10 +187,46 @@ static const struct v4l2_subdev_pad_ops vimc_sen_pad_ops = {
+>  static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
+>  				    const void *sink_frame)
+>  {
+> +	enum osd_mode {OSD_SHOW_ALL = 0, OSD_SHOW_COUNTERS = 1};
+> +	u8 *basep[TPG_MAX_PLANES][2];
+> +	char str[100];
+> +	int line = 1;
+
+unsigned int
+
+> +	const unsigned int line_height = 16;
+>  	struct vimc_sen_device *vsen = container_of(ved, struct vimc_sen_device,
+>  						    ved);
+
+I would just re-order the declaration vars to have the longest lines first.
+
+>  
+>  	tpg_fill_plane_buffer(&vsen->tpg, 0, 0, vsen->frame);
+> +	tpg_calc_text_basep(&vsen->tpg, basep, 0, vsen->frame);
+> +
+> +	if (vsen->osd_mode <= OSD_SHOW_COUNTERS) {
+> +		unsigned int ms;
+> +
+> +		ms = (ktime_get_ns() - vsen->start_stream_ts) / 1000000;
+> +		snprintf(str, sizeof(str), "%02d:%02d:%02d:%03d",
+> +			 (ms / (60 * 60 * 1000)) % 24,
+> +			 (ms / (60 * 1000)) % 60,
+> +			 (ms / 1000) % 60,
+> +			 ms % 1000);
+> +		tpg_gen_text(&vsen->tpg, basep, line++ * line_height, 16, str);
+> +	}
+> +
+> +	if (vsen->osd_mode == OSD_SHOW_ALL) {
+> +		const char *order = tpg_g_color_order(&vsen->tpg);
+> +
+> +		tpg_gen_text(&vsen->tpg, basep,
+> +			     line++ * line_height, 16, order);
+> +		snprintf(str, sizeof(str),
+> +			 "brightness %3d, contrast %3d, saturation %3d, hue %d ",
+> +			 vsen->tpg.brightness,
+> +			 vsen->tpg.contrast,
+> +			 vsen->tpg.saturation,
+> +			 vsen->tpg.hue);
+> +		tpg_gen_text(&vsen->tpg, basep, line++ * line_height, 16, str);
+> +		snprintf(str, sizeof(str), "sensor size: %dx%d",
+> +			 vsen->mbus_format.width, vsen->mbus_format.height);
+> +		tpg_gen_text(&vsen->tpg, basep, line++ * line_height, 16, str);
+> +	}
+
+How about the nice case-switch statement proposed by Kieram in the last version?
+
+Thanks,
+Helen
+
+> +
+>  	return vsen->frame;
+>  }
+>  
+> @@ -201,6 +239,8 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
+>  		const struct vimc_pix_map *vpix;
+>  		unsigned int frame_size;
+>  
+> +		vsen->start_stream_ts = ktime_get_ns();
+> +
+>  		/* Calculate the frame size */
+>  		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
+>  		frame_size = vsen->mbus_format.width * vpix->bpp *
+> @@ -269,6 +309,9 @@ static int vimc_sen_s_ctrl(struct v4l2_ctrl *ctrl)
+>  	case V4L2_CID_SATURATION:
+>  		tpg_s_saturation(&vsen->tpg, ctrl->val);
+>  		break;
+> +	case VIMC_CID_OSD_TEXT_MODE:
+> +		vsen->osd_mode = ctrl->val;
+> +		break;
+>  	default:
+>  		return -EINVAL;
+>  	}
+> @@ -307,6 +350,22 @@ static const struct v4l2_ctrl_config vimc_sen_ctrl_test_pattern = {
+>  	.qmenu = tpg_pattern_strings,
+>  };
+>  
+> +static const char * const vimc_ctrl_osd_mode_strings[] = {
+> +	"All",
+> +	"Counters Only",
+> +	"None",
+> +	NULL,
+> +};
+> +
+> +static const struct v4l2_ctrl_config vimc_sen_ctrl_osd_mode = {
+> +	.ops = &vimc_sen_ctrl_ops,
+> +	.id = VIMC_CID_OSD_TEXT_MODE,
+> +	.name = "Show Information",
+> +	.type = V4L2_CTRL_TYPE_MENU,
+> +	.max = ARRAY_SIZE(vimc_ctrl_osd_mode_strings) - 2,
+> +	.qmenu = vimc_ctrl_osd_mode_strings,
+> +};
+> +
+>  static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+>  					    const char *vcfg_name)
+>  {
+> @@ -323,6 +382,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+>  
+>  	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_class, NULL);
+>  	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_test_pattern, NULL);
+> +	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_osd_mode, NULL);
+>  	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
+>  			  V4L2_CID_VFLIP, 0, 1, 1, 0);
+>  	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
+> 
