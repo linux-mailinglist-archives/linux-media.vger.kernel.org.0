@@ -2,387 +2,7644 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37D0B20B0FC
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 13:54:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0281920B0FF
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 13:54:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728909AbgFZLxr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 07:53:47 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:40279 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727876AbgFZLxn (ORCPT
+        id S1726703AbgFZLyJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 07:54:09 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:35973 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727793AbgFZLyI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 07:53:43 -0400
+        Fri, 26 Jun 2020 07:54:08 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id omv4jNJEP0MRaomvMjN2nm; Fri, 26 Jun 2020 13:53:40 +0200
+        id omv4jNJEP0MRaomvNjN2nw; Fri, 26 Jun 2020 13:53:41 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1593172420; bh=ILcKqFv3h0kmEmx9/ZHVcYq7DskHYVXqtZDIue9+UnQ=;
+        t=1593172421; bh=qpPO2KqjyGj4zNNR1Ap1HcOOVF/7wQYlyIcmdErTbmw=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=kKs/iRX4QYm/khTeeyi8soRJcJev7SndQd1VyItCZu1NF7U/i2c3+q5KOoRbc+ulo
-         eNWPrNHv3oZiMZ6NPhHo336vDTR3k4+cy2kJ84cEEEB3Qh66O27D8e+mJGjoLq2hI8
-         4HtQqercX3ewPq0OEUoSbO+yHAio8uc2opQKXLlxKeTOk+jXARGtN/w6FmgbQWFI6N
-         YcgE52WqID66RFAPZuxh2Srh6ep11nDjeHFAhAm/t5qyCmACXk3egH3Gi5riGCagUd
-         JPjW1NZZ6KEdxswx5haXV4wSmZFCK6uUvh8FDJr4ImxogS3mpi+p/DornQRyH86yWa
-         /fSHkbwfHb6Ug==
+        b=Z651o6MLDrS+F/lti0Xp1DpGxQm9W8hR7+XgJJY+/rKbZ1dKrN5Bnad8rwH4Iyl4l
+         RwaGSPUDQkJnrJC8yETSq2NcEhZdLKvtlyrZEMkAPVHNs+uL0RN925QgAUnJJW5vIn
+         vfzcsIz7Wn/28D+I8TsC5g1T1K86D+oBG3NOZ06H8NRboh92W44wrkvbKx6lZUePal
+         xabp4VYSqP2/XoXn3ZTAxElXg2cl8d6fK+tAzfxAFS9cxD2JclO85FlySM8DgcIH1K
+         tp7d1fXWRj+NtpjDVDORxHRVv5U+nKNljUdUjPMeYFn4uqUArc77YJJJnQU1h5/zgC
+         AE6r3coFTn7ng==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Robert Jarzmik <robert.jarzmik@free.fr>
-Subject: [PATCH 5/7] mach-pxa: palmz72/pcm990: remove soc_camera dependencies
-Date:   Fri, 26 Jun 2020 13:53:19 +0200
-Message-Id: <20200626115321.1898798-6-hverkuil-cisco@xs4all.nl>
+        Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH 6/7] staging/media/soc_camera: remove this driver
+Date:   Fri, 26 Jun 2020 13:53:20 +0200
+Message-Id: <20200626115321.1898798-7-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200626115321.1898798-1-hverkuil-cisco@xs4all.nl>
 References: <20200626115321.1898798-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfM83++3PfpXBGBT6xIQAO90d/DwDpX+hH4alsFkWUBRt3CCwupXJbI88DXpqI7xGvjJBSMGKG7Pp4Di+S9Ip0O14Zp/RT6dAZeiZ5BPbLRsKfY9efF7m
- IHmTiuAamnX/GFlUdq1k53NYJchRcGT+oSdg4Nm9kHZ2eFirhXcNOrj9YRe60IXuFHf6dsqqs1K4xtYg6TIqkQKLAAYBQmKUSVu7MRH3BJVT34aIhjuHSUMj
- 23/TiEFj4ljSdnugcNmXSzv0oKGc5lNlZytTLSzPsZZHG2JgHs28G3HjTfTcv7un0zr4Ox/tWr7EedClTRn+nalh9pCqQsNDlgUWpQjcVrCC70TJY0G76cMb
- Z96NZEgWxuZENNKjNbYPmqckG8xR4Q==
+X-CMAE-Envelope: MS4wfJcySnIb1TKKUVygAr423rzmK0GVXc1ClLCc/4ucRl8sm2unSqng1YaqMIkumOh4drWUoy0eYEWk+0fuH5NkPU5tTGifj7u5pcg5QNPsu22Fy4akG6fu
+ PsnJQMDKD+GrXkqoQLF4OYggfdLLXEN4UW49gqFjxZisY3UfP3so8DFAfInfwm4dHs1csRRxLEa2bcLXvVjG/YnL4TIZqPM4JCkc1mLjPGE+UBH7Ii/Zpw/z
+ bi18T5CiPDG58fhLswmP14bsAWEuUY30sVvXfpE//JsKPlhWFxXZ0xufa9RaORW0WMfdVF+FnmmlsWBav1qnqxo0bJsWJJI6FJBKaKfhhIQ=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The soc_camera driver is about to be removed, so drop camera
-support from this board. Note that the soc_camera driver itself has
-long since been deprecated and can't be compiled anymore (it depends
-on BROKEN), so camera support on this board has been broken for a long
-time (at least since 4.9 when the pxa_camera.c was removed from soc_camera).
-
-Note that there is a new pxa_camera.c driver that replaced the old
-soc_camera based driver, but using that would require these boards to
-be converted to use the device tree.
+The soc_camera driver (and related soc_camera-dependent sensor
+drivers) is obsolete and depends on BROKEN for a long time now.
+Nobody is using it, so it is time to kill it off.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: Robert Jarzmik <robert.jarzmik@free.fr>
 ---
- arch/arm/mach-pxa/palmz72.c          | 112 -------------------
- arch/arm/mach-pxa/pcm990-baseboard.c | 157 ---------------------------
- 2 files changed, 269 deletions(-)
+ drivers/staging/media/Kconfig                 |    2 -
+ drivers/staging/media/Makefile                |    1 -
+ drivers/staging/media/soc_camera/Kconfig      |   51 -
+ drivers/staging/media/soc_camera/Makefile     |    7 -
+ drivers/staging/media/soc_camera/TODO         |    4 -
+ drivers/staging/media/soc_camera/imx074.c     |  492 ----
+ drivers/staging/media/soc_camera/mt9t031.c    |  853 -------
+ .../staging/media/soc_camera/soc-camera.rst   |  171 --
+ drivers/staging/media/soc_camera/soc_camera.c | 2164 -----------------
+ .../staging/media/soc_camera/soc_mediabus.c   |  529 ----
+ .../staging/media/soc_camera/soc_mt9v022.c    | 1008 --------
+ drivers/staging/media/soc_camera/soc_ov5642.c | 1085 ---------
+ drivers/staging/media/soc_camera/soc_ov9740.c |  992 --------
+ include/media/drv-intf/soc_mediabus.h         |  107 -
+ 14 files changed, 7466 deletions(-)
+ delete mode 100644 drivers/staging/media/soc_camera/Kconfig
+ delete mode 100644 drivers/staging/media/soc_camera/Makefile
+ delete mode 100644 drivers/staging/media/soc_camera/TODO
+ delete mode 100644 drivers/staging/media/soc_camera/imx074.c
+ delete mode 100644 drivers/staging/media/soc_camera/mt9t031.c
+ delete mode 100644 drivers/staging/media/soc_camera/soc-camera.rst
+ delete mode 100644 drivers/staging/media/soc_camera/soc_camera.c
+ delete mode 100644 drivers/staging/media/soc_camera/soc_mediabus.c
+ delete mode 100644 drivers/staging/media/soc_camera/soc_mt9v022.c
+ delete mode 100644 drivers/staging/media/soc_camera/soc_ov5642.c
+ delete mode 100644 drivers/staging/media/soc_camera/soc_ov9740.c
+ delete mode 100644 include/media/drv-intf/soc_mediabus.h
 
-diff --git a/arch/arm/mach-pxa/palmz72.c b/arch/arm/mach-pxa/palmz72.c
-index 4df443943579..b4a5fe02a0af 100644
---- a/arch/arm/mach-pxa/palmz72.c
-+++ b/arch/arm/mach-pxa/palmz72.c
-@@ -47,8 +47,6 @@
- #include "pm.h"
- #include <linux/platform_data/media/camera-pxa.h>
+diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
+index 4bb1eca6f597..71d077762698 100644
+--- a/drivers/staging/media/Kconfig
++++ b/drivers/staging/media/Kconfig
+@@ -42,8 +42,6 @@ source "drivers/staging/media/tegra-video/Kconfig"
  
+ source "drivers/staging/media/ipu3/Kconfig"
+ 
+-source "drivers/staging/media/soc_camera/Kconfig"
+-
+ source "drivers/staging/media/phy-rockchip-dphy-rx0/Kconfig"
+ 
+ source "drivers/staging/media/rkisp1/Kconfig"
+diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
+index 71a47b61836d..17ececa1e095 100644
+--- a/drivers/staging/media/Makefile
++++ b/drivers/staging/media/Makefile
+@@ -10,7 +10,6 @@ obj-$(CONFIG_VIDEO_TEGRA)	+= tegra-video/
+ obj-$(CONFIG_TEGRA_VDE)		+= tegra-vde/
+ obj-$(CONFIG_VIDEO_HANTRO)	+= hantro/
+ obj-$(CONFIG_VIDEO_IPU3_IMGU)	+= ipu3/
+-obj-$(CONFIG_SOC_CAMERA)	+= soc_camera/
+ obj-$(CONFIG_PHY_ROCKCHIP_DPHY_RX0)	+= phy-rockchip-dphy-rx0/
+ obj-$(CONFIG_VIDEO_ROCKCHIP_ISP1)	+= rkisp1/
+ obj-$(CONFIG_VIDEO_USBVISION)	+= usbvision/
+diff --git a/drivers/staging/media/soc_camera/Kconfig b/drivers/staging/media/soc_camera/Kconfig
+deleted file mode 100644
+index 4a54db121574..000000000000
+--- a/drivers/staging/media/soc_camera/Kconfig
++++ /dev/null
+@@ -1,51 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-config SOC_CAMERA
+-	tristate "SoC camera support"
+-	depends on VIDEO_V4L2 && HAS_DMA && I2C && BROKEN
+-	select VIDEOBUF2_CORE
+-	help
+-	  SoC Camera is a common API to several cameras, not connecting
+-	  over a bus like PCI or USB. For example some i2c camera connected
+-	  directly to the data bus of an SoC.
+-
+-comment "soc_camera sensor drivers"
+-
+-config SOC_CAMERA_MT9M111
+-	tristate "legacy soc_camera mt9m111, mt9m112 and mt9m131 support"
+-	depends on SOC_CAMERA && I2C
+-	select VIDEO_MT9M111
+-	help
+-	  This driver supports MT9M111, MT9M112 and MT9M131 cameras from
+-	  Micron/Aptina.
+-	  This is the legacy configuration which shouldn't be used anymore,
+-	  while VIDEO_MT9M111 should be used instead.
+-
+-config SOC_CAMERA_MT9V022
+-	tristate "mt9v022 and mt9v024 support"
+-	depends on SOC_CAMERA && I2C
+-	help
+-	  This driver supports MT9V022 cameras from Micron
+-
+-config SOC_CAMERA_OV5642
+-	tristate "ov5642 camera support"
+-	depends on SOC_CAMERA && I2C
+-	help
+-	  This is a V4L2 camera driver for the OmniVision OV5642 sensor
+-
+-config SOC_CAMERA_OV9740
+-	tristate "ov9740 camera support"
+-	depends on SOC_CAMERA && I2C
+-	help
+-	  This is a ov9740 camera driver
+-
+-config SOC_CAMERA_IMX074
+-	tristate "imx074 support (DEPRECATED)"
+-	depends on SOC_CAMERA && I2C
+-	help
+-	  This driver supports IMX074 cameras from Sony
+-
+-config SOC_CAMERA_MT9T031
+-	tristate "mt9t031 support (DEPRECATED)"
+-	depends on SOC_CAMERA && I2C
+-	help
+-	  This driver supports MT9T031 cameras from Micron.
+diff --git a/drivers/staging/media/soc_camera/Makefile b/drivers/staging/media/soc_camera/Makefile
+deleted file mode 100644
+index 3a351bd629f5..000000000000
+--- a/drivers/staging/media/soc_camera/Makefile
++++ /dev/null
+@@ -1,7 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-obj-$(CONFIG_SOC_CAMERA)		+= soc_camera.o soc_mediabus.o
+-obj-$(CONFIG_SOC_CAMERA_MT9V022)	+= soc_mt9v022.o
+-obj-$(CONFIG_SOC_CAMERA_OV5642)		+= soc_ov5642.o
+-obj-$(CONFIG_SOC_CAMERA_OV9740)		+= soc_ov9740.o
+-obj-$(CONFIG_SOC_CAMERA_IMX074)		+= imx074.o
+-obj-$(CONFIG_SOC_CAMERA_MT9T031)	+= mt9t031.o
+diff --git a/drivers/staging/media/soc_camera/TODO b/drivers/staging/media/soc_camera/TODO
+deleted file mode 100644
+index 932af6443b67..000000000000
+--- a/drivers/staging/media/soc_camera/TODO
++++ /dev/null
+@@ -1,4 +0,0 @@
+-The SoC camera framework is obsolete and scheduled for removal in the near
+-future. Developers are encouraged to convert the drivers to use the
+-regular V4L2 API if these drivers are still needed (and if someone has the
+-hardware).
+diff --git a/drivers/staging/media/soc_camera/imx074.c b/drivers/staging/media/soc_camera/imx074.c
+deleted file mode 100644
+index 14240b74cdd0..000000000000
+--- a/drivers/staging/media/soc_camera/imx074.c
++++ /dev/null
+@@ -1,492 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Driver for IMX074 CMOS Image Sensor from Sony
+- *
+- * Copyright (C) 2010, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+- *
+- * Partially inspired by the IMX074 driver from the Android / MSM tree
+- */
+-#include <linux/delay.h>
+-#include <linux/i2c.h>
+-#include <linux/v4l2-mediabus.h>
+-#include <linux/slab.h>
+-#include <linux/videodev2.h>
+-#include <linux/module.h>
+-
 -#include <media/soc_camera.h>
+-#include <media/v4l2-async.h>
+-#include <media/v4l2-clk.h>
+-#include <media/v4l2-subdev.h>
 -
- #include "generic.h"
- #include "devices.h"
- 
-@@ -272,115 +270,6 @@ static int __init palmz72_pm_init(void)
- device_initcall(palmz72_pm_init);
- #endif
- 
--/******************************************************************************
-- * SoC Camera
-- ******************************************************************************/
--#if defined(CONFIG_SOC_CAMERA_OV9640) || \
--	defined(CONFIG_SOC_CAMERA_OV9640_MODULE)
--static struct pxacamera_platform_data palmz72_pxacamera_platform_data = {
--	.flags		= PXA_CAMERA_MASTER | PXA_CAMERA_DATAWIDTH_8 |
--			PXA_CAMERA_PCLK_EN | PXA_CAMERA_MCLK_EN,
--	.mclk_10khz	= 2600,
+-/* IMX074 registers */
+-
+-#define MODE_SELECT			0x0100
+-#define IMAGE_ORIENTATION		0x0101
+-#define GROUPED_PARAMETER_HOLD		0x0104
+-
+-/* Integration Time */
+-#define COARSE_INTEGRATION_TIME_HI	0x0202
+-#define COARSE_INTEGRATION_TIME_LO	0x0203
+-/* Gain */
+-#define ANALOGUE_GAIN_CODE_GLOBAL_HI	0x0204
+-#define ANALOGUE_GAIN_CODE_GLOBAL_LO	0x0205
+-
+-/* PLL registers */
+-#define PRE_PLL_CLK_DIV			0x0305
+-#define PLL_MULTIPLIER			0x0307
+-#define PLSTATIM			0x302b
+-#define VNDMY_ABLMGSHLMT		0x300a
+-#define Y_OPBADDR_START_DI		0x3014
+-/* mode setting */
+-#define FRAME_LENGTH_LINES_HI		0x0340
+-#define FRAME_LENGTH_LINES_LO		0x0341
+-#define LINE_LENGTH_PCK_HI		0x0342
+-#define LINE_LENGTH_PCK_LO		0x0343
+-#define YADDR_START			0x0347
+-#define YADDR_END			0x034b
+-#define X_OUTPUT_SIZE_MSB		0x034c
+-#define X_OUTPUT_SIZE_LSB		0x034d
+-#define Y_OUTPUT_SIZE_MSB		0x034e
+-#define Y_OUTPUT_SIZE_LSB		0x034f
+-#define X_EVEN_INC			0x0381
+-#define X_ODD_INC			0x0383
+-#define Y_EVEN_INC			0x0385
+-#define Y_ODD_INC			0x0387
+-
+-#define HMODEADD			0x3001
+-#define VMODEADD			0x3016
+-#define VAPPLINE_START			0x3069
+-#define VAPPLINE_END			0x306b
+-#define SHUTTER				0x3086
+-#define HADDAVE				0x30e8
+-#define LANESEL				0x3301
+-
+-/* IMX074 supported geometry */
+-#define IMX074_WIDTH			1052
+-#define IMX074_HEIGHT			780
+-
+-/* IMX074 has only one fixed colorspace per pixelcode */
+-struct imx074_datafmt {
+-	u32	code;
+-	enum v4l2_colorspace		colorspace;
 -};
 -
--/* Board I2C devices. */
--static struct i2c_board_info palmz72_i2c_device[] = {
--	{
--		I2C_BOARD_INFO("ov9640", 0x30),
--	}
+-struct imx074 {
+-	struct v4l2_subdev		subdev;
+-	const struct imx074_datafmt	*fmt;
+-	struct v4l2_clk			*clk;
 -};
 -
--static int palmz72_camera_power(struct device *dev, int power)
+-static const struct imx074_datafmt imx074_colour_fmts[] = {
+-	{MEDIA_BUS_FMT_SBGGR8_1X8, V4L2_COLORSPACE_SRGB},
+-};
+-
+-static struct imx074 *to_imx074(const struct i2c_client *client)
 -{
--	gpio_set_value(GPIO_NR_PALMZ72_CAM_PWDN, !power);
--	mdelay(50);
+-	return container_of(i2c_get_clientdata(client), struct imx074, subdev);
+-}
+-
+-/* Find a data format by a pixel code in an array */
+-static const struct imx074_datafmt *imx074_find_datafmt(u32 code)
+-{
+-	int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(imx074_colour_fmts); i++)
+-		if (imx074_colour_fmts[i].code == code)
+-			return imx074_colour_fmts + i;
+-
+-	return NULL;
+-}
+-
+-static int reg_write(struct i2c_client *client, const u16 addr, const u8 data)
+-{
+-	struct i2c_adapter *adap = client->adapter;
+-	struct i2c_msg msg;
+-	unsigned char tx[3];
+-	int ret;
+-
+-	msg.addr = client->addr;
+-	msg.buf = tx;
+-	msg.len = 3;
+-	msg.flags = 0;
+-
+-	tx[0] = addr >> 8;
+-	tx[1] = addr & 0xff;
+-	tx[2] = data;
+-
+-	ret = i2c_transfer(adap, &msg, 1);
+-
+-	mdelay(2);
+-
+-	return ret == 1 ? 0 : -EIO;
+-}
+-
+-static int reg_read(struct i2c_client *client, const u16 addr)
+-{
+-	u8 buf[2] = {addr >> 8, addr & 0xff};
+-	int ret;
+-	struct i2c_msg msgs[] = {
+-		{
+-			.addr  = client->addr,
+-			.flags = 0,
+-			.len   = 2,
+-			.buf   = buf,
+-		}, {
+-			.addr  = client->addr,
+-			.flags = I2C_M_RD,
+-			.len   = 2,
+-			.buf   = buf,
+-		},
+-	};
+-
+-	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
+-	if (ret < 0) {
+-		dev_warn(&client->dev, "Reading register %x from %x failed\n",
+-			 addr, client->addr);
+-		return ret;
+-	}
+-
+-	return buf[0] & 0xff; /* no sign-extension */
+-}
+-
+-static int imx074_set_fmt(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_format *format)
+-{
+-	struct v4l2_mbus_framefmt *mf = &format->format;
+-	const struct imx074_datafmt *fmt = imx074_find_datafmt(mf->code);
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct imx074 *priv = to_imx074(client);
+-
+-	if (format->pad)
+-		return -EINVAL;
+-
+-	dev_dbg(sd->v4l2_dev->dev, "%s(%u)\n", __func__, mf->code);
+-
+-	if (!fmt) {
+-		/* MIPI CSI could have changed the format, double-check */
+-		if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+-			return -EINVAL;
+-		mf->code	= imx074_colour_fmts[0].code;
+-		mf->colorspace	= imx074_colour_fmts[0].colorspace;
+-	}
+-
+-	mf->width	= IMX074_WIDTH;
+-	mf->height	= IMX074_HEIGHT;
+-	mf->field	= V4L2_FIELD_NONE;
+-
+-	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+-		priv->fmt = fmt;
+-	else
+-		cfg->try_fmt = *mf;
+-
 -	return 0;
 -}
 -
--static int palmz72_camera_reset(struct device *dev)
+-static int imx074_get_fmt(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_format *format)
 -{
--	gpio_set_value(GPIO_NR_PALMZ72_CAM_RESET, 1);
--	mdelay(50);
--	gpio_set_value(GPIO_NR_PALMZ72_CAM_RESET, 0);
--	mdelay(50);
+-	struct v4l2_mbus_framefmt *mf = &format->format;
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct imx074 *priv = to_imx074(client);
+-
+-	const struct imx074_datafmt *fmt = priv->fmt;
+-
+-	if (format->pad)
+-		return -EINVAL;
+-
+-	mf->code	= fmt->code;
+-	mf->colorspace	= fmt->colorspace;
+-	mf->width	= IMX074_WIDTH;
+-	mf->height	= IMX074_HEIGHT;
+-	mf->field	= V4L2_FIELD_NONE;
+-
 -	return 0;
 -}
 -
--static struct soc_camera_link palmz72_iclink = {
--	.bus_id		= 0, /* Match id in pxa27x_device_camera in device.c */
--	.board_info	= &palmz72_i2c_device[0],
--	.i2c_adapter_id	= 0,
--	.module_name	= "ov96xx",
--	.power		= &palmz72_camera_power,
--	.reset		= &palmz72_camera_reset,
--	.flags		= SOCAM_DATAWIDTH_8,
--};
+-static int imx074_get_selection(struct v4l2_subdev *sd,
+-				struct v4l2_subdev_pad_config *cfg,
+-				struct v4l2_subdev_selection *sel)
+-{
+-	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+-		return -EINVAL;
 -
--static struct gpiod_lookup_table palmz72_i2c_gpiod_table = {
--	.dev_id		= "i2c-gpio.0",
--	.table		= {
--		GPIO_LOOKUP_IDX("gpio-pxa", 118, NULL, 0,
--				GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN),
--		GPIO_LOOKUP_IDX("gpio-pxa", 117, NULL, 1,
--				GPIO_ACTIVE_HIGH | GPIO_OPEN_DRAIN),
--	},
--};
+-	sel->r.left = 0;
+-	sel->r.top = 0;
+-	sel->r.width = IMX074_WIDTH;
+-	sel->r.height = IMX074_HEIGHT;
 -
--static struct i2c_gpio_platform_data palmz72_i2c_bus_data = {
--	.udelay		= 10,
--	.timeout	= 100,
--};
--
--static struct platform_device palmz72_i2c_bus_device = {
--	.name		= "i2c-gpio",
--	.id		= 0, /* we use this as a replacement for i2c-pxa */
--	.dev		= {
--		.platform_data	= &palmz72_i2c_bus_data,
+-	switch (sel->target) {
+-	case V4L2_SEL_TGT_CROP_BOUNDS:
+-	case V4L2_SEL_TGT_CROP:
+-		return 0;
+-	default:
+-		return -EINVAL;
 -	}
+-}
+-
+-static int imx074_enum_mbus_code(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_mbus_code_enum *code)
+-{
+-	if (code->pad ||
+-	    (unsigned int)code->index >= ARRAY_SIZE(imx074_colour_fmts))
+-		return -EINVAL;
+-
+-	code->code = imx074_colour_fmts[code->index].code;
+-	return 0;
+-}
+-
+-static int imx074_s_stream(struct v4l2_subdev *sd, int enable)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-
+-	/* MODE_SELECT: stream or standby */
+-	return reg_write(client, MODE_SELECT, !!enable);
+-}
+-
+-static int imx074_s_power(struct v4l2_subdev *sd, int on)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-	struct imx074 *priv = to_imx074(client);
+-
+-	return soc_camera_set_power(&client->dev, ssdd, priv->clk, on);
+-}
+-
+-static int imx074_g_mbus_config(struct v4l2_subdev *sd,
+-				struct v4l2_mbus_config *cfg)
+-{
+-	cfg->type = V4L2_MBUS_CSI2_DPHY;
+-	cfg->flags = V4L2_MBUS_CSI2_2_LANE |
+-		V4L2_MBUS_CSI2_CHANNEL_0 |
+-		V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
+-
+-	return 0;
+-}
+-
+-static const struct v4l2_subdev_video_ops imx074_subdev_video_ops = {
+-	.s_stream	= imx074_s_stream,
+-	.g_mbus_config	= imx074_g_mbus_config,
 -};
 -
--static struct platform_device palmz72_camera = {
--	.name	= "soc-camera-pdrv",
--	.id	= -1,
--	.dev	= {
--		.platform_data	= &palmz72_iclink,
+-static const struct v4l2_subdev_core_ops imx074_subdev_core_ops = {
+-	.s_power	= imx074_s_power,
+-};
+-
+-static const struct v4l2_subdev_pad_ops imx074_subdev_pad_ops = {
+-	.enum_mbus_code = imx074_enum_mbus_code,
+-	.get_selection	= imx074_get_selection,
+-	.get_fmt	= imx074_get_fmt,
+-	.set_fmt	= imx074_set_fmt,
+-};
+-
+-static const struct v4l2_subdev_ops imx074_subdev_ops = {
+-	.core	= &imx074_subdev_core_ops,
+-	.video	= &imx074_subdev_video_ops,
+-	.pad	= &imx074_subdev_pad_ops,
+-};
+-
+-static int imx074_video_probe(struct i2c_client *client)
+-{
+-	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
+-	int ret;
+-	u16 id;
+-
+-	ret = imx074_s_power(subdev, 1);
+-	if (ret < 0)
+-		return ret;
+-
+-	/* Read sensor Model ID */
+-	ret = reg_read(client, 0);
+-	if (ret < 0)
+-		goto done;
+-
+-	id = ret << 8;
+-
+-	ret = reg_read(client, 1);
+-	if (ret < 0)
+-		goto done;
+-
+-	id |= ret;
+-
+-	dev_info(&client->dev, "Chip ID 0x%04x detected\n", id);
+-
+-	if (id != 0x74) {
+-		ret = -ENODEV;
+-		goto done;
+-	}
+-
+-	/* PLL Setting EXTCLK=24MHz, 22.5times */
+-	reg_write(client, PLL_MULTIPLIER, 0x2D);
+-	reg_write(client, PRE_PLL_CLK_DIV, 0x02);
+-	reg_write(client, PLSTATIM, 0x4B);
+-
+-	/* 2-lane mode */
+-	reg_write(client, 0x3024, 0x00);
+-
+-	reg_write(client, IMAGE_ORIENTATION, 0x00);
+-
+-	/* select RAW mode:
+-	 * 0x08+0x08 = top 8 bits
+-	 * 0x0a+0x08 = compressed 8-bits
+-	 * 0x0a+0x0a = 10 bits
+-	 */
+-	reg_write(client, 0x0112, 0x08);
+-	reg_write(client, 0x0113, 0x08);
+-
+-	/* Base setting for High frame mode */
+-	reg_write(client, VNDMY_ABLMGSHLMT, 0x80);
+-	reg_write(client, Y_OPBADDR_START_DI, 0x08);
+-	reg_write(client, 0x3015, 0x37);
+-	reg_write(client, 0x301C, 0x01);
+-	reg_write(client, 0x302C, 0x05);
+-	reg_write(client, 0x3031, 0x26);
+-	reg_write(client, 0x3041, 0x60);
+-	reg_write(client, 0x3051, 0x24);
+-	reg_write(client, 0x3053, 0x34);
+-	reg_write(client, 0x3057, 0xC0);
+-	reg_write(client, 0x305C, 0x09);
+-	reg_write(client, 0x305D, 0x07);
+-	reg_write(client, 0x3060, 0x30);
+-	reg_write(client, 0x3065, 0x00);
+-	reg_write(client, 0x30AA, 0x08);
+-	reg_write(client, 0x30AB, 0x1C);
+-	reg_write(client, 0x30B0, 0x32);
+-	reg_write(client, 0x30B2, 0x83);
+-	reg_write(client, 0x30D3, 0x04);
+-	reg_write(client, 0x3106, 0x78);
+-	reg_write(client, 0x310C, 0x82);
+-	reg_write(client, 0x3304, 0x05);
+-	reg_write(client, 0x3305, 0x04);
+-	reg_write(client, 0x3306, 0x11);
+-	reg_write(client, 0x3307, 0x02);
+-	reg_write(client, 0x3308, 0x0C);
+-	reg_write(client, 0x3309, 0x06);
+-	reg_write(client, 0x330A, 0x08);
+-	reg_write(client, 0x330B, 0x04);
+-	reg_write(client, 0x330C, 0x08);
+-	reg_write(client, 0x330D, 0x06);
+-	reg_write(client, 0x330E, 0x01);
+-	reg_write(client, 0x3381, 0x00);
+-
+-	/* V : 1/2V-addition (1,3), H : 1/2H-averaging (1,3) -> Full HD */
+-	/* 1608 = 1560 + 48 (black lines) */
+-	reg_write(client, FRAME_LENGTH_LINES_HI, 0x06);
+-	reg_write(client, FRAME_LENGTH_LINES_LO, 0x48);
+-	reg_write(client, YADDR_START, 0x00);
+-	reg_write(client, YADDR_END, 0x2F);
+-	/* 0x838 == 2104 */
+-	reg_write(client, X_OUTPUT_SIZE_MSB, 0x08);
+-	reg_write(client, X_OUTPUT_SIZE_LSB, 0x38);
+-	/* 0x618 == 1560 */
+-	reg_write(client, Y_OUTPUT_SIZE_MSB, 0x06);
+-	reg_write(client, Y_OUTPUT_SIZE_LSB, 0x18);
+-	reg_write(client, X_EVEN_INC, 0x01);
+-	reg_write(client, X_ODD_INC, 0x03);
+-	reg_write(client, Y_EVEN_INC, 0x01);
+-	reg_write(client, Y_ODD_INC, 0x03);
+-	reg_write(client, HMODEADD, 0x00);
+-	reg_write(client, VMODEADD, 0x16);
+-	reg_write(client, VAPPLINE_START, 0x24);
+-	reg_write(client, VAPPLINE_END, 0x53);
+-	reg_write(client, SHUTTER, 0x00);
+-	reg_write(client, HADDAVE, 0x80);
+-
+-	reg_write(client, LANESEL, 0x00);
+-
+-	reg_write(client, GROUPED_PARAMETER_HOLD, 0x00);	/* off */
+-
+-	ret = 0;
+-
+-done:
+-	imx074_s_power(subdev, 0);
+-	return ret;
+-}
+-
+-static int imx074_probe(struct i2c_client *client,
+-			const struct i2c_device_id *did)
+-{
+-	struct imx074 *priv;
+-	struct i2c_adapter *adapter = client->adapter;
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-	int ret;
+-
+-	if (!ssdd) {
+-		dev_err(&client->dev, "IMX074: missing platform data!\n");
+-		return -EINVAL;
+-	}
+-
+-	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_BYTE_DATA)) {
+-		dev_warn(&adapter->dev,
+-			 "I2C-Adapter doesn't support I2C_FUNC_SMBUS_BYTE\n");
+-		return -EIO;
+-	}
+-
+-	priv = devm_kzalloc(&client->dev, sizeof(struct imx074), GFP_KERNEL);
+-	if (!priv)
+-		return -ENOMEM;
+-
+-	v4l2_i2c_subdev_init(&priv->subdev, client, &imx074_subdev_ops);
+-
+-	priv->fmt	= &imx074_colour_fmts[0];
+-
+-	priv->clk = v4l2_clk_get(&client->dev, "mclk");
+-	if (IS_ERR(priv->clk)) {
+-		dev_info(&client->dev, "Error %ld getting clock\n", PTR_ERR(priv->clk));
+-		return -EPROBE_DEFER;
+-	}
+-
+-	ret = soc_camera_power_init(&client->dev, ssdd);
+-	if (ret < 0)
+-		goto epwrinit;
+-
+-	ret = imx074_video_probe(client);
+-	if (ret < 0)
+-		goto eprobe;
+-
+-	ret = v4l2_async_register_subdev(&priv->subdev);
+-	if (!ret)
+-		return 0;
+-
+-epwrinit:
+-eprobe:
+-	v4l2_clk_put(priv->clk);
+-	return ret;
+-}
+-
+-static int imx074_remove(struct i2c_client *client)
+-{
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-	struct imx074 *priv = to_imx074(client);
+-
+-	v4l2_async_unregister_subdev(&priv->subdev);
+-	v4l2_clk_put(priv->clk);
+-
+-	if (ssdd->free_bus)
+-		ssdd->free_bus(ssdd);
+-
+-	return 0;
+-}
+-
+-static const struct i2c_device_id imx074_id[] = {
+-	{ "imx074", 0 },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(i2c, imx074_id);
+-
+-static struct i2c_driver imx074_i2c_driver = {
+-	.driver = {
+-		.name = "imx074",
 -	},
+-	.probe		= imx074_probe,
+-	.remove		= imx074_remove,
+-	.id_table	= imx074_id,
 -};
 -
--/* Here we request the camera GPIOs and configure them. We power up the camera
-- * module, deassert the reset pin, but put it into powerdown (low to no power
-- * consumption) mode. This allows us to later bring the module up fast. */
--static struct gpio palmz72_camera_gpios[] = {
--	{ GPIO_NR_PALMZ72_CAM_POWER,	GPIOF_INIT_HIGH,"Camera DVDD" },
--	{ GPIO_NR_PALMZ72_CAM_RESET,	GPIOF_INIT_LOW,	"Camera RESET" },
--	{ GPIO_NR_PALMZ72_CAM_PWDN,	GPIOF_INIT_LOW,	"Camera PWDN" },
+-module_i2c_driver(imx074_i2c_driver);
+-
+-MODULE_DESCRIPTION("Sony IMX074 Camera driver");
+-MODULE_AUTHOR("Guennadi Liakhovetski <g.liakhovetski@gmx.de>");
+-MODULE_LICENSE("GPL v2");
+diff --git a/drivers/staging/media/soc_camera/mt9t031.c b/drivers/staging/media/soc_camera/mt9t031.c
+deleted file mode 100644
+index c14f23221544..000000000000
+--- a/drivers/staging/media/soc_camera/mt9t031.c
++++ /dev/null
+@@ -1,853 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Driver for MT9T031 CMOS Image Sensor from Micron
+- *
+- * Copyright (C) 2008, Guennadi Liakhovetski, DENX Software Engineering <lg@denx.de>
+- */
+-#include <linux/device.h>
+-#include <linux/i2c.h>
+-#include <linux/log2.h>
+-#include <linux/pm.h>
+-#include <linux/slab.h>
+-#include <linux/v4l2-mediabus.h>
+-#include <linux/videodev2.h>
+-#include <linux/module.h>
+-
+-#include <media/soc_camera.h>
+-#include <media/v4l2-clk.h>
+-#include <media/v4l2-subdev.h>
+-#include <media/v4l2-ctrls.h>
+-
+-/*
+- * ATTENTION: this driver still cannot be used outside of the soc-camera
+- * framework because of its PM implementation, using the video_device node.
+- * If hardware becomes available for testing, alternative PM approaches shall
+- * be considered and tested.
+- */
+-
+-/*
+- * mt9t031 i2c address 0x5d
+- * The platform has to define struct i2c_board_info objects and link to them
+- * from struct soc_camera_host_desc
+- */
+-
+-/* mt9t031 selected register addresses */
+-#define MT9T031_CHIP_VERSION		0x00
+-#define MT9T031_ROW_START		0x01
+-#define MT9T031_COLUMN_START		0x02
+-#define MT9T031_WINDOW_HEIGHT		0x03
+-#define MT9T031_WINDOW_WIDTH		0x04
+-#define MT9T031_HORIZONTAL_BLANKING	0x05
+-#define MT9T031_VERTICAL_BLANKING	0x06
+-#define MT9T031_OUTPUT_CONTROL		0x07
+-#define MT9T031_SHUTTER_WIDTH_UPPER	0x08
+-#define MT9T031_SHUTTER_WIDTH		0x09
+-#define MT9T031_PIXEL_CLOCK_CONTROL	0x0a
+-#define MT9T031_FRAME_RESTART		0x0b
+-#define MT9T031_SHUTTER_DELAY		0x0c
+-#define MT9T031_RESET			0x0d
+-#define MT9T031_READ_MODE_1		0x1e
+-#define MT9T031_READ_MODE_2		0x20
+-#define MT9T031_READ_MODE_3		0x21
+-#define MT9T031_ROW_ADDRESS_MODE	0x22
+-#define MT9T031_COLUMN_ADDRESS_MODE	0x23
+-#define MT9T031_GLOBAL_GAIN		0x35
+-#define MT9T031_CHIP_ENABLE		0xF8
+-
+-#define MT9T031_MAX_HEIGHT		1536
+-#define MT9T031_MAX_WIDTH		2048
+-#define MT9T031_MIN_HEIGHT		2
+-#define MT9T031_MIN_WIDTH		18
+-#define MT9T031_HORIZONTAL_BLANK	142
+-#define MT9T031_VERTICAL_BLANK		25
+-#define MT9T031_COLUMN_SKIP		32
+-#define MT9T031_ROW_SKIP		20
+-
+-struct mt9t031 {
+-	struct v4l2_subdev subdev;
+-	struct v4l2_ctrl_handler hdl;
+-	struct {
+-		/* exposure/auto-exposure cluster */
+-		struct v4l2_ctrl *autoexposure;
+-		struct v4l2_ctrl *exposure;
+-	};
+-	struct v4l2_rect rect;	/* Sensor window */
+-	struct v4l2_clk *clk;
+-	u16 xskip;
+-	u16 yskip;
+-	unsigned int total_h;
+-	unsigned short y_skip_top;	/* Lines to skip at the top */
 -};
 -
--static inline void __init palmz72_cam_gpio_init(void)
+-static struct mt9t031 *to_mt9t031(const struct i2c_client *client)
+-{
+-	return container_of(i2c_get_clientdata(client), struct mt9t031, subdev);
+-}
+-
+-static int reg_read(struct i2c_client *client, const u8 reg)
+-{
+-	return i2c_smbus_read_word_swapped(client, reg);
+-}
+-
+-static int reg_write(struct i2c_client *client, const u8 reg,
+-		     const u16 data)
+-{
+-	return i2c_smbus_write_word_swapped(client, reg, data);
+-}
+-
+-static int reg_set(struct i2c_client *client, const u8 reg,
+-		   const u16 data)
 -{
 -	int ret;
 -
--	ret = gpio_request_array(ARRAY_AND_SIZE(palmz72_camera_gpios));
--	if (!ret)
--		gpio_free_array(ARRAY_AND_SIZE(palmz72_camera_gpios));
--	else
--		printk(KERN_ERR "Camera GPIO init failed!\n");
--
--	return;
+-	ret = reg_read(client, reg);
+-	if (ret < 0)
+-		return ret;
+-	return reg_write(client, reg, ret | data);
 -}
 -
--static void __init palmz72_camera_init(void)
+-static int reg_clear(struct i2c_client *client, const u8 reg,
+-		     const u16 data)
 -{
--	palmz72_cam_gpio_init();
--	pxa_set_camera_info(&palmz72_pxacamera_platform_data);
--	gpiod_add_lookup_table(&palmz72_i2c_gpiod_table);
--	platform_device_register(&palmz72_i2c_bus_device);
--	platform_device_register(&palmz72_camera);
+-	int ret;
+-
+-	ret = reg_read(client, reg);
+-	if (ret < 0)
+-		return ret;
+-	return reg_write(client, reg, ret & ~data);
 -}
--#else
--static inline void palmz72_camera_init(void) {}
+-
+-static int set_shutter(struct i2c_client *client, const u32 data)
+-{
+-	int ret;
+-
+-	ret = reg_write(client, MT9T031_SHUTTER_WIDTH_UPPER, data >> 16);
+-
+-	if (ret >= 0)
+-		ret = reg_write(client, MT9T031_SHUTTER_WIDTH, data & 0xffff);
+-
+-	return ret;
+-}
+-
+-static int get_shutter(struct i2c_client *client, u32 *data)
+-{
+-	int ret;
+-
+-	ret = reg_read(client, MT9T031_SHUTTER_WIDTH_UPPER);
+-	*data = ret << 16;
+-
+-	if (ret >= 0)
+-		ret = reg_read(client, MT9T031_SHUTTER_WIDTH);
+-	*data |= ret & 0xffff;
+-
+-	return ret < 0 ? ret : 0;
+-}
+-
+-static int mt9t031_idle(struct i2c_client *client)
+-{
+-	int ret;
+-
+-	/* Disable chip output, synchronous option update */
+-	ret = reg_write(client, MT9T031_RESET, 1);
+-	if (ret >= 0)
+-		ret = reg_write(client, MT9T031_RESET, 0);
+-	if (ret >= 0)
+-		ret = reg_clear(client, MT9T031_OUTPUT_CONTROL, 2);
+-
+-	return ret >= 0 ? 0 : -EIO;
+-}
+-
+-static int mt9t031_s_stream(struct v4l2_subdev *sd, int enable)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	int ret;
+-
+-	if (enable)
+-		/* Switch to master "normal" mode */
+-		ret = reg_set(client, MT9T031_OUTPUT_CONTROL, 2);
+-	else
+-		/* Stop sensor readout */
+-		ret = reg_clear(client, MT9T031_OUTPUT_CONTROL, 2);
+-
+-	if (ret < 0)
+-		return -EIO;
+-
+-	return 0;
+-}
+-
+-/* target must be _even_ */
+-static u16 mt9t031_skip(s32 *source, s32 target, s32 max)
+-{
+-	unsigned int skip;
+-
+-	if (*source < target + target / 2) {
+-		*source = target;
+-		return 1;
+-	}
+-
+-	skip = min(max, *source + target / 2) / target;
+-	if (skip > 8)
+-		skip = 8;
+-	*source = target * skip;
+-
+-	return skip;
+-}
+-
+-/* rect is the sensor rectangle, the caller guarantees parameter validity */
+-static int mt9t031_set_params(struct i2c_client *client,
+-			      struct v4l2_rect *rect, u16 xskip, u16 yskip)
+-{
+-	struct mt9t031 *mt9t031 = to_mt9t031(client);
+-	int ret;
+-	u16 xbin, ybin;
+-	const u16 hblank = MT9T031_HORIZONTAL_BLANK,
+-		vblank = MT9T031_VERTICAL_BLANK;
+-
+-	xbin = min(xskip, (u16)3);
+-	ybin = min(yskip, (u16)3);
+-
+-	/*
+-	 * Could just do roundup(rect->left, [xy]bin * 2); but this is cheaper.
+-	 * There is always a valid suitably aligned value. The worst case is
+-	 * xbin = 3, width = 2048. Then we will start at 36, the last read out
+-	 * pixel will be 2083, which is < 2085 - first black pixel.
+-	 *
+-	 * MT9T031 datasheet imposes window left border alignment, depending on
+-	 * the selected xskip. Failing to conform to this requirement produces
+-	 * dark horizontal stripes in the image. However, even obeying to this
+-	 * requirement doesn't eliminate the stripes in all configurations. They
+-	 * appear "locally reproducibly," but can differ between tests under
+-	 * different lighting conditions.
+-	 */
+-	switch (xbin) {
+-	case 1:
+-		rect->left &= ~1;
+-		break;
+-	case 2:
+-		rect->left &= ~3;
+-		break;
+-	case 3:
+-		rect->left = rect->left > roundup(MT9T031_COLUMN_SKIP, 6) ?
+-			(rect->left / 6) * 6 : roundup(MT9T031_COLUMN_SKIP, 6);
+-	}
+-
+-	rect->top &= ~1;
+-
+-	dev_dbg(&client->dev, "skip %u:%u, rect %ux%u@%u:%u\n",
+-		xskip, yskip, rect->width, rect->height, rect->left, rect->top);
+-
+-	/* Disable register update, reconfigure atomically */
+-	ret = reg_set(client, MT9T031_OUTPUT_CONTROL, 1);
+-	if (ret < 0)
+-		return ret;
+-
+-	/* Blanking and start values - default... */
+-	ret = reg_write(client, MT9T031_HORIZONTAL_BLANKING, hblank);
+-	if (ret >= 0)
+-		ret = reg_write(client, MT9T031_VERTICAL_BLANKING, vblank);
+-
+-	if (yskip != mt9t031->yskip || xskip != mt9t031->xskip) {
+-		/* Binning, skipping */
+-		if (ret >= 0)
+-			ret = reg_write(client, MT9T031_COLUMN_ADDRESS_MODE,
+-					((xbin - 1) << 4) | (xskip - 1));
+-		if (ret >= 0)
+-			ret = reg_write(client, MT9T031_ROW_ADDRESS_MODE,
+-					((ybin - 1) << 4) | (yskip - 1));
+-	}
+-	dev_dbg(&client->dev, "new physical left %u, top %u\n",
+-		rect->left, rect->top);
+-
+-	/*
+-	 * The caller provides a supported format, as guaranteed by
+-	 * .set_fmt(FORMAT_TRY), soc_camera_s_selection() and soc_camera_cropcap()
+-	 */
+-	if (ret >= 0)
+-		ret = reg_write(client, MT9T031_COLUMN_START, rect->left);
+-	if (ret >= 0)
+-		ret = reg_write(client, MT9T031_ROW_START, rect->top);
+-	if (ret >= 0)
+-		ret = reg_write(client, MT9T031_WINDOW_WIDTH, rect->width - 1);
+-	if (ret >= 0)
+-		ret = reg_write(client, MT9T031_WINDOW_HEIGHT,
+-				rect->height + mt9t031->y_skip_top - 1);
+-	if (ret >= 0 && v4l2_ctrl_g_ctrl(mt9t031->autoexposure) == V4L2_EXPOSURE_AUTO) {
+-		mt9t031->total_h = rect->height + mt9t031->y_skip_top + vblank;
+-
+-		ret = set_shutter(client, mt9t031->total_h);
+-	}
+-
+-	/* Re-enable register update, commit all changes */
+-	if (ret >= 0)
+-		ret = reg_clear(client, MT9T031_OUTPUT_CONTROL, 1);
+-
+-	if (ret >= 0) {
+-		mt9t031->rect = *rect;
+-		mt9t031->xskip = xskip;
+-		mt9t031->yskip = yskip;
+-	}
+-
+-	return ret < 0 ? ret : 0;
+-}
+-
+-static int mt9t031_set_selection(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_selection *sel)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct mt9t031 *mt9t031 = to_mt9t031(client);
+-	struct v4l2_rect rect = sel->r;
+-
+-	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE ||
+-	    sel->target != V4L2_SEL_TGT_CROP)
+-		return -EINVAL;
+-
+-	rect.width = ALIGN(rect.width, 2);
+-	rect.height = ALIGN(rect.height, 2);
+-
+-	soc_camera_limit_side(&rect.left, &rect.width,
+-		     MT9T031_COLUMN_SKIP, MT9T031_MIN_WIDTH, MT9T031_MAX_WIDTH);
+-
+-	soc_camera_limit_side(&rect.top, &rect.height,
+-		     MT9T031_ROW_SKIP, MT9T031_MIN_HEIGHT, MT9T031_MAX_HEIGHT);
+-
+-	return mt9t031_set_params(client, &rect, mt9t031->xskip, mt9t031->yskip);
+-}
+-
+-static int mt9t031_get_selection(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_selection *sel)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct mt9t031 *mt9t031 = to_mt9t031(client);
+-
+-	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+-		return -EINVAL;
+-
+-	switch (sel->target) {
+-	case V4L2_SEL_TGT_CROP_BOUNDS:
+-		sel->r.left = MT9T031_COLUMN_SKIP;
+-		sel->r.top = MT9T031_ROW_SKIP;
+-		sel->r.width = MT9T031_MAX_WIDTH;
+-		sel->r.height = MT9T031_MAX_HEIGHT;
+-		return 0;
+-	case V4L2_SEL_TGT_CROP:
+-		sel->r = mt9t031->rect;
+-		return 0;
+-	default:
+-		return -EINVAL;
+-	}
+-}
+-
+-static int mt9t031_get_fmt(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_format *format)
+-{
+-	struct v4l2_mbus_framefmt *mf = &format->format;
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct mt9t031 *mt9t031 = to_mt9t031(client);
+-
+-	if (format->pad)
+-		return -EINVAL;
+-
+-	mf->width	= mt9t031->rect.width / mt9t031->xskip;
+-	mf->height	= mt9t031->rect.height / mt9t031->yskip;
+-	mf->code	= MEDIA_BUS_FMT_SBGGR10_1X10;
+-	mf->colorspace	= V4L2_COLORSPACE_SRGB;
+-	mf->field	= V4L2_FIELD_NONE;
+-
+-	return 0;
+-}
+-
+-/*
+- * If a user window larger than sensor window is requested, we'll increase the
+- * sensor window.
+- */
+-static int mt9t031_set_fmt(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_format *format)
+-{
+-	struct v4l2_mbus_framefmt *mf = &format->format;
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct mt9t031 *mt9t031 = to_mt9t031(client);
+-	u16 xskip, yskip;
+-	struct v4l2_rect rect = mt9t031->rect;
+-
+-	if (format->pad)
+-		return -EINVAL;
+-
+-	mf->code	= MEDIA_BUS_FMT_SBGGR10_1X10;
+-	mf->colorspace	= V4L2_COLORSPACE_SRGB;
+-	v4l_bound_align_image(
+-			&mf->width, MT9T031_MIN_WIDTH, MT9T031_MAX_WIDTH, 1,
+-			&mf->height, MT9T031_MIN_HEIGHT, MT9T031_MAX_HEIGHT, 1, 0);
+-
+-	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+-		cfg->try_fmt = *mf;
+-		return 0;
+-	}
+-
+-	/*
+-	 * Width and height are within limits.
+-	 * S_FMT: use binning and skipping for scaling
+-	 */
+-	xskip = mt9t031_skip(&rect.width, mf->width, MT9T031_MAX_WIDTH);
+-	yskip = mt9t031_skip(&rect.height, mf->height, MT9T031_MAX_HEIGHT);
+-
+-	mf->code	= MEDIA_BUS_FMT_SBGGR10_1X10;
+-	mf->colorspace	= V4L2_COLORSPACE_SRGB;
+-
+-	/* mt9t031_set_params() doesn't change width and height */
+-	return mt9t031_set_params(client, &rect, xskip, yskip);
+-}
+-
+-#ifdef CONFIG_VIDEO_ADV_DEBUG
+-static int mt9t031_g_register(struct v4l2_subdev *sd,
+-			      struct v4l2_dbg_register *reg)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-
+-	if (reg->reg > 0xff)
+-		return -EINVAL;
+-
+-	reg->size = 1;
+-	reg->val = reg_read(client, reg->reg);
+-
+-	if (reg->val > 0xffff)
+-		return -EIO;
+-
+-	return 0;
+-}
+-
+-static int mt9t031_s_register(struct v4l2_subdev *sd,
+-			      const struct v4l2_dbg_register *reg)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-
+-	if (reg->reg > 0xff)
+-		return -EINVAL;
+-
+-	if (reg_write(client, reg->reg, reg->val) < 0)
+-		return -EIO;
+-
+-	return 0;
+-}
 -#endif
 -
- static struct gpiod_lookup_table palmz72_mci_gpio_table = {
- 	.dev_id = "pxa2xx-mci.0",
- 	.table = {
-@@ -416,7 +305,6 @@ static void __init palmz72_init(void)
- 	palm27x_pmic_init();
- 	palmz72_kpc_init();
- 	palmz72_leds_init();
--	palmz72_camera_init();
- }
- 
- MACHINE_START(PALMZ72, "Palm Zire72")
-diff --git a/arch/arm/mach-pxa/pcm990-baseboard.c b/arch/arm/mach-pxa/pcm990-baseboard.c
-index bf613f88d70b..8dfcc366d0fe 100644
---- a/arch/arm/mach-pxa/pcm990-baseboard.c
-+++ b/arch/arm/mach-pxa/pcm990-baseboard.c
-@@ -24,10 +24,6 @@
- #include <linux/pwm.h>
- #include <linux/pwm_backlight.h>
- 
--#include <media/i2c/mt9v022.h>
--#include <media/soc_camera.h>
--
--#include <linux/platform_data/media/camera-pxa.h>
- #include <asm/mach/map.h>
- #include "pxa27x.h"
- #include <mach/audio.h>
-@@ -374,149 +370,6 @@ static struct pxaohci_platform_data pcm990_ohci_platform_data = {
- 	.power_on_delay	= 10,
- };
- 
--/*
-- * PXA27x Camera specific stuff
-- */
--#if defined(CONFIG_VIDEO_PXA27x) || defined(CONFIG_VIDEO_PXA27x_MODULE)
--static unsigned long pcm990_camera_pin_config[] = {
--	/* CIF */
--	GPIO98_CIF_DD_0,
--	GPIO105_CIF_DD_1,
--	GPIO104_CIF_DD_2,
--	GPIO103_CIF_DD_3,
--	GPIO95_CIF_DD_4,
--	GPIO94_CIF_DD_5,
--	GPIO93_CIF_DD_6,
--	GPIO108_CIF_DD_7,
--	GPIO107_CIF_DD_8,
--	GPIO106_CIF_DD_9,
--	GPIO42_CIF_MCLK,
--	GPIO45_CIF_PCLK,
--	GPIO43_CIF_FV,
--	GPIO44_CIF_LV,
--};
--
--/*
-- * CICR4: PCLK_EN:	Pixel clock is supplied by the sensor
-- *	MCLK_EN:	Master clock is generated by PXA
-- *	PCP:		Data sampled on the falling edge of pixel clock
-- */
--struct pxacamera_platform_data pcm990_pxacamera_platform_data = {
--	.flags  = PXA_CAMERA_MASTER | PXA_CAMERA_DATAWIDTH_8 | PXA_CAMERA_DATAWIDTH_10 |
--		PXA_CAMERA_PCLK_EN | PXA_CAMERA_MCLK_EN/* | PXA_CAMERA_PCP*/,
--	.mclk_10khz = 1000,
--};
--
--#include <linux/platform_data/pca953x.h>
--
--static struct pca953x_platform_data pca9536_data = {
--	.gpio_base	= PXA_NR_BUILTIN_GPIO,
--};
--
--static int gpio_bus_switch = -EINVAL;
--
--static int pcm990_camera_set_bus_param(struct soc_camera_link *link,
--				       unsigned long flags)
+-static int mt9t031_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
 -{
--	if (gpio_bus_switch < 0) {
--		if (flags == SOCAM_DATAWIDTH_10)
--			return 0;
--		else
--			return -EINVAL;
--	}
+-	struct mt9t031 *mt9t031 = container_of(ctrl->handler,
+-					       struct mt9t031, hdl);
+-	const u32 shutter_max = MT9T031_MAX_HEIGHT + MT9T031_VERTICAL_BLANK;
+-	s32 min, max;
 -
--	if (flags & SOCAM_DATAWIDTH_8)
--		gpio_set_value_cansleep(gpio_bus_switch, 1);
--	else
--		gpio_set_value_cansleep(gpio_bus_switch, 0);
+-	switch (ctrl->id) {
+-	case V4L2_CID_EXPOSURE_AUTO:
+-		min = mt9t031->exposure->minimum;
+-		max = mt9t031->exposure->maximum;
+-		mt9t031->exposure->val =
+-			(shutter_max / 2 + (mt9t031->total_h - 1) * (max - min))
+-				/ shutter_max + min;
+-		break;
+-	}
+-	return 0;
+-}
+-
+-static int mt9t031_s_ctrl(struct v4l2_ctrl *ctrl)
+-{
+-	struct mt9t031 *mt9t031 = container_of(ctrl->handler,
+-					       struct mt9t031, hdl);
+-	struct v4l2_subdev *sd = &mt9t031->subdev;
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct v4l2_ctrl *exp = mt9t031->exposure;
+-	int data;
+-
+-	switch (ctrl->id) {
+-	case V4L2_CID_VFLIP:
+-		if (ctrl->val)
+-			data = reg_set(client, MT9T031_READ_MODE_2, 0x8000);
+-		else
+-			data = reg_clear(client, MT9T031_READ_MODE_2, 0x8000);
+-		if (data < 0)
+-			return -EIO;
+-		return 0;
+-	case V4L2_CID_HFLIP:
+-		if (ctrl->val)
+-			data = reg_set(client, MT9T031_READ_MODE_2, 0x4000);
+-		else
+-			data = reg_clear(client, MT9T031_READ_MODE_2, 0x4000);
+-		if (data < 0)
+-			return -EIO;
+-		return 0;
+-	case V4L2_CID_GAIN:
+-		/* See Datasheet Table 7, Gain settings. */
+-		if (ctrl->val <= ctrl->default_value) {
+-			/* Pack it into 0..1 step 0.125, register values 0..8 */
+-			unsigned long range = ctrl->default_value - ctrl->minimum;
+-			data = ((ctrl->val - (s32)ctrl->minimum) * 8 + range / 2) / range;
+-
+-			dev_dbg(&client->dev, "Setting gain %d\n", data);
+-			data = reg_write(client, MT9T031_GLOBAL_GAIN, data);
+-			if (data < 0)
+-				return -EIO;
+-		} else {
+-			/* Pack it into 1.125..128 variable step, register values 9..0x7860 */
+-			/* We assume qctrl->maximum - qctrl->default_value - 1 > 0 */
+-			unsigned long range = ctrl->maximum - ctrl->default_value - 1;
+-			/* calculated gain: map 65..127 to 9..1024 step 0.125 */
+-			unsigned long gain = ((ctrl->val - (s32)ctrl->default_value - 1) *
+-					       1015 + range / 2) / range + 9;
+-
+-			if (gain <= 32)		/* calculated gain 9..32 -> 9..32 */
+-				data = gain;
+-			else if (gain <= 64)	/* calculated gain 33..64 -> 0x51..0x60 */
+-				data = ((gain - 32) * 16 + 16) / 32 + 80;
+-			else
+-				/* calculated gain 65..1024 -> (1..120) << 8 + 0x60 */
+-				data = (((gain - 64 + 7) * 32) & 0xff00) | 0x60;
+-
+-			dev_dbg(&client->dev, "Set gain from 0x%x to 0x%x\n",
+-				reg_read(client, MT9T031_GLOBAL_GAIN), data);
+-			data = reg_write(client, MT9T031_GLOBAL_GAIN, data);
+-			if (data < 0)
+-				return -EIO;
+-		}
+-		return 0;
+-
+-	case V4L2_CID_EXPOSURE_AUTO:
+-		if (ctrl->val == V4L2_EXPOSURE_MANUAL) {
+-			unsigned int range = exp->maximum - exp->minimum;
+-			unsigned int shutter = ((exp->val - (s32)exp->minimum) * 1048 +
+-						 range / 2) / range + 1;
+-			u32 old;
+-
+-			get_shutter(client, &old);
+-			dev_dbg(&client->dev, "Set shutter from %u to %u\n",
+-				old, shutter);
+-			if (set_shutter(client, shutter) < 0)
+-				return -EIO;
+-		} else {
+-			const u16 vblank = MT9T031_VERTICAL_BLANK;
+-			mt9t031->total_h = mt9t031->rect.height +
+-				mt9t031->y_skip_top + vblank;
+-
+-			if (set_shutter(client, mt9t031->total_h) < 0)
+-				return -EIO;
+-		}
+-		return 0;
+-	default:
+-		return -EINVAL;
+-	}
+-	return 0;
+-}
+-
+-/*
+- * Power Management:
+- * This function does nothing for now but must be present for pm to work
+- */
+-static int mt9t031_runtime_suspend(struct device *dev)
+-{
+-	return 0;
+-}
+-
+-/*
+- * Power Management:
+- * COLUMN_ADDRESS_MODE and ROW_ADDRESS_MODE are not rewritten if unchanged
+- * they are however changed at reset if the platform hook is present
+- * thus we rewrite them with the values stored by the driver
+- */
+-static int mt9t031_runtime_resume(struct device *dev)
+-{
+-	struct video_device *vdev = to_video_device(dev);
+-	struct v4l2_subdev *sd = soc_camera_vdev_to_subdev(vdev);
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct mt9t031 *mt9t031 = to_mt9t031(client);
+-
+-	int ret;
+-	u16 xbin, ybin;
+-
+-	xbin = min(mt9t031->xskip, (u16)3);
+-	ybin = min(mt9t031->yskip, (u16)3);
+-
+-	ret = reg_write(client, MT9T031_COLUMN_ADDRESS_MODE,
+-		((xbin - 1) << 4) | (mt9t031->xskip - 1));
+-	if (ret < 0)
+-		return ret;
+-
+-	ret = reg_write(client, MT9T031_ROW_ADDRESS_MODE,
+-		((ybin - 1) << 4) | (mt9t031->yskip - 1));
+-	if (ret < 0)
+-		return ret;
 -
 -	return 0;
 -}
 -
--static unsigned long pcm990_camera_query_bus_param(struct soc_camera_link *link)
+-static const struct dev_pm_ops mt9t031_dev_pm_ops = {
+-	.runtime_suspend	= mt9t031_runtime_suspend,
+-	.runtime_resume		= mt9t031_runtime_resume,
+-};
+-
+-static const struct device_type mt9t031_dev_type = {
+-	.name	= "MT9T031",
+-	.pm	= &mt9t031_dev_pm_ops,
+-};
+-
+-static int mt9t031_s_power(struct v4l2_subdev *sd, int on)
 -{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-	struct video_device *vdev = soc_camera_i2c_to_vdev(client);
+-	struct mt9t031 *mt9t031 = to_mt9t031(client);
 -	int ret;
 -
--	if (gpio_bus_switch < 0) {
--		ret = gpio_request(PXA_NR_BUILTIN_GPIO, "camera");
--		if (!ret) {
--			gpio_bus_switch = PXA_NR_BUILTIN_GPIO;
--			gpio_direction_output(gpio_bus_switch, 0);
+-	if (on) {
+-		ret = soc_camera_power_on(&client->dev, ssdd, mt9t031->clk);
+-		if (ret < 0)
+-			return ret;
+-		if (vdev)
+-			/* Not needed during probing, when vdev isn't available yet */
+-			vdev->dev.type = &mt9t031_dev_type;
+-	} else {
+-		if (vdev)
+-			vdev->dev.type = NULL;
+-		soc_camera_power_off(&client->dev, ssdd, mt9t031->clk);
+-	}
+-
+-	return 0;
+-}
+-
+-/*
+- * Interface active, can use i2c. If it fails, it can indeed mean, that
+- * this wasn't our capture interface, so, we wait for the right one
+- */
+-static int mt9t031_video_probe(struct i2c_client *client)
+-{
+-	struct mt9t031 *mt9t031 = to_mt9t031(client);
+-	s32 data;
+-	int ret;
+-
+-	ret = mt9t031_s_power(&mt9t031->subdev, 1);
+-	if (ret < 0)
+-		return ret;
+-
+-	ret = mt9t031_idle(client);
+-	if (ret < 0) {
+-		dev_err(&client->dev, "Failed to initialise the camera\n");
+-		goto done;
+-	}
+-
+-	/* Read out the chip version register */
+-	data = reg_read(client, MT9T031_CHIP_VERSION);
+-
+-	switch (data) {
+-	case 0x1621:
+-		break;
+-	default:
+-		dev_err(&client->dev,
+-			"No MT9T031 chip detected, register read %x\n", data);
+-		ret = -ENODEV;
+-		goto done;
+-	}
+-
+-	dev_info(&client->dev, "Detected a MT9T031 chip ID %x\n", data);
+-
+-	ret = v4l2_ctrl_handler_setup(&mt9t031->hdl);
+-
+-done:
+-	mt9t031_s_power(&mt9t031->subdev, 0);
+-
+-	return ret;
+-}
+-
+-static int mt9t031_g_skip_top_lines(struct v4l2_subdev *sd, u32 *lines)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct mt9t031 *mt9t031 = to_mt9t031(client);
+-
+-	*lines = mt9t031->y_skip_top;
+-
+-	return 0;
+-}
+-
+-static const struct v4l2_ctrl_ops mt9t031_ctrl_ops = {
+-	.g_volatile_ctrl = mt9t031_g_volatile_ctrl,
+-	.s_ctrl = mt9t031_s_ctrl,
+-};
+-
+-static const struct v4l2_subdev_core_ops mt9t031_subdev_core_ops = {
+-	.s_power	= mt9t031_s_power,
+-#ifdef CONFIG_VIDEO_ADV_DEBUG
+-	.g_register	= mt9t031_g_register,
+-	.s_register	= mt9t031_s_register,
+-#endif
+-};
+-
+-static int mt9t031_enum_mbus_code(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_mbus_code_enum *code)
+-{
+-	if (code->pad || code->index)
+-		return -EINVAL;
+-
+-	code->code = MEDIA_BUS_FMT_SBGGR10_1X10;
+-	return 0;
+-}
+-
+-static int mt9t031_g_mbus_config(struct v4l2_subdev *sd,
+-				struct v4l2_mbus_config *cfg)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-
+-	cfg->flags = V4L2_MBUS_MASTER | V4L2_MBUS_PCLK_SAMPLE_RISING |
+-		V4L2_MBUS_PCLK_SAMPLE_FALLING | V4L2_MBUS_HSYNC_ACTIVE_HIGH |
+-		V4L2_MBUS_VSYNC_ACTIVE_HIGH | V4L2_MBUS_DATA_ACTIVE_HIGH;
+-	cfg->type = V4L2_MBUS_PARALLEL;
+-	cfg->flags = soc_camera_apply_board_flags(ssdd, cfg);
+-
+-	return 0;
+-}
+-
+-static int mt9t031_s_mbus_config(struct v4l2_subdev *sd,
+-				const struct v4l2_mbus_config *cfg)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-
+-	if (soc_camera_apply_board_flags(ssdd, cfg) &
+-	    V4L2_MBUS_PCLK_SAMPLE_FALLING)
+-		return reg_clear(client, MT9T031_PIXEL_CLOCK_CONTROL, 0x8000);
+-	else
+-		return reg_set(client, MT9T031_PIXEL_CLOCK_CONTROL, 0x8000);
+-}
+-
+-static const struct v4l2_subdev_video_ops mt9t031_subdev_video_ops = {
+-	.s_stream	= mt9t031_s_stream,
+-	.g_mbus_config	= mt9t031_g_mbus_config,
+-	.s_mbus_config	= mt9t031_s_mbus_config,
+-};
+-
+-static const struct v4l2_subdev_sensor_ops mt9t031_subdev_sensor_ops = {
+-	.g_skip_top_lines	= mt9t031_g_skip_top_lines,
+-};
+-
+-static const struct v4l2_subdev_pad_ops mt9t031_subdev_pad_ops = {
+-	.enum_mbus_code = mt9t031_enum_mbus_code,
+-	.get_selection	= mt9t031_get_selection,
+-	.set_selection	= mt9t031_set_selection,
+-	.get_fmt	= mt9t031_get_fmt,
+-	.set_fmt	= mt9t031_set_fmt,
+-};
+-
+-static const struct v4l2_subdev_ops mt9t031_subdev_ops = {
+-	.core	= &mt9t031_subdev_core_ops,
+-	.video	= &mt9t031_subdev_video_ops,
+-	.sensor	= &mt9t031_subdev_sensor_ops,
+-	.pad	= &mt9t031_subdev_pad_ops,
+-};
+-
+-static int mt9t031_probe(struct i2c_client *client,
+-			 const struct i2c_device_id *did)
+-{
+-	struct mt9t031 *mt9t031;
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-	struct i2c_adapter *adapter = client->adapter;
+-	int ret;
+-
+-	if (!ssdd) {
+-		dev_err(&client->dev, "MT9T031 driver needs platform data\n");
+-		return -EINVAL;
+-	}
+-
+-	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_WORD_DATA)) {
+-		dev_warn(&adapter->dev,
+-			 "I2C-Adapter doesn't support I2C_FUNC_SMBUS_WORD\n");
+-		return -EIO;
+-	}
+-
+-	mt9t031 = devm_kzalloc(&client->dev, sizeof(struct mt9t031), GFP_KERNEL);
+-	if (!mt9t031)
+-		return -ENOMEM;
+-
+-	v4l2_i2c_subdev_init(&mt9t031->subdev, client, &mt9t031_subdev_ops);
+-	v4l2_ctrl_handler_init(&mt9t031->hdl, 5);
+-	v4l2_ctrl_new_std(&mt9t031->hdl, &mt9t031_ctrl_ops,
+-			V4L2_CID_VFLIP, 0, 1, 1, 0);
+-	v4l2_ctrl_new_std(&mt9t031->hdl, &mt9t031_ctrl_ops,
+-			V4L2_CID_HFLIP, 0, 1, 1, 0);
+-	v4l2_ctrl_new_std(&mt9t031->hdl, &mt9t031_ctrl_ops,
+-			V4L2_CID_GAIN, 0, 127, 1, 64);
+-
+-	/*
+-	 * Simulated autoexposure. If enabled, we calculate shutter width
+-	 * ourselves in the driver based on vertical blanking and frame width
+-	 */
+-	mt9t031->autoexposure = v4l2_ctrl_new_std_menu(&mt9t031->hdl,
+-			&mt9t031_ctrl_ops, V4L2_CID_EXPOSURE_AUTO, 1, 0,
+-			V4L2_EXPOSURE_AUTO);
+-	mt9t031->exposure = v4l2_ctrl_new_std(&mt9t031->hdl, &mt9t031_ctrl_ops,
+-			V4L2_CID_EXPOSURE, 1, 255, 1, 255);
+-
+-	mt9t031->subdev.ctrl_handler = &mt9t031->hdl;
+-	if (mt9t031->hdl.error)
+-		return mt9t031->hdl.error;
+-
+-	v4l2_ctrl_auto_cluster(2, &mt9t031->autoexposure,
+-				V4L2_EXPOSURE_MANUAL, true);
+-
+-	mt9t031->y_skip_top	= 0;
+-	mt9t031->rect.left	= MT9T031_COLUMN_SKIP;
+-	mt9t031->rect.top	= MT9T031_ROW_SKIP;
+-	mt9t031->rect.width	= MT9T031_MAX_WIDTH;
+-	mt9t031->rect.height	= MT9T031_MAX_HEIGHT;
+-
+-	mt9t031->xskip = 1;
+-	mt9t031->yskip = 1;
+-
+-	mt9t031->clk = v4l2_clk_get(&client->dev, "mclk");
+-	if (IS_ERR(mt9t031->clk)) {
+-		ret = PTR_ERR(mt9t031->clk);
+-		goto eclkget;
+-	}
+-
+-	ret = mt9t031_video_probe(client);
+-	if (ret) {
+-		v4l2_clk_put(mt9t031->clk);
+-eclkget:
+-		v4l2_ctrl_handler_free(&mt9t031->hdl);
+-	}
+-
+-	return ret;
+-}
+-
+-static int mt9t031_remove(struct i2c_client *client)
+-{
+-	struct mt9t031 *mt9t031 = to_mt9t031(client);
+-
+-	v4l2_clk_put(mt9t031->clk);
+-	v4l2_device_unregister_subdev(&mt9t031->subdev);
+-	v4l2_ctrl_handler_free(&mt9t031->hdl);
+-
+-	return 0;
+-}
+-
+-static const struct i2c_device_id mt9t031_id[] = {
+-	{ "mt9t031", 0 },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(i2c, mt9t031_id);
+-
+-static struct i2c_driver mt9t031_i2c_driver = {
+-	.driver = {
+-		.name = "mt9t031",
+-	},
+-	.probe		= mt9t031_probe,
+-	.remove		= mt9t031_remove,
+-	.id_table	= mt9t031_id,
+-};
+-
+-module_i2c_driver(mt9t031_i2c_driver);
+-
+-MODULE_DESCRIPTION("Micron MT9T031 Camera driver");
+-MODULE_AUTHOR("Guennadi Liakhovetski <lg@denx.de>");
+-MODULE_LICENSE("GPL v2");
+diff --git a/drivers/staging/media/soc_camera/soc-camera.rst b/drivers/staging/media/soc_camera/soc-camera.rst
+deleted file mode 100644
+index 7c39711aebf8..000000000000
+--- a/drivers/staging/media/soc_camera/soc-camera.rst
++++ /dev/null
+@@ -1,171 +0,0 @@
+-.. SPDX-License-Identifier: GPL-2.0
+-
+-The Soc-Camera Drivers
+-======================
+-
+-Author: Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+-
+-Terminology
+------------
+-
+-The following terms are used in this document:
+- - camera / camera device / camera sensor - a video-camera sensor chip, capable
+-   of connecting to a variety of systems and interfaces, typically uses i2c for
+-   control and configuration, and a parallel or a serial bus for data.
+- - camera host - an interface, to which a camera is connected. Typically a
+-   specialised interface, present on many SoCs, e.g. PXA27x and PXA3xx, SuperH,
+-   i.MX27, i.MX31.
+- - camera host bus - a connection between a camera host and a camera. Can be
+-   parallel or serial, consists of data and control lines, e.g. clock, vertical
+-   and horizontal synchronization signals.
+-
+-Purpose of the soc-camera subsystem
+------------------------------------
+-
+-The soc-camera subsystem initially provided a unified API between camera host
+-drivers and camera sensor drivers. Later the soc-camera sensor API has been
+-replaced with the V4L2 standard subdev API. This also made camera driver re-use
+-with non-soc-camera hosts possible. The camera host API to the soc-camera core
+-has been preserved.
+-
+-Soc-camera implements a V4L2 interface to the user, currently only the "mmap"
+-method is supported by host drivers. However, the soc-camera core also provides
+-support for the "read" method.
+-
+-The subsystem has been designed to support multiple camera host interfaces and
+-multiple cameras per interface, although most applications have only one camera
+-sensor.
+-
+-Existing drivers
+-----------------
+-
+-As of 3.7 there are seven host drivers in the mainline: atmel-isi.c,
+-mx1_camera.c (broken, scheduled for removal), mx2_camera.c, mx3_camera.c,
+-omap1_camera.c, pxa_camera.c, sh_mobile_ceu_camera.c, and multiple sensor
+-drivers under drivers/media/i2c/soc_camera/.
+-
+-Camera host API
+----------------
+-
+-A host camera driver is registered using the
+-
+-.. code-block:: none
+-
+-	soc_camera_host_register(struct soc_camera_host *);
+-
+-function. The host object can be initialized as follows:
+-
+-.. code-block:: none
+-
+-	struct soc_camera_host	*ici;
+-	ici->drv_name		= DRV_NAME;
+-	ici->ops		= &camera_host_ops;
+-	ici->priv		= pcdev;
+-	ici->v4l2_dev.dev	= &pdev->dev;
+-	ici->nr			= pdev->id;
+-
+-All camera host methods are passed in a struct soc_camera_host_ops:
+-
+-.. code-block:: none
+-
+-	static struct soc_camera_host_ops camera_host_ops = {
+-		.owner		= THIS_MODULE,
+-		.add		= camera_add_device,
+-		.remove		= camera_remove_device,
+-		.set_fmt	= camera_set_fmt_cap,
+-		.try_fmt	= camera_try_fmt_cap,
+-		.init_videobuf2	= camera_init_videobuf2,
+-		.poll		= camera_poll,
+-		.querycap	= camera_querycap,
+-		.set_bus_param	= camera_set_bus_param,
+-		/* The rest of host operations are optional */
+-	};
+-
+-.add and .remove methods are called when a sensor is attached to or detached
+-from the host. .set_bus_param is used to configure physical connection
+-parameters between the host and the sensor. .init_videobuf2 is called by
+-soc-camera core when a video-device is opened, the host driver would typically
+-call vb2_queue_init() in this method. Further video-buffer management is
+-implemented completely by the specific camera host driver. If the host driver
+-supports non-standard pixel format conversion, it should implement a
+-.get_formats and, possibly, a .put_formats operations. See below for more
+-details about format conversion. The rest of the methods are called from
+-respective V4L2 operations.
+-
+-Camera API
+-----------
+-
+-Sensor drivers can use struct soc_camera_link, typically provided by the
+-platform, and used to specify to which camera host bus the sensor is connected,
+-and optionally provide platform .power and .reset methods for the camera. This
+-struct is provided to the camera driver via the I2C client device platform data
+-and can be obtained, using the soc_camera_i2c_to_link() macro. Care should be
+-taken, when using soc_camera_vdev_to_subdev() and when accessing struct
+-soc_camera_device, using v4l2_get_subdev_hostdata(): both only work, when
+-running on an soc-camera host. The actual camera driver operation is implemented
+-using the V4L2 subdev API. Additionally soc-camera camera drivers can use
+-auxiliary soc-camera helper functions like soc_camera_power_on() and
+-soc_camera_power_off(), which switch regulators, provided by the platform and call
+-board-specific power switching methods. soc_camera_apply_board_flags() takes
+-camera bus configuration capability flags and applies any board transformations,
+-e.g. signal polarity inversion. soc_mbus_get_fmtdesc() can be used to obtain a
+-pixel format descriptor, corresponding to a certain media-bus pixel format code.
+-soc_camera_limit_side() can be used to restrict beginning and length of a frame
+-side, based on camera capabilities.
+-
+-VIDIOC_S_CROP and VIDIOC_S_FMT behaviour
+-----------------------------------------
+-
+-Above user ioctls modify image geometry as follows:
+-
+-VIDIOC_S_CROP: sets location and sizes of the sensor window. Unit is one sensor
+-pixel. Changing sensor window sizes preserves any scaling factors, therefore
+-user window sizes change as well.
+-
+-VIDIOC_S_FMT: sets user window. Should preserve previously set sensor window as
+-much as possible by modifying scaling factors. If the sensor window cannot be
+-preserved precisely, it may be changed too.
+-
+-In soc-camera there are two locations, where scaling and cropping can take
+-place: in the camera driver and in the host driver. User ioctls are first passed
+-to the host driver, which then generally passes them down to the camera driver.
+-It is more efficient to perform scaling and cropping in the camera driver to
+-save camera bus bandwidth and maximise the framerate. However, if the camera
+-driver failed to set the required parameters with sufficient precision, the host
+-driver may decide to also use its own scaling and cropping to fulfill the user's
+-request.
+-
+-Camera drivers are interfaced to the soc-camera core and to host drivers over
+-the v4l2-subdev API, which is completely functional, it doesn't pass any data.
+-Therefore all camera drivers shall reply to .g_fmt() requests with their current
+-output geometry. This is necessary to correctly configure the camera bus.
+-.s_fmt() and .try_fmt() have to be implemented too. Sensor window and scaling
+-factors have to be maintained by camera drivers internally. According to the
+-V4L2 API all capture drivers must support the VIDIOC_CROPCAP ioctl, hence we
+-rely on camera drivers implementing .cropcap(). If the camera driver does not
+-support cropping, it may choose to not implement .s_crop(), but to enable
+-cropping support by the camera host driver at least the .g_crop method must be
+-implemented.
+-
+-User window geometry is kept in .user_width and .user_height fields in struct
+-soc_camera_device and used by the soc-camera core and host drivers. The core
+-updates these fields upon successful completion of a .s_fmt() call, but if these
+-fields change elsewhere, e.g. during .s_crop() processing, the host driver is
+-responsible for updating them.
+-
+-Format conversion
+------------------
+-
+-V4L2 distinguishes between pixel formats, as they are stored in memory, and as
+-they are transferred over a media bus. Soc-camera provides support to
+-conveniently manage these formats. A table of standard transformations is
+-maintained by soc-camera core, which describes, what FOURCC pixel format will
+-be obtained, if a media-bus pixel format is stored in memory according to
+-certain rules. E.g. if MEDIA_BUS_FMT_YUYV8_2X8 data is sampled with 8 bits per
+-sample and stored in memory in the little-endian order with no gaps between
+-bytes, data in memory will represent the V4L2_PIX_FMT_YUYV FOURCC format. These
+-standard transformations will be used by soc-camera or by camera host drivers to
+-configure camera drivers to produce the FOURCC format, requested by the user,
+-using the VIDIOC_S_FMT ioctl(). Apart from those standard format conversions,
+-host drivers can also provide their own conversion rules by implementing a
+-.get_formats and, if required, a .put_formats methods.
+diff --git a/drivers/staging/media/soc_camera/soc_camera.c b/drivers/staging/media/soc_camera/soc_camera.c
+deleted file mode 100644
+index 39f513f69b89..000000000000
+--- a/drivers/staging/media/soc_camera/soc_camera.c
++++ /dev/null
+@@ -1,2164 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * camera image capture (abstract) bus driver
+- *
+- * Copyright (C) 2008, Guennadi Liakhovetski <kernel@pengutronix.de>
+- *
+- * This driver provides an interface between platform-specific camera
+- * buses and camera devices. It should be used if the camera is
+- * connected not over a "proper" bus like PCI or USB, but over a
+- * special bus, like, for example, the Quick Capture interface on PXA270
+- * SoCs. Later it should also be used for i.MX31 SoCs from Freescale.
+- * It can handle multiple cameras and / or multiple buses, which can
+- * be used, e.g., in stereo-vision applications.
+- */
+-#include <linux/device.h>
+-#include <linux/err.h>
+-#include <linux/i2c.h>
+-#include <linux/init.h>
+-#include <linux/list.h>
+-#include <linux/module.h>
+-#include <linux/mutex.h>
+-#include <linux/of_graph.h>
+-#include <linux/platform_device.h>
+-#include <linux/pm_runtime.h>
+-#include <linux/regulator/consumer.h>
+-#include <linux/slab.h>
+-#include <linux/vmalloc.h>
+-
+-#include <media/soc_camera.h>
+-#include <media/drv-intf/soc_mediabus.h>
+-#include <media/v4l2-async.h>
+-#include <media/v4l2-clk.h>
+-#include <media/v4l2-common.h>
+-#include <media/v4l2-ioctl.h>
+-#include <media/v4l2-dev.h>
+-#include <media/v4l2-fwnode.h>
+-#include <media/videobuf2-v4l2.h>
+-
+-/* Default to VGA resolution */
+-#define DEFAULT_WIDTH	640
+-#define DEFAULT_HEIGHT	480
+-
+-#define MAP_MAX_NUM 32
+-static DECLARE_BITMAP(device_map, MAP_MAX_NUM);
+-static LIST_HEAD(hosts);
+-static LIST_HEAD(devices);
+-/*
+- * Protects lists and bitmaps of hosts and devices.
+- * Lock nesting: Ok to take ->host_lock under list_lock.
+- */
+-static DEFINE_MUTEX(list_lock);
+-
+-struct soc_camera_async_client {
+-	struct v4l2_async_subdev *sensor;
+-	struct v4l2_async_notifier notifier;
+-	struct platform_device *pdev;
+-	struct list_head list;		/* needed for clean up */
+-};
+-
+-static int soc_camera_video_start(struct soc_camera_device *icd);
+-static int video_dev_create(struct soc_camera_device *icd);
+-
+-int soc_camera_power_on(struct device *dev, struct soc_camera_subdev_desc *ssdd,
+-			struct v4l2_clk *clk)
+-{
+-	int ret;
+-	bool clock_toggle;
+-
+-	if (clk && (!ssdd->unbalanced_power ||
+-		    !test_and_set_bit(0, &ssdd->clock_state))) {
+-		ret = v4l2_clk_enable(clk);
+-		if (ret < 0) {
+-			dev_err(dev, "Cannot enable clock: %d\n", ret);
+-			return ret;
+-		}
+-		clock_toggle = true;
+-	} else {
+-		clock_toggle = false;
+-	}
+-
+-	ret = regulator_bulk_enable(ssdd->sd_pdata.num_regulators,
+-				    ssdd->sd_pdata.regulators);
+-	if (ret < 0) {
+-		dev_err(dev, "Cannot enable regulators\n");
+-		goto eregenable;
+-	}
+-
+-	if (ssdd->power) {
+-		ret = ssdd->power(dev, 1);
+-		if (ret < 0) {
+-			dev_err(dev,
+-				"Platform failed to power-on the camera.\n");
+-			goto epwron;
 -		}
 -	}
 -
--	if (gpio_bus_switch >= 0)
--		return SOCAM_DATAWIDTH_8 | SOCAM_DATAWIDTH_10;
--	else
--		return SOCAM_DATAWIDTH_10;
+-	return 0;
+-
+-epwron:
+-	regulator_bulk_disable(ssdd->sd_pdata.num_regulators,
+-			       ssdd->sd_pdata.regulators);
+-eregenable:
+-	if (clock_toggle)
+-		v4l2_clk_disable(clk);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL(soc_camera_power_on);
+-
+-int soc_camera_power_off(struct device *dev, struct soc_camera_subdev_desc *ssdd,
+-			 struct v4l2_clk *clk)
+-{
+-	int ret = 0;
+-	int err;
+-
+-	if (ssdd->power) {
+-		err = ssdd->power(dev, 0);
+-		if (err < 0) {
+-			dev_err(dev,
+-				"Platform failed to power-off the camera.\n");
+-			ret = err;
+-		}
+-	}
+-
+-	err = regulator_bulk_disable(ssdd->sd_pdata.num_regulators,
+-				     ssdd->sd_pdata.regulators);
+-	if (err < 0) {
+-		dev_err(dev, "Cannot disable regulators\n");
+-		ret = ret ? : err;
+-	}
+-
+-	if (clk && (!ssdd->unbalanced_power || test_and_clear_bit(0, &ssdd->clock_state)))
+-		v4l2_clk_disable(clk);
+-
+-	return ret;
+-}
+-EXPORT_SYMBOL(soc_camera_power_off);
+-
+-int soc_camera_power_init(struct device *dev, struct soc_camera_subdev_desc *ssdd)
+-{
+-	/* Should not have any effect in synchronous case */
+-	return devm_regulator_bulk_get(dev, ssdd->sd_pdata.num_regulators,
+-				       ssdd->sd_pdata.regulators);
+-}
+-EXPORT_SYMBOL(soc_camera_power_init);
+-
+-static int __soc_camera_power_on(struct soc_camera_device *icd)
+-{
+-	struct v4l2_subdev *sd = soc_camera_to_subdev(icd);
+-	int ret;
+-
+-	ret = v4l2_subdev_call(sd, core, s_power, 1);
+-	if (ret < 0 && ret != -ENOIOCTLCMD && ret != -ENODEV)
+-		return ret;
+-
+-	return 0;
 -}
 -
--static void pcm990_camera_free_bus(struct soc_camera_link *link)
+-static int __soc_camera_power_off(struct soc_camera_device *icd)
 -{
--	if (gpio_bus_switch < 0)
+-	struct v4l2_subdev *sd = soc_camera_to_subdev(icd);
+-	int ret;
+-
+-	ret = v4l2_subdev_call(sd, core, s_power, 0);
+-	if (ret < 0 && ret != -ENOIOCTLCMD && ret != -ENODEV)
+-		return ret;
+-
+-	return 0;
+-}
+-
+-static int soc_camera_clock_start(struct soc_camera_host *ici)
+-{
+-	int ret;
+-
+-	if (!ici->ops->clock_start)
+-		return 0;
+-
+-	mutex_lock(&ici->clk_lock);
+-	ret = ici->ops->clock_start(ici);
+-	mutex_unlock(&ici->clk_lock);
+-
+-	return ret;
+-}
+-
+-static void soc_camera_clock_stop(struct soc_camera_host *ici)
+-{
+-	if (!ici->ops->clock_stop)
 -		return;
 -
--	gpio_free(gpio_bus_switch);
--	gpio_bus_switch = -EINVAL;
+-	mutex_lock(&ici->clk_lock);
+-	ici->ops->clock_stop(ici);
+-	mutex_unlock(&ici->clk_lock);
 -}
 -
--/* Board I2C devices. */
--static struct i2c_board_info __initdata pcm990_i2c_devices[] = {
--	{
--		/* Must initialize before the camera(s) */
--		I2C_BOARD_INFO("pca9536", 0x41),
--		.platform_data = &pca9536_data,
--	},
+-const struct soc_camera_format_xlate *soc_camera_xlate_by_fourcc(
+-	struct soc_camera_device *icd, unsigned int fourcc)
+-{
+-	unsigned int i;
+-
+-	for (i = 0; i < icd->num_user_formats; i++)
+-		if (icd->user_formats[i].host_fmt->fourcc == fourcc)
+-			return icd->user_formats + i;
+-	return NULL;
+-}
+-EXPORT_SYMBOL(soc_camera_xlate_by_fourcc);
+-
+-/**
+- * soc_camera_apply_board_flags() - apply platform SOCAM_SENSOR_INVERT_* flags
+- * @ssdd:	camera platform parameters
+- * @cfg:	media bus configuration
+- * @return:	resulting flags
+- */
+-unsigned long soc_camera_apply_board_flags(struct soc_camera_subdev_desc *ssdd,
+-					   const struct v4l2_mbus_config *cfg)
+-{
+-	unsigned long f, flags = cfg->flags;
+-
+-	/* If only one of the two polarities is supported, switch to the opposite */
+-	if (ssdd->flags & SOCAM_SENSOR_INVERT_HSYNC) {
+-		f = flags & (V4L2_MBUS_HSYNC_ACTIVE_HIGH | V4L2_MBUS_HSYNC_ACTIVE_LOW);
+-		if (f == V4L2_MBUS_HSYNC_ACTIVE_HIGH || f == V4L2_MBUS_HSYNC_ACTIVE_LOW)
+-			flags ^= V4L2_MBUS_HSYNC_ACTIVE_HIGH | V4L2_MBUS_HSYNC_ACTIVE_LOW;
+-	}
+-
+-	if (ssdd->flags & SOCAM_SENSOR_INVERT_VSYNC) {
+-		f = flags & (V4L2_MBUS_VSYNC_ACTIVE_HIGH | V4L2_MBUS_VSYNC_ACTIVE_LOW);
+-		if (f == V4L2_MBUS_VSYNC_ACTIVE_HIGH || f == V4L2_MBUS_VSYNC_ACTIVE_LOW)
+-			flags ^= V4L2_MBUS_VSYNC_ACTIVE_HIGH | V4L2_MBUS_VSYNC_ACTIVE_LOW;
+-	}
+-
+-	if (ssdd->flags & SOCAM_SENSOR_INVERT_PCLK) {
+-		f = flags & (V4L2_MBUS_PCLK_SAMPLE_RISING | V4L2_MBUS_PCLK_SAMPLE_FALLING);
+-		if (f == V4L2_MBUS_PCLK_SAMPLE_RISING || f == V4L2_MBUS_PCLK_SAMPLE_FALLING)
+-			flags ^= V4L2_MBUS_PCLK_SAMPLE_RISING | V4L2_MBUS_PCLK_SAMPLE_FALLING;
+-	}
+-
+-	return flags;
+-}
+-EXPORT_SYMBOL(soc_camera_apply_board_flags);
+-
+-#define pixfmtstr(x) (x) & 0xff, ((x) >> 8) & 0xff, ((x) >> 16) & 0xff, \
+-	((x) >> 24) & 0xff
+-
+-static int soc_camera_try_fmt(struct soc_camera_device *icd,
+-			      struct v4l2_format *f)
+-{
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-	const struct soc_camera_format_xlate *xlate;
+-	struct v4l2_pix_format *pix = &f->fmt.pix;
+-	int ret;
+-
+-	dev_dbg(icd->pdev, "TRY_FMT(%c%c%c%c, %ux%u)\n",
+-		pixfmtstr(pix->pixelformat), pix->width, pix->height);
+-
+-	if (pix->pixelformat != V4L2_PIX_FMT_JPEG &&
+-	    !(ici->capabilities & SOCAM_HOST_CAP_STRIDE)) {
+-		pix->bytesperline = 0;
+-		pix->sizeimage = 0;
+-	}
+-
+-	ret = ici->ops->try_fmt(icd, f);
+-	if (ret < 0)
+-		return ret;
+-
+-	xlate = soc_camera_xlate_by_fourcc(icd, pix->pixelformat);
+-	if (!xlate)
+-		return -EINVAL;
+-
+-	ret = soc_mbus_bytes_per_line(pix->width, xlate->host_fmt);
+-	if (ret < 0)
+-		return ret;
+-
+-	pix->bytesperline = max_t(u32, pix->bytesperline, ret);
+-
+-	ret = soc_mbus_image_size(xlate->host_fmt, pix->bytesperline,
+-				  pix->height);
+-	if (ret < 0)
+-		return ret;
+-
+-	pix->sizeimage = max_t(u32, pix->sizeimage, ret);
+-
+-	return 0;
+-}
+-
+-static int soc_camera_try_fmt_vid_cap(struct file *file, void *priv,
+-				      struct v4l2_format *f)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-
+-	WARN_ON(priv != file->private_data);
+-
+-	/* Only single-plane capture is supported so far */
+-	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+-		return -EINVAL;
+-
+-	/* limit format to hardware capabilities */
+-	return soc_camera_try_fmt(icd, f);
+-}
+-
+-static int soc_camera_enum_input(struct file *file, void *priv,
+-				 struct v4l2_input *inp)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-
+-	if (inp->index != 0)
+-		return -EINVAL;
+-
+-	/* default is camera */
+-	inp->type = V4L2_INPUT_TYPE_CAMERA;
+-	inp->std = icd->vdev->tvnorms;
+-	strscpy(inp->name, "Camera", sizeof(inp->name));
+-
+-	return 0;
+-}
+-
+-static int soc_camera_g_input(struct file *file, void *priv, unsigned int *i)
+-{
+-	*i = 0;
+-
+-	return 0;
+-}
+-
+-static int soc_camera_s_input(struct file *file, void *priv, unsigned int i)
+-{
+-	if (i > 0)
+-		return -EINVAL;
+-
+-	return 0;
+-}
+-
+-static int soc_camera_s_std(struct file *file, void *priv, v4l2_std_id a)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct v4l2_subdev *sd = soc_camera_to_subdev(icd);
+-
+-	return v4l2_subdev_call(sd, video, s_std, a);
+-}
+-
+-static int soc_camera_g_std(struct file *file, void *priv, v4l2_std_id *a)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct v4l2_subdev *sd = soc_camera_to_subdev(icd);
+-
+-	return v4l2_subdev_call(sd, video, g_std, a);
+-}
+-
+-static int soc_camera_enum_framesizes(struct file *file, void *fh,
+-					 struct v4l2_frmsizeenum *fsize)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-
+-	return ici->ops->enum_framesizes(icd, fsize);
+-}
+-
+-static int soc_camera_reqbufs(struct file *file, void *priv,
+-			      struct v4l2_requestbuffers *p)
+-{
+-	int ret;
+-	struct soc_camera_device *icd = file->private_data;
+-
+-	WARN_ON(priv != file->private_data);
+-
+-	if (icd->streamer && icd->streamer != file)
+-		return -EBUSY;
+-
+-	ret = vb2_reqbufs(&icd->vb2_vidq, p);
+-	if (!ret)
+-		icd->streamer = p->count ? file : NULL;
+-	return ret;
+-}
+-
+-static int soc_camera_querybuf(struct file *file, void *priv,
+-			       struct v4l2_buffer *p)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-
+-	WARN_ON(priv != file->private_data);
+-
+-	return vb2_querybuf(&icd->vb2_vidq, p);
+-}
+-
+-static int soc_camera_qbuf(struct file *file, void *priv,
+-			   struct v4l2_buffer *p)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-
+-	WARN_ON(priv != file->private_data);
+-
+-	if (icd->streamer != file)
+-		return -EBUSY;
+-
+-	return vb2_qbuf(&icd->vb2_vidq, NULL, p);
+-}
+-
+-static int soc_camera_dqbuf(struct file *file, void *priv,
+-			    struct v4l2_buffer *p)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-
+-	WARN_ON(priv != file->private_data);
+-
+-	if (icd->streamer != file)
+-		return -EBUSY;
+-
+-	return vb2_dqbuf(&icd->vb2_vidq, p, file->f_flags & O_NONBLOCK);
+-}
+-
+-static int soc_camera_create_bufs(struct file *file, void *priv,
+-			    struct v4l2_create_buffers *create)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	int ret;
+-
+-	if (icd->streamer && icd->streamer != file)
+-		return -EBUSY;
+-
+-	ret = vb2_create_bufs(&icd->vb2_vidq, create);
+-	if (!ret)
+-		icd->streamer = file;
+-	return ret;
+-}
+-
+-static int soc_camera_prepare_buf(struct file *file, void *priv,
+-				  struct v4l2_buffer *b)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-
+-	return vb2_prepare_buf(&icd->vb2_vidq, NULL, b);
+-}
+-
+-static int soc_camera_expbuf(struct file *file, void *priv,
+-			     struct v4l2_exportbuffer *p)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-
+-	if (icd->streamer && icd->streamer != file)
+-		return -EBUSY;
+-	return vb2_expbuf(&icd->vb2_vidq, p);
+-}
+-
+-/* Always entered with .host_lock held */
+-static int soc_camera_init_user_formats(struct soc_camera_device *icd)
+-{
+-	struct v4l2_subdev *sd = soc_camera_to_subdev(icd);
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-	unsigned int i, fmts = 0, raw_fmts = 0;
+-	int ret;
+-	struct v4l2_subdev_mbus_code_enum code = {
+-		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+-	};
+-
+-	while (!v4l2_subdev_call(sd, pad, enum_mbus_code, NULL, &code)) {
+-		raw_fmts++;
+-		code.index++;
+-	}
+-
+-	if (!ici->ops->get_formats)
+-		/*
+-		 * Fallback mode - the host will have to serve all
+-		 * sensor-provided formats one-to-one to the user
+-		 */
+-		fmts = raw_fmts;
+-	else
+-		/*
+-		 * First pass - only count formats this host-sensor
+-		 * configuration can provide
+-		 */
+-		for (i = 0; i < raw_fmts; i++) {
+-			ret = ici->ops->get_formats(icd, i, NULL);
+-			if (ret < 0)
+-				return ret;
+-			fmts += ret;
+-		}
+-
+-	if (!fmts)
+-		return -ENXIO;
+-
+-	icd->user_formats =
+-		vmalloc(array_size(fmts,
+-				   sizeof(struct soc_camera_format_xlate)));
+-	if (!icd->user_formats)
+-		return -ENOMEM;
+-
+-	dev_dbg(icd->pdev, "Found %d supported formats.\n", fmts);
+-
+-	/* Second pass - actually fill data formats */
+-	fmts = 0;
+-	for (i = 0; i < raw_fmts; i++)
+-		if (!ici->ops->get_formats) {
+-			code.index = i;
+-			v4l2_subdev_call(sd, pad, enum_mbus_code, NULL, &code);
+-			icd->user_formats[fmts].host_fmt =
+-				soc_mbus_get_fmtdesc(code.code);
+-			if (icd->user_formats[fmts].host_fmt)
+-				icd->user_formats[fmts++].code = code.code;
+-		} else {
+-			ret = ici->ops->get_formats(icd, i,
+-						    &icd->user_formats[fmts]);
+-			if (ret < 0)
+-				goto egfmt;
+-			fmts += ret;
+-		}
+-
+-	icd->num_user_formats = fmts;
+-	icd->current_fmt = &icd->user_formats[0];
+-
+-	return 0;
+-
+-egfmt:
+-	vfree(icd->user_formats);
+-	return ret;
+-}
+-
+-/* Always entered with .host_lock held */
+-static void soc_camera_free_user_formats(struct soc_camera_device *icd)
+-{
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-
+-	if (ici->ops->put_formats)
+-		ici->ops->put_formats(icd);
+-	icd->current_fmt = NULL;
+-	icd->num_user_formats = 0;
+-	vfree(icd->user_formats);
+-	icd->user_formats = NULL;
+-}
+-
+-/* Called with .vb_lock held, or from the first open(2), see comment there */
+-static int soc_camera_set_fmt(struct soc_camera_device *icd,
+-			      struct v4l2_format *f)
+-{
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-	struct v4l2_pix_format *pix = &f->fmt.pix;
+-	int ret;
+-
+-	dev_dbg(icd->pdev, "S_FMT(%c%c%c%c, %ux%u)\n",
+-		pixfmtstr(pix->pixelformat), pix->width, pix->height);
+-
+-	/* We always call try_fmt() before set_fmt() or set_selection() */
+-	ret = soc_camera_try_fmt(icd, f);
+-	if (ret < 0)
+-		return ret;
+-
+-	ret = ici->ops->set_fmt(icd, f);
+-	if (ret < 0) {
+-		return ret;
+-	} else if (!icd->current_fmt ||
+-		   icd->current_fmt->host_fmt->fourcc != pix->pixelformat) {
+-		dev_err(icd->pdev,
+-			"Host driver hasn't set up current format correctly!\n");
+-		return -EINVAL;
+-	}
+-
+-	icd->user_width		= pix->width;
+-	icd->user_height	= pix->height;
+-	icd->bytesperline	= pix->bytesperline;
+-	icd->sizeimage		= pix->sizeimage;
+-	icd->colorspace		= pix->colorspace;
+-	icd->field		= pix->field;
+-
+-	dev_dbg(icd->pdev, "set width: %d height: %d\n",
+-		icd->user_width, icd->user_height);
+-
+-	/* set physical bus parameters */
+-	return ici->ops->set_bus_param(icd);
+-}
+-
+-static int soc_camera_add_device(struct soc_camera_device *icd)
+-{
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-	int ret;
+-
+-	if (ici->icd)
+-		return -EBUSY;
+-
+-	if (!icd->clk) {
+-		ret = soc_camera_clock_start(ici);
+-		if (ret < 0)
+-			return ret;
+-	}
+-
+-	if (ici->ops->add) {
+-		ret = ici->ops->add(icd);
+-		if (ret < 0)
+-			goto eadd;
+-	}
+-
+-	ici->icd = icd;
+-
+-	return 0;
+-
+-eadd:
+-	if (!icd->clk)
+-		soc_camera_clock_stop(ici);
+-	return ret;
+-}
+-
+-static void soc_camera_remove_device(struct soc_camera_device *icd)
+-{
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-
+-	if (WARN_ON(icd != ici->icd))
+-		return;
+-
+-	if (ici->ops->remove)
+-		ici->ops->remove(icd);
+-	if (!icd->clk)
+-		soc_camera_clock_stop(ici);
+-	ici->icd = NULL;
+-}
+-
+-static int soc_camera_open(struct file *file)
+-{
+-	struct video_device *vdev = video_devdata(file);
+-	struct soc_camera_device *icd;
+-	struct soc_camera_host *ici;
+-	int ret;
+-
+-	/*
+-	 * Don't mess with the host during probe: wait until the loop in
+-	 * scan_add_host() completes. Also protect against a race with
+-	 * soc_camera_host_unregister().
+-	 */
+-	if (mutex_lock_interruptible(&list_lock))
+-		return -ERESTARTSYS;
+-
+-	if (!vdev || !video_is_registered(vdev)) {
+-		mutex_unlock(&list_lock);
+-		return -ENODEV;
+-	}
+-
+-	icd = video_get_drvdata(vdev);
+-	ici = to_soc_camera_host(icd->parent);
+-
+-	ret = try_module_get(ici->ops->owner) ? 0 : -ENODEV;
+-	mutex_unlock(&list_lock);
+-
+-	if (ret < 0) {
+-		dev_err(icd->pdev, "Couldn't lock capture bus driver.\n");
+-		return ret;
+-	}
+-
+-	if (!to_soc_camera_control(icd)) {
+-		/* No device driver attached */
+-		ret = -ENODEV;
+-		goto econtrol;
+-	}
+-
+-	if (mutex_lock_interruptible(&ici->host_lock)) {
+-		ret = -ERESTARTSYS;
+-		goto elockhost;
+-	}
+-	icd->use_count++;
+-
+-	/* Now we really have to activate the camera */
+-	if (icd->use_count == 1) {
+-		struct soc_camera_desc *sdesc = to_soc_camera_desc(icd);
+-		/* Restore parameters before the last close() per V4L2 API */
+-		struct v4l2_format f = {
+-			.type = V4L2_BUF_TYPE_VIDEO_CAPTURE,
+-			.fmt.pix = {
+-				.width		= icd->user_width,
+-				.height		= icd->user_height,
+-				.field		= icd->field,
+-				.colorspace	= icd->colorspace,
+-				.pixelformat	=
+-					icd->current_fmt->host_fmt->fourcc,
+-			},
+-		};
+-
+-		/* The camera could have been already on, try to reset */
+-		if (sdesc->subdev_desc.reset)
+-			if (icd->control)
+-				sdesc->subdev_desc.reset(icd->control);
+-
+-		ret = soc_camera_add_device(icd);
+-		if (ret < 0) {
+-			dev_err(icd->pdev, "Couldn't activate the camera: %d\n", ret);
+-			goto eiciadd;
+-		}
+-
+-		ret = __soc_camera_power_on(icd);
+-		if (ret < 0)
+-			goto epower;
+-
+-		pm_runtime_enable(&icd->vdev->dev);
+-		ret = pm_runtime_resume(&icd->vdev->dev);
+-		if (ret < 0 && ret != -ENOSYS)
+-			goto eresume;
+-
+-		/*
+-		 * Try to configure with default parameters. Notice: this is the
+-		 * very first open, so, we cannot race against other calls,
+-		 * apart from someone else calling open() simultaneously, but
+-		 * .host_lock is protecting us against it.
+-		 */
+-		ret = soc_camera_set_fmt(icd, &f);
+-		if (ret < 0)
+-			goto esfmt;
+-
+-		ret = ici->ops->init_videobuf2(&icd->vb2_vidq, icd);
+-		if (ret < 0)
+-			goto einitvb;
+-		v4l2_ctrl_handler_setup(&icd->ctrl_handler);
+-	}
+-	mutex_unlock(&ici->host_lock);
+-
+-	file->private_data = icd;
+-	dev_dbg(icd->pdev, "camera device open\n");
+-
+-	return 0;
+-
+-	/*
+-	 * All errors are entered with the .host_lock held, first four also
+-	 * with use_count == 1
+-	 */
+-einitvb:
+-esfmt:
+-	pm_runtime_disable(&icd->vdev->dev);
+-eresume:
+-	__soc_camera_power_off(icd);
+-epower:
+-	soc_camera_remove_device(icd);
+-eiciadd:
+-	icd->use_count--;
+-	mutex_unlock(&ici->host_lock);
+-elockhost:
+-econtrol:
+-	module_put(ici->ops->owner);
+-
+-	return ret;
+-}
+-
+-static int soc_camera_close(struct file *file)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-
+-	mutex_lock(&ici->host_lock);
+-	if (icd->streamer == file) {
+-		if (ici->ops->init_videobuf2)
+-			vb2_queue_release(&icd->vb2_vidq);
+-		icd->streamer = NULL;
+-	}
+-	icd->use_count--;
+-	if (!icd->use_count) {
+-		pm_runtime_suspend(&icd->vdev->dev);
+-		pm_runtime_disable(&icd->vdev->dev);
+-
+-		__soc_camera_power_off(icd);
+-
+-		soc_camera_remove_device(icd);
+-	}
+-
+-	mutex_unlock(&ici->host_lock);
+-
+-	module_put(ici->ops->owner);
+-
+-	dev_dbg(icd->pdev, "camera device close\n");
+-
+-	return 0;
+-}
+-
+-static ssize_t soc_camera_read(struct file *file, char __user *buf,
+-			       size_t count, loff_t *ppos)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-
+-	dev_dbg(icd->pdev, "read called, buf %p\n", buf);
+-
+-	if (ici->ops->init_videobuf2 && icd->vb2_vidq.io_modes & VB2_READ)
+-		return vb2_read(&icd->vb2_vidq, buf, count, ppos,
+-				file->f_flags & O_NONBLOCK);
+-
+-	dev_err(icd->pdev, "camera device read not implemented\n");
+-
+-	return -EINVAL;
+-}
+-
+-static int soc_camera_mmap(struct file *file, struct vm_area_struct *vma)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-	int err;
+-
+-	dev_dbg(icd->pdev, "mmap called, vma=%p\n", vma);
+-
+-	if (icd->streamer != file)
+-		return -EBUSY;
+-
+-	if (mutex_lock_interruptible(&ici->host_lock))
+-		return -ERESTARTSYS;
+-	err = vb2_mmap(&icd->vb2_vidq, vma);
+-	mutex_unlock(&ici->host_lock);
+-
+-	dev_dbg(icd->pdev, "vma start=0x%08lx, size=%ld, ret=%d\n",
+-		(unsigned long)vma->vm_start,
+-		(unsigned long)vma->vm_end - (unsigned long)vma->vm_start,
+-		err);
+-
+-	return err;
+-}
+-
+-static __poll_t soc_camera_poll(struct file *file, poll_table *pt)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-	__poll_t res = EPOLLERR;
+-
+-	if (icd->streamer != file)
+-		return EPOLLERR;
+-
+-	mutex_lock(&ici->host_lock);
+-	res = ici->ops->poll(file, pt);
+-	mutex_unlock(&ici->host_lock);
+-	return res;
+-}
+-
+-static const struct v4l2_file_operations soc_camera_fops = {
+-	.owner		= THIS_MODULE,
+-	.open		= soc_camera_open,
+-	.release	= soc_camera_close,
+-	.unlocked_ioctl	= video_ioctl2,
+-	.read		= soc_camera_read,
+-	.mmap		= soc_camera_mmap,
+-	.poll		= soc_camera_poll,
 -};
 -
--static struct mt9v022_platform_data mt9v022_pdata = {
--	.y_skip_top = 1,
+-static int soc_camera_s_fmt_vid_cap(struct file *file, void *priv,
+-				    struct v4l2_format *f)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	int ret;
+-
+-	WARN_ON(priv != file->private_data);
+-
+-	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE) {
+-		dev_warn(icd->pdev, "Wrong buf-type %d\n", f->type);
+-		return -EINVAL;
+-	}
+-
+-	if (icd->streamer && icd->streamer != file)
+-		return -EBUSY;
+-
+-	if (vb2_is_streaming(&icd->vb2_vidq)) {
+-		dev_err(icd->pdev, "S_FMT denied: queue initialised\n");
+-		return -EBUSY;
+-	}
+-
+-	ret = soc_camera_set_fmt(icd, f);
+-
+-	if (!ret && !icd->streamer)
+-		icd->streamer = file;
+-
+-	return ret;
+-}
+-
+-static int soc_camera_enum_fmt_vid_cap(struct file *file, void  *priv,
+-				       struct v4l2_fmtdesc *f)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	const struct soc_mbus_pixelfmt *format;
+-
+-	WARN_ON(priv != file->private_data);
+-
+-	if (f->index >= icd->num_user_formats)
+-		return -EINVAL;
+-
+-	format = icd->user_formats[f->index].host_fmt;
+-
+-	f->pixelformat = format->fourcc;
+-	return 0;
+-}
+-
+-static int soc_camera_g_fmt_vid_cap(struct file *file, void *priv,
+-				    struct v4l2_format *f)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct v4l2_pix_format *pix = &f->fmt.pix;
+-
+-	WARN_ON(priv != file->private_data);
+-
+-	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+-		return -EINVAL;
+-
+-	pix->width		= icd->user_width;
+-	pix->height		= icd->user_height;
+-	pix->bytesperline	= icd->bytesperline;
+-	pix->sizeimage		= icd->sizeimage;
+-	pix->field		= icd->field;
+-	pix->pixelformat	= icd->current_fmt->host_fmt->fourcc;
+-	pix->colorspace		= icd->colorspace;
+-	dev_dbg(icd->pdev, "current_fmt->fourcc: 0x%08x\n",
+-		icd->current_fmt->host_fmt->fourcc);
+-	return 0;
+-}
+-
+-static int soc_camera_querycap(struct file *file, void  *priv,
+-			       struct v4l2_capability *cap)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-
+-	WARN_ON(priv != file->private_data);
+-
+-	strscpy(cap->driver, ici->drv_name, sizeof(cap->driver));
+-	return ici->ops->querycap(ici, cap);
+-}
+-
+-static int soc_camera_streamon(struct file *file, void *priv,
+-			       enum v4l2_buf_type i)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct v4l2_subdev *sd = soc_camera_to_subdev(icd);
+-	int ret;
+-
+-	WARN_ON(priv != file->private_data);
+-
+-	if (i != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+-		return -EINVAL;
+-
+-	if (icd->streamer != file)
+-		return -EBUSY;
+-
+-	/* This calls buf_queue from host driver's videobuf2_queue_ops */
+-	ret = vb2_streamon(&icd->vb2_vidq, i);
+-	if (!ret)
+-		v4l2_subdev_call(sd, video, s_stream, 1);
+-
+-	return ret;
+-}
+-
+-static int soc_camera_streamoff(struct file *file, void *priv,
+-				enum v4l2_buf_type i)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct v4l2_subdev *sd = soc_camera_to_subdev(icd);
+-	int ret;
+-
+-	WARN_ON(priv != file->private_data);
+-
+-	if (i != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+-		return -EINVAL;
+-
+-	if (icd->streamer != file)
+-		return -EBUSY;
+-
+-	/*
+-	 * This calls buf_release from host driver's videobuf2_queue_ops for all
+-	 * remaining buffers. When the last buffer is freed, stop capture
+-	 */
+-	ret = vb2_streamoff(&icd->vb2_vidq, i);
+-
+-	v4l2_subdev_call(sd, video, s_stream, 0);
+-
+-	return ret;
+-}
+-
+-static int soc_camera_g_selection(struct file *file, void *fh,
+-				  struct v4l2_selection *s)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-
+-	/* With a wrong type no need to try to fall back to cropping */
+-	if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
+-		return -EINVAL;
+-
+-	return ici->ops->get_selection(icd, s);
+-}
+-
+-static int soc_camera_s_selection(struct file *file, void *fh,
+-				  struct v4l2_selection *s)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-	int ret;
+-
+-	/* In all these cases cropping emulation will not help */
+-	if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE ||
+-	    (s->target != V4L2_SEL_TGT_COMPOSE &&
+-	     s->target != V4L2_SEL_TGT_CROP))
+-		return -EINVAL;
+-
+-	if (s->target == V4L2_SEL_TGT_COMPOSE) {
+-		/* No output size change during a running capture! */
+-		if (vb2_is_streaming(&icd->vb2_vidq) &&
+-		    (icd->user_width != s->r.width ||
+-		     icd->user_height != s->r.height))
+-			return -EBUSY;
+-
+-		/*
+-		 * Only one user is allowed to change the output format, touch
+-		 * buffers, start / stop streaming, poll for data
+-		 */
+-		if (icd->streamer && icd->streamer != file)
+-			return -EBUSY;
+-	}
+-
+-	if (s->target == V4L2_SEL_TGT_CROP &&
+-	    vb2_is_streaming(&icd->vb2_vidq) &&
+-	    ici->ops->set_liveselection)
+-		ret = ici->ops->set_liveselection(icd, s);
+-	else
+-		ret = ici->ops->set_selection(icd, s);
+-	if (!ret &&
+-	    s->target == V4L2_SEL_TGT_COMPOSE) {
+-		icd->user_width = s->r.width;
+-		icd->user_height = s->r.height;
+-		if (!icd->streamer)
+-			icd->streamer = file;
+-	}
+-
+-	return ret;
+-}
+-
+-static int soc_camera_g_parm(struct file *file, void *fh,
+-			     struct v4l2_streamparm *a)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-
+-	if (ici->ops->get_parm)
+-		return ici->ops->get_parm(icd, a);
+-
+-	return -ENOIOCTLCMD;
+-}
+-
+-static int soc_camera_s_parm(struct file *file, void *fh,
+-			     struct v4l2_streamparm *a)
+-{
+-	struct soc_camera_device *icd = file->private_data;
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-
+-	if (ici->ops->set_parm)
+-		return ici->ops->set_parm(icd, a);
+-
+-	return -ENOIOCTLCMD;
+-}
+-
+-static int soc_camera_probe(struct soc_camera_host *ici,
+-			    struct soc_camera_device *icd);
+-
+-/* So far this function cannot fail */
+-static void scan_add_host(struct soc_camera_host *ici)
+-{
+-	struct soc_camera_device *icd;
+-
+-	mutex_lock(&list_lock);
+-
+-	list_for_each_entry(icd, &devices, list)
+-		if (icd->iface == ici->nr) {
+-			struct soc_camera_desc *sdesc = to_soc_camera_desc(icd);
+-			struct soc_camera_subdev_desc *ssdd = &sdesc->subdev_desc;
+-
+-			/* The camera could have been already on, try to reset */
+-			if (ssdd->reset)
+-				if (icd->control)
+-					ssdd->reset(icd->control);
+-
+-			icd->parent = ici->v4l2_dev.dev;
+-
+-			/* Ignore errors */
+-			soc_camera_probe(ici, icd);
+-		}
+-
+-	mutex_unlock(&list_lock);
+-}
+-
+-/*
+- * It is invalid to call v4l2_clk_enable() after a successful probing
+- * asynchronously outside of V4L2 operations, i.e. with .host_lock not held.
+- */
+-static int soc_camera_clk_enable(struct v4l2_clk *clk)
+-{
+-	struct soc_camera_device *icd = clk->priv;
+-	struct soc_camera_host *ici;
+-
+-	if (!icd || !icd->parent)
+-		return -ENODEV;
+-
+-	ici = to_soc_camera_host(icd->parent);
+-
+-	if (!try_module_get(ici->ops->owner))
+-		return -ENODEV;
+-
+-	/*
+-	 * If a different client is currently being probed, the host will tell
+-	 * you to go
+-	 */
+-	return soc_camera_clock_start(ici);
+-}
+-
+-static void soc_camera_clk_disable(struct v4l2_clk *clk)
+-{
+-	struct soc_camera_device *icd = clk->priv;
+-	struct soc_camera_host *ici;
+-
+-	if (!icd || !icd->parent)
+-		return;
+-
+-	ici = to_soc_camera_host(icd->parent);
+-
+-	soc_camera_clock_stop(ici);
+-
+-	module_put(ici->ops->owner);
+-}
+-
+-/*
+- * Eventually, it would be more logical to make the respective host the clock
+- * owner, but then we would have to copy this struct for each ici. Besides, it
+- * would introduce the circular dependency problem, unless we port all client
+- * drivers to release the clock, when not in use.
+- */
+-static const struct v4l2_clk_ops soc_camera_clk_ops = {
+-	.owner = THIS_MODULE,
+-	.enable = soc_camera_clk_enable,
+-	.disable = soc_camera_clk_disable,
 -};
 -
--static struct i2c_board_info pcm990_camera_i2c[] = {
--	{
--		I2C_BOARD_INFO("mt9v022", 0x48),
--	}, {
--		I2C_BOARD_INFO("mt9m001", 0x5d),
--	},
+-static int soc_camera_dyn_pdev(struct soc_camera_desc *sdesc,
+-			       struct soc_camera_async_client *sasc)
+-{
+-	struct platform_device *pdev;
+-	int ret, i;
+-
+-	mutex_lock(&list_lock);
+-	i = find_first_zero_bit(device_map, MAP_MAX_NUM);
+-	if (i < MAP_MAX_NUM)
+-		set_bit(i, device_map);
+-	mutex_unlock(&list_lock);
+-	if (i >= MAP_MAX_NUM)
+-		return -ENOMEM;
+-
+-	pdev = platform_device_alloc("soc-camera-pdrv", i);
+-	if (!pdev)
+-		return -ENOMEM;
+-
+-	ret = platform_device_add_data(pdev, sdesc, sizeof(*sdesc));
+-	if (ret < 0) {
+-		platform_device_put(pdev);
+-		return ret;
+-	}
+-
+-	sasc->pdev = pdev;
+-
+-	return 0;
+-}
+-
+-static struct soc_camera_device *soc_camera_add_pdev(struct soc_camera_async_client *sasc)
+-{
+-	struct platform_device *pdev = sasc->pdev;
+-	int ret;
+-
+-	ret = platform_device_add(pdev);
+-	if (ret < 0 || !pdev->dev.driver)
+-		return NULL;
+-
+-	return platform_get_drvdata(pdev);
+-}
+-
+-/* Locking: called with .host_lock held */
+-static int soc_camera_probe_finish(struct soc_camera_device *icd)
+-{
+-	struct v4l2_subdev *sd = soc_camera_to_subdev(icd);
+-	struct v4l2_subdev_format fmt = {
+-		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+-	};
+-	struct v4l2_mbus_framefmt *mf = &fmt.format;
+-	int ret;
+-
+-	sd->grp_id = soc_camera_grp_id(icd);
+-	v4l2_set_subdev_hostdata(sd, icd);
+-
+-	v4l2_subdev_call(sd, video, g_tvnorms, &icd->vdev->tvnorms);
+-
+-	ret = v4l2_ctrl_add_handler(&icd->ctrl_handler, sd->ctrl_handler,
+-				    NULL, true);
+-	if (ret < 0)
+-		return ret;
+-
+-	ret = soc_camera_add_device(icd);
+-	if (ret < 0) {
+-		dev_err(icd->pdev, "Couldn't activate the camera: %d\n", ret);
+-		return ret;
+-	}
+-
+-	/* At this point client .probe() should have run already */
+-	ret = soc_camera_init_user_formats(icd);
+-	if (ret < 0)
+-		goto eusrfmt;
+-
+-	icd->field = V4L2_FIELD_ANY;
+-
+-	ret = soc_camera_video_start(icd);
+-	if (ret < 0)
+-		goto evidstart;
+-
+-	/* Try to improve our guess of a reasonable window format */
+-	if (!v4l2_subdev_call(sd, pad, get_fmt, NULL, &fmt)) {
+-		icd->user_width		= mf->width;
+-		icd->user_height	= mf->height;
+-		icd->colorspace		= mf->colorspace;
+-		icd->field		= mf->field;
+-	}
+-	soc_camera_remove_device(icd);
+-
+-	return 0;
+-
+-evidstart:
+-	soc_camera_free_user_formats(icd);
+-eusrfmt:
+-	soc_camera_remove_device(icd);
+-
+-	return ret;
+-}
+-
+-#ifdef CONFIG_I2C_BOARDINFO
+-static int soc_camera_i2c_init(struct soc_camera_device *icd,
+-			       struct soc_camera_desc *sdesc)
+-{
+-	struct soc_camera_subdev_desc *ssdd;
+-	struct i2c_client *client;
+-	struct soc_camera_host *ici;
+-	struct soc_camera_host_desc *shd = &sdesc->host_desc;
+-	struct i2c_adapter *adap;
+-	struct v4l2_subdev *subdev;
+-	char clk_name[V4L2_CLK_NAME_SIZE];
+-	int ret;
+-
+-	/* First find out how we link the main client */
+-	if (icd->sasc) {
+-		/* Async non-OF probing handled by the subdevice list */
+-		return -EPROBE_DEFER;
+-	}
+-
+-	ici = to_soc_camera_host(icd->parent);
+-	adap = i2c_get_adapter(shd->i2c_adapter_id);
+-	if (!adap) {
+-		dev_err(icd->pdev, "Cannot get I2C adapter #%d. No driver?\n",
+-			shd->i2c_adapter_id);
+-		return -ENODEV;
+-	}
+-
+-	ssdd = kmemdup(&sdesc->subdev_desc, sizeof(*ssdd), GFP_KERNEL);
+-	if (!ssdd) {
+-		ret = -ENOMEM;
+-		goto ealloc;
+-	}
+-	/*
+-	 * In synchronous case we request regulators ourselves in
+-	 * soc_camera_pdrv_probe(), make sure the subdevice driver doesn't try
+-	 * to allocate them again.
+-	 */
+-	ssdd->sd_pdata.num_regulators = 0;
+-	ssdd->sd_pdata.regulators = NULL;
+-	shd->board_info->platform_data = ssdd;
+-
+-	v4l2_clk_name_i2c(clk_name, sizeof(clk_name),
+-			  shd->i2c_adapter_id, shd->board_info->addr);
+-
+-	icd->clk = v4l2_clk_register(&soc_camera_clk_ops, clk_name, icd);
+-	if (IS_ERR(icd->clk)) {
+-		ret = PTR_ERR(icd->clk);
+-		goto eclkreg;
+-	}
+-
+-	subdev = v4l2_i2c_new_subdev_board(&ici->v4l2_dev, adap,
+-				shd->board_info, NULL);
+-	if (!subdev) {
+-		ret = -ENODEV;
+-		goto ei2cnd;
+-	}
+-
+-	client = v4l2_get_subdevdata(subdev);
+-
+-	/* Use to_i2c_client(dev) to recover the i2c client */
+-	icd->control = &client->dev;
+-
+-	return 0;
+-ei2cnd:
+-	v4l2_clk_unregister(icd->clk);
+-	icd->clk = NULL;
+-eclkreg:
+-	kfree(ssdd);
+-ealloc:
+-	i2c_put_adapter(adap);
+-	return ret;
+-}
+-
+-static void soc_camera_i2c_free(struct soc_camera_device *icd)
+-{
+-	struct i2c_client *client =
+-		to_i2c_client(to_soc_camera_control(icd));
+-	struct i2c_adapter *adap;
+-	struct soc_camera_subdev_desc *ssdd;
+-
+-	icd->control = NULL;
+-	if (icd->sasc)
+-		return;
+-
+-	adap = client->adapter;
+-	ssdd = client->dev.platform_data;
+-	v4l2_device_unregister_subdev(i2c_get_clientdata(client));
+-	i2c_unregister_device(client);
+-	i2c_put_adapter(adap);
+-	kfree(ssdd);
+-	v4l2_clk_unregister(icd->clk);
+-	icd->clk = NULL;
+-}
+-
+-/*
+- * V4L2 asynchronous notifier callbacks. They are all called under a v4l2-async
+- * internal global mutex, therefore cannot race against other asynchronous
+- * events. Until notifier->complete() (soc_camera_async_complete()) is called,
+- * the video device node is not registered and no V4L fops can occur. Unloading
+- * of the host driver also calls a v4l2-async function, so also there we're
+- * protected.
+- */
+-static int soc_camera_async_bound(struct v4l2_async_notifier *notifier,
+-				  struct v4l2_subdev *sd,
+-				  struct v4l2_async_subdev *asd)
+-{
+-	struct soc_camera_async_client *sasc = container_of(notifier,
+-					struct soc_camera_async_client, notifier);
+-	struct soc_camera_device *icd = platform_get_drvdata(sasc->pdev);
+-
+-	if (asd == sasc->sensor && !WARN_ON(icd->control)) {
+-		struct i2c_client *client = v4l2_get_subdevdata(sd);
+-
+-		/*
+-		 * Only now we get subdevice-specific information like
+-		 * regulators, flags, callbacks, etc.
+-		 */
+-		if (client) {
+-			struct soc_camera_desc *sdesc = to_soc_camera_desc(icd);
+-			struct soc_camera_subdev_desc *ssdd =
+-				soc_camera_i2c_to_desc(client);
+-			if (ssdd) {
+-				memcpy(&sdesc->subdev_desc, ssdd,
+-				       sizeof(sdesc->subdev_desc));
+-				if (ssdd->reset)
+-					ssdd->reset(&client->dev);
+-			}
+-
+-			icd->control = &client->dev;
+-		}
+-	}
+-
+-	return 0;
+-}
+-
+-static void soc_camera_async_unbind(struct v4l2_async_notifier *notifier,
+-				    struct v4l2_subdev *sd,
+-				    struct v4l2_async_subdev *asd)
+-{
+-	struct soc_camera_async_client *sasc = container_of(notifier,
+-					struct soc_camera_async_client, notifier);
+-	struct soc_camera_device *icd = platform_get_drvdata(sasc->pdev);
+-
+-	icd->control = NULL;
+-
+-	if (icd->clk) {
+-		v4l2_clk_unregister(icd->clk);
+-		icd->clk = NULL;
+-	}
+-}
+-
+-static int soc_camera_async_complete(struct v4l2_async_notifier *notifier)
+-{
+-	struct soc_camera_async_client *sasc = container_of(notifier,
+-					struct soc_camera_async_client, notifier);
+-	struct soc_camera_device *icd = platform_get_drvdata(sasc->pdev);
+-
+-	if (to_soc_camera_control(icd)) {
+-		struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-		int ret;
+-
+-		mutex_lock(&list_lock);
+-		ret = soc_camera_probe(ici, icd);
+-		mutex_unlock(&list_lock);
+-		if (ret < 0)
+-			return ret;
+-	}
+-
+-	return 0;
+-}
+-
+-static const struct v4l2_async_notifier_operations soc_camera_async_ops = {
+-	.bound = soc_camera_async_bound,
+-	.unbind = soc_camera_async_unbind,
+-	.complete = soc_camera_async_complete,
 -};
 -
--static struct soc_camera_link iclink[] = {
--	{
--		.bus_id			= 0, /* Must match with the camera ID */
--		.board_info		= &pcm990_camera_i2c[0],
--		.priv			= &mt9v022_pdata,
--		.i2c_adapter_id		= 0,
--		.query_bus_param	= pcm990_camera_query_bus_param,
--		.set_bus_param		= pcm990_camera_set_bus_param,
--		.free_bus		= pcm990_camera_free_bus,
--	}, {
--		.bus_id			= 0, /* Must match with the camera ID */
--		.board_info		= &pcm990_camera_i2c[1],
--		.i2c_adapter_id		= 0,
--		.query_bus_param	= pcm990_camera_query_bus_param,
--		.set_bus_param		= pcm990_camera_set_bus_param,
--		.free_bus		= pcm990_camera_free_bus,
--	},
--};
+-static int scan_async_group(struct soc_camera_host *ici,
+-			    struct v4l2_async_subdev **asd, unsigned int size)
+-{
+-	struct soc_camera_async_subdev *sasd;
+-	struct soc_camera_async_client *sasc;
+-	struct soc_camera_device *icd;
+-	struct soc_camera_desc sdesc = {.host_desc.bus_id = ici->nr,};
+-	char clk_name[V4L2_CLK_NAME_SIZE];
+-	unsigned int i;
+-	int ret;
 -
--static struct platform_device pcm990_camera[] = {
--	{
--		.name	= "soc-camera-pdrv",
--		.id	= 0,
--		.dev	= {
--			.platform_data = &iclink[0],
--		},
--	}, {
--		.name	= "soc-camera-pdrv",
--		.id	= 1,
--		.dev	= {
--			.platform_data = &iclink[1],
--		},
--	},
--};
--#endif /* CONFIG_VIDEO_PXA27x ||CONFIG_VIDEO_PXA27x_MODULE */
+-	/* First look for a sensor */
+-	for (i = 0; i < size; i++) {
+-		sasd = container_of(asd[i], struct soc_camera_async_subdev, asd);
+-		if (sasd->role == SOCAM_SUBDEV_DATA_SOURCE)
+-			break;
+-	}
 -
- /*
-  * system init for baseboard usage. Will be called by pcm027 init.
-  *
-@@ -551,15 +404,5 @@ void __init pcm990_baseboard_init(void)
- 	pxa_set_i2c_info(NULL);
- 	pxa_set_ac97_info(NULL);
- 
--#if defined(CONFIG_VIDEO_PXA27x) || defined(CONFIG_VIDEO_PXA27x_MODULE)
--	pxa2xx_mfp_config(ARRAY_AND_SIZE(pcm990_camera_pin_config));
--	pxa_set_camera_info(&pcm990_pxacamera_platform_data);
+-	if (i >= size || asd[i]->match_type != V4L2_ASYNC_MATCH_I2C) {
+-		/* All useless */
+-		dev_err(ici->v4l2_dev.dev, "No I2C data source found!\n");
+-		return -ENODEV;
+-	}
 -
--	i2c_register_board_info(0, ARRAY_AND_SIZE(pcm990_i2c_devices));
+-	/* Or shall this be managed by the soc-camera device? */
+-	sasc = devm_kzalloc(ici->v4l2_dev.dev, sizeof(*sasc), GFP_KERNEL);
+-	if (!sasc)
+-		return -ENOMEM;
 -
--	platform_device_register(&pcm990_camera[0]);
--	platform_device_register(&pcm990_camera[1]);
+-	/* HACK: just need a != NULL */
+-	sdesc.host_desc.board_info = ERR_PTR(-ENODATA);
+-
+-	ret = soc_camera_dyn_pdev(&sdesc, sasc);
+-	if (ret < 0)
+-		goto eallocpdev;
+-
+-	sasc->sensor = &sasd->asd;
+-
+-	icd = soc_camera_add_pdev(sasc);
+-	if (!icd) {
+-		ret = -ENOMEM;
+-		goto eaddpdev;
+-	}
+-
+-	v4l2_async_notifier_init(&sasc->notifier);
+-
+-	for (i = 0; i < size; i++) {
+-		ret = v4l2_async_notifier_add_subdev(&sasc->notifier, asd[i]);
+-		if (ret)
+-			goto eaddasd;
+-	}
+-
+-	sasc->notifier.ops = &soc_camera_async_ops;
+-
+-	icd->sasc = sasc;
+-	icd->parent = ici->v4l2_dev.dev;
+-
+-	v4l2_clk_name_i2c(clk_name, sizeof(clk_name),
+-			  sasd->asd.match.i2c.adapter_id,
+-			  sasd->asd.match.i2c.address);
+-
+-	icd->clk = v4l2_clk_register(&soc_camera_clk_ops, clk_name, icd);
+-	if (IS_ERR(icd->clk)) {
+-		ret = PTR_ERR(icd->clk);
+-		goto eclkreg;
+-	}
+-
+-	ret = v4l2_async_notifier_register(&ici->v4l2_dev, &sasc->notifier);
+-	if (!ret)
+-		return 0;
+-
+-	v4l2_clk_unregister(icd->clk);
+-eclkreg:
+-	icd->clk = NULL;
+-eaddasd:
+-	v4l2_async_notifier_cleanup(&sasc->notifier);
+-	platform_device_del(sasc->pdev);
+-eaddpdev:
+-	platform_device_put(sasc->pdev);
+-eallocpdev:
+-	devm_kfree(ici->v4l2_dev.dev, sasc);
+-	dev_err(ici->v4l2_dev.dev, "group probe failed: %d\n", ret);
+-
+-	return ret;
+-}
+-
+-static void scan_async_host(struct soc_camera_host *ici)
+-{
+-	struct v4l2_async_subdev **asd;
+-	int j;
+-
+-	for (j = 0, asd = ici->asd; ici->asd_sizes[j]; j++) {
+-		scan_async_group(ici, asd, ici->asd_sizes[j]);
+-		asd += ici->asd_sizes[j];
+-	}
+-}
+-#else
+-#define soc_camera_i2c_init(icd, sdesc)	(-ENODEV)
+-#define soc_camera_i2c_free(icd)	do {} while (0)
+-#define scan_async_host(ici)		do {} while (0)
 -#endif
 -
- 	printk(KERN_INFO "PCM-990 Evaluation baseboard initialized\n");
- }
+-#ifdef CONFIG_OF
+-
+-struct soc_of_info {
+-	struct soc_camera_async_subdev	sasd;
+-	struct soc_camera_async_client	sasc;
+-	struct v4l2_async_subdev	*subdev;
+-};
+-
+-static int soc_of_bind(struct soc_camera_host *ici,
+-		       struct device_node *ep,
+-		       struct device_node *remote)
+-{
+-	struct soc_camera_device *icd;
+-	struct soc_camera_desc sdesc = {.host_desc.bus_id = ici->nr,};
+-	struct soc_camera_async_client *sasc;
+-	struct soc_of_info *info;
+-	struct i2c_client *client;
+-	char clk_name[V4L2_CLK_NAME_SIZE];
+-	int ret;
+-
+-	/* allocate a new subdev and add match info to it */
+-	info = devm_kzalloc(ici->v4l2_dev.dev, sizeof(struct soc_of_info),
+-			    GFP_KERNEL);
+-	if (!info)
+-		return -ENOMEM;
+-
+-	info->sasd.asd.match.fwnode = of_fwnode_handle(remote);
+-	info->sasd.asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+-	info->subdev = &info->sasd.asd;
+-
+-	/* Or shall this be managed by the soc-camera device? */
+-	sasc = &info->sasc;
+-
+-	/* HACK: just need a != NULL */
+-	sdesc.host_desc.board_info = ERR_PTR(-ENODATA);
+-
+-	ret = soc_camera_dyn_pdev(&sdesc, sasc);
+-	if (ret < 0)
+-		goto eallocpdev;
+-
+-	sasc->sensor = &info->sasd.asd;
+-
+-	icd = soc_camera_add_pdev(sasc);
+-	if (!icd) {
+-		ret = -ENOMEM;
+-		goto eaddpdev;
+-	}
+-
+-	v4l2_async_notifier_init(&sasc->notifier);
+-
+-	ret = v4l2_async_notifier_add_subdev(&sasc->notifier, info->subdev);
+-	if (ret) {
+-		of_node_put(remote);
+-		goto eaddasd;
+-	}
+-
+-	sasc->notifier.ops = &soc_camera_async_ops;
+-
+-	icd->sasc = sasc;
+-	icd->parent = ici->v4l2_dev.dev;
+-
+-	client = of_find_i2c_device_by_node(remote);
+-
+-	if (client)
+-		v4l2_clk_name_i2c(clk_name, sizeof(clk_name),
+-				  client->adapter->nr, client->addr);
+-	else
+-		v4l2_clk_name_of(clk_name, sizeof(clk_name), remote);
+-
+-	icd->clk = v4l2_clk_register(&soc_camera_clk_ops, clk_name, icd);
+-	if (IS_ERR(icd->clk)) {
+-		ret = PTR_ERR(icd->clk);
+-		goto eclkreg;
+-	}
+-
+-	ret = v4l2_async_notifier_register(&ici->v4l2_dev, &sasc->notifier);
+-	if (!ret)
+-		return 0;
+-
+-	v4l2_clk_unregister(icd->clk);
+-eclkreg:
+-	icd->clk = NULL;
+-eaddasd:
+-	v4l2_async_notifier_cleanup(&sasc->notifier);
+-	platform_device_del(sasc->pdev);
+-eaddpdev:
+-	platform_device_put(sasc->pdev);
+-eallocpdev:
+-	devm_kfree(ici->v4l2_dev.dev, info);
+-	dev_err(ici->v4l2_dev.dev, "group probe failed: %d\n", ret);
+-
+-	return ret;
+-}
+-
+-static void scan_of_host(struct soc_camera_host *ici)
+-{
+-	struct device *dev = ici->v4l2_dev.dev;
+-	struct device_node *np = dev->of_node;
+-	struct device_node *epn = NULL, *rem;
+-	unsigned int i;
+-
+-	for (i = 0; ; i++) {
+-		epn = of_graph_get_next_endpoint(np, epn);
+-		if (!epn)
+-			break;
+-
+-		rem = of_graph_get_remote_port_parent(epn);
+-		if (!rem) {
+-			dev_notice(dev, "no remote for %pOF\n", epn);
+-			continue;
+-		}
+-
+-		/* so we now have a remote node to connect */
+-		if (!i)
+-			soc_of_bind(ici, epn, rem);
+-
+-		if (i) {
+-			dev_err(dev, "multiple subdevices aren't supported yet!\n");
+-			break;
+-		}
+-	}
+-
+-	of_node_put(epn);
+-}
+-
+-#else
+-static inline void scan_of_host(struct soc_camera_host *ici) { }
+-#endif
+-
+-/* Called during host-driver probe */
+-static int soc_camera_probe(struct soc_camera_host *ici,
+-			    struct soc_camera_device *icd)
+-{
+-	struct soc_camera_desc *sdesc = to_soc_camera_desc(icd);
+-	struct soc_camera_host_desc *shd = &sdesc->host_desc;
+-	struct device *control = NULL;
+-	int ret;
+-
+-	dev_info(icd->pdev, "Probing %s\n", dev_name(icd->pdev));
+-
+-	/*
+-	 * Currently the subdev with the largest number of controls (13) is
+-	 * ov6550. So let's pick 16 as a hint for the control handler. Note
+-	 * that this is a hint only: too large and you waste some memory, too
+-	 * small and there is a (very) small performance hit when looking up
+-	 * controls in the internal hash.
+-	 */
+-	ret = v4l2_ctrl_handler_init(&icd->ctrl_handler, 16);
+-	if (ret < 0)
+-		return ret;
+-
+-	/* Must have icd->vdev before registering the device */
+-	ret = video_dev_create(icd);
+-	if (ret < 0)
+-		goto evdc;
+-
+-	/*
+-	 * ..._video_start() will create a device node, video_register_device()
+-	 * itself is protected against concurrent open() calls, but we also have
+-	 * to protect our data also during client probing.
+-	 */
+-
+-	/* Non-i2c cameras, e.g., soc_camera_platform, have no board_info */
+-	if (shd->board_info) {
+-		ret = soc_camera_i2c_init(icd, sdesc);
+-		if (ret < 0 && ret != -EPROBE_DEFER)
+-			goto eadd;
+-	} else if (!shd->add_device || !shd->del_device) {
+-		ret = -EINVAL;
+-		goto eadd;
+-	} else {
+-		ret = soc_camera_clock_start(ici);
+-		if (ret < 0)
+-			goto eadd;
+-
+-		if (shd->module_name)
+-			ret = request_module(shd->module_name);
+-
+-		ret = shd->add_device(icd);
+-		if (ret < 0)
+-			goto eadddev;
+-
+-		/*
+-		 * FIXME: this is racy, have to use driver-binding notification,
+-		 * when it is available
+-		 */
+-		control = to_soc_camera_control(icd);
+-		if (!control || !control->driver || !dev_get_drvdata(control) ||
+-		    !try_module_get(control->driver->owner)) {
+-			shd->del_device(icd);
+-			ret = -ENODEV;
+-			goto enodrv;
+-		}
+-	}
+-
+-	mutex_lock(&ici->host_lock);
+-	ret = soc_camera_probe_finish(icd);
+-	mutex_unlock(&ici->host_lock);
+-	if (ret < 0)
+-		goto efinish;
+-
+-	return 0;
+-
+-efinish:
+-	if (shd->board_info) {
+-		soc_camera_i2c_free(icd);
+-	} else {
+-		shd->del_device(icd);
+-		module_put(control->driver->owner);
+-enodrv:
+-eadddev:
+-		soc_camera_clock_stop(ici);
+-	}
+-eadd:
+-	if (icd->vdev) {
+-		video_device_release(icd->vdev);
+-		icd->vdev = NULL;
+-	}
+-evdc:
+-	v4l2_ctrl_handler_free(&icd->ctrl_handler);
+-	return ret;
+-}
+-
+-/*
+- * This is called on device_unregister, which only means we have to disconnect
+- * from the host, but not remove ourselves from the device list. With
+- * asynchronous client probing this can also be called without
+- * soc_camera_probe_finish() having run. Careful with clean up.
+- */
+-static int soc_camera_remove(struct soc_camera_device *icd)
+-{
+-	struct soc_camera_desc *sdesc = to_soc_camera_desc(icd);
+-	struct video_device *vdev = icd->vdev;
+-
+-	v4l2_ctrl_handler_free(&icd->ctrl_handler);
+-	if (vdev) {
+-		video_unregister_device(vdev);
+-		icd->vdev = NULL;
+-	}
+-
+-	if (sdesc->host_desc.board_info) {
+-		soc_camera_i2c_free(icd);
+-	} else {
+-		struct device *dev = to_soc_camera_control(icd);
+-		struct device_driver *drv = dev ? dev->driver : NULL;
+-		if (drv) {
+-			sdesc->host_desc.del_device(icd);
+-			module_put(drv->owner);
+-		}
+-	}
+-
+-	if (icd->num_user_formats)
+-		soc_camera_free_user_formats(icd);
+-
+-	if (icd->clk) {
+-		/* For the synchronous case */
+-		v4l2_clk_unregister(icd->clk);
+-		icd->clk = NULL;
+-	}
+-
+-	if (icd->sasc)
+-		platform_device_unregister(icd->sasc->pdev);
+-
+-	return 0;
+-}
+-
+-static int default_g_selection(struct soc_camera_device *icd,
+-			       struct v4l2_selection *sel)
+-{
+-	struct v4l2_subdev *sd = soc_camera_to_subdev(icd);
+-	struct v4l2_subdev_selection sdsel = {
+-		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+-		.target = sel->target,
+-	};
+-	int ret;
+-
+-	ret = v4l2_subdev_call(sd, pad, get_selection, NULL, &sdsel);
+-	if (ret)
+-		return ret;
+-	sel->r = sdsel.r;
+-	return 0;
+-}
+-
+-static int default_s_selection(struct soc_camera_device *icd,
+-			       struct v4l2_selection *sel)
+-{
+-	struct v4l2_subdev *sd = soc_camera_to_subdev(icd);
+-	struct v4l2_subdev_selection sdsel = {
+-		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+-		.target = sel->target,
+-		.flags = sel->flags,
+-		.r = sel->r,
+-	};
+-	int ret;
+-
+-	ret = v4l2_subdev_call(sd, pad, set_selection, NULL, &sdsel);
+-	if (ret)
+-		return ret;
+-	sel->r = sdsel.r;
+-	return 0;
+-}
+-
+-static int default_g_parm(struct soc_camera_device *icd,
+-			  struct v4l2_streamparm *a)
+-{
+-	struct v4l2_subdev *sd = soc_camera_to_subdev(icd);
+-
+-	return v4l2_g_parm_cap(icd->vdev, sd, a);
+-}
+-
+-static int default_s_parm(struct soc_camera_device *icd,
+-			  struct v4l2_streamparm *a)
+-{
+-	struct v4l2_subdev *sd = soc_camera_to_subdev(icd);
+-
+-	return v4l2_s_parm_cap(icd->vdev, sd, a);
+-}
+-
+-static int default_enum_framesizes(struct soc_camera_device *icd,
+-				   struct v4l2_frmsizeenum *fsize)
+-{
+-	int ret;
+-	struct v4l2_subdev *sd = soc_camera_to_subdev(icd);
+-	const struct soc_camera_format_xlate *xlate;
+-	struct v4l2_subdev_frame_size_enum fse = {
+-		.index = fsize->index,
+-		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+-	};
+-
+-	xlate = soc_camera_xlate_by_fourcc(icd, fsize->pixel_format);
+-	if (!xlate)
+-		return -EINVAL;
+-	fse.code = xlate->code;
+-
+-	ret = v4l2_subdev_call(sd, pad, enum_frame_size, NULL, &fse);
+-	if (ret < 0)
+-		return ret;
+-
+-	if (fse.min_width == fse.max_width &&
+-	    fse.min_height == fse.max_height) {
+-		fsize->type = V4L2_FRMSIZE_TYPE_DISCRETE;
+-		fsize->discrete.width = fse.min_width;
+-		fsize->discrete.height = fse.min_height;
+-		return 0;
+-	}
+-	fsize->type = V4L2_FRMSIZE_TYPE_CONTINUOUS;
+-	fsize->stepwise.min_width = fse.min_width;
+-	fsize->stepwise.max_width = fse.max_width;
+-	fsize->stepwise.min_height = fse.min_height;
+-	fsize->stepwise.max_height = fse.max_height;
+-	fsize->stepwise.step_width = 1;
+-	fsize->stepwise.step_height = 1;
+-	return 0;
+-}
+-
+-int soc_camera_host_register(struct soc_camera_host *ici)
+-{
+-	struct soc_camera_host *ix;
+-	int ret;
+-
+-	if (!ici || !ici->ops ||
+-	    !ici->ops->try_fmt ||
+-	    !ici->ops->set_fmt ||
+-	    !ici->ops->set_bus_param ||
+-	    !ici->ops->querycap ||
+-	    !ici->ops->init_videobuf2 ||
+-	    !ici->ops->poll ||
+-	    !ici->v4l2_dev.dev)
+-		return -EINVAL;
+-
+-	if (!ici->ops->set_selection)
+-		ici->ops->set_selection = default_s_selection;
+-	if (!ici->ops->get_selection)
+-		ici->ops->get_selection = default_g_selection;
+-	if (!ici->ops->set_parm)
+-		ici->ops->set_parm = default_s_parm;
+-	if (!ici->ops->get_parm)
+-		ici->ops->get_parm = default_g_parm;
+-	if (!ici->ops->enum_framesizes)
+-		ici->ops->enum_framesizes = default_enum_framesizes;
+-
+-	mutex_lock(&list_lock);
+-	list_for_each_entry(ix, &hosts, list) {
+-		if (ix->nr == ici->nr) {
+-			ret = -EBUSY;
+-			goto edevreg;
+-		}
+-	}
+-
+-	ret = v4l2_device_register(ici->v4l2_dev.dev, &ici->v4l2_dev);
+-	if (ret < 0)
+-		goto edevreg;
+-
+-	list_add_tail(&ici->list, &hosts);
+-	mutex_unlock(&list_lock);
+-
+-	mutex_init(&ici->host_lock);
+-	mutex_init(&ici->clk_lock);
+-
+-	if (ici->v4l2_dev.dev->of_node)
+-		scan_of_host(ici);
+-	else if (ici->asd_sizes)
+-		/*
+-		 * No OF, host with a list of subdevices. Don't try to mix
+-		 * modes by initialising some groups statically and some
+-		 * dynamically!
+-		 */
+-		scan_async_host(ici);
+-	else
+-		/* Legacy: static platform devices from board data */
+-		scan_add_host(ici);
+-
+-	return 0;
+-
+-edevreg:
+-	mutex_unlock(&list_lock);
+-	return ret;
+-}
+-EXPORT_SYMBOL(soc_camera_host_register);
+-
+-/* Unregister all clients! */
+-void soc_camera_host_unregister(struct soc_camera_host *ici)
+-{
+-	struct soc_camera_device *icd, *tmp;
+-	struct soc_camera_async_client *sasc;
+-	LIST_HEAD(notifiers);
+-
+-	mutex_lock(&list_lock);
+-	list_del(&ici->list);
+-	list_for_each_entry(icd, &devices, list)
+-		if (icd->iface == ici->nr && icd->sasc) {
+-			/* as long as we hold the device, sasc won't be freed */
+-			get_device(icd->pdev);
+-			list_add(&icd->sasc->list, &notifiers);
+-		}
+-	mutex_unlock(&list_lock);
+-
+-	list_for_each_entry(sasc, &notifiers, list) {
+-		/* Must call unlocked to avoid AB-BA dead-lock */
+-		v4l2_async_notifier_unregister(&sasc->notifier);
+-		v4l2_async_notifier_cleanup(&sasc->notifier);
+-		put_device(&sasc->pdev->dev);
+-	}
+-
+-	mutex_lock(&list_lock);
+-
+-	list_for_each_entry_safe(icd, tmp, &devices, list)
+-		if (icd->iface == ici->nr)
+-			soc_camera_remove(icd);
+-
+-	mutex_unlock(&list_lock);
+-
+-	v4l2_device_unregister(&ici->v4l2_dev);
+-}
+-EXPORT_SYMBOL(soc_camera_host_unregister);
+-
+-/* Image capture device */
+-static int soc_camera_device_register(struct soc_camera_device *icd)
+-{
+-	struct soc_camera_device *ix;
+-	int num = -1, i;
+-
+-	mutex_lock(&list_lock);
+-	for (i = 0; i < 256 && num < 0; i++) {
+-		num = i;
+-		/* Check if this index is available on this interface */
+-		list_for_each_entry(ix, &devices, list) {
+-			if (ix->iface == icd->iface && ix->devnum == i) {
+-				num = -1;
+-				break;
+-			}
+-		}
+-	}
+-
+-	if (num < 0) {
+-		/*
+-		 * ok, we have 256 cameras on this host...
+-		 * man, stay reasonable...
+-		 */
+-		mutex_unlock(&list_lock);
+-		return -ENOMEM;
+-	}
+-
+-	icd->devnum		= num;
+-	icd->use_count		= 0;
+-	icd->host_priv		= NULL;
+-
+-	/*
+-	 * Dynamically allocated devices set the bit earlier, but it doesn't hurt setting
+-	 * it again
+-	 */
+-	i = to_platform_device(icd->pdev)->id;
+-	if (i < 0)
+-		/* One static (legacy) soc-camera platform device */
+-		i = 0;
+-	if (i >= MAP_MAX_NUM) {
+-		mutex_unlock(&list_lock);
+-		return -EBUSY;
+-	}
+-	set_bit(i, device_map);
+-	list_add_tail(&icd->list, &devices);
+-	mutex_unlock(&list_lock);
+-
+-	return 0;
+-}
+-
+-static const struct v4l2_ioctl_ops soc_camera_ioctl_ops = {
+-	.vidioc_querycap	 = soc_camera_querycap,
+-	.vidioc_try_fmt_vid_cap  = soc_camera_try_fmt_vid_cap,
+-	.vidioc_g_fmt_vid_cap    = soc_camera_g_fmt_vid_cap,
+-	.vidioc_s_fmt_vid_cap    = soc_camera_s_fmt_vid_cap,
+-	.vidioc_enum_fmt_vid_cap = soc_camera_enum_fmt_vid_cap,
+-	.vidioc_enum_input	 = soc_camera_enum_input,
+-	.vidioc_g_input		 = soc_camera_g_input,
+-	.vidioc_s_input		 = soc_camera_s_input,
+-	.vidioc_s_std		 = soc_camera_s_std,
+-	.vidioc_g_std		 = soc_camera_g_std,
+-	.vidioc_enum_framesizes  = soc_camera_enum_framesizes,
+-	.vidioc_reqbufs		 = soc_camera_reqbufs,
+-	.vidioc_querybuf	 = soc_camera_querybuf,
+-	.vidioc_qbuf		 = soc_camera_qbuf,
+-	.vidioc_dqbuf		 = soc_camera_dqbuf,
+-	.vidioc_create_bufs	 = soc_camera_create_bufs,
+-	.vidioc_prepare_buf	 = soc_camera_prepare_buf,
+-	.vidioc_expbuf		 = soc_camera_expbuf,
+-	.vidioc_streamon	 = soc_camera_streamon,
+-	.vidioc_streamoff	 = soc_camera_streamoff,
+-	.vidioc_g_selection	 = soc_camera_g_selection,
+-	.vidioc_s_selection	 = soc_camera_s_selection,
+-	.vidioc_g_parm		 = soc_camera_g_parm,
+-	.vidioc_s_parm		 = soc_camera_s_parm,
+-};
+-
+-static int video_dev_create(struct soc_camera_device *icd)
+-{
+-	struct soc_camera_host *ici = to_soc_camera_host(icd->parent);
+-	struct video_device *vdev = video_device_alloc();
+-
+-	if (!vdev)
+-		return -ENOMEM;
+-
+-	strscpy(vdev->name, ici->drv_name, sizeof(vdev->name));
+-
+-	vdev->v4l2_dev		= &ici->v4l2_dev;
+-	vdev->fops		= &soc_camera_fops;
+-	vdev->ioctl_ops		= &soc_camera_ioctl_ops;
+-	vdev->release		= video_device_release;
+-	vdev->ctrl_handler	= &icd->ctrl_handler;
+-	vdev->lock		= &ici->host_lock;
+-
+-	icd->vdev = vdev;
+-
+-	return 0;
+-}
+-
+-/*
+- * Called from soc_camera_probe() above with .host_lock held
+- */
+-static int soc_camera_video_start(struct soc_camera_device *icd)
+-{
+-	const struct device_type *type = icd->vdev->dev.type;
+-	int ret;
+-
+-	if (!icd->parent)
+-		return -ENODEV;
+-
+-	video_set_drvdata(icd->vdev, icd);
+-	if (icd->vdev->tvnorms == 0) {
+-		/* disable the STD API if there are no tvnorms defined */
+-		v4l2_disable_ioctl(icd->vdev, VIDIOC_G_STD);
+-		v4l2_disable_ioctl(icd->vdev, VIDIOC_S_STD);
+-		v4l2_disable_ioctl(icd->vdev, VIDIOC_ENUMSTD);
+-	}
+-	ret = video_register_device(icd->vdev, VFL_TYPE_VIDEO, -1);
+-	if (ret < 0) {
+-		dev_err(icd->pdev, "video_register_device failed: %d\n", ret);
+-		return ret;
+-	}
+-
+-	/* Restore device type, possibly set by the subdevice driver */
+-	icd->vdev->dev.type = type;
+-
+-	return 0;
+-}
+-
+-static int soc_camera_pdrv_probe(struct platform_device *pdev)
+-{
+-	struct soc_camera_desc *sdesc = pdev->dev.platform_data;
+-	struct soc_camera_subdev_desc *ssdd = &sdesc->subdev_desc;
+-	struct soc_camera_device *icd;
+-	int ret;
+-
+-	if (!sdesc)
+-		return -EINVAL;
+-
+-	icd = devm_kzalloc(&pdev->dev, sizeof(*icd), GFP_KERNEL);
+-	if (!icd)
+-		return -ENOMEM;
+-
+-	/*
+-	 * In the asynchronous case ssdd->num_regulators == 0 yet, so, the below
+-	 * regulator allocation is a dummy. They are actually requested by the
+-	 * subdevice driver, using soc_camera_power_init(). Also note, that in
+-	 * that case regulators are attached to the I2C device and not to the
+-	 * camera platform device.
+-	 */
+-	ret = devm_regulator_bulk_get(&pdev->dev, ssdd->sd_pdata.num_regulators,
+-				      ssdd->sd_pdata.regulators);
+-	if (ret < 0)
+-		return ret;
+-
+-	icd->iface = sdesc->host_desc.bus_id;
+-	icd->sdesc = sdesc;
+-	icd->pdev = &pdev->dev;
+-	platform_set_drvdata(pdev, icd);
+-
+-	icd->user_width		= DEFAULT_WIDTH;
+-	icd->user_height	= DEFAULT_HEIGHT;
+-
+-	return soc_camera_device_register(icd);
+-}
+-
+-/*
+- * Only called on rmmod for each platform device, since they are not
+- * hot-pluggable. Now we know, that all our users - hosts and devices have
+- * been unloaded already
+- */
+-static int soc_camera_pdrv_remove(struct platform_device *pdev)
+-{
+-	struct soc_camera_device *icd = platform_get_drvdata(pdev);
+-	int i;
+-
+-	if (!icd)
+-		return -EINVAL;
+-
+-	i = pdev->id;
+-	if (i < 0)
+-		i = 0;
+-
+-	/*
+-	 * In synchronous mode with static platform devices this is called in a
+-	 * loop from drivers/base/dd.c::driver_detach(), no parallel execution,
+-	 * no need to lock. In asynchronous case the caller -
+-	 * soc_camera_host_unregister() - already holds the lock
+-	 */
+-	if (test_bit(i, device_map)) {
+-		clear_bit(i, device_map);
+-		list_del(&icd->list);
+-	}
+-
+-	return 0;
+-}
+-
+-static struct platform_driver __refdata soc_camera_pdrv = {
+-	.probe = soc_camera_pdrv_probe,
+-	.remove  = soc_camera_pdrv_remove,
+-	.driver  = {
+-		.name	= "soc-camera-pdrv",
+-	},
+-};
+-
+-module_platform_driver(soc_camera_pdrv);
+-
+-MODULE_DESCRIPTION("Image capture bus driver");
+-MODULE_AUTHOR("Guennadi Liakhovetski <kernel@pengutronix.de>");
+-MODULE_LICENSE("GPL");
+-MODULE_ALIAS("platform:soc-camera-pdrv");
+diff --git a/drivers/staging/media/soc_camera/soc_mediabus.c b/drivers/staging/media/soc_camera/soc_mediabus.c
+deleted file mode 100644
+index 2aa646c89c1f..000000000000
+--- a/drivers/staging/media/soc_camera/soc_mediabus.c
++++ /dev/null
+@@ -1,529 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * soc-camera media bus helper routines
+- *
+- * Copyright (C) 2009, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+- */
+-#include <linux/kernel.h>
+-#include <linux/module.h>
+-
+-#include <media/v4l2-device.h>
+-#include <media/v4l2-mediabus.h>
+-#include <media/drv-intf/soc_mediabus.h>
+-
+-static const struct soc_mbus_lookup mbus_fmt[] = {
+-{
+-	.code = MEDIA_BUS_FMT_YUYV8_2X8,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_YUYV,
+-		.name			= "YUYV",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_YVYU8_2X8,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_YVYU,
+-		.name			= "YVYU",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_UYVY8_2X8,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_UYVY,
+-		.name			= "UYVY",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_VYUY8_2X8,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_VYUY,
+-		.name			= "VYUY",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_RGB555,
+-		.name			= "RGB555",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_RGB555X,
+-		.name			= "RGB555X",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+-		.order			= SOC_MBUS_ORDER_BE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_RGB565_2X8_LE,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_RGB565,
+-		.name			= "RGB565",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_RGB565_2X8_BE,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_RGB565X,
+-		.name			= "RGB565X",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+-		.order			= SOC_MBUS_ORDER_BE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_RGB666_1X18,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_RGB32,
+-		.name			= "RGB666/32bpp",
+-		.bits_per_sample	= 18,
+-		.packing		= SOC_MBUS_PACKING_EXTEND32,
+-		.order			= SOC_MBUS_ORDER_LE,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_RGB888_1X24,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_RGB32,
+-		.name			= "RGB888/32bpp",
+-		.bits_per_sample	= 24,
+-		.packing		= SOC_MBUS_PACKING_EXTEND32,
+-		.order			= SOC_MBUS_ORDER_LE,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_RGB888_2X12_BE,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_RGB32,
+-		.name			= "RGB888/32bpp",
+-		.bits_per_sample	= 12,
+-		.packing		= SOC_MBUS_PACKING_EXTEND32,
+-		.order			= SOC_MBUS_ORDER_BE,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_RGB888_2X12_LE,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_RGB32,
+-		.name			= "RGB888/32bpp",
+-		.bits_per_sample	= 12,
+-		.packing		= SOC_MBUS_PACKING_EXTEND32,
+-		.order			= SOC_MBUS_ORDER_LE,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SBGGR8_1X8,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SBGGR8,
+-		.name			= "Bayer 8 BGGR",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_NONE,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SBGGR10_1X10,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SBGGR10,
+-		.name			= "Bayer 10 BGGR",
+-		.bits_per_sample	= 10,
+-		.packing		= SOC_MBUS_PACKING_EXTEND16,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_Y8_1X8,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_GREY,
+-		.name			= "Grey",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_NONE,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_Y10_1X10,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_Y10,
+-		.name			= "Grey 10bit",
+-		.bits_per_sample	= 10,
+-		.packing		= SOC_MBUS_PACKING_EXTEND16,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_LE,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SBGGR10,
+-		.name			= "Bayer 10 BGGR",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SBGGR10_2X8_PADLO_LE,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SBGGR10,
+-		.name			= "Bayer 10 BGGR",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_2X8_PADLO,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_BE,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SBGGR10,
+-		.name			= "Bayer 10 BGGR",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+-		.order			= SOC_MBUS_ORDER_BE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SBGGR10_2X8_PADLO_BE,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SBGGR10,
+-		.name			= "Bayer 10 BGGR",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_2X8_PADLO,
+-		.order			= SOC_MBUS_ORDER_BE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_JPEG_1X8,
+-	.fmt = {
+-		.fourcc                 = V4L2_PIX_FMT_JPEG,
+-		.name                   = "JPEG",
+-		.bits_per_sample        = 8,
+-		.packing                = SOC_MBUS_PACKING_VARIABLE,
+-		.order                  = SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_RGB444,
+-		.name			= "RGB444",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_2X8_PADHI,
+-		.order			= SOC_MBUS_ORDER_BE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_YUYV8_1_5X8,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_YUV420,
+-		.name			= "YUYV 4:2:0",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_1_5X8,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_YVYU8_1_5X8,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_YVU420,
+-		.name			= "YVYU 4:2:0",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_1_5X8,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_UYVY8_1X16,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_UYVY,
+-		.name			= "UYVY 16bit",
+-		.bits_per_sample	= 16,
+-		.packing		= SOC_MBUS_PACKING_EXTEND16,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_VYUY8_1X16,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_VYUY,
+-		.name			= "VYUY 16bit",
+-		.bits_per_sample	= 16,
+-		.packing		= SOC_MBUS_PACKING_EXTEND16,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_YUYV8_1X16,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_YUYV,
+-		.name			= "YUYV 16bit",
+-		.bits_per_sample	= 16,
+-		.packing		= SOC_MBUS_PACKING_EXTEND16,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_YVYU8_1X16,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_YVYU,
+-		.name			= "YVYU 16bit",
+-		.bits_per_sample	= 16,
+-		.packing		= SOC_MBUS_PACKING_EXTEND16,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SGRBG8_1X8,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SGRBG8,
+-		.name			= "Bayer 8 GRBG",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_NONE,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SGRBG10DPCM8,
+-		.name			= "Bayer 10 BGGR DPCM 8",
+-		.bits_per_sample	= 8,
+-		.packing		= SOC_MBUS_PACKING_NONE,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SGBRG10_1X10,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SGBRG10,
+-		.name			= "Bayer 10 GBRG",
+-		.bits_per_sample	= 10,
+-		.packing		= SOC_MBUS_PACKING_EXTEND16,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SGRBG10_1X10,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SGRBG10,
+-		.name			= "Bayer 10 GRBG",
+-		.bits_per_sample	= 10,
+-		.packing		= SOC_MBUS_PACKING_EXTEND16,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SRGGB10_1X10,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SRGGB10,
+-		.name			= "Bayer 10 RGGB",
+-		.bits_per_sample	= 10,
+-		.packing		= SOC_MBUS_PACKING_EXTEND16,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SBGGR12_1X12,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SBGGR12,
+-		.name			= "Bayer 12 BGGR",
+-		.bits_per_sample	= 12,
+-		.packing		= SOC_MBUS_PACKING_EXTEND16,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SGBRG12_1X12,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SGBRG12,
+-		.name			= "Bayer 12 GBRG",
+-		.bits_per_sample	= 12,
+-		.packing		= SOC_MBUS_PACKING_EXTEND16,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SGRBG12_1X12,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SGRBG12,
+-		.name			= "Bayer 12 GRBG",
+-		.bits_per_sample	= 12,
+-		.packing		= SOC_MBUS_PACKING_EXTEND16,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-}, {
+-	.code = MEDIA_BUS_FMT_SRGGB12_1X12,
+-	.fmt = {
+-		.fourcc			= V4L2_PIX_FMT_SRGGB12,
+-		.name			= "Bayer 12 RGGB",
+-		.bits_per_sample	= 12,
+-		.packing		= SOC_MBUS_PACKING_EXTEND16,
+-		.order			= SOC_MBUS_ORDER_LE,
+-		.layout			= SOC_MBUS_LAYOUT_PACKED,
+-	},
+-},
+-};
+-
+-int soc_mbus_samples_per_pixel(const struct soc_mbus_pixelfmt *mf,
+-			unsigned int *numerator, unsigned int *denominator)
+-{
+-	switch (mf->packing) {
+-	case SOC_MBUS_PACKING_NONE:
+-	case SOC_MBUS_PACKING_EXTEND16:
+-		*numerator = 1;
+-		*denominator = 1;
+-		return 0;
+-	case SOC_MBUS_PACKING_EXTEND32:
+-		*numerator = 1;
+-		*denominator = 1;
+-		return 0;
+-	case SOC_MBUS_PACKING_2X8_PADHI:
+-	case SOC_MBUS_PACKING_2X8_PADLO:
+-		*numerator = 2;
+-		*denominator = 1;
+-		return 0;
+-	case SOC_MBUS_PACKING_1_5X8:
+-		*numerator = 3;
+-		*denominator = 2;
+-		return 0;
+-	case SOC_MBUS_PACKING_VARIABLE:
+-		*numerator = 0;
+-		*denominator = 1;
+-		return 0;
+-	}
+-	return -EINVAL;
+-}
+-EXPORT_SYMBOL(soc_mbus_samples_per_pixel);
+-
+-s32 soc_mbus_bytes_per_line(u32 width, const struct soc_mbus_pixelfmt *mf)
+-{
+-	if (mf->layout != SOC_MBUS_LAYOUT_PACKED)
+-		return width * mf->bits_per_sample / 8;
+-
+-	switch (mf->packing) {
+-	case SOC_MBUS_PACKING_NONE:
+-		return width * mf->bits_per_sample / 8;
+-	case SOC_MBUS_PACKING_2X8_PADHI:
+-	case SOC_MBUS_PACKING_2X8_PADLO:
+-	case SOC_MBUS_PACKING_EXTEND16:
+-		return width * 2;
+-	case SOC_MBUS_PACKING_1_5X8:
+-		return width * 3 / 2;
+-	case SOC_MBUS_PACKING_VARIABLE:
+-		return 0;
+-	case SOC_MBUS_PACKING_EXTEND32:
+-		return width * 4;
+-	}
+-	return -EINVAL;
+-}
+-EXPORT_SYMBOL(soc_mbus_bytes_per_line);
+-
+-s32 soc_mbus_image_size(const struct soc_mbus_pixelfmt *mf,
+-			u32 bytes_per_line, u32 height)
+-{
+-	if (mf->layout == SOC_MBUS_LAYOUT_PACKED)
+-		return bytes_per_line * height;
+-
+-	switch (mf->packing) {
+-	case SOC_MBUS_PACKING_2X8_PADHI:
+-	case SOC_MBUS_PACKING_2X8_PADLO:
+-		return bytes_per_line * height * 2;
+-	case SOC_MBUS_PACKING_1_5X8:
+-		return bytes_per_line * height * 3 / 2;
+-	default:
+-		return -EINVAL;
+-	}
+-}
+-EXPORT_SYMBOL(soc_mbus_image_size);
+-
+-const struct soc_mbus_pixelfmt *soc_mbus_find_fmtdesc(
+-	u32 code,
+-	const struct soc_mbus_lookup *lookup,
+-	int n)
+-{
+-	int i;
+-
+-	for (i = 0; i < n; i++)
+-		if (lookup[i].code == code)
+-			return &lookup[i].fmt;
+-
+-	return NULL;
+-}
+-EXPORT_SYMBOL(soc_mbus_find_fmtdesc);
+-
+-const struct soc_mbus_pixelfmt *soc_mbus_get_fmtdesc(
+-	u32 code)
+-{
+-	return soc_mbus_find_fmtdesc(code, mbus_fmt, ARRAY_SIZE(mbus_fmt));
+-}
+-EXPORT_SYMBOL(soc_mbus_get_fmtdesc);
+-
+-unsigned int soc_mbus_config_compatible(const struct v4l2_mbus_config *cfg,
+-					unsigned int flags)
+-{
+-	unsigned long common_flags;
+-	bool hsync = true, vsync = true, pclk, data, mode;
+-	bool mipi_lanes, mipi_clock;
+-
+-	common_flags = cfg->flags & flags;
+-
+-	switch (cfg->type) {
+-	case V4L2_MBUS_PARALLEL:
+-		hsync = common_flags & (V4L2_MBUS_HSYNC_ACTIVE_HIGH |
+-					V4L2_MBUS_HSYNC_ACTIVE_LOW);
+-		vsync = common_flags & (V4L2_MBUS_VSYNC_ACTIVE_HIGH |
+-					V4L2_MBUS_VSYNC_ACTIVE_LOW);
+-		/* fall through */
+-	case V4L2_MBUS_BT656:
+-		pclk = common_flags & (V4L2_MBUS_PCLK_SAMPLE_RISING |
+-				       V4L2_MBUS_PCLK_SAMPLE_FALLING);
+-		data = common_flags & (V4L2_MBUS_DATA_ACTIVE_HIGH |
+-				       V4L2_MBUS_DATA_ACTIVE_LOW);
+-		mode = common_flags & (V4L2_MBUS_MASTER | V4L2_MBUS_SLAVE);
+-		return (!hsync || !vsync || !pclk || !data || !mode) ?
+-			0 : common_flags;
+-	case V4L2_MBUS_CSI2_DPHY:
+-		mipi_lanes = common_flags & V4L2_MBUS_CSI2_LANES;
+-		mipi_clock = common_flags & (V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK |
+-					     V4L2_MBUS_CSI2_CONTINUOUS_CLOCK);
+-		return (!mipi_lanes || !mipi_clock) ? 0 : common_flags;
+-	default:
+-		WARN_ON(1);
+-		return -EINVAL;
+-	}
+-	return 0;
+-}
+-EXPORT_SYMBOL(soc_mbus_config_compatible);
+-
+-static int __init soc_mbus_init(void)
+-{
+-	return 0;
+-}
+-
+-static void __exit soc_mbus_exit(void)
+-{
+-}
+-
+-module_init(soc_mbus_init);
+-module_exit(soc_mbus_exit);
+-
+-MODULE_DESCRIPTION("soc-camera media bus interface");
+-MODULE_AUTHOR("Guennadi Liakhovetski <g.liakhovetski@gmx.de>");
+-MODULE_LICENSE("GPL v2");
+diff --git a/drivers/staging/media/soc_camera/soc_mt9v022.c b/drivers/staging/media/soc_camera/soc_mt9v022.c
+deleted file mode 100644
+index 1739a618846d..000000000000
+--- a/drivers/staging/media/soc_camera/soc_mt9v022.c
++++ /dev/null
+@@ -1,1008 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Driver for MT9V022 CMOS Image Sensor from Micron
+- *
+- * Copyright (C) 2008, Guennadi Liakhovetski <kernel@pengutronix.de>
+- */
+-#include <linux/videodev2.h>
+-#include <linux/slab.h>
+-#include <linux/i2c.h>
+-#include <linux/delay.h>
+-#include <linux/log2.h>
+-#include <linux/module.h>
+-
+-#include <media/i2c/mt9v022.h>
+-#include <media/soc_camera.h>
+-#include <media/drv-intf/soc_mediabus.h>
+-#include <media/v4l2-subdev.h>
+-#include <media/v4l2-clk.h>
+-#include <media/v4l2-ctrls.h>
+-
+-/*
+- * mt9v022 i2c address 0x48, 0x4c, 0x58, 0x5c
+- * The platform has to define struct i2c_board_info objects and link to them
+- * from struct soc_camera_host_desc
+- */
+-
+-static char *sensor_type;
+-module_param(sensor_type, charp, S_IRUGO);
+-MODULE_PARM_DESC(sensor_type, "Sensor type: \"colour\" or \"monochrome\"");
+-
+-/* mt9v022 selected register addresses */
+-#define MT9V022_CHIP_VERSION		0x00
+-#define MT9V022_COLUMN_START		0x01
+-#define MT9V022_ROW_START		0x02
+-#define MT9V022_WINDOW_HEIGHT		0x03
+-#define MT9V022_WINDOW_WIDTH		0x04
+-#define MT9V022_HORIZONTAL_BLANKING	0x05
+-#define MT9V022_VERTICAL_BLANKING	0x06
+-#define MT9V022_CHIP_CONTROL		0x07
+-#define MT9V022_SHUTTER_WIDTH1		0x08
+-#define MT9V022_SHUTTER_WIDTH2		0x09
+-#define MT9V022_SHUTTER_WIDTH_CTRL	0x0a
+-#define MT9V022_TOTAL_SHUTTER_WIDTH	0x0b
+-#define MT9V022_RESET			0x0c
+-#define MT9V022_READ_MODE		0x0d
+-#define MT9V022_MONITOR_MODE		0x0e
+-#define MT9V022_PIXEL_OPERATION_MODE	0x0f
+-#define MT9V022_LED_OUT_CONTROL		0x1b
+-#define MT9V022_ADC_MODE_CONTROL	0x1c
+-#define MT9V022_REG32			0x20
+-#define MT9V022_ANALOG_GAIN		0x35
+-#define MT9V022_BLACK_LEVEL_CALIB_CTRL	0x47
+-#define MT9V022_PIXCLK_FV_LV		0x74
+-#define MT9V022_DIGITAL_TEST_PATTERN	0x7f
+-#define MT9V022_AEC_AGC_ENABLE		0xAF
+-#define MT9V022_MAX_TOTAL_SHUTTER_WIDTH	0xBD
+-
+-/* mt9v024 partial list register addresses changes with respect to mt9v022 */
+-#define MT9V024_PIXCLK_FV_LV		0x72
+-#define MT9V024_MAX_TOTAL_SHUTTER_WIDTH	0xAD
+-
+-/* Progressive scan, master, defaults */
+-#define MT9V022_CHIP_CONTROL_DEFAULT	0x188
+-
+-#define MT9V022_MAX_WIDTH		752
+-#define MT9V022_MAX_HEIGHT		480
+-#define MT9V022_MIN_WIDTH		48
+-#define MT9V022_MIN_HEIGHT		32
+-#define MT9V022_COLUMN_SKIP		1
+-#define MT9V022_ROW_SKIP		4
+-
+-#define MT9V022_HORIZONTAL_BLANKING_MIN	43
+-#define MT9V022_HORIZONTAL_BLANKING_MAX	1023
+-#define MT9V022_HORIZONTAL_BLANKING_DEF	94
+-#define MT9V022_VERTICAL_BLANKING_MIN	2
+-#define MT9V022_VERTICAL_BLANKING_MAX	3000
+-#define MT9V022_VERTICAL_BLANKING_DEF	45
+-
+-#define is_mt9v022_rev3(id)	(id == 0x1313)
+-#define is_mt9v024(id)		(id == 0x1324)
+-
+-/* MT9V022 has only one fixed colorspace per pixelcode */
+-struct mt9v022_datafmt {
+-	u32	code;
+-	enum v4l2_colorspace		colorspace;
+-};
+-
+-/* Find a data format by a pixel code in an array */
+-static const struct mt9v022_datafmt *mt9v022_find_datafmt(
+-	u32 code, const struct mt9v022_datafmt *fmt,
+-	int n)
+-{
+-	int i;
+-	for (i = 0; i < n; i++)
+-		if (fmt[i].code == code)
+-			return fmt + i;
+-
+-	return NULL;
+-}
+-
+-static const struct mt9v022_datafmt mt9v022_colour_fmts[] = {
+-	/*
+-	 * Order important: first natively supported,
+-	 * second supported with a GPIO extender
+-	 */
+-	{MEDIA_BUS_FMT_SBGGR10_1X10, V4L2_COLORSPACE_SRGB},
+-	{MEDIA_BUS_FMT_SBGGR8_1X8, V4L2_COLORSPACE_SRGB},
+-};
+-
+-static const struct mt9v022_datafmt mt9v022_monochrome_fmts[] = {
+-	/* Order important - see above */
+-	{MEDIA_BUS_FMT_Y10_1X10, V4L2_COLORSPACE_JPEG},
+-	{MEDIA_BUS_FMT_Y8_1X8, V4L2_COLORSPACE_JPEG},
+-};
+-
+-/* only registers with different addresses on different mt9v02x sensors */
+-struct mt9v02x_register {
+-	u8	max_total_shutter_width;
+-	u8	pixclk_fv_lv;
+-};
+-
+-static const struct mt9v02x_register mt9v022_register = {
+-	.max_total_shutter_width	= MT9V022_MAX_TOTAL_SHUTTER_WIDTH,
+-	.pixclk_fv_lv			= MT9V022_PIXCLK_FV_LV,
+-};
+-
+-static const struct mt9v02x_register mt9v024_register = {
+-	.max_total_shutter_width	= MT9V024_MAX_TOTAL_SHUTTER_WIDTH,
+-	.pixclk_fv_lv			= MT9V024_PIXCLK_FV_LV,
+-};
+-
+-enum mt9v022_model {
+-	MT9V022IX7ATM,
+-	MT9V022IX7ATC,
+-};
+-
+-struct mt9v022 {
+-	struct v4l2_subdev subdev;
+-	struct v4l2_ctrl_handler hdl;
+-	struct {
+-		/* exposure/auto-exposure cluster */
+-		struct v4l2_ctrl *autoexposure;
+-		struct v4l2_ctrl *exposure;
+-	};
+-	struct {
+-		/* gain/auto-gain cluster */
+-		struct v4l2_ctrl *autogain;
+-		struct v4l2_ctrl *gain;
+-	};
+-	struct v4l2_ctrl *hblank;
+-	struct v4l2_ctrl *vblank;
+-	struct v4l2_rect rect;	/* Sensor window */
+-	struct v4l2_clk *clk;
+-	const struct mt9v022_datafmt *fmt;
+-	const struct mt9v022_datafmt *fmts;
+-	const struct mt9v02x_register *reg;
+-	int num_fmts;
+-	enum mt9v022_model model;
+-	u16 chip_control;
+-	u16 chip_version;
+-	unsigned short y_skip_top;	/* Lines to skip at the top */
+-};
+-
+-static struct mt9v022 *to_mt9v022(const struct i2c_client *client)
+-{
+-	return container_of(i2c_get_clientdata(client), struct mt9v022, subdev);
+-}
+-
+-static int reg_read(struct i2c_client *client, const u8 reg)
+-{
+-	return i2c_smbus_read_word_swapped(client, reg);
+-}
+-
+-static int reg_write(struct i2c_client *client, const u8 reg,
+-		     const u16 data)
+-{
+-	return i2c_smbus_write_word_swapped(client, reg, data);
+-}
+-
+-static int reg_set(struct i2c_client *client, const u8 reg,
+-		   const u16 data)
+-{
+-	int ret;
+-
+-	ret = reg_read(client, reg);
+-	if (ret < 0)
+-		return ret;
+-	return reg_write(client, reg, ret | data);
+-}
+-
+-static int reg_clear(struct i2c_client *client, const u8 reg,
+-		     const u16 data)
+-{
+-	int ret;
+-
+-	ret = reg_read(client, reg);
+-	if (ret < 0)
+-		return ret;
+-	return reg_write(client, reg, ret & ~data);
+-}
+-
+-static int mt9v022_init(struct i2c_client *client)
+-{
+-	struct mt9v022 *mt9v022 = to_mt9v022(client);
+-	int ret;
+-
+-	/*
+-	 * Almost the default mode: master, parallel, simultaneous, and an
+-	 * undocumented bit 0x200, which is present in table 7, but not in 8,
+-	 * plus snapshot mode to disable scan for now
+-	 */
+-	mt9v022->chip_control |= 0x10;
+-	ret = reg_write(client, MT9V022_CHIP_CONTROL, mt9v022->chip_control);
+-	if (!ret)
+-		ret = reg_write(client, MT9V022_READ_MODE, 0x300);
+-
+-	/* All defaults */
+-	if (!ret)
+-		/* AEC, AGC on */
+-		ret = reg_set(client, MT9V022_AEC_AGC_ENABLE, 0x3);
+-	if (!ret)
+-		ret = reg_write(client, MT9V022_ANALOG_GAIN, 16);
+-	if (!ret)
+-		ret = reg_write(client, MT9V022_TOTAL_SHUTTER_WIDTH, 480);
+-	if (!ret)
+-		ret = reg_write(client, mt9v022->reg->max_total_shutter_width, 480);
+-	if (!ret)
+-		/* default - auto */
+-		ret = reg_clear(client, MT9V022_BLACK_LEVEL_CALIB_CTRL, 1);
+-	if (!ret)
+-		ret = reg_write(client, MT9V022_DIGITAL_TEST_PATTERN, 0);
+-	if (!ret)
+-		return v4l2_ctrl_handler_setup(&mt9v022->hdl);
+-
+-	return ret;
+-}
+-
+-static int mt9v022_s_stream(struct v4l2_subdev *sd, int enable)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct mt9v022 *mt9v022 = to_mt9v022(client);
+-
+-	if (enable) {
+-		/* Switch to master "normal" mode */
+-		mt9v022->chip_control &= ~0x10;
+-		if (is_mt9v022_rev3(mt9v022->chip_version) ||
+-		    is_mt9v024(mt9v022->chip_version)) {
+-			/*
+-			 * Unset snapshot mode specific settings: clear bit 9
+-			 * and bit 2 in reg. 0x20 when in normal mode.
+-			 */
+-			if (reg_clear(client, MT9V022_REG32, 0x204))
+-				return -EIO;
+-		}
+-	} else {
+-		/* Switch to snapshot mode */
+-		mt9v022->chip_control |= 0x10;
+-		if (is_mt9v022_rev3(mt9v022->chip_version) ||
+-		    is_mt9v024(mt9v022->chip_version)) {
+-			/*
+-			 * Required settings for snapshot mode: set bit 9
+-			 * (RST enable) and bit 2 (CR enable) in reg. 0x20
+-			 * See TechNote TN0960 or TN-09-225.
+-			 */
+-			if (reg_set(client, MT9V022_REG32, 0x204))
+-				return -EIO;
+-		}
+-	}
+-
+-	if (reg_write(client, MT9V022_CHIP_CONTROL, mt9v022->chip_control) < 0)
+-		return -EIO;
+-	return 0;
+-}
+-
+-static int mt9v022_set_selection(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_selection *sel)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct mt9v022 *mt9v022 = to_mt9v022(client);
+-	struct v4l2_rect rect = sel->r;
+-	int min_row, min_blank;
+-	int ret;
+-
+-	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE ||
+-	    sel->target != V4L2_SEL_TGT_CROP)
+-		return -EINVAL;
+-
+-	/* Bayer format - even size lengths */
+-	if (mt9v022->fmts == mt9v022_colour_fmts) {
+-		rect.width	= ALIGN(rect.width, 2);
+-		rect.height	= ALIGN(rect.height, 2);
+-		/* Let the user play with the starting pixel */
+-	}
+-
+-	soc_camera_limit_side(&rect.left, &rect.width,
+-		     MT9V022_COLUMN_SKIP, MT9V022_MIN_WIDTH, MT9V022_MAX_WIDTH);
+-
+-	soc_camera_limit_side(&rect.top, &rect.height,
+-		     MT9V022_ROW_SKIP, MT9V022_MIN_HEIGHT, MT9V022_MAX_HEIGHT);
+-
+-	/* Like in example app. Contradicts the datasheet though */
+-	ret = reg_read(client, MT9V022_AEC_AGC_ENABLE);
+-	if (ret >= 0) {
+-		if (ret & 1) /* Autoexposure */
+-			ret = reg_write(client, mt9v022->reg->max_total_shutter_width,
+-					rect.height + mt9v022->y_skip_top + 43);
+-		/*
+-		 * If autoexposure is off, there is no need to set
+-		 * MT9V022_TOTAL_SHUTTER_WIDTH here. Autoexposure can be off
+-		 * only if the user has set exposure manually, using the
+-		 * V4L2_CID_EXPOSURE_AUTO with the value V4L2_EXPOSURE_MANUAL.
+-		 * In this case the register MT9V022_TOTAL_SHUTTER_WIDTH
+-		 * already contains the correct value.
+-		 */
+-	}
+-	/* Setup frame format: defaults apart from width and height */
+-	if (!ret)
+-		ret = reg_write(client, MT9V022_COLUMN_START, rect.left);
+-	if (!ret)
+-		ret = reg_write(client, MT9V022_ROW_START, rect.top);
+-	/*
+-	 * mt9v022: min total row time is 660 columns, min blanking is 43
+-	 * mt9v024: min total row time is 690 columns, min blanking is 61
+-	 */
+-	if (is_mt9v024(mt9v022->chip_version)) {
+-		min_row = 690;
+-		min_blank = 61;
+-	} else {
+-		min_row = 660;
+-		min_blank = 43;
+-	}
+-	if (!ret)
+-		ret = v4l2_ctrl_s_ctrl(mt9v022->hblank,
+-				rect.width > min_row - min_blank ?
+-				min_blank : min_row - rect.width);
+-	if (!ret)
+-		ret = v4l2_ctrl_s_ctrl(mt9v022->vblank, 45);
+-	if (!ret)
+-		ret = reg_write(client, MT9V022_WINDOW_WIDTH, rect.width);
+-	if (!ret)
+-		ret = reg_write(client, MT9V022_WINDOW_HEIGHT,
+-				rect.height + mt9v022->y_skip_top);
+-
+-	if (ret < 0)
+-		return ret;
+-
+-	dev_dbg(&client->dev, "Frame %dx%d pixel\n", rect.width, rect.height);
+-
+-	mt9v022->rect = rect;
+-
+-	return 0;
+-}
+-
+-static int mt9v022_get_selection(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_selection *sel)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct mt9v022 *mt9v022 = to_mt9v022(client);
+-
+-	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+-		return -EINVAL;
+-
+-	switch (sel->target) {
+-	case V4L2_SEL_TGT_CROP_BOUNDS:
+-		sel->r.left = MT9V022_COLUMN_SKIP;
+-		sel->r.top = MT9V022_ROW_SKIP;
+-		sel->r.width = MT9V022_MAX_WIDTH;
+-		sel->r.height = MT9V022_MAX_HEIGHT;
+-		return 0;
+-	case V4L2_SEL_TGT_CROP:
+-		sel->r = mt9v022->rect;
+-		return 0;
+-	default:
+-		return -EINVAL;
+-	}
+-}
+-
+-static int mt9v022_get_fmt(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_format *format)
+-{
+-	struct v4l2_mbus_framefmt *mf = &format->format;
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct mt9v022 *mt9v022 = to_mt9v022(client);
+-
+-	if (format->pad)
+-		return -EINVAL;
+-
+-	mf->width	= mt9v022->rect.width;
+-	mf->height	= mt9v022->rect.height;
+-	mf->code	= mt9v022->fmt->code;
+-	mf->colorspace	= mt9v022->fmt->colorspace;
+-	mf->field	= V4L2_FIELD_NONE;
+-
+-	return 0;
+-}
+-
+-static int mt9v022_s_fmt(struct v4l2_subdev *sd,
+-			 const struct mt9v022_datafmt *fmt,
+-			 struct v4l2_mbus_framefmt *mf)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct mt9v022 *mt9v022 = to_mt9v022(client);
+-	struct v4l2_subdev_selection sel = {
+-		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+-		.target = V4L2_SEL_TGT_CROP,
+-		.r.left = mt9v022->rect.left,
+-		.r.top = mt9v022->rect.top,
+-		.r.width = mf->width,
+-		.r.height = mf->height,
+-	};
+-	int ret;
+-
+-	/*
+-	 * The caller provides a supported format, as verified per call to
+-	 * .set_fmt(FORMAT_TRY), datawidth is from our supported format list
+-	 */
+-	switch (mf->code) {
+-	case MEDIA_BUS_FMT_Y8_1X8:
+-	case MEDIA_BUS_FMT_Y10_1X10:
+-		if (mt9v022->model != MT9V022IX7ATM)
+-			return -EINVAL;
+-		break;
+-	case MEDIA_BUS_FMT_SBGGR8_1X8:
+-	case MEDIA_BUS_FMT_SBGGR10_1X10:
+-		if (mt9v022->model != MT9V022IX7ATC)
+-			return -EINVAL;
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-
+-	/* No support for scaling on this camera, just crop. */
+-	ret = mt9v022_set_selection(sd, NULL, &sel);
+-	if (!ret) {
+-		mf->width	= mt9v022->rect.width;
+-		mf->height	= mt9v022->rect.height;
+-		mt9v022->fmt	= fmt;
+-		mf->colorspace	= fmt->colorspace;
+-	}
+-
+-	return ret;
+-}
+-
+-static int mt9v022_set_fmt(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_format *format)
+-{
+-	struct v4l2_mbus_framefmt *mf = &format->format;
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct mt9v022 *mt9v022 = to_mt9v022(client);
+-	const struct mt9v022_datafmt *fmt;
+-	int align = mf->code == MEDIA_BUS_FMT_SBGGR8_1X8 ||
+-		mf->code == MEDIA_BUS_FMT_SBGGR10_1X10;
+-
+-	if (format->pad)
+-		return -EINVAL;
+-
+-	v4l_bound_align_image(&mf->width, MT9V022_MIN_WIDTH,
+-		MT9V022_MAX_WIDTH, align,
+-		&mf->height, MT9V022_MIN_HEIGHT + mt9v022->y_skip_top,
+-		MT9V022_MAX_HEIGHT + mt9v022->y_skip_top, align, 0);
+-
+-	fmt = mt9v022_find_datafmt(mf->code, mt9v022->fmts,
+-				   mt9v022->num_fmts);
+-	if (!fmt) {
+-		fmt = mt9v022->fmt;
+-		mf->code = fmt->code;
+-	}
+-
+-	mf->colorspace	= fmt->colorspace;
+-
+-	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+-		return mt9v022_s_fmt(sd, fmt, mf);
+-	cfg->try_fmt = *mf;
+-	return 0;
+-}
+-
+-#ifdef CONFIG_VIDEO_ADV_DEBUG
+-static int mt9v022_g_register(struct v4l2_subdev *sd,
+-			      struct v4l2_dbg_register *reg)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-
+-	if (reg->reg > 0xff)
+-		return -EINVAL;
+-
+-	reg->size = 2;
+-	reg->val = reg_read(client, reg->reg);
+-
+-	if (reg->val > 0xffff)
+-		return -EIO;
+-
+-	return 0;
+-}
+-
+-static int mt9v022_s_register(struct v4l2_subdev *sd,
+-			      const struct v4l2_dbg_register *reg)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-
+-	if (reg->reg > 0xff)
+-		return -EINVAL;
+-
+-	if (reg_write(client, reg->reg, reg->val) < 0)
+-		return -EIO;
+-
+-	return 0;
+-}
+-#endif
+-
+-static int mt9v022_s_power(struct v4l2_subdev *sd, int on)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-	struct mt9v022 *mt9v022 = to_mt9v022(client);
+-
+-	return soc_camera_set_power(&client->dev, ssdd, mt9v022->clk, on);
+-}
+-
+-static int mt9v022_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
+-{
+-	struct mt9v022 *mt9v022 = container_of(ctrl->handler,
+-					       struct mt9v022, hdl);
+-	struct v4l2_subdev *sd = &mt9v022->subdev;
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct v4l2_ctrl *gain = mt9v022->gain;
+-	struct v4l2_ctrl *exp = mt9v022->exposure;
+-	unsigned long range;
+-	int data;
+-
+-	switch (ctrl->id) {
+-	case V4L2_CID_AUTOGAIN:
+-		data = reg_read(client, MT9V022_ANALOG_GAIN);
+-		if (data < 0)
+-			return -EIO;
+-
+-		range = gain->maximum - gain->minimum;
+-		gain->val = ((data - 16) * range + 24) / 48 + gain->minimum;
+-		return 0;
+-	case V4L2_CID_EXPOSURE_AUTO:
+-		data = reg_read(client, MT9V022_TOTAL_SHUTTER_WIDTH);
+-		if (data < 0)
+-			return -EIO;
+-
+-		range = exp->maximum - exp->minimum;
+-		exp->val = ((data - 1) * range + 239) / 479 + exp->minimum;
+-		return 0;
+-	case V4L2_CID_HBLANK:
+-		data = reg_read(client, MT9V022_HORIZONTAL_BLANKING);
+-		if (data < 0)
+-			return -EIO;
+-		ctrl->val = data;
+-		return 0;
+-	case V4L2_CID_VBLANK:
+-		data = reg_read(client, MT9V022_VERTICAL_BLANKING);
+-		if (data < 0)
+-			return -EIO;
+-		ctrl->val = data;
+-		return 0;
+-	}
+-	return -EINVAL;
+-}
+-
+-static int mt9v022_s_ctrl(struct v4l2_ctrl *ctrl)
+-{
+-	struct mt9v022 *mt9v022 = container_of(ctrl->handler,
+-					       struct mt9v022, hdl);
+-	struct v4l2_subdev *sd = &mt9v022->subdev;
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	int data;
+-
+-	switch (ctrl->id) {
+-	case V4L2_CID_VFLIP:
+-		if (ctrl->val)
+-			data = reg_set(client, MT9V022_READ_MODE, 0x10);
+-		else
+-			data = reg_clear(client, MT9V022_READ_MODE, 0x10);
+-		if (data < 0)
+-			return -EIO;
+-		return 0;
+-	case V4L2_CID_HFLIP:
+-		if (ctrl->val)
+-			data = reg_set(client, MT9V022_READ_MODE, 0x20);
+-		else
+-			data = reg_clear(client, MT9V022_READ_MODE, 0x20);
+-		if (data < 0)
+-			return -EIO;
+-		return 0;
+-	case V4L2_CID_AUTOGAIN:
+-		if (ctrl->val) {
+-			if (reg_set(client, MT9V022_AEC_AGC_ENABLE, 0x2) < 0)
+-				return -EIO;
+-		} else {
+-			struct v4l2_ctrl *gain = mt9v022->gain;
+-			/* mt9v022 has minimum == default */
+-			unsigned long range = gain->maximum - gain->minimum;
+-			/* Valid values 16 to 64, 32 to 64 must be even. */
+-			unsigned long gain_val = ((gain->val - (s32)gain->minimum) *
+-					      48 + range / 2) / range + 16;
+-
+-			if (gain_val >= 32)
+-				gain_val &= ~1;
+-
+-			/*
+-			 * The user wants to set gain manually, hope, she
+-			 * knows, what she's doing... Switch AGC off.
+-			 */
+-			if (reg_clear(client, MT9V022_AEC_AGC_ENABLE, 0x2) < 0)
+-				return -EIO;
+-
+-			dev_dbg(&client->dev, "Setting gain from %d to %lu\n",
+-				reg_read(client, MT9V022_ANALOG_GAIN), gain_val);
+-			if (reg_write(client, MT9V022_ANALOG_GAIN, gain_val) < 0)
+-				return -EIO;
+-		}
+-		return 0;
+-	case V4L2_CID_EXPOSURE_AUTO:
+-		if (ctrl->val == V4L2_EXPOSURE_AUTO) {
+-			data = reg_set(client, MT9V022_AEC_AGC_ENABLE, 0x1);
+-		} else {
+-			struct v4l2_ctrl *exp = mt9v022->exposure;
+-			unsigned long range = exp->maximum - exp->minimum;
+-			unsigned long shutter = ((exp->val - (s32)exp->minimum) *
+-					479 + range / 2) / range + 1;
+-
+-			/*
+-			 * The user wants to set shutter width manually, hope,
+-			 * she knows, what she's doing... Switch AEC off.
+-			 */
+-			data = reg_clear(client, MT9V022_AEC_AGC_ENABLE, 0x1);
+-			if (data < 0)
+-				return -EIO;
+-			dev_dbg(&client->dev, "Shutter width from %d to %lu\n",
+-					reg_read(client, MT9V022_TOTAL_SHUTTER_WIDTH),
+-					shutter);
+-			if (reg_write(client, MT9V022_TOTAL_SHUTTER_WIDTH,
+-						shutter) < 0)
+-				return -EIO;
+-		}
+-		return 0;
+-	case V4L2_CID_HBLANK:
+-		if (reg_write(client, MT9V022_HORIZONTAL_BLANKING,
+-				ctrl->val) < 0)
+-			return -EIO;
+-		return 0;
+-	case V4L2_CID_VBLANK:
+-		if (reg_write(client, MT9V022_VERTICAL_BLANKING,
+-				ctrl->val) < 0)
+-			return -EIO;
+-		return 0;
+-	}
+-	return -EINVAL;
+-}
+-
+-/*
+- * Interface active, can use i2c. If it fails, it can indeed mean, that
+- * this wasn't our capture interface, so, we wait for the right one
+- */
+-static int mt9v022_video_probe(struct i2c_client *client)
+-{
+-	struct mt9v022 *mt9v022 = to_mt9v022(client);
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-	s32 data;
+-	int ret;
+-	unsigned long flags;
+-
+-	ret = mt9v022_s_power(&mt9v022->subdev, 1);
+-	if (ret < 0)
+-		return ret;
+-
+-	/* Read out the chip version register */
+-	data = reg_read(client, MT9V022_CHIP_VERSION);
+-
+-	/* must be 0x1311, 0x1313 or 0x1324 */
+-	if (data != 0x1311 && data != 0x1313 && data != 0x1324) {
+-		ret = -ENODEV;
+-		dev_info(&client->dev, "No MT9V022 found, ID register 0x%x\n",
+-			 data);
+-		goto ei2c;
+-	}
+-
+-	mt9v022->chip_version = data;
+-
+-	mt9v022->reg = is_mt9v024(data) ? &mt9v024_register :
+-			&mt9v022_register;
+-
+-	/* Soft reset */
+-	ret = reg_write(client, MT9V022_RESET, 1);
+-	if (ret < 0)
+-		goto ei2c;
+-	/* 15 clock cycles */
+-	udelay(200);
+-	if (reg_read(client, MT9V022_RESET)) {
+-		dev_err(&client->dev, "Resetting MT9V022 failed!\n");
+-		if (ret > 0)
+-			ret = -EIO;
+-		goto ei2c;
+-	}
+-
+-	/* Set monochrome or colour sensor type */
+-	if (sensor_type && (!strcmp("colour", sensor_type) ||
+-			    !strcmp("color", sensor_type))) {
+-		ret = reg_write(client, MT9V022_PIXEL_OPERATION_MODE, 4 | 0x11);
+-		mt9v022->model = MT9V022IX7ATC;
+-		mt9v022->fmts = mt9v022_colour_fmts;
+-	} else {
+-		ret = reg_write(client, MT9V022_PIXEL_OPERATION_MODE, 0x11);
+-		mt9v022->model = MT9V022IX7ATM;
+-		mt9v022->fmts = mt9v022_monochrome_fmts;
+-	}
+-
+-	if (ret < 0)
+-		goto ei2c;
+-
+-	mt9v022->num_fmts = 0;
+-
+-	/*
+-	 * This is a 10bit sensor, so by default we only allow 10bit.
+-	 * The platform may support different bus widths due to
+-	 * different routing of the data lines.
+-	 */
+-	if (ssdd->query_bus_param)
+-		flags = ssdd->query_bus_param(ssdd);
+-	else
+-		flags = SOCAM_DATAWIDTH_10;
+-
+-	if (flags & SOCAM_DATAWIDTH_10)
+-		mt9v022->num_fmts++;
+-	else
+-		mt9v022->fmts++;
+-
+-	if (flags & SOCAM_DATAWIDTH_8)
+-		mt9v022->num_fmts++;
+-
+-	mt9v022->fmt = &mt9v022->fmts[0];
+-
+-	dev_info(&client->dev, "Detected a MT9V022 chip ID %x, %s sensor\n",
+-		 data, mt9v022->model == MT9V022IX7ATM ?
+-		 "monochrome" : "colour");
+-
+-	ret = mt9v022_init(client);
+-	if (ret < 0)
+-		dev_err(&client->dev, "Failed to initialise the camera\n");
+-
+-ei2c:
+-	mt9v022_s_power(&mt9v022->subdev, 0);
+-	return ret;
+-}
+-
+-static int mt9v022_g_skip_top_lines(struct v4l2_subdev *sd, u32 *lines)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct mt9v022 *mt9v022 = to_mt9v022(client);
+-
+-	*lines = mt9v022->y_skip_top;
+-
+-	return 0;
+-}
+-
+-static const struct v4l2_ctrl_ops mt9v022_ctrl_ops = {
+-	.g_volatile_ctrl = mt9v022_g_volatile_ctrl,
+-	.s_ctrl = mt9v022_s_ctrl,
+-};
+-
+-static const struct v4l2_subdev_core_ops mt9v022_subdev_core_ops = {
+-#ifdef CONFIG_VIDEO_ADV_DEBUG
+-	.g_register	= mt9v022_g_register,
+-	.s_register	= mt9v022_s_register,
+-#endif
+-	.s_power	= mt9v022_s_power,
+-};
+-
+-static int mt9v022_enum_mbus_code(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_mbus_code_enum *code)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct mt9v022 *mt9v022 = to_mt9v022(client);
+-
+-	if (code->pad || code->index >= mt9v022->num_fmts)
+-		return -EINVAL;
+-
+-	code->code = mt9v022->fmts[code->index].code;
+-	return 0;
+-}
+-
+-static int mt9v022_g_mbus_config(struct v4l2_subdev *sd,
+-				struct v4l2_mbus_config *cfg)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-
+-	cfg->flags = V4L2_MBUS_MASTER | V4L2_MBUS_SLAVE |
+-		V4L2_MBUS_PCLK_SAMPLE_RISING | V4L2_MBUS_PCLK_SAMPLE_FALLING |
+-		V4L2_MBUS_HSYNC_ACTIVE_HIGH | V4L2_MBUS_HSYNC_ACTIVE_LOW |
+-		V4L2_MBUS_VSYNC_ACTIVE_HIGH | V4L2_MBUS_VSYNC_ACTIVE_LOW |
+-		V4L2_MBUS_DATA_ACTIVE_HIGH;
+-	cfg->type = V4L2_MBUS_PARALLEL;
+-	cfg->flags = soc_camera_apply_board_flags(ssdd, cfg);
+-
+-	return 0;
+-}
+-
+-static int mt9v022_s_mbus_config(struct v4l2_subdev *sd,
+-				 const struct v4l2_mbus_config *cfg)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-	struct mt9v022 *mt9v022 = to_mt9v022(client);
+-	unsigned long flags = soc_camera_apply_board_flags(ssdd, cfg);
+-	unsigned int bps = soc_mbus_get_fmtdesc(mt9v022->fmt->code)->bits_per_sample;
+-	int ret;
+-	u16 pixclk = 0;
+-
+-	if (ssdd->set_bus_param) {
+-		ret = ssdd->set_bus_param(ssdd, 1 << (bps - 1));
+-		if (ret)
+-			return ret;
+-	} else if (bps != 10) {
+-		/*
+-		 * Without board specific bus width settings we only support the
+-		 * sensors native bus width
+-		 */
+-		return -EINVAL;
+-	}
+-
+-	if (flags & V4L2_MBUS_PCLK_SAMPLE_FALLING)
+-		pixclk |= 0x10;
+-
+-	if (!(flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH))
+-		pixclk |= 0x1;
+-
+-	if (!(flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH))
+-		pixclk |= 0x2;
+-
+-	ret = reg_write(client, mt9v022->reg->pixclk_fv_lv, pixclk);
+-	if (ret < 0)
+-		return ret;
+-
+-	if (!(flags & V4L2_MBUS_MASTER))
+-		mt9v022->chip_control &= ~0x8;
+-
+-	ret = reg_write(client, MT9V022_CHIP_CONTROL, mt9v022->chip_control);
+-	if (ret < 0)
+-		return ret;
+-
+-	dev_dbg(&client->dev, "Calculated pixclk 0x%x, chip control 0x%x\n",
+-		pixclk, mt9v022->chip_control);
+-
+-	return 0;
+-}
+-
+-static const struct v4l2_subdev_video_ops mt9v022_subdev_video_ops = {
+-	.s_stream	= mt9v022_s_stream,
+-	.g_mbus_config	= mt9v022_g_mbus_config,
+-	.s_mbus_config	= mt9v022_s_mbus_config,
+-};
+-
+-static const struct v4l2_subdev_sensor_ops mt9v022_subdev_sensor_ops = {
+-	.g_skip_top_lines	= mt9v022_g_skip_top_lines,
+-};
+-
+-static const struct v4l2_subdev_pad_ops mt9v022_subdev_pad_ops = {
+-	.enum_mbus_code = mt9v022_enum_mbus_code,
+-	.get_selection	= mt9v022_get_selection,
+-	.set_selection	= mt9v022_set_selection,
+-	.get_fmt	= mt9v022_get_fmt,
+-	.set_fmt	= mt9v022_set_fmt,
+-};
+-
+-static const struct v4l2_subdev_ops mt9v022_subdev_ops = {
+-	.core	= &mt9v022_subdev_core_ops,
+-	.video	= &mt9v022_subdev_video_ops,
+-	.sensor	= &mt9v022_subdev_sensor_ops,
+-	.pad	= &mt9v022_subdev_pad_ops,
+-};
+-
+-static int mt9v022_probe(struct i2c_client *client,
+-			 const struct i2c_device_id *did)
+-{
+-	struct mt9v022 *mt9v022;
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-	struct i2c_adapter *adapter = client->adapter;
+-	struct mt9v022_platform_data *pdata;
+-	int ret;
+-
+-	if (!ssdd) {
+-		dev_err(&client->dev, "MT9V022 driver needs platform data\n");
+-		return -EINVAL;
+-	}
+-
+-	if (!i2c_check_functionality(adapter, I2C_FUNC_SMBUS_WORD_DATA)) {
+-		dev_warn(&adapter->dev,
+-			 "I2C-Adapter doesn't support I2C_FUNC_SMBUS_WORD\n");
+-		return -EIO;
+-	}
+-
+-	mt9v022 = devm_kzalloc(&client->dev, sizeof(struct mt9v022), GFP_KERNEL);
+-	if (!mt9v022)
+-		return -ENOMEM;
+-
+-	pdata = ssdd->drv_priv;
+-	v4l2_i2c_subdev_init(&mt9v022->subdev, client, &mt9v022_subdev_ops);
+-	v4l2_ctrl_handler_init(&mt9v022->hdl, 6);
+-	v4l2_ctrl_new_std(&mt9v022->hdl, &mt9v022_ctrl_ops,
+-			V4L2_CID_VFLIP, 0, 1, 1, 0);
+-	v4l2_ctrl_new_std(&mt9v022->hdl, &mt9v022_ctrl_ops,
+-			V4L2_CID_HFLIP, 0, 1, 1, 0);
+-	mt9v022->autogain = v4l2_ctrl_new_std(&mt9v022->hdl, &mt9v022_ctrl_ops,
+-			V4L2_CID_AUTOGAIN, 0, 1, 1, 1);
+-	mt9v022->gain = v4l2_ctrl_new_std(&mt9v022->hdl, &mt9v022_ctrl_ops,
+-			V4L2_CID_GAIN, 0, 127, 1, 64);
+-
+-	/*
+-	 * Simulated autoexposure. If enabled, we calculate shutter width
+-	 * ourselves in the driver based on vertical blanking and frame width
+-	 */
+-	mt9v022->autoexposure = v4l2_ctrl_new_std_menu(&mt9v022->hdl,
+-			&mt9v022_ctrl_ops, V4L2_CID_EXPOSURE_AUTO, 1, 0,
+-			V4L2_EXPOSURE_AUTO);
+-	mt9v022->exposure = v4l2_ctrl_new_std(&mt9v022->hdl, &mt9v022_ctrl_ops,
+-			V4L2_CID_EXPOSURE, 1, 255, 1, 255);
+-
+-	mt9v022->hblank = v4l2_ctrl_new_std(&mt9v022->hdl, &mt9v022_ctrl_ops,
+-			V4L2_CID_HBLANK, MT9V022_HORIZONTAL_BLANKING_MIN,
+-			MT9V022_HORIZONTAL_BLANKING_MAX, 1,
+-			MT9V022_HORIZONTAL_BLANKING_DEF);
+-
+-	mt9v022->vblank = v4l2_ctrl_new_std(&mt9v022->hdl, &mt9v022_ctrl_ops,
+-			V4L2_CID_VBLANK, MT9V022_VERTICAL_BLANKING_MIN,
+-			MT9V022_VERTICAL_BLANKING_MAX, 1,
+-			MT9V022_VERTICAL_BLANKING_DEF);
+-
+-	mt9v022->subdev.ctrl_handler = &mt9v022->hdl;
+-	if (mt9v022->hdl.error) {
+-		int err = mt9v022->hdl.error;
+-
+-		dev_err(&client->dev, "control initialisation err %d\n", err);
+-		return err;
+-	}
+-	v4l2_ctrl_auto_cluster(2, &mt9v022->autoexposure,
+-				V4L2_EXPOSURE_MANUAL, true);
+-	v4l2_ctrl_auto_cluster(2, &mt9v022->autogain, 0, true);
+-
+-	mt9v022->chip_control = MT9V022_CHIP_CONTROL_DEFAULT;
+-
+-	/*
+-	 * On some platforms the first read out line is corrupted.
+-	 * Workaround it by skipping if indicated by platform data.
+-	 */
+-	mt9v022->y_skip_top	= pdata ? pdata->y_skip_top : 0;
+-	mt9v022->rect.left	= MT9V022_COLUMN_SKIP;
+-	mt9v022->rect.top	= MT9V022_ROW_SKIP;
+-	mt9v022->rect.width	= MT9V022_MAX_WIDTH;
+-	mt9v022->rect.height	= MT9V022_MAX_HEIGHT;
+-
+-	mt9v022->clk = v4l2_clk_get(&client->dev, "mclk");
+-	if (IS_ERR(mt9v022->clk)) {
+-		ret = PTR_ERR(mt9v022->clk);
+-		goto eclkget;
+-	}
+-
+-	ret = mt9v022_video_probe(client);
+-	if (ret) {
+-		v4l2_clk_put(mt9v022->clk);
+-eclkget:
+-		v4l2_ctrl_handler_free(&mt9v022->hdl);
+-	}
+-
+-	return ret;
+-}
+-
+-static int mt9v022_remove(struct i2c_client *client)
+-{
+-	struct mt9v022 *mt9v022 = to_mt9v022(client);
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-
+-	v4l2_clk_put(mt9v022->clk);
+-	v4l2_device_unregister_subdev(&mt9v022->subdev);
+-	if (ssdd->free_bus)
+-		ssdd->free_bus(ssdd);
+-	v4l2_ctrl_handler_free(&mt9v022->hdl);
+-
+-	return 0;
+-}
+-static const struct i2c_device_id mt9v022_id[] = {
+-	{ "mt9v022", 0 },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(i2c, mt9v022_id);
+-
+-static struct i2c_driver mt9v022_i2c_driver = {
+-	.driver = {
+-		.name = "mt9v022",
+-	},
+-	.probe		= mt9v022_probe,
+-	.remove		= mt9v022_remove,
+-	.id_table	= mt9v022_id,
+-};
+-
+-module_i2c_driver(mt9v022_i2c_driver);
+-
+-MODULE_DESCRIPTION("Micron MT9V022 Camera driver");
+-MODULE_AUTHOR("Guennadi Liakhovetski <kernel@pengutronix.de>");
+-MODULE_LICENSE("GPL");
+diff --git a/drivers/staging/media/soc_camera/soc_ov5642.c b/drivers/staging/media/soc_camera/soc_ov5642.c
+deleted file mode 100644
+index 39ae24dca65f..000000000000
+--- a/drivers/staging/media/soc_camera/soc_ov5642.c
++++ /dev/null
+@@ -1,1085 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * Driver for OV5642 CMOS Image Sensor from Omnivision
+- *
+- * Copyright (C) 2011, Bastian Hecht <hechtb@gmail.com>
+- *
+- * Based on Sony IMX074 Camera Driver
+- * Copyright (C) 2010, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+- *
+- * Based on Omnivision OV7670 Camera Driver
+- * Copyright (C) 2006-7 Jonathan Corbet <corbet@lwn.net>
+- */
+-#include <linux/bitops.h>
+-#include <linux/delay.h>
+-#include <linux/i2c.h>
+-#include <linux/kernel.h>
+-#include <linux/slab.h>
+-#include <linux/videodev2.h>
+-#include <linux/module.h>
+-#include <linux/v4l2-mediabus.h>
+-
+-#include <media/soc_camera.h>
+-#include <media/v4l2-clk.h>
+-#include <media/v4l2-subdev.h>
+-
+-/* OV5642 registers */
+-#define REG_CHIP_ID_HIGH		0x300a
+-#define REG_CHIP_ID_LOW			0x300b
+-
+-#define REG_WINDOW_START_X_HIGH		0x3800
+-#define REG_WINDOW_START_X_LOW		0x3801
+-#define REG_WINDOW_START_Y_HIGH		0x3802
+-#define REG_WINDOW_START_Y_LOW		0x3803
+-#define REG_WINDOW_WIDTH_HIGH		0x3804
+-#define REG_WINDOW_WIDTH_LOW		0x3805
+-#define REG_WINDOW_HEIGHT_HIGH		0x3806
+-#define REG_WINDOW_HEIGHT_LOW		0x3807
+-#define REG_OUT_WIDTH_HIGH		0x3808
+-#define REG_OUT_WIDTH_LOW		0x3809
+-#define REG_OUT_HEIGHT_HIGH		0x380a
+-#define REG_OUT_HEIGHT_LOW		0x380b
+-#define REG_OUT_TOTAL_WIDTH_HIGH	0x380c
+-#define REG_OUT_TOTAL_WIDTH_LOW		0x380d
+-#define REG_OUT_TOTAL_HEIGHT_HIGH	0x380e
+-#define REG_OUT_TOTAL_HEIGHT_LOW	0x380f
+-#define REG_OUTPUT_FORMAT		0x4300
+-#define REG_ISP_CTRL_01			0x5001
+-#define REG_AVG_WINDOW_END_X_HIGH	0x5682
+-#define REG_AVG_WINDOW_END_X_LOW	0x5683
+-#define REG_AVG_WINDOW_END_Y_HIGH	0x5686
+-#define REG_AVG_WINDOW_END_Y_LOW	0x5687
+-
+-/* active pixel array size */
+-#define OV5642_SENSOR_SIZE_X	2592
+-#define OV5642_SENSOR_SIZE_Y	1944
+-
+-/*
+- * About OV5642 resolution, cropping and binning:
+- * This sensor supports it all, at least in the feature description.
+- * Unfortunately, no combination of appropriate registers settings could make
+- * the chip work the intended way. As it works with predefined register lists,
+- * some undocumented registers are presumably changed there to achieve their
+- * goals.
+- * This driver currently only works for resolutions up to 720 lines with a
+- * 1:1 scale. Hopefully these restrictions will be removed in the future.
+- */
+-#define OV5642_MAX_WIDTH	OV5642_SENSOR_SIZE_X
+-#define OV5642_MAX_HEIGHT	720
+-
+-/* default sizes */
+-#define OV5642_DEFAULT_WIDTH	1280
+-#define OV5642_DEFAULT_HEIGHT	OV5642_MAX_HEIGHT
+-
+-/* minimum extra blanking */
+-#define BLANKING_EXTRA_WIDTH		500
+-#define BLANKING_EXTRA_HEIGHT		20
+-
+-/*
+- * the sensor's autoexposure is buggy when setting total_height low.
+- * It tries to expose longer than 1 frame period without taking care of it
+- * and this leads to weird output. So we set 1000 lines as minimum.
+- */
+-#define BLANKING_MIN_HEIGHT		1000
+-
+-struct regval_list {
+-	u16 reg_num;
+-	u8 value;
+-};
+-
+-static struct regval_list ov5642_default_regs_init[] = {
+-	{ 0x3103, 0x93 },
+-	{ 0x3008, 0x82 },
+-	{ 0x3017, 0x7f },
+-	{ 0x3018, 0xfc },
+-	{ 0x3810, 0xc2 },
+-	{ 0x3615, 0xf0 },
+-	{ 0x3000, 0x0  },
+-	{ 0x3001, 0x0  },
+-	{ 0x3002, 0x0  },
+-	{ 0x3003, 0x0  },
+-	{ 0x3004, 0xff },
+-	{ 0x3030, 0x2b },
+-	{ 0x3011, 0x8  },
+-	{ 0x3010, 0x10 },
+-	{ 0x3604, 0x60 },
+-	{ 0x3622, 0x60 },
+-	{ 0x3621, 0x9  },
+-	{ 0x3709, 0x0  },
+-	{ 0x4000, 0x21 },
+-	{ 0x401d, 0x22 },
+-	{ 0x3600, 0x54 },
+-	{ 0x3605, 0x4  },
+-	{ 0x3606, 0x3f },
+-	{ 0x3c01, 0x80 },
+-	{ 0x300d, 0x22 },
+-	{ 0x3623, 0x22 },
+-	{ 0x5000, 0x4f },
+-	{ 0x5020, 0x4  },
+-	{ 0x5181, 0x79 },
+-	{ 0x5182, 0x0  },
+-	{ 0x5185, 0x22 },
+-	{ 0x5197, 0x1  },
+-	{ 0x5500, 0xa  },
+-	{ 0x5504, 0x0  },
+-	{ 0x5505, 0x7f },
+-	{ 0x5080, 0x8  },
+-	{ 0x300e, 0x18 },
+-	{ 0x4610, 0x0  },
+-	{ 0x471d, 0x5  },
+-	{ 0x4708, 0x6  },
+-	{ 0x370c, 0xa0 },
+-	{ 0x5687, 0x94 },
+-	{ 0x501f, 0x0  },
+-	{ 0x5000, 0x4f },
+-	{ 0x5001, 0xcf },
+-	{ 0x4300, 0x30 },
+-	{ 0x4300, 0x30 },
+-	{ 0x460b, 0x35 },
+-	{ 0x471d, 0x0  },
+-	{ 0x3002, 0xc  },
+-	{ 0x3002, 0x0  },
+-	{ 0x4713, 0x3  },
+-	{ 0x471c, 0x50 },
+-	{ 0x4721, 0x2  },
+-	{ 0x4402, 0x90 },
+-	{ 0x460c, 0x22 },
+-	{ 0x3815, 0x44 },
+-	{ 0x3503, 0x7  },
+-	{ 0x3501, 0x73 },
+-	{ 0x3502, 0x80 },
+-	{ 0x350b, 0x0  },
+-	{ 0x3818, 0xc8 },
+-	{ 0x3824, 0x11 },
+-	{ 0x3a00, 0x78 },
+-	{ 0x3a1a, 0x4  },
+-	{ 0x3a13, 0x30 },
+-	{ 0x3a18, 0x0  },
+-	{ 0x3a19, 0x7c },
+-	{ 0x3a08, 0x12 },
+-	{ 0x3a09, 0xc0 },
+-	{ 0x3a0a, 0xf  },
+-	{ 0x3a0b, 0xa0 },
+-	{ 0x350c, 0x7  },
+-	{ 0x350d, 0xd0 },
+-	{ 0x3a0d, 0x8  },
+-	{ 0x3a0e, 0x6  },
+-	{ 0x3500, 0x0  },
+-	{ 0x3501, 0x0  },
+-	{ 0x3502, 0x0  },
+-	{ 0x350a, 0x0  },
+-	{ 0x350b, 0x0  },
+-	{ 0x3503, 0x0  },
+-	{ 0x3a0f, 0x3c },
+-	{ 0x3a10, 0x32 },
+-	{ 0x3a1b, 0x3c },
+-	{ 0x3a1e, 0x32 },
+-	{ 0x3a11, 0x80 },
+-	{ 0x3a1f, 0x20 },
+-	{ 0x3030, 0x2b },
+-	{ 0x3a02, 0x0  },
+-	{ 0x3a03, 0x7d },
+-	{ 0x3a04, 0x0  },
+-	{ 0x3a14, 0x0  },
+-	{ 0x3a15, 0x7d },
+-	{ 0x3a16, 0x0  },
+-	{ 0x3a00, 0x78 },
+-	{ 0x3a08, 0x9  },
+-	{ 0x3a09, 0x60 },
+-	{ 0x3a0a, 0x7  },
+-	{ 0x3a0b, 0xd0 },
+-	{ 0x3a0d, 0x10 },
+-	{ 0x3a0e, 0xd  },
+-	{ 0x4407, 0x4  },
+-	{ 0x5193, 0x70 },
+-	{ 0x589b, 0x0  },
+-	{ 0x589a, 0xc0 },
+-	{ 0x401e, 0x20 },
+-	{ 0x4001, 0x42 },
+-	{ 0x401c, 0x6  },
+-	{ 0x3825, 0xac },
+-	{ 0x3827, 0xc  },
+-	{ 0x528a, 0x1  },
+-	{ 0x528b, 0x4  },
+-	{ 0x528c, 0x8  },
+-	{ 0x528d, 0x10 },
+-	{ 0x528e, 0x20 },
+-	{ 0x528f, 0x28 },
+-	{ 0x5290, 0x30 },
+-	{ 0x5292, 0x0  },
+-	{ 0x5293, 0x1  },
+-	{ 0x5294, 0x0  },
+-	{ 0x5295, 0x4  },
+-	{ 0x5296, 0x0  },
+-	{ 0x5297, 0x8  },
+-	{ 0x5298, 0x0  },
+-	{ 0x5299, 0x10 },
+-	{ 0x529a, 0x0  },
+-	{ 0x529b, 0x20 },
+-	{ 0x529c, 0x0  },
+-	{ 0x529d, 0x28 },
+-	{ 0x529e, 0x0  },
+-	{ 0x529f, 0x30 },
+-	{ 0x5282, 0x0  },
+-	{ 0x5300, 0x0  },
+-	{ 0x5301, 0x20 },
+-	{ 0x5302, 0x0  },
+-	{ 0x5303, 0x7c },
+-	{ 0x530c, 0x0  },
+-	{ 0x530d, 0xc  },
+-	{ 0x530e, 0x20 },
+-	{ 0x530f, 0x80 },
+-	{ 0x5310, 0x20 },
+-	{ 0x5311, 0x80 },
+-	{ 0x5308, 0x20 },
+-	{ 0x5309, 0x40 },
+-	{ 0x5304, 0x0  },
+-	{ 0x5305, 0x30 },
+-	{ 0x5306, 0x0  },
+-	{ 0x5307, 0x80 },
+-	{ 0x5314, 0x8  },
+-	{ 0x5315, 0x20 },
+-	{ 0x5319, 0x30 },
+-	{ 0x5316, 0x10 },
+-	{ 0x5317, 0x0  },
+-	{ 0x5318, 0x2  },
+-	{ 0x5380, 0x1  },
+-	{ 0x5381, 0x0  },
+-	{ 0x5382, 0x0  },
+-	{ 0x5383, 0x4e },
+-	{ 0x5384, 0x0  },
+-	{ 0x5385, 0xf  },
+-	{ 0x5386, 0x0  },
+-	{ 0x5387, 0x0  },
+-	{ 0x5388, 0x1  },
+-	{ 0x5389, 0x15 },
+-	{ 0x538a, 0x0  },
+-	{ 0x538b, 0x31 },
+-	{ 0x538c, 0x0  },
+-	{ 0x538d, 0x0  },
+-	{ 0x538e, 0x0  },
+-	{ 0x538f, 0xf  },
+-	{ 0x5390, 0x0  },
+-	{ 0x5391, 0xab },
+-	{ 0x5392, 0x0  },
+-	{ 0x5393, 0xa2 },
+-	{ 0x5394, 0x8  },
+-	{ 0x5480, 0x14 },
+-	{ 0x5481, 0x21 },
+-	{ 0x5482, 0x36 },
+-	{ 0x5483, 0x57 },
+-	{ 0x5484, 0x65 },
+-	{ 0x5485, 0x71 },
+-	{ 0x5486, 0x7d },
+-	{ 0x5487, 0x87 },
+-	{ 0x5488, 0x91 },
+-	{ 0x5489, 0x9a },
+-	{ 0x548a, 0xaa },
+-	{ 0x548b, 0xb8 },
+-	{ 0x548c, 0xcd },
+-	{ 0x548d, 0xdd },
+-	{ 0x548e, 0xea },
+-	{ 0x548f, 0x1d },
+-	{ 0x5490, 0x5  },
+-	{ 0x5491, 0x0  },
+-	{ 0x5492, 0x4  },
+-	{ 0x5493, 0x20 },
+-	{ 0x5494, 0x3  },
+-	{ 0x5495, 0x60 },
+-	{ 0x5496, 0x2  },
+-	{ 0x5497, 0xb8 },
+-	{ 0x5498, 0x2  },
+-	{ 0x5499, 0x86 },
+-	{ 0x549a, 0x2  },
+-	{ 0x549b, 0x5b },
+-	{ 0x549c, 0x2  },
+-	{ 0x549d, 0x3b },
+-	{ 0x549e, 0x2  },
+-	{ 0x549f, 0x1c },
+-	{ 0x54a0, 0x2  },
+-	{ 0x54a1, 0x4  },
+-	{ 0x54a2, 0x1  },
+-	{ 0x54a3, 0xed },
+-	{ 0x54a4, 0x1  },
+-	{ 0x54a5, 0xc5 },
+-	{ 0x54a6, 0x1  },
+-	{ 0x54a7, 0xa5 },
+-	{ 0x54a8, 0x1  },
+-	{ 0x54a9, 0x6c },
+-	{ 0x54aa, 0x1  },
+-	{ 0x54ab, 0x41 },
+-	{ 0x54ac, 0x1  },
+-	{ 0x54ad, 0x20 },
+-	{ 0x54ae, 0x0  },
+-	{ 0x54af, 0x16 },
+-	{ 0x54b0, 0x1  },
+-	{ 0x54b1, 0x20 },
+-	{ 0x54b2, 0x0  },
+-	{ 0x54b3, 0x10 },
+-	{ 0x54b4, 0x0  },
+-	{ 0x54b5, 0xf0 },
+-	{ 0x54b6, 0x0  },
+-	{ 0x54b7, 0xdf },
+-	{ 0x5402, 0x3f },
+-	{ 0x5403, 0x0  },
+-	{ 0x3406, 0x0  },
+-	{ 0x5180, 0xff },
+-	{ 0x5181, 0x52 },
+-	{ 0x5182, 0x11 },
+-	{ 0x5183, 0x14 },
+-	{ 0x5184, 0x25 },
+-	{ 0x5185, 0x24 },
+-	{ 0x5186, 0x6  },
+-	{ 0x5187, 0x8  },
+-	{ 0x5188, 0x8  },
+-	{ 0x5189, 0x7c },
+-	{ 0x518a, 0x60 },
+-	{ 0x518b, 0xb2 },
+-	{ 0x518c, 0xb2 },
+-	{ 0x518d, 0x44 },
+-	{ 0x518e, 0x3d },
+-	{ 0x518f, 0x58 },
+-	{ 0x5190, 0x46 },
+-	{ 0x5191, 0xf8 },
+-	{ 0x5192, 0x4  },
+-	{ 0x5193, 0x70 },
+-	{ 0x5194, 0xf0 },
+-	{ 0x5195, 0xf0 },
+-	{ 0x5196, 0x3  },
+-	{ 0x5197, 0x1  },
+-	{ 0x5198, 0x4  },
+-	{ 0x5199, 0x12 },
+-	{ 0x519a, 0x4  },
+-	{ 0x519b, 0x0  },
+-	{ 0x519c, 0x6  },
+-	{ 0x519d, 0x82 },
+-	{ 0x519e, 0x0  },
+-	{ 0x5025, 0x80 },
+-	{ 0x3a0f, 0x38 },
+-	{ 0x3a10, 0x30 },
+-	{ 0x3a1b, 0x3a },
+-	{ 0x3a1e, 0x2e },
+-	{ 0x3a11, 0x60 },
+-	{ 0x3a1f, 0x10 },
+-	{ 0x5688, 0xa6 },
+-	{ 0x5689, 0x6a },
+-	{ 0x568a, 0xea },
+-	{ 0x568b, 0xae },
+-	{ 0x568c, 0xa6 },
+-	{ 0x568d, 0x6a },
+-	{ 0x568e, 0x62 },
+-	{ 0x568f, 0x26 },
+-	{ 0x5583, 0x40 },
+-	{ 0x5584, 0x40 },
+-	{ 0x5580, 0x2  },
+-	{ 0x5000, 0xcf },
+-	{ 0x5800, 0x27 },
+-	{ 0x5801, 0x19 },
+-	{ 0x5802, 0x12 },
+-	{ 0x5803, 0xf  },
+-	{ 0x5804, 0x10 },
+-	{ 0x5805, 0x15 },
+-	{ 0x5806, 0x1e },
+-	{ 0x5807, 0x2f },
+-	{ 0x5808, 0x15 },
+-	{ 0x5809, 0xd  },
+-	{ 0x580a, 0xa  },
+-	{ 0x580b, 0x9  },
+-	{ 0x580c, 0xa  },
+-	{ 0x580d, 0xc  },
+-	{ 0x580e, 0x12 },
+-	{ 0x580f, 0x19 },
+-	{ 0x5810, 0xb  },
+-	{ 0x5811, 0x7  },
+-	{ 0x5812, 0x4  },
+-	{ 0x5813, 0x3  },
+-	{ 0x5814, 0x3  },
+-	{ 0x5815, 0x6  },
+-	{ 0x5816, 0xa  },
+-	{ 0x5817, 0xf  },
+-	{ 0x5818, 0xa  },
+-	{ 0x5819, 0x5  },
+-	{ 0x581a, 0x1  },
+-	{ 0x581b, 0x0  },
+-	{ 0x581c, 0x0  },
+-	{ 0x581d, 0x3  },
+-	{ 0x581e, 0x8  },
+-	{ 0x581f, 0xc  },
+-	{ 0x5820, 0xa  },
+-	{ 0x5821, 0x5  },
+-	{ 0x5822, 0x1  },
+-	{ 0x5823, 0x0  },
+-	{ 0x5824, 0x0  },
+-	{ 0x5825, 0x3  },
+-	{ 0x5826, 0x8  },
+-	{ 0x5827, 0xc  },
+-	{ 0x5828, 0xe  },
+-	{ 0x5829, 0x8  },
+-	{ 0x582a, 0x6  },
+-	{ 0x582b, 0x4  },
+-	{ 0x582c, 0x5  },
+-	{ 0x582d, 0x7  },
+-	{ 0x582e, 0xb  },
+-	{ 0x582f, 0x12 },
+-	{ 0x5830, 0x18 },
+-	{ 0x5831, 0x10 },
+-	{ 0x5832, 0xc  },
+-	{ 0x5833, 0xa  },
+-	{ 0x5834, 0xb  },
+-	{ 0x5835, 0xe  },
+-	{ 0x5836, 0x15 },
+-	{ 0x5837, 0x19 },
+-	{ 0x5838, 0x32 },
+-	{ 0x5839, 0x1f },
+-	{ 0x583a, 0x18 },
+-	{ 0x583b, 0x16 },
+-	{ 0x583c, 0x17 },
+-	{ 0x583d, 0x1e },
+-	{ 0x583e, 0x26 },
+-	{ 0x583f, 0x53 },
+-	{ 0x5840, 0x10 },
+-	{ 0x5841, 0xf  },
+-	{ 0x5842, 0xd  },
+-	{ 0x5843, 0xc  },
+-	{ 0x5844, 0xe  },
+-	{ 0x5845, 0x9  },
+-	{ 0x5846, 0x11 },
+-	{ 0x5847, 0x10 },
+-	{ 0x5848, 0x10 },
+-	{ 0x5849, 0x10 },
+-	{ 0x584a, 0x10 },
+-	{ 0x584b, 0xe  },
+-	{ 0x584c, 0x10 },
+-	{ 0x584d, 0x10 },
+-	{ 0x584e, 0x11 },
+-	{ 0x584f, 0x10 },
+-	{ 0x5850, 0xf  },
+-	{ 0x5851, 0xc  },
+-	{ 0x5852, 0xf  },
+-	{ 0x5853, 0x10 },
+-	{ 0x5854, 0x10 },
+-	{ 0x5855, 0xf  },
+-	{ 0x5856, 0xe  },
+-	{ 0x5857, 0xb  },
+-	{ 0x5858, 0x10 },
+-	{ 0x5859, 0xd  },
+-	{ 0x585a, 0xd  },
+-	{ 0x585b, 0xc  },
+-	{ 0x585c, 0xc  },
+-	{ 0x585d, 0xc  },
+-	{ 0x585e, 0xb  },
+-	{ 0x585f, 0xc  },
+-	{ 0x5860, 0xc  },
+-	{ 0x5861, 0xc  },
+-	{ 0x5862, 0xd  },
+-	{ 0x5863, 0x8  },
+-	{ 0x5864, 0x11 },
+-	{ 0x5865, 0x18 },
+-	{ 0x5866, 0x18 },
+-	{ 0x5867, 0x19 },
+-	{ 0x5868, 0x17 },
+-	{ 0x5869, 0x19 },
+-	{ 0x586a, 0x16 },
+-	{ 0x586b, 0x13 },
+-	{ 0x586c, 0x13 },
+-	{ 0x586d, 0x12 },
+-	{ 0x586e, 0x13 },
+-	{ 0x586f, 0x16 },
+-	{ 0x5870, 0x14 },
+-	{ 0x5871, 0x12 },
+-	{ 0x5872, 0x10 },
+-	{ 0x5873, 0x11 },
+-	{ 0x5874, 0x11 },
+-	{ 0x5875, 0x16 },
+-	{ 0x5876, 0x14 },
+-	{ 0x5877, 0x11 },
+-	{ 0x5878, 0x10 },
+-	{ 0x5879, 0xf  },
+-	{ 0x587a, 0x10 },
+-	{ 0x587b, 0x14 },
+-	{ 0x587c, 0x13 },
+-	{ 0x587d, 0x12 },
+-	{ 0x587e, 0x11 },
+-	{ 0x587f, 0x11 },
+-	{ 0x5880, 0x12 },
+-	{ 0x5881, 0x15 },
+-	{ 0x5882, 0x14 },
+-	{ 0x5883, 0x15 },
+-	{ 0x5884, 0x15 },
+-	{ 0x5885, 0x15 },
+-	{ 0x5886, 0x13 },
+-	{ 0x5887, 0x17 },
+-	{ 0x3710, 0x10 },
+-	{ 0x3632, 0x51 },
+-	{ 0x3702, 0x10 },
+-	{ 0x3703, 0xb2 },
+-	{ 0x3704, 0x18 },
+-	{ 0x370b, 0x40 },
+-	{ 0x370d, 0x3  },
+-	{ 0x3631, 0x1  },
+-	{ 0x3632, 0x52 },
+-	{ 0x3606, 0x24 },
+-	{ 0x3620, 0x96 },
+-	{ 0x5785, 0x7  },
+-	{ 0x3a13, 0x30 },
+-	{ 0x3600, 0x52 },
+-	{ 0x3604, 0x48 },
+-	{ 0x3606, 0x1b },
+-	{ 0x370d, 0xb  },
+-	{ 0x370f, 0xc0 },
+-	{ 0x3709, 0x1  },
+-	{ 0x3823, 0x0  },
+-	{ 0x5007, 0x0  },
+-	{ 0x5009, 0x0  },
+-	{ 0x5011, 0x0  },
+-	{ 0x5013, 0x0  },
+-	{ 0x519e, 0x0  },
+-	{ 0x5086, 0x0  },
+-	{ 0x5087, 0x0  },
+-	{ 0x5088, 0x0  },
+-	{ 0x5089, 0x0  },
+-	{ 0x302b, 0x0  },
+-	{ 0x3503, 0x7  },
+-	{ 0x3011, 0x8  },
+-	{ 0x350c, 0x2  },
+-	{ 0x350d, 0xe4 },
+-	{ 0x3621, 0xc9 },
+-	{ 0x370a, 0x81 },
+-	{ 0xffff, 0xff },
+-};
+-
+-static struct regval_list ov5642_default_regs_finalise[] = {
+-	{ 0x3810, 0xc2 },
+-	{ 0x3818, 0xc9 },
+-	{ 0x381c, 0x10 },
+-	{ 0x381d, 0xa0 },
+-	{ 0x381e, 0x5  },
+-	{ 0x381f, 0xb0 },
+-	{ 0x3820, 0x0  },
+-	{ 0x3821, 0x0  },
+-	{ 0x3824, 0x11 },
+-	{ 0x3a08, 0x1b },
+-	{ 0x3a09, 0xc0 },
+-	{ 0x3a0a, 0x17 },
+-	{ 0x3a0b, 0x20 },
+-	{ 0x3a0d, 0x2  },
+-	{ 0x3a0e, 0x1  },
+-	{ 0x401c, 0x4  },
+-	{ 0x5682, 0x5  },
+-	{ 0x5683, 0x0  },
+-	{ 0x5686, 0x2  },
+-	{ 0x5687, 0xcc },
+-	{ 0x5001, 0x4f },
+-	{ 0x589b, 0x6  },
+-	{ 0x589a, 0xc5 },
+-	{ 0x3503, 0x0  },
+-	{ 0x460c, 0x20 },
+-	{ 0x460b, 0x37 },
+-	{ 0x471c, 0xd0 },
+-	{ 0x471d, 0x5  },
+-	{ 0x3815, 0x1  },
+-	{ 0x3818, 0xc1 },
+-	{ 0x501f, 0x0  },
+-	{ 0x5002, 0xe0 },
+-	{ 0x4300, 0x32 }, /* UYVY */
+-	{ 0x3002, 0x1c },
+-	{ 0x4800, 0x14 },
+-	{ 0x4801, 0xf  },
+-	{ 0x3007, 0x3b },
+-	{ 0x300e, 0x4  },
+-	{ 0x4803, 0x50 },
+-	{ 0x3815, 0x1  },
+-	{ 0x4713, 0x2  },
+-	{ 0x4842, 0x1  },
+-	{ 0x300f, 0xe  },
+-	{ 0x3003, 0x3  },
+-	{ 0x3003, 0x1  },
+-	{ 0xffff, 0xff },
+-};
+-
+-struct ov5642_datafmt {
+-	u32	code;
+-	enum v4l2_colorspace		colorspace;
+-};
+-
+-struct ov5642 {
+-	struct v4l2_subdev		subdev;
+-	const struct ov5642_datafmt	*fmt;
+-	struct v4l2_rect                crop_rect;
+-	struct v4l2_clk			*clk;
+-
+-	/* blanking information */
+-	int total_width;
+-	int total_height;
+-};
+-
+-static const struct ov5642_datafmt ov5642_colour_fmts[] = {
+-	{MEDIA_BUS_FMT_UYVY8_2X8, V4L2_COLORSPACE_JPEG},
+-};
+-
+-static struct ov5642 *to_ov5642(const struct i2c_client *client)
+-{
+-	return container_of(i2c_get_clientdata(client), struct ov5642, subdev);
+-}
+-
+-/* Find a data format by a pixel code in an array */
+-static const struct ov5642_datafmt
+-			*ov5642_find_datafmt(u32 code)
+-{
+-	int i;
+-
+-	for (i = 0; i < ARRAY_SIZE(ov5642_colour_fmts); i++)
+-		if (ov5642_colour_fmts[i].code == code)
+-			return ov5642_colour_fmts + i;
+-
+-	return NULL;
+-}
+-
+-static int reg_read(struct i2c_client *client, u16 reg, u8 *val)
+-{
+-	int ret;
+-	/* We have 16-bit i2c addresses - care for endianness */
+-	unsigned char data[2] = { reg >> 8, reg & 0xff };
+-
+-	ret = i2c_master_send(client, data, 2);
+-	if (ret < 2) {
+-		dev_err(&client->dev, "%s: i2c read error, reg: %x\n",
+-			__func__, reg);
+-		return ret < 0 ? ret : -EIO;
+-	}
+-
+-	ret = i2c_master_recv(client, val, 1);
+-	if (ret < 1) {
+-		dev_err(&client->dev, "%s: i2c read error, reg: %x\n",
+-				__func__, reg);
+-		return ret < 0 ? ret : -EIO;
+-	}
+-	return 0;
+-}
+-
+-static int reg_write(struct i2c_client *client, u16 reg, u8 val)
+-{
+-	int ret;
+-	unsigned char data[3] = { reg >> 8, reg & 0xff, val };
+-
+-	ret = i2c_master_send(client, data, 3);
+-	if (ret < 3) {
+-		dev_err(&client->dev, "%s: i2c write error, reg: %x\n",
+-			__func__, reg);
+-		return ret < 0 ? ret : -EIO;
+-	}
+-
+-	return 0;
+-}
+-
+-/*
+- * convenience function to write 16 bit register values that are split up
+- * into two consecutive high and low parts
+- */
+-static int reg_write16(struct i2c_client *client, u16 reg, u16 val16)
+-{
+-	int ret;
+-
+-	ret = reg_write(client, reg, val16 >> 8);
+-	if (ret)
+-		return ret;
+-	return reg_write(client, reg + 1, val16 & 0x00ff);
+-}
+-
+-#ifdef CONFIG_VIDEO_ADV_DEBUG
+-static int ov5642_get_register(struct v4l2_subdev *sd,
+-			       struct v4l2_dbg_register *reg)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	int ret;
+-	u8 val;
+-
+-	if (reg->reg & ~0xffff)
+-		return -EINVAL;
+-
+-	reg->size = 1;
+-
+-	ret = reg_read(client, reg->reg, &val);
+-	if (!ret)
+-		reg->val = (__u64)val;
+-
+-	return ret;
+-}
+-
+-static int ov5642_set_register(struct v4l2_subdev *sd,
+-			       const struct v4l2_dbg_register *reg)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-
+-	if (reg->reg & ~0xffff || reg->val & ~0xff)
+-		return -EINVAL;
+-
+-	return reg_write(client, reg->reg, reg->val);
+-}
+-#endif
+-
+-static int ov5642_write_array(struct i2c_client *client,
+-				struct regval_list *vals)
+-{
+-	while (vals->reg_num != 0xffff || vals->value != 0xff) {
+-		int ret = reg_write(client, vals->reg_num, vals->value);
+-		if (ret < 0)
+-			return ret;
+-		vals++;
+-	}
+-	dev_dbg(&client->dev, "Register list loaded\n");
+-	return 0;
+-}
+-
+-static int ov5642_set_resolution(struct v4l2_subdev *sd)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct ov5642 *priv = to_ov5642(client);
+-	int width = priv->crop_rect.width;
+-	int height = priv->crop_rect.height;
+-	int total_width = priv->total_width;
+-	int total_height = priv->total_height;
+-	int start_x = (OV5642_SENSOR_SIZE_X - width) / 2;
+-	int start_y = (OV5642_SENSOR_SIZE_Y - height) / 2;
+-	int ret;
+-
+-	/*
+-	 * This should set the starting point for cropping.
+-	 * Doesn't work so far.
+-	 */
+-	ret = reg_write16(client, REG_WINDOW_START_X_HIGH, start_x);
+-	if (!ret)
+-		ret = reg_write16(client, REG_WINDOW_START_Y_HIGH, start_y);
+-	if (!ret) {
+-		priv->crop_rect.left = start_x;
+-		priv->crop_rect.top = start_y;
+-	}
+-
+-	if (!ret)
+-		ret = reg_write16(client, REG_WINDOW_WIDTH_HIGH, width);
+-	if (!ret)
+-		ret = reg_write16(client, REG_WINDOW_HEIGHT_HIGH, height);
+-	if (ret)
+-		return ret;
+-	priv->crop_rect.width = width;
+-	priv->crop_rect.height = height;
+-
+-	/* Set the output window size. Only 1:1 scale is supported so far. */
+-	ret = reg_write16(client, REG_OUT_WIDTH_HIGH, width);
+-	if (!ret)
+-		ret = reg_write16(client, REG_OUT_HEIGHT_HIGH, height);
+-
+-	/* Total width = output size + blanking */
+-	if (!ret)
+-		ret = reg_write16(client, REG_OUT_TOTAL_WIDTH_HIGH, total_width);
+-	if (!ret)
+-		ret = reg_write16(client, REG_OUT_TOTAL_HEIGHT_HIGH, total_height);
+-
+-	/* Sets the window for AWB calculations */
+-	if (!ret)
+-		ret = reg_write16(client, REG_AVG_WINDOW_END_X_HIGH, width);
+-	if (!ret)
+-		ret = reg_write16(client, REG_AVG_WINDOW_END_Y_HIGH, height);
+-
+-	return ret;
+-}
+-
+-static int ov5642_set_fmt(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_format *format)
+-{
+-	struct v4l2_mbus_framefmt *mf = &format->format;
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct ov5642 *priv = to_ov5642(client);
+-	const struct ov5642_datafmt *fmt = ov5642_find_datafmt(mf->code);
+-
+-	if (format->pad)
+-		return -EINVAL;
+-
+-	mf->width = priv->crop_rect.width;
+-	mf->height = priv->crop_rect.height;
+-
+-	if (!fmt) {
+-		if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+-			return -EINVAL;
+-		mf->code	= ov5642_colour_fmts[0].code;
+-		mf->colorspace	= ov5642_colour_fmts[0].colorspace;
+-	}
+-
+-	mf->field	= V4L2_FIELD_NONE;
+-
+-	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+-		priv->fmt = fmt;
+-	else
+-		cfg->try_fmt = *mf;
+-	return 0;
+-}
+-
+-static int ov5642_get_fmt(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_format *format)
+-{
+-	struct v4l2_mbus_framefmt *mf = &format->format;
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct ov5642 *priv = to_ov5642(client);
+-
+-	const struct ov5642_datafmt *fmt = priv->fmt;
+-
+-	if (format->pad)
+-		return -EINVAL;
+-
+-	mf->code	= fmt->code;
+-	mf->colorspace	= fmt->colorspace;
+-	mf->width	= priv->crop_rect.width;
+-	mf->height	= priv->crop_rect.height;
+-	mf->field	= V4L2_FIELD_NONE;
+-
+-	return 0;
+-}
+-
+-static int ov5642_enum_mbus_code(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_mbus_code_enum *code)
+-{
+-	if (code->pad || code->index >= ARRAY_SIZE(ov5642_colour_fmts))
+-		return -EINVAL;
+-
+-	code->code = ov5642_colour_fmts[code->index].code;
+-	return 0;
+-}
+-
+-static int ov5642_set_selection(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_selection *sel)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct ov5642 *priv = to_ov5642(client);
+-	struct v4l2_rect rect = sel->r;
+-	int ret;
+-
+-	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE ||
+-	    sel->target != V4L2_SEL_TGT_CROP)
+-		return -EINVAL;
+-
+-	v4l_bound_align_image(&rect.width, 48, OV5642_MAX_WIDTH, 1,
+-			      &rect.height, 32, OV5642_MAX_HEIGHT, 1, 0);
+-
+-	priv->crop_rect.width	= rect.width;
+-	priv->crop_rect.height	= rect.height;
+-	priv->total_width	= rect.width + BLANKING_EXTRA_WIDTH;
+-	priv->total_height	= max_t(int, rect.height +
+-							BLANKING_EXTRA_HEIGHT,
+-							BLANKING_MIN_HEIGHT);
+-	priv->crop_rect.width		= rect.width;
+-	priv->crop_rect.height		= rect.height;
+-
+-	ret = ov5642_write_array(client, ov5642_default_regs_init);
+-	if (!ret)
+-		ret = ov5642_set_resolution(sd);
+-	if (!ret)
+-		ret = ov5642_write_array(client, ov5642_default_regs_finalise);
+-
+-	return ret;
+-}
+-
+-static int ov5642_get_selection(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_selection *sel)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct ov5642 *priv = to_ov5642(client);
+-
+-	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+-		return -EINVAL;
+-
+-	switch (sel->target) {
+-	case V4L2_SEL_TGT_CROP_BOUNDS:
+-		sel->r.left = 0;
+-		sel->r.top = 0;
+-		sel->r.width = OV5642_MAX_WIDTH;
+-		sel->r.height = OV5642_MAX_HEIGHT;
+-		return 0;
+-	case V4L2_SEL_TGT_CROP:
+-		sel->r = priv->crop_rect;
+-		return 0;
+-	default:
+-		return -EINVAL;
+-	}
+-}
+-
+-static int ov5642_g_mbus_config(struct v4l2_subdev *sd,
+-				struct v4l2_mbus_config *cfg)
+-{
+-	cfg->type = V4L2_MBUS_CSI2_DPHY;
+-	cfg->flags = V4L2_MBUS_CSI2_2_LANE | V4L2_MBUS_CSI2_CHANNEL_0 |
+-					V4L2_MBUS_CSI2_CONTINUOUS_CLOCK;
+-
+-	return 0;
+-}
+-
+-static int ov5642_s_power(struct v4l2_subdev *sd, int on)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-	struct ov5642 *priv = to_ov5642(client);
+-	int ret;
+-
+-	if (!on)
+-		return soc_camera_power_off(&client->dev, ssdd, priv->clk);
+-
+-	ret = soc_camera_power_on(&client->dev, ssdd, priv->clk);
+-	if (ret < 0)
+-		return ret;
+-
+-	ret = ov5642_write_array(client, ov5642_default_regs_init);
+-	if (!ret)
+-		ret = ov5642_set_resolution(sd);
+-	if (!ret)
+-		ret = ov5642_write_array(client, ov5642_default_regs_finalise);
+-
+-	return ret;
+-}
+-
+-static const struct v4l2_subdev_video_ops ov5642_subdev_video_ops = {
+-	.g_mbus_config	= ov5642_g_mbus_config,
+-};
+-
+-static const struct v4l2_subdev_pad_ops ov5642_subdev_pad_ops = {
+-	.enum_mbus_code = ov5642_enum_mbus_code,
+-	.get_selection	= ov5642_get_selection,
+-	.set_selection	= ov5642_set_selection,
+-	.get_fmt	= ov5642_get_fmt,
+-	.set_fmt	= ov5642_set_fmt,
+-};
+-
+-static const struct v4l2_subdev_core_ops ov5642_subdev_core_ops = {
+-	.s_power	= ov5642_s_power,
+-#ifdef CONFIG_VIDEO_ADV_DEBUG
+-	.g_register	= ov5642_get_register,
+-	.s_register	= ov5642_set_register,
+-#endif
+-};
+-
+-static const struct v4l2_subdev_ops ov5642_subdev_ops = {
+-	.core	= &ov5642_subdev_core_ops,
+-	.video	= &ov5642_subdev_video_ops,
+-	.pad	= &ov5642_subdev_pad_ops,
+-};
+-
+-static int ov5642_video_probe(struct i2c_client *client)
+-{
+-	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
+-	int ret;
+-	u8 id_high, id_low;
+-	u16 id;
+-
+-	ret = ov5642_s_power(subdev, 1);
+-	if (ret < 0)
+-		return ret;
+-
+-	/* Read sensor Model ID */
+-	ret = reg_read(client, REG_CHIP_ID_HIGH, &id_high);
+-	if (ret < 0)
+-		goto done;
+-
+-	id = id_high << 8;
+-
+-	ret = reg_read(client, REG_CHIP_ID_LOW, &id_low);
+-	if (ret < 0)
+-		goto done;
+-
+-	id |= id_low;
+-
+-	dev_info(&client->dev, "Chip ID 0x%04x detected\n", id);
+-
+-	if (id != 0x5642) {
+-		ret = -ENODEV;
+-		goto done;
+-	}
+-
+-	ret = 0;
+-
+-done:
+-	ov5642_s_power(subdev, 0);
+-	return ret;
+-}
+-
+-static int ov5642_probe(struct i2c_client *client,
+-			const struct i2c_device_id *did)
+-{
+-	struct ov5642 *priv;
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-	int ret;
+-
+-	if (!ssdd) {
+-		dev_err(&client->dev, "OV5642: missing platform data!\n");
+-		return -EINVAL;
+-	}
+-
+-	priv = devm_kzalloc(&client->dev, sizeof(struct ov5642), GFP_KERNEL);
+-	if (!priv)
+-		return -ENOMEM;
+-
+-	v4l2_i2c_subdev_init(&priv->subdev, client, &ov5642_subdev_ops);
+-
+-	priv->fmt		= &ov5642_colour_fmts[0];
+-
+-	priv->crop_rect.width	= OV5642_DEFAULT_WIDTH;
+-	priv->crop_rect.height	= OV5642_DEFAULT_HEIGHT;
+-	priv->crop_rect.left	= (OV5642_MAX_WIDTH - OV5642_DEFAULT_WIDTH) / 2;
+-	priv->crop_rect.top	= (OV5642_MAX_HEIGHT - OV5642_DEFAULT_HEIGHT) / 2;
+-	priv->total_width = OV5642_DEFAULT_WIDTH + BLANKING_EXTRA_WIDTH;
+-	priv->total_height = BLANKING_MIN_HEIGHT;
+-
+-	priv->clk = v4l2_clk_get(&client->dev, "mclk");
+-	if (IS_ERR(priv->clk))
+-		return PTR_ERR(priv->clk);
+-
+-	ret = ov5642_video_probe(client);
+-	if (ret < 0)
+-		v4l2_clk_put(priv->clk);
+-
+-	return ret;
+-}
+-
+-static int ov5642_remove(struct i2c_client *client)
+-{
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-	struct ov5642 *priv = to_ov5642(client);
+-
+-	v4l2_clk_put(priv->clk);
+-	if (ssdd->free_bus)
+-		ssdd->free_bus(ssdd);
+-
+-	return 0;
+-}
+-
+-static const struct i2c_device_id ov5642_id[] = {
+-	{ "ov5642", 0 },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(i2c, ov5642_id);
+-
+-#if IS_ENABLED(CONFIG_OF)
+-static const struct of_device_id ov5642_of_match[] = {
+-	{ .compatible = "ovti,ov5642" },
+-	{ },
+-};
+-MODULE_DEVICE_TABLE(of, ov5642_of_match);
+-#endif
+-
+-static struct i2c_driver ov5642_i2c_driver = {
+-	.driver = {
+-		.name = "ov5642",
+-		.of_match_table = of_match_ptr(ov5642_of_match),
+-	},
+-	.probe		= ov5642_probe,
+-	.remove		= ov5642_remove,
+-	.id_table	= ov5642_id,
+-};
+-
+-module_i2c_driver(ov5642_i2c_driver);
+-
+-MODULE_DESCRIPTION("Omnivision OV5642 Camera driver");
+-MODULE_AUTHOR("Bastian Hecht <hechtb@gmail.com>");
+-MODULE_LICENSE("GPL v2");
+diff --git a/drivers/staging/media/soc_camera/soc_ov9740.c b/drivers/staging/media/soc_camera/soc_ov9740.c
+deleted file mode 100644
+index 7c765595d85f..000000000000
+--- a/drivers/staging/media/soc_camera/soc_ov9740.c
++++ /dev/null
+@@ -1,992 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * OmniVision OV9740 Camera Driver
+- *
+- * Copyright (C) 2011 NVIDIA Corporation
+- *
+- * Based on ov9640 camera driver.
+- */
+-#include <linux/init.h>
+-#include <linux/module.h>
+-#include <linux/i2c.h>
+-#include <linux/slab.h>
+-#include <linux/v4l2-mediabus.h>
+-
+-#include <media/soc_camera.h>
+-#include <media/v4l2-clk.h>
+-#include <media/v4l2-ctrls.h>
+-
+-#define to_ov9740(sd)		container_of(sd, struct ov9740_priv, subdev)
+-
+-/* General Status Registers */
+-#define OV9740_MODEL_ID_HI		0x0000
+-#define OV9740_MODEL_ID_LO		0x0001
+-#define OV9740_REVISION_NUMBER		0x0002
+-#define OV9740_MANUFACTURER_ID		0x0003
+-#define OV9740_SMIA_VERSION		0x0004
+-
+-/* General Setup Registers */
+-#define OV9740_MODE_SELECT		0x0100
+-#define OV9740_IMAGE_ORT		0x0101
+-#define OV9740_SOFTWARE_RESET		0x0103
+-#define OV9740_GRP_PARAM_HOLD		0x0104
+-#define OV9740_MSK_CORRUP_FM		0x0105
+-
+-/* Timing Setting */
+-#define OV9740_FRM_LENGTH_LN_HI		0x0340 /* VTS */
+-#define OV9740_FRM_LENGTH_LN_LO		0x0341 /* VTS */
+-#define OV9740_LN_LENGTH_PCK_HI		0x0342 /* HTS */
+-#define OV9740_LN_LENGTH_PCK_LO		0x0343 /* HTS */
+-#define OV9740_X_ADDR_START_HI		0x0344
+-#define OV9740_X_ADDR_START_LO		0x0345
+-#define OV9740_Y_ADDR_START_HI		0x0346
+-#define OV9740_Y_ADDR_START_LO		0x0347
+-#define OV9740_X_ADDR_END_HI		0x0348
+-#define OV9740_X_ADDR_END_LO		0x0349
+-#define OV9740_Y_ADDR_END_HI		0x034a
+-#define OV9740_Y_ADDR_END_LO		0x034b
+-#define OV9740_X_OUTPUT_SIZE_HI		0x034c
+-#define OV9740_X_OUTPUT_SIZE_LO		0x034d
+-#define OV9740_Y_OUTPUT_SIZE_HI		0x034e
+-#define OV9740_Y_OUTPUT_SIZE_LO		0x034f
+-
+-/* IO Control Registers */
+-#define OV9740_IO_CREL00		0x3002
+-#define OV9740_IO_CREL01		0x3004
+-#define OV9740_IO_CREL02		0x3005
+-#define OV9740_IO_OUTPUT_SEL01		0x3026
+-#define OV9740_IO_OUTPUT_SEL02		0x3027
+-
+-/* AWB Registers */
+-#define OV9740_AWB_MANUAL_CTRL		0x3406
+-
+-/* Analog Control Registers */
+-#define OV9740_ANALOG_CTRL01		0x3601
+-#define OV9740_ANALOG_CTRL02		0x3602
+-#define OV9740_ANALOG_CTRL03		0x3603
+-#define OV9740_ANALOG_CTRL04		0x3604
+-#define OV9740_ANALOG_CTRL10		0x3610
+-#define OV9740_ANALOG_CTRL12		0x3612
+-#define OV9740_ANALOG_CTRL15		0x3615
+-#define OV9740_ANALOG_CTRL20		0x3620
+-#define OV9740_ANALOG_CTRL21		0x3621
+-#define OV9740_ANALOG_CTRL22		0x3622
+-#define OV9740_ANALOG_CTRL30		0x3630
+-#define OV9740_ANALOG_CTRL31		0x3631
+-#define OV9740_ANALOG_CTRL32		0x3632
+-#define OV9740_ANALOG_CTRL33		0x3633
+-
+-/* Sensor Control */
+-#define OV9740_SENSOR_CTRL03		0x3703
+-#define OV9740_SENSOR_CTRL04		0x3704
+-#define OV9740_SENSOR_CTRL05		0x3705
+-#define OV9740_SENSOR_CTRL07		0x3707
+-
+-/* Timing Control */
+-#define OV9740_TIMING_CTRL17		0x3817
+-#define OV9740_TIMING_CTRL19		0x3819
+-#define OV9740_TIMING_CTRL33		0x3833
+-#define OV9740_TIMING_CTRL35		0x3835
+-
+-/* Banding Filter */
+-#define OV9740_AEC_MAXEXPO_60_H		0x3a02
+-#define OV9740_AEC_MAXEXPO_60_L		0x3a03
+-#define OV9740_AEC_B50_STEP_HI		0x3a08
+-#define OV9740_AEC_B50_STEP_LO		0x3a09
+-#define OV9740_AEC_B60_STEP_HI		0x3a0a
+-#define OV9740_AEC_B60_STEP_LO		0x3a0b
+-#define OV9740_AEC_CTRL0D		0x3a0d
+-#define OV9740_AEC_CTRL0E		0x3a0e
+-#define OV9740_AEC_MAXEXPO_50_H		0x3a14
+-#define OV9740_AEC_MAXEXPO_50_L		0x3a15
+-
+-/* AEC/AGC Control */
+-#define OV9740_AEC_ENABLE		0x3503
+-#define OV9740_GAIN_CEILING_01		0x3a18
+-#define OV9740_GAIN_CEILING_02		0x3a19
+-#define OV9740_AEC_HI_THRESHOLD		0x3a11
+-#define OV9740_AEC_3A1A			0x3a1a
+-#define OV9740_AEC_CTRL1B_WPT2		0x3a1b
+-#define OV9740_AEC_CTRL0F_WPT		0x3a0f
+-#define OV9740_AEC_CTRL10_BPT		0x3a10
+-#define OV9740_AEC_CTRL1E_BPT2		0x3a1e
+-#define OV9740_AEC_LO_THRESHOLD		0x3a1f
+-
+-/* BLC Control */
+-#define OV9740_BLC_AUTO_ENABLE		0x4002
+-#define OV9740_BLC_MODE			0x4005
+-
+-/* VFIFO */
+-#define OV9740_VFIFO_READ_START_HI	0x4608
+-#define OV9740_VFIFO_READ_START_LO	0x4609
+-
+-/* DVP Control */
+-#define OV9740_DVP_VSYNC_CTRL02		0x4702
+-#define OV9740_DVP_VSYNC_MODE		0x4704
+-#define OV9740_DVP_VSYNC_CTRL06		0x4706
+-
+-/* PLL Setting */
+-#define OV9740_PLL_MODE_CTRL01		0x3104
+-#define OV9740_PRE_PLL_CLK_DIV		0x0305
+-#define OV9740_PLL_MULTIPLIER		0x0307
+-#define OV9740_VT_SYS_CLK_DIV		0x0303
+-#define OV9740_VT_PIX_CLK_DIV		0x0301
+-#define OV9740_PLL_CTRL3010		0x3010
+-#define OV9740_VFIFO_CTRL00		0x460e
+-
+-/* ISP Control */
+-#define OV9740_ISP_CTRL00		0x5000
+-#define OV9740_ISP_CTRL01		0x5001
+-#define OV9740_ISP_CTRL03		0x5003
+-#define OV9740_ISP_CTRL05		0x5005
+-#define OV9740_ISP_CTRL12		0x5012
+-#define OV9740_ISP_CTRL19		0x5019
+-#define OV9740_ISP_CTRL1A		0x501a
+-#define OV9740_ISP_CTRL1E		0x501e
+-#define OV9740_ISP_CTRL1F		0x501f
+-#define OV9740_ISP_CTRL20		0x5020
+-#define OV9740_ISP_CTRL21		0x5021
+-
+-/* AWB */
+-#define OV9740_AWB_CTRL00		0x5180
+-#define OV9740_AWB_CTRL01		0x5181
+-#define OV9740_AWB_CTRL02		0x5182
+-#define OV9740_AWB_CTRL03		0x5183
+-#define OV9740_AWB_ADV_CTRL01		0x5184
+-#define OV9740_AWB_ADV_CTRL02		0x5185
+-#define OV9740_AWB_ADV_CTRL03		0x5186
+-#define OV9740_AWB_ADV_CTRL04		0x5187
+-#define OV9740_AWB_ADV_CTRL05		0x5188
+-#define OV9740_AWB_ADV_CTRL06		0x5189
+-#define OV9740_AWB_ADV_CTRL07		0x518a
+-#define OV9740_AWB_ADV_CTRL08		0x518b
+-#define OV9740_AWB_ADV_CTRL09		0x518c
+-#define OV9740_AWB_ADV_CTRL10		0x518d
+-#define OV9740_AWB_ADV_CTRL11		0x518e
+-#define OV9740_AWB_CTRL0F		0x518f
+-#define OV9740_AWB_CTRL10		0x5190
+-#define OV9740_AWB_CTRL11		0x5191
+-#define OV9740_AWB_CTRL12		0x5192
+-#define OV9740_AWB_CTRL13		0x5193
+-#define OV9740_AWB_CTRL14		0x5194
+-
+-/* MIPI Control */
+-#define OV9740_MIPI_CTRL00		0x4800
+-#define OV9740_MIPI_3837		0x3837
+-#define OV9740_MIPI_CTRL01		0x4801
+-#define OV9740_MIPI_CTRL03		0x4803
+-#define OV9740_MIPI_CTRL05		0x4805
+-#define OV9740_VFIFO_RD_CTRL		0x4601
+-#define OV9740_MIPI_CTRL_3012		0x3012
+-#define OV9740_SC_CMMM_MIPI_CTR		0x3014
+-
+-#define OV9740_MAX_WIDTH		1280
+-#define OV9740_MAX_HEIGHT		720
+-
+-/* Misc. structures */
+-struct ov9740_reg {
+-	u16				reg;
+-	u8				val;
+-};
+-
+-struct ov9740_priv {
+-	struct v4l2_subdev		subdev;
+-	struct v4l2_ctrl_handler	hdl;
+-	struct v4l2_clk			*clk;
+-
+-	u16				model;
+-	u8				revision;
+-	u8				manid;
+-	u8				smiaver;
+-
+-	bool				flag_vflip;
+-	bool				flag_hflip;
+-
+-	/* For suspend/resume. */
+-	struct v4l2_mbus_framefmt	current_mf;
+-	bool				current_enable;
+-};
+-
+-static const struct ov9740_reg ov9740_defaults[] = {
+-	/* Software Reset */
+-	{ OV9740_SOFTWARE_RESET,	0x01 },
+-
+-	/* Banding Filter */
+-	{ OV9740_AEC_B50_STEP_HI,	0x00 },
+-	{ OV9740_AEC_B50_STEP_LO,	0xe8 },
+-	{ OV9740_AEC_CTRL0E,		0x03 },
+-	{ OV9740_AEC_MAXEXPO_50_H,	0x15 },
+-	{ OV9740_AEC_MAXEXPO_50_L,	0xc6 },
+-	{ OV9740_AEC_B60_STEP_HI,	0x00 },
+-	{ OV9740_AEC_B60_STEP_LO,	0xc0 },
+-	{ OV9740_AEC_CTRL0D,		0x04 },
+-	{ OV9740_AEC_MAXEXPO_60_H,	0x18 },
+-	{ OV9740_AEC_MAXEXPO_60_L,	0x20 },
+-
+-	/* LC */
+-	{ 0x5842, 0x02 }, { 0x5843, 0x5e }, { 0x5844, 0x04 }, { 0x5845, 0x32 },
+-	{ 0x5846, 0x03 }, { 0x5847, 0x29 }, { 0x5848, 0x02 }, { 0x5849, 0xcc },
+-
+-	/* Un-documented OV9740 registers */
+-	{ 0x5800, 0x29 }, { 0x5801, 0x25 }, { 0x5802, 0x20 }, { 0x5803, 0x21 },
+-	{ 0x5804, 0x26 }, { 0x5805, 0x2e }, { 0x5806, 0x11 }, { 0x5807, 0x0c },
+-	{ 0x5808, 0x09 }, { 0x5809, 0x0a }, { 0x580a, 0x0e }, { 0x580b, 0x16 },
+-	{ 0x580c, 0x06 }, { 0x580d, 0x02 }, { 0x580e, 0x00 }, { 0x580f, 0x00 },
+-	{ 0x5810, 0x04 }, { 0x5811, 0x0a }, { 0x5812, 0x05 }, { 0x5813, 0x02 },
+-	{ 0x5814, 0x00 }, { 0x5815, 0x00 }, { 0x5816, 0x03 }, { 0x5817, 0x09 },
+-	{ 0x5818, 0x0f }, { 0x5819, 0x0a }, { 0x581a, 0x07 }, { 0x581b, 0x08 },
+-	{ 0x581c, 0x0b }, { 0x581d, 0x14 }, { 0x581e, 0x28 }, { 0x581f, 0x23 },
+-	{ 0x5820, 0x1d }, { 0x5821, 0x1e }, { 0x5822, 0x24 }, { 0x5823, 0x2a },
+-	{ 0x5824, 0x4f }, { 0x5825, 0x6f }, { 0x5826, 0x5f }, { 0x5827, 0x7f },
+-	{ 0x5828, 0x9f }, { 0x5829, 0x5f }, { 0x582a, 0x8f }, { 0x582b, 0x9e },
+-	{ 0x582c, 0x8f }, { 0x582d, 0x9f }, { 0x582e, 0x4f }, { 0x582f, 0x87 },
+-	{ 0x5830, 0x86 }, { 0x5831, 0x97 }, { 0x5832, 0xae }, { 0x5833, 0x3f },
+-	{ 0x5834, 0x8e }, { 0x5835, 0x7c }, { 0x5836, 0x7e }, { 0x5837, 0xaf },
+-	{ 0x5838, 0x8f }, { 0x5839, 0x8f }, { 0x583a, 0x9f }, { 0x583b, 0x7f },
+-	{ 0x583c, 0x5f },
+-
+-	/* Y Gamma */
+-	{ 0x5480, 0x07 }, { 0x5481, 0x18 }, { 0x5482, 0x2c }, { 0x5483, 0x4e },
+-	{ 0x5484, 0x5e }, { 0x5485, 0x6b }, { 0x5486, 0x77 }, { 0x5487, 0x82 },
+-	{ 0x5488, 0x8c }, { 0x5489, 0x95 }, { 0x548a, 0xa4 }, { 0x548b, 0xb1 },
+-	{ 0x548c, 0xc6 }, { 0x548d, 0xd8 }, { 0x548e, 0xe9 },
+-
+-	/* UV Gamma */
+-	{ 0x5490, 0x0f }, { 0x5491, 0xff }, { 0x5492, 0x0d }, { 0x5493, 0x05 },
+-	{ 0x5494, 0x07 }, { 0x5495, 0x1a }, { 0x5496, 0x04 }, { 0x5497, 0x01 },
+-	{ 0x5498, 0x03 }, { 0x5499, 0x53 }, { 0x549a, 0x02 }, { 0x549b, 0xeb },
+-	{ 0x549c, 0x02 }, { 0x549d, 0xa0 }, { 0x549e, 0x02 }, { 0x549f, 0x67 },
+-	{ 0x54a0, 0x02 }, { 0x54a1, 0x3b }, { 0x54a2, 0x02 }, { 0x54a3, 0x18 },
+-	{ 0x54a4, 0x01 }, { 0x54a5, 0xe7 }, { 0x54a6, 0x01 }, { 0x54a7, 0xc3 },
+-	{ 0x54a8, 0x01 }, { 0x54a9, 0x94 }, { 0x54aa, 0x01 }, { 0x54ab, 0x72 },
+-	{ 0x54ac, 0x01 }, { 0x54ad, 0x57 },
+-
+-	/* AWB */
+-	{ OV9740_AWB_CTRL00,		0xf0 },
+-	{ OV9740_AWB_CTRL01,		0x00 },
+-	{ OV9740_AWB_CTRL02,		0x41 },
+-	{ OV9740_AWB_CTRL03,		0x42 },
+-	{ OV9740_AWB_ADV_CTRL01,	0x8a },
+-	{ OV9740_AWB_ADV_CTRL02,	0x61 },
+-	{ OV9740_AWB_ADV_CTRL03,	0xce },
+-	{ OV9740_AWB_ADV_CTRL04,	0xa8 },
+-	{ OV9740_AWB_ADV_CTRL05,	0x17 },
+-	{ OV9740_AWB_ADV_CTRL06,	0x1f },
+-	{ OV9740_AWB_ADV_CTRL07,	0x27 },
+-	{ OV9740_AWB_ADV_CTRL08,	0x41 },
+-	{ OV9740_AWB_ADV_CTRL09,	0x34 },
+-	{ OV9740_AWB_ADV_CTRL10,	0xf0 },
+-	{ OV9740_AWB_ADV_CTRL11,	0x10 },
+-	{ OV9740_AWB_CTRL0F,		0xff },
+-	{ OV9740_AWB_CTRL10,		0x00 },
+-	{ OV9740_AWB_CTRL11,		0xff },
+-	{ OV9740_AWB_CTRL12,		0x00 },
+-	{ OV9740_AWB_CTRL13,		0xff },
+-	{ OV9740_AWB_CTRL14,		0x00 },
+-
+-	/* CIP */
+-	{ 0x530d, 0x12 },
+-
+-	/* CMX */
+-	{ 0x5380, 0x01 }, { 0x5381, 0x00 }, { 0x5382, 0x00 }, { 0x5383, 0x17 },
+-	{ 0x5384, 0x00 }, { 0x5385, 0x01 }, { 0x5386, 0x00 }, { 0x5387, 0x00 },
+-	{ 0x5388, 0x00 }, { 0x5389, 0xe0 }, { 0x538a, 0x00 }, { 0x538b, 0x20 },
+-	{ 0x538c, 0x00 }, { 0x538d, 0x00 }, { 0x538e, 0x00 }, { 0x538f, 0x16 },
+-	{ 0x5390, 0x00 }, { 0x5391, 0x9c }, { 0x5392, 0x00 }, { 0x5393, 0xa0 },
+-	{ 0x5394, 0x18 },
+-
+-	/* 50/60 Detection */
+-	{ 0x3c0a, 0x9c }, { 0x3c0b, 0x3f },
+-
+-	/* Output Select */
+-	{ OV9740_IO_OUTPUT_SEL01,	0x00 },
+-	{ OV9740_IO_OUTPUT_SEL02,	0x00 },
+-	{ OV9740_IO_CREL00,		0x00 },
+-	{ OV9740_IO_CREL01,		0x00 },
+-	{ OV9740_IO_CREL02,		0x00 },
+-
+-	/* AWB Control */
+-	{ OV9740_AWB_MANUAL_CTRL,	0x00 },
+-
+-	/* Analog Control */
+-	{ OV9740_ANALOG_CTRL03,		0xaa },
+-	{ OV9740_ANALOG_CTRL32,		0x2f },
+-	{ OV9740_ANALOG_CTRL20,		0x66 },
+-	{ OV9740_ANALOG_CTRL21,		0xc0 },
+-	{ OV9740_ANALOG_CTRL31,		0x52 },
+-	{ OV9740_ANALOG_CTRL33,		0x50 },
+-	{ OV9740_ANALOG_CTRL30,		0xca },
+-	{ OV9740_ANALOG_CTRL04,		0x0c },
+-	{ OV9740_ANALOG_CTRL01,		0x40 },
+-	{ OV9740_ANALOG_CTRL02,		0x16 },
+-	{ OV9740_ANALOG_CTRL10,		0xa1 },
+-	{ OV9740_ANALOG_CTRL12,		0x24 },
+-	{ OV9740_ANALOG_CTRL22,		0x9f },
+-	{ OV9740_ANALOG_CTRL15,		0xf0 },
+-
+-	/* Sensor Control */
+-	{ OV9740_SENSOR_CTRL03,		0x42 },
+-	{ OV9740_SENSOR_CTRL04,		0x10 },
+-	{ OV9740_SENSOR_CTRL05,		0x45 },
+-	{ OV9740_SENSOR_CTRL07,		0x14 },
+-
+-	/* Timing Control */
+-	{ OV9740_TIMING_CTRL33,		0x04 },
+-	{ OV9740_TIMING_CTRL35,		0x02 },
+-	{ OV9740_TIMING_CTRL19,		0x6e },
+-	{ OV9740_TIMING_CTRL17,		0x94 },
+-
+-	/* AEC/AGC Control */
+-	{ OV9740_AEC_ENABLE,		0x10 },
+-	{ OV9740_GAIN_CEILING_01,	0x00 },
+-	{ OV9740_GAIN_CEILING_02,	0x7f },
+-	{ OV9740_AEC_HI_THRESHOLD,	0xa0 },
+-	{ OV9740_AEC_3A1A,		0x05 },
+-	{ OV9740_AEC_CTRL1B_WPT2,	0x50 },
+-	{ OV9740_AEC_CTRL0F_WPT,	0x50 },
+-	{ OV9740_AEC_CTRL10_BPT,	0x4c },
+-	{ OV9740_AEC_CTRL1E_BPT2,	0x4c },
+-	{ OV9740_AEC_LO_THRESHOLD,	0x26 },
+-
+-	/* BLC Control */
+-	{ OV9740_BLC_AUTO_ENABLE,	0x45 },
+-	{ OV9740_BLC_MODE,		0x18 },
+-
+-	/* DVP Control */
+-	{ OV9740_DVP_VSYNC_CTRL02,	0x04 },
+-	{ OV9740_DVP_VSYNC_MODE,	0x00 },
+-	{ OV9740_DVP_VSYNC_CTRL06,	0x08 },
+-
+-	/* PLL Setting */
+-	{ OV9740_PLL_MODE_CTRL01,	0x20 },
+-	{ OV9740_PRE_PLL_CLK_DIV,	0x03 },
+-	{ OV9740_PLL_MULTIPLIER,	0x4c },
+-	{ OV9740_VT_SYS_CLK_DIV,	0x01 },
+-	{ OV9740_VT_PIX_CLK_DIV,	0x08 },
+-	{ OV9740_PLL_CTRL3010,		0x01 },
+-	{ OV9740_VFIFO_CTRL00,		0x82 },
+-
+-	/* Timing Setting */
+-	/* VTS */
+-	{ OV9740_FRM_LENGTH_LN_HI,	0x03 },
+-	{ OV9740_FRM_LENGTH_LN_LO,	0x07 },
+-	/* HTS */
+-	{ OV9740_LN_LENGTH_PCK_HI,	0x06 },
+-	{ OV9740_LN_LENGTH_PCK_LO,	0x62 },
+-
+-	/* MIPI Control */
+-	{ OV9740_MIPI_CTRL00,		0x44 }, /* 0x64 for discontinuous clk */
+-	{ OV9740_MIPI_3837,		0x01 },
+-	{ OV9740_MIPI_CTRL01,		0x0f },
+-	{ OV9740_MIPI_CTRL03,		0x05 },
+-	{ OV9740_MIPI_CTRL05,		0x10 },
+-	{ OV9740_VFIFO_RD_CTRL,		0x16 },
+-	{ OV9740_MIPI_CTRL_3012,	0x70 },
+-	{ OV9740_SC_CMMM_MIPI_CTR,	0x01 },
+-
+-	/* YUYV order */
+-	{ OV9740_ISP_CTRL19,		0x02 },
+-};
+-
+-static u32 ov9740_codes[] = {
+-	MEDIA_BUS_FMT_YUYV8_2X8,
+-};
+-
+-/* read a register */
+-static int ov9740_reg_read(struct i2c_client *client, u16 reg, u8 *val)
+-{
+-	int ret;
+-	struct i2c_msg msg[] = {
+-		{
+-			.addr	= client->addr,
+-			.flags	= 0,
+-			.len	= 2,
+-			.buf	= (u8 *)&reg,
+-		},
+-		{
+-			.addr	= client->addr,
+-			.flags	= I2C_M_RD,
+-			.len	= 1,
+-			.buf	= val,
+-		},
+-	};
+-
+-	reg = swab16(reg);
+-
+-	ret = i2c_transfer(client->adapter, msg, 2);
+-	if (ret < 0) {
+-		dev_err(&client->dev, "Failed reading register 0x%04x!\n", reg);
+-		return ret;
+-	}
+-
+-	return 0;
+-}
+-
+-/* write a register */
+-static int ov9740_reg_write(struct i2c_client *client, u16 reg, u8 val)
+-{
+-	struct i2c_msg msg;
+-	struct {
+-		u16 reg;
+-		u8 val;
+-	} __packed buf;
+-	int ret;
+-
+-	reg = swab16(reg);
+-
+-	buf.reg = reg;
+-	buf.val = val;
+-
+-	msg.addr	= client->addr;
+-	msg.flags	= 0;
+-	msg.len		= 3;
+-	msg.buf		= (u8 *)&buf;
+-
+-	ret = i2c_transfer(client->adapter, &msg, 1);
+-	if (ret < 0) {
+-		dev_err(&client->dev, "Failed writing register 0x%04x!\n", reg);
+-		return ret;
+-	}
+-
+-	return 0;
+-}
+-
+-
+-/* Read a register, alter its bits, write it back */
+-static int ov9740_reg_rmw(struct i2c_client *client, u16 reg, u8 set, u8 unset)
+-{
+-	u8 val;
+-	int ret;
+-
+-	ret = ov9740_reg_read(client, reg, &val);
+-	if (ret < 0) {
+-		dev_err(&client->dev,
+-			"[Read]-Modify-Write of register 0x%04x failed!\n",
+-			reg);
+-		return ret;
+-	}
+-
+-	val |= set;
+-	val &= ~unset;
+-
+-	ret = ov9740_reg_write(client, reg, val);
+-	if (ret < 0) {
+-		dev_err(&client->dev,
+-			"Read-Modify-[Write] of register 0x%04x failed!\n",
+-			reg);
+-		return ret;
+-	}
+-
+-	return 0;
+-}
+-
+-static int ov9740_reg_write_array(struct i2c_client *client,
+-				  const struct ov9740_reg *regarray,
+-				  int regarraylen)
+-{
+-	int i;
+-	int ret;
+-
+-	for (i = 0; i < regarraylen; i++) {
+-		ret = ov9740_reg_write(client,
+-				       regarray[i].reg, regarray[i].val);
+-		if (ret < 0)
+-			return ret;
+-	}
+-
+-	return 0;
+-}
+-
+-/* Start/Stop streaming from the device */
+-static int ov9740_s_stream(struct v4l2_subdev *sd, int enable)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct ov9740_priv *priv = to_ov9740(sd);
+-	int ret;
+-
+-	/* Program orientation register. */
+-	if (priv->flag_vflip)
+-		ret = ov9740_reg_rmw(client, OV9740_IMAGE_ORT, 0x2, 0);
+-	else
+-		ret = ov9740_reg_rmw(client, OV9740_IMAGE_ORT, 0, 0x2);
+-	if (ret < 0)
+-		return ret;
+-
+-	if (priv->flag_hflip)
+-		ret = ov9740_reg_rmw(client, OV9740_IMAGE_ORT, 0x1, 0);
+-	else
+-		ret = ov9740_reg_rmw(client, OV9740_IMAGE_ORT, 0, 0x1);
+-	if (ret < 0)
+-		return ret;
+-
+-	if (enable) {
+-		dev_dbg(&client->dev, "Enabling Streaming\n");
+-		/* Start Streaming */
+-		ret = ov9740_reg_write(client, OV9740_MODE_SELECT, 0x01);
+-
+-	} else {
+-		dev_dbg(&client->dev, "Disabling Streaming\n");
+-		/* Software Reset */
+-		ret = ov9740_reg_write(client, OV9740_SOFTWARE_RESET, 0x01);
+-		if (!ret)
+-			/* Setting Streaming to Standby */
+-			ret = ov9740_reg_write(client, OV9740_MODE_SELECT,
+-					       0x00);
+-	}
+-
+-	priv->current_enable = enable;
+-
+-	return ret;
+-}
+-
+-/* select nearest higher resolution for capture */
+-static void ov9740_res_roundup(u32 *width, u32 *height)
+-{
+-	/* Width must be a multiple of 4 pixels. */
+-	*width = ALIGN(*width, 4);
+-
+-	/* Max resolution is 1280x720 (720p). */
+-	if (*width > OV9740_MAX_WIDTH)
+-		*width = OV9740_MAX_WIDTH;
+-
+-	if (*height > OV9740_MAX_HEIGHT)
+-		*height = OV9740_MAX_HEIGHT;
+-}
+-
+-/* Setup registers according to resolution and color encoding */
+-static int ov9740_set_res(struct i2c_client *client, u32 width, u32 height)
+-{
+-	u32 x_start;
+-	u32 y_start;
+-	u32 x_end;
+-	u32 y_end;
+-	bool scaling = false;
+-	u32 scale_input_x;
+-	u32 scale_input_y;
+-	int ret;
+-
+-	if ((width != OV9740_MAX_WIDTH) || (height != OV9740_MAX_HEIGHT))
+-		scaling = true;
+-
+-	/*
+-	 * Try to use as much of the sensor area as possible when supporting
+-	 * smaller resolutions.  Depending on the aspect ratio of the
+-	 * chosen resolution, we can either use the full width of the sensor,
+-	 * or the full height of the sensor (or both if the aspect ratio is
+-	 * the same as 1280x720.
+-	 */
+-	if ((OV9740_MAX_WIDTH * height) > (OV9740_MAX_HEIGHT * width)) {
+-		scale_input_x = (OV9740_MAX_HEIGHT * width) / height;
+-		scale_input_y = OV9740_MAX_HEIGHT;
+-	} else {
+-		scale_input_x = OV9740_MAX_WIDTH;
+-		scale_input_y = (OV9740_MAX_WIDTH * height) / width;
+-	}
+-
+-	/* These describe the area of the sensor to use. */
+-	x_start = (OV9740_MAX_WIDTH - scale_input_x) / 2;
+-	y_start = (OV9740_MAX_HEIGHT - scale_input_y) / 2;
+-	x_end = x_start + scale_input_x - 1;
+-	y_end = y_start + scale_input_y - 1;
+-
+-	ret = ov9740_reg_write(client, OV9740_X_ADDR_START_HI, x_start >> 8);
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_X_ADDR_START_LO, x_start & 0xff);
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_Y_ADDR_START_HI, y_start >> 8);
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_Y_ADDR_START_LO, y_start & 0xff);
+-	if (ret)
+-		goto done;
+-
+-	ret = ov9740_reg_write(client, OV9740_X_ADDR_END_HI, x_end >> 8);
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_X_ADDR_END_LO, x_end & 0xff);
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_Y_ADDR_END_HI, y_end >> 8);
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_Y_ADDR_END_LO, y_end & 0xff);
+-	if (ret)
+-		goto done;
+-
+-	ret = ov9740_reg_write(client, OV9740_X_OUTPUT_SIZE_HI, width >> 8);
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_X_OUTPUT_SIZE_LO, width & 0xff);
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_Y_OUTPUT_SIZE_HI, height >> 8);
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_Y_OUTPUT_SIZE_LO, height & 0xff);
+-	if (ret)
+-		goto done;
+-
+-	ret = ov9740_reg_write(client, OV9740_ISP_CTRL1E, scale_input_x >> 8);
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_ISP_CTRL1F, scale_input_x & 0xff);
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_ISP_CTRL20, scale_input_y >> 8);
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_ISP_CTRL21, scale_input_y & 0xff);
+-	if (ret)
+-		goto done;
+-
+-	ret = ov9740_reg_write(client, OV9740_VFIFO_READ_START_HI,
+-			       (scale_input_x - width) >> 8);
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_VFIFO_READ_START_LO,
+-			       (scale_input_x - width) & 0xff);
+-	if (ret)
+-		goto done;
+-
+-	ret = ov9740_reg_write(client, OV9740_ISP_CTRL00, 0xff);
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_ISP_CTRL01, 0xef |
+-							  (scaling << 4));
+-	if (ret)
+-		goto done;
+-	ret = ov9740_reg_write(client, OV9740_ISP_CTRL03, 0xff);
+-
+-done:
+-	return ret;
+-}
+-
+-/* set the format we will capture in */
+-static int ov9740_s_fmt(struct v4l2_subdev *sd,
+-			struct v4l2_mbus_framefmt *mf)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct ov9740_priv *priv = to_ov9740(sd);
+-	int ret;
+-
+-	ret = ov9740_reg_write_array(client, ov9740_defaults,
+-				     ARRAY_SIZE(ov9740_defaults));
+-	if (ret < 0)
+-		return ret;
+-
+-	ret = ov9740_set_res(client, mf->width, mf->height);
+-	if (ret < 0)
+-		return ret;
+-
+-	priv->current_mf = *mf;
+-	return ret;
+-}
+-
+-static int ov9740_set_fmt(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_format *format)
+-{
+-	struct v4l2_mbus_framefmt *mf = &format->format;
+-
+-	if (format->pad)
+-		return -EINVAL;
+-
+-	ov9740_res_roundup(&mf->width, &mf->height);
+-
+-	mf->field = V4L2_FIELD_NONE;
+-	mf->code = MEDIA_BUS_FMT_YUYV8_2X8;
+-	mf->colorspace = V4L2_COLORSPACE_SRGB;
+-
+-	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
+-		return ov9740_s_fmt(sd, mf);
+-	cfg->try_fmt = *mf;
+-	return 0;
+-}
+-
+-static int ov9740_enum_mbus_code(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_mbus_code_enum *code)
+-{
+-	if (code->pad || code->index >= ARRAY_SIZE(ov9740_codes))
+-		return -EINVAL;
+-
+-	code->code = ov9740_codes[code->index];
+-
+-	return 0;
+-}
+-
+-static int ov9740_get_selection(struct v4l2_subdev *sd,
+-		struct v4l2_subdev_pad_config *cfg,
+-		struct v4l2_subdev_selection *sel)
+-{
+-	if (sel->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+-		return -EINVAL;
+-
+-	switch (sel->target) {
+-	case V4L2_SEL_TGT_CROP_BOUNDS:
+-	case V4L2_SEL_TGT_CROP:
+-		sel->r.left = 0;
+-		sel->r.top = 0;
+-		sel->r.width = OV9740_MAX_WIDTH;
+-		sel->r.height = OV9740_MAX_HEIGHT;
+-		return 0;
+-	default:
+-		return -EINVAL;
+-	}
+-}
+-
+-/* Set status of additional camera capabilities */
+-static int ov9740_s_ctrl(struct v4l2_ctrl *ctrl)
+-{
+-	struct ov9740_priv *priv =
+-		container_of(ctrl->handler, struct ov9740_priv, hdl);
+-
+-	switch (ctrl->id) {
+-	case V4L2_CID_VFLIP:
+-		priv->flag_vflip = ctrl->val;
+-		break;
+-	case V4L2_CID_HFLIP:
+-		priv->flag_hflip = ctrl->val;
+-		break;
+-	default:
+-		return -EINVAL;
+-	}
+-
+-	return 0;
+-}
+-
+-static int ov9740_s_power(struct v4l2_subdev *sd, int on)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-	struct ov9740_priv *priv = to_ov9740(sd);
+-	int ret;
+-
+-	if (on) {
+-		ret = soc_camera_power_on(&client->dev, ssdd, priv->clk);
+-		if (ret < 0)
+-			return ret;
+-
+-		if (priv->current_enable) {
+-			ov9740_s_fmt(sd, &priv->current_mf);
+-			ov9740_s_stream(sd, 1);
+-		}
+-	} else {
+-		if (priv->current_enable) {
+-			ov9740_s_stream(sd, 0);
+-			priv->current_enable = true;
+-		}
+-
+-		soc_camera_power_off(&client->dev, ssdd, priv->clk);
+-	}
+-
+-	return 0;
+-}
+-
+-#ifdef CONFIG_VIDEO_ADV_DEBUG
+-static int ov9740_get_register(struct v4l2_subdev *sd,
+-			       struct v4l2_dbg_register *reg)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	int ret;
+-	u8 val;
+-
+-	if (reg->reg & ~0xffff)
+-		return -EINVAL;
+-
+-	reg->size = 2;
+-
+-	ret = ov9740_reg_read(client, reg->reg, &val);
+-	if (ret)
+-		return ret;
+-
+-	reg->val = (__u64)val;
+-
+-	return ret;
+-}
+-
+-static int ov9740_set_register(struct v4l2_subdev *sd,
+-			       const struct v4l2_dbg_register *reg)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-
+-	if (reg->reg & ~0xffff || reg->val & ~0xff)
+-		return -EINVAL;
+-
+-	return ov9740_reg_write(client, reg->reg, reg->val);
+-}
+-#endif
+-
+-static int ov9740_video_probe(struct i2c_client *client)
+-{
+-	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+-	struct ov9740_priv *priv = to_ov9740(sd);
+-	u8 modelhi, modello;
+-	int ret;
+-
+-	ret = ov9740_s_power(&priv->subdev, 1);
+-	if (ret < 0)
+-		return ret;
+-
+-	/*
+-	 * check and show product ID and manufacturer ID
+-	 */
+-	ret = ov9740_reg_read(client, OV9740_MODEL_ID_HI, &modelhi);
+-	if (ret < 0)
+-		goto done;
+-
+-	ret = ov9740_reg_read(client, OV9740_MODEL_ID_LO, &modello);
+-	if (ret < 0)
+-		goto done;
+-
+-	priv->model = (modelhi << 8) | modello;
+-
+-	ret = ov9740_reg_read(client, OV9740_REVISION_NUMBER, &priv->revision);
+-	if (ret < 0)
+-		goto done;
+-
+-	ret = ov9740_reg_read(client, OV9740_MANUFACTURER_ID, &priv->manid);
+-	if (ret < 0)
+-		goto done;
+-
+-	ret = ov9740_reg_read(client, OV9740_SMIA_VERSION, &priv->smiaver);
+-	if (ret < 0)
+-		goto done;
+-
+-	if (priv->model != 0x9740) {
+-		ret = -ENODEV;
+-		goto done;
+-	}
+-
+-	dev_info(&client->dev, "ov9740 Model ID 0x%04x, Revision 0x%02x, Manufacturer 0x%02x, SMIA Version 0x%02x\n",
+-		 priv->model, priv->revision, priv->manid, priv->smiaver);
+-
+-	ret = v4l2_ctrl_handler_setup(&priv->hdl);
+-
+-done:
+-	ov9740_s_power(&priv->subdev, 0);
+-	return ret;
+-}
+-
+-/* Request bus settings on camera side */
+-static int ov9740_g_mbus_config(struct v4l2_subdev *sd,
+-				struct v4l2_mbus_config *cfg)
+-{
+-	struct i2c_client *client = v4l2_get_subdevdata(sd);
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-
+-	cfg->flags = V4L2_MBUS_PCLK_SAMPLE_RISING | V4L2_MBUS_MASTER |
+-		V4L2_MBUS_VSYNC_ACTIVE_HIGH | V4L2_MBUS_HSYNC_ACTIVE_HIGH |
+-		V4L2_MBUS_DATA_ACTIVE_HIGH;
+-	cfg->type = V4L2_MBUS_PARALLEL;
+-	cfg->flags = soc_camera_apply_board_flags(ssdd, cfg);
+-
+-	return 0;
+-}
+-
+-static const struct v4l2_subdev_video_ops ov9740_video_ops = {
+-	.s_stream	= ov9740_s_stream,
+-	.g_mbus_config	= ov9740_g_mbus_config,
+-};
+-
+-static const struct v4l2_subdev_core_ops ov9740_core_ops = {
+-	.s_power		= ov9740_s_power,
+-#ifdef CONFIG_VIDEO_ADV_DEBUG
+-	.g_register		= ov9740_get_register,
+-	.s_register		= ov9740_set_register,
+-#endif
+-};
+-
+-static const struct v4l2_subdev_pad_ops ov9740_pad_ops = {
+-	.enum_mbus_code = ov9740_enum_mbus_code,
+-	.get_selection	= ov9740_get_selection,
+-	.set_fmt	= ov9740_set_fmt,
+-};
+-
+-static const struct v4l2_subdev_ops ov9740_subdev_ops = {
+-	.core	= &ov9740_core_ops,
+-	.video	= &ov9740_video_ops,
+-	.pad	= &ov9740_pad_ops,
+-};
+-
+-static const struct v4l2_ctrl_ops ov9740_ctrl_ops = {
+-	.s_ctrl = ov9740_s_ctrl,
+-};
+-
+-/*
+- * i2c_driver function
+- */
+-static int ov9740_probe(struct i2c_client *client,
+-			const struct i2c_device_id *did)
+-{
+-	struct ov9740_priv *priv;
+-	struct soc_camera_subdev_desc *ssdd = soc_camera_i2c_to_desc(client);
+-	int ret;
+-
+-	if (!ssdd) {
+-		dev_err(&client->dev, "Missing platform_data for driver\n");
+-		return -EINVAL;
+-	}
+-
+-	priv = devm_kzalloc(&client->dev, sizeof(*priv), GFP_KERNEL);
+-	if (!priv)
+-		return -ENOMEM;
+-
+-	v4l2_i2c_subdev_init(&priv->subdev, client, &ov9740_subdev_ops);
+-	v4l2_ctrl_handler_init(&priv->hdl, 13);
+-	v4l2_ctrl_new_std(&priv->hdl, &ov9740_ctrl_ops,
+-			V4L2_CID_VFLIP, 0, 1, 1, 0);
+-	v4l2_ctrl_new_std(&priv->hdl, &ov9740_ctrl_ops,
+-			V4L2_CID_HFLIP, 0, 1, 1, 0);
+-	priv->subdev.ctrl_handler = &priv->hdl;
+-	if (priv->hdl.error)
+-		return priv->hdl.error;
+-
+-	priv->clk = v4l2_clk_get(&client->dev, "mclk");
+-	if (IS_ERR(priv->clk)) {
+-		ret = PTR_ERR(priv->clk);
+-		goto eclkget;
+-	}
+-
+-	ret = ov9740_video_probe(client);
+-	if (ret < 0) {
+-		v4l2_clk_put(priv->clk);
+-eclkget:
+-		v4l2_ctrl_handler_free(&priv->hdl);
+-	}
+-
+-	return ret;
+-}
+-
+-static int ov9740_remove(struct i2c_client *client)
+-{
+-	struct ov9740_priv *priv = i2c_get_clientdata(client);
+-
+-	v4l2_clk_put(priv->clk);
+-	v4l2_device_unregister_subdev(&priv->subdev);
+-	v4l2_ctrl_handler_free(&priv->hdl);
+-	return 0;
+-}
+-
+-static const struct i2c_device_id ov9740_id[] = {
+-	{ "ov9740", 0 },
+-	{ }
+-};
+-MODULE_DEVICE_TABLE(i2c, ov9740_id);
+-
+-static struct i2c_driver ov9740_i2c_driver = {
+-	.driver = {
+-		.name = "ov9740",
+-	},
+-	.probe    = ov9740_probe,
+-	.remove   = ov9740_remove,
+-	.id_table = ov9740_id,
+-};
+-
+-module_i2c_driver(ov9740_i2c_driver);
+-
+-MODULE_DESCRIPTION("SoC Camera driver for OmniVision OV9740");
+-MODULE_AUTHOR("Andrew Chew <achew@nvidia.com>");
+-MODULE_LICENSE("GPL v2");
+diff --git a/include/media/drv-intf/soc_mediabus.h b/include/media/drv-intf/soc_mediabus.h
+deleted file mode 100644
+index 361f8852c9fc..000000000000
+--- a/include/media/drv-intf/soc_mediabus.h
++++ /dev/null
+@@ -1,107 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-only */
+-/*
+- * SoC-camera Media Bus API extensions
+- *
+- * Copyright (C) 2009, Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+- */
+-
+-#ifndef SOC_MEDIABUS_H
+-#define SOC_MEDIABUS_H
+-
+-#include <linux/videodev2.h>
+-#include <linux/v4l2-mediabus.h>
+-
+-/**
+- * enum soc_mbus_packing - data packing types on the media-bus
+- * @SOC_MBUS_PACKING_NONE:	no packing, bit-for-bit transfer to RAM, one
+- *				sample represents one pixel
+- * @SOC_MBUS_PACKING_2X8_PADHI:	16 bits transferred in 2 8-bit samples, in the
+- *				possibly incomplete byte high bits are padding
+- * @SOC_MBUS_PACKING_2X8_PADLO:	as above, but low bits are padding
+- * @SOC_MBUS_PACKING_EXTEND16:	sample width (e.g., 10 bits) has to be extended
+- *				to 16 bits
+- * @SOC_MBUS_PACKING_VARIABLE:	compressed formats with variable packing
+- * @SOC_MBUS_PACKING_1_5X8:	used for packed YUV 4:2:0 formats, where 4
+- *				pixels occupy 6 bytes in RAM
+- * @SOC_MBUS_PACKING_EXTEND32:	sample width (e.g., 24 bits) has to be extended
+- *				to 32 bits
+- */
+-enum soc_mbus_packing {
+-	SOC_MBUS_PACKING_NONE,
+-	SOC_MBUS_PACKING_2X8_PADHI,
+-	SOC_MBUS_PACKING_2X8_PADLO,
+-	SOC_MBUS_PACKING_EXTEND16,
+-	SOC_MBUS_PACKING_VARIABLE,
+-	SOC_MBUS_PACKING_1_5X8,
+-	SOC_MBUS_PACKING_EXTEND32,
+-};
+-
+-/**
+- * enum soc_mbus_order - sample order on the media bus
+- * @SOC_MBUS_ORDER_LE:		least significant sample first
+- * @SOC_MBUS_ORDER_BE:		most significant sample first
+- */
+-enum soc_mbus_order {
+-	SOC_MBUS_ORDER_LE,
+-	SOC_MBUS_ORDER_BE,
+-};
+-
+-/**
+- * enum soc_mbus_layout - planes layout in memory
+- * @SOC_MBUS_LAYOUT_PACKED:		color components packed
+- * @SOC_MBUS_LAYOUT_PLANAR_2Y_U_V:	YUV components stored in 3 planes (4:2:2)
+- * @SOC_MBUS_LAYOUT_PLANAR_2Y_C:	YUV components stored in a luma and a
+- *					chroma plane (C plane is half the size
+- *					of Y plane)
+- * @SOC_MBUS_LAYOUT_PLANAR_Y_C:		YUV components stored in a luma and a
+- *					chroma plane (C plane is the same size
+- *					as Y plane)
+- */
+-enum soc_mbus_layout {
+-	SOC_MBUS_LAYOUT_PACKED = 0,
+-	SOC_MBUS_LAYOUT_PLANAR_2Y_U_V,
+-	SOC_MBUS_LAYOUT_PLANAR_2Y_C,
+-	SOC_MBUS_LAYOUT_PLANAR_Y_C,
+-};
+-
+-/**
+- * struct soc_mbus_pixelfmt - Data format on the media bus
+- * @fourcc:		Fourcc code, that will be obtained if the data is
+- *			stored in memory in the following way:
+- * @packing:		Type of sample-packing, that has to be used
+- * @order:		Sample order when storing in memory
+- * @bits_per_sample:	How many bits the bridge has to sample
+- */
+-struct soc_mbus_pixelfmt {
+-	u32			fourcc;
+-	enum soc_mbus_packing	packing;
+-	enum soc_mbus_order	order;
+-	enum soc_mbus_layout	layout;
+-	u8			bits_per_sample;
+-};
+-
+-/**
+- * struct soc_mbus_lookup - Lookup FOURCC IDs by mediabus codes for pass-through
+- * @code:	mediabus pixel-code
+- * @fmt:	pixel format description
+- */
+-struct soc_mbus_lookup {
+-	u32	code;
+-	struct soc_mbus_pixelfmt	fmt;
+-};
+-
+-const struct soc_mbus_pixelfmt *soc_mbus_find_fmtdesc(
+-	u32 code,
+-	const struct soc_mbus_lookup *lookup,
+-	int n);
+-const struct soc_mbus_pixelfmt *soc_mbus_get_fmtdesc(
+-	u32 code);
+-s32 soc_mbus_bytes_per_line(u32 width, const struct soc_mbus_pixelfmt *mf);
+-s32 soc_mbus_image_size(const struct soc_mbus_pixelfmt *mf,
+-			u32 bytes_per_line, u32 height);
+-int soc_mbus_samples_per_pixel(const struct soc_mbus_pixelfmt *mf,
+-			unsigned int *numerator, unsigned int *denominator);
+-unsigned int soc_mbus_config_compatible(const struct v4l2_mbus_config *cfg,
+-					unsigned int flags);
+-
+-#endif
 -- 
 2.27.0
 
