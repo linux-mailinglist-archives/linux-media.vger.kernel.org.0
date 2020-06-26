@@ -2,142 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48A5820AD8A
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 09:48:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5200F20AD9B
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 09:59:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728885AbgFZHsW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 03:48:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37958 "EHLO
+        id S1728880AbgFZH67 convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 26 Jun 2020 03:58:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728687AbgFZHsW (ORCPT
+        with ESMTP id S1728866AbgFZH66 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 03:48:22 -0400
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FC8FC08C5C1;
-        Fri, 26 Jun 2020 00:48:22 -0700 (PDT)
-Received: by mail-ed1-x544.google.com with SMTP id b15so6176690edy.7;
-        Fri, 26 Jun 2020 00:48:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=8ZuBpL+DueJSj3ESdnpMvaqVHDILjG0S2PgRb9yfKf0=;
-        b=JsjBhJAgNeURhM0Py1PIcRXRuE04q42TcLg5/ef9+czyB3mSBr9hia7pSc7mm1qjTQ
-         +r6bvyODJNEZgoJfjX6jUyVFjzir1Im8jqNrNIBDa0QAfbT6ghdgd4DDrPH/ekSy48/7
-         V7mKlGZq6KOVRVkAzs+tkDkzWfHc894J2WulMQ4sW21d03SWgaIC74Ri/2C0mOc69k29
-         yteCpAzK0T4J2Vm7uE3/XE62sjl5SJzAp9X3uMyNuH3dQSMK+/TywUcnt0qfkDHuQJqC
-         T+9pUF4ERbpuS660WVdVaSdv7hoa/lvXZPQiewzq2LNtDSHlHIYgAKmvlRoP+XEVhO7W
-         uISw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=8ZuBpL+DueJSj3ESdnpMvaqVHDILjG0S2PgRb9yfKf0=;
-        b=ql4p8tKwP49ALdVMZeMFCbBS/SU3Em8mdvlO1wte2vxk+ZmAFoy9+b3sZSnDgUduFN
-         6FGBndzZ776FXAvLvEioMS+hBjzaCMdaFWUS4myO3S9/La7GPYsPKAi4Pg4cUVuhWCtf
-         kjloayfIF0/Bw9bOELBt4tyoUFxxMPTejHDck5BhCWv75ta6q2iG4SfLPTWodjD8YdaK
-         q214yPDGTRlOR96qB9vMOHy4pxDWOBltbRAgAZFMrh++sl54aw/zxflDvqZVUlqm5cDs
-         RwxMNC3SC3U2RVwlNZKyUTOqwfChk/0OXnj9N67c9rHCGwcHvaNweTF2eJHzVVmkoAGW
-         c+9w==
-X-Gm-Message-State: AOAM533luGpAqxNqOIkArCD2ehNyF2d+NwWYnOO6bbp5hR46S2d6EPn3
-        acpJaY8/4zJW8nCjnROef9M=
-X-Google-Smtp-Source: ABdhPJyTPMnA4ZDNUga7Eq86eb1GfwZHTZUs72CRpch7F3Xlk9TokAP7DIwzvavrBSv1H028kYyzzw==
-X-Received: by 2002:a05:6402:b6c:: with SMTP id cb12mr2125748edb.116.1593157700838;
-        Fri, 26 Jun 2020 00:48:20 -0700 (PDT)
-Received: from localhost ([62.96.65.119])
-        by smtp.gmail.com with ESMTPSA id lx26sm18372419ejb.112.2020.06.26.00.48.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2020 00:48:19 -0700 (PDT)
-Date:   Fri, 26 Jun 2020 09:48:18 +0200
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-tegra@vger.kernel.org, devel@driverdev.osuosl.org,
+        Fri, 26 Jun 2020 03:58:58 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 87121C08C5C1
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 00:58:58 -0700 (PDT)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1jojGD-0004Vx-5t; Fri, 26 Jun 2020 09:58:57 +0200
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1jojGC-0005Dc-MH; Fri, 26 Jun 2020 09:58:56 +0200
+Message-ID: <5d18057b7bc686eeb470810acd3ab63f9b4bf224.camel@pengutronix.de>
+Subject: Re: [PATCH 3/6] hantro: Rework how encoder and decoder are
+ identified
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/4] media: staging: tegra-vde: Power-cycle hardware
- on probe
-Message-ID: <20200626074818.GD3109062@ulmo>
-References: <20200624150847.22672-1-digetx@gmail.com>
- <20200624150847.22672-5-digetx@gmail.com>
+Cc:     kernel@collabora.com, Hans Verkuil <hverkuil@xs4all.nl>
+Date:   Fri, 26 Jun 2020 09:58:56 +0200
+In-Reply-To: <20200625163525.5119-4-ezequiel@collabora.com>
+References: <20200625163525.5119-1-ezequiel@collabora.com>
+         <20200625163525.5119-4-ezequiel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="VMt1DrMGOVs3KQwf"
-Content-Disposition: inline
-In-Reply-To: <20200624150847.22672-5-digetx@gmail.com>
-User-Agent: Mutt/1.14.4 (2020-06-18)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Ezequiel,
 
---VMt1DrMGOVs3KQwf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, Jun 24, 2020 at 06:08:47PM +0300, Dmitry Osipenko wrote:
-> VDE partition is left turned ON after bootloader on most devices, hence
-> let's ensure that it's turned OFF in order to lower power leakage while
-> hardware is idling by turning it ON and OFF during of the driver's probe.
->=20
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
+On Thu, 2020-06-25 at 13:35 -0300, Ezequiel Garcia wrote:
+> So far we've been using the .buf_finish hook to distinguish
+> decoder from encoder. This is unnecessarily obfuscated.
+> 
+> Moreover, we want to move the buf_finish, so use a cleaner
+> scheme to distinguish the driver decoder/encoder type.
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 > ---
->  drivers/staging/media/tegra-vde/vde.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
->=20
-> diff --git a/drivers/staging/media/tegra-vde/vde.c b/drivers/staging/medi=
-a/tegra-vde/vde.c
-> index b64e35b86fb4..3be96c36bf43 100644
-> --- a/drivers/staging/media/tegra-vde/vde.c
-> +++ b/drivers/staging/media/tegra-vde/vde.c
-> @@ -1068,6 +1068,14 @@ static int tegra_vde_probe(struct platform_device =
-*pdev)
->  	pm_runtime_use_autosuspend(dev);
->  	pm_runtime_set_autosuspend_delay(dev, 300);
-> =20
-> +	/*
-> +	 * VDE partition may be left ON after bootloader, hence let's
-> +	 * power-cycle it in order to put hardware into a predictable lower
-> +	 * power state.
-> +	 */
-> +	pm_runtime_get_sync(dev);
-> +	pm_runtime_put(dev);
-> +
->  	return 0;
-> =20
->  err_deinit_iommu:
+>  drivers/staging/media/hantro/hantro.h     | 2 ++
+>  drivers/staging/media/hantro/hantro_drv.c | 4 +++-
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+> index 3005207fc6fb..028b788ad50f 100644
+> --- a/drivers/staging/media/hantro/hantro.h
+> +++ b/drivers/staging/media/hantro/hantro.h
+> @@ -199,6 +199,7 @@ struct hantro_dev {
+>   *
+>   * @dev:		VPU driver data to which the context belongs.
+>   * @fh:			V4L2 file handler.
+> + * @is_encoder:		Decoder or encoder context?
+>   *
+>   * @sequence_cap:       Sequence counter for capture queue
+>   * @sequence_out:       Sequence counter for output queue
+> @@ -223,6 +224,7 @@ struct hantro_dev {
+>  struct hantro_ctx {
+>  	struct hantro_dev *dev;
+>  	struct v4l2_fh fh;
+> +	bool is_encoder;
+>  
+>  	u32 sequence_cap;
+>  	u32 sequence_out;
+> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
+> index 0db8ad455160..112ed556eb90 100644
+> --- a/drivers/staging/media/hantro/hantro_drv.c
+> +++ b/drivers/staging/media/hantro/hantro_drv.c
+> @@ -197,7 +197,7 @@ static void device_run(void *priv)
+>  
+>  bool hantro_is_encoder_ctx(const struct hantro_ctx *ctx)
+>  {
+> -	return ctx->buf_finish == hantro_enc_buf_finish;
+> +	return ctx->is_encoder;
+>  }
 
-Shouldn't this happen automatically? My understanding is that power
-domains are turned on automatically before ->probe() and then unless a
-runtime PM reference is taken during ->probe() it will get turned off
-again after ->probe()?
+Now this function feels a little superfluous. Why not replace
+  hantro_is_encoder_ctx(ctx)
+with
+  ctx->is_encoder
+everywhere?
 
-Is that not happening? Is auto-suspend perhaps getting in the way
-somehow?
-
-Thierry
-
---VMt1DrMGOVs3KQwf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl71qEIACgkQ3SOs138+
-s6F2BRAAqITs8YO7f90qNTucc+6aVUaPhcOoeLRSA384Hh4M4RfzKwKV1ivLrL4H
-VkMWU+BB4N5ABiJxNbLnwuvh6O7y9vg1l7ovi/lg4qHTj96GmdZAuXpEFsqG2VWY
-WMUX60Wc3x6vqhJPVnroCRj++WmA74nlzieWnzrR36wF91p7lpisLNjlGY90VrOq
-nSatzzNO2Na9BEQnVzGqxYU7OThPB/MHJOviY5X21SXWCluc40tb0Qz4d8pbDUqB
-aXQ0uMNrf8kgX0YyARa+R+U8op8R9oRTkgRCf1SHwifbb2dlnjIw2sw27ORyfzr8
-h87kcTOlkTZhxehUG7eIHpyIUmgCWpXtBwt+Blww0o28LxW0+yEQHymenMlUNtY6
-18mSdMQGO2k6dwgWa2znsETezLrv1lYX2nT6FxZ6niTzYZRPiA2WJ4YTa79h5yDJ
-KtbvBz9b2kKzMl6R5084U2P8fh7tZH2oTs3W6n3f/NnA5+eGIBeCKu1wLQrh1M9u
-2bTTPOrJOhAQMZiJCq6CJ4Bmr5+X7Cmp5bTkNOiY9lBweTpWcJHAWqgybEHCajEf
-0dTnrWm4BVwGmfYUDNsm8rffkO/avUUvYBC21kZr2ATYWkrYQyheooiYC5qNLJFL
-lJClO+wrkJuTqWiyB0BdOJ90jHnFMolBZOjTN/Ot7BkPCgWo8uE=
-=0TFC
------END PGP SIGNATURE-----
-
---VMt1DrMGOVs3KQwf--
+regards
+Philipp
