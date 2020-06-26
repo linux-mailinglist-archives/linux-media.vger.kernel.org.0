@@ -2,134 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F19B220B1BB
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 14:50:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8114320B1D7
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 14:58:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726945AbgFZMuK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 08:50:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56208 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726378AbgFZMuJ (ORCPT
+        id S1726738AbgFZM6U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 08:58:20 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:52191 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725283AbgFZM6T (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 08:50:09 -0400
-Received: from mail-qk1-x74a.google.com (mail-qk1-x74a.google.com [IPv6:2607:f8b0:4864:20::74a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86945C08C5DD
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 05:50:09 -0700 (PDT)
-Received: by mail-qk1-x74a.google.com with SMTP id 16so6527133qka.15
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 05:50:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=date:message-id:mime-version:subject:from:to:cc;
-        bh=WKhKgNFFiDRIRCfQcIC/1NT6EzoOyImEXLP9eqrvZ6Y=;
-        b=T5nLXbZF9pc9kYrae6kOeupEHWwwV4k46/cfEIRTnZertZSQU7oZEilca8JO2ip7ib
-         IyLyUKhg59sGsTpzGbDMRjkzsQE+3xkLJD3gXhhCGiwQ8DVmJbc9EjS/1o713f/bhuCp
-         SUMjWICzYMPvVznZ3uoEY5iBAOgu/DJuXZDZhd23H076GfBJqffuGgCGwiCS3mRrh7XE
-         n6SYa8VyPKSVsC6b2NKWj82LZLlVdFQBHtT2kTUqz0wVnnNFZlreRYGMhC7nEUGk74Kr
-         3r5Qrt/y8MlFK2NOsXlMamTJEZeZXQpKiPQK3ocOf4Tey+1x3083zenJe3nkKuelWNsj
-         h0Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-        bh=WKhKgNFFiDRIRCfQcIC/1NT6EzoOyImEXLP9eqrvZ6Y=;
-        b=Hk5nGSdoxFUFfGkK6/aW7vy7F87EEJ4FJz+t6UAoRv5kTyvWPl6AmLpA/90kbVPelt
-         ss4Rw5Ae60MpJF8euCbkfpyM1tN3xBgT2ftkhZ4CK6JezniJGCGWCLEwU5uF6u4aB89a
-         1IbA8323vB53E9XgX7UJGpeYk9uLMDNqhFtqI1go2H/cxgYgFGbqoqsDTXqfl0j1iwkW
-         qFL73FDTuu0FcFqFRvYxyy4Sv+SRuyC4JihoLkPGkRr4aMGKKsNjDg+0gdiuxDxHrfdN
-         SwwcjweXo19iyu0GYN+iryQMSuYZxiDniy0xNhpjFhCopOytvDnW4SpM9rxWfB3OZqgJ
-         Vw0A==
-X-Gm-Message-State: AOAM5303h/egIUHF2uch6M/XgChCp+xeuKFsSnz7ehb11cet3GHptJRe
-        DMIbUWbvi+6h4pVHZbhAllLJ6qLKm5JM5P8U24ElNxL6u1oRYf/PxcbzctkIoWuniCgMcUYXopo
-        zDVMsySVp5zyJT+910wqMUwo/0YM04hspgGF+qRNOAsYGdHi6poWfMxHOOoq9ExEFHc6/
-X-Google-Smtp-Source: ABdhPJwFJutKIRKx0fzvzBEtwYcWv7isBew8f7hpfWe5Rc/JQv0WBDklJAxvVzGqCO9NspoJpGuz//CUSfo=
-X-Received: by 2002:a0c:d442:: with SMTP id r2mr2880640qvh.59.1593175808590;
- Fri, 26 Jun 2020 05:50:08 -0700 (PDT)
-Date:   Fri, 26 Jun 2020 14:48:06 +0200
-Message-Id: <20200626124808.1886430-1-darekm@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.27.0.212.ge8ba1cc988-goog
-Subject: [PATCH v3] media: cros-ec-cec: do not bail on device_init_wakeup failure
-From:   Dariusz Marcinkiewicz <darekm@google.com>
-To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl
-Cc:     gwendal@chromium.org, Dariusz Marcinkiewicz <darekm@google.com>,
-        stable@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Dariusz Marcinkiewicz <darekm@chromium.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        linux-kernel@vger.kernel.org
+        Fri, 26 Jun 2020 08:58:19 -0400
+Received: from mail-qt1-f172.google.com ([209.85.160.172]) by
+ mrelayeu.kundenserver.de (mreue010 [212.227.15.129]) with ESMTPSA (Nemesis)
+ id 1M2Nm2-1jqT9r3l1i-003rvu; Fri, 26 Jun 2020 14:58:18 +0200
+Received: by mail-qt1-f172.google.com with SMTP id e12so7322510qtr.9;
+        Fri, 26 Jun 2020 05:58:17 -0700 (PDT)
+X-Gm-Message-State: AOAM530EXAI7OWRvPM40RZlk3O2VxwBDzQVN6TtATjBOGApDkrMC/1+I
+        HQB3icuhtVREybxPz6mn4y68nkWA5wa9yxM2d1w=
+X-Google-Smtp-Source: ABdhPJxikXjRDu/tLtw1jlXCdKxJwE+HFIHYYBl2h9Z5AkRSmUqjWKVB4ak/UxHdGDOYG0v3KEvo5BtLsdG+FP2EAgk=
+X-Received: by 2002:ac8:33d7:: with SMTP id d23mr2619841qtb.204.1593176296673;
+ Fri, 26 Jun 2020 05:58:16 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200626115321.1898798-1-hverkuil-cisco@xs4all.nl> <20200626115321.1898798-6-hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20200626115321.1898798-6-hverkuil-cisco@xs4all.nl>
+From:   Arnd Bergmann <arnd@arndb.de>
+Date:   Fri, 26 Jun 2020 14:58:00 +0200
+X-Gmail-Original-Message-ID: <CAK8P3a048hsYw3iQ3+kiPQx9QqHDYJeh8hRuGgxN8NJSpKsOmg@mail.gmail.com>
+Message-ID: <CAK8P3a048hsYw3iQ3+kiPQx9QqHDYJeh8hRuGgxN8NJSpKsOmg@mail.gmail.com>
+Subject: Re: [PATCH 5/7] mach-pxa: palmz72/pcm990: remove soc_camera dependencies
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-omap <linux-omap@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Robert Jarzmik <robert.jarzmik@free.fr>
 Content-Type: text/plain; charset="UTF-8"
+X-Provags-ID: V03:K1:CArOanR3p5vgt0rLueM0LrZHN73mOcQjf9NZr3iQcyhSNjDZRr6
+ HgDkoc7QVHQxot5Fp/0rQLEoPSAf2CR5P6LuA2GVJqIzWmiX5uXTfiCyenKRK0VdcMp8hu2
+ jMUtSOesHenCe2aByTbzz66I/BD5bsI5Zb9UugDTA/qZQ77cOlhiabUAEEGZFzPczyQ4xfI
+ GOa8cqSs3aSuJ/1MK/5kQ==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:j/q2ZxyCPS0=:juVomQfkhgeP94FQJYJz1Y
+ MBel81eNlQDWdOhXwObaHFwMWjUiZH5GoUDWSs+7OrlnW/BgsBkfTJX8ZFzfWhRH0i7sa6Wnv
+ DIZ84UJfsDRvUv2yCcN9qupuFkXP1mWa7Q6nfxnz6L/VV07X0uo6U4iFPodLmYMjconvJDWFh
+ URy/F3j/VUfODeCrPNRSvjPKVTRnAXLX6h0bjksuq/bdxwF2voNHdDp21yzvBU+gQ5c0/5G6d
+ SsSMOfScsQerSG3ZrCBtZA8c1xj3oDC563NLLN7RmS39Sh8mk0Su1UvIgHF6IH0EQYJ9OqBps
+ tIB4BSkQGfxtbOFqrpWdircK8+55G3Ai6+ZvRniNWHEffMPit/AeDa9aix/q+3LbU6Br1smSU
+ qRQFCDRcNTmcdBpV6tDjAE8sv2Yn4e7dHXJfk1nxGp8y+8CiSn3lUSWaOoo9QNUX+dwiY6RYt
+ PxG6FaoViO+YmPUQ85UJCzwQIA/jACsk9abdV7vYhzICFkW6N7/j3f9uyBZ30fu11FwGktfIP
+ jfjexFdsWbMMkOc3Y6o04aSUY3ZEua8dz9ychTtw5meQRjO22XFPQpbD3Mu+gQdhnJTPX29TC
+ JHZ97Z9eN2k9vVx0H9snvehf+em4r8f+5ZlomD/cNOuqZlVgx7fbka8hKj2r9dWNOQ27xc8PB
+ w3QY+X4Etfst1Okom5/pWlU24oamsT/CW3bCwOtJ8X5HTpE9cVsN0LrElfzgh+KZUqEPzqnGT
+ KAr/sHmqT9q8FH6KDf2mKg1sA3KBl0CQW2VR0oXyQb6eE4igq2k8Eg4nzhtIrMeWIVq80rDeo
+ X5vvPtIxJzoZsPdjbSiqK0k2zRh8mveKoaqwmVkKVVWGiyjx6I=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Do not fail probing when device_init_wakeup fails. Also clear wakeup
-on remove.
+On Fri, Jun 26, 2020 at 1:53 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> The soc_camera driver is about to be removed, so drop camera
+> support from this board. Note that the soc_camera driver itself has
+> long since been deprecated and can't be compiled anymore (it depends
+> on BROKEN), so camera support on this board has been broken for a long
+> time (at least since 4.9 when the pxa_camera.c was removed from soc_camera).
+>
+> Note that there is a new pxa_camera.c driver that replaced the old
+> soc_camera based driver, but using that would require these boards to
+> be converted to use the device tree.
+>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Cc: Arnd Bergmann <arnd@arndb.de>
+> Cc: Robert Jarzmik <robert.jarzmik@free.fr>
+> ---
+>  arch/arm/mach-pxa/palmz72.c          | 112 -------------------
+>  arch/arm/mach-pxa/pcm990-baseboard.c | 157 ---------------------------
+>  2 files changed, 269 deletions(-)
 
-device_init_wakeup fails when the device is already enabled as wakeup
-device. Hence, the driver fails to probe the device if:
-- The device has already been enabled for wakeup (via /proc/acpi/wakeup)
-- The driver has been unloaded and is being loaded again.
+Acked-by: Arnd Bergmann <arnd@arndb.de>
 
-This goal of the patch is to fix the above cases.
+Please merge this through the media tree if there are no objections.
 
-Overwhelming majority of the drivers do not consider device_init_wakeup
-failure as a fatal error and proceed regardless of whether it succeeds
-or not.
-
-Changes since v2:
- - disabled wakeup in remove
- - CC'ing stable
- - description fixed
-Changes since v1:
- - added Fixes tag
-
-Fixes: cd70de2d356ee ("media: platform: Add ChromeOS EC CEC driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
----
- drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-index 0e7e2772f08f..3881ed7bc3d9 100644
---- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-+++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
-@@ -277,12 +277,6 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
- 	platform_set_drvdata(pdev, cros_ec_cec);
- 	cros_ec_cec->cros_ec = cros_ec;
- 
--	ret = device_init_wakeup(&pdev->dev, 1);
--	if (ret) {
--		dev_err(&pdev->dev, "failed to initialize wakeup\n");
--		return ret;
--	}
--
- 	cros_ec_cec->adap = cec_allocate_adapter(&cros_ec_cec_ops, cros_ec_cec,
- 						 DRV_NAME,
- 						 CEC_CAP_DEFAULTS |
-@@ -310,6 +304,8 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
- 	if (ret < 0)
- 		goto out_probe_notify;
- 
-+	device_init_wakeup(&pdev->dev, 1);
-+
- 	return 0;
- 
- out_probe_notify:
-@@ -339,6 +335,8 @@ static int cros_ec_cec_remove(struct platform_device *pdev)
- 					 cros_ec_cec->adap);
- 	cec_unregister_adapter(cros_ec_cec->adap);
- 
-+	device_init_wakeup(&pdev->dev, 0);
-+
- 	return 0;
- }
- 
--- 
-2.27.0.212.ge8ba1cc988-goog
-
+      Arnd
