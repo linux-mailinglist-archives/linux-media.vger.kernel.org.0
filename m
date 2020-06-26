@@ -2,97 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C898620B005
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 12:47:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C078020B09B
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 13:36:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728138AbgFZKro (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 06:47:44 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:34938 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728023AbgFZKrn (ORCPT
+        id S1728649AbgFZLgi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 07:36:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44876 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726466AbgFZLgi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 06:47:43 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05QAfvCa046430;
-        Fri, 26 Jun 2020 10:47:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=6IdPgCBXv4Mszmx0NqcYfgj/l/bT9oYKZ/jF7jrU2OA=;
- b=gLSW7OCD1kDT6h2cD9P0rdG8WnAbo++PX/Xo4Ln9Yi5UFdhgQFjVbm/RNOojHWPKX2Qy
- jDBxmDHySBG/Mja51Tm44Ifzf6ka/xz523JPobQbUmyhkhJnIles8MJLH1oZREiwvG10
- EXp9C6vOzCWb/ZtjSXeQgYccyiF6eNuDSBlEIz4SLXcaxwcS5ol02z9Ek07OpDAeiATn
- L7mC54eL55MvHNItMvjXlbUVqW+0R3rKT2YEGw6+nuNzSlaFxQAf2sGJvMMe9AFNMdeC
- EQv+9RyvQ3ZresH5DN+ldLooOJeAGY23HJo3AkGOpzMES8j2Sf8nn7i+N68TKEmQCaX6 xQ== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2120.oracle.com with ESMTP id 31uustwdje-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 26 Jun 2020 10:47:36 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 05QAiJSd159464;
-        Fri, 26 Jun 2020 10:45:36 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3020.oracle.com with ESMTP id 31uurag44h-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 26 Jun 2020 10:45:36 +0000
-Received: from abhmp0014.oracle.com (abhmp0014.oracle.com [141.146.116.20])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 05QAjWhg003583;
-        Fri, 26 Jun 2020 10:45:32 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 26 Jun 2020 10:45:32 +0000
-Date:   Fri, 26 Jun 2020 13:45:26 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: uvcvideo: Fix loop exit condition in
- uvc_xu_ctrl_query()
-Message-ID: <20200626104526.GE314359@mwanda>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9663 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 spamscore=0 malwarescore=0
- suspectscore=0 mlxlogscore=999 adultscore=0 phishscore=0 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2004280000
- definitions=main-2006260078
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9663 signatures=668680
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999
- cotscore=-2147483648 adultscore=0 bulkscore=0 spamscore=0 phishscore=0
- suspectscore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1015
- impostorscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2004280000 definitions=main-2006260078
+        Fri, 26 Jun 2020 07:36:38 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92763C08C5DB
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 04:36:35 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id u5so4537300pfn.7
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 04:36:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=+RhNTdG3sZhXip9jhuj+0eaP8uV70LKtavyxI4TH1vI=;
+        b=dyNgCud3V6L2yvfZUK8udQwHpIeh1tUyQrpxnay7y7KstD9KK+rO5mmQ8ftPH01QlI
+         TeVV4Qh7FDXXKMeTJx0sgBiiIWNFhuhwhb6k97TW42JoPjzKWhBKbJbyq9N+g+IeSVRc
+         6XXJ5A4gRBgPPmeuhtc42p/NEjiNgzG286jZu9DQohZysUoHvGLRi7gYMQe8eekIendB
+         GmDqr12nJ2RHPuYD139/XH3+Wxqy9ITiCDLzOQM/LWKkw7fE9CTJaaPQZCWjUJ3xDtVz
+         Ch0zqHs7yw0veD0+qJk5ANHaHiXvLRtFFq+mjRlcuCPXXVAVnXKGsTGauD69K3Xa8/fE
+         QXJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=+RhNTdG3sZhXip9jhuj+0eaP8uV70LKtavyxI4TH1vI=;
+        b=UeEc/H30LamJGWesYfFbhLsiIRsRBCmm4/sfFpNS84PRDmUD0kH3oWzkHZ4MGgM1sg
+         AhG83TIrmAJke5Q+Uc1++WvShPyCBR4EdxxpPA9qs3pFUvCCYA34aq0eo1DGDIg7YA4Z
+         fbDFRwPIW/0ofhvzgRrubWj/neapUrxgaVJnp7b3UNWjxlxe098FCQtEVViXFWscv2oR
+         x7mwwW0YQ+M84UukRwmiStvSuqlqIArUmZjd1DSjAEKF2n7cikpz/ioqfEHTF7+hVM9j
+         7mql4KL+K+7xvZ7AbiB/NREElDAlaF+fs59nCWPEHLnfrwP938/1JR5kWIZgOBjrTrGJ
+         Y7Tg==
+X-Gm-Message-State: AOAM533YStD+4PyxS6dUTbF6fw87ZCw0Zhz/7n7NzpdyzfBZqiVk1d+z
+        TZA59XCUHVZS7QVSyV2sqXySTA==
+X-Google-Smtp-Source: ABdhPJwsORR6WfAerd0xGe1Ixa+gugD76mYtywZ2ovUgUO5sF8J60bxjEUXnb9CX6OGv+cgYzNqmUw==
+X-Received: by 2002:aa7:9184:: with SMTP id x4mr2324308pfa.271.1593171394715;
+        Fri, 26 Jun 2020 04:36:34 -0700 (PDT)
+Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.178])
+        by smtp.gmail.com with ESMTPSA id i191sm26561943pfe.99.2020.06.26.04.36.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jun 2020 04:36:33 -0700 (PDT)
+From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
+To:     Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        hverkuil@xs4all.nl
+Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>
+Subject: [PATCH v6 0/3] media: Add colors' order and other info over test image
+Date:   Fri, 26 Jun 2020 17:06:15 +0530
+Message-Id: <20200626113618.15280-1-kgupta@es.iitr.ac.in>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The list_for_each_entry() loop exits when "entity" is a offset off the
-list head.  In that situation the "entity" pointer doesn't point to a
-valid uvc_entity struct, so it doesn't make sense to check "entity->id".
-Since the "entity->id" is a u8 it's plausible that it could be equal to
-"xqry->unit" by chance.
+This patchset aims to add a method to display the correct order of
+colors for a test image generated. It does so by adding a function
+which returns a string of correct order of the colors for a test
+pattern. It then adds a control in vimc which displays the string
+over test image. It also displays some other information like saturation,
+hue, contrast brightness and time since the stream started over test
+image generated by vimc.
 
-Fixes: c0efd232929c ("V4L/DVB (8145a): USB Video Class driver")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/media/usb/uvc/uvc_ctrl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes since v5:
+	In patch 2:
+	- Add missing EXPORT_SYMBOL_GPL()
+	In patch 3:
+	- Renamed varaibles.
+	- use u64 instead of int for getting current time in
+	  nanoseconds.
+	- Use enum instead of numbers to describe the state of osd_mode
+	  control in code.
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index e399b9fad757..47ab6c315db6 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1857,7 +1857,7 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
- 			break;
- 	}
- 
--	if (entity->id != xqry->unit) {
-+	if (&entity->chain == &chain->entities) {
- 		uvc_trace(UVC_TRACE_CONTROL, "Extension unit %u not found.\n",
- 			xqry->unit);
- 		return -ENOENT;
+Changes since v4:
+        - Add another patch which changes char argument to const char
+        in function tpg_gen_text()
+        - Return const char * from function tpg_g_color_order() in patch
+          2
+        In 3rd patch:
+        - Check font in probe() instead of s_stream()
+        - Use dev_err instead of pr_err
+        - Fix errors in commit message.
+        - Base VIMC_CID_SHOW_INFO on VIVID_CID_OSD_TEXT_MODE
+
+Changes since v3:
+        In 1st patch:
+        -Improved formatting of returned string.
+
+        In 2nd patch:
+         - Add CID prefix in control name and change it to a more
+           generic name.
+         - Rename bool variable to a generic name.
+         - Disable text rendering instead of stopping stream if no
+           font found.
+         - Display more info like VIVID in VIMC.
+
+Changes since v2:
+        In 1st patch:
+        - Create a 'define' to prevent repetition of the common color
+          sequence string.
+        - Use 'fallthrough' on case statement to prevent repetition of
+          code.
+
+Changes since v1:
+        - Divided the patch into two patches.
+        - Returned NULL for patterns whose color order cannot be
+          defined. (Reported-by: kernel test robot <lkp@intel.com>)
+        - Made separate switch cases for separate test patterns
+         (Reported-by: kernel test robot <lkp@intel.com>)
+        - Renamed variables from camelcase to use '_'
+        - prefixed 'media' to the patches.
+
+Kaaira Gupta (3):
+  media: tpg: change char argument to const char
+  media: tpg: Add function to return colors' order of test image
+  media: vimc: Add a control to display info on test image
+
+ drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 40 ++++++++++---
+ drivers/media/test-drivers/vimc/Kconfig       |  2 +
+ drivers/media/test-drivers/vimc/vimc-common.h |  1 +
+ drivers/media/test-drivers/vimc/vimc-core.c   | 10 ++++
+ drivers/media/test-drivers/vimc/vimc-sensor.c | 60 +++++++++++++++++++
+ include/media/tpg/v4l2-tpg.h                  |  3 +-
+ 6 files changed, 108 insertions(+), 8 deletions(-)
+
 -- 
-2.27.0
+2.17.1
 
