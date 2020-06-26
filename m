@@ -2,109 +2,233 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A08BD20AF3E
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 11:52:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34BB220AFAE
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 12:29:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726920AbgFZJw2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 05:52:28 -0400
-Received: from foss.arm.com ([217.140.110.172]:59262 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726856AbgFZJw2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 05:52:28 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 305D21FB;
-        Fri, 26 Jun 2020 02:52:27 -0700 (PDT)
-Received: from [10.57.13.97] (unknown [10.57.13.97])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C31963F71E;
-        Fri, 26 Jun 2020 02:52:25 -0700 (PDT)
-Subject: Re: [PATCH 3/6] hantro: Rework how encoder and decoder are identified
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
-        Philipp Zabel <p.zabel@pengutronix.de>
-References: <20200625163525.5119-1-ezequiel@collabora.com>
- <20200625163525.5119-4-ezequiel@collabora.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <119b9832-c1bc-9010-cca6-ea82d61c8e9b@arm.com>
-Date:   Fri, 26 Jun 2020 10:52:23 +0100
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+        id S1727914AbgFZK3A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 06:29:00 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:38478 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726384AbgFZK27 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Jun 2020 06:28:59 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id 7727F3C0585;
+        Fri, 26 Jun 2020 12:28:55 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id jI0BiUiwz0EU; Fri, 26 Jun 2020 12:28:50 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 9B1853C04C1;
+        Fri, 26 Jun 2020 12:28:50 +0200 (CEST)
+Received: from vmlxhi-110.adit-jv.com (10.72.93.196) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Fri, 26 Jun
+ 2020 12:28:50 +0200
+Date:   Fri, 26 Jun 2020 12:28:45 +0200
+From:   Ramzi Ben Meftah <rbmeftah@de.adit-jv.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+CC:     Ramzi Ben Meftah <rbmeftah@de.adit-jv.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        niklas soderlund <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Steve Longerbeam <steve_longerbeam@mentor.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Arnd Bergmann <arnd@arndb.de>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>
+Subject: Re: [PATCH 1/3] v4l2-subdev: Add subdev ioctl support for
+ ENUM/GET/SET INPUT
+Message-ID: <20200626102832.GA89964@vmlxhi-110.adit-jv.com>
+References: <1592301619-17631-1-git-send-email-rbmeftah@de.adit-jv.com>
+ <20200624075307.hl6wew7vr5ue225t@uno.localdomain>
+ <20200625020138.GW5980@pendragon.ideasonboard.com>
+ <20200625093046.GA91893@vmlxhi-110.adit-jv.com>
+ <20200625094724.GE5865@pendragon.ideasonboard.com>
+ <20200625101835.GA5081@vmlxhi-110.adit-jv.com>
+ <20200625102701.GG5865@pendragon.ideasonboard.com>
+ <f0fef540-aaeb-9831-c045-77eb8c95b3b9@xs4all.nl>
+ <20200626090913.GA1348@vmlxhi-110.adit-jv.com>
+ <722b67b4-05a3-5785-0196-15bf5466c981@xs4all.nl>
 MIME-Version: 1.0
-In-Reply-To: <20200625163525.5119-4-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <722b67b4-05a3-5785-0196-15bf5466c981@xs4all.nl>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.93.196]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ezequiel,
-
-On 2020-06-25 17:35, Ezequiel Garcia wrote:
-> So far we've been using the .buf_finish hook to distinguish
-> decoder from encoder. This is unnecessarily obfuscated.
+On Fri, Jun 26, 2020 at 11:25:31AM +0200, Hans Verkuil wrote:
+> On 26/06/2020 11:09, Ramzi Ben Meftah wrote:
+> > Hi Laurent, Hans,
+> > 
+> > On Thu, Jun 25, 2020 at 12:35:02PM +0200, Hans Verkuil wrote:
+> >> On 25/06/2020 12:29, Laurent Pinchart wrote:
+> >>> Hi Ramzi,
+> >>>
+> >>> On Thu, Jun 25, 2020 at 12:18:35PM +0200, Ramzi Ben Meftah wrote:
+> >>>> On Thu, Jun 25, 2020 at 12:47:24PM +0300, Laurent Pinchart wrote:
+> >>>>> On Thu, Jun 25, 2020 at 11:30:46AM +0200, Ramzi Ben Meftah wrote:
+> >>>>>> On Thu, Jun 25, 2020 at 05:01:38AM +0300, Laurent Pinchart wrote:
+> >>>>>>> On Wed, Jun 24, 2020 at 09:53:07AM +0200, Jacopo Mondi wrote:
+> >>>>>>>> On Tue, Jun 16, 2020 at 12:00:15PM +0200, Ramzi BEN MEFTAH wrote:
+> >>>>>>>>> From: Steve Longerbeam <steve_longerbeam@mentor.com>
+> >>>>>>>>
+> >>>>>>>>  +Niklas, +Laurent
+> >>>>>>>>
+> >>>>>>>> Niklas, Laurent, how does this play with CAP_IO_MC ?
+> >>>>>>>
+> >>>>>>> I don't think it's related to CAP_IO_MC, but I don't think it's a good
+> >>>>>>> idea either :-) Routing doesn't go through the subdev [gs]_input
+> >>>>>>> operations in MC-based drivers. It should be configured through link
+> >>>>>>> setup instead. This patch goes in the wrong direction, sorry Steve.
+> >>>>>>
+> >>>>>> ENUMINPUT ioctl allow to get the input signal status. Is there an alternative
+> >>>>>> with Media Controller?
+> >>>>>
+> >>>>> No there isn't at the moment. I'm not opposed to adding such a feature,
+> >>>>> but VIDIOC_ENUMINPUT isn't the right choice. This would have to be a
+> >>>>> subdev pad operation (v4l2_subdev_pad_ops), not a video operation
+> >>>>> (v4l2_subdev_video_ops). We also likely shouldn't call it "enum" input,
+> >>>>> as it would retrieve properties of the input corresponding to the pad,
+> >>>>> not enumerate inputs.
+> >>>>
+> >>>> Looking to v4l2_subdev_pad_ops, there is g_input_status which seems to fulfill
+> >>>> this need. But, seems this is not expose to user space although many drivers
+> >>>> do implememt it.
+> >>>> Should I add VIDIOC_SUBDEV_G_INPUT_STATUS?
+> >>>
+> >>> Isn't g_input_status a video operation ? I would propose adding a
+> >>> g_input_status pad operation, and expose that to userspace. We should
+> >>> take that as an opportunity to consider designing that new operation
+> >>> from scratch (possibly naming it differently) and make sure it could
+> >>> address both analog and digital systems (for instance being able to
+> >>> report the status of an SDI input).
+> > 
+> > Sorry, my mistake. But, does it make sens that it belongs to video ops?
+> > I think it should be part of pad ops, it is used now as alternative to 
+> > ENUMINPUT and we agreed that it should(if we are going to implement it) be 
+> > part of pad ops.
+> > 
+> >>
+> >> Yes, I was wondering the same. The status bits are ancient and we might
+> >> want to improve on it.
+> >>
+> >> Ramzi, what exactly is your use-case? Is this for an HDMI input? Analog
+> >> video input? Before adding a new ioctl I'd like to know why you think
+> >> you need it :-)
+> > 
+> > I need to know if the input signal(analog and digital) is there, before
+> > starting streaming. I am not aware of other way to check for it.
 > 
-> Moreover, we want to move the buf_finish, so use a cleaner
-> scheme to distinguish the driver decoder/encoder type.
+> You can check for digital timings using QUERY_DV_TIMINGS: it will return an
+> error if there is no lock. Subscribe to the SOURCE_CHANGE event to know when
+> the signal is found/lost.
 > 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->   drivers/staging/media/hantro/hantro.h     | 2 ++
->   drivers/staging/media/hantro/hantro_drv.c | 4 +++-
->   2 files changed, 5 insertions(+), 1 deletion(-)
+> For analog timings you have QUERYSTD and the same event. The main limitation
+> with analog (SDTV) video receivers is that not all analog receivers have implemented
+> this event. But the adv7180 and tvp5150 do support this.
 > 
-> diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
-> index 3005207fc6fb..028b788ad50f 100644
-> --- a/drivers/staging/media/hantro/hantro.h
-> +++ b/drivers/staging/media/hantro/hantro.h
-> @@ -199,6 +199,7 @@ struct hantro_dev {
->    *
->    * @dev:		VPU driver data to which the context belongs.
->    * @fh:			V4L2 file handler.
-> + * @is_encoder:		Decoder or encoder context?
->    *
->    * @sequence_cap:       Sequence counter for capture queue
->    * @sequence_out:       Sequence counter for output queue
-> @@ -223,6 +224,7 @@ struct hantro_dev {
->   struct hantro_ctx {
->   	struct hantro_dev *dev;
->   	struct v4l2_fh fh;
-> +	bool is_encoder;
->   
->   	u32 sequence_cap;
->   	u32 sequence_out;
-> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> index 0db8ad455160..112ed556eb90 100644
-> --- a/drivers/staging/media/hantro/hantro_drv.c
-> +++ b/drivers/staging/media/hantro/hantro_drv.c
-> @@ -197,7 +197,7 @@ static void device_run(void *priv)
->   
->   bool hantro_is_encoder_ctx(const struct hantro_ctx *ctx)
->   {
-> -	return ctx->buf_finish == hantro_enc_buf_finish;
-> +	return ctx->is_encoder;
+> This is the recommended way of implementing this and it has the advantage of
+> being interrupt-driven, so no need to poll for a status in the application.
 
-FWIW I'd suggest removing the wrapper function entirely now - it makes 
-sense when the check itself is implemented in a weird and non-obvious 
-way, but a simple boolean flag named exactly what it means is already 
-about as clear as it can get.
+Thank you Hans, things are clear now.
 
-Robin.
-
->   }
->   
->   static struct v4l2_m2m_ops vpu_m2m_ops = {
-> @@ -420,8 +420,10 @@ static int hantro_open(struct file *filp)
->   	if (func->id == MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
->   		allowed_codecs = vpu->variant->codec & HANTRO_ENCODERS;
->   		ctx->buf_finish = hantro_enc_buf_finish;
-> +		ctx->is_encoder = true;
->   	} else if (func->id == MEDIA_ENT_F_PROC_VIDEO_DECODER) {
->   		allowed_codecs = vpu->variant->codec & HANTRO_DECODERS;
-> +		ctx->is_encoder = false;
->   	} else {
->   		ret = -ENODEV;
->   		goto err_ctx_free;
 > 
+> Regards,
+> 
+> 	Hans
+> 
+> > 
+> >>
+> >> Regards,
+> >>
+> >> 	Hans
+> >>
+> >>>
+> >>>>>>>>> This commit enables VIDIOC_ENUMINPUT, VIDIOC_G_INPUT, and VIDIOC_S_INPUT
+> >>>>>>>>> ioctls for use via v4l2 subdevice node.
+> >>>>>>>>>
+> >>>>>>>>> This commit should probably not be pushed upstream, because the (old)
+> >>>>>>>>> idea of video inputs conflicts with the newer concept of establishing
+> >>>>>>>>> media links between src->sink pads.
+> >>>>>>>>>
+> >>>>>>>>> However it might make sense for some subdevices to support enum/get/set
+> >>>>>>>>> inputs. One example would be the analog front end subdevice for the
+> >>>>>>>>> ADV748x. By providing these ioctls, selecting the ADV748x analog inputs
+> >>>>>>>>> can be done without requiring the implementation of media entities that
+> >>>>>>>>> would define the analog source for which to establish a media link.
+> >>>>>>>>>
+> >>>>>>>>> Signed-off-by: Steve Longerbeam <steve_longerbeam@mentor.com>
+> >>>>>>>>> ---
+> >>>>>>>>>  drivers/media/v4l2-core/v4l2-subdev.c |  9 +++++++++
+> >>>>>>>>>  include/media/v4l2-subdev.h           | 11 +++++++++++
+> >>>>>>>>>  2 files changed, 20 insertions(+)
+> >>>>>>>>>
+> >>>>>>>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> >>>>>>>>> index 6b989fe..73fbfe9 100644
+> >>>>>>>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> >>>>>>>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> >>>>>>>>> @@ -378,6 +378,15 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+> >>>>>>>>>  			return -ENOTTY;
+> >>>>>>>>>  		return v4l2_querymenu(vfh->ctrl_handler, arg);
+> >>>>>>>>>
+> >>>>>>>>> +	case VIDIOC_ENUMINPUT:
+> >>>>>>>>> +		return v4l2_subdev_call(sd, video, enuminput, arg);
+> >>>>>>>>> +
+> >>>>>>>>> +	case VIDIOC_G_INPUT:
+> >>>>>>>>> +		return v4l2_subdev_call(sd, video, g_input, arg);
+> >>>>>>>>> +
+> >>>>>>>>> +	case VIDIOC_S_INPUT:
+> >>>>>>>>> +		return v4l2_subdev_call(sd, video, s_input, *(u32 *)arg);
+> >>>>>>>>> +
+> >>>>>>>>>  	case VIDIOC_G_CTRL:
+> >>>>>>>>>  		if (!vfh->ctrl_handler)
+> >>>>>>>>>  			return -ENOTTY;
+> >>>>>>>>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> >>>>>>>>> index f7fe78a..6e1a9cd 100644
+> >>>>>>>>> --- a/include/media/v4l2-subdev.h
+> >>>>>>>>> +++ b/include/media/v4l2-subdev.h
+> >>>>>>>>> @@ -383,6 +383,14 @@ struct v4l2_mbus_frame_desc {
+> >>>>>>>>>   * @g_input_status: get input status. Same as the status field in the
+> >>>>>>>>>   *	&struct &v4l2_input
+> >>>>>>>>>   *
+> >>>>>>>>> + * @enuminput: enumerate inputs. Should return the same input status as
+> >>>>>>>>> + *      @g_input_status if the passed input index is the currently active
+> >>>>>>>>> + *      input.
+> >>>>>>>>> + *
+> >>>>>>>>> + * @g_input: returns the currently active input index.
+> >>>>>>>>> + *
+> >>>>>>>>> + * @s_input: set the active input.
+> >>>>>>>>> + *
+> >>>>>>>>>   * @s_stream: used to notify the driver that a video stream will start or has
+> >>>>>>>>>   *	stopped.
+> >>>>>>>>>   *
+> >>>>>>>>> @@ -423,6 +431,9 @@ struct v4l2_subdev_video_ops {
+> >>>>>>>>>  	int (*g_tvnorms)(struct v4l2_subdev *sd, v4l2_std_id *std);
+> >>>>>>>>>  	int (*g_tvnorms_output)(struct v4l2_subdev *sd, v4l2_std_id *std);
+> >>>>>>>>>  	int (*g_input_status)(struct v4l2_subdev *sd, u32 *status);
+> >>>>>>>>> +	int (*enuminput)(struct v4l2_subdev *sd, struct v4l2_input *input);
+> >>>>>>>>> +	int (*g_input)(struct v4l2_subdev *sd, u32 *index);
+> >>>>>>>>> +	int (*s_input)(struct v4l2_subdev *sd, u32 index);
+> >>>>>>>>>  	int (*s_stream)(struct v4l2_subdev *sd, int enable);
+> >>>>>>>>>  	int (*g_pixelaspect)(struct v4l2_subdev *sd, struct v4l2_fract *aspect);
+> >>>>>>>>>  	int (*g_frame_interval)(struct v4l2_subdev *sd,
+> >>>
+> >>
+> > 
+> 
+
+-- 
+Best Regards,
+Ramzi Ben Meftah.
