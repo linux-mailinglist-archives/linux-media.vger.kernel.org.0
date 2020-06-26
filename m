@@ -2,268 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C486F20B30C
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 16:01:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DB7D320B316
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 16:04:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728847AbgFZOBq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 10:01:46 -0400
-Received: from mail.kernel.org ([198.145.29.99]:49186 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725864AbgFZOBq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 10:01:46 -0400
-Received: from coco.lan (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4B79E207E8;
-        Fri, 26 Jun 2020 14:01:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1593180105;
-        bh=WVYN7grjdznXQBKjopgYhmrhFw9j4t36Kheh73HriUI=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=lCLUx0KrbVYcAD/jQMsD6eS5+8yoAjDiI2l3+VtOQxKteT7FUXCu1VLaOzWMmNLYq
-         8jAsNbgNdx5ZCssr6GAFXFwmPBbKWyFUqxg+6hNNFM45VAxAtNP7aInmG8qkv0iLvG
-         E6gcbdnduglhNSkiODwK7DnjciutFd6SYsBfjjQs=
-Date:   Fri, 26 Jun 2020 16:01:41 +0200
-From:   Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH v2 00/15] media: atomisp: Clean ups and fixes to make it
- load on Baytrail
-Message-ID: <20200626160141.03a8d4dd@coco.lan>
-In-Reply-To: <20200626152953.261dd214@coco.lan>
-References: <20200626121925.14365-1-andriy.shevchenko@linux.intel.com>
-        <20200626152953.261dd214@coco.lan>
-X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1728960AbgFZOEJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 10:04:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39384 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728091AbgFZOEI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Jun 2020 10:04:08 -0400
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D9C6C03E979
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 07:04:08 -0700 (PDT)
+Received: by mail-ej1-x644.google.com with SMTP id dp18so9484937ejc.8
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 07:04:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=5V8GFGc/Q2xVF5ID3AFrTVFIVKR+GweNNt3zo8Af3+0=;
+        b=LH1WtrmOQXoY7ttrJodfPzGuaMqBUUMnMgsCXuB0+fD9+NjwxnBopwXehAMi+mMLpP
+         9+J8kwO8BFXNghc++LAbDeZJujJvHrHgJ7Asle8D+w4NR2wkmTz7BCUQzeoumjBcsWtb
+         Nf2SVTsDuKYFitT61kiOagaIhgOVN/+lhHWEQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=5V8GFGc/Q2xVF5ID3AFrTVFIVKR+GweNNt3zo8Af3+0=;
+        b=cHmkzgZAgZP0EWMhsjtYXwKBhIUoK5JBhsx9ce2V2fr98RZgBUkzaalfvcBeuow/uP
+         sg7g7zl3C8fqO3jJhpo9ZKhMRwrknxOi+5yYqRuBBw0jTrU1o/gUSMfLSdsWCe2q7R9P
+         k1zLzzPcvrDnWv+OmapP2DjnASdTvpWnBwMxoYC1tyXxThDqXTeToXFpWMamkQa75l1H
+         YUTZv7tot2O8WKsUsZC0ly0Uk8fyzH05sww3QDuIikDgdRtohWu1oj6/EL35AzGTSsM6
+         xVIgSFpgA2/BEt3rYdxnsxWZvlJrQ4N1jMEm+qzt81B4zzPjKsh0nW5TRC4Lo5Uf4+AS
+         15Ow==
+X-Gm-Message-State: AOAM533gJZCB47j4osqMq3Q6lzh7vRgP/lMteuFsTH6HgvQA/DF+EfNR
+        s4C5PBgD94FyO0fsdnQV+g2/A7odaO/yvQ==
+X-Google-Smtp-Source: ABdhPJzfjS174CTJIslMUXUFX4WHx/3ypoBK3hnqSSkZvBMIw0p+j7ksvIDgqSHWcCDfoh7v6QKPZQ==
+X-Received: by 2002:a17:906:1c4b:: with SMTP id l11mr2602269ejg.307.1593180246378;
+        Fri, 26 Jun 2020 07:04:06 -0700 (PDT)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com. [209.85.128.51])
+        by smtp.gmail.com with ESMTPSA id a37sm10901258edf.86.2020.06.26.07.04.04
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 26 Jun 2020 07:04:05 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id o8so8941162wmh.4
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 07:04:04 -0700 (PDT)
+X-Received: by 2002:a7b:c2a9:: with SMTP id c9mr3733686wmk.11.1593180244359;
+ Fri, 26 Jun 2020 07:04:04 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <20200625174257.22216-1-dafna.hirschfeld@collabora.com>
+ <20200625174257.22216-4-dafna.hirschfeld@collabora.com> <e269f2f5-c24c-7009-e624-3545af206709@arm.com>
+In-Reply-To: <e269f2f5-c24c-7009-e624-3545af206709@arm.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Fri, 26 Jun 2020 16:03:50 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5AsJG=YJC4eG6+qdt_dPyr-dwcXrmujxLaHfoe9==Es1g@mail.gmail.com>
+Message-ID: <CAAFQd5AsJG=YJC4eG6+qdt_dPyr-dwcXrmujxLaHfoe9==Es1g@mail.gmail.com>
+Subject: Re: [PATCH 3/3] media: staging: rkisp1: params: in 'stop_streaming'
+ don't release the lock while returning buffers
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        kernel@collabora.com, Ezequiel Garcia <ezequiel@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 26 Jun 2020 15:29:53 +0200
-Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+On Fri, Jun 26, 2020 at 3:32 PM Robin Murphy <robin.murphy@arm.com> wrote:
+>
+> Hi Dafna,
+>
+> On 2020-06-25 18:42, Dafna Hirschfeld wrote:
+> > In the stop_streaming callback 'rkisp1_params_vb2_stop_streaming'
+> > there is no need to release the lock 'config_lock' and then acquire
+> > it again at each iteration when returning all buffers.
+> > This is because the stream is about to end and there is no need
+> > to let the isr access a buffer.
+> >
+> > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> > ---
+> >   drivers/staging/media/rkisp1/rkisp1-params.c | 7 +------
+> >   1 file changed, 1 insertion(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
+> > index bf006dbeee2d..5169b02731f1 100644
+> > --- a/drivers/staging/media/rkisp1/rkisp1-params.c
+> > +++ b/drivers/staging/media/rkisp1/rkisp1-params.c
+> > @@ -1488,19 +1488,13 @@ static void rkisp1_params_vb2_stop_streaming(struct vb2_queue *vq)
+> >       /* stop params input firstly */
+> >       spin_lock_irqsave(&params->config_lock, flags);
+> >       params->is_streaming = false;
+> > -     spin_unlock_irqrestore(&params->config_lock, flags);
+> >
+> >       for (i = 0; i < RKISP1_ISP_PARAMS_REQ_BUFS_MAX; i++) {
+> > -             spin_lock_irqsave(&params->config_lock, flags);
+> >               if (!list_empty(&params->params)) {
+> >                       buf = list_first_entry(&params->params,
+> >                                              struct rkisp1_buffer, queue);
+> >                       list_del(&buf->queue);
+> > -                     spin_unlock_irqrestore(&params->config_lock,
+> > -                                            flags);
+> >               } else {
+> > -                     spin_unlock_irqrestore(&params->config_lock,
+> > -                                            flags);
+> >                       break;
+> >               }
+>
+> Just skimming through out of idle curiosity I was going to comment that
+> if you end up with this pattern:
+>
+>         if (!x) {
+>                 //do stuff
+>         } else {
+>                 break;
+>         }
+>
+> it would be better as:
+>
+>         if (x)
+>                 break;
+>         //do stuff
+>
+> However I then went and looked at the whole function and frankly it's a
+> bit of a WTF. As best I could decipher, this whole crazy loop appears to
+> be a baroque reinvention of:
+>
+>         list_for_each_entry_safe(&params->params, ..., buf) {
+>                 list_del(&buf->queue);
+>                 vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+>         }
+>
+> (assuming from context that the list should never contain more than
+> RKISP1_ISP_PARAMS_REQ_BUFS_MAX entries in the first place)
 
-> Hi Andy,
->=20
-> Em Fri, 26 Jun 2020 15:19:10 +0300
-> Andy Shevchenko <andriy.shevchenko@linux.intel.com> escreveu:
->=20
-> > I'm experimenting with it on Baytrail machine and found some issues.
-> > Along with fixing them I cleaned up a bit this.
->=20
-> Thanks for that! Yeah, I found some issues there myself, although
-> testing on a device with more than one camera is very nice.
->=20
-> I'll apply your patches on the top of my atomisp tree:
->=20
-> 	https://git.linuxtv.org/mchehab/experimental.git/log/?h=3Datomisp_v5
->=20
-> On a very quick look, I suspect that some may rise some conflicts,
-> as I did some improvements at the detection logic, in order to get
-> rid of the ugly DMI match stuff when ACPI has what's needed.
->=20
-> Regards,
-> Mauro
->=20
-> >=20
-> > So, after applying I have the following log
-> >=20
-> > # modprobe atomisp
-> > [  116.215056] atomisp: module is from the staging directory, the quali=
-ty is unknown, you have been warned.
-> > [  116.310077] atomisp-isp2 0000:00:03.0: Detected Baytrail version 15 =
-(ISP2400) on VALLEYVIEW C0 (CR) PLATFORM
-> > [  116.354189] atomisp-isp2 0000:00:03.0: start: 0x50000000
-> > [  116.376888] atomisp-isp2 0000:00:03.0: atomisp mmio base: 0000000027=
-f9eb1f
-> > [  116.401267] ACPI: \: failed to evaluate _DSM (0x1001)
-> > [  116.423479] atomisp-isp2 0000:00:03.0: Failed to find EFI variable 0=
-000:00:03.0_HpllFreq
-> > [  116.449254] atomisp-isp2 0000:00:03.0: HpllFreq: using default (2000)
-> > [  116.473045] atomisp-isp2 0000:00:03.0: ISP HPLL frequency base =3D 2=
-000 MHz
-> > [  116.770613] atomisp-isp2 0000:00:03.0: Probing Subdev INT33F8:00
-> > [  116.793750] atomisp-isp2 0000:00:03.0: Subdev INT33F8:00 successfull=
-y register
-> > [  116.818155] atomisp-isp2 0000:00:03.0: raw_index: -1
-> > [  116.839924] atomisp-isp2 0000:00:03.0: SOC_INDEX: 0
-> > [  116.861622] atomisp-isp2 0000:00:03.0: Probing Subdev INTCF1C:00
-> > [  116.896885] lm3554 i2c-INTCF1C:00: Failed to power on lm3554 LED fla=
-sh
-> > [  116.920236] atomisp-isp2 0000:00:03.0: Subdev INTCF1C:00 detection f=
-ail
-> > [  116.943649] atomisp-isp2 0000:00:03.0: detected 1 camera sensors
-> > [  116.966177] atomisp-isp2 0000:00:03.0: atomisp_csi_lane_config: the =
-portconfig is 2-1-0, CSI_CONTROL is 0x0002009C
-> > [  117.009054] atomisp-isp2 0000:00:03.0: Entity type for entity ATOM I=
-SP CSI2-port0 was not initialized!
-> > [  117.050772] atomisp-isp2 0000:00:03.0: Entity type for entity ATOM I=
-SP CSI2-port1 was not initialized!
-> > [  117.050795] atomisp-isp2 0000:00:03.0: Entity type for entity ATOM I=
-SP CSI2-port2 was not initialized!
-> > [  117.134464] atomisp-isp2 0000:00:03.0: Entity type for entity file_i=
-nput_subdev was not initialized!
-> > [  117.176572] atomisp-isp2 0000:00:03.0: Entity type for entity tpg_su=
-bdev was not initialized!
-> > [  117.202301] atomisp-isp2 0000:00:03.0: Entity type for entity ATOMIS=
-P_SUBDEV_0 was not initialized!
-> > [  117.246734] atomisp-isp2 0000:00:03.0: Entity type for entity ATOMIS=
-P_SUBDEV_1 was not initialized!
-> > [  117.290990] atomisp-isp2 0000:00:03.0: FILE_INPUT enable, camera_cnt=
-: 1
-> > [  117.314607] atomisp-isp2 0000:00:03.0: TPG detected, camera_cnt: 2
-> > [  117.341386] atomisp-isp2 0000:00:03.0: atomisp_save_iunit_reg
-> > [  117.363735] atomisp-isp2 0000:00:03.0: DFS target frequency=3D200.
-> > [  117.386272] atomisp-isp2 0000:00:03.0: Programming DFS frequency to =
-200
-> > [  117.409426] atomisp-isp2 0000:00:03.0: waiting for ISPSSPM1 valid bi=
-t to be 0.
-> > [  117.433323] atomisp-isp2 0000:00:03.0: waiting for ISPSSPM1 valid bi=
-t to be 0.
-> > [  117.457139] atomisp-isp2 0000:00:03.0: atomisp_ospm_dphy_down
-> > [  117.479800] atomisp-isp2 0000:00:03.0: binary #0  type SP: sp
-> > [  117.502001] atomisp-isp2 0000:00:03.0: binary #1  type ISP (Normal),=
- binary id is  0: isp_copy_var
-> > [  117.542907] atomisp-isp2 0000:00:03.0: binary #2  type ISP (Normal),=
- binary id is  2: isp_vf_pp_full
-> > [  117.584666] atomisp-isp2 0000:00:03.0: binary #3  type ISP (Normal),=
- binary id is  3: isp_vf_pp_opt
-> > [  117.626806] atomisp-isp2 0000:00:03.0: binary #4  type ISP (Normal),=
- binary id is 60: isp_capture_pp_var_bli
-> > [  117.670360] atomisp-isp2 0000:00:03.0: binary #5  type ISP (Normal),=
- binary id is 61: isp_capture_pp_ldc
-> > [  117.713655] atomisp-isp2 0000:00:03.0: binary #6  type ISP (Normal),=
- binary id is  5: isp_capture_pp_var
-> > [  117.757345] atomisp-isp2 0000:00:03.0: binary #7  type ISP (Normal),=
- binary id is  4: isp_yuv_scale_var
-> > [  117.801371] atomisp-isp2 0000:00:03.0: binary #8  type ISP (Normal),=
- binary id is  6: isp_preisp_var
-> > [  117.845621] atomisp-isp2 0000:00:03.0: binary #9  type ISP (Normal),=
- binary id is  7: isp_preisp_var_isp2
-> > [  117.890913] atomisp-isp2 0000:00:03.0: binary #10 type ISP (Normal),=
- binary id is 58: isp_pre_de_var_isp2
-> > [  117.936321] atomisp-isp2 0000:00:03.0: binary #11 type ISP (Normal),=
- binary id is  8: isp_gdc_var
-> > [  117.963840] atomisp-isp2 0000:00:03.0: binary #12 type ISP (Normal),=
- binary id is 11: isp_anr_var
-> > [  117.991190] atomisp-isp2 0000:00:03.0: binary #13 type ISP (Normal),=
- binary id is 12: isp_anr_var_isp2
-> > [  118.035988] atomisp-isp2 0000:00:03.0: binary #14 type ISP (Normal),=
- binary id is  9: isp_postisp_var
-> > [  118.081148] atomisp-isp2 0000:00:03.0: binary #15 type ISP (Normal),=
- binary id is 10: isp_postisp_var_isp2
-> > [  118.127374] atomisp-isp2 0000:00:03.0: binary #16 type ISP (Normal),=
- binary id is 15: isp_preview_dec
-> > [  118.173707] atomisp-isp2 0000:00:03.0: binary #17 type ISP (Normal),=
- binary id is 16: isp_preview_cont_bds125_isp2
-> > [  118.221920] atomisp-isp2 0000:00:03.0: binary #18 type ISP (Normal),=
- binary id is 18: isp_preview_cont_bds150_isp2
-> > [  118.270412] atomisp-isp2 0000:00:03.0: binary #19 type ISP (Normal),=
- binary id is 20: isp_preview_cont_bds200_isp2
-> > [  118.318942] atomisp-isp2 0000:00:03.0: binary #20 type ISP (Normal),=
- binary id is 21: isp_preview_var
-> > [  118.366572] atomisp-isp2 0000:00:03.0: binary #21 type ISP (Normal),=
- binary id is 22: isp_preview_var_isp2
-> > [  118.415086] atomisp-isp2 0000:00:03.0: binary #22 type ISP (Normal),=
- binary id is 27: isp_primary_striped
-> > [  118.464002] atomisp-isp2 0000:00:03.0: binary #23 type ISP (Normal),=
- binary id is 28: isp_primary_striped_isp2
-> > [  118.514097] atomisp-isp2 0000:00:03.0: binary #24 type ISP (Normal),=
- binary id is 24: isp_primary_var
-> > [  118.564053] atomisp-isp2 0000:00:03.0: binary #25 type ISP (Normal),=
- binary id is 25: isp_primary_var_isp2
-> > [  118.615276] atomisp-isp2 0000:00:03.0: binary #26 type ISP (Normal),=
- binary id is 26: isp_primary_small
-> > [  118.666737] atomisp-isp2 0000:00:03.0: binary #27 type ISP (Normal),=
- binary id is 29: isp_primary_8mp
-> > [  118.718346] atomisp-isp2 0000:00:03.0: binary #28 type ISP (Normal),=
- binary id is 30: isp_primary_14mp
-> > [  118.770053] atomisp-isp2 0000:00:03.0: binary #29 type ISP (Normal),=
- binary id is 31: isp_primary_16mp
-> > [  118.821763] atomisp-isp2 0000:00:03.0: binary #30 type ISP (Normal),=
- binary id is 33: isp_primary_isp261_stage0
-> > [  118.874370] atomisp-isp2 0000:00:03.0: binary #31 type ISP (Normal),=
- binary id is 34: isp_primary_isp261_stage1
-> > [  118.926992] atomisp-isp2 0000:00:03.0: binary #32 type ISP (Normal),=
- binary id is 35: isp_primary_isp261_stage2
-> > [  118.979792] atomisp-isp2 0000:00:03.0: binary #33 type ISP (Normal),=
- binary id is 36: isp_primary_isp261_stage3
-> > [  119.032714] atomisp-isp2 0000:00:03.0: binary #34 type ISP (Normal),=
- binary id is 37: isp_primary_isp261_stage4
-> > [  119.085749] atomisp-isp2 0000:00:03.0: binary #35 type ISP (Normal),=
- binary id is 38: isp_primary_isp261_stage5
-> > [  119.139422] atomisp-isp2 0000:00:03.0: binary #36 type ISP (Normal),=
- binary id is 42: isp_video_dz
-> > [  119.192607] atomisp-isp2 0000:00:03.0: binary #37 type ISP (Normal),=
- binary id is 44: isp_video_high
-> > [  119.246768] atomisp-isp2 0000:00:03.0: binary #38 type ISP (Normal),=
- binary id is 45: isp_video_nodz
-> > [  119.301793] atomisp-isp2 0000:00:03.0: binary #39 type ISP (Normal),=
- binary id is 46: isp_video_cont_multibds_isp2_min
-> > [  119.359159] atomisp-isp2 0000:00:03.0: binary #40 type ISP (Normal),=
- binary id is 47: isp_video_cont_bds_300_600_isp2_min
-> > [  119.416880] atomisp-isp2 0000:00:03.0: binary #41 type ISP (Normal),=
- binary id is 49: isp_video_cont_bds150_isp2_min
-> > [  119.474102] atomisp-isp2 0000:00:03.0: binary #42 type ISP (Normal),=
- binary id is 51: isp_video_cont_bds200_isp2_min
-> > [  119.531365] atomisp-isp2 0000:00:03.0: binary #43 type ISP (Normal),=
- binary id is 52: isp_video_cont_nobds_isp2_min
-> > [  119.588595] atomisp-isp2 0000:00:03.0: binary #44 type ISP (Normal),=
- binary id is 53: isp_video_dz_isp2_min
-> > [  119.644981] atomisp-isp2 0000:00:03.0: binary #45 type ISP (Normal),=
- binary id is 54: isp_video_dz_isp2
-> > [  119.701015] atomisp-isp2 0000:00:03.0: binary #46 type ISP (Normal),=
- binary id is 55: isp_video_lp_isp2
-> >=20
+Or if we want to avoid disabling the interrupts for the whole
+iteration, we could use list_splice() to move all the entries of
+params->params to a local list_head under the spinlock, release it and
+then loop over the local head. As a side effect, one could even drop
+list_del() and switch to the non-safe variant of
+list_for_each_entry().
 
-Ok, I merged the patches on my atomisp tree:
-
-	https://git.linuxtv.org/mchehab/experimental.git/log/?h=3Datomisp_v5
-
-I'll wait for Sakari's review on them (and on my patches) before applying
-on media master tree.
-
-As some of the stuff here are fixes (and this driver is new for 5.8),
-I'll probably submit them to v5.8-rc.
-
-> >=20
-> > Andy Shevchenko (15):
-> >   media: atomisp: Replace last use of Intel MID APIs
-> >   media: atomisp: move CCK endpoint address to generic header
-> >   media: atomisp: Use proper APIs to find I=C2=B2C client device by ACP=
-I HID
-> >   media: atomisp: don't pass struct device_driver as parameter
-> >   media: atomisp: Get rid of struct pci_dev in struct atomisp_device
-> >   media: atomisp: Unify pdev to be pointer to struct pci_device
-> >   media: atomisp: Replace direct access to MMIO with proper helpers
-> >   media: atomisp: Drop global atomisp_dev variable (easy cases)
-> >   media: atomisp: make platform data more readable
-> >   media: atomisp: Don't try to parse unexpected ACPI object type
-
-The above patches applied fine.
-
-> >   media: atomisp: Make pointer to PMIC client global
-
-I had to rebase this one, but also applied fine.
-
-> >   media: atomisp: Refactor PMIC detection to a separate function.
-> >   media: atomisp: Provide Gmin subdev as parameter to gmin_subdev_add()
-
-Could you please rebase those on the top of my atomisp branch?=20
-
-> >   media: atomisp: Get rid of ugly and leaky ACPI handling in
-> >     gmin_subdev_add()
-
-The part of the code that used to call acpi_bus_get_device() was
-already removed by a previous patch on my tree. So, I guess this one
-may not be needed anymore.
-
-> >   media: atomisp: Deduplicate return ret in gmin_i2c_write()
-
-This one also applied as-is.
-
-Thanks,
-Mauro
+Best regards,
+Tomasz
