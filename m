@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDAB320B31B
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 16:05:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A8CB720B32F
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 16:05:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729055AbgFZOFE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 10:05:04 -0400
-Received: from mail.kernel.org ([198.145.29.99]:50098 "EHLO mail.kernel.org"
+        id S1729118AbgFZOFV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 10:05:21 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50092 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728973AbgFZOFD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 10:05:03 -0400
+        id S1728964AbgFZOFC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Jun 2020 10:05:02 -0400
 Received: from mail.kernel.org (ip5f5ad5c5.dynamic.kabel-deutschland.de [95.90.213.197])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 0C2D02088E;
+        by mail.kernel.org (Postfix) with ESMTPSA id 0707E2080C;
         Fri, 26 Jun 2020 14:05:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1593180302;
-        bh=Mrq6ZNq6JHxpqf7M70F+n6CjUaMw/lET6Y4DJqIq1MI=;
+        bh=e7N2SIIa+nFd98qwutbfTR9JvzeEd0QzoGZgPTGy2XI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=L5gEZ88vPUw7Uzq/6+3pirup9yJh1YG+YUY08UYFAY/gweAMRK/M6HctbPizVfTTB
-         wqMQlxM5LkNRG9hrMRjRjdvHHjRoiSBHIYkzfmZOSEDxY2KkBLRmvV5JsxqU8BuDuq
-         en3pYsk/3oNxxsgXWAtSq1LXtA9ICGCHAwxTawzg=
+        b=LBh2l6xOQkHobw2dFEhjLXnONV9J7QTnDllUaUQpQ+LTLTlHCcn8hN1pUtoQ9t9xu
+         RHYYwgPp6Ti2BSvb/5FP1i9hm0SvEnGiORI9E1lpOHRPe5rq6quuYk3zTkGkpKcFtn
+         ujPuJ48Ymm2JDVKXIXqmo8ub+Pj38n6ULwRSi/KI=
 Received: from mchehab by mail.kernel.org with local (Exim 4.93)
         (envelope-from <mchehab@kernel.org>)
-        id 1jooyS-00HKw9-2X; Fri, 26 Jun 2020 16:05:00 +0200
+        id 1jooyS-00HKwD-3g; Fri, 26 Jun 2020 16:05:00 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -33,9 +33,9 @@ Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 2/7] media: atomisp: Prepare sensor support for ACPI PM
-Date:   Fri, 26 Jun 2020 16:04:54 +0200
-Message-Id: <2fac02015a0d83e59e59e88c28cfd91521483bed.1593180146.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 3/7] media: atomisp: properly parse CLK PMIC on newer devices
+Date:   Fri, 26 Jun 2020 16:04:55 +0200
+Message-Id: <a5d8185e00c6248e4076095101b6a1add8954f11.1593180146.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1593180146.git.mchehab+huawei@kernel.org>
 References: <cover.1593180146.git.mchehab+huawei@kernel.org>
@@ -47,180 +47,107 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support code for this driver to use ACPI power management.
+Newer devices don't place the PMIC CLK line inside an EFI
+var. Instead, those are found at the _PR0 table.
 
-Yet, at least with known devices, this won't work without
-further changes.
-
-The rationale is that the ACPI handling code checks for the _PR? tables
-in order to know what is required to switch the device from power state
-D0 (_PR0) up to D3COLD (_PR3).
-
-The adev->flags.power_manageable is set to true if the device has a _PR0
-table, which can be checked by calling acpi_device_power_manageable(adev).
-
-However, this only says that the device can be set to power off mode.
-
-At least on the DSDT tables we've seen so far, there's no _PR3 nor _PS3
-(which would have a somewhat similar effect).
-
-So, using ACPI for power management won't work, except if adding
-an ACPI override logic somewhere.
+Add a parser for it, using info stored via the DSDT table.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../media/atomisp/pci/atomisp_gmin_platform.c | 89 +++++++++++++++++--
- 1 file changed, 83 insertions(+), 6 deletions(-)
+ .../media/atomisp/pci/atomisp_gmin_platform.c | 66 ++++++++++++++++++-
+ 1 file changed, 64 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-index 74331c4467bd..2903aa52115b 100644
+index 2903aa52115b..e476cf1f3294 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-@@ -65,7 +65,6 @@ enum clock_rate {
- struct gmin_subdev {
- 	struct v4l2_subdev *subdev;
- 	enum clock_rate clock_src;
--	bool clock_on;
- 	struct clk *pmc_clk;
- 	struct gpio_desc *gpio0;
- 	struct gpio_desc *gpio1;
-@@ -77,6 +76,8 @@ struct gmin_subdev {
- 	unsigned int csi_lanes;
- 	enum atomisp_input_format csi_fmt;
- 	enum atomisp_bayer_order csi_bayer;
-+
-+	bool clock_on;
- 	bool v1p8_on;
- 	bool v2p8_on;
- 	bool v1p2_on;
-@@ -107,7 +108,7 @@ static enum {
- } pmic_id;
+@@ -444,6 +444,61 @@ static int gmin_i2c_write(struct device *dev, u16 i2c_addr, u8 reg,
+ 	return ret;
+ }
  
- static const char *pmic_name[] = {
--	[PMIC_UNSET]		= "unset",
-+	[PMIC_UNSET]		= "ACPI device PM",
- 	[PMIC_REGULATOR]	= "regulator driver",
- 	[PMIC_AXP]		= "XPower AXP288 PMIC",
- 	[PMIC_TI]		= "Dollar Cove TI PMIC",
-@@ -500,8 +501,39 @@ static struct gmin_subdev *gmin_subdev_add(struct v4l2_subdev *subdev)
- 		gs->gpio1 = NULL;
- 
- 	/*
--	 * FIXME: the code below doesn't rely on ACPI device_pm.c code to
--	 * set clocks and do power management.
-+	 * FIXME:
-+	 *
-+	 * The ACPI handling code checks for the _PR? tables in order to
-+	 * know what is required to switch the device from power state
-+	 * D0 (_PR0) up to D3COLD (_PR3).
-+	 *
-+	 * The adev->flags.power_manageable is set to true if the device
-+	 * has a _PR0 table, which can be checked by calling
-+	 * acpi_device_power_manageable(adev).
-+	 *
-+	 * However, this only says that the device can be set to power off
-+	 * mode.
-+	 *
-+	 * At least on the DSDT tables we've seen so far, there's no _PR3,
-+	 * nor _PS3 (which would have a somewhat similar effect).
-+	 * So, using ACPI for power management won't work, except if adding
-+	 * an ACPI override logic somewhere.
-+	 *
-+	 * So, at least for the existing devices we know, the check below
-+	 * will always be false.
-+	 */
-+	if (acpi_device_can_wakeup(adev) &&
-+	    acpi_device_can_poweroff(adev)) {
-+		dev_info(dev,
-+			 "gmin: power management provided via device PM\n");
++static int atomisp_get_acpi_power(struct device *dev, acpi_handle handle)
++{
++	char name[5];
++	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
++	struct acpi_buffer b_name = { sizeof(name), name };
++	union acpi_object *package, *element;
++	acpi_handle rhandle;
++	acpi_status status;
++	int clock_num = -1;
++	int i;
 +
-+		return gs;
++	status = acpi_evaluate_object(handle, "_PR0", NULL, &buffer);
++	if (!ACPI_SUCCESS(status))
++		return -1;
++
++	package = buffer.pointer;
++
++	if (!buffer.length || !package
++	    || package->type != ACPI_TYPE_PACKAGE
++	    || !package->package.count)
++		goto fail;
++
++	for (i = 0; i < package->package.count; i++) {
++		element = &package->package.elements[i];
++
++		if (element->type != ACPI_TYPE_LOCAL_REFERENCE)
++			continue;
++
++		rhandle = element->reference.handle;
++		if (!rhandle)
++			goto fail;
++
++		acpi_get_name(rhandle, ACPI_SINGLE_NAME, &b_name);
++
++		dev_dbg(dev, "Found PM resource '%s'\n", name);
++		if (strlen(name) == 4 && !strncmp(name, "CLK", 3)) {
++		        if (name[3] >= '0' && name[3] <= '4')
++				clock_num = name[3] - '0';
++#if 0
++			/*
++			 * We could abort here, but let's parse all resources,
++			 * as this is helpful for debugging purposes
++			 */
++			if (clock_num >= 0)
++			    break;
++#endif
++		}
 +	}
 +
-+	/*
-+	 * The code below is here due to backward compatibility with devices
-+	 * whose ACPI BIOS may not contain everything that would be needed
-+	 * in order to set clocks and do power management.
- 	 */
- 
- 	if (!pmic_id) {
-@@ -856,6 +888,37 @@ static int gmin_v2p8_ctrl(struct v4l2_subdev *subdev, int on)
- 	return -EINVAL;
- }
- 
-+static int gmin_acpi_pm_ctrl(struct v4l2_subdev *subdev, int on)
-+{
-+	int ret = 0;
-+	struct gmin_subdev *gs = find_gmin_subdev(subdev);
-+	struct i2c_client *client = v4l2_get_subdevdata(subdev);
-+	struct acpi_device *adev = ACPI_COMPANION(&client->dev);
++fail:
++	ACPI_FREE(buffer.pointer);
 +
-+	/* Use the ACPI power management to control it */
-+	on = !!on;
-+	if (gs->clock_on == on)
-+		return 0;
-+
-+	dev_dbg(subdev->dev, "Setting power state to %s\n",
-+		on ? "on" : "off");
-+
-+	if (on)
-+		ret = acpi_device_set_power(adev,
-+					    ACPI_STATE_D0);
-+	else
-+		ret = acpi_device_set_power(adev,
-+					    ACPI_STATE_D3_COLD);
-+
-+	if (!ret)
-+		gs->clock_on = on;
-+	else
-+		dev_err(subdev->dev, "Couldn't set power state to %s\n",
-+		        on ? "on" : "off");
-+
-+	return ret;
++	return clock_num;
 +}
 +
- static int gmin_flisclk_ctrl(struct v4l2_subdev *subdev, int on)
+ static struct gmin_subdev *gmin_subdev_add(struct v4l2_subdev *subdev)
  {
- 	int ret = 0;
-@@ -921,7 +984,7 @@ static struct camera_vcm_control *gmin_get_vcm_ctrl(struct v4l2_subdev *subdev,
- 	return NULL;
- }
+ 	struct i2c_client *power = NULL, *client = v4l2_get_subdevdata(subdev);
+@@ -451,7 +506,7 @@ static struct gmin_subdev *gmin_subdev_add(struct v4l2_subdev *subdev)
+ 	struct gmin_subdev *gs;
+ 	acpi_handle handle;
+ 	struct device *dev;
+-	int i, ret, clock_num;
++	int i, ret, clock_num = -1;
  
--static struct camera_sensor_platform_data gmin_plat = {
-+static struct camera_sensor_platform_data pmic_gmin_plat = {
- 	.gpio0_ctrl = gmin_gpio0_ctrl,
- 	.gpio1_ctrl = gmin_gpio1_ctrl,
- 	.v1p8_ctrl = gmin_v1p8_ctrl,
-@@ -932,6 +995,17 @@ static struct camera_sensor_platform_data gmin_plat = {
- 	.get_vcm_ctrl = gmin_get_vcm_ctrl,
- };
- 
-+static struct camera_sensor_platform_data acpi_gmin_plat = {
-+	.gpio0_ctrl = gmin_gpio0_ctrl,
-+	.gpio1_ctrl = gmin_gpio1_ctrl,
-+	.v1p8_ctrl = gmin_acpi_pm_ctrl,
-+	.v2p8_ctrl = gmin_acpi_pm_ctrl,
-+	.v1p2_ctrl = gmin_acpi_pm_ctrl,
-+	.flisclk_ctrl = gmin_acpi_pm_ctrl,
-+	.csi_cfg = gmin_csi_cfg,
-+	.get_vcm_ctrl = gmin_get_vcm_ctrl,
-+};
+ 	if (!client)
+ 		return NULL;
+@@ -570,7 +625,14 @@ static struct gmin_subdev *gmin_subdev_add(struct v4l2_subdev *subdev)
+ 	 * is a power resource already, falling back to the EFI vars detection
+ 	 * otherwise.
+ 	 */
+-	clock_num = gmin_get_var_int(dev, false, "CamClk", -1);
 +
- struct camera_sensor_platform_data *gmin_camera_platform_data(
-     struct v4l2_subdev *subdev,
-     enum atomisp_input_format csi_format,
-@@ -942,7 +1016,10 @@ struct camera_sensor_platform_data *gmin_camera_platform_data(
- 	gs->csi_fmt = csi_format;
- 	gs->csi_bayer = csi_bayer;
++	/* Try first to use ACPI to get the clock resource */
++	if (acpi_device_power_manageable(adev))
++		clock_num = atomisp_get_acpi_power(dev, handle);
++
++	/* Fall-back use EFI and/or DMI match */
++	if (clock_num < 0)
++		clock_num = gmin_get_var_int(dev, false, "CamClk", 0);
  
--	return &gmin_plat;
-+	if (gs->pmc_clk)
-+		return &pmic_gmin_plat;
-+	else
-+		return &acpi_gmin_plat;
- }
- EXPORT_SYMBOL_GPL(gmin_camera_platform_data);
- 
+ 	if (clock_num < 0 || clock_num > MAX_CLK_COUNT) {
+ 		dev_err(dev, "Invalid clock number\n");
 -- 
 2.26.2
 
