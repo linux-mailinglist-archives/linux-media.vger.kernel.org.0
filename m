@@ -2,113 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D64220B269
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 15:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A79E020B270
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 15:24:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726082AbgFZNXS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 09:23:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33116 "EHLO
+        id S1725864AbgFZNY0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 09:24:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725864AbgFZNXS (ORCPT
+        with ESMTP id S1725940AbgFZNY0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 09:23:18 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7741C03E979;
-        Fri, 26 Jun 2020 06:23:17 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id y18so5136289lfh.11;
-        Fri, 26 Jun 2020 06:23:17 -0700 (PDT)
+        Fri, 26 Jun 2020 09:24:26 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 148F2C03E97A
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 06:24:26 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id n24so9385252ejd.0
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 06:24:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=PM74e3+EpsWuBmUt4WwdQ1M5mcj6bdNzDdF2OfJXJbU=;
-        b=hlD2jkt5VhihxQSWPiApn8iLWjgnzyZ82HMMilY8YqWLg0Rp0tA46wLUhKk5N7EXy9
-         rgo1PcPqVGOymD791BKvsG7IpgOYA6aS8W1g5FJXLON4jdbgHBOuBhmWE3dbr8a7FPwa
-         kToKleRM7s9Oy27qpmQhC3hg/77lHgA0sQ9EPHbReYMPDaq3Jgqky0f+lkJjKwczKdXC
-         YWFIwIP+rkhiKo3s5jn41OhPPilMcLMSJes4MafT+7LW7sIRWxj2NAxPKbT5r4/TSYE4
-         rg+KImjbc8tldNfmaiowmnUocZgeTvqMvk3vculDr/1ix9vsUc30Etc0zLEpxfywAeS3
-         XafQ==
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=tjgpLIeFDAUiFcn3O1uMF3bzTcfrQw5iKCt6Q1RB/zs=;
+        b=VH2xmQ7xOUVzvi1Bpr0+81VUngWtaSOPYYj/vYlCEGjnhgrfpJQVlt1wsJpc0Z74Zs
+         KMmstZQNvRrv2YuO00MpMI0ZstSIcy52IlgQS6uCddaZLiM5qgFWcher6siajvG0raHz
+         Erk87DzS/WYSUZmNBkP7Yc7b3X5dU9khMW6rc78l4N2ABGCAfk4gc9ICSn/Rhi6fOY2a
+         aacbzHjewM7t0ozKlAojFNLkLaJFdQaGJA0Z7uOonV2otiK2Q9voimP2zRINBysP++ZO
+         KTevp3SIlf4NHjpvgPson4z/2YNPdTWhisKmpeoYiIYKVV86ZzpZLuHdCaZCn4eLPllV
+         bkAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=PM74e3+EpsWuBmUt4WwdQ1M5mcj6bdNzDdF2OfJXJbU=;
-        b=osOHnJQtaToSP3vj3HvDjuBsmmT75JnDy0AISToHBxP+FQ+yau+vnfVAOmEqeqCRNJ
-         F6DAJLCw/QYNuOvPe5t987KAP90tKPtNAnrxoS7rgWEUr28mSzWC448a/gzpUKa3h0lw
-         kFlfo6ywFUWCzkT0kPIXzmvou7xQuXhtquWb04SPLiaRMuI66cNaqxKjLRoAe2XPO8Gz
-         shoxojinO6COJqUoi2rFKq23TvKr6CQk/SLN/bQMazIJ7GQ1QtaY6WfrJ9at/VoDoPsx
-         Ojod61PyIDV7LzbQdkqtne1yVtnagzr6GWnbPHAE62ND1zXhk+08s+RVYDt7IaMe/EQg
-         xDlw==
-X-Gm-Message-State: AOAM530DoLlPpVj/+urw2Y3mjHBQDC5UKpYe4J7pfX8FS9PuDrcWxpQc
-        DFr0FQTj/Maz4xqDl3VHxwAOkXqKjJY=
-X-Google-Smtp-Source: ABdhPJzHpPU2SCmHwo7ktOuCeE7fdiW20wkbAMADVrBVU1XwpDL0ypMwHVUjWBGz/2d+xgsFj6dLEQ==
-X-Received: by 2002:ac2:4158:: with SMTP id c24mr1868233lfi.109.1593177796021;
-        Fri, 26 Jun 2020 06:23:16 -0700 (PDT)
-Received: from [192.168.2.145] (79-139-237-54.dynamic.spd-mgts.ru. [79.139.237.54])
-        by smtp.googlemail.com with ESMTPSA id h189sm6776569lfd.47.2020.06.26.06.23.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jun 2020 06:23:15 -0700 (PDT)
-Subject: Re: [PATCH v2 0/4] Tegra Video Decoder driver power management
- corrections
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-References: <20200624150847.22672-1-digetx@gmail.com>
- <90323aa6-38b5-0a45-69a7-ccf380690a78@xs4all.nl>
- <23cbaa18-9461-8f72-3d43-aa14cd0c1095@gmail.com>
- <0e14df05-8299-52d6-df8f-0dd476f4109d@gmail.com>
- <e41ff660-6c6c-d603-c767-34e7f4b4a23d@xs4all.nl>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <3adf74ea-3aba-ad93-977a-8b42ab653ee9@gmail.com>
-Date:   Fri, 26 Jun 2020 16:23:14 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=tjgpLIeFDAUiFcn3O1uMF3bzTcfrQw5iKCt6Q1RB/zs=;
+        b=Ds1IxmiOV8k97vlcfTUoqZ2rYDB7gbSq3jh1v7gh8In9XlTaFiLOBWZvSQclSZUleU
+         Tb4SQVQRsPLvvm/J1JN9myX61rerLCLxAbpxreASzvsPEdkpVhmFp/XuabPwVK1p9Wb1
+         mVGVRP3jBB1+iH1GigmyqUTthVD07bA37+x42WULII0kRL+SdfTjalsKK3vwDJ7oAeqW
+         SWQhm0COTbTyKCqLjOdqkLdXCDzMu5K2taFJjxyHThG5Zap/xv3QeuvU50jBTFf8Ktff
+         Sxpa7YYpDjeeCaeoxUB+K0lWA3L8xAKikfTCMPswSmyTuzs2P6P5c2vYgUwdLeCRt0KC
+         WxUg==
+X-Gm-Message-State: AOAM533i+lht7fOxeuln911NZpvPj0SNypFt38l0qmvHsyIovM4cptoU
+        9c3Ocjgb7+DLHKwN7CLNZBHud0ou7PQl6fV9bjGBqIU2qUA=
+X-Google-Smtp-Source: ABdhPJzCxIM+KdZNlOFJTljDVtD3oYCwf1Pcnq2gyu3IIzH/fmaKmDYmd7Bx8Nve1yopWdonkPBGDz2w6P4EkjGNn8I=
+X-Received: by 2002:a17:906:7283:: with SMTP id b3mr2653962ejl.163.1593177864478;
+ Fri, 26 Jun 2020 06:24:24 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e41ff660-6c6c-d603-c767-34e7f4b4a23d@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20200626124808.1886430-1-darekm@google.com>
+In-Reply-To: <20200626124808.1886430-1-darekm@google.com>
+From:   Guenter Roeck <groeck@google.com>
+Date:   Fri, 26 Jun 2020 06:24:13 -0700
+Message-ID: <CABXOdTevmLk9-Zwj+xCM2BN-QFHcmn-UE0ZPmrzUpQpk_QhhfQ@mail.gmail.com>
+Subject: Re: [PATCH v3] media: cros-ec-cec: do not bail on device_init_wakeup failure
+To:     Dariusz Marcinkiewicz <darekm@google.com>
+Cc:     linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Gwendal Grignou <gwendal@chromium.org>,
+        "# v4 . 10+" <stable@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Benson Leung <bleung@chromium.org>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Guenter Roeck <groeck@chromium.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Dariusz Marcinkiewicz <darekm@chromium.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-26.06.2020 09:58, Hans Verkuil пишет:
-> On 26/06/2020 02:17, Dmitry Osipenko wrote:
->> 24.06.2020 18:23, Dmitry Osipenko пишет:
->>> 24.06.2020 18:16, Hans Verkuil пишет:
->>>> On 24/06/2020 17:08, Dmitry Osipenko wrote:
->>>>> Hello,
->>>>>
->>>>> This small series addresses a Runtime PM issue that was discovered during
->>>>> of Tegra VI driver reviewing by balancing RPM usage count on RPM resume
->>>>> failure. Secondly it fixes reboot on some Tegra devices due to bootloader
->>>>> expecting VDE power partition to be ON at the boot time, which wasn't
->>>>> happening in case of a warm re-booting (i.e. by PMC resetting).
->>>>
->>>> Can you rebase this on top of the media_tree master branch? I think a variant
->>>> of patch 1 has already been applied. I found a mail today where you mentioned
->>>> that you preferred your version (it looks like I missed that) so you'll need to
->>>> rework patch 1.
->>>
->>> Hello Hans,
->>>
->>> I'll take a look at what patches has been applied, my bad for sending
->>> the v2 too late. Thank you for the heads up!
->>>
->>
->> I tested the already-applied variant of the patch 1 and it has the same
->> behaviour as my variant, so it's okay.
->>
->> Would you want me to send a v3 without the conflicting patch 1 or you
->> could apply the patches 2-4 from this series?
->>
-> 
-> I'll mark 1/4 as superseded and will apply patches 2-4. No need for you
-> to do anything.
+On Fri, Jun 26, 2020 at 5:50 AM Dariusz Marcinkiewicz <darekm@google.com> wrote:
+>
+> Do not fail probing when device_init_wakeup fails. Also clear wakeup
+> on remove.
+>
+> device_init_wakeup fails when the device is already enabled as wakeup
+> device. Hence, the driver fails to probe the device if:
+> - The device has already been enabled for wakeup (via /proc/acpi/wakeup)
+> - The driver has been unloaded and is being loaded again.
+>
+> This goal of the patch is to fix the above cases.
+>
+> Overwhelming majority of the drivers do not consider device_init_wakeup
+> failure as a fatal error and proceed regardless of whether it succeeds
+> or not.
+>
+> Changes since v2:
+>  - disabled wakeup in remove
+>  - CC'ing stable
+>  - description fixed
+> Changes since v1:
+>  - added Fixes tag
+>
+> Fixes: cd70de2d356ee ("media: platform: Add ChromeOS EC CEC driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Dariusz Marcinkiewicz <darekm@google.com>
 
-Thank you!
+Reviewed-by: Guenter Roeck <groeck@chromium.org>
+
+> ---
+>  drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 10 ++++------
+>  1 file changed, 4 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> index 0e7e2772f08f..3881ed7bc3d9 100644
+> --- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> +++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+> @@ -277,12 +277,6 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+>         platform_set_drvdata(pdev, cros_ec_cec);
+>         cros_ec_cec->cros_ec = cros_ec;
+>
+> -       ret = device_init_wakeup(&pdev->dev, 1);
+> -       if (ret) {
+> -               dev_err(&pdev->dev, "failed to initialize wakeup\n");
+> -               return ret;
+> -       }
+> -
+>         cros_ec_cec->adap = cec_allocate_adapter(&cros_ec_cec_ops, cros_ec_cec,
+>                                                  DRV_NAME,
+>                                                  CEC_CAP_DEFAULTS |
+> @@ -310,6 +304,8 @@ static int cros_ec_cec_probe(struct platform_device *pdev)
+>         if (ret < 0)
+>                 goto out_probe_notify;
+>
+> +       device_init_wakeup(&pdev->dev, 1);
+> +
+>         return 0;
+>
+>  out_probe_notify:
+> @@ -339,6 +335,8 @@ static int cros_ec_cec_remove(struct platform_device *pdev)
+>                                          cros_ec_cec->adap);
+>         cec_unregister_adapter(cros_ec_cec->adap);
+>
+> +       device_init_wakeup(&pdev->dev, 0);
+> +
+>         return 0;
+>  }
+>
+> --
+> 2.27.0.212.ge8ba1cc988-goog
+>
