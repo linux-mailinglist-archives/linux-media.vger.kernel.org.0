@@ -2,41 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60C3020B147
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 14:19:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3C5420B14A
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 14:19:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728363AbgFZMTt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 08:19:49 -0400
-Received: from mga01.intel.com ([192.55.52.88]:27852 "EHLO mga01.intel.com"
+        id S1728376AbgFZMTv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 08:19:51 -0400
+Received: from mga11.intel.com ([192.55.52.93]:29753 "EHLO mga11.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728286AbgFZMTi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 08:19:38 -0400
-IronPort-SDR: 0+TqU2V0xgdnng6W2CxbaKFX3YL3a5o3FZTKkk8UrcwoYK7B4Ce4TYCB3zlQMl+kQJLbjrVe//
- RaOxnUEeK0eg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9663"; a="163348543"
+        id S1728353AbgFZMTt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 26 Jun 2020 08:19:49 -0400
+IronPort-SDR: UVkFqtVOSusx1ikKTHAdEtOCYZVp61e8qmLLoVkLZJqLhcZzY8jdsY6yhNI143n+Zc5JwR74ZZ
+ LuwK1F/vwy+g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9663"; a="143544881"
 X-IronPort-AV: E=Sophos;i="5.75,283,1589266800"; 
-   d="scan'208";a="163348543"
+   d="scan'208";a="143544881"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2020 05:19:32 -0700
-IronPort-SDR: a+MpeqzzMWa8jC9dofplje9un30PEFV7VlOcQqW6/4U1m4dPMf5IE+oojaMAIQinNpArXkJgAG
- YWoU0JQsyBYA==
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Jun 2020 05:19:33 -0700
+IronPort-SDR: YUBmXrTewMBQv5SY1Lq/Mpk0dD76KLFEEihbmVlgx9+wqNP0KLMKrocTq1A5U1meSVaKAIgN93
+ LRTWiXYZvcKA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.75,283,1589266800"; 
-   d="scan'208";a="479985589"
+   d="scan'208";a="424058158"
 Received: from black.fi.intel.com ([10.237.72.28])
-  by fmsmga005.fm.intel.com with ESMTP; 26 Jun 2020 05:19:31 -0700
+  by orsmga004.jf.intel.com with ESMTP; 26 Jun 2020 05:19:31 -0700
 Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id 70F896A8; Fri, 26 Jun 2020 15:19:28 +0300 (EEST)
+        id 75FEE3D3; Fri, 26 Jun 2020 15:19:28 +0300 (EEST)
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org,
         Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v2 11/15] media: atomisp: Make pointer to PMIC client global
-Date:   Fri, 26 Jun 2020 15:19:21 +0300
-Message-Id: <20200626121925.14365-12-andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 12/15] media: atomisp: Refactor PMIC detection to a separate function.
+Date:   Fri, 26 Jun 2020 15:19:22 +0300
+Message-Id: <20200626121925.14365-13-andriy.shevchenko@linux.intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200626121925.14365-1-andriy.shevchenko@linux.intel.com>
 References: <20200626121925.14365-1-andriy.shevchenko@linux.intel.com>
@@ -47,50 +47,86 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When we enumerate second device when PMIC has been successfully detected
-to AXP, we got into troubles dereferencing NULL pointer. It seems
-we have to detect PMIC only once because pmic_id is a global variable
-and code doesn't expect the change of it: Two PMICs on one platform?
-It's impossible.
-
-Crash excerpt:
-[   34.335237] BUG: kernel NULL pointer dereference, address: 0000000000000002
-...
-[   35.652036] RIP: 0010:gmin_subdev_add.cold+0x32f/0x33e [atomisp_gmin_platform]
-
-So, as a quick fix make power a global variable. In next patches we move
-PMIC detection to be more independent from subdevices.
+Refactor PMIC detection to a separate function. In the future
+we may move this code somewhere else where it's more suitable.
 
 Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 ---
- drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ .../media/atomisp/pci/atomisp_gmin_platform.c | 40 +++++++++++--------
+ 1 file changed, 23 insertions(+), 17 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-index f06c0eb6d288..84e9bf1825fa 100644
+index 84e9bf1825fa..26f200b1ed6d 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
-@@ -437,9 +437,11 @@ static int gmin_i2c_write(struct device *dev, u16 i2c_addr, u8 reg,
- 	return ret;
- }
+@@ -439,19 +439,34 @@ static int gmin_i2c_write(struct device *dev, u16 i2c_addr, u8 reg,
  
-+static struct i2c_client *power;
+ static struct i2c_client *power;
+ 
++static int gmin_pmic_detect(struct v4l2_subdev *subdev)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(subdev);
++	struct device *dev = &client->dev;
++
++	if (pmic_id)
++		return pmic_id;
++
++	if (gmin_i2c_dev_exists(dev, PMIC_ACPI_TI, &power))
++		pmic_id = PMIC_TI;
++	else if (gmin_i2c_dev_exists(dev, PMIC_ACPI_AXP, &power))
++		pmic_id = PMIC_AXP;
++	else if (gmin_i2c_dev_exists(dev, PMIC_ACPI_CRYSTALCOVE, &power))
++		pmic_id = PMIC_CRYSTALCOVE;
++	else
++		pmic_id = PMIC_REGULATOR;
++
++	return pmic_id;
++}
 +
  static struct gmin_subdev *gmin_subdev_add(struct v4l2_subdev *subdev)
  {
--	struct i2c_client *power = NULL, *client = v4l2_get_subdevdata(subdev);
-+	struct i2c_client *client = v4l2_get_subdevdata(subdev);
+ 	struct i2c_client *client = v4l2_get_subdevdata(subdev);
++	struct device *dev = &client->dev;
  	struct acpi_device *adev;
  	acpi_handle handle;
- 	struct device *dev;
-@@ -570,7 +572,6 @@ static struct gmin_subdev *gmin_subdev_add(struct v4l2_subdev *subdev)
- 		gmin_subdevs[i].eldo2_ctrl_shift = gmin_get_var_int(dev, false,
- 								    "eldo2_ctrl_shift",
- 								    ELDO2_CTRL_SHIFT);
--		gmin_subdevs[i].pwm_i2c_addr = power->addr;
- 		break;
+-	struct device *dev;
+ 	int i, ret;
  
- 	default:
+-	if (!client)
+-		return NULL;
+-
+-	dev = &client->dev;
+-
+ 	handle = ACPI_HANDLE(dev);
+ 
+ 	// FIXME: may need to release resources allocated by acpi_bus_get_device()
+@@ -463,17 +478,6 @@ static struct gmin_subdev *gmin_subdev_add(struct v4l2_subdev *subdev)
+ 	dev_info(&client->dev, "%s: ACPI detected it on bus ID=%s, HID=%s\n",
+ 		__func__, acpi_device_bid(adev), acpi_device_hid(adev));
+ 
+-	if (!pmic_id) {
+-		if (gmin_i2c_dev_exists(dev, PMIC_ACPI_TI, &power))
+-			pmic_id = PMIC_TI;
+-		else if (gmin_i2c_dev_exists(dev, PMIC_ACPI_AXP, &power))
+-			pmic_id = PMIC_AXP;
+-		else if (gmin_i2c_dev_exists(dev, PMIC_ACPI_CRYSTALCOVE, &power))
+-			pmic_id = PMIC_CRYSTALCOVE;
+-		else
+-			pmic_id = PMIC_REGULATOR;
+-	}
+-
+ 	for (i = 0; i < MAX_SUBDEVS && gmin_subdevs[i].subdev; i++)
+ 		;
+ 	if (i >= MAX_SUBDEVS)
+@@ -588,6 +592,8 @@ static struct gmin_subdev *find_gmin_subdev(struct v4l2_subdev *subdev)
+ 	for (i = 0; i < MAX_SUBDEVS; i++)
+ 		if (gmin_subdevs[i].subdev == subdev)
+ 			return &gmin_subdevs[i];
++
++	gmin_pmic_detect(subdev);
+ 	return gmin_subdev_add(subdev);
+ }
+ 
 -- 
 2.27.0
 
