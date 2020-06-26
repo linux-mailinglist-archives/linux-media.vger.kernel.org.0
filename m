@@ -2,261 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2B8020AA20
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 03:18:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B01520AA6B
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 04:17:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727017AbgFZBS5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 25 Jun 2020 21:18:57 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:36199 "EHLO
-        mail-qk1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726908AbgFZBS5 (ORCPT
+        id S1728098AbgFZCRe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 25 Jun 2020 22:17:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43640 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728000AbgFZCRc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 25 Jun 2020 21:18:57 -0400
-Received: by mail-qk1-f196.google.com with SMTP id e11so7466302qkm.3;
-        Thu, 25 Jun 2020 18:18:55 -0700 (PDT)
+        Thu, 25 Jun 2020 22:17:32 -0400
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33842C08C5C1
+        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2020 19:17:31 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id g67so3390260pgc.8
+        for <linux-media@vger.kernel.org>; Thu, 25 Jun 2020 19:17:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pesu-pes-edu.20150623.gappssmtp.com; s=20150623;
+        h=from:date:to:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=C9cKwuo46T4OQrYiN0jf2d+XY2/rTSOAO5/07IXErvU=;
+        b=E9IDCNPQpqP3Bmq1JubBLUBuabW2Gp9yfeXWaGS+Ca3o4tXDoyzU4KFTn9e5GBXiob
+         HTiI7bkgOza+4JTxAFlf2i4AG6AAsWbVulxePySyjzKh1U9Oaw1/khBoxjd1yLp7SiH2
+         wYzmX2dCzYNHF/7+kBx7F4UTgl3Dx81kmsJF8V4PZqvhVCm4SbomesBNboWU/slBlY4E
+         /coqKN+MZbwGG1W+pmAHtiahyNhySVmNL6IL7bAQHBl7Do/HK0ZKgRJfjzm3Y1wIovKs
+         2MDa9nlofzzLGl+jNQIt1sXdfZQ8yipLNuB/xLWEUlu60tg60WYfVRg1T59c63AbSSg1
+         +qvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=ec8A4N+Jq3oL4Ax3vxG1KXFiOR9fTqC6rq5WpMDA2qE=;
-        b=VgE+XXNTUpwGR3eHA2cJtASrBfk3IBDt/EWrYS620+oqIwl0+wEFhVl5eyw9XhFgQF
-         i5jaodqYl7v+dDyCeIyqVwLtftgX/SG3y20p41oJcHwZCPJ6fzFnlppde/cTsvX6+76q
-         DufqOwfWspRE3OpkMu5z5Na9YfFUhK9pIR3lVNTAA1Lm/IYTQZgDc99OAwQnyyjT66y1
-         01Fyonuiaf9H7mMzQRMXHOw6sS/y8s6QQ1MN5K/u+iIMlX3Yp28FZvX1tL9r6qosRJcs
-         8EMRtEALV0NUurE/0j2pSf2poAjyJiBq506uH1UJ9Xw/3Vg2v5EGB8zDS59FfObtXKZN
-         LedQ==
-X-Gm-Message-State: AOAM5322hAmw4zbIeQmDXM+iU+0i/8CaMcRRxG1br9/MYPJX3bfMdG2/
-        gu1DMJoLH8l5WJeYNhM8tavR9nO6gBo=
-X-Google-Smtp-Source: ABdhPJzKTfdXow0Dzwa5zjg9T/skdudWYK8b1eCv+5uwQG0hE67gNfeAs0k4Am86l+7LShNemEbUCg==
-X-Received: by 2002:a37:b701:: with SMTP id h1mr461414qkf.335.1593134335197;
-        Thu, 25 Jun 2020 18:18:55 -0700 (PDT)
-Received: from [192.168.1.113] ([179.159.57.232])
-        by smtp.gmail.com with ESMTPSA id y54sm7763608qtj.28.2020.06.25.18.18.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Jun 2020 18:18:54 -0700 (PDT)
-Subject: Re: [PATCH v5 3/3] media: vimc: Add a control to display info on test
- image
-To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
-        Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        hverkuil@xs4all.nl
-References: <20200624134354.7023-1-kgupta@es.iitr.ac.in>
- <20200624134354.7023-4-kgupta@es.iitr.ac.in>
-From:   Helen Koike <helen@koikeco.de>
-Message-ID: <df178c12-f172-90a8-8041-7a8bb67ebb6f@koikeco.de>
-Date:   Thu, 25 Jun 2020 22:18:50 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+        h=x-gm-message-state:from:date:to:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=C9cKwuo46T4OQrYiN0jf2d+XY2/rTSOAO5/07IXErvU=;
+        b=twvFNhfxs45XoDaJlSv638GwSN7PbLP7S6V1uV304GkU0jQUg2EYdOHMOmJaPI22yA
+         tziTOdgFFkfemhVSt1RaU2DySxglvcsYy8R8v3KnVsPn++8yz3pn9TGInsHoZdRxMSjk
+         UQjQCyQO/ff0n/wKOKoQ5IAN4XrJoWsKaCxLDkHvcR6d+hgaWhEtSRuDDEFY8XbZsGC/
+         GNUUcXz0LfCPz0uLfwE7BSaf+lOIrU4nymtKWoB1HEYiKOVjSBvk+JnTDQ+5kA98Ypov
+         c+Q5+xRZGvzLqEi4TXEMrOQEFmCA5mGdSpeVYdSxSYN+1JbDdaNJX/n1FwC8l75uZNRr
+         xNUg==
+X-Gm-Message-State: AOAM532NtsEA6GzGF4rpmU7mvBQkrD4mPXcd+vL6LOtnGTVSPAqJGGcA
+        oawRX5JP6bLaScskyaVpJNwaEg==
+X-Google-Smtp-Source: ABdhPJzsojEVWEwDErVET3M62SJCkzIEavMN3mExLU5NPys9mAJyxcRvlnQsml/NFgA9Wp6Rd43sCw==
+X-Received: by 2002:a05:6a00:15c3:: with SMTP id o3mr609027pfu.304.1593137850548;
+        Thu, 25 Jun 2020 19:17:30 -0700 (PDT)
+Received: from localhost ([2406:7400:73:e1a0:908:f18a:1156:5c38])
+        by smtp.gmail.com with ESMTPSA id m7sm21416701pgg.69.2020.06.25.19.17.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Jun 2020 19:17:29 -0700 (PDT)
+From:   B K Karthik <bkkarthik@pesu.pes.edu>
+X-Google-Original-From: B K Karthik <karthik.bk2000@live.com>
+Date:   Thu, 25 Jun 2020 22:17:23 -0400
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] fixing ERROR: Macros with complex values must be enclosed
+ within parentheses.
+Message-ID: <20200626021723.len2cts3ffq4wimq@pesu-pes-edu>
 MIME-Version: 1.0
-In-Reply-To: <20200624134354.7023-4-kgupta@es.iitr.ac.in>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wtu5diuv5qrhk3yt"
+Content-Disposition: inline
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kaaira,
 
-Thanks for your patch, I tested and it works great, just some other comments below.
+--wtu5diuv5qrhk3yt
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 6/24/20 10:43 AM, Kaaira Gupta wrote:
-> Add a control in VIMC to display information such as the correct order of
-> colors for a given test pattern, brightness, hue, saturation, contrast,
-> width and height at sensor over test image.
-> 
-> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
-> ---
->  drivers/media/test-drivers/vimc/Kconfig       |  2 +
->  drivers/media/test-drivers/vimc/vimc-common.h |  1 +
->  drivers/media/test-drivers/vimc/vimc-core.c   | 10 ++++
->  drivers/media/test-drivers/vimc/vimc-sensor.c | 57 +++++++++++++++++++
->  4 files changed, 70 insertions(+)
-> 
-> diff --git a/drivers/media/test-drivers/vimc/Kconfig b/drivers/media/test-drivers/vimc/Kconfig
-> index 4068a67585f9..da4b2ad6e40c 100644
-> --- a/drivers/media/test-drivers/vimc/Kconfig
-> +++ b/drivers/media/test-drivers/vimc/Kconfig
-> @@ -2,6 +2,8 @@
->  config VIDEO_VIMC
->  	tristate "Virtual Media Controller Driver (VIMC)"
->  	depends on VIDEO_DEV && VIDEO_V4L2
-> +	select FONT_SUPPORT
-> +	select FONT_8x16
->  	select MEDIA_CONTROLLER
->  	select VIDEO_V4L2_SUBDEV_API
->  	select VIDEOBUF2_VMALLOC
-> diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
-> index ae163dec2459..afda52253402 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-common.h
-> +++ b/drivers/media/test-drivers/vimc/vimc-common.h
-> @@ -20,6 +20,7 @@
->  #define VIMC_CID_VIMC_CLASS		(0x00f00000 | 1)
->  #define VIMC_CID_TEST_PATTERN		(VIMC_CID_VIMC_BASE + 0)
->  #define VIMC_CID_MEAN_WIN_SIZE		(VIMC_CID_VIMC_BASE + 1)
-> +#define VIMC_CID_SHOW_INFO		(VIMC_CID_VIMC_BASE + 2)
->  
->  #define VIMC_FRAME_MAX_WIDTH 4096
->  #define VIMC_FRAME_MAX_HEIGHT 2160
-> diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
-> index 11210aaa2551..461320ae965c 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-core.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-core.c
-> @@ -5,10 +5,12 @@
->   * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
->   */
->  
-> +#include <linux/font.h>
->  #include <linux/init.h>
->  #include <linux/module.h>
->  #include <linux/platform_device.h>
->  #include <media/media-device.h>
-> +#include <media/tpg/v4l2-tpg.h>
->  #include <media/v4l2-device.h>
->  
->  #include "vimc-common.h"
-> @@ -263,6 +265,7 @@ static int vimc_register_devices(struct vimc_device *vimc)
->  
->  static int vimc_probe(struct platform_device *pdev)
->  {
-> +	const struct font_desc *font = find_font("VGA8x16");
->  	struct vimc_device *vimc;
->  	int ret;
->  
-> @@ -272,6 +275,13 @@ static int vimc_probe(struct platform_device *pdev)
->  	if (!vimc)
->  		return -ENOMEM;
->  
-> +	if (!font) {
-> +		dev_err(&pdev->dev, "vimc: could not find font\n");
-> +		return -ENODEV;
+soc_camera.c:
 
-Move this check above the kzalloc(), otherwise there is a memory leak.
+fixing ERROR: Macros with complex values must be enclused within parenthese=
+s.
 
-> +	}
-> +
-> +	tpg_set_font(font->data);
-> +
->  	vimc->pipe_cfg = &pipe_cfg;
->  
->  	/* Link the media device within the v4l2_device */
-> diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
-> index a2f09ac9a360..d776fdcdc3bf 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
-> @@ -19,6 +19,8 @@ struct vimc_sen_device {
->  	struct v4l2_subdev sd;
->  	struct tpg_data tpg;
->  	u8 *frame;
-> +	unsigned show_info;
-> +	unsigned ns;
->  	/* The active format */
->  	struct v4l2_mbus_framefmt mbus_format;
->  	struct v4l2_ctrl_handler hdl;
-> @@ -185,10 +187,43 @@ static const struct v4l2_subdev_pad_ops vimc_sen_pad_ops = {
->  static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
->  				    const void *sink_frame)
->  {
-> +	u8 *basep[TPG_MAX_PLANES][2];
-> +	char str[100];
-> +	int line = 1;
->  	struct vimc_sen_device *vsen = container_of(ved, struct vimc_sen_device,
->  						    ved);
->  
->  	tpg_fill_plane_buffer(&vsen->tpg, 0, 0, vsen->frame);
-> +	tpg_calc_text_basep(&vsen->tpg, basep, 0, vsen->frame);
-> +
-> +	if (vsen->show_info <= 1) {
-> +		unsigned ms;
-> +
-> +		ms = (ktime_get_ns() - vsen->ns) / 1000000;
-> +		snprintf(str, sizeof(str), "%02d:%02d:%02d:%03d",
-> +			 (ms / (60 * 60 * 1000)) % 24,
-> +			 (ms / (60 * 1000)) % 60,
-> +			 (ms / 1000) % 60,
-> +			 ms % 1000);
-> +		tpg_gen_text(&vsen->tpg, basep, line++ * 16, 16, str);
-> +	}
-> +
-> +	if (vsen->show_info == 0) {
-> +		const char *order = tpg_g_color_order(&vsen->tpg);
-> +
-> +		tpg_gen_text(&vsen->tpg, basep, line++ * 16, 16, order);
-> +		snprintf(str, sizeof(str),
-> +			 "brightness %3d, contrast %3d, saturation %3d, hue %d ",
-> +			 vsen->tpg.brightness,
-> +			 vsen->tpg.contrast,
-> +			 vsen->tpg.saturation,
-> +			 vsen->tpg.hue);
-> +		tpg_gen_text(&vsen->tpg, basep, line++ * 16, 16, str);
-> +		snprintf(str, sizeof(str), "sensor size: %dx%d",
-> +			 vsen->mbus_format.width, vsen->mbus_format.height);
-> +		tpg_gen_text(&vsen->tpg, basep, line++ * 16, 16, str);
-> +	}
-> +
->  	return vsen->frame;
->  }
->  
-> @@ -201,6 +236,8 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
->  		const struct vimc_pix_map *vpix;
->  		unsigned int frame_size;
->  
-> +		vsen->ns = ktime_get_ns();
-> +
->  		/* Calculate the frame size */
->  		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
->  		frame_size = vsen->mbus_format.width * vpix->bpp *
-> @@ -269,6 +306,9 @@ static int vimc_sen_s_ctrl(struct v4l2_ctrl *ctrl)
->  	case V4L2_CID_SATURATION:
->  		tpg_s_saturation(&vsen->tpg, ctrl->val);
->  		break;
-> +	case VIMC_CID_SHOW_INFO:
-> +		vsen->show_info = ctrl->val;
-> +		break;
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -307,6 +347,22 @@ static const struct v4l2_ctrl_config vimc_sen_ctrl_test_pattern = {
->  	.qmenu = tpg_pattern_strings,
->  };
->  
-> +static const char * const vimc_ctrl_show_info_strings[] = {
-> +	"All",
-> +	"Counters Only",
-> +	"None",
-> +	NULL,
-> +};
-> +
-> +static const struct v4l2_ctrl_config vimc_sen_ctrl_show_info = {
-> +	.ops = &vimc_sen_ctrl_ops,
-> +	.id = VIMC_CID_SHOW_INFO,
-> +	.name = "Show Information",
+Signed-off-by: B K Karthik <karthik.bk2000@live.com>
+---
+ drivers/staging/media/soc_camera/soc_camera.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Vivid calls is "OSD Text Mode", maybe we could do the same.
-And rename the id to VIMC_CID_OSD_TEXT_MODE and all the show_info to osd_mode.
+diff --git a/drivers/staging/media/soc_camera/soc_camera.c b/drivers/stagin=
+g/media/soc_camera/soc_camera.c
+index 39f513f69b89..f609ecf6691c 100644
+--- a/drivers/staging/media/soc_camera/soc_camera.c
++++ b/drivers/staging/media/soc_camera/soc_camera.c
+@@ -238,8 +238,7 @@ unsigned long soc_camera_apply_board_flags(struct soc_c=
+amera_subdev_desc *ssdd,
+ }
+ EXPORT_SYMBOL(soc_camera_apply_board_flags);
+=20
+-#define pixfmtstr(x) (x) & 0xff, ((x) >> 8) & 0xff, ((x) >> 16) & 0xff, \
+-	((x) >> 24) & 0xff
++#define pixfmtstr(x) ((x) & 0xff, ((x) >> 8) & 0xff, ((x) >> 16) & 0xff, (=
+(x) >> 24) & 0xff)
+=20
+ static int soc_camera_try_fmt(struct soc_camera_device *icd,
+ 			      struct v4l2_format *f)
+--=20
+2.20.1
 
-Regards,
-Helen
 
-> +	.type = V4L2_CTRL_TYPE_MENU,
-> +	.max = ARRAY_SIZE(vimc_ctrl_show_info_strings) - 2,
-> +	.qmenu = vimc_ctrl_show_info_strings,
-> +};
-> +
->  static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->  					    const char *vcfg_name)
->  {
-> @@ -323,6 +379,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->  
->  	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_class, NULL);
->  	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_test_pattern, NULL);
-> +	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_show_info, NULL);
->  	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
->  			  V4L2_CID_VFLIP, 0, 1, 1, 0);
->  	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
-> 
+--wtu5diuv5qrhk3yt
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQGzBAEBCgAdFiEEpIrzAt4LvWLJmKjp471Q5AHeZ2oFAl71WrMACgkQ471Q5AHe
+Z2rirQv/QQcRtEifvypBhlZr7yuzX+8HlXqUu66cTwep5gDD2GoI/xmoiGSbzQic
+AOIOMWsTQYKGU6VATt4FfVmsrSuXXiFcWwYJwmtlp51oAmph7quEXEiwQgYPjURT
+YLEXzPt4OcK2VTJFm4nveRGzsIhJX3Zh1SqQ2/Jx1mr9mRa3AyBPCrLarx+wmkbf
+LAg3jNHVq778Q69YyEfIpVMw1l39zh/OZnukEJF1JHPXIRIKwxwAluIT9E12uWgv
+KJwYZKtXvCCE+PEA5EZeXGE00N9ZfUO98JfVShwddu4YuN7b978ukqmNZsaz1dY5
+EX2HByFbOMQbXrHe+58QA7Qqw2K/d3RmE+66cq9xCbSctdTerUkzkbM4wEeukBCw
+81PQIHIp0fupT0TGNVgPRZXm8jcpOd7R7pQDYMM5j/R2iCFiR+Bq+zq7ZkZOTBec
+OGD1q1DiOZpr/kBA9Fxp1OHfj9KVaUHI5o7dZk79XErxfkCgghLeEHG8ojsAwytI
+YWOpUkjF
+=N+em
+-----END PGP SIGNATURE-----
+
+--wtu5diuv5qrhk3yt--
