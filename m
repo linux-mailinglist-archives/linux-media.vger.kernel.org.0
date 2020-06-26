@@ -2,22 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C83DF20B10A
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 13:55:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 275AA20B111
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 13:59:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728880AbgFZLzp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 07:55:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47830 "EHLO
+        id S1728897AbgFZL71 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 07:59:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727793AbgFZLzp (ORCPT
+        with ESMTP id S1726256AbgFZL71 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 07:55:45 -0400
+        Fri, 26 Jun 2020 07:59:27 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD60AC08C5DB;
-        Fri, 26 Jun 2020 04:55:44 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 197E1C08C5DB;
+        Fri, 26 Jun 2020 04:59:27 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id 9769F2A5A84
+        with ESMTPSA id CB1E22A5A99
 Subject: Re: [PATCH v6 3/3] media: vimc: Add a control to display info on test
  image
 To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
@@ -29,8 +29,8 @@ To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
 References: <20200626113618.15280-1-kgupta@es.iitr.ac.in>
  <20200626113618.15280-4-kgupta@es.iitr.ac.in>
 From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <e8660995-6ad5-8ee7-962c-d046cb4d0b7a@collabora.com>
-Date:   Fri, 26 Jun 2020 08:55:36 -0300
+Message-ID: <694350b5-cd61-1e9d-36ee-6028b59a53a6@collabora.com>
+Date:   Fri, 26 Jun 2020 08:59:19 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.7.0
 MIME-Version: 1.0
@@ -188,7 +188,7 @@ I would just re-order the declaration vars to have the longest lines first.
 > +		tpg_gen_text(&vsen->tpg, basep, line++ * line_height, 16, str);
 > +	}
 
-How about the nice case-switch statement proposed by Kieram in the last version?
+How about the nice case-switch statement proposed by Kieran in the last version?
 
 Thanks,
 Helen
