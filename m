@@ -2,36 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0403A20AE99
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 10:58:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C05E20AE9A
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 10:58:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725962AbgFZI6n convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 26 Jun 2020 04:58:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48872 "EHLO
+        id S1725876AbgFZI6x convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 26 Jun 2020 04:58:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48898 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725850AbgFZI6n (ORCPT
+        with ESMTP id S1725841AbgFZI6x (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 04:58:43 -0400
+        Fri, 26 Jun 2020 04:58:53 -0400
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EB23C08C5C1
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 01:58:43 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35018C08C5C1
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 01:58:53 -0700 (PDT)
 Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1jokC0-0001x4-7A; Fri, 26 Jun 2020 10:58:40 +0200
+        id 1jokCB-0001yQ-AA; Fri, 26 Jun 2020 10:58:51 +0200
 Received: from pza by lupine with local (Exim 4.92)
         (envelope-from <p.zabel@pengutronix.de>)
-        id 1jokBy-00013d-M8; Fri, 26 Jun 2020 10:58:38 +0200
-Message-ID: <fd039306c9414da97b39e79ae4c20fca96043c3a.camel@pengutronix.de>
-Subject: Re: MEDIA: Add support for RAW14 and RAW16 to IPUv3 CSI
+        id 1jokCA-000141-Ol; Fri, 26 Jun 2020 10:58:50 +0200
+Message-ID: <5d8e8b2b8daf8a44fd9650f08bacb423f4beb940.camel@pengutronix.de>
+Subject: Re: [PATCH] MEDIA-STAGING: Remove unneeded geometry restrictions
+ from i.MX CSI driver
 From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org
-Date:   Fri, 26 Jun 2020 10:58:38 +0200
-In-Reply-To: <m35zcyx2mt.fsf@t19.piap.pl>
-References: <m35zcyx2mt.fsf@t19.piap.pl>
+To:     Krzysztof =?UTF-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
+        Steve Longerbeam <slongerbeam@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Date:   Fri, 26 Jun 2020 10:58:50 +0200
+In-Reply-To: <m31rnmx2cw.fsf@t19.piap.pl>
+References: <m31rnmx2cw.fsf@t19.piap.pl>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8BIT
 User-Agent: Evolution 3.30.5-1.1 
@@ -47,86 +48,83 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Krzysztof,
 
-On Thu, 2020-05-14 at 11:54 +0200, Krzysztof Hałasa wrote:
-> It appears the i.MX camera interface is missing support for 14- and 16-bit
-> Bayer and B&W-only formats. Add it.
+thank you for the patch.
+
+On Thu, 2020-05-14 at 12:00 +0200, Krzysztof Hałasa wrote:
+> I don't know what minimal image dimensions are, but 32x32 appears to
+> be ok according to the docs.
+> This is needed for small sensors like 80x80 thermal imagers.
 > 
 > Signed-off-by: Krzysztof Halasa <khalasa@piap.pl>
 
-Have these been tested? I see nothing obviously wrong, but this being
-the IPUv3 ... things might not work as expected.
+This looks fine to me for the CSI. Steve, are you aware of any
+limitations?
 
-Please separate the media-bus-format.h and ipu-csi.c changes into
-separate patches.
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Tested-by: Philipp Zabel <p.zabel@pengutronix.de>
+(with CSI crop to 32x32, I have no 32x32 sensors at hand)
 
 regards
 Philipp
 
-> 
-> diff --git a/drivers/gpu/ipu-v3/ipu-csi.c b/drivers/gpu/ipu-v3/ipu-csi.c
-> index 8ae301eef643..658c173bebdf 100644
-> --- a/drivers/gpu/ipu-v3/ipu-csi.c
-> +++ b/drivers/gpu/ipu-v3/ipu-csi.c
-> @@ -128,6 +128,7 @@ struct ipu_csi {
->  #define MIPI_DT_RAW10		0x2b
->  #define MIPI_DT_RAW12		0x2c
->  #define MIPI_DT_RAW14		0x2d
-> +#define MIPI_DT_RAW16		0x2e
->  
+> diff --git a/drivers/staging/media/imx/imx-ic-prp.c b/drivers/staging/media/imx/imx-ic-prp.c
+> index 2a4f77e83ed3..622a52c46229 100644
+> --- a/drivers/staging/media/imx/imx-ic-prp.c
+> +++ b/drivers/staging/media/imx/imx-ic-prp.c
+> @@ -26,8 +26,8 @@
 >  /*
->   * Bitfield of CSI bus signal polarities and modes.
-> @@ -157,6 +158,7 @@ enum ipu_csi_data_width {
->  	IPU_CSI_DATA_WIDTH_8   = 1,
->  	IPU_CSI_DATA_WIDTH_10  = 3,
->  	IPU_CSI_DATA_WIDTH_12  = 5,
-> +	IPU_CSI_DATA_WIDTH_14  = 7,
->  	IPU_CSI_DATA_WIDTH_16  = 9,
->  };
->  
-> @@ -303,6 +305,24 @@ static int mbus_code_to_bus_cfg(struct ipu_csi_bus_config *cfg, u32 mbus_code,
->  		cfg->mipi_dt = MIPI_DT_RAW12;
->  		cfg->data_width = IPU_CSI_DATA_WIDTH_12;
->  		break;
-> +	case MEDIA_BUS_FMT_SBGGR14_1X14:
-> +	case MEDIA_BUS_FMT_SGBRG14_1X14:
-> +	case MEDIA_BUS_FMT_SGRBG14_1X14:
-> +	case MEDIA_BUS_FMT_SRGGB14_1X14:
-> +	case MEDIA_BUS_FMT_Y14_1X14:
-> +		cfg->data_fmt = CSI_SENS_CONF_DATA_FMT_BAYER;
-> +		cfg->mipi_dt = MIPI_DT_RAW14;
-> +		cfg->data_width = IPU_CSI_DATA_WIDTH_14;
-> +		break;
-> +	case MEDIA_BUS_FMT_SBGGR16_1X16:
-> +	case MEDIA_BUS_FMT_SGBRG16_1X16:
-> +	case MEDIA_BUS_FMT_SGRBG16_1X16:
-> +	case MEDIA_BUS_FMT_SRGGB16_1X16:
-> +	case MEDIA_BUS_FMT_Y16_1X16:
-> +		cfg->data_fmt = CSI_SENS_CONF_DATA_FMT_BAYER;
-> +		cfg->mipi_dt = MIPI_DT_RAW16;
-> +		cfg->data_width = IPU_CSI_DATA_WIDTH_16;
-> +		break;
->  	case MEDIA_BUS_FMT_JPEG_1X8:
->  		/* TODO */
->  		cfg->data_fmt = CSI_SENS_CONF_DATA_FMT_JPEG;
-> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-> index 84fa53ffb13f..60a374374d16 100644
-> --- a/include/uapi/linux/media-bus-format.h
-> +++ b/include/uapi/linux/media-bus-format.h
-> @@ -64,7 +64,7 @@
->  #define MEDIA_BUS_FMT_RGB121212_1X36		0x1019
->  #define MEDIA_BUS_FMT_RGB161616_1X48		0x101a
->  
-> -/* YUV (including grey) - next is	0x202e */
-> +/* YUV (including grey) - next is	0x202f */
->  #define MEDIA_BUS_FMT_Y8_1X8			0x2001
->  #define MEDIA_BUS_FMT_UV8_1X8			0x2015
->  #define MEDIA_BUS_FMT_UYVY8_1_5X8		0x2002
-> @@ -87,6 +87,7 @@
->  #define MEDIA_BUS_FMT_YUYV12_2X12		0x201e
->  #define MEDIA_BUS_FMT_YVYU12_2X12		0x201f
->  #define MEDIA_BUS_FMT_Y14_1X14			0x202d
-> +#define MEDIA_BUS_FMT_Y16_1X16			0x202e
->  #define MEDIA_BUS_FMT_UYVY8_1X16		0x200f
->  #define MEDIA_BUS_FMT_VYUY8_1X16		0x2010
->  #define MEDIA_BUS_FMT_YUYV8_1X16		0x2011
+>   * Min/Max supported width and heights.
+>   */
+> -#define MIN_W       176
+> -#define MIN_H       144
+> +#define MIN_W        32
+> +#define MIN_H        32
+>  #define MAX_W      4096
+>  #define MAX_H      4096
+>  #define W_ALIGN    4 /* multiple of 16 pixels */
+> diff --git a/drivers/staging/media/imx/imx-ic-prpencvf.c b/drivers/staging/media/imx/imx-ic-prpencvf.c
+> index 09c4e3f33807..cb46455a1a36 100644
+> --- a/drivers/staging/media/imx/imx-ic-prpencvf.c
+> +++ b/drivers/staging/media/imx/imx-ic-prpencvf.c
+> @@ -35,8 +35,8 @@
+>   * has not requested a planar format, we should allow 8 pixel
+>   * alignment at the source pad.
+>   */
+> -#define MIN_W_SINK  176
+> -#define MIN_H_SINK  144
+> +#define MIN_W_SINK   32
+> +#define MIN_H_SINK   32
+>  #define MAX_W_SINK 4096
+>  #define MAX_H_SINK 4096
+>  #define W_ALIGN_SINK  3 /* multiple of 8 pixels */
+> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+> index e76a6a85baa3..d9e5388ffeb5 100644
+> --- a/drivers/staging/media/imx/imx-media-csi.c
+> +++ b/drivers/staging/media/imx/imx-media-csi.c
+> @@ -33,8 +33,8 @@
+>   * has not requested planar formats, we should allow 8 pixel
+>   * alignment.
+>   */
+> -#define MIN_W       176
+> -#define MIN_H       144
+> +#define MIN_W       32
+> +#define MIN_H       32
+>  #define MAX_W      4096
+>  #define MAX_H      4096
+>  #define W_ALIGN    1 /* multiple of 2 pixels */
+> diff --git a/drivers/staging/media/imx/imx-media-vdic.c b/drivers/staging/media/imx/imx-media-vdic.c
+> index 0d83c2c41606..ee71b70d3544 100644
+> --- a/drivers/staging/media/imx/imx-media-vdic.c
+> +++ b/drivers/staging/media/imx/imx-media-vdic.c
+> @@ -49,8 +49,8 @@ struct vdic_pipeline_ops {
+>  /*
+>   * Min/Max supported width and heights.
+>   */
+> -#define MIN_W       176
+> -#define MIN_H       144
+> +#define MIN_W        32
+> +#define MIN_H        32
+>  #define MAX_W_VDIC  968
+>  #define MAX_H_VDIC 2048
+>  #define W_ALIGN    4 /* multiple of 16 pixels */
 > 
