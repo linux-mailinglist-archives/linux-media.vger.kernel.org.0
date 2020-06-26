@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 41A9420B09D
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 13:36:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D42FC20B09F
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 13:37:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728688AbgFZLgm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 07:36:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44894 "EHLO
+        id S1728627AbgFZLgr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 07:36:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728545AbgFZLgl (ORCPT
+        with ESMTP id S1728247AbgFZLgq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 07:36:41 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACF63C08C5DB
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 04:36:40 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id m2so4837934pjv.2
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 04:36:40 -0700 (PDT)
+        Fri, 26 Jun 2020 07:36:46 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 170A0C08C5DB
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 04:36:46 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id o13so1874249pgf.0
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 04:36:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=ancI0DiJuBHXSKZ5+IbcX7oH9DUg3u3wUo5JHY1jQ8Q=;
-        b=dL74L/zZ9BCZoo+PCRLQB08bPtBOvxGg1hZA+U17dmRj+ppEOwCdggfQeRcWIt+vRk
-         W/AT3zpaRrzMiI6lyQssdG8lydU7xNOgjgUL/Nx9zCIYHYdGEKIoijiEZyRAWsobMfAJ
-         IYSdQ1wHfgZ1a2pIZ78ZxAMdt/9TYUccBYcXrNiztpvZ/sc1OCErUGrSS0HDONzyTwDQ
-         NjkuJlmWlLOe6O86M4P7ZOot9BLLbp+saJcfhoV5OCsstFA3gGvnq+jgnMku5mkQ6/a1
-         ERMUJAK/pTnx5MvrtGFcZW2dLfGZ7kAUHLQmVwKWhT2MvZ75aO3dARUB38tExu5hO02M
-         kzVw==
+        bh=p5f1RM1G3Lr7GaMJ5iGuAFQEEYFL5B+QSi2APysRKNI=;
+        b=a23iiNBaUxL3nW/AdO8Tdz30NunqMdaEjkbQV+kC377vXiyaJJROWrwwhmHJux5NCA
+         4XWAIla57xiMXoZpx6VtZCmxiross13juEzHaII9vr/i53sqZiHDOITbistEULWkxq7F
+         vEUPTctcHK009mdbDTzynlxYuwLU/RMKsmW4A6ilSjQV1zwbh8mvchSaMf7UKZNTj5Or
+         sw/cV5HhKBrCVeWwJqHMbA/0ML/jdELRb/KEwTAe2ipUSB5SzgNwuJwvIECt3Ng7PSJd
+         92qCB/BnZVCpP2+wo88rHAvsWcaVKOM3Nuz0ZUkZYmQy3ulAPPxwlTr3OQVOtocyxJ2Z
+         P+zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=ancI0DiJuBHXSKZ5+IbcX7oH9DUg3u3wUo5JHY1jQ8Q=;
-        b=huLL7ZfU4Caj5lM9gW998mSpauCoxSy/D0+AhmSzYYRL2X0s81wu/rrIxjVtJYAsaY
-         hrXtG6tIiDTGagEjPO5eHMUk9tHCnHloQMkoYoAmrAFLU9PTCbodnVtc8lmceKawiSTS
-         EEdwAR1gOxIP/TxgW+ZLJrzYsblHCzM3Nyjo6gr4rHLOgPe9sIVO7HSU0BlH1F+EYmyW
-         OQlulm57D+6JPp+Li1w1SAMUa4DC9FWQWAluqvTDiDJmxB4NKgB+3mlDzETqOHVY8a3E
-         x9XlQZ1qU7L52Rrf2DEyBTX5xePkABtUExNf+fxKmWHq4mcz0gmqCa2bv/A1AJCBElsz
-         +NDQ==
-X-Gm-Message-State: AOAM5308aGx1VMU7IYReYSc62a1jcXayz11QF6etr4oFoWuwjI0Pyi0M
-        6rbH3H9/vABHREQLdrPQ07dHQQ==
-X-Google-Smtp-Source: ABdhPJy6ErsJT16VPFHKOiaPUEdP1mlwdhrj7eydFCYmEdwSrIFEUXAYcV5RrNW1YACyp6kdQVjgTQ==
-X-Received: by 2002:a17:902:9303:: with SMTP id bc3mr2389843plb.56.1593171400185;
-        Fri, 26 Jun 2020 04:36:40 -0700 (PDT)
+        bh=p5f1RM1G3Lr7GaMJ5iGuAFQEEYFL5B+QSi2APysRKNI=;
+        b=TgdgGSLeM7Izola9Ngz065VULMkIvFB84C+bPPv4CFFc7eqdiuC5gYUdtG+ByaUkeT
+         5H/Ua5FI6Gd6TezI9o+7AOGNCpES+F3VtUqJisXwQ5mwb0XTrH8VeQ9P1r5k4PByNsOH
+         24FyT0Ws9nNidtNoctP6qMQtpmgZqnN4tqrTBXDTixNrSvs5ngSlZfD6eJqCYrWmYnMK
+         z7JQX4ZvJY8tGdhdSd1wKAyuQ8SP1t5aygN6Oy8hwkrhY+h27snI/KSNv/HqKw94/GYG
+         5+3QfsKbx2/NNKEj2zumo8knCwD63i+A6LYW5rwRHIT6MD/zrQfDqK6im9ComEEzwoWn
+         Fxfg==
+X-Gm-Message-State: AOAM531a50oz7i+Ng2RQF2isF4gKIdDBOzh8g/rAPqMyj2Xx+iwhcmxL
+        wC98qXScF6Ninsed1YEq2fQAzg==
+X-Google-Smtp-Source: ABdhPJzyxOsUM73UTY2Rlc5bbyGHt6rNhBNvKZnXtf1r504nIAmfETDRlMc/l5tAlaJFMGanu7mo7g==
+X-Received: by 2002:a62:5210:: with SMTP id g16mr2299849pfb.204.1593171405479;
+        Fri, 26 Jun 2020 04:36:45 -0700 (PDT)
 Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.178])
-        by smtp.gmail.com with ESMTPSA id i26sm25994768pfo.0.2020.06.26.04.36.38
+        by smtp.gmail.com with ESMTPSA id s9sm22578194pgo.22.2020.06.26.04.36.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 26 Jun 2020 04:36:39 -0700 (PDT)
+        Fri, 26 Jun 2020 04:36:44 -0700 (PDT)
 From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
 To:     Helen Koike <helen.koike@collabora.com>,
         Shuah Khan <skhan@linuxfoundation.org>,
@@ -55,9 +55,9 @@ To:     Helen Koike <helen.koike@collabora.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         hverkuil@xs4all.nl
 Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>
-Subject: [PATCH v6 1/3] media: tpg: change char argument to const char
-Date:   Fri, 26 Jun 2020 17:06:16 +0530
-Message-Id: <20200626113618.15280-2-kgupta@es.iitr.ac.in>
+Subject: [PATCH v6 2/3] media: tpg: Add function to return colors' order of test image
+Date:   Fri, 26 Jun 2020 17:06:17 +0530
+Message-Id: <20200626113618.15280-3-kgupta@es.iitr.ac.in>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200626113618.15280-1-kgupta@es.iitr.ac.in>
 References: <20200626113618.15280-1-kgupta@es.iitr.ac.in>
@@ -66,72 +66,83 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Change the argument of type char * to const char * for function
-tpg_gen_text().
+Currently there is no method to know the correct order of the colors for
+a test image generated by tpg. Write a function that returns a string of
+colors' order given a tpg. It returns a NULL pointer in case of test
+patterns which do not have a well defined colors' order. Hence add a
+NULL check for text in tpg_gen_text().
 
 Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 ---
- drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 10 +++++-----
- include/media/tpg/v4l2-tpg.h                  |  2 +-
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 30 +++++++++++++++++--
+ include/media/tpg/v4l2-tpg.h                  |  1 +
+ 2 files changed, 29 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-index 50f1e0b28b25..dde22a4cbd6c 100644
+index dde22a4cbd6c..c46ddd902675 100644
 --- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
 +++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
-@@ -1927,34 +1927,34 @@ typedef struct { u16 __; u8 _; } __packed x24;
- 
- static noinline void tpg_print_str_2(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
- 			unsigned p, unsigned first, unsigned div, unsigned step,
--			int y, int x, char *text, unsigned len)
-+			int y, int x, const char *text, unsigned len)
- {
- 	PRINTSTR(u8);
- }
- 
- static noinline void tpg_print_str_4(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
- 			unsigned p, unsigned first, unsigned div, unsigned step,
--			int y, int x, char *text, unsigned len)
-+			int y, int x, const char *text, unsigned len)
- {
- 	PRINTSTR(u16);
- }
- 
- static noinline void tpg_print_str_6(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
- 			unsigned p, unsigned first, unsigned div, unsigned step,
--			int y, int x, char *text, unsigned len)
-+			int y, int x, const char *text, unsigned len)
- {
- 	PRINTSTR(x24);
- }
- 
- static noinline void tpg_print_str_8(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
- 			unsigned p, unsigned first, unsigned div, unsigned step,
--			int y, int x, char *text, unsigned len)
-+			int y, int x, const char *text, unsigned len)
- {
- 	PRINTSTR(u32);
- }
- 
- void tpg_gen_text(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
--		  int y, int x, char *text)
-+		  int y, int x, const char *text)
- {
+@@ -1959,12 +1959,14 @@ void tpg_gen_text(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
  	unsigned step = V4L2_FIELD_HAS_T_OR_B(tpg->field) ? 2 : 1;
  	unsigned div = step;
+ 	unsigned first = 0;
+-	unsigned len = strlen(text);
++	unsigned len;
+ 	unsigned p;
+ 
+-	if (font8x16 == NULL || basep == NULL)
++	if (font8x16 == NULL || basep == NULL || text == NULL)
+ 		return;
+ 
++	len = strlen(text);
++
+ 	/* Checks if it is possible to show string */
+ 	if (y + 16 >= tpg->compose.height || x + 8 >= tpg->compose.width)
+ 		return;
+@@ -2006,6 +2008,30 @@ void tpg_gen_text(const struct tpg_data *tpg, u8 *basep[TPG_MAX_PLANES][2],
+ }
+ EXPORT_SYMBOL_GPL(tpg_gen_text);
+ 
++const char *tpg_g_color_order(const struct tpg_data *tpg)
++{
++	switch (tpg->pattern) {
++	case TPG_PAT_75_COLORBAR:
++	case TPG_PAT_100_COLORBAR:
++	case TPG_PAT_CSC_COLORBAR:
++	case TPG_PAT_100_HCOLORBAR:
++		return "white, yellow, cyan, green, magenta, red, blue, black";
++	case TPG_PAT_BLACK:
++		return "Black";
++	case TPG_PAT_WHITE:
++		return "White";
++	case TPG_PAT_RED:
++		return "Red";
++	case TPG_PAT_GREEN:
++		return "Green";
++	case TPG_PAT_BLUE:
++		return "Blue";
++	default:
++		return NULL;
++	}
++}
++EXPORT_SYMBOL_GPL(tpg_g_color_order);
++
+ void tpg_update_mv_step(struct tpg_data *tpg)
+ {
+ 	int factor = tpg->mv_hor_mode > TPG_MOVE_NONE ? -1 : 1;
 diff --git a/include/media/tpg/v4l2-tpg.h b/include/media/tpg/v4l2-tpg.h
-index eb191e85d363..9749ed409856 100644
+index 9749ed409856..0b0ddb87380e 100644
 --- a/include/media/tpg/v4l2-tpg.h
 +++ b/include/media/tpg/v4l2-tpg.h
-@@ -241,7 +241,7 @@ void tpg_log_status(struct tpg_data *tpg);
+@@ -252,6 +252,7 @@ void tpg_fillbuffer(struct tpg_data *tpg, v4l2_std_id std,
+ bool tpg_s_fourcc(struct tpg_data *tpg, u32 fourcc);
+ void tpg_s_crop_compose(struct tpg_data *tpg, const struct v4l2_rect *crop,
+ 		const struct v4l2_rect *compose);
++const char *tpg_g_color_order(const struct tpg_data *tpg);
  
- void tpg_set_font(const u8 *f);
- void tpg_gen_text(const struct tpg_data *tpg,
--		u8 *basep[TPG_MAX_PLANES][2], int y, int x, char *text);
-+		u8 *basep[TPG_MAX_PLANES][2], int y, int x, const char *text);
- void tpg_calc_text_basep(struct tpg_data *tpg,
- 		u8 *basep[TPG_MAX_PLANES][2], unsigned p, u8 *vbuf);
- unsigned tpg_g_interleaved_plane(const struct tpg_data *tpg, unsigned buf_line);
+ static inline void tpg_s_pattern(struct tpg_data *tpg, enum tpg_pattern pattern)
+ {
 -- 
 2.17.1
 
