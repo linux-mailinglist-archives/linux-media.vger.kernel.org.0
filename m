@@ -2,93 +2,284 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A376520B1B0
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 14:48:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3CCE720B1AE
+	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 14:48:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726481AbgFZMs3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 08:48:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55922 "EHLO
+        id S1726999AbgFZMsB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 08:48:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725283AbgFZMs3 (ORCPT
+        with ESMTP id S1726592AbgFZMsA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 08:48:29 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5487BC08C5DB
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 05:48:29 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id C6AEF2A5AD8
-Message-ID: <164269d27b1d5bd1a70adb0b53acbda0baa903aa.camel@collabora.com>
-Subject: Re: [PATCH 1/4] media: staging: rkisp1: remove two unused fields in
- uapi struct
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Cc:     helen.koike@collabora.com, hverkuil@xs4all.nl,
-        kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, tfiga@chromium.org
-Date:   Fri, 26 Jun 2020 09:47:50 -0300
-In-Reply-To: <20200625185017.16493-2-dafna.hirschfeld@collabora.com>
-References: <20200625185017.16493-1-dafna.hirschfeld@collabora.com>
-         <20200625185017.16493-2-dafna.hirschfeld@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.0-1 
+        Fri, 26 Jun 2020 08:48:00 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3520C08C5DB
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 05:48:00 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id a127so4587368pfa.12
+        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 05:48:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
+        h=from:date:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=s9Y6i2d0SkOyDxDxXtBmg8v9R/vz4yuL09v6Kczh3wU=;
+        b=bYH0wrdxlCOE+3GcqlHlBzuyuNSYaks6jLleR/NujR2KpT+l5K0Xv4AbsFOFBTvA4L
+         NiaYqbk3rpDBvHDc5gyonGTu4cQYgs3G6+eBt3hdXPnEH4juclnq3QNMv/D32LuP39Rc
+         gAmjk7yfSkB1y1n4J3oC3vM3YMLYyrl9vq4snHJ56phnOZwbviEKxvoWDZsE2giQ46qy
+         VPwzdPf+pUWb18jydV0/UjSfh2MFIH8rwylaEOR2nrA/v54OTkbGlVTHH0mdcsjbty3W
+         bg4rAXYfezomUOIT7NtT5ZBGrZLSLdVIfhIF00Fc+1aKzpU0C8J8ZXQ/1h4sJWQLzYX/
+         EmMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=s9Y6i2d0SkOyDxDxXtBmg8v9R/vz4yuL09v6Kczh3wU=;
+        b=tYvcYPDluj/lg9T3F5H+y72vd7PWLqzAH7eYfiJlTeHil4J0HS87VMBb1q7h2jKSf9
+         VVGsCIWY+RQ1JvrPEU4Lj1jW0fxOwn/P7itY9oglLRbCqwrStA1jYjjGzn8nYxptFg9Z
+         5q0eCViT7y8bEJSDpK0cplrBhZV7mvdKXtBVRPvoBNHDa3R1yXEJ7qIAS3MxC4bXjq7g
+         Ci/snnRLM2Vm/Fur+vYGJAb7pQ8aoSpLT7ryrvZhBqFkLY6EqYA01zwrKrEpfSRy3H0l
+         cJgSJqjqXc6LsDOPobEhu2mhYxqKEXndc/zr+LolHquitYBE0vHYsve2F3xta7NCHk/f
+         gbcQ==
+X-Gm-Message-State: AOAM5311WJPREsgT5FbzkuZ3Wc5PTEg0UshZeW1JrW0lLuLo30dFv+5D
+        Tqu8uwBEimafh3ua+XEIYNmn3A==
+X-Google-Smtp-Source: ABdhPJx9jirsBYe8bWgg7S/9jKhT3qd+6QcEvB4Mct4ZLwdiixtyw++vZgtKSqU7Jtf594nz0ubMEA==
+X-Received: by 2002:a62:8688:: with SMTP id x130mr2670928pfd.280.1593175680235;
+        Fri, 26 Jun 2020 05:48:00 -0700 (PDT)
+Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.178])
+        by smtp.gmail.com with ESMTPSA id 140sm1873337pfa.92.2020.06.26.05.47.55
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Fri, 26 Jun 2020 05:47:59 -0700 (PDT)
+From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
+X-Google-Original-From: Kaaira Gupta <Kaairakgupta@es.iitr.ac.in>
+Date:   Fri, 26 Jun 2020 18:17:51 +0530
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        hverkuil@xs4all.nl
+Subject: Re: [PATCH v6 3/3] media: vimc: Add a control to display info on
+ test image
+Message-ID: <20200626124751.GB13722@kaaira-HP-Pavilion-Notebook>
+References: <20200626113618.15280-1-kgupta@es.iitr.ac.in>
+ <20200626113618.15280-4-kgupta@es.iitr.ac.in>
+ <694350b5-cd61-1e9d-36ee-6028b59a53a6@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <694350b5-cd61-1e9d-36ee-6028b59a53a6@collabora.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
-
-Thanks for all the rkisp1 patches, I hope we can get
-the driver out of staging soon.
-
-On Thu, 2020-06-25 at 20:50 +0200, Dafna Hirschfeld wrote:
-> The fields 'config_width', 'config_height' in struct
-> 'rkisp1_cif_isp_lsc_config' are not used by the driver and
-> therefore are not needed. This patch removes them.
-> In later patch, documentation of the fields in struct
-> 'rkisp1_cif_isp_lsc_config' will be added.
+On Fri, Jun 26, 2020 at 08:59:19AM -0300, Helen Koike wrote:
+> Hi Kaaira,
 > 
-
-If I understand correctly, you are affecting the uAPI here.
-
-The fact that the driver doesn't use it now, doesn't mean
-it won't need it at some later point.
-
-I'm not saying the change is wrong, but that the "not currently
-in use" reason might be insufficient for a uAPI. If you
-want to remove this field, I suggest you make sure
-the field is inappropriate for this interface.
-
-Also, it would be better if you could add a cover letter
-on all the series, there are a bunch of rkisp1 patches now
-and having a cover letter helps by adding some context.
-
-Thanks,
-Ezequiel
-
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/rkisp1/uapi/rkisp1-config.h | 2 --
->  1 file changed, 2 deletions(-)
+> Thanks for the patch,
 > 
-> diff --git a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
-> index ca0d031b14ac..7331bacf7dfd 100644
-> --- a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
-> +++ b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
-> @@ -285,8 +285,6 @@ struct rkisp1_cif_isp_lsc_config {
->  
->  	__u32 x_size_tbl[RKISP1_CIF_ISP_LSC_SIZE_TBL_SIZE];
->  	__u32 y_size_tbl[RKISP1_CIF_ISP_LSC_SIZE_TBL_SIZE];
-> -	__u16 config_width;
-> -	__u16 config_height;
->  } __packed;
->  
->  /**
+> On 6/26/20 8:36 AM, Kaaira Gupta wrote:
+> > Add a control in VIMC to display information such as the correct order of
+> > colors for a given test pattern, brightness, hue, saturation, contrast,
+> > width and height at sensor, and time since streaming started over test image.
+> > 
+> > Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
+> > ---
+> >  drivers/media/test-drivers/vimc/Kconfig       |  2 +
+> >  drivers/media/test-drivers/vimc/vimc-common.h |  1 +
+> >  drivers/media/test-drivers/vimc/vimc-core.c   | 10 ++++
+> >  drivers/media/test-drivers/vimc/vimc-sensor.c | 60 +++++++++++++++++++
+> >  4 files changed, 73 insertions(+)
+> > 
+> > diff --git a/drivers/media/test-drivers/vimc/Kconfig b/drivers/media/test-drivers/vimc/Kconfig
+> > index 4068a67585f9..da4b2ad6e40c 100644
+> > --- a/drivers/media/test-drivers/vimc/Kconfig
+> > +++ b/drivers/media/test-drivers/vimc/Kconfig
+> > @@ -2,6 +2,8 @@
+> >  config VIDEO_VIMC
+> >  	tristate "Virtual Media Controller Driver (VIMC)"
+> >  	depends on VIDEO_DEV && VIDEO_V4L2
+> > +	select FONT_SUPPORT
+> > +	select FONT_8x16
+> >  	select MEDIA_CONTROLLER
+> >  	select VIDEO_V4L2_SUBDEV_API
+> >  	select VIDEOBUF2_VMALLOC
+> > diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
+> > index ae163dec2459..a289434e75ba 100644
+> > --- a/drivers/media/test-drivers/vimc/vimc-common.h
+> > +++ b/drivers/media/test-drivers/vimc/vimc-common.h
+> > @@ -20,6 +20,7 @@
+> >  #define VIMC_CID_VIMC_CLASS		(0x00f00000 | 1)
+> >  #define VIMC_CID_TEST_PATTERN		(VIMC_CID_VIMC_BASE + 0)
+> >  #define VIMC_CID_MEAN_WIN_SIZE		(VIMC_CID_VIMC_BASE + 1)
+> > +#define VIMC_CID_OSD_TEXT_MODE		(VIMC_CID_VIMC_BASE + 2)
+> >  
+> >  #define VIMC_FRAME_MAX_WIDTH 4096
+> >  #define VIMC_FRAME_MAX_HEIGHT 2160
+> > diff --git a/drivers/media/test-drivers/vimc/vimc-core.c b/drivers/media/test-drivers/vimc/vimc-core.c
+> > index 11210aaa2551..8337e1276bba 100644
+> > --- a/drivers/media/test-drivers/vimc/vimc-core.c
+> > +++ b/drivers/media/test-drivers/vimc/vimc-core.c
+> > @@ -5,10 +5,12 @@
+> >   * Copyright (C) 2015-2017 Helen Koike <helen.fornazier@gmail.com>
+> >   */
+> >  
+> > +#include <linux/font.h>
+> >  #include <linux/init.h>
+> >  #include <linux/module.h>
+> >  #include <linux/platform_device.h>
+> >  #include <media/media-device.h>
+> > +#include <media/tpg/v4l2-tpg.h>
+> >  #include <media/v4l2-device.h>
+> >  
+> >  #include "vimc-common.h"
+> > @@ -263,11 +265,19 @@ static int vimc_register_devices(struct vimc_device *vimc)
+> >  
+> >  static int vimc_probe(struct platform_device *pdev)
+> >  {
+> > +	const struct font_desc *font = find_font("VGA8x16");
+> >  	struct vimc_device *vimc;
+> >  	int ret;
+> >  
+> >  	dev_dbg(&pdev->dev, "probe");
+> >  
+> > +	if (!font) {
+> > +		dev_err(&pdev->dev, "vimc: could not find font\n");
+> 
+> You don't need the "vimc: " prefix if you are using dev_err(), it already gets the name from pdev->dev
+> 
+> > +		return -ENODEV;
+> > +	}
+> > +
+> > +	tpg_set_font(font->data);
+> > +
+> >  	vimc = kzalloc(sizeof(*vimc), GFP_KERNEL);
+> >  	if (!vimc)
+> >  		return -ENOMEM;
+> > diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
+> > index a2f09ac9a360..ce438cdabb73 100644
+> > --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
+> > +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
+> > @@ -19,6 +19,8 @@ struct vimc_sen_device {
+> >  	struct v4l2_subdev sd;
+> >  	struct tpg_data tpg;
+> >  	u8 *frame;
+> > +	unsigned int osd_mode;
+> > +	u64 start_stream_ts;
+> >  	/* The active format */
+> >  	struct v4l2_mbus_framefmt mbus_format;
+> >  	struct v4l2_ctrl_handler hdl;
+> > @@ -185,10 +187,46 @@ static const struct v4l2_subdev_pad_ops vimc_sen_pad_ops = {
+> >  static void *vimc_sen_process_frame(struct vimc_ent_device *ved,
+> >  				    const void *sink_frame)
+> >  {
+> > +	enum osd_mode {OSD_SHOW_ALL = 0, OSD_SHOW_COUNTERS = 1};
+> > +	u8 *basep[TPG_MAX_PLANES][2];
+> > +	char str[100];
+> > +	int line = 1;
+> 
+> unsigned int
+> 
+> > +	const unsigned int line_height = 16;
+> >  	struct vimc_sen_device *vsen = container_of(ved, struct vimc_sen_device,
+> >  						    ved);
+> 
+> I would just re-order the declaration vars to have the longest lines first.
+> 
+> >  
+> >  	tpg_fill_plane_buffer(&vsen->tpg, 0, 0, vsen->frame);
+> > +	tpg_calc_text_basep(&vsen->tpg, basep, 0, vsen->frame);
+> > +
+> > +	if (vsen->osd_mode <= OSD_SHOW_COUNTERS) {
+> > +		unsigned int ms;
+> > +
+> > +		ms = (ktime_get_ns() - vsen->start_stream_ts) / 1000000;
+> > +		snprintf(str, sizeof(str), "%02d:%02d:%02d:%03d",
+> > +			 (ms / (60 * 60 * 1000)) % 24,
+> > +			 (ms / (60 * 1000)) % 60,
+> > +			 (ms / 1000) % 60,
+> > +			 ms % 1000);
+> > +		tpg_gen_text(&vsen->tpg, basep, line++ * line_height, 16, str);
+> > +	}
+> > +
+> > +	if (vsen->osd_mode == OSD_SHOW_ALL) {
+> > +		const char *order = tpg_g_color_order(&vsen->tpg);
+> > +
+> > +		tpg_gen_text(&vsen->tpg, basep,
+> > +			     line++ * line_height, 16, order);
+> > +		snprintf(str, sizeof(str),
+> > +			 "brightness %3d, contrast %3d, saturation %3d, hue %d ",
+> > +			 vsen->tpg.brightness,
+> > +			 vsen->tpg.contrast,
+> > +			 vsen->tpg.saturation,
+> > +			 vsen->tpg.hue);
+> > +		tpg_gen_text(&vsen->tpg, basep, line++ * line_height, 16, str);
+> > +		snprintf(str, sizeof(str), "sensor size: %dx%d",
+> > +			 vsen->mbus_format.width, vsen->mbus_format.height);
+> > +		tpg_gen_text(&vsen->tpg, basep, line++ * line_height, 16, str);
+> > +	}
+> 
+> How about the nice case-switch statement proposed by Kieran in the last version?
 
+Ignore my earlier message for this please, I was mistaken.
 
+> 
+> Thanks,
+> Helen
+> 
+> > +
+> >  	return vsen->frame;
+> >  }
+> >  
+> > @@ -201,6 +239,8 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
+> >  		const struct vimc_pix_map *vpix;
+> >  		unsigned int frame_size;
+> >  
+> > +		vsen->start_stream_ts = ktime_get_ns();
+> > +
+> >  		/* Calculate the frame size */
+> >  		vpix = vimc_pix_map_by_code(vsen->mbus_format.code);
+> >  		frame_size = vsen->mbus_format.width * vpix->bpp *
+> > @@ -269,6 +309,9 @@ static int vimc_sen_s_ctrl(struct v4l2_ctrl *ctrl)
+> >  	case V4L2_CID_SATURATION:
+> >  		tpg_s_saturation(&vsen->tpg, ctrl->val);
+> >  		break;
+> > +	case VIMC_CID_OSD_TEXT_MODE:
+> > +		vsen->osd_mode = ctrl->val;
+> > +		break;
+> >  	default:
+> >  		return -EINVAL;
+> >  	}
+> > @@ -307,6 +350,22 @@ static const struct v4l2_ctrl_config vimc_sen_ctrl_test_pattern = {
+> >  	.qmenu = tpg_pattern_strings,
+> >  };
+> >  
+> > +static const char * const vimc_ctrl_osd_mode_strings[] = {
+> > +	"All",
+> > +	"Counters Only",
+> > +	"None",
+> > +	NULL,
+> > +};
+> > +
+> > +static const struct v4l2_ctrl_config vimc_sen_ctrl_osd_mode = {
+> > +	.ops = &vimc_sen_ctrl_ops,
+> > +	.id = VIMC_CID_OSD_TEXT_MODE,
+> > +	.name = "Show Information",
+> > +	.type = V4L2_CTRL_TYPE_MENU,
+> > +	.max = ARRAY_SIZE(vimc_ctrl_osd_mode_strings) - 2,
+> > +	.qmenu = vimc_ctrl_osd_mode_strings,
+> > +};
+> > +
+> >  static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+> >  					    const char *vcfg_name)
+> >  {
+> > @@ -323,6 +382,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
+> >  
+> >  	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_class, NULL);
+> >  	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_test_pattern, NULL);
+> > +	v4l2_ctrl_new_custom(&vsen->hdl, &vimc_sen_ctrl_osd_mode, NULL);
+> >  	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
+> >  			  V4L2_CID_VFLIP, 0, 1, 1, 0);
+> >  	v4l2_ctrl_new_std(&vsen->hdl, &vimc_sen_ctrl_ops,
+> > 
