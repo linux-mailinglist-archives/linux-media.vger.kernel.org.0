@@ -2,157 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0F3B20BAD7
-	for <lists+linux-media@lfdr.de>; Fri, 26 Jun 2020 23:02:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9860F20BDFC
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2020 05:42:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725832AbgFZVCA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 26 Jun 2020 17:02:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47456 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725781AbgFZVB7 (ORCPT
+        id S1725959AbgF0DmI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 26 Jun 2020 23:42:08 -0400
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:36629 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725828AbgF0DmI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 26 Jun 2020 17:01:59 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CA48C03E979
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 14:01:59 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id g20so7713522edm.4
-        for <linux-media@vger.kernel.org>; Fri, 26 Jun 2020 14:01:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=LXYsPzxFqoIvncAosoNMRVHsqqhFjqQaZzr24JDv6GU=;
-        b=NkxXjwkadDehAxKBt5qCyqwJyMFjmm/tsHOXqKWLWtzcy08j6wps8G9hI84I2QbI7v
-         JmPlb/jN0cduge6+zra8/rgtL1+VK0S8hNlbMgSv++L1OXl007Qgil5l6t2HYzNs2Fjv
-         lKOEST9O7PwzOnyo7s1M+grpXcRcpYNaK8HJO7Xn+IyE4sfdot72A0q4TtrtOOs1eJpa
-         Cu6xnc0AxSAzv0OVXC58pW5Z1HP/B7EKMvEiujSD7ZDggQool5FV/RdZ+HoKFrL67X39
-         Hzmubt8ojRcl4Cbv3nsfwA7ejoobNmg3XQtNNJakalPzYE9PWqShM/bJsqWa3kA8g07d
-         XqyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=LXYsPzxFqoIvncAosoNMRVHsqqhFjqQaZzr24JDv6GU=;
-        b=cCB5xcIkjbP7zSYjEuVJK/LelFKK7/ZHQqP53fAhDacx6zE9w49Nkgxo6MS4g6+Ehn
-         C3dVqGz+OcZ2qKR7HR2PZii2WvTIju4OEC1tTsNgwWQXo5KkPiHF2js45RKIIRHX/xn4
-         akX67+Y0BqMHgt0Krp4EyRWo+CODJpdlVS8/mqF3xjnrwbMSeR4eTsH8fel7DI4uHhWq
-         GZAwB1hLgHBxlhebd4VCp4JkDeNHG+L/tvGiufuj76M44pEghisfsaC4uBP3KYr1KEHi
-         AdT/qQj1i+drmbVwhQzvLty+/MG5F9YVupf/9nF6W6ypJIL31fNpKlPFwt/00wT+1o4E
-         Vb2g==
-X-Gm-Message-State: AOAM533+br45KCt3Yf8DVE6rZUHYchYWfzK6MiXRWV7YItkXCQtPsNUO
-        fJBox7KsPw6HLJ4o+7RX/NN7/M1710gFug==
-X-Google-Smtp-Source: ABdhPJz4VyPgTDG4D3ybw9iMwdqQtilkEccK+e+ObiNd3vOfbKOSHwpWfeZklQ7XDUsrmMUMFhiOUQ==
-X-Received: by 2002:a50:a721:: with SMTP id h30mr5397597edc.153.1593205317868;
-        Fri, 26 Jun 2020 14:01:57 -0700 (PDT)
-Received: from [192.168.1.4] (212-5-158-166.ip.btc-net.bg. [212.5.158.166])
-        by smtp.googlemail.com with ESMTPSA id u19sm13890982edd.62.2020.06.26.14.01.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Jun 2020 14:01:57 -0700 (PDT)
-Subject: Re: [PATCH] [v2] media: venus: core: Fix runtime PM imbalance in
- venus_probe
-To:     dinghao.liu@zju.edu.cn
-Cc:     kjlu@umn.edu, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20200624063024.17059-1-dinghao.liu@zju.edu.cn>
- <812ead80-766b-1dad-1447-ffab5d7d2ee8@linaro.org>
- <35c749cf.28af7.172ee1e4ac3.Coremail.dinghao.liu@zju.edu.cn>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <f49040ee-a5c5-c106-2b51-cd48646306b0@linaro.org>
-Date:   Sat, 27 Jun 2020 00:01:55 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
-MIME-Version: 1.0
-In-Reply-To: <35c749cf.28af7.172ee1e4ac3.Coremail.dinghao.liu@zju.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Fri, 26 Jun 2020 23:42:08 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id p1jAjgzF7xmkVp1jBjkTFY; Sat, 27 Jun 2020 05:42:06 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1593229326; bh=1C8iNHz6HUYCFex6VNPMcCrIi0XtxJj9P7A/0QsOWp8=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=pfFZU65arobpg0CnQkxgjYjqTeSzqbnTR1UOgkQqTe3idGuntchBepS0h+8XawVuo
+         LGzVne2lFmvcvB7Ev9lpq8OZSrB0L9fS1kAtIEdgcr/ME0kQLxj/eXhywTBqCoT4Mn
+         DJawLsH07MPnnCIYt9JvUpe+qCS/nq3cjzmNlpO4uIQCbB8+Qd6rol3BApwr07pTBG
+         Z862I/qg4E+Yp6lTh8XwM4rVOQQS7/woDnd1M4u8xCbmZXrkirzO5gEUl232hDfb+1
+         2rPuVtVo0lZ8vx/TAof3wQgw9QQ3i4hCH54IC0+IraW3QAdHInwVpXYbN1nlW38HxR
+         3qYb5jrld72pw==
+Message-ID: <d9df913044bc3484b366c7f174b275b1@smtp-cloud7.xs4all.net>
+Date:   Sat, 27 Jun 2020 05:42:04 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfOFOE4izVtGc8v3EEkB2HqiETVHJ9yRNsmDETOFMDZDzyF7TjSr3h6Zh97L7faFtl15scq7MiHDLFs3Hx27t2HoqS+wdAwb/l/Sl6Gut8RH1vC0EJGQg
+ TDzV7IXI9pfncZEW9HYQFHH/jY45SbZzvH9BJ43mecV8qzmPm709p9lKNGkK+pQYako7QjUZnjgwci/iVJWVjsFZBIvast585QmD1LljQ69IbXWWGb3EAX8w
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On 6/26/20 3:54 AM, dinghao.liu@zju.edu.cn wrote:
-> 
->> Hi Dinghao,
->>
->> On 6/24/20 9:30 AM, Dinghao Liu wrote:
->>> pm_runtime_get_sync() increments the runtime PM usage counter even
->>> when it returns an error code. Thus a pairing decrement is needed on
->>> the error handling path to keep the counter balanced. For other error
->>> paths after this call, things are the same.
->>>
->>> Signed-off-by: Dinghao Liu <dinghao.liu@zju.edu.cn>
->>> ---
->>>
->>> Changelog:
->>>
->>> v2: - Add pm_runtime_get_noresume() on failure of
->>>       pm_runtime_put_sync() to balance PM counter instead of
->>>       releasing everything here.
+Results of the daily build of media_tree:
 
-Could you reword this and add it to the patch description.
+date:			Sat Jun 27 05:00:11 CEST 2020
+media-tree git hash:	e30cc79cc80fd919b697a15c5000d9f57487de8e
+media_build git hash:	39a7ce1e32308668ff1493247747e26b4367c6fe
+v4l-utils git hash:	eb147329b96b5d8f8f3638a159d1b3bcec22f0f0
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6154-g2f65f604
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
->>
->> You are adding pm_runtime_get_noresume in pm_runtime_put_sync error path
->> but the patch description is referring to pm_runtime_get_sync. I'm confused.
->>
-> 
-> When pm_runtime_put_sync failed, the control flow will jump to 
-> err_dev_unregister, where has already been a pm_runtime_put_noidle. 
-> If we don't add an extra pm_runtime_get_noresume here, we will 
-> decrease PM usage counter twice.
-> 
-> Anyway, this may seem a little strange. Do you have a better
-> strategy to reorder the labels?
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: OK
+smatch: ERRORS
 
-No, it looks fine. With above addition to patch description:
+Detailed results are available here:
 
-Acked-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
-> 
-> Regards,
-> Dinghao
-> 
->>> ---
->>>  drivers/media/platform/qcom/venus/core.c | 5 ++++-
->>>  1 file changed, 4 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
->>> index 203c6538044f..b0b932bf8c02 100644
->>> --- a/drivers/media/platform/qcom/venus/core.c
->>> +++ b/drivers/media/platform/qcom/venus/core.c
->>> @@ -287,8 +287,10 @@ static int venus_probe(struct platform_device *pdev)
->>>  		goto err_core_deinit;
->>>  
->>>  	ret = pm_runtime_put_sync(dev);
->>> -	if (ret)
->>> +	if (ret) {
->>> +		pm_runtime_get_noresume(dev);
->>>  		goto err_dev_unregister;
->>> +	}
->>>  
->>>  	return 0;
->>>  
->>> @@ -299,6 +301,7 @@ static int venus_probe(struct platform_device *pdev)
->>>  err_venus_shutdown:
->>>  	venus_shutdown(core);
->>>  err_runtime_disable:
->>> +	pm_runtime_put_noidle(dev);
->>>  	pm_runtime_set_suspended(dev);
->>>  	pm_runtime_disable(dev);
->>>  	hfi_destroy(core);
->>>
->>
->> -- 
->> regards,
->> Stan
+Detailed regression test results are available here:
 
--- 
-regards,
-Stan
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
