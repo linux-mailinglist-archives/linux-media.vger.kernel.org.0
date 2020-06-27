@@ -2,75 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3175620DF2A
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 23:54:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E66120E500
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 00:06:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387591AbgF2Ucu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jun 2020 16:32:50 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:49142 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732405AbgF2Ucr (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jun 2020 16:32:47 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jq0O8-00E6ru-FM; Mon, 29 Jun 2020 20:28:24 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1jq0Ua-0000on-55; Mon, 29 Jun 2020 20:35:04 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.9] Removal of soc-camera and dependent sensor (#64993)
-Date:   Mon, 29 Jun 2020 20:35:04 +0000
-Message-Id: <20200629203504.3104-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <bf6d5d12-9460-2bcc-a0d7-5553e7e18065@xs4all.nl>
-References: 
+        id S2391258AbgF2VbT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jun 2020 17:31:19 -0400
+Received: from server.strassenburgpharma.biz ([85.187.132.10]:56620 "EHLO
+        server.strassenburgpharma.biz" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2391251AbgF2VbR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Jun 2020 17:31:17 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=strassenburgpharma.com; s=default; h=Message-ID:Reply-To:Subject:To:From:
+        Date:Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:Cc:Content-ID
+        :Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
+        Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:
+        List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=xkDsXpEitqBoPOZ/9D6b0Qod8i3nY9LBEa7cKlro3+c=; b=JF4BYdbZlJ5nRUvPnngUnEVM5Z
+        b1P5vUczyvD6sBc0axomIYKiOZDHVnPBOqurme5h8LXWLQg0Hi5435tJsqF48UKPcijWUFk3AqBmM
+        /raaSl5MKYfiJvwc5kYopN+01qM/k+rkkWxJASueZAAF+dFhtG9WOUcS+w4/cqrDwQFR9d3cXVcW+
+        +uDJ+bRGR9GdzP7hgP5koc12DUwJa/3gbKin/2/pri9Pr/WsMvwQcw8kmnwpy6aHsl/yYh8PkdvHx
+        syisrMMjSPtC3nEgxqkj3l3y5QYgnhJDIb/ErYGFfB2LlO/OHmmUud4KBdVVfkV+hDrD4M6L5yew4
+        tNB0oSMA==;
+Received: from localhost ([127.0.0.1]:40846 helo=server.strassenburgpharma.biz)
+        by server.strassenburgpharma.biz with esmtpa (Exim 4.93)
+        (envelope-from <sudam.pandadm@strassenburgpharma.com>)
+        id 1jpAvc-0005Ue-3E; Sat, 27 Jun 2020 21:31:32 +0800
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: 8bit
+Date:   Sat, 27 Jun 2020 21:31:32 +0800
+From:   "Mis, Patricia" <sudam.pandadm@strassenburgpharma.com>
+To:     undisclosed-recipients:;
+Subject: Aw: Von Mis, Patricia Daniel. !!!
+Reply-To: patricia.d0980@gmail.com
+Mail-Reply-To: patricia.d0980@gmail.com
+Message-ID: <99ee7f9fc1c9eb4ed34f7a77efb6ca99@strassenburgpharma.com>
+X-Sender: sudam.pandadm@strassenburgpharma.com
+User-Agent: Roundcube Webmail/1.3.8
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - server.strassenburgpharma.biz
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - strassenburgpharma.com
+X-Get-Message-Sender-Via: server.strassenburgpharma.biz: authenticated_id: sudam.pandadm@strassenburgpharma.com
+X-Authenticated-Sender: server.strassenburgpharma.biz: sudam.pandadm@strassenburgpharma.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
-
-Pull request: https://patchwork.linuxtv.org/patch/64993/
-Build log: https://builder.linuxtv.org/job/patchwork/57568/
-Build time: 00:04:50
-Link: https://lore.kernel.org/linux-media/bf6d5d12-9460-2bcc-a0d7-5553e7e18065@xs4all.nl
-
-gpg: Signature made Mon 29 Jun 2020 07:45:36 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-
-Summary: 6 patches and/or PDF generation with issues, being 0 at build time
-
-Error/warnings:
 
 
-Error #256 when running cat patches/0003-mach-imx-mach-imx27_visstrim_m10.c-remove-soc_camera.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
-$ cat patches/0003-mach-imx-mach-imx27_visstrim_m10.c-remove-soc_camera.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
--:10: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+-- 
+Sehr geehrte Damen und Herren,
 
-Error #256 when running cat patches/0004-mach-omap1-board-ams-delta.c-remove-soc_camera-depen.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
-$ cat patches/0004-mach-omap1-board-ams-delta.c-remove-soc_camera-depen.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
--:10: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
--:104: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+Ich brauche Ihre Hilfe, um in Ihr Land zu ziehen, Investitionen zu
+ermöglichen und meine Ausbildung fortzusetzen. Ich brauche Ihre
+Unterstützung, weil ich die Faktoren nicht kenne, die Ihr Land für ein
+Investitionsprojekt leiten.
 
-Error #256 when running cat patches/0005-mach-pxa-palmz72-pcm990-remove-soc_camera-dependenci.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
-$ cat patches/0005-mach-pxa-palmz72-pcm990-remove-soc_camera-dependenci.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
--:10: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+Kannst du mich unterstützen?
 
-Error #256 when running cat patches/0006-staging-media-soc_camera-remove-this-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
-$ cat patches/0006-staging-media-soc_camera-remove-this-driver.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
--:67: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+Kontaktieren Sie mich für weitere Details!
 
-Error #256 when running cat patches/0007-soc_camera.h-remove-this-unused-header.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict:
-$ cat patches/0007-soc_camera.h-remove-this-unused-header.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
--:18: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
+Mit freundlichen Grüßen,
+Fräulein Patricia.
