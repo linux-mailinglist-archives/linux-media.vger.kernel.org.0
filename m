@@ -2,75 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A9E420C07B
-	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2020 11:35:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9EB3220C0A6
+	for <lists+linux-media@lfdr.de>; Sat, 27 Jun 2020 12:16:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726378AbgF0Jf2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 Jun 2020 05:35:28 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:42723 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726160AbgF0Jf1 (ORCPT
+        id S1726569AbgF0KQC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 27 Jun 2020 06:16:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55922 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726356AbgF0KQC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Jun 2020 05:35:27 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id p7F4jpCPwrl4Bp7F7jSiQA; Sat, 27 Jun 2020 11:35:26 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1593250526; bh=djCCE7OKoIpYQ9Z8j1hpBW1tx5BOQY6bwirNRRWaHBI=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=H8DDRnjSORJGHA8sr1WelvBosgGhP0ObLfNOdAhWtKabwauW8OOiIZ14bQfJLgCfb
-         oeMou8uQZjzB48UkMgwK9J7T3YkI8ZOeflCtJh4Dx5dnUFgb/bJdAWxQ6rdKztnvkJ
-         JtYSBxXA7Kj1nZVlpGz79wamauaRONQecU3e+YRHa/6X3w7YJ4MLcnETqf8+thytQk
-         6inmha4yMyaEZ5XtAkf/MuHdcb9dAwvEpAwaXskbrrFcF7tUKWjIUuSUzuIHunfIgA
-         4K/g54dSUp6LNMk8CgkD5ktDB/POjyT7LlMqAyYVxKgFxZSMWGBWXrKA1A+oMgHQFD
-         E4H8wXS9q5v1w==
-Subject: [PATCH 9/7] MAINTAINERS: remove SOC-CAMERA entry
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+        Sat, 27 Jun 2020 06:16:02 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04EA4C03E979
+        for <linux-media@vger.kernel.org>; Sat, 27 Jun 2020 03:16:02 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id a8so7580632edy.1
+        for <linux-media@vger.kernel.org>; Sat, 27 Jun 2020 03:16:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:subject:date:message-id;
+        bh=lDanYebc0yOPEVLAR8y9fCJSE3bTcvO7TrfJIfKWQiQ=;
+        b=wdEhx2A6Pb4cofIHRTDB0RC8+j534nxbA7EVU77iC1v0lNJpfbADFFJZxdlF9iEWGx
+         Nt89ZDXpHbZdMTN+amYdWGy24HivCQ2Wsk8NnTM+KmGr11aPMkqA/4qKJQaySdzW72fj
+         1qC5GVj/cqx6jrhx2lhrOU1BNX96xEmX5TYH/zT3RvMBV2SUcEfYy9jI4x+xhVTvhpXo
+         hRdqgcfiGFmATyO1/bUvbsexz3JCFsV0l67/HBUnOrNi4yLYW4HyKextD6dP/RmPLNlZ
+         tZtI75Qis3TuivIwpehAVT1v8PIuqVlrye0STuGmiLbW1R228knxbYsqwt73R4n+28jL
+         qS2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=lDanYebc0yOPEVLAR8y9fCJSE3bTcvO7TrfJIfKWQiQ=;
+        b=JbJmpsKJLNsuyTFZbbRiyPPkpACBPHKp4Y66/FA/w69BGFGv7UN3Y8/MVnPEy+tvVO
+         oZ+sVkFsBWPxHDyu0USpfU+kOqr2iqzyrSAcFbd0C7D6VEShulkRiLW9YI8IkKcxPkAW
+         muZ4hUvjEGnMg3GbyGCfmOmMAKbgfUAHGlPiGcXPC0BU8BLzL0nQX0BXf6KAONvqwe9d
+         a8WKbHeLK7OgCvu6zpvNemalzVqAbF07AleERTohfNEA7mFz1SgdEmGr4FzQuQguSUti
+         aBiLCH8NYthdH04bYLjfQ3hYI5oGELKpFhCyIWwOG6T2DN/6MZa5CthRRiaOdZBGKwe1
+         VORA==
+X-Gm-Message-State: AOAM5301t5hWhwk4Mb218G+Srq7/LlYo6OE6OLBW7E9ZfAOAoUXSgFfl
+        FdFSRQrw/XPM7775deKYzH6X4KmpeDMpDA==
+X-Google-Smtp-Source: ABdhPJyXLNyCr5kUYpkrki1Lbt2zVdexCt5Q4nGtDbl6VDvY4xk2YwqdK/h/bW6q98VqFT2aB02qnw==
+X-Received: by 2002:a05:6402:319b:: with SMTP id di27mr7939492edb.133.1593252960551;
+        Sat, 27 Jun 2020 03:16:00 -0700 (PDT)
+Received: from localhost.localdomain (212-5-158-36.ip.btc-net.bg. [212.5.158.36])
+        by smtp.gmail.com with ESMTPSA id bo18sm9758244ejb.14.2020.06.27.03.15.59
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jun 2020 03:16:00 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-media@vger.kernel.org
-Cc:     linux-omap@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Arnd Bergmann <arnd@arndb.de>
-References: <20200626115321.1898798-1-hverkuil-cisco@xs4all.nl>
- <20200626115321.1898798-8-hverkuil-cisco@xs4all.nl>
- <8c9e0509-38c6-2013-740f-56b9e229d837@xs4all.nl>
-Message-ID: <3e6f90c5-c111-9b1c-4741-4ebe3b8b1a67@xs4all.nl>
-Date:   Sat, 27 Jun 2020 11:35:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
-MIME-Version: 1.0
-In-Reply-To: <8c9e0509-38c6-2013-740f-56b9e229d837@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfHZkMkQntfyXFW5GeWDxTPAv081M3J7DkZs4RiRCqi0SnBVxfVGx2Hb4ynqrB3+b0ILzUCg5WqlO7JHjN1IRwcFFFfpNFUw7VPNDjA0MnvqQ8IRS8tvE
- N5ydCfvpDBArpipYOIe/ynbiSWuBVP6JgooT9h/uzb1FzFmwV/os3TmWeF8t0VKWbencXGI6bG+tg6uC1wYouUkTKWy3ApPZVQO4/OhkNhRm8LJwe/E2QviF
- Xb3TYabn/7C6lSllkHqabZTHl/VxFVyBTk6tDfX/hX11AeremYZbqsxnngeUMuoK
+Subject: [GIT PULL for v5.9] Venus updates
+Date:   Sat, 27 Jun 2020 13:15:37 +0300
+Message-Id: <20200627101537.14704-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After the removal of the soc_camera driver and the soc_camera.h header
-the SOC-CAMERA entry in the MAINTAINERS file can also be removed.
+Hi Mauro,
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 634d2c3d621a..ef9afc88e9d5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15764,13 +15764,6 @@ L:	netdev@vger.kernel.org
- S:	Maintained
- F:	drivers/net/ethernet/smsc/smsc9420.*
+Venus driver updates for v5.9 includes:
 
--SOC-CAMERA V4L2 SUBSYSTEM
--L:	linux-media@vger.kernel.org
--S:	Orphan
--T:	git git://linuxtv.org/media_tree.git
--F:	drivers/staging/media/soc_camera/
--F:	include/media/soc_camera.h
--
- SOCIONEXT (SNI) AVE NETWORK DRIVER
- M:	Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
- L:	netdev@vger.kernel.org
+ * A fix for multiple encoders
+ * A fix for encoder pm_runtime imbalance in error path
 
+Please pull.
+
+regards,
+Stan
+
+The following changes since commit e30cc79cc80fd919b697a15c5000d9f57487de8e:
+
+  media: media-request: Fix crash if memory allocation fails (2020-06-23 15:19:37 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/svarbanov/media_tree.git tags/venus-tag-for-v5.9
+
+for you to fetch changes up to b5b7e04c25debbb3ed976e158d39844037238610:
+
+  media: venus: venc: Fix runtime PM imbalance in venc_open (2020-06-27 13:03:15 +0300)
+
+----------------------------------------------------------------
+Venus updates for v5.9
+
+----------------------------------------------------------------
+Dinghao Liu (1):
+      media: venus: venc: Fix runtime PM imbalance in venc_open
+
+Mansur Alisha Shaik (1):
+      venus: fix multiple encoder crash
+
+ drivers/media/platform/qcom/venus/pm_helpers.c | 4 ++++
+ drivers/media/platform/qcom/venus/venc.c       | 3 +--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
