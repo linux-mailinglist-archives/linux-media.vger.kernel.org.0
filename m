@@ -2,174 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD09F20C59B
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jun 2020 05:42:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A60D320C5F3
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jun 2020 06:38:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726011AbgF1DmL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 Jun 2020 23:42:11 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:49081 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725993AbgF1DmL (ORCPT
+        id S1726040AbgF1Ein (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Jun 2020 00:38:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54578 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725908AbgF1Eim (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Jun 2020 23:42:11 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id pOCljtWuvrl4BpOCmjU8Td; Sun, 28 Jun 2020 05:42:08 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1593315728; bh=LXtY+mBIDAy03ithdN8oj9h30v3uKPa5cLpzjnkuRgI=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=uLt0668YTx1JJZHqZDiu1C0w7Ywii+7SbZ+RqymganbkDJp3Ql7n2zZv/kGGDxsMi
-         CKnmGXf5+9zYLujk7yOhsbn+arKpQBGnDlTAMbK99IGpSbJNJwqmqdEwDz+racqXc/
-         eidNwZBOYXvfBmMbgAJIeDm4pP6Iz3Kce7xat9uVsUMBtIXxHeP4hd9i9oGxkqzxiS
-         ejKOE+CBCbB4epM+KBlNVQSDaDZRTNDNJQ8LCYmtw0Vr92npyF2rKCRfK1APmFMD+I
-         +fgQT2KgLQLxV6bJ9dHOZlrY40rnDzaJqEGAJsV4PY9BG1bOiaJ3yo8d7Y7YT6IV1u
-         2C4zZ1u4WT23g==
-Message-ID: <8fa4f1958b10b7b0944becda51e78e8c@smtp-cloud9.xs4all.net>
-Date:   Sun, 28 Jun 2020 05:42:07 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfDEH5fFKafu25FstcH/Gkjzz0Vo6Phm/NxoR/Xpqr9is1VXx1MzOsdD9lqrQedQzscC+ZySrw2cnR4oA/qcSYqBYf0kgK9xBT6yFKkRR6zvjcySF0hES
- rdKnu5aUOE2dugPZVwsV5Wcj5l6nw/vl0SAOFsCmO8QrHTZoSE4RZK3Fm+BadEim79RzFI3642fKxiusZ2TrnI49QbVlrRKe0yXJk1maHfOq+40UbEUBMoSe
+        Sun, 28 Jun 2020 00:38:42 -0400
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2AC7C061794
+        for <linux-media@vger.kernel.org>; Sat, 27 Jun 2020 21:38:40 -0700 (PDT)
+Received: by mail-pj1-x1043.google.com with SMTP id h22so6601110pjf.1
+        for <linux-media@vger.kernel.org>; Sat, 27 Jun 2020 21:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=pesu-pes-edu.20150623.gappssmtp.com; s=20150623;
+        h=from:date:to:subject:message-id:mime-version:content-disposition
+         :user-agent;
+        bh=HpMMZYRbzQ/bcdlkqQv+0ue6DbtFqUzMKo2iWLbzeLo=;
+        b=CzI1RdSgDpgduvsNwIZoh/8jkiOyCbjTIWeVQhjLWnNWcF3W2lnJMXg3/XiCX9PbAJ
+         PIMUbRTsUruQyMATe+jlNCQCmChUOfjKnCx2Ww1ILhip/iE3fL21if3CvY4CMkLYo84S
+         mW3sWo5fB1fVS/bxWPoYqOh6Y5dXfGw8cnWUV/C1Cda4KVWEjgksz5Rrw+Ht52aAxQVe
+         PBtGnIMPZ7mL1/cAq0jEvfTWnDtw3cIo7rkqCTPysBjYwtbq/nxKl1XCrqOkTH9Va3jp
+         rBsUkjTpL0ndN4+k5GWDacYqQoqWxq4CtqZVKez0A7RdihYiVgWWqHKEiZgo9RX4UXpN
+         95Dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:date:to:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=HpMMZYRbzQ/bcdlkqQv+0ue6DbtFqUzMKo2iWLbzeLo=;
+        b=Y5a+Zt2atp/91/uZvGge1V7qYE1mP5nNT/jeN4S1GLCvdgd5c6DMi8pwNSzxpFrILK
+         la+7S0ACMXSA42Sv4yv7v8h26OhwBGsyHAQzXnvX0f2bPrY1s+iHJyQqviAtcgvDHqD0
+         iNtEJW+tDPrj4pfuYyIPD5ZAcp07BBP9o76yubg4qJ76X3eQAaovplFYcAIfYYqT5Dbw
+         aciSaXmz44sWMX3v1U8rXyTe1xYK6KFeMmAP/V7H31trS3IHWz53Jbq9WQKfNpAiXEt+
+         5plFFm67eIAwUzqshT0T7zxkRlJqjc1lLHbORgBAbObciS63PkbY969mgAGDkp0wvm4f
+         iB+w==
+X-Gm-Message-State: AOAM533zVjykFAODRiWahfyONSnGVuHGKqCthOqIgtyelbS0kz0Fg0zq
+        FZVB6iKdEXZSgz6NqK6PjD5DAg==
+X-Google-Smtp-Source: ABdhPJwqyisUZBL/qB5SDxO8FQpoVPLJsZlI7dCcD5F6JQ1ZePzGnIsmX7YpJ3dqlmE3TeQt9X0ekQ==
+X-Received: by 2002:a17:90b:3448:: with SMTP id lj8mr10880938pjb.163.1593319120296;
+        Sat, 27 Jun 2020 21:38:40 -0700 (PDT)
+Received: from localhost ([2406:7400:73:a66d:908:f18a:1156:5c38])
+        by smtp.gmail.com with ESMTPSA id y200sm4521437pfb.33.2020.06.27.21.38.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 27 Jun 2020 21:38:39 -0700 (PDT)
+From:   B K Karthik <bkkarthik@pesu.pes.edu>
+X-Google-Original-From: B K Karthik <karthik.bk2000@live.com>
+Date:   Sun, 28 Jun 2020 00:38:33 -0400
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] staging: media: atomisp: i2c: atomisp-ov2680.c: fixed a
+ brace coding style issue.
+Message-ID: <20200628043833.3dodctrmkec6aoe5@pesu-pes-edu>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="j63puneg2vpssyww"
+Content-Disposition: inline
+User-Agent: NeoMutt/20180716
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
 
-Results of the daily build of media_tree:
+--j63puneg2vpssyww
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-date:			Sun Jun 28 05:00:11 CEST 2020
-media-tree git hash:	e30cc79cc80fd919b697a15c5000d9f57487de8e
-media_build git hash:	39a7ce1e32308668ff1493247747e26b4367c6fe
-v4l-utils git hash:	eb147329b96b5d8f8f3638a159d1b3bcec22f0f0
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6154-g2f65f604
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+Fixed a coding style issue.
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8-rc1-i686: OK
-linux-5.8-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 5
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
-sparse: OK
-smatch: ERRORS
+Signed-off-by: B K Karthik <karthik.bk2000@live.com>
+---
+ drivers/staging/media/atomisp/i2c/atomisp-ov2680.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Detailed results are available here:
+diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+index 90d125ba080f..c90730513438 100644
+--- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
++++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
+@@ -495,11 +495,11 @@ static int ov2680_h_flip(struct v4l2_subdev *sd, s32 value)
+ 	ret = ov2680_read_reg(client, 1, OV2680_MIRROR_REG, &val);
+ 	if (ret)
+ 		return ret;
+-	if (value) {
++	if (value)
+ 		val |= OV2680_FLIP_MIRROR_BIT_ENABLE;
+-	} else {
++	else
+ 		val &= ~OV2680_FLIP_MIRROR_BIT_ENABLE;
+-	}
++
+ 	ret = ov2680_write_reg(client, 1,
+ 			       OV2680_MIRROR_REG, val);
+ 	if (ret)
+--
+2.20.1
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+--j63puneg2vpssyww
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Detailed regression test results are available here:
+-----BEGIN PGP SIGNATURE-----
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+iQGzBAEBCgAdFiEEpIrzAt4LvWLJmKjp471Q5AHeZ2oFAl74HskACgkQ471Q5AHe
+Z2o3zgv8Dymrr9Re3CvjBKnfHsbHRE4sqJi/Ro6tYF71Lt7ivGvG/ifDyn6YM9wX
+EMHC+KIxMMQHfVdcr0hf+2F7EhU7NkbGKGtb2ONJduh91V7jBNlTyJBX+itlGjoy
+ZPMYuP/H7LVoxGMltlHzWrYJxOeCWnzdUzE7HQmSfsXwa9AhEPNILN/dNaYf16TL
+lywM6qwwDWwezqK5MVrSLWrtF5pKT3mz4ziR3YP0UoNrdb87Oc4aFleqJLrYCCFe
+rPalVYkBewnjL8kj2hBtxKWLn85ycZyR9zTbPdh55qVTiDJJBm2sXVCjeZuu8dwa
+n4FGQFRdv6qwFbUaIQafhSwE46f2WcLockJa1/h4udXOD1uy3TCDBPFJ6siN2/ay
+Xb+aV7ugY7vAtl4ZN1i2eAnbTN4vZzh2HifOSbMV0nIfBJ9AgwWFMNMXvVn/lrPD
+fv1Lis0rQE84odycbWHKUHW4JiO22TEqNyMMmsAlHa457Dv1YWrE6bUyuRcA10Vt
+CtnwnGzt
+=1LYK
+-----END PGP SIGNATURE-----
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+--j63puneg2vpssyww--
