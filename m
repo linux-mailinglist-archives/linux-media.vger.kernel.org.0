@@ -2,90 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8E3220C49D
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jun 2020 00:06:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD09F20C59B
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jun 2020 05:42:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726732AbgF0WGU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 27 Jun 2020 18:06:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51288 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726725AbgF0WGU (ORCPT
+        id S1726011AbgF1DmL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 27 Jun 2020 23:42:11 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:49081 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725993AbgF1DmL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 27 Jun 2020 18:06:20 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AFB51C061794
-        for <linux-media@vger.kernel.org>; Sat, 27 Jun 2020 15:06:19 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id l2so11033193wmf.0
-        for <linux-media@vger.kernel.org>; Sat, 27 Jun 2020 15:06:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=hDm0J70xfMLbVvceQHwxPddZCp69UMTk2d0jtKg2a8s=;
-        b=f9F4OeCeRmjyCn/l5zWRCnvqn8abBSCJ0Y8qujQ0kmxWn834D2fXcj9rvsWpCDPIuS
-         J4EoerIfxQNxbL3GXEU7ldfNRYPjw9+UDx+oUErzer3ipQGx1bMVBJ4GKw5qxwtLFKgm
-         GIGKX0Yf3u59BQOeDfpIf5jZ+3vnA0ZzLii/fzh6lT1DnoxV12hExchyOgRH8ZWUzh6h
-         YfJSqrAXwDwYWOkanSpTn/205IELx8NOzYqaPLRhLaj+p8d8Tqco8ZlQgP7W4AOriRZo
-         /C1JWu9y1DjEpYGijceZGziK7m0b44a1VzD/YaM40U0hZVpq1t42ddRbOo9XgyjTsiIU
-         X8hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=hDm0J70xfMLbVvceQHwxPddZCp69UMTk2d0jtKg2a8s=;
-        b=F37Zv+wsLroWJvXLy7Dwj3oBXXkhGIYl88wQMB7etYfyqLeTtm8C/Z0pyZe0Q/4LJI
-         N68uSJBISO0fgtMIOsCzHXk3QWALxdRlXuyL5mRfWq9M6ZY0pqrgCt3Ta6i33OQ8DhSn
-         ZMQd7ApJf/CqYos81+CCL6H9BQsZerHFPBHDDpxIGWJqS6U3LJNALzBhWo2YbsRG+WRS
-         Y8RkwwiuYI4XxRVFE1TDxNoTJxWIu5s8TdpVXZX6evsTNUOHjn7H4nyMMYaypAAQsJVS
-         M2U3uDmeulPXcpTJhFuLMrm8ynMm8rBqmcsFapFQAUEHwu+B2drg2GgxvZtFIzup8Vt7
-         bZeQ==
-X-Gm-Message-State: AOAM5311xYuXkWkq4tIKX1HmEhSzUSgIiumrZC9gxzspy/STd5v5cKZb
-        FCdUwfxkpJ3QHW95Qwjs9xXsYGSXjQqklapH7Lrmy+Kipbo=
-X-Google-Smtp-Source: ABdhPJzB2PS1uLzfXnv9RJ9+8ywF0BTYmMReQpmFB2cwHUGJdFU/VqT1TPNRIciUkUVNxK28Z0jWU0doicUzCH8V5Ek=
-X-Received: by 2002:a7b:c043:: with SMTP id u3mr10377547wmc.185.1593295180142;
- Sat, 27 Jun 2020 14:59:40 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:adf:f187:0:0:0:0:0 with HTTP; Sat, 27 Jun 2020 14:59:39
- -0700 (PDT)
-Reply-To: un.org@i.ua
-From:   helen <upspostexpress@gmail.com>
-Date:   Sat, 27 Jun 2020 22:59:39 +0100
-Message-ID: <CA+HWcLeFxWA2HFg2eTDi9xRk8OKWn7oojHXSEX-EzsM7GcSGnA@mail.gmail.com>
-Subject: 
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Sat, 27 Jun 2020 23:42:11 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id pOCljtWuvrl4BpOCmjU8Td; Sun, 28 Jun 2020 05:42:08 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1593315728; bh=LXtY+mBIDAy03ithdN8oj9h30v3uKPa5cLpzjnkuRgI=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=uLt0668YTx1JJZHqZDiu1C0w7Ywii+7SbZ+RqymganbkDJp3Ql7n2zZv/kGGDxsMi
+         CKnmGXf5+9zYLujk7yOhsbn+arKpQBGnDlTAMbK99IGpSbJNJwqmqdEwDz+racqXc/
+         eidNwZBOYXvfBmMbgAJIeDm4pP6Iz3Kce7xat9uVsUMBtIXxHeP4hd9i9oGxkqzxiS
+         ejKOE+CBCbB4epM+KBlNVQSDaDZRTNDNJQ8LCYmtw0Vr92npyF2rKCRfK1APmFMD+I
+         +fgQT2KgLQLxV6bJ9dHOZlrY40rnDzaJqEGAJsV4PY9BG1bOiaJ3yo8d7Y7YT6IV1u
+         2C4zZ1u4WT23g==
+Message-ID: <8fa4f1958b10b7b0944becda51e78e8c@smtp-cloud9.xs4all.net>
+Date:   Sun, 28 Jun 2020 05:42:07 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfDEH5fFKafu25FstcH/Gkjzz0Vo6Phm/NxoR/Xpqr9is1VXx1MzOsdD9lqrQedQzscC+ZySrw2cnR4oA/qcSYqBYf0kgK9xBT6yFKkRR6zvjcySF0hES
+ rdKnu5aUOE2dugPZVwsV5Wcj5l6nw/vl0SAOFsCmO8QrHTZoSE4RZK3Fm+BadEim79RzFI3642fKxiusZ2TrnI49QbVlrRKe0yXJk1maHfOq+40UbEUBMoSe
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-MONEY-GRAM TRANSFERRED PAYMENT INFO:
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Below is the sender=E2=80=99s information
+Results of the daily build of media_tree:
 
+date:			Sun Jun 28 05:00:11 CEST 2020
+media-tree git hash:	e30cc79cc80fd919b697a15c5000d9f57487de8e
+media_build git hash:	39a7ce1e32308668ff1493247747e26b4367c6fe
+v4l-utils git hash:	eb147329b96b5d8f8f3638a159d1b3bcec22f0f0
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		0.6.1
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6154-g2f65f604
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
+host hardware:		x86_64
+host os:		5.6.0-1-amd64
 
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-powerpc64: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
+Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8-rc1-i686: OK
+linux-5.8-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 5
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
+sparse: OK
+smatch: ERRORS
 
-1. MG. REFERENCE NO#: 36360857
+Detailed results are available here:
 
-2. SENDER'S NAME: Johnson Williams
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
-3. AMOUNT TO PICKUP: US$10,000
+Detailed regression test results are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
 
+Full logs are available here:
 
-Go to any Money Gram office near you and pick up the payment Track the
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
 
-Reference Number by visiting and click the link below
+The Media Infrastructure API from this daily build is here:
 
-(https://secure.moneygram.com/embed/track) and enter the Reference
-
-Number: 36360857 and the Last Name: Williams, you will find the payment
-
-available for pickup instantly.
-
-Yours Sincerely,
-
-Mrs. Helen Marvis
-United Nations Liaison Office
-Directorate for International Payments
+http://www.xs4all.nl/~hverkuil/spec/index.html
