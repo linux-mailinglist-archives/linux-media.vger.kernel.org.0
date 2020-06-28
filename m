@@ -2,123 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A60D320C5F3
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jun 2020 06:38:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 72F7720C646
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jun 2020 07:38:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726040AbgF1Ein (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Jun 2020 00:38:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54578 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725908AbgF1Eim (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Jun 2020 00:38:42 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2AC7C061794
-        for <linux-media@vger.kernel.org>; Sat, 27 Jun 2020 21:38:40 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id h22so6601110pjf.1
-        for <linux-media@vger.kernel.org>; Sat, 27 Jun 2020 21:38:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pesu-pes-edu.20150623.gappssmtp.com; s=20150623;
-        h=from:date:to:subject:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=HpMMZYRbzQ/bcdlkqQv+0ue6DbtFqUzMKo2iWLbzeLo=;
-        b=CzI1RdSgDpgduvsNwIZoh/8jkiOyCbjTIWeVQhjLWnNWcF3W2lnJMXg3/XiCX9PbAJ
-         PIMUbRTsUruQyMATe+jlNCQCmChUOfjKnCx2Ww1ILhip/iE3fL21if3CvY4CMkLYo84S
-         mW3sWo5fB1fVS/bxWPoYqOh6Y5dXfGw8cnWUV/C1Cda4KVWEjgksz5Rrw+Ht52aAxQVe
-         PBtGnIMPZ7mL1/cAq0jEvfTWnDtw3cIo7rkqCTPysBjYwtbq/nxKl1XCrqOkTH9Va3jp
-         rBsUkjTpL0ndN4+k5GWDacYqQoqWxq4CtqZVKez0A7RdihYiVgWWqHKEiZgo9RX4UXpN
-         95Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:date:to:subject:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=HpMMZYRbzQ/bcdlkqQv+0ue6DbtFqUzMKo2iWLbzeLo=;
-        b=Y5a+Zt2atp/91/uZvGge1V7qYE1mP5nNT/jeN4S1GLCvdgd5c6DMi8pwNSzxpFrILK
-         la+7S0ACMXSA42Sv4yv7v8h26OhwBGsyHAQzXnvX0f2bPrY1s+iHJyQqviAtcgvDHqD0
-         iNtEJW+tDPrj4pfuYyIPD5ZAcp07BBP9o76yubg4qJ76X3eQAaovplFYcAIfYYqT5Dbw
-         aciSaXmz44sWMX3v1U8rXyTe1xYK6KFeMmAP/V7H31trS3IHWz53Jbq9WQKfNpAiXEt+
-         5plFFm67eIAwUzqshT0T7zxkRlJqjc1lLHbORgBAbObciS63PkbY969mgAGDkp0wvm4f
-         iB+w==
-X-Gm-Message-State: AOAM533zVjykFAODRiWahfyONSnGVuHGKqCthOqIgtyelbS0kz0Fg0zq
-        FZVB6iKdEXZSgz6NqK6PjD5DAg==
-X-Google-Smtp-Source: ABdhPJwqyisUZBL/qB5SDxO8FQpoVPLJsZlI7dCcD5F6JQ1ZePzGnIsmX7YpJ3dqlmE3TeQt9X0ekQ==
-X-Received: by 2002:a17:90b:3448:: with SMTP id lj8mr10880938pjb.163.1593319120296;
-        Sat, 27 Jun 2020 21:38:40 -0700 (PDT)
-Received: from localhost ([2406:7400:73:a66d:908:f18a:1156:5c38])
-        by smtp.gmail.com with ESMTPSA id y200sm4521437pfb.33.2020.06.27.21.38.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 27 Jun 2020 21:38:39 -0700 (PDT)
-From:   B K Karthik <bkkarthik@pesu.pes.edu>
-X-Google-Original-From: B K Karthik <karthik.bk2000@live.com>
-Date:   Sun, 28 Jun 2020 00:38:33 -0400
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        id S1726075AbgF1FiS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Jun 2020 01:38:18 -0400
+Received: from mail.zju.edu.cn ([61.164.42.155]:52054 "EHLO zju.edu.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725965AbgF1FiS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 28 Jun 2020 01:38:18 -0400
+Received: by ajax-webmail-mail-app3 (Coremail) ; Sun, 28 Jun 2020 13:38:05
+ +0800 (GMT+08:00)
+X-Originating-IP: [10.192.85.18]
+Date:   Sun, 28 Jun 2020 13:38:05 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+From:   dinghao.liu@zju.edu.cn
+To:     "Stanimir Varbanov" <stanimir.varbanov@linaro.org>
+Cc:     kjlu@umn.edu, "Andy Gross" <agross@kernel.org>,
+        "Bjorn Andersson" <bjorn.andersson@linaro.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: media: atomisp: i2c: atomisp-ov2680.c: fixed a
- brace coding style issue.
-Message-ID: <20200628043833.3dodctrmkec6aoe5@pesu-pes-edu>
+Subject: Re: Re: [PATCH] [v2] media: venus: core: Fix runtime PM imbalance
+ in venus_probe
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.10 build 20190906(84e8bf8f)
+ Copyright (c) 2002-2020 www.mailtech.cn zju.edu.cn
+In-Reply-To: <f49040ee-a5c5-c106-2b51-cd48646306b0@linaro.org>
+References: <20200624063024.17059-1-dinghao.liu@zju.edu.cn>
+ <812ead80-766b-1dad-1447-ffab5d7d2ee8@linaro.org>
+ <35c749cf.28af7.172ee1e4ac3.Coremail.dinghao.liu@zju.edu.cn>
+ <f49040ee-a5c5-c106-2b51-cd48646306b0@linaro.org>
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="j63puneg2vpssyww"
-Content-Disposition: inline
-User-Agent: NeoMutt/20180716
+Message-ID: <54284223.2ce40.172f96ec3b3.Coremail.dinghao.liu@zju.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: cC_KCgCH_0K9LPhegiVmAQ--.47661W
+X-CM-SenderInfo: qrrzjiaqtzq6lmxovvfxof0/1tbiAgoDBlZdtO0x6gAfsb
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJTRUUUblvS07vEb7Iv0x
+        C_Jr1lV2xY67kC6x804xWlV2xY67CY07I20VC2zVCF04k26cxKx2IYs7xG6rWj6s0DMIAI
+        bVAFxVCF77xC64kEw24lV2xY67C26IkvcIIF6IxKo4kEV4ylV2xY628lY4IE4IxF12IF4w
+        CS07vE84x0c7CEj48ve4kI8wCS07vE84ACjcxK6xIIjxv20xvE14v26w1j6s0DMIAIbVA2
+        z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWlV2xY628EF7xvwVC2z280aVAFwI0_Gc
+        CE3s1lV2xY628EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wCS07vEe2I262IYc4CY6c8I
+        j28IcVAaY2xG8wCS07vE5I8CrVACY4xI64kE6c02F40Ex7xfMIAIbVAv7VC0I7IYx2IY67
+        AKxVWUJVWUGwCS07vEYx0Ex4A2jsIE14v26r1j6r4UMIAIbVAm72CE4IkC6x0Yz7v_Jr0_
+        Gr1lV2xY6x02cVAKzwCS07vEc2IjII80xcxEwVAKI48JMIAIbVCF04k20xvE74AGY7Cv6c
+        x26r4fKr1UJr1lV2xY6xCjnVCjjxCrMIAIbVCFx2IqxVCFs4IE7xkEbVWUJVW8JwCS07vE
+        x2IqxVAqx4xG67AKxVWUJVWUGwCS07vEx2IqxVCjr7xvwVAFwI0_JrI_JrWlV2xY6I8E67
+        AF67kF1VAFwI0_Jw0_GFylV2xY6IIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lV2xY6IIF0xvE
+        2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCS07vEIxAIcVCF04k26cxKx2IYs7xG6rW3Jr0E3s
+        1lV2xY6IIF0xvEx4A2jsIE14v26r1j6r4UMIAIbVCI42IY6I8E87Iv6xkF7I0E14v26r1j
+        6r4UYxBIdaVFxhVjvjDU=
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
---j63puneg2vpssyww
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Fixed a coding style issue.
-
-Signed-off-by: B K Karthik <karthik.bk2000@live.com>
----
- drivers/staging/media/atomisp/i2c/atomisp-ov2680.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-index 90d125ba080f..c90730513438 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-@@ -495,11 +495,11 @@ static int ov2680_h_flip(struct v4l2_subdev *sd, s32 value)
- 	ret = ov2680_read_reg(client, 1, OV2680_MIRROR_REG, &val);
- 	if (ret)
- 		return ret;
--	if (value) {
-+	if (value)
- 		val |= OV2680_FLIP_MIRROR_BIT_ENABLE;
--	} else {
-+	else
- 		val &= ~OV2680_FLIP_MIRROR_BIT_ENABLE;
--	}
-+
- 	ret = ov2680_write_reg(client, 1,
- 			       OV2680_MIRROR_REG, val);
- 	if (ret)
---
-2.20.1
-
---j63puneg2vpssyww
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAEBCgAdFiEEpIrzAt4LvWLJmKjp471Q5AHeZ2oFAl74HskACgkQ471Q5AHe
-Z2o3zgv8Dymrr9Re3CvjBKnfHsbHRE4sqJi/Ro6tYF71Lt7ivGvG/ifDyn6YM9wX
-EMHC+KIxMMQHfVdcr0hf+2F7EhU7NkbGKGtb2ONJduh91V7jBNlTyJBX+itlGjoy
-ZPMYuP/H7LVoxGMltlHzWrYJxOeCWnzdUzE7HQmSfsXwa9AhEPNILN/dNaYf16TL
-lywM6qwwDWwezqK5MVrSLWrtF5pKT3mz4ziR3YP0UoNrdb87Oc4aFleqJLrYCCFe
-rPalVYkBewnjL8kj2hBtxKWLn85ycZyR9zTbPdh55qVTiDJJBm2sXVCjeZuu8dwa
-n4FGQFRdv6qwFbUaIQafhSwE46f2WcLockJa1/h4udXOD1uy3TCDBPFJ6siN2/ay
-Xb+aV7ugY7vAtl4ZN1i2eAnbTN4vZzh2HifOSbMV0nIfBJ9AgwWFMNMXvVn/lrPD
-fv1Lis0rQE84odycbWHKUHW4JiO22TEqNyMMmsAlHa457Dv1YWrE6bUyuRcA10Vt
-CtnwnGzt
-=1LYK
------END PGP SIGNATURE-----
-
---j63puneg2vpssyww--
+CgoKPiAKPiBDb3VsZCB5b3UgcmV3b3JkIHRoaXMgYW5kIGFkZCBpdCB0byB0aGUgcGF0Y2ggZGVz
+Y3JpcHRpb24uCj4gCgpGaW5lLiBJIHdpbGwgZml4IHRoaXMgaW4gdGhlIG5leHQgdmVyc2lvbiBv
+ZiBwYXRjaC4KClJlZ2FyZHMsCkRpbmdoYW8=
