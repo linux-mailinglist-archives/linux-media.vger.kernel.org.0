@@ -2,91 +2,390 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A95F20C954
-	for <lists+linux-media@lfdr.de>; Sun, 28 Jun 2020 19:46:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3921320C9E0
+	for <lists+linux-media@lfdr.de>; Sun, 28 Jun 2020 21:34:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726646AbgF1RqX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 28 Jun 2020 13:46:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33258 "EHLO
+        id S1726705AbgF1TeQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 28 Jun 2020 15:34:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49726 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726654AbgF1RqS (ORCPT
+        with ESMTP id S1726668AbgF1TeQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 28 Jun 2020 13:46:18 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1B73C08C5F3
-        for <linux-media@vger.kernel.org>; Sun, 28 Jun 2020 10:46:17 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id n24so11169708otr.13
-        for <linux-media@vger.kernel.org>; Sun, 28 Jun 2020 10:46:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=/bJJuAbxLOI8ZB5kWrg6GnM3H9CKnk3zJ1in7nW69lY=;
-        b=YUBq+VgNMjlk38u14axPL08DzqARV0dHwd7VsntceEuDODm7tXtyIQiPnBEqwTqorM
-         FLgKk/WWEbN669NPAWBs5Q5Gn/Gw86s5KbgPWdKneNmtH17uT3bYx80xwgMEDbop8BVT
-         4AlOoyISrzqCwJLvSN+nVH9lFdx700mtRrJmEbhJzdpPADkw25XlX9qIwrm0L5lPQrGt
-         sHpMYC76UUuOqEIhiYHo/SrZyArNzUc5xWQzQJVjCCoL1o6dPw+1muYQhIpwYqVaKQyH
-         7il99UsBp0LEis5jgVygo+cs3PrEwvki/U9tgVDWLPcHxPjGhom7KOAMAeqfYI2Bq0H2
-         dL/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=/bJJuAbxLOI8ZB5kWrg6GnM3H9CKnk3zJ1in7nW69lY=;
-        b=oeQz4wZcZm8NT9srncwRx907mM7vQ0TWh/zV8cMNPsjKdVXWAeqQropv/3k/rttq5m
-         XYHkjtwu1BRszmqzc06oIFOAqX40iethoGLgJIdIcIh/vUdWpZNGbM6AhWVzYLeefyMx
-         HmOpgqHxiOB1TVGY4mVuZYTn47oX2DyHtzrVbK/8A2Kgb1oLwcyEEirrAOX++Shwg0n7
-         yJ+aec9anLTt8bd7c1E8al8f0LTpED+hJpiRVFDTWHvzdyeK3ocg+UbwR3kQhBBeE2al
-         SPMTuoPywKzqWAHX49Cr7CybsZl8OUI6fgcu3rydSMQP6y1lYObVnYB+bj/rFNadmSeF
-         9TeQ==
-X-Gm-Message-State: AOAM533APdt7wwWeDmKRRCAdGntP5Uwa9uhQdAglaQUPt4r6Tg1WOXTS
-        oJV+f5nyG0LPMJ3jdilYDN7cl/+L14I7V/I/LSc=
-X-Google-Smtp-Source: ABdhPJy3Gj0bD4+GZ16fIU6y/MzUrvVfW0UiVZl9y/IjQee69OJiPuEA8c3wMHv+p8mmb1g6c9ot9wDO/UA+LL3ZfeY=
-X-Received: by 2002:a05:6830:610:: with SMTP id w16mr10586414oti.165.1593366376804;
- Sun, 28 Jun 2020 10:46:16 -0700 (PDT)
+        Sun, 28 Jun 2020 15:34:16 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF06C03E979
+        for <linux-media@vger.kernel.org>; Sun, 28 Jun 2020 12:34:15 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 6C2862A17F4
+Subject: Re: [RFC v3 2/2] media: staging: rkisp1: allow quantization
+ conversion from userspace for isp source pad
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20200604175443.GB76282@chromium.org>
+ <87f11ebf-aecf-7eee-f18c-98dd4e8d692b@collabora.com>
+ <CAAFQd5BPOUFsKb0Qa_6QiytE6=OM3jjSVWyoikdgyNvr4vu0fw@mail.gmail.com>
+ <CAAFQd5DoUu+bMO1GeSX0qbsW5u-KDmRvtO2kfGePghrv59bQmw@mail.gmail.com>
+ <62611ccd-e4cd-728a-355b-532661b36be0@collabora.com>
+ <20200618184923.GB68039@chromium.org>
+ <a163dbb3-8278-684e-6324-4c36924ed335@collabora.com>
+ <20200618192535.GD73379@chromium.org>
+ <67cdd3be-ee2a-3b88-5d17-d9d1d17b2603@collabora.com>
+ <CAAFQd5Bkh1QphjQtMyWQeN7wtK93YN2PeU-bKkUFh46PQ=ujLw@mail.gmail.com>
+ <20200628131537.GT6954@pendragon.ideasonboard.com>
+ <CAAFQd5BDXJVZ1UNvbLwccFnTOoQ_U7MdZhQNNzQSZtn9ne40cA@mail.gmail.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <848a7c75-7d63-7763-cbd2-84833f85cec8@collabora.com>
+Date:   Sun, 28 Jun 2020 21:34:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Received: by 2002:ac9:27ee:0:0:0:0:0 with HTTP; Sun, 28 Jun 2020 10:46:15
- -0700 (PDT)
-Reply-To: mrjohnscottyounger35@gmail.com
-From:   John Scott Younger <mrszahraalkami@gmail.com>
-Date:   Sun, 28 Jun 2020 18:46:15 +0100
-Message-ID: <CALQpPg30nAHHtUyi_G5mCvJ6ntraDa3A=oR7H3f5LumSg+StqA@mail.gmail.com>
-Subject: Your attention to this news update.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAAFQd5BDXJVZ1UNvbLwccFnTOoQ_U7MdZhQNNzQSZtn9ne40cA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
-Your attention to this news update.
 
-The report / analysis received from our correspondence shows that you
-have NOT received your PAYMENT, due to administrative injustice from
-unpatriotic and uncivil payment officials. Following the resolution of
-the U.S Department of State, you are mandated to kindly reinstate your
-fund acquisition details for accreditation.
 
-Sequel to the joint /collaborative effort by United Nations and US
-Department of State, to review, nullify and release all STOP ORDER on
-beneficiary transferred sum and consignment HELD at custom port
-authorities. At this juncture, you are advised to forward information
-of agencies that has put a HOLD on your consignment or STOP ORDER on
-your transferred sum.
+On 28.06.20 16:59, Tomasz Figa wrote:
+> On Sun, Jun 28, 2020 at 3:15 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+>>
+>> Hi Tomasz,
+>>
+>> On Sun, Jun 28, 2020 at 03:10:41PM +0200, Tomasz Figa wrote:
+>>> On Fri, Jun 26, 2020 at 2:15 AM Helen Koike <helen.koike@collabora.com> wrote:
+>>>> On 6/18/20 4:25 PM, Tomasz Figa wrote:
+>>>>> On Thu, Jun 18, 2020 at 08:54:34PM +0200, Dafna Hirschfeld wrote:
+>>>>>> On 18.06.20 20:49, Tomasz Figa wrote:
+>>>>>>> On Thu, Jun 18, 2020 at 08:26:33PM +0200, Dafna Hirschfeld wrote:
+>>>>>>>> On 18.06.20 19:27, Tomasz Figa wrote:
+>>>>>>>>> On Wed, Jun 10, 2020 at 2:08 PM Tomasz Figa wrote:
+>>>>>>>>>> On Thu, Jun 4, 2020 at 9:11 PM Dafna Hirschfeld wrote:
+>>>>>>>>>>> On 04.06.20 19:54, Tomasz Figa wrote:
+>>>>>>>>>>>> On Thu, Apr 16, 2020 at 04:56:05PM +0200, Dafna Hirschfeld wrote:
+>>>>>>>>>>>>> The isp entity has a hardware support to force full range quantization
+>>>>>>>>>>>>> for YUV formats. Use the new API to indicate userspace that
+>>>>>>>>>>>>> quantization conversion is supported by adding the flag
+>>>>>>>>>>>>> V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION during media code enumeration.
+>>>>>>>>>>>>> Then uppon s_fmt on the video source pad, we assign the
+>>>>>>>>>>>>> quantization from userspace for YUV formats.
+>>>>>>>>>>>>> Also in the capture and resizer entities we retrieve the colorspace
+>>>>>>>>>>>>> from the isp entity.
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>>>>>>>>>>>> ---
+>>>>>>>>>>>>>      drivers/staging/media/rkisp1/rkisp1-capture.c | 28 ++++++-------
+>>>>>>>>>>>>>      drivers/staging/media/rkisp1/rkisp1-common.h  |  2 +
+>>>>>>>>>>>>>      drivers/staging/media/rkisp1/rkisp1-isp.c     | 39 +++++++++++++++++--
+>>>>>>>>>>>>>      drivers/staging/media/rkisp1/rkisp1-resizer.c | 13 +++++++
+>>>>>>>>>>>>>      4 files changed, 65 insertions(+), 17 deletions(-)
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
+>>>>>>>>>>>>> index fbf62399fe3d..aca0f93bc772 100644
+>>>>>>>>>>>>> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
+>>>>>>>>>>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
+>>>>>>>>>>>>> @@ -1066,14 +1066,13 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
+>>>>>>>>>>>>>                            const struct v4l2_format_info **fmt_info)
+>>>>>>>>>>>>>      {
+>>>>>>>>>>>>>         const struct rkisp1_capture_config *config = cap->config;
+>>>>>>>>>>>>> -    struct rkisp1_capture *other_cap =
+>>>>>>>>>>>>> -                    &cap->rkisp1->capture_devs[cap->id ^ 1];
+>>>>>>>>>>>>>         const struct rkisp1_capture_fmt_cfg *fmt;
+>>>>>>>>>>>>>         const struct v4l2_format_info *info;
+>>>>>>>>>>>>>         const unsigned int max_widths[] = { RKISP1_RSZ_MP_SRC_MAX_WIDTH,
+>>>>>>>>>>>>>                                             RKISP1_RSZ_SP_SRC_MAX_WIDTH };
+>>>>>>>>>>>>>         const unsigned int max_heights[] = { RKISP1_RSZ_MP_SRC_MAX_HEIGHT,
+>>>>>>>>>>>>>                                              RKISP1_RSZ_SP_SRC_MAX_HEIGHT};
+>>>>>>>>>>>>> +    struct v4l2_subdev_format isp_sd_fmt;
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>         fmt = rkisp1_find_fmt_cfg(cap, pixm->pixelformat);
+>>>>>>>>>>>>>         if (!fmt) {
+>>>>>>>>>>>>> @@ -1081,24 +1080,27 @@ static void rkisp1_try_fmt(const struct rkisp1_capture *cap,
+>>>>>>>>>>>>>                 pixm->pixelformat = fmt->fourcc;
+>>>>>>>>>>>>>         }
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> +    rkisp1_get_isp_src_fmt(cap->rkisp1, &isp_sd_fmt);
+>>>>>>>>>>>>> +    pixm->field = isp_sd_fmt.format.field;
+>>>>>>>>>>>>> +    pixm->colorspace = isp_sd_fmt.format.colorspace;
+>>>>>>>>>>>>> +    pixm->ycbcr_enc = isp_sd_fmt.format.ycbcr_enc;
+>>>>>>>>>>>>> +    pixm->xfer_func = isp_sd_fmt.format.xfer_func;
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>> +    /*
+>>>>>>>>>>>>> +     * isp has a feature to set full range quantization for yuv formats.
+>>>>>>>>>>>>
+>>>>>>>>>>>> How about "select between limited and full range for YUV formats"?
+>>>>>>>>>>>>
+>>>>>>>>>>>>> +     * so we need to get the format from the isp.
+>>>>>>>>>>>>> +     */
+>>>>>>>>>>>>> +    pixm->quantization = isp_sd_fmt.format.quantization;
+>>>>>>>>>>>>> +    if (!v4l2_is_format_yuv(cap->pix.info))
+>>>>>>>>>>>>> +            pixm->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>>         pixm->width = clamp_t(u32, pixm->width,
+>>>>>>>>>>>>>                               RKISP1_RSZ_SRC_MIN_WIDTH, max_widths[cap->id]);
+>>>>>>>>>>>>>         pixm->height = clamp_t(u32, pixm->height,
+>>>>>>>>>>>>>                                RKISP1_RSZ_SRC_MIN_HEIGHT, max_heights[cap->id]);
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> -    pixm->field = V4L2_FIELD_NONE;
+>>>>>>>>>>>>> -    pixm->colorspace = V4L2_COLORSPACE_DEFAULT;
+>>>>>>>>>>>>> -    pixm->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+>>>>>>>>>>>>> -
+>>>>>>>>>>>>>         info = rkisp1_fill_pixfmt(pixm, cap->id);
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> -    /* can not change quantization when stream-on */
+>>>>>>>>>>>>> -    if (other_cap->is_streaming)
+>>>>>>>>>>>>> -            pixm->quantization = other_cap->pix.fmt.quantization;
+>>>>>>>>>>>>> -    /* output full range by default, take effect in params */
+>>>>>>>>>>>>> -    else if (!pixm->quantization ||
+>>>>>>>>>>>>> -             pixm->quantization > V4L2_QUANTIZATION_LIM_RANGE)
+>>>>>>>>>>>>> -            pixm->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>         if (fmt_cfg)
+>>>>>>>>>>>>>                 *fmt_cfg = fmt;
+>>>>>>>>>>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
+>>>>>>>>>>>>> index 2d7b7e078636..7a5576fa14c9 100644
+>>>>>>>>>>>>> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
+>>>>>>>>>>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
+>>>>>>>>>>>>> @@ -300,6 +300,8 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
+>>>>>>>>>>>>>                         struct v4l2_device *v4l2_dev);
+>>>>>>>>>>>>>      void rkisp1_isp_unregister(struct rkisp1_device *rkisp1);
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> +int rkisp1_get_isp_src_fmt(struct rkisp1_device *rkisp1,
+>>>>>>>>>>>>> +                       struct v4l2_subdev_format *sd_fmt);
+>>>>>>>>>>>>>      const struct rkisp1_isp_mbus_info *rkisp1_isp_mbus_info_get(u32 mbus_code);
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>      irqreturn_t rkisp1_isp_isr(struct rkisp1_device *rkisp1);
+>>>>>>>>>>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-isp.c b/drivers/staging/media/rkisp1/rkisp1-isp.c
+>>>>>>>>>>>>> index dee8e96f3900..6fdf5ed0b6b1 100644
+>>>>>>>>>>>>> --- a/drivers/staging/media/rkisp1/rkisp1-isp.c
+>>>>>>>>>>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-isp.c
+>>>>>>>>>>>>> @@ -613,6 +613,10 @@ static int rkisp1_isp_enum_mbus_code(struct v4l2_subdev *sd,
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>                 if (code->index == pos - 1) {
+>>>>>>>>>>>>>                         code->code = fmt->mbus_code;
+>>>>>>>>>>>>> +                    if (fmt->pixel_enc == V4L2_PIXEL_ENC_YUV &&
+>>>>>>>>>>>>> +                        dir == RKISP1_DIR_SRC)
+>>>>>>>>>>>>> +                            code->flags =
+>>>>>>>>>>>>> +                                    V4L2_SUBDEV_MBUS_CODE_CSC_QUANTIZATION;
+>>>>>>>>>>>>>                         return 0;
+>>>>>>>>>>>>>                 }
+>>>>>>>>>>>>>         }
+>>>>>>>>>>>>> @@ -639,12 +643,21 @@ static int rkisp1_isp_init_config(struct v4l2_subdev *sd,
+>>>>>>>>>>>>>         sink_crop->height = RKISP1_DEFAULT_HEIGHT;
+>>>>>>>>>>>>>         sink_crop->left = 0;
+>>>>>>>>>>>>>         sink_crop->top = 0;
+>>>>>>>>>>>>> +    sink_fmt->colorspace = V4L2_COLORSPACE_SRGB;
+>>>>>>>>>>>>> +    sink_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(sink_fmt->colorspace);
+>>>>>>>>>>>>> +    sink_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(sink_fmt->colorspace);
+>>>>>>>>>>>>> +    sink_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>         src_fmt = v4l2_subdev_get_try_format(sd, cfg,
+>>>>>>>>>>>>>                                              RKISP1_ISP_PAD_SOURCE_VIDEO);
+>>>>>>>>>>>>>         *src_fmt = *sink_fmt;
+>>>>>>>>>>>>>         src_fmt->code = RKISP1_DEF_SRC_PAD_FMT;
+>>>>>>>>>>>>> -    src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+>>>>>>>>>>>>> +    src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
+>>>>>>>>>>>>> +    src_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(src_fmt->colorspace);
+>>>>>>>>>>>>> +    src_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(src_fmt->colorspace);
+>>>>>>>>>>>>> +    src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>         src_crop = v4l2_subdev_get_try_crop(sd, cfg,
+>>>>>>>>>>>>>                                             RKISP1_ISP_PAD_SOURCE_VIDEO);
+>>>>>>>>>>>>> @@ -687,10 +700,17 @@ static void rkisp1_isp_set_src_fmt(struct rkisp1_isp *isp,
+>>>>>>>>>>>>>                 isp->src_fmt = mbus_info;
+>>>>>>>>>>>>>         src_fmt->width  = src_crop->width;
+>>>>>>>>>>>>>         src_fmt->height = src_crop->height;
+>>>>>>>>>>>>> -    src_fmt->quantization = format->quantization;
+>>>>>>>>>>>>> -    /* full range by default */
+>>>>>>>>>>>>> -    if (!src_fmt->quantization)
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>> +    src_fmt->colorspace = V4L2_COLORSPACE_SRGB;
+>>>>>>>>>>>>> +    src_fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(src_fmt->colorspace);
+>>>>>>>>>>>>> +    src_fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(src_fmt->colorspace);
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>> +    if (mbus_info->pixel_enc == V4L2_PIXEL_ENC_BAYER)
+>>>>>>>>>>>>>                 src_fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+>>>>>>>>>>>>> +    else if (format->quantization == V4L2_QUANTIZATION_DEFAULT)
+>>>>>>>>>>>>> +            src_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
+>>>>>>>>>>>>> +    else
+>>>>>>>>>>>>> +            src_fmt->quantization = format->quantization;
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>         *format = *src_fmt;
+>>>>>>>>>>>>>      }
+>>>>>>>>>>>>> @@ -1068,6 +1088,17 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1,
+>>>>>>>>>>>>>         return ret;
+>>>>>>>>>>>>>      }
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> +int rkisp1_get_isp_src_fmt(struct rkisp1_device *rkisp1,
+>>>>>>>>>>>>> +                       struct v4l2_subdev_format *sd_fmt)
+>>>>>>>>>>>>> +{
+>>>>>>>>>>>>> +    struct rkisp1_isp *isp = &rkisp1->isp;
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>> +    sd_fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
+>>>>>>>>>>>>> +    sd_fmt->pad = RKISP1_ISP_PAD_SOURCE_VIDEO;
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>> +    return v4l2_subdev_call(&isp->sd, pad, get_fmt, NULL, sd_fmt);
+>>>>>>>>>>>>
+>>>>>>>>>>>> Do we need to get through the external API to access data that is
+>>>>>>>>>>>> driver-internal anyway?
+>>>>>>>>>>>>
+>>>>>>>>>>>>> +}
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>>      void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
+>>>>>>>>>>>>>      {
+>>>>>>>>>>>>>         struct v4l2_subdev *sd = &rkisp1->isp.sd;
+>>>>>>>>>>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-resizer.c b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+>>>>>>>>>>>>> index 7b6b7ddd4169..8705b133de68 100644
+>>>>>>>>>>>>> --- a/drivers/staging/media/rkisp1/rkisp1-resizer.c
+>>>>>>>>>>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-resizer.c
+>>>>>>>>>>>>> @@ -525,6 +525,7 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
+>>>>>>>>>>>>>         const struct rkisp1_isp_mbus_info *mbus_info;
+>>>>>>>>>>>>>         struct v4l2_mbus_framefmt *sink_fmt, *src_fmt;
+>>>>>>>>>>>>>         struct v4l2_rect *sink_crop;
+>>>>>>>>>>>>> +    struct v4l2_subdev_format isp_sd_fmt;
+>>>>>>>>>>>>>
+>>>>>>>>>>>>>         sink_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SINK, which);
+>>>>>>>>>>>>>         src_fmt = rkisp1_rsz_get_pad_fmt(rsz, cfg, RKISP1_RSZ_PAD_SRC, which);
+>>>>>>>>>>>>> @@ -539,8 +540,20 @@ static void rkisp1_rsz_set_sink_fmt(struct rkisp1_resizer *rsz,
+>>>>>>>>>>>>>         if (which == V4L2_SUBDEV_FORMAT_ACTIVE)
+>>>>>>>>>>>>>                 rsz->pixel_enc = mbus_info->pixel_enc;
+>>>>>>>>>>>>>
+>>>>>>>>>>>>> +    rkisp1_get_isp_src_fmt(rsz->rkisp1, &isp_sd_fmt);
+>>>>>>>>>>>>> +
+>>>>>>>>>>>>
+>>>>>>>>>>>> Is this necessary? My understanding was that in the subdev model, it was
+>>>>>>>>>>>> the userspace responsibility to propagate any configuration changes through
+>>>>>>>>>>>> the graph.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Also, doing this only here wouldn't fully maintain the
+>>>>>>>>>>>> consistency of the state. For example, if one sets the ISP subdev format
+>>>>>>>>>>>> first, then the resizer subdev and then the ISP subdev again, wouldn't the
+>>>>>>>>>>>> resizer subdev end up with a wrong format?
+>>>>>>>>>>>
+>>>>>>>>>>> yes, this is indeed a bug, I am preparing v4 now.
+>>>>>>>>>>> What I thought to do is adding quantization conversion
+>>>>>>>>>>> support also on ther resizer and capture entities.
+>>>>>>>>>>> Then in the 'link_validation' callbacks, there
+>>>>>>>>>>> is a validation that the quantization fields matches.
+>>>>>>>>>>
+>>>>>>>>>> My understanding is that, if we have the following topology
+>>>>>>>>>>
+>>>>>>>>>> [ ISP ] -> [ Resizer ] -> [ Video node ]
+>>>>>>>>>>
+>>>>>>>>>> then the ISP source pad would have the csc capability, while resizer
+>>>>>>>>>> and video node would just accept whatever is configured on their sink
+>>>>>>>>>> pads (no need for csc capability for that) and propagate that to their
+>>>>>>>>>> outputs, i.e. resizer source pad and video node CAPTURE format.
+>>>>>>>>>>
+>>>>>>>>>> Is this what you were going to implement?
+>>>>>>>> Hi, I sent a v4 where the CSC capability is set on the reiszer and capture as well.
+>>>>>>>> I can send a v5 implementing it the way you suggest. Currently the doc says that the colorspace fields
+>>>>>>>> must be set by the driver for capture streams. This implies that userspace can set it
+>>>>>>>> only if the CSC is supported.
+>>>>>>>
+>>>>>>> Why would the userspace have to set it for the capture stream on the
+>>>>>>> resizer and video nodes? Couldn't the userspace set it to DEFAULT and
+>>>>>>> then the driver override to whatever it received on the corresponding
+>>>>>>> sink?
+>>>>
+>>>> According to the documentation [1]:
+>>>>
+>>>> "the default quantization encoding as defined by the colorspace"
+>>>>
+>>>> Then, for instance, the default for V4L2_COLORSPACE_SRGB is limited range [2].
+>>>>
+>>>> Unless we change the definition of DEFAULT to let it accept whatever it receives on the corresponding sink.
+>>>>
+>>>> Then the way I understand is:
+>>>>
+>>>> [sensor]->[isp]->[resizer]->[capture]
+>>>>
+>>>> Userspace should set quantization on:
+>>>> * sensor source pad
+>>>> * isp sink pad
+>>>> * resizer sink pad
+>>>> * capture node
+>>>>
+>>>> The remaining source pads would get values propagated from their sink pads.
+>>>>
+>>>> [1] https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/colorspaces-defs.html#c.v4l2_quantization
+>>>> [2] https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/colorspaces-details.html#col-srgb
+>>>
+>>> After discussing this offline, we concluded that:
+>>> - only the source pad of the ISP entity should expose the CSC capability,
+>>> - the CAPTURE video node should expose only the formats/color spaces
+>>> compatible with the current setting of the resizer source,
+>>> - consistency between the resizer source format and CAPTURE format
+>>> should be implicitly maintained by the driver.
+>>
+>> Do you mean it should be validated at streamon time ?
+> 
+> Nope. Any V4L2 state must be kept valid all the time, as mandated by
+> the general V4L2 principles. Wrong configuration of the video node
+> must not be a reason for STREAMON failing.
+> 
+>> In MC-based
+>> drivers, entities are isolated from each other from a configuration
+>> point of view, and the validity of the configuration across the whole
+>> pipeline is checked at streamon time. I don't think CSC parameters
+>> should be treated differently than formats in this regard.
+> 
+> Indeed, the ISP entity and the resizer entity are isolated from each
+> other and they need to be validated separately. However, the resizer
+> entity is not isolated from the video node, as there is no
+> configuration exposed for the video node in the MC API. If MC exposed
+> an explicit format control for the video interface sink pad, then the
+> resizer would have to be validated separately indeed, but still that
+> video interface sink pad would be tied to the rest of the
+> configuration of the video node (e.g. the CAPTURE format).
 
-This office is commission to investigate/rectify ISSUES affecting
-beneficiaries whose payment is HELD/STOP unjustly with the intent of
-demanding un-official fees/levies. Be informed that all administrative
-injustice imposed on beneficiaries by some dubious person(s) has come
-to the knowledge of oversight committee of United Nations and US
-Department of State.
+Two questions:
 
-Thus our objective is to resolve all challenges facing release of your
-payment. Therefore get back to my office with the required information
-for assessment.
+The validation callback between the resizer and the isp has to include check
+that the quantization values matches ?
+Userspace have to configure the quantizaion on the resizer sink pad without that CSC
+API beeing expose on it?
 
-Our in service,
 
-John Scott Younger
-Human Right Activist
-Tel:- + 44 770 002 8251
+Thanks,
+Dafna
+  
+> 
+> Best regards,
+> Tomasz
+> 
+>>
+>>> Below is the rationale for that:
+>>> - In the MC model, the video node represents the DMA alone (and thus
+>>> the reason to have the resizer entities at all) and since the
+>>> colorspace is not a property of the DMA, it doesn't belong there.
+>>> - Even if we put that aside, both MP and SP can only output the same
+>>> colorspace, which would create a dependency between the configuration
+>>> of the two video nodes, which is not something well defined by V4L2.
+>>> - A video interface in the MC API doesn't expose control over its
+>>> input format, which means that the relation between the other side of
+>>> the link (resizer source) and the video node is implicit and needs to
+>>> be handled internally in the driver.
+>>> - V4L2, as opposed to MC, requires that the current state is always
+>>> consistent and valid. In this case it means that an ioctl on the video
+>>> node must not be able to alter the state in a way that would make it
+>>> inconsistent with the state of the matching resizer source.
+>>
+>> --
+>> Regards,
+>>
+>> Laurent Pinchart
