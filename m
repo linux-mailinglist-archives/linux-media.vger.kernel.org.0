@@ -2,200 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 648A020D73F
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 22:07:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E22C20E1F6
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 23:59:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732401AbgF2T2O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jun 2020 15:28:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45976 "EHLO
+        id S1731198AbgF2VBP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jun 2020 17:01:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43392 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732761AbgF2T1t (ORCPT
+        with ESMTP id S1730347AbgF2TM5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:27:49 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B32D0C031401
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2020 10:01:18 -0700 (PDT)
-Received: from [IPv6:2003:cb:8737:cf00:84c7:ee07:61e9:a21f] (p200300cb8737cf0084c7ee0761e9a21f.dip0.t-ipconnect.de [IPv6:2003:cb:8737:cf00:84c7:ee07:61e9:a21f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DBF872A058A;
-        Mon, 29 Jun 2020 18:01:16 +0100 (BST)
-Subject: Re: [libcamera-devel] [PATCH 22/25] media: ov5647: Support
- V4L2_CID_PIXEL_RATE
-To:     Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com,
-        roman.kovalivskyi@globallogic.com, dave.stevenson@raspberrypi.org,
-        naush@raspberrypi.com
-Cc:     andrew_gabbasov@mentor.com, mrodin@de.adit-jv.com,
-        mripard@kernel.org, libcamera-devel@lists.libcamera.org,
-        sudipi@jp.adit-jv.com, hugues.fruchet@st.com,
-        erosca@de.adit-jv.com, aford173@gmail.com,
-        linux-media@vger.kernel.org, Dafna Hirschfeld <dafna3@gmail.com>
-References: <20200623100815.10674-1-jacopo@jmondi.org>
- <20200623165550.45835-3-jacopo@jmondi.org>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <3aab9b3d-0156-e83c-9a63-026ded395af6@collabora.com>
-Date:   Mon, 29 Jun 2020 19:01:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Mon, 29 Jun 2020 15:12:57 -0400
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F7BBC08E90F
+        for <linux-media@vger.kernel.org>; Sun, 28 Jun 2020 22:42:36 -0700 (PDT)
+Received: by mail-qv1-xf42.google.com with SMTP id t7so7110353qvl.8
+        for <linux-media@vger.kernel.org>; Sun, 28 Jun 2020 22:42:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=GhYE10QAs2eBgL/jTh3H4abtZ2nGJeeaFPnZ4jyf5aw=;
+        b=fpJRnfdGhxzBagghlIUer/JvttmVHyBs1Yo67AUURPBPp35UDM5CqB3RjpGm5XLcMI
+         V9RVd+YVzskYxLeKte+oqWJ7K95iejpG76KxOOscPoctrI8OPurZL6hTYGvIWJ3bmnoq
+         wR0GTS8bkViO/GEM59U2LI9zD+65zdrjlQhNlzQANqOY46Ga1QrFHAGdrvHagO5GSrOX
+         l0sIXM4xKGPgJiCcAZXxgND10QC80wC5RihFEuoj/d/pPTew7Ob4H3nIEKZ5bd6J7M24
+         V6vF5l79I4899Lk/5p2Evz5qKqVYGY++xFk6nfoPq4Iq6CncdxlMYk3IG/h1K4a7wPDj
+         fpzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=GhYE10QAs2eBgL/jTh3H4abtZ2nGJeeaFPnZ4jyf5aw=;
+        b=FtO9w2tT0V2foMPWiy47HOJRaXReAZSAmM6EfG0tIIbxD3KlMLTPO/anuICk3wiguN
+         Dm2NE+H9l/mTvuXRzDnpRwXZVexlYuo6J19wiAAf+Pw6sKqbR1p6W/Kj+PqxIw5cV5jp
+         F6M7OxyXRnR/nEceayEGp4k+pZQbspErngcQen75Vo6W0TeIUIPzWzaJgiItqoDpWYLn
+         X6ZL9xeFmQlEHp1Fb08M0JGTFqn0cnQvOVrxl2IrX4+8PHhQ7ShlH2yEuGTGjJgtdGut
+         CPzzTORP5zm8HlKLoPryAlnluXUrGE4Ovr4j6+fdoZIk1U2xdyfvW+UpJAlOPd85R774
+         +kUA==
+X-Gm-Message-State: AOAM533m+tIui/ynPxqa+WS01QDb4H1SvQms2eSgj0k0mZ1XsQPBYaNw
+        M3ZBTDwxtS6xG3sRPLoLy9FO2pcdPPyzq3M/ck4=
+X-Google-Smtp-Source: ABdhPJwoy8cGBnftyF8ytw3LzMU8PiX1WcsOzjl5XLqBDELK1XTRepv7TEbffxuWqjB/ksy2RWqqy1P71QTpEX61/go=
+X-Received: by 2002:ad4:4a6d:: with SMTP id cn13mr11842511qvb.165.1593409355638;
+ Sun, 28 Jun 2020 22:42:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200623165550.45835-3-jacopo@jmondi.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Received: by 2002:ad4:57cf:0:0:0:0:0 with HTTP; Sun, 28 Jun 2020 22:42:34
+ -0700 (PDT)
+Reply-To: scdn-1@tlen.pl
+From:   "Mrs. Patricia Edgar" <davidaminu1@gmail.com>
+Date:   Sun, 28 Jun 2020 22:42:34 -0700
+Message-ID: <CALe=1L1OaHUTtoa7ZUFnYv=abSi6b+GTojzMB75CFo_G_61P0g@mail.gmail.com>
+Subject: Your Response,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hello,
+I am Mrs. Patricia Edgar My Sorrow Is Deep Bitter dying Woman here in
+Hospital Bed in United State. I Lost my Husband and my only Daughter
+Angela for heartless Covid-19 i am the only remaining in the Family am
+dying here in the Hospital slowly Heart Disease Corona-virus High
+Blood.
 
+i have a project that I am about to hand over to you. I have already
+instructed the Bank to make the transfer to you as soon as the Account
+Manager hear from you. the fund i want you to give 50% to Charitable
+Home and take 50% Please, don't think otherwise and why would anybody
+sent someone you barely know a huge amount of money is this real or
+what? please do as i said there was someone from that State i Love and
+i miss him so very very much i have no means to reach any Charitable
+Home there. that is why i go for personal search of the Country and
+State and i got your mail contact through search to let you know my
+Bitterness and please, help me now is getting very Dark I ask my
+Doctor to help me keep you notice failure for me to reach you in
+person Your Response,
 
-On 23.06.20 18:55, Jacopo Mondi wrote:
-> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> 
-> Clients need to know the pixel rate in order to compute exposure
-> and frame rate values. Advertise it.
-> 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->   drivers/media/i2c/ov5647.c | 40 +++++++++++++++++++++++++++++++-------
->   1 file changed, 33 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index 35865e56de5f9..218576a05e66b 100644
-> --- a/drivers/media/i2c/ov5647.c
-> +++ b/drivers/media/i2c/ov5647.c
-> @@ -76,6 +76,7 @@ struct regval_list {
->   struct ov5647_mode {
->   	struct v4l2_mbus_framefmt	format;
->   	struct v4l2_rect		crop;
-> +	u64				pixel_rate;
->   	struct regval_list		*reg_list;
->   	unsigned int			num_regs;
->   };
-> @@ -97,6 +98,7 @@ struct ov5647 {
->   	struct v4l2_ctrl_handler	ctrls;
->   	struct ov5647_mode		*mode;
->   	struct ov5647_mode		*current_mode;
-> +	struct v4l2_ctrl		*pixel_rate;
->   };
->   
->   static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
-> @@ -583,6 +585,7 @@ static struct ov5647_mode ov5647_sbggr8_modes[] = {
->   			.width		= 1280,
->   			.height		= 960,
->   		},
-> +		.pixel_rate	= 77291670,
->   		.reg_list	= ov5647_640x480_sbggr8,
->   		.num_regs	= ARRAY_SIZE(ov5647_640x480_sbggr8)
->   	},
-> @@ -604,6 +607,7 @@ static struct ov5647_mode ov5647_sbggr10_modes[] = {
->   			.width		= 2592,
->   			.height		= 1944
->   		},
-> +		.pixel_rate	= 87500000,
->   		.reg_list	= ov5647_2592x1944_sbggr10,
->   		.num_regs	= ARRAY_SIZE(ov5647_2592x1944_sbggr10)
->   	},
-> @@ -622,6 +626,7 @@ static struct ov5647_mode ov5647_sbggr10_modes[] = {
->   			.width		= 1928,
->   			.height		= 1080,
->   		},
-> +		.pixel_rate	= 81666700,
->   		.reg_list	= ov5647_1080p30_sbggr10,
->   		.num_regs	= ARRAY_SIZE(ov5647_1080p30_sbggr10)
->   	},
-> @@ -640,6 +645,7 @@ static struct ov5647_mode ov5647_sbggr10_modes[] = {
->   			.width		= 2592,
->   			.height		= 1944,
->   		},
-> +		.pixel_rate	= 81666700,
->   		.reg_list	= ov5647_2x2binned_sbggr10,
->   		.num_regs	= ARRAY_SIZE(ov5647_2x2binned_sbggr10)
->   	},
-> @@ -658,6 +664,7 @@ static struct ov5647_mode ov5647_sbggr10_modes[] = {
->   			.width		= 2560,
->   			.height		= 1920,
->   		},
-> +		.pixel_rate	= 55000000,
->   		.reg_list	= ov5647_640x480_sbggr10,
->   		.num_regs	= ARRAY_SIZE(ov5647_640x480_sbggr10)
->   	},
-> @@ -1094,6 +1101,10 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
->   	/* Update the sensor mode and apply at it at streamon time. */
->   	mutex_lock(&sensor->lock);
->   	sensor->mode = mode;
-> +
-> +	__v4l2_ctrl_modify_range(sensor->pixel_rate, mode->pixel_rate,
-> +				 mode->pixel_rate, 1, mode->pixel_rate);
-> +
->   	*fmt = mode->format;
->   	mutex_unlock(&sensor->lock);
->   
-> @@ -1295,6 +1306,9 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
->   		return  ov5647_s_analogue_gain(sd, ctrl->val);
->   	case V4L2_CID_EXPOSURE:
->   		return ov5647_s_exposure(sd, ctrl->val);
-> +	case V4L2_CID_PIXEL_RATE:
-> +		/* Read-only, but we adjust it based on mode. */
-
-Looking at other drivers, I see they don't handle read only controls
-in s_ctrl cb. Also the docs (vidioc-queryctrl.rst) says that trying to set a read only control should
-return EINVAL
-
-Thanks,
-Dafna
-
-> +		return 0;
->   	default:
->   		dev_info(&client->dev,
->   			 "Control (id:0x%x, val:0x%x) not supported\n",
-> @@ -1313,7 +1327,7 @@ static int ov5647_init_controls(struct ov5647 *sensor)
->   {
->   	struct i2c_client *client = v4l2_get_subdevdata(&sensor->sd);
->   
-> -	v4l2_ctrl_handler_init(&sensor->ctrls, 5);
-> +	v4l2_ctrl_handler_init(&sensor->ctrls, 6);
->   
->   	v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
->   			  V4L2_CID_AUTOGAIN, 0, 1, 1, 0);
-> @@ -1333,17 +1347,29 @@ static int ov5647_init_controls(struct ov5647 *sensor)
->   	v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
->   			  V4L2_CID_ANALOGUE_GAIN, 16, 1023, 1, 32);
->   
-> -	if (sensor->ctrls.error) {
-> -		dev_err(&client->dev, "%s Controls initialization failed (%d)\n",
-> -			__func__, sensor->ctrls.error);
-> -		v4l2_ctrl_handler_free(&sensor->ctrls);
-> +	/* By default, PIXEL_RATE is read only, but it does change per mode */
-> +	sensor->pixel_rate = v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
-> +					       V4L2_CID_PIXEL_RATE,
-> +					       sensor->mode->pixel_rate,
-> +					       sensor->mode->pixel_rate, 1,
-> +					       sensor->mode->pixel_rate);
-> +	if (!sensor->pixel_rate)
-> +		goto handler_free;
-> +	sensor->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->   
-> -		return sensor->ctrls.error;
-> -	}
-> +	if (sensor->ctrls.error)
-> +		goto handler_free;
->   
->   	sensor->sd.ctrl_handler = &sensor->ctrls;
->   
->   	return 0;
-> +
-> +handler_free:
-> +	dev_err(&client->dev, "%s Controls initialization failed (%d)\n",
-> +		__func__, sensor->ctrls.error);
-> +	v4l2_ctrl_handler_free(&sensor->ctrls);
-> +
-> +	return sensor->ctrls.error;
->   }
->   
->   static int ov5647_parse_dt(struct ov5647 *sensor, struct device_node *np)
-> 
+Thanks.
+Mrs. Patricia Edgar
