@@ -2,320 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 323D720DFD6
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 23:55:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B54020E1BD
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 23:59:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732150AbgF2UkM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jun 2020 16:40:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43372 "EHLO
+        id S2390028AbgF2U6p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jun 2020 16:58:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731688AbgF2TOM (ORCPT
+        with ESMTP id S1730969AbgF2TNC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:14:12 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 135A8C08ED84
-        for <linux-media@vger.kernel.org>; Sun, 28 Jun 2020 23:58:07 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 4165F2A1B20
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-To:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com
-Cc:     dafna.hirschfeld@collabora.com, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        tfiga@chromium.org
-Subject: [PATCH 4/4] media: staging: rkisp1: improve documentation of rkisp1-common.h
-Date:   Mon, 29 Jun 2020 08:57:54 +0200
-Message-Id: <20200629065754.26621-5-dafna.hirschfeld@collabora.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200629065754.26621-1-dafna.hirschfeld@collabora.com>
-References: <20200629065754.26621-1-dafna.hirschfeld@collabora.com>
+        Mon, 29 Jun 2020 15:13:02 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B38BC0A891E;
+        Mon, 29 Jun 2020 00:37:20 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id x3so2007746pfo.9;
+        Mon, 29 Jun 2020 00:37:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gDM4k1Yk8LW7xlU6yNIJsCHS3QIR5uvUtDlbeW1QFKk=;
+        b=X8RCISIZnXYpunasoPJqDhNH3rQ0XiSvdy4nAbk41pWq/dz/IPVZkg7PzZFRa4X1xn
+         2YpDmquvcakzAJvUjME2R+RjFbDUOq9YJeT8rjloM3HOL5a532uXPTt3dHwNj9mDtxDE
+         /rr7V6qOJWdkIs7xHye+ZDDVtmnOsdmoRMhBAY5Ll2d3KNJ6vxOXRcwIpI/ZM2B8s8e5
+         EFAo4K2iEPmbe3Zg26yk6ckABJk299EGhZxOMt+9spTkdaphyQMC8ffmnIa2dvd6pC5w
+         vz36LE8CtA5QSCMHB7d3B1H2h8nqKu3qQnShqek5l9zhH7FMXqpb+4uo9XFAE17E3zRm
+         ZoJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=gDM4k1Yk8LW7xlU6yNIJsCHS3QIR5uvUtDlbeW1QFKk=;
+        b=ecKykODT0J/xY1MRekonSaUdzf0zCjepa4quyBnufQJCGle+YBGe3OrKhYriyq5cfu
+         HErPg1ddzpGmtbi0hXi1xULCXIvlvPr4zwauB1skHzxMFaX4CyRGSSC94nrNfoX8EuIy
+         Z/Boiz6q2Gj8qLlZqUJim5ijK+rt2Ef2er54sE4u0ZC+IPXsJh4E5nzS+pXEwQdyg2L3
+         cCfHUso9+tvVHXyMWIpotjgajZNL8HOVzTl3UcPuL3tEQVvRN/Q/fzdmij0qJwEXS+XJ
+         f/ja5aMfDx2ZJg70lW9suwNcK53dp7o6wPEEGQDMti+NPo+pyDXdhOuL920JBzAU8VEH
+         QPzQ==
+X-Gm-Message-State: AOAM531oowVC4Shqb4zwjOtbhUSKpKSjzKUcR4lhW70BlENgwQ4zK1i7
+        ux292YPk6Ntpbi3gg7iY638=
+X-Google-Smtp-Source: ABdhPJxpCV89OAF2D6UcINS7KgFdE7WIv1a5RmvUcOk3a454WOLgNxKhYjvpA5bfJR821uWzIzAJxw==
+X-Received: by 2002:a63:4861:: with SMTP id x33mr8936376pgk.448.1593416239679;
+        Mon, 29 Jun 2020 00:37:19 -0700 (PDT)
+Received: from varodek.iballbatonwifi.com ([103.105.153.57])
+        by smtp.gmail.com with ESMTPSA id q10sm34673004pfk.86.2020.06.29.00.37.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 29 Jun 2020 00:37:19 -0700 (PDT)
+From:   Vaibhav Gupta <vaibhavgupta40@gmail.com>
+To:     Bjorn Helgaas <helgaas@kernel.org>,
+        Bjorn Helgaas <bhelgaas@google.com>, bjorn@helgaas.com,
+        Vaibhav Gupta <vaibhav.varodek@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Vaibhav Gupta <vaibhavgupta40@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        skhan@linuxfoundation.org
+Subject: [PATCH v1 0/6] [media] pci: use generic power management
+Date:   Mon, 29 Jun 2020 13:05:58 +0530
+Message-Id: <20200629073604.205478-1-vaibhavgupta40@gmail.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add more detailed documentation of the structs in rkisp1-common.h
+Linux Kernel Mentee: Remove Legacy Power Management.
 
-Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
----
- drivers/staging/media/rkisp1/TODO            |   1 -
- drivers/staging/media/rkisp1/rkisp1-common.h | 133 +++++++++++++++----
- 2 files changed, 106 insertions(+), 28 deletions(-)
+The purpose of this patch series is to remove legacy power management callbacks
+from amd ethernet drivers.
 
-diff --git a/drivers/staging/media/rkisp1/TODO b/drivers/staging/media/rkisp1/TODO
-index bdb1b8f73556..f0c90d1c86a8 100644
---- a/drivers/staging/media/rkisp1/TODO
-+++ b/drivers/staging/media/rkisp1/TODO
-@@ -2,7 +2,6 @@
- * Fix checkpatch errors.
- * Review and comment every lock
- * Handle quantization
--* Document rkisp1-common.h
- * streaming paths (mainpath and selfpath) check if the other path is streaming
- in several places of the code, review this, specially that it doesn't seem it
- supports streaming from both paths at the same time.
-diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
-index 4185487c520c..47b03a1dfe1b 100644
---- a/drivers/staging/media/rkisp1/rkisp1-common.h
-+++ b/drivers/staging/media/rkisp1/rkisp1-common.h
-@@ -73,8 +73,16 @@ enum rkisp1_isp_pad {
- };
- 
- /*
-- * struct rkisp1_sensor_async - Sensor information
-- * @mbus: media bus configuration
-+ * struct rkisp1_sensor_async - A container for the v4l2_async_subdev to add to the notifier
-+ * of the v4l2-async API.
-+ *
-+ * @asd: the async_subdev var for the sensor
-+ * @lanes: number of lanes
-+ * @mbus_type: type of bus (currently only CSI2 is supported)
-+ * @mbus_flags: media bus (V4L2_MBUS_*) flags
-+ * @sd: a pointer to the v4l2_subdev struct of the sensor
-+ * @pixel_rate_ctrl: the pixel rate of the sensor, used to initialize the phy
-+ * @dphy: a pointer to the phy
-  */
- struct rkisp1_sensor_async {
- 	struct v4l2_async_subdev asd;
-@@ -87,19 +95,16 @@ struct rkisp1_sensor_async {
- };
- 
- /*
-- * struct rkisp1_isp - ISP sub-device
-+ * struct rkisp1_isp - ISP subdev entity
-  *
-- * See Cropping regions of ISP in rkisp1.c for details
-- * @sink_frm: input size, don't have to be equal to sensor size
-+ * @sd: the v4l2_subdev var
-+ * @pads: the media pads
-+ * @pad_cfg: the pads configurations
-  * @sink_fmt: input format
-- * @sink_crop: crop for sink pad
-  * @src_fmt: output format
-- * @src_crop: output size
-  * @ops_lock: ops serialization
-- *
-  * @is_dphy_errctrl_disabled : if dphy errctrl is disabled (avoid endless interrupt)
-  * @frame_sequence: used to synchronize frame_id between video devices.
-- * @quantization: output quantization
-  */
- struct rkisp1_isp {
- 	struct v4l2_subdev sd;
-@@ -107,11 +112,20 @@ struct rkisp1_isp {
- 	struct v4l2_subdev_pad_config pad_cfg[RKISP1_ISP_PAD_MAX];
- 	const struct rkisp1_isp_mbus_info *sink_fmt;
- 	const struct rkisp1_isp_mbus_info *src_fmt;
--	struct mutex ops_lock;
-+	struct mutex ops_lock; /* serialize the subdevice ops */
- 	bool is_dphy_errctrl_disabled;
- 	atomic_t frame_sequence;
- };
- 
-+/*
-+ * struct rkisp1_vdev_node - A Container for the video nodes of the video devices:
-+ *			     params, stats, mainpath, selfpath
-+ *
-+ * @buf_queue: the queue of buffers.
-+ * @vlock: the lock of the video node
-+ * @vdev: the video node
-+ * @pad: the media pad
-+ */
- struct rkisp1_vdev_node {
- 	struct vb2_queue buf_queue;
- 	struct mutex vlock; /* ioctl serialization mutex */
-@@ -119,6 +133,15 @@ struct rkisp1_vdev_node {
- 	struct media_pad pad;
- };
- 
-+/*
-+ * struct rkisp1_buffer - A container for the vb2 buffers used by the video devices:
-+ *			  params, stats, mainpath, selfpath
-+ *
-+ * @vb: the vb2 buffer
-+ * @queue: the entry of the buffer in the queue
-+ * @buff_addr: the dma addresses of each plain, used only by the capture devices: selfpath, mainpath
-+ * @vaddr: the virtual addresses, used only by the params and stats devices
-+ */
- struct rkisp1_buffer {
- 	struct vb2_v4l2_buffer vb;
- 	struct list_head queue;
-@@ -128,6 +151,9 @@ struct rkisp1_buffer {
- 	};
- };
- 
-+/*
-+ * A dummy buffer to write the next frame to in case there are no vb2 buffers available.
-+ */
- struct rkisp1_dummy_buffer {
- 	void *vaddr;
- 	dma_addr_t dma_addr;
-@@ -139,17 +165,28 @@ struct rkisp1_device;
- /*
-  * struct rkisp1_capture - ISP capture video device
-  *
-- * @pix.fmt: buffer format
-- * @pix.info: pixel information
-- * @pix.cfg: pixel configuration
-- *
-- * @buf.lock: lock to protect buf_queue
-+ * @vnode: the video node
-+ * @rkisp1: pointer to the rkisp1 device
-+ * @id: the id of the capture, one of RKISP1_SELFPATH, RKISP1_MAINPATH
-+ * @ops: list of callbacks to configure the capture device.
-+ * @config: a pointer to the list of registers to configure the capture format.
-+ * @is_streaming: device is streaming
-+ * @is_stopping: stop_streaming callback was called and the device is in the process of stopping
-+ *		 the streaming.
-+ * @done: when stop_streaming callback is called, the device waits for the next irq handler to stop
-+ *	  the streaming from there by waiting on the 'done' wait queue.
-+ *	  If the irq handler is not called, the stream is stopped from the callback after timeout.
-+ * @sp_y_stride: the selfpath allows to configure a y stride that is longer than the image width.
-+ * @buf.lock: lock to protect buf.queue
-  * @buf.queue: queued buffer list
-  * @buf.dummy: dummy space to store dropped data
-  *
-- * rkisp1 use shadowsock registers, so it need two buffer at a time
-+ * rkisp1 uses shadow registers, so it needs two buffers at a time
-  * @buf.curr: the buffer used for current frame
-  * @buf.next: the buffer used for next frame
-+ * @pix.cfg: pixel configuration
-+ * @pix.info: a pointer to the v4l2_format_info of the pixel format
-+ * @pix.fmt: buffer format
-  */
- struct rkisp1_capture {
- 	struct rkisp1_vdev_node vnode;
-@@ -179,14 +216,18 @@ struct rkisp1_capture {
- /*
-  * struct rkisp1_stats - ISP Statistics device
-  *
-+ * @vnode: the video node
-+ * @rkisp1: pointer to the rkisp1 device
-  * @lock: locks the buffer list 'stat' and 'is_streaming'
-- * @stat: stats buffer list
-+ * @stat: the queue of rkisp1_buffer
-+ * @vdev_fmt: the v4l2_format
-+ * @is_streaming: device is streaming
-  */
- struct rkisp1_stats {
- 	struct rkisp1_vdev_node vnode;
- 	struct rkisp1_device *rkisp1;
- 
--	spinlock_t lock; /* locks 'is_streaming', and 'stats' */
-+	spinlock_t lock; /* locks the buffers list 'stats' and 'is_streaming' */
- 	struct list_head stat;
- 	struct v4l2_format vdev_fmt;
- 	bool is_streaming;
-@@ -195,14 +236,22 @@ struct rkisp1_stats {
- /*
-  * struct rkisp1_params - ISP input parameters device
-  *
-- * @cur_params: Current ISP parameters
-+ * @vnode: the video node
-+ * @rkisp1: pointer to the rkisp1 device
-+ * @config_lock: locks the buffer list 'params' and 'is_streaming'
-+ * @params: the queue of rkisp1_buffer
-+ * @cur_params: the first params values from userspace
-+ * @vdev_fmt: the v4l2_format
-+ * @is_streaming: device is streaming
-  * @is_first_params: the first params should take effect immediately
-+ * @quantization: the quantization configured on the isp's src pad
-+ * @raw_type: the bayer pattern on the isp video sink pad
-  */
- struct rkisp1_params {
- 	struct rkisp1_vdev_node vnode;
- 	struct rkisp1_device *rkisp1;
- 
--	spinlock_t config_lock;
-+	spinlock_t config_lock; /* locks the buffers list 'params' and 'is_streaming' */
- 	struct list_head params;
- 	struct rkisp1_params_cfg cur_params;
- 	struct v4l2_format vdev_fmt;
-@@ -213,6 +262,18 @@ struct rkisp1_params {
- 	enum rkisp1_fmt_raw_pat_type raw_type;
- };
- 
-+/*
-+ * struct rkisp1_resizer - Resizer subdev
-+ *
-+ * @sd: the v4l2_subdev var
-+ * @id: the id of the resizer, one of RKISP1_SELFPATH, RKISP1_MAINPATH
-+ * @rkisp1: pointer to the rkisp1 device
-+ * @pads: the media pads
-+ * @pad_cfg: the configurations for the pads
-+ * @config: the set of registers to configure the resizer
-+ * @pixel_enc: the pixel encoding of the resizer
-+ * @ops_lock: a lock for the subdev ops
-+ */
- struct rkisp1_resizer {
- 	struct v4l2_subdev sd;
- 	enum rkisp1_stream_id id;
-@@ -221,9 +282,12 @@ struct rkisp1_resizer {
- 	struct v4l2_subdev_pad_config pad_cfg[RKISP1_RSZ_PAD_MAX];
- 	const struct rkisp1_rsz_config *config;
- 	enum v4l2_pixel_encoding pixel_enc;
--	struct mutex ops_lock;
-+	struct mutex ops_lock; /* serialize the subdevice ops */
- };
- 
-+/*
-+ * struct rkisp1_debug - values to be exposed on debugfs
-+ */
- struct rkisp1_debug {
- 	struct dentry *debugfs_dir;
- 	unsigned long data_loss;
-@@ -237,12 +301,22 @@ struct rkisp1_debug {
- /*
-  * struct rkisp1_device - ISP platform device
-  * @base_addr: base register address
-+ * @irq: the irq number
-+ * @dev: a pointer to the struct device
-+ * @clk_size: the number of clocks
-+ * @clks: the array of clocks
-+ * @v4l2_dev: the v4l2_device
-+ * @media_dev: the media_device
-+ * @notifier: a notifier to register on the v4l2-async API to be notified on the sensor
-  * @active_sensor: sensor in-use, set when streaming on
-  * @isp: ISP sub-device
-- * @rkisp1_capture: capture video device
-+ * @resizer_devs: the two resizer sub-devices
-+ * @capture_devs: the two capture devices
-  * @stats: ISP statistics output device
-  * @params: ISP input parameters device
-- * @stream_lock: lock to serialize start/stop streaming in capture devices.
-+ * @pipe: the media pipeline
-+ * @stream_lock: serializes {start/stop}_streaming callbacks between the capture devices.
-+ * @debug: the debug params to be exposed on debugfs
-  */
- struct rkisp1_device {
- 	void __iomem *base_addr;
-@@ -260,16 +334,21 @@ struct rkisp1_device {
- 	struct rkisp1_stats stats;
- 	struct rkisp1_params params;
- 	struct media_pipeline pipe;
--	struct mutex stream_lock;
-+	struct mutex stream_lock; /* serialize {start/stop}_streaming cb between capture devices */
- 	struct rkisp1_debug debug;
- };
- 
- /*
-- * struct rkisp1_isp_mbus_info - ISP pad format info
-+ * struct rkisp1_isp_mbus_info - ISP media bus info
-  *
-- * Translate mbus_code to hardware format values
-+ * Translates mbus_code to hardware format values
-  *
-- * @bus_width: used for parallel
-+ * @mbus_code: the media bus code
-+ * @pixel_enc: the pixel encoding
-+ * @mipi_dt: the mipi data type
-+ * @bus_width: the bus width
-+ * @bayer_pat: the bayer pattern
-+ * @direction: a bitmask of the flags indicating on which pad the format is supported on
-  */
- struct rkisp1_isp_mbus_info {
- 	u32 mbus_code;
+The callbacks performing suspend() and resume() operations are still calling
+pci_save_state(), pci_set_power_state(), etc. and handling the power management
+themselves, which is not recommended.
+
+The conversion requires the removal of the those function calls and change the
+callback definition accordingly and make use of dev_pm_ops structure.
+
+All patches are compile-tested only.
+
+Vaibhav Gupta (6):
+  [media] sta2x11: use generic power management
+  [media] cx23885: use generic power management
+  [media] cx25821: use generic power management
+  [media] cx88: use generic power management
+  [media] meye: use generic power management
+  [media] tw68: use generic power management
+
+ drivers/media/pci/cx23885/cx23885-core.c | 16 +++---
+ drivers/media/pci/cx25821/cx25821-core.c |  8 ++-
+ drivers/media/pci/cx88/cx88-video.c      | 52 +++++--------------
+ drivers/media/pci/meye/meye.c            | 15 ++----
+ drivers/media/pci/sta2x11/sta2x11_vip.c  | 63 ++++++------------------
+ drivers/media/pci/tw68/tw68-core.c       | 30 +++++------
+ 6 files changed, 60 insertions(+), 124 deletions(-)
+
 -- 
-2.17.1
+2.27.0
 
