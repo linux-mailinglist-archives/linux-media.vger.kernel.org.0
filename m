@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EEC2F20E01E
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 23:56:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0363020E119
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 23:58:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389196AbgF2Umw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jun 2020 16:42:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43356 "EHLO
+        id S2389778AbgF2UwF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jun 2020 16:52:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731643AbgF2TOD (ORCPT
+        with ESMTP id S1731372AbgF2TN1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:14:03 -0400
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A812BC0A8938;
-        Mon, 29 Jun 2020 00:37:43 -0700 (PDT)
-Received: by mail-pg1-x543.google.com with SMTP id p3so7917922pgh.3;
-        Mon, 29 Jun 2020 00:37:43 -0700 (PDT)
+        Mon, 29 Jun 2020 15:13:27 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE899C0A8939;
+        Mon, 29 Jun 2020 00:37:48 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id o1so195020plk.1;
+        Mon, 29 Jun 2020 00:37:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Oh8xk0TqxiDTOzgBpulOm8nQjP8syH1MFAg9SRwAtT4=;
-        b=MIatfl+V/S3Ufh1oJKUjfSYjWTmUU/I4l8mB4A/EKjCUpWBHDGtAhP83RxBxd1bHvD
-         lXMsMA8EOKV6umjuLT/2CYBWWzgQplUr4UznpJFcgv+pcDVuN6EZ5wQrxpKQjprComuT
-         nHDJcRnQxbMqG/GFEl0rn6CeYVw/L+y13vvJcDDNTOzb6Q+4N39cwg8hZ6ZTcAngeVsF
-         1cSxq625BZofQfgcUsXpYgXMp/vbZR/x/TgmZ8l05avVmFY0MGKJbbZzoBuKQVOiN6Yx
-         EGow6axDN5/am1TjjJUN8SySu0kCKAgSufBzhuUxItbrNZXquDIGAdoPAKJ3gB67pf4P
-         cbtw==
+        bh=DRaWMxjlA+y9G9x8PTReSZmOggDcJdYbq3Dmt0Z1Wlg=;
+        b=soWLyATDxsP3lSKBdnbKGoDIiCBQaXGh9rWTzN54ndzKrsUNd0G0F2H/4XSCMotvjR
+         YSPGri8ucPhLiObQp+xsTU6lkzmVJymhJF9wc0Ue711DLzMZWvpfsVh7IQOz85b936Qn
+         Mdnl7wrMDLGJFMOOmIoqg0TXIGB74cL/i6YwdqkKPbiKx2++8a9enxWsKUq7Pxt5/yup
+         udl+xB/D51qwssbd3BQlZqN82j0YURu669zYz2nNRCWYDpEA0NbfiwL13/FaR8pL1SUv
+         Udijy41l1GPzKMzS8sM4HfGclXHANrqlirJxzN+N+piO83H3P9+vKgOLNipO85hXgl0H
+         EPgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Oh8xk0TqxiDTOzgBpulOm8nQjP8syH1MFAg9SRwAtT4=;
-        b=r60NIcJdy2CbCvLraPAEUDAdUXEWydYkcf+/pUDMnfpvC9guf6X3H+/P/jidlXqKRK
-         1laeriKMitPebmJfkH5OwZnOHOtd7vFI5ViB8LQXfTN3VaQTHtjtfc7Kx4G1t0RT8tzf
-         kLYRTa8L7qVWxQhabOYE6iKKi/TSZGI4srcSOtvEPzN6GcffHLIAaQIusSvaT7QMAnGk
-         h0mNnHYKPhgmsmIZe8vLqGMYAcaoSaGPtZE3CjxkgXr9P+UjJF67/5cv+k0sUtI2ZE3A
-         bYAnakZrokdI3bMVO5RNbkKGGY6IscCnr8/WfZbdtjWC5xzBJlwWnXpNdutPlVMQjxQv
-         ND/A==
-X-Gm-Message-State: AOAM532N1+toYwjEvrQJ69YCBm6x9ca/opEohpSM2S4WL3Os6ui3kU0e
-        CWw0dUfzhkabpl4sQKtKpC0=
-X-Google-Smtp-Source: ABdhPJxu4ilTfacJ81Zt5Q839MN4J+yYfSr9e3LiZl9nj6Qi2F2XwvNT/FoD5dFAEy+ie8AFvMhcRw==
-X-Received: by 2002:a62:54c4:: with SMTP id i187mr13504579pfb.263.1593416263218;
-        Mon, 29 Jun 2020 00:37:43 -0700 (PDT)
+        bh=DRaWMxjlA+y9G9x8PTReSZmOggDcJdYbq3Dmt0Z1Wlg=;
+        b=cgs0pkVkOZZkrVjG8ywlr+IwyFb5zrha10gwz8h3Dg43SOxkoy32CpJkQ1EUXWZrFD
+         SCWeQtP32dNRAwgV68AiOSyX2H5CvgzmFM6DItqXq/rYLZla0CctQKIyPqp6Wi6hAEFI
+         2J0XO7z/D19CJ52DI1cbkCY/5DpycIIfN6gkz14EjsW0OT2/9/0xLtJXXnn0g6W48fIZ
+         PqY4m8LQOaHEWAsDEoMPqKv5iad9NNC5QSGgyZuzYoLstdVayQBU6vxNq7XwYF0JInlV
+         Mcjqil2zxKL7NqAm53QpZSgvO+vnswz+6sP5JEPXgFofErdVx2G4e1/eJola0PX3Bt4P
+         0/+g==
+X-Gm-Message-State: AOAM530lN1x4xD/kypI53Ca/scRYVqNMBlBE5Nyr1AF7XuTzadWKCdfn
+        1BKU/g9rIXRrLkZXjtlFOSQ=
+X-Google-Smtp-Source: ABdhPJz3FvoamkU1GXqNQu9Zc7XjkNo/hUIxVOEgR9mxBWcqDHqy9UnEwm4JEcoy46VmRIDPIGi8vw==
+X-Received: by 2002:a17:90a:df11:: with SMTP id gp17mr15071981pjb.188.1593416268444;
+        Mon, 29 Jun 2020 00:37:48 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.57])
-        by smtp.gmail.com with ESMTPSA id q10sm34673004pfk.86.2020.06.29.00.37.39
+        by smtp.gmail.com with ESMTPSA id q10sm34673004pfk.86.2020.06.29.00.37.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 00:37:42 -0700 (PDT)
+        Mon, 29 Jun 2020 00:37:48 -0700 (PDT)
 From:   Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To:     Bjorn Helgaas <helgaas@kernel.org>,
         Bjorn Helgaas <bhelgaas@google.com>, bjorn@helgaas.com,
@@ -57,9 +57,9 @@ Cc:     Vaibhav Gupta <vaibhavgupta40@gmail.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
         skhan@linuxfoundation.org
-Subject: [PATCH v1 5/6] [media] meye: use generic power management
-Date:   Mon, 29 Jun 2020 13:06:03 +0530
-Message-Id: <20200629073604.205478-6-vaibhavgupta40@gmail.com>
+Subject: [PATCH v1 6/6] [media] tw68: use generic power management
+Date:   Mon, 29 Jun 2020 13:06:04 +0530
+Message-Id: <20200629073604.205478-7-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200629073604.205478-1-vaibhavgupta40@gmail.com>
 References: <20200629073604.205478-1-vaibhavgupta40@gmail.com>
@@ -79,66 +79,84 @@ required tasks and drivers should do only device-specific operations.
 The driver was invoking PCI helper functions like pci_save/restore_state()
 which is not recommended.
 
-Compile-tested only.
+Compile-Tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/media/pci/meye/meye.c | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ drivers/media/pci/tw68/tw68-core.c | 30 +++++++++++-------------------
+ 1 file changed, 11 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/media/pci/meye/meye.c b/drivers/media/pci/meye/meye.c
-index 73e064e6f56d..7fb3b1853b87 100644
---- a/drivers/media/pci/meye/meye.c
-+++ b/drivers/media/pci/meye/meye.c
-@@ -1528,19 +1528,16 @@ static const struct v4l2_ctrl_ops meye_ctrl_ops = {
- 	.s_ctrl = meye_s_ctrl,
- };
+diff --git a/drivers/media/pci/tw68/tw68-core.c b/drivers/media/pci/tw68/tw68-core.c
+index b45f3ffa3de5..065420b09250 100644
+--- a/drivers/media/pci/tw68/tw68-core.c
++++ b/drivers/media/pci/tw68/tw68-core.c
+@@ -359,10 +359,9 @@ static void tw68_finidev(struct pci_dev *pci_dev)
+ 	v4l2_device_unregister(&dev->v4l2_dev);
+ }
  
 -#ifdef CONFIG_PM
--static int meye_suspend(struct pci_dev *pdev, pm_message_t state)
-+static int __maybe_unused meye_suspend(struct device *dev)
+-
+-static int tw68_suspend(struct pci_dev *pci_dev , pm_message_t state)
++static int __maybe_unused tw68_suspend(struct device *dev_d)
  {
--	pci_save_state(pdev);
- 	meye.pm_mchip_mode = meye.mchip_mode;
- 	mchip_hic_stop();
- 	mchip_set(MCHIP_MM_INTA, 0x0);
++	struct pci_dev *pci_dev = to_pci_dev(dev_d);
+ 	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
+ 	struct tw68_dev *dev = container_of(v4l2_dev,
+ 				struct tw68_dev, v4l2_dev);
+@@ -373,24 +372,19 @@ static int tw68_suspend(struct pci_dev *pci_dev , pm_message_t state)
+ 
+ 	synchronize_irq(pci_dev->irq);
+ 
+-	pci_save_state(pci_dev);
+-	pci_set_power_state(pci_dev, pci_choose_state(pci_dev, state));
+ 	vb2_discard_done(&dev->vidq);
+ 
  	return 0;
  }
  
--static int meye_resume(struct pci_dev *pdev)
-+static int __maybe_unused meye_resume(struct device *dev)
+-static int tw68_resume(struct pci_dev *pci_dev)
++static int __maybe_unused tw68_resume(struct device *dev_d)
  {
--	pci_restore_state(pdev);
- 	pci_write_config_word(meye.mchip_dev, MCHIP_PCI_SOFTRESET_SET, 1);
+-	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
++	struct v4l2_device *v4l2_dev = dev_get_drvdata(dev_d);
+ 	struct tw68_dev *dev = container_of(v4l2_dev,
+ 					    struct tw68_dev, v4l2_dev);
+ 	struct tw68_buf *buf;
+ 	unsigned long flags;
  
- 	mchip_delay(MCHIP_HIC_CMD, 0);
-@@ -1562,7 +1559,6 @@ static int meye_resume(struct pci_dev *pdev)
- 	}
+-	pci_set_power_state(pci_dev, PCI_D0);
+-	pci_restore_state(pci_dev);
+-
+ 	/* Do things that are done in tw68_initdev ,
+ 		except of initializing memory structures.*/
+ 
+@@ -408,19 +402,17 @@ static int tw68_resume(struct pci_dev *pci_dev)
+ 
  	return 0;
  }
 -#endif
  
- static int meye_probe(struct pci_dev *pcidev, const struct pci_device_id *ent)
- {
-@@ -1788,15 +1784,14 @@ static const struct pci_device_id meye_pci_tbl[] = {
+ /* ----------------------------------------------------------- */
  
- MODULE_DEVICE_TABLE(pci, meye_pci_tbl);
- 
-+static SIMPLE_DEV_PM_OPS(meye_pm_ops, meye_suspend, meye_resume);
++static SIMPLE_DEV_PM_OPS(tw68_pm_ops, tw68_suspend, tw68_resume);
 +
- static struct pci_driver meye_driver = {
- 	.name		= "meye",
- 	.id_table	= meye_pci_tbl,
- 	.probe		= meye_probe,
- 	.remove		= meye_remove,
+ static struct pci_driver tw68_pci_driver = {
+-	.name	  = "tw68",
+-	.id_table = tw68_pci_tbl,
+-	.probe	  = tw68_initdev,
+-	.remove	  = tw68_finidev,
 -#ifdef CONFIG_PM
--	.suspend	= meye_suspend,
--	.resume		= meye_resume,
+-	.suspend  = tw68_suspend,
+-	.resume   = tw68_resume
 -#endif
-+	.driver.pm	= &meye_pm_ops,
++	.name	   = "tw68",
++	.id_table  = tw68_pci_tbl,
++	.probe	   = tw68_initdev,
++	.remove	   = tw68_finidev,
++	.driver.pm = &tw68_pm_ops,
  };
  
- static int __init meye_init(void)
+ module_pci_driver(tw68_pci_driver);
 -- 
 2.27.0
 
