@@ -2,62 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E53A020D41D
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 21:13:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 61FCF20D493
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 21:14:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729324AbgF2TFN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jun 2020 15:05:13 -0400
-Received: from muru.com ([72.249.23.125]:59962 "EHLO muru.com"
+        id S1730202AbgF2TJu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jun 2020 15:09:50 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45438 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730521AbgF2TFL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:05:11 -0400
-Received: from atomide.com (localhost [127.0.0.1])
-        by muru.com (Postfix) with ESMTPS id 3161D818E;
-        Mon, 29 Jun 2020 15:30:22 +0000 (UTC)
-Date:   Mon, 29 Jun 2020 08:29:26 -0700
-From:   Tony Lindgren <tony@atomide.com>
-To:     Arnd Bergmann <arnd@arndb.de>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-omap <linux-omap@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 4/7] mach-omap1: board-ams-delta.c: remove soc_camera
- dependencies
-Message-ID: <20200629152926.GQ37466@atomide.com>
-References: <20200626115321.1898798-1-hverkuil-cisco@xs4all.nl>
- <20200626115321.1898798-5-hverkuil-cisco@xs4all.nl>
- <CAK8P3a0XNb5=4F3QMpO+CtQZuxvKdmKrHPjZ80fv0Rgt4U0pfA@mail.gmail.com>
+        id S1730335AbgF2TAT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Jun 2020 15:00:19 -0400
+Received: from localhost (83-86-89-107.cable.dynamic.v4.ziggo.nl [83.86.89.107])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3DB7F2554B;
+        Mon, 29 Jun 2020 15:55:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1593446112;
+        bh=4iXE6X6BH7Sxje+iISVf8jR0Is6iv3UfKTVAnMUZGaY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=h2U+MILBVT23YaZGdGpLO6laSjCwUsbg1urnAwBg/mN+0QstKMt2rgVhJrjbvq5RT
+         s6etxdPdTY1Mv4RLGYevq3RavmmS//9KWuBexp7reG+SFRlF4vhtx+Z2GYBUqhoUnK
+         bgcM4W2IY97lLpe70xK5huDwRLE4lOXseGWjvwcM=
+Date:   Mon, 29 Jun 2020 17:55:03 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     B K Karthik <bkkarthik@pesu.pes.edu>
+Cc:     B K Karthik <karthik.bk2000@live.com>, devel@driverdev.osuosl.org,
+        linux-kernel@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] staging: media: atomisp: i2c: atomisp-ov2680.c: fixed a
+ brace coding style issue.
+Message-ID: <20200629155503.GB512815@kroah.com>
+References: <20200628043833.3dodctrmkec6aoe5@pesu-pes-edu>
+ <20200629144336.fhykjoqrhfhifmes@pesu-pes-edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAK8P3a0XNb5=4F3QMpO+CtQZuxvKdmKrHPjZ80fv0Rgt4U0pfA@mail.gmail.com>
+In-Reply-To: <20200629144336.fhykjoqrhfhifmes@pesu-pes-edu>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-* Arnd Bergmann <arnd@arndb.de> [200626 12:59]:
-> On Fri, Jun 26, 2020 at 1:53 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> >
-> > The soc_camera driver is about to be removed, so drop camera
-> > support from this board. Note that the soc_camera driver itself has
-> > long since been deprecated and can't be compiled anymore (it depends
-> > on BROKEN), so camera support on this board has been broken for a long
-> > time (at least since 4.6 when the omap1_camera.c was removed from soc_camera).
-> >
-> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> > Cc: Arnd Bergmann <arnd@arndb.de>
-> > Cc: Tony Lindgren <tony@atomide.com>
-> > ---
-> >  arch/arm/mach-omap1/board-ams-delta.c         | 32 --------------
-> >  arch/arm/mach-omap1/camera.h                  | 14 ------
-> >  arch/arm/mach-omap1/devices.c                 | 43 -------------------
-> >  .../linux/platform_data/media/omap1_camera.h  | 32 --------------
-> 
-> Acked-by: Arnd Bergmann <arnd@arndb.de>
-> 
-> Please merge this through the media tree if there are no objections.
+A: http://en.wikipedia.org/wiki/Top_post
+Q: Were do I find info about this thing called top-posting?
+A: Because it messes up the order in which people normally read text.
+Q: Why is top-posting such a bad thing?
+A: Top-posting.
+Q: What is the most annoying thing in e-mail?
 
-Yes agreed, this is unlikely to conflict with anything:
+A: No.
+Q: Should I include quotations after my reply?
 
-Acked-by: Tony Lindgren <tony@atomide.com>
+http://daringfireball.net/2007/07/on_top
+
+On Mon, Jun 29, 2020 at 10:43:36AM -0400, B K Karthik wrote:
+> Did this get burried in along with a bunch of other patches? I am sending this email only because I did not recieve a negetive acknowledgement on the patch.
+> 
+> I apologize if this message was hurtful / disrespectfull in any manner,
+> thank you for reading this message.
+> 
+> karthik
+> 
+> On 20/06/28 12:38AM, B K Karthik wrote:
+
+You sent this one day ago.
+
+Please be patient, some maintainers only get to patches every few weeks.
+If, after 2 weeks, there has not been a response, then resend it.
+
+Remember, maintainers have other work to do as well, and staging patches
+are usually down the list of things they work on.
+
+(hint, I'm not the maintainer of this part of the staging tree...)
+
+thanks,
+
+greg k-h
