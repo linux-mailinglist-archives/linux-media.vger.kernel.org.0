@@ -2,140 +2,336 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D73E520D7D4
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 22:08:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 66B7E20DBB1
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 22:16:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732218AbgF2TdN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jun 2020 15:33:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46788 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733042AbgF2Tcp (ORCPT
+        id S1732972AbgF2UIp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jun 2020 16:08:45 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:16980 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388510AbgF2UIY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:32:45 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38977C02F006
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2020 07:43:43 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id c1so857594pja.5
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2020 07:43:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=pesu-pes-edu.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=jLORGp6VfrDrQA8PpUsXn5+mhrmQSe4/xK3Vs+cmlnA=;
-        b=CN262X2BWpTSqbB1xZLnzt3P6PXjtlLIfYiIegWD8/RQLngh8QXv28Rke8t+T7ErjV
-         0xoehil5YqUKWFNf9122vK/5Bl/5hRrynVReUB3J5JnMTxyoit84XWPf/TXz1ioFztsx
-         AHVRLwqLna0A2h1BfWLa6SpiqcFSvanAVPhajVV+GYLDx6Q8/BDHlmGdGmlSXzWQ/ZTX
-         IFWxdidVNy4yIbMMgL2eFDLZh1gon3kWRo1AzuR3WxbQGW5UDDAdyMMFy5F/qo91WYm7
-         qo+N+qOh3A/N7rL4UKaOo4Xf7ki/gntOiUCTeRRDcT02wPU4+AzS2xOjl9YaWxHfl1JS
-         T3HA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=jLORGp6VfrDrQA8PpUsXn5+mhrmQSe4/xK3Vs+cmlnA=;
-        b=sR+7q/1I4fHlE4ncJHAd/lf1DiDyd3CzdVXbCruPPnhDKcz+Pv4/HGOVkwvM6mUPdl
-         ABS8CpQExJOAaJxDe7pc1zJRoKkg1tIe0jCu2l01syZIoyJnT4EJs+zSOVkfboHksNRi
-         riuS2Ys4KNXT0lHAEpX6oCRJq2UG0nHt7ZfT/yyeHpKOkFaDnoHUATyP8ZZVfIre04wW
-         IhCwtX8juR0itcGE/E4bTiKu4TkwfDJcZ/CIenFRETbxAuDguHbzvKmQE5ygz4ITSGT6
-         ZK54oL7eN9NJuFfiLxu487fZML76S34B2IWZ5qD/V6OFC78AFtSOLMtQ2pl2Rg0CZVUa
-         1hXw==
-X-Gm-Message-State: AOAM531VPuqbdhplwrvfqrsT9qJWYSH1xU7Dd8XsqzHg6oWfFCOq66U5
-        CgNAUlpt4wDAdLah1VH8iZsh2A==
-X-Google-Smtp-Source: ABdhPJyirQnsQiQuhswSo/uIYV1ui5LyLyvg/sRt0KpvA9WEl1ByzdHprHAFfNPsV1N0i2xDWfS+Eg==
-X-Received: by 2002:a17:90a:a413:: with SMTP id y19mr4591589pjp.59.1593441822678;
-        Mon, 29 Jun 2020 07:43:42 -0700 (PDT)
-Received: from localhost ([2406:7400:73:703c:908:f18a:1156:5c38])
-        by smtp.gmail.com with ESMTPSA id s9sm101062pgo.22.2020.06.29.07.43.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 07:43:41 -0700 (PDT)
-Date:   Mon, 29 Jun 2020 10:43:36 -0400
-From:   B K Karthik <bkkarthik@pesu.pes.edu>
-To:     B K Karthik <karthik.bk2000@live.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] staging: media: atomisp: i2c: atomisp-ov2680.c: fixed a
- brace coding style issue.
-Message-ID: <20200629144336.fhykjoqrhfhifmes@pesu-pes-edu>
-References: <20200628043833.3dodctrmkec6aoe5@pesu-pes-edu>
+        Mon, 29 Jun 2020 16:08:24 -0400
+Received: from hqpgpgate101.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, DES-CBC3-SHA)
+        id <B5ef9fecb0001>; Mon, 29 Jun 2020 07:46:35 -0700
+Received: from hqmail.nvidia.com ([172.20.161.6])
+  by hqpgpgate101.nvidia.com (PGP Universal service);
+  Mon, 29 Jun 2020 07:48:13 -0700
+X-PGP-Universal: processed;
+        by hqpgpgate101.nvidia.com on Mon, 29 Jun 2020 07:48:13 -0700
+Received: from [10.2.167.193] (172.20.13.39) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 29 Jun
+ 2020 14:48:12 +0000
+Subject: Re: [RFC PATCH v2 08/18] media: tegra-video: Enable TPG based on
+ kernel config
+To:     Hans Verkuil <hverkuil@xs4all.nl>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <frankc@nvidia.com>, <sakari.ailus@iki.fi>,
+        <robh+dt@kernel.org>, <helen.koike@collabora.com>
+CC:     <digetx@gmail.com>, <sboyd@kernel.org>,
+        <gregkh@linuxfoundation.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>
+References: <1592358094-23459-1-git-send-email-skomatineni@nvidia.com>
+ <1592358094-23459-9-git-send-email-skomatineni@nvidia.com>
+ <f0f362e2-3748-5efe-b4a2-4ad344ae6a1e@xs4all.nl>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <91c70ed2-2a86-e99f-8dcb-73501a25b3d8@nvidia.com>
+Date:   Mon, 29 Jun 2020 07:48:43 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="i3ho2sv5roir6t7m"
-Content-Disposition: inline
-In-Reply-To: <20200628043833.3dodctrmkec6aoe5@pesu-pes-edu>
-User-Agent: NeoMutt/20180716
+In-Reply-To: <f0f362e2-3748-5efe-b4a2-4ad344ae6a1e@xs4all.nl>
+X-Originating-IP: [172.20.13.39]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1593441995; bh=mRHvcQYMUVmA9zSshngrK+5IlhrjxWXFrVsZZvga3QQ=;
+        h=X-PGP-Universal:Subject:To:CC:References:From:Message-ID:Date:
+         User-Agent:MIME-Version:In-Reply-To:X-Originating-IP:
+         X-ClientProxiedBy:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=WDO97jzJDKDQPttTd6AfzMo5VeIPv3djcwqFiAR1sFdr4QgvbndC8++vvqxNVLGo1
+         OsKjCUnizT/a5uY4sBKu0uX5gyHXSPvDq6k1hp+Zv6PjSq8KpYHw5e78DSBVJpjpI0
+         odO5XM/1WLMOHMvFQvGcGhzJwtZ1qTTFVUd1AggCKxVT1fPAw4AEcoC2K33DiGg1sh
+         hV2TqaBgtksici/VBLyAgYNAcBUn01wsYIMyn+V1Bc/WtSfaeMIOBRRue8GRTQQi25
+         jp4UM4ugJJGzgct7/3CFaSCfeZyMFcsOP1San1gWDtg9wdMoEETK2wEwcgVJ/Pyx4s
+         3k2lLOuVLggAQ==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---i3ho2sv5roir6t7m
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 6/29/20 2:28 AM, Hans Verkuil wrote:
+> On 17/06/2020 03:41, Sowjanya Komatineni wrote:
+>> Tegra internal TPG mode is only for Tegra vi and csi testing
+>> without a real sensor and driver should default support real
+>> sensor.
+>>
+>> So, This patch adds CONFIG_VIDEO_TEGRA_TPG and enables Tegra
+>> internal TPG mode only when this config is selected.
+>>
+>> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
+>> ---
+>>   drivers/staging/media/tegra-video/Kconfig    |  6 +++++
+>>   drivers/staging/media/tegra-video/csi.c      | 38 +++++++++++++++++++++++-----
+>>   drivers/staging/media/tegra-video/tegra210.c |  6 +++++
+>>   drivers/staging/media/tegra-video/vi.c       | 13 +++++++---
+>>   drivers/staging/media/tegra-video/video.c    | 23 +++++++++--------
+>>   5 files changed, 65 insertions(+), 21 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/tegra-video/Kconfig b/drivers/staging/media/tegra-video/Kconfig
+>> index f6c61ec..566da62 100644
+>> --- a/drivers/staging/media/tegra-video/Kconfig
+>> +++ b/drivers/staging/media/tegra-video/Kconfig
+>> @@ -10,3 +10,9 @@ config VIDEO_TEGRA
+>>   
+>>   	  To compile this driver as a module, choose M here: the module
+>>   	  will be called tegra-video.
+>> +
+>> +config VIDEO_TEGRA_TPG
+>> +	bool "NVIDIA Tegra VI driver TPG mode"
+>> +	depends on VIDEO_TEGRA
+>> +	help
+>> +	  Say yes here to enable Tegra internal TPG mode
+> This is not clear: if this is enabled, will the driver use TPG for
+> ALL CSI ports? Or just for those that are not connected to anything?
+> (i.e. the unused ports).
+>
+> I always assumed that the latter was intended, but it kind of looks from
+> the code that this switches to TPG completely.
+>
+> It would also be nice if you can still use the TPG even for connected
+> CSI ports by just setting the TEST_PATTERN control. I believe that's also what
+> happens in the driver that is in the L4T tree.
+>
+> In any case, it is definitely not clear from this config description what
+> it does.
+>
+> Regards,
+>
+> 	Hans
 
-Did this get burried in along with a bunch of other patches? I am sending t=
-his email only because I did not recieve a negetive acknowledgement on the =
-patch.
+Same v4l2 test pattern control is used by sensor subdevices as well and 
+we can't differentiate between Tegra Vs Sensor test patterns.
 
-I apologize if this message was hurtful / disrespectfull in any manner,
-thank you for reading this message.
+Current patches are based on our prior discussions where Tegra internal 
+TPG is enabled for all channels/ports only when TPG Kconfig is set 
+otherwise it will be for sensor capture based on the device graph.
 
-karthik
+To be clear, will update Kconfig description specifying all channels 
+will be in TPG mode only when TPG Kconfig is set otherwise media links 
+are purely based on the device graph from DT.
 
-On 20/06/28 12:38AM, B K Karthik wrote:
-> Fixed a coding style issue.
->=20
-> Signed-off-by: B K Karthik <karthik.bk2000@live.com>
-> ---
->  drivers/staging/media/atomisp/i2c/atomisp-ov2680.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c b/drivers=
-/staging/media/atomisp/i2c/atomisp-ov2680.c
-> index 90d125ba080f..c90730513438 100644
-> --- a/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> +++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2680.c
-> @@ -495,11 +495,11 @@ static int ov2680_h_flip(struct v4l2_subdev *sd, s3=
-2 value)
->  	ret =3D ov2680_read_reg(client, 1, OV2680_MIRROR_REG, &val);
->  	if (ret)
->  		return ret;
-> -	if (value) {
-> +	if (value)
->  		val |=3D OV2680_FLIP_MIRROR_BIT_ENABLE;
-> -	} else {
-> +	else
->  		val &=3D ~OV2680_FLIP_MIRROR_BIT_ENABLE;
-> -	}
-> +
->  	ret =3D ov2680_write_reg(client, 1,
->  			       OV2680_MIRROR_REG, val);
->  	if (ret)
-> --
-> 2.20.1
+Thanks
 
+Sowjanya
 
-
---i3ho2sv5roir6t7m
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQGzBAEBCgAdFiEEpIrzAt4LvWLJmKjp471Q5AHeZ2oFAl75/hgACgkQ471Q5AHe
-Z2o9Zwv/W+4Q3b66dFYLTKnXoigYHIbecsuAc0LMW5V2VSXQJ8dq+DsCFvawZMh3
-UmbKaZsk033rYkKxbc1rubekPkm1eQ0kAY2iG6j+sIPnYtlUpkLRT6fU6vclZkAO
-gliHVAn1j0aB483pR6TJY0ek+ieMra9a7cetHsDHwzjdFQsheKDmEvtwjSYo5CCY
-0gImXtqo0md5TaiCmATWZ8GA6iOFcgOA+AHxhHN/s/SJ+CmZ2Ep4JGbPiaOCZcvq
-YjwBI15IiHVfJ8DDiYbemJvZRkZdKmgh8oIFDKS0jyFcGBn6fBkhWregLs9tqhyu
-PaSgKyS4nCIXL0mSDv87nPH8pq8DTfmFb6LEA09slsKzwMBUgESCywCLX0jiWTSn
-q0Y+CaE5mdKQBkOkizun3BuHbu43YDHKTy4qHNBDnTrLdltAKFjvxfvh6Sixfsvj
-1tEo886KYQETUjkIdmdCkjs5FT5uRDF+XGjCH2MxY/uxmq/LkxMOLY/IMGjMPf9U
-TkhSrXDs
-=Ikkk
------END PGP SIGNATURE-----
-
---i3ho2sv5roir6t7m--
+>
+>> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+>> index 40ea195..fb667df 100644
+>> --- a/drivers/staging/media/tegra-video/csi.c
+>> +++ b/drivers/staging/media/tegra-video/csi.c
+>> @@ -62,6 +62,9 @@ static int csi_enum_bus_code(struct v4l2_subdev *subdev,
+>>   			     struct v4l2_subdev_pad_config *cfg,
+>>   			     struct v4l2_subdev_mbus_code_enum *code)
+>>   {
+>> +	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+>> +		return -ENOIOCTLCMD;
+>> +
+>>   	if (code->index >= ARRAY_SIZE(tegra_csi_tpg_fmts))
+>>   		return -EINVAL;
+>>   
+>> @@ -76,6 +79,9 @@ static int csi_get_format(struct v4l2_subdev *subdev,
+>>   {
+>>   	struct tegra_csi_channel *csi_chan = to_csi_chan(subdev);
+>>   
+>> +	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+>> +		return -ENOIOCTLCMD;
+>> +
+>>   	fmt->format = csi_chan->format;
+>>   
+>>   	return 0;
+>> @@ -121,6 +127,9 @@ static int csi_enum_framesizes(struct v4l2_subdev *subdev,
+>>   {
+>>   	unsigned int i;
+>>   
+>> +	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+>> +		return -ENOIOCTLCMD;
+>> +
+>>   	if (fse->index >= ARRAY_SIZE(tegra_csi_tpg_sizes))
+>>   		return -EINVAL;
+>>   
+>> @@ -148,6 +157,9 @@ static int csi_enum_frameintervals(struct v4l2_subdev *subdev,
+>>   	const struct tpg_framerate *frmrate = csi->soc->tpg_frmrate_table;
+>>   	int index;
+>>   
+>> +	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+>> +		return -ENOIOCTLCMD;
+>> +
+>>   	/* one framerate per format and resolution */
+>>   	if (fie->index > 0)
+>>   		return -EINVAL;
+>> @@ -172,6 +184,9 @@ static int csi_set_format(struct v4l2_subdev *subdev,
+>>   	const struct v4l2_frmsize_discrete *sizes;
+>>   	unsigned int i;
+>>   
+>> +	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+>> +		return -ENOIOCTLCMD;
+>> +
+>>   	sizes = v4l2_find_nearest_size(tegra_csi_tpg_sizes,
+>>   				       ARRAY_SIZE(tegra_csi_tpg_sizes),
+>>   				       width, height,
+>> @@ -208,6 +223,9 @@ static int tegra_csi_g_frame_interval(struct v4l2_subdev *subdev,
+>>   {
+>>   	struct tegra_csi_channel *csi_chan = to_csi_chan(subdev);
+>>   
+>> +	if (!IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+>> +		return -ENOIOCTLCMD;
+>> +
+>>   	vfi->interval.numerator = 1;
+>>   	vfi->interval.denominator = csi_chan->framerate;
+>>   
+>> @@ -311,8 +329,12 @@ static int tegra_csi_channel_init(struct tegra_csi_channel *chan)
+>>   	subdev = &chan->subdev;
+>>   	v4l2_subdev_init(subdev, &tegra_csi_ops);
+>>   	subdev->dev = csi->dev;
+>> -	snprintf(subdev->name, V4L2_SUBDEV_NAME_SIZE, "%s-%d", "tpg",
+>> -		 chan->csi_port_num);
+>> +	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+>> +		snprintf(subdev->name, V4L2_SUBDEV_NAME_SIZE, "%s-%d", "tpg",
+>> +			 chan->csi_port_num);
+>> +	else
+>> +		snprintf(subdev->name, V4L2_SUBDEV_NAME_SIZE, "%s",
+>> +			 kbasename(chan->of_node->full_name));
+>>   
+>>   	v4l2_set_subdevdata(subdev, chan);
+>>   	subdev->fwnode = of_fwnode_handle(chan->of_node);
+>> @@ -405,11 +427,13 @@ static int tegra_csi_init(struct host1x_client *client)
+>>   
+>>   	INIT_LIST_HEAD(&csi->csi_chans);
+>>   
+>> -	ret = tegra_csi_tpg_channels_alloc(csi);
+>> -	if (ret < 0) {
+>> -		dev_err(csi->dev,
+>> -			"failed to allocate tpg channels: %d\n", ret);
+>> -		goto cleanup;
+>> +	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG)) {
+>> +		ret = tegra_csi_tpg_channels_alloc(csi);
+>> +		if (ret < 0) {
+>> +			dev_err(csi->dev,
+>> +				"failed to allocate tpg channels: %d\n", ret);
+>> +			goto cleanup;
+>> +		}
+>>   	}
+>>   
+>>   	ret = tegra_csi_channels_init(csi);
+>> diff --git a/drivers/staging/media/tegra-video/tegra210.c b/drivers/staging/media/tegra-video/tegra210.c
+>> index 3baa4e3..3492a8a 100644
+>> --- a/drivers/staging/media/tegra-video/tegra210.c
+>> +++ b/drivers/staging/media/tegra-video/tegra210.c
+>> @@ -631,7 +631,11 @@ const struct tegra_vi_soc tegra210_vi_soc = {
+>>   	.ops = &tegra210_vi_ops,
+>>   	.hw_revision = 3,
+>>   	.vi_max_channels = 6,
+>> +#if IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG)
+>>   	.vi_max_clk_hz = 499200000,
+>> +#else
+>> +	.vi_max_clk_hz = 998400000,
+>> +#endif
+>>   };
+>>   
+>>   /* Tegra210 CSI PHY registers accessors */
+>> @@ -957,7 +961,9 @@ static const char * const tegra210_csi_cil_clks[] = {
+>>   	"cilab",
+>>   	"cilcd",
+>>   	"cile",
+>> +#if IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG)
+>>   	"csi_tpg",
+>> +#endif
+>>   };
+>>   
+>>   /* Tegra210 CSI operations */
+>> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+>> index d621ebc..0197f4e 100644
+>> --- a/drivers/staging/media/tegra-video/vi.c
+>> +++ b/drivers/staging/media/tegra-video/vi.c
+>> @@ -565,6 +565,7 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
+>>   {
+>>   	int ret;
+>>   
+>> +#if IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG)
+>>   	/* add test pattern control handler to v4l2 device */
+>>   	v4l2_ctrl_new_std_menu_items(&chan->ctrl_handler, &vi_ctrl_ops,
+>>   				     V4L2_CID_TEST_PATTERN,
+>> @@ -576,6 +577,7 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
+>>   		v4l2_ctrl_handler_free(&chan->ctrl_handler);
+>>   		return chan->ctrl_handler.error;
+>>   	}
+>> +#endif
+>>   
+>>   	/* setup the controls */
+>>   	ret = v4l2_ctrl_handler_setup(&chan->ctrl_handler);
+>> @@ -918,10 +920,13 @@ static int tegra_vi_init(struct host1x_client *client)
+>>   
+>>   	INIT_LIST_HEAD(&vi->vi_chans);
+>>   
+>> -	ret = tegra_vi_tpg_channels_alloc(vi);
+>> -	if (ret < 0) {
+>> -		dev_err(vi->dev, "failed to allocate tpg channels: %d\n", ret);
+>> -		goto free_chans;
+>> +	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG)) {
+>> +		ret = tegra_vi_tpg_channels_alloc(vi);
+>> +		if (ret < 0) {
+>> +			dev_err(vi->dev,
+>> +				"failed to allocate tpg channels: %d\n", ret);
+>> +			goto free_chans;
+>> +		}
+>>   	}
+>>   
+>>   	ret = tegra_vi_channels_init(vi);
+>> diff --git a/drivers/staging/media/tegra-video/video.c b/drivers/staging/media/tegra-video/video.c
+>> index 30816aa..e50bd70 100644
+>> --- a/drivers/staging/media/tegra-video/video.c
+>> +++ b/drivers/staging/media/tegra-video/video.c
+>> @@ -60,15 +60,17 @@ static int host1x_video_probe(struct host1x_device *dev)
+>>   	if (ret < 0)
+>>   		goto unregister_v4l2;
+>>   
+>> -	/*
+>> -	 * Both vi and csi channels are available now.
+>> -	 * Register v4l2 nodes and create media links for TPG.
+>> -	 */
+>> -	ret = tegra_v4l2_nodes_setup_tpg(vid);
+>> -	if (ret < 0) {
+>> -		dev_err(&dev->dev,
+>> -			"failed to setup tpg graph: %d\n", ret);
+>> -		goto device_exit;
+>> +	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG)) {
+>> +		/*
+>> +		 * Both vi and csi channels are available now.
+>> +		 * Register v4l2 nodes and create media links for TPG.
+>> +		 */
+>> +		ret = tegra_v4l2_nodes_setup_tpg(vid);
+>> +		if (ret < 0) {
+>> +			dev_err(&dev->dev,
+>> +				"failed to setup tpg graph: %d\n", ret);
+>> +			goto device_exit;
+>> +		}
+>>   	}
+>>   
+>>   	return 0;
+>> @@ -91,7 +93,8 @@ static int host1x_video_remove(struct host1x_device *dev)
+>>   {
+>>   	struct tegra_video_device *vid = dev_get_drvdata(&dev->dev);
+>>   
+>> -	tegra_v4l2_nodes_cleanup_tpg(vid);
+>> +	if (IS_ENABLED(CONFIG_VIDEO_TEGRA_TPG))
+>> +		tegra_v4l2_nodes_cleanup_tpg(vid);
+>>   
+>>   	host1x_device_exit(dev);
+>>   
+>>
