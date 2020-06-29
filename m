@@ -2,73 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D669B20D570
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 21:16:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1848C20D746
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 22:07:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730803AbgF2TQe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jun 2020 15:16:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44000 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731909AbgF2TQF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:16:05 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DEBCC08E81A
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2020 12:16:02 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id i25so18455221iog.0
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2020 12:16:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=XdfoRVGuOCD2JOxmLnJxyvoO2f5zjf1xh4i//8cGLHs=;
-        b=E57soH+fAZU9oM/uuDn4bCNx2wALmvA7rwFsDeo/VdmyR4hSt+vRDMPW0qpAcJ9V/h
-         UbYJ9fIR9BUAZrS+1TfrEzBoFSxbLFUBB/IIzj7rfy4Y1SyxPmM/cs9fEremwVWV5m5u
-         b9v38myIgTBJNjasjLIOUO/K2CJS7vPJsURIlWBEC7RA0ax+vZbkexDjvFbqaAUgNm/w
-         yj4NkgHNxXLdKOO4AZsIv5vnXx8YMl4s3e1fTXh2Hp6rhwVI9k4nzVvvlc/OSvXrfpbl
-         +6DOlsrKa8IKCRxKxdcbetpm2uz+ZUKJBnziwlMhGJ11qW6bGQPIDGjYXF06+gry04Zz
-         3NGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=XdfoRVGuOCD2JOxmLnJxyvoO2f5zjf1xh4i//8cGLHs=;
-        b=TD7c5IXHKzp5nZHyjUX8iPHgErB2wTB5hVL0EpW/f4QCUKfTbtCL3wQR44cqqL4qVX
-         Y4YzfTk9uW4bsf0GqHsl6P/tEC3vrcaIYp3hKLmLM+7t+PugBokA0fcA1qTo9U7l3UE4
-         4U2nZWDgfrRskBwr8qpYJ9QjZ2uE68cWeo6DpvZiyXuHbn1XLKkiRllRdnPtycLXdtke
-         8sV0ddJ0Mk0VB8r9VITVCA6MmdVRP7X2Ww71g5VZkBynNNcL2Ga4AAnOSTbxtAsRexhV
-         sb6VNxbQpOyU/hinAIVwelfoIrpSND0W27jMX4TovGuMOk2iI1BMqvx19cTkzZjeiOIA
-         P8ug==
-X-Gm-Message-State: AOAM530JM3NJ6rkUIjqv+FJl/e5CGT0KPCcugIdsrdSpZh93lROFkmrg
-        FEiHEXbUJv9TFBSIdFTJ9egDYs6os5C7KKb915c=
-X-Google-Smtp-Source: ABdhPJyNR5zXZ8o09DSJzsSA3OSccnAxM/c9AxKQjYYOZlXvOMCiHs1YW/1gQi1Sa70TQ2VOPtabshfviWRkV7+ICnM=
-X-Received: by 2002:a6b:db17:: with SMTP id t23mr18236117ioc.4.1593458159284;
- Mon, 29 Jun 2020 12:15:59 -0700 (PDT)
+        id S1732356AbgF2T20 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jun 2020 15:28:26 -0400
+Received: from mga14.intel.com ([192.55.52.115]:4746 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730546AbgF2T2Z (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Jun 2020 15:28:25 -0400
+IronPort-SDR: tNZFQ/Kw0Qk9MB/aPXFv90TbNOvfp3o6HYTLPron9/reT+NkQIeTDUoqjYipEC5Dt0qBcJorM4
+ aoa66tq40T0w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="145064142"
+X-IronPort-AV: E=Sophos;i="5.75,295,1589266800"; 
+   d="scan'208";a="145064142"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2020 09:25:00 -0700
+IronPort-SDR: i5zqokhpUgxuo+bUMZ96Gnbmc51BTC8pH+WCvzJ3tixSsqU7kvUaPWyn3xUiSDgXiKBpNgayFN
+ XvGLYflgDO6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,295,1589266800"; 
+   d="scan'208";a="266235448"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga008.fm.intel.com with ESMTP; 29 Jun 2020 09:24:59 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1jprPs-00Gdwm-DS; Mon, 29 Jun 2020 13:53:36 +0300
+Date:   Mon, 29 Jun 2020 13:53:36 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v2 00/15] media: atomisp: Clean ups and fixes to make it
+ load on Baytrail
+Message-ID: <20200629105336.GG3703480@smile.fi.intel.com>
+References: <20200626121925.14365-1-andriy.shevchenko@linux.intel.com>
+ <20200626152953.261dd214@coco.lan>
+ <20200626160141.03a8d4dd@coco.lan>
 MIME-Version: 1.0
-Received: by 2002:a05:6602:1588:0:0:0:0 with HTTP; Mon, 29 Jun 2020 12:15:58
- -0700 (PDT)
-Reply-To: mrs.victoria.alexander2@gmail.com
-From:   "mrs.victoria alexander" <markalexandermilley321@gmail.com>
-Date:   Mon, 29 Jun 2020 12:15:58 -0700
-Message-ID: <CAP7XNCwEGQ+-Q==u4yk4yvJdk1X+gsfSU6pUV_hROjmF=p-DHw@mail.gmail.com>
-Subject: Hello,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200626160141.03a8d4dd@coco.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear friend,
+On Fri, Jun 26, 2020 at 04:01:41PM +0200, Mauro Carvalho Chehab wrote:
+> Em Fri, 26 Jun 2020 15:29:53 +0200
+> Mauro Carvalho Chehab <mchehab@kernel.org> escreveu:
+> > Em Fri, 26 Jun 2020 15:19:10 +0300
+> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> escreveu:
+
+> > >   media: atomisp: Refactor PMIC detection to a separate function.
+> > >   media: atomisp: Provide Gmin subdev as parameter to gmin_subdev_add()
+> 
+> Could you please rebase those on the top of my atomisp branch? 
+> 
+> > >   media: atomisp: Get rid of ugly and leaky ACPI handling in
+> > >     gmin_subdev_add()
+> 
+> The part of the code that used to call acpi_bus_get_device() was
+> already removed by a previous patch on my tree. So, I guess this one
+> may not be needed anymore.
+
+Mentioned above have been rebased and I'm about to send a v2.
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-I have a business container transaction what that some of( $13million dollars)
-
- I would like to discuss with you. If you are interested, please
-contact my email
-
-address (mrs.victoria.alexander2@gmail.com)
-
-My WhatsApp number but only message (+19293737780)
-
-Please do not reply if you are not ready
-Thanks
