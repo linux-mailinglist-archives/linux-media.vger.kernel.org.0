@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C34620E153
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 23:58:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 516F020E07A
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 23:56:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731599AbgF2Uyb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jun 2020 16:54:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43370 "EHLO
+        id S1732760AbgF2Uqn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jun 2020 16:46:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731274AbgF2TNS (ORCPT
+        with ESMTP id S1731543AbgF2TNw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:13:18 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C19E8C0A8935;
-        Mon, 29 Jun 2020 00:37:29 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id u8so7398778pje.4;
-        Mon, 29 Jun 2020 00:37:29 -0700 (PDT)
+        Mon, 29 Jun 2020 15:13:52 -0400
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 666C2C0A8936;
+        Mon, 29 Jun 2020 00:37:34 -0700 (PDT)
+Received: by mail-pf1-x442.google.com with SMTP id b184so1127823pfa.6;
+        Mon, 29 Jun 2020 00:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=wNBasksRn6HqqFy9YNin3k0xj1oUFrdl5Lr5u3FSELQ=;
-        b=M1hIH6mFmORSCGE86XorMiBP7P08Gf4iZf58OyrKtzhu/cv2OISPl0WAHowytkfrXb
-         Dxtp9KEV+JThYTPWvaCa029Z+U7sItPFnlKrjYO+P7uwh/rTbA4R4HTUSv5AlaBsq51O
-         k8PDB3rzBRmgXTeZ8DdA/U/csAwKlTqGKtV4Y4qJkujlyGSF63nQAmcrkA61IBbPlvXI
-         leqBFDNv9s7LvFlq4dGOdA+uUpzsrcRl36VOzX57aTt6Smf7gdRwvxKPLW1qT9TnG3Ds
-         WZuuLNR/i/9WGDTcE6PYFhdE5tX2xgAWxR53fnb1MLYIY9J+qFyGGcOgglFfMOV/dy2n
-         aiOw==
+        bh=M1eWlmJknPlaq4iBEb26E6JSPq8jyG2XC9mR0Df08JE=;
+        b=ZoWk5+P4rjcM0P7NJzK7080uXsU6qIIS3avQ6XYyaJJKtaWZpbT29DeSJXZg5qoR7M
+         7CBFX08H84xXbjEGQVj6g57MZ8Cv8uyNbXonrVuHNLgqF46jAdpvi8ocxy8GjNWjC4C3
+         +3LmIIy6TrhWf7m4KllNP6crK/ELeX+2vuDlJ6p25HiG2GP1/1jN7IIqnxQNMeQJmdT4
+         rK6u/59MNeUV7ciVPBV5i83zSsn3/dv35xyVBBysuH/83LhOfG9qZjpZbpoAw28Gd9c4
+         dIvKeEOEaOcc3dE7y8kaqkdzAAFVsqgbX4fAUTWcXu5rX3K4YkPkqmFwx9x8iA+yXOD4
+         uvRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=wNBasksRn6HqqFy9YNin3k0xj1oUFrdl5Lr5u3FSELQ=;
-        b=uLmZM2xmd8pI7EBLW6+W6OYYbW5pUqH8SuWUT6rwp8dn/Lb/XwIyJXqIcubYh0o0ve
-         SPA7GwntPsPDTHG99myZnFH3XYhkwebeY0Jxx8mQprWpLYeDe3x7TfeEibB+9FGgiari
-         Fcw/uu1NsqqF3jXN3enC5+SNA9DPhaTtTtJVoac2tjWOTWn9oGzv25ghrIj266yjUxwM
-         t+fVKwieAnWUWLeVNrrNS9xtatpOZyPrKt5nN9ImIrJf1GPtUTg6t9S9P1j2+QhGIzg0
-         MOpgUdO33Z9y1JFm6lB+BLOfFCkgHjSvW5aP+/B9a8iOGtAdxvm9XO1dhW4cW1RPgg4k
-         B1Jw==
-X-Gm-Message-State: AOAM5311QgMKiE28XauWmZ3uZw4mbsdJsK5c4JrIffcs7kUBIlyBDHv/
-        P8ZMe6dRRfsRoPhMHKTJmmk=
-X-Google-Smtp-Source: ABdhPJw5JV6v034J4F08OVzJgY5QNT872fYtNd1w2ulu2+H64M023gpnMHfQNOtSd3meU2msqry31Q==
-X-Received: by 2002:a17:902:54f:: with SMTP id 73mr12020846plf.76.1593416249351;
-        Mon, 29 Jun 2020 00:37:29 -0700 (PDT)
+        bh=M1eWlmJknPlaq4iBEb26E6JSPq8jyG2XC9mR0Df08JE=;
+        b=kmO/NnxZvTjBFJS+hKlLmmguUALrAi+OY9em7n5DFXRLhx4I9WqYBVZcBDCKBvp6ZA
+         gslv3IqoUTmNmE0SW34OxtMW2CMOfTtRzlNWH5aRI/AiuLvqHCI5BvWLqZzMncgz8ist
+         hQ5WJVli7uP+YVOLFpkeD4L0pl6XfY8J1EjXBYMXVycOTGIRu57r1rbK/c1tvOOWE13n
+         pxeW/mwCh2Rebi29hSiXXOC3u1gL/dayy6NxUySsDcN9cr8GCW9qjJKfSVJ5mmSI11ct
+         hfam/LC7T4/b8SJMha0H2s4u00o888Nk0CEcnUgXgWrz7fqCr63W+/RpMjQqK9UXfxu9
+         139Q==
+X-Gm-Message-State: AOAM5300lAfpI9/RXlK5gsITuF9WE+kIZ8/N3MZ/4z1WFVimfQ/KUmBs
+        PPhLHi0HL79Qh/nex37PlLQ=
+X-Google-Smtp-Source: ABdhPJydYwb6IghBaB9/JJLG0sM0hcusmh3mXrqhfkRKFx43w7QdBeZoPsQYEN6Kw++x7HYyl1rBYw==
+X-Received: by 2002:a63:5c55:: with SMTP id n21mr8836754pgm.27.1593416253909;
+        Mon, 29 Jun 2020 00:37:33 -0700 (PDT)
 Received: from varodek.iballbatonwifi.com ([103.105.153.57])
-        by smtp.gmail.com with ESMTPSA id q10sm34673004pfk.86.2020.06.29.00.37.25
+        by smtp.gmail.com with ESMTPSA id q10sm34673004pfk.86.2020.06.29.00.37.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 00:37:28 -0700 (PDT)
+        Mon, 29 Jun 2020 00:37:33 -0700 (PDT)
 From:   Vaibhav Gupta <vaibhavgupta40@gmail.com>
 To:     Bjorn Helgaas <helgaas@kernel.org>,
         Bjorn Helgaas <bhelgaas@google.com>, bjorn@helgaas.com,
@@ -57,9 +57,9 @@ Cc:     Vaibhav Gupta <vaibhavgupta40@gmail.com>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
         skhan@linuxfoundation.org
-Subject: [PATCH v1 2/6] [media] cx23885: use generic power management
-Date:   Mon, 29 Jun 2020 13:06:00 +0530
-Message-Id: <20200629073604.205478-3-vaibhavgupta40@gmail.com>
+Subject: [PATCH v1 3/6] [media] cx25821: use generic power management
+Date:   Mon, 29 Jun 2020 13:06:01 +0530
+Message-Id: <20200629073604.205478-4-vaibhavgupta40@gmail.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200629073604.205478-1-vaibhavgupta40@gmail.com>
 References: <20200629073604.205478-1-vaibhavgupta40@gmail.com>
@@ -80,38 +80,34 @@ Compile-tested only.
 
 Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
 ---
- drivers/media/pci/cx23885/cx23885-core.c | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ drivers/media/pci/cx25821/cx25821-core.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/pci/cx23885/cx23885-core.c b/drivers/media/pci/cx23885/cx23885-core.c
-index 7e0b0b7cc2a3..da9ee7270dfd 100644
---- a/drivers/media/pci/cx23885/cx23885-core.c
-+++ b/drivers/media/pci/cx23885/cx23885-core.c
-@@ -2230,14 +2230,18 @@ static const struct pci_device_id cx23885_pci_tbl[] = {
- };
- MODULE_DEVICE_TABLE(pci, cx23885_pci_tbl);
+diff --git a/drivers/media/pci/cx25821/cx25821-core.c b/drivers/media/pci/cx25821/cx25821-core.c
+index 41be22ce66f3..59501939d741 100644
+--- a/drivers/media/pci/cx25821/cx25821-core.c
++++ b/drivers/media/pci/cx25821/cx25821-core.c
+@@ -1369,14 +1369,18 @@ static const struct pci_device_id cx25821_pci_tbl[] = {
  
-+#define cx23885_suspend NULL
-+#define cx23885_resume NULL
+ MODULE_DEVICE_TABLE(pci, cx25821_pci_tbl);
+ 
++#define cx25821_suspend NULL
++#define cx25821_resume NULL
 +
-+static SIMPLE_DEV_PM_OPS(cx23885_pm_ops, cx23885_suspend, cx23885_resume);
++static SIMPLE_DEV_PM_OPS(cx25821_pm_ops, cx25821_suspend, cx25821_resume);
 +
- static struct pci_driver cx23885_pci_driver = {
--	.name     = "cx23885",
--	.id_table = cx23885_pci_tbl,
--	.probe    = cx23885_initdev,
--	.remove   = cx23885_finidev,
-+	.name      = "cx23885",
-+	.id_table  = cx23885_pci_tbl,
-+	.probe     = cx23885_initdev,
-+	.remove    = cx23885_finidev,
+ static struct pci_driver cx25821_pci_driver = {
+ 	.name = "cx25821",
+ 	.id_table = cx25821_pci_tbl,
+ 	.probe = cx25821_initdev,
+ 	.remove = cx25821_finidev,
  	/* TODO */
--	.suspend  = NULL,
--	.resume   = NULL,
-+	.driver.pm = &cx23885_pm_ops,
+-	.suspend = NULL,
+-	.resume = NULL,
++	.driver.pm = &cx25821_pm_ops,
  };
  
- static int __init cx23885_init(void)
+ static int __init cx25821_init(void)
 -- 
 2.27.0
 
