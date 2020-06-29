@@ -2,161 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0363020E119
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 23:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F2D7920DDE5
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 23:51:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389778AbgF2UwF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jun 2020 16:52:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43382 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731372AbgF2TN1 (ORCPT
+        id S1728829AbgF2UUg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jun 2020 16:20:36 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:48759 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1732968AbgF2UUd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:13:27 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE899C0A8939;
-        Mon, 29 Jun 2020 00:37:48 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id o1so195020plk.1;
-        Mon, 29 Jun 2020 00:37:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=DRaWMxjlA+y9G9x8PTReSZmOggDcJdYbq3Dmt0Z1Wlg=;
-        b=soWLyATDxsP3lSKBdnbKGoDIiCBQaXGh9rWTzN54ndzKrsUNd0G0F2H/4XSCMotvjR
-         YSPGri8ucPhLiObQp+xsTU6lkzmVJymhJF9wc0Ue711DLzMZWvpfsVh7IQOz85b936Qn
-         Mdnl7wrMDLGJFMOOmIoqg0TXIGB74cL/i6YwdqkKPbiKx2++8a9enxWsKUq7Pxt5/yup
-         udl+xB/D51qwssbd3BQlZqN82j0YURu669zYz2nNRCWYDpEA0NbfiwL13/FaR8pL1SUv
-         Udijy41l1GPzKMzS8sM4HfGclXHANrqlirJxzN+N+piO83H3P9+vKgOLNipO85hXgl0H
-         EPgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=DRaWMxjlA+y9G9x8PTReSZmOggDcJdYbq3Dmt0Z1Wlg=;
-        b=cgs0pkVkOZZkrVjG8ywlr+IwyFb5zrha10gwz8h3Dg43SOxkoy32CpJkQ1EUXWZrFD
-         SCWeQtP32dNRAwgV68AiOSyX2H5CvgzmFM6DItqXq/rYLZla0CctQKIyPqp6Wi6hAEFI
-         2J0XO7z/D19CJ52DI1cbkCY/5DpycIIfN6gkz14EjsW0OT2/9/0xLtJXXnn0g6W48fIZ
-         PqY4m8LQOaHEWAsDEoMPqKv5iad9NNC5QSGgyZuzYoLstdVayQBU6vxNq7XwYF0JInlV
-         Mcjqil2zxKL7NqAm53QpZSgvO+vnswz+6sP5JEPXgFofErdVx2G4e1/eJola0PX3Bt4P
-         0/+g==
-X-Gm-Message-State: AOAM530lN1x4xD/kypI53Ca/scRYVqNMBlBE5Nyr1AF7XuTzadWKCdfn
-        1BKU/g9rIXRrLkZXjtlFOSQ=
-X-Google-Smtp-Source: ABdhPJz3FvoamkU1GXqNQu9Zc7XjkNo/hUIxVOEgR9mxBWcqDHqy9UnEwm4JEcoy46VmRIDPIGi8vw==
-X-Received: by 2002:a17:90a:df11:: with SMTP id gp17mr15071981pjb.188.1593416268444;
-        Mon, 29 Jun 2020 00:37:48 -0700 (PDT)
-Received: from varodek.iballbatonwifi.com ([103.105.153.57])
-        by smtp.gmail.com with ESMTPSA id q10sm34673004pfk.86.2020.06.29.00.37.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Jun 2020 00:37:48 -0700 (PDT)
-From:   Vaibhav Gupta <vaibhavgupta40@gmail.com>
-To:     Bjorn Helgaas <helgaas@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>, bjorn@helgaas.com,
-        Vaibhav Gupta <vaibhav.varodek@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Vaibhav Gupta <vaibhavgupta40@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org,
-        skhan@linuxfoundation.org
-Subject: [PATCH v1 6/6] [media] tw68: use generic power management
-Date:   Mon, 29 Jun 2020 13:06:04 +0530
-Message-Id: <20200629073604.205478-7-vaibhavgupta40@gmail.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200629073604.205478-1-vaibhavgupta40@gmail.com>
-References: <20200629073604.205478-1-vaibhavgupta40@gmail.com>
+        Mon, 29 Jun 2020 16:20:33 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id poa3jwdSRxmkVpoa6jrcJI; Mon, 29 Jun 2020 09:51:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1593417118; bh=n2F3aTBOa4joxWST/JEYSEL6V66wosTxhb8FoIF7TCs=;
+        h=From:Subject:To:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=nKoZs9OhhNOZuEkadDqVEJu3v+Eqoem/dySTjo8xGlMT5sylN+ON+EK+jzm7dxD+E
+         CS804EWYPKtsIaK0Qj1wg+QEIIApQNOBbTtAt+Ho4orzU6PK5WYRxFLVQs3GclVIMG
+         NOwgGd11ICA125+6ZvK41uqRt2UqykF4NRQKXDRNg8v3g7tNkr0vDcqVZ0aZBz45pS
+         YaIFfZi+yhSneLIpAmFUrMZN2SnXdYt2W6aMWUmyRiveZHDruAtnzPLiCwID/VKm4C
+         4xIJ5OJkzNgZ+OMWVXauPED/hTvQGzoHGFZ1tnb6dkic4MXDdn46HXqHtaKQAKPRkJ
+         ogFgd5Xjd7EcA==
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.9] Removal of soc-camera and dependent sensor
+ drivers
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Message-ID: <bf6d5d12-9460-2bcc-a0d7-5553e7e18065@xs4all.nl>
+Date:   Mon, 29 Jun 2020 09:51:55 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfIAS4QfHzy+EUFTqJFYXu3HFjKuiCPy3Ij5mzH1VQ9i3x0fAk73d9e64/nUJp4Z+0yihHddFI8ZsmCIIMDBTwn1iLVBD/1DOuKLgdLBP5GXMkgdVUrn7
+ szfV1U1E8CSXND/1iBTMuOiFCz7I/L8c1QnkIPf3xwL13Wpu79FD2jbM+izWODQCV+QnY9NbogWK2A==
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With legacy PM, drivers themselves were responsible for managing the
-device's power states and takes care of register states.
+This pull request removes drivers/staging/media/soc_camera since
+soc-camera has long been a deprecated driver depending on BROKEN. Also
+the several sensors drivers in that same directory that depended on the
+soc-camera driver (and thus on BROKEN) have been removed.
 
-After upgrading to the generic structure, PCI core will take care of
-required tasks and drivers should do only device-specific operations.
+To remove the soc_camera.h header several board files that depended on
+that had to be modified, specifically by removing the remaining camera
+support (which wasn't functioning since 4.6/4.8 anyway). At the request
+of Arnd these patches go through the media tree as well.
 
-The driver was invoking PCI helper functions like pci_save/restore_state()
-which is not recommended.
+Any remaining CONFIG_SOC_CAMERA* entries in config files were also removed.
 
-Compile-Tested only.
+The first two patches just update MODULE_DESCRIPTIONs in two camera drivers
+to avoid referring to SoC Camera since those drivers have been independent
+of the soc-camera framework for a long time now.
 
-Signed-off-by: Vaibhav Gupta <vaibhavgupta40@gmail.com>
----
- drivers/media/pci/tw68/tw68-core.c | 30 +++++++++++-------------------
- 1 file changed, 11 insertions(+), 19 deletions(-)
+Finally the last patch removes the SOC-CAMERA entry from the MAINTAINERS file.
 
-diff --git a/drivers/media/pci/tw68/tw68-core.c b/drivers/media/pci/tw68/tw68-core.c
-index b45f3ffa3de5..065420b09250 100644
---- a/drivers/media/pci/tw68/tw68-core.c
-+++ b/drivers/media/pci/tw68/tw68-core.c
-@@ -359,10 +359,9 @@ static void tw68_finidev(struct pci_dev *pci_dev)
- 	v4l2_device_unregister(&dev->v4l2_dev);
- }
- 
--#ifdef CONFIG_PM
--
--static int tw68_suspend(struct pci_dev *pci_dev , pm_message_t state)
-+static int __maybe_unused tw68_suspend(struct device *dev_d)
- {
-+	struct pci_dev *pci_dev = to_pci_dev(dev_d);
- 	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
- 	struct tw68_dev *dev = container_of(v4l2_dev,
- 				struct tw68_dev, v4l2_dev);
-@@ -373,24 +372,19 @@ static int tw68_suspend(struct pci_dev *pci_dev , pm_message_t state)
- 
- 	synchronize_irq(pci_dev->irq);
- 
--	pci_save_state(pci_dev);
--	pci_set_power_state(pci_dev, pci_choose_state(pci_dev, state));
- 	vb2_discard_done(&dev->vidq);
- 
- 	return 0;
- }
- 
--static int tw68_resume(struct pci_dev *pci_dev)
-+static int __maybe_unused tw68_resume(struct device *dev_d)
- {
--	struct v4l2_device *v4l2_dev = pci_get_drvdata(pci_dev);
-+	struct v4l2_device *v4l2_dev = dev_get_drvdata(dev_d);
- 	struct tw68_dev *dev = container_of(v4l2_dev,
- 					    struct tw68_dev, v4l2_dev);
- 	struct tw68_buf *buf;
- 	unsigned long flags;
- 
--	pci_set_power_state(pci_dev, PCI_D0);
--	pci_restore_state(pci_dev);
--
- 	/* Do things that are done in tw68_initdev ,
- 		except of initializing memory structures.*/
- 
-@@ -408,19 +402,17 @@ static int tw68_resume(struct pci_dev *pci_dev)
- 
- 	return 0;
- }
--#endif
- 
- /* ----------------------------------------------------------- */
- 
-+static SIMPLE_DEV_PM_OPS(tw68_pm_ops, tw68_suspend, tw68_resume);
-+
- static struct pci_driver tw68_pci_driver = {
--	.name	  = "tw68",
--	.id_table = tw68_pci_tbl,
--	.probe	  = tw68_initdev,
--	.remove	  = tw68_finidev,
--#ifdef CONFIG_PM
--	.suspend  = tw68_suspend,
--	.resume   = tw68_resume
--#endif
-+	.name	   = "tw68",
-+	.id_table  = tw68_pci_tbl,
-+	.probe	   = tw68_initdev,
-+	.remove	   = tw68_finidev,
-+	.driver.pm = &tw68_pm_ops,
- };
- 
- module_pci_driver(tw68_pci_driver);
--- 
-2.27.0
+Regards,
 
+	Hans
+
+The following changes since commit e30cc79cc80fd919b697a15c5000d9f57487de8e:
+
+  media: media-request: Fix crash if memory allocation fails (2020-06-23 15:19:37 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-soc-camera
+
+for you to fetch changes up to 041ddbe862acb03d6f33ff9f6bdf83d045f15b4d:
+
+  MAINTAINERS: remove SOC-CAMERA entry (2020-06-29 09:40:55 +0200)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Hans Verkuil (10):
+      ov9640: update MODULE_DESCRIPTION
+      pxa_camera: update MODULE_DESCRIPTION
+      mach-imx: mach-imx27_visstrim_m10.c: remove soc_camera dependencies
+      mach-omap1: board-ams-delta.c: remove soc_camera dependencies
+      mach-pxa: palmz72/pcm990: remove soc_camera dependencies
+      staging/media/soc_camera: remove this driver
+      soc_camera.h: remove this unused header
+      arch/arm/configs: remove obsolete CONFIG_SOC_CAMERA*
+      arch/sh/configs: remove obsolete CONFIG_SOC_CAMERA*
+      MAINTAINERS: remove SOC-CAMERA entry
+
+ MAINTAINERS                                      |    7 -
+ arch/arm/configs/ezx_defconfig                   |    2 -
+ arch/arm/configs/imote2_defconfig                |    2 -
+ arch/arm/configs/imx_v4_v5_defconfig             |    1 -
+ arch/arm/configs/imx_v6_v7_defconfig             |    1 -
+ arch/arm/configs/pxa_defconfig                   |    3 -
+ arch/arm/configs/sama5_defconfig                 |    2 -
+ arch/arm/mach-imx/mach-imx27_visstrim_m10.c      |   31 -
+ arch/arm/mach-omap1/board-ams-delta.c            |   32 -
+ arch/arm/mach-omap1/camera.h                     |   14 -
+ arch/arm/mach-omap1/devices.c                    |   43 --
+ arch/arm/mach-pxa/palmz72.c                      |  112 ---
+ arch/arm/mach-pxa/pcm990-baseboard.c             |  157 -----
+ arch/sh/configs/ap325rxa_defconfig               |    3 -
+ arch/sh/configs/ecovec24_defconfig               |    3 -
+ arch/sh/configs/migor_defconfig                  |    3 -
+ arch/sh/configs/se7724_defconfig                 |    2 -
+ drivers/media/i2c/ov9640.c                       |    2 +-
+ drivers/media/platform/pxa_camera.c              |    2 +-
+ drivers/staging/media/Kconfig                    |    2 -
+ drivers/staging/media/Makefile                   |    1 -
+ drivers/staging/media/soc_camera/Kconfig         |   51 --
+ drivers/staging/media/soc_camera/Makefile        |    7 -
+ drivers/staging/media/soc_camera/TODO            |    4 -
+ drivers/staging/media/soc_camera/imx074.c        |  492 -------------
+ drivers/staging/media/soc_camera/mt9t031.c       |  853 -----------------------
+ drivers/staging/media/soc_camera/soc-camera.rst  |  171 -----
+ drivers/staging/media/soc_camera/soc_camera.c    | 2164 ----------------------------------------------------------
+ drivers/staging/media/soc_camera/soc_mediabus.c  |  529 --------------
+ drivers/staging/media/soc_camera/soc_mt9v022.c   | 1008 ---------------------------
+ drivers/staging/media/soc_camera/soc_ov5642.c    | 1085 -----------------------------
+ drivers/staging/media/soc_camera/soc_ov9740.c    |  992 ---------------------------
+ include/linux/platform_data/media/omap1_camera.h |   32 -
+ include/media/drv-intf/soc_mediabus.h            |  107 ---
+ include/media/soc_camera.h                       |  397 -----------
+ 35 files changed, 2 insertions(+), 8315 deletions(-)
+ delete mode 100644 arch/arm/mach-omap1/camera.h
+ delete mode 100644 drivers/staging/media/soc_camera/Kconfig
+ delete mode 100644 drivers/staging/media/soc_camera/Makefile
+ delete mode 100644 drivers/staging/media/soc_camera/TODO
+ delete mode 100644 drivers/staging/media/soc_camera/imx074.c
+ delete mode 100644 drivers/staging/media/soc_camera/mt9t031.c
+ delete mode 100644 drivers/staging/media/soc_camera/soc-camera.rst
+ delete mode 100644 drivers/staging/media/soc_camera/soc_camera.c
+ delete mode 100644 drivers/staging/media/soc_camera/soc_mediabus.c
+ delete mode 100644 drivers/staging/media/soc_camera/soc_mt9v022.c
+ delete mode 100644 drivers/staging/media/soc_camera/soc_ov5642.c
+ delete mode 100644 drivers/staging/media/soc_camera/soc_ov9740.c
+ delete mode 100644 include/linux/platform_data/media/omap1_camera.h
+ delete mode 100644 include/media/drv-intf/soc_mediabus.h
+ delete mode 100644 include/media/soc_camera.h
