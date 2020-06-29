@@ -2,186 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F69520D2CA
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 21:11:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C0B920D347
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 21:12:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729432AbgF2SwA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jun 2020 14:52:00 -0400
-Received: from smtp1.de.adit-jv.com ([93.241.18.167]:55815 "EHLO
-        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729716AbgF2Sv7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jun 2020 14:51:59 -0400
-Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
-        by smtp1.de.adit-jv.com (Postfix) with ESMTP id EFC963C0588;
-        Mon, 29 Jun 2020 11:24:22 +0200 (CEST)
-Received: from smtp1.de.adit-jv.com ([127.0.0.1])
-        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 3LZ3PyHkiLPo; Mon, 29 Jun 2020 11:24:18 +0200 (CEST)
-Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 274483C0585;
-        Mon, 29 Jun 2020 11:24:18 +0200 (CEST)
-Received: from vmlxhi-110.adit-jv.com (10.72.93.196) by HI2EXCH01.adit-jv.com
- (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 29 Jun
- 2020 11:24:17 +0200
-Date:   Mon, 29 Jun 2020 11:24:13 +0200
-From:   Ramzi Ben Meftah <rbmeftah@de.adit-jv.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-CC:     Steve Longerbeam <steve_longerbeam@mentor.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Ramzi BEN MEFTAH <rbmeftah@de.adit-jv.com>,
-        niklas soderlund <niklas.soderlund@ragnatech.se>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Arnd Bergmann <arnd@arndb.de>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Michael Rodin <mrodin@de.adit-jv.com>,
-        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>
-Subject: Re: [PATCH 1/3] v4l2-subdev: Add subdev ioctl support for
- ENUM/GET/SET INPUT
-Message-ID: <20200629092413.GA84958@vmlxhi-110.adit-jv.com>
-References: <1592301619-17631-1-git-send-email-rbmeftah@de.adit-jv.com>
- <20200624075307.hl6wew7vr5ue225t@uno.localdomain>
- <20200625020138.GW5980@pendragon.ideasonboard.com>
- <c57d416d-14d4-6d5d-a281-ddbf3183395a@mentor.com>
- <20200626011251.GP5865@pendragon.ideasonboard.com>
+        id S1729875AbgF2S5k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jun 2020 14:57:40 -0400
+Received: from mga05.intel.com ([192.55.52.43]:57279 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729915AbgF2S5f (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 29 Jun 2020 14:57:35 -0400
+IronPort-SDR: 5tVecL4Z1QWn1UZVuLnHU61oLFDB612jyCF4Tt/h6Ox0TNVqmk24l5LUhOOAF9xzD/6LWZw2s5
+ e3M1Dre0b4ww==
+X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="230832154"
+X-IronPort-AV: E=Sophos;i="5.75,295,1589266800"; 
+   d="scan'208";a="230832154"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Jun 2020 09:22:06 -0700
+IronPort-SDR: v79V4/a4/CkH6BLY7gFY/8xR+zJAEIqaCGJALbdyv0BqK7P5FEJ422uDCDN8DVKY8AXaJfv+As
+ B8kpdSxz3Htg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.75,295,1589266800"; 
+   d="scan'208";a="386436468"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmsmga001.fm.intel.com with ESMTP; 29 Jun 2020 09:22:04 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id 45BB0198; Mon, 29 Jun 2020 13:57:40 +0300 (EEST)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v3 1/5] media: atomisp: Refactor PMIC detection to a separate function
+Date:   Mon, 29 Jun 2020 13:57:35 +0300
+Message-Id: <20200629105739.3098-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200626011251.GP5865@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Originating-IP: [10.72.93.196]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Refactor PMIC detection to a separate function. In the future
+we may move this code somewhere else where it's more suitable.
 
-On Fri, Jun 26, 2020 at 04:12:51AM +0300, Laurent Pinchart wrote:
-> Hi Steve,
-> 
-> On Thu, Jun 25, 2020 at 10:41:09AM -0700, Steve Longerbeam wrote:
-> > On 6/24/20 7:01 PM, Laurent Pinchart wrote:
-> > > On Wed, Jun 24, 2020 at 09:53:07AM +0200, Jacopo Mondi wrote:
-> > >> On Tue, Jun 16, 2020 at 12:00:15PM +0200, Ramzi BEN MEFTAH wrote:
-> > >>> From: Steve Longerbeam <steve_longerbeam@mentor.com>
-> > >>   +Niklas, +Laurent
-> > >>
-> > >> Niklas, Laurent, how does this play with CAP_IO_MC ?
-> > > I don't think it's related to CAP_IO_MC, but I don't think it's a good
-> > > idea either :-) Routing doesn't go through the subdev [gs]_input
-> > > operations in MC-based drivers. It should be configured through link
-> > > setup instead. This patch goes in the wrong direction, sorry Steve.
-> > 
-> > That's OK! :) I didn't submit this patch, and as stated in the commit 
-> > header, I never recommended this patch be submitted to upstream in the 
-> > first place.
-> > 
-> > Selecting inputs at a subdev should normally make use of media link 
-> > setup. But for selecting analog signal inputs, such as the ADV748x AFE 
-> > standard definition inputs, that would  mean there would need to exist 
-> > source "analog" subdevs that connect to the AFE inputs, if only for the 
-> > purpose of selecting those inputs, which seems silly IMHO. The ADV748x 
-> > AFE subdev defines these inputs as media pads, but have no connections, 
-> > so link setup API can't be used to select those inputs.
-> > 
-> > So a new subdev pad API is clearly needed, not just to get input status 
-> > at a subdev pad, but to select/make active such analog inputs without 
-> > requiring link setup API.
-> 
-> There was an attempt to create a subdev ioctl to configure internal
-> routing. See "[PATCH v4 19/31] media: Documentation: Add GS_ROUTING
-> documentation" ([1]) and the related patches in the series.
-> 
-> [1] https://lore.kernel.org/linux-media/20190328200608.9463-20-jacopo+renesas@jmondi.org/
-> 
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ .../media/atomisp/pci/atomisp_gmin_platform.c | 59 +++++++++++--------
+ 1 file changed, 36 insertions(+), 23 deletions(-)
 
-I was thinking why not just allowing linking pads of the same media entity.
-This will avoid adding a new control, and will do the same as S_INPUT ioctl.
-
-> > >>> This commit enables VIDIOC_ENUMINPUT, VIDIOC_G_INPUT, and VIDIOC_S_INPUT
-> > >>> ioctls for use via v4l2 subdevice node.
-> > >>>
-> > >>> This commit should probably not be pushed upstream, because the (old)
-> > >>> idea of video inputs conflicts with the newer concept of establishing
-> > >>> media links between src->sink pads.
-> > >>>
-> > >>> However it might make sense for some subdevices to support enum/get/set
-> > >>> inputs. One example would be the analog front end subdevice for the
-> > >>> ADV748x. By providing these ioctls, selecting the ADV748x analog inputs
-> > >>> can be done without requiring the implementation of media entities that
-> > >>> would define the analog source for which to establish a media link.
-> > >>>
-> > >>> Signed-off-by: Steve Longerbeam <steve_longerbeam@mentor.com>
-> > >>> ---
-> > >>>   drivers/media/v4l2-core/v4l2-subdev.c |  9 +++++++++
-> > >>>   include/media/v4l2-subdev.h           | 11 +++++++++++
-> > >>>   2 files changed, 20 insertions(+)
-> > >>>
-> > >>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> > >>> index 6b989fe..73fbfe9 100644
-> > >>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> > >>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> > >>> @@ -378,6 +378,15 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
-> > >>>   			return -ENOTTY;
-> > >>>   		return v4l2_querymenu(vfh->ctrl_handler, arg);
-> > >>>
-> > >>> +	case VIDIOC_ENUMINPUT:
-> > >>> +		return v4l2_subdev_call(sd, video, enuminput, arg);
-> > >>> +
-> > >>> +	case VIDIOC_G_INPUT:
-> > >>> +		return v4l2_subdev_call(sd, video, g_input, arg);
-> > >>> +
-> > >>> +	case VIDIOC_S_INPUT:
-> > >>> +		return v4l2_subdev_call(sd, video, s_input, *(u32 *)arg);
-> > >>> +
-> > >>>   	case VIDIOC_G_CTRL:
-> > >>>   		if (!vfh->ctrl_handler)
-> > >>>   			return -ENOTTY;
-> > >>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> > >>> index f7fe78a..6e1a9cd 100644
-> > >>> --- a/include/media/v4l2-subdev.h
-> > >>> +++ b/include/media/v4l2-subdev.h
-> > >>> @@ -383,6 +383,14 @@ struct v4l2_mbus_frame_desc {
-> > >>>    * @g_input_status: get input status. Same as the status field in the
-> > >>>    *	&struct &v4l2_input
-> > >>>    *
-> > >>> + * @enuminput: enumerate inputs. Should return the same input status as
-> > >>> + *      @g_input_status if the passed input index is the currently active
-> > >>> + *      input.
-> > >>> + *
-> > >>> + * @g_input: returns the currently active input index.
-> > >>> + *
-> > >>> + * @s_input: set the active input.
-> > >>> + *
-> > >>>    * @s_stream: used to notify the driver that a video stream will start or has
-> > >>>    *	stopped.
-> > >>>    *
-> > >>> @@ -423,6 +431,9 @@ struct v4l2_subdev_video_ops {
-> > >>>   	int (*g_tvnorms)(struct v4l2_subdev *sd, v4l2_std_id *std);
-> > >>>   	int (*g_tvnorms_output)(struct v4l2_subdev *sd, v4l2_std_id *std);
-> > >>>   	int (*g_input_status)(struct v4l2_subdev *sd, u32 *status);
-> > >>> +	int (*enuminput)(struct v4l2_subdev *sd, struct v4l2_input *input);
-> > >>> +	int (*g_input)(struct v4l2_subdev *sd, u32 *index);
-> > >>> +	int (*s_input)(struct v4l2_subdev *sd, u32 index);
-> > >>>   	int (*s_stream)(struct v4l2_subdev *sd, int enable);
-> > >>>   	int (*g_pixelaspect)(struct v4l2_subdev *sd, struct v4l2_fract *aspect);
-> > >>>   	int (*g_frame_interval)(struct v4l2_subdev *sd,
-> > 
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index 3856e164e478..7f846a61858d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -478,7 +478,38 @@ static int atomisp_get_acpi_power(struct device *dev, acpi_handle handle)
+ 	return clock_num;
+ }
+ 
+-static struct i2c_client *power;
++static u8 gmin_get_pmic_id_and_addr(struct device *dev)
++{
++	struct i2c_client *power;
++	static u8 pmic_i2c_addr;
++
++	if (pmic_id)
++		return pmic_i2c_addr;
++
++	if (gmin_i2c_dev_exists(dev, PMIC_ACPI_TI, &power))
++		pmic_id = PMIC_TI;
++	else if (gmin_i2c_dev_exists(dev, PMIC_ACPI_AXP, &power))
++		pmic_id = PMIC_AXP;
++	else if (gmin_i2c_dev_exists(dev, PMIC_ACPI_CRYSTALCOVE, &power))
++		pmic_id = PMIC_CRYSTALCOVE;
++	else
++		pmic_id = PMIC_REGULATOR;
++
++	pmic_i2c_addr = power ? power->addr : 0;
++	return pmic_i2c_addr;
++}
++
++static int gmin_detect_pmic(struct v4l2_subdev *subdev)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(subdev);
++	struct device *dev = &client->dev;
++	u8 pmic_i2c_addr;
++
++	pmic_i2c_addr = gmin_get_pmic_id_and_addr(dev);
++	dev_info(dev, "gmin: power management provided via %s (i2c addr 0x%02x)\n",
++		 pmic_name[pmic_id], pmic_i2c_addr);
++	return pmic_i2c_addr;
++}
+ 
+ static struct gmin_subdev *gmin_subdev_add(struct v4l2_subdev *subdev)
+ {
+@@ -593,27 +624,6 @@ static struct gmin_subdev *gmin_subdev_add(struct v4l2_subdev *subdev)
+ 	 * in order to set clocks and do power management.
+ 	 */
+ 
+-	if (!pmic_id) {
+-		if (gmin_i2c_dev_exists(dev, PMIC_ACPI_TI, &power))
+-			pmic_id = PMIC_TI;
+-		else if (gmin_i2c_dev_exists(dev, PMIC_ACPI_AXP, &power))
+-			pmic_id = PMIC_AXP;
+-		else if (gmin_i2c_dev_exists(dev, PMIC_ACPI_CRYSTALCOVE, &power))
+-			pmic_id = PMIC_CRYSTALCOVE;
+-		else
+-			pmic_id = PMIC_REGULATOR;
+-	}
+-
+-	if (power) {
+-		gs->pwm_i2c_addr = power->addr;
+-		dev_info(dev,
+-			 "gmin: power management provided via %s (i2c addr 0x%02x)\n",
+-			 pmic_name[pmic_id], power->addr);
+-	} else {
+-		dev_info(dev, "gmin: power management provided via %s\n",
+-			 pmic_name[pmic_id]);
+-	}
+-
+ 	/*
+ 	 * According with :
+ 	 *   https://github.com/projectceladon/hardware-intel-kernelflinger/blob/master/doc/fastboot.md
+@@ -1066,10 +1076,13 @@ struct camera_sensor_platform_data *gmin_camera_platform_data(
+     enum atomisp_input_format csi_format,
+     enum atomisp_bayer_order csi_bayer)
+ {
+-	struct gmin_subdev *gs = gmin_subdev_add(subdev);
++	struct gmin_subdev *gs;
++	u8 pmic_i2c_addr = gmin_detect_pmic(subdev);
+ 
++	gs = gmin_subdev_add(subdev);
+ 	gs->csi_fmt = csi_format;
+ 	gs->csi_bayer = csi_bayer;
++	gs->pwm_i2c_addr = pmic_i2c_addr;
+ 
+ 	if (gs->pmc_clk)
+ 		return &pmic_gmin_plat;
 -- 
-Best Regards,
-Ramzi Ben Meftah.
+2.27.0
+
