@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8ED9320D6B5
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 22:06:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 648A020D73F
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 22:07:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730416AbgF2TXO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jun 2020 15:23:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45112 "EHLO
+        id S1732401AbgF2T2O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jun 2020 15:28:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45976 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732297AbgF2TWp (ORCPT
+        with ESMTP id S1732761AbgF2T1t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:22:45 -0400
+        Mon, 29 Jun 2020 15:27:49 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0301C030F35
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2020 09:54:48 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B32D0C031401
+        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2020 10:01:18 -0700 (PDT)
 Received: from [IPv6:2003:cb:8737:cf00:84c7:ee07:61e9:a21f] (p200300cb8737cf0084c7ee0761e9a21f.dip0.t-ipconnect.de [IPv6:2003:cb:8737:cf00:84c7:ee07:61e9:a21f])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 834CF260CC6;
-        Mon, 29 Jun 2020 17:54:46 +0100 (BST)
-Subject: Re: [libcamera-devel] [PATCH 19/25] media: ov5647: Implement set_fmt
- pad operation
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id DBF872A058A;
+        Mon, 29 Jun 2020 18:01:16 +0100 (BST)
+Subject: Re: [libcamera-devel] [PATCH 22/25] media: ov5647: Support
+ V4L2_CID_PIXEL_RATE
 To:     Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
         sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
         laurent.pinchart@ideasonboard.com,
@@ -32,16 +32,16 @@ Cc:     andrew_gabbasov@mentor.com, mrodin@de.adit-jv.com,
         mripard@kernel.org, libcamera-devel@lists.libcamera.org,
         sudipi@jp.adit-jv.com, hugues.fruchet@st.com,
         erosca@de.adit-jv.com, aford173@gmail.com,
-        linux-media@vger.kernel.org
+        linux-media@vger.kernel.org, Dafna Hirschfeld <dafna3@gmail.com>
 References: <20200623100815.10674-1-jacopo@jmondi.org>
- <20200623164911.45147-4-jacopo@jmondi.org>
+ <20200623165550.45835-3-jacopo@jmondi.org>
 From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <8f9e76ed-8c78-f6ae-c0c9-fc6d0927325b@collabora.com>
-Date:   Mon, 29 Jun 2020 18:54:43 +0200
+Message-ID: <3aab9b3d-0156-e83c-9a63-026ded395af6@collabora.com>
+Date:   Mon, 29 Jun 2020 19:01:14 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200623164911.45147-4-jacopo@jmondi.org>
+In-Reply-To: <20200623165550.45835-3-jacopo@jmondi.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -52,110 +52,150 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 
-On 23.06.20 18:49, Jacopo Mondi wrote:
-> Now that the driver supports more than a single mode, implement the
-> .set_fmt pad operation and adjust the existing .get_fmt one to report
-> the currently applied format.
+On 23.06.20 18:55, Jacopo Mondi wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > 
+> Clients need to know the pixel rate in order to compute exposure
+> and frame rate values. Advertise it.
+> 
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
->   drivers/media/i2c/ov5647.c | 67 +++++++++++++++++++++++++++++++++++---
->   1 file changed, 62 insertions(+), 5 deletions(-)
+>   drivers/media/i2c/ov5647.c | 40 +++++++++++++++++++++++++++++++-------
+>   1 file changed, 33 insertions(+), 7 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index af9e6d43967d8..39e320f321bd8 100644
+> index 35865e56de5f9..218576a05e66b 100644
 > --- a/drivers/media/i2c/ov5647.c
 > +++ b/drivers/media/i2c/ov5647.c
-> @@ -1016,15 +1016,72 @@ static int ov5647_enum_frame_size(struct v4l2_subdev *sd,
->   	return 0;
->   }
->   
-> -static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
-> +static int ov5647_get_pad_fmt(struct v4l2_subdev *sd,
->   			      struct v4l2_subdev_pad_config *cfg,
->   			      struct v4l2_subdev_format *format)
->   {
->   	struct v4l2_mbus_framefmt *fmt = &format->format;
-> +	struct v4l2_mbus_framefmt *sensor_format;
-> +	struct ov5647 *sensor = to_sensor(sd);
->   
-> -	/* Only one format is supported, so return that. */
-> +	mutex_lock(&sensor->lock);
->   	memset(fmt, 0, sizeof(*fmt));
-> -	*fmt = OV5647_DEFAULT_FORMAT;
-> +
-> +	switch (format->which) {
-> +	case V4L2_SUBDEV_FORMAT_TRY:
-> +		sensor_format = v4l2_subdev_get_try_format(sd, cfg, format->pad);
-> +		break;
-> +	default:
-> +		sensor_format = &sensor->mode->format;
-> +		break;
-> +	}
-> +
-> +	*fmt = *sensor_format;
-> +	mutex_unlock(&sensor->lock);
-> +
-> +	return 0;
-> +}
-> +
-> +static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
-> +			      struct v4l2_subdev_pad_config *cfg,
-> +			      struct v4l2_subdev_format *format)
-> +{
-> +	struct v4l2_mbus_framefmt *fmt = &format->format;
-> +	struct ov5647 *sensor = to_sensor(sd);
-> +	struct ov5647_mode *ov5647_mode_list;
-> +	struct ov5647_mode *mode;
-> +	unsigned int num_modes;
-> +
-> +	/*
-> +	 * Default mbus code MEDIA_BUS_FMT_SBGGR10_1X10 if the requested one
-> +	 * is not supported.
-
-In previous patch you added macros OV5647_DEFAULT_MODE, OV5647_DEFAULT_FORMAT
-which comes from first format in the array 'ov5647_formats' which is MEDIA_BUS_FMT_SBGGR8_1X8.
-But here you set the default format to MEDIA_BUS_FMT_SBGGR10_1X10
-
-> +	 */
-> +	if (fmt->code == MEDIA_BUS_FMT_SBGGR8_1X8) {
-> +		ov5647_mode_list = ov5647_sbggr8_modes;
-> +		num_modes = ARRAY_SIZE(ov5647_sbggr8_modes);
-> +	} else {
-> +		ov5647_mode_list = ov5647_sbggr10_modes;
-> +		num_modes = ARRAY_SIZE(ov5647_sbggr10_modes);
-> +	}
-> +
-> +	mode = v4l2_find_nearest_size(ov5647_mode_list, num_modes,
-> +				      format.width, format.height,
-> +				      fmt->width, fmt->height);
-> +
-> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
-> +		mutex_lock(&sensor->lock);
-> +		*v4l2_subdev_get_try_format(sd, cfg, format->pad) = mode->format;
-> +		*fmt = mode->format;
-> +		mutex_unlock(&sensor->lock);
-> +
-> +		return 0;
-> +	}
-> +
-> +	/* Update the sensor mode and apply at it at streamon time. */
-> +	mutex_lock(&sensor->lock);
-> +	sensor->mode = mode;
-> +	*fmt = mode->format;
-> +	mutex_unlock(&sensor->lock);
->   
->   	return 0;
->   }
-> @@ -1068,8 +1125,8 @@ static int ov5647_get_selection(struct v4l2_subdev *sd,
->   static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
->   	.enum_mbus_code		= ov5647_enum_mbus_code,
->   	.enum_frame_size	= ov5647_enum_frame_size,
-> -	.set_fmt		= ov5647_set_get_fmt,
-> -	.get_fmt		= ov5647_set_get_fmt,
-> +	.set_fmt		= ov5647_set_pad_fmt,
-> +	.get_fmt		= ov5647_get_pad_fmt,
->   	.get_selection		= ov5647_get_selection,
+> @@ -76,6 +76,7 @@ struct regval_list {
+>   struct ov5647_mode {
+>   	struct v4l2_mbus_framefmt	format;
+>   	struct v4l2_rect		crop;
+> +	u64				pixel_rate;
+>   	struct regval_list		*reg_list;
+>   	unsigned int			num_regs;
+>   };
+> @@ -97,6 +98,7 @@ struct ov5647 {
+>   	struct v4l2_ctrl_handler	ctrls;
+>   	struct ov5647_mode		*mode;
+>   	struct ov5647_mode		*current_mode;
+> +	struct v4l2_ctrl		*pixel_rate;
 >   };
 >   
+>   static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
+> @@ -583,6 +585,7 @@ static struct ov5647_mode ov5647_sbggr8_modes[] = {
+>   			.width		= 1280,
+>   			.height		= 960,
+>   		},
+> +		.pixel_rate	= 77291670,
+>   		.reg_list	= ov5647_640x480_sbggr8,
+>   		.num_regs	= ARRAY_SIZE(ov5647_640x480_sbggr8)
+>   	},
+> @@ -604,6 +607,7 @@ static struct ov5647_mode ov5647_sbggr10_modes[] = {
+>   			.width		= 2592,
+>   			.height		= 1944
+>   		},
+> +		.pixel_rate	= 87500000,
+>   		.reg_list	= ov5647_2592x1944_sbggr10,
+>   		.num_regs	= ARRAY_SIZE(ov5647_2592x1944_sbggr10)
+>   	},
+> @@ -622,6 +626,7 @@ static struct ov5647_mode ov5647_sbggr10_modes[] = {
+>   			.width		= 1928,
+>   			.height		= 1080,
+>   		},
+> +		.pixel_rate	= 81666700,
+>   		.reg_list	= ov5647_1080p30_sbggr10,
+>   		.num_regs	= ARRAY_SIZE(ov5647_1080p30_sbggr10)
+>   	},
+> @@ -640,6 +645,7 @@ static struct ov5647_mode ov5647_sbggr10_modes[] = {
+>   			.width		= 2592,
+>   			.height		= 1944,
+>   		},
+> +		.pixel_rate	= 81666700,
+>   		.reg_list	= ov5647_2x2binned_sbggr10,
+>   		.num_regs	= ARRAY_SIZE(ov5647_2x2binned_sbggr10)
+>   	},
+> @@ -658,6 +664,7 @@ static struct ov5647_mode ov5647_sbggr10_modes[] = {
+>   			.width		= 2560,
+>   			.height		= 1920,
+>   		},
+> +		.pixel_rate	= 55000000,
+>   		.reg_list	= ov5647_640x480_sbggr10,
+>   		.num_regs	= ARRAY_SIZE(ov5647_640x480_sbggr10)
+>   	},
+> @@ -1094,6 +1101,10 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
+>   	/* Update the sensor mode and apply at it at streamon time. */
+>   	mutex_lock(&sensor->lock);
+>   	sensor->mode = mode;
+> +
+> +	__v4l2_ctrl_modify_range(sensor->pixel_rate, mode->pixel_rate,
+> +				 mode->pixel_rate, 1, mode->pixel_rate);
+> +
+>   	*fmt = mode->format;
+>   	mutex_unlock(&sensor->lock);
+>   
+> @@ -1295,6 +1306,9 @@ static int ov5647_s_ctrl(struct v4l2_ctrl *ctrl)
+>   		return  ov5647_s_analogue_gain(sd, ctrl->val);
+>   	case V4L2_CID_EXPOSURE:
+>   		return ov5647_s_exposure(sd, ctrl->val);
+> +	case V4L2_CID_PIXEL_RATE:
+> +		/* Read-only, but we adjust it based on mode. */
+
+Looking at other drivers, I see they don't handle read only controls
+in s_ctrl cb. Also the docs (vidioc-queryctrl.rst) says that trying to set a read only control should
+return EINVAL
+
+Thanks,
+Dafna
+
+> +		return 0;
+>   	default:
+>   		dev_info(&client->dev,
+>   			 "Control (id:0x%x, val:0x%x) not supported\n",
+> @@ -1313,7 +1327,7 @@ static int ov5647_init_controls(struct ov5647 *sensor)
+>   {
+>   	struct i2c_client *client = v4l2_get_subdevdata(&sensor->sd);
+>   
+> -	v4l2_ctrl_handler_init(&sensor->ctrls, 5);
+> +	v4l2_ctrl_handler_init(&sensor->ctrls, 6);
+>   
+>   	v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
+>   			  V4L2_CID_AUTOGAIN, 0, 1, 1, 0);
+> @@ -1333,17 +1347,29 @@ static int ov5647_init_controls(struct ov5647 *sensor)
+>   	v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
+>   			  V4L2_CID_ANALOGUE_GAIN, 16, 1023, 1, 32);
+>   
+> -	if (sensor->ctrls.error) {
+> -		dev_err(&client->dev, "%s Controls initialization failed (%d)\n",
+> -			__func__, sensor->ctrls.error);
+> -		v4l2_ctrl_handler_free(&sensor->ctrls);
+> +	/* By default, PIXEL_RATE is read only, but it does change per mode */
+> +	sensor->pixel_rate = v4l2_ctrl_new_std(&sensor->ctrls, &ov5647_ctrl_ops,
+> +					       V4L2_CID_PIXEL_RATE,
+> +					       sensor->mode->pixel_rate,
+> +					       sensor->mode->pixel_rate, 1,
+> +					       sensor->mode->pixel_rate);
+> +	if (!sensor->pixel_rate)
+> +		goto handler_free;
+> +	sensor->pixel_rate->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>   
+> -		return sensor->ctrls.error;
+> -	}
+> +	if (sensor->ctrls.error)
+> +		goto handler_free;
+>   
+>   	sensor->sd.ctrl_handler = &sensor->ctrls;
+>   
+>   	return 0;
+> +
+> +handler_free:
+> +	dev_err(&client->dev, "%s Controls initialization failed (%d)\n",
+> +		__func__, sensor->ctrls.error);
+> +	v4l2_ctrl_handler_free(&sensor->ctrls);
+> +
+> +	return sensor->ctrls.error;
+>   }
+>   
+>   static int ov5647_parse_dt(struct ov5647 *sensor, struct device_node *np)
 > 
