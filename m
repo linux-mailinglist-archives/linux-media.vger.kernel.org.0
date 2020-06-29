@@ -2,118 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6717120D1DE
-	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 20:50:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F69520D2CA
+	for <lists+linux-media@lfdr.de>; Mon, 29 Jun 2020 21:11:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729040AbgF2So2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jun 2020 14:44:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38674 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728060AbgF2SoZ (ORCPT
+        id S1729432AbgF2SwA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jun 2020 14:52:00 -0400
+Received: from smtp1.de.adit-jv.com ([93.241.18.167]:55815 "EHLO
+        smtp1.de.adit-jv.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729716AbgF2Sv7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jun 2020 14:44:25 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B043FC031C40
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2020 11:44:24 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id z13so17607373wrw.5
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2020 11:44:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=/AQ+ndF/nBnEnPlnNgnpg4KNyiyQQKJje/zoTKNBiuc=;
-        b=KAo2ucLDX7jr8UkDJohj0YyCzNyfI1iCi/MK55mlgVPyboFGLZPtD13iAnFWKyJkih
-         /xLbN5X0LL2ekSCtGuF+079A7dmCkpvwhOpx4CEfLZqYA1Mcixp/fCJvIn8zVf0Uu93t
-         qxej6yqBGPxlKVo7X2h/HjrFqHU6RiiIEotFqBwzeyrtdHljwBlvE1BAEL6XlBNqZT73
-         qS2YHvw0L2vAUEANru6PpyS/YgTmjIA+QeJQ8rXmSi3VpNx1B4DONeT3qa994iXqlkxw
-         gzyVbgUGTO+aF0RfSYDYXqwvYmsotH6ylpP+HA9QqjlvMN8QN2D27VEMaSALODZ70sPH
-         6B/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/AQ+ndF/nBnEnPlnNgnpg4KNyiyQQKJje/zoTKNBiuc=;
-        b=EwK09N18MBH97yH5o4v1xKV271qDYMYhALZ4fLm2i5uVi8CcW6NNODqxhxXeCwuAW3
-         hdmRn+KogGOV3UkoPj07TakimNDrWvkUBfMVcstGLOzFNsBzshRxKNiXoreyJJbOqDcq
-         Vb7e2d04AaoLEjJpaz7uc+sgKZLMqlseLX457SWwu8/EBqym1uL4HpCfWRse09k2fnl/
-         qn4EyHlXhuCwGys8K3FtsPRrze1mEAp5HpIygLxx9DdmUSM1O2IM11MJqjigTPo25nJp
-         7s2vUOWx6SzrPl5MHvVJvwdZPrN3pXtfybXUOsEY0cspEhKP+hCQB1B9SLWi2U81vrk6
-         wKzg==
-X-Gm-Message-State: AOAM5306E0mLZcxleDABqthNoFSLZ4O2SiOBLlbCweUNYjGBPKBAK30Y
-        B/lDDjM6Fn0bDxvZdTe7JAo=
-X-Google-Smtp-Source: ABdhPJwUhxylAxf3q3l0uHAAJI+5N5gK1xmeudzZjO2DYSJTR8sEj/ENdXAwhV032Wj5t8u3JgBhmg==
-X-Received: by 2002:adf:f3cd:: with SMTP id g13mr17465464wrp.45.1593456263452;
-        Mon, 29 Jun 2020 11:44:23 -0700 (PDT)
-Received: from ?IPv6:2a02:810a:8300:1c48:5b0:bdfc:fdc6:4650? ([2a02:810a:8300:1c48:5b0:bdfc:fdc6:4650])
-        by smtp.gmail.com with ESMTPSA id q1sm672295wro.82.2020.06.29.11.44.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Jun 2020 11:44:22 -0700 (PDT)
-Subject: Re: [PATCH v1 1/1] Add support for meson building
-To:     Ariel D'Alessandro <ariel@vanguardiasur.com.ar>,
-        Xavier Claessens <xavier.claessens@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
-        hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
-        nicolas@ndufresne.ca,
-        nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20200618133303.28676-1-ariel@vanguardiasur.com.ar>
- <20200618133303.28676-2-ariel@vanguardiasur.com.ar>
- <d09caaf6-402f-ba57-825c-410ce39a5e2b@ideasonboard.com>
- <f2bf8846e265024c20a77fa618d54455b3b7ca95.camel@collabora.com>
- <20200619144229.GD5823@pendragon.ideasonboard.com>
- <adbb92de81105575d661f348a9804279a2844d64.camel@collabora.com>
- <93bf1b72-0108-1dfa-22b4-f2194660129c@googlemail.com>
- <0d3450f0-8883-e094-3c1b-d8f93c2e4833@googlemail.com>
- <1586973f-5f69-fed0-4ad8-266cdd8e818b@vanguardiasur.com.ar>
- <4d8eecf2-3ce5-927b-bb3d-d950d123f0e0@googlemail.com>
- <c8d8a2fe-6abb-796d-803c-672106bc9587@vanguardiasur.com.ar>
-From:   Gregor Jasny <gjasny@googlemail.com>
-Message-ID: <1497236f-6b21-922d-efe1-a0d4a44fc6f5@googlemail.com>
-Date:   Mon, 29 Jun 2020 20:44:20 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.9.0
+        Mon, 29 Jun 2020 14:51:59 -0400
+Received: from localhost (smtp1.de.adit-jv.com [127.0.0.1])
+        by smtp1.de.adit-jv.com (Postfix) with ESMTP id EFC963C0588;
+        Mon, 29 Jun 2020 11:24:22 +0200 (CEST)
+Received: from smtp1.de.adit-jv.com ([127.0.0.1])
+        by localhost (smtp1.de.adit-jv.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id 3LZ3PyHkiLPo; Mon, 29 Jun 2020 11:24:18 +0200 (CEST)
+Received: from HI2EXCH01.adit-jv.com (hi2exch01.adit-jv.com [10.72.92.24])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by smtp1.de.adit-jv.com (Postfix) with ESMTPS id 274483C0585;
+        Mon, 29 Jun 2020 11:24:18 +0200 (CEST)
+Received: from vmlxhi-110.adit-jv.com (10.72.93.196) by HI2EXCH01.adit-jv.com
+ (10.72.92.24) with Microsoft SMTP Server (TLS) id 14.3.487.0; Mon, 29 Jun
+ 2020 11:24:17 +0200
+Date:   Mon, 29 Jun 2020 11:24:13 +0200
+From:   Ramzi Ben Meftah <rbmeftah@de.adit-jv.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     Steve Longerbeam <steve_longerbeam@mentor.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Ramzi BEN MEFTAH <rbmeftah@de.adit-jv.com>,
+        niklas soderlund <niklas.soderlund@ragnatech.se>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Janusz Krzysztofik <jmkrzyszt@gmail.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Arnd Bergmann <arnd@arndb.de>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Michael Rodin <mrodin@de.adit-jv.com>,
+        <efriedrich@de.adit-jv.com>, <erosca@de.adit-jv.com>
+Subject: Re: [PATCH 1/3] v4l2-subdev: Add subdev ioctl support for
+ ENUM/GET/SET INPUT
+Message-ID: <20200629092413.GA84958@vmlxhi-110.adit-jv.com>
+References: <1592301619-17631-1-git-send-email-rbmeftah@de.adit-jv.com>
+ <20200624075307.hl6wew7vr5ue225t@uno.localdomain>
+ <20200625020138.GW5980@pendragon.ideasonboard.com>
+ <c57d416d-14d4-6d5d-a281-ddbf3183395a@mentor.com>
+ <20200626011251.GP5865@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <c8d8a2fe-6abb-796d-803c-672106bc9587@vanguardiasur.com.ar>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200626011251.GP5865@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Originating-IP: [10.72.93.196]
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Laurent,
 
-
-On 6/25/20 8:32 PM, Ariel D'Alessandro wrote:
-> Hey Gregor,
+On Fri, Jun 26, 2020 at 04:12:51AM +0300, Laurent Pinchart wrote:
+> Hi Steve,
 > 
-> On 6/24/20 4:46 PM, Gregor Jasny wrote:
->> Hello,
->>
->> thanks for your helpful suggestions. I made a PR from those: Feel free to squash
->> it into yours:
->> https://gitlab.com/adalessandro/v4l-utils/-/merge_requests/1
->>
->> When looking at your quoted code with the fixes I'm wondering if you forgot to
->> push your branch?
+> On Thu, Jun 25, 2020 at 10:41:09AM -0700, Steve Longerbeam wrote:
+> > On 6/24/20 7:01 PM, Laurent Pinchart wrote:
+> > > On Wed, Jun 24, 2020 at 09:53:07AM +0200, Jacopo Mondi wrote:
+> > >> On Tue, Jun 16, 2020 at 12:00:15PM +0200, Ramzi BEN MEFTAH wrote:
+> > >>> From: Steve Longerbeam <steve_longerbeam@mentor.com>
+> > >>   +Niklas, +Laurent
+> > >>
+> > >> Niklas, Laurent, how does this play with CAP_IO_MC ?
+> > > I don't think it's related to CAP_IO_MC, but I don't think it's a good
+> > > idea either :-) Routing doesn't go through the subdev [gs]_input
+> > > operations in MC-based drivers. It should be configured through link
+> > > setup instead. This patch goes in the wrong direction, sorry Steve.
+> > 
+> > That's OK! :) I didn't submit this patch, and as stated in the commit 
+> > header, I never recommended this patch be submitted to upstream in the 
+> > first place.
+> > 
+> > Selecting inputs at a subdev should normally make use of media link 
+> > setup. But for selecting analog signal inputs, such as the ADV748x AFE 
+> > standard definition inputs, that would  mean there would need to exist 
+> > source "analog" subdevs that connect to the AFE inputs, if only for the 
+> > purpose of selecting those inputs, which seems silly IMHO. The ADV748x 
+> > AFE subdev defines these inputs as media pads, but have no connections, 
+> > so link setup API can't be used to select those inputs.
+> > 
+> > So a new subdev pad API is clearly needed, not just to get input status 
+> > at a subdev pad, but to select/make active such analog inputs without 
+> > requiring link setup API.
 > 
-> Merged and pushed, thanks.
+> There was an attempt to create a subdev ioctl to configure internal
+> routing. See "[PATCH v4 19/31] media: Documentation: Add GS_ROUTING
+> documentation" ([1]) and the related patches in the series.
+> 
+> [1] https://lore.kernel.org/linux-media/20190328200608.9463-20-jacopo+renesas@jmondi.org/
+> 
 
- From a Debian packager perspective the current branch looks really 
-good. Only lintian found a small typo:
+I was thinking why not just allowing linking pads of the same media entity.
+This will avoid adding a new control, and will do the same as S_INPUT ioctl.
 
-I: qv4l2: image-file-has-conflicting-name 
-usr/share/icons/hicolor/scalable/apps/qv4l2.svg (is PNG)
+> > >>> This commit enables VIDIOC_ENUMINPUT, VIDIOC_G_INPUT, and VIDIOC_S_INPUT
+> > >>> ioctls for use via v4l2 subdevice node.
+> > >>>
+> > >>> This commit should probably not be pushed upstream, because the (old)
+> > >>> idea of video inputs conflicts with the newer concept of establishing
+> > >>> media links between src->sink pads.
+> > >>>
+> > >>> However it might make sense for some subdevices to support enum/get/set
+> > >>> inputs. One example would be the analog front end subdevice for the
+> > >>> ADV748x. By providing these ioctls, selecting the ADV748x analog inputs
+> > >>> can be done without requiring the implementation of media entities that
+> > >>> would define the analog source for which to establish a media link.
+> > >>>
+> > >>> Signed-off-by: Steve Longerbeam <steve_longerbeam@mentor.com>
+> > >>> ---
+> > >>>   drivers/media/v4l2-core/v4l2-subdev.c |  9 +++++++++
+> > >>>   include/media/v4l2-subdev.h           | 11 +++++++++++
+> > >>>   2 files changed, 20 insertions(+)
+> > >>>
+> > >>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > >>> index 6b989fe..73fbfe9 100644
+> > >>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > >>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > >>> @@ -378,6 +378,15 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg)
+> > >>>   			return -ENOTTY;
+> > >>>   		return v4l2_querymenu(vfh->ctrl_handler, arg);
+> > >>>
+> > >>> +	case VIDIOC_ENUMINPUT:
+> > >>> +		return v4l2_subdev_call(sd, video, enuminput, arg);
+> > >>> +
+> > >>> +	case VIDIOC_G_INPUT:
+> > >>> +		return v4l2_subdev_call(sd, video, g_input, arg);
+> > >>> +
+> > >>> +	case VIDIOC_S_INPUT:
+> > >>> +		return v4l2_subdev_call(sd, video, s_input, *(u32 *)arg);
+> > >>> +
+> > >>>   	case VIDIOC_G_CTRL:
+> > >>>   		if (!vfh->ctrl_handler)
+> > >>>   			return -ENOTTY;
+> > >>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > >>> index f7fe78a..6e1a9cd 100644
+> > >>> --- a/include/media/v4l2-subdev.h
+> > >>> +++ b/include/media/v4l2-subdev.h
+> > >>> @@ -383,6 +383,14 @@ struct v4l2_mbus_frame_desc {
+> > >>>    * @g_input_status: get input status. Same as the status field in the
+> > >>>    *	&struct &v4l2_input
+> > >>>    *
+> > >>> + * @enuminput: enumerate inputs. Should return the same input status as
+> > >>> + *      @g_input_status if the passed input index is the currently active
+> > >>> + *      input.
+> > >>> + *
+> > >>> + * @g_input: returns the currently active input index.
+> > >>> + *
+> > >>> + * @s_input: set the active input.
+> > >>> + *
+> > >>>    * @s_stream: used to notify the driver that a video stream will start or has
+> > >>>    *	stopped.
+> > >>>    *
+> > >>> @@ -423,6 +431,9 @@ struct v4l2_subdev_video_ops {
+> > >>>   	int (*g_tvnorms)(struct v4l2_subdev *sd, v4l2_std_id *std);
+> > >>>   	int (*g_tvnorms_output)(struct v4l2_subdev *sd, v4l2_std_id *std);
+> > >>>   	int (*g_input_status)(struct v4l2_subdev *sd, u32 *status);
+> > >>> +	int (*enuminput)(struct v4l2_subdev *sd, struct v4l2_input *input);
+> > >>> +	int (*g_input)(struct v4l2_subdev *sd, u32 *index);
+> > >>> +	int (*s_input)(struct v4l2_subdev *sd, u32 index);
+> > >>>   	int (*s_stream)(struct v4l2_subdev *sd, int enable);
+> > >>>   	int (*g_pixelaspect)(struct v4l2_subdev *sd, struct v4l2_fract *aspect);
+> > >>>   	int (*g_frame_interval)(struct v4l2_subdev *sd,
+> > 
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
-
-I guess it's due to that:
-
-qv4l2_icons_files = [
-...
-     ['qv4l2.png',       'scalable', 'qv4l2.svg'],
-]
-
-Thanks,
-Gregor
+-- 
+Best Regards,
+Ramzi Ben Meftah.
