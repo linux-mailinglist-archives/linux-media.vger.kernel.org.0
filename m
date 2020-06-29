@@ -2,44 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2B3720E3C7
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 00:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6B1A20E37F
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 00:03:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730137AbgF2VSL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jun 2020 17:18:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40044 "EHLO
+        id S2388292AbgF2VOx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 29 Jun 2020 17:14:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729794AbgF2Swu (ORCPT
+        with ESMTP id S1730064AbgF2S46 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jun 2020 14:52:50 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4595EC031C4F
-        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2020 10:33:54 -0700 (PDT)
-Received: from [IPv6:2003:cb:8737:cf00:84c7:ee07:61e9:a21f] (p200300cb8737cf0084c7ee0761e9a21f.dip0.t-ipconnect.de [IPv6:2003:cb:8737:cf00:84c7:ee07:61e9:a21f])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 3ABD32A0C4E;
-        Mon, 29 Jun 2020 18:33:52 +0100 (BST)
-Subject: Re: [PATCH 00/25] media: ov5647: Support RaspberryPi Camera Module v1
-To:     Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com,
-        roman.kovalivskyi@globallogic.com, dave.stevenson@raspberrypi.org,
-        naush@raspberrypi.com
-Cc:     mrodin@de.adit-jv.com, hugues.fruchet@st.com, mripard@kernel.org,
-        aford173@gmail.com, sudipi@jp.adit-jv.com,
-        andrew_gabbasov@mentor.com, erosca@de.adit-jv.com,
-        linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org,
-        dafna Hirschfeld <dafna3@gmail.com>
-References: <20200623100815.10674-1-jacopo@jmondi.org>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <0cafeeb9-54bd-1a1b-3301-47b5b8542ae8@collabora.com>
-Date:   Mon, 29 Jun 2020 19:33:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        Mon, 29 Jun 2020 14:56:58 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ADC3C031C40
+        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2020 11:56:58 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id k6so17649974wrn.3
+        for <linux-media@vger.kernel.org>; Mon, 29 Jun 2020 11:56:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=googlemail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=aE6glH+4X89B3Na7O5c4At6agyTxEhZFF46sT8MNUVo=;
+        b=KqvcsZLtJ3O0EeSVAwpnO6v8KaYBDPHRh4Ap7uL180pBuJogexlbvPXWS/tyeUUcxN
+         KOOUWAgvFOH17uM7Vnk41mbUYSyafRd0f6s+4PGni5Z+Y0vdvE08yCdzDVwOLNTQpaaQ
+         dxQ4/Li1uVqy+f52Q/aVPPWr5y5SlPdG+wVxFxAuypYHJgXGHGz2rGs3zGSDfFrbM/BD
+         kiugOgT5n/OSdWcIu7ZztpECDAcVKKVDYjgOPz7meCL2WMIVM1SDPFQbcHM9A4KlsxZS
+         Z6wwM7fVCp5BfV6I4ei3cMITZdWBuM0RT/rNxGWrySwA9mpSn4wfIqlZZBXru+Q4PHbw
+         Y6cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=aE6glH+4X89B3Na7O5c4At6agyTxEhZFF46sT8MNUVo=;
+        b=gEe3D+k9r72l2CMCGR8uJ0zG1CBHYYMZhiP8njn2c4PrEkdBJWf6P0tyQvO9m1pQX6
+         Hf7y3yVCEPd+oOhVBtsEmF0+WJCkyegAz19tGXn6PoeTUApJvbeLie3JLZ/PlFgbpLbU
+         OduPpASumIeaO4sdKsp8OT2uz7m2DeFiKrGoXHxR2WyLfX3rEosqxAFg32bXBAXXBy4K
+         j6BDiZvAZHQX3RmWhM2veOhEwUjftRQTDDnh5iFT6E0BcvsoOoqQ8aPuC/3FbO5mYRjr
+         xEi0/GltHxh/mjZbN7TIBOEqXGrZv4pfMf/VOP/tu/qyEFNo9kLK8gr2zeGXHzMUkpse
+         Z/YA==
+X-Gm-Message-State: AOAM531Z7pMmjyCRZ49Ck89x1o3eAvul31za23p5qEZTFz//kQmFZSj9
+        emuaViZ+SXKad+Do8rJaLTs=
+X-Google-Smtp-Source: ABdhPJyhKka4kz+2z6IkeWLQncK9eGwm4WoJ3L9qqgfVQswTogLIfaGCLnYf+GBziRdWbmTphS8blw==
+X-Received: by 2002:adf:dc90:: with SMTP id r16mr18678993wrj.264.1593457017239;
+        Mon, 29 Jun 2020 11:56:57 -0700 (PDT)
+Received: from ?IPv6:2a02:810a:8300:1c48:5b0:bdfc:fdc6:4650? ([2a02:810a:8300:1c48:5b0:bdfc:fdc6:4650])
+        by smtp.gmail.com with ESMTPSA id 125sm775683wmc.23.2020.06.29.11.56.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jun 2020 11:56:56 -0700 (PDT)
+Subject: Re: [PATCH v1 1/1] Add support for meson building
+To:     Ariel D'Alessandro <ariel@vanguardiasur.com.ar>,
+        Xavier Claessens <xavier.claessens@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     kieran.bingham@ideasonboard.com, linux-media@vger.kernel.org,
+        hverkuil@xs4all.nl, sean@mess.org, p.zabel@pengutronix.de,
+        nicolas@ndufresne.ca,
+        nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20200618133303.28676-1-ariel@vanguardiasur.com.ar>
+ <20200618133303.28676-2-ariel@vanguardiasur.com.ar>
+ <d09caaf6-402f-ba57-825c-410ce39a5e2b@ideasonboard.com>
+ <f2bf8846e265024c20a77fa618d54455b3b7ca95.camel@collabora.com>
+ <20200619144229.GD5823@pendragon.ideasonboard.com>
+ <adbb92de81105575d661f348a9804279a2844d64.camel@collabora.com>
+ <93bf1b72-0108-1dfa-22b4-f2194660129c@googlemail.com>
+ <0d3450f0-8883-e094-3c1b-d8f93c2e4833@googlemail.com>
+ <1586973f-5f69-fed0-4ad8-266cdd8e818b@vanguardiasur.com.ar>
+ <f4c5552e-c639-8e71-968e-1cd8fe5152cb@vanguardiasur.com.ar>
+From:   Gregor Jasny <gjasny@googlemail.com>
+Message-ID: <6f598f9e-cb1b-2dd4-6a95-efe0895da0dc@googlemail.com>
+Date:   Mon, 29 Jun 2020 20:56:54 +0200
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+ Gecko/20100101 Thunderbird/68.9.0
 MIME-Version: 1.0
-In-Reply-To: <20200623100815.10674-1-jacopo@jmondi.org>
+In-Reply-To: <f4c5552e-c639-8e71-968e-1cd8fe5152cb@vanguardiasur.com.ar>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -48,87 +83,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-Thanks for the series,
+Hello,
 
-I tried to apply it on master and found out that the set
-is rebased on top of the patchset
-"dt-bidings: media: ov5647 bindings"
-so running 'git am' without the other set fails.
-Maybe better to merge the two sets or mention it in the cover letter.
+On 6/25/20 8:52 PM, Ariel D'Alessandro wrote:
+> The Doxygen m4 script provides several features, like:
+> 
+>      $ git grep 'DX_ARG_ABLE(' m4/ax_prog_doxygen.m4
+>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(doc, [generate any doxygen documentation],
+>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(dot, [generate graphics for doxygen
+> documentation],
+>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(man, [generate doxygen manual pages],
+>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(rtf, [generate doxygen RTF documentation],
+>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(xml, [generate doxygen XML documentation],
+>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(chm, [generate doxygen compressed HTML
+> help documentation],
+>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(chi, [generate doxygen seperate
+> compressed HTML help index file],
+>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(html, [generate doxygen plain HTML
+> documentation],
+>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(ps, [generate doxygen PostScript
+> documentation],
+>        m4/ax_prog_doxygen.m4:DX_ARG_ABLE(pdf, [generate doxygen PDF documentation],
+> 
+> I could port them all to meson and have options for each one. But, do we really
+> need all of them or just a subset?
+> 
+> For instance, from [0]:
+> 
+>      $ git grep CONFIGURE_FLAGS.*doxygen
+>        rules:CONFIGURE_FLAGS += --enable-doxygen-man --disable-doxygen-ps
+> --disable-doxygen-pdf
 
-Thanks,
-Dafna
+I think we need html (Debian) and man (Fedora).
 
+Thanks for looking into it!
 
-
-On 23.06.20 12:07, Jacopo Mondi wrote:
-> -------------------------------------------------------------------------------
-> Second attempt after my ISP blocked the part of the first sending.
-> Also removed Luis Oliveira email from the receiver list as it gets
-> bounced back.
-> 550 5.1.1 <lolivei@synopsys.com>... User unknown
-> -------------------------------------------------------------------------------
-> 
-> Hello,
->    this series improves and expand the existing ov5647 sensor driver to
-> the same feature level as found in RaspberryPi BSP.
-> 
-> It is based on recent media tree master and the sensor bindings conversion
-> to dt-schema I sent out a few days ago:
-> "[PATCH 0/2] dt-bidings: media: ov5647 bindings + small fix"
-> 
-> The first patches in the series has been sent by Roman as part of
-> "[PATCH v2 0/6] ov5647 driver improvement"
-> I took his patches in, addressed review comments and rebased on top
-> of the new dt-schema bindings. I kept the extensive receiver list he had
-> in his series for this reason.
-> 
-> The series continues by polishing and cleaning up the driver and expanding
-> its functionalities to support multiple modes and image formats.
-> 
-> The series has been tested with libcamera and the driver functionalities
-> compared with the BSP driver ones, and tested stand-alone by capturing
-> raw frames with yavta.
-> 
-> Thanks
->     j
-> 
-> Dave Stevenson (8):
->    media: ov5647: Add support for PWDN GPIO.
->    media: ov5647: Add support for non-continuous clock mode
->    media: ov5647: Add set_fmt and get_fmt calls.
->    media: ov5647: Add support for get_selection()
->    media: ov5647: Set V4L2_SUBDEV_FL_HAS_EVENTS flag
->    media: ov5647: Support V4L2_CID_PIXEL_RATE
->    media: ov5647: Support V4L2_CID_VBLANK control
->    media: ov5647: Advertise the correct exposure range
-> 
-> David Plowman (1):
->    media: ov5647: Support gain, exposure and AWB controls
-> 
-> Jacopo Mondi (16):
->    dt-bindings: media: ov5647: Document pwdn-gpios
->    dt-bindings: media: ov5647: Document clock-noncontinuous
->    media: ov5647: Fix format initialization
->    media: ov5647: Fix style issues
->    media: ov5647: Replace license with SPDX identifier
->    media: ov5647: Fix return value from read/write
->    media: ov5647: Program mode at s_stream(1) time
->    media: ov5647: Implement enum_frame_size()
->    media: ov5647: Protect s_stream() with mutex
->    media: ov5647: Rationalize driver structure name
->    media: ov5647: Break out format handling
->    media: ov5647: Rename SBGGR8 VGA mode
->    media: ov5647: Add SGGBR10_1X10 modes
->    media: ov5647: Implement set_fmt pad operation
->    media: ov5647: Program mode only if it has changed
->    media: ov5647: Support V4L2_CID_HBLANK control
-> 
->   .../devicetree/bindings/media/i2c/ov5647.yaml |   11 +
->   drivers/media/i2c/ov5647.c                    | 1267 +++++++++++++++--
->   2 files changed, 1126 insertions(+), 152 deletions(-)
-> 
-> --
-> 2.27.0
-> 
+-Gregor
