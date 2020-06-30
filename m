@@ -2,46 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D905620F339
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 12:56:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BA2E220F369
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 13:10:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732632AbgF3K4u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jun 2020 06:56:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49040 "EHLO
+        id S1732666AbgF3LKD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jun 2020 07:10:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732592AbgF3K4u (ORCPT
+        with ESMTP id S1728534AbgF3LKD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jun 2020 06:56:50 -0400
+        Tue, 30 Jun 2020 07:10:03 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1A89C061755
-        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2020 03:56:49 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C1A6C061755
+        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2020 04:10:03 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: dafna)
-        with ESMTPSA id 864782A0538
-Subject: Re: [PATCH 20/25] media: ov5647: Program mode only if it has changed
+        with ESMTPSA id 0B0E62A3CE5
+Subject: Re: [libcamera-devel] [PATCH 19/25] media: ov5647: Implement set_fmt
+ pad operation
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
         hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
         roman.kovalivskyi@globallogic.com, dave.stevenson@raspberrypi.org,
-        naush@raspberrypi.com, mrodin@de.adit-jv.com,
-        hugues.fruchet@st.com, mripard@kernel.org, aford173@gmail.com,
-        sudipi@jp.adit-jv.com, andrew_gabbasov@mentor.com,
-        erosca@de.adit-jv.com, linux-media@vger.kernel.org,
-        libcamera-devel@lists.libcamera.org,
-        dafna Hirschfeld <dafna3@gmail.com>
+        naush@raspberrypi.com, andrew_gabbasov@mentor.com,
+        mrodin@de.adit-jv.com, mripard@kernel.org,
+        libcamera-devel@lists.libcamera.org, sudipi@jp.adit-jv.com,
+        hugues.fruchet@st.com, erosca@de.adit-jv.com, aford173@gmail.com,
+        linux-media@vger.kernel.org
 References: <20200623100815.10674-1-jacopo@jmondi.org>
- <20200623165550.45835-1-jacopo@jmondi.org>
- <80139e40-914f-c547-922f-91fe3f611202@collabora.com>
- <20200630074305.soctqoaqirfdnvv2@uno.localdomain>
- <e3dfbf68-f81b-3349-b3ad-dd9e5f6a0f5f@collabora.com>
- <20200630100651.ikjcazgbvoq2hab4@uno.localdomain>
+ <20200623164911.45147-4-jacopo@jmondi.org>
+ <8f9e76ed-8c78-f6ae-c0c9-fc6d0927325b@collabora.com>
+ <20200630101338.dz7toga2mhah7rsq@uno.localdomain>
 From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <de712b61-4b20-cfbd-ab79-d71bd1b7fc56@collabora.com>
-Date:   Tue, 30 Jun 2020 12:56:44 +0200
+Message-ID: <86ac2fa1-32c1-8f85-1a92-6a69ea1e5735@collabora.com>
+Date:   Tue, 30 Jun 2020 13:09:57 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.8.0
 MIME-Version: 1.0
-In-Reply-To: <20200630100651.ikjcazgbvoq2hab4@uno.localdomain>
+In-Reply-To: <20200630101338.dz7toga2mhah7rsq@uno.localdomain>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -52,140 +50,140 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 
-On 30.06.20 12:06, Jacopo Mondi wrote:
+On 30.06.20 12:13, Jacopo Mondi wrote:
 > Hi Dafna,
 > 
-> On Tue, Jun 30, 2020 at 11:32:12AM +0200, Dafna Hirschfeld wrote:
+> On Mon, Jun 29, 2020 at 06:54:43PM +0200, Dafna Hirschfeld wrote:
 >>
 >>
->> On 30.06.20 09:43, Jacopo Mondi wrote:
->>> Hi Dafna,
+>> On 23.06.20 18:49, Jacopo Mondi wrote:
+>>> Now that the driver supports more than a single mode, implement the
+>>> .set_fmt pad operation and adjust the existing .get_fmt one to report
+>>> the currently applied format.
 >>>
->>> On Mon, Jun 29, 2020 at 07:48:16PM +0200, Dafna Hirschfeld wrote:
->>>>
->>>>
->>>> On 23.06.20 18:55, Jacopo Mondi wrote:
->>>>> Store in the driver structure a pointer to the currently applied mode
->>>>> and program a new one at s_stream(1) time only if it has changed.
->>>>
->>>> Hi,
->>>> I think this can be more readably implemented with a 'is_streaming' boolean
->>>> field.
+>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+>>> ---
+>>>    drivers/media/i2c/ov5647.c | 67 +++++++++++++++++++++++++++++++++++---
+>>>    1 file changed, 62 insertions(+), 5 deletions(-)
 >>>
->>> How would you like to use an 'is_streaming' flag to decide if the
->>> sensor mode has to be updated ?
+>>> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+>>> index af9e6d43967d8..39e320f321bd8 100644
+>>> --- a/drivers/media/i2c/ov5647.c
+>>> +++ b/drivers/media/i2c/ov5647.c
+>>> @@ -1016,15 +1016,72 @@ static int ov5647_enum_frame_size(struct v4l2_subdev *sd,
+>>>    	return 0;
+>>>    }
+>>> -static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
+>>> +static int ov5647_get_pad_fmt(struct v4l2_subdev *sd,
+>>>    			      struct v4l2_subdev_pad_config *cfg,
+>>>    			      struct v4l2_subdev_format *format)
+>>>    {
+>>>    	struct v4l2_mbus_framefmt *fmt = &format->format;
+>>> +	struct v4l2_mbus_framefmt *sensor_format;
+>>> +	struct ov5647 *sensor = to_sensor(sd);
+>>> -	/* Only one format is supported, so return that. */
+>>> +	mutex_lock(&sensor->lock);
+>>>    	memset(fmt, 0, sizeof(*fmt));
+>>> -	*fmt = OV5647_DEFAULT_FORMAT;
+>>> +
+>>> +	switch (format->which) {
+>>> +	case V4L2_SUBDEV_FORMAT_TRY:
+>>> +		sensor_format = v4l2_subdev_get_try_format(sd, cfg, format->pad);
+>>> +		break;
+>>> +	default:
+>>> +		sensor_format = &sensor->mode->format;
+>>> +		break;
+>>> +	}
+>>> +
+>>> +	*fmt = *sensor_format;
+>>> +	mutex_unlock(&sensor->lock);
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
+>>> +			      struct v4l2_subdev_pad_config *cfg,
+>>> +			      struct v4l2_subdev_format *format)
+>>> +{
+>>> +	struct v4l2_mbus_framefmt *fmt = &format->format;
+>>> +	struct ov5647 *sensor = to_sensor(sd);
+>>> +	struct ov5647_mode *ov5647_mode_list;
+>>> +	struct ov5647_mode *mode;
+>>> +	unsigned int num_modes;
+>>> +
+>>> +	/*
+>>> +	 * Default mbus code MEDIA_BUS_FMT_SBGGR10_1X10 if the requested one
+>>> +	 * is not supported.
 >>
->> since 'current_mode' is set to NULL upon `ov5647_stream_off`
->> and you return from 'ov5647_set_stream' immediately if 'mode == current_mode'
->> it seem very similar to returning immediately from 'ov5647_set_stream' if the
->> device is currently streaming.
+>> In previous patch you added macros OV5647_DEFAULT_MODE, OV5647_DEFAULT_FORMAT
+>> which comes from first format in the array 'ov5647_formats' which is MEDIA_BUS_FMT_SBGGR8_1X8.
 > 
-> No, the code returns immediately from ov5647_set_mode() if mode ==
-> current_mode. The modes comparison makes sure the sensor is not
-> reprogrammed if the mode hasn't changed. The remaning part of
-> s_stream() is executed regardless of the mode configuration. Am I
-> missing some part of the picture ?
+> Oh well, that's just an arbitrary selection of the format the sensor
+> is initialized with.
 > 
+>> But here you set the default format to MEDIA_BUS_FMT_SBGGR10_1X10
 >>
->> But actually in this patch it seems to be possible to change the mode
->> while streaming, if the callbacks are executed:
->>
->> s_stream(1)
->> s_fmt
->> s_stream(1)
->>
->> which is maybe a bug?
 > 
-> The new format is stored in sensor->mode, and applied at the next
-> s_stream(1) operation if it differs from the already programmed one,
-> at least, this is how it is intended to work, have you found any
-> failing s_stream/set_fmt/s_stream which could be caused by a bug ?
+> I chose the _1x10 version as it supports more resolution than the _1X8
+> one. The v4l2-spec says if the requested format is not supported the
+> closed possible match should be reported. It is easy to identify what
+> a closes possible match is when considering the image size, but for image
+> formats the "closes possible match" might be tricky to define.
+> 
+> I can change the sensor initial default state if you think that's the
+> case, but I don't think the initial configuration and the adjusted format
+> returned from s_stream() should be considered related. Do you agree or
+> is there any part of the specs I'm overlooking ?
 
-What I meant is that there could be valid sequence of calls
-
-s_stream(enable=1)
-s_fmt
-s_stream(enable=1)
-
-For example if two video devices are connected to the sensor and they
-stream simultaneously. There was a discussion about adding a code to the core
-to follow the s_stream callback and call it only if the subdev is not streaming
-but currently subdevs should support it themselves.
-
+I also don't see it in the spec, but I think it is nicer that
+s_fmt default to the initial value. This is also the first value
+returned in the enumeration.
 
 Thanks,
-Dafna
+    d
 
 > 
 > Thanks
 >    j
->>
->> Thanks,
->> Dafna
->>
+> 
+> 
+>>> +	 */
+>>> +	if (fmt->code == MEDIA_BUS_FMT_SBGGR8_1X8) {
+>>> +		ov5647_mode_list = ov5647_sbggr8_modes;
+>>> +		num_modes = ARRAY_SIZE(ov5647_sbggr8_modes);
+>>> +	} else {
+>>> +		ov5647_mode_list = ov5647_sbggr10_modes;
+>>> +		num_modes = ARRAY_SIZE(ov5647_sbggr10_modes);
+>>> +	}
+>>> +
+>>> +	mode = v4l2_find_nearest_size(ov5647_mode_list, num_modes,
+>>> +				      format.width, format.height,
+>>> +				      fmt->width, fmt->height);
+>>> +
+>>> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+>>> +		mutex_lock(&sensor->lock);
+>>> +		*v4l2_subdev_get_try_format(sd, cfg, format->pad) = mode->format;
+>>> +		*fmt = mode->format;
+>>> +		mutex_unlock(&sensor->lock);
+>>> +
+>>> +		return 0;
+>>> +	}
+>>> +
+>>> +	/* Update the sensor mode and apply at it at streamon time. */
+>>> +	mutex_lock(&sensor->lock);
+>>> +	sensor->mode = mode;
+>>> +	*fmt = mode->format;
+>>> +	mutex_unlock(&sensor->lock);
+>>>    	return 0;
+>>>    }
+>>> @@ -1068,8 +1125,8 @@ static int ov5647_get_selection(struct v4l2_subdev *sd,
+>>>    static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
+>>>    	.enum_mbus_code		= ov5647_enum_mbus_code,
+>>>    	.enum_frame_size	= ov5647_enum_frame_size,
+>>> -	.set_fmt		= ov5647_set_get_fmt,
+>>> -	.get_fmt		= ov5647_set_get_fmt,
+>>> +	.set_fmt		= ov5647_set_pad_fmt,
+>>> +	.get_fmt		= ov5647_get_pad_fmt,
+>>>    	.get_selection		= ov5647_get_selection,
+>>>    };
 >>>
->>> Thanks
->>>      j
->>>
->>>
->>>>
->>>> Thanks,
->>>> Dafna
->>>>
->>>>>
->>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
->>>>> ---
->>>>>     drivers/media/i2c/ov5647.c | 16 +++++++++++++++-
->>>>>     1 file changed, 15 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
->>>>> index 39e320f321bd8..ac114269e1c73 100644
->>>>> --- a/drivers/media/i2c/ov5647.c
->>>>> +++ b/drivers/media/i2c/ov5647.c
->>>>> @@ -96,6 +96,7 @@ struct ov5647 {
->>>>>     	bool				clock_ncont;
->>>>>     	struct v4l2_ctrl_handler	ctrls;
->>>>>     	struct ov5647_mode		*mode;
->>>>> +	struct ov5647_mode		*current_mode;
->>>>>     };
->>>>>     static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
->>>>> @@ -750,9 +751,13 @@ static int ov5647_set_virtual_channel(struct v4l2_subdev *sd, int channel)
->>>>>     static int ov5647_set_mode(struct v4l2_subdev *sd)
->>>>>     {
->>>>>     	struct i2c_client *client = v4l2_get_subdevdata(sd);
->>>>> +	struct ov5647 *sensor = to_sensor(sd);
->>>>>     	u8 resetval, rdval;
->>>>>     	int ret;
->>>>> +	if (sensor->mode == sensor->current_mode)
->>>>> +		return 0;
->>>>> +
->>>>>     	ret = ov5647_read(sd, OV5647_SW_STANDBY, &rdval);
->>>>>     	if (ret < 0)
->>>>>     		return ret;
->>>>> @@ -778,6 +783,8 @@ static int ov5647_set_mode(struct v4l2_subdev *sd)
->>>>>     			return ret;
->>>>>     	}
->>>>> +	sensor->current_mode = sensor->mode;
->>>>> +
->>>>>     	return 0;
->>>>>     }
->>>>> @@ -816,6 +823,7 @@ static int ov5647_stream_on(struct v4l2_subdev *sd)
->>>>>     static int ov5647_stream_off(struct v4l2_subdev *sd)
->>>>>     {
->>>>> +	struct ov5647 *sensor = to_sensor(sd);
->>>>>     	int ret;
->>>>>     	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, MIPI_CTRL00_CLOCK_LANE_GATE |
->>>>> @@ -827,7 +835,13 @@ static int ov5647_stream_off(struct v4l2_subdev *sd)
->>>>>     	if (ret < 0)
->>>>>     		return ret;
->>>>> -	return ov5647_write(sd, OV5640_REG_PAD_OUT, 0x01);
->>>>> +	ret = ov5647_write(sd, OV5640_REG_PAD_OUT, 0x01);
->>>>> +	if (ret < 0)
->>>>> +		return ret;
->>>>> +
->>>>> +	sensor->current_mode = NULL;
->>>>> +
->>>>> +	return 0;
->>>>>     }
->>>>>     static int set_sw_standby(struct v4l2_subdev *sd, bool standby)
->>>>>
