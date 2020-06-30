@@ -2,186 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81A0720F22B
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 12:07:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 967DE20F24E
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 12:10:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732224AbgF3KHc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jun 2020 06:07:32 -0400
-Received: from mailout1.w1.samsung.com ([210.118.77.11]:52825 "EHLO
-        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732219AbgF3KHa (ORCPT
+        id S1732229AbgF3KKS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jun 2020 06:10:18 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:44825 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732189AbgF3KKS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jun 2020 06:07:30 -0400
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200630100728euoutp01266596500f3f299203bc41ce9d0cc557~dSmbWWQE50576305763euoutp01E
-        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2020 10:07:28 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200630100728euoutp01266596500f3f299203bc41ce9d0cc557~dSmbWWQE50576305763euoutp01E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1593511648;
-        bh=O/UBH/mKXDUvagNJHSuUhhTnnDt9JbXJsJdK+XPv5UI=;
-        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
-        b=j8Q/Z4e35QiEfKTKTCJwBL5aA7IF+lresLLZlOmyDg53EkTKpqLRcsa27diO0wyP6
-         MCm1VO4ZWj8obBulZs/aCd6Rh37uhHpHRZ1cXs72rlrfPyi/qorGLNuiRFSxEI7m01
-         /mnJTOahNA5rCJLLRVmOyoPHQMec176t7wRbIGUQ=
-Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
-        20200630100728eucas1p2058324a11592705d20c19eb2d4431545~dSma8s2PL2152321523eucas1p2k;
-        Tue, 30 Jun 2020 10:07:28 +0000 (GMT)
-Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
-        eusmges2new.samsung.com (EUCPMTA) with SMTP id 16.AF.05997.0EE0BFE5; Tue, 30
-        Jun 2020 11:07:28 +0100 (BST)
-Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
-        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-        20200630100727eucas1p2c13e286da77ef5278226b3610faf0498~dSmakSGW83241632416eucas1p2M;
-        Tue, 30 Jun 2020 10:07:27 +0000 (GMT)
-Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
-        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
-        20200630100727eusmtrp22b04e33a7a6e2b7d13c0605b6cc61d2e~dSmajTg-F0851908519eusmtrp2k;
-        Tue, 30 Jun 2020 10:07:27 +0000 (GMT)
-X-AuditID: cbfec7f4-677ff7000000176d-e6-5efb0ee08c13
-Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
-        eusmgms1.samsung.com (EUCPMTA) with SMTP id 5F.F1.06314.FDE0BFE5; Tue, 30
-        Jun 2020 11:07:27 +0100 (BST)
-Received: from [106.210.88.143] (unknown [106.210.88.143]) by
-        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
-        20200630100726eusmtip2e8258a38457a6d6c86f351b866a6b807~dSmZiHLma0424204242eusmtip2D;
-        Tue, 30 Jun 2020 10:07:26 +0000 (GMT)
-Subject: Re: [PATCH v7 31/36] staging: tegra-vde: fix common struct sg_table
- related issues
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     dri-devel@lists.freedesktop.org, iommu@lists.linux-foundation.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        Christoph Hellwig <hch@lst.de>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        linux-arm-kernel@lists.infradead.org,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        devel@driverdev.osuosl.org
-From:   Marek Szyprowski <m.szyprowski@samsung.com>
-Message-ID: <559970b6-e80f-90ec-7fb0-1fab742d99de@samsung.com>
-Date:   Tue, 30 Jun 2020 12:07:26 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
-        Thunderbird/68.9.0
+        Tue, 30 Jun 2020 06:10:18 -0400
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id D1D2F100002;
+        Tue, 30 Jun 2020 10:10:09 +0000 (UTC)
+Date:   Tue, 30 Jun 2020 12:13:38 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        roman.kovalivskyi@globallogic.com, dave.stevenson@raspberrypi.org,
+        naush@raspberrypi.com, andrew_gabbasov@mentor.com,
+        mrodin@de.adit-jv.com, mripard@kernel.org,
+        libcamera-devel@lists.libcamera.org, sudipi@jp.adit-jv.com,
+        hugues.fruchet@st.com, erosca@de.adit-jv.com, aford173@gmail.com,
+        linux-media@vger.kernel.org
+Subject: Re: [libcamera-devel] [PATCH 19/25] media: ov5647: Implement set_fmt
+ pad operation
+Message-ID: <20200630101338.dz7toga2mhah7rsq@uno.localdomain>
+References: <20200623100815.10674-1-jacopo@jmondi.org>
+ <20200623164911.45147-4-jacopo@jmondi.org>
+ <8f9e76ed-8c78-f6ae-c0c9-fc6d0927325b@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <20200621070015.0cf833ab@dimatab>
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA01SZ0xTURjNfauPhuKzoHzBQdIoRhNxEm6icRASn+GPfzSOgFR5AcJMy3QS
-        ioMiCk6sWhBlyBApUAXFgcEWwUIEF+JAIIoJIrEiKyDtA+XfOec73/3OSS5Lys8xbmxoZIyg
-        ilSGKxgpZXw23Lz8s9NowMru54443dJA4PKsMhpPGDNJ/KBpRIKLB7oQbvvdz2DNjTIG3yqu
-        J3DOo3U4RZdLYWtbJ4ENXa9p3FpzlcGn7lTRONWqY3C+YYzAT35203i4Rk9tkvMl+hLEf3z4
-        lOJrB3Movlr3QcIbilIZ/u7gZ5p/dK1Ewn9KMxF8xc2j/PvxLpI/97YA8fffJTF8uuYHw5+u
-        LEL8L8PCbbN2S9cHCeGhcYJqxYZAaUh5s1YSfcY1of3jbyoJpThrkQML3FoofTVIapGUlXOF
-        CIw/DIxIrAie3k2dIr8QFKfXoumVXrNmalCAwPzeQoikH8HllmHC5nLm/OHrsQHGhl04Dyio
-        H6NtJpIbp6DwcQFlGzDcKtD2aSdNLCvjNsAVk5dNprjF8Ljztd0yZ/Kd03k59ndk3GxouNxt
-        1x04T7A2dNhvkZw7aKqukCJ2hfbubHsg4MwsNH/JpcXYvjDUZCZE7AzfTZUSEc+HierpBQ2C
-        TkupRCSnELQmZ02VXgcdlhF7UpJbCmU1K0R5M/T0Xkc2GTgneNs3WwzhBGeNl0hRlsHJ43LR
-        7QE60+1/Z5+0vCQzkEI3o5puRh3djDq6/3dzEFWEXIVYdUSwoF4dKcR7qpUR6tjIYM/9UREG
-        NPlVG8dN1nuoZmxfHeJYpHCUBVqGA+S0Mk6dGFGHgCUVLjKfF40BclmQMvGAoIraq4oNF9R1
-        aB5LKVxla3J7/eVcsDJGCBOEaEE1PSVYB7ck5J5dccQnnj3gYKg8aPG9lR+VtqNK6renfXvs
-        0KKMoIuVb0r6+hft4ne16realXqv0sDRT36HV/+JPhRWFhJjqp2LJGFe+i/UgsGmFDJzyc6B
-        8/IdFwIUvm1bRk7sTj5jHFue8vzd0qyEet/6Hu+N3nuu5n9LOxvqlkgLfaXxLXkJHQpKHaJc
-        tYxUqZV/AZvSq5+mAwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrCKsWRmVeSWpSXmKPExsVy+t/xe7r3+X7HGTxdomvRe+4kk8XGGetZ
-        Lf5vm8hssefML3aL1R8fM1pc+fqezaJ58Xo2i5WrjzJZLNhvbdEyaxGLxZcrD5ksNj2+xmpx
-        edccNoueDVtZLTq/zGKzWLbpD5PFwQ9PWC1+7prH4iDksWbeGkaPe/sOs3js/baAxWPnrLvs
-        HptWdbJ5bP/2gNVj/9w17B73u48zeWxeUu9x+99jZo/JN5Yzeuy+2cDm0dv8js2jb8sqRo/P
-        m+QC+KP0bIryS0tSFTLyi0tslaINLYz0DC0t9IxMLPUMjc1jrYxMlfTtbFJSczLLUov07RL0
-        Mjae72Iv6BevuHXvK0sDY4twFyMnh4SAicTLE81sXYxcHEICSxkl7p7sZIVIyEicnNYAZQtL
-        /LnWBVX0llHiyffDYAlhgViJ560f2UBsEQE1ieVH/4DFmQX+sUh0HrGFaHjFKDGr+TU7SIJN
-        wFCi6y3IJA4OXgE7idnHTUHCLAKqEgceXmMBsUWBZn67twVsJq+AoMTJmU/A4pwCehJfTt5h
-        gphvJjFv80NmCFteonnrbChbXOLWk/lMExiFZiFpn4WkZRaSlllIWhYwsqxiFEktLc5Nzy02
-        1CtOzC0uzUvXS87P3cQITCHbjv3cvIPx0sbgQ4wCHIxKPLwJ537GCbEmlhVX5h5ilOBgVhLh
-        dTp7Ok6INyWxsiq1KD++qDQntfgQoynQcxOZpUST84HpLa8k3tDU0NzC0tDc2NzYzEJJnLdD
-        4GCMkEB6YklqdmpqQWoRTB8TB6dUA2NJy7UwZ+GelgfhQS9qFp7cc/PyR9PP2jZNy5lE52xX
-        PbHuaGe0l/ujQoUu8f/npweke3zhmHNS6HqD4eOwC1du3TD9s2hm5BWGyYt2JK0rOv34ybSf
-        3687uudvXjI/NOXwrroj911PvjkVOVdGY6t9T3tJxt7jzStj/kkw16ocWfU5ZVWVVWSXEktx
-        RqKhFnNRcSIA0AcX0DcDAAA=
-X-CMS-MailID: 20200630100727eucas1p2c13e286da77ef5278226b3610faf0498
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20200619103714eucas1p18db6efd1a380fc0bdb16174ee85036fa
-X-EPHeader: CA
-CMS-TYPE: 201P
-X-CMS-RootMailID: 20200619103714eucas1p18db6efd1a380fc0bdb16174ee85036fa
-References: <20200619103636.11974-1-m.szyprowski@samsung.com>
-        <CGME20200619103714eucas1p18db6efd1a380fc0bdb16174ee85036fa@eucas1p1.samsung.com>
-        <20200619103636.11974-32-m.szyprowski@samsung.com>
-        <20200621070015.0cf833ab@dimatab>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <8f9e76ed-8c78-f6ae-c0c9-fc6d0927325b@collabora.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21.06.2020 06:00, Dmitry Osipenko wrote:
-> В Fri, 19 Jun 2020 12:36:31 +0200
-> Marek Szyprowski <m.szyprowski@samsung.com> пишет:
+Hi Dafna,
+
+On Mon, Jun 29, 2020 at 06:54:43PM +0200, Dafna Hirschfeld wrote:
 >
->> The Documentation/DMA-API-HOWTO.txt states that the dma_map_sg()
->> function returns the number of the created entries in the DMA address
->> space. However the subsequent calls to the
->> dma_sync_sg_for_{device,cpu}() and dma_unmap_sg must be called with
->> the original number of the entries passed to the dma_map_sg().
->>
->> struct sg_table is a common structure used for describing a
->> non-contiguous memory buffer, used commonly in the DRM and graphics
->> subsystems. It consists of a scatterlist with memory pages and DMA
->> addresses (sgl entry), as well as the number of scatterlist entries:
->> CPU pages (orig_nents entry) and DMA mapped pages (nents entry).
->>
->> It turned out that it was a common mistake to misuse nents and
->> orig_nents entries, calling DMA-mapping functions with a wrong number
->> of entries or ignoring the number of mapped entries returned by the
->> dma_map_sg() function.
->>
->> To avoid such issues, lets use a common dma-mapping wrappers operating
->> directly on the struct sg_table objects and use scatterlist page
->> iterators where possible. This, almost always, hides references to the
->> nents and orig_nents entries, making the code robust, easier to follow
->> and copy/paste safe.
->>
->> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
->> Reviewed-by: Dmitry Osipenko <digetx@gmail.com>
->> ---
->>   drivers/staging/media/tegra-vde/iommu.c | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/staging/media/tegra-vde/iommu.c
->> b/drivers/staging/media/tegra-vde/iommu.c index
->> 6af863d92123..adf8dc7ee25c 100644 ---
->> a/drivers/staging/media/tegra-vde/iommu.c +++
->> b/drivers/staging/media/tegra-vde/iommu.c @@ -36,8 +36,8 @@ int
->> tegra_vde_iommu_map(struct tegra_vde *vde,
->>   	addr = iova_dma_addr(&vde->iova, iova);
->>   
->> -	size = iommu_map_sg(vde->domain, addr, sgt->sgl, sgt->nents,
->> -			    IOMMU_READ | IOMMU_WRITE);
->> +	size = iommu_map_sgtable(vde->domain, addr, sgt,
->> +				 IOMMU_READ | IOMMU_WRITE);
->>   	if (!size) {
->>   		__free_iova(&vde->iova, iova);
->>   		return -ENXIO;
-> Ahh, I saw the build failure report. You're changing the DMA API in
-> this series, while DMA API isn't used by this driver, it uses IOMMU
-> API. Hence there is no need to touch this code. Similar problem in the
-> host1x driver patch.
+>
+> On 23.06.20 18:49, Jacopo Mondi wrote:
+> > Now that the driver supports more than a single mode, implement the
+> > .set_fmt pad operation and adjust the existing .get_fmt one to report
+> > the currently applied format.
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >   drivers/media/i2c/ov5647.c | 67 +++++++++++++++++++++++++++++++++++---
+> >   1 file changed, 62 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> > index af9e6d43967d8..39e320f321bd8 100644
+> > --- a/drivers/media/i2c/ov5647.c
+> > +++ b/drivers/media/i2c/ov5647.c
+> > @@ -1016,15 +1016,72 @@ static int ov5647_enum_frame_size(struct v4l2_subdev *sd,
+> >   	return 0;
+> >   }
+> > -static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
+> > +static int ov5647_get_pad_fmt(struct v4l2_subdev *sd,
+> >   			      struct v4l2_subdev_pad_config *cfg,
+> >   			      struct v4l2_subdev_format *format)
+> >   {
+> >   	struct v4l2_mbus_framefmt *fmt = &format->format;
+> > +	struct v4l2_mbus_framefmt *sensor_format;
+> > +	struct ov5647 *sensor = to_sensor(sd);
+> > -	/* Only one format is supported, so return that. */
+> > +	mutex_lock(&sensor->lock);
+> >   	memset(fmt, 0, sizeof(*fmt));
+> > -	*fmt = OV5647_DEFAULT_FORMAT;
+> > +
+> > +	switch (format->which) {
+> > +	case V4L2_SUBDEV_FORMAT_TRY:
+> > +		sensor_format = v4l2_subdev_get_try_format(sd, cfg, format->pad);
+> > +		break;
+> > +	default:
+> > +		sensor_format = &sensor->mode->format;
+> > +		break;
+> > +	}
+> > +
+> > +	*fmt = *sensor_format;
+> > +	mutex_unlock(&sensor->lock);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
+> > +			      struct v4l2_subdev_pad_config *cfg,
+> > +			      struct v4l2_subdev_format *format)
+> > +{
+> > +	struct v4l2_mbus_framefmt *fmt = &format->format;
+> > +	struct ov5647 *sensor = to_sensor(sd);
+> > +	struct ov5647_mode *ov5647_mode_list;
+> > +	struct ov5647_mode *mode;
+> > +	unsigned int num_modes;
+> > +
+> > +	/*
+> > +	 * Default mbus code MEDIA_BUS_FMT_SBGGR10_1X10 if the requested one
+> > +	 * is not supported.
+>
+> In previous patch you added macros OV5647_DEFAULT_MODE, OV5647_DEFAULT_FORMAT
+> which comes from first format in the array 'ov5647_formats' which is MEDIA_BUS_FMT_SBGGR8_1X8.
 
-The issue is caused by the lack of iommu_map_sgtable() stub when no 
-IOMMU support is configured. I've posted a patch for this:
+Oh well, that's just an arbitrary selection of the format the sensor
+is initialized with.
 
-https://lore.kernel.org/lkml/20200630081756.18526-1-m.szyprowski@samsung.com/
+> But here you set the default format to MEDIA_BUS_FMT_SBGGR10_1X10
+>
 
-The patch for this driver is fine, we have to wait until the above fix 
-gets merged and then it can be applied during the next release cycle.
+I chose the _1x10 version as it supports more resolution than the _1X8
+one. The v4l2-spec says if the requested format is not supported the
+closed possible match should be reported. It is easy to identify what
+a closes possible match is when considering the image size, but for image
+formats the "closes possible match" might be tricky to define.
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+I can change the sensor initial default state if you think that's the
+case, but I don't think the initial configuration and the adjusted format
+returned from s_stream() should be considered related. Do you agree or
+is there any part of the specs I'm overlooking ?
 
+Thanks
+  j
+
+
+> > +	 */
+> > +	if (fmt->code == MEDIA_BUS_FMT_SBGGR8_1X8) {
+> > +		ov5647_mode_list = ov5647_sbggr8_modes;
+> > +		num_modes = ARRAY_SIZE(ov5647_sbggr8_modes);
+> > +	} else {
+> > +		ov5647_mode_list = ov5647_sbggr10_modes;
+> > +		num_modes = ARRAY_SIZE(ov5647_sbggr10_modes);
+> > +	}
+> > +
+> > +	mode = v4l2_find_nearest_size(ov5647_mode_list, num_modes,
+> > +				      format.width, format.height,
+> > +				      fmt->width, fmt->height);
+> > +
+> > +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+> > +		mutex_lock(&sensor->lock);
+> > +		*v4l2_subdev_get_try_format(sd, cfg, format->pad) = mode->format;
+> > +		*fmt = mode->format;
+> > +		mutex_unlock(&sensor->lock);
+> > +
+> > +		return 0;
+> > +	}
+> > +
+> > +	/* Update the sensor mode and apply at it at streamon time. */
+> > +	mutex_lock(&sensor->lock);
+> > +	sensor->mode = mode;
+> > +	*fmt = mode->format;
+> > +	mutex_unlock(&sensor->lock);
+> >   	return 0;
+> >   }
+> > @@ -1068,8 +1125,8 @@ static int ov5647_get_selection(struct v4l2_subdev *sd,
+> >   static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
+> >   	.enum_mbus_code		= ov5647_enum_mbus_code,
+> >   	.enum_frame_size	= ov5647_enum_frame_size,
+> > -	.set_fmt		= ov5647_set_get_fmt,
+> > -	.get_fmt		= ov5647_set_get_fmt,
+> > +	.set_fmt		= ov5647_set_pad_fmt,
+> > +	.get_fmt		= ov5647_get_pad_fmt,
+> >   	.get_selection		= ov5647_get_selection,
+> >   };
+> >
