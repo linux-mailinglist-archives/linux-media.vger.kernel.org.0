@@ -2,138 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A18D20F1FD
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 11:54:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6030020F211
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 12:03:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732078AbgF3Jyj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jun 2020 05:54:39 -0400
-Received: from mga06.intel.com ([134.134.136.31]:28216 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729017AbgF3Jyi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jun 2020 05:54:38 -0400
-IronPort-SDR: 3egwSlgcvGrt7yz2u5URGRWNfd8k2WIdJ3WiNUvgXgIVdmTQyExZWv0CM0mI8owgekIueIXTas
- RNeNjSXOcJJw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9666"; a="207707327"
-X-IronPort-AV: E=Sophos;i="5.75,297,1589266800"; 
-   d="scan'208";a="207707327"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2020 02:54:37 -0700
-IronPort-SDR: hNZYhpiv341hl+Aaw19NRwC/RAT3wXvH0OvhwikoLADF8pd4rKS0TFT3hVl/6uQ/v9O66bnsKU
- Ub+CtVmIo0jA==
-X-IronPort-AV: E=Sophos;i="5.75,297,1589266800"; 
-   d="scan'208";a="355732216"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2020 02:54:33 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id C2250207F6; Tue, 30 Jun 2020 12:54:30 +0300 (EEST)
-Date:   Tue, 30 Jun 2020 12:54:30 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        mchehab@kernel.org, andriy.shevchenko@linux.intel.com,
-        robh+dt@kernel.org, mark.rutland@arm.com, drinkcat@chromium.org,
-        tfiga@chromium.org, matthias.bgg@gmail.com, bingbu.cao@intel.com,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [PATCH V11 2/2] media: i2c: ov02a10: Add OV02A10 image sensor
- driver
-Message-ID: <20200630095430.GF16711@paasikivi.fi.intel.com>
-References: <20200630024942.20891-1-dongchun.zhu@mediatek.com>
- <20200630024942.20891-3-dongchun.zhu@mediatek.com>
+        id S1732078AbgF3KDb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jun 2020 06:03:31 -0400
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:39075 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730237AbgF3KDa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 30 Jun 2020 06:03:30 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 06DE31BF205;
+        Tue, 30 Jun 2020 10:03:21 +0000 (UTC)
+Date:   Tue, 30 Jun 2020 12:06:51 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
+        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        roman.kovalivskyi@globallogic.com, dave.stevenson@raspberrypi.org,
+        naush@raspberrypi.com, mrodin@de.adit-jv.com,
+        hugues.fruchet@st.com, mripard@kernel.org, aford173@gmail.com,
+        sudipi@jp.adit-jv.com, andrew_gabbasov@mentor.com,
+        erosca@de.adit-jv.com, linux-media@vger.kernel.org,
+        libcamera-devel@lists.libcamera.org,
+        dafna Hirschfeld <dafna3@gmail.com>
+Subject: Re: [PATCH 20/25] media: ov5647: Program mode only if it has changed
+Message-ID: <20200630100651.ikjcazgbvoq2hab4@uno.localdomain>
+References: <20200623100815.10674-1-jacopo@jmondi.org>
+ <20200623165550.45835-1-jacopo@jmondi.org>
+ <80139e40-914f-c547-922f-91fe3f611202@collabora.com>
+ <20200630074305.soctqoaqirfdnvv2@uno.localdomain>
+ <e3dfbf68-f81b-3349-b3ad-dd9e5f6a0f5f@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200630024942.20891-3-dongchun.zhu@mediatek.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <e3dfbf68-f81b-3349-b3ad-dd9e5f6a0f5f@collabora.com>
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dongchun,
+Hi Dafna,
 
-Thanks for the update.
+On Tue, Jun 30, 2020 at 11:32:12AM +0200, Dafna Hirschfeld wrote:
+>
+>
+> On 30.06.20 09:43, Jacopo Mondi wrote:
+> > Hi Dafna,
+> >
+> > On Mon, Jun 29, 2020 at 07:48:16PM +0200, Dafna Hirschfeld wrote:
+> > >
+> > >
+> > > On 23.06.20 18:55, Jacopo Mondi wrote:
+> > > > Store in the driver structure a pointer to the currently applied mode
+> > > > and program a new one at s_stream(1) time only if it has changed.
+> > >
+> > > Hi,
+> > > I think this can be more readably implemented with a 'is_streaming' boolean
+> > > field.
+> >
+> > How would you like to use an 'is_streaming' flag to decide if the
+> > sensor mode has to be updated ?
+>
+> since 'current_mode' is set to NULL upon `ov5647_stream_off`
+> and you return from 'ov5647_set_stream' immediately if 'mode == current_mode'
+> it seem very similar to returning immediately from 'ov5647_set_stream' if the
+> device is currently streaming.
 
-On Tue, Jun 30, 2020 at 10:49:42AM +0800, Dongchun Zhu wrote:
-> Add a V4L2 sub-device driver for OV02A10 image sensor.
-> 
-> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> ---
->  MAINTAINERS                 |    1 +
->  drivers/media/i2c/Kconfig   |   13 +
->  drivers/media/i2c/Makefile  |    1 +
->  drivers/media/i2c/ov02a10.c | 1052 +++++++++++++++++++++++++++++++++++++++++++
->  4 files changed, 1067 insertions(+)
->  create mode 100644 drivers/media/i2c/ov02a10.c
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 378c961..a6a2f8b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12566,6 +12566,7 @@ L:	linux-media@vger.kernel.org
->  S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
->  F:	Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> +F:	drivers/media/i2c/ov02a10.c
->  
->  OMNIVISION OV13858 SENSOR DRIVER
->  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index da11036..65519cf 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -812,6 +812,19 @@ config VIDEO_IMX355
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called imx355.
->  
-> +config VIDEO_OV02A10
-> +	tristate "OmniVision OV02A10 sensor support"
-> +	depends on I2C && VIDEO_V4L2
-> +	select MEDIA_CONTROLLER
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	select V4L2_FWNODE
-> +	help
-> +	  This is a Video4Linux2 sensor driver for the OmniVision
-> +	  OV02A10 camera.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called ov02a10.
-> +
->  config VIDEO_OV2640
->  	tristate "OmniVision OV2640 sensor support"
->  	depends on VIDEO_V4L2 && I2C
-> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> index 993acab..384e676 100644
-> --- a/drivers/media/i2c/Makefile
-> +++ b/drivers/media/i2c/Makefile
-> @@ -63,6 +63,7 @@ obj-$(CONFIG_VIDEO_VP27SMPX) += vp27smpx.o
->  obj-$(CONFIG_VIDEO_SONY_BTF_MPX) += sony-btf-mpx.o
->  obj-$(CONFIG_VIDEO_UPD64031A) += upd64031a.o
->  obj-$(CONFIG_VIDEO_UPD64083) += upd64083.o
-> +obj-$(CONFIG_VIDEO_OV02A10) += ov02a10.o
->  obj-$(CONFIG_VIDEO_OV2640) += ov2640.o
->  obj-$(CONFIG_VIDEO_OV2680) += ov2680.o
->  obj-$(CONFIG_VIDEO_OV2685) += ov2685.o
-> diff --git a/drivers/media/i2c/ov02a10.c b/drivers/media/i2c/ov02a10.c
-> new file mode 100644
-> index 0000000..f7fd329
-> --- /dev/null
-> +++ b/drivers/media/i2c/ov02a10.c
+No, the code returns immediately from ov5647_set_mode() if mode ==
+current_mode. The modes comparison makes sure the sensor is not
+reprogrammed if the mode hasn't changed. The remaning part of
+s_stream() is executed regardless of the mode configuration. Am I
+missing some part of the picture ?
 
-...
+>
+> But actually in this patch it seems to be possible to change the mode
+> while streaming, if the callbacks are executed:
+>
+> s_stream(1)
+> s_fmt
+> s_stream(1)
+>
+> which is maybe a bug?
 
-> +	ov02a10->rst_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+The new format is stored in sensor->mode, and applied at the next
+s_stream(1) operation if it differs from the already programmed one,
+at least, this is how it is intended to work, have you found any
+failing s_stream/set_fmt/s_stream which could be caused by a bug ?
 
-
-Shouldn't this be GPIOD_OUT_HIGH? That's the state it'll be after powering
-the sensor off the first time. Alternatively make reset signal high in
-runtime suspend callback.
-
--- 
-Kind regards,
-
-Sakari Ailus
+Thanks
+  j
+>
+> Thanks,
+> Dafna
+>
+> >
+> > Thanks
+> >     j
+> >
+> >
+> > >
+> > > Thanks,
+> > > Dafna
+> > >
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > ---
+> > > >    drivers/media/i2c/ov5647.c | 16 +++++++++++++++-
+> > > >    1 file changed, 15 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> > > > index 39e320f321bd8..ac114269e1c73 100644
+> > > > --- a/drivers/media/i2c/ov5647.c
+> > > > +++ b/drivers/media/i2c/ov5647.c
+> > > > @@ -96,6 +96,7 @@ struct ov5647 {
+> > > >    	bool				clock_ncont;
+> > > >    	struct v4l2_ctrl_handler	ctrls;
+> > > >    	struct ov5647_mode		*mode;
+> > > > +	struct ov5647_mode		*current_mode;
+> > > >    };
+> > > >    static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
+> > > > @@ -750,9 +751,13 @@ static int ov5647_set_virtual_channel(struct v4l2_subdev *sd, int channel)
+> > > >    static int ov5647_set_mode(struct v4l2_subdev *sd)
+> > > >    {
+> > > >    	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> > > > +	struct ov5647 *sensor = to_sensor(sd);
+> > > >    	u8 resetval, rdval;
+> > > >    	int ret;
+> > > > +	if (sensor->mode == sensor->current_mode)
+> > > > +		return 0;
+> > > > +
+> > > >    	ret = ov5647_read(sd, OV5647_SW_STANDBY, &rdval);
+> > > >    	if (ret < 0)
+> > > >    		return ret;
+> > > > @@ -778,6 +783,8 @@ static int ov5647_set_mode(struct v4l2_subdev *sd)
+> > > >    			return ret;
+> > > >    	}
+> > > > +	sensor->current_mode = sensor->mode;
+> > > > +
+> > > >    	return 0;
+> > > >    }
+> > > > @@ -816,6 +823,7 @@ static int ov5647_stream_on(struct v4l2_subdev *sd)
+> > > >    static int ov5647_stream_off(struct v4l2_subdev *sd)
+> > > >    {
+> > > > +	struct ov5647 *sensor = to_sensor(sd);
+> > > >    	int ret;
+> > > >    	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, MIPI_CTRL00_CLOCK_LANE_GATE |
+> > > > @@ -827,7 +835,13 @@ static int ov5647_stream_off(struct v4l2_subdev *sd)
+> > > >    	if (ret < 0)
+> > > >    		return ret;
+> > > > -	return ov5647_write(sd, OV5640_REG_PAD_OUT, 0x01);
+> > > > +	ret = ov5647_write(sd, OV5640_REG_PAD_OUT, 0x01);
+> > > > +	if (ret < 0)
+> > > > +		return ret;
+> > > > +
+> > > > +	sensor->current_mode = NULL;
+> > > > +
+> > > > +	return 0;
+> > > >    }
+> > > >    static int set_sw_standby(struct v4l2_subdev *sd, bool standby)
+> > > >
