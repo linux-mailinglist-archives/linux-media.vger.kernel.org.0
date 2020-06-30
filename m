@@ -2,174 +2,224 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1105020EC15
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 05:37:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 539FD20EC57
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 06:05:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729065AbgF3Dh0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 29 Jun 2020 23:37:26 -0400
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:55325 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728949AbgF3Dh0 (ORCPT
+        id S1725845AbgF3EFi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jun 2020 00:05:38 -0400
+Received: from linux.microsoft.com ([13.77.154.182]:54276 "EHLO
+        linux.microsoft.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725805AbgF3EFi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 29 Jun 2020 23:37:26 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id q75Ej3iolxmkVq75Gjvu07; Tue, 30 Jun 2020 05:37:22 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1593488242; bh=rIzyu9VP+/iiDKFeNZepL2k0wh9wW1xIEsVktXj6uJU=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=lySbKbsOtppwFfXaqzBR14qRtNRuad1E3uYDdsMjIp4+3qO5FCwDW9Tx/oqhSFL1j
-         zWMW/9DQVhXeOxAWobrqi41DJaxrq3UgD0fqTzMdc8yzfcIRqPCbyXhTQlSMvUn28K
-         YxWENyzKakz+MH4FZVH71TPe/saHdkfrjs0XpyHhw1D5fvrQYGjgsXeydDWeuQpzTb
-         wu1l3nDDNp72Z5E2HyYhJPGgAiWiGW9WbcIfqr8CymSD0MTXMogOei9o96HmoSJq6C
-         Fdu90FyLeG/vrRUyTS4pcyRZtFuuRJYW0t4KkDudYYgk/6UoC5BHvsuf8O/cR/THb+
-         e+VarhvQ/JMiQ==
-Message-ID: <e9efb40bc8366b70dbf0aa6881b97b87@smtp-cloud7.xs4all.net>
-Date:   Tue, 30 Jun 2020 05:37:20 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+        Tue, 30 Jun 2020 00:05:38 -0400
+Received: from localhost.localdomain (unknown [76.104.235.235])
+        by linux.microsoft.com (Postfix) with ESMTPSA id 34BA620B717A;
+        Mon, 29 Jun 2020 21:05:36 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 34BA620B717A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+        s=default; t=1593489936;
+        bh=CmGFQ9niOSk+ACKmBSWPMNZSpZIIgbWlh6k26nTf4iQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=ill14ZYwu76ZUJDg5ujOsP9irOUNVPkvwSJh01qkK6V+BFmFxkNC6i5lbOqYeyy4G
+         XknfWzcl4VPasKK4bTO7M5jAxHrwcKPjFOSgn4FpSCcLrklc9qhIWOCCmNq23IlWgV
+         a1iyQ8nP1Oe4/psKnPUz2ND83NfNoa2K52TXgTwQ=
+From:   jorhand@linux.microsoft.com
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfJEa3ce11XkLnzZ/iMb/Hic4jW8fimlYiOdG8u6ED2mcVDuR3LraHb0UpIA6AuqW3aWNF4p6Vl0+DeBT/ozlLGmd1CqstBB7Zd1XSd2jeDF2hhJYfgUC
- 4AywRi7KyUwXqevO++ZAELkvenbVX6oznB4xUeJvZ7ioHOJz6Uh8GdAKnLscccFV6RDVu6UeVXYlyjOTbP4oaB6IJoUnsEYM556xF2JFGnx9UkOZdpfMYZQd
+Cc:     Jordan Hand <jorhand@linux.microsoft.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH] media: ipu3.rst: Format media-ctl and yavta commands as code blocks
+Date:   Mon, 29 Jun 2020 21:05:08 -0700
+Message-Id: <20200630040508.11461-1-jorhand@linux.microsoft.com>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+From: Jordan Hand <jorhand@linux.microsoft.com>
 
-Results of the daily build of media_tree:
+Fix improper line breaks and format all example yavta and media-ctl
+commands as code blocks to improve readability.
 
-date:			Tue Jun 30 05:00:10 CEST 2020
-media-tree git hash:	e30cc79cc80fd919b697a15c5000d9f57487de8e
-media_build git hash:	39a7ce1e32308668ff1493247747e26b4367c6fe
-v4l-utils git hash:	eb147329b96b5d8f8f3638a159d1b3bcec22f0f0
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		0.6.1
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6154-g2f65f604
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5540ce1b67f5015886e850a4775d2eace9efe922
-host hardware:		x86_64
-host os:		5.6.0-1-amd64
+Signed-off-by: Jordan Hand <jorhand@linux.microsoft.com>
+---
+ Documentation/admin-guide/media/ipu3.rst | 104 ++++++++++++-----------
+ 1 file changed, 56 insertions(+), 48 deletions(-)
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: WARNINGS: VIDEO_TEGRA
-Check for strcpy/strncpy/strlcpy: WARNINGS: found 4 strcpy(), 4 strncpy(), 4 strlcpy()
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.212-i686: OK
-linux-4.4.212-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.212-i686: OK
-linux-4.9.212-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.169-i686: OK
-linux-4.14.169-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.101-i686: OK
-linux-4.19.101-x86_64: OK
-linux-4.20.15-i686: OK
-linux-4.20.15-x86_64: OK
-linux-5.0.15-i686: OK
-linux-5.0.15-x86_64: OK
-linux-5.1.1-i686: OK
-linux-5.1.1-x86_64: OK
-linux-5.2.1-i686: OK
-linux-5.2.1-x86_64: OK
-linux-5.3.1-i686: OK
-linux-5.3.1-x86_64: OK
-linux-5.4.17-i686: OK
-linux-5.4.17-x86_64: OK
-linux-5.5.1-i686: OK
-linux-5.5.1-x86_64: OK
-linux-5.6.1-i686: OK
-linux-5.6.1-x86_64: OK
-linux-5.7.2-i686: OK
-linux-5.7.2-x86_64: OK
-linux-5.8-rc1-i686: OK
-linux-5.8-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: ERRORS: Final Summary: 1, Succeeded: 0, Failed: 1, Warnings: 0
-sparse: OK
-smatch: ERRORS
+diff --git a/Documentation/admin-guide/media/ipu3.rst b/Documentation/admin-guide/media/ipu3.rst
+index 9361c34f123e..28649414b9f7 100644
+--- a/Documentation/admin-guide/media/ipu3.rst
++++ b/Documentation/admin-guide/media/ipu3.rst
+@@ -89,41 +89,43 @@ Let us take the example of ov5670 sensor connected to CSI2 port 0, for a
+ Using the media contorller APIs, the ov5670 sensor is configured to send
+ frames in packed raw Bayer format to IPU3 CSI2 receiver.
+ 
+-# This example assumes /dev/media0 as the CIO2 media device
+-
+-export MDEV=/dev/media0
+-
+-# and that ov5670 sensor is connected to i2c bus 10 with address 0x36
+-
+-export SDEV=$(media-ctl -d $MDEV -e "ov5670 10-0036")
++.. code-block:: none
+ 
+-# Establish the link for the media devices using media-ctl [#f3]_
+-media-ctl -d $MDEV -l "ov5670:0 -> ipu3-csi2 0:0[1]"
++    # This example assumes /dev/media0 as the CIO2 media device
++    export MDEV=/dev/media0
+ 
+-# Set the format for the media devices
+-media-ctl -d $MDEV -V "ov5670:0 [fmt:SGRBG10/2592x1944]"
++    # and that ov5670 sensor is connected to i2c bus 10 with address 0x36
++    export SDEV=$(media-ctl -d $MDEV -e "ov5670 10-0036")
+ 
+-media-ctl -d $MDEV -V "ipu3-csi2 0:0 [fmt:SGRBG10/2592x1944]"
++    # Establish the link for the media devices using media-ctl [#f3]_
++    media-ctl -d $MDEV -l "ov5670:0 -> ipu3-csi2 0:0[1]"
+ 
+-media-ctl -d $MDEV -V "ipu3-csi2 0:1 [fmt:SGRBG10/2592x1944]"
++    # Set the format for the media devices
++    media-ctl -d $MDEV -V "ov5670:0 [fmt:SGRBG10/2592x1944]"
++    media-ctl -d $MDEV -V "ipu3-csi2 0:0 [fmt:SGRBG10/2592x1944]"
++    media-ctl -d $MDEV -V "ipu3-csi2 0:1 [fmt:SGRBG10/2592x1944]"
+ 
+ Once the media pipeline is configured, desired sensor specific settings
+ (such as exposure and gain settings) can be set, using the yavta tool.
+ 
+ e.g
+ 
+-yavta -w 0x009e0903 444 $SDEV
++.. code-block:: none
++
++    yavta -w 0x009e0903 444 $SDEV
+ 
+-yavta -w 0x009e0913 1024 $SDEV
++    yavta -w 0x009e0913 1024 $SDEV
+ 
+-yavta -w 0x009e0911 2046 $SDEV
++    yavta -w 0x009e0911 2046 $SDEV
+ 
+ Once the desired sensor settings are set, frame captures can be done as below.
+ 
+ e.g
+ 
+-yavta --data-prefix -u -c10 -n5 -I -s2592x1944 --file=/tmp/frame-#.bin \
+-      -f IPU3_SGRBG10 $(media-ctl -d $MDEV -e "ipu3-cio2 0")
++.. code-block:: none
++
++    yavta --data-prefix -u -c10 -n5 -I -s2592x1944 --file=/tmp/frame-#.bin \
++        -f IPU3_SGRBG10 $(media-ctl -d $MDEV -e "ipu3-cio2 0")
+ 
+ With the above command, 10 frames are captured at 2592x1944 resolution, with
+ sGRBG10 format and output as IPU3_SGRBG10 format.
+@@ -269,21 +271,21 @@ all the video nodes setup correctly.
+ 
+ Let us take "ipu3-imgu 0" subdev as an example.
+ 
+-media-ctl -d $MDEV -r
+-
+-media-ctl -d $MDEV -l "ipu3-imgu 0 input":0 -> "ipu3-imgu 0":0[1]
+-
+-media-ctl -d $MDEV -l "ipu3-imgu 0":2 -> "ipu3-imgu 0 output":0[1]
+-
+-media-ctl -d $MDEV -l "ipu3-imgu 0":3 -> "ipu3-imgu 0 viewfinder":0[1]
++.. code-block:: none
+ 
+-media-ctl -d $MDEV -l "ipu3-imgu 0":4 -> "ipu3-imgu 0 3a stat":0[1]
++    media-ctl -d $MDEV -r
++    media-ctl -d $MDEV -l "ipu3-imgu 0 input":0 -> "ipu3-imgu 0":0[1]
++    media-ctl -d $MDEV -l "ipu3-imgu 0":2 -> "ipu3-imgu 0 output":0[1]
++    media-ctl -d $MDEV -l "ipu3-imgu 0":3 -> "ipu3-imgu 0 viewfinder":0[1]
++    media-ctl -d $MDEV -l "ipu3-imgu 0":4 -> "ipu3-imgu 0 3a stat":0[1]
+ 
+ Also the pipe mode of the corresponding V4L2 subdev should be set as desired
+ (e.g 0 for video mode or 1 for still mode) through the control id 0x009819a1 as
+ below.
+ 
+-yavta -w "0x009819A1 1" /dev/v4l-subdev7
++.. code-block:: none
++
++    yavta -w "0x009819A1 1" /dev/v4l-subdev7
+ 
+ Certain hardware blocks in ImgU pipeline can change the frame resolution by
+ cropping or scaling, these hardware blocks include Input Feeder(IF), Bayer Down
+@@ -371,30 +373,32 @@ v4l2n command can be used. This helps process the raw Bayer frames and produces
+ the desired results for the main output image and the viewfinder output, in NV12
+ format.
+ 
+-v4l2n --pipe=4 --load=/tmp/frame-#.bin --open=/dev/video4
+---fmt=type:VIDEO_OUTPUT_MPLANE,width=2592,height=1944,pixelformat=0X47337069
+---reqbufs=type:VIDEO_OUTPUT_MPLANE,count:1 --pipe=1 --output=/tmp/frames.out
+---open=/dev/video5
+---fmt=type:VIDEO_CAPTURE_MPLANE,width=2560,height=1920,pixelformat=NV12
+---reqbufs=type:VIDEO_CAPTURE_MPLANE,count:1 --pipe=2 --output=/tmp/frames.vf
+---open=/dev/video6
+---fmt=type:VIDEO_CAPTURE_MPLANE,width=2560,height=1920,pixelformat=NV12
+---reqbufs=type:VIDEO_CAPTURE_MPLANE,count:1 --pipe=3 --open=/dev/video7
+---output=/tmp/frames.3A --fmt=type:META_CAPTURE,?
+---reqbufs=count:1,type:META_CAPTURE --pipe=1,2,3,4 --stream=5
++.. code-block:: none
++
++    v4l2n --pipe=4 --load=/tmp/frame-#.bin --open=/dev/video4
++        --fmt=type:VIDEO_OUTPUT_MPLANE,width=2592,height=1944,pixelformat=0X47337069
++        --reqbufs=type:VIDEO_OUTPUT_MPLANE,count:1 --pipe=1 --output=/tmp/frames.out
++        --open=/dev/video5
++        --fmt=type:VIDEO_CAPTURE_MPLANE,width=2560,height=1920,pixelformat=NV12
++        --reqbufs=type:VIDEO_CAPTURE_MPLANE,count:1 --pipe=2 --output=/tmp/frames.vf
++        --open=/dev/video6
++        --fmt=type:VIDEO_CAPTURE_MPLANE,width=2560,height=1920,pixelformat=NV12
++        --reqbufs=type:VIDEO_CAPTURE_MPLANE,count:1 --pipe=3 --open=/dev/video7
++        --output=/tmp/frames.3A --fmt=type:META_CAPTURE,?
++        --reqbufs=count:1,type:META_CAPTURE --pipe=1,2,3,4 --stream=5
+ 
+ You can also use yavta [#f2]_ command to do same thing as above:
+ 
+ .. code-block:: none
+ 
+-	yavta --data-prefix -Bcapture-mplane -c10 -n5 -I -s2592x1944 \
+-	--file=frame-#.out-f NV12 /dev/video5 & \
+-	yavta --data-prefix -Bcapture-mplane -c10 -n5 -I -s2592x1944 \
+-	--file=frame-#.vf -f NV12 /dev/video6 & \
+-	yavta --data-prefix -Bmeta-capture -c10 -n5 -I \
+-	--file=frame-#.3a /dev/video7 & \
+-	yavta --data-prefix -Boutput-mplane -c10 -n5 -I -s2592x1944 \
+-	--file=/tmp/frame-in.cio2 -f IPU3_SGRBG10 /dev/video4
++    yavta --data-prefix -Bcapture-mplane -c10 -n5 -I -s2592x1944 \
++        --file=frame-#.out-f NV12 /dev/video5 & \
++    yavta --data-prefix -Bcapture-mplane -c10 -n5 -I -s2592x1944 \
++        --file=frame-#.vf -f NV12 /dev/video6 & \
++    yavta --data-prefix -Bmeta-capture -c10 -n5 -I \
++        --file=frame-#.3a /dev/video7 & \
++    yavta --data-prefix -Boutput-mplane -c10 -n5 -I -s2592x1944 \
++        --file=/tmp/frame-in.cio2 -f IPU3_SGRBG10 /dev/video4
+ 
+ where /dev/video4, /dev/video5, /dev/video6 and /dev/video7 devices point to
+ input, output, viewfinder and 3A statistics video nodes respectively.
+@@ -408,7 +412,9 @@ as below.
+ Main output frames
+ ~~~~~~~~~~~~~~~~~~
+ 
+-raw2pnm -x2560 -y1920 -fNV12 /tmp/frames.out /tmp/frames.out.ppm
++.. code-block:: none
++
++    raw2pnm -x2560 -y1920 -fNV12 /tmp/frames.out /tmp/frames.out.ppm
+ 
+ where 2560x1920 is output resolution, NV12 is the video format, followed
+ by input frame and output PNM file.
+@@ -416,7 +422,9 @@ by input frame and output PNM file.
+ Viewfinder output frames
+ ~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-raw2pnm -x2560 -y1920 -fNV12 /tmp/frames.vf /tmp/frames.vf.ppm
++.. code-block:: none
++
++    raw2pnm -x2560 -y1920 -fNV12 /tmp/frames.vf /tmp/frames.vf.ppm
+ 
+ where 2560x1920 is output resolution, NV12 is the video format, followed
+ by input frame and output PNM file.
+-- 
+2.17.1
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
