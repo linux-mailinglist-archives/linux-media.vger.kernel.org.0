@@ -2,132 +2,287 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DD4BE20F781
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 16:47:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0900120F79C
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 16:53:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730997AbgF3OrX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jun 2020 10:47:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56426 "EHLO
+        id S2389111AbgF3Ox0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jun 2020 10:53:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57346 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727016AbgF3OrW (ORCPT
+        with ESMTP id S1726839AbgF3OxX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jun 2020 10:47:22 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 243D1C061755
-        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2020 07:47:22 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id d18so10844356edv.6
-        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2020 07:47:22 -0700 (PDT)
+        Tue, 30 Jun 2020 10:53:23 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CBE8C061755
+        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2020 07:53:23 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id 17so19878691wmo.1
+        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2020 07:53:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=raspberrypi.com; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=5dm/rjfkAYeOKvGlUu0DpeagoQTdzbRa2RO8YsK1yDA=;
-        b=kHiITqAEixH3gwtr3H907V2DiU+kxfWWD2Qw8bDRxPeYz3lrIuItsoM9Pv99DTsoWC
-         UhqasAV1O8djAZGDZ+JytGCbb0A+zV9G/V20uuQDQ4QvgsDLx2aviX735++seHJYVbqa
-         DPKky1AG/J1s7hSlUY6Y/XOMx5rtU0odTX47Q=
+        bh=vU8QJtiplqTmSqw8ypzasx0YbzBFm0BcQC4xxxr4HG8=;
+        b=QFkotrxeRALEX9g7O3TGucCppkOo4DtRy3iZKCuQHnfKpsS3CKbq4QFvbl/swW/L1x
+         jLBKMATVqXL7m5kGFn/958mWVAY/tzNagsfvKBgJKFxYmrO2wRyTe4qf8VWS2rlEDO12
+         f808nRgr3jcdWVlWCISfY8vyxMrKsXd6bcHgN0pNu3qbF9ZhkvqIqw+uk4W6rzm3LZXw
+         xcTwwx8sjBpsi2evcSgk+jIWQnrUOAfxXjB81lqwsZfnr3Xg1XkD6yHkBBieyjRkA6Du
+         c+SMsi2PcxAm95ENcETtphATMtazlo+jhXRpAuQ2DUFscjF4gsMPMYvETAR4fWV47U3H
+         pEyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=5dm/rjfkAYeOKvGlUu0DpeagoQTdzbRa2RO8YsK1yDA=;
-        b=VnsYTt8LpAusVemmIHCDf6/Ia6qJpuJjHlqz9K5RkXtfarltyyJPDey0Tb2uF59aLf
-         qnzWkjAqfv/PQHIgbitrIVG9aotoftunh0dF42ZHK8PT4lRcgfLO0xp1vNWDeBz8AfPi
-         AGnGctKayHKfdsSTwHkATKAYBl7tAUKPaomBHERXxAZUDWQ0jwL6z2b23cs6eUXRBcVl
-         XoqNTbmuAP39C6mLRls+OPol7eEXbTpRXfCSgofGBX8oyCOHV5vrMD8D1bgd+9vKHqum
-         bDZ4DzUmbFf7dlJjGRG3zOBgXoxA1QJ44T1xT2aJgo1Uxw1EqTEsXigTewBzjlFhJ1Lu
-         Be2Q==
-X-Gm-Message-State: AOAM5307TuBHgJKWZ+taVDxT/rLBU6phQFyx5iyxXwfnC+fIDJtTyh0q
-        W6iAmGr56u6j0hjTyGU806gSCFI5q60/tQ==
-X-Google-Smtp-Source: ABdhPJwOhxjUyQ6tE28ibv+yMMzA5H3emoEssGqW1ELnYt7aFjRRhtTBjY8KRkLrZzEAqI1FR70R2g==
-X-Received: by 2002:a05:6402:1d35:: with SMTP id dh21mr17266463edb.186.1593528440637;
-        Tue, 30 Jun 2020 07:47:20 -0700 (PDT)
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com. [209.85.218.54])
-        by smtp.gmail.com with ESMTPSA id q21sm2198525ejd.30.2020.06.30.07.47.20
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 30 Jun 2020 07:47:20 -0700 (PDT)
-Received: by mail-ej1-f54.google.com with SMTP id p20so20893390ejd.13
-        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2020 07:47:20 -0700 (PDT)
-X-Received: by 2002:adf:80e6:: with SMTP id 93mr21491180wrl.17.1593528023050;
- Tue, 30 Jun 2020 07:40:23 -0700 (PDT)
+        bh=vU8QJtiplqTmSqw8ypzasx0YbzBFm0BcQC4xxxr4HG8=;
+        b=NBV5YXpRFuZO99slDQb/zrexhoAnDyGkB/C/PWpabfh1Mg9YtCGZ0r1FMqeH3P0ost
+         3n2mnjuR7MoYV0C9oWEBALA4DSao7JLXRbQGRbQ6SSdwBPqIE3WtnlZGC76AVbisVJc4
+         4KaF3M5NnOfRLkwPJiqqnywEdxL4gLMScoWN8DydqrMzkpTH1VKARD7++i3SQdXITw7v
+         pS+pdJ3fdN9MB7TCjxethqYG728+rEDxDoEkZ/hmeknDOayBg4Ue7/Y1tSk98dyAgnsW
+         NHBLwl1BBzcCBQGluUiZLqzlZKH9ciNk/3zq3fjaSlBTboxfN/qdsj7khvsPlSUrVk72
+         uCGw==
+X-Gm-Message-State: AOAM531M1yNTEJxGOtpOkf7E2CzSqsLTBsztTCBKcmsH+MdpbCCNXWzg
+        15kBXFJMEob3ZN0Jj1RudGWCL5gUPq6dEDYCp9a0ag==
+X-Google-Smtp-Source: ABdhPJxVjn7hkQZM5GrsQu1KMVEr4+tZ7MRpq6N10mB2DFFWlDrXNyQ3iRUZh4jNmvfSDB2RAQYRmeXkrE01C85Gw0I=
+X-Received: by 2002:a05:600c:d7:: with SMTP id u23mr20682460wmm.183.1593528802015;
+ Tue, 30 Jun 2020 07:53:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <20200630024942.20891-1-dongchun.zhu@mediatek.com>
- <20200630024942.20891-3-dongchun.zhu@mediatek.com> <20200630095430.GF16711@paasikivi.fi.intel.com>
- <CAAFQd5AGeL7+qhgxDGxWYgTcOVrNGqE8P-L40WWM2JDrY=YYZQ@mail.gmail.com>
- <CAAFQd5B0GxPpGm750rVKfPJi-gtn7w9KouFhXZc4k5OEtiKqBg@mail.gmail.com> <20200630143705.GW3703480@smile.fi.intel.com>
-In-Reply-To: <20200630143705.GW3703480@smile.fi.intel.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Tue, 30 Jun 2020 16:40:12 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5CwwLzGKiCPdd_EzipmXPA2aYBrk0QRPv6Bacy++tXrHA@mail.gmail.com>
-Message-ID: <CAAFQd5CwwLzGKiCPdd_EzipmXPA2aYBrk0QRPv6Bacy++tXrHA@mail.gmail.com>
-Subject: Re: [PATCH V11 2/2] media: i2c: ov02a10: Add OV02A10 image sensor driver
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Nicolas Boichat <drinkcat@chromium.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Cao Bing Bu <bingbu.cao@intel.com>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Sj Huang <sj.huang@mediatek.com>,
+References: <20200623100815.10674-1-jacopo@jmondi.org> <20200623165550.45835-1-jacopo@jmondi.org>
+ <80139e40-914f-c547-922f-91fe3f611202@collabora.com> <20200630074305.soctqoaqirfdnvv2@uno.localdomain>
+ <e3dfbf68-f81b-3349-b3ad-dd9e5f6a0f5f@collabora.com> <20200630100651.ikjcazgbvoq2hab4@uno.localdomain>
+ <de712b61-4b20-cfbd-ab79-d71bd1b7fc56@collabora.com> <20200630120528.xffvivfriblc6a2y@uno.localdomain>
+ <ae93796f-dd9d-730b-008a-13f90ff1f5cd@collabora.com>
+In-Reply-To: <ae93796f-dd9d-730b-008a-13f90ff1f5cd@collabora.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Tue, 30 Jun 2020 15:53:06 +0100
+Message-ID: <CAPY8ntAtTpvh=20d+tda+H5nodSNeNiHOL8xtAsgi92ctW3BLw@mail.gmail.com>
+Subject: Re: [libcamera-devel] [PATCH 20/25] media: ov5647: Program mode only
+ if it has changed
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>, andrew_gabbasov@mentor.com,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        mrodin@de.adit-jv.com, erosca@de.adit-jv.com,
+        Maxime Ripard <mripard@kernel.org>,
+        Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>,
+        libcamera-devel@lists.libcamera.org,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-devicetree <devicetree@vger.kernel.org>,
-        Louis Kuo <louis.kuo@mediatek.com>,
-        =?UTF-8?B?U2hlbmduYW4gV2FuZyAo546L5Zyj55S3KQ==?= 
-        <shengnan.wang@mediatek.com>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        hugues.fruchet@st.com, Mauro Carvalho Chehab <mchehab@kernel.org>,
+        aford173@gmail.com, sudipi@jp.adit-jv.com
 Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 30, 2020 at 4:37 PM Andy Shevchenko
-<andriy.shevchenko@linux.intel.com> wrote:
+Hi Dafna
+
+On Tue, 30 Jun 2020 at 14:01, Dafna Hirschfeld
+<dafna.hirschfeld@collabora.com> wrote:
 >
-> On Tue, Jun 30, 2020 at 04:21:31PM +0200, Tomasz Figa wrote:
-> > On Tue, Jun 30, 2020 at 4:19 PM Tomasz Figa <tfiga@chromium.org> wrote:
-> > > On Tue, Jun 30, 2020 at 11:54 AM Sakari Ailus
-> > > <sakari.ailus@linux.intel.com> wrote:
+> Hi,
 >
-> ...
 >
-> > > > > +     ov02a10->rst_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-> > > >
-> > > >
-> > > > Shouldn't this be GPIOD_OUT_HIGH? That's the state it'll be after powering
-> > > > the sensor off the first time. Alternatively make reset signal high in
-> > > > runtime suspend callback.
-> > >
-> > > We might want to keep the signals low when the regulators are powered
-> > > down, to reduce the leakage.
+> On 30.06.20 14:05, Jacopo Mondi wrote:
+> > Hi Dafna,
 > >
-> > Ah, I actually recall that the reset pin was physically active low, so
-> > we would indeed better keep it at HIGH. Sorry for the noise.
+> > On Tue, Jun 30, 2020 at 12:56:44PM +0200, Dafna Hirschfeld wrote:
+> >>
+> >>
+> >> On 30.06.20 12:06, Jacopo Mondi wrote:
+> >>> Hi Dafna,
+> >>>
+> >>> On Tue, Jun 30, 2020 at 11:32:12AM +0200, Dafna Hirschfeld wrote:
+> >>>>
+> >>>>
+> >>>> On 30.06.20 09:43, Jacopo Mondi wrote:
+> >>>>> Hi Dafna,
+> >>>>>
+> >>>>> On Mon, Jun 29, 2020 at 07:48:16PM +0200, Dafna Hirschfeld wrote:
+> >>>>>>
+> >>>>>>
+> >>>>>> On 23.06.20 18:55, Jacopo Mondi wrote:
+> >>>>>>> Store in the driver structure a pointer to the currently applied mode
+> >>>>>>> and program a new one at s_stream(1) time only if it has changed.
+> >>>>>>
+> >>>>>> Hi,
+> >>>>>> I think this can be more readably implemented with a 'is_streaming' boolean
+> >>>>>> field.
+> >>>>>
+> >>>>> How would you like to use an 'is_streaming' flag to decide if the
+> >>>>> sensor mode has to be updated ?
+> >>>>
+> >>>> since 'current_mode' is set to NULL upon `ov5647_stream_off`
+> >>>> and you return from 'ov5647_set_stream' immediately if 'mode == current_mode'
+> >>>> it seem very similar to returning immediately from 'ov5647_set_stream' if the
+> >>>> device is currently streaming.
+> >>>
+> >>> No, the code returns immediately from ov5647_set_mode() if mode ==
+> >>> current_mode. The modes comparison makes sure the sensor is not
+> >>> reprogrammed if the mode hasn't changed. The remaning part of
+> >>> s_stream() is executed regardless of the mode configuration. Am I
+> >>> missing some part of the picture ?
+> >>>
+> >>>>
+> >>>> But actually in this patch it seems to be possible to change the mode
+> >>>> while streaming, if the callbacks are executed:
+> >>>>
+> >>>> s_stream(1)
+> >>>> s_fmt
+> >>>> s_stream(1)
+> >>>>
+> >>>> which is maybe a bug?
+> >>>
+> >>> The new format is stored in sensor->mode, and applied at the next
+> >>> s_stream(1) operation if it differs from the already programmed one,
+> >>> at least, this is how it is intended to work, have you found any
+> >>> failing s_stream/set_fmt/s_stream which could be caused by a bug ?
+> >>
+> >> What I meant is that there could be valid sequence of calls
+> >>
+> >> s_stream(enable=1)
+> >> s_fmt
+> >> s_stream(enable=1)
+> >>
+> >> For example if two video devices are connected to the sensor and they
+> >> stream simultaneously. There was a discussion about adding a code to the core
+> >
+> > I'm not sure it is possible, given that the subdev has a single source
+> > pad
 >
-> Here HIGH means "asserted", so in the code above it's LOW, means "deasserted",
-> i.o.w. non-reset state. I dunno what is better, it depends to the firmware /
-> driver expectations of the device configuration (from the power point of view,
-> HIGH makes sense here, and not LOW, i.o.w. asserted reset line).
+> Video devices should not be connected directly to the sensor,
+
+That's an odd statement as it is exactly the situation we have on the
+Pi. The CSI2 receiver writes data to RAM, therefore it is a video
+device.
+Did you intend to say that it isn't necessarily connected directly to
+the sensor?
+
+> they can also
+> be connected to the sensor through an isp entity that is connected to the sensor
+> from one side and to two video devices from the other side.
+
+It's true that some platforms will route the received CSI2 data
+straight through the ISP, and only write the processed image(s) to
+RAM. If there are multiple output video devices from the ISP then yes
+they will VIDIOC_STREAMON at different points.
+However is it really valid to call s_stream(1) on the sensor subdev
+for each of them? Doesn't that mean you really need refcounting of the
+number of s_stream(1)'s (and s_stream(0)'s) within each sensor driver,
+so that it only actually stops streaming on the last s_stream(0), not
+the first. A simple boolean isn't sufficient, otherwise
+VIDIOC_STREAMON(NODE_A);
+VIDIOC_STREAMON(NODE_B);
+VIDIOC_STREAMOFF(NODE_B);
+leaves you with no data from NODE_A even though it has never called
+VIDIOC_STREAMOFF.
+
+Anyway this patch was to remove excess writing of the mode registers if you did
+s_fmt
+s_stream(1)
+s_stream(0)
+s_stream(1)
+
+The driver uses the s_power call rather than pm_runtime as that was an
+acceptable approach when it was written in 2017, so the power, and
+hence register settings, can be maintained between multiple s_stream
+calls.
+
+  Dave
+
+> Thanks,
+> D
 >
-> And nice of the logical state that it doesn't depend to the active low / high
-> (the latter just transparent to the user).
-
-Yeah, after reading through the GPIO subsystem documentation and
-discussing with a bunch of people on how to interpret it, we concluded
-that the driver needs to deal only with the logical state of the
-signal.
-
-Actually, I later realized that the problem of leakage should likely
-be solved by pinctrl suspend settings, based on given hardware
-conditions, rather than the driver explicitly.
-
-Best regards,
-Tomasz
+> >
+> >> to follow the s_stream callback and call it only if the subdev is not streaming
+> >> but currently subdevs should support it themselves.
+> >>
+> >
+> > Oh, so you're concerned about the fact userspace can call s_stream(1)
+> > twice consecutively! it's indipendent from s_ftm if I got your point.
+> >
+> > In this case a flag to control if the device is streaming already should
+> > help, yes, I overlooked that indeed.
+> >
+> > Thanks
+> >    j
+> >
+> >>
+> >> Thanks,
+> >> Dafna
+> >>
+> >>>
+> >>> Thanks
+> >>>     j
+> >>>>
+> >>>> Thanks,
+> >>>> Dafna
+> >>>>
+> >>>>>
+> >>>>> Thanks
+> >>>>>       j
+> >>>>>
+> >>>>>
+> >>>>>>
+> >>>>>> Thanks,
+> >>>>>> Dafna
+> >>>>>>
+> >>>>>>>
+> >>>>>>> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> >>>>>>> ---
+> >>>>>>>      drivers/media/i2c/ov5647.c | 16 +++++++++++++++-
+> >>>>>>>      1 file changed, 15 insertions(+), 1 deletion(-)
+> >>>>>>>
+> >>>>>>> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> >>>>>>> index 39e320f321bd8..ac114269e1c73 100644
+> >>>>>>> --- a/drivers/media/i2c/ov5647.c
+> >>>>>>> +++ b/drivers/media/i2c/ov5647.c
+> >>>>>>> @@ -96,6 +96,7 @@ struct ov5647 {
+> >>>>>>>         bool                            clock_ncont;
+> >>>>>>>         struct v4l2_ctrl_handler        ctrls;
+> >>>>>>>         struct ov5647_mode              *mode;
+> >>>>>>> +       struct ov5647_mode              *current_mode;
+> >>>>>>>      };
+> >>>>>>>      static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
+> >>>>>>> @@ -750,9 +751,13 @@ static int ov5647_set_virtual_channel(struct v4l2_subdev *sd, int channel)
+> >>>>>>>      static int ov5647_set_mode(struct v4l2_subdev *sd)
+> >>>>>>>      {
+> >>>>>>>         struct i2c_client *client = v4l2_get_subdevdata(sd);
+> >>>>>>> +       struct ov5647 *sensor = to_sensor(sd);
+> >>>>>>>         u8 resetval, rdval;
+> >>>>>>>         int ret;
+> >>>>>>> +       if (sensor->mode == sensor->current_mode)
+> >>>>>>> +               return 0;
+> >>>>>>> +
+> >>>>>>>         ret = ov5647_read(sd, OV5647_SW_STANDBY, &rdval);
+> >>>>>>>         if (ret < 0)
+> >>>>>>>                 return ret;
+> >>>>>>> @@ -778,6 +783,8 @@ static int ov5647_set_mode(struct v4l2_subdev *sd)
+> >>>>>>>                         return ret;
+> >>>>>>>         }
+> >>>>>>> +       sensor->current_mode = sensor->mode;
+> >>>>>>> +
+> >>>>>>>         return 0;
+> >>>>>>>      }
+> >>>>>>> @@ -816,6 +823,7 @@ static int ov5647_stream_on(struct v4l2_subdev *sd)
+> >>>>>>>      static int ov5647_stream_off(struct v4l2_subdev *sd)
+> >>>>>>>      {
+> >>>>>>> +       struct ov5647 *sensor = to_sensor(sd);
+> >>>>>>>         int ret;
+> >>>>>>>         ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, MIPI_CTRL00_CLOCK_LANE_GATE |
+> >>>>>>> @@ -827,7 +835,13 @@ static int ov5647_stream_off(struct v4l2_subdev *sd)
+> >>>>>>>         if (ret < 0)
+> >>>>>>>                 return ret;
+> >>>>>>> -       return ov5647_write(sd, OV5640_REG_PAD_OUT, 0x01);
+> >>>>>>> +       ret = ov5647_write(sd, OV5640_REG_PAD_OUT, 0x01);
+> >>>>>>> +       if (ret < 0)
+> >>>>>>> +               return ret;
+> >>>>>>> +
+> >>>>>>> +       sensor->current_mode = NULL;
+> >>>>>>> +
+> >>>>>>> +       return 0;
+> >>>>>>>      }
+> >>>>>>>      static int set_sw_standby(struct v4l2_subdev *sd, bool standby)
+> >>>>>>>
+> _______________________________________________
+> libcamera-devel mailing list
+> libcamera-devel@lists.libcamera.org
+> https://lists.libcamera.org/listinfo/libcamera-devel
