@@ -2,119 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C17020F6E0
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 16:11:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 891A920F6FE
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 16:20:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731859AbgF3OLA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jun 2020 10:11:00 -0400
-Received: from mailgw02.mediatek.com ([210.61.82.184]:35376 "EHLO
-        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1729908AbgF3OK7 (ORCPT
+        id S1732518AbgF3OUR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jun 2020 10:20:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52224 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725887AbgF3OUP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jun 2020 10:10:59 -0400
-X-UUID: 7355e478856f46dda6151b4e554d11f7-20200630
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=cxMnMMWUcVlBq3TyW4cE97CM4bI+Rge6V0CEfuXLJSs=;
-        b=GVVje8vy47V91iiWKK/nPY7B2b5015LBDU7sMrA53GVdlYsnxBIBsng+47QeeH+E5YQ2UwykS2bVR74JAbiU6Qvl4E7sXk5xBzTKlEIvdulUP8f/DoAgZxL1twSFEpQmLLnDwDth+Vnucv2Nsa++zvlnmbQG9mr13iQhTFmRvTY=;
-X-UUID: 7355e478856f46dda6151b4e554d11f7-20200630
-Received: from mtkcas07.mediatek.inc [(172.21.101.84)] by mailgw02.mediatek.com
-        (envelope-from <jerry-ch.chen@mediatek.com>)
-        (Cellopoint E-mail Firewall v4.1.10 Build 0809 with TLS)
-        with ESMTP id 871010070; Tue, 30 Jun 2020 22:10:54 +0800
-Received: from MTKCAS06.mediatek.inc (172.21.101.30) by
- mtkmbs01n1.mediatek.inc (172.21.101.68) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Tue, 30 Jun 2020 22:10:50 +0800
-Received: from [172.21.84.99] (172.21.84.99) by MTKCAS06.mediatek.inc
- (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 30 Jun 2020 22:10:50 +0800
-Message-ID: <1593526253.29676.28.camel@mtksdccf07>
-Subject: Re: [RFC PATCH V4 0/4] media: platform: Add support for Face
- Detection (FD) on mt8183 SoC
-From:   Jerry-ch Chen <Jerry-ch.Chen@mediatek.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-CC:     "hans.verkuil@cisco.com" <hans.verkuil@cisco.com>,
-        HansVerkuil <hverkuil@xs4all.nl>,
-        "laurent.pinchart+renesas@ideasonboard.com" 
-        <laurent.pinchart+renesas@ideasonboard.com>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "pihsun@chromium.org" <pihsun@chromium.org>,
-        "yuzhao@chromium.org" <yuzhao@chromium.org>,
-        "zwisler@chromium.org" <zwisler@chromium.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        Sean Cheng =?UTF-8?Q?=28=E9=84=AD=E6=98=87=E5=BC=98=29?= 
-        <Sean.Cheng@mediatek.com>,
-        "Sj Huang =?UTF-8?Q?=28=E9=BB=83=E4=BF=A1=E7=92=8B=29?=" 
-        <sj.huang@mediatek.com>,
-        Christie Yu =?UTF-8?Q?=28=E6=B8=B8=E9=9B=85=E6=83=A0=29?= 
-        <christie.yu@mediatek.com>,
-        Frederic Chen =?UTF-8?Q?=28=E9=99=B3=E4=BF=8A=E5=85=83=29?= 
-        <Frederic.Chen@mediatek.com>,
-        Jungo Lin =?UTF-8?Q?=28=E6=9E=97=E6=98=8E=E4=BF=8A=29?= 
-        <jungo.lin@mediatek.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        srv_heupstream <srv_heupstream@mediatek.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        <jerry-ch.chen@mediatek.com>
-Date:   Tue, 30 Jun 2020 22:10:53 +0800
-In-Reply-To: <20200521183825.GB249683@chromium.org>
-References: <20191204124732.10932-1-Jerry-Ch.chen@mediatek.com>
-         <1588903371.16825.14.camel@mtksdccf07>
-         <CAAFQd5CP+gH3zG9fejBv_hTzeAExMoY+L38W8e4e3OSc-gVRHg@mail.gmail.com>
-         <20200521183825.GB249683@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.2.3-0ubuntu6 
+        Tue, 30 Jun 2020 10:20:15 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A26FC061755
+        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2020 07:20:15 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id b15so16394975edy.7
+        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2020 07:20:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=K7kro9hNrZw4yDhFcFBRDmY6tQ/XNr6sZDxWZvaTmI4=;
+        b=fbb+OAM/VHLXp9op4ixkqVNNxAQ+AO+wFy6+opDXTqYBpCyfnzhufpwAHCNZvaj8kg
+         DJ+6uWN0mKRJ7bqj+Iv1hbIadPkNcXf/a7lA0O6qm5p1gS9JwHijs7FGKG/tUF1c/eG8
+         7/dTNgZH+T8g7F1BjSSVshO7eeBQASWyG+Vd8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=K7kro9hNrZw4yDhFcFBRDmY6tQ/XNr6sZDxWZvaTmI4=;
+        b=kFXCVdcSxPBZEj4/CKb2m0HDKUsvl9s3oHUBkyPzSrhA/miuo4eK+sDm5Y/HLinUV+
+         flfZi7GK5SgkMuNrjlethxu2qMIoZvQPPHUx64KLFIo8GGIBmxkMLgl0hSl0Gbqz3syJ
+         PSCzZiAZSfmkpVsSvt85bukgGOyqckdKIT7D9dZSzVWEJT+Hl6Ru+gxvUziHLABbtm4D
+         e2eB2G2cDJA+pvC+iYLLXLUxJegpdWWNK2cru5//+DXRbah10IeVfKTmOQGk9oy1llye
+         NUFdiv4WZGXlhV1cpEhximVzMSk58hdD8J7/D1Goey1hmaPYPqUK0184lA32n/ekIOXU
+         M5zQ==
+X-Gm-Message-State: AOAM531/SuMgbVcdaAYmY+cP6QCahtukAGEyGiB3SWDyUoK8pMKLEFOx
+        meUfKnFDEMIzjzfUf1h3TLRMfDp8mto=
+X-Google-Smtp-Source: ABdhPJyUP2FLENZSvXDK+X0JaAE9trhXWHqCNmEGheo/YdFDGIvOmxcBH8YnfWbhjKURz0+O/8bQuw==
+X-Received: by 2002:a50:d80f:: with SMTP id o15mr23692260edj.156.1593526813950;
+        Tue, 30 Jun 2020 07:20:13 -0700 (PDT)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com. [209.85.128.47])
+        by smtp.gmail.com with ESMTPSA id u13sm2184847ejx.3.2020.06.30.07.20.11
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 30 Jun 2020 07:20:12 -0700 (PDT)
+Received: by mail-wm1-f47.google.com with SMTP id o8so18994499wmh.4
+        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2020 07:20:11 -0700 (PDT)
+X-Received: by 2002:a7b:c2a9:: with SMTP id c9mr22251088wmk.11.1593526811079;
+ Tue, 30 Jun 2020 07:20:11 -0700 (PDT)
 MIME-Version: 1.0
-X-MTK:  N
-Content-Transfer-Encoding: base64
+References: <20200630024942.20891-1-dongchun.zhu@mediatek.com>
+ <20200630024942.20891-3-dongchun.zhu@mediatek.com> <20200630095430.GF16711@paasikivi.fi.intel.com>
+In-Reply-To: <20200630095430.GF16711@paasikivi.fi.intel.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 30 Jun 2020 16:19:59 +0200
+X-Gmail-Original-Message-ID: <CAAFQd5AGeL7+qhgxDGxWYgTcOVrNGqE8P-L40WWM2JDrY=YYZQ@mail.gmail.com>
+Message-ID: <CAAFQd5AGeL7+qhgxDGxWYgTcOVrNGqE8P-L40WWM2JDrY=YYZQ@mail.gmail.com>
+Subject: Re: [PATCH V11 2/2] media: i2c: ov02a10: Add OV02A10 image sensor driver
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-devicetree <devicetree@vger.kernel.org>,
+        Louis Kuo <louis.kuo@mediatek.com>,
+        =?UTF-8?B?U2hlbmduYW4gV2FuZyAo546L5Zyj55S3KQ==?= 
+        <shengnan.wang@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgVG9tYXN6LA0KDQpPbiBUaHUsIDIwMjAtMDUtMjEgYXQgMTg6MzggKzAwMDAsIFRvbWFzeiBG
-aWdhIHdyb3RlOg0KPiBIaSBKZXJyeSwNCj4gDQo+IE9uIFdlZCwgTWF5IDEzLCAyMDIwIGF0IDEx
-OjQ1OjM3UE0gKzAyMDAsIFRvbWFzeiBGaWdhIHdyb3RlOg0KPiA+IEhpIEplcnJ5LA0KPiA+IA0K
-PiA+IE9uIEZyaSwgTWF5IDgsIDIwMjAgYXQgNDowMyBBTSBKZXJyeS1jaCBDaGVuIDxKZXJyeS1j
-aC5DaGVuQG1lZGlhdGVrLmNvbT4gd3JvdGU6DQo+ID4gPg0KPiA+ID4gSGkgTGF1cmVudCwgVG9t
-YXN6LCBNYXR0aGlhcywNCj4gPiA+DQo+ID4gPiBnZW50bGUgcGluZyBmb3IgdGhpcyBwYXRjaCBz
-ZXQsDQo+ID4gPiBJZiBubyBuZXcgY29tbWVudHMsIEkgd291bGQgbGlrZSB0byBzZW5kIGEgbmV3
-ZXIgdmVyc2lvbi4NCj4gPiA+DQo+ID4gDQo+ID4gU29ycnksIEkgc3RpbGwgaGF2ZW4ndCBoYWQg
-YSBjaGFuY2UgdG8gbG9vayBhdCB0aGUgc2VyaWVzLCBzbyBmZWVsDQo+ID4gZnJlZSB0byBzZW5k
-IGEgbmV3IHZlcnNpb24gYW5kIEkgd2lsbCB0YWtlIGEgbG9vayBhdCB0aGUgbmV3IG9uZS4NCj4g
-PiANCj4gDQo+IEZpbmFsbHkgZm91bmQgc29tZSB0aW1lIHRvIHJldmlldyB0aGUgc2VyaWVzLiBB
-Z2FpbiBzb3JyeSBmb3IgdGhlIGRlbGF5DQo+IGFuZCB0aGFua3MgZm9yIHlvdXIgcGF0aWVuY2Uu
-DQo+IA0KPiBTb21lIGdlbmVyYWwgY29tbWVudHM6DQo+IDEpIFRoZSBtZXRhZGF0YSBmb3JtYXQg
-Rm91ckNDIHNob3VsZCBiZSBhZGRlZCBpbiBhIHNlcGFyYXRlIHBhdGNoLA0KPiB0b2dldGhlciB3
-aXRoIGRvY3VtZW50YXRpb24gZm9yIGl0Lg0KPiAyKSBDb250cm9sIElEcywgc3RydWN0cyB1c2Vk
-IGJ5IHRoZSB1c2Vyc3BhY2UsIGV0Yy4gc2hvdWxkIGJlIGRlZmluZWQgaW4NCj4gYSBoZWFkZXIg
-dW5kZXIgaW5jbHVkZS91YXBpL2xpbnV4Lg0KPiANCj4gUGxlYXNlIGFsc28gY2hlY2sgbXkgcmVw
-bGllcyB0byBwYXJ0aWN1bGFyIHBhdGNoZXMgZm9yIGZ1cnRoZXIgY29tbWVudHMuDQo+IA0KPiBC
-ZXN0IHJlZ2FyZHMsDQo+IFRvbWFzeg0KDQpBcHByZWNpYXRlIGZvciB5b3VyIHJlcGx5LA0KDQpT
-byBmYXIsIEkndmUgbG9jYWxseSBjcmVhdGVkIGFuIHVhcGkgaGVhZGVyOg0KaW5jbHVkZS91YXBp
-L2xpbnV4L210a19mZF80MC5oDQp3aGljaCBwcm92aWRlcyBzb21lIHZhbHVlcywgY29udHJvbCBp
-ZHMsIGFuZCB0aGUgZGVmaW5pdGlvbnMgb2YNCnN0cnVjdHVyZXMgdGhhdCB3b3VsZCBiZSBuZWVk
-ZWQgYnkgdXNlciBvZiBtdGtfZmRfNDAgZHJpdmVyLg0KSW4gYWRkaXRpb24sIEkgYWxzbyBwcm92
-aWRlIGEgTUFDUk8gYXMgZXhhbXBsZSBpbiBjb21tZW50cyB0aGF0IGNhbg0KZXh0cmFjdCB0aGUg
-c3RydWN0IG1lbWJlciB3aXRoIGJpdCBsZW5ndGggYW5kIG9mZnNldA0KZGVmaW5pdGlvbnMoZWxp
-bWluYXRlIHRoZSBiaXQtZmllbGRzKS4NCg0KQWxzbywgSSB3b3VsZCBsaWtlIHRvIHJlbmFtZSBz
-dHJ1Y3QgZmRfdXNlcl9vdXRwdXQgd2l0aCBzdHJ1Y3QNCm10a19mZF9od19yZXN1bHQuIEkgd29y
-cnkgZmRfdXNlcl9vdXRwdXQgd291bGQgYmUgYSBjb25mdXNpbmcgbmFtZS4NCkkgd2lsbCBhZGQg
-dGhlbSBpbiBhIHNlcGFyYXRlIHBhdGNoIGluIG5leHQgdmVyc2lvbi4NCg0KSSBhbSBzdGlsbCB3
-b3JraW5nIG9uIHRoZSBkb2N1bWVudGF0aW9uLCB3aGljaCBtaWdodCBiZQ0KRG9jdW1lbnRhdGlv
-bi9tZWRpYS91YXBpL3Y0bC9waXhmbXQtbWV0YS1tdGstZmQtNDAucnN0Lg0KUmVmZXJpbmcgdGhl
-IG90aGVyIHBpeGZtdC0qLnJzdCBmaWxlcywgSSB3aWxsIHRyeSB0byBwcm92aWRlIHRoZQ0KZmxh
-dC10YWJsZSBvZiB0aGUgbWV0YWRhdGEgd2l0aCB0aGUgc3RydWN0dXJlIG9mIHRoZSBtdGtfZmRf
-aHdfcmVzdWx0Lg0KDQpJIGFtIGNvbmZ1c2luZyB0aGF0IHNob3VsZCBJIHJlbWFpbiB0aGUgbmFt
-ZSB3aXRoIC00MCBpbiB0aGUgdGFpbCBvZiByc3QNCmZpbGU/DQpTaW5jZSBJIHRoaW5rIHRoZSBs
-YXlvdXQgb2YgbWV0YWRhdGEgbWlnaHQgYmUgZGlmZmVyZW50IGluIHRoZSBmdXR1cmUNCm10ayBm
-ZCBkcml2ZXJzLiBNYXliZSB0aGV5IGNyZWF0ZSBhIG5ldyBvbmUgb3Igc2hvdWxkIHRoZXkgdXBk
-YXRlIHRoZQ0KcnN0IGZpbGUgd2hlbiB0aGV5IGFyZSB1cHN0cmVhbWluZz8NCg0KT3RoZXIgY29t
-bWVudHMgYXJlIGFsbW9zdCBmaXhlZCwgSSB3aWxsIGluZm9ybSB5b3UgYnkgdGhpcyBtYWlsIHRo
-cmVhZA0KYXMgc29vbiBhcyBJIGZpbmlzaCB0aGUgZG9jdW1lbnRhdGlvbiBvZiBmZCBtZXRhZGF0
-YSBmb3JtYXQuDQoNClNvcnJ5IGZvciB0aGUgbGF0ZSByZXNwb25zZSwNClRoYW5rcyBhbmQgQmVz
-dCBSZWdhcmRzLA0KSmVycnkNCg==
+On Tue, Jun 30, 2020 at 11:54 AM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Dongchun,
+>
+> Thanks for the update.
+>
+> On Tue, Jun 30, 2020 at 10:49:42AM +0800, Dongchun Zhu wrote:
+> > Add a V4L2 sub-device driver for OV02A10 image sensor.
+> >
+> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > ---
+> >  MAINTAINERS                 |    1 +
+> >  drivers/media/i2c/Kconfig   |   13 +
+> >  drivers/media/i2c/Makefile  |    1 +
+> >  drivers/media/i2c/ov02a10.c | 1052 +++++++++++++++++++++++++++++++++++++++++++
+> >  4 files changed, 1067 insertions(+)
+> >  create mode 100644 drivers/media/i2c/ov02a10.c
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 378c961..a6a2f8b 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -12566,6 +12566,7 @@ L:    linux-media@vger.kernel.org
+> >  S:   Maintained
+> >  T:   git git://linuxtv.org/media_tree.git
+> >  F:   Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+> > +F:   drivers/media/i2c/ov02a10.c
+> >
+> >  OMNIVISION OV13858 SENSOR DRIVER
+> >  M:   Sakari Ailus <sakari.ailus@linux.intel.com>
+> > diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> > index da11036..65519cf 100644
+> > --- a/drivers/media/i2c/Kconfig
+> > +++ b/drivers/media/i2c/Kconfig
+> > @@ -812,6 +812,19 @@ config VIDEO_IMX355
+> >         To compile this driver as a module, choose M here: the
+> >         module will be called imx355.
+> >
+> > +config VIDEO_OV02A10
+> > +     tristate "OmniVision OV02A10 sensor support"
+> > +     depends on I2C && VIDEO_V4L2
+> > +     select MEDIA_CONTROLLER
+> > +     select VIDEO_V4L2_SUBDEV_API
+> > +     select V4L2_FWNODE
+> > +     help
+> > +       This is a Video4Linux2 sensor driver for the OmniVision
+> > +       OV02A10 camera.
+> > +
+> > +       To compile this driver as a module, choose M here: the
+> > +       module will be called ov02a10.
+> > +
+> >  config VIDEO_OV2640
+> >       tristate "OmniVision OV2640 sensor support"
+> >       depends on VIDEO_V4L2 && I2C
+> > diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> > index 993acab..384e676 100644
+> > --- a/drivers/media/i2c/Makefile
+> > +++ b/drivers/media/i2c/Makefile
+> > @@ -63,6 +63,7 @@ obj-$(CONFIG_VIDEO_VP27SMPX) += vp27smpx.o
+> >  obj-$(CONFIG_VIDEO_SONY_BTF_MPX) += sony-btf-mpx.o
+> >  obj-$(CONFIG_VIDEO_UPD64031A) += upd64031a.o
+> >  obj-$(CONFIG_VIDEO_UPD64083) += upd64083.o
+> > +obj-$(CONFIG_VIDEO_OV02A10) += ov02a10.o
+> >  obj-$(CONFIG_VIDEO_OV2640) += ov2640.o
+> >  obj-$(CONFIG_VIDEO_OV2680) += ov2680.o
+> >  obj-$(CONFIG_VIDEO_OV2685) += ov2685.o
+> > diff --git a/drivers/media/i2c/ov02a10.c b/drivers/media/i2c/ov02a10.c
+> > new file mode 100644
+> > index 0000000..f7fd329
+> > --- /dev/null
+> > +++ b/drivers/media/i2c/ov02a10.c
+>
+> ...
+>
+> > +     ov02a10->rst_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+>
+>
+> Shouldn't this be GPIOD_OUT_HIGH? That's the state it'll be after powering
+> the sensor off the first time. Alternatively make reset signal high in
+> runtime suspend callback.
 
+We might want to keep the signals low when the regulators are powered
+down, to reduce the leakage.
+
+Best regards,
+Tomasz
