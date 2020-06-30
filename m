@@ -2,113 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80DCB20FC28
-	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 20:47:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7CF7520FD0A
+	for <lists+linux-media@lfdr.de>; Tue, 30 Jun 2020 21:51:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726956AbgF3Sr0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 30 Jun 2020 14:47:26 -0400
-Received: from mga04.intel.com ([192.55.52.120]:53666 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726685AbgF3SrZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 30 Jun 2020 14:47:25 -0400
-IronPort-SDR: C4VHZ/hpOeqdZPxdLrQVRJypvjj7qq4OlP9nAx/0+qmZfiF4y+GKjENd+hpmg9D4DUy89zXiEC
- v5bWtmjcp7MQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9668"; a="143837485"
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; 
-   d="scan'208";a="143837485"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2020 11:47:25 -0700
-IronPort-SDR: rwVGtmfbR0pwoeXCRYv2ynGhpocdPidy3VhMUffP6vE5ltM9z9q9Ro5H3oFtn6JmunWuAzBog5
- RkAH5/3FZT7A==
-X-IronPort-AV: E=Sophos;i="5.75,298,1589266800"; 
-   d="scan'208";a="481025031"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Jun 2020 11:47:21 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 1B272207F6; Tue, 30 Jun 2020 21:47:03 +0300 (EEST)
-Date:   Tue, 30 Jun 2020 21:47:03 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, mchehab@kernel.org,
-        andriy.shevchenko@linux.intel.com, robh+dt@kernel.org,
-        mark.rutland@arm.com, drinkcat@chromium.org,
-        matthias.bgg@gmail.com, bingbu.cao@intel.com,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [PATCH V11 2/2] media: i2c: ov02a10: Add OV02A10 image sensor
- driver
-Message-ID: <20200630184702.GH16711@paasikivi.fi.intel.com>
-References: <20200630024942.20891-1-dongchun.zhu@mediatek.com>
- <20200630024942.20891-3-dongchun.zhu@mediatek.com>
- <20200630170746.GD1212092@chromium.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200630170746.GD1212092@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1728435AbgF3TvD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 30 Jun 2020 15:51:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46786 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728141AbgF3TvC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 30 Jun 2020 15:51:02 -0400
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0267C03E979
+        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2020 12:51:01 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id y18so8899955plr.4
+        for <linux-media@vger.kernel.org>; Tue, 30 Jun 2020 12:51:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=es-iitr-ac-in.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id;
+        bh=ZBKhPH2eOj78fdRxQESh5z9MefWxohtucDof9Au70c8=;
+        b=oCSHK38qHA3h7x8nQ3ie1Ji+667P+uNGr518mAyd4wB1cfXINEPL4Awq7DVvOwoC4D
+         sTdvHKxf2wjy8ksGkoGNm8G/if3JRZW716VZ50wyRtVdvlef7Dscsdw+xew8eydpY2nA
+         gS1bo5p4xDkd61yoqeedcGy2TG1837VlugsRkdKpiU0/uXcOpV+W5aD8HI8O3Yi2kT4A
+         Zid02nGJhcDAyIIyO0Khb9p5dc2CFr7bKDc+oYhm1t9Ig+vd7kWsZgmJ+ACbSIYFeA5q
+         y1WO2eqVvdrNTCtUNFDp2kD/UmON/ciq4l9QqXQrXAganlR/RPqr15WP4Uop0U+WZ3Ym
+         uB+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=ZBKhPH2eOj78fdRxQESh5z9MefWxohtucDof9Au70c8=;
+        b=qVKcgL65lsZZf+4a8qSYXv87YuoC/O3den87i6ilXfbGTz0uwQtu40DhTf5vxriElk
+         mfggCnkeriLZ9Ne1/ladAYhyd1KREnnTWkTSbbPDj6x1Rj59Nnrv7RgzVpyNlkUFKq0F
+         buSH7tbQO2/srQkrNFBwn6UR0Yt8txDAI+eDTgUYpI6xMOR4d0gqKMW80yVE2nAxwn/y
+         zWNKeIvEEfbDzaH1WMYEPIPMrx+3/C7Ry2FiEmneoTyNJKKldmAwu/j+KNQ5ebOQ82SE
+         xhT/4RN5XPt2zgS5GYssNwKWNr07ixmr1j+uY1nJv4bpI+g9slf1D2+qO0XP4qKHllWS
+         r96w==
+X-Gm-Message-State: AOAM531JYAI9y0OeFJ5U+U0QZdl6ALYlYnIRJtPhFj5ldASiDiuKUd99
+        XC5AxKTqNoT9R8kRTP5bF6Hmzg==
+X-Google-Smtp-Source: ABdhPJxpLnqqCjd7c5irLWhkJ3MT7ltWgE1cp48scosszOeV4cAuiYu60P4/diMi7vVTrWghSeFGDg==
+X-Received: by 2002:a17:90a:ac0a:: with SMTP id o10mr933122pjq.235.1593546661311;
+        Tue, 30 Jun 2020 12:51:01 -0700 (PDT)
+Received: from kaaira-HP-Pavilion-Notebook ([103.113.213.178])
+        by smtp.gmail.com with ESMTPSA id s188sm3337163pfb.118.2020.06.30.12.50.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2020 12:51:00 -0700 (PDT)
+From:   Kaaira Gupta <kgupta@es.iitr.ac.in>
+To:     Helen Koike <helen.koike@collabora.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        hverkuil@xs4all.nl,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc:     Kaaira Gupta <kgupta@es.iitr.ac.in>
+Subject: [PATCH v8 0/3] media: Add colors' order and other info over test image
+Date:   Wed,  1 Jul 2020 01:20:49 +0530
+Message-Id: <20200630195052.23880-1-kgupta@es.iitr.ac.in>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-media-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Jun 30, 2020 at 05:07:46PM +0000, Tomasz Figa wrote:
-> Hi Dongchun,
-> 
-> On Tue, Jun 30, 2020 at 10:49:42AM +0800, Dongchun Zhu wrote:
-> > Add a V4L2 sub-device driver for OV02A10 image sensor.
-> > 
-> > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> > ---
-> >  MAINTAINERS                 |    1 +
-> >  drivers/media/i2c/Kconfig   |   13 +
-> >  drivers/media/i2c/Makefile  |    1 +
-> >  drivers/media/i2c/ov02a10.c | 1052 +++++++++++++++++++++++++++++++++++++++++++
-> >  4 files changed, 1067 insertions(+)
-> >  create mode 100644 drivers/media/i2c/ov02a10.c
-> 
-> Thank you for the patch. Please see my comments inline.
-> 
-> [snip]
-> > +static int ov02a10_entity_init_cfg(struct v4l2_subdev *sd,
-> > +				   struct v4l2_subdev_pad_config *cfg)
-> > +{
-> > +	struct v4l2_subdev_format fmt = {
-> > +		.which = cfg ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE,
-> 
-> As we discussed before, this function is never called with cfg == NULL.
-> Perhaps what we need here is to call ov02a10_set_fmt() twice, once for
-> V4L2_SUBDEV_FORMAT_ACTIVE and then for V4L2_SUBDEV_FORMAT_TRY?
-> 
-> Sakari, would that be a proper implementation of this function?
+This patchset aims to add a method to display the correct order of
+colors for a test image generated. It does so by adding a function
+which returns a string of correct order of the colors for a test
+pattern. It then adds a control in vimc which displays the string
+over test image. It also displays some other information like saturation,
+hue, contrast brightness and time since the stream started over test
+image generated by vimc.
 
-It's fine to test fmt, but it should be only done if the driver calls the
-function with ACTIVE format. I.e. it can be removed here, and always use
-TRY.
+Changes since v7:
+	In patch 3:
+	- Use fallthrough; to indicate a fall through in switch-case
+	- Use enum type instead of int for osd_value
+	- Change varaible to osd_value instead of osd_mode as the enum
+	  osd_mode defines the modes.
 
-> 
-> > +		.format = {
-> > +			.width = 1600,
-> > +			.height = 1200,
-> > +		}
-> > +	};
-> > +
-> > +	ov02a10_set_fmt(sd, cfg, &fmt);
-> > +
-> > +	return 0;
-> [snip]
-> 
-> With this and Sakari's comment about the initial state of the reset pin
-> fixed, feel free to add my
-> 
-> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
-> 
-> Best regards,
-> Tomasz
+Changes since v6:
+        In patch 3:
+        - Use switch case instead of if()
+        - reorder declarartions.
+
+Changes since v5:
+        In patch 2:
+        - Add missing EXPORT_SYMBOL_GPL()
+        In patch 3:
+        - Renamed varaibles.
+        - use u64 instead of int for getting current time in
+          nanoseconds.
+        - Use enum instead of numbers to describe the state of osd_mode
+          control in code.
+
+Changes since v4:
+        - Add another patch which changes char argument to const char
+        in function tpg_gen_text()
+        - Return const char * from function tpg_g_color_order() in patch
+          2
+        In 3rd patch:
+        - Check font in probe() instead of s_stream()
+        - Use dev_err instead of pr_err
+        - Fix errors in commit message.
+        - Base VIMC_CID_SHOW_INFO on VIVID_CID_OSD_TEXT_MODE
+
+Changes since v3:
+        In 1st patch:
+        -Improved formatting of returned string.
+
+        In 2nd patch:
+         - Add CID prefix in control name and change it to a more
+           generic name.
+         - Rename bool variable to a generic name.
+         - Disable text rendering instead of stopping stream if no
+           font found.
+         - Display more info like VIVID in VIMC.
+
+Changes since v2:
+        In 1st patch:
+        - Create a 'define' to prevent repetition of the common color
+          sequence string.
+        - Use 'fallthrough' on case statement to prevent repetition of
+          code.
+
+Changes since v1:
+        - Divided the patch into two patches.
+        - Returned NULL for patterns whose color order cannot be
+          defined. (Reported-by: kernel test robot <lkp@intel.com>)
+        - Made separate switch cases for separate test patterns
+         (Reported-by: kernel test robot <lkp@intel.com>)
+        - Renamed variables from camelcase to use '_'
+        - prefixed 'media' to the patches.
+
+Kaaira Gupta (3):
+  media: tpg: change char argument to const char
+  media: tpg: Add function to return colors' order of test image
+  media: vimc: Add a control to display info on test image
+
+ drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 40 +++++++++--
+ drivers/media/test-drivers/vimc/Kconfig       |  2 +
+ drivers/media/test-drivers/vimc/vimc-common.h |  1 +
+ drivers/media/test-drivers/vimc/vimc-core.c   | 10 +++
+ drivers/media/test-drivers/vimc/vimc-sensor.c | 67 +++++++++++++++++++
+ include/media/tpg/v4l2-tpg.h                  |  3 +-
+ 6 files changed, 115 insertions(+), 8 deletions(-)
 
 -- 
-Sakari Ailus
+2.17.1
+
